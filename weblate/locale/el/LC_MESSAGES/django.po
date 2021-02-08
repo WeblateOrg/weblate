@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.5\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-02-06 18:09+0000\n"
-"PO-Revision-Date: 2021-02-07 11:50+0000\n"
+"PO-Revision-Date: 2021-02-09 02:02+0000\n"
 "Last-Translator: Michalis <michalisntovas@yahoo.gr>\n"
 "Language-Team: Greek <https://hosted.weblate.org/projects/weblate/"
 "application/el/>\n"
@@ -62,12 +62,12 @@ msgstr "Δημόσιο ηλεκτρονικό ταχυδρομείο"
 #: weblate/templates/manage-access.html:35
 #: weblate/templates/manage/users_check.html:30 weblate/wladmin/forms.py:56
 msgid "E-mail"
-msgstr "Ηλ.Ταχυδρομείο"
+msgstr "Ηλεκτρονικό ταχυδρομείο"
 
 #: weblate/accounts/forms.py:274
 msgid "You can add another e-mail address below."
 msgstr ""
-"Μπορείτε να προσθέσετε μία άλλη διευθύνση ηλεκτρονικού ταχυδρομείου παρακάτω."
+"Μπορείτε να προσθέσετε μία άλλη διεύθυνση ηλεκτρονικού ταχυδρομείου παρακάτω."
 
 #: weblate/accounts/forms.py:316
 msgid "Subject"
@@ -105,15 +105,15 @@ msgstr "Πάρα πολλές αποτυχημένες προσπάθειες ε
 
 #: weblate/accounts/forms.py:393
 msgid "New password"
-msgstr "Νέο συνθηματικό"
+msgstr "Νέος κωδικός πρόσβασης"
 
 #: weblate/accounts/forms.py:396
 msgid "New password confirmation"
-msgstr "Επιβεβαίωση νέου συνθηματικού"
+msgstr "Επιβεβαίωση νέου κωδικού πρόσβασης"
 
 #: weblate/accounts/forms.py:418
 msgid "Your password has been changed."
-msgstr "Το συνθηματικό σας έχει αλλάξει."
+msgstr "Ο κωδικός πρόσβασής σας έχει αλλάξει."
 
 #: weblate/accounts/forms.py:444
 #, python-format
@@ -965,129 +965,96 @@ msgstr ""
 #: weblate/templates/accounts/profile.html:133
 #: weblate/wladmin/templates/admin/base.html:12
 msgid "Change password"
-msgstr "Αλλαγή κωδικού"
+msgstr "Αλλαγή κωδικού πρόσβασης"
 
 #: weblate/accounts/views.py:829
 msgid "Password reset has been already completed."
-msgstr "Η αλλαγή συνθηματικού έχει ήδη ολοκληρωθεί."
+msgstr "Η επαναφορά του κωδικού πρόσβασης έχει ήδη ολοκληρωθεί."
 
 #: weblate/accounts/views.py:1035
-#, fuzzy
-#| msgid "Current user identities"
 msgid "Could not remove user identity"
-msgstr "Ταυτότητες τρέχοντος χρήστη"
+msgstr "Δεν ήταν δυνατή η κατάργηση της ταυτότητας χρήστη"
 
 #: weblate/accounts/views.py:1045
 msgid "Add another identity by confirming your e-mail address first."
 msgstr ""
+"Προσθέστε μια άλλη ταυτότητα επιβεβαιώνοντας πρώτα τη διεύθυνση ηλεκτρονικού "
+"ταχυδρομείου σας."
 
 #: weblate/accounts/views.py:1091
-#, fuzzy
-#| msgid "You can not complete registration while logged in!"
 msgid "Could not complete registration."
-msgstr "Δεν μπορείτε να ολοκληρώσετε την εγγραφή καθώς είστε συνδεμένος!"
+msgstr "Δεν ήταν δυνατή η ολοκλήρωση της εγγραφής."
 
 #: weblate/accounts/views.py:1094
 msgid "Please check if you have already registered an account."
-msgstr ""
+msgstr "Ελέγξτε αν έχετε ήδη καταχωρήσει λογαριασμό."
 
 #: weblate/accounts/views.py:1096
-#, fuzzy
-#| msgid "You can not change password to the one you are currently using!"
 msgid "You can also request a new password, if you have lost your credentials."
 msgstr ""
-"Δεν μπορείτε να αλλάξετε το συνθηματικό με το ίδιο που ήδη χρησιμοποιείτε!"
+"Μπορείτε επίσης να ζητήσετε νέο κωδικό πρόσβασης, εάν έχετε χάσει τα "
+"διαπιστευτήριά σας."
 
 #: weblate/accounts/views.py:1106
-#, fuzzy
-#| msgid ""
-#| "Failed to verify your registration! Probably the verification token has "
-#| "expired. Please try the registration again."
 msgid ""
 "Try registering again to verify your identity, the verification token "
 "probably expired."
 msgstr ""
-"Απέτυχε η επιβεβαίωση της εγγραφής σας! Πιθανόν το τεκμήριο επιβεβαίωσης "
-"έχει λήξει. Δοκιμάστε ξανά την εγγραφή."
+"Προσπαθήστε να εγγραφείτε ξανά για να επαληθεύσετε την ταυτότητά σας, το "
+"διακριτικό επαλήθευσης πιθανότατα έληξε."
 
 #: weblate/accounts/views.py:1113
-#, fuzzy
-#| msgid "Authentication failed due to invalid session state."
 msgid "Could not authenticate due to invalid session state."
-msgstr "Η πιστοποίηση απέτυχε λόγω μη έγκυρης κατάστασης συνεδρίας."
+msgstr ""
+"Δεν ήταν δυνατός ο έλεγχος ταυτότητας λόγω μη έγκυρης κατάστασης περιόδου "
+"σύνδεσης."
 
 #: weblate/accounts/views.py:1120
-#, fuzzy
-#| msgid "You can add another email address on the Authentication tab."
 msgid "Got no e-mail address from third party authentication service."
 msgstr ""
-"Μπορείτε να προσθέσετε άλλη ηλεκτρονική διευθύνση στην καρτέλα Πιστοποίησης."
+"Δεν λήφθηκε διεύθυνση ηλεκτρονικού ταχυδρομείου από την υπηρεσία ελέγχου "
+"ταυτότητας τρίτου."
 
 #: weblate/accounts/views.py:1122
-#, fuzzy
-#| msgid "Register using email"
 msgid "Please register using e-mail instead."
-msgstr "Εγγραφή με χρήση ηλεκτρονικής διεύθυνσης"
+msgstr "Εγγραφείτε με χρήση ηλεκτρονικής διεύθυνσης"
 
 #: weblate/accounts/views.py:1129
-#, fuzzy
-#| msgid "New registrations are disabled!"
 msgid "New registrations are turned off."
-msgstr "Οι νέες εγγραφές έχουν απενεργοποιηθεί!"
+msgstr "Οι νέες εγγραφές είναι απενεργοποιημένες."
 
 #: weblate/accounts/views.py:1187
-#, fuzzy
-#| msgid ""
-#| "Authentication has failed, probably due to expired token or connection "
-#| "error."
 msgid ""
 "Could not authenticate, probably due to an expired token or connection error."
 msgstr ""
-"Η πιστοποίηση απέτυχε, πιθανά λόγω εκπνοής τεκμηρίου ή σφάλματος σύνδεσης."
+"Η πιστοποίηση απέτυχε, πιθανά λόγω εκπνοής ενός τεκμηρίου ή σφάλματος "
+"σύνδεσης."
 
 #: weblate/accounts/views.py:1193
-#, fuzzy
-#| msgid "Authentication has been cancelled."
 msgid "Authentication cancelled."
-msgstr "Η πιστοποίηση έχει ακυρωθεί."
+msgstr "Η πιστοποίηση ακυρώθηκε."
 
 #: weblate/accounts/views.py:1196
 msgid "The server does not allow authentication."
-msgstr ""
+msgstr "Ο διακομιστής δεν επιτρέπει πιστοποίηση."
 
 #: weblate/accounts/views.py:1200
-#, fuzzy
-#| msgid ""
-#| "Could not complete registration. The supplied authentication, e-mail "
-#| "address or username is already in use for another account."
 msgid "The supplied e-mail address is already in use for another account."
 msgstr ""
-"Δεν ήταν δυνατή η εγγραφή. Ο παρεχόμενος έλεγχος ταυτότητας, διεύθυνση "
-"ηλεκτρονικού ταχυδρομείου ή όνομα χρήστη χρησιμοποιείται ήδη για άλλον "
-"λογαριασμό."
+"Η παρεχόμενη διεύθυνση ηλεκτρονικού ταχυδρομείου χρησιμοποιείται ήδη για "
+"άλλο λογαριασμό."
 
 #: weblate/accounts/views.py:1204
-#, fuzzy
-#| msgid "This username is already taken. Please choose another."
 msgid "The supplied username is already in use for another account."
-msgstr "Το όνομα χρήστη υπάρχει ήδη. Επιλέξτε άλλο."
+msgstr "Το παρεχόμενο όνομα χρήστη χρησιμοποιείται ήδη για άλλο λογαριασμό."
 
 #: weblate/accounts/views.py:1209
-#, fuzzy
-#| msgid ""
-#| "Could not complete registration. The supplied authentication, e-mail "
-#| "address or username is already in use for another account."
 msgid "The supplied user identity is already in use for another account."
-msgstr ""
-"Δεν ήταν δυνατή η εγγραφή. Ο παρεχόμενος έλεγχος ταυτότητας, διεύθυνση "
-"ηλεκτρονικού ταχυδρομείου ή όνομα χρήστη χρησιμοποιείται ήδη για άλλον "
-"λογαριασμό."
+msgstr "Η παρεχόμενη ταυτότητα χρήστη χρησιμοποιείται ήδη για άλλο λογαριασμό."
 
 #: weblate/accounts/views.py:1233 weblate/accounts/views.py:1246
-#, fuzzy
-#| msgid "Actions"
 msgid "Notification settings adjusted."
-msgstr "Ενέργειες"
+msgstr "Οι ρυθμίσεις ειδοποιήσεων προσαρμόστηκαν."
 
 #: weblate/accounts/views.py:1251
 msgid ""
@@ -3670,26 +3637,24 @@ msgid "Ruby YAML file"
 msgstr "Αρχείο Ruby YAML"
 
 #: weblate/formats/ttkit.py:1417
-#, fuzzy
-#| msgid "CSV file"
 msgid "DTD file"
-msgstr "Αρχείο CSV"
+msgstr "Αρχείο DTD"
 
 #: weblate/formats/ttkit.py:1458
 msgid "SubRip subtitle file"
-msgstr ""
+msgstr "Αρχείο υποτίτλων SubRip"
 
 #: weblate/formats/ttkit.py:1472
 msgid "MicroDVD subtitle file"
-msgstr ""
+msgstr "Αρχείο υποτίτλων MicroDVD"
 
 #: weblate/formats/ttkit.py:1479
 msgid "Advanced SubStation Alpha subtitle file"
-msgstr ""
+msgstr "Προηγμένο αρχείο υποτίτλων SubStation Alpha"
 
 #: weblate/formats/ttkit.py:1486
 msgid "SubStation Alpha subtitle file"
-msgstr ""
+msgstr "Αρχείο υποτίτλων SubStation Alpha"
 
 #: weblate/formats/ttkit.py:1493
 msgid "Flat XML file"
@@ -3709,7 +3674,7 @@ msgstr "Αρχείο eXchange Term Base"
 
 #: weblate/formats/txt.py:180
 msgid "App store metadata files"
-msgstr ""
+msgstr "Αρχεία μεταδεδομένων καταστήματος εφαρμογών"
 
 #: weblate/glossary/apps.py:27
 msgid "Glossaries"
@@ -3744,7 +3709,7 @@ msgstr "Πληθυντικός"
 #: weblate/lang/data.py:218 weblate/lang/data.py:224 weblate/lang/data.py:236
 msgctxt "Plural form description"
 msgid "One"
-msgstr "Ενικός"
+msgstr "Ένα"
 
 #: weblate/lang/data.py:168 weblate/lang/data.py:175 weblate/lang/data.py:203
 #: weblate/lang/data.py:210 weblate/lang/data.py:219 weblate/lang/data.py:226
@@ -3760,7 +3725,7 @@ msgstr "Λίγα"
 #: weblate/lang/data.py:240
 msgctxt "Plural form description"
 msgid "Other"
-msgstr "Πληθυντικός"
+msgstr "Άλλα"
 
 #: weblate/lang/data.py:172 weblate/lang/data.py:180 weblate/lang/data.py:215
 #: weblate/lang/data.py:235
@@ -3879,12 +3844,9 @@ msgid "One/two/few/many/other"
 msgstr "Ένα/δύο/λίγα/πολλά/άλλο"
 
 #: weblate/lang/models.py:576
-#, fuzzy
-#| msgctxt "Plural type"
-#| msgid "One/two/few/many/other"
 msgctxt "Plural type"
 msgid "Zero/one/two/few/many/other"
-msgstr "Ένα/δύο/λίγα/πολλά/άλλο"
+msgstr "Μηδέν/ένα/δύο/λίγα/πολλά/άλλο"
 
 #: weblate/lang/models.py:578
 msgctxt "Plural type"
@@ -6244,20 +6206,18 @@ msgstr ""
 
 #: weblate/templates/component.html:107 weblate/templates/component.html:278
 #: weblate/templates/project.html:112 weblate/templates/project.html:270
-#, fuzzy
-#| msgid "Full name"
 msgid "Rename"
-msgstr "Πλήρες όνομα"
+msgstr "Μετονομασία"
 
 #: weblate/templates/component.html:116 weblate/templates/project.html:121
 #: weblate/templates/translation.html:102
 msgid "Share"
-msgstr "Κοινή χρήση"
+msgstr "Κοινοποίηση"
 
 #: weblate/templates/component.html:120 weblate/templates/project.html:125
 #: weblate/templates/translation.html:106
 msgid "Share on Facebook"
-msgstr "Μοιραστείτε στο Facebook"
+msgstr "Κοινοποιήστε στο Facebook"
 
 #: weblate/templates/component.html:121 weblate/templates/project.html:126
 #: weblate/templates/translation.html:107
@@ -6303,28 +6263,22 @@ msgid "Dismiss"
 msgstr "Κλείσιμο"
 
 #: weblate/templates/component.html:172
-#, fuzzy
-#| msgid "Please log in to save translations."
 msgid "Please sign in to see the alerts."
-msgstr "Αρχείο συνδεθείτε για να αποθηκεύσετε μεταφράσεις."
+msgstr "Συνδεθείτε για να δείτε τις ειδοποιήσεις."
 
 #: weblate/templates/component.html:201 weblate/templates/project.html:201
-#, fuzzy
-#| msgid ""
-#| "You can replace a string in all units at once. The search is a simple "
-#| "substring case sensitive search."
 msgid ""
 "You can substitute all instances of a string. The search is a simple "
 "substring case sensitive search."
 msgstr ""
-"Μπορείτε να αντικαταστήσετε μια συμβολισειρά σε όλες τις μονάδες ταυτόχρονα. "
-"Η αναζήτηση είναι απλή αναζήτηση υποσυμβολοσειράς με διάκριση "
-"κεφαλαιοποίησης."
+"Μπορείτε να αντικαταστήσετε όλες τις εμφανίσεις μιας συμβολοσειράς. Η "
+"αναζήτηση είναι μια απλή αναζήτηση με διάκριση πεζών-κεφαλαίων με "
+"δευτερεύουσα συμβολοσειρά."
 
 #: weblate/templates/component.html:206 weblate/templates/project.html:206
 #: weblate/templates/replace.html:52 weblate/templates/translation.html:270
 msgid "Replace"
-msgstr ""
+msgstr "Αντικατάσταση"
 
 #: weblate/templates/component.html:219 weblate/templates/translation.html:283
 msgid "You can change the state of all strings matching a given type at once."
@@ -6964,17 +6918,15 @@ msgstr "Κωδικός γλώσσας"
 #: weblate/templates/manage-access.html:68
 #: weblate/templates/screenshots/screenshot_sources_body.html:21
 msgid "Remove"
-msgstr "Απομάκρυνση"
+msgstr "Αφαίρεση"
 
 #: weblate/templates/fonts/fontgroup_detail.html:47
-#, fuzzy
-#| msgid "Used languages"
 msgid "Add language override"
-msgstr "Χρησιμοποιημένες γλώσσες"
+msgstr "Προσθήκη αντικατάστασης γλώσσας"
 
 #: weblate/templates/fonts/fontgroup_detail.html:60
 msgid "Edit font group"
-msgstr ""
+msgstr "Επεξεργασία ομάδας γραμματοσειρών"
 
 #: weblate/templates/footer.html:5
 #, python-format
@@ -8697,7 +8649,7 @@ msgstr "Κατάσταση"
 #: weblate/templates/snippets/git-info.html:10 weblate/trans/forms.py:1629
 #: weblate/trans/models/component.py:270
 msgid "Source code repository"
-msgstr "Αποθήκη κώδικα πηγής"
+msgstr "Αποθετήριο πηγαίου κώδικα"
 
 #: weblate/templates/snippets/git-info.html:18 weblate/trans/forms.py:1493
 #: weblate/trans/forms.py:1637 weblate/trans/models/component.py:319
