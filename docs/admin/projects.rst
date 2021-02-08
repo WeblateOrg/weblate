@@ -517,6 +517,12 @@ Enforced checks
 
 List of checks which can not be ignored, see :ref:`enforcing-checks`.
 
+.. note::
+
+   Enforcing the check does not automatically enable it, you still should
+   enabled it using :ref:`custom-checks` in :ref:`component-check_flags` or
+   :ref:`additional`.
+
 .. _component-license:
 
 Translation license
