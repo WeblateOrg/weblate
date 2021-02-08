@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-02-06 19:09+0100\n"
-"PO-Revision-Date: 2021-02-07 11:30+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2021-02-09 02:02+0000\n"
+"Last-Translator: Rafael Fontenelle <rafaelff@gnome.org>\n"
 "Language-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/"
 "weblate/documentation/pt_BR/>\n"
 "Language: pt_BR\n"
@@ -25,27 +25,17 @@ msgid "Access control"
 msgstr "Controle de acesso"
 
 #: ../../admin/access.rst:8
-#, fuzzy
-#| msgid ""
-#| "Before Weblate 3.0, the privilege system was based on Django, but is now "
-#| "specifically built for Weblate. If you are using an older version, please "
-#| "consult the documentation for that version, the information here will not "
-#| "apply."
 msgid ""
 "Before Weblate 3.0, the privilege system was based on Django, but is now "
 "specifically built for Weblate. If you are using anything older, please "
 "consult the documentation for the specific version you are using."
 msgstr ""
 "Antes do Weblate 3.0, o sistema de privilégios era baseado no Django, mas "
-"agora é especificamente construído para Weblate. Se você estiver usando uma "
-"versão mais antiga, consulte a documentação para essa versão, as informações "
-"aqui não se aplicarão."
+"agora é especificamente construído para Weblate. Se você estiver usando algo "
+"mais antigo, consulte a documentação para a versão específica que você está "
+"usando."
 
 #: ../../admin/access.rst:12
-#, fuzzy
-#| msgid ""
-#| "Weblate comes with a fine grained privilege system to assign user "
-#| "permissions for the whole instance, or in a limited scope."
 msgid ""
 "Weblate comes with a fine-grained privilege system to assign user "
 "permissions for the whole instance, or in a limited scope."
@@ -54,28 +44,16 @@ msgstr ""
 "usuário para toda a instância ou em um escopo limitado."
 
 #: ../../admin/access.rst:15
-#, fuzzy
-#| msgid ""
-#| "The permission system based on groups and roles, where roles define a set "
-#| "of permissions, and groups assign them to users and translations, see :"
-#| "ref:`auth-model` for more details."
 msgid ""
 "The permission system is based on groups and roles, where roles define a set "
 "of permissions, and groups assign them to users and translations, see :ref:"
 "`auth-model` for more details."
 msgstr ""
-"O sistema de autorização baseado nos grupos e funções, onde as funções de "
-"definir um conjunto de permissões, grupos e atribuir-lhes para os usuários e "
-"traduções, veja :ref:`auth-model` para mais detalhes."
+"O sistema de permissão é baseado em grupos e funções, onde as funções de "
+"definir um conjunto de permissões, e grupos as atribuem para os usuários e "
+"traduções. Veja :ref:`auth-model` para mais detalhes."
 
 #: ../../admin/access.rst:19
-#, fuzzy
-#| msgid ""
-#| "After installation a default set of groups is created, and you can use "
-#| "those to assign users roles for the whole instance (see :ref:`default-"
-#| "groups`). Additionally when :ref:`acl` is turned on, you can assign users "
-#| "to specific translation projects. More fine-grained configuration can be "
-#| "achieved using :ref:`custom-acl`."
 msgid ""
 "After installation a default set of groups are created, and you can use "
 "those to assign users roles for the whole instance (see :ref:`default-"
@@ -98,19 +76,14 @@ msgid "Locking down Weblate"
 msgstr "Bloqueando o Weblate"
 
 #: ../../admin/access.rst:30
-#, fuzzy
-#| msgid ""
-#| "To completely lock down your Weblate installation, you can use :setting:"
-#| "`REQUIRE_LOGIN` to force users to sign in and :setting:"
-#| "`REGISTRATION_OPEN` to prevent new registrations."
 msgid ""
 "To completely lock down your Weblate, you can use :setting:`REQUIRE_LOGIN` "
 "to force users to sign in and :setting:`REGISTRATION_OPEN` to prevent new "
 "registrations."
 msgstr ""
-"Para confinar completamente sua instalação de Weblate, você pode usar o :"
-"setting:`LOGIN_REQUIRED_URLS` para forçar os usuários a entrar e o :setting:"
-"`REGISTRATION_OPEN` para impedir novos registros."
+"Para confinar completamente seu Weblate, você pode usar o "
+":setting:`LOGIN_REQUIRED_URLS` para forçar os usuários a entrar e o "
+":setting:`REGISTRATION_OPEN` para impedir novos registros."
 
 #: ../../admin/access.rst:35
 msgid "Site wide permissions"
@@ -132,15 +105,12 @@ msgid "Per project permissions"
 msgstr "Permissões por projeto"
 
 #: ../../snippets/not-hosted-libre.rst:3
-#, fuzzy
-#| msgid ""
-#| "This feature is not available for projects running the Hosted Libre plan."
 msgid ""
 "This feature is unavailable for the projects running Libre plan on Hosted "
 "Weblate."
 msgstr ""
-"Este recurso não está disponível para projetos que executam o plano Hosted "
-"Libre."
+"Este recurso está indisponível para os projetos que executam o plano Libre "
+"no Hosted Weblate."
 
 #: ../../admin/access.rst:47
 msgid ""
@@ -151,10 +121,8 @@ msgstr ""
 "por projeto na interface do Weblate."
 
 #: ../../admin/access.rst:51
-#, fuzzy
-#| msgid "Adding permissions to languages, components or projects"
 msgid "Custom permissions for languages, components or projects"
-msgstr "Adicionando permissões a idiomas, componentes ou projetos"
+msgstr "Permissões personalizadas a idiomas, componentes ou projetos"
 
 #: ../../admin/access.rst:55
 msgid ""
@@ -165,24 +133,17 @@ msgid ""
 msgstr ""
 
 #: ../../admin/access.rst:60
-#, fuzzy
-#| msgid ""
-#| "You can additionally grant permissions to any user based on project, "
-#| "component or language set. To achieve this, create a new group (e.g. "
-#| "`Czech translators`) and configure it for a given resource. Any assigned "
-#| "permissions will be granted to members of that group for selected "
-#| "resources."
 msgid ""
 "Granting any selected permissions based on project, component or language "
 "set. To achieve this, create a new group (e.g. `Czech translators`) and "
 "configure it for a given resource. Any assigned permissions will be granted "
 "to members of that group for selected resources."
 msgstr ""
-"Além disso, você pode conceder permissões a qualquer usuário com base no "
-"projeto, componente ou conjunto de idiomas. Para conseguir isso, crie um "
-"novo grupo (por exemplo, `tradutores de tcheco`) e configure-o para um "
-"determinado recurso. Quaisquer permissões atribuídas serão concedidas aos "
-"membros desse grupo para os recursos selecionados."
+"Conceder quaisquer permissões selecionadas com base no projeto, componente "
+"ou conjunto de idiomas. Para conseguir isso, crie um novo grupo (por "
+"exemplo, `tradutores de tcheco`) e configure-o para um determinado recurso. "
+"Quaisquer permissões atribuídas serão concedidas aos membros desse grupo "
+"para os recursos selecionados."
 
 #: ../../admin/access.rst:65
 msgid ""
@@ -206,36 +167,26 @@ msgid "Project access control"
 msgstr "Controle de acesso do projeto"
 
 #: ../../admin/access.rst:81
-#, fuzzy
-#| msgid ""
-#| "By enabling ACL, all users are prohibited from accessing anything within "
-#| "a given project, unless you add the permissions for them to do just that."
 msgid ""
 "By turning on access control, all users are prohibited from accessing "
 "anything within a given project, unless you add the permissions for them to "
 "do just that."
 msgstr ""
-"Ao habilitar a ACL, todos os usuários são proibidos de acessar qualquer "
-"coisa dentro de um determinado projeto, a menos que você adicione as "
-"permissões para que eles façam exatamente isso."
+"Ao ativar controle de acesso, todos os usuários são proibidos de acessar "
+"qualquer coisa dentro de um determinado projeto, a menos que você adicione "
+"as permissões para que eles façam exatamente isso."
 
 #: ../../admin/access.rst:86
-#, fuzzy
-#| msgid ""
-#| "You can limit user's access to individual projects. This feature is "
-#| "turned on by :guilabel:`Access control` in the configuration of each "
-#| "respective project. This automatically creates several groups for this "
-#| "project, see :ref:`groups`."
 msgid ""
 "Limit user's access to individual projects by selecting a different access "
 "control variation on the :guilabel:`Access` tab in the :guilabel:`Settings` "
 "of each respective project.  This automatically creates several groups for "
 "the project in question, see :ref:`groups`."
 msgstr ""
-"Você pode limitar o acesso do usuário a projetos individuais. Este recurso é "
-"ligado por :guilabel:`Controle de acesso` na configuração de cada projeto. "
-"Isso cria automaticamente vários grupos para este projeto, consulte :ref:"
-"`groups`."
+"Limite o acesso do usuário a projetos individuais selecionado uma variação "
+"de controle de acesso diferente na aba :guilabel:`Acesso` em "
+":guilabel:`Configurações` de cada projeto. Isso cria automaticamente vários "
+"grupos para o projeto em questão. Consulte :ref:`groups`."
 
 #: ../../admin/access.rst:91
 msgid ":guilabel:`Access control` can be set to:"
@@ -246,10 +197,8 @@ msgid "Public"
 msgstr "Público"
 
 #: ../../admin/access.rst:94
-#, fuzzy
-#| msgid "Publicly visible, only translatable for chosen users"
 msgid "Publicly visible, translatable for all logged-in users"
-msgstr "Publicamente visível, traduzível apenas por usuários escolhidos"
+msgstr "Publicamente visível, traduzível por todos usuários autenticados"
 
 #: ../../admin/access.rst:95
 msgid "Protected"
@@ -272,39 +221,29 @@ msgid "Custom"
 msgstr "Personalizado"
 
 #: ../../admin/access.rst:100
-#, fuzzy
-#| msgid "Weblate does not manage users, see :ref:`custom-acl`."
 msgid "Django admin manages users instead of Weblate, see :ref:`custom-acl`."
-msgstr "Weblate não gerencia usuários, consulte :ref:`custom-acl`."
+msgstr ""
+"Administração do Django gerencia usuários em vez do Weblate, consulte :ref"
+":`custom-acl`."
 
 #: ../../admin/access.rst:104
-#, fuzzy
-#| msgid ""
-#| "To allow access to this project, you have to add the privilege either "
-#| "directly to the given user, or group of users in the Django admin "
-#| "interface, or by using user management on the project page, as described "
-#| "in :ref:`manage-acl`."
 msgid ""
 "Grant access to a project by adding the privilege either directly to an "
 "user, or group of users in the Django admin-interface, or by using user "
 "management on the project page, as described in :ref:`manage-acl`."
 msgstr ""
-"Para permitir o acesso a este projeto, você tem que adicionar o privilégio "
-"diretamente ao usuário ou grupo de usuários na interface administrativa do "
-"Django, ou usando o gerenciamento do usuário na página do projeto, conforme "
-"descrito em :ref:`manage-acl`."
+"Concede acesso a um projeto adicionando o privilégio diretamente ao usuário "
+"ou grupo de usuários na interface administrativa do Django, ou usando o "
+"gerenciamento do usuário na página do projeto, conforme descrito em :ref"
+":`manage-acl`."
 
 #: ../../admin/access.rst:110
-#, fuzzy
-#| msgid ""
-#| "Even with ACL turned on, some summary info will be available about your "
-#| "project:"
 msgid ""
 "Even with access control turned on, some info will be available about your "
 "project:"
 msgstr ""
-"Mesmo com a ACL ativada, algumas informações de resumo estarão disponíveis "
-"sobre o seu projeto:"
+"Mesmo com a controle de acesso ativada, algumas informações estarão "
+"disponíveis sobre o seu projeto:"
 
 #: ../../admin/access.rst:113
 msgid "Statistics for the whole instance, including counts for all projects."
@@ -330,20 +269,14 @@ msgid ""
 msgstr ""
 
 #: ../../admin/access.rst:127
-#, fuzzy
-#| msgid ""
-#| "The automatic group assignment for the `Users` and `Viewers` groups will "
-#| "always be created by Weblate upon migrations, in case you want to turn it "
-#| "off, simply set the regular expression to ``^$``, which will never match."
 msgid ""
 "Automatic group assignment to `Users` and `Viewers` is always recreated "
 "during migrations. If you want to turn it off, set the regular expression to "
 "``^$`` (which will never match)."
 msgstr ""
-"A associação automática de grupo para os grupos `Usuários` e "
-"`Visualizadores` sempre será criada pelo Weblate após as migrações; caso "
-"você queira desativá-las, basta definir a expressão regular para ``^$``, que "
-"nunca corresponderá."
+"Associação automática de grupo para `Usuários` e `Visualizadores` sempre "
+"será criada durante migrações. Se você deseja desativá-los, defina a "
+"expressão regular para ``^$`` (que nunca corresponderá)."
 
 #: ../../admin/access.rst:134
 msgid "Users, roles, groups and permissions"
@@ -358,16 +291,12 @@ msgid "`Permission`"
 msgstr "`Permissão`"
 
 #: ../../admin/access.rst:139
-#, fuzzy
-#| msgid ""
-#| "Individual permissions defined by Weblate. You can not assign individual "
-#| "permissions, this can only be done through assignment of roles."
 msgid ""
 "Individual permissions defined by Weblate. Permissions can not be assigned "
 "to users. This can only be done through assignment of roles."
 msgstr ""
-"Permissões individuais definidos por Weblate. Você não pode atribuir "
-"permissões individuais, isso só pode ser feito através da atribuição de "
+"Permissões individuais definidas pelo Weblate. Permissões não podem ser "
+"atribuídas a usuários. Isso só pode ser feito através da atribuição de "
 "funções."
 
 #: ../../admin/access.rst:142
@@ -375,26 +304,20 @@ msgid "`Role`"
 msgstr "`Função`"
 
 #: ../../admin/access.rst:142
-#, fuzzy
-#| msgid ""
-#| "Role defines a set of permissions. This allows reuse of these sets in "
-#| "several places, and makes the administration easier."
 msgid ""
 "A Role defines a set of permissions. This allows reuse of these sets in "
 "several places, making the administration easier."
 msgstr ""
 "A função define um conjunto de permissões. Isso permite a reutilização "
-"desses conjuntos em vários lugares, e facilita a administração."
+"desses conjuntos em vários lugares, facilitando a administração."
 
 #: ../../admin/access.rst:144
 msgid "`User`"
 msgstr "`Usuário`"
 
 #: ../../admin/access.rst:145
-#, fuzzy
-#| msgid "Users can be members of several groups."
 msgid "Users can belong to several groups."
-msgstr "Os usuários podem ser membros de vários grupos."
+msgstr "Os usuários podem pertencer a vários grupos."
 
 #: ../../admin/access.rst:148
 msgid "`Group`"
@@ -413,11 +336,6 @@ msgid "Permission checking"
 msgstr "Verificação de permissões"
 
 #: ../../admin/access.rst:168
-#, fuzzy
-#| msgid ""
-#| "Whenever a permission is checked to decide whether one is able to perform "
-#| "a given action, the check is carried out according to scope, and the "
-#| "following checks are performed in the order:"
 msgid ""
 "Whenever a permission is checked to decide whether one is able to perform a "
 "given action, the check is carried out according to scope, and the following "
@@ -425,49 +343,35 @@ msgid ""
 msgstr ""
 "Sempre que uma permissão é verificada para decidir se alguém é capaz de "
 "realizar uma determinada ação, a verificação é realizada de acordo com o "
-"escopo, e as seguintes verificações são realizadas na ordem:"
+"escopo, e as seguintes verificações são realizadas nesta ordem:"
 
 #: ../../admin/access.rst:172
-#, fuzzy
-#| msgid ""
-#| "Group :guilabel:`Component list` is matched against accessed component or "
-#| "project (for project level access)."
 msgid ""
 "The group :guilabel:`Component list` is matched against accessed component "
 "or project (for project-level access)."
 msgstr ""
-":guilabel:`Lista de componentes` do grupo é comparada com componente ou "
+"A :guilabel:`Lista de componentes` do grupo é comparada com componente ou "
 "projeto acessado (para acesso a nível de projeto)."
 
 #: ../../admin/access.rst:174
-#, fuzzy
-#| msgid ""
-#| "Group :guilabel:`Component list` is matched against accessed component or "
-#| "project (for project level access)."
 msgid ""
 "The group :guilabel:`Components` is matched against accessed component or "
 "project (for project-level access)."
 msgstr ""
-":guilabel:`Lista de componentes` do grupo é comparada com componente ou "
-"projeto acessado (para acesso a nível de projeto)."
+"Os :guilabel:`Componentes` de grupo é comparada com componente ou projeto "
+"acessado (para acesso a nível de projeto)."
 
 #: ../../admin/access.rst:176
-#, fuzzy
-#| msgid "Group :guilabel:`Projects` are matched against accessed project."
 msgid "The group :guilabel:`Projects` is matched against accessed project."
-msgstr ":guilabel:`Projetos` do grupo são comparados com o projeto acessado."
+msgstr "Os :guilabel:`Projetos` de grupo são comparados com o projeto acessado."
 
 #: ../../admin/access.rst:178
-#, fuzzy
-#| msgid ""
-#| "As you can see, granting access to a component automatically grants user "
-#| "access to a containing project as well."
 msgid ""
 "Thus, granting access to a component gives the user access to the project it "
 "is in too."
 msgstr ""
-"Como se pode ver, conceder acesso a um componente concede automaticamente o "
-"acesso do usuário a um projeto que contém um componente."
+"Assim, a concessão de acesso a um componente dá ao usuário acesso ao projeto "
+"em que também está."
 
 #: ../../admin/access.rst:182
 msgid ""
@@ -487,28 +391,20 @@ msgstr ""
 "tradução:"
 
 #: ../../admin/access.rst:189
-#, fuzzy
-#| msgid ""
-#| "Group :guilabel:`Components` are matched against accessed component or "
-#| "project (for project level access)."
 msgid ""
 "The group :guilabel:`Languages` is matched against accessed translations, it "
 "is ignored for component- or project-level access."
 msgstr ""
-":guilabel:`Componentes` do grupo são comparados com componente ou projeto "
-"acessado (para acesso a nível de projeto)."
+"Os :guilabel:`Idiomas` de grupo é compatível com traduções acessadas, é "
+"ignorado para acesso em nível de componente ou projeto."
 
 #: ../../admin/access.rst:193
-#, fuzzy
-#| msgid ""
-#| "You can use :guilabel:`Language selection` or :guilabel:`Project "
-#| "selection` to automate inclusion of all languages or projects."
 msgid ""
 "Use :guilabel:`Language selection` or :guilabel:`Project selection` to "
 "automate inclusion of all languages or projects."
 msgstr ""
-"Você pode usar :guilabel:`Seleção de idioma` ou :guilabel:`Seleção de "
-"projeto` para automatizar a inclusão de todos os idiomas ou projetos."
+"Use :guilabel:`Seleção de idioma` ou :guilabel:`Seleção de projeto` para "
+"automatizar a inclusão de todos os idiomas ou projetos."
 
 #: ../../admin/access.rst:197
 msgid "Checking access to a project"
@@ -671,10 +567,8 @@ msgid "Can manage glossary (add or remove entries, or upload)."
 msgstr "Pode gerenciar glossário (adicionar ou remover entradas ou enviar)."
 
 #: ../../admin/access.rst:277
-#, fuzzy
-#| msgid "Manage translation memory"
 msgid "Can manage translation memory."
-msgstr "Gerenciar memória de tradução"
+msgstr "Pode gerenciar memória de tradução."
 
 #: ../../admin/access.rst:281
 msgid ""
@@ -9274,14 +9168,12 @@ msgstr ""
 "ativar :setting:`django:EMAIL_USE_TLS` nesse caso."
 
 #: ../../admin/install.rst:522
-#, fuzzy
-#| msgid ""
-#| ":ref:`docker-mail` for configuring outgoing e-mail in Docker container."
 msgid ""
 ":ref:`debug-mails`, :ref:`Configuring outgoing e-mail in Docker container "
 "<docker-mail>`"
 msgstr ""
-":ref:`docker-mail` para configurar e-mail de saída no contêiner Docker."
+":ref:`debug-mails`, :ref:`Configurando e-mail de saída em contêiner Docker "
+"<docker-mail>`"
 
 #: ../../admin/install.rst:528
 msgid "Running behind reverse proxy"
@@ -12441,61 +12333,68 @@ msgstr ""
 
 #: ../../admin/languages.rst:4 ../../admin/languages.rst:92
 msgid "Language definitions"
-msgstr ""
+msgstr "Definições de idioma"
 
 #: ../../admin/languages.rst:6
 msgid ""
 "To present different translations properly, info about language name, text "
 "direction, plural definitions and language code is needed."
 msgstr ""
+"Para apresentar diferentes traduções corretamente, são necessárias "
+"informações sobre nome do idioma, direção de texto, definições plurais e "
+"código de idioma."
 
 #: ../../admin/languages.rst:12
 msgid "Parsing language codes"
-msgstr ""
+msgstr "Analisando códigos de idioma"
 
 #: ../../admin/languages.rst:14
 msgid ""
 "While parsing translations, Weblate attempts to map language code (usually "
 "the ISO 639-1 one) to any existing language object."
 msgstr ""
+"Ao analisar as traduções, o Weblate tenta mapear o código de idioma ("
+"geralmente o ISO 639-1) para qualquer objeto de idioma existente."
 
 #: ../../admin/languages.rst:17
 msgid ""
 "You can further adjust this mapping at project level by :ref:`project-"
 "language_aliases`."
 msgstr ""
+"Você pode ajustar ainda mais esse mapeamento no nível do projeto por :ref"
+":`project-language_aliases`."
 
 #: ../../admin/languages.rst:19
 msgid ""
 "If no exact match can be found, an attempt will be made to best fit it into "
 "an existing language. Following steps are tried:"
 msgstr ""
+"Se nenhuma correspondência exata for encontrada, uma tentativa será feita "
+"para melhor encaixá-la em um idioma existente. São testadas etapas a seguir:"
 
 #: ../../admin/languages.rst:22
 msgid "Case insensitive lookups."
-msgstr ""
+msgstr "Procuras sem diferenciar maiúsculo de minúsculo."
 
 #: ../../admin/languages.rst:23
 msgid "Normalizing underscores and dashes."
-msgstr ""
+msgstr "Normalizar sublinhados e traços."
 
 #: ../../admin/languages.rst:24
-#, fuzzy
-#| msgid "Syntax error in language aliases."
 msgid "Looking up built in language aliases."
-msgstr "Erro de sintaxe nos pseudônimos de idioma."
+msgstr "Procurar aliases de idioma embutido."
 
 #: ../../admin/languages.rst:25
-#, fuzzy
-#| msgid "Monolingual base language file"
 msgid "Looking up by language name."
-msgstr "Arquivo de idioma da base monolíngue"
+msgstr "Procurar por nome de idioma."
 
 #: ../../admin/languages.rst:26
 msgid ""
 "Ignoring the default country code for a given language—choosing ``cs`` "
 "instead of ``cs_CZ``."
 msgstr ""
+"Ignorar o código de país padrão para o idioma dado – escolher ``cs`` em vez "
+"de ``cs_CZ``."
 
 #: ../../admin/languages.rst:28
 msgid ""
@@ -15599,8 +15498,8 @@ msgid ""
 ":ref:`bimono`, :ref:`adding-new-strings`, :http:post:`/api/translations/"
 "(string:project)/(string:component)/(string:language)/units/`"
 msgstr ""
-"Programaticamente, usando API :http:post:`/api/translations/(string:project)/"
-"(string:component)/(string:language)/units/`."
+":ref:`bimono`, :ref:`adding-new-strings`, :http:post:`/api/translations/"
+"(string:project)/(string:component)/(string:language)/units/`"
 
 #: ../../admin/projects.rst:589
 msgid "Language code style"
@@ -18233,20 +18132,16 @@ msgid ""
 msgstr ""
 
 #: ../../api.rst:1561
-#, fuzzy
-#| msgid "Return to the component"
 msgid "Returns projects linked with a component."
-msgstr "Retornar ao componente"
+msgstr "Retorna projetos vinculados a um componente."
 
 #: ../../api.rst:1569
 msgid "associated projects; see :http:get:`/api/projects/(string:project)/`"
 msgstr ""
 
 #: ../../api.rst:1573
-#, fuzzy
-#| msgid "Projects without components"
 msgid "Associate project with a component."
-msgstr "Projetos sem componentes"
+msgstr "Associa projeto a um componente."
 
 #: ../../api.rst:1585
 #, fuzzy
@@ -18255,10 +18150,8 @@ msgid "Remove association of a project with a component."
 msgstr "Remove associação de um projeto com um glossário."
 
 #: ../../api.rst:1593
-#, fuzzy
-#| msgid "Language of the project was removed."
 msgid "Slug of the project to remove"
-msgstr "Idioma do projeto foi removido."
+msgstr "Slug do projeto para remover"
 
 #: ../../api.rst:1602
 msgid "Returns a list of translations."
@@ -18841,10 +18734,8 @@ msgid "Delete screenshot."
 msgstr "Exclui captura de tela."
 
 #: ../../api.rst:2143
-#, fuzzy
-#| msgid "Customizing list of addons"
 msgid "Returns a list of addons."
-msgstr "Personalizando a lista de extensões"
+msgstr "Retorna uma lista de extensões."
 
 #: ../../api.rst:2147
 msgid ""
@@ -18876,10 +18767,8 @@ msgid "Optional addon configuration"
 msgstr "Configuração ruim"
 
 #: ../../api.rst:2161
-#, fuzzy
-#| msgid "Create new glossary"
 msgid "Creates a new addon."
-msgstr "Criar novo glossário"
+msgstr "Cria uma nova extensão."
 
 #: ../../api.rst:2170
 #, fuzzy
@@ -18894,10 +18783,8 @@ msgid "Edit full information about addon."
 msgstr "Edita informações completas sobre captura de tela."
 
 #: ../../api.rst:2186
-#, fuzzy
-#| msgid "Delete comment"
 msgid "Delete addon."
-msgstr "Excluir comentário"
+msgstr "Exclui extensão."
 
 #: ../../api.rst:2195
 msgid "Component lists"
@@ -19301,10 +19188,8 @@ msgid "Not yet released."
 msgstr "Não lançado ainda."
 
 #: ../../changes.rst:6
-#, fuzzy
-#| msgid "TermBase eXchange (TBX)"
 msgid "Added support for ``lua-format`` used in gettext PO."
-msgstr "TermBase eXchange (TBX)"
+msgstr "Suporte adicionado para ``lua-format`` usado em gettext PO."
 
 #: ../../changes.rst:7
 #, fuzzy
@@ -19328,10 +19213,8 @@ msgid "Added pseudolocale generation addon."
 msgstr ""
 
 #: ../../changes.rst:11
-#, fuzzy
-#| msgid "TermBase eXchange (TBX)"
 msgid "Added support for Term Base eXchange files."
-msgstr "TermBase eXchange (TBX)"
+msgstr "Suporte adicionado para arquivos TermBase eXchange."
 
 #: ../../changes.rst:12
 #, fuzzy
@@ -19373,10 +19256,10 @@ msgstr ""
 "translation-setup`."
 
 #: ../../changes.rst:18
-#, fuzzy
-#| msgid "Automatically detect Java MessageFormat"
 msgid "Automatically enable Java MessageFormat checks for Java Properties."
-msgstr "MessageFormat do Java detectado automaticamente"
+msgstr ""
+"Habilita automaticamente verificações de MessageFormat para Properties do "
+"Java."
 
 #: ../../changes.rst:19
 #, fuzzy
@@ -19396,10 +19279,8 @@ msgid "Glossaries are now stored as regular components."
 msgstr ""
 
 #: ../../changes.rst:22
-#, fuzzy
-#| msgid "glossaries"
 msgid "Dropped glossaries API."
-msgstr "glossários"
+msgstr "Descartada a API de glossários."
 
 #: ../../changes.rst:23
 msgid "Added simplified interface to toggle some of the flags."
@@ -19628,10 +19509,8 @@ msgid "Improved naming of ZIP downloads."
 msgstr ""
 
 #: ../../changes.rst:81
-#, fuzzy
-#| msgid "Additionally, email is used for notification of watched events"
 msgid "Added option for getting notifications on unwatched projects."
-msgstr "Além disto, o e-mail é usado para notificação de projetos observados"
+msgstr "Adicionada a opção para obter notificações de projetos não observados."
 
 #: ../../changes.rst:84
 #, fuzzy
@@ -24203,10 +24082,8 @@ msgid "Supports (and requires) django-registration 0.8."
 msgstr ""
 
 #: ../../changes.rst:1518
-#, fuzzy
-#| msgid "number of strings failing checks"
 msgid "Caching counts of strings with failing checks."
-msgstr "número de textos contendo verificações com falha"
+msgstr "Fazer cache de contagens de textos contendo verificações com falha."
 
 #: ../../changes.rst:1519
 msgid "Checking of requirements during setup."
@@ -24913,10 +24790,8 @@ msgid ""
 msgstr ""
 
 #: ../../contributing/debugging.rst:48
-#, fuzzy
-#| msgid "Things to check"
 msgid "Things to check in that case:"
-msgstr "Coisas a verificar"
+msgstr "Coisas a verificar neste caso:"
 
 #: ../../contributing/debugging.rst:50
 msgid "Check Celery process is running, see :ref:`celery`"
@@ -27049,10 +26924,8 @@ msgid ":ref:`adding-projects`, :ref:`faq-submodule`"
 msgstr ":ref:`component`, :ref:`bimono`"
 
 #: ../../devel/integration.rst:22
-#, fuzzy
-#| msgid "Lists translations in Weblate."
 msgid "Fetching updated translations from Weblate"
-msgstr "Lista as traduções no Weblate."
+msgstr "Obtendo traduções atualizadas do Weblate"
 
 #: ../../devel/integration.rst:24
 msgid ""
@@ -27990,10 +27863,8 @@ msgid "``dial#S.key``, ``dial#M.key``, ``dial.key``"
 msgstr ""
 
 #: ../../devel/translations.rst:59
-#, fuzzy
-#| msgid "Color variants:"
 msgid "Manual variants"
-msgstr "Variantes de cor:"
+msgstr "Variantes manuais"
 
 #: ../../devel/translations.rst:63
 msgid ""
@@ -28357,18 +28228,18 @@ msgid "How can I use existing translations while translating?"
 msgstr ""
 
 #: ../../faq.rst:288
-#, fuzzy
-#| msgid "Contribute to shared translation memory"
 msgid ""
 "All translations within Weblate can be used thanks to shared translation "
 "memory."
-msgstr "Contribuir com memória de tradução compartilhada"
+msgstr ""
+"Todas as traduções no Weblate podem ser usadas graças à memória de tradução "
+"compartilhada."
 
 #: ../../faq.rst:289
-#, fuzzy
-#| msgid "Confirm deleting all translation memory entries"
 msgid "You can import existing translation memory files into Weblate."
-msgstr "Confirmar a exclusão de todas as entradas da memória de tradução"
+msgstr ""
+"Você pode importar tradução arquivos de memória de tradução existente para o "
+"Weblate."
 
 #: ../../faq.rst:290
 msgid ""
@@ -33146,10 +33017,8 @@ msgid "``explanation:TEXT``"
 msgstr "``component:TEXTO``"
 
 #: ../../user/search.rst:83
-#, fuzzy
-#| msgid "Search in location strings"
 msgid "Search in explanations."
-msgstr "Pesquisar nos textos de localização"
+msgstr "Pesquisa em explicações."
 
 #: ../../user/search.rst:86
 msgid "Boolean operators"
@@ -33322,30 +33191,18 @@ msgid ":ref:`privileges`, :ref:`workflows`"
 msgstr ":ref:`privileges`, :ref:`workflows`"
 
 #: ../../user/translating.rst:28
-#, fuzzy
-#| msgid ""
-#| "Translation projects hold related components, related to the same "
-#| "software, book, or project."
 msgid ""
 "Translation projects hold related components; resources for the same "
 "software, book, or project."
 msgstr ""
-"Os projetos de tradução possuem componentes relacionados, relacionados ao "
-"mesmo software, livro ou projeto."
+"Os projetos de tradução possuem componentes; recursos para o mesmo software, "
+"livro ou projeto."
 
 #: ../../user/translating.rst:35
 msgid "Translation links"
 msgstr "Links de tradução"
 
 #: ../../user/translating.rst:37
-#, fuzzy
-#| msgid ""
-#| "Having navigated to a component, a set of links lead to actual "
-#| "translation. The translation is further divided into individual checks, "
-#| "like :guilabel:`Not translated strings` or :guilabel:`Strings needing "
-#| "action`.  If the whole project is translated, without error, :guilabel:"
-#| "`All strings` is still available. Alternatively you can use the search "
-#| "field to find a specific string or term."
 msgid ""
 "Having navigated to a component, a set of links lead to its actual "
 "translation. The translation is further divided into individual checks, "
@@ -33354,11 +33211,11 @@ msgid ""
 "strings` is still available. Alternatively you can use the search field to "
 "find a specific string or term."
 msgstr ""
-"Tendo navegado para um componente, um conjunto de links leva à tradução "
-"real. A tradução é ainda dividida em verificações individuais, como :"
-"guilabel:`Textos não traduzidos` ou :guilabel:`Textos que necessitam "
-"edição`.  Se todo o projeto for traduzido, sem erro, :guilabel:`Todas os "
-"textos` ainda estão disponíveis. Alternativamente, você pode usar o campo de "
+"Tendo navegado para um componente, um conjunto de links leva a sua tradução "
+"real. A tradução é ainda dividida em verificações individuais, como "
+":guilabel:`Textos não traduzidos` ou :guilabel:`Textos que necessitam edição`"
+". Se todo o projeto for traduzido, sem erro, :guilabel:`Todas os textos` "
+"ainda estão disponíveis. Alternativamente, você pode usar o campo de "
 "pesquisa para encontrar um texto ou termo específico."
 
 #: ../../user/translating.rst:50
@@ -33368,19 +33225,14 @@ msgstr ""
 "Weblate."
 
 #: ../../user/translating.rst:52
-#, fuzzy
-#| msgid ""
-#| "Anonymous users can only (if permitted) forward suggestions.  Doing so is "
-#| "still available to signed in users, in cases where uncertainty about the "
-#| "translation arises, which will prompt another translator to review it."
 msgid ""
 "Anonymous users can only (by default) forward suggestions. Doing so is still "
 "available to signed-in users, in cases where uncertainty about the "
 "translation arises, prompting other translators to review it."
 msgstr ""
-"Usuários anônimos só podem (se permitido) encaminhar sugestões.  Isso ainda "
+"Usuários anônimos só podem (por padrão) encaminhar sugestões. Isso ainda "
 "está disponível para os usuários autenticados, nos casos em que surge a "
-"incerteza sobre a tradução, o que levará outro tradutor a revisá-la."
+"incerteza sobre a tradução, levando outros tradutores a revisá-la."
 
 #: ../../user/translating.rst:56
 #, fuzzy
@@ -33526,31 +33378,18 @@ msgstr ""
 "mostrada (ver :ref:`secondary-languages`) acima do texto fonte."
 
 #: ../../user/translating.rst:114
-#, fuzzy
-#| msgid ""
-#| "Below the translation, any suggestion made by others will be shown, which "
-#| "you can in turn accept, accept with changes, or delete."
 msgid ""
 "Below the translation, translators will find suggestion made by others, to "
 "be accepted (✓), accepted with changes (🖉), or deleted (🗑)."
 msgstr ""
-"Abaixo da tradução, qualquer sugestão feita por outros será mostrada, que "
-"você pode, por sua vez, aceitar, aceitar com alterações ou excluir."
+"Embaixo da tradução, tradutores vão encontrar sugestões feita por outros, "
+"para serem aceitas (✓), aceitas com alterações (🖉) ou excluídas (🗑)."
 
 #: ../../user/translating.rst:120
 msgid "Plurals"
 msgstr "Plurais"
 
 #: ../../user/translating.rst:122
-#, fuzzy
-#| msgid ""
-#| "Words that change form to account of their numeric designation are called "
-#| "plurals.  Each language has its own definition of plurals. English, for "
-#| "example, supports one plural.  In the singular definition of for example "
-#| "\"car\", implicitly one car is referenced, in the plural definition, "
-#| "\"cars\" two or more cars are referenced, or the concept of cars as a "
-#| "noun.  Languages like for example Czech or Arabic have more plurals and "
-#| "also their rules for plurals are different."
 msgid ""
 "Words changing form to account of their numeric designation are called "
 "plurals. Each language has its own definition of plurals. English, for "
@@ -33560,12 +33399,12 @@ msgid ""
 "for example Czech or Arabic have more plurals and also their rules for "
 "plurals are different."
 msgstr ""
-"Palavras que mudam de forma levando em conta sua designação numérica são "
-"chamadas de plurais.  Cada idioma tem sua própria definição de plurais. O "
-"inglês, por exemplo, possui um plural.  Na definição singular de, por "
+"Palavras mudando a forma para levar em conta sua designação numérica são "
+"chamadas de plurais. Cada idioma tem sua própria definição de plurais. O "
+"inglês, por exemplo, tem suporte a uma. Na definição singular de, por "
 "exemplo, \"car\" (carro), implicitamente um carro é referenciado, enquanto "
-"na definição plural, \"carros\" significa dois ou mais carros, ou o conceito "
-"de carros como substantivo.  Idiomas como, por exemplo, tcheco ou árabe têm "
+"na definição plural, \"carros\" significa dois ou mais carros (ou o conceito "
+"de carros como substantivo). Idiomas como, por exemplo, tcheco ou árabe têm "
 "mais plurais e também suas regras para os plurais são diferentes."
 
 #: ../../user/translating.rst:130
@@ -34264,14 +34103,10 @@ msgstr ""
 "correspondentes são atualizados. As seguintes operações são suportadas:"
 
 #: ../../user/translating.rst:378
-#, fuzzy
-#| msgid ""
-#| "Changing string state (for example to approve all strings waiting for "
-#| "review)"
 msgid "Changing string state (for example to approve all unreviewed strings)."
 msgstr ""
-"Alterar o estado de texto (por exemplo, para aprovar todos os textos à "
-"espera de revisão)"
+"Alterar o estado de texto (por exemplo, para aprovar todos os textos não "
+"revisados)."
 
 #: ../../user/translating.rst:379
 msgid "Adjust translation flags (see :ref:`custom-checks`)"
