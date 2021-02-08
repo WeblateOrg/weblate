@@ -121,6 +121,7 @@ class SettingsTest(ViewTestCase):
         data = {}
         data.update(response.context["form"].initial)
         data["links"] = other.pk
+        del data["enforced_checks"]
 
         # Can not add link to non owned project
         response = self.client.post(url, data, follow=True)
