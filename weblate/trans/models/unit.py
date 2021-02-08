@@ -1340,7 +1340,7 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
                         (
                             "removeflag",
                             "forbidden",
-                            gettext("Unmark as forbidden translations"),
+                            gettext("Unmark as forbidden translation"),
                         )
                     )
                 else:
@@ -1348,7 +1348,7 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
                         (
                             "addflag",
                             "forbidden",
-                            gettext("Mark as forbidden translations"),
+                            gettext("Mark as forbidden translation"),
                         )
                     )
                 if "terminology" in flags:
