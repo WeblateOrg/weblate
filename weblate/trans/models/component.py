@@ -46,6 +46,7 @@ from redis_lock import Lock, NotAcquired
 from weblate_language_data.ambiguous import AMBIGUOUS
 
 from weblate.checks.flags import Flags
+from weblate.checks.models import CHECKS
 from weblate.formats.models import FILE_FORMATS
 from weblate.lang.models import Language, get_default_lang
 from weblate.trans.defines import (
@@ -2685,6 +2686,11 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
         else:
             self.delete_alert("NoLibreConditions")
 
+        if self.get_unused_enforcements():
+            self.add_alert("UnusedEnforcedCheck")
+        else:
+            self.delete_alert("UnusedEnforcedCheck")
+
         self.update_link_alerts()
 
     def get_ambiguous_translations(self):
@@ -2966,3 +2972,25 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
 
         if self.is_glossary:
             transaction.on_commit(lambda: sync_terminology.delay(self.pk))
+
+    def get_unused_enforcements(self):
+        from weblate.trans.models import Unit
+
+        for current in self.enforced_checks:
+            check = CHECKS[current]
+            # Check is always enabled
+            if not check.default_disabled:
+                continue
+            flag = check.enable_string
+            # Enabled on component level
+            if flag in self.all_flags:
+                continue
+            # Enabled on translation level
+            if self.translation_set.filter(check_flags__contains=flag).exists():
+                continue
+            # Enabled on unit level
+            if Unit.objects.filter(
+                Q(flags__contains=flag) | Q(extra_flags__contains=flag)
+            ).exists():
+                continue
+            yield check

@@ -338,3 +338,10 @@ class AmbiguousLanguage(BaseAlert):
 class NoLibreConditions(BaseAlert):
     # Translators: Name of an alert
     verbose = _("Does not meet libre hosting conditions.")
+
+
+@register
+class UnusedEnforcedCheck(BaseAlert):
+    verbose = _("Unused enforced checks.")
+    doc_page = "admin/checks"
+    doc_anchor = "enforcing-checks"
