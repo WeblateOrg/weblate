@@ -319,6 +319,12 @@ LICENSES = (
         False,
     ),
     (
+        "BSD-4-Clause-Shortened",
+        "BSD 4 Clause Shortened",
+        "https://metadata.ftp-master.debian.org/changelogs//main/a/arpwatch/arpwatch_2.1a15-7_copyright",
+        False,
+    ),
+    (
         "BSD-4-Clause",
         'BSD 4-Clause "Original" or "Old" License',
         "http://directory.fsf.org/wiki/License:BSD_4Clause",
@@ -937,6 +943,12 @@ LICENSES = (
         "Frameworx Open License 1.0",
         "https://opensource.org/licenses/Frameworx-1.0",
         True,
+    ),
+    (
+        "FreeBSD-DOC",
+        "FreeBSD Documentation License",
+        "https://www.freebsd.org/copyright/freebsd-doc-license/",
+        False,
     ),
     (
         "FreeImage",
@@ -1603,18 +1615,6 @@ LICENSES = (
         True,
     ),
     (
-        "ODbL-1.0",
-        "ODC Open Database License v1.0",
-        "http://www.opendatacommons.org/licenses/odbl/1.0/",
-        True,
-    ),
-    (
-        "PDDL-1.0",
-        "ODC Public Domain Dedication & License 1.0",
-        "http://opendatacommons.org/licenses/pddl/1.0/",
-        False,
-    ),
-    (
         "OGC-1.0",
         "OGC Software License, Version 1.0",
         "https://www.ogc.org/ogc/software/1.0",
@@ -1630,6 +1630,18 @@ LICENSES = (
         "ODC-By-1.0",
         "Open Data Commons Attribution License v1.0",
         "https://opendatacommons.org/licenses/by/1.0/",
+        False,
+    ),
+    (
+        "ODbL-1.0",
+        "Open Data Commons Open Database License v1.0",
+        "http://www.opendatacommons.org/licenses/odbl/1.0/",
+        True,
+    ),
+    (
+        "PDDL-1.0",
+        "Open Data Commons Public Domain Dedication & License 1.0",
+        "http://opendatacommons.org/licenses/pddl/1.0/",
         False,
     ),
     (
