@@ -587,7 +587,7 @@ class XliffUnit(TTKitUnit):
             return
         try:
             converted = xliff_string_to_rich(target)
-        except (XMLSyntaxError, KeyError):
+        except (XMLSyntaxError, TypeError, KeyError):
             # KeyError happens on missing attribute
             converted = [target]
         if self.template is not None:
