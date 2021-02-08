@@ -293,12 +293,13 @@ def perform_suggestion(unit, form, request):
 
 def perform_translation(unit, form, request):
     """Handle translation and stores it to a backend."""
+    user = request.user
     # Remember old checks
     oldchecks = unit.all_checks_names
 
     # Save
     saved = unit.translate(
-        request.user, form.cleaned_data["target"], form.cleaned_data["state"]
+        user, form.cleaned_data["target"], form.cleaned_data["state"]
     )
 
     # Warn about applied fixups
@@ -313,6 +314,19 @@ def perform_translation(unit, form, request):
     if not saved:
         revert_rate_limit("translate", request)
         return True
+
+    # Auto subscribe user
+    if not user.profile.languages.exists():
+        language = unit.translation.language
+        user.profile.languages.add(language)
+        messages.info(
+            request,
+            _(
+                "Added %(language)s to your translated languages. "
+                "You can adjust them in the settings."
+            )
+            % {"language": language},
+        )
 
     # Get new set of checks
     newchecks = unit.all_checks_names
