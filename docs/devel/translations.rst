@@ -31,12 +31,11 @@ Languages, components, or the projects they are in, can be removed (deleted from
 and remote repository if used) from the menu :guilabel:`Manage` ↓ :guilabel:`Removal` 
 of each project, component, or language.
 
-A list of components to remove is shown, and typing in the entire name of
-the respective project, component, or language selected for removal will
-confirm its deletion.
+Initiating the :guilabel:`Removal` action shows the list of components to be removed. 
+You have to enter the object's `slug` to confirm the removal. The `slug` is the
+project's, language's, or component's pathname as it can be seen in the URL.
 
-If you want to remove single strings, removing them in the source file also
-removes them from translations.
+Remove single strings in the source file also removes them from translations in Weblate.
 
 
 .. note::
