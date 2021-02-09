@@ -1078,6 +1078,7 @@ class Translation(
         """Invalidate any cached stats."""
         # Invalidate summary stats
         transaction.on_commit(self.stats.invalidate)
+        transaction.on_commit(self.component.invalidate_glossary_cache)
 
     @property
     def keys_cache_key(self):

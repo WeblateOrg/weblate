@@ -17,24 +17,30 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-
 import re
-from functools import reduce
-from itertools import islice
+from itertools import chain
 
 from django.conf import settings
-from django.db import models
 from django.db.models.functions import Lower
-from whoosh.analysis import LanguageAnalyzer, NgramAnalyzer, SimpleAnalyzer
-from whoosh.analysis.filters import StopFilter
-from whoosh.lang import NoStopWords
 
 from weblate.checks.same import strip_string
 from weblate.trans.models.unit import Unit
+from weblate.trans.util import PLURAL_SEPARATOR
 from weblate.utils.db import re_escape
-from weblate.utils.errors import report_error
+from weblate.utils.state import STATE_TRANSLATED
 
 SPLIT_RE = re.compile(r"[\s,.:!?]+", re.UNICODE)
+
+
+def get_glossary_sources(component):
+    # Fetch list of terms defined in a translation
+    return list(
+        set(
+            component.source_translation.unit_set.filter(
+                state__gte=STATE_TRANSLATED
+            ).values_list(Lower("source"), flat=True)
+        )
+    )
 
 
 def get_glossary_terms(unit):
@@ -44,11 +50,12 @@ def get_glossary_terms(unit):
     language = translation.language
     component = translation.component
     source_language = component.source_language
+    glossaries = component.project.glossaries
 
     units = (
         Unit.objects.prefetch()
         .filter(
-            translation__component__in=component.project.glossaries,
+            translation__component__in=glossaries,
             translation__component__source_language=source_language,
             translation__language=language,
         )
@@ -58,63 +65,30 @@ def get_glossary_terms(unit):
     if language == source_language:
         return units.none()
 
-    # Filters stop words for a language
-    try:
-        stopfilter = StopFilter(lang=source_language.base_code)
-    except NoStopWords:
-        stopfilter = StopFilter()
+    # Chain words
+    words = set(
+        chain.from_iterable(glossary.glossary_sources for glossary in glossaries)
+    )
 
-    # Prepare analyzers
-    # - basic simple analyzer to split on non-word chars
-    # - simple analyzer just splits words based on regexp to catch in word dashes
-    # - language analyzer if available (it is for English)
-    analyzers = [
-        SimpleAnalyzer() | stopfilter,
-        SimpleAnalyzer(expression=SPLIT_RE, gaps=True) | stopfilter,
-        LanguageAnalyzer(source_language.base_code),
-    ]
-
-    # Add ngram analyzer for languages like Chinese or Japanese
-    if source_language.uses_ngram():
-        analyzers.append(NgramAnalyzer(4))
-
-    # Extract words from all plurals and from context
+    # Build complete source for matching
+    parts = []
     flags = unit.all_flags
     for text in unit.get_source_plurals() + [unit.context]:
         text = strip_string(text, flags).lower()
-        for analyzer in analyzers:
-            # Some Whoosh analyzers break on unicode
-            try:
-                words.update(token.text for token in analyzer(text))
-            except (UnicodeDecodeError, IndexError):
-                report_error(cause="Term words parsing")
-            if len(words) > 1000:
-                break
-        if len(words) > 1000:
-            break
+        if text:
+            parts.append(text)
+    source = PLURAL_SEPARATOR.join(parts)
 
-    if "" in words:
-        words.remove("")
+    # Extract words present in the source
+    # This might use a suffix tree for improved performance
+    matches = [word for word in words if word in source]
 
-    if not words:
-        # No extracted words, no glossary
-        return units.none()
-
-    # Build the query for fetching the words
-    # We want case insensitive lookup
-    words = islice(words, 1000)
     if settings.DATABASES["default"]["ENGINE"] == "django.db.backends.postgresql":
         # Use regex as that is utilizing pg_trgm index
         return units.filter(
-            source__iregex=r"(^|[ \t\n\r\f\v])({})($|[ \t\n\r\f\v])".format(
-                "|".join(re_escape(word) for word in words)
+            source__iregex=r"^{}$".format(
+                "|".join(re_escape(word) for word in matches)
             ),
         )
-    else:
-        # MySQL
-        return units.filter(
-            reduce(
-                lambda x, y: x | y,
-                (models.Q(source__search=word) for word in words),
-            ),
-        )
+    # With MySQL we utilize it does case insensitive lookup
+    return units.filter(source__in=matches)

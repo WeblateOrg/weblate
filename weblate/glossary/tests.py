@@ -19,7 +19,6 @@
 
 """Test for glossary manipulations."""
 
-
 import json
 
 from django.conf import settings
@@ -29,6 +28,8 @@ from weblate.glossary.models import get_glossary_terms
 from weblate.trans.models import Unit
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.tests.utils import get_test_file
+from weblate.utils.hash import calculate_hash
+from weblate.utils.state import STATE_TRANSLATED
 
 TEST_TBX = get_test_file("terms.tbx")
 TEST_CSV = get_test_file("terms.csv")
@@ -120,6 +121,27 @@ class GlossaryTest(ViewTestCase):
                 params,
             )
 
+    def add_term(self, source, target, context=""):
+        id_hash = calculate_hash(source, context)
+        source_unit = self.glossary_component.source_translation.unit_set.create(
+            source=source,
+            target=source,
+            context=context,
+            id_hash=id_hash,
+            position=1,
+            state=STATE_TRANSLATED,
+        )
+        self.glossary.unit_set.create(
+            source=source,
+            target=target,
+            context=context,
+            source_unit=source_unit,
+            id_hash=id_hash,
+            position=1,
+            state=STATE_TRANSLATED,
+        )
+        self.glossary.invalidate_cache()
+
     def test_import(self):
         """Test for importing of TBX into glossary."""
 
@@ -199,39 +221,30 @@ class GlossaryTest(ViewTestCase):
         self.assertEqual(self.glossary.unit_set.count(), 164)
 
     def test_get_terms(self):
-        self.glossary.unit_set.create(
+        self.add_term(
             source="hello",
             target="ahoj",
-            id_hash=1,
-            position=1,
         )
-        self.glossary.unit_set.create(
+        self.add_term(
             source="thank",
             target="děkujeme",
-            id_hash=2,
-            position=2,
         )
         unit = self.get_unit("Thank you for using Weblate.")
         self.assertEqual(get_glossary_terms(unit).count(), 1)
-        self.glossary.unit_set.create(
+        self.add_term(
             source="thank",
             target="díky",
-            id_hash=3,
-            position=3,
+            context="other",
         )
         self.assertEqual(get_glossary_terms(unit).count(), 2)
-        self.glossary.unit_set.create(
+        self.add_term(
             source="thank you",
             target="děkujeme vám",
-            id_hash=4,
-            position=4,
         )
         self.assertEqual(get_glossary_terms(unit).count(), 3)
-        self.glossary.unit_set.create(
+        self.add_term(
             source="thank you for using Weblate",
             target="děkujeme vám za použití Weblate",
-            id_hash=5,
-            position=5,
         )
         self.assertEqual(get_glossary_terms(unit).count(), 4)
 
@@ -245,17 +258,13 @@ class GlossaryTest(ViewTestCase):
 
     def test_stoplist(self):
         unit = self.test_get_long()
-        self.glossary.unit_set.create(
+        self.add_term(
             source="the blue",
             target="modrý",
-            id_hash=1,
-            position=1,
         )
-        self.glossary.unit_set.create(
+        self.add_term(
             source="the red",
             target="červený",
-            id_hash=2,
-            position=2,
         )
 
         self.assertEqual(get_glossary_terms(unit).count(), 1)
@@ -263,11 +272,9 @@ class GlossaryTest(ViewTestCase):
     def test_get_dash(self):
         unit = self.get_unit("Thank you for using Weblate.")
         unit.source = "Nordrhein-Westfalen"
-        self.glossary.unit_set.create(
+        self.add_term(
             source="Nordrhein-Westfalen",
             target="Northrhine Westfalia",
-            id_hash=1,
-            position=1,
         )
         self.assertEqual(get_glossary_terms(unit).count(), 1)
 

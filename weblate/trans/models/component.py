@@ -48,6 +48,7 @@ from weblate_language_data.ambiguous import AMBIGUOUS
 from weblate.checks.flags import Flags
 from weblate.checks.models import CHECKS
 from weblate.formats.models import FILE_FORMATS
+from weblate.glossary.models import get_glossary_sources
 from weblate.lang.models import Language, get_default_lang
 from weblate.trans.defines import (
     COMPONENT_NAME_LENGTH,
@@ -2038,6 +2039,25 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
         self.log_info("updating stats caches")
         transaction.on_commit(lambda: self.stats.invalidate(childs=True))
         transaction.on_commit(lambda: update_component_stats.delay(self.pk))
+        transaction.on_commit(self.invalidate_glossary_cache)
+
+    @cached_property
+    def glossary_sources_key(self):
+        return f"component-glossary-{self.pk}"
+
+    @cached_property
+    def glossary_sources(self):
+        result = cache.get(self.glossary_sources_key)
+        if result is None:
+            result = get_glossary_sources(self)
+            cache.set(self.glossary_sources_key, result, 24 * 3600)
+        return result
+
+    def invalidate_glossary_cache(self):
+        if self.is_glossary:
+            cache.delete(self.glossary_sources_key)
+        if "glossary_sources" in self.__dict__:
+            del self.__dict__["glossary_sources"]
 
     def get_lang_code(self, path, validate=False):
         """Parse language code from path."""
