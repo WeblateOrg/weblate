@@ -35,7 +35,6 @@ from weblate.vcs.mercurial import HgRepository
 REQUIRES = [
     "Django",
     "siphashc",
-    "Whoosh",
     "translate-toolkit",
     "lxml",
     "Pillow",
