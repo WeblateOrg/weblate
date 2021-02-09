@@ -163,3 +163,7 @@ class FlagTest(SimpleTestCase):
         self.test_replacements(
             "replacements:{COLOR-GREY}::{COLOR-GARNET}::{VARIABLE-01}:99"
         )
+
+    def test_escaped_values(self):
+        flags = Flags(r"""placeholders:"\\":"\"" """)
+        self.assertEqual(flags.get_value("placeholders"), ["\\", '"'])

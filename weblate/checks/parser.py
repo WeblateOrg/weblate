@@ -51,7 +51,7 @@ class RawQuotedString(QuotedString):
         super().__init__(quoteChar, escChar=escChar, convertWhitespaceEscapes=False)
         # unlike the QuotedString this replaces only escaped quotes and not all chars
         self.escCharReplacePattern = (
-            re.escape(escChar) + "(" + re.escape(quoteChar) + ")"
+            re.escape(escChar) + "([" + re.escape(quoteChar) + re.escape(escChar) + "])"
         )
 
 
