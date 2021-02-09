@@ -274,7 +274,7 @@ class LanguageConsistencyGuideline(AddonGuideline):
     addon = "weblate.consistency.languages"
 
     def is_relevant(self):
-        if self.component.project.component_set.count() <= 1:
+        if self.component.project.component_set.exclude(is_glossary=True).count() <= 1:
             return False
         return super().is_relevant()
 
