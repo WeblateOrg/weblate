@@ -23,7 +23,6 @@ from itertools import chain
 from django.conf import settings
 from django.db.models.functions import Lower
 
-from weblate.checks.same import strip_string
 from weblate.trans.models.unit import Unit
 from weblate.trans.util import PLURAL_SEPARATOR
 from weblate.utils.db import re_escape
@@ -72,9 +71,8 @@ def get_glossary_terms(unit):
 
     # Build complete source for matching
     parts = []
-    flags = unit.all_flags
     for text in unit.get_source_plurals() + [unit.context]:
-        text = strip_string(text, flags).lower()
+        text = text.lower().strip()
         if text:
             parts.append(text)
     source = PLURAL_SEPARATOR.join(parts)
