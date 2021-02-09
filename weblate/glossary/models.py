@@ -79,7 +79,9 @@ def get_glossary_terms(unit):
 
     # Extract words present in the source
     # This might use a suffix tree for improved performance
-    matches = [word for word in words if word in source]
+    matches = [
+        word for word in words if re.search(r"\b{}\b".format(re.escape(word)), source)
+    ]
 
     if settings.DATABASES["default"]["ENGINE"] == "django.db.backends.postgresql":
         # Use regex as that is utilizing pg_trgm index

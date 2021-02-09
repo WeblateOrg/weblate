@@ -247,6 +247,11 @@ class GlossaryTest(ViewTestCase):
             target="děkujeme vám za použití Weblate",
         )
         self.assertEqual(get_glossary_terms(unit).count(), 4)
+        self.add_term(
+            source="web",
+            target="web",
+        )
+        self.assertEqual(get_glossary_terms(unit).count(), 4)
 
     def test_get_long(self):
         """Test parsing long source string."""
