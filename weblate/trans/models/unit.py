@@ -1263,14 +1263,23 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
 
     def get_max_length(self):
         """Returns maximal translation length."""
+        # Fallback to reasonably big value
+        fallback = 10000
+
+        # Not yet saved unit
         if not self.pk:
-            return 10000
+            return fallback
+        # Flag defines length
         if self.all_flags.has_value("max-length"):
             return self.all_flags.get_value("max-length")
+        # Avoid limiting source strings
+        if self.is_source and not self.translation.component.intermediate:
+            return fallback
+        # Base length on source string
         if settings.LIMIT_TRANSLATION_LENGTH_BY_SOURCE_LENGTH:
-            # Fallback to reasonably big value
             return max(100, len(self.get_source_plurals()[0]) * 10)
-        return 10000
+
+        return fallback
 
     def get_target_hash(self):
         return calculate_hash(self.target)
