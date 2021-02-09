@@ -13,7 +13,7 @@
     <td>{{ item.source }}</td>
     <td class="target">{% format_translation item.target unit.translation.language unit.translation.plural simple=True %}</td>
     <td>{% include "snippets/glossary-badge.html" with glossary=item.translation %}</td>
-    <td><a href="{{ item.get_absolute_url }}" class="btn btn-link btn-xs">{% icon "pencil.svg" %}</a>
+    <td><a href="{{ item.get_absolute_url }}" class="btn btn-link btn-xs" title="{% trans "Edit glossary term" %}">{% icon "pencil.svg" %}</a>
     </tr>
     {% if item.source_unit.explanation %}
       <tr>

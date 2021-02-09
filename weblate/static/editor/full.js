@@ -383,6 +383,12 @@
   FullEditor.prototype.initGlossary = function () {
     /* Copy from glossary */
     this.$editor.on("click", ".glossary-embed.clickable-row", (e) => {
+      /* Avoid copy when clicked on a link */
+      if ($(e.target).parents("a").length > 0) {
+        return;
+      }
+      console.log(e.target);
+      console.log(e.currentTarget);
       var text = $(e.currentTarget).find(".target").text();
 
       this.insertIntoTranslation(text);
