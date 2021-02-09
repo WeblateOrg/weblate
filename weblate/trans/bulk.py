@@ -120,6 +120,6 @@ def bulk_perform(
                     unit.state = target_state
                     unit.source_unit_save()
 
-        component.invalidate_stats_deep()
+        component.invalidate_cache()
 
     return updated

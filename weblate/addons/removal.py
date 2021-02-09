@@ -43,7 +43,7 @@ class RemovalAddon(BaseAddon):
     def delete_older(self, objects, component):
         count = objects.filter(timestamp__lt=self.get_cutoff()).delete()[0]
         if count:
-            component.invalidate_stats_deep()
+            component.invalidate_cache()
 
 
 class RemoveComments(RemovalAddon):

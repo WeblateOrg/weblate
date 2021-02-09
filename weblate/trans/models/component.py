@@ -2000,7 +2000,7 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
 
         # Update flags
         if was_change:
-            self.invalidate_stats_deep()
+            self.invalidate_cache()
 
         # Schedule background cleanup if needed
         if self.needs_cleanup:
@@ -2032,7 +2032,7 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
         self.log_info("updating completed")
         return was_change
 
-    def invalidate_stats_deep(self):
+    def invalidate_cache(self):
         from weblate.trans.tasks import update_component_stats
 
         self.log_info("updating stats caches")
@@ -2522,7 +2522,7 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
 
         # Invalidate stats on template change
         if changed_template:
-            self.invalidate_stats_deep()
+            self.invalidate_cache()
 
     def update_variants(self):
         from weblate.trans.models import Unit

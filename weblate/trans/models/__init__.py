@@ -97,7 +97,7 @@ def change_labels(sender, instance, action, pk_set, **kwargs):
     ):
         return
     if not instance.is_bulk_edit:
-        instance.translation.component.invalidate_stats_deep()
+        instance.translation.component.invalidate_cache()
 
 
 @receiver(user_pre_delete)

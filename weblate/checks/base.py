@@ -213,7 +213,7 @@ class Check:
 
         # Invalidate stats in case there were changes
         if changed:
-            component.invalidate_stats_deep()
+            component.invalidate_cache()
 
 
 class TargetCheck(Check):

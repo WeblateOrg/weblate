@@ -458,7 +458,7 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
                 unit.update_priority()
                 unit.run_checks()
             if not self.is_bulk_edit and not self.is_batch_update:
-                self.translation.component.invalidate_stats_deep()
+                self.translation.component.invalidate_cache()
 
     def sync_terminology(self):
         new_flags = Flags(self.extra_flags, self.flags)
