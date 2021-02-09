@@ -164,7 +164,7 @@
             {% if unit.translation.component.project.source_review %}
             <a title="{% trans "Report issue with the source string" %}" href="#" class="btn btn-link btn-xs bug-comment">{% icon "bug.svg" %}</a>
             {% endif %}
-            {% format_translation unit.source unit.translation.component.source_language search_match=search_query num_plurals=unit.translation.plural.number unit=unit %}
+            {% format_translation unit.source unit.translation.component.source_language search_match=search_query num_plurals=unit.translation.plural.number unit=unit glossary=glossary %}
             </div>
         {% endif %}
     {% endif %}

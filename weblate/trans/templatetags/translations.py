@@ -18,6 +18,7 @@
 #
 
 import re
+from collections import defaultdict
 from datetime import date
 from uuid import uuid4
 
@@ -64,6 +65,7 @@ SPACE_TAB = HIGHLIGTH_SPACE.format(SPACE_TEMPLATE.format("space-tab", "\t"), "")
 HL_CHECK = (
     '<span class="hlcheck">' '<span class="highlight-number"></span>' "{0}" "</span>"
 )
+GLOSSARY_TEMPLATE = """<span class="glossary-term" title="{}">{}</span>"""
 
 WHITESPACE_RE = re.compile(r"(  +| $|^ )")
 NEWLINES_RE = re.compile(r"\r\n|\r|\n")
@@ -159,6 +161,46 @@ def fmt_search(value, search_match, match):
     return value
 
 
+def format_terms(terms):
+    forbidden = []
+    nontranslatable = []
+    translations = []
+    for term in terms:
+        flags = term.all_flags
+        target = escape(term.target)
+        if "forbidden" in flags:
+            forbidden.append(target)
+        elif "read-only" in flags:
+            nontranslatable.append(target)
+        else:
+            translations.append(target)
+
+    output = []
+    if forbidden:
+        output.append(gettext("Forbidden translation: %s") % ", ".join(forbidden))
+    if nontranslatable:
+        output.append(gettext("Not-translatable: %s") % ", ".join(nontranslatable))
+    if translations:
+        output.append(gettext("Glossary translation: %s") % ", ".join(translations))
+    return "\n".join(output)
+
+
+def fmt_glossary(value, glossary):
+
+    terms = defaultdict(list)
+    for term in glossary:
+        terms[term.source].append(term)
+
+    for htext, entries in terms.items():
+        newpart = GLOSSARY_TEMPLATE.format(format_terms(entries), htext)
+        for match in reversed(
+            list(re.finditer(re.escape(htext), value, re.IGNORECASE))
+        ):
+            value = value[: match.start()] + newpart + value[match.end() :]
+
+    return value
+
+
 @register.inclusion_tag("snippets/format-translation.html")
 def format_translation(
     value,
@@ -171,6 +213,7 @@ def format_translation(
     num_plurals=2,
     unit=None,
     match="search",
+    glossary=None,
 ):
     """Nicely formats translation text possibly handling plurals or diff."""
     # Split plurals to separate strings
@@ -209,6 +252,10 @@ def format_translation(
 
         # Create span for checks highlights
         value = fmt_highlights(raw_value, value, unit)
+
+        # Highlight glossary matches
+        if glossary is not None:
+            value = fmt_glossary(value, glossary)
 
         # Format search term
         value = fmt_search(value, search_match, match)
