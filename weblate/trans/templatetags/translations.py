@@ -601,9 +601,17 @@ def announcements(context, project=None, component=None, language=None):
     for announcement in Announcement.objects.context_filter(
         project, component, language
     ):
-        can_delete = user.has_perm(
-            "component.edit", announcement.component
-        ) or user.has_perm("project.edit", announcement.project)
+        can_delete = (
+            user.is_superuser
+            or (
+                announcement.component
+                and user.has_perm("component.edit", announcement.component)
+            )
+            or (
+                announcement.project
+                and user.has_perm("project.edit", announcement.project)
+            )
+        )
 
         ret.append(
             render_to_string(
