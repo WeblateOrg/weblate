@@ -370,3 +370,13 @@ def check_billing(user, permission, obj):
             return False
 
     return check_permission(user, "project.permissions", obj)
+
+
+# This does not exist for real
+@register_perm("announcement.delete")
+def check_announcement_delete(user, permission, obj):
+    return (
+        user.is_superuser
+        or (obj.component and check_permission(user, "component.edit", obj.component))
+        or (obj.project and check_permission(user, "project.edit", obj.project))
+    )

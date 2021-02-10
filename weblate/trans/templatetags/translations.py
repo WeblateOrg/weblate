@@ -601,18 +601,6 @@ def announcements(context, project=None, component=None, language=None):
     for announcement in Announcement.objects.context_filter(
         project, component, language
     ):
-        can_delete = (
-            user.is_superuser
-            or (
-                announcement.component
-                and user.has_perm("component.edit", announcement.component)
-            )
-            or (
-                announcement.project
-                and user.has_perm("project.edit", announcement.project)
-            )
-        )
-
         ret.append(
             render_to_string(
                 "message.html",
@@ -620,7 +608,7 @@ def announcements(context, project=None, component=None, language=None):
                     "tags": " ".join((announcement.category, "announcement")),
                     "message": render_markdown(announcement.message),
                     "announcement": announcement,
-                    "can_delete": can_delete,
+                    "can_delete": user.has_perm("announcement.delete", announcement),
                 },
             )
         )
