@@ -69,7 +69,7 @@ actions.
     git remote update weblate
 
     # Merge Weblate changes:
-    git merge weblate/master
+    git merge weblate/main
 
     # Resolve conflicts:
     edit …
@@ -98,9 +98,9 @@ If you're using multiple branches in Weblate, you can do the same to all of them
     ... # Resolve conflicts
     git commit
 
-    # Merge master branch:
-    git checkout master
-    git merge weblates-second/master
+    # Merge main branch:
+    git checkout main
+    git merge weblates-second/main
     ... # Resolve conflicts
     git commit
 
@@ -123,7 +123,7 @@ upstream Git repository: An intact and a working copy):
     git remote update weblate
 
     # Merge Weblate changes:
-    git merge weblate/master
+    git merge weblate/main
 
     # Resolve conflicts in the PO files:
     for PO in `find . -name '*.po'` ; do
