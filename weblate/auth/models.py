@@ -47,6 +47,7 @@ from weblate.auth.data import (
 from weblate.auth.permissions import SPECIALS, check_global_permission, check_permission
 from weblate.auth.utils import (
     create_anonymous,
+    is_django_permission,
     migrate_groups,
     migrate_permissions,
     migrate_roles,
@@ -448,14 +449,14 @@ class User(AbstractBaseUser):
         return all(self.has_perm(perm, obj) for perm in perm_list)
 
     # pylint: disable=keyword-arg-before-vararg
-    def has_perm(self, perm, obj=None):
+    def has_perm(self, perm: str, obj=None):
         """Permission check."""
         # Weblate global scope permissions
         if perm in GLOBAL_PERM_NAMES:
             return check_global_permission(self, perm, obj)
 
         # Compatibility API for admin interface
-        if obj is None:
+        if is_django_permission(perm):
             if not self.is_superuser:
                 return False
 

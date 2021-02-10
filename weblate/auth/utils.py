@@ -29,6 +29,19 @@ from weblate.auth.data import (
 )
 
 
+def is_django_permission(permission: str):
+    """
+    Checks whether permission looks like a Django one.
+
+    Django permissions are <app>.<action>_<model>, while
+    Weblate ones are <scope>.<action>.
+    """
+    parts = permission.split(".", 1)
+    if len(parts) != 2:
+        return False
+    return "_" in parts[1]
+
+
 def migrate_permissions_list(model, permissions):
     ids = set()
     # Update/create permissions
