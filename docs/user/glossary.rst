@@ -59,7 +59,7 @@ ambiguous or could have unexpected meanings.
 
 The terms can be flagged on the source language using :guilabel:`Tools` ↓
 :guilabel:`Mark as forbidden translation`. In the background this toggles the ``forbidden``
-flag on the string.
+flag of the string.
 
 .. seealso::
 
