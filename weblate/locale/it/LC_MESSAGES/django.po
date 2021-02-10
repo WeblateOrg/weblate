@@ -31,8 +31,8 @@ msgstr ""
 "Project-Id-Version: Weblate 4.5\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-02-06 18:09+0000\n"
-"PO-Revision-Date: 2021-02-04 23:47+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2021-02-10 14:50+0000\n"
+"Last-Translator: bovirus <roberto.boriotti@canon-europe.com>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/weblate/"
 "application/it/>\n"
 "Language: it\n"
@@ -308,10 +308,8 @@ msgid "Screenshots uploaded"
 msgstr "Schermate caricate"
 
 #: weblate/accounts/forms.py:789
-#, fuzzy
-#| msgid "The detected file format is not supported."
 msgid "Chosen sorting is not supported."
-msgstr "Il formato del file rilevato non è supportato."
+msgstr "Il metodo di ordinamento scelto non è supportato."
 
 #: weblate/accounts/models.py:84
 msgid "Password changed."
@@ -1067,17 +1065,14 @@ msgid "Language consistency"
 msgstr "Coerenza della lingua"
 
 #: weblate/addons/consistency.py:34
-#, fuzzy
-#| msgid ""
-#| "Ensures all components within one project have translations for every "
-#| "added language for translation."
 msgid ""
 "Ensures all components within a project have translations for every added "
 "translated language by creating empty translations in languages that have "
 "unadded components."
 msgstr ""
-"Garantisce che tutti i componenti di un progettoabbiano la traduzione per "
-"ogni lingua aggiunta."
+"Assicura che tutti i componenti all'interno di un progetto abbiano "
+"traduzioni per ogni lingua tradotta aggiunta creando traduzioni vuote in "
+"lingue che hanno componenti non aggiunti."
 
 #: weblate/addons/discovery.py:33
 msgid "Component discovery"
@@ -1141,21 +1136,15 @@ msgid "Flag unchanged translations as \"Needs editing\""
 msgstr "Contrassegna le traduzioni invariate come \"Richiede modifica\""
 
 #: weblate/addons/flags.py:88
-#, fuzzy
-#| msgid ""
-#| "Whenever a new translatable string is imported from the VCS and it "
-#| "matches a source string, it is flagged as needing editing in Weblate. "
-#| "This is especially useful for file formats that include all strings even "
-#| "if not translated."
 msgid ""
 "Whenever a new translatable string is imported from the VCS and it matches a "
 "source string, it is flagged as needing editing in Weblate. Especially "
 "useful for file formats that include source strings for untranslated strings."
 msgstr ""
-"Ogni volta che una nuova stringa viene importata dal VCS in Weblate e "
-"corrisponde alla stringa sorgente, verrà contrassegnata come \"Richiede "
-"modifica\". Ciò è particolarmente utile per i formati di file che includono "
-"tutte le stringhe anche se non tradotte."
+"Ogni volta che una nuova stringa traducibile viene importata da VCS e "
+"corrisponde a una stringa sorgente, viene contrassegnata come stringa che "
+"necessita di modifica in Weblate. Particolarmente utile per i formati di "
+"file che includono stringhe sorgente per stringhe non tradotte."
 
 #: weblate/addons/flags.py:107 weblate/templates/component.html:69
 #: weblate/templates/component.html:217 weblate/templates/project.html:68
@@ -1463,16 +1452,12 @@ msgid "Pseudolocale generation"
 msgstr "Generazione pseudo locale"
 
 #: weblate/addons/generate.py:67
-#, fuzzy
-#| msgid ""
-#| "Automatically generates a pseudolocale translation by adding prefix and "
-#| "suffix to source strings."
 msgid ""
 "Generates a translation by adding prefix and suffix to source strings "
 "automatically."
 msgstr ""
-"Genera automaticamente una traduzione pseudo locale aggiungendo prefisso e "
-"suffisso alle stringhe sorgenti."
+"Genera automaticamente una traduzione aggiungendo prefisso e suffisso alle "
+"stringhe sorgenti."
 
 #: weblate/addons/gettext.py:41
 msgid "Generate MO files"
@@ -1511,6 +1496,9 @@ msgid ""
 "Updates all PO files (as configured by \"Filemask\") to match the POT file "
 "(as configured by \"Template for new translations\") using msgmerge."
 msgstr ""
+"Aggiorna tutti i file PO (come configurato in \"Maschera file\") in modo che "
+"corrispondano al file POT (come configurato in \"Modello nuove traduzioni\") "
+"usando msgmerge."
 
 #: weblate/addons/gettext.py:303
 msgid "Customize gettext output"
@@ -1528,16 +1516,12 @@ msgid "Contributors in comment"
 msgstr "Contributori nel commento"
 
 #: weblate/addons/gettext.py:318
-#, fuzzy
-#| msgid ""
-#| "Update the comment in the PO file header to include contributor names and "
-#| "years of contributions."
 msgid ""
 "Updates the comment part of the PO file header to include contributor names "
 "and years of contributions."
 msgstr ""
-"Aggiorna il commento nell'intestazione del file PO per includere i nomi dei "
-"contributori e gli anni di contribuzione."
+"Aggiorna la parte di commento dell'intestazione del file PO per includere i "
+"nomi dei contributori e gli anni di contribuzione."
 
 #: weblate/addons/git.py:34
 msgid "Squash Git commits"
@@ -2185,8 +2169,6 @@ msgid "Regular expression for e-mail address"
 msgstr "Espressione regolare usata per controllare l'email dell'utente"
 
 #: weblate/auth/models.py:619
-#, fuzzy
-#| msgid "Users with matching e-mail address will be added to this group."
 msgid "Users with e-mail addresses found to match will be added to this group."
 msgstr ""
 "Gli utenti con indirizzo email corrispondente verranno aggiunti a questo "
@@ -2514,10 +2496,9 @@ msgid "This string has been translated in the past"
 msgstr "Questa stringa è stata tradotta in passato"
 
 #: weblate/checks/consistency.py:152
-#, fuzzy, python-format
-#| msgid "Last translation was \"%s\"."
+#, python-format
 msgid "Previous translation was \"%s\"."
-msgstr "L'ultima traduzione era: \"%s\"."
+msgstr "La traduzione precedente era: \"%s\"."
 
 #: weblate/checks/duplicate.py:45
 msgid "Consecutive duplicated words"
@@ -2564,14 +2545,12 @@ msgid "Strict unchanged check"
 msgstr "Controllo rigoroso non modificato"
 
 #: weblate/checks/flags.py:55
-#, fuzzy
-#| msgid "Good translations"
 msgid "Forbidden translation"
-msgstr "Traduzioni corrette"
+msgstr "Traduzione vietata"
 
 #: weblate/checks/flags.py:56
 msgid "Terminology"
-msgstr ""
+msgstr "Terminologia"
 
 #: weblate/checks/flags.py:58 weblate/fonts/models.py:39
 #: weblate/templates/fonts/font_detail.html:18
@@ -2905,10 +2884,8 @@ msgid "The translations in several languages have failing checks"
 msgstr "La traduzione in diverse lingue contiene alcuni errori"
 
 #: weblate/checks/source.py:92
-#, fuzzy
-#| msgid "Failing checks found"
 msgid "Following checks are failing:"
-msgstr "Errori trovati"
+msgstr "Errori trovati:"
 
 #: weblate/checks/source.py:109
 msgid "Long untranslated"
@@ -5293,10 +5270,8 @@ msgid "Browse"
 msgstr "Sfoglia"
 
 #: weblate/templates/browse.html:51
-#, fuzzy
-#| msgid "No words found!"
 msgid "No strings found!"
-msgstr "Nessuna parola trovata!"
+msgstr "Nessuna stringa trovata!"
 
 #: weblate/templates/check.html:19 weblate/templates/data.html:28
 #: weblate/templates/data.html:62 weblate/templates/data.html:103
@@ -7044,6 +7019,7 @@ msgstr ""
 #: weblate/templates/manage-access.html:164
 msgid "This is your personal API key, do not share it with anybody else."
 msgstr ""
+"Questa è la tua chiave API personale, non condividerla con nessun altro."
 
 #: weblate/templates/manage/alerts.html:7
 msgid "Component alerts"
@@ -7773,16 +7749,12 @@ msgid "Weblate repository"
 msgstr "Weblate repository"
 
 #: weblate/templates/snippets/glossary.html:7
-#, fuzzy
-#| msgid "This translation is locked."
 msgid "This translation is forbidden."
-msgstr "Questa traduzione è bloccata."
+msgstr "Questa traduzione è vietata."
 
 #: weblate/templates/snippets/glossary.html:9
-#, fuzzy
-#| msgid "Message is not translated"
 msgid "This term should not be translated."
-msgstr "Il messaggio non è tradotto"
+msgstr "Questo messaggio non dovrebbe essere tradotto."
 
 #: weblate/templates/snippets/glossary.html:11
 msgid "Copy word into translation"
@@ -8083,8 +8055,6 @@ msgid "Translated strings in a certain language"
 msgstr "Stringhe tradotte in una determinata lingua"
 
 #: weblate/templates/snippets/query-field.html:9
-#, fuzzy
-#| msgid "Custom Search"
 msgid "Custom search"
 msgstr "Ricerca personalizzata"
 
@@ -8383,22 +8353,14 @@ msgid "Please consider the following:"
 msgstr "Considera i seguenti:"
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:12
-#, fuzzy
-#| msgid ""
-#| "You might be using monolingual translation files as bilingual. In that "
-#| "case please configure the monolingual base language file."
 msgid ""
 "You might be using a monolingual translation file as a bilingual one. If "
 "that is the case, please set the monolingual base language file location."
 msgstr ""
-"Potresti usare file di traduzione monolingue come bilingue. In tal caso, "
-"configura il file della lingua di base monolingue."
+"Potresti usare un file di traduzione monolingue come file bilingue. In tal "
+"caso, imposta il percorso del file della lingua di base monolingue."
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:14
-#, fuzzy
-#| msgid ""
-#| "In case the translation to the source language is desired, please change "
-#| "the source language in the component settings."
 msgid ""
 "In case translation to the source language is desired, please change the "
 "source language in the component settings."
@@ -8407,23 +8369,14 @@ msgstr ""
 "nelle impostazioni del componente."
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:15
-#, fuzzy
-#| msgid ""
-#| "In case the translation file for the source language is not needed, "
-#| "please remove it from the repository."
 msgid ""
 "If the translation file for the source language is not needed, please remove "
 "it from the repository."
 msgstr ""
-"Se il file traduzione per la lingua sorgente non è necessaria, rimuovila dal "
+"Se il file traduzione per la lingua sorgente non è necessario, rimuovilo dal "
 "repository."
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:16
-#, fuzzy
-#| msgid ""
-#| "In case the translation file for the source language is needed, but "
-#| "should be ignored by Weblate, please adjust the language filter to "
-#| "exclude it."
 msgid ""
 "If the translation file for the source language is needed, but should be "
 "ignored by Weblate, please adjust the language filter to exclude it."
@@ -8854,16 +8807,12 @@ msgid "Copy permalink"
 msgstr "Copia collegamento permanente"
 
 #: weblate/templates/translate.html:80
-#, fuzzy
-#| msgid "Add glossary entry"
 msgid "Forbidden glossary term"
-msgstr "Aggiungi voce di glossario"
+msgstr "Voce glossario vietata"
 
 #: weblate/templates/translate.html:82
-#, fuzzy
-#| msgid "Glossary name"
 msgid "Glossary term"
-msgstr "Nome glossario"
+msgstr "Termine glossario"
 
 #: weblate/templates/translate.html:110 weblate/templates/zen-units.html:77
 msgid "Source change"
@@ -8883,10 +8832,8 @@ msgid "Report issue with the source string"
 msgstr "Segnala un problema con la stringa sorgente"
 
 #: weblate/templates/translate.html:184
-#, fuzzy
-#| msgid "Delete suggestion"
 msgid "Delete string"
-msgstr "Elimina suggerimento"
+msgstr "Elimina stringa"
 
 #: weblate/templates/translate.html:199 weblate/templates/translate.html:224
 msgid "This translation is currently locked."
@@ -9475,10 +9422,8 @@ msgid "Translated strings with any failing checks"
 msgstr "Stringhe traduzione con controlli falliti"
 
 #: weblate/trans/filter.py:57
-#, fuzzy
-#| msgid "Translated strings with any failing checks"
 msgid "Translated strings with dismissed checks"
-msgstr "Stringhe traduzione con controlli falliti"
+msgstr "Stringhe traduzione con controlli ignorati"
 
 #: weblate/trans/filter.py:60 weblate/trans/filter.py:130
 msgid "Approved strings"
@@ -9611,10 +9556,8 @@ msgid "Update source strings"
 msgstr "Aggiorna stringhe sorgente"
 
 #: weblate/trans/forms.py:608
-#, fuzzy
-#| msgid "Add new string"
 msgid "Add new strings"
-msgstr "Aggiungi nuova stringa"
+msgstr "Aggiungi nuove stringhe"
 
 #: weblate/trans/forms.py:614
 msgid "Processing of strings needing edit"
@@ -9979,20 +9922,14 @@ msgstr ""
 "lingua sorgente."
 
 #: weblate/trans/forms.py:1992
-#, fuzzy
-#| msgid "Additional explanation to clarify meaning or usage of the string."
 msgid "Optional context to clarify the source strings."
-msgstr ""
-"Spiegazione aggiuntiva per chiarire il significato o l'uso della stringa."
+msgstr "Spiegazione aggiuntiva per chiarire significato stringhe sorgenti."
 
 #: weblate/trans/forms.py:2027
-#, fuzzy
-#| msgid ""
-#| "You can edit this later, as with any other string in the source language."
 msgid "You can edit this later, as with any other string in the translation."
 msgstr ""
-"Puoi apportare modifiche in seguito, come per qualsiasi altra stringa della "
-"lingua sorgente."
+"Puoi apportare modifiche in seguito, come per qualsiasi altra stringa nella "
+"traduzione."
 
 #: weblate/trans/forms.py:2050
 msgid "State to set"
@@ -10779,16 +10716,17 @@ msgstr ""
 "traduzioni create da Weblate."
 
 #: weblate/trans/models/component.py:484
-#, fuzzy
-#| msgid "Target strings"
 msgid "Manage strings"
-msgstr "Stringhe destinazione"
+msgstr "Gestione stringhe"
 
 #: weblate/trans/models/component.py:487
 msgid ""
 "Disable adding and removing strings in Weblate in case these are "
 "automatically extracted from the source code or managed externally."
 msgstr ""
+"Disabilita l'aggiunta e la rimozione di stringhe in Weblate nel caso in cui "
+"queste vengano estratte automaticamente dal codice sorgente o gestite "
+"esternamente."
 
 #: weblate/trans/models/component.py:494
 msgid "Merge style"
@@ -10910,20 +10848,16 @@ msgid "Choose additional projects where this component will be listed."
 msgstr "Scegli il progetto aggiuntivo dove questo componente verrà elencato."
 
 #: weblate/trans/models/component.py:638
-#, fuzzy
-#| msgid "Manage glossary"
 msgid "Use as a glossary"
-msgstr "Gestione glossario"
+msgstr "Usa come un glossario"
 
 #: weblate/trans/models/component.py:643
 msgid "Glossary name"
 msgstr "Nome glossario"
 
 #: weblate/trans/models/component.py:648
-#, fuzzy
-#| msgid "Glossary"
 msgid "Glossary color"
-msgstr "Glossario"
+msgstr "Colore glossario"
 
 #: weblate/trans/models/component.py:1202
 msgid ""
@@ -11103,6 +11037,7 @@ msgstr "Impossibile aggiornare il repository: %s"
 #: weblate/trans/models/component.py:2339
 msgid "Please define a glossary name to use component as a glossary."
 msgstr ""
+"Definisci un nome per il glossario per usare il componente come glossario."
 
 #: weblate/trans/models/component.py:2349
 msgid ""
@@ -11151,10 +11086,8 @@ msgid "Translation file already exists!"
 msgstr "Il file di traduzione esiste già!"
 
 #: weblate/trans/models/component.py:2897
-#, fuzzy
-#| msgid "The translation has come to an end."
 msgid "The translation will be updated in the background."
-msgstr "La traduzione è completa."
+msgstr "La traduzione verrà aggiornata in background."
 
 #. Translators: Translation context for Gettext
 #: weblate/trans/models/component.py:2940
@@ -11338,36 +11271,28 @@ msgstr ""
 "Spiegazione aggiuntiva per chiarire il significato o l'uso della stringa."
 
 #: weblate/trans/models/unit.py:1334
-#, fuzzy
-#| msgid "Upload translations"
 msgid "Allow translation"
-msgstr "Carica traduzioni"
+msgstr "Consenti traduzione"
 
 #: weblate/trans/models/unit.py:1336
-#, fuzzy
-#| msgid "This translation"
 msgid "Prohibit translation"
-msgstr "Questa traduzione"
+msgstr "Proibisci traduzione"
 
 #: weblate/trans/models/unit.py:1343
-#, fuzzy
-#| msgid "Template for new translations"
 msgid "Unmark as forbidden translations"
-msgstr "Modello per le nuove traduzioni"
+msgstr "Deseleziona come traduzioni vietate"
 
 #: weblate/trans/models/unit.py:1351
-#, fuzzy
-#| msgid "Add as other translation"
 msgid "Mark as forbidden translations"
-msgstr "Aggiungi come altra traduzione"
+msgstr "Seleziona come traduzioni vietate"
 
 #: weblate/trans/models/unit.py:1359
 msgid "Unmark as terminology"
-msgstr ""
+msgstr "Deseleziona come terminologia"
 
 #: weblate/trans/models/unit.py:1367
 msgid "Mark as terminology"
-msgstr ""
+msgstr "Seleziona come terminologia"
 
 #: weblate/trans/specialchars.py:30
 msgid "Insert tab character"
@@ -11652,10 +11577,9 @@ msgstr[0] "%(count)s stringa non tradotta qui."
 msgstr[1] "%(count)s stringhe non tradotte qui."
 
 #: weblate/trans/templatetags/translations.py:780
-#, fuzzy, python-format
-#| msgid "Share in projects"
+#, python-format
 msgid "Shared from project %s."
-msgstr "Condividi nei progetti"
+msgstr "Condiviso nei progetti %s."
 
 #: weblate/trans/templatetags/translations.py:803
 msgid "enabled"
@@ -11926,10 +11850,8 @@ msgid "Translation comment has been resolved."
 msgstr "Il commento della traduzione è stato risolto."
 
 #: weblate/trans/views/edit.py:885
-#, fuzzy
-#| msgid "Translation with this key seem to already exist!"
 msgid "This string seems to already exist."
-msgstr "La traduzione con questa chiave sembra che esiste già!"
+msgstr "Questa stringa sembra esista già."
 
 #: weblate/trans/views/edit.py:888
 msgid "New string has been added."
@@ -12078,10 +12000,8 @@ msgid "Language of the project was removed."
 msgstr "La lingua del progetto è stata rimossa."
 
 #: weblate/trans/views/source.py:65
-#, fuzzy
-#| msgid "Edit additional string info"
 msgid "Failed to change additional string info!"
-msgstr "Modifica info aggiuntiva stringa"
+msgstr "Modifica info aggiuntiva stringa fallita!"
 
 #: weblate/trans/widgets.py:247
 msgid "Big status badge"
