@@ -1435,6 +1435,10 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
     @perform_on_link
     def do_push(self, request, force_commit=True, do_update=True, retry=True):
         """Wrapper for pushing changes to remote repo."""
+        # Skip push for local only repo
+        if self.vcs == "local":
+            return True
+
         # Do we have push configured
         if not self.can_push():
             messages.error(request, _("Push is turned off for %s.") % self)
