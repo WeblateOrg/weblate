@@ -253,6 +253,15 @@ class GlossaryTest(ViewTestCase):
         )
         self.assertEqual(get_glossary_terms(unit).count(), 4)
 
+    def test_substrings(self):
+        self.add_term("reach", "dojet")
+        self.add_term("breach", "prolomit")
+        unit = self.get_unit()
+        unit.source = "Reach summit"
+        self.assertEqual(
+            list(get_glossary_terms(unit).values_list("source", flat=True)), ["reach"]
+        )
+
     def test_get_long(self):
         """Test parsing long source string."""
         unit = self.get_unit()
