@@ -85,7 +85,7 @@ def check_permission(user, permission, obj):
             for permissions, langs in user.component_permissions[obj.component_id]
         )
     raise ValueError(
-        f"Not supported type for permission check: {obj.__class__.__name__}"
+        f"Permission {permission} does not support: {obj.__class__.__name__}"
     )
 
 
@@ -333,6 +333,13 @@ def check_machinery(user, permission, obj):
 def check_translation_delete(user, permission, obj):
     if obj.is_source:
         return False
+    return check_permission(user, permission, obj)
+
+
+@register_perm("reports.view")
+def check_reports_view(user, permission, obj):
+    if obj is None:
+        return user.is_superuser
     return check_permission(user, permission, obj)
 
 
