@@ -257,6 +257,19 @@ class GlossaryTest(ViewTestCase):
             list(get_glossary_terms(unit).values_list("source", flat=True)), ["reach"]
         )
 
+    def test_phrases(self):
+        self.add_term("Destructive Breach", "x")
+        self.add_term("Flame Breach", "x")
+        self.add_term("Frost Breach", "x")
+        self.add_term("Icereach", "x")
+        self.add_term("Reach", "x")
+        self.add_term("Skyreach", "x")
+        unit = self.get_unit()
+        unit.source = "During invasion from the Reach. Town burn, prior records lost.\n"
+        self.assertEqual(
+            list(get_glossary_terms(unit).values_list("source", flat=True)), ["Reach"]
+        )
+
     def test_get_long(self):
         """Test parsing long source string."""
         unit = self.get_unit()
