@@ -244,15 +244,10 @@ class PluralTextarea(forms.Textarea):
         groups = [GROUP_TEMPLATE.format('data-toggle="buttons"', "\n".join(rtl_switch))]
         return mark_safe(TOOLBAR_TEMPLATE.format("\n".join(groups)))
 
-    def get_toolbar(self, language, fieldname, unit, idx):
+    def get_toolbar(self, language, fieldname, unit, idx, source):
         """Return toolbar HTML code."""
         profile = self.profile
         groups = []
-        plurals = unit.get_source_plurals()
-        if idx and len(plurals) > 1:
-            source = plurals[1]
-        else:
-            source = plurals[0]
         # Copy button
         if source:
             groups.append(
@@ -314,6 +309,7 @@ class PluralTextarea(forms.Textarea):
 
         # Okay we have more strings
         ret = []
+        plurals = unit.get_source_plurals()
         base_id = f"id_{unit.checksum}"
         for idx, val in enumerate(values):
             # Generate ID
@@ -321,6 +317,10 @@ class PluralTextarea(forms.Textarea):
             fieldid = f"{base_id}_{idx}"
             attrs["id"] = fieldid
             attrs["tabindex"] = tabindex + idx
+            if idx and len(plurals) > 1:
+                source = plurals[1]
+            else:
+                source = plurals[0]
 
             # Render textare
             textarea = super().render(fieldname, val, attrs, renderer, **kwargs)
@@ -332,12 +332,13 @@ class PluralTextarea(forms.Textarea):
                 render_to_string(
                     "snippets/editor.html",
                     {
-                        "toolbar": self.get_toolbar(lang, fieldid, unit, idx),
+                        "toolbar": self.get_toolbar(lang, fieldid, unit, idx, source),
                         "fieldid": fieldid,
                         "label": label,
                         "textarea": textarea,
                         "max_length": attrs["data-max"],
                         "length": len(val),
+                        "source_length": len(source),
                         "rtl_toggle": self.get_rtl_toggle(lang, fieldid),
                     },
                 )
