@@ -1,0 +1,15 @@
+{% load i18n %}
+
+<div class="clearfix"></div>
+<div class="translation-item">
+  <label for="{{ fieldid }}">{{ label }}</label>
+  {{ toolbar }}
+  <div class="clearfix"></div>
+  {{ textarea }}
+  <div class="pull-right flip editor-footer">
+    <span class="badge length">
+      <span data-max="{{ max_length }}}" class="length-indicator">{{ length }}</span>/{{ max_length }}
+    </span>
+    {{ rtl_toggle }}
+  </div>
+</div>

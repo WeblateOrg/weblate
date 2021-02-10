@@ -98,20 +98,6 @@ GROUP_TEMPLATE = """
 TOOLBAR_TEMPLATE = """
 <div class="btn-toolbar pull-right flip editor-toolbar">{0}</div>
 """
-EDITOR_TEMPLATE = """
-<div class="clearfix"></div>
-<div class="translation-item"><label for="{1}">{2}</label>
-{0}
-<div class="clearfix"></div>
-{3}
-<div class="pull-right flip editor-footer">
-    <span class="badge length">
-    <span data-max="{4}" class="length-indicator">{5}</span>/{4}
-    </span>
-    {6}
-</div>
-</div>
-"""
 COPY_TEMPLATE = 'data-checksum="{0}" data-content="{1}"'
 
 
@@ -256,7 +242,7 @@ class PluralTextarea(forms.Textarea):
             ),
         ]
         groups = [GROUP_TEMPLATE.format('data-toggle="buttons"', "\n".join(rtl_switch))]
-        return TOOLBAR_TEMPLATE.format("\n".join(groups))
+        return mark_safe(TOOLBAR_TEMPLATE.format("\n".join(groups)))
 
     def get_toolbar(self, language, fieldname, unit, idx):
         """Return toolbar HTML code."""
@@ -303,7 +289,7 @@ class PluralTextarea(forms.Textarea):
         if language.direction == "rtl":
             result = self.get_rtl_toolbar(fieldname) + result
 
-        return result
+        return mark_safe(result)
 
     def render(self, name, value, attrs=None, renderer=None, **kwargs):
         """Render all textareas with correct plural labels."""
@@ -343,14 +329,17 @@ class PluralTextarea(forms.Textarea):
             if len(values) != 1:
                 label = "{}, {}".format(label, plural.get_plural_label(idx))
             ret.append(
-                EDITOR_TEMPLATE.format(
-                    self.get_toolbar(lang, fieldid, unit, idx),
-                    fieldid,
-                    label,
-                    textarea,
-                    attrs["data-max"],
-                    len(val),
-                    self.get_rtl_toggle(lang, fieldid),
+                render_to_string(
+                    "snippets/editor.html",
+                    {
+                        "toolbar": self.get_toolbar(lang, fieldid, unit, idx),
+                        "fieldid": fieldid,
+                        "label": label,
+                        "textarea": textarea,
+                        "max_length": attrs["data-max"],
+                        "length": len(val),
+                        "rtl_toggle": self.get_rtl_toggle(lang, fieldid),
+                    },
                 )
             )
 
