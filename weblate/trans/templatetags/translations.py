@@ -794,17 +794,17 @@ def indicate_alerts(context, obj):
         component = obj.component
         project = component.project
 
-    if context["user"].has_perm("project.edit", project):
+    if project is not None and context["user"].has_perm("project.edit", project):
         result.append(
             ("state/admin.svg", gettext("You administrate this project."), None)
         )
 
-    if translation:
+    if translation is not None:
         result.extend(translation_alerts(translation))
 
-    if component:
+    if component is not None:
         result.extend(component_alerts(component))
-    elif project:
+    elif project is not None:
         result.extend(project_alerts(project))
 
     if getattr(obj, "is_ghost", False):
