@@ -336,8 +336,8 @@ def check_translation_delete(user, permission, obj):
     return check_permission(user, permission, obj)
 
 
-@register_perm("reports.view")
-def check_reports_view(user, permission, obj):
+@register_perm("reports.view", "change.download")
+def check_possibly_global(user, permission, obj):
     if obj is None:
         return user.is_superuser
     return check_permission(user, permission, obj)
