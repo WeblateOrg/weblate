@@ -44,7 +44,6 @@ def get_glossary_sources(component):
 
 def get_glossary_terms(unit):
     """Return list of term pairs for an unit."""
-    words = set()
     translation = unit.translation
     language = translation.language
     component = translation.component
@@ -64,8 +63,8 @@ def get_glossary_terms(unit):
     if language == source_language:
         return units.none()
 
-    # Chain words
-    words = set(
+    # Chain terms
+    terms = set(
         chain.from_iterable(glossary.glossary_sources for glossary in glossaries)
     )
 
@@ -77,17 +76,17 @@ def get_glossary_terms(unit):
             parts.append(text)
     source = PLURAL_SEPARATOR.join(parts)
 
-    # Extract words present in the source
+    # Extract terms present in the source
     # This might use a suffix tree for improved performance
     matches = [
-        word for word in words if re.search(r"\b{}\b".format(re.escape(word)), source)
+        term for term in terms if re.search(r"\b{}\b".format(re.escape(term)), source)
     ]
 
     if settings.DATABASES["default"]["ENGINE"] == "django.db.backends.postgresql":
         # Use regex as that is utilizing pg_trgm index
         return units.filter(
             source__iregex=r"^{}$".format(
-                "|".join(re_escape(word) for word in matches)
+                "|".join(re_escape(term) for term in matches)
             ),
         )
     # With MySQL we utilize it does case insensitive lookup
