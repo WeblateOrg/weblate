@@ -1035,7 +1035,10 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
             meth = "check_source"
             args = src, self
         else:
-            checks = CHECKS.target
+            if self.readonly:
+                checks = {}
+            else:
+                checks = CHECKS.target
             meth = "check_target"
             args = src, tgt, self
 
