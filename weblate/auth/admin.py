@@ -101,7 +101,22 @@ class WeblateUserCreationForm(UserCreationForm, UniqueEmailMixin):
         self.fields["email"].required = True
 
 
-class WeblateUserAdmin(WeblateModelAdmin, UserAdmin):
+class WeblateAuthAdmin(WeblateModelAdmin):
+    def get_deleted_objects(self, objs, request):
+        (
+            deleted_objects,
+            model_count,
+            perms_needed,
+            protected,
+        ) = super().get_deleted_objects(objs, request)
+        # Discard permission check for objects where deletion in admin is disabled
+        perms_needed.discard("profile")
+        perms_needed.discard("audit_log")
+        perms_needed.discard("verified_email")
+        return deleted_objects, model_count, perms_needed, protected
+
+
+class WeblateUserAdmin(WeblateAuthAdmin, UserAdmin):
     """Custom UserAdmin class.
 
     Used to add listing of group membership and whether user is active.
@@ -160,7 +175,7 @@ class WeblateUserAdmin(WeblateModelAdmin, UserAdmin):
             self.delete_model(request, obj)
 
 
-class WeblateGroupAdmin(WeblateModelAdmin):
+class WeblateGroupAdmin(WeblateAuthAdmin):
     save_as = True
     model = Group
     inlines = [InlineAutoGroupAdmin]
