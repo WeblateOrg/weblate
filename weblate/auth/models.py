@@ -38,6 +38,7 @@ from django.utils.translation import pgettext
 from weblate.auth.data import (
     ACL_GROUPS,
     GLOBAL_PERM_NAMES,
+    PERMISSION_NAMES,
     SELECTION_ALL,
     SELECTION_ALL_PROTECTED,
     SELECTION_ALL_PUBLIC,
@@ -464,13 +465,9 @@ class User(AbstractBaseUser):
             allowed = settings.AUTH_RESTRICT_ADMINS.get(self.username)
             return allowed is None or perm in allowed
 
-        # Validate perms, this is expensive to perform, so this only in test by
-        # default
-        if settings.AUTH_VALIDATE_PERMS and ":" not in perm:
-            try:
-                Permission.objects.get(codename=perm)
-            except Permission.DoesNotExist:
-                raise ValueError(f"Invalid permission: {perm}")
+        # Validate perms
+        if perm not in SPECIALS and perm not in PERMISSION_NAMES:
+            raise ValueError(f"Invalid permission: {perm}")
 
         # Special permission functions
         if perm in SPECIALS:
@@ -786,7 +783,6 @@ def cleanup_group_acl(sender, instance, **kwargs):
 class WeblateAuthConf(AppConf):
     """Authentication settings."""
 
-    AUTH_VALIDATE_PERMS = False
     AUTH_RESTRICT_ADMINS = {}
 
     # Anonymous user name
