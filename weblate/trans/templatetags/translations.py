@@ -51,7 +51,7 @@ from weblate.trans.util import get_state_css, split_plural
 from weblate.utils.docs import get_doc_url
 from weblate.utils.hash import hash_to_checksum
 from weblate.utils.markdown import render_markdown
-from weblate.utils.stats import BaseStats, ProjectLanguage
+from weblate.utils.stats import BaseStats, GhostProjectLanguageStats, ProjectLanguage
 from weblate.utils.views import SORT_CHOICES
 
 register = template.Library()
@@ -782,6 +782,9 @@ def indicate_alerts(context, obj):
         project = obj
     elif isinstance(obj, ProjectLanguage):
         project = obj.project
+    elif isinstance(obj, GhostProjectLanguageStats):
+        component = obj.component
+        project = component.project
 
     if context["user"].has_perm("project.edit", project):
         result.append(
