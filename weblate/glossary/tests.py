@@ -221,37 +221,32 @@ class GlossaryTest(ViewTestCase):
         self.assertEqual(self.glossary.unit_set.count(), 164)
 
     def test_get_terms(self):
-        self.add_term(
-            source="hello",
-            target="ahoj",
-        )
-        self.add_term(
-            source="thank",
-            target="děkujeme",
-        )
+        self.add_term("hello", "ahoj")
+        self.add_term("thank", "děkujeme")
+
         unit = self.get_unit("Thank you for using Weblate.")
-        self.assertEqual(get_glossary_terms(unit).count(), 1)
-        self.add_term(
-            source="thank",
-            target="díky",
-            context="other",
+        self.assertEqual(
+            set(get_glossary_terms(unit).values_list("source", flat=True)), {"thank"}
         )
-        self.assertEqual(get_glossary_terms(unit).count(), 2)
-        self.add_term(
-            source="thank you",
-            target="děkujeme vám",
+        self.add_term("thank", "díky", "other")
+        self.assertEqual(
+            set(get_glossary_terms(unit).values_list("source", flat=True)), {"thank"}
         )
-        self.assertEqual(get_glossary_terms(unit).count(), 3)
-        self.add_term(
-            source="thank you for using Weblate",
-            target="děkujeme vám za použití Weblate",
+        self.add_term("thank you", "děkujeme vám")
+        self.assertEqual(
+            set(get_glossary_terms(unit).values_list("source", flat=True)),
+            {"thank", "thank you"},
         )
-        self.assertEqual(get_glossary_terms(unit).count(), 4)
-        self.add_term(
-            source="web",
-            target="web",
+        self.add_term("thank you for using Weblate", "děkujeme vám za použití Weblate")
+        self.assertEqual(
+            set(get_glossary_terms(unit).values_list("source", flat=True)),
+            {"thank", "thank you", "thank you for using Weblate"},
         )
-        self.assertEqual(get_glossary_terms(unit).count(), 4)
+        self.add_term("web", "web")
+        self.assertEqual(
+            set(get_glossary_terms(unit).values_list("source", flat=True)),
+            {"thank", "thank you", "thank you for using Weblate"},
+        )
 
     def test_substrings(self):
         self.add_term("reach", "dojet")
@@ -267,30 +262,28 @@ class GlossaryTest(ViewTestCase):
         unit = self.get_unit()
         unit.source = LONG
         unit.save()
-        self.assertEqual(get_glossary_terms(unit).count(), 0)
+        self.assertEqual(
+            set(get_glossary_terms(unit).values_list("source", flat=True)), set()
+        )
         return unit
 
     def test_stoplist(self):
         unit = self.test_get_long()
-        self.add_term(
-            source="the blue",
-            target="modrý",
-        )
-        self.add_term(
-            source="the red",
-            target="červený",
-        )
+        self.add_term("the blue", "modrý")
+        self.add_term("the red", "červený")
 
-        self.assertEqual(get_glossary_terms(unit).count(), 1)
+        self.assertEqual(
+            set(get_glossary_terms(unit).values_list("source", flat=True)), {"the red"}
+        )
 
     def test_get_dash(self):
         unit = self.get_unit("Thank you for using Weblate.")
         unit.source = "Nordrhein-Westfalen"
-        self.add_term(
-            source="Nordrhein-Westfalen",
-            target="Northrhine Westfalia",
+        self.add_term("Nordrhein-Westfalen", "Northrhine Westfalia")
+        self.assertEqual(
+            set(get_glossary_terms(unit).values_list("source", flat=True)),
+            {"Nordrhein-Westfalen"},
         )
-        self.assertEqual(get_glossary_terms(unit).count(), 1)
 
     def test_add(self):
         """Test for adding term from translate page."""
