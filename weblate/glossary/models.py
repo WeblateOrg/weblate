@@ -85,7 +85,7 @@ def get_glossary_terms(unit):
     if settings.DATABASES["default"]["ENGINE"] == "django.db.backends.postgresql":
         # Use regex as that is utilizing pg_trgm index
         return units.filter(
-            source__iregex=r"^{}$".format(
+            source__iregex=r"^({})$".format(
                 "|".join(re_escape(term) for term in matches)
             ),
         )
