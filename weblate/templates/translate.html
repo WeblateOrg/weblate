@@ -46,6 +46,7 @@
 {% perm 'suggestion.vote' unit.translation as user_can_vote_suggestion %}
 {% perm 'machinery.view' unit.translation as user_can_use_machinery %}
 {% perm 'source.edit' unit.translation as user_can_edit_source %}
+{% perm 'unit.flag' unit.translation as user_can_edit_flags %}
 {% perm 'screenshot.add' unit.translation as user_can_add_screenshot %}
 {% perm 'comment.add' unit.translation as user_can_add_comment %}
 {% perm 'glossary.add' project as user_can_add_glossary %}
@@ -173,7 +174,7 @@
     {% crispy form %}
   </div>
   <div class="panel-footer">
-    {% if user_can_delete or user_can_edit_source %}
+    {% if user_can_delete or user_can_edit_flags %}
       {% with flag_actions=unit.get_flag_actions %}
         <div class="btn-group pull-right flip">
           <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -183,7 +184,7 @@
             {% if user_can_delete %}
               <li><a href="{% url "delete-unit" unit_id=unit.pk %}" class="link-post">{% trans "Delete string" %}</a></li>
             {% endif %}
-            {% if user_can_edit_source %}
+            {% if user_can_edit_flags %}
               {% for action, value, name in flag_actions %}
                 <li><a href="{% url 'edit_context' pk=unit.pk %}" class="link-post" data-params='{"{{ action|escapejs }}": "{{ value|escapejs }}", "next": "{{ this_unit_url|escapejs }}"}'>{{ name }}</a></li>
               {% endfor %}
