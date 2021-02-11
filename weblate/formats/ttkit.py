@@ -581,7 +581,7 @@ class XliffUnit(TTKitUnit):
         self._invalidate_target()
         # Delete the empty target element
         if not target:
-            xmlnode = self.unit.getlanguageNode(lang=None, index=1)
+            xmlnode = self.get_xliff_node()
             if xmlnode is not None:
                 xmlnode.getparent().remove(xmlnode)
             return
@@ -600,15 +600,22 @@ class XliffUnit(TTKitUnit):
         # Always set target, even in monolingual template
         self.unit.rich_target = converted
 
+    def get_xliff_node(self):
+        try:
+            return self.unit.getlanguageNode(lang=None, index=1)
+        except AttributeError:
+            return None
+
     @cached_property
     def xliff_node(self):
-        return self.unit.getlanguageNode(lang=None, index=1)
+        return self.get_xliff_node()
 
     @property
     def xliff_state(self):
-        if self.xliff_node is None:
+        node = self.xliff_node
+        if node is None:
             return None
-        return self.xliff_node.get("state", None)
+        return node.get("state", None)
 
     @cached_property
     def context(self):
