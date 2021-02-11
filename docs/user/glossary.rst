@@ -57,7 +57,7 @@ You can flag certain glossary terms as forbidden, meaning ones _not_ to be used
 for translations. Use this to clarify translation when some words are
 ambiguous or could have unexpected meanings.
 
-The terms can be flagged on the source language using :guilabel:`Tools` ↓
+Terms can be flagged using :guilabel:`Tools` ↓
 :guilabel:`Mark as forbidden translation`. In the background this toggles the ``forbidden``
 flag of the string.
 
