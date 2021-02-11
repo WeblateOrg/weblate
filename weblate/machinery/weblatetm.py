@@ -74,6 +74,8 @@ class WeblateTranslation(BatchStringMachineTranslation):
 
         for munit in matching_units:
             source = munit.source_string
+            if "forbidden" in munit.all_flags:
+                continue
             quality = self.comparer.similarity(text, source)
             if quality < 10 or (quality < threshold and not search):
                 continue
