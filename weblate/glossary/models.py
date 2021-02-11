@@ -44,6 +44,8 @@ def get_glossary_sources(component):
 
 def get_glossary_terms(unit):
     """Return list of term pairs for an unit."""
+    if unit.glossary_terms is not None:
+        return unit.glossary_terms
     translation = unit.translation
     language = translation.language
     component = translation.component
@@ -84,10 +86,16 @@ def get_glossary_terms(unit):
 
     if settings.DATABASES["default"]["ENGINE"] == "django.db.backends.postgresql":
         # Use regex as that is utilizing pg_trgm index
-        return units.filter(
+        result = units.filter(
             source__iregex=r"^({})$".format(
                 "|".join(re_escape(term) for term in matches)
             ),
         )
-    # With MySQL we utilize it does case insensitive lookup
-    return units.filter(source__in=matches)
+    else:
+        # With MySQL we utilize it does case insensitive lookup
+        result = units.filter(source__in=matches)
+
+    # Store in a unit cache
+    unit.glossary_terms = result
+
+    return result

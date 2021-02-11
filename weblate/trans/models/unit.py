@@ -402,6 +402,8 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
         self.fixups = []
         # Data for machinery integration
         self.machinery = {"best": -1}
+        # Data for glossary integration
+        self.glossary_terms = None
 
     @property
     def approved(self):
