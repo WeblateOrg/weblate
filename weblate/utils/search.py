@@ -192,7 +192,7 @@ class TermExpr:
             self.match = self.operator[1:] + self.match
             self.operator = ":"
 
-    def is_field(self, text):
+    def is_field(self, text, context):
         if text in ("read-only", "readonly"):
             return Q(state=STATE_READONLY)
         if text == "approved":
@@ -208,7 +208,7 @@ class TermExpr:
 
         raise ValueError(f"Unsupported is lookup: {text}")
 
-    def has_field(self, text):
+    def has_field(self, text, context):
         if text == "plural":
             return Q(source__contains=PLURAL_SEPARATOR)
         if text == "suggestion":
@@ -374,7 +374,7 @@ class TermExpr:
             return NONTEXT_FIELDS[field]
         raise ValueError(f"Unsupported field: {field}")
 
-    def as_sql(self):
+    def as_sql(self, context):
         field = self.field
         match = self.match
         # Simple term based search
@@ -388,7 +388,7 @@ class TermExpr:
         # Field specific code
         field_method = getattr(self, f"{field}_field", None)
         if field_method is not None:
-            return field_method(match)
+            return field_method(match, context)
 
         # Field conversion
         convert_method = getattr(self, f"convert_{field}", None)
@@ -428,10 +428,10 @@ class TermExpr:
 TERM.addParseAction(TermExpr)
 
 
-def parser_to_query(obj):
+def parser_to_query(obj, context):
     # Simple lookups
     if isinstance(obj, TermExpr):
-        return obj.as_sql()
+        return obj.as_sql(context)
 
     # Operators
     operator = "AND"
@@ -440,7 +440,7 @@ def parser_to_query(obj):
         if isinstance(item, str) and item.upper() in ("OR", "AND", "NOT"):
             operator = item.upper()
             continue
-        expressions.append(parser_to_query(item))
+        expressions.append(parser_to_query(item, context))
 
     if not expressions:
         return Q()
@@ -459,6 +459,6 @@ def parse_string(text):
     return QUERY.parseString(text, parseAll=True)
 
 
-def parse_query(text):
+def parse_query(text, **context):
     parsed = parse_string(text)
-    return parser_to_query(parsed)
+    return parser_to_query(parsed, context)
