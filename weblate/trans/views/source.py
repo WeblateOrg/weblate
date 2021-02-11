@@ -38,7 +38,7 @@ from weblate.utils.views import get_component, show_form_errors
 @login_required
 def edit_context(request, pk):
     unit = get_object_or_404(Unit, pk=pk)
-    if not unit.is_source:
+    if not unit.is_source and not unit.translation.component.is_glossary:
         raise Http404("Non source unit!")
 
     if not request.user.has_perm("source.edit", unit.translation.component):

@@ -185,7 +185,7 @@
             {% endif %}
             {% if user_can_edit_source %}
               {% for action, value, name in flag_actions %}
-                <li><a href="{% url 'edit_context' pk=unit.source_unit.pk %}" class="link-post" data-params='{"{{ action|escapejs }}": "{{ value|escapejs }}", "next": "{{ this_unit_url|escapejs }}"}'>{{ name }}</a></li>
+                <li><a href="{% url 'edit_context' pk=unit.pk %}" class="link-post" data-params='{"{{ action|escapejs }}": "{{ value|escapejs }}", "next": "{{ this_unit_url|escapejs }}"}'>{{ name }}</a></li>
               {% endfor %}
             {% endif %}
           </ul>

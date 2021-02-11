@@ -1201,8 +1201,9 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
         """Return union of own and component flags."""
         return Flags(
             self.translation.all_flags,
+            self.extra_flags,
             # The source_unit is None before saving the object for the first time
-            self.source_unit.extra_flags if self.source_unit else self.extra_flags,
+            getattr(self.source_unit, "extra_flags", ""),
             override or self.flags,
         )
 
@@ -1347,37 +1348,38 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
                 result.append(("removeflag", "read-only", gettext("Allow translation")))
             else:
                 result.append(("addflag", "read-only", gettext("Prohibit translation")))
-            if self.translation.component.is_glossary:
-                if "forbidden" in flags:
-                    result.append(
-                        (
-                            "removeflag",
-                            "forbidden",
-                            gettext("Unmark as forbidden translation"),
-                        )
+        if self.translation.component.is_glossary:
+            if "forbidden" in flags:
+                result.append(
+                    (
+                        "removeflag",
+                        "forbidden",
+                        gettext("Unmark as forbidden translation"),
                     )
-                else:
-                    result.append(
-                        (
-                            "addflag",
-                            "forbidden",
-                            gettext("Mark as forbidden translation"),
-                        )
+                )
+            else:
+                result.append(
+                    (
+                        "addflag",
+                        "forbidden",
+                        gettext("Mark as forbidden translation"),
                     )
-                if "terminology" in flags:
-                    result.append(
-                        (
-                            "removeflag",
-                            "terminology",
-                            gettext("Unmark as terminology"),
-                        )
+                )
+        if self.is_source and self.translation.component.is_glossary:
+            if "terminology" in flags:
+                result.append(
+                    (
+                        "removeflag",
+                        "terminology",
+                        gettext("Unmark as terminology"),
                     )
-                else:
-                    result.append(
-                        (
-                            "addflag",
-                            "terminology",
-                            gettext("Mark as terminology"),
-                        )
+                )
+            else:
+                result.append(
+                    (
+                        "addflag",
+                        "terminology",
+                        gettext("Mark as terminology"),
                     )
+                )
         return result
