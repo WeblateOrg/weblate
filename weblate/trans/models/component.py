@@ -859,27 +859,34 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
         # Make sure all languages are present
         component.sync_terminology()
 
-    @contextmanager
-    def lock(self):
+    @cached_property
+    def _lock(self):
         default_cache = caches["default"]
         if isinstance(default_cache, RedisCache):
             # Prefer Redis locking as it works distributed
-            lock = Lock(
+            return Lock(
                 default_cache.client.get_client(),
                 name=f"component-update-lock-{self.pk}",
                 expire=60,
                 auto_renewal=True,
             )
-            if not lock.acquire(timeout=1):
+        # Fall back to file based locking
+        return FileLock(
+            os.path.join(self.project.full_path, f"{self.slug}-update.lock"),
+            timeout=1,
+        )
+
+    @contextmanager
+    def lock(self):
+        default_cache = caches["default"]
+        if isinstance(default_cache, RedisCache):
+            # Prefer Redis locking as it works distributed
+            if not self._lock.acquire(timeout=1):
                 raise ComponentLockTimeout()
         else:
             # Fall back to file based locking
-            lock = FileLock(
-                os.path.join(self.project.full_path, f"{self.slug}-update.lock"),
-                timeout=1,
-            )
             try:
-                lock.acquire()
+                self._lock.acquire()
             except Timeout:
                 raise ComponentLockTimeout()
 
@@ -889,7 +896,7 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
         finally:
             # Release lock (the API is same in both cases)
             try:
-                lock.release()
+                self._lock.release()
             except NotAcquired:
                 # This can happen in case of overloaded server fails to renew the
                 # lock before expiry
