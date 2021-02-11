@@ -247,7 +247,7 @@ class TermExpr:
         if text == "glossary":
             project = context.get("project")
             if not project:
-                raise ValueError("has:glossary lookup is not supported in global scope")
+                return Q(source__isnull=True)
             terms = set(
                 chain.from_iterable(
                     glossary.glossary_sources for glossary in project.glossaries

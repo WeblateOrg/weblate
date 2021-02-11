@@ -278,8 +278,7 @@ class QueryParserTest(TestCase, SearchMixin):
         )
         self.assert_query("has:flags", ~Q(source_unit__extra_flags=""))
         self.assert_query("has:explanation", ~Q(source_unit__explanation=""))
-        with self.assertRaises(ValueError):
-            self.assert_query("has:glossary", Q(source__isnull=True))
+        self.assert_query("has:glossary", Q(source__isnull=True))
 
     def test_is(self):
         self.assert_query("is:pending", Q(pending=True))
