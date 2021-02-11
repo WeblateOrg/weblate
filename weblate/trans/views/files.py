@@ -124,7 +124,9 @@ def download_translation(request, project, component, lang):
             return redirect(obj)
 
         kwargs["units"] = (
-            obj.unit_set.search(form.cleaned_data.get("q", ""))
+            obj.unit_set.search(
+                form.cleaned_data.get("q", ""), project=obj.component.project
+            )
             .distinct()
             .order_by("position")
             .prefetch_full()

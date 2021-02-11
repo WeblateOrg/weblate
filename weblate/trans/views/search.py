@@ -192,7 +192,9 @@ def search(request, project=None, component=None, lang=None):
             units = units.filter(translation__component__project=obj)
         else:
             units = units.filter_access(request.user)
-        units = units.search(search_form.cleaned_data.get("q", "")).distinct()
+        units = units.search(
+            search_form.cleaned_data.get("q", ""), project=context.get("project")
+        ).distinct()
         if lang:
             units = units.filter(translation__language=context["language"])
 
@@ -244,6 +246,7 @@ def bulk_edit(request, project, component=None, lang=None):
         remove_flags=form.cleaned_data["remove_flags"],
         add_labels=form.cleaned_data["add_labels"],
         remove_labels=form.cleaned_data["remove_labels"],
+        project=context["project"],
     )
 
     import_message(

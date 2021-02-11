@@ -124,4 +124,5 @@ class BulkEditAddon(BaseAddon):
             remove_labels=label_set.filter(
                 name__in=self.instance.configuration["remove_labels"]
             ),
+            project=component.project,
         )
