@@ -729,7 +729,6 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
 
         if create:
             self.install_autoaddon()
-            self.create_glossary()
 
         # Ensure source translation is existing, otherwise we might
         # be hitting race conditions between background update and frontend displaying
@@ -743,6 +742,7 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
             changed_template,
             changed_variant,
             skip_push=kwargs.get("force_insert", False),
+            create=create,
         )
         self.store_background_task(task)
 
@@ -852,6 +852,9 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
 
         # Make sure it is listed in project glossaries now
         project.glossaries.append(component)
+
+        # Make sure all languages are present
+        component.sync_terminology()
 
     @contextmanager
     def lock(self):
@@ -2513,6 +2516,7 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
         changed_template: bool,
         changed_variant: bool,
         skip_push: bool,
+        create: bool,
     ):
         self.store_background_task()
         self.translations_progress = 0
@@ -2547,6 +2551,10 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
         # Invalidate stats on template change
         if changed_template:
             self.invalidate_cache()
+
+        # Make sure we create glossary
+        if create:
+            self.create_glossary()
 
     def update_variants(self):
         from weblate.trans.models import Unit

@@ -95,9 +95,8 @@ class GlossaryTest(ViewTestCase):
     def setUp(self):
         super().setUp()
         self.glossary_component = self.project.glossaries[0]
-        self.glossary = self.glossary_component.add_new_language(
-            self.get_translation().language,
-            None,
+        self.glossary = self.glossary_component.translation_set.get(
+            language=self.get_translation().language
         )
 
     @classmethod
