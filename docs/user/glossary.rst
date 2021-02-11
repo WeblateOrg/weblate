@@ -53,7 +53,7 @@ Forbidden translations
 
 .. versionadded:: 4.5
 
-You can flag certain glossary terms as forbidden, meaning ones _not_ be used
+You can flag certain glossary terms as forbidden, meaning ones _not_ to be used
 for translations. Use this to clarify translation when some words are
 ambiguous or could have unexpected meanings.
 
