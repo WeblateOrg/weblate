@@ -735,16 +735,19 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
         # the newsly created component
         bool(self.source_translation)
 
-        task = component_after_save.delay(
-            self.pk,
-            changed_git,
-            changed_setup,
-            changed_template,
-            changed_variant,
-            skip_push=kwargs.get("force_insert", False),
-            create=create,
-        )
-        self.store_background_task(task)
+        args = {
+            "changed_git": changed_git,
+            "changed_setup": changed_setup,
+            "changed_template": changed_template,
+            "changed_variant": changed_variant,
+            "skip_push": kwargs.get("force_insert", False),
+            "create": create,
+        }
+        if settings.CELERY_TASK_ALWAYS_EAGER:
+            self.after_save(**args)
+        else:
+            task = component_after_save.delay(self.pk, **args)
+            self.store_background_task(task)
 
         if self.old_component.check_flags != self.check_flags:
             update_checks.delay(self.pk)

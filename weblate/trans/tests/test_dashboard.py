@@ -117,7 +117,7 @@ class DashboardTest(ViewTestCase):
         # add a subscription
         self.user.profile.watched.add(self.project)
         response = self.client.get(reverse("home"))
-        self.assertEqual(len(response.context["usersubscriptions"]), 1)
+        self.assertEqual(len(response.context["usersubscriptions"]), 2)
 
     def test_user_nolang(self):
         self.user.profile.languages.clear()

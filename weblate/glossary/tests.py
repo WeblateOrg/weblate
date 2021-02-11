@@ -228,20 +228,24 @@ class GlossaryTest(ViewTestCase):
             set(get_glossary_terms(unit).values_list("source", flat=True)), {"thank"}
         )
         self.add_term("thank", "díky", "other")
+        unit.glossary_terms = None
         self.assertEqual(
             set(get_glossary_terms(unit).values_list("source", flat=True)), {"thank"}
         )
         self.add_term("thank you", "děkujeme vám")
+        unit.glossary_terms = None
         self.assertEqual(
             set(get_glossary_terms(unit).values_list("source", flat=True)),
             {"thank", "thank you"},
         )
         self.add_term("thank you for using Weblate", "děkujeme vám za použití Weblate")
+        unit.glossary_terms = None
         self.assertEqual(
             set(get_glossary_terms(unit).values_list("source", flat=True)),
             {"thank", "thank you", "thank you for using Weblate"},
         )
         self.add_term("web", "web")
+        unit.glossary_terms = None
         self.assertEqual(
             set(get_glossary_terms(unit).values_list("source", flat=True)),
             {"thank", "thank you", "thank you for using Weblate"},
@@ -270,6 +274,7 @@ class GlossaryTest(ViewTestCase):
             list(get_glossary_terms(unit).values_list("source", flat=True)), ["Reach"]
         )
         self.add_term("Town", "x")
+        unit.glossary_terms = None
         self.assertEqual(
             set(get_glossary_terms(unit).values_list("source", flat=True)),
             {"Reach", "Town"},
@@ -289,6 +294,7 @@ class GlossaryTest(ViewTestCase):
         unit = self.test_get_long()
         self.add_term("the blue", "modrý")
         self.add_term("the red", "červený")
+        unit.glossary_terms = None
 
         self.assertEqual(
             set(get_glossary_terms(unit).values_list("source", flat=True)), {"the red"}
@@ -330,6 +336,7 @@ class GlossaryTest(ViewTestCase):
         self.assertEqual(Unit.objects.count(), start + 2)
 
         # Make it terminology
+        unit.translation.component.unload_sources()
         unit.extra_flags = "terminology"
         unit.save()
 

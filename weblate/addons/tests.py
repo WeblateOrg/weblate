@@ -840,7 +840,7 @@ class LanguageConsistencyTest(ViewTestCase):
             new_base="ts/cs.ts",
             project=self.component.project,
         )
-        self.assertEqual(Translation.objects.count(), 7)
+        self.assertEqual(Translation.objects.count(), 10)
 
         # Installation should make languages consistent
         addon = LangaugeConsistencyAddon.create(self.component)
