@@ -453,7 +453,12 @@ def parser_to_query(obj):
 
 
 @lru_cache(maxsize=512)
-def parse_query(text):
+def parse_string(text):
     if "\x00" in text:
         raise ValueError("Invalid query string.")
-    return parser_to_query(QUERY.parseString(text, parseAll=True))
+    return QUERY.parseString(text, parseAll=True)
+
+
+def parse_query(text):
+    parsed = parse_string(text)
+    return parser_to_query(parsed)
