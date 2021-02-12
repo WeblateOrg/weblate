@@ -1122,12 +1122,14 @@ class Translation(
             author=user,
         )
 
-    def handle_store_change(self, request, user):
+    def handle_store_change(self, request, user, previous_revision: str):
         if self.is_source:
             self.component.create_translations(request=request)
         else:
             self.check_sync(request=request)
             self.invalidate_cache()
+        # Trigger post-update signal
+        self.component.trigger_post_update(previous_revision, False)
 
     def get_store_change_translations(self):
         component = self.component
@@ -1146,6 +1148,7 @@ class Translation(
         user = request.user if request else get_anonymous()
         with self.component.repository.lock:
             self.component.commit_pending("new unit", user)
+            previous_revision = (self.component.repository.last_revision,)
             for translation in self.get_store_change_translations():
                 for context, source, target in batch:
                     translation.store.new_unit(context, source, target)
@@ -1158,7 +1161,7 @@ class Translation(
                     )
                 translation.drop_store_cache()
                 translation.git_commit(user, user.get_author_name(), store_hash=False)
-            self.handle_store_change(request, user)
+            self.handle_store_change(request, user, previous_revision)
 
         if self.is_source:
             self.component.sync_terminology()
@@ -1171,6 +1174,7 @@ class Translation(
         user = request.user if request else get_anonymous()
         with component.repository.lock:
             component.commit_pending("delete unit", user)
+            previous_revision = (self.component.repository.last_revision,)
             for translation in self.get_store_change_translations():
                 try:
                     pounit, add = translation.store.find_unit(unit.context, unit.source)
@@ -1182,7 +1186,7 @@ class Translation(
                 translation.addon_commit_files.extend(extra_files)
                 translation.drop_store_cache()
                 translation.git_commit(user, user.get_author_name(), store_hash=False)
-            self.handle_store_change(request, user)
+            self.handle_store_change(request, user, previous_revision)
 
     def sync_terminology(self):
         if self.is_source:
