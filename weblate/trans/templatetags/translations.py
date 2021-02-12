@@ -182,7 +182,7 @@ def format_terms(terms):
         output.append(gettext("Not-translatable: %s") % ", ".join(nontranslatable))
     if translations:
         output.append(gettext("Glossary translation: %s") % ", ".join(translations))
-    return "\n".join(output)
+    return "; ".join(output)
 
 
 def fmt_glossary(value, glossary):
@@ -192,7 +192,7 @@ def fmt_glossary(value, glossary):
         terms[term.source].append(term)
 
     for htext, entries in terms.items():
-        newpart = GLOSSARY_TEMPLATE.format(format_terms(entries), htext)
+        newpart = GLOSSARY_TEMPLATE.format(escape(format_terms(entries)), htext)
         for match in reversed(
             list(re.finditer(r"\b{}\b".format(re.escape(htext)), value, re.IGNORECASE))
         ):
