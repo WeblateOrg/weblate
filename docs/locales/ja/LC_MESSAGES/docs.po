@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-02-12 14:55+0100\n"
-"PO-Revision-Date: 2021-02-12 16:04+0000\n"
+"PO-Revision-Date: 2021-02-12 16:26+0000\n"
 "Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "documentation/ja/>\n"
@@ -3426,7 +3426,7 @@ msgstr "``check-glossary``"
 
 #: ../../admin/checks.rst:94
 msgid "Enable the \"Does not follow glossary\" quality check."
-msgstr "「用語集に従わない」の品質検査を有効にする。"
+msgstr "「用語集に従っていない」の品質検査を有効にする。"
 
 #: ../../admin/checks.rst:95
 msgid "``ignore-bbcode``"
@@ -3450,7 +3450,7 @@ msgstr "``ignore-check-glossary``"
 
 #: ../../admin/checks.rst:100
 msgid "Skip the \"Does not follow glossary\" quality check."
-msgstr "「用語集に従わない」の品質検査を無効にする。"
+msgstr "「用語集に従っていない」の品質検査を無効にする。"
 
 #: ../../admin/checks.rst:101
 msgid "``ignore-double-space``"
@@ -18579,10 +18579,8 @@ msgid "Added check whether translation matches glossary."
 msgstr ""
 
 #: ../../changes.rst:29
-#, fuzzy
-#| msgid "Added support for searching in explanations."
 msgid "Added support for customizing navigation text color."
-msgstr "説明文での検索に対応。"
+msgstr "説明文の色の変更に対応。"
 
 #: ../../changes.rst:32
 msgid "Weblate 4.4.2"
@@ -27050,10 +27048,8 @@ msgid ""
 msgstr ""
 
 #: ../../devel/translations.rst:28
-#, fuzzy
-#| msgid "Import existing translations"
 msgid "Removing existing translations"
-msgstr "既存の翻訳のインポート"
+msgstr "既存の翻訳の削除"
 
 #: ../../devel/translations.rst:30
 msgid ""
@@ -30013,16 +30009,12 @@ msgstr ""
 "ケースで誤作動した場合はお知らせください。参照: :ref:`report-issue`。"
 
 #: ../../user/checks.rst:82
-#, fuzzy
-#| msgid "Added to glossary"
 msgid "Does not follow glossary"
-msgstr "用語集に追加"
+msgstr "用語集に従っていない"
 
 #: ../../user/checks.rst:86
-#, fuzzy
-#| msgid "The translation does not contain an URL"
 msgid "*The translation does not follow terms defined in a glossary.*"
-msgstr "翻訳文に URL が含まれていない"
+msgstr "*翻訳文は用語集に定義された用語に従っていない。*"
 
 #: ../../user/checks.rst:88
 msgid ""
@@ -30044,10 +30036,8 @@ msgid ""
 msgstr ""
 
 #: ../../user/checks.rst:96
-#, fuzzy
-#| msgid ":ref:`fonts`, :ref:`custom-checks`, :ref:`check-max-length`"
 msgid ":ref:`glossary`, :ref:`custom-checks`, :ref:`component-check_flags`"
-msgstr ":ref:`fonts`、:ref:`custom-checks`、:ref:`check-max-length`"
+msgstr ":ref:`glossary`、:ref:`custom-checks`、:ref:`component-check_flags`"
 
 #: ../../user/checks.rst:103
 msgid "Double space"
@@ -30055,7 +30045,7 @@ msgstr "連続スペース"
 
 #: ../../user/checks.rst:105
 msgid "*Translation contains double space*"
-msgstr "*翻訳文に連続したスペースがある*"
+msgstr "*翻訳文に連続したスペースが含まれている*"
 
 #: ../../user/checks.rst:107
 msgid ""
@@ -31772,8 +31762,6 @@ msgstr ""
 "`component-links` を使用して、別のプロジェクトと共有できます。"
 
 #: ../../user/glossary.rst:27
-#, fuzzy
-#| msgid "Glossary term"
 msgid "Glossary terms"
 msgstr "用語集の用語"
 
@@ -32320,20 +32308,15 @@ msgid "``has:TEXT``"
 msgstr "``has:TEXT``"
 
 #: ../../user/search.rst:48
-#, fuzzy
-#| msgid ""
-#| "Search for string having attributes - ``plural``, ``context``, "
-#| "``suggestion``, ``comment``, ``check``, ``dismissed-check``, "
-#| "``translation``, ``variant``, ``screenshot``, ``flags``, ``explanation``"
 msgid ""
 "Search for string having attributes - ``plural``, ``context``, "
 "``suggestion``, ``comment``, ``check``, ``dismissed-check``, "
 "``translation``, ``variant``, ``screenshot``, ``flags``, ``explanation``, "
 "``glossary``"
 msgstr ""
-"属性がある文字列の検索 - ``plural``, ``context``, ``suggestion``, "
-"``comment``, ``check``, ``dismissed-check``, ``translation``, ``variant``, "
-"``screenshot``, ``flags``, ``explanation``"
+"属性がある文字列の検索 - ``plural``, ``context``, ``suggestion``, ``comment``, ``check``"
+", ``dismissed-check``, ``translation``, ``variant``, ``screenshot``, "
+"``flags``, ``explanation``, ``glossary``"
 
 #: ../../user/search.rst:49
 msgid "``is:TEXT``"
@@ -33413,15 +33396,6 @@ msgid "Accessing repositories from Hosted Weblate"
 msgstr "Hosted Weblate からリポジトリへの接続"
 
 #: ../../vcs.rst:26
-#, fuzzy
-#| msgid ""
-#| "For Hosted Weblate there is a dedicated push user registered on GitHub, "
-#| "Bitbucket, Codeberg and GitLab (with the username :guilabel:`weblate` "
-#| "named :guilabel:`Weblate push user`). You need to add this user as a "
-#| "collaborator and give it appropriate permission to your repository (read-"
-#| "only is okay for cloning, write is required for pushing). Depending on "
-#| "service and your organization settings, this happens immediately, or "
-#| "requires confirmation on the Weblate side."
 msgid ""
 "For Hosted Weblate there is a dedicated push user registered on GitHub, "
 "Bitbucket, Codeberg and GitLab (with the username :guilabel:`weblate`, e-"
@@ -33431,12 +33405,10 @@ msgid ""
 "pushing). Depending on service and your organization settings, this happens "
 "immediately, or requires confirmation on the Weblate side."
 msgstr ""
-"Hosted Weblate では GitHub、Bitbucket、Codeberg、および GitLab（ユーザー名 :"
-"guilabel:`weblate` で :guilabel:`Weblate push user` と表示名）に登録したプッ"
-"シュ専用ユーザーがいます。このユーザーをコラボレーターとして追加し、リポジト"
-"リに適切な権限を与えることが必要です（クローン作成には読み取り専用、プッシュ"
-"には書き込みが必要）。サービスと組織の設定にもよるが、すぐに実行するか、"
-"Weblate 側で確認することが必要です。"
+"Hosted Weblate では GitHub、Bitbucket、Codeberg、および GitLab（ユーザー名 "
+":guilabel:`weblate`、メールアドレス ``hosted@weblate.org`` 、表示名 :guilabel:`Weblate "
+"push user` ）に登録したプッシュ専用ユーザーがいます。このユーザーをコラボレーターとして追加し、リポジトリに適切な権限を与えることが必要です（ク"
+"ローン作成には読み取り専用、プッシュには書き込みが必要）。サービスと組織の設定にもよるが、すぐに実行するか、Weblate 側で確認することが必要です。"
 
 #: ../../vcs.rst:34
 msgid ""
