@@ -960,21 +960,19 @@ class Translation(
             )
 
             # Commit to VCS
-            if self.git_commit(request.user, request.user.get_author_name()):
+            previous_revision = (self.component.repository.last_revision,)
+            if self.git_commit(
+                request.user, request.user.get_author_name(), store_hash=False
+            ):
 
                 # Drop store cache
                 self.drop_store_cache()
-
-                # Parse the file again
-                if self.is_template:
-                    self.component.create_translations(request=request, force=True)
-                else:
-                    self.check_sync(
-                        force=True,
-                        request=request,
-                        change=Change.ACTION_REPLACE_UPLOAD,
-                    )
-                    self.invalidate_cache()
+                self.handle_store_change(
+                    request,
+                    request.user,
+                    previous_revision,
+                    change=Change.ACTION_REPLACE_UPLOAD,
+                )
 
         return (0, 0, self.unit_set.count(), len(list(store2.content_units)))
 
@@ -1122,11 +1120,11 @@ class Translation(
             author=user,
         )
 
-    def handle_store_change(self, request, user, previous_revision: str):
+    def handle_store_change(self, request, user, previous_revision: str, change=None):
         if self.is_source:
             self.component.create_translations(request=request)
         else:
-            self.check_sync(request=request)
+            self.check_sync(request=request, change=change)
             self.invalidate_cache()
         # Trigger post-update signal
         self.component.trigger_post_update(previous_revision, False)
