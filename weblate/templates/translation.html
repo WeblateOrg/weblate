@@ -293,11 +293,14 @@
 
 {% if user_can_add_unit %}
 <div class="tab-pane" id="new">
+  {% include "snippets/add-unit-form.html" %}
 <form action="{% url 'new-unit' project=object.component.project.slug component=object.component.slug lang=object.language.code %}" method="post">
 <div class="panel panel-default">
 <div class="panel-heading"><h4 class="panel-title">{% trans "Add new translation string" %}</h4></div>
 <div class="panel-body">
+{% if obj.is_source %}
 <p>{% trans "You can add a new translation string here, it will automatically appear in all translations." %}</p>
+{% endif %}
 {% csrf_token %}
 {{ new_unit_form|crispy }}
 </div>

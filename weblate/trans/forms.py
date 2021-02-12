@@ -1951,7 +1951,11 @@ class MatrixLanguageForm(forms.Form):
         self.fields["lang"].choices = languages.as_choices()
 
 
-class NewMonolingualUnitForm(forms.Form):
+class NewUnitBaseForm(forms.Form):
+    variant = forms.CharField(required=False, widget=forms.HiddenInput)
+
+
+class NewMonolingualUnitForm(NewUnitBaseForm):
     key = forms.CharField(
         label=_("Translation key"),
         help_text=_(
@@ -1983,7 +1987,7 @@ class NewMonolingualUnitForm(forms.Form):
         return obj.unit_set.filter(context=self.cleaned_data["key"]).exists()
 
 
-class NewBilingualSourceUnitForm(forms.Form):
+class NewBilingualSourceUnitForm(NewUnitBaseForm):
     context = forms.CharField(
         label=_("Translation key"),
         help_text=_("Optional context to clarify the source strings."),
@@ -2033,12 +2037,12 @@ class NewBilingualUnitForm(NewBilingualSourceUnitForm):
         self.fields["target"].initial = Unit(translation=translation, id_hash=0)
 
 
-def get_new_unit_form(translation, user, data=None):
+def get_new_unit_form(translation, user, data=None, initial=None):
     if translation.component.has_template():
-        return NewMonolingualUnitForm(translation, user, data)
+        return NewMonolingualUnitForm(translation, user, data=data, initial=initial)
     if translation.is_source:
-        return NewBilingualSourceUnitForm(translation, user, data)
-    return NewBilingualUnitForm(translation, user, data)
+        return NewBilingualSourceUnitForm(translation, user, data=data, initial=initial)
+    return NewBilingualUnitForm(translation, user, data=data, initial=initial)
 
 
 class BulkEditForm(forms.Form):

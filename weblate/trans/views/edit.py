@@ -39,6 +39,7 @@ from django.utils.translation import gettext as _
 from django.utils.translation import gettext_noop
 from django.views.decorators.http import require_POST
 
+from weblate.checks.flags import Flags
 from weblate.checks.models import CHECKS, get_display_checks
 from weblate.glossary.forms import TermForm
 from weblate.glossary.models import get_glossary_terms
@@ -643,6 +644,9 @@ def translate(request, project, component, lang):
             "last_changes_url": urlencode(unit.translation.get_reverse_url_kwargs()),
             "display_checks": list(get_display_checks(unit)),
             "machinery_services": json.dumps(list(MACHINE_TRANSLATION_SERVICES.keys())),
+            "new_unit_form": get_new_unit_form(
+                unit.translation, request.user, initial={"variant": unit.source}
+            ),
         },
     )
 
@@ -910,8 +914,24 @@ def new_unit(request, project, component, lang):
         if form.unit_exists(translation):
             messages.error(request, _("This string seems to already exist."))
         else:
+            # This is slow way of detecting unit, add_units should directly
+            # create the database units, return them and they should be saved to
+            # file as regular pending ones.
+            existing = list(translation.unit_set.values_list("pk", flat=True))
             translation.add_units(request, [form.as_tuple()])
             messages.success(request, _("New string has been added."))
+            new_units = translation.unit_set.exclude(pk__in=existing)
+            if form.cleaned_data["variant"]:
+                for new_unit in new_units:
+                    flags = Flags(new_unit.extra_flags)
+                    flags.set_value("variant", form.cleaned_data["variant"])
+                    new_unit.extra_flags = flags.format()
+                    new_unit.save(
+                        update_fields=["extra_flags"],
+                        same_content=True,
+                        run_checks=False,
+                    )
+                    return redirect(new_unit)
 
     return redirect(translation)
 
