@@ -370,7 +370,7 @@ class Profile(models.Model):
     )
     auto_watch = models.BooleanField(
         verbose_name=_("Automatically watch projects on contribution"),
-        default=True,
+        default=settings.DEFAULT_AUTO_WATCH,
         help_text=_(
             "Whenever you translate a string in a project, you will start watching it."
         ),
@@ -692,6 +692,9 @@ class WeblateAccountsConf(AppConf):
 
     # How long to keep auditlog entries
     AUDITLOG_EXPIRY = 180
+
+    # Auto-watch setting for new users
+    DEFAULT_AUTO_WATCH = True
 
     # Auth0 provider default image & title on login page
     SOCIAL_AUTH_AUTH0_IMAGE = "auth0.svg"
