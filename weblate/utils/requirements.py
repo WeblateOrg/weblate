@@ -28,6 +28,7 @@ from django.core.exceptions import ImproperlyConfigured
 from django.db import connection
 
 import weblate
+from weblate.utils.db import using_postgresql
 from weblate.utils.errors import report_error
 from weblate.vcs.git import GitRepository, GitWithGerritRepository, SubversionRepository
 from weblate.vcs.mercurial import HgRepository
@@ -159,7 +160,7 @@ def get_versions():
 
 
 def get_db_version():
-    if connection.vendor == "postgresql":
+    if using_postgresql():
         try:
             with connection.cursor() as cursor:
                 cursor.execute("SHOW server_version")

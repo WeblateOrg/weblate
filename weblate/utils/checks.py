@@ -17,7 +17,6 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-
 import errno
 import os
 import sys
@@ -33,6 +32,7 @@ from django.core.mail import get_connection
 
 from weblate.utils.celery import get_queue_stats
 from weblate.utils.data import data_dir
+from weblate.utils.db import using_postgresql
 from weblate.utils.docs import get_doc_url
 from weblate.utils.site import check_domain, get_site_domain
 
@@ -260,7 +260,7 @@ def check_celery(app_configs, **kwargs):
 
 
 def check_database(app_configs, **kwargs):
-    if settings.DATABASES["default"]["ENGINE"] == "django.db.backends.postgresql":
+    if using_postgresql():
         return []
     return [
         weblate_check(

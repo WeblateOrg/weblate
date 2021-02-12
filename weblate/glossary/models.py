@@ -20,12 +20,11 @@
 import re
 from itertools import chain
 
-from django.conf import settings
 from django.db.models.functions import Lower
 
 from weblate.trans.models.unit import Unit
 from weblate.trans.util import PLURAL_SEPARATOR
-from weblate.utils.db import re_escape
+from weblate.utils.db import re_escape, using_postgresql
 from weblate.utils.state import STATE_TRANSLATED
 
 SPLIT_RE = re.compile(r"[\s,.:!?]+", re.UNICODE)
@@ -84,7 +83,7 @@ def get_glossary_terms(unit):
         term for term in terms if re.search(r"\b{}\b".format(re.escape(term)), source)
     ]
 
-    if settings.DATABASES["default"]["ENGINE"] == "django.db.backends.postgresql":
+    if using_postgresql():
         # Use regex as that is utilizing pg_trgm index
         result = units.filter(
             source__iregex=r"^({})$".format(
