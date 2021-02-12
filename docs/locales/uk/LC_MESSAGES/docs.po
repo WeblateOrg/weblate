@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-02-12 17:31+0100\n"
-"PO-Revision-Date: 2021-02-12 16:34+0000\n"
+"PO-Revision-Date: 2021-02-12 17:19+0000\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/"
 "documentation/uk/>\n"
@@ -30210,12 +30210,17 @@ msgid ""
 "editing the string. This has differences between file formats, see: :ref:"
 "`component-manage_units`"
 msgstr ""
+"В інтерфейсі користувача Weblate за допомогою кнопки :guilabel:`Знаряддя` ↓ "
+":guilabel:`Вилучити` під час редагування рядка. У поведінці для різних "
+"форматів файлів є різниця, див. :ref:`component-manage_units`"
 
 #: ../../devel/translations.rst:45
 msgid ""
 "Manually in the source file. They will be removed from the translation "
 "project as well upon Weblate's repository update."
 msgstr ""
+"Вручну у початковому файлі. Рядки буде вилучено з проєкту перекладу та "
+"оновлення сховища Weblate."
 
 #: ../../devel/translations.rst:51
 msgid ""
@@ -30223,6 +30228,9 @@ msgid ""
 "translation will be removed from the component when Weblate updates local "
 "repository."
 msgstr ""
+"Якщо ви вилучаєте мовний файл у з'єднаному віддаленому сховищі, відповідний "
+"переклад буде вилучено зі складника при оновленні локального сховища у "
+"Weblate."
 
 #: ../../devel/translations.rst:60
 msgid "String variants"
@@ -32606,22 +32614,16 @@ msgstr ""
 "перекладів. У Weblate передбачено підтримку таких файлів:"
 
 #: ../../formats.rst:1038
-#, fuzzy
-#| msgid ""
-#| "Files with header defining fields (``location``, ``source``, ``target``, "
-#| "``ID``, ``fuzzy``, ``context``, ``translator_comments``, "
-#| "``developer_comments``). This is the recommended approach, as it is the "
-#| "least error prone. Choose :guilabel:``CSV file`` as a file format."
 msgid ""
 "Files with header defining fields (``location``, ``source``, ``target``, "
 "``ID``, ``fuzzy``, ``context``, ``translator_comments``, "
 "``developer_comments``). This is the recommended approach, as it is the "
 "least error prone. Choose :guilabel:`CSV file` as a file format."
 msgstr ""
-"Файли із визначенням полів у заголовку (``location``, ``source``, "
-"``target``, ``ID``, ``fuzzy``, ``context``, ``translator_comments``, "
+"Файли із визначенням полів у заголовку (``location``, ``source``, ``target``"
+", ``ID``, ``fuzzy``, ``context``, ``translator_comments``, "
 "``developer_comments``). Цей підхід є рекомендованим, оскільки зменшує "
-"ймовірність помилки. Виберіть формат файлів :guilabel:``файл CSV``."
+"ймовірність помилки. Виберіть формат файлів :guilabel:`файл CSV`."
 
 #: ../../formats.rst:1042
 msgid ""
@@ -32632,12 +32634,6 @@ msgstr ""
 "порядку) — виберіть :guilabel:`Простий файл CSV` у полі формату файлів"
 
 #: ../../formats.rst:1044
-#, fuzzy
-#| msgid ""
-#| "Headerless files with fields in order defined by the `translate-"
-#| "toolkit`_: ``location``, ``source``, ``target``, ``ID``, ``fuzzy``, "
-#| "``context``, ``translator_comments``, ``developer_comments`` Choose :"
-#| "guilabel:``CSV file`` as a file format."
 msgid ""
 "Headerless files with fields in order defined by the `translate-toolkit`_: "
 "``location``, ``source``, ``target``, ``ID``, ``fuzzy``, ``context``, "
@@ -32647,7 +32643,7 @@ msgstr ""
 "Файли без заголовків із полями, які визначено порядком у `translate-"
 "toolkit`_: ``location``, ``source``, ``target``, ``ID``, ``fuzzy``, "
 "``context``, ``translator_comments``, ``developer_comments``. Виберіть "
-"формат файлів :guilabel:``файл CSV``."
+"формат файлів :guilabel:`файл CSV`."
 
 #: ../../formats.rst:1047
 msgid ""
@@ -33631,22 +33627,24 @@ msgid "Does not follow glossary"
 msgstr "Не слідувати глосарію"
 
 #: ../../user/checks.rst:86
-#, fuzzy
-#| msgid "The translation does not contain an URL"
 msgid "*The translation does not follow terms defined in a glossary.*"
-msgstr "Цей переклад не містить URL"
+msgstr "*Цей переклад не збігається за термінологією із глосарієм.*"
 
 #: ../../user/checks.rst:88
 msgid ""
 "This check has to be turned on using ``check-glossary`` flag (see :ref:"
 "`custom-checks`). Please consider following prior to enabling it:"
 msgstr ""
+"Цю перевірку має бути увімкнено за допомогою прапорця ``check-glossary`` ("
+"див. :ref:`custom-checks`). Будь ласка, зважте на таке, перш ніж її вмикати:"
 
 #: ../../user/checks.rst:91
 msgid ""
 "It does exact string matching, the glossary is expected to contain terms in "
 "all variants."
 msgstr ""
+"Виконує точну перевірку збігу рядків. У глосарії мають міститися терміни в "
+"усіх варіантах."
 
 #: ../../user/checks.rst:92
 msgid ""
@@ -33654,12 +33652,13 @@ msgid ""
 "operation in Weblate which involves running checks like importing strings or "
 "translating."
 msgstr ""
+"Перевірка усіх рядків за глосарієм є доволі витратною операцією. Вона "
+"уповільнює будь-які дії у Weblate, які стосуються виконання перевірок, "
+"подібних до імпортування рядків або перекладу."
 
 #: ../../user/checks.rst:96
-#, fuzzy
-#| msgid ":ref:`fonts`, :ref:`custom-checks`, :ref:`check-max-length`"
 msgid ":ref:`glossary`, :ref:`custom-checks`, :ref:`component-check_flags`"
-msgstr ":ref:`fonts`, :ref:`custom-checks`, :ref:`check-max-length`"
+msgstr ":ref:`glossary`, :ref:`custom-checks`, :ref:`component-check_flags`"
 
 #: ../../user/checks.rst:103
 msgid "Double space"
@@ -35427,16 +35426,17 @@ msgstr ""
 "допомогою :ref:`зв'язків між складниками <component-links>`."
 
 #: ../../user/glossary.rst:27
-#, fuzzy
-#| msgid "Glossary term"
 msgid "Glossary terms"
-msgstr "Термін глосарія"
+msgstr "Терміни глосарія"
 
 #: ../../user/glossary.rst:29
 msgid ""
 "The glossary terms are translated in a same way as regular tranlations. You "
 "can toggle additional features using the :guilabel:`Tools` menu on each term."
 msgstr ""
+"Терміни глосарія перекладають так само, як виконують звичайні переклади. Ви "
+"можете перемкнути додаткові можливості за допомогою меню :guilabel:`Знаряддя`"
+" для усіх термінів."
 
 #: ../../user/glossary.rst:33
 msgid "Not translatable terms"
@@ -35821,6 +35821,10 @@ msgid ""
 "you will automatically start watching projects upon translating a string. "
 "The default value depends on :setting:`DEFAULT_AUTO_WATCH`."
 msgstr ""
+"Якщо позначено пункт :guilabel:`Автоматичне спостереження за проєктами із "
+"внеском`, ви автоматично починатимете стеження за проєктами, у яких "
+"переклали хоч рядок. Типове значення залежить від "
+":setting:`DEFAULT_AUTO_WATCH`."
 
 #: ../../user/profile.rst:161
 msgid "You will not receive notifications for your own actions."
@@ -36011,11 +36015,6 @@ msgid "``has:TEXT``"
 msgstr "``has:ТЕКСТ``"
 
 #: ../../user/search.rst:48
-#, fuzzy
-#| msgid ""
-#| "Search for string having attributes - ``plural``, ``context``, "
-#| "``suggestion``, ``comment``, ``check``, ``dismissed-check``, "
-#| "``translation``, ``variant``, ``screenshot``, ``flags``, ``explanation``"
 msgid ""
 "Search for string having attributes - ``plural``, ``context``, "
 "``suggestion``, ``comment``, ``check``, ``dismissed-check``, "
@@ -36024,7 +36023,7 @@ msgid ""
 msgstr ""
 "Шукати за атрибутами рядка — ``plural``, ``context``, ``suggestion``, "
 "``comment``, ``check``, ``dismissed-check``, ``translation``, ``variant``, "
-"``screenshot``, ``flags``, ``explanation``"
+"``screenshot``, ``flags``, ``explanation``, ``glossary``"
 
 #: ../../user/search.rst:49
 msgid "``is:TEXT``"
@@ -37165,15 +37164,6 @@ msgid "Accessing repositories from Hosted Weblate"
 msgstr "Доступ до сховищ з Hosted Weblate"
 
 #: ../../vcs.rst:26
-#, fuzzy
-#| msgid ""
-#| "For Hosted Weblate there is a dedicated push user registered on GitHub, "
-#| "Bitbucket, Codeberg and GitLab (with the username :guilabel:`weblate` "
-#| "named :guilabel:`Weblate push user`). You need to add this user as a "
-#| "collaborator and give it appropriate permission to your repository (read-"
-#| "only is okay for cloning, write is required for pushing). Depending on "
-#| "service and your organization settings, this happens immediately, or "
-#| "requires confirmation on the Weblate side."
 msgid ""
 "For Hosted Weblate there is a dedicated push user registered on GitHub, "
 "Bitbucket, Codeberg and GitLab (with the username :guilabel:`weblate`, e-"
@@ -37184,13 +37174,14 @@ msgid ""
 "immediately, or requires confirmation on the Weblate side."
 msgstr ""
 "Для Hosted Weblate на GitHub, Bitbucket, Codeberg і GitLab зареєстровано "
-"особливого користувача для запису внесків (назва облікового запису — :"
-"guilabel:`weblate`, ім'я користувача :guilabel:`Weblate push user`). Вам "
-"слід додати цього користувача як учасника розробки і надати йому відповідні "
-"права доступу до вашого сховища (для клонування достатньо прав на читання, "
-"для запису потрібні права запису). Залежно від служби і параметрів вашої "
-"організації надання прав буде здійснено негайно або потребуватиме "
-"підтвердження з боку Weblate."
+"особливого користувача для запису внесків (назва облікового запису — "
+":guilabel:`weblate`, адреса електронної пошти — ``hosted@weblate.org``, ім'я "
+"користувача :guilabel:`Weblate push user`). Вам слід додати цього "
+"користувача як учасника розробки і надати йому відповідні права доступу до "
+"вашого сховища (для клонування достатньо прав на читання, для запису "
+"потрібні права запису). Залежно від служби і параметрів вашої організації "
+"надання прав буде здійснено негайно або потребуватиме підтвердження з боку "
+"Weblate."
 
 #: ../../vcs.rst:34
 msgid ""
