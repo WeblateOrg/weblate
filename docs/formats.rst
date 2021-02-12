@@ -1038,12 +1038,12 @@ the following files:
 * Files with header defining fields (``location``, ``source``, ``target``,
   ``ID``, ``fuzzy``, ``context``, ``translator_comments``,
   ``developer_comments``). This is the recommended approach, as it is the least
-  error prone. Choose :guilabel:``CSV file`` as a file format.
+  error prone. Choose :guilabel:`CSV file` as a file format.
 * Files with two fields—source and translation (in this order), choose
   :guilabel:`Simple CSV file` as a file format
 * Headerless files with fields in order defined by the `translate-toolkit`_: ``location``, ``source``,
   ``target``, ``ID``, ``fuzzy``, ``context``, ``translator_comments``, ``developer_comments``
-  Choose :guilabel:``CSV file`` as a file format.
+  Choose :guilabel:`CSV file` as a file format.
 * Remember to define :ref:`component-template` when your files are monolingual
   (see :ref:`bimono`).
 
