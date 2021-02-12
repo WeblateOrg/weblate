@@ -11,8 +11,8 @@ msgstr ""
 "Project-Id-Version: Weblate 4.5\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-02-12 16:30+0000\n"
-"PO-Revision-Date: 2021-02-04 23:47+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2021-02-12 23:02+0000\n"
+"Last-Translator: Milo Ivir <mail@milotype.de>\n"
 "Language-Team: Croatian <https://hosted.weblate.org/projects/weblate/"
 "application/hr/>\n"
 "Language: hr\n"
@@ -288,10 +288,8 @@ msgid "Screenshots uploaded"
 msgstr "Prenesene snimke ekrana"
 
 #: weblate/accounts/forms.py:792
-#, fuzzy
-#| msgid "The detected file format is not supported."
 msgid "Chosen sorting is not supported."
-msgstr "Otkriveni datotečni format nije podržan."
+msgstr "Odabrano razvrstavanje nije podržano."
 
 #: weblate/accounts/models.py:141
 msgid "Password changed."
@@ -506,15 +504,13 @@ msgid "Number of nearby strings to show in each direction in the full editor."
 msgstr "Broj prikazanih obližnjih izraza u svakom smjeru u potpunom uređivaču."
 
 #: weblate/accounts/models.py:429
-#, fuzzy
-#| msgid "Projects with contribution"
 msgid "Automatically watch projects on contribution"
-msgstr "Projekti s doprinosom"
+msgstr "Automatski prati projekte kojima doprinosim"
 
 #: weblate/accounts/models.py:432
 msgid ""
 "Whenever you translate a string in a project, you will start watching it."
-msgstr ""
+msgstr "Kad god prevedeš izraz u projektu, počet ćeš ga pratiti."
 
 #: weblate/accounts/models.py:442 weblate/templates/dashboard/user.html:20
 msgid "Watched translations"
@@ -1122,21 +1118,15 @@ msgid "Flag unchanged translations as \"Needs editing\""
 msgstr "Označi nepromijenjene prijevode s oznakom „Treba urediti”"
 
 #: weblate/addons/flags.py:88
-#, fuzzy
-#| msgid ""
-#| "Whenever a new translatable string is imported from the VCS and it "
-#| "matches a source string, it is flagged as needing editing in Weblate. "
-#| "This is especially useful for file formats that include all strings even "
-#| "if not translated."
 msgid ""
 "Whenever a new translatable string is imported from the VCS and it matches a "
 "source string, it is flagged as needing editing in Weblate. Especially "
 "useful for file formats that include source strings for untranslated strings."
 msgstr ""
-"Kadgod se uveze novi prevodiv izraz iz sustava za kontrolu verzija koji se "
+"Kad god se uveze novi prevodiv izraz iz sustava za kontrolu verzija koji se "
 "poklapa s izvornim izrazom, on se u Weblateu označava s oznakom da ga se "
 "treba urediti. To je naročito korisno za datotečne formate koji uključuju "
-"sve izraze, čak i ako nisu prevedeni."
+"neprevedene izvorne izraze."
 
 #: weblate/addons/flags.py:107 weblate/templates/component.html:69
 #: weblate/templates/component.html:217 weblate/templates/project.html:68
@@ -1438,16 +1428,11 @@ msgid "Pseudolocale generation"
 msgstr "Izrada pseudolokalnog prijevoda"
 
 #: weblate/addons/generate.py:67
-#, fuzzy
-#| msgid ""
-#| "Automatically generates a pseudolocale translation by adding prefix and "
-#| "suffix to source strings."
 msgid ""
 "Generates a translation by adding prefix and suffix to source strings "
 "automatically."
 msgstr ""
-"Automatski generira pseudolokalni prijevod dodavanjem prefiksa i sufiksa "
-"izvornim izrazima."
+"Generira prijevod, automatski dodajući prefiks i sufiks izvornim izrazima."
 
 #: weblate/addons/gettext.py:41
 msgid "Generate MO files"
@@ -1501,15 +1486,11 @@ msgid "Contributors in comment"
 msgstr "Doprinositelji u komentaru"
 
 #: weblate/addons/gettext.py:318
-#, fuzzy
-#| msgid ""
-#| "Update the comment in the PO file header to include contributor names and "
-#| "years of contributions."
 msgid ""
 "Updates the comment part of the PO file header to include contributor names "
 "and years of contributions."
 msgstr ""
-"Aktualiziraj komentar u zaglavlju PO datoteke, kako bi se uključilo ime "
+"Aktualizira komentar u zaglavlju PO datoteke, kako bi se uključilo ime "
 "doprinositelja i godine doprinosa."
 
 #: weblate/addons/git.py:34
@@ -2526,14 +2507,12 @@ msgid "Strict unchanged check"
 msgstr "Stroga nepromijenjena provjera"
 
 #: weblate/checks/flags.py:55
-#, fuzzy
-#| msgid "Hosting translations"
 msgid "Forbidden translation"
-msgstr "Hosting prijevoda"
+msgstr "Zabranjen prijevod"
 
 #: weblate/checks/flags.py:56
 msgid "Terminology"
-msgstr ""
+msgstr "Terminologija"
 
 #: weblate/checks/flags.py:58 weblate/fonts/models.py:39
 #: weblate/templates/fonts/font_detail.html:18
@@ -2725,21 +2704,17 @@ msgstr ""
 "preraspoređivanje varijabla u prijevodima po potrebi"
 
 #: weblate/checks/glossary.py:33
-#, fuzzy
-#| msgid "Added to glossary"
 msgid "Does not follow glossary"
-msgstr "Dodano u glosar"
+msgstr "Ne odgovara glosaru"
 
 #: weblate/checks/glossary.py:34
-#, fuzzy
-#| msgid "The translation does not contain an URL"
 msgid "The translation does not follow terms defined in a glossary."
-msgstr "Prijevod ne sadrži URL"
+msgstr "Prijevod ne odgovara izrazima u glosaru."
 
 #: weblate/checks/glossary.py:87
 #, python-format
 msgid "Following terms are not translated according to glossary: %s"
-msgstr ""
+msgstr "Sljedeći izrazi nisu prevedeni prema glosaru: %s"
 
 #: weblate/checks/markup.py:77
 msgid "BBcode markup"
@@ -5251,10 +5226,8 @@ msgid "Browse"
 msgstr "Pregledaj"
 
 #: weblate/templates/browse.html:51
-#, fuzzy
-#| msgid "No words found!"
 msgid "No strings found!"
-msgstr "Nema riječi!"
+msgstr "Nema izraza!"
 
 #: weblate/templates/check.html:19 weblate/templates/data.html:28
 #: weblate/templates/data.html:62 weblate/templates/data.html:103
