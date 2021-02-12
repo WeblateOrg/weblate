@@ -2940,6 +2940,7 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
                     if request
                     else "Weblate <noreply@weblate.org>",
                     template=self.add_message,
+                    store_hash=False,
                 )
 
         # Trigger parsing of the newly added file
