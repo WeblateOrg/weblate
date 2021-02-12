@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.5\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-02-12 13:54+0000\n"
-"PO-Revision-Date: 2021-02-12 16:26+0000\n"
+"PO-Revision-Date: 2021-02-12 16:30+0000\n"
 "Last-Translator: Heimen Stoffels <vistausss@outlook.com>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/weblate/"
 "application/nl/>\n"
@@ -1143,7 +1143,7 @@ msgid ""
 msgstr ""
 "Als een nieuwe vertaalbare tekenreeks geïmporteerd wordt uit het "
 "versiecontrolesysteem en ze overeenkomt met brontekenreeksen, wordt deze "
-"door Weblate gemarkeerd als 'Aanpassing nodig'. Dit is vooral handig voor "
+"door Weblate aangemerkt als 'Aanpassing nodig'. Dit is vooral handig voor "
 "bestandsformaten die alle brontekenreeksen bevatten van onvertaalde "
 "tekenreeksen."
 
@@ -1156,7 +1156,7 @@ msgstr "Meerdere bewerken"
 
 #: weblate/addons/flags.py:108
 msgid "Bulk edit flags, labels or state for strings."
-msgstr "Pas meerdere vlaggen, labels of statussen tegelijk aan."
+msgstr "Pas meerdere aanmerkingen, labels of statussen tegelijk aan."
 
 #: weblate/addons/forms.py:53
 msgid "Path of generated MO file"
@@ -2587,12 +2587,12 @@ msgstr "De vertaaloptie bevat geen aanvullende opties: “%s”"
 #: weblate/checks/flags.py:259
 #, python-format
 msgid "Wrong parameters for translation flag: \"%s\""
-msgstr "De vertaaloptie bevat onjuiste aanvullende opties: ‘%s’"
+msgstr "De vertaaloptie bevat onjuiste aanvullende opties: \"%s\""
 
 #: weblate/checks/flags.py:263
 #, python-format
 msgid "Missing parameters for translation flag: \"%s\""
-msgstr "Ontbrekende aanvullende opties bij vertaaloptie: ‘%s’"
+msgstr "Ontbrekende aanvullende opties bij vertaaloptie: \"%s\""
 
 #: weblate/checks/format.py:342 weblate/checks/placeholders.py:93
 #, python-format
@@ -8531,15 +8531,15 @@ msgstr ""
 "of als er ontbrekende afhankelijkheden zijn."
 
 #: weblate/templates/trans/alert/unusedenforcedcheck.html:4
-#, fuzzy
-#| msgid "Following checks are failing:"
 msgid "Following enforced checks are not enabled anywhere:"
-msgstr "Er zijn fouten opgetreden:"
+msgstr "De volgende afgedwongen controles zijn niet overal ingeschakeld:"
 
 #: weblate/templates/trans/alert/unusedenforcedcheck.html:8
 #, python-format
 msgid "%(check)s is enforced, but not enabled using <code>%(flag)s</code>."
 msgstr ""
+"%(check)s wordt afgedwongen, maar niet ingeschakeld middels "
+"<code>%(flag)s</code>."
 
 #: weblate/templates/trans/alert/unusedscreenshot.html:2
 msgid "There is at least one screenshot which is not assigned to any strings."
@@ -8873,10 +8873,8 @@ msgid "Delete string"
 msgstr "Tekenreeks verwijderen"
 
 #: weblate/templates/translate.html:194
-#, fuzzy
-#| msgid "Variants of the string"
 msgid "Add variant of this string"
-msgstr "Tekenreeksvarianten"
+msgstr "Tekenreeksvariant toevoegen"
 
 #: weblate/templates/translate.html:204 weblate/templates/translate.html:229
 msgid "This translation is currently locked."
@@ -10186,10 +10184,8 @@ msgid "Does not meet libre hosting conditions."
 msgstr "Voldoet niet aan de voorwaarden van vrijesoftwarehosting."
 
 #: weblate/trans/models/alert.py:345
-#, fuzzy
-#| msgid "Enforced checks"
 msgid "Unused enforced checks."
-msgstr "Afgedwongen controles"
+msgstr "Ongebruikte afgedwongen controles."
 
 #: weblate/trans/models/announcement.py:111
 msgid "Category"
@@ -11320,10 +11316,8 @@ msgid "Prohibit translation"
 msgstr "Vertaling voorkomen"
 
 #: weblate/trans/models/unit.py:1359
-#, fuzzy
-#| msgid "Unmark as forbidden translations"
 msgid "Unmark as forbidden translation"
-msgstr "Demarkeren als verboden vertalingen"
+msgstr "Demarkeren als verboden vertaling"
 
 #: weblate/trans/models/unit.py:1367
 #, fuzzy
