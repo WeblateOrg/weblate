@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.5\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-02-12 16:30+0000\n"
-"PO-Revision-Date: 2021-02-06 00:05+0000\n"
+"PO-Revision-Date: 2021-02-12 23:02+0000\n"
 "Last-Translator: Adolfo Jayme Barrientos <fitojb@ubuntu.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/weblate/"
 "application/es/>\n"
@@ -520,15 +520,13 @@ msgstr ""
 "completo."
 
 #: weblate/accounts/models.py:429
-#, fuzzy
-#| msgid "Projects with contribution"
 msgid "Automatically watch projects on contribution"
-msgstr "Proyectos con contribuciones"
+msgstr "Monitorizar proyectos automáticamente al contribuir"
 
 #: weblate/accounts/models.py:432
 msgid ""
 "Whenever you translate a string in a project, you will start watching it."
-msgstr ""
+msgstr "Cuando traduzca una cadena en un proyecto, comenzará a monitorizarlo."
 
 #: weblate/accounts/models.py:442 weblate/templates/dashboard/user.html:20
 msgid "Watched translations"
@@ -1078,17 +1076,14 @@ msgid "Language consistency"
 msgstr "Coherencia entre idiomas"
 
 #: weblate/addons/consistency.py:34
-#, fuzzy
-#| msgid ""
-#| "Ensures all components within one project have translations for every "
-#| "added language for translation."
 msgid ""
 "Ensures all components within a project have translations for every added "
 "translated language by creating empty translations in languages that have "
 "unadded components."
 msgstr ""
 "Garantiza que todos los componentes de un proyecto tengan traducciones en "
-"todos los idiomas añadidos para traducción."
+"todos los idiomas añadidos para traducción al crear traducciones vacías en "
+"todos los idiomas en los que hagan falta componentes."
 
 #: weblate/addons/discovery.py:33
 msgid "Component discovery"
@@ -1151,21 +1146,15 @@ msgid "Flag unchanged translations as \"Needs editing\""
 msgstr "Marcar traducciones sin cambios como «Necesitan edición»"
 
 #: weblate/addons/flags.py:88
-#, fuzzy
-#| msgid ""
-#| "Whenever a new translatable string is imported from the VCS and it "
-#| "matches a source string, it is flagged as needing editing in Weblate. "
-#| "This is especially useful for file formats that include all strings even "
-#| "if not translated."
 msgid ""
 "Whenever a new translatable string is imported from the VCS and it matches a "
 "source string, it is flagged as needing editing in Weblate. Especially "
 "useful for file formats that include source strings for untranslated strings."
 msgstr ""
-"Cada vez que se importa una cadena traducible nueva desde el VCS y "
+"Cada vez que se importa una cadena traducible nueva desde el VCS y esta "
 "corresponde a una cadena de origen, se marca como necesaria la edición en "
 "Weblate. Esto es útil sobre todo para aquellos formatos de archivo que "
-"incluyen todas las cadenas, incluso las no traducidas."
+"incluyen las cadenas de origen de las cadenas no traducidas."
 
 #: weblate/addons/flags.py:107 weblate/templates/component.html:69
 #: weblate/templates/component.html:217 weblate/templates/project.html:68
@@ -1472,16 +1461,12 @@ msgid "Pseudolocale generation"
 msgstr "Generación de pseudorregiones"
 
 #: weblate/addons/generate.py:67
-#, fuzzy
-#| msgid ""
-#| "Automatically generates a pseudolocale translation by adding prefix and "
-#| "suffix to source strings."
 msgid ""
 "Generates a translation by adding prefix and suffix to source strings "
 "automatically."
 msgstr ""
-"Genera automáticamente una pseudotraducción mediante la adición de un "
-"prefijo y un sufijo a las cadenas de origen."
+"Genera una traducción mediante la adición automática de un prefijo y un "
+"sufijo a las cadenas de origen."
 
 #: weblate/addons/gettext.py:41
 msgid "Generate MO files"
@@ -1537,10 +1522,6 @@ msgid "Contributors in comment"
 msgstr "Contribuidores en comentarios"
 
 #: weblate/addons/gettext.py:318
-#, fuzzy
-#| msgid ""
-#| "Update the comment in the PO file header to include contributor names and "
-#| "years of contributions."
 msgid ""
 "Updates the comment part of the PO file header to include contributor names "
 "and years of contributions."
@@ -2770,21 +2751,17 @@ msgstr ""
 "traductores reordenarlas"
 
 #: weblate/checks/glossary.py:33
-#, fuzzy
-#| msgid "Added to glossary"
 msgid "Does not follow glossary"
-msgstr "Se añadió al glosario"
+msgstr "No se ajusta al glosario"
 
 #: weblate/checks/glossary.py:34
-#, fuzzy
-#| msgid "The translation does not contain an URL"
 msgid "The translation does not follow terms defined in a glossary."
-msgstr "La traducción no contiene un URL"
+msgstr "La traducción no sigue los términos definidos en un glosario."
 
 #: weblate/checks/glossary.py:87
 #, python-format
 msgid "Following terms are not translated according to glossary: %s"
-msgstr ""
+msgstr "Estos términos no se tradujeron acorde al glosario: %s"
 
 #: weblate/checks/markup.py:77
 msgid "BBcode markup"
@@ -7787,12 +7764,12 @@ msgstr ""
 msgid ""
 "The maximal string length is determined from the source string or flags."
 msgstr ""
+"La longitud máxima de la cadena la determina la cadena de origen o sus "
+"indicadores."
 
 #: weblate/templates/snippets/editor.html:14
-#, fuzzy
-#| msgid "Source string comment"
 msgid "Source string length"
-msgstr "Comentario de la cadena original"
+msgstr "Longitud de la cadena de origen"
 
 #: weblate/templates/snippets/embed-units.html:12
 msgid "State"
@@ -7835,10 +7812,8 @@ msgid "Copy word into translation"
 msgstr "Copiar la palabra en la traducción"
 
 #: weblate/templates/snippets/glossary.html:16
-#, fuzzy
-#| msgid "Edit glossary entry"
 msgid "Edit glossary term"
-msgstr "Editar palabra del glosario"
+msgstr "Editar término del glosario"
 
 #: weblate/templates/snippets/glossary.html:27
 msgid "No related strings found in the glossary."
@@ -10247,10 +10222,8 @@ msgid "Does not meet libre hosting conditions."
 msgstr "No se ajusta a las condiciones del alojamiento libre."
 
 #: weblate/trans/models/alert.py:345
-#, fuzzy
-#| msgid "Enforced checks"
 msgid "Unused enforced checks."
-msgstr "Comprobaciones obligatorias"
+msgstr "Comprobaciones obligatorias no utilizadas."
 
 #: weblate/trans/models/announcement.py:111
 msgid "Category"
@@ -11392,16 +11365,12 @@ msgid "Prohibit translation"
 msgstr "Prohibir traducción"
 
 #: weblate/trans/models/unit.py:1359
-#, fuzzy
-#| msgid "Unmark as forbidden translations"
 msgid "Unmark as forbidden translation"
-msgstr "Desmarcar como traducciones prohibidas"
+msgstr "Desmarcar como traducción prohibida"
 
 #: weblate/trans/models/unit.py:1367
-#, fuzzy
-#| msgid "Mark as forbidden translations"
 msgid "Mark as forbidden translation"
-msgstr "Marcar como traducciones prohibidas"
+msgstr "Marcar como traducción prohibida"
 
 #: weblate/trans/models/unit.py:1376
 msgid "Unmark as terminology"
@@ -11488,23 +11457,19 @@ msgid "Tab character"
 msgstr "Tabulador"
 
 #: weblate/trans/templatetags/translations.py:180
-#, fuzzy, python-format
-#| msgid "Forbidden translation"
+#, python-format
 msgid "Forbidden translation: %s"
-msgstr "Traducción prohibida"
+msgstr "Traducción prohibida: %s"
 
 #: weblate/trans/templatetags/translations.py:182
-#, fuzzy, python-format
-#| msgctxt "String state"
-#| msgid "Not translated"
+#, python-format
 msgid "Not-translatable: %s"
-msgstr "No traducida"
+msgstr "No traducible: %s"
 
 #: weblate/trans/templatetags/translations.py:184
-#, fuzzy, python-format
-#| msgid "Upload translations"
+#, python-format
 msgid "Glossary translation: %s"
-msgstr "Cargar traducciones"
+msgstr "Traducción en glosario: %s"
 
 #: weblate/trans/templatetags/translations.py:230
 msgid "New line"
