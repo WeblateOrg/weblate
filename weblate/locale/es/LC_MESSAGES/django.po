@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.5\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-02-12 16:30+0000\n"
-"PO-Revision-Date: 2021-02-12 23:02+0000\n"
+"PO-Revision-Date: 2021-02-13 20:01+0000\n"
 "Last-Translator: Adolfo Jayme Barrientos <fitojb@ubuntu.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/weblate/"
 "application/es/>\n"
@@ -1757,7 +1757,7 @@ msgstr "Editar cadena cuando son obligatorias las sugerencias"
 #. Translators: Permission name
 #: weblate/auth/data.py:86
 msgid "Edit source strings"
-msgstr "Editar cadenas originales"
+msgstr "Editar cadenas de origen"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:88
@@ -5380,8 +5380,8 @@ msgid ""
 "The checks can help you identify problematic translations or source strings "
 "which are hard to translate."
 msgstr ""
-"Los checks pueden ayudarle a identificar traducciones problemáticas o "
-"cadenas originales de dificil traducción."
+"Las comprobaciones pueden ayudarle a identificar traducciones problemáticas "
+"o cadenas de origen de difícil traducción."
 
 #: weblate/templates/component-list.html:17 weblate/templates/component.html:54
 #: weblate/templates/language-project.html:30 weblate/templates/project.html:53
@@ -6518,7 +6518,7 @@ msgstr "Comentario de la resolución"
 #: weblate/templates/translate.html:136 weblate/templates/translate.html:625
 #: weblate/templates/zen-units.html:33
 msgid "Source string comment"
-msgstr "Comentario de la cadena original"
+msgstr "Comentario de la cadena de origen"
 
 #: weblate/templates/list-comments.html:17
 msgid "Translation comment"
@@ -8568,15 +8568,17 @@ msgstr ""
 "algunas dependencias."
 
 #: weblate/templates/trans/alert/unusedenforcedcheck.html:4
-#, fuzzy
-#| msgid "Following checks are failing:"
 msgid "Following enforced checks are not enabled anywhere:"
-msgstr "Las comprobaciones siguientes se han incumplido:"
+msgstr ""
+"Las comprobaciones obligatorias siguientes no están activadas en ningún "
+"sitio:"
 
 #: weblate/templates/trans/alert/unusedenforcedcheck.html:8
 #, python-format
 msgid "%(check)s is enforced, but not enabled using <code>%(flag)s</code>."
 msgstr ""
+"%(check)s es obligatoria, pero no se ha activado mediante "
+"<code>%(flag)s</code>."
 
 #: weblate/templates/trans/alert/unusedscreenshot.html:2
 msgid "There is at least one screenshot which is not assigned to any strings."
@@ -8915,10 +8917,8 @@ msgid "Delete string"
 msgstr "Eliminar cadena"
 
 #: weblate/templates/translate.html:194
-#, fuzzy
-#| msgid "Variants of the string"
 msgid "Add variant of this string"
-msgstr "Variantes de la cadena"
+msgstr "Añadir variante de esta cadena"
 
 #: weblate/templates/translate.html:204 weblate/templates/translate.html:229
 msgid "This translation is currently locked."
@@ -9073,7 +9073,7 @@ msgstr ""
 
 #: weblate/templates/translate.html:425
 msgid "Things to check"
-msgstr "Elementos que revisar"
+msgstr "Puntos que revisar"
 
 #: weblate/templates/translate.html:435
 #, python-format
@@ -9551,7 +9551,7 @@ msgstr "Cambiar dirección de texto"
 
 #: weblate/trans/forms.py:258
 msgid "Fill in with source string"
-msgstr "Rellenar con cadena original"
+msgstr "Rellenar con cadena de origen"
 
 #: weblate/trans/forms.py:260
 msgid "Clone source"
@@ -11878,7 +11878,7 @@ msgstr "La sugerencia ya existe."
 #: weblate/trans/views/edit.py:312
 #, python-format
 msgid "Following fixups were applied to translation: %s"
-msgstr "Se realizaron las siguientes correcciones a la traducción: %s"
+msgstr "Se efectuaron estas correcciones en la traducción: %s"
 
 #: weblate/trans/views/edit.py:328
 #, python-format
@@ -11886,6 +11886,8 @@ msgid ""
 "Added %(language)s to your translated languages. You can adjust them in the "
 "settings."
 msgstr ""
+"Se añadió el %(language)s a sus idiomas traducidos. Puede editarlos en la "
+"configuración."
 
 #: weblate/trans/views/edit.py:338
 #, python-format
@@ -11893,6 +11895,8 @@ msgid ""
 "Added %(project)s to your watched projects. You can adjust them and this "
 "behavior in the settings."
 msgstr ""
+"Se añadió %(project)s a sus proyectos monitorizados. Puede editarlos y "
+"ajustar este comportamiento en la configuración."
 
 #: weblate/trans/views/edit.py:357
 #, python-brace-format
