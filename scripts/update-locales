@@ -5,10 +5,10 @@
 # Exit on failure
 set -e
 
-export CI_DATABASE=postgresql
-export DJANGO_SETTINGS_MODULE=weblate.settings_test
 
-version=`python -c 'import weblate; print(weblate.VERSION_BASE)'`
+. scripts/test-database
+
+version=$(python -c 'import weblate.utils.version; print(weblate.utils.version.VERSION_BASE)')
 
 COMPONENTS="weblate/application weblate/javascript weblate/documentation"
 

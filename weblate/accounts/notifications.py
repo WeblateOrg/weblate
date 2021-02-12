@@ -33,7 +33,6 @@ from django.utils.translation import get_language, get_language_bidi
 from django.utils.translation import gettext_lazy as _
 from django.utils.translation import override
 
-from weblate import USER_AGENT
 from weblate.accounts.tasks import send_mails
 from weblate.auth.models import User
 from weblate.lang.models import Language
@@ -42,6 +41,7 @@ from weblate.trans.models import Alert, Change, Translation
 from weblate.utils.markdown import get_mention_users
 from weblate.utils.site import get_site_domain, get_site_url
 from weblate.utils.stats import prefetch_stats
+from weblate.utils.version import USER_AGENT
 
 FREQ_NONE = 0
 FREQ_INSTANT = 1

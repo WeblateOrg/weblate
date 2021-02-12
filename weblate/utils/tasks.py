@@ -31,7 +31,7 @@ from django.conf import settings
 from django.core.cache import cache
 from django.core.management.commands import diffsettings
 
-import weblate
+import weblate.utils.version
 from weblate.formats.models import FILE_FORMATS
 from weblate.trans.util import get_clean_env
 from weblate.utils.celery import app
@@ -44,7 +44,7 @@ from weblate.vcs.models import VCS_REGISTRY
 @app.task(trail=False)
 def ping():
     return {
-        "version": weblate.GIT_VERSION,
+        "version": weblate.utils.version.GIT_VERSION,
         "vcs": sorted(VCS_REGISTRY.keys()),
         "formats": sorted(FILE_FORMATS.keys()),
         "encoding": [sys.getfilesystemencoding(), sys.getdefaultencoding()],

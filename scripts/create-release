@@ -24,7 +24,7 @@ rm -rf build
 
 # Grab version
 . scripts/test-database
-version=`python -c 'import weblate; print(weblate.VERSION_BASE)'`
+version=$(python -c 'import weblate.utils.version; print(weblate.utils.version.VERSION_BASE)')
 namever=weblate-$version
 tarver=Weblate-$version
 

@@ -36,7 +36,7 @@ from translate.storage.tbx import tbxfile
 from translate.storage.tmx import tmxfile
 from translate.storage.xliff import xlifffile
 
-import weblate
+import weblate.utils.version
 from weblate.formats.external import XlsxFormat
 from weblate.formats.ttkit import TTKitFormat
 from weblate.trans.util import split_plural, xliff_string_to_rich
@@ -216,7 +216,7 @@ class PoExporter(BaseExporter):
         store.updateheader(
             add=True,
             language=self.language.code,
-            x_generator=f"Weblate {weblate.VERSION}",
+            x_generator=f"Weblate {weblate.utils.version.VERSION}",
             project_id_version=f"{self.language.name} ({self.project.name})",
             plural_forms=plural.plural_form,
             language_team=f"{self.language.name} <{self.url}>",

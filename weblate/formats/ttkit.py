@@ -42,7 +42,7 @@ from translate.storage.tbx import tbxfile
 from translate.storage.ts2 import tsfile, tsunit
 from translate.storage.xliff import ID_SEPARATOR, xlifffile
 
-import weblate
+import weblate.utils.version
 from weblate.checks.flags import Flags
 from weblate.formats.base import (
     BilingualUpdateMixin,
@@ -941,7 +941,7 @@ class BasePoFormat(TTKitFormat, BilingualUpdateMixin):
 
     def update_header(self, **kwargs):
         """Update store header if available."""
-        kwargs["x_generator"] = f"Weblate {weblate.VERSION}"
+        kwargs["x_generator"] = f"Weblate {weblate.utils.version.VERSION}"
 
         # Adjust Content-Type header if needed
         header = self.store.parseheader()

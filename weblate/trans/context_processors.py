@@ -26,8 +26,8 @@ from django.utils.http import url_has_allowed_host_and_scheme
 from django.utils.safestring import mark_safe
 from django.utils.translation import gettext as _
 
-import weblate
 import weblate.screenshots.views
+import weblate.utils.version
 from weblate.configuration.views import CustomCSSView
 from weblate.utils.site import get_site_domain, get_site_url
 from weblate.wladmin.models import ConfigurationError
@@ -139,10 +139,10 @@ def weblate_context(request):
         )
 
     context = {
-        "cache_param": f"?v={weblate.GIT_VERSION}"
+        "cache_param": f"?v={weblate.utils.version.GIT_VERSION}"
         if not settings.COMPRESS_ENABLED
         else "",
-        "version": weblate.VERSION,
+        "version": weblate.utils.version.VERSION,
         "bread_image": get_bread_image(request.path),
         "description": description,
         "weblate_link": mark_safe(
@@ -153,7 +153,8 @@ def weblate_context(request):
         ),
         "weblate_version_link": mark_safe(
             '<a href="{}">Weblate {}</a>'.format(
-                escape(WEBLATE_URL), "" if settings.HIDE_VERSION else weblate.VERSION
+                escape(WEBLATE_URL),
+                "" if settings.HIDE_VERSION else weblate.utils.version.VERSION,
             )
         ),
         "donate_url": DONATE_URL,

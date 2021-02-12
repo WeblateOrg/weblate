@@ -17,7 +17,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-
+import os
 from collections import namedtuple
 from datetime import datetime, timedelta
 from distutils.version import LooseVersion
@@ -26,9 +26,10 @@ from dateutil.parser import parse
 from django.core.cache import cache
 from django.core.checks import Info
 
-from weblate import VERSION_BASE
 from weblate.utils.checks import weblate_check
 from weblate.utils.requests import request
+from weblate.vcs.base import RepositoryException
+from weblate.vcs.git import GitRepository
 
 PYPI = "https://pypi.org/pypi/Weblate/json"
 CACHE_KEY = "version-check"
@@ -89,3 +90,35 @@ def check_version(app_configs=None, **kwargs):
             )
         ]
     return []
+
+
+def get_root_dir():
+    """Return Weblate root dir."""
+    curdir = os.path.dirname(os.path.abspath(__file__))
+    return os.path.abspath(os.path.join(curdir, "..", ".."))
+
+
+# Weblate version
+VERSION = "4.5-dev"
+
+# Version string without suffix
+VERSION_BASE = VERSION.replace("-dev", "")
+
+# User-Agent string to use
+USER_AGENT = f"Weblate/{VERSION}"
+
+# Git tag name for this release
+TAG_NAME = f"weblate-{VERSION_BASE}"
+
+# Grab some information from git
+try:
+    # Describe current checkout
+    GIT_REPO = GitRepository(get_root_dir(), local=True)
+    GIT_VERSION = GIT_REPO.describe()
+    GIT_REVISION = GIT_REPO.last_revision
+    del GIT_REPO
+except (RepositoryException, OSError):
+    # Import failed or git has troubles reading
+    # repo (for example swallow clone)
+    GIT_VERSION = VERSION
+    GIT_REVISION = None
