@@ -49,7 +49,7 @@ class GlossaryCheck(TargetCheck):
                 ):
                     forbidden.add(term_source)
             else:
-                if source in matched:
+                if term_source in matched:
                     continue
                 if re.search(
                     r"\b{}\b".format(re.escape(expected)), target, re.IGNORECASE
