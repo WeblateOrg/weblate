@@ -23,13 +23,24 @@ from django.apps import AppConfig
 from django.core.checks import Warning, register
 from filelock import FileLock
 
+import weblate.vcs.gpg
 from weblate.utils.checks import weblate_check
 from weblate.utils.data import data_dir
 from weblate.vcs.base import RepositoryException
 from weblate.vcs.git import GitRepository
-from weblate.vcs.gpg import check_gpg
 
 GIT_ERRORS = []
+
+
+def check_gpg(app_configs, **kwargs):
+    from weblate.vcs.gpg import get_gpg_public_key
+
+    get_gpg_public_key()
+    template = "{}: {}"
+    return [
+        weblate_check("weblate.C036", template.format(key, message))
+        for key, message in weblate.vcs.gpg.GPG_ERRORS.items()
+    ]
 
 
 def check_vcs(app_configs, **kwargs):

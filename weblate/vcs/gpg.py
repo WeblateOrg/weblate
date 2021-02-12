@@ -26,19 +26,9 @@ from django.core.cache import cache
 from siphashc import siphash
 
 from weblate.trans.util import get_clean_env
-from weblate.utils.checks import weblate_check
 from weblate.utils.errors import report_error
 
 GPG_ERRORS = {}
-
-
-def check_gpg(app_configs, **kwargs):
-    get_gpg_public_key()
-    template = "{}: {}"
-    return [
-        weblate_check("weblate.C036", template.format(key, message))
-        for key, message in GPG_ERRORS.items()
-    ]
 
 
 def gpg_error(name: str, error: Exception, silent: bool = False):

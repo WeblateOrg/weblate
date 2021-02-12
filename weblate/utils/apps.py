@@ -33,10 +33,10 @@ from weblate.utils.checks import (
     check_settings,
     check_site,
     check_templates,
+    check_version,
 )
 from weblate.utils.db import using_postgresql
 from weblate.utils.errors import init_error_collection
-from weblate.utils.version import check_version
 
 from .db import (
     MySQLSearchLookup,
