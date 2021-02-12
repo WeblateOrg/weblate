@@ -1723,27 +1723,32 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
                 # might need to access the template
                 self.drop_template_store_cache()
 
-                # Run post update hook, this should be done with repo lock held
-                # to avoid posssible race with another update
-                vcs_post_update.send(
-                    sender=self.__class__,
-                    component=self,
-                    previous_head=previous_head,
-                    skip_push=skip_push,
-                )
+                # Delete alerts
                 self.delete_alert("MergeFailure")
                 self.delete_alert("RepositoryOutdated")
                 if not self.repo_needs_push():
                     self.delete_alert("PushFailure")
-                for component in self.linked_childs:
-                    vcs_post_update.send(
-                        sender=component.__class__,
-                        component=component,
-                        previous_head=previous_head,
-                        child=True,
-                        skip_push=skip_push,
-                    )
+
+                # Run post update hook, this should be done with repo lock held
+                # to avoid posssible race with another update
+                self.trigger_post_update(previous_head, skip_push)
         return True
+
+    def trigger_post_update(self, previous_head: str, skip_push: bool):
+        vcs_post_update.send(
+            sender=self.__class__,
+            component=self,
+            previous_head=previous_head,
+            skip_push=skip_push,
+        )
+        for component in self.linked_childs:
+            vcs_post_update.send(
+                sender=component.__class__,
+                component=component,
+                previous_head=previous_head,
+                child=True,
+                skip_push=skip_push,
+            )
 
     def get_mask_matches(self):
         """Return files matching current mask."""
