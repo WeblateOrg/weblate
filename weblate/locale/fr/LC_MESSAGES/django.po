@@ -28,8 +28,8 @@ msgstr ""
 "Project-Id-Version: Weblate 4.5\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-02-12 16:30+0000\n"
-"PO-Revision-Date: 2021-02-10 14:50+0000\n"
-"Last-Translator: Julien Humbert <julroy67@gmail.com>\n"
+"PO-Revision-Date: 2021-02-12 19:07+0000\n"
+"Last-Translator: Ldm Public <ldmpub@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/weblate/"
 "application/fr/>\n"
 "Language: fr\n"
@@ -538,15 +538,15 @@ msgstr ""
 "l’éditeur complet."
 
 #: weblate/accounts/models.py:429
-#, fuzzy
-#| msgid "Projects with contribution"
 msgid "Automatically watch projects on contribution"
-msgstr "Projets avec contributions"
+msgstr "Surveiller automatiquement les projets dès contribution"
 
 #: weblate/accounts/models.py:432
 msgid ""
 "Whenever you translate a string in a project, you will start watching it."
 msgstr ""
+"Chaque fois que vous traduisez une chaîne dans un projet, vous surveillerez "
+"ce projet."
 
 #: weblate/accounts/models.py:442 weblate/templates/dashboard/user.html:20
 msgid "Watched translations"
@@ -2802,21 +2802,17 @@ msgstr ""
 "impossible leur réorganisation par les traducteurs"
 
 #: weblate/checks/glossary.py:33
-#, fuzzy
-#| msgid "Added to glossary"
 msgid "Does not follow glossary"
-msgstr "Ajouté au glossaire"
+msgstr "Non conforme au glossaire"
 
 #: weblate/checks/glossary.py:34
-#, fuzzy
-#| msgid "The translation does not contain an URL"
 msgid "The translation does not follow terms defined in a glossary."
-msgstr "La traduction ne contient pas d’URL"
+msgstr "La traduction ne respecte pas les termes du glossaire."
 
 #: weblate/checks/glossary.py:87
 #, python-format
 msgid "Following terms are not translated according to glossary: %s"
-msgstr ""
+msgstr "Les termes suivants ne sont pas traduits conformément au glossaire : %s"
 
 #: weblate/checks/markup.py:77
 msgid "BBcode markup"
@@ -7850,10 +7846,8 @@ msgid ""
 msgstr ""
 
 #: weblate/templates/snippets/editor.html:14
-#, fuzzy
-#| msgid "Source string comment"
 msgid "Source string length"
-msgstr "Commentaire sur la chaîne source"
+msgstr "Longueur de chaîne source"
 
 #: weblate/templates/snippets/embed-units.html:12
 msgid "State"
@@ -7896,10 +7890,8 @@ msgid "Copy word into translation"
 msgstr "Copier le mot vers la traduction"
 
 #: weblate/templates/snippets/glossary.html:16
-#, fuzzy
-#| msgid "Edit glossary entry"
 msgid "Edit glossary term"
-msgstr "Modifier une entrée de glossaire"
+msgstr "Modifier un terme du glossaire"
 
 #: weblate/templates/snippets/glossary.html:27
 msgid "No related strings found in the glossary."
@@ -9007,10 +8999,8 @@ msgid "Delete string"
 msgstr "Supprimer la chaîne"
 
 #: weblate/templates/translate.html:194
-#, fuzzy
-#| msgid "Variants of the string"
 msgid "Add variant of this string"
-msgstr "Variantes de cette chaîne"
+msgstr "Ajouter des variantes pour cette chaîne"
 
 #: weblate/templates/translate.html:204 weblate/templates/translate.html:229
 msgid "This translation is currently locked."
@@ -9126,15 +9116,15 @@ msgstr "Différence avec la chaîne actuelle"
 #: weblate/templates/translate.html:317
 msgid "The following string has the same context and source."
 msgid_plural "The following strings have the same context and source."
-msgstr[0] "La chaîne suivante a le même contexte et la même source."
-msgstr[1] "Les chaînes suivantes ont le même contexte et la même source."
+msgstr[0] "La chaîne suivante a le même contexte et la même source :"
+msgstr[1] "Les chaînes suivantes ont le même contexte et la même source :"
 
 #: weblate/templates/translate.html:325
 msgid "The following string has different context, but the same source."
 msgid_plural ""
 "The following strings have different contexts, but the same source."
-msgstr[0] "La chaîne suivante a plusieurs contextes mais la même source."
-msgstr[1] "Les chaînes suivantes ont plusieurs contextes mais la même source."
+msgstr[0] "La chaîne suivante a plusieurs contextes mais la même source :"
+msgstr[1] "Les chaînes suivantes ont plusieurs contextes mais la même source :"
 
 #: weblate/templates/translate.html:333
 msgid "The following string has a different source, but the same context."
@@ -9596,7 +9586,7 @@ msgstr "Chaînes traduites avec des erreurs de validation"
 
 #: weblate/trans/filter.py:57
 msgid "Translated strings with dismissed checks"
-msgstr "Chaînes traduites avec des contrôle de qualité ignorés"
+msgstr "Chaînes traduites avec des vérifications de qualité ignorés"
 
 #: weblate/trans/filter.py:60 weblate/trans/filter.py:130
 msgid "Approved strings"
@@ -11483,16 +11473,12 @@ msgid "Prohibit translation"
 msgstr "Interdire la traduction"
 
 #: weblate/trans/models/unit.py:1359
-#, fuzzy
-#| msgid "Unmark as forbidden translations"
 msgid "Unmark as forbidden translation"
-msgstr "Ne plus marquer comme « Traductions déconseillées »"
+msgstr "Ne plus marquer comme « Traduction déconseillée »"
 
 #: weblate/trans/models/unit.py:1367
-#, fuzzy
-#| msgid "Mark as forbidden translations"
 msgid "Mark as forbidden translation"
-msgstr "Marquer comme traductions déconseillées"
+msgstr "Marquer comme traduction déconseillée"
 
 #: weblate/trans/models/unit.py:1376
 msgid "Unmark as terminology"
@@ -11579,23 +11565,19 @@ msgid "Tab character"
 msgstr "Tabulation"
 
 #: weblate/trans/templatetags/translations.py:180
-#, fuzzy, python-format
-#| msgid "Forbidden translation"
+#, python-format
 msgid "Forbidden translation: %s"
-msgstr "Traduction déconseillée"
+msgstr "Traduction déconseillée : %s"
 
 #: weblate/trans/templatetags/translations.py:182
-#, fuzzy, python-format
-#| msgctxt "String state"
-#| msgid "Not translated"
+#, python-format
 msgid "Not-translatable: %s"
-msgstr "Non traduit"
+msgstr "Ne pas traduire : %s"
 
 #: weblate/trans/templatetags/translations.py:184
-#, fuzzy, python-format
-#| msgid "Upload translations"
+#, python-format
 msgid "Glossary translation: %s"
-msgstr "Téléverser les traductions"
+msgstr "Translation dans le glossaire : %s"
 
 #: weblate/trans/templatetags/translations.py:230
 msgid "New line"
@@ -12020,6 +12002,8 @@ msgid ""
 "Added %(project)s to your watched projects. You can adjust them and this "
 "behavior in the settings."
 msgstr ""
+"%(project)s ajouté à vos projets surveillés. Vous pouvez modifier ce "
+"fonctionnement dans les paramètres."
 
 #: weblate/trans/views/edit.py:357
 #, python-brace-format
