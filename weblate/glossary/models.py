@@ -20,6 +20,7 @@
 import re
 from itertools import chain
 
+from django.db.models import Q
 from django.db.models.functions import Lower
 
 from weblate.trans.models.unit import Unit
@@ -52,14 +53,7 @@ def get_glossary_terms(unit):
     glossaries = component.project.glossaries
 
     units = (
-        Unit.objects.prefetch()
-        .filter(
-            translation__component__in=glossaries,
-            translation__component__source_language=source_language,
-            translation__language=language,
-        )
-        .select_related("source_unit")
-        .order_by(Lower("source"))
+        Unit.objects.prefetch().select_related("source_unit").order_by(Lower("source"))
     )
     if language == source_language:
         return units.none()
@@ -84,17 +78,21 @@ def get_glossary_terms(unit):
     ]
 
     if using_postgresql():
+        match = r"^({})$".format("|".join(re_escape(term) for term in matches))
         # Use regex as that is utilizing pg_trgm index
-        result = units.filter(
-            source__iregex=r"^({})$".format(
-                "|".join(re_escape(term) for term in matches)
-            ),
-        )
+        query = Q(source__iregex=match) | Q(variant__unit__source__iregex=match)
     else:
         # With MySQL we utilize it does case insensitive lookup
-        result = units.filter(source__in=matches)
+        query = Q(source__in=matches) | Q(variant__unit__source__in=matches)
+
+    units = units.filter(
+        query,
+        translation__component__in=glossaries,
+        translation__component__source_language=source_language,
+        translation__language=language,
+    ).distinct()
 
     # Store in a unit cache
-    unit.glossary_terms = result
+    unit.glossary_terms = units
 
-    return result
+    return units
