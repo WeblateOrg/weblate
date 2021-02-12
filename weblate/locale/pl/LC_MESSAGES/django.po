@@ -26,8 +26,8 @@ msgstr ""
 "Project-Id-Version: Weblate 4.5\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-02-12 16:30+0000\n"
-"PO-Revision-Date: 2021-02-09 02:02+0000\n"
-"Last-Translator: WaldiS <sto@tutanota.de>\n"
+"PO-Revision-Date: 2021-02-12 23:02+0000\n"
+"Last-Translator: tomkolp <tomkolp@gmail.com>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/weblate/"
 "application/pl/>\n"
 "Language: pl\n"
@@ -526,15 +526,15 @@ msgstr ""
 "Liczba sąsiednich ciągów do wyświetlenia w każdym kierunku w pełnym edytorze."
 
 #: weblate/accounts/models.py:429
-#, fuzzy
-#| msgid "Projects with contribution"
 msgid "Automatically watch projects on contribution"
-msgstr "Projekty z wkładem"
+msgstr "Automatycznie obserwuj projekty z własnym wkładem"
 
 #: weblate/accounts/models.py:432
 msgid ""
 "Whenever you translate a string in a project, you will start watching it."
 msgstr ""
+"Za każdym razem, gdy przetłumaczysz ciąg w projekcie, zaczniesz go "
+"obserwować."
 
 #: weblate/accounts/models.py:442 weblate/templates/dashboard/user.html:20
 msgid "Watched translations"
@@ -2745,21 +2745,18 @@ msgstr ""
 "tłumaczom zmianę ich kolejności"
 
 #: weblate/checks/glossary.py:33
-#, fuzzy
-#| msgid "Added to glossary"
 msgid "Does not follow glossary"
-msgstr "Dodano do słownika"
+msgstr "Nie jest zgodny z słownikiem"
 
 #: weblate/checks/glossary.py:34
-#, fuzzy
-#| msgid "The translation does not contain an URL"
 msgid "The translation does not follow terms defined in a glossary."
-msgstr "Tłumaczenie nie zawiera adresu URL"
+msgstr "Tłumaczenie nie jest zgodne z terminami zdefiniowanymi w słowniku."
 
 #: weblate/checks/glossary.py:87
 #, python-format
 msgid "Following terms are not translated according to glossary: %s"
 msgstr ""
+"Następujące terminy nie zostały przetłumaczone zgodnie ze słownikiem: %s"
 
 #: weblate/checks/markup.py:77
 msgid "BBcode markup"
@@ -7748,12 +7745,12 @@ msgstr ""
 msgid ""
 "The maximal string length is determined from the source string or flags."
 msgstr ""
+"Maksymalna długość ciągu jest określana na podstawie ciągu źródłowego lub "
+"flag."
 
 #: weblate/templates/snippets/editor.html:14
-#, fuzzy
-#| msgid "Source string comment"
 msgid "Source string length"
-msgstr "Komentarz do źródłowego ciągu znaków"
+msgstr "Długość ciągu źródłowego"
 
 #: weblate/templates/snippets/embed-units.html:12
 msgid "State"
@@ -7796,10 +7793,8 @@ msgid "Copy word into translation"
 msgstr "Skopiuj słowo do tłumaczenia"
 
 #: weblate/templates/snippets/glossary.html:16
-#, fuzzy
-#| msgid "Edit glossary entry"
 msgid "Edit glossary term"
-msgstr "Edytuj wpis słownika"
+msgstr "Edytuj termin słownika"
 
 #: weblate/templates/snippets/glossary.html:27
 msgid "No related strings found in the glossary."
@@ -8546,15 +8541,15 @@ msgstr ""
 "zależności."
 
 #: weblate/templates/trans/alert/unusedenforcedcheck.html:4
-#, fuzzy
-#| msgid "Following checks are failing:"
 msgid "Following enforced checks are not enabled anywhere:"
-msgstr "Następujące kontrole nie powiodły się:"
+msgstr "Następujące wymuszone kontrole nie są nigdzie włączone:"
 
 #: weblate/templates/trans/alert/unusedenforcedcheck.html:8
 #, python-format
 msgid "%(check)s is enforced, but not enabled using <code>%(flag)s</code>."
 msgstr ""
+"%(check)s jest wymuszane, ale nie jest włączane przy użyciu "
+"<code>%(flag)s</code>."
 
 #: weblate/templates/trans/alert/unusedscreenshot.html:2
 msgid "There is at least one screenshot which is not assigned to any strings."
@@ -8887,10 +8882,8 @@ msgid "Delete string"
 msgstr "Usuń ciąg"
 
 #: weblate/templates/translate.html:194
-#, fuzzy
-#| msgid "Variants of the string"
 msgid "Add variant of this string"
-msgstr "Warianty ciągu"
+msgstr "Dodaj wariant tego ciągu"
 
 #: weblate/templates/translate.html:204 weblate/templates/translate.html:229
 msgid "This translation is currently locked."
@@ -10190,10 +10183,8 @@ msgid "Does not meet libre hosting conditions."
 msgstr "Nie spełnia warunków wolnego hostingu."
 
 #: weblate/trans/models/alert.py:345
-#, fuzzy
-#| msgid "Enforced checks"
 msgid "Unused enforced checks."
-msgstr "Wymuszone kontrole"
+msgstr "Nieużywane wymuszone kontrole."
 
 #: weblate/trans/models/announcement.py:111
 msgid "Category"
@@ -11326,16 +11317,12 @@ msgid "Prohibit translation"
 msgstr "Zabroń tłumaczenia"
 
 #: weblate/trans/models/unit.py:1359
-#, fuzzy
-#| msgid "Unmark as forbidden translations"
 msgid "Unmark as forbidden translation"
-msgstr "Usuń oznaczenie \"zakazane tłumaczenia\""
+msgstr "Usuń oznaczenie \"zakazane tłumaczenie\""
 
 #: weblate/trans/models/unit.py:1367
-#, fuzzy
-#| msgid "Mark as forbidden translations"
 msgid "Mark as forbidden translation"
-msgstr "Oznacz jako zakazane tłumaczenia"
+msgstr "Oznacz jako zakazane tłumaczenie"
 
 #: weblate/trans/models/unit.py:1376
 msgid "Unmark as terminology"
@@ -11423,23 +11410,19 @@ msgid "Tab character"
 msgstr "Znak tabulatora"
 
 #: weblate/trans/templatetags/translations.py:180
-#, fuzzy, python-format
-#| msgid "Forbidden translation"
+#, python-format
 msgid "Forbidden translation: %s"
-msgstr "Tłumaczenie zabronione"
+msgstr "Zabronione tłumaczenie: %s"
 
 #: weblate/trans/templatetags/translations.py:182
-#, fuzzy, python-format
-#| msgctxt "String state"
-#| msgid "Not translated"
+#, python-format
 msgid "Not-translatable: %s"
-msgstr "Nie przetłumaczone"
+msgstr "Nieprzetłumaczalne: %s"
 
 #: weblate/trans/templatetags/translations.py:184
-#, fuzzy, python-format
-#| msgid "Upload translations"
+#, python-format
 msgid "Glossary translation: %s"
-msgstr "Prześlij tłumaczenia"
+msgstr "Tłumaczenie z słownika: %s"
 
 #: weblate/trans/templatetags/translations.py:230
 msgid "New line"
@@ -11869,6 +11852,8 @@ msgid ""
 "Added %(language)s to your translated languages. You can adjust them in the "
 "settings."
 msgstr ""
+"Dodano język %(language)s do tłumaczonych języków. Można je dostosować w "
+"ustawieniach."
 
 #: weblate/trans/views/edit.py:338
 #, python-format
@@ -11876,6 +11861,8 @@ msgid ""
 "Added %(project)s to your watched projects. You can adjust them and this "
 "behavior in the settings."
 msgstr ""
+"Dodano %(project)s do obserwowanych projektów. Możesz dostosować to "
+"zachowanie w ustawieniach."
 
 #: weblate/trans/views/edit.py:357
 #, python-brace-format
