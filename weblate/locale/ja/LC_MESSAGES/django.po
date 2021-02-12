@@ -24,7 +24,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.5\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-02-12 13:54+0000\n"
-"PO-Revision-Date: 2021-02-09 02:02+0000\n"
+"PO-Revision-Date: 2021-02-12 16:04+0000\n"
 "Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "application/ja/>\n"
@@ -516,10 +516,8 @@ msgid "Number of nearby strings to show in each direction in the full editor."
 msgstr "フル エディタ使用時に表示する「前後の文字列」の数。"
 
 #: weblate/accounts/models.py:429
-#, fuzzy
-#| msgid "Projects with contribution"
 msgid "Automatically watch projects on contribution"
-msgstr "貢献したプロジェクト"
+msgstr "貢献したプロジェクトを自動的に監視する"
 
 #: weblate/accounts/models.py:432
 msgid ""
@@ -2699,16 +2697,12 @@ msgid ""
 msgstr "文字列内に複数の名前のない変数があるため、翻訳者は並べ替えができません"
 
 #: weblate/checks/glossary.py:33
-#, fuzzy
-#| msgid "Added to glossary"
 msgid "Does not follow glossary"
-msgstr "用語集に追加"
+msgstr "用語集に従わない"
 
 #: weblate/checks/glossary.py:34
-#, fuzzy
-#| msgid "The translation does not contain an URL"
 msgid "The translation does not follow terms defined in a glossary."
-msgstr "翻訳文に URL が含まれていない"
+msgstr "翻訳文は用語集に定義された用語に従っていない。"
 
 #: weblate/checks/glossary.py:87
 #, python-format
@@ -7627,10 +7621,8 @@ msgid ""
 msgstr ""
 
 #: weblate/templates/snippets/editor.html:14
-#, fuzzy
-#| msgid "Source string comment"
 msgid "Source string length"
-msgstr "原文についてのコメント"
+msgstr "原文の文字列の長さ"
 
 #: weblate/templates/snippets/embed-units.html:12
 msgid "State"
@@ -7673,10 +7665,8 @@ msgid "Copy word into translation"
 msgstr "翻訳文に単語をコピー"
 
 #: weblate/templates/snippets/glossary.html:16
-#, fuzzy
-#| msgid "Edit glossary entry"
 msgid "Edit glossary term"
-msgstr "用語集の項目の編集"
+msgstr "用語集の用語の編集"
 
 #: weblate/templates/snippets/glossary.html:27
 msgid "No related strings found in the glossary."
@@ -8412,10 +8402,8 @@ msgstr ""
 "生することがあります。"
 
 #: weblate/templates/trans/alert/unusedenforcedcheck.html:4
-#, fuzzy
-#| msgid "Following checks are failing:"
 msgid "Following enforced checks are not enabled anywhere:"
-msgstr "不合格となった検査項目:"
+msgstr "どこに対しても有効とならない強制する検査項目:"
 
 #: weblate/templates/trans/alert/unusedenforcedcheck.html:8
 #, python-format
@@ -8751,10 +8739,8 @@ msgid "Delete string"
 msgstr "文字列の削除"
 
 #: weblate/templates/translate.html:194
-#, fuzzy
-#| msgid "Variants of the string"
 msgid "Add variant of this string"
-msgstr "文字列の異なる表記"
+msgstr "この文字列の異なる表記の追加"
 
 #: weblate/templates/translate.html:204 weblate/templates/translate.html:229
 msgid "This translation is currently locked."
@@ -10020,10 +10006,8 @@ msgid "Does not meet libre hosting conditions."
 msgstr "Libre ホスティングの条件を満たしていません。"
 
 #: weblate/trans/models/alert.py:345
-#, fuzzy
-#| msgid "Enforced checks"
 msgid "Unused enforced checks."
-msgstr "検査の強制"
+msgstr "検査の強制を使用しない。"
 
 #: weblate/trans/models/announcement.py:111
 msgid "Category"
@@ -11125,16 +11109,12 @@ msgid "Prohibit translation"
 msgstr "翻訳の不許可"
 
 #: weblate/trans/models/unit.py:1359
-#, fuzzy
-#| msgid "Unmark as forbidden translations"
 msgid "Unmark as forbidden translation"
-msgstr "翻訳禁止のマークの解除"
+msgstr "翻訳禁止の解除"
 
 #: weblate/trans/models/unit.py:1367
-#, fuzzy
-#| msgid "Mark as forbidden translations"
 msgid "Mark as forbidden translation"
-msgstr "翻訳禁止のマークの設定"
+msgstr "翻訳禁止の設定"
 
 #: weblate/trans/models/unit.py:1376
 msgid "Unmark as terminology"
@@ -11220,23 +11200,19 @@ msgid "Tab character"
 msgstr "タブ文字"
 
 #: weblate/trans/templatetags/translations.py:180
-#, fuzzy, python-format
-#| msgid "Forbidden translation"
+#, python-format
 msgid "Forbidden translation: %s"
-msgstr "翻訳禁止"
+msgstr "翻訳禁止: %s"
 
 #: weblate/trans/templatetags/translations.py:182
-#, fuzzy, python-format
-#| msgctxt "String state"
-#| msgid "Not translated"
+#, python-format
 msgid "Not-translatable: %s"
-msgstr "未翻訳"
+msgstr "翻訳不許可: %s"
 
 #: weblate/trans/templatetags/translations.py:184
-#, fuzzy, python-format
-#| msgid "Upload translations"
+#, python-format
 msgid "Glossary translation: %s"
-msgstr "翻訳のアップロード"
+msgstr "用語集にある翻訳: %s"
 
 #: weblate/trans/templatetags/translations.py:230
 msgid "New line"
