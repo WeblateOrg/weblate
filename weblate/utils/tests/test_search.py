@@ -26,6 +26,7 @@ from pytz import utc
 from weblate.trans.models import Change, Unit
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.util import PLURAL_SEPARATOR
+from weblate.utils.db import using_postgresql
 from weblate.utils.search import Comparer, parse_query
 from weblate.utils.state import (
     STATE_APPROVED,
@@ -415,9 +416,14 @@ class SearchTest(ViewTestCase, SearchMixin):
     def test_glossary_match(self):
         glossary = self.project.glossaries[0].translation_set.get(language_code="cs")
         glossary.add_units(None, [("", "hello", "ahoj")])
+
+        if using_postgresql():
+            expected = "[[:<:]](hello)[[:>:]]"
+        else:
+            expected = r"(^|[ \t\n\r\f\v])(hello)($|[ \t\n\r\f\v])"
         self.assert_query(
             "has:glossary",
-            Q(source__iregex="[[:<:]](hello)[[:>:]]"),
+            Q(source__iregex=expected),
             True,
             project=self.project,
         )

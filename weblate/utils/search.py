@@ -40,7 +40,7 @@ from pyparsing import (
 
 from weblate.checks.parser import RawQuotedString
 from weblate.trans.util import PLURAL_SEPARATOR
-from weblate.utils.db import re_escape
+from weblate.utils.db import re_escape, using_postgresql
 from weblate.utils.state import (
     STATE_APPROVED,
     STATE_FUZZY,
@@ -255,8 +255,12 @@ class TermExpr:
             )
             if not terms:
                 return Q(source__isnull=True)
+            if using_postgresql():
+                template = r"[[:<:]]({})[[:>:]]"
+            else:
+                template = r"(^|[ \t\n\r\f\v])({})($|[ \t\n\r\f\v])"
             return Q(
-                source__iregex=r"[[:<:]]({})[[:>:]]".format(
+                source__iregex=template.format(
                     "|".join(re_escape(term) for term in terms)
                 )
             )
