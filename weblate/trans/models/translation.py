@@ -931,13 +931,20 @@ class Translation(
                         os.unlink(temp.name)
 
             # Commit changes
+            previous_revision = (self.component.repository.last_revision,)
             if component.commit_files(
                 template=component.addon_message,
                 files=filenames,
                 author=request.user.get_author_name(),
                 extra_context={"addon_name": "Source update"},
             ):
-                component.create_translations(request=request, force=True)
+                self.drop_store_cache()
+                self.handle_store_change(
+                    request,
+                    request.user,
+                    previous_revision,
+                    change=Change.ACTION_REPLACE_UPLOAD,
+                )
         return (0, 0, self.unit_set.count(), self.unit_set.count())
 
     def handle_replace(self, request, fileobj):
