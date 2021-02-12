@@ -419,7 +419,7 @@ DEFAULT_AUTO_WATCH
 
 .. versionadded:: 4.5
 
-Configures whether autonmatic watching should be turned on for new users. Defaults to ``True``.
+Configures whether automatic watching should be turned on for new users. Defaults to ``True``.
 
 .. seealso::
 
