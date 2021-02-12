@@ -21,7 +21,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.5\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-02-12 16:30+0000\n"
-"PO-Revision-Date: 2021-02-12 16:30+0000\n"
+"PO-Revision-Date: 2021-02-12 17:19+0000\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/"
 "application/uk/>\n"
@@ -7774,10 +7774,8 @@ msgstr ""
 "прапорців."
 
 #: weblate/templates/snippets/editor.html:14
-#, fuzzy
-#| msgid "Source string comment"
 msgid "Source string length"
-msgstr "Коментар до початкового рядка"
+msgstr "довжина початкового рядка"
 
 #: weblate/templates/snippets/embed-units.html:12
 msgid "State"
@@ -7820,10 +7818,8 @@ msgid "Copy word into translation"
 msgstr "Копіювати слово у переклад"
 
 #: weblate/templates/snippets/glossary.html:16
-#, fuzzy
-#| msgid "Edit glossary entry"
 msgid "Edit glossary term"
-msgstr "Змінити словникове гніздо"
+msgstr "Змінити термін глосарія"
 
 #: weblate/templates/snippets/glossary.html:27
 msgid "No related strings found in the glossary."
@@ -8569,15 +8565,15 @@ msgstr ""
 "залежностей."
 
 #: weblate/templates/trans/alert/unusedenforcedcheck.html:4
-#, fuzzy
-#| msgid "Following checks are failing:"
 msgid "Following enforced checks are not enabled anywhere:"
-msgstr "Не пройдено такі перевірки:"
+msgstr "Вказані нижче примусові перевірки ніде не увімкнено:"
 
 #: weblate/templates/trans/alert/unusedenforcedcheck.html:8
 #, python-format
 msgid "%(check)s is enforced, but not enabled using <code>%(flag)s</code>."
 msgstr ""
+"Примусово встановлено %(check)s, але не увімкнено за допомогою "
+"<code>%(flag)s</code>."
 
 #: weblate/templates/trans/alert/unusedscreenshot.html:2
 msgid "There is at least one screenshot which is not assigned to any strings."
@@ -8907,10 +8903,8 @@ msgid "Delete string"
 msgstr "Видалити рядок"
 
 #: weblate/templates/translate.html:194
-#, fuzzy
-#| msgid "Variants of the string"
 msgid "Add variant of this string"
-msgstr "Варіанти рядка"
+msgstr "Додати варіант цього рядка"
 
 #: weblate/templates/translate.html:204 weblate/templates/translate.html:229
 msgid "This translation is currently locked."
@@ -10214,10 +10208,8 @@ msgid "Does not meet libre hosting conditions."
 msgstr "Не відповідає умовам вільного розміщення."
 
 #: weblate/trans/models/alert.py:345
-#, fuzzy
-#| msgid "Enforced checks"
 msgid "Unused enforced checks."
-msgstr "Примусові перевірки"
+msgstr "Невикористані примусові перевірки."
 
 #: weblate/trans/models/announcement.py:111
 msgid "Category"
@@ -11343,16 +11335,12 @@ msgid "Prohibit translation"
 msgstr "Заборонити переклад"
 
 #: weblate/trans/models/unit.py:1359
-#, fuzzy
-#| msgid "Unmark as forbidden translations"
 msgid "Unmark as forbidden translation"
-msgstr "Скасувати позначення як заборонених перекладів"
+msgstr "Скасувати позначення як забороненого перекладу"
 
 #: weblate/trans/models/unit.py:1367
-#, fuzzy
-#| msgid "Mark as forbidden translations"
 msgid "Mark as forbidden translation"
-msgstr "Позначити як заборонені переклади"
+msgstr "Позначити як заборонений переклад"
 
 #: weblate/trans/models/unit.py:1376
 msgid "Unmark as terminology"
@@ -11441,23 +11429,19 @@ msgid "Tab character"
 msgstr "Символ табуляції"
 
 #: weblate/trans/templatetags/translations.py:180
-#, fuzzy, python-format
-#| msgid "Forbidden translation"
+#, python-format
 msgid "Forbidden translation: %s"
-msgstr "Заборонений переклад"
+msgstr "Заборонений переклад: %s"
 
 #: weblate/trans/templatetags/translations.py:182
-#, fuzzy, python-format
-#| msgctxt "String state"
-#| msgid "Not translated"
+#, python-format
 msgid "Not-translatable: %s"
-msgstr "Не перекладено"
+msgstr "Не перекладати: %s"
 
 #: weblate/trans/templatetags/translations.py:184
-#, fuzzy, python-format
-#| msgid "Upload translations"
+#, python-format
 msgid "Glossary translation: %s"
-msgstr "Вивантажити переклади"
+msgstr "Переклад з глосарія: %s"
 
 #: weblate/trans/templatetags/translations.py:230
 msgid "New line"
@@ -11903,6 +11887,8 @@ msgid ""
 "Added %(language)s to your translated languages. You can adjust them in the "
 "settings."
 msgstr ""
+"До мов перекладу додано %(language)s. Ви можете внести корективи у "
+"параметрах перекладу."
 
 #: weblate/trans/views/edit.py:338
 #, python-format
@@ -11910,6 +11896,8 @@ msgid ""
 "Added %(project)s to your watched projects. You can adjust them and this "
 "behavior in the settings."
 msgstr ""
+"%(project)s додано до проєктів, за якими ви спостерігаєте. Ви можете "
+"скоригувати список проєктів та цю поведінку у параметрах облікового запису."
 
 #: weblate/trans/views/edit.py:357
 #, python-brace-format
