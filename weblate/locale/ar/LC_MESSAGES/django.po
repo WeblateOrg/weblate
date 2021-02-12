@@ -16,7 +16,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.5\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
-"POT-Creation-Date: 2021-02-12 13:54+0000\n"
+"POT-Creation-Date: 2021-02-12 16:30+0000\n"
 "PO-Revision-Date: 2021-02-04 23:47+0000\n"
 "Last-Translator: Anonymous <noreply@weblate.org>\n"
 "Language-Team: Arabic <https://hosted.weblate.org/projects/weblate/"
@@ -8939,7 +8939,7 @@ msgid "Weblate could not push changes to the upstream repository."
 msgstr "تعذر على Weblate دفع التغييرات إلى مستودع المنبع."
 
 #: weblate/templates/trans/alert/pushfailure.html:9
-#: weblate/trans/models/component.py:2363
+#: weblate/trans/models/component.py:2368
 msgid ""
 "Your push URL seems to miss credentials. Either provide them in the URL or "
 "use SSH with key based authentication."
@@ -11553,8 +11553,8 @@ msgid "Could not fetch the repository: %s"
 msgstr "لا يمكن تحديث المستودع."
 
 #: weblate/trans/models/component.py:1283
-#: weblate/trans/models/component.py:2263
-#: weblate/trans/models/component.py:2322
+#: weblate/trans/models/component.py:2268
+#: weblate/trans/models/component.py:2327
 #, fuzzy
 #| msgid "This translation does not yet exist."
 msgid "File does not exist."
@@ -11594,50 +11594,50 @@ msgstr ""
 msgid "Could not merge remote branch into %s."
 msgstr "تعذر دمج المستودع."
 
-#: weblate/trans/models/component.py:2134
+#: weblate/trans/models/component.py:2139
 msgid "Invalid link to a Weblate project, cannot link to linked repository!"
 msgstr ""
 
-#: weblate/trans/models/component.py:2143
+#: weblate/trans/models/component.py:2148
 msgid "Invalid link to a Weblate project, cannot link it to itself!"
 msgstr ""
 
-#: weblate/trans/models/component.py:2152
+#: weblate/trans/models/component.py:2157
 msgid "Invalid link to a Weblate project, use weblate://project/component."
 msgstr "الرابط غير صالح إلى مشروع Weblate، استخدم weblate://project/component."
 
-#: weblate/trans/models/component.py:2161
+#: weblate/trans/models/component.py:2166
 msgid "Option is not available for linked repositories."
 msgstr "هذا الخيار غير متاح للمستودعات المرتبطة."
 
-#: weblate/trans/models/component.py:2170
+#: weblate/trans/models/component.py:2175
 msgid "The filemask did not match any files."
 msgstr "لا يتطابق قناع الملف مع أية ملفات."
 
-#: weblate/trans/models/component.py:2179
+#: weblate/trans/models/component.py:2184
 #, python-format
 msgid "The language code for %s was empty, please check the filemask."
 msgstr "إنّ رمز اللغة لـ %s فارغ، الرجاء التحقق من قناع الملف."
 
-#: weblate/trans/models/component.py:2188
+#: weblate/trans/models/component.py:2193
 #, python-format
 msgid "The language code \"%s\" is too long, please check the filemask."
 msgstr "رمز اللغة \"%s\" طويل جداً، الرجاء التحقق من قناع الملف."
 
-#: weblate/trans/models/component.py:2195
+#: weblate/trans/models/component.py:2200
 #, python-format
 msgid ""
 "There is more than one file for %s language, please adjust the filemask and "
 "use components for translating a different resources."
 msgstr ""
 
-#: weblate/trans/models/component.py:2209
+#: weblate/trans/models/component.py:2214
 #, fuzzy
 #| msgid "The language code \"%s\" is too long, please check the filemask."
 msgid "Could not find any matching language, please check the filemask."
 msgstr "رمز اللغة \"%s\" طويل جداً، الرجاء التحقق من قناع الملف."
 
-#: weblate/trans/models/component.py:2228
+#: weblate/trans/models/component.py:2233
 #, fuzzy, python-format
 #| msgid "Could not parse translation files."
 msgid "Could not parse %d matched file."
@@ -11649,7 +11649,7 @@ msgstr[3] "تعذر تحليل ملفات الترجمة."
 msgstr[4] "تعذر تحليل ملفات الترجمة."
 msgstr[5] "تعذر تحليل ملفات الترجمة."
 
-#: weblate/trans/models/component.py:2256
+#: weblate/trans/models/component.py:2261
 #, fuzzy
 #| msgid ""
 #| "You have configured Weblate to add new translation files, but did not "
@@ -11661,70 +11661,70 @@ msgstr ""
 "لقد قمتم بإعداد ويب لايت لإضافة ملفات جديدة الترجمة و لكنم لم تقوموا بإدخال "
 "الملف القاعدي لهذا الغرض !"
 
-#: weblate/trans/models/component.py:2267
+#: weblate/trans/models/component.py:2272
 #, fuzzy, python-format
 #| msgid "Define the base file for new translations"
 msgid "Failed to parse base file for new translations: %s"
 msgstr "تحديد الملف القاعدي للترجمات الجديدة"
 
-#: weblate/trans/models/component.py:2271
+#: weblate/trans/models/component.py:2276
 #, fuzzy
 #| msgid "Define the base file for new translations"
 msgid "Unrecognized base file for new translations."
 msgstr "تحديد الملف القاعدي للترجمات الجديدة"
 
-#: weblate/trans/models/component.py:2282
+#: weblate/trans/models/component.py:2287
 #, fuzzy
 #| msgid "You can not use base file with bilingual translation!"
 msgid "You can not use a base file for bilingual translation."
 msgstr "لا يمكنك استخدام ملف أساسي مع ترجمة ثنائية اللغة!"
 
-#: weblate/trans/models/component.py:2288
-#: weblate/trans/models/component.py:2304
+#: weblate/trans/models/component.py:2293
+#: weblate/trans/models/component.py:2309
 msgid ""
 "An intermediate language file can not be used without an editing template."
 msgstr ""
 
-#: weblate/trans/models/component.py:2296
+#: weblate/trans/models/component.py:2301
 msgid ""
 "An intermediate language file has to be different from monolingual base "
 "language file. You can probably keep it empty."
 msgstr ""
 
-#: weblate/trans/models/component.py:2311
+#: weblate/trans/models/component.py:2316
 #, fuzzy
 #| msgid "Using .pot file as base file is not supported!"
 msgid "Using a .pot file as base file is unsupported."
 msgstr "إنّ استخدام ملف .pot كملف قاعدي غير مدعوم !"
 
-#: weblate/trans/models/component.py:2327
+#: weblate/trans/models/component.py:2332
 #, fuzzy, python-format
 #| msgid "Could not parse translation files."
 msgid "Could not parse translation base file: %s"
 msgstr "تعذر تحليل ملفات الترجمة."
 
-#: weblate/trans/models/component.py:2337
+#: weblate/trans/models/component.py:2342
 #, python-brace-format
 msgid "Template language ({0}) does not match source language ({1})!"
 msgstr ""
 
-#: weblate/trans/models/component.py:2342
+#: weblate/trans/models/component.py:2347
 #, fuzzy
 #| msgid "You can not use monolingual translation without base file!"
 msgid "You can not use a monolingual translation without a base file."
 msgstr "لا يمكن استخدام الترجمة الأحادية دون ملف قاعدي!"
 
-#: weblate/trans/models/component.py:2368
+#: weblate/trans/models/component.py:2373
 #, fuzzy, python-format
 #| msgid "Could not update the repository."
 msgid "Could not update repository: %s"
 msgstr "لا يمكن تحديث المستودع."
 
-#: weblate/trans/models/component.py:2380
+#: weblate/trans/models/component.py:2385
 msgid "Please define a glossary name to use component as a glossary."
 msgstr ""
 
-#: weblate/trans/models/component.py:2390
+#: weblate/trans/models/component.py:2395
 #, fuzzy
 #| msgid ""
 #| "Please either fill in instructions URL or use different option for adding "
@@ -11735,61 +11735,61 @@ msgid ""
 msgstr ""
 "يرجى إما ملء عنوان URL الخاص بالإرشادات أو استخدام خيار آخر لإضافة لغة جديدة."
 
-#: weblate/trans/models/component.py:2421
+#: weblate/trans/models/component.py:2426
 msgid ""
 "Source language can not be changed, please recreate the component instead."
 msgstr ""
 
-#: weblate/trans/models/component.py:2429
+#: weblate/trans/models/component.py:2434
 #, fuzzy
 #| msgid "Similar translation already exists in the project ({0})!"
 msgid "Component with this URL slug already exists in the project."
 msgstr "هناك ترجمة مُماثِلة ومشابهة موجودة على المشروع ({0})!"
 
-#: weblate/trans/models/component.py:2434
+#: weblate/trans/models/component.py:2439
 #, fuzzy
 #| msgid "Similar translation already exists in the project ({0})!"
 msgid "Component with this name already exists in the project."
 msgstr "هناك ترجمة مُماثِلة ومشابهة موجودة على المشروع ({0})!"
 
-#: weblate/trans/models/component.py:2459
+#: weblate/trans/models/component.py:2464
 msgid "Can not validate file matches due to invalid regular expression."
 msgstr ""
 
-#: weblate/trans/models/component.py:2472
+#: weblate/trans/models/component.py:2477
 #, fuzzy
 #| msgid ""
 #| "Automatically accepting suggestions can work only with voting enabled!"
 msgid "Accepting suggestions automatically only works with voting turned on."
 msgstr "لا يمكن قبول الاقتراحات تلقائيًا إلا بالتصويت فقط!"
 
-#: weblate/trans/models/component.py:2889
+#: weblate/trans/models/component.py:2894
 #, fuzzy
 #| msgid "Could not parse translation files."
 msgid "Could not add new translation file."
 msgstr "تعذر تحليل ملفات الترجمة."
 
-#: weblate/trans/models/component.py:2905
+#: weblate/trans/models/component.py:2910
 msgid "The given language is filtered by the language filter."
 msgstr ""
 
-#: weblate/trans/models/component.py:2929
+#: weblate/trans/models/component.py:2934
 msgid "Translation file already exists!"
 msgstr "ملف الترجمة موجود بالفعل!"
 
-#: weblate/trans/models/component.py:2949
+#: weblate/trans/models/component.py:2954
 #, fuzzy
 #| msgid "The translation has come to an end."
 msgid "The translation will be updated in the background."
 msgstr "لقد بلَغتِ الترجمة إلى نهايتها."
 
 #. Translators: Translation context for Gettext
-#: weblate/trans/models/component.py:2992
+#: weblate/trans/models/component.py:2997
 msgid "Context"
 msgstr "السياق"
 
 #. Translators: Translation key for monolingual translations
-#: weblate/trans/models/component.py:2994 weblate/utils/views.py:111
+#: weblate/trans/models/component.py:2999 weblate/utils/views.py:111
 msgctxt "Translation key"
 msgid "Key"
 msgstr "مفاتيح"

@@ -33,7 +33,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.5\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
-"POT-Creation-Date: 2021-02-12 13:54+0000\n"
+"POT-Creation-Date: 2021-02-12 16:30+0000\n"
 "PO-Revision-Date: 2021-02-07 11:29+0000\n"
 "Last-Translator: nautilusx <translate@disroot.org>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
@@ -8667,7 +8667,7 @@ msgid "Weblate could not push changes to the upstream repository."
 msgstr "Weblate konnte keine Änderungen ins Upstream-Repository pushen."
 
 #: weblate/templates/trans/alert/pushfailure.html:9
-#: weblate/trans/models/component.py:2363
+#: weblate/trans/models/component.py:2368
 msgid ""
 "Your push URL seems to miss credentials. Either provide them in the URL or "
 "use SSH with key based authentication."
@@ -11151,8 +11151,8 @@ msgid "Could not fetch the repository: %s"
 msgstr "Das Repository konnte nicht geholt werden: %s"
 
 #: weblate/trans/models/component.py:1283
-#: weblate/trans/models/component.py:2263
-#: weblate/trans/models/component.py:2322
+#: weblate/trans/models/component.py:2268
+#: weblate/trans/models/component.py:2327
 msgid "File does not exist."
 msgstr "Datei nicht vorhanden."
 
@@ -11186,44 +11186,44 @@ msgstr "Konnte den aktuellen Zweig nicht auf den entfernten Zweig %s rebasen."
 msgid "Could not merge remote branch into %s."
 msgstr "Konnte den entfernten Zweig nicht nach %s mergen."
 
-#: weblate/trans/models/component.py:2134
+#: weblate/trans/models/component.py:2139
 msgid "Invalid link to a Weblate project, cannot link to linked repository!"
 msgstr ""
 "Ungültiger Verweis zu einem Weblate-Projekt, Verbindung zu einem verbundenen "
 "Repository nicht möglich!"
 
-#: weblate/trans/models/component.py:2143
+#: weblate/trans/models/component.py:2148
 msgid "Invalid link to a Weblate project, cannot link it to itself!"
 msgstr ""
 "Ungültiger Verweis zu einem Weblate-Projekt, kann nicht auf sich selbst "
 "verweisen!"
 
-#: weblate/trans/models/component.py:2152
+#: weblate/trans/models/component.py:2157
 msgid "Invalid link to a Weblate project, use weblate://project/component."
 msgstr ""
 "Ungültiger Link zu einem Weblate-Projekt. Muster: weblate://project/"
 "component."
 
-#: weblate/trans/models/component.py:2161
+#: weblate/trans/models/component.py:2166
 msgid "Option is not available for linked repositories."
 msgstr "Die Option ist für verknüpfte Repositories nicht verfügbar."
 
-#: weblate/trans/models/component.py:2170
+#: weblate/trans/models/component.py:2175
 msgid "The filemask did not match any files."
 msgstr "Die Dateimaske passte zu keinen Dateien."
 
-#: weblate/trans/models/component.py:2179
+#: weblate/trans/models/component.py:2184
 #, python-format
 msgid "The language code for %s was empty, please check the filemask."
 msgstr "Der Sprachcode für %s ist leer, bitte überprüfen Sie die Dateimaske."
 
-#: weblate/trans/models/component.py:2188
+#: weblate/trans/models/component.py:2193
 #, python-format
 msgid "The language code \"%s\" is too long, please check the filemask."
 msgstr ""
 "Der Sprachcode \"%s\" ist zu lang. Bitte überprüfen Sie die Dateimaske."
 
-#: weblate/trans/models/component.py:2195
+#: weblate/trans/models/component.py:2200
 #, python-format
 msgid ""
 "There is more than one file for %s language, please adjust the filemask and "
@@ -11233,20 +11233,20 @@ msgstr ""
 "Dateimaske an und verwenden Sie Komponenten zum Übersetzen einer anderen "
 "Ressource."
 
-#: weblate/trans/models/component.py:2209
+#: weblate/trans/models/component.py:2214
 msgid "Could not find any matching language, please check the filemask."
 msgstr ""
 "Es konnte keine passende Sprache gefunden werden, überprüfen Sie bitte die "
 "Dateimaske."
 
-#: weblate/trans/models/component.py:2228
+#: weblate/trans/models/component.py:2233
 #, python-format
 msgid "Could not parse %d matched file."
 msgid_plural "Could not parse %d matched files."
 msgstr[0] "Konnte %d passende Datei nicht analysieren."
 msgstr[1] "Konnte %d passende Dateien nicht analysieren."
 
-#: weblate/trans/models/component.py:2256
+#: weblate/trans/models/component.py:2261
 msgid ""
 "You have set up Weblate to add new translation files, but did not provide a "
 "base file to do that."
@@ -11254,28 +11254,28 @@ msgstr ""
 "Sie haben Weblate für das Hinzufügen neuer Übersetzungsdateien eingerichtet, "
 "jedoch keine zugehörige Basisdatei bereitgestellt."
 
-#: weblate/trans/models/component.py:2267
+#: weblate/trans/models/component.py:2272
 #, python-format
 msgid "Failed to parse base file for new translations: %s"
 msgstr "Fehler beim Analysieren der Basisdatei für neue Übersetzungen: %s"
 
-#: weblate/trans/models/component.py:2271
+#: weblate/trans/models/component.py:2276
 msgid "Unrecognized base file for new translations."
 msgstr "Nicht erkannte Basisdatei für neue Übersetzungen."
 
-#: weblate/trans/models/component.py:2282
+#: weblate/trans/models/component.py:2287
 msgid "You can not use a base file for bilingual translation."
 msgstr "Basisdatei kann nicht für bilinguale Übersetzungen verwendet werden."
 
-#: weblate/trans/models/component.py:2288
-#: weblate/trans/models/component.py:2304
+#: weblate/trans/models/component.py:2293
+#: weblate/trans/models/component.py:2309
 msgid ""
 "An intermediate language file can not be used without an editing template."
 msgstr ""
 "Eine Zwischensprachedatei kann nicht ohne Bearbeitungvorlage verwendet "
 "werden."
 
-#: weblate/trans/models/component.py:2296
+#: weblate/trans/models/component.py:2301
 msgid ""
 "An intermediate language file has to be different from monolingual base "
 "language file. You can probably keep it empty."
@@ -11283,38 +11283,38 @@ msgstr ""
 "Eine Zwischensprachdatei muss sich von der einsprachigen Basissprachdatei "
 "unterscheiden. Sie können sie wahrscheinlich leer lassen."
 
-#: weblate/trans/models/component.py:2311
+#: weblate/trans/models/component.py:2316
 msgid "Using a .pot file as base file is unsupported."
 msgstr "Die Verwendung einer .pot-Datei als Basisdatei wird nicht unterstützt."
 
-#: weblate/trans/models/component.py:2327
+#: weblate/trans/models/component.py:2332
 #, python-format
 msgid "Could not parse translation base file: %s"
 msgstr "Übersetzungsbasisdatei %s konnte nicht analysiert werden"
 
-#: weblate/trans/models/component.py:2337
+#: weblate/trans/models/component.py:2342
 #, python-brace-format
 msgid "Template language ({0}) does not match source language ({1})!"
 msgstr ""
 "Die Vorlagensprache ({0}) stimmt nicht mit der Ausgangssprache überein ({1})!"
 
-#: weblate/trans/models/component.py:2342
+#: weblate/trans/models/component.py:2347
 msgid "You can not use a monolingual translation without a base file."
 msgstr ""
 "Sie können eine einsprachige Übersetzung nicht ohne Basisdatei verwenden."
 
-#: weblate/trans/models/component.py:2368
+#: weblate/trans/models/component.py:2373
 #, python-format
 msgid "Could not update repository: %s"
 msgstr "Konnte das Repository %s nicht aktualisieren"
 
-#: weblate/trans/models/component.py:2380
+#: weblate/trans/models/component.py:2385
 msgid "Please define a glossary name to use component as a glossary."
 msgstr ""
 "Bitte definieren Sie einen Glossarnamen, um die Komponente als Glossar zu "
 "verwenden."
 
-#: weblate/trans/models/component.py:2390
+#: weblate/trans/models/component.py:2395
 msgid ""
 "Please either fill in an instruction URL or use a different option for "
 "adding a new language."
@@ -11322,56 +11322,56 @@ msgstr ""
 "Bitte geben Sie entweder die URL zur Einführungsseite ein oder verwenden Sie "
 "eine andere Option für das Hinzufügen von neuen Sprachen."
 
-#: weblate/trans/models/component.py:2421
+#: weblate/trans/models/component.py:2426
 msgid ""
 "Source language can not be changed, please recreate the component instead."
 msgstr ""
 "Die Ausgangssprache kann nicht geändert werden, bitte erstellen Sie "
 "stattdessen die Komponente neu."
 
-#: weblate/trans/models/component.py:2429
+#: weblate/trans/models/component.py:2434
 msgid "Component with this URL slug already exists in the project."
 msgstr "Komponente mit dieser Kurz-URL ist bereits im Projekt vorhanden."
 
-#: weblate/trans/models/component.py:2434
+#: weblate/trans/models/component.py:2439
 msgid "Component with this name already exists in the project."
 msgstr "Komponente mit diesem Namen ist bereits im Projekt vorhanden."
 
-#: weblate/trans/models/component.py:2459
+#: weblate/trans/models/component.py:2464
 msgid "Can not validate file matches due to invalid regular expression."
 msgstr ""
 "Konnte die Dateinamen nicht verifizieren, weil der reguläre Ausdruck nicht "
 "eingehalten wurde."
 
-#: weblate/trans/models/component.py:2472
+#: weblate/trans/models/component.py:2477
 msgid "Accepting suggestions automatically only works with voting turned on."
 msgstr ""
 "Die automatische Annahme von Vorschlägen funktioniert nur bei "
 "eingeschalteter Abstimmfunktion."
 
-#: weblate/trans/models/component.py:2889
+#: weblate/trans/models/component.py:2894
 msgid "Could not add new translation file."
 msgstr "Es konnte keine neue Übersetzungsdatei hinzugefügt werden."
 
-#: weblate/trans/models/component.py:2905
+#: weblate/trans/models/component.py:2910
 msgid "The given language is filtered by the language filter."
 msgstr "Die angegebene Sprache wird durch den Sprachfilter gefiltert."
 
-#: weblate/trans/models/component.py:2929
+#: weblate/trans/models/component.py:2934
 msgid "Translation file already exists!"
 msgstr "Übersetzungsdatei existiert bereits!"
 
-#: weblate/trans/models/component.py:2949
+#: weblate/trans/models/component.py:2954
 msgid "The translation will be updated in the background."
 msgstr "Die Übersetzung wird im Hintergrund aktualisiert."
 
 #. Translators: Translation context for Gettext
-#: weblate/trans/models/component.py:2992
+#: weblate/trans/models/component.py:2997
 msgid "Context"
 msgstr "Kontext"
 
 #. Translators: Translation key for monolingual translations
-#: weblate/trans/models/component.py:2994 weblate/utils/views.py:111
+#: weblate/trans/models/component.py:2999 weblate/utils/views.py:111
 msgctxt "Translation key"
 msgid "Key"
 msgstr "Schlüssel"

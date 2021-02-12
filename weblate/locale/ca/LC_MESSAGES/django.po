@@ -16,7 +16,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.5\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
-"POT-Creation-Date: 2021-02-12 13:54+0000\n"
+"POT-Creation-Date: 2021-02-12 16:30+0000\n"
 "PO-Revision-Date: 2021-02-07 11:29+0000\n"
 "Last-Translator: Eduard Ereza Martínez <eduard@ereza.cat>\n"
 "Language-Team: Catalan <https://hosted.weblate.org/projects/weblate/"
@@ -8556,7 +8556,7 @@ msgid "Weblate could not push changes to the upstream repository."
 msgstr "El Weblate no ha pogut enviar els canvis al dipòsit font."
 
 #: weblate/templates/trans/alert/pushfailure.html:9
-#: weblate/trans/models/component.py:2363
+#: weblate/trans/models/component.py:2368
 msgid ""
 "Your push URL seems to miss credentials. Either provide them in the URL or "
 "use SSH with key based authentication."
@@ -10993,8 +10993,8 @@ msgid "Could not fetch the repository: %s"
 msgstr "No s'ha pogut obtenir el dipòsit: %s"
 
 #: weblate/trans/models/component.py:1283
-#: weblate/trans/models/component.py:2263
-#: weblate/trans/models/component.py:2322
+#: weblate/trans/models/component.py:2268
+#: weblate/trans/models/component.py:2327
 msgid "File does not exist."
 msgstr "El fitxer no existeix."
 
@@ -11028,43 +11028,43 @@ msgstr "No s'ha pogut fer «rebase» de la branca local a la branca remota %s."
 msgid "Could not merge remote branch into %s."
 msgstr "No s'ha pogut fusionar la branca remota a %s."
 
-#: weblate/trans/models/component.py:2134
+#: weblate/trans/models/component.py:2139
 msgid "Invalid link to a Weblate project, cannot link to linked repository!"
 msgstr ""
 "Enllaç a un projecte del Weblate no vàlid, no es pot enllaçar al dipòsit "
 "enllaçat!"
 
-#: weblate/trans/models/component.py:2143
+#: weblate/trans/models/component.py:2148
 msgid "Invalid link to a Weblate project, cannot link it to itself!"
 msgstr ""
 "Enllaç a un projecte del Weblate no vàlid, no es pot enllaçar a ell mateix!"
 
-#: weblate/trans/models/component.py:2152
+#: weblate/trans/models/component.py:2157
 msgid "Invalid link to a Weblate project, use weblate://project/component."
 msgstr ""
 "Enllaç a un projecte del Weblate no vàlid, utilitzeu weblate://projecte/"
 "component."
 
-#: weblate/trans/models/component.py:2161
+#: weblate/trans/models/component.py:2166
 msgid "Option is not available for linked repositories."
 msgstr "L'opció no està disponible per a dipòsits enllaçats."
 
-#: weblate/trans/models/component.py:2170
+#: weblate/trans/models/component.py:2175
 msgid "The filemask did not match any files."
 msgstr "El filtre de fitxers no coincideix amb cap fitxer."
 
-#: weblate/trans/models/component.py:2179
+#: weblate/trans/models/component.py:2184
 #, python-format
 msgid "The language code for %s was empty, please check the filemask."
 msgstr "El codi de llengua de %s era buit, comproveu el filtre de fitxers."
 
-#: weblate/trans/models/component.py:2188
+#: weblate/trans/models/component.py:2193
 #, python-format
 msgid "The language code \"%s\" is too long, please check the filemask."
 msgstr ""
 "El codi de llengua «%s» és massa llarg. Comproveu el filtre de fitxers."
 
-#: weblate/trans/models/component.py:2195
+#: weblate/trans/models/component.py:2200
 #, python-format
 msgid ""
 "There is more than one file for %s language, please adjust the filemask and "
@@ -11073,18 +11073,18 @@ msgstr ""
 "Hi ha més d'un fitxer per a la llengua %s, ajusteu el filtre de fitxers i "
 "utilitzeu components per a traduir els diferents recursos."
 
-#: weblate/trans/models/component.py:2209
+#: weblate/trans/models/component.py:2214
 msgid "Could not find any matching language, please check the filemask."
 msgstr "No s'ha trobat cap llengua coincident. Comproveu el filtre de fitxers."
 
-#: weblate/trans/models/component.py:2228
+#: weblate/trans/models/component.py:2233
 #, python-format
 msgid "Could not parse %d matched file."
 msgid_plural "Could not parse %d matched files."
 msgstr[0] "No s'ha pogut analitzar %d fitxer coincident."
 msgstr[1] "No s'han pogut analitzar %d fitxers coincidents."
 
-#: weblate/trans/models/component.py:2256
+#: weblate/trans/models/component.py:2261
 msgid ""
 "You have set up Weblate to add new translation files, but did not provide a "
 "base file to do that."
@@ -11092,28 +11092,28 @@ msgstr ""
 "Heu configurat el Weblate perquè afegeixi fitxers de traducció nous, però no "
 "heu proporcionat un fitxer base per a fer-ho."
 
-#: weblate/trans/models/component.py:2267
+#: weblate/trans/models/component.py:2272
 #, python-format
 msgid "Failed to parse base file for new translations: %s"
 msgstr "No s'ha pogut analitzar el fitxer base per a noves traduccions: %s"
 
-#: weblate/trans/models/component.py:2271
+#: weblate/trans/models/component.py:2276
 msgid "Unrecognized base file for new translations."
 msgstr "Fitxer base per a traduccions noves desconegut."
 
-#: weblate/trans/models/component.py:2282
+#: weblate/trans/models/component.py:2287
 msgid "You can not use a base file for bilingual translation."
 msgstr "No podeu utilitzar un fitxer base per a una traducció bilingüe."
 
-#: weblate/trans/models/component.py:2288
-#: weblate/trans/models/component.py:2304
+#: weblate/trans/models/component.py:2293
+#: weblate/trans/models/component.py:2309
 msgid ""
 "An intermediate language file can not be used without an editing template."
 msgstr ""
 "No es pot utilitzar un fitxer de llengua intermèdia sense una plantilla "
 "d'edició."
 
-#: weblate/trans/models/component.py:2296
+#: weblate/trans/models/component.py:2301
 msgid ""
 "An intermediate language file has to be different from monolingual base "
 "language file. You can probably keep it empty."
@@ -11121,36 +11121,36 @@ msgstr ""
 "El fitxer de llengua intermèdia ha de ser diferent del fitxer de llengua "
 "base monolingüe. Segurament el podeu deixar en blanc."
 
-#: weblate/trans/models/component.py:2311
+#: weblate/trans/models/component.py:2316
 msgid "Using a .pot file as base file is unsupported."
 msgstr "Fer servir un fitxer .pot com a fitxer base no està suportat."
 
-#: weblate/trans/models/component.py:2327
+#: weblate/trans/models/component.py:2332
 #, python-format
 msgid "Could not parse translation base file: %s"
 msgstr "No s'ha pogut analitzar el fitxer base de la traducció: %s"
 
-#: weblate/trans/models/component.py:2337
+#: weblate/trans/models/component.py:2342
 #, python-brace-format
 msgid "Template language ({0}) does not match source language ({1})!"
 msgstr ""
 "La plantilla de llengua ({0}) no coincideix amb la llengua d'origen ({1})!"
 
-#: weblate/trans/models/component.py:2342
+#: weblate/trans/models/component.py:2347
 msgid "You can not use a monolingual translation without a base file."
 msgstr "No podeu utilitzar una traducció monolingüe sense un fitxer base."
 
-#: weblate/trans/models/component.py:2368
+#: weblate/trans/models/component.py:2373
 #, python-format
 msgid "Could not update repository: %s"
 msgstr "No s'ha pogut actualitzar el dipòsit: %s"
 
-#: weblate/trans/models/component.py:2380
+#: weblate/trans/models/component.py:2385
 msgid "Please define a glossary name to use component as a glossary."
 msgstr ""
 "Definiu un nom del glossari per a fer servir el component com a glossari."
 
-#: weblate/trans/models/component.py:2390
+#: weblate/trans/models/component.py:2395
 msgid ""
 "Please either fill in an instruction URL or use a different option for "
 "adding a new language."
@@ -11158,54 +11158,54 @@ msgstr ""
 "Introduïu un URL d'instruccions o bé feu servir una opció diferent per a "
 "afegir una llengua nova."
 
-#: weblate/trans/models/component.py:2421
+#: weblate/trans/models/component.py:2426
 msgid ""
 "Source language can not be changed, please recreate the component instead."
 msgstr "La llengua d'origen no es pot canviar; torneu a crear el component."
 
-#: weblate/trans/models/component.py:2429
+#: weblate/trans/models/component.py:2434
 msgid "Component with this URL slug already exists in the project."
 msgstr "Ja hi ha un component amb aquesta URL amigable al projecte."
 
-#: weblate/trans/models/component.py:2434
+#: weblate/trans/models/component.py:2439
 msgid "Component with this name already exists in the project."
 msgstr "Ja hi ha un component amb aquest nom al projecte."
 
-#: weblate/trans/models/component.py:2459
+#: weblate/trans/models/component.py:2464
 msgid "Can not validate file matches due to invalid regular expression."
 msgstr ""
 "No es poden validar les coincidències de fitxers a causa d'una expressió "
 "regular no vàlida."
 
-#: weblate/trans/models/component.py:2472
+#: weblate/trans/models/component.py:2477
 msgid "Accepting suggestions automatically only works with voting turned on."
 msgstr ""
 "L'acceptació automàtica de suggeriments només funciona amb les votacions "
 "activades."
 
-#: weblate/trans/models/component.py:2889
+#: weblate/trans/models/component.py:2894
 msgid "Could not add new translation file."
 msgstr "No s'ha pogut afegir el fitxer de traducció nou."
 
-#: weblate/trans/models/component.py:2905
+#: weblate/trans/models/component.py:2910
 msgid "The given language is filtered by the language filter."
 msgstr "La llengua especificada és filtrada pel filtre de llengua."
 
-#: weblate/trans/models/component.py:2929
+#: weblate/trans/models/component.py:2934
 msgid "Translation file already exists!"
 msgstr "El fitxer de la traducció ja existeix!"
 
-#: weblate/trans/models/component.py:2949
+#: weblate/trans/models/component.py:2954
 msgid "The translation will be updated in the background."
 msgstr "La traducció s'actualitzarà en segon pla."
 
 #. Translators: Translation context for Gettext
-#: weblate/trans/models/component.py:2992
+#: weblate/trans/models/component.py:2997
 msgid "Context"
 msgstr "Context"
 
 #. Translators: Translation key for monolingual translations
-#: weblate/trans/models/component.py:2994 weblate/utils/views.py:111
+#: weblate/trans/models/component.py:2999 weblate/utils/views.py:111
 msgctxt "Translation key"
 msgid "Key"
 msgstr "Clau"
