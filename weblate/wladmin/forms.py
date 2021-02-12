@@ -89,6 +89,9 @@ class AppearanceForm(forms.Form):
     navi_color = ColorField(
         label=("Navigation color"), required=False, initial="#1fa385"
     )
+    navi_text_color = ColorField(
+        label=("Navigation text color"), required=False, initial="#bfc3c7"
+    )
     focus_color = ColorField(label=_("Focus color"), required=False, initial="#2eccaa")
     hover_color = ColorField(label=_("Hover color"), required=False, initial="#144d3f")
     hide_footer = forms.BooleanField(label=_("Hide page footer"), required=False)

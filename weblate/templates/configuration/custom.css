@@ -89,6 +89,15 @@
     border-color: {{ navi_color }};
   }
 {% endif %}
+{% if navi_text_color %}
+.navbar-inverse .navbar-brand,
+.navbar-inverse .navbar-nav > li > a {
+  color: {{ navi_text_color }};
+}
+.navbar a path {
+  fill: {{ navi_text_color }};
+}
+{% endif %}
 {% if focus_color %}
   .btn-info {
     border-color: {{ focus_color }};
