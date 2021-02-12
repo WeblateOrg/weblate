@@ -192,10 +192,10 @@ def fmt_glossary(value, glossary):
         terms[term.source].append(term)
 
     for htext, entries in terms.items():
-        newpart = GLOSSARY_TEMPLATE.format(escape(format_terms(entries)), htext)
         for match in reversed(
             list(re.finditer(r"\b{}\b".format(re.escape(htext)), value, re.IGNORECASE))
         ):
+            newpart = GLOSSARY_TEMPLATE.format(escape(format_terms(entries)), match[0])
             value = value[: match.start()] + newpart + value[match.end() :]
 
     return value
