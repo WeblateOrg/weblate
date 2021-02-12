@@ -3,6 +3,15 @@
     background-color: {{ header_color }};
   }
 {% endif %}
+{% if header_text_color %}
+.navbar-inverse .navbar-brand,
+.navbar-inverse .navbar-nav > li > a {
+  color: {{ header_text_color }};
+}
+.navbar a path {
+  fill: {{ navi_text_color }};
+}
+{% endif %}
 {% if navi_color %}
   .sort-cell:hover {
     color: {{ navi_color }};
@@ -88,15 +97,6 @@
   a.thumbnail.active {
     border-color: {{ navi_color }};
   }
-{% endif %}
-{% if navi_text_color %}
-.navbar-inverse .navbar-brand,
-.navbar-inverse .navbar-nav > li > a {
-  color: {{ navi_text_color }};
-}
-.navbar a path {
-  fill: {{ navi_text_color }};
-}
 {% endif %}
 {% if focus_color %}
   .btn-info {
