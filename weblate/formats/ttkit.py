@@ -68,7 +68,7 @@ XLIFF_FUZZY_STATES = {"new", "needs-translation", "needs-adaptation", "needs-l10
 class TTKitUnit(TranslationUnit):
     @cached_property
     def locations(self):
-        """Return comma-separated list of locations."""
+        """Return a comma-separated list of locations."""
         return ", ".join(x for x in self.mainunit.getlocations() if x is not None)
 
     @cached_property
