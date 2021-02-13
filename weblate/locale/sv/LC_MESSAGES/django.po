@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.5\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-02-12 16:30+0000\n"
-"PO-Revision-Date: 2021-02-12 11:50+0000\n"
+"PO-Revision-Date: 2021-02-13 20:01+0000\n"
 "Last-Translator: Johan Jacobsson <johan.jacobsson@telia.com>\n"
 "Language-Team: Swedish <https://hosted.weblate.org/projects/weblate/"
 "application/sv/>\n"
@@ -504,15 +504,15 @@ msgstr ""
 "Antal närliggande strängar som visas i varje riktning i fullständiga editorn."
 
 #: weblate/accounts/models.py:429
-#, fuzzy
-#| msgid "Projects with contribution"
 msgid "Automatically watch projects on contribution"
-msgstr "Projekt med bidrag"
+msgstr "Bevaka automatiskt projekt när bidrag gjorts"
 
 #: weblate/accounts/models.py:432
 msgid ""
 "Whenever you translate a string in a project, you will start watching it."
 msgstr ""
+"När du översätter en sträng i ett projekt kommer du att börja bevaka "
+"projektet."
 
 #: weblate/accounts/models.py:442 weblate/templates/dashboard/user.html:20
 msgid "Watched translations"
@@ -2715,21 +2715,17 @@ msgstr ""
 "översättare att ändra ordning på dem"
 
 #: weblate/checks/glossary.py:33
-#, fuzzy
-#| msgid "Added to glossary"
 msgid "Does not follow glossary"
-msgstr "Lade till i ordlistan"
+msgstr "Överensstämmer inte med ordlistan"
 
 #: weblate/checks/glossary.py:34
-#, fuzzy
-#| msgid "The translation does not contain an URL"
 msgid "The translation does not follow terms defined in a glossary."
-msgstr "Översättningen innehåller inte någon URL"
+msgstr "Översättningen följer inte poster som definierats i en ordlista."
 
 #: weblate/checks/glossary.py:87
 #, python-format
 msgid "Following terms are not translated according to glossary: %s"
-msgstr ""
+msgstr "Följande poster översätts inte enligt ordlista: %s"
 
 #: weblate/checks/markup.py:77
 msgid "BBcode markup"
@@ -7678,13 +7674,11 @@ msgstr "Översättningen låstes automatiskt på grund av följande varningar:"
 #: weblate/templates/snippets/editor.html:11
 msgid ""
 "The maximal string length is determined from the source string or flags."
-msgstr ""
+msgstr "Den maximala stränglängden bestäms av källsträngen eller flaggorna."
 
 #: weblate/templates/snippets/editor.html:14
-#, fuzzy
-#| msgid "Source string comment"
 msgid "Source string length"
-msgstr "Kommentar till källsträngen"
+msgstr "Källsträngens längd"
 
 #: weblate/templates/snippets/embed-units.html:12
 msgid "State"
@@ -7720,15 +7714,13 @@ msgstr "Denna översättning är förbjuden."
 
 #: weblate/templates/snippets/glossary.html:9
 msgid "This term should not be translated."
-msgstr "Denna term bör inte översättas."
+msgstr "Denna post skall inte översättas."
 
 #: weblate/templates/snippets/glossary.html:11
 msgid "Copy word into translation"
 msgstr "Kopiera ord till översättning"
 
 #: weblate/templates/snippets/glossary.html:16
-#, fuzzy
-#| msgid "Edit glossary entry"
 msgid "Edit glossary term"
 msgstr "Ändra post i ordlista"
 
@@ -8475,15 +8467,14 @@ msgstr ""
 "när beroenden saknas."
 
 #: weblate/templates/trans/alert/unusedenforcedcheck.html:4
-#, fuzzy
-#| msgid "Following checks are failing:"
 msgid "Following enforced checks are not enabled anywhere:"
-msgstr "Följande kontroller misslyckas:"
+msgstr "Följande tvingande kontroller är inte aktiverade någonstans:"
 
 #: weblate/templates/trans/alert/unusedenforcedcheck.html:8
 #, python-format
 msgid "%(check)s is enforced, but not enabled using <code>%(flag)s</code>."
 msgstr ""
+"%(check)s är tvingande, men är inte aktiverad med <code>%(flag)s</code>."
 
 #: weblate/templates/trans/alert/unusedscreenshot.html:2
 msgid "There is at least one screenshot which is not assigned to any strings."
@@ -8784,11 +8775,11 @@ msgstr "Kopiera permalänk"
 
 #: weblate/templates/translate.html:82
 msgid "Forbidden glossary term"
-msgstr "Förbjuden ordlisteterm"
+msgstr "Förbjuden ordlistepost"
 
 #: weblate/templates/translate.html:84
 msgid "Glossary term"
-msgstr "Ordlisteterm"
+msgstr "Ordlistepost"
 
 #: weblate/templates/translate.html:112 weblate/templates/zen-units.html:77
 msgid "Source change"
@@ -8812,10 +8803,8 @@ msgid "Delete string"
 msgstr "Ta bort sträng"
 
 #: weblate/templates/translate.html:194
-#, fuzzy
-#| msgid "Variants of the string"
 msgid "Add variant of this string"
-msgstr "Varianter av strängen"
+msgstr "Lägg till variant av denna sträng"
 
 #: weblate/templates/translate.html:204 weblate/templates/translate.html:229
 msgid "This translation is currently locked."
@@ -8979,7 +8968,7 @@ msgstr[1] "Det finns %(count)s förslag för den här strängen."
 
 #: weblate/templates/translate.html:449
 msgid "Enforced"
-msgstr "Tvingade"
+msgstr "Tvingande"
 
 #: weblate/templates/translate.html:462
 msgid "Fix string"
@@ -9009,7 +8998,7 @@ msgstr "Hantera ordlista"
 
 #: weblate/templates/translate.html:555 weblate/templates/translate.html:565
 msgid "Add term to glossary"
-msgstr "Lägg till term i ordlistan"
+msgstr "Lägg till post i ordlistan"
 
 #: weblate/templates/translate.html:585
 msgid "Source information"
@@ -10105,10 +10094,8 @@ msgid "Does not meet libre hosting conditions."
 msgstr "Uppfyller inte villkoren för fri hosting."
 
 #: weblate/trans/models/alert.py:345
-#, fuzzy
-#| msgid "Enforced checks"
 msgid "Unused enforced checks."
-msgstr "Tvingade kontroller"
+msgstr "Oanvända tvingande kontroller."
 
 #: weblate/trans/models/announcement.py:111
 msgid "Category"
@@ -10644,7 +10631,7 @@ msgstr ""
 
 #: weblate/trans/models/component.py:442
 msgid "Enforced checks"
-msgstr "Tvingade kontroller"
+msgstr "Tvingande kontroller"
 
 #: weblate/trans/models/component.py:443
 msgid "List of checks which can not be ignored."
@@ -11221,16 +11208,12 @@ msgid "Prohibit translation"
 msgstr "Förbjud översättning"
 
 #: weblate/trans/models/unit.py:1359
-#, fuzzy
-#| msgid "Unmark as forbidden translations"
 msgid "Unmark as forbidden translation"
-msgstr "Avmarkera som förbjudna översättningar"
+msgstr "Avmarkera som förbjuden översättning"
 
 #: weblate/trans/models/unit.py:1367
-#, fuzzy
-#| msgid "Mark as forbidden translations"
 msgid "Mark as forbidden translation"
-msgstr "Markera som förbjudna översättningar"
+msgstr "Markera som förbjuden översättning"
 
 #: weblate/trans/models/unit.py:1376
 msgid "Unmark as terminology"
@@ -11317,23 +11300,19 @@ msgid "Tab character"
 msgstr "Tabulatortecken"
 
 #: weblate/trans/templatetags/translations.py:180
-#, fuzzy, python-format
-#| msgid "Forbidden translation"
+#, python-format
 msgid "Forbidden translation: %s"
-msgstr "Förbjuden översättning"
+msgstr "Förbjuden översättning: %s"
 
 #: weblate/trans/templatetags/translations.py:182
-#, fuzzy, python-format
-#| msgctxt "String state"
-#| msgid "Not translated"
+#, python-format
 msgid "Not-translatable: %s"
-msgstr "Inte översatt"
+msgstr "Ej översättbar: %s"
 
 #: weblate/trans/templatetags/translations.py:184
-#, fuzzy, python-format
-#| msgid "Upload translations"
+#, python-format
 msgid "Glossary translation: %s"
-msgstr "Ladda upp översättningar"
+msgstr "Ordlisteöversättning: %s"
 
 #: weblate/trans/templatetags/translations.py:230
 msgid "New line"
@@ -11748,6 +11727,8 @@ msgid ""
 "Added %(language)s to your translated languages. You can adjust them in the "
 "settings."
 msgstr ""
+"Lade till %(language)s till dina översatta språk. Du kan justera dem i "
+"inställningarna."
 
 #: weblate/trans/views/edit.py:338
 #, python-format
@@ -11755,6 +11736,8 @@ msgid ""
 "Added %(project)s to your watched projects. You can adjust them and this "
 "behavior in the settings."
 msgstr ""
+"Lade till %(project)s i dina bevakade projekt. Du kan justera dem och detta "
+"beteende i inställningarna."
 
 #: weblate/trans/views/edit.py:357
 #, python-brace-format
