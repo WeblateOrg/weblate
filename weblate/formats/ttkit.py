@@ -16,7 +16,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
-"""Translate Toolkit based file format wrappers."""
+"""Translate Toolkit based file-format wrappers."""
 
 import importlib
 import inspect
@@ -68,7 +68,7 @@ XLIFF_FUZZY_STATES = {"new", "needs-translation", "needs-adaptation", "needs-l10
 class TTKitUnit(TranslationUnit):
     @cached_property
     def locations(self):
-        """Return comma separated list of locations."""
+        """Return a comma-separated list of locations."""
         return ", ".join(x for x in self.mainunit.getlocations() if x is not None)
 
     @cached_property
@@ -89,7 +89,7 @@ class TTKitUnit(TranslationUnit):
     def context(self):
         """Return context of message.
 
-        In some cases we have to use ID here to make all backends consistent.
+        In some cases we have to use ID here to make all the back-ends consistent.
         """
         return self.mainunit.getcontext()
 
@@ -189,7 +189,7 @@ class KeyValueUnit(TTKitUnit):
     def context(self):
         """Return context of message.
 
-        In some cases we have to use ID here to make all backends consistent.
+        In some cases we have to use ID here to make all the back-ends consistent.
         """
         context = super().context
         if not context:
@@ -329,7 +329,7 @@ class TTKitFormat(TranslationFormat):
         """Check whether store seems to be valid.
 
         In some cases Translate Toolkit happily "parses" the file, even though it really
-        did not do so (e.g. gettext parser on random text file).
+        did not do so (e.g. gettext parser on a random textfile).
         """
         if self.store is None:
             return False
@@ -438,7 +438,7 @@ class TTKitFormat(TranslationFormat):
         except Exception as exception:
             if errors is not None:
                 errors.append(exception)
-            report_error(cause="File parse error")
+            report_error(cause="File-parsing error")
             return False
 
     @property
@@ -451,11 +451,11 @@ class TTKitFormat(TranslationFormat):
 
 
 class PropertiesUnit(KeyValueUnit):
-    """Wrapper for properties based units."""
+    """Wrapper for properties-based units."""
 
     @cached_property
     def locations(self):
-        """Return comma separated list of locations."""
+        """Return a comma-separated list of locations."""
         return ""
 
     @cached_property
@@ -507,7 +507,7 @@ class PoUnit(TTKitUnit):
         """
         Return comma separated list of locations.
 
-        Here we cleanup Sphinx generated "docstring of ..." part.
+        Here we clean up Sphinx-generated "docstring of ..." part.
         """
         locations = " ".join(self.mainunit.getlocations())
         locations = PO_DOCSTRING_LOCATION.sub("", locations)
@@ -519,7 +519,7 @@ class PoMonoUnit(PoUnit):
     def context(self):
         """Return context of message.
 
-        In some cases we have to use ID here to make all backends consistent.
+        In some cases we have to use ID here to make all the backends consistent.
         """
         # Monolingual PO files
         if self.template is not None:
@@ -548,7 +548,7 @@ class PoMonoUnit(PoUnit):
 class XliffUnit(TTKitUnit):
     """Wrapper unit for XLIFF.
 
-    XLIFF is special in Translate Toolkit - it uses locations for what
+    XLIFF is special in Translate Toolkit — it uses locations for what
     is context in other formats.
     """
 
@@ -645,8 +645,8 @@ class XliffUnit(TTKitUnit):
     def is_fuzzy(self, fallback=False):
         """Check whether unit needs edit.
 
-        The isfuzzy on XLIFF is really messing up approved flag with fuzzy
-        and leading to various problems.
+        The isfuzzy on XLIFF is really messing up the "approved" flag with "fuzzy"
+        flag, leading to various problems.
 
         That's why we handle it on our own.
         """
@@ -678,7 +678,7 @@ class XliffUnit(TTKitUnit):
     def has_content(self):
         """Check whether unit has content.
 
-        For some reason, blank string does not mean non translatable unit in XLIFF, so
+        For some reason, blank string does not mean non-translatable unit in XLIFF, so
         lets skip those as well.
         """
         return (
@@ -720,7 +720,7 @@ class TSUnit(MonolingualIDUnit):
 
     @cached_property
     def locations(self):
-        """Return comma separated list of locations."""
+        """Return a comma-separated list of locations."""
         result = super().locations
         # Do not try to handle relative locations in Qt TS, see
         # http://doc.qt.io/qt-5/linguist-ts-file-format.html
@@ -803,7 +803,7 @@ class CSVUnit(MonolingualSimpleUnit):
     @staticmethod
     def unescape_csv(string):
         r"""
-        Removes Excel specific escaping from CSV.
+        Removes Excel-specific escaping from CSV.
 
         See weblate.formats.exporters.CSVExporter.string_filter
 
@@ -1160,7 +1160,7 @@ class PropertiesFormat(PropertiesBaseFormat):
 
 
 class JoomlaFormat(PropertiesBaseFormat):
-    name = _("Joomla Language File")
+    name = _("Joomla language file")
     format_id = "joomla"
     loader = ("properties", "joomlafile")
     monolingual = True
@@ -1169,7 +1169,7 @@ class JoomlaFormat(PropertiesBaseFormat):
 
 
 class GWTFormat(StringsFormat):
-    name = _("GWT Properties")
+    name = _("GWT properties")
     format_id = "gwt"
     loader = ("properties", "gwtfile")
     new_translation = "\n"
@@ -1697,7 +1697,7 @@ class TBXUnit(TTKitUnit):
 
 
 class TBXFormat(TTKitFormat):
-    name = _("Term Base eXchange file")
+    name = _("TermBase eXchange file")
     format_id = "tbx"
     loader = tbxfile
     autoload: Tuple[str, ...] = ("*.tbx",)
