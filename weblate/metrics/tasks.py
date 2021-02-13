@@ -82,5 +82,5 @@ def collect_metrics():
 @app.on_after_finalize.connect
 def setup_periodic_tasks(sender, **kwargs):
     sender.add_periodic_task(
-        crontab(hour=0, minute=30), collect_metrics.s(), name="collect-metrics"
+        crontab(hour=0, minute=1), collect_metrics.s(), name="collect-metrics"
     )

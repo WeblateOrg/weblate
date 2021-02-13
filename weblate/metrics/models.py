@@ -16,7 +16,24 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
+from datetime import date
+
 from django.db import models
+
+
+class MetricQuerySet(models.QuerySet):
+    def get_current(self, scope: int, relation: int, **kwargs):
+        from weblate.metrics.tasks import collect_global
+
+        data = dict(
+            self.filter(
+                scope=scope, relation=relation, date=date.today(), **kwargs
+            ).values_list("name", "value")
+        )
+        if not data:
+            collect_global()
+            return self.get_current(scope, relation, **kwargs)
+        return data
 
 
 class Metric(models.Model):
@@ -31,6 +48,8 @@ class Metric(models.Model):
     relation = models.IntegerField()
     name = models.CharField(max_length=100)
     value = models.IntegerField(db_index=True)
+
+    objects = MetricQuerySet.as_manager()
 
     class Meta:
         index_together = (("date", "scope", "relation", "name"),)

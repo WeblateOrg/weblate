@@ -32,6 +32,7 @@ from django.views.decorators.cache import never_cache
 
 from weblate.accounts.models import Profile
 from weblate.lang.models import Language
+from weblate.metrics.models import Metric
 from weblate.trans.forms import ReportsForm, SearchForm
 from weblate.trans.models import Component, ComponentList, Project, Translation
 from weblate.trans.models.project import prefetch_project_flags
@@ -310,6 +311,8 @@ def dashboard_anonymous(request):
         "dashboard/anonymous.html",
         {
             "top_projects": prefetch_project_flags(top_projects),
-            "all_projects": len(request.user.allowed_projects),
+            "all_projects": Metric.objects.get_current(
+                Metric.SCOPE_GLOBAL, 0, name="projects"
+            )["projects"],
         },
     )
