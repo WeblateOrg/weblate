@@ -89,7 +89,7 @@ class TTKitUnit(TranslationUnit):
     def context(self):
         """Return context of message.
 
-        In some cases we have to use ID here to make all back-ends consistent.
+        In some cases we have to use ID here to make all the back-ends consistent.
         """
         return self.mainunit.getcontext()
 
