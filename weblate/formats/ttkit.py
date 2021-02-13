@@ -720,7 +720,7 @@ class TSUnit(MonolingualIDUnit):
 
     @cached_property
     def locations(self):
-        """Return comma-separated list of locations."""
+        """Return a comma-separated list of locations."""
         result = super().locations
         # Do not try to handle relative locations in Qt TS, see
         # http://doc.qt.io/qt-5/linguist-ts-file-format.html
