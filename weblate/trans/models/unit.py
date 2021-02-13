@@ -1347,9 +1347,11 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
         result = []
         if self.is_source:
             if "read-only" in flags:
-                result.append(("removeflag", "read-only", gettext("Allow translation")))
+                result.append(
+                    ("removeflag", "read-only", gettext("Unmark as read-only"))
+                )
             else:
-                result.append(("addflag", "read-only", gettext("Prohibit translation")))
+                result.append(("addflag", "read-only", gettext("Mark as read-only")))
         if self.translation.component.is_glossary:
             if "forbidden" in flags:
                 result.append(
