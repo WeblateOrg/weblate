@@ -823,7 +823,7 @@ def indicate_alerts(context, obj):
         result.append(
             (
                 "state/share.svg",
-                gettext("Shared from project %s.") % obj.is_shared,
+                gettext("Shared from the %s project.") % obj.is_shared,
                 None,
             )
         )
@@ -838,7 +838,7 @@ def markdown(text):
 
 @register.filter
 def choiceval(boundfield):
-    """Get literal value from field's choices.
+    """Get literal value from a field's choices.
 
     Empty value is returned if value is not selected or invalid.
     """
