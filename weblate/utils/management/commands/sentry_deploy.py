@@ -20,7 +20,7 @@
 import requests
 from django.conf import settings
 
-import weblate
+import weblate.utils.version
 from weblate.utils.management.base import BaseCommand
 
 TAGS_API = "https://api.github.com/repos/WeblateOrg/weblate/git/ref/tags/{}"
@@ -31,9 +31,9 @@ class Command(BaseCommand):
     help = "records a release on Sentry"
 
     def handle(self, *args, **options):
-        if weblate.GIT_REVISION:
+        if weblate.utils.version.GIT_REVISION:
             # Get release from Git
-            version = ref = weblate.GIT_REVISION
+            version = ref = weblate.utils.version.GIT_REVISION
         else:
             # Get commit hash from GitHub
             version = weblate.TAG_NAME
