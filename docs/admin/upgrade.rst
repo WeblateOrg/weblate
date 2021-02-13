@@ -188,8 +188,10 @@ Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 
 Notable configuration or dependencies changes:
 
-* Glossaries are now stored as regular components. The migration might take considerable time if you had big glossaries.
+* The migration might take considerable time if you had big glossaries.
+* Glossaries are now stored as regular components.
 * The glossary API is removed, use regular translation API to access glossaries.
+* There is a change in :setting:`django:INSTALLED_APPS` - ``weblate.metrics`` should be added.
 
 .. seealso:: :ref:`generic-upgrade-instructions`
 
