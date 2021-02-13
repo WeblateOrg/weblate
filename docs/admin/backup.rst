@@ -19,9 +19,9 @@ the cloud. The backups can be controlled in the management interface from the
 
 The backups using Borg are incremental and Weblate is configured to keep following backups:
 
-* Every 14 days
-* Every 8 weeks
-* Every 6 month
+* Daily backups for 14 days back
+* Weekly backups for 8 weeks back
+* Monthly backups for 6 months back
 
 .. image:: /images/backups.png
 
@@ -30,12 +30,12 @@ The backups using Borg are incremental and Weblate is configured to keep followi
 Borg encryption key
 ~~~~~~~~~~~~~~~~~~~
 
-`BorgBackup`_ creates encrypted backups will not be able to restore them
-without the password. The password is generated when adding a new
-backup service and must be kept it in a secure place.
+`BorgBackup`_ creates encrypted backups and you wouldn’t be able to restore them
+without the passphrase. The passphrase is generated when adding a new
+backup service and you should copy it and keep it in a secure place.
 
-If you are using :ref:`cloudbackup`, please back up your private SSH key
-too, as it is used to access your backups.
+If you are using :ref:`cloudbackup`, please backup your private SSH key
+too, as it’s used to access your backups.
 
 .. seealso::
 
@@ -46,15 +46,15 @@ too, as it is used to access your backups.
 Weblate provisioned backup storage
 ----------------------------------
 
-The easiest way of backing up your Weblate instance is to purchase the `backup
+The easiest way of backing up your Weblate instance is purchasing the `backup
 service at weblate.org <https://weblate.org/support/#backup>`_. This
 is how you get it running:
 
 1. Purchase the `Backup service` on https://weblate.org/support/#backup.
 2. Enter the obtained key in the management interface, see :ref:`activate-support`.
-3. (Weblate connects to the cloud service and obtains access info for the backups.)
+3. Weblate connects to the cloud service and obtains access info for the backups.
 4. Turn on the new backup configuration from the :guilabel:`Backups` tab.
-5. Back up your Borg username and password to be able to restore the backups, see :ref:`borg-keys`.
+5. Backup your Borg credentials to be able to restore the backups, see :ref:`borg-keys`.
 
 .. hint::
 
@@ -68,8 +68,8 @@ Using custom backup storage
 ---------------------------
 
 You can also use your own storage for the backups. SSH can be used to store
-backups on the remote destination if the target server has `BorgBackup`_
-installed.
+backups in the remote destination, the target server needs to have 
+`BorgBackup`_ installed.
 
 .. seealso::
 
@@ -81,19 +81,19 @@ Local filesystem
 It is recommended to specify the absolute path for the local backup, for example
 `/path/to/backup`. The directory has to be writable by the user running Weblate
 (see :ref:`file-permissions`). In case it doesn't exist, Weblate will attempt
-to create it, but needs permission to do so.
+to create it, but needs a permission to do so.
 
 .. hint::
 
     When running Weblate in Docker, please ensure the backup location
-    is exposed as a volume from the Weblate container. Otherwise backups
-    are discarded by Docker upon restarting the container it is in.
+    is exposed as a volume from the Weblate container. Otherwise the backups
+    will be discarded by Docker on the container restart.
 
-    One option is to place backups in an existing volume, for example
-    :file:`/app/data/borgbackup`. This is a pre-existing volume in the container.
+    One option is to place backups into an existing volume, for example
+    :file:`/app/data/borgbackup`. This is an existing volume in the container.
 
     You can also add a new container for the backups in the Docker compose file
-    by for example using :file:`/borgbackup`:
+    for example by using :file:`/borgbackup`:
 
     .. code-block:: yaml
 
@@ -103,15 +103,16 @@ to create it, but needs permission to do so.
               - /home/weblate/data:/app/data
               - /home/weblate/borgbackup:/borgbackup
 
-    To actually save backups, the directory backups are stored in has to be owned
-    by UID 1000.
+    The directory where backups will be stored have to be owned by UID 1000,
+    otherwise Weblate won’t be able to write the backups there.
 
 Remote backups
 ~~~~~~~~~~~~~~
 
-Install `BorgBackup`_ on the the SSH server set up somewhere else.
-You must make sure it accepts the Weblate SSH key Weblate uses to
-connect to it. (see :ref:`weblate-ssh-key`).
+In order to create the remote backups, you will have to install `BorgBackup`_
+onto another server that’s accessible via SSH. Make youreself sure
+that it accepts the Weblate's client SSH key, i.e. the one it uses to connect
+to other servers. (see :ref:`weblate-ssh-key`).
 
 .. hint::
 
@@ -122,11 +123,11 @@ Restoring from BorgBackup
 
 1. Restore access to your backup repository and prepare your backup passphrase.
 
-2. List all backups on the server using ``borg list REPOSITORY``.
+2. List all the backups on the server using ``borg list REPOSITORY``.
 
 3. Restore the desired backup to the current directory using ``borg extract REPOSITORY::ARCHIVE``.
 
-4. Restore the database from the SQL dump placed in the ``backup`` folder in the Weblate data dir (see :ref:`backup-dumps`).
+4. Restore the database from the SQL dump placed in the ``backup`` directory in the Weblate data dir (see :ref:`backup-dumps`).
 
 5. Copy the Weblate configuration (:file:`backups/settings.py`, see :ref:`backup-dumps`) to the correct location, see :ref:`configuration`.
 
@@ -158,7 +159,7 @@ Depending on what you want to save, back up the type of data Weblate stores in e
 
 .. hint::
 
-   If you are doing the backups yourself by hand, you might want to
+   If you are doing the manual backups, you might want to
    silence Weblate's warning about a lack of backups by adding ``weblate.I028`` to
    :setting:`django:SILENCED_SYSTEM_CHECKS` in :file:`settings.py` or
    :envvar:`WEBLATE_SILENCED_SYSTEM_CHECKS` for Docker.
@@ -172,17 +173,18 @@ Database
 
 The actual storage location depends on your database setup.
 
-The database is the most important thing to have regular backups of.
-Without it all the work going into translation is gone.
+The database is the most important storage.
+Set up regular backups of your database.
+Without database, all the translations are gone.
 
 Native database backup
 ++++++++++++++++++++++
 
-The recommended way is to do save a dump of the database using database native
+The recommended approach is to do save a dump of the database using database native
 tools such as :program:`pg_dump` or :program:`mysqldump`. It usually performs
 better than Django backup, and it restores complete tables with all their data.
 
-You can restore this backup on a newer Weblate release, where it will perform all the
+You can restore this backup in a newer Weblate release, it will perform all the
 necessary migrations when running in :djadmin:`django:migrate`. Please consult
 :doc:`upgrade` on more detailed info on how to upgrade between versions.
 
@@ -191,11 +193,11 @@ Django database backup
 
 Alternatively, you can back up your database using Django's :djadmin:`django:dumpdata`
 command. That way the backup is database agnostic and can be used in case you
-want to change the database back-end.
+want to change the database backend.
 
 Prior to restoring the database you need to be running exactly the same Weblate
-version the backup was made on. This is necessary as database structure changes
-between releases otherwise corrupts the data.
+version the backup was made on. This is necessary as the database structure does
+change between releases and you would end up corrupting the data in some way.
 After installing the same version, run all database migrations using
 :djadmin:`django:migrate`.
 
@@ -213,7 +215,7 @@ Files
 ~~~~~
 
 If you have enough backup space, simply back up the whole :setting:`DATA_DIR`. This
-is a safe bet even if it includes files you don't want.
+is a safe bet even if it includes some files you don't want.
 The following sections describe what you should back up and what you
 can skip in detail.
 
@@ -224,8 +226,8 @@ Dumped data for backups
 
 Stored in :setting:`DATA_DIR` ``/backups``.
 
-Weblate dumps various data files you can include for more complete
-backups here. The files are updated daily (requires a running Celery beats server, see
+Weblate dumps various data here, and you can include these files for more complete
+backups. The files are updated daily (requires a running Celery beats server, see
 :ref:`celery`). Currently, this includes:
 
 * Weblate settings as :file:`settings.py` (there is also expanded version in :file:`settings-expanded.py`).
@@ -241,9 +243,9 @@ Stored in :setting:`DATA_DIR` ``/vcs``.
 
 The version control repositories contain a copy of your upstream repositories
 with Weblate changes. If you have `Push on commit` enabled for all your
-translation components, all Weblate changes are included upstream. (No need to
-back up the repositories on the Weblate side.) They can be cloned
-back into Weblate from the upstream location(s) with no data loss.
+translation components, all Weblate changes are included upstream. No need to
+back up the repositories on the Weblate side as they can be cloned
+again from the upstream location(s) with no data loss.
 
 SSH and GPG keys
 ++++++++++++++++
