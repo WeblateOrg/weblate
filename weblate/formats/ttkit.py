@@ -455,7 +455,7 @@ class PropertiesUnit(KeyValueUnit):
 
     @cached_property
     def locations(self):
-        """Return comma-separated list of locations."""
+        """Return a comma-separated list of locations."""
         return ""
 
     @cached_property
