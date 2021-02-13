@@ -28,8 +28,8 @@ msgstr ""
 "Project-Id-Version: Weblate 4.5\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-02-12 16:30+0000\n"
-"PO-Revision-Date: 2021-02-12 19:07+0000\n"
-"Last-Translator: Ldm Public <ldmpub@gmail.com>\n"
+"PO-Revision-Date: 2021-02-13 07:30+0000\n"
+"Last-Translator: Julien Humbert <julroy67@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/weblate/"
 "application/fr/>\n"
 "Language: fr\n"
@@ -2812,7 +2812,7 @@ msgstr "La traduction ne respecte pas les termes du glossaire."
 #: weblate/checks/glossary.py:87
 #, python-format
 msgid "Following terms are not translated according to glossary: %s"
-msgstr "Les termes suivants ne sont pas traduits conformément au glossaire : %s"
+msgstr "Les termes suivants ne sont pas traduits conformément au glossaire : %s"
 
 #: weblate/checks/markup.py:77
 msgid "BBcode markup"
@@ -7844,6 +7844,8 @@ msgstr ""
 msgid ""
 "The maximal string length is determined from the source string or flags."
 msgstr ""
+"La longueur maximale de la chaîne est déterminée à partir de la chaîne "
+"source ou des drapeaux."
 
 #: weblate/templates/snippets/editor.html:14
 msgid "Source string length"
@@ -8652,15 +8654,13 @@ msgstr ""
 "fonctions ou lorsque des dépendances sont manquantes."
 
 #: weblate/templates/trans/alert/unusedenforcedcheck.html:4
-#, fuzzy
-#| msgid "Following checks are failing:"
 msgid "Following enforced checks are not enabled anywhere:"
-msgstr "Les contrôles suivants sont défaillants :"
+msgstr "Les vérifications forcées suivantes sont activés nulle part :"
 
 #: weblate/templates/trans/alert/unusedenforcedcheck.html:8
 #, python-format
 msgid "%(check)s is enforced, but not enabled using <code>%(flag)s</code>."
-msgstr ""
+msgstr "%(check)s est forcé, mais est désactivé via <code>%(flag)s</code>."
 
 #: weblate/templates/trans/alert/unusedscreenshot.html:2
 msgid "There is at least one screenshot which is not assigned to any strings."
@@ -9116,15 +9116,15 @@ msgstr "Différence avec la chaîne actuelle"
 #: weblate/templates/translate.html:317
 msgid "The following string has the same context and source."
 msgid_plural "The following strings have the same context and source."
-msgstr[0] "La chaîne suivante a le même contexte et la même source :"
-msgstr[1] "Les chaînes suivantes ont le même contexte et la même source :"
+msgstr[0] "La chaîne suivante a le même contexte et la même source :"
+msgstr[1] "Les chaînes suivantes ont le même contexte et la même source :"
 
 #: weblate/templates/translate.html:325
 msgid "The following string has different context, but the same source."
 msgid_plural ""
 "The following strings have different contexts, but the same source."
-msgstr[0] "La chaîne suivante a plusieurs contextes mais la même source :"
-msgstr[1] "Les chaînes suivantes ont plusieurs contextes mais la même source :"
+msgstr[0] "La chaîne suivante a plusieurs contextes mais la même source :"
+msgstr[1] "Les chaînes suivantes ont plusieurs contextes mais la même source :"
 
 #: weblate/templates/translate.html:333
 msgid "The following string has a different source, but the same context."
@@ -10314,10 +10314,8 @@ msgid "Does not meet libre hosting conditions."
 msgstr "Ne remplit par les conditions pour bénéficier d’un hébergement libre."
 
 #: weblate/trans/models/alert.py:345
-#, fuzzy
-#| msgid "Enforced checks"
 msgid "Unused enforced checks."
-msgstr "Vérifications forcées"
+msgstr "Vérifications forcées inutilisées."
 
 #: weblate/trans/models/announcement.py:111
 msgid "Category"
@@ -11567,17 +11565,17 @@ msgstr "Tabulation"
 #: weblate/trans/templatetags/translations.py:180
 #, python-format
 msgid "Forbidden translation: %s"
-msgstr "Traduction déconseillée : %s"
+msgstr "Traduction déconseillée : %s"
 
 #: weblate/trans/templatetags/translations.py:182
 #, python-format
 msgid "Not-translatable: %s"
-msgstr "Ne pas traduire : %s"
+msgstr "Ne pas traduire : %s"
 
 #: weblate/trans/templatetags/translations.py:184
 #, python-format
 msgid "Glossary translation: %s"
-msgstr "Translation dans le glossaire : %s"
+msgstr "Translation dans le glossaire : %s"
 
 #: weblate/trans/templatetags/translations.py:230
 msgid "New line"
@@ -11995,6 +11993,8 @@ msgid ""
 "Added %(language)s to your translated languages. You can adjust them in the "
 "settings."
 msgstr ""
+"%(language)s a été ajouté à vos langues traduites. Vous pouvez les ajuster "
+"dans les paramètres."
 
 #: weblate/trans/views/edit.py:338
 #, python-format
