@@ -16,7 +16,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
-"""Translate Toolkit-based file-format wrappers."""
+"""Translate Toolkit based file-format wrappers."""
 
 import importlib
 import inspect
@@ -519,7 +519,7 @@ class PoMonoUnit(PoUnit):
     def context(self):
         """Return context of message.
 
-        In some cases we have to use ID here to make all back-ends consistent.
+        In some cases we have to use ID here to make all the backends consistent.
         """
         # Monolingual PO files
         if self.template is not None:
@@ -645,8 +645,8 @@ class XliffUnit(TTKitUnit):
     def is_fuzzy(self, fallback=False):
         """Check whether unit needs edit.
 
-        The isfuzzy on XLIFF is really messing up "approved" flag with fuzzy
-        strings, leading to various problems.
+        The isfuzzy on XLIFF is really messing up the "approved" flag with "fuzzy"
+        flag, leading to various problems.
 
         That's why we handle it on our own.
         """
