@@ -645,7 +645,7 @@ class XliffUnit(TTKitUnit):
     def is_fuzzy(self, fallback=False):
         """Check whether unit needs edit.
 
-        The isfuzzy on XLIFF is really messing up \"approved"\\ flag with fuzzy
+        The isfuzzy on XLIFF is really messing up "approved" flag with fuzzy
         strings, leading to various problems.
 
         That's why we handle it on our own.
