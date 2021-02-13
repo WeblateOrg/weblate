@@ -39,7 +39,7 @@ this for names or other terms which should not change while translating. Such
 terms are visually highlighted in the glossary sidebar.
 
 The terms can be flagged in the source language using :guilabel:`Tools` ↓
-:guilabel:`Prohibit translations`. In the background this toggles the ``read-only``
+:guilabel:`Mark as read-only`. In the background this toggles the ``read-only``
 flag of the string.
 
 .. seealso::
