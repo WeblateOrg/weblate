@@ -50,7 +50,7 @@
 {% perm 'screenshot.add' unit.translation as user_can_add_screenshot %}
 {% perm 'comment.add' unit.translation as user_can_add_comment %}
 {% perm 'glossary.add' project as user_can_add_glossary %}
-{% perm 'unit.add' object as user_can_add_unit %}
+{% perm 'unit.add' unit.translation as user_can_add_unit %}
 
 <div class="btn-group pull-right flip btn-group-settings" role="group">
 {% if user_can_translate %}
