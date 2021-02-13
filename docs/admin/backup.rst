@@ -68,7 +68,7 @@ Using custom backup storage
 ---------------------------
 
 You can also use your own storage for the backups. SSH can be used to store
-backups in the remote destination, the target server needs to have 
+backups in the remote destination, the target server needs to have
 `BorgBackup`_ installed.
 
 .. seealso::
