@@ -182,7 +182,7 @@ The recommended way is to do save a dump of the database using database native
 tools such as :program:`pg_dump` or :program:`mysqldump`. It usually performs
 better than Django backup, and it restores complete tables with all their data.
 
-You can restore this backup in newer Weblate releases, where it performs all
+You can restore this backup on a newer Weblate release, where it will perform all the
 necessary migrations when running in :djadmin:`django:migrate`. Please consult
 :doc:`upgrade` on more detailed info on how to upgrade between versions.
 
