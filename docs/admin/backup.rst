@@ -110,7 +110,7 @@ Remote backups
 ~~~~~~~~~~~~~~
 
 In order to create the remote backups, you will have to install `BorgBackup`_
-onto another server that’s accessible via SSH. Make youreself sure
+onto another server that’s accessible via SSH. Make sure
 that it accepts the Weblate's client SSH key, i.e. the one it uses to connect
 to other servers. (see :ref:`weblate-ssh-key`).
 
