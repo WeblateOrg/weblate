@@ -30,6 +30,7 @@ from django.views.generic.base import TemplateView
 
 from weblate.memory.forms import DeleteForm, UploadForm
 from weblate.memory.models import Memory, MemoryImportError
+from weblate.metrics.models import Metric
 from weblate.utils import messages
 from weblate.utils.views import ErrorFormView, get_project
 from weblate.wladmin.views import MENU
@@ -122,7 +123,9 @@ class MemoryView(TemplateView):
         context["entries_origin"] = (
             entries.values("origin").order_by("origin").annotate(Count("id"))
         )
-        context["total_entries"] = Memory.objects.all().count()
+        context["total_entries"] = Metric.objects.get_current(
+            Metric.SCOPE_GLOBAL, 0, name="memory"
+        )["memory"]
         context["upload_url"] = self.get_url("memory-upload")
         context["download_url"] = self.get_url("memory-download")
         user = self.request.user
