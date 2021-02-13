@@ -37,7 +37,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.5\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-02-12 16:30+0000\n"
-"PO-Revision-Date: 2021-02-09 02:02+0000\n"
+"PO-Revision-Date: 2021-02-13 20:01+0000\n"
 "Last-Translator: Golubev Alexander <fatzer2@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/"
 "application/ru/>\n"
@@ -534,15 +534,15 @@ msgstr ""
 "Количество соседних строк сверху и снизу, показываемых в полном редакторе."
 
 #: weblate/accounts/models.py:429
-#, fuzzy
-#| msgid "Projects with contribution"
 msgid "Automatically watch projects on contribution"
-msgstr "Проекты, в которые внесён вклад"
+msgstr "Автоматически добавлять проект в отслеживаемые при правке"
 
 #: weblate/accounts/models.py:432
 msgid ""
 "Whenever you translate a string in a project, you will start watching it."
 msgstr ""
+"При переводе какой-либо строки в проекте он сразу будет добавлен в "
+"отслеживаемые."
 
 #: weblate/accounts/models.py:442 weblate/templates/dashboard/user.html:20
 msgid "Watched translations"
@@ -2760,21 +2760,17 @@ msgstr ""
 "переводчикам их переупорядочивать"
 
 #: weblate/checks/glossary.py:33
-#, fuzzy
-#| msgid "Added to glossary"
 msgid "Does not follow glossary"
-msgstr "Добавлено в глоссарий"
+msgstr "Не соответствует глоссарию"
 
 #: weblate/checks/glossary.py:34
-#, fuzzy
-#| msgid "The translation does not contain an URL"
 msgid "The translation does not follow terms defined in a glossary."
-msgstr "Перевод не содержит URL"
+msgstr "Этот перевод не содержит термин, указанный в глоссарии."
 
 #: weblate/checks/glossary.py:87
 #, python-format
 msgid "Following terms are not translated according to glossary: %s"
-msgstr ""
+msgstr "Следующие термины переведены не в соответствии с глоссарием: %s"
 
 #: weblate/checks/markup.py:77
 msgid "BBcode markup"
@@ -7778,6 +7774,7 @@ msgstr "Перевод был автоматически заблокирова�
 msgid ""
 "The maximal string length is determined from the source string or flags."
 msgstr ""
+"Максимальная длина строки, определённая на основе исходной строки или флагов."
 
 #: weblate/templates/snippets/editor.html:14
 #, fuzzy
