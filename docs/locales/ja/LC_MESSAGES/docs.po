@@ -9,7 +9,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-02-12 17:31+0100\n"
 "PO-Revision-Date: 2021-02-13 20:02+0000\n"
-"Last-Translator: amano <amano.hajime@gmail.com>\n"
+"Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "documentation/ja/>\n"
 "Language: ja\n"
@@ -20018,7 +20018,7 @@ msgstr ""
 
 #: ../../changes.rst:477
 msgid "Added support for read only strings."
-msgstr ""
+msgstr "編集不可の文字列の機能追加。"
 
 #: ../../changes.rst:478
 msgid "Added support for Markdown in comments."
@@ -29500,7 +29500,7 @@ msgstr ""
 
 #: ../../formats.rst:1418
 msgid "Read only strings"
-msgstr "読み取り専用文字列"
+msgstr "編集不可の文字列"
 
 #: ../../formats.rst:1422
 msgid ""
@@ -31662,7 +31662,7 @@ msgstr "新しい文字列の追加 (``add``)"
 #: ../../user/files.rst:77
 msgid ""
 "Adds new strings to the translation. It skips the one which already exist."
-msgstr ""
+msgstr "翻訳に新しい文字列を追加します。既に存在する文字列は除外します。"
 
 #: ../../user/files.rst:79
 msgid ""
@@ -31675,7 +31675,7 @@ msgstr ""
 #: ../../user/files.rst:82
 msgid ""
 "This option is available only with :ref:`component-manage_units` turned on."
-msgstr ""
+msgstr "このオプションは、:ref:`component-manage_units` を有効にした場合のみ使用できます。"
 
 #: ../../user/files.rst:86
 msgid ""
@@ -31745,12 +31745,14 @@ msgid ""
 "Weblate features on them - commenting, storing in a Git repository, or "
 "adding explanations."
 msgstr ""
+"用語集は、通常の翻訳コンポーネントになり、コメント、Git リポジトリへの格納、説明の追加など、すべての Weblate "
+"機能を使用できるようになりました。"
 
 #: ../../user/glossary.rst:20
 msgid ""
 "You can use any component as a glossary by turning on :ref:`component-"
 "is_glossary`."
-msgstr ""
+msgstr ":ref:`component-is_glossary` を有効にすることで、どのコンポーネントでも用語集として使用できます。"
 
 #: ../../user/glossary.rst:22
 msgid ""
@@ -31758,9 +31760,8 @@ msgid ""
 "project. Glossaries are shared among all components of the same project, and "
 "optionally with other projects using :ref:`component-links`."
 msgstr ""
-"プロジェクトの作成時に、プロジェクトには空の用語集が自動的に作成されます。用"
-"語集は同じプロジェクトのすべてのコンポーネントで共有され、オプションで :ref:"
-"`component-links` を使用して、別のプロジェクトと共有できます。"
+"プロジェクトの作成時に、プロジェクトには空の用語集が自動的に作成されます。用語集は同じプロジェクトのすべてのコンポーネントで共有されます。オプションから "
+":ref:`component-links` を使用すると、別のプロジェクトと共有できます。"
 
 #: ../../user/glossary.rst:27
 msgid "Glossary terms"
@@ -31770,11 +31771,11 @@ msgstr "用語集の用語"
 msgid ""
 "The glossary terms are translated in a same way as regular tranlations. You "
 "can toggle additional features using the :guilabel:`Tools` menu on each term."
-msgstr ""
+msgstr "用語集の用語は、通常の翻訳と同じ方法で翻訳します。各用語の :guilabel:`Tools` メニューから追加機能を選択します。"
 
 #: ../../user/glossary.rst:33
 msgid "Not translatable terms"
-msgstr "翻訳できない用語"
+msgstr "翻訳不可の用語"
 
 #: ../../user/glossary.rst:37
 msgid ""
@@ -31782,6 +31783,8 @@ msgid ""
 "use this for names or other terms which should not change while translating. "
 "Such term is visually highlighted in the glossary sidebar."
 msgstr ""
+"翻訳不可の用語集の用語には、翻訳してほしい意図はありません。これは、翻訳中に変更されては困る名前やその他の用語に使用します。このような用語は、サイドバーの"
+"用語集で強調表示されます。"
 
 #: ../../user/glossary.rst:41
 msgid ""
@@ -31789,6 +31792,8 @@ msgid ""
 "guilabel:`Prohibit translations`. In the background this toggles the ``read-"
 "only`` flag on the string."
 msgstr ""
+"用語は、:guilabel:`ツール` ↓ :guilabel:`翻訳の不許可` を使用して原文にフラグを立てます。内部では、文字列のフラグを "
+"``read-only`` に切り替えます。"
 
 #: ../../user/glossary.rst:52
 msgid "Forbidden translations"
@@ -31800,6 +31805,8 @@ msgid ""
 "while translating. Use this to clarify translation when some words are "
 "ambiguous or could have unexpected meanings."
 msgstr ""
+"翻訳中には使用禁止とする用語にフラグを立てることができます。一部に曖昧な単語があったり、予期しない意味を持つ可能性がある場合は、これを使用して翻訳を明確に"
+"します。"
 
 #: ../../user/glossary.rst:60
 msgid ""
@@ -31807,6 +31814,8 @@ msgid ""
 "guilabel:`Mark as forbidden translations`. In the background this toggles "
 "the ``forbidden`` flag on the string."
 msgstr ""
+"用語は、:guilabel:`ツール` ↓ :guilabel:`翻訳禁止の設定` を使用して原文にフラグを立てることができます。内部では、 "
+"文字列のフラグを ``forbidden`` に切り替えます。"
 
 #: ../../user/glossary.rst:71
 msgid "Terminology"
