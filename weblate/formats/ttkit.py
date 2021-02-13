@@ -329,7 +329,7 @@ class TTKitFormat(TranslationFormat):
         """Check whether store seems to be valid.
 
         In some cases Translate Toolkit happily "parses" the file, even though it really
-        did not do so (e.g. gettext parser on random textfile).
+        did not do so (e.g. gettext parser on a random textfile).
         """
         if self.store is None:
             return False
