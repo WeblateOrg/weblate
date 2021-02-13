@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.5\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
-"POT-Creation-Date: 2021-02-12 16:30+0000\n"
+"POT-Creation-Date: 2021-02-13 20:05+0000\n"
 "PO-Revision-Date: 2021-01-24 17:32+0000\n"
 "Last-Translator: Pierre Wani Alan Morvan <allannkorh@yahoo.fr>\n"
 "Language-Team: Breton <https://hosted.weblate.org/projects/weblate/"
@@ -1593,7 +1593,7 @@ msgid "String suffix"
 msgstr "Neudennadoù"
 
 #: weblate/addons/forms.py:478
-msgid "Source and target have to be a different languages."
+msgid "The source and target have to be different languages."
 msgstr ""
 
 #: weblate/addons/generate.py:34
@@ -3609,11 +3609,11 @@ msgstr ""
 #: weblate/formats/ttkit.py:1163
 #, fuzzy
 #| msgid "Language"
-msgid "Joomla Language File"
+msgid "Joomla language file"
 msgstr "Yezh"
 
 #: weblate/formats/ttkit.py:1172
-msgid "GWT Properties"
+msgid "GWT properties"
 msgstr ""
 
 #: weblate/formats/ttkit.py:1179
@@ -3717,7 +3717,7 @@ msgstr ""
 #: weblate/formats/ttkit.py:1700
 #, fuzzy
 #| msgid "TermBase eXchange (TBX)"
-msgid "Term Base eXchange file"
+msgid "TermBase eXchange file"
 msgstr "TermBase eXchange (TBX)"
 
 #: weblate/formats/txt.py:180
@@ -4222,13 +4222,13 @@ msgctxt "Translation memory category"
 msgid "File: {}"
 msgstr "Restroù"
 
-#: weblate/memory/views.py:82
+#: weblate/memory/views.py:83
 #, fuzzy
 #| msgid "Failing check"
 msgid "Entries deleted."
 msgstr "C'hwitet ar gwiriañ"
 
-#: weblate/memory/views.py:97
+#: weblate/memory/views.py:98
 msgid "File processed, the entries will appear shortly."
 msgstr ""
 
@@ -9721,7 +9721,9 @@ msgstr "Gwiriadennoù c'hwitet bet kavet"
 
 #: weblate/templates/trans/alert/unusedenforcedcheck.html:8
 #, python-format
-msgid "%(check)s is enforced, but not enabled using <code>%(flag)s</code>."
+msgid ""
+"%(check)s quality check is enforced, but not enabled using <code>%(flag)s</"
+"code>."
 msgstr ""
 
 #: weblate/templates/trans/alert/unusedscreenshot.html:2
@@ -12967,35 +12969,33 @@ msgstr ""
 msgid "Additional explanation to clarify meaning or usage of the string."
 msgstr ""
 
-#: weblate/trans/models/unit.py:1350
+#: weblate/trans/models/unit.py:1351
 #, fuzzy
 #| msgid "Your translations"
-msgid "Allow translation"
+msgid "Unmark as read-only"
 msgstr "Ho troidigezhioù"
 
-#: weblate/trans/models/unit.py:1352
-#, fuzzy
-#| msgid "Tweet this translation!"
-msgid "Prohibit translation"
-msgstr "Rannit an droidigezh-mañ dre Twitter !"
+#: weblate/trans/models/unit.py:1354
+msgid "Mark as read-only"
+msgstr ""
 
-#: weblate/trans/models/unit.py:1359
+#: weblate/trans/models/unit.py:1361
 #, fuzzy
 #| msgid "Your translations"
 msgid "Unmark as forbidden translation"
 msgstr "Ho troidigezhioù"
 
-#: weblate/trans/models/unit.py:1367
+#: weblate/trans/models/unit.py:1369
 #, fuzzy
 #| msgid "Mailing list for translators:"
 msgid "Mark as forbidden translation"
 msgstr "Roll eskemm evit an droerien :"
 
-#: weblate/trans/models/unit.py:1376
+#: weblate/trans/models/unit.py:1378
 msgid "Unmark as terminology"
 msgstr ""
 
-#: weblate/trans/models/unit.py:1384
+#: weblate/trans/models/unit.py:1386
 msgid "Mark as terminology"
 msgstr ""
 
@@ -13322,7 +13322,7 @@ msgstr[4] "Selladenn ouzh mammennoù an neudennadoù"
 #: weblate/trans/templatetags/translations.py:826
 #, fuzzy, python-format
 #| msgid "Hosting site"
-msgid "Shared from project %s."
+msgid "Shared from the %s project."
 msgstr "Lec'hienn herberc'hiañ"
 
 #: weblate/trans/templatetags/translations.py:849
@@ -13488,13 +13488,13 @@ msgstr ""
 msgid "Failed to parse uploaded ZIP file."
 msgstr "Kregiñ gant un droidigezh nevez"
 
-#: weblate/trans/views/dashboard.py:161
+#: weblate/trans/views/dashboard.py:162
 msgid ""
 "The project you were looking for has been removed, however you are welcome "
 "to contribute to other ones."
 msgstr ""
 
-#: weblate/trans/views/dashboard.py:170
+#: weblate/trans/views/dashboard.py:171
 #, fuzzy
 #| msgid ""
 #| "Once you have activated your account just proceed to the <a href=\"%(url)s"
@@ -13504,7 +13504,7 @@ msgid ""
 "to sign in next time."
 msgstr "Pa vo bet gweredekaet ho kont, kit da welet ar rann dreiñ."
 
-#: weblate/trans/views/dashboard.py:184
+#: weblate/trans/views/dashboard.py:185
 msgid "Please set your full name and e-mail in your profile."
 msgstr ""
 
@@ -14112,7 +14112,7 @@ msgstr ""
 msgid "Git with force push"
 msgstr ""
 
-#: weblate/vcs/git.py:834
+#: weblate/vcs/git.py:835
 #, fuzzy
 #| msgid "Status of repositories"
 msgid "No remote repository"
@@ -14359,6 +14359,16 @@ msgstr "Dilamet eo bet ho kont."
 #| msgid "Start new translation"
 msgid "Could not dismiss the configuration error!"
 msgstr "Kregiñ gant un droidigezh nevez"
+
+#, fuzzy
+#~| msgid "Your translations"
+#~ msgid "Allow translation"
+#~ msgstr "Ho troidigezhioù"
+
+#, fuzzy
+#~| msgid "Tweet this translation!"
+#~ msgid "Prohibit translation"
+#~ msgstr "Rannit an droidigezh-mañ dre Twitter !"
 
 #, fuzzy
 #~| msgid "Translation status"

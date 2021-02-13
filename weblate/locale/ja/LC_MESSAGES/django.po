@@ -23,7 +23,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.5\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
-"POT-Creation-Date: 2021-02-12 16:30+0000\n"
+"POT-Creation-Date: 2021-02-13 20:05+0000\n"
 "PO-Revision-Date: 2021-02-13 20:01+0000\n"
 "Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
@@ -1409,7 +1409,9 @@ msgid "String suffix"
 msgstr "文字列の接尾辞"
 
 #: weblate/addons/forms.py:478
-msgid "Source and target have to be a different languages."
+#, fuzzy
+#| msgid "Source and target have to be a different languages."
+msgid "The source and target have to be different languages."
 msgstr "原文と翻訳先は、別の言語にしてください。"
 
 #: weblate/addons/generate.py:34
@@ -3057,11 +3059,15 @@ msgid "Java Properties (ISO 8859-1)"
 msgstr "Java プロパティファイル（ISO-8859-1）"
 
 #: weblate/formats/ttkit.py:1163
-msgid "Joomla Language File"
+#, fuzzy
+#| msgid "Joomla Language File"
+msgid "Joomla language file"
 msgstr "Joomla 言語ファイル"
 
 #: weblate/formats/ttkit.py:1172
-msgid "GWT Properties"
+#, fuzzy
+#| msgid "GWT Properties"
+msgid "GWT properties"
 msgstr "GWT プロパティ"
 
 #: weblate/formats/ttkit.py:1179
@@ -3153,7 +3159,9 @@ msgid "Inno Setup INI file"
 msgstr "Inno Setup INI ファイル"
 
 #: weblate/formats/ttkit.py:1700
-msgid "Term Base eXchange file"
+#, fuzzy
+#| msgid "Term Base eXchange file"
+msgid "TermBase eXchange file"
 msgstr "Term Base eXchange ファイル"
 
 #: weblate/formats/txt.py:180
@@ -3618,11 +3626,11 @@ msgctxt "Translation memory category"
 msgid "File: {}"
 msgstr "ファイル: {}"
 
-#: weblate/memory/views.py:82
+#: weblate/memory/views.py:83
 msgid "Entries deleted."
 msgstr "項目を削除しました。"
 
-#: weblate/memory/views.py:97
+#: weblate/memory/views.py:98
 msgid "File processed, the entries will appear shortly."
 msgstr "ファイルを処理しました。項目はすぐに表示されます。"
 
@@ -8406,9 +8414,14 @@ msgid "Following enforced checks are not enabled anywhere:"
 msgstr "どこに対しても有効とならない強制する検査項目:"
 
 #: weblate/templates/trans/alert/unusedenforcedcheck.html:8
-#, python-format
-msgid "%(check)s is enforced, but not enabled using <code>%(flag)s</code>."
-msgstr "%(check)s の品質検査は強制されますが、<code>%(flag)s</code> を使用して有効にすることはできません。"
+#, fuzzy, python-format
+#| msgid "%(check)s is enforced, but not enabled using <code>%(flag)s</code>."
+msgid ""
+"%(check)s quality check is enforced, but not enabled using <code>%(flag)s</"
+"code>."
+msgstr ""
+"%(check)s の品質検査は強制されますが、<code>%(flag)s</code> を使用して有効に"
+"することはできません。"
 
 #: weblate/templates/trans/alert/unusedscreenshot.html:2
 msgid "There is at least one screenshot which is not assigned to any strings."
@@ -11100,27 +11113,31 @@ msgstr "ファイル %(file)s の解析に失敗しました: %(error)s"
 msgid "Additional explanation to clarify meaning or usage of the string."
 msgstr "文字列の意味や使い方を明確にするための追加説明。"
 
-#: weblate/trans/models/unit.py:1350
-msgid "Allow translation"
-msgstr "翻訳の許可"
+#: weblate/trans/models/unit.py:1351
+#, fuzzy
+#| msgid "Unmark as terminology"
+msgid "Unmark as read-only"
+msgstr "専門用語の解除"
 
-#: weblate/trans/models/unit.py:1352
-msgid "Prohibit translation"
-msgstr "翻訳の不許可"
+#: weblate/trans/models/unit.py:1354
+#, fuzzy
+#| msgid "Mark as terminology"
+msgid "Mark as read-only"
+msgstr "専門用語に設定"
 
-#: weblate/trans/models/unit.py:1359
+#: weblate/trans/models/unit.py:1361
 msgid "Unmark as forbidden translation"
 msgstr "翻訳禁止の解除"
 
-#: weblate/trans/models/unit.py:1367
+#: weblate/trans/models/unit.py:1369
 msgid "Mark as forbidden translation"
 msgstr "翻訳禁止の設定"
 
-#: weblate/trans/models/unit.py:1376
+#: weblate/trans/models/unit.py:1378
 msgid "Unmark as terminology"
 msgstr "専門用語の解除"
 
-#: weblate/trans/models/unit.py:1384
+#: weblate/trans/models/unit.py:1386
 msgid "Mark as terminology"
 msgstr "専門用語に設定"
 
@@ -11406,8 +11423,9 @@ msgid_plural "%(count)s strings are not being translated here."
 msgstr[0] "%(count)s 個の文字列が未翻訳です。"
 
 #: weblate/trans/templatetags/translations.py:826
-#, python-format
-msgid "Shared from project %s."
+#, fuzzy, python-format
+#| msgid "Shared from project %s."
+msgid "Shared from the %s project."
 msgstr "プロジェクト %s から共有。"
 
 #: weblate/trans/templatetags/translations.py:849
@@ -11561,7 +11579,7 @@ msgstr "%s としてライセンスを検出しました。正しいかどうか
 msgid "Failed to parse uploaded ZIP file."
 msgstr "アップロードした ZIP ファイルの解析に失敗しました。"
 
-#: weblate/trans/views/dashboard.py:161
+#: weblate/trans/views/dashboard.py:162
 msgid ""
 "The project you were looking for has been removed, however you are welcome "
 "to contribute to other ones."
@@ -11569,7 +11587,7 @@ msgstr ""
 "お探しのプロジェクトは削除されてしまいましたが、他のプロジェクトへの貢献をお"
 "待ちしております。"
 
-#: weblate/trans/views/dashboard.py:170
+#: weblate/trans/views/dashboard.py:171
 msgid ""
 "You have activated your account, now you should set the password to be able "
 "to sign in next time."
@@ -11577,7 +11595,7 @@ msgstr ""
 "アカウントを有効化しました。次回以降のサインインに必要なパスワードを設定して"
 "ください。"
 
-#: weblate/trans/views/dashboard.py:184
+#: weblate/trans/views/dashboard.py:185
 msgid "Please set your full name and e-mail in your profile."
 msgstr "ユーザー情報でフル ネームとメールアドレスを設定してください。"
 
@@ -11618,7 +11636,9 @@ msgstr "翻訳言語に %(language)s を追加しました。設定から変更�
 msgid ""
 "Added %(project)s to your watched projects. You can adjust them and this "
 "behavior in the settings."
-msgstr "%(project)s を監視中のプロジェクトに追加しました。項目と動作は、設定から変更できます。"
+msgstr ""
+"%(project)s を監視中のプロジェクトに追加しました。項目と動作は、設定から変更"
+"できます。"
 
 #: weblate/trans/views/edit.py:357
 #, python-brace-format
@@ -12102,7 +12122,7 @@ msgstr "パラメータ %(field)s 内でエラー: %(error)s"
 msgid "Git with force push"
 msgstr "Git に強制プッシュ"
 
-#: weblate/vcs/git.py:834
+#: weblate/vcs/git.py:835
 msgid "No remote repository"
 msgstr "リモート リポジトリなし"
 
@@ -12318,6 +12338,12 @@ msgstr "バックアップ処理をトリガーしました"
 #: weblate/wladmin/views.py:224
 msgid "Could not dismiss the configuration error!"
 msgstr "設定エラーは無視できません！"
+
+#~ msgid "Allow translation"
+#~ msgstr "翻訳の許可"
+
+#~ msgid "Prohibit translation"
+#~ msgstr "翻訳の不許可"
 
 #~ msgid ""
 #~ "Updates all PO files to match the POT file using msgmerge. Triggered "

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.5\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
-"POT-Creation-Date: 2021-02-12 16:30+0000\n"
+"POT-Creation-Date: 2021-02-13 20:05+0000\n"
 "PO-Revision-Date: 2020-12-06 20:25+0000\n"
 "Last-Translator: Anonymous <noreply@weblate.org>\n"
 "Language-Team: Frisian <https://hosted.weblate.org/projects/weblate/"
@@ -1533,7 +1533,7 @@ msgid "String suffix"
 msgstr "Status"
 
 #: weblate/addons/forms.py:478
-msgid "Source and target have to be a different languages."
+msgid "The source and target have to be different languages."
 msgstr ""
 
 #: weblate/addons/generate.py:34
@@ -3473,13 +3473,13 @@ msgstr "Java-eigenskippen (UTF-8)"
 #: weblate/formats/ttkit.py:1163
 #, fuzzy
 #| msgid "Language"
-msgid "Joomla Language File"
+msgid "Joomla language file"
 msgstr "Taal"
 
 #: weblate/formats/ttkit.py:1172
 #, fuzzy
 #| msgid "Java Properties"
-msgid "GWT Properties"
+msgid "GWT properties"
 msgstr "Java-eigenskippen"
 
 #: weblate/formats/ttkit.py:1179
@@ -3593,7 +3593,7 @@ msgstr ""
 #: weblate/formats/ttkit.py:1700
 #, fuzzy
 #| msgid "Nahuatl languages"
-msgid "Term Base eXchange file"
+msgid "TermBase eXchange file"
 msgstr "Nahuatl talen"
 
 #: weblate/formats/txt.py:180
@@ -4090,13 +4090,13 @@ msgctxt "Translation memory category"
 msgid "File: {}"
 msgstr "Triem"
 
-#: weblate/memory/views.py:82
+#: weblate/memory/views.py:83
 #, fuzzy
 #| msgid "Translation file"
 msgid "Entries deleted."
 msgstr "Oersettingstriem"
 
-#: weblate/memory/views.py:97
+#: weblate/memory/views.py:98
 msgid "File processed, the entries will appear shortly."
 msgstr ""
 
@@ -9160,7 +9160,9 @@ msgstr ""
 
 #: weblate/templates/trans/alert/unusedenforcedcheck.html:8
 #, python-format
-msgid "%(check)s is enforced, but not enabled using <code>%(flag)s</code>."
+msgid ""
+"%(check)s quality check is enforced, but not enabled using <code>%(flag)s</"
+"code>."
 msgstr ""
 
 #: weblate/templates/trans/alert/unusedscreenshot.html:2
@@ -12205,35 +12207,33 @@ msgstr ""
 msgid "Additional explanation to clarify meaning or usage of the string."
 msgstr ""
 
-#: weblate/trans/models/unit.py:1350
+#: weblate/trans/models/unit.py:1351
 #, fuzzy
-#| msgid "New translation"
-msgid "Allow translation"
-msgstr "Nije oersetting"
+#| msgid "Other translations"
+msgid "Unmark as read-only"
+msgstr "Oare oersettings"
 
-#: weblate/trans/models/unit.py:1352
-#, fuzzy
-#| msgid "Translation"
-msgid "Prohibit translation"
-msgstr "Tersetting"
+#: weblate/trans/models/unit.py:1354
+msgid "Mark as read-only"
+msgstr ""
 
-#: weblate/trans/models/unit.py:1359
+#: weblate/trans/models/unit.py:1361
 #, fuzzy
 #| msgid "Other translations"
 msgid "Unmark as forbidden translation"
 msgstr "Oare oersettings"
 
-#: weblate/trans/models/unit.py:1367
+#: weblate/trans/models/unit.py:1369
 #, fuzzy
 #| msgid "Machine translation"
 msgid "Mark as forbidden translation"
 msgstr "Masjineoersetting"
 
-#: weblate/trans/models/unit.py:1376
+#: weblate/trans/models/unit.py:1378
 msgid "Unmark as terminology"
 msgstr ""
 
-#: weblate/trans/models/unit.py:1384
+#: weblate/trans/models/unit.py:1386
 msgid "Mark as terminology"
 msgstr ""
 
@@ -12551,7 +12551,7 @@ msgstr[1] "Oare oersettings"
 #: weblate/trans/templatetags/translations.py:826
 #, fuzzy, python-format
 #| msgid "Projects"
-msgid "Shared from project %s."
+msgid "Shared from the %s project."
 msgstr "Projekten"
 
 #: weblate/trans/templatetags/translations.py:849
@@ -12714,19 +12714,19 @@ msgstr ""
 msgid "Failed to parse uploaded ZIP file."
 msgstr "Nije oersetting"
 
-#: weblate/trans/views/dashboard.py:161
+#: weblate/trans/views/dashboard.py:162
 msgid ""
 "The project you were looking for has been removed, however you are welcome "
 "to contribute to other ones."
 msgstr ""
 
-#: weblate/trans/views/dashboard.py:170
+#: weblate/trans/views/dashboard.py:171
 msgid ""
 "You have activated your account, now you should set the password to be able "
 "to sign in next time."
 msgstr ""
 
-#: weblate/trans/views/dashboard.py:184
+#: weblate/trans/views/dashboard.py:185
 msgid "Please set your full name and e-mail in your profile."
 msgstr ""
 
@@ -13314,7 +13314,7 @@ msgstr ""
 msgid "Git with force push"
 msgstr ""
 
-#: weblate/vcs/git.py:834
+#: weblate/vcs/git.py:835
 #, fuzzy
 #| msgid "Merge style"
 msgid "No remote repository"
@@ -13551,6 +13551,16 @@ msgstr "Oersettingslisinsje"
 #| msgid "New translation"
 msgid "Could not dismiss the configuration error!"
 msgstr "Nije oersetting"
+
+#, fuzzy
+#~| msgid "New translation"
+#~ msgid "Allow translation"
+#~ msgstr "Nije oersetting"
+
+#, fuzzy
+#~| msgid "Translation"
+#~ msgid "Prohibit translation"
+#~ msgstr "Tersetting"
 
 #, fuzzy
 #~| msgid "Translation status"

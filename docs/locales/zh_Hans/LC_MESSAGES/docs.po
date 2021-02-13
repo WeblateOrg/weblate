@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-02-12 17:31+0100\n"
+"POT-Creation-Date: 2021-02-13 21:06+0100\n"
 "PO-Revision-Date: 2021-02-13 20:02+0000\n"
 "Last-Translator: Eric <spice2wolf@gmail.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
@@ -1023,8 +1023,8 @@ msgid ""
 "Admins can add and mangage addons from the :guilabel:`Manage` ↓ :guilabel:"
 "`Addons` menu of each respective translation component."
 msgstr ""
-"附加组件提供了自定义和自动化翻译工作流程的方法。管理员可以从每个相应翻译组件的 :guilabel:`Manage` ↓ "
-":guilabel:`Addons`菜单添加和管理附加组件。"
+"附加组件提供了自定义和自动化翻译工作流程的方法。管理员可以从每个相应翻译组件"
+"的 :guilabel:`Manage` ↓ :guilabel:`Addons`菜单添加和管理附加组件。"
 
 #: ../../admin/addons.rst:15
 msgid "Built-in addons"
@@ -1212,8 +1212,8 @@ msgid ""
 "and add labels till all strings have all required labels. Other automated "
 "operations for Weblate metadata can also be done."
 msgstr ""
-"要自动化标签操作，从搜索字符串 ``NOT has:label``入手，并添加标签直到所有字符串都有所需的标签为止。也可以完成 Weblate "
-"元数据的其他自动化操作。"
+"要自动化标签操作，从搜索字符串 ``NOT has:label``入手，并添加标签直到所有字符"
+"串都有所需的标签为止。也可以完成 Weblate 元数据的其他自动化操作。"
 
 #: ../../admin/addons.rst:153 ../../admin/config.rst:1768
 msgid "**Examples:**"
@@ -2545,11 +2545,17 @@ msgid "Automated backup using BorgBackup"
 msgstr "使用 BorgBackup 进行的自动化备份"
 
 #: ../../admin/backup.rst:11
+#, fuzzy
+#| msgid ""
+#| "Weblate has built-in support for creating service backups using "
+#| "`BorgBackup`_. Borg creates space-effective encrypted backups which can "
+#| "be safely stored in the cloud. The backups can be controlled in the "
+#| "management interface on the :guilabel:`Backups` tab."
 msgid ""
 "Weblate has built-in support for creating service backups using "
 "`BorgBackup`_. Borg creates space-effective encrypted backups which can be "
 "safely stored in the cloud. The backups can be controlled in the management "
-"interface on the :guilabel:`Backups` tab."
+"interface from the :guilabel:`Backups` tab."
 msgstr ""
 "Weblate 内置了对使用 `BorgBackup`_ 创建服务备份的支持。Borg 创建了节省空间的"
 "加密备份，可以安全地存储在云中。可以在管理界面中的 :guilabel:`Backups` 选项卡"
@@ -2568,34 +2574,46 @@ msgid ""
 msgstr "使用 Borg 的备份是递增的， Weblate 配置为保留后面的备份："
 
 #: ../../admin/backup.rst:22
-msgid "14 daily backups"
-msgstr "14 个每天备份"
+#, fuzzy
+#| msgid "last for 14 days."
+msgid "Daily backups for 14 days back"
+msgstr "持续 14天"
 
 #: ../../admin/backup.rst:23
-msgid "8 weekly backups"
-msgstr "8 个每周备份"
+msgid "Weekly backups for 8 weeks back"
+msgstr ""
 
 #: ../../admin/backup.rst:24
-msgid "6 monthly backups"
-msgstr "6个 每月备份"
+msgid "Monthly backups for 6 months back"
+msgstr ""
 
 #: ../../admin/backup.rst:31
 msgid "Borg encryption key"
 msgstr "Borg 加密密钥"
 
 #: ../../admin/backup.rst:33
+#, fuzzy
+#| msgid ""
+#| "`BorgBackup`_ creates encrypted backups and without a passphrase you will "
+#| "not be able to restore the backup. The passphrase is generated when "
+#| "adding new backup service and you should copy it and keep it in a secure "
+#| "place."
 msgid ""
-"`BorgBackup`_ creates encrypted backups and without a passphrase you will "
-"not be able to restore the backup. The passphrase is generated when adding "
-"new backup service and you should copy it and keep it in a secure place."
+"`BorgBackup`_ creates encrypted backups and you wouldn’t be able to restore "
+"them without the passphrase. The passphrase is generated when adding a new "
+"backup service and you should copy it and keep it in a secure place."
 msgstr ""
 "`BorgBackup`_ 生成加密的备份，没有密码的话就不能恢复备份。当添加备份服务时产"
 "生密码，并且应该将其复制并保存在安全的地方。"
 
 #: ../../admin/backup.rst:37
+#, fuzzy
+#| msgid ""
+#| "In case you are using :ref:`cloudbackup`, please backup your private SSH "
+#| "key as well — it is used to access your backups."
 msgid ""
-"In case you are using :ref:`cloudbackup`, please backup your private SSH key "
-"as well — it is used to access your backups."
+"If you are using :ref:`cloudbackup`, please backup your private SSH key too, "
+"as it’s used to access your backups."
 msgstr ""
 "在使用 :ref:`cloudbackup` 的情况下，请同样备份私有 SSH 密钥——它用于访问你的备"
 "份。"
@@ -2609,44 +2627,71 @@ msgid "Weblate provisioned backup storage"
 msgstr "Weblate 提供的备份存储"
 
 #: ../../admin/backup.rst:49
+#, fuzzy
+#| msgid ""
+#| "The easiest approach to backup your Weblate instance is to purchase "
+#| "`backup service at weblate.org <https://weblate.org/support/#backup>`_. "
+#| "The process of activating can be performed in few steps:"
 msgid ""
-"The easiest approach to backup your Weblate instance is to purchase `backup "
-"service at weblate.org <https://weblate.org/support/#backup>`_. The process "
-"of activating can be performed in few steps:"
+"The easiest way of backing up your Weblate instance is purchasing the "
+"`backup service at weblate.org <https://weblate.org/support/#backup>`_. This "
+"is how you get it running:"
 msgstr ""
 "备份 Weblate 事例最简单的方法是购买 `backup service at weblate.org <https://"
 "weblate.org/support/#backup>`_ 。激活过程可以分几步来执行："
 
 #: ../../admin/backup.rst:53
-msgid "Purchase backup service on https://weblate.org/support/#backup."
+#, fuzzy
+#| msgid "Purchase backup service on https://weblate.org/support/#backup."
+msgid "Purchase the `Backup service` on https://weblate.org/support/#backup."
 msgstr "在 https://weblate.org/support/#backup 上购买备份服务。"
 
 #: ../../admin/backup.rst:54
+#, fuzzy
+#| msgid ""
+#| "Enter obtained key in the management interface, see :ref:`activate-"
+#| "support`."
 msgid ""
-"Enter obtained key in the management interface, see :ref:`activate-support`."
+"Enter the obtained key in the management interface, see :ref:`activate-"
+"support`."
 msgstr "在管理界面输入得到的密钥，请参见 :ref:`activate-support` 。"
 
 #: ../../admin/backup.rst:55
+#, fuzzy
+#| msgid ""
+#| "Weblate will connect to the cloud service and obtain access information "
+#| "for the backups."
 msgid ""
-"Weblate will connect to the cloud service and obtain access information for "
-"the backups."
+"Weblate connects to the cloud service and obtains access info for the "
+"backups."
 msgstr "Weblate 将连接到云服务，并得到访问信息来备份。"
 
 #: ../../admin/backup.rst:56
-msgid "Turn on the new backup configuration on the :guilabel:`Backups` tab."
+#, fuzzy
+#| msgid "Turn on the new backup configuration on the :guilabel:`Backups` tab."
+msgid "Turn on the new backup configuration from the :guilabel:`Backups` tab."
 msgstr "在 :guilabel:`Backups` 标签打开新的备份配置。"
 
 #: ../../admin/backup.rst:57
+#, fuzzy
+#| msgid ""
+#| "Backup Borg credentials in order to be able to restore the backups, see :"
+#| "ref:`borg-keys`."
 msgid ""
-"Backup Borg credentials in order to be able to restore the backups, see :ref:"
+"Backup your Borg credentials to be able to restore the backups, see :ref:"
 "`borg-keys`."
 msgstr "备份 Borg 凭据，以便能够恢复备份，请参见 :ref:`borg-keys` 。"
 
 #: ../../admin/backup.rst:61
+#, fuzzy
+#| msgid ""
+#| "The manual step of turning on is there for your safety. Without your "
+#| "consent no data is sent to the backup repository obtained through the "
+#| "registration process."
 msgid ""
-"The manual step of turning on is there for your safety. Without your consent "
-"no data is sent to the backup repository obtained through the registration "
-"process."
+"The manual step of turning everything on is there for your safety. Without "
+"your consent no data is sent to the backup repository obtained through the "
+"registration process."
 msgstr ""
 "为了安全起见，有打开的手动步骤。没有你的同意，就不会有数据发送到通过注册步骤"
 "得到的备份仓库。"
@@ -2656,9 +2701,14 @@ msgid "Using custom backup storage"
 msgstr "使用客户的备份存储"
 
 #: ../../admin/backup.rst:70
+#, fuzzy
+#| msgid ""
+#| "You can also use your own storage for the backups. SSH can be used to "
+#| "store backups on the remote destination, the target server needs to have "
+#| "`BorgBackup`_ installed."
 msgid ""
 "You can also use your own storage for the backups. SSH can be used to store "
-"backups on the remote destination, the target server needs to have "
+"backups in the remote destination, the target server needs to have "
 "`BorgBackup`_ installed."
 msgstr ""
 "也可以使用自己的存储来备份。 SSH 可以用于在远程目的地存储备份，目标服务器需要"
@@ -2673,42 +2723,65 @@ msgid "Local filesystem"
 msgstr "本地文件系统"
 
 #: ../../admin/backup.rst:81
+#, fuzzy
+#| msgid ""
+#| "It is recommended to specify absolute path for the local backup, for "
+#| "example `/path/to/backup`. The directory has to be writable by user "
+#| "running Weblate (see :ref:`file-permissions`). In case it doesn't exist, "
+#| "Weblate will attempt to create it, but it needs permissions to do so."
 msgid ""
-"It is recommended to specify absolute path for the local backup, for example "
-"`/path/to/backup`. The directory has to be writable by user running Weblate "
-"(see :ref:`file-permissions`). In case it doesn't exist, Weblate will "
-"attempt to create it, but it needs permissions to do so."
+"It is recommended to specify the absolute path for the local backup, for "
+"example `/path/to/backup`. The directory has to be writable by the user "
+"running Weblate (see :ref:`file-permissions`). In case it doesn't exist, "
+"Weblate will attempt to create it, but needs a permission to do so."
 msgstr ""
 "推荐去指定本地备份的绝对路径，例如 `/path/to/backup`。运行 Weblate 的用户必须"
 "可写入备份目录（请参见 :ref:`file-permissions`）。在目录不存在的情况下，"
 "Weblate 会尝试新建，但需要权限来执行。"
 
 #: ../../admin/backup.rst:88
+#, fuzzy
+#| msgid ""
+#| "When running Weblate in Docker, please make sure that the backup location "
+#| "is exposed as a volume from the Weblate container. Otherwise the backups "
+#| "would be discarded by Docker on container restart."
 msgid ""
-"When running Weblate in Docker, please make sure that the backup location is "
-"exposed as a volume from the Weblate container. Otherwise the backups would "
-"be discarded by Docker on container restart."
+"When running Weblate in Docker, please ensure the backup location is exposed "
+"as a volume from the Weblate container. Otherwise the backups will be "
+"discarded by Docker on the container restart."
 msgstr "当在 Docker 中运行 Weblate 时，请确认备份位置显露为 Weblate 容器的卷。"
 
 #: ../../admin/backup.rst:92
+#, fuzzy
+#| msgid ""
+#| "One option is to place backups in existing volume. For example choose :"
+#| "file:`/app/data/borgbackup`. This is existing volume in the container."
 msgid ""
-"One option is to place backups in existing volume. For example choose :file:"
-"`/app/data/borgbackup`. This is existing volume in the container."
+"One option is to place backups into an existing volume, for example :file:`/"
+"app/data/borgbackup`. This is an existing volume in the container."
 msgstr ""
 "一个选项是将备份防止在现有的卷中。例如，选择 :file:`/app/data/borgbackup`。这"
 "是容器中现有的卷。"
 
 #: ../../admin/backup.rst:95
+#, fuzzy
+#| msgid ""
+#| "You can also add new container for the backups in the Docker compose file "
+#| "and use for example :file:`/borgbackup`:"
 msgid ""
-"You can also add new container for the backups in the Docker compose file "
-"and use for example :file:`/borgbackup`:"
+"You can also add a new container for the backups in the Docker compose file "
+"for example by using :file:`/borgbackup`:"
 msgstr ""
 "也可以在 Docker 的编写文件中为备份添加新的容器并使用例如 :file:`/borgbackup`:"
 
 #: ../../admin/backup.rst:106
+#, fuzzy
+#| msgid ""
+#| "The directory where backups will be stored have to be owned by UID 1000, "
+#| "otherwise Weblate will not be able to write the backups there."
 msgid ""
 "The directory where backups will be stored have to be owned by UID 1000, "
-"otherwise Weblate will not be able to write the backups there."
+"otherwise Weblate won’t be able to write the backups there."
 msgstr "备份所存储的目录由 UID 1000 所有，否则 Weblate 会不能将备份写入那里。"
 
 #: ../../admin/backup.rst:110
@@ -2717,14 +2790,11 @@ msgstr "远程备份"
 
 #: ../../admin/backup.rst:112
 msgid ""
-"Remote backups using SSH are supported. The SSH server needs to have "
-"`BorgBackup`_ installed. Weblate connects to the server using SSH key, "
-"please make sure the Weblate SSH key is accepted by the server (see :ref:"
-"`weblate-ssh-key`)."
+"In order to create the remote backups, you will have to install "
+"`BorgBackup`_ onto another server that’s accessible via SSH. Make youreself "
+"sure that it accepts the Weblate's client SSH key, i.e. the one it uses to "
+"connect to other servers. (see :ref:`weblate-ssh-key`)."
 msgstr ""
-"支持使用 SSH 的远程备份。SSH 服务器需要安装 `BorgBackup`_。Weblate 使用 SSH "
-"密钥连接服务器，请确保 Weblate SSH 密钥被服务器接受（请参见 :ref:`weblate-"
-"ssh-key`）。"
 
 #: ../../admin/backup.rst:119
 msgid ":ref:`cloudbackup` provides you automated remote backups."
@@ -2740,12 +2810,18 @@ msgid ""
 msgstr "恢复功能会访问你的备份仓库，并准备备份密码。"
 
 #: ../../admin/backup.rst:126
-msgid "List backup existing on the server using ``borg list REPOSITORY``."
+#, fuzzy
+#| msgid "List backup existing on the server using ``borg list REPOSITORY``."
+msgid "List all the backups on the server using ``borg list REPOSITORY``."
 msgstr "使用 ``borg list REPOSITORY`` 列出服务器上存在的备份。"
 
 #: ../../admin/backup.rst:128
+#, fuzzy
+#| msgid ""
+#| "Restore the desired backup to current directory using ``borg extract "
+#| "REPOSITORY::ARCHIVE``."
 msgid ""
-"Restore the desired backup to current directory using ``borg extract "
+"Restore the desired backup to the current directory using ``borg extract "
 "REPOSITORY::ARCHIVE``."
 msgstr "使用 ``borg extract REPOSITORY::ARCHIVE`` 将所需备份恢复到当前目录。"
 
@@ -2758,21 +2834,31 @@ msgstr ""
 "见 :ref:`backup-dumps`）。"
 
 #: ../../admin/backup.rst:132
+#, fuzzy
+#| msgid ""
+#| "Copy Weblate configuration (:file:`backups/settings.py`, see :ref:`backup-"
+#| "dumps`) to the correct location, see :ref:`configuration`."
 msgid ""
-"Copy Weblate configuration (:file:`backups/settings.py`, see :ref:`backup-"
-"dumps`) to the correct location, see :ref:`configuration`."
+"Copy the Weblate configuration (:file:`backups/settings.py`, see :ref:"
+"`backup-dumps`) to the correct location, see :ref:`configuration`."
 msgstr ""
 "将 Weblate 配置 （ :file:`backups/settings.py` ，请参见 :ref:`backup-"
 "dumps` ）复制到正确的位置，请参见 :ref:`configuration` 。"
 
 #: ../../admin/backup.rst:134
+#, fuzzy
+#| msgid ""
+#| "Copy the whole restored data dir to location configured by :setting:"
+#| "`DATA_DIR`."
 msgid ""
-"Copy the whole restored data dir to location configured by :setting:"
+"Copy the whole restored data dir to the location configured by :setting:"
 "`DATA_DIR`."
 msgstr "将整个存储的数据目录复制到在 :setting:`DATA_DIR` 中配置的位置。"
 
 #: ../../admin/backup.rst:136
-msgid "The Borg session might look like:"
+#, fuzzy
+#| msgid "The Borg session might look like:"
+msgid "The Borg session might look like this:"
 msgstr "Borg 会话会是这个样子的："
 
 #: ../../admin/backup.rst:148
@@ -2784,16 +2870,26 @@ msgid "Manual backup"
 msgstr "手动备份"
 
 #: ../../admin/backup.rst:158
+#, fuzzy
+#| msgid ""
+#| "Depending on what you want to save, back up the type data Weblate stores "
+#| "in each respective place."
 msgid ""
-"Depending on what you want to save, back up the type data Weblate stores in "
-"each respective place."
+"Depending on what you want to save, back up the type of data Weblate stores "
+"in each respective place."
 msgstr "依赖于你想存储什么， Weblate 存储的类型数据备份在各自的位置。"
 
 #: ../../admin/backup.rst:162
+#, fuzzy
+#| msgid ""
+#| "In case you are doing manual backups, you might want to silent Weblate "
+#| "warning about lack of backups by adding ``weblate.I028`` to :setting:"
+#| "`django:SILENCED_SYSTEM_CHECKS` in :file:`settings.py` or :envvar:"
+#| "`WEBLATE_SILENCED_SYSTEM_CHECKS` for Docker."
 msgid ""
-"In case you are doing manual backups, you might want to silent Weblate "
-"warning about lack of backups by adding ``weblate.I028`` to :setting:`django:"
-"SILENCED_SYSTEM_CHECKS` in :file:`settings.py` or :envvar:"
+"If you are doing the manual backups, you might want to silence Weblate's "
+"warning about a lack of backups by adding ``weblate.I028`` to :setting:"
+"`django:SILENCED_SYSTEM_CHECKS` in :file:`settings.py` or :envvar:"
 "`WEBLATE_SILENCED_SYSTEM_CHECKS` for Docker."
 msgstr ""
 "在进行手动备份时，会想要通过将 ``weblate.I028`` 添加到 :file:`settings.py` "
@@ -2809,33 +2905,49 @@ msgid "The actual storage location depends on your database setup."
 msgstr "实际存储位置依赖于数据库的设置。"
 
 #: ../../admin/backup.rst:176
+#, fuzzy
+#| msgid ""
+#| "The database is the most important storage. Set up regular backups of "
+#| "your database, without it all your translation setup will be gone."
 msgid ""
 "The database is the most important storage. Set up regular backups of your "
-"database, without it all your translation setup will be gone."
+"database. Without database, all the translations are gone."
 msgstr ""
 "数据库是最重要的存储。要新建数据库的常规备份，没有的话翻译设置就丢失了。"
 
-#: ../../admin/backup.rst:180
+#: ../../admin/backup.rst:181
 msgid "Native database backup"
 msgstr "本地数据库备份"
 
-#: ../../admin/backup.rst:182
+#: ../../admin/backup.rst:183
+#, fuzzy
+#| msgid ""
+#| "The recommended approach is to do dump of the database using database "
+#| "native tools such as :program:`pg_dump` or :program:`mysqldump`. It "
+#| "usually performs better than Django backup and restores complete tables "
+#| "with all data."
 msgid ""
-"The recommended approach is to do dump of the database using database native "
-"tools such as :program:`pg_dump` or :program:`mysqldump`. It usually "
-"performs better than Django backup and restores complete tables with all "
-"data."
+"The recommended approach is to do save a dump of the database using database "
+"native tools such as :program:`pg_dump` or :program:`mysqldump`. It usually "
+"performs better than Django backup, and it restores complete tables with all "
+"their data."
 msgstr ""
 "推荐的方式是使用数据库的本地工具如 :program:`pg_dump` 或 :program:"
 "`mysqldump` 来备份数据库。这通常比Django备份执行得好，并且恢复所有数据的完整"
 "表格。"
 
-#: ../../admin/backup.rst:186
+#: ../../admin/backup.rst:187
+#, fuzzy
+#| msgid ""
+#| "You can restore this backup in newer Weblate release, it will perform any "
+#| "necessary migrations when running in :djadmin:`django:migrate`. Please "
+#| "consult :doc:`upgrade` on more detailed information how to perform "
+#| "upgrade between versions."
 msgid ""
-"You can restore this backup in newer Weblate release, it will perform any "
-"necessary migrations when running in :djadmin:`django:migrate`. Please "
-"consult :doc:`upgrade` on more detailed information how to perform upgrade "
-"between versions."
+"You can restore this backup in a newer Weblate release, it will perform all "
+"the necessary migrations when running in :djadmin:`django:migrate`. Please "
+"consult :doc:`upgrade` on more detailed info on how to upgrade between "
+"versions."
 msgstr ""
 "可以在更新版的 Weblate 中恢复备份，当运行 :djadmin:`django:migrate` 时执行任"
 "何必要的迁移。如何在两个版本之间执行升级的更多细节信息请咨询 :doc:"
@@ -2846,31 +2958,49 @@ msgid "Django database backup"
 msgstr "Django 数据库备份"
 
 #: ../../admin/backup.rst:194
+#, fuzzy
+#| msgid ""
+#| "Alternatively you can backup database using Django's :djadmin:`django:"
+#| "dumpdata` command. That way the backup is database agnostic and can be "
+#| "used in case you want to change database backend."
 msgid ""
-"Alternatively you can backup database using Django's :djadmin:`django:"
+"Alternatively, you can back up your database using Django's :djadmin:`django:"
 "dumpdata` command. That way the backup is database agnostic and can be used "
-"in case you want to change database backend."
+"in case you want to change the database backend."
 msgstr ""
 "另外，可以使用 Django 的 :djadmin:`django:dumpdata` 命令备份数据库。那种方式"
 "是不依托数据库的，并且可以用于先要更改数据库后端的情况。"
 
 #: ../../admin/backup.rst:198
+#, fuzzy
+#| msgid ""
+#| "Prior to restoring you need to be running exactly same Weblate version as "
+#| "was used when doing backups. This is necessary as the database structure "
+#| "does change between releases and you would end up corrupting the data in "
+#| "some way. After installing the same version, run all database migrations "
+#| "using :djadmin:`django:migrate`."
 msgid ""
-"Prior to restoring you need to be running exactly same Weblate version as "
-"was used when doing backups. This is necessary as the database structure "
-"does change between releases and you would end up corrupting the data in "
-"some way. After installing the same version, run all database migrations "
-"using :djadmin:`django:migrate`."
+"Prior to restoring the database you need to be running exactly the same "
+"Weblate version the backup was made on. This is necessary as the database "
+"structure does change between releases and you would end up corrupting the "
+"data in some way. After installing the same version, run all database "
+"migrations using :djadmin:`django:migrate`."
 msgstr ""
 "在恢复前，需要运行与进行备份使用的 Weblate 完全一致的版本。这是必须的，因为数"
 "据库结构在发布版本之间有变化，并且会导致某种方式的数据损坏。在安装相同版本"
 "后，使用 :djadmin:`django:migrate` 来运行所有的数据库迁移。"
 
 #: ../../admin/backup.rst:204
+#, fuzzy
+#| msgid ""
+#| "Once this is done, some entries will be already created in the database "
+#| "and you will have them in the database backup as well. The recommended "
+#| "approach is to delete such entries manually using management shell (see :"
+#| "ref:`invoke-manage`):"
 msgid ""
-"Once this is done, some entries will be already created in the database and "
-"you will have them in the database backup as well. The recommended approach "
-"is to delete such entries manually using management shell (see :ref:`invoke-"
+"Afterwards some entries will already be created in the database and you will "
+"have them in the database backup as well. The recommended approach is to "
+"delete such entries manually using the management shell (see :ref:`invoke-"
 "manage`):"
 msgstr ""
 "一旦完成，数据库中就已经建立了一些入口，并且同样建立在数据库备份中。推荐的方"
@@ -2881,11 +3011,17 @@ msgid "Files"
 msgstr "文件"
 
 #: ../../admin/backup.rst:217
+#, fuzzy
+#| msgid ""
+#| "If you have enough backup space, simply backup the whole :setting:"
+#| "`DATA_DIR`. This is safe bet even if it includes some files you don't "
+#| "want. The following sections describe in detail what you should back up "
+#| "and what you can skip."
 msgid ""
-"If you have enough backup space, simply backup the whole :setting:"
-"`DATA_DIR`. This is safe bet even if it includes some files you don't want. "
-"The following sections describe in detail what you should back up and what "
-"you can skip."
+"If you have enough backup space, simply back up the whole :setting:"
+"`DATA_DIR`. This is a safe bet even if it includes some files you don't "
+"want. The following sections describe what you should back up and what you "
+"can skip in detail."
 msgstr ""
 "如果有充足的备份空间，则简单地备份整个 :setting:`DATA_DIR` 。即使包括一些不想"
 "要的文件，这样做也是安全的。后面的部分具体描述了什么应该备份，什么应该跳过。"
@@ -2920,9 +3056,14 @@ msgid "PostgreSQL database backup as :file:`database.sql`."
 msgstr "PostgreSQL 数据库备份为 :file:`database.sql` 。"
 
 #: ../../admin/backup.rst:236
+#, fuzzy
+#| msgid ""
+#| "The database backups are by default saved as plain text, but they can "
+#| "also be compressed or entirely skipped by using :setting:"
+#| "`DATABASE_BACKUP`."
 msgid ""
-"The database backups are by default saved as plain text, but they can also "
-"be compressed or entirely skipped by using :setting:`DATABASE_BACKUP`."
+"The database backups are saved as plain text by default, but they can also "
+"be compressed or entirely skipped using :setting:`DATABASE_BACKUP`."
 msgstr ""
 "数据库备份默认存储为纯文本，但也可以通过使用 :setting:`DATABASE_BACKUP`来压缩"
 "的或整个跳过。"
@@ -2936,12 +3077,20 @@ msgid "Stored in :setting:`DATA_DIR` ``/vcs``."
 msgstr "存储在 :setting:`DATA_DIR` ``/vcs``中。"
 
 #: ../../admin/backup.rst:244
+#, fuzzy
+#| msgid ""
+#| "The version control repositories contain a copy of your upstream "
+#| "repositories with Weblate changes. If you have push on commit enabled for "
+#| "all your translation components, all Weblate changes are included "
+#| "upstream and you do not have to backup the repositories on the Weblate "
+#| "side. They can be cloned again from the upstream locations with no data "
+#| "loss."
 msgid ""
 "The version control repositories contain a copy of your upstream "
-"repositories with Weblate changes. If you have push on commit enabled for "
-"all your translation components, all Weblate changes are included upstream "
-"and you do not have to backup the repositories on the Weblate side. They can "
-"be cloned again from the upstream locations with no data loss."
+"repositories with Weblate changes. If you have `Push on commit` enabled for "
+"all your translation components, all Weblate changes are included upstream. "
+"No need to back up the repositories on the Weblate side as they can be "
+"cloned again from the upstream location(s) with no data loss."
 msgstr ""
 "版本控制仓库包含了带有 Weblate 更改的上游仓库的复制备份。 如果对所有翻译组件"
 "推进了同意允许，那么所有 Weblate 更改都包括在上游中，并且不必备份 Weblate 侧"
@@ -2958,9 +3107,14 @@ msgstr ""
 "存储在 :setting:`DATA_DIR` ``/ssh`` 和 :setting:`DATA_DIR` ``/home`` 中。"
 
 #: ../../admin/backup.rst:255
+#, fuzzy
+#| msgid ""
+#| "If you are using SSH or GPG keys generated by Weblate, you should back up "
+#| "these locations, otherwise you will lose the private keys and you will "
+#| "have to regenerate new ones."
 msgid ""
 "If you are using SSH or GPG keys generated by Weblate, you should back up "
-"these locations, otherwise you will lose the private keys and you will have "
+"these locations. Otherwise you will lose the private keys and you will have "
 "to regenerate new ones."
 msgstr ""
 "如果正在使用 Weblate 生成的 SSH 或 GPG 密钥，你应该备份这些位置，否则将丢失私"
@@ -2975,7 +3129,9 @@ msgid "Stored in :setting:`DATA_DIR` ``/media``."
 msgstr "存储在 :setting:`DATA_DIR` ``/media`` 中。"
 
 #: ../../admin/backup.rst:264
-msgid "You should back up user uploaded files (e.g. :ref:`screenshots`)."
+#, fuzzy
+#| msgid "You should back up user uploaded files (e.g. :ref:`screenshots`)."
+msgid "You should back up all user uploaded files (e.g. :ref:`screenshots`)."
 msgstr "可以备份用户上传的文件（例如 :ref:`screenshots` ）。"
 
 #: ../../admin/backup.rst:267
@@ -2983,12 +3139,18 @@ msgid "Celery tasks"
 msgstr "Celery 任务"
 
 #: ../../admin/backup.rst:269
+#, fuzzy
+#| msgid ""
+#| "The Celery tasks queue might contain some info, but is usually not needed "
+#| "for a backup. At most you will lose updates that have not yet been "
+#| "processed to translation memory. It is recommended to perform the "
+#| "fulltext or repository updates upon restoring anyhow, so there is no "
+#| "problem in losing these."
 msgid ""
-"The Celery tasks queue might contain some info, but is usually not needed "
-"for a backup. At most you will lose updates that have not yet been processed "
-"to translation memory. It is recommended to perform the fulltext or "
-"repository updates upon restoring anyhow, so there is no problem in losing "
-"these."
+"The Celery task queue might contain some info, but is usually not needed for "
+"a backup. At most you will lose updates not yet been processed to "
+"translation memory. It is recommended to perform the fulltext or repository "
+"update upon restoration anyhow, so there is no problem in losing these."
 msgstr ""
 "Celery 任务队列会包含一些信息，但备份通常不需要它。最多就是丢失了翻译内存还没"
 "有处理的更新。推荐在恢复时随便执行全文或仓库更新，这样不会有丢失的问题。"
@@ -3002,24 +3164,37 @@ msgid "Command line for manual backup"
 msgstr "手动备份的命令行"
 
 #: ../../admin/backup.rst:281
+#, fuzzy
+#| msgid ""
+#| "Using a cron job, you can set up a bash command to be executed on a daily "
+#| "basis, for instance:"
 msgid ""
-"Using a cron job, you can set up a bash command to be executed on a daily "
-"basis, for instance:"
+"Using a cron job, you can set up a Bash command to be executed on a daily "
+"basis, for example:"
 msgstr "使用 crom 任务，可以新建批处理命令，以每天为单位来执行，例如："
 
 #: ../../admin/backup.rst:287
+#, fuzzy
+#| msgid ""
+#| "The string between quotes after XZ_OPT allows you to choose your xz "
+#| "options, for instance the amount of memory used for compression; see "
+#| "https://linux.die.net/man/1/xz"
 msgid ""
-"The string between quotes after XZ_OPT allows you to choose your xz options, "
-"for instance the amount of memory used for compression; see https://linux."
-"die.net/man/1/xz"
+"The string between the quotes after `XZ_OPT` allows you to choose your xz "
+"options, for instance the amount of memory used for compression; see https://"
+"linux.die.net/man/1/xz"
 msgstr ""
 "XZ_OPT 后面引号之间的字符串允许选择自己的 xz 选项，例如用于压缩的内存量；请参"
 "见 https://linux.die.net/man/1/xz"
 
 #: ../../admin/backup.rst:289
+#, fuzzy
+#| msgid ""
+#| "You can adjust the list of folders and files to your needs. For instance, "
+#| "to avoid saving the translation memory (in backups folder), you could use:"
 msgid ""
-"You can adjust the list of folders and files to your needs. For instance, to "
-"avoid saving the translation memory (in backups folder), you could use:"
+"You can adjust the list of folders and files to your needs. To avoid saving "
+"the translation memory (in backups folder), you can use:"
 msgstr ""
 "可以根据需要调整文件夹和文件的列表。例如，为了节省翻译内存（在备份文件夹"
 "中），可以使用："
@@ -3041,9 +3216,13 @@ msgid "Moving a Weblate installation"
 msgstr "移动 Weblate 安装"
 
 #: ../../admin/backup.rst:309
+#, fuzzy
+#| msgid ""
+#| "Relocate your installation to a different system by following the backup "
+#| "and restore instructions above."
 msgid ""
-"Relocate your installation to a different system by following the backup and "
-"restore instructions above."
+"Relocate your installation to a different system by following the backing up "
+"and restoration instructions above."
 msgstr "按照上面备份与恢复的说明，将安装重定位到不同系统。"
 
 #: ../../admin/backup.rst:314
@@ -8003,11 +8182,11 @@ msgstr ""
 msgid ":ref:`django:postgresql-notes`"
 msgstr ":ref:`django:postgresql-notes`"
 
-#: ../../admin/install.rst:331 ../../admin/upgrade.rst:219
+#: ../../admin/install.rst:331 ../../admin/upgrade.rst:221
 msgid "Creating a database in PostgreSQL"
 msgstr "建立 PostgreSQL数据库"
 
-#: ../../admin/install.rst:333 ../../admin/upgrade.rst:221
+#: ../../admin/install.rst:333 ../../admin/upgrade.rst:223
 msgid ""
 "It is usually a good idea to run Weblate in a separate database, and "
 "separate user account:"
@@ -8186,10 +8365,11 @@ msgid ""
 "EMAIL_HOST_USER` and :setting:`django:EMAIL_PORT`. Their names are quite "
 "self-explanatory, but you can find more info in the Django documentation."
 msgstr ""
-"邮件服务器使用这些设置进行配置: :setting:`django:EMAIL_HOST`, "
-":setting:`django:EMAIL_HOST_PASSWORD`, :setting:`django:EMAIL_USE_TLS`, "
-":setting:`django:EMAIL_USE_SSL`, :setting:`django:EMAIL_HOST_USER` and "
-":setting:`django:EMAIL_PORT`。从名称就可以大概知道它们的含义，但是你可以在Django 文档中找到更多信息。"
+"邮件服务器使用这些设置进行配置: :setting:`django:EMAIL_HOST`, :setting:"
+"`django:EMAIL_HOST_PASSWORD`, :setting:`django:EMAIL_USE_TLS`, :setting:"
+"`django:EMAIL_USE_SSL`, :setting:`django:EMAIL_HOST_USER` and :setting:"
+"`django:EMAIL_PORT`。从名称就可以大概知道它们的含义，但是你可以在Django 文档"
+"中找到更多信息。"
 
 #: ../../admin/install.rst:515
 msgid ""
@@ -16125,7 +16305,7 @@ msgstr ""
 
 #: ../../admin/upgrade.rst:132 ../../admin/upgrade.rst:149
 #: ../../admin/upgrade.rst:167 ../../admin/upgrade.rst:182
-#: ../../admin/upgrade.rst:194
+#: ../../admin/upgrade.rst:196
 msgid ":ref:`generic-upgrade-instructions`"
 msgstr ":ref:`generic-upgrade-instructions`"
 
@@ -16291,22 +16471,36 @@ msgid "Upgrade from 4.4 to 4.5"
 msgstr "从 4.4 升级到 4.5"
 
 #: ../../admin/upgrade.rst:191
-msgid ""
-"Glossaries are now stored as regular components. The migration might take "
-"considerable time if you had big glossaries."
+msgid "The migration might take considerable time if you had big glossaries."
 msgstr ""
 
-#: ../../admin/upgrade.rst:192
+#: ../../admin/upgrade.rst:192 ../../changes.rst:21
+msgid "Glossaries are now stored as regular components."
+msgstr ""
+
+#: ../../admin/upgrade.rst:193
 msgid ""
 "The glossary API is removed, use regular translation API to access "
 "glossaries."
 msgstr ""
 
-#: ../../admin/upgrade.rst:199
+#: ../../admin/upgrade.rst:194
+#, fuzzy
+#| msgid ""
+#| "There is a change in :setting:`django:INSTALLED_APPS`, ``weblate."
+#| "configuration`` has to be added there."
+msgid ""
+"There is a change in :setting:`django:INSTALLED_APPS` - ``weblate.metrics`` "
+"should be added."
+msgstr ""
+"在 :setting:`django:INSTALLED_APPS` 中有一处更改， 必须将 ``weblate."
+"configuration`` 添加在那里。"
+
+#: ../../admin/upgrade.rst:201
 msgid "Upgrading from Python 2 to Python 3"
 msgstr "从 Python 2 升级到 Python 3"
 
-#: ../../admin/upgrade.rst:201
+#: ../../admin/upgrade.rst:203
 msgid ""
 "Weblate no longer supports Python older than 3.5. In case you are still "
 "running on older version, please perform migration to Python 3 first on "
@@ -16320,11 +16514,11 @@ msgstr ""
 "weblate.org/en/weblate-3.11.1/admin/upgrade.html#upgrading-from-python-2-to-"
 "python-3>`_。"
 
-#: ../../admin/upgrade.rst:210
+#: ../../admin/upgrade.rst:212
 msgid "Migrating from other databases to PostgreSQL"
 msgstr "从其它数据库迁移到 PostgreSQL"
 
-#: ../../admin/upgrade.rst:212
+#: ../../admin/upgrade.rst:214
 msgid ""
 "If you are running Weblate on other dabatase than PostgreSQL, you should "
 "migrate to PostgreSQL as that will be the only supported database backend in "
@@ -16336,11 +16530,11 @@ msgstr ""
 "是 4.0 发布版本唯一支持的数据库后端。后面的步骤将引导你在数据库之间迁移数据。"
 "请记住迁移前要停止 web 和 Celery 服务器，否则会导致不一致的数据。"
 
-#: ../../admin/upgrade.rst:235
+#: ../../admin/upgrade.rst:237
 msgid "Migrating using Django JSON dumps"
 msgstr "使用 Django JSON 转储来迁移"
 
-#: ../../admin/upgrade.rst:237
+#: ../../admin/upgrade.rst:239
 msgid ""
 "The simplest approach for migration is to utilize Django JSON dumps. This "
 "works well for smaller installations. On bigger sites you might want to use "
@@ -16349,20 +16543,20 @@ msgstr ""
 "最简单的迁移方法是使用 Django JSON 转储。这对于较小的安装工作得很好。在更大的"
 "网站，你会想要使用 pgloader 代替，请参见 :ref:`pgloader-migration`。"
 
-#: ../../admin/upgrade.rst:239
+#: ../../admin/upgrade.rst:241
 msgid ""
 "Add PostgreSQL as additional database connection to the :file:`settings.py`:"
 msgstr "添加 PostgreSQL 作为到 :file:`settings.py`的另外的数据库连接："
 
-#: ../../admin/upgrade.rst:285
+#: ../../admin/upgrade.rst:287
 msgid "Run migrations and drop any data inserted into the tables:"
 msgstr "运行迁移，并将任何插入到表格中的数据 drop 掉："
 
-#: ../../admin/upgrade.rst:292
+#: ../../admin/upgrade.rst:294
 msgid "Dump legacy database and import to PostgreSQL"
 msgstr "将遗留数据库进行转储，并导入 PostgreSQL"
 
-#: ../../admin/upgrade.rst:299
+#: ../../admin/upgrade.rst:301
 msgid ""
 "Adjust :setting:`django:DATABASES` to use just PostgreSQL database as "
 "default, remove legacy connection."
@@ -16370,15 +16564,15 @@ msgstr ""
 "调整 :setting:`django:DATABASES` 而只使用 PostgreSQL 数据库作为默认，将遗留连"
 "接删除掉。"
 
-#: ../../admin/upgrade.rst:302
+#: ../../admin/upgrade.rst:304
 msgid "Weblate should be now ready to run from the PostgreSQL database."
 msgstr "现在 Weblate 应该准备好从 PostgreSQL 数据库运行了。"
 
-#: ../../admin/upgrade.rst:307
+#: ../../admin/upgrade.rst:309
 msgid "Migrating to PostgreSQL using pgloader"
 msgstr "使用 pgloader 迁移到 PostgreSQL"
 
-#: ../../admin/upgrade.rst:309
+#: ../../admin/upgrade.rst:311
 msgid ""
 "The `pgloader`_ is a generic migration tool to migrate data to PostgreSQL. "
 "You can use it to migrate Weblate database."
@@ -16386,15 +16580,15 @@ msgstr ""
 "`pgloader`_ 是通用迁移工具，将数据迁移到 PostgreSQL。你可以使用它来迁移 "
 "Weblate 数据库。"
 
-#: ../../admin/upgrade.rst:311
+#: ../../admin/upgrade.rst:313
 msgid "Adjust your :file:`settings.py` to use PostgreSQL as a database."
 msgstr "调整 `settings.py` 文件而将 PostgreSQL 用作数据库。"
 
-#: ../../admin/upgrade.rst:313
+#: ../../admin/upgrade.rst:315
 msgid "Migrate the schema in the PostgreSQL database:"
 msgstr "迁移 PostgreSQL 中的模式："
 
-#: ../../admin/upgrade.rst:320
+#: ../../admin/upgrade.rst:322
 msgid ""
 "Run the pgloader to transfer the data. The following script can be used to "
 "migrate the database, but you might want to learn more about `pgloader`_ to "
@@ -16403,11 +16597,11 @@ msgstr ""
 "运行 pgloader 来转移数据。后面的脚本可以用于迁移数据库，但你会想要学习更多关"
 "于 `pgloader`_ 的知识，来理解它做什么以及调整它来匹配你的设置："
 
-#: ../../admin/upgrade.rst:339
+#: ../../admin/upgrade.rst:341
 msgid "Migrating from Pootle"
 msgstr "从 Pootle 迁移"
 
-#: ../../admin/upgrade.rst:341
+#: ../../admin/upgrade.rst:343
 msgid ""
 "As Weblate was originally written as replacement from Pootle, it is "
 "supported to migrate user accounts from Pootle. You can dump the users from "
@@ -18893,10 +19087,6 @@ msgstr "增加了在翻译中添加新字符串的新上传方法。"
 #: ../../changes.rst:20
 msgid "Added simple interface to browse translation."
 msgstr "添加了浏览翻译的简单界面。"
-
-#: ../../changes.rst:21
-msgid "Glossaries are now stored as regular components."
-msgstr ""
 
 #: ../../changes.rst:22
 msgid "Dropped glossaries API."
@@ -29778,9 +29968,9 @@ msgid ""
 "``developer_comments``). This is the recommended approach, as it is the "
 "least error prone. Choose :guilabel:`CSV file` as a file format."
 msgstr ""
-"带有标头定义字段（``location``, ``source``, ``target``, ``ID``, ``fuzzy``, ``context``"
-", ``translator_comments``, ``developer_comments``）的文件。这是推荐的方法，因为它最不容易出错。挑选 "
-":guilabel:`CSV file` 作为一种文件格式。"
+"带有标头定义字段（``location``, ``source``, ``target``, ``ID``, ``fuzzy``, "
+"``context``, ``translator_comments``, ``developer_comments``）的文件。这是推"
+"荐的方法，因为它最不容易出错。挑选 :guilabel:`CSV file` 作为一种文件格式。"
 
 #: ../../formats.rst:1042
 msgid ""
@@ -29797,9 +29987,9 @@ msgid ""
 "``translator_comments``, ``developer_comments`` Choose :guilabel:`CSV file` "
 "as a file format."
 msgstr ""
-"无标头文件字段顺序由 `translate-toolkit`_: ``location``、 ``source``、``target``、 ``ID``、"
-" ``fuzzy``、 ``context``、``translator_comments``、 ``developer_comments`` 所定义。"
-"选择 :guilabel:`CSV file` 作为一种文件格式。"
+"无标头文件字段顺序由 `translate-toolkit`_: ``location``、 ``source``、"
+"``target``、 ``ID``、 ``fuzzy``、 ``context``、``translator_comments``、 "
+"``developer_comments`` 所定义。选择 :guilabel:`CSV file` 作为一种文件格式。"
 
 #: ../../formats.rst:1047
 msgid ""
@@ -32156,15 +32346,16 @@ msgstr ""
 #: ../../user/glossary.rst:16
 msgid ""
 "Glossaries are now regular translation components and you can use all "
-"Weblate features on them - commenting, storing in a Git repository, or "
+"Weblate features on them — commenting, storing in a Git repository, or "
 "adding explanations."
 msgstr ""
 
 #: ../../user/glossary.rst:20
+#, fuzzy
+#| msgid "Please define a glossary name to use component as a glossary."
 msgid ""
-"You can use any component as a glossary by turning on :ref:`component-"
-"is_glossary`."
-msgstr ""
+"Use any component as a glossary by turning on :ref:`component-is_glossary`."
+msgstr "请定义术语表名称以将组件用作术语表。"
 
 #: ../../user/glossary.rst:22
 msgid ""
@@ -32179,8 +32370,8 @@ msgstr "词汇表术语"
 
 #: ../../user/glossary.rst:29
 msgid ""
-"The glossary terms are translated in a same way as regular tranlations. You "
-"can toggle additional features using the :guilabel:`Tools` menu on each term."
+"Glossary terms are translated the same way regular strings are. You can "
+"toggle additional features using the :guilabel:`Tools` menu for each term."
 msgstr ""
 
 #: ../../user/glossary.rst:33
@@ -32191,14 +32382,14 @@ msgstr "不可翻译的术语"
 msgid ""
 "Glossary terms which are read-only are not meant to be translated. You can "
 "use this for names or other terms which should not change while translating. "
-"Such term is visually highlighted in the glossary sidebar."
+"Such terms are visually highlighted in the glossary sidebar."
 msgstr ""
 
 #: ../../user/glossary.rst:41
 msgid ""
-"The terms can be flagged on the source language using :guilabel:`Tools` ↓ :"
-"guilabel:`Prohibit translations`. In the background this toggles the ``read-"
-"only`` flag on the string."
+"The terms can be flagged in the source language using :guilabel:`Tools` ↓ :"
+"guilabel:`Mark as read-only`. In the background this toggles the ``read-"
+"only`` flag of the string."
 msgstr ""
 
 #: ../../user/glossary.rst:52
@@ -32207,16 +32398,16 @@ msgstr "禁止的翻译"
 
 #: ../../user/glossary.rst:56
 msgid ""
-"You can flag certain glossary terms as forbidden - those should not be used "
-"while translating. Use this to clarify translation when some words are "
+"You can flag certain glossary terms as forbidden, meaning ones _not_ to be "
+"used for translations. Use this to clarify translation when some words are "
 "ambiguous or could have unexpected meanings."
 msgstr ""
 
 #: ../../user/glossary.rst:60
 msgid ""
-"The terms can be flagged on the source language using :guilabel:`Tools` ↓ :"
-"guilabel:`Mark as forbidden translations`. In the background this toggles "
-"the ``forbidden`` flag on the string."
+"Terms can be flagged using :guilabel:`Tools` ↓ :guilabel:`Mark as forbidden "
+"translation`. In the background this toggles the ``forbidden`` flag of the "
+"string."
 msgstr ""
 
 #: ../../user/glossary.rst:71
@@ -32225,16 +32416,16 @@ msgstr "专有名词"
 
 #: ../../user/glossary.rst:75
 msgid ""
-"You can flag certain glossary terms as terminology - those  will be present "
-"in all glossary languages. Use this to flag important terms which should be "
-"translated consistently."
+"Flagging certain glossary terms as terminology puts them in all glossary "
+"languages. Use this to flag important terms which should be translated "
+"consistently."
 msgstr ""
 
 #: ../../user/glossary.rst:79
 msgid ""
-"The terms can be flagged on the source language using :guilabel:`Tools` ↓ :"
+"The terms can be flagged in the source language using :guilabel:`Tools` ↓ :"
 "guilabel:`Mark as terminology`. In the background this toggles the "
-"``terminology`` flag on the string."
+"``terminology`` flag of the string."
 msgstr ""
 
 #: ../../user/profile.rst:2
@@ -34827,6 +35018,25 @@ msgstr ""
 #: ../../workflows.rst:240
 msgid ":ref:`bimono`, :ref:`reviews`, :ref:`labels`"
 msgstr ":ref:`bimono`, :ref:`reviews`, :ref:`labels`"
+
+#~ msgid "14 daily backups"
+#~ msgstr "14 个每天备份"
+
+#~ msgid "8 weekly backups"
+#~ msgstr "8 个每周备份"
+
+#~ msgid "6 monthly backups"
+#~ msgstr "6个 每月备份"
+
+#~ msgid ""
+#~ "Remote backups using SSH are supported. The SSH server needs to have "
+#~ "`BorgBackup`_ installed. Weblate connects to the server using SSH key, "
+#~ "please make sure the Weblate SSH key is accepted by the server (see :ref:"
+#~ "`weblate-ssh-key`)."
+#~ msgstr ""
+#~ "支持使用 SSH 的远程备份。SSH 服务器需要安装 `BorgBackup`_。Weblate 使用 "
+#~ "SSH 密钥连接服务器，请确保 Weblate SSH 密钥被服务器接受（请参见 :ref:"
+#~ "`weblate-ssh-key`）。"
 
 #~ msgid "Project admins can always start translation within Weblate directly."
 #~ msgstr "项目管理员在 Weblate 内总是可以直接启动翻译。"

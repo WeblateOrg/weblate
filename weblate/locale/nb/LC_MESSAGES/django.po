@@ -17,7 +17,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.5\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
-"POT-Creation-Date: 2021-02-12 16:30+0000\n"
+"POT-Creation-Date: 2021-02-13 20:05+0000\n"
 "PO-Revision-Date: 2021-02-13 20:01+0000\n"
 "Last-Translator: Allan Nordhøy <epost@anotheragency.no>\n"
 "Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/weblate/"
@@ -1436,7 +1436,9 @@ msgid "String suffix"
 msgstr "Strengendelse"
 
 #: weblate/addons/forms.py:478
-msgid "Source and target have to be a different languages."
+#, fuzzy
+#| msgid "Source and target have to be a different languages."
+msgid "The source and target have to be different languages."
 msgstr "Kilde og mål må være forskjellige språk."
 
 #: weblate/addons/generate.py:34
@@ -3103,11 +3105,15 @@ msgid "Java Properties (ISO 8859-1)"
 msgstr "Java Properties (ISO 8859-1)"
 
 #: weblate/formats/ttkit.py:1163
-msgid "Joomla Language File"
+#, fuzzy
+#| msgid "Joomla Language File"
+msgid "Joomla language file"
 msgstr "Joomla språkfil"
 
 #: weblate/formats/ttkit.py:1172
-msgid "GWT Properties"
+#, fuzzy
+#| msgid "GWT Properties"
+msgid "GWT properties"
 msgstr "GWT-egenskaper"
 
 #: weblate/formats/ttkit.py:1179
@@ -3201,7 +3207,7 @@ msgstr "INI-fil for Inno Setup"
 #: weblate/formats/ttkit.py:1700
 #, fuzzy
 #| msgid "TermBase eXchange (TBX)"
-msgid "Term Base eXchange file"
+msgid "TermBase eXchange file"
 msgstr "TermBase eXchange (TBX)"
 
 #: weblate/formats/txt.py:180
@@ -3666,11 +3672,11 @@ msgctxt "Translation memory category"
 msgid "File: {}"
 msgstr "Fil: {}"
 
-#: weblate/memory/views.py:82
+#: weblate/memory/views.py:83
 msgid "Entries deleted."
 msgstr "Oppføringer slettet."
 
-#: weblate/memory/views.py:97
+#: weblate/memory/views.py:98
 msgid "File processed, the entries will appear shortly."
 msgstr "Fil behandlet, oppføringene vil vises snart."
 
@@ -8581,10 +8587,12 @@ msgstr "Følgende obligatoriske kontroller er ikke skrudd på noensteds hen:"
 
 #: weblate/templates/trans/alert/unusedenforcedcheck.html:8
 #, fuzzy, python-format
-msgid "%(check)s is enforced, but not enabled using <code>%(flag)s</code>."
+msgid ""
+"%(check)s quality check is enforced, but not enabled using <code>%(flag)s</"
+"code>."
 msgstr ""
-"%(check)s er obligatorisk, men ikke påskrudd ved bruk av "
-"<code>%(flag)s</code>."
+"%(check)s er obligatorisk, men ikke påskrudd ved bruk av <code>%(flag)s</"
+"code>."
 
 #: weblate/templates/trans/alert/unusedscreenshot.html:2
 msgid "There is at least one screenshot which is not assigned to any strings."
@@ -11349,28 +11357,30 @@ msgid "Additional explanation to clarify meaning or usage of the string."
 msgstr ""
 "Ytterligere forklaring for å tilkjennegi mening eller bruk av strengen."
 
-#: weblate/trans/models/unit.py:1350
-msgid "Allow translation"
-msgstr "Tillat oversettelse"
+#: weblate/trans/models/unit.py:1351
+#, fuzzy
+msgid "Unmark as read-only"
+msgstr "Opphev terminologimerking"
 
-#: weblate/trans/models/unit.py:1352
-msgid "Prohibit translation"
-msgstr "Forby oversettelse"
+#: weblate/trans/models/unit.py:1354
+#, fuzzy
+msgid "Mark as read-only"
+msgstr "Marker som terminologi"
 
-#: weblate/trans/models/unit.py:1359
+#: weblate/trans/models/unit.py:1361
 msgid "Unmark as forbidden translation"
 msgstr "Opphev merking som forbudt oversettelse"
 
-#: weblate/trans/models/unit.py:1367
+#: weblate/trans/models/unit.py:1369
 msgid "Mark as forbidden translation"
 msgstr "Marker som forbudt oversettelse"
 
-#: weblate/trans/models/unit.py:1376
+#: weblate/trans/models/unit.py:1378
 #, fuzzy
 msgid "Unmark as terminology"
 msgstr "Opphev terminologimerking"
 
-#: weblate/trans/models/unit.py:1384
+#: weblate/trans/models/unit.py:1386
 #, fuzzy
 msgid "Mark as terminology"
 msgstr "Marker som terminologi"
@@ -11677,7 +11687,7 @@ msgstr[1] "%(count)s strenger blir ikke oversatt her."
 #: weblate/trans/templatetags/translations.py:826
 #, fuzzy, python-format
 #| msgid "Other projects"
-msgid "Shared from project %s."
+msgid "Shared from the %s project."
 msgstr "Delt fra prosjekt %s."
 
 #: weblate/trans/templatetags/translations.py:849
@@ -11832,7 +11842,7 @@ msgstr "Oppdaget lisens er %s, sjekk at dette stemmer."
 msgid "Failed to parse uploaded ZIP file."
 msgstr "Klarte ikke å tolke opplastet ZIP-fil."
 
-#: weblate/trans/views/dashboard.py:161
+#: weblate/trans/views/dashboard.py:162
 msgid ""
 "The project you were looking for has been removed, however you are welcome "
 "to contribute to other ones."
@@ -11840,7 +11850,7 @@ msgstr ""
 "Prosjektet du så etter har blitt fjernet, men bidra gjerne til andre "
 "prosjekter."
 
-#: weblate/trans/views/dashboard.py:170
+#: weblate/trans/views/dashboard.py:171
 #, fuzzy
 #| msgid ""
 #| "You have activated your account, now you should set the password to be "
@@ -11852,7 +11862,7 @@ msgstr ""
 "Du har aktivert kontoen din nå. Nå bør du sette et passord for å kunne logge "
 "inn neste gang."
 
-#: weblate/trans/views/dashboard.py:184
+#: weblate/trans/views/dashboard.py:185
 msgid "Please set your full name and e-mail in your profile."
 msgstr "Angi hele navnet og e-posten i profilen din."
 
@@ -12397,7 +12407,7 @@ msgstr "Feil i parameter %(field)s: %(error)s"
 msgid "Git with force push"
 msgstr "Git med tvungen dytting"
 
-#: weblate/vcs/git.py:834
+#: weblate/vcs/git.py:835
 msgid "No remote repository"
 msgstr "Inget fjernkodelager"
 
@@ -12614,6 +12624,12 @@ msgstr "Sikkerhetskopieringsprosess utløst"
 #: weblate/wladmin/views.py:224
 msgid "Could not dismiss the configuration error!"
 msgstr "Klarte ikke å avvise oppsettfeil!"
+
+#~ msgid "Allow translation"
+#~ msgstr "Tillat oversettelse"
+
+#~ msgid "Prohibit translation"
+#~ msgstr "Forby oversettelse"
 
 #~ msgid ""
 #~ "Updates all PO files to match the POT file using msgmerge. Triggered "

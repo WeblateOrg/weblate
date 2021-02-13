@@ -16,7 +16,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.5\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
-"POT-Creation-Date: 2021-02-12 16:30+0000\n"
+"POT-Creation-Date: 2021-02-13 20:05+0000\n"
 "PO-Revision-Date: 2021-02-04 23:47+0000\n"
 "Last-Translator: Anonymous <noreply@weblate.org>\n"
 "Language-Team: Arabic <https://hosted.weblate.org/projects/weblate/"
@@ -1454,7 +1454,7 @@ msgid "String suffix"
 msgstr "سلاسل"
 
 #: weblate/addons/forms.py:478
-msgid "Source and target have to be a different languages."
+msgid "The source and target have to be different languages."
 msgstr ""
 
 #: weblate/addons/generate.py:34
@@ -3280,11 +3280,15 @@ msgid "Java Properties (ISO 8859-1)"
 msgstr "خصائص جافا (ISO 8859-1)"
 
 #: weblate/formats/ttkit.py:1163
-msgid "Joomla Language File"
+#, fuzzy
+#| msgid "Joomla Language File"
+msgid "Joomla language file"
 msgstr "ملف لغة جوملا"
 
 #: weblate/formats/ttkit.py:1172
-msgid "GWT Properties"
+#, fuzzy
+#| msgid "GWT Properties"
+msgid "GWT properties"
 msgstr "خصائص GWT"
 
 #: weblate/formats/ttkit.py:1179
@@ -3384,7 +3388,7 @@ msgstr ""
 #: weblate/formats/ttkit.py:1700
 #, fuzzy
 #| msgid "TermBase eXchange (TBX)"
-msgid "Term Base eXchange file"
+msgid "TermBase eXchange file"
 msgstr "تبادل قاعدي المدي (TBX)"
 
 #: weblate/formats/txt.py:180
@@ -3859,11 +3863,11 @@ msgctxt "Translation memory category"
 msgid "File: {}"
 msgstr "الملف: {}"
 
-#: weblate/memory/views.py:82
+#: weblate/memory/views.py:83
 msgid "Entries deleted."
 msgstr "تم حذف الإدخالات."
 
-#: weblate/memory/views.py:97
+#: weblate/memory/views.py:98
 msgid "File processed, the entries will appear shortly."
 msgstr "تمت معالجة الملف ، ستظهر الإدخالات قريبًا."
 
@@ -8981,7 +8985,9 @@ msgstr "الفحوص الفاشلة الموجودة"
 
 #: weblate/templates/trans/alert/unusedenforcedcheck.html:8
 #, python-format
-msgid "%(check)s is enforced, but not enabled using <code>%(flag)s</code>."
+msgid ""
+"%(check)s quality check is enforced, but not enabled using <code>%(flag)s</"
+"code>."
 msgstr ""
 
 #: weblate/templates/trans/alert/unusedscreenshot.html:2
@@ -11956,35 +11962,35 @@ msgstr "فشل تحليل الملف %(file)s: %(error)s"
 msgid "Additional explanation to clarify meaning or usage of the string."
 msgstr ""
 
-#: weblate/trans/models/unit.py:1350
+#: weblate/trans/models/unit.py:1351
 #, fuzzy
-#| msgid "Upload translations"
-msgid "Allow translation"
-msgstr "رفع ترجمات"
+#| msgid "Weblate translations"
+msgid "Unmark as read-only"
+msgstr "ترجمات وابلايت"
 
-#: weblate/trans/models/unit.py:1352
+#: weblate/trans/models/unit.py:1354
 #, fuzzy
-#| msgid "This translation"
-msgid "Prohibit translation"
-msgstr "هذه الترجمة"
+#| msgid "Mark as spam"
+msgid "Mark as read-only"
+msgstr "وضع علامة كرسالة غير مرغوب فيها"
 
-#: weblate/trans/models/unit.py:1359
+#: weblate/trans/models/unit.py:1361
 #, fuzzy
 #| msgid "Weblate translations"
 msgid "Unmark as forbidden translation"
 msgstr "ترجمات وابلايت"
 
-#: weblate/trans/models/unit.py:1367
+#: weblate/trans/models/unit.py:1369
 #, fuzzy
 #| msgid "Add as other translation"
 msgid "Mark as forbidden translation"
 msgstr "إضافة كترجمة بديلة"
 
-#: weblate/trans/models/unit.py:1376
+#: weblate/trans/models/unit.py:1378
 msgid "Unmark as terminology"
 msgstr ""
 
-#: weblate/trans/models/unit.py:1384
+#: weblate/trans/models/unit.py:1386
 msgid "Mark as terminology"
 msgstr ""
 
@@ -12339,7 +12345,7 @@ msgstr[5] "%(count)s من السلسلات تتطلب اتخاذ إجراء"
 #: weblate/trans/templatetags/translations.py:826
 #, fuzzy, python-format
 #| msgid "Watched projects"
-msgid "Shared from project %s."
+msgid "Shared from the %s project."
 msgstr "المشاريع المُراقبة"
 
 #: weblate/trans/templatetags/translations.py:849
@@ -12491,7 +12497,7 @@ msgstr ""
 msgid "Failed to parse uploaded ZIP file."
 msgstr "فشل تحليل ملف ZIP الذي تم تحميله."
 
-#: weblate/trans/views/dashboard.py:161
+#: weblate/trans/views/dashboard.py:162
 msgid ""
 "The project you were looking for has been removed, however you are welcome "
 "to contribute to other ones."
@@ -12499,7 +12505,7 @@ msgstr ""
 "لقد تم إزالة المشروع الذي كنتم تبحثون عنه، لكنم مُرحَّبون للمساهمة في المشاريع "
 "الأخرى."
 
-#: weblate/trans/views/dashboard.py:170
+#: weblate/trans/views/dashboard.py:171
 msgid ""
 "You have activated your account, now you should set the password to be able "
 "to sign in next time."
@@ -12507,7 +12513,7 @@ msgstr ""
 "لقد قمت بتفعيل حسابك ، والآن يجب عليك تعيين كلمة المرور لتتمكن من تسجيل "
 "الدخول في المرة القادمة."
 
-#: weblate/trans/views/dashboard.py:184
+#: weblate/trans/views/dashboard.py:185
 msgid "Please set your full name and e-mail in your profile."
 msgstr "الرجاء إدخال إسمك الكامل وعنوان بريدك الإلكتروني في ملف تعريفك."
 
@@ -13054,7 +13060,7 @@ msgstr "خطأ فى المعامل %(field)s:%(error)s"
 msgid "Git with force push"
 msgstr ""
 
-#: weblate/vcs/git.py:834
+#: weblate/vcs/git.py:835
 #, fuzzy
 #| msgid "Source code repository"
 msgid "No remote repository"
@@ -13272,6 +13278,16 @@ msgstr "تم تشغيل عملية النسخ الاحتياطي"
 #: weblate/wladmin/views.py:224
 msgid "Could not dismiss the configuration error!"
 msgstr "لا يمكن استبعاد خطأ التكوين!"
+
+#, fuzzy
+#~| msgid "Upload translations"
+#~ msgid "Allow translation"
+#~ msgstr "رفع ترجمات"
+
+#, fuzzy
+#~| msgid "This translation"
+#~ msgid "Prohibit translation"
+#~ msgstr "هذه الترجمة"
 
 #, fuzzy
 #~| msgid ""

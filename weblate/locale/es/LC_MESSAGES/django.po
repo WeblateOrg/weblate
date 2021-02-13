@@ -17,7 +17,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.5\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
-"POT-Creation-Date: 2021-02-12 16:30+0000\n"
+"POT-Creation-Date: 2021-02-13 20:05+0000\n"
 "PO-Revision-Date: 2021-02-13 20:01+0000\n"
 "Last-Translator: Adolfo Jayme Barrientos <fitojb@ubuntu.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/weblate/"
@@ -1444,7 +1444,9 @@ msgid "String suffix"
 msgstr "Sufijo de cadena"
 
 #: weblate/addons/forms.py:478
-msgid "Source and target have to be a different languages."
+#, fuzzy
+#| msgid "Source and target have to be a different languages."
+msgid "The source and target have to be different languages."
 msgstr "El origen y el destino deben ser de idiomas diferentes."
 
 #: weblate/addons/generate.py:34
@@ -3117,11 +3119,15 @@ msgid "Java Properties (ISO 8859-1)"
 msgstr "Propiedades de Java (ISO 8859-1)"
 
 #: weblate/formats/ttkit.py:1163
-msgid "Joomla Language File"
+#, fuzzy
+#| msgid "Joomla Language File"
+msgid "Joomla language file"
 msgstr "Archivo de idioma de Joomla"
 
 #: weblate/formats/ttkit.py:1172
-msgid "GWT Properties"
+#, fuzzy
+#| msgid "GWT Properties"
+msgid "GWT properties"
 msgstr "Propiedades GWT"
 
 #: weblate/formats/ttkit.py:1179
@@ -3213,7 +3219,9 @@ msgid "Inno Setup INI file"
 msgstr "Archivo INI de Inno Setup"
 
 #: weblate/formats/ttkit.py:1700
-msgid "Term Base eXchange file"
+#, fuzzy
+#| msgid "Term Base eXchange file"
+msgid "TermBase eXchange file"
 msgstr "Archivo TermBase eXchange"
 
 #: weblate/formats/txt.py:180
@@ -3686,11 +3694,11 @@ msgctxt "Translation memory category"
 msgid "File: {}"
 msgstr "Archivo: {}"
 
-#: weblate/memory/views.py:82
+#: weblate/memory/views.py:83
 msgid "Entries deleted."
 msgstr "Entradas eliminadas."
 
-#: weblate/memory/views.py:97
+#: weblate/memory/views.py:98
 msgid "File processed, the entries will appear shortly."
 msgstr "Se procesó el archivo; las entradas aparecerán en breve."
 
@@ -8574,11 +8582,14 @@ msgstr ""
 "sitio:"
 
 #: weblate/templates/trans/alert/unusedenforcedcheck.html:8
-#, python-format
-msgid "%(check)s is enforced, but not enabled using <code>%(flag)s</code>."
+#, fuzzy, python-format
+#| msgid "%(check)s is enforced, but not enabled using <code>%(flag)s</code>."
+msgid ""
+"%(check)s quality check is enforced, but not enabled using <code>%(flag)s</"
+"code>."
 msgstr ""
-"%(check)s es obligatoria, pero no se ha activado mediante "
-"<code>%(flag)s</code>."
+"%(check)s es obligatoria, pero no se ha activado mediante <code>%(flag)s</"
+"code>."
 
 #: weblate/templates/trans/alert/unusedscreenshot.html:2
 msgid "There is at least one screenshot which is not assigned to any strings."
@@ -11356,27 +11367,31 @@ msgid "Additional explanation to clarify meaning or usage of the string."
 msgstr ""
 "Explicación adicional para aclarar el significado o el uso de la cadena."
 
-#: weblate/trans/models/unit.py:1350
-msgid "Allow translation"
-msgstr "Permitir traducción"
+#: weblate/trans/models/unit.py:1351
+#, fuzzy
+#| msgid "Unmark as terminology"
+msgid "Unmark as read-only"
+msgstr "Desmarcar como terminología"
 
-#: weblate/trans/models/unit.py:1352
-msgid "Prohibit translation"
-msgstr "Prohibir traducción"
+#: weblate/trans/models/unit.py:1354
+#, fuzzy
+#| msgid "Mark as terminology"
+msgid "Mark as read-only"
+msgstr "Marcar como terminología"
 
-#: weblate/trans/models/unit.py:1359
+#: weblate/trans/models/unit.py:1361
 msgid "Unmark as forbidden translation"
 msgstr "Desmarcar como traducción prohibida"
 
-#: weblate/trans/models/unit.py:1367
+#: weblate/trans/models/unit.py:1369
 msgid "Mark as forbidden translation"
 msgstr "Marcar como traducción prohibida"
 
-#: weblate/trans/models/unit.py:1376
+#: weblate/trans/models/unit.py:1378
 msgid "Unmark as terminology"
 msgstr "Desmarcar como terminología"
 
-#: weblate/trans/models/unit.py:1384
+#: weblate/trans/models/unit.py:1386
 msgid "Mark as terminology"
 msgstr "Marcar como terminología"
 
@@ -11678,8 +11693,9 @@ msgstr[0] "%(count)s cadena no se traduce aquí."
 msgstr[1] "%(count)s cadenas no se traducen aquí."
 
 #: weblate/trans/templatetags/translations.py:826
-#, python-format
-msgid "Shared from project %s."
+#, fuzzy, python-format
+#| msgid "Shared from project %s."
+msgid "Shared from the %s project."
 msgstr "Compartido desde el proyecto %s."
 
 #: weblate/trans/templatetags/translations.py:849
@@ -11835,7 +11851,7 @@ msgstr "Se detectó la licencia %s; compruebe si esto es correcto."
 msgid "Failed to parse uploaded ZIP file."
 msgstr "No se pudo procesar el archivo ZIP cargado."
 
-#: weblate/trans/views/dashboard.py:161
+#: weblate/trans/views/dashboard.py:162
 msgid ""
 "The project you were looking for has been removed, however you are welcome "
 "to contribute to other ones."
@@ -11843,7 +11859,7 @@ msgstr ""
 "Se ha eliminado el proyecto que buscaba; sin embargo, le invitamos a "
 "contribuir en otros."
 
-#: weblate/trans/views/dashboard.py:170
+#: weblate/trans/views/dashboard.py:171
 msgid ""
 "You have activated your account, now you should set the password to be able "
 "to sign in next time."
@@ -11851,7 +11867,7 @@ msgstr ""
 "Ha activado su cuenta; ahora, configure su contraseña para poder acceder la "
 "próxima vez."
 
-#: weblate/trans/views/dashboard.py:184
+#: weblate/trans/views/dashboard.py:185
 msgid "Please set your full name and e-mail in your profile."
 msgstr "Configure su nombre completo y correo electrónico en su perfil."
 
@@ -12394,7 +12410,7 @@ msgstr "Error en el parámetro %(field)s: %(error)s"
 msgid "Git with force push"
 msgstr "Git con envío forzado"
 
-#: weblate/vcs/git.py:834
+#: weblate/vcs/git.py:835
 msgid "No remote repository"
 msgstr "No hay ningún repositorio remoto"
 
@@ -12610,6 +12626,12 @@ msgstr "Se inició el proceso de respaldo"
 #: weblate/wladmin/views.py:224
 msgid "Could not dismiss the configuration error!"
 msgstr "No se pudo descartar el error de configuración."
+
+#~ msgid "Allow translation"
+#~ msgstr "Permitir traducción"
+
+#~ msgid "Prohibit translation"
+#~ msgstr "Prohibir traducción"
 
 #~ msgid ""
 #~ "Updates all PO files to match the POT file using msgmerge. Triggered "

@@ -16,7 +16,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.5\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
-"POT-Creation-Date: 2021-02-12 16:30+0000\n"
+"POT-Creation-Date: 2021-02-13 20:05+0000\n"
 "PO-Revision-Date: 2021-02-12 19:07+0000\n"
 "Last-Translator: Heimen Stoffels <vistausss@outlook.com>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/weblate/"
@@ -1433,7 +1433,9 @@ msgid "String suffix"
 msgstr "Achtervoegsel van tekenreeks"
 
 #: weblate/addons/forms.py:478
-msgid "Source and target have to be a different languages."
+#, fuzzy
+#| msgid "Source and target have to be a different languages."
+msgid "The source and target have to be different languages."
 msgstr "De bron- en doeltaal dienen van elkaar te verschillen."
 
 #: weblate/addons/generate.py:34
@@ -3101,11 +3103,15 @@ msgid "Java Properties (ISO 8859-1)"
 msgstr "Java-eigenschappen (ISO-8859-1)"
 
 #: weblate/formats/ttkit.py:1163
-msgid "Joomla Language File"
+#, fuzzy
+#| msgid "Joomla Language File"
+msgid "Joomla language file"
 msgstr "Joomla-taalbestand"
 
 #: weblate/formats/ttkit.py:1172
-msgid "GWT Properties"
+#, fuzzy
+#| msgid "GWT Properties"
+msgid "GWT properties"
 msgstr "GWT-eigenschappen"
 
 #: weblate/formats/ttkit.py:1179
@@ -3197,7 +3203,9 @@ msgid "Inno Setup INI file"
 msgstr "Inno Setup INI-bestand"
 
 #: weblate/formats/ttkit.py:1700
-msgid "Term Base eXchange file"
+#, fuzzy
+#| msgid "Term Base eXchange file"
+msgid "TermBase eXchange file"
 msgstr "Term Base eXchange-bestand"
 
 #: weblate/formats/txt.py:180
@@ -3664,11 +3672,11 @@ msgctxt "Translation memory category"
 msgid "File: {}"
 msgstr "Bestand: {}"
 
-#: weblate/memory/views.py:82
+#: weblate/memory/views.py:83
 msgid "Entries deleted."
 msgstr "Items verwijderd."
 
-#: weblate/memory/views.py:97
+#: weblate/memory/views.py:98
 msgid "File processed, the entries will appear shortly."
 msgstr "Bestand verwerkt. De items zullen binnenkort verschijnen."
 
@@ -8535,8 +8543,11 @@ msgid "Following enforced checks are not enabled anywhere:"
 msgstr "De volgende afgedwongen controles zijn niet overal ingeschakeld:"
 
 #: weblate/templates/trans/alert/unusedenforcedcheck.html:8
-#, python-format
-msgid "%(check)s is enforced, but not enabled using <code>%(flag)s</code>."
+#, fuzzy, python-format
+#| msgid "%(check)s is enforced, but not enabled using <code>%(flag)s</code>."
+msgid ""
+"%(check)s quality check is enforced, but not enabled using <code>%(flag)s</"
+"code>."
 msgstr ""
 "%(check)s wordt afgedwongen, maar niet ingeschakeld middels <code>%(flag)s</"
 "code>."
@@ -11307,27 +11318,31 @@ msgstr "Verwerken van bestand %(file)s is mislukt: %(error)s"
 msgid "Additional explanation to clarify meaning or usage of the string."
 msgstr "Aanvullende uitleg over de betekenis of het gebruik van de tekenreeks."
 
-#: weblate/trans/models/unit.py:1350
-msgid "Allow translation"
-msgstr "Vertaling toestaan"
+#: weblate/trans/models/unit.py:1351
+#, fuzzy
+#| msgid "Unmark as terminology"
+msgid "Unmark as read-only"
+msgstr "Demarkeren als terminologie"
 
-#: weblate/trans/models/unit.py:1352
-msgid "Prohibit translation"
-msgstr "Vertaling voorkomen"
+#: weblate/trans/models/unit.py:1354
+#, fuzzy
+#| msgid "Mark as terminology"
+msgid "Mark as read-only"
+msgstr "Markeren als terminologie"
 
-#: weblate/trans/models/unit.py:1359
+#: weblate/trans/models/unit.py:1361
 msgid "Unmark as forbidden translation"
 msgstr "Demarkeren als verboden vertaling"
 
-#: weblate/trans/models/unit.py:1367
+#: weblate/trans/models/unit.py:1369
 msgid "Mark as forbidden translation"
 msgstr "Aanmerken als verboden vertaling"
 
-#: weblate/trans/models/unit.py:1376
+#: weblate/trans/models/unit.py:1378
 msgid "Unmark as terminology"
 msgstr "Demarkeren als terminologie"
 
-#: weblate/trans/models/unit.py:1384
+#: weblate/trans/models/unit.py:1386
 msgid "Mark as terminology"
 msgstr "Markeren als terminologie"
 
@@ -11630,8 +11645,9 @@ msgstr[0] "%(count)s tekenreeks wordt elders vertaald."
 msgstr[1] "%(count)s tekenreeksen worden elders vertaald."
 
 #: weblate/trans/templatetags/translations.py:826
-#, python-format
-msgid "Shared from project %s."
+#, fuzzy, python-format
+#| msgid "Shared from project %s."
+msgid "Shared from the %s project."
 msgstr "Gedeeld uit project %s."
 
 #: weblate/trans/templatetags/translations.py:849
@@ -11786,7 +11802,7 @@ msgstr "Gedetecteerde licentie: %s. Controleer of dit juist is."
 msgid "Failed to parse uploaded ZIP file."
 msgstr "Het geüploade zip-bestand kan niet worden verwerkt."
 
-#: weblate/trans/views/dashboard.py:161
+#: weblate/trans/views/dashboard.py:162
 msgid ""
 "The project you were looking for has been removed, however you are welcome "
 "to contribute to other ones."
@@ -11794,7 +11810,7 @@ msgstr ""
 "Het project waar u naar zocht is verwijderd, maar het staat u vrij bij te "
 "dragen aan andere projecten."
 
-#: weblate/trans/views/dashboard.py:170
+#: weblate/trans/views/dashboard.py:171
 msgid ""
 "You have activated your account, now you should set the password to be able "
 "to sign in next time."
@@ -11802,7 +11818,7 @@ msgstr ""
 "U heeft uw account geactiveerd. Stel nu een wachtwoord in om de volgende "
 "keer te kunnen inloggen."
 
-#: weblate/trans/views/dashboard.py:184
+#: weblate/trans/views/dashboard.py:185
 msgid "Please set your full name and e-mail in your profile."
 msgstr "Stel uw volledige naam en e-mailadres in in uw profiel."
 
@@ -12341,7 +12357,7 @@ msgstr "Fout in parameter %(field)s: %(error)s"
 msgid "Git with force push"
 msgstr "Git met afgedwongen push"
 
-#: weblate/vcs/git.py:834
+#: weblate/vcs/git.py:835
 msgid "No remote repository"
 msgstr "Geen externe opslagruimte"
 
@@ -12555,6 +12571,12 @@ msgstr "Back-upproces in uitvoering"
 #: weblate/wladmin/views.py:224
 msgid "Could not dismiss the configuration error!"
 msgstr "De configuratiefout kan niet worden verworpen!"
+
+#~ msgid "Allow translation"
+#~ msgstr "Vertaling toestaan"
+
+#~ msgid "Prohibit translation"
+#~ msgstr "Vertaling voorkomen"
 
 #~ msgid ""
 #~ "Updates all PO files to match the POT file using msgmerge. Triggered "

@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.5\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
-"POT-Creation-Date: 2021-02-12 16:30+0000\n"
+"POT-Creation-Date: 2021-02-13 20:05+0000\n"
 "PO-Revision-Date: 2021-02-07 11:29+0000\n"
 "Last-Translator: Anonymous <noreply@weblate.org>\n"
 "Language-Team: Welsh <https://hosted.weblate.org/projects/weblate/"
@@ -1540,7 +1540,7 @@ msgid "String suffix"
 msgstr "Bylchau cychwynnol"
 
 #: weblate/addons/forms.py:478
-msgid "Source and target have to be a different languages."
+msgid "The source and target have to be different languages."
 msgstr ""
 
 #: weblate/addons/generate.py:34
@@ -3348,11 +3348,13 @@ msgid "Java Properties (ISO 8859-1)"
 msgstr ""
 
 #: weblate/formats/ttkit.py:1163
-msgid "Joomla Language File"
-msgstr ""
+#, fuzzy
+#| msgid "Interface Language"
+msgid "Joomla language file"
+msgstr "Iaith Rhyngwyneb"
 
 #: weblate/formats/ttkit.py:1172
-msgid "GWT Properties"
+msgid "GWT properties"
 msgstr ""
 
 #: weblate/formats/ttkit.py:1179
@@ -3452,7 +3454,7 @@ msgstr ""
 #: weblate/formats/ttkit.py:1700
 #, fuzzy
 #| msgid "Interface Language"
-msgid "Term Base eXchange file"
+msgid "TermBase eXchange file"
 msgstr "Iaith Rhyngwyneb"
 
 #: weblate/formats/txt.py:180
@@ -3931,11 +3933,11 @@ msgctxt "Translation memory category"
 msgid "File: {}"
 msgstr "Ffeil: {}"
 
-#: weblate/memory/views.py:82
+#: weblate/memory/views.py:83
 msgid "Entries deleted."
 msgstr "Wedi dileu'r cofnodion."
 
-#: weblate/memory/views.py:97
+#: weblate/memory/views.py:98
 msgid "File processed, the entries will appear shortly."
 msgstr "Wedi prosesu ' r ffeil, bydd y cofnodion yn ymddangos cyn hir."
 
@@ -8761,7 +8763,9 @@ msgstr "Mae llinynnau fformat canlynol yn anghywir:%s"
 
 #: weblate/templates/trans/alert/unusedenforcedcheck.html:8
 #, python-format
-msgid "%(check)s is enforced, but not enabled using <code>%(flag)s</code>."
+msgid ""
+"%(check)s quality check is enforced, but not enabled using <code>%(flag)s</"
+"code>."
 msgstr ""
 
 #: weblate/templates/trans/alert/unusedscreenshot.html:2
@@ -11517,35 +11521,33 @@ msgstr ""
 msgid "Additional explanation to clarify meaning or usage of the string."
 msgstr ""
 
-#: weblate/trans/models/unit.py:1350
+#: weblate/trans/models/unit.py:1351
 #, fuzzy
-#| msgid "Upload translations"
-msgid "Allow translation"
-msgstr "Llwytho cyfieithiadau i fyny"
+#| msgid "Leave empty for bilingual translation files."
+msgid "Unmark as read-only"
+msgstr "Gadael yn wag ar gyfer ffeiliau cyfieithu dwyieithog."
 
-#: weblate/trans/models/unit.py:1352
-#, fuzzy
-#| msgid "Upload translations"
-msgid "Prohibit translation"
-msgstr "Llwytho cyfieithiadau i fyny"
+#: weblate/trans/models/unit.py:1354
+msgid "Mark as read-only"
+msgstr ""
 
-#: weblate/trans/models/unit.py:1359
+#: weblate/trans/models/unit.py:1361
 #, fuzzy
 #| msgid "Leave empty for bilingual translation files."
 msgid "Unmark as forbidden translation"
 msgstr "Gadael yn wag ar gyfer ffeiliau cyfieithu dwyieithog."
 
-#: weblate/trans/models/unit.py:1367
+#: weblate/trans/models/unit.py:1369
 #, fuzzy
 #| msgid "Leave empty for bilingual translation files."
 msgid "Mark as forbidden translation"
 msgstr "Gadael yn wag ar gyfer ffeiliau cyfieithu dwyieithog."
 
-#: weblate/trans/models/unit.py:1376
+#: weblate/trans/models/unit.py:1378
 msgid "Unmark as terminology"
 msgstr ""
 
-#: weblate/trans/models/unit.py:1384
+#: weblate/trans/models/unit.py:1386
 msgid "Mark as terminology"
 msgstr ""
 
@@ -11921,7 +11923,7 @@ msgstr[5] "Llinynnau sydd angen eu gweithredu"
 #: weblate/trans/templatetags/translations.py:826
 #, fuzzy, python-format
 #| msgid "Watched projects"
-msgid "Shared from project %s."
+msgid "Shared from the %s project."
 msgstr "Prosiectau sy'n cael eu gwylio"
 
 #: weblate/trans/templatetags/translations.py:849
@@ -12071,19 +12073,19 @@ msgstr ""
 msgid "Failed to parse uploaded ZIP file."
 msgstr ""
 
-#: weblate/trans/views/dashboard.py:161
+#: weblate/trans/views/dashboard.py:162
 msgid ""
 "The project you were looking for has been removed, however you are welcome "
 "to contribute to other ones."
 msgstr ""
 
-#: weblate/trans/views/dashboard.py:170
+#: weblate/trans/views/dashboard.py:171
 msgid ""
 "You have activated your account, now you should set the password to be able "
 "to sign in next time."
 msgstr ""
 
-#: weblate/trans/views/dashboard.py:184
+#: weblate/trans/views/dashboard.py:185
 msgid "Please set your full name and e-mail in your profile."
 msgstr ""
 
@@ -12645,7 +12647,7 @@ msgstr ""
 msgid "Git with force push"
 msgstr ""
 
-#: weblate/vcs/git.py:834
+#: weblate/vcs/git.py:835
 msgid "No remote repository"
 msgstr ""
 
@@ -12861,6 +12863,16 @@ msgstr "Mae eich cyfrif wedi'i dynnu."
 #: weblate/wladmin/views.py:224
 msgid "Could not dismiss the configuration error!"
 msgstr ""
+
+#, fuzzy
+#~| msgid "Upload translations"
+#~ msgid "Allow translation"
+#~ msgstr "Llwytho cyfieithiadau i fyny"
+
+#, fuzzy
+#~| msgid "Upload translations"
+#~ msgid "Prohibit translation"
+#~ msgstr "Llwytho cyfieithiadau i fyny"
 
 #, fuzzy
 #~| msgid ""

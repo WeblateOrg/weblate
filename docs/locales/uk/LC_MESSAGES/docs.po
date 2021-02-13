@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-02-12 17:31+0100\n"
+"POT-Creation-Date: 2021-02-13 21:06+0100\n"
 "PO-Revision-Date: 2021-02-12 17:19+0000\n"
 "Last-Translator: Tymofij Lytvynenko <till.svit@gmail.com>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/"
@@ -2836,11 +2836,17 @@ msgid "Automated backup using BorgBackup"
 msgstr "Автоматичне створення резервних копій за допомогою BorgBackup"
 
 #: ../../admin/backup.rst:11
+#, fuzzy
+#| msgid ""
+#| "Weblate has built-in support for creating service backups using "
+#| "`BorgBackup`_. Borg creates space-effective encrypted backups which can "
+#| "be safely stored in the cloud. The backups can be controlled in the "
+#| "management interface on the :guilabel:`Backups` tab."
 msgid ""
 "Weblate has built-in support for creating service backups using "
 "`BorgBackup`_. Borg creates space-effective encrypted backups which can be "
 "safely stored in the cloud. The backups can be controlled in the management "
-"interface on the :guilabel:`Backups` tab."
+"interface from the :guilabel:`Backups` tab."
 msgstr ""
 "У Weblate передбачено вбудовану підтримку створення резервних копій за "
 "допомогою `BorgBackup`_. Borg створює шифровані резервні копії мінімального "
@@ -2865,26 +2871,34 @@ msgstr ""
 "налаштовування на збереження таких резервних копій:"
 
 #: ../../admin/backup.rst:22
-msgid "14 daily backups"
-msgstr "резервний копій із 14-денним період створення"
+#, fuzzy
+#| msgid "last for 14 days."
+msgid "Daily backups for 14 days back"
+msgstr "триватиме 14 днів."
 
 #: ../../admin/backup.rst:23
-msgid "8 weekly backups"
-msgstr "резервних копій із 8-тижневим періодом створення"
+msgid "Weekly backups for 8 weeks back"
+msgstr ""
 
 #: ../../admin/backup.rst:24
-msgid "6 monthly backups"
-msgstr "резервних копій із 6-місячним періодом створення"
+msgid "Monthly backups for 6 months back"
+msgstr ""
 
 #: ../../admin/backup.rst:31
 msgid "Borg encryption key"
 msgstr "Ключ шифрування Borg"
 
 #: ../../admin/backup.rst:33
+#, fuzzy
+#| msgid ""
+#| "`BorgBackup`_ creates encrypted backups and without a passphrase you will "
+#| "not be able to restore the backup. The passphrase is generated when "
+#| "adding new backup service and you should copy it and keep it in a secure "
+#| "place."
 msgid ""
-"`BorgBackup`_ creates encrypted backups and without a passphrase you will "
-"not be able to restore the backup. The passphrase is generated when adding "
-"new backup service and you should copy it and keep it in a secure place."
+"`BorgBackup`_ creates encrypted backups and you wouldn’t be able to restore "
+"them without the passphrase. The passphrase is generated when adding a new "
+"backup service and you should copy it and keep it in a secure place."
 msgstr ""
 "`BorgBackup`_ створює зашифровані резервні копії і без пароля ви не зможете "
 "відновити дані з резервної копії. Пароль створюється при додаванні нової "
@@ -2892,9 +2906,13 @@ msgstr ""
 "безпечному місці."
 
 #: ../../admin/backup.rst:37
+#, fuzzy
+#| msgid ""
+#| "In case you are using :ref:`cloudbackup`, please backup your private SSH "
+#| "key as well — it is used to access your backups."
 msgid ""
-"In case you are using :ref:`cloudbackup`, please backup your private SSH key "
-"as well — it is used to access your backups."
+"If you are using :ref:`cloudbackup`, please backup your private SSH key too, "
+"as it’s used to access your backups."
 msgstr ""
 "Якщо ви користуєтеся :ref:`cloudbackup`, будь ласка, включіть до резервного "
 "копіювання і ваш закритий ключ SSH — його буде використано для доступу до "
@@ -2909,54 +2927,81 @@ msgid "Weblate provisioned backup storage"
 msgstr "Передбачене у Weblate сховище резервних копій"
 
 #: ../../admin/backup.rst:49
+#, fuzzy
+#| msgid ""
+#| "The easiest approach to backup your Weblate instance is to purchase "
+#| "`backup service at weblate.org <https://weblate.org/support/#backup>`_. "
+#| "The process of activating can be performed in few steps:"
 msgid ""
-"The easiest approach to backup your Weblate instance is to purchase `backup "
-"service at weblate.org <https://weblate.org/support/#backup>`_. The process "
-"of activating can be performed in few steps:"
+"The easiest way of backing up your Weblate instance is purchasing the "
+"`backup service at weblate.org <https://weblate.org/support/#backup>`_. This "
+"is how you get it running:"
 msgstr ""
 "Найпростішим способом резервного копіювання вашого екземпляра Weblate є "
 "придбання `служби резервного копіювання на weblate.org <https://weblate.org/"
 "support/#backup>`_. Активацію можна виконати за декілька кроків:"
 
 #: ../../admin/backup.rst:53
-msgid "Purchase backup service on https://weblate.org/support/#backup."
+#, fuzzy
+#| msgid "Purchase backup service on https://weblate.org/support/#backup."
+msgid "Purchase the `Backup service` on https://weblate.org/support/#backup."
 msgstr ""
 "Придбайте обслуговування із резервним копіюванням на https://weblate.org/"
 "support/#backup."
 
 #: ../../admin/backup.rst:54
+#, fuzzy
+#| msgid ""
+#| "Enter obtained key in the management interface, see :ref:`activate-"
+#| "support`."
 msgid ""
-"Enter obtained key in the management interface, see :ref:`activate-support`."
+"Enter the obtained key in the management interface, see :ref:`activate-"
+"support`."
 msgstr ""
 "Введіть отриманий ключ в інтерфейсі керування, див. :ref:`activate-support`."
 
 #: ../../admin/backup.rst:55
+#, fuzzy
+#| msgid ""
+#| "Weblate will connect to the cloud service and obtain access information "
+#| "for the backups."
 msgid ""
-"Weblate will connect to the cloud service and obtain access information for "
-"the backups."
+"Weblate connects to the cloud service and obtains access info for the "
+"backups."
 msgstr ""
 "Weblate з'єднається із «хмарною» службою і отримати дані для доступу до "
 "резервних копій."
 
 #: ../../admin/backup.rst:56
-msgid "Turn on the new backup configuration on the :guilabel:`Backups` tab."
+#, fuzzy
+#| msgid "Turn on the new backup configuration on the :guilabel:`Backups` tab."
+msgid "Turn on the new backup configuration from the :guilabel:`Backups` tab."
 msgstr ""
 "Увімкніть нові налаштування резервного копіювання на вкладці :guilabel:"
 "`Резервні копії`."
 
 #: ../../admin/backup.rst:57
+#, fuzzy
+#| msgid ""
+#| "Backup Borg credentials in order to be able to restore the backups, see :"
+#| "ref:`borg-keys`."
 msgid ""
-"Backup Borg credentials in order to be able to restore the backups, see :ref:"
+"Backup your Borg credentials to be able to restore the backups, see :ref:"
 "`borg-keys`."
 msgstr ""
 "Створіть резервну копію реєстраційних даних Borg з метою уможливлення "
 "відновлення резервних копій, див. :ref:`borg-keys`."
 
 #: ../../admin/backup.rst:61
+#, fuzzy
+#| msgid ""
+#| "The manual step of turning on is there for your safety. Without your "
+#| "consent no data is sent to the backup repository obtained through the "
+#| "registration process."
 msgid ""
-"The manual step of turning on is there for your safety. Without your consent "
-"no data is sent to the backup repository obtained through the registration "
-"process."
+"The manual step of turning everything on is there for your safety. Without "
+"your consent no data is sent to the backup repository obtained through the "
+"registration process."
 msgstr ""
 "Крок вмикання вручну додано з метою убезпечення ваших даних. Без вашої згоди "
 "під час процедури реєстрації до сховища резервних копій не буде надіслано "
@@ -2967,9 +3012,14 @@ msgid "Using custom backup storage"
 msgstr "Використання нетипового сховища резервних копій"
 
 #: ../../admin/backup.rst:70
+#, fuzzy
+#| msgid ""
+#| "You can also use your own storage for the backups. SSH can be used to "
+#| "store backups on the remote destination, the target server needs to have "
+#| "`BorgBackup`_ installed."
 msgid ""
 "You can also use your own storage for the backups. SSH can be used to store "
-"backups on the remote destination, the target server needs to have "
+"backups in the remote destination, the target server needs to have "
 "`BorgBackup`_ installed."
 msgstr ""
 "Ви також можете скористатися власним сховищем для резервних копій. Для "
@@ -2985,11 +3035,17 @@ msgid "Local filesystem"
 msgstr "Локальна файлова система"
 
 #: ../../admin/backup.rst:81
+#, fuzzy
+#| msgid ""
+#| "It is recommended to specify absolute path for the local backup, for "
+#| "example `/path/to/backup`. The directory has to be writable by user "
+#| "running Weblate (see :ref:`file-permissions`). In case it doesn't exist, "
+#| "Weblate will attempt to create it, but it needs permissions to do so."
 msgid ""
-"It is recommended to specify absolute path for the local backup, for example "
-"`/path/to/backup`. The directory has to be writable by user running Weblate "
-"(see :ref:`file-permissions`). In case it doesn't exist, Weblate will "
-"attempt to create it, but it needs permissions to do so."
+"It is recommended to specify the absolute path for the local backup, for "
+"example `/path/to/backup`. The directory has to be writable by the user "
+"running Weblate (see :ref:`file-permissions`). In case it doesn't exist, "
+"Weblate will attempt to create it, but needs a permission to do so."
 msgstr ""
 "Рекомендуємо вказати абсолютний шлях до локальної резервної копії, наприклад "
 "`/шлях/до/резервної/копії`. Запис до каталогу має бути відкрито для "
@@ -2998,10 +3054,15 @@ msgstr ""
 "але програма повинна мати для цього відповідні права доступу."
 
 #: ../../admin/backup.rst:88
+#, fuzzy
+#| msgid ""
+#| "When running Weblate in Docker, please make sure that the backup location "
+#| "is exposed as a volume from the Weblate container. Otherwise the backups "
+#| "would be discarded by Docker on container restart."
 msgid ""
-"When running Weblate in Docker, please make sure that the backup location is "
-"exposed as a volume from the Weblate container. Otherwise the backups would "
-"be discarded by Docker on container restart."
+"When running Weblate in Docker, please ensure the backup location is exposed "
+"as a volume from the Weblate container. Otherwise the backups will be "
+"discarded by Docker on the container restart."
 msgstr ""
 "Якщо ви працюєте з Weblate у Docker, будь ласка, переконайтеся, що місце "
 "зберігання резервних копій відкрито як том з контейнера Weblate. Якщо ви "
@@ -3009,26 +3070,38 @@ msgstr ""
 "Docker."
 
 #: ../../admin/backup.rst:92
+#, fuzzy
+#| msgid ""
+#| "One option is to place backups in existing volume. For example choose :"
+#| "file:`/app/data/borgbackup`. This is existing volume in the container."
 msgid ""
-"One option is to place backups in existing volume. For example choose :file:"
-"`/app/data/borgbackup`. This is existing volume in the container."
+"One option is to place backups into an existing volume, for example :file:`/"
+"app/data/borgbackup`. This is an existing volume in the container."
 msgstr ""
 "Одним із варіантів дій є розташування резервних копій на наявних томах. "
 "Наприклад, можна вибрати :file:`/app/data/borgbackup`. Це наявний том у "
 "контейнері."
 
 #: ../../admin/backup.rst:95
+#, fuzzy
+#| msgid ""
+#| "You can also add new container for the backups in the Docker compose file "
+#| "and use for example :file:`/borgbackup`:"
 msgid ""
-"You can also add new container for the backups in the Docker compose file "
-"and use for example :file:`/borgbackup`:"
+"You can also add a new container for the backups in the Docker compose file "
+"for example by using :file:`/borgbackup`:"
 msgstr ""
 "Ви також можете додати новий контейнер для резервних копій у файлі "
 "композиції Docker і скористатися, наприклад, :file:`/borgbackup`:"
 
 #: ../../admin/backup.rst:106
+#, fuzzy
+#| msgid ""
+#| "The directory where backups will be stored have to be owned by UID 1000, "
+#| "otherwise Weblate will not be able to write the backups there."
 msgid ""
 "The directory where backups will be stored have to be owned by UID 1000, "
-"otherwise Weblate will not be able to write the backups there."
+"otherwise Weblate won’t be able to write the backups there."
 msgstr ""
 "Каталог, де зберігатимуться резервні копії, повинен належати UID 1000, "
 "інакше Weblate не зможе записати їх туди."
@@ -3039,15 +3112,11 @@ msgstr "Віддалені резервні копії"
 
 #: ../../admin/backup.rst:112
 msgid ""
-"Remote backups using SSH are supported. The SSH server needs to have "
-"`BorgBackup`_ installed. Weblate connects to the server using SSH key, "
-"please make sure the Weblate SSH key is accepted by the server (see :ref:"
-"`weblate-ssh-key`)."
+"In order to create the remote backups, you will have to install "
+"`BorgBackup`_ onto another server that’s accessible via SSH. Make youreself "
+"sure that it accepts the Weblate's client SSH key, i.e. the one it uses to "
+"connect to other servers. (see :ref:`weblate-ssh-key`)."
 msgstr ""
-"Передбачено підтримку резервних копій з використанням SSH. На сервері SSH "
-"має бути встановлено `BorgBackup`_. Weblate встановлює з'єднання з "
-"використанням ключа SSH. Будь ласка, переконайтеся, що ключ SSH Weblate буде "
-"прийнято сервером (див. :ref:`weblate-ssh-key`)."
 
 #: ../../admin/backup.rst:119
 msgid ":ref:`cloudbackup` provides you automated remote backups."
@@ -3067,14 +3136,20 @@ msgstr ""
 "пароля до резервних копій."
 
 #: ../../admin/backup.rst:126
-msgid "List backup existing on the server using ``borg list REPOSITORY``."
+#, fuzzy
+#| msgid "List backup existing on the server using ``borg list REPOSITORY``."
+msgid "List all the backups on the server using ``borg list REPOSITORY``."
 msgstr ""
 "Отримайте список резервних копій на сервері за допомогою команди ``borg list "
 "СХОВИЩЕ``."
 
 #: ../../admin/backup.rst:128
+#, fuzzy
+#| msgid ""
+#| "Restore the desired backup to current directory using ``borg extract "
+#| "REPOSITORY::ARCHIVE``."
 msgid ""
-"Restore the desired backup to current directory using ``borg extract "
+"Restore the desired backup to the current directory using ``borg extract "
 "REPOSITORY::ARCHIVE``."
 msgstr ""
 "Відновіть бажану резервну копію до поточного каталогу за допомогою команди "
@@ -3089,23 +3164,33 @@ msgstr ""
 "каталогу даних Weblate (див. :ref:`backup-dumps`)."
 
 #: ../../admin/backup.rst:132
+#, fuzzy
+#| msgid ""
+#| "Copy Weblate configuration (:file:`backups/settings.py`, see :ref:`backup-"
+#| "dumps`) to the correct location, see :ref:`configuration`."
 msgid ""
-"Copy Weblate configuration (:file:`backups/settings.py`, see :ref:`backup-"
-"dumps`) to the correct location, see :ref:`configuration`."
+"Copy the Weblate configuration (:file:`backups/settings.py`, see :ref:"
+"`backup-dumps`) to the correct location, see :ref:`configuration`."
 msgstr ""
 "Скопіюйте налаштування Weblate (:file:`backups/settings.py`, див. :ref:"
 "`backup-dumps`) у відповідне місце, див. :ref:`configuration`."
 
 #: ../../admin/backup.rst:134
+#, fuzzy
+#| msgid ""
+#| "Copy the whole restored data dir to location configured by :setting:"
+#| "`DATA_DIR`."
 msgid ""
-"Copy the whole restored data dir to location configured by :setting:"
+"Copy the whole restored data dir to the location configured by :setting:"
 "`DATA_DIR`."
 msgstr ""
 "Скопіюйте увесь каталог відновлених даних до місця, яке налаштовано змінною :"
 "setting:`DATA_DIR`."
 
 #: ../../admin/backup.rst:136
-msgid "The Borg session might look like:"
+#, fuzzy
+#| msgid "The Borg session might look like:"
+msgid "The Borg session might look like this:"
 msgstr "Сесія Borg може виглядати ось так:"
 
 #: ../../admin/backup.rst:148
@@ -3117,18 +3202,28 @@ msgid "Manual backup"
 msgstr "Резервне копіювання вручну"
 
 #: ../../admin/backup.rst:158
+#, fuzzy
+#| msgid ""
+#| "Depending on what you want to save, back up the type data Weblate stores "
+#| "in each respective place."
 msgid ""
-"Depending on what you want to save, back up the type data Weblate stores in "
-"each respective place."
+"Depending on what you want to save, back up the type of data Weblate stores "
+"in each respective place."
 msgstr ""
 "Залежно від того, що саме ви хочете зберегти, створіть резервні копії типів "
 "даних, які Weblate зберігає у відповідних каталогах."
 
 #: ../../admin/backup.rst:162
+#, fuzzy
+#| msgid ""
+#| "In case you are doing manual backups, you might want to silent Weblate "
+#| "warning about lack of backups by adding ``weblate.I028`` to :setting:"
+#| "`django:SILENCED_SYSTEM_CHECKS` in :file:`settings.py` or :envvar:"
+#| "`WEBLATE_SILENCED_SYSTEM_CHECKS` for Docker."
 msgid ""
-"In case you are doing manual backups, you might want to silent Weblate "
-"warning about lack of backups by adding ``weblate.I028`` to :setting:`django:"
-"SILENCED_SYSTEM_CHECKS` in :file:`settings.py` or :envvar:"
+"If you are doing the manual backups, you might want to silence Weblate's "
+"warning about a lack of backups by adding ``weblate.I028`` to :setting:"
+"`django:SILENCED_SYSTEM_CHECKS` in :file:`settings.py` or :envvar:"
 "`WEBLATE_SILENCED_SYSTEM_CHECKS` for Docker."
 msgstr ""
 "Якщо ви виконуєте резервне копіювання вручну, вам варто увімкнути "
@@ -3146,24 +3241,34 @@ msgstr ""
 "Справжнє розташування сховища залежить від ваших налаштувань бази даних."
 
 #: ../../admin/backup.rst:176
+#, fuzzy
+#| msgid ""
+#| "The database is the most important storage. Set up regular backups of "
+#| "your database, without it all your translation setup will be gone."
 msgid ""
 "The database is the most important storage. Set up regular backups of your "
-"database, without it all your translation setup will be gone."
+"database. Without database, all the translations are gone."
 msgstr ""
 "Найважливішим сховищем даних є база даних. Налаштуйте регулярне резервне "
 "копіювання вашої бази даних — якщо її буде втрачено, буде втрачену усі ваші "
 "налаштування перекладу."
 
-#: ../../admin/backup.rst:180
+#: ../../admin/backup.rst:181
 msgid "Native database backup"
 msgstr "Власна система резервного копіювання бази даних"
 
-#: ../../admin/backup.rst:182
+#: ../../admin/backup.rst:183
+#, fuzzy
+#| msgid ""
+#| "The recommended approach is to do dump of the database using database "
+#| "native tools such as :program:`pg_dump` or :program:`mysqldump`. It "
+#| "usually performs better than Django backup and restores complete tables "
+#| "with all data."
 msgid ""
-"The recommended approach is to do dump of the database using database native "
-"tools such as :program:`pg_dump` or :program:`mysqldump`. It usually "
-"performs better than Django backup and restores complete tables with all "
-"data."
+"The recommended approach is to do save a dump of the database using database "
+"native tools such as :program:`pg_dump` or :program:`mysqldump`. It usually "
+"performs better than Django backup, and it restores complete tables with all "
+"their data."
 msgstr ""
 "Рекомендованим способом створення дампу бази даних є використання власних "
 "інструментів засобу керування базою даних, зокрема :program:`pg_dump` або :"
@@ -3171,12 +3276,18 @@ msgstr ""
 "резервного копіювання Django і може відновлювати таблиці повністю із усіма "
 "даними."
 
-#: ../../admin/backup.rst:186
+#: ../../admin/backup.rst:187
+#, fuzzy
+#| msgid ""
+#| "You can restore this backup in newer Weblate release, it will perform any "
+#| "necessary migrations when running in :djadmin:`django:migrate`. Please "
+#| "consult :doc:`upgrade` on more detailed information how to perform "
+#| "upgrade between versions."
 msgid ""
-"You can restore this backup in newer Weblate release, it will perform any "
-"necessary migrations when running in :djadmin:`django:migrate`. Please "
-"consult :doc:`upgrade` on more detailed information how to perform upgrade "
-"between versions."
+"You can restore this backup in a newer Weblate release, it will perform all "
+"the necessary migrations when running in :djadmin:`django:migrate`. Please "
+"consult :doc:`upgrade` on more detailed info on how to upgrade between "
+"versions."
 msgstr ""
 "Ви можете відновити цю резервну копію у новішому випуску Weblate — усі "
 "необхідні процедури із перенесення даних буде виконано під час запуску :"
@@ -3188,10 +3299,15 @@ msgid "Django database backup"
 msgstr "Резервне копіювання бази даних Django"
 
 #: ../../admin/backup.rst:194
+#, fuzzy
+#| msgid ""
+#| "Alternatively you can backup database using Django's :djadmin:`django:"
+#| "dumpdata` command. That way the backup is database agnostic and can be "
+#| "used in case you want to change database backend."
 msgid ""
-"Alternatively you can backup database using Django's :djadmin:`django:"
+"Alternatively, you can back up your database using Django's :djadmin:`django:"
 "dumpdata` command. That way the backup is database agnostic and can be used "
-"in case you want to change database backend."
+"in case you want to change the database backend."
 msgstr ""
 "Ви також можете створити резервну копію бази даних за допомогою команди :"
 "djadmin:`django:dumpdata` Django. Резервне копіювання у такий спосіб не "
@@ -3199,12 +3315,19 @@ msgstr ""
 "хочете змінити модуль обробки бази даних."
 
 #: ../../admin/backup.rst:198
+#, fuzzy
+#| msgid ""
+#| "Prior to restoring you need to be running exactly same Weblate version as "
+#| "was used when doing backups. This is necessary as the database structure "
+#| "does change between releases and you would end up corrupting the data in "
+#| "some way. After installing the same version, run all database migrations "
+#| "using :djadmin:`django:migrate`."
 msgid ""
-"Prior to restoring you need to be running exactly same Weblate version as "
-"was used when doing backups. This is necessary as the database structure "
-"does change between releases and you would end up corrupting the data in "
-"some way. After installing the same version, run all database migrations "
-"using :djadmin:`django:migrate`."
+"Prior to restoring the database you need to be running exactly the same "
+"Weblate version the backup was made on. This is necessary as the database "
+"structure does change between releases and you would end up corrupting the "
+"data in some way. After installing the same version, run all database "
+"migrations using :djadmin:`django:migrate`."
 msgstr ""
 "Перш ніж відновлювати дані, вам слід встановити і запустити точну ту саму "
 "версію Weblate, що і на сервері, на якому виконувалося резервне копіювання. "
@@ -3214,10 +3337,16 @@ msgstr ""
 "бази даних за допомогою команди :djadmin:`django:migrate`."
 
 #: ../../admin/backup.rst:204
+#, fuzzy
+#| msgid ""
+#| "Once this is done, some entries will be already created in the database "
+#| "and you will have them in the database backup as well. The recommended "
+#| "approach is to delete such entries manually using management shell (see :"
+#| "ref:`invoke-manage`):"
 msgid ""
-"Once this is done, some entries will be already created in the database and "
-"you will have them in the database backup as well. The recommended approach "
-"is to delete such entries manually using management shell (see :ref:`invoke-"
+"Afterwards some entries will already be created in the database and you will "
+"have them in the database backup as well. The recommended approach is to "
+"delete such entries manually using the management shell (see :ref:`invoke-"
 "manage`):"
 msgstr ""
 "Щойно встановлення буде виконано, у базі даних з'являться деякі записи, які "
@@ -3229,11 +3358,17 @@ msgid "Files"
 msgstr "Файли"
 
 #: ../../admin/backup.rst:217
+#, fuzzy
+#| msgid ""
+#| "If you have enough backup space, simply backup the whole :setting:"
+#| "`DATA_DIR`. This is safe bet even if it includes some files you don't "
+#| "want. The following sections describe in detail what you should back up "
+#| "and what you can skip."
 msgid ""
-"If you have enough backup space, simply backup the whole :setting:"
-"`DATA_DIR`. This is safe bet even if it includes some files you don't want. "
-"The following sections describe in detail what you should back up and what "
-"you can skip."
+"If you have enough backup space, simply back up the whole :setting:"
+"`DATA_DIR`. This is a safe bet even if it includes some files you don't "
+"want. The following sections describe what you should back up and what you "
+"can skip in detail."
 msgstr ""
 "Якщо у вас достатньо місця, рекомендуємо просто створити резервну копію усіх "
 "даних у :setting:`DATA_DIR`. Це найбезпечніший варіант, навіть якщо при "
@@ -3273,9 +3408,14 @@ msgid "PostgreSQL database backup as :file:`database.sql`."
 msgstr "Резервна копія бази даних PostgreSQL у файлі :file:`database.sql`."
 
 #: ../../admin/backup.rst:236
+#, fuzzy
+#| msgid ""
+#| "The database backups are by default saved as plain text, but they can "
+#| "also be compressed or entirely skipped by using :setting:"
+#| "`DATABASE_BACKUP`."
 msgid ""
-"The database backups are by default saved as plain text, but they can also "
-"be compressed or entirely skipped by using :setting:`DATABASE_BACKUP`."
+"The database backups are saved as plain text by default, but they can also "
+"be compressed or entirely skipped using :setting:`DATABASE_BACKUP`."
 msgstr ""
 "Типово, резервні копії зберігаються у форматі простого тексту. Втім, її "
 "можна стиснути або повністю пропустити за допомогою параметра :setting:"
@@ -3290,12 +3430,20 @@ msgid "Stored in :setting:`DATA_DIR` ``/vcs``."
 msgstr "Зберігається у :setting:`DATA_DIR` ``/vcs``."
 
 #: ../../admin/backup.rst:244
+#, fuzzy
+#| msgid ""
+#| "The version control repositories contain a copy of your upstream "
+#| "repositories with Weblate changes. If you have push on commit enabled for "
+#| "all your translation components, all Weblate changes are included "
+#| "upstream and you do not have to backup the repositories on the Weblate "
+#| "side. They can be cloned again from the upstream locations with no data "
+#| "loss."
 msgid ""
 "The version control repositories contain a copy of your upstream "
-"repositories with Weblate changes. If you have push on commit enabled for "
-"all your translation components, all Weblate changes are included upstream "
-"and you do not have to backup the repositories on the Weblate side. They can "
-"be cloned again from the upstream locations with no data loss."
+"repositories with Weblate changes. If you have `Push on commit` enabled for "
+"all your translation components, all Weblate changes are included upstream. "
+"No need to back up the repositories on the Weblate side as they can be "
+"cloned again from the upstream location(s) with no data loss."
 msgstr ""
 "У сховищах систем керування версіями зберігаються копії базових сховищ зі "
 "змінами, які внесено Weblate. Якщо для усіх ваших складників перекладу "
@@ -3315,9 +3463,14 @@ msgstr ""
 "Зберігається у :setting:`DATA_DIR` ``/ssh`` і :setting:`DATA_DIR` ``/home``."
 
 #: ../../admin/backup.rst:255
+#, fuzzy
+#| msgid ""
+#| "If you are using SSH or GPG keys generated by Weblate, you should back up "
+#| "these locations, otherwise you will lose the private keys and you will "
+#| "have to regenerate new ones."
 msgid ""
 "If you are using SSH or GPG keys generated by Weblate, you should back up "
-"these locations, otherwise you will lose the private keys and you will have "
+"these locations. Otherwise you will lose the private keys and you will have "
 "to regenerate new ones."
 msgstr ""
 "Якщо ви користуєтеся ключами SSH або GPG, які створено Weblate, вам слід "
@@ -3333,7 +3486,9 @@ msgid "Stored in :setting:`DATA_DIR` ``/media``."
 msgstr "Зберігаються у :setting:`DATA_DIR` ``/media``."
 
 #: ../../admin/backup.rst:264
-msgid "You should back up user uploaded files (e.g. :ref:`screenshots`)."
+#, fuzzy
+#| msgid "You should back up user uploaded files (e.g. :ref:`screenshots`)."
+msgid "You should back up all user uploaded files (e.g. :ref:`screenshots`)."
 msgstr ""
 "Вам слід створити резервну копію вивантажених файлів (наприклад, :ref:"
 "`screenshots`)."
@@ -3343,12 +3498,18 @@ msgid "Celery tasks"
 msgstr "Завдання Celery"
 
 #: ../../admin/backup.rst:269
+#, fuzzy
+#| msgid ""
+#| "The Celery tasks queue might contain some info, but is usually not needed "
+#| "for a backup. At most you will lose updates that have not yet been "
+#| "processed to translation memory. It is recommended to perform the "
+#| "fulltext or repository updates upon restoring anyhow, so there is no "
+#| "problem in losing these."
 msgid ""
-"The Celery tasks queue might contain some info, but is usually not needed "
-"for a backup. At most you will lose updates that have not yet been processed "
-"to translation memory. It is recommended to perform the fulltext or "
-"repository updates upon restoring anyhow, so there is no problem in losing "
-"these."
+"The Celery task queue might contain some info, but is usually not needed for "
+"a backup. At most you will lose updates not yet been processed to "
+"translation memory. It is recommended to perform the fulltext or repository "
+"update upon restoration anyhow, so there is no problem in losing these."
 msgstr ""
 "У черзі завдань Celery можуть міститися корисні дані, але,зазвичай, "
 "створення їхньої резервної копії не виправдано. У найгіршому випадку ви "
@@ -3365,26 +3526,39 @@ msgid "Command line for manual backup"
 msgstr "Команда для резервного копіювання вручну"
 
 #: ../../admin/backup.rst:281
+#, fuzzy
+#| msgid ""
+#| "Using a cron job, you can set up a bash command to be executed on a daily "
+#| "basis, for instance:"
 msgid ""
-"Using a cron job, you can set up a bash command to be executed on a daily "
-"basis, for instance:"
+"Using a cron job, you can set up a Bash command to be executed on a daily "
+"basis, for example:"
 msgstr ""
 "За допомогою завдання cron ви можете наказати системі виконувати щодня "
 "команду bash. Приклад:"
 
 #: ../../admin/backup.rst:287
+#, fuzzy
+#| msgid ""
+#| "The string between quotes after XZ_OPT allows you to choose your xz "
+#| "options, for instance the amount of memory used for compression; see "
+#| "https://linux.die.net/man/1/xz"
 msgid ""
-"The string between quotes after XZ_OPT allows you to choose your xz options, "
-"for instance the amount of memory used for compression; see https://linux."
-"die.net/man/1/xz"
+"The string between the quotes after `XZ_OPT` allows you to choose your xz "
+"options, for instance the amount of memory used for compression; see https://"
+"linux.die.net/man/1/xz"
 msgstr ""
 "За допомогою рядка у лапках після XZ_OPT ви можете вибрати параметри xz, "
 "наприклад об'єм пам'яті для стискання; див. https://linux.die.net/man/1/xz"
 
 #: ../../admin/backup.rst:289
+#, fuzzy
+#| msgid ""
+#| "You can adjust the list of folders and files to your needs. For instance, "
+#| "to avoid saving the translation memory (in backups folder), you could use:"
 msgid ""
-"You can adjust the list of folders and files to your needs. For instance, to "
-"avoid saving the translation memory (in backups folder), you could use:"
+"You can adjust the list of folders and files to your needs. To avoid saving "
+"the translation memory (in backups folder), you can use:"
 msgstr ""
 "Ви можете скоригувати список тек і файлів за вашими потребами. Наприклад, "
 "щоб уникнути зберігання пам'яті перекладів (у теці резервних копій), ви "
@@ -3407,9 +3581,13 @@ msgid "Moving a Weblate installation"
 msgstr "Пересування встановленого екземпляра Weblate"
 
 #: ../../admin/backup.rst:309
+#, fuzzy
+#| msgid ""
+#| "Relocate your installation to a different system by following the backup "
+#| "and restore instructions above."
 msgid ""
-"Relocate your installation to a different system by following the backup and "
-"restore instructions above."
+"Relocate your installation to a different system by following the backing up "
+"and restoration instructions above."
 msgstr ""
 "Перенесіть ваш екземпляр на іншу систему за допомогою настанов зі створення "
 "і відновлення резервних копій, які наведено вище."
@@ -8799,11 +8977,11 @@ msgstr ""
 msgid ":ref:`django:postgresql-notes`"
 msgstr ":ref:`django:postgresql-notes`"
 
-#: ../../admin/install.rst:331 ../../admin/upgrade.rst:219
+#: ../../admin/install.rst:331 ../../admin/upgrade.rst:221
 msgid "Creating a database in PostgreSQL"
 msgstr "Створення бази даних у PostgreSQL"
 
-#: ../../admin/install.rst:333 ../../admin/upgrade.rst:221
+#: ../../admin/install.rst:333 ../../admin/upgrade.rst:223
 msgid ""
 "It is usually a good idea to run Weblate in a separate database, and "
 "separate user account:"
@@ -17759,7 +17937,7 @@ msgstr ""
 
 #: ../../admin/upgrade.rst:132 ../../admin/upgrade.rst:149
 #: ../../admin/upgrade.rst:167 ../../admin/upgrade.rst:182
-#: ../../admin/upgrade.rst:194
+#: ../../admin/upgrade.rst:196
 msgid ":ref:`generic-upgrade-instructions`"
 msgstr ":ref:`generic-upgrade-instructions`"
 
@@ -17939,14 +18117,20 @@ msgid "Upgrade from 4.4 to 4.5"
 msgstr "Оновлення з 4.4 до 4.5"
 
 #: ../../admin/upgrade.rst:191
-msgid ""
-"Glossaries are now stored as regular components. The migration might take "
-"considerable time if you had big glossaries."
+#, fuzzy
+#| msgid ""
+#| "Glossaries are now stored as regular components. The migration might take "
+#| "considerable time if you had big glossaries."
+msgid "The migration might take considerable time if you had big glossaries."
 msgstr ""
 "У нових версіях глосарії зберігаються як звичайні складники. Перехід на нову "
 "версію може бути досить тривалим, якщо у вас доволі великі глосарії."
 
-#: ../../admin/upgrade.rst:192
+#: ../../admin/upgrade.rst:192 ../../changes.rst:21
+msgid "Glossaries are now stored as regular components."
+msgstr "Глосарії у новій версії зберігаються як звичайні складники."
+
+#: ../../admin/upgrade.rst:193
 msgid ""
 "The glossary API is removed, use regular translation API to access "
 "glossaries."
@@ -17954,11 +18138,23 @@ msgstr ""
 "Вилучено програмний інтерфейс глосаріїв. Для доступу до глосаріїв "
 "скористайтеся звичайним програмним інтерфейсом перекладів."
 
-#: ../../admin/upgrade.rst:199
+#: ../../admin/upgrade.rst:194
+#, fuzzy
+#| msgid ""
+#| "There is a change in :setting:`django:INSTALLED_APPS`, ``weblate."
+#| "configuration`` has to be added there."
+msgid ""
+"There is a change in :setting:`django:INSTALLED_APPS` - ``weblate.metrics`` "
+"should be added."
+msgstr ""
+"Змінено :setting:`django:INSTALLED_APPS`, тут слід додавати ``weblate."
+"configuration``."
+
+#: ../../admin/upgrade.rst:201
 msgid "Upgrading from Python 2 to Python 3"
 msgstr "Оновлення з Python 2 до Python 3"
 
-#: ../../admin/upgrade.rst:201
+#: ../../admin/upgrade.rst:203
 msgid ""
 "Weblate no longer supports Python older than 3.5. In case you are still "
 "running on older version, please perform migration to Python 3 first on "
@@ -17973,11 +18169,11 @@ msgstr ""
 "Weblate 3.11.1 <https://docs.weblate.org/en/weblate-3.11.1/admin/upgrade."
 "html#upgrading-from-python-2-to-python-3>`_."
 
-#: ../../admin/upgrade.rst:210
+#: ../../admin/upgrade.rst:212
 msgid "Migrating from other databases to PostgreSQL"
 msgstr "Перенесення даних з інших баз даних до PostgreSQL"
 
-#: ../../admin/upgrade.rst:212
+#: ../../admin/upgrade.rst:214
 msgid ""
 "If you are running Weblate on other dabatase than PostgreSQL, you should "
 "migrate to PostgreSQL as that will be the only supported database backend in "
@@ -17992,11 +18188,11 @@ msgstr ""
 "ласка, не забудьте зупинити вебсервер та сервер Celery перед перенесенням "
 "даних, інакше дані може бути пошкоджено."
 
-#: ../../admin/upgrade.rst:235
+#: ../../admin/upgrade.rst:237
 msgid "Migrating using Django JSON dumps"
 msgstr "Перенесення даних за допомогою дампів JSON Django"
 
-#: ../../admin/upgrade.rst:237
+#: ../../admin/upgrade.rst:239
 msgid ""
 "The simplest approach for migration is to utilize Django JSON dumps. This "
 "works well for smaller installations. On bigger sites you might want to use "
@@ -18006,23 +18202,23 @@ msgstr ""
 "Такий спосіб добре працює для малих встановлень. Для більших сайтів вам "
 "варто скористатися pgloader, див. :ref:`pgloader-migration`."
 
-#: ../../admin/upgrade.rst:239
+#: ../../admin/upgrade.rst:241
 msgid ""
 "Add PostgreSQL as additional database connection to the :file:`settings.py`:"
 msgstr ""
 "Додайте PostgreSQL як додаткове з'єднання із базою даних до :file:`settings."
 "py`:"
 
-#: ../../admin/upgrade.rst:285
+#: ../../admin/upgrade.rst:287
 msgid "Run migrations and drop any data inserted into the tables:"
 msgstr ""
 "Запустіть перенесення і відкиньте усі дані, які було вставлено до таблиць:"
 
-#: ../../admin/upgrade.rst:292
+#: ../../admin/upgrade.rst:294
 msgid "Dump legacy database and import to PostgreSQL"
 msgstr "Створіть дамп застарілої бази даних а імпортуйте його до PostgreSQL"
 
-#: ../../admin/upgrade.rst:299
+#: ../../admin/upgrade.rst:301
 msgid ""
 "Adjust :setting:`django:DATABASES` to use just PostgreSQL database as "
 "default, remove legacy connection."
@@ -18030,16 +18226,16 @@ msgstr ""
 "Скоригуйте :setting:`django:DATABASES` так, щоб типово використовувалася "
 "лише база даних PostgreSQL, вилучіть застаріле з'єднання."
 
-#: ../../admin/upgrade.rst:302
+#: ../../admin/upgrade.rst:304
 msgid "Weblate should be now ready to run from the PostgreSQL database."
 msgstr ""
 "Після цього Weblate має бути готовим для запуску з базою даних PostgreSQL."
 
-#: ../../admin/upgrade.rst:307
+#: ../../admin/upgrade.rst:309
 msgid "Migrating to PostgreSQL using pgloader"
 msgstr "Перенесення даних до PostgreSQL за допомогою pgloader"
 
-#: ../../admin/upgrade.rst:309
+#: ../../admin/upgrade.rst:311
 msgid ""
 "The `pgloader`_ is a generic migration tool to migrate data to PostgreSQL. "
 "You can use it to migrate Weblate database."
@@ -18047,17 +18243,17 @@ msgstr ""
 "`pgloader`_ — типовий інструмент для перенесення даних до PostgreSQL. Ви "
 "можете скористатися ним для перенесення бази даних Weblate."
 
-#: ../../admin/upgrade.rst:311
+#: ../../admin/upgrade.rst:313
 msgid "Adjust your :file:`settings.py` to use PostgreSQL as a database."
 msgstr ""
 "Скоригуйте ваш :file:`settings.py` так, щоб у ньому було використано базу "
 "даних PostgreSQL."
 
-#: ../../admin/upgrade.rst:313
+#: ../../admin/upgrade.rst:315
 msgid "Migrate the schema in the PostgreSQL database:"
 msgstr "Перенесіть схему до бази даних PostgreSQL:"
 
-#: ../../admin/upgrade.rst:320
+#: ../../admin/upgrade.rst:322
 msgid ""
 "Run the pgloader to transfer the data. The following script can be used to "
 "migrate the database, but you might want to learn more about `pgloader`_ to "
@@ -18068,11 +18264,11 @@ msgstr ""
 "ознайомитися із `pgloader`_, щоб зрозуміти принципи його роботи і "
 "скоригувати роботу так, щоб вона відповідала вашій конфігурації:"
 
-#: ../../admin/upgrade.rst:339
+#: ../../admin/upgrade.rst:341
 msgid "Migrating from Pootle"
 msgstr "Перенесення даних з Pootle"
 
-#: ../../admin/upgrade.rst:341
+#: ../../admin/upgrade.rst:343
 msgid ""
 "As Weblate was originally written as replacement from Pootle, it is "
 "supported to migrate user accounts from Pootle. You can dump the users from "
@@ -20684,10 +20880,6 @@ msgstr ""
 #: ../../changes.rst:20
 msgid "Added simple interface to browse translation."
 msgstr "Додано простий інтерфейс для навігації перекладом."
-
-#: ../../changes.rst:21
-msgid "Glossaries are now stored as regular components."
-msgstr "Глосарії у новій версії зберігаються як звичайні складники."
 
 #: ../../changes.rst:22
 msgid "Dropped glossaries API."
@@ -30193,8 +30385,8 @@ msgid ""
 "seen in the URL."
 msgstr ""
 "Ініціювання дії :guilabel:`Removal` показує список складників, які потрібно "
-"видалити. Ви повинні ввести об'єкт `slug` для підтвердження видалення. `slug`"
-" - це назва шляху, мови або складника, як це видно в URL-адресі."
+"видалити. Ви повинні ввести об'єкт `slug` для підтвердження видалення. "
+"`slug` - це назва шляху, мови або складника, як це видно в URL-адресі."
 
 #: ../../devel/translations.rst:38
 msgid ""
@@ -30207,8 +30399,8 @@ msgid ""
 "editing the string. This has differences between file formats, see: :ref:"
 "`component-manage_units`"
 msgstr ""
-"В інтерфейсі користувача Weblate за допомогою кнопки :guilabel:`Знаряддя` ↓ "
-":guilabel:`Вилучити` під час редагування рядка. У поведінці для різних "
+"В інтерфейсі користувача Weblate за допомогою кнопки :guilabel:`Знаряддя` ↓ :"
+"guilabel:`Вилучити` під час редагування рядка. У поведінці для різних "
 "форматів файлів є різниця, див. :ref:`component-manage_units`"
 
 #: ../../devel/translations.rst:45
@@ -32617,8 +32809,8 @@ msgid ""
 "``developer_comments``). This is the recommended approach, as it is the "
 "least error prone. Choose :guilabel:`CSV file` as a file format."
 msgstr ""
-"Файли із визначенням полів у заголовку (``location``, ``source``, ``target``"
-", ``ID``, ``fuzzy``, ``context``, ``translator_comments``, "
+"Файли із визначенням полів у заголовку (``location``, ``source``, "
+"``target``, ``ID``, ``fuzzy``, ``context``, ``translator_comments``, "
 "``developer_comments``). Цей підхід є рекомендованим, оскільки зменшує "
 "ймовірність помилки. Виберіть формат файлів :guilabel:`файл CSV`."
 
@@ -33632,8 +33824,8 @@ msgid ""
 "This check has to be turned on using ``check-glossary`` flag (see :ref:"
 "`custom-checks`). Please consider following prior to enabling it:"
 msgstr ""
-"Цю перевірку має бути увімкнено за допомогою прапорця ``check-glossary`` ("
-"див. :ref:`custom-checks`). Будь ласка, зважте на таке, перш ніж її вмикати:"
+"Цю перевірку має бути увімкнено за допомогою прапорця ``check-glossary`` "
+"(див. :ref:`custom-checks`). Будь ласка, зважте на таке, перш ніж її вмикати:"
 
 #: ../../user/checks.rst:91
 msgid ""
@@ -35394,9 +35586,14 @@ msgid "Managing glossaries"
 msgstr "Керування глосаріями"
 
 #: ../../user/glossary.rst:16
+#, fuzzy
+#| msgid ""
+#| "Glossaries are now regular translation components and you can use all "
+#| "Weblate features on them - commenting, storing in a Git repository, or "
+#| "adding explanations."
 msgid ""
 "Glossaries are now regular translation components and you can use all "
-"Weblate features on them - commenting, storing in a Git repository, or "
+"Weblate features on them — commenting, storing in a Git repository, or "
 "adding explanations."
 msgstr ""
 "У нових версіях глосарії є звичайними складниками перекладу — ви можете "
@@ -35404,9 +35601,12 @@ msgstr ""
 "зберігання у сховищі Git або додавання пояснень."
 
 #: ../../user/glossary.rst:20
+#, fuzzy
+#| msgid ""
+#| "You can use any component as a glossary by turning on :ref:`component-"
+#| "is_glossary`."
 msgid ""
-"You can use any component as a glossary by turning on :ref:`component-"
-"is_glossary`."
+"Use any component as a glossary by turning on :ref:`component-is_glossary`."
 msgstr ""
 "Ви можете зробити будь-який складник глосарієм за допомогою пункту :ref:"
 "`component-is_glossary`."
@@ -35427,23 +35627,33 @@ msgid "Glossary terms"
 msgstr "Терміни глосарія"
 
 #: ../../user/glossary.rst:29
+#, fuzzy
+#| msgid ""
+#| "The glossary terms are translated in a same way as regular tranlations. "
+#| "You can toggle additional features using the :guilabel:`Tools` menu on "
+#| "each term."
 msgid ""
-"The glossary terms are translated in a same way as regular tranlations. You "
-"can toggle additional features using the :guilabel:`Tools` menu on each term."
+"Glossary terms are translated the same way regular strings are. You can "
+"toggle additional features using the :guilabel:`Tools` menu for each term."
 msgstr ""
 "Терміни глосарія перекладають так само, як виконують звичайні переклади. Ви "
-"можете перемкнути додаткові можливості за допомогою меню :guilabel:`Знаряддя`"
-" для усіх термінів."
+"можете перемкнути додаткові можливості за допомогою меню :guilabel:"
+"`Знаряддя` для усіх термінів."
 
 #: ../../user/glossary.rst:33
 msgid "Not translatable terms"
 msgstr "Терміни, які не можна перекладати"
 
 #: ../../user/glossary.rst:37
+#, fuzzy
+#| msgid ""
+#| "Glossary terms which are read-only are not meant to be translated. You "
+#| "can use this for names or other terms which should not change while "
+#| "translating. Such term is visually highlighted in the glossary sidebar."
 msgid ""
 "Glossary terms which are read-only are not meant to be translated. You can "
 "use this for names or other terms which should not change while translating. "
-"Such term is visually highlighted in the glossary sidebar."
+"Such terms are visually highlighted in the glossary sidebar."
 msgstr ""
 "Терміни глосарія, які призначено для читання, не є придатними для перекладу. "
 "Ви можете скористатися цим для імен або інших термінів, які не слід "
@@ -35451,10 +35661,15 @@ msgstr ""
 "бічній панелі глосарія."
 
 #: ../../user/glossary.rst:41
+#, fuzzy
+#| msgid ""
+#| "The terms can be flagged on the source language using :guilabel:`Tools` "
+#| "↓ :guilabel:`Prohibit translations`. In the background this toggles the "
+#| "``read-only`` flag on the string."
 msgid ""
-"The terms can be flagged on the source language using :guilabel:`Tools` ↓ :"
-"guilabel:`Prohibit translations`. In the background this toggles the ``read-"
-"only`` flag on the string."
+"The terms can be flagged in the source language using :guilabel:`Tools` ↓ :"
+"guilabel:`Mark as read-only`. In the background this toggles the ``read-"
+"only`` flag of the string."
 msgstr ""
 "Терміни може бути позначено у початковій мові за допомогою пункту :guilabel:"
 "`Інструменти` ↓ :guilabel:`Заборонити переклади`. У фоновому режимі цей "
@@ -35465,9 +35680,14 @@ msgid "Forbidden translations"
 msgstr "Заборонені переклади"
 
 #: ../../user/glossary.rst:56
+#, fuzzy
+#| msgid ""
+#| "You can flag certain glossary terms as forbidden - those should not be "
+#| "used while translating. Use this to clarify translation when some words "
+#| "are ambiguous or could have unexpected meanings."
 msgid ""
-"You can flag certain glossary terms as forbidden - those should not be used "
-"while translating. Use this to clarify translation when some words are "
+"You can flag certain glossary terms as forbidden, meaning ones _not_ to be "
+"used for translations. Use this to clarify translation when some words are "
 "ambiguous or could have unexpected meanings."
 msgstr ""
 "Ви можете позначити певні терміни глосарія як заборонені — такі слова не "
@@ -35476,10 +35696,15 @@ msgstr ""
 "значення."
 
 #: ../../user/glossary.rst:60
+#, fuzzy
+#| msgid ""
+#| "The terms can be flagged on the source language using :guilabel:`Tools` "
+#| "↓ :guilabel:`Mark as forbidden translations`. In the background this "
+#| "toggles the ``forbidden`` flag on the string."
 msgid ""
-"The terms can be flagged on the source language using :guilabel:`Tools` ↓ :"
-"guilabel:`Mark as forbidden translations`. In the background this toggles "
-"the ``forbidden`` flag on the string."
+"Terms can be flagged using :guilabel:`Tools` ↓ :guilabel:`Mark as forbidden "
+"translation`. In the background this toggles the ``forbidden`` flag of the "
+"string."
 msgstr ""
 "Терміни може бути позначено у початковій мові за допомогою :guilabel:"
 "`Інструменти` ↓ :guilabel:`Позначити як заборонені переклади`. У фоновому "
@@ -35490,20 +35715,30 @@ msgid "Terminology"
 msgstr "Термінологія"
 
 #: ../../user/glossary.rst:75
+#, fuzzy
+#| msgid ""
+#| "You can flag certain glossary terms as terminology - those  will be "
+#| "present in all glossary languages. Use this to flag important terms which "
+#| "should be translated consistently."
 msgid ""
-"You can flag certain glossary terms as terminology - those  will be present "
-"in all glossary languages. Use this to flag important terms which should be "
-"translated consistently."
+"Flagging certain glossary terms as terminology puts them in all glossary "
+"languages. Use this to flag important terms which should be translated "
+"consistently."
 msgstr ""
 "Ви можете позначити певні терміни глосарія як термінологію — такі терміни "
 "буде показано в усіх мовах глосарія. Скористайтеся цим прапорцем, щоб "
 "позначити важливі терміни, які має бути перекладено однаково."
 
 #: ../../user/glossary.rst:79
+#, fuzzy
+#| msgid ""
+#| "The terms can be flagged on the source language using :guilabel:`Tools` "
+#| "↓ :guilabel:`Mark as terminology`. In the background this toggles the "
+#| "``terminology`` flag on the string."
 msgid ""
-"The terms can be flagged on the source language using :guilabel:`Tools` ↓ :"
+"The terms can be flagged in the source language using :guilabel:`Tools` ↓ :"
 "guilabel:`Mark as terminology`. In the background this toggles the "
-"``terminology`` flag on the string."
+"``terminology`` flag of the string."
 msgstr ""
 "Терміни може бути позначено у початковій мові за допомогою :guilabel:"
 "`Інструменти` ↓ :guilabel:`Позначити як термінологію`. У фоновому режимі це "
@@ -35820,8 +36055,8 @@ msgid ""
 msgstr ""
 "Якщо позначено пункт :guilabel:`Автоматичне спостереження за проєктами із "
 "внеском`, ви автоматично починатимете стеження за проєктами, у яких "
-"переклали хоч рядок. Типове значення залежить від "
-":setting:`DEFAULT_AUTO_WATCH`."
+"переклали хоч рядок. Типове значення залежить від :setting:"
+"`DEFAULT_AUTO_WATCH`."
 
 #: ../../user/profile.rst:161
 msgid "You will not receive notifications for your own actions."
@@ -37171,8 +37406,8 @@ msgid ""
 "immediately, or requires confirmation on the Weblate side."
 msgstr ""
 "Для Hosted Weblate на GitHub, Bitbucket, Codeberg і GitLab зареєстровано "
-"особливого користувача для запису внесків (назва облікового запису — "
-":guilabel:`weblate`, адреса електронної пошти — ``hosted@weblate.org``, ім'я "
+"особливого користувача для запису внесків (назва облікового запису — :"
+"guilabel:`weblate`, адреса електронної пошти — ``hosted@weblate.org``, ім'я "
 "користувача :guilabel:`Weblate push user`). Вам слід додати цього "
 "користувача як учасника розробки і надати йому відповідні права доступу до "
 "вашого сховища (для клонування достатньо прав на читання, для запису "
@@ -38665,6 +38900,26 @@ msgstr ""
 #: ../../workflows.rst:240
 msgid ":ref:`bimono`, :ref:`reviews`, :ref:`labels`"
 msgstr ":ref:`bimono`, :ref:`reviews`, :ref:`labels`"
+
+#~ msgid "14 daily backups"
+#~ msgstr "резервний копій із 14-денним період створення"
+
+#~ msgid "8 weekly backups"
+#~ msgstr "резервних копій із 8-тижневим періодом створення"
+
+#~ msgid "6 monthly backups"
+#~ msgstr "резервних копій із 6-місячним періодом створення"
+
+#~ msgid ""
+#~ "Remote backups using SSH are supported. The SSH server needs to have "
+#~ "`BorgBackup`_ installed. Weblate connects to the server using SSH key, "
+#~ "please make sure the Weblate SSH key is accepted by the server (see :ref:"
+#~ "`weblate-ssh-key`)."
+#~ msgstr ""
+#~ "Передбачено підтримку резервних копій з використанням SSH. На сервері SSH "
+#~ "має бути встановлено `BorgBackup`_. Weblate встановлює з'єднання з "
+#~ "використанням ключа SSH. Будь ласка, переконайтеся, що ключ SSH Weblate "
+#~ "буде прийнято сервером (див. :ref:`weblate-ssh-key`)."
 
 #~ msgid "Project admins can always start translation within Weblate directly."
 #~ msgstr ""

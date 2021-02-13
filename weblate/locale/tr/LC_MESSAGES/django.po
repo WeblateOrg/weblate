@@ -20,7 +20,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.5\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
-"POT-Creation-Date: 2021-02-12 16:30+0000\n"
+"POT-Creation-Date: 2021-02-13 20:05+0000\n"
 "PO-Revision-Date: 2021-02-12 19:07+0000\n"
 "Last-Translator: Burak Yavuz <hitowerdigit@hotmail.com>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/weblate/"
@@ -1421,7 +1421,9 @@ msgid "String suffix"
 msgstr "Dizgi soneki"
 
 #: weblate/addons/forms.py:478
-msgid "Source and target have to be a different languages."
+#, fuzzy
+#| msgid "Source and target have to be a different languages."
+msgid "The source and target have to be different languages."
 msgstr "Kaynak ve hedef farklı diller olmak zorundadır."
 
 #: weblate/addons/generate.py:34
@@ -3081,11 +3083,15 @@ msgid "Java Properties (ISO 8859-1)"
 msgstr "Java Özellikleri (ISO 8859-1)"
 
 #: weblate/formats/ttkit.py:1163
-msgid "Joomla Language File"
+#, fuzzy
+#| msgid "Joomla Language File"
+msgid "Joomla language file"
 msgstr "Joomla Dil Dosyası"
 
 #: weblate/formats/ttkit.py:1172
-msgid "GWT Properties"
+#, fuzzy
+#| msgid "GWT Properties"
+msgid "GWT properties"
 msgstr "GWT Özellikleri"
 
 #: weblate/formats/ttkit.py:1179
@@ -3177,7 +3183,9 @@ msgid "Inno Setup INI file"
 msgstr "Inno Setup INI dosyası"
 
 #: weblate/formats/ttkit.py:1700
-msgid "Term Base eXchange file"
+#, fuzzy
+#| msgid "Term Base eXchange file"
+msgid "TermBase eXchange file"
 msgstr "Term Base eXchange dosyası"
 
 #: weblate/formats/txt.py:180
@@ -3645,11 +3653,11 @@ msgctxt "Translation memory category"
 msgid "File: {}"
 msgstr "Dosya: {}"
 
-#: weblate/memory/views.py:82
+#: weblate/memory/views.py:83
 msgid "Entries deleted."
 msgstr "Girdiler silindi."
 
-#: weblate/memory/views.py:97
+#: weblate/memory/views.py:98
 msgid "File processed, the entries will appear shortly."
 msgstr "Dosya işlendi, girdiler kısa sürede gözükecek."
 
@@ -8470,8 +8478,11 @@ msgid "Following enforced checks are not enabled anywhere:"
 msgstr "Aşağıdaki zorunlu denetimler hiçbir yerde etkinleştirilmez:"
 
 #: weblate/templates/trans/alert/unusedenforcedcheck.html:8
-#, python-format
-msgid "%(check)s is enforced, but not enabled using <code>%(flag)s</code>."
+#, fuzzy, python-format
+#| msgid "%(check)s is enforced, but not enabled using <code>%(flag)s</code>."
+msgid ""
+"%(check)s quality check is enforced, but not enabled using <code>%(flag)s</"
+"code>."
 msgstr ""
 "%(check)s zorunlu kılındı, ancak <code>%(flag)s</code> kullanılarak "
 "etkinleştirilmedi."
@@ -11209,27 +11220,31 @@ msgstr "%(file)s dosyası ayrıştırma başarısız oldu: %(error)s"
 msgid "Additional explanation to clarify meaning or usage of the string."
 msgstr "Dizginin anlamını veya kullanımını netleştirmek için ek açıklama."
 
-#: weblate/trans/models/unit.py:1350
-msgid "Allow translation"
-msgstr "Çeviriye izin ver"
+#: weblate/trans/models/unit.py:1351
+#, fuzzy
+#| msgid "Unmark as terminology"
+msgid "Unmark as read-only"
+msgstr "Terminoloji işaretini kaldır"
 
-#: weblate/trans/models/unit.py:1352
-msgid "Prohibit translation"
-msgstr "Çeviriyi yasakla"
+#: weblate/trans/models/unit.py:1354
+#, fuzzy
+#| msgid "Mark as terminology"
+msgid "Mark as read-only"
+msgstr "Terminoloji olarak işaretle"
 
-#: weblate/trans/models/unit.py:1359
+#: weblate/trans/models/unit.py:1361
 msgid "Unmark as forbidden translation"
 msgstr "Yasaklanmış çeviri işaretini kaldır"
 
-#: weblate/trans/models/unit.py:1367
+#: weblate/trans/models/unit.py:1369
 msgid "Mark as forbidden translation"
 msgstr "Yasaklanmış çeviri olarak işaretle"
 
-#: weblate/trans/models/unit.py:1376
+#: weblate/trans/models/unit.py:1378
 msgid "Unmark as terminology"
 msgstr "Terminoloji işaretini kaldır"
 
-#: weblate/trans/models/unit.py:1384
+#: weblate/trans/models/unit.py:1386
 msgid "Mark as terminology"
 msgstr "Terminoloji olarak işaretle"
 
@@ -11531,8 +11546,9 @@ msgstr[0] "%(count)s dizgi burada çevrilmiyor."
 msgstr[1] "%(count)s dizgi burada çevrilmiyor."
 
 #: weblate/trans/templatetags/translations.py:826
-#, python-format
-msgid "Shared from project %s."
+#, fuzzy, python-format
+#| msgid "Shared from project %s."
+msgid "Shared from the %s project."
 msgstr "%s projesinden paylaşıldı."
 
 #: weblate/trans/templatetags/translations.py:849
@@ -11686,7 +11702,7 @@ msgstr "Lisans %s olarak algılandı, lütfen doğru olup olmadığını denetle
 msgid "Failed to parse uploaded ZIP file."
 msgstr "Yüklenen ZIP dosyası ayrıştırma başarısız oldu."
 
-#: weblate/trans/views/dashboard.py:161
+#: weblate/trans/views/dashboard.py:162
 msgid ""
 "The project you were looking for has been removed, however you are welcome "
 "to contribute to other ones."
@@ -11694,7 +11710,7 @@ msgstr ""
 "Aradığınız proje kaldırılmış bulunmakta, ancak isterseniz diğerlerine "
 "katkıda bulunabilirsiniz."
 
-#: weblate/trans/views/dashboard.py:170
+#: weblate/trans/views/dashboard.py:171
 msgid ""
 "You have activated your account, now you should set the password to be able "
 "to sign in next time."
@@ -11702,7 +11718,7 @@ msgstr ""
 "Hesabınızı etkinleştirdiniz, şimdi bir dahaki sefere giriş yapabilmek için "
 "parolayı ayarlamalısınız."
 
-#: weblate/trans/views/dashboard.py:184
+#: weblate/trans/views/dashboard.py:185
 msgid "Please set your full name and e-mail in your profile."
 msgstr "Lütfen profilinizde adınızı soyadınızı ve e-postanızı ayarlayın."
 
@@ -12236,7 +12252,7 @@ msgstr "%(field)s parametresinde hata: %(error)s"
 msgid "Git with force push"
 msgstr "Git (zorlama push ile)"
 
-#: weblate/vcs/git.py:834
+#: weblate/vcs/git.py:835
 msgid "No remote repository"
 msgstr "Uzak depo yok"
 
@@ -12451,6 +12467,12 @@ msgstr "Yedekleme işlemi tetiklendi"
 #: weblate/wladmin/views.py:224
 msgid "Could not dismiss the configuration error!"
 msgstr "Yapılandırma hatası yoksayılamadı!"
+
+#~ msgid "Allow translation"
+#~ msgstr "Çeviriye izin ver"
+
+#~ msgid "Prohibit translation"
+#~ msgstr "Çeviriyi yasakla"
 
 #~ msgid ""
 #~ "Updates all PO files to match the POT file using msgmerge. Triggered "

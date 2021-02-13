@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.5\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
-"POT-Creation-Date: 2021-02-12 16:30+0000\n"
+"POT-Creation-Date: 2021-02-13 20:05+0000\n"
 "PO-Revision-Date: 2021-02-04 23:47+0000\n"
 "Last-Translator: Anonymous <noreply@weblate.org>\n"
 "Language-Team: Bulgarian <https://hosted.weblate.org/projects/weblate/"
@@ -1681,7 +1681,7 @@ msgid "String suffix"
 msgstr "Текстове"
 
 #: weblate/addons/forms.py:478
-msgid "Source and target have to be a different languages."
+msgid "The source and target have to be different languages."
 msgstr ""
 
 #: weblate/addons/generate.py:34
@@ -3736,11 +3736,13 @@ msgid "Java Properties (ISO 8859-1)"
 msgstr "Свойства на Java (ISO-8859-1)"
 
 #: weblate/formats/ttkit.py:1163
-msgid "Joomla Language File"
+#, fuzzy
+#| msgid "Joomla Language File"
+msgid "Joomla language file"
 msgstr "Езиков файл за Joomla"
 
 #: weblate/formats/ttkit.py:1172
-msgid "GWT Properties"
+msgid "GWT properties"
 msgstr ""
 
 #: weblate/formats/ttkit.py:1179
@@ -3846,7 +3848,7 @@ msgstr ""
 #: weblate/formats/ttkit.py:1700
 #, fuzzy
 #| msgid "TermBase eXchange (TBX)"
-msgid "Term Base eXchange file"
+msgid "TermBase eXchange file"
 msgstr "TermBase eXchange (TBX)"
 
 #: weblate/formats/txt.py:180
@@ -4371,13 +4373,13 @@ msgctxt "Translation memory category"
 msgid "File: {}"
 msgstr "Файл"
 
-#: weblate/memory/views.py:82
+#: weblate/memory/views.py:83
 #, fuzzy
 #| msgid "Failing file"
 msgid "Entries deleted."
 msgstr "Грешен файл"
 
-#: weblate/memory/views.py:97
+#: weblate/memory/views.py:98
 msgid "File processed, the entries will appear shortly."
 msgstr ""
 
@@ -9807,7 +9809,9 @@ msgstr "Открити са неуспешни проверки"
 
 #: weblate/templates/trans/alert/unusedenforcedcheck.html:8
 #, python-format
-msgid "%(check)s is enforced, but not enabled using <code>%(flag)s</code>."
+msgid ""
+"%(check)s quality check is enforced, but not enabled using <code>%(flag)s</"
+"code>."
 msgstr ""
 
 #: weblate/templates/trans/alert/unusedscreenshot.html:2
@@ -13049,35 +13053,33 @@ msgstr "Неуспешен анализа на файла „%(file)s“: %(erro
 msgid "Additional explanation to clarify meaning or usage of the string."
 msgstr ""
 
-#: weblate/trans/models/unit.py:1350
+#: weblate/trans/models/unit.py:1351
 #, fuzzy
-#| msgid "Upload translation"
-msgid "Allow translation"
-msgstr "Качване на превод"
+#| msgid "Base file for new translations"
+msgid "Unmark as read-only"
+msgstr "Базов файл за новите преводи"
 
-#: weblate/trans/models/unit.py:1352
-#, fuzzy
-#| msgid "This translation"
-msgid "Prohibit translation"
-msgstr "Този превод"
+#: weblate/trans/models/unit.py:1354
+msgid "Mark as read-only"
+msgstr ""
 
-#: weblate/trans/models/unit.py:1359
+#: weblate/trans/models/unit.py:1361
 #, fuzzy
 #| msgid "Base file for new translations"
 msgid "Unmark as forbidden translation"
 msgstr "Базов файл за новите преводи"
 
-#: weblate/trans/models/unit.py:1367
+#: weblate/trans/models/unit.py:1369
 #, fuzzy
 #| msgid "Add as other translation"
 msgid "Mark as forbidden translation"
 msgstr "Добавяне като друг превод"
 
-#: weblate/trans/models/unit.py:1376
+#: weblate/trans/models/unit.py:1378
 msgid "Unmark as terminology"
 msgstr ""
 
-#: weblate/trans/models/unit.py:1384
+#: weblate/trans/models/unit.py:1386
 msgid "Mark as terminology"
 msgstr ""
 
@@ -13394,7 +13396,7 @@ msgstr[1] "Текстове, нуждаещи се от внимание"
 #: weblate/trans/templatetags/translations.py:826
 #, fuzzy, python-format
 #| msgid "Other projects"
-msgid "Shared from project %s."
+msgid "Shared from the %s project."
 msgstr "Други проекти"
 
 #: weblate/trans/templatetags/translations.py:849
@@ -13561,7 +13563,7 @@ msgstr ""
 msgid "Failed to parse uploaded ZIP file."
 msgstr "Неуспешен анализ на %d отговарящи файла!"
 
-#: weblate/trans/views/dashboard.py:161
+#: weblate/trans/views/dashboard.py:162
 msgid ""
 "The project you were looking for has been removed, however you are welcome "
 "to contribute to other ones."
@@ -13569,7 +13571,7 @@ msgstr ""
 "Проектът, който търсите, е премахнат. Но можете да дадете приноса си в други "
 "проекти."
 
-#: weblate/trans/views/dashboard.py:170
+#: weblate/trans/views/dashboard.py:171
 #, fuzzy
 #| msgid ""
 #| "You have activated your account, now you should set the password to be "
@@ -13581,7 +13583,7 @@ msgstr ""
 "Вие активирахте акаунта си. Сега трябва да зададете парола, за да можете да "
 "влезете следващия път."
 
-#: weblate/trans/views/dashboard.py:184
+#: weblate/trans/views/dashboard.py:185
 #, fuzzy
 #| msgid "Please set your full name in your profile."
 msgid "Please set your full name and e-mail in your profile."
@@ -14195,7 +14197,7 @@ msgstr "Грешка в параметъра „%(field)s“: %(error)s"
 msgid "Git with force push"
 msgstr ""
 
-#: weblate/vcs/git.py:834
+#: weblate/vcs/git.py:835
 #, fuzzy
 #| msgid "Source code repository"
 msgid "No remote repository"
@@ -14444,6 +14446,16 @@ msgstr "Акаунтът Ви беше премахнат."
 #| msgid "Failed to dismiss configuration error!"
 msgid "Could not dismiss the configuration error!"
 msgstr "Грешката в конфигурацията не може да бъде пренебрегната!"
+
+#, fuzzy
+#~| msgid "Upload translation"
+#~ msgid "Allow translation"
+#~ msgstr "Качване на превод"
+
+#, fuzzy
+#~| msgid "This translation"
+#~ msgid "Prohibit translation"
+#~ msgstr "Този превод"
 
 #, fuzzy
 #~| msgid ""

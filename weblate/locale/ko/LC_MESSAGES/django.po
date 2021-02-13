@@ -17,7 +17,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.5\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
-"POT-Creation-Date: 2021-02-12 16:30+0000\n"
+"POT-Creation-Date: 2021-02-13 20:05+0000\n"
 "PO-Revision-Date: 2021-02-04 23:47+0000\n"
 "Last-Translator: Anonymous <noreply@weblate.org>\n"
 "Language-Team: Korean <https://hosted.weblate.org/projects/weblate/"
@@ -1413,7 +1413,7 @@ msgid "String suffix"
 msgstr "문자열"
 
 #: weblate/addons/forms.py:478
-msgid "Source and target have to be a different languages."
+msgid "The source and target have to be different languages."
 msgstr ""
 
 #: weblate/addons/generate.py:34
@@ -3072,11 +3072,15 @@ msgid "Java Properties (ISO 8859-1)"
 msgstr "자바 속성 (ISO-8859-1)"
 
 #: weblate/formats/ttkit.py:1163
-msgid "Joomla Language File"
+#, fuzzy
+#| msgid "Joomla Language File"
+msgid "Joomla language file"
 msgstr "줌라(Joomla) 언어 파일"
 
 #: weblate/formats/ttkit.py:1172
-msgid "GWT Properties"
+#, fuzzy
+#| msgid "GWT Properties"
+msgid "GWT properties"
 msgstr "GWT 환경 설정"
 
 #: weblate/formats/ttkit.py:1179
@@ -3170,7 +3174,7 @@ msgstr "이노셋업(InnoSetup) INI 파일"
 #: weblate/formats/ttkit.py:1700
 #, fuzzy
 #| msgid "TermBase eXchange (TBX)"
-msgid "Term Base eXchange file"
+msgid "TermBase eXchange file"
 msgstr "텀베이스 익스체인지 형식 (TBX)"
 
 #: weblate/formats/txt.py:180
@@ -3634,11 +3638,11 @@ msgctxt "Translation memory category"
 msgid "File: {}"
 msgstr "파일: {}"
 
-#: weblate/memory/views.py:82
+#: weblate/memory/views.py:83
 msgid "Entries deleted."
 msgstr "항목 삭제됨."
 
-#: weblate/memory/views.py:97
+#: weblate/memory/views.py:98
 msgid "File processed, the entries will appear shortly."
 msgstr "처리 된 파일은 항목이 곧 나타납니다."
 
@@ -8440,7 +8444,9 @@ msgstr "검사를 통과하지 못한 번역 발견됨"
 
 #: weblate/templates/trans/alert/unusedenforcedcheck.html:8
 #, python-format
-msgid "%(check)s is enforced, but not enabled using <code>%(flag)s</code>."
+msgid ""
+"%(check)s quality check is enforced, but not enabled using <code>%(flag)s</"
+"code>."
 msgstr ""
 
 #: weblate/templates/trans/alert/unusedscreenshot.html:2
@@ -11147,35 +11153,35 @@ msgstr "파일 %(file)s: %(error)s 의 구문 분석 실패"
 msgid "Additional explanation to clarify meaning or usage of the string."
 msgstr "문자열의 의미 또는 사용법을 명확하게 하기 위한 추가 설명."
 
-#: weblate/trans/models/unit.py:1350
+#: weblate/trans/models/unit.py:1351
 #, fuzzy
-#| msgid "Upload translations"
-msgid "Allow translation"
-msgstr "번역 업로드"
+#| msgid "Template for new translations"
+msgid "Unmark as read-only"
+msgstr "새 번역 템플릿"
 
-#: weblate/trans/models/unit.py:1352
+#: weblate/trans/models/unit.py:1354
 #, fuzzy
-#| msgid "This translation"
-msgid "Prohibit translation"
-msgstr "이 번역"
+#| msgid "Mark as spam"
+msgid "Mark as read-only"
+msgstr "스팸으로 표시"
 
-#: weblate/trans/models/unit.py:1359
+#: weblate/trans/models/unit.py:1361
 #, fuzzy
 #| msgid "Template for new translations"
 msgid "Unmark as forbidden translation"
 msgstr "새 번역 템플릿"
 
-#: weblate/trans/models/unit.py:1367
+#: weblate/trans/models/unit.py:1369
 #, fuzzy
 #| msgid "Add as other translation"
 msgid "Mark as forbidden translation"
 msgstr "다른 번역으로서 추가"
 
-#: weblate/trans/models/unit.py:1376
+#: weblate/trans/models/unit.py:1378
 msgid "Unmark as terminology"
 msgstr ""
 
-#: weblate/trans/models/unit.py:1384
+#: weblate/trans/models/unit.py:1386
 msgid "Mark as terminology"
 msgstr ""
 
@@ -11467,7 +11473,7 @@ msgstr[0] "%(count)s개의 문자열이 번역되지 않았습니다."
 #: weblate/trans/templatetags/translations.py:826
 #, fuzzy, python-format
 #| msgid "Watched projects"
-msgid "Shared from project %s."
+msgid "Shared from the %s project."
 msgstr "참여 중인 프로젝트"
 
 #: weblate/trans/templatetags/translations.py:849
@@ -11621,7 +11627,7 @@ msgstr "%s 라이선스가 감지되었습니다. 올바른지 확인하십시�
 msgid "Failed to parse uploaded ZIP file."
 msgstr "올려진 ZIP 파일을 구문 분석하지 못했습니다."
 
-#: weblate/trans/views/dashboard.py:161
+#: weblate/trans/views/dashboard.py:162
 msgid ""
 "The project you were looking for has been removed, however you are welcome "
 "to contribute to other ones."
@@ -11629,7 +11635,7 @@ msgstr ""
 "귀하가 찾으시는 프로젝트는 제거되었습니다만, 대신 다른 프로젝트에 참여하실 "
 "수 있습니다."
 
-#: weblate/trans/views/dashboard.py:170
+#: weblate/trans/views/dashboard.py:171
 msgid ""
 "You have activated your account, now you should set the password to be able "
 "to sign in next time."
@@ -11637,7 +11643,7 @@ msgstr ""
 "귀하의 계정이 활성화되었습니다, 다음 번에 로그인을 할 수 있도록 지금 비밀번호"
 "를 설정하십시오."
 
-#: weblate/trans/views/dashboard.py:184
+#: weblate/trans/views/dashboard.py:185
 msgid "Please set your full name and e-mail in your profile."
 msgstr "프로필에서 귀하의 이름과 전자우편을 입력하십시오."
 
@@ -12163,7 +12169,7 @@ msgstr "매개변수 오류 %(field)s: %(error)s"
 msgid "Git with force push"
 msgstr "Git force push"
 
-#: weblate/vcs/git.py:834
+#: weblate/vcs/git.py:835
 msgid "No remote repository"
 msgstr "원력 저장소 없음"
 
@@ -12374,6 +12380,16 @@ msgstr "백업 프로세스가 트리거됨"
 #: weblate/wladmin/views.py:224
 msgid "Could not dismiss the configuration error!"
 msgstr "구성 오류를 해제할 수 없습니다!"
+
+#, fuzzy
+#~| msgid "Upload translations"
+#~ msgid "Allow translation"
+#~ msgstr "번역 업로드"
+
+#, fuzzy
+#~| msgid "This translation"
+#~ msgid "Prohibit translation"
+#~ msgstr "이 번역"
 
 #~ msgid ""
 #~ "Updates all PO files to match the POT file using msgmerge. Triggered "

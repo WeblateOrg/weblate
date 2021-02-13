@@ -31,7 +31,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.5\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
-"POT-Creation-Date: 2021-02-12 16:30+0000\n"
+"POT-Creation-Date: 2021-02-13 20:05+0000\n"
 "PO-Revision-Date: 2021-02-13 20:01+0000\n"
 "Last-Translator: Eric <spice2wolf@gmail.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
@@ -1368,7 +1368,9 @@ msgid "String suffix"
 msgstr "字符串后缀"
 
 #: weblate/addons/forms.py:478
-msgid "Source and target have to be a different languages."
+#, fuzzy
+#| msgid "Source and target have to be a different languages."
+msgid "The source and target have to be different languages."
 msgstr "源和目标必须是不同的语言。"
 
 #: weblate/addons/generate.py:34
@@ -2998,11 +3000,15 @@ msgid "Java Properties (ISO 8859-1)"
 msgstr "Java 属性 (ISO-8859-1)"
 
 #: weblate/formats/ttkit.py:1163
-msgid "Joomla Language File"
+#, fuzzy
+#| msgid "Joomla Language File"
+msgid "Joomla language file"
 msgstr "Joomla 语言文件"
 
 #: weblate/formats/ttkit.py:1172
-msgid "GWT Properties"
+#, fuzzy
+#| msgid "GWT Properties"
+msgid "GWT properties"
 msgstr "GWT 属性"
 
 #: weblate/formats/ttkit.py:1179
@@ -3094,7 +3100,9 @@ msgid "Inno Setup INI file"
 msgstr "Inno Setup INI 文件"
 
 #: weblate/formats/ttkit.py:1700
-msgid "Term Base eXchange file"
+#, fuzzy
+#| msgid "Term Base eXchange file"
+msgid "TermBase eXchange file"
 msgstr "TermBase eXchange 文件"
 
 #: weblate/formats/txt.py:180
@@ -3546,11 +3554,11 @@ msgctxt "Translation memory category"
 msgid "File: {}"
 msgstr "文件：{}"
 
-#: weblate/memory/views.py:82
+#: weblate/memory/views.py:83
 msgid "Entries deleted."
 msgstr "条目已删除。"
 
-#: weblate/memory/views.py:97
+#: weblate/memory/views.py:98
 msgid "File processed, the entries will appear shortly."
 msgstr "文件已被处理，条目将很快出现。"
 
@@ -8128,8 +8136,11 @@ msgid "Following enforced checks are not enabled anywhere:"
 msgstr "以下强制检查未在任何地方启用："
 
 #: weblate/templates/trans/alert/unusedenforcedcheck.html:8
-#, python-format
-msgid "%(check)s is enforced, but not enabled using <code>%(flag)s</code>."
+#, fuzzy, python-format
+#| msgid "%(check)s is enforced, but not enabled using <code>%(flag)s</code>."
+msgid ""
+"%(check)s quality check is enforced, but not enabled using <code>%(flag)s</"
+"code>."
 msgstr "%(check)s 是强制的，但未启用，方式是通过<code>%(flag)s</code>。"
 
 #: weblate/templates/trans/alert/unusedscreenshot.html:2
@@ -10721,27 +10732,31 @@ msgstr "解析文件 %(file)s 失败: %(error)s"
 msgid "Additional explanation to clarify meaning or usage of the string."
 msgstr "用于阐明字符串的含义或用法的其他说明。"
 
-#: weblate/trans/models/unit.py:1350
-msgid "Allow translation"
-msgstr "允许翻译"
+#: weblate/trans/models/unit.py:1351
+#, fuzzy
+#| msgid "Unmark as terminology"
+msgid "Unmark as read-only"
+msgstr "取消标记为专有名词"
 
-#: weblate/trans/models/unit.py:1352
-msgid "Prohibit translation"
-msgstr "禁止翻译"
+#: weblate/trans/models/unit.py:1354
+#, fuzzy
+#| msgid "Mark as terminology"
+msgid "Mark as read-only"
+msgstr "标记为专有名词"
 
-#: weblate/trans/models/unit.py:1359
+#: weblate/trans/models/unit.py:1361
 msgid "Unmark as forbidden translation"
 msgstr "取消标记为禁止的翻译"
 
-#: weblate/trans/models/unit.py:1367
+#: weblate/trans/models/unit.py:1369
 msgid "Mark as forbidden translation"
 msgstr "标记为禁止的翻译"
 
-#: weblate/trans/models/unit.py:1376
+#: weblate/trans/models/unit.py:1378
 msgid "Unmark as terminology"
 msgstr "取消标记为专有名词"
 
-#: weblate/trans/models/unit.py:1384
+#: weblate/trans/models/unit.py:1386
 msgid "Mark as terminology"
 msgstr "标记为专有名词"
 
@@ -11027,8 +11042,9 @@ msgid_plural "%(count)s strings are not being translated here."
 msgstr[0] "这里有 %(count)s 条未翻译的字符串。"
 
 #: weblate/trans/templatetags/translations.py:826
-#, python-format
-msgid "Shared from project %s."
+#, fuzzy, python-format
+#| msgid "Shared from project %s."
+msgid "Shared from the %s project."
 msgstr "从项目 %s 共享。"
 
 #: weblate/trans/templatetags/translations.py:849
@@ -11181,19 +11197,19 @@ msgstr "检测到的许可为 %s，请检查是否正确。"
 msgid "Failed to parse uploaded ZIP file."
 msgstr "解析上传的ZIP文件失败。"
 
-#: weblate/trans/views/dashboard.py:161
+#: weblate/trans/views/dashboard.py:162
 msgid ""
 "The project you were looking for has been removed, however you are welcome "
 "to contribute to other ones."
 msgstr "您查找的项目已经移除，尽管如此，欢迎您参与贡献其他项目。"
 
-#: weblate/trans/views/dashboard.py:170
+#: weblate/trans/views/dashboard.py:171
 msgid ""
 "You have activated your account, now you should set the password to be able "
 "to sign in next time."
 msgstr "您已经激活了帐户，现在应该设置密码以便下次登录。"
 
-#: weblate/trans/views/dashboard.py:184
+#: weblate/trans/views/dashboard.py:185
 msgid "Please set your full name and e-mail in your profile."
 msgstr "请在您的个人资料中设置您的全名和电子邮箱。"
 
@@ -11712,7 +11728,7 @@ msgstr "参数 %(field)s 出错：%(error)s"
 msgid "Git with force push"
 msgstr "Git 强制推送"
 
-#: weblate/vcs/git.py:834
+#: weblate/vcs/git.py:835
 msgid "No remote repository"
 msgstr "没有远程仓库"
 
@@ -11922,6 +11938,12 @@ msgstr "已触发备份进程"
 #: weblate/wladmin/views.py:224
 msgid "Could not dismiss the configuration error!"
 msgstr "无法排除配置错误！"
+
+#~ msgid "Allow translation"
+#~ msgstr "允许翻译"
+
+#~ msgid "Prohibit translation"
+#~ msgstr "禁止翻译"
 
 #~ msgid ""
 #~ "Updates all PO files to match the POT file using msgmerge. Triggered "

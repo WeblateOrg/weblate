@@ -16,7 +16,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.5\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
-"POT-Creation-Date: 2021-02-12 16:30+0000\n"
+"POT-Creation-Date: 2021-02-13 20:05+0000\n"
 "PO-Revision-Date: 2021-02-04 23:47+0000\n"
 "Last-Translator: Anonymous <noreply@weblate.org>\n"
 "Language-Team: Chinese (Traditional) <https://hosted.weblate.org/projects/"
@@ -1365,7 +1365,7 @@ msgstr "字串後綴"
 #: weblate/addons/forms.py:478
 #, fuzzy
 #| msgid "Source and target have to be different translations."
-msgid "Source and target have to be a different languages."
+msgid "The source and target have to be different languages."
 msgstr "來源與目標須是不同的翻譯。"
 
 #: weblate/addons/generate.py:34
@@ -3014,11 +3014,15 @@ msgid "Java Properties (ISO 8859-1)"
 msgstr "Java 屬性（ISO 8859-1）"
 
 #: weblate/formats/ttkit.py:1163
-msgid "Joomla Language File"
+#, fuzzy
+#| msgid "Joomla Language File"
+msgid "Joomla language file"
 msgstr "Joomla 語言檔"
 
 #: weblate/formats/ttkit.py:1172
-msgid "GWT Properties"
+#, fuzzy
+#| msgid "GWT Properties"
+msgid "GWT properties"
 msgstr "GWT 屬性"
 
 #: weblate/formats/ttkit.py:1179
@@ -3110,7 +3114,9 @@ msgid "Inno Setup INI file"
 msgstr "Inno Setup INI 檔"
 
 #: weblate/formats/ttkit.py:1700
-msgid "Term Base eXchange file"
+#, fuzzy
+#| msgid "Term Base eXchange file"
+msgid "TermBase eXchange file"
 msgstr "TermBase eXchange 文件"
 
 #: weblate/formats/txt.py:180
@@ -3568,11 +3574,11 @@ msgctxt "Translation memory category"
 msgid "File: {}"
 msgstr "檔案：{}"
 
-#: weblate/memory/views.py:82
+#: weblate/memory/views.py:83
 msgid "Entries deleted."
 msgstr "條目已刪除。"
 
-#: weblate/memory/views.py:97
+#: weblate/memory/views.py:98
 msgid "File processed, the entries will appear shortly."
 msgstr "檔案已處理，條目將盡快顯示。"
 
@@ -8194,7 +8200,9 @@ msgstr "未通過查核"
 
 #: weblate/templates/trans/alert/unusedenforcedcheck.html:8
 #, python-format
-msgid "%(check)s is enforced, but not enabled using <code>%(flag)s</code>."
+msgid ""
+"%(check)s quality check is enforced, but not enabled using <code>%(flag)s</"
+"code>."
 msgstr ""
 
 #: weblate/templates/trans/alert/unusedscreenshot.html:2
@@ -10810,35 +10818,35 @@ msgstr "無法解析 %(file)s 檔案：%(error)s"
 msgid "Additional explanation to clarify meaning or usage of the string."
 msgstr "用來闡明意義或字串用法的額外解釋。"
 
-#: weblate/trans/models/unit.py:1350
+#: weblate/trans/models/unit.py:1351
 #, fuzzy
-#| msgid "Upload translations"
-msgid "Allow translation"
-msgstr "上傳翻譯"
+#| msgid "Template for new translations"
+msgid "Unmark as read-only"
+msgstr "新翻譯的模板"
 
-#: weblate/trans/models/unit.py:1352
+#: weblate/trans/models/unit.py:1354
 #, fuzzy
-#| msgid "This translation"
-msgid "Prohibit translation"
-msgstr "這個翻譯"
+#| msgid "Mark as spam"
+msgid "Mark as read-only"
+msgstr "標記為垃圾"
 
-#: weblate/trans/models/unit.py:1359
+#: weblate/trans/models/unit.py:1361
 #, fuzzy
 #| msgid "Template for new translations"
 msgid "Unmark as forbidden translation"
 msgstr "新翻譯的模板"
 
-#: weblate/trans/models/unit.py:1367
+#: weblate/trans/models/unit.py:1369
 #, fuzzy
 #| msgid "Add as other translation"
 msgid "Mark as forbidden translation"
 msgstr "新增為其他翻譯"
 
-#: weblate/trans/models/unit.py:1376
+#: weblate/trans/models/unit.py:1378
 msgid "Unmark as terminology"
 msgstr ""
 
-#: weblate/trans/models/unit.py:1384
+#: weblate/trans/models/unit.py:1386
 msgid "Mark as terminology"
 msgstr ""
 
@@ -11130,7 +11138,7 @@ msgstr[0] "這裡有 %(count)s 則尚未翻譯的字串。"
 #: weblate/trans/templatetags/translations.py:826
 #, fuzzy, python-format
 #| msgid "Share in projects"
-msgid "Shared from project %s."
+msgid "Shared from the %s project."
 msgstr "分享專案"
 
 #: weblate/trans/templatetags/translations.py:849
@@ -11282,19 +11290,19 @@ msgstr "偵測到的授權條款為 %s，請檢查是否正確。"
 msgid "Failed to parse uploaded ZIP file."
 msgstr "無法解析上傳的 ZIP 檔案。"
 
-#: weblate/trans/views/dashboard.py:161
+#: weblate/trans/views/dashboard.py:162
 msgid ""
 "The project you were looking for has been removed, however you are welcome "
 "to contribute to other ones."
 msgstr "您正在查看的專案已經移除；不過我們仍然歡迎您貢獻其他專案。"
 
-#: weblate/trans/views/dashboard.py:170
+#: weblate/trans/views/dashboard.py:171
 msgid ""
 "You have activated your account, now you should set the password to be able "
 "to sign in next time."
 msgstr "您已啟用您的帳號。現在您應該設定密碼以便下次登入。"
 
-#: weblate/trans/views/dashboard.py:184
+#: weblate/trans/views/dashboard.py:185
 msgid "Please set your full name and e-mail in your profile."
 msgstr "請設定您個人檔案中的全名與電子郵件。"
 
@@ -11817,7 +11825,7 @@ msgstr "%(field)s 參數錯誤：%(error)s"
 msgid "Git with force push"
 msgstr "Git 使用強制推送"
 
-#: weblate/vcs/git.py:834
+#: weblate/vcs/git.py:835
 msgid "No remote repository"
 msgstr "沒有遠端儲存庫"
 
@@ -12026,6 +12034,16 @@ msgstr "已觸發備份程序"
 #: weblate/wladmin/views.py:224
 msgid "Could not dismiss the configuration error!"
 msgstr "無法略過組態設定錯誤！"
+
+#, fuzzy
+#~| msgid "Upload translations"
+#~ msgid "Allow translation"
+#~ msgstr "上傳翻譯"
+
+#, fuzzy
+#~| msgid "This translation"
+#~ msgid "Prohibit translation"
+#~ msgstr "這個翻譯"
 
 #~ msgid ""
 #~ "Updates all PO files to match the POT file using msgmerge. Triggered "

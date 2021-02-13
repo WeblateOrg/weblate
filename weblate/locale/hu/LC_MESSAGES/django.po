@@ -23,7 +23,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.5\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
-"POT-Creation-Date: 2021-02-12 16:30+0000\n"
+"POT-Creation-Date: 2021-02-13 20:05+0000\n"
 "PO-Revision-Date: 2021-02-04 23:47+0000\n"
 "Last-Translator: Anonymous <noreply@weblate.org>\n"
 "Language-Team: Hungarian <https://hosted.weblate.org/projects/weblate/"
@@ -1462,7 +1462,7 @@ msgstr "Szöveg utótag"
 #: weblate/addons/forms.py:478
 #, fuzzy
 #| msgid "Source and target have to be different translations."
-msgid "Source and target have to be a different languages."
+msgid "The source and target have to be different languages."
 msgstr "A forrásnak és a célnak különböző fordításoknak kell lenniük."
 
 #: weblate/addons/generate.py:34
@@ -3149,11 +3149,15 @@ msgid "Java Properties (ISO 8859-1)"
 msgstr "Java Properties (ISO 8859-1)"
 
 #: weblate/formats/ttkit.py:1163
-msgid "Joomla Language File"
+#, fuzzy
+#| msgid "Joomla Language File"
+msgid "Joomla language file"
 msgstr "Joomla nyelvi fájl"
 
 #: weblate/formats/ttkit.py:1172
-msgid "GWT Properties"
+#, fuzzy
+#| msgid "GWT Properties"
+msgid "GWT properties"
 msgstr "GWT tulajdonságok"
 
 #: weblate/formats/ttkit.py:1179
@@ -3245,7 +3249,9 @@ msgid "Inno Setup INI file"
 msgstr "Inno Setup INI-fájl"
 
 #: weblate/formats/ttkit.py:1700
-msgid "Term Base eXchange file"
+#, fuzzy
+#| msgid "Term Base eXchange file"
+msgid "TermBase eXchange file"
 msgstr "Term Base eXchange fájl"
 
 #: weblate/formats/txt.py:180
@@ -3718,11 +3724,11 @@ msgctxt "Translation memory category"
 msgid "File: {}"
 msgstr "Fájl: {}"
 
-#: weblate/memory/views.py:82
+#: weblate/memory/views.py:83
 msgid "Entries deleted."
 msgstr "Bejegyzések törölve."
 
-#: weblate/memory/views.py:97
+#: weblate/memory/views.py:98
 msgid "File processed, the entries will appear shortly."
 msgstr "A fájl feldolgozva, a bejegyzések hamarosan megjelennek."
 
@@ -8673,7 +8679,9 @@ msgstr "Sikertelen ellenőrzések találhatók"
 
 #: weblate/templates/trans/alert/unusedenforcedcheck.html:8
 #, python-format
-msgid "%(check)s is enforced, but not enabled using <code>%(flag)s</code>."
+msgid ""
+"%(check)s quality check is enforced, but not enabled using <code>%(flag)s</"
+"code>."
 msgstr ""
 
 #: weblate/templates/trans/alert/unusedscreenshot.html:2
@@ -11483,35 +11491,35 @@ msgid "Additional explanation to clarify meaning or usage of the string."
 msgstr ""
 "További magyarázat a szöveg jelentésének vagy használatának tisztázásához."
 
-#: weblate/trans/models/unit.py:1350
+#: weblate/trans/models/unit.py:1351
 #, fuzzy
-#| msgid "Upload translations"
-msgid "Allow translation"
-msgstr "Fordítások feltöltése"
+#| msgid "Template for new translations"
+msgid "Unmark as read-only"
+msgstr "Sablon az új fordításokhoz"
 
-#: weblate/trans/models/unit.py:1352
+#: weblate/trans/models/unit.py:1354
 #, fuzzy
-#| msgid "This translation"
-msgid "Prohibit translation"
-msgstr "Ez a fordítás"
+#| msgid "Mark as spam"
+msgid "Mark as read-only"
+msgstr "Megjelölés szemétként"
 
-#: weblate/trans/models/unit.py:1359
+#: weblate/trans/models/unit.py:1361
 #, fuzzy
 #| msgid "Template for new translations"
 msgid "Unmark as forbidden translation"
 msgstr "Sablon az új fordításokhoz"
 
-#: weblate/trans/models/unit.py:1367
+#: weblate/trans/models/unit.py:1369
 #, fuzzy
 #| msgid "Add as other translation"
 msgid "Mark as forbidden translation"
 msgstr "Hozzáadás egyéb fordításként"
 
-#: weblate/trans/models/unit.py:1376
+#: weblate/trans/models/unit.py:1378
 msgid "Unmark as terminology"
 msgstr ""
 
-#: weblate/trans/models/unit.py:1384
+#: weblate/trans/models/unit.py:1386
 msgid "Mark as terminology"
 msgstr ""
 
@@ -11819,7 +11827,7 @@ msgstr[1] "%(count)s szöveg nem itt van lefordítva."
 #: weblate/trans/templatetags/translations.py:826
 #, fuzzy, python-format
 #| msgid "Watched projects"
-msgid "Shared from project %s."
+msgid "Shared from the %s project."
 msgstr "Megfigyelt projektek"
 
 #: weblate/trans/templatetags/translations.py:849
@@ -11973,7 +11981,7 @@ msgstr "A felismert licenc %s. Ellenőrizze, hogy ez helyes-e."
 msgid "Failed to parse uploaded ZIP file."
 msgstr "Nem sikerült feldolgozni a feltöltött ZIP-fájlt."
 
-#: weblate/trans/views/dashboard.py:161
+#: weblate/trans/views/dashboard.py:162
 msgid ""
 "The project you were looking for has been removed, however you are welcome "
 "to contribute to other ones."
@@ -11981,7 +11989,7 @@ msgstr ""
 "A keresett projekt el lett távolítva, azonban szívesen vesszük, ha "
 "közreműködik a többi projektben."
 
-#: weblate/trans/views/dashboard.py:170
+#: weblate/trans/views/dashboard.py:171
 msgid ""
 "You have activated your account, now you should set the password to be able "
 "to sign in next time."
@@ -11989,7 +11997,7 @@ msgstr ""
 "Aktiválta a fiókját. Most be kell állítania a jelszót, hogy legközelebb be "
 "tudjon lépni."
 
-#: weblate/trans/views/dashboard.py:184
+#: weblate/trans/views/dashboard.py:185
 msgid "Please set your full name and e-mail in your profile."
 msgstr "Állítsa be a teljes nevét és e-mail-címét a profiljában."
 
@@ -12527,7 +12535,7 @@ msgstr "Hiba a(z) %(field)s paraméterben: %(error)s"
 msgid "Git with force push"
 msgstr "Git kényszerített felküldéssel"
 
-#: weblate/vcs/git.py:834
+#: weblate/vcs/git.py:835
 msgid "No remote repository"
 msgstr "Nincs távoli tároló"
 
@@ -12741,6 +12749,16 @@ msgstr "Biztonsági mentés folyamat aktiválva"
 #: weblate/wladmin/views.py:224
 msgid "Could not dismiss the configuration error!"
 msgstr "Nem sikerült eltüntetni a beállítási hibát!"
+
+#, fuzzy
+#~| msgid "Upload translations"
+#~ msgid "Allow translation"
+#~ msgstr "Fordítások feltöltése"
+
+#, fuzzy
+#~| msgid "This translation"
+#~ msgid "Prohibit translation"
+#~ msgstr "Ez a fordítás"
 
 #~ msgid ""
 #~ "Updates all PO files to match the POT file using msgmerge. Triggered "

@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.5\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
-"POT-Creation-Date: 2021-02-12 16:30+0000\n"
+"POT-Creation-Date: 2021-02-13 20:05+0000\n"
 "PO-Revision-Date: 2021-02-12 19:07+0000\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: Hebrew <https://hosted.weblate.org/projects/weblate/"
@@ -1371,7 +1371,9 @@ msgid "String suffix"
 msgstr "סיומת למחרוזת"
 
 #: weblate/addons/forms.py:478
-msgid "Source and target have to be a different languages."
+#, fuzzy
+#| msgid "Source and target have to be a different languages."
+msgid "The source and target have to be different languages."
 msgstr "המקור והיעד חייבים להיות בשפות שונות."
 
 #: weblate/addons/generate.py:34
@@ -3013,11 +3015,15 @@ msgid "Java Properties (ISO 8859-1)"
 msgstr "קובץ מאפיינים של Java‏ (ISO-8859-1)"
 
 #: weblate/formats/ttkit.py:1163
-msgid "Joomla Language File"
+#, fuzzy
+#| msgid "Joomla Language File"
+msgid "Joomla language file"
 msgstr "קובץ שפה Joomla"
 
 #: weblate/formats/ttkit.py:1172
-msgid "GWT Properties"
+#, fuzzy
+#| msgid "GWT Properties"
+msgid "GWT properties"
 msgstr "מאפייני GWT"
 
 #: weblate/formats/ttkit.py:1179
@@ -3109,7 +3115,9 @@ msgid "Inno Setup INI file"
 msgstr "קובץ INI בתצורת Inno Setup"
 
 #: weblate/formats/ttkit.py:1700
-msgid "Term Base eXchange file"
+#, fuzzy
+#| msgid "Term Base eXchange file"
+msgid "TermBase eXchange file"
 msgstr "קובץ Term Base eXchange"
 
 #: weblate/formats/txt.py:180
@@ -3570,11 +3578,11 @@ msgctxt "Translation memory category"
 msgid "File: {}"
 msgstr "קובץ: {}"
 
-#: weblate/memory/views.py:82
+#: weblate/memory/views.py:83
 msgid "Entries deleted."
 msgstr "רשומות נמחקו."
 
-#: weblate/memory/views.py:97
+#: weblate/memory/views.py:98
 msgid "File processed, the entries will appear shortly."
 msgstr "הקובץ עבר עיבוד, הרשומות תופענה תוך זמן קצר."
 
@@ -8315,7 +8323,9 @@ msgstr "הבדיקות הבאות נכשלות:"
 
 #: weblate/templates/trans/alert/unusedenforcedcheck.html:8
 #, python-format
-msgid "%(check)s is enforced, but not enabled using <code>%(flag)s</code>."
+msgid ""
+"%(check)s quality check is enforced, but not enabled using <code>%(flag)s</"
+"code>."
 msgstr ""
 
 #: weblate/templates/trans/alert/unusedscreenshot.html:2
@@ -10969,31 +10979,35 @@ msgstr "ניתוח הקובץ %(file)s נכשל: %(error)s"
 msgid "Additional explanation to clarify meaning or usage of the string."
 msgstr "הסבר נוסף כדי להבהיר את המשמעות או את אופן השימוש במחרוזת."
 
-#: weblate/trans/models/unit.py:1350
-msgid "Allow translation"
-msgstr "לאפשר תרגום"
+#: weblate/trans/models/unit.py:1351
+#, fuzzy
+#| msgid "Unmark as terminology"
+msgid "Unmark as read-only"
+msgstr "ביטול סימון כמינוח"
 
-#: weblate/trans/models/unit.py:1352
-msgid "Prohibit translation"
-msgstr "למנוע תרגום"
+#: weblate/trans/models/unit.py:1354
+#, fuzzy
+#| msgid "Mark as terminology"
+msgid "Mark as read-only"
+msgstr "סימון כמינוח"
 
-#: weblate/trans/models/unit.py:1359
+#: weblate/trans/models/unit.py:1361
 #, fuzzy
 #| msgid "Unmark as forbidden translations"
 msgid "Unmark as forbidden translation"
 msgstr "ביטול הסימון כתרגומים אסורים"
 
-#: weblate/trans/models/unit.py:1367
+#: weblate/trans/models/unit.py:1369
 #, fuzzy
 #| msgid "Mark as forbidden translations"
 msgid "Mark as forbidden translation"
 msgstr "סימון כתרגומים אסורים"
 
-#: weblate/trans/models/unit.py:1376
+#: weblate/trans/models/unit.py:1378
 msgid "Unmark as terminology"
 msgstr "ביטול סימון כמינוח"
 
-#: weblate/trans/models/unit.py:1384
+#: weblate/trans/models/unit.py:1386
 msgid "Mark as terminology"
 msgstr "סימון כמינוח"
 
@@ -11331,8 +11345,9 @@ msgstr[2] "%(count)s מחרוזות לא מתורגמות כאן."
 msgstr[3] "%(count)s מחרוזות לא מתורגמות כאן."
 
 #: weblate/trans/templatetags/translations.py:826
-#, python-format
-msgid "Shared from project %s."
+#, fuzzy, python-format
+#| msgid "Shared from project %s."
+msgid "Shared from the %s project."
 msgstr "משותף מהמיזם %s."
 
 #: weblate/trans/templatetags/translations.py:849
@@ -11486,19 +11501,19 @@ msgstr "הרישיון שזוהה הוא %s אך מוטב לבדוק שהוא נ
 msgid "Failed to parse uploaded ZIP file."
 msgstr "פענוח קובץ ה־ZIP שהועלה נכשל."
 
-#: weblate/trans/views/dashboard.py:161
+#: weblate/trans/views/dashboard.py:162
 msgid ""
 "The project you were looking for has been removed, however you are welcome "
 "to contribute to other ones."
 msgstr "המיזם המבוקש הוסר, עם זאת ניתן לתרום למיזמים אחרים."
 
-#: weblate/trans/views/dashboard.py:170
+#: weblate/trans/views/dashboard.py:171
 msgid ""
 "You have activated your account, now you should set the password to be able "
 "to sign in next time."
 msgstr "הפעלת את חשבונך, כעת עליך להגדיר ססמה שתאפשר לך להיכנס שוב בפעם הבאה."
 
-#: weblate/trans/views/dashboard.py:184
+#: weblate/trans/views/dashboard.py:185
 msgid "Please set your full name and e-mail in your profile."
 msgstr "נא להגדיר את השם המלא ואת כתובת הדוא״ל שלך בפרופיל שלך."
 
@@ -12033,7 +12048,7 @@ msgstr "שגיאה במשתנה %(field)s‏: %(error)s"
 msgid "Git with force push"
 msgstr "Git עם אילוץ דחיפה"
 
-#: weblate/vcs/git.py:834
+#: weblate/vcs/git.py:835
 msgid "No remote repository"
 msgstr "אין מאגר מרוחק"
 
@@ -12243,6 +12258,12 @@ msgstr "תהליך הגיבוי מתחיל"
 #: weblate/wladmin/views.py:224
 msgid "Could not dismiss the configuration error!"
 msgstr "לא ניתן להתעלם מהשגיאה בהגדרות!"
+
+#~ msgid "Allow translation"
+#~ msgstr "לאפשר תרגום"
+
+#~ msgid "Prohibit translation"
+#~ msgstr "למנוע תרגום"
 
 #~ msgid ""
 #~ "Updates all PO files to match the POT file using msgmerge. Triggered "

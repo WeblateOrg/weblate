@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.5\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
-"POT-Creation-Date: 2021-02-12 16:30+0000\n"
+"POT-Creation-Date: 2021-02-13 20:05+0000\n"
 "PO-Revision-Date: 2021-02-04 23:47+0000\n"
 "Last-Translator: Anonymous <noreply@weblate.org>\n"
 "Language-Team: Azerbaijani <https://hosted.weblate.org/projects/weblate/"
@@ -1535,7 +1535,7 @@ msgid "String suffix"
 msgstr "Sətir"
 
 #: weblate/addons/forms.py:478
-msgid "Source and target have to be a different languages."
+msgid "The source and target have to be different languages."
 msgstr ""
 
 #: weblate/addons/generate.py:34
@@ -3618,13 +3618,13 @@ msgstr "Java Özəllikləri (UTF-8)"
 #: weblate/formats/ttkit.py:1163
 #, fuzzy
 #| msgid "Language"
-msgid "Joomla Language File"
+msgid "Joomla language file"
 msgstr "Dil"
 
 #: weblate/formats/ttkit.py:1172
 #, fuzzy
 #| msgid "Java Properties"
-msgid "GWT Properties"
+msgid "GWT properties"
 msgstr "Java Özəllikəri"
 
 #: weblate/formats/ttkit.py:1179
@@ -3736,7 +3736,7 @@ msgstr ""
 #: weblate/formats/ttkit.py:1700
 #, fuzzy
 #| msgid "TermBase eXchange (TBX)"
-msgid "Term Base eXchange file"
+msgid "TermBase eXchange file"
 msgstr "TermBase eXchange (TBX)"
 
 #: weblate/formats/txt.py:180
@@ -4255,13 +4255,13 @@ msgctxt "Translation memory category"
 msgid "File: {}"
 msgstr "Fayl"
 
-#: weblate/memory/views.py:82
+#: weblate/memory/views.py:83
 #, fuzzy
 #| msgid "Failing check"
 msgid "Entries deleted."
 msgstr "Uğursuz yoxlanış"
 
-#: weblate/memory/views.py:97
+#: weblate/memory/views.py:98
 msgid "File processed, the entries will appear shortly."
 msgstr ""
 
@@ -9821,7 +9821,9 @@ msgstr "Tapılan uğursuz yoxlamalar"
 
 #: weblate/templates/trans/alert/unusedenforcedcheck.html:8
 #, python-format
-msgid "%(check)s is enforced, but not enabled using <code>%(flag)s</code>."
+msgid ""
+"%(check)s quality check is enforced, but not enabled using <code>%(flag)s</"
+"code>."
 msgstr ""
 
 #: weblate/templates/trans/alert/unusedscreenshot.html:2
@@ -13132,35 +13134,33 @@ msgstr ""
 msgid "Additional explanation to clarify meaning or usage of the string."
 msgstr ""
 
-#: weblate/trans/models/unit.py:1350
+#: weblate/trans/models/unit.py:1351
 #, fuzzy
-#| msgid "Upload translation"
-msgid "Allow translation"
-msgstr "Tərcümə yüklə"
+#| msgid "Base file for new translations"
+msgid "Unmark as read-only"
+msgstr "Yeni tərcümələr üçün baza faylı"
 
-#: weblate/trans/models/unit.py:1352
-#, fuzzy
-#| msgid "Use this translation"
-msgid "Prohibit translation"
-msgstr "Bu tərcüməni istifadə et"
+#: weblate/trans/models/unit.py:1354
+msgid "Mark as read-only"
+msgstr ""
 
-#: weblate/trans/models/unit.py:1359
+#: weblate/trans/models/unit.py:1361
 #, fuzzy
 #| msgid "Base file for new translations"
 msgid "Unmark as forbidden translation"
 msgstr "Yeni tərcümələr üçün baza faylı"
 
-#: weblate/trans/models/unit.py:1367
+#: weblate/trans/models/unit.py:1369
 #, fuzzy
 #| msgid "Add as other translation"
 msgid "Mark as forbidden translation"
 msgstr "Digər tərcümə olaraq əlavə et"
 
-#: weblate/trans/models/unit.py:1376
+#: weblate/trans/models/unit.py:1378
 msgid "Unmark as terminology"
 msgstr ""
 
-#: weblate/trans/models/unit.py:1384
+#: weblate/trans/models/unit.py:1386
 msgid "Mark as terminology"
 msgstr ""
 
@@ -13487,7 +13487,7 @@ msgstr[1] "Təklifləri olan sətirlər"
 #: weblate/trans/templatetags/translations.py:826
 #, fuzzy, python-format
 #| msgid "Watched projects"
-msgid "Shared from project %s."
+msgid "Shared from the %s project."
 msgstr "İzlənilən layiəhlər"
 
 #: weblate/trans/templatetags/translations.py:849
@@ -13663,13 +13663,13 @@ msgstr ""
 msgid "Failed to parse uploaded ZIP file."
 msgstr "Proses formu uğursuz oldu!"
 
-#: weblate/trans/views/dashboard.py:161
+#: weblate/trans/views/dashboard.py:162
 msgid ""
 "The project you were looking for has been removed, however you are welcome "
 "to contribute to other ones."
 msgstr ""
 
-#: weblate/trans/views/dashboard.py:170
+#: weblate/trans/views/dashboard.py:171
 #, fuzzy
 #| msgid ""
 #| "You have activated your account, now you should set the password to be "
@@ -13681,7 +13681,7 @@ msgstr ""
 "Hesabınız aktivləşdirildi, indi bir dahakı səfər daxil olmaq üçün parolunuzu "
 "tənzimləməlisiniz."
 
-#: weblate/trans/views/dashboard.py:184
+#: weblate/trans/views/dashboard.py:185
 #, fuzzy
 #| msgid "Please set your full name in your profile."
 msgid "Please set your full name and e-mail in your profile."
@@ -14306,7 +14306,7 @@ msgstr "%(field)s parametrində Xəta: %(error)s"
 msgid "Git with force push"
 msgstr ""
 
-#: weblate/vcs/git.py:834
+#: weblate/vcs/git.py:835
 #, fuzzy
 #| msgid "Source code repository"
 msgid "No remote repository"
@@ -14562,6 +14562,16 @@ msgstr "Hesabınız silindi."
 #| msgid "Configuration errors"
 msgid "Could not dismiss the configuration error!"
 msgstr "Konfiqurasiya xətaları"
+
+#, fuzzy
+#~| msgid "Upload translation"
+#~ msgid "Allow translation"
+#~ msgstr "Tərcümə yüklə"
+
+#, fuzzy
+#~| msgid "Use this translation"
+#~ msgid "Prohibit translation"
+#~ msgstr "Bu tərcüməni istifadə et"
 
 #~ msgid "Glossary updated"
 #~ msgstr "Terminoloji lüğət yeniləndi"

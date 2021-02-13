@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-02-12 17:31+0100\n"
+"POT-Creation-Date: 2021-02-13 21:06+0100\n"
 "PO-Revision-Date: 2021-02-12 19:08+0000\n"
 "Last-Translator: Ldm Public <ldmpub@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/weblate/"
@@ -3079,11 +3079,17 @@ msgid "Automated backup using BorgBackup"
 msgstr "Sauvegarde automatique avec BorgBackup"
 
 #: ../../admin/backup.rst:11
+#, fuzzy
+#| msgid ""
+#| "Weblate has built-in support for creating service backups using "
+#| "`BorgBackup`_. Borg creates space-effective encrypted backups which can "
+#| "be safely stored in the cloud. The backups can be controlled in the "
+#| "management interface on the :guilabel:`Backups` tab."
 msgid ""
 "Weblate has built-in support for creating service backups using "
 "`BorgBackup`_. Borg creates space-effective encrypted backups which can be "
 "safely stored in the cloud. The backups can be controlled in the management "
-"interface on the :guilabel:`Backups` tab."
+"interface from the :guilabel:`Backups` tab."
 msgstr ""
 "Weblate est conçu pour supporter la création de services de sauvegarde avec "
 "`BorgBackup`_. Borg créé des sauvegardes chiffrées pouvant être stockés en "
@@ -3107,26 +3113,34 @@ msgstr ""
 "conserver les sauvegardes suivantes :"
 
 #: ../../admin/backup.rst:22
-msgid "14 daily backups"
-msgstr "14 sauvegardes quotidiennes"
+#, fuzzy
+#| msgid "last for 14 days."
+msgid "Daily backups for 14 days back"
+msgstr "durera 14 jours."
 
 #: ../../admin/backup.rst:23
-msgid "8 weekly backups"
-msgstr "8 sauvegardes hebdomadaires"
+msgid "Weekly backups for 8 weeks back"
+msgstr ""
 
 #: ../../admin/backup.rst:24
-msgid "6 monthly backups"
-msgstr "6 sauvegardes mensuelles"
+msgid "Monthly backups for 6 months back"
+msgstr ""
 
 #: ../../admin/backup.rst:31
 msgid "Borg encryption key"
 msgstr "Clef de chiffrement Borg"
 
 #: ../../admin/backup.rst:33
+#, fuzzy
+#| msgid ""
+#| "`BorgBackup`_ creates encrypted backups and without a passphrase you will "
+#| "not be able to restore the backup. The passphrase is generated when "
+#| "adding new backup service and you should copy it and keep it in a secure "
+#| "place."
 msgid ""
-"`BorgBackup`_ creates encrypted backups and without a passphrase you will "
-"not be able to restore the backup. The passphrase is generated when adding "
-"new backup service and you should copy it and keep it in a secure place."
+"`BorgBackup`_ creates encrypted backups and you wouldn’t be able to restore "
+"them without the passphrase. The passphrase is generated when adding a new "
+"backup service and you should copy it and keep it in a secure place."
 msgstr ""
 "`BorgBackup`_ créé des sauvegardes chiffrées et dans phrase de passe vous ne "
 "serez pas en mesure de les restaurer. La phrase de passe est générée à "
@@ -3134,9 +3148,13 @@ msgstr ""
 "conserver en lieu sûr."
 
 #: ../../admin/backup.rst:37
+#, fuzzy
+#| msgid ""
+#| "In case you are using :ref:`cloudbackup`, please backup your private SSH "
+#| "key as well — it is used to access your backups."
 msgid ""
-"In case you are using :ref:`cloudbackup`, please backup your private SSH key "
-"as well — it is used to access your backups."
+"If you are using :ref:`cloudbackup`, please backup your private SSH key too, "
+"as it’s used to access your backups."
 msgstr ""
 "Si jamais vous utilisez :ref:`cloudbackup`, merci de sauvegarder aussi votre "
 "clef SSH privée – elle est utilisée pour accéder à vos sauvegardes."
@@ -3150,10 +3168,15 @@ msgid "Weblate provisioned backup storage"
 msgstr "Espace de sauvegarde provisionné par Weblate"
 
 #: ../../admin/backup.rst:49
+#, fuzzy
+#| msgid ""
+#| "The easiest approach to backup your Weblate instance is to purchase "
+#| "`backup service at weblate.org <https://weblate.org/support/#backup>`_. "
+#| "The process of activating can be performed in few steps:"
 msgid ""
-"The easiest approach to backup your Weblate instance is to purchase `backup "
-"service at weblate.org <https://weblate.org/support/#backup>`_. The process "
-"of activating can be performed in few steps:"
+"The easiest way of backing up your Weblate instance is purchasing the "
+"`backup service at weblate.org <https://weblate.org/support/#backup>`_. This "
+"is how you get it running:"
 msgstr ""
 "L’approche la plus simple pour sauvegarder votre instance Weblate est de "
 "s’offrir le `service de sauvegarde de weblate.org <https://weblate.org/"
@@ -3161,44 +3184,66 @@ msgstr ""
 "quelques étapes :"
 
 #: ../../admin/backup.rst:53
-msgid "Purchase backup service on https://weblate.org/support/#backup."
+#, fuzzy
+#| msgid "Purchase backup service on https://weblate.org/support/#backup."
+msgid "Purchase the `Backup service` on https://weblate.org/support/#backup."
 msgstr ""
 "S’offrir le service de sauvegarde sur https://weblate.org/support/#backup."
 
 #: ../../admin/backup.rst:54
+#, fuzzy
+#| msgid ""
+#| "Enter obtained key in the management interface, see :ref:`activate-"
+#| "support`."
 msgid ""
-"Enter obtained key in the management interface, see :ref:`activate-support`."
+"Enter the obtained key in the management interface, see :ref:`activate-"
+"support`."
 msgstr ""
 "Entrez les clefs obtenues dans l’interface de gestion, voir :ref:`activate-"
 "support`."
 
 #: ../../admin/backup.rst:55
+#, fuzzy
+#| msgid ""
+#| "Weblate will connect to the cloud service and obtain access information "
+#| "for the backups."
 msgid ""
-"Weblate will connect to the cloud service and obtain access information for "
-"the backups."
+"Weblate connects to the cloud service and obtains access info for the "
+"backups."
 msgstr ""
 "Weblate se connectera au service cloud et obtiendra les informations d’accès "
 "pour les sauvegardes."
 
 #: ../../admin/backup.rst:56
-msgid "Turn on the new backup configuration on the :guilabel:`Backups` tab."
+#, fuzzy
+#| msgid "Turn on the new backup configuration on the :guilabel:`Backups` tab."
+msgid "Turn on the new backup configuration from the :guilabel:`Backups` tab."
 msgstr ""
 "Activer la nouvelle configuration de sauvegarde depuis l’onglet :guilabel:"
 "`Backups`."
 
 #: ../../admin/backup.rst:57
+#, fuzzy
+#| msgid ""
+#| "Backup Borg credentials in order to be able to restore the backups, see :"
+#| "ref:`borg-keys`."
 msgid ""
-"Backup Borg credentials in order to be able to restore the backups, see :ref:"
+"Backup your Borg credentials to be able to restore the backups, see :ref:"
 "`borg-keys`."
 msgstr ""
 "Sauvegarder les identifiants Borg pour être en mesure de restaurer les "
 "sauvegardes. Voir : :ref:`borg-keys`."
 
 #: ../../admin/backup.rst:61
+#, fuzzy
+#| msgid ""
+#| "The manual step of turning on is there for your safety. Without your "
+#| "consent no data is sent to the backup repository obtained through the "
+#| "registration process."
 msgid ""
-"The manual step of turning on is there for your safety. Without your consent "
-"no data is sent to the backup repository obtained through the registration "
-"process."
+"The manual step of turning everything on is there for your safety. Without "
+"your consent no data is sent to the backup repository obtained through the "
+"registration process."
 msgstr ""
 "L’étape manuelle d’activation est nécessaire pour votre sécurité. Sans votre "
 "consentement, aucune donne n’est envoyée au dépôt de sauvegarde obtenu par "
@@ -3209,9 +3254,14 @@ msgid "Using custom backup storage"
 msgstr "Utiliser methode personnalisé de sauvegarde"
 
 #: ../../admin/backup.rst:70
+#, fuzzy
+#| msgid ""
+#| "You can also use your own storage for the backups. SSH can be used to "
+#| "store backups on the remote destination, the target server needs to have "
+#| "`BorgBackup`_ installed."
 msgid ""
 "You can also use your own storage for the backups. SSH can be used to store "
-"backups on the remote destination, the target server needs to have "
+"backups in the remote destination, the target server needs to have "
 "`BorgBackup`_ installed."
 msgstr ""
 "Vous pouvez aussi utiliser votre propre espace de stockage pour vos "
@@ -3227,11 +3277,17 @@ msgid "Local filesystem"
 msgstr "Système de fichiers local"
 
 #: ../../admin/backup.rst:81
+#, fuzzy
+#| msgid ""
+#| "It is recommended to specify absolute path for the local backup, for "
+#| "example `/path/to/backup`. The directory has to be writable by user "
+#| "running Weblate (see :ref:`file-permissions`). In case it doesn't exist, "
+#| "Weblate will attempt to create it, but it needs permissions to do so."
 msgid ""
-"It is recommended to specify absolute path for the local backup, for example "
-"`/path/to/backup`. The directory has to be writable by user running Weblate "
-"(see :ref:`file-permissions`). In case it doesn't exist, Weblate will "
-"attempt to create it, but it needs permissions to do so."
+"It is recommended to specify the absolute path for the local backup, for "
+"example `/path/to/backup`. The directory has to be writable by the user "
+"running Weblate (see :ref:`file-permissions`). In case it doesn't exist, "
+"Weblate will attempt to create it, but needs a permission to do so."
 msgstr ""
 "C’est recommandé de spécifier le chemin absolu de la sauvegarde locale, par "
 "exemple `/chemin/vers/la/sauvegarde`. L’utilisateur qui fait tourner Weblate "
@@ -3240,36 +3296,53 @@ msgstr ""
 "la permission est aussi nécessaire pour le faire."
 
 #: ../../admin/backup.rst:88
+#, fuzzy
+#| msgid ""
+#| "When running Weblate in Docker, please make sure that the backup location "
+#| "is exposed as a volume from the Weblate container. Otherwise the backups "
+#| "would be discarded by Docker on container restart."
 msgid ""
-"When running Weblate in Docker, please make sure that the backup location is "
-"exposed as a volume from the Weblate container. Otherwise the backups would "
-"be discarded by Docker on container restart."
+"When running Weblate in Docker, please ensure the backup location is exposed "
+"as a volume from the Weblate container. Otherwise the backups will be "
+"discarded by Docker on the container restart."
 msgstr ""
 "En utilisant Docker, merci de vous assurer que le lieu de sauvegarde est un "
 "volume exposé au conteneur Weblate. Sinon la sauvegarde sera rejetée par "
 "Docker au redémarrage du conteneur."
 
 #: ../../admin/backup.rst:92
+#, fuzzy
+#| msgid ""
+#| "One option is to place backups in existing volume. For example choose :"
+#| "file:`/app/data/borgbackup`. This is existing volume in the container."
 msgid ""
-"One option is to place backups in existing volume. For example choose :file:"
-"`/app/data/borgbackup`. This is existing volume in the container."
+"One option is to place backups into an existing volume, for example :file:`/"
+"app/data/borgbackup`. This is an existing volume in the container."
 msgstr ""
 "C’est possible de placer les sauvegardes sur un volume existant. Par exemple "
 "choisissez :file:`/app/data/borgbackup`. C’est le volume existant du "
 "conteneur."
 
 #: ../../admin/backup.rst:95
+#, fuzzy
+#| msgid ""
+#| "You can also add new container for the backups in the Docker compose file "
+#| "and use for example :file:`/borgbackup`:"
 msgid ""
-"You can also add new container for the backups in the Docker compose file "
-"and use for example :file:`/borgbackup`:"
+"You can also add a new container for the backups in the Docker compose file "
+"for example by using :file:`/borgbackup`:"
 msgstr ""
 "Vous pouvez aussi ajouter un nouveau conteneur pour les sauvegardes dans le "
 "fichier Docker compose et utiliser par exemple :file:`/borgbackup` :"
 
 #: ../../admin/backup.rst:106
+#, fuzzy
+#| msgid ""
+#| "The directory where backups will be stored have to be owned by UID 1000, "
+#| "otherwise Weblate will not be able to write the backups there."
 msgid ""
 "The directory where backups will be stored have to be owned by UID 1000, "
-"otherwise Weblate will not be able to write the backups there."
+"otherwise Weblate won’t be able to write the backups there."
 msgstr ""
 "Le répertoire où seront enregistrées les sauvegardes doit être détenu par "
 "UID 1000, sinon Weblate ne sera pas en mesure d’y écrire les sauvegardes."
@@ -3280,15 +3353,11 @@ msgstr "Sauvegardes à distance"
 
 #: ../../admin/backup.rst:112
 msgid ""
-"Remote backups using SSH are supported. The SSH server needs to have "
-"`BorgBackup`_ installed. Weblate connects to the server using SSH key, "
-"please make sure the Weblate SSH key is accepted by the server (see :ref:"
-"`weblate-ssh-key`)."
+"In order to create the remote backups, you will have to install "
+"`BorgBackup`_ onto another server that’s accessible via SSH. Make youreself "
+"sure that it accepts the Weblate's client SSH key, i.e. the one it uses to "
+"connect to other servers. (see :ref:`weblate-ssh-key`)."
 msgstr ""
-"Les sauvegardes distantes avec SSH sont supportées. `BorgBackup`_ doit être "
-"installé sur le serveur SSH. Weblate se connecté au serveur avec une clef "
-"SSH, merci de vous assurer que la clef SSH se Weblate est acceptée par le "
-"serveur. Voir :ref:`weblate-ssh-keys`."
 
 #: ../../admin/backup.rst:119
 msgid ":ref:`cloudbackup` provides you automated remote backups."
@@ -3305,13 +3374,19 @@ msgstr ""
 "Restaurer l’accès au répertoire de sauvegarde et préparer la phrase de passe."
 
 #: ../../admin/backup.rst:126
-msgid "List backup existing on the server using ``borg list REPOSITORY``."
+#, fuzzy
+#| msgid "List backup existing on the server using ``borg list REPOSITORY``."
+msgid "List all the backups on the server using ``borg list REPOSITORY``."
 msgstr ""
 "Lister les sauvegardes existant sur le serveur avec ``borg list REPOSITORY``."
 
 #: ../../admin/backup.rst:128
+#, fuzzy
+#| msgid ""
+#| "Restore the desired backup to current directory using ``borg extract "
+#| "REPOSITORY::ARCHIVE``."
 msgid ""
-"Restore the desired backup to current directory using ``borg extract "
+"Restore the desired backup to the current directory using ``borg extract "
 "REPOSITORY::ARCHIVE``."
 msgstr ""
 "Restaurer la sauvegarde désirée dans le répertoire courant avec ``borg "
@@ -3327,23 +3402,33 @@ msgstr ""
 "dumps`)."
 
 #: ../../admin/backup.rst:132
+#, fuzzy
+#| msgid ""
+#| "Copy Weblate configuration (:file:`backups/settings.py`, see :ref:`backup-"
+#| "dumps`) to the correct location, see :ref:`configuration`."
 msgid ""
-"Copy Weblate configuration (:file:`backups/settings.py`, see :ref:`backup-"
-"dumps`) to the correct location, see :ref:`configuration`."
+"Copy the Weblate configuration (:file:`backups/settings.py`, see :ref:"
+"`backup-dumps`) to the correct location, see :ref:`configuration`."
 msgstr ""
 "Copier la configuration de Weblate :file:`backups/settings.py. Voir :ref:"
 "`backup-dumps`. Pour la localisation exacte voir :ref:`configuration`."
 
 #: ../../admin/backup.rst:134
+#, fuzzy
+#| msgid ""
+#| "Copy the whole restored data dir to location configured by :setting:"
+#| "`DATA_DIR`."
 msgid ""
-"Copy the whole restored data dir to location configured by :setting:"
+"Copy the whole restored data dir to the location configured by :setting:"
 "`DATA_DIR`."
 msgstr ""
 "Copier entièrement le répertoire de donnés vers la destination configurée "
 "dans :settings:`DATA_DIR`."
 
 #: ../../admin/backup.rst:136
-msgid "The Borg session might look like:"
+#, fuzzy
+#| msgid "The Borg session might look like:"
+msgid "The Borg session might look like this:"
 msgstr "La session Borg doit ressembler à :"
 
 #: ../../admin/backup.rst:148
@@ -3355,18 +3440,28 @@ msgid "Manual backup"
 msgstr "Sauvegarde manuelle"
 
 #: ../../admin/backup.rst:158
+#, fuzzy
+#| msgid ""
+#| "Depending on what you want to save, back up the type data Weblate stores "
+#| "in each respective place."
 msgid ""
-"Depending on what you want to save, back up the type data Weblate stores in "
-"each respective place."
+"Depending on what you want to save, back up the type of data Weblate stores "
+"in each respective place."
 msgstr ""
 "En fonction de ce que vous souhaitez sauver, sauvegarder le type de données "
 "que Weblate stocke à chaque endroit."
 
 #: ../../admin/backup.rst:162
+#, fuzzy
+#| msgid ""
+#| "In case you are doing manual backups, you might want to silent Weblate "
+#| "warning about lack of backups by adding ``weblate.I028`` to :setting:"
+#| "`django:SILENCED_SYSTEM_CHECKS` in :file:`settings.py` or :envvar:"
+#| "`WEBLATE_SILENCED_SYSTEM_CHECKS` for Docker."
 msgid ""
-"In case you are doing manual backups, you might want to silent Weblate "
-"warning about lack of backups by adding ``weblate.I028`` to :setting:`django:"
-"SILENCED_SYSTEM_CHECKS` in :file:`settings.py` or :envvar:"
+"If you are doing the manual backups, you might want to silence Weblate's "
+"warning about a lack of backups by adding ``weblate.I028`` to :setting:"
+"`django:SILENCED_SYSTEM_CHECKS` in :file:`settings.py` or :envvar:"
 "`WEBLATE_SILENCED_SYSTEM_CHECKS` for Docker."
 msgstr ""
 "Si jamais vous faites des sauvegardes manuelles, vous devriez désactiver les "
@@ -3385,36 +3480,52 @@ msgstr ""
 "de données."
 
 #: ../../admin/backup.rst:176
+#, fuzzy
+#| msgid ""
+#| "The database is the most important storage. Set up regular backups of "
+#| "your database, without it all your translation setup will be gone."
 msgid ""
 "The database is the most important storage. Set up regular backups of your "
-"database, without it all your translation setup will be gone."
+"database. Without database, all the translations are gone."
 msgstr ""
 "La base de données c’est le plus important. Configurez des sauvegardes "
 "régulières de votre base de données, sinon toutes vos traductions partiront "
 "en fumée."
 
-#: ../../admin/backup.rst:180
+#: ../../admin/backup.rst:181
 msgid "Native database backup"
 msgstr "Sauvegarde native de base de données"
 
-#: ../../admin/backup.rst:182
+#: ../../admin/backup.rst:183
+#, fuzzy
+#| msgid ""
+#| "The recommended approach is to do dump of the database using database "
+#| "native tools such as :program:`pg_dump` or :program:`mysqldump`. It "
+#| "usually performs better than Django backup and restores complete tables "
+#| "with all data."
 msgid ""
-"The recommended approach is to do dump of the database using database native "
-"tools such as :program:`pg_dump` or :program:`mysqldump`. It usually "
-"performs better than Django backup and restores complete tables with all "
-"data."
+"The recommended approach is to do save a dump of the database using database "
+"native tools such as :program:`pg_dump` or :program:`mysqldump`. It usually "
+"performs better than Django backup, and it restores complete tables with all "
+"their data."
 msgstr ""
 "L’approche recommandée est de dumper la base de donnés avec des outils "
 "natifs tels que :program:`pg_dump` ou :program:`mysqldump`. C’est "
 "généralement plus efficace que des sauvegardes Django et les restaurations "
 "de tables contiennent toutes les données."
 
-#: ../../admin/backup.rst:186
+#: ../../admin/backup.rst:187
+#, fuzzy
+#| msgid ""
+#| "You can restore this backup in newer Weblate release, it will perform any "
+#| "necessary migrations when running in :djadmin:`django:migrate`. Please "
+#| "consult :doc:`upgrade` on more detailed information how to perform "
+#| "upgrade between versions."
 msgid ""
-"You can restore this backup in newer Weblate release, it will perform any "
-"necessary migrations when running in :djadmin:`django:migrate`. Please "
-"consult :doc:`upgrade` on more detailed information how to perform upgrade "
-"between versions."
+"You can restore this backup in a newer Weblate release, it will perform all "
+"the necessary migrations when running in :djadmin:`django:migrate`. Please "
+"consult :doc:`upgrade` on more detailed info on how to upgrade between "
+"versions."
 msgstr ""
 "Vous pouvez restaurer cette sauvegarde dans une version ultérieure de "
 "Weblate, les migrations nécessaires seront effectuer avec :djadmin:`django:"
@@ -3426,10 +3537,15 @@ msgid "Django database backup"
 msgstr "Sauvegarde de base de données Django"
 
 #: ../../admin/backup.rst:194
+#, fuzzy
+#| msgid ""
+#| "Alternatively you can backup database using Django's :djadmin:`django:"
+#| "dumpdata` command. That way the backup is database agnostic and can be "
+#| "used in case you want to change database backend."
 msgid ""
-"Alternatively you can backup database using Django's :djadmin:`django:"
+"Alternatively, you can back up your database using Django's :djadmin:`django:"
 "dumpdata` command. That way the backup is database agnostic and can be used "
-"in case you want to change database backend."
+"in case you want to change the database backend."
 msgstr ""
 "Alternativement vous pouvez sauvegarder la base de données avec la commande :"
 "djadmin:`django:dumpdata`. Cette façon de sauvegarder est agnostique au "
@@ -3437,12 +3553,19 @@ msgstr ""
 "changez de base de données."
 
 #: ../../admin/backup.rst:198
+#, fuzzy
+#| msgid ""
+#| "Prior to restoring you need to be running exactly same Weblate version as "
+#| "was used when doing backups. This is necessary as the database structure "
+#| "does change between releases and you would end up corrupting the data in "
+#| "some way. After installing the same version, run all database migrations "
+#| "using :djadmin:`django:migrate`."
 msgid ""
-"Prior to restoring you need to be running exactly same Weblate version as "
-"was used when doing backups. This is necessary as the database structure "
-"does change between releases and you would end up corrupting the data in "
-"some way. After installing the same version, run all database migrations "
-"using :djadmin:`django:migrate`."
+"Prior to restoring the database you need to be running exactly the same "
+"Weblate version the backup was made on. This is necessary as the database "
+"structure does change between releases and you would end up corrupting the "
+"data in some way. After installing the same version, run all database "
+"migrations using :djadmin:`django:migrate`."
 msgstr ""
 "Avant de restaurer vous devez utiliser exactement la même version de Weblate "
 "que celle utilisée au moment de faire la sauvegarde. C’est nécessaire car la "
@@ -3452,10 +3575,16 @@ msgstr ""
 "`django migrate`."
 
 #: ../../admin/backup.rst:204
+#, fuzzy
+#| msgid ""
+#| "Once this is done, some entries will be already created in the database "
+#| "and you will have them in the database backup as well. The recommended "
+#| "approach is to delete such entries manually using management shell (see :"
+#| "ref:`invoke-manage`):"
 msgid ""
-"Once this is done, some entries will be already created in the database and "
-"you will have them in the database backup as well. The recommended approach "
-"is to delete such entries manually using management shell (see :ref:`invoke-"
+"Afterwards some entries will already be created in the database and you will "
+"have them in the database backup as well. The recommended approach is to "
+"delete such entries manually using the management shell (see :ref:`invoke-"
 "manage`):"
 msgstr ""
 "Cela fait, certaines entrées seront déjà créées dans la base de données et "
@@ -3468,11 +3597,17 @@ msgid "Files"
 msgstr "Fichiers"
 
 #: ../../admin/backup.rst:217
+#, fuzzy
+#| msgid ""
+#| "If you have enough backup space, simply backup the whole :setting:"
+#| "`DATA_DIR`. This is safe bet even if it includes some files you don't "
+#| "want. The following sections describe in detail what you should back up "
+#| "and what you can skip."
 msgid ""
-"If you have enough backup space, simply backup the whole :setting:"
-"`DATA_DIR`. This is safe bet even if it includes some files you don't want. "
-"The following sections describe in detail what you should back up and what "
-"you can skip."
+"If you have enough backup space, simply back up the whole :setting:"
+"`DATA_DIR`. This is a safe bet even if it includes some files you don't "
+"want. The following sections describe what you should back up and what you "
+"can skip in detail."
 msgstr ""
 "Si vous avez suffisamment d’espace de sauvegarde, sauvegardez simplement "
 "tout le :setting:`DATA_DIR`. C’est un pari sûr, même si cela inclut des "
@@ -3512,9 +3647,14 @@ msgstr ""
 "La sauvegarde de la base de données PostgreSQL comme :file:`database.sql`."
 
 #: ../../admin/backup.rst:236
+#, fuzzy
+#| msgid ""
+#| "The database backups are by default saved as plain text, but they can "
+#| "also be compressed or entirely skipped by using :setting:"
+#| "`DATABASE_BACKUP`."
 msgid ""
-"The database backups are by default saved as plain text, but they can also "
-"be compressed or entirely skipped by using :setting:`DATABASE_BACKUP`."
+"The database backups are saved as plain text by default, but they can also "
+"be compressed or entirely skipped using :setting:`DATABASE_BACKUP`."
 msgstr ""
 "Les sauvegardes des bases de données sont par défaut en mode texte, mais "
 "elles peuvent aussi être compressées ou entièrement ignorées en utilisant :"
@@ -3529,12 +3669,20 @@ msgid "Stored in :setting:`DATA_DIR` ``/vcs``."
 msgstr "Stockés dans :setting:`DATA_DIR` ``/vcs``."
 
 #: ../../admin/backup.rst:244
+#, fuzzy
+#| msgid ""
+#| "The version control repositories contain a copy of your upstream "
+#| "repositories with Weblate changes. If you have push on commit enabled for "
+#| "all your translation components, all Weblate changes are included "
+#| "upstream and you do not have to backup the repositories on the Weblate "
+#| "side. They can be cloned again from the upstream locations with no data "
+#| "loss."
 msgid ""
 "The version control repositories contain a copy of your upstream "
-"repositories with Weblate changes. If you have push on commit enabled for "
-"all your translation components, all Weblate changes are included upstream "
-"and you do not have to backup the repositories on the Weblate side. They can "
-"be cloned again from the upstream locations with no data loss."
+"repositories with Weblate changes. If you have `Push on commit` enabled for "
+"all your translation components, all Weblate changes are included upstream. "
+"No need to back up the repositories on the Weblate side as they can be "
+"cloned again from the upstream location(s) with no data loss."
 msgstr ""
 "Les dépôts de contrôle de version contiennent une copie de vos dépôts en "
 "amont avec les modifications de Weblate. Si vous avez activé la fonction de "
@@ -3554,9 +3702,14 @@ msgstr ""
 "Stocké dans :setting:`DATA_DIR` ``/ssh`` et :setting:`DATA_DIR` ``/home``."
 
 #: ../../admin/backup.rst:255
+#, fuzzy
+#| msgid ""
+#| "If you are using SSH or GPG keys generated by Weblate, you should back up "
+#| "these locations, otherwise you will lose the private keys and you will "
+#| "have to regenerate new ones."
 msgid ""
 "If you are using SSH or GPG keys generated by Weblate, you should back up "
-"these locations, otherwise you will lose the private keys and you will have "
+"these locations. Otherwise you will lose the private keys and you will have "
 "to regenerate new ones."
 msgstr ""
 "Si vous utilisez des clés SSH ou GPG générées par Weblate, vous devriez "
@@ -3572,7 +3725,9 @@ msgid "Stored in :setting:`DATA_DIR` ``/media``."
 msgstr "Stocké dans :setting:`DATA_DIR` ``/media``."
 
 #: ../../admin/backup.rst:264
-msgid "You should back up user uploaded files (e.g. :ref:`screenshots`)."
+#, fuzzy
+#| msgid "You should back up user uploaded files (e.g. :ref:`screenshots`)."
+msgid "You should back up all user uploaded files (e.g. :ref:`screenshots`)."
 msgstr ""
 "Vous devriez sauvegarder les fichiers téléversés par les utilisateurs (p. "
 "ex. :ref:`screenshots`)."
@@ -3582,12 +3737,18 @@ msgid "Celery tasks"
 msgstr "Tâches Celery"
 
 #: ../../admin/backup.rst:269
+#, fuzzy
+#| msgid ""
+#| "The Celery tasks queue might contain some info, but is usually not needed "
+#| "for a backup. At most you will lose updates that have not yet been "
+#| "processed to translation memory. It is recommended to perform the "
+#| "fulltext or repository updates upon restoring anyhow, so there is no "
+#| "problem in losing these."
 msgid ""
-"The Celery tasks queue might contain some info, but is usually not needed "
-"for a backup. At most you will lose updates that have not yet been processed "
-"to translation memory. It is recommended to perform the fulltext or "
-"repository updates upon restoring anyhow, so there is no problem in losing "
-"these."
+"The Celery task queue might contain some info, but is usually not needed for "
+"a backup. At most you will lose updates not yet been processed to "
+"translation memory. It is recommended to perform the fulltext or repository "
+"update upon restoration anyhow, so there is no problem in losing these."
 msgstr ""
 "La file d’attente des tâches Celery peut contenir quelques informations, "
 "mais n’est généralement pas nécessaire pour une sauvegarde. Tout au plus, "
@@ -3605,27 +3766,40 @@ msgid "Command line for manual backup"
 msgstr "Sauvegarde manuelle en ligne de commande"
 
 #: ../../admin/backup.rst:281
+#, fuzzy
+#| msgid ""
+#| "Using a cron job, you can set up a bash command to be executed on a daily "
+#| "basis, for instance:"
 msgid ""
-"Using a cron job, you can set up a bash command to be executed on a daily "
-"basis, for instance:"
+"Using a cron job, you can set up a Bash command to be executed on a daily "
+"basis, for example:"
 msgstr ""
 "Vous pouvez utiliser une tâche cron pour planifier l’exécution d’une "
 "commande bash tous les jours. Par exemple :"
 
 #: ../../admin/backup.rst:287
+#, fuzzy
+#| msgid ""
+#| "The string between quotes after XZ_OPT allows you to choose your xz "
+#| "options, for instance the amount of memory used for compression; see "
+#| "https://linux.die.net/man/1/xz"
 msgid ""
-"The string between quotes after XZ_OPT allows you to choose your xz options, "
-"for instance the amount of memory used for compression; see https://linux."
-"die.net/man/1/xz"
+"The string between the quotes after `XZ_OPT` allows you to choose your xz "
+"options, for instance the amount of memory used for compression; see https://"
+"linux.die.net/man/1/xz"
 msgstr ""
 "La chaîne entre guillemets après XZ_OPT vous permet de choisir vos options "
 "xz, par exemple la quantité de mémoire utilisée pour la compression ; voir "
 "https://linux.die.net/man/1/xz"
 
 #: ../../admin/backup.rst:289
+#, fuzzy
+#| msgid ""
+#| "You can adjust the list of folders and files to your needs. For instance, "
+#| "to avoid saving the translation memory (in backups folder), you could use:"
 msgid ""
-"You can adjust the list of folders and files to your needs. For instance, to "
-"avoid saving the translation memory (in backups folder), you could use:"
+"You can adjust the list of folders and files to your needs. To avoid saving "
+"the translation memory (in backups folder), you can use:"
 msgstr ""
 "Vous pouvez ajuster la liste des dossiers et fichiers selon vos besoins. Par "
 "exemple, pour éviter de sauvegarder le mémoire de traduction (dans le "
@@ -3648,9 +3822,13 @@ msgid "Moving a Weblate installation"
 msgstr "Déplacer une installation Weblate"
 
 #: ../../admin/backup.rst:309
+#, fuzzy
+#| msgid ""
+#| "Relocate your installation to a different system by following the backup "
+#| "and restore instructions above."
 msgid ""
-"Relocate your installation to a different system by following the backup and "
-"restore instructions above."
+"Relocate your installation to a different system by following the backing up "
+"and restoration instructions above."
 msgstr ""
 "Relocaliser votre installation dans un système différent en suivant les "
 "instructions de sauvegarde et de restauration ci-dessus."
@@ -4222,9 +4400,7 @@ msgstr "``ignore-escaped-newline``"
 
 #: ../../admin/checks.rst:156
 msgid "Skip the \"Mismatched \\n\" quality check."
-msgstr ""
-"Ignorer le contrôle de qualité « Incohérence de \\n"
-" »."
+msgstr "Ignorer le contrôle de qualité « Incohérence de \\n »."
 
 #: ../../admin/checks.rst:157
 msgid "``ignore-end-colon``"
@@ -8312,11 +8488,11 @@ msgstr ""
 msgid ":ref:`django:postgresql-notes`"
 msgstr ":ref:`django:postgresql-notes`"
 
-#: ../../admin/install.rst:331 ../../admin/upgrade.rst:219
+#: ../../admin/install.rst:331 ../../admin/upgrade.rst:221
 msgid "Creating a database in PostgreSQL"
 msgstr ""
 
-#: ../../admin/install.rst:333 ../../admin/upgrade.rst:221
+#: ../../admin/install.rst:333 ../../admin/upgrade.rst:223
 msgid ""
 "It is usually a good idea to run Weblate in a separate database, and "
 "separate user account:"
@@ -15469,7 +15645,7 @@ msgstr ""
 
 #: ../../admin/upgrade.rst:132 ../../admin/upgrade.rst:149
 #: ../../admin/upgrade.rst:167 ../../admin/upgrade.rst:182
-#: ../../admin/upgrade.rst:194
+#: ../../admin/upgrade.rst:196
 msgid ":ref:`generic-upgrade-instructions`"
 msgstr ":ref:`generic-upgrade-instructions`"
 
@@ -15603,22 +15779,30 @@ msgid "Upgrade from 4.4 to 4.5"
 msgstr ""
 
 #: ../../admin/upgrade.rst:191
-msgid ""
-"Glossaries are now stored as regular components. The migration might take "
-"considerable time if you had big glossaries."
+msgid "The migration might take considerable time if you had big glossaries."
 msgstr ""
 
-#: ../../admin/upgrade.rst:192
+#: ../../admin/upgrade.rst:192 ../../changes.rst:21
+msgid "Glossaries are now stored as regular components."
+msgstr ""
+
+#: ../../admin/upgrade.rst:193
 msgid ""
 "The glossary API is removed, use regular translation API to access "
 "glossaries."
 msgstr ""
 
-#: ../../admin/upgrade.rst:199
-msgid "Upgrading from Python 2 to Python 3"
+#: ../../admin/upgrade.rst:194
+msgid ""
+"There is a change in :setting:`django:INSTALLED_APPS` - ``weblate.metrics`` "
+"should be added."
 msgstr ""
 
 #: ../../admin/upgrade.rst:201
+msgid "Upgrading from Python 2 to Python 3"
+msgstr ""
+
+#: ../../admin/upgrade.rst:203
 msgid ""
 "Weblate no longer supports Python older than 3.5. In case you are still "
 "running on older version, please perform migration to Python 3 first on "
@@ -15627,11 +15811,11 @@ msgid ""
 "weblate-3.11.1/admin/upgrade.html#upgrading-from-python-2-to-python-3>`_."
 msgstr ""
 
-#: ../../admin/upgrade.rst:210
+#: ../../admin/upgrade.rst:212
 msgid "Migrating from other databases to PostgreSQL"
 msgstr ""
 
-#: ../../admin/upgrade.rst:212
+#: ../../admin/upgrade.rst:214
 msgid ""
 "If you are running Weblate on other dabatase than PostgreSQL, you should "
 "migrate to PostgreSQL as that will be the only supported database backend in "
@@ -15640,70 +15824,70 @@ msgid ""
 "prior to the migration, otherwise you might end up with inconsistent data."
 msgstr ""
 
-#: ../../admin/upgrade.rst:235
+#: ../../admin/upgrade.rst:237
 msgid "Migrating using Django JSON dumps"
 msgstr ""
 
-#: ../../admin/upgrade.rst:237
+#: ../../admin/upgrade.rst:239
 msgid ""
 "The simplest approach for migration is to utilize Django JSON dumps. This "
 "works well for smaller installations. On bigger sites you might want to use "
 "pgloader instead, see :ref:`pgloader-migration`."
 msgstr ""
 
-#: ../../admin/upgrade.rst:239
+#: ../../admin/upgrade.rst:241
 msgid ""
 "Add PostgreSQL as additional database connection to the :file:`settings.py`:"
 msgstr ""
 
-#: ../../admin/upgrade.rst:285
+#: ../../admin/upgrade.rst:287
 msgid "Run migrations and drop any data inserted into the tables:"
 msgstr ""
 
-#: ../../admin/upgrade.rst:292
+#: ../../admin/upgrade.rst:294
 msgid "Dump legacy database and import to PostgreSQL"
 msgstr ""
 
-#: ../../admin/upgrade.rst:299
+#: ../../admin/upgrade.rst:301
 msgid ""
 "Adjust :setting:`django:DATABASES` to use just PostgreSQL database as "
 "default, remove legacy connection."
 msgstr ""
 
-#: ../../admin/upgrade.rst:302
+#: ../../admin/upgrade.rst:304
 msgid "Weblate should be now ready to run from the PostgreSQL database."
 msgstr ""
 
-#: ../../admin/upgrade.rst:307
+#: ../../admin/upgrade.rst:309
 msgid "Migrating to PostgreSQL using pgloader"
 msgstr ""
 
-#: ../../admin/upgrade.rst:309
+#: ../../admin/upgrade.rst:311
 msgid ""
 "The `pgloader`_ is a generic migration tool to migrate data to PostgreSQL. "
 "You can use it to migrate Weblate database."
 msgstr ""
 
-#: ../../admin/upgrade.rst:311
+#: ../../admin/upgrade.rst:313
 msgid "Adjust your :file:`settings.py` to use PostgreSQL as a database."
 msgstr ""
 
-#: ../../admin/upgrade.rst:313
+#: ../../admin/upgrade.rst:315
 msgid "Migrate the schema in the PostgreSQL database:"
 msgstr ""
 
-#: ../../admin/upgrade.rst:320
+#: ../../admin/upgrade.rst:322
 msgid ""
 "Run the pgloader to transfer the data. The following script can be used to "
 "migrate the database, but you might want to learn more about `pgloader`_ to "
 "understand what it does and tweak it to match your setup:"
 msgstr ""
 
-#: ../../admin/upgrade.rst:339
+#: ../../admin/upgrade.rst:341
 msgid "Migrating from Pootle"
 msgstr ""
 
-#: ../../admin/upgrade.rst:341
+#: ../../admin/upgrade.rst:343
 msgid ""
 "As Weblate was originally written as replacement from Pootle, it is "
 "supported to migrate user accounts from Pootle. You can dump the users from "
@@ -18118,10 +18302,6 @@ msgstr ""
 #| msgid "Please sign in to save translations."
 msgid "Added simple interface to browse translation."
 msgstr "Veuillez vous connecter pour enregistrer vos traductions."
-
-#: ../../changes.rst:21
-msgid "Glossaries are now stored as regular components."
-msgstr ""
 
 #: ../../changes.rst:22
 msgid "Dropped glossaries API."
@@ -28113,8 +28293,10 @@ msgid ""
 msgstr ""
 
 #: ../../formats.rst:429
+#, fuzzy
+#| msgid "GWT Properties"
 msgid "GWT properties"
-msgstr ""
+msgstr "Propriétés GWT"
 
 #: ../../formats.rst:434
 msgid "Native GWT format for translations."
@@ -31112,15 +31294,18 @@ msgstr "Gestion des glossaires"
 #: ../../user/glossary.rst:16
 msgid ""
 "Glossaries are now regular translation components and you can use all "
-"Weblate features on them - commenting, storing in a Git repository, or "
+"Weblate features on them — commenting, storing in a Git repository, or "
 "adding explanations."
 msgstr ""
 
 #: ../../user/glossary.rst:20
+#, fuzzy
+#| msgid "Please define a glossary name to use component as a glossary."
 msgid ""
-"You can use any component as a glossary by turning on :ref:`component-"
-"is_glossary`."
+"Use any component as a glossary by turning on :ref:`component-is_glossary`."
 msgstr ""
+"Veuillez définir un nom de glossaire pour utiliser le composant comme un "
+"glossaire."
 
 #: ../../user/glossary.rst:22
 #, fuzzy
@@ -31148,8 +31333,8 @@ msgstr "Terme du glossaire"
 
 #: ../../user/glossary.rst:29
 msgid ""
-"The glossary terms are translated in a same way as regular tranlations. You "
-"can toggle additional features using the :guilabel:`Tools` menu on each term."
+"Glossary terms are translated the same way regular strings are. You can "
+"toggle additional features using the :guilabel:`Tools` menu for each term."
 msgstr ""
 
 #: ../../user/glossary.rst:33
@@ -31162,14 +31347,14 @@ msgstr "Chaînes non traduites"
 msgid ""
 "Glossary terms which are read-only are not meant to be translated. You can "
 "use this for names or other terms which should not change while translating. "
-"Such term is visually highlighted in the glossary sidebar."
+"Such terms are visually highlighted in the glossary sidebar."
 msgstr ""
 
 #: ../../user/glossary.rst:41
 msgid ""
-"The terms can be flagged on the source language using :guilabel:`Tools` ↓ :"
-"guilabel:`Prohibit translations`. In the background this toggles the ``read-"
-"only`` flag on the string."
+"The terms can be flagged in the source language using :guilabel:`Tools` ↓ :"
+"guilabel:`Mark as read-only`. In the background this toggles the ``read-"
+"only`` flag of the string."
 msgstr ""
 
 #: ../../user/glossary.rst:52
@@ -31180,16 +31365,16 @@ msgstr "Traductions réalisées"
 
 #: ../../user/glossary.rst:56
 msgid ""
-"You can flag certain glossary terms as forbidden - those should not be used "
-"while translating. Use this to clarify translation when some words are "
+"You can flag certain glossary terms as forbidden, meaning ones _not_ to be "
+"used for translations. Use this to clarify translation when some words are "
 "ambiguous or could have unexpected meanings."
 msgstr ""
 
 #: ../../user/glossary.rst:60
 msgid ""
-"The terms can be flagged on the source language using :guilabel:`Tools` ↓ :"
-"guilabel:`Mark as forbidden translations`. In the background this toggles "
-"the ``forbidden`` flag on the string."
+"Terms can be flagged using :guilabel:`Tools` ↓ :guilabel:`Mark as forbidden "
+"translation`. In the background this toggles the ``forbidden`` flag of the "
+"string."
 msgstr ""
 
 #: ../../user/glossary.rst:71
@@ -31198,16 +31383,16 @@ msgstr "Terminologie"
 
 #: ../../user/glossary.rst:75
 msgid ""
-"You can flag certain glossary terms as terminology - those  will be present "
-"in all glossary languages. Use this to flag important terms which should be "
-"translated consistently."
+"Flagging certain glossary terms as terminology puts them in all glossary "
+"languages. Use this to flag important terms which should be translated "
+"consistently."
 msgstr ""
 
 #: ../../user/glossary.rst:79
 msgid ""
-"The terms can be flagged on the source language using :guilabel:`Tools` ↓ :"
+"The terms can be flagged in the source language using :guilabel:`Tools` ↓ :"
 "guilabel:`Mark as terminology`. In the background this toggles the "
-"``terminology`` flag on the string."
+"``terminology`` flag of the string."
 msgstr ""
 
 #: ../../user/profile.rst:2
@@ -34238,6 +34423,26 @@ msgstr ""
 #: ../../workflows.rst:240
 msgid ":ref:`bimono`, :ref:`reviews`, :ref:`labels`"
 msgstr ":ref:`bimono`, :ref:`reviews`, :ref:`labels`"
+
+#~ msgid "14 daily backups"
+#~ msgstr "14 sauvegardes quotidiennes"
+
+#~ msgid "8 weekly backups"
+#~ msgstr "8 sauvegardes hebdomadaires"
+
+#~ msgid "6 monthly backups"
+#~ msgstr "6 sauvegardes mensuelles"
+
+#~ msgid ""
+#~ "Remote backups using SSH are supported. The SSH server needs to have "
+#~ "`BorgBackup`_ installed. Weblate connects to the server using SSH key, "
+#~ "please make sure the Weblate SSH key is accepted by the server (see :ref:"
+#~ "`weblate-ssh-key`)."
+#~ msgstr ""
+#~ "Les sauvegardes distantes avec SSH sont supportées. `BorgBackup`_ doit "
+#~ "être installé sur le serveur SSH. Weblate se connecté au serveur avec une "
+#~ "clef SSH, merci de vous assurer que la clef SSH se Weblate est acceptée "
+#~ "par le serveur. Voir :ref:`weblate-ssh-keys`."
 
 #~ msgid ""
 #~ "Ensures all components within one project have translations for every "

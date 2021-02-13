@@ -30,7 +30,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.5\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
-"POT-Creation-Date: 2021-02-12 16:30+0000\n"
+"POT-Creation-Date: 2021-02-13 20:05+0000\n"
 "PO-Revision-Date: 2021-02-10 14:50+0000\n"
 "Last-Translator: bovirus <roberto.boriotti@canon-europe.com>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/weblate/"
@@ -1447,7 +1447,9 @@ msgid "String suffix"
 msgstr "Suffisso stringa"
 
 #: weblate/addons/forms.py:478
-msgid "Source and target have to be a different languages."
+#, fuzzy
+#| msgid "Source and target have to be a different languages."
+msgid "The source and target have to be different languages."
 msgstr "Sorgente e destinazione devono avere lingue diverse."
 
 #: weblate/addons/generate.py:34
@@ -3121,11 +3123,15 @@ msgid "Java Properties (ISO 8859-1)"
 msgstr "Proprietà Java (ISO 8859-1)"
 
 #: weblate/formats/ttkit.py:1163
-msgid "Joomla Language File"
+#, fuzzy
+#| msgid "Joomla Language File"
+msgid "Joomla language file"
 msgstr "File lingua Joomla"
 
 #: weblate/formats/ttkit.py:1172
-msgid "GWT Properties"
+#, fuzzy
+#| msgid "GWT Properties"
+msgid "GWT properties"
 msgstr "Proprietà GWT"
 
 #: weblate/formats/ttkit.py:1179
@@ -3217,7 +3223,9 @@ msgid "Inno Setup INI file"
 msgstr "File INI Inno Setup"
 
 #: weblate/formats/ttkit.py:1700
-msgid "Term Base eXchange file"
+#, fuzzy
+#| msgid "Term Base eXchange file"
+msgid "TermBase eXchange file"
 msgstr "File Term Base eXchange"
 
 #: weblate/formats/txt.py:180
@@ -3685,11 +3693,11 @@ msgctxt "Translation memory category"
 msgid "File: {}"
 msgstr "File: {}"
 
-#: weblate/memory/views.py:82
+#: weblate/memory/views.py:83
 msgid "Entries deleted."
 msgstr "Voci eliminate."
 
-#: weblate/memory/views.py:97
+#: weblate/memory/views.py:98
 msgid "File processed, the entries will appear shortly."
 msgstr "File elaborato, le voci appariranno a breve."
 
@@ -8559,7 +8567,9 @@ msgstr "Errori trovati:"
 
 #: weblate/templates/trans/alert/unusedenforcedcheck.html:8
 #, python-format
-msgid "%(check)s is enforced, but not enabled using <code>%(flag)s</code>."
+msgid ""
+"%(check)s quality check is enforced, but not enabled using <code>%(flag)s</"
+"code>."
 msgstr ""
 
 #: weblate/templates/trans/alert/unusedscreenshot.html:2
@@ -11343,31 +11353,35 @@ msgid "Additional explanation to clarify meaning or usage of the string."
 msgstr ""
 "Spiegazione aggiuntiva per chiarire il significato o l'uso della stringa."
 
-#: weblate/trans/models/unit.py:1350
-msgid "Allow translation"
-msgstr "Consenti traduzione"
+#: weblate/trans/models/unit.py:1351
+#, fuzzy
+#| msgid "Unmark as terminology"
+msgid "Unmark as read-only"
+msgstr "Deseleziona come terminologia"
 
-#: weblate/trans/models/unit.py:1352
-msgid "Prohibit translation"
-msgstr "Proibisci traduzione"
+#: weblate/trans/models/unit.py:1354
+#, fuzzy
+#| msgid "Mark as terminology"
+msgid "Mark as read-only"
+msgstr "Seleziona come terminologia"
 
-#: weblate/trans/models/unit.py:1359
+#: weblate/trans/models/unit.py:1361
 #, fuzzy
 #| msgid "Unmark as forbidden translations"
 msgid "Unmark as forbidden translation"
 msgstr "Deseleziona come traduzioni vietate"
 
-#: weblate/trans/models/unit.py:1367
+#: weblate/trans/models/unit.py:1369
 #, fuzzy
 #| msgid "Mark as forbidden translations"
 msgid "Mark as forbidden translation"
 msgstr "Seleziona come traduzioni vietate"
 
-#: weblate/trans/models/unit.py:1376
+#: weblate/trans/models/unit.py:1378
 msgid "Unmark as terminology"
 msgstr "Deseleziona come terminologia"
 
-#: weblate/trans/models/unit.py:1384
+#: weblate/trans/models/unit.py:1386
 msgid "Mark as terminology"
 msgstr "Seleziona come terminologia"
 
@@ -11673,8 +11687,9 @@ msgstr[0] "%(count)s stringa non tradotta qui."
 msgstr[1] "%(count)s stringhe non tradotte qui."
 
 #: weblate/trans/templatetags/translations.py:826
-#, python-format
-msgid "Shared from project %s."
+#, fuzzy, python-format
+#| msgid "Shared from project %s."
+msgid "Shared from the %s project."
 msgstr "Condiviso nei progetti %s."
 
 #: weblate/trans/templatetags/translations.py:849
@@ -11830,7 +11845,7 @@ msgstr "Licenza rilevata come %s, controlla se è corretta."
 msgid "Failed to parse uploaded ZIP file."
 msgstr "Analisi del file ZIP caricato non riuscita."
 
-#: weblate/trans/views/dashboard.py:161
+#: weblate/trans/views/dashboard.py:162
 msgid ""
 "The project you were looking for has been removed, however you are welcome "
 "to contribute to other ones."
@@ -11838,7 +11853,7 @@ msgstr ""
 "Il progetto che stavi cercando è stato rimosso. Tuttavia sei invitato a "
 "contribuire ad altri progetti."
 
-#: weblate/trans/views/dashboard.py:170
+#: weblate/trans/views/dashboard.py:171
 msgid ""
 "You have activated your account, now you should set the password to be able "
 "to sign in next time."
@@ -11846,7 +11861,7 @@ msgstr ""
 "Hai attivato il tuo account. Ora dovresti impostare la password per poter "
 "accedere la prossima volta."
 
-#: weblate/trans/views/dashboard.py:184
+#: weblate/trans/views/dashboard.py:185
 msgid "Please set your full name and e-mail in your profile."
 msgstr "Imposta nel tuo profilo il nome completo e l'email."
 
@@ -12380,7 +12395,7 @@ msgstr "Errore nel parametro %(field)s: %(error)s"
 msgid "Git with force push"
 msgstr "Git con push forzato"
 
-#: weblate/vcs/git.py:834
+#: weblate/vcs/git.py:835
 msgid "No remote repository"
 msgstr "Nessun repository remoto"
 
@@ -12594,6 +12609,12 @@ msgstr "Il processo di backup è stato attivato"
 #: weblate/wladmin/views.py:224
 msgid "Could not dismiss the configuration error!"
 msgstr "Impossibile eliminare l'errore di configurazione!"
+
+#~ msgid "Allow translation"
+#~ msgstr "Consenti traduzione"
+
+#~ msgid "Prohibit translation"
+#~ msgstr "Proibisci traduzione"
 
 #~ msgid ""
 #~ "Updates all PO files to match the POT file using msgmerge. Triggered "
