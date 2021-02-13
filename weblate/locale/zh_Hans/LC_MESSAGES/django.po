@@ -32,7 +32,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.5\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-02-12 16:30+0000\n"
-"PO-Revision-Date: 2021-02-07 11:29+0000\n"
+"PO-Revision-Date: 2021-02-13 20:01+0000\n"
 "Last-Translator: Eric <spice2wolf@gmail.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "weblate/application/zh_Hans/>\n"
@@ -504,15 +504,13 @@ msgid "Number of nearby strings to show in each direction in the full editor."
 msgstr "完整编辑器中在两个方向上显示附近字符串的数目。"
 
 #: weblate/accounts/models.py:429
-#, fuzzy
-#| msgid "Projects with contribution"
 msgid "Automatically watch projects on contribution"
-msgstr "有贡献的项目"
+msgstr "自动关注作出贡献的项目"
 
 #: weblate/accounts/models.py:432
 msgid ""
 "Whenever you translate a string in a project, you will start watching it."
-msgstr ""
+msgstr "只要你翻译了项目中的字符串，就开始关注这个项目。"
 
 #: weblate/accounts/models.py:442 weblate/templates/dashboard/user.html:20
 msgid "Watched translations"
@@ -2643,21 +2641,17 @@ msgid ""
 msgstr "字符串中有多个未命名的变量，因此译者无法重新排序它们"
 
 #: weblate/checks/glossary.py:33
-#, fuzzy
-#| msgid "Added to glossary"
 msgid "Does not follow glossary"
-msgstr "已新增至词汇表"
+msgstr "不遵循词汇表"
 
 #: weblate/checks/glossary.py:34
-#, fuzzy
-#| msgid "The translation does not contain an URL"
 msgid "The translation does not follow terms defined in a glossary."
-msgstr "翻译未包含 URL"
+msgstr "翻译未遵循词汇表中定义的术语。"
 
 #: weblate/checks/glossary.py:87
 #, python-format
 msgid "Following terms are not translated according to glossary: %s"
-msgstr ""
+msgstr "下列术语未遵循词汇表进行翻译：%s"
 
 #: weblate/checks/markup.py:77
 msgid "BBcode markup"
@@ -7379,13 +7373,11 @@ msgstr "翻译由于后面的警告而被自动锁定："
 #: weblate/templates/snippets/editor.html:11
 msgid ""
 "The maximal string length is determined from the source string or flags."
-msgstr ""
+msgstr "最大字符串长度由源字符串或标志确定。"
 
 #: weblate/templates/snippets/editor.html:14
-#, fuzzy
-#| msgid "Source string comment"
 msgid "Source string length"
-msgstr "源字符串注释"
+msgstr "源字符串长度"
 
 #: weblate/templates/snippets/embed-units.html:12
 msgid "State"
@@ -7428,10 +7420,8 @@ msgid "Copy word into translation"
 msgstr "复制单词到翻译"
 
 #: weblate/templates/snippets/glossary.html:16
-#, fuzzy
-#| msgid "Edit glossary entry"
 msgid "Edit glossary term"
-msgstr "编辑词汇表条目"
+msgstr "编辑词汇表术语"
 
 #: weblate/templates/snippets/glossary.html:27
 msgid "No related strings found in the glossary."
@@ -8134,15 +8124,13 @@ msgid ""
 msgstr "在关闭对这些功能的支持或缺少依赖项时，可能会发生这种情况。"
 
 #: weblate/templates/trans/alert/unusedenforcedcheck.html:4
-#, fuzzy
-#| msgid "Following checks are failing:"
 msgid "Following enforced checks are not enabled anywhere:"
-msgstr "以下字符串未通过检查："
+msgstr "以下强制检查未在任何地方启用："
 
 #: weblate/templates/trans/alert/unusedenforcedcheck.html:8
 #, python-format
 msgid "%(check)s is enforced, but not enabled using <code>%(flag)s</code>."
-msgstr ""
+msgstr "%(check)s 是强制的，但未启用，方式是通过<code>%(flag)s</code>。"
 
 #: weblate/templates/trans/alert/unusedscreenshot.html:2
 msgid "There is at least one screenshot which is not assigned to any strings."
@@ -8444,10 +8432,8 @@ msgid "Delete string"
 msgstr "删除字符串"
 
 #: weblate/templates/translate.html:194
-#, fuzzy
-#| msgid "Variants of the string"
 msgid "Add variant of this string"
-msgstr "字符串的变体"
+msgstr "添加这个字符串的变体"
 
 #: weblate/templates/translate.html:204 weblate/templates/translate.html:229
 msgid "This translation is currently locked."
@@ -9689,10 +9675,8 @@ msgid "Does not meet libre hosting conditions."
 msgstr "不满足自由软件项目托管条件。"
 
 #: weblate/trans/models/alert.py:345
-#, fuzzy
-#| msgid "Enforced checks"
 msgid "Unused enforced checks."
-msgstr "强制检查"
+msgstr "未使用的强制检查。"
 
 #: weblate/trans/models/announcement.py:111
 msgid "Category"
@@ -10746,14 +10730,10 @@ msgid "Prohibit translation"
 msgstr "禁止翻译"
 
 #: weblate/trans/models/unit.py:1359
-#, fuzzy
-#| msgid "Unmark as forbidden translations"
 msgid "Unmark as forbidden translation"
 msgstr "取消标记为禁止的翻译"
 
 #: weblate/trans/models/unit.py:1367
-#, fuzzy
-#| msgid "Mark as forbidden translations"
 msgid "Mark as forbidden translation"
 msgstr "标记为禁止的翻译"
 
@@ -10841,23 +10821,19 @@ msgid "Tab character"
 msgstr "Tab 制表符"
 
 #: weblate/trans/templatetags/translations.py:180
-#, fuzzy, python-format
-#| msgid "Forbidden translation"
+#, python-format
 msgid "Forbidden translation: %s"
-msgstr "禁止的翻译"
+msgstr "禁止的翻译：%s"
 
 #: weblate/trans/templatetags/translations.py:182
-#, fuzzy, python-format
-#| msgctxt "String state"
-#| msgid "Not translated"
+#, python-format
 msgid "Not-translatable: %s"
-msgstr "未翻译"
+msgstr "不可翻译的：%s"
 
 #: weblate/trans/templatetags/translations.py:184
-#, fuzzy, python-format
-#| msgid "Upload translations"
+#, python-format
 msgid "Glossary translation: %s"
-msgstr "上传翻译"
+msgstr "词汇翻译：%s"
 
 #: weblate/trans/templatetags/translations.py:230
 msgid "New line"
@@ -11251,14 +11227,14 @@ msgstr "以下的修订已应用到译文: %s"
 msgid ""
 "Added %(language)s to your translated languages. You can adjust them in the "
 "settings."
-msgstr ""
+msgstr "已将 %(language)s 添加到你的翻译语言。你可以在设置中调整它们。"
 
 #: weblate/trans/views/edit.py:338
 #, python-format
 msgid ""
 "Added %(project)s to your watched projects. You can adjust them and this "
 "behavior in the settings."
-msgstr ""
+msgstr "已将 %(project)s 添加到你的关注项目。你可以在设置中调整它们和此行为。"
 
 #: weblate/trans/views/edit.py:357
 #, python-brace-format
