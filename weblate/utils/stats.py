@@ -703,10 +703,6 @@ class ProjectLanguageComponent:
     def __init__(self):
         self.slug = "-"
 
-    @staticmethod
-    def has_template():
-        return False
-
 
 class ProjectLanguage:
     """Wrapper class used in project-language listings and stats."""
