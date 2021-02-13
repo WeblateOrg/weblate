@@ -21,7 +21,7 @@ import errno
 import os
 import sys
 import time
-from collections import defaultdict, namedtuple
+from collections import defaultdict
 from datetime import datetime, timedelta
 from distutils.version import LooseVersion
 from itertools import chain
@@ -38,7 +38,7 @@ from weblate.utils.data import data_dir
 from weblate.utils.db import using_postgresql
 from weblate.utils.docs import get_doc_url
 from weblate.utils.site import check_domain, get_site_domain
-from weblate.utils.version import VERSION_BASE
+from weblate.utils.version import VERSION_BASE, Release
 
 GOOD_CACHE = {"MemcachedCache", "PyLibMCCache", "DatabaseCache", "RedisCache"}
 DEFAULT_MAILS = {
@@ -472,9 +472,6 @@ PYPI = "https://pypi.org/pypi/Weblate/json"
 
 # Cache to store fetched PyPI version
 CACHE_KEY = "version-check"
-
-
-Release = namedtuple("Release", ["version", "timestamp"])
 
 
 def download_version_info():

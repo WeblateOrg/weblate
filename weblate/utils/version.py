@@ -18,9 +18,14 @@
 #
 
 import os
+from collections import namedtuple
 
 from weblate.vcs.base import RepositoryException
 from weblate.vcs.git import GitRepository
+
+# This has to stay here for compatibility reasons - it is stored pickled in
+# the cache and moving it around breaks ugprades.
+Release = namedtuple("Release", ["version", "timestamp"])
 
 
 def get_root_dir():
