@@ -20,12 +20,12 @@
 import re
 from itertools import chain
 
-from django.conf import settings
+from django.db.models import Q
 from django.db.models.functions import Lower
 
 from weblate.trans.models.unit import Unit
 from weblate.trans.util import PLURAL_SEPARATOR
-from weblate.utils.db import re_escape
+from weblate.utils.db import re_escape, using_postgresql
 from weblate.utils.state import STATE_TRANSLATED
 
 SPLIT_RE = re.compile(r"[\s,.:!?]+", re.UNICODE)
@@ -44,7 +44,8 @@ def get_glossary_sources(component):
 
 def get_glossary_terms(unit):
     """Return list of term pairs for an unit."""
-    words = set()
+    if unit.glossary_terms is not None:
+        return unit.glossary_terms
     translation = unit.translation
     language = translation.language
     component = translation.component
@@ -52,20 +53,13 @@ def get_glossary_terms(unit):
     glossaries = component.project.glossaries
 
     units = (
-        Unit.objects.prefetch()
-        .filter(
-            translation__component__in=glossaries,
-            translation__component__source_language=source_language,
-            translation__language=language,
-        )
-        .select_related("source_unit")
-        .order_by(Lower("source"))
+        Unit.objects.prefetch().select_related("source_unit").order_by(Lower("source"))
     )
     if language == source_language:
         return units.none()
 
-    # Chain words
-    words = set(
+    # Chain terms
+    terms = set(
         chain.from_iterable(glossary.glossary_sources for glossary in glossaries)
     )
 
@@ -77,18 +71,28 @@ def get_glossary_terms(unit):
             parts.append(text)
     source = PLURAL_SEPARATOR.join(parts)
 
-    # Extract words present in the source
+    # Extract terms present in the source
     # This might use a suffix tree for improved performance
     matches = [
-        word for word in words if re.search(r"\b{}\b".format(re.escape(word)), source)
+        term for term in terms if re.search(r"\b{}\b".format(re.escape(term)), source)
     ]
 
-    if settings.DATABASES["default"]["ENGINE"] == "django.db.backends.postgresql":
+    if using_postgresql():
+        match = r"^({})$".format("|".join(re_escape(term) for term in matches))
         # Use regex as that is utilizing pg_trgm index
-        return units.filter(
-            source__iregex=r"^{}$".format(
-                "|".join(re_escape(word) for word in matches)
-            ),
-        )
-    # With MySQL we utilize it does case insensitive lookup
-    return units.filter(source__in=matches)
+        query = Q(source__iregex=match) | Q(variant__unit__source__iregex=match)
+    else:
+        # With MySQL we utilize it does case insensitive lookup
+        query = Q(source__in=matches) | Q(variant__unit__source__in=matches)
+
+    units = units.filter(
+        query,
+        translation__component__in=glossaries,
+        translation__component__source_language=source_language,
+        translation__language=language,
+    ).distinct()
+
+    # Store in a unit cache
+    unit.glossary_terms = units
+
+    return units

@@ -142,9 +142,9 @@ class UnitQuerySet(FastDeleteQuerySetMixin, models.QuerySet):
             )
         )
 
-    def search(self, query):
+    def search(self, query, **context):
         """High level wrapper for searching."""
-        return self.filter(parse_query(query))
+        return self.filter(parse_query(query, **context))
 
     def same(self, unit, exclude=True):
         """Unit with same source within same project."""
@@ -402,6 +402,8 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
         self.fixups = []
         # Data for machinery integration
         self.machinery = {"best": -1}
+        # Data for glossary integration
+        self.glossary_terms = None
 
     @property
     def approved(self):
@@ -1035,7 +1037,10 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
             meth = "check_source"
             args = src, self
         else:
-            checks = CHECKS.target
+            if self.readonly:
+                checks = {}
+            else:
+                checks = CHECKS.target
             meth = "check_target"
             args = src, tgt, self
 
@@ -1186,6 +1191,7 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
             and user
             and self.target != self.old_unit.target
             and self.state >= STATE_TRANSLATED
+            and self.translation.component.is_glossary
         ):
             transaction.on_commit(
                 lambda: handle_unit_translation_change.delay(self.id, user.id)
@@ -1197,8 +1203,9 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
         """Return union of own and component flags."""
         return Flags(
             self.translation.all_flags,
+            self.extra_flags,
             # The source_unit is None before saving the object for the first time
-            self.source_unit.extra_flags if self.source_unit else self.extra_flags,
+            getattr(self.source_unit, "extra_flags", ""),
             override or self.flags,
         )
 
@@ -1343,37 +1350,38 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
                 result.append(("removeflag", "read-only", gettext("Allow translation")))
             else:
                 result.append(("addflag", "read-only", gettext("Prohibit translation")))
-            if self.translation.component.is_glossary:
-                if "forbidden" in flags:
-                    result.append(
-                        (
-                            "removeflag",
-                            "forbidden",
-                            gettext("Unmark as forbidden translation"),
-                        )
+        if self.translation.component.is_glossary:
+            if "forbidden" in flags:
+                result.append(
+                    (
+                        "removeflag",
+                        "forbidden",
+                        gettext("Unmark as forbidden translation"),
                     )
-                else:
-                    result.append(
-                        (
-                            "addflag",
-                            "forbidden",
-                            gettext("Mark as forbidden translation"),
-                        )
+                )
+            else:
+                result.append(
+                    (
+                        "addflag",
+                        "forbidden",
+                        gettext("Mark as forbidden translation"),
                     )
-                if "terminology" in flags:
-                    result.append(
-                        (
-                            "removeflag",
-                            "terminology",
-                            gettext("Unmark as terminology"),
-                        )
+                )
+        if self.is_source and self.translation.component.is_glossary:
+            if "terminology" in flags:
+                result.append(
+                    (
+                        "removeflag",
+                        "terminology",
+                        gettext("Unmark as terminology"),
                     )
-                else:
-                    result.append(
-                        (
-                            "addflag",
-                            "terminology",
-                            gettext("Mark as terminology"),
-                        )
+                )
+            else:
+                result.append(
+                    (
+                        "addflag",
+                        "terminology",
+                        gettext("Mark as terminology"),
                     )
+                )
         return result

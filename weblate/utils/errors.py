@@ -28,7 +28,7 @@ from sentry_sdk.integrations.django import DjangoIntegration
 from sentry_sdk.integrations.logging import ignore_logger
 from sentry_sdk.integrations.redis import RedisIntegration
 
-import weblate
+import weblate.utils.version
 
 ERROR_LOGGER = "weblate.errors"
 LOGGER = logging.getLogger(ERROR_LOGGER)
@@ -86,7 +86,7 @@ def init_error_collection(celery=False):
             dsn=settings.SENTRY_DSN,
             integrations=[CeleryIntegration(), DjangoIntegration(), RedisIntegration()],
             send_default_pii=True,
-            release=weblate.GIT_REVISION or weblate.TAG_NAME,
+            release=weblate.utils.version.GIT_REVISION or weblate.TAG_NAME,
             environment=settings.SENTRY_ENVIRONMENT,
             **settings.SENTRY_EXTRA_ARGS,
         )

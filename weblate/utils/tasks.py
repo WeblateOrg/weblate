@@ -31,11 +31,12 @@ from django.conf import settings
 from django.core.cache import cache
 from django.core.management.commands import diffsettings
 
-import weblate
+import weblate.utils.version
 from weblate.formats.models import FILE_FORMATS
 from weblate.trans.util import get_clean_env
 from weblate.utils.celery import app
 from weblate.utils.data import data_dir
+from weblate.utils.db import using_postgresql
 from weblate.utils.errors import report_error
 from weblate.vcs.models import VCS_REGISTRY
 
@@ -43,7 +44,7 @@ from weblate.vcs.models import VCS_REGISTRY
 @app.task(trail=False)
 def ping():
     return {
-        "version": weblate.GIT_VERSION,
+        "version": weblate.utils.version.GIT_VERSION,
         "vcs": sorted(VCS_REGISTRY.keys()),
         "formats": sorted(FILE_FORMATS.keys()),
         "encoding": [sys.getfilesystemencoding(), sys.getdefaultencoding()],
@@ -90,7 +91,7 @@ def database_backup():
     out_compressed = data_dir("backups", "database.sql.gz")
     out_plain = data_dir("backups", "database.sql")
 
-    if database["ENGINE"] == "django.db.backends.postgresql":
+    if using_postgresql():
         cmd = ["pg_dump", "--dbname", database["NAME"]]
 
         if database["HOST"]:
@@ -107,7 +108,7 @@ def database_backup():
             cmd.extend(["--file", out_plain])
 
         env["PGPASSWORD"] = database["PASSWORD"]
-    elif database["ENGINE"] == "django.db.backends.mysql":
+    else:
         cmd = [
             "mysqldump",
             "--result-file",
@@ -126,8 +127,6 @@ def database_backup():
         cmd.extend(["--databases", database["NAME"]])
 
         env["MYSQL_PWD"] = database["PASSWORD"]
-    else:
-        return
 
     try:
         subprocess.run(

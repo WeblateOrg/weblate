@@ -323,9 +323,7 @@ def announcement_project(request, project):
 def announcement_delete(request, pk):
     announcement = get_object_or_404(Announcement, pk=pk)
 
-    if request.user.has_perm(
-        "component.edit", announcement.component
-    ) or request.user.has_perm("project.edit", announcement.project):
+    if request.user.has_perm("announcement.delete", announcement):
         announcement.delete()
 
     return JsonResponse({"responseStatus": 200})

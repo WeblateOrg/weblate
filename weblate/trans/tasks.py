@@ -279,11 +279,11 @@ def component_alerts(component_ids=None):
 
 @app.task(trail=False, autoretry_for=(Component.DoesNotExist,), retry_backoff=60)
 def component_after_save(
-    pk, changed_git, changed_setup, changed_template, changed_variant, skip_push
+    pk, changed_git, changed_setup, changed_template, changed_variant, skip_push, create
 ):
     component = Component.objects.get(pk=pk)
     component.after_save(
-        changed_git, changed_setup, changed_template, changed_variant, skip_push
+        changed_git, changed_setup, changed_template, changed_variant, skip_push, create
     )
     return {"component": pk}
 

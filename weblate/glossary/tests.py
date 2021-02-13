@@ -21,13 +21,13 @@
 
 import json
 
-from django.conf import settings
 from django.urls import reverse
 
 from weblate.glossary.models import get_glossary_terms
 from weblate.trans.models import Unit
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.tests.utils import get_test_file
+from weblate.utils.db import using_postgresql
 from weblate.utils.hash import calculate_hash
 from weblate.utils.state import STATE_TRANSLATED
 
@@ -95,9 +95,8 @@ class GlossaryTest(ViewTestCase):
     def setUp(self):
         super().setUp()
         self.glossary_component = self.project.glossaries[0]
-        self.glossary = self.glossary_component.add_new_language(
-            self.get_translation().language,
-            None,
+        self.glossary = self.glossary_component.translation_set.get(
+            language=self.get_translation().language
         )
 
     @classmethod
@@ -106,7 +105,7 @@ class GlossaryTest(ViewTestCase):
         # well inside a transaction, so we avoid using transactions for
         # tests. Otherwise we end up with no matches for the query.
         # See https://dev.mysql.com/doc/refman/5.6/en/innodb-fulltext-index.html
-        if settings.DATABASES["default"]["ENGINE"] == "django.db.backends.mysql":
+        if not using_postgresql():
             return False
         return super()._databases_support_transactions()
 
@@ -221,67 +220,94 @@ class GlossaryTest(ViewTestCase):
         self.assertEqual(self.glossary.unit_set.count(), 164)
 
     def test_get_terms(self):
-        self.add_term(
-            source="hello",
-            target="ahoj",
-        )
-        self.add_term(
-            source="thank",
-            target="děkujeme",
-        )
+        self.add_term("hello", "ahoj")
+        self.add_term("thank", "děkujeme")
+
         unit = self.get_unit("Thank you for using Weblate.")
-        self.assertEqual(get_glossary_terms(unit).count(), 1)
-        self.add_term(
-            source="thank",
-            target="díky",
-            context="other",
+        self.assertEqual(
+            set(get_glossary_terms(unit).values_list("source", flat=True)), {"thank"}
         )
-        self.assertEqual(get_glossary_terms(unit).count(), 2)
-        self.add_term(
-            source="thank you",
-            target="děkujeme vám",
+        self.add_term("thank", "díky", "other")
+        unit.glossary_terms = None
+        self.assertEqual(
+            set(get_glossary_terms(unit).values_list("source", flat=True)), {"thank"}
         )
-        self.assertEqual(get_glossary_terms(unit).count(), 3)
-        self.add_term(
-            source="thank you for using Weblate",
-            target="děkujeme vám za použití Weblate",
+        self.add_term("thank you", "děkujeme vám")
+        unit.glossary_terms = None
+        self.assertEqual(
+            set(get_glossary_terms(unit).values_list("source", flat=True)),
+            {"thank", "thank you"},
         )
-        self.assertEqual(get_glossary_terms(unit).count(), 4)
-        self.add_term(
-            source="web",
-            target="web",
+        self.add_term("thank you for using Weblate", "děkujeme vám za použití Weblate")
+        unit.glossary_terms = None
+        self.assertEqual(
+            set(get_glossary_terms(unit).values_list("source", flat=True)),
+            {"thank", "thank you", "thank you for using Weblate"},
         )
-        self.assertEqual(get_glossary_terms(unit).count(), 4)
+        self.add_term("web", "web")
+        unit.glossary_terms = None
+        self.assertEqual(
+            set(get_glossary_terms(unit).values_list("source", flat=True)),
+            {"thank", "thank you", "thank you for using Weblate"},
+        )
+
+    def test_substrings(self):
+        self.add_term("reach", "dojet")
+        self.add_term("breach", "prolomit")
+        unit = self.get_unit()
+        unit.source = "Reach summit"
+        self.assertEqual(
+            list(get_glossary_terms(unit).values_list("source", flat=True)), ["reach"]
+        )
+
+    def test_phrases(self):
+        self.add_term("Destructive Breach", "x")
+        self.add_term("Flame Breach", "x")
+        self.add_term("Frost Breach", "x")
+        self.add_term("Icereach", "x")
+        self.add_term("Reach", "x")
+        self.add_term("Reachable", "x")
+        self.add_term("Skyreach", "x")
+        unit = self.get_unit()
+        unit.source = "During invasion from the Reach. Town burn, prior records lost.\n"
+        self.assertEqual(
+            list(get_glossary_terms(unit).values_list("source", flat=True)), ["Reach"]
+        )
+        self.add_term("Town", "x")
+        unit.glossary_terms = None
+        self.assertEqual(
+            set(get_glossary_terms(unit).values_list("source", flat=True)),
+            {"Reach", "Town"},
+        )
 
     def test_get_long(self):
         """Test parsing long source string."""
         unit = self.get_unit()
         unit.source = LONG
         unit.save()
-        self.assertEqual(get_glossary_terms(unit).count(), 0)
+        self.assertEqual(
+            set(get_glossary_terms(unit).values_list("source", flat=True)), set()
+        )
         return unit
 
     def test_stoplist(self):
         unit = self.test_get_long()
-        self.add_term(
-            source="the blue",
-            target="modrý",
-        )
-        self.add_term(
-            source="the red",
-            target="červený",
-        )
+        self.add_term("the blue", "modrý")
+        self.add_term("the red", "červený")
+        unit.glossary_terms = None
 
-        self.assertEqual(get_glossary_terms(unit).count(), 1)
+        self.assertEqual(
+            set(get_glossary_terms(unit).values_list("source", flat=True)), {"the red"}
+        )
 
     def test_get_dash(self):
         unit = self.get_unit("Thank you for using Weblate.")
         unit.source = "Nordrhein-Westfalen"
-        self.add_term(
-            source="Nordrhein-Westfalen",
-            target="Northrhine Westfalia",
+        self.add_term("Nordrhein-Westfalen", "Northrhine Westfalia")
+        self.assertEqual(
+            set(get_glossary_terms(unit).values_list("source", flat=True)),
+            {"Nordrhein-Westfalen"},
         )
-        self.assertEqual(get_glossary_terms(unit).count(), 1)
 
     def test_add(self):
         """Test for adding term from translate page."""
@@ -310,6 +336,7 @@ class GlossaryTest(ViewTestCase):
         self.assertEqual(Unit.objects.count(), start + 2)
 
         # Make it terminology
+        unit.translation.component.unload_sources()
         unit.extra_flags = "terminology"
         unit.save()
 

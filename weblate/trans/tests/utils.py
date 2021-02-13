@@ -400,11 +400,14 @@ class RepoTestMixin:
         )
 
     def create_link_existing(self):
+        component = self.component
+        if "linked_childs" in component.__dict__:
+            del component.__dict__["linked_childs"]
         return Component.objects.create(
             name="Test2",
             slug="test2",
             project=self.project,
-            repo="weblate://test/test",
+            repo=component.get_repo_link_url(),
             file_format="po",
             filemask="po-duplicates/*.dpo",
             new_lang="contact",

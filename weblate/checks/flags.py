@@ -262,3 +262,7 @@ class Flags:
                 raise ValidationError(
                     _('Missing parameters for translation flag: "%s"') % name
                 )
+
+    def set_value(self, name, value):
+        self._values[name] = value
+        self._items[name] = (name, value)

@@ -51,7 +51,7 @@ from weblate.trans.util import get_state_css, split_plural
 from weblate.utils.docs import get_doc_url
 from weblate.utils.hash import hash_to_checksum
 from weblate.utils.markdown import render_markdown
-from weblate.utils.stats import BaseStats, ProjectLanguage
+from weblate.utils.stats import BaseStats, GhostProjectLanguageStats, ProjectLanguage
 from weblate.utils.views import SORT_CHOICES
 
 register = template.Library()
@@ -182,7 +182,7 @@ def format_terms(terms):
         output.append(gettext("Not-translatable: %s") % ", ".join(nontranslatable))
     if translations:
         output.append(gettext("Glossary translation: %s") % ", ".join(translations))
-    return "\n".join(output)
+    return "; ".join(output)
 
 
 def fmt_glossary(value, glossary):
@@ -192,10 +192,10 @@ def fmt_glossary(value, glossary):
         terms[term.source].append(term)
 
     for htext, entries in terms.items():
-        newpart = GLOSSARY_TEMPLATE.format(format_terms(entries), htext)
         for match in reversed(
             list(re.finditer(r"\b{}\b".format(re.escape(htext)), value, re.IGNORECASE))
         ):
+            newpart = GLOSSARY_TEMPLATE.format(escape(format_terms(entries)), match[0])
             value = value[: match.start()] + newpart + value[match.end() :]
 
     return value
@@ -601,10 +601,6 @@ def announcements(context, project=None, component=None, language=None):
     for announcement in Announcement.objects.context_filter(
         project, component, language
     ):
-        can_delete = user.has_perm(
-            "component.edit", announcement.component
-        ) or user.has_perm("project.edit", announcement.project)
-
         ret.append(
             render_to_string(
                 "message.html",
@@ -612,7 +608,7 @@ def announcements(context, project=None, component=None, language=None):
                     "tags": " ".join((announcement.category, "announcement")),
                     "message": render_markdown(announcement.message),
                     "announcement": announcement,
-                    "can_delete": can_delete,
+                    "can_delete": user.has_perm("announcement.delete", announcement),
                 },
             )
         )
@@ -782,18 +778,21 @@ def indicate_alerts(context, obj):
         project = obj
     elif isinstance(obj, ProjectLanguage):
         project = obj.project
+    elif isinstance(obj, GhostProjectLanguageStats):
+        component = obj.component
+        project = component.project
 
-    if context["user"].has_perm("project.edit", project):
+    if project is not None and context["user"].has_perm("project.edit", project):
         result.append(
             ("state/admin.svg", gettext("You administrate this project."), None)
         )
 
-    if translation:
+    if translation is not None:
         result.extend(translation_alerts(translation))
 
-    if component:
+    if component is not None:
         result.extend(component_alerts(component))
-    elif project:
+    elif project is not None:
         result.extend(project_alerts(project))
 
     if getattr(obj, "is_ghost", False):
@@ -824,7 +823,7 @@ def indicate_alerts(context, obj):
         result.append(
             (
                 "state/share.svg",
-                gettext("Shared from project %s.") % obj.is_shared,
+                gettext("Shared from the %s project.") % obj.is_shared,
                 None,
             )
         )
@@ -839,7 +838,7 @@ def markdown(text):
 
 @register.filter
 def choiceval(boundfield):
-    """Get literal value from field's choices.
+    """Get literal value from a field's choices.
 
     Empty value is returned if value is not selected or invalid.
     """

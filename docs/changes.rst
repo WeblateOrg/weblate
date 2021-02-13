@@ -25,6 +25,8 @@ Not yet released.
 * Added support for defining terminology in a glossary.
 * Moved text direction toggle to get more space for visual keyboard.
 * Added option to automatically watch projects user contributed to.
+* Added check whether translation matches glossary.
+* Added support for customizing navigation text color.
 
 Weblate 4.4.2
 -------------

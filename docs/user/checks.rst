@@ -76,6 +76,26 @@ indicates a mistake in the translation.
    This check includes language specific rules to avoid false positives. In
    case it triggers falsely in your case, let us know. See :ref:`report-issue`.
 
+.. _check-check-glossary:
+
+Does not follow glossary
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. versionadded:: 4.5
+
+*The translation does not follow terms defined in a glossary.*
+
+This check has to be turned on using ``check-glossary`` flag (see
+:ref:`custom-checks`). Please consider following prior to enabling it:
+
+* It does exact string matching, the glossary is expected to contain terms in all variants.
+* Checking each string against glossary is expensive, it will slow down any operation in Weblate which involves running checks like importing strings or translating.
+
+.. seealso::
+
+   :ref:`glossary`,
+   :ref:`custom-checks`,
+   :ref:`component-check_flags`
 
 .. _check-double-space:
 
@@ -271,7 +291,7 @@ JavaScript format
     `JavaScript formatting strings <https://www.gnu.org/software/gettext/manual/html_node/javascript_002dformat.html>`_
 
 Lua format
-*****************
+**********
 
 *Lua format string does not match source*
 

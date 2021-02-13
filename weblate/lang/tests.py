@@ -24,7 +24,6 @@ from io import StringIO
 from itertools import chain
 from unittest import SkipTest
 
-from django.conf import settings
 from django.core.management import call_command
 from django.test import TestCase
 from django.urls import reverse
@@ -36,6 +35,7 @@ from weblate.lang import data
 from weblate.lang.models import Language, Plural, get_plural_type
 from weblate.trans.tests.test_models import BaseTestCase
 from weblate.trans.tests.test_views import FixtureTestCase
+from weblate.utils.db import using_postgresql
 
 TEST_LANGUAGES = (
     ("cs_CZ", "cs", "ltr", "(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2", "Czech", False),
@@ -251,7 +251,7 @@ class LanguagesTest(BaseTestCase, metaclass=TestSequenceMeta):
 
     def test_case_sensitive_fuzzy_get(self):
         """Test handling of manually created zh-TW, zh-TW and zh_TW languages."""
-        if settings.DATABASES["default"]["ENGINE"] == "django.db.backends.mysql":
+        if not using_postgresql():
             raise SkipTest("Not supported on MySQL")
 
         language = Language.objects.create(code="zh_TW", name="Chinese (Taiwan)")

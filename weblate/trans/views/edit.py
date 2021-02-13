@@ -39,6 +39,7 @@ from django.utils.translation import gettext as _
 from django.utils.translation import gettext_noop
 from django.views.decorators.http import require_POST
 
+from weblate.checks.flags import Flags
 from weblate.checks.models import CHECKS, get_display_checks
 from weblate.glossary.forms import TermForm
 from weblate.glossary.models import get_glossary_terms
@@ -197,7 +198,7 @@ def cleanup_session(session):
             del session[key]
 
 
-def search(base, unit_set, request, blank: bool = False):
+def search(base, project, unit_set, request, blank: bool = False):
     """Perform search or returns cached search results."""
     # Possible new search
     form = PositionSearchForm(user=request.user, data=request.GET, show_builder=False)
@@ -232,7 +233,7 @@ def search(base, unit_set, request, blank: bool = False):
         search_result.update(request.session[session_key])
         return search_result
 
-    allunits = unit_set.search(cleaned_data.get("q", "")).distinct()
+    allunits = unit_set.search(cleaned_data.get("q", ""), project=project).distinct()
 
     # Grab unit IDs
     unit_ids = list(
@@ -507,7 +508,7 @@ def translate(request, project, component, lang):
     obj, project, unit_set = parse_params(request, project, component, lang)
 
     # Search results
-    search_result = search(obj, unit_set, request)
+    search_result = search(obj, project, unit_set, request)
 
     # Handle redirects
     if isinstance(search_result, HttpResponse):
@@ -643,6 +644,9 @@ def translate(request, project, component, lang):
             "last_changes_url": urlencode(unit.translation.get_reverse_url_kwargs()),
             "display_checks": list(get_display_checks(unit)),
             "machinery_services": json.dumps(list(MACHINE_TRANSLATION_SERVICES.keys())),
+            "new_unit_form": get_new_unit_form(
+                unit.translation, request.user, initial={"variant": unit.source}
+            ),
         },
     )
 
@@ -761,10 +765,10 @@ def resolve_comment(request, pk):
     return redirect_next(request.POST.get("next"), fallback_url)
 
 
-def get_zen_unitdata(obj, unit_set, request):
+def get_zen_unitdata(obj, project, unit_set, request):
     """Load unit data for zen mode."""
     # Search results
-    search_result = search(obj, unit_set, request)
+    search_result = search(obj, project, unit_set, request)
 
     # Handle redirects
     if isinstance(search_result, HttpResponse):
@@ -799,7 +803,7 @@ def zen(request, project, component, lang):
     """Generic entry point for translating, suggesting and searching."""
     obj, project, unit_set = parse_params(request, project, component, lang)
 
-    search_result, unitdata = get_zen_unitdata(obj, unit_set, request)
+    search_result, unitdata = get_zen_unitdata(obj, project, unit_set, request)
     sort = get_sort_name(request, obj)
 
     # Handle redirects
@@ -831,7 +835,7 @@ def load_zen(request, project, component, lang):
     """Load additional units for zen editor."""
     obj, project, unit_set = parse_params(request, project, component, lang)
 
-    search_result, unitdata = get_zen_unitdata(obj, unit_set, request)
+    search_result, unitdata = get_zen_unitdata(obj, project, unit_set, request)
 
     # Handle redirects
     if isinstance(search_result, HttpResponse):
@@ -910,8 +914,24 @@ def new_unit(request, project, component, lang):
         if form.unit_exists(translation):
             messages.error(request, _("This string seems to already exist."))
         else:
+            # This is slow way of detecting unit, add_units should directly
+            # create the database units, return them and they should be saved to
+            # file as regular pending ones.
+            existing = list(translation.unit_set.values_list("pk", flat=True))
             translation.add_units(request, [form.as_tuple()])
             messages.success(request, _("New string has been added."))
+            new_units = translation.unit_set.exclude(pk__in=existing)
+            if form.cleaned_data["variant"]:
+                for new_unit in new_units:
+                    flags = Flags(new_unit.extra_flags)
+                    flags.set_value("variant", form.cleaned_data["variant"])
+                    new_unit.extra_flags = flags.format()
+                    new_unit.save(
+                        update_fields=["extra_flags"],
+                        same_content=True,
+                        run_checks=False,
+                    )
+                    return redirect(new_unit)
 
     return redirect(translation)
 
@@ -932,7 +952,7 @@ def delete_unit(request, unit_id):
 def browse(request, project, component, lang):
     """Strings browsing."""
     obj, project, unit_set = parse_params(request, project, component, lang)
-    search_result = search(obj, unit_set, request, blank=True)
+    search_result = search(obj, project, unit_set, request, blank=True)
     offset = search_result["offset"]
     page = 20
     units = unit_set.get_ordered(

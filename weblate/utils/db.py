@@ -49,6 +49,10 @@ def get_nokey_args():
     return {"no_key": True}
 
 
+def using_postgresql():
+    return connection.vendor == "postgresql"
+
+
 def adjust_similarity_threshold(value: float):
     """
     Adjusts pg_trgm.similarity_threshold for the % operator.
@@ -56,7 +60,7 @@ def adjust_similarity_threshold(value: float):
     Ideally we would use directly similarity() in the search, but that doesn't seem
     to use index, while using % does.
     """
-    if connection.vendor != "postgresql":
+    if not using_postgresql():
         return
     with connection.cursor() as cursor:
         # The SELECT has to be executed first as othervise the trgm extension

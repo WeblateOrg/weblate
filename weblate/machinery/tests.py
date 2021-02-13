@@ -24,7 +24,6 @@ from unittest.mock import Mock, patch
 
 import responses
 from botocore.stub import ANY, Stubber
-from django.conf import settings
 from django.test import TestCase
 from django.test.utils import override_settings
 from google.cloud.translate_v3 import (
@@ -64,6 +63,7 @@ from weblate.machinery.youdao import YoudaoTranslation
 from weblate.trans.models.unit import Unit
 from weblate.trans.tests.test_views import FixtureTestCase
 from weblate.trans.tests.utils import get_test_file
+from weblate.utils.db import using_postgresql
 from weblate.utils.state import STATE_TRANSLATED
 
 GLOSBE_JSON = {
@@ -1074,7 +1074,7 @@ class WeblateTranslationTest(FixtureTestCase):
         # well inside a transaction, so we avoid using transactions for
         # tests. Otherwise we end up with no matches for the query.
         # See https://dev.mysql.com/doc/refman/5.6/en/innodb-fulltext-index.html
-        if settings.DATABASES["default"]["ENGINE"] == "django.db.backends.mysql":
+        if not using_postgresql():
             return False
         return super()._databases_support_transactions()
 

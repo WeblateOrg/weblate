@@ -566,6 +566,7 @@ INSTALLED_APPS = [
     "weblate.utils",
     "weblate.vcs",
     "weblate.wladmin",
+    "weblate.metrics",
     "weblate",
     # Optional: Git exporter
     "weblate.gitexport",
@@ -1180,6 +1181,8 @@ DEFAULT_COMMITER_EMAIL = os.environ.get(
     "WEBLATE_DEFAULT_COMMITER_EMAIL", "noreply@weblate.org"
 )
 DEFAULT_COMMITER_NAME = os.environ.get("WEBLATE_DEFAULT_COMMITER_NAME", "Weblate")
+
+DEFAULT_AUTO_WATCH = get_env_bool("WEBLATE_DEFAULT_AUTO_WATCH", True)
 
 # PGP commits signing
 WEBLATE_GPG_IDENTITY = os.environ.get("WEBLATE_GPG_IDENTITY", None)

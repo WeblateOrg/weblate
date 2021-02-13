@@ -26,7 +26,7 @@ with other projects using :ref:`component-links`.
 Glossary terms
 --------------
 
-Glossary terms are translated the same way regular tranlations are. You can
+Glossary terms are translated the same way regular strings are. You can
 toggle additional features using the :guilabel:`Tools` menu for each term.
 
 Not translatable terms

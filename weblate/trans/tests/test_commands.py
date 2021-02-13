@@ -518,7 +518,7 @@ class ImportCommandTest(RepoTestCase):
             stdout=output,
         )
         self.assertEqual(self.component.project.component_set.count(), 4)
-        self.assertEqual(Translation.objects.count(), 11)
+        self.assertEqual(Translation.objects.count(), 14)
         self.assertIn("Imported Test/Gettext PO with 4 translations", output.getvalue())
 
     def test_import_invalid(self):

@@ -5,6 +5,6 @@
 
 <ul>
   {% for check in component.get_unused_enforcements %}
-    <li>{% blocktrans with check=check.name flag=check.enable_string %}{{ check }} is enforced, but not enabled using <code>{{ flag }}</code>.{% endblocktrans %}</li>
+    <li>{% blocktrans with check=check.name flag=check.enable_string %}{{ check }} quality check is enforced, but not enabled using <code>{{ flag }}</code>.{% endblocktrans %}</li>
   {% endfor %}
 </ul>

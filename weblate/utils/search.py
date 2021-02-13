@@ -17,10 +17,11 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-
 import re
 from datetime import datetime
 from functools import lru_cache, reduce
+from itertools import chain
+from typing import Dict
 
 from dateutil.parser import ParserError, parse
 from django.db.models import Q
@@ -39,6 +40,7 @@ from pyparsing import (
 
 from weblate.checks.parser import RawQuotedString
 from weblate.trans.util import PLURAL_SEPARATOR
+from weblate.utils.db import re_escape, using_postgresql
 from weblate.utils.state import (
     STATE_APPROVED,
     STATE_FUZZY,
@@ -192,7 +194,7 @@ class TermExpr:
             self.match = self.operator[1:] + self.match
             self.operator = ":"
 
-    def is_field(self, text):
+    def is_field(self, text, context: Dict):
         if text in ("read-only", "readonly"):
             return Q(state=STATE_READONLY)
         if text == "approved":
@@ -208,7 +210,7 @@ class TermExpr:
 
         raise ValueError(f"Unsupported is lookup: {text}")
 
-    def has_field(self, text):
+    def has_field(self, text, context: Dict):  # noqa: C901
         if text == "plural":
             return Q(source__contains=PLURAL_SEPARATOR)
         if text == "suggestion":
@@ -242,6 +244,26 @@ class TermExpr:
             )
         if text == "flags":
             return ~Q(source_unit__extra_flags="")
+        if text == "glossary":
+            project = context.get("project")
+            if not project:
+                return Q(source__isnull=True)
+            terms = set(
+                chain.from_iterable(
+                    glossary.glossary_sources for glossary in project.glossaries
+                )
+            )
+            if not terms:
+                return Q(source__isnull=True)
+            if using_postgresql():
+                template = r"[[:<:]]({})[[:>:]]"
+            else:
+                template = r"(^|[ \t\n\r\f\v])({})($|[ \t\n\r\f\v])"
+            return Q(
+                source__iregex=template.format(
+                    "|".join(re_escape(term) for term in terms)
+                )
+            )
 
         raise ValueError(f"Unsupported has lookup: {text}")
 
@@ -374,7 +396,7 @@ class TermExpr:
             return NONTEXT_FIELDS[field]
         raise ValueError(f"Unsupported field: {field}")
 
-    def as_sql(self):
+    def as_sql(self, context: Dict):
         field = self.field
         match = self.match
         # Simple term based search
@@ -388,7 +410,7 @@ class TermExpr:
         # Field specific code
         field_method = getattr(self, f"{field}_field", None)
         if field_method is not None:
-            return field_method(match)
+            return field_method(match, context)
 
         # Field conversion
         convert_method = getattr(self, f"convert_{field}", None)
@@ -428,10 +450,10 @@ class TermExpr:
 TERM.addParseAction(TermExpr)
 
 
-def parser_to_query(obj):
+def parser_to_query(obj, context: Dict):
     # Simple lookups
     if isinstance(obj, TermExpr):
-        return obj.as_sql()
+        return obj.as_sql(context)
 
     # Operators
     operator = "AND"
@@ -440,7 +462,7 @@ def parser_to_query(obj):
         if isinstance(item, str) and item.upper() in ("OR", "AND", "NOT"):
             operator = item.upper()
             continue
-        expressions.append(parser_to_query(item))
+        expressions.append(parser_to_query(item, context))
 
     if not expressions:
         return Q()
@@ -453,7 +475,12 @@ def parser_to_query(obj):
 
 
 @lru_cache(maxsize=512)
-def parse_query(text):
+def parse_string(text):
     if "\x00" in text:
         raise ValueError("Invalid query string.")
-    return parser_to_query(QUERY.parseString(text, parseAll=True))
+    return QUERY.parseString(text, parseAll=True)
+
+
+def parse_query(text, **context):
+    parsed = parse_string(text)
+    return parser_to_query(parsed, context)

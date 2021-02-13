@@ -21,7 +21,7 @@ import json
 
 from django.conf import settings
 
-import weblate
+import weblate.utils.version
 from weblate.machinery.base import (
     MachineTranslation,
     MachineTranslationError,
@@ -46,7 +46,7 @@ class ModernMTTranslation(MachineTranslation):
         return {
             "MMT-ApiKey": settings.MT_MODERNMT_KEY,
             "MMT-Platform": "Weblate",
-            "MMT-PlatformVersion": weblate.VERSION,
+            "MMT-PlatformVersion": weblate.utils.version.VERSION,
         }
 
     def is_supported(self, source, language):

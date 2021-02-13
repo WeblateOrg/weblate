@@ -208,7 +208,11 @@ def search_source(request, pk):
     if not form.is_valid():
         return search_results(400, obj)
     return search_results(
-        200, obj, translation.unit_set.filter(parse_query(form.cleaned_data["q"]))
+        200,
+        obj,
+        translation.unit_set.filter(
+            parse_query(form.cleaned_data["q"], project=translation.component.project)
+        ),
     )
 
 

@@ -412,6 +412,19 @@ on the internal Weblate management.
    :ref:`project-access_control`,
    :ref:`privileges`
 
+.. setting:: DEFAULT_AUTO_WATCH
+
+DEFAULT_AUTO_WATCH
+------------------
+
+.. versionadded:: 4.5
+
+Configures whether automatic watching should be turned on for new users. Defaults to ``True``.
+
+.. seealso::
+
+   :ref:`subscriptions`
+
 .. setting:: DEFAULT_RESTRICTED_COMPONENT
 
 DEFAULT_RESTRICTED_COMPONENT

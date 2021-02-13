@@ -85,7 +85,7 @@ def check_permission(user, permission, obj):
             for permissions, langs in user.component_permissions[obj.component_id]
         )
     raise ValueError(
-        f"Not supported type for permission check: {obj.__class__.__name__}"
+        f"Permission {permission} does not support: {obj.__class__.__name__}"
     )
 
 
@@ -336,6 +336,13 @@ def check_translation_delete(user, permission, obj):
     return check_permission(user, permission, obj)
 
 
+@register_perm("reports.view", "change.download")
+def check_possibly_global(user, permission, obj):
+    if obj is None:
+        return user.is_superuser
+    return check_permission(user, permission, obj)
+
+
 @register_perm("meta:vcs.status")
 def check_repository_status(user, permission, obj):
     return (
@@ -363,3 +370,22 @@ def check_billing(user, permission, obj):
             return False
 
     return check_permission(user, "project.permissions", obj)
+
+
+# This does not exist for real
+@register_perm("announcement.delete")
+def check_announcement_delete(user, permission, obj):
+    return (
+        user.is_superuser
+        or (obj.component and check_permission(user, "component.edit", obj.component))
+        or (obj.project and check_permission(user, "project.edit", obj.project))
+    )
+
+
+# This does not exist for real
+@register_perm("unit.flag")
+def check_unit_flag(user, permission, obj: Translation):
+    if not obj.component.is_glossary or obj.is_source:
+        return user.has_perm("source.edit", obj)
+
+    return user.has_perm("glossary.edit", obj)

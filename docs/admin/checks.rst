@@ -90,10 +90,14 @@ Here is a list of flags currently accepted:
     :ref:`check-java-messageformat`, :ref:`check-lua-format`, :ref:`check-same`.
 ``strict-same``
     Make "Unchanged translation" avoid using built-in words blacklist, see :ref:`check-same`.
+``check-glossary``
+    Enable the "Does not follow glossary" quality check.
 ``ignore-bbcode``
     Skip the "BBcode markup" quality check.
 ``ignore-duplicate``
     Skip the "Consecutive duplicated words" quality check.
+``ignore-check-glossary``
+    Skip the "Does not follow glossary" quality check.
 ``ignore-double-space``
     Skip the "Double space" quality check.
 ``ignore-angularjs-format``

@@ -27,7 +27,8 @@ from django.core.cache import cache
 from django.core.exceptions import ImproperlyConfigured
 from django.db import connection
 
-import weblate
+import weblate.utils.version
+from weblate.utils.db import using_postgresql
 from weblate.utils.errors import report_error
 from weblate.vcs.git import GitRepository, GitWithGerritRepository, SubversionRepository
 from weblate.vcs.mercurial import HgRepository
@@ -159,7 +160,7 @@ def get_versions():
 
 
 def get_db_version():
-    if connection.vendor == "postgresql":
+    if using_postgresql():
         try:
             with connection.cursor() as cursor:
                 cursor.execute("SHOW server_version")
@@ -216,7 +217,7 @@ def get_db_cache_version():
 def get_versions_list():
     """Return list with version information summary."""
     return (
-        [("Weblate", "https://weblate.org/", weblate.GIT_VERSION)]
+        [("Weblate", "https://weblate.org/", weblate.utils.version.GIT_VERSION)]
         + get_versions()
         + get_optional_versions()
         + get_db_cache_version()

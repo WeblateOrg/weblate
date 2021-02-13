@@ -86,6 +86,9 @@ class AppearanceForm(forms.Form):
     header_color = ColorField(
         label=("Navigation color"), required=False, initial="#2a3744"
     )
+    header_text_color = ColorField(
+        label=("Navigation text color"), required=False, initial="#bfc3c7"
+    )
     navi_color = ColorField(
         label=("Navigation color"), required=False, initial="#1fa385"
     )

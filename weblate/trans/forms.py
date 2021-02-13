@@ -98,20 +98,6 @@ GROUP_TEMPLATE = """
 TOOLBAR_TEMPLATE = """
 <div class="btn-toolbar pull-right flip editor-toolbar">{0}</div>
 """
-EDITOR_TEMPLATE = """
-<div class="clearfix"></div>
-<div class="translation-item"><label for="{1}">{2}</label>
-{0}
-<div class="clearfix"></div>
-{3}
-<div class="pull-right flip editor-footer">
-    <span class="badge length">
-    <span data-max="{4}" class="length-indicator">{5}</span>/{4}
-    </span>
-    {6}
-</div>
-</div>
-"""
 COPY_TEMPLATE = 'data-checksum="{0}" data-content="{1}"'
 
 
@@ -256,17 +242,12 @@ class PluralTextarea(forms.Textarea):
             ),
         ]
         groups = [GROUP_TEMPLATE.format('data-toggle="buttons"', "\n".join(rtl_switch))]
-        return TOOLBAR_TEMPLATE.format("\n".join(groups))
+        return mark_safe(TOOLBAR_TEMPLATE.format("\n".join(groups)))
 
-    def get_toolbar(self, language, fieldname, unit, idx):
+    def get_toolbar(self, language, fieldname, unit, idx, source):
         """Return toolbar HTML code."""
         profile = self.profile
         groups = []
-        plurals = unit.get_source_plurals()
-        if idx and len(plurals) > 1:
-            source = plurals[1]
-        else:
-            source = plurals[0]
         # Copy button
         if source:
             groups.append(
@@ -303,7 +284,7 @@ class PluralTextarea(forms.Textarea):
         if language.direction == "rtl":
             result = self.get_rtl_toolbar(fieldname) + result
 
-        return result
+        return mark_safe(result)
 
     def render(self, name, value, attrs=None, renderer=None, **kwargs):
         """Render all textareas with correct plural labels."""
@@ -328,6 +309,7 @@ class PluralTextarea(forms.Textarea):
 
         # Okay we have more strings
         ret = []
+        plurals = unit.get_source_plurals()
         base_id = f"id_{unit.checksum}"
         for idx, val in enumerate(values):
             # Generate ID
@@ -335,6 +317,10 @@ class PluralTextarea(forms.Textarea):
             fieldid = f"{base_id}_{idx}"
             attrs["id"] = fieldid
             attrs["tabindex"] = tabindex + idx
+            if idx and len(plurals) > 1:
+                source = plurals[1]
+            else:
+                source = plurals[0]
 
             # Render textare
             textarea = super().render(fieldname, val, attrs, renderer, **kwargs)
@@ -343,14 +329,18 @@ class PluralTextarea(forms.Textarea):
             if len(values) != 1:
                 label = "{}, {}".format(label, plural.get_plural_label(idx))
             ret.append(
-                EDITOR_TEMPLATE.format(
-                    self.get_toolbar(lang, fieldid, unit, idx),
-                    fieldid,
-                    label,
-                    textarea,
-                    attrs["data-max"],
-                    len(val),
-                    self.get_rtl_toggle(lang, fieldid),
+                render_to_string(
+                    "snippets/editor.html",
+                    {
+                        "toolbar": self.get_toolbar(lang, fieldid, unit, idx, source),
+                        "fieldid": fieldid,
+                        "label": label,
+                        "textarea": textarea,
+                        "max_length": attrs["data-max"],
+                        "length": len(val),
+                        "source_length": len(source),
+                        "rtl_toggle": self.get_rtl_toggle(lang, fieldid),
+                    },
                 )
             )
 
@@ -1961,7 +1951,11 @@ class MatrixLanguageForm(forms.Form):
         self.fields["lang"].choices = languages.as_choices()
 
 
-class NewMonolingualUnitForm(forms.Form):
+class NewUnitBaseForm(forms.Form):
+    variant = forms.CharField(required=False, widget=forms.HiddenInput)
+
+
+class NewMonolingualUnitForm(NewUnitBaseForm):
     key = forms.CharField(
         label=_("Translation key"),
         help_text=_(
@@ -1993,7 +1987,7 @@ class NewMonolingualUnitForm(forms.Form):
         return obj.unit_set.filter(context=self.cleaned_data["key"]).exists()
 
 
-class NewBilingualSourceUnitForm(forms.Form):
+class NewBilingualSourceUnitForm(NewUnitBaseForm):
     context = forms.CharField(
         label=_("Translation key"),
         help_text=_("Optional context to clarify the source strings."),
@@ -2043,12 +2037,12 @@ class NewBilingualUnitForm(NewBilingualSourceUnitForm):
         self.fields["target"].initial = Unit(translation=translation, id_hash=0)
 
 
-def get_new_unit_form(translation, user, data=None):
+def get_new_unit_form(translation, user, data=None, initial=None):
     if translation.component.has_template():
-        return NewMonolingualUnitForm(translation, user, data)
+        return NewMonolingualUnitForm(translation, user, data=data, initial=initial)
     if translation.is_source:
-        return NewBilingualSourceUnitForm(translation, user, data)
-    return NewBilingualUnitForm(translation, user, data)
+        return NewBilingualSourceUnitForm(translation, user, data=data, initial=initial)
+    return NewBilingualUnitForm(translation, user, data=data, initial=initial)
 
 
 class BulkEditForm(forms.Form):

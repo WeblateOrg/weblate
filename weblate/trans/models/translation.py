@@ -931,13 +931,20 @@ class Translation(
                         os.unlink(temp.name)
 
             # Commit changes
+            previous_revision = (self.component.repository.last_revision,)
             if component.commit_files(
                 template=component.addon_message,
                 files=filenames,
                 author=request.user.get_author_name(),
                 extra_context={"addon_name": "Source update"},
             ):
-                component.create_translations(request=request, force=True)
+                self.drop_store_cache()
+                self.handle_store_change(
+                    request,
+                    request.user,
+                    previous_revision,
+                    change=Change.ACTION_REPLACE_UPLOAD,
+                )
         return (0, 0, self.unit_set.count(), self.unit_set.count())
 
     def handle_replace(self, request, fileobj):
@@ -960,21 +967,19 @@ class Translation(
             )
 
             # Commit to VCS
-            if self.git_commit(request.user, request.user.get_author_name()):
+            previous_revision = (self.component.repository.last_revision,)
+            if self.git_commit(
+                request.user, request.user.get_author_name(), store_hash=False
+            ):
 
                 # Drop store cache
                 self.drop_store_cache()
-
-                # Parse the file again
-                if self.is_template:
-                    self.component.create_translations(request=request, force=True)
-                else:
-                    self.check_sync(
-                        force=True,
-                        request=request,
-                        change=Change.ACTION_REPLACE_UPLOAD,
-                    )
-                    self.invalidate_cache()
+                self.handle_store_change(
+                    request,
+                    request.user,
+                    previous_revision,
+                    change=Change.ACTION_REPLACE_UPLOAD,
+                )
 
         return (0, 0, self.unit_set.count(), len(list(store2.content_units)))
 
@@ -1122,12 +1127,14 @@ class Translation(
             author=user,
         )
 
-    def handle_store_change(self, request, user):
+    def handle_store_change(self, request, user, previous_revision: str, change=None):
         if self.is_source:
             self.component.create_translations(request=request)
         else:
-            self.check_sync(request=request)
+            self.check_sync(request=request, change=change)
             self.invalidate_cache()
+        # Trigger post-update signal
+        self.component.trigger_post_update(previous_revision, False)
 
     def get_store_change_translations(self):
         component = self.component
@@ -1146,6 +1153,7 @@ class Translation(
         user = request.user if request else get_anonymous()
         with self.component.repository.lock:
             self.component.commit_pending("new unit", user)
+            previous_revision = (self.component.repository.last_revision,)
             for translation in self.get_store_change_translations():
                 for context, source, target in batch:
                     translation.store.new_unit(context, source, target)
@@ -1158,7 +1166,7 @@ class Translation(
                     )
                 translation.drop_store_cache()
                 translation.git_commit(user, user.get_author_name(), store_hash=False)
-            self.handle_store_change(request, user)
+            self.handle_store_change(request, user, previous_revision)
 
         if self.is_source:
             self.component.sync_terminology()
@@ -1171,6 +1179,7 @@ class Translation(
         user = request.user if request else get_anonymous()
         with component.repository.lock:
             component.commit_pending("delete unit", user)
+            previous_revision = (self.component.repository.last_revision,)
             for translation in self.get_store_change_translations():
                 try:
                     pounit, add = translation.store.find_unit(unit.context, unit.source)
@@ -1182,7 +1191,7 @@ class Translation(
                 translation.addon_commit_files.extend(extra_files)
                 translation.drop_store_cache()
                 translation.git_commit(user, user.get_author_name(), store_hash=False)
-            self.handle_store_change(request, user)
+            self.handle_store_change(request, user, previous_revision)
 
     def sync_terminology(self):
         if self.is_source:

@@ -568,6 +568,8 @@ Disable adding new translations
 Manage strings
 ++++++++++++++
 
+.. versionadded:: 4.5
+
 Configures whether users in Weblate will be allowed to add new strings and
 remove existing ones. Adjust this to match your localization workflow - how the
 new strings are supposed to be introduced.
@@ -793,6 +795,8 @@ can be useful for shared libraries which you use in several projects.
 
 Use as a glossary
 +++++++++++++++++
+
+.. versionadded:: 4.5
 
 Allows using this component as a glossary. You can configure how it will be
 listed using :ref:`component-glossary_name` and

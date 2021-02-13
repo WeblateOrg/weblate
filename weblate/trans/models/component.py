@@ -729,22 +729,25 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
 
         if create:
             self.install_autoaddon()
-            self.create_glossary()
 
         # Ensure source translation is existing, otherwise we might
         # be hitting race conditions between background update and frontend displaying
         # the newsly created component
         bool(self.source_translation)
 
-        task = component_after_save.delay(
-            self.pk,
-            changed_git,
-            changed_setup,
-            changed_template,
-            changed_variant,
-            skip_push=kwargs.get("force_insert", False),
-        )
-        self.store_background_task(task)
+        args = {
+            "changed_git": changed_git,
+            "changed_setup": changed_setup,
+            "changed_template": changed_template,
+            "changed_variant": changed_variant,
+            "skip_push": kwargs.get("force_insert", False),
+            "create": create,
+        }
+        if settings.CELERY_TASK_ALWAYS_EAGER:
+            self.after_save(**args)
+        else:
+            task = component_after_save.delay(self.pk, **args)
+            self.store_background_task(task)
 
         if self.old_component.check_flags != self.check_flags:
             update_checks.delay(self.pk)
@@ -853,27 +856,37 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
         # Make sure it is listed in project glossaries now
         project.glossaries.append(component)
 
-    @contextmanager
-    def lock(self):
+        # Make sure all languages are present
+        component.sync_terminology()
+
+    @cached_property
+    def _lock(self):
         default_cache = caches["default"]
         if isinstance(default_cache, RedisCache):
             # Prefer Redis locking as it works distributed
-            lock = Lock(
+            return Lock(
                 default_cache.client.get_client(),
                 name=f"component-update-lock-{self.pk}",
                 expire=60,
                 auto_renewal=True,
             )
-            if not lock.acquire(timeout=1):
+        # Fall back to file based locking
+        return FileLock(
+            os.path.join(self.project.full_path, f"{self.slug}-update.lock"),
+            timeout=1,
+        )
+
+    @contextmanager
+    def lock(self):
+        default_cache = caches["default"]
+        if isinstance(default_cache, RedisCache):
+            # Prefer Redis locking as it works distributed
+            if not self._lock.acquire(timeout=1):
                 raise ComponentLockTimeout()
         else:
             # Fall back to file based locking
-            lock = FileLock(
-                os.path.join(self.project.full_path, f"{self.slug}-update.lock"),
-                timeout=1,
-            )
             try:
-                lock.acquire()
+                self._lock.acquire()
             except Timeout:
                 raise ComponentLockTimeout()
 
@@ -883,7 +896,7 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
         finally:
             # Release lock (the API is same in both cases)
             try:
-                lock.release()
+                self._lock.release()
             except NotAcquired:
                 # This can happen in case of overloaded server fails to renew the
                 # lock before expiry
@@ -1435,6 +1448,10 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
     @perform_on_link
     def do_push(self, request, force_commit=True, do_update=True, retry=True):
         """Wrapper for pushing changes to remote repo."""
+        # Skip push for local only repo
+        if self.vcs == "local":
+            return True
+
         # Do we have push configured
         if not self.can_push():
             messages.error(request, _("Push is turned off for %s.") % self)
@@ -1706,27 +1723,32 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
                 # might need to access the template
                 self.drop_template_store_cache()
 
-                # Run post update hook, this should be done with repo lock held
-                # to avoid posssible race with another update
-                vcs_post_update.send(
-                    sender=self.__class__,
-                    component=self,
-                    previous_head=previous_head,
-                    skip_push=skip_push,
-                )
+                # Delete alerts
                 self.delete_alert("MergeFailure")
                 self.delete_alert("RepositoryOutdated")
                 if not self.repo_needs_push():
                     self.delete_alert("PushFailure")
-                for component in self.linked_childs:
-                    vcs_post_update.send(
-                        sender=component.__class__,
-                        component=component,
-                        previous_head=previous_head,
-                        child=True,
-                        skip_push=skip_push,
-                    )
+
+                # Run post update hook, this should be done with repo lock held
+                # to avoid posssible race with another update
+                self.trigger_post_update(previous_head, skip_push)
         return True
+
+    def trigger_post_update(self, previous_head: str, skip_push: bool):
+        vcs_post_update.send(
+            sender=self.__class__,
+            component=self,
+            previous_head=previous_head,
+            skip_push=skip_push,
+        )
+        for component in self.linked_childs:
+            vcs_post_update.send(
+                sender=component.__class__,
+                component=component,
+                previous_head=previous_head,
+                child=True,
+                skip_push=skip_push,
+            )
 
     def get_mask_matches(self):
         """Return files matching current mask."""
@@ -2509,6 +2531,7 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
         changed_template: bool,
         changed_variant: bool,
         skip_push: bool,
+        create: bool,
     ):
         self.store_background_task()
         self.translations_progress = 0
@@ -2543,6 +2566,10 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
         # Invalidate stats on template change
         if changed_template:
             self.invalidate_cache()
+
+        # Make sure we create glossary
+        if create:
+            self.create_glossary()
 
     def update_variants(self):
         from weblate.trans.models import Unit
@@ -2918,6 +2945,7 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
                     if request
                     else "Weblate <noreply@weblate.org>",
                     template=self.add_message,
+                    store_hash=False,
                 )
 
         # Trigger parsing of the newly added file

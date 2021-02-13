@@ -425,13 +425,13 @@ class TranslationStats(BaseStats):
             suggestions_words=conditional_sum("num_words", suggestion_count__gt=0),
             suggestions_chars=conditional_sum(Length("source"), suggestion_count__gt=0),
             nosuggestions=conditional_sum(
-                1, state__lt=STATE_APPROVED, suggestion_count=0
+                1, state__lt=STATE_TRANSLATED, suggestion_count=0
             ),
             nosuggestions_words=conditional_sum(
-                "num_words", state__lt=STATE_APPROVED, suggestion_count=0
+                "num_words", state__lt=STATE_TRANSLATED, suggestion_count=0
             ),
             nosuggestions_chars=conditional_sum(
-                Length("source"), state__lt=STATE_APPROVED, suggestion_count=0
+                Length("source"), state__lt=STATE_TRANSLATED, suggestion_count=0
             ),
             approved_suggestions=conditional_sum(
                 1, state__gte=STATE_APPROVED, suggestion_count__gt=0
@@ -702,6 +702,10 @@ class ProjectLanguageComponent:
 
     def __init__(self):
         self.slug = "-"
+
+    @staticmethod
+    def has_template():
+        return False
 
 
 class ProjectLanguage:

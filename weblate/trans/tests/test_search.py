@@ -20,13 +20,13 @@
 
 import re
 
-from django.conf import settings
 from django.http import QueryDict
 from django.test.utils import override_settings
 from django.urls import reverse
 
 from weblate.trans.models import Component
 from weblate.trans.tests.test_views import ViewTestCase
+from weblate.utils.db import using_postgresql
 from weblate.utils.ratelimit import reset_rate_limit
 from weblate.utils.state import STATE_FUZZY, STATE_READONLY, STATE_TRANSLATED
 
@@ -38,7 +38,7 @@ class SearchViewTest(ViewTestCase):
         # well inside a transaction, so we avoid using transactions for
         # tests. Otherwise we end up with no matches for the query.
         # See https://dev.mysql.com/doc/refman/5.6/en/innodb-fulltext-index.html
-        if settings.DATABASES["default"]["ENGINE"] == "django.db.backends.mysql":
+        if not using_postgresql():
             return False
         return super()._databases_support_transactions()
 

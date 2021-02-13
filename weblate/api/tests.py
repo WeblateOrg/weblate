@@ -919,7 +919,7 @@ class ProjectAPITest(APIBaseTest):
 
     def test_changes(self):
         request = self.do_request("api:project-changes", self.project_kwargs)
-        self.assertEqual(request.data["count"], 17)
+        self.assertEqual(request.data["count"], 20)
 
     def test_statistics(self):
         request = self.do_request("api:project-statistics", self.project_kwargs)
@@ -1717,15 +1717,15 @@ class LanguageAPITest(APIBaseTest):
 class TranslationAPITest(APIBaseTest):
     def test_list_translations(self):
         response = self.client.get(reverse("api:translation-list"))
-        self.assertEqual(response.data["count"], 5)
+        self.assertEqual(response.data["count"], 8)
 
     def test_list_translations_acl(self):
         self.create_acl()
         response = self.client.get(reverse("api:translation-list"))
-        self.assertEqual(response.data["count"], 5)
+        self.assertEqual(response.data["count"], 8)
         self.authenticate(True)
         response = self.client.get(reverse("api:translation-list"))
-        self.assertEqual(response.data["count"], 10)
+        self.assertEqual(response.data["count"], 16)
 
     def test_get_translation(self):
         response = self.client.get(
@@ -2139,7 +2139,7 @@ class TranslationAPITest(APIBaseTest):
         )
 
     def test_delete(self):
-        self.assertEqual(Translation.objects.count(), 5)
+        start_count = Translation.objects.count()
         self.do_request(
             "api:translation-detail", self.translation_kwargs, method="delete", code=403
         )
@@ -2150,7 +2150,7 @@ class TranslationAPITest(APIBaseTest):
             superuser=True,
             code=204,
         )
-        self.assertEqual(Translation.objects.count(), 4)
+        self.assertEqual(Translation.objects.count(), start_count - 1)
 
 
 class UnitAPITest(APIBaseTest):
@@ -2646,7 +2646,7 @@ class ScreenshotAPITest(APIBaseTest):
 class ChangeAPITest(APIBaseTest):
     def test_list_changes(self):
         response = self.client.get(reverse("api:change-list"))
-        self.assertEqual(response.data["count"], 17)
+        self.assertEqual(response.data["count"], 20)
 
     def test_filter_changes_after(self):
         """Filter chanages since timestamp."""
@@ -2654,7 +2654,7 @@ class ChangeAPITest(APIBaseTest):
         response = self.client.get(
             reverse("api:change-list"), {"timestamp_after": start.isoformat()}
         )
-        self.assertEqual(response.data["count"], 17)
+        self.assertEqual(response.data["count"], 20)
 
     def test_filter_changes_before(self):
         """Filter changes prior to timestamp."""

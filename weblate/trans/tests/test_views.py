@@ -24,7 +24,6 @@ from urllib.parse import urlsplit
 from xml.dom import minidom
 from zipfile import ZipFile
 
-from django.conf import settings
 from django.contrib.messages import get_messages
 from django.contrib.messages.storage.fallback import FallbackStorage
 from django.core import mail
@@ -43,6 +42,7 @@ from weblate.trans.tests.utils import (
     create_test_user,
     wait_for_celery,
 )
+from weblate.utils.db import using_postgresql
 from weblate.utils.hash import hash_to_checksum
 
 
@@ -378,7 +378,7 @@ class BasicViewTest(ViewTestCase):
 
         # Different casing should redirect, MySQL always does case insensitive lookups
         kwargs["project"] = self.project.slug.upper()
-        if settings.DATABASES["default"]["ENGINE"] != "django.db.backends.mysql":
+        if using_postgresql():
             response = self.client.get(reverse("project", kwargs=kwargs))
             self.assertRedirects(
                 response, reverse("project", kwargs=self.kw_project), status_code=301
@@ -391,7 +391,7 @@ class BasicViewTest(ViewTestCase):
 
         # Different casing should redirect, MySQL always does case insensitive lookups
         kwargs["component"] = self.component.slug.upper()
-        if settings.DATABASES["default"]["ENGINE"] != "django.db.backends.mysql":
+        if using_postgresql():
             response = self.client.get(reverse("component", kwargs=kwargs))
             self.assertRedirects(
                 response,

@@ -591,6 +591,10 @@ Generic settings
 
     Configures :setting:`BASIC_LANGUAGES`.
 
+.. envvar:: WEBLATE_DEFAULT_AUTO_WATCH
+
+   Configures :setting:`DEFAULT_AUTO_WATCH`.
+
 Machine translation settings
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 

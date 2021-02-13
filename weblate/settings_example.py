@@ -367,6 +367,7 @@ INSTALLED_APPS = [
     "weblate.utils",
     "weblate.vcs",
     "weblate.wladmin",
+    "weblate.metrics",
     "weblate",
     # Optional: Git exporter
     "weblate.gitexport",

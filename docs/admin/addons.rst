@@ -6,7 +6,7 @@ Addons
 .. versionadded:: 2.19
 
 Addons provide ways to customize and automate the translation workflow.
-Admins can add and mangage addons from the :guilabel:`Manage` ↓ `Addons` menu of each respective
+Admins can add and mangage addons from the :guilabel:`Manage` ↓ :guilabel:`Addons` menu of each respective
 translation component.
 
 .. image:: /images/addons.png

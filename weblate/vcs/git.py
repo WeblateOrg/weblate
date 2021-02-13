@@ -18,7 +18,6 @@
 #
 """Git based version control system abstraction for Weblate needs."""
 
-import json
 import logging
 import os
 import os.path
@@ -26,6 +25,7 @@ import random
 import urllib.parse
 from configparser import NoOptionError, NoSectionError
 from datetime import datetime
+from json import JSONDecodeError, dumps
 from typing import Dict, List, Optional, Tuple
 from zipfile import ZipFile
 
@@ -307,7 +307,7 @@ class GitRepository(Repository):
         self, pull_url: str, push_url: str, branch: str, fast: bool = True
     ):
         """Configure remote repository."""
-        escaped_branch = json.dumps(branch)
+        escaped_branch = dumps(branch)
         self.config_update(
             # Pull url
             ('remote "origin"', "url", pull_url),
@@ -317,7 +317,7 @@ class GitRepository(Repository):
             (
                 'remote "origin"',
                 "fetch",
-                json.dumps(f"+refs/heads/{branch}:refs/remotes/origin/{branch}")
+                dumps(f"+refs/heads/{branch}:refs/remotes/origin/{branch}")
                 if fast
                 else "+refs/heads/*:refs/remotes/origin/*",
             ),
@@ -325,7 +325,7 @@ class GitRepository(Repository):
             ('remote "origin"', "tagOpt", "--no-tags"),
             # Set branch to track
             (f"branch {escaped_branch}", "remote", "origin"),
-            (f"branch {escaped_branch}", "merge", json.dumps(f"refs/heads/{branch}")),
+            (f"branch {escaped_branch}", "merge", dumps(f"refs/heads/{branch}")),
         )
         self.branch = branch
 
@@ -759,7 +759,7 @@ class GithubRepository(GitMergeRequestBase):
         )
         try:
             data = response.json()
-        except json.JSONDecodeError:
+        except JSONDecodeError:
             response.raise_for_status()
 
         # Log and parase all errors. Sometimes GitHub returns the error

@@ -18,13 +18,13 @@
 #
 from unittest import SkipTest
 
-from django.conf import settings
 from django.urls import reverse
 
 import weblate.screenshots.views
 from weblate.screenshots.models import Screenshot
 from weblate.trans.tests.test_views import FixtureTestCase
 from weblate.trans.tests.utils import get_test_file
+from weblate.utils.db import using_postgresql
 
 TEST_SCREENSHOT = get_test_file("screenshot.png")
 
@@ -36,7 +36,7 @@ class ViewTest(FixtureTestCase):
         # well inside a transaction, so we avoid using transactions for
         # tests. Otherwise we end up with no matches for the query.
         # See https://dev.mysql.com/doc/refman/5.6/en/innodb-fulltext-index.html
-        if settings.DATABASES["default"]["ENGINE"] == "django.db.backends.mysql":
+        if not using_postgresql():
             return False
         return super()._databases_support_transactions()
 

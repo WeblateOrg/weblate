@@ -29,6 +29,9 @@
 {% perm 'unit.add' object as user_can_add_unit %}
 
 {% get_translate_url object as translate_url %}
+{% url "translate" project=object.component.project.slug component=object.component.slug lang=object.language.code as edit_url %}
+{% url "zen" project=object.component.project.slug component=object.component.slug lang=object.language.code as zen_url %}
+{% url "browse" project=object.component.project.slug component=object.component.slug lang=object.language.code as browse_url %}
 
 <ul class="nav nav-pills">
   <li class="active"><a href="#overview" data-toggle="tab">{% trans "Overview" %}</a></li>
@@ -135,7 +138,7 @@
 <td class="percent">{{ object.stats.translated_percent|percent_format }}</td>
 <td rowspan="2" class="buttons-cell full-cell">
 <div class="pull-right flip">
-  <a href="{% url "browse" project=object.component.project.slug component=object.component.slug lang=object.language.code %}" class=" btn btn-info">{% trans "Browse" %}</a>
+  <a href="{{ browse_url }}" class=" btn btn-info">{% trans "Browse" %}</a>
   <a href="{{ translate_url }}{% if object.stats.todo > 0 %}?q=state:&lt;translated{% endif %}" class="btn btn-primary">{% trans "Translate" %}</a>
 </div>
 </td>
@@ -179,6 +182,11 @@
     <a href="{{ translate_url }}?q={{ query }}">
         {{ name }} — {% blocktrans with count=words|intcomma count cnt=words %}{{ count }} word{% plural %}{{ count }} words{% endblocktrans %}
     </a>
+</td>
+<td>
+  <a class="btn-inline" href="{{ browse_url }}?q={{ query }}">{% trans "Browse" %}</a>
+  <a class="btn-inline" href="{{ edit_url }}?q={{ query }}">{% trans "Edit" %}</a>
+  <a class="btn-inline" href="{{ zen_url }}?q={{ query }}">{% trans "Zen" %}</a>
 </td>
 {% endfor %}
 </table>
@@ -297,7 +305,9 @@
 <div class="panel panel-default">
 <div class="panel-heading"><h4 class="panel-title">{% trans "Add new translation string" %}</h4></div>
 <div class="panel-body">
+{% if obj.is_source %}
 <p>{% trans "You can add a new translation string here, it will automatically appear in all translations." %}</p>
+{% endif %}
 {% csrf_token %}
 {{ new_unit_form|crispy }}
 </div>

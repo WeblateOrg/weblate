@@ -120,6 +120,8 @@ PERMISSIONS = (
     ("vcs.update", _("Update the internal repository")),
 )
 
+PERMISSION_NAMES = {perm[0] for perm in PERMISSIONS}
+
 # Permissions which are not scoped per project
 GLOBAL_PERMISSIONS = (
     # Translators: Permission name

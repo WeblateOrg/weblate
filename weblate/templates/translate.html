@@ -46,9 +46,11 @@
 {% perm 'suggestion.vote' unit.translation as user_can_vote_suggestion %}
 {% perm 'machinery.view' unit.translation as user_can_use_machinery %}
 {% perm 'source.edit' unit.translation as user_can_edit_source %}
+{% perm 'unit.flag' unit.translation as user_can_edit_flags %}
 {% perm 'screenshot.add' unit.translation as user_can_add_screenshot %}
 {% perm 'comment.add' unit.translation as user_can_add_comment %}
 {% perm 'glossary.add' project as user_can_add_glossary %}
+{% perm 'unit.add' object as user_can_add_unit %}
 
 <div class="btn-group pull-right flip btn-group-settings" role="group">
 {% if user_can_translate %}
@@ -173,7 +175,7 @@
     {% crispy form %}
   </div>
   <div class="panel-footer">
-    {% if user_can_delete or user_can_edit_source %}
+    {% if user_can_delete or user_can_edit_flags or user_can_add_unit %}
       {% with flag_actions=unit.get_flag_actions %}
         <div class="btn-group pull-right flip">
           <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -183,10 +185,13 @@
             {% if user_can_delete %}
               <li><a href="{% url "delete-unit" unit_id=unit.pk %}" class="link-post">{% trans "Delete string" %}</a></li>
             {% endif %}
-            {% if user_can_edit_source %}
+            {% if user_can_edit_flags %}
               {% for action, value, name in flag_actions %}
-                <li><a href="{% url 'edit_context' pk=unit.source_unit.pk %}" class="link-post" data-params='{"{{ action|escapejs }}": "{{ value|escapejs }}", "next": "{{ this_unit_url|escapejs }}"}'>{{ name }}</a></li>
+                <li><a href="{% url 'edit_context' pk=unit.pk %}" class="link-post" data-params='{"{{ action|escapejs }}": "{{ value|escapejs }}", "next": "{{ this_unit_url|escapejs }}"}'>{{ name }}</a></li>
               {% endfor %}
+            {% endif %}
+            {% if user_can_add_unit %}
+              <li><a href="#" data-toggle="modal" data-target="#add-unit-form">{% trans "Add variant of this string" %}</a></li>
             {% endif %}
           </ul>
         </div>
@@ -720,5 +725,28 @@
 </form>
 
 {% endwith %}
+
+{% if user_can_add_unit %}
+  <form action="{% url 'new-unit' project=unit.translation.component.project.slug component=unit.translation.component.slug lang=unit.translation.language.code %}" method="post">
+    {% csrf_token %}
+    <input type="hidden" name="next" value="{{ this_unit_url }}" />
+    <div class="modal fade" tabindex="-1" role="dialog" id="add-unit-form">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="{% trans "Close" %}"><span aria-hidden="true">&times;</span></button>
+            <h4 class="panel-title">{% trans "Add new translation string" %}</h4>
+          </div>
+          <div class="modal-body">
+            {{ new_unit_form|crispy }}
+          </div>
+          <div class="modal-footer">
+            <input type="submit" class="btn btn-primary" value="{% trans "Add" %}" />
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+  </form>
+{% endif %}
 
 {% endblock %}

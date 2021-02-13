@@ -67,13 +67,15 @@ class WeblateTranslation(BatchStringMachineTranslation):
             translation__component__source_language=source,
             translation__language=language,
             state__gte=STATE_TRANSLATED,
-        )
+        ).prefetch()
 
         # We want only close matches here
         adjust_similarity_threshold(0.95)
 
         for munit in matching_units:
             source = munit.source_string
+            if "forbidden" in munit.all_flags:
+                continue
             quality = self.comparer.similarity(text, source)
             if quality < 10 or (quality < threshold and not search):
                 continue
