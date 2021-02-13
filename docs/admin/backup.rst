@@ -19,9 +19,9 @@ the cloud. The backups can be controlled in the management interface from the
 
 The backups using Borg are incremental and Weblate is configured to keep following backups:
 
-* 14 day backups
-* 8 week backups
-* 6 month backups
+* Every 14 days
+* Every 8 weeks
+* Every 6 month
 
 .. image:: /images/backups.png
 
