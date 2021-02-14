@@ -190,6 +190,10 @@ for file formats that include source strings for untranslated strings.
    You might also want to tighthen the :ref::`check-same` check by adding
    ``strict-same`` flag to :ref:`component-check_flags`.
 
+.. seealso::
+
+   :ref:`states`
+
 .. _addon-weblate.flags.source_edit:
 
 Flag new source strings as "Needs editing"
@@ -199,6 +203,10 @@ Whenever a new source string is imported from the VCS, it is flagged as needing
 editing in Weblate. This way you can easily filter and edit source strings
 written by the developers.
 
+.. seealso::
+
+   :ref:`states`
+
 .. _addon-weblate.flags.target_edit:
 
 Flag new translations as "Needs editing"
@@ -207,6 +215,10 @@ Flag new translations as "Needs editing"
 Whenever a new translatable string is imported from the VCS, it is flagged as
 needing editing in Weblate. This way you can easily filter and edit
 translations created by the developers.
+
+.. seealso::
+
+   :ref:`states`
 
 .. _addon-weblate.generate.generate:
 
