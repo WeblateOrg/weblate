@@ -31,7 +31,7 @@ Untranslated
     Translation is empty, it might or not be stored in the file, depending
     on the file format.
 Needs editing
-    Translation needs editing, this is usually the result of a source string change.
+    Translation needs editing, this is usually the result of a source string change, fuzzy matching or translator action.
     The translation is stored in the file, depending on the file format it might
     be marked as needing edit (for example as it gets a ``fuzzy`` flag in the Gettext file).
 Waiting for review
@@ -43,6 +43,19 @@ Approved
     it.
 Suggestions
     Suggestions are stored in Weblate only and not in the translation file.
+
+The states are represented in the translation files when possible.
+
+.. hint::
+
+   In case file format you use does not support storing states, you might want
+   to use :ref:`addon-weblate.flags.same_edit` addon to flag unchanged strings
+   as needing editing.
+
+.. seealso::
+
+   :ref:`fmt_capabs`,
+   :ref:`workflows`
 
 
 Direct translation
