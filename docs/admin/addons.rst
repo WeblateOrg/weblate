@@ -289,13 +289,13 @@ Allows customization of gettext output behavior, for example line wrapping.
 It offers the following options:
 
 * Wrap lines at 77 characters and at newlines
-* Only wrap lines for newlines
+* Only wrap lines at newlines
 * No line wrapping
 
 .. note::
 
-   By default gettext wraps lines at 77 characters and for newlines.
-   With the ``--no-wrap`` parameter, wrapping is only done for newlines.
+   By default gettext wraps lines at 77 characters and at newlines.
+   With the ``--no-wrap`` parameter, wrapping is only done at newlines.
 
 
 .. _addon-weblate.gettext.linguas:
