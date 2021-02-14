@@ -185,6 +185,11 @@ Whenever a new translatable string is imported from the VCS and it matches a
 source string, it is flagged as needing editing in Weblate. Especially useful
 for file formats that include source strings for untranslated strings.
 
+.. hint::
+
+   You might also want to tighthen the :ref::`check-same` check by adding
+   ``strict-same`` flag to :ref:`component-check_flags`.
+
 .. _addon-weblate.flags.source_edit:
 
 Flag new source strings as "Needs editing"
