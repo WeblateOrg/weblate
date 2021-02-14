@@ -443,7 +443,7 @@ To add another addon, simply include the absolute class name in this setting.
 Writing addon
 +++++++++++++
 
-You can write your own addons too, use the subclass
+You can write your own addons too, create a subclass of
 :class:`weblate.addons.base.BaseAddon` to define the addon metadata, and
 then implement a callback to do the processing.
 

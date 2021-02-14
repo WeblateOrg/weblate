@@ -158,7 +158,7 @@ class GitSquashForm(BaseAddonForm):
         help_text=_(
             "Trailer lines are lines that look similar to RFC 822 e-mail "
             "headers, at the end of the otherwise free-form part of a commit "
-            "message, such as 'Co-authored-by: ...'."
+            "message, such as 'Co-authored-by: …'."
         ),
     )
     commit_message = forms.CharField(

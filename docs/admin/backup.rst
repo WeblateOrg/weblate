@@ -81,7 +81,7 @@ Local filesystem
 It is recommended to specify the absolute path for the local backup, for example
 `/path/to/backup`. The directory has to be writable by the user running Weblate
 (see :ref:`file-permissions`). In case it doesn't exist, Weblate will attempt
-to create it, but needs a permission to do so.
+to create it, but apropriate permissions are needed to do so.
 
 .. hint::
 
@@ -112,11 +112,15 @@ Remote backups
 In order to create the remote backups, you will have to install `BorgBackup`_
 onto another server that’s accessible via SSH. Make sure
 that it accepts the Weblate's client SSH key, i.e. the one it uses to connect
-to other servers. (see :ref:`weblate-ssh-key`).
+to other servers.
 
 .. hint::
 
     :ref:`cloudbackup` provides you automated remote backups.
+
+.. seealso::
+
+   :ref:`weblate-ssh-key`
 
 Restoring from BorgBackup
 -------------------------
@@ -173,14 +177,15 @@ Database
 
 The actual storage location depends on your database setup.
 
-The database is the most important storage.
-Set up regular backups of your database.
-Without database, all the translations are gone.
+.. hint::
+
+   The database is the most important storage. Set up regular backups of your
+   database. Without database, all the translations are gone.
 
 Native database backup
 ++++++++++++++++++++++
 
-The recommended approach is to do save a dump of the database using database native
+The recommended approach is to save a dump of the database using database native
 tools such as :program:`pg_dump` or :program:`mysqldump`. It usually performs
 better than Django backup, and it restores complete tables with all their data.
 
