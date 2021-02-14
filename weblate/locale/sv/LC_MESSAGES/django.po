@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.5\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-02-13 20:05+0000\n"
-"PO-Revision-Date: 2021-02-13 20:01+0000\n"
+"PO-Revision-Date: 2021-02-14 17:21+0000\n"
 "Last-Translator: Johan Jacobsson <johan.jacobsson@telia.com>\n"
 "Language-Team: Swedish <https://hosted.weblate.org/projects/weblate/"
 "application/sv/>\n"
@@ -417,7 +417,7 @@ msgid ""
 "the dashboard for easier access to your chosen translations."
 msgstr ""
 "Välj de språk du kan översätta till. Dessa kommer att erbjudas dig i "
-"instrumentpanelen, för att ge enklare åtkomst till dina valda översättningar."
+"kontrollpanelen för att ge enklare åtkomst till dina valda översättningar."
 
 #: weblate/accounts/models.py:358
 msgid "Secondary languages"
@@ -433,7 +433,7 @@ msgstr ""
 
 #: weblate/accounts/models.py:372
 msgid "Hide completed translations on the dashboard"
-msgstr "Dölj fullständiga översättningar från instrumentpanelen"
+msgstr "Dölj fullständiga översättningar på kontrollpanelen"
 
 #: weblate/accounts/models.py:375
 msgid "Show secondary translations in the Zen mode"
@@ -713,7 +713,7 @@ msgstr "Ny kommentar"
 #. Translators: Notification name
 #: weblate/accounts/notifications.py:600
 msgid "Changed string"
-msgstr "Ändrade sträng"
+msgstr "Ändrad sträng"
 
 #. Translators: Notification name
 #: weblate/accounts/notifications.py:609 weblate/trans/forms.py:2026
@@ -1417,10 +1417,8 @@ msgid "String suffix"
 msgstr "Strängsuffix"
 
 #: weblate/addons/forms.py:478
-#, fuzzy
-#| msgid "Source and target have to be a different languages."
 msgid "The source and target have to be different languages."
-msgstr "Källa och mål måste vara olika språk."
+msgstr "Källan och målet måste vara olika språk."
 
 #: weblate/addons/generate.py:34
 msgid "Statistics generator"
@@ -3078,14 +3076,10 @@ msgid "Java Properties (ISO 8859-1)"
 msgstr "Java-properties (ISO 8859-1)"
 
 #: weblate/formats/ttkit.py:1163
-#, fuzzy
-#| msgid "Joomla Language File"
 msgid "Joomla language file"
 msgstr "Joomla-språkfil"
 
 #: weblate/formats/ttkit.py:1172
-#, fuzzy
-#| msgid "GWT Properties"
 msgid "GWT properties"
 msgstr "GWT-egenskaper"
 
@@ -3178,10 +3172,8 @@ msgid "Inno Setup INI file"
 msgstr "Inno Setup INI-fil"
 
 #: weblate/formats/ttkit.py:1700
-#, fuzzy
-#| msgid "Term Base eXchange file"
 msgid "TermBase eXchange file"
-msgstr "Term Base eXchange-fil"
+msgstr "TermBase eXchange-fil"
 
 #: weblate/formats/txt.py:180
 msgid "App store metadata files"
@@ -4236,7 +4228,7 @@ msgid ""
 "the dashboard."
 msgstr ""
 "Lägg till alla projekt du vill översätta för att se dem som bevakade projekt "
-"på instrumentpanelen."
+"på kontrollpanelen."
 
 #: weblate/templates/accounts/profile.html:78
 #: weblate/templates/mail/base.html:309
@@ -8479,13 +8471,13 @@ msgid "Following enforced checks are not enabled anywhere:"
 msgstr "Följande tvingande kontroller är inte aktiverade någonstans:"
 
 #: weblate/templates/trans/alert/unusedenforcedcheck.html:8
-#, fuzzy, python-format
-#| msgid "%(check)s is enforced, but not enabled using <code>%(flag)s</code>."
+#, python-format
 msgid ""
 "%(check)s quality check is enforced, but not enabled using <code>%(flag)s</"
 "code>."
 msgstr ""
-"%(check)s är tvingande, men är inte aktiverad med <code>%(flag)s</code>."
+"%(check)s kontrollen är tvingande, men är inte aktiverad med "
+"<code>%(flag)s</code>."
 
 #: weblate/templates/trans/alert/unusedscreenshot.html:2
 msgid "There is at least one screenshot which is not assigned to any strings."
@@ -11211,16 +11203,12 @@ msgstr ""
 "strängen."
 
 #: weblate/trans/models/unit.py:1351
-#, fuzzy
-#| msgid "Unmark as terminology"
 msgid "Unmark as read-only"
-msgstr "Avmarkera som terminologi"
+msgstr "Avmarkera som skrivskyddad"
 
 #: weblate/trans/models/unit.py:1354
-#, fuzzy
-#| msgid "Mark as terminology"
 msgid "Mark as read-only"
-msgstr "Markera som terminologi"
+msgstr "Markera som skrivskyddad"
 
 #: weblate/trans/models/unit.py:1361
 msgid "Unmark as forbidden translation"
@@ -11536,10 +11524,9 @@ msgstr[0] "%(count)s sträng översätts inte här."
 msgstr[1] "%(count)s strängar översätts inte här."
 
 #: weblate/trans/templatetags/translations.py:826
-#, fuzzy, python-format
-#| msgid "Shared from project %s."
+#, python-format
 msgid "Shared from the %s project."
-msgstr "Delas från projekt %s."
+msgstr "Delas från projektet %s."
 
 #: weblate/trans/templatetags/translations.py:849
 msgid "enabled"
