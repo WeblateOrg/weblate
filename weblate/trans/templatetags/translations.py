@@ -185,12 +185,7 @@ def format_terms(terms):
     return "; ".join(output)
 
 
-def fmt_glossary(value, glossary):
-
-    terms = defaultdict(list)
-    for term in glossary:
-        terms[term.source].append(term)
-
+def fmt_glossary(value, terms):
     for htext, entries in terms.items():
         for match in reversed(
             list(re.finditer(r"\b{}\b".format(re.escape(htext)), value, re.IGNORECASE))
@@ -236,6 +231,10 @@ def format_translation(
         while len(diff) < len(plurals):
             diff.append(diff[0])
 
+    terms = defaultdict(list)
+    for term in glossary or []:
+        terms[term.source].append(term)
+
     # We will collect part for each plural
     parts = []
     has_content = False
@@ -254,8 +253,8 @@ def format_translation(
         value = fmt_highlights(raw_value, value, unit)
 
         # Highlight glossary matches
-        if glossary is not None:
-            value = fmt_glossary(value, glossary)
+        if terms:
+            value = fmt_glossary(value, terms)
 
         # Format search term
         value = fmt_search(value, search_match, match)
