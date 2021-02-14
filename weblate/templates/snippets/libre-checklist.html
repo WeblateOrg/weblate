@@ -12,6 +12,7 @@
     {{ check }}
   </p>
   {% if check.component %}
+    {% if not check.component.is_glossary %}
     <p>
       {% icon "comment.svg" %}
       <a href="{% url "guide" project=check.component.project.slug component=check.component.slug %}">{% trans "Unmet guidelines from the community localization checklist:" %}</a>
@@ -24,6 +25,7 @@
         {% endfor %}
       </ul>
     <p>
+    {% endif %}
     {% if check.component.agreement %}
     <p>
       {% icon "suggest.svg" %}
