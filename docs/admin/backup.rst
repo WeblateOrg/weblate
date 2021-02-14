@@ -80,14 +80,14 @@ Local filesystem
 
 It is recommended to specify the absolute path for the local backup, for example
 `/path/to/backup`. The directory has to be writable by the user running Weblate
-(see :ref:`file-permissions`). In case it doesn't exist, Weblate will attempt
-to create it, but apropriate permissions are needed to do so.
+(see :ref:`file-permissions`). If it doesn't exist, Weblate attempts
+to create it, but needs the appropriate permissions to do so.
 
 .. hint::
 
     When running Weblate in Docker, please ensure the backup location
     is exposed as a volume from the Weblate container. Otherwise the backups
-    will be discarded by Docker on the container restart.
+    will be discarded by Docker upon restarting the container it is in.
 
     One option is to place backups into an existing volume, for example
     :file:`/app/data/borgbackup`. This is an existing volume in the container.
@@ -180,12 +180,12 @@ The actual storage location depends on your database setup.
 .. hint::
 
    The database is the most important storage. Set up regular backups of your
-   database. Without database, all the translations are gone.
+   database. Without the database, all the translations are gone.
 
 Native database backup
 ++++++++++++++++++++++
 
-The recommended approach is to save a dump of the database using database native
+The recommended approach is to save a dump of the database using database-native
 tools such as :program:`pg_dump` or :program:`mysqldump`. It usually performs
 better than Django backup, and it restores complete tables with all their data.
 
