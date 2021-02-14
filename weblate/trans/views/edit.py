@@ -129,6 +129,8 @@ def get_other_units(unit):
     elif unit.context:
         match = Q(context=unit.context)
         query = Q(context=unit.context)
+    else:
+        return result
 
     units = (
         Unit.objects.filter(
