@@ -28,14 +28,16 @@ changes (see :ref:`lazy-commit`). You can do so in the user interface
 (in the :guilabel:`Repository maintenance`) or from the command line using :ref:`wlc`.
 
 This can be automated if you grant Weblate push access to your repository and
-configure :ref:`component-push` in the :ref:`component`.
+configure :ref:`component-push` in the :ref:`component`, see :ref:`push-changes`.
 
 Alternatively, you can use :doc:`/api` to update translations
 to match their latest version.
 
 .. seealso::
 
-    :ref:`continuous-translation`
+    :ref:`continuous-translation`,
+    :ref:`push-changes`,
+    :ref:`vcs-repos`
 
 Fetching remote changes into Weblate
 ++++++++++++++++++++++++++++++++++++
@@ -52,7 +54,8 @@ translations to match your code base.
 
 .. seealso::
 
-    :ref:`continuous-translation`
+    :ref:`continuous-translation`,
+    :ref:`vcs-repos`
 
 .. _adding-new-strings:
 
