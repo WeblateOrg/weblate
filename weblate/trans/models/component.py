@@ -2879,7 +2879,7 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
             return False
 
         # Check if template can be parsed
-        if not fast and self.template:
+        if not fast and self.has_template():
             try:
                 self.template_store.check_valid()
             except (FileParseError, ValueError):
