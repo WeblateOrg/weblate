@@ -334,7 +334,7 @@ class PluralTextarea(forms.Textarea):
                     {
                         "toolbar": self.get_toolbar(lang, fieldid, unit, idx, source),
                         "fieldid": fieldid,
-                        "label": label,
+                        "label": mark_safe(label),
                         "textarea": textarea,
                         "max_length": attrs["data-max"],
                         "length": len(val),
