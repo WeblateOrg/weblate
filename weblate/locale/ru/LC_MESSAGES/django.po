@@ -27,7 +27,7 @@
 # Michal Čihař <michal@cihar.com>, 2020.
 # Alexey Napalkov <flynbit@gmail.com>, 2020.
 # Irina <irinaabissinian@gmail.com>, 2020.
-# Nikita Epifanov <nikgreens@protonmail.com>, 2020.
+# Nikita Epifanov <nikgreens@protonmail.com>, 2020, 2021.
 # koffevar <egor.kafisov@gmail.com>, 2020.
 # Serg Bormant <bormant@mail.ru>, 2020.
 # Max Pastushkov <max@pastushkov.com>, 2020.
@@ -38,7 +38,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-02-13 20:05+0000\n"
 "PO-Revision-Date: 2021-02-14 06:30+0000\n"
-"Last-Translator: Golubev Alexander <fatzer2@gmail.com>\n"
+"Last-Translator: Nikita Epifanov <nikgreens@protonmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/"
 "application/ru/>\n"
 "Language: ru\n"
@@ -8572,10 +8572,8 @@ msgstr ""
 "отсутствии зависимостей."
 
 #: weblate/templates/trans/alert/unusedenforcedcheck.html:4
-#, fuzzy
-#| msgid "Following checks are failing:"
 msgid "Following enforced checks are not enabled anywhere:"
-msgstr "Следующие проверки являются неудачными:"
+msgstr "Следующие принудительные проверки нигде не включены:"
 
 #: weblate/templates/trans/alert/unusedenforcedcheck.html:8
 #, python-format
@@ -8583,6 +8581,8 @@ msgid ""
 "%(check)s quality check is enforced, but not enabled using <code>%(flag)s</"
 "code>."
 msgstr ""
+"%(check)s проверка качества обязательна, но не включена с помощью "
+"<code>%(flag)s</code>."
 
 #: weblate/templates/trans/alert/unusedscreenshot.html:2
 msgid "There is at least one screenshot which is not assigned to any strings."
@@ -10803,6 +10803,8 @@ msgid ""
 "Disable adding and removing strings in Weblate in case these are "
 "automatically extracted from the source code or managed externally."
 msgstr ""
+"Отключите добавление и удаление строк в Weblate, если они автоматически "
+"извлекаются из исходного кода или управляются извне."
 
 #: weblate/trans/models/component.py:496
 msgid "Merge style"
