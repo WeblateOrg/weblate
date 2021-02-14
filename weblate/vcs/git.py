@@ -759,9 +759,9 @@ class GithubRepository(GitMergeRequestBase):
         )
         try:
             data = response.json()
-        except JSONDecodeError:
+        except JSONDecodeError as error:
             response.raise_for_status()
-            raise
+            raise RepositoryException(0, str(error))
 
         # Log and parase all errors. Sometimes GitHub returns the error
         # messages in an errors list instead of the message. Sometimes, there
