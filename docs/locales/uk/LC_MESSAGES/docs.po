@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-02-14 20:38+0100\n"
-"PO-Revision-Date: 2021-02-14 06:30+0000\n"
+"PO-Revision-Date: 2021-02-15 08:16+0000\n"
 "Last-Translator: Ihor Hordiichuk <igor_ck@outlook.com>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/"
 "documentation/uk/>\n"
@@ -1330,15 +1330,6 @@ msgstr ""
 "чи відповідають налаштування вашим потребам:"
 
 #: ../../admin/addons.rst:129
-#, fuzzy
-#| msgid ""
-#| "Component discovery addon uses :ref:`internal-urls`. It’s a convenient "
-#| "way to share VCS setup between multiple components. Linked components use "
-#| "the local repository of the main component set up by filling ``weblate://"
-#| "projectname/themaincomponent`` into the :ref:`component-repo` field (in :"
-#| "guilabel:`Manage` ↓ :guilabel:`Settings` ↓ :guilabel:`Version control "
-#| "system`) of each respective component. This saves time with configuration "
-#| "and system resources too."
 msgid ""
 "Component discovery addon uses :ref:`internal-urls`. It’s a convenient way "
 "to share VCS setup between multiple components. Linked components use the "
@@ -1350,12 +1341,12 @@ msgid ""
 msgstr ""
 "Додаток виявлення складників використовує :ref:`внутрішні адреси <internal-"
 "urls>`. Це зручний спосіб використовувати однакові налаштування системи "
-"керування версіями для декількох складників одночасно. Пов'язані складники "
+"керування версіями для кількох складників одночасно. Пов'язані складники "
 "використовують локальне сховище головного складника шляхом вписування "
-"``weblate://назва_проєкту/основний_складник`` до поля :ref:`component-repo` "
-"(у :guilabel:`Керування` ↓ :guilabel:`Параметри` ↓ :guilabel:`Система "
-"керування версіями`) кожного відповідного складника. Це також надає змогу "
-"заощадити час на налаштування та ресурси системи."
+"``weblate://проєкт/основний-складник`` до поля :ref:`component-repo` (у "
+":guilabel:`Керування` ↓ :guilabel:`Параметри` ↓ :guilabel:`Система керування "
+"версіями`) кожного відповідного складника. Це також надає змогу заощадити "
+"час на налаштування та ресурси системи."
 
 #: ../../admin/addons.rst:138 ../../admin/addons.rst:251
 msgid ":ref:`markup`"
@@ -1446,13 +1437,13 @@ msgid ""
 "You might also want to tighthen the :ref::`check-same` check by adding "
 "``strict-same`` flag to :ref:`component-check_flags`."
 msgstr ""
+"Можливо, ви також захочете підтягнути перевірку :ref::`check-same`, додавши "
+"до :ref:`component-check_flags` прапор ``strict-same``."
 
 #: ../../admin/addons.rst:195 ../../admin/addons.rst:208
 #: ../../admin/addons.rst:221
-#, fuzzy
-#| msgid ":ref:`subtitles`"
 msgid ":ref:`states`"
-msgstr ":ref:`subtitles`"
+msgstr ":ref:`states`"
 
 #: ../../admin/addons.rst:200
 msgid "Flag new source strings as \"Needs editing\""
@@ -1610,16 +1601,13 @@ msgid "No line wrapping"
 msgstr "Без перенесення рядків"
 
 #: ../../admin/addons.rst:314
-#, fuzzy
-#| msgid ""
-#| "By default gettext wraps lines at 77 chars and newlines. With --no-wrap "
-#| "parameter, it wraps only at newlines."
 msgid ""
 "By default gettext wraps lines at 77 characters and at newlines. With the "
 "``--no-wrap`` parameter, wrapping is only done at newlines."
 msgstr ""
-"Типово gettext переносить рядки на 77-у символі і нових рядках, з параметром "
-"--no-wrap він переносить тільки на нових рядках."
+"Типово gettext переносить рядки на 77-у символі та на символах перенесення "
+"рядків, з параметром ``--no-wrap`` перенесення виконується лише на символах "
+"перенесення рядків."
 
 #: ../../admin/addons.rst:321
 msgid "Update LINGUAS file"
@@ -1834,18 +1822,13 @@ msgid "Writing addon"
 msgstr "Написання додатка"
 
 #: ../../admin/addons.rst:463
-#, fuzzy
-#| msgid ""
-#| "You can write your own addons too, use the subclass :class:`weblate."
-#| "addons.base.BaseAddon` to define the addon metadata, and then implement a "
-#| "callback to do the processing."
 msgid ""
 "You can write your own addons too, create a subclass of :class:`weblate."
 "addons.base.BaseAddon` to define the addon metadata, and then implement a "
 "callback to do the processing."
 msgstr ""
-"Ви також можете створити власні додатки — усе, що потрібно, створити "
-"підклас :class:`weblate.addons.base.BaseAddon`, визначити метадані додатка і "
+"Ви також можете написати власні додатки — створіть підклас від "
+":class:`weblate.addons.base.BaseAddon`, щоб визначити метадані додатка і "
 "реалізувати зворотний виклик, який виконуватиме обробку."
 
 #: ../../admin/addons.rst:469
@@ -3016,12 +2999,6 @@ msgid "Local filesystem"
 msgstr "Локальна файлова система"
 
 #: ../../admin/backup.rst:81
-#, fuzzy
-#| msgid ""
-#| "It is recommended to specify the absolute path for the local backup, for "
-#| "example `/path/to/backup`. The directory has to be writable by the user "
-#| "running Weblate (see :ref:`file-permissions`). In case it doesn't exist, "
-#| "Weblate will attempt to create it, but needs a permission to do so."
 msgid ""
 "It is recommended to specify the absolute path for the local backup, for "
 "example `/path/to/backup`. The directory has to be writable by the user "
@@ -3030,25 +3007,20 @@ msgid ""
 msgstr ""
 "Рекомендуємо вказати абсолютний шлях до локальної резервної копії, наприклад "
 "`/шлях/до/резервної/копії`. Запис до каталогу має бути відкрито для "
-"користувача, від імені якого запущено Weblate (див. :ref:`file-"
-"permissions`). Якщо каталогу не існуватиме, Weblate спробує його створити, "
-"але програма повинна мати для цього відповідні права доступу."
+"користувача, від імені якого запущено Weblate (див. :ref:`file-permissions`)"
+". Якщо каталогу не існуватиме, Weblate спробує його створити, але програма "
+"повинна мати для цього відповідні права доступу."
 
 #: ../../admin/backup.rst:88
-#, fuzzy
-#| msgid ""
-#| "When running Weblate in Docker, please ensure the backup location is "
-#| "exposed as a volume from the Weblate container. Otherwise the backups "
-#| "will be discarded by Docker on the container restart."
 msgid ""
 "When running Weblate in Docker, please ensure the backup location is exposed "
 "as a volume from the Weblate container. Otherwise the backups will be "
 "discarded by Docker upon restarting the container it is in."
 msgstr ""
-"Якщо ви працюєте з Weblate у Docker, будь ласка, переконайтеся, що місце "
-"зберігання резервних копій відкрито як том з контейнера Weblate. Якщо ви "
-"цього не зробите, резервні копії буде втрачено після перезапуску контейнера "
-"Docker."
+"Якщо ви працюєте з Weblate у Docker, переконайтеся, що місце зберігання "
+"резервних копій відкрито як том з контейнера Weblate. Якщо ви цього не "
+"зробите, резервні копії буде втрачено після перезапуску контейнера Docker, в "
+"якому їх розміщено."
 
 #: ../../admin/backup.rst:92
 msgid ""
@@ -3080,12 +3052,6 @@ msgid "Remote backups"
 msgstr "Віддалені резервні копії"
 
 #: ../../admin/backup.rst:112
-#, fuzzy
-#| msgid ""
-#| "In order to create the remote backups, you will have to install "
-#| "`BorgBackup`_ onto another server that’s accessible via SSH. Make "
-#| "youreself sure that it accepts the Weblate's client SSH key, i.e. the one "
-#| "it uses to connect to other servers. (see :ref:`weblate-ssh-key`)."
 msgid ""
 "In order to create the remote backups, you will have to install "
 "`BorgBackup`_ onto another server that’s accessible via SSH. Make sure that "
@@ -3095,7 +3061,7 @@ msgstr ""
 "Для створення віддалених резервних копій вам слід встановити на іншому "
 "доступному за допомогою SSH сервері `BorgBackup`_. Переконайтеся, що він "
 "приймає клієнтський ключ Weblate, тобто ключ, який використовується для "
-"з'єднання із іншими серверами (див. :ref:`weblate-ssh-key`)."
+"з'єднання з іншими серверами."
 
 #: ../../admin/backup.rst:119
 msgid ":ref:`cloudbackup` provides you automated remote backups."
@@ -3104,10 +3070,8 @@ msgstr ""
 "копій на віддалених серверах."
 
 #: ../../admin/backup.rst:123
-#, fuzzy
-#| msgid ":ref:`webex`"
 msgid ":ref:`weblate-ssh-key`"
-msgstr ":ref:`webex`"
+msgstr ":ref:`weblate-ssh-key`"
 
 #: ../../admin/backup.rst:126
 msgid "Restoring from BorgBackup"
@@ -3200,40 +3164,29 @@ msgstr ""
 "Справжнє розташування сховища залежить від ваших налаштувань бази даних."
 
 #: ../../admin/backup.rst:182
-#, fuzzy
-#| msgid ""
-#| "The database is the most important storage. Set up regular backups of "
-#| "your database. Without database, all the translations are gone."
 msgid ""
 "The database is the most important storage. Set up regular backups of your "
 "database. Without the database, all the translations are gone."
 msgstr ""
 "Найважливішим сховищем даних є база даних. Налаштуйте регулярне резервне "
-"копіювання вашої бази даних — якщо її буде втрачено, буде втрачену усі ваші "
-"налаштування перекладу."
+"копіювання вашої бази даних. Без бази даних усі переклади буде втрачено."
 
 #: ../../admin/backup.rst:186
 msgid "Native database backup"
 msgstr "Власна система резервного копіювання бази даних"
 
 #: ../../admin/backup.rst:188
-#, fuzzy
-#| msgid ""
-#| "The recommended approach is to do save a dump of the database using "
-#| "database native tools such as :program:`pg_dump` or :program:`mysqldump`. "
-#| "It usually performs better than Django backup, and it restores complete "
-#| "tables with all their data."
 msgid ""
 "The recommended approach is to save a dump of the database using database-"
 "native tools such as :program:`pg_dump` or :program:`mysqldump`. It usually "
 "performs better than Django backup, and it restores complete tables with all "
 "their data."
 msgstr ""
-"Рекомендованим способом створення дампу бази даних є використання власних "
-"інструментів засобу керування базою даних, зокрема :program:`pg_dump` або :"
-"program:`mysqldump`. Такий інструмент, зазвичай, працює краще за засіб "
-"резервного копіювання Django і може відновлювати таблиці повністю із усіма "
-"даними."
+"Рекомендованим способом є створення дампу бази даних, за допомогою "
+"вбудованих інструментів засобу керування базою даних, зокрема "
+":program:`pg_dump` або :program:`mysqldump`. Такий інструмент, зазвичай, "
+"працює краще за засіб резервне копіювання Django і може відновлювати таблиці "
+"з усіма даними."
 
 #: ../../admin/backup.rst:192
 msgid ""
@@ -29212,18 +29165,14 @@ msgstr ""
 "допомогою :ref:`wlc`."
 
 #: ../../devel/integration.rst:30
-#, fuzzy
-#| msgid ""
-#| "This can be automated if you grant Weblate push access to your repository "
-#| "and configure :ref:`component-push` in the :ref:`component`."
 msgid ""
 "This can be automated if you grant Weblate push access to your repository "
 "and configure :ref:`component-push` in the :ref:`component`, see :ref:`push-"
 "changes`."
 msgstr ""
-"Це можна автоматизувати, якщо ви надасте Weblate доступ до запису до вашого "
-"сховища і налаштуєте :ref:`адресу запису<component-push>` у :ref:`складнику "
-"перекладу<component>`."
+"Це можна автоматизувати, надавши Weblate доступ до запису до вашого сховища "
+"і налаштувавши :ref:`адресу запису<component-push>` у :ref:`складнику "
+"перекладу<component>`, див. :ref:`push-changes`."
 
 #: ../../devel/integration.rst:33
 msgid ""
@@ -29234,10 +29183,8 @@ msgstr ""
 "відповідності з найсвіжішою версією."
 
 #: ../../devel/integration.rst:38
-#, fuzzy
-#| msgid ":ref:`continuous-translation`, :ref:`avoid-merge-conflicts`"
 msgid ":ref:`continuous-translation`, :ref:`push-changes`, :ref:`vcs-repos`"
-msgstr ":ref:`continuous-translation`, :ref:`avoid-merge-conflicts`"
+msgstr ":ref:`continuous-translation`, :ref:`push-changes`, :ref:`vcs-repos`"
 
 #: ../../devel/integration.rst:43
 msgid "Fetching remote changes into Weblate"
@@ -29275,10 +29222,8 @@ msgstr ""
 "перекладів у відповідності зі змінами у вашому коді."
 
 #: ../../devel/integration.rst:57
-#, fuzzy
-#| msgid ":ref:`continuous-translation`, :ref:`avoid-merge-conflicts`"
 msgid ":ref:`continuous-translation`, :ref:`vcs-repos`"
-msgstr ":ref:`continuous-translation`, :ref:`avoid-merge-conflicts`"
+msgstr ":ref:`continuous-translation`, :ref:`vcs-repos`"
 
 #: ../../devel/integration.rst:63
 msgid "Adding new strings"
@@ -38443,12 +38388,6 @@ msgid "Needs editing"
 msgstr "Потребує редагування"
 
 #: ../../workflows.rst:34
-#, fuzzy
-#| msgid ""
-#| "Translation needs editing, this is usually the result of a source string "
-#| "change. The translation is stored in the file, depending on the file "
-#| "format it might be marked as needing edit (for example as it gets a "
-#| "``fuzzy`` flag in the Gettext file)."
 msgid ""
 "Translation needs editing, this is usually the result of a source string "
 "change, fuzzy matching or translator action. The translation is stored in "
@@ -38456,9 +38395,10 @@ msgid ""
 "(for example as it gets a ``fuzzy`` flag in the Gettext file)."
 msgstr ""
 "Переклад потребує редагування, зазвичай, у результаті внесення змін до "
-"початкового рядка. Переклад зберігається у файлі. Залежно від формату файла, "
-"його може бути позначено таким, що потребує редагування (наприклад, "
-"встановлено прапорець ``неточного`` перекладу у файлі Gettext)."
+"початкового рядка, неузгодженості або дій перекладача. Переклад зберігається "
+"у файлі. Залежно від формату файла, його може бути позначено таким, що "
+"потребує редагування (наприклад, встановлено прапорець ``неточного`` "
+"перекладу у файлі Gettext)."
 
 #: ../../workflows.rst:38
 msgid "Waiting for review"
@@ -38491,12 +38431,8 @@ msgid "Suggestions are stored in Weblate only and not in the translation file."
 msgstr "Пропозиції зберігаються лише на Weblate, а не у файлі перекладу."
 
 #: ../../workflows.rst:47
-#, fuzzy
-#| msgid "These are the choices presented when uploading translation files:"
 msgid "The states are represented in the translation files when possible."
-msgstr ""
-"Під час вивантаження файлів перекладу ви можете вибрати значення таких "
-"параметрів:"
+msgstr "Стани представлено у файлах перекладу, коли це можливо."
 
 #: ../../workflows.rst:51
 msgid ""
@@ -38504,12 +38440,13 @@ msgid ""
 "to use :ref:`addon-weblate.flags.same_edit` addon to flag unchanged strings "
 "as needing editing."
 msgstr ""
+"Якщо формат файлу, який ви використовуєте, не підтримує стани зберігання, "
+"можливо, ви захочете скористатися додатком :ref:`addon-weblate.flags."
+"same_edit`, щоб позначити незмінені рядки такими, що потребують редагування."
 
 #: ../../workflows.rst:57
-#, fuzzy
-#| msgid ":ref:`privileges`, :ref:`workflows`"
 msgid ":ref:`fmt_capabs`, :ref:`workflows`"
-msgstr ":ref:`privileges`, :ref:`workflows`"
+msgstr ":ref:`fmt_capabs`, :ref:`workflows`"
 
 #: ../../workflows.rst:62
 msgid "Direct translation"
