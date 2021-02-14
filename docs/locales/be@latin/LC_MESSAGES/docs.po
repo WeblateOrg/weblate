@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-02-14 20:30+0100\n"
+"POT-Creation-Date: 2021-02-14 20:38+0100\n"
 "PO-Revision-Date: 2020-10-23 09:37+0000\n"
 "Last-Translator: Anonymous <noreply@weblate.org>\n"
 "Language-Team: Belarusian (latin) <https://hosted.weblate.org/projects/"
@@ -2668,16 +2668,15 @@ msgstr ""
 msgid ""
 "It is recommended to specify the absolute path for the local backup, for "
 "example `/path/to/backup`. The directory has to be writable by the user "
-"running Weblate (see :ref:`file-permissions`). In case it doesn't exist, "
-"Weblate will attempt to create it, but apropriate permissions are needed to "
-"do so."
+"running Weblate (see :ref:`file-permissions`). If it doesn't exist, Weblate "
+"attempts to create it, but needs the appropriate permissions to do so."
 msgstr ""
 
 #: ../../admin/backup.rst:88
 msgid ""
 "When running Weblate in Docker, please ensure the backup location is exposed "
 "as a volume from the Weblate container. Otherwise the backups will be "
-"discarded by Docker on the container restart."
+"discarded by Docker upon restarting the container it is in."
 msgstr ""
 
 #: ../../admin/backup.rst:92
@@ -2794,7 +2793,7 @@ msgstr ""
 #: ../../admin/backup.rst:182
 msgid ""
 "The database is the most important storage. Set up regular backups of your "
-"database. Without database, all the translations are gone."
+"database. Without the database, all the translations are gone."
 msgstr ""
 
 #: ../../admin/backup.rst:186
@@ -2803,7 +2802,7 @@ msgstr ""
 
 #: ../../admin/backup.rst:188
 msgid ""
-"The recommended approach is to save a dump of the database using database "
+"The recommended approach is to save a dump of the database using database-"
 "native tools such as :program:`pg_dump` or :program:`mysqldump`. It usually "
 "performs better than Django backup, and it restores complete tables with all "
 "their data."
