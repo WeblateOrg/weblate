@@ -37,8 +37,8 @@ msgstr ""
 "Project-Id-Version: Weblate 4.5\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-02-13 20:05+0000\n"
-"PO-Revision-Date: 2021-02-14 03:47+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2021-02-14 06:30+0000\n"
+"Last-Translator: Golubev Alexander <fatzer2@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/"
 "application/ru/>\n"
 "Language: ru\n"
@@ -1090,17 +1090,14 @@ msgid "Language consistency"
 msgstr "Языковая согласованность"
 
 #: weblate/addons/consistency.py:34
-#, fuzzy
-#| msgid ""
-#| "Ensures all components within one project have translations for every "
-#| "added language for translation."
 msgid ""
 "Ensures all components within a project have translations for every added "
 "translated language by creating empty translations in languages that have "
 "unadded components."
 msgstr ""
-"Гарантирует, что все компоненты в рамках одного проекта имеют переводы на "
-"все языки проекта."
+"Гарантирует, что для всех компонентов в рамках одного проекта будут "
+"добавляться все языки перевода, которые есть хотя бы у одного проекта. "
+"Переводы на новые языки будут создаваться пустыми."
 
 #: weblate/addons/discovery.py:33
 msgid "Component discovery"
@@ -1457,10 +1454,8 @@ msgid "String suffix"
 msgstr "Суффикс строки"
 
 #: weblate/addons/forms.py:478
-#, fuzzy
-#| msgid "Source and target have to be a different languages."
 msgid "The source and target have to be different languages."
-msgstr "Язык исходных строк и целевого перевода не может быть одним и тем же."
+msgstr "«Исходные строки» и «целевой перевод» должны быть разными языками."
 
 #: weblate/addons/generate.py:34
 msgid "Statistics generator"
@@ -3223,10 +3218,8 @@ msgid "Inno Setup INI file"
 msgstr "INI-файл Inno Setup"
 
 #: weblate/formats/ttkit.py:1700
-#, fuzzy
-#| msgid "Term Base eXchange file"
 msgid "TermBase eXchange file"
-msgstr "Файл Term Base eXchange"
+msgstr "Файл TermBase eXchange"
 
 #: weblate/formats/txt.py:180
 msgid "App store metadata files"
@@ -7781,10 +7774,8 @@ msgstr ""
 "Максимальная длина строки, определённая на основе исходной строки или флагов."
 
 #: weblate/templates/snippets/editor.html:14
-#, fuzzy
-#| msgid "Source string comment"
 msgid "Source string length"
-msgstr "Комментарий к исходной строке"
+msgstr "Длина исходной строки"
 
 #: weblate/templates/snippets/embed-units.html:12
 msgid "State"
@@ -7827,10 +7818,8 @@ msgid "Copy word into translation"
 msgstr "Скопировать слово в перевод"
 
 #: weblate/templates/snippets/glossary.html:16
-#, fuzzy
-#| msgid "Edit glossary entry"
 msgid "Edit glossary term"
-msgstr "Правка записей глоссария"
+msgstr "Изменить термин"
 
 #: weblate/templates/snippets/glossary.html:27
 msgid "No related strings found in the glossary."
@@ -8928,10 +8917,8 @@ msgid "Delete string"
 msgstr "Удалить строку"
 
 #: weblate/templates/translate.html:194
-#, fuzzy
-#| msgid "Variants of the string"
 msgid "Add variant of this string"
-msgstr "Варианты строки"
+msgstr "Добавить вариант строки"
 
 #: weblate/templates/translate.html:204 weblate/templates/translate.html:229
 msgid "This translation is currently locked."
@@ -10229,10 +10216,8 @@ msgid "Does not meet libre hosting conditions."
 msgstr "Не соответствует условиям хостинга для свободного ПО."
 
 #: weblate/trans/models/alert.py:345
-#, fuzzy
-#| msgid "Enforced checks"
 msgid "Unused enforced checks."
-msgstr "Принудительные проверки"
+msgstr "Неиспользуемые принудительные проверки."
 
 #: weblate/trans/models/announcement.py:111
 msgid "Category"
@@ -11359,26 +11344,18 @@ msgstr ""
 "строки."
 
 #: weblate/trans/models/unit.py:1351
-#, fuzzy
-#| msgid "Unmark as terminology"
 msgid "Unmark as read-only"
-msgstr "Снять отметку «терминология»"
+msgstr "Снять отметку «только для чтения»"
 
 #: weblate/trans/models/unit.py:1354
-#, fuzzy
-#| msgid "Mark as terminology"
 msgid "Mark as read-only"
-msgstr "Пометить как «терминологию»"
+msgstr "Пометить «только для чтения»"
 
 #: weblate/trans/models/unit.py:1361
-#, fuzzy
-#| msgid "Unmark as forbidden translations"
 msgid "Unmark as forbidden translation"
 msgstr "Снять отметку «Нежелательный перевод»"
 
 #: weblate/trans/models/unit.py:1369
-#, fuzzy
-#| msgid "Mark as forbidden translations"
 msgid "Mark as forbidden translation"
 msgstr "Пометить как «Нежелательный перевод»"
 
@@ -11468,23 +11445,19 @@ msgid "Tab character"
 msgstr "Символ табуляции"
 
 #: weblate/trans/templatetags/translations.py:180
-#, fuzzy, python-format
-#| msgid "Forbidden translation"
+#, python-format
 msgid "Forbidden translation: %s"
-msgstr "Нежелательный перевод"
+msgstr "Нежелательный перевод: %s"
 
 #: weblate/trans/templatetags/translations.py:182
-#, fuzzy, python-format
-#| msgctxt "String state"
-#| msgid "Not translated"
+#, python-format
 msgid "Not-translatable: %s"
-msgstr "Не переведено"
+msgstr "Непереводимый термин: %s"
 
 #: weblate/trans/templatetags/translations.py:184
-#, fuzzy, python-format
-#| msgid "Upload translations"
+#, python-format
 msgid "Glossary translation: %s"
-msgstr "Загрузка переводов"
+msgstr "Перевод в глоссарии: %s"
 
 #: weblate/trans/templatetags/translations.py:230
 msgid "New line"
@@ -11708,8 +11681,7 @@ msgstr[1] "%(count)s строки не переводятся здесь."
 msgstr[2] "%(count)s строк не переводятся здесь."
 
 #: weblate/trans/templatetags/translations.py:826
-#, fuzzy, python-format
-#| msgid "Shared from project %s."
+#, python-format
 msgid "Shared from the %s project."
 msgstr "Общее с проектом %s."
 
@@ -11916,6 +11888,8 @@ msgid ""
 "Added %(language)s to your translated languages. You can adjust them in the "
 "settings."
 msgstr ""
+"Язык «%(language)s» добавлен к вашим языкам перевода. Вы мжете изменить их в "
+"параметрах профиля."
 
 #: weblate/trans/views/edit.py:338
 #, python-format
@@ -11923,6 +11897,8 @@ msgid ""
 "Added %(project)s to your watched projects. You can adjust them and this "
 "behavior in the settings."
 msgstr ""
+"Проект %(project)s добавлен к списку ваших отслеживаемых проектов. Вы можете "
+"изменить их в параметрах своего профиля."
 
 #: weblate/trans/views/edit.py:357
 #, python-brace-format
