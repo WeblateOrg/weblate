@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-02-13 21:06+0100\n"
-"PO-Revision-Date: 2021-02-14 08:21+0000\n"
+"PO-Revision-Date: 2021-02-14 09:11+0000\n"
 "Last-Translator: Golubev Alexander <fatzer2@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/"
 "documentation/ru/>\n"
@@ -1940,11 +1940,6 @@ msgid "Set a timeframe for removal of comments."
 msgstr "Устанавливает сроки удаления комментариев."
 
 #: ../../admin/addons.rst:388
-#, fuzzy
-#| msgid ""
-#| "This can be useful to remove old comments which might have become "
-#| "outdated. Use with care as comment being old does not mean they have lost "
-#| "their importance."
 msgid ""
 "This can be useful to remove old comments which might have become outdated. "
 "Use with care as comments getting old does not mean they have lost their "
@@ -1963,11 +1958,6 @@ msgid "Set a timeframe for removal of suggestions."
 msgstr "Устанавливает сроки удаления предложений."
 
 #: ../../admin/addons.rst:401
-#, fuzzy
-#| msgid ""
-#| "This can be very useful in connection with suggestion voting (see :ref:"
-#| "`peer-review`) to remove suggestions which don't receive enough positive "
-#| "votes in a given timeframe."
 msgid ""
 "Can be very useful in connection with suggestion voting (see :ref:`peer-"
 "review`) to remove suggestions which don't receive enough positive votes in "
@@ -2016,10 +2006,6 @@ msgid "Customizing list of addons"
 msgstr "Настройка списка надстроек"
 
 #: ../../admin/addons.rst:437
-#, fuzzy
-#| msgid ""
-#| "The list of addons is configured by :setting:`WEBLATE_ADDONS`. To add "
-#| "another addon, simply include class absolute name in this setting."
 msgid ""
 "The list of addons is configured by :setting:`WEBLATE_ADDONS`. To add "
 "another addon, simply include the absolute class name in this setting."
@@ -2033,19 +2019,14 @@ msgid "Writing addon"
 msgstr "Создание надстройки"
 
 #: ../../admin/addons.rst:446
-#, fuzzy
-#| msgid ""
-#| "You can write your own addons too, all you need to do is subclass :class:"
-#| "`weblate.addons.base.BaseAddon`, define the addon metadata and implement "
-#| "a callback which will do the processing."
 msgid ""
 "You can write your own addons too, use the subclass :class:`weblate.addons."
 "base.BaseAddon` to define the addon metadata, and then implement a callback "
 "to do the processing."
 msgstr ""
-"Также вы можете создать свою собственную надстройку. Всё, что вам для этого "
-"нужно — это создать подкласс :class:`weblate.addons.base.BaseAddon`, "
-"определить метаданные надстройки и реализовать обратный вызов, который будет "
+"Также вы можете создать свою собственную надстройку: просто создайте "
+"подкласс :class:`weblate.addons.base.BaseAddon`, чтобы определить метаданные "
+"надстройки, а затем реализуйте нужный обратный вызов, который будет "
 "выполнять обработку."
 
 #: ../../admin/addons.rst:452
@@ -2113,33 +2094,24 @@ msgstr ""
 "Имя файла, используемого для создания новых переводов (может быть пустым)."
 
 #: ../../admin/addons.rst:508
-#, fuzzy
-#| msgid "Fileformat used in current component."
 msgid "File format used in current component."
 msgstr "Формат файла, используемый в текущем компоненте."
 
 #: ../../admin/addons.rst:512
-#, fuzzy
-#| msgid ""
-#| "Language of currently processed translation (not available for component "
-#| "level hooks)."
 msgid ""
 "Language of currently processed translation (not available for component-"
 "level hooks)."
 msgstr ""
-"Язык обрабатываемого в настоящее время перевода (недоступен для обработчиков "
+"Язык обрабатываемого в данный момент перевода (недоступен для обработчиков "
 "уровня компонента)."
 
 #: ../../admin/addons.rst:517
-#, fuzzy
-#| msgid ""
-#| "Previous HEAD on update (available only when running post update hook)."
 msgid ""
 "Previous HEAD after update (only available after running the post-update "
 "hook)."
 msgstr ""
-"Предыдущий HEAD при обновлении (доступна только при запуске обработчика "
-"«после обновления»)."
+"Предыдущая HEAD после обновления (доступна только после запуска обработчика «"
+"после обновления»)."
 
 #: ../../admin/addons.rst:523
 msgid "Component slug used to construct URL."
@@ -2170,50 +2142,35 @@ msgid ":ref:`component`"
 msgstr ":ref:`component`"
 
 #: ../../admin/addons.rst:560
-#, fuzzy
-#| msgid "Post update repository processing"
 msgid "Post-update repository processing"
 msgstr "Обработка репозитория после обновления"
 
 #: ../../admin/addons.rst:562
-#, fuzzy
-#| msgid ""
-#| "Post update repository processing can be used to update translation files "
-#| "when the VCS upstream source changes. To achieve this, please remember "
-#| "that Weblate only sees files committed to the VCS, so you need to commit "
-#| "changes as a part of the script."
 msgid ""
 "Can be used to update translation files when the VCS upstream source "
 "changes. To achieve this, please remember Weblate only sees files committed "
 "to the VCS, so you need to commit changes as a part of the script."
 msgstr ""
-"Обработка репозитория после обновления может быть использоваться для "
-"обновления файлов перевода при изменении исходных файлов в вышестоящем "
-"репозитории. При этом помните, что Weblate видит только те файлы, которые "
-"были закоммичены систему контроля версий, поэтому в скрипте вам необходимо "
-"закоммитить все изменения."
+"Может использоваться для обновления файлов перевода при изменении исходных "
+"файлов в вышестоящем репозитории. При этом помните, что Weblate видит только "
+"те файлы, которые были закоммичены в систему контроля версий, поэтому в "
+"скрипте вам необходимо закоммитить все изменения."
 
 #: ../../admin/addons.rst:566
 msgid "For example with Gulp you can do it using following code:"
 msgstr "Например, при использовании Gulp это можно сделать следующим кодом:"
 
 #: ../../admin/addons.rst:576
-#, fuzzy
-#| msgid "Pre commit processing of translations"
 msgid "Pre-commit processing of translations"
-msgstr "Обработка переводов до коммита"
+msgstr "Обработка переводов перед коммитом"
 
 #: ../../admin/addons.rst:578
-#, fuzzy
-#| msgid ""
-#| "Use the commit script to automatically make changes to the translation "
-#| "before it is committed to the repository."
 msgid ""
 "Use the commit script to automatically change a translation before it is "
 "committed to the repository."
 msgstr ""
-"Используйте скрипт коммита для автоматического внесения изменений в перевод "
-"до их коммита в репозиторий."
+"Используйте скрипт коммита для автоматического внесения изменений в какой-"
+"либо перевод перед их коммитом в репозиторий."
 
 #: ../../admin/addons.rst:581
 msgid ""
@@ -3091,12 +3048,6 @@ msgid "Automated backup using BorgBackup"
 msgstr "Автоматическое резервное копирование с помощью BorgBackup"
 
 #: ../../admin/backup.rst:11
-#, fuzzy
-#| msgid ""
-#| "Weblate has built-in support for creating service backups using "
-#| "`BorgBackup`_. Borg creates space-effective encrypted backups which can "
-#| "be safely stored in the cloud. The backups can be controlled in the "
-#| "management interface on the :guilabel:`Backups` tab."
 msgid ""
 "Weblate has built-in support for creating service backups using "
 "`BorgBackup`_. Borg creates space-effective encrypted backups which can be "
@@ -3122,55 +3073,43 @@ msgid ""
 "following backups:"
 msgstr ""
 "Резервные копии, которые делает Borg, являются инкрементальными, и Weblate "
-"настроен на хранение этих копий по следующим периодам:"
+"настроен на хранение следующих ревизий резервных копий:"
 
 #: ../../admin/backup.rst:22
-#, fuzzy
-#| msgid "last for 14 days."
 msgid "Daily backups for 14 days back"
-msgstr "продлится 14 дней."
+msgstr "Ежедневных, за последние 14 дней"
 
 #: ../../admin/backup.rst:23
 msgid "Weekly backups for 8 weeks back"
-msgstr ""
+msgstr "Еженедельных, за последние 8 недель"
 
 #: ../../admin/backup.rst:24
 msgid "Monthly backups for 6 months back"
-msgstr ""
+msgstr "Ежемесячных, за последние 6 месяцев"
 
 #: ../../admin/backup.rst:31
 msgid "Borg encryption key"
 msgstr "Ключ шифрования Borg"
 
 #: ../../admin/backup.rst:33
-#, fuzzy
-#| msgid ""
-#| "`BorgBackup`_ creates encrypted backups and without a passphrase you will "
-#| "not be able to restore the backup. The passphrase is generated when "
-#| "adding new backup service and you should copy it and keep it in a secure "
-#| "place."
 msgid ""
 "`BorgBackup`_ creates encrypted backups and you wouldn’t be able to restore "
 "them without the passphrase. The passphrase is generated when adding a new "
 "backup service and you should copy it and keep it in a secure place."
 msgstr ""
-"`BorgBackup`_ создаёт зашифрованные резервные копии и без кодовой фразы "
-"восстановить резервную копию вы не сможете. Парольная фраза генерируется при "
-"добавлении новой службы резервного копирования, вы должны скопировать её и "
+"`BorgBackup`_ создаёт зашифрованные резервные копии и восстановить из без "
+"кодовой фразы у вас не получится. Парольная фраза генерируется при "
+"добавлении новой службы резервного копирования. Вы должны скопировать её и "
 "сохранить в безопасном месте."
 
 #: ../../admin/backup.rst:37
-#, fuzzy
-#| msgid ""
-#| "In case you are using :ref:`cloudbackup`, please backup your private SSH "
-#| "key as well — it is used to access your backups."
 msgid ""
 "If you are using :ref:`cloudbackup`, please backup your private SSH key too, "
 "as it’s used to access your backups."
 msgstr ""
-"В случае, если вы используете :ref:`хранилище резервных копий на Weblate.org "
-"<cloudbackup>`, пожалуйста, сделайте резервную копию вашего закрытого SSH-"
-"ключа — он используется для доступа к вашим резервным копиям."
+"Если же вы используете :ref:`хранилище резервных копий на Weblate.org "
+"<cloudbackup>`, то сохраните также резервную копию вашего закрытого SSH-"
+"ключа — он понадобится для доступа к вашим резервным копиям."
 
 #: ../../admin/backup.rst:42
 msgid ":doc:`borg:usage/init`"
@@ -3181,78 +3120,52 @@ msgid "Weblate provisioned backup storage"
 msgstr "Предоставляемое Weblate’ом хранилище резервных копий"
 
 #: ../../admin/backup.rst:49
-#, fuzzy
-#| msgid ""
-#| "The easiest approach to backup your Weblate instance is to purchase "
-#| "`backup service at weblate.org <https://weblate.org/support/#backup>`_. "
-#| "The process of activating can be performed in few steps:"
 msgid ""
 "The easiest way of backing up your Weblate instance is purchasing the "
 "`backup service at weblate.org <https://weblate.org/support/#backup>`_. This "
 "is how you get it running:"
 msgstr ""
-"Простейший подход к резервному копированию вашего экземпляра Weblate "
-"заключается в покупке `сервиса резервного копирования на weblate.org "
-"<https://weblate.org/support/#backup>`_. Процесс активации резервного "
-"копирования выполняется в несколько шагов:"
+"Самый простой способ резервного копирования вашего экземпляра Weblate — "
+"приобрести `сервис резервного копирования на weblate.org <https://weblate."
+"org/support/#backup>`_. Его можно будет активировать следующим образом:"
 
 #: ../../admin/backup.rst:53
-#, fuzzy
-#| msgid "Purchase backup service on https://weblate.org/support/#backup."
 msgid "Purchase the `Backup service` on https://weblate.org/support/#backup."
 msgstr ""
-"Покупка услуги резервного копирования на https://weblate.org/support/#backup."
+"Покупка `сервиса резервного копирования` на https://weblate.org/support/"
+"#backup."
 
 #: ../../admin/backup.rst:54
-#, fuzzy
-#| msgid ""
-#| "Enter obtained key in the management interface, see :ref:`activate-"
-#| "support`."
 msgid ""
 "Enter the obtained key in the management interface, see :ref:`activate-"
 "support`."
 msgstr ""
-"Ввод полученного ключа в интерфейсе управления, смотрите раздел :ref:"
-"`activate-support`."
+"Ввод полученного ключа в интерфейсе управления, смотрите раздел :ref"
+":`activate-support`."
 
 #: ../../admin/backup.rst:55
-#, fuzzy
-#| msgid ""
-#| "Weblate will connect to the cloud service and obtain access information "
-#| "for the backups."
 msgid ""
 "Weblate connects to the cloud service and obtains access info for the "
 "backups."
 msgstr ""
-"Weblate подключится к облачному сервису и получит информацию для доступа к "
+"Weblate подключается к облачному сервису и получает информацию для доступа к "
 "резервным копиям."
 
 #: ../../admin/backup.rst:56
-#, fuzzy
-#| msgid "Turn on the new backup configuration on the :guilabel:`Backups` tab."
 msgid "Turn on the new backup configuration from the :guilabel:`Backups` tab."
 msgstr ""
-"Включение новой конфигурации резервного копирования на вкладке :guilabel:"
-"`Резервные копии`."
+"Включение новой конфигурации резервного копирования на вкладке :guilabel:`"
+"Резервные копии`."
 
 #: ../../admin/backup.rst:57
-#, fuzzy
-#| msgid ""
-#| "Backup Borg credentials in order to be able to restore the backups, see :"
-#| "ref:`borg-keys`."
 msgid ""
 "Backup your Borg credentials to be able to restore the backups, see :ref:"
 "`borg-keys`."
 msgstr ""
-"Резервное копирование учётных данных Borg, чтобы иметь возможность "
-"восстанавливать резервные копии, смотрите раздел :ref:`borg-keys`."
+"Создайте резервную копию своих учётных данных Borg, чтобы иметь возможность "
+"восстанавливать резервные копии; смотрите раздел «:ref:`borg-keys`»."
 
 #: ../../admin/backup.rst:61
-#, fuzzy
-#| msgid ""
-#| "The manual step of turning on is there for your safety. Without your "
-#| "consent no data is sent to the backup repository obtained through the "
-#| "registration process."
 msgid ""
 "The manual step of turning everything on is there for your safety. Without "
 "your consent no data is sent to the backup repository obtained through the "
@@ -3267,11 +3180,6 @@ msgid "Using custom backup storage"
 msgstr "Использование собственного хранилища резервных копий"
 
 #: ../../admin/backup.rst:70
-#, fuzzy
-#| msgid ""
-#| "You can also use your own storage for the backups. SSH can be used to "
-#| "store backups on the remote destination, the target server needs to have "
-#| "`BorgBackup`_ installed."
 msgid ""
 "You can also use your own storage for the backups. SSH can be used to store "
 "backups in the remote destination, the target server needs to have "
