@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-02-13 21:06+0100\n"
-"PO-Revision-Date: 2021-02-14 09:11+0000\n"
+"PO-Revision-Date: 2021-02-14 17:21+0000\n"
 "Last-Translator: Golubev Alexander <fatzer2@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/"
 "documentation/ru/>\n"
@@ -3199,12 +3199,6 @@ msgid "Local filesystem"
 msgstr "Локальная файловая система"
 
 #: ../../admin/backup.rst:81
-#, fuzzy
-#| msgid ""
-#| "It is recommended to specify absolute path for the local backup, for "
-#| "example `/path/to/backup`. The directory has to be writable by user "
-#| "running Weblate (see :ref:`file-permissions`). In case it doesn't exist, "
-#| "Weblate will attempt to create it, but it needs permissions to do so."
 msgid ""
 "It is recommended to specify the absolute path for the local backup, for "
 "example `/path/to/backup`. The directory has to be writable by the user "
@@ -3215,53 +3209,36 @@ msgstr ""
 "например `/путь/к/резервной_копии`. Каталог должен быть доступен на запись "
 "для пользователя, под которым запущен Weblate (смотрите раздел :ref:`file-"
 "permissions`). В случае, если каталог не существует, Weblate попытается его "
-"создать, но для этого ему понадобятся соответствующие права доступа."
+"создать, но для этого понадобятся соответствующие права доступа."
 
 #: ../../admin/backup.rst:88
-#, fuzzy
-#| msgid ""
-#| "When running Weblate in Docker, please make sure that the backup location "
-#| "is exposed as a volume from the Weblate container. Otherwise the backups "
-#| "would be discarded by Docker on container restart."
 msgid ""
 "When running Weblate in Docker, please ensure the backup location is exposed "
 "as a volume from the Weblate container. Otherwise the backups will be "
 "discarded by Docker on the container restart."
 msgstr ""
 "Если Weblate запущен в Docker’е, убедитесь, что местоположение резервных "
-"копий отображается на том из контейнера Weblate’а. В противном случае при "
-"перезагрузке контейнера Docker выбросит резервные копии."
+"копий в контейнере Weblate отображается на какой-либо том. В противном "
+"случае при перезагрузке контейнера Docker все резервные копии будут потеряны."
 
 #: ../../admin/backup.rst:92
-#, fuzzy
-#| msgid ""
-#| "One option is to place backups in existing volume. For example choose :"
-#| "file:`/app/data/borgbackup`. This is existing volume in the container."
 msgid ""
 "One option is to place backups into an existing volume, for example :file:`/"
 "app/data/borgbackup`. This is an existing volume in the container."
 msgstr ""
 "Одним из вариантов является размещение резервных копий в существующем томе. "
-"Подойдёт, к примеру, :file:`/app/data/borgbackup`. Это существующий том в "
-"контейнере."
+"Подойдёт, к примеру, :file:`/app/data/borgbackup`. Это один из томов уже "
+"существующих в контейнере."
 
 #: ../../admin/backup.rst:95
-#, fuzzy
-#| msgid ""
-#| "You can also add new container for the backups in the Docker compose file "
-#| "and use for example :file:`/borgbackup`:"
 msgid ""
 "You can also add a new container for the backups in the Docker compose file "
 "for example by using :file:`/borgbackup`:"
 msgstr ""
-"Также вы можете добавить в файл compose Docker’а новый контейнер для "
-"резервных копий и использовать, например, путь :file:`/borgbackup`:"
+"Также вы можете добавить в файл Docker Compose новый контейнер для резервных "
+"копий и использовать, например, путь :file:`/borgbackup`:"
 
 #: ../../admin/backup.rst:106
-#, fuzzy
-#| msgid ""
-#| "The directory where backups will be stored have to be owned by UID 1000, "
-#| "otherwise Weblate will not be able to write the backups there."
 msgid ""
 "The directory where backups will be stored have to be owned by UID 1000, "
 "otherwise Weblate won’t be able to write the backups there."
@@ -3280,6 +3257,11 @@ msgid ""
 "sure that it accepts the Weblate's client SSH key, i.e. the one it uses to "
 "connect to other servers. (see :ref:`weblate-ssh-key`)."
 msgstr ""
+"Для создания удалённых резервных копий вам также понадобится установить "
+"`BorgBackup`_ и на второй сервер, который будет доступен по SSH. "
+"Удостоверьтесь также в том, что он принимает клиентский SSH-ключ Weblate, "
+"т.е. тот, который он использует для доступа к другим серверам (см. :ref"
+":`weblate-ssh-key`)."
 
 #: ../../admin/backup.rst:119
 msgid ":ref:`cloudbackup` provides you automated remote backups."
@@ -3299,24 +3281,18 @@ msgstr ""
 "парольную фразу для резервного копирования."
 
 #: ../../admin/backup.rst:126
-#, fuzzy
-#| msgid "List backup existing on the server using ``borg list REPOSITORY``."
 msgid "List all the backups on the server using ``borg list REPOSITORY``."
 msgstr ""
-"Получите список существующих на сервере резервных копий с помощью команды "
-"``borg list РЕПОЗИТОРИЙ``."
+"Получите список всех резервных копий на сервере с помощью команды ``borg "
+"list РЕПОЗИТОРИЙ``."
 
 #: ../../admin/backup.rst:128
-#, fuzzy
-#| msgid ""
-#| "Restore the desired backup to current directory using ``borg extract "
-#| "REPOSITORY::ARCHIVE``."
 msgid ""
 "Restore the desired backup to the current directory using ``borg extract "
 "REPOSITORY::ARCHIVE``."
 msgstr ""
-"Восстановите нужную резервную копию в текущий каталог с помощью команды "
-"``borg extract РЕПОЗИТОРИЙ::АРХИВ``."
+"Восстановите нужную резервную копию в текущий каталог с помощью команды ``"
+"borg extract РЕПОЗИТОРИЙ::АРХИВ``."
 
 #: ../../admin/backup.rst:130
 msgid ""
@@ -3327,35 +3303,25 @@ msgstr ""
 "каталога данных Weblate (смотрите раздел :ref:`backup-dumps`)."
 
 #: ../../admin/backup.rst:132
-#, fuzzy
-#| msgid ""
-#| "Copy Weblate configuration (:file:`backups/settings.py`, see :ref:`backup-"
-#| "dumps`) to the correct location, see :ref:`configuration`."
 msgid ""
 "Copy the Weblate configuration (:file:`backups/settings.py`, see :ref:"
 "`backup-dumps`) to the correct location, see :ref:`configuration`."
 msgstr ""
 "Скопируйте файл настроек Weblate (:file:`backups/settings.py`, смотрите "
-"раздел :ref:`backup-dumps`) в нужное место, смотрите раздел :ref:"
-"`configuration`."
+"раздел :ref:`backup-dumps`) в нужное место, смотрите раздел "
+":ref:`configuration`."
 
 #: ../../admin/backup.rst:134
-#, fuzzy
-#| msgid ""
-#| "Copy the whole restored data dir to location configured by :setting:"
-#| "`DATA_DIR`."
 msgid ""
 "Copy the whole restored data dir to the location configured by :setting:"
 "`DATA_DIR`."
 msgstr ""
-"Скопируйте весь восстановленный каталог данных в место, заданное параметром :"
-"setting:`DATA_DIR`."
+"Скопируйте весь восстановленный каталог данных в место, заданное параметром "
+":setting:`DATA_DIR`."
 
 #: ../../admin/backup.rst:136
-#, fuzzy
-#| msgid "The Borg session might look like:"
 msgid "The Borg session might look like this:"
-msgstr "Сеанс Borg может выглядеть так:"
+msgstr "Сеанс Borg может выглядеть как-то так:"
 
 #: ../../admin/backup.rst:148
 msgid ":doc:`borg:usage/list`, :doc:`borg:usage/extract`"
@@ -3366,24 +3332,15 @@ msgid "Manual backup"
 msgstr "Ручное резервное копирование"
 
 #: ../../admin/backup.rst:158
-#, fuzzy
-#| msgid ""
-#| "Depending on what you want to save, back up the type data Weblate stores "
-#| "in each respective place."
 msgid ""
 "Depending on what you want to save, back up the type of data Weblate stores "
 "in each respective place."
 msgstr ""
-"В зависимости от того, что вы хотите сохранить, создайте резервную копию "
-"типов данных, которые Weblate сохраняет в соответствующих местах."
+"В зависимости от того, что именно вы хотите сохранить, создайте резервную "
+"копию тех типов данных, которые Weblate сохраняет в каждом соответствующем "
+"месте."
 
 #: ../../admin/backup.rst:162
-#, fuzzy
-#| msgid ""
-#| "In case you are doing manual backups, you might want to silent Weblate "
-#| "warning about lack of backups by adding ``weblate.I028`` to :setting:"
-#| "`django:SILENCED_SYSTEM_CHECKS` in :file:`settings.py` or :envvar:"
-#| "`WEBLATE_SILENCED_SYSTEM_CHECKS` for Docker."
 msgid ""
 "If you are doing the manual backups, you might want to silence Weblate's "
 "warning about a lack of backups by adding ``weblate.I028`` to :setting:"
@@ -3392,9 +3349,9 @@ msgid ""
 msgstr ""
 "Если вы выполняете резервное копирование вручную, вы можете подавить "
 "предупреждение Weblate об отсутствии резервного копирования, добавив "
-"проверку ``weblate.I028`` к параметру :setting:`django:"
-"SILENCED_SYSTEM_CHECKS` в :file:`settings.py` или к переменной окружения :"
-"envvar:`WEBLATE_SILENCED_SYSTEM_CHECKS` Docker’а."
+"проверку ``weblate.I028`` к параметру "
+":setting:`django:SILENCED_SYSTEM_CHECKS` в :file:`settings.py` или к "
+"переменной окружения :envvar:`WEBLATE_SILENCED_SYSTEM_CHECKS` Docker’а."
 
 #: ../../admin/backup.rst:172
 msgid "Database"
@@ -3406,28 +3363,18 @@ msgstr ""
 "Фактическое расположение хранилища зависит от настроек вашей базы данных."
 
 #: ../../admin/backup.rst:176
-#, fuzzy
-#| msgid ""
-#| "The database is the most important storage. Set up regular backups of "
-#| "your database, without it all your translation setup will be gone."
 msgid ""
 "The database is the most important storage. Set up regular backups of your "
 "database. Without database, all the translations are gone."
 msgstr ""
 "База данных является самым важным хранилищем. Настройте регулярное резервное "
-"копирование вашей базы данных, без неё все настройки переводов исчезнут."
+"копирование вашей базы данных. Без неё все переводы пропадут."
 
 #: ../../admin/backup.rst:181
 msgid "Native database backup"
 msgstr "Встроенные средства базы данных для резервного копирования"
 
 #: ../../admin/backup.rst:183
-#, fuzzy
-#| msgid ""
-#| "The recommended approach is to do dump of the database using database "
-#| "native tools such as :program:`pg_dump` or :program:`mysqldump`. It "
-#| "usually performs better than Django backup and restores complete tables "
-#| "with all data."
 msgid ""
 "The recommended approach is to do save a dump of the database using database "
 "native tools such as :program:`pg_dump` or :program:`mysqldump`. It usually "
@@ -3435,38 +3382,27 @@ msgid ""
 "their data."
 msgstr ""
 "Рекомендуемый подход заключается в создании дампа базы данных с помощью "
-"родных для базы данных инструментов, таких как :program:`pg_dump` или :"
-"program:`mysqldump`. Обычно он работает лучше, чем резервная копия Django, и "
-"восстанавливает полные таблицы со всеми данными."
+"родных для конкретной СУБД инструментов, таких как :program:`pg_dump` или "
+":program:`mysqldump`. Обычно они работают лучше, чем резервные копии Django, "
+"и восстанавливают полные таблицы со всеми данными."
 
 #: ../../admin/backup.rst:187
-#, fuzzy
-#| msgid ""
-#| "You can restore this backup in newer Weblate release, it will perform any "
-#| "necessary migrations when running in :djadmin:`django:migrate`. Please "
-#| "consult :doc:`upgrade` on more detailed information how to perform "
-#| "upgrade between versions."
 msgid ""
 "You can restore this backup in a newer Weblate release, it will perform all "
 "the necessary migrations when running in :djadmin:`django:migrate`. Please "
 "consult :doc:`upgrade` on more detailed info on how to upgrade between "
 "versions."
 msgstr ""
-"Эту резервную копию вы можете восстановить в новом выпуске Weblate, при "
-"запуске через :djadmin:`django:migrate` он выполнит все необходимые "
-"миграции. За более подробной информацией о том, как выполнить обновление "
-"между версиями обратитесь, пожалуйста, к разделу :doc:`upgrade`."
+"Эту резервную копию вы можете восстановить и на болле новом выпуске Weblate, "
+"при запуске через :djadmin:`django:migrate` он выполнит все необходимые "
+"миграции. За более подробной информацией о том, как выполнять обновление "
+"между версиями обратитесь к разделу «:doc:`upgrade`»."
 
 #: ../../admin/backup.rst:192
 msgid "Django database backup"
 msgstr "Резервное копирование базы данных средствами Django"
 
 #: ../../admin/backup.rst:194
-#, fuzzy
-#| msgid ""
-#| "Alternatively you can backup database using Django's :djadmin:`django:"
-#| "dumpdata` command. That way the backup is database agnostic and can be "
-#| "used in case you want to change database backend."
 msgid ""
 "Alternatively, you can back up your database using Django's :djadmin:`django:"
 "dumpdata` command. That way the backup is database agnostic and can be used "
@@ -3475,16 +3411,9 @@ msgstr ""
 "В качестве альтернативы вы можете создать резервную копию базы данных при "
 "помощи Django’вской команды :djadmin:`django:dumpdata`. Резервное "
 "копирование этим способом не зависит от базы данных и может быть "
-"использовано в случае, если вы захотите сменить базу данных."
+"использовано в случае, если вы захотите сменить СУБД."
 
 #: ../../admin/backup.rst:198
-#, fuzzy
-#| msgid ""
-#| "Prior to restoring you need to be running exactly same Weblate version as "
-#| "was used when doing backups. This is necessary as the database structure "
-#| "does change between releases and you would end up corrupting the data in "
-#| "some way. After installing the same version, run all database migrations "
-#| "using :djadmin:`django:migrate`."
 msgid ""
 "Prior to restoring the database you need to be running exactly the same "
 "Weblate version the backup was made on. This is necessary as the database "
@@ -3492,20 +3421,14 @@ msgid ""
 "data in some way. After installing the same version, run all database "
 "migrations using :djadmin:`django:migrate`."
 msgstr ""
-"До восстановления вам следует убедиться, что у вас запущена ровно та же "
-"самая версия Weblate, которая использовалась при резервном копировании. Это "
-"необходимо, так как структура базы данных меняется между выпусками, и если "
-"вы не выполните это условие, то, в конечном итоге, повредите данные тем или "
-"иным образом. После установки такой же версии запустите все миграции базы "
+"Перед восстановлением вам следует убедиться, что у вас запущена в точности "
+"та же самая версия Weblate, с которой была сделана резервная копия. Это "
+"необходимо, так как структура базы данных меняется от выпуска к выпуску, и "
+"если вы не выполните это условие, то, в конечном итоге, повредите данные тем "
+"или иным образом. После установке этой версии запустите все миграции базы "
 "данных с помощью команды :djadmin:`django:migrate`."
 
 #: ../../admin/backup.rst:204
-#, fuzzy
-#| msgid ""
-#| "Once this is done, some entries will be already created in the database "
-#| "and you will have them in the database backup as well. The recommended "
-#| "approach is to delete such entries manually using management shell (see :"
-#| "ref:`invoke-manage`):"
 msgid ""
 "Afterwards some entries will already be created in the database and you will "
 "have them in the database backup as well. The recommended approach is to "
@@ -3521,12 +3444,6 @@ msgid "Files"
 msgstr "Файлы"
 
 #: ../../admin/backup.rst:217
-#, fuzzy
-#| msgid ""
-#| "If you have enough backup space, simply backup the whole :setting:"
-#| "`DATA_DIR`. This is safe bet even if it includes some files you don't "
-#| "want. The following sections describe in detail what you should back up "
-#| "and what you can skip."
 msgid ""
 "If you have enough backup space, simply back up the whole :setting:"
 "`DATA_DIR`. This is a safe bet even if it includes some files you don't "
@@ -3572,18 +3489,13 @@ msgstr ""
 "Резервная копия базы данных PostgreSQL в виде файла :file:`database.sql`."
 
 #: ../../admin/backup.rst:236
-#, fuzzy
-#| msgid ""
-#| "The database backups are by default saved as plain text, but they can "
-#| "also be compressed or entirely skipped by using :setting:"
-#| "`DATABASE_BACKUP`."
 msgid ""
 "The database backups are saved as plain text by default, but they can also "
 "be compressed or entirely skipped using :setting:`DATABASE_BACKUP`."
 msgstr ""
 "Резервные копии базы данных по умолчанию сохраняются в виде простого текста, "
-"но их также можно сжать или полностью выключить, устанавливая параметр :"
-"setting:`DATABASE_BACKUP`."
+"но их также можно сжать или полностью выключить, устанавив параметр "
+":setting:`DATABASE_BACKUP`."
 
 #: ../../admin/backup.rst:240
 msgid "Version control repositories"
@@ -3594,14 +3506,6 @@ msgid "Stored in :setting:`DATA_DIR` ``/vcs``."
 msgstr "Хранятся в :setting:`DATA_DIR` ``/vcs``."
 
 #: ../../admin/backup.rst:244
-#, fuzzy
-#| msgid ""
-#| "The version control repositories contain a copy of your upstream "
-#| "repositories with Weblate changes. If you have push on commit enabled for "
-#| "all your translation components, all Weblate changes are included "
-#| "upstream and you do not have to backup the repositories on the Weblate "
-#| "side. They can be cloned again from the upstream locations with no data "
-#| "loss."
 msgid ""
 "The version control repositories contain a copy of your upstream "
 "repositories with Weblate changes. If you have `Push on commit` enabled for "
@@ -3612,10 +3516,10 @@ msgstr ""
 "Репозитории системы контроля версий содержат копии ваших вышестоящих "
 "репозиториев с изменениями из Weblate’а. Если вы включили для всех ваших "
 "компонентов перевода отправку изменений в вышестоящий репозиторий при "
-"коммите, в этот репозиторий включаются все изменения из Weblate’а, поэтому "
-"на стороне Weblate’а вам уже не нужно создавать резервные копии "
-"репозиториев. Они могут быть повторно склонированы из вышестоящих "
-"репозиториев без потери данных."
+"коммите (:guilabel:`Отправлять при коммите`), в этот репозиторий включаются "
+"все изменения из Weblate’а. Так что на стороне Weblate’а вам уже не нужно "
+"создавать резервные копии репозиториев. Они могут быть повторно склонированы "
+"из вышестоящих репозиториев без потери данных."
 
 #: ../../admin/backup.rst:251
 msgid "SSH and GPG keys"
@@ -3628,18 +3532,13 @@ msgstr ""
 "Хранятся в :setting:`DATA_DIR` ``/ssh`` и :setting:`DATA_DIR` ``/home``."
 
 #: ../../admin/backup.rst:255
-#, fuzzy
-#| msgid ""
-#| "If you are using SSH or GPG keys generated by Weblate, you should back up "
-#| "these locations, otherwise you will lose the private keys and you will "
-#| "have to regenerate new ones."
 msgid ""
 "If you are using SSH or GPG keys generated by Weblate, you should back up "
 "these locations. Otherwise you will lose the private keys and you will have "
 "to regenerate new ones."
 msgstr ""
-"Если вы используете сгенерированные Weblate ключи SSH или GPG, вы должны "
-"создать резервную копию этих каталогов, иначе вы потеряете закрытые ключи и "
+"Если вы используете сгенерированные Weblate'ом ключи SSH или GPG, вы должны "
+"создать резервные копии этих каталогов. Иначе вы потеряете закрытые ключи и "
 "вам придётся заново сгенерировать новые."
 
 #: ../../admin/backup.rst:260
@@ -3651,25 +3550,16 @@ msgid "Stored in :setting:`DATA_DIR` ``/media``."
 msgstr "Хранятся в :setting:`DATA_DIR` ``/media``."
 
 #: ../../admin/backup.rst:264
-#, fuzzy
-#| msgid "You should back up user uploaded files (e.g. :ref:`screenshots`)."
 msgid "You should back up all user uploaded files (e.g. :ref:`screenshots`)."
 msgstr ""
-"Вы должны сделать резервные копии загруженных пользователями файлов "
-"(например, :ref:`визуальных контекстов для строк <screenshots>`)."
+"Вы должны сделать резервные копии всех загруженных пользователями файлов ("
+"например, :ref:`снимков экрана <screenshots>`)."
 
 #: ../../admin/backup.rst:267
 msgid "Celery tasks"
 msgstr "Задачи Celery"
 
 #: ../../admin/backup.rst:269
-#, fuzzy
-#| msgid ""
-#| "The Celery tasks queue might contain some info, but is usually not needed "
-#| "for a backup. At most you will lose updates that have not yet been "
-#| "processed to translation memory. It is recommended to perform the "
-#| "fulltext or repository updates upon restoring anyhow, so there is no "
-#| "problem in losing these."
 msgid ""
 "The Celery task queue might contain some info, but is usually not needed for "
 "a backup. At most you will lose updates not yet been processed to "
@@ -3692,10 +3582,6 @@ msgid "Command line for manual backup"
 msgstr "Командная строка для ручного резервного копирования"
 
 #: ../../admin/backup.rst:281
-#, fuzzy
-#| msgid ""
-#| "Using a cron job, you can set up a bash command to be executed on a daily "
-#| "basis, for instance:"
 msgid ""
 "Using a cron job, you can set up a Bash command to be executed on a daily "
 "basis, for example:"
@@ -3704,25 +3590,16 @@ msgstr ""
 "выполняться каждый день, например:"
 
 #: ../../admin/backup.rst:287
-#, fuzzy
-#| msgid ""
-#| "The string between quotes after XZ_OPT allows you to choose your xz "
-#| "options, for instance the amount of memory used for compression; see "
-#| "https://linux.die.net/man/1/xz"
 msgid ""
 "The string between the quotes after `XZ_OPT` allows you to choose your xz "
 "options, for instance the amount of memory used for compression; see https://"
 "linux.die.net/man/1/xz"
 msgstr ""
-"Строка между кавычками после XZ_OPT позволяет вам выбрать параметры для "
+"Строка между кавычками после `XZ_OPT` позволяет вам выбрать параметры для "
 "запуска xz, например, объём памяти, используемый для сжатия; смотрите "
 "руководство на странице https://linux.die.net/man/1/xz"
 
 #: ../../admin/backup.rst:289
-#, fuzzy
-#| msgid ""
-#| "You can adjust the list of folders and files to your needs. For instance, "
-#| "to avoid saving the translation memory (in backups folder), you could use:"
 msgid ""
 "You can adjust the list of folders and files to your needs. To avoid saving "
 "the translation memory (in backups folder), you can use:"
@@ -3748,10 +3625,6 @@ msgid "Moving a Weblate installation"
 msgstr "Перенос установки Weblate"
 
 #: ../../admin/backup.rst:309
-#, fuzzy
-#| msgid ""
-#| "Relocate your installation to a different system by following the backup "
-#| "and restore instructions above."
 msgid ""
 "Relocate your installation to a different system by following the backing up "
 "and restoration instructions above."
