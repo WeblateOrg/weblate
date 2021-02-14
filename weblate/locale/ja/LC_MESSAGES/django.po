@@ -24,7 +24,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.5\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-02-13 20:05+0000\n"
-"PO-Revision-Date: 2021-02-13 20:01+0000\n"
+"PO-Revision-Date: 2021-02-14 06:30+0000\n"
 "Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "application/ja/>\n"
@@ -75,7 +75,7 @@ msgstr "メールアドレス"
 
 #: weblate/accounts/forms.py:277
 msgid "You can add another e-mail address below."
-msgstr "以下に、別のメールアドレスを追加できます。"
+msgstr "下記の「新しい関連付けの追加」から、別のメールアドレスを追加できます。"
 
 #: weblate/accounts/forms.py:319
 msgid "Subject"
@@ -213,8 +213,7 @@ msgstr ""
 msgid ""
 "You will receive a notification for every such event in your watched "
 "projects."
-msgstr ""
-"監視中のプロジェクトでは、このようなイベントが発生するたびに通知が届きます。"
+msgstr "監視中のプロジェクトで、次のイベントが発生するたびに通知を受け取ります。"
 
 #: weblate/accounts/forms.py:689
 msgid ""
@@ -537,7 +536,7 @@ msgstr "コンポーネント リストのセット"
 #: weblate/accounts/models.py:444 weblate/templates/dashboard/user.html:64
 #: weblate/trans/models/componentlist.py:69
 msgid "Component list"
-msgstr "コンポーネントリスト"
+msgstr "コンポーネント リスト"
 
 #: weblate/accounts/models.py:445 weblate/templates/dashboard/user.html:25
 msgid "Suggested translations"
@@ -719,7 +718,7 @@ msgstr "新しいコメント"
 #. Translators: Notification name
 #: weblate/accounts/notifications.py:600
 msgid "Changed string"
-msgstr "変更した文字列"
+msgstr "文字列の変更"
 
 #. Translators: Notification name
 #: weblate/accounts/notifications.py:609 weblate/trans/forms.py:2026
@@ -730,7 +729,7 @@ msgstr "翻訳した文字列"
 #. Translators: Notification name
 #: weblate/accounts/notifications.py:618
 msgid "Approved string"
-msgstr "承認した文字列"
+msgstr "文字列の承認"
 
 #. Translators: Notification name
 #: weblate/accounts/notifications.py:627
@@ -1409,10 +1408,8 @@ msgid "String suffix"
 msgstr "文字列の接尾辞"
 
 #: weblate/addons/forms.py:478
-#, fuzzy
-#| msgid "Source and target have to be a different languages."
 msgid "The source and target have to be different languages."
-msgstr "原文と翻訳先は、別の言語にしてください。"
+msgstr "原文と翻訳対象の言語は、異なる言語でなければなりません。"
 
 #: weblate/addons/generate.py:34
 msgid "Statistics generator"
@@ -2044,7 +2041,7 @@ msgstr "すべての保護プロジェクト"
 
 #: weblate/auth/models.py:125
 msgid "From component list"
-msgstr "コンポーネントリストから"
+msgstr "コンポーネント リストから"
 
 #: weblate/auth/models.py:130 weblate/billing/admin.py:77
 #: weblate/billing/models.py:282 weblate/templates/base.html:124
@@ -3059,14 +3056,10 @@ msgid "Java Properties (ISO 8859-1)"
 msgstr "Java プロパティファイル（ISO-8859-1）"
 
 #: weblate/formats/ttkit.py:1163
-#, fuzzy
-#| msgid "Joomla Language File"
 msgid "Joomla language file"
 msgstr "Joomla 言語ファイル"
 
 #: weblate/formats/ttkit.py:1172
-#, fuzzy
-#| msgid "GWT Properties"
 msgid "GWT properties"
 msgstr "GWT プロパティ"
 
@@ -3159,10 +3152,8 @@ msgid "Inno Setup INI file"
 msgstr "Inno Setup INI ファイル"
 
 #: weblate/formats/ttkit.py:1700
-#, fuzzy
-#| msgid "Term Base eXchange file"
 msgid "TermBase eXchange file"
-msgstr "Term Base eXchange ファイル"
+msgstr "TermBase eXchange ファイル"
 
 #: weblate/formats/txt.py:180
 msgid "App store metadata files"
@@ -4260,7 +4251,7 @@ msgstr "切断"
 
 #: weblate/templates/accounts/profile.html:155
 msgid "Add new association"
-msgstr "新しい関連付けを追加"
+msgstr "新しい関連付けの追加"
 
 #: weblate/templates/accounts/profile.html:165
 #: weblate/templates/component.html:108
@@ -5323,7 +5314,7 @@ msgstr "コンポーネントの数"
 #: weblate/templates/component-list.html:41
 #: weblate/trans/models/componentlist.py:106
 msgid "Automatic component list assignment"
-msgstr "コンポーネントリストの自動割り当て"
+msgstr "コンポーネント リストの自動割り当て"
 
 #: weblate/templates/component-progress.html:9
 msgid "Progress"
@@ -8414,14 +8405,11 @@ msgid "Following enforced checks are not enabled anywhere:"
 msgstr "どこに対しても有効とならない強制する検査項目:"
 
 #: weblate/templates/trans/alert/unusedenforcedcheck.html:8
-#, fuzzy, python-format
-#| msgid "%(check)s is enforced, but not enabled using <code>%(flag)s</code>."
+#, python-format
 msgid ""
 "%(check)s quality check is enforced, but not enabled using <code>%(flag)s</"
 "code>."
-msgstr ""
-"%(check)s の品質検査は強制されますが、<code>%(flag)s</code> を使用して有効に"
-"することはできません。"
+msgstr "%(check)s の品質検査は強制されますが、<code>%(flag)s</code> を使用して有効にすることはできません。"
 
 #: weblate/templates/trans/alert/unusedscreenshot.html:2
 msgid "There is at least one screenshot which is not assigned to any strings."
@@ -10955,7 +10943,7 @@ msgstr "キー"
 
 #: weblate/trans/models/componentlist.py:41
 msgid "Component list name"
-msgstr "コンポーネントリスト名"
+msgstr "コンポーネント リスト名"
 
 #: weblate/trans/models/componentlist.py:55
 msgid "Show on dashboard"
@@ -10964,8 +10952,7 @@ msgstr "ダッシュボードに表示"
 #: weblate/trans/models/componentlist.py:59
 msgid ""
 "When enabled this component list will be shown as a tab on the dashboard"
-msgstr ""
-"選択すると、このコンポーネントリストをダッシュボードにタブとして表示します"
+msgstr "選択すると、このコンポーネント リストをダッシュボードにタブとして表示します"
 
 #: weblate/trans/models/componentlist.py:88
 msgid "Project regular expression"
@@ -10985,11 +10972,11 @@ msgstr "コンポーネントの部分マッチングに使用する正規表現
 
 #: weblate/trans/models/componentlist.py:101
 msgid "Component list to assign"
-msgstr "割り当てるコンポーネントリスト"
+msgstr "割り当てるコンポーネント リスト"
 
 #: weblate/trans/models/componentlist.py:107
 msgid "Automatic component list assignments"
-msgstr "コンポーネントリストの自動割り当て"
+msgstr "コンポーネント リストの自動割り当て"
 
 #: weblate/trans/models/project.py:72
 msgid "Public"
@@ -11114,16 +11101,12 @@ msgid "Additional explanation to clarify meaning or usage of the string."
 msgstr "文字列の意味や使い方を明確にするための追加説明。"
 
 #: weblate/trans/models/unit.py:1351
-#, fuzzy
-#| msgid "Unmark as terminology"
 msgid "Unmark as read-only"
-msgstr "専門用語の解除"
+msgstr "編集不可の解除"
 
 #: weblate/trans/models/unit.py:1354
-#, fuzzy
-#| msgid "Mark as terminology"
 msgid "Mark as read-only"
-msgstr "専門用語に設定"
+msgstr "編集不可に設定"
 
 #: weblate/trans/models/unit.py:1361
 msgid "Unmark as forbidden translation"
@@ -11423,10 +11406,9 @@ msgid_plural "%(count)s strings are not being translated here."
 msgstr[0] "%(count)s 個の文字列が未翻訳です。"
 
 #: weblate/trans/templatetags/translations.py:826
-#, fuzzy, python-format
-#| msgid "Shared from project %s."
+#, python-format
 msgid "Shared from the %s project."
-msgstr "プロジェクト %s から共有。"
+msgstr "%s プロジェクトから共有されました。"
 
 #: weblate/trans/templatetags/translations.py:849
 msgid "enabled"
@@ -11845,7 +11827,7 @@ msgstr "翻訳コンポーネントの削除が予定されています。"
 
 #: weblate/trans/views/settings.py:191
 msgid "Project was scheduled for removal."
-msgstr "プロジェクトの削除が予定されています。"
+msgstr "プロジェクトの削除を予定しました。"
 
 #: weblate/trans/views/settings.py:213
 msgid "Language of the project was removed."
