@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-02-13 21:06+0100\n"
-"PO-Revision-Date: 2021-02-13 20:02+0000\n"
+"PO-Revision-Date: 2021-02-14 06:30+0000\n"
 "Last-Translator: Golubev Alexander <fatzer2@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/"
 "documentation/ru/>\n"
@@ -1340,19 +1340,14 @@ msgid "Addons"
 msgstr "Надстройки"
 
 #: ../../admin/addons.rst:8
-#, fuzzy
-#| msgid ""
-#| "Addons provide ways to customize and automate the translation workflow. "
-#| "Admins can add and mangage addons from the :guilabel:`Manage` ↓ `Addons` "
-#| "menu of each respective translation component."
 msgid ""
 "Addons provide ways to customize and automate the translation workflow. "
 "Admins can add and mangage addons from the :guilabel:`Manage` ↓ :guilabel:"
 "`Addons` menu of each respective translation component."
 msgstr ""
 "Надстройки предоставляют способы изменения и автоматизации рабочего процесса "
-"перевода. Администратор может добавлять и управлять надстройками из меню :"
-"guilabel:`Управлять` ↓ :guilabel:`Надстройки` соответствующего компонента "
+"перевода. Администратор может добавлять и управлять надстройками из меню "
+":guilabel:`Управлять` ↓ :guilabel:`Надстройки` соответствующего компонента "
 "перевода."
 
 #: ../../admin/addons.rst:15
@@ -1401,18 +1396,13 @@ msgstr ""
 "загрузки локализации в код JavaScript."
 
 #: ../../admin/addons.rst:46
-#, fuzzy
-#| msgid ""
-#| "Upon installation the addon generates unique URL for your component which "
-#| "you can include in the HTML documents to get them localized. See :ref:"
-#| "`weblate-cdn` for more details."
 msgid ""
 "Generates a unique URL for your component you can include in HTML pages to "
 "localize them. See :ref:`weblate-cdn` for more details."
 msgstr ""
-"После установки надстройка генерирует для вашего компонента уникальный URL-"
-"адрес, который вы можете включить в HTML-документы для их локализации. "
-"Подробности смотрите в разделе :ref:`weblate-cdn`."
+"Создаёт для вашего компонента уникальный URL-адрес, который вы можете "
+"использовать на своих HTML-страницах для локализации. Подробности смотрите в "
+"разделе «:ref:`weblate-cdn`»."
 
 #: ../../admin/addons.rst:51
 msgid ""
@@ -1431,19 +1421,14 @@ msgid "Removes strings without a translation from translation files."
 msgstr "Удаляет из файлов перевода строки без перевода."
 
 #: ../../admin/addons.rst:65
-#, fuzzy
-#| msgid ""
-#| "Use this if you do not want empty strings to appear in translation files "
-#| "(for example when your localization library displays them as empty "
-#| "strings instead of falling back to the source string)."
 msgid ""
 "Use this to not have any empty strings in translation files (for example if "
 "your localization library displays them as missing instead of falling back "
 "to the source string)."
 msgstr ""
-"Используйте эту надстройку, если вы не хотите, чтобы пустые строки попадали "
-"в файлы перевода (например, в случае, если ваша библиотека локализации "
-"отображает их как пустые строки вместо того, чтобы подставлять исходные)."
+"Используйте эту надстройку, чтобы пустые строки не попадали в файлы перевода "
+"(например, в случае, если ваша библиотека локализации отображает их как "
+"отсутствующие вместо того, чтобы подставлять исходные)."
 
 #: ../../admin/addons.rst:71 ../../admin/addons.rst:84
 #: ../../admin/addons.rst:331 ../../admin/addons.rst:422
@@ -1469,29 +1454,22 @@ msgid "Language consistency"
 msgstr "Языковая согласованность"
 
 #: ../../admin/addons.rst:91
-#, fuzzy
-#| msgid ""
-#| "Ensures all components within one project have translations for every "
-#| "added language for translation."
 msgid ""
 "Ensures all components within a project have translations for every added "
 "translated language by creating empty translations in languages that have "
 "unadded components."
 msgstr ""
-"Гарантирует, что все компоненты в рамках одного проекта имеют переводы на "
-"все языки проекта."
+"Гарантирует, что для всех компонентов в рамках одного проекта будут "
+"добавляться все языки перевода, которые есть хотя бы у одного проекта. "
+"Переводы на новые языки будут создаваться пустыми."
 
 #: ../../admin/addons.rst:95
-#, fuzzy
-#| msgid ""
-#| "Missing languages are checked once every 24 hours and when a new language "
-#| "is added in Weblate."
 msgid ""
 "Missing languages are checked once every 24 hours, and when new languages "
 "are added in Weblate."
 msgstr ""
 "Отсутствующие языки проверяются каждые 24 часа и при добавлении нового языка "
-"в Weblate."
+"через Weblate."
 
 #: ../../admin/addons.rst:98
 msgid "Unlike most others, this addon affects the whole project."
@@ -1518,11 +1496,6 @@ msgstr ""
 "изменениями файлов в системе контроля версий."
 
 #: ../../admin/addons.rst:113
-#, fuzzy
-#| msgid ""
-#| "It is triggered on every VCS update, and otherwise similar to the :"
-#| "djadmin:`import_project` management command. This way you can track "
-#| "multiple translation components within one VCS."
 msgid ""
 "Triggered each time the VCS is updated, and otherwise similar to the :"
 "djadmin:`import_project` management command. This way you can track multiple "
@@ -1534,18 +1507,14 @@ msgstr ""
 "несколько компонентов перевода."
 
 #: ../../admin/addons.rst:117
-#, fuzzy
-#| msgid ""
-#| "The matching is done using regular expressions, where power is a tradeoff "
-#| "for complexity in configuration. Some examples for common use cases can "
-#| "be found in the addon help section."
 msgid ""
 "The matching is done using regular expressions enabling complex "
 "configuration, but some knowledge is required to do so. Some examples for "
 "common use cases can be found in the addon help section."
 msgstr ""
-"Сопоставление осуществляется с помощью регулярных выражений, сложность "
-"конфигурации которых компенсируется их мощью. Для распространённых случаев в "
+"Сопоставление осуществляется с помощью регулярных выражений, что даёт "
+"возможность задать достаточно сложную конфигурацию, хотя это и требует "
+"некоторого количества начальных знаний. Для распространённых случаев в "
 "справочном разделе надстройки можно найти ряд примеров."
 
 #: ../../admin/addons.rst:122
