@@ -92,7 +92,7 @@ to create it, but needs a permission to do so.
     One option is to place backups into an existing volume, for example
     :file:`/app/data/borgbackup`. This is an existing volume in the container.
 
-    You can also add a new container for the backups in the Docker compose file
+    You can also add a new container for the backups in the Docker Compose file
     for example by using :file:`/borgbackup`:
 
     .. code-block:: yaml
