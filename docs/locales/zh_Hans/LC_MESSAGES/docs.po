@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-02-13 21:06+0100\n"
-"PO-Revision-Date: 2021-02-13 20:02+0000\n"
+"PO-Revision-Date: 2021-02-14 08:21+0000\n"
 "Last-Translator: Eric <spice2wolf@gmail.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "weblate/documentation/zh_Hans/>\n"
@@ -2545,21 +2545,14 @@ msgid "Automated backup using BorgBackup"
 msgstr "使用 BorgBackup 进行的自动化备份"
 
 #: ../../admin/backup.rst:11
-#, fuzzy
-#| msgid ""
-#| "Weblate has built-in support for creating service backups using "
-#| "`BorgBackup`_. Borg creates space-effective encrypted backups which can "
-#| "be safely stored in the cloud. The backups can be controlled in the "
-#| "management interface on the :guilabel:`Backups` tab."
 msgid ""
 "Weblate has built-in support for creating service backups using "
 "`BorgBackup`_. Borg creates space-effective encrypted backups which can be "
 "safely stored in the cloud. The backups can be controlled in the management "
 "interface from the :guilabel:`Backups` tab."
 msgstr ""
-"Weblate 内置了对使用 `BorgBackup`_ 创建服务备份的支持。Borg 创建了节省空间的"
-"加密备份，可以安全地存储在云中。可以在管理界面中的 :guilabel:`Backups` 选项卡"
-"上控制备份。"
+"Weblate 内置了对使用 `BorgBackup`_ 创建服务备份的支持。Borg 创建了节省空间的加密备份，可以安全地存储在云中。"
+"可以从管理界面中的 :guilabel:`Backups` 选项卡上控制备份。"
 
 #: ../../admin/backup.rst:18
 msgid ""
@@ -2574,10 +2567,8 @@ msgid ""
 msgstr "使用 Borg 的备份是递增的， Weblate 配置为保留后面的备份："
 
 #: ../../admin/backup.rst:22
-#, fuzzy
-#| msgid "last for 14 days."
 msgid "Daily backups for 14 days back"
-msgstr "持续 14天"
+msgstr "每天备份之前 14 天的内容"
 
 #: ../../admin/backup.rst:23
 msgid "Weekly backups for 8 weeks back"
@@ -2592,31 +2583,18 @@ msgid "Borg encryption key"
 msgstr "Borg 加密密钥"
 
 #: ../../admin/backup.rst:33
-#, fuzzy
-#| msgid ""
-#| "`BorgBackup`_ creates encrypted backups and without a passphrase you will "
-#| "not be able to restore the backup. The passphrase is generated when "
-#| "adding new backup service and you should copy it and keep it in a secure "
-#| "place."
 msgid ""
 "`BorgBackup`_ creates encrypted backups and you wouldn’t be able to restore "
 "them without the passphrase. The passphrase is generated when adding a new "
 "backup service and you should copy it and keep it in a secure place."
 msgstr ""
-"`BorgBackup`_ 生成加密的备份，没有密码的话就不能恢复备份。当添加备份服务时产"
-"生密码，并且应该将其复制并保存在安全的地方。"
+"`BorgBackup`_ 创建加密的备份，如果没有密码，你将无法恢复它们。密码是在添加新的备份服务时生成的，你应该复制它并将其保存在一个安全的地方。"
 
 #: ../../admin/backup.rst:37
-#, fuzzy
-#| msgid ""
-#| "In case you are using :ref:`cloudbackup`, please backup your private SSH "
-#| "key as well — it is used to access your backups."
 msgid ""
 "If you are using :ref:`cloudbackup`, please backup your private SSH key too, "
 "as it’s used to access your backups."
-msgstr ""
-"在使用 :ref:`cloudbackup` 的情况下，请同样备份私有 SSH 密钥——它用于访问你的备"
-"份。"
+msgstr "如果你在使用 :ref:`cloudbackup`，请同样备份你的私有 SSH 密钥，因为它用来访问你的备份。"
 
 #: ../../admin/backup.rst:42
 msgid ":doc:`borg:usage/init`"
@@ -2627,92 +2605,57 @@ msgid "Weblate provisioned backup storage"
 msgstr "Weblate 提供的备份存储"
 
 #: ../../admin/backup.rst:49
-#, fuzzy
-#| msgid ""
-#| "The easiest approach to backup your Weblate instance is to purchase "
-#| "`backup service at weblate.org <https://weblate.org/support/#backup>`_. "
-#| "The process of activating can be performed in few steps:"
 msgid ""
 "The easiest way of backing up your Weblate instance is purchasing the "
 "`backup service at weblate.org <https://weblate.org/support/#backup>`_. This "
 "is how you get it running:"
 msgstr ""
-"备份 Weblate 事例最简单的方法是购买 `backup service at weblate.org <https://"
-"weblate.org/support/#backup>`_ 。激活过程可以分几步来执行："
+"备份你的 Weblate 实例的最简单方式是在 weblate.org 购买 '备份服务' <https://weblate.org/support/"
+"#backup>`_。这是你如何让它运行起来的方式："
 
 #: ../../admin/backup.rst:53
-#, fuzzy
-#| msgid "Purchase backup service on https://weblate.org/support/#backup."
 msgid "Purchase the `Backup service` on https://weblate.org/support/#backup."
-msgstr "在 https://weblate.org/support/#backup 上购买备份服务。"
+msgstr "在 https://weblate.org/support/#backup 购买 `备份服务`。"
 
 #: ../../admin/backup.rst:54
-#, fuzzy
-#| msgid ""
-#| "Enter obtained key in the management interface, see :ref:`activate-"
-#| "support`."
 msgid ""
 "Enter the obtained key in the management interface, see :ref:`activate-"
 "support`."
 msgstr "在管理界面输入得到的密钥，请参见 :ref:`activate-support` 。"
 
 #: ../../admin/backup.rst:55
-#, fuzzy
-#| msgid ""
-#| "Weblate will connect to the cloud service and obtain access information "
-#| "for the backups."
 msgid ""
 "Weblate connects to the cloud service and obtains access info for the "
 "backups."
-msgstr "Weblate 将连接到云服务，并得到访问信息来备份。"
+msgstr "Weblate 将连接到云服务，并获取备份的访问信息。"
 
 #: ../../admin/backup.rst:56
-#, fuzzy
-#| msgid "Turn on the new backup configuration on the :guilabel:`Backups` tab."
 msgid "Turn on the new backup configuration from the :guilabel:`Backups` tab."
-msgstr "在 :guilabel:`Backups` 标签打开新的备份配置。"
+msgstr "从 :guilabel:`Backups` 标签开启新的备份配置。"
 
 #: ../../admin/backup.rst:57
-#, fuzzy
-#| msgid ""
-#| "Backup Borg credentials in order to be able to restore the backups, see :"
-#| "ref:`borg-keys`."
 msgid ""
 "Backup your Borg credentials to be able to restore the backups, see :ref:"
 "`borg-keys`."
-msgstr "备份 Borg 凭据，以便能够恢复备份，请参见 :ref:`borg-keys` 。"
+msgstr "备份你的 Borg 凭据，以便能够恢复备份，请参见 :ref:`borg-keys` 。"
 
 #: ../../admin/backup.rst:61
-#, fuzzy
-#| msgid ""
-#| "The manual step of turning on is there for your safety. Without your "
-#| "consent no data is sent to the backup repository obtained through the "
-#| "registration process."
 msgid ""
 "The manual step of turning everything on is there for your safety. Without "
 "your consent no data is sent to the backup repository obtained through the "
 "registration process."
-msgstr ""
-"为了安全起见，有打开的手动步骤。没有你的同意，就不会有数据发送到通过注册步骤"
-"得到的备份仓库。"
+msgstr "为了安全起见，有打开所有东西的手动步骤。没有你的同意，就不会有数据发送到通过注册步骤得到的备份仓库。"
 
 #: ../../admin/backup.rst:68
 msgid "Using custom backup storage"
 msgstr "使用客户的备份存储"
 
 #: ../../admin/backup.rst:70
-#, fuzzy
-#| msgid ""
-#| "You can also use your own storage for the backups. SSH can be used to "
-#| "store backups on the remote destination, the target server needs to have "
-#| "`BorgBackup`_ installed."
 msgid ""
 "You can also use your own storage for the backups. SSH can be used to store "
 "backups in the remote destination, the target server needs to have "
 "`BorgBackup`_ installed."
-msgstr ""
-"也可以使用自己的存储来备份。 SSH 可以用于在远程目的地存储备份，目标服务器需要"
-"安装 `BorgBackup`_ 。"
+msgstr "也可以使用自己的存储来备份。 SSH 可以用于在远程目的地存储备份，目标服务器需要安装 `BorgBackup`_ 。"
 
 #: ../../admin/backup.rst:76
 msgid ":doc:`borg:usage/general` in the Borg documentation"
@@ -2723,66 +2666,40 @@ msgid "Local filesystem"
 msgstr "本地文件系统"
 
 #: ../../admin/backup.rst:81
-#, fuzzy
-#| msgid ""
-#| "It is recommended to specify absolute path for the local backup, for "
-#| "example `/path/to/backup`. The directory has to be writable by user "
-#| "running Weblate (see :ref:`file-permissions`). In case it doesn't exist, "
-#| "Weblate will attempt to create it, but it needs permissions to do so."
 msgid ""
 "It is recommended to specify the absolute path for the local backup, for "
 "example `/path/to/backup`. The directory has to be writable by the user "
 "running Weblate (see :ref:`file-permissions`). In case it doesn't exist, "
 "Weblate will attempt to create it, but needs a permission to do so."
 msgstr ""
-"推荐去指定本地备份的绝对路径，例如 `/path/to/backup`。运行 Weblate 的用户必须"
-"可写入备份目录（请参见 :ref:`file-permissions`）。在目录不存在的情况下，"
-"Weblate 会尝试新建，但需要权限来执行。"
+"推荐去指定本地备份的绝对路径，例如 `/path/to/backup`。该目录必须可由运行 weblate 的用户写入（请参见 :ref:`file-"
+"permissions`）。在目录不存在的情况下，Weblate 会尝试新建它，但需要权限才能这么做。"
 
 #: ../../admin/backup.rst:88
-#, fuzzy
-#| msgid ""
-#| "When running Weblate in Docker, please make sure that the backup location "
-#| "is exposed as a volume from the Weblate container. Otherwise the backups "
-#| "would be discarded by Docker on container restart."
 msgid ""
 "When running Weblate in Docker, please ensure the backup location is exposed "
 "as a volume from the Weblate container. Otherwise the backups will be "
 "discarded by Docker on the container restart."
-msgstr "当在 Docker 中运行 Weblate 时，请确认备份位置显露为 Weblate 容器的卷。"
+msgstr ""
+"在 Docker 中运行 Weblate时，请确保备份位置暴露为来自 Weblate 容器的一个卷。否则，备份文件将在容器重启时被 Docker 丢弃。"
 
 #: ../../admin/backup.rst:92
-#, fuzzy
-#| msgid ""
-#| "One option is to place backups in existing volume. For example choose :"
-#| "file:`/app/data/borgbackup`. This is existing volume in the container."
 msgid ""
 "One option is to place backups into an existing volume, for example :file:`/"
 "app/data/borgbackup`. This is an existing volume in the container."
-msgstr ""
-"一个选项是将备份防止在现有的卷中。例如，选择 :file:`/app/data/borgbackup`。这"
-"是容器中现有的卷。"
+msgstr "一个选项是将备份放置在一个现有的卷中。例如， :file:`/app/data/borgbackup`。这是容器中的一个现有的卷。"
 
 #: ../../admin/backup.rst:95
-#, fuzzy
-#| msgid ""
-#| "You can also add new container for the backups in the Docker compose file "
-#| "and use for example :file:`/borgbackup`:"
 msgid ""
 "You can also add a new container for the backups in the Docker compose file "
 "for example by using :file:`/borgbackup`:"
-msgstr ""
-"也可以在 Docker 的编写文件中为备份添加新的容器并使用例如 :file:`/borgbackup`:"
+msgstr "你也可以在 Docker 的编写文件中为备份目的添加一个新的容器，例如使用 :file:`/borgbackup`:"
 
 #: ../../admin/backup.rst:106
-#, fuzzy
-#| msgid ""
-#| "The directory where backups will be stored have to be owned by UID 1000, "
-#| "otherwise Weblate will not be able to write the backups there."
 msgid ""
 "The directory where backups will be stored have to be owned by UID 1000, "
 "otherwise Weblate won’t be able to write the backups there."
-msgstr "备份所存储的目录由 UID 1000 所有，否则 Weblate 会不能将备份写入那里。"
+msgstr "备份所存储的目录由 UID 1000 所有，否则 Weblate 将无法把备份写入那里。"
 
 #: ../../admin/backup.rst:110
 msgid "Remote backups"
@@ -2810,16 +2727,10 @@ msgid ""
 msgstr "恢复功能会访问你的备份仓库，并准备备份密码。"
 
 #: ../../admin/backup.rst:126
-#, fuzzy
-#| msgid "List backup existing on the server using ``borg list REPOSITORY``."
 msgid "List all the backups on the server using ``borg list REPOSITORY``."
-msgstr "使用 ``borg list REPOSITORY`` 列出服务器上存在的备份。"
+msgstr "用 ``borg list REPOSITORY``列出服务器上的所有备份。"
 
 #: ../../admin/backup.rst:128
-#, fuzzy
-#| msgid ""
-#| "Restore the desired backup to current directory using ``borg extract "
-#| "REPOSITORY::ARCHIVE``."
 msgid ""
 "Restore the desired backup to the current directory using ``borg extract "
 "REPOSITORY::ARCHIVE``."
@@ -2834,32 +2745,22 @@ msgstr ""
 "见 :ref:`backup-dumps`）。"
 
 #: ../../admin/backup.rst:132
-#, fuzzy
-#| msgid ""
-#| "Copy Weblate configuration (:file:`backups/settings.py`, see :ref:`backup-"
-#| "dumps`) to the correct location, see :ref:`configuration`."
 msgid ""
 "Copy the Weblate configuration (:file:`backups/settings.py`, see :ref:"
 "`backup-dumps`) to the correct location, see :ref:`configuration`."
 msgstr ""
-"将 Weblate 配置 （ :file:`backups/settings.py` ，请参见 :ref:`backup-"
-"dumps` ）复制到正确的位置，请参见 :ref:`configuration` 。"
+"将 Weblate 配置 （ :file:`backups/settings.py` ，请参见 :ref:`backup-dumps` "
+"）复制到正确的位置，请参见 :ref:`configuration` 。"
 
 #: ../../admin/backup.rst:134
-#, fuzzy
-#| msgid ""
-#| "Copy the whole restored data dir to location configured by :setting:"
-#| "`DATA_DIR`."
 msgid ""
 "Copy the whole restored data dir to the location configured by :setting:"
 "`DATA_DIR`."
-msgstr "将整个存储的数据目录复制到在 :setting:`DATA_DIR` 中配置的位置。"
+msgstr "将整个存储的数据目录复制到 :setting:`DATA_DIR` 所配置的位置。"
 
 #: ../../admin/backup.rst:136
-#, fuzzy
-#| msgid "The Borg session might look like:"
 msgid "The Borg session might look like this:"
-msgstr "Borg 会话会是这个样子的："
+msgstr "Borg 会话可能看上去是这个样子的："
 
 #: ../../admin/backup.rst:148
 msgid ":doc:`borg:usage/list`, :doc:`borg:usage/extract`"
@@ -2870,31 +2771,21 @@ msgid "Manual backup"
 msgstr "手动备份"
 
 #: ../../admin/backup.rst:158
-#, fuzzy
-#| msgid ""
-#| "Depending on what you want to save, back up the type data Weblate stores "
-#| "in each respective place."
 msgid ""
 "Depending on what you want to save, back up the type of data Weblate stores "
 "in each respective place."
-msgstr "依赖于你想存储什么， Weblate 存储的类型数据备份在各自的位置。"
+msgstr "取决于你想保存什么， Weblate 存储的类型数据会备份在各自的位置。"
 
 #: ../../admin/backup.rst:162
-#, fuzzy
-#| msgid ""
-#| "In case you are doing manual backups, you might want to silent Weblate "
-#| "warning about lack of backups by adding ``weblate.I028`` to :setting:"
-#| "`django:SILENCED_SYSTEM_CHECKS` in :file:`settings.py` or :envvar:"
-#| "`WEBLATE_SILENCED_SYSTEM_CHECKS` for Docker."
 msgid ""
 "If you are doing the manual backups, you might want to silence Weblate's "
 "warning about a lack of backups by adding ``weblate.I028`` to :setting:"
 "`django:SILENCED_SYSTEM_CHECKS` in :file:`settings.py` or :envvar:"
 "`WEBLATE_SILENCED_SYSTEM_CHECKS` for Docker."
 msgstr ""
-"在进行手动备份时，会想要通过将 ``weblate.I028`` 添加到 :file:`settings.py` "
-"的 :setting:`django:SILENCED_SYSTEM_CHECKS` 中，或 Docker的 :envvar:"
-"`WEBLATE_SILENCED_SYSTEM_CHECKS` 中， 来关闭 Weblate 的缺少备份警告。"
+"如果你正进行手动备份，你也许想要关闭 Weblate 关于缺乏备份的警告，方法是添加 ``weblate.I028`` 到 :file:`settings"
+".py` 中的 :setting:`django:SILENCED_SYSTEM_CHECKS`；对于 Docker，则是 "
+":envvar:`WEBLATE_SILENCED_SYSTEM_CHECKS`。"
 
 #: ../../admin/backup.rst:172
 msgid "Database"
@@ -2905,80 +2796,49 @@ msgid "The actual storage location depends on your database setup."
 msgstr "实际存储位置依赖于数据库的设置。"
 
 #: ../../admin/backup.rst:176
-#, fuzzy
-#| msgid ""
-#| "The database is the most important storage. Set up regular backups of "
-#| "your database, without it all your translation setup will be gone."
 msgid ""
 "The database is the most important storage. Set up regular backups of your "
 "database. Without database, all the translations are gone."
-msgstr ""
-"数据库是最重要的存储。要新建数据库的常规备份，没有的话翻译设置就丢失了。"
+msgstr "数据库是最重要的存储。定期对数据库进行备份。没有数据库，所有的翻译都会消失。"
 
 #: ../../admin/backup.rst:181
 msgid "Native database backup"
 msgstr "本地数据库备份"
 
 #: ../../admin/backup.rst:183
-#, fuzzy
-#| msgid ""
-#| "The recommended approach is to do dump of the database using database "
-#| "native tools such as :program:`pg_dump` or :program:`mysqldump`. It "
-#| "usually performs better than Django backup and restores complete tables "
-#| "with all data."
 msgid ""
 "The recommended approach is to do save a dump of the database using database "
 "native tools such as :program:`pg_dump` or :program:`mysqldump`. It usually "
 "performs better than Django backup, and it restores complete tables with all "
 "their data."
 msgstr ""
-"推荐的方式是使用数据库的本地工具如 :program:`pg_dump` 或 :program:"
-"`mysqldump` 来备份数据库。这通常比Django备份执行得好，并且恢复所有数据的完整"
-"表格。"
+"推荐的方式是使用数据库的本地工具如 :program:`pg_dump` 或 :program:`mysqldump` 来保存数据库的转储。这通常比 "
+"Django 备份表现得好，并且可以连同数据一道，恢复完整表格。"
 
 #: ../../admin/backup.rst:187
-#, fuzzy
-#| msgid ""
-#| "You can restore this backup in newer Weblate release, it will perform any "
-#| "necessary migrations when running in :djadmin:`django:migrate`. Please "
-#| "consult :doc:`upgrade` on more detailed information how to perform "
-#| "upgrade between versions."
 msgid ""
 "You can restore this backup in a newer Weblate release, it will perform all "
 "the necessary migrations when running in :djadmin:`django:migrate`. Please "
 "consult :doc:`upgrade` on more detailed info on how to upgrade between "
 "versions."
 msgstr ""
-"可以在更新版的 Weblate 中恢复备份，当运行 :djadmin:`django:migrate` 时执行任"
-"何必要的迁移。如何在两个版本之间执行升级的更多细节信息请咨询 :doc:"
-"`upgrade` 。"
+"你可以在较新的 Weblate 发行版中恢复这个备份，当运行于 :djadmin:`django:migrate` 时，它将执行所有必需的迁移。请参考 "
+":doc:`upgrade` 了解如何在版本间升级的更多详细信息。"
 
 #: ../../admin/backup.rst:192
 msgid "Django database backup"
 msgstr "Django 数据库备份"
 
 #: ../../admin/backup.rst:194
-#, fuzzy
-#| msgid ""
-#| "Alternatively you can backup database using Django's :djadmin:`django:"
-#| "dumpdata` command. That way the backup is database agnostic and can be "
-#| "used in case you want to change database backend."
 msgid ""
 "Alternatively, you can back up your database using Django's :djadmin:`django:"
 "dumpdata` command. That way the backup is database agnostic and can be used "
 "in case you want to change the database backend."
 msgstr ""
-"另外，可以使用 Django 的 :djadmin:`django:dumpdata` 命令备份数据库。那种方式"
-"是不依托数据库的，并且可以用于先要更改数据库后端的情况。"
+"另外，可以使用 Django 的 :djadmin:`django:dumpdata` "
+"命令备份你的数据库。那种方式是不依托数据库的，并且可以用于先要更改数据库后端的情况。"
 
 #: ../../admin/backup.rst:198
-#, fuzzy
-#| msgid ""
-#| "Prior to restoring you need to be running exactly same Weblate version as "
-#| "was used when doing backups. This is necessary as the database structure "
-#| "does change between releases and you would end up corrupting the data in "
-#| "some way. After installing the same version, run all database migrations "
-#| "using :djadmin:`django:migrate`."
 msgid ""
 "Prior to restoring the database you need to be running exactly the same "
 "Weblate version the backup was made on. This is necessary as the database "
@@ -2986,9 +2846,9 @@ msgid ""
 "data in some way. After installing the same version, run all database "
 "migrations using :djadmin:`django:migrate`."
 msgstr ""
-"在恢复前，需要运行与进行备份使用的 Weblate 完全一致的版本。这是必须的，因为数"
-"据库结构在发布版本之间有变化，并且会导致某种方式的数据损坏。在安装相同版本"
-"后，使用 :djadmin:`django:migrate` 来运行所有的数据库迁移。"
+"恢复数据库之前，你需要确保恢复备份和执行备份的实例运行的是完全相同的 Weblate "
+"版本。这是必要的，因为数据库结构在不同版本之间会发生变化，你可能会以某种方式破坏数据。安装相同版本后，用 "
+":djadmin:`django:migrate` 运行所有数据库迁移。"
 
 #: ../../admin/backup.rst:204
 #, fuzzy
