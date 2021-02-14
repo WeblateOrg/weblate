@@ -21,8 +21,8 @@ msgstr ""
 "Project-Id-Version: Weblate 4.5\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-02-14 19:37+0000\n"
-"PO-Revision-Date: 2021-02-14 06:30+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2021-02-15 08:16+0000\n"
+"Last-Translator: Ihor Hordiichuk <igor_ck@outlook.com>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/"
 "application/uk/>\n"
 "Language: uk\n"
@@ -1202,16 +1202,13 @@ msgid "No line wrapping"
 msgstr "Без перенесення рядків"
 
 #: weblate/addons/forms.py:119
-#, fuzzy
-#| msgid ""
-#| "By default gettext wraps lines at 77 chars and newlines. With --no-wrap "
-#| "parameter, it wraps only at newlines."
 msgid ""
 "By default gettext wraps lines at 77 characters and at newlines. With the --"
 "no-wrap parameter, wrapping is only done at newlines."
 msgstr ""
-"Типово gettext переносить рядки на 77-у символі і нових рядках, з параметром "
-"--no-wrap він переносить тільки на нових рядках."
+"Типово gettext переносить рядки на 77-у символі та на символах перенесення "
+"рядків, з параметром --no-wrap перенесення виконується лише на символах "
+"перенесення рядків."
 
 #: weblate/addons/forms.py:127
 msgid "Keep previous msgids of translated strings"
@@ -1250,19 +1247,14 @@ msgid "Append trailers to squashed commit message"
 msgstr "Дописати кінцевики для об'єднаного повідомлення про внесок"
 
 #: weblate/addons/forms.py:159
-#, fuzzy
-#| msgid ""
-#| "Trailer lines are lines that look similar to RFC 822 e-mail headers, at "
-#| "the end of the otherwise free-form part of a commit message, such as 'Co-"
-#| "authored-by: ...'."
 msgid ""
 "Trailer lines are lines that look similar to RFC 822 e-mail headers, at the "
 "end of the otherwise free-form part of a commit message, such as 'Co-"
 "authored-by: …'."
 msgstr ""
 "Рядки-кінцевики подібні до заголовків повідомлень електронної пошти за RFC "
-"822. Їх дописують наприкінці повідомлення про внесок у довільній формі, "
-"наприклад, «Co-authored-by: ...»."
+"822. Їх дописують в кінці повідомлення про внесок у довільній формі, "
+"наприклад, «Co-authored-by: …»."
 
 #: weblate/addons/forms.py:168
 msgid ""
@@ -8576,16 +8568,11 @@ msgstr ""
 "залежностей."
 
 #: weblate/templates/trans/alert/unusedenforcedcheck.html:4
-#, fuzzy
-#| msgid "Following enforced checks are not enabled anywhere:"
 msgid "Following enforced checks are not used anywhere:"
-msgstr "Вказані далі примусові перевірки ніде не увімкнено:"
+msgstr "Вказані далі примусові перевірки ніде не використовуються:"
 
 #: weblate/templates/trans/alert/unusedenforcedcheck.html:8
-#, fuzzy, python-format
-#| msgid ""
-#| "%(check)s quality check is enforced, but not enabled using <code>"
-#| "%(flag)s</code>."
+#, python-format
 msgid ""
 "%(check)s quality check is enforced, but not turned on using <code>%(flag)s</"
 "code>."
@@ -11034,10 +11021,7 @@ msgid "The language code \"%s\" is too long, please check the filemask."
 msgstr "Мовний код \"%s\" надто довгий. Будь ласка, перевірте маску файлу."
 
 #: weblate/trans/models/component.py:2200
-#, fuzzy, python-format
-#| msgid ""
-#| "There is more than one file for %s language, please adjust the filemask "
-#| "and use components for translating a different resources."
+#, python-format
 msgid ""
 "There is more than one file for %s language, please adjust the filemask and "
 "use components for translating different resources."
