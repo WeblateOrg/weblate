@@ -25,7 +25,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.5\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
-"POT-Creation-Date: 2021-02-13 20:05+0000\n"
+"POT-Creation-Date: 2021-02-14 19:30+0000\n"
 "PO-Revision-Date: 2021-02-14 17:21+0000\n"
 "Last-Translator: tomkolp <tomkolp@gmail.com>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/weblate/"
@@ -1191,7 +1191,9 @@ msgid "Long lines wrapping"
 msgstr "Zawijanie długich linii"
 
 #: weblate/addons/forms.py:112
-msgid "Wrap lines at 77 chars and at newlines"
+#, fuzzy
+#| msgid "Wrap lines at 77 chars and at newlines"
+msgid "Wrap lines at 77 characters and at newlines"
 msgstr "Zawiń linie w 77 znakach i na znakach nowej linii"
 
 #: weblate/addons/forms.py:113
@@ -1203,9 +1205,13 @@ msgid "No line wrapping"
 msgstr "Bez zawijania linii"
 
 #: weblate/addons/forms.py:119
+#, fuzzy
+#| msgid ""
+#| "By default gettext wraps lines at 77 chars and newlines. With --no-wrap "
+#| "parameter, it wraps only at newlines."
 msgid ""
-"By default gettext wraps lines at 77 chars and newlines. With --no-wrap "
-"parameter, it wraps only at newlines."
+"By default gettext wraps lines at 77 characters and at newlines. With the --"
+"no-wrap parameter, wrapping is only done at newlines."
 msgstr ""
 "Domyślnie gettext zawija linie przy 77 znakach i nowej linii. Z parametrem --"
 "no-wrap, zawija tylko w nowych wierszach."
@@ -1247,10 +1253,15 @@ msgid "Append trailers to squashed commit message"
 msgstr "Dołącz zwiastun do komunikatu o zatwierdzenia"
 
 #: weblate/addons/forms.py:159
+#, fuzzy
+#| msgid ""
+#| "Trailer lines are lines that look similar to RFC 822 e-mail headers, at "
+#| "the end of the otherwise free-form part of a commit message, such as 'Co-"
+#| "authored-by: ...'."
 msgid ""
 "Trailer lines are lines that look similar to RFC 822 e-mail headers, at the "
 "end of the otherwise free-form part of a commit message, such as 'Co-"
-"authored-by: ...'."
+"authored-by: …'."
 msgstr ""
 "Linie zwiastuna to linie, które wyglądają podobnie do nagłówków wiadomości e-"
 "mail RFC 822, na końcu wolnej formy wiadomości zatwierdzenia, takiej jak "
@@ -5790,7 +5801,7 @@ msgstr "Licencja tłumaczenia"
 
 #: weblate/templates/component_info.html:56
 #: weblate/templates/contributor-agreement.html:9
-#: weblate/templates/snippets/libre-checklist.html:30
+#: weblate/templates/snippets/libre-checklist.html:32
 #: weblate/trans/models/component.py:457
 msgid "Contributor agreement"
 msgstr "Zgoda współpracownika"
@@ -7854,7 +7865,7 @@ msgstr ""
 msgid "The project has had active development for at least three months."
 msgstr "Projekt jest aktywnie rozwijany od co najmniej trzech miesięcy."
 
-#: weblate/templates/snippets/libre-checklist.html:17
+#: weblate/templates/snippets/libre-checklist.html:18
 msgid "Unmet guidelines from the community localization checklist:"
 msgstr "Niezaspokojone wytyczne z listy kontrolnej lokalizacji społeczności:"
 
@@ -8541,13 +8552,18 @@ msgstr ""
 "zależności."
 
 #: weblate/templates/trans/alert/unusedenforcedcheck.html:4
-msgid "Following enforced checks are not enabled anywhere:"
+#, fuzzy
+#| msgid "Following enforced checks are not enabled anywhere:"
+msgid "Following enforced checks are not used anywhere:"
 msgstr "Następujące wymuszone kontrole nie są nigdzie włączone:"
 
 #: weblate/templates/trans/alert/unusedenforcedcheck.html:8
-#, python-format
+#, fuzzy, python-format
+#| msgid ""
+#| "%(check)s quality check is enforced, but not enabled using <code>"
+#| "%(flag)s</code>."
 msgid ""
-"%(check)s quality check is enforced, but not enabled using <code>%(flag)s</"
+"%(check)s quality check is enforced, but not turned on using <code>%(flag)s</"
 "code>."
 msgstr ""
 "Kontrola jakości %(check)s jest wymuszana, ale nie jest włączana przy użyciu "
@@ -8920,9 +8936,9 @@ msgstr "Udział w tym tłumaczeniu wymaga zgody na współpracę."
 msgid "Insufficient privileges for editing source strings."
 msgstr "Niewystarczające uprawnienia do edytowania ciągów źródłowych."
 
-#: weblate/templates/translate.html:218 weblate/trans/views/edit.py:386
-#: weblate/trans/views/edit.py:406 weblate/trans/views/edit.py:424
-#: weblate/trans/views/edit.py:876
+#: weblate/templates/translate.html:218 weblate/trans/views/edit.py:388
+#: weblate/trans/views/edit.py:408 weblate/trans/views/edit.py:426
+#: weblate/trans/views/edit.py:878
 msgid "Insufficient privileges for saving translations."
 msgstr "Niewystarczające uprawnienia do zapisywania tłumaczeń."
 
@@ -9367,7 +9383,7 @@ msgstr "URL obrazu"
 msgid "Open in full editor"
 msgstr "Otwórz w pełnym edytorze"
 
-#: weblate/templates/zen-units.html:113 weblate/trans/views/edit.py:535
+#: weblate/templates/zen-units.html:113 weblate/trans/views/edit.py:537
 msgid "The translation has come to an end."
 msgstr "Tłumaczenie dobiegło końca."
 
@@ -11002,10 +11018,13 @@ msgid "The language code \"%s\" is too long, please check the filemask."
 msgstr "Kod języka \"%s\" jest zbyt długi, sprawdź maskę."
 
 #: weblate/trans/models/component.py:2200
-#, python-format
+#, fuzzy, python-format
+#| msgid ""
+#| "There is more than one file for %s language, please adjust the filemask "
+#| "and use components for translating a different resources."
 msgid ""
 "There is more than one file for %s language, please adjust the filemask and "
-"use components for translating a different resources."
+"use components for translating different resources."
 msgstr ""
 "Istnieje więcej niż jeden plik dla języka %s. Dostosuj maskę pliku i użyj "
 "komponentów do tłumaczenia różnych zasobów."
@@ -11823,32 +11842,32 @@ msgstr ""
 msgid "Please set your full name and e-mail in your profile."
 msgstr "Ustaw swoje imię i nazwisko oraz adres e-mail w swoim profilu."
 
-#: weblate/trans/views/edit.py:245 weblate/trans/views/edit.py:530
+#: weblate/trans/views/edit.py:247 weblate/trans/views/edit.py:532
 msgid "No string matched your search!"
 msgstr "Nie odnaleziono pasującego ciągu!"
 
-#: weblate/trans/views/edit.py:269
+#: weblate/trans/views/edit.py:271
 msgid "Your suggestion is empty!"
 msgstr "Twoja sugestia jest pusta!"
 
-#: weblate/trans/views/edit.py:274
+#: weblate/trans/views/edit.py:276
 msgid "You don't have privileges to add suggestions!"
 msgstr "Brak uprawnień do sugerowania tłumaczeń!"
 
-#: weblate/trans/views/edit.py:280
+#: weblate/trans/views/edit.py:282
 msgid "Your suggestion has been identified as spam!"
 msgstr "Sugestię zidentyfikowano jako spam!"
 
-#: weblate/trans/views/edit.py:291
+#: weblate/trans/views/edit.py:293
 msgid "Your suggestion already exists!"
 msgstr "Twoja sugestia już istnieje!"
 
-#: weblate/trans/views/edit.py:312
+#: weblate/trans/views/edit.py:314
 #, python-format
 msgid "Following fixups were applied to translation: %s"
 msgstr "Zastosowano następujące poprawki do tłumaczenia: %s"
 
-#: weblate/trans/views/edit.py:328
+#: weblate/trans/views/edit.py:330
 #, python-format
 msgid ""
 "Added %(language)s to your translated languages. You can adjust them in the "
@@ -11857,7 +11876,7 @@ msgstr ""
 "Dodano język %(language)s do tłumaczonych języków. Można je dostosować w "
 "ustawieniach."
 
-#: weblate/trans/views/edit.py:338
+#: weblate/trans/views/edit.py:340
 #, python-format
 msgid ""
 "Added %(project)s to your watched projects. You can adjust them and this "
@@ -11866,7 +11885,7 @@ msgstr ""
 "Dodano %(project)s do obserwowanych projektów. Możesz dostosować to "
 "zachowanie w ustawieniach."
 
-#: weblate/trans/views/edit.py:357
+#: weblate/trans/views/edit.py:359
 #, python-brace-format
 msgid ""
 "The translation has been saved, however there are some newly failing checks: "
@@ -11874,72 +11893,72 @@ msgid ""
 msgstr ""
 "Tłumaczenie zostało zapisane, jednak są pewne nowe nieudane kontrole: {0}"
 
-#: weblate/trans/views/edit.py:400
+#: weblate/trans/views/edit.py:402
 msgid "Invalid merge request!"
 msgstr "Nieprawidłowe żądanie połączenia!"
 
-#: weblate/trans/views/edit.py:418
+#: weblate/trans/views/edit.py:420
 msgid "Invalid revert request!"
 msgstr "Nieprawidłowe żądanie cofnięcia!"
 
-#: weblate/trans/views/edit.py:428
+#: weblate/trans/views/edit.py:430
 msgid "Can not revert to empty translation!"
 msgstr "Nie można przywrócić pustego tłumaczenia!"
 
-#: weblate/trans/views/edit.py:447
+#: weblate/trans/views/edit.py:449
 msgid "You do not have privilege to accept suggestions!"
 msgstr "Nie masz uprawnień do akceptacji sugestii!"
 
-#: weblate/trans/views/edit.py:453
+#: weblate/trans/views/edit.py:455
 msgid "You do not have privilege to delete suggestions!"
 msgstr "Nie masz uprawnień do usuwania sugestii!"
 
-#: weblate/trans/views/edit.py:459
+#: weblate/trans/views/edit.py:461
 msgid "You do not have privilege to vote for suggestions!"
 msgstr "Nie masz uprawnień do głosowania na sugestie!"
 
-#: weblate/trans/views/edit.py:483
+#: weblate/trans/views/edit.py:485
 msgid "Invalid suggestion!"
 msgstr "Sugestia nieprawomocna!"
 
-#: weblate/trans/views/edit.py:545
+#: weblate/trans/views/edit.py:547
 msgid "Invalid search string!"
 msgstr "Nieprawidłowy szukany ciąg!"
 
-#: weblate/trans/views/edit.py:665 weblate/trans/views/search.py:86
+#: weblate/trans/views/edit.py:667 weblate/trans/views/search.py:86
 #: weblate/trans/views/search.py:236
 msgid "Failed to process form!"
 msgstr "Nie udało się przetworzyć formularza!"
 
-#: weblate/trans/views/edit.py:685
+#: weblate/trans/views/edit.py:687
 msgid "Automatic translation in progress"
 msgstr "Automatyczne tłumaczenie w toku"
 
-#: weblate/trans/views/edit.py:721
+#: weblate/trans/views/edit.py:723
 msgid "Source needs review"
 msgstr "Źródło wymaga przeglądu"
 
-#: weblate/trans/views/edit.py:724
+#: weblate/trans/views/edit.py:726
 msgid "Posted new comment"
 msgstr "Wysłany nowy komentarz"
 
-#: weblate/trans/views/edit.py:726
+#: weblate/trans/views/edit.py:728
 msgid "Failed to add comment!"
 msgstr "Nie udało się dodać komentarza!"
 
-#: weblate/trans/views/edit.py:745
+#: weblate/trans/views/edit.py:747
 msgid "Translation comment has been deleted."
 msgstr "Komentarz tłumaczenia został zapisany."
 
-#: weblate/trans/views/edit.py:763
+#: weblate/trans/views/edit.py:765
 msgid "Translation comment has been resolved."
 msgstr "Komentarz do tłumaczenia został wyjaśniony."
 
-#: weblate/trans/views/edit.py:915
+#: weblate/trans/views/edit.py:917
 msgid "This string seems to already exist."
 msgstr "Wydaje się, że ten ciąg już istnieje."
 
-#: weblate/trans/views/edit.py:922
+#: weblate/trans/views/edit.py:924
 msgid "New string has been added."
 msgstr "Dodano nowy ciąg znaków."
 

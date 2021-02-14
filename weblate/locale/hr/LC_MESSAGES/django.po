@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.5\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
-"POT-Creation-Date: 2021-02-13 20:05+0000\n"
+"POT-Creation-Date: 2021-02-14 19:30+0000\n"
 "PO-Revision-Date: 2021-02-14 17:21+0000\n"
 "Last-Translator: Milo Ivir <mail@milotype.de>\n"
 "Language-Team: Croatian <https://hosted.weblate.org/projects/weblate/"
@@ -1157,7 +1157,9 @@ msgid "Long lines wrapping"
 msgstr "Prelamanje dugačkih redaka"
 
 #: weblate/addons/forms.py:112
-msgid "Wrap lines at 77 chars and at newlines"
+#, fuzzy
+#| msgid "Wrap lines at 77 chars and at newlines"
+msgid "Wrap lines at 77 characters and at newlines"
 msgstr "Prelomi retke nakon 77 znakova i nakon oznaka za novi redak"
 
 #: weblate/addons/forms.py:113
@@ -1169,9 +1171,13 @@ msgid "No line wrapping"
 msgstr "Bez prelamanja redaka"
 
 #: weblate/addons/forms.py:119
+#, fuzzy
+#| msgid ""
+#| "By default gettext wraps lines at 77 chars and newlines. With --no-wrap "
+#| "parameter, it wraps only at newlines."
 msgid ""
-"By default gettext wraps lines at 77 chars and newlines. With --no-wrap "
-"parameter, it wraps only at newlines."
+"By default gettext wraps lines at 77 characters and at newlines. With the --"
+"no-wrap parameter, wrapping is only done at newlines."
 msgstr ""
 "Gettext standardno prelama retke nakon 77 znakova i nakon oznaka za novi "
 "redak. Pomoću parametra --no-wrap, prelama samo nakon oznaka za novi redak."
@@ -1213,10 +1219,15 @@ msgid "Append trailers to squashed commit message"
 msgstr "Dodaj krajnje retke združenoj poruci promjena"
 
 #: weblate/addons/forms.py:159
+#, fuzzy
+#| msgid ""
+#| "Trailer lines are lines that look similar to RFC 822 e-mail headers, at "
+#| "the end of the otherwise free-form part of a commit message, such as 'Co-"
+#| "authored-by: ...'."
 msgid ""
 "Trailer lines are lines that look similar to RFC 822 e-mail headers, at the "
 "end of the otherwise free-form part of a commit message, such as 'Co-"
-"authored-by: ...'."
+"authored-by: …'."
 msgstr ""
 "Krajnji redci sliče RFC 822 zaglavljima e-pošte, na kraju inače slobodnog "
 "dijela poruke izmjene, poput „Co-authored-by: ...”."
@@ -5727,7 +5738,7 @@ msgstr "Licenca prijevoda"
 
 #: weblate/templates/component_info.html:56
 #: weblate/templates/contributor-agreement.html:9
-#: weblate/templates/snippets/libre-checklist.html:30
+#: weblate/templates/snippets/libre-checklist.html:32
 #: weblate/trans/models/component.py:457
 msgid "Contributor agreement"
 msgstr "Ugovor za doprinositelje"
@@ -7768,7 +7779,7 @@ msgstr ""
 msgid "The project has had active development for at least three months."
 msgstr "Projekt se aktivno razvija barem zadnjih tri mjeseca."
 
-#: weblate/templates/snippets/libre-checklist.html:17
+#: weblate/templates/snippets/libre-checklist.html:18
 msgid "Unmet guidelines from the community localization checklist:"
 msgstr ""
 "Neispunjene smjernice popisa zadataka za lokalizaciju koji je zadan od "
@@ -8458,13 +8469,18 @@ msgstr ""
 "nedostaju ovisnosti."
 
 #: weblate/templates/trans/alert/unusedenforcedcheck.html:4
-msgid "Following enforced checks are not enabled anywhere:"
+#, fuzzy
+#| msgid "Following enforced checks are not enabled anywhere:"
+msgid "Following enforced checks are not used anywhere:"
 msgstr "Sljedeće obavezne provjere nisu nigdje aktivirane:"
 
 #: weblate/templates/trans/alert/unusedenforcedcheck.html:8
-#, python-format
+#, fuzzy, python-format
+#| msgid ""
+#| "%(check)s quality check is enforced, but not enabled using <code>"
+#| "%(flag)s</code>."
 msgid ""
-"%(check)s quality check is enforced, but not enabled using <code>%(flag)s</"
+"%(check)s quality check is enforced, but not turned on using <code>%(flag)s</"
 "code>."
 msgstr ""
 "%(check)s provjera kvalitete je obavezna, ali nije aktivirana korištenjem "
@@ -8842,9 +8858,9 @@ msgstr ""
 msgid "Insufficient privileges for editing source strings."
 msgstr "Nedovoljna prava za uređivanje izvornog izraza."
 
-#: weblate/templates/translate.html:218 weblate/trans/views/edit.py:386
-#: weblate/trans/views/edit.py:406 weblate/trans/views/edit.py:424
-#: weblate/trans/views/edit.py:876
+#: weblate/templates/translate.html:218 weblate/trans/views/edit.py:388
+#: weblate/trans/views/edit.py:408 weblate/trans/views/edit.py:426
+#: weblate/trans/views/edit.py:878
 msgid "Insufficient privileges for saving translations."
 msgstr "Nedovoljna prava za spremanje prijevoda."
 
@@ -9284,7 +9300,7 @@ msgstr "URL slike"
 msgid "Open in full editor"
 msgstr "Otvori u potpunom uređivaču"
 
-#: weblate/templates/zen-units.html:113 weblate/trans/views/edit.py:535
+#: weblate/templates/zen-units.html:113 weblate/trans/views/edit.py:537
 msgid "The translation has come to an end."
 msgstr "Kraj prijevoda."
 
@@ -10907,10 +10923,13 @@ msgid "The language code \"%s\" is too long, please check the filemask."
 msgstr "Jezični kod „%s” je predugačak, provjeri masku datoteke."
 
 #: weblate/trans/models/component.py:2200
-#, python-format
+#, fuzzy, python-format
+#| msgid ""
+#| "There is more than one file for %s language, please adjust the filemask "
+#| "and use components for translating a different resources."
 msgid ""
 "There is more than one file for %s language, please adjust the filemask and "
-"use components for translating a different resources."
+"use components for translating different resources."
 msgstr ""
 "Za (%s) jezik postoji više datoteka. Za prevođenje različitih resursa, "
 "prilagodi masku datoteke i koristi komponente."
@@ -11723,32 +11742,32 @@ msgstr ""
 msgid "Please set your full name and e-mail in your profile."
 msgstr "Upiši tvoje ime i prezime i e-adresu u tvoj profil."
 
-#: weblate/trans/views/edit.py:245 weblate/trans/views/edit.py:530
+#: weblate/trans/views/edit.py:247 weblate/trans/views/edit.py:532
 msgid "No string matched your search!"
 msgstr "Ništa se ne poklapa s tvojim upitom!"
 
-#: weblate/trans/views/edit.py:269
+#: weblate/trans/views/edit.py:271
 msgid "Your suggestion is empty!"
 msgstr "Tvoj prijedlog je prazan!"
 
-#: weblate/trans/views/edit.py:274
+#: weblate/trans/views/edit.py:276
 msgid "You don't have privileges to add suggestions!"
 msgstr "Nemaš prava za dodavanje prijedloga!"
 
-#: weblate/trans/views/edit.py:280
+#: weblate/trans/views/edit.py:282
 msgid "Your suggestion has been identified as spam!"
 msgstr "Tvoj prijedlog je identificiran kao neželjeni!"
 
-#: weblate/trans/views/edit.py:291
+#: weblate/trans/views/edit.py:293
 msgid "Your suggestion already exists!"
 msgstr "Tvoj prijedlog već postoji!"
 
-#: weblate/trans/views/edit.py:312
+#: weblate/trans/views/edit.py:314
 #, python-format
 msgid "Following fixups were applied to translation: %s"
 msgstr "Sljedeći ispravci su primijenjeni na prijevod: %s"
 
-#: weblate/trans/views/edit.py:328
+#: weblate/trans/views/edit.py:330
 #, python-format
 msgid ""
 "Added %(language)s to your translated languages. You can adjust them in the "
@@ -11757,7 +11776,7 @@ msgstr ""
 "Tvojim prevedenim jezicima je dodan %(language)s. Jezike možeš podesiti u "
 "postavkama."
 
-#: weblate/trans/views/edit.py:338
+#: weblate/trans/views/edit.py:340
 #, python-format
 msgid ""
 "Added %(project)s to your watched projects. You can adjust them and this "
@@ -11766,79 +11785,79 @@ msgstr ""
 "Tvojim praćenim projektima je dodan %(project)s. Projekte i praćenje "
 "projekata možeš podesiti u postavkama."
 
-#: weblate/trans/views/edit.py:357
+#: weblate/trans/views/edit.py:359
 #, python-brace-format
 msgid ""
 "The translation has been saved, however there are some newly failing checks: "
 "{0}"
 msgstr "Prijevod je spremljen, međutim postoje neke neuspjele provjere: {0}"
 
-#: weblate/trans/views/edit.py:400
+#: weblate/trans/views/edit.py:402
 msgid "Invalid merge request!"
 msgstr "Neispravan zahtjev za sjedinjavanjem!"
 
-#: weblate/trans/views/edit.py:418
+#: weblate/trans/views/edit.py:420
 msgid "Invalid revert request!"
 msgstr "Neispravan zahtjev za vraćanjem!"
 
-#: weblate/trans/views/edit.py:428
+#: weblate/trans/views/edit.py:430
 msgid "Can not revert to empty translation!"
 msgstr "Nije moguće vratiti na prazni prijevod!"
 
-#: weblate/trans/views/edit.py:447
+#: weblate/trans/views/edit.py:449
 msgid "You do not have privilege to accept suggestions!"
 msgstr "Nemaš prava za prihvaćanje prijedloga!"
 
-#: weblate/trans/views/edit.py:453
+#: weblate/trans/views/edit.py:455
 msgid "You do not have privilege to delete suggestions!"
 msgstr "Nemaš prava za brisanje prijedloga!"
 
-#: weblate/trans/views/edit.py:459
+#: weblate/trans/views/edit.py:461
 msgid "You do not have privilege to vote for suggestions!"
 msgstr "Nemaš pravo glasanja za prijedloge!"
 
-#: weblate/trans/views/edit.py:483
+#: weblate/trans/views/edit.py:485
 msgid "Invalid suggestion!"
 msgstr "Neispravan prijedlog!"
 
-#: weblate/trans/views/edit.py:545
+#: weblate/trans/views/edit.py:547
 msgid "Invalid search string!"
 msgstr "Neispravan izraz za pretragu!"
 
-#: weblate/trans/views/edit.py:665 weblate/trans/views/search.py:86
+#: weblate/trans/views/edit.py:667 weblate/trans/views/search.py:86
 #: weblate/trans/views/search.py:236
 msgid "Failed to process form!"
 msgstr "Neuspjela obrada obrasca!"
 
-#: weblate/trans/views/edit.py:685
+#: weblate/trans/views/edit.py:687
 msgid "Automatic translation in progress"
 msgstr "Automatsko prevođenje u tijeku"
 
-#: weblate/trans/views/edit.py:721
+#: weblate/trans/views/edit.py:723
 msgid "Source needs review"
 msgstr "Izvor treba pregledati"
 
-#: weblate/trans/views/edit.py:724
+#: weblate/trans/views/edit.py:726
 msgid "Posted new comment"
 msgstr "Objavljen je novi komentar"
 
-#: weblate/trans/views/edit.py:726
+#: weblate/trans/views/edit.py:728
 msgid "Failed to add comment!"
 msgstr "Neuspjelo dodavanje komentara!"
 
-#: weblate/trans/views/edit.py:745
+#: weblate/trans/views/edit.py:747
 msgid "Translation comment has been deleted."
 msgstr "Komentar za prijevod je izbrisan."
 
-#: weblate/trans/views/edit.py:763
+#: weblate/trans/views/edit.py:765
 msgid "Translation comment has been resolved."
 msgstr "Komentar za prijevod je riješen."
 
-#: weblate/trans/views/edit.py:915
+#: weblate/trans/views/edit.py:917
 msgid "This string seems to already exist."
 msgstr "Čini se da ovaj izraz već postoji."
 
-#: weblate/trans/views/edit.py:922
+#: weblate/trans/views/edit.py:924
 msgid "New string has been added."
 msgstr "Dodan je novi izraz."
 

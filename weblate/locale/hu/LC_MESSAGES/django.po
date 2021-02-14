@@ -23,7 +23,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.5\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
-"POT-Creation-Date: 2021-02-13 20:05+0000\n"
+"POT-Creation-Date: 2021-02-14 19:30+0000\n"
 "PO-Revision-Date: 2021-02-04 23:47+0000\n"
 "Last-Translator: Anonymous <noreply@weblate.org>\n"
 "Language-Team: Hungarian <https://hosted.weblate.org/projects/weblate/"
@@ -1206,7 +1206,9 @@ msgid "Long lines wrapping"
 msgstr "Hosszú sorok tördelése"
 
 #: weblate/addons/forms.py:112
-msgid "Wrap lines at 77 chars and at newlines"
+#, fuzzy
+#| msgid "Wrap lines at 77 chars and at newlines"
+msgid "Wrap lines at 77 characters and at newlines"
 msgstr "Sorok tördelése a 77. karakternél és a soremeléseknél"
 
 #: weblate/addons/forms.py:113
@@ -1218,9 +1220,13 @@ msgid "No line wrapping"
 msgstr "Nincs sortörés"
 
 #: weblate/addons/forms.py:119
+#, fuzzy
+#| msgid ""
+#| "By default gettext wraps lines at 77 chars and newlines. With --no-wrap "
+#| "parameter, it wraps only at newlines."
 msgid ""
-"By default gettext wraps lines at 77 chars and newlines. With --no-wrap "
-"parameter, it wraps only at newlines."
+"By default gettext wraps lines at 77 characters and at newlines. With the --"
+"no-wrap parameter, wrapping is only done at newlines."
 msgstr ""
 "Alapértelmezetten a gettext tördeli a sorokat a 77. karakternél és a "
 "soremeléseknél. A --no-wrap paraméterrel csak a soremeléseknél tördel."
@@ -1262,10 +1268,15 @@ msgid "Append trailers to squashed commit message"
 msgstr "Zárósorok hozzáfűzése az összevont véglegesítési üzenethez"
 
 #: weblate/addons/forms.py:159
+#, fuzzy
+#| msgid ""
+#| "Trailer lines are lines that look similar to RFC 822 e-mail headers, at "
+#| "the end of the otherwise free-form part of a commit message, such as 'Co-"
+#| "authored-by: ...'."
 msgid ""
 "Trailer lines are lines that look similar to RFC 822 e-mail headers, at the "
 "end of the otherwise free-form part of a commit message, such as 'Co-"
-"authored-by: ...'."
+"authored-by: …'."
 msgstr ""
 "A zárósorok az RFC 822-es e-mail-fejlécekhez hasonlóak és a "
 "véglegesítésüzenet egyébként szabad szöveges részének végén szerepelnek, "
@@ -5859,7 +5870,7 @@ msgstr "Fordítás licence"
 
 #: weblate/templates/component_info.html:56
 #: weblate/templates/contributor-agreement.html:9
-#: weblate/templates/snippets/libre-checklist.html:30
+#: weblate/templates/snippets/libre-checklist.html:32
 #: weblate/trans/models/component.py:457
 msgid "Contributor agreement"
 msgstr "Közreműködői megállapodás"
@@ -7962,7 +7973,7 @@ msgstr ""
 msgid "The project has had active development for at least three months."
 msgstr "A projekt legalább három hónapja aktívan fejlesztett."
 
-#: weblate/templates/snippets/libre-checklist.html:17
+#: weblate/templates/snippets/libre-checklist.html:18
 msgid "Unmet guidelines from the community localization checklist:"
 msgstr "Nem teljesített útmutatások a közösségi honosítási ellenőrzőlistáról:"
 
@@ -8674,13 +8685,13 @@ msgstr ""
 #: weblate/templates/trans/alert/unusedenforcedcheck.html:4
 #, fuzzy
 #| msgid "Failing checks found"
-msgid "Following enforced checks are not enabled anywhere:"
+msgid "Following enforced checks are not used anywhere:"
 msgstr "Sikertelen ellenőrzések találhatók"
 
 #: weblate/templates/trans/alert/unusedenforcedcheck.html:8
 #, python-format
 msgid ""
-"%(check)s quality check is enforced, but not enabled using <code>%(flag)s</"
+"%(check)s quality check is enforced, but not turned on using <code>%(flag)s</"
 "code>."
 msgstr ""
 
@@ -9064,9 +9075,9 @@ msgstr ""
 msgid "Insufficient privileges for editing source strings."
 msgstr "Nincs elegendő jogosultsága forrásszövegek szerkesztéséhez."
 
-#: weblate/templates/translate.html:218 weblate/trans/views/edit.py:386
-#: weblate/trans/views/edit.py:406 weblate/trans/views/edit.py:424
-#: weblate/trans/views/edit.py:876
+#: weblate/templates/translate.html:218 weblate/trans/views/edit.py:388
+#: weblate/trans/views/edit.py:408 weblate/trans/views/edit.py:426
+#: weblate/trans/views/edit.py:878
 msgid "Insufficient privileges for saving translations."
 msgstr "Nincs elegendő jogosultsága fordítások mentéséhez."
 
@@ -9516,7 +9527,7 @@ msgstr "Kép URL"
 msgid "Open in full editor"
 msgstr "Megnyitás teljes szerkesztőben"
 
-#: weblate/templates/zen-units.html:113 weblate/trans/views/edit.py:535
+#: weblate/templates/zen-units.html:113 weblate/trans/views/edit.py:537
 msgid "The translation has come to an end."
 msgstr "A fordítás a végéhez ért."
 
@@ -11179,7 +11190,7 @@ msgstr "A(z) „%s” nyelvkód túl hosszú, ellenőrizze a fájlmaszkot."
 #| "filemask and use components for translating different resources."
 msgid ""
 "There is more than one file for %s language, please adjust the filemask and "
-"use components for translating a different resources."
+"use components for translating different resources."
 msgstr ""
 "Több fájl is elérhető az önálló nyelvhez (%s). Állítsa be a fájlmaszkot, és "
 "használja az összetevőket a különböző erőforrások fordításához."
@@ -12001,46 +12012,46 @@ msgstr ""
 msgid "Please set your full name and e-mail in your profile."
 msgstr "Állítsa be a teljes nevét és e-mail-címét a profiljában."
 
-#: weblate/trans/views/edit.py:245 weblate/trans/views/edit.py:530
+#: weblate/trans/views/edit.py:247 weblate/trans/views/edit.py:532
 msgid "No string matched your search!"
 msgstr "Nincs a keresésre illeszkedő szöveg!"
 
-#: weblate/trans/views/edit.py:269
+#: weblate/trans/views/edit.py:271
 msgid "Your suggestion is empty!"
 msgstr "A javaslata üres!"
 
-#: weblate/trans/views/edit.py:274
+#: weblate/trans/views/edit.py:276
 msgid "You don't have privileges to add suggestions!"
 msgstr "Nincs jogosultsága javaslatok hozzáadásához!"
 
-#: weblate/trans/views/edit.py:280
+#: weblate/trans/views/edit.py:282
 msgid "Your suggestion has been identified as spam!"
 msgstr "A javaslat szemétként lett azonosítva!"
 
-#: weblate/trans/views/edit.py:291
+#: weblate/trans/views/edit.py:293
 msgid "Your suggestion already exists!"
 msgstr "A javaslata már létezik!"
 
-#: weblate/trans/views/edit.py:312
+#: weblate/trans/views/edit.py:314
 #, python-format
 msgid "Following fixups were applied to translation: %s"
 msgstr "Az alábbi javítások lettek alkalmazva a fordításra: %s"
 
-#: weblate/trans/views/edit.py:328
+#: weblate/trans/views/edit.py:330
 #, python-format
 msgid ""
 "Added %(language)s to your translated languages. You can adjust them in the "
 "settings."
 msgstr ""
 
-#: weblate/trans/views/edit.py:338
+#: weblate/trans/views/edit.py:340
 #, python-format
 msgid ""
 "Added %(project)s to your watched projects. You can adjust them and this "
 "behavior in the settings."
 msgstr ""
 
-#: weblate/trans/views/edit.py:357
+#: weblate/trans/views/edit.py:359
 #, python-brace-format
 msgid ""
 "The translation has been saved, however there are some newly failing checks: "
@@ -12048,74 +12059,74 @@ msgid ""
 msgstr ""
 "A fordítás mentésre került, azonban van néhány új sikertelen ellenőrzés: {0}"
 
-#: weblate/trans/views/edit.py:400
+#: weblate/trans/views/edit.py:402
 msgid "Invalid merge request!"
 msgstr "Érvénytelen beolvasztási kérés!"
 
-#: weblate/trans/views/edit.py:418
+#: weblate/trans/views/edit.py:420
 msgid "Invalid revert request!"
 msgstr "Érvénytelen visszaállítási kérés!"
 
-#: weblate/trans/views/edit.py:428
+#: weblate/trans/views/edit.py:430
 msgid "Can not revert to empty translation!"
 msgstr "Nem lehet visszaállítani üres fordításra!"
 
-#: weblate/trans/views/edit.py:447
+#: weblate/trans/views/edit.py:449
 msgid "You do not have privilege to accept suggestions!"
 msgstr "Nincs jogosultsága javaslatok elfogadására!"
 
-#: weblate/trans/views/edit.py:453
+#: weblate/trans/views/edit.py:455
 msgid "You do not have privilege to delete suggestions!"
 msgstr "Nincs jogosultsága javaslatok törlésére!"
 
-#: weblate/trans/views/edit.py:459
+#: weblate/trans/views/edit.py:461
 msgid "You do not have privilege to vote for suggestions!"
 msgstr "Nincs jogosultsága javaslatokra történő szavazására!"
 
-#: weblate/trans/views/edit.py:483
+#: weblate/trans/views/edit.py:485
 msgid "Invalid suggestion!"
 msgstr "Érvénytelen javaslat!"
 
-#: weblate/trans/views/edit.py:545
+#: weblate/trans/views/edit.py:547
 msgid "Invalid search string!"
 msgstr "Érvénytelen keresőszöveg!"
 
-#: weblate/trans/views/edit.py:665 weblate/trans/views/search.py:86
+#: weblate/trans/views/edit.py:667 weblate/trans/views/search.py:86
 #: weblate/trans/views/search.py:236
 msgid "Failed to process form!"
 msgstr "Nem sikerült feldolgozni az űrlapot!"
 
-#: weblate/trans/views/edit.py:685
+#: weblate/trans/views/edit.py:687
 msgid "Automatic translation in progress"
 msgstr "Automatikus fordítás folyamatban"
 
-#: weblate/trans/views/edit.py:721
+#: weblate/trans/views/edit.py:723
 msgid "Source needs review"
 msgstr "A forrás felülvizsgálatot igényel"
 
-#: weblate/trans/views/edit.py:724
+#: weblate/trans/views/edit.py:726
 msgid "Posted new comment"
 msgstr "Új megjegyzés beküldve"
 
-#: weblate/trans/views/edit.py:726
+#: weblate/trans/views/edit.py:728
 msgid "Failed to add comment!"
 msgstr "Nem sikerült hozzáadni a megjegyzést!"
 
-#: weblate/trans/views/edit.py:745
+#: weblate/trans/views/edit.py:747
 msgid "Translation comment has been deleted."
 msgstr "A fordítási megjegyzés törölve lett."
 
-#: weblate/trans/views/edit.py:763
+#: weblate/trans/views/edit.py:765
 msgid "Translation comment has been resolved."
 msgstr "A fordítási megjegyzés meg lett oldva."
 
-#: weblate/trans/views/edit.py:915
+#: weblate/trans/views/edit.py:917
 #, fuzzy
 #| msgid "Translation with this key seem to already exist!"
 msgid "This string seems to already exist."
 msgstr "Úgy tűnik, hogy a fordítás ezzel a kulccsal már létezik!"
 
-#: weblate/trans/views/edit.py:922
+#: weblate/trans/views/edit.py:924
 msgid "New string has been added."
 msgstr "Új szöveg került hozzáadásra."
 

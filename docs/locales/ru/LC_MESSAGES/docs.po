@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-02-13 21:06+0100\n"
+"POT-Creation-Date: 2021-02-14 20:30+0100\n"
 "PO-Revision-Date: 2021-02-14 17:21+0000\n"
 "Last-Translator: Golubev Alexander <fatzer2@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/"
@@ -968,7 +968,7 @@ msgstr ""
 "пользователь`]"
 
 #: ../../admin/access.rst:408 ../../user/translating.rst:46
-#: ../../workflows.rst:46
+#: ../../workflows.rst:45
 msgid "Suggestions"
 msgstr "Предложения"
 
@@ -1283,8 +1283,8 @@ msgstr ""
 msgid "Default roles: none"
 msgstr "Роли по умолчанию: нет"
 
-#: ../../admin/access.rst:496 ../../workflows.rst:69 ../../workflows.rst:100
-#: ../../workflows.rst:136
+#: ../../admin/access.rst:496 ../../workflows.rst:82 ../../workflows.rst:113
+#: ../../workflows.rst:149
 msgid "`Users`"
 msgstr "`Пользователи`"
 
@@ -1296,7 +1296,7 @@ msgstr "Стандартная группа для всех пользовате
 msgid "Default roles: `Power user`"
 msgstr "Роли по умолчанию: `Опытный пользователь`"
 
-#: ../../admin/access.rst:501 ../../workflows.rst:139
+#: ../../admin/access.rst:501 ../../workflows.rst:152
 msgid "`Reviewers`"
 msgstr "`Рецензенты`"
 
@@ -1346,8 +1346,8 @@ msgid ""
 "`Addons` menu of each respective translation component."
 msgstr ""
 "Надстройки предоставляют способы изменения и автоматизации рабочего процесса "
-"перевода. Администратор может добавлять и управлять надстройками из меню "
-":guilabel:`Управлять` ↓ :guilabel:`Надстройки` соответствующего компонента "
+"перевода. Администратор может добавлять и управлять надстройками из меню :"
+"guilabel:`Управлять` ↓ :guilabel:`Надстройки` соответствующего компонента "
 "перевода."
 
 #: ../../admin/addons.rst:15
@@ -1431,7 +1431,7 @@ msgstr ""
 "отсутствующие вместо того, чтобы подставлять исходные)."
 
 #: ../../admin/addons.rst:71 ../../admin/addons.rst:84
-#: ../../admin/addons.rst:331 ../../admin/addons.rst:422
+#: ../../admin/addons.rst:348 ../../admin/addons.rst:439
 msgid ":ref:`faq-cleanup`"
 msgstr ":ref:`faq-cleanup`"
 
@@ -1528,26 +1528,35 @@ msgstr ""
 "конфигурация соответствует вашим потребностям:"
 
 #: ../../admin/addons.rst:129
+#, fuzzy
+#| msgid ""
+#| "Component discovery addon uses :ref:`internal-urls`. It’s a convenient "
+#| "way to share VCS setup between multiple components. Linked components use "
+#| "the local repository of the main component set up by filling ``weblate://"
+#| "projectname/themaincomponent`` into the :ref:`component-repo` field (in :"
+#| "guilabel:`Manage` ↓ :guilabel:`Settings` ↓ :guilabel:`Version control "
+#| "system`) of each respective component. This saves time with configuration "
+#| "and system resources too."
 msgid ""
 "Component discovery addon uses :ref:`internal-urls`. It’s a convenient way "
 "to share VCS setup between multiple components. Linked components use the "
-"local repository of the main component set up by filling ``weblate://"
-"projectname/themaincomponent`` into the :ref:`component-repo` field (in :"
-"guilabel:`Manage` ↓ :guilabel:`Settings` ↓ :guilabel:`Version control "
-"system`) of each respective component. This saves time with configuration "
-"and system resources too."
+"local repository of the main component set up by filling ``weblate://project/"
+"main-component`` into the :ref:`component-repo` field (in :guilabel:`Manage` "
+"↓ :guilabel:`Settings` ↓ :guilabel:`Version control system`) of each "
+"respective component. This saves time with configuration and system "
+"resources too."
 msgstr ""
 "Надстройка «Обнаружение компонентов» использует ref:`внутренние адреса "
 "Weblate <internal-urls>`. Это удобный способ совместного использования "
 "системы контроля версий разными компонентами. Привязать дополнительные "
 "компоненты к основному так, чтобы они использовали его локальный "
 "репозиторий, можно задав адрес вида ``weblate://проект/основной-компонент`` "
-"в качестве :ref:`репозитория исходного кода <component-repo>` (в "
-":guilabel:`Управление` ↓ :guilabel:`Параметры` ↓ :guilabel:`Система контроля "
-"версий`) для каждого такого компонента. Это сэкономит не только ваше время "
-"на настройку, но и системные ресурсы."
+"в качестве :ref:`репозитория исходного кода <component-repo>` (в :guilabel:"
+"`Управление` ↓ :guilabel:`Параметры` ↓ :guilabel:`Система контроля версий`) "
+"для каждого такого компонента. Это сэкономит не только ваше время на "
+"настройку, но и системные ресурсы."
 
-#: ../../admin/addons.rst:138 ../../admin/addons.rst:234
+#: ../../admin/addons.rst:138 ../../admin/addons.rst:251
 msgid ":ref:`markup`"
 msgstr ":ref:`markup`"
 
@@ -1631,11 +1640,24 @@ msgstr ""
 "Особенно это полезно для тех форматов файлов, которые для непереведённых "
 "строк хранят исходные строки вместо перевода."
 
-#: ../../admin/addons.rst:191
+#: ../../admin/addons.rst:190
+msgid ""
+"You might also want to tighthen the :ref::`check-same` check by adding "
+"``strict-same`` flag to :ref:`component-check_flags`."
+msgstr ""
+
+#: ../../admin/addons.rst:195 ../../admin/addons.rst:208
+#: ../../admin/addons.rst:221
+#, fuzzy
+#| msgid ":ref:`subtitles`"
+msgid ":ref:`states`"
+msgstr ":ref:`subtitles`"
+
+#: ../../admin/addons.rst:200
 msgid "Flag new source strings as \"Needs editing\""
 msgstr "Пометка новых исходных строк флагом «На правку»"
 
-#: ../../admin/addons.rst:193
+#: ../../admin/addons.rst:202
 msgid ""
 "Whenever a new source string is imported from the VCS, it is flagged as "
 "needing editing in Weblate. This way you can easily filter and edit source "
@@ -1645,11 +1667,11 @@ msgstr ""
 "в Weblate флагом «На правку». Таким образом, вы можете легко фильтровать и "
 "редактировать исходные строки, добавленные разработчиками."
 
-#: ../../admin/addons.rst:200
+#: ../../admin/addons.rst:213
 msgid "Flag new translations as \"Needs editing\""
 msgstr "Пометка новых переводов флагом «На правку»"
 
-#: ../../admin/addons.rst:202
+#: ../../admin/addons.rst:215
 msgid ""
 "Whenever a new translatable string is imported from the VCS, it is flagged "
 "as needing editing in Weblate. This way you can easily filter and edit "
@@ -1659,46 +1681,46 @@ msgstr ""
 "Weblate флагом «На правку». Таким образом, вы можете легко фильтровать и "
 "редактировать переводы, созданные разработчиками."
 
-#: ../../admin/addons.rst:209
+#: ../../admin/addons.rst:226
 msgid "Statistics generator"
 msgstr "Генератор статистики"
 
-#: ../../admin/addons.rst:211
+#: ../../admin/addons.rst:228
 msgid "Generates a file containing detailed info about the translation status."
 msgstr "Генерирует файл, содержащий детальную информацию о состоянии перевода."
 
-#: ../../admin/addons.rst:213
+#: ../../admin/addons.rst:230
 msgid ""
 "You can use a Django template in both filename and content, see :ref:"
 "`markup` for a detailed markup description."
 msgstr ""
 "И в качестве имени файла и в качестве его содержимого вы можете использовать "
-"шаблоны Django; подробное описание разметки шаблона смотрите в разделе "
-"«:ref:`markup`»."
+"шаблоны Django; подробное описание разметки шаблона смотрите в разделе «:ref:"
+"`markup`»."
 
-#: ../../admin/addons.rst:216
+#: ../../admin/addons.rst:233
 msgid "For example generating a summary file for each translation:"
 msgstr ""
 "К примеру, сгенерировать файл со сводкой по каждому переводу можно со "
 "следующими настройками:"
 
-#: ../../admin/addons.rst:218
+#: ../../admin/addons.rst:235
 msgid "Name of generated file"
 msgstr "Имя сгенерированного файла"
 
-#: ../../admin/addons.rst:219
+#: ../../admin/addons.rst:236
 msgid "``locale/{{ language_code }}.json``"
 msgstr "``locale/{{ language_code }}.json``"
 
-#: ../../admin/addons.rst:230
+#: ../../admin/addons.rst:247
 msgid "Content"
 msgstr "Содержимое"
 
-#: ../../admin/addons.rst:239
+#: ../../admin/addons.rst:256
 msgid "Pseudolocale generation"
 msgstr "Генератор псевдолокалей"
 
-#: ../../admin/addons.rst:241
+#: ../../admin/addons.rst:258
 msgid ""
 "Generates a translation by adding prefix and suffix to source strings "
 "automatically."
@@ -1706,7 +1728,7 @@ msgstr ""
 "Генерирует дополнительный перевод, автоматически добавляя префикс и суффикс "
 "к исходным строкам."
 
-#: ../../admin/addons.rst:244
+#: ../../admin/addons.rst:261
 msgid ""
 "Pseudolocales are useful to find strings that are not prepared for "
 "localization. This is done by altering all translatable source strings to "
@@ -1719,7 +1741,7 @@ msgstr ""
 "которые не были изменены, было бы достаточно просто заметить при запуске "
 "приложения."
 
-#: ../../admin/addons.rst:249
+#: ../../admin/addons.rst:266
 msgid ""
 "Finding strings whose localized counterparts might not fit the layout is "
 "also possible."
@@ -1727,7 +1749,7 @@ msgstr ""
 "Также с помощью этого возможно отследить те строки, чьи локализованные "
 "версии могут не уместиться в отведённое под них место и ломать вёрстку."
 
-#: ../../admin/addons.rst:254
+#: ../../admin/addons.rst:271
 msgid ""
 "You can use real languages for testing, but there are dedicated "
 "pseudolocales available in Weblate - `en_XA` and `ar_XB`."
@@ -1735,11 +1757,11 @@ msgstr ""
 "Хотя вы и можете использовать настоящие языки для проверки, но для этой цели "
 "в Weblate уже есть специальные псевдолокали: `en_XA` и `ar_XB`."
 
-#: ../../admin/addons.rst:260
+#: ../../admin/addons.rst:277
 msgid "Contributors in comment"
 msgstr "Участники в комментарии"
 
-#: ../../admin/addons.rst:262
+#: ../../admin/addons.rst:279
 msgid ""
 "Updates the comment part of the PO file header to include contributor names "
 "and years of contributions."
@@ -1747,15 +1769,15 @@ msgstr ""
 "Обновляет комментарий в заголовке PO-файла, включая в него имена участников "
 "и годы их участия."
 
-#: ../../admin/addons.rst:265
+#: ../../admin/addons.rst:282
 msgid "The PO file header will look like this:"
 msgstr "Заголовок PO-файла будет выглядеть примерно так:"
 
-#: ../../admin/addons.rst:277
+#: ../../admin/addons.rst:294
 msgid "Update ALL_LINGUAS variable in the \"configure\" file"
 msgstr "Обновление переменной ALL_LINGUAS в файле «configure»"
 
-#: ../../admin/addons.rst:279
+#: ../../admin/addons.rst:296
 msgid ""
 "Updates the ALL_LINGUAS variable in :file:`configure`, :file:`configure.in` "
 "or any :file:`configure.ac` files, when a new translation is added."
@@ -1763,63 +1785,61 @@ msgstr ""
 "Обновляет переменную ALL_LINGUAS в файлах :file:`configure`, :file:"
 "`configure.in` и :file:`configure.ac` при добавлении нового перевода."
 
-#: ../../admin/addons.rst:285
+#: ../../admin/addons.rst:302
 msgid "Customize gettext output"
 msgstr "Настройка вывода gettext"
 
-#: ../../admin/addons.rst:287
+#: ../../admin/addons.rst:304
 msgid ""
 "Allows customization of gettext output behavior, for example line wrapping."
 msgstr "Позволяет настроить поведение вывода gettext, например, заворот строк."
 
-#: ../../admin/addons.rst:289
+#: ../../admin/addons.rst:306
 msgid "It offers the following options:"
 msgstr "Она предлагает следующие варианты:"
 
-#: ../../admin/addons.rst:291
+#: ../../admin/addons.rst:308
 msgid "Wrap lines at 77 characters and at newlines"
 msgstr "Переносить строки на 77-м символе и у символов перевода строки"
 
-#: ../../admin/addons.rst:292
-#, fuzzy
-#| msgid "Only wrap lines at newlines"
-msgid "Only wrap lines for newlines"
+#: ../../admin/addons.rst:309
+msgid "Only wrap lines at newlines"
 msgstr "Переносить строки только на символах перевода строки"
 
-#: ../../admin/addons.rst:293
+#: ../../admin/addons.rst:310
 msgid "No line wrapping"
 msgstr "Не переносить строки"
 
-#: ../../admin/addons.rst:297
+#: ../../admin/addons.rst:314
 #, fuzzy
 #| msgid ""
-#| "By default gettext wraps lines at 77 characters and for newlines. With "
-#| "the ``--no-wrap`` parameter, it wraps only at newlines."
+#| "By default gettext wraps lines at 77 chars and newlines. With --no-wrap "
+#| "parameter, it wraps only at newlines."
 msgid ""
-"By default gettext wraps lines at 77 characters and for newlines. With the "
-"``--no-wrap`` parameter, wrapping is only done for newlines."
+"By default gettext wraps lines at 77 characters and at newlines. With the "
+"``--no-wrap`` parameter, wrapping is only done at newlines."
 msgstr ""
-"По умолчанию gettext переносит строки на 77-м символе и у символов перевода "
-"строки. С параметром ``--no-wrap`` он переносит их только у символов "
-"перевода строки."
+"По умолчанию gettext переносит строки на 77-м символе и на символе переноса "
+"строки; с параметром --no-wrap, они будут переносятся только на символе "
+"переноса строки."
 
-#: ../../admin/addons.rst:304
+#: ../../admin/addons.rst:321
 msgid "Update LINGUAS file"
 msgstr "Обновление файла LINGUAS"
 
-#: ../../admin/addons.rst:306
+#: ../../admin/addons.rst:323
 msgid "Updates the LINGUAS file when a new translation is added."
 msgstr "Обновляет файл LINGUAS при добавлении нового перевода."
 
-#: ../../admin/addons.rst:311
+#: ../../admin/addons.rst:328
 msgid "Generate MO files"
 msgstr "Создание MO-файлов"
 
-#: ../../admin/addons.rst:313
+#: ../../admin/addons.rst:330
 msgid "Automatically generates a MO file for every changed PO file."
 msgstr "Автоматически генерирует MO-файл для каждого изменённого PO-файла."
 
-#: ../../admin/addons.rst:315
+#: ../../admin/addons.rst:332
 msgid ""
 "The location of the generated MO file can be customized and the field for it "
 "uses :ref:`markup`."
@@ -1827,11 +1847,11 @@ msgstr ""
 "В соответствующем поле можно задать местоположение сгенерированного MO-"
 "файла. Формат этого поля — :ref:`markup`."
 
-#: ../../admin/addons.rst:320
+#: ../../admin/addons.rst:337
 msgid "Update PO files to match POT (msgmerge)"
 msgstr "Обновлять PO-файлы до соответствия POT (msgmerge)"
 
-#: ../../admin/addons.rst:322
+#: ../../admin/addons.rst:339
 msgid ""
 "Updates all PO files (as configured by :ref:`component-filemask`) to match "
 "the POT file (as configured by :ref:`component-new_base`) using :program:"
@@ -1842,7 +1862,7 @@ msgstr ""
 "`шаблоном для новых переводов <component-new_base>`) с помощью :program:"
 "`msgmerge`."
 
-#: ../../admin/addons.rst:325
+#: ../../admin/addons.rst:342
 msgid ""
 "Triggered whenever new changes are pulled from the upstream repository. Most "
 "msgmerge command-line options can be set up through the addon configuration."
@@ -1851,15 +1871,15 @@ msgstr ""
 "репозитория. Большинство параметров командной строки msgmerge можно задать в "
 "настройках."
 
-#: ../../admin/addons.rst:336
+#: ../../admin/addons.rst:353
 msgid "Squash Git commits"
 msgstr "Уплотнение Git-коммитов"
 
-#: ../../admin/addons.rst:338
+#: ../../admin/addons.rst:355
 msgid "Squash Git commits prior to pushing changes."
 msgstr "Уплотняет (squash) Git-коммиты перед отправкой изменений."
 
-#: ../../admin/addons.rst:340
+#: ../../admin/addons.rst:357
 msgid ""
 "Git commits can be squashed prior to pushing changes in one of the following "
 "modes:"
@@ -1867,23 +1887,23 @@ msgstr ""
 "Git-коммиты могут быть уплотнены перед отправкой изменений в одном из "
 "следующих режимов:"
 
-#: ../../admin/addons.rst:345
+#: ../../admin/addons.rst:362
 msgid "All commits into one"
 msgstr "Все коммиты в один"
 
-#: ../../admin/addons.rst:346
+#: ../../admin/addons.rst:363
 msgid "Per language"
 msgstr "По языку"
 
-#: ../../admin/addons.rst:347
+#: ../../admin/addons.rst:364
 msgid "Per file"
 msgstr "По файлу"
 
-#: ../../admin/addons.rst:351
+#: ../../admin/addons.rst:368
 msgid "Per author"
 msgstr "По автору"
 
-#: ../../admin/addons.rst:353
+#: ../../admin/addons.rst:370
 msgid ""
 "Original commit messages are kept, but authorship is lost unless :guilabel:"
 "`Per author` is selected, or the commit message is customized to include it."
@@ -1892,7 +1912,7 @@ msgstr ""
 "только не выбран режим :guilabel:`По автору`, или сообщение коммита не "
 "настроено на включение в него его авторов."
 
-#: ../../admin/addons.rst:358
+#: ../../admin/addons.rst:375
 msgid ""
 "The original commit messages can optionally be overridden with a custom "
 "commit message."
@@ -1900,46 +1920,46 @@ msgstr ""
 "Исходные сообщения коммитов могут быть переопределены пользовательским "
 "сообщением коммита."
 
-#: ../../admin/addons.rst:360
+#: ../../admin/addons.rst:377
 msgid ""
 "Trailers (commit lines like ``Co-authored-by: …``) can optionally be removed "
 "from the original commit messages and appended to the end of the squashed "
 "commit message. This also generates proper ``Co-authored-by:`` credit for "
 "every translator."
 msgstr ""
-"Дополнительно из исходных сообщений коммитов могут быть удалены завершители ("
-"строки коммита вида ``Co-authored-by: …``) с последующим их присоединением к "
-"концу сообщения уплотнённого коммита. Также в этом режиме для каждого "
+"Дополнительно из исходных сообщений коммитов могут быть удалены завершители "
+"(строки коммита вида ``Co-authored-by: …``) с последующим их присоединением "
+"к концу сообщения уплотнённого коммита. Также в этом режиме для каждого "
 "переводчика генерируется соответствующий завершитель ``Co-authored-by:``."
 
-#: ../../admin/addons.rst:368
+#: ../../admin/addons.rst:385
 msgid "Customize JSON output"
 msgstr "Настройка вывода в JSON"
 
-#: ../../admin/addons.rst:370
+#: ../../admin/addons.rst:387
 msgid ""
 "Allows adjusting JSON output behavior, for example indentation or sorting."
 msgstr ""
 "Позволяет подправить поведение вывода в JSON, например, отступы или "
 "сортировку ключей."
 
-#: ../../admin/addons.rst:375
+#: ../../admin/addons.rst:392
 msgid "Formats the Java properties file"
 msgstr "Форматирование файла свойств Java"
 
-#: ../../admin/addons.rst:377
+#: ../../admin/addons.rst:394
 msgid "Sorts the Java properties file."
 msgstr "Сортирует файл свойств Java."
 
-#: ../../admin/addons.rst:382
+#: ../../admin/addons.rst:399
 msgid "Stale comment removal"
 msgstr "Удаление устаревших комментариев"
 
-#: ../../admin/addons.rst:386
+#: ../../admin/addons.rst:403
 msgid "Set a timeframe for removal of comments."
 msgstr "Устанавливает сроки удаления комментариев."
 
-#: ../../admin/addons.rst:388
+#: ../../admin/addons.rst:405
 msgid ""
 "This can be useful to remove old comments which might have become outdated. "
 "Use with care as comments getting old does not mean they have lost their "
@@ -1949,15 +1969,15 @@ msgstr ""
 "актуальность. Используйте её с осторожностью, поскольку то, что комментарий "
 "старый, не означает, что он потерял свою значимость."
 
-#: ../../admin/addons.rst:395
+#: ../../admin/addons.rst:412
 msgid "Stale suggestion removal"
 msgstr "Удаление устаревших предложений"
 
-#: ../../admin/addons.rst:399
+#: ../../admin/addons.rst:416
 msgid "Set a timeframe for removal of suggestions."
 msgstr "Устанавливает сроки удаления предложений."
 
-#: ../../admin/addons.rst:401
+#: ../../admin/addons.rst:418
 msgid ""
 "Can be very useful in connection with suggestion voting (see :ref:`peer-"
 "review`) to remove suggestions which don't receive enough positive votes in "
@@ -1968,11 +1988,11 @@ msgstr ""
 "получили достаточного количества положительных голосов в заданный промежуток "
 "времени."
 
-#: ../../admin/addons.rst:408
+#: ../../admin/addons.rst:425
 msgid "Update RESX files"
 msgstr "Обновление файлов RESX"
 
-#: ../../admin/addons.rst:412
+#: ../../admin/addons.rst:429
 msgid ""
 "Update all translation files to match the monolingual upstream base file. "
 "Unused strings are removed, and new ones added as copies of the source "
@@ -1982,7 +2002,7 @@ msgstr ""
 "исходным базовым файлом. Неиспользуемые строки удаляются, а новые "
 "добавляются как копии исходных строк."
 
-#: ../../admin/addons.rst:417
+#: ../../admin/addons.rst:434
 msgid ""
 "Use :ref:`addon-weblate.cleanup.generic` if you only want to remove stale "
 "translation keys."
@@ -1990,22 +2010,22 @@ msgstr ""
 "Если вы хотите только удалить устаревшие ключи перевода, используйте "
 "надстройку :ref:`addon-weblate.cleanup.generic`."
 
-#: ../../admin/addons.rst:427
+#: ../../admin/addons.rst:444
 msgid "Customize YAML output"
 msgstr "Настройка вывода в YAML"
 
-#: ../../admin/addons.rst:431
+#: ../../admin/addons.rst:448
 msgid ""
 "Allows adjusting YAML output behavior, for example line-length or newlines."
 msgstr ""
 "Позволяет подправить поведение вывода в YAML, например, длину строк и "
 "символы перевода строк."
 
-#: ../../admin/addons.rst:435
+#: ../../admin/addons.rst:452
 msgid "Customizing list of addons"
 msgstr "Настройка списка надстроек"
 
-#: ../../admin/addons.rst:437
+#: ../../admin/addons.rst:454
 msgid ""
 "The list of addons is configured by :setting:`WEBLATE_ADDONS`. To add "
 "another addon, simply include the absolute class name in this setting."
@@ -2014,30 +2034,35 @@ msgstr ""
 "добавления ещё одной надстройки просто включите в этот параметр полное имя "
 "класса."
 
-#: ../../admin/addons.rst:444
+#: ../../admin/addons.rst:461
 msgid "Writing addon"
 msgstr "Создание надстройки"
 
-#: ../../admin/addons.rst:446
+#: ../../admin/addons.rst:463
+#, fuzzy
+#| msgid ""
+#| "You can write your own addons too, use the subclass :class:`weblate."
+#| "addons.base.BaseAddon` to define the addon metadata, and then implement a "
+#| "callback to do the processing."
 msgid ""
-"You can write your own addons too, use the subclass :class:`weblate.addons."
-"base.BaseAddon` to define the addon metadata, and then implement a callback "
-"to do the processing."
+"You can write your own addons too, create a subclass of :class:`weblate."
+"addons.base.BaseAddon` to define the addon metadata, and then implement a "
+"callback to do the processing."
 msgstr ""
 "Также вы можете создать свою собственную надстройку: просто создайте "
 "подкласс :class:`weblate.addons.base.BaseAddon`, чтобы определить метаданные "
 "надстройки, а затем реализуйте нужный обратный вызов, который будет "
 "выполнять обработку."
 
-#: ../../admin/addons.rst:452
+#: ../../admin/addons.rst:469
 msgid ":doc:`../contributing/addons`"
 msgstr ":doc:`../contributing/addons`"
 
-#: ../../admin/addons.rst:457
+#: ../../admin/addons.rst:474
 msgid "Executing scripts from addon"
 msgstr "Выполнение скриптов из надстройки"
 
-#: ../../admin/addons.rst:459
+#: ../../admin/addons.rst:476
 msgid ""
 "Addons can also be used to execute external scripts. This used to be "
 "integrated in Weblate, but now you have to write some code to wrap your "
@@ -2047,12 +2072,12 @@ msgstr ""
 "Раньше выполнение было интегрировано в сам Weblate, но теперь вам нужно "
 "написать код для заворачивания вашего скрипта в надстройку."
 
-#: ../../admin/addons.rst:466
+#: ../../admin/addons.rst:483
 msgid "For installation instructions see :ref:`custom-addon-modules`."
 msgstr ""
 "Инструкции по установке смотрите в разделе :ref:`custom-addon-modules`."
 
-#: ../../admin/addons.rst:468
+#: ../../admin/addons.rst:485
 msgid ""
 "The script is executed with the current directory set to the root of the VCS "
 "repository for any given component."
@@ -2060,44 +2085,44 @@ msgstr ""
 "Скрипт выполняется с текущим каталогом, установленном в корневой каталог "
 "репозитория системы контроля версий заданного компонента."
 
-#: ../../admin/addons.rst:471
+#: ../../admin/addons.rst:488
 msgid "Additionally, the following environment variables are available:"
 msgstr "Кроме того, в скрипте доступны следующие переменные окружения:"
 
-#: ../../admin/addons.rst:475
+#: ../../admin/addons.rst:492
 msgid "Version control system used."
 msgstr "Используемая система контроля версий."
 
-#: ../../admin/addons.rst:479
+#: ../../admin/addons.rst:496
 msgid "Upstream repository URL."
 msgstr "URL-адрес вышестоящего репозитория."
 
-#: ../../admin/addons.rst:483
+#: ../../admin/addons.rst:500
 msgid "Absolute path to VCS repository."
 msgstr "Абсолютный путь к репозиторию системы контроля версий."
 
-#: ../../admin/addons.rst:489
+#: ../../admin/addons.rst:506
 msgid "Repository branch configured in the current component."
 msgstr "Ветка репозитория, настроенная для текущего компонента."
 
-#: ../../admin/addons.rst:493
+#: ../../admin/addons.rst:510
 msgid "Filemask for current component."
 msgstr "Маска файлов для текущего компонента."
 
-#: ../../admin/addons.rst:497
+#: ../../admin/addons.rst:514
 msgid "Filename of template for monolingual translations (can be empty)."
 msgstr "Имя файла шаблона для одноязычных переводов (может быть пустым)."
 
-#: ../../admin/addons.rst:503
+#: ../../admin/addons.rst:520
 msgid "Filename of the file used for creating new translations (can be empty)."
 msgstr ""
 "Имя файла, используемого для создания новых переводов (может быть пустым)."
 
-#: ../../admin/addons.rst:508
+#: ../../admin/addons.rst:525
 msgid "File format used in current component."
 msgstr "Формат файла, используемый в текущем компоненте."
 
-#: ../../admin/addons.rst:512
+#: ../../admin/addons.rst:529
 msgid ""
 "Language of currently processed translation (not available for component-"
 "level hooks)."
@@ -2105,47 +2130,47 @@ msgstr ""
 "Язык обрабатываемого в данный момент перевода (недоступен для обработчиков "
 "уровня компонента)."
 
-#: ../../admin/addons.rst:517
+#: ../../admin/addons.rst:534
 msgid ""
 "Previous HEAD after update (only available after running the post-update "
 "hook)."
 msgstr ""
-"Предыдущая HEAD после обновления (доступна только после запуска обработчика «"
-"после обновления»)."
+"Предыдущая HEAD после обновления (доступна только после запуска обработчика "
+"«после обновления»)."
 
-#: ../../admin/addons.rst:523
+#: ../../admin/addons.rst:540
 msgid "Component slug used to construct URL."
 msgstr "Плашка компонента, используемая для построения URL-адреса."
 
-#: ../../admin/addons.rst:529
+#: ../../admin/addons.rst:546
 msgid "Project slug used to construct URL."
 msgstr "Плашка проекта, используемая для построения URL-адреса."
 
-#: ../../admin/addons.rst:535
+#: ../../admin/addons.rst:552
 msgid "Component name."
 msgstr "Название компонента."
 
-#: ../../admin/addons.rst:541
+#: ../../admin/addons.rst:558
 msgid "Project name."
 msgstr "Название проекта."
 
-#: ../../admin/addons.rst:547
+#: ../../admin/addons.rst:564
 msgid "Component URL."
 msgstr "URL-адрес компонента."
 
-#: ../../admin/addons.rst:553
+#: ../../admin/addons.rst:570
 msgid "Project engage URL."
 msgstr "URL-адрес для присоединения к переводу проекта."
 
-#: ../../admin/addons.rst:557 ../../faq.rst:256
+#: ../../admin/addons.rst:574 ../../faq.rst:256
 msgid ":ref:`component`"
 msgstr ":ref:`component`"
 
-#: ../../admin/addons.rst:560
+#: ../../admin/addons.rst:577
 msgid "Post-update repository processing"
 msgstr "Обработка репозитория после обновления"
 
-#: ../../admin/addons.rst:562
+#: ../../admin/addons.rst:579
 msgid ""
 "Can be used to update translation files when the VCS upstream source "
 "changes. To achieve this, please remember Weblate only sees files committed "
@@ -2156,15 +2181,15 @@ msgstr ""
 "те файлы, которые были закоммичены в систему контроля версий, поэтому в "
 "скрипте вам необходимо закоммитить все изменения."
 
-#: ../../admin/addons.rst:566
+#: ../../admin/addons.rst:583
 msgid "For example with Gulp you can do it using following code:"
 msgstr "Например, при использовании Gulp это можно сделать следующим кодом:"
 
-#: ../../admin/addons.rst:576
+#: ../../admin/addons.rst:593
 msgid "Pre-commit processing of translations"
 msgstr "Обработка переводов перед коммитом"
 
-#: ../../admin/addons.rst:578
+#: ../../admin/addons.rst:595
 msgid ""
 "Use the commit script to automatically change a translation before it is "
 "committed to the repository."
@@ -2172,7 +2197,7 @@ msgstr ""
 "Используйте скрипт коммита для автоматического внесения изменений в какой-"
 "либо перевод перед их коммитом в репозиторий."
 
-#: ../../admin/addons.rst:581
+#: ../../admin/addons.rst:598
 msgid ""
 "It is passed as a single parameter consisting of the filename of a current "
 "translation."
@@ -3140,8 +3165,8 @@ msgid ""
 "Enter the obtained key in the management interface, see :ref:`activate-"
 "support`."
 msgstr ""
-"Ввод полученного ключа в интерфейсе управления, смотрите раздел :ref"
-":`activate-support`."
+"Ввод полученного ключа в интерфейсе управления, смотрите раздел :ref:"
+"`activate-support`."
 
 #: ../../admin/backup.rst:55
 msgid ""
@@ -3154,8 +3179,8 @@ msgstr ""
 #: ../../admin/backup.rst:56
 msgid "Turn on the new backup configuration from the :guilabel:`Backups` tab."
 msgstr ""
-"Включение новой конфигурации резервного копирования на вкладке :guilabel:`"
-"Резервные копии`."
+"Включение новой конфигурации резервного копирования на вкладке :guilabel:"
+"`Резервные копии`."
 
 #: ../../admin/backup.rst:57
 msgid ""
@@ -3199,11 +3224,18 @@ msgid "Local filesystem"
 msgstr "Локальная файловая система"
 
 #: ../../admin/backup.rst:81
+#, fuzzy
+#| msgid ""
+#| "It is recommended to specify the absolute path for the local backup, for "
+#| "example `/path/to/backup`. The directory has to be writable by the user "
+#| "running Weblate (see :ref:`file-permissions`). In case it doesn't exist, "
+#| "Weblate will attempt to create it, but needs a permission to do so."
 msgid ""
 "It is recommended to specify the absolute path for the local backup, for "
 "example `/path/to/backup`. The directory has to be writable by the user "
 "running Weblate (see :ref:`file-permissions`). In case it doesn't exist, "
-"Weblate will attempt to create it, but needs a permission to do so."
+"Weblate will attempt to create it, but apropriate permissions are needed to "
+"do so."
 msgstr ""
 "Для локальной резервной копии рекомендуется указывать абсолютный путь, "
 "например `/путь/к/резервной_копии`. Каталог должен быть доступен на запись "
@@ -3251,17 +3283,23 @@ msgid "Remote backups"
 msgstr "Удалённые резервные копии"
 
 #: ../../admin/backup.rst:112
+#, fuzzy
+#| msgid ""
+#| "In order to create the remote backups, you will have to install "
+#| "`BorgBackup`_ onto another server that’s accessible via SSH. Make "
+#| "youreself sure that it accepts the Weblate's client SSH key, i.e. the one "
+#| "it uses to connect to other servers. (see :ref:`weblate-ssh-key`)."
 msgid ""
 "In order to create the remote backups, you will have to install "
-"`BorgBackup`_ onto another server that’s accessible via SSH. Make youreself "
-"sure that it accepts the Weblate's client SSH key, i.e. the one it uses to "
-"connect to other servers. (see :ref:`weblate-ssh-key`)."
+"`BorgBackup`_ onto another server that’s accessible via SSH. Make sure that "
+"it accepts the Weblate's client SSH key, i.e. the one it uses to connect to "
+"other servers."
 msgstr ""
 "Для создания удалённых резервных копий вам также понадобится установить "
 "`BorgBackup`_ и на второй сервер, который будет доступен по SSH. "
-"Удостоверьтесь также в том, что он принимает клиентский SSH-ключ Weblate, "
-"т.е. тот, который он использует для доступа к другим серверам (см. :ref"
-":`weblate-ssh-key`)."
+"Удостоверьтесь также в том, что он принимает клиентский SSH-ключ Weblate, т."
+"е. тот, который он использует для доступа к другим серверам (см. :ref:"
+"`weblate-ssh-key`)."
 
 #: ../../admin/backup.rst:119
 msgid ":ref:`cloudbackup` provides you automated remote backups."
@@ -3269,32 +3307,38 @@ msgstr ""
 ":ref:`cloudbackup` предоставляет вам автоматическое удалённое резервное "
 "копирование."
 
-#: ../../admin/backup.rst:122
+#: ../../admin/backup.rst:123
+#, fuzzy
+#| msgid ":ref:`webex`"
+msgid ":ref:`weblate-ssh-key`"
+msgstr ":ref:`webex`"
+
+#: ../../admin/backup.rst:126
 msgid "Restoring from BorgBackup"
 msgstr "Восстановление из резервной копии Borg"
 
-#: ../../admin/backup.rst:124
+#: ../../admin/backup.rst:128
 msgid ""
 "Restore access to your backup repository and prepare your backup passphrase."
 msgstr ""
 "Восстановите доступ к своему репозиторию резервных копий и подготовьте свою "
 "парольную фразу для резервного копирования."
 
-#: ../../admin/backup.rst:126
+#: ../../admin/backup.rst:130
 msgid "List all the backups on the server using ``borg list REPOSITORY``."
 msgstr ""
 "Получите список всех резервных копий на сервере с помощью команды ``borg "
 "list РЕПОЗИТОРИЙ``."
 
-#: ../../admin/backup.rst:128
+#: ../../admin/backup.rst:132
 msgid ""
 "Restore the desired backup to the current directory using ``borg extract "
 "REPOSITORY::ARCHIVE``."
 msgstr ""
-"Восстановите нужную резервную копию в текущий каталог с помощью команды ``"
-"borg extract РЕПОЗИТОРИЙ::АРХИВ``."
+"Восстановите нужную резервную копию в текущий каталог с помощью команды "
+"``borg extract РЕПОЗИТОРИЙ::АРХИВ``."
 
-#: ../../admin/backup.rst:130
+#: ../../admin/backup.rst:134
 msgid ""
 "Restore the database from the SQL dump placed in the ``backup`` directory in "
 "the Weblate data dir (see :ref:`backup-dumps`)."
@@ -3302,36 +3346,36 @@ msgstr ""
 "Восстановите базу данных из SQL-дампа, размещённого в каталоге ``backup`` "
 "каталога данных Weblate (смотрите раздел :ref:`backup-dumps`)."
 
-#: ../../admin/backup.rst:132
+#: ../../admin/backup.rst:136
 msgid ""
 "Copy the Weblate configuration (:file:`backups/settings.py`, see :ref:"
 "`backup-dumps`) to the correct location, see :ref:`configuration`."
 msgstr ""
 "Скопируйте файл настроек Weblate (:file:`backups/settings.py`, смотрите "
-"раздел :ref:`backup-dumps`) в нужное место, смотрите раздел "
-":ref:`configuration`."
+"раздел :ref:`backup-dumps`) в нужное место, смотрите раздел :ref:"
+"`configuration`."
 
-#: ../../admin/backup.rst:134
+#: ../../admin/backup.rst:138
 msgid ""
 "Copy the whole restored data dir to the location configured by :setting:"
 "`DATA_DIR`."
 msgstr ""
-"Скопируйте весь восстановленный каталог данных в место, заданное параметром "
-":setting:`DATA_DIR`."
+"Скопируйте весь восстановленный каталог данных в место, заданное параметром :"
+"setting:`DATA_DIR`."
 
-#: ../../admin/backup.rst:136
+#: ../../admin/backup.rst:140
 msgid "The Borg session might look like this:"
 msgstr "Сеанс Borg может выглядеть как-то так:"
 
-#: ../../admin/backup.rst:148
+#: ../../admin/backup.rst:152
 msgid ":doc:`borg:usage/list`, :doc:`borg:usage/extract`"
 msgstr ":doc:`borg:usage/list`, :doc:`borg:usage/extract`"
 
-#: ../../admin/backup.rst:156
+#: ../../admin/backup.rst:160
 msgid "Manual backup"
 msgstr "Ручное резервное копирование"
 
-#: ../../admin/backup.rst:158
+#: ../../admin/backup.rst:162
 msgid ""
 "Depending on what you want to save, back up the type of data Weblate stores "
 "in each respective place."
@@ -3340,7 +3384,7 @@ msgstr ""
 "копию тех типов данных, которые Weblate сохраняет в каждом соответствующем "
 "месте."
 
-#: ../../admin/backup.rst:162
+#: ../../admin/backup.rst:166
 msgid ""
 "If you are doing the manual backups, you might want to silence Weblate's "
 "warning about a lack of backups by adding ``weblate.I028`` to :setting:"
@@ -3349,20 +3393,20 @@ msgid ""
 msgstr ""
 "Если вы выполняете резервное копирование вручную, вы можете подавить "
 "предупреждение Weblate об отсутствии резервного копирования, добавив "
-"проверку ``weblate.I028`` к параметру "
-":setting:`django:SILENCED_SYSTEM_CHECKS` в :file:`settings.py` или к "
-"переменной окружения :envvar:`WEBLATE_SILENCED_SYSTEM_CHECKS` Docker’а."
+"проверку ``weblate.I028`` к параметру :setting:`django:"
+"SILENCED_SYSTEM_CHECKS` в :file:`settings.py` или к переменной окружения :"
+"envvar:`WEBLATE_SILENCED_SYSTEM_CHECKS` Docker’а."
 
-#: ../../admin/backup.rst:172
+#: ../../admin/backup.rst:176
 msgid "Database"
 msgstr "База данных"
 
-#: ../../admin/backup.rst:174
+#: ../../admin/backup.rst:178
 msgid "The actual storage location depends on your database setup."
 msgstr ""
 "Фактическое расположение хранилища зависит от настроек вашей базы данных."
 
-#: ../../admin/backup.rst:176
+#: ../../admin/backup.rst:182
 msgid ""
 "The database is the most important storage. Set up regular backups of your "
 "database. Without database, all the translations are gone."
@@ -3370,23 +3414,29 @@ msgstr ""
 "База данных является самым важным хранилищем. Настройте регулярное резервное "
 "копирование вашей базы данных. Без неё все переводы пропадут."
 
-#: ../../admin/backup.rst:181
+#: ../../admin/backup.rst:186
 msgid "Native database backup"
 msgstr "Встроенные средства базы данных для резервного копирования"
 
-#: ../../admin/backup.rst:183
+#: ../../admin/backup.rst:188
+#, fuzzy
+#| msgid ""
+#| "The recommended approach is to do save a dump of the database using "
+#| "database native tools such as :program:`pg_dump` or :program:`mysqldump`. "
+#| "It usually performs better than Django backup, and it restores complete "
+#| "tables with all their data."
 msgid ""
-"The recommended approach is to do save a dump of the database using database "
+"The recommended approach is to save a dump of the database using database "
 "native tools such as :program:`pg_dump` or :program:`mysqldump`. It usually "
 "performs better than Django backup, and it restores complete tables with all "
 "their data."
 msgstr ""
 "Рекомендуемый подход заключается в создании дампа базы данных с помощью "
-"родных для конкретной СУБД инструментов, таких как :program:`pg_dump` или "
-":program:`mysqldump`. Обычно они работают лучше, чем резервные копии Django, "
+"родных для конкретной СУБД инструментов, таких как :program:`pg_dump` или :"
+"program:`mysqldump`. Обычно они работают лучше, чем резервные копии Django, "
 "и восстанавливают полные таблицы со всеми данными."
 
-#: ../../admin/backup.rst:187
+#: ../../admin/backup.rst:192
 msgid ""
 "You can restore this backup in a newer Weblate release, it will perform all "
 "the necessary migrations when running in :djadmin:`django:migrate`. Please "
@@ -3398,11 +3448,11 @@ msgstr ""
 "миграции. За более подробной информацией о том, как выполнять обновление "
 "между версиями обратитесь к разделу «:doc:`upgrade`»."
 
-#: ../../admin/backup.rst:192
+#: ../../admin/backup.rst:197
 msgid "Django database backup"
 msgstr "Резервное копирование базы данных средствами Django"
 
-#: ../../admin/backup.rst:194
+#: ../../admin/backup.rst:199
 msgid ""
 "Alternatively, you can back up your database using Django's :djadmin:`django:"
 "dumpdata` command. That way the backup is database agnostic and can be used "
@@ -3413,7 +3463,7 @@ msgstr ""
 "копирование этим способом не зависит от базы данных и может быть "
 "использовано в случае, если вы захотите сменить СУБД."
 
-#: ../../admin/backup.rst:198
+#: ../../admin/backup.rst:203
 msgid ""
 "Prior to restoring the database you need to be running exactly the same "
 "Weblate version the backup was made on. This is necessary as the database "
@@ -3428,7 +3478,7 @@ msgstr ""
 "или иным образом. После установке этой версии запустите все миграции базы "
 "данных с помощью команды :djadmin:`django:migrate`."
 
-#: ../../admin/backup.rst:204
+#: ../../admin/backup.rst:209
 msgid ""
 "Afterwards some entries will already be created in the database and you will "
 "have them in the database backup as well. The recommended approach is to "
@@ -3439,11 +3489,11 @@ msgstr ""
 "попадут в резервную копию базы данных. Такие записи рекомендуется удалять "
 "вручную в оболочке управления (смотрите раздел :ref:`invoke-manage`):"
 
-#: ../../admin/backup.rst:215
+#: ../../admin/backup.rst:220
 msgid "Files"
 msgstr "Файлы"
 
-#: ../../admin/backup.rst:217
+#: ../../admin/backup.rst:222
 msgid ""
 "If you have enough backup space, simply back up the whole :setting:"
 "`DATA_DIR`. This is a safe bet even if it includes some files you don't "
@@ -3456,15 +3506,15 @@ msgstr ""
 "В следующих разделах подробно описано, для каких файлов нужно создавать "
 "резервные копии, а какие можно и пропустить."
 
-#: ../../admin/backup.rst:225
+#: ../../admin/backup.rst:230
 msgid "Dumped data for backups"
 msgstr "Дампы данных для резервного копирования"
 
-#: ../../admin/backup.rst:227
+#: ../../admin/backup.rst:232
 msgid "Stored in :setting:`DATA_DIR` ``/backups``."
 msgstr "Хранятся в :setting:`DATA_DIR` ``/backups``."
 
-#: ../../admin/backup.rst:229
+#: ../../admin/backup.rst:234
 msgid ""
 "Weblate dumps various data here, and you can include these files for more "
 "complete backups. The files are updated daily (requires a running Celery "
@@ -3475,7 +3525,7 @@ msgstr ""
 "(требуется отдельный запущенный сервер Celery beat, смотрите раздел :ref:"
 "`celery`). В настоящее время здесь хранятся:"
 
-#: ../../admin/backup.rst:233
+#: ../../admin/backup.rst:238
 msgid ""
 "Weblate settings as :file:`settings.py` (there is also expanded version in :"
 "file:`settings-expanded.py`)."
@@ -3483,29 +3533,29 @@ msgstr ""
 "Настройки Weblate в виде файла :file:`settings.py` (также здесь под именем :"
 "file:`settings-expanded.py` лежит обработанная версия этого файла)."
 
-#: ../../admin/backup.rst:234
+#: ../../admin/backup.rst:239
 msgid "PostgreSQL database backup as :file:`database.sql`."
 msgstr ""
 "Резервная копия базы данных PostgreSQL в виде файла :file:`database.sql`."
 
-#: ../../admin/backup.rst:236
+#: ../../admin/backup.rst:241
 msgid ""
 "The database backups are saved as plain text by default, but they can also "
 "be compressed or entirely skipped using :setting:`DATABASE_BACKUP`."
 msgstr ""
 "Резервные копии базы данных по умолчанию сохраняются в виде простого текста, "
-"но их также можно сжать или полностью выключить, устанавив параметр "
-":setting:`DATABASE_BACKUP`."
+"но их также можно сжать или полностью выключить, устанавив параметр :setting:"
+"`DATABASE_BACKUP`."
 
-#: ../../admin/backup.rst:240
+#: ../../admin/backup.rst:245
 msgid "Version control repositories"
 msgstr "Репозитории системы контроля версий"
 
-#: ../../admin/backup.rst:242
+#: ../../admin/backup.rst:247
 msgid "Stored in :setting:`DATA_DIR` ``/vcs``."
 msgstr "Хранятся в :setting:`DATA_DIR` ``/vcs``."
 
-#: ../../admin/backup.rst:244
+#: ../../admin/backup.rst:249
 msgid ""
 "The version control repositories contain a copy of your upstream "
 "repositories with Weblate changes. If you have `Push on commit` enabled for "
@@ -3521,17 +3571,17 @@ msgstr ""
 "создавать резервные копии репозиториев. Они могут быть повторно склонированы "
 "из вышестоящих репозиториев без потери данных."
 
-#: ../../admin/backup.rst:251
+#: ../../admin/backup.rst:256
 msgid "SSH and GPG keys"
 msgstr "Ключи SSH и GPG"
 
-#: ../../admin/backup.rst:253
+#: ../../admin/backup.rst:258
 msgid ""
 "Stored in :setting:`DATA_DIR` ``/ssh`` and :setting:`DATA_DIR` ``/home``."
 msgstr ""
 "Хранятся в :setting:`DATA_DIR` ``/ssh`` и :setting:`DATA_DIR` ``/home``."
 
-#: ../../admin/backup.rst:255
+#: ../../admin/backup.rst:260
 msgid ""
 "If you are using SSH or GPG keys generated by Weblate, you should back up "
 "these locations. Otherwise you will lose the private keys and you will have "
@@ -3541,25 +3591,25 @@ msgstr ""
 "создать резервные копии этих каталогов. Иначе вы потеряете закрытые ключи и "
 "вам придётся заново сгенерировать новые."
 
-#: ../../admin/backup.rst:260
+#: ../../admin/backup.rst:265
 msgid "User uploaded files"
 msgstr "Загруженные пользователем файлы"
 
-#: ../../admin/backup.rst:262
+#: ../../admin/backup.rst:267
 msgid "Stored in :setting:`DATA_DIR` ``/media``."
 msgstr "Хранятся в :setting:`DATA_DIR` ``/media``."
 
-#: ../../admin/backup.rst:264
+#: ../../admin/backup.rst:269
 msgid "You should back up all user uploaded files (e.g. :ref:`screenshots`)."
 msgstr ""
-"Вы должны сделать резервные копии всех загруженных пользователями файлов ("
-"например, :ref:`снимков экрана <screenshots>`)."
+"Вы должны сделать резервные копии всех загруженных пользователями файлов "
+"(например, :ref:`снимков экрана <screenshots>`)."
 
-#: ../../admin/backup.rst:267
+#: ../../admin/backup.rst:272
 msgid "Celery tasks"
 msgstr "Задачи Celery"
 
-#: ../../admin/backup.rst:269
+#: ../../admin/backup.rst:274
 msgid ""
 "The Celery task queue might contain some info, but is usually not needed for "
 "a backup. At most you will lose updates not yet been processed to "
@@ -3573,15 +3623,15 @@ msgstr ""
 "полнотекстового индекса или репозитория, нет ничего страшного в том, что они "
 "потеряются."
 
-#: ../../admin/backup.rst:276
+#: ../../admin/backup.rst:281
 msgid ":ref:`celery`"
 msgstr ":ref:`celery`"
 
-#: ../../admin/backup.rst:279
+#: ../../admin/backup.rst:284
 msgid "Command line for manual backup"
 msgstr "Командная строка для ручного резервного копирования"
 
-#: ../../admin/backup.rst:281
+#: ../../admin/backup.rst:286
 msgid ""
 "Using a cron job, you can set up a Bash command to be executed on a daily "
 "basis, for example:"
@@ -3589,7 +3639,7 @@ msgstr ""
 "Используя задание в cron’е, вы можете задать команду bash’а, которая будет "
 "выполняться каждый день, например:"
 
-#: ../../admin/backup.rst:287
+#: ../../admin/backup.rst:292
 msgid ""
 "The string between the quotes after `XZ_OPT` allows you to choose your xz "
 "options, for instance the amount of memory used for compression; see https://"
@@ -3599,7 +3649,7 @@ msgstr ""
 "запуска xz, например, объём памяти, используемый для сжатия; смотрите "
 "руководство на странице https://linux.die.net/man/1/xz"
 
-#: ../../admin/backup.rst:289
+#: ../../admin/backup.rst:294
 msgid ""
 "You can adjust the list of folders and files to your needs. To avoid saving "
 "the translation memory (in backups folder), you can use:"
@@ -3608,23 +3658,23 @@ msgstr ""
 "потребностями. Например, чтобы избежать сохранения памяти переводов (в папке "
 "резервных копий), вы можете использовать следующую команду:"
 
-#: ../../admin/backup.rst:296
+#: ../../admin/backup.rst:301
 msgid "Restoring manual backup"
 msgstr "Восстановление ручных резервных копий"
 
-#: ../../admin/backup.rst:298
+#: ../../admin/backup.rst:303
 msgid "Restore all data you have backed up."
 msgstr "Восстановите все данные, сохранённые вами в резервной копии."
 
-#: ../../admin/backup.rst:300
+#: ../../admin/backup.rst:305
 msgid "Update all repositories using :djadmin:`updategit`."
 msgstr "Обновите все репозитории с помощью команды :djadmin:`updategit`."
 
-#: ../../admin/backup.rst:307
+#: ../../admin/backup.rst:312
 msgid "Moving a Weblate installation"
 msgstr "Перенос установки Weblate"
 
-#: ../../admin/backup.rst:309
+#: ../../admin/backup.rst:314
 msgid ""
 "Relocate your installation to a different system by following the backing up "
 "and restoration instructions above."
@@ -3632,7 +3682,7 @@ msgstr ""
 "Переместите свою установку на другую систему, следуя приведённым выше "
 "инструкциям по резервному копированию и восстановлению из резервной копии."
 
-#: ../../admin/backup.rst:314
+#: ../../admin/backup.rst:319
 msgid ":ref:`py3`, :ref:`database-migration`"
 msgstr ":ref:`py3`, :ref:`database-migration`"
 
@@ -16171,8 +16221,8 @@ msgstr ""
 "Значение по умолчанию можно изменить установкой параметра :setting:"
 "`DEFAULT_ACCESS_CONTROL`."
 
-#: ../../admin/projects.rst:190 ../../workflows.rst:60 ../../workflows.rst:91
-#: ../../workflows.rst:127
+#: ../../admin/projects.rst:190 ../../workflows.rst:73 ../../workflows.rst:104
+#: ../../workflows.rst:140
 msgid "Enable reviews"
 msgstr "Включить рецензии"
 
@@ -16690,8 +16740,8 @@ msgstr ""
 "Значение по умолчанию может быть изменено параметром :setting:"
 "`DEFAULT_TRANSLATION_PROPAGATION`."
 
-#: ../../admin/projects.rst:488 ../../workflows.rst:62 ../../workflows.rst:93
-#: ../../workflows.rst:129
+#: ../../admin/projects.rst:488 ../../workflows.rst:75 ../../workflows.rst:106
+#: ../../workflows.rst:142
 msgid "Enable suggestions"
 msgstr "Включить предложения"
 
@@ -16700,7 +16750,7 @@ msgid "Whether translation suggestions are accepted for this component."
 msgstr "Принимать ли предложения по переводу этого компонента."
 
 #: ../../admin/projects.rst:495 ../../admin/translating.rst:7
-#: ../../workflows.rst:65 ../../workflows.rst:95 ../../workflows.rst:132
+#: ../../workflows.rst:78 ../../workflows.rst:108 ../../workflows.rst:145
 msgid "Suggestion voting"
 msgstr "Голосование по предложению"
 
@@ -16708,8 +16758,8 @@ msgstr "Голосование по предложению"
 msgid "Turns on vote casting for suggestions, see :ref:`voting`."
 msgstr "Включает голосование за предложения, смотрите раздел :ref:`voting`."
 
-#: ../../admin/projects.rst:502 ../../workflows.rst:67 ../../workflows.rst:97
-#: ../../workflows.rst:134
+#: ../../admin/projects.rst:502 ../../workflows.rst:80 ../../workflows.rst:110
+#: ../../workflows.rst:147
 msgid "Autoaccept suggestions"
 msgstr "Автоматическое принятие предложений"
 
@@ -28111,7 +28161,7 @@ msgid "examples"
 msgstr "примеры"
 
 #: ../../contributing/schemas.rst:9 ../../contributing/schemas.rst:19
-#: ../../devel/reporting-example.rst:4 ../../workflows.rst:97
+#: ../../devel/reporting-example.rst:4 ../../workflows.rst:110
 msgid "1"
 msgstr "1"
 
@@ -28121,7 +28171,7 @@ msgstr "минимум"
 
 #: ../../contributing/schemas.rst:9 ../../contributing/schemas.rst:19
 #: ../../devel/reporting-example.rst:4 ../../devel/reporting-example.rst:5
-#: ../../workflows.rst:67 ../../workflows.rst:134
+#: ../../workflows.rst:80 ../../workflows.rst:147
 msgid "0"
 msgstr "0"
 
@@ -29268,8 +29318,8 @@ msgstr ""
 msgid "Field"
 msgstr "Поле"
 
-#: ../../devel/gettext.rst:222 ../../workflows.rst:58 ../../workflows.rst:89
-#: ../../workflows.rst:125
+#: ../../devel/gettext.rst:222 ../../workflows.rst:71 ../../workflows.rst:102
+#: ../../workflows.rst:138
 msgid "Value"
 msgstr "Значение"
 
@@ -29645,9 +29695,14 @@ msgstr ""
 "при помощи :ref:`клиента Weblate <wlc>`."
 
 #: ../../devel/integration.rst:30
+#, fuzzy
+#| msgid ""
+#| "This can be automated if you grant Weblate push access to your repository "
+#| "and configure :ref:`component-push` in the :ref:`component`."
 msgid ""
 "This can be automated if you grant Weblate push access to your repository "
-"and configure :ref:`component-push` in the :ref:`component`."
+"and configure :ref:`component-push` in the :ref:`component`, see :ref:`push-"
+"changes`."
 msgstr ""
 "Эти действия можно автоматизировать, если вы предоставите Weblate доступ на "
 "отправку изменений в ваш репозиторий и настроите ref:`URL для отправки "
@@ -29661,15 +29716,17 @@ msgstr ""
 "В качестве альтернативы, вы можете обновлять свои переводы до их последней "
 "версии через :doc:`/api`."
 
-#: ../../devel/integration.rst:38 ../../devel/integration.rst:55
-msgid ":ref:`continuous-translation`"
-msgstr ":ref:`continuous-translation`"
+#: ../../devel/integration.rst:38
+#, fuzzy
+#| msgid ":ref:`continuous-translation`, :ref:`avoid-merge-conflicts`"
+msgid ":ref:`continuous-translation`, :ref:`push-changes`, :ref:`vcs-repos`"
+msgstr ":ref:`continuous-translation`, :ref:`avoid-merge-conflicts`"
 
-#: ../../devel/integration.rst:41
+#: ../../devel/integration.rst:43
 msgid "Fetching remote changes into Weblate"
 msgstr "Загрузка удалённых изменений в Weblate"
 
-#: ../../devel/integration.rst:43
+#: ../../devel/integration.rst:45
 msgid ""
 "To fetch the strings newly updated in your repository into Weblate, just let "
 "it pull from the upstream repository. This can be achieved in the user "
@@ -29682,7 +29739,7 @@ msgstr ""
 "`Обслуживание репозитория`), либо из командной строки при помощи :ref:"
 "`клиента Weblate <wlc>`."
 
-#: ../../devel/integration.rst:47
+#: ../../devel/integration.rst:49
 msgid ""
 "This can be automated by setting a webhook in your repository to trigger "
 "Weblate whenever there is a new commit, see :ref:`update-vcs` for more "
@@ -29692,7 +29749,7 @@ msgstr ""
 "обработчика, которые уведомит Weblate о появлении нового коммита; подробнее "
 "смотрите в разделе :ref:`update-vcs`."
 
-#: ../../devel/integration.rst:50
+#: ../../devel/integration.rst:52
 msgid ""
 "If you’re not using a VCS integration, you can use UI or :doc:`/api` to "
 "update translations to match your code base."
@@ -29701,11 +29758,17 @@ msgstr ""
 "обновлять свои переводы в соответствии с вашей кодовой базой через "
 "пользовательский интерфейс или :doc:`/api`."
 
-#: ../../devel/integration.rst:60
+#: ../../devel/integration.rst:57
+#, fuzzy
+#| msgid ":ref:`continuous-translation`, :ref:`avoid-merge-conflicts`"
+msgid ":ref:`continuous-translation`, :ref:`vcs-repos`"
+msgstr ":ref:`continuous-translation`, :ref:`avoid-merge-conflicts`"
+
+#: ../../devel/integration.rst:63
 msgid "Adding new strings"
 msgstr "Добавление новых строк"
 
-#: ../../devel/integration.rst:62
+#: ../../devel/integration.rst:65
 msgid ""
 "In case your translation files are stored in a VCS together with the code, "
 "you most likely have an existing workflow for developers to introduce new "
@@ -29718,7 +29781,7 @@ msgstr ""
 "метод на свой вкус, но рассмотрите возможность делать это с помощью метода, "
 "описанного в разделе «:ref:`source-quality-gateway`», дабы избегать ошибок."
 
-#: ../../devel/integration.rst:67
+#: ../../devel/integration.rst:70
 #, fuzzy
 #| msgid ""
 #| "When the translation files are separate from the code, there are "
@@ -29734,7 +29797,7 @@ msgstr ""
 "поддерживает добавление исходных строк только к одноязычным переводам, см. :"
 "ref:`bimono`):"
 
-#: ../../devel/integration.rst:70
+#: ../../devel/integration.rst:73
 msgid ""
 "Manually, using :guilabel:`Add new translation string` from :guilabel:"
 "`Tools` menu in the language used as the source for translations."
@@ -29743,7 +29806,7 @@ msgstr ""
 "guilabel:`Инструменты` того языка, который является исходным для данного "
 "перевода."
 
-#: ../../devel/integration.rst:72
+#: ../../devel/integration.rst:75
 msgid ""
 "Programatically, using API :http:post:`/api/translations/(string:project)/"
 "(string:component)/(string:language)/units/`."
@@ -29751,7 +29814,7 @@ msgstr ""
 "Програмно через API: :http:post:`/api/translations/(string:project)/(string:"
 "component)/(string:language)/units/`."
 
-#: ../../devel/integration.rst:73
+#: ../../devel/integration.rst:76
 #, fuzzy
 #| msgid ""
 #| "By uploading source file as :guilabel:`Replace existing translation file` "
@@ -29767,17 +29830,17 @@ msgstr ""
 "(это перезапишет существующие строки, так что удостоверьтесь сначала, что в "
 "файле есть и старые и новые строки; см. :ref:`upload-method`)."
 
-#: ../../devel/integration.rst:79
+#: ../../devel/integration.rst:82
 msgid ""
 "Availability of adding strings in Weblate depends on :ref:`component-"
 "manage_units`."
 msgstr ""
 
-#: ../../devel/integration.rst:84
+#: ../../devel/integration.rst:87
 msgid "Updating target language files"
 msgstr "Обновление файлов целевых языков"
 
-#: ../../devel/integration.rst:86
+#: ../../devel/integration.rst:89
 msgid ""
 "For monolingual files (see :ref:`formats`) Weblate might add new translation "
 "strings not present in the :ref:`component-template`, and not in actual "
@@ -29795,7 +29858,7 @@ msgstr ""
 "generic>`, которая и будет производить такую очистку в соответствии с вашими "
 "требованиями."
 
-#: ../../devel/integration.rst:93
+#: ../../devel/integration.rst:96
 msgid ""
 "Weblate also will not try to update bilingual files in any way, so if you "
 "need :file:`po` files being updated from :file:`pot`, you need to do it "
@@ -29808,7 +29871,7 @@ msgstr ""
 "`Обновить исходные строки` (см. :ref:`upload-method`) или использовать для "
 "этого надстройку «:ref:`addon-weblate.gettext.msgmerge`»."
 
-#: ../../devel/integration.rst:100
+#: ../../devel/integration.rst:103
 msgid ""
 ":ref:`processing`, :ref:`addon-weblate.cleanup.generic`, :ref:`addon-weblate."
 "cleanup.blank`, :ref:`addon-weblate.resx.update`, :ref:`addon-weblate."
@@ -39246,11 +39309,17 @@ msgid "Needs editing"
 msgstr "На правку"
 
 #: ../../workflows.rst:34
+#, fuzzy
+#| msgid ""
+#| "Translation needs editing, this is usually the result of a source string "
+#| "change. The translation is stored in the file, depending on the file "
+#| "format it might be marked as needing edit (for example as it gets a "
+#| "``fuzzy`` flag in the Gettext file)."
 msgid ""
 "Translation needs editing, this is usually the result of a source string "
-"change. The translation is stored in the file, depending on the file format "
-"it might be marked as needing edit (for example as it gets a ``fuzzy`` flag "
-"in the Gettext file)."
+"change, fuzzy matching or translator action. The translation is stored in "
+"the file, depending on the file format it might be marked as needing edit "
+"(for example as it gets a ``fuzzy`` flag in the Gettext file)."
 msgstr ""
 "Перевод нуждается в редактировании; обычно это результат изменения исходной "
 "строки. Перевод хранится в файле, в зависимости от формата файла он может "
@@ -39287,11 +39356,31 @@ msgstr ""
 msgid "Suggestions are stored in Weblate only and not in the translation file."
 msgstr "Предложения хранятся только в Weblate, а не в файле перевода."
 
-#: ../../workflows.rst:49
+#: ../../workflows.rst:47
+#, fuzzy
+#| msgid "These are the choices presented when uploading translation files:"
+msgid "The states are represented in the translation files when possible."
+msgstr ""
+"При загрузке файлов перевода вы можете выбирать из следующих вариантов:"
+
+#: ../../workflows.rst:51
+msgid ""
+"In case file format you use does not support storing states, you might want "
+"to use :ref:`addon-weblate.flags.same_edit` addon to flag unchanged strings "
+"as needing editing."
+msgstr ""
+
+#: ../../workflows.rst:57
+#, fuzzy
+#| msgid ":ref:`privileges`, :ref:`workflows`"
+msgid ":ref:`fmt_capabs`, :ref:`workflows`"
+msgstr ":ref:`privileges`, :ref:`workflows`"
+
+#: ../../workflows.rst:62
 msgid "Direct translation"
 msgstr "Прямой перевод"
 
-#: ../../workflows.rst:50
+#: ../../workflows.rst:63
 msgid ""
 "This is most usual setup for smaller teams, anybody can directly translate. "
 "This is also the default setup in Weblate."
@@ -39299,11 +39388,11 @@ msgstr ""
 "Это самая обычная настройка для небольших команд, любой может переводить "
 "напрямую. Также она действует по умолчанию в Weblate."
 
-#: ../../workflows.rst:53
+#: ../../workflows.rst:66
 msgid "*Any user* can edit translations."
 msgstr "*Любой пользователь* может редактировать переводы."
 
-#: ../../workflows.rst:54
+#: ../../workflows.rst:67
 msgid ""
 "Suggestions are optional ways to suggest changes, when translators are not "
 "sure about the change."
@@ -39311,58 +39400,58 @@ msgstr ""
 "Предложения являются необязательным способом предложения изменений, когда "
 "переводчики не уверены в этом изменении."
 
-#: ../../workflows.rst:58 ../../workflows.rst:89 ../../workflows.rst:125
+#: ../../workflows.rst:71 ../../workflows.rst:102 ../../workflows.rst:138
 msgid "Setting"
 msgstr "Параметр"
 
-#: ../../workflows.rst:58 ../../workflows.rst:89 ../../workflows.rst:125
+#: ../../workflows.rst:71 ../../workflows.rst:102 ../../workflows.rst:138
 msgid "Note"
 msgstr "Примечание"
 
-#: ../../workflows.rst:60 ../../workflows.rst:65 ../../workflows.rst:91
-#: ../../workflows.rst:95 ../../workflows.rst:129 ../../workflows.rst:132
+#: ../../workflows.rst:73 ../../workflows.rst:78 ../../workflows.rst:104
+#: ../../workflows.rst:108 ../../workflows.rst:142 ../../workflows.rst:145
 msgid "off"
 msgstr "выкл"
 
-#: ../../workflows.rst:60 ../../workflows.rst:91 ../../workflows.rst:127
+#: ../../workflows.rst:73 ../../workflows.rst:104 ../../workflows.rst:140
 msgid "Configured at project level."
 msgstr "Настраивается на уровне проекта."
 
-#: ../../workflows.rst:62 ../../workflows.rst:93 ../../workflows.rst:127
+#: ../../workflows.rst:75 ../../workflows.rst:106 ../../workflows.rst:140
 msgid "on"
 msgstr "вкл"
 
-#: ../../workflows.rst:62 ../../workflows.rst:129
+#: ../../workflows.rst:75 ../../workflows.rst:142
 msgid "It is useful for users to be able to suggest when they are not sure."
 msgstr ""
 "Полезны для пользователей в качестве способа предложения изменений, когда "
 "они в них не уверены."
 
-#: ../../workflows.rst:69 ../../workflows.rst:100 ../../workflows.rst:136
+#: ../../workflows.rst:82 ../../workflows.rst:113 ../../workflows.rst:149
 msgid "Translators group"
 msgstr "Группа переводчиков"
 
-#: ../../workflows.rst:69 ../../workflows.rst:100 ../../workflows.rst:136
+#: ../../workflows.rst:82 ../../workflows.rst:113 ../../workflows.rst:149
 msgid "Or `Translate` with :ref:`privileges`."
 msgstr "Или `Перевод`, если включено :ref:`privileges`."
 
-#: ../../workflows.rst:72 ../../workflows.rst:103 ../../workflows.rst:139
+#: ../../workflows.rst:85 ../../workflows.rst:116 ../../workflows.rst:152
 msgid "Reviewers group"
 msgstr "Группа рецензентов"
 
-#: ../../workflows.rst:72 ../../workflows.rst:103
+#: ../../workflows.rst:85 ../../workflows.rst:116
 msgid "N/A"
 msgstr "Н/Д"
 
-#: ../../workflows.rst:72
+#: ../../workflows.rst:85
 msgid "Not used."
 msgstr "Не используется."
 
-#: ../../workflows.rst:79
+#: ../../workflows.rst:92
 msgid "Peer review"
 msgstr "Коллегиальное рецензирование"
 
-#: ../../workflows.rst:81
+#: ../../workflows.rst:94
 msgid ""
 "With this workflow, anybody can add suggestions, and need approval from "
 "additional member(s) before it is accepted as a translation."
@@ -39371,42 +39460,42 @@ msgstr ""
 "переводом, они должны получить одобрение от другого участника (или "
 "участников)."
 
-#: ../../workflows.rst:84
+#: ../../workflows.rst:97
 msgid "*Any user* can add suggestions."
 msgstr "*Любой пользователь* может добавлять предложения."
 
-#: ../../workflows.rst:85
+#: ../../workflows.rst:98
 msgid "*Any user* can vote for suggestions."
 msgstr "*Любой пользователь* может голосовать за предложения."
 
-#: ../../workflows.rst:86
+#: ../../workflows.rst:99
 msgid ""
 "Suggestions become translations when given a predetermined number of votes."
 msgstr ""
 "Предложения становятся переводами, когда они получают заранее определённое "
 "количество голосов."
 
-#: ../../workflows.rst:97
+#: ../../workflows.rst:110
 msgid "You can set higher value to require more peer reviews."
 msgstr ""
 "Вы можете установить более высокое значение, чтобы потребовать больше "
 "рецензий от коллег."
 
-#: ../../workflows.rst:103
+#: ../../workflows.rst:116
 msgid "Not used, all translators review."
 msgstr "Не используется, рецензентами являются все переводчики."
 
-#: ../../workflows.rst:109
+#: ../../workflows.rst:122
 msgid "Dedicated reviewers"
 msgstr "Выделенные рецензенты"
 
-#: ../../workflows.rst:113
+#: ../../workflows.rst:126
 msgid "The proper review workflow is supported since Weblate 2.18."
 msgstr ""
 "Соответствующий рабочий процесс рецензирования поддерживается с версии "
 "Weblate 2.18."
 
-#: ../../workflows.rst:115
+#: ../../workflows.rst:128
 msgid ""
 "With dedicated reviewers you have two groups of users, one able to submit "
 "translations, and one able to review them to ensure translations are "
@@ -39417,33 +39506,33 @@ msgstr ""
 "проверять, чтобы убедиться в том, что переводы согласованы и хорошего "
 "качества."
 
-#: ../../workflows.rst:119
+#: ../../workflows.rst:132
 msgid "*Any user* can edit unapproved translations."
 msgstr "*Любой пользователь* может редактировать не одобренные переводы."
 
-#: ../../workflows.rst:120
+#: ../../workflows.rst:133
 msgid "*Reviewer* can approve / unapprove strings."
 msgstr "*Рецензент* может одобрять строки или снимать с них одобрение."
 
-#: ../../workflows.rst:121
+#: ../../workflows.rst:134
 msgid "*Reviewer* can edit all translations (including approved ones)."
 msgstr "*Рецензент* может редактировать все переводы (включая одобренные)."
 
-#: ../../workflows.rst:122
+#: ../../workflows.rst:135
 msgid "Suggestions can also be used to suggest changes for approved strings."
 msgstr ""
 "Также для внесения предложений на изменение одобренных строк могут "
 "использовать предложения."
 
-#: ../../workflows.rst:139
+#: ../../workflows.rst:152
 msgid "Or `Review` with :ref:`privileges`."
 msgstr "Или `Рецензировать`, если включено :ref:`privileges`."
 
-#: ../../workflows.rst:144
+#: ../../workflows.rst:157
 msgid "Turning on reviews"
 msgstr "Включение рецензирования"
 
-#: ../../workflows.rst:146
+#: ../../workflows.rst:159
 #, fuzzy
 #| msgid ""
 #| "Reviews can be turned on in the project configuration, from the :guilabel:"
@@ -39458,7 +39547,7 @@ msgstr ""
 "`Рабочий процесс` параметров (перейдите в :guilabel:`Управлять` → :guilabel:"
 "`Параметры` в меню проекта):"
 
-#: ../../workflows.rst:154
+#: ../../workflows.rst:167
 msgid ""
 "Depending on Weblate configuration, the setting might not be available to "
 "you. For example on Hosted Weblate this is not available for projects hosted "
@@ -39468,11 +39557,11 @@ msgstr ""
 "Например, на Hosted Weblate он недоступен для проектов, размещённых "
 "бесплатно."
 
-#: ../../workflows.rst:161
+#: ../../workflows.rst:174
 msgid "Quality gateway for the source strings"
 msgstr "Контроль качества исходных строк"
 
-#: ../../workflows.rst:163
+#: ../../workflows.rst:176
 msgid ""
 "In many cases the original source language strings are coming from "
 "developers, because they write the code and provide initial strings. However "
@@ -39489,7 +39578,7 @@ msgstr ""
 "качества», расположенным между разработчиками, переводчиками и "
 "пользователями."
 
-#: ../../workflows.rst:170
+#: ../../workflows.rst:183
 msgid ""
 "By setting :ref:`component-intermediate`, this file will be used as source "
 "for the strings, but it will be edited to source language to polish it.  "
@@ -39501,16 +39590,16 @@ msgstr ""
 "редактировать, дабы отшлифовать формулировки. Когда строка на исходном языке "
 "будет готова, она станет доступна также и для перевода на остальные языки."
 
-#: ../../workflows.rst:214
+#: ../../workflows.rst:227
 msgid ":ref:`component-intermediate`, :ref:`component-template`, :ref:`bimono`"
 msgstr ""
 ":ref:`component-intermediate`, :ref:`component-template`, :ref:`bimono`"
 
-#: ../../workflows.rst:221
+#: ../../workflows.rst:234
 msgid "Source strings reviews"
 msgstr "Рецензирование исходных строк"
 
-#: ../../workflows.rst:223
+#: ../../workflows.rst:236
 msgid ""
 "With :ref:`project-source_review` enabled, the review process can be applied "
 "on the source strings. Once enabled, users can report issues in the source "
@@ -39523,7 +39612,7 @@ msgstr ""
 "Реальный процесс зависит от того, используете ли вы двуязычные или "
 "одноязычные форматы."
 
-#: ../../workflows.rst:228
+#: ../../workflows.rst:241
 msgid ""
 "For monolingual formats, the source string review behaves similarly as with :"
 "ref:`reviews` - once issue is reported on the source string, it is marked "
@@ -39533,7 +39622,7 @@ msgstr ""
 "от обычного :ref:`рецензирования <reviews>` — когда сообщается о проблеме в "
 "исходной строке, она помечается флагом :guilabel:`На правку`."
 
-#: ../../workflows.rst:232
+#: ../../workflows.rst:245
 msgid ""
 "The bilingual formats do not allow direct editing of the source strings "
 "(these are typically extracted directly from the source code). In this case :"
@@ -39547,9 +39636,29 @@ msgstr ""
 "строка требует рецензирования`. Вы должны просмотреть такие строки и либо "
 "отредактировать их в исходном коде, либо удалить эту метку."
 
-#: ../../workflows.rst:240
+#: ../../workflows.rst:253
 msgid ":ref:`bimono`, :ref:`reviews`, :ref:`labels`"
 msgstr ":ref:`bimono`, :ref:`reviews`, :ref:`labels`"
+
+#, fuzzy
+#~| msgid "Only wrap lines at newlines"
+#~ msgid "Only wrap lines for newlines"
+#~ msgstr "Переносить строки только на символах перевода строки"
+
+#, fuzzy
+#~| msgid ""
+#~| "By default gettext wraps lines at 77 characters and for newlines. With "
+#~| "the ``--no-wrap`` parameter, it wraps only at newlines."
+#~ msgid ""
+#~ "By default gettext wraps lines at 77 characters and for newlines. With "
+#~ "the ``--no-wrap`` parameter, wrapping is only done for newlines."
+#~ msgstr ""
+#~ "По умолчанию gettext переносит строки на 77-м символе и у символов "
+#~ "перевода строки. С параметром ``--no-wrap`` он переносит их только у "
+#~ "символов перевода строки."
+
+#~ msgid ":ref:`continuous-translation`"
+#~ msgstr ":ref:`continuous-translation`"
 
 #~ msgid "14 daily backups"
 #~ msgstr "14 ежедневных резервных копий"

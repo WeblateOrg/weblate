@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.5\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
-"POT-Creation-Date: 2021-02-13 20:05+0000\n"
+"POT-Creation-Date: 2021-02-14 19:30+0000\n"
 "PO-Revision-Date: 2021-02-04 23:47+0000\n"
 "Last-Translator: Anonymous <noreply@weblate.org>\n"
 "Language-Team: Azerbaijani <https://hosted.weblate.org/projects/weblate/"
@@ -1242,8 +1242,10 @@ msgid "Long lines wrapping"
 msgstr ""
 
 #: weblate/addons/forms.py:112
-msgid "Wrap lines at 77 chars and at newlines"
-msgstr ""
+#, fuzzy
+#| msgid "Trailing newline"
+msgid "Wrap lines at 77 characters and at newlines"
+msgstr "Sondakı yeni sətir"
 
 #: weblate/addons/forms.py:113
 #, fuzzy
@@ -1257,8 +1259,8 @@ msgstr ""
 
 #: weblate/addons/forms.py:119
 msgid ""
-"By default gettext wraps lines at 77 chars and newlines. With --no-wrap "
-"parameter, it wraps only at newlines."
+"By default gettext wraps lines at 77 characters and at newlines. With the --"
+"no-wrap parameter, wrapping is only done at newlines."
 msgstr ""
 
 #: weblate/addons/forms.py:127
@@ -1315,7 +1317,7 @@ msgstr ""
 msgid ""
 "Trailer lines are lines that look similar to RFC 822 e-mail headers, at the "
 "end of the otherwise free-form part of a commit message, such as 'Co-"
-"authored-by: ...'."
+"authored-by: …'."
 msgstr ""
 
 #: weblate/addons/forms.py:168
@@ -6648,7 +6650,7 @@ msgstr "Tərcümə lisenziyası"
 
 #: weblate/templates/component_info.html:56
 #: weblate/templates/contributor-agreement.html:9
-#: weblate/templates/snippets/libre-checklist.html:30
+#: weblate/templates/snippets/libre-checklist.html:32
 #: weblate/trans/models/component.py:457
 msgid "Contributor agreement"
 msgstr ""
@@ -9020,7 +9022,7 @@ msgstr ""
 msgid "The project has had active development for at least three months."
 msgstr ""
 
-#: weblate/templates/snippets/libre-checklist.html:17
+#: weblate/templates/snippets/libre-checklist.html:18
 msgid "Unmet guidelines from the community localization checklist:"
 msgstr ""
 
@@ -9816,13 +9818,13 @@ msgstr ""
 #: weblate/templates/trans/alert/unusedenforcedcheck.html:4
 #, fuzzy
 #| msgid "Failing checks found"
-msgid "Following enforced checks are not enabled anywhere:"
+msgid "Following enforced checks are not used anywhere:"
 msgstr "Tapılan uğursuz yoxlamalar"
 
 #: weblate/templates/trans/alert/unusedenforcedcheck.html:8
 #, python-format
 msgid ""
-"%(check)s quality check is enforced, but not enabled using <code>%(flag)s</"
+"%(check)s quality check is enforced, but not turned on using <code>%(flag)s</"
 "code>."
 msgstr ""
 
@@ -10234,9 +10236,9 @@ msgstr ""
 msgid "Insufficient privileges for editing source strings."
 msgstr "Təkliflər vermək üçün hüququnuz yoxdur!"
 
-#: weblate/templates/translate.html:218 weblate/trans/views/edit.py:386
-#: weblate/trans/views/edit.py:406 weblate/trans/views/edit.py:424
-#: weblate/trans/views/edit.py:876
+#: weblate/templates/translate.html:218 weblate/trans/views/edit.py:388
+#: weblate/trans/views/edit.py:408 weblate/trans/views/edit.py:426
+#: weblate/trans/views/edit.py:878
 #, fuzzy
 #| msgid "Base file for new translations"
 msgid "Insufficient privileges for saving translations."
@@ -10757,7 +10759,7 @@ msgstr ""
 msgid "Open in full editor"
 msgstr "Tam editorda aç"
 
-#: weblate/templates/zen-units.html:113 weblate/trans/views/edit.py:535
+#: weblate/templates/zen-units.html:113 weblate/trans/views/edit.py:537
 #, fuzzy
 #| msgid "Translation has been saved!"
 msgid "The translation has come to an end."
@@ -12774,7 +12776,7 @@ msgstr ""
 #| "subprojects for translating different resources."
 msgid ""
 "There is more than one file for %s language, please adjust the filemask and "
-"use components for translating a different resources."
+"use components for translating different resources."
 msgstr ""
 "Tək dil üçün daha çox fayl vardır, zəhmət olmasa maskanı ayarlayın və fərqli "
 "qaynaqların tərcüməsi üçün alt layihələri istifadə edin."
@@ -13687,50 +13689,50 @@ msgstr ""
 msgid "Please set your full name and e-mail in your profile."
 msgstr "Zəhmət olmasa profilinzdə tam adınızı yazın."
 
-#: weblate/trans/views/edit.py:245 weblate/trans/views/edit.py:530
+#: weblate/trans/views/edit.py:247 weblate/trans/views/edit.py:532
 msgid "No string matched your search!"
 msgstr "Axtarışınızla uyğun gələn sətir yoxdur!"
 
-#: weblate/trans/views/edit.py:269
+#: weblate/trans/views/edit.py:271
 msgid "Your suggestion is empty!"
 msgstr "Təklifləriniz boşdur!"
 
-#: weblate/trans/views/edit.py:274
+#: weblate/trans/views/edit.py:276
 msgid "You don't have privileges to add suggestions!"
 msgstr "Təklifləri əlavə etmək üçün hüququnuz yoxdur!"
 
-#: weblate/trans/views/edit.py:280
+#: weblate/trans/views/edit.py:282
 #, fuzzy
 #| msgid "Your suggestion is empty!"
 msgid "Your suggestion has been identified as spam!"
 msgstr "Təklifləriniz boşdur!"
 
-#: weblate/trans/views/edit.py:291
+#: weblate/trans/views/edit.py:293
 #, fuzzy
 #| msgid "Your suggestion is empty!"
 msgid "Your suggestion already exists!"
 msgstr "Təklifləriniz boşdur!"
 
-#: weblate/trans/views/edit.py:312
+#: weblate/trans/views/edit.py:314
 #, python-format
 msgid "Following fixups were applied to translation: %s"
 msgstr "Burda göstərilən düzəlişlər tərcüməyə tətbiq edildi: %s"
 
-#: weblate/trans/views/edit.py:328
+#: weblate/trans/views/edit.py:330
 #, python-format
 msgid ""
 "Added %(language)s to your translated languages. You can adjust them in the "
 "settings."
 msgstr ""
 
-#: weblate/trans/views/edit.py:338
+#: weblate/trans/views/edit.py:340
 #, python-format
 msgid ""
 "Added %(project)s to your watched projects. You can adjust them and this "
 "behavior in the settings."
 msgstr ""
 
-#: weblate/trans/views/edit.py:357
+#: weblate/trans/views/edit.py:359
 #, fuzzy, python-brace-format
 #| msgid "The translations in several languages have failing checks"
 msgid ""
@@ -13738,84 +13740,84 @@ msgid ""
 "{0}"
 msgstr "Bir neçə dilə tərcümə uğursuz yoxlamalara sahibdir"
 
-#: weblate/trans/views/edit.py:400
+#: weblate/trans/views/edit.py:402
 msgid "Invalid merge request!"
 msgstr "Uğursuz birləşdirmə sorğusu!"
 
-#: weblate/trans/views/edit.py:418
+#: weblate/trans/views/edit.py:420
 #, fuzzy
 #| msgid "Invalid merge request!"
 msgid "Invalid revert request!"
 msgstr "Uğursuz birləşdirmə sorğusu!"
 
-#: weblate/trans/views/edit.py:428
+#: weblate/trans/views/edit.py:430
 msgid "Can not revert to empty translation!"
 msgstr "Boş tərcüməyə geri qayıdıla bilməz!"
 
-#: weblate/trans/views/edit.py:447
+#: weblate/trans/views/edit.py:449
 msgid "You do not have privilege to accept suggestions!"
 msgstr "Təklifləri qəbul etmək üçün hüququnuz yoxdur!"
 
-#: weblate/trans/views/edit.py:453
+#: weblate/trans/views/edit.py:455
 msgid "You do not have privilege to delete suggestions!"
 msgstr "Təklifləri silmək hüququnuz yoxdur!"
 
-#: weblate/trans/views/edit.py:459
+#: weblate/trans/views/edit.py:461
 msgid "You do not have privilege to vote for suggestions!"
 msgstr "Təkliflərə səs vermək üçün hüququnuz yoxdur!"
 
-#: weblate/trans/views/edit.py:483
+#: weblate/trans/views/edit.py:485
 msgid "Invalid suggestion!"
 msgstr "Yanlış(invalid) təklif!"
 
-#: weblate/trans/views/edit.py:545
+#: weblate/trans/views/edit.py:547
 msgid "Invalid search string!"
 msgstr "Yanlış axtarış mətni!"
 
-#: weblate/trans/views/edit.py:665 weblate/trans/views/search.py:86
+#: weblate/trans/views/edit.py:667 weblate/trans/views/search.py:86
 #: weblate/trans/views/search.py:236
 msgid "Failed to process form!"
 msgstr "Proses formu uğursuz oldu!"
 
-#: weblate/trans/views/edit.py:685
+#: weblate/trans/views/edit.py:687
 #, fuzzy
 #| msgid "Automatic translation"
 msgid "Automatic translation in progress"
 msgstr "Avtomatik tərcümə"
 
-#: weblate/trans/views/edit.py:721
+#: weblate/trans/views/edit.py:723
 #, fuzzy
 #| msgid "Source strings review"
 msgid "Source needs review"
 msgstr "Qaynaq sətirləri gözdən keçirmək"
 
-#: weblate/trans/views/edit.py:724
+#: weblate/trans/views/edit.py:726
 msgid "Posted new comment"
 msgstr "Göndərilən yeni şərh"
 
-#: weblate/trans/views/edit.py:726
+#: weblate/trans/views/edit.py:728
 msgid "Failed to add comment!"
 msgstr "Şərh yazma uğursuz oldu!"
 
-#: weblate/trans/views/edit.py:745
+#: weblate/trans/views/edit.py:747
 #, fuzzy
 #| msgid "Translation has been saved!"
 msgid "Translation comment has been deleted."
 msgstr "Tərcümə yaddaşa verildi!"
 
-#: weblate/trans/views/edit.py:763
+#: weblate/trans/views/edit.py:765
 #, fuzzy
 #| msgid "Translation has been saved!"
 msgid "Translation comment has been resolved."
 msgstr "Tərcümə yaddaşa verildi!"
 
-#: weblate/trans/views/edit.py:915
+#: weblate/trans/views/edit.py:917
 #, fuzzy
 #| msgid "Translation file"
 msgid "This string seems to already exist."
 msgstr "Tərcümə faylı"
 
-#: weblate/trans/views/edit.py:922
+#: weblate/trans/views/edit.py:924
 #, fuzzy
 #| msgid "Translation has been saved!"
 msgid "New string has been added."

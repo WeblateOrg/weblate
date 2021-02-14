@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-02-13 21:06+0100\n"
+"POT-Creation-Date: 2021-02-14 20:30+0100\n"
 "PO-Revision-Date: 2021-02-14 09:12+0000\n"
 "Last-Translator: Eric <spice2wolf@gmail.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
@@ -736,7 +736,7 @@ msgid "Edit source strings [`Administration`, `Edit source`, `Power user`]"
 msgstr "编辑源字符串[`Administration`, `Edit source`, `Power user`]"
 
 #: ../../admin/access.rst:408 ../../user/translating.rst:46
-#: ../../workflows.rst:46
+#: ../../workflows.rst:45
 msgid "Suggestions"
 msgstr "建议"
 
@@ -967,8 +967,8 @@ msgstr ""
 msgid "Default roles: none"
 msgstr "默认角色：无"
 
-#: ../../admin/access.rst:496 ../../workflows.rst:69 ../../workflows.rst:100
-#: ../../workflows.rst:136
+#: ../../admin/access.rst:496 ../../workflows.rst:82 ../../workflows.rst:113
+#: ../../workflows.rst:149
 msgid "`Users`"
 msgstr "`用户`"
 
@@ -980,7 +980,7 @@ msgstr "所有用户的默认群组。"
 msgid "Default roles: `Power user`"
 msgstr "默认角色: `Power user`"
 
-#: ../../admin/access.rst:501 ../../workflows.rst:139
+#: ../../admin/access.rst:501 ../../workflows.rst:152
 msgid "`Reviewers`"
 msgstr "`校对`"
 
@@ -1099,7 +1099,7 @@ msgstr ""
 "为缺失，而不是退回到源字符串)。"
 
 #: ../../admin/addons.rst:71 ../../admin/addons.rst:84
-#: ../../admin/addons.rst:331 ../../admin/addons.rst:422
+#: ../../admin/addons.rst:348 ../../admin/addons.rst:439
 msgid ":ref:`faq-cleanup`"
 msgstr ":ref:`faq-cleanup`"
 
@@ -1187,14 +1187,14 @@ msgstr ""
 msgid ""
 "Component discovery addon uses :ref:`internal-urls`. It’s a convenient way "
 "to share VCS setup between multiple components. Linked components use the "
-"local repository of the main component set up by filling ``weblate://"
-"projectname/themaincomponent`` into the :ref:`component-repo` field (in :"
-"guilabel:`Manage` ↓ :guilabel:`Settings` ↓ :guilabel:`Version control "
-"system`) of each respective component. This saves time with configuration "
-"and system resources too."
+"local repository of the main component set up by filling ``weblate://project/"
+"main-component`` into the :ref:`component-repo` field (in :guilabel:`Manage` "
+"↓ :guilabel:`Settings` ↓ :guilabel:`Version control system`) of each "
+"respective component. This saves time with configuration and system "
+"resources too."
 msgstr ""
 
-#: ../../admin/addons.rst:138 ../../admin/addons.rst:234
+#: ../../admin/addons.rst:138 ../../admin/addons.rst:251
 msgid ":ref:`markup`"
 msgstr ":ref:`markup`"
 
@@ -1272,11 +1272,24 @@ msgstr ""
 "每当从 VCS 导入新的可翻译字符串并与源字符串匹配时，就会在 Weblate 中标记为需"
 "要编辑。对于包含未翻译字符串的源字符串的文件格式尤其有用。"
 
-#: ../../admin/addons.rst:191
+#: ../../admin/addons.rst:190
+msgid ""
+"You might also want to tighthen the :ref::`check-same` check by adding "
+"``strict-same`` flag to :ref:`component-check_flags`."
+msgstr ""
+
+#: ../../admin/addons.rst:195 ../../admin/addons.rst:208
+#: ../../admin/addons.rst:221
+#, fuzzy
+#| msgid ":ref:`subtitles`"
+msgid ":ref:`states`"
+msgstr ":ref:`subtitles`"
+
+#: ../../admin/addons.rst:200
 msgid "Flag new source strings as \"Needs editing\""
 msgstr "将新的源字符串标记为“需要编辑”"
 
-#: ../../admin/addons.rst:193
+#: ../../admin/addons.rst:202
 msgid ""
 "Whenever a new source string is imported from the VCS, it is flagged as "
 "needing editing in Weblate. This way you can easily filter and edit source "
@@ -1285,11 +1298,11 @@ msgstr ""
 "每当一个新的源字符串从版本控制系统（ VCS ）中导入时，它将在 Weblate 中被标记"
 "为需要编辑。这样就可以简单地筛选并编辑开发者编写的源字符串。"
 
-#: ../../admin/addons.rst:200
+#: ../../admin/addons.rst:213
 msgid "Flag new translations as \"Needs editing\""
 msgstr "将导入的新译文标记为“需要编辑”"
 
-#: ../../admin/addons.rst:202
+#: ../../admin/addons.rst:215
 msgid ""
 "Whenever a new translatable string is imported from the VCS, it is flagged "
 "as needing editing in Weblate. This way you can easily filter and edit "
@@ -1298,48 +1311,48 @@ msgstr ""
 "每当一个新的可翻译字符串从版本控制系统（ VCS ）中导入时，它将在 Weblate 中被"
 "标记为需要编辑。这样就可以简单地筛选并编辑开发者创建的翻译。"
 
-#: ../../admin/addons.rst:209
+#: ../../admin/addons.rst:226
 msgid "Statistics generator"
 msgstr "统计数据生成器"
 
-#: ../../admin/addons.rst:211
+#: ../../admin/addons.rst:228
 msgid "Generates a file containing detailed info about the translation status."
 msgstr "生成一个包含关于翻译状态详细信息的文件。"
 
-#: ../../admin/addons.rst:213
+#: ../../admin/addons.rst:230
 msgid ""
 "You can use a Django template in both filename and content, see :ref:"
 "`markup` for a detailed markup description."
 msgstr ""
 "你可在文件名和内容中均使用一个 Django 模板，详细的标记描述见 :ref:`markup`。"
 
-#: ../../admin/addons.rst:216
+#: ../../admin/addons.rst:233
 msgid "For example generating a summary file for each translation:"
 msgstr "例如为每个翻译产生一个摘要文件："
 
-#: ../../admin/addons.rst:218
+#: ../../admin/addons.rst:235
 msgid "Name of generated file"
 msgstr "所生成文件的名称"
 
-#: ../../admin/addons.rst:219
+#: ../../admin/addons.rst:236
 msgid "``locale/{{ language_code }}.json``"
 msgstr "``locale/{{ language_code }}.json``"
 
-#: ../../admin/addons.rst:230
+#: ../../admin/addons.rst:247
 msgid "Content"
 msgstr "内容"
 
-#: ../../admin/addons.rst:239
+#: ../../admin/addons.rst:256
 msgid "Pseudolocale generation"
 msgstr "假语言环境 （Pseudolocale）生成"
 
-#: ../../admin/addons.rst:241
+#: ../../admin/addons.rst:258
 msgid ""
 "Generates a translation by adding prefix and suffix to source strings "
 "automatically."
 msgstr "通过向源字符串添加前缀和后缀自动生成翻译。"
 
-#: ../../admin/addons.rst:244
+#: ../../admin/addons.rst:261
 msgid ""
 "Pseudolocales are useful to find strings that are not prepared for "
 "localization. This is done by altering all translatable source strings to "
@@ -1350,13 +1363,13 @@ msgstr ""
 "源字符串来实现的，使得在用伪 locale 语言运行应用程序时很容易发现未修改的字符"
 "串。"
 
-#: ../../admin/addons.rst:249
+#: ../../admin/addons.rst:266
 msgid ""
 "Finding strings whose localized counterparts might not fit the layout is "
 "also possible."
 msgstr ""
 
-#: ../../admin/addons.rst:254
+#: ../../admin/addons.rst:271
 msgid ""
 "You can use real languages for testing, but there are dedicated "
 "pseudolocales available in Weblate - `en_XA` and `ar_XB`."
@@ -1364,25 +1377,25 @@ msgstr ""
 "可以使用真正的语言进行检测，但在 Weblate 中有专用的假语言环境——`en_XA` 和 "
 "`ar_XB`。"
 
-#: ../../admin/addons.rst:260
+#: ../../admin/addons.rst:277
 msgid "Contributors in comment"
 msgstr "在注释中添加贡献信息"
 
-#: ../../admin/addons.rst:262
+#: ../../admin/addons.rst:279
 msgid ""
 "Updates the comment part of the PO file header to include contributor names "
 "and years of contributions."
 msgstr "更新 PO 文件头的注释部分，以包含贡献者姓名和贡献年份。"
 
-#: ../../admin/addons.rst:265
+#: ../../admin/addons.rst:282
 msgid "The PO file header will look like this:"
 msgstr "PO 文件头看上去是这样的："
 
-#: ../../admin/addons.rst:277
+#: ../../admin/addons.rst:294
 msgid "Update ALL_LINGUAS variable in the \"configure\" file"
 msgstr "更新“配置文件”中的 ALL_LINGUAS 变量"
 
-#: ../../admin/addons.rst:279
+#: ../../admin/addons.rst:296
 msgid ""
 "Updates the ALL_LINGUAS variable in :file:`configure`, :file:`configure.in` "
 "or any :file:`configure.ac` files, when a new translation is added."
@@ -1390,66 +1403,70 @@ msgstr ""
 "当新的翻译添加时，更新 :file:`configure` 、 :file:`configure.in` 或任何 :"
 "file:`configure.ac` 文件中的 ALL_LINGUAS 变量。"
 
-#: ../../admin/addons.rst:285
+#: ../../admin/addons.rst:302
 msgid "Customize gettext output"
 msgstr "自定义 gettext 输出"
 
-#: ../../admin/addons.rst:287
+#: ../../admin/addons.rst:304
 msgid ""
 "Allows customization of gettext output behavior, for example line wrapping."
 msgstr "允许自定义 gettext 的输出行为，例如是否启用自动换行。"
 
-#: ../../admin/addons.rst:289
+#: ../../admin/addons.rst:306
 msgid "It offers the following options:"
 msgstr "提供了后面的选项："
 
-#: ../../admin/addons.rst:291
+#: ../../admin/addons.rst:308
 msgid "Wrap lines at 77 characters and at newlines"
 msgstr "在 77 个字符处和新一行时来换行"
 
-#: ../../admin/addons.rst:292
-msgid "Only wrap lines for newlines"
-msgstr "只对新行换行"
+#: ../../admin/addons.rst:309
+msgid "Only wrap lines at newlines"
+msgstr "仅在换行符处折行"
 
-#: ../../admin/addons.rst:293
+#: ../../admin/addons.rst:310
 msgid "No line wrapping"
 msgstr "不换行"
 
-#: ../../admin/addons.rst:297
+#: ../../admin/addons.rst:314
+#, fuzzy
+#| msgid ""
+#| "By default gettext wraps lines at 77 chars and newlines. With --no-wrap "
+#| "parameter, it wraps only at newlines."
 msgid ""
-"By default gettext wraps lines at 77 characters and for newlines. With the "
-"``--no-wrap`` parameter, wrapping is only done for newlines."
+"By default gettext wraps lines at 77 characters and at newlines. With the "
+"``--no-wrap`` parameter, wrapping is only done at newlines."
 msgstr ""
-"默认 gettext 在 77 个字符处和新一行时换行。使用 ``--no-wrap`` 参数，换行只对"
-"新行生效。"
+"默认情况下 gettext 会在每行第 77 个字符处与换行符处换行。但添加 --no-wrap 参"
+"数后，它仅会在换行符处换行。"
 
-#: ../../admin/addons.rst:304
+#: ../../admin/addons.rst:321
 msgid "Update LINGUAS file"
 msgstr "更新 LINGUAS 文件"
 
-#: ../../admin/addons.rst:306
+#: ../../admin/addons.rst:323
 msgid "Updates the LINGUAS file when a new translation is added."
 msgstr "添加新的翻译时更新 LINGUAS 文件。"
 
-#: ../../admin/addons.rst:311
+#: ../../admin/addons.rst:328
 msgid "Generate MO files"
 msgstr "生成 MO 文件"
 
-#: ../../admin/addons.rst:313
+#: ../../admin/addons.rst:330
 msgid "Automatically generates a MO file for every changed PO file."
 msgstr "为每个变更的 PO 文件自动生成 MO 文件。"
 
-#: ../../admin/addons.rst:315
+#: ../../admin/addons.rst:332
 msgid ""
 "The location of the generated MO file can be customized and the field for it "
 "uses :ref:`markup`."
 msgstr "生成的 MO 文件的位置可以定制化，并且其字段使用 :ref:`markup`。"
 
-#: ../../admin/addons.rst:320
+#: ../../admin/addons.rst:337
 msgid "Update PO files to match POT (msgmerge)"
 msgstr "更新 PO 文件以匹配 POT 文件 (msgmerge)"
 
-#: ../../admin/addons.rst:322
+#: ../../admin/addons.rst:339
 msgid ""
 "Updates all PO files (as configured by :ref:`component-filemask`) to match "
 "the POT file (as configured by :ref:`component-new_base`) using :program:"
@@ -1458,7 +1475,7 @@ msgstr ""
 "使用 :program:`msgmerge` 来更新所有的 PO 文件（如 :ref:`component-filemask` "
 "所配置），而与 POT 文件（如 :ref:`component-new_base` 所配置）匹配。"
 
-#: ../../admin/addons.rst:325
+#: ../../admin/addons.rst:342
 msgid ""
 "Triggered whenever new changes are pulled from the upstream repository. Most "
 "msgmerge command-line options can be set up through the addon configuration."
@@ -1466,37 +1483,37 @@ msgstr ""
 "每当从上游存储库中提取新的更改时都会被触发。多数 msgmerge 命令行选项可通过附"
 "加组件配置进行设置。"
 
-#: ../../admin/addons.rst:336
+#: ../../admin/addons.rst:353
 msgid "Squash Git commits"
 msgstr "压缩 Git 提交"
 
-#: ../../admin/addons.rst:338
+#: ../../admin/addons.rst:355
 msgid "Squash Git commits prior to pushing changes."
 msgstr "推送变更之前压缩 Git 提交。"
 
-#: ../../admin/addons.rst:340
+#: ../../admin/addons.rst:357
 msgid ""
 "Git commits can be squashed prior to pushing changes in one of the following "
 "modes:"
 msgstr "以下模式之一中，Git提交可以在推送更改之前被压缩："
 
-#: ../../admin/addons.rst:345
+#: ../../admin/addons.rst:362
 msgid "All commits into one"
 msgstr "所有提交成一个"
 
-#: ../../admin/addons.rst:346
+#: ../../admin/addons.rst:363
 msgid "Per language"
 msgstr "每种语言"
 
-#: ../../admin/addons.rst:347
+#: ../../admin/addons.rst:364
 msgid "Per file"
 msgstr "每个文件"
 
-#: ../../admin/addons.rst:351
+#: ../../admin/addons.rst:368
 msgid "Per author"
 msgstr "每位作者"
 
-#: ../../admin/addons.rst:353
+#: ../../admin/addons.rst:370
 msgid ""
 "Original commit messages are kept, but authorship is lost unless :guilabel:"
 "`Per author` is selected, or the commit message is customized to include it."
@@ -1504,13 +1521,13 @@ msgstr ""
 "原始提交信息保留，但其作者信息丢失，除非选择 :guilabel:`Per author` ，或者定"
 "制提交信息来包括它。"
 
-#: ../../admin/addons.rst:358
+#: ../../admin/addons.rst:375
 msgid ""
 "The original commit messages can optionally be overridden with a custom "
 "commit message."
 msgstr "原始提交信息可选地由定制的提交信息覆盖。"
 
-#: ../../admin/addons.rst:360
+#: ../../admin/addons.rst:377
 msgid ""
 "Trailers (commit lines like ``Co-authored-by: …``) can optionally be removed "
 "from the original commit messages and appended to the end of the squashed "
@@ -1521,32 +1538,32 @@ msgstr ""
 "去掉的提交信息后面。这还可以为每一位翻译者产生适当的 ``Co-authored-by:`` 信"
 "誉。"
 
-#: ../../admin/addons.rst:368
+#: ../../admin/addons.rst:385
 msgid "Customize JSON output"
 msgstr "自定义 JSON 输出"
 
-#: ../../admin/addons.rst:370
+#: ../../admin/addons.rst:387
 msgid ""
 "Allows adjusting JSON output behavior, for example indentation or sorting."
 msgstr "允许调整 JSON 的输出行为，例如缩进或排序。"
 
-#: ../../admin/addons.rst:375
+#: ../../admin/addons.rst:392
 msgid "Formats the Java properties file"
 msgstr "格式化 Java 属性文件"
 
-#: ../../admin/addons.rst:377
+#: ../../admin/addons.rst:394
 msgid "Sorts the Java properties file."
 msgstr "排序 Java 属性文件。"
 
-#: ../../admin/addons.rst:382
+#: ../../admin/addons.rst:399
 msgid "Stale comment removal"
 msgstr "陈旧注释删除"
 
-#: ../../admin/addons.rst:386
+#: ../../admin/addons.rst:403
 msgid "Set a timeframe for removal of comments."
 msgstr "设置删除注释的时间。"
 
-#: ../../admin/addons.rst:388
+#: ../../admin/addons.rst:405
 msgid ""
 "This can be useful to remove old comments which might have become outdated. "
 "Use with care as comments getting old does not mean they have lost their "
@@ -1555,15 +1572,15 @@ msgstr ""
 "这可以用于删除可能变得过时的陈旧注释。小心使用，因为陈旧的注释不意味着失去了"
 "重要性。"
 
-#: ../../admin/addons.rst:395
+#: ../../admin/addons.rst:412
 msgid "Stale suggestion removal"
 msgstr "陈旧建议删除"
 
-#: ../../admin/addons.rst:399
+#: ../../admin/addons.rst:416
 msgid "Set a timeframe for removal of suggestions."
 msgstr "设置删除建议的时间。"
 
-#: ../../admin/addons.rst:401
+#: ../../admin/addons.rst:418
 msgid ""
 "Can be very useful in connection with suggestion voting (see :ref:`peer-"
 "review`) to remove suggestions which don't receive enough positive votes in "
@@ -1572,11 +1589,11 @@ msgstr ""
 "此附加组件在与建议投票一道用来删除在给定的时间内没有得到足够的正面投票的建议"
 "方面非常有用。"
 
-#: ../../admin/addons.rst:408
+#: ../../admin/addons.rst:425
 msgid "Update RESX files"
 msgstr "更新 RESX 文件"
 
-#: ../../admin/addons.rst:412
+#: ../../admin/addons.rst:429
 msgid ""
 "Update all translation files to match the monolingual upstream base file. "
 "Unused strings are removed, and new ones added as copies of the source "
@@ -1585,27 +1602,27 @@ msgstr ""
 "更新所有翻译文件以匹配上游单语言译文模版文件。未使用的字符串将被删除，新字符"
 "串将复制源字符串添加。"
 
-#: ../../admin/addons.rst:417
+#: ../../admin/addons.rst:434
 msgid ""
 "Use :ref:`addon-weblate.cleanup.generic` if you only want to remove stale "
 "translation keys."
 msgstr ""
 "如果只想删除陈旧的翻译键，那么使用 :ref:`addon-weblate.cleanup.generic`。"
 
-#: ../../admin/addons.rst:427
+#: ../../admin/addons.rst:444
 msgid "Customize YAML output"
 msgstr "自定义 YAML 输出"
 
-#: ../../admin/addons.rst:431
+#: ../../admin/addons.rst:448
 msgid ""
 "Allows adjusting YAML output behavior, for example line-length or newlines."
 msgstr "允许调整 YAML 的输出，例如自定义缩进或自定义换行。"
 
-#: ../../admin/addons.rst:435
+#: ../../admin/addons.rst:452
 msgid "Customizing list of addons"
 msgstr "定制附加组件列表"
 
-#: ../../admin/addons.rst:437
+#: ../../admin/addons.rst:454
 msgid ""
 "The list of addons is configured by :setting:`WEBLATE_ADDONS`. To add "
 "another addon, simply include the absolute class name in this setting."
@@ -1613,28 +1630,33 @@ msgstr ""
 "附加组件列表由 :setting:`WEBLATE_ADDONS` 配置。要添加其他附加组件，只需在这个"
 "设置中包含绝对类名称即可。"
 
-#: ../../admin/addons.rst:444
+#: ../../admin/addons.rst:461
 msgid "Writing addon"
 msgstr "编写附加组件"
 
-#: ../../admin/addons.rst:446
+#: ../../admin/addons.rst:463
+#, fuzzy
+#| msgid ""
+#| "You can write your own addons too, use the subclass :class:`weblate."
+#| "addons.base.BaseAddon` to define the addon metadata, and then implement a "
+#| "callback to do the processing."
 msgid ""
-"You can write your own addons too, use the subclass :class:`weblate.addons."
-"base.BaseAddon` to define the addon metadata, and then implement a callback "
-"to do the processing."
+"You can write your own addons too, create a subclass of :class:`weblate."
+"addons.base.BaseAddon` to define the addon metadata, and then implement a "
+"callback to do the processing."
 msgstr ""
 "你也可以编写自己的附加组件，使用子类 :class:`weblate.addons.base.BaseAddon`来"
 "定义附加组件元数据，接着实施回调来进行处理。"
 
-#: ../../admin/addons.rst:452
+#: ../../admin/addons.rst:469
 msgid ":doc:`../contributing/addons`"
 msgstr ":doc:`../contributing/addons`"
 
-#: ../../admin/addons.rst:457
+#: ../../admin/addons.rst:474
 msgid "Executing scripts from addon"
 msgstr "从附加组件执行脚本"
 
-#: ../../admin/addons.rst:459
+#: ../../admin/addons.rst:476
 msgid ""
 "Addons can also be used to execute external scripts. This used to be "
 "integrated in Weblate, but now you have to write some code to wrap your "
@@ -1643,11 +1665,11 @@ msgstr ""
 "附加逐渐还可以用于执行外部脚本。这曾经集成在 Weblate 中，但现在必须写一些代"
 "码，将脚本包裹在附加组件中。"
 
-#: ../../admin/addons.rst:466
+#: ../../admin/addons.rst:483
 msgid "For installation instructions see :ref:`custom-addon-modules`."
 msgstr "安装方法请参见 :ref:`custom-addon-modules` 。"
 
-#: ../../admin/addons.rst:468
+#: ../../admin/addons.rst:485
 msgid ""
 "The script is executed with the current directory set to the root of the VCS "
 "repository for any given component."
@@ -1655,87 +1677,87 @@ msgstr ""
 "对于任何给定的组件，当前路径设置为版本控制系统（ VCS ）仓库的根目录时，执行脚"
 "本。"
 
-#: ../../admin/addons.rst:471
+#: ../../admin/addons.rst:488
 msgid "Additionally, the following environment variables are available:"
 msgstr "此外，可以访问后面的环境参数："
 
-#: ../../admin/addons.rst:475
+#: ../../admin/addons.rst:492
 msgid "Version control system used."
 msgstr "使用的版本控制系统。"
 
-#: ../../admin/addons.rst:479
+#: ../../admin/addons.rst:496
 msgid "Upstream repository URL."
 msgstr "上游仓库 URL 。"
 
-#: ../../admin/addons.rst:483
+#: ../../admin/addons.rst:500
 msgid "Absolute path to VCS repository."
 msgstr "版本控制系统（ VCS ）仓库的绝对路径。"
 
-#: ../../admin/addons.rst:489
+#: ../../admin/addons.rst:506
 msgid "Repository branch configured in the current component."
 msgstr "当前组件配置的仓库分支。"
 
-#: ../../admin/addons.rst:493
+#: ../../admin/addons.rst:510
 msgid "Filemask for current component."
 msgstr "当前组件的Filemask。"
 
-#: ../../admin/addons.rst:497
+#: ../../admin/addons.rst:514
 msgid "Filename of template for monolingual translations (can be empty)."
 msgstr "单语言翻译模板的文件名（可以为空）。"
 
-#: ../../admin/addons.rst:503
+#: ../../admin/addons.rst:520
 msgid "Filename of the file used for creating new translations (can be empty)."
 msgstr "建立新的翻译所使用文件的文件名（可以为空）。"
 
-#: ../../admin/addons.rst:508
+#: ../../admin/addons.rst:525
 msgid "File format used in current component."
 msgstr "用于当前组件的文件格式。"
 
-#: ../../admin/addons.rst:512
+#: ../../admin/addons.rst:529
 msgid ""
 "Language of currently processed translation (not available for component-"
 "level hooks)."
 msgstr "当前处理的翻译的语言（对于组件级别的钩子不可用）。"
 
-#: ../../admin/addons.rst:517
+#: ../../admin/addons.rst:534
 msgid ""
 "Previous HEAD after update (only available after running the post-update "
 "hook)."
 msgstr "更新后的上个 HEAD (仅在运行更新后钩子后可用)。"
 
-#: ../../admin/addons.rst:523
+#: ../../admin/addons.rst:540
 msgid "Component slug used to construct URL."
 msgstr "组件标识串用于构建 URL 。"
 
-#: ../../admin/addons.rst:529
+#: ../../admin/addons.rst:546
 msgid "Project slug used to construct URL."
 msgstr "项目标识串用于构建 URL 。"
 
-#: ../../admin/addons.rst:535
+#: ../../admin/addons.rst:552
 msgid "Component name."
 msgstr "组件名称。"
 
-#: ../../admin/addons.rst:541
+#: ../../admin/addons.rst:558
 msgid "Project name."
 msgstr "项目名称。"
 
-#: ../../admin/addons.rst:547
+#: ../../admin/addons.rst:564
 msgid "Component URL."
 msgstr "组件 URL 。"
 
-#: ../../admin/addons.rst:553
+#: ../../admin/addons.rst:570
 msgid "Project engage URL."
 msgstr "项目参与 URL 。"
 
-#: ../../admin/addons.rst:557 ../../faq.rst:256
+#: ../../admin/addons.rst:574 ../../faq.rst:256
 msgid ":ref:`component`"
 msgstr ":ref:`component`"
 
-#: ../../admin/addons.rst:560
+#: ../../admin/addons.rst:577
 msgid "Post-update repository processing"
 msgstr "更新后存储库处理"
 
-#: ../../admin/addons.rst:562
+#: ../../admin/addons.rst:579
 msgid ""
 "Can be used to update translation files when the VCS upstream source "
 "changes. To achieve this, please remember Weblate only sees files committed "
@@ -1745,21 +1767,21 @@ msgstr ""
 "Weblate 只看到提交给版本控制系统（ VCS ）的文件，所以需要同意更改作为脚本的一"
 "部分。"
 
-#: ../../admin/addons.rst:566
+#: ../../admin/addons.rst:583
 msgid "For example with Gulp you can do it using following code:"
 msgstr "例如 Gulp ，可以使用后面的代码来执行："
 
-#: ../../admin/addons.rst:576
+#: ../../admin/addons.rst:593
 msgid "Pre-commit processing of translations"
 msgstr "翻译的预提交处理"
 
-#: ../../admin/addons.rst:578
+#: ../../admin/addons.rst:595
 msgid ""
 "Use the commit script to automatically change a translation before it is "
 "committed to the repository."
 msgstr "在将翻译提交到存储库之前，使用 commit 脚本自动更改翻译。"
 
-#: ../../admin/addons.rst:581
+#: ../../admin/addons.rst:598
 msgid ""
 "It is passed as a single parameter consisting of the filename of a current "
 "translation."
@@ -2551,8 +2573,9 @@ msgid ""
 "safely stored in the cloud. The backups can be controlled in the management "
 "interface from the :guilabel:`Backups` tab."
 msgstr ""
-"Weblate 内置了对使用 `BorgBackup`_ 创建服务备份的支持。Borg 创建了节省空间的加密备份，可以安全地存储在云中。"
-"可以从管理界面中的 :guilabel:`Backups` 选项卡上控制备份。"
+"Weblate 内置了对使用 `BorgBackup`_ 创建服务备份的支持。Borg 创建了节省空间的"
+"加密备份，可以安全地存储在云中。可以从管理界面中的 :guilabel:`Backups` 选项卡"
+"上控制备份。"
 
 #: ../../admin/backup.rst:18
 msgid ""
@@ -2588,13 +2611,16 @@ msgid ""
 "them without the passphrase. The passphrase is generated when adding a new "
 "backup service and you should copy it and keep it in a secure place."
 msgstr ""
-"`BorgBackup`_ 创建加密的备份，如果没有密码，你将无法恢复它们。密码是在添加新的备份服务时生成的，你应该复制它并将其保存在一个安全的地方。"
+"`BorgBackup`_ 创建加密的备份，如果没有密码，你将无法恢复它们。密码是在添加新"
+"的备份服务时生成的，你应该复制它并将其保存在一个安全的地方。"
 
 #: ../../admin/backup.rst:37
 msgid ""
 "If you are using :ref:`cloudbackup`, please backup your private SSH key too, "
 "as it’s used to access your backups."
-msgstr "如果你在使用 :ref:`cloudbackup`，请同样备份你的私有 SSH 密钥，因为它用来访问你的备份。"
+msgstr ""
+"如果你在使用 :ref:`cloudbackup`，请同样备份你的私有 SSH 密钥，因为它用来访问"
+"你的备份。"
 
 #: ../../admin/backup.rst:42
 msgid ":doc:`borg:usage/init`"
@@ -2610,8 +2636,8 @@ msgid ""
 "`backup service at weblate.org <https://weblate.org/support/#backup>`_. This "
 "is how you get it running:"
 msgstr ""
-"备份你的 Weblate 实例的最简单方式是在 weblate.org 购买 '备份服务' <https://weblate.org/support/"
-"#backup>`_。这是你如何让它运行起来的方式："
+"备份你的 Weblate 实例的最简单方式是在 weblate.org 购买 '备份服务' <https://"
+"weblate.org/support/#backup>`_。这是你如何让它运行起来的方式："
 
 #: ../../admin/backup.rst:53
 msgid "Purchase the `Backup service` on https://weblate.org/support/#backup."
@@ -2644,7 +2670,9 @@ msgid ""
 "The manual step of turning everything on is there for your safety. Without "
 "your consent no data is sent to the backup repository obtained through the "
 "registration process."
-msgstr "为了安全起见，有打开所有东西的手动步骤。没有你的同意，就不会有数据发送到通过注册步骤得到的备份仓库。"
+msgstr ""
+"为了安全起见，有打开所有东西的手动步骤。没有你的同意，就不会有数据发送到通过"
+"注册步骤得到的备份仓库。"
 
 #: ../../admin/backup.rst:68
 msgid "Using custom backup storage"
@@ -2655,7 +2683,9 @@ msgid ""
 "You can also use your own storage for the backups. SSH can be used to store "
 "backups in the remote destination, the target server needs to have "
 "`BorgBackup`_ installed."
-msgstr "也可以使用自己的存储来备份。 SSH 可以用于在远程目的地存储备份，目标服务器需要安装 `BorgBackup`_ 。"
+msgstr ""
+"也可以使用自己的存储来备份。 SSH 可以用于在远程目的地存储备份，目标服务器需要"
+"安装 `BorgBackup`_ 。"
 
 #: ../../admin/backup.rst:76
 msgid ":doc:`borg:usage/general` in the Borg documentation"
@@ -2666,14 +2696,22 @@ msgid "Local filesystem"
 msgstr "本地文件系统"
 
 #: ../../admin/backup.rst:81
+#, fuzzy
+#| msgid ""
+#| "It is recommended to specify the absolute path for the local backup, for "
+#| "example `/path/to/backup`. The directory has to be writable by the user "
+#| "running Weblate (see :ref:`file-permissions`). In case it doesn't exist, "
+#| "Weblate will attempt to create it, but needs a permission to do so."
 msgid ""
 "It is recommended to specify the absolute path for the local backup, for "
 "example `/path/to/backup`. The directory has to be writable by the user "
 "running Weblate (see :ref:`file-permissions`). In case it doesn't exist, "
-"Weblate will attempt to create it, but needs a permission to do so."
+"Weblate will attempt to create it, but apropriate permissions are needed to "
+"do so."
 msgstr ""
-"推荐去指定本地备份的绝对路径，例如 `/path/to/backup`。该目录必须可由运行 weblate 的用户写入（请参见 :ref:`file-"
-"permissions`）。在目录不存在的情况下，Weblate 会尝试新建它，但需要权限才能这么做。"
+"推荐去指定本地备份的绝对路径，例如 `/path/to/backup`。该目录必须可由运行 "
+"weblate 的用户写入（请参见 :ref:`file-permissions`）。在目录不存在的情况下，"
+"Weblate 会尝试新建它，但需要权限才能这么做。"
 
 #: ../../admin/backup.rst:88
 msgid ""
@@ -2681,19 +2719,24 @@ msgid ""
 "as a volume from the Weblate container. Otherwise the backups will be "
 "discarded by Docker on the container restart."
 msgstr ""
-"在 Docker 中运行 Weblate时，请确保备份位置暴露为来自 Weblate 容器的一个卷。否则，备份文件将在容器重启时被 Docker 丢弃。"
+"在 Docker 中运行 Weblate时，请确保备份位置暴露为来自 Weblate 容器的一个卷。否"
+"则，备份文件将在容器重启时被 Docker 丢弃。"
 
 #: ../../admin/backup.rst:92
 msgid ""
 "One option is to place backups into an existing volume, for example :file:`/"
 "app/data/borgbackup`. This is an existing volume in the container."
-msgstr "一个选项是将备份放置在一个现有的卷中。例如， :file:`/app/data/borgbackup`。这是容器中的一个现有的卷。"
+msgstr ""
+"一个选项是将备份放置在一个现有的卷中。例如， :file:`/app/data/borgbackup`。这"
+"是容器中的一个现有的卷。"
 
 #: ../../admin/backup.rst:95
 msgid ""
 "You can also add a new container for the backups in the Docker Compose file "
 "for example by using :file:`/borgbackup`:"
-msgstr "你也可以在 Docker 的编写文件中为备份目的添加一个新的容器，例如使用 :file:`/borgbackup`:"
+msgstr ""
+"你也可以在 Docker 的编写文件中为备份目的添加一个新的容器，例如使用 :file:`/"
+"borgbackup`:"
 
 #: ../../admin/backup.rst:106
 msgid ""
@@ -2708,35 +2751,41 @@ msgstr "远程备份"
 #: ../../admin/backup.rst:112
 msgid ""
 "In order to create the remote backups, you will have to install "
-"`BorgBackup`_ onto another server that’s accessible via SSH. Make youreself "
-"sure that it accepts the Weblate's client SSH key, i.e. the one it uses to "
-"connect to other servers. (see :ref:`weblate-ssh-key`)."
+"`BorgBackup`_ onto another server that’s accessible via SSH. Make sure that "
+"it accepts the Weblate's client SSH key, i.e. the one it uses to connect to "
+"other servers."
 msgstr ""
 
 #: ../../admin/backup.rst:119
 msgid ":ref:`cloudbackup` provides you automated remote backups."
 msgstr ":ref:`cloudbackup` 为你提供自动远程备份。"
 
-#: ../../admin/backup.rst:122
+#: ../../admin/backup.rst:123
+#, fuzzy
+#| msgid ":ref:`webex`"
+msgid ":ref:`weblate-ssh-key`"
+msgstr ":ref:`webex`"
+
+#: ../../admin/backup.rst:126
 msgid "Restoring from BorgBackup"
 msgstr "从 BorgBackup 恢复"
 
-#: ../../admin/backup.rst:124
+#: ../../admin/backup.rst:128
 msgid ""
 "Restore access to your backup repository and prepare your backup passphrase."
 msgstr "恢复功能会访问你的备份仓库，并准备备份密码。"
 
-#: ../../admin/backup.rst:126
+#: ../../admin/backup.rst:130
 msgid "List all the backups on the server using ``borg list REPOSITORY``."
 msgstr "用 ``borg list REPOSITORY``列出服务器上的所有备份。"
 
-#: ../../admin/backup.rst:128
+#: ../../admin/backup.rst:132
 msgid ""
 "Restore the desired backup to the current directory using ``borg extract "
 "REPOSITORY::ARCHIVE``."
 msgstr "使用 ``borg extract REPOSITORY::ARCHIVE`` 将所需备份恢复到当前目录。"
 
-#: ../../admin/backup.rst:130
+#: ../../admin/backup.rst:134
 msgid ""
 "Restore the database from the SQL dump placed in the ``backup`` directory in "
 "the Weblate data dir (see :ref:`backup-dumps`)."
@@ -2744,101 +2793,111 @@ msgstr ""
 "从放置在 Weblate 数据目录下 ``backup`` 目录中的 SQL 备份中恢复数据库（请参"
 "见 :ref:`backup-dumps`）。"
 
-#: ../../admin/backup.rst:132
+#: ../../admin/backup.rst:136
 msgid ""
 "Copy the Weblate configuration (:file:`backups/settings.py`, see :ref:"
 "`backup-dumps`) to the correct location, see :ref:`configuration`."
 msgstr ""
-"将 Weblate 配置 （ :file:`backups/settings.py` ，请参见 :ref:`backup-dumps` "
-"）复制到正确的位置，请参见 :ref:`configuration` 。"
+"将 Weblate 配置 （ :file:`backups/settings.py` ，请参见 :ref:`backup-"
+"dumps` ）复制到正确的位置，请参见 :ref:`configuration` 。"
 
-#: ../../admin/backup.rst:134
+#: ../../admin/backup.rst:138
 msgid ""
 "Copy the whole restored data dir to the location configured by :setting:"
 "`DATA_DIR`."
 msgstr "将整个存储的数据目录复制到 :setting:`DATA_DIR` 所配置的位置。"
 
-#: ../../admin/backup.rst:136
+#: ../../admin/backup.rst:140
 msgid "The Borg session might look like this:"
 msgstr "Borg 会话可能看上去是这个样子的："
 
-#: ../../admin/backup.rst:148
+#: ../../admin/backup.rst:152
 msgid ":doc:`borg:usage/list`, :doc:`borg:usage/extract`"
 msgstr ":doc:`borg:usage/list`, :doc:`borg:usage/extract`"
 
-#: ../../admin/backup.rst:156
+#: ../../admin/backup.rst:160
 msgid "Manual backup"
 msgstr "手动备份"
 
-#: ../../admin/backup.rst:158
+#: ../../admin/backup.rst:162
 msgid ""
 "Depending on what you want to save, back up the type of data Weblate stores "
 "in each respective place."
 msgstr "取决于你想保存什么， Weblate 存储的类型数据会备份在各自的位置。"
 
-#: ../../admin/backup.rst:162
+#: ../../admin/backup.rst:166
 msgid ""
 "If you are doing the manual backups, you might want to silence Weblate's "
 "warning about a lack of backups by adding ``weblate.I028`` to :setting:"
 "`django:SILENCED_SYSTEM_CHECKS` in :file:`settings.py` or :envvar:"
 "`WEBLATE_SILENCED_SYSTEM_CHECKS` for Docker."
 msgstr ""
-"如果你正进行手动备份，你也许想要关闭 Weblate 关于缺乏备份的警告，方法是添加 ``weblate.I028`` 到 :file:`settings"
-".py` 中的 :setting:`django:SILENCED_SYSTEM_CHECKS`；对于 Docker，则是 "
-":envvar:`WEBLATE_SILENCED_SYSTEM_CHECKS`。"
+"如果你正进行手动备份，你也许想要关闭 Weblate 关于缺乏备份的警告，方法是添加 "
+"``weblate.I028`` 到 :file:`settings.py` 中的 :setting:`django:"
+"SILENCED_SYSTEM_CHECKS`；对于 Docker，则是 :envvar:"
+"`WEBLATE_SILENCED_SYSTEM_CHECKS`。"
 
-#: ../../admin/backup.rst:172
+#: ../../admin/backup.rst:176
 msgid "Database"
 msgstr "数据库"
 
-#: ../../admin/backup.rst:174
+#: ../../admin/backup.rst:178
 msgid "The actual storage location depends on your database setup."
 msgstr "实际存储位置依赖于数据库的设置。"
 
-#: ../../admin/backup.rst:176
+#: ../../admin/backup.rst:182
 msgid ""
 "The database is the most important storage. Set up regular backups of your "
 "database. Without database, all the translations are gone."
-msgstr "数据库是最重要的存储。定期对数据库进行备份。没有数据库，所有的翻译都会消失。"
+msgstr ""
+"数据库是最重要的存储。定期对数据库进行备份。没有数据库，所有的翻译都会消失。"
 
-#: ../../admin/backup.rst:181
+#: ../../admin/backup.rst:186
 msgid "Native database backup"
 msgstr "本地数据库备份"
 
-#: ../../admin/backup.rst:183
+#: ../../admin/backup.rst:188
+#, fuzzy
+#| msgid ""
+#| "The recommended approach is to do save a dump of the database using "
+#| "database native tools such as :program:`pg_dump` or :program:`mysqldump`. "
+#| "It usually performs better than Django backup, and it restores complete "
+#| "tables with all their data."
 msgid ""
-"The recommended approach is to do save a dump of the database using database "
+"The recommended approach is to save a dump of the database using database "
 "native tools such as :program:`pg_dump` or :program:`mysqldump`. It usually "
 "performs better than Django backup, and it restores complete tables with all "
 "their data."
 msgstr ""
-"推荐的方式是使用数据库的本地工具如 :program:`pg_dump` 或 :program:`mysqldump` 来保存数据库的转储。这通常比 "
-"Django 备份表现得好，并且可以连同数据一道，恢复完整表格。"
+"推荐的方式是使用数据库的本地工具如 :program:`pg_dump` 或 :program:"
+"`mysqldump` 来保存数据库的转储。这通常比 Django 备份表现得好，并且可以连同数"
+"据一道，恢复完整表格。"
 
-#: ../../admin/backup.rst:187
+#: ../../admin/backup.rst:192
 msgid ""
 "You can restore this backup in a newer Weblate release, it will perform all "
 "the necessary migrations when running in :djadmin:`django:migrate`. Please "
 "consult :doc:`upgrade` on more detailed info on how to upgrade between "
 "versions."
 msgstr ""
-"你可以在较新的 Weblate 发行版中恢复这个备份，当运行于 :djadmin:`django:migrate` 时，它将执行所有必需的迁移。请参考 "
-":doc:`upgrade` 了解如何在版本间升级的更多详细信息。"
+"你可以在较新的 Weblate 发行版中恢复这个备份，当运行于 :djadmin:`django:"
+"migrate` 时，它将执行所有必需的迁移。请参考 :doc:`upgrade` 了解如何在版本间升"
+"级的更多详细信息。"
 
-#: ../../admin/backup.rst:192
+#: ../../admin/backup.rst:197
 msgid "Django database backup"
 msgstr "Django 数据库备份"
 
-#: ../../admin/backup.rst:194
+#: ../../admin/backup.rst:199
 msgid ""
 "Alternatively, you can back up your database using Django's :djadmin:`django:"
 "dumpdata` command. That way the backup is database agnostic and can be used "
 "in case you want to change the database backend."
 msgstr ""
-"另外，可以使用 Django 的 :djadmin:`django:dumpdata` "
-"命令备份你的数据库。那种方式是不依托数据库的，并且可以用于先要更改数据库后端的情况。"
+"另外，可以使用 Django 的 :djadmin:`django:dumpdata` 命令备份你的数据库。那种"
+"方式是不依托数据库的，并且可以用于先要更改数据库后端的情况。"
 
-#: ../../admin/backup.rst:198
+#: ../../admin/backup.rst:203
 msgid ""
 "Prior to restoring the database you need to be running exactly the same "
 "Weblate version the backup was made on. This is necessary as the database "
@@ -2847,42 +2906,42 @@ msgid ""
 "migrations using :djadmin:`django:migrate`."
 msgstr ""
 "恢复数据库之前，你需要确保恢复备份和执行备份的实例运行的是完全相同的 Weblate "
-"版本。这是必要的，因为数据库结构在不同版本之间会发生变化，你可能会以某种方式破坏数据。安装相同版本后，用 "
-":djadmin:`django:migrate` 运行所有数据库迁移。"
+"版本。这是必要的，因为数据库结构在不同版本之间会发生变化，你可能会以某种方式"
+"破坏数据。安装相同版本后，用 :djadmin:`django:migrate` 运行所有数据库迁移。"
 
-#: ../../admin/backup.rst:204
+#: ../../admin/backup.rst:209
 msgid ""
 "Afterwards some entries will already be created in the database and you will "
 "have them in the database backup as well. The recommended approach is to "
 "delete such entries manually using the management shell (see :ref:`invoke-"
 "manage`):"
 msgstr ""
-"之后，一些条目将已经在数据库中创建，你也会在数据库备份中看到它们。推荐的方法是使用管理 shell 手动删除这些条目 (见：ref:`invoke-"
-"manage`)："
+"之后，一些条目将已经在数据库中创建，你也会在数据库备份中看到它们。推荐的方法"
+"是使用管理 shell 手动删除这些条目 (见：ref:`invoke-manage`)："
 
-#: ../../admin/backup.rst:215
+#: ../../admin/backup.rst:220
 msgid "Files"
 msgstr "文件"
 
-#: ../../admin/backup.rst:217
+#: ../../admin/backup.rst:222
 msgid ""
 "If you have enough backup space, simply back up the whole :setting:"
 "`DATA_DIR`. This is a safe bet even if it includes some files you don't "
 "want. The following sections describe what you should back up and what you "
 "can skip in detail."
 msgstr ""
-"如果你有足够的备份空间，只需备份整个 "
-":setting:`DATA_DIR`。这是一个安全带，即使它包含一些你不想要的文件。下面的部分详细描述了应该备份和可以跳过的内容。"
+"如果你有足够的备份空间，只需备份整个 :setting:`DATA_DIR`。这是一个安全带，即"
+"使它包含一些你不想要的文件。下面的部分详细描述了应该备份和可以跳过的内容。"
 
-#: ../../admin/backup.rst:225
+#: ../../admin/backup.rst:230
 msgid "Dumped data for backups"
 msgstr "下载的数据用于备份"
 
-#: ../../admin/backup.rst:227
+#: ../../admin/backup.rst:232
 msgid "Stored in :setting:`DATA_DIR` ``/backups``."
 msgstr "存储在 :setting:`DATA_DIR` ``/backups`` 中。"
 
-#: ../../admin/backup.rst:229
+#: ../../admin/backup.rst:234
 msgid ""
 "Weblate dumps various data here, and you can include these files for more "
 "complete backups. The files are updated daily (requires a running Celery "
@@ -2891,7 +2950,7 @@ msgstr ""
 "Weblate 这里备份各种数据，可以包括这些文件用于更完整的备份。文件每日更新（需"
 "要运行 Celery beat 服务器，请参见 :ref:`celery` ）。当前，这包括："
 
-#: ../../admin/backup.rst:233
+#: ../../admin/backup.rst:238
 msgid ""
 "Weblate settings as :file:`settings.py` (there is also expanded version in :"
 "file:`settings-expanded.py`)."
@@ -2899,25 +2958,27 @@ msgstr ""
 "Weblate 设置为 :file:`settings.py` （还有扩展版，在 :file:`settings-expanded."
 "py` ）。"
 
-#: ../../admin/backup.rst:234
+#: ../../admin/backup.rst:239
 msgid "PostgreSQL database backup as :file:`database.sql`."
 msgstr "PostgreSQL 数据库备份为 :file:`database.sql` 。"
 
-#: ../../admin/backup.rst:236
+#: ../../admin/backup.rst:241
 msgid ""
 "The database backups are saved as plain text by default, but they can also "
 "be compressed or entirely skipped using :setting:`DATABASE_BACKUP`."
-msgstr "数据库备份默认保存为纯文本，但也可以通过 :setting:`DATABASE_BACKUP`来进行压缩或整个跳过。"
+msgstr ""
+"数据库备份默认保存为纯文本，但也可以通过 :setting:`DATABASE_BACKUP`来进行压缩"
+"或整个跳过。"
 
-#: ../../admin/backup.rst:240
+#: ../../admin/backup.rst:245
 msgid "Version control repositories"
 msgstr "版本控制仓库"
 
-#: ../../admin/backup.rst:242
+#: ../../admin/backup.rst:247
 msgid "Stored in :setting:`DATA_DIR` ``/vcs``."
 msgstr "存储在 :setting:`DATA_DIR` ``/vcs``中。"
 
-#: ../../admin/backup.rst:244
+#: ../../admin/backup.rst:249
 msgid ""
 "The version control repositories contain a copy of your upstream "
 "repositories with Weblate changes. If you have `Push on commit` enabled for "
@@ -2925,103 +2986,110 @@ msgid ""
 "No need to back up the repositories on the Weblate side as they can be "
 "cloned again from the upstream location(s) with no data loss."
 msgstr ""
-"版本控制存储库包含带有 Weblate 更改的上游存储库的副本。如果你对所有翻译组件启用了 `提交时推送`，那么所有 Weblate 变化都包括在上游。"
-"不需要在 Weblate 端备份存储库，因为它们可以从上游位置再次克隆，不会丢失数据。"
+"版本控制存储库包含带有 Weblate 更改的上游存储库的副本。如果你对所有翻译组件启"
+"用了 `提交时推送`，那么所有 Weblate 变化都包括在上游。不需要在 Weblate 端备份"
+"存储库，因为它们可以从上游位置再次克隆，不会丢失数据。"
 
-#: ../../admin/backup.rst:251
+#: ../../admin/backup.rst:256
 msgid "SSH and GPG keys"
 msgstr "SSH 和 GPG 密钥"
 
-#: ../../admin/backup.rst:253
+#: ../../admin/backup.rst:258
 msgid ""
 "Stored in :setting:`DATA_DIR` ``/ssh`` and :setting:`DATA_DIR` ``/home``."
 msgstr ""
 "存储在 :setting:`DATA_DIR` ``/ssh`` 和 :setting:`DATA_DIR` ``/home`` 中。"
 
-#: ../../admin/backup.rst:255
+#: ../../admin/backup.rst:260
 msgid ""
 "If you are using SSH or GPG keys generated by Weblate, you should back up "
 "these locations. Otherwise you will lose the private keys and you will have "
 "to regenerate new ones."
-msgstr "如果正在使用 Weblate 生成的 SSH 或 GPG 密钥，你应该备份这些位置。否则将丢失私有密钥，并且你将不得不重新生成新的密钥。"
+msgstr ""
+"如果正在使用 Weblate 生成的 SSH 或 GPG 密钥，你应该备份这些位置。否则将丢失私"
+"有密钥，并且你将不得不重新生成新的密钥。"
 
-#: ../../admin/backup.rst:260
+#: ../../admin/backup.rst:265
 msgid "User uploaded files"
 msgstr "用户上传的文件"
 
-#: ../../admin/backup.rst:262
+#: ../../admin/backup.rst:267
 msgid "Stored in :setting:`DATA_DIR` ``/media``."
 msgstr "存储在 :setting:`DATA_DIR` ``/media`` 中。"
 
-#: ../../admin/backup.rst:264
+#: ../../admin/backup.rst:269
 msgid "You should back up all user uploaded files (e.g. :ref:`screenshots`)."
 msgstr "你应当备份所有用户上传的文件（例如 :ref:`screenshots` ）。"
 
-#: ../../admin/backup.rst:267
+#: ../../admin/backup.rst:272
 msgid "Celery tasks"
 msgstr "Celery 任务"
 
-#: ../../admin/backup.rst:269
+#: ../../admin/backup.rst:274
 msgid ""
 "The Celery task queue might contain some info, but is usually not needed for "
 "a backup. At most you will lose updates not yet been processed to "
 "translation memory. It is recommended to perform the fulltext or repository "
 "update upon restoration anyhow, so there is no problem in losing these."
 msgstr ""
-"Celery 任务队列可能会包含一些信息，但通常无需进行备份。你最多会丢失尚未被翻译记忆库处理的更新。无论如何，建议在恢复时执行全文或存储库更新，这样就不"
-"会有丢失这些内容的问题。"
+"Celery 任务队列可能会包含一些信息，但通常无需进行备份。你最多会丢失尚未被翻译"
+"记忆库处理的更新。无论如何，建议在恢复时执行全文或存储库更新，这样就不会有丢"
+"失这些内容的问题。"
 
-#: ../../admin/backup.rst:276
+#: ../../admin/backup.rst:281
 msgid ":ref:`celery`"
 msgstr ":ref:`celery`"
 
-#: ../../admin/backup.rst:279
+#: ../../admin/backup.rst:284
 msgid "Command line for manual backup"
 msgstr "手动备份的命令行"
 
-#: ../../admin/backup.rst:281
+#: ../../admin/backup.rst:286
 msgid ""
 "Using a cron job, you can set up a Bash command to be executed on a daily "
 "basis, for example:"
 msgstr "使用 cron 作业，您可以设置一条每天执行的 Bash 命令，例如："
 
-#: ../../admin/backup.rst:287
+#: ../../admin/backup.rst:292
 msgid ""
 "The string between the quotes after `XZ_OPT` allows you to choose your xz "
 "options, for instance the amount of memory used for compression; see https://"
 "linux.die.net/man/1/xz"
 msgstr ""
-"`XZ_OPT`后面引号之间的字符串允许你选择自己的 xz 选项，例如用于压缩的内存量；见 https://linux.die.net/man/1/xz"
+"`XZ_OPT`后面引号之间的字符串允许你选择自己的 xz 选项，例如用于压缩的内存量；"
+"见 https://linux.die.net/man/1/xz"
 
-#: ../../admin/backup.rst:289
+#: ../../admin/backup.rst:294
 msgid ""
 "You can adjust the list of folders and files to your needs. To avoid saving "
 "the translation memory (in backups folder), you can use:"
-msgstr "你可以根据需要调整文件夹和文件的列表。为了避免保存翻译记忆库（在备份文件夹中），你可以使用："
+msgstr ""
+"你可以根据需要调整文件夹和文件的列表。为了避免保存翻译记忆库（在备份文件夹"
+"中），你可以使用："
 
-#: ../../admin/backup.rst:296
+#: ../../admin/backup.rst:301
 msgid "Restoring manual backup"
 msgstr "恢复手动备份"
 
-#: ../../admin/backup.rst:298
+#: ../../admin/backup.rst:303
 msgid "Restore all data you have backed up."
 msgstr "将已经备份的所有数据恢复。"
 
-#: ../../admin/backup.rst:300
+#: ../../admin/backup.rst:305
 msgid "Update all repositories using :djadmin:`updategit`."
 msgstr "使用 :djadmin:`updategit` 更新所有仓库。"
 
-#: ../../admin/backup.rst:307
+#: ../../admin/backup.rst:312
 msgid "Moving a Weblate installation"
 msgstr "移动 Weblate 安装"
 
-#: ../../admin/backup.rst:309
+#: ../../admin/backup.rst:314
 msgid ""
 "Relocate your installation to a different system by following the backing up "
 "and restoration instructions above."
 msgstr "按照上面备份与恢复说明，将你的安装迁移到不同系统。"
 
-#: ../../admin/backup.rst:314
+#: ../../admin/backup.rst:319
 msgid ":ref:`py3`, :ref:`database-migration`"
 msgstr ":ref:`py3`, :ref:`database-migration`"
 
@@ -14309,8 +14377,8 @@ msgstr "配置每个项目的访问控制，请参阅 :ref:`acl` 以获取更多
 msgid "Default value can be changed by :setting:`DEFAULT_ACCESS_CONTROL`."
 msgstr "可以通过 :setting:`DEFAULT_ACCESS_CONTROL` 更改默认值。"
 
-#: ../../admin/projects.rst:190 ../../workflows.rst:60 ../../workflows.rst:91
-#: ../../workflows.rst:127
+#: ../../admin/projects.rst:190 ../../workflows.rst:73 ../../workflows.rst:104
+#: ../../workflows.rst:140
 msgid "Enable reviews"
 msgstr "启用复查"
 
@@ -14767,8 +14835,8 @@ msgid ""
 "Default value can be changed by :setting:`DEFAULT_TRANSLATION_PROPAGATION`."
 msgstr "默认值可以通过 :setting:`DEFAULT_TRANSLATION_PROPAGATION` 来更改。"
 
-#: ../../admin/projects.rst:488 ../../workflows.rst:62 ../../workflows.rst:93
-#: ../../workflows.rst:129
+#: ../../admin/projects.rst:488 ../../workflows.rst:75 ../../workflows.rst:106
+#: ../../workflows.rst:142
 msgid "Enable suggestions"
 msgstr "启用建议"
 
@@ -14777,7 +14845,7 @@ msgid "Whether translation suggestions are accepted for this component."
 msgstr "对于这个组件，建议的翻译是否被接受。"
 
 #: ../../admin/projects.rst:495 ../../admin/translating.rst:7
-#: ../../workflows.rst:65 ../../workflows.rst:95 ../../workflows.rst:132
+#: ../../workflows.rst:78 ../../workflows.rst:108 ../../workflows.rst:145
 msgid "Suggestion voting"
 msgstr "建议投票"
 
@@ -14785,8 +14853,8 @@ msgstr "建议投票"
 msgid "Turns on vote casting for suggestions, see :ref:`voting`."
 msgstr "为建议打开投票，请参见 :ref:`voting`。"
 
-#: ../../admin/projects.rst:502 ../../workflows.rst:67 ../../workflows.rst:97
-#: ../../workflows.rst:134
+#: ../../admin/projects.rst:502 ../../workflows.rst:80 ../../workflows.rst:110
+#: ../../workflows.rst:147
 msgid "Autoaccept suggestions"
 msgstr "自动接受建议"
 
@@ -16284,7 +16352,9 @@ msgstr ""
 msgid ""
 "There is a change in :setting:`django:INSTALLED_APPS` - ``weblate.metrics`` "
 "should be added."
-msgstr ":setting:`django:INSTALLED_APPS`中有一处更改， - ``weblate.metrics``应被添加。"
+msgstr ""
+":setting:`django:INSTALLED_APPS`中有一处更改， - ``weblate.metrics``应被添"
+"加。"
 
 #: ../../admin/upgrade.rst:201
 msgid "Upgrading from Python 2 to Python 3"
@@ -25195,7 +25265,7 @@ msgid "examples"
 msgstr "例子"
 
 #: ../../contributing/schemas.rst:9 ../../contributing/schemas.rst:19
-#: ../../devel/reporting-example.rst:4 ../../workflows.rst:97
+#: ../../devel/reporting-example.rst:4 ../../workflows.rst:110
 msgid "1"
 msgstr "1"
 
@@ -25205,7 +25275,7 @@ msgstr "最小"
 
 #: ../../contributing/schemas.rst:9 ../../contributing/schemas.rst:19
 #: ../../devel/reporting-example.rst:4 ../../devel/reporting-example.rst:5
-#: ../../workflows.rst:67 ../../workflows.rst:134
+#: ../../workflows.rst:80 ../../workflows.rst:147
 msgid "0"
 msgstr "0"
 
@@ -26273,8 +26343,8 @@ msgstr ""
 msgid "Field"
 msgstr "字段"
 
-#: ../../devel/gettext.rst:222 ../../workflows.rst:58 ../../workflows.rst:89
-#: ../../workflows.rst:125
+#: ../../devel/gettext.rst:222 ../../workflows.rst:71 ../../workflows.rst:102
+#: ../../workflows.rst:138
 msgid "Value"
 msgstr "值"
 
@@ -26613,9 +26683,14 @@ msgstr ""
 "maintenance` 中）或使用 :ref:`wlc` 从命令行来实现。"
 
 #: ../../devel/integration.rst:30
+#, fuzzy
+#| msgid ""
+#| "This can be automated if you grant Weblate push access to your repository "
+#| "and configure :ref:`component-push` in the :ref:`component`."
 msgid ""
 "This can be automated if you grant Weblate push access to your repository "
-"and configure :ref:`component-push` in the :ref:`component`."
+"and configure :ref:`component-push` in the :ref:`component`, see :ref:`push-"
+"changes`."
 msgstr ""
 "如果向 Weblate 授予了对您的仓库的推送访问，并配置 :ref:`component` 中的 :ref:"
 "`component-push`，这会是自动的。"
@@ -26626,15 +26701,17 @@ msgid ""
 "latest version."
 msgstr "或者，您可以使用 doc:`/api` 来更新翻译以匹配最新版本。"
 
-#: ../../devel/integration.rst:38 ../../devel/integration.rst:55
-msgid ":ref:`continuous-translation`"
-msgstr ":ref:`continuous-translation`"
+#: ../../devel/integration.rst:38
+#, fuzzy
+#| msgid ":ref:`continuous-translation`, :ref:`avoid-merge-conflicts`"
+msgid ":ref:`continuous-translation`, :ref:`push-changes`, :ref:`vcs-repos`"
+msgstr ":ref:`continuous-translation`, :ref:`avoid-merge-conflicts`"
 
-#: ../../devel/integration.rst:41
+#: ../../devel/integration.rst:43
 msgid "Fetching remote changes into Weblate"
 msgstr "正获取远程更改到 Webate"
 
-#: ../../devel/integration.rst:43
+#: ../../devel/integration.rst:45
 msgid ""
 "To fetch the strings newly updated in your repository into Weblate, just let "
 "it pull from the upstream repository. This can be achieved in the user "
@@ -26645,7 +26722,7 @@ msgstr ""
 "用户界面（在 :guilabel:`Repository maintenance` 中）或使用 :ref:`wlc` 从命令"
 "行来实现。"
 
-#: ../../devel/integration.rst:47
+#: ../../devel/integration.rst:49
 msgid ""
 "This can be automated by setting a webhook in your repository to trigger "
 "Weblate whenever there is a new commit, see :ref:`update-vcs` for more "
@@ -26654,7 +26731,7 @@ msgstr ""
 "这可以通过在你的存储库中设置一个 webhook 来自动实现，每当有新的提交时，"
 "webhook 就会触发 Webate。更多细节请参见 :ref:`update-vcs`。"
 
-#: ../../devel/integration.rst:50
+#: ../../devel/integration.rst:52
 msgid ""
 "If you’re not using a VCS integration, you can use UI or :doc:`/api` to "
 "update translations to match your code base."
@@ -26662,11 +26739,17 @@ msgstr ""
 "如果你没在用一个版本管理系统（VCS）集成，可以使用 UI 或 :doc:`/api` 来更新翻"
 "译，从而与您的码基匹配。"
 
-#: ../../devel/integration.rst:60
+#: ../../devel/integration.rst:57
+#, fuzzy
+#| msgid ":ref:`continuous-translation`, :ref:`avoid-merge-conflicts`"
+msgid ":ref:`continuous-translation`, :ref:`vcs-repos`"
+msgstr ":ref:`continuous-translation`, :ref:`avoid-merge-conflicts`"
+
+#: ../../devel/integration.rst:63
 msgid "Adding new strings"
 msgstr "正在添加新字符串"
 
-#: ../../devel/integration.rst:62
+#: ../../devel/integration.rst:65
 msgid ""
 "In case your translation files are stored in a VCS together with the code, "
 "you most likely have an existing workflow for developers to introduce new "
@@ -26677,13 +26760,13 @@ msgstr ""
 "工作流供开发人员引入新的字符串。任何添加字符串的方法都将被采用，但请考虑使"
 "用 :ref:`source-quality-gateway` 以避免引入错误。"
 
-#: ../../devel/integration.rst:67
+#: ../../devel/integration.rst:70
 msgid ""
 "When the translation files are separate from the code, there are following "
 "ways to introduce new strings into Weblate."
 msgstr "当翻译文件与代码分离时，可以通过以下方法将新字符串引入 Weblate。"
 
-#: ../../devel/integration.rst:70
+#: ../../devel/integration.rst:73
 msgid ""
 "Manually, using :guilabel:`Add new translation string` from :guilabel:"
 "`Tools` menu in the language used as the source for translations."
@@ -26691,7 +26774,7 @@ msgstr ""
 "手动操作，使用被用作翻译源的语言的 :guilabel:`Tools` 菜单中的 :guilabel:`Add "
 "new translation string`。"
 
-#: ../../devel/integration.rst:72
+#: ../../devel/integration.rst:75
 msgid ""
 "Programatically, using API :http:post:`/api/translations/(string:project)/"
 "(string:component)/(string:language)/units/`."
@@ -26699,7 +26782,7 @@ msgstr ""
 "程序化地使用 API :http:post:`/api/translations/(string:project)/(string:"
 "component)/(string:language)/units/`."
 
-#: ../../devel/integration.rst:73
+#: ../../devel/integration.rst:76
 msgid ""
 "By uploading source file as :guilabel:`Replace existing translation file` "
 "(this overwrites existing strings, so please make sure the file includes "
@@ -26710,17 +26793,17 @@ msgstr ""
 "的字符串，因此请确定文件包括旧的和新的字符串）或 :guilabel:`Add new "
 "strings`，请参见 :ref:`upload-method`。"
 
-#: ../../devel/integration.rst:79
+#: ../../devel/integration.rst:82
 msgid ""
 "Availability of adding strings in Weblate depends on :ref:`component-"
 "manage_units`."
 msgstr ""
 
-#: ../../devel/integration.rst:84
+#: ../../devel/integration.rst:87
 msgid "Updating target language files"
 msgstr "正在更新目标语言文件"
 
-#: ../../devel/integration.rst:86
+#: ../../devel/integration.rst:89
 msgid ""
 "For monolingual files (see :ref:`formats`) Weblate might add new translation "
 "strings not present in the :ref:`component-template`, and not in actual "
@@ -26734,7 +26817,7 @@ msgstr ""
 "行自动清理，因为那会具有难以预料的结果。如果想做的话，请安装附加组件 :ref:"
 "`addon-weblate.cleanup.generic` 根据您的要求处理清理工作。"
 
-#: ../../devel/integration.rst:93
+#: ../../devel/integration.rst:96
 msgid ""
 "Weblate also will not try to update bilingual files in any way, so if you "
 "need :file:`po` files being updated from :file:`pot`, you need to do it "
@@ -26745,7 +26828,7 @@ msgstr ""
 "file:`pot` 更新的话，需要您自己通过使用 :guilabel:`Update source strings` :"
 "ref:`upload-method` 或附加组件 :ref:`addon-weblate.gettext.msgmerge`来实现。"
 
-#: ../../devel/integration.rst:100
+#: ../../devel/integration.rst:103
 msgid ""
 ":ref:`processing`, :ref:`addon-weblate.cleanup.generic`, :ref:`addon-weblate."
 "cleanup.blank`, :ref:`addon-weblate.resx.update`, :ref:`addon-weblate."
@@ -34546,11 +34629,17 @@ msgid "Needs editing"
 msgstr "需要编辑"
 
 #: ../../workflows.rst:34
+#, fuzzy
+#| msgid ""
+#| "Translation needs editing, this is usually the result of a source string "
+#| "change. The translation is stored in the file, depending on the file "
+#| "format it might be marked as needing edit (for example as it gets a "
+#| "``fuzzy`` flag in the Gettext file)."
 msgid ""
 "Translation needs editing, this is usually the result of a source string "
-"change. The translation is stored in the file, depending on the file format "
-"it might be marked as needing edit (for example as it gets a ``fuzzy`` flag "
-"in the Gettext file)."
+"change, fuzzy matching or translator action. The translation is stored in "
+"the file, depending on the file format it might be marked as needing edit "
+"(for example as it gets a ``fuzzy`` flag in the Gettext file)."
 msgstr ""
 "翻译需要编辑，这通常是源字符串更改的结果。翻译存储在文件中，具体取决于文件格"
 "式，它可能被标志为需要编辑（例如，当它在 Gettext 文件中获得一个 ``fuzzy`` 标"
@@ -34583,77 +34672,96 @@ msgstr ""
 msgid "Suggestions are stored in Weblate only and not in the translation file."
 msgstr "建议仅存储在 Weblate 中，而不存储在翻译文件中。"
 
-#: ../../workflows.rst:49
+#: ../../workflows.rst:47
+#, fuzzy
+#| msgid "Parse errors in the translation files"
+msgid "The states are represented in the translation files when possible."
+msgstr "解析翻译文件中的错误"
+
+#: ../../workflows.rst:51
+msgid ""
+"In case file format you use does not support storing states, you might want "
+"to use :ref:`addon-weblate.flags.same_edit` addon to flag unchanged strings "
+"as needing editing."
+msgstr ""
+
+#: ../../workflows.rst:57
+#, fuzzy
+#| msgid ":ref:`faq-vcs`, :ref:`alerts`"
+msgid ":ref:`fmt_capabs`, :ref:`workflows`"
+msgstr ":ref:`faq-vcs`, :ref:`alerts`"
+
+#: ../../workflows.rst:62
 msgid "Direct translation"
 msgstr "直接翻译"
 
-#: ../../workflows.rst:50
+#: ../../workflows.rst:63
 msgid ""
 "This is most usual setup for smaller teams, anybody can directly translate. "
 "This is also the default setup in Weblate."
 msgstr ""
 "这是小型团队最常用的设置，任何人都可以直接翻译。这也是 Weblate 中的默认设置。"
 
-#: ../../workflows.rst:53
+#: ../../workflows.rst:66
 msgid "*Any user* can edit translations."
 msgstr "*任何用户* 都可以编辑翻译。"
 
-#: ../../workflows.rst:54
+#: ../../workflows.rst:67
 msgid ""
 "Suggestions are optional ways to suggest changes, when translators are not "
 "sure about the change."
 msgstr "当翻译者不确定更改时，建议是建议更改的可选方法。"
 
-#: ../../workflows.rst:58 ../../workflows.rst:89 ../../workflows.rst:125
+#: ../../workflows.rst:71 ../../workflows.rst:102 ../../workflows.rst:138
 msgid "Setting"
 msgstr "设置"
 
-#: ../../workflows.rst:58 ../../workflows.rst:89 ../../workflows.rst:125
+#: ../../workflows.rst:71 ../../workflows.rst:102 ../../workflows.rst:138
 msgid "Note"
 msgstr "备注"
 
-#: ../../workflows.rst:60 ../../workflows.rst:65 ../../workflows.rst:91
-#: ../../workflows.rst:95 ../../workflows.rst:129 ../../workflows.rst:132
+#: ../../workflows.rst:73 ../../workflows.rst:78 ../../workflows.rst:104
+#: ../../workflows.rst:108 ../../workflows.rst:142 ../../workflows.rst:145
 msgid "off"
 msgstr "已关闭"
 
-#: ../../workflows.rst:60 ../../workflows.rst:91 ../../workflows.rst:127
+#: ../../workflows.rst:73 ../../workflows.rst:104 ../../workflows.rst:140
 msgid "Configured at project level."
 msgstr "在项目级别配置。"
 
-#: ../../workflows.rst:62 ../../workflows.rst:93 ../../workflows.rst:127
+#: ../../workflows.rst:75 ../../workflows.rst:106 ../../workflows.rst:140
 msgid "on"
 msgstr "已开启"
 
-#: ../../workflows.rst:62 ../../workflows.rst:129
+#: ../../workflows.rst:75 ../../workflows.rst:142
 msgid "It is useful for users to be able to suggest when they are not sure."
 msgstr "用户可以在不确定时提出建议，这很有用。"
 
-#: ../../workflows.rst:69 ../../workflows.rst:100 ../../workflows.rst:136
+#: ../../workflows.rst:82 ../../workflows.rst:113 ../../workflows.rst:149
 msgid "Translators group"
 msgstr "翻译组"
 
-#: ../../workflows.rst:69 ../../workflows.rst:100 ../../workflows.rst:136
+#: ../../workflows.rst:82 ../../workflows.rst:113 ../../workflows.rst:149
 msgid "Or `Translate` with :ref:`privileges`."
 msgstr "或使用 :ref:`privileges` 进行 `翻译`。"
 
-#: ../../workflows.rst:72 ../../workflows.rst:103 ../../workflows.rst:139
+#: ../../workflows.rst:85 ../../workflows.rst:116 ../../workflows.rst:152
 msgid "Reviewers group"
 msgstr "审核者组"
 
-#: ../../workflows.rst:72 ../../workflows.rst:103
+#: ../../workflows.rst:85 ../../workflows.rst:116
 msgid "N/A"
 msgstr "不可用"
 
-#: ../../workflows.rst:72
+#: ../../workflows.rst:85
 msgid "Not used."
 msgstr "不曾用过。"
 
-#: ../../workflows.rst:79
+#: ../../workflows.rst:92
 msgid "Peer review"
 msgstr "同行评审"
 
-#: ../../workflows.rst:81
+#: ../../workflows.rst:94
 msgid ""
 "With this workflow, anybody can add suggestions, and need approval from "
 "additional member(s) before it is accepted as a translation."
@@ -34661,36 +34769,36 @@ msgstr ""
 "使用此工作流程，任何人都可以添加建议，并且需要其他成员的同意才能被接受为翻"
 "译。"
 
-#: ../../workflows.rst:84
+#: ../../workflows.rst:97
 msgid "*Any user* can add suggestions."
 msgstr "*任何用户* 都可以添加建议。"
 
-#: ../../workflows.rst:85
+#: ../../workflows.rst:98
 msgid "*Any user* can vote for suggestions."
 msgstr "*任何用户* 都可以对建议投票。"
 
-#: ../../workflows.rst:86
+#: ../../workflows.rst:99
 msgid ""
 "Suggestions become translations when given a predetermined number of votes."
 msgstr "当给定预定数量的投票时，建议就变成翻译。"
 
-#: ../../workflows.rst:97
+#: ../../workflows.rst:110
 msgid "You can set higher value to require more peer reviews."
 msgstr "您可以设置更高的值，以要求更多的同行评审。"
 
-#: ../../workflows.rst:103
+#: ../../workflows.rst:116
 msgid "Not used, all translators review."
 msgstr "未使用，所有翻译员都审阅。"
 
-#: ../../workflows.rst:109
+#: ../../workflows.rst:122
 msgid "Dedicated reviewers"
 msgstr "专门的审核者"
 
-#: ../../workflows.rst:113
+#: ../../workflows.rst:126
 msgid "The proper review workflow is supported since Weblate 2.18."
 msgstr "从 Weblate 2.18 开始，支持正确的审核工作流。"
 
-#: ../../workflows.rst:115
+#: ../../workflows.rst:128
 msgid ""
 "With dedicated reviewers you have two groups of users, one able to submit "
 "translations, and one able to review them to ensure translations are "
@@ -34699,31 +34807,31 @@ msgstr ""
 "使用专门的审核者，您有两组用户，一组可以提交翻译，而另一组可以审核它们以确保"
 "翻译一致且质量良好。"
 
-#: ../../workflows.rst:119
+#: ../../workflows.rst:132
 msgid "*Any user* can edit unapproved translations."
 msgstr "*任何用户* 都可以编辑未批准的翻译。"
 
-#: ../../workflows.rst:120
+#: ../../workflows.rst:133
 msgid "*Reviewer* can approve / unapprove strings."
 msgstr "*Reviewer* 可以批准/否决字符串。"
 
-#: ../../workflows.rst:121
+#: ../../workflows.rst:134
 msgid "*Reviewer* can edit all translations (including approved ones)."
 msgstr "*审核者* 可以编辑所有翻译（包括批准的翻译）。"
 
-#: ../../workflows.rst:122
+#: ../../workflows.rst:135
 msgid "Suggestions can also be used to suggest changes for approved strings."
 msgstr "建议还可以用于建议更改已批准的字符串。"
 
-#: ../../workflows.rst:139
+#: ../../workflows.rst:152
 msgid "Or `Review` with :ref:`privileges`."
 msgstr "或使用 :ref:`privileges` 进行 `审核`。"
 
-#: ../../workflows.rst:144
+#: ../../workflows.rst:157
 msgid "Turning on reviews"
 msgstr "打开审核"
 
-#: ../../workflows.rst:146
+#: ../../workflows.rst:159
 msgid ""
 "Reviews can be turned on in the project configuration, from the :guilabel:"
 "`Workflow` subpage of project settings (to be found in the :guilabel:"
@@ -34732,7 +34840,7 @@ msgstr ""
 "可以在项目设置的 :guilabel:`Workflow` 子页面中的项目配置中打开审核（位于 :"
 "guilabel:`Manage` → :guilabel:`Settings` 菜单中）："
 
-#: ../../workflows.rst:154
+#: ../../workflows.rst:167
 msgid ""
 "Depending on Weblate configuration, the setting might not be available to "
 "you. For example on Hosted Weblate this is not available for projects hosted "
@@ -34741,11 +34849,11 @@ msgstr ""
 "根据 Weblate 配置的不同，该设置可能对您不可用。例如，在 Hosted Weblate 上，这"
 "不适用于免费托管的项目。"
 
-#: ../../workflows.rst:161
+#: ../../workflows.rst:174
 msgid "Quality gateway for the source strings"
 msgstr ""
 
-#: ../../workflows.rst:163
+#: ../../workflows.rst:176
 msgid ""
 "In many cases the original source language strings are coming from "
 "developers, because they write the code and provide initial strings. However "
@@ -34755,7 +34863,7 @@ msgid ""
 "the strings between developers and translators and users."
 msgstr ""
 
-#: ../../workflows.rst:170
+#: ../../workflows.rst:183
 msgid ""
 "By setting :ref:`component-intermediate`, this file will be used as source "
 "for the strings, but it will be edited to source language to polish it.  "
@@ -34763,16 +34871,16 @@ msgid ""
 "for translators to translate into additional languages."
 msgstr ""
 
-#: ../../workflows.rst:214
+#: ../../workflows.rst:227
 msgid ":ref:`component-intermediate`, :ref:`component-template`, :ref:`bimono`"
 msgstr ""
 ":ref:`component-intermediate`, :ref:`component-template`, :ref:`bimono`"
 
-#: ../../workflows.rst:221
+#: ../../workflows.rst:234
 msgid "Source strings reviews"
 msgstr "源字符串复查"
 
-#: ../../workflows.rst:223
+#: ../../workflows.rst:236
 msgid ""
 "With :ref:`project-source_review` enabled, the review process can be applied "
 "on the source strings. Once enabled, users can report issues in the source "
@@ -34782,7 +34890,7 @@ msgstr ""
 "通过允许 :ref:`project-source_review` ，复查过程可以应用到源字符串上。一旦允"
 "许，用户可以汇报源字符串种的情况。实际过程依赖于使用双语言还是单语言格式。"
 
-#: ../../workflows.rst:228
+#: ../../workflows.rst:241
 msgid ""
 "For monolingual formats, the source string review behaves similarly as with :"
 "ref:`reviews` - once issue is reported on the source string, it is marked "
@@ -34791,7 +34899,7 @@ msgstr ""
 "对于单语言格式，源字符串复查的行为与 :ref:`reviews` 相似——一旦源字符串汇报了"
 "情况，就会被标记为 :guilabel:`Needs editing` 。"
 
-#: ../../workflows.rst:232
+#: ../../workflows.rst:245
 msgid ""
 "The bilingual formats do not allow direct editing of the source strings "
 "(these are typically extracted directly from the source code). In this case :"
@@ -34803,9 +34911,22 @@ msgstr ""
 "情况下， :guilabel:`Source needs review` 标签会贴到翻译者回到的字符串上。可以"
 "复查这样的字符串，并在源中编辑或删除标签。"
 
-#: ../../workflows.rst:240
+#: ../../workflows.rst:253
 msgid ":ref:`bimono`, :ref:`reviews`, :ref:`labels`"
 msgstr ":ref:`bimono`, :ref:`reviews`, :ref:`labels`"
+
+#~ msgid "Only wrap lines for newlines"
+#~ msgstr "只对新行换行"
+
+#~ msgid ""
+#~ "By default gettext wraps lines at 77 characters and for newlines. With "
+#~ "the ``--no-wrap`` parameter, wrapping is only done for newlines."
+#~ msgstr ""
+#~ "默认 gettext 在 77 个字符处和新一行时换行。使用 ``--no-wrap`` 参数，换行只"
+#~ "对新行生效。"
+
+#~ msgid ":ref:`continuous-translation`"
+#~ msgstr ":ref:`continuous-translation`"
 
 #~ msgid "14 daily backups"
 #~ msgstr "14 个每天备份"

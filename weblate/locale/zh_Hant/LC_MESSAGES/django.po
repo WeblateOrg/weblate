@@ -16,7 +16,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.5\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
-"POT-Creation-Date: 2021-02-13 20:05+0000\n"
+"POT-Creation-Date: 2021-02-14 19:30+0000\n"
 "PO-Revision-Date: 2021-02-14 19:29+0000\n"
 "Last-Translator: pan93412 <pan93412@gmail.com>\n"
 "Language-Team: Chinese (Traditional) <https://hosted.weblate.org/projects/"
@@ -1074,7 +1074,9 @@ msgid ""
 "Whenever a new translatable string is imported from the VCS and it matches a "
 "source string, it is flagged as needing editing in Weblate. Especially "
 "useful for file formats that include source strings for untranslated strings."
-msgstr "每當新的可翻譯字串從 VCS 匯入且符合來源字串時，會在 Weblate 中標記為需要編輯。這對於未翻譯字串有來源字串的檔案格式來說特別有用。"
+msgstr ""
+"每當新的可翻譯字串從 VCS 匯入且符合來源字串時，會在 Weblate 中標記為需要編"
+"輯。這對於未翻譯字串有來源字串的檔案格式來說特別有用。"
 
 #: weblate/addons/flags.py:107 weblate/templates/component.html:69
 #: weblate/templates/component.html:217 weblate/templates/project.html:68
@@ -1108,7 +1110,9 @@ msgid "Long lines wrapping"
 msgstr "長列換列"
 
 #: weblate/addons/forms.py:112
-msgid "Wrap lines at 77 chars and at newlines"
+#, fuzzy
+#| msgid "Wrap lines at 77 chars and at newlines"
+msgid "Wrap lines at 77 characters and at newlines"
 msgstr "於第 77 個字元處與新列處換列"
 
 #: weblate/addons/forms.py:113
@@ -1120,9 +1124,13 @@ msgid "No line wrapping"
 msgstr "不要換列"
 
 #: weblate/addons/forms.py:119
+#, fuzzy
+#| msgid ""
+#| "By default gettext wraps lines at 77 chars and newlines. With --no-wrap "
+#| "parameter, it wraps only at newlines."
 msgid ""
-"By default gettext wraps lines at 77 chars and newlines. With --no-wrap "
-"parameter, it wraps only at newlines."
+"By default gettext wraps lines at 77 characters and at newlines. With the --"
+"no-wrap parameter, wrapping is only done at newlines."
 msgstr ""
 "預設情況下，gettext 會在第 77 個字元和新列字元處換列；加上 --no-wrap 參數後，"
 "則僅在新列字元處換列。"
@@ -1164,10 +1172,15 @@ msgid "Append trailers to squashed commit message"
 msgstr "將額外資訊加入至壓縮提交的訊息"
 
 #: weblate/addons/forms.py:159
+#, fuzzy
+#| msgid ""
+#| "Trailer lines are lines that look similar to RFC 822 e-mail headers, at "
+#| "the end of the otherwise free-form part of a commit message, such as 'Co-"
+#| "authored-by: ...'."
 msgid ""
 "Trailer lines are lines that look similar to RFC 822 e-mail headers, at the "
 "end of the otherwise free-form part of a commit message, such as 'Co-"
-"authored-by: ...'."
+"authored-by: …'."
 msgstr ""
 "額外資訊的列看起來類似於 RFC 822 電子信箱標頭，位於提交訊息的其他自由格式部分"
 "的末尾，例如「Co-authored-by: ...」。"
@@ -1408,7 +1421,9 @@ msgstr "更新 PO 檔以符合 POT (msgmerge)"
 msgid ""
 "Updates all PO files (as configured by \"Filemask\") to match the POT file "
 "(as configured by \"Template for new translations\") using msgmerge."
-msgstr "使用 msgmerge 更新所有（在「檔案遮罩」設定的）PO 檔案以跟（在「新翻譯的模板」設定的）POT 檔案同步。"
+msgstr ""
+"使用 msgmerge 更新所有（在「檔案遮罩」設定的）PO 檔案以跟（在「新翻譯的模板」"
+"設定的）POT 檔案同步。"
 
 #: weblate/addons/gettext.py:303
 msgid "Customize gettext output"
@@ -5553,7 +5568,7 @@ msgstr "翻譯授權條款"
 
 #: weblate/templates/component_info.html:56
 #: weblate/templates/contributor-agreement.html:9
-#: weblate/templates/snippets/libre-checklist.html:30
+#: weblate/templates/snippets/libre-checklist.html:32
 #: weblate/trans/models/component.py:457
 msgid "Contributor agreement"
 msgstr "貢獻者協議書"
@@ -7476,7 +7491,7 @@ msgstr ""
 msgid "The project has had active development for at least three months."
 msgstr "專案已經活躍開發至少有三個月。"
 
-#: weblate/templates/snippets/libre-checklist.html:17
+#: weblate/templates/snippets/libre-checklist.html:18
 msgid "Unmet guidelines from the community localization checklist:"
 msgstr "判斷社群在地化滿足與否的指導規範查核列表："
 
@@ -8015,7 +8030,8 @@ msgstr "如果不需要來源語言的翻譯檔，請從儲存庫中將其移除
 msgid ""
 "If the translation file for the source language is needed, but should be "
 "ignored by Weblate, please adjust the language filter to exclude it."
-msgstr "如果需要來源語言的翻譯檔，但 Weblate 應該要忽略，請調整語言過濾器將其排除。"
+msgstr ""
+"如果需要來源語言的翻譯檔，但 Weblate 應該要忽略，請調整語言過濾器將其排除。"
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:24
 msgid ""
@@ -8121,13 +8137,18 @@ msgid ""
 msgstr "這可能會在關閉這些功能的支援，或缺少依賴關係時發生。"
 
 #: weblate/templates/trans/alert/unusedenforcedcheck.html:4
-msgid "Following enforced checks are not enabled anywhere:"
+#, fuzzy
+#| msgid "Following enforced checks are not enabled anywhere:"
+msgid "Following enforced checks are not used anywhere:"
 msgstr "以下強制查核未在任何地方啟用："
 
 #: weblate/templates/trans/alert/unusedenforcedcheck.html:8
-#, python-format
+#, fuzzy, python-format
+#| msgid ""
+#| "%(check)s quality check is enforced, but not enabled using <code>"
+#| "%(flag)s</code>."
 msgid ""
-"%(check)s quality check is enforced, but not enabled using <code>%(flag)s</"
+"%(check)s quality check is enforced, but not turned on using <code>%(flag)s</"
 "code>."
 msgstr "%(check)s 品質查核是強制性的，但未使用 <code>%(flag)s</code> 啟用。"
 
@@ -8464,9 +8485,9 @@ msgstr "若要貢獻此翻譯，您必須同意貢獻者協議書。"
 msgid "Insufficient privileges for editing source strings."
 msgstr "權限不足以編輯來源字串。"
 
-#: weblate/templates/translate.html:218 weblate/trans/views/edit.py:386
-#: weblate/trans/views/edit.py:406 weblate/trans/views/edit.py:424
-#: weblate/trans/views/edit.py:876
+#: weblate/templates/translate.html:218 weblate/trans/views/edit.py:388
+#: weblate/trans/views/edit.py:408 weblate/trans/views/edit.py:426
+#: weblate/trans/views/edit.py:878
 msgid "Insufficient privileges for saving translations."
 msgstr "權利不足，無法儲存翻譯。"
 
@@ -8876,7 +8897,7 @@ msgstr "影像 URL"
 msgid "Open in full editor"
 msgstr "在完整編輯器中開啟"
 
-#: weblate/templates/zen-units.html:113 weblate/trans/views/edit.py:535
+#: weblate/templates/zen-units.html:113 weblate/trans/views/edit.py:537
 msgid "The translation has come to an end."
 msgstr "翻譯已到達盡頭。"
 
@@ -10433,10 +10454,13 @@ msgid "The language code \"%s\" is too long, please check the filemask."
 msgstr "「%s」語言代碼過長，請檢查檔案遮罩。"
 
 #: weblate/trans/models/component.py:2200
-#, python-format
+#, fuzzy, python-format
+#| msgid ""
+#| "There is more than one file for %s language, please adjust the filemask "
+#| "and use components for translating a different resources."
 msgid ""
 "There is more than one file for %s language, please adjust the filemask and "
-"use components for translating a different resources."
+"use components for translating different resources."
 msgstr "%s語言具有多個檔案，請調整檔案遮罩，並利用組件翻譯不同的資源。"
 
 #: weblate/trans/models/component.py:2214
@@ -11189,118 +11213,119 @@ msgstr "您已啟用您的帳號。現在您應該設定密碼以便下次登入
 msgid "Please set your full name and e-mail in your profile."
 msgstr "請設定您個人檔案中的全名與電子郵件。"
 
-#: weblate/trans/views/edit.py:245 weblate/trans/views/edit.py:530
+#: weblate/trans/views/edit.py:247 weblate/trans/views/edit.py:532
 msgid "No string matched your search!"
 msgstr "找不到您搜尋的字串！"
 
-#: weblate/trans/views/edit.py:269
+#: weblate/trans/views/edit.py:271
 msgid "Your suggestion is empty!"
 msgstr "您的建議留空白！"
 
-#: weblate/trans/views/edit.py:274
+#: weblate/trans/views/edit.py:276
 msgid "You don't have privileges to add suggestions!"
 msgstr "您沒有加入建議的權利！"
 
-#: weblate/trans/views/edit.py:280
+#: weblate/trans/views/edit.py:282
 msgid "Your suggestion has been identified as spam!"
 msgstr "您的建議被判定為垃圾內容！"
 
-#: weblate/trans/views/edit.py:291
+#: weblate/trans/views/edit.py:293
 msgid "Your suggestion already exists!"
 msgstr "您的建議內容已經存在！"
 
-#: weblate/trans/views/edit.py:312
+#: weblate/trans/views/edit.py:314
 #, python-format
 msgid "Following fixups were applied to translation: %s"
 msgstr "下列修正已套用到翻譯中：%s"
 
-#: weblate/trans/views/edit.py:328
+#: weblate/trans/views/edit.py:330
 #, python-format
 msgid ""
 "Added %(language)s to your translated languages. You can adjust them in the "
 "settings."
 msgstr "已將 %(language)s 加入至您的翻譯語言。您可以在設定中進行調整。"
 
-#: weblate/trans/views/edit.py:338
+#: weblate/trans/views/edit.py:340
 #, python-format
 msgid ""
 "Added %(project)s to your watched projects. You can adjust them and this "
 "behavior in the settings."
-msgstr "已將 %(project)s 加入至您的關注專案。您可以在設定中調整關注專案及加入行為。"
+msgstr ""
+"已將 %(project)s 加入至您的關注專案。您可以在設定中調整關注專案及加入行為。"
 
-#: weblate/trans/views/edit.py:357
+#: weblate/trans/views/edit.py:359
 #, python-brace-format
 msgid ""
 "The translation has been saved, however there are some newly failing checks: "
 "{0}"
 msgstr "翻譯已儲存，但有一些新的未通過查核項目：{0}"
 
-#: weblate/trans/views/edit.py:400
+#: weblate/trans/views/edit.py:402
 msgid "Invalid merge request!"
 msgstr "無效的合併請求！"
 
-#: weblate/trans/views/edit.py:418
+#: weblate/trans/views/edit.py:420
 msgid "Invalid revert request!"
 msgstr "無效的還原請求！"
 
-#: weblate/trans/views/edit.py:428
+#: weblate/trans/views/edit.py:430
 msgid "Can not revert to empty translation!"
 msgstr "無法還原成空白翻譯！"
 
-#: weblate/trans/views/edit.py:447
+#: weblate/trans/views/edit.py:449
 msgid "You do not have privilege to accept suggestions!"
 msgstr "您沒有接受建議的權利！"
 
-#: weblate/trans/views/edit.py:453
+#: weblate/trans/views/edit.py:455
 msgid "You do not have privilege to delete suggestions!"
 msgstr "您沒有刪除建議的權利！"
 
-#: weblate/trans/views/edit.py:459
+#: weblate/trans/views/edit.py:461
 msgid "You do not have privilege to vote for suggestions!"
 msgstr "您沒有投票支持建議的權利！"
 
-#: weblate/trans/views/edit.py:483
+#: weblate/trans/views/edit.py:485
 msgid "Invalid suggestion!"
 msgstr "無效的翻譯建議！"
 
-#: weblate/trans/views/edit.py:545
+#: weblate/trans/views/edit.py:547
 msgid "Invalid search string!"
 msgstr "無效的搜尋字串！"
 
-#: weblate/trans/views/edit.py:665 weblate/trans/views/search.py:86
+#: weblate/trans/views/edit.py:667 weblate/trans/views/search.py:86
 #: weblate/trans/views/search.py:236
 msgid "Failed to process form!"
 msgstr "處理表單失敗！"
 
-#: weblate/trans/views/edit.py:685
+#: weblate/trans/views/edit.py:687
 msgid "Automatic translation in progress"
 msgstr "正在自動翻譯"
 
-#: weblate/trans/views/edit.py:721
+#: weblate/trans/views/edit.py:723
 msgid "Source needs review"
 msgstr "來源需要檢閱"
 
-#: weblate/trans/views/edit.py:724
+#: weblate/trans/views/edit.py:726
 msgid "Posted new comment"
 msgstr "已發表新評註內容"
 
-#: weblate/trans/views/edit.py:726
+#: weblate/trans/views/edit.py:728
 msgid "Failed to add comment!"
 msgstr "評註內容加入失敗！"
 
-#: weblate/trans/views/edit.py:745
+#: weblate/trans/views/edit.py:747
 msgid "Translation comment has been deleted."
 msgstr "已刪除翻譯評註。"
 
-#: weblate/trans/views/edit.py:763
+#: weblate/trans/views/edit.py:765
 msgid "Translation comment has been resolved."
 msgstr "已解決翻譯評註。"
 
-#: weblate/trans/views/edit.py:915
+#: weblate/trans/views/edit.py:917
 msgid "This string seems to already exist."
 msgstr "這個字串似乎已經存在。"
 
-#: weblate/trans/views/edit.py:922
+#: weblate/trans/views/edit.py:924
 msgid "New string has been added."
 msgstr "已加入新的字串。"
 

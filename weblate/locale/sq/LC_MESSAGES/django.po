@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.5\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
-"POT-Creation-Date: 2021-02-13 20:05+0000\n"
+"POT-Creation-Date: 2021-02-14 19:30+0000\n"
 "PO-Revision-Date: 2021-02-14 17:21+0000\n"
 "Last-Translator: Besnik Bleta <besnik@programeshqip.org>\n"
 "Language-Team: Albanian <https://hosted.weblate.org/projects/weblate/"
@@ -1180,7 +1180,9 @@ msgid "Long lines wrapping"
 msgstr "Mbështjellje rreshtash të gjatë"
 
 #: weblate/addons/forms.py:112
-msgid "Wrap lines at 77 chars and at newlines"
+#, fuzzy
+#| msgid "Wrap lines at 77 chars and at newlines"
+msgid "Wrap lines at 77 characters and at newlines"
 msgstr "Mbështill rreshtat pas 77 shenjash dhe në rreshta të rinj"
 
 #: weblate/addons/forms.py:113
@@ -1192,9 +1194,13 @@ msgid "No line wrapping"
 msgstr "Pa mbështjellje rreshtash"
 
 #: weblate/addons/forms.py:119
+#, fuzzy
+#| msgid ""
+#| "By default gettext wraps lines at 77 chars and newlines. With --no-wrap "
+#| "parameter, it wraps only at newlines."
 msgid ""
-"By default gettext wraps lines at 77 chars and newlines. With --no-wrap "
-"parameter, it wraps only at newlines."
+"By default gettext wraps lines at 77 characters and at newlines. With the --"
+"no-wrap parameter, wrapping is only done at newlines."
 msgstr ""
 "Si parazgjedhje, gettext-i i mbështjell rreshtat kur mbërrihet në 77 shenja "
 "dhe në rreshta të rinj. Pa parametrin --no-wrap, bën mbështjellje vetëm në "
@@ -1237,10 +1243,15 @@ msgid "Append trailers to squashed commit message"
 msgstr ""
 
 #: weblate/addons/forms.py:159
+#, fuzzy
+#| msgid ""
+#| "Trailer lines are lines that look similar to RFC 822 e-mail headers, at "
+#| "the end of the otherwise free-form part of a commit message, such as 'Co-"
+#| "authored-by: ...'."
 msgid ""
 "Trailer lines are lines that look similar to RFC 822 e-mail headers, at the "
 "end of the otherwise free-form part of a commit message, such as 'Co-"
-"authored-by: ...'."
+"authored-by: …'."
 msgstr ""
 "Rreshtat mbyllës janë rreshta që duken të ngjashëm me krye RFC 822 email-"
 "esh, në fund të pjesës që ndryshe do të ishte në formë të lirë, te një "
@@ -5788,7 +5799,7 @@ msgstr "Licencë përkthimi"
 
 #: weblate/templates/component_info.html:56
 #: weblate/templates/contributor-agreement.html:9
-#: weblate/templates/snippets/libre-checklist.html:30
+#: weblate/templates/snippets/libre-checklist.html:32
 #: weblate/trans/models/component.py:457
 msgid "Contributor agreement"
 msgstr "Marrëveshje kontribuesi"
@@ -7848,7 +7859,7 @@ msgstr ""
 msgid "The project has had active development for at least three months."
 msgstr "Projekti ka qenë në zhvillim aktiv për të paktën tre muajt e fundit."
 
-#: weblate/templates/snippets/libre-checklist.html:17
+#: weblate/templates/snippets/libre-checklist.html:18
 msgid "Unmet guidelines from the community localization checklist:"
 msgstr "Udhëzime prej liste hapash përkthimi nga bashkësia të paplotësuar:"
 
@@ -8535,13 +8546,18 @@ msgstr ""
 "mungojnë varësi."
 
 #: weblate/templates/trans/alert/unusedenforcedcheck.html:4
-msgid "Following enforced checks are not enabled anywhere:"
+#, fuzzy
+#| msgid "Following enforced checks are not enabled anywhere:"
+msgid "Following enforced checks are not used anywhere:"
 msgstr "Kontrollet e detyruara vijuese nuk janë aktivizuar gjëkundi:"
 
 #: weblate/templates/trans/alert/unusedenforcedcheck.html:8
-#, python-format
+#, fuzzy, python-format
+#| msgid ""
+#| "%(check)s quality check is enforced, but not enabled using <code>"
+#| "%(flag)s</code>."
 msgid ""
-"%(check)s quality check is enforced, but not enabled using <code>%(flag)s</"
+"%(check)s quality check is enforced, but not turned on using <code>%(flag)s</"
 "code>."
 msgstr ""
 "Kontrolli i cilësisë %(check)s është i detyruar, por jo i aktivizuar duke "
@@ -8915,9 +8931,9 @@ msgstr ""
 msgid "Insufficient privileges for editing source strings."
 msgstr "Privilegje të pamjaftueshme për përpunim vargjesh burim."
 
-#: weblate/templates/translate.html:218 weblate/trans/views/edit.py:386
-#: weblate/trans/views/edit.py:406 weblate/trans/views/edit.py:424
-#: weblate/trans/views/edit.py:876
+#: weblate/templates/translate.html:218 weblate/trans/views/edit.py:388
+#: weblate/trans/views/edit.py:408 weblate/trans/views/edit.py:426
+#: weblate/trans/views/edit.py:878
 msgid "Insufficient privileges for saving translations."
 msgstr "Privilegje të pamjaftueshme për ruajtje përkthimesh."
 
@@ -9351,7 +9367,7 @@ msgstr "URL Figure"
 msgid "Open in full editor"
 msgstr "Hape në përpunuesin eplotë"
 
-#: weblate/templates/zen-units.html:113 weblate/trans/views/edit.py:535
+#: weblate/templates/zen-units.html:113 weblate/trans/views/edit.py:537
 msgid "The translation has come to an end."
 msgstr "Përkthimi mbërriti në fund."
 
@@ -10987,10 +11003,13 @@ msgstr ""
 "Kodi i gjuhës \"%s\" është shumë i gjatë, ju lutemi, kontrolloni filemask-ën."
 
 #: weblate/trans/models/component.py:2200
-#, python-format
+#, fuzzy, python-format
+#| msgid ""
+#| "There is more than one file for %s language, please adjust the filemask "
+#| "and use components for translating a different resources."
 msgid ""
 "There is more than one file for %s language, please adjust the filemask and "
-"use components for translating a different resources."
+"use components for translating different resources."
 msgstr ""
 "Ka më tepër se një kartelë për gjuhën %s, ju lutemi, përshtatni filemask-ën "
 "dhe përdorni përbërës për përkthimin e tjetër burimi."
@@ -11795,32 +11814,32 @@ msgstr ""
 msgid "Please set your full name and e-mail in your profile."
 msgstr "Ju lutemi, caktoni te profili juaj emrin tuaj të plotë dhe email-in."
 
-#: weblate/trans/views/edit.py:245 weblate/trans/views/edit.py:530
+#: weblate/trans/views/edit.py:247 weblate/trans/views/edit.py:532
 msgid "No string matched your search!"
 msgstr "Me kërkimin tuaj s’u përputh ndonjë varg!"
 
-#: weblate/trans/views/edit.py:269
+#: weblate/trans/views/edit.py:271
 msgid "Your suggestion is empty!"
 msgstr "Sugjerimi juaj është i zbrazët!"
 
-#: weblate/trans/views/edit.py:274
+#: weblate/trans/views/edit.py:276
 msgid "You don't have privileges to add suggestions!"
 msgstr "S’keni privilegje të shtoni sugjerime!"
 
-#: weblate/trans/views/edit.py:280
+#: weblate/trans/views/edit.py:282
 msgid "Your suggestion has been identified as spam!"
 msgstr "Sugjerimi juaj është identifikuar si mesazh i padëshiruar!"
 
-#: weblate/trans/views/edit.py:291
+#: weblate/trans/views/edit.py:293
 msgid "Your suggestion already exists!"
 msgstr "Sugjerimi juaj ekziston tashmë!"
 
-#: weblate/trans/views/edit.py:312
+#: weblate/trans/views/edit.py:314
 #, python-format
 msgid "Following fixups were applied to translation: %s"
 msgstr "Te përkthimi u aplikuan riparimet vijuese: %s"
 
-#: weblate/trans/views/edit.py:328
+#: weblate/trans/views/edit.py:330
 #, python-format
 msgid ""
 "Added %(language)s to your translated languages. You can adjust them in the "
@@ -11829,7 +11848,7 @@ msgstr ""
 "U shtua %(language)s te gjuhë që përktheni. Mund t’i ujdisni që nga "
 "rregullimet."
 
-#: weblate/trans/views/edit.py:338
+#: weblate/trans/views/edit.py:340
 #, python-format
 msgid ""
 "Added %(project)s to your watched projects. You can adjust them and this "
@@ -11838,79 +11857,79 @@ msgstr ""
 "Te projektet që vëzhgoni, u shtua %(project)s. Mund të ujdisni ata vetë dhe "
 "sjelljen për ta, që nga rregullimet."
 
-#: weblate/trans/views/edit.py:357
+#: weblate/trans/views/edit.py:359
 #, python-brace-format
 msgid ""
 "The translation has been saved, however there are some newly failing checks: "
 "{0}"
 msgstr "Përkthimi u ruajt, megjithatë ka disa dështime të reja kontrolli: {0}"
 
-#: weblate/trans/views/edit.py:400
+#: weblate/trans/views/edit.py:402
 msgid "Invalid merge request!"
 msgstr "Kërkesë e pavlefshme përzierjeje!"
 
-#: weblate/trans/views/edit.py:418
+#: weblate/trans/views/edit.py:420
 msgid "Invalid revert request!"
 msgstr "Kërkesë e pavlefshme prapësimi!"
 
-#: weblate/trans/views/edit.py:428
+#: weblate/trans/views/edit.py:430
 msgid "Can not revert to empty translation!"
 msgstr "S’mund të prapësohet përkthim i zbrazët!"
 
-#: weblate/trans/views/edit.py:447
+#: weblate/trans/views/edit.py:449
 msgid "You do not have privilege to accept suggestions!"
 msgstr "S’keni privilegje të pranoni sugjerime!"
 
-#: weblate/trans/views/edit.py:453
+#: weblate/trans/views/edit.py:455
 msgid "You do not have privilege to delete suggestions!"
 msgstr "S’keni privilegje të fshini sugjerime!"
 
-#: weblate/trans/views/edit.py:459
+#: weblate/trans/views/edit.py:461
 msgid "You do not have privilege to vote for suggestions!"
 msgstr "S’keni privilegje të votoni për sugjerime!"
 
-#: weblate/trans/views/edit.py:483
+#: weblate/trans/views/edit.py:485
 msgid "Invalid suggestion!"
 msgstr "Sugjerim: i pavlefshëm!"
 
-#: weblate/trans/views/edit.py:545
+#: weblate/trans/views/edit.py:547
 msgid "Invalid search string!"
 msgstr "Varg i pavlefshëm kërkimi!"
 
-#: weblate/trans/views/edit.py:665 weblate/trans/views/search.py:86
+#: weblate/trans/views/edit.py:667 weblate/trans/views/search.py:86
 #: weblate/trans/views/search.py:236
 msgid "Failed to process form!"
 msgstr "S’u arrit të përpunohej formular!"
 
-#: weblate/trans/views/edit.py:685
+#: weblate/trans/views/edit.py:687
 msgid "Automatic translation in progress"
 msgstr "Përkthim i automatizuar në kryerje e sipër"
 
-#: weblate/trans/views/edit.py:721
+#: weblate/trans/views/edit.py:723
 msgid "Source needs review"
 msgstr "Burimi lyp shqyrtim"
 
-#: weblate/trans/views/edit.py:724
+#: weblate/trans/views/edit.py:726
 msgid "Posted new comment"
 msgstr "U postua koment i ri"
 
-#: weblate/trans/views/edit.py:726
+#: weblate/trans/views/edit.py:728
 msgid "Failed to add comment!"
 msgstr "S’u arrit të shtohej koment!"
 
-#: weblate/trans/views/edit.py:745
+#: weblate/trans/views/edit.py:747
 msgid "Translation comment has been deleted."
 msgstr "Komenti i përkthimit u fshi."
 
-#: weblate/trans/views/edit.py:763
+#: weblate/trans/views/edit.py:765
 msgid "Translation comment has been resolved."
 msgstr "Komenti i përkthimit u zgjidh."
 
-#: weblate/trans/views/edit.py:915
+#: weblate/trans/views/edit.py:917
 msgid "This string seems to already exist."
 msgstr "Duket se ekziston tashmë ky varg."
 
-#: weblate/trans/views/edit.py:922
+#: weblate/trans/views/edit.py:924
 msgid "New string has been added."
 msgstr "U shtua varg i ri."
 

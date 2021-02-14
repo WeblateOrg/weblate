@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.5\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
-"POT-Creation-Date: 2021-02-13 20:05+0000\n"
+"POT-Creation-Date: 2021-02-14 19:30+0000\n"
 "PO-Revision-Date: 2021-02-04 23:47+0000\n"
 "Last-Translator: Anonymous <noreply@weblate.org>\n"
 "Language-Team: Belarusian <https://hosted.weblate.org/projects/weblate/"
@@ -1196,7 +1196,9 @@ msgid "Long lines wrapping"
 msgstr "Перанос доўгіх радкоў"
 
 #: weblate/addons/forms.py:112
-msgid "Wrap lines at 77 chars and at newlines"
+#, fuzzy
+#| msgid "Wrap lines at 77 chars and at newlines"
+msgid "Wrap lines at 77 characters and at newlines"
 msgstr "Пераносіць радкі пасля 77 сімвала ці сімвала новага радка"
 
 #: weblate/addons/forms.py:113
@@ -1208,9 +1210,13 @@ msgid "No line wrapping"
 msgstr "Не пераносіць радкі"
 
 #: weblate/addons/forms.py:119
+#, fuzzy
+#| msgid ""
+#| "By default gettext wraps lines at 77 chars and newlines. With --no-wrap "
+#| "parameter, it wraps only at newlines."
 msgid ""
-"By default gettext wraps lines at 77 chars and newlines. With --no-wrap "
-"parameter, it wraps only at newlines."
+"By default gettext wraps lines at 77 characters and at newlines. With the --"
+"no-wrap parameter, wrapping is only done at newlines."
 msgstr ""
 "Прадвызначана gettext пераносіць радкі пасля 77 сімвалаў ці сімвала новага "
 "радка, а з параметрам --no-wrap ён пераносіць пасля сімвала новага радка."
@@ -1252,10 +1258,15 @@ msgid "Append trailers to squashed commit message"
 msgstr "Дадаваць завяршальнікі ў аб’яднанае паведамленне ўнёску"
 
 #: weblate/addons/forms.py:159
+#, fuzzy
+#| msgid ""
+#| "Trailer lines are lines that look similar to RFC 822 e-mail headers, at "
+#| "the end of the otherwise free-form part of a commit message, such as 'Co-"
+#| "authored-by: ...'."
 msgid ""
 "Trailer lines are lines that look similar to RFC 822 e-mail headers, at the "
 "end of the otherwise free-form part of a commit message, such as 'Co-"
-"authored-by: ...'."
+"authored-by: …'."
 msgstr ""
 "Радкі завяршальнікаў - радкі, падобныя на загалоўкі электроннай пошты RFC "
 "822, якія дадаюцца ў канец паведамлення ўнёску пасля яго часткі ў свабоднай "
@@ -5872,7 +5883,7 @@ msgstr "Ліцэнзія перакладу"
 
 #: weblate/templates/component_info.html:56
 #: weblate/templates/contributor-agreement.html:9
-#: weblate/templates/snippets/libre-checklist.html:30
+#: weblate/templates/snippets/libre-checklist.html:32
 #: weblate/trans/models/component.py:457
 msgid "Contributor agreement"
 msgstr "Пагадненне ўдзельніка"
@@ -7984,7 +7995,7 @@ msgstr ""
 msgid "The project has had active development for at least three months."
 msgstr "Праект актыўна развіваецца прынамсі 3 месяцы."
 
-#: weblate/templates/snippets/libre-checklist.html:17
+#: weblate/templates/snippets/libre-checklist.html:18
 msgid "Unmet guidelines from the community localization checklist:"
 msgstr "Нявыкананыя рэкамендацыі з кантрольнага спіса лакалізацыі супольнасці:"
 
@@ -8688,13 +8699,13 @@ msgstr ""
 #: weblate/templates/trans/alert/unusedenforcedcheck.html:4
 #, fuzzy
 #| msgid "Failing checks found"
-msgid "Following enforced checks are not enabled anywhere:"
+msgid "Following enforced checks are not used anywhere:"
 msgstr "Знойдзены няпройдзеныя праверкі"
 
 #: weblate/templates/trans/alert/unusedenforcedcheck.html:8
 #, python-format
 msgid ""
-"%(check)s quality check is enforced, but not enabled using <code>%(flag)s</"
+"%(check)s quality check is enforced, but not turned on using <code>%(flag)s</"
 "code>."
 msgstr ""
 
@@ -9078,9 +9089,9 @@ msgstr ""
 msgid "Insufficient privileges for editing source strings."
 msgstr "Недастаткова правоў для рэдагавання зыходных радкоў."
 
-#: weblate/templates/translate.html:218 weblate/trans/views/edit.py:386
-#: weblate/trans/views/edit.py:406 weblate/trans/views/edit.py:424
-#: weblate/trans/views/edit.py:876
+#: weblate/templates/translate.html:218 weblate/trans/views/edit.py:388
+#: weblate/trans/views/edit.py:408 weblate/trans/views/edit.py:426
+#: weblate/trans/views/edit.py:878
 msgid "Insufficient privileges for saving translations."
 msgstr "Недастакова правоў для захавання перакладаў."
 
@@ -9530,7 +9541,7 @@ msgstr "URL выявы"
 msgid "Open in full editor"
 msgstr "Адкрыць у поўным рэдактары"
 
-#: weblate/templates/zen-units.html:113 weblate/trans/views/edit.py:535
+#: weblate/templates/zen-units.html:113 weblate/trans/views/edit.py:537
 msgid "The translation has come to an end."
 msgstr "Пераклад завершаны."
 
@@ -11195,7 +11206,7 @@ msgstr "Код мовы «%s» занадта доўгі. Калі ласка, �
 #| "filemask and use components for translating different resources."
 msgid ""
 "There is more than one file for %s language, please adjust the filemask and "
-"use components for translating a different resources."
+"use components for translating different resources."
 msgstr ""
 "Знойдзена некалькі файлаў для адной мовы (%s). Калі ласка, наладзьце "
 "файлавую маску і выкарыстоўвайце кампаненты для перакладу розных файлаў."
@@ -12028,120 +12039,120 @@ msgid "Please set your full name and e-mail in your profile."
 msgstr ""
 "Калі ласка, ўвядзіце ў прфілі сваё поўнае імя і адрас электроннай пошты."
 
-#: weblate/trans/views/edit.py:245 weblate/trans/views/edit.py:530
+#: weblate/trans/views/edit.py:247 weblate/trans/views/edit.py:532
 msgid "No string matched your search!"
 msgstr "Ніводнага радка не знойдзена!"
 
-#: weblate/trans/views/edit.py:269
+#: weblate/trans/views/edit.py:271
 msgid "Your suggestion is empty!"
 msgstr "Прапанова пустая!"
 
-#: weblate/trans/views/edit.py:274
+#: weblate/trans/views/edit.py:276
 msgid "You don't have privileges to add suggestions!"
 msgstr "У вас няма правоў на даданне прапаноў!"
 
-#: weblate/trans/views/edit.py:280
+#: weblate/trans/views/edit.py:282
 msgid "Your suggestion has been identified as spam!"
 msgstr "Вашая прапанова адзначаная як спам!"
 
-#: weblate/trans/views/edit.py:291
+#: weblate/trans/views/edit.py:293
 msgid "Your suggestion already exists!"
 msgstr "Вашая прапанова ўжо існуе!"
 
-#: weblate/trans/views/edit.py:312
+#: weblate/trans/views/edit.py:314
 #, python-format
 msgid "Following fixups were applied to translation: %s"
 msgstr "Да перакладу ўжытыя наступныя выпраўленні: %s"
 
-#: weblate/trans/views/edit.py:328
+#: weblate/trans/views/edit.py:330
 #, python-format
 msgid ""
 "Added %(language)s to your translated languages. You can adjust them in the "
 "settings."
 msgstr ""
 
-#: weblate/trans/views/edit.py:338
+#: weblate/trans/views/edit.py:340
 #, python-format
 msgid ""
 "Added %(project)s to your watched projects. You can adjust them and this "
 "behavior in the settings."
 msgstr ""
 
-#: weblate/trans/views/edit.py:357
+#: weblate/trans/views/edit.py:359
 #, python-brace-format
 msgid ""
 "The translation has been saved, however there are some newly failing checks: "
 "{0}"
 msgstr "Пераклад захаваны, але ёсць новыя няпройдзеныя праверкі: {0}"
 
-#: weblate/trans/views/edit.py:400
+#: weblate/trans/views/edit.py:402
 msgid "Invalid merge request!"
 msgstr "Хібны запыт на аб’яднанне!"
 
-#: weblate/trans/views/edit.py:418
+#: weblate/trans/views/edit.py:420
 msgid "Invalid revert request!"
 msgstr "Хібны запыт на скасаванне!"
 
-#: weblate/trans/views/edit.py:428
+#: weblate/trans/views/edit.py:430
 msgid "Can not revert to empty translation!"
 msgstr "Немагчыма адрабіць да пустога перакладу!"
 
-#: weblate/trans/views/edit.py:447
+#: weblate/trans/views/edit.py:449
 msgid "You do not have privilege to accept suggestions!"
 msgstr "У вас няма правоў на ўхваленне прапаноў!"
 
-#: weblate/trans/views/edit.py:453
+#: weblate/trans/views/edit.py:455
 msgid "You do not have privilege to delete suggestions!"
 msgstr "У вас няма правоў на выдаленне прапаноў!"
 
-#: weblate/trans/views/edit.py:459
+#: weblate/trans/views/edit.py:461
 msgid "You do not have privilege to vote for suggestions!"
 msgstr "У вас няма правоў на галасаванне за прапановы!"
 
-#: weblate/trans/views/edit.py:483
+#: weblate/trans/views/edit.py:485
 msgid "Invalid suggestion!"
 msgstr "Хібная прапанова!"
 
-#: weblate/trans/views/edit.py:545
+#: weblate/trans/views/edit.py:547
 msgid "Invalid search string!"
 msgstr "Хібны радок пошуку!"
 
-#: weblate/trans/views/edit.py:665 weblate/trans/views/search.py:86
+#: weblate/trans/views/edit.py:667 weblate/trans/views/search.py:86
 #: weblate/trans/views/search.py:236
 msgid "Failed to process form!"
 msgstr "Не атрымалася апрацаваць форму!"
 
-#: weblate/trans/views/edit.py:685
+#: weblate/trans/views/edit.py:687
 msgid "Automatic translation in progress"
 msgstr "Аўтаматычны пераклад падчас выканання"
 
-#: weblate/trans/views/edit.py:721
+#: weblate/trans/views/edit.py:723
 msgid "Source needs review"
 msgstr "Патрэбна пераглядзець зыходны радок"
 
-#: weblate/trans/views/edit.py:724
+#: weblate/trans/views/edit.py:726
 msgid "Posted new comment"
 msgstr "Апублікаваны новы каментар"
 
-#: weblate/trans/views/edit.py:726
+#: weblate/trans/views/edit.py:728
 msgid "Failed to add comment!"
 msgstr "Не атрымалася дадаць каментар!"
 
-#: weblate/trans/views/edit.py:745
+#: weblate/trans/views/edit.py:747
 msgid "Translation comment has been deleted."
 msgstr "Каментар да перакладу выдалены."
 
-#: weblate/trans/views/edit.py:763
+#: weblate/trans/views/edit.py:765
 msgid "Translation comment has been resolved."
 msgstr "Праблема з каментара да перакладу была вырашаная."
 
-#: weblate/trans/views/edit.py:915
+#: weblate/trans/views/edit.py:917
 #, fuzzy
 #| msgid "Translation with this key seem to already exist!"
 msgid "This string seems to already exist."
 msgstr "Пераклад з такім ключом ўжо існуе!"
 
-#: weblate/trans/views/edit.py:922
+#: weblate/trans/views/edit.py:924
 msgid "New string has been added."
 msgstr "Новы радок дададзены."
 
