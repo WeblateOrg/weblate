@@ -37,8 +37,8 @@ msgstr ""
 "Project-Id-Version: Weblate 4.5\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-02-13 20:05+0000\n"
-"PO-Revision-Date: 2021-02-14 06:30+0000\n"
-"Last-Translator: Nikita Epifanov <nikgreens@protonmail.com>\n"
+"PO-Revision-Date: 2021-02-14 08:21+0000\n"
+"Last-Translator: Golubev Alexander <fatzer2@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/"
 "application/ru/>\n"
 "Language: ru\n"
@@ -1101,7 +1101,7 @@ msgstr ""
 
 #: weblate/addons/discovery.py:33
 msgid "Component discovery"
-msgstr "Обнаружение компонента"
+msgstr "Обнаружение компонентов"
 
 #: weblate/addons/discovery.py:35
 msgid ""
@@ -1179,7 +1179,7 @@ msgstr "Массовая правка"
 
 #: weblate/addons/flags.py:108
 msgid "Bulk edit flags, labels or state for strings."
-msgstr "Позволяет массово править флаги, метки или состояния для строк."
+msgstr "Позволяет массово править флаги, метки или состояния строк."
 
 #: weblate/addons/forms.py:53
 msgid "Path of generated MO file"
@@ -1207,7 +1207,7 @@ msgstr "Переносить строки после 77-го символа и �
 
 #: weblate/addons/forms.py:113
 msgid "Only wrap lines at newlines"
-msgstr "Переносить строки только у символов перевода строки"
+msgstr "Переносить строки только на символах перевода строки"
 
 #: weblate/addons/forms.py:114 weblate/addons/forms.py:202
 msgid "No line wrapping"
@@ -1218,8 +1218,9 @@ msgid ""
 "By default gettext wraps lines at 77 chars and newlines. With --no-wrap "
 "parameter, it wraps only at newlines."
 msgstr ""
-"По умолчанию gettext переносит строки на 77-м символе и в конце строки, с "
-"параметром --no-wrap, они переносятся только в конце строки."
+"По умолчанию gettext переносит строки на 77-м символе и на символе переноса "
+"строки; с параметром --no-wrap, они будут переносятся только на символе "
+"переноса строки."
 
 #: weblate/addons/forms.py:127
 msgid "Keep previous msgids of translated strings"
@@ -1235,7 +1236,7 @@ msgstr "Использовать нечеткое соответствие"
 
 #: weblate/addons/forms.py:143
 msgid "Commit squashing"
-msgstr "Склейка коммитов"
+msgstr "Уплотнение коммитов"
 
 #: weblate/addons/forms.py:146
 msgid "All commits into one"
@@ -1255,7 +1256,7 @@ msgstr "По автору"
 
 #: weblate/addons/forms.py:155
 msgid "Append trailers to squashed commit message"
-msgstr "Добавлять завершители в конец сообщения склеенного коммита"
+msgstr "Добавлять завершители в конец сообщения уплотнённого коммита"
 
 #: weblate/addons/forms.py:159
 msgid ""
@@ -1273,7 +1274,7 @@ msgid ""
 "from the squashed commits."
 msgstr ""
 "Это сообщение коммита будет использоваться вместо сообщения, собранного из "
-"склеенных коммитов."
+"уплотнённых коммитов."
 
 #: weblate/addons/forms.py:185
 msgid "Sort JSON keys"
@@ -1541,11 +1542,11 @@ msgstr ""
 
 #: weblate/addons/git.py:34
 msgid "Squash Git commits"
-msgstr "Склеивание Git-коммитов"
+msgstr "Уплотнение Git-коммитов"
 
 #: weblate/addons/git.py:35
 msgid "Squash Git commits prior to pushing changes."
-msgstr "Склеивает (squash) Git-коммиты перед отправкой изменений."
+msgstr "Уплотняет (squash) Git-коммиты перед отправкой изменений."
 
 #: weblate/addons/json.py:29
 msgid "Customize JSON output"
@@ -4900,8 +4901,8 @@ msgstr "URL-плашка проекта"
 msgid ""
 "Weblate commits from components within this repository will be squashed."
 msgstr ""
-"Несколько коммитов Weblate из компонентов внутри этого репозитория будут "
-"склеены в один."
+"Коммиты, производимые Weblate для компонентов внутри этого репозитория, "
+"будут уплотнятся."
 
 #: weblate/templates/addons/squash_help.html:7
 msgid ""
