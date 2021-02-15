@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-02-14 20:38+0100\n"
-"PO-Revision-Date: 2021-02-14 09:12+0000\n"
+"PO-Revision-Date: 2021-02-15 08:16+0000\n"
 "Last-Translator: Eric <spice2wolf@gmail.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "weblate/documentation/zh_Hans/>\n"
@@ -1280,10 +1280,8 @@ msgstr ""
 
 #: ../../admin/addons.rst:195 ../../admin/addons.rst:208
 #: ../../admin/addons.rst:221
-#, fuzzy
-#| msgid ":ref:`subtitles`"
 msgid ":ref:`states`"
-msgstr ":ref:`subtitles`"
+msgstr ":ref:`states`"
 
 #: ../../admin/addons.rst:200
 msgid "Flag new source strings as \"Needs editing\""
@@ -1429,16 +1427,10 @@ msgid "No line wrapping"
 msgstr "不换行"
 
 #: ../../admin/addons.rst:314
-#, fuzzy
-#| msgid ""
-#| "By default gettext wraps lines at 77 chars and newlines. With --no-wrap "
-#| "parameter, it wraps only at newlines."
 msgid ""
 "By default gettext wraps lines at 77 characters and at newlines. With the "
 "``--no-wrap`` parameter, wrapping is only done at newlines."
-msgstr ""
-"默认情况下 gettext 会在每行第 77 个字符处与换行符处换行。但添加 --no-wrap 参"
-"数后，它仅会在换行符处换行。"
+msgstr "默认情况下 gettext 会在每行第 77 个字符处与换行符处换行。添加 ``--no-wrap`` 参数后，换行只会在换行符处发生。"
 
 #: ../../admin/addons.rst:321
 msgid "Update LINGUAS file"
@@ -1635,18 +1627,13 @@ msgid "Writing addon"
 msgstr "编写附加组件"
 
 #: ../../admin/addons.rst:463
-#, fuzzy
-#| msgid ""
-#| "You can write your own addons too, use the subclass :class:`weblate."
-#| "addons.base.BaseAddon` to define the addon metadata, and then implement a "
-#| "callback to do the processing."
 msgid ""
 "You can write your own addons too, create a subclass of :class:`weblate."
 "addons.base.BaseAddon` to define the addon metadata, and then implement a "
 "callback to do the processing."
 msgstr ""
-"你也可以编写自己的附加组件，使用子类 :class:`weblate.addons.base.BaseAddon`来"
-"定义附加组件元数据，接着实施回调来进行处理。"
+"你也可以编写自己的附加组件，创建子类 :class:`weblate.addons.base."
+"BaseAddon`来定义附加组件元数据，接着实施回调来进行处理。"
 
 #: ../../admin/addons.rst:469
 msgid ":doc:`../contributing/addons`"
@@ -2696,35 +2683,23 @@ msgid "Local filesystem"
 msgstr "本地文件系统"
 
 #: ../../admin/backup.rst:81
-#, fuzzy
-#| msgid ""
-#| "It is recommended to specify the absolute path for the local backup, for "
-#| "example `/path/to/backup`. The directory has to be writable by the user "
-#| "running Weblate (see :ref:`file-permissions`). In case it doesn't exist, "
-#| "Weblate will attempt to create it, but needs a permission to do so."
 msgid ""
 "It is recommended to specify the absolute path for the local backup, for "
 "example `/path/to/backup`. The directory has to be writable by the user "
 "running Weblate (see :ref:`file-permissions`). If it doesn't exist, Weblate "
 "attempts to create it, but needs the appropriate permissions to do so."
 msgstr ""
-"推荐去指定本地备份的绝对路径，例如 `/path/to/backup`。该目录必须可由运行 "
-"weblate 的用户写入（请参见 :ref:`file-permissions`）。在目录不存在的情况下，"
-"Weblate 会尝试新建它，但需要权限才能这么做。"
+"推荐去指定本地备份的绝对路径，例如 `/path/to/backup`。该目录必须可由运行 weblate 的用户写入（请参见 :ref:`file-"
+"permissions`）。在目录不存在的情况下，Weblate 会尝试新建它，但需要适当的权限才能这么做。"
 
 #: ../../admin/backup.rst:88
-#, fuzzy
-#| msgid ""
-#| "When running Weblate in Docker, please ensure the backup location is "
-#| "exposed as a volume from the Weblate container. Otherwise the backups "
-#| "will be discarded by Docker on the container restart."
 msgid ""
 "When running Weblate in Docker, please ensure the backup location is exposed "
 "as a volume from the Weblate container. Otherwise the backups will be "
 "discarded by Docker upon restarting the container it is in."
 msgstr ""
-"在 Docker 中运行 Weblate时，请确保备份位置暴露为来自 Weblate 容器的一个卷。否"
-"则，备份文件将在容器重启时被 Docker 丢弃。"
+"在 Docker 中运行 Weblate时，请确保备份位置暴露为来自 Weblate 容器的一个卷。否则，备份文件将在其所在的容器重启时被 Docker "
+"丢弃。"
 
 #: ../../admin/backup.rst:92
 msgid ""
@@ -2765,10 +2740,8 @@ msgid ":ref:`cloudbackup` provides you automated remote backups."
 msgstr ":ref:`cloudbackup` 为你提供自动远程备份。"
 
 #: ../../admin/backup.rst:123
-#, fuzzy
-#| msgid ":ref:`webex`"
 msgid ":ref:`weblate-ssh-key`"
-msgstr ":ref:`webex`"
+msgstr ":ref:`weblate-ssh-key`"
 
 #: ../../admin/backup.rst:126
 msgid "Restoring from BorgBackup"
@@ -2850,36 +2823,24 @@ msgid "The actual storage location depends on your database setup."
 msgstr "实际存储位置依赖于数据库的设置。"
 
 #: ../../admin/backup.rst:182
-#, fuzzy
-#| msgid ""
-#| "The database is the most important storage. Set up regular backups of "
-#| "your database. Without database, all the translations are gone."
 msgid ""
 "The database is the most important storage. Set up regular backups of your "
 "database. Without the database, all the translations are gone."
-msgstr ""
-"数据库是最重要的存储。定期对数据库进行备份。没有数据库，所有的翻译都会消失。"
+msgstr "数据库是最重要的存储。定期对数据库进行备份。没有数据库，所有的翻译都会消失。"
 
 #: ../../admin/backup.rst:186
 msgid "Native database backup"
 msgstr "本地数据库备份"
 
 #: ../../admin/backup.rst:188
-#, fuzzy
-#| msgid ""
-#| "The recommended approach is to do save a dump of the database using "
-#| "database native tools such as :program:`pg_dump` or :program:`mysqldump`. "
-#| "It usually performs better than Django backup, and it restores complete "
-#| "tables with all their data."
 msgid ""
 "The recommended approach is to save a dump of the database using database-"
 "native tools such as :program:`pg_dump` or :program:`mysqldump`. It usually "
 "performs better than Django backup, and it restores complete tables with all "
 "their data."
 msgstr ""
-"推荐的方式是使用数据库的本地工具如 :program:`pg_dump` 或 :program:"
-"`mysqldump` 来保存数据库的转储。这通常比 Django 备份表现得好，并且可以连同数"
-"据一道，恢复完整表格。"
+"推荐的方式是使用数据库的本地工具如 :program:`pg_dump` 或 :program:`mysqldump` 来保存数据库的转储。这通常比 "
+"Django 备份表现得好，并且可以连同数据一道，恢复完整表格。"
 
 #: ../../admin/backup.rst:192
 msgid ""
@@ -26691,17 +26652,13 @@ msgstr ""
 "maintenance` 中）或使用 :ref:`wlc` 从命令行来实现。"
 
 #: ../../devel/integration.rst:30
-#, fuzzy
-#| msgid ""
-#| "This can be automated if you grant Weblate push access to your repository "
-#| "and configure :ref:`component-push` in the :ref:`component`."
 msgid ""
 "This can be automated if you grant Weblate push access to your repository "
 "and configure :ref:`component-push` in the :ref:`component`, see :ref:`push-"
 "changes`."
 msgstr ""
-"如果向 Weblate 授予了对您的仓库的推送访问，并配置 :ref:`component` 中的 :ref:"
-"`component-push`，这会是自动的。"
+"如果你向 Weblate 授予了对仓库的推送访问，并配置了 :ref:`component` 中的 :ref:`component-"
+"push`，此操作可以自动进行。见 :ref:`push-changes`。"
 
 #: ../../devel/integration.rst:33
 msgid ""
@@ -26710,10 +26667,8 @@ msgid ""
 msgstr "或者，您可以使用 doc:`/api` 来更新翻译以匹配最新版本。"
 
 #: ../../devel/integration.rst:38
-#, fuzzy
-#| msgid ":ref:`continuous-translation`, :ref:`avoid-merge-conflicts`"
 msgid ":ref:`continuous-translation`, :ref:`push-changes`, :ref:`vcs-repos`"
-msgstr ":ref:`continuous-translation`, :ref:`avoid-merge-conflicts`"
+msgstr ":ref:`continuous-translation`, :ref:`push-changes`, :ref:`vcs-repos`"
 
 #: ../../devel/integration.rst:43
 msgid "Fetching remote changes into Weblate"
@@ -26748,10 +26703,8 @@ msgstr ""
 "译，从而与您的码基匹配。"
 
 #: ../../devel/integration.rst:57
-#, fuzzy
-#| msgid ":ref:`continuous-translation`, :ref:`avoid-merge-conflicts`"
 msgid ":ref:`continuous-translation`, :ref:`vcs-repos`"
-msgstr ":ref:`continuous-translation`, :ref:`avoid-merge-conflicts`"
+msgstr ":ref:`continuous-translation`, :ref:`vcs-repos`"
 
 #: ../../devel/integration.rst:63
 msgid "Adding new strings"
@@ -34637,21 +34590,14 @@ msgid "Needs editing"
 msgstr "需要编辑"
 
 #: ../../workflows.rst:34
-#, fuzzy
-#| msgid ""
-#| "Translation needs editing, this is usually the result of a source string "
-#| "change. The translation is stored in the file, depending on the file "
-#| "format it might be marked as needing edit (for example as it gets a "
-#| "``fuzzy`` flag in the Gettext file)."
 msgid ""
 "Translation needs editing, this is usually the result of a source string "
 "change, fuzzy matching or translator action. The translation is stored in "
 "the file, depending on the file format it might be marked as needing edit "
 "(for example as it gets a ``fuzzy`` flag in the Gettext file)."
 msgstr ""
-"翻译需要编辑，这通常是源字符串更改的结果。翻译存储在文件中，具体取决于文件格"
-"式，它可能被标志为需要编辑（例如，当它在 Gettext 文件中获得一个 ``fuzzy`` 标"
-"记）。"
+"翻译需要编辑，这通常是源字符串更改、模糊匹配或译员操作的结果。翻译存储在文件中，具体取决于文件格式，它可能被标志为需要编辑（例如，当它在 Gettext "
+"文件中获得一个 ``fuzzy`` 标记）。"
 
 #: ../../workflows.rst:38
 msgid "Waiting for review"
@@ -34681,10 +34627,8 @@ msgid "Suggestions are stored in Weblate only and not in the translation file."
 msgstr "建议仅存储在 Weblate 中，而不存储在翻译文件中。"
 
 #: ../../workflows.rst:47
-#, fuzzy
-#| msgid "Parse errors in the translation files"
 msgid "The states are represented in the translation files when possible."
-msgstr "解析翻译文件中的错误"
+msgstr "状态在可能的情况下会呈现在翻译文件中。"
 
 #: ../../workflows.rst:51
 msgid ""
@@ -34694,10 +34638,8 @@ msgid ""
 msgstr ""
 
 #: ../../workflows.rst:57
-#, fuzzy
-#| msgid ":ref:`faq-vcs`, :ref:`alerts`"
 msgid ":ref:`fmt_capabs`, :ref:`workflows`"
-msgstr ":ref:`faq-vcs`, :ref:`alerts`"
+msgstr ":ref:`fmt_capabs`, :ref:`workflows`"
 
 #: ../../workflows.rst:62
 msgid "Direct translation"
