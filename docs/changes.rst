@@ -6,9 +6,9 @@ Not yet released.
 * Added support for ``lua-format`` used in gettext PO.
 * Added support for sharing a component between projects.
 * Fixed multiple unnamed variables check behavior with multiple format flags.
-* Dropped mailing list field on project in favor of generic instructions for translators.
+* Dropped mailing list field on the project in favor of generic instructions for translators.
 * Added pseudolocale generation addon.
-* Added support for Term Base eXchange files.
+* Added support for TermBase eXchange files.
 * Added support for manually defining string variants using a flag.
 * Improved performance of consistency checks.
 * Improved performance of translation memory for long strings.
@@ -16,16 +16,16 @@ Not yet released.
 * Strings can now be added and removed in bilingual formats as well.
 * Extend list of supported languages in Amazon Translate machine translation.
 * Automatically enable Java MessageFormat checks for Java Properties.
-* Added new upload method to add new strings to a translation.
-* Added simple interface to browse translation.
+* Added a new upload method to add new strings to a translation.
+* Added a simple interface to browse translation.
 * Glossaries are now stored as regular components.
-* Dropped glossaries API.
+* Dropped specific API for glossaries as component API is used now.
 * Added simplified interface to toggle some of the flags.
-* Added support for non-translatable or forbidden terms in glossary.
+* Added support for non-translatable or forbidden terms in the glossary.
 * Added support for defining terminology in a glossary.
-* Moved text direction toggle to get more space for visual keyboard.
-* Added option to automatically watch projects user contributed to.
-* Added check whether translation matches glossary.
+* Moved text direction toggle to get more space for the visual keyboard.
+* Added option to automatically watch projects user-contributed to.
+* Added check whether translation matches the glossary.
 * Added support for customizing navigation text color.
 
 Weblate 4.4.2
