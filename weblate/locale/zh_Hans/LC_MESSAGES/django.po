@@ -32,8 +32,8 @@ msgstr ""
 "Project-Id-Version: Weblate 4.5\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-02-14 19:37+0000\n"
-"PO-Revision-Date: 2021-02-14 06:30+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2021-02-15 08:16+0000\n"
+"Last-Translator: Eric <spice2wolf@gmail.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "weblate/application/zh_Hans/>\n"
 "Language: zh_Hans\n"
@@ -1139,16 +1139,10 @@ msgid "No line wrapping"
 msgstr "不换行"
 
 #: weblate/addons/forms.py:119
-#, fuzzy
-#| msgid ""
-#| "By default gettext wraps lines at 77 chars and newlines. With --no-wrap "
-#| "parameter, it wraps only at newlines."
 msgid ""
 "By default gettext wraps lines at 77 characters and at newlines. With the --"
 "no-wrap parameter, wrapping is only done at newlines."
-msgstr ""
-"默认情况下 gettext 会在每行第 77 个字符处与换行符处换行。但添加 --no-wrap 参"
-"数后，它仅会在换行符处换行。"
+msgstr "默认情况下 gettext 会在每行第 77 个字符处与换行符处换行。添加 --no-wrap 参数后，换行只在换行符处发生。"
 
 #: weblate/addons/forms.py:127
 msgid "Keep previous msgids of translated strings"
@@ -1187,18 +1181,11 @@ msgid "Append trailers to squashed commit message"
 msgstr "为压缩提交增加额外信息"
 
 #: weblate/addons/forms.py:159
-#, fuzzy
-#| msgid ""
-#| "Trailer lines are lines that look similar to RFC 822 e-mail headers, at "
-#| "the end of the otherwise free-form part of a commit message, such as 'Co-"
-#| "authored-by: ...'."
 msgid ""
 "Trailer lines are lines that look similar to RFC 822 e-mail headers, at the "
 "end of the otherwise free-form part of a commit message, such as 'Co-"
 "authored-by: …'."
-msgstr ""
-"额外信息是看起来类似于 RFC 822 电子邮件标头，位于提交消息的其他自由格式部分的"
-"末尾，例如 “Co-authored-by:...”。"
+msgstr "额外信息是看起来类似于 RFC 822 电子邮件标头，位于提交消息的其他自由格式部分的末尾，例如 “Co-authored-by…'.。"
 
 #: weblate/addons/forms.py:168
 msgid ""
@@ -8135,21 +8122,15 @@ msgid ""
 msgstr "在关闭对这些功能的支持或缺少依赖项时，可能会发生这种情况。"
 
 #: weblate/templates/trans/alert/unusedenforcedcheck.html:4
-#, fuzzy
-#| msgid "Following enforced checks are not enabled anywhere:"
 msgid "Following enforced checks are not used anywhere:"
-msgstr "以下强制检查未在任何地方启用："
+msgstr "以下强制检查未在任何地方使用："
 
 #: weblate/templates/trans/alert/unusedenforcedcheck.html:8
-#, fuzzy, python-format
-#| msgid ""
-#| "%(check)s quality check is enforced, but not enabled using <code>"
-#| "%(flag)s</code>."
+#, python-format
 msgid ""
 "%(check)s quality check is enforced, but not turned on using <code>%(flag)s</"
 "code>."
-msgstr ""
-"%(check)s 质量检查是强制的，但未启用，方式是通过<code>%(flag)s</code>。"
+msgstr "%(check)s 质量检查是强制的，但未开启，开启方式是通过 <code>%(flag)s</code>。"
 
 #: weblate/templates/trans/alert/unusedscreenshot.html:2
 msgid "There is at least one screenshot which is not assigned to any strings."
@@ -10458,10 +10439,7 @@ msgid "The language code \"%s\" is too long, please check the filemask."
 msgstr "\"%s\" 语言代码过长，请检查文件掩码。"
 
 #: weblate/trans/models/component.py:2200
-#, fuzzy, python-format
-#| msgid ""
-#| "There is more than one file for %s language, please adjust the filemask "
-#| "and use components for translating a different resources."
+#, python-format
 msgid ""
 "There is more than one file for %s language, please adjust the filemask and "
 "use components for translating different resources."
