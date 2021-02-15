@@ -214,6 +214,24 @@ class TranslationFormatTestCase(FixtureTestCase):
             """,
         )
 
+    def test_glossary_escape(self):
+        self.assertHTMLEqual(
+            format_translation(
+                "Hello world",
+                self.component.source_language,
+                glossary=[
+                    Unit(
+                        source="hello", target='<b>ahoj"', translation=self.translation
+                    )
+                ],
+            )["items"][0]["content"],
+            """
+            <span class="glossary-term"
+                title="Glossary translation: &lt;b&gt;ahoj&quot;">Hello</span>
+            world
+            """,
+        )
+
     @unittest.expectedFailure
     def test_glossary_multi(self):
         self.assertHTMLEqual(

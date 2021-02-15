@@ -190,7 +190,7 @@ def fmt_glossary(value, terms):
         for match in reversed(
             list(re.finditer(r"\b{}\b".format(re.escape(htext)), value, re.IGNORECASE))
         ):
-            newpart = GLOSSARY_TEMPLATE.format(escape(format_terms(entries)), match[0])
+            newpart = GLOSSARY_TEMPLATE.format(format_terms(entries), match[0])
             value = value[: match.start()] + newpart + value[match.end() :]
 
     return value
