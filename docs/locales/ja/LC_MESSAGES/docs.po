@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-02-14 20:38+0100\n"
-"PO-Revision-Date: 2021-02-14 17:21+0000\n"
-"Last-Translator: 日陰のコスモス <baffclan@yahoo.co.jp>\n"
+"PO-Revision-Date: 2021-02-15 08:16+0000\n"
+"Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "documentation/ja/>\n"
 "Language: ja\n"
@@ -1359,10 +1359,8 @@ msgstr ""
 
 #: ../../admin/addons.rst:195 ../../admin/addons.rst:208
 #: ../../admin/addons.rst:221
-#, fuzzy
-#| msgid ":ref:`static-files`"
 msgid ":ref:`states`"
-msgstr ":ref:`static-files`"
+msgstr ":ref:`states`"
 
 #: ../../admin/addons.rst:200
 msgid "Flag new source strings as \"Needs editing\""
@@ -1501,27 +1499,22 @@ msgstr "使用できるオプション:"
 
 #: ../../admin/addons.rst:308
 msgid "Wrap lines at 77 characters and at newlines"
-msgstr "77 文字または改行文字で折り返し"
+msgstr "77 文字または改行で行を折り返す"
 
 #: ../../admin/addons.rst:309
 msgid "Only wrap lines at newlines"
-msgstr "改行文字でのみ折り返し"
+msgstr "改行でのみ行を折り返す"
 
 #: ../../admin/addons.rst:310
 msgid "No line wrapping"
-msgstr "折り返ししない"
+msgstr "行を折り返さない"
 
 #: ../../admin/addons.rst:314
-#, fuzzy
-#| msgid ""
-#| "By default gettext wraps lines at 77 chars and newlines. With --no-wrap "
-#| "parameter, it wraps only at newlines."
 msgid ""
 "By default gettext wraps lines at 77 characters and at newlines. With the "
 "``--no-wrap`` parameter, wrapping is only done at newlines."
 msgstr ""
-"デフォルトでは、gettext は 77 文字を超えた場合や改行文字がある場合に改行しま"
-"す。--no-wrap パラメータを指定すると、改行文字でのみ改行します。"
+"デフォルトでは、gettext は 77 文字または改行で行を折り返します。``--no-wrap`` パラメータを指定すると、改行でのみ折り返されます。"
 
 #: ../../admin/addons.rst:321
 msgid "Update LINGUAS file"
@@ -1729,19 +1722,13 @@ msgid "Writing addon"
 msgstr "アドオンの作成"
 
 #: ../../admin/addons.rst:463
-#, fuzzy
-#| msgid ""
-#| "You can write your own addons too, use the subclass :class:`weblate."
-#| "addons.base.BaseAddon` to define the addon metadata, and then implement a "
-#| "callback to do the processing."
 msgid ""
 "You can write your own addons too, create a subclass of :class:`weblate."
 "addons.base.BaseAddon` to define the addon metadata, and then implement a "
 "callback to do the processing."
 msgstr ""
-"独自のアドオンも作成できますが、サブクラス :class:`weblate.addons.base."
-"BaseAddon` を使用してアドオンのメタデータを定義し、処理を行うコールバックを実"
-"装します。"
+"独自のアドオンも作成できます。サブクラス :class:`weblate.addons.base.BaseAddon` "
+"を作成してアドオンのメタデータを定義し、処理を行うコールバックを実装します。"
 
 #: ../../admin/addons.rst:469
 msgid ":doc:`../contributing/addons`"
@@ -2885,10 +2872,8 @@ msgid ":ref:`cloudbackup` provides you automated remote backups."
 msgstr ""
 
 #: ../../admin/backup.rst:123
-#, fuzzy
-#| msgid ":ref:`funding-weblate`"
 msgid ":ref:`weblate-ssh-key`"
-msgstr ":ref:`funding-weblate`"
+msgstr ":ref:`weblate-ssh-key`"
 
 #: ../../admin/backup.rst:126
 msgid "Restoring from BorgBackup"
@@ -26252,10 +26237,8 @@ msgid ""
 msgstr ""
 
 #: ../../devel/integration.rst:38
-#, fuzzy
-#| msgid ":ref:`continuous-translation`, :ref:`avoid-merge-conflicts`"
 msgid ":ref:`continuous-translation`, :ref:`push-changes`, :ref:`vcs-repos`"
-msgstr ":ref:`continuous-translation`、:ref:`avoid-merge-conflicts`"
+msgstr ":ref:`continuous-translation`、:ref:`push-changes`、:ref:`vcs-repos`"
 
 #: ../../devel/integration.rst:43
 msgid "Fetching remote changes into Weblate"
@@ -26283,10 +26266,8 @@ msgid ""
 msgstr ""
 
 #: ../../devel/integration.rst:57
-#, fuzzy
-#| msgid ":ref:`continuous-translation`, :ref:`avoid-merge-conflicts`"
 msgid ":ref:`continuous-translation`, :ref:`vcs-repos`"
-msgstr ":ref:`continuous-translation`、:ref:`avoid-merge-conflicts`"
+msgstr ":ref:`continuous-translation`、:ref:`vcs-repos`"
 
 #: ../../devel/integration.rst:63
 msgid "Adding new strings"
@@ -34612,21 +34593,14 @@ msgid "Needs editing"
 msgstr "要編集"
 
 #: ../../workflows.rst:34
-#, fuzzy
-#| msgid ""
-#| "Translation needs editing, this is usually the result of a source string "
-#| "change. The translation is stored in the file, depending on the file "
-#| "format it might be marked as needing edit (for example as it gets a "
-#| "``fuzzy`` flag in the Gettext file)."
 msgid ""
 "Translation needs editing, this is usually the result of a source string "
 "change, fuzzy matching or translator action. The translation is stored in "
 "the file, depending on the file format it might be marked as needing edit "
 "(for example as it gets a ``fuzzy`` flag in the Gettext file)."
 msgstr ""
-"編集が必要な翻訳です。通常、原文が変更されたときに設定されます。翻訳はファイ"
-"ルに保存されますが、ファイル形式によっては、編集が必要と設定されます（例: "
-"Gettext ファイルでは ``fuzzy`` （あいまい）フラグがつく）。"
+"編集が必要な翻訳です。通常、原文の変更、あいまい一致、または翻訳者の操作があった場合に設定されます。翻訳はファイルに保存されますが、ファイル形式によっては"
+"、編集が必要と設定されます（例: Gettext ファイルでは ``fuzzy`` （あいまい）フラグがつく）。"
 
 #: ../../workflows.rst:38
 msgid "Waiting for review"
@@ -34657,10 +34631,8 @@ msgid "Suggestions are stored in Weblate only and not in the translation file."
 msgstr "提案は Weblate にのみ保存され、翻訳ファイルには保存されません。"
 
 #: ../../workflows.rst:47
-#, fuzzy
-#| msgid "These are the choices presented when uploading translation files:"
 msgid "The states are represented in the translation files when possible."
-msgstr "翻訳ファイルをアップロードするときに表示される選択項目:"
+msgstr "可能な限り、翻訳ファイルに状態を表示します。"
 
 #: ../../workflows.rst:51
 msgid ""
@@ -34670,10 +34642,8 @@ msgid ""
 msgstr ""
 
 #: ../../workflows.rst:57
-#, fuzzy
-#| msgid ":ref:`privileges`, :ref:`workflows`"
 msgid ":ref:`fmt_capabs`, :ref:`workflows`"
-msgstr ":ref:`privileges`、:ref:`workflows`"
+msgstr ":ref:`fmt_capabs`、:ref:`workflows`"
 
 #: ../../workflows.rst:62
 msgid "Direct translation"
