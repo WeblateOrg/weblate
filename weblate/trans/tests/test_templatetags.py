@@ -19,7 +19,6 @@
 """Testing of template tags."""
 
 import datetime
-import unittest
 
 from django.test import SimpleTestCase, TestCase
 from django.utils import timezone
@@ -247,7 +246,6 @@ class TranslationFormatTestCase(FixtureTestCase):
             """,
         )
 
-    @unittest.expectedFailure
     def test_glossary_multi(self):
         self.assertHTMLEqual(
             format_translation(
@@ -295,7 +293,6 @@ class TranslationFormatTestCase(FixtureTestCase):
             """Hello <span class="hlmatch">world</span>""",
         )
 
-    @unittest.expectedFailure
     def test_whitespace(self):
         self.assertHTMLEqual(
             format_translation(" Hello world", self.component.source_language,)[
