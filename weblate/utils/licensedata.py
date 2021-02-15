@@ -797,6 +797,12 @@ LICENSES = (
         False,
     ),
     (
+        "DRL-1.0",
+        "Detection Rule License 1.0",
+        "https://github.com/Neo23x0/sigma/blob/master/LICENSE.Detection.Rules.md",
+        False,
+    ),
+    (
         "D-FSL-1.0",
         "Deutsche Freie Software Lizenz",
         "http://www.dipp.nrw.de/d-fsl/lizenzen/",
