@@ -22,6 +22,7 @@ from collections import defaultdict
 from datetime import date
 from uuid import uuid4
 
+from diff_match_patch import diff_match_patch
 from django import template
 from django.contrib.humanize.templatetags.humanize import intcomma
 from django.template.loader import render_to_string
@@ -46,7 +47,6 @@ from weblate.trans.models import (
     Translation,
 )
 from weblate.trans.models.translation import GhostTranslation
-from weblate.trans.simplediff import html_diff
 from weblate.trans.util import get_state_css, split_plural
 from weblate.utils.docs import get_doc_url
 from weblate.utils.hash import hash_to_checksum
@@ -96,6 +96,23 @@ SOURCE_LINK = """
 <a href="{0}" target="_blank" rel="noopener noreferrer"
     class="wrap-text" dir="ltr">{1}</a>
 """
+
+
+def html_diff(old, new):
+    """Generate HTML formatted diff of two strings."""
+    dmp = diff_match_patch()
+    diff = dmp.diff_main(old, new)
+    dmp.diff_cleanupSemantic(diff)
+
+    result = []
+    for op, data in diff:
+        if op == dmp.DIFF_DELETE:
+            result.append("<del>{}</del>".format(escape(data)))
+        elif op == dmp.DIFF_INSERT:
+            result.append("<ins>{}</ins>".format(escape(data)))
+        elif op == dmp.DIFF_EQUAL:
+            result.append(escape(data))
+    return "".join(result)
 
 
 def replace_whitespace(match):
