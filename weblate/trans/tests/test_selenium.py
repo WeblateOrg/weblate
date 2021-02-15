@@ -113,10 +113,6 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         options = Options()
         # Run headless
         options.headless = True
-        # Seems to help in some corner cases, see
-        # https://stackoverflow.com/a/50642913/225718
-        options.add_argument("--no-sandbox")
-        options.add_argument("--disable-dev-shm-usage")
 
         # Force Chrome in English
         options.add_argument("--lang=en")
