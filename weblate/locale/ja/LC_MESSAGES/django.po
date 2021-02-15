@@ -24,8 +24,8 @@ msgstr ""
 "Project-Id-Version: Weblate 4.5\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-02-14 19:37+0000\n"
-"PO-Revision-Date: 2021-02-14 17:21+0000\n"
-"Last-Translator: amano <amano.hajime@gmail.com>\n"
+"PO-Revision-Date: 2021-02-15 01:45+0000\n"
+"Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "application/ja/>\n"
 "Language: ja\n"
@@ -1163,23 +1163,18 @@ msgstr "77 文字または改行文字で改行する"
 
 #: weblate/addons/forms.py:113
 msgid "Only wrap lines at newlines"
-msgstr "改行文字でのみ折り返し"
+msgstr "改行でのみ行を折り返す"
 
 #: weblate/addons/forms.py:114 weblate/addons/forms.py:202
 msgid "No line wrapping"
-msgstr "折り返ししない"
+msgstr "折り返さない"
 
 #: weblate/addons/forms.py:119
-#, fuzzy
-#| msgid ""
-#| "By default gettext wraps lines at 77 chars and newlines. With --no-wrap "
-#| "parameter, it wraps only at newlines."
 msgid ""
 "By default gettext wraps lines at 77 characters and at newlines. With the --"
 "no-wrap parameter, wrapping is only done at newlines."
 msgstr ""
-"デフォルトでは、gettext は 77 文字を超えた場合や改行文字がある場合に改行しま"
-"す。--no-wrap パラメータを指定すると、改行文字でのみ改行します。"
+"デフォルトでは、gettext は 77 文字目または改行により、行を折り返します。--no-wrap パラメータを指定すると、改行でのみ折り返されます。"
 
 #: weblate/addons/forms.py:127
 msgid "Keep previous msgids of translated strings"
@@ -1218,18 +1213,13 @@ msgid "Append trailers to squashed commit message"
 msgstr "簡略化したコミット メッセージに翻訳者情報を追加する"
 
 #: weblate/addons/forms.py:159
-#, fuzzy
-#| msgid ""
-#| "Trailer lines are lines that look similar to RFC 822 e-mail headers, at "
-#| "the end of the otherwise free-form part of a commit message, such as 'Co-"
-#| "authored-by: ...'."
 msgid ""
 "Trailer lines are lines that look similar to RFC 822 e-mail headers, at the "
 "end of the otherwise free-form part of a commit message, such as 'Co-"
 "authored-by: …'."
 msgstr ""
-"トレーラ行とは、RFC 822 のメール ヘッダに似た \"Co-authored-by: ...\" のよう"
-"な行のことで、コミットメッセージの自由形式部分の末尾につきます。"
+"トレーラ行とは、RFC 822 のメール ヘッダに似た \"Co-authored-by: …\" "
+"のような行のことで、コミットメッセージの自由形式部分の末尾につきます。"
 
 #: weblate/addons/forms.py:168
 msgid ""
@@ -8413,22 +8403,15 @@ msgstr ""
 "生することがあります。"
 
 #: weblate/templates/trans/alert/unusedenforcedcheck.html:4
-#, fuzzy
-#| msgid "Following enforced checks are not enabled anywhere:"
 msgid "Following enforced checks are not used anywhere:"
-msgstr "どこに対しても有効とならない強制する検査項目:"
+msgstr "どこにも使用されていない強制した検査項目:"
 
 #: weblate/templates/trans/alert/unusedenforcedcheck.html:8
-#, fuzzy, python-format
-#| msgid ""
-#| "%(check)s quality check is enforced, but not enabled using <code>"
-#| "%(flag)s</code>."
+#, python-format
 msgid ""
 "%(check)s quality check is enforced, but not turned on using <code>%(flag)s</"
 "code>."
-msgstr ""
-"%(check)s の品質検査は強制されますが、<code>%(flag)s</code> を使用して有効に"
-"することはできません。"
+msgstr "%(check)s の品質検査を強制しますが、<code>%(flag)s</code> を使用して有効にしていません。"
 
 #: weblate/templates/trans/alert/unusedscreenshot.html:2
 msgid "There is at least one screenshot which is not assigned to any strings."
@@ -9330,7 +9313,7 @@ msgstr "検査不合格の翻訳"
 
 #: weblate/trans/filter.py:57
 msgid "Translated strings with dismissed checks"
-msgstr "検査除外の翻訳文"
+msgstr "検査除外した翻訳文"
 
 #: weblate/trans/filter.py:60 weblate/trans/filter.py:130
 msgid "Approved strings"
@@ -10823,16 +10806,11 @@ msgid "The language code \"%s\" is too long, please check the filemask."
 msgstr "言語コード \"%s\" は長すぎます。ファイルマスクを確認してください。"
 
 #: weblate/trans/models/component.py:2200
-#, fuzzy, python-format
-#| msgid ""
-#| "There is more than one file for %s language, please adjust the filemask "
-#| "and use components for translating a different resources."
+#, python-format
 msgid ""
 "There is more than one file for %s language, please adjust the filemask and "
 "use components for translating different resources."
-msgstr ""
-"%s 言語用のファイルが複数あります。ファイルマスクを変更し、別のリソースを翻訳"
-"するためのコンポーネントを使用してください。"
+msgstr "%s 言語のファイルが複数あります。ファイルマスクを修正し、別のリソースを翻訳するためのコンポーネントを使用してください。"
 
 #: weblate/trans/models/component.py:2214
 msgid "Could not find any matching language, please check the filemask."
