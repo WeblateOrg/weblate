@@ -34,8 +34,6 @@ class FlagBase(BaseAddon):
 
     @classmethod
     def can_install(cls, component, user):
-        if not component.has_template():
-            return False
         # Following formats support fuzzy flag, so avoid messing up with them
         if component.file_format in {"ts", "po", "po-mono"}:
             return False
