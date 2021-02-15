@@ -21,7 +21,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.5\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-02-14 19:37+0000\n"
-"PO-Revision-Date: 2021-02-14 08:21+0000\n"
+"PO-Revision-Date: 2021-02-15 08:16+0000\n"
 "Last-Translator: Burak Yavuz <hitowerdigit@hotmail.com>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/weblate/"
 "application/tr/>\n"
@@ -1183,16 +1183,13 @@ msgid "No line wrapping"
 msgstr "Satır kaydırma yok"
 
 #: weblate/addons/forms.py:119
-#, fuzzy
-#| msgid ""
-#| "By default gettext wraps lines at 77 chars and newlines. With --no-wrap "
-#| "parameter, it wraps only at newlines."
 msgid ""
 "By default gettext wraps lines at 77 characters and at newlines. With the --"
 "no-wrap parameter, wrapping is only done at newlines."
 msgstr ""
 "Varsayılan olarak gettext satırları 77 karakterde ve yeni satırlarda "
-"kaydırır, --no-wrap parametresi ile yalnızca yeni satırlarda kaydırır."
+"kaydırır, --no-wrap parametresi ile kaydırma yalnızca yeni satırlarda "
+"yapılır."
 
 #: weblate/addons/forms.py:127
 msgid "Keep previous msgids of translated strings"
@@ -1231,17 +1228,12 @@ msgid "Append trailers to squashed commit message"
 msgstr "Sıkıştırılmış işleme iletisi sonuna artbilgileri ekle"
 
 #: weblate/addons/forms.py:159
-#, fuzzy
-#| msgid ""
-#| "Trailer lines are lines that look similar to RFC 822 e-mail headers, at "
-#| "the end of the otherwise free-form part of a commit message, such as 'Co-"
-#| "authored-by: ...'."
 msgid ""
 "Trailer lines are lines that look similar to RFC 822 e-mail headers, at the "
 "end of the otherwise free-form part of a commit message, such as 'Co-"
 "authored-by: …'."
 msgstr ""
-"'Ortak yazan: ...' gibi bir işleme iletisinin başka bir serbest biçim "
+"'Ortak yazan: …' gibi bir işleme iletisinin başka bir serbest biçim "
 "parçasının sonunda, artbilgi satırları RFC 822 e-posta üstbilgilerine "
 "benzeyen satırlardır."
 
@@ -8477,22 +8469,17 @@ msgstr ""
 "olduğunda gerçekleşebilir."
 
 #: weblate/templates/trans/alert/unusedenforcedcheck.html:4
-#, fuzzy
-#| msgid "Following enforced checks are not enabled anywhere:"
 msgid "Following enforced checks are not used anywhere:"
-msgstr "Aşağıdaki zorunlu denetimler hiçbir yerde etkinleştirilmez:"
+msgstr "Aşağıdaki zorunlu denetimler hiçbir yerde kullanılmaz:"
 
 #: weblate/templates/trans/alert/unusedenforcedcheck.html:8
-#, fuzzy, python-format
-#| msgid ""
-#| "%(check)s quality check is enforced, but not enabled using <code>"
-#| "%(flag)s</code>."
+#, python-format
 msgid ""
 "%(check)s quality check is enforced, but not turned on using <code>%(flag)s</"
 "code>."
 msgstr ""
 "%(check)s kalite denetimi zorunlu kılındı, ancak <code> %(flag)s </code> "
-"kullanılarak etkinleştirilmedi."
+"kullanılarak açılmadı."
 
 #: weblate/templates/trans/alert/unusedscreenshot.html:2
 msgid "There is at least one screenshot which is not assigned to any strings."
@@ -10925,10 +10912,7 @@ msgid "The language code \"%s\" is too long, please check the filemask."
 msgstr "Dil kodu \"%s\" çok uzun, lütfen dosya maskesini gözden geçirin."
 
 #: weblate/trans/models/component.py:2200
-#, fuzzy, python-format
-#| msgid ""
-#| "There is more than one file for %s language, please adjust the filemask "
-#| "and use components for translating a different resources."
+#, python-format
 msgid ""
 "There is more than one file for %s language, please adjust the filemask and "
 "use components for translating different resources."
