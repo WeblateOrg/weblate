@@ -1,7 +1,7 @@
 Weblate 4.5
 -----------
 
-Not yet released.
+Released on February 16th 2021.
 
 * Added support for ``lua-format`` used in gettext PO.
 * Added support for sharing a component between projects.
