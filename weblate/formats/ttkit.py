@@ -1173,6 +1173,7 @@ class GWTFormat(StringsFormat):
     format_id = "gwt"
     loader = ("properties", "gwtfile")
     new_translation = "\n"
+    check_flags = ("auto-java-messageformat",)
 
 
 class PhpFormat(TTKitFormat):
