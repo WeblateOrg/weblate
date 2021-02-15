@@ -449,7 +449,8 @@ GWT properties are usually used as monolingual translations.
 
 .. seealso::
 
-    `GWT localization guide <http://www.gwtproject.org/doc/latest/DevGuideI18n.html>`_
+    `GWT localization guide <http://www.gwtproject.org/doc/latest/DevGuideI18n.html>`_,
+    `GWT Internationalization Tutorial <http://www.gwtproject.org/doc/latest/tutorial/i18n.html>`_,
     :doc:`tt:formats/properties`,
     :ref:`addon-weblate.properties.sort`,
     :ref:`addon-weblate.cleanup.generic`
