@@ -28,7 +28,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.5\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-02-15 13:10+0000\n"
-"PO-Revision-Date: 2021-02-15 13:04+0000\n"
+"PO-Revision-Date: 2021-02-15 21:54+0000\n"
 "Last-Translator: Ldm Public <ldmpub@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/weblate/"
 "application/fr/>\n"
@@ -1145,9 +1145,9 @@ msgid ""
 "strings written by the developers."
 msgstr ""
 "Quand une nouvelle chaîne source est importée du système de contrôle de "
-"versions, elle est marquée dans Weblate comme devant être modifiée. Vous "
-"pouvez ainsi filtrer et modifier facilement les chaînes sources rédigées par "
-"les développeurs."
+"versions, elle est marquée dans Weblate comme « À vérifier ». Vous pouvez "
+"ainsi filtrer et modifier facilement les chaînes sources rédigées par les "
+"développeurs."
 
 #: weblate/addons/flags.py:66
 msgid "Flag new translations as \"Needs editing\""
@@ -1160,7 +1160,7 @@ msgid ""
 "translations created by the developers."
 msgstr ""
 "Lorsqu’une nouvelle chaîne à traduire est importée dans Weblate depuis le "
-"système de contrôle de versions, elle est marquée comme À vérifier. Vous "
+"système de contrôle de versions, elle est marquée comme « À vérifier ». Vous "
 "pouvez ainsi filtrer et modifier facilement les traductions créées par les "
 "développeurs."
 
@@ -1188,8 +1188,6 @@ msgid "Bulk edit"
 msgstr "Modification en masse"
 
 #: weblate/addons/flags.py:106
-#, fuzzy
-#| msgid "Bulk edit flags, labels or state for strings."
 msgid "Bulk edit flags, labels, or states of strings."
 msgstr ""
 "Modifier en masse les drapeaux, les libellés ou les statuts des chaînes."
@@ -1273,15 +1271,14 @@ msgid "Append trailers to squashed commit message"
 msgstr "Ajout de champs d’en-têtes aux messages d’écrasement des archivages"
 
 #: weblate/addons/forms.py:159
-#, fuzzy
 msgid ""
 "Trailer lines are lines that look similar to RFC 822 e-mail headers, at the "
 "end of the otherwise free-form part of a commit message, such as 'Co-"
 "authored-by: …'."
 msgstr ""
-"Les champs d’en-tête sont des lignes ressemblant aux en-têtes de courriel "
-"définies par la RFC 822, ajoutées à la fin du champ de message libre "
-"d’archivage, tel que « Co-authored-by : … »."
+"Les lignes de fin sont des lignes, semblables aux en-têtes RFC 822 d'un "
+"courriel, ajoutées en bas du message d’archivage. Exemple : « Co-authored-by "
+": … »."
 
 #: weblate/addons/forms.py:168
 msgid ""
@@ -2651,17 +2648,17 @@ msgstr "Drapeau de traduction « %s » incorrect"
 #: weblate/checks/flags.py:253
 #, python-format
 msgid "Translation flag has no parameters: \"%s\""
-msgstr "La marque de traduction n’a pas de paramètre : « %s »"
+msgstr "Le drapeau de traduction n’a pas de paramètre : « %s »"
 
 #: weblate/checks/flags.py:259
 #, python-format
 msgid "Wrong parameters for translation flag: \"%s\""
-msgstr "Paramètres erronés pour la marque de traduction : « %s »"
+msgstr "Paramètres erronés pour le drapeau de traduction : « %s »"
 
 #: weblate/checks/flags.py:263
 #, python-format
 msgid "Missing parameters for translation flag: \"%s\""
-msgstr "Paramètres manquants pour la marque de traduction : « %s »"
+msgstr "Paramètres manquants pour le drapeau de traduction : « %s »"
 
 #: weblate/checks/format.py:342 weblate/checks/placeholders.py:93
 #, python-format
@@ -10119,11 +10116,11 @@ msgstr "Ne pas modifier"
 
 #: weblate/trans/forms.py:2053
 msgid "Translation flags to add"
-msgstr "Marques de traduction à ajouter"
+msgstr "Drapeaux de traduction à ajouter"
 
 #: weblate/trans/forms.py:2054
 msgid "Translation flags to remove"
-msgstr "Marques de traduction à supprimer"
+msgstr "Drapeaux de traduction à supprimer"
 
 #: weblate/trans/forms.py:2057
 msgid "Labels to add"
@@ -10859,14 +10856,14 @@ msgstr ""
 
 #: weblate/trans/models/component.py:432 weblate/trans/models/unit.py:297
 msgid "Translation flags"
-msgstr "Marques de traduction"
+msgstr "Drapeaux de traduction"
 
 #: weblate/trans/models/component.py:435 weblate/trans/models/unit.py:300
 msgid ""
 "Additional comma-separated flags to influence quality checks. Possible "
 "values can be found in the documentation."
 msgstr ""
-"Options supplémentaires, séparées par des virgules, pour paramétrer les "
+"Drapeaux supplémentaires, séparés par des virgules, pour paramétrer les "
 "vérifications de qualité. Les valeurs possibles sont précisées dans la "
 "documentation."
 
@@ -10911,18 +10908,14 @@ msgid "Manage strings"
 msgstr "Gérer les chaînes"
 
 #: weblate/trans/models/component.py:489
-#, fuzzy
-#| msgid ""
-#| "Disable adding and removing strings in Weblate in case these are "
-#| "automatically extracted from the source code or managed externally."
 msgid ""
 "Enables adding and removing strings straight from Weblate. If your strings "
 "are extracted from the source code or managed externally you probably want "
 "to keep it disabled."
 msgstr ""
-"Désactivez l'ajout et la suppression de chaînes dans Weblate au cas où "
-"celles-ci seraient automatiquement extraites du code source ou gérées en "
-"externe."
+"Autorise l'ajout et la suppression de chaînes dans Weblate. Si les chaînes "
+"sont extraites du code source ou gérées en externe, il est préférable de ne "
+"pas activer cette option."
 
 #: weblate/trans/models/component.py:497
 msgid "Merge style"
