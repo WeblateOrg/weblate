@@ -34,7 +34,7 @@ class AppStoreFormatTest(AutoFormatTest):
     EXT = "txt"
     COUNT = 1
     MASK = "market/*"
-    EXPECTED_PATH = "market/cs_CZ"
+    EXPECTED_PATH = "market/cs-CZ"
     FIND = "Hello world"
     FIND_CONTEXT = "short_description.txt:1"
     FIND_MATCH = "Hello world"
