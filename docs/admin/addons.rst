@@ -144,7 +144,7 @@ Bulk edit
 
 .. versionadded:: 3.11
 
-Bulk edit flags, labels or state for strings.
+Bulk edit flags, labels or state of strings.
 
 Automate labeling by starting out with the search query ``NOT has:label``
 and add labels till all strings have all required labels.
@@ -171,7 +171,9 @@ Other automated operations for Weblate metadata can also be done.
 
 .. seealso::
 
-   :ref:`bulk-edit`
+   :ref:`bulk-edit`,
+   :ref:`custom-checks`,
+   :ref:`labels`
 
 
 .. _addon-weblate.flags.same_edit:
@@ -187,7 +189,7 @@ for file formats that include source strings for untranslated strings.
 
 .. hint::
 
-   You might also want to tighthen the :ref::`check-same` check by adding
+   You might also want to tighthen the :ref:`check-same` check by adding
    ``strict-same`` flag to :ref:`component-check_flags`.
 
 .. seealso::

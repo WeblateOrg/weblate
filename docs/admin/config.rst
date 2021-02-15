@@ -419,7 +419,8 @@ DEFAULT_AUTO_WATCH
 
 .. versionadded:: 4.5
 
-Configures whether automatic watching should be turned on for new users. Defaults to ``True``.
+Configures whether :guilabel:`Automatically watch projects on contribution`
+should be turned on for new users. Defaults to ``True``.
 
 .. seealso::
 

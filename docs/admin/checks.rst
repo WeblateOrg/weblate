@@ -23,8 +23,8 @@ in the :setting:`AUTOFIX_LIST`, see :ref:`custom-check-modules`.
 
 .. _custom-checks:
 
-Customizing behavior
---------------------
+Customizing behavior using flags
+--------------------------------
 
 You can fine-tune the behavior of Weblate (mostly checks) for each source
 string (in source strings review, see :ref:`additional`) or in the

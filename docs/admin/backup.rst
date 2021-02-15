@@ -81,7 +81,7 @@ Local filesystem
 It is recommended to specify the absolute path for the local backup, for example
 `/path/to/backup`. The directory has to be writable by the user running Weblate
 (see :ref:`file-permissions`). If it doesn't exist, Weblate attempts
-to create it, but needs the appropriate permissions to do so.
+to create it but needs the appropriate permissions to do so.
 
 .. hint::
 
