@@ -1,3 +1,4 @@
+# This file is maintained in https://github.com/WeblateOrg/meta/
 name: "CodeQL"
 
 on:
@@ -17,19 +18,9 @@ jobs:
   analyze:
     name: Analyze
     runs-on: ubuntu-20.04
-
-    strategy:
-      fail-fast: false
-      matrix:
-        # Override automatic language detection by changing the below list
-        # Supported options are ['csharp', 'cpp', 'go', 'java', 'javascript', 'python']
-        language: ["python", "javascript"]
-        # Learn more...
-        # https://docs.github.com/en/github/finding-security-vulnerabilities-and-errors-in-your-code/configuring-code-scanning#overriding-automatic-language-detection
-
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v2.3.4
 
       - name: Initialize CodeQL
         uses: github/codeql-action/init@v1
