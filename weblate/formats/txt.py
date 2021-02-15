@@ -183,6 +183,7 @@ class AppStoreFormat(TranslationFormat):
     monolingual = True
     unit_class = TextUnit
     simple_filename = False
+    language_format = "java"
 
     @classmethod
     def load(cls, storefile, template_store):
