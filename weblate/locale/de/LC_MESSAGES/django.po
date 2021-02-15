@@ -34,7 +34,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.5\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-02-15 13:10+0000\n"
-"PO-Revision-Date: 2021-02-14 19:29+0000\n"
+"PO-Revision-Date: 2021-02-15 21:54+0000\n"
 "Last-Translator: nautilusx <translate@disroot.org>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "application/de/>\n"
@@ -1206,11 +1206,9 @@ msgid "Bulk edit"
 msgstr "Massenbearbeitung"
 
 #: weblate/addons/flags.py:106
-#, fuzzy
-#| msgid "Bulk edit flags, labels or state for strings."
 msgid "Bulk edit flags, labels, or states of strings."
 msgstr ""
-"Massenbearbeitung von Markierungen, Labels oder den Status von Zeichenketten."
+"Massenbearbeitung von Markierungen, Labels oder den Zeichenkettenstatus."
 
 #: weblate/addons/forms.py:53
 msgid "Path of generated MO file"
@@ -1233,10 +1231,8 @@ msgid "Long lines wrapping"
 msgstr "Umbruch langer Zeilen"
 
 #: weblate/addons/forms.py:112
-#, fuzzy
-#| msgid "Wrap lines at 77 chars and at newlines"
 msgid "Wrap lines at 77 characters and at newlines"
-msgstr "Zeilenumbruch nach 77 Zeichen und nach Newlines"
+msgstr "Zeilenumbruch nach 77 Zeichen und bei Zeilenumbrüchen"
 
 #: weblate/addons/forms.py:113
 msgid "Only wrap lines at newlines"
@@ -1247,16 +1243,13 @@ msgid "No line wrapping"
 msgstr "Umbruch langer Zeilen"
 
 #: weblate/addons/forms.py:119
-#, fuzzy
-#| msgid ""
-#| "By default gettext wraps lines at 77 chars and newlines. With --no-wrap "
-#| "parameter, it wraps only at newlines."
 msgid ""
 "By default gettext wraps lines at 77 characters and at newlines. With the --"
 "no-wrap parameter, wrapping is only done at newlines."
 msgstr ""
-"Standardmäßig umfasst gettext Zeilen mit 77 Zeichen und Zeilenumbrüche. Mit "
-"dem Parameter --no-wrap wird nur an Zeilenumbrüchen umgebrochen."
+"Standardmäßig bricht gettext Zeilen mit 77 Zeichen und bei Zeilenumbrüchen "
+"um. Mit dem Parameter --no-wrap wird der Umbruch nur bei Zeilenumbrüchen "
+"durchgeführt."
 
 #: weblate/addons/forms.py:127
 msgid "Keep previous msgids of translated strings"
@@ -1295,18 +1288,13 @@ msgid "Append trailers to squashed commit message"
 msgstr "Fügen Sie der zusammengeführten Commit-Nachricht Endzeilen hinzu"
 
 #: weblate/addons/forms.py:159
-#, fuzzy
-#| msgid ""
-#| "Trailer lines are lines that look similar to RFC 822 e-mail headers, at "
-#| "the end of the otherwise free-form part of a commit message, such as 'Co-"
-#| "authored-by: ...'."
 msgid ""
 "Trailer lines are lines that look similar to RFC 822 e-mail headers, at the "
 "end of the otherwise free-form part of a commit message, such as 'Co-"
 "authored-by: …'."
 msgstr ""
 "Die Endzeilen ähneln RFC 822-E-Mail-Headern, am Ende eines ansonsten freien "
-"Teils der Commit-Nachricht, z. B. \"Mitverfasst von: ...\"."
+"Teils der Commit-Nachricht, z. B. 'Mitverfasst von: …'."
 
 #: weblate/addons/forms.py:168
 msgid ""
@@ -7907,8 +7895,8 @@ msgstr ""
 msgid ""
 "The maximal string length is determined from the source string or flags."
 msgstr ""
-"Die maximale Länge der Zeichenkette wird aus dem Ausgangszeichenkette oder "
-"den Flags ermittelt."
+"Die maximale Länge der Zeichenkette wird aus der Ausgangszeichenkette oder "
+"der Markierung ermittelt."
 
 #: weblate/templates/snippets/editor.html:14
 msgid "Source string length"
@@ -8715,22 +8703,17 @@ msgstr ""
 "deaktiviert wurde oder wenn Abhängigkeiten fehlen."
 
 #: weblate/templates/trans/alert/unusedenforcedcheck.html:4
-#, fuzzy
-#| msgid "Following enforced checks are not enabled anywhere:"
 msgid "Following enforced checks are not used anywhere:"
-msgstr "Folgende erzwungene Qualitätsprüfungen sind nirgends aktiviert:"
+msgstr "Folgende erzwungene Qualitätsprüfungen werden nirgends verwendet:"
 
 #: weblate/templates/trans/alert/unusedenforcedcheck.html:8
-#, fuzzy, python-format
-#| msgid ""
-#| "%(check)s quality check is enforced, but not enabled using <code>"
-#| "%(flag)s</code>."
+#, python-format
 msgid ""
 "%(check)s quality check is enforced, but not turned on using <code>%(flag)s</"
 "code>."
 msgstr ""
-"%(check)s Qualitätsprüfung wird erzwungen, aber nicht aktiviert mit <code>"
-"%(flag)s</code>."
+"%(check)s Qualitätsprüfung wird erzwungen, aber nicht mit <code>%(flag)s</"
+"code> aktiviert."
 
 #: weblate/templates/trans/alert/unusedscreenshot.html:2
 msgid "There is at least one screenshot which is not assigned to any strings."
@@ -10205,11 +10188,11 @@ msgstr "Nicht ändern"
 
 #: weblate/trans/forms.py:2053
 msgid "Translation flags to add"
-msgstr "Übersetzungsflags zum Hinzufügen"
+msgstr "Übersetzungsmarkierung zum Hinzufügen"
 
 #: weblate/trans/forms.py:2054
 msgid "Translation flags to remove"
-msgstr "Übersetzungsflags zum Entfernen"
+msgstr "Übersetzungsmarkierung zum Entfernen"
 
 #: weblate/trans/forms.py:2057
 msgid "Labels to add"
@@ -10306,7 +10289,7 @@ msgstr ""
 #: weblate/trans/guide.py:192
 msgid "Use flags to indicate special strings in your translation."
 msgstr ""
-"Verwenden Sie Flags, um spezielle Zeichenketten in Ihrer Übersetzung "
+"Verwenden Sie Markierungen, um spezielle Zeichenketten in ihrer Übersetzung "
 "anzuzeigen."
 
 #: weblate/trans/guide.py:210
@@ -10947,7 +10930,7 @@ msgstr ""
 
 #: weblate/trans/models/component.py:432 weblate/trans/models/unit.py:297
 msgid "Translation flags"
-msgstr "Übersetzungsflags"
+msgstr "Übersetzungsmarkierungen"
 
 #: weblate/trans/models/component.py:435 weblate/trans/models/unit.py:300
 msgid ""
@@ -10998,18 +10981,14 @@ msgid "Manage strings"
 msgstr "Zeichenketten verwalten"
 
 #: weblate/trans/models/component.py:489
-#, fuzzy
-#| msgid ""
-#| "Disable adding and removing strings in Weblate in case these are "
-#| "automatically extracted from the source code or managed externally."
 msgid ""
 "Enables adding and removing strings straight from Weblate. If your strings "
 "are extracted from the source code or managed externally you probably want "
 "to keep it disabled."
 msgstr ""
-"Deaktivieren Sie das Hinzufügen und Entfernen von Zeichenketten in Weblate, "
-"falls diese automatisch aus dem Quellcode extrahiert oder extern verwaltet "
-"werden."
+"Ermöglicht das Hinzufügen und Entfernen von Zeichenketten direkt in Weblate. "
+"Wenn ihre Zeichenketten aus dem Quellcode extrahiert oder extern verwaltet "
+"werden, sollten Sie diese Funktion wahrscheinlich deaktiviert lassen."
 
 #: weblate/trans/models/component.py:497
 msgid "Merge style"
@@ -11239,17 +11218,14 @@ msgstr ""
 "Der Sprachcode \"%s\" ist zu lang. Bitte überprüfen Sie die Dateimaske."
 
 #: weblate/trans/models/component.py:2201
-#, fuzzy, python-format
-#| msgid ""
-#| "There is more than one file for %s language, please adjust the filemask "
-#| "and use components for translating a different resources."
+#, python-format
 msgid ""
 "There is more than one file for %s language, please adjust the filemask and "
 "use components for translating different resources."
 msgstr ""
 "Es gibt mehr als eine Datei für die Sprache %s, bitte passen Sie die "
-"Dateimaske an und verwenden Sie Komponenten zum Übersetzen einer anderen "
-"Ressource."
+"Dateimaske an und verwenden Sie Komponenten zum Übersetzen verschiedener "
+"Ressourcen."
 
 #: weblate/trans/models/component.py:2215
 msgid "Could not find any matching language, please check the filemask."
