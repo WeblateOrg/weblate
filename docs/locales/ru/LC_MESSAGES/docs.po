@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-02-14 20:38+0100\n"
-"PO-Revision-Date: 2021-02-15 08:16+0000\n"
+"PO-Revision-Date: 2021-02-15 09:50+0000\n"
 "Last-Translator: Golubev Alexander <fatzer2@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/"
 "documentation/ru/>\n"
@@ -5421,12 +5421,13 @@ msgid ""
 "Configures whether automatic watching should be turned on for new users. "
 "Defaults to ``True``."
 msgstr ""
+"Настраивает, должн ли параметр :guilabel:`Автоматически добавлять проект в "
+"отслеживаемые при правке` быть включён по умолчанию для новых пользователей. "
+"Значение по умолчанию: ``True``."
 
 #: ../../admin/config.rst:426
-#, fuzzy
-#| msgid ":ref:`subtitles`"
 msgid ":ref:`subscriptions`"
-msgstr ":ref:`subtitles`"
+msgstr ":ref:`subscriptions`"
 
 #: ../../admin/config.rst:431
 msgid "DEFAULT_RESTRICTED_COMPONENT"
@@ -9300,13 +9301,6 @@ msgstr ""
 "этого ему необходим доступ к SMTP-серверу."
 
 #: ../../admin/install.rst:506
-#, fuzzy
-#| msgid ""
-#| "The mail server setup is configured using these settings: :setting:"
-#| "`django:EMAIL_HOST`, :setting:`django:EMAIL_HOST_PASSWORD`, :setting:"
-#| "`django:EMAIL_USE_TLS`, :setting:`django:EMAIL_USE_TLS`, :setting:`django:"
-#| "EMAIL_HOST_USER` and :setting:`django:EMAIL_PORT`. Their names are quite "
-#| "self-explanatory, but you can find more info in the Django documentation."
 msgid ""
 "The mail server setup is configured using these settings: :setting:`django:"
 "EMAIL_HOST`, :setting:`django:EMAIL_HOST_PASSWORD`, :setting:`django:"
@@ -9314,11 +9308,12 @@ msgid ""
 "EMAIL_HOST_USER` and :setting:`django:EMAIL_PORT`. Their names are quite "
 "self-explanatory, but you can find more info in the Django documentation."
 msgstr ""
-"Настройка почтового сервера производится с помощью следующих параметров: :"
-"setting:`django:EMAIL_HOST`, :setting:`django:EMAIL_HOST_PASSWORD`, :setting:"
-"`django:EMAIL_USE_TLS`, :setting:`django:EMAIL_USE_TLS`, :setting:`django:"
-"EMAIL_HOST_USER` и :setting:`django:EMAIL_PORT`. Их имена говорят сами за "
-"себя, а более подробную информацию вы можете найти в документации Django."
+"Настройка почтового сервера производится с помощью следующих параметров: "
+":setting:`django:EMAIL_HOST`, :setting:`django:EMAIL_HOST_PASSWORD`, "
+":setting:`django:EMAIL_USE_TLS`, :setting:`django:EMAIL_USE_SSL`, "
+":setting:`django:EMAIL_HOST_USER` и :setting:`django:EMAIL_PORT`. Их имена "
+"говорят сами за себя, а более подробную информацию вы можете найти в "
+"документации Django."
 
 #: ../../admin/install.rst:515
 msgid ""
@@ -10657,15 +10652,12 @@ msgstr ""
 "default/celery-weblate`:"
 
 #: ../../admin/install.rst:1442
-#, fuzzy
-#| msgid ""
-#| "Logrotate configuration to be placed as :file:`/etc/logrotate.d/celery`:"
 msgid ""
 "Additional configuration to rotate Celery logs using :command:`logrotate` to "
 "be placed as :file:`/etc/logrotate.d/celery`:"
 msgstr ""
-"Файл настроек ``logrotate`` должен быть размещён в :file:`/etc/logrotate.d/"
-"celery`:"
+"Для ротации журналов Celery файл настроек :command:`logrotate` должен быть "
+"размещён в :file:`/etc/logrotate.d/celery`:"
 
 #: ../../admin/install.rst:1449
 msgid "Periodic tasks using Celery beat"
@@ -10891,11 +10883,6 @@ msgid "Hardware requirements"
 msgstr "Требования к оборудованию"
 
 #: ../../admin/install/steps/hw.rst:4
-#, fuzzy
-#| msgid ""
-#| "Weblate should run on all contemporary hardware without problems, the "
-#| "following is the minimal configuration required to run Weblate on a "
-#| "single host (Weblate, database and webserver):"
 msgid ""
 "Weblate should run on any contemporary hardware without problems, the "
 "following is the minimal configuration required to run Weblate on a single "
@@ -11265,10 +11252,8 @@ msgid "Changes the site-title shown in the header of all pages."
 msgstr "Изменяет название сайта, показываемое в заголовке всех страниц."
 
 #: ../../admin/install/docker.rst:248
-#, fuzzy
-#| msgid "Configures the site domain."
 msgid "Configures the site domain. This parameter is required."
-msgstr "Настраивает домен сайта."
+msgstr "Настраивает домен сайта. Этот параметр является обязательным."
 
 #: ../../admin/install/docker.rst:252
 msgid ":ref:`production-site`, :setting:`SITE_DOMAIN`"
@@ -11664,10 +11649,8 @@ msgid "Configures :setting:`BASIC_LANGUAGES`."
 msgstr "Настраивает параметр :setting:`BASIC_LANGUAGES`."
 
 #: ../../admin/install/docker.rst:596
-#, fuzzy
-#| msgid "Configures :setting:`DEFAULT_COMMITER_NAME`."
 msgid "Configures :setting:`DEFAULT_AUTO_WATCH`."
-msgstr "Настраивает параметр :setting:`DEFAULT_COMMITER_NAME`."
+msgstr "Настраивает параметр :setting:`DEFAULT_AUTO_WATCH`."
 
 #: ../../admin/install/docker.rst:599
 msgid "Machine translation settings"
@@ -12343,23 +12326,16 @@ msgid "Custom configuration files"
 msgstr "Пользовательские файлы конфигурации"
 
 #: ../../admin/install/docker.rst:1240
-#, fuzzy
-#| msgid ""
-#| "You can additionally override the configuration in :file:`/app/data/"
-#| "settings-override.py` (see :ref:`docker-volume`). This is executed after "
-#| "all environment settings are loaded, so it gets completely set up, and "
-#| "can be used to customize anything."
 msgid ""
 "You can additionally override the configuration in :file:`/app/data/settings-"
 "override.py` (see :ref:`docker-volume`). This is executed at the end of "
 "built-in settings, after all environment settings are loaded, and you can "
 "adjust or override them."
 msgstr ""
-"В дополнителнение ко всему вы можете переопределить параметры в файле :file:"
-"`/app/data/settings-override.py` (смотрите раздел :ref:`docker-volume`). "
-"Этот файл выполняется после загрузки всех настроек из переменных окружения, "
-"и, так как он выполняется после всего этого, он может быть использовано для "
-"настройки чего угодно."
+"В дополнителнение ко всему вы можете переопределить параметры в файле "
+":file:`/app/data/settings-override.py` (см. :ref:`docker-volume`). Этот файл "
+"выполняется в самом конце встроенных настроек, после загрузки всех настроек "
+"из переменных окружения, так что вы можпте подстроить или переопределить их."
 
 #: ../../admin/install/docker.rst:1246
 msgid "Replacing logo and other static files"
