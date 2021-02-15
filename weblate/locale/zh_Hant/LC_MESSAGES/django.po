@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.5\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-02-14 19:37+0000\n"
-"PO-Revision-Date: 2021-02-14 19:29+0000\n"
+"PO-Revision-Date: 2021-02-15 08:16+0000\n"
 "Last-Translator: pan93412 <pan93412@gmail.com>\n"
 "Language-Team: Chinese (Traditional) <https://hosted.weblate.org/projects/"
 "weblate/application/zh_Hant/>\n"
@@ -1110,8 +1110,6 @@ msgid "Long lines wrapping"
 msgstr "長列換列"
 
 #: weblate/addons/forms.py:112
-#, fuzzy
-#| msgid "Wrap lines at 77 chars and at newlines"
 msgid "Wrap lines at 77 characters and at newlines"
 msgstr "於第 77 個字元處與新列處換列"
 
@@ -1124,16 +1122,10 @@ msgid "No line wrapping"
 msgstr "不要換列"
 
 #: weblate/addons/forms.py:119
-#, fuzzy
-#| msgid ""
-#| "By default gettext wraps lines at 77 chars and newlines. With --no-wrap "
-#| "parameter, it wraps only at newlines."
 msgid ""
 "By default gettext wraps lines at 77 characters and at newlines. With the --"
 "no-wrap parameter, wrapping is only done at newlines."
-msgstr ""
-"預設情況下，gettext 會在第 77 個字元和新列字元處換列；加上 --no-wrap 參數後，"
-"則僅在新列字元處換列。"
+msgstr "預設情況下，gettext 會在第 77 個字元和新列字元處換列；加上 --no-wrap 參數後，則僅在新列字元處換列。"
 
 #: weblate/addons/forms.py:127
 msgid "Keep previous msgids of translated strings"
@@ -1172,18 +1164,11 @@ msgid "Append trailers to squashed commit message"
 msgstr "將額外資訊加入至壓縮提交的訊息"
 
 #: weblate/addons/forms.py:159
-#, fuzzy
-#| msgid ""
-#| "Trailer lines are lines that look similar to RFC 822 e-mail headers, at "
-#| "the end of the otherwise free-form part of a commit message, such as 'Co-"
-#| "authored-by: ...'."
 msgid ""
 "Trailer lines are lines that look similar to RFC 822 e-mail headers, at the "
 "end of the otherwise free-form part of a commit message, such as 'Co-"
 "authored-by: …'."
-msgstr ""
-"額外資訊的列看起來類似於 RFC 822 電子信箱標頭，位於提交訊息的其他自由格式部分"
-"的末尾，例如「Co-authored-by: ...」。"
+msgstr "額外資訊的列看起來類似於 RFC 822 電子信箱標頭，位於提交訊息的其他自由格式部分的末尾，例如「Co-authored-by: …」。"
 
 #: weblate/addons/forms.py:168
 msgid ""
@@ -8137,20 +8122,15 @@ msgid ""
 msgstr "這可能會在關閉這些功能的支援，或缺少依賴關係時發生。"
 
 #: weblate/templates/trans/alert/unusedenforcedcheck.html:4
-#, fuzzy
-#| msgid "Following enforced checks are not enabled anywhere:"
 msgid "Following enforced checks are not used anywhere:"
-msgstr "以下強制查核未在任何地方啟用："
+msgstr "以下強制查核未在任何地方使用："
 
 #: weblate/templates/trans/alert/unusedenforcedcheck.html:8
-#, fuzzy, python-format
-#| msgid ""
-#| "%(check)s quality check is enforced, but not enabled using <code>"
-#| "%(flag)s</code>."
+#, python-format
 msgid ""
 "%(check)s quality check is enforced, but not turned on using <code>%(flag)s</"
 "code>."
-msgstr "%(check)s 品質查核是強制性的，但未使用 <code>%(flag)s</code> 啟用。"
+msgstr "%(check)s 品質查核是強制性的，但未使用 <code>%(flag)s</code> 開啟。"
 
 #: weblate/templates/trans/alert/unusedscreenshot.html:2
 msgid "There is at least one screenshot which is not assigned to any strings."
@@ -10250,7 +10230,7 @@ msgstr "管理字串"
 msgid ""
 "Disable adding and removing strings in Weblate in case these are "
 "automatically extracted from the source code or managed externally."
-msgstr ""
+msgstr "如果字串是從原始碼自動擷取或是在外部管理，則禁止在 Weblate 新增或移除字串。"
 
 #: weblate/trans/models/component.py:496
 msgid "Merge style"
@@ -10454,10 +10434,7 @@ msgid "The language code \"%s\" is too long, please check the filemask."
 msgstr "「%s」語言代碼過長，請檢查檔案遮罩。"
 
 #: weblate/trans/models/component.py:2200
-#, fuzzy, python-format
-#| msgid ""
-#| "There is more than one file for %s language, please adjust the filemask "
-#| "and use components for translating a different resources."
+#, python-format
 msgid ""
 "There is more than one file for %s language, please adjust the filemask and "
 "use components for translating different resources."
