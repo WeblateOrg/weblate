@@ -19,6 +19,7 @@
 """Testing of template tags."""
 
 import datetime
+import unittest
 
 from django.test import SimpleTestCase, TestCase
 from django.utils import timezone
@@ -26,7 +27,12 @@ from django.utils import timezone
 from weblate.accounts.models import Profile
 from weblate.lang.models import Language
 from weblate.trans.models import Component, Project, Translation, Unit
-from weblate.trans.templatetags.translations import get_location_links, naturaltime
+from weblate.trans.templatetags.translations import (
+    format_translation,
+    get_location_links,
+    naturaltime,
+)
+from weblate.trans.tests.test_views import FixtureTestCase
 
 TEST_DATA = (
     (0, "now"),
@@ -165,5 +171,66 @@ class LocationLinksTest(TestCase):
                 dir="ltr" rel="noopener noreferrer">
             foo.bar:123
             </a>
+            """,
+        )
+
+
+class TranslationFormatTestCase(FixtureTestCase):
+    def setUp(self):
+        super().setUp()
+        self.translation = self.get_translation()
+
+    def test_basic(self):
+        self.assertEqual(
+            format_translation("Hello world", self.component.source_language,)["items"][
+                0
+            ]["content"],
+            "Hello world",
+        )
+
+    def test_diff(self):
+        self.assertEqual(
+            format_translation(
+                "Hello world",
+                self.component.source_language,
+                diff="Hello, world!",
+            )["items"][0]["content"],
+            "Hello<del>,</del> world<del>!</del>",
+        )
+
+    def test_glossary(self):
+        self.assertHTMLEqual(
+            format_translation(
+                "Hello world",
+                self.component.source_language,
+                glossary=[
+                    Unit(source="hello", target="ahoj", translation=self.translation)
+                ],
+            )["items"][0]["content"],
+            """
+            <span class="glossary-term"
+                title="Glossary translation: ahoj">Hello</span>
+            world
+            """,
+        )
+
+    @unittest.expectedFailure
+    def test_glossary_multi(self):
+        self.assertHTMLEqual(
+            format_translation(
+                "Hello glossary",
+                self.component.source_language,
+                glossary=[
+                    Unit(source="hello", target="ahoj", translation=self.translation),
+                    Unit(
+                        source="glossary", target="glosář", translation=self.translation
+                    ),
+                ],
+            )["items"][0]["content"],
+            """
+            <span class="glossary-term"
+                title="Glossary translation: ahoj">Hello</span>
+            <span class="glossary-term"
+                title="Glossary translation: glosář">glossary</span>
             """,
         )
