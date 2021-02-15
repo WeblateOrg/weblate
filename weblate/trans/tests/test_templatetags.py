@@ -197,6 +197,20 @@ class TranslationFormatTestCase(FixtureTestCase):
             )["items"][0]["content"],
             "Hello<del>,</del> world<del>!</del>",
         )
+        self.assertHTMLEqual(
+            format_translation(
+                "Hello world",
+                self.component.source_language,
+                diff="Hello  world",
+            )["items"][0]["content"],
+            """
+            Hello
+            <del>
+            <span class="space-space"><span class="sr-only"> </span></span>
+            </del>
+            world
+            """,
+        )
 
     def test_glossary(self):
         self.assertHTMLEqual(
@@ -251,4 +265,31 @@ class TranslationFormatTestCase(FixtureTestCase):
             <span class="glossary-term"
                 title="Glossary translation: glosář">glossary</span>
             """,
+        )
+
+    def test_highlight(self):
+        unit = self.translation.unit_set.get(id_hash=2097404709965985808)
+        self.assertHTMLEqual(
+            format_translation(unit.source, unit.translation.language, unit=unit,)[
+                "items"
+            ][0]["content"],
+            """
+            Orangutan has
+            <span class="hlcheck"><span class="highlight-number"></span>%d</span>
+            banana.<span class="hlspace"><span class="space-nl"><span class="sr-only">
+            </span>
+            </span>
+            </span>
+            <br/>
+            """,
+        )
+
+    def test_search(self):
+        self.assertHTMLEqual(
+            format_translation(
+                "Hello world",
+                self.component.source_language,
+                search_match="world",
+            )["items"][0]["content"],
+            """Hello <span class="hlmatch">world</span>""",
         )
