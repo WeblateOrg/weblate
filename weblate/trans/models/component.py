@@ -486,8 +486,9 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
         verbose_name=gettext_lazy("Manage strings"),
         default=False,
         help_text=gettext_lazy(
-            "Disable adding and removing strings in Weblate in case these "
-            "are automatically extracted from the source code or managed externally."
+            "Enables adding and removing strings straight from Weblate. If your "
+            "strings are extracted from the source code or managed externally you "
+            "probably want to keep it disabled."
         ),
     )
 

@@ -20,7 +20,7 @@ class Migration(migrations.Migration):
             name="manage_units",
             field=models.BooleanField(
                 default=False,
-                help_text="Disable adding and removing strings in Weblate in case these are automatically extracted from the source code or managed externally.",
+                help_text="Enables adding and removing strings straight from Weblate. If your strings are extracted from the source code or managed externally you probably want to keep it disabled.",
                 verbose_name="Manage strings",
             ),
         ),
