@@ -26,8 +26,8 @@ msgstr ""
 "Project-Id-Version: Weblate 4.5\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-02-15 13:10+0000\n"
-"PO-Revision-Date: 2021-02-15 08:16+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2021-02-15 21:54+0000\n"
+"Last-Translator: tomkolp <tomkolp@gmail.com>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/weblate/"
 "application/pl/>\n"
 "Language: pl\n"
@@ -1167,10 +1167,8 @@ msgid "Bulk edit"
 msgstr "Edycja zbiorcza"
 
 #: weblate/addons/flags.py:106
-#, fuzzy
-#| msgid "Bulk edit flags, labels or state for strings."
 msgid "Bulk edit flags, labels, or states of strings."
-msgstr "Masowa edycja flag, etykiet lub stanu dla łańcuchów."
+msgstr "Zbiorcza edycja flag, etykiet lub stanów ciągów."
 
 #: weblate/addons/forms.py:53
 msgid "Path of generated MO file"
@@ -1205,16 +1203,12 @@ msgid "No line wrapping"
 msgstr "Bez zawijania linii"
 
 #: weblate/addons/forms.py:119
-#, fuzzy
-#| msgid ""
-#| "By default gettext wraps lines at 77 chars and newlines. With --no-wrap "
-#| "parameter, it wraps only at newlines."
 msgid ""
 "By default gettext wraps lines at 77 characters and at newlines. With the --"
 "no-wrap parameter, wrapping is only done at newlines."
 msgstr ""
-"Domyślnie gettext zawija linie przy 77 znakach i nowej linii. Z parametrem --"
-"no-wrap, zawija tylko w nowych wierszach."
+"Domyślnie gettext zawija linie przy 77 znakach i nowych liniach. Z "
+"parametrem --no-wrap, zawija jest wykonywane tylko w nowych wierszach."
 
 #: weblate/addons/forms.py:127
 msgid "Keep previous msgids of translated strings"
@@ -1253,11 +1247,6 @@ msgid "Append trailers to squashed commit message"
 msgstr "Dołącz zwiastun do komunikatu o zatwierdzenia"
 
 #: weblate/addons/forms.py:159
-#, fuzzy
-#| msgid ""
-#| "Trailer lines are lines that look similar to RFC 822 e-mail headers, at "
-#| "the end of the otherwise free-form part of a commit message, such as 'Co-"
-#| "authored-by: ...'."
 msgid ""
 "Trailer lines are lines that look similar to RFC 822 e-mail headers, at the "
 "end of the otherwise free-form part of a commit message, such as 'Co-"
@@ -1265,7 +1254,7 @@ msgid ""
 msgstr ""
 "Linie zwiastuna to linie, które wyglądają podobnie do nagłówków wiadomości e-"
 "mail RFC 822, na końcu wolnej formy wiadomości zatwierdzenia, takiej jak "
-"„Współautor: ...”."
+"'Współautor: …'."
 
 #: weblate/addons/forms.py:168
 msgid ""
@@ -8552,21 +8541,16 @@ msgstr ""
 "zależności."
 
 #: weblate/templates/trans/alert/unusedenforcedcheck.html:4
-#, fuzzy
-#| msgid "Following enforced checks are not enabled anywhere:"
 msgid "Following enforced checks are not used anywhere:"
-msgstr "Następujące wymuszone kontrole nie są nigdzie włączone:"
+msgstr "Następujące wymuszone kontrole nie są nigdzie używane:"
 
 #: weblate/templates/trans/alert/unusedenforcedcheck.html:8
-#, fuzzy, python-format
-#| msgid ""
-#| "%(check)s quality check is enforced, but not enabled using <code>"
-#| "%(flag)s</code>."
+#, python-format
 msgid ""
 "%(check)s quality check is enforced, but not turned on using <code>%(flag)s</"
 "code>."
 msgstr ""
-"Kontrola jakości %(check)s jest wymuszana, ale nie jest włączana przy użyciu "
+"Kontrola jakości %(check)s jest wymuszana, ale nie jest włączana za pomocą "
 "<code>%(flag)s</code>."
 
 #: weblate/templates/trans/alert/unusedscreenshot.html:2
@@ -10784,17 +10768,14 @@ msgid "Manage strings"
 msgstr "Zarządzanie ciągami"
 
 #: weblate/trans/models/component.py:489
-#, fuzzy
-#| msgid ""
-#| "Disable adding and removing strings in Weblate in case these are "
-#| "automatically extracted from the source code or managed externally."
 msgid ""
 "Enables adding and removing strings straight from Weblate. If your strings "
 "are extracted from the source code or managed externally you probably want "
 "to keep it disabled."
 msgstr ""
-"Wyłącz dodawanie i usuwanie ciągów w weblate w przypadku, gdy są one "
-"automatycznie wyodrębniane z kodu źródłowego lub zarządzane zewnętrznie."
+"Umożliwia dodawanie i usuwanie ciągów bezpośrednio z Weblate. Jeśli twoje "
+"ciągi są wydobywane z kodu źródłowego lub zarządzane zewnętrznie, "
+"prawdopodobnie będziesz chciał zachować tę funkcję wyłączoną."
 
 #: weblate/trans/models/component.py:497
 msgid "Merge style"
@@ -11023,10 +11004,7 @@ msgid "The language code \"%s\" is too long, please check the filemask."
 msgstr "Kod języka \"%s\" jest zbyt długi, sprawdź maskę."
 
 #: weblate/trans/models/component.py:2201
-#, fuzzy, python-format
-#| msgid ""
-#| "There is more than one file for %s language, please adjust the filemask "
-#| "and use components for translating a different resources."
+#, python-format
 msgid ""
 "There is more than one file for %s language, please adjust the filemask and "
 "use components for translating different resources."
