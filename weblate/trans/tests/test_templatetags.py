@@ -295,6 +295,48 @@ class TranslationFormatTestCase(FixtureTestCase):
             """Hello <span class="hlmatch">world</span>""",
         )
 
+    @unittest.expectedFailure
+    def test_whitespace(self):
+        self.assertHTMLEqual(
+            format_translation(" Hello world", self.component.source_language,)[
+                "items"
+            ][0]["content"],
+            """
+            <span class="hlspace"><span class="space-space"><span class="sr-only">
+            </span>
+            </span>
+            </span>
+            Hello
+            world
+            """,
+        )
+        self.assertHTMLEqual(
+            format_translation("Hello   world", self.component.source_language,)[
+                "items"
+            ][0]["content"],
+            """
+            Hello
+            <span class="hlspace"><span class="space-space"><span class="sr-only">
+            </span>
+            </span>
+            </span>
+            world
+            """,
+        )
+        self.assertHTMLEqual(
+            format_translation("Hello world ", self.component.source_language,)[
+                "items"
+            ][0]["content"],
+            """
+            Hello
+            world
+            <span class="hlspace"><span class="space-space"><span class="sr-only">
+            </span>
+            </span>
+            </span>
+            """,
+        )
+
 
 class DiffTestCase(SimpleTestCase):
     """Testing of HTML diff function."""
