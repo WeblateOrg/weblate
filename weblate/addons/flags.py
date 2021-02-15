@@ -103,7 +103,7 @@ class BulkEditAddon(BaseAddon):
     events = (EVENT_COMPONENT_UPDATE,)
     name = "weblate.flags.bulk"
     verbose = _("Bulk edit")
-    description = _("Bulk edit flags, labels or state of strings.")
+    description = _("Bulk edit flags, labels, or states of strings.")
     settings_form = BulkEditAddonForm
     multiple = True
 
