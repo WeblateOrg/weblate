@@ -46,7 +46,7 @@
 {% endif %}
 </td>
 <th class="object-link">
-{% if object.is_glossary %}
+{% if not object.is_ghost and object.is_glossary %}
   <span class="label label-{{ object.glossary_color }}">{% trans "Glossary" %}</span>
 {% endif %}
 {% if object.is_ghost %}
