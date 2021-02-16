@@ -31,7 +31,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.5\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-02-15 13:10+0000\n"
-"PO-Revision-Date: 2021-02-14 09:11+0000\n"
+"PO-Revision-Date: 2021-02-16 17:45+0000\n"
 "Last-Translator: bovirus <roberto.boriotti@canon-europe.com>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/weblate/"
 "application/it/>\n"
@@ -40,7 +40,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.5-dev\n"
+"X-Generator: Weblate 4.5\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 
 #: weblate/accounts/avatar.py:103
@@ -1164,11 +1164,9 @@ msgid "Bulk edit"
 msgstr "Modifica collettiva"
 
 #: weblate/addons/flags.py:106
-#, fuzzy
-#| msgid "Bulk edit flags, labels or state for strings."
 msgid "Bulk edit flags, labels, or states of strings."
 msgstr ""
-"Modifica condivisa dei flag, delle etichette o dello stato per le stringhe."
+"Modifica in blocco dei flag, delle etichette o dello stato delle stringhe."
 
 #: weblate/addons/forms.py:53
 msgid "Path of generated MO file"
@@ -1191,8 +1189,6 @@ msgid "Long lines wrapping"
 msgstr "Righe lunghe a capo"
 
 #: weblate/addons/forms.py:112
-#, fuzzy
-#| msgid "Wrap lines at 77 chars and at newlines"
 msgid "Wrap lines at 77 characters and at newlines"
 msgstr "Ritorno a capo automatico a 77 caratteri"
 
@@ -1205,15 +1201,11 @@ msgid "No line wrapping"
 msgstr "Nessun ritorno a capo"
 
 #: weblate/addons/forms.py:119
-#, fuzzy
-#| msgid ""
-#| "By default gettext wraps lines at 77 chars and newlines. With --no-wrap "
-#| "parameter, it wraps only at newlines."
 msgid ""
 "By default gettext wraps lines at 77 characters and at newlines. With the --"
 "no-wrap parameter, wrapping is only done at newlines."
 msgstr ""
-"Per impostazione predefinita, gettext separa le linee dopo 77 caratteri con "
+"Per impostazione predefinita gettext separa le linee dopo 77 caratteri con "
 "un ritorno a capo. Con il parametro --no-wrap considererà solo il ritorno a "
 "capo."
 
@@ -1254,11 +1246,6 @@ msgid "Append trailers to squashed commit message"
 msgstr "Aggiungi trailer al messaggio commit compresso"
 
 #: weblate/addons/forms.py:159
-#, fuzzy
-#| msgid ""
-#| "Trailer lines are lines that look similar to RFC 822 e-mail headers, at "
-#| "the end of the otherwise free-form part of a commit message, such as 'Co-"
-#| "authored-by: ...'."
 msgid ""
 "Trailer lines are lines that look similar to RFC 822 e-mail headers, at the "
 "end of the otherwise free-form part of a commit message, such as 'Co-"
@@ -1266,7 +1253,7 @@ msgid ""
 msgstr ""
 "Le linee trailer sono linee simili alle intestazioni email di RFC 822, alla "
 "fine della parte altrimenti libera di un messaggio di commit, ad esempio "
-"'Autore congiunto: ...'."
+"'Autore congiunto: …'."
 
 #: weblate/addons/forms.py:168
 msgid ""
@@ -8557,22 +8544,17 @@ msgstr ""
 "funzionalità o se ci sono dipendenze mancanti."
 
 #: weblate/templates/trans/alert/unusedenforcedcheck.html:4
-#, fuzzy
-#| msgid "Following enforced checks are not enabled anywhere:"
 msgid "Following enforced checks are not used anywhere:"
-msgstr "I seguenti controlli forzati non sono abilitati ovunque:"
+msgstr "I seguenti controlli forzati non sono usati ovunque:"
 
 #: weblate/templates/trans/alert/unusedenforcedcheck.html:8
-#, fuzzy, python-format
-#| msgid ""
-#| "%(check)s quality check is enforced, but not enabled using <code>"
-#| "%(flag)s</code>."
+#, python-format
 msgid ""
 "%(check)s quality check is enforced, but not turned on using <code>%(flag)s</"
 "code>."
 msgstr ""
-"%(check)s controlli errori forzati, ma non abilitati usando <code>%(flag)s</"
-"code>."
+"%(check)s controlli errori sono forzati, ma non abilitati usando "
+"<code>%(flag)s</code>."
 
 #: weblate/templates/trans/alert/unusedscreenshot.html:2
 msgid "There is at least one screenshot which is not assigned to any strings."
@@ -10801,18 +10783,14 @@ msgid "Manage strings"
 msgstr "Gestione stringhe"
 
 #: weblate/trans/models/component.py:489
-#, fuzzy
-#| msgid ""
-#| "Disable adding and removing strings in Weblate in case these are "
-#| "automatically extracted from the source code or managed externally."
 msgid ""
 "Enables adding and removing strings straight from Weblate. If your strings "
 "are extracted from the source code or managed externally you probably want "
 "to keep it disabled."
 msgstr ""
-"Disabilita l'aggiunta e la rimozione di stringhe in Weblate nel caso in cui "
-"queste vengano estratte automaticamente dal codice sorgente o gestite "
-"esternamente."
+"Consente di aggiungere e rimuovere stringhe direttamente da Weblate. Se le "
+"stringhe vengono estratte dal codice sorgente o gestite esternamente, "
+"probabilmente vorrai mantenere questa opzione disabilitata."
 
 #: weblate/trans/models/component.py:497
 msgid "Merge style"
@@ -11040,10 +11018,7 @@ msgid "The language code \"%s\" is too long, please check the filemask."
 msgstr "Il codice lingua \"%s\" è troppo lungo. Controlla la maschera file."
 
 #: weblate/trans/models/component.py:2201
-#, fuzzy, python-format
-#| msgid ""
-#| "There is more than one file for %s language, please adjust the filemask "
-#| "and use components for translating a different resources."
+#, python-format
 msgid ""
 "There is more than one file for %s language, please adjust the filemask and "
 "use components for translating different resources."
