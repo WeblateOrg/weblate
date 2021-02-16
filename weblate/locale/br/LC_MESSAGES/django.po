@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.5\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
-"POT-Creation-Date: 2021-02-15 13:10+0000\n"
+"POT-Creation-Date: 2021-02-16 17:46+0000\n"
 "PO-Revision-Date: 2021-01-24 17:32+0000\n"
 "Last-Translator: Pierre Wani Alan Morvan <allannkorh@yahoo.fr>\n"
 "Language-Team: Breton <https://hosted.weblate.org/projects/weblate/"
@@ -3734,8 +3734,8 @@ msgstr "Geriaouegi"
 msgid "Invalid integer list!"
 msgstr "Yezhoù Songhai"
 
-#: weblate/glossary/forms.py:70 weblate/templates/translate.html:537
-#: weblate/trans/forms.py:1305 weblate/trans/templatetags/translations.py:757
+#: weblate/glossary/forms.py:70 weblate/templates/snippets/list-objects.html:50
+#: weblate/templates/translate.html:537 weblate/trans/forms.py:1305
 msgid "Glossary"
 msgstr "Geriaoueg"
 
@@ -6851,7 +6851,7 @@ msgstr[3] "Yezh"
 msgstr[4] "Yezh"
 
 #: weblate/templates/engage.html:32
-#: weblate/trans/templatetags/translations.py:884 weblate/trans/widgets.py:100
+#: weblate/trans/templatetags/translations.py:878 weblate/trans/widgets.py:100
 #, fuzzy, python-format
 #| msgid "Percent"
 msgctxt "Translated percents"
@@ -8983,7 +8983,7 @@ msgstr "Evezhiadennoù"
 msgid "Create translation"
 msgstr "Ho troidigezhioù"
 
-#: weblate/templates/snippets/list-objects.html:103
+#: weblate/templates/snippets/list-objects.html:106
 msgid "Nothing to list here."
 msgstr ""
 
@@ -9344,7 +9344,7 @@ msgid "Source in review"
 msgstr "Selladenn ouzh mammennoù an neudennadoù"
 
 #: weblate/templates/snippets/unit-state.html:5
-#: weblate/trans/templatetags/translations.py:555 weblate/utils/state.py:31
+#: weblate/trans/templatetags/translations.py:556 weblate/utils/state.py:31
 #, fuzzy
 #| msgid "review"
 msgctxt "String state"
@@ -9357,7 +9357,7 @@ msgid "Read only"
 msgstr ""
 
 #: weblate/templates/snippets/unit-state.html:7
-#: weblate/trans/templatetags/translations.py:559 weblate/utils/state.py:33
+#: weblate/trans/templatetags/translations.py:560 weblate/utils/state.py:33
 #, fuzzy
 #| msgid "Source strings review"
 msgctxt "String state"
@@ -9365,7 +9365,7 @@ msgid "Approved"
 msgstr "Selladenn ouzh mammennoù an neudennadoù"
 
 #: weblate/templates/snippets/unit-state.html:8
-#: weblate/trans/templatetags/translations.py:561 weblate/utils/state.py:32
+#: weblate/trans/templatetags/translations.py:562 weblate/utils/state.py:32
 #, fuzzy
 #| msgid "Translated"
 msgctxt "String state"
@@ -9510,6 +9510,7 @@ msgid ""
 msgstr ""
 
 #: weblate/templates/trans/alert/brokenbrowserurl.html:2
+#: weblate/templates/trans/alert/nomaskmatches.html:2
 #: weblate/templates/trans/alert/unsupportedconfiguration.html:2
 #: weblate/templates/trans/alert/unusedenforcedcheck.html:2
 msgid "This component is set up incorrectly."
@@ -9668,6 +9669,38 @@ msgstr ""
 #: weblate/templates/trans/alert/nolibreconditions.html:3
 msgid "This project does no longer fit into libre hosting conditions."
 msgstr ""
+
+#: weblate/templates/trans/alert/nomaskmatches.html:4
+#, fuzzy
+#| msgid "Translation context"
+msgid "There are no translations in this component."
+msgstr "Kendestenn ar meneg da dreiñ"
+
+#: weblate/templates/trans/alert/nomaskmatches.html:7
+#, python-format
+msgid ""
+"Check whether file mask <code>%(filemask)s</code> matches files in your "
+"repository."
+msgstr ""
+
+#: weblate/templates/trans/alert/nomaskmatches.html:8
+msgid ""
+"You can also start new translations directly in Weblate, it will create "
+"files based on the file mask."
+msgstr ""
+
+#: weblate/templates/trans/alert/occurrences-limit.html:4
+#, python-format
+msgid ""
+"Only part of the occurrences are shown, in total there was %(count)s of them."
+msgid_plural ""
+"Only part of the occurrences are shown, in total there were %(count)s of "
+"them."
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
+msgstr[4] ""
 
 #: weblate/templates/trans/alert/parseerror.html:4
 #, fuzzy
@@ -10128,9 +10161,9 @@ msgstr ""
 msgid "Insufficient privileges for editing source strings."
 msgstr "N'oc'h ket aotreet d'ober kinnigoù !"
 
-#: weblate/templates/translate.html:218 weblate/trans/views/edit.py:388
-#: weblate/trans/views/edit.py:408 weblate/trans/views/edit.py:426
-#: weblate/trans/views/edit.py:878
+#: weblate/templates/translate.html:218 weblate/trans/views/edit.py:389
+#: weblate/trans/views/edit.py:409 weblate/trans/views/edit.py:427
+#: weblate/trans/views/edit.py:879
 #, fuzzy
 #| msgid "Your translations"
 msgid "Insufficient privileges for saving translations."
@@ -10680,7 +10713,7 @@ msgstr ""
 msgid "Open in full editor"
 msgstr "Digeriñ er skridaozer klok"
 
-#: weblate/templates/zen-units.html:113 weblate/trans/views/edit.py:537
+#: weblate/templates/zen-units.html:113 weblate/trans/views/edit.py:538
 #, fuzzy
 #| msgid "Translation has been saved!"
 msgid "The translation has come to an end."
@@ -11567,7 +11600,7 @@ msgstr ""
 msgid "Make your translations available under a libre license."
 msgstr ""
 
-#: weblate/trans/guide.py:157 weblate/trans/templatetags/translations.py:739
+#: weblate/trans/guide.py:157 weblate/trans/templatetags/translations.py:740
 msgid "Fix this component to clear its alerts."
 msgstr ""
 
@@ -11596,136 +11629,140 @@ msgid "Workflow customization"
 msgstr ""
 
 #. Translators: Name of an alert
-#: weblate/trans/models/alert.py:160
+#: weblate/trans/models/alert.py:168
 #, fuzzy
 #| msgid "Notification on new string to translate"
 msgid "Duplicated string found in the file."
 msgstr "Kemennadennoù pa vez neudennadoù nevez da dreiñ"
 
 #. Translators: Name of an alert
-#: weblate/trans/models/alert.py:167
+#: weblate/trans/models/alert.py:175
 #, fuzzy
 #| msgid "Your translations"
 msgid "Duplicated translation."
 msgstr "Ho troidigezhioù"
 
 #. Translators: Name of an alert
-#: weblate/trans/models/alert.py:189
+#: weblate/trans/models/alert.py:197
 #, fuzzy
 #| msgid "Your translations"
 msgid "Duplicated filemask."
 msgstr "Ho troidigezhioù"
 
 #. Translators: Name of an alert
-#: weblate/trans/models/alert.py:200
+#: weblate/trans/models/alert.py:208
 #, fuzzy
 #| msgid "Git repository:"
 msgid "Could not merge the repository."
 msgstr "Kavlec'h Git :"
 
 #. Translators: Name of an alert
-#: weblate/trans/models/alert.py:207
+#: weblate/trans/models/alert.py:215
 #, fuzzy
 #| msgid "Git repository:"
 msgid "Could not update the repository."
 msgstr "Kavlec'h Git :"
 
 #. Translators: Name of an alert
-#: weblate/trans/models/alert.py:214
+#: weblate/trans/models/alert.py:222
 #, fuzzy
 #| msgid "Git repository:"
 msgid "Could not push the repository."
 msgstr "Kavlec'h Git :"
 
 #. Translators: Name of an alert
-#: weblate/trans/models/alert.py:226
+#: weblate/trans/models/alert.py:234
 #, fuzzy
 #| msgid "Start new translation"
 msgid "Could not parse translation files."
 msgstr "Kregiñ gant un droidigezh nevez"
 
 #. Translators: Name of an alert
-#: weblate/trans/models/alert.py:233
+#: weblate/trans/models/alert.py:241
 msgid "Your billing plan has exceeded its limits."
 msgstr ""
 
 #. Translators: Name of an alert
-#: weblate/trans/models/alert.py:239
+#: weblate/trans/models/alert.py:247
 #, fuzzy
 #| msgid "Git maintenance"
 msgid "Repository outdated."
 msgstr "Trezalc'h GIT"
 
 #. Translators: Name of an alert
-#: weblate/trans/models/alert.py:246
+#: weblate/trans/models/alert.py:254
 #, fuzzy
 #| msgid "Git maintenance"
 msgid "Repository has changes."
 msgstr "Trezalc'h GIT"
 
 #. Translators: Name of an alert
-#: weblate/trans/models/alert.py:253
+#: weblate/trans/models/alert.py:261
 #, fuzzy
 #| msgid "Project Information"
 msgid "License info missing."
 msgstr "Titouroù diwar-benn ar raktres"
 
 #. Translators: Name of an alert
-#: weblate/trans/models/alert.py:259 weblate/trans/models/alert.py:265
-#: weblate/trans/models/alert.py:271
+#: weblate/trans/models/alert.py:267 weblate/trans/models/alert.py:273
+#: weblate/trans/models/alert.py:279
 msgid "Could not run addon."
 msgstr ""
 
 #. Translators: Name of an alert
-#: weblate/trans/models/alert.py:277
+#: weblate/trans/models/alert.py:285
 msgid "Misconfigured monolingual translation."
 msgstr ""
 
 #. Translators: Name of an alert
-#: weblate/trans/models/alert.py:283
+#: weblate/trans/models/alert.py:291
 #, fuzzy
 #| msgid "Project Information"
 msgid "Unsupported component configuration"
 msgstr "Titouroù diwar-benn ar raktres"
 
 #. Translators: Name of an alert
-#: weblate/trans/models/alert.py:294
+#: weblate/trans/models/alert.py:302
 #, fuzzy
 #| msgid "Status of repositories"
 msgid "Broken repository browser URL"
 msgstr "Stad ar c'havlec'hioù"
 
 #. Translators: Name of an alert
-#: weblate/trans/models/alert.py:306
+#: weblate/trans/models/alert.py:314
 #, fuzzy
 #| msgid "Project website"
 msgid "Broken project website URL"
 msgstr "Lec'hienn ar raktres"
 
 #. Translators: Name of an alert
-#: weblate/trans/models/alert.py:317
+#: weblate/trans/models/alert.py:325
 #, fuzzy
 #| msgid "Add new word"
 msgid "Unused screenshot"
 msgstr "Ouzhpennañ ur ger nevez"
 
 #. Translators: Name of an alert
-#: weblate/trans/models/alert.py:323
+#: weblate/trans/models/alert.py:331
 #, fuzzy
 #| msgid "Language"
 msgid "Ambiguous language code."
 msgstr "Yezh"
 
 #. Translators: Name of an alert
-#: weblate/trans/models/alert.py:340
+#: weblate/trans/models/alert.py:348
 msgid "Does not meet libre hosting conditions."
 msgstr ""
 
-#: weblate/trans/models/alert.py:345
+#: weblate/trans/models/alert.py:353
 #, fuzzy
 #| msgid "Ignored checks"
 msgid "Unused enforced checks."
 msgstr "Gwiriadennoù lezet a-gostez"
+
+#: weblate/trans/models/alert.py:360
+msgid "No mask matches."
+msgstr ""
 
 #: weblate/trans/models/announcement.py:111
 msgid "Category"
@@ -12756,35 +12793,35 @@ msgstr ""
 msgid "Accepting suggestions automatically only works with voting turned on."
 msgstr ""
 
-#: weblate/trans/models/component.py:2895
+#: weblate/trans/models/component.py:2900
 #, fuzzy
 #| msgid "Start new translation"
 msgid "Could not add new translation file."
 msgstr "Kregiñ gant un droidigezh nevez"
 
-#: weblate/trans/models/component.py:2911
+#: weblate/trans/models/component.py:2916
 msgid "The given language is filtered by the language filter."
 msgstr ""
 
-#: weblate/trans/models/component.py:2935
+#: weblate/trans/models/component.py:2940
 #, fuzzy
 #| msgid "Translation"
 msgid "Translation file already exists!"
 msgstr "Troidigezh"
 
-#: weblate/trans/models/component.py:2955
+#: weblate/trans/models/component.py:2960
 #, fuzzy
 #| msgid "Translation has been saved!"
 msgid "The translation will be updated in the background."
 msgstr "Troidigezh enrollet !"
 
 #. Translators: Translation context for Gettext
-#: weblate/trans/models/component.py:2998
+#: weblate/trans/models/component.py:3003
 msgid "Context"
 msgstr "Kendestenn"
 
 #. Translators: Translation key for monolingual translations
-#: weblate/trans/models/component.py:3000 weblate/utils/views.py:111
+#: weblate/trans/models/component.py:3005 weblate/utils/views.py:111
 msgctxt "Translation key"
 msgid "Key"
 msgstr ""
@@ -12948,7 +12985,7 @@ msgid "source"
 msgstr "mammenn"
 
 #: weblate/trans/models/translation.py:168
-#: weblate/trans/templatetags/translations.py:722
+#: weblate/trans/templatetags/translations.py:723
 #, fuzzy
 #| msgid "This translation is currently locked for updates!"
 msgid "This translation is used for source strings."
@@ -13065,247 +13102,247 @@ msgid_plural "Automatic translation completed, %d strings were updated."
 msgstr[0] ""
 msgstr[1] ""
 
-#: weblate/trans/templatetags/translations.py:70
+#: weblate/trans/templatetags/translations.py:71
 msgid "Good configuration"
 msgstr ""
 
-#: weblate/trans/templatetags/translations.py:71
+#: weblate/trans/templatetags/translations.py:72
 msgid "Bad configuration"
 msgstr ""
 
-#: weblate/trans/templatetags/translations.py:72
+#: weblate/trans/templatetags/translations.py:73
 msgid "Possible configuration"
 msgstr ""
 
-#: weblate/trans/templatetags/translations.py:172
+#: weblate/trans/templatetags/translations.py:173
 #, fuzzy, python-format
 #| msgid "Your translations"
 msgid "Forbidden translation: %s"
 msgstr "Ho troidigezhioù"
 
-#: weblate/trans/templatetags/translations.py:174
+#: weblate/trans/templatetags/translations.py:175
 #, fuzzy, python-format
 #| msgid "translate"
 msgid "Not-translatable: %s"
 msgstr "treiñ"
 
-#: weblate/trans/templatetags/translations.py:176
+#: weblate/trans/templatetags/translations.py:177
 #, fuzzy, python-format
 #| msgid "Your translations"
 msgid "Glossary translation: %s"
 msgstr "Ho troidigezhioù"
 
-#: weblate/trans/templatetags/translations.py:222
+#: weblate/trans/templatetags/translations.py:223
 msgid "New line"
 msgstr ""
 
-#: weblate/trans/templatetags/translations.py:380
+#: weblate/trans/templatetags/translations.py:381
 msgid "a year ago"
 msgstr ""
 
-#: weblate/trans/templatetags/translations.py:381
+#: weblate/trans/templatetags/translations.py:382
 #, python-format
 msgid "%(count)s year ago"
 msgid_plural "%(count)s years ago"
 msgstr[0] ""
 msgstr[1] ""
 
-#: weblate/trans/templatetags/translations.py:387
+#: weblate/trans/templatetags/translations.py:388
 msgid "a month ago"
 msgstr ""
 
-#: weblate/trans/templatetags/translations.py:388
+#: weblate/trans/templatetags/translations.py:389
 #, python-format
 msgid "%(count)s month ago"
 msgid_plural "%(count)s months ago"
 msgstr[0] ""
 msgstr[1] ""
 
-#: weblate/trans/templatetags/translations.py:393
+#: weblate/trans/templatetags/translations.py:394
 #, python-format
 msgid "%(count)s week ago"
 msgid_plural "%(count)s weeks ago"
 msgstr[0] ""
 msgstr[1] ""
 
-#: weblate/trans/templatetags/translations.py:398
+#: weblate/trans/templatetags/translations.py:399
 msgid "a week ago"
 msgstr ""
 
-#: weblate/trans/templatetags/translations.py:400
+#: weblate/trans/templatetags/translations.py:401
 msgid "yesterday"
 msgstr ""
 
-#: weblate/trans/templatetags/translations.py:401
+#: weblate/trans/templatetags/translations.py:402
 #, python-format
 msgid "%(count)s day ago"
 msgid_plural "%(count)s days ago"
 msgstr[0] ""
 msgstr[1] ""
 
-#: weblate/trans/templatetags/translations.py:405
-#: weblate/trans/templatetags/translations.py:462
+#: weblate/trans/templatetags/translations.py:406
+#: weblate/trans/templatetags/translations.py:463
 msgid "now"
 msgstr ""
 
-#: weblate/trans/templatetags/translations.py:408
+#: weblate/trans/templatetags/translations.py:409
 msgid "a second ago"
 msgstr ""
 
-#: weblate/trans/templatetags/translations.py:410
+#: weblate/trans/templatetags/translations.py:411
 #, python-format
 msgid "%(count)s second ago"
 msgid_plural "%(count)s seconds ago"
 msgstr[0] ""
 msgstr[1] ""
 
-#: weblate/trans/templatetags/translations.py:415
+#: weblate/trans/templatetags/translations.py:416
 msgid "a minute ago"
 msgstr ""
 
-#: weblate/trans/templatetags/translations.py:416
+#: weblate/trans/templatetags/translations.py:417
 #, python-format
 msgid "%(count)s minute ago"
 msgid_plural "%(count)s minutes ago"
 msgstr[0] ""
 msgstr[1] ""
 
-#: weblate/trans/templatetags/translations.py:421
+#: weblate/trans/templatetags/translations.py:422
 msgid "an hour ago"
 msgstr ""
 
-#: weblate/trans/templatetags/translations.py:422
+#: weblate/trans/templatetags/translations.py:423
 #, python-format
 msgid "%(count)s hour ago"
 msgid_plural "%(count)s hours ago"
 msgstr[0] ""
 msgstr[1] ""
 
-#: weblate/trans/templatetags/translations.py:437
+#: weblate/trans/templatetags/translations.py:438
 msgid "a year from now"
 msgstr ""
 
-#: weblate/trans/templatetags/translations.py:439
+#: weblate/trans/templatetags/translations.py:440
 #, python-format
 msgid "%(count)s year from now"
 msgid_plural "%(count)s years from now"
 msgstr[0] ""
 msgstr[1] ""
 
-#: weblate/trans/templatetags/translations.py:444
+#: weblate/trans/templatetags/translations.py:445
 msgid "a month from now"
 msgstr ""
 
-#: weblate/trans/templatetags/translations.py:446
+#: weblate/trans/templatetags/translations.py:447
 #, python-format
 msgid "%(count)s month from now"
 msgid_plural "%(count)s months from now"
 msgstr[0] ""
 msgstr[1] ""
 
-#: weblate/trans/templatetags/translations.py:451
+#: weblate/trans/templatetags/translations.py:452
 #, python-format
 msgid "%(count)s week from now"
 msgid_plural "%(count)s weeks from now"
 msgstr[0] ""
 msgstr[1] ""
 
-#: weblate/trans/templatetags/translations.py:455
+#: weblate/trans/templatetags/translations.py:456
 msgid "tomorrow"
 msgstr ""
 
-#: weblate/trans/templatetags/translations.py:457
+#: weblate/trans/templatetags/translations.py:458
 msgid "a week from now"
 msgstr ""
 
-#: weblate/trans/templatetags/translations.py:459
+#: weblate/trans/templatetags/translations.py:460
 #, python-format
 msgid "%(count)s day from now"
 msgid_plural "%(count)s days from now"
 msgstr[0] ""
 msgstr[1] ""
 
-#: weblate/trans/templatetags/translations.py:465
+#: weblate/trans/templatetags/translations.py:466
 msgid "a second from now"
 msgstr ""
 
-#: weblate/trans/templatetags/translations.py:467
+#: weblate/trans/templatetags/translations.py:468
 #, python-format
 msgid "%(count)s second from now"
 msgid_plural "%(count)s seconds from now"
 msgstr[0] ""
 msgstr[1] ""
 
-#: weblate/trans/templatetags/translations.py:472
+#: weblate/trans/templatetags/translations.py:473
 msgid "a minute from now"
 msgstr ""
 
-#: weblate/trans/templatetags/translations.py:474
+#: weblate/trans/templatetags/translations.py:475
 #, python-format
 msgid "%(count)s minute from now"
 msgid_plural "%(count)s minutes from now"
 msgstr[0] ""
 msgstr[1] ""
 
-#: weblate/trans/templatetags/translations.py:478
+#: weblate/trans/templatetags/translations.py:479
 msgid "an hour from now"
 msgstr ""
 
-#: weblate/trans/templatetags/translations.py:479
+#: weblate/trans/templatetags/translations.py:480
 #, python-format
 msgid "%(count)s hour from now"
 msgid_plural "%(count)s hours from now"
 msgstr[0] ""
 msgstr[1] ""
 
-#: weblate/trans/templatetags/translations.py:557
+#: weblate/trans/templatetags/translations.py:558
 #, fuzzy
 #| msgid "translate"
 msgctxt "String state"
 msgid "Not translated"
 msgstr "treiñ"
 
-#: weblate/trans/templatetags/translations.py:594
+#: weblate/trans/templatetags/translations.py:595
 #, fuzzy, python-format
 #| msgid "Strings"
 msgid "string ID %s"
 msgstr "Neudennadoù"
 
-#: weblate/trans/templatetags/translations.py:731
+#: weblate/trans/templatetags/translations.py:732
 #, python-format
 msgid "This component is linked to the %(target)s repository."
 msgstr ""
 
-#: weblate/trans/templatetags/translations.py:744
-#: weblate/trans/templatetags/translations.py:771
+#: weblate/trans/templatetags/translations.py:745
+#: weblate/trans/templatetags/translations.py:765
 #, fuzzy
 #| msgid "Translation is currently not locked."
 msgid "This translation is locked."
 msgstr "N'eo ket prennet an treiñ."
 
-#: weblate/trans/templatetags/translations.py:749
+#: weblate/trans/templatetags/translations.py:750
 #, fuzzy
 #| msgid "Translation context"
 msgid "Updating translation component…"
 msgstr "Kendestenn ar meneg da dreiñ"
 
-#: weblate/trans/templatetags/translations.py:766
+#: weblate/trans/templatetags/translations.py:760
 msgid "Some of the components within this project have alerts."
 msgstr ""
 
-#: weblate/trans/templatetags/translations.py:801
+#: weblate/trans/templatetags/translations.py:795
 #, fuzzy
 #| msgid "Projects"
 msgid "You administrate this project."
 msgstr "Raktresoù"
 
-#: weblate/trans/templatetags/translations.py:814
+#: weblate/trans/templatetags/translations.py:808
 #, fuzzy
 #| msgid "Translation is currently not locked."
 msgid "This translation does not yet exist."
 msgstr "N'eo ket prennet an treiñ."
 
-#: weblate/trans/templatetags/translations.py:827
+#: weblate/trans/templatetags/translations.py:821
 #, fuzzy, python-format
 #| msgid "Source strings review"
 msgid "%(count)s string is not being translated here."
@@ -13316,13 +13353,13 @@ msgstr[2] "Selladenn ouzh mammennoù an neudennadoù"
 msgstr[3] "Selladenn ouzh mammennoù an neudennadoù"
 msgstr[4] "Selladenn ouzh mammennoù an neudennadoù"
 
-#: weblate/trans/templatetags/translations.py:840
+#: weblate/trans/templatetags/translations.py:834
 #, fuzzy, python-format
 #| msgid "Hosting site"
 msgid "Shared from the %s project."
 msgstr "Lec'hienn herberc'hiañ"
 
-#: weblate/trans/templatetags/translations.py:863
+#: weblate/trans/templatetags/translations.py:857
 msgid "enabled"
 msgstr ""
 
@@ -13505,134 +13542,134 @@ msgstr "Pa vo bet gweredekaet ho kont, kit da welet ar rann dreiñ."
 msgid "Please set your full name and e-mail in your profile."
 msgstr ""
 
-#: weblate/trans/views/edit.py:247 weblate/trans/views/edit.py:532
+#: weblate/trans/views/edit.py:248 weblate/trans/views/edit.py:533
 msgid "No string matched your search!"
 msgstr ""
 
-#: weblate/trans/views/edit.py:271
+#: weblate/trans/views/edit.py:272
 msgid "Your suggestion is empty!"
 msgstr ""
 
-#: weblate/trans/views/edit.py:276
+#: weblate/trans/views/edit.py:277
 msgid "You don't have privileges to add suggestions!"
 msgstr ""
 
-#: weblate/trans/views/edit.py:282
+#: weblate/trans/views/edit.py:283
 #, fuzzy
 #| msgid "Translation"
 msgid "Your suggestion has been identified as spam!"
 msgstr "Troidigezh"
 
-#: weblate/trans/views/edit.py:293
+#: weblate/trans/views/edit.py:294
 #, fuzzy
 #| msgid "Translation"
 msgid "Your suggestion already exists!"
 msgstr "Troidigezh"
 
-#: weblate/trans/views/edit.py:314
+#: weblate/trans/views/edit.py:315
 #, python-format
 msgid "Following fixups were applied to translation: %s"
 msgstr ""
 
-#: weblate/trans/views/edit.py:330
+#: weblate/trans/views/edit.py:331
 #, python-format
 msgid ""
 "Added %(language)s to your translated languages. You can adjust them in the "
 "settings."
 msgstr ""
 
-#: weblate/trans/views/edit.py:340
+#: weblate/trans/views/edit.py:341
 #, python-format
 msgid ""
 "Added %(project)s to your watched projects. You can adjust them and this "
 "behavior in the settings."
 msgstr ""
 
-#: weblate/trans/views/edit.py:359
+#: weblate/trans/views/edit.py:360
 #, python-brace-format
 msgid ""
 "The translation has been saved, however there are some newly failing checks: "
 "{0}"
 msgstr ""
 
-#: weblate/trans/views/edit.py:402
+#: weblate/trans/views/edit.py:403
 msgid "Invalid merge request!"
 msgstr ""
 
-#: weblate/trans/views/edit.py:420
+#: weblate/trans/views/edit.py:421
 #, fuzzy
 #| msgid "Songhai languages"
 msgid "Invalid revert request!"
 msgstr "Yezhoù Songhai"
 
-#: weblate/trans/views/edit.py:430
+#: weblate/trans/views/edit.py:431
 msgid "Can not revert to empty translation!"
 msgstr ""
 
-#: weblate/trans/views/edit.py:449
+#: weblate/trans/views/edit.py:450
 msgid "You do not have privilege to accept suggestions!"
 msgstr ""
 
-#: weblate/trans/views/edit.py:455
+#: weblate/trans/views/edit.py:456
 msgid "You do not have privilege to delete suggestions!"
 msgstr ""
 
-#: weblate/trans/views/edit.py:461
+#: weblate/trans/views/edit.py:462
 msgid "You do not have privilege to vote for suggestions!"
 msgstr ""
 
-#: weblate/trans/views/edit.py:485
+#: weblate/trans/views/edit.py:486
 msgid "Invalid suggestion!"
 msgstr ""
 
-#: weblate/trans/views/edit.py:547
+#: weblate/trans/views/edit.py:548
 msgid "Invalid search string!"
 msgstr ""
 
-#: weblate/trans/views/edit.py:667 weblate/trans/views/search.py:86
+#: weblate/trans/views/edit.py:668 weblate/trans/views/search.py:86
 #: weblate/trans/views/search.py:236
 msgid "Failed to process form!"
 msgstr ""
 
-#: weblate/trans/views/edit.py:687
+#: weblate/trans/views/edit.py:688
 #, fuzzy
 #| msgid "Automatic translation"
 msgid "Automatic translation in progress"
 msgstr "Treiñ emgefre"
 
-#: weblate/trans/views/edit.py:723
+#: weblate/trans/views/edit.py:724
 #, fuzzy
 #| msgid "Source strings review"
 msgid "Source needs review"
 msgstr "Selladenn ouzh mammennoù an neudennadoù"
 
-#: weblate/trans/views/edit.py:726
+#: weblate/trans/views/edit.py:727
 msgid "Posted new comment"
 msgstr ""
 
-#: weblate/trans/views/edit.py:728
+#: weblate/trans/views/edit.py:729
 msgid "Failed to add comment!"
 msgstr ""
 
-#: weblate/trans/views/edit.py:747
+#: weblate/trans/views/edit.py:748
 #, fuzzy
 #| msgid "Translation has been saved!"
 msgid "Translation comment has been deleted."
 msgstr "Troidigezh enrollet !"
 
-#: weblate/trans/views/edit.py:765
+#: weblate/trans/views/edit.py:766
 #, fuzzy
 #| msgid "Translation has been saved!"
 msgid "Translation comment has been resolved."
 msgstr "Troidigezh enrollet !"
 
-#: weblate/trans/views/edit.py:917
+#: weblate/trans/views/edit.py:921
 #, fuzzy
 #| msgid "Translation"
 msgid "This string seems to already exist."
 msgstr "Troidigezh"
 
-#: weblate/trans/views/edit.py:924
+#: weblate/trans/views/edit.py:928
 #, fuzzy
 #| msgid "Translation has been saved!"
 msgid "New string has been added."
@@ -15208,11 +15245,6 @@ msgstr "Kregiñ gant un droidigezh nevez"
 #~| msgid "This translation is currently locked for updates!"
 #~ msgid "This translation component is currently being updated."
 #~ msgstr "Stanket eo an droidigezh-mañ d'an hizivadennoù evit ar poent !"
-
-#, fuzzy
-#~| msgid "Translation context"
-#~ msgid "There are some alerts on this component"
-#~ msgstr "Kendestenn ar meneg da dreiñ"
 
 #~ msgid "Image %(widget)s"
 #~ msgstr "Skeudenn %(widget)s"
