@@ -13,11 +13,15 @@ Tracking dependencies for vulnerabilities
 We do monitor security issues in our dependencies using `Dependabot
 <https://dependabot.com/>`_. This covers Python and JavaScript libraries and
 latest stable release should have adjusted dependencies to avoid
-vulnerabilities. There might be vulnerabilities in third-party libraries which
-do not affect Weblate, and we do not address these in a bugfix release.
+vulnerabilities.
 
-Docker container security
--------------------------
+.. hint::
+
+   There might be vulnerabilities in third-party libraries which do not affect
+   Weblate, and we do not address these in a bugfix release.
+
+Docker containers security
+--------------------------
 
 The Docker containers are scanned using `Anchore <https://anchore.com/>`_ and
 `Trivy <https://github.com/aquasecurity/trivy>`_.
