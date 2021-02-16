@@ -176,7 +176,7 @@ Notable configuration or dependencies changes:
 * There is a change in :setting:`django:INSTALLED_APPS`, ``weblate.configuration`` has to be added there.
 * Django 3.1 is now required.
 * In case you are using MySQL or MariaDB, the minimal required versions have increased, see :ref:`mysql`.
-* **Changed in 4.4.1:** :ref:`mono_gettext` now uses both ``msgid`` and ``msgctxt`` when present. This will change IDs of translation strings in such files. Please make sure you commit pending changes in such files prior upgrading.
+* **Changed in 4.4.1:** :ref:`mono_gettext` now uses both ``msgid`` and ``msgctxt`` when present. This will change IDs of translation strings in such files. Please make sure you commit pending changes in such files prior upgrading and it is recommeded to force loading of affected component using :djadmin:`loadpo`.
 * **Changed in 4.4.1:** Increased minimal required version of translate-toolkit to address several file format issues.
 
 .. seealso:: :ref:`generic-upgrade-instructions`
