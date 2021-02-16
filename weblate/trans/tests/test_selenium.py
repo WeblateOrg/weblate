@@ -117,6 +117,8 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         # https://stackoverflow.com/a/50642913/225718
         options.add_argument("--no-sandbox")
         options.add_argument("--disable-dev-shm-usage")
+        # https://stackoverflow.com/a/56638103/225718
+        options.add_argument("--remote-debugging-port=9222")
 
         # Force Chrome in English
         options.add_argument("--lang=en")
