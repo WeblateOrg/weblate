@@ -32,6 +32,6 @@ of the container containing fixes.
 You can get the results of these scans at GitHub - they are stored as artifacts
 on our CI as Static Analysis Results Interchange Format (SARIF).
 
-.. see-also::
+.. seealso::
 
    :ref:`ci-tests`
