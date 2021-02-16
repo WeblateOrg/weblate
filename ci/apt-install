@@ -4,6 +4,9 @@ set -e -x
 
 CI_DATABASE="$1"
 
+mkdir -p /run/user/1000
+chown -R 1000:1000 /run/user/1000
+
 # Update package lists
 apt-get update
 
