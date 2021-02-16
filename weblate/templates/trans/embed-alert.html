@@ -9,10 +9,6 @@
 {% endspaceless %}
 {% endfor %}
 
-{% if component.is_glossary %}
-  <span class="label label-{{ component.glossary_color }}">{% trans "Glossary" %}</span>
-{% endif %}
-
 {% if component.license and component.license != "proprietary" %}
 <span title="{{ component.get_license_display }}" class="license badge">{{ component.license_badge }}</span>
 {% endif %}

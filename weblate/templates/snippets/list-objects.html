@@ -46,6 +46,9 @@
 {% endif %}
 </td>
 <th class="object-link">
+{% if object.is_glossary %}
+  <span class="label label-{{ object.glossary_color }}">{% trans "Glossary" %}</span>
+{% endif %}
 {% if object.is_ghost %}
     <span class="ghost">
     {% if name_source == "language" %}
