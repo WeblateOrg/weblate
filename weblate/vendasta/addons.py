@@ -5,7 +5,9 @@ import requests
 
 from weblate.addons.base import BaseAddon
 from weblate.addons.events import EVENT_POST_COMMIT, EVENT_UPDATE_REMOTE_BRANCH
+from weblate.addons.models import Addon
 from weblate.logger import LOGGER
+from weblate.trans.models import Component
 from weblate.utils.requests import request
 
 
@@ -56,3 +58,23 @@ class NotifyLexicon(BaseAddon):
                         component_name,
                         language_code,
                     )
+
+        linked_components = Component.objects.filter(
+            repo__exact="weblate://{}".format(component_name)
+        ).distinct()
+
+        for linked_component in linked_components:
+            LOGGER.info(
+                "######## Found linked component name %s", linked_component.name
+            )
+            if (
+                Addon.objects.filter(name__exact="Notify Lexicon")
+                .filter(component__name__exact=linked_component.name)
+                .count()
+            ):
+                LOGGER.info("######## Notifying lexicon")
+                self.notify_lexicon(linked_component)
+            else:
+                LOGGER.info("######## Not notifying lexicon")
+        if linked_components.count() == 0:
+            LOGGER.info("######## Found zero linked components")
