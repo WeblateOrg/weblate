@@ -236,6 +236,12 @@ Managing fonts
 
 .. versionadded:: 3.7
 
+.. hint::
+
+   Fonts uploaded into Weblate are used purely for purposes of the
+   :ref:`check-max-size` check, the do not have an effect in Weblate user
+   interface.
+
 The :ref:`check-max-size` check used to calculate dimensions of the rendered
 text needs font to be loaded into Weblate and selected using a translation flag
 (see :ref:`custom-checks`).
