@@ -207,7 +207,7 @@ class ComponentQuerySet(FastDeleteQuerySetMixin, models.QuerySet):
 
     def order(self):
         """Ordering in project scope by priority."""
-        return self.order_by("priority", "name")
+        return self.order_by("priority", "is_glossary", "name")
 
     def with_repo(self):
         return self.exclude(repo__startswith="weblate:")
