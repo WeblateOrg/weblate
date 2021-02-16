@@ -426,6 +426,17 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         )
         return project
 
+    def create_glossary(self, project, language):
+        glossary = project.glossaries[0].translation_set.get(language=language)
+        glossary.add_units(
+            None,
+            [
+                ("", "machine translation", "strojový překlad"),
+                ("", "project", "projekt"),
+            ],
+        )
+        return glossary
+
     def view_site(self):
         with self.wait_for_page_load():
             self.click(htmlid="return-to-weblate")
@@ -474,7 +485,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             "machine translation engines to get the best possible "
             "translations and applies them in this project."
         )
-        self.create_component()
+        project = self.create_component()
         language = Language.objects.get(code="cs")
 
         source = Unit.objects.get(
@@ -482,22 +493,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         ).source_unit
         source.explanation = "Help text for automatic translation tool"
         source.save()
-        glossary = source.translation.component.project.glossaries[0].add_new_language(
-            language,
-            None,
-        )
-        glossary.unit_set.create(
-            source="machine translation",
-            target="strojový překlad",
-            id_hash=1,
-            position=1,
-        )
-        glossary.unit_set.create(
-            source="project",
-            target="projekt",
-            id_hash=2,
-            position=2,
-        )
+        self.create_glossary(project, language)
         source.translation.component.alert_set.all().delete()
 
         def capture_unit(name, tab):
@@ -1185,3 +1181,25 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         # Close modal dialog
         self.driver.find_element(By.ID, "id_extra_flags").send_keys(Keys.ESCAPE)
         time.sleep(0.5)
+
+    def test_glossary(self):
+        self.do_login()
+        project = self.create_component()
+        language = Language.objects.get(code="cs")
+        glossary = self.create_glossary(project, language)
+
+        self.driver.get(f"{self.live_server_url}{glossary.get_absolute_url()}")
+        self.screenshot("glossary-component.png")
+
+        with self.wait_for_page_load():
+            self.click("Czech")
+
+        with self.wait_for_page_load():
+            self.click("Browse")
+        self.screenshot("glossary-browse.png")
+
+        with self.wait_for_page_load():
+            self.click(self.driver.find_element(By.PARTIAL_LINK_TEXT, "projekt"))
+
+        self.click(htmlid="unit_tools_dropdown")
+        self.screenshot("glossary-tools.png")
