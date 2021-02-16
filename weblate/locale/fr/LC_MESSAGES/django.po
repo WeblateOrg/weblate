@@ -29,7 +29,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-02-16 18:58+0000\n"
 "PO-Revision-Date: 2021-02-17 03:22+0000\n"
-"Last-Translator: Julien Humbert <julroy67@gmail.com>\n"
+"Last-Translator: Ldm Public <ldmpub@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/weblate/"
 "application/fr/>\n"
 "Language: fr\n"
@@ -2530,7 +2530,7 @@ msgstr "Pluriel identique"
 
 #: weblate/checks/consistency.py:56
 msgid "Some plural forms are translated in the same way"
-msgstr "Certaines formes de pluriels sont traduites de la même manière"
+msgstr "Les traductions au singulier et au pluriel sont identiques"
 
 #: weblate/checks/consistency.py:75
 msgid "Inconsistent"
@@ -6508,7 +6508,7 @@ msgstr "Réinitialiser toutes les modifications dans le dépôt Weblate"
 #: weblate/templates/js/git-status.html:109
 #: weblate/templates/translate.html:475
 msgid "Reset"
-msgstr "Réinitialiser"
+msgstr "Ignorer"
 
 #: weblate/templates/js/git-status.html:112
 msgid "Cleanup all untracked files in the Weblate repository"
@@ -8106,7 +8106,7 @@ msgstr "Chaînes de commentaire"
 
 #: weblate/templates/snippets/query-builder.html:19
 msgid "Location strings"
-msgstr "Chaînes d’emplacement"
+msgstr "Emplacement"
 
 #: weblate/templates/snippets/query-builder.html:20
 msgid "String state"
@@ -8118,11 +8118,11 @@ msgstr "Chaîne en attente"
 
 #: weblate/templates/snippets/query-builder.html:22
 msgid "String target language"
-msgstr "Langue cible de la chaîne de caractères"
+msgstr "Langue cible de la chaîne"
 
 #: weblate/templates/snippets/query-builder.html:23
 msgid "String changed by"
-msgstr "Chaîne modifiée par"
+msgstr "Chaînes modifiées par"
 
 #: weblate/templates/snippets/query-builder.html:26
 msgid "Search for…"
@@ -8603,10 +8603,8 @@ msgstr ""
 "hébergement libre."
 
 #: weblate/templates/trans/alert/nomaskmatches.html:4
-#, fuzzy
-#| msgid "There are some alerts on this component"
 msgid "There are no translations in this component."
-msgstr "Il y a des alertes pour ce composant"
+msgstr "Il n'y a aucune traduction de ce composant."
 
 #: weblate/templates/trans/alert/nomaskmatches.html:7
 #, python-format
@@ -8614,18 +8612,16 @@ msgid ""
 "Check whether file mask <code>%(filemask)s</code> matches files in your "
 "repository."
 msgstr ""
+"Vérifiez si le motif de fichier <code>%(filemask)s</code> correspond aux "
+"fichiers de votre dépôt."
 
 #: weblate/templates/trans/alert/nomaskmatches.html:8
-#, fuzzy
-#| msgid ""
-#| "You can add a new translation string here, it will automatically appear "
-#| "in all translations."
 msgid ""
 "You can also start new translations directly in Weblate, it will create "
 "files based on the file mask."
 msgstr ""
-"Vous pouvez ajouter une nouvelle chaîne de traduction ici, elle apparaîtra "
-"automatiquement dans toutes les traductions."
+"Vous pouvez également ajouter une nouvelle traduction directement dans "
+"Weblate, les fichiers seront créés à partir du motif de fichier."
 
 #: weblate/templates/trans/alert/occurrences-limit.html:4
 #, python-format
@@ -8635,7 +8631,9 @@ msgid_plural ""
 "Only part of the occurrences are shown, in total there were %(count)s of "
 "them."
 msgstr[0] ""
+"Seule une partie des occurrences est affichée, au total il y en a %(count)s."
 msgstr[1] ""
+"Seule une partie des occurrences est affichée, au total il y en a %(count)s."
 
 #: weblate/templates/trans/alert/parseerror.html:4
 msgid ""
@@ -10358,10 +10356,8 @@ msgid "Unused enforced checks."
 msgstr "Vérifications forcées inutilisées."
 
 #: weblate/trans/models/alert.py:360
-#, fuzzy
-#| msgid "More users matched."
 msgid "No mask matches."
-msgstr "D’autres utilisateurs ont été trouvés."
+msgstr "Aucun motif correspondant."
 
 #: weblate/trans/models/announcement.py:111
 msgid "Category"
