@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-02-15 14:11+0100\n"
-"PO-Revision-Date: 2021-02-15 08:16+0000\n"
+"PO-Revision-Date: 2021-02-16 07:44+0000\n"
 "Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "documentation/ja/>\n"
@@ -1280,8 +1280,6 @@ msgid "Bulk edit"
 msgstr "一括編集"
 
 #: ../../admin/addons.rst:147
-#, fuzzy
-#| msgid "Bulk edit flags, labels or state for strings."
 msgid "Bulk edit flags, labels, or states of strings."
 msgstr "文字列のフラグ、ラベル、状態を一括編集します。"
 
@@ -1336,10 +1334,8 @@ msgid "``read-only``"
 msgstr "``read-only``"
 
 #: ../../admin/addons.rst:174
-#, fuzzy
-#| msgid ":ref:`fonts`, :ref:`custom-checks`, :ref:`check-max-length`"
 msgid ":ref:`bulk-edit`, :ref:`custom-checks`, :ref:`labels`"
-msgstr ":ref:`fonts`、:ref:`custom-checks`、:ref:`check-max-length`"
+msgstr ":ref:`bulk-edit`、:ref:`custom-checks`、:ref:`labels`"
 
 #: ../../admin/addons.rst:182
 msgid "Flag unchanged translations as \"Needs editing\""
@@ -2732,15 +2728,15 @@ msgstr ""
 
 #: ../../admin/backup.rst:22
 msgid "Daily backups for 14 days back"
-msgstr "過去 14 日分の日次バックアップ"
+msgstr "日次バックアップ、過去 14 日分"
 
 #: ../../admin/backup.rst:23
 msgid "Weekly backups for 8 weeks back"
-msgstr "過去 6 週分の週次バックアップ"
+msgstr "週次バックアップ、過去 6 週分"
 
 #: ../../admin/backup.rst:24
 msgid "Monthly backups for 6 months back"
-msgstr "過去 6 か月分の月次バックアップ"
+msgstr "月次バックアップ、過去 6 か月分"
 
 #: ../../admin/backup.rst:31
 msgid "Borg encryption key"
@@ -2752,12 +2748,14 @@ msgid ""
 "them without the passphrase. The passphrase is generated when adding a new "
 "backup service and you should copy it and keep it in a secure place."
 msgstr ""
+"`BorgBackup`_ は暗号化したバックアップを作成するので、パスフレーズがないと復元できません。パスフレーズは、新しいバックアップ "
+"サービスを追加するときに生成されるので、コピーして安全な場所に保管しておくことが必要です。"
 
 #: ../../admin/backup.rst:37
 msgid ""
 "If you are using :ref:`cloudbackup`, please backup your private SSH key too, "
 "as it’s used to access your backups."
-msgstr ""
+msgstr ":ref:`cloudbackup` を使用している場合は、バックアップに接続するための SSH 秘密鍵もバックアップしてください。"
 
 #: ../../admin/backup.rst:42
 msgid ":doc:`borg:usage/init`"
@@ -2765,7 +2763,7 @@ msgstr ":doc:`borg:usage/init`"
 
 #: ../../admin/backup.rst:47
 msgid "Weblate provisioned backup storage"
-msgstr ""
+msgstr "Weblate 専用のバックアップ ストレージ"
 
 #: ../../admin/backup.rst:49
 msgid ""
@@ -2773,26 +2771,28 @@ msgid ""
 "`backup service at weblate.org <https://weblate.org/support/#backup>`_. This "
 "is how you get it running:"
 msgstr ""
+"Weblate のインスタンスをバックアップする最も簡単な方法は、`backup service at weblate.org `_ "
+"を購入することです。導入手順:"
 
 #: ../../admin/backup.rst:53
 msgid "Purchase the `Backup service` on https://weblate.org/support/#backup."
-msgstr ""
+msgstr "https://weblate.org/support/#backup から `バックアップ サービス` を購入する。"
 
 #: ../../admin/backup.rst:54
 msgid ""
 "Enter the obtained key in the management interface, see :ref:`activate-"
 "support`."
-msgstr ""
+msgstr "取得したキーを管理画面から入力する。参照: :ref:`activate-support`。"
 
 #: ../../admin/backup.rst:55
 msgid ""
 "Weblate connects to the cloud service and obtains access info for the "
 "backups."
-msgstr ""
+msgstr "Weblate はクラウド サービスに接続し、バックアップのための接続情報を取得する。"
 
 #: ../../admin/backup.rst:56
 msgid "Turn on the new backup configuration from the :guilabel:`Backups` tab."
-msgstr ""
+msgstr ":guilabel:`バックアップ` タブから、新しいバックアップの設定を有効にする。"
 
 #: ../../admin/backup.rst:57
 msgid ""
@@ -2808,10 +2808,11 @@ msgid ""
 "your consent no data is sent to the backup repository obtained through the "
 "registration process."
 msgstr ""
+"手動ですべてを有効にする手順なのは、安全のためです。ユーザーの同意がなければ、登録の過程で取得したデータはバックアップ リポジトリに送信しません。"
 
 #: ../../admin/backup.rst:68
 msgid "Using custom backup storage"
-msgstr "カスタム バックアップ ストレージの使用"
+msgstr "独自のバックアップ ストレージの使用"
 
 #: ../../admin/backup.rst:70
 msgid ""
@@ -2819,10 +2820,12 @@ msgid ""
 "backups in the remote destination, the target server needs to have "
 "`BorgBackup`_ installed."
 msgstr ""
+"バックアップには、独自のストレージも使用できます。SSH を使用してリモート接続先にバックアップを保存できます。対象のサーバーには "
+"`BorgBackup`_ のインストールが必要です。"
 
 #: ../../admin/backup.rst:76
 msgid ":doc:`borg:usage/general` in the Borg documentation"
-msgstr ""
+msgstr "Borgドキュメント項目 :doc:`borg:usage/general`"
 
 #: ../../admin/backup.rst:79
 msgid "Local filesystem"
@@ -3202,10 +3205,8 @@ msgstr ""
 "完全修飾パスを指定します。参照: :ref:`custom-check-modules`。"
 
 #: ../../admin/checks.rst:27
-#, fuzzy
-#| msgid "Customizing behavior"
 msgid "Customizing behavior using flags"
-msgstr "動作のカスタマイズ"
+msgstr "フラグを使用した動作の設定"
 
 #: ../../admin/checks.rst:29
 msgid ""
@@ -12067,9 +12068,8 @@ msgid ""
 ":setting:`MT_APERTIUM_APY`, `Apertium website <https://www.apertium.org/>`_, "
 "`Apertium APy documentation <https://wiki.apertium.org/wiki/Apertium-apy>`_"
 msgstr ""
-":setting:`MT_APERTIUM_APY`、`Apertium Web サイト <https://www.apertium.org/"
-">`_、`Apertium apy ドキュメント <https://wiki.apertium.org/wiki/Apertium-"
-"apy>`_"
+":setting:`MT_APERTIUM_APY`、`Apertium Web サイト <https://www.apertium.org/>`_、`"
+"Apertium APy ドキュメント <https://wiki.apertium.org/wiki/Apertium-apy>`_"
 
 #: ../../admin/machine.rst:47
 msgid "AWS"
@@ -13931,8 +13931,6 @@ msgid "``GLOSSARY``"
 msgstr "``GLOSSARY``"
 
 #: ../../admin/optionals.rst:262
-#, fuzzy
-#| msgid "Starting translation in new language"
 msgid "Starting translation into a new language"
 msgstr "新しい言語での翻訳の開始"
 
@@ -14829,7 +14827,7 @@ msgstr ""
 
 #: ../../admin/projects.rst:611
 msgid "Merge style"
-msgstr "マージスタイル"
+msgstr "マージ スタイル"
 
 #: ../../admin/projects.rst:613
 msgid ""
@@ -18544,10 +18542,8 @@ msgid "Added pseudolocale generation addon."
 msgstr ""
 
 #: ../../changes.rst:11
-#, fuzzy
-#| msgid "Added support for Term Base eXchange files."
 msgid "Added support for TermBase eXchange files."
-msgstr "Term Base eXchange ファイル対応の追加。"
+msgstr "TermBase eXchange ファイルに対応。"
 
 #: ../../changes.rst:12
 msgid "Added support for manually defining string variants using a flag."
@@ -18579,16 +18575,12 @@ msgid "Automatically enable Java MessageFormat checks for Java Properties."
 msgstr "Java プロパティの Java MessageFormat の自動検出を有効にする。"
 
 #: ../../changes.rst:19
-#, fuzzy
-#| msgid "Added new upload method to add new strings to a translation."
 msgid "Added a new upload method to add new strings to a translation."
 msgstr "翻訳に新しい文字列を追加する新しいアップロード メソッドの追加。"
 
 #: ../../changes.rst:20
-#, fuzzy
-#| msgid "Added simple interface to browse translation."
 msgid "Added a simple interface to browse translation."
-msgstr "翻訳の閲覧用の簡単な画面のついた。"
+msgstr "翻訳の閲覧用の簡単な画面の追加。"
 
 #: ../../changes.rst:22
 msgid "Dropped specific API for glossaries as component API is used now."
@@ -18599,10 +18591,8 @@ msgid "Added simplified interface to toggle some of the flags."
 msgstr ""
 
 #: ../../changes.rst:24
-#, fuzzy
-#| msgid "Added support for non-translatable or forbidden terms in glossary."
 msgid "Added support for non-translatable or forbidden terms in the glossary."
-msgstr "用語集に翻訳できない、または禁止されている用語に対応の追加。"
+msgstr "用語集に翻訳不可、または禁止する用語の機能の追加。"
 
 #: ../../changes.rst:25
 msgid "Added support for defining terminology in a glossary."
@@ -18613,10 +18603,8 @@ msgid "Moved text direction toggle to get more space for the visual keyboard."
 msgstr ""
 
 #: ../../changes.rst:27
-#, fuzzy
-#| msgid "Added option to automatically watch projects user contributed to."
 msgid "Added option to automatically watch projects user-contributed to."
-msgstr "ユーザーが貢献したプロジェクトを自動的に監視するオプションの追加。"
+msgstr "ユーザーが貢献したプロジェクトを自動的に監視に追加するオプションの追加。"
 
 #: ../../changes.rst:28
 msgid "Added check whether translation matches the glossary."
@@ -28571,11 +28559,6 @@ msgid "`GWT Properties`"
 msgstr ""
 
 #: ../../formats.rst:452
-#, fuzzy
-#| msgid ""
-#| "`GWT localization guide <http://www.gwtproject.org/doc/latest/"
-#| "DevGuideI18n.html>`_ :doc:`tt:formats/properties`, :ref:`addon-weblate."
-#| "properties.sort`, :ref:`addon-weblate.cleanup.generic`"
 msgid ""
 "`GWT localization guide <http://www.gwtproject.org/doc/latest/DevGuideI18n."
 "html>`_, `GWT Internationalization Tutorial <http://www.gwtproject.org/doc/"
@@ -28583,8 +28566,9 @@ msgid ""
 "weblate.properties.sort`, :ref:`addon-weblate.cleanup.generic`"
 msgstr ""
 "`GWT localization guide <http://www.gwtproject.org/doc/latest/DevGuideI18n."
-"html>`_ :doc:`tt:formats/properties`、:ref:`addon-weblate.properties.sort`、:"
-"ref:`addon-weblate.cleanup.generic`"
+"html>`_、`GWT Internationalization Tutorial <http://www.gwtproject.org/doc/"
+"latest/tutorial/i18n.html>`_、:doc:`tt:formats/properties`、:ref:`addon-weblate"
+".properties.sort`、:ref:`addon-weblate.cleanup.generic`"
 
 #: ../../formats.rst:461
 msgid "INI translations"
@@ -30076,19 +30060,21 @@ msgid ""
 "This check has to be turned on using ``check-glossary`` flag (see :ref:"
 "`custom-checks`). Please consider following prior to enabling it:"
 msgstr ""
+"この検査は、``check-glossary`` フラグを使用して有効にします（参照: :ref:`custom-"
+"checks`）。有効にする前に、考慮が必要な項目:"
 
 #: ../../user/checks.rst:91
 msgid ""
 "It does exact string matching, the glossary is expected to contain terms in "
 "all variants."
-msgstr ""
+msgstr "完全な文字列の一致を行います。用語集には、用語の異なる表記はすべて含まれていることが前提です。"
 
 #: ../../user/checks.rst:92
 msgid ""
 "Checking each string against glossary is expensive, it will slow down any "
 "operation in Weblate which involves running checks like importing strings or "
 "translating."
-msgstr ""
+msgstr "各文字列を用語集と照合して検査するのは大変な作業です。Weblate のすべての操作、文字列のインポートや翻訳などの検査が遅くなります。"
 
 #: ../../user/checks.rst:96
 msgid ":ref:`glossary`, :ref:`custom-checks`, :ref:`component-check_flags`"
@@ -31853,8 +31839,8 @@ msgid ""
 "guilabel:`Mark as read-only`. In the background this toggles the ``read-"
 "only`` flag of the string."
 msgstr ""
-":guilabel:`ツール` ↓ :guilabel:`編集不可に設定` を選択して、原文言語の用語に"
-"フラグを立てます。内部では、文字列のフラグを ``read-only`` に切り替えます。"
+":guilabel:`ツール` ↓ :guilabel:`編集不可に設定` を選択して、原文言語の用語にフラグを立てます。内部では、文字列のフラグを "
+"``read-only`` に設定します。"
 
 #: ../../user/glossary.rst:52
 msgid "Forbidden translations"
@@ -31876,8 +31862,8 @@ msgid ""
 "translation`. In the background this toggles the ``forbidden`` flag of the "
 "string."
 msgstr ""
-":guilabel:`ツール` ↓ :guilabel:`翻訳禁止の設定` を選択して、用語にフラグを立"
-"てます。内部では、 文字列のフラグを ``forbidden`` に切り替えます。"
+":guilabel:`ツール` ↓ :guilabel:`翻訳禁止の設定` を選択して、用語にフラグを立てます。内部では、 文字列のフラグを "
+"``forbidden`` に設定します。"
 
 #: ../../user/glossary.rst:71
 msgid "Terminology"
@@ -31899,9 +31885,8 @@ msgid ""
 "guilabel:`Mark as terminology`. In the background this toggles the "
 "``terminology`` flag of the string."
 msgstr ""
-":guilabel:`ツール` ↓ :guilabel:`専門用語に設定` を選択して、原文の言語の用語"
-"にフラグを設定します。内部では、文字列フラグを ``terminology`` に切り替えま"
-"す。"
+":guilabel:`ツール` ↓ :guilabel:`専門用語に設定` を選択して、原文の言語の用語にフラグを設定します。内部では、文字列フラグを "
+"``terminology`` に設定します。"
 
 #: ../../user/profile.rst:2
 msgid "Registration and user profile"
