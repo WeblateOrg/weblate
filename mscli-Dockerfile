@@ -28,6 +28,10 @@ COPY setup-ci.py /usr/src/setup.py
 COPY requirements.txt /usr/src/
 COPY weblate /usr/src/weblate/
 
+# Suppress Rust compilation
+# Fixes an error that appears while installing cryptography
+ENV CRYPTOGRAPHY_DONT_BUILD_RUST=1
+
 # Install dependencies
 RUN set -x \
   && export DEBIAN_FRONTEND=noninteractive \
