@@ -79,3 +79,5 @@ class NotifyLexicon(BaseAddon):
                     LOGGER.info("######## Not notifying lexicon")
             if linked_components.count() == 0:
                 LOGGER.info("######## Found zero linked components")
+        else:
+            LOGGER.info("######## Not updating linked components")
