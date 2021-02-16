@@ -36,7 +36,7 @@ class Command(BaseCommand):
             version = ref = weblate.utils.version.GIT_REVISION
         else:
             # Get commit hash from GitHub
-            version = weblate.TAG_NAME
+            version = weblate.utils.version.TAG_NAME
             response = requests.get(TAGS_API.format(version))
             response.raise_for_status()
             response = requests.get(response.json()["object"]["url"])
