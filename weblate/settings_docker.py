@@ -973,13 +973,16 @@ WEBLATE_ADDONS = [
     "weblate.addons.gettext.GettextCustomizeAddon",
     "weblate.addons.gettext.GettextAuthorComments",
     "weblate.addons.cleanup.CleanupAddon",
+    "weblate.addons.cleanup.RemoveBlankAddon",
     "weblate.addons.consistency.LangaugeConsistencyAddon",
     "weblate.addons.discovery.DiscoveryAddon",
+    "weblate.addons.autotranslate.AutoTranslateAddon",
     "weblate.addons.flags.SourceEditAddon",
     "weblate.addons.flags.TargetEditAddon",
     "weblate.addons.flags.SameEditAddon",
     "weblate.addons.flags.BulkEditAddon",
     "weblate.addons.generate.GenerateFileAddon",
+    "weblate.addons.generate.PseudolocaleAddon",
     "weblate.addons.json.JSONCustomizeAddon",
     "weblate.addons.properties.PropertiesSortAddon",
     "weblate.addons.git.GitSquashAddon",
@@ -988,7 +991,6 @@ WEBLATE_ADDONS = [
     "weblate.addons.resx.ResxUpdateAddon",
     "weblate.addons.yaml.YAMLCustomizeAddon",
     "weblate.addons.cdn.CDNJSAddon",
-    "weblate.addons.autotranslate.AutoTranslateAddon",
 ]
 modify_env_list(WEBLATE_ADDONS, "ADDONS")
 
