@@ -13,5 +13,6 @@
     contributing/tests
     contributing/schemas
     contributing/release
+    contributing/security
     contributing/about
     contributing/license
