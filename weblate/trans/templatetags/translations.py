@@ -751,13 +751,6 @@ def component_alerts(component):
             + "?info=1",
         )
 
-    if component.is_glossary:
-        yield (
-            "state/glossary.svg",
-            gettext("Glossary"),
-            None,
-        )
-
 
 def project_alerts(project):
     if project.has_alerts:
