@@ -7,6 +7,9 @@ CI_DATABASE="$1"
 # Update package lists
 apt-get update
 
+# Get latest updates
+apt-get upgrade
+
 # Install dependencies
 apt-get install -y \
     gir1.2-pango-1.0 \
