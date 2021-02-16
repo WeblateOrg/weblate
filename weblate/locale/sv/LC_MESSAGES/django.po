@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.5\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-02-16 18:58+0000\n"
-"PO-Revision-Date: 2021-02-14 17:21+0000\n"
+"PO-Revision-Date: 2021-02-17 05:10+0000\n"
 "Last-Translator: Johan Jacobsson <johan.jacobsson@telia.com>\n"
 "Language-Team: Swedish <https://hosted.weblate.org/projects/weblate/"
 "application/sv/>\n"
@@ -22,7 +22,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.5-dev\n"
+"X-Generator: Weblate 4.5\n"
 
 #: weblate/accounts/avatar.py:103
 msgctxt "No known user"
@@ -1140,10 +1140,8 @@ msgid "Bulk edit"
 msgstr "Massredigering"
 
 #: weblate/addons/flags.py:106
-#, fuzzy
-#| msgid "Bulk edit flags, labels or state for strings."
 msgid "Bulk edit flags, labels, or states of strings."
-msgstr "Massredigering av flaggor, etiketter eller status."
+msgstr "Massredigering av flaggor, etiketter eller strängstatus."
 
 #: weblate/addons/forms.py:53
 msgid "Path of generated MO file"
@@ -1166,10 +1164,8 @@ msgid "Long lines wrapping"
 msgstr "Radbrytning av långa rader"
 
 #: weblate/addons/forms.py:112
-#, fuzzy
-#| msgid "Wrap lines at 77 chars and at newlines"
 msgid "Wrap lines at 77 characters and at newlines"
-msgstr "Radbryt efter 77 tecken och vid newlines"
+msgstr "Radbyt efter 77 tecken och vid radbrytningar"
 
 #: weblate/addons/forms.py:113
 msgid "Only wrap lines at newlines"
@@ -1180,10 +1176,6 @@ msgid "No line wrapping"
 msgstr "Ingen radbrytning"
 
 #: weblate/addons/forms.py:119
-#, fuzzy
-#| msgid ""
-#| "By default gettext wraps lines at 77 chars and newlines. With --no-wrap "
-#| "parameter, it wraps only at newlines."
 msgid ""
 "By default gettext wraps lines at 77 characters and at newlines. With the --"
 "no-wrap parameter, wrapping is only done at newlines."
@@ -1228,11 +1220,6 @@ msgid "Append trailers to squashed commit message"
 msgstr "Lägg till git-trailers till squashade commit meddelande"
 
 #: weblate/addons/forms.py:159
-#, fuzzy
-#| msgid ""
-#| "Trailer lines are lines that look similar to RFC 822 e-mail headers, at "
-#| "the end of the otherwise free-form part of a commit message, such as 'Co-"
-#| "authored-by: ...'."
 msgid ""
 "Trailer lines are lines that look similar to RFC 822 e-mail headers, at the "
 "end of the otherwise free-form part of a commit message, such as 'Co-"
@@ -8431,10 +8418,8 @@ msgstr ""
 "Detta projekt passar inte längre in i de fria (libre) hosting-villkoren."
 
 #: weblate/templates/trans/alert/nomaskmatches.html:4
-#, fuzzy
-#| msgid "There are some alerts on this component"
 msgid "There are no translations in this component."
-msgstr "Det finns några varningar på denna komponent"
+msgstr "Det finns inga översättningar i den här komponenten."
 
 #: weblate/templates/trans/alert/nomaskmatches.html:7
 #, python-format
@@ -8442,18 +8427,16 @@ msgid ""
 "Check whether file mask <code>%(filemask)s</code> matches files in your "
 "repository."
 msgstr ""
+"Kontrollera om filmasken <code>%(filemask)s</code> matchar filer i ditt "
+"arkiv."
 
 #: weblate/templates/trans/alert/nomaskmatches.html:8
-#, fuzzy
-#| msgid ""
-#| "You can add a new translation string here, it will automatically appear "
-#| "in all translations."
 msgid ""
 "You can also start new translations directly in Weblate, it will create "
 "files based on the file mask."
 msgstr ""
-"Här kan du lägga till en ny översättningssträng och den kommer att visas "
-"automatiskt i alla översättningar."
+"Du kan också starta nya översättningar direkt i Weblate. Det skapar filer "
+"baserat på filmasken."
 
 #: weblate/templates/trans/alert/occurrences-limit.html:4
 #, python-format
@@ -8462,8 +8445,8 @@ msgid ""
 msgid_plural ""
 "Only part of the occurrences are shown, in total there were %(count)s of "
 "them."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Endast en del av förekomsterna visas, totalt fanns %(count)s av dem."
+msgstr[1] "Endast en del av förekomsterna visas. Totalt fanns %(count)s av dem."
 
 #: weblate/templates/trans/alert/parseerror.html:4
 msgid ""
@@ -8516,22 +8499,17 @@ msgstr ""
 "när beroenden saknas."
 
 #: weblate/templates/trans/alert/unusedenforcedcheck.html:4
-#, fuzzy
-#| msgid "Following enforced checks are not enabled anywhere:"
 msgid "Following enforced checks are not used anywhere:"
-msgstr "Följande tvingande kontroller är inte aktiverade någonstans:"
+msgstr "Följande tvingande kontroller används inte någonstans:"
 
 #: weblate/templates/trans/alert/unusedenforcedcheck.html:8
-#, fuzzy, python-format
-#| msgid ""
-#| "%(check)s quality check is enforced, but not enabled using <code>"
-#| "%(flag)s</code>."
+#, python-format
 msgid ""
 "%(check)s quality check is enforced, but not turned on using <code>%(flag)s</"
 "code>."
 msgstr ""
-"%(check)s kontrollen är tvingande, men är inte aktiverad med <code>%(flag)s</"
-"code>."
+"Kvalitetskontrollen %(check)s är tvingande, men är inte påslagen genom "
+"<code>%(flag)s</code>."
 
 #: weblate/templates/trans/alert/unusedscreenshot.html:2
 msgid "There is at least one screenshot which is not assigned to any strings."
@@ -10155,10 +10133,8 @@ msgid "Unused enforced checks."
 msgstr "Oanvända tvingande kontroller."
 
 #: weblate/trans/models/alert.py:360
-#, fuzzy
-#| msgid "More users matched."
 msgid "No mask matches."
-msgstr "Flera användare matchade."
+msgstr "Ingen mask matchar."
 
 #: weblate/trans/models/announcement.py:111
 msgid "Category"
@@ -10733,17 +10709,14 @@ msgid "Manage strings"
 msgstr "Hantera strängar"
 
 #: weblate/trans/models/component.py:489
-#, fuzzy
-#| msgid ""
-#| "Disable adding and removing strings in Weblate in case these are "
-#| "automatically extracted from the source code or managed externally."
 msgid ""
 "Enables adding and removing strings straight from Weblate. If your strings "
 "are extracted from the source code or managed externally you probably want "
 "to keep it disabled."
 msgstr ""
-"Inaktivera att lägga till och ta bort strängar i Weblate om dessa extraheras "
-"automatiskt från källkoden eller hanteras externt."
+"Gör det möjligt att lägga till och ta bort strängar direkt från Weblate. Om "
+"dina strängar extraheras från källkoden eller hanteras externt vill du "
+"antagligen hålla den inaktiverad."
 
 #: weblate/trans/models/component.py:497
 msgid "Merge style"
@@ -10965,10 +10938,7 @@ msgid "The language code \"%s\" is too long, please check the filemask."
 msgstr "Språkkoden \"%s\" är för lång, kontrollera filmasken."
 
 #: weblate/trans/models/component.py:2201
-#, fuzzy, python-format
-#| msgid ""
-#| "There is more than one file for %s language, please adjust the filemask "
-#| "and use components for translating a different resources."
+#, python-format
 msgid ""
 "There is more than one file for %s language, please adjust the filemask and "
 "use components for translating different resources."
