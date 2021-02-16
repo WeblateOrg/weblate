@@ -69,7 +69,7 @@ class NotifyLexicon(BaseAddon):
                     "######## Found linked component name %s", linked_component.name
                 )
                 if (
-                    Addon.objects.filter(name__exact="Notify Lexicon")
+                    Addon.objects.filter(name__exact=self.name)
                     .filter(component__name__exact=linked_component.name)
                     .count()
                 ):
