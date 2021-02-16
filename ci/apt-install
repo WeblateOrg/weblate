@@ -7,9 +7,6 @@ CI_DATABASE="$1"
 # Update package lists
 apt-get update
 
-# Get latest updates
-apt-get upgrade
-
 # Install dependencies
 apt-get install -y \
     gir1.2-pango-1.0 \
@@ -36,7 +33,9 @@ apt-get install -y \
     liblz4-dev \
     gir1.2-pango-1.0 \
     cython \
-    tesseract-ocr
+    tesseract-ocr \
+    chromium-chromedriver \
+    chromium-browser
 
 # Remove MySQL 8.x client, use older MariaDB one to ensure compatibility
 if [ "$CI_DATABASE" = "mariadb" ] ; then
