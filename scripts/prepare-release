@@ -14,5 +14,5 @@ sed -i "s/^VERSION =.*/VERSION = \"$version\"/" weblate/utils/version.py
 sed -i "s/^Not yet released./Released on $today./" docs/changes.rst
 
 if ! git diff --exit-code --quiet ; then
-    git commit -m "Releasing $version" -- weblate/__init__.py docs/changes.rst
+    git commit -m "Releasing $version" -- weblate/utils/version.py docs/changes.rst
 fi
