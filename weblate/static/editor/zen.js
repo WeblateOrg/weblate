@@ -167,7 +167,7 @@
           );
         }
         $.each(data.messages, function (i, val) {
-          addAlert(val.text);
+          addAlert(val.text, val.kind);
         });
         $row.removeClass("translation-modified").addClass("translation-saved");
         if (data.translationsum !== "") {

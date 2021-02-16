@@ -51,6 +51,7 @@ from weblate.trans.util import get_state_css, split_plural
 from weblate.utils.docs import get_doc_url
 from weblate.utils.hash import hash_to_checksum
 from weblate.utils.markdown import render_markdown
+from weblate.utils.messages import get_message_kind as get_message_kind_impl
 from weblate.utils.stats import BaseStats, GhostProjectLanguageStats, ProjectLanguage
 from weblate.utils.views import SORT_CHOICES
 
@@ -893,3 +894,8 @@ def sort_choices():
 @register.simple_tag(takes_context=True)
 def render_alert(context, alert):
     return alert.render(user=context["user"])
+
+
+@register.simple_tag
+def get_message_kind(tags):
+    return get_message_kind_impl(tags)

@@ -70,6 +70,7 @@ from weblate.trans.util import (
 from weblate.utils import messages
 from weblate.utils.antispam import is_spam
 from weblate.utils.hash import hash_to_checksum
+from weblate.utils.messages import get_message_kind
 from weblate.utils.ratelimit import revert_rate_limit, session_ratelimit_post
 from weblate.utils.state import STATE_FUZZY, STATE_TRANSLATED
 from weblate.utils.stats import ProjectLanguage
@@ -890,7 +891,10 @@ def save_zen(request, project, component, lang):
 
     storage = get_messages(request)
     if storage:
-        response["messages"] = [{"tags": m.tags, "text": m.message} for m in storage]
+        response["messages"] = [
+            {"tags": m.tags, "kind": get_message_kind(m.tags), "text": m.message}
+            for m in storage
+        ]
         tags = {m.tags for m in storage}
         if "error" in tags:
             response["state"] = "danger"
