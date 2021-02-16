@@ -1,0 +1,6 @@
+{% load i18n %}
+{% if missed_occurrences %}
+  <p>
+    {% blocktrans count count=total_occurrences %}Only part of the occurrences are shown, in total there was {{ count }} of them.{% plural %}Only part of the occurrences are shown, in total there were {{ count }} of them.{% endblocktrans %}
+  </pt>
+{% endif %}

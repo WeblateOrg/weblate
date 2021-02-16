@@ -117,13 +117,21 @@ class ErrorAlert(BaseAlert):
 
 
 class MultiAlert(BaseAlert):
+    occurrences_limit = 100
+
     def __init__(self, instance, occurrences):
         super().__init__(instance)
-        self.occurrences = self.process_occurrences(occurrences)
+        self.occurrences = self.process_occurrences(
+            occurrences[: self.occurrences_limit]
+        )
+        self.total_occurrences = len(occurrences)
+        self.missed_occurrences = self.total_occurrences > self.occurrences_limit
 
     def get_context(self, user):
         result = super().get_context(user)
         result["occurrences"] = self.occurrences
+        result["total_occurrences"] = self.total_occurrences
+        result["missed_occurrences"] = self.missed_occurrences
         return result
 
     def process_occurrences(self, occurrences):
