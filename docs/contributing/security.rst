@@ -29,7 +29,8 @@ The Docker containers are scanned using `Anchore <https://anchore.com/>`_ and
 This allows us to detect vulnerabilities early and release an updated version
 of the container containing fixes.
 
-You can get the results of these scans at GitHub - they are stored as artifacts on our CI.
+You can get the results of these scans at GitHub - they are stored as artifacts
+on our CI as Static Analysis Results Interchange Format (SARIF).
 
 .. see-also::
 
