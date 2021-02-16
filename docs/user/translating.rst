@@ -83,7 +83,8 @@ or window size.
 
 .. seealso::
 
-    :ref:`variants`
+   :ref:`variants`,
+   :ref:`glossary-variants`
 
 Labels
 ------

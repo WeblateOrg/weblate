@@ -83,3 +83,19 @@ The terms can be flagged in the source language using :guilabel:`Tools` ↓
 .. seealso::
 
    :ref:`custom-checks`
+
+.. _glossary-variants:
+
+Variants
+++++++++
+
+Variants are a generic way to group strings together. All term variants are
+listed in the glossary sidebar when translating.
+
+.. hint::
+
+   You can use this to add abbreviations or shorter expressions for a term.
+
+.. seealso::
+
+   :ref:`variants`

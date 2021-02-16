@@ -104,7 +104,8 @@ should be considered together when translating.
 
 .. seealso::
 
-   :ref:`custom-checks`
+   :ref:`custom-checks`,
+   :ref:`glossary-variants`
 
 Variants while translating
 ++++++++++++++++++++++++++
