@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-02-16 18:47+0100\n"
-"PO-Revision-Date: 2021-02-15 21:55+0000\n"
+"PO-Revision-Date: 2021-02-17 01:53+0000\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/"
 "documentation/uk/>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=n==1 ? 3 : n%10==1 && n%100!=11 ? 0 : n"
 "%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 4.5-dev\n"
+"X-Generator: Weblate 4.5\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:181
@@ -4247,6 +4247,9 @@ msgid ""
 "Fonts uploaded into Weblate are used purely for purposes of the :ref:`check-"
 "max-size` check, the do not have an effect in Weblate user interface."
 msgstr ""
+"Шрифти, які вивантажено на Weblate, використовуються лише для реалізації "
+"перевірки :ref:`check-max-size`, вони не впливають на інтерфейс користувача "
+"Weblate."
 
 #: ../../admin/checks.rst:245
 msgid ""
@@ -17935,12 +17938,6 @@ msgstr ""
 "версій, див. :ref:`mysql`."
 
 #: ../../admin/upgrade.rst:179
-#, fuzzy
-#| msgid ""
-#| "**Changed in 4.4.1:** :ref:`mono_gettext` now uses both ``msgid`` and "
-#| "``msgctxt`` when present. This will change IDs of translation strings in "
-#| "such files. Please make sure you commit pending changes in such files "
-#| "prior upgrading."
 msgid ""
 "**Changed in 4.4.1:** :ref:`mono_gettext` now uses both ``msgid`` and "
 "``msgctxt`` when present. This will change IDs of translation strings in "
@@ -17951,7 +17948,9 @@ msgstr ""
 "**Змінено у 4.4.1:** :ref:`mono_gettext` у новій версії використовує одразу "
 "``msgid`` і ``msgctxt``, якщо такі поля є. Це змінює ідентифікатори рядків "
 "перекладу у відповідних файлах. Будь ласка, переконайтеся, що зміни з черги "
-"для таких файлів записано до сховища, перш ніж виконувати оновлення."
+"для таких файлів записано до сховища, перш ніж виконувати оновлення. "
+"Рекомендуємо примусово завантажити відповідний складник за допомогою "
+":djadmin:`loadpo`."
 
 #: ../../admin/upgrade.rst:180
 msgid ""
@@ -20643,10 +20642,8 @@ msgid "Weblate 4.5"
 msgstr "Weblate 4.5"
 
 #: ../../changes.rst:4
-#, fuzzy
-#| msgid "Released on February 17th 2020."
 msgid "Released on February 17th 2021."
-msgstr "Випущено 17 лютого 2012 року."
+msgstr "Випущено 17 лютого 2021 року."
 
 #: ../../changes.rst:6
 msgid "Added support for ``lua-format`` used in gettext PO."
@@ -28086,10 +28083,8 @@ msgid ":ref:`user-profile`, :djadmin:`dumpuserdata`"
 msgstr ":ref:`user-profile`, :djadmin:`dumpuserdata`"
 
 #: ../../contributing/security.rst:2
-#, fuzzy
-#| msgid "Security Policy"
 msgid "Security and privacy"
-msgstr "Політика безпеки"
+msgstr "Безпека і конфіденційність"
 
 #: ../../contributing/security.rst:6
 msgid ""
@@ -28100,21 +28095,18 @@ msgstr ""
 "яке цінує безпеку і конфіденційність наших користувачів."
 
 #: ../../contributing/security.rst:8
-#, fuzzy
-#| msgid ""
-#| "Weblate development follows the Best Practices of the Linux Foundation's "
-#| "Core Infrastructure Initiative."
 msgid ""
 "Weblate development follows the `Best Practices of the Linux Foundation's "
 "Core Infrastructure Initiative <https://bestpractices.coreinfrastructure.org/"
 "projects/552>`_."
 msgstr ""
 "Розробка веб-сайтів відповідає найкращим практикам основної ініціативи "
-"інфраструктури Linux Foundation."
+"інфраструктури Linux Foundation <https://bestpractices.coreinfrastructure."
+"org/projects/552>`_."
 
 #: ../../contributing/security.rst:11
 msgid "Tracking dependencies for vulnerabilities"
-msgstr ""
+msgstr "Стеження за вразливостями у залежностях"
 
 #: ../../contributing/security.rst:13
 msgid ""
@@ -28122,42 +28114,52 @@ msgid ""
 "dependabot.com/>`_. This covers Python and JavaScript libraries and latest "
 "stable release should have adjusted dependencies to avoid vulnerabilities."
 msgstr ""
+"Ми стежимо за вадами у захисті наших залежностей за допомогою `Dependabot "
+"<https://dependabot.com/>`_. Перевірки стосуються бібліотек Python і "
+"JavaScript, а найсвіжіший стабільний випуск має містити кориговані "
+"залежності з метою уникнення вразливостей."
 
 #: ../../contributing/security.rst:20
 msgid ""
 "There might be vulnerabilities in third-party libraries which do not affect "
 "Weblate, and we do not address these in a bugfix release."
 msgstr ""
+"Можуть траплятися вразливості у сторонніх бібліотеках, які не впливають на "
+"роботу Weblate. Ми не намагаємося окремо усунути ці вразливості у випусках "
+"із виправленнями вад."
 
 #: ../../contributing/security.rst:24
-#, fuzzy
-#| msgid "Docker container volumes"
 msgid "Docker containers security"
-msgstr "Томи контейнера Docker"
+msgstr "Захист контейнерів Docker"
 
 #: ../../contributing/security.rst:26
 msgid ""
 "The Docker containers are scanned using `Anchore <https://anchore.com/>`_ "
 "and `Trivy <https://github.com/aquasecurity/trivy>`_."
 msgstr ""
+"Сканування контейнерів Docker виконується за допомогою `Anchore "
+"<https://anchore.com/>`_ і `Trivy <https://github.com/aquasecurity/trivy>`_."
 
 #: ../../contributing/security.rst:29
 msgid ""
 "This allows us to detect vulnerabilities early and release an updated "
 "version of the container containing fixes."
 msgstr ""
+"Це надає нам змогу виявити вразливості на ранньому етапі і випустити "
+"оновлену версію контейнера із виправленнями вад."
 
 #: ../../contributing/security.rst:32
 msgid ""
 "You can get the results of these scans at GitHub - they are stored as "
 "artifacts on our CI as Static Analysis Results Interchange Format (SARIF)."
 msgstr ""
+"Результати сканувань розміщено на GitHub — вони зберігаються як запис у "
+"нашій системі неперервної інтеграції у форматі Static Analysis Results "
+"Interchange Format (SARIF)."
 
 #: ../../contributing/security.rst:37
-#, fuzzy
-#| msgid ":ref:`gitea-setup`"
 msgid ":ref:`ci-tests`"
-msgstr ":ref:`gitea-setup`"
+msgstr ":ref:`ci-tests`"
 
 #: ../../contributing/start.rst:2
 msgid "Starting contributing code to Weblate"
@@ -30446,10 +30448,8 @@ msgstr ""
 "технічне обмеження через сумісність з базою даних MySQL."
 
 #: ../../devel/translations.rst:107
-#, fuzzy
-#| msgid ":ref:`bulk-edit`, :ref:`custom-checks`, :ref:`labels`"
 msgid ":ref:`custom-checks`, :ref:`glossary-variants`"
-msgstr ":ref:`bulk-edit`, :ref:`custom-checks`, :ref:`labels`"
+msgstr ":ref:`custom-checks`, :ref:`glossary-variants`"
 
 #: ../../devel/translations.rst:111
 msgid "Variants while translating"
@@ -35640,11 +35640,15 @@ msgid ""
 "Variants are a generic way to group strings together. All term variants are "
 "listed in the glossary sidebar when translating."
 msgstr ""
+"Варіанти є загальним способом об'єднання груп рядків. На бічній панелі "
+"глосарія під час перекладу буде показано список усіх варіантів терміна."
 
 #: ../../user/glossary.rst:97
 msgid ""
 "You can use this to add abbreviations or shorter expressions for a term."
 msgstr ""
+"Ви можете скористатися цим для додавання скорочених варіантів або коротших "
+"виразів терміна."
 
 #: ../../user/glossary.rst:101
 msgid ":ref:`variants`"
@@ -36576,10 +36580,8 @@ msgstr ""
 "розміну екрана або вікна."
 
 #: ../../user/translating.rst:86
-#, fuzzy
-#| msgid ":ref:`rate-limit`, :ref:`user-rate`"
 msgid ":ref:`variants`, :ref:`glossary-variants`"
-msgstr ":ref:`rate-limit`, :ref:`user-rate`"
+msgstr ":ref:`variants`, :ref:`glossary-variants`"
 
 #: ../../user/translating.rst:90
 msgid "Labels"
