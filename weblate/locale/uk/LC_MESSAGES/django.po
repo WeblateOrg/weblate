@@ -21,7 +21,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.5\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-02-16 18:58+0000\n"
-"PO-Revision-Date: 2021-02-15 21:54+0000\n"
+"PO-Revision-Date: 2021-02-17 05:09+0000\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/"
 "application/uk/>\n"
@@ -31,7 +31,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=n==1 ? 3 : n%10==1 && n%100!=11 ? 0 : n"
 "%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 4.5-dev\n"
+"X-Generator: Weblate 4.5\n"
 
 #: weblate/accounts/avatar.py:103
 msgctxt "No known user"
@@ -8519,10 +8519,8 @@ msgid "This project does no longer fit into libre hosting conditions."
 msgstr "Цей проєкт більше не задовольняє умовам вільного розміщення."
 
 #: weblate/templates/trans/alert/nomaskmatches.html:4
-#, fuzzy
-#| msgid "Other translation components"
 msgid "There are no translations in this component."
-msgstr "Інші складники перекладу"
+msgstr "У цьому складнику немає перекладів."
 
 #: weblate/templates/trans/alert/nomaskmatches.html:7
 #, python-format
@@ -8530,18 +8528,16 @@ msgid ""
 "Check whether file mask <code>%(filemask)s</code> matches files in your "
 "repository."
 msgstr ""
+"Перевірте, чи відповідає маска файлів <code>%(filemask)s</code> файлам у "
+"вашому сховищі."
 
 #: weblate/templates/trans/alert/nomaskmatches.html:8
-#, fuzzy
-#| msgid ""
-#| "You can add a new translation string here, it will automatically appear "
-#| "in all translations."
 msgid ""
 "You can also start new translations directly in Weblate, it will create "
 "files based on the file mask."
 msgstr ""
-"Тут ви можете додати новий рядок перекладу. Він автоматично з'явиться у всіх "
-"перекладах."
+"Ви можете розпочати нові переклади безпосередньо на Weblate. Програма "
+"створить файли на основі маски файлів."
 
 #: weblate/templates/trans/alert/occurrences-limit.html:4
 #, python-format
@@ -8551,9 +8547,15 @@ msgid_plural ""
 "Only part of the occurrences are shown, in total there were %(count)s of "
 "them."
 msgstr[0] ""
+"Показано лише частину відповідників. Загалом, виявлено %(count)s відповідник."
 msgstr[1] ""
+"Показано лише частину відповідників. Загалом, виявлено %(count)s "
+"відповідники."
 msgstr[2] ""
+"Показано лише частину відповідників. Загалом, виявлено %(count)s "
+"відповідників."
 msgstr[3] ""
+"Показано лише частину відповідників. Загалом, виявлено %(count)s відповідник."
 
 #: weblate/templates/trans/alert/parseerror.html:4
 msgid ""
@@ -10254,10 +10256,8 @@ msgid "Unused enforced checks."
 msgstr "Невикористані примусові перевірки."
 
 #: weblate/trans/models/alert.py:360
-#, fuzzy
-#| msgid "More users matched."
 msgid "No mask matches."
-msgstr "Знайдено більше користувачів."
+msgstr "Немає відповідників масці."
 
 #: weblate/trans/models/announcement.py:111
 msgid "Category"
