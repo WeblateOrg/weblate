@@ -19,6 +19,14 @@ do not affect Weblate, and we do not address these in a bugfix release.
 Docker container security
 -------------------------
 
-The Docker containers are scanned using `Anchore <https://anchore.com/>`_.
+The Docker containers are scanned using `Anchore <https://anchore.com/>`_ and
+`Trivy <https://github.com/aquasecurity/trivy>`_.
+
 This allows us to detect vulnerabilities early and release an updated version
 of the container containing fixes.
+
+You can get the results of these scans at GitHub - they are stored as artifacts on our CI.
+
+.. see-also::
+
+   :ref:`ci-tests`
