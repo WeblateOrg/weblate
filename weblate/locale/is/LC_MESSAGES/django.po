@@ -2,7 +2,7 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # Weblate <noreply@weblate.org>, 2020.
-# Sveinn í Felli <sv1@fellsnet.is>, 2020.
+# Sveinn í Felli <sv1@fellsnet.is>, 2020, 2021.
 # Anonymous <noreply@weblate.org>, 2020.
 # Þórhalla Guðmundsdóttir Beck <plergux@outlook.com>, 2020.
 msgid ""
@@ -10,8 +10,8 @@ msgstr ""
 "Project-Id-Version: Weblate 4.5\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-02-15 13:10+0000\n"
-"PO-Revision-Date: 2021-02-15 08:16+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2021-02-16 08:42+0000\n"
+"Last-Translator: Sveinn í Felli <sv1@fellsnet.is>\n"
 "Language-Team: Icelandic <https://hosted.weblate.org/projects/weblate/"
 "application/is/>\n"
 "Language: is\n"
@@ -2101,10 +2101,8 @@ msgid ""
 msgstr ""
 
 #: weblate/auth/models.py:613
-#, fuzzy
-#| msgid "Regular expression used to match user e-mail."
 msgid "Regular expression for e-mail address"
-msgstr "Regluleg segð sem notuð er til að samsvara tölvupóstfangi notanda."
+msgstr "Regluleg segð sem samsvarar tölvupóstfangi notanda"
 
 #: weblate/auth/models.py:617
 msgid "Users with e-mail addresses found to match will be added to this group."
@@ -2682,10 +2680,8 @@ msgid "Does not follow glossary"
 msgstr "Bætt við orðasafn"
 
 #: weblate/checks/glossary.py:34
-#, fuzzy
-#| msgid "The translation does not contain an URL"
 msgid "The translation does not follow terms defined in a glossary."
-msgstr "Þýðing inniheldur ekki URL-slóð"
+msgstr "Þýðing fylgir ekki skilgreiningum í orðasafni."
 
 #: weblate/checks/glossary.py:87
 #, python-format
@@ -2834,10 +2830,8 @@ msgid "The translations in several languages have failing checks"
 msgstr "Þýðingar á mörgum tungumálum hafa fallið á prófunum"
 
 #: weblate/checks/source.py:92
-#, fuzzy
-#| msgid "Failing checks found"
 msgid "Following checks are failing:"
-msgstr "Fann prófanir sem gáfu aðvaranir"
+msgstr "Fann prófanir sem gáfu aðvaranir:"
 
 #: weblate/checks/source.py:109
 msgid "Long untranslated"
@@ -5775,10 +5769,9 @@ msgid "Hook"
 msgstr ""
 
 #: weblate/templates/data.html:123
-#, fuzzy
-#| msgid "Pull changes from the remote repository"
 msgid "You pull changes from a remote repository to Weblate like this:"
-msgstr "Draga inn breytingar úr fjartengda gagnasafninu"
+msgstr ""
+"Þú dregur breytingar úr fjartengda gagnasafninu inn í Weblate á þennan hátt:"
 
 #: weblate/templates/data.html:132
 msgid ""
@@ -8251,10 +8244,8 @@ msgid ""
 msgstr ""
 
 #: weblate/templates/trans/alert/unusedenforcedcheck.html:4
-#, fuzzy
-#| msgid "Failing checks found"
 msgid "Following enforced checks are not used anywhere:"
-msgstr "Fann prófanir sem gáfu aðvaranir"
+msgstr "Eftirfarandi þvingaðar prófanir eru hvergi notaðar:"
 
 #: weblate/templates/trans/alert/unusedenforcedcheck.html:8
 #, python-format
@@ -9853,10 +9844,8 @@ msgid "Does not meet libre hosting conditions."
 msgstr "Uppfyllir ekki skilyrði fyrir frjálsa hýsingu."
 
 #: weblate/trans/models/alert.py:345
-#, fuzzy
-#| msgid "Enforced checks"
 msgid "Unused enforced checks."
-msgstr "Þvingaðar prófanir"
+msgstr "Ónotaðar þvingaðar prófanir."
 
 #: weblate/trans/models/announcement.py:111
 msgid "Category"
@@ -11013,23 +11002,19 @@ msgid "Possible configuration"
 msgstr ""
 
 #: weblate/trans/templatetags/translations.py:172
-#, fuzzy, python-format
-#| msgid "Hosting translations"
+#, python-format
 msgid "Forbidden translation: %s"
-msgstr "Hýsing þýðinga"
+msgstr "Bönnuð þýðing: %s"
 
 #: weblate/trans/templatetags/translations.py:174
-#, fuzzy, python-format
-#| msgctxt "String state"
-#| msgid "Not translated"
+#, python-format
 msgid "Not-translatable: %s"
-msgstr "Ekki þýtt"
+msgstr "Ekki þýðanlegt: %s"
 
 #: weblate/trans/templatetags/translations.py:176
-#, fuzzy, python-format
-#| msgid "Upload translations"
+#, python-format
 msgid "Glossary translation: %s"
-msgstr "Senda inn þýðingar"
+msgstr "Þýðing úr orðasafni: %s"
 
 #: weblate/trans/templatetags/translations.py:222
 msgid "New line"
@@ -11037,14 +11022,14 @@ msgstr "Ný lína"
 
 #: weblate/trans/templatetags/translations.py:380
 msgid "a year ago"
-msgstr "Fyrir ári síðan"
+msgstr "fyrir ári síðan"
 
 #: weblate/trans/templatetags/translations.py:381
 #, python-format
 msgid "%(count)s year ago"
 msgid_plural "%(count)s years ago"
-msgstr[0] "Fyrir %(count)s ári síðan"
-msgstr[1] "Fyrir %(count)s árum síðan"
+msgstr[0] "fyrir %(count)s ári síðan"
+msgstr[1] "fyrir %(count)s árum síðan"
 
 #: weblate/trans/templatetags/translations.py:387
 msgid "a month ago"
@@ -11054,15 +11039,15 @@ msgstr "fyrir mánuði síðan"
 #, python-format
 msgid "%(count)s month ago"
 msgid_plural "%(count)s months ago"
-msgstr[0] "Fyrir %(count)s mánuði síðan"
-msgstr[1] "Fyrir %(count)s mánuði síðan"
+msgstr[0] "fyrir %(count)s mánuði síðan"
+msgstr[1] "fyrir %(count)s mánuði síðan"
 
 #: weblate/trans/templatetags/translations.py:393
 #, python-format
 msgid "%(count)s week ago"
 msgid_plural "%(count)s weeks ago"
-msgstr[0] "Fyrir %(count)s viku síðan"
-msgstr[1] "Fyrir %(count)s vikum síðan"
+msgstr[0] "fyrir %(count)s viku síðan"
+msgstr[1] "fyrir %(count)s vikum síðan"
 
 #: weblate/trans/templatetags/translations.py:398
 msgid "a week ago"
@@ -11076,8 +11061,8 @@ msgstr "í gær"
 #, python-format
 msgid "%(count)s day ago"
 msgid_plural "%(count)s days ago"
-msgstr[0] "Fyrir %(count)s degi síðan"
-msgstr[1] "Fyrir %(count)s dögum síðan"
+msgstr[0] "fyrir %(count)s degi síðan"
+msgstr[1] "fyrir %(count)s dögum síðan"
 
 #: weblate/trans/templatetags/translations.py:405
 #: weblate/trans/templatetags/translations.py:462
@@ -11092,8 +11077,8 @@ msgstr "fyrir sekúndu síðan"
 #, python-format
 msgid "%(count)s second ago"
 msgid_plural "%(count)s seconds ago"
-msgstr[0] "Fyrir %(count)s sekúndu síðan"
-msgstr[1] "Fyrir %(count)s sekúndum síðan"
+msgstr[0] "fyrir %(count)s sekúndu síðan"
+msgstr[1] "fyrir %(count)s sekúndum síðan"
 
 #: weblate/trans/templatetags/translations.py:415
 msgid "a minute ago"
@@ -11103,8 +11088,8 @@ msgstr "fyrir mínútu síðan"
 #, python-format
 msgid "%(count)s minute ago"
 msgid_plural "%(count)s minutes ago"
-msgstr[0] "Fyrir %(count)s mínútu síðan"
-msgstr[1] "Fyrir %(count)s mínútum síðan"
+msgstr[0] "fyrir %(count)s mínútu síðan"
+msgstr[1] "fyrir %(count)s mínútum síðan"
 
 #: weblate/trans/templatetags/translations.py:421
 msgid "an hour ago"
@@ -11238,10 +11223,9 @@ msgstr[0] "%(count)s strengur er ekki þýddur hér."
 msgstr[1] "%(count)s strengir eru ekki þýddir hér."
 
 #: weblate/trans/templatetags/translations.py:840
-#, fuzzy, python-format
-#| msgid "Watched projects"
+#, python-format
 msgid "Shared from the %s project."
-msgstr "Vöktuð verkefni"
+msgstr "Deilt úr %s verkefninu."
 
 #: weblate/trans/templatetags/translations.py:863
 msgid "enabled"
@@ -11518,10 +11502,8 @@ msgid "Translation comment has been resolved."
 msgstr "Athugasemd við þýðingu hefur verið leyst."
 
 #: weblate/trans/views/edit.py:917
-#, fuzzy
-#| msgid "Translation with this key seem to already exist!"
 msgid "This string seems to already exist."
-msgstr "Þýðing með þessum lykli er þegar til staðar!"
+msgstr "Þessi strengur virðist vera þegar til staðar."
 
 #: weblate/trans/views/edit.py:924
 msgid "New string has been added."
