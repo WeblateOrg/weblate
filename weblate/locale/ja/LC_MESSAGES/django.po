@@ -24,7 +24,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.5\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-02-16 18:58+0000\n"
-"PO-Revision-Date: 2021-02-16 07:44+0000\n"
+"PO-Revision-Date: 2021-02-17 05:10+0000\n"
 "Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "application/ja/>\n"
@@ -33,7 +33,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 4.5-dev\n"
+"X-Generator: Weblate 4.5\n"
 
 #: weblate/accounts/avatar.py:103
 msgctxt "No known user"
@@ -3687,7 +3687,7 @@ msgstr "ダッシュボード"
 #: weblate/templates/403.html:18 weblate/templates/404.html:19
 #: weblate/templates/base.html:136
 msgid "Browse all projects"
-msgstr "すべてのプロジェクトを閲覧"
+msgstr "すべてのプロジェクトの閲覧"
 
 #: weblate/templates/403_csrf.html:9
 msgid "CSRF verification failed. Request aborted."
@@ -8353,28 +8353,21 @@ msgid "This project does no longer fit into libre hosting conditions."
 msgstr "このプロジェクトは、Libre ホスティング条件に合わなくなりました。"
 
 #: weblate/templates/trans/alert/nomaskmatches.html:4
-#, fuzzy
-#| msgid "There are some alerts on this component"
 msgid "There are no translations in this component."
-msgstr "コンポーネントに注意すべき項目があります"
+msgstr "このコンポーネントには翻訳はありません。"
 
 #: weblate/templates/trans/alert/nomaskmatches.html:7
 #, python-format
 msgid ""
 "Check whether file mask <code>%(filemask)s</code> matches files in your "
 "repository."
-msgstr ""
+msgstr "ファイル マスク <code>%(filemask)s</code> がリポジトリ内のファイルと一致するかどうかを確認します。"
 
 #: weblate/templates/trans/alert/nomaskmatches.html:8
-#, fuzzy
-#| msgid ""
-#| "You can add a new translation string here, it will automatically appear "
-#| "in all translations."
 msgid ""
 "You can also start new translations directly in Weblate, it will create "
 "files based on the file mask."
-msgstr ""
-"ここで新しい翻訳文字列を追加できます。すべての翻訳に自動的に表示されます。"
+msgstr "また、Weblate から直接新しく翻訳を開始できます。そのときは、ファイル マスクに基づいてファイルが作成されます。"
 
 #: weblate/templates/trans/alert/occurrences-limit.html:4
 #, python-format
@@ -8383,7 +8376,7 @@ msgid ""
 msgid_plural ""
 "Only part of the occurrences are shown, in total there were %(count)s of "
 "them."
-msgstr[0] ""
+msgstr[0] "表示は発生の一部のみ、合計で %(count)s 個あります。"
 
 #: weblate/templates/trans/alert/parseerror.html:4
 msgid ""
@@ -10048,10 +10041,8 @@ msgid "Unused enforced checks."
 msgstr "検査の強制を使用しない。"
 
 #: weblate/trans/models/alert.py:360
-#, fuzzy
-#| msgid "More users matched."
 msgid "No mask matches."
-msgstr "複数のユーザーが該当しました。"
+msgstr "一致するマスクはありません。"
 
 #: weblate/trans/models/announcement.py:111
 msgid "Category"
