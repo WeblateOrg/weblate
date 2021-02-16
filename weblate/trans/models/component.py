@@ -2739,7 +2739,7 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
         else:
             self.delete_alert("UnusedEnforcedCheck")
 
-        if self.translation_set.count() == 1:
+        if self.translation_set.count() <= 1:
             self.add_alert("NoMaskMatches")
         else:
             self.delete_alert("NoMaskMatches")
