@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.5\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-02-15 13:10+0000\n"
-"PO-Revision-Date: 2021-02-09 02:02+0000\n"
+"PO-Revision-Date: 2021-02-16 08:42+0000\n"
 "Last-Translator: Michal Čihař <michal@weblate.org>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/weblate/"
 "application/cs/>\n"
@@ -505,15 +505,13 @@ msgstr ""
 "editoru."
 
 #: weblate/accounts/models.py:429
-#, fuzzy
-#| msgid "Projects with contribution"
 msgid "Automatically watch projects on contribution"
-msgstr "Příspěvky do projektů"
+msgstr "Automaticky sledovat projekty při přispění"
 
 #: weblate/accounts/models.py:432
 msgid ""
 "Whenever you translate a string in a project, you will start watching it."
-msgstr ""
+msgstr "Projekt začnete sledovat kdykoliv v něm přeložíte řetězec."
 
 #: weblate/accounts/models.py:442 weblate/templates/dashboard/user.html:20
 msgid "Watched translations"
@@ -1048,17 +1046,13 @@ msgid "Language consistency"
 msgstr "Jednotnost jazyků"
 
 #: weblate/addons/consistency.py:34
-#, fuzzy
-#| msgid ""
-#| "Ensures all components within one project have translations for every "
-#| "added language for translation."
 msgid ""
 "Ensures all components within a project have translations for every added "
 "translated language by creating empty translations in languages that have "
 "unadded components."
 msgstr ""
 "Zajistí aby všechny součásti v rámci jednoho projektu měly překlady do "
-"stejných jazyků."
+"stejných jazyků založením prázdných překladů."
 
 #: weblate/addons/discovery.py:33
 msgid "Component discovery"
@@ -1139,10 +1133,8 @@ msgid "Bulk edit"
 msgstr "Hromadné úpravy"
 
 #: weblate/addons/flags.py:106
-#, fuzzy
-#| msgid "Bulk edit flags, labels or state for strings."
 msgid "Bulk edit flags, labels, or states of strings."
-msgstr "Hromadné úpravy příznaků, štítků nebo stavu řetězců."
+msgstr "Hromadné úpravy příznaků, štítků nebo stavů řetězců."
 
 #: weblate/addons/forms.py:53
 msgid "Path of generated MO file"
@@ -1165,8 +1157,6 @@ msgid "Long lines wrapping"
 msgstr "Zalamování dlouhých řádků"
 
 #: weblate/addons/forms.py:112
-#, fuzzy
-#| msgid "Wrap lines at 77 chars and at newlines"
 msgid "Wrap lines at 77 characters and at newlines"
 msgstr "Zalomit řádky na 77 znacích a znacích nových řádků"
 
@@ -1179,10 +1169,6 @@ msgid "No line wrapping"
 msgstr "Nezalamovat řádky"
 
 #: weblate/addons/forms.py:119
-#, fuzzy
-#| msgid ""
-#| "By default gettext wraps lines at 77 chars and newlines. With --no-wrap "
-#| "parameter, it wraps only at newlines."
 msgid ""
 "By default gettext wraps lines at 77 characters and at newlines. With the --"
 "no-wrap parameter, wrapping is only done at newlines."
@@ -1227,11 +1213,6 @@ msgid "Append trailers to squashed commit message"
 msgstr "Přidat přílepky ke zprávě sloučeného zápisu"
 
 #: weblate/addons/forms.py:159
-#, fuzzy
-#| msgid ""
-#| "Trailer lines are lines that look similar to RFC 822 e-mail headers, at "
-#| "the end of the otherwise free-form part of a commit message, such as 'Co-"
-#| "authored-by: ...'."
 msgid ""
 "Trailer lines are lines that look similar to RFC 822 e-mail headers, at the "
 "end of the otherwise free-form part of a commit message, such as 'Co-"
@@ -1427,8 +1408,6 @@ msgid "String suffix"
 msgstr "Přípona řetězce"
 
 #: weblate/addons/forms.py:478
-#, fuzzy
-#| msgid "Source and target have to be a different languages."
 msgid "The source and target have to be different languages."
 msgstr "Zdroj a cíl musí být odlišné jazyky."
 
@@ -1489,6 +1468,9 @@ msgid ""
 "Updates all PO files (as configured by \"Filemask\") to match the POT file "
 "(as configured by \"Template for new translations\") using msgmerge."
 msgstr ""
+"Aktualizuje všechny soubory PO (nakonfigurované pomocí „Maska souborů“) tak, "
+"aby odpovídaly souboru POT (nakonfigurované \"Šablona pro nové překlady\") "
+"pomocí msgmerge."
 
 #: weblate/addons/gettext.py:303
 msgid "Customize gettext output"
@@ -2723,21 +2705,17 @@ msgstr ""
 "neumožňuje je přeskládat"
 
 #: weblate/checks/glossary.py:33
-#, fuzzy
-#| msgid "Added to glossary"
 msgid "Does not follow glossary"
-msgstr "Přidáno do glosáře"
+msgstr "Neodpovídá glosáři"
 
 #: weblate/checks/glossary.py:34
-#, fuzzy
-#| msgid "The translation does not contain an URL"
 msgid "The translation does not follow terms defined in a glossary."
-msgstr "Tento překlad neobsahuje URL"
+msgstr "Tento překlad neodpovídá termínům zadaným v glosáři."
 
 #: weblate/checks/glossary.py:87
 #, python-format
 msgid "Following terms are not translated according to glossary: %s"
-msgstr ""
+msgstr "Následující termíny nejsou přeloženy jako v glosáři: %s"
 
 #: weblate/checks/markup.py:77
 msgid "BBcode markup"
@@ -3087,16 +3065,12 @@ msgid "Java Properties (ISO 8859-1)"
 msgstr "Vlastnosti Javy (ISO-8859-1)"
 
 #: weblate/formats/ttkit.py:1163
-#, fuzzy
-#| msgid "Joomla Language File"
 msgid "Joomla language file"
 msgstr "Jazykový soubor Joomla"
 
 #: weblate/formats/ttkit.py:1172
-#, fuzzy
-#| msgid "GWT Properties"
 msgid "GWT properties"
-msgstr "Vlastnosti GWT"
+msgstr "GWT vlastnosti"
 
 #: weblate/formats/ttkit.py:1180
 msgid "PHP strings"
@@ -3187,10 +3161,8 @@ msgid "Inno Setup INI file"
 msgstr "Inno Setup INI soubor"
 
 #: weblate/formats/ttkit.py:1701
-#, fuzzy
-#| msgid "Term Base eXchange file"
 msgid "TermBase eXchange file"
-msgstr "Term Base eXchange soubor"
+msgstr "TermBase eXchange soubor"
 
 #: weblate/formats/txt.py:180
 msgid "App store metadata files"
@@ -7695,13 +7667,11 @@ msgstr "Tento překlad byl automaticky uzamčen kvůli následujícím upozorně
 #: weblate/templates/snippets/editor.html:11
 msgid ""
 "The maximal string length is determined from the source string or flags."
-msgstr ""
+msgstr "Maximální délka řetězce je určena ze zdrojového řetězce nebo příznaků."
 
 #: weblate/templates/snippets/editor.html:14
-#, fuzzy
-#| msgid "Source string comment"
 msgid "Source string length"
-msgstr "Komentář ke zdrojovému řetězci"
+msgstr "Délka zdrojového řetězce"
 
 #: weblate/templates/snippets/embed-units.html:12
 msgid "State"
@@ -7744,10 +7714,8 @@ msgid "Copy word into translation"
 msgstr "Zkopírovat slovo do překladu"
 
 #: weblate/templates/snippets/glossary.html:16
-#, fuzzy
-#| msgid "Edit glossary entry"
 msgid "Edit glossary term"
-msgstr "Upravit položku glosáře"
+msgstr "Upravit termín glosáře"
 
 #: weblate/templates/snippets/glossary.html:27
 msgid "No related strings found in the glossary."
@@ -8487,10 +8455,8 @@ msgstr ""
 "závislostech."
 
 #: weblate/templates/trans/alert/unusedenforcedcheck.html:4
-#, fuzzy
-#| msgid "Following checks are failing:"
 msgid "Following enforced checks are not used anywhere:"
-msgstr "Následující kontroly sehlaly:"
+msgstr "Následující vynucované kontroly nejsou nikde použity:"
 
 #: weblate/templates/trans/alert/unusedenforcedcheck.html:8
 #, python-format
@@ -8498,6 +8464,8 @@ msgid ""
 "%(check)s quality check is enforced, but not turned on using <code>%(flag)s</"
 "code>."
 msgstr ""
+"Kontrola %(check)s je vynucena, ale není nikde zapnuta pomocí "
+"<code>%(flag)s</code>."
 
 #: weblate/templates/trans/alert/unusedscreenshot.html:2
 msgid "There is at least one screenshot which is not assigned to any strings."
@@ -8818,10 +8786,8 @@ msgid "Delete string"
 msgstr "Smazat řetězec"
 
 #: weblate/templates/translate.html:194
-#, fuzzy
-#| msgid "Variants of the string"
 msgid "Add variant of this string"
-msgstr "Varianty řetězce"
+msgstr "Přidat variantu řetězce"
 
 #: weblate/templates/translate.html:204 weblate/templates/translate.html:229
 msgid "This translation is currently locked."
@@ -10112,10 +10078,8 @@ msgid "Does not meet libre hosting conditions."
 msgstr "Nesplňuje podmínky pro svobodné hostování."
 
 #: weblate/trans/models/alert.py:345
-#, fuzzy
-#| msgid "Enforced checks"
 msgid "Unused enforced checks."
-msgstr "Vynucené kontroly"
+msgstr "Nepoužité vynucené kontroly."
 
 #: weblate/trans/models/announcement.py:111
 msgid "Category"
@@ -10695,6 +10659,9 @@ msgid ""
 "are extracted from the source code or managed externally you probably want "
 "to keep it disabled."
 msgstr ""
+"Umožňuje přidávání a odebírání řetězců přímo ve Weblate. Pokud jsou vaše "
+"řetězce extrahovány ze zdrojového kódu nebo spravovány externě, "
+"pravděpodobně to chcete nechat vypnuté."
 
 #: weblate/trans/models/component.py:497
 msgid "Merge style"
@@ -10908,10 +10875,7 @@ msgid "The language code \"%s\" is too long, please check the filemask."
 msgstr "Kód jazyka „%s“ je příliš dlouhý, zkontrolujte masku souboru."
 
 #: weblate/trans/models/component.py:2201
-#, fuzzy, python-format
-#| msgid ""
-#| "There is more than one file for %s language, please adjust the filemask "
-#| "and use components for translating a different resources."
+#, python-format
 msgid ""
 "There is more than one file for %s language, please adjust the filemask and "
 "use components for translating different resources."
@@ -10993,7 +10957,7 @@ msgstr "Nepodařilo se aktualizovat repozitář: %s"
 
 #: weblate/trans/models/component.py:2386
 msgid "Please define a glossary name to use component as a glossary."
-msgstr ""
+msgstr "Chcete-li použít komponentu jako glosář, zadejte název glosáře."
 
 #: weblate/trans/models/component.py:2396
 msgid ""
@@ -11041,10 +11005,8 @@ msgid "Translation file already exists!"
 msgstr "Soubor s překladem už existuje!"
 
 #: weblate/trans/models/component.py:2955
-#, fuzzy
-#| msgid "The translation has come to an end."
 msgid "The translation will be updated in the background."
-msgstr "Překlad byl dokončen."
+msgstr "Překlad bude aktualizován na pozadí."
 
 #. Translators: Translation context for Gettext
 #: weblate/trans/models/component.py:2998
@@ -11218,26 +11180,18 @@ msgid "Additional explanation to clarify meaning or usage of the string."
 msgstr "Další vysvětlení k objasnění významu nebo použití řetězce."
 
 #: weblate/trans/models/unit.py:1351
-#, fuzzy
-#| msgid "Unmark as terminology"
 msgid "Unmark as read-only"
-msgstr "Zrušit označení jako terminologie"
+msgstr "Zrušit označení jako jen pro čtení"
 
 #: weblate/trans/models/unit.py:1354
-#, fuzzy
-#| msgid "Mark as terminology"
 msgid "Mark as read-only"
-msgstr "Označit jako terminologii"
+msgstr "Označit jako jen pro čtení"
 
 #: weblate/trans/models/unit.py:1361
-#, fuzzy
-#| msgid "Unmark as forbidden translations"
 msgid "Unmark as forbidden translation"
 msgstr "Zrušit označení jako zakázaný překlad"
 
 #: weblate/trans/models/unit.py:1369
-#, fuzzy
-#| msgid "Mark as forbidden translations"
 msgid "Mark as forbidden translation"
 msgstr "Označit jako zakázaný překlad"
 
@@ -11323,23 +11277,19 @@ msgid "Possible configuration"
 msgstr "Možné nastavení"
 
 #: weblate/trans/templatetags/translations.py:172
-#, fuzzy, python-format
-#| msgid "Forbidden translation"
+#, python-format
 msgid "Forbidden translation: %s"
-msgstr "Zakázaný překlad"
+msgstr "Zakázaný překlad: %s"
 
 #: weblate/trans/templatetags/translations.py:174
-#, fuzzy, python-format
-#| msgctxt "String state"
-#| msgid "Not translated"
+#, python-format
 msgid "Not-translatable: %s"
-msgstr "Nepřeloženo"
+msgstr "Nepřeložitelné: %s"
 
 #: weblate/trans/templatetags/translations.py:176
-#, fuzzy, python-format
-#| msgid "Upload translations"
+#, python-format
 msgid "Glossary translation: %s"
-msgstr "Nahrát překlady"
+msgstr "Překlad v glosáři: %s"
 
 #: weblate/trans/templatetags/translations.py:222
 msgid "New line"
@@ -11563,10 +11513,9 @@ msgstr[1] "%(count)s řetězce zde nejsou překládány."
 msgstr[2] "%(count)s řetězců zde není překládáno."
 
 #: weblate/trans/templatetags/translations.py:840
-#, fuzzy, python-format
-#| msgid "Shared from project %s."
+#, python-format
 msgid "Shared from the %s project."
-msgstr "Sdíleno z projektu %s"
+msgstr "Sdíleno z projektu %s."
 
 #: weblate/trans/templatetags/translations.py:863
 msgid "enabled"
@@ -11771,6 +11720,8 @@ msgid ""
 "Added %(language)s to your translated languages. You can adjust them in the "
 "settings."
 msgstr ""
+"Přidán jazyk %(language)s do překládaných jazyků. Můžete je upravit v "
+"nastaveních."
 
 #: weblate/trans/views/edit.py:340
 #, python-format
@@ -11778,6 +11729,8 @@ msgid ""
 "Added %(project)s to your watched projects. You can adjust them and this "
 "behavior in the settings."
 msgstr ""
+"Přidán projekt %(project)s do sledovaných projektů. Můžete je a i toto "
+"chování upravit v nastaveních."
 
 #: weblate/trans/views/edit.py:359
 #, python-brace-format
@@ -12003,10 +11956,8 @@ msgid "Language of the project was removed."
 msgstr "Jazyk byl odstraněn z projektu."
 
 #: weblate/trans/views/source.py:67
-#, fuzzy
-#| msgid "Edit additional string info"
 msgid "Failed to change additional string info!"
-msgstr "Upravit podrobnosti řetězce"
+msgstr "Nepodařilo se změnit další informace o řetězci!"
 
 #: weblate/trans/widgets.py:247
 msgid "Big status badge"
