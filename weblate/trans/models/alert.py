@@ -345,3 +345,10 @@ class UnusedEnforcedCheck(BaseAlert):
     verbose = _("Unused enforced checks.")
     doc_page = "admin/checks"
     doc_anchor = "enforcing-checks"
+
+
+@register
+class NoMaskMatches(BaseAlert):
+    verbose = _("No mask matches.")
+    doc_page = "admin/projects"
+    doc_anchor = "component-filemask"

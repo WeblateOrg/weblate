@@ -1,0 +1,9 @@
+{% load i18n %}
+<p>{% trans "This component is set up incorrectly." %}</p>
+
+<p>{% trans "There are no translations in this component." %}</p>
+
+<ul>
+  <li>{% blocktrans with filemask=component.filemask %}Check whether file mask <code>{{ filemask }}</code> matches files in your repository.{% endblocktrans %}</li>
+  <li>{% trans "You can also start new translations directly in Weblate, it will create files based on the file mask." %}</li>
+</ul>
