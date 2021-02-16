@@ -28,13 +28,13 @@ class NotifyLexicon(BaseAddon):
 
     def update_remote_branch(self, component):
         """Notify Lexicon after updating component from vcs."""
-        self.notify_lexicon(component)
+        self.notify_lexicon(component, update_linked_components=True)
 
     def post_commit(self, component, translation=None):
         """Notify Lexicon after committing changes."""
         self.notify_lexicon(component)
 
-    def notify_lexicon(self, component):
+    def notify_lexicon(self, component, update_linked_components=False):
         component_name = "{}/{}".format(component.project.slug, component.slug)
 
         for translation in component.translation_set.iterator():
@@ -59,22 +59,23 @@ class NotifyLexicon(BaseAddon):
                         language_code,
                     )
 
-        linked_components = Component.objects.filter(
-            repo__exact="weblate://{}".format(component_name)
-        ).distinct()
+        if update_linked_components:
+            linked_components = Component.objects.filter(
+                repo__exact="weblate://{}".format(component_name)
+            ).distinct()
 
-        for linked_component in linked_components:
-            LOGGER.info(
-                "######## Found linked component name %s", linked_component.name
-            )
-            if (
-                Addon.objects.filter(name__exact="Notify Lexicon")
-                .filter(component__name__exact=linked_component.name)
-                .count()
-            ):
-                LOGGER.info("######## Notifying lexicon")
-                self.notify_lexicon(linked_component)
-            else:
-                LOGGER.info("######## Not notifying lexicon")
-        if linked_components.count() == 0:
-            LOGGER.info("######## Found zero linked components")
+            for linked_component in linked_components:
+                LOGGER.info(
+                    "######## Found linked component name %s", linked_component.name
+                )
+                if (
+                    Addon.objects.filter(name__exact="Notify Lexicon")
+                    .filter(component__name__exact=linked_component.name)
+                    .count()
+                ):
+                    LOGGER.info("######## Notifying lexicon")
+                    self.notify_lexicon(linked_component)
+                else:
+                    LOGGER.info("######## Not notifying lexicon")
+            if linked_components.count() == 0:
+                LOGGER.info("######## Found zero linked components")
