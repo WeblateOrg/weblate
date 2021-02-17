@@ -231,7 +231,7 @@ class BaseFormatCheck(TargetCheck):
     def check_generator(self, sources, targets, unit):
         # Special case languages with single plural form
         if len(sources) > 1 and len(targets) == 1:
-            yield self.check_format(sources[1], targets[0], False)
+            yield self.check_format(sources[1], targets[0], False, unit)
             return
 
         # Use plural as source in case singular misses format string and plural has it
@@ -256,6 +256,7 @@ class BaseFormatCheck(TargetCheck):
             # won't be 0 so don't trigger too many false positives
             len(sources) > 1
             and (len(plural_examples[0]) == 1 or plural_examples[0] == ["0", "1"]),
+            unit,
         )
 
         # Do we have more to check?
@@ -265,7 +266,7 @@ class BaseFormatCheck(TargetCheck):
         # Check plurals against plural from source
         for i, target in enumerate(targets[1:]):
             yield self.check_format(
-                sources[1], target, len(plural_examples[i + 1]) == 1
+                sources[1], target, len(plural_examples[i + 1]) == 1, unit
             )
 
     def format_string(self, string):
@@ -280,7 +281,7 @@ class BaseFormatCheck(TargetCheck):
     def extract_matches(self, string):
         return [self.cleanup_string(x[0]) for x in self.regexp.findall(string)]
 
-    def check_format(self, source, target, ignore_missing):
+    def check_format(self, source, target, ignore_missing, unit):
         """Generic checker for format strings."""
         if not target or not source:
             return False
@@ -493,18 +494,19 @@ class JavaMessageFormatCheck(BaseFormatCheck):
 
         return super().should_skip(unit)
 
-    def check_format(self, source, target, ignore_missing):
+    def check_format(self, source, target, ignore_missing, unit):
         """Generic checker for format strings."""
         if not target or not source:
             return False
 
-        result = super().check_format(source, target, ignore_missing)
+        result = super().check_format(source, target, ignore_missing, unit)
 
-        # Even number of quotes
-        if target.count("'") % 2 != 0:
-            if not result:
-                result = {"missing": [], "extra": []}
-            result["missing"].append("'")
+        # Even number of quotes, unless in GWT which enforces this
+        if unit.translation.component.file_format != "gwt":
+            if target.count("'") % 2 != 0:
+                if not result:
+                    result = {"missing": [], "extra": []}
+                result["missing"].append("'")
 
         return result
 

@@ -55,6 +55,7 @@ class MockComponent:
         self.source_language = MockLanguage("en")
         self.project = MockProject()
         self.name = "MockComponent"
+        self.file_format = "auto"
 
 
 class MockTranslation:
