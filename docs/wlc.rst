@@ -24,6 +24,13 @@ To use the commands below, you need to install :mod:`wlc`:
 
     pip3 install wlc
 
+.. hint::
+
+   Please use :program:`Power Shell` or another modern equivalent when you
+   install wlc under Windows. Since wlc uses some very long file paths/names
+   during installation, :program:`cmd` may fail due to the windows path length
+   limit.
+
 .. _docker-wlc:
 
 Docker usage
