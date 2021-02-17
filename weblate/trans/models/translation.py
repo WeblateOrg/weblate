@@ -1025,7 +1025,6 @@ class Translation(
                 email=author_email,
                 defaults={
                     "username": author_email,
-                    "is_active": False,
                     "full_name": author_name or author_email,
                 },
             )[0]
