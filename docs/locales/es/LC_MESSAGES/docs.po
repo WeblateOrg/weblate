@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-02-16 18:47+0100\n"
-"PO-Revision-Date: 2021-02-15 09:04+0000\n"
+"PO-Revision-Date: 2021-02-17 05:10+0000\n"
 "Last-Translator: Adolfo Jayme Barrientos <fitojb@ubuntu.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/weblate/"
 "documentation/es/>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.5-dev\n"
+"X-Generator: Weblate 4.5\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:181
@@ -190,17 +190,17 @@ msgstr ""
 
 #: ../../admin/access.rst:91
 msgid ":guilabel:`Access control` can be set to:"
-msgstr ""
+msgstr "El :guilabel:`control de acceso` puede establecerse a:"
 
 #: ../../admin/access.rst:93
 msgid "Public"
 msgstr "Público"
 
 #: ../../admin/access.rst:94
-#, fuzzy
-#| msgid "Publicly visible, only translatable for chosen users"
 msgid "Publicly visible, translatable for all logged-in users"
-msgstr "Públicamente visible, sólo traducible por usuarios seleccionados"
+msgstr ""
+"Visible públicamente, traducible por todos los usuarios que hayan accedido a "
+"sus cuentas"
 
 #: ../../admin/access.rst:95
 msgid "Protected"
@@ -208,7 +208,7 @@ msgstr "Protegido"
 
 #: ../../admin/access.rst:96
 msgid "Publicly visible, but translatable only for selected users"
-msgstr "Públicamente visible y traducible solo por usuarios seleccionados"
+msgstr "Visible públicamente y traducible solo por usuarios seleccionados"
 
 #: ../../admin/access.rst:97
 msgid "Private"
@@ -216,7 +216,7 @@ msgstr "Privado"
 
 #: ../../admin/access.rst:98
 msgid "Visible and translatable only for selected users"
-msgstr ""
+msgstr "Solo visible para, y traducible por, usuarios seleccionados"
 
 #: ../../admin/access.rst:100
 msgid "Custom"
@@ -236,16 +236,12 @@ msgid ""
 msgstr ""
 
 #: ../../admin/access.rst:110
-#, fuzzy
-#| msgid ""
-#| "Even with access-control lists turned on, some info will be available "
-#| "about your project:"
 msgid ""
 "Even with access control turned on, some info will be available about your "
 "project:"
 msgstr ""
-"Aunque se hayan activado listas de control de acceso, determinados datos "
-"sobre su proyecto estarán disponibles:"
+"Aunque se haya activado el control de acceso, determinados datos sobre su "
+"proyecto estarán disponibles:"
 
 #: ../../admin/access.rst:113
 msgid "Statistics for the whole instance, including counts for all projects."
@@ -449,6 +445,8 @@ msgstr "Control de acceso por proyecto"
 msgid ""
 "This feature only works for projects using access control, see :ref:`acl`."
 msgstr ""
+"Esta función es aplicable solo a los proyectos que utilizan el control de "
+"acceso; vea :ref:`acl`."
 
 #: ../../admin/access.rst:229
 msgid ""
@@ -503,6 +501,7 @@ msgstr ""
 #: ../../admin/access.rst:261
 msgid "Can translate the project, and upload translations made offline."
 msgstr ""
+"Puede traducir el proyecto y cargar traducciones realizadas sin conexión."
 
 #: ../../admin/access.rst:265
 msgid "Can edit source strings in :ref:`monolingual` and source string info."
@@ -591,7 +590,7 @@ msgstr "Lista de privilegios"
 
 #: ../../admin/access.rst:336
 msgid "Billing (see :ref:`billing`)"
-msgstr ""
+msgstr "Facturación (vea :ref:`billing`)"
 
 #: ../../admin/access.rst:336
 msgid "View billing info [`Administration`, `Billing`]"
@@ -1120,7 +1119,7 @@ msgstr ""
 
 #: ../../admin/addons.rst:30
 msgid ":ref:`auto-translation`, :ref:`translation-consistency`"
-msgstr ""
+msgstr ":ref:`auto-translation`, :ref:`translation-consistency`"
 
 #: ../../admin/addons.rst:36
 msgid "JavaScript localization CDN"
@@ -1151,6 +1150,8 @@ msgid ""
 ":ref:`cdn-addon-config`, :ref:`weblate-cdn`, :ref:`cdn-addon-extract`, :ref:"
 "`cdn-addon-html`"
 msgstr ""
+":ref:`cdn-addon-config`, :ref:`weblate-cdn`, :ref:`cdn-addon-extract`, :ref"
+":`cdn-addon-html`"
 
 #: ../../admin/addons.rst:59
 msgid "Remove blank strings"
@@ -1297,7 +1298,7 @@ msgstr "**Ejemplos:**"
 
 #: ../../admin/addons.rst:155
 msgid "Label new strings automatically"
-msgstr ""
+msgstr "Etiquetar cadenas nuevas automáticamente"
 
 #: ../../admin/addons.rst:158 ../../admin/addons.rst:166
 #, fuzzy
@@ -1430,7 +1431,7 @@ msgstr "Nombre del archivo generado"
 
 #: ../../admin/addons.rst:238
 msgid "``locale/{{ language_code }}.json``"
-msgstr ""
+msgstr "``locale/{{ código_de_idioma }}.json``"
 
 #: ../../admin/addons.rst:249
 msgid "Content"
@@ -1482,7 +1483,7 @@ msgstr ""
 
 #: ../../admin/addons.rst:284
 msgid "The PO file header will look like this:"
-msgstr ""
+msgstr "La cabecera del archivo PO lucirá semejante a la siguiente:"
 
 #: ../../admin/addons.rst:296
 msgid "Update ALL_LINGUAS variable in the \"configure\" file"
@@ -1525,16 +1526,12 @@ msgid "No line wrapping"
 msgstr "No ajustar renglones"
 
 #: ../../admin/addons.rst:316
-#, fuzzy
-#| msgid ""
-#| "By default gettext wraps lines at 77 chars and newlines. With --no-wrap "
-#| "parameter, it wraps only at newlines."
 msgid ""
 "By default gettext wraps lines at 77 characters and at newlines. With the "
 "``--no-wrap`` parameter, wrapping is only done at newlines."
 msgstr ""
 "De manera predeterminada, gettext ajusta los renglones a los 77 caracteres y "
-"en los saltos de renglón. Con el parámetro --no-wrap ajusta solo en los "
+"en los saltos de renglón. Con el parámetro ``--no-wrap`` ajusta solo en los "
 "saltos."
 
 #: ../../admin/addons.rst:323
@@ -1745,7 +1742,7 @@ msgstr ""
 
 #: ../../admin/addons.rst:454
 msgid "Customizing list of addons"
-msgstr ""
+msgstr "Personalizar la lista de complementos"
 
 #: ../../admin/addons.rst:456
 msgid ""
@@ -1766,11 +1763,11 @@ msgstr ""
 
 #: ../../admin/addons.rst:471
 msgid ":doc:`../contributing/addons`"
-msgstr ""
+msgstr ":doc:`../contributing/addons`"
 
 #: ../../admin/addons.rst:476
 msgid "Executing scripts from addon"
-msgstr ""
+msgstr "Ejecutar secuencias de órdenes de un complemento"
 
 #: ../../admin/addons.rst:478
 msgid ""
@@ -1782,6 +1779,7 @@ msgstr ""
 #: ../../admin/addons.rst:485
 msgid "For installation instructions see :ref:`custom-addon-modules`."
 msgstr ""
+"Para obtener instrucciones de instalación, vea :ref:`custom-addon-modules`."
 
 #: ../../admin/addons.rst:487
 msgid ""
@@ -1799,11 +1797,11 @@ msgstr "Sistema de control de versiones utilizado."
 
 #: ../../admin/addons.rst:498
 msgid "Upstream repository URL."
-msgstr ""
+msgstr "URL del repositorio del proyecto originario."
 
 #: ../../admin/addons.rst:502
 msgid "Absolute path to VCS repository."
-msgstr ""
+msgstr "Ruta absoluta al repositorio del sistema de control de versiones."
 
 #: ../../admin/addons.rst:508
 msgid "Repository branch configured in the current component."
@@ -1811,7 +1809,7 @@ msgstr "Rama del repositorio configurada en el componente actual."
 
 #: ../../admin/addons.rst:512
 msgid "Filemask for current component."
-msgstr ""
+msgstr "Máscara de archivos para el componente actual."
 
 #: ../../admin/addons.rst:516
 msgid "Filename of template for monolingual translations (can be empty)."
@@ -1886,7 +1884,7 @@ msgstr ""
 
 #: ../../admin/addons.rst:585
 msgid "For example with Gulp you can do it using following code:"
-msgstr ""
+msgstr "Por ejemplo, con Gulp puede hacerlo a través del código a continuación:"
 
 #: ../../admin/addons.rst:595
 #, fuzzy
@@ -1923,11 +1921,11 @@ msgstr ""
 
 #: ../../admin/admin.rst:14
 msgid "Support status, see :doc:`support`"
-msgstr ""
+msgstr "Estado de servicio técnico; vea :doc:`support`"
 
 #: ../../admin/admin.rst:15
 msgid "Backups, see :doc:`backup`"
-msgstr ""
+msgstr "Copias de respaldo; vea :ref:`backup`"
 
 #: ../../admin/admin.rst:16
 #, fuzzy
@@ -1938,6 +1936,8 @@ msgstr "Memoria de traducción compartida"
 #: ../../admin/admin.rst:17
 msgid "Performance report to review Weblate health and length of Celery queues"
 msgstr ""
+"Informe de rendimiento para revisar el funcionamiento de Weblate y la "
+"duración de las consultas de Celery"
 
 #: ../../admin/admin.rst:18
 #, fuzzy
@@ -2014,7 +2014,7 @@ msgstr ""
 
 #: ../../admin/admin.rst:71 ../../admin/admin.rst:87
 msgid ":ref:`component`, :ref:`bimono`"
-msgstr ""
+msgstr ":ref:`component`, :ref:`bimono`"
 
 #: ../../admin/admin.rst:77
 msgid "Monolingual components"
@@ -2077,7 +2077,7 @@ msgstr ""
 
 #: ../../admin/announcements.rst:30
 msgid "No context specified"
-msgstr ""
+msgstr "Ningún contexto especificado"
 
 #: ../../admin/announcements.rst:32
 msgid "Shown on dashboard (landing page)."
@@ -2085,7 +2085,7 @@ msgstr ""
 
 #: ../../admin/announcements.rst:34
 msgid "Project specified"
-msgstr ""
+msgstr "Proyecto especificado"
 
 #: ../../admin/announcements.rst:36
 msgid ""
@@ -2094,7 +2094,7 @@ msgstr ""
 
 #: ../../admin/announcements.rst:38
 msgid "Component specified"
-msgstr ""
+msgstr "Componente especificado"
 
 #: ../../admin/announcements.rst:40
 msgid "Shown for a given component and all its translations."
@@ -2102,7 +2102,7 @@ msgstr ""
 
 #: ../../admin/announcements.rst:42
 msgid "Language specified"
-msgstr ""
+msgstr "Idioma especificado"
 
 #: ../../admin/announcements.rst:44
 msgid "Shown on the language overview and all translations in that language."
@@ -2136,7 +2136,7 @@ msgstr ""
 
 #: ../../admin/auth.rst:14
 msgid "The authentication attempts are subject to :ref:`rate-limit`."
-msgstr ""
+msgstr "Los intentos de autenticación están sujetos a :ref:`rate-limit`."
 
 #: ../../admin/auth.rst:18
 msgid "Authentication backends"
@@ -2159,6 +2159,8 @@ msgid ""
 ":ref:`docker-auth` describes how to configure authentication in the official "
 "Docker image."
 msgstr ""
+":ref:`docker-auth` describe cómo configurar la autenticación en la imagen "
+"oficial para Docker."
 
 #: ../../admin/auth.rst:33
 msgid "Social authentication"
@@ -2189,7 +2191,7 @@ msgstr ""
 
 #: ../../admin/auth.rst:52
 msgid ":doc:`psa:pipeline`"
-msgstr ""
+msgstr ":doc:`psa:pipeline`"
 
 #: ../../admin/auth.rst:54
 msgid ""
@@ -2221,7 +2223,7 @@ msgstr ""
 
 #: ../../admin/auth.rst:83
 msgid ":doc:`psa:backends/openid`"
-msgstr ""
+msgstr ":doc:`psa:backends/openid`"
 
 #: ../../admin/auth.rst:88
 msgid "GitHub authentication"
@@ -2248,7 +2250,7 @@ msgstr ""
 
 #: ../../admin/auth.rst:113
 msgid ":doc:`psa:backends/github`"
-msgstr ""
+msgstr ":doc:`psa:backends/github`"
 
 #: ../../admin/auth.rst:118
 msgid "Bitbucket authentication"
@@ -2262,7 +2264,7 @@ msgstr ""
 
 #: ../../admin/auth.rst:140
 msgid ":doc:`psa:backends/bitbucket`"
-msgstr ""
+msgstr ":doc:`psa:backends/bitbucket`"
 
 #: ../../admin/auth.rst:145
 msgid "Google OAuth 2"
@@ -2273,6 +2275,8 @@ msgid ""
 "To use Google OAuth 2, you need to register an application on <https://"
 "console.developers.google.com/> and enable the Google+ API."
 msgstr ""
+"Para utilizar OAuth 2 de Google, es necesario registrar una aplicación en "
+"<https://console.developers.google.com/> y activar la API de Google+."
 
 #: ../../admin/auth.rst:150
 msgid ""
@@ -2282,7 +2286,7 @@ msgstr ""
 
 #: ../../admin/auth.rst:169
 msgid ":doc:`psa:backends/google`"
-msgstr ""
+msgstr ":doc:`psa:backends/google`"
 
 #: ../../admin/auth.rst:174
 msgid "Facebook OAuth 2"
@@ -2476,7 +2480,7 @@ msgstr ""
 
 #: ../../admin/auth.rst:408
 msgid "LDAP authentication"
-msgstr ""
+msgstr "Autenticación LDAP"
 
 #: ../../admin/auth.rst:410
 msgid ""
@@ -2531,7 +2535,7 @@ msgstr "Integración con Active Directory"
 
 #: ../../admin/auth.rst:530
 msgid ":doc:`ldap:index`, :doc:`ldap:authentication`"
-msgstr ""
+msgstr ":doc:`ldap:index`, :doc:`ldap:authentication`"
 
 #: ../../admin/auth.rst:537
 msgid "CAS authentication"
@@ -2617,7 +2621,7 @@ msgstr ""
 
 #: ../../admin/auth.rst:605
 msgid ":ref:`ldap-auth`, :ref:`cas-auth`"
-msgstr ""
+msgstr ":ref:`ldap-auth`, :ref:`cas-auth`"
 
 #: ../../admin/auth.rst:608
 msgid ""
@@ -2628,7 +2632,7 @@ msgstr ""
 
 #: ../../admin/backup.rst:4
 msgid "Backing up and moving Weblate"
-msgstr ""
+msgstr "Respaldar y trasladar Weblate"
 
 #: ../../admin/backup.rst:7
 #, fuzzy
@@ -2649,6 +2653,8 @@ msgid ""
 "Both PostgreSQL and MySQL/MariaDB databases are included in the automated "
 "backups."
 msgstr ""
+"Se incluyen las bases de datos de tanto PostgreSQL como MySQL/MariaDB en las "
+"copias de respaldo automatizadas."
 
 #: ../../admin/backup.rst:20
 msgid ""
@@ -2664,15 +2670,15 @@ msgstr "Últimos 30 días"
 
 #: ../../admin/backup.rst:23
 msgid "Weekly backups for 8 weeks back"
-msgstr ""
+msgstr "Copias de respaldo semanales para 8 semanas"
 
 #: ../../admin/backup.rst:24
 msgid "Monthly backups for 6 months back"
-msgstr ""
+msgstr "Copias de respaldo mensuales para 6 meses"
 
 #: ../../admin/backup.rst:31
 msgid "Borg encryption key"
-msgstr ""
+msgstr "Clave de cifrado de Borg"
 
 #: ../../admin/backup.rst:33
 msgid ""
@@ -2761,12 +2767,6 @@ msgid "Local filesystem"
 msgstr "Sistema de archivos local"
 
 #: ../../admin/backup.rst:81
-#, fuzzy
-#| msgid ""
-#| "It is recommended to specify absolute path for the local backup, for "
-#| "example `/path/to/backup`. The directory has to be writable by user "
-#| "running Weblate (see :ref:`file-permissions`). In case it doesn't exist, "
-#| "Weblate will attempt to create it, but it needs permissions to do so."
 msgid ""
 "It is recommended to specify the absolute path for the local backup, for "
 "example `/path/to/backup`. The directory has to be writable by the user "
@@ -2780,11 +2780,6 @@ msgstr ""
 "hacerlo."
 
 #: ../../admin/backup.rst:88
-#, fuzzy
-#| msgid ""
-#| "When running Weblate in Docker, please make sure that the backup location "
-#| "is exposed as a volume from the Weblate container. Otherwise the backups "
-#| "would be discarded by Docker on container restart."
 msgid ""
 "When running Weblate in Docker, please ensure the backup location is exposed "
 "as a volume from the Weblate container. Otherwise the backups will be "
@@ -2812,6 +2807,9 @@ msgid ""
 "The directory where backups will be stored have to be owned by UID 1000, "
 "otherwise Weblate won’t be able to write the backups there."
 msgstr ""
+"El propietario del directorio donde se habrán de almacenar las copias de "
+"respaldo debe ser el UID 1000, o Weblate no podrá guardar las copias de "
+"respaldo allí."
 
 #: ../../admin/backup.rst:110
 msgid "Remote backups"
@@ -2878,7 +2876,7 @@ msgstr ""
 
 #: ../../admin/backup.rst:152
 msgid ":doc:`borg:usage/list`, :doc:`borg:usage/extract`"
-msgstr ""
+msgstr ":doc:`borg:usage/list`, :doc:`borg:usage/extract`"
 
 #: ../../admin/backup.rst:160
 msgid "Manual backup"
@@ -2889,6 +2887,8 @@ msgid ""
 "Depending on what you want to save, back up the type of data Weblate stores "
 "in each respective place."
 msgstr ""
+"En función de lo que desee guardar, respalde los tipos de datos que Weblate "
+"almacena en cada sitio respectivo."
 
 #: ../../admin/backup.rst:166
 msgid ""
@@ -2911,6 +2911,9 @@ msgid ""
 "The database is the most important storage. Set up regular backups of your "
 "database. Without the database, all the translations are gone."
 msgstr ""
+"El almacenamiento más importante es el de la base de datos. Configure copias "
+"de respaldo periódicas de la base de datos. Sin esta, todas las traducciones "
+"desaparecerán."
 
 #: ../../admin/backup.rst:186
 msgid "Native database backup"
@@ -3035,6 +3038,9 @@ msgid ""
 "these locations. Otherwise you will lose the private keys and you will have "
 "to regenerate new ones."
 msgstr ""
+"Si utiliza las claves SSH o GPG que Weblate genera, debe realizar copias de "
+"respaldo de esas ubicaciones. De lo contrario, podría perder las claves "
+"privadas y habrá de generar nuevas."
 
 #: ../../admin/backup.rst:265
 msgid "User uploaded files"
@@ -3047,6 +3053,8 @@ msgstr ""
 #: ../../admin/backup.rst:269
 msgid "You should back up all user uploaded files (e.g. :ref:`screenshots`)."
 msgstr ""
+"Debe crear copias de respaldo de todos los archivos que cargan los usuarios ("
+"p. ej., :ref:`screenshots`)."
 
 #: ../../admin/backup.rst:272
 msgid "Celery tasks"
@@ -3067,17 +3075,14 @@ msgstr ""
 #: ../../admin/backup.rst:284
 msgid "Command line for manual backup"
 msgstr ""
+"Órdenes de interfaz de texto para efectuar copias de respaldo manualmente"
 
 #: ../../admin/backup.rst:286
-#, fuzzy
-#| msgid ""
-#| "Using a cron job, you can set up a bash command to be executed on a daily "
-#| "basis, for instance:"
 msgid ""
 "Using a cron job, you can set up a Bash command to be executed on a daily "
 "basis, for example:"
 msgstr ""
-"Con la ayuda de una tarea de cron es posible montar una orden de bash que se "
+"Con la ayuda de una tarea de cron es posible montar una orden de Bash que se "
 "ejecute diariamente. Por ejemplo:"
 
 #: ../../admin/backup.rst:292
@@ -3092,6 +3097,9 @@ msgid ""
 "You can adjust the list of folders and files to your needs. To avoid saving "
 "the translation memory (in backups folder), you can use:"
 msgstr ""
+"Puede ajustar la lista de carpetas y de archivos para adecuarla a sus "
+"necesidades. Para evitar guardar la memoria de traducción (en la carpeta de "
+"las copias de respaldo), puede utilizar:"
 
 #: ../../admin/backup.rst:301
 msgid "Restoring manual backup"
@@ -3114,10 +3122,12 @@ msgid ""
 "Relocate your installation to a different system by following the backing up "
 "and restoration instructions above."
 msgstr ""
+"Para mudar su instalación a un sistema diferente, siga las instrucciones de "
+"respaldo y restauración anteriores."
 
 #: ../../admin/backup.rst:319
 msgid ":ref:`py3`, :ref:`database-migration`"
-msgstr ""
+msgstr ":ref:`py3`, :ref:`database-migration`"
 
 #: ../../admin/checks.rst:2 ../../user/checks.rst:2
 msgid "Checks and fixups"
@@ -3138,6 +3148,8 @@ msgid ""
 "The automatic fixes are powerful, but can also cause damage;  be careful "
 "when writing one."
 msgstr ""
+"Las correcciones automáticas son potentes pero pueden causar daños; tenga "
+"cuidado al escribir una."
 
 #: ../../admin/checks.rst:15
 msgid ""
@@ -3152,10 +3164,8 @@ msgid ""
 msgstr ""
 
 #: ../../admin/checks.rst:27
-#, fuzzy
-#| msgid "Customizing behavior"
 msgid "Customizing behavior using flags"
-msgstr "Personalizar el comportamiento"
+msgstr "Personalizar el comportamiento mediante indicadores"
 
 #: ../../admin/checks.rst:29
 msgid ""
@@ -3894,7 +3904,7 @@ msgstr ""
 
 #: ../../admin/checks.rst:223
 msgid "Enforcing checks"
-msgstr ""
+msgstr "Forzar comprobaciones"
 
 #: ../../admin/checks.rst:227
 msgid ""
@@ -3961,7 +3971,7 @@ msgstr ""
 
 #: ../../admin/checks.rst:276
 msgid "Defines maximal width."
-msgstr ""
+msgstr "Define la anchura máxima."
 
 #: ../../admin/checks.rst:277
 msgid "``font-family:ubuntu``"
@@ -3977,7 +3987,7 @@ msgstr ""
 
 #: ../../admin/checks.rst:280
 msgid "Defines font size."
-msgstr ""
+msgstr "Define el tamaño del texto."
 
 #: ../../admin/checks.rst:286
 msgid "Writing own checks"
@@ -4145,7 +4155,7 @@ msgstr ""
 
 #: ../../admin/config.rst:35
 msgid "Username of users that are not signed in."
-msgstr ""
+msgstr "El nombre de usuario de los usuarios sin cuenta."
 
 #: ../../admin/config.rst:39 ../../admin/management.rst:729
 msgid ":ref:`privileges`"
@@ -4163,7 +4173,7 @@ msgstr ""
 
 #: ../../admin/config.rst:51 ../../admin/config.rst:151
 msgid "Defaults to 180 days."
-msgstr ""
+msgstr "El valor predeterminado es de 180 días."
 
 #: ../../admin/config.rst:56
 msgid "AUTH_LOCK_ATTEMPTS"
@@ -4193,11 +4203,11 @@ msgstr ""
 
 #: ../../admin/config.rst:69
 msgid "Defaults to 10."
-msgstr ""
+msgstr "El valor predeterminado es de 10."
 
 #: ../../admin/config.rst:73
 msgid ":ref:`rate-limit`,"
-msgstr ""
+msgstr ":ref:`rate-limit`,"
 
 #: ../../admin/config.rst:78
 msgid "AUTO_UPDATE"
@@ -4211,7 +4221,7 @@ msgstr ""
 
 #: ../../admin/config.rst:86
 msgid "Updates all repositories on a daily basis."
-msgstr ""
+msgstr "Actualiza todos los repositorios diariamente."
 
 #: ../../admin/config.rst:90
 msgid ""
@@ -4227,7 +4237,7 @@ msgstr ""
 
 #: ../../admin/config.rst:96
 msgid "Options are:"
-msgstr ""
+msgstr "Las opciones son:"
 
 #: ../../admin/config.rst:98 ../../admin/config.rst:382
 msgid "``\"none\"``"
@@ -4243,7 +4253,7 @@ msgstr ""
 
 #: ../../admin/config.rst:101
 msgid "Only update remotes."
-msgstr ""
+msgstr "Actualiza los remotos solamente."
 
 #: ../../admin/config.rst:103
 msgid "``\"full\"`` also ``True``"
@@ -4251,7 +4261,7 @@ msgstr ""
 
 #: ../../admin/config.rst:103
 msgid "Update remotes and merge working copy."
-msgstr ""
+msgstr "Actualiza los remotos y fusiona la copia de trabajo."
 
 #: ../../admin/config.rst:107
 msgid ""
@@ -4307,7 +4317,7 @@ msgstr ""
 
 #: ../../admin/config.rst:145
 msgid "How many days using the same password should be allowed."
-msgstr ""
+msgstr "Por cuántos días debe permitirse el uso de la misma contraseña."
 
 #: ../../admin/config.rst:149
 msgid ""
@@ -4321,7 +4331,7 @@ msgstr ""
 
 #: ../../admin/config.rst:158
 msgid "List of automatic fixes to apply when saving a string."
-msgstr ""
+msgstr "Lista de correcciones automáticas que aplicar al guardar una cadena."
 
 #: ../../admin/config.rst:162
 msgid ""
@@ -4331,7 +4341,7 @@ msgstr ""
 
 #: ../../admin/config.rst:165
 msgid "Available fixes:"
-msgstr ""
+msgstr "Correcciones disponibles:"
 
 #: ../../admin/config.rst:167
 msgid "``weblate.trans.autofixes.whitespace.SameBookendingWhitespace``"
@@ -4350,6 +4360,8 @@ msgid ""
 "Replaces trailing dots (...) if the source string has a corresponding "
 "ellipsis (…)."
 msgstr ""
+"Sustituye tres puntos al final (...) si la cadena de origen incluye en su "
+"lugar puntos suspensivos (…)."
 
 #: ../../admin/config.rst:171
 msgid "``weblate.trans.autofixes.chars.RemoveZeroSpace``"
@@ -4358,6 +4370,8 @@ msgstr ""
 #: ../../admin/config.rst:172
 msgid "Removes zero-width space characters if the source does not contain any."
 msgstr ""
+"Quita caracteres espaciadores de anchura cero si la cadena de origen no los "
+"contiene."
 
 #: ../../admin/config.rst:173
 msgid "``weblate.trans.autofixes.chars.RemoveControlChars``"
@@ -4365,7 +4379,7 @@ msgstr ""
 
 #: ../../admin/config.rst:174
 msgid "Removes control characters if the source does not contain any."
-msgstr ""
+msgstr "Quita caracteres de control si la cadena de origen no los contiene."
 
 #: ../../admin/config.rst:176
 msgid "``weblate.trans.autofixes.html.BleachHTML``"
@@ -4379,11 +4393,11 @@ msgstr ""
 
 #: ../../admin/config.rst:178
 msgid "You can select which ones to use:"
-msgstr ""
+msgstr "Puede seleccionar cuáles utilizar:"
 
 #: ../../admin/config.rst:189
 msgid ":ref:`autofix`, :ref:`custom-autofix`"
-msgstr ""
+msgstr ":ref:`autofix`, :ref:`custom-autofix`"
 
 #: ../../admin/config.rst:194
 msgid "BASE_DIR"
@@ -4436,7 +4450,7 @@ msgstr ""
 #: ../../admin/install/docker.rst:655 ../../admin/install/docker.rst:1139
 #: ../../admin/install/docker.rst:1171 ../../admin/install/docker.rst:1189
 msgid "**Example:**"
-msgstr ""
+msgstr "**Ejemplo:**"
 
 #: ../../admin/config.rst:230 ../../faq.rst:332 ../../faq.rst:513
 #, fuzzy
@@ -4835,7 +4849,7 @@ msgstr ""
 
 #: ../../admin/config.rst:550
 msgid "Merge style for any new components."
-msgstr ""
+msgstr "Estilo de fusión para cualesquier componentes nuevos."
 
 #: ../../admin/config.rst:552
 msgid "`rebase` - default"
@@ -6713,10 +6727,12 @@ msgstr ""
 #: ../../admin/continuous.rst:278
 msgid "Overall, following options are available with Git, GitHub and GitLab:"
 msgstr ""
+"De manera general, las opciones siguientes se encuentran disponibles con "
+"Git, GitHub y GitLab:"
 
 #: ../../admin/continuous.rst:281
 msgid "Desired setup"
-msgstr ""
+msgstr "Configuración deseada"
 
 #: ../../admin/continuous.rst:281 ../../api.rst:1084
 msgid ":ref:`component-vcs`"
@@ -6864,7 +6880,7 @@ msgstr "Interactuar con otros"
 
 #: ../../admin/continuous.rst:345
 msgid "Weblate makes it easy to interact with others using its API."
-msgstr ""
+msgstr "Weblate facilita la interacción con otras herramientas mediante su API."
 
 #: ../../admin/continuous.rst:349
 msgid ":ref:`api`"
@@ -7809,6 +7825,8 @@ msgstr ""
 #: ../../admin/install.rst:411
 msgid "Weblate requires MySQL at least 5.7.8 or MariaDB at least 10.2.7."
 msgstr ""
+"Weblate requiere MySQL o MariaDB, al menos en sus respectivas versiones "
+"5.7.8 o 10.2.7."
 
 #: ../../admin/install.rst:413
 msgid "Following configuration is recommended for Weblate:"
@@ -7819,6 +7837,9 @@ msgid ""
 "Use the ``utf8mb4`` charset to allow representation of higher Unicode planes "
 "(for example emojis)."
 msgstr ""
+"Utilice el conjunto de caracteres ``utf8mb4`` para permitir la "
+"representación de los planos superiores de Unicode (donde se encuentran, por "
+"ejemplo, los emoyis)."
 
 #: ../../admin/install.rst:416
 msgid ""
@@ -13042,8 +13063,6 @@ msgid "``GLOSSARY``"
 msgstr ""
 
 #: ../../admin/optionals.rst:262
-#, fuzzy
-#| msgid "Starting translation in new language"
 msgid "Starting translation into a new language"
 msgstr "Comenzar una traducción en un idioma nuevo"
 
@@ -15104,7 +15123,7 @@ msgstr ""
 
 #: ../../admin/upgrade.rst:170
 msgid "Upgrade from 4.3 to 4.4"
-msgstr ""
+msgstr "Actualizar de la 4.3 a la 4.4"
 
 #: ../../admin/upgrade.rst:176
 msgid ""
@@ -15114,7 +15133,7 @@ msgstr ""
 
 #: ../../admin/upgrade.rst:177
 msgid "Django 3.1 is now required."
-msgstr ""
+msgstr "Ahora es obligatorio el uso de Django 3.1."
 
 #: ../../admin/upgrade.rst:178
 msgid ""
@@ -15655,7 +15674,7 @@ msgstr ""
 
 #: ../../api.rst:346 ../../api.rst:367 ../../api.rst:379
 msgid "Frequency choices for notifications"
-msgstr ""
+msgstr "Elecciones de frecuencia de las notificaciones"
 
 #: ../../api.rst:350
 msgid "Get a subscription associated with a user."
@@ -17667,10 +17686,8 @@ msgid "Weblate 4.5"
 msgstr "Weblate 4.5"
 
 #: ../../changes.rst:4
-#, fuzzy
-#| msgid "Released on February 17th 2020."
 msgid "Released on February 17th 2021."
-msgstr "Publicada el 17 de febrero de 2020."
+msgstr "Publicada el 17 de febrero de 2021."
 
 #: ../../changes.rst:6
 msgid "Added support for ``lua-format`` used in gettext PO."
@@ -17686,28 +17703,24 @@ msgstr "Se agregó la posibilidad de compartir un componente entre proyectos."
 msgid ""
 "Fixed multiple unnamed variables check behavior with multiple format flags."
 msgstr ""
+"Se arregló el comportamiento de la comprobación de varias variables sin "
+"nombre en diversos indicadores de formato."
 
 #: ../../changes.rst:9
-#, fuzzy
-#| msgid ""
-#| "Dropped mailing list field on project in favor of generic instructions "
-#| "for translators."
 msgid ""
 "Dropped mailing list field on the project in favor of generic instructions "
 "for translators."
 msgstr ""
-"Se desechó el campo Lista de correo en favor de instrucciones para "
-"traductores genéricas."
+"Se desechó el campo Lista de correo en los proyectos en favor de "
+"instrucciones para traductores genéricas."
 
 #: ../../changes.rst:10
 msgid "Added pseudolocale generation addon."
 msgstr "Se sumó un complemento de generación de pseudorregiones."
 
 #: ../../changes.rst:11
-#, fuzzy
-#| msgid "Added support for Term Base eXchange files."
 msgid "Added support for TermBase eXchange files."
-msgstr "Se pueden utilizar ahora archivos Term Base eXchange."
+msgstr "Se pueden utilizar ahora archivos TermBase eXchange."
 
 #: ../../changes.rst:12
 msgid "Added support for manually defining string variants using a flag."
@@ -17747,22 +17760,20 @@ msgstr ""
 "las .properties de Java."
 
 #: ../../changes.rst:19
-#, fuzzy
-#| msgid "Added new upload method to add new strings to a translation."
 msgid "Added a new upload method to add new strings to a translation."
 msgstr ""
 "Se añadió un método de carga nuevo para añadir cadenas nuevas a una "
 "traducción."
 
 #: ../../changes.rst:20
-#, fuzzy
-#| msgid "Added simple interface to browse translation."
 msgid "Added a simple interface to browse translation."
 msgstr "Se añadió una interfaz simple para explorar las traducciones."
 
 #: ../../changes.rst:22
 msgid "Dropped specific API for glossaries as component API is used now."
 msgstr ""
+"Se eliminó la API específica de los glosarios, dado que ahora se utiliza la "
+"API de los componentes para el mismo fin."
 
 #: ../../changes.rst:23
 msgid "Added simplified interface to toggle some of the flags."
@@ -17771,8 +17782,6 @@ msgstr ""
 "indicadores."
 
 #: ../../changes.rst:24
-#, fuzzy
-#| msgid "Added support for non-translatable or forbidden terms in glossary."
 msgid "Added support for non-translatable or forbidden terms in the glossary."
 msgstr ""
 "Se permite marcar términos como de no traducción o como prohibidos en los "
@@ -17785,22 +17794,24 @@ msgstr "Se añadió la capacidad de definir terminología en un glosario."
 #: ../../changes.rst:26
 msgid "Moved text direction toggle to get more space for the visual keyboard."
 msgstr ""
+"Se movió el control de dirección del texto para obtener más espacio para el "
+"teclado virtual."
 
 #: ../../changes.rst:27
-#, fuzzy
-#| msgid "Projects with contribution"
 msgid "Added option to automatically watch projects user-contributed to."
-msgstr "Proyectos con contribuciones"
+msgstr ""
+"Se añadió una opción para monitorizar automáticamente los proyectos en los "
+"que se contribuye."
 
 #: ../../changes.rst:28
 msgid "Added check whether translation matches the glossary."
 msgstr ""
+"Se añadió una comprobación para asegurar que las traducciones coincidan con "
+"el glosario."
 
 #: ../../changes.rst:29
-#, fuzzy
-#| msgid "Added support for customizable security.txt."
 msgid "Added support for customizing navigation text color."
-msgstr "Se permite personalizar el archivo security.txt."
+msgstr "Se permite personalizar el color de texto de la navegación."
 
 #: ../../changes.rst:32
 msgid "Weblate 4.4.2"
@@ -18367,11 +18378,9 @@ msgid "Number of displayed nearby strings can be configured."
 msgstr "Es posible configurar el número de cadenas cercanas mostradas."
 
 #: ../../changes.rst:183
-#, fuzzy
-#| msgid "Added support for locking component while there is repository error."
 msgid "Added support for locking components experiencing repository errors."
 msgstr ""
-"Se permite bloquear los componentes cuando se produce un error en el "
+"Se permite bloquear los componentes cuando se producen errores en el "
 "repositorio."
 
 #: ../../changes.rst:184
@@ -18381,10 +18390,10 @@ msgstr ""
 "iconos)."
 
 #: ../../changes.rst:185
-#, fuzzy
-#| msgid "Improved language code parsing."
 msgid "Improved language code handling in Google Translate integration."
-msgstr "Se mejoró el procesamiento de los códigos de idioma."
+msgstr ""
+"Se mejoró el tratamiento de los códigos de idioma en la integración con "
+"Google Translate."
 
 #: ../../changes.rst:186
 msgid "The Git squash addon can generate ``Co-authored-by:`` trailers."
@@ -18394,7 +18403,7 @@ msgstr ""
 
 #: ../../changes.rst:187
 msgid "Improved query search parser."
-msgstr ""
+msgstr "Ha mejorado el procesador de consultas de búsqueda."
 
 #: ../../changes.rst:188
 msgid "Improved user feedback from format strings checks."
@@ -18413,6 +18422,8 @@ msgid ""
 "Added notifications for strings approval, component locking and license "
 "change."
 msgstr ""
+"Se añadieron notificaciones sobre aprobaciones de cadenas, bloqueos de "
+"componentes y cambios de licencia."
 
 #: ../../changes.rst:192
 msgid "Added support for ModernMT."
@@ -18512,6 +18523,8 @@ msgstr ""
 #: ../../changes.rst:217
 msgid "Fixed lock indication on project listing."
 msgstr ""
+"La vista de bloqueo en la enumeración de los proyectos ahora funciona como "
+"es debido."
 
 #: ../../changes.rst:218
 #, fuzzy
@@ -18521,7 +18534,7 @@ msgstr "Se arregló la selección del idioma de interfaz en casos puntuales."
 
 #: ../../changes.rst:219
 msgid "Added option for which DeepL API version to use."
-msgstr ""
+msgstr "Se permite seleccionar qué versión de la API de DeepL utilizar."
 
 #: ../../changes.rst:220
 msgid ""
@@ -18554,7 +18567,7 @@ msgstr "Se mejoró la edición de la búsqueda en las páginas «Traducir»."
 
 #: ../../changes.rst:231
 msgid "Improve handling of concurrent repository updates."
-msgstr ""
+msgstr "Mejoró el tratamiento de actualizaciones de repositorio concurrentes."
 
 #: ../../changes.rst:232
 msgid "Include source language in project creation form."
@@ -24752,10 +24765,8 @@ msgid ":ref:`user-profile`, :djadmin:`dumpuserdata`"
 msgstr ":ref:`user-profile`, :djadmin:`dumpuserdata`"
 
 #: ../../contributing/security.rst:2
-#, fuzzy
-#| msgid "Security Policy"
 msgid "Security and privacy"
-msgstr "Normativa de seguridad"
+msgstr "Seguridad y privacidad"
 
 #: ../../contributing/security.rst:6
 msgid ""
@@ -24766,21 +24777,18 @@ msgstr ""
 "de los usuarios."
 
 #: ../../contributing/security.rst:8
-#, fuzzy
-#| msgid ""
-#| "Weblate development follows the Best Practices of the Linux Foundation's "
-#| "Core Infrastructure Initiative."
 msgid ""
 "Weblate development follows the `Best Practices of the Linux Foundation's "
 "Core Infrastructure Initiative <https://bestpractices.coreinfrastructure.org/"
 "projects/552>`_."
 msgstr ""
-"El desarrollo de Weblate se ajusta a las prácticas modélicas de la "
-"iniciativa Core Infrastructure de la Linux Foundation."
+"El desarrollo de Weblate se ajusta a las `prácticas modélicas de la "
+"iniciativa Core Infrastructure de la Linux Foundation <https://bestpractices."
+"coreinfrastructure.org/projects/552>`_."
 
 #: ../../contributing/security.rst:11
 msgid "Tracking dependencies for vulnerabilities"
-msgstr ""
+msgstr "Búsqueda de vulnerabilidades en las dependencias"
 
 #: ../../contributing/security.rst:13
 msgid ""
@@ -24788,42 +24796,52 @@ msgid ""
 "dependabot.com/>`_. This covers Python and JavaScript libraries and latest "
 "stable release should have adjusted dependencies to avoid vulnerabilities."
 msgstr ""
+"Revisamos continuamente la existencia de vulnerabilidades en nuestras "
+"dependencias Python y JavaScript con ayuda de `Dependabot <https://dependabot"
+".com/>`_. Toda versión estable nueva incluye cambios en las dependencias "
+"para evitar las vulnerabilidades."
 
 #: ../../contributing/security.rst:20
 msgid ""
 "There might be vulnerabilities in third-party libraries which do not affect "
 "Weblate, and we do not address these in a bugfix release."
 msgstr ""
+"Puede que haya vulnerabilidades en las bibliotecas de terceros que no tienen "
+"efecto alguno en Weblate. No creamos versiones con arreglos para esos "
+"problemas."
 
 #: ../../contributing/security.rst:24
-#, fuzzy
-#| msgid "Docker container volumes"
 msgid "Docker containers security"
-msgstr "Volúmenes de contenedores Docker"
+msgstr "Seguridad de los contenedores Docker"
 
 #: ../../contributing/security.rst:26
 msgid ""
 "The Docker containers are scanned using `Anchore <https://anchore.com/>`_ "
 "and `Trivy <https://github.com/aquasecurity/trivy>`_."
 msgstr ""
+"Los contenedores para Docker se analizan con `Anchore <https://anchore.com/>`"
+"_ y `Trivy <https://github.com/aquasecurity/trivy>`_."
 
 #: ../../contributing/security.rst:29
 msgid ""
 "This allows us to detect vulnerabilities early and release an updated "
 "version of the container containing fixes."
 msgstr ""
+"Esto nos permite detectar vulnerabilidades de manera pronta y publicar una "
+"versión actualizada del contenedor que incluya arreglos."
 
 #: ../../contributing/security.rst:32
 msgid ""
 "You can get the results of these scans at GitHub - they are stored as "
 "artifacts on our CI as Static Analysis Results Interchange Format (SARIF)."
 msgstr ""
+"Puede obtener los resultados de estos análisis en GitHub; se almacenan como "
+"productos de la integración continua en el formato de intercambio de "
+"resultados de análisis estáticos (SARIF, por sus siglas en inglés)."
 
 #: ../../contributing/security.rst:37
-#, fuzzy
-#| msgid ":ref:`labels`"
 msgid ":ref:`ci-tests`"
-msgstr ":ref:`labels`"
+msgstr ":ref:`ci-tests`"
 
 #: ../../contributing/start.rst:2
 msgid "Starting contributing code to Weblate"
@@ -25678,13 +25696,11 @@ msgstr ""
 
 #: ../../devel/integration.rst:18
 msgid ":ref:`adding-projects`, :ref:`faq-submodule`"
-msgstr ""
+msgstr ":ref:`adding-projects`, :ref:`faq-submodule`"
 
 #: ../../devel/integration.rst:22
-#, fuzzy
-#| msgid "Lists translations in Weblate."
 msgid "Fetching updated translations from Weblate"
-msgstr "Enumera las traducciones en Weblate."
+msgstr "Recuperar traducciones actualizadas desde Weblate"
 
 #: ../../devel/integration.rst:24
 msgid ""
@@ -25710,13 +25726,8 @@ msgid ""
 msgstr ""
 
 #: ../../devel/integration.rst:38
-#, fuzzy
-#| msgid ""
-#| ":ref:`new-translations`, :ref:`language-code`, :ref:`language-parsing-"
-#| "codes`"
 msgid ":ref:`continuous-translation`, :ref:`push-changes`, :ref:`vcs-repos`"
-msgstr ""
-":ref:`new-translations`, :ref:`language-code`, :ref:`language-parsing-codes`"
+msgstr ":ref:`continuous-translation`, :ref:`push-changes`, :ref:`vcs-repos`"
 
 #: ../../devel/integration.rst:43
 msgid "Fetching remote changes into Weblate"
@@ -25742,12 +25753,13 @@ msgid ""
 "If you’re not using a VCS integration, you can use UI or :doc:`/api` to "
 "update translations to match your code base."
 msgstr ""
+"Si no utiliza una integración con un sistema de control de versiones, puede "
+"servirse de la interfaz de usuario o la :doc:`/api` para actualizar las "
+"traducciones para que se ajusten a su base de código fuente."
 
 #: ../../devel/integration.rst:57
-#, fuzzy
-#| msgid ":ref:`component-allow_translation_propagation`"
 msgid ":ref:`continuous-translation`, :ref:`vcs-repos`"
-msgstr ":ref:`component-allow_translation_propagation`"
+msgstr ":ref:`continuous-translation`, :ref:`vcs-repos`"
 
 #: ../../devel/integration.rst:63
 msgid "Adding new strings"
@@ -25766,6 +25778,8 @@ msgid ""
 "When the translation files are separate from the code, there are following "
 "ways to introduce new strings into Weblate."
 msgstr ""
+"Cuando los archivos de traducción están separados del código fuente, los "
+"procedimientos siguientes le permitirán introducir cadenas nuevas en Weblate."
 
 #: ../../devel/integration.rst:73
 msgid ""
@@ -26706,10 +26720,8 @@ msgstr ""
 "de datos MySQL."
 
 #: ../../devel/translations.rst:107
-#, fuzzy
-#| msgid ":ref:`bimono`, :ref:`reviews`, :ref:`labels`"
 msgid ":ref:`custom-checks`, :ref:`glossary-variants`"
-msgstr ":ref:`bimono`, :ref:`reviews`, :ref:`labels`"
+msgstr ":ref:`custom-checks`, :ref:`glossary-variants`"
 
 #: ../../devel/translations.rst:111
 msgid "Variants while translating"
@@ -28111,10 +28123,8 @@ msgid "Inno Setup INI translations"
 msgstr "Traducciones INI de Inno Setup"
 
 #: ../../formats.rst:507
-#, fuzzy
-#| msgid "file format of translations"
 msgid "Inno Setup INI file format for translations."
-msgstr "Formato de archivo «Inno Setup INI» para las traducciones."
+msgstr "Formato de archivo INI de Inno Setup para las traducciones."
 
 #: ../../formats.rst:509
 msgid ""
@@ -28879,7 +28889,7 @@ msgstr ""
 
 #: ../../formats.rst:1273
 msgid "`App store metadata files`"
-msgstr ""
+msgstr "`Archivos de metadatos de tiendas de aplicaciones`"
 
 #: ../../formats.rst:1278
 msgid ""
@@ -28906,19 +28916,19 @@ msgstr "Archivo de subtítulos de MicroDVD (``*.sub``)"
 
 #: ../../formats.rst:1293
 msgid "Advanced Substation Alpha subtitles file (``*.ass``)"
-msgstr ""
+msgstr "Archivo de subtítulos Advanced Substation Alpha (``*.ass``)"
 
 #: ../../formats.rst:1294
 msgid "Substation Alpha subtitle file (``*.ssa``)"
-msgstr ""
+msgstr "Archivo de subtítulos Substation Alpha (``*.ssa``)"
 
 #: ../../formats.rst:1299
 msgid "``path/*.srt``"
-msgstr ""
+msgstr "``ruta/*.srt``"
 
 #: ../../formats.rst:1301 ../../formats.rst:1303
 msgid "``path/en.srt``"
-msgstr ""
+msgstr "``ruta/en.srt``"
 
 #: ../../formats.rst:1305
 msgid "`SubRip subtitle file`"
@@ -31131,19 +31141,14 @@ msgstr ""
 "glosario."
 
 #: ../../user/glossary.rst:41
-#, fuzzy
-#| msgid ""
-#| "The terms can be flagged on the source language using :guilabel:`Tools` "
-#| "↓ :guilabel:`Mark as terminology`. In the background this toggles the "
-#| "``terminology`` flag on the string."
 msgid ""
 "The terms can be flagged in the source language using :guilabel:`Tools` ↓ :"
 "guilabel:`Mark as read-only`. In the background this toggles the ``read-"
 "only`` flag of the string."
 msgstr ""
-"Los términos pueden marcarse en el idioma de origen mediante :guilabel:"
-"`Herramientas` ↓ :guilabel:`Marcar como terminología`. En segundo plano, "
-"esta orden conmuta el indicador ``terminology`` en la cadena."
+"Los términos pueden marcarse en el idioma de origen mediante "
+":guilabel:`Herramientas` ↓ :guilabel:`Marcar como de solo lectura`. En "
+"segundo plano, esta orden conmuta el indicador ``read-only`` en la cadena."
 
 #: ../../user/glossary.rst:52
 msgid "Forbidden translations"
@@ -31166,19 +31171,14 @@ msgstr ""
 "ambiguo o inesperado en determinadas regiones, por ejemplo."
 
 #: ../../user/glossary.rst:60
-#, fuzzy
-#| msgid ""
-#| "The terms can be flagged on the source language using :guilabel:`Tools` "
-#| "↓ :guilabel:`Mark as terminology`. In the background this toggles the "
-#| "``terminology`` flag on the string."
 msgid ""
 "Terms can be flagged using :guilabel:`Tools` ↓ :guilabel:`Mark as forbidden "
 "translation`. In the background this toggles the ``forbidden`` flag of the "
 "string."
 msgstr ""
-"Los términos pueden marcarse en el idioma de origen mediante :guilabel:"
-"`Herramientas` ↓ :guilabel:`Marcar como terminología`. En segundo plano, "
-"esta orden conmuta el indicador ``terminology`` en la cadena."
+"Los términos pueden marcarse mediante :guilabel:`Herramientas` ↓ :guilabel:`"
+"Marcar como traducción prohibida`. En segundo plano, esta orden conmuta el "
+"indicador ``forbidden`` en la cadena."
 
 #: ../../user/glossary.rst:71
 msgid "Terminology"
@@ -31201,19 +31201,14 @@ msgstr ""
 "de manera coherente."
 
 #: ../../user/glossary.rst:79
-#, fuzzy
-#| msgid ""
-#| "The terms can be flagged on the source language using :guilabel:`Tools` "
-#| "↓ :guilabel:`Mark as terminology`. In the background this toggles the "
-#| "``terminology`` flag on the string."
 msgid ""
 "The terms can be flagged in the source language using :guilabel:`Tools` ↓ :"
 "guilabel:`Mark as terminology`. In the background this toggles the "
 "``terminology`` flag of the string."
 msgstr ""
-"Los términos pueden marcarse en el idioma de origen mediante :guilabel:"
-"`Herramientas` ↓ :guilabel:`Marcar como terminología`. En segundo plano, "
-"esta orden conmuta el indicador ``terminology`` en la cadena."
+"Los términos pueden marcarse en el idioma de origen mediante "
+":guilabel:`Herramientas` ↓ :guilabel:`Marcar como terminología`. En segundo "
+"plano, esta orden conmuta el indicador ``terminology`` en la cadena."
 
 #: ../../user/glossary.rst:90 ../../user/translating.rst:78
 msgid "Variants"
@@ -31224,11 +31219,14 @@ msgid ""
 "Variants are a generic way to group strings together. All term variants are "
 "listed in the glossary sidebar when translating."
 msgstr ""
+"Las variantes son una forma genérica de agrupar varias cadenas. Todas las "
+"variantes de un término aparecerán en el cuadro lateral del glosario "
+"mientras traduce."
 
 #: ../../user/glossary.rst:97
 msgid ""
 "You can use this to add abbreviations or shorter expressions for a term."
-msgstr ""
+msgstr "Puede emplearlas para añadir versiones abreviadas de un término."
 
 #: ../../user/glossary.rst:101
 msgid ":ref:`variants`"
@@ -32021,7 +32019,7 @@ msgstr ""
 
 #: ../../user/translating.rst:86
 msgid ":ref:`variants`, :ref:`glossary-variants`"
-msgstr ""
+msgstr ":ref:`variants`, :ref:`glossary-variants`"
 
 #: ../../user/translating.rst:90
 msgid "Labels"
@@ -33685,10 +33683,9 @@ msgstr ""
 "Las sugerencias se almacenan solo en Weblate, no en el archivo de traducción."
 
 #: ../../workflows.rst:47
-#, fuzzy
-#| msgid "These are the choices presented when uploading translation files:"
 msgid "The states are represented in the translation files when possible."
-msgstr "Estas son las elecciones presentadas al cargar archivos de traducción:"
+msgstr ""
+"Los estados se señalan en los archivos de traducción siempre que es posible."
 
 #: ../../workflows.rst:51
 msgid ""
@@ -33698,10 +33695,8 @@ msgid ""
 msgstr ""
 
 #: ../../workflows.rst:57
-#, fuzzy
-#| msgid ":ref:`ryaml`"
 msgid ":ref:`fmt_capabs`, :ref:`workflows`"
-msgstr ":ref:`ryaml`"
+msgstr ":ref:`fmt_capabs`, :ref:`workflows`"
 
 #: ../../workflows.rst:62
 msgid "Direct translation"
@@ -33715,7 +33710,7 @@ msgstr ""
 
 #: ../../workflows.rst:66
 msgid "*Any user* can edit translations."
-msgstr ""
+msgstr "*Cualquier usuario* puede editar las traducciones."
 
 #: ../../workflows.rst:67
 msgid ""
