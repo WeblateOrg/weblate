@@ -112,12 +112,11 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         # Build Chrome driver
         options = Options()
         # Run headless
-        options.headless = True
+        options.add_argument("--headless")
         # Seems to help in some corner cases, see
         # https://stackoverflow.com/a/50642913/225718
         options.add_argument("--no-sandbox")
         options.add_argument("--disable-dev-shm-usage")
-        options.add_argument("--disable-gpu")
 
         # Force Chrome in English
         options.add_argument("--lang=en")
