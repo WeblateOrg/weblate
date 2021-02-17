@@ -157,6 +157,10 @@ ACCOUNT_ACTIVITY = {
     "invited": _("Invited to Weblate by {username}."),
     "trial": _("Started trial period."),
     "sent-email": _("Sent confirmation mail to {email}."),
+    "autocreated": _(
+        "System created user to track authorship of "
+        "translations uploaded by other user."
+    ),
 }
 # Override activty messages based on method
 ACCOUNT_ACTIVITY_METHOD = {

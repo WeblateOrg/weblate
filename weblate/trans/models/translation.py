@@ -1015,19 +1015,27 @@ class Translation(
         fuzzy: str = "",
     ):
         """Top level handler for file uploads."""
+        from weblate.accounts.models import AuditLog
+
         # Optionally set authorship
         orig_user = None
         if author_email:
             from weblate.auth.models import User
 
             orig_user = request.user
-            request.user = User.objects.get_or_create(
+            request.user, created = User.objects.get_or_create(
                 email=author_email,
                 defaults={
                     "username": author_email,
                     "full_name": author_name or author_email,
                 },
-            )[0]
+            )
+            if created:
+                AuditLog.objects.create(
+                    request.user,
+                    request,
+                    "autocreated",
+                )
 
         try:
             if method == "replace":
