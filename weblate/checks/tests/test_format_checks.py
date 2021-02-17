@@ -620,7 +620,13 @@ class JavaMessageFormatCheckTest(CheckTestCase):
             source="{0}''s brush is {1} centimeters tall",
             target="{0}'s brush is {1} centimeters tall",
             extra_flags="java-messageformat",
-            translation=Translation(component=Component(file_format="auto")),
+            translation=Translation(
+                component=Component(
+                    file_format="auto",
+                    source_language=Language("en"),
+                ),
+                language=Language("cs"),
+            ),
         )
         check = Check(unit=unit)
         self.assertEqual(
