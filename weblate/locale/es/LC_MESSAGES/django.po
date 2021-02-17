@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.5\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-02-16 18:58+0000\n"
-"PO-Revision-Date: 2021-02-15 11:55+0000\n"
+"PO-Revision-Date: 2021-02-17 08:02+0000\n"
 "Last-Translator: Adolfo Jayme Barrientos <fitojb@ubuntu.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/weblate/"
 "application/es/>\n"
@@ -27,7 +27,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.5-dev\n"
+"X-Generator: Weblate 4.5\n"
 
 #: weblate/accounts/avatar.py:103
 msgctxt "No known user"
@@ -473,7 +473,7 @@ msgstr ""
 
 #: weblate/accounts/models.py:395
 msgid "Translation editor mode"
-msgstr "Modo editor de la traducción"
+msgstr "Modo del editor de traducciones"
 
 #: weblate/accounts/models.py:396
 msgid "Full editor"
@@ -1103,7 +1103,7 @@ msgstr "Complemento de ejemplo"
 
 #: weblate/addons/example.py:38
 msgid "This addon does nothing it is just an example."
-msgstr "Este complemento no hace nada, es sólo un ejemplo."
+msgstr "Este complemento no hace nada; es solo un ejemplo."
 
 #: weblate/addons/example_pre.py:34
 msgid "Execute script before commit"
@@ -1111,7 +1111,7 @@ msgstr "Ejecutar secuencia de órdenes antes de consignar"
 
 #: weblate/addons/example_pre.py:35
 msgid "This addon executes a script."
-msgstr "Este complemento ejecuta un script."
+msgstr "Este complemento ejecuta una secuencia de órdenes."
 
 #: weblate/addons/flags.py:45
 msgid "Flag new source strings as \"Needs editing\""
@@ -1164,10 +1164,10 @@ msgid "Bulk edit"
 msgstr "Edición en masa"
 
 #: weblate/addons/flags.py:106
-#, fuzzy
-#| msgid "Bulk edit flags, labels or state for strings."
 msgid "Bulk edit flags, labels, or states of strings."
-msgstr "Edite indicadores, etiquetas o estados de manera masiva."
+msgstr ""
+"Edite los indicadores, las etiquetas o los estados de las cadenas de manera "
+"masiva."
 
 #: weblate/addons/forms.py:53
 msgid "Path of generated MO file"
@@ -1507,6 +1507,9 @@ msgid ""
 "Updates all PO files (as configured by \"Filemask\") to match the POT file "
 "(as configured by \"Template for new translations\") using msgmerge."
 msgstr ""
+"Actualiza todos los archivos PO (como se hayan configurado en «Máscara de "
+"archivos») para que coincidan con el archivo PO (como se haya configurado en "
+"«Plantilla para traducciones nuevas») utilizando msgmerge."
 
 #: weblate/addons/gettext.py:303
 msgid "Customize gettext output"
@@ -8521,10 +8524,8 @@ msgid "This project does no longer fit into libre hosting conditions."
 msgstr "Este proyecto ya no se ajusta a las condiciones del alojamiento libre."
 
 #: weblate/templates/trans/alert/nomaskmatches.html:4
-#, fuzzy
-#| msgid "There are currently no translation components!"
 msgid "There are no translations in this component."
-msgstr "!No hay componentes de traducción actualmente!"
+msgstr "No hay ninguna traducción en este componente."
 
 #: weblate/templates/trans/alert/nomaskmatches.html:7
 #, python-format
@@ -8532,18 +8533,16 @@ msgid ""
 "Check whether file mask <code>%(filemask)s</code> matches files in your "
 "repository."
 msgstr ""
+"Compruebe que la máscara de archivos <code>%(filemask)s</code> encuentre "
+"archivos en el repositorio."
 
 #: weblate/templates/trans/alert/nomaskmatches.html:8
-#, fuzzy
-#| msgid ""
-#| "You can add a new translation string here, it will automatically appear "
-#| "in all translations."
 msgid ""
 "You can also start new translations directly in Weblate, it will create "
 "files based on the file mask."
 msgstr ""
-"Puede añadir aquí una cadena de traducción nueva; aparecerá automáticamente "
-"en todas las traducciones."
+"También puede iniciar traducciones nuevas directamente en Weblate; ello "
+"creará archivos basándose en la máscara de archivos."
 
 #: weblate/templates/trans/alert/occurrences-limit.html:4
 #, python-format
@@ -8552,8 +8551,8 @@ msgid ""
 msgid_plural ""
 "Only part of the occurrences are shown, in total there were %(count)s of "
 "them."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Se muestra solo una parte de las ocurrencias; en total hubo %(count)s."
+msgstr[1] "Se muestra solo una parte de las ocurrencias; en total hubo %(count)s."
 
 #: weblate/templates/trans/alert/parseerror.html:4
 msgid ""
@@ -8611,14 +8610,13 @@ msgstr ""
 "Las comprobaciones obligatorias siguientes no se utilizan en ningún sitio:"
 
 #: weblate/templates/trans/alert/unusedenforcedcheck.html:8
-#, fuzzy, python-format
-#| msgid "%(check)s is enforced, but not enabled using <code>%(flag)s</code>."
+#, python-format
 msgid ""
 "%(check)s quality check is enforced, but not turned on using <code>%(flag)s</"
 "code>."
 msgstr ""
-"%(check)s es obligatoria, pero no se ha activado mediante <code>%(flag)s</"
-"code>."
+"La comprobación de calidad %(check)s es obligatoria, pero no se ha activado "
+"mediante <code>%(flag)s</code>."
 
 #: weblate/templates/trans/alert/unusedscreenshot.html:2
 msgid "There is at least one screenshot which is not assigned to any strings."
@@ -10266,10 +10264,8 @@ msgid "Unused enforced checks."
 msgstr "Comprobaciones obligatorias no utilizadas."
 
 #: weblate/trans/models/alert.py:360
-#, fuzzy
-#| msgid "More users matched."
 msgid "No mask matches."
-msgstr "Se encontraron más usuarios."
+msgstr "La máscara no produjo ningún resultado."
 
 #: weblate/trans/models/announcement.py:111
 msgid "Category"
@@ -10854,17 +10850,14 @@ msgid "Manage strings"
 msgstr "Gestionar cadenas"
 
 #: weblate/trans/models/component.py:489
-#, fuzzy
-#| msgid ""
-#| "Disable adding and removing strings in Weblate in case these are "
-#| "automatically extracted from the source code or managed externally."
 msgid ""
 "Enables adding and removing strings straight from Weblate. If your strings "
 "are extracted from the source code or managed externally you probably want "
 "to keep it disabled."
 msgstr ""
-"Desactive la adición y eliminación de cadenas en Weblate si estas se extraen "
-"automáticamente del código fuente o si se gestionan de manera externa."
+"Activa la adición y eliminación de cadenas directamente desde Weblate. Si "
+"las cadenas se extraen automáticamente del código fuente o si se gestionan "
+"de manera externa, puede que quiera mantener esta opción desactivada."
 
 #: weblate/trans/models/component.py:497
 msgid "Merge style"
@@ -11091,10 +11084,7 @@ msgstr ""
 "El código de idioma «%s» es demasiado extenso; revise la máscara de archivos."
 
 #: weblate/trans/models/component.py:2201
-#, fuzzy, python-format
-#| msgid ""
-#| "There is more than one file for %s language, please adjust the filemask "
-#| "and use components for translating a different resources."
+#, python-format
 msgid ""
 "There is more than one file for %s language, please adjust the filemask and "
 "use components for translating different resources."
@@ -11411,16 +11401,12 @@ msgstr ""
 "Explicación adicional para aclarar el significado o el uso de la cadena."
 
 #: weblate/trans/models/unit.py:1351
-#, fuzzy
-#| msgid "Unmark as terminology"
 msgid "Unmark as read-only"
-msgstr "Desmarcar como terminología"
+msgstr "Desmarcar como de solo lectura"
 
 #: weblate/trans/models/unit.py:1354
-#, fuzzy
-#| msgid "Mark as terminology"
 msgid "Mark as read-only"
-msgstr "Marcar como terminología"
+msgstr "Marcar como de solo lectura"
 
 #: weblate/trans/models/unit.py:1361
 msgid "Unmark as forbidden translation"
@@ -12314,11 +12300,11 @@ msgstr ""
 
 #: weblate/utils/render.py:183
 msgid "The editor link lacks URL scheme!"
-msgstr "¡El enlace del editor carece de un esquema de URL!"
+msgstr "El enlace del editor carece de un esquema de URL."
 
 #: weblate/utils/render.py:189
 msgid "Forbidden URL scheme!"
-msgstr "¡Esquema de URL prohibida!"
+msgstr "Esquema de URL prohibido."
 
 #: weblate/utils/search.py:290
 msgid "Unsupported state: {}"
@@ -12330,7 +12316,7 @@ msgstr "Cronomarcador no válido: {}"
 
 #: weblate/utils/search.py:425
 msgid "Invalid regular expression: {}"
-msgstr "Expresión regular inválida: {}"
+msgstr "Expresión regular no válida: {}"
 
 #: weblate/utils/state.py:30
 msgctxt "String state"
@@ -12352,12 +12338,12 @@ msgid ""
 "Regular expression is missing named group \"{0}\", the simplest way to "
 "define it is {1}."
 msgstr ""
-"Falta la expresión regular llamada «{0}», la forma más sencilla de definirla "
+"Falta la expresión regular llamada «{0}»; la forma más sencilla de definirla "
 "es {1}."
 
 #: weblate/utils/validators.py:117
 msgid "Invalid image!"
-msgstr "¡Imagen inválida!"
+msgstr "Imagen no válida."
 
 #: weblate/utils/validators.py:126
 #, python-format
@@ -12468,7 +12454,7 @@ msgstr "Se creó una clave SSH nueva."
 
 #: weblate/vcs/ssh.py:146
 msgid "Invalid host name given!"
-msgstr "El nombre de servidor proporcionado no es válido!"
+msgstr "El nombre de servidor proporcionado no es válido."
 
 #: weblate/vcs/ssh.py:171
 #, python-format
@@ -12481,7 +12467,7 @@ msgstr ""
 
 #: weblate/vcs/ssh.py:178
 msgid "Failed to fetch public key for a host!"
-msgstr "¡Falló la recuperación de la clave pública de un equipo!"
+msgstr "No se pudo recuperar la clave pública de un anfitrión."
 
 #: weblate/vcs/ssh.py:184 weblate/vcs/ssh.py:187
 #, python-format
