@@ -1449,6 +1449,7 @@ class ComponentCreateForm(SettingsBaseForm, ComponentDocsMixin):
             "language_code_style",
             "language_regex",
             "source_language",
+            "is_glossary",
         ]
         widgets = {"source_language": SortedSelect}
 
