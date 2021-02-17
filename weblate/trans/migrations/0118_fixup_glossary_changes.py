@@ -20,4 +20,4 @@ class Migration(migrations.Migration):
         ("trans", "0117_remove_change_glossary_term"),
     ]
 
-    operations = []
+    operations = [migrations.RunPython(fixup_changes, elidable=True)]
