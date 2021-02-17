@@ -23,11 +23,21 @@ An empty glossary for a given project is automatically created with the project.
 Glossaries are shared among all components of the same project, and optionally
 with other projects using :ref:`component-links`.
 
+The glossary component looks like any other component in Weblate:
+
+.. image:: /images/glossary-component.png
+
+You can browse all glossary terms:
+
+.. image:: /images/glossary-browse.png
+
 Glossary terms
 --------------
 
 Glossary terms are translated the same way regular strings are. You can
 toggle additional features using the :guilabel:`Tools` menu for each term.
+
+.. image:: /images/glossary-tools.png
 
 Not translatable terms
 ++++++++++++++++++++++

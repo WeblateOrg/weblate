@@ -97,6 +97,11 @@ be useful for bilingual translations which do not have keys to group strings
 automatically, or to group strings which keys are not matching, but
 should be considered together when translating.
 
+The additional variant for a string can also be added using the :guilabel:`Tools` while translating
+(when :ref:`component-manage_units` is turned on):
+
+.. image:: /images/glossary-tools.png
+
 .. note::
 
    There the variant source string has to at most 768 characters long. This is
