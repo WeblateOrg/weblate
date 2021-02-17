@@ -837,7 +837,7 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
 
         # Create glossary component
         component = project.scratch_create_component(
-            project.name,
+            project.name if project.name != self.name else "Glossary",
             "glossary",
             self.source_language,
             "tbx",
