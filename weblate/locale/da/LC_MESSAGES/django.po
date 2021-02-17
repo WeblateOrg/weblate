@@ -6,7 +6,7 @@
 # Allan Nordhøy <epost@anotheragency.no>, 2018, 2019, 2020.
 # Jesper Hertel <jesper.hertel@gmail.com>, 2019.
 # anonymous <noreply@weblate.org>, 2019, 2020.
-# Henrik Dankvardt <dankvardt@gmail.com>, 2019, 2020.
+# Henrik Dankvardt <dankvardt@gmail.com>, 2019, 2020, 2021.
 # Alexander Danilov <git@modos189.ru>, 2020.
 # Anonymous <noreply@weblate.org>, 2020.
 # DraxGaming <simonholmelund@gmail.com>, 2020.
@@ -16,8 +16,8 @@ msgstr ""
 "Project-Id-Version: Weblate 4.5\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-02-16 18:58+0000\n"
-"PO-Revision-Date: 2021-02-05 18:59+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2021-02-17 08:02+0000\n"
+"Last-Translator: Henrik Dankvardt <dankvardt@gmail.com>\n"
 "Language-Team: Danish <https://hosted.weblate.org/projects/weblate/"
 "application/da/>\n"
 "Language: da\n"
@@ -25,7 +25,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.5-dev\n"
+"X-Generator: Weblate 4.5\n"
 
 #: weblate/accounts/avatar.py:103
 msgctxt "No known user"
@@ -516,15 +516,14 @@ msgstr ""
 "redigering."
 
 #: weblate/accounts/models.py:429
-#, fuzzy
-#| msgid "Projects contributions"
 msgid "Automatically watch projects on contribution"
-msgstr "Projekt bidrag"
+msgstr "Se automatisk projekter på bidrag"
 
 #: weblate/accounts/models.py:432
 msgid ""
 "Whenever you translate a string in a project, you will start watching it."
 msgstr ""
+"Hver gang du oversætter en streng i et projekt, vil du begynde at se det."
 
 #: weblate/accounts/models.py:442 weblate/templates/dashboard/user.html:20
 msgid "Watched translations"
@@ -941,16 +940,12 @@ msgstr ""
 "adgangsoplysninger."
 
 #: weblate/accounts/views.py:1106
-#, fuzzy
-#| msgid ""
-#| "Could not verify your registration! The verification token has probably "
-#| "expired. Please try to register again."
 msgid ""
 "Try registering again to verify your identity, the verification token "
 "probably expired."
 msgstr ""
-"Tilmeldingen kunne ikke bekræftes! Sandsynligvis er verifikation token "
-"udløbet. Prøv at registrere igen."
+"Prøv at registrere dig igen for at bekræfte din identitet. "
+"Bekræftelsestokenet er sandsynligvis udløbet."
 
 #: weblate/accounts/views.py:1113
 msgid "Could not authenticate due to invalid session state."
@@ -984,40 +979,28 @@ msgid "The server does not allow authentication."
 msgstr "Serveren tillader ikke autentificering."
 
 #: weblate/accounts/views.py:1200
-#, fuzzy
-#| msgid ""
-#| "Could not complete registration. The supplied authentication, e-mail "
-#| "address or username is already in use for another account."
 msgid "The supplied e-mail address is already in use for another account."
-msgstr ""
-"Kunne ikke fuldføre registrering. Den givne godkendelse, e-mailadresse eller "
-"bruger er allerede i brug i en anden konto."
+msgstr "Den leverede e-mail-adresse er allerede i brug til en anden konto."
 
 #: weblate/accounts/views.py:1204
-#, fuzzy
-#| msgid "This username is already taken. Please choose another."
 msgid "The supplied username is already in use for another account."
-msgstr "Brugernavnet er allerede i brug. Vælg et andet."
+msgstr "Det leverede brugernavn er allerede i brug til en anden konto."
 
 #: weblate/accounts/views.py:1209
-#, fuzzy
-#| msgid ""
-#| "Could not complete registration. The supplied authentication, e-mail "
-#| "address or username is already in use for another account."
 msgid "The supplied user identity is already in use for another account."
-msgstr ""
-"Kunne ikke fuldføre registrering. Den givne godkendelse, e-mailadresse eller "
-"bruger er allerede i brug i en anden konto."
+msgstr "Den leverede brugeridentitet er allerede i brug for en anden konto."
 
 #: weblate/accounts/views.py:1233 weblate/accounts/views.py:1246
 msgid "Notification settings adjusted."
-msgstr "Underretningsindstillinger tilpasset."
+msgstr "Notifikationssindstillinger tilpasset."
 
 #: weblate/accounts/views.py:1251
 msgid ""
 "The notification change link is no longer valid, please sign in to configure "
 "notifications."
 msgstr ""
+"Linket til notifikationsændring er ikke længere gyldigt. Log ind for at "
+"konfigurere underretninger."
 
 #. Translators: Name of event in the history
 #: weblate/addons/autotranslate.py:34 weblate/templates/translation.html:70
@@ -1030,6 +1013,8 @@ msgid ""
 "Automatically translates strings using machine translation or other "
 "components."
 msgstr ""
+"Oversæt automatisk strenge ved brug af maskin-oversættelse eller andre "
+"komponenter."
 
 #: weblate/addons/base.py:334 weblate/trans/views/create.py:180
 #: weblate/trans/views/settings.py:110
@@ -1037,18 +1022,20 @@ msgid ""
 "The repository is outdated, you might not get expected results until you "
 "update it."
 msgstr ""
+"Datalageret er forældet, du får muligvis ikke forventede resultater, før du "
+"opdaterer det."
 
 #: weblate/addons/cdn.py:38
-#, fuzzy
-#| msgid "JavaScript format"
 msgid "JavaScript localization CDN"
-msgstr "JavaScript-formateret"
+msgstr "JavaScript lokalisering CDN"
 
 #: weblate/addons/cdn.py:40
 msgid ""
 "Publishes translations into content delivery network for use in JavaScript "
 "or HTML localization."
 msgstr ""
+"Udgiver oversættelser til indholdsleveringsnetværk til brug i JavaScript "
+"eller HTML-lokalisering."
 
 #: weblate/addons/cleanup.py:37
 msgid "Cleanup translation files"
@@ -1060,55 +1047,43 @@ msgid ""
 "file formats, this means removing stale translation keys no longer present "
 "in the base file."
 msgstr ""
-"Opdater alle oversættelsesfiler til at stemme overens med den enkeltsproget "
-"grundfil. For de fleste filformater vil dette betyde fjernelse af alle "
-"ubrugte oversættelsesnøgler som ikke længere findes i grundfilen."
+"Opdater alle oversættelsesfiler, så de svarer til den ensprogede basisfil. "
+"For de fleste filformater betyder det at fjerne uaktuelle "
+"oversættelsesnøgler, der ikke længere findes i basisfilen."
 
 #: weblate/addons/cleanup.py:63
-#, fuzzy
-#| msgid "Review strings"
 msgid "Remove blank strings"
-msgstr "Bedømme strenge"
+msgstr "Fjern tomme strenge"
 
 #: weblate/addons/cleanup.py:64
-#, fuzzy
-#| msgid "New string to translate in %(translation)s"
-#| msgid_plural "New strings to translate in %(translation)s"
 msgid "Removes strings without a translation from translation files."
-msgstr "Ny streng til oversættelse i %(translation)s"
+msgstr "Fjern strenge uden en oversættelse fra oversætnings-filer."
 
 #: weblate/addons/consistency.py:32
 msgid "Language consistency"
 msgstr "Sproglig konsistens"
 
 #: weblate/addons/consistency.py:34
-#, fuzzy
-#| msgid ""
-#| "Ensure that all components within one project have translation to same "
-#| "languages."
 msgid ""
 "Ensures all components within a project have translations for every added "
 "translated language by creating empty translations in languages that have "
 "unadded components."
 msgstr ""
-"Sørg for at alle komponenter inden for et projekt har oversættelse til de "
-"samme sprog."
+"Sikrer, at alle komponenter i et projekt har oversættelser for hvert "
+"tilføjet oversatte sprog ved at oprette tomme oversættelser på sprog, der "
+"har ikke-tilføjede komponenter."
 
 #: weblate/addons/discovery.py:33
 msgid "Component discovery"
 msgstr "Komponentopdagelse"
 
 #: weblate/addons/discovery.py:35
-#, fuzzy
-#| msgid ""
-#| "This addon automatically adds or removes components to the project based "
-#| "on file changes in the version control system."
 msgid ""
 "Automatically adds or removes project components based on file changes in "
 "the version control system."
 msgstr ""
-"Tilføjelsen tilføjer eller fjerner automatisk komponenter til projektet, "
-"baseret på filændringer i versionsstyringssystemet."
+"Tilføjer eller fjerner automatisk komponenter til projektet, baseret på "
+"filændringer i versionskontrol-systemet."
 
 #: weblate/addons/example.py:36
 msgid "Example addon"
@@ -1120,11 +1095,11 @@ msgstr "Denne tilføjelse har ingen effekt; den er blot et eksempel."
 
 #: weblate/addons/example_pre.py:34
 msgid "Execute script before commit"
-msgstr "Udfør script før indsendelse"
+msgstr "Kør script før indsendelse"
 
 #: weblate/addons/example_pre.py:35
 msgid "This addon executes a script."
-msgstr "Denne udvidelse udfører et script."
+msgstr "Denne tilføjelse kører et script."
 
 #: weblate/addons/flags.py:45
 msgid "Flag new source strings as \"Needs editing\""
@@ -1160,21 +1135,15 @@ msgid "Flag unchanged translations as \"Needs editing\""
 msgstr "Markér uændrede oversættelser som \"Behøver redigering\""
 
 #: weblate/addons/flags.py:86
-#, fuzzy
-#| msgid ""
-#| "Whenever a new translatable string is imported from the VCS and it "
-#| "matches source strings, it is flagged as needing editing in Weblate. This "
-#| "is especially useful for file formats that include all strings even if "
-#| "they are not translated."
 msgid ""
 "Whenever a new translatable string is imported from the VCS and it matches a "
 "source string, it is flagged as needing editing in Weblate. Especially "
 "useful for file formats that include source strings for untranslated strings."
 msgstr ""
-"Når en ny streng som kan oversættes bliver importeret fra "
-"versionsstyringssystemet, og den matcher med kildestrenge, bliver den "
-"markeret som behøvende redigering i Weblate. Det er særligt nyttigt til "
-"filformater som inkluderer alle strenge selv hvis de ikke er oversat."
+"Når en ny streng som kan oversættes bliver importeret fra VCS, og den "
+"matcher en kildestreng, bliver den markeret som behøvende redigering i "
+"Weblate. Det er særligt nyttigt til filformater som inkluderer alle strenge "
+"selv hvis de ikke er oversat."
 
 #: weblate/addons/flags.py:105 weblate/templates/component.html:69
 #: weblate/templates/component.html:217 weblate/templates/project.html:68
@@ -1193,7 +1162,7 @@ msgstr "Sti til genereret MO-fil"
 
 #: weblate/addons/forms.py:56
 msgid "If not specified, the location of the PO file will be used."
-msgstr ""
+msgstr "Hvis ikke angivet, bruges PO filens placering."
 
 #: weblate/addons/forms.py:79
 msgid "Name of generated file"
