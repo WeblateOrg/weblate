@@ -62,6 +62,10 @@ String variants
 Variants are useful to group several strings together so that translators can
 see all variants of the string at one place.
 
+.. hint::
+
+      Abbreviations (shortened forms, contractions) are a good example of variants.
+
 Automated key based variants
 ++++++++++++++++++++++++++++
 
