@@ -798,8 +798,7 @@ Use as a glossary
 .. versionadded:: 4.5
 
 Allows using this component as a glossary. You can configure how it will be
-listed using :ref:`component-glossary_name` and
-:ref:`component-glossary_color`.
+listed using :ref:`component-glossary_color`.
 
 The glossary will be accessible in all projects defined by :ref:`component-links`.
 
@@ -809,13 +808,6 @@ order to allow adding new words to them.
 .. seealso::
 
    :ref:`glossary`
-
-.. _component-glossary_name:
-
-Glossary name
-+++++++++++++
-
-Display name for a glossary used when showing word matches.
 
 .. _component-glossary_color:
 

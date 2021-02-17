@@ -642,11 +642,6 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
         default=False,
         db_index=True,
     )
-    glossary_name = models.CharField(
-        verbose_name=gettext_lazy("Glossary name"),
-        max_length=PROJECT_NAME_LENGTH,
-        blank=True,
-    )
     glossary_color = models.CharField(
         verbose_name=gettext_lazy("Glossary color"),
         max_length=30,
@@ -842,11 +837,10 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
 
         # Create glossary component
         component = project.scratch_create_component(
-            "Glossary",
+            project.name,
             "glossary",
             self.source_language,
             "tbx",
-            glossary_name=project.name,
             is_glossary=True,
             has_template=False,
             allow_translation_propagation=False,
@@ -2381,11 +2375,6 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
         if matching.exists():
             raise ValidationError({field: msg})
 
-    def clean_glossary(self):
-        if not self.glossary_name:
-            message = _("Please define a glossary name to use component as a glossary.")
-            raise ValidationError({"is_glossary": message, "glossary_name": message})
-
     def clean(self):
         """Validator fetches repository.
 
@@ -2464,9 +2453,6 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
             raise ValidationError(
                 _("Can not validate file matches due to invalid regular expression.")
             )
-
-        if self.is_glossary:
-            self.clean_glossary()
 
         # Suggestions
         if (

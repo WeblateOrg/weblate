@@ -505,7 +505,6 @@ class ComponentSerializer(RemovableSerializer):
             "docfile",
             "addons",
             "is_glossary",
-            "glossary_name",
             "glossary_color",
         )
         extra_kwargs = {

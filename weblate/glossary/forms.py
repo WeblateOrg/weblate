@@ -37,7 +37,7 @@ class CommaSeparatedIntegerField(forms.Field):
 
 class GlossaryModelChoiceField(forms.ModelChoiceField):
     def label_from_instance(self, obj):
-        return obj.component.glossary_name
+        return obj.component.name
 
 
 class TermForm(forms.ModelForm):

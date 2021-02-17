@@ -1272,7 +1272,6 @@ class ComponentSettingsForm(SettingsBaseForm, ComponentDocsMixin):
             "links",
             "manage_units",
             "is_glossary",
-            "glossary_name",
             "glossary_color",
         )
         widgets = {
@@ -1304,7 +1303,6 @@ class ComponentSettingsForm(SettingsBaseForm, ComponentDocsMixin):
                     Fieldset(
                         _("Glossary"),
                         "is_glossary",
-                        "glossary_name",
                         "glossary_color",
                     ),
                     css_id="basic",
