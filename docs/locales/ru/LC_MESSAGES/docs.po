@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-02-16 18:47+0100\n"
-"PO-Revision-Date: 2021-02-17 05:10+0000\n"
+"PO-Revision-Date: 2021-02-17 14:00+0000\n"
 "Last-Translator: Golubev Alexander <fatzer2@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/"
 "documentation/ru/>\n"
@@ -4487,6 +4487,8 @@ msgid ""
 "Fonts uploaded into Weblate are used purely for purposes of the :ref:`check-"
 "max-size` check, the do not have an effect in Weblate user interface."
 msgstr ""
+"Строки, загруженные в Weblate используются только для проверки «:ref:`check-"
+"max-size`»; они ни как не влияют на пользовательский интерфейс."
 
 #: ../../admin/checks.rst:245
 msgid ""
@@ -15769,8 +15771,6 @@ msgid "``GLOSSARY``"
 msgstr "``GLOSSARY``"
 
 #: ../../admin/optionals.rst:262
-#, fuzzy
-#| msgid "Starting translation in new language"
 msgid "Starting translation into a new language"
 msgstr "Начало перевода на новый язык"
 
@@ -16731,15 +16731,15 @@ msgstr ""
 "`enforcing-checks`."
 
 #: ../../admin/projects.rst:522
-#, fuzzy
 msgid ""
 "Enforcing the check does not automatically enable it, you still should "
 "enabled it using :ref:`custom-checks` in :ref:`component-check_flags` or :"
 "ref:`additional`."
 msgstr ""
 "Добавление проверки в качестве принудительной не включает её автоматически; "
-"вам всё равно придутся включить её с помощью :ref:`custom-checks` в :ref:"
-"`component-check_flags` или :ref:`additional`."
+"вам всё равно придётся включить её с помощью :ref:`настроек поведения "
+"<custom-checks>` во :ref:`флагах перевода <component-check_flags>` или :ref:`"
+"дополнительной информации об исходных строках <additional>`."
 
 #: ../../admin/projects.rst:529
 msgid "Translation license"
@@ -16833,6 +16833,10 @@ msgid ""
 "remove existing ones. Adjust this to match your localization workflow - how "
 "the new strings are supposed to be introduced."
 msgstr ""
+"Настраивает, смогут ли пользователи добавлять новые строки и удалять "
+"существующие из Weblate. В зависимости от вашего рабочего процесса (как "
+"именно должны добавляться новые строки) вы можете включить этот параметр или "
+"оставить отключённым."
 
 #: ../../admin/projects.rst:577
 msgid ""
@@ -16842,6 +16846,12 @@ msgid ""
 "translation files). In Weblate you can manage strings for every translation "
 "and it does not enforce the strings in all translations to be consistent."
 msgstr ""
+"В двуязычных форматах строки обычно извлекаются из исходного кода (например, "
+"с помощью :program:`xgettext`) и добавление новых строк через Weblate должно "
+"быть отключено (они всё равно удалятся, когда вы в следующий раз будете "
+"обновлять свои файлы перевода). В Weblate вы можете управлять строками для "
+"каждого перевода отдельно, это не будет принудительно поддерживать набор "
+"исходных строк для всех языков одинаковым."
 
 #: ../../admin/projects.rst:583
 msgid ""
@@ -16850,18 +16860,18 @@ msgid ""
 "strings are managed only on source language and are automatically added or "
 "removed in the translations."
 msgstr ""
+"Для одноязычных форматов строки добавляются к исходному языку, что делает их "
+"автоматически переводимыми во всех языках, то есть управление строками "
+"происходит только в исходном языке, так что они будут автоматически "
+"добавлятся или удаляются во всех переводах."
 
 #: ../../admin/projects.rst:590
-#, fuzzy
-#| msgid ""
-#| "Programatically, using API :http:post:`/api/translations/(string:project)/"
-#| "(string:component)/(string:language)/units/`."
 msgid ""
 ":ref:`bimono`, :ref:`adding-new-strings`, :http:post:`/api/translations/"
 "(string:project)/(string:component)/(string:language)/units/`"
 msgstr ""
-"Програмно через API: :http:post:`/api/translations/(string:project)/(string:"
-"component)/(string:language)/units/`."
+":ref:`bimono`, :ref:`adding-new-strings`, :http:post:`/api/translations/"
+"(string:project)/(string:component)/(string:language)/units/`"
 
 #: ../../admin/projects.rst:597
 msgid "Language code style"
@@ -17228,18 +17238,25 @@ msgid ""
 "listed using :ref:`component-glossary_name` and :ref:`component-"
 "glossary_color`."
 msgstr ""
+"Позволяет использовать данный компонент в качестве глоссария. Вы можете "
+"настроить то, как он будет отображаться с помощью параметров :ref:`component-"
+"glossary_name` и :ref:`component-glossary_color`."
 
 #: ../../admin/projects.rst:805
 msgid ""
 "The glossary will be accessible in all projects defined by :ref:`component-"
 "links`."
 msgstr ""
+"Глоссарий будет доступен во всех проектах, в которые он добавлен в качестве "
+":ref:`разделяемого компонента <component-links>`."
 
 #: ../../admin/projects.rst:807
 msgid ""
 "It is recommended to enable :ref:`component-manage_units` on glossaries in "
 "order to allow adding new words to them."
 msgstr ""
+"Рекомендуется также включить :ref:`управление строками <component-"
+"manage_units>` для словарей, чтобы в в них можно было добавлять новые слова."
 
 #: ../../admin/projects.rst:812
 #, fuzzy
@@ -37781,16 +37798,13 @@ msgid "Project"
 msgstr "Проект"
 
 #: ../../user/translating.rst:272
-#, fuzzy
-#| msgid ""
-#| "Project information like instructions for translators, or information "
-#| "about its version control system repository."
 msgid ""
 "Project info like instructions for translators, or a directory or link to "
 "the string in the version control system repository the project uses."
 msgstr ""
-"Информация о проекте, например, инструкции для переводчиков или информация о "
-"репозитории его системы контроля версий."
+"Информация о проекте, например, инструкции для переводчиков, или каталог, "
+"или ссылка на строку в репозитории системе контроля версий, используемой "
+"проектом."
 
 #: ../../user/translating.rst:275
 msgid "If you want direct links, the translation format has to support it."
