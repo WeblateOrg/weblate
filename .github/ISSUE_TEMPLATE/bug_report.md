@@ -5,11 +5,11 @@ about: Create a report to help us improve
 ---
 
 <!--
-Thank you for reporting issue on Weblate. Few things to note:
+Thank you for reporting an issue on Weblate! Here are a few things to note:
 
-* This template will guide you to create useful issue report, please do not delete it.
-* The description blocks like this one are comments and won't be shown in the issue.
-* Please write your text outsite them or replace them.
+* This template will guide you to create a useful issue report, so please do NOT delete it.
+* The description blocks like this one are comments and won't be shown in the issue once it’s created.
+* Please write your text outside them or replace them.
 -->
 
 **Describe the issue**
@@ -30,8 +30,8 @@ Describe the steps you tried to solve the problem yourself.
 Steps to reproduce the behavior:
 
 1. Go to '...'
-2. Scroll down to '....'
-3. Click on '....'
+2. Scroll down to '...'
+3. Click on '...'
 4. See error
 
 **Expected behavior**
@@ -60,7 +60,7 @@ Weblate installation: weblate.org service / Docker / PyPI / other
 
 <!--
 Please paste the output of `list_versions` command over here. Depending on
-installation these can be executed in different way, please consult
+the installation these can be executed in a different way. Please consult
 https://docs.weblate.org/en/latest/admin/management.html for more details.
 
 On pip installed Weblate:
@@ -80,7 +80,7 @@ docker-compose exec --user weblate weblate weblate list_versions
 
 <!--
 Please paste the output of check --deploy command over here. Depending on
-installation these can be executed in different way, please consult
+the installation, these can be executed in a different way. Please consult
 https://docs.weblate.org/en/latest/admin/management.html for more details.
 
 On pip installed Weblate:

@@ -5,11 +5,11 @@ about: Suggest an idea for this project
 ---
 
 <!--
-Thank you for reporting issue on Weblate. Few things to note:
+Thank you for reporting an issue on Weblate! Here are a few things to note:
 
-* This template will guide you to create useful issue report, please do not delete it.
-* The description blocks like this one are comments and won't be shown in the issue.
-* Please write your text outsite them or replace them.
+* This template will guide you to create a useful issue report, so please do NOT delete it.
+* The description blocks like this one are comments and won't be shown in the issue once it’s created.
+* Please write your text outside them or replace them.
 -->
 
 **Is your feature request related to a problem? If so, please describe.**
