@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-02-17 15:02+0100\n"
-"PO-Revision-Date: 2021-02-17 14:00+0000\n"
-"Last-Translator: Golubev Alexander <fatzer2@gmail.com>\n"
+"PO-Revision-Date: 2021-02-18 14:50+0000\n"
+"Last-Translator: Mingun <Alexander_Sergey@mail.ru>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/"
 "documentation/ru/>\n"
 "Language: ru\n"
@@ -201,22 +201,17 @@ msgstr ""
 "для них соответствующие разрешения."
 
 #: ../../admin/access.rst:86
-#, fuzzy
-#| msgid ""
-#| "Limit user's access to individual projects by turning on :guilabel:"
-#| "`Access` in the :guilabel:`Settings` of each respective project. This "
-#| "automatically creates several groups for the project in question, see :"
-#| "ref:`groups`."
 msgid ""
 "Limit user's access to individual projects by selecting a different access "
 "control variation on the :guilabel:`Access` tab in the :guilabel:`Settings` "
 "of each respective project.  This automatically creates several groups for "
 "the project in question, see :ref:`groups`."
 msgstr ""
-"Вы можете ограничить доступ пользователей к определённым проектам на "
-"вкладке :guilabel:`Доступ` в настройках (см. :guilabel:`Параметры`) каждого "
-"отдельного проекта. Это автоматически создаст для этого проекта несколько "
-"групп, смотрите раздел :ref:`groups`."
+"Вы можете ограничить доступ пользователей к определённым проектам на вкладке "
+":guilabel:`Доступ` в настройках (смотрите раздел :guilabel:`Параметры`) "
+"каждого отдельного проекта. При выборе уровней доступа для проекта будет "
+"автоматически создано несколько групп, подробнее смотрите в разделе "
+":ref:`groups`."
 
 #: ../../admin/access.rst:91
 msgid ":guilabel:`Access control` can be set to:"
@@ -259,32 +254,22 @@ msgstr ""
 "Django, а не через сам Weblate, смотрите раздел :ref:`custom-acl`."
 
 #: ../../admin/access.rst:104
-#, fuzzy
-#| msgid ""
-#| "To allow access to this project, you have to add the privilege either "
-#| "directly to the given user, or group of users in the Django admin "
-#| "interface, or by using user management on the project page, as described "
-#| "in :ref:`manage-acl`."
 msgid ""
 "Grant access to a project by adding the privilege either directly to an "
 "user, or group of users in the Django admin-interface, or by using user "
 "management on the project page, as described in :ref:`manage-acl`."
 msgstr ""
-"Чтобы разрешить доступ к этому проекту, вы должны дать привилегию либо "
-"непосредственно данному пользователю, либо группе пользователей в интерфейсе "
+"Разрешение на доступ к проекту даётся либо предоставлением привилегии "
+"непосредственно пользователю или группе пользователей в интерфейсе "
 "администратора Django, либо с помощью системы управления пользователями на "
 "странице проекта, как описано в разделе :ref:`manage-acl`."
 
 #: ../../admin/access.rst:110
-#, fuzzy
-#| msgid ""
-#| "Even with ACL turned on, some summary info will be available about your "
-#| "project:"
 msgid ""
 "Even with access control turned on, some info will be available about your "
 "project:"
 msgstr ""
-"Даже при включённом списке контроля доступа о вашем проекте будет доступна "
+"Даже при включённом контроле доступа о вашем проекте будет доступна "
 "следующая краткая информация:"
 
 #: ../../admin/access.rst:113
@@ -310,22 +295,21 @@ msgid ""
 "be assigned to groups [you want this for] automatically based on their e-"
 "mail addresses. This only happens upon account creation."
 msgstr ""
+"В разделе :guilabel:`Аутентификация` интерфейса администратора Django можно "
+"настроить автоматическое назначение групп пользователям (в которые вы хотите "
+"их включать), происходящее на основе их адресов электронной почты. Такое "
+"автоматическое назначение происходит только при создании учётной записи."
 
 #: ../../admin/access.rst:127
-#, fuzzy
-#| msgid ""
-#| "The automatic group assignment for the `Users` and `Viewers` groups will "
-#| "always be created by Weblate upon migrations, in case you want to turn it "
-#| "off, simply set the regular expression to ``^$``, which will never match."
 msgid ""
 "Automatic group assignment to `Users` and `Viewers` is always recreated "
 "during migrations. If you want to turn it off, set the regular expression to "
 "``^$`` (which will never match)."
 msgstr ""
-"Weblate при миграциях всегда настраивает автоматическое назначение групп "
-"`Пользователи` и `Просматривающие`. В случае, если вы хотите его отключить, "
-"просто задайте для них регулярное выражение ``^$``, которое никогда ничего "
-"не найдёт."
+"При выполнении миграций автоматическое назначение групп `Пользователи` и "
+"`Просматривающие` всегда создаётся заново. В случае, если вы хотите его "
+"отключить, просто задайте для них регулярное выражение ``^$`` (по которому "
+"никогда ничего не найдётся)."
 
 #: ../../admin/access.rst:134
 msgid "Users, roles, groups and permissions"
@@ -340,40 +324,30 @@ msgid "`Permission`"
 msgstr "`Разрешение`"
 
 #: ../../admin/access.rst:139
-#, fuzzy
-#| msgid ""
-#| "Individual permissions defined by Weblate. You can not assign individual "
-#| "permissions, this can only be done through assignment of roles."
 msgid ""
 "Individual permissions defined by Weblate. Permissions can not be assigned "
 "to users. This can only be done through assignment of roles."
 msgstr ""
-"Индивидуальные разрешения, определённые Weblate. Вы не можете назначать "
-"отдельные разрешения, назначить их можно только через назначение ролей."
+"Индивидуальные разрешения, определённые Weblate. Разрешения нельзя назначать "
+"пользователям. Их можно назначать только через назначение ролей."
 
 #: ../../admin/access.rst:142
 msgid "`Role`"
 msgstr "`Роль`"
 
 #: ../../admin/access.rst:142
-#, fuzzy
-#| msgid ""
-#| "Role defines a set of permissions. This allows reuse of these sets in "
-#| "several places, and makes the administration easier."
 msgid ""
 "A Role defines a set of permissions. This allows reuse of these sets in "
 "several places, making the administration easier."
 msgstr ""
 "Роль определяет набор разрешений. Она позволяет повторно использовать эти "
-"наборы в нескольких местах, и упрощает их администрирование."
+"наборы в нескольких местах, упрощая их администрирование."
 
 #: ../../admin/access.rst:144
 msgid "`User`"
 msgstr "`Пользователь`"
 
 #: ../../admin/access.rst:145
-#, fuzzy
-#| msgid "Users can be members of several groups."
 msgid "Users can belong to several groups."
 msgstr "Пользователи могут состоять в нескольких группах."
 
@@ -394,63 +368,44 @@ msgid "Permission checking"
 msgstr "Проверка разрешений"
 
 #: ../../admin/access.rst:168
-#, fuzzy
-#| msgid ""
-#| "Whenever a permission is checked to decide whether one is able to perform "
-#| "a given action, the check is carried out according to scope, and the "
-#| "following checks are performed in the order:"
 msgid ""
 "Whenever a permission is checked to decide whether one is able to perform a "
 "given action, the check is carried out according to scope, and the following "
 "checks are performed in this order:"
 msgstr ""
-"При проверке прав доступа пользователя на выполнение какого-либо действия, "
-"разрешения проверяются в соответствующей области видимости, что, по сути, "
-"включает следующие проверки в указанном порядке:"
+"При проверке прав доступа пользователя на выполнение какого-либо действия "
+"разрешения проверяются в соответствующей области действия; выполняются "
+"следующие проверки в указанном порядке:"
 
 #: ../../admin/access.rst:172
-#, fuzzy
-#| msgid ""
-#| "Group :guilabel:`Component list` is matched against accessed component or "
-#| "project (for project level access)."
 msgid ""
 "The group :guilabel:`Component list` is matched against accessed component "
 "or project (for project-level access)."
 msgstr ""
-"Группа :guilabel:`Список компонентов`сопоставляется компоненту (или проекту, "
-"для уровня проекта), к которому происходит доступ."
+"Группа :guilabel:`Список компонентов` сопоставляется компоненту или проекту ("
+"для доступов уровня проекта), к которому происходит доступ."
 
 #: ../../admin/access.rst:174
-#, fuzzy
-#| msgid ""
-#| "Group :guilabel:`Component list` is matched against accessed component or "
-#| "project (for project level access)."
 msgid ""
 "The group :guilabel:`Components` is matched against accessed component or "
 "project (for project-level access)."
 msgstr ""
-"Группа :guilabel:`Список компонентов`сопоставляется компоненту (или проекту, "
-"для уровня проекта), к которому происходит доступ."
+"Группа :guilabel:`Компоненты` сопоставляется компоненту или проекту (для "
+"доступов уровня проекта), к которому происходит доступ."
 
 #: ../../admin/access.rst:176
-#, fuzzy
-#| msgid "Group :guilabel:`Projects` are matched against accessed project."
 msgid "The group :guilabel:`Projects` is matched against accessed project."
 msgstr ""
 "Группа :guilabel:`Проекты` сопоставляется проекту, к которому происходит "
 "доступ."
 
 #: ../../admin/access.rst:178
-#, fuzzy
-#| msgid ""
-#| "As you can see, granting access to a component automatically grants user "
-#| "access to a containing project as well."
 msgid ""
 "Thus, granting access to a component gives the user access to the project it "
 "is in too."
 msgstr ""
-"Как вы можете видеть, предоставление пользователю доступа к компоненту "
-"автоматически предоставляет ему доступ и к содержащему компонент проекту."
+"Таким образом, предоставление пользователю доступа к компоненту также "
+"предоставляет ему доступ и к содержащему компонент проекту."
 
 #: ../../admin/access.rst:182
 msgid ""
@@ -470,41 +425,26 @@ msgstr ""
 "шаг:"
 
 #: ../../admin/access.rst:189
-#, fuzzy
-#| msgid ""
-#| "Group :guilabel:`Languages` are matched against accessed translations, it "
-#| "is ignored for component or project level access."
 msgid ""
 "The group :guilabel:`Languages` is matched against accessed translations, it "
 "is ignored for component- or project-level access."
 msgstr ""
-"Группа :guilabel:`Языки`сопоставляется переводу, к которому происходит "
-"доступ; она игнорируется при доступе на уровне проекта или компонента."
+"Группа :guilabel:`Языки` сопоставляется переводу, к которому происходит "
+"доступ; для доступов уровня проекта или компонента она игнорируется."
 
 #: ../../admin/access.rst:193
-#, fuzzy
-#| msgid ""
-#| "You can use :guilabel:`Language selection` or :guilabel:`Project "
-#| "selection` to automate inclusion of all languages or projects."
 msgid ""
 "Use :guilabel:`Language selection` or :guilabel:`Project selection` to "
 "automate inclusion of all languages or projects."
 msgstr ""
-"Для автоматического включения всех языков или проектов вы можете "
-"использовать переключатели :guilabel:`Выбор языка` или :guilabel:`Выбор "
-"проекта`."
+"Для автоматического включения всех языков или проектов используйте "
+"переключатели :guilabel:`Выбор языка` или :guilabel:`Выбор проекта`."
 
 #: ../../admin/access.rst:197
 msgid "Checking access to a project"
 msgstr "Проверка доступа к проекту"
 
 #: ../../admin/access.rst:199
-#, fuzzy
-#| msgid ""
-#| "A user has to be a member of a group linked to the project or any "
-#| "component inside it. Only membership is enough, no specific permissions "
-#| "are needed to access a project (this is used in the default `Viewers` "
-#| "group, see :ref:`default-groups`)."
 msgid ""
 "A user has to be a member of a group linked to the project, or any component "
 "inside that project. Having membership is enough, no specific permissions "
@@ -513,62 +453,50 @@ msgid ""
 msgstr ""
 "Пользователь должен быть членом группы, связанной с проектом или с каким-"
 "либо компонентом внутри проекта. Чтобы получить доступ к проекту, никаких "
-"специальных разрешений не требуется, достаточно только членства в группе "
-"(это используется в умолчательной группе `Просматривающие`, смотрите раздел :"
-"ref:`default-groups`)."
+"специальных разрешений не требуется, достаточно только членства в группе ("
+"это факт используется умолчательной группой `Просматривающие`, смотрите "
+"раздел :ref:`default-groups`)."
 
 #: ../../admin/access.rst:205
 msgid "Checking access to a component"
 msgstr "Проверка доступа к компоненту"
 
 #: ../../admin/access.rst:207
-#, fuzzy
-#| msgid ""
-#| "A user can access the unrestricted component once he can access the "
-#| "containing project. With enabled :ref:`component-restricted` the access "
-#| "to the component requires explicit permission to the component (or "
-#| "containing component list)."
 msgid ""
 "A user can access the unrestricted component once able to access the "
 "containing project. With :ref:`component-restricted` turned on, access to "
 "the component requires explicit permission to that component (or a component "
 "list it is in)."
 msgstr ""
-"Пользователь может получить доступ к неограниченному компоненту, как только "
-"получит доступ к содержащему компонент проекту. Если включён :ref:`component-"
-"restricted`, для доступа к компоненту потребуется явное разрешение на "
-"компонент (или на содержащий его список компонентов)."
+"Доступ к не ограниченному компоненту пользователь может получить сразу, как "
+"только получит доступ к содержащему компонент проекту. Если включён :ref:`"
+"ограниченный доступ <component-restricted>`, для доступа к компоненту "
+"потребуется явное разрешение на этот компонент (или на содержащий его список "
+"компонентов)."
 
 #: ../../admin/access.rst:214
 msgid "Managing users and groups"
 msgstr "Управление пользователями и группами"
 
 #: ../../admin/access.rst:216
-#, fuzzy
-#| msgid ""
-#| "All users and groups can be managed using the Django admin interface, "
-#| "available under :file:`/admin/` URL."
 msgid ""
 "All users and the various groups they are in can be managed using the Django "
 "admin interface available, which you can get to by appending :file:`/admin/` "
 "to the Weblate site URL."
 msgstr ""
-"Пользователями и группами можно управлять через интерфейс администратора "
-"Django, доступный по адресу :file:`/admin/`."
+"Пользователями и различными группами, в которых они состоят, можно управлять "
+"через интерфейс администратора Django, доступ к которому вы можете получить, "
+"добавив к адресу сайта Weblate часть :file:`/admin/`."
 
 #: ../../admin/access.rst:223
-#, fuzzy
-#| msgid "Managing per project access control"
 msgid "Managing per-project access control"
 msgstr "По-проектная настройка доступа"
 
 #: ../../admin/access.rst:227
-#, fuzzy
-#| msgid "This feature only works for ACL controlled projects, see :ref:`acl`."
 msgid ""
 "This feature only works for projects using access control, see :ref:`acl`."
 msgstr ""
-"Эта возможность работает только для проектов под управлением списка контроля "
+"Эта возможность работает только для проектов, использующих списки контроля "
 "доступа, смотрите раздел :ref:`acl`."
 
 #: ../../admin/access.rst:229
@@ -591,37 +519,27 @@ msgid "Invite new users to the project"
 msgstr "Приглашать новых пользователей в проект"
 
 #: ../../admin/access.rst:235
-#, fuzzy
-#| msgid "Site wide permissions"
 msgid "Change user permissions"
-msgstr "Разрешения для всего сайта"
+msgstr "Изменение разрешений пользователя"
 
 #: ../../admin/access.rst:236
-#, fuzzy
-#| msgid "Check user access"
 msgid "Revoke user access"
-msgstr "Проверка доступа пользователя"
+msgstr "Отзыв доступа пользователя"
 
 #: ../../admin/access.rst:240
-#, fuzzy
-#| msgid ""
-#| "Resend user email invitations, invalidating any previously sent invitation"
 msgid ""
 "Resend the e-mail for user invitations (invalidating any previously sent "
 "invitation)"
 msgstr ""
-"Повторно отправлять приглашения по электронной почте, аннулируя все ранее "
-"отправленные приглашения"
+"Повторно отправлять по электронной почте приглашения пользователям (при этом "
+"аннулируются все ранее отправленные приглашения)"
 
 #: ../../admin/access.rst:242
-#, fuzzy
-#| msgid ""
-#| "The user management is available in the :guilabel:`Manage` menu of a "
-#| "project:"
 msgid ""
 "User management is available in the :guilabel:`Manage` menu of any project:"
 msgstr ""
-"Управление пользователями доступно через меню :guilabel:`Управлять` проекта:"
+"Управление пользователями доступно через меню :guilabel:`Управлять` любого "
+"проекта:"
 
 #: ../../admin/access.rst:248
 msgid ":ref:`acl`"
@@ -661,10 +579,8 @@ msgstr ""
 "глоссарий)."
 
 #: ../../admin/access.rst:277
-#, fuzzy
-#| msgid "Manage translation memory"
 msgid "Can manage translation memory."
-msgstr "Управление памятью переводов"
+msgstr "Может управлять памятью переводов."
 
 #: ../../admin/access.rst:281
 msgid ""
@@ -702,6 +618,10 @@ msgid ""
 "`Access control` to :guilabel:`Custom` to switch over to using the Django "
 "admin-interface instead of the one in Weblate."
 msgstr ""
+"Для получения доступа к дополнительным настройкам контроля доступа в проекте "
+"можно установить параметр :guilabel:`Управление доступом` в значение "
+":guilabel:`Настраиваемый`, чтобы переключиться на использование интерфейса "
+"администратора Django вместо интерфейса самого Weblate’а."
 
 #: ../../admin/access.rst:310
 msgid ""
@@ -709,6 +629,9 @@ msgid ""
 "configure the :setting:`DEFAULT_ACCESS_CONTROL` to administrate all "
 "permissions and relations using the Django admin interface."
 msgstr ""
+"Если вы хотите, чтобы это делалось по умолчанию для всех текущих и новых "
+"проектов, настройте параметр :setting:`DEFAULT_ACCESS_CONTROL` на управление "
+"всеми разрешениями и отношениями через интерфейс администратора Django."
 
 #: ../../admin/access.rst:316
 msgid ""
@@ -726,12 +649,6 @@ msgid "Default groups and roles"
 msgstr "Группы и роли по умолчанию"
 
 #: ../../admin/access.rst:324
-#, fuzzy
-#| msgid ""
-#| "These roles and groups are created upon installation. The built-in roles "
-#| "are always kept up to date by the database migration on upgrade and any "
-#| "custom changes will be lost. In case you want to define own set of "
-#| "permissions, please define a new role for that."
 msgid ""
 "These roles and groups are created upon installation. The built-in roles are "
 "always kept up to date by the database migration when upgrading. Custom "
@@ -739,9 +656,9 @@ msgid ""
 "own set of permissions."
 msgstr ""
 "Эти роли и группы создаются во время установки. Встроенные роли всегда "
-"поддерживаются в актуальном состоянии во время миграции базы данных при "
-"обновлении, так что любые ваши изменения будут потеряны. Если вы хотите "
-"создать свой собственный набор привилегий, определите для этого новую роль."
+"поддерживаются в актуальном состоянии применением миграций базы данных при "
+"обновлении. Пользовательские изменения при этом теряются. Если вы хотите "
+"создать свой собственный набор разрешений, определите для этого новую роль."
 
 #: ../../admin/access.rst:330
 msgid "List of privileges"
@@ -788,11 +705,8 @@ msgid "Edit component settings [`Administration`]"
 msgstr "Правка параметров компонентов [`Администрирование`]"
 
 #: ../../admin/access.rst:349
-#, fuzzy
-#| msgid ""
-#| "Lock component, preventing it from being translated [`Administration`]"
 msgid "Lock component, preventing translations [`Administration`]"
-msgstr "Блокировка компонента от перевода [`Администрирование`]"
+msgstr "Блокировка компонента, предотвращает его перевод [`Администрирование`]"
 
 #: ../../admin/access.rst:358 ../../api.rst:2264 ../../user/glossary.rst:4
 #: ../../user/translating.rst:267
@@ -830,35 +744,28 @@ msgid "Automatic suggestions"
 msgstr "Автоматические предложения"
 
 #: ../../admin/access.rst:361
-#, fuzzy
-#| msgid ""
-#| "Vote on suggestions [`Administration`, `Edit source`, `Power user`, "
-#| "`Review strings`, `Translate`]"
 msgid ""
 "Use automatic suggestions [`Administration`, `Edit source`, `Power user`, "
 "`Review strings`, `Translate`]"
 msgstr ""
-"Голосование по предложениям [`Администрирование`, `Правка источника`, "
-"`Опытный пользователь`, `Рецензирование строк`, `Перевод`]"
+"Использование автоматических предложений [`Администрирование`, `Правка "
+"источника`, `Опытный пользователь`, `Рецензирование строк`, `Перевод`]"
 
 #: ../../admin/access.rst:366 ../../user/translating.rst:265
 msgid "Translation memory"
 msgstr "Память переводов"
 
 #: ../../admin/access.rst:364
-#, fuzzy
-#| msgid "Delete existing translations [`Administration`, `Manage languages`]"
 msgid "Edit translation memory [`Administration`, `Manage translation memory`]"
 msgstr ""
-"Удаление существующих переводов [`Администрирование`, `Управление языками`]"
+"Правка памяти переводов [`Администрирование`, `Управление памятью переводов`]"
 
 #: ../../admin/access.rst:366
-#, fuzzy
-#| msgid "Delete existing translations [`Administration`, `Manage languages`]"
 msgid ""
 "Delete translation memory [`Administration`, `Manage translation memory`]"
 msgstr ""
-"Удаление существующих переводов [`Администрирование`, `Управление языками`]"
+"Удаление памяти переводов [`Администрирование`, `Управление памятью "
+"переводов`]"
 
 #: ../../admin/access.rst:371 ../../api.rst:743
 msgid "Projects"
@@ -904,37 +811,29 @@ msgid "Source strings"
 msgstr "Исходные строки"
 
 #: ../../admin/access.rst:384
-#, fuzzy
-#| msgid "Edit source string info [`Administration`, `Edit source`]"
 msgid "Edit additional string info [`Administration`, `Edit source`]"
-msgstr "Правка исходных строк [`Администрирование`, `Правка источника`]"
+msgstr ""
+"Правка дополнительных свойств строки [`Администрирование`, `Правка "
+"источника`]"
 
 #: ../../admin/access.rst:399
 msgid "Strings"
 msgstr "Строки"
 
 #: ../../admin/access.rst:387
-#, fuzzy
-#| msgid "Add new strings [`Administration`]"
 msgid "Add new string [`Administration`]"
-msgstr "Добавление новых строк [`Администрирование`]"
+msgstr "Добавление новой строки [`Администрирование`]"
 
 #: ../../admin/access.rst:389
-#, fuzzy
-#| msgid "Add new strings [`Administration`]"
 msgid "Remove a string [`Administration`]"
-msgstr "Добавление новых строк [`Администрирование`]"
+msgstr "Удаление строки [`Администрирование`]"
 
 #: ../../admin/access.rst:391
-#, fuzzy
-#| msgid ""
-#| "Ignore failing checks [`Administration`, `Edit source`, `Power user`, "
-#| "`Review strings`, `Translate`]"
 msgid ""
 "Ignore failing check [`Administration`, `Edit source`, `Power user`, `Review "
 "strings`, `Translate`]"
 msgstr ""
-"Игнорирование неудачных проверок [`Администрирование`, `Правка источника`, "
+"Игнорирование проваленных проверок [`Администрирование`, `Правка источника`, "
 "`Опытный пользователь`, `Рецензирование строк`, `Перевод`]"
 
 #: ../../admin/access.rst:393
@@ -950,10 +849,6 @@ msgid "Review strings [`Administration`, `Review strings`]"
 msgstr "Рецензирование строк [`Администрирование`, `Рецензирование строк`]"
 
 #: ../../admin/access.rst:397
-#, fuzzy
-#| msgid ""
-#| "Edit string when suggestions are enforced [`Administration`, `Review "
-#| "strings`]"
 msgid ""
 "Edit string when suggestions are enforced [`Administration`, `Review "
 "strings`]"
@@ -973,10 +868,6 @@ msgid "Suggestions"
 msgstr "Предложения"
 
 #: ../../admin/access.rst:402
-#, fuzzy
-#| msgid ""
-#| "Accept suggestions [`Administration`, `Edit source`, `Power user`, "
-#| "`Review strings`, `Translate`]"
 msgid ""
 "Accept suggestion [`Administration`, `Edit source`, `Power user`, `Review "
 "strings`, `Translate`]"
@@ -985,50 +876,36 @@ msgstr ""
 "пользователь`, `Рецензирование строк`, `Перевод`]"
 
 #: ../../admin/access.rst:404
-#, fuzzy
-#| msgid ""
-#| "Accept suggestions [`Administration`, `Edit source`, `Power user`, "
-#| "`Review strings`, `Translate`]"
 msgid ""
 "Add suggestion [`Administration`, `Edit source`, `Add suggestion`, `Power "
 "user`, `Review strings`, `Translate`]"
 msgstr ""
-"Принятие предложения [`Администрирование`, `Правка источника`, `Опытный "
-"пользователь`, `Рецензирование строк`, `Перевод`]"
+"Добавление предложения [`Администрирование`, `Правка источника`, `Добавление "
+"предложения`, `Опытный пользователь`, `Рецензирование строк`, `Перевод`]"
 
 #: ../../admin/access.rst:406
-#, fuzzy
-#| msgid "Use automatic suggestions [`Administration`, `Power user`]"
 msgid "Delete suggestion [`Administration`, `Power user`]"
-msgstr ""
-"Использование автоматических предложений [`Администрирование`, `Опытный "
-"пользователь`]"
+msgstr "Удаление предложения [`Администрирование`, `Опытный пользователь`]"
 
 #: ../../admin/access.rst:408
-#, fuzzy
-#| msgid ""
-#| "Vote on suggestions [`Administration`, `Edit source`, `Power user`, "
-#| "`Review strings`, `Translate`]"
 msgid ""
 "Vote on suggestion [`Administration`, `Edit source`, `Power user`, `Review "
 "strings`, `Translate`]"
 msgstr ""
-"Голосование по предложениям [`Администрирование`, `Правка источника`, "
-"`Опытный пользователь`, `Рецензирование строк`, `Перевод`]"
+"Голосование за предложения [`Администрирование`, `Правка источника`, `"
+"Опытный пользователь`, `Рецензирование строк`, `Перевод`]"
 
 #: ../../admin/access.rst:417 ../../api.rst:1598
 msgid "Translations"
 msgstr "Переводы"
 
 #: ../../admin/access.rst:411
-#, fuzzy
-#| msgid "Perform automatic translation [`Administration`, `Manage languages`]"
 msgid ""
 "Add language for translation [`Administration`, `Power user`, `Manage "
 "languages`]"
 msgstr ""
-"Производство автоматического перевода [`Администрирование`, `Управление "
-"языками`]"
+"Добавление языка для перевода [`Администрирование`, `Опытный пользователь`, `"
+"Управление языками`]"
 
 #: ../../admin/access.rst:413
 msgid "Perform automatic translation [`Administration`, `Manage languages`]"
@@ -1037,19 +914,15 @@ msgstr ""
 "языками`]"
 
 #: ../../admin/access.rst:415
-#, fuzzy
-#| msgid "Delete existing translations [`Administration`, `Manage languages`]"
 msgid "Delete existing translation [`Administration`, `Manage languages`]"
 msgstr ""
-"Удаление существующих переводов [`Администрирование`, `Управление языками`]"
+"Удаление существующего перевода [`Администрирование`, `Управление языками`]"
 
 #: ../../admin/access.rst:417
-#, fuzzy
-#| msgid "Perform automatic translation [`Administration`, `Manage languages`]"
 msgid ""
 "Add several languages for translation [`Administration`, `Manage languages`]"
 msgstr ""
-"Производство автоматического перевода [`Администрирование`, `Управление "
+"Добавление нескольких языков для перевода [`Администрирование`, `Управление "
 "языками`]"
 
 #: ../../admin/access.rst:424
@@ -1057,51 +930,36 @@ msgid "Uploads"
 msgstr "Загрузки"
 
 #: ../../admin/access.rst:420
-#, fuzzy
-#| msgid "Define author of translation upload [`Administration`]"
 msgid "Define author of uploaded translation [`Administration`]"
 msgstr "Задание автора загружаемого перевода [`Администрирование`]"
 
 #: ../../admin/access.rst:422
-#, fuzzy
-#| msgid ""
-#| "Overwrite existing strings with an upload [`Administration`, `Edit "
-#| "source`, `Power user`, `Review strings`, `Translate`]"
 msgid ""
 "Overwrite existing strings with upload [`Administration`, `Edit source`, "
 "`Power user`, `Review strings`, `Translate`]"
 msgstr ""
-"Перезапись существующих строк при загрузке новых [`Администрирование`, "
-"`Правка источника`, `Опытный пользователь`, `Рецензирование строк`, "
-"`Перевод`]"
+"Перезапись существующих строк при загрузке новых [`Администрирование`, `"
+"Правка источника`, `Опытный пользователь`, `Рецензирование строк`, `Перевод`]"
 
 #: ../../admin/access.rst:424
-#, fuzzy
-#| msgid ""
-#| "Upload translation strings [`Administration`, `Edit source`, `Power "
-#| "user`, `Review strings`, `Translate`]"
 msgid ""
 "Upload translations [`Administration`, `Edit source`, `Power user`, `Review "
 "strings`, `Translate`]"
 msgstr ""
-"Загрузка переведённых строк [`Администрирование`, `Правка источника`, "
-"`Опытный пользователь`, `Рецензирование строк`, `Перевод`]"
+"Загрузка переводов [`Администрирование`, `Правка источника`, `Опытный "
+"пользователь`, `Рецензирование строк`, `Перевод`]"
 
 #: ../../admin/access.rst:437
 msgid "VCS"
 msgstr "СКВ (VCS)"
 
 #: ../../admin/access.rst:427
-#, fuzzy
-#| msgid ""
-#| "Access the internal repository [`Access repository`, `Administration`, "
-#| "`Manage repository`, `Power user`]"
 msgid ""
 "Access the internal repository [`Administration`, `Access repository`, "
 "`Power user`, `Manage repository`]"
 msgstr ""
-"Доступ к внутреннему репозиторию [`Доступ к репозиторию`, "
-"`Администрирование`, `Управление репозиторием`, `Опытный пользователь`]"
+"Доступ к внутреннему репозиторию [`Администрирование`, `Доступ к репозиторию`"
+", `Опытный пользователь`, `Управление репозиторием`]"
 
 #: ../../admin/access.rst:429
 msgid ""
@@ -1112,16 +970,12 @@ msgstr ""
 "репозиторием`]"
 
 #: ../../admin/access.rst:431
-#, fuzzy
-#| msgid ""
-#| "Push change from the internal repository [`Administration`, `Manage "
-#| "repository`]"
 msgid ""
 "Push change from the internal repository [`Administration`, `Manage "
 "repository`]"
 msgstr ""
-"Отправка изменений из внутреннего репозитория [`Администрирование`, "
-"`Управление репозиторием`]"
+"Отправка изменений из внутреннего репозитория [`Администрирование`, `"
+"Управление репозиторием`]"
 
 #: ../../admin/access.rst:433
 msgid ""
@@ -1132,16 +986,12 @@ msgstr ""
 "репозиторием`]"
 
 #: ../../admin/access.rst:435
-#, fuzzy
-#| msgid ""
-#| "View upstream repository location [`Access repository`, `Administration`, "
-#| "`Manage repository`, `Power user`]"
 msgid ""
 "View upstream repository location [`Administration`, `Access repository`, "
 "`Power user`, `Manage repository`]"
 msgstr ""
-"Просмотр расположения вышестоящего репозитория [`Доступ к репозиторию`, "
-"`Администрирование`, `Управление репозиторием`, `Опытный пользователь`]"
+"Просмотр расположения вышестоящего репозитория [`Администрирование`, `Доступ "
+"к репозиторию`, `Опытный пользователь`, `Управление репозиторием`]"
 
 #: ../../admin/access.rst:437
 msgid "Update the internal repository [`Administration`, `Manage repository`]"
@@ -1194,18 +1044,13 @@ msgid "Manage component lists"
 msgstr "Управление списками компонентов"
 
 #: ../../admin/access.rst:462
-#, fuzzy
-#| msgid ""
-#| "The site wide privileges are not granted to any default role. These are "
-#| "powerful and quite close to the superuser status—most of them affect all "
-#| "the projects of your Weblate installation."
 msgid ""
 "Site-wide privileges are not granted to any default role. These are powerful "
 "and quite close to superuser status. Most of them affect all projects in "
 "your Weblate installation."
 msgstr ""
 "Привилегии для всего сайта не предоставляются никаким умолчательным ролям. "
-"Они мощны и достаточно близки к статусу суперпользователя — большинство из "
+"Они мощны и достаточно близки к статусу суперпользователя. Большинство из "
 "них влияют на все проекты вашей установки Weblate."
 
 #: ../../admin/access.rst:467
@@ -1228,34 +1073,24 @@ msgid "`Guests`"
 msgstr "`Гости`"
 
 #: ../../admin/access.rst:474
-#, fuzzy
-#| msgid "Defines permissions for non authenticated users."
 msgid "Defines permissions for non-authenticated users."
-msgstr "Определяет разрешения для неавторизованных пользователей."
+msgstr "Определяет разрешения для неаутентифицированных пользователей."
 
 #: ../../admin/access.rst:476
-#, fuzzy
-#| msgid ""
-#| "This group contains only anonymous users (see :setting:"
-#| "`ANONYMOUS_USER_NAME`)."
 msgid ""
 "This group only contains anonymous users (see :setting:"
 "`ANONYMOUS_USER_NAME`)."
 msgstr ""
-"Эта группа содержит только анонимных пользователей (смотрите настройку :"
-"setting:`ANONYMOUS_USER_NAME`)."
+"Эта группа содержит только анонимных пользователей (смотрите параметр "
+":setting:`ANONYMOUS_USER_NAME`)."
 
 #: ../../admin/access.rst:478
-#, fuzzy
-#| msgid ""
-#| "You can remove roles from this group to limit permissions for non "
-#| "authenticated users."
 msgid ""
 "You can remove roles from this group to limit permissions for non-"
 "authenticated users."
 msgstr ""
 "Вы можете удалить роли из этой группы, чтобы ограничить разрешения для "
-"неавторизованных пользователей."
+"неаутентифицированных пользователей."
 
 #: ../../admin/access.rst:481
 msgid "Default roles: `Add suggestion`, `Access repository`"
@@ -1278,6 +1113,8 @@ msgid ""
 "By default :ref:`autogroup` makes all new accounts members of this group "
 "when they join."
 msgstr ""
+"По умолчанию параметр :ref:`autogroup` делает так, что все новые учётные "
+"записи при присоединении становятся членами этой группы."
 
 #: ../../admin/access.rst:489
 msgid "Default roles: none"
@@ -1321,19 +1158,14 @@ msgid "Default roles: `Administration`"
 msgstr "Роли по умолчанию: `Администрирование`"
 
 #: ../../admin/access.rst:510
-#, fuzzy
-#| msgid ""
-#| "Never remove the predefined Weblate groups and users, as this can lead to "
-#| "unexpected problems. If you do not want to use these features, just "
-#| "remove all privileges from them."
 msgid ""
 "Never remove the predefined Weblate groups and users, as this can lead to "
 "unexpected problems. If you have no use for them, you can removing all their "
 "privileges instead."
 msgstr ""
 "Никогда не удаляйте предопределённые в Weblate группы и пользователей, "
-"поскольку это может привести к неожиданным проблемам. Если вы не хотите "
-"использовать эти функции, просто удалите из них все привилегии."
+"поскольку это может привести к неожиданным проблемам. Если они вам не нужны, "
+"вы можете просто удалить из них все привилегии."
 
 #: ../../admin/addons.rst:4 ../../api.rst:2137
 msgid "Addons"
@@ -1528,15 +1360,6 @@ msgstr ""
 "конфигурация соответствует вашим потребностям:"
 
 #: ../../admin/addons.rst:129
-#, fuzzy
-#| msgid ""
-#| "Component discovery addon uses :ref:`internal-urls`. It’s a convenient "
-#| "way to share VCS setup between multiple components. Linked components use "
-#| "the local repository of the main component set up by filling ``weblate://"
-#| "projectname/themaincomponent`` into the :ref:`component-repo` field (in :"
-#| "guilabel:`Manage` ↓ :guilabel:`Settings` ↓ :guilabel:`Version control "
-#| "system`) of each respective component. This saves time with configuration "
-#| "and system resources too."
 msgid ""
 "Component discovery addon uses :ref:`internal-urls`. It’s a convenient way "
 "to share VCS setup between multiple components. Linked components use the "
@@ -1550,11 +1373,11 @@ msgstr ""
 "Weblate <internal-urls>`. Это удобный способ совместного использования "
 "системы контроля версий разными компонентами. Привязать дополнительные "
 "компоненты к основному так, чтобы они использовали его локальный "
-"репозиторий, можно задав адрес вида ``weblate://проект/основной-компонент`` "
-"в качестве :ref:`репозитория исходного кода <component-repo>` (в :guilabel:"
-"`Управление` ↓ :guilabel:`Параметры` ↓ :guilabel:`Система контроля версий`) "
-"для каждого такого компонента. Это сэкономит не только ваше время на "
-"настройку, но и системные ресурсы."
+"репозиторий, можно, задав в качестве :ref:`репозитория исходного кода "
+"<component-repo>` адрес вида ``weblate://проект/основной-компонент`` (в "
+"разделе :guilabel:`Управление` ↓ :guilabel:`Параметры` ↓ :guilabel:`Система "
+"контроля версий`) для каждого такого компонента. Это сэкономит не только "
+"ваше время на настройку, но и системные ресурсы."
 
 #: ../../admin/addons.rst:138 ../../admin/addons.rst:253
 msgid ":ref:`markup`"
@@ -1585,7 +1408,7 @@ msgstr "**Примеры:**"
 
 #: ../../admin/addons.rst:155
 msgid "Label new strings automatically"
-msgstr ""
+msgstr "Автоматическое присвоение метки новым строкам"
 
 #: ../../admin/addons.rst:158 ../../admin/addons.rst:166
 msgid "Search query"
@@ -4483,17 +4306,13 @@ msgid "Managing fonts"
 msgstr "Управление шрифтами"
 
 #: ../../admin/checks.rst:241
-#, fuzzy
-#| msgid ""
-#| "Fonts uploaded into Weblate are used purely for purposes of the :ref:"
-#| "`check-max-size` check, the do not have an effect in Weblate user "
-#| "interface."
 msgid ""
 "Fonts uploaded into Weblate are used purely for purposes of the :ref:`check-"
 "max-size` check, they do not have an effect in Weblate user interface."
 msgstr ""
-"Строки, загруженные в Weblate используются только для проверки «:ref:`check-"
-"max-size`»; они ни как не влияют на пользовательский интерфейс."
+"Загруженные в Weblate шрифты используются исключительно для проверки :ref:`"
+"максимального размера перевода <check-max-size>`; на пользовательский "
+"интерфейс они никак не влияют."
 
 #: ../../admin/checks.rst:245
 msgid ""
@@ -16859,21 +16678,14 @@ msgstr ""
 "исходных строк для всех языков одинаковым."
 
 #: ../../admin/projects.rst:583
-#, fuzzy
-#| msgid ""
-#| "For monolingual formats, the strings are added to the source language and "
-#| "that makes it automatically translatable in all the translations. The "
-#| "strings are managed only on source language and are automatically added "
-#| "or removed in the translations."
 msgid ""
 "For monolingual formats, the strings are managed only on source language and "
 "are automatically added or removed in the translations. The strings appear "
 "in the translation files once they are translated."
 msgstr ""
-"Для одноязычных форматов строки добавляются к исходному языку, что делает их "
-"автоматически переводимыми во всех языках, то есть управление строками "
-"происходит только в исходном языке, так что они будут автоматически "
-"добавлятся или удаляются во всех переводах."
+"Для одноязычных форматов управление строками происходит только на исходном "
+"языке, в переводах они добавляются и удаляются автоматически. В файлах "
+"перевода строки появляются только после их фактического перевода."
 
 #: ../../admin/projects.rst:589
 msgid ""
@@ -17243,18 +17055,13 @@ msgid "Use as a glossary"
 msgstr "Использовать в качестве глоссария"
 
 #: ../../admin/projects.rst:800
-#, fuzzy
-#| msgid ""
-#| "Allows using this component as a glossary. You can configure how it will "
-#| "be listed using :ref:`component-glossary_name` and :ref:`component-"
-#| "glossary_color`."
 msgid ""
 "Allows using this component as a glossary. You can configure how it will be "
 "listed using :ref:`component-glossary_color`."
 msgstr ""
 "Позволяет использовать данный компонент в качестве глоссария. Вы можете "
-"настроить то, как он будет отображаться с помощью параметров :ref:`component-"
-"glossary_name` и :ref:`component-glossary_color`."
+"настроить его отображение с помощью параметра :ref:`component-"
+"glossary_color`."
 
 #: ../../admin/projects.rst:803
 msgid ""
@@ -17285,6 +17092,8 @@ msgstr "Цвет глоссария"
 #: ../../admin/projects.rst:817
 msgid "Display color for a glossary used when showing word matches."
 msgstr ""
+"Цвет отображения для глоссария, используемый при показе соответствий "
+"терминам из глоссария."
 
 #: ../../admin/projects.rst:822
 msgid "Template markup"
@@ -18344,12 +18153,6 @@ msgstr ""
 "увеличилась, см. `mysql`."
 
 #: ../../admin/upgrade.rst:179
-#, fuzzy
-#| msgid ""
-#| "**Changed in 4.4.1:** :ref:`mono_gettext` now uses both ``msgid`` and "
-#| "``msgctxt`` when present. This will change IDs of translation strings in "
-#| "such files. Please make sure you commit pending changes in such files "
-#| "prior upgrading."
 msgid ""
 "**Changed in 4.4.1:** :ref:`mono_gettext` now uses both ``msgid`` and "
 "``msgctxt`` when present. This will change IDs of translation strings in "
@@ -18357,10 +18160,12 @@ msgid ""
 "upgrading and it is recommeded to force loading of affected component using :"
 "djadmin:`loadpo`."
 msgstr ""
-"**Изменено в 4.4.1:** :ref:`mono_gettext`теперь использует и ``msgid``, и "
-"``msgtxt``, если они заданы. Это изменит идентификаторы переводимых строк в "
-"таких файлах. Убедитесь, что вы закоммитили изменения в таких файлах до "
-"обновления."
+"**Изменено в 4.4.1:** :ref:`mono_gettext`теперь использует как ``msgid``, "
+"так и ``msgctxt``, если тот задан. Это изменение изменит идентификаторы "
+"переводимых строк в таких файлах. До проведения обновления убедитесь, что вы "
+"закоммитили изменения в таких файлах; рекомендуется провести принудительную "
+"перезагрузку затронутых компонентов с помощью команды Django "
+":djadmin:`loadpo`."
 
 #: ../../admin/upgrade.rst:180
 msgid ""
@@ -18371,36 +18176,33 @@ msgstr ""
 "toolkit, чтобы решить некоторые проблемы с форматами файлов."
 
 #: ../../admin/upgrade.rst:185
-#, fuzzy
-#| msgid "Upgrade from 4.3 to 4.4"
 msgid "Upgrade from 4.4 to 4.5"
-msgstr "Обновление с версии 4.3 до версии 4.4"
+msgstr "Обновление с версии 4.4 до версии 4.5"
 
 #: ../../admin/upgrade.rst:191
 msgid "The migration might take considerable time if you had big glossaries."
 msgstr ""
+"Если у вас есть большие глоссарии, миграция может занять значительное время."
 
 #: ../../admin/upgrade.rst:192 ../../changes.rst:21
 msgid "Glossaries are now stored as regular components."
-msgstr ""
+msgstr "Глоссарии теперь хранятся как обычные компоненты."
 
 #: ../../admin/upgrade.rst:193
 msgid ""
 "The glossary API is removed, use regular translation API to access "
 "glossaries."
 msgstr ""
+"API глоссария удалён, для доступа к глоссариям используйте стандартный API "
+"перевода."
 
 #: ../../admin/upgrade.rst:194
-#, fuzzy
-#| msgid ""
-#| "There is a change in :setting:`django:INSTALLED_APPS`, ``weblate."
-#| "configuration`` has to be added there."
 msgid ""
 "There is a change in :setting:`django:INSTALLED_APPS` - ``weblate.metrics`` "
 "should be added."
 msgstr ""
 "Произошло изменение параметра :setting:`django:INSTALLED_APPS`, к нему надо "
-"добавить ``weblate.configuration``."
+"добавить ``weblate.metrics``."
 
 #: ../../admin/upgrade.rst:201
 msgid "Upgrading from Python 2 to Python 3"
@@ -19943,10 +19745,8 @@ msgstr ""
 "statistics/`"
 
 #: ../../api.rst:1561
-#, fuzzy
-#| msgid "Returns projects linked with a glossary."
 msgid "Returns projects linked with a component."
-msgstr "Возвращает проекты, связанные с глоссарием."
+msgstr "Возвращает проекты, связанные с компонентом."
 
 #: ../../api.rst:1569
 msgid "associated projects; see :http:get:`/api/projects/(string:project)/`"
@@ -19955,22 +19755,16 @@ msgstr ""
 "project)/`"
 
 #: ../../api.rst:1573
-#, fuzzy
-#| msgid "Associate projects with a group."
 msgid "Associate project with a component."
-msgstr "Связывает проекты с группой."
+msgstr "Связывает проект с компонентом."
 
 #: ../../api.rst:1585
-#, fuzzy
-#| msgid "Remove association of a project with a glossary."
 msgid "Remove association of a project with a component."
-msgstr "Удаляет связь проекта с глоссарием."
+msgstr "Удаляет связь проекта с компонентом."
 
 #: ../../api.rst:1593
-#, fuzzy
-#| msgid "Language of the project was removed."
 msgid "Slug of the project to remove"
-msgstr "Язык проекта был удалён."
+msgstr "Плашка удаляемого проекта"
 
 #: ../../api.rst:1602
 msgid "Returns a list of translations."
@@ -20135,10 +19929,8 @@ msgid "The translation unit value"
 msgstr "Значение единицы перевода"
 
 #: ../../api.rst:1770
-#, fuzzy
-#| msgid ":ref:`component-enable_suggestions`"
 msgid ":ref:`component-manage_units`, :ref:`adding-new-strings`"
-msgstr ":ref:`component-enable_suggestions`"
+msgstr ":ref:`component-manage_units`, :ref:`adding-new-strings`"
 
 #: ../../api.rst:1775
 msgid "Trigger automatic translation."
@@ -20230,16 +20022,12 @@ msgid "Author name"
 msgstr "Имя автора"
 
 #: ../../api.rst:1826
-#, fuzzy
-#| msgid ""
-#| "Upload method (``translate``, ``approve``, ``suggest``, ``fuzzy``, "
-#| "``replace``, ``source``), see :ref:`upload-method`"
 msgid ""
 "Upload method (``translate``, ``approve``, ``suggest``, ``fuzzy``, "
 "``replace``, ``source``, ``add``), see :ref:`upload-method`"
 msgstr ""
 "Метод загрузки (``translate``, ``approve``, ``suggest``, ``fuzzy``, "
-"``replace`` или ``source``), смотрите раздел :ref:`upload-method`"
+"``replace``, ``source`` или ``add``), смотрите раздел :ref:`upload-method`"
 
 #: ../../api.rst:1827
 msgid ""
@@ -20293,6 +20081,11 @@ msgid ""
 "org/projects/translate-toolkit/en/latest/api/storage.html#translate.storage."
 "base.TranslationUnit>`_ and XLIFF."
 msgstr ""
+"`Единица перевода` — это одиночный фрагмент перевода, состоящий из пары "
+"исходной строки и соответствующего ей перевода, а также содержащий некоторые "
+"связанные с этой парой метаданные. Термин взят из `Translate Toolkit "
+"<http://docs.translatehouse.org/projects/translate-toolkit/en/latest/api/"
+"storage.html#translate.storage.base.TranslationUnit>`_ и XLIFF."
 
 #: ../../api.rst:1907
 msgid "Returns list of translation units."
@@ -20724,6 +20517,8 @@ msgid ""
 "Glossaries are now stored as regular components, translations and strings, "
 "please use respective API instead."
 msgstr ""
+"Глоссарии теперь хранятся как обычные компоненты, переводы и строки, поэтому "
+"используйте для работы с ними соответствующие API."
 
 #: ../../api.rst:2272
 msgid "Tasks"
@@ -21086,10 +20881,8 @@ msgid "Weblate 4.5"
 msgstr "Weblate 4.5"
 
 #: ../../changes.rst:4
-#, fuzzy
-#| msgid "Released on February 17th 2020."
 msgid "Released on February 19th 2021."
-msgstr "Выпущен 17 февраля 2020 года."
+msgstr "Выпущен 19 февраля 2021 года."
 
 #: ../../changes.rst:6
 msgid "Added support for ``lua-format`` used in gettext PO."
@@ -21109,10 +20902,6 @@ msgstr ""
 "если использовались разные флаги форматирования."
 
 #: ../../changes.rst:9
-#, fuzzy
-#| msgid ""
-#| "Dropped mailing list field on project in favor of generic instructions "
-#| "for translators."
 msgid ""
 "Dropped mailing list field on the project in favor of generic instructions "
 "for translators."
@@ -21125,10 +20914,8 @@ msgid "Added pseudolocale generation addon."
 msgstr "Добавлена надстройка «Генерация псевдолокалей»."
 
 #: ../../changes.rst:11
-#, fuzzy
-#| msgid "Added support for Term Base eXchange files."
 msgid "Added support for TermBase eXchange files."
-msgstr "Добавлена поддержка файлов формата Term Base eXchange."
+msgstr "Добавлена поддержка файлов формата TermBase eXchange."
 
 #: ../../changes.rst:12
 msgid "Added support for manually defining string variants using a flag."
@@ -21141,94 +20928,77 @@ msgid "Improved performance of consistency checks."
 msgstr "Улучшена производительность проверок согласованности."
 
 #: ../../changes.rst:14
-#, fuzzy
-#| msgid "Improved performance of translation memory updates."
 msgid "Improved performance of translation memory for long strings."
-msgstr "Улучшена производительность обновления памяти переводов."
+msgstr ""
+"Улучшена производительность памяти переводов при работе с очень длинными "
+"строками."
 
 #: ../../changes.rst:15
-#, fuzzy
-#| msgid "Added support for searching in several languages at once."
 msgid "Added support for searching in explanations."
-msgstr "Добавлена поддержка поиска по нескольким языковым кодам одновременно."
+msgstr "Добавлена поддержка поиска по пояснениям."
 
 #: ../../changes.rst:16
 msgid "Strings can now be added and removed in bilingual formats as well."
-msgstr ""
+msgstr "Строки теперь можно добавлять и удалять также и в двуязычных форматах."
 
 #: ../../changes.rst:17
-#, fuzzy
-#| msgid ""
-#| "Automatically detect supported languages for DeepL machine translation."
 msgid ""
 "Extend list of supported languages in Amazon Translate machine translation."
 msgstr ""
-"Автоматическое определение поддерживаемых языков для машинного перевода "
-"DeepL."
+"Расширен список поддерживаемых языков для машинного перевода Amazon "
+"Translate."
 
 #: ../../changes.rst:18
-#, fuzzy
-#| msgid "Automatically enable java-format for Android."
 msgid "Automatically enable Java MessageFormat checks for Java Properties."
-msgstr "Автоматическое включение java-формата для Android."
+msgstr ""
+"Автоматическое включение проверок Java MessageFormat для файлов свойств Java."
 
 #: ../../changes.rst:19
-#, fuzzy
-#| msgid "Added support for adding new strings to monolingual translations."
 msgid "Added a new upload method to add new strings to a translation."
-msgstr "Добавлена поддержка добавления новых строк к одноязычным переводам."
+msgstr "Добавлен новый метод загрузки для добавления новых строк к переводу."
 
 #: ../../changes.rst:20
-#, fuzzy
-#| msgid "Added interface to manage global translation memory."
 msgid "Added a simple interface to browse translation."
-msgstr "Добавлен интерфейс управления глобальной памятью переводов."
+msgstr "Добавлен простой интерфейс просмотра перевода."
 
 #: ../../changes.rst:22
 msgid "Dropped specific API for glossaries as component API is used now."
 msgstr ""
+"Удалён особый API для глоссариев, поскольку теперь для них используется API "
+"компонента."
 
 #: ../../changes.rst:23
-#, fuzzy
-#| msgid "Added user interface to manage whiteboard messages."
 msgid "Added simplified interface to toggle some of the flags."
-msgstr "Добавлен интерфейс управления совместной доской сообщений."
+msgstr "Добавлен упрощённый интерфейс для переключения некоторых флагов."
 
 #: ../../changes.rst:24
-#, fuzzy
-#| msgid "Added support for Joomla translation format."
 msgid "Added support for non-translatable or forbidden terms in the glossary."
-msgstr "Добавлена поддержка форматов переводов Joomla."
+msgstr ""
+"Добавлена поддержка не переводимых или запрещённых терминов в глоссарии."
 
 #: ../../changes.rst:25
-#, fuzzy
-#| msgid "Added support for manually defining string variants using a flag."
 msgid "Added support for defining terminology in a glossary."
-msgstr ""
-"Добавлена поддержка ручного объявления вариантов строк с помощью флага "
-"``variants``."
+msgstr "Добавлена поддержка определения терминологии в глоссарии."
 
 #: ../../changes.rst:26
 msgid "Moved text direction toggle to get more space for the visual keyboard."
 msgstr ""
+"Переключатель направления текста перемещён, чтобы освободить побольше места "
+"для визуальной клавиатуры."
 
 #: ../../changes.rst:27
-#, fuzzy
-#| msgid "Projects with contribution"
 msgid "Added option to automatically watch projects user-contributed to."
-msgstr "Проекты, в которые внесён вклад"
+msgstr ""
+"Добавлен параметр для автоматического отслеживания проектов, в которые "
+"пользователь внёс свой вклад."
 
 #: ../../changes.rst:28
-#, fuzzy
-#| msgid "Added built in translation memory."
 msgid "Added check whether translation matches the glossary."
-msgstr "Добавлена встроенная память переводов."
+msgstr "Добавлена проверка на соответствие перевода термину в глоссарии."
 
 #: ../../changes.rst:29
-#, fuzzy
-#| msgid "Add support for providing additional textual context."
 msgid "Added support for customizing navigation text color."
-msgstr "Добавлена поддержка добавления дополнительного текстового содержимого."
+msgstr "Добавлена поддержка настройки цвета навигационного текста."
 
 #: ../../changes.rst:32
 msgid "Weblate 4.4.2"
@@ -27556,7 +27326,7 @@ msgstr "`BallotReady <https://www.ballotready.org>`_"
 
 #: ../../../BACKERS.rst:15
 msgid "Richard Nespithal"
-msgstr ""
+msgstr "Richard Nespithal"
 
 #: ../../../BACKERS.rst:17
 msgid ""
@@ -28570,10 +28340,8 @@ msgid ":ref:`user-profile`, :djadmin:`dumpuserdata`"
 msgstr ":ref:`user-profile`, :djadmin:`dumpuserdata`"
 
 #: ../../contributing/security.rst:2
-#, fuzzy
-#| msgid "Security Policy"
 msgid "Security and privacy"
-msgstr "Политика безопасности"
+msgstr "Безопасность и конфиденциальность"
 
 #: ../../contributing/security.rst:6
 msgid ""
@@ -28584,21 +28352,18 @@ msgstr ""
 "конфиденциальность наших пользователей."
 
 #: ../../contributing/security.rst:8
-#, fuzzy
-#| msgid ""
-#| "Weblate development follows the Best Practices of the Linux Foundation's "
-#| "Core Infrastructure Initiative."
 msgid ""
 "Weblate development follows the `Best Practices of the Linux Foundation's "
 "Core Infrastructure Initiative <https://bestpractices.coreinfrastructure.org/"
 "projects/552>`_."
 msgstr ""
-"Разработка Weblate следует Лучшим практикам Основной инфраструктурной "
-"инициативы Linux Foundation."
+"Разработка Weblate следует `Лучшим практикам Основной инфраструктурной "
+"инициативы Linux Foundation <https://bestpractices.coreinfrastructure.org/ru/"
+"projects/552>`_."
 
 #: ../../contributing/security.rst:11
 msgid "Tracking dependencies for vulnerabilities"
-msgstr ""
+msgstr "Отслеживание зависимостей для реагирования на уязвимости"
 
 #: ../../contributing/security.rst:13
 msgid ""
@@ -28606,42 +28371,54 @@ msgid ""
 "dependabot.com/>`_. This covers Python and JavaScript libraries and latest "
 "stable release should have adjusted dependencies to avoid vulnerabilities."
 msgstr ""
+"Мы отслеживаем проблемы безопасности в наших зависимостях с помощью бота `"
+"Dependabot <https://dependabot.com/>`_. Он отслеживает Python’ьи и "
+"JavaScript’овые библиотеки; в последнем стабильном релизе зависимости должны "
+"были быть скорректированы таким образом, чтобы они не содержали известных "
+"уязвимостей."
 
 #: ../../contributing/security.rst:20
 msgid ""
 "There might be vulnerabilities in third-party libraries which do not affect "
 "Weblate, and we do not address these in a bugfix release."
 msgstr ""
+"В сторонних библиотеках могут быть присутствовать уязвимости, которые не "
+"влияют на работу Weblate, такие уязвимости мы в выпуске исправления ошибок "
+"не исправляем."
 
 #: ../../contributing/security.rst:24
-#, fuzzy
-#| msgid "Docker container volumes"
 msgid "Docker containers security"
-msgstr "Тома контейнеров Docker’а"
+msgstr "Безопасность контейнеров Docker’а"
 
 #: ../../contributing/security.rst:26
 msgid ""
 "The Docker containers are scanned using `Anchore <https://anchore.com/>`_ "
 "and `Trivy <https://github.com/aquasecurity/trivy>`_."
 msgstr ""
+"Контейнеры Docker’а сканируются сканерами `Anchore <https://anchore.com/>`_ "
+"и `Trivy <https://github.com/aquasecurity/trivy>`_."
 
 #: ../../contributing/security.rst:29
 msgid ""
 "This allows us to detect vulnerabilities early and release an updated "
 "version of the container containing fixes."
 msgstr ""
+"Это позволяет нам выявлять уязвимости на самой ранней стадии и выпускать "
+"обновлённую версию контейнера, содержащую исправления."
 
 #: ../../contributing/security.rst:32
 msgid ""
 "You can get the results of these scans at GitHub - they are stored as "
 "artifacts on our CI as Static Analysis Results Interchange Format (SARIF)."
 msgstr ""
+"Вы можете просмотреть результаты этих сканирований на GitHub’е — они "
+"хранятся в виде артефактов на нашем сервере непрерывной интеграции в формате "
+"обмена результатами статического анализа (:abbr:`SARIF (Static Analysis "
+"Results Interchange Format)`)."
 
 #: ../../contributing/security.rst:37
-#, fuzzy
-#| msgid ":ref:`gitea-setup`"
 msgid ":ref:`ci-tests`"
-msgstr ":ref:`gitea-setup`"
+msgstr ":ref:`ci-tests`"
 
 #: ../../contributing/start.rst:2
 msgid "Starting contributing code to Weblate"
