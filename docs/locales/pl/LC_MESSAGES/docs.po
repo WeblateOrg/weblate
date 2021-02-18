@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-02-17 15:02+0100\n"
-"PO-Revision-Date: 2021-02-15 21:54+0000\n"
+"PO-Revision-Date: 2021-02-19 08:09+0000\n"
 "Last-Translator: tomkolp <tomkolp@gmail.com>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/weblate/"
 "documentation/pl/>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 4.5-dev\n"
+"X-Generator: Weblate 4.5\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:181
@@ -43,10 +43,6 @@ msgstr ""
 "zastosowania."
 
 #: ../../admin/access.rst:12
-#, fuzzy
-#| msgid ""
-#| "Weblate comes with a fine grained privilege system to assign user "
-#| "permissions for the whole instance, or in a limited scope."
 msgid ""
 "Weblate comes with a fine-grained privilege system to assign user "
 "permissions for the whole instance, or in a limited scope."
@@ -56,11 +52,6 @@ msgstr ""
 "w ograniczonym jego zakresie."
 
 #: ../../admin/access.rst:15
-#, fuzzy
-#| msgid ""
-#| "The permission system based on groups and roles, where roles define a set "
-#| "of permissions, and groups assign them to users and translations, see :"
-#| "ref:`auth-model` for more details."
 msgid ""
 "The permission system is based on groups and roles, where roles define a set "
 "of permissions, and groups assign them to users and translations, see :ref:"
@@ -71,13 +62,6 @@ msgstr ""
 "tłumaczeniom; więcej szczegółów, zobacz: :ref:`auth-model`."
 
 #: ../../admin/access.rst:19
-#, fuzzy
-#| msgid ""
-#| "After installation a default set of groups is created, and you can use "
-#| "those to assign users roles for the whole instance (see :ref:`default-"
-#| "groups`). Additionally when :ref:`acl` is turned on, you can assign users "
-#| "to specific translation projects. More fine-grained configuration can be "
-#| "achieved using :ref:`custom-acl`."
 msgid ""
 "After installation a default set of groups are created, and you can use "
 "those to assign users roles for the whole instance (see :ref:`default-"
@@ -86,8 +70,8 @@ msgid ""
 "achieved using :ref:`custom-acl`."
 msgstr ""
 "Po instalacji tworzony jest domyślny zestaw grup, które można użyć do "
-"przypisywania ról użytkownikom dla całej instancji projektu (zobacz: :ref:"
-"`default-groups`). Ponadto, gdy włączone jest :ref:`acl`, można przypisać "
+"przypisywania ról użytkownikom dla całej instancji projektu (zobacz: :ref"
+":`default-groups`). Ponadto, gdy włączone jest :ref:`acl`, można przypisać "
 "użytkowników do określonych projektów tłumaczeniowych. Bardziej szczegółową "
 "konfigurację można osiągnąć stosując :ref:`custom-acl`."
 
@@ -9016,6 +9000,9 @@ msgid ""
 "instance up and running in seconds. All of Weblate's dependencies are "
 "already included. PostgreSQL is set up as the default database."
 msgstr ""
+"Dzięki zadokeryzowanemu wdrożeniu Weblate możesz uruchomić swoją osobistą "
+"instancję Weblate w kilka sekund. Wszystkie zależności Weblate są już "
+"uwzględnione. PostgreSQL jest skonfigurowany jako domyślna baza danych."
 
 #: ../../admin/install/steps/hw.rst:2
 msgid "Hardware requirements"
@@ -9027,6 +9014,9 @@ msgid ""
 "following is the minimal configuration required to run Weblate on a single "
 "host (Weblate, database and webserver):"
 msgstr ""
+"Weblate powinien działać bez problemów na każdym współczesnym sprzęcie, "
+"poniżej przedstawiono minimalną konfigurację wymaganą do uruchomienia "
+"Weblate na jednym hoście (Weblate, baza danych i serwer sieciowy):"
 
 #: ../../admin/install/steps/hw.rst:8
 msgid "2 GB of RAM"
@@ -9045,12 +9035,17 @@ msgid ""
 "The more memory the better - it is used for caching on all levels "
 "(filesystem, database and Weblate)."
 msgstr ""
+"Im więcej pamięci, tym lepiej - wykorzystywana jest do buforowania na "
+"wszystkich poziomach (system plików, baza danych i Weblate)."
 
 #: ../../admin/install/steps/hw.rst:15
 msgid ""
 "Many concurrent users increases the amount of needed CPU cores. For hundreds "
 "of translation components at least 4 GB of RAM is recommended."
 msgstr ""
+"Wiele użytkowników jednocześnie zwiększa liczbę potrzebnych rdzeni "
+"procesora. W przypadku setek elementów tłumaczenia zalecane jest co najmniej "
+"4 GB pamięci RAM."
 
 #: ../../admin/install/steps/hw.rst:19
 msgid ""
@@ -9058,12 +9053,18 @@ msgid ""
 "words. Storage space needed for cloned repositories varies, but Weblate "
 "tries to keep their size minimal by doing shallow clones."
 msgstr ""
+"Typowe użycie magazynu bazy danych wynosi około 300 MB na 1 milion "
+"hostowanych słów. Miejsce do magazynowania potrzebne do sklonowanych "
+"repozytoriów jest różna, ale Weblate stara się zachować ich minimalny "
+"rozmiar, wykonując płytkie klonowanie."
 
 #: ../../admin/install/steps/hw.rst:25
 msgid ""
 "Actual requirements for your installation of Weblate vary heavily based on "
 "the size of the translations managed in it."
 msgstr ""
+"Rzeczywiste wymagania dotyczące instalacji Weblate różnią się znacznie w "
+"zależności od rozmiaru zarządzanych tłumaczeń."
 
 #: ../../admin/install/docker.rst:13 ../../admin/install/kubernetes.rst:18
 #: ../../admin/install/openshift.rst:12
@@ -9080,6 +9081,9 @@ msgid ""
 "``docker-compose`` installed. Please check the Docker documentation for "
 "instructions."
 msgstr ""
+"Poniższe przykłady zakładają, że masz działające środowisko Docker z "
+"zainstalowanym ``docker-compose``. Instrukcje można znaleźć w dokumentacji "
+"platformy Docker."
 
 #: ../../admin/install/docker.rst:18
 msgid "Clone the weblate-docker repo:"
@@ -9090,18 +9094,25 @@ msgid ""
 "Create a :file:`docker-compose.override.yml` file with your settings. See :"
 "ref:`docker-environment` for full list of environment variables."
 msgstr ""
+"Utwórz plik: `docker-compose.override.yml` z ustawieniami. Zobacz :ref"
+":`docker-environment` aby zapoznać się z pełną listą zmiennych "
+"środowiskowych."
 
 #: ../../admin/install/docker.rst:47
 msgid ""
 "If :envvar:`WEBLATE_ADMIN_PASSWORD` is not set, the admin user is created "
 "with a random password shown on first startup."
 msgstr ""
+"Jeżeli :envvar:`WEBLATE_ADMIN_PASSWORD` nie jest ustawione, administrator "
+"jest tworzony z losowym hasłem wyświetlanym przy pierwszym uruchomieniu."
 
 #: ../../admin/install/docker.rst:50
 msgid ""
 "The provided example makes Weblate listen on port 80, edit the port mapping "
 "in the :file:`docker-compose.override.yml` file to change it."
 msgstr ""
+"Podany przykład sprawia, że Weblate nasłuchuje na porcie 80, edytuj "
+"mapowanie portów w pliku :file:`docker-compose.override.yml` aby to zmienić."
 
 #: ../../admin/install/docker.rst:53
 msgid "Start Weblate containers:"
@@ -9112,18 +9123,24 @@ msgid ""
 "Enjoy your Weblate deployment, it's accessible on port 80 of the ``weblate`` "
 "container."
 msgstr ""
+"Ciesz się wdrożeniem, Weblate jest teraz dostępne na porcie 80 kontenera `` "
+"weblate``."
 
 #: ../../admin/install/docker.rst:63
 msgid ""
 "The setup has changed recently, priorly there was separate web server "
 "container, since 2.15-2 the web server is embedded in the Weblate container."
 msgstr ""
+"Konfiguracja zmieniła się niedawno, wcześniej istniał oddzielny kontener "
+"serwera WWW, od wersji 2.15-2 serwer WWW jest osadzony w kontenerze Weblate."
 
 #: ../../admin/install/docker.rst:69
 msgid ""
 "In July 2019 (starting with the 3.7.1-6 tag), the containers are not running "
 "as a root user. This has changed the exposed port from 80 to 8080."
 msgstr ""
+"W lipcu 2019 r. (Począwszy od tagu 3.7.1-6) kontenery nie działają jako "
+"użytkownik root. Zmieniło to odsłonięty port 80 na 8080."
 
 #: ../../admin/install/docker.rst:72
 msgid ":ref:`invoke-manage`"
@@ -9138,6 +9155,9 @@ msgid ""
 "Please see :ref:`docker-deploy` for generic deployment instructions, this "
 "section only mentions differences compared to it."
 msgstr ""
+"Zobacz :ref:`docker-deploy`, aby zapoznać się z ogólnymi instrukcjami "
+"dotyczącymi wdrażania, ta sekcja wspomina tylko o różnicach w porównaniu z "
+"ogólną instrukcją."
 
 #: ../../admin/install/docker.rst:83
 msgid "Using own SSL certificates"
@@ -9148,12 +9168,16 @@ msgid ""
 "In case you have own SSL certificate you want to use, simply place the files "
 "into the Weblate data volume (see :ref:`docker-volume`):"
 msgstr ""
+"Jeśli masz własny certyfikat SSL, którego chcesz użyć, po prostu umieść "
+"pliki w woluminie danych Weblate (zobacz :ref:`docker-volume`):"
 
 #: ../../admin/install/docker.rst:90
 msgid ""
 ":file:`ssl/fullchain.pem` containing the certificate including any needed CA "
 "certificates"
 msgstr ""
+": file:`ssl / fullchain.pem` certyfikat zawierający wszystkie potrzebne "
+"certyfikaty CA"
 
 #: ../../admin/install/docker.rst:91
 msgid ":file:`ssl/privkey.pem` containing the private key"
@@ -9165,6 +9189,9 @@ msgid ""
 "docker container and have file mask set to ``600`` (readable and writable "
 "only by the owning user)."
 msgstr ""
+"Oba te pliki muszą być własnością tego samego użytkownika, który uruchamia "
+"kontener docker i mieć maskę pliku ustawioną na ''600'' (czytelną i "
+"zapisywalną tylko przez użytkownika będącego właścicielem)."
 
 #: ../../admin/install/docker.rst:95
 msgid ""
@@ -9172,6 +9199,9 @@ msgid ""
 "4443, you will want to include the port forwarding for HTTPS in docker "
 "compose override:"
 msgstr ""
+"Dodatkowo, kontener Weblate będzie teraz akceptował połączenia SSL na porcie "
+"4443, będziesz musiał uwzględnić przekierowanie portu dla HTTPS w docker-"
+"compose.override.yml:"
 
 #: ../../admin/install/docker.rst:107
 msgid ""
@@ -9180,16 +9210,22 @@ msgid ""
 "HTTPS connection from NGINX to the docker container, you can use the "
 "following configuration:"
 msgstr ""
+"Jeśli masz już inne witryny na tym samym serwerze, prawdopodobnie porty "
+"''80'' i ''443'' są używane przez odwrotny serwer proxy, taki jak NGINX. Aby "
+"przekazać połączenie HTTPS z NGINX do kontenera platformy docker, można użyć "
+"następującej konfiguracji:"
 
 #: ../../admin/install/docker.rst:129
 msgid ""
 "Replace ``<SITE_URL>``, ``<SITE>`` and ``<EXPOSED_DOCKER_PORT>`` with actual "
 "values from your environment."
 msgstr ""
+"Zastąp ``<SITE_URL>``, ``<SITE>`` i ``<EXPOSED_DOCKER_PORT>`` rzeczywistymi "
+"wartościami z twojego środowiska."
 
 #: ../../admin/install/docker.rst:132
 msgid "Automatic SSL certificates using Let’s Encrypt"
-msgstr ""
+msgstr "Automatyczne certyfikaty SSL z wykorzystaniem Let’s Encrypt"
 
 #: ../../admin/install/docker.rst:134
 msgid ""
