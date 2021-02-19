@@ -952,6 +952,7 @@ CHECK_LIST = [
     "weblate.checks.source.MultipleFailingCheck",
     "weblate.checks.source.LongUntranslatedCheck",
     "weblate.checks.format.MultipleUnnamedFormatsCheck",
+    "weblate.checks.glossary.GlossaryCheck",
 ]
 modify_env_list(CHECK_LIST, "CHECK")
 
