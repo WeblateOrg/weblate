@@ -31,7 +31,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.5\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-02-17 14:01+0000\n"
-"PO-Revision-Date: 2021-02-16 17:45+0000\n"
+"PO-Revision-Date: 2021-02-20 12:08+0000\n"
 "Last-Translator: bovirus <roberto.boriotti@canon-europe.com>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/weblate/"
 "application/it/>\n"
@@ -405,6 +405,8 @@ msgid ""
 "System created user to track authorship of translations uploaded by other "
 "user."
 msgstr ""
+"Sistema creato dall'utente per monitorare la paternità delle traduzioni "
+"caricate da un altro utente."
 
 #: weblate/accounts/models.py:168
 msgid "Configured password to sign in."
@@ -8501,10 +8503,8 @@ msgid "This project does no longer fit into libre hosting conditions."
 msgstr "Questo progetto non si adatta più alle condizioni di hosting libero."
 
 #: weblate/templates/trans/alert/nomaskmatches.html:4
-#, fuzzy
-#| msgid "There are some alerts on this component"
 msgid "There are no translations in this component."
-msgstr "Ci sono alcuni avvisi relativi a questo componente"
+msgstr "In questo componente non ci sono traduzioni."
 
 #: weblate/templates/trans/alert/nomaskmatches.html:7
 #, python-format
@@ -8512,18 +8512,16 @@ msgid ""
 "Check whether file mask <code>%(filemask)s</code> matches files in your "
 "repository."
 msgstr ""
+"Controlla se la maschera di file <code>%(filemask)s </code> corrisponde ai "
+"file nel tuo repository."
 
 #: weblate/templates/trans/alert/nomaskmatches.html:8
-#, fuzzy
-#| msgid ""
-#| "You can add a new translation string here, it will automatically appear "
-#| "in all translations."
 msgid ""
 "You can also start new translations directly in Weblate, it will create "
 "files based on the file mask."
 msgstr ""
-"Puoi aggiungere qui una nuova stringa di traduzione che apparirà "
-"automaticamente in tutte le traduzioni."
+"Puoi anche iniziare nuove traduzioni direttamente in Weblate, che creerà i "
+"file basati sulla maschera file."
 
 #: weblate/templates/trans/alert/occurrences-limit.html:4
 #, python-format
@@ -8533,7 +8531,11 @@ msgid_plural ""
 "Only part of the occurrences are shown, in total there were %(count)s of "
 "them."
 msgstr[0] ""
+"Sono visualizzate solo una parte delle occorrenze, in totale era %(count)s "
+"di essi."
 msgstr[1] ""
+"Sono visualizzate solo una parte delle occorrenze, in totale erano %(count)s "
+"di essi."
 
 #: weblate/templates/trans/alert/parseerror.html:4
 msgid ""
@@ -10246,10 +10248,8 @@ msgid "Unused enforced checks."
 msgstr "Controlli forzati non usati."
 
 #: weblate/trans/models/alert.py:360
-#, fuzzy
-#| msgid "More users matched."
 msgid "No mask matches."
-msgstr "Più utenti corrispondenti."
+msgstr "Nessuna corrispondenza con la maschera."
 
 #: weblate/trans/models/announcement.py:111
 msgid "Category"
