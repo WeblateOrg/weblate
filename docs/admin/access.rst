@@ -22,11 +22,10 @@ put users in groups that have one or more of these roles, described in
 Site wide permissions
 +++++++++++++++++++++
 
-To manage permissions for a whole instance, just add users to
 By default, new users get access to comment, provide suggestions, and make translations
-everywhere by being put in `Users` automatically by :ref:`autogroup`.
+everywhere by being put in the `Users` group automatically by :ref:`autogroup`.
 You can put the users you deem fit in the `Reviewers` to let them review everything,
-and `Managers` groups to do all of the above everywhere.
+and the `Managers` groups to do all of the above everywhere.
 Keep all projects configured as `Public` (see :ref:`acl`).
 
 Per project permissions
