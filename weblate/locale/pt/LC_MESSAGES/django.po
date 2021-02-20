@@ -19,8 +19,8 @@ msgstr ""
 "Project-Id-Version: Weblate 4.5\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-02-17 14:01+0000\n"
-"PO-Revision-Date: 2021-02-15 08:16+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2021-02-21 17:19+0000\n"
+"Last-Translator: ssantos <ssantos@web.de>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/weblate/"
 "application/pt/>\n"
 "Language: pt\n"
@@ -28,7 +28,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.5-dev\n"
+"X-Generator: Weblate 4.5\n"
 
 #: weblate/accounts/avatar.py:103
 msgctxt "No known user"
@@ -298,10 +298,8 @@ msgid "Screenshots uploaded"
 msgstr "captura do ecrã"
 
 #: weblate/accounts/forms.py:792
-#, fuzzy
-#| msgid "The detected file format is not supported."
 msgid "Chosen sorting is not supported."
-msgstr "O formato de ficheiro detectado não é suportado."
+msgstr "A classificação escolhida não é suportada."
 
 #: weblate/accounts/models.py:141
 msgid "Password changed."
@@ -395,6 +393,8 @@ msgid ""
 "System created user to track authorship of translations uploaded by other "
 "user."
 msgstr ""
+"Utilizador criado pelo sistema para rastear a autoria das traduções enviadas "
+"por outro utilizador."
 
 #: weblate/accounts/models.py:168
 msgid "Configured password to sign in."
@@ -526,15 +526,13 @@ msgstr ""
 "completo."
 
 #: weblate/accounts/models.py:433
-#, fuzzy
-#| msgid "Projects with contribution"
 msgid "Automatically watch projects on contribution"
-msgstr "Projetos com contribuições"
+msgstr "Observar automaticamente projetos em contribuição"
 
 #: weblate/accounts/models.py:436
 msgid ""
 "Whenever you translate a string in a project, you will start watching it."
-msgstr ""
+msgstr "Sempre que traduzir uma cadeia num projeto, vai começar a vê-lo."
 
 #: weblate/accounts/models.py:446 weblate/templates/dashboard/user.html:20
 msgid "Watched translations"
@@ -1083,17 +1081,14 @@ msgid "Language consistency"
 msgstr "Consistência do idioma"
 
 #: weblate/addons/consistency.py:34
-#, fuzzy
-#| msgid ""
-#| "Ensures all components within one project have translations for every "
-#| "added language for translation."
 msgid ""
 "Ensures all components within a project have translations for every added "
 "translated language by creating empty translations in languages that have "
 "unadded components."
 msgstr ""
-"Garante que todos os componentes de um projeto tenham traduções para todos "
-"idiomas adicionados para tradução."
+"Garante que todos os componentes dentro de um projeto tenham traduções para "
+"cada idioma traduzido adicionado, a criar traduções vazias em idiomas que "
+"não adicionaram componentes."
 
 #: weblate/addons/discovery.py:33
 msgid "Component discovery"
@@ -1156,12 +1151,6 @@ msgid "Flag unchanged translations as \"Needs editing\""
 msgstr "Marcar as traduções inalteradas como \"Precisa de edição\""
 
 #: weblate/addons/flags.py:86
-#, fuzzy
-#| msgid ""
-#| "Whenever a new translatable string is imported from the VCS and it "
-#| "matches a source string, it is flagged as needing editing in Weblate. "
-#| "This is especially useful for file formats that include all strings even "
-#| "if not translated."
 msgid ""
 "Whenever a new translatable string is imported from the VCS and it matches a "
 "source string, it is flagged as needing editing in Weblate. Especially "
@@ -1169,8 +1158,8 @@ msgid ""
 msgstr ""
 "Sempre que uma nova cadeia traduzível é importada de VCS e corresponde a uma "
 "cadeia fonte, esta é marcada como precisa de edição no Weblate. Isto é "
-"especialmente útil para os formatos de ficheiro que incluem todas as "
-"cadeias , mesmo que não traduzidas."
+"especialmente útil para os formatos de ficheiro que incluem cadeias não "
+"traduzidas."
 
 #: weblate/addons/flags.py:105 weblate/templates/component.html:69
 #: weblate/templates/component.html:217 weblate/templates/project.html:68
@@ -1180,10 +1169,8 @@ msgid "Bulk edit"
 msgstr "Edição em massa"
 
 #: weblate/addons/flags.py:106
-#, fuzzy
-#| msgid "Bulk edit flags, labels or state for strings."
 msgid "Bulk edit flags, labels, or states of strings."
-msgstr "Edição em série de marcadores, etiquetas, ou estados para cadeias."
+msgstr "Edição em série de marcadores, etiquetas, ou estados de cadeias."
 
 #: weblate/addons/forms.py:53
 msgid "Path of generated MO file"
@@ -1218,16 +1205,12 @@ msgid "No line wrapping"
 msgstr "Sem quebra de linhas"
 
 #: weblate/addons/forms.py:119
-#, fuzzy
-#| msgid ""
-#| "By default gettext wraps lines at 77 chars and newlines. With --no-wrap "
-#| "parameter, it wraps only at newlines."
 msgid ""
 "By default gettext wraps lines at 77 characters and at newlines. With the --"
 "no-wrap parameter, wrapping is only done at newlines."
 msgstr ""
 "Por predefinição, o gettext quebra as linhas a 77 carateres e novas linhas. "
-"Com o parâmetro --no-wrap, quebra apenas nas novas linhas."
+"Com o parâmetro --no-wrap, quebra apenas em novas linhas."
 
 #: weblate/addons/forms.py:127
 msgid "Keep previous msgids of translated strings"
@@ -1266,19 +1249,14 @@ msgid "Append trailers to squashed commit message"
 msgstr "Anexar linhas finalizadoras à mensagem do commit de squash"
 
 #: weblate/addons/forms.py:159
-#, fuzzy
-#| msgid ""
-#| "Trailer lines are lines that look similar to RFC 822 e-mail headers, at "
-#| "the end of the otherwise free-form part of a commit message, such as 'Co-"
-#| "authored-by: ...'."
 msgid ""
 "Trailer lines are lines that look similar to RFC 822 e-mail headers, at the "
 "end of the otherwise free-form part of a commit message, such as 'Co-"
 "authored-by: …'."
 msgstr ""
 "As linhas finalizadoras são linhas semelhantes aos cabeçalhos de e-mail RFC "
-"822, no final de uma mensagem de commit de outra forma livre, como \"Co-"
-"authored-by: ...\"."
+"822, no final de uma mensagem de commit de outra forma livre, como \"Co"
+"-authored-by: …'."
 
 #: weblate/addons/forms.py:168
 msgid ""
@@ -1456,28 +1434,20 @@ msgid "Source strings"
 msgstr "Cadeias fonte"
 
 #: weblate/addons/forms.py:454
-#, fuzzy
-#| msgid "Create translation"
 msgid "Target translation"
-msgstr "Criar tradução"
+msgstr "Tradução de destino"
 
 #: weblate/addons/forms.py:456
-#, fuzzy
-#| msgid "String age"
 msgid "String prefix"
-msgstr "Idade da cadeia"
+msgstr "Prefixo da cadeia"
 
 #: weblate/addons/forms.py:461
-#, fuzzy
-#| msgid "Strings"
 msgid "String suffix"
-msgstr "Cadeias"
+msgstr "Sufixo da cadeia"
 
 #: weblate/addons/forms.py:478
-#, fuzzy
-#| msgid "You need to log in to be able to save translations!"
 msgid "The source and target have to be different languages."
-msgstr "Precisa estar ligado para poder salvar as traduções!"
+msgstr "A origem e o destino devem ser idiomas diferentes."
 
 #: weblate/addons/generate.py:34
 msgid "Statistics generator"
@@ -1491,13 +1461,15 @@ msgstr ""
 
 #: weblate/addons/generate.py:65
 msgid "Pseudolocale generation"
-msgstr ""
+msgstr "Geração da pseudolocalidade"
 
 #: weblate/addons/generate.py:67
 msgid ""
 "Generates a translation by adding prefix and suffix to source strings "
 "automatically."
 msgstr ""
+"Gera uma tradução a adicionar um prefixo e sufixo às cadeias de origem "
+"automaticamente."
 
 #: weblate/addons/gettext.py:41
 msgid "Generate MO files"
@@ -1536,6 +1508,9 @@ msgid ""
 "Updates all PO files (as configured by \"Filemask\") to match the POT file "
 "(as configured by \"Template for new translations\") using msgmerge."
 msgstr ""
+"Atualiza todos os ficheiros PO (conforme configurado por \"Filemask\") para "
+"corresponder ao ficheiro POT (conforme configurado por \"Modelo para novas "
+"traduções\") através de msgmerge."
 
 #: weblate/addons/gettext.py:303
 msgid "Customize gettext output"
@@ -1553,16 +1528,12 @@ msgid "Contributors in comment"
 msgstr "Contribuintes em comentários"
 
 #: weblate/addons/gettext.py:318
-#, fuzzy
-#| msgid ""
-#| "Update the comment in the PO file header to include contributor names and "
-#| "years of contributions."
 msgid ""
 "Updates the comment part of the PO file header to include contributor names "
 "and years of contributions."
 msgstr ""
-"Atualiza o comentário no cabeçalho do ficheiro PO para incluir nomes de "
-"colaboradores e anos de contribuições."
+"Atualiza a parte do comentário no cabeçalho do ficheiro PO para incluir "
+"nomes de colaboradores e anos de contribuições."
 
 #: weblate/addons/git.py:34
 msgid "Squash Git commits"
@@ -2536,10 +2507,9 @@ msgid "This string has been translated in the past"
 msgstr "Esta cadeia foi traduzida anteriormente"
 
 #: weblate/checks/consistency.py:152
-#, fuzzy, python-format
-#| msgid "Last translation was \"%s\"."
+#, python-format
 msgid "Previous translation was \"%s\"."
-msgstr "A última tradução foi: \"%s\"."
+msgstr "A tradução anterior foi: \"%s\"."
 
 #: weblate/checks/duplicate.py:45
 msgid "Consecutive duplicated words"
@@ -2586,14 +2556,12 @@ msgid "Strict unchanged check"
 msgstr "Verificação rigorosa e inalterada"
 
 #: weblate/checks/flags.py:55
-#, fuzzy
-#| msgid "Good translations"
 msgid "Forbidden translation"
-msgstr "Traduções correctas"
+msgstr "Tradução proibida"
 
 #: weblate/checks/flags.py:56
 msgid "Terminology"
-msgstr ""
+msgstr "Terminologia"
 
 #: weblate/checks/flags.py:58 weblate/fonts/models.py:39
 #: weblate/templates/fonts/font_detail.html:18
@@ -2623,10 +2591,8 @@ msgid "Replacements while rendering"
 msgstr "Substituições durante a renderização"
 
 #: weblate/checks/flags.py:72
-#, fuzzy
-#| msgid "Strings with variants"
 msgid "String variant"
-msgstr "Cadeias com variantes"
+msgstr "Variante da cadeia"
 
 #: weblate/checks/flags.py:249
 #, python-format
@@ -2699,16 +2665,12 @@ msgid "JavaScript format string does not match source"
 msgstr "O formato JavaScript da cadeia não coincide com a fonte"
 
 #: weblate/checks/format.py:438
-#, fuzzy
-#| msgid "C format"
 msgid "Lua format"
-msgstr "Formato C"
+msgstr "Formato Lua"
 
 #: weblate/checks/format.py:439
-#, fuzzy
-#| msgid "C format string does not match source"
 msgid "Lua format string does not match source"
-msgstr "O formato C da cadeia não coincide com a fonte"
+msgstr "O formato de texto Lua não corresponde com a fonte"
 
 #: weblate/checks/format.py:446
 msgid "Python brace format"
@@ -2791,21 +2753,17 @@ msgstr ""
 "reordená-las"
 
 #: weblate/checks/glossary.py:33
-#, fuzzy
-#| msgid "Added to glossary"
 msgid "Does not follow glossary"
-msgstr "Adicionar ao glossário"
+msgstr "Não segue o glossário"
 
 #: weblate/checks/glossary.py:34
-#, fuzzy
-#| msgid "The translation does not contain an URL"
 msgid "The translation does not follow terms defined in a glossary."
-msgstr "A tradução não contém um URL"
+msgstr "A tradução não segue os termos definidos num glossário."
 
 #: weblate/checks/glossary.py:87
 #, python-format
 msgid "Following terms are not translated according to glossary: %s"
-msgstr ""
+msgstr "Os termos seguintes não são traduzidos de acordo com o glossário: %s"
 
 #: weblate/checks/markup.py:77
 msgid "BBcode markup"
@@ -2950,10 +2908,8 @@ msgid "The translations in several languages have failing checks"
 msgstr "As traduções em várias línguas têm verificações falhadas"
 
 #: weblate/checks/source.py:92
-#, fuzzy
-#| msgid "Failing checks found"
 msgid "Following checks are failing:"
-msgstr "Detectadas verificações falhadas"
+msgstr "As verificações seguintes estão a falhar:"
 
 #: weblate/checks/source.py:109
 msgid "Long untranslated"
@@ -3159,14 +3115,10 @@ msgid "Java Properties (ISO 8859-1)"
 msgstr "Propriedades de Java (ISO 8859-1)"
 
 #: weblate/formats/ttkit.py:1163
-#, fuzzy
-#| msgid "Joomla Language File"
 msgid "Joomla language file"
-msgstr "Ficheiro de Idioma Joomla"
+msgstr "Ficheiro de idioma Joomla"
 
 #: weblate/formats/ttkit.py:1172
-#, fuzzy
-#| msgid "GWT Properties"
 msgid "GWT properties"
 msgstr "Propriedades GWT"
 
@@ -3259,10 +3211,8 @@ msgid "Inno Setup INI file"
 msgstr "Ficheiro INI de Inno Setup"
 
 #: weblate/formats/ttkit.py:1701
-#, fuzzy
-#| msgid "TermBase eXchange (TBX)"
 msgid "TermBase eXchange file"
-msgstr "TermBase eXchange (TBX)"
+msgstr "Ficheiro de TermBase eXchange"
 
 #: weblate/formats/txt.py:180
 msgid "App store metadata files"
@@ -3800,35 +3750,24 @@ msgid "CSRF verification failed. Request aborted."
 msgstr "A verificação de CSRF falhou. Pedido abortado."
 
 #: weblate/templates/403_csrf.html:12
-#, fuzzy
-#| msgid ""
-#| "This HTTPS site requires a 'Referer header' to be sent by your web "
-#| "browser, but none was sent. This header is required for security reasons, "
-#| "to ensure that your browser is not being hijacked by third-parties."
 msgid ""
 "This HTTPS site requires a 'Referer' header to be sent by your web browser, "
 "but none was sent. This header is required for security reasons, to ensure "
 "your browser is not hijacked by third-parties."
 msgstr ""
-"Esta página HTTPS requer que um cabeçalho 'Referer header' seja enviado pelo "
-"seu navegador, mas nenhum foi enviado. Este cabeçalho é requerido por "
-"motivos de segurança, para garantir que o seu navegador não está a ser "
-"desviado por terceiros."
+"Esta página HTTPS requer que um cabeçalho 'Referer' seja enviado pelo seu "
+"navegador, mas nenhum foi enviado. Este cabeçalho é requerido por motivos "
+"securitários, para garantir que o seu navegador não é desviado por terceiros."
 
 #: weblate/templates/403_csrf.html:13
-#, fuzzy
-#| msgid ""
-#| "If you have set up your browser to not send 'Referer' headers, please "
-#| "turn that on, at-least for this site, for HTTPS connections, or for 'same-"
-#| "origin' requests."
 msgid ""
 "If you have set up your web browser to not send 'Referer' headers, please "
 "turn that on (at-least for this site, for HTTPS connections, or for 'same-"
 "origin' requests)."
 msgstr ""
-"Se configurou o seu navegador para desactivar os cabeçalhos 'Referer', por "
-"favor active-os novamente, pelo menos para esta página, para ligações HTTPS "
-"ou para pedidos 'same-origin'."
+"Se configurou o seu navegador para desativar cabeçalhos 'Referer', por favor "
+"ative-os novamente, pelo menos para esta página, para ligações HTTPS ou para "
+"pedidos 'same-origin'."
 
 #: weblate/templates/403_csrf.html:16
 msgid ""
@@ -3841,16 +3780,12 @@ msgstr ""
 "está a ser desviado por terceiros."
 
 #: weblate/templates/403_csrf.html:17
-#, fuzzy
-#| msgid ""
-#| "If you have set up your browser to not save cookies, please turn them on "
-#| "again, at-least for this site, or for 'same-origin' requests."
 msgid ""
 "If you have set up your browser to not save cookies, please turn them on "
 "again (at-least for this site, or for 'same-origin' requests)."
 msgstr ""
 "Se configurou o seu navegador para desativar os cookies, por favor, ative-os "
-"novamente, pelo menos para esta página ou para pedidos 'mesma-origem'."
+"novamente (pelo menos para esta página ou para pedidos 'same-origin')."
 
 #: weblate/templates/404.html:5 weblate/trans/views/error.py:43
 msgid "Page Not Found"
@@ -5303,7 +5238,7 @@ msgstr "Qualquer utilizador autenticado pode contribuir."
 
 #: weblate/templates/bootstrap3/layout/radioselect_access.html:39
 msgid "VCS repository might be exposed to everybody."
-msgstr ""
+msgstr "O repositório VCS pode estar exposto a todos."
 
 #: weblate/templates/bootstrap3/layout/radioselect_access.html:47
 #: weblate/templates/bootstrap3/layout/radioselect_access.html:59
@@ -5313,10 +5248,8 @@ msgstr "Só os utilizadores escolhidos podem contribuir."
 
 #: weblate/templates/bootstrap3/layout/radioselect_access.html:51
 #: weblate/templates/bootstrap3/layout/radioselect_access.html:63
-#, fuzzy
-#| msgid "Only chosen users can contribute."
 msgid "Only chosen users can access VCS repository."
-msgstr "Só os utilizadores escolhidos podem contribuir."
+msgstr "Só utilizadores escolhidos podem contribuir."
 
 #: weblate/templates/bootstrap3/layout/radioselect_access.html:56
 msgid "Visible only to chosen users."
@@ -5352,10 +5285,8 @@ msgid "Browse"
 msgstr "Explorar"
 
 #: weblate/templates/browse.html:51
-#, fuzzy
-#| msgid "No similar strings found."
 msgid "No strings found!"
-msgstr "Não forma encontradas strings similares."
+msgstr "Nenhuma cadeia encontrada!"
 
 #: weblate/templates/check.html:19 weblate/templates/data.html:28
 #: weblate/templates/data.html:62 weblate/templates/data.html:103
@@ -5941,26 +5872,20 @@ msgstr ""
 "tradutores e gerar comentários."
 
 #: weblate/templates/data.html:13
-#, fuzzy
-#| msgid ""
-#| "You can retrieve various data from Weblate in machine readable format."
 msgid "Various data from Weblate is available in machine-readable format."
-msgstr "Pode obter vários dados do Weblate no formato legível por computador."
+msgstr ""
+"Vários dados do Weblate estão disponíveis em formatos legíveis por "
+"computadores."
 
 #: weblate/templates/data.html:17
 msgid "RSS feeds"
 msgstr "Feeds RSS"
 
 #: weblate/templates/data.html:22
-#, fuzzy
-#| msgid ""
-#| "To follow translation progress you can use RSS feeds, detailing all "
-#| "important translation changes."
 msgid ""
 "Follow the translation progress and all important changes from RSS feeds."
 msgstr ""
-"Para seguir o progresso da tradução pode utilizar as \"feeds\" RSS, que "
-"incluem as alterações importantes da tradução."
+"Siga o progresso da tradução e todas as alterações importantes por feeds RSS."
 
 #: weblate/templates/data.html:30 weblate/templates/data.html:64
 #: weblate/templates/data.html:105
@@ -5972,15 +5897,11 @@ msgid "RSS"
 msgstr "RSS"
 
 #: weblate/templates/data.html:48
-#, fuzzy
-#| msgid ""
-#| "Per language RSS feeds are also available, you can construct them by "
-#| "appending a language code to the above URLs."
 msgid ""
 "Per language RSS feeds are also available. Construct them by appending a "
 "language code to the URLs above."
 msgstr ""
-"Também estão disponíveis fontes de RSS por idioma, pode criá-los anexando um "
+"Feeds RSS por idioma também estão disponíveis. Construa-os anexando um "
 "código de idioma aos URLs acima."
 
 #: weblate/templates/data.html:56
