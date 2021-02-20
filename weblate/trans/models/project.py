@@ -430,7 +430,7 @@ class Project(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKeyM
 
     @cached_property
     def child_components(self):
-        return self.component_set.all() | self.shared_components.all()
+        return self.component_set.distinct() | self.shared_components.distinct()
 
     def scratch_create_component(
         self, name, slug, source_language, file_format, has_template=True, **kwargs
