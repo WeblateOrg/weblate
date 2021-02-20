@@ -34,7 +34,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.5\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-02-17 14:01+0000\n"
-"PO-Revision-Date: 2021-02-20 10:40+0000\n"
+"PO-Revision-Date: 2021-02-20 12:08+0000\n"
 "Last-Translator: nautilusx <translate@disroot.org>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "application/de/>\n"
@@ -418,6 +418,8 @@ msgid ""
 "System created user to track authorship of translations uploaded by other "
 "user."
 msgstr ""
+"Vom System erstellter Benutzer, um die Urheberschaft von Übersetzungen zu "
+"verfolgen, die von anderen Benutzern hochgeladen wurden."
 
 #: weblate/accounts/models.py:168
 msgid "Configured password to sign in."
@@ -8657,10 +8659,8 @@ msgstr ""
 "Angebots."
 
 #: weblate/templates/trans/alert/nomaskmatches.html:4
-#, fuzzy
-#| msgid "There are some alerts on this component"
 msgid "There are no translations in this component."
-msgstr "Es gibt einige Warnungen zu dieser Komponente"
+msgstr "Diese Komponente enthält keine Übersetzungen."
 
 #: weblate/templates/trans/alert/nomaskmatches.html:7
 #, python-format
@@ -8668,18 +8668,16 @@ msgid ""
 "Check whether file mask <code>%(filemask)s</code> matches files in your "
 "repository."
 msgstr ""
+"Überprüfen Sie, ob die Dateimaske <code>%(filemask)s</code> mit den Dateien "
+"in ihrem Repository übereinstimmt."
 
 #: weblate/templates/trans/alert/nomaskmatches.html:8
-#, fuzzy
-#| msgid ""
-#| "You can add a new translation string here, it will automatically appear "
-#| "in all translations."
 msgid ""
 "You can also start new translations directly in Weblate, it will create "
 "files based on the file mask."
 msgstr ""
-"Sie können hier eine neue Übersetzung hinzufügen, sie erscheint automatisch "
-"in allen Übersetzungseinheiten."
+"Sie können neue Übersetzungen auch direkt in Weblate starten, es werden dann "
+"Dateien auf Basis der Dateimaske erstellt."
 
 #: weblate/templates/trans/alert/occurrences-limit.html:4
 #, python-format
@@ -8689,7 +8687,9 @@ msgid_plural ""
 "Only part of the occurrences are shown, in total there were %(count)s of "
 "them."
 msgstr[0] ""
+"Es wird nur ein Teil der Ereignisse angezeigt, insgesamt war es %(count)s."
 msgstr[1] ""
+"Es wird nur ein Teil der Ereignisse angezeigt, insgesamt waren es %(count)s."
 
 #: weblate/templates/trans/alert/parseerror.html:4
 msgid ""
@@ -10445,10 +10445,8 @@ msgid "Unused enforced checks."
 msgstr "Nicht verwendete erzwungene Qualitätsprüfungen."
 
 #: weblate/trans/models/alert.py:360
-#, fuzzy
-#| msgid "More users matched."
 msgid "No mask matches."
-msgstr "Weitere Nutzer gefunden."
+msgstr "Keine Maske passt."
 
 #: weblate/trans/models/announcement.py:111
 msgid "Category"
