@@ -9,43 +9,33 @@ Access control
     specifically built for Weblate. If you are using anything older, please consult
     the documentation for the specific version you are using.
 
-Weblate comes with a fine-grained privilege system to assign user permissions
-for the whole instance, or in a limited scope.
+After installing Weblate, you can grant permissions to various things on the
+whole installation using :ref:`default-groups`. :ref:`acl` lets you grant
+permissions to specific translation projects. If you want to fine-tune the
+permissions you give based on groups you make yourself, you can do so
+using :ref:`custom-acl`.
 
-The permission system is based on groups and roles, where roles define a set of
-permissions, and groups assign them to users and translations, see
-:ref:`auth-model` for more details.
-
-After installation a default set of groups are created, and you can use those
-to assign users roles for the whole instance (see :ref:`default-groups`). Additionally when
-:ref:`acl` is turned on, you can assign users to specific translation projects.
-More fine-grained configuration can be achieved using :ref:`custom-acl`.
-
-Common setups
--------------
-
-Locking down Weblate
-++++++++++++++++++++
-
-To completely lock down your Weblate, you can use :setting:`REQUIRE_LOGIN` to
-force users to sign in and :setting:`REGISTRATION_OPEN` to prevent new
-registrations.
+In the permission system, roles define a set of permissions, and you can
+put users in groups that have one or more of these roles, described in
+:ref:`auth-model`.
 
 Site wide permissions
 +++++++++++++++++++++
 
-To manage permissions for a whole instance, just add users to `Users` (this is done
-by default using the :ref:`autogroup`), `Reviewers` and `Managers` groups. Keep
-all projects configured as `Public` (see :ref:`acl`).
+To manage permissions for a whole instance, just add users to 
+By default, new users get access to comment, provide suggestions, and make translations
+everywhere by being put in `Users` automatically by :ref:`autogroup`.
+You can put the users you deem fit in the `Reviewers` to let them review everything,
+and `Managers` groups to do all of the above everywhere.
+Keep all projects configured as `Public` (see :ref:`acl`).
 
 Per project permissions
 +++++++++++++++++++++++
 
-
 .. include:: /snippets/not-hosted-libre.rst
 
-Set your projects to `Protected` or `Private`, and manage users per
-project in the Weblate interface.
+Setting projects you administrate to `Protected` or `Private` lets you manage
+users per project in the Weblate interface.
 
 Custom permissions for languages, components or projects
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -53,18 +43,18 @@ Custom permissions for languages, components or projects
 .. include:: /snippets/not-hosted-libre.rst
 
 Members are granted any permissions assigned to groups they are in, so you can
-grant the user multiple permissions at once. Create groups and attach them to a project,
+grant a user multiple permissions at once. Create groups and attach them to a project,
 component, or language. You can put users in multiple groups, and permissions
 can overlap between them.
 
-Granting any selected permissions based on project, component or language
-set. To achieve this, create a new group (e.g. `Czech translators`) and
-configure it for a given resource. Any assigned permissions will be granted to
-members of that group for selected resources.
+You can for example created `Czech translators` for
+as a means of granting write access to the Glossary for Czech and any projects
+translated to this language.
 
-This will work just fine without additional setup, if using per project
-permissions. For permissions on the whole instance, you will probably also want to remove
-these permissions from the `Users` group, or change automatic assignment of all
+This will work just fine without additional setup, if using per-project
+permissions. If you want to create a group to grant permissions to everyting to
+select users only, you will probably also want to remove these permissions from
+the `Users` group, or change automatic assignment of all
 users to that group (see :ref:`autogroup`).
 
 .. seealso::
@@ -79,13 +69,13 @@ Project access control
 .. note::
 
     By turning on access control, all users are prohibited from accessing anything
-    within a given project, unless you add the permissions for them to do just that.
+    within the given project, unless you add the permissions for them to do just that.
 
 .. include:: /snippets/not-hosted-libre.rst
 
 Limit user's access to individual projects by selecting a different access
-control variation on the :guilabel:`Access` tab in the :guilabel:`Settings` of
-each respective project.  This automatically creates several groups for the
+control type from the :guilabel:`Access` tab in the :guilabel:`Settings` of
+each respective project. This automatically creates several groups for the
 project in question, see :ref:`groups`.
 
 :guilabel:`Access control` can be set to:
@@ -93,32 +83,33 @@ project in question, see :ref:`groups`.
 Public
     Publicly visible, translatable for all logged-in users
 Protected
-    Publicly visible, but translatable only for selected users
+    Publicly visible, but only translatable for selected users
 Private
-    Visible and translatable only for selected users
+    Only visible and translatable for selected users
 Custom
-    Django admin manages users instead of Weblate, see :ref:`custom-acl`.
+    The Django admin-interface manages users instead of Weblate, see :ref:`custom-acl`.
 
 .. image:: /images/project-access.png
 
-Grant access to a project by adding the privilege either directly to an user,
-or group of users in the Django admin-interface, or by using user management on
-the project page, as described in :ref:`manage-acl`.
+Grant access to a project by adding the privilege either directly to a user,
+or group of users in the Django admin-interface, or by using `User management`
+from the project page in question, as described in :ref:`manage-acl`.
 
 .. note::
 
     Even with access control turned on, some info will be available about your
     project:
 
-    * Statistics for the whole instance, including counts for all projects.
-    * Language summary for the whole instance, including counts for all projects.
+    * Statistics for the whole site, including the number of projects on it.
+    * Language summary for the whole site, including counts for all projects.
+    * The VCS project repository address, even if it is a private prepository.
 
 .. _autogroup:
 
 Automatic group assignments
 ---------------------------
 
-From the :guilabel:`Authentication` in the Django admin interface,
+From the :guilabel:`Authentication` in the Django admin-interface,
 users can be assigned to groups [you want this for] automatically based
 on their e-mail addresses. This only happens upon account creation.
 
@@ -139,8 +130,7 @@ The authentication models consist of several objects:
     Individual permissions defined by Weblate. Permissions can not be
     assigned to users. This can only be done through assignment of roles.
 `Role`
-    A Role defines a set of permissions. This allows reuse of these sets in
-    several places, making the administration easier.
+    A role defines a set of permissions, and can be reused in several places.
 `User`
     Users can belong to several groups.
 `Group`
@@ -165,9 +155,9 @@ The authentication models consist of several objects:
 Permission checking
 +++++++++++++++++++
 
-Whenever a permission is checked to decide whether one is able to perform a
-given action, the check is carried out according to scope, and the following
-checks are performed in this order:
+Whenever a permission is checked to decide whether the user is able to
+perform a given action, the check is carried out according to scope, and
+the following checks are performed in this order:
 
 1. The group :guilabel:`Component list` is matched against accessed component or project (for project-level access).
 
@@ -214,7 +204,7 @@ Managing users and groups
 -------------------------
 
 All users and the various groups they are in can be managed using the
-Django admin interface available, which you can get to by appending
+Django admin-interface available, which you can get to by appending
 :file:`/admin/` to the Weblate site URL.
 
 .. _manage-acl:
@@ -309,7 +299,7 @@ using the Django admin-interface instead of the one in Weblate.
 
 If you want to do this by default for all current and new projects, configure the
 :setting:`DEFAULT_ACCESS_CONTROL` to administrate all permissions and relations using
-the Django admin interface.
+the Django admin-interface.
 
 .. warning::
 
@@ -510,3 +500,10 @@ however re-create them if you delete or rename them.
     Never remove the predefined Weblate groups and users, as this can lead to
     unexpected problems. If you have no use for them, you can removing all their
     privileges instead.
+    
+Locking down Weblate
+++++++++++++++++++++
+
+If you experience problems with malice on your Weblate installation,
+you can use :setting:`REQUIRE_LOGIN` to require users to sign in and
+:setting:`REGISTRATION_OPEN` to prevent any new registrations.
