@@ -82,16 +82,16 @@
 <table class="table">
 <tr>
 <th>{% trans "Projects" context "Number of projects" %}</th>
-<td class="number">{{ total_projects|intcomma }}</td>
+<td class="number">{{ metrics.projects|intcomma }}</td>
 </tr>
 <tr>
 <th>{% trans "Components" context "Number of components" %}</th>
-<td class="number">{{ total_components|intcomma }}</td>
+<td class="number">{{ metrics.components|intcomma }}</td>
 </tr>
 {% include "snippets/stats.html" %}
 <tr>
 <th>{% trans "Registered users" %}</th>
-<td class="number">{{ total_users|intcomma }}</td>
+<td class="number">{{ metrics.users|intcomma }}</td>
 </tr>
 <tr>
 <th>{% trans "Suggestions made" %}</th>
@@ -103,11 +103,11 @@
 </tr>
 <tr>
 <th>{% trans "Failing checks found" %}</th>
-<td class="number">{{ total_checks|intcomma }}</td>
+<td class="number">{{ metrics.allchecks|intcomma }}</td>
 </tr>
 <tr>
 <th>{% trans "Dismissed checks" %}</th>
-<td class="number">{{ dismissed_checks|intcomma }}</td>
+<td class="number">{{ metrics.dismissed_checks|intcomma }}</td>
 </tr>
 </table>
 </div>

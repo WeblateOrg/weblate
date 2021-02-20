@@ -22,8 +22,7 @@ from django.utils.translation import gettext_lazy as _
 from django.views.generic import TemplateView
 
 from weblate.accounts.models import Profile
-from weblate.checks.models import Check
-from weblate.trans.models import Component, Project
+from weblate.metrics.models import Metric
 from weblate.utils.requirements import get_versions_list
 from weblate.utils.stats import GlobalStats
 from weblate.vcs.gpg import get_gpg_public_key, get_gpg_sign_key
@@ -73,15 +72,13 @@ class StatsView(AboutView):
         totals = Profile.objects.aggregate(
             Sum("translated"), Sum("suggested"), Count("id")
         )
+        metrics = Metric.objects.get_current(Metric.SCOPE_GLOBAL, 0)
 
         context["total_translations"] = totals["translated__sum"]
         context["total_suggestions"] = totals["suggested__sum"]
         context["total_users"] = totals["id__count"]
         context["stats"] = stats
-        context["total_checks"] = Check.objects.count()
-        context["total_projects"] = Project.objects.count()
-        context["total_components"] = Component.objects.count()
-        context["dismissed_checks"] = Check.objects.filter(dismissed=True).count()
+        context["metrics"] = metrics
 
         top_translations = Profile.objects.order_by("-translated")[:10]
         top_suggestions = Profile.objects.order_by("-suggested")[:10]

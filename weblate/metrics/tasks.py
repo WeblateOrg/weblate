@@ -37,6 +37,8 @@ BASIC_KEYS = {
     "approved_words",
     "allchecks",
     "allchecks_words",
+    "dismissed_checks",
+    "dismissed_checks_words",
     "suggestions",
     "suggestions_words",
     "comments",
