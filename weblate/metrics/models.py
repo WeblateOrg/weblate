@@ -16,7 +16,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
-from datetime import date
+from datetime import date, timedelta
 
 from django.db import models
 
@@ -25,12 +25,24 @@ class MetricQuerySet(models.QuerySet):
     def get_current(self, scope: int, relation: int, **kwargs):
         from weblate.metrics.tasks import collect_global
 
+        # Get todays stats
         data = dict(
             self.filter(
                 scope=scope, relation=relation, date=date.today(), **kwargs
             ).values_list("name", "value")
         )
         if not data:
+            # Fallback to yesterday in case they are not yet calculated
+            data = dict(
+                self.filter(
+                    scope=scope,
+                    relation=relation,
+                    date=date.today() - timedelta(days=1),
+                    **kwargs,
+                ).values_list("name", "value")
+            )
+        if not data:
+            # Trigger collection in case no data is present
             collect_global()
             return self.get_current(scope, relation, **kwargs)
         return data
