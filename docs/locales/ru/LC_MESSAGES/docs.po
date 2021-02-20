@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-02-17 15:02+0100\n"
-"PO-Revision-Date: 2021-02-18 14:50+0000\n"
-"Last-Translator: narrnika <narr13niki@gmail.com>\n"
+"PO-Revision-Date: 2021-02-20 12:08+0000\n"
+"Last-Translator: Golubev Alexander <fatzer2@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/"
 "documentation/ru/>\n"
 "Language: ru\n"
@@ -184,9 +184,9 @@ msgid ""
 "anything within a given project, unless you add the permissions for them to "
 "do just that."
 msgstr ""
-"При включении списков контроля доступа всем пользователям запрещается доступ "
-"к чему бы то ни было в пределах данного проекта, если только вы не добавите "
-"для них соответствующие разрешения."
+"При включении одного из режимов с контролем доступа всем пользователям "
+"запрещается доступ к чему бы то ни было в пределах данного проекта, если "
+"только вы не добавите для них соответствующие разрешения."
 
 #: ../../admin/access.rst:86
 msgid ""
@@ -196,10 +196,9 @@ msgid ""
 "the project in question, see :ref:`groups`."
 msgstr ""
 "Вы можете ограничить доступ пользователей к определённым проектам на вкладке "
-":guilabel:`Доступ` в настройках (смотрите раздел :guilabel:`Параметры`) "
-"каждого отдельного проекта. При выборе уровней доступа для проекта будет "
-"автоматически создано несколько групп, подробнее смотрите в разделе "
-":ref:`groups`."
+":guilabel:`Доступ` в настройках (:guilabel:`Параметры`) каждого отдельного "
+"проекта. При выборе уровня доступа для проекта будет автоматически создано "
+"несколько групп, подробнее смотрите в разделе :ref:`groups`."
 
 #: ../../admin/access.rst:91
 msgid ":guilabel:`Access control` can be set to:"
@@ -258,7 +257,7 @@ msgid ""
 "project:"
 msgstr ""
 "Даже при включённом контроле доступа о вашем проекте будет доступна "
-"следующая краткая информация:"
+"следующая информация:"
 
 #: ../../admin/access.rst:113
 msgid "Statistics for the whole instance, including counts for all projects."
@@ -285,8 +284,8 @@ msgid ""
 msgstr ""
 "В разделе :guilabel:`Аутентификация` интерфейса администратора Django можно "
 "настроить автоматическое назначение групп пользователям (в которые вы хотите "
-"их включать), происходящее на основе их адресов электронной почты. Такое "
-"автоматическое назначение происходит только при создании учётной записи."
+"их включать) на основе их адресов электронной почты. Такое автоматическое "
+"назначение происходит только при создании учётной записи."
 
 #: ../../admin/access.rst:127
 msgid ""
@@ -294,10 +293,10 @@ msgid ""
 "during migrations. If you want to turn it off, set the regular expression to "
 "``^$`` (which will never match)."
 msgstr ""
-"При выполнении миграций автоматическое назначение групп `Пользователи` и "
+"При выполнении миграций автоматическое назначение для групп `Пользователи` и "
 "`Просматривающие` всегда создаётся заново. В случае, если вы хотите его "
-"отключить, просто задайте для них регулярное выражение ``^$`` (по которому "
-"никогда ничего не найдётся)."
+"отключить, просто задайте для него регулярное выражение ``^$`` (которому не "
+"будет сопоставлена ни одна строка)."
 
 #: ../../admin/access.rst:134
 msgid "Users, roles, groups and permissions"
@@ -316,8 +315,9 @@ msgid ""
 "Individual permissions defined by Weblate. Permissions can not be assigned "
 "to users. This can only be done through assignment of roles."
 msgstr ""
-"Индивидуальные разрешения, определённые Weblate. Разрешения нельзя назначать "
-"пользователям. Их можно назначать только через назначение ролей."
+"Индивидуальные разрешения, определённые в самом Weblate. Разрешения нельзя "
+"назначать непосредственно пользователям: это можно сделать только через "
+"назначение ролей."
 
 #: ../../admin/access.rst:142
 msgid "`Role`"
@@ -328,8 +328,8 @@ msgid ""
 "A Role defines a set of permissions. This allows reuse of these sets in "
 "several places, making the administration easier."
 msgstr ""
-"Роль определяет набор разрешений. Она позволяет повторно использовать эти "
-"наборы в нескольких местах, упрощая их администрирование."
+"Роль определяет набор разрешений. Она позволяет использовать эти наборы "
+"повторно в разных местах, что упрощает их администрирование."
 
 #: ../../admin/access.rst:144
 msgid "`User`"
@@ -370,16 +370,16 @@ msgid ""
 "The group :guilabel:`Component list` is matched against accessed component "
 "or project (for project-level access)."
 msgstr ""
-"Группа :guilabel:`Список компонентов` сопоставляется компоненту или проекту ("
-"для доступов уровня проекта), к которому происходит доступ."
+"Группа :guilabel:`Список компонентов`сопоставляется компоненту (или проекту, "
+"для уровня проекта), к которому происходит доступ."
 
 #: ../../admin/access.rst:174
 msgid ""
 "The group :guilabel:`Components` is matched against accessed component or "
 "project (for project-level access)."
 msgstr ""
-"Группа :guilabel:`Компоненты` сопоставляется компоненту или проекту (для "
-"доступов уровня проекта), к которому происходит доступ."
+"Группа :guilabel:`Компоненты` сопоставляется компоненту (или проекту, для "
+"уровня проекта), к которому происходит доступ."
 
 #: ../../admin/access.rst:176
 msgid "The group :guilabel:`Projects` is matched against accessed project."
@@ -440,10 +440,10 @@ msgid ""
 "group, see :ref:`default-groups`)."
 msgstr ""
 "Пользователь должен быть членом группы, связанной с проектом или с каким-"
-"либо компонентом внутри проекта. Чтобы получить доступ к проекту, никаких "
+"либо компонентом внутри проекта. Чтобы получить к нему доступ, никаких "
 "специальных разрешений не требуется, достаточно только членства в группе ("
-"это факт используется умолчательной группой `Просматривающие`, смотрите "
-"раздел :ref:`default-groups`)."
+"этот факт используется для создаваемой по умолчанию группы `Просматривающие`"
+", смотрите раздел :ref:`default-groups`)."
 
 #: ../../admin/access.rst:205
 msgid "Checking access to a component"
@@ -472,9 +472,9 @@ msgid ""
 "admin interface available, which you can get to by appending :file:`/admin/` "
 "to the Weblate site URL."
 msgstr ""
-"Пользователями и различными группами, в которых они состоят, можно управлять "
+"Пользователями и различными группами, в которые они входят, можно управлять "
 "через интерфейс администратора Django, доступ к которому вы можете получить, "
-"добавив к адресу сайта Weblate часть :file:`/admin/`."
+"добавив к URL-адресу Weblate :file:`/admin/`."
 
 #: ../../admin/access.rst:223
 msgid "Managing per-project access control"
@@ -484,8 +484,8 @@ msgstr "По-проектная настройка доступа"
 msgid ""
 "This feature only works for projects using access control, see :ref:`acl`."
 msgstr ""
-"Эта возможность работает только для проектов, использующих списки контроля "
-"доступа, смотрите раздел :ref:`acl`."
+"Эта возможность работает только для проектов, использующих контроль доступа, "
+"смотрите раздел :ref:`acl`."
 
 #: ../../admin/access.rst:229
 msgid ""
@@ -519,15 +519,15 @@ msgid ""
 "Resend the e-mail for user invitations (invalidating any previously sent "
 "invitation)"
 msgstr ""
-"Повторно отправлять по электронной почте приглашения пользователям (при этом "
+"Повторная отправка приглашения пользователям по электронной почте (при этом "
 "аннулируются все ранее отправленные приглашения)"
 
 #: ../../admin/access.rst:242
 msgid ""
 "User management is available in the :guilabel:`Manage` menu of any project:"
 msgstr ""
-"Управление пользователями доступно через меню :guilabel:`Управлять` любого "
-"проекта:"
+"Управление пользователями доступно через пункт меню :guilabel:`Управлять` "
+"соответстствующего проекта:"
 
 #: ../../admin/access.rst:248
 msgid ":ref:`acl`"
@@ -608,7 +608,7 @@ msgid ""
 msgstr ""
 "Для получения доступа к дополнительным настройкам контроля доступа в проекте "
 "можно установить параметр :guilabel:`Управление доступом` в значение "
-":guilabel:`Настраиваемый`, чтобы переключиться на использование интерфейса "
+":guilabel:`Настраиваемый`, чтобы использовать для этого интерфейс "
 "администратора Django вместо интерфейса самого Weblate’а."
 
 #: ../../admin/access.rst:310
@@ -617,9 +617,10 @@ msgid ""
 "configure the :setting:`DEFAULT_ACCESS_CONTROL` to administrate all "
 "permissions and relations using the Django admin interface."
 msgstr ""
-"Если вы хотите, чтобы это делалось по умолчанию для всех текущих и новых "
-"проектов, настройте параметр :setting:`DEFAULT_ACCESS_CONTROL` на управление "
-"всеми разрешениями и отношениями через интерфейс администратора Django."
+"Если вы хотите, чтобы так было по умолчанию для всех существующих и новых "
+"проектов, то измените параметр :setting:`DEFAULT_ACCESS_CONTROL`, чтобы "
+"управление всеми разрешениями и отношениями происходило через интерфейс "
+"администратора Django."
 
 #: ../../admin/access.rst:316
 msgid ""
@@ -644,8 +645,8 @@ msgid ""
 "own set of permissions."
 msgstr ""
 "Эти роли и группы создаются во время установки. Встроенные роли всегда "
-"поддерживаются в актуальном состоянии применением миграций базы данных при "
-"обновлении. Пользовательские изменения при этом теряются. Если вы хотите "
+"приводятся в актуальное состояние при процессе миграции базы данных во время "
+"обновления. Пользовательские изменения при этом теряются. Если вы хотите "
 "создать свой собственный набор разрешений, определите для этого новую роль."
 
 #: ../../admin/access.rst:330
@@ -821,8 +822,8 @@ msgid ""
 "Ignore failing check [`Administration`, `Edit source`, `Power user`, `Review "
 "strings`, `Translate`]"
 msgstr ""
-"Игнорирование проваленных проверок [`Администрирование`, `Правка источника`, "
-"`Опытный пользователь`, `Рецензирование строк`, `Перевод`]"
+"Игнорирование неудачных проверок [`Администрирование`, `Правка источника`, `"
+"Опытный пользователь`, `Рецензирование строк`, `Перевод`]"
 
 #: ../../admin/access.rst:393
 msgid ""
@@ -1101,8 +1102,9 @@ msgid ""
 "By default :ref:`autogroup` makes all new accounts members of this group "
 "when they join."
 msgstr ""
-"По умолчанию параметр :ref:`autogroup` делает так, что все новые учётные "
-"записи при присоединении становятся членами этой группы."
+"По умолчанию :ref:`автоматическое прикрепление групп <autogroup>` делает "
+"так, что все новые учётные записи при регистрации становятся членами этой "
+"группы."
 
 #: ../../admin/access.rst:489
 msgid "Default roles: none"
@@ -37189,20 +37191,16 @@ msgid "Navigate to first translation in current search."
 msgstr "Переход к первому переводу в текущем поиске."
 
 #: ../../user/translating.rst:160
-#, fuzzy
-#| msgid ":kbd:`Alt End`"
 msgid ":kbd:`Alt+End`"
-msgstr ":kbd:`Alt End`"
+msgstr ":kbd:`Alt+End`"
 
 #: ../../user/translating.rst:160
 msgid "Navigate to last translation in current search."
 msgstr "Переход к последнему переводу в текущем поиске."
 
 #: ../../user/translating.rst:162
-#, fuzzy
-#| msgid ":kbd:`Alt PageUp` or"
 msgid ":kbd:`Alt+PageUp` or"
-msgstr ":kbd:`Alt PageUp` или"
+msgstr ":kbd:`Alt+PageUp` или"
 
 #: ../../user/translating.rst:164
 msgid ":kbd:`Ctrl ↑` or"
@@ -37221,66 +37219,48 @@ msgid "Navigate to previous translation in current search."
 msgstr "Переход к предыдущему переводу в текущем поиске."
 
 #: ../../user/translating.rst:170
-#, fuzzy
-#| msgid ":kbd:`Alt PageDown` or"
 msgid ":kbd:`Alt+PageDown` or"
-msgstr ":kbd:`Alt PageDown` или"
+msgstr ":kbd:`Alt+PageDown` или"
 
 #: ../../user/translating.rst:172
-#, fuzzy
-#| msgid ":kbd:`Ctrl ↓` or"
 msgid ":kbd:`Ctrl+↓` or"
-msgstr ":kbd:`Ctrl ↓` или"
+msgstr ":kbd:`Ctrl+↓` или"
 
 #: ../../user/translating.rst:174
-#, fuzzy
-#| msgid ":kbd:`Alt ↓` or"
 msgid ":kbd:`Alt+↓` or"
-msgstr ":kbd:`Alt ↓` или"
+msgstr ":kbd:`Alt+↓` или"
 
 #: ../../user/translating.rst:176
-#, fuzzy
-#| msgid ":kbd:`Cmd ↓`"
 msgid ":kbd:`Cmd+↓`"
-msgstr ":kbd:`Cmd ↓`"
+msgstr ":kbd:`Cmd+↓`"
 
 #: ../../user/translating.rst:170
 msgid "Navigate to next translation in current search."
 msgstr "Переход к последующему переводу в текущем поиске."
 
 #: ../../user/translating.rst:178
-#, fuzzy
-#| msgid ":kbd:`Alt Enter` or"
 msgid ":kbd:`Alt+Enter` or"
-msgstr ":kbd:`Alt Enter` или"
+msgstr ":kbd:`Alt+Enter` или"
 
 #: ../../user/translating.rst:180
-#, fuzzy
-#| msgid ":kbd:`Ctrl Enter` or"
 msgid ":kbd:`Ctrl+Enter` or"
-msgstr ":kbd:`Ctrl Enter` или"
+msgstr ":kbd:`Ctrl+Enter` или"
 
 #: ../../user/translating.rst:182
-#, fuzzy
-#| msgid ":kbd:`Cmd Enter`"
 msgid ":kbd:`Cmd+Enter`"
-msgstr ":kbd:`Cmd Enter`"
+msgstr ":kbd:`Cmd+Enter`"
 
 #: ../../user/translating.rst:178
 msgid "Save current translation."
 msgstr "Сохранение текущего перевода."
 
 #: ../../user/translating.rst:184
-#, fuzzy
-#| msgid ":kbd:`Ctrl Shift Enter` or"
 msgid ":kbd:`Ctrl+Shift+Enter` or"
-msgstr ":kbd:`Ctrl Shift Enter` или"
+msgstr ":kbd:`Ctrl+Shift+Enter` или"
 
 #: ../../user/translating.rst:186
-#, fuzzy
-#| msgid ":kbd:`Cmd Shift Enter`"
 msgid ":kbd:`Cmd+Shift+Enter`"
-msgstr ":kbd:`Cmd Shift Enter`"
+msgstr ":kbd:`Cmd+Shift+Enter`"
 
 #: ../../user/translating.rst:184
 #, fuzzy
@@ -37289,48 +37269,36 @@ msgid "Unmark translation as needing edit and submit it."
 msgstr "Снятие с перевода пометки «на правку» и его сохранение."
 
 #: ../../user/translating.rst:188
-#, fuzzy
-#| msgid ":kbd:`Ctrl E` or"
 msgid ":kbd:`Ctrl+E` or"
-msgstr ":kbd:`Ctrl E` или"
+msgstr ":kbd:`Ctrl+E` или"
 
 #: ../../user/translating.rst:190
-#, fuzzy
-#| msgid ":kbd:`Cmd E`"
 msgid ":kbd:`Cmd+E`"
-msgstr ":kbd:`Cmd E`"
+msgstr ":kbd:`Cmd+E`"
 
 #: ../../user/translating.rst:188
 msgid "Focus translation editor."
 msgstr "Фокусировка на редакторе перевода."
 
 #: ../../user/translating.rst:192
-#, fuzzy
-#| msgid ":kbd:`Ctrl U` or"
 msgid ":kbd:`Ctrl+U` or"
-msgstr ":kbd:`Ctrl U` или"
+msgstr ":kbd:`Ctrl+U` или"
 
 #: ../../user/translating.rst:194
-#, fuzzy
-#| msgid ":kbd:`Cmd U`"
 msgid ":kbd:`Cmd+U`"
-msgstr ":kbd:`Cmd U`"
+msgstr ":kbd:`Cmd+U`"
 
 #: ../../user/translating.rst:192
 msgid "Focus comment editor."
 msgstr "Фокусировка на редакторе комментариев."
 
 #: ../../user/translating.rst:196
-#, fuzzy
-#| msgid ":kbd:`Ctrl M` or"
 msgid ":kbd:`Ctrl+M` or"
-msgstr ":kbd:`Ctrl M` или"
+msgstr ":kbd:`Ctrl+M` или"
 
 #: ../../user/translating.rst:198
-#, fuzzy
-#| msgid ":kbd:`Cmd M`"
 msgid ":kbd:`Cmd+M`"
-msgstr ":kbd:`Cmd M`"
+msgstr ":kbd:`Cmd+M`"
 
 #: ../../user/translating.rst:196
 msgid ""
@@ -37340,80 +37308,60 @@ msgstr ""
 "translation`."
 
 #: ../../user/translating.rst:200
-#, fuzzy
-#| msgid ":kbd:`Ctrl 1` to :kbd:`Ctrl 9` or"
 msgid ":kbd:`Ctrl+1` to :kbd:`Ctrl+9` or"
-msgstr ":kbd:`Ctrl 1` — :kbd:`Ctrl 9` или"
+msgstr ":kbd:`Ctrl+1` — :kbd:`Ctrl+9` или"
 
 #: ../../user/translating.rst:202
-#, fuzzy
-#| msgid ":kbd:`Cmd 1` to :kbd:`Cmd 9`"
 msgid ":kbd:`Cmd+1` to :kbd:`Cmd+9`"
-msgstr ":kbd:`Cmd 1` — :kbd:`Cmd 9`"
+msgstr ":kbd:`Cmd+1` — :kbd:`Cmd+9`"
 
 #: ../../user/translating.rst:200
 msgid "Copies placeable of given number from source string."
 msgstr "Копирование из исходной строки кусочка под соответствующим номером."
 
 #: ../../user/translating.rst:204
-#, fuzzy
-#| msgid ":kbd:`Ctrl M` :kbd:`1` to :kbd:`9` or"
 msgid ":kbd:`Ctrl+M`+:kbd:`1` to :kbd:`9` or"
-msgstr ":kbd:`Ctrl M` :kbd:`1` — :kbd:`9` или"
+msgstr ":kbd:`Ctrl+M`+:kbd:`1` — :kbd:`9` или"
 
 #: ../../user/translating.rst:206
-#, fuzzy
-#| msgid ":kbd:`Cmd M` :kbd:`1` to :kbd:`9`"
 msgid ":kbd:`Cmd+M`+:kbd:`1` to :kbd:`9`"
-msgstr ":kbd:`Cmd M` :kbd:`1` — :kbd:`9`"
+msgstr ":kbd:`Cmd+M`+:kbd:`1` — :kbd:`9`"
 
 #: ../../user/translating.rst:204
 msgid "Copy the machine translation of given number to current translation."
 msgstr "Копирование в текущий перевод машинного перевода с заданным номером."
 
 #: ../../user/translating.rst:208
-#, fuzzy
-#| msgid ":kbd:`Ctrl I` :kbd:`1` to :kbd:`9` or"
 msgid ":kbd:`Ctrl+I`+:kbd:`1` to :kbd:`9` or"
-msgstr ":kbd:`Ctrl I` :kbd:`1` — :kbd:`9` или"
+msgstr ":kbd:`Ctrl+I`+:kbd:`1` — :kbd:`9` или"
 
 #: ../../user/translating.rst:210
-#, fuzzy
-#| msgid ":kbd:`Cmd I` :kbd:`1` to :kbd:`9`"
 msgid ":kbd:`Cmd+I`+:kbd:`1` to :kbd:`9`"
-msgstr ":kbd:`Cmd I` :kbd:`1` — :kbd:`9`"
+msgstr ":kbd:`Cmd+I`+:kbd:`1` — :kbd:`9`"
 
 #: ../../user/translating.rst:208
 msgid "Ignore one item in the list of failing checks."
-msgstr "Игнорирование одного элемента в списке проваленных проверок."
+msgstr "Игнорирование одного элемента в списке неудачных проверок."
 
 #: ../../user/translating.rst:212
-#, fuzzy
-#| msgid ":kbd:`Ctrl J` or"
 msgid ":kbd:`Ctrl+J` or"
-msgstr ":kbd:`Ctrl J` или"
+msgstr ":kbd:`Ctrl+J` или"
 
 #: ../../user/translating.rst:214
-#, fuzzy
-#| msgid ":kbd:`Cmd J`"
 msgid ":kbd:`Cmd+J`"
-msgstr ":kbd:`Cmd J`"
+msgstr ":kbd:`Cmd+J`"
 
 #: ../../user/translating.rst:212
 msgid "Shows the :guilabel:`Nearby strings` tab."
 msgstr "Показ вкладки :guilabel:`Соседние строки`."
 
 #: ../../user/translating.rst:216
-#, fuzzy
-#| msgid ":kbd:`Ctrl S` or"
 msgid ":kbd:`Ctrl+S` or"
-msgstr ":kbd:`Ctrl S` или"
+msgstr ":kbd:`Ctrl+S` или"
 
 #: ../../user/translating.rst:218
-#, fuzzy
-#| msgid ":kbd:`Cmd S`"
 msgid ":kbd:`Cmd+S`"
-msgstr ":kbd:`Cmd S`"
+msgstr ":kbd:`Cmd+S`"
 
 #: ../../user/translating.rst:216
 #, fuzzy
@@ -37422,16 +37370,12 @@ msgid "Focus search field."
 msgstr "Фокусировка на поле поиска."
 
 #: ../../user/translating.rst:220
-#, fuzzy
-#| msgid ":kbd:`Ctrl O` or"
 msgid ":kbd:`Ctrl+O` or"
-msgstr ":kbd:`Ctrl O` или"
+msgstr ":kbd:`Ctrl+O` или"
 
 #: ../../user/translating.rst:222
-#, fuzzy
-#| msgid ":kbd:`Cmd O`"
 msgid ":kbd:`Cmd+O`"
-msgstr ":kbd:`Cmd O`"
+msgstr ":kbd:`Cmd+O`"
 
 #: ../../user/translating.rst:220
 #, fuzzy
@@ -37440,16 +37384,12 @@ msgid "Copy source string."
 msgstr "Копирование исходной строки."
 
 #: ../../user/translating.rst:224
-#, fuzzy
-#| msgid ":kbd:`Ctrl Y` or"
 msgid ":kbd:`Ctrl+Y` or"
-msgstr ":kbd:`Ctrl Y` или"
+msgstr ":kbd:`Ctrl+Y` или"
 
 #: ../../user/translating.rst:226
-#, fuzzy
-#| msgid ":kbd:`Cmd Y`"
 msgid ":kbd:`Cmd+Y`"
-msgstr ":kbd:`Cmd Y`"
+msgstr ":kbd:`Cmd+Y`"
 
 #: ../../user/translating.rst:224
 #, fuzzy
@@ -39400,19 +39340,14 @@ msgid "Turning on reviews"
 msgstr "Включение рецензирования"
 
 #: ../../workflows.rst:159
-#, fuzzy
-#| msgid ""
-#| "Reviews can be turned on in the project configuration, from the :guilabel:"
-#| "`Workflow` subpage of project settings (to be found in the :guilabel:"
-#| "`Manage` → `Settings` menu):"
 msgid ""
 "Reviews can be turned on in the project configuration, from the :guilabel:"
 "`Workflow` subpage of project settings (to be found in the :guilabel:"
 "`Manage` → :guilabel:`Settings` menu):"
 msgstr ""
-"Рецензирование можно включить в настройках проекта, на вкладке :guilabel:"
-"`Рабочий процесс` параметров (перейдите в :guilabel:`Управлять` → :guilabel:"
-"`Параметры` в меню проекта):"
+"Рецензирование можно включить в настройках проекта, на вкладке :guilabel:`"
+"Рабочий процесс` параметров проекта (:guilabel:`Управлять` → "
+":guilabel:`Параметры` в меню проекта):"
 
 #: ../../workflows.rst:167
 msgid ""
