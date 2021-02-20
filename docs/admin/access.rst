@@ -203,7 +203,7 @@ Managing users and groups
 -------------------------
 
 All users and the various groups they are in can be managed using the
-Django admin-interface available, which you can get to by appending
+available Django admin-interface, which you can get to by appending
 :file:`/admin/` to the Weblate site URL.
 
 .. _manage-acl:
