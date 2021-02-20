@@ -22,7 +22,7 @@ put users in groups that have one or more of these roles, described in
 Site wide permissions
 +++++++++++++++++++++
 
-To manage permissions for a whole instance, just add users to 
+To manage permissions for a whole instance, just add users to
 By default, new users get access to comment, provide suggestions, and make translations
 everywhere by being put in `Users` automatically by :ref:`autogroup`.
 You can put the users you deem fit in the `Reviewers` to let them review everything,
@@ -500,7 +500,7 @@ however re-create them if you delete or rename them.
     Never remove the predefined Weblate groups and users, as this can lead to
     unexpected problems. If you have no use for them, you can removing all their
     privileges instead.
-    
+
 Locking down Weblate
 ++++++++++++++++++++
 
