@@ -7,14 +7,14 @@
 # anonymous <noreply@weblate.org>, 2019.
 # Alexander Danilov <git@modos189.ru>, 2020.
 # Anonymous <noreply@weblate.org>, 2020.
-# Martin Srebotnjak <miles@filmsi.net>, 2020.
+# Martin Srebotnjak <miles@filmsi.net>, 2020, 2021.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.5\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-02-17 14:01+0000\n"
-"PO-Revision-Date: 2021-02-04 23:47+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2021-02-22 07:17+0000\n"
+"Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <https://hosted.weblate.org/projects/weblate/"
 "application/sl/>\n"
 "Language: sl\n"
@@ -23,7 +23,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n"
 "%100==4 ? 2 : 3;\n"
-"X-Generator: Weblate 4.5-dev\n"
+"X-Generator: Weblate 4.5\n"
 
 #: weblate/accounts/avatar.py:103
 msgctxt "No known user"
@@ -170,10 +170,8 @@ msgid "Use default setting"
 msgstr "Uporabi privzeto nastavitev"
 
 #: weblate/accounts/forms.py:666
-#, fuzzy
-#| msgid "Watched projects"
 msgid "Other projects"
-msgstr "Spremljani projekti"
+msgstr "Drugi projekti"
 
 #: weblate/accounts/forms.py:668 weblate/accounts/models.py:475
 #: weblate/templates/accounts/profile.html:67
@@ -194,15 +192,10 @@ msgid "Component: {}"
 msgstr "Komponenta: {}"
 
 #: weblate/accounts/forms.py:679
-#, fuzzy
-#| msgid ""
-#| "You will receive a notification for every such event in your watched "
-#| "projects."
 msgid ""
 "You will receive a notification for every such event in non-watched projects."
 msgstr ""
-"Prejeli boste obvestilo ob vsakem takšnem dogodku v vaših spremljanih "
-"projektih."
+"Prejeli boste obvestilo ob vsakem takšnem dogodku v ne spremljanih projektih."
 
 #: weblate/accounts/forms.py:684
 msgid ""
@@ -233,16 +226,12 @@ msgstr ""
 "Prejeli boste obvestilo ob vsakem takšnem dogodku v komponenti %(component)s."
 
 #: weblate/accounts/forms.py:704
-#, fuzzy
-#| msgid ""
-#| "You will only receive these notifications for your translated languages "
-#| "in your watched projects."
 msgid ""
 "You will only receive these notifications for your translated languages in "
 "non-watched projects."
 msgstr ""
-"Ta obvestila boste prejemali samo za vaše prevedene jezike v vaših "
-"spremljanih projektih."
+"Ta obvestila boste prejemali samo za svoje prevodne jezike v ne spremljanih "
+"projektih."
 
 #: weblate/accounts/forms.py:709
 msgid ""
@@ -305,10 +294,8 @@ msgid "Screenshots uploaded"
 msgstr "Zaslonski posnetki naloženi"
 
 #: weblate/accounts/forms.py:792
-#, fuzzy
-#| msgid "Changing version control system is not supported!"
 msgid "Chosen sorting is not supported."
-msgstr "Spreminjanje sistema za nadzor različic ni podprto!"
+msgstr "Izbrano razvrščanje ni podprto."
 
 #: weblate/accounts/models.py:141
 msgid "Password changed."
@@ -396,7 +383,7 @@ msgstr "Faza preizkušanja se je začela."
 #: weblate/accounts/models.py:159
 #, python-brace-format
 msgid "Sent confirmation mail to {email}."
-msgstr ""
+msgstr "Potrditveno e-sporočilo poslano na {email}."
 
 #: weblate/accounts/models.py:161
 msgid ""
@@ -896,7 +883,7 @@ msgstr ""
 #: weblate/accounts/views.py:563 weblate/templates/accounts/hosting.html:54
 #: weblate/templates/accounts/trial.html:7
 msgid "Gratis trial"
-msgstr ""
+msgstr "Brezplačen preizkus"
 
 #: weblate/accounts/views.py:657 weblate/templates/403.html:15
 #: weblate/templates/404.html:16 weblate/templates/accounts/login.html:8
@@ -1329,11 +1316,8 @@ msgid "Threshold for removal. This field has no effect with voting turned off."
 msgstr ""
 
 #: weblate/addons/forms.py:238
-#, fuzzy
-#| msgid "Regular expression which is used to match user email."
 msgid "Regular expression to match translation files against"
-msgstr ""
-"Regularni izraz, uporabljen za ujemanje uporabnikovega e-poštnega naslova."
+msgstr "Regularni izraz za ujemanje s prevajalnimi datotekami"
 
 #: weblate/addons/forms.py:241
 #: weblate/templates/trans/alert/unsupportedconfiguration.html:15
@@ -1417,10 +1401,8 @@ msgid "Translation threshold"
 msgstr "Prag prevoda"
 
 #: weblate/addons/forms.py:409
-#, fuzzy
-#| msgid "Base file for new translations"
 msgid "Threshold for inclusion of translations."
-msgstr "Temeljna datoteka za nove prevode"
+msgstr "Prag za vključitev prevodov."
 
 #: weblate/addons/forms.py:412
 #, fuzzy
@@ -1478,10 +1460,8 @@ msgid "String suffix"
 msgstr "Nizi"
 
 #: weblate/addons/forms.py:478
-#, fuzzy
-#| msgid "You need to log in to be able to save translations!"
 msgid "The source and target have to be different languages."
-msgstr "Za shranjevanje prevodov se morate prijaviti!"
+msgstr "Izvorni in ciljni jezik morata biti različna."
 
 #: weblate/addons/generate.py:34
 msgid "Statistics generator"
@@ -14044,18 +14024,16 @@ msgid "Community support"
 msgstr "Podpora skupnosti"
 
 #: weblate/wladmin/models.py:66
-#, fuzzy
-#| msgid "Hosting site"
 msgid "Hosted service"
-msgstr "Gostiteljska stran"
+msgstr "Storitev gostovanja"
 
 #: weblate/wladmin/models.py:67
 msgid "Basic self-hosted support"
-msgstr ""
+msgstr "Osnovna podpora samogostovanja"
 
 #: weblate/wladmin/models.py:68
 msgid "Extended self-hosted support"
-msgstr ""
+msgstr "Razširjena podpora za samogostovanje"
 
 #: weblate/wladmin/models.py:130
 #, fuzzy
