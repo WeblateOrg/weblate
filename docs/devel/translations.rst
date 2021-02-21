@@ -37,14 +37,13 @@ project's, language's, or component's pathname as it can be seen in the URL.
 
 If you want to remove just some specific strings, there are following ways:
 
+- Manually in the source file. They will be removed from the
+  translation project as well upon Weblate's repository update.
+  
 .. versionadded:: 4.5
 
 - In Weblate’s UI via button :guilabel:`Tools` ↓ :guilabel:`Remove` while editing the string.
   This has differences between file formats, see: :ref:`component-manage_units`
-
-- Manually in the source file. They will be removed from the
-  translation project as well upon Weblate's repository update.
-
 
 .. note::
 
