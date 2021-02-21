@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-02-17 15:02+0100\n"
-"PO-Revision-Date: 2021-02-20 12:08+0000\n"
+"PO-Revision-Date: 2021-02-21 15:21+0000\n"
 "Last-Translator: Golubev Alexander <fatzer2@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/"
 "documentation/ru/>\n"
@@ -17050,8 +17050,8 @@ msgid ""
 "listed using :ref:`component-glossary_color`."
 msgstr ""
 "Позволяет использовать данный компонент в качестве глоссария. Вы можете "
-"настроить его отображение с помощью параметра :ref:`component-"
-"glossary_color`."
+"настроить, как именно он будет отображаться, с помощью параметра «:ref"
+":`component-glossary_color`»."
 
 #: ../../admin/projects.rst:803
 msgid ""
@@ -17066,8 +17066,8 @@ msgid ""
 "It is recommended to enable :ref:`component-manage_units` on glossaries in "
 "order to allow adding new words to them."
 msgstr ""
-"Рекомендуется также включить :ref:`управление строками <component-"
-"manage_units>` для словарей, чтобы в в них можно было добавлять новые слова."
+"Для словарей также рекомендуется включить :ref:`управление строками "
+"<component-manage_units>`, чтобы в в них можно было добавлять новые слова."
 
 #: ../../admin/projects.rst:810
 #, fuzzy
@@ -17082,8 +17082,8 @@ msgstr "Цвет глоссария"
 #: ../../admin/projects.rst:817
 msgid "Display color for a glossary used when showing word matches."
 msgstr ""
-"Цвет отображения для глоссария, используемый при показе соответствий "
-"терминам из глоссария."
+"Цвет отображения для названия глоссария, используемый в списке терминов, "
+"найденных в переводе."
 
 #: ../../admin/projects.rst:822
 msgid "Template markup"
@@ -18150,10 +18150,10 @@ msgid ""
 "upgrading and it is recommeded to force loading of affected component using :"
 "djadmin:`loadpo`."
 msgstr ""
-"**Изменено в 4.4.1:** :ref:`mono_gettext`теперь использует как ``msgid``, "
-"так и ``msgctxt``, если тот задан. Это изменение изменит идентификаторы "
-"переводимых строк в таких файлах. До проведения обновления убедитесь, что вы "
-"закоммитили изменения в таких файлах; рекомендуется провести принудительную "
+"**Изменено в 4.4.1:** :ref:`mono_gettext` теперь использует как ``msgid``, "
+"так и ``msgctxt``, если он задан. Это изменит идентификаторы переводимых "
+"строк в таких файлах. Перед обновлением убедитесь, что вы закоммитили "
+"изменения в таких файлах; рекомендуется также провести принудительную "
 "перезагрузку затронутых компонентов с помощью команды Django "
 ":djadmin:`loadpo`."
 
@@ -18191,8 +18191,8 @@ msgid ""
 "There is a change in :setting:`django:INSTALLED_APPS` - ``weblate.metrics`` "
 "should be added."
 msgstr ""
-"Произошло изменение параметра :setting:`django:INSTALLED_APPS`, к нему надо "
-"добавить ``weblate.metrics``."
+"Параметр :setting:`django:INSTALLED_APPS` измененён: к нему надо добавить "
+"``weblate.metrics``."
 
 #: ../../admin/upgrade.rst:201
 msgid "Upgrading from Python 2 to Python 3"
@@ -20071,11 +20071,12 @@ msgid ""
 "org/projects/translate-toolkit/en/latest/api/storage.html#translate.storage."
 "base.TranslationUnit>`_ and XLIFF."
 msgstr ""
-"`Единица перевода` — это одиночный фрагмент перевода, состоящий из пары "
-"исходной строки и соответствующего ей перевода, а также содержащий некоторые "
-"связанные с этой парой метаданные. Термин взят из `Translate Toolkit "
-"<http://docs.translatehouse.org/projects/translate-toolkit/en/latest/api/"
-"storage.html#translate.storage.base.TranslationUnit>`_ и XLIFF."
+"`Единица перевода` (`unit`) — это единичный фрагмент перевода, "
+"сопоставляющий исходную строку и соответствующий ей перевод, а также "
+"содержащий некоторые связанные с ними метаданные. Этот термин унаследован от "
+"`Translate Toolkit <http://docs.translatehouse.org/projects/"
+"translate-toolkit/en/latest/api/storage.html#translate.storage.base."
+"TranslationUnit>`_ и XLIFF."
 
 #: ../../api.rst:1907
 msgid "Returns list of translation units."
@@ -20963,8 +20964,7 @@ msgstr "Добавлен упрощённый интерфейс для пере
 
 #: ../../changes.rst:24
 msgid "Added support for non-translatable or forbidden terms in the glossary."
-msgstr ""
-"Добавлена поддержка не переводимых или запрещённых терминов в глоссарии."
+msgstr "Добавлена поддержка непереводимых и нежелательных терминов в глоссарии."
 
 #: ../../changes.rst:25
 msgid "Added support for defining terminology in a glossary."
@@ -29515,18 +29515,15 @@ msgstr ""
 "при помощи :ref:`клиента Weblate <wlc>`."
 
 #: ../../devel/integration.rst:30
-#, fuzzy
-#| msgid ""
-#| "This can be automated if you grant Weblate push access to your repository "
-#| "and configure :ref:`component-push` in the :ref:`component`."
 msgid ""
 "This can be automated if you grant Weblate push access to your repository "
 "and configure :ref:`component-push` in the :ref:`component`, see :ref:`push-"
 "changes`."
 msgstr ""
 "Эти действия можно автоматизировать, если вы предоставите Weblate доступ на "
-"отправку изменений в ваш репозиторий и настроите ref:`URL для отправки "
-"<component-push>` в :ref:`настройках компонента <component>`."
+"отправку изменений в ваш репозиторий и настроите :ref:`URL для отправки "
+"<component-push>` в :ref:`настройках компонента <component>`; см. :ref:`push-"
+"changes`."
 
 #: ../../devel/integration.rst:33
 msgid ""
@@ -29537,10 +29534,8 @@ msgstr ""
 "версии через :doc:`/api`."
 
 #: ../../devel/integration.rst:38
-#, fuzzy
-#| msgid ":ref:`continuous-translation`, :ref:`avoid-merge-conflicts`"
 msgid ":ref:`continuous-translation`, :ref:`push-changes`, :ref:`vcs-repos`"
-msgstr ":ref:`continuous-translation`, :ref:`avoid-merge-conflicts`"
+msgstr ":ref:`continuous-translation`, :ref:`push-changes`, :ref:`vcs-repos`"
 
 #: ../../devel/integration.rst:43
 msgid "Fetching remote changes into Weblate"
@@ -29579,10 +29574,8 @@ msgstr ""
 "пользовательский интерфейс или :doc:`/api`."
 
 #: ../../devel/integration.rst:57
-#, fuzzy
-#| msgid ":ref:`continuous-translation`, :ref:`avoid-merge-conflicts`"
 msgid ":ref:`continuous-translation`, :ref:`vcs-repos`"
-msgstr ":ref:`continuous-translation`, :ref:`avoid-merge-conflicts`"
+msgstr ":ref:`continuous-translation`, :ref:`vcs-repos`"
 
 #: ../../devel/integration.rst:63
 msgid "Adding new strings"
@@ -29602,20 +29595,12 @@ msgstr ""
 "описанного в разделе «:ref:`source-quality-gateway`», дабы избегать ошибок."
 
 #: ../../devel/integration.rst:70
-#, fuzzy
-#| msgid ""
-#| "When the translation files are separate from the code, there are "
-#| "following ways to introduce new strings into Weblate. For now, Weblate "
-#| "can introduce new strings only to monolingual translations (check :ref:"
-#| "`bimono`)."
 msgid ""
 "When the translation files are separate from the code, there are following "
 "ways to introduce new strings into Weblate."
 msgstr ""
 "Если файлы перевода отделены от исходого кода, то существуют следующие "
-"способы добавления новых строк в Weblate (на данный момент Weblate "
-"поддерживает добавление исходных строк только к одноязычным переводам, см. :"
-"ref:`bimono`):"
+"способы добавления новых строк в Weblate:"
 
 #: ../../devel/integration.rst:73
 msgid ""
@@ -29635,11 +29620,6 @@ msgstr ""
 "component)/(string:language)/units/`."
 
 #: ../../devel/integration.rst:76
-#, fuzzy
-#| msgid ""
-#| "By uploading source file as :guilabel:`Replace existing translation file` "
-#| "(this overwrites existing strings, so please make sure the file includes "
-#| "both old and new strings, see :ref:`upload-method`)."
 msgid ""
 "By uploading source file as :guilabel:`Replace existing translation file` "
 "(this overwrites existing strings, so please make sure the file includes "
@@ -29648,13 +29628,16 @@ msgid ""
 msgstr ""
 "Загрузив исходный файл через :guilabel:`Заменить существующий файл перевода` "
 "(это перезапишет существующие строки, так что удостоверьтесь сначала, что в "
-"файле есть и старые и новые строки; см. :ref:`upload-method`)."
+"файле есть и старые и новые строки) или :guilabel:`Добавить новые строки`; "
+"см. :ref:`upload-method`."
 
 #: ../../devel/integration.rst:82
 msgid ""
 "Availability of adding strings in Weblate depends on :ref:`component-"
 "manage_units`."
 msgstr ""
+"Будет ли доступно добавление строк через Weblate зависит от параметра «:ref"
+":`component-manage_units`»."
 
 #: ../../devel/integration.rst:87
 msgid "Updating target language files"
@@ -30545,22 +30528,16 @@ msgstr ""
 "можете начать с пустых файлов)."
 
 #: ../../devel/translations.rst:14
-#, fuzzy
-#| msgid ""
-#| "New languages can be added right away when requested by a user in "
-#| "Weblate, or a notification will be sent to project admins for approval "
-#| "and manual addition. This can be done using :guilabel:`Start new "
-#| "translation` in :ref:`component`."
 msgid ""
 "New languages can be added right away when requested by a user in Weblate, "
 "or a notification will be sent to project admins for approval and manual "
 "addition. This can be done using :ref:`component-new_lang` in :ref:"
 "`component`."
 msgstr ""
-"Новые языки могут быть добавлены сразу же, как пользователь их запросит в "
+"Новые языки могут быть добавлены сразу, как пользователь их запросит через "
 "Weblate, либо же администраторам проекта будет отправлено уведомление, чтобы "
-"они одобрили запрос и добавили новый язык вручную. Это можно сделать с "
-"помощью кнопки :guilabel:`Начать новый перевод` :ref:`компонента "
+"они одобрили запрос и добавили новый язык вручную. Это можно сделать :ref:`"
+"добавив новый перевод <component-new_lang>` в :ref:`настройках компонента "
 "<component>`."
 
 #: ../../devel/translations.rst:20
@@ -30569,18 +30546,21 @@ msgid ""
 "translation will be added to the component when Weblate updates local "
 "repository."
 msgstr ""
+"Если вы добавляете файл языка в связанный удалённый репозиторий, то "
+"соответствующий перевод будет добавлен в Weblate, когда он обновит свой "
+"локальный репозиторий."
 
 #: ../../devel/translations.rst:23 ../../devel/translations.rst:54
 msgid ""
 "More info on the repository update settings can be found on the :ref:`update-"
 "vcs`."
 msgstr ""
+"Больше информации о настройках обновления репозитория доступно в разделе "
+"«:ref:`update-vcs`»."
 
 #: ../../devel/translations.rst:28
-#, fuzzy
-#| msgid "Import existing translations"
 msgid "Removing existing translations"
-msgstr "Импортировать существующие переводы"
+msgstr "Удаление существующих переводов"
 
 #: ../../devel/translations.rst:30
 msgid ""
@@ -30588,6 +30568,10 @@ msgid ""
 "from Weblate and remote repository if used) from the menu :guilabel:`Manage` "
 "↓ :guilabel:`Removal` of each project, component, or language."
 msgstr ""
+"Языки, компоненты или проекты, в которых они находятся, могут быть удалены ("
+"из Weblate и удалённого репозитория, если он есть) через меню "
+":guilabel:`Управлять` ↓ :guilabel:`Удаление` соответствующего проекта, "
+"компонента или языка."
 
 #: ../../devel/translations.rst:34
 msgid ""
@@ -30596,11 +30580,18 @@ msgid ""
 "`slug` is the project's, language's, or component's pathname as it can be "
 "seen in the URL."
 msgstr ""
+"После нажатия на пункт меню :guilabel:`Удаление` сначала будет показан "
+"полный список компонентов, которые подлежат удалению. Для подтверждения "
+"удаления вам нужно будет ввести `идентификатор` (`slug`) данного объекта, "
+"где `идентификатор` — это «путь» к данному проекту, языку или компоненту, "
+"как он отображается в URL."
 
 #: ../../devel/translations.rst:38
 msgid ""
 "If you want to remove just some specific strings, there are following ways:"
 msgstr ""
+"Если вы хотите удалить только некоторые конкретные строки, то это можно "
+"сделать одним из следующих способов:"
 
 #: ../../devel/translations.rst:42
 msgid ""
@@ -30608,12 +30599,17 @@ msgid ""
 "editing the string. This has differences between file formats, see: :ref:"
 "`component-manage_units`"
 msgstr ""
+"В интерфейсе Weblate через кнопку :guilabel:`Инструменты` ↓ "
+":guilabel:`Удалить` в форме перевода строки. Для разных форматов здесь есть "
+"отличия, см. :ref:`component-manage_units`"
 
 #: ../../devel/translations.rst:45
 msgid ""
 "Manually in the source file. They will be removed from the translation "
 "project as well upon Weblate's repository update."
 msgstr ""
+"Вручную в исходном файле. Они будут также удалены и из проекта перевода при "
+"следующем обновлении репозитория Weblate."
 
 #: ../../devel/translations.rst:51
 msgid ""
@@ -30621,6 +30617,9 @@ msgid ""
 "translation will be removed from the component when Weblate updates local "
 "repository."
 msgstr ""
+"Если вы удаляете файл языка в связанном удалённом репозитории, то "
+"соответствующие переводы будут также удалены и из компонента, когда Weblate "
+"обновит свой локальный репозиторий."
 
 #: ../../devel/translations.rst:60
 msgid "String variants"
@@ -30722,6 +30721,9 @@ msgid ""
 "The additional variant for a string can also be added using the :guilabel:"
 "`Tools` while translating (when :ref:`component-manage_units` is turned on):"
 msgstr ""
+"Так дополнительные варианты для какой-либо строки можно добавить с помощью "
+"кнопки :guilabel:`Инструменты` во время перевода (если :ref:`управление "
+"строками <component-manage_units>` включено):"
 
 #: ../../devel/translations.rst:107
 msgid ""
@@ -30733,10 +30735,8 @@ msgstr ""
 "совместимости с базой данных MySQL."
 
 #: ../../devel/translations.rst:112
-#, fuzzy
-#| msgid ":ref:`bulk-edit`, :ref:`custom-checks`, :ref:`labels`"
 msgid ":ref:`custom-checks`, :ref:`glossary-variants`"
-msgstr ":ref:`bulk-edit`, :ref:`custom-checks`, :ref:`labels`"
+msgstr ":ref:`custom-checks`, :ref:`glossary-variants`"
 
 #: ../../devel/translations.rst:116
 msgid "Variants while translating"
@@ -32369,11 +32369,6 @@ msgid "`GWT Properties`"
 msgstr "`Свойства GWT`"
 
 #: ../../formats.rst:452
-#, fuzzy
-#| msgid ""
-#| "`GWT localization guide <http://www.gwtproject.org/doc/latest/"
-#| "DevGuideI18n.html>`_ :doc:`tt:formats/properties`, :ref:`addon-weblate."
-#| "properties.sort`, :ref:`addon-weblate.cleanup.generic`"
 msgid ""
 "`GWT localization guide <http://www.gwtproject.org/doc/latest/DevGuideI18n."
 "html>`_, `GWT Internationalization Tutorial <http://www.gwtproject.org/doc/"
@@ -32381,9 +32376,10 @@ msgid ""
 "weblate.properties.sort`, :ref:`addon-weblate.cleanup.generic`"
 msgstr ""
 "`Руководство по локализации GWT <http://www.gwtproject.org/doc/latest/"
-"DevGuideI18n.html>`_ :doc:`Файлы свойств Mozilla и Java <tt:formats/"
-"properties>`, :ref:`addon-weblate.properties.sort`, :ref:`addon-weblate."
-"cleanup.generic`"
+"DevGuideI18n.html>`_, `Пособие по интернализации GWT <http://www.gwtproject."
+"org/doc/latest/tutorial/i18n.html>`_, :doc:`Файлы свойств Mozilla и Java <tt:"
+"formats/properties>`, :ref:`addon-weblate.properties.sort`, :ref:`addon-"
+"weblate.cleanup.generic`"
 
 #: ../../formats.rst:461
 msgid "INI translations"
@@ -33047,12 +33043,6 @@ msgstr ""
 "поддерживает следующие форматы оных:"
 
 #: ../../formats.rst:1039
-#, fuzzy
-#| msgid ""
-#| "Files with header defining fields (``location``, ``source``, ``target``, "
-#| "``ID``, ``fuzzy``, ``context``, ``translator_comments``, "
-#| "``developer_comments``). This is the recommended approach, as it is the "
-#| "least error prone. Choose :guilabel:``CSV file`` as a file format."
 msgid ""
 "Files with header defining fields (``location``, ``source``, ``target``, "
 "``ID``, ``fuzzy``, ``context``, ``translator_comments``, "
@@ -33064,7 +33054,7 @@ msgstr ""
 "``fuzzy`` — «на правку», ``context`` — контекст, ``translator_comments`` — "
 "комментарий переводчика, ``developer_comments`` — комментарий разработчика). "
 "Это рекомендуемый подход, так как при его использовании меньше вероятность "
-"ошибок. Выберите :guilabel:``CSV-файл`` в качестве формата."
+"ошибок. Выберите :guilabel:`CSV-файл` в качестве формата."
 
 #: ../../formats.rst:1043
 msgid ""
@@ -33075,12 +33065,6 @@ msgstr ""
 "качестве формата файла выберите :guilabel:`Простой CSV файл`"
 
 #: ../../formats.rst:1045
-#, fuzzy
-#| msgid ""
-#| "Headerless files with fields in order defined by the `translate-"
-#| "toolkit`_: ``location``, ``source``, ``target``, ``ID``, ``fuzzy``, "
-#| "``context``, ``translator_comments``, ``developer_comments`` Choose :"
-#| "guilabel:``CSV file`` as a file format."
 msgid ""
 "Headerless files with fields in order defined by the `translate-toolkit`_: "
 "``location``, ``source``, ``target``, ``ID``, ``fuzzy``, ``context``, "
@@ -33089,8 +33073,8 @@ msgid ""
 msgstr ""
 "Файлы без заголовка, с полями в порядке, определённом `translate-toolkit`_: "
 "``location``, ``source``, ``target``, ``ID``, ``fuzzy``, ``context``, "
-"``translator_comments``, ``developer_comments``. Выберите :guilabel:``CSV-"
-"файл`` в качестве формата."
+"``translator_comments``, ``developer_comments``. Выберите "
+":guilabel:`CSV-файл` в качестве формата."
 
 #: ../../formats.rst:1048
 msgid ""
@@ -33525,7 +33509,7 @@ msgstr "Руководство администратора"
 
 #: ../../toc-devel.rst:1
 msgid "Application developer guide"
-msgstr "Пособие для разработчиков ПО"
+msgstr "Пособие для разработчиков"
 
 #: ../../toc-contrib.rst:1 ../../latexindex.rst:17
 msgid "Contributor docs"
@@ -34085,22 +34069,24 @@ msgid "Does not follow glossary"
 msgstr "Не соответствует глоссарию"
 
 #: ../../user/checks.rst:86
-#, fuzzy
-#| msgid "The translation does not contain an URL"
 msgid "*The translation does not follow terms defined in a glossary.*"
-msgstr "Перевод не содержит URL"
+msgstr "*Этот перевод не содержит термин, указанный в глоссарии.*"
 
 #: ../../user/checks.rst:88
 msgid ""
 "This check has to be turned on using ``check-glossary`` flag (see :ref:"
 "`custom-checks`). Please consider following prior to enabling it:"
 msgstr ""
+"Эту проверку можно включить с помощью флага ``check-glossary`` (см. :ref"
+":`custom-checks`). Но прежде чем делать это учтите следующее:"
 
 #: ../../user/checks.rst:91
 msgid ""
 "It does exact string matching, the glossary is expected to contain terms in "
 "all variants."
 msgstr ""
+"Эта проверка использует строгое сравнение строк, ожидается, что глоссарий "
+"будет содержать термины со всеми их вариантами."
 
 #: ../../user/checks.rst:92
 msgid ""
@@ -34108,12 +34094,13 @@ msgid ""
 "operation in Weblate which involves running checks like importing strings or "
 "translating."
 msgstr ""
+"Проверка каждой строки на соответствие словарю — дорогое удовольствие: это "
+"значительно замедлит все операции Weblate, которые подразумевают запуск "
+"проверок, включая импорт строк или переводов."
 
 #: ../../user/checks.rst:96
-#, fuzzy
-#| msgid ":ref:`fonts`, :ref:`custom-checks`, :ref:`check-max-length`"
 msgid ":ref:`glossary`, :ref:`custom-checks`, :ref:`component-check_flags`"
-msgstr ":ref:`fonts`, :ref:`custom-checks`, :ref:`check-max-length`"
+msgstr ":ref:`glossary`, :ref:`custom-checks`, :ref:`component-check_flags`"
 
 #: ../../user/checks.rst:103
 msgid "Double space"
@@ -34232,15 +34219,10 @@ msgid "`angularjs-format`"
 msgstr "`angularjs-format`"
 
 #: ../../user/checks.rst:172
-#, fuzzy
-#| msgid ""
-#| "`AngularJS: API: $interpolate <https://docs.angularjs.org/api/ng/service/"
-#| "$interpolate>`_"
 msgid ""
 "`AngularJS text interpolation <https://angular.io/guide/interpolation>`_"
 msgstr ""
-"`AngularJS: API: $interpolate <https://docs.angularjs.org/api/ng/service/"
-"$interpolate>`_"
+"`Интерполяция текста AngularJS <https://angular.io/guide/interpolation>`_"
 
 #: ../../user/checks.rst:175
 msgid "C format"
@@ -35715,7 +35697,7 @@ msgstr ""
 
 #: ../../user/files.rst:55
 msgid "Import methods"
-msgstr "Способы импортирования"
+msgstr "Способы импорта"
 
 #: ../../user/files.rst:57
 msgid "These are the choices presented when uploading translation files:"
@@ -35784,38 +35766,32 @@ msgstr ""
 "на то, что делает надстройка :ref:`addon-weblate.gettext.msgmerge`."
 
 #: ../../user/files.rst:75
-#, fuzzy
-#| msgid "Improved support for XLSX file format."
 msgid "This option is supported only for some file formats."
-msgstr "Улучшена поддержка формата файла XLSX."
+msgstr "Этот вариант поддерживается только для некоторых форматов файлов."
 
 #: ../../user/files.rst:82
-#, fuzzy
-#| msgid "Add new string"
 msgid "Add new strings (``add``)"
-msgstr "Добавление новых строк"
+msgstr "Добавить новые строки (``add``)"
 
 #: ../../user/files.rst:77
 msgid ""
 "Adds new strings to the translation. It skips the one which already exist."
-msgstr ""
+msgstr "Добавляет новые строки для перевода, пропуская те, что уже существуют."
 
 #: ../../user/files.rst:79
-#, fuzzy
-#| msgid ""
-#| "Be mindful that this will overwrite existing translations if employed "
-#| "with wide filters such as :guilabel:`All strings`."
 msgid ""
 "In case you want to both add new strings and update existing translations, "
 "upload the file second time with :guilabel:`Add as translation`."
 msgstr ""
-"Имейте в виду, что если использовать широкие фильтры, вроде фильтра :"
-"guilabel:`Все строки`, это приведёт к перезаписи существующих переводов."
+"Если вы хотите и добавить новые строки, и обновить существующие переводы, то "
+"загрузите файл второй раз в режиме :guilabel:`Добавить как перевод`."
 
 #: ../../user/files.rst:82
 msgid ""
 "This option is available only with :ref:`component-manage_units` turned on."
 msgstr ""
+"Этот вариант доступен только если включено :ref:`управление строками "
+"<component-manage_units>`."
 
 #: ../../user/files.rst:86
 msgid ""
@@ -35868,22 +35844,17 @@ msgstr ""
 "указанием фактического автора."
 
 #: ../../user/glossary.rst:6
-#, fuzzy
-#| msgid ""
-#| "Each project can have an assigned glossary for any language as a "
-#| "shorthand for storing terminology. Consistency is more easily maintained "
-#| "this way. Terms from the currently translated string can be displayed in "
-#| "the bottom tabs."
 msgid ""
 "Each project can have an assigned glossary for any language as a shorthand "
 "for storing terminology. Consistency is more easily maintained this way. "
 "Terms from the glossary containing words from the currently translated "
 "string can be displayed in the sidebar."
 msgstr ""
-"К каждому проекту к любому языку может быть прикреплён глоссарий, хранящий "
-"сокращения для используемой терминологии. Таким образом облегчается "
-"поддержание согласованности перевода. Термины из переводимой в данный момент "
-"строки могут быть отображены в нижних вкладках."
+"Для каждого проекта для каждого отдельного языка есть свой глоссарий, "
+"который можно использовать в качестве подручного хранилища для используемой "
+"терминологии. С помощью него будет легче поддержание согласованность "
+"перевода. Термины из переводимой в данный момент строки, которые добавлены в "
+"глоссарий, будут отображаться на панели сбоку."
 
 #: ../../user/glossary.rst:12
 msgid "Managing glossaries"
@@ -35895,6 +35866,9 @@ msgid ""
 "Weblate features on them — commenting, storing in a Git repository, or "
 "adding explanations."
 msgstr ""
+"Глоссарии теперь являются обычными компонентами перевода, так что вы можете "
+"использовать все возможности Weblate при реботе с ними: комментировать, "
+"сохранять в Git-репозитории или добавлять пояснения."
 
 #: ../../user/glossary.rst:20
 #, fuzzy
