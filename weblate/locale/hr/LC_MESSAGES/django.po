@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.5\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-02-17 14:01+0000\n"
-"PO-Revision-Date: 2021-02-14 17:21+0000\n"
+"PO-Revision-Date: 2021-02-22 07:17+0000\n"
 "Last-Translator: Milo Ivir <mail@milotype.de>\n"
 "Language-Team: Croatian <https://hosted.weblate.org/projects/weblate/"
 "application/hr/>\n"
@@ -21,7 +21,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 4.5-dev\n"
+"X-Generator: Weblate 4.5\n"
 
 #: weblate/accounts/avatar.py:103
 msgctxt "No known user"
@@ -383,6 +383,8 @@ msgid ""
 "System created user to track authorship of translations uploaded by other "
 "user."
 msgstr ""
+"Sustavski stvoren korisnik za praćenje autorstva prijevoda koji je prenio "
+"jedan drugi korisnik."
 
 #: weblate/accounts/models.py:168
 msgid "Configured password to sign in."
@@ -1139,8 +1141,6 @@ msgid "Bulk edit"
 msgstr "Skupno uređivanje"
 
 #: weblate/addons/flags.py:106
-#, fuzzy
-#| msgid "Bulk edit flags, labels or state for strings."
 msgid "Bulk edit flags, labels, or states of strings."
 msgstr "Skupno uređivanje oznaka, etiketa ili stanja izraza."
 
@@ -1165,8 +1165,6 @@ msgid "Long lines wrapping"
 msgstr "Prelamanje dugačkih redaka"
 
 #: weblate/addons/forms.py:112
-#, fuzzy
-#| msgid "Wrap lines at 77 chars and at newlines"
 msgid "Wrap lines at 77 characters and at newlines"
 msgstr "Prelomi retke nakon 77 znakova i nakon oznaka za novi redak"
 
@@ -1179,10 +1177,6 @@ msgid "No line wrapping"
 msgstr "Bez prelamanja redaka"
 
 #: weblate/addons/forms.py:119
-#, fuzzy
-#| msgid ""
-#| "By default gettext wraps lines at 77 chars and newlines. With --no-wrap "
-#| "parameter, it wraps only at newlines."
 msgid ""
 "By default gettext wraps lines at 77 characters and at newlines. With the --"
 "no-wrap parameter, wrapping is only done at newlines."
@@ -1227,11 +1221,6 @@ msgid "Append trailers to squashed commit message"
 msgstr "Dodaj krajnje retke združenoj poruci promjena"
 
 #: weblate/addons/forms.py:159
-#, fuzzy
-#| msgid ""
-#| "Trailer lines are lines that look similar to RFC 822 e-mail headers, at "
-#| "the end of the otherwise free-form part of a commit message, such as 'Co-"
-#| "authored-by: ...'."
 msgid ""
 "Trailer lines are lines that look similar to RFC 822 e-mail headers, at the "
 "end of the otherwise free-form part of a commit message, such as 'Co-"
@@ -1487,6 +1476,9 @@ msgid ""
 "Updates all PO files (as configured by \"Filemask\") to match the POT file "
 "(as configured by \"Template for new translations\") using msgmerge."
 msgstr ""
+"Aktualizira sve PO datoteke (kao što su konfigurirane u „Maska datoteke”) "
+"kako bi odgovarale POT datoteci (kao što je konfigurirana u „Predložak za "
+"nove prijevode”) pomoću msgmerge."
 
 #: weblate/addons/gettext.py:303
 msgid "Customize gettext output"
@@ -8313,7 +8305,7 @@ msgstr "Ispravi ovo, uklanjanjem jedne od njih."
 
 #: weblate/templates/trans/alert/duplicatefilemask.html:7
 msgid "The following filemasks were found multiple times:"
-msgstr "Sljedeće maske datoteke su nađene višestruko:"
+msgstr "Sljedeće maske datoteke su pronađene višestruko:"
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:6
 msgid "The component contains translation file for the source language."
@@ -8426,10 +8418,8 @@ msgid "This project does no longer fit into libre hosting conditions."
 msgstr "Ovaj projekt više ne ispunjava uvjete za hosting slobodnih projekata."
 
 #: weblate/templates/trans/alert/nomaskmatches.html:4
-#, fuzzy
-#| msgid "Other translation components"
 msgid "There are no translations in this component."
-msgstr "Ostale prevodilačke komponente"
+msgstr "U ovoj komponenti nema prijevoda."
 
 #: weblate/templates/trans/alert/nomaskmatches.html:7
 #, python-format
@@ -8437,18 +8427,16 @@ msgid ""
 "Check whether file mask <code>%(filemask)s</code> matches files in your "
 "repository."
 msgstr ""
+"Provjeri je li se maska datoteke <code>%(filemask)s%(filemask)s</code> "
+"podudara s datotekama u tvom repozitoriju."
 
 #: weblate/templates/trans/alert/nomaskmatches.html:8
-#, fuzzy
-#| msgid ""
-#| "You can add a new translation string here, it will automatically appear "
-#| "in all translations."
 msgid ""
 "You can also start new translations directly in Weblate, it will create "
 "files based on the file mask."
 msgstr ""
-"Ovdje možeš dodati novi prevodilački izraz, automatski će se dodati u sve "
-"prijevode."
+"Nove prijevode možeš započeti i izravno u Weblateu. Stvorit će datoteke na "
+"osnovi maske datoteke."
 
 #: weblate/templates/trans/alert/occurrences-limit.html:4
 #, python-format
@@ -8457,9 +8445,9 @@ msgid ""
 msgid_plural ""
 "Only part of the occurrences are shown, in total there were %(count)s of "
 "them."
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "Prikazan je samo dio pojava, ukupno ih je bilo %(count)s."
+msgstr[1] "Prikazan je samo dio pojava, ukupno ih je bilo %(count)s."
+msgstr[2] "Prikazan je samo dio pojava, ukupno ih je bilo %(count)s."
 
 #: weblate/templates/trans/alert/parseerror.html:4
 msgid ""
@@ -8514,21 +8502,16 @@ msgstr ""
 "nedostaju ovisnosti."
 
 #: weblate/templates/trans/alert/unusedenforcedcheck.html:4
-#, fuzzy
-#| msgid "Following enforced checks are not enabled anywhere:"
 msgid "Following enforced checks are not used anywhere:"
-msgstr "Sljedeće obavezne provjere nisu nigdje aktivirane:"
+msgstr "Sljedeće se obavezne provjere nigdje ne koriste:"
 
 #: weblate/templates/trans/alert/unusedenforcedcheck.html:8
-#, fuzzy, python-format
-#| msgid ""
-#| "%(check)s quality check is enforced, but not enabled using <code>"
-#| "%(flag)s</code>."
+#, python-format
 msgid ""
 "%(check)s quality check is enforced, but not turned on using <code>%(flag)s</"
 "code>."
 msgstr ""
-"%(check)s provjera kvalitete je obavezna, ali nije aktivirana korištenjem "
+"%(check)s provjera kvalitete je obavezna, ali nije uključena korištenjem "
 "oznake <code>%(flag)s</code>."
 
 #: weblate/templates/trans/alert/unusedscreenshot.html:2
@@ -8835,16 +8818,12 @@ msgid "Copy permalink"
 msgstr "Kopiraj stalnu poveznicu"
 
 #: weblate/templates/translate.html:82
-#, fuzzy
-#| msgid "Add glossary entry"
 msgid "Forbidden glossary term"
-msgstr "Dodaj zapis u glosar"
+msgstr "Zabranjen zapis u glosaru"
 
 #: weblate/templates/translate.html:84
-#, fuzzy
-#| msgid "Glossary name"
 msgid "Glossary term"
-msgstr "Ime glosara"
+msgstr "Pojam glosara"
 
 #: weblate/templates/translate.html:112 weblate/templates/zen-units.html:77
 msgid "Source change"
@@ -10164,10 +10143,8 @@ msgid "Unused enforced checks."
 msgstr "Nekorištene obavezne provjere."
 
 #: weblate/trans/models/alert.py:360
-#, fuzzy
-#| msgid "More users matched."
 msgid "No mask matches."
-msgstr "Više korisnika se poklopilo."
+msgstr "Nijedna maska se ne poklapa."
 
 #: weblate/trans/models/announcement.py:111
 msgid "Category"
@@ -10745,17 +10722,14 @@ msgid "Manage strings"
 msgstr "Upravljaj izrazima"
 
 #: weblate/trans/models/component.py:489
-#, fuzzy
-#| msgid ""
-#| "Disable adding and removing strings in Weblate in case these are "
-#| "automatically extracted from the source code or managed externally."
 msgid ""
 "Enables adding and removing strings straight from Weblate. If your strings "
 "are extracted from the source code or managed externally you probably want "
 "to keep it disabled."
 msgstr ""
-"Deaktiviraj dodavanje i uklanjanje izraza u Weblateu u slučaju da se oni "
-"automatski izdvajaju iz izvornog koda ili da se njima upravlja izvana."
+"Aktivira dodavanje i uklanjanje izraza izravno u Weblateu. Ako su tvoji "
+"izrazi izdvojeni iz izvornog koda ili ako njima upravljaš izvana, vjerojatno "
+"ćeš ih željeti deaktivirati."
 
 #: weblate/trans/models/component.py:497
 msgid "Merge style"
@@ -10975,10 +10949,7 @@ msgid "The language code \"%s\" is too long, please check the filemask."
 msgstr "Jezični kod „%s” je predugačak, provjeri masku datoteke."
 
 #: weblate/trans/models/component.py:2195
-#, fuzzy, python-format
-#| msgid ""
-#| "There is more than one file for %s language, please adjust the filemask "
-#| "and use components for translating a different resources."
+#, python-format
 msgid ""
 "There is more than one file for %s language, please adjust the filemask and "
 "use components for translating different resources."
