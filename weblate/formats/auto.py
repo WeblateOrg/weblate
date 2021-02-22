@@ -52,6 +52,12 @@ def try_load(filename, content, original_format, template_store):
             1 if detected_format.extension() == original_format.extension() else 0,
             detected_format,
         )
+    # Provide fallback to bilingual class in case using monolingual
+    if (
+        original_format.bilingual_class
+        and original_format.bilingual_class != detected_format
+    ):
+        formats.insert(1, original_format.bilingual_class)
     failure = Exception("Bug!")
     for file_format in formats:
         if file_format.monolingual in (True, None) and template_store:

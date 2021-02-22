@@ -1026,6 +1026,7 @@ class PoMonoFormat(BasePoFormat):
         'Content-Transfer-Encoding: 8bit"'
     )
     unit_class = PoMonoUnit
+    bilingual_class = PoFormat
 
     def create_unit_key(self, key: str, source: Union[str, List[str]]) -> str:
         if isinstance(source, list):
