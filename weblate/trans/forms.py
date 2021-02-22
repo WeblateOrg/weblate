@@ -867,9 +867,7 @@ class AutoForm(forms.Form):
         """Generate choices for other component in same project."""
         # Add components from other projects with enabled shared TM
         components = (
-            obj.project.component_set.filter(
-                source_language=obj.source_language
-            ).exclude(id=obj.id)
+            obj.project.component_set.filter(source_language=obj.source_language)
             | Component.objects.filter(
                 source_language_id=obj.source_language_id,
                 project__contribute_shared_tm=True,
