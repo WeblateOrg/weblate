@@ -11,8 +11,11 @@
 <div class="container">
 
 <div class="alert alert-info">
-    {% blocktrans %}You can contact maintainers of this server here.{% endblocktrans %}
-    {% blocktrans %}If you are looking for support for Weblate or want to file bug reports check its website at {{ weblate_link }}.{% endblocktrans %}
+  <ul>
+    <li>{% blocktrans %}For questions about specific translation project, contact its maintainers directly, not by this form.{% endblocktrans %}</li>
+    <li>{% blocktrans %}You can only contact maintainers of the whole server here.{% endblocktrans %}</li>
+    <li>{% blocktrans %}<li>If you are looking for support for Weblate, or want to file a bug report, check its website at {{ weblate_link }}.{% endblocktrans %}</li>
+  </ul>
 </div>
 
 <form method="post" action="{% url 'contact' %}">
