@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.5\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-02-17 14:01+0000\n"
-"PO-Revision-Date: 2021-02-15 21:54+0000\n"
+"PO-Revision-Date: 2021-02-22 13:57+0000\n"
 "Last-Translator: Eduard Ereza Martínez <eduard@ereza.cat>\n"
 "Language-Team: Catalan <https://hosted.weblate.org/projects/weblate/"
 "application/ca/>\n"
@@ -26,7 +26,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.5-dev\n"
+"X-Generator: Weblate 4.5\n"
 
 #: weblate/accounts/avatar.py:103
 msgctxt "No known user"
@@ -399,6 +399,8 @@ msgid ""
 "System created user to track authorship of translations uploaded by other "
 "user."
 msgstr ""
+"Usuari creat pel sistema per a fer un seguiment de l'autoria de les "
+"traduccions pujades per un altre usuari."
 
 #: weblate/accounts/models.py:168
 msgid "Configured password to sign in."
@@ -8543,10 +8545,8 @@ msgstr ""
 "projectes lliures."
 
 #: weblate/templates/trans/alert/nomaskmatches.html:4
-#, fuzzy
-#| msgid "There are some alerts on this component"
 msgid "There are no translations in this component."
-msgstr "Aquest component té alguna alerta"
+msgstr "Aquest component no té cap traducció."
 
 #: weblate/templates/trans/alert/nomaskmatches.html:7
 #, python-format
@@ -8554,18 +8554,16 @@ msgid ""
 "Check whether file mask <code>%(filemask)s</code> matches files in your "
 "repository."
 msgstr ""
+"Comproveu que el filtre de fitxers <code>%(filemask)s</code> coincideix amb "
+"algun fitxer del vostre dipòsit."
 
 #: weblate/templates/trans/alert/nomaskmatches.html:8
-#, fuzzy
-#| msgid ""
-#| "You can add a new translation string here, it will automatically appear "
-#| "in all translations."
 msgid ""
 "You can also start new translations directly in Weblate, it will create "
 "files based on the file mask."
 msgstr ""
-"Aquí podeu afegir una cadena de traducció nova, apareixerà automàticament a "
-"totes les traduccions."
+"També podeu començar traduccions noves directament al Weblate; es crearan "
+"fitxers basant-se en el filtre de fitxers."
 
 #: weblate/templates/trans/alert/occurrences-limit.html:4
 #, python-format
@@ -8575,7 +8573,9 @@ msgid_plural ""
 "Only part of the occurrences are shown, in total there were %(count)s of "
 "them."
 msgstr[0] ""
+"Només es mostra una part de les coincidències; en total n'hi ha %(count)s."
 msgstr[1] ""
+"Només es mostra una part de les coincidències; en total n'hi ha %(count)s."
 
 #: weblate/templates/trans/alert/parseerror.html:4
 msgid ""
@@ -10283,10 +10283,8 @@ msgid "Unused enforced checks."
 msgstr "Comprovacions obligatòries sense utilitzar."
 
 #: weblate/trans/models/alert.py:360
-#, fuzzy
-#| msgid "More users matched."
 msgid "No mask matches."
-msgstr "S'han trobat més usuaris coincidents."
+msgstr "No hi ha cap coincidència per al filtre."
 
 #: weblate/trans/models/announcement.py:111
 msgid "Category"
