@@ -433,9 +433,11 @@ class Project(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKeyM
         return self.component_set.distinct() | self.shared_components.distinct()
 
     def scratch_create_component(
-        self, name, slug, source_language, file_format, has_template=True, **kwargs
+        self, name, slug, source_language, file_format, has_template=None, **kwargs
     ):
         format_cls = FILE_FORMATS[file_format]
+        if has_template is None:
+            has_template = format_cls.monolingual is None or format_cls.monolingual
         if has_template:
             template = f"{source_language.code}.{format_cls.extension()}"
         else:

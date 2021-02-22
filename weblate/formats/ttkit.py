@@ -1706,6 +1706,7 @@ class TBXFormat(TTKitFormat):
     unit_class = TBXUnit
     create_empty_bilingual: bool = True
     set_context_bilingual: bool = False
+    monolingual = False
 
     def __init__(
         self,
