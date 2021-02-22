@@ -231,6 +231,7 @@ class TTKitFormat(TranslationFormat):
             template_store=template_store,
             language_code=language_code,
             is_template=is_template,
+            source_language=source_language,
         )
         # Set language (needed for some which do not include this)
         if language_code is not None and self.store.gettargetlanguage() is None:
@@ -1301,6 +1302,7 @@ class CSVFormat(TTKitFormat):
             storefile,
             template_store=template_store,
             language_code=language_code,
+            source_language=source_language,
             is_template=is_template,
         )
         # Remove template if the file contains source, this is needed
@@ -1721,6 +1723,7 @@ class TBXFormat(TTKitFormat):
             template_store=template_store,
             language_code=language_code,
             is_template=is_template,
+            source_language=source_language,
         )
         # Add language header if not present
         self.store.addheader()

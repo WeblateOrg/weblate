@@ -192,6 +192,7 @@ class TranslationFormat:
             storefile,
             template_store=template_store,
             language_code=language_code,
+            source_language=source_language,
             is_template=is_template,
         )
 
