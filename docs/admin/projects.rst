@@ -638,16 +638,16 @@ Committer name
 Name of the committer used for Weblate commits, the author will always be the
 real translator. On some VCSs this might be not supported.
 
-Default value can be changed by :setting:`DEFAULT_COMMITER_NAME`.
+The default value can be changed by :setting:`DEFAULT_COMMITER_NAME`.
 
 .. _component-committer_email:
 
 Committer e-mail
 ++++++++++++++++
 
-Email of committer used for Weblate commits, the author will always be the
-real translator. On some VCSs this might be not supported. The default value
-can be changed in :setting:`DEFAULT_COMMITER_EMAIL`.
+E-mail address of committer used for Weblate commits. The author will always
+be the real translator. On some VCSs this might be not supported. The default
+value can be changed in :setting:`DEFAULT_COMMITER_EMAIL`.
 
 .. _component-push_on_commit:
 
@@ -666,7 +666,7 @@ Age of changes to commit
 ++++++++++++++++++++++++
 
 Sets how old changes (in hours) are to get before they are committed by
-background task or :djadmin:`commit_pending` management command. All
+background task or the :djadmin:`commit_pending` management command. All
 changes in a component are committed once there is at least one older than
 this period.
 
@@ -677,9 +677,8 @@ Default value can be changed by :setting:`COMMIT_PENDING_HOURS`.
 Lock on error
 +++++++++++++
 
-Enables locking the component on repository error (failed pull, push or merge).
-Locking in this situation avoids adding another conflict which would have to be
-resolved manually.
+Locks a component upon any repository error (failed pull, push or merge).
+This avoids adding another conflict, which would have to be resolved manually.
 
 The component will be automatically unlocked once there are no repository
 errors left.
@@ -695,9 +694,9 @@ something else than English.
 .. hint::
 
    In case you are translating bilingual files from English, but want to be
-   able to do fixes in the English translation as well, you might want to
-   choose :guilabel:`English (Developer)` as a source language to avoid
-   conflict between name of the source language and existing translation.
+   able to do fixes in the English translation as well, choose
+   :guilabel:`English (Developer)` as a source language to avoid conflict
+   between the name of the source language and the existing translation.
 
    For monolingual translations, you can use intermediate translation in this
    case, see :ref:`component-intermediate`.
@@ -709,7 +708,7 @@ Language filter
 +++++++++++++++
 
 Regular expression used to filter the translation when scanning for filemask.
-This can be used to limit the list of languages managed by Weblate.
+It can be used to limit the list of languages managed by Weblate.
 
 .. note::
 
@@ -764,15 +763,14 @@ By default the component is visible to anybody who has access to the project,
 even if the person can not perform any changes in the component. This makes it
 easier to keep translation consistency within the project.
 
-Enable this in case you want to grant access to this component explicitly -
-the project level permissions will not apply and you will have to specify
-component or component list level permission in order to grant access.
+Turning this on at component-, or component-list level takes over
+access permission to a component, regardless of project-level permissions.
 
-Default value can be changed by :setting:`DEFAULT_RESTRICTED_COMPONENT`.
+The default value can be changed in :setting:`DEFAULT_RESTRICTED_COMPONENT`.
 
 .. hint::
 
-   This applies to project managers as well - please make sure you will not
+   This applies to project managers as well — please make sure you will not
    loose access to the component after toggling the status.
 
 .. _component-links:
@@ -780,14 +778,14 @@ Default value can be changed by :setting:`DEFAULT_RESTRICTED_COMPONENT`.
 Share in projects
 +++++++++++++++++
 
-You can choose additional projects where the component will be visible. This
-can be useful for shared libraries which you use in several projects.
+You can choose additional projects where the component will be visible.
+Useful for shared libraries which you use in several projects.
 
 .. note::
 
-   Sharing component doesn't change its access control. It makes it only
-   visible when browsing other projects. User still need to have access to the
-   actual component in order to be able to browse or translate it.
+   Sharing a component doesn't change its access control. It only makes it
+   visible when browsing other projects. Users still need access to the
+   actual component to browse or translate it.
 
 
 .. _component-is_glossary:
