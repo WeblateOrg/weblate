@@ -985,9 +985,6 @@ class TranslationViewSet(MultipleFieldMixin, WeblateViewSet, DestroyModelMixin):
         if not user.has_perm("upload.perform", obj):
             raise PermissionDenied()
 
-        if "file" not in request.data:
-            raise ParseError("Missing file parameter")
-
         serializer = UploadRequestSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.check_perms(request.user, obj)
