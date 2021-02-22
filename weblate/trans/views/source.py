@@ -55,17 +55,18 @@ def edit_context(request, pk):
         if new_flags != unit.extra_flags:
             unit.extra_flags = new_flags
             unit.save(same_content=True, update_fields=["extra_flags"])
-
-    if not request.user.has_perm("source.edit", unit.translation):
-        raise PermissionDenied()
-
-    form = ContextForm(request.POST, instance=unit, user=request.user)
-
-    if form.is_valid():
-        form.save()
     else:
-        messages.error(request, _("Failed to change additional string info!"))
-        show_form_errors(request, form)
+
+        if not request.user.has_perm("source.edit", unit.translation):
+            raise PermissionDenied()
+
+        form = ContextForm(request.POST, instance=unit, user=request.user)
+
+        if form.is_valid():
+            form.save()
+        else:
+            messages.error(request, _("Failed to change additional string info!"))
+            show_form_errors(request, form)
 
     return redirect_next(request.POST.get("next"), unit.get_absolute_url())
 
