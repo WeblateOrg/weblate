@@ -2645,7 +2645,8 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
             state__gte=STATE_TRANSLATED, target__contains=" "
         )
         if (
-            not self.template
+            not self.is_glossary
+            and not self.template
             and allunits.count() > 3
             and not source_space.exists()
             and target_space.exists()
