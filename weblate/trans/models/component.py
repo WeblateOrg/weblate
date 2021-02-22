@@ -1109,7 +1109,7 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
     @perform_on_link
     def can_push(self):
         """Return true if push is possible for this component."""
-        return bool(self.push) or not self.repository.needs_push_url
+        return bool(self.push) or not self.repository_class.needs_push_url
 
     @property
     def is_repo_link(self):
@@ -1120,12 +1120,16 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
         """Return true if new languages can be added."""
         return self.new_lang != "none"
 
+    @property
+    def repository_class(self):
+        return VCS_REGISTRY[self.vcs]
+
     @cached_property
     def repository(self):
         """Get VCS repository object."""
         if self.is_repo_link:
             return self.linked_component.repository
-        return VCS_REGISTRY[self.vcs](self.full_path, self.branch, self)
+        return self.repository_class(self.full_path, self.branch, self)
 
     def get_last_remote_commit(self):
         """Return latest locally known remote commit."""
