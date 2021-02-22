@@ -338,6 +338,11 @@ class TTKitFormat(TranslationFormat):
         return True
 
     def construct_unit(self, source: str):
+        if issubclass(self.store.UnitClass, LISAunit) and self.source_language:
+            # Setting source on LISAunit will make it use default language
+            unit = self.store.UnitClass(None)
+            unit.setsource(source, self.source_language)
+            return unit
         return self.store.UnitClass(source)
 
     def create_unit_key(self, key: str, source: Union[str, List[str]]) -> str:
@@ -373,7 +378,10 @@ class TTKitFormat(TranslationFormat):
             target = source
             source = self.create_unit_key(key, source)
 
-        unit.source = source
+        if isinstance(unit, LISAunit) and self.source_language:
+            unit.setsource(source, self.source_language)
+        else:
+            unit.source = source
         if isinstance(unit, LISAunit) and self.language_code:
             unit.settarget(target, self.language_code)
         else:
@@ -1051,7 +1059,7 @@ class XliffFormat(TTKitFormat):
     set_context_bilingual = False
 
     def construct_unit(self, source: str):
-        unit = self.store.UnitClass(source)
+        unit = super().construct_unit(source)
         # Make sure new unit is using same namespace as the original
         # file (xliff 1.1/1.2)
         unit.namespace = self.store.namespace
