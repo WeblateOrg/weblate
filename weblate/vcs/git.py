@@ -880,7 +880,7 @@ class LocalRepository(GitRepository):
         cls._popen(["commit", "--message", "Repository created by Weblate"], target)
         # We could do here just init --initial-branch {branch}, but that does not
         # work in Git before 2.28.0
-        cls._popen(["branch", "--move", "master", "main"], target)
+        cls._popen(["branch", "--move", "master", branch], target)
 
     @cached_property
     def last_remote_revision(self):
