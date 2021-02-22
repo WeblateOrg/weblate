@@ -19,6 +19,7 @@
 
 from copy import copy
 from datetime import timedelta
+from io import BytesIO
 
 from django.core.files import File
 from django.urls import reverse
@@ -1793,6 +1794,31 @@ class TranslationAPITest(APIBaseTest):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response_json["count"], 1)
         self.assertEqual(response_json["results"][0]["source"], ["Hello, world!\n"])
+
+    def test_upload_bytes(self):
+        self.authenticate()
+        with open(TEST_PO, "rb") as handle:
+            response = self.client.put(
+                reverse("api:translation-file", kwargs=self.translation_kwargs),
+                {"file": BytesIO(handle.read())},
+            )
+        self.assertEqual(
+            response.data,
+            {
+                "accepted": 1,
+                "count": 4,
+                "not_found": 0,
+                "result": True,
+                "skipped": 0,
+                "total": 4,
+            },
+        )
+        translation = self.component.translation_set.get(language_code="cs")
+        unit = translation.unit_set.get(source="Hello, world!\n")
+        self.assertEqual(unit.target, "Ahoj světe!\n")
+        self.assertEqual(unit.state, STATE_TRANSLATED)
+
+        self.assertEqual(self.component.project.stats.suggestions, 0)
 
     def test_upload(self):
         self.authenticate()
