@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-02-17 15:02+0100\n"
-"PO-Revision-Date: 2021-02-22 09:50+0000\n"
+"PO-Revision-Date: 2021-02-22 13:57+0000\n"
 "Last-Translator: Golubev Alexander <fatzer2@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/"
 "documentation/ru/>\n"
@@ -13064,8 +13064,8 @@ msgid ""
 "empty file is created where new strings will be added once they are "
 "translated."
 msgstr ""
-"Если ref:`шаблон для новых переводов <component-new_base>` не задан и формат "
-"файла поддерживает его, то создаётся пустой файл, в который будут "
+"Если :ref:`шаблон для новых переводов <component-new_base>` не задан и "
+"формат файла поддерживает его, то создаётся пустой файл, в который будут "
 "добавляться новые строки по мере их перевода."
 
 #: ../../admin/languages.rst:177
@@ -13073,7 +13073,7 @@ msgid ""
 "The :ref:`component-language_code_style` allows you to customize language "
 "code used in generated filenames:"
 msgstr ""
-"Параметр «:ref:`component-language _code _style`» позволяет вам настраивать "
+"Параметр «:ref:`component-language_code_style`» позволяет вам настраивать "
 "код языка, используемый в именах сгенерированных файлов:"
 
 #: ../../admin/languages.rst:180
@@ -35922,6 +35922,10 @@ msgid ""
 "use this for names or other terms which should not change while translating. "
 "Such terms are visually highlighted in the glossary sidebar."
 msgstr ""
+"Пометка терминов глоссария, как доступных только для чтения, означает, что "
+"они должны быть оставлены без перевода. Вы можете пометить так имена или "
+"какие-либо другие термины, которые не должны быть изменены при переводе. Они "
+"будут подсвечиваться в глоссарии другим цветом."
 
 #: ../../user/glossary.rst:51
 msgid ""
@@ -35929,12 +35933,13 @@ msgid ""
 "guilabel:`Mark as read-only`. In the background this toggles the ``read-"
 "only`` flag of the string."
 msgstr ""
+"Этот флаг для термина можно установить для строки на исходном языке через "
+":guilabel:`Инструменты` ↓ :guilabel:`Пометить «только для чтения»`. По факту "
+"это действие переключает флаг строки ``read-only``."
 
 #: ../../user/glossary.rst:62
-#, fuzzy
-#| msgid "Good translations"
 msgid "Forbidden translations"
-msgstr "Хорошие переводы"
+msgstr "Нежелательные переводы"
 
 #: ../../user/glossary.rst:66
 msgid ""
@@ -35942,6 +35947,10 @@ msgid ""
 "used for translations. Use this to clarify translation when some words are "
 "ambiguous or could have unexpected meanings."
 msgstr ""
+"Вы можете пометить определённый перевод терминов, как нежелательный, "
+"подразумевая, что он не должен использоваться. Используйте это , чтобы "
+"прояснить перевод, в случае, если у какие-то слова являются двусмысленными "
+"или у них просто необычное значение."
 
 #: ../../user/glossary.rst:70
 msgid ""
@@ -35949,6 +35958,9 @@ msgid ""
 "translation`. In the background this toggles the ``forbidden`` flag of the "
 "string."
 msgstr ""
+"Этот флаг для термина можно установить через :guilabel:`Инструменты` ↓ "
+":guilabel:`Пометить как «Нежелательный перевод»`. По факту это действие "
+"переключает флаг ``forbidden`` для этой строки."
 
 #: ../../user/glossary.rst:81
 msgid "Terminology"
