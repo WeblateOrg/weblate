@@ -116,7 +116,11 @@ def migrate_glossaries(apps, schema_editor):  # noqa: C901
 
                 # Create store file
                 TBXFormat.create_new_file(filename, language.code, "")
-                store = TBXFormat(filename, language_code=language.code)
+                store = TBXFormat(
+                    filename,
+                    language_code=language.code,
+                    source_language=glossary.source_language.code,
+                )
                 id_hashes = set()
                 for position, term in enumerate(
                     glossary.term_set.filter(language=language)
