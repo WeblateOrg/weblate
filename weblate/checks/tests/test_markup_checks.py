@@ -211,34 +211,73 @@ class MarkdownLinkCheckTest(CheckTestCase):
 
         self.assertEqual(self.check.get_fixup(unit), None)
 
-
-class MarkdownLinkCheckMultipleOrderIndependentLinksTest(CheckTestCase):
-    check = MarkdownLinkCheck()
-
-    def setUp(self):
-        super().setUp()
-
-        self.test_good_matching = (
-            "[Weblate](#weblate) has an [example]({{example}}) "
-            "for illustrating the useage of [Weblate](#weblate)",
-            "Ein [Beispiel]({{example}}) in [Webspät](#weblate) "
-            "illustriert die Verwendung von [Webspät](#weblate)",
-            "md-text",
+    def test_mutliple_ordered(self):
+        self.do_test(
+            False,
+            (
+                "[Weblate](#weblate) has an [example]({{example}}) "
+                "for illustrating the useage of [Weblate](#weblate)",
+                "Ein [Beispiel]({{example}}) in [Webspät](#weblate) "
+                "illustriert die Verwendung von [Webspät](#weblate)",
+                "md-text",
+            ),
         )
 
-        self.test_failure_1 = (
-            "[Weblate](#weblate) has an [example]({{example}}) "
-            "for illustrating the useage of [Weblate](#weblate)",
-            "Ein [Beispiel]({{example}}) in [Webspät](#weblate) "
-            "illustriert die Verwendung von [Webspät](#Webspät)",
-            "md-text",
+        self.do_test(
+            True,
+            (
+                "[Weblate](#weblate) has an [example]({{example}}) "
+                "for illustrating the useage of [Weblate](#weblate)",
+                "Ein [Beispiel]({{example}}) in [Webspät](#weblate) "
+                "illustriert die Verwendung von [Webspät](#Webspät)",
+                "md-text",
+            ),
         )
-        self.test_failure_2 = (
-            "[Weblate](#weblate) has an [example]({{example}}) "
-            "for illustrating the useage of [Weblate](#weblate)",
-            "Ein [Beispiel]({{example}}) in [Webspät](#weblate) "
-            "illustriert die Verwendung von Webspät",
-            "md-text",
+        self.do_test(
+            True,
+            (
+                "[Weblate](#weblate) has an [example]({{example}}) "
+                "for illustrating the useage of [Weblate](#weblate)",
+                "Ein [Beispiel]({{example}}) in [Webspät](#weblate) "
+                "illustriert die Verwendung von Webspät",
+                "md-text",
+            ),
+        )
+
+    def test_url(self):
+        self.do_test(
+            False,
+            (
+                "See <https://weblate.org/>",
+                "Viz <https://weblate.org/>",
+                "md-text",
+            ),
+        )
+        self.do_test(
+            True,
+            (
+                "See <https://weblate.org/>",
+                "Viz <https:>",
+                "md-text",
+            ),
+        )
+
+    def test_email(self):
+        self.do_test(
+            False,
+            (
+                "See <noreply@weblate.org>",
+                "Viz <noreply@weblate.org>",
+                "md-text",
+            ),
+        )
+        self.do_test(
+            True,
+            (
+                "See <noreply@weblate.org>",
+                "Viz <noreply>",
+                "md-text",
+            ),
         )
 
 

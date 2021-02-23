@@ -35,11 +35,21 @@ BBCODE_MATCH = re.compile(
 )
 
 MD_LINK = re.compile(
-    r"!?\[("
-    r"(?:\[[^^\]]*\]|[^\[\]]|\](?=[^\[]*\]))*"
-    r")\]\("
-    r"""\s*(<)?([\s\S]*?)(?(2)>)(?:\s+['"]([\s\S]*?)['"])?\s*"""
-    r"\)"
+    r"""
+    (?:
+    !?                                                          # Exclamation for images
+    \[((?:\[[^^\]]*\]|[^\[\]]|\](?=[^\[]*\]))*)\]               # Link text
+    \(
+        \s*(<)?([\s\S]*?)(?(2)>)                                # URL
+        (?:\s+['"]([\s\S]*?)['"])?\s*                           # Title
+    \)
+    |
+    <(https?://[^>]+)>                                          # URL
+    |
+    <([^>]+@[^>]+\.[^>]+)>                                      # E-mail
+    )
+    """,
+    re.VERBOSE,
 )
 MD_BROKEN_LINK = re.compile(r"\] +\(")
 MD_REFLINK = re.compile(
