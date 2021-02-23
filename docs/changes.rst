@@ -3,6 +3,13 @@ Weblate 4.5.1
 
 Not yet released.
 
+* Fixed editing of glossary flags in some corner cases.
+* Extend metrics usage to improve performance of several pages.
+* Store correct source language in TMX files.
+* Better handle uploads for monolingual PO using API.
+* Improved alerts behavior with glossaries.
+* Improved Markdown link checks.
+
 Weblate 4.5
 -----------
 
