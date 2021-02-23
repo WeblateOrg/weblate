@@ -9,7 +9,7 @@
 # bluepencil <bluepencil@yahoo.com>, 2019.
 # Michal Čihař <michal@cihar.com>, 2019, 2020.
 # anonymous <noreply@weblate.org>, 2019, 2020.
-# Lee Yunseok <ironyunseok@protonmail.com>, 2019, 2020.
+# Lee Yunseok <ironyunseok@protonmail.com>, 2019, 2020, 2021.
 # Changwoo Ryu <cwryu@debian.org>, 2020.
 # Kurosawa <bgsc27vsex@tutanota.com>, 2020.
 # Anonymous <noreply@weblate.org>, 2020.
@@ -20,7 +20,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-02-17 14:01+0000\n"
 "PO-Revision-Date: 2021-02-24 20:30+0000\n"
-"Last-Translator: SC <skchoi97@gmail.com>\n"
+"Last-Translator: Lee Yunseok <ironyunseok@protonmail.com>\n"
 "Language-Team: Korean <https://hosted.weblate.org/projects/weblate/"
 "application/ko/>\n"
 "Language: ko\n"
@@ -173,10 +173,8 @@ msgid "Use default setting"
 msgstr "기본 설정을 사용"
 
 #: weblate/accounts/forms.py:666
-#, fuzzy
-#| msgid "Watched projects"
 msgid "Other projects"
-msgstr "참여 중인 프로젝트"
+msgstr "다른 프로젝트"
 
 #: weblate/accounts/forms.py:668 weblate/accounts/models.py:475
 #: weblate/templates/accounts/profile.html:67
@@ -197,25 +195,21 @@ msgid "Component: {}"
 msgstr "구성 요소: {}"
 
 #: weblate/accounts/forms.py:679
-#, fuzzy
-#| msgid ""
-#| "You will receive a notification for every such event in your watched "
-#| "projects."
 msgid ""
 "You will receive a notification for every such event in non-watched projects."
-msgstr "참여하고있는 프로젝트의 모든 사건에 대한 통지를 받습니다."
+msgstr "참여하지 않은 프로젝트의 모든 사건에 대한 알림을 받습니다."
 
 #: weblate/accounts/forms.py:684
 msgid ""
 "You will receive a notification for every such event in your watched "
 "projects."
-msgstr "참여하고있는 프로젝트의 모든 사건에 대한 통지를 받습니다."
+msgstr "참여하고있는 프로젝트의 모든 사건에 대한 알림을 받습니다."
 
 #: weblate/accounts/forms.py:689
 msgid ""
 "You will receive a notification for every such event in projects where you "
 "have admin permissions."
-msgstr "관리자 권한이 있는 프로젝트의 모든 사건에 대한 통지를 받습니다."
+msgstr "관리자 권한이 있는 프로젝트의 모든 사건에 대한 알림을 받습니다."
 
 #: weblate/accounts/forms.py:694
 #, python-format
@@ -228,16 +222,10 @@ msgid "You will receive a notification for every such event in %(component)s."
 msgstr "%(component)s 의 모든 해당 이벤트에 대한 알림을 받게 됩니다."
 
 #: weblate/accounts/forms.py:704
-#, fuzzy
-#| msgid ""
-#| "You will only receive these notifications for your translated languages "
-#| "in your watched projects."
 msgid ""
 "You will only receive these notifications for your translated languages in "
 "non-watched projects."
-msgstr ""
-"당신은 당신의 참여중인 프로젝트에서 번역된 언어에 대해서만 이러한 알림을 받"
-"게 됩니다."
+msgstr "참여하지 않은 프로젝트의 번역된 언어에 대해서만 이러한 알림을 받습니다."
 
 #: weblate/accounts/forms.py:709
 msgid ""
@@ -296,10 +284,8 @@ msgid "Screenshots uploaded"
 msgstr "올린 갈무리 갯수"
 
 #: weblate/accounts/forms.py:792
-#, fuzzy
-#| msgid "The detected file format is not supported."
 msgid "Chosen sorting is not supported."
-msgstr "이 파일 형식은 지원되지 않습니다."
+msgstr "선택한 정렬은 지원되지 않습니다."
 
 #: weblate/accounts/models.py:141
 msgid "Password changed."
@@ -386,13 +372,13 @@ msgstr "시험판 사용을 시작했습니다."
 #: weblate/accounts/models.py:159
 #, python-brace-format
 msgid "Sent confirmation mail to {email}."
-msgstr ""
+msgstr "확인용 전자우편을 {email}로 보냈습니다."
 
 #: weblate/accounts/models.py:161
 msgid ""
 "System created user to track authorship of translations uploaded by other "
 "user."
-msgstr ""
+msgstr "다른 사용자가 업로드한 번역의 저자를 추적하기 위해 시스템이 사용자를 생성했습니다."
 
 #: weblate/accounts/models.py:168
 msgid "Configured password to sign in."
@@ -519,15 +505,13 @@ msgid "Number of nearby strings to show in each direction in the full editor."
 msgstr "편집기의 각 방향으로 표시할 주변 문자열의 수입니다."
 
 #: weblate/accounts/models.py:433
-#, fuzzy
-#| msgid "Projects contributions"
 msgid "Automatically watch projects on contribution"
-msgstr "기여한 프로젝트"
+msgstr "기여한 프로젝트에 자동으로 참여"
 
 #: weblate/accounts/models.py:436
 msgid ""
 "Whenever you translate a string in a project, you will start watching it."
-msgstr ""
+msgstr "프로젝트에서 문자열을 번역할 때마다 참여가 이루어집니다."
 
 #: weblate/accounts/models.py:446 weblate/templates/dashboard/user.html:20
 msgid "Watched translations"
@@ -1015,12 +999,10 @@ msgid "JavaScript localization CDN"
 msgstr "자바스크립트 현지화 CDN"
 
 #: weblate/addons/cdn.py:40
-#, fuzzy
-#| msgid "Adds localization CDN for JavaScript or HTML localization."
 msgid ""
 "Publishes translations into content delivery network for use in JavaScript "
 "or HTML localization."
-msgstr "자바스크립트 혹은 HTML 현지화를 위한 현지화 CDN을 추가합니다."
+msgstr "자바스크립트 또는 HTML 현지화에 사용하기 위해 번역을 콘텐츠 전달 네트워크에 게시합니다."
 
 #: weblate/addons/cleanup.py:37
 msgid "Cleanup translation files"
