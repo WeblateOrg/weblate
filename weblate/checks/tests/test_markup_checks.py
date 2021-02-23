@@ -294,7 +294,7 @@ class MarkdownSyntaxCheckTest(CheckTestCase):
         self.test_failure_3 = ("_string_", "*string*", "md-text")
         self.test_highlight = (
             "md-text",
-            "**string** ~~strike~~ `code`",
+            "**string** ~~strike~~ `code` <https://weblate.org> <noreply@weblate.org>",
             [
                 (0, 2, "**"),
                 (8, 10, "**"),
@@ -302,6 +302,10 @@ class MarkdownSyntaxCheckTest(CheckTestCase):
                 (19, 21, "~~"),
                 (22, 23, "`"),
                 (27, 28, "`"),
+                (29, 30, "<"),
+                (49, 50, ">"),
+                (51, 52, "<"),
+                (71, 72, ">"),
             ],
         )
 
