@@ -2142,6 +2142,12 @@ LICENSES = (
         True,
     ),
     (
+        "OGDL-Taiwan-1.0",
+        "Taiwan Open Government Data License, version 1.0",
+        "https://data.gov.tw/license",
+        False,
+    ),
+    (
         "TAPR-OHL-1.0",
         "TAPR Open Hardware License v1.0",
         "https://www.tapr.org/OHL",
