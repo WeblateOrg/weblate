@@ -1958,7 +1958,7 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
                     "checking %s (%s) [%d/%d]", path, code, pos + 1, len(matches)
                 )
                 lang = Language.objects.auto_get_or_create(
-                    code=self.project.get_language_alias(code)
+                    code=self.get_language_alias(code)
                 )
                 if lang.code in languages:
                     codes = "{}, {}".format(code, languages[lang.code])
@@ -2190,7 +2190,7 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
                 )
                 raise ValidationError({"filemask": message})
             lang = Language.objects.auto_get_or_create(
-                self.project.get_language_alias(code), create=False
+                self.get_language_alias(code), create=False
             )
             if len(code) > LANGUAGE_CODE_LENGTH:
                 message = (
@@ -2339,7 +2339,7 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
             code = self.get_lang_code(self.template, validate=True)
             if code:
                 lang = Language.objects.auto_get_or_create(
-                    code=self.project.get_language_alias(code)
+                    code=self.get_language_alias(code)
                 ).base_code
                 if lang != self.source_language.base_code:
                     msg = _(
@@ -3048,3 +3048,10 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
             ).exists():
                 continue
             yield check
+
+    def get_language_alias(self, code):
+        if code in self.project.language_aliases_dict:
+            return self.project.language_aliases_dict[code]
+        if code in ("source", "src", "default"):
+            return self.source_language.code
+        return code

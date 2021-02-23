@@ -764,7 +764,7 @@ class ComponentValidationTest(RepoTestCase):
         self.assertEqual(
             component.get_lang_code("Solution/Project/Resources.xx.resx"), "xx"
         )
-        self.assertEqual(project.get_language_alias("xx"), "cs")
+        self.assertEqual(component.get_language_alias("xx"), "cs")
         self.assertRaisesMessage(
             ValidationError,
             "The language code for "
