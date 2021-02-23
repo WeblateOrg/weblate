@@ -78,8 +78,9 @@ Terminology
 .. versionadded:: 4.5
 
 Flagging certain glossary terms as ``terminology`` manually, or by
-using :guilabel:`Tools` ↓:guilabel:`Mark as terminology` puts them in all
-glossary languages. Use this for terms that should be translated consistently.
+using :guilabel:`Tools` ↓:guilabel:`Mark as terminology` adds entries for them
+to all languages in the glossary. Use this for important terms that should
+be well thought out, and retain a consistent meaning across all languages.
 
 .. seealso::
 
