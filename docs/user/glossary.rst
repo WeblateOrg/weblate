@@ -47,7 +47,7 @@ Untranslatable terms
 
 Flagging certain glossary term translations ``read-only`` manually, or
 using :guilabel:`Tools` ↓:guilabel:`Mark as read-only` means they can not
-be translated. Use this for names or other terms that should not be changed in translation.
+be translated. Use this for brand names or other terms that should not be changed in translation.
 Such terms are visually highlighted in the glossary sidebar.
 
 .. seealso::
