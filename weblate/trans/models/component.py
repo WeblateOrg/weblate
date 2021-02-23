@@ -2013,9 +2013,13 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
                 len(self.linked_childs),
             )
             component.translations_count = -1
-            was_change |= component.create_translations(
-                force, langs, request=request, from_link=True
-            )
+            try:
+                was_change |= component.create_translations(
+                    force, langs, request=request, from_link=True
+                )
+            except FileParseError:
+                report_error(cause="Failed linked component update")
+                continue
 
         # Run source checks on updated source strings
         if self.updated_sources:
