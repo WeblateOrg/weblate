@@ -432,13 +432,13 @@ LICENSES = (
         "CERN-OHL-P-2.0",
         "CERN Open Hardware Licence Version 2 - Permissive",
         "https://www.ohwr.org/project/cernohl/wikis/Documents/CERN-OHL-version-2",
-        False,
+        True,
     ),
     (
         "CERN-OHL-S-2.0",
         "CERN Open Hardware Licence Version 2 - Strongly Reciprocal",
         "https://www.ohwr.org/project/cernohl/wikis/Documents/CERN-OHL-version-2",
-        False,
+        True,
     ),
     (
         "CERN-OHL-W-2.0",
