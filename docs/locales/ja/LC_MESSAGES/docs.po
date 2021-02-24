@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-02-17 15:02+0100\n"
-"PO-Revision-Date: 2021-02-22 14:55+0000\n"
-"Last-Translator: amano <amano.hajime@gmail.com>\n"
+"PO-Revision-Date: 2021-02-24 19:15+0000\n"
+"Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "documentation/ja/>\n"
 "Language: ja\n"
@@ -15763,8 +15763,8 @@ msgid ""
 "The official Docker image (see :doc:`install/docker`) has all upgrade steps "
 "integrated. There are no manual step besides pulling latest version."
 msgstr ""
-"公式の Docker イメージ（:doc:`install/docker` "
-"を参照）は全てのアップグレード手順が統合されています。最新バージョンをプルする以外に手動で行う手順はありません。"
+"公式の Docker イメージ（参照: :doc:`install/"
+"docker`）には、すべてのアップグレードの方法が統合されています。最新バージョンを入手する以外に必要な操作はありません。"
 
 #: ../../admin/upgrade.rst:13
 msgid "Generic upgrade instructions"
@@ -15777,10 +15777,9 @@ msgid ""
 "your :file:`settings.py` to match changes in the configuration (consult :"
 "file:`settings_example.py` for correct values)."
 msgstr ""
-"アップグレードの前に、 :ref:`requirements` "
-"が変わっているかもしれないので、現在のものを確認してください。全ての要件がインストールまたは更新されたら、設定の変更に合わせて "
-":file:`settings.py` を調整してください（正しい値については :file:`settings_example.py` "
-"を参照してください）。"
+"アップグレードをする前に、現在の :ref:`requirements` "
+"を確認してください。変更があるかもしれません。すべての要件がインストールまたは更新されたあと、設定の変更に合わせて :file:`settings.py`"
+" を設定してください（正しい値については :file:`settings_example.py` を確認してください）。"
 
 #: ../../admin/upgrade.rst:20
 msgid ""
@@ -29899,7 +29898,7 @@ msgstr "Weblate の Python API"
 msgid ""
 "The Python API is shipped separately, you need to install the :ref:`wlc`: "
 "(wlc) to have it."
-msgstr "Python API は個別に提供されています。これを使用するには :ref:`wlc`: (wlc) をインストールすることが必要です。"
+msgstr "Python API は標準では搭載していません。使用するには :ref:`wlc`: (wlc) をインストールしてください。"
 
 #: ../../python.rst:21
 msgid ":mod:`wlc`"
@@ -29931,7 +29930,7 @@ msgstr "設定オブジェクト、他のパラメータを上書きする。"
 
 #: ../../python.rst:45
 msgid "Access class to the API, define API key and optionally API URL."
-msgstr "APIへのアクセスクラスで、APIキーとオプションでAPI URLを定義します。"
+msgstr "API へのアクセス クラスに、API キーと必要なら API URL を設定します。"
 
 #: ../../python.rst:49 ../../python.rst:57
 msgid "Request path"
@@ -29959,7 +29958,7 @@ msgstr "使用するセクションの設定"
 
 #: ../../python.rst:78
 msgid "Configuration file parser following XDG specification."
-msgstr "XDG 仕様に従った設定ファイルのパーサー。"
+msgstr "XDG 仕様に準拠した設定ファイルのパーサー。"
 
 #: ../../python.rst:83
 msgid "Path from which to load configuration."
@@ -32533,7 +32532,7 @@ msgstr "``changed_by:TEXT``"
 
 #: ../../user/search.rst:58
 msgid "String was changed by author with given username."
-msgstr "文字列は、指定したユーザー名の翻訳者に変更された。"
+msgstr "指定したユーザー名の翻訳者が変更した翻訳文。"
 
 #: ../../user/search.rst:59
 msgid "``changed:DATETIME``"
@@ -32541,7 +32540,7 @@ msgstr "``changed:DATETIME``"
 
 #: ../../user/search.rst:60
 msgid "String content was changed on date, supports :ref:`search-operators`."
-msgstr "文字列の内容が変更された日付、:ref:`search-operators` に対応。"
+msgstr "文字列の内容が変更された日付。:ref:`search-operators` に対応。"
 
 #: ../../user/search.rst:63
 msgid "``change_time:DATETIME``"
@@ -32553,9 +32552,8 @@ msgid ""
 "``changed`` this includes event which don't change content and you can apply "
 "custom action filtering using ``change_action``."
 msgstr ""
-"文字列の内容が変更された日付、:ref:`search-operators` に対応、``changed`` と"
-"は違い、これには内容を変更しないイベントが含まれており、``change_action`` を"
-"使用して独自のアクション フィルター処理を適用できます。"
+"文字列の内容が変更された日付。:ref:`search-operators` に対応。``changed`` "
+"とは異なり、これには内容が変更されないイベントを含み、変更をした操作 ``change_action`` を使用して独自の絞り込みができます。"
 
 #: ../../user/search.rst:68
 msgid "``change_action:TEXT``"
@@ -32568,9 +32566,9 @@ msgid ""
 "lowercase and spaces replaced by dash. See :ref:`search-changes` for "
 "examples."
 msgstr ""
-"変更アクションでのフィルター。``change_time`` とセットで使用すると便利です。 "
-"英語の変更アクション名を、引用符で囲んだスペース区切りか、小文字でスペースをダッシュで置き換えた形で指定できます。例は、:ref:`search-"
-"changes` をご覧ください。"
+"変更をした操作を指定する絞り込み。``change_time`` とセットで使用すると便利です。 "
+"変更をした操作の英語表記を、スペースで区切って引用符で囲む、もしくは小文字に置き換えスペースをハイフンに置換した形式、に変換して指定します。例は、:ref"
+":`search-changes` を確認してください。"
 
 #: ../../user/search.rst:70
 msgid "``check:TEXT``"
@@ -32602,7 +32600,7 @@ msgstr "``comment_author:TEXT``"
 
 #: ../../user/search.rst:77
 msgid "Filter by comment author."
-msgstr "コメントした翻訳者でフィルターをかける。"
+msgstr "コメントした翻訳者を指定した絞り込み。"
 
 #: ../../user/search.rst:78
 msgid "``suggestion:TEXT``"
@@ -32618,7 +32616,7 @@ msgstr "``suggestion_author:TEXT``"
 
 #: ../../user/search.rst:81
 msgid "Filter by suggestion author."
-msgstr "提案した翻訳者でフィルターをかける。"
+msgstr "提案した翻訳者を指定した絞り込み。"
 
 #: ../../user/search.rst:83
 msgid "``explanation:TEXT``"
@@ -32658,7 +32656,7 @@ msgstr "``state:>=translated``"
 
 #: ../../user/search.rst:99
 msgid "State is ``translated`` or better (``approved``)."
-msgstr "状態は ``translated`` か、それ以上（``approved``）。"
+msgstr "状態は ``translated`` か、より良い（``approved``）。"
 
 #: ../../user/search.rst:100
 msgid "``changed:2019``"
