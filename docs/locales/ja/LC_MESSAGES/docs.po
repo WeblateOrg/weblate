@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-02-17 15:02+0100\n"
-"PO-Revision-Date: 2021-02-24 19:15+0000\n"
-"Last-Translator: amano <amano.hajime@gmail.com>\n"
+"PO-Revision-Date: 2021-02-24 20:30+0000\n"
+"Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "documentation/ja/>\n"
 "Language: ja\n"
@@ -322,9 +322,7 @@ msgstr "`グループ`"
 msgid ""
 "Groups connect roles, users and authentication objects (projects, languages "
 "and component lists)."
-msgstr ""
-"グループは、ロール、ユーザー、認証オブジェクト（プロジェクト、言語、コンポー"
-"ネント リストのセット）を関連付けます。"
+msgstr "グループは、ロール、ユーザー、認証オブジェクト（プロジェクト、言語、コンポーネント リスト）を関連付けます。"
 
 #: ../../admin/access.rst:166
 msgid "Permission checking"
@@ -4113,7 +4111,7 @@ msgstr ""
 
 #: ../../admin/componentlists.rst:4
 msgid "Component Lists"
-msgstr "コンポーネント リスト"
+msgstr "複数のコンポーネント リスト"
 
 #: ../../admin/componentlists.rst:6
 msgid ""
@@ -4121,15 +4119,14 @@ msgid ""
 "dashboard, from which users can pick one as their default view. See :ref:"
 "`dashboard` to learn more."
 msgstr ""
-"ユーザー ダッシュボードにオプションとして表示するコンポーネントの組を複数指定し、ユーザーがデフォルト ビューとして 1 "
-"つを選択できるようにします。詳細については、:ref:`dashboard` を確認してください。"
+"ユーザーのダッシュボードに選択肢として表示するコンポーネント リストを複数指定できます。ユーザーはデフォルト画面に表示するものを 1 "
+"つ選択できるようになります。詳細については、:ref:`dashboard` を確認してください。"
 
 #: ../../admin/componentlists.rst:12
 msgid ""
 "A status will be presented for each component list presented on the "
 "dashboard."
-msgstr ""
-"ダッシュボードに表示される各コンポーネント リストごとの状況を表示します。"
+msgstr "ダッシュボードに表示するコンポーネント リストごとに翻訳状況を表示します。"
 
 #: ../../admin/componentlists.rst:14
 msgid ""
@@ -4138,16 +4135,14 @@ msgid ""
 "have a name that is displayed to the user, and a slug representing it in the "
 "URL."
 msgstr ""
-"コンポーネント リストの名前と内容は、管理インターフェイスの :guilabel:`Component lists` セクションで指定できます。"
-"各コンポーネント リストには、ユーザーに表示される名前と、URL に用いるスラッグが必要です。"
+"各コンポーネント リストの名前と内容は、管理インターフェイスの :guilabel:`Component lists` セクションから設定します。"
+"各コンポーネント リストには、ユーザーに表示する名前と、URL に使用するスラッグが必要です。"
 
 #: ../../admin/componentlists.rst:22
 msgid ""
 "Change dashboard settings for anonymous users from the admin interface, "
 "altering what dashboard is presented to unauthenticated users."
-msgstr ""
-"管理画面から匿名ユーザーのダッシュボード設定を変更し、認証されていないユー"
-"ザーに表示するダッシュボードを変更します。"
+msgstr "管理画面から匿名ユーザーのダッシュボードの設定を、認証されていないユーザーに表示するダッシュボードに変更します。"
 
 #: ../../admin/componentlists.rst:26
 msgid "Automatic component lists"
@@ -4158,8 +4153,8 @@ msgid ""
 "Add components to the list automatically based on their slug by creating :"
 "guilabel:`Automatic component list assignment` rules."
 msgstr ""
-":guilabel:`Automatic component list assignment` ルールを作成して、スラグに基"
-"づいてコンポーネントをリストに自動的に追加します。"
+"スラッグに基づいてコンポーネントを自動的にリストに追加するには、:guilabel:`Automatic component list "
+"assignment` の規則を作成します。"
 
 #: ../../admin/componentlists.rst:33
 msgid ""
@@ -4167,16 +4162,14 @@ msgid ""
 "you want to have one component list with all components on your Weblate "
 "installation."
 msgstr ""
-"大規模なインスタンスでコンポーネント リストを管理する場合や、Weblate のインスタンス上の全てのコンポーネントを 1 つのコンポーネント "
-"リストにする場合に便利です。"
+"大規模な導入時に、コンポーネント リストを管理する場合、または導入済みの Weblate のすべてのコンポーネントを 1 つのコンポーネント "
+"リストにまとめる場合に便利です。"
 
 #: ../../admin/componentlists.rst:38
 msgid ""
 "Make a component list containing all the components of your Weblate "
 "installation."
-msgstr ""
-"Weblate インストールのすべてのコンポーネントを含むコンポーネント リストを作成"
-"します。"
+msgstr "導入済みの Weblate のすべてのコンポーネントをまとめたコンポーネント リストを作成します。"
 
 #: ../../admin/componentlists.rst:40
 msgid ""
@@ -4184,8 +4177,8 @@ msgid ""
 "regular expression in both the project and the component fields, as shown on "
 "this image:"
 msgstr ""
-"1. 次の画像に示すように、:guilabel:`コンポーネント リストの自動割り当て` のプロジェクトとコンポーネントの両方のフィールドを正規表現 "
-"``^.*$`` で定義します。"
+"1. 次の画像は、プロジェクトとコンポーネントの両方の入力欄に、正規表現 ``^.*$`` を使用して、:guilabel:`コンポーネント "
+"リストの自動割り当て` を設定する方法:"
 
 #: ../../admin/config.rst:4 ../../admin/install/openshift.rst:97
 #: ../../faq.rst:5
@@ -5528,8 +5521,7 @@ msgstr "LOGIN_REQUIRED_URLS"
 msgid ""
 "A list of URLs you want to require logging into. (Besides the standard rules "
 "built into Weblate)."
-msgstr ""
-"ログインが必要な URL の一覧。（Weblate の組み込みの標準ルールに追加する）。"
+msgstr "ログインが必要な URL の一覧。（Weblate に標準設定済み以外の規則）。"
 
 #: ../../admin/config.rst:1002
 msgid "This allows you to password protect a whole installation using:"
@@ -18138,23 +18130,22 @@ msgstr "アドオンを削除します。"
 
 #: ../../api.rst:2195
 msgid "Component lists"
-msgstr "コンポーネント リストのセット"
+msgstr "複数のコンポーネント リスト"
 
 #: ../../api.rst:2201
 msgid "Returns a list of component lists."
-msgstr "コンポーネント リストのセットの一覧を返す。"
+msgstr "すべてのコンポーネント リストのリストを返します。"
 
 #: ../../api.rst:2205
 msgid ""
 "Component list object attributes are documented at :http:get:`/api/component-"
 "lists/(str:slug)/`."
 msgstr ""
-"コンポーネント リストのセットのオブジェクト属性は、:http:get:`/api/component-"
-"lists/(str:slug)/` に記載されています。"
+"コンポーネント リストのオブジェクト属性は、:http:get:`/api/component-lists/(str:slug)/` に記載しています。"
 
 #: ../../api.rst:2209
 msgid "Returns information about component list."
-msgstr ""
+msgstr "コンポーネント リストに関する情報を返します。"
 
 #: ../../api.rst:2211 ../../api.rst:2223 ../../api.rst:2233 ../../api.rst:2243
 #: ../../api.rst:2250 ../../api.rst:2258
@@ -18163,7 +18154,7 @@ msgstr "コンポーネント リストのスラッグ"
 
 #: ../../api.rst:2213 ../../api.rst:2225 ../../api.rst:2235
 msgid "name of a component list"
-msgstr ""
+msgstr "コンポーネント リストの名前"
 
 #: ../../api.rst:2214 ../../api.rst:2226 ../../api.rst:2236
 msgid "slug of a component list"
@@ -18171,41 +18162,41 @@ msgstr "コンポーネント リストのスラッグ"
 
 #: ../../api.rst:2215 ../../api.rst:2227 ../../api.rst:2237
 msgid "whether to show it on a dashboard"
-msgstr ""
+msgstr "ダッシュボードに表示するかどうか"
 
 #: ../../api.rst:2217
 msgid "automatic assignment rules"
-msgstr ""
+msgstr "自動割り当て規則"
 
 #: ../../api.rst:2221 ../../api.rst:2231
 msgid "Changes the component list parameters."
-msgstr ""
+msgstr "コンポーネント リストのパラメータを変更します。"
 
 #: ../../api.rst:2241
 msgid "Deletes the component list."
-msgstr ""
+msgstr "コンポーネント リストを削除します。"
 
 #: ../../api.rst:2248
 msgid "Associate component with a component list."
-msgstr ""
+msgstr "コンポーネントをコンポーネント リストに関連付けます。"
 
 #: ../../api.rst:2252
 msgid "Component ID"
-msgstr ""
+msgstr "コンポーネント ID"
 
 #: ../../api.rst:2256
 msgid "Disassociate a component from the component list."
-msgstr ""
+msgstr "コンポーネント リストからコンポーネントの関連付けを解除します。"
 
 #: ../../api.rst:2268
 msgid ""
 "Glossaries are now stored as regular components, translations and strings, "
 "please use respective API instead."
-msgstr ""
+msgstr "現在、用語集は普通のコンポーネントとして、翻訳と文字列を保存するようになりました。代わりに該当の API を使用してください。"
 
 #: ../../api.rst:2272
 msgid "Tasks"
-msgstr ""
+msgstr "タスク"
 
 #: ../../api.rst:2278
 msgid "Listing of the tasks is currently not available."
@@ -18217,7 +18208,7 @@ msgstr "タスクに関する情報を返します"
 
 #: ../../api.rst:2284
 msgid "Task UUID"
-msgstr ""
+msgstr "タスク UUID"
 
 #: ../../api.rst:2286
 msgid "Whether the task has completed"
@@ -18225,7 +18216,7 @@ msgstr "タスクが完了したかどうか"
 
 #: ../../api.rst:2287
 msgid "Task progress in percent"
-msgstr ""
+msgstr "タスクの進捗率"
 
 #: ../../api.rst:2288
 msgid "Task result or progress details"
@@ -32382,10 +32373,9 @@ msgid ""
 "into quotes (both single (') and double (\") quotes will work): ``\"this is "
 "a quoted string\"`` or ``'another quoted string'``."
 msgstr ""
-"検索ボックスに入力した語句はすべて単語に分割されます。分割した単語のいずれか"
-"を含む文字列が表示されます。正確な語句を探すには、引用符「一重引用符 (') と二"
-"重引用符 (\") の両方を使用できる」に「検索語句」を入れる。使用例: ``\"this "
-"is a quoted string\"`` または ``'another quoted string'``。"
+"検索ボックスに入力した語句を単語に分割します。いずれかの単語を含んだ文字列が表示されます。完全に一致する語句を検索するには、「検索語句」を引用符（"
+"一重引用符 (') および二重引用符 (\") に対応）で囲む:　使用例: ``\"this is a quoted string\"`` または ``"
+"'another quoted string'``。"
 
 #: ../../user/search.rst:25
 msgid "Fields"
@@ -32673,7 +32663,7 @@ msgstr "開始日と終了日の期間内の変更。"
 
 #: ../../user/search.rst:106
 msgid "Exact operators"
-msgstr "正確な演算子"
+msgstr "完全一致の演算子"
 
 #: ../../user/search.rst:108
 msgid ""
@@ -32683,10 +32673,10 @@ msgid ""
 "expressions, you can skip quotes. For example, to search for all source "
 "strings matching ``hello``, you can use: ``source:=hello``."
 msgstr ""
-"``=`` 演算子を使用すると、異なる文字列フィールドに対して完全一致クエリを実行できます。例えば、``hello world`` "
-"に完全に一致するすべての原文を検索するには、``source:=\"hello world\"`` "
-"を使用します。単一の単語を検索する場合は、引用符を省略できます。例えば、``hello`` "
-"に一致するすべての原文を検索するには、``source:=hello`` と入力します。"
+"``=`` 演算子を使用して、異なる範囲の文字列に対して完全一致クエリを実行できます。例えば、``hello world`` "
+"と完全に一致する語句をすべての原文から検索するには、``source:=\"hello world\"`` を使用します。単語 1 "
+"つを検索する場合は、引用符を省略できます。例えば、``hello`` に一致するすべての原文を検索するには、``source:=hello`` "
+"と入力します。"
 
 #: ../../user/search.rst:116
 msgid "Searching for changes"
@@ -32737,9 +32727,7 @@ msgstr "定義済みのクエリ"
 msgid ""
 "You can select out of predefined queries on the search page, this allows you "
 "to quickly access the most frequent searches:"
-msgstr ""
-"検索ページで事前に定義されたクエリーから選択すると、最も頻繁に実行する検索に"
-"すばやくアクセスできます。"
+msgstr "検索ページで事前に設定したクエリーを選択できます。これを使用し、使用頻度が高い検索を素早く実行する方法:"
 
 #: ../../user/search.rst:144
 msgid "Ordering the results"
