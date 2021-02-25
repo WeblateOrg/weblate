@@ -20,7 +20,7 @@
 {% block breadcrumbs %}
 <li><a href="{{ project.get_absolute_url }}">{{ object.component.project }}</a></li>
 {% if object.component.slug != "-" %}
-<li><a href="{{ object.component.get_absolute_url }}">{{ object.component.name }}</a></li>
+{% include "snippets/component-breadcrumb.html" with object=object.component %}
 {% endif %}
 <li><a href="{{ object.get_absolute_url }}">{{ object.language }}</a></li>
 <li><a href="{% url 'zen' project=project.slug component=object.component.slug lang=object.language.code %}">{% trans "Zen" %}</a></li>
