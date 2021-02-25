@@ -1265,9 +1265,12 @@ use that for the following paths:
 
 .. seealso::
 
-    :ref:`production-compress`,
-    :doc:`django:howto/deployment/index`,
-    :doc:`django:howto/static-files/deployment`
+   :ref:`uwsgi`,
+   :ref:`apache`,
+   :ref:`apache-gunicorn`,
+   :ref:`production-compress`,
+   :doc:`django:howto/deployment/index`,
+   :doc:`django:howto/static-files/deployment`
 
 .. _csp:
 
