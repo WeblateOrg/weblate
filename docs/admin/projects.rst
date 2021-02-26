@@ -645,7 +645,7 @@ The default value can be changed by :setting:`DEFAULT_COMMITER_NAME`.
 Committer e-mail
 ++++++++++++++++
 
-E-mail address of committer used for Weblate commits. The author will always
+E-mail address of the committer used for Weblate commits. The author will always
 be the real translator. On some VCSs this might be not supported. The default
 value can be changed in :setting:`DEFAULT_COMMITER_EMAIL`.
 
