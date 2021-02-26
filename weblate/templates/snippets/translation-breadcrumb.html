@@ -1,5 +1,7 @@
+{% load icons %}
 <li>
   <a href="{{ object.get_absolute_url }}">
     {{ object.language }}
+    {% icon "source.svg" %}
   </a>
 </li>

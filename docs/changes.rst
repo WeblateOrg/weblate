@@ -9,6 +9,7 @@ Not yet released.
 * Better handle uploads for monolingual PO using API.
 * Improved alerts behavior with glossaries.
 * Improved Markdown link checks.
+* Indicate glossary and source language in breadcrumbs.
 
 Weblate 4.5
 -----------
