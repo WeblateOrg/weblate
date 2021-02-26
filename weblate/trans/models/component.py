@@ -851,9 +851,6 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
         # Make sure it is listed in project glossaries now
         project.glossaries.append(component)
 
-        # Make sure all languages are present
-        component.sync_terminology()
-
     @cached_property
     def _lock(self):
         default_cache = caches["default"]
@@ -2566,6 +2563,9 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
         # Make sure we create glossary
         if create:
             self.create_glossary()
+
+            # Make sure all languages are present
+            self.sync_terminology()
 
     def update_variants(self):
         from weblate.trans.models import Unit
