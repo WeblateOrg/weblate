@@ -677,7 +677,7 @@ Default value can be changed by :setting:`COMMIT_PENDING_HOURS`.
 Lock on error
 +++++++++++++
 
-Locks a component upon any repository error (failed pull, push or merge).
+Locks any chosen component upon the first failed push or merge into its upstream repository, or pull from it.
 This avoids adding another conflict, which would have to be resolved manually.
 
 The component will be automatically unlocked once there are no repository
