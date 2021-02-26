@@ -101,7 +101,7 @@ from the project page in question, as described in :ref:`manage-acl`.
 
     * Statistics for the whole site, including the number of projects on it.
     * Language summary for the whole site, including counts for all projects.
-    * The VCS project repository address, even if it is a private prepository.
+    * The VCS project repository address, even if it is a private repository.
 
 .. _autogroup:
 
