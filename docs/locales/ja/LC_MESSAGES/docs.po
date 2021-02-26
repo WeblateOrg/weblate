@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-02-17 15:02+0100\n"
-"PO-Revision-Date: 2021-02-26 13:31+0000\n"
+"PO-Revision-Date: 2021-02-27 08:45+0000\n"
 "Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "documentation/ja/>\n"
@@ -4119,8 +4119,8 @@ msgid ""
 "dashboard, from which users can pick one as their default view. See :ref:"
 "`dashboard` to learn more."
 msgstr ""
-"ユーザーのダッシュボードに選択肢として表示するコンポーネント リストを複数指定できます。ユーザーはデフォルト画面に表示するものを 1 "
-"つ選択できるようになります。詳細については、:ref:`dashboard` を確認してください。"
+"ユーザーのダッシュボード画面に表示させるコンポーネントは、コンポーネント リストから複数指定できます。複数指定すると、"
+"ユーザーはデフォルト画面に表示するコンポーネントを 1 つ選択できるようになります。詳細については、:ref:`dashboard` を確認してください。"
 
 #: ../../admin/componentlists.rst:12
 msgid ""
@@ -4136,13 +4136,13 @@ msgid ""
 "URL."
 msgstr ""
 "各コンポーネント リストの名前と内容は、管理インターフェイスの :guilabel:`コンポーネント リスト` セクションから設定します。"
-"各コンポーネント リストには、ユーザーに表示する名前と、URL に使用するスラッグが必要です。"
+"各コンポーネント リストには、ユーザーに表示する名前と、URL に使用するスラッグの両方が必要です。"
 
 #: ../../admin/componentlists.rst:22
 msgid ""
 "Change dashboard settings for anonymous users from the admin interface, "
 "altering what dashboard is presented to unauthenticated users."
-msgstr "管理画面から匿名ユーザーのダッシュボードの設定を、認証されていないユーザーに表示するダッシュボードに変更します。"
+msgstr "管理画面で設定する、匿名ユーザーのためのダッシュボードは、認証されていないユーザーのためのダッシュボードに変更します。"
 
 #: ../../admin/componentlists.rst:26
 msgid "Automatic component lists"
@@ -16190,7 +16190,7 @@ msgstr "Weblate's REST API"
 
 #: ../../api.rst:12
 msgid "The REST API is available since Weblate 2.6."
-msgstr ""
+msgstr "REST API は、Weblate 2.6 から使用できます。"
 
 #: ../../api.rst:14
 msgid ""
@@ -16198,10 +16198,12 @@ msgid ""
 "framework <https://www.django-rest-framework.org/>`_. You can use it "
 "directly or by :ref:`wlc`."
 msgstr ""
+"API は ``/api/`` URL からアクセスでき、ベースは `Django REST framework <https://www.django-"
+"rest-framework.org/>`_ です。直接もしくは、:ref:`wlc` から使用できます。"
 
 #: ../../api.rst:21
 msgid "Authentication and generic parameters"
-msgstr ""
+msgstr "認証と一般的なパラメータ"
 
 #: ../../api.rst:23
 msgid ""
@@ -16211,16 +16213,18 @@ msgid ""
 "uses a token, which you can get in your profile. Use it in the "
 "``Authorization`` header:"
 msgstr ""
+"公開プロジェクト API は認証なしで使用できますが、認証されていない要求は大幅に制限します（デフォルトでは、毎日100リクエスト）。そのため認証の使用を"
+"推奨します。認証ではトークンを使用し、ユーザー情報から取得します。``Authorization`` ヘッダーで使用する項目:"
 
 #: ../../api.rst:30
 msgid ""
 "Generic request behaviour for the API, the headers, status codes and "
 "parameters here apply to all endpoints as well."
-msgstr ""
+msgstr "API、ヘッダー、ステータスコード、およびパラメータの一般的なリクエスト動作は、すべてのエンドポイントにも適用します。"
 
 #: ../../api.rst:0
 msgid "Query Parameters"
-msgstr ""
+msgstr "クエリ パラメータ"
 
 #: ../../api.rst:33
 msgid ""
@@ -16228,106 +16232,108 @@ msgid ""
 "on REST framework setup, by default ``json`` and ``api`` are supported. The "
 "latter provides web browser interface for API."
 msgstr ""
+"レスポンス形式（上書き :http:header:`Accept`）。指定できる値は REST フレームワークの設定に依存します。デフォルトでは "
+"``json`` および ``api`` に対応。後者には、API 用の Web ブラウザー インターフェースを提供します。"
 
 #: ../../api.rst:0
 msgid "Request Headers"
-msgstr ""
+msgstr "リクエスト ヘッダー"
 
 #: ../../api.rst:37
 msgid "the response content type depends on :http:header:`Accept` header"
-msgstr ""
+msgstr "レスポンスの内容の型は :http:header:`Accept` ヘッダーに依存する"
 
 #: ../../api.rst:39
 msgid "optional token to authenticate"
-msgstr ""
+msgstr "認証用のオプションのトークン"
 
 #: ../../api.rst:0
 msgid "Response Headers"
-msgstr ""
+msgstr "レスポンス ヘッダー"
 
 #: ../../api.rst:40
 msgid "this depends on :http:header:`Accept` header of request"
-msgstr ""
+msgstr "リクエストの :http:header:`Accept` ヘッダーに依存する"
 
 #: ../../api.rst:42
 msgid "list of allowed HTTP methods on object"
-msgstr ""
+msgstr "オブジェクトで許可されている HTTP メソッドのリスト"
 
 #: ../../api.rst:0
 msgid "Response JSON Object"
-msgstr ""
+msgstr "レスポンス JSON オブジェクト"
 
 #: ../../api.rst:43
 msgid ""
 "verbose description of failure (for HTTP status codes other than :http:"
 "statuscode:`200`)"
-msgstr ""
+msgstr "エラーの詳細な説明（:http:statuscode:`200` 以外の HTTP ステータス コードの場合）"
 
 #: ../../api.rst:44
 msgid "total item count for object lists"
-msgstr ""
+msgstr "オブジェクト リストの合計項目数"
 
 #: ../../api.rst:45
 msgid "next page URL for object lists"
-msgstr ""
+msgstr "オブジェクト リストの次のページの URL"
 
 #: ../../api.rst:46
 msgid "previous page URL for object lists"
-msgstr ""
+msgstr "オブジェクト リストの前のページの URL"
 
 #: ../../api.rst:47
 msgid "results for object lists"
-msgstr ""
+msgstr "オブジェクト リストの結果"
 
 #: ../../api.rst:48
 msgid "URL to access this resource using API"
-msgstr ""
+msgstr "このリソースへの API を使用したアクセス用の URL"
 
 #: ../../api.rst:49
 msgid "URL to access this resource using web browser"
-msgstr ""
+msgstr "このリソースへの Web ブラウザを使用したアクセス用の URL"
 
 #: ../../api.rst:0
 msgid "Status Codes"
-msgstr ""
+msgstr "ステータスコード"
 
 #: ../../api.rst:50
 msgid "when request was correctly handled"
-msgstr ""
+msgstr "リクエストが正常に処理された場合"
 
 #: ../../api.rst:51
 msgid "when form parameters are missing"
-msgstr ""
+msgstr "フォーム パラメータが不足している場合"
 
 #: ../../api.rst:52
 msgid "when access is denied"
-msgstr ""
+msgstr "アクセスが拒否された場合"
 
 #: ../../api.rst:53
 msgid "when throttling is in place"
-msgstr ""
+msgstr "スロットルが設定されている場合"
 
 #: ../../api.rst:56
 msgid "Authentication examples"
-msgstr ""
+msgstr "認証の例"
 
 #: ../../api.rst:58 ../../api.rst:186
 msgid "**Example request:**"
-msgstr ""
+msgstr "**リクエストの例:**"
 
 #: ../../api.rst:67 ../../api.rst:195
 msgid "**Example response:**"
-msgstr ""
+msgstr "**レスポンスの例:**"
 
 #: ../../api.rst:87 ../../api.rst:127 ../../api.rst:868 ../../api.rst:936
 #: ../../api.rst:1184 ../../api.rst:1335 ../../api.rst:1402 ../../api.rst:1478
 #: ../../api.rst:1829 ../../api.rst:2063
 msgid "**CURL example:**"
-msgstr ""
+msgstr "**CURL の例:**"
 
 #: ../../api.rst:96
 msgid "Passing Parameters Examples"
-msgstr ""
+msgstr "パラメータの受け渡し例"
 
 #: ../../api.rst:98
 msgid ""
@@ -16335,19 +16341,21 @@ msgid ""
 "form submission (:mimetype:`application/x-www-form-urlencoded`) or as JSON (:"
 "mimetype:`application/json`)."
 msgstr ""
+":http:method:`POST` メソッドでは、フォーム送信（:mimetype:`application/x-www-form-"
+"urlencoded`）または JSON（:mimetype:`application/json`）のどちらかでパラメータを指定します。"
 
 #: ../../api.rst:102
 msgid "**Form request example:**"
-msgstr ""
+msgstr "**フォーム リクエストの例:**"
 
 #: ../../api.rst:114 ../../api.rst:877 ../../api.rst:959 ../../api.rst:1194
 #: ../../api.rst:1344 ../../api.rst:1411 ../../api.rst:1487
 msgid "**JSON request example:**"
-msgstr ""
+msgstr "**JSON リクエストの例:**"
 
 #: ../../api.rst:136
 msgid "**CURL JSON example:**"
-msgstr ""
+msgstr "**CURL JSON の例:**"
 
 #: ../../api.rst:149
 msgid "API rate limiting"
@@ -16391,7 +16399,7 @@ msgstr "``X-RateLimit-Remaining``"
 
 #: ../../api.rst:164
 msgid "Remaining limit of requests"
-msgstr ""
+msgstr "リクエストが制限されるまでの回数"
 
 #: ../../api.rst:166
 msgid "``X-RateLimit-Reset``"
@@ -16531,7 +16539,7 @@ msgstr "ユーザーごとの翻訳数"
 
 #: ../../api.rst:326
 msgid "Number of suggestions by user"
-msgstr "ユーザーごとの翻訳数"
+msgstr "ユーザーごとの提案数"
 
 #: ../../api.rst:327
 msgid "Number of uploads by user"
@@ -16543,7 +16551,7 @@ msgstr "ユーザーごとのコメント数"
 
 #: ../../api.rst:329
 msgid "Number of languages user can translate"
-msgstr "ユーザーが翻訳できる言語の数"
+msgstr "ユーザーごとの翻訳可能な言語数"
 
 #: ../../api.rst:333
 msgid "List subscriptions of a user."
@@ -33671,11 +33679,9 @@ msgid ""
 "the hostname you are going to access (e.g. ``gitlab.com``), and press :"
 "guilabel:`Submit`. Verify its fingerprint matches the server you added."
 msgstr ""
-"リポジトリに接続する前に公開鍵の指紋を確認する場合は、管理画面の同じセクショ"
-"ンから :guilabel:`Add host key` で接続するサーバーの SSH ホスト認証鍵を追加し"
-"てください。接続するホスト名（例: ``gitlab.com``）を入力し、:guilabel:"
-"`Submit` を押します。公開鍵の指紋が追加したサーバーと一致しているかどうかを確"
-"認します。"
+"リポジトリに接続する前に公開鍵の指紋を確認する場合は、管理画面の同じセクションから :guilabel:`ホスト鍵の追加` で接続するサーバーの SSH "
+"ホスト認証鍵を追加してください。接続するホスト名（例: ``gitlab.com``）を入力し、:guilabel:`送信` "
+"を押します。公開鍵の指紋が追加したサーバーと一致しているかどうかを確認します。"
 
 #: ../../vcs.rst:96
 msgid "The added keys with fingerprints are shown in the confirmation message:"
