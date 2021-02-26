@@ -23,7 +23,7 @@
 {% if object.component.slug != "-" %}
 {% include "snippets/component-breadcrumb.html" with object=object.component %}
 {% endif %}
-<li><a href="{{ object.get_absolute_url }}">{{ object.language }}</a></li>
+{% include "snippets/translation-breadcrumb.html" %}
 {% if object.component.slug == "-" %}
 <li><a href="{{ unit.translation.component.get_absolute_url }}">{{ unit.translation.component.name }}</a></li>
 {% endif %}

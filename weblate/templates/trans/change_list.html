@@ -11,7 +11,7 @@
 {% if component %}
 {% include "snippets/component-breadcrumb.html" with object=component %}
 {% if translation %}
-<li><a href="{{ translation.get_absolute_url }}">{{ translation.language }}</a></li>
+{% include "snippets/translation-breadcrumb.html" with object=translation %}
 {% endif %}
 {% endif %}
 {% elif changes_user %}
