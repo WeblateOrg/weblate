@@ -20,7 +20,7 @@ put users in groups that have one or more of these roles, described in
 :ref:`auth-model`.
 
 Site wide permissions
-+++++++++++++++++++++
+---------------------
 
 By default, new users get access to comment, provide suggestions, and make translations
 everywhere by being put in the `Users` group automatically by :ref:`autogroup`.
