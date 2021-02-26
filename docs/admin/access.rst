@@ -501,7 +501,7 @@ however re-create them if you delete or rename them.
     privileges instead.
 
 Locking down Weblate
-++++++++++++++++++++
+--------------------
 
 If you experience problems with malice on your Weblate installation,
 you can use :setting:`REQUIRE_LOGIN` to require users to sign in and
