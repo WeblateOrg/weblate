@@ -73,7 +73,6 @@ class Comment(models.Model, UserDisplayMixin):
     userdetails = JSONField()
 
     objects = CommentManager.from_queryset(CommentQuerySet)()
-    weblate_unsafe_delete = True
 
     class Meta:
         app_label = "trans"

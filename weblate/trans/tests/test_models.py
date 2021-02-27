@@ -20,7 +20,7 @@
 import os
 
 from django.core.management.color import no_style
-from django.db import connection
+from django.db import connection, transaction
 from django.test import LiveServerTestCase, TestCase
 from django.test.utils import override_settings
 
@@ -142,12 +142,15 @@ class ProjectTest(RepoTestCase):
         self.assertFalse(os.path.exists(project.full_path))
 
     def test_delete_votes(self):
-        component = self.create_po(suggestion_voting=True, suggestion_autoaccept=True)
-        user = create_test_user()
-        translation = component.translation_set.get(language_code="cs")
-        unit = translation.unit_set.first()
-        suggestion = Suggestion.objects.add(unit, "Test", None)
-        Vote.objects.create(suggestion=suggestion, value=Vote.POSITIVE, user=user)
+        with transaction.atomic():
+            component = self.create_po(
+                suggestion_voting=True, suggestion_autoaccept=True
+            )
+            user = create_test_user()
+            translation = component.translation_set.get(language_code="cs")
+            unit = translation.unit_set.first()
+            suggestion = Suggestion.objects.add(unit, "Test", None)
+            Vote.objects.create(suggestion=suggestion, value=Vote.POSITIVE, user=user)
         component.project.delete()
 
     def test_delete_all(self):

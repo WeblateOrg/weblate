@@ -145,29 +145,64 @@ class FastCollector(Collector):
     """
     Fast delete collector skipping some signals.
 
-    It allows fast deletion for models flagged with weblate_unsafe_delete.
+    It allows fast deletion for some models.
 
     This is needed as check removal triggers check run and that can
     create new checks for just removed units.
     """
 
     @staticmethod
-    def is_weblate_unsafe(model):
-        return getattr(model, "weblate_unsafe_delete", False)
+    def do_weblate_fast_delete(model):
+        from weblate.checks.models import Check
+        from weblate.trans.models import Change, Comment, Suggestion, Unit, Vote
+
+        if (
+            model is Check
+            or model is Change
+            or model is Suggestion
+            or model is Vote
+            or model is Comment
+        ):
+            return True
+        # MySQL fails to remove self-referencing source units
+        if model is Unit and using_postgresql():
+            return True
+        return False
 
     def can_fast_delete(self, objs, from_field=None):
-        if hasattr(objs, "model") and self.is_weblate_unsafe(objs.model):
+        if hasattr(objs, "model") and self.do_weblate_fast_delete(objs.model):
             return True
         return super().can_fast_delete(objs, from_field)
 
     def delete(self):
-        from weblate.trans.models import Change, Suggestion, Vote
+        from weblate.checks.models import Check
+        from weblate.trans.models import Change, Comment, Suggestion, Unit, Vote
 
         fast_deletes = []
         for item in self.fast_deletes:
             if item.model is Suggestion:
                 fast_deletes.append(Vote.objects.filter(suggestion__in=item))
                 fast_deletes.append(Change.objects.filter(suggestion__in=item))
+            elif item.model is Unit:
+                fast_deletes.append(Change.objects.filter(unit__in=item))
+                fast_deletes.append(Check.objects.filter(unit__in=item))
+                fast_deletes.append(Vote.objects.filter(suggestion__unit__in=item))
+                fast_deletes.append(Suggestion.objects.filter(unit__in=item))
+                fast_deletes.append(Comment.objects.filter(unit__in=item))
+                fast_deletes.append(Change.objects.filter(suggestion__unit__in=item))
+                fast_deletes.append(Change.objects.filter(unit__source_unit__in=item))
+                fast_deletes.append(Check.objects.filter(unit__source_unit__in=item))
+                fast_deletes.append(
+                    Vote.objects.filter(suggestion__unit__source_unit__in=item)
+                )
+                fast_deletes.append(
+                    Suggestion.objects.filter(unit__source_unit__in=item)
+                )
+                fast_deletes.append(Comment.objects.filter(unit__source_unit__in=item))
+                fast_deletes.append(
+                    Change.objects.filter(suggestion__unit__source_unit__in=item)
+                )
+                fast_deletes.append(Unit.objects.filter(source_unit__in=item))
             fast_deletes.append(item)
         self.fast_deletes = fast_deletes
         return super().delete()
