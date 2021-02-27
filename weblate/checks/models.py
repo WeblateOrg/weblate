@@ -131,8 +131,6 @@ class Check(models.Model):
     check = models.CharField(max_length=50, choices=CHECKS.get_choices())
     dismissed = models.BooleanField(db_index=True, default=False)
 
-    weblate_unsafe_delete = True
-
     objects = CheckQuerySet.as_manager()
 
     class Meta:

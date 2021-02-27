@@ -11,6 +11,7 @@ Not yet released.
 * Improved Markdown link checks.
 * Indicate glossary and source language in breadcrumbs.
 * Paginate component listing on huge projects.
+* Improved performance of translation, component or project removal.
 
 Weblate 4.5
 -----------
