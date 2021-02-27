@@ -32,6 +32,7 @@ from django.core.exceptions import NON_FIELD_ERRORS, PermissionDenied, Validatio
 from django.core.validators import FileExtensionValidator
 from django.db.models import Q
 from django.forms import model_to_dict
+from django.forms.models import ModelChoiceIterator
 from django.forms.utils import from_current_timezone
 from django.template.loader import render_to_string
 from django.urls import reverse
@@ -2072,6 +2073,39 @@ def get_new_unit_form(translation, user, data=None, initial=None):
     return NewBilingualUnitForm(translation, user, data=data, initial=initial)
 
 
+class CachedQueryIterator(ModelChoiceIterator):
+    """
+    Choice iterator for cached querysets.
+
+    It assumes the queryset is reused and avoids using iterator or count queries.
+    """
+
+    def __iter__(self):
+        if self.field.empty_label is not None:
+            yield ("", self.field.empty_label)
+        for obj in self.queryset:
+            yield self.choice(obj)
+
+    def __len__(self):
+        return len(self.queryset) + (1 if self.field.empty_label is not None else 0)
+
+    def __bool__(self):
+        return self.field.empty_label is not None or bool(self.queryset)
+
+
+class CachedModelMultipleChoiceField(forms.ModelMultipleChoiceField):
+    iterator = CachedQueryIterator
+
+    def _get_queryset(self):
+        return self._queryset
+
+    def _set_queryset(self, queryset):
+        self._queryset = queryset
+        self.widget.choices = self.choices
+
+    queryset = property(_get_queryset, _set_queryset)
+
+
 class BulkEditForm(forms.Form):
     q = QueryField(required=True)
     state = forms.ChoiceField(
@@ -2079,13 +2113,13 @@ class BulkEditForm(forms.Form):
     )
     add_flags = FlagField(label=_("Translation flags to add"), required=False)
     remove_flags = FlagField(label=_("Translation flags to remove"), required=False)
-    add_labels = forms.ModelMultipleChoiceField(
+    add_labels = CachedModelMultipleChoiceField(
         queryset=Label.objects.none(),
         label=_("Labels to add"),
         widget=forms.CheckboxSelectMultiple(),
         required=False,
     )
-    remove_labels = forms.ModelMultipleChoiceField(
+    remove_labels = CachedModelMultipleChoiceField(
         queryset=Label.objects.none(),
         label=_("Labels to remove"),
         widget=forms.CheckboxSelectMultiple(),
