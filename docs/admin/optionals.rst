@@ -174,6 +174,7 @@ turned off using :setting:`ENABLE_AVATARS`.
 Weblate currently supports:
 
 * `Gravatar <https://gravatar.com/>`_
+* `Libravatar <https://www.libravatar.org/>`_
 
 .. seealso::
 
