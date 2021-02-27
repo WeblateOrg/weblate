@@ -713,6 +713,9 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
             if changed_git:
                 self.drop_repository_cache()
             create = False
+        else:
+            # Turn on unit management for glossary
+            self.manage_units |= self.is_glossary
 
         # Remove leading ./ from paths
         self.filemask = cleanup_path(self.filemask)

@@ -1461,6 +1461,10 @@ class ComponentNameForm(forms.Form, ComponentDocsMixin):
         max_length=COMPONENT_NAME_LENGTH,
         help_text=_("Name used in URLs and filenames."),
     )
+    is_glossary = forms.BooleanField(
+        label=_("Use as a glossary"),
+        required=False,
+    )
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
