@@ -1466,10 +1466,11 @@ class ComponentNameForm(forms.Form, ComponentDocsMixin):
         required=False,
     )
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, request, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper()
         self.helper.form_tag = False
+        self.request = request
 
 
 class ComponentSelectForm(ComponentNameForm):
@@ -1484,7 +1485,7 @@ class ComponentSelectForm(ComponentNameForm):
             kwargs.pop("instance")
         if "auto_id" not in kwargs:
             kwargs["auto_id"] = "id_existing_%s"
-        super().__init__(*args, **kwargs)
+        super().__init__(request, *args, **kwargs)
 
 
 class ComponentBranchForm(ComponentSelectForm):
@@ -1543,7 +1544,7 @@ class ComponentProjectForm(ComponentNameForm):
     def __init__(self, request, *args, **kwargs):
         if "instance" in kwargs:
             kwargs.pop("instance")
-        super().__init__(*args, **kwargs)
+        super().__init__(request, *args, **kwargs)
         # It might be overriden based on preset project
         self.fields["source_language"].initial = Language.objects.default_language
         self.request = request
