@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.5\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-02-17 14:01+0000\n"
-"PO-Revision-Date: 2021-02-27 12:03+0000\n"
+"PO-Revision-Date: 2021-02-28 03:45+0000\n"
 "Last-Translator: Jakub Fabijan <animatorzPolski@gmail.com>\n"
 "Language-Team: Esperanto <https://hosted.weblate.org/projects/weblate/"
 "application/eo/>\n"
@@ -216,7 +216,7 @@ msgstr ""
 #| "You will receive a notification for every such event in your watched "
 #| "projects."
 msgid "You will receive a notification for every such event in %(project)s."
-msgstr "Vi ricevos avertojn por ĉiu tia evento en %(projektoj)."
+msgstr "Vi ricevos avertojn por ĉiu tia evento en %(projekto)j."
 
 #: weblate/accounts/forms.py:697
 #, fuzzy, python-format
@@ -224,7 +224,7 @@ msgstr "Vi ricevos avertojn por ĉiu tia evento en %(projektoj)."
 #| "You will receive a notification for every such event in your watched "
 #| "projects."
 msgid "You will receive a notification for every such event in %(component)s."
-msgstr "Vi ricevos avertojn por ĉiu tia evento en %(komponantoj)."
+msgstr "Vi ricevos avertojn por ĉiu tia evento en %(komponanto)j."
 
 #: weblate/accounts/forms.py:704
 msgid ""
@@ -404,9 +404,8 @@ msgid "Signed in using password."
 msgstr "Ensalutita per pasvorto."
 
 #: weblate/accounts/models.py:170
-#, fuzzy
 msgid "Signed in using password from a new device."
-msgstr "Ensalutita per {method} ({name}) el nova aparato."
+msgstr "Ensalutita per pasvorto el nova aparato."
 
 #: weblate/accounts/models.py:171
 msgid "Could not sign in using password."
@@ -452,14 +451,12 @@ msgid "Hide completed translations on the dashboard"
 msgstr ""
 
 #: weblate/accounts/models.py:379
-#, fuzzy
-#| msgid "Show secondary translations in zen mode"
 msgid "Show secondary translations in the Zen mode"
-msgstr "Montri duarangajn tradukojn en zena reĝimo"
+msgstr "Montri duarangajn tradukojn en la Zena reĝimo"
 
 #: weblate/accounts/models.py:382
 msgid "Hide source if a secondary translation exists"
-msgstr ""
+msgstr "Kaŝi fonton se duaranga tradukaĵo ekzistas"
 
 #: weblate/accounts/models.py:388
 msgid "Editor link"
@@ -490,11 +487,11 @@ msgstr "Zena redakta reĝimo"
 
 #: weblate/accounts/models.py:408
 msgid "Top to bottom"
-msgstr ""
+msgstr "El supro al malsupro"
 
 #: weblate/accounts/models.py:409
 msgid "Side by side"
-msgstr ""
+msgstr "Unu apud la alia"
 
 #: weblate/accounts/models.py:417
 msgid "Special characters"
@@ -508,10 +505,8 @@ msgid ""
 msgstr ""
 
 #: weblate/accounts/models.py:425
-#, fuzzy
-#| msgid "Number of strings"
 msgid "Number of nearby strings"
-msgstr "Nombro da linioj"
+msgstr "Nombro da proksimaj signovicoj"
 
 #: weblate/accounts/models.py:429
 msgid "Number of nearby strings to show in each direction in the full editor."
@@ -536,12 +531,12 @@ msgstr "Rigarditaj tradukoj"
 #: weblate/templates/dashboard/user.html:23
 #: weblate/trans/models/componentlist.py:70
 msgid "Component lists"
-msgstr ""
+msgstr "Komponantlisto"
 
 #: weblate/accounts/models.py:448 weblate/templates/dashboard/user.html:64
 #: weblate/trans/models/componentlist.py:69
 msgid "Component list"
-msgstr ""
+msgstr "Komponantlisto"
 
 #: weblate/accounts/models.py:449 weblate/templates/dashboard/user.html:25
 msgid "Suggested translations"
@@ -553,7 +548,7 @@ msgstr "Defaŭlta panela vido"
 
 #: weblate/accounts/models.py:467
 msgid "Default component list"
-msgstr ""
+msgstr "Defaŭlta komponantlisto"
 
 #: weblate/accounts/models.py:477
 #: weblate/templates/snippets/watch-dropdown.html:28
@@ -567,13 +562,11 @@ msgstr ""
 
 #: weblate/accounts/models.py:485
 msgid "Website URL"
-msgstr ""
+msgstr "Reteja URL-o"
 
 #: weblate/accounts/models.py:489
-#, fuzzy
-#| msgid "username"
 msgid "Liberapay username"
-msgstr "uzantnomo"
+msgstr "Librepay uzantnomo"
 
 #: weblate/accounts/models.py:492
 msgid ""
@@ -600,16 +593,12 @@ msgid "Link to your code profile for services like Codeberg or GitLab."
 msgstr ""
 
 #: weblate/accounts/models.py:510
-#, fuzzy
-#| msgid "username"
 msgid "GitHub username"
-msgstr "uzantnomo"
+msgstr "GitHub-a uzantnomo"
 
 #: weblate/accounts/models.py:514
-#, fuzzy
-#| msgid "username"
 msgid "Twitter username"
-msgstr "uzantnomo"
+msgstr "Tvitera uzantnomo"
 
 #: weblate/accounts/models.py:518
 msgid "LinkedIn profile name"
@@ -622,14 +611,12 @@ msgstr ""
 #: weblate/accounts/models.py:523
 #: weblate/templates/screenshots/screenshot_detail.html:29
 #: weblate/templates/screenshots/screenshot_detail.html:57
-#, fuzzy
-#| msgid "Action"
 msgid "Location"
-msgstr "Ago"
+msgstr "Loko"
 
 #: weblate/accounts/models.py:528
 msgid "Company"
-msgstr ""
+msgstr "Firmo"
 
 #: weblate/accounts/models.py:575
 msgid ""
@@ -668,17 +655,13 @@ msgstr "Monata mesaĝaro"
 
 #. Translators: Notification name
 #: weblate/accounts/notifications.py:406
-#, fuzzy
-#| msgid "Versions"
 msgid "Repository failure"
-msgstr "Versioj"
+msgstr "Deponeja fiasko"
 
 #. Translators: Notification name
 #: weblate/accounts/notifications.py:434
-#, fuzzy
-#| msgid "Untranslated strings:"
 msgid "Repository operation"
-msgstr "Netradukitaj ĉenoj:"
+msgstr "Deponeja operacio"
 
 #. Translators: Notification name
 #: weblate/accounts/notifications.py:445
@@ -689,10 +672,8 @@ msgstr "Tutkomponentaj avertoj"
 
 #. Translators: Notification name
 #: weblate/accounts/notifications.py:453
-#, fuzzy
-#| msgid "Change password"
 msgid "Changed license"
-msgstr "Ŝanĝi pasvorton"
+msgstr "Ŝanĝis permesilon"
 
 #. Translators: Notification name
 #. Translators: Name of event in the history
@@ -718,10 +699,8 @@ msgstr "Nova sugestaĵo"
 
 #. Translators: Notification name
 #: weblate/accounts/notifications.py:497
-#, fuzzy
-#| msgid "Comment on authored translation"
 msgid "Comment on own translation"
-msgstr "Komento pri aŭtora traduko"
+msgstr "Komento pri propra traduko"
 
 #. Translators: Notification name
 #: weblate/accounts/notifications.py:536
@@ -742,17 +721,13 @@ msgstr "Ŝanĝita tekstĉeno"
 #. Translators: Notification name
 #: weblate/accounts/notifications.py:609 weblate/trans/forms.py:2025
 #: weblate/utils/views.py:106
-#, fuzzy
-#| msgid "Translated strings"
 msgid "Translated string"
-msgstr "Tradukitaj ĉenoj"
+msgstr "Tradukita ĉeno"
 
 #. Translators: Notification name
 #: weblate/accounts/notifications.py:618
-#, fuzzy
-#| msgid "Translated strings"
 msgid "Approved string"
-msgstr "Tradukitaj ĉenoj"
+msgstr "Aprobitaj ĉenoj"
 
 #. Translators: Notification name
 #: weblate/accounts/notifications.py:627
@@ -767,10 +742,8 @@ msgstr "Nova traduka komponanto"
 #. Translators: Notification name
 #. Translators: Name of event in the history
 #: weblate/accounts/notifications.py:652 weblate/trans/models/change.py:310
-#, fuzzy
-#| msgid "New comment"
 msgid "New announcement"
-msgstr "Nova komento"
+msgstr "Nova anonco"
 
 #. Translators: Notification name
 #. Translators: Name of event in the history
@@ -805,10 +778,8 @@ msgid "Your password can't consist of a single character or only whitespace."
 msgstr "Via pasvorto ne povas konsisti el sola signo aŭ nur blankspacoj."
 
 #: weblate/accounts/password_validation.py:68
-#, fuzzy
-#| msgid "Can not reuse previously used password!"
 msgid "Can not reuse previously used password."
-msgstr "Ne eblas reuzi laste uzita pasvorto!"
+msgstr "Ne eblas reuzi laste uzitan pasvorton."
 
 #: weblate/accounts/password_validation.py:73
 msgid "Your password can't match a password you have used in the past."
@@ -831,8 +802,6 @@ msgid "You can not complete registration while signed in."
 msgstr "Vi povas konfirmi vian registriĝon nur ensalutinte!"
 
 #: weblate/accounts/pipeline.py:337
-#, fuzzy
-#| msgid "You can confirm your registration only while logged in!"
 msgid "You can confirm your registration only while signed in."
 msgstr "Vi povas konfirmi vian registriĝon nur ensalutinte!"
 
@@ -852,17 +821,15 @@ msgstr ""
 
 #: weblate/accounts/views.py:174
 msgid "Remove account"
-msgstr ""
+msgstr "Forigi konton"
 
 #: weblate/accounts/views.py:177 weblate/accounts/views.py:739
 msgid "User registration"
-msgstr ""
+msgstr "Uzanta registriĝo"
 
 #: weblate/accounts/views.py:208
-#, fuzzy
-#| msgid "Username or email"
 msgid "Could not send message to administrator."
-msgstr "Uzantnomo aŭ retpoŝtadreso"
+msgstr "Ne povis sendi mesaĝon al administranto."
 
 #: weblate/accounts/views.py:229
 msgid "Your request has been sent, you will shortly hear from us."
@@ -874,11 +841,11 @@ msgstr ""
 
 #: weblate/accounts/views.py:377
 msgid "User profile"
-msgstr ""
+msgstr "Uzanta profilo"
 
 #: weblate/accounts/views.py:398
 msgid "Your account has been removed."
-msgstr ""
+msgstr "Via konto estas forigita."
 
 #: weblate/accounts/views.py:464
 #, fuzzy
@@ -890,7 +857,7 @@ msgstr "Tio ne estis ĝusta, bonvolu provi denove."
 #: weblate/templates/accounts/contact.html:20 weblate/templates/base.html:255
 #: weblate/templates/footer.html:13
 msgid "Contact"
-msgstr ""
+msgstr "Kontakto"
 
 #: weblate/accounts/views.py:516 weblate/templates/accounts/hosting.html:8
 msgid "Hosting"
