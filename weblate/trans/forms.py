@@ -1308,7 +1308,7 @@ class ComponentSettingsForm(
         super().__init__(request, *args, **kwargs)
         if self.hide_restricted:
             self.fields["restricted"].widget = forms.HiddenInput()
-        self.fields["links"].queryset = request.user.owned_projects.exclude(
+        self.fields["links"].queryset = request.user.managed_projects.exclude(
             pk=self.instance.pk
         )
         self.helper.layout = Layout(
@@ -1773,7 +1773,7 @@ class ComponentMoveForm(SettingsBaseForm):
 
     def __init__(self, request, *args, **kwargs):
         super().__init__(request, *args, **kwargs)
-        self.fields["project"].queryset = request.user.owned_projects
+        self.fields["project"].queryset = request.user.managed_projects
 
 
 class ProjectSettingsForm(SettingsBaseForm, ProjectDocsMixin, ProjectAntispamMixin):

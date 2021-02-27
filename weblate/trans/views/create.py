@@ -267,11 +267,11 @@ class CreateComponent(BaseCreateView):
         elif self.has_billing:
             from weblate.billing.models import Billing
 
-            self.projects = request.user.owned_projects.filter(
+            self.projects = request.user.managed_projects.filter(
                 billing__in=Billing.objects.get_valid()
             ).order()
         else:
-            self.projects = request.user.owned_projects
+            self.projects = request.user.managed_projects
         self.initial = {}
         for field in self.basic_fields:
             if field in request.GET:

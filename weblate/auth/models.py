@@ -397,6 +397,7 @@ class User(AbstractBaseUser):
             "allowed_project_ids",
             "watched_projects",
             "owned_projects",
+            "managed_projects",
         )
         for name in perm_caches:
             if name in self.__dict__:
@@ -530,6 +531,10 @@ class User(AbstractBaseUser):
 
     @cached_property
     def owned_projects(self):
+        return self.projects_with_perm("project.edit", explicit=True)
+
+    @cached_property
+    def managed_projects(self):
         return self.projects_with_perm("project.edit")
 
     def _fetch_permissions(self):
@@ -584,8 +589,8 @@ class User(AbstractBaseUser):
             self._fetch_permissions()
         return self._permissions["components"]
 
-    def projects_with_perm(self, perm):
-        if self.is_superuser:
+    def projects_with_perm(self, perm: str, explicit: bool = False):
+        if not explicit and self.is_superuser:
             return Project.objects.all().order()
         groups = Group.objects.filter(user=self, roles__permissions__codename=perm)
         return Project.objects.filter(group__in=groups).distinct().order()
