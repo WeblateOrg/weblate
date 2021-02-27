@@ -35,11 +35,17 @@ from weblate.lang.models import Language
 from weblate.metrics.models import Metric
 from weblate.trans.forms import ReportsForm, SearchForm
 from weblate.trans.models import Component, ComponentList, Project, Translation
+from weblate.trans.models.component import prefetch_tasks
 from weblate.trans.models.project import prefetch_project_flags
 from weblate.trans.models.translation import GhostTranslation
 from weblate.trans.util import render
 from weblate.utils import messages
 from weblate.utils.stats import prefetch_stats
+
+
+def translation_prefetch_tasks(translations):
+    prefetch_tasks([translation.component for translation in translations])
+    return translations
 
 
 def get_untranslated(base, limit=None):
@@ -211,8 +217,8 @@ def fetch_componentlists(user, user_translations):
         # Force fetching the query now
         list(components)
 
-        translations = prefetch_stats(
-            list(user_translations.filter(component__in=components))
+        translations = translation_prefetch_tasks(
+            prefetch_stats(list(user_translations.filter(component__in=components)))
         )
 
         # Show ghost translations for user languages
@@ -270,7 +276,9 @@ def dashboard_user(request):
                 componentlist.translations = get_untranslated(
                     componentlist.translations
                 )
-        usersubscriptions = prefetch_stats(usersubscriptions)
+        usersubscriptions = translation_prefetch_tasks(
+            prefetch_stats(usersubscriptions)
+        )
 
     return render(
         request,
