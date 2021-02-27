@@ -46,7 +46,11 @@
 {% endif %}
 </td>
 <th class="object-link">
-{% include "snippets/component-glossary-badge.html" %}
+{% if name_source == "component_name" %}
+  {% include "snippets/component-glossary-badge.html" with object=object.component %}
+{% else %}
+  {% include "snippets/component-glossary-badge.html" %}
+{% endif %}
 {% if object.is_ghost %}
     <span class="ghost">
     {% if name_source == "language" %}
