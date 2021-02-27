@@ -60,6 +60,7 @@ from weblate.trans.util import (
     join_plural,
 )
 from weblate.trans.validators import validate_check_flags
+from weblate.utils.antispam import is_spam
 from weblate.utils.errors import report_error
 from weblate.utils.forms import (
     ColorWidget,
@@ -1223,7 +1224,31 @@ class ProjectDocsMixin:
         return ("admin/projects", f"project-{field.name}")
 
 
-class ComponentSettingsForm(SettingsBaseForm, ComponentDocsMixin):
+class ComponentAntispamMixin:
+    def clean_agreement(self):
+        value = self.cleaned_data["agreement"]
+        if is_spam(value, self.request):
+            raise ValidationError(_("This field has been identified as spam!"))
+        return value
+
+
+class ProjectAntispamMixin:
+    def clean_web(self):
+        value = self.cleaned_data["web"]
+        if is_spam(value, self.request):
+            raise ValidationError(_("This field has been identified as spam!"))
+        return value
+
+    def clean_instructions(self):
+        value = self.cleaned_data["instructions"]
+        if is_spam(value, self.request):
+            raise ValidationError(_("This field has been identified as spam!"))
+        return value
+
+
+class ComponentSettingsForm(
+    SettingsBaseForm, ComponentDocsMixin, ComponentAntispamMixin
+):
     """Component settings form."""
 
     class Meta:
@@ -1419,7 +1444,7 @@ class ComponentSettingsForm(SettingsBaseForm, ComponentDocsMixin):
             data["restricted"] = self.instance.restricted
 
 
-class ComponentCreateForm(SettingsBaseForm, ComponentDocsMixin):
+class ComponentCreateForm(SettingsBaseForm, ComponentDocsMixin, ComponentAntispamMixin):
     """Component creation form."""
 
     class Meta:
@@ -1450,7 +1475,7 @@ class ComponentCreateForm(SettingsBaseForm, ComponentDocsMixin):
         widgets = {"source_language": SortedSelect}
 
 
-class ComponentNameForm(forms.Form, ComponentDocsMixin):
+class ComponentNameForm(forms.Form, ComponentDocsMixin, ComponentAntispamMixin):
     name = forms.CharField(
         label=_("Component name"),
         max_length=COMPONENT_NAME_LENGTH,
@@ -1750,7 +1775,7 @@ class ComponentMoveForm(SettingsBaseForm):
         self.fields["project"].queryset = request.user.owned_projects
 
 
-class ProjectSettingsForm(SettingsBaseForm, ProjectDocsMixin):
+class ProjectSettingsForm(SettingsBaseForm, ProjectDocsMixin, ProjectAntispamMixin):
     """Project settings form."""
 
     class Meta:
@@ -1899,7 +1924,7 @@ class ProjectRenameForm(SettingsBaseForm):
         fields = ["slug"]
 
 
-class ProjectCreateForm(SettingsBaseForm, ProjectDocsMixin):
+class ProjectCreateForm(SettingsBaseForm, ProjectDocsMixin, ProjectAntispamMixin):
     """Project creation form."""
 
     # This is fake field with is either hidden or configured

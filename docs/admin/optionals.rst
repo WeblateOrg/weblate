@@ -186,11 +186,17 @@ Weblate currently supports:
 Spam protection
 ---------------
 
-You can protect against suggestion spamming by unauthenticated users by using
-the `akismet.com <https://akismet.com/>`_ service.
+You can protect against spamming by users by using the `Akismet
+<https://akismet.com/>`_ service.
 
 1. Install the `akismet` Python module
-2. Configure the Akismet API key.
+2. Obtain the Akismet API key.
+3. Store it as :setting:`AKISMET_API_KEY`.
+
+Following content is sent to Akismet for checking:
+
+* Suggestions from unauthenticated users
+* Project and component descriptions and links
 
 .. note::
 
