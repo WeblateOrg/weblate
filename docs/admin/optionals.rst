@@ -190,9 +190,9 @@ Spam protection
 You can protect against spamming by users by using the `Akismet
 <https://akismet.com/>`_ service.
 
-1. Install the `akismet` Python module
+1. Install the `akismet` Python module (this is already included in the official Docker image).
 2. Obtain the Akismet API key.
-3. Store it as :setting:`AKISMET_API_KEY`.
+3. Store it as :setting:`AKISMET_API_KEY` or :envvar:`WEBLATE_AKISMET_API_KEY` in Docker.
 
 Following content is sent to Akismet for checking:
 
@@ -207,7 +207,8 @@ Following content is sent to Akismet for checking:
 .. seealso::
 
     :ref:`reverse-proxy`,
-    :setting:`AKISMET_API_KEY`
+    :setting:`AKISMET_API_KEY`,
+    :envvar:`WEBLATE_AKISMET_API_KEY`
 
 
 .. _gpg-sign:
