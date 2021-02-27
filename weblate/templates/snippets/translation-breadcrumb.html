@@ -2,6 +2,8 @@
 <li>
   <a href="{{ object.get_absolute_url }}">
     {{ object.language }}
-    {% icon "source.svg" %}
+    {% if object.is_source %}
+      {% icon "source.svg" %}
+    {% endif %}
   </a>
 </li>
