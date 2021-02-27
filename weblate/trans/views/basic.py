@@ -135,9 +135,7 @@ def show_project(request, project):
 
     last_changes = obj.change_set.prefetch().order()[:10]
     last_announcements = (
-        Change.objects.prefetch()
-        .order()
-        .filter(project=obj, action=Change.ACTION_ANNOUNCEMENT)[:10]
+        obj.change_set.prefetch().order().filter(action=Change.ACTION_ANNOUNCEMENT)[:10]
     )
 
     all_components = obj.child_components.filter_access(user).prefetch().order()
