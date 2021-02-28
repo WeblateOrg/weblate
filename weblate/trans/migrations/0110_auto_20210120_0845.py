@@ -22,7 +22,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name="variant",
             name="key",
-            field=models.CharField(max_length=768),
+            field=models.CharField(max_length=576),
         ),
         migrations.AlterField(
             model_name="variant",

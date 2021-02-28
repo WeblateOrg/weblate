@@ -27,7 +27,7 @@ class Variant(models.Model):
     variant_regex = RegexField(max_length=190, blank=True)
     # This really should be a TextField, but it does not work with unique
     # index and MySQL
-    key = models.CharField(max_length=768)
+    key = models.CharField(max_length=576)
     defining_units = models.ManyToManyField("Unit", related_name="defined_variants")
 
     class Meta:
