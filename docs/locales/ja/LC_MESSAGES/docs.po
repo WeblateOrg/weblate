@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-02-17 15:02+0100\n"
-"PO-Revision-Date: 2021-02-27 08:45+0000\n"
+"PO-Revision-Date: 2021-02-28 03:45+0000\n"
 "Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "documentation/ja/>\n"
@@ -11181,7 +11181,7 @@ msgstr ""
 #: ../../../weblate/addons/base.py:docstring of
 #: weblate.addons.base.BaseAddon.post_update:0 ../../python.rst:0
 msgid "Parameters"
-msgstr ""
+msgstr "パラメータ"
 
 #: ../../admin/install/openshift.rst:43
 msgid ""
@@ -11729,7 +11729,7 @@ msgstr ""
 
 #: ../../admin/languages.rst:123 ../../api.rst:661
 msgid "Text direction"
-msgstr "テキスト順"
+msgstr "テキストの方向"
 
 #: ../../admin/languages.rst:125
 msgid ""
@@ -16190,7 +16190,7 @@ msgstr "Weblate's REST API"
 
 #: ../../api.rst:12
 msgid "The REST API is available since Weblate 2.6."
-msgstr "REST API は、Weblate 2.6 から使用できます。"
+msgstr "REST API は、Weblate 2.6 から使用できる。"
 
 #: ../../api.rst:14
 msgid ""
@@ -16198,8 +16198,8 @@ msgid ""
 "framework <https://www.django-rest-framework.org/>`_. You can use it "
 "directly or by :ref:`wlc`."
 msgstr ""
-"API は ``/api/`` URL からアクセスでき、ベースは `Django REST framework <https://www.django-"
-"rest-framework.org/>`_ です。直接もしくは、:ref:`wlc` から使用できます。"
+"API は ``/api/`` URL からアクセスでき、`Django REST framework <https://www.django-rest-"
+"framework.org/>`_ がベースになっています。直接もしくは、:ref:`wlc` から使用できます。"
 
 #: ../../api.rst:21
 msgid "Authentication and generic parameters"
@@ -16213,8 +16213,8 @@ msgid ""
 "uses a token, which you can get in your profile. Use it in the "
 "``Authorization`` header:"
 msgstr ""
-"公開プロジェクト API は認証なしで使用できますが、認証されていない要求は大幅に制限します（デフォルトでは、毎日100リクエスト）。そのため認証の使用を"
-"推奨します。認証ではトークンを使用し、ユーザー情報から取得します。``Authorization`` ヘッダーで使用する項目:"
+"公開プロジェクト API は認証なしで使用できますが、認証されていないリクエストは大幅に制限します（デフォルトでは、毎日100リクエスト）。制限回避のため"
+"に、認証の使用を推奨します。認証ではトークンを使用し、ユーザー情報から取得します。``Authorization`` ヘッダーで使用する項目:"
 
 #: ../../api.rst:30
 msgid ""
@@ -16233,7 +16233,7 @@ msgid ""
 "latter provides web browser interface for API."
 msgstr ""
 "レスポンス形式（上書き :http:header:`Accept`）。指定できる値は REST フレームワークの設定に依存します。デフォルトでは "
-"``json`` および ``api`` に対応。後者には、API 用の Web ブラウザー インターフェースを提供します。"
+"``json`` および ``api`` に対応。後者には、API 用の Web ブラウザー インターフェースを提供する。"
 
 #: ../../api.rst:0
 msgid "Request Headers"
@@ -16367,9 +16367,8 @@ msgid ""
 "100 requests per day for anonymous users and 5000 requests per hour for "
 "authenticated users."
 msgstr ""
-"API リクエストは接続制限されています。デフォルト設定では、匿名ユーザーの場合"
-"は 100 リクエスト / 日、認証済みユーザーの場合は 5000 リクエスト / 時間に制限"
-"されています。"
+"API リクエストは接続制限しています。デフォルト設定では、匿名ユーザーの場合は 100 リクエスト / 日、認証済みユーザーの場合は 5000 "
+"リクエスト / 時間に制限しています。"
 
 #: ../../api.rst:155
 msgid ""
@@ -16415,15 +16414,15 @@ msgstr "接続制限状態のヘッダーの追加。"
 
 #: ../../api.rst:175
 msgid ":ref:`rate-limit`, :ref:`user-rate`"
-msgstr ":ref:`rate-limit`, :ref:`user-rate`"
+msgstr ":ref:`rate-limit`、:ref:`user-rate`"
 
 #: ../../api.rst:180
 msgid "API Entry Point"
-msgstr ""
+msgstr "API エントリ ポイント"
 
 #: ../../api.rst:184
 msgid "The API root entry point."
-msgstr ""
+msgstr "API ルート エントリ ポイント。"
 
 #: ../../api.rst:217
 msgid "Users"
@@ -16433,17 +16432,18 @@ msgstr "ユーザー"
 msgid ""
 "Returns a list of users if you have permissions to see manage users. If not, "
 "then you get to see only your own details."
-msgstr ""
+msgstr "返り値は、ユーザーの管理権限を持っている場合は、ユーザーの一覧です。持っていない場合は、自分の詳細のみになります。"
 
 #: ../../api.rst:228
 msgid ""
 "Users object attributes are documented at :http:get:`/api/users/(str:"
 "username)/`."
 msgstr ""
+"ユーザー オブジェクトの属性については、:http:get:`/api/users/(str:username)/` にドキュメントがあります。"
 
 #: ../../api.rst:232
 msgid "Creates a new user."
-msgstr ""
+msgstr "新しいユーザーを作成します。"
 
 #: ../../api.rst:234
 msgid "Username"
@@ -16451,87 +16451,87 @@ msgstr "ユーザー名"
 
 #: ../../api.rst:236
 msgid "User full name"
-msgstr ""
+msgstr "ユーザーのフルネーム"
 
 #: ../../api.rst:238
 msgid "User email"
-msgstr ""
+msgstr "ユーザーのメールアドレス"
 
 #: ../../api.rst:240
 msgid "Is user superuser? (optional)"
-msgstr ""
+msgstr "ユーザーがスーパーユーザーかどうか？ （オプション）"
 
 #: ../../api.rst:242
 msgid "Is user active? (optional)"
-msgstr ""
+msgstr "ユーザーが有効かどうか？ （オプション）"
 
 #: ../../api.rst:247
 msgid "Returns information about users."
-msgstr ""
+msgstr "返り値は、ユーザーの情報です。"
 
 #: ../../api.rst:249 ../../api.rst:282 ../../api.rst:295 ../../api.rst:308
 #: ../../api.rst:315 ../../api.rst:323 ../../api.rst:335 ../../api.rst:342
 #: ../../api.rst:352 ../../api.rst:361 ../../api.rst:373 ../../api.rst:385
 msgid "User's username"
-msgstr ""
+msgstr "ユーザーのユーザー名"
 
 #: ../../api.rst:251 ../../api.rst:284 ../../api.rst:297
 msgid "username of a user"
-msgstr ""
+msgstr "ユーザーのユーザー名"
 
 #: ../../api.rst:252 ../../api.rst:285 ../../api.rst:298
 msgid "full name of a user"
-msgstr ""
+msgstr "ユーザーのフルネーム"
 
 #: ../../api.rst:253 ../../api.rst:286 ../../api.rst:299
 msgid "email of a user"
-msgstr ""
+msgstr "ユーザーのメールアドレス"
 
 #: ../../api.rst:254 ../../api.rst:287 ../../api.rst:300
 msgid "whether the user is a super user"
-msgstr ""
+msgstr "ユーザーがスーパーユーザーかどうか"
 
 #: ../../api.rst:255 ../../api.rst:288 ../../api.rst:301
 msgid "whether the user is active"
-msgstr ""
+msgstr "ユーザーが有効かどうか"
 
 #: ../../api.rst:256 ../../api.rst:289 ../../api.rst:302
 msgid "date the user is created"
-msgstr ""
+msgstr "ユーザー登録日"
 
 #: ../../api.rst:257
 msgid "link to associated groups; see :http:get:`/api/groups/(int:id)/`"
-msgstr ""
+msgstr "関連するグループへのリンク。参照: :http:get:`/api/groups/(int:id)/`"
 
 #: ../../api.rst:259 ../../api.rst:430 ../../api.rst:591 ../../api.rst:665
 #: ../../api.rst:785 ../../api.rst:847 ../../api.rst:1128 ../../api.rst:1314
 #: ../../api.rst:1646
 msgid "**Example JSON data:**"
-msgstr ""
+msgstr "**JSON データの例:**"
 
 #: ../../api.rst:280 ../../api.rst:293
 msgid "Changes the user parameters."
-msgstr ""
+msgstr "ユーザーのパラメータを変更します。"
 
 #: ../../api.rst:306
 msgid "Deletes all user information and marks the user inactive."
-msgstr ""
+msgstr "ユーザーのすべての情報を削除し、ユーザーを無効にします。"
 
 #: ../../api.rst:313
 msgid "Associate groups with a user."
-msgstr ""
+msgstr "ユーザーをグループに設定します。"
 
 #: ../../api.rst:0
 msgid "Form Parameters"
-msgstr ""
+msgstr "フォーム パラメーター"
 
 #: ../../api.rst:317
 msgid "The unique group ID"
-msgstr ""
+msgstr "固有のグループ ID"
 
 #: ../../api.rst:321
 msgid "List statistics of a user."
-msgstr ""
+msgstr "ユーザーの統計情報を一覧表示します。"
 
 #: ../../api.rst:325
 msgid "Number of translations by user"
@@ -16555,47 +16555,47 @@ msgstr "ユーザーごとの翻訳可能な言語数"
 
 #: ../../api.rst:333
 msgid "List subscriptions of a user."
-msgstr ""
+msgstr "ユーザーのサブスクリプションを一覧表示します。"
 
 #: ../../api.rst:340
 msgid "Associate subscriptions with a user."
-msgstr ""
+msgstr "ユーザーにサブスクリプションを関連付けます。"
 
 #: ../../api.rst:0
 msgid "Request JSON Object"
-msgstr ""
+msgstr "リクエスト JSON オブジェクト"
 
 #: ../../api.rst:344 ../../api.rst:365 ../../api.rst:377 ../../api.rst:387
 msgid "Name of notification registered"
-msgstr ""
+msgstr "登録中の通知の名前"
 
 #: ../../api.rst:345 ../../api.rst:366 ../../api.rst:378
 msgid "Scope of notification from the available choices"
-msgstr ""
+msgstr "選択肢の中で有効な通知する範囲"
 
 #: ../../api.rst:346 ../../api.rst:367 ../../api.rst:379
 msgid "Frequency choices for notifications"
-msgstr ""
+msgstr "通知の頻度の選択"
 
 #: ../../api.rst:350
 msgid "Get a subscription associated with a user."
-msgstr ""
+msgstr "ユーザーに設定中のサブスクリプションを取得します。"
 
 #: ../../api.rst:354 ../../api.rst:363 ../../api.rst:375
 msgid "ID of notification registered"
-msgstr "登録済み通知 ID"
+msgstr "登録中の通知 ID"
 
 #: ../../api.rst:359 ../../api.rst:371
 msgid "Edit a subscription associated with a user."
-msgstr ""
+msgstr "ユーザーに設定されたサブスクリプションを編集します。"
 
 #: ../../api.rst:383
 msgid "Delete a subscription associated with a user."
-msgstr ""
+msgstr "ユーザーに設定されたサブスクリプションを削除します。"
 
 #: ../../api.rst:388
 msgid "int"
-msgstr ""
+msgstr "int"
 
 #: ../../api.rst:392
 msgid "Groups"
@@ -16605,16 +16605,16 @@ msgstr "グループ"
 msgid ""
 "Returns a list of groups if you have permissions to see manage groups. If "
 "not, then you get to see only the groups the user is a part of."
-msgstr ""
+msgstr "返り値は、グループの管理権限がある場合は、グループの一覧です。権限がない場合は、指定したユーザーが所属しているグループのみになります。"
 
 #: ../../api.rst:403
 msgid ""
 "Group object attributes are documented at :http:get:`/api/groups/(int:id)/`."
-msgstr ""
+msgstr "グループ オブジェクトの属性については、:http:get:`/api/groups/(int:id)/` にドキュメントがあります。"
 
 #: ../../api.rst:407
 msgid "Creates a new group."
-msgstr ""
+msgstr "新しいグループを作成します。"
 
 #: ../../api.rst:409
 msgid "Group name"
@@ -16622,125 +16622,125 @@ msgstr "グループ名"
 
 #: ../../api.rst:411
 msgid "Group of project selection from given options"
-msgstr ""
+msgstr "指定した選択肢から選択したプロジェクトのグループ"
 
 #: ../../api.rst:413
 msgid "Group of languages selected from given options"
-msgstr ""
+msgstr "指定した選択肢から選択した言語のグループ"
 
 #: ../../api.rst:418
 msgid "Returns information about group."
-msgstr ""
+msgstr "返り値は、グループの情報です。"
 
 #: ../../api.rst:420 ../../api.rst:461 ../../api.rst:471 ../../api.rst:481
 #: ../../api.rst:488 ../../api.rst:496 ../../api.rst:504 ../../api.rst:513
 #: ../../api.rst:521 ../../api.rst:530 ../../api.rst:538 ../../api.rst:547
 #: ../../api.rst:555
 msgid "Group's ID"
-msgstr ""
+msgstr "グループ ID"
 
 #: ../../api.rst:422 ../../api.rst:463 ../../api.rst:473
 msgid "name of a group"
-msgstr ""
+msgstr "グループ名"
 
 #: ../../api.rst:423 ../../api.rst:464 ../../api.rst:474
 msgid "integer corresponding to group of projects"
-msgstr ""
+msgstr "整数　プロジェクトのグループ番号"
 
 #: ../../api.rst:424 ../../api.rst:475
 msgid "integer corresponding to group of languages"
-msgstr ""
+msgstr "整数　言語のグループ番号"
 
 #: ../../api.rst:425
 msgid "link to associated roles; see :http:get:`/api/roles/(int:id)/`"
-msgstr ""
+msgstr "関連するロールへのリンク。参照: :http:get:`/api/roles/(int:id)/`"
 
 #: ../../api.rst:426
 msgid ""
 "link to associated projects; see :http:get:`/api/projects/(string:project)/`"
-msgstr ""
+msgstr "関連するプロジェクトへのリンク。参照: :http:get:`/api/projects/(string:project)/`"
 
 #: ../../api.rst:427 ../../api.rst:2216
 msgid ""
 "link to associated components; see :http:get:`/api/components/(string:"
 "project)/(string:component)/`"
 msgstr ""
+"関連するコンポーネントへのリンク。参照: :http:get:`/api/components/"
+"(string:project)/(string:component)/`"
 
 #: ../../api.rst:428
 msgid ""
 "link to associated componentlist; see :http:get:`/api/component-lists/(str:"
 "slug)/`"
-msgstr ""
-"コンポーネント リストのセットの関連するリンク; 参照: :http:get:`/api/"
-"component-lists/(str:slug)/`"
+msgstr "関連するコンポーネント リストへのリンク。参照: :http:get:`/api/component-lists/(str:slug)/`"
 
 #: ../../api.rst:459 ../../api.rst:469
 msgid "Changes the group parameters."
-msgstr ""
+msgstr "グループ パラメータを変更します。"
 
 #: ../../api.rst:465
 msgid "integer corresponding to group of Languages"
-msgstr ""
+msgstr "整数　言語のグループ番号"
 
 #: ../../api.rst:479
 msgid "Deletes the group."
-msgstr ""
+msgstr "グループを削除します。"
 
 #: ../../api.rst:486
 msgid "Associate roles with a group."
-msgstr ""
+msgstr "グループにロールを関連付けます。"
 
 #: ../../api.rst:490
 msgid "The unique role ID"
-msgstr ""
+msgstr "固有のロール ID"
 
 #: ../../api.rst:494
 msgid "Associate components with a group."
-msgstr ""
+msgstr "グループにコンポーネントを関連付けます。"
 
 #: ../../api.rst:498 ../../api.rst:506
 msgid "The unique component ID"
-msgstr ""
+msgstr "固有のコンポーネント ID"
 
 #: ../../api.rst:502
 msgid "Delete component from a group."
-msgstr ""
+msgstr "グループからコンポーネントを削除します。"
 
 #: ../../api.rst:511
 msgid "Associate projects with a group."
-msgstr ""
+msgstr "グループにプロジェクトを関連付けます。"
 
 #: ../../api.rst:515 ../../api.rst:523
 msgid "The unique project ID"
-msgstr ""
+msgstr "固有のプロジェクト ID"
 
 #: ../../api.rst:519
 msgid "Delete project from a group."
-msgstr ""
+msgstr "プロジェクトをグループから削除します。"
 
 #: ../../api.rst:528
 msgid "Associate languages with a group."
-msgstr ""
+msgstr "グループに言語を関連付けます。"
 
 #: ../../api.rst:532 ../../api.rst:540
 msgid "The unique language code"
-msgstr ""
+msgstr "固有の言語コード"
 
 #: ../../api.rst:536
 msgid "Delete language from a group."
-msgstr ""
+msgstr "言語をグループから削除します。"
 
 #: ../../api.rst:545
 msgid "Associate componentlists with a group."
-msgstr "コンポーネント リストのセットをグループに関連付ける。"
+msgstr "コンポーネント リストをグループに関連付けます。"
 
 #: ../../api.rst:549 ../../api.rst:557
 msgid "The unique componentlist ID"
-msgstr ""
+msgstr "固有のコンポーネントリスト ID"
 
 #: ../../api.rst:553
 msgid "Delete componentlist from a group."
-msgstr ""
+msgstr "コンポーネントリストをグループから削除します。"
 
 #: ../../api.rst:562
 msgid "Roles"
@@ -16750,48 +16750,48 @@ msgstr "ロール"
 msgid ""
 "Returns a list of all roles associated with user. If user is superuser, then "
 "list of all existing roles is returned."
-msgstr ""
+msgstr "返り値は、ユーザーに関連付けられたすべてのロールのリストです。ユーザーがスーパーユーザーの場合は、既存のすべてのロールのリストになります。"
 
 #: ../../api.rst:571
 msgid ""
 "Roles object attributes are documented at :http:get:`/api/roles/(int:id)/`."
-msgstr ""
+msgstr "ロールオブジェクトの属性については、:http:get:`/api/roles/(int:id)/` にドキュメントがあります。"
 
 #: ../../api.rst:575
 msgid "Creates a new role."
-msgstr ""
+msgstr "新しいロールを作成します。"
 
 #: ../../api.rst:577 ../../api.rst:588 ../../api.rst:610 ../../api.rst:619
 msgid "Role name"
-msgstr ""
+msgstr "ロール名"
 
 #: ../../api.rst:579
 msgid "List of codenames of permissions"
-msgstr ""
+msgstr "アクセス権のコードネーム リスト"
 
 #: ../../api.rst:584
 msgid "Returns information about a role."
-msgstr ""
+msgstr "返り値は、ロールの情報です。"
 
 #: ../../api.rst:586
 msgid "Role ID"
-msgstr ""
+msgstr "ロール ID"
 
 #: ../../api.rst:589 ../../api.rst:611 ../../api.rst:620
 msgid "list of codenames of permissions"
-msgstr ""
+msgstr "アクセス権のコードネーム リスト"
 
 #: ../../api.rst:606 ../../api.rst:615
 msgid "Changes the role parameters."
-msgstr ""
+msgstr "ロールのパラメータを変更します。"
 
 #: ../../api.rst:608 ../../api.rst:617 ../../api.rst:626
 msgid "Role's ID"
-msgstr ""
+msgstr "ロール ID"
 
 #: ../../api.rst:624
 msgid "Deletes the role."
-msgstr ""
+msgstr "ロールを削除します。"
 
 #: ../../api.rst:631
 msgid "Languages"
@@ -16799,106 +16799,107 @@ msgstr "言語"
 
 #: ../../api.rst:635
 msgid "Returns a list of all languages."
-msgstr ""
+msgstr "返り値は、すべての言語のリストです。"
 
 #: ../../api.rst:639
 msgid ""
 "Language object attributes are documented at :http:get:`/api/languages/"
 "(string:language)/`."
 msgstr ""
+"言語オブジェクトの属性については、:http:get:`/api/languages/(string:language)/` にドキュメントがあります。"
 
 #: ../../api.rst:643
 msgid "Creates a new language."
-msgstr ""
+msgstr "新しい言語を作成します。"
 
 #: ../../api.rst:649 ../../api.rst:699 ../../api.rst:709
 msgid "Language direction"
-msgstr ""
+msgstr "言語のテキストの方向"
 
 #: ../../api.rst:651
 msgid "Language plural formula and number"
-msgstr ""
+msgstr "言語の複数形と数"
 
 #: ../../api.rst:656
 msgid "Returns information about a language."
-msgstr ""
+msgstr "返り値は、言語の情報です。"
 
 #: ../../api.rst:662
 msgid "Object of language plural information"
-msgstr ""
+msgstr "言語の複数形の情報についてのオブジェクト"
 
 #: ../../api.rst:663
 msgid "Array of aliases for language"
-msgstr ""
+msgstr "言語のエイリアスの配列"
 
 #: ../../api.rst:694 ../../api.rst:704
 msgid "Changes the language parameters."
-msgstr ""
+msgstr "言語パラメータを変更します。"
 
 #: ../../api.rst:696 ../../api.rst:706 ../../api.rst:716
 msgid "Language's code"
-msgstr ""
+msgstr "言語コード"
 
 #: ../../api.rst:700 ../../api.rst:710
 msgid "Language plural details"
-msgstr ""
+msgstr "言語の複数形の詳細"
 
 #: ../../api.rst:714
 msgid "Deletes the Language."
-msgstr ""
+msgstr "言語を削除します。"
 
 #: ../../api.rst:721
 msgid "Returns statistics for a language."
-msgstr ""
+msgstr "返り値は、言語の統計情報てす。"
 
 #: ../../api.rst:725 ../../api.rst:1040 ../../api.rst:1055 ../../api.rst:1635
 #: ../../api.rst:1888
 msgid "total number of strings"
-msgstr ""
+msgstr "文字列の総数"
 
 #: ../../api.rst:726 ../../api.rst:1043 ../../api.rst:1058 ../../api.rst:1636
 #: ../../api.rst:1883
 msgid "total number of words"
-msgstr ""
+msgstr "単語の総数"
 
 #: ../../api.rst:727
 msgid "last changes in the language"
-msgstr ""
+msgstr "言語での最後の変更"
 
 #: ../../api.rst:728
 msgid "total number of changes"
-msgstr ""
+msgstr "変更の総数"
 
 #: ../../api.rst:729 ../../api.rst:1041 ../../api.rst:1056 ../../api.rst:1638
 #: ../../api.rst:1889
 msgid "number of translated strings"
-msgstr ""
+msgstr "翻訳済み文字列の数"
 
 #: ../../api.rst:730 ../../api.rst:1042 ../../api.rst:1057 ../../api.rst:1639
 #: ../../api.rst:1890
 msgid "percentage of translated strings"
-msgstr ""
+msgstr "翻訳済みの文字列の割合"
 
 #: ../../api.rst:731 ../../api.rst:1044 ../../api.rst:1059 ../../api.rst:1640
 #: ../../api.rst:1884
 msgid "number of translated words"
-msgstr ""
+msgstr "翻訳済みの単語の数"
 
 #: ../../api.rst:732 ../../api.rst:1045 ../../api.rst:1060
 msgid "percentage of translated words"
-msgstr ""
+msgstr "翻訳済みの単語の割合"
 
 #: ../../api.rst:733
 msgid "number of translated characters"
-msgstr ""
+msgstr "翻訳済みの文字数"
 
 #: ../../api.rst:734
 msgid "percentage of translated characters"
-msgstr ""
+msgstr "翻訳済みの文字の割合"
 
 #: ../../api.rst:735
 msgid "number of total characters"
-msgstr ""
+msgstr "合計文字数"
 
 #: ../../api.rst:736 ../../api.rst:1623 ../../api.rst:1881
 msgid "number of fuzzy (marked for edit) strings"
@@ -16906,33 +16907,35 @@ msgstr "あいまいな（要編集付き）文字列の数"
 
 #: ../../api.rst:737 ../../api.rst:1624 ../../api.rst:1882
 msgid "percentage of fuzzy (marked for edit) strings"
-msgstr ""
+msgstr "あいまいな（要編集付き）文字列の割合"
 
 #: ../../api.rst:738
 msgid "number of failing strings"
-msgstr ""
+msgstr "検査不合格の文字列数"
 
 #: ../../api.rst:739
 msgid "percentage of failing strings"
-msgstr ""
+msgstr "検査不合格のもの割合"
 
 #: ../../api.rst:747
 msgid "Returns a list of all projects."
-msgstr ""
+msgstr "返り値は、すべてのプロジェクトのリストです。"
 
 #: ../../api.rst:751
 msgid ""
 "Project object attributes are documented at :http:get:`/api/projects/(string:"
 "project)/`."
 msgstr ""
+"プロジェクトオブジェクトの属性については、:http:get:`/api/projects/(string:project)/` "
+"にドキュメントがあります。"
 
 #: ../../api.rst:757
 msgid "Creates a new project."
-msgstr ""
+msgstr "新しいプロジェクトを作成します。"
 
 #: ../../api.rst:768
 msgid "Returns information about a project."
-msgstr ""
+msgstr "返り値は、プロジェクトの情報です。"
 
 #: ../../api.rst:770 ../../api.rst:803 ../../api.rst:814 ../../api.rst:823
 #: ../../api.rst:831 ../../api.rst:841 ../../api.rst:863 ../../api.rst:910
@@ -16949,7 +16952,7 @@ msgstr "プロジェクト URL スラッグ"
 
 #: ../../api.rst:772
 msgid "project name"
-msgstr ""
+msgstr "プロジェクト名"
 
 #: ../../api.rst:773
 msgid "project slug"
@@ -16957,24 +16960,26 @@ msgstr "プロジェクトのスラッグ"
 
 #: ../../api.rst:774
 msgid "project website"
-msgstr ""
+msgstr "プロジェクトの Web サイト"
 
 #: ../../api.rst:775
 msgid ""
 "URL to components list; see :http:get:`/api/projects/(string:project)/"
 "components/`"
 msgstr ""
+"コンポーネントリスト への URL。参照: :http:get:`/api/projects/(string:project)/components/`"
 
 #: ../../api.rst:776
 msgid ""
 "URL to repository status; see :http:get:`/api/projects/(string:project)/"
 "repository/`"
 msgstr ""
+"リポジトリステータスへのURL。参照: :http:get:`/api/projects/(string:project)/repository/`"
 
 #: ../../api.rst:777
 msgid ""
 "URL to changes list; see :http:get:`/api/projects/(string:project)/changes/`"
-msgstr ""
+msgstr "変更リストへの URL。参照: :http:get:`/api/projects/(string:project)/changes/`"
 
 #: ../../api.rst:778
 msgid ":ref:`project-translation_review`"
@@ -17002,7 +17007,7 @@ msgstr ":ref:`project-language_aliases`"
 
 #: ../../api.rst:801
 msgid "Edit a project by a :http:method:`PATCH` request."
-msgstr ""
+msgstr ":http:method:`PATCH` リクエストでプロジェクトを編集します。"
 
 #: ../../api.rst:805 ../../api.rst:1079 ../../api.rst:1176 ../../api.rst:1259
 #: ../../api.rst:1279 ../../api.rst:1289 ../../api.rst:1299 ../../api.rst:1310
@@ -17017,11 +17022,11 @@ msgstr "コンポーネント URL スラッグ"
 
 #: ../../api.rst:812
 msgid "Edit a project by a :http:method:`PUT` request."
-msgstr ""
+msgstr ":http:method:`PUT` リクエストでプロジェクトを編集します。"
 
 #: ../../api.rst:821
 msgid "Deletes a project."
-msgstr ""
+msgstr "プロジェクトを削除します。"
 
 #: ../../api.rst:828
 msgid ""
@@ -18644,7 +18649,7 @@ msgstr ""
 
 #: ../../changes.rst:43
 msgid "Fixed reverting plural changes."
-msgstr "複数系の変更を元に戻す修正。"
+msgstr "複数形の変更を元に戻す。"
 
 #: ../../changes.rst:44
 msgid "Fixed displaying help for project settings."
@@ -22951,7 +22956,7 @@ msgstr ""
 
 #: ../../changes.rst:1398
 msgid "Dropped invalid text direction check."
-msgstr ""
+msgstr "無効なテキストの方向チェックの削除。"
 
 #: ../../changes.rst:1399
 msgid "Changes in dictionary are now logged in history."
