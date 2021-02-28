@@ -20,9 +20,6 @@ get_mysql_args() {
     if [ -n "$CI_DB_PORT" ] ; then
         args="$args --port=$CI_DB_PORT"
     fi
-    if [ -n "$CI_DB_PASSWORD" ] ; then
-        args="$args --password=$CI_DB_PASSWORD"
-    fi
     echo $args
 }
 
@@ -30,6 +27,9 @@ cleanup_database() {
     rm -f weblate.db
 
     if [ $CI_DATABASE = "mysql" -o $CI_DATABASE = 'mariadb' ] ; then
+        if [ -n "$CI_DB_PASSWORD" ] ; then
+            export MYSQL_PWD="$CI_DB_PASSWORD"
+        fi
         mysql $(get_mysql_args) -e 'SET GLOBAL character_set_server=utf8'
         mysql $(get_mysql_args) -e 'SET GLOBAL collation_server=utf8_general_ci'
         mysql $(get_mysql_args) -e 'DROP DATABASE IF EXISTS weblate;'
