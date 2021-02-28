@@ -23,7 +23,7 @@ fi
 check
 git checkout $TAG
 check
-pip install --use-feature=2020-resolver -r requirements-test.txt -r docs/requirements.txt
+pip install -r requirements-test.txt -r docs/requirements.txt
 check
 echo "DATABASES['default']['HOST'] = '$CI_DB_HOST'" >> weblate/settings_test.py
 check
@@ -64,7 +64,7 @@ git reset --hard
 check
 git checkout $HEAD_COMMIT
 check
-pip install --use-feature=2020-resolver -r requirements-test.txt -r docs/requirements.txt
+pip install -r requirements-test.txt -r docs/requirements.txt
 check
 run_coverage ./manage.py migrate
 check
