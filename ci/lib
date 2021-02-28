@@ -30,10 +30,10 @@ cleanup_database() {
         if [ -n "$CI_DB_PASSWORD" ] ; then
             export MYSQL_PWD="$CI_DB_PASSWORD"
         fi
-        mysql $(get_mysql_args) -e 'SET GLOBAL character_set_server=utf8'
-        mysql $(get_mysql_args) -e 'SET GLOBAL collation_server=utf8_general_ci'
+        mysql $(get_mysql_args) -e 'SET GLOBAL character_set_server=utf8mb4'
+        mysql $(get_mysql_args) -e 'SET GLOBAL collation_server=utf8mb4_general_ci'
         mysql $(get_mysql_args) -e 'DROP DATABASE IF EXISTS weblate;'
-        mysql $(get_mysql_args) -e 'CREATE DATABASE weblate CHARACTER SET utf8 COLLATE utf8_general_ci;'
+        mysql $(get_mysql_args) -e 'CREATE DATABASE weblate CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;'
     fi
 
     if [ $CI_DATABASE = "postgresql" ] ; then
