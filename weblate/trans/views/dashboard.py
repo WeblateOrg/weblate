@@ -51,7 +51,7 @@ def translation_prefetch_tasks(translations):
 def get_untranslated(base, limit=None):
     """Filter untranslated."""
     result = []
-    for item in prefetch_stats(base):
+    for item in base:
         if item.stats.translated != item.stats.all:
             result.append(item)
             if limit and len(result) >= limit:
@@ -71,11 +71,14 @@ def get_suggestions(request, user, user_has_languages, base, filtered=False):
     if user_has_languages:
         # Remove user subscriptions
         result = get_untranslated(
-            base.exclude(component__project__in=user.profile.watched.all()), 10
+            prefetch_stats(
+                base.exclude(component__project__in=user.profile.watched.all())
+            ),
+            10,
         )
         if result:
             return result
-    return get_untranslated(base, 10)
+    return get_untranslated(prefetch_stats(base), 10)
 
 
 def guess_user_language(request, translations):
@@ -266,19 +269,19 @@ def dashboard_user(request):
         active_tab_slug = user.profile.dashboard_component_list.tab_slug()
 
     if user.is_authenticated:
-        usersubscriptions = user_translations.filter_access(user).filter(
-            component__project__in=user.watched_projects
+        usersubscriptions = prefetch_stats(
+            user_translations.filter_access(user).filter(
+                component__project__in=user.watched_projects
+            )
         )
 
         if user.profile.hide_completed:
             usersubscriptions = get_untranslated(usersubscriptions)
             for componentlist in componentlists:
                 componentlist.translations = get_untranslated(
-                    componentlist.translations
+                    prefetch_stats(componentlist.translations)
                 )
-        usersubscriptions = translation_prefetch_tasks(
-            prefetch_stats(usersubscriptions)
-        )
+        usersubscriptions = translation_prefetch_tasks(usersubscriptions)
 
     return render(
         request,
