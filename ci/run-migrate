@@ -10,6 +10,11 @@ else
     exit 1
 fi
 
+if [ "$TAG" = "weblate-4.5" -a "$CI_DATABASE" = "mysql" ] ; then
+    echo "Weblate 4.5 was not installable on MySQL with utf8mb4"
+    exit 0
+fi
+
 HEAD_COMMIT=$(git rev-parse HEAD)
 
 print_step "Testing migration from $TAG on $CI_DATABASE..."
