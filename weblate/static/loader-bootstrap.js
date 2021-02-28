@@ -238,15 +238,19 @@ function loadTableSorting() {
         // skip empty cells and cells with icon (probably already processed)
         if (
           th.text() !== "" &&
-          !th.hasClass("sort-cell") &&
+          !th.hasClass("sort-init") &&
           !th.hasClass("sort-skip")
         ) {
           // Store index copy
           let myIndex = thIndex;
           // Add icon, title and class
-          th.attr("title", gettext("Sort this column"))
-            .addClass("sort-cell")
-            .append('<span class="sort-icon" />');
+          th.addClass("sort-init");
+          if (!th.hasClass("sort-cell")) {
+            // Skip statically initialized parts (when server side ordering is supported)
+            attr("title", gettext("Sort this column"))
+              .addClass("sort-cell")
+              .append('<span class="sort-icon" />');
+          }
 
           // Click handler
           th.click(function () {
