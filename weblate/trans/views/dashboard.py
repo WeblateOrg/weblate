@@ -41,6 +41,7 @@ from weblate.trans.models.translation import GhostTranslation
 from weblate.trans.util import render
 from weblate.utils import messages
 from weblate.utils.stats import prefetch_stats
+from weblate.utils.views import get_paginator
 
 
 def translation_prefetch_tasks(translations):
@@ -274,6 +275,7 @@ def dashboard_user(request):
                 component__project__in=user.watched_projects
             )
         )
+        usersubscriptions = get_paginator(request, usersubscriptions)
 
         if user.profile.hide_completed:
             usersubscriptions = get_untranslated(usersubscriptions)

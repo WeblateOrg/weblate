@@ -56,6 +56,7 @@ from weblate.utils.ratelimit import session_ratelimit_post
 from weblate.utils.stats import GhostProjectLanguageStats, prefetch_stats
 from weblate.utils.views import (
     get_component,
+    get_paginator,
     get_project,
     get_translation,
     optional_form,
@@ -138,7 +139,10 @@ def show_project(request, project):
         obj.change_set.prefetch().order().filter(action=Change.ACTION_ANNOUNCEMENT)[:10]
     )
 
-    all_components = obj.child_components.filter_access(user).prefetch().order()
+    all_components = prefetch_stats(
+        obj.child_components.filter_access(user).prefetch().order()
+    )
+    all_components = get_paginator(request, all_components)
     for component in all_components:
         component.is_shared = None if component.project == obj else component.project
 
@@ -164,7 +168,7 @@ def show_project(request, project):
         ),
     )
 
-    components = prefetch_tasks(prefetch_stats(all_components))
+    components = prefetch_tasks(all_components)
 
     return render(
         request,

@@ -10,6 +10,7 @@ Not yet released.
 * Improved alerts behavior with glossaries.
 * Improved Markdown link checks.
 * Indicate glossary and source language in breadcrumbs.
+* Paginate component listing on huge projects.
 
 Weblate 4.5
 -----------
