@@ -21,6 +21,7 @@ import os
 import os.path
 
 from django.conf import settings
+from django.core.cache import cache
 from django.db import models, transaction
 from django.db.models import Count, Value
 from django.db.models.functions import Replace
@@ -453,3 +454,22 @@ class Project(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKeyM
         return [
             component for component in self.child_components if component.is_glossary
         ]
+
+    @cached_property
+    def glossary_automaton_key(self):
+        return f"project-glossary-{self.pk}"
+
+    def invalidate_glossary_cache(self):
+        cache.delete(self.glossary_automaton_key)
+        if "glossary_automaton" in self.__dict__:
+            del self.__dict__["glossary_automaton"]
+
+    @cached_property
+    def glossary_automaton(self):
+        from weblate.glossary.models import get_glossary_automaton
+
+        result = cache.get(self.glossary_automaton_key)
+        if result is None:
+            result = get_glossary_automaton(self)
+            cache.set(self.glossary_automaton_key, result, 24 * 3600)
+        return result

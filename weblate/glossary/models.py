@@ -44,6 +44,21 @@ def get_glossary_sources(component):
     )
 
 
+def get_glossary_automaton(project):
+    # Chain terms
+    terms = set(
+        chain.from_iterable(
+            glossary.glossary_sources for glossary in project.glossaries
+        )
+    )
+    # Build automaton for efficient Aho-Corasick search
+    automaton = ahocorasick.Automaton()
+    for term in terms:
+        automaton.add_word(term, term)
+    automaton.make_automaton()
+    return automaton
+
+
 def get_glossary_terms(unit):
     """Return list of term pairs for an unit."""
     if unit.glossary_terms is not None:
@@ -51,19 +66,14 @@ def get_glossary_terms(unit):
     translation = unit.translation
     language = translation.language
     component = translation.component
+    project = component.project
     source_language = component.source_language
-    glossaries = component.project.glossaries
 
     units = (
         Unit.objects.prefetch().select_related("source_unit").order_by(Lower("source"))
     )
     if language == source_language:
         return units.none()
-
-    # Chain terms
-    terms = set(
-        chain.from_iterable(glossary.glossary_sources for glossary in glossaries)
-    )
 
     # Build complete source for matching
     parts = [""]
@@ -75,13 +85,8 @@ def get_glossary_terms(unit):
     source = PLURAL_SEPARATOR.join(parts)
 
     matches = set()
-    if terms:
-        # Build automaton for efficient Aho-Corasick search,
-        # this might be pickled and cached for improved performance
-        automaton = ahocorasick.Automaton()
-        for term in terms:
-            automaton.add_word(term, term)
-        automaton.make_automaton()
+    automaton = project.glossary_automaton
+    if automaton.kind == ahocorasick.AHOCORASICK:
 
         # Extract terms present in the source
         for end, term in automaton.iter(source):
@@ -100,7 +105,7 @@ def get_glossary_terms(unit):
 
     units = units.filter(
         query,
-        translation__component__in=glossaries,
+        translation__component__in=project.glossaries,
         translation__component__source_language=source_language,
         translation__language=language,
     ).distinct()

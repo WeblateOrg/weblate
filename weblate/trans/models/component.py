@@ -2080,8 +2080,10 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
         return result
 
     def invalidate_glossary_cache(self):
-        if self.is_glossary:
-            cache.delete(self.glossary_sources_key)
+        if not self.is_glossary:
+            return
+        cache.delete(self.glossary_sources_key)
+        self.project.invalidate_glossary_cache()
         if "glossary_sources" in self.__dict__:
             del self.__dict__["glossary_sources"]
 
