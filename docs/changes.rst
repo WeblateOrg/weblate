@@ -12,6 +12,7 @@ Not yet released.
 * Indicate glossary and source language in breadcrumbs.
 * Paginate component listing on huge projects.
 * Improved performance of translation, component or project removal.
+* Improved bulk edit performance.
 
 Weblate 4.5
 -----------

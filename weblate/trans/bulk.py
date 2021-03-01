@@ -50,6 +50,12 @@ def bulk_perform(
     add_flags = Flags(add_flags)
     remove_flags = Flags(remove_flags)
 
+    if add_flags or remove_flags or add_labels or remove_labels:
+        matching = matching.prefetch_related("source_unit")
+
+        if add_labels or remove_labels:
+            matching = matching.prefetch_related("source_unit__labels")
+
     updated = 0
     for component in components:
         with transaction.atomic(), component.lock():
