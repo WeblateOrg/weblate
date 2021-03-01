@@ -923,6 +923,10 @@ Projects
 
     .. hint::
 
+       Use :ref:`internal-urls` when creating multiple components from a single VCS repository.
+
+    .. note::
+
         Most of the component creation happens in the background. Check the
         ``task_url`` attribute of created component and follow the progress
         there.
