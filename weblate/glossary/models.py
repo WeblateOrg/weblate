@@ -20,6 +20,7 @@
 import re
 from itertools import chain
 
+import ahocorasick
 from django.db.models import Q
 from django.db.models.functions import Lower
 
@@ -29,6 +30,7 @@ from weblate.utils.db import re_escape, using_postgresql
 from weblate.utils.state import STATE_TRANSLATED
 
 SPLIT_RE = re.compile(r"[\s,.:!?]+", re.UNICODE)
+NON_WORD_RE = re.compile(r"\W", re.UNICODE)
 
 
 def get_glossary_sources(component):
@@ -64,18 +66,29 @@ def get_glossary_terms(unit):
     )
 
     # Build complete source for matching
-    parts = []
+    parts = [""]
     for text in unit.get_source_plurals() + [unit.context]:
         text = text.lower().strip()
         if text:
             parts.append(text)
+    parts.append("")
     source = PLURAL_SEPARATOR.join(parts)
 
-    # Extract terms present in the source
-    # This might use a suffix tree for improved performance
-    matches = [
-        term for term in terms if re.search(r"\b{}\b".format(re.escape(term)), source)
-    ]
+    matches = set()
+    if terms:
+        # Build automaton for efficient Aho-Corasick search,
+        # this might be pickled and cached for improved performance
+        automaton = ahocorasick.Automaton()
+        for term in terms:
+            automaton.add_word(term, term)
+        automaton.make_automaton()
+
+        # Extract terms present in the source
+        for end, term in automaton.iter(source):
+            if NON_WORD_RE.match(source[end - len(term)]) and NON_WORD_RE.match(
+                source[end + 1]
+            ):
+                matches.add(term)
 
     if using_postgresql():
         match = r"^({})$".format("|".join(re_escape(term) for term in matches))
