@@ -202,6 +202,10 @@ Notable configuration or dependencies changes:
 * The glossary API is removed, use regular translation API to access glossaries.
 * There is a change in :setting:`django:INSTALLED_APPS` - ``weblate.metrics`` should be added.
 
+.. versionchanged:: 4.5.1
+
+   * There is a new dependency on the `pyahocorasick` module.
+
 .. seealso:: :ref:`generic-upgrade-instructions`
 
 .. _py3:

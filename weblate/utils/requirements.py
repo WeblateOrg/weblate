@@ -71,6 +71,7 @@ REQUIRES = [
     "GitPython",
     "borgbackup",
     "pyparsing",
+    "pyahocorasick",
 ]
 
 OPTIONAL = [
