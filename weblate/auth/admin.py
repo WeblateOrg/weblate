@@ -112,7 +112,9 @@ class WeblateAuthAdmin(WeblateModelAdmin):
         # Discard permission check for objects where deletion in admin is disabled
         perms_needed.discard("profile")
         perms_needed.discard("audit_log")
+        perms_needed.discard("audit log")
         perms_needed.discard("verified_email")
+        perms_needed.discard("verified email")
         return deleted_objects, model_count, perms_needed, protected
 
 
