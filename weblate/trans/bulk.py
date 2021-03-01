@@ -38,11 +38,13 @@ def bulk_perform(
     add_labels,
     remove_labels,
     project,
+    components=None,
 ):
     matching = unit_set.search(query, project=project).prefetch()
-    components = Component.objects.filter(
-        id__in=matching.values_list("translation__component_id", flat=True)
-    )
+    if components is None:
+        components = Component.objects.filter(
+            id__in=matching.values_list("translation__component_id", flat=True)
+        )
 
     target_state = int(target_state)
     add_flags = Flags(add_flags)
