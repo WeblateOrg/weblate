@@ -147,7 +147,7 @@ LICENSES = (
         "Apache-1.0",
         "Apache License 1.0",
         "http://www.apache.org/licenses/LICENSE-1.0",
-        True,
+        False,
     ),
     (
         "Apache-1.1",
@@ -244,7 +244,7 @@ LICENSES = (
         "BitTorrent-1.1",
         "BitTorrent Open Source License v1.1",
         "http://directory.fsf.org/wiki/License:BitTorrentOSL1.1",
-        True,
+        False,
     ),
     (
         "BlueOak-1.0.0",
@@ -292,7 +292,7 @@ LICENSES = (
         "BSD-3-Clause-Clear",
         "BSD 3-Clause Clear License",
         "http://labs.metacarta.com/license-explanation.html#license",
-        True,
+        False,
     ),
     (
         "BSD-3-Clause-No-Nuclear-License",
@@ -328,7 +328,7 @@ LICENSES = (
         "BSD-4-Clause",
         'BSD 4-Clause "Original" or "Old" License',
         "http://directory.fsf.org/wiki/License:BSD_4Clause",
-        True,
+        False,
     ),
     (
         "BSD-Protection",
@@ -396,7 +396,7 @@ LICENSES = (
         "CECILL-2.0",
         "CeCILL Free Software License Agreement v2.0",
         "http://www.cecill.info/licences/Licence_CeCILL_V2-en.html",
-        True,
+        False,
     ),
     (
         "CECILL-2.1",
@@ -408,13 +408,13 @@ LICENSES = (
         "CECILL-B",
         "CeCILL-B Free Software License Agreement",
         "http://www.cecill.info/licences/Licence_CeCILL-B_V1-en.html",
-        True,
+        False,
     ),
     (
         "CECILL-C",
         "CeCILL-C Free Software License Agreement",
         "http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html",
-        True,
+        False,
     ),
     (
         "CERN-OHL-1.1",
@@ -444,13 +444,13 @@ LICENSES = (
         "CERN-OHL-W-2.0",
         "CERN Open Hardware Licence Version 2 - Weakly Reciprocal",
         "https://www.ohwr.org/project/cernohl/wikis/Documents/CERN-OHL-version-2",
-        False,
+        True,
     ),
     (
         "ClArtistic",
         "Clarified Artistic License",
         "http://gianluca.dellavedova.org/2011/01/03/clarified-artistic-license/",
-        True,
+        False,
     ),
     (
         "MIT-CMU",
@@ -523,7 +523,7 @@ LICENSES = (
         "Condor-1.1",
         "Condor Public License v1.1",
         "http://research.cs.wisc.edu/condor/license.html#condor",
-        True,
+        False,
     ),
     (
         "copyleft-next-0.3.0",
@@ -577,7 +577,7 @@ LICENSES = (
         "CC-BY-4.0",
         "Creative Commons Attribution 4.0 International",
         "https://creativecommons.org/licenses/by/4.0/legalcode",
-        True,
+        False,
     ),
     (
         "CC-BY-ND-1.0",
@@ -739,7 +739,7 @@ LICENSES = (
         "CC-BY-SA-4.0",
         "Creative Commons Attribution Share Alike 4.0 International",
         "https://creativecommons.org/licenses/by-sa/4.0/legalcode",
-        True,
+        False,
     ),
     (
         "CC-BY-SA-3.0-AT",
@@ -757,7 +757,7 @@ LICENSES = (
         "CC0-1.0",
         "Creative Commons Zero v1.0 Universal",
         "https://creativecommons.org/publicdomain/zero/1.0/legalcode",
-        True,
+        False,
     ),
     (
         "Crossword",
@@ -818,7 +818,7 @@ LICENSES = (
         "WTFPL",
         "Do What The F*ck You Want To Public License",
         "http://www.wtfpl.net/about/",
-        True,
+        False,
     ),
     ("DOC", "DOC License", "http://www.cs.wustl.edu/~schmidt/ACE-copying.html", False),
     (
@@ -966,13 +966,13 @@ LICENSES = (
         "FTL",
         "Freetype Project License",
         "http://freetype.fis.uniroma2.it/FTL.TXT",
-        True,
+        False,
     ),
     (
         "FSFAP",
         "FSF All Permissive License",
         "https://www.gnu.org/prep/maintain/html_node/License-Notices-for-Other-Files.html",
-        True,
+        False,
     ),
     (
         "FSFUL",
@@ -1015,7 +1015,7 @@ LICENSES = (
         "GFDL-1.1-only",
         "GNU Free Documentation License v1.1 only",
         "https://www.gnu.org/licenses/old-licenses/fdl-1.1.txt",
-        True,
+        False,
     ),
     (
         "GFDL-1.1-invariants-only",
@@ -1033,7 +1033,7 @@ LICENSES = (
         "GFDL-1.1-or-later",
         "GNU Free Documentation License v1.1 or later",
         "https://www.gnu.org/licenses/old-licenses/fdl-1.1.txt",
-        True,
+        False,
     ),
     (
         "GFDL-1.1-invariants-or-later",
@@ -1051,7 +1051,7 @@ LICENSES = (
         "GFDL-1.2-only",
         "GNU Free Documentation License v1.2 only",
         "https://www.gnu.org/licenses/old-licenses/fdl-1.2.txt",
-        True,
+        False,
     ),
     (
         "GFDL-1.2-invariants-only",
@@ -1069,7 +1069,7 @@ LICENSES = (
         "GFDL-1.2-or-later",
         "GNU Free Documentation License v1.2 or later",
         "https://www.gnu.org/licenses/old-licenses/fdl-1.2.txt",
-        True,
+        False,
     ),
     (
         "GFDL-1.2-invariants-or-later",
@@ -1087,7 +1087,7 @@ LICENSES = (
         "GFDL-1.3-only",
         "GNU Free Documentation License v1.3 only",
         "https://www.gnu.org/licenses/fdl-1.3.txt",
-        True,
+        False,
     ),
     (
         "GFDL-1.3-invariants-only",
@@ -1105,7 +1105,7 @@ LICENSES = (
         "GFDL-1.3-or-later",
         "GNU Free Documentation License v1.3 or later",
         "https://www.gnu.org/licenses/fdl-1.3.txt",
-        True,
+        False,
     ),
     (
         "GFDL-1.3-invariants-or-later",
@@ -1195,7 +1195,7 @@ LICENSES = (
         "gnuplot",
         "gnuplot License",
         "https://fedoraproject.org/wiki/Licensing/Gnuplot",
-        True,
+        False,
     ),
     (
         "GLWTPL",
@@ -1267,19 +1267,19 @@ LICENSES = (
         "iMatix",
         "iMatix Standard Function Library Agreement",
         "http://legacy.imatix.com/html/sfl/sfl4.htm#license",
-        True,
+        False,
     ),
     (
         "Imlib2",
         "Imlib2 License",
         "http://trac.enlightenment.org/e/browser/trunk/imlib2/COPYING",
-        True,
+        False,
     ),
     (
         "IJG",
         "Independent JPEG Group License",
         "http://dev.w3.org/cvsweb/Amaya/libjpeg/Attic/README?rev=1.2",
-        True,
+        False,
     ),
     ("Info-ZIP", "Info-ZIP License", "http://www.info-zip.org/license.html", False),
     (
@@ -1336,13 +1336,13 @@ LICENSES = (
         "LPPL-1.2",
         "LaTeX Project Public License v1.2",
         "http://www.latex-project.org/lppl/lppl-1-2.txt",
-        True,
+        False,
     ),
     (
         "LPPL-1.3a",
         "LaTeX Project Public License v1.3a",
         "http://www.latex-project.org/lppl/lppl-1-3a.txt",
-        True,
+        False,
     ),
     (
         "LPPL-1.3c",
@@ -1543,19 +1543,19 @@ LICENSES = (
         "NOSL",
         "Netizen Open Source License",
         "http://bits.netizen.com.au/licenses/NOSL/nosl.txt",
-        True,
+        False,
     ),
     (
         "NPL-1.0",
         "Netscape Public License v1.0",
         "http://www.mozilla.org/MPL/NPL/1.0/",
-        True,
+        False,
     ),
     (
         "NPL-1.1",
         "Netscape Public License v1.1",
         "http://www.mozilla.org/MPL/NPL/1.1/",
-        True,
+        False,
     ),
     (
         "Newsletr",
@@ -1642,7 +1642,7 @@ LICENSES = (
         "ODbL-1.0",
         "Open Data Commons Open Database License v1.0",
         "http://www.opendatacommons.org/licenses/odbl/1.0/",
-        True,
+        False,
     ),
     (
         "PDDL-1.0",
@@ -1744,7 +1744,7 @@ LICENSES = (
         "OLDAP-2.3",
         "Open LDAP Public License v2.3",
         "http://www.openldap.org/devel/gitweb.cgi?p=openldap.git;a=blob;f=LICENSE;hb=d32cf54a32d581ab475d23c810b0a7fbaf8d63c3",
-        True,
+        False,
     ),
     (
         "OLDAP-2.4",
@@ -1768,7 +1768,7 @@ LICENSES = (
         "OLDAP-2.7",
         "Open LDAP Public License v2.7",
         "http://www.openldap.org/devel/gitweb.cgi?p=openldap.git;a=blob;f=LICENSE;hb=47c2415c1df81556eeb39be6cad458ef87c534a2",
-        True,
+        False,
     ),
     (
         "OLDAP-2.8",
@@ -1798,7 +1798,7 @@ LICENSES = (
         "OSL-1.1",
         "Open Software License 1.1",
         "https://fedoraproject.org/wiki/Licensing/OSL1.1",
-        True,
+        False,
     ),
     (
         "OSL-2.0",
@@ -1824,7 +1824,7 @@ LICENSES = (
         "https://github.com/microsoft/Open-Use-of-Data-Agreement/blob/v1.0/O-UDA-1.0.md",
         False,
     ),
-    ("OpenSSL", "OpenSSL License", "http://www.openssl.org/source/license.html", True),
+    ("OpenSSL", "OpenSSL License", "http://www.openssl.org/source/license.html", False),
     (
         "OSET-PL-2.1",
         "OSET Public License version 2.1",
@@ -1936,7 +1936,7 @@ LICENSES = (
         "http://www.faqs.org/rfcs/rfc1321.html",
         False,
     ),
-    ("Ruby", "Ruby License", "http://www.ruby-lang.org/en/LICENSE.txt", True),
+    ("Ruby", "Ruby License", "http://www.ruby-lang.org/en/LICENSE.txt", False),
     (
         "SAX-PD",
         "Sax Public Domain Notice",
@@ -2001,7 +2001,7 @@ LICENSES = (
         "SGI-B-2.0",
         "SGI Free Software License B v2.0",
         "http://oss.sgi.com/projects/FreeB/SGIFreeSWLicB.2.0.pdf",
-        True,
+        False,
     ),
     (
         "OFL-1.0",
@@ -2109,7 +2109,7 @@ LICENSES = (
         "SMLNJ",
         "Standard ML of New Jersey License",
         "https://www.smlnj.org/license.html",
-        True,
+        False,
     ),
     (
         "SugarCRM-1.1.3",
@@ -2235,7 +2235,7 @@ LICENSES = (
         "https://opensource.org/licenses/UCL-1.0",
         True,
     ),
-    ("Vim", "Vim License", "http://vimdoc.sourceforge.net/htmldoc/uganda.html", True),
+    ("Vim", "Vim License", "http://vimdoc.sourceforge.net/htmldoc/uganda.html", False),
     (
         "VOSTROM",
         "VOSTROM Public License for Open Source",
@@ -2273,19 +2273,19 @@ LICENSES = (
         False,
     ),
     ("Xnet", "X.Net License", "https://opensource.org/licenses/Xnet", True),
-    ("X11", "X11 License", "http://www.xfree86.org/3.3.6/COPYRIGHT2.html#3", True),
+    ("X11", "X11 License", "http://www.xfree86.org/3.3.6/COPYRIGHT2.html#3", False),
     ("Xerox", "Xerox License", "https://fedoraproject.org/wiki/Licensing/Xerox", False),
     (
         "XFree86-1.1",
         "XFree86 License 1.1",
         "http://www.xfree86.org/current/LICENSE4.html",
-        True,
+        False,
     ),
     (
         "xinetd",
         "xinetd License",
         "https://fedoraproject.org/wiki/Licensing/Xinetd_License",
-        True,
+        False,
     ),
     ("xpp", "XPP License", "https://fedoraproject.org/wiki/Licensing/xpp", False),
     (
@@ -2304,20 +2304,20 @@ LICENSES = (
         "YPL-1.1",
         "Yahoo! Public License v1.1",
         "http://www.zimbra.com/license/yahoo_public_license_1.1.html",
-        True,
+        False,
     ),
     ("Zed", "Zed License", "https://fedoraproject.org/wiki/Licensing/Zed", False),
     (
         "Zend-2.0",
         "Zend License v2.0",
         "https://web.archive.org/web/20130517195954/http://www.zend.com/license/2_00.txt",
-        True,
+        False,
     ),
     (
         "Zimbra-1.3",
         "Zimbra Public License v1.3",
         "http://web.archive.org/web/20100302225219/http://www.zimbra.com/license/zimbra-public-license-1-3.html",
-        True,
+        False,
     ),
     (
         "Zimbra-1.4",
@@ -2344,5 +2344,5 @@ LICENSES = (
         "http://old.zope.org/Resources/License/ZPL-2.0",
         True,
     ),
-    ("ZPL-2.1", "Zope Public License 2.1", "http://old.zope.org/Resources/ZPL/", True),
+    ("ZPL-2.1", "Zope Public License 2.1", "http://old.zope.org/Resources/ZPL/", False),
 )
