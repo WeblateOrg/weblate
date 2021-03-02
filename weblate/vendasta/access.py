@@ -5,6 +5,7 @@ from weblate.vendasta.constants import (
     ACCESS_NAMESPACE,
     PARTNER_USERS,
     VENDASTA_DEVELOPERS,
+    VIEW_PARTNER_LANGUAGES,
     VIEW_PUBLIC_LANGUAGES,
 )
 
@@ -24,6 +25,8 @@ def set_permissions(strategy, backend, user, details, **kwargs):
         groups_to_add.append(Group.objects.get(name=VENDASTA_DEVELOPERS))
     elif "partner" in roles:
         groups_to_add.append(Group.objects.get(name=PARTNER_USERS))
+        groups_to_add.append(Group.objects.get(name=VIEW_PARTNER_LANGUAGES))
+    else:
         groups_to_add.append(Group.objects.get(name=VIEW_PUBLIC_LANGUAGES))
 
     namespace = details.get("namespace")
