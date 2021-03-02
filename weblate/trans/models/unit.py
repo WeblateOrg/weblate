@@ -635,6 +635,7 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
                 # not changed outside
                 previous_source = self.previous_source
                 state = self.state
+                original_state = self.original_state
 
         # Update checks on fuzzy update or on content change
         same_target = target == self.target
