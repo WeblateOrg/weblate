@@ -1,4 +1,4 @@
-/*! @sentry/browser 6.2.0 (37dd210) | https://github.com/getsentry/sentry-javascript */
+/*! @sentry/browser 6.2.1 (ca0cbf8) | https://github.com/getsentry/sentry-javascript */
 var Sentry = (function (exports) {
     /*! *****************************************************************************
     Copyright (c) Microsoft Corporation. All rights reserved.
@@ -4306,7 +4306,7 @@ var Sentry = (function (exports) {
         hub.bindClient(client);
     }
 
-    var SDK_VERSION = '6.2.0';
+    var SDK_VERSION = '6.2.1';
 
     var originalFunctionToString;
     /** Patch toString calls to return proper name for wrapped functions */
@@ -6162,7 +6162,20 @@ var Sentry = (function (exports) {
          */
         function BrowserClient(options) {
             if (options === void 0) { options = {}; }
-            return _super.call(this, BrowserBackend, options) || this;
+            var _this = this;
+            options._metadata = options._metadata || {};
+            options._metadata.sdk = options._metadata.sdk || {
+                name: 'sentry.javascript.browser',
+                packages: [
+                    {
+                        name: 'npm:@sentry/browser',
+                        version: SDK_VERSION,
+                    },
+                ],
+                version: SDK_VERSION,
+            };
+            _this = _super.call(this, BrowserBackend, options) || this;
+            return _this;
         }
         /**
          * Show a report dialog to the user to send feedback to a specific event.
@@ -6283,17 +6296,6 @@ var Sentry = (function (exports) {
         if (options.autoSessionTracking === undefined) {
             options.autoSessionTracking = true;
         }
-        options._metadata = options._metadata || {};
-        options._metadata.sdk = {
-            name: 'sentry.javascript.browser',
-            packages: [
-                {
-                    name: 'npm:@sentry/browser',
-                    version: SDK_VERSION,
-                },
-            ],
-            version: SDK_VERSION,
-        };
         initAndBind(BrowserClient, options);
         if (options.autoSessionTracking) {
             startSessionTracking();
