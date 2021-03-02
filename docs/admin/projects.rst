@@ -298,6 +298,10 @@ Version control system
 
 VCS to use, see :ref:`vcs` for details.
 
+.. seealso::
+
+   :ref:`push-changes`
+
 .. _component-repo:
 
 Source code repository
@@ -372,6 +376,10 @@ Branch for pushing changes, leave empty to use :ref:`component-branch`.
 
    This is currently only supported for Git, GitLab and GitHub, it is ignored
    for other VCS integrations.
+
+.. seealso::
+
+   :ref:`push-changes`
 
 .. _component-filemask:
 
