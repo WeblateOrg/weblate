@@ -1509,6 +1509,12 @@ LICENSES = (
     ("Multics", "Multics License", "https://opensource.org/licenses/Multics", True),
     ("Mup", "Mup License", "https://fedoraproject.org/wiki/Licensing/Mup", False),
     (
+        "NAIST-2003",
+        "Nara Institute of Science and Technology License (2003)",
+        "https://enterprise.dejacode.com/licenses/public/naist-2003/#license-text",
+        False,
+    ),
+    (
         "NASA-1.3",
         "NASA Open Source Agreement 1.3",
         "http://ti.arc.nasa.gov/opensource/nosa/",
