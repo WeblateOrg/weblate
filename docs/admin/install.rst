@@ -1185,6 +1185,10 @@ On each deploy you need to compress the files to match current version:
 Running server
 --------------
 
+.. hint::
+
+   In case you are not experienced with services described below, you might want to try :doc:`install/docker`.
+
 You will need several services to run Weblate, the recommended setup consists of:
 
 * Database server (see :ref:`database-setup`)
