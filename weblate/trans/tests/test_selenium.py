@@ -23,7 +23,6 @@ import time
 import warnings
 from contextlib import contextmanager
 from datetime import timedelta
-from io import BytesIO
 from unittest import SkipTest
 
 import social_django.utils
@@ -31,7 +30,6 @@ from django.conf import settings
 from django.core import mail
 from django.test.utils import modify_settings, override_settings
 from django.urls import reverse
-from PIL import Image
 from selenium import webdriver
 from selenium.common.exceptions import ElementNotVisibleException, WebDriverException
 from selenium.webdriver.chrome.options import Options
@@ -174,46 +172,18 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
     def scroll_top(self):
         self.driver.execute_script("window.scrollTo(0, 0)")
 
-    def screenshot(self, name, scroll=True):
+    def screenshot(self, name: str):
         """Captures named full page screenshot."""
         self.scroll_top()
         # Get window and document dimensions
-        window_height = self.driver.execute_script("return window.innerHeight")
         scroll_height = self.driver.execute_script("return document.body.scrollHeight")
         scroll_width = self.driver.execute_script("return document.body.scrollWidth")
-        # Calculate number of screnshots
-        num = int(math.ceil(float(scroll_height) / float(window_height)))
-
-        # Capture screenshots
-        screenshots = []
-        for i in range(num):
-            if i > 0:
-                self.driver.execute_script(
-                    "window.scrollBy(%d,%d)" % (0, window_height)
-                )
-            screenshots.append(Image.open(BytesIO(self.driver.get_screenshot_as_png())))
-            if not scroll:
-                scroll_height = window_height
-                break
-
-        # Create final image
-        stitched = Image.new("RGB", (scroll_width, scroll_height))
-
-        # Stitch images together
-        for i, img in enumerate(screenshots):
-            offset = i * window_height
-
-            # Remove overlapping area from last screenshot
-            if i > 0 and i == num - 1:
-                overlap_height = img.height - scroll_height % img.height
-            else:
-                overlap_height = 0
-
-            stitched.paste(img, (0, offset - overlap_height))
-
-        stitched.save(os.path.join(self.image_path, name))
-
-        self.scroll_top()
+        # Resize the window
+        self.driver.set_window_size(scroll_width, scroll_height + 20)
+        time.sleep(1)
+        # Get screenshot
+        with open(os.path.join(self.image_path, name), "wb") as handle:
+            handle.write(self.driver.get_screenshot_as_png())
 
     def click(self, element="", htmlid=None):
         """Wrapper to scroll into element for click."""
@@ -1177,7 +1147,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         # Edit context
         self.click(htmlid="edit-context")
         time.sleep(0.5)
-        self.screenshot("source-review-edit.png", scroll=False)
+        self.screenshot("source-review-edit.png")
 
         # Close modal dialog
         self.driver.find_element(By.ID, "id_extra_flags").send_keys(Keys.ESCAPE)
