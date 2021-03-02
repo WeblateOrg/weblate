@@ -61,6 +61,10 @@ class ConvertUnit(TTKitUnit):
         """Check whether unit needs editing."""
         return fallback
 
+    def is_approved(self, fallback=False):
+        """Check whether unit is appoved."""
+        return fallback
+
     @cached_property
     def locations(self):
         return ""
@@ -69,6 +73,20 @@ class ConvertUnit(TTKitUnit):
     def context(self):
         """Return context of message."""
         return "".join(self.mainunit.getlocations())
+
+
+class ConvertXliffUnit(XliffUnit):
+    def is_fuzzy(self, fallback=False):
+        """Check whether unit needs editing."""
+        return fallback
+
+    def is_approved(self, fallback=False):
+        """Check whether unit is appoved."""
+        return fallback
+
+    def is_translated(self):
+        """Check whether unit is translated."""
+        return self.unit is not None
 
 
 class ConvertFormat(TranslationFormat):
@@ -238,7 +256,7 @@ class OpenDocumentFormat(ConvertFormat):
     )
     format_id = "odf"
     check_flags = ("strict-same",)
-    unit_class = XliffUnit
+    unit_class = ConvertXliffUnit
 
     @staticmethod
     def convertfile(storefile, template_store):
