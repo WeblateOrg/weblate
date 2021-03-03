@@ -198,6 +198,11 @@ Enable source reviews
 
 Enable review workflow for source strings, see :ref:`source-reviews`.
 
+.. seealso::
+
+   :ref:`report-source`,
+   :ref:`user-comments`
+
 .. _project-enable_hooks:
 
 Enable hooks

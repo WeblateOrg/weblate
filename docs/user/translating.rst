@@ -62,17 +62,20 @@ Comments
 --------
 
 Three types of comments can be posted: for translations, source strings, or to
-report source string bugs when this functionality is turned on. Choose
-the one suitable to topic you want to discuss. Source string comments are
-in any event good for providing feedback on the original string, for example that it should
-be rephrased or to ask questions about it.
+report source string bugs when this functionality is turned on using
+:ref:`project-source_review`. Choose the one suitable to topic you want to
+discuss. Source string comments are in any event good for providing feedback on
+the original string, for example that it should be rephrased or to ask
+questions about it.
 
 You can use Markdown syntax in all comments and mention other users using
 ``@mention``.
 
 .. seealso::
 
-   :ref:`report-source`
+   :ref:`report-source`,
+   :ref:`source-reviews`,
+   :ref:`project-source_review`
 
 Variants
 --------
