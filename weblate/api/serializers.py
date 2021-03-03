@@ -25,6 +25,7 @@ from rest_framework import serializers
 from weblate.accounts.models import Subscription
 from weblate.addons.models import ADDONS, Addon
 from weblate.auth.models import Group, Permission, Role, User
+from weblate.checks.models import CHECKS
 from weblate.lang.models import Language, Plural
 from weblate.screenshots.models import Screenshot
 from weblate.trans.defines import LANGUAGE_NAME_LENGTH, REPO_LENGTH
@@ -513,6 +514,14 @@ class ComponentSerializer(RemovableSerializer):
                 "lookup_field": ("project__slug", "slug"),
             }
         }
+
+    def validate_enforced_checks(self, value):
+        if not isinstance(value, list):
+            raise serializers.ValidationError("Enforced checks has to be a list.")
+        for item in value:
+            if item not in CHECKS:
+                raise serializers.ValidationError(f"Unsupported enforced check: {item}")
+        return value
 
     def to_representation(self, instance):
         """Remove VCS properties if user has no permission for that."""
