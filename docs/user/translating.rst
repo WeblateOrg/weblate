@@ -80,7 +80,7 @@ You can use Markdown syntax in all comments and mention other users using
 Variants
 --------
 
-Variants are used to group different length variants of the a string. The
+Variants are used to group different length variants of the string. The
 frontend of your project can then use different strings depending on the screen
 or window size.
 
@@ -102,7 +102,7 @@ localization workflow (for example to define categories of strings).
 Translating
 -----------
 
-On the translation page, the source string and an editing area for its translattion is shown.
+On the translation page, the source string and an editing area for its translation are shown.
 Should the translation be plural, multiple source strings and editing areas are
 shown, each described and labeled in the amount of plural forms the translated language has.
 
