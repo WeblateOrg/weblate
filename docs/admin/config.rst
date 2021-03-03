@@ -437,9 +437,9 @@ The default value for component restriction.
 
 .. seealso::
 
-   :ref:`acl`,
    :ref:`component-restricted`,
    :ref:`privileges`
+   :ref:`perm-check`,
 
 .. setting:: DEFAULT_COMMIT_MESSAGE
 .. setting:: DEFAULT_ADD_MESSAGE
