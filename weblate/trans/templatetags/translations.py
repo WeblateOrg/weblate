@@ -139,8 +139,8 @@ class Formatter:
                     )
                 offset += len(data)
                 if data == " ":
-                    self.tags[offset].append("</span></span>")
-                self.tags[offset].append("</ins>")
+                    self.tags[offset].insert(0, "</span></span>")
+                self.tags[offset].insert(0, "</ins>")
             elif op == dmp.DIFF_EQUAL:
                 offset += len(data)
 
@@ -151,7 +151,7 @@ class Formatter:
             self.tags[start].append(
                 '<span class="hlcheck"><span class="highlight-number"></span>'
             )
-            self.tags[end].append("</span>")
+            self.tags[end].insert(0, "</span>")
 
     @staticmethod
     def format_terms(terms):
@@ -186,7 +186,7 @@ class Formatter:
                 self.tags[match.start()].append(
                     GLOSSARY_TEMPLATE.format(self.format_terms(entries))
                 )
-                self.tags[match.end()].append("</span>")
+                self.tags[match.end()].insert(0, "</span>")
 
     def parse_search(self):
         """Highlights search matches."""
@@ -209,13 +209,13 @@ class Formatter:
             self.tags[match.start()].append(
                 '<span class="hlspace"><span class="space-space"><span class="sr-only">'
             )
-            self.tags[match.end()].append("</span></span></span>")
+            self.tags[match.end()].insert(0, "</span></span></span>")
 
         for match in re.finditer("\t", self.value):
             self.tags[match.start()].append(
                 '<span class="hlspace"><span class="space-tab"><span class="sr-only">'
             )
-            self.tags[match.end()].append("</span></span></span>")
+            self.tags[match.end()].insert(0, "</span></span></span>")
 
     def format(self):
         tags = self.tags

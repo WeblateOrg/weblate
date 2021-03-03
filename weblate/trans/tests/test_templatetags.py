@@ -239,7 +239,7 @@ class TranslationFormatTestCase(FixtureTestCase):
             )["items"][0]["content"],
             """
             text
-            <span class="hlspace"><span class="space-nl"><span class="sr-only">
+            <span class="hlspace"><span class="space-space"><span class="sr-only">
             </span></span></span>
             <span class="glossary-term"
                 title="Glossary translation: ahoj">Hello</span>
