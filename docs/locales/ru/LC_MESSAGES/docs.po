@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-02-17 15:02+0100\n"
-"PO-Revision-Date: 2021-02-22 13:57+0000\n"
+"PO-Revision-Date: 2021-03-03 20:14+0000\n"
 "Last-Translator: Golubev Alexander <fatzer2@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/"
 "documentation/ru/>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 4.5\n"
+"X-Generator: Weblate 4.5.1-dev\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:181
@@ -36312,6 +36312,10 @@ msgid ""
 "you will automatically start watching projects upon translating a string. "
 "The default value depends on :setting:`DEFAULT_AUTO_WATCH`."
 msgstr ""
+"Если параметр :guilabel:`Автоматически добавлять проект в отслеживаемые при "
+"правке` включён, то при редактировании какого-либо проекта он будет "
+"автоматически добавлен в ваш список отслеживаемых. Значение по умолчанию "
+"зависит от параметра :setting:`DEFAULT_AUTO_WATCH`."
 
 #: ../../user/profile.rst:161
 msgid "You will not receive notifications for your own actions."
@@ -36500,12 +36504,6 @@ msgid "``has:TEXT``"
 msgstr "``has:ТЕКСТ``"
 
 #: ../../user/search.rst:48
-#, fuzzy
-#| msgid ""
-#| "Search for string having attributes - ``plural``, ``context``, "
-#| "``suggestion``, ``comment``, ``check``, ``dismissed-check``, "
-#| "``translation``, ``variant``, ``screenshot`` (works only on source "
-#| "strings)."
 msgid ""
 "Search for string having attributes - ``plural``, ``context``, "
 "``suggestion``, ``comment``, ``check``, ``dismissed-check``, "
@@ -36514,7 +36512,7 @@ msgid ""
 msgstr ""
 "Поиск строк, имеющих атрибуты — ``plural``, ``context``, ``suggestion``, "
 "``comment``, ``check``, ``dismissed-check``, ``translation``, ``variant``, "
-"``screenshot`` (работает только для исходных строк)."
+"``screenshot``, ``flags``, ``explanation``, ``glossary``."
 
 #: ../../user/search.rst:49
 msgid "``is:TEXT``"
@@ -36654,10 +36652,8 @@ msgid "``explanation:TEXT``"
 msgstr "``location:ТЕКСТ``"
 
 #: ../../user/search.rst:83
-#, fuzzy
-#| msgid "Search in suggestions."
 msgid "Search in explanations."
-msgstr "Поиск в предложениях."
+msgstr "Поиск в пояснениях."
 
 #: ../../user/search.rst:86
 msgid "Boolean operators"
@@ -36816,10 +36812,6 @@ msgid "The project accepts direct translations"
 msgstr "Проект принимает прямые переводы"
 
 #: ../../user/translating.rst:11
-#, fuzzy
-#| msgid ""
-#| "The project accepts only suggestions, which are automatically validated "
-#| "once a defined number of votes is reached"
 msgid ""
 "The project only accepts suggestions, which are automatically validated once "
 "a defined number of votes is reached"
@@ -36828,9 +36820,6 @@ msgstr ""
 "достижении определённого числа голосов"
 
 #: ../../user/translating.rst:13
-#, fuzzy
-#| msgid ""
-#| "Please see :ref:`workflows` for more information on translation workflow."
 msgid "Please see :ref:`workflows` for more info on translation workflow."
 msgstr ""
 "Для получения более подробной информации о процессе перевода, пожалуйста, "
@@ -36853,30 +36842,18 @@ msgid ":ref:`privileges`, :ref:`workflows`"
 msgstr ":ref:`privileges`, :ref:`workflows`"
 
 #: ../../user/translating.rst:28
-#, fuzzy
-#| msgid ""
-#| "Translation projects hold related components, related to the same "
-#| "software, book, or project."
 msgid ""
 "Translation projects hold related components; resources for the same "
 "software, book, or project."
 msgstr ""
-"В проектах переводов содержатся относящиеся к ним компоненты, связанные с "
-"одним и тем же программным обеспечением, книгой или проектов."
+"В проекте перевода содержатся относящиеся к нему компоненты — ресурсы "
+"связанные с одним и тем же программным обеспечением, книгой или проектом."
 
 #: ../../user/translating.rst:35
 msgid "Translation links"
 msgstr "Ссылки на перевод"
 
 #: ../../user/translating.rst:37
-#, fuzzy
-#| msgid ""
-#| "Having navigated to a component, a set of links lead to actual "
-#| "translation. The translation is further divided into individual checks, "
-#| "like :guilabel:`Not translated strings` or :guilabel:`Strings needing "
-#| "action`. If the whole project is translated, without error, :guilabel:"
-#| "`All strings` is still available. Alternatively you can use the search "
-#| "field to find a specific string or term."
 msgid ""
 "Having navigated to a component, a set of links lead to its actual "
 "translation. The translation is further divided into individual checks, "
@@ -36900,33 +36877,23 @@ msgstr ""
 "Weblate."
 
 #: ../../user/translating.rst:52
-#, fuzzy
-#| msgid ""
-#| "Anonymous users can only (if permitted) forward suggestions. Doing so is "
-#| "still available to signed in users, in cases where uncertainty about the "
-#| "translation arises, which will prompt another translator to review it."
 msgid ""
 "Anonymous users can only (by default) forward suggestions. Doing so is still "
 "available to signed-in users, in cases where uncertainty about the "
 "translation arises, prompting other translators to review it."
 msgstr ""
-"Анонимные пользователи могут только вносить предложения (если это разрешено "
-"настройками перевода). Тоже самое могут делать и зарегистрированные "
-"пользователи, если у них возникает неуверенность в собственном переводе. Эти "
-"предложения в дальнейшем сможет просмотреть и отрецензировать другой "
-"переводчик."
+"Анонимные пользователи могут только вносить предложения (по умолчанию). Тоже "
+"самое могут делать и зарегистрированные пользователи, если они неуверенны в "
+"собственном переводе. Эти предложения в дальнейшем сможет просмотреть и "
+"отрецензировать другой переводчик."
 
 #: ../../user/translating.rst:56
-#, fuzzy
-#| msgid ""
-#| "The suggestions are scanned on a daily basis to remove duplicate ones or "
-#| "suggestions that match the current translation."
 msgid ""
 "The suggestions are scanned on a daily basis to remove duplicates and "
 "suggestions matching the current translation."
 msgstr ""
-"Предложения ежедневно сканируются с целью удаления дубликатов или "
-"предложений, совпадающих с текущим переводом."
+"Предложения ежедневно сканируются с целью удаления дубликатов и предложений, "
+"совпадающих с текущим переводом."
 
 #: ../../user/translating.rst:64
 #, fuzzy
@@ -36949,81 +36916,60 @@ msgstr ""
 "она вводит в заблуждение."
 
 #: ../../user/translating.rst:70
-#, fuzzy
-#| msgid ""
-#| "You can use Markdown syntax in the comments and mention other users using "
-#| "``@mention``."
 msgid ""
 "You can use Markdown syntax in all comments and mention other users using "
 "``@mention``."
 msgstr ""
-"В комментариях вы можете использовать синтаксис Markdown и упоминать других "
-"пользователей, используя синтаксис ``@упоминаний``."
+"Во всех типах комментариев вы можете использовать синтаксис Markdown и "
+"упоминать других пользователей, используя синтаксис ``@упоминаний``."
 
 #: ../../user/translating.rst:75
 msgid ":ref:`report-source`"
 msgstr ":ref:`report-source`"
 
 #: ../../user/translating.rst:80
-#, fuzzy
-#| msgid ""
-#| "Variants are used to group variants of the string in different lengths. "
-#| "The frontend can use different strings depending on the screen or window "
-#| "size."
 msgid ""
 "Variants are used to group different length variants of the a string. The "
 "frontend of your project can then use different strings depending on the "
 "screen or window size."
 msgstr ""
-"Варианты используются для группировки вариантов строки различной длины. "
-"Пользовательский интерфейс может использовать различные строки в зависимости "
-"от размеров экрана или окна."
+"Варианты используются для группировки вариантов строки с различной длиной. "
+"Таким образом, пользовательский интерфейс вашего проекта может использовать "
+"различные строки в зависимости от размеров экрана или окна."
 
 #: ../../user/translating.rst:86
-#, fuzzy
-#| msgid ":ref:`rate-limit`, :ref:`user-rate`"
 msgid ":ref:`variants`, :ref:`glossary-variants`"
-msgstr ":ref:`rate-limit`, :ref:`user-rate`"
+msgstr ":ref:`variants`, :ref:`glossary-variants`"
 
 #: ../../user/translating.rst:90
 msgid "Labels"
 msgstr "Метки"
 
 #: ../../user/translating.rst:92
-#, fuzzy
-#| msgid ""
-#| "Labels are used to categorize strings within a project. These can be used "
-#| "to further customize the localization workflow, for example to define "
-#| "categories of strings."
 msgid ""
 "Labels are used to categorize strings within a project to further customize "
 "the localization workflow (for example to define categories of strings)."
 msgstr ""
-"Метки используются для категоризации строк в проекте. Их можно использовать "
-"для дальнейшей настройки рабочего процесса локализации, например, для "
-"определения категорий строк."
+"Метки используются для категоризации строк в проекте для дальнейшего "
+"изменения рабочего процесса локализации (например, для определения категорий "
+"строк)."
 
 #: ../../user/translating.rst:97
 msgid ":ref:`labels`"
 msgstr ":ref:`labels`"
 
 #: ../../user/translating.rst:102
-#, fuzzy
-#| msgid ""
-#| "On the translation page, the source string and an edit area for "
-#| "translating are shown. Should the translation be plural, multiple source "
-#| "strings and edit areas are shown, each described and labeled in plural "
-#| "form."
 msgid ""
 "On the translation page, the source string and an editing area for its "
 "translattion is shown. Should the translation be plural, multiple source "
 "strings and editing areas are shown, each described and labeled in the "
 "amount of plural forms the translated language has."
 msgstr ""
-"На странице перевода отображаются исходная строка и область редактирования "
-"для перевода. Если переводится строка со множественным числом, то "
+"На странице перевода отображаются исходная строка и собственно область "
+"редактирования перевода. Если переводится строка со множественным числом, то "
 "показываются несколько исходных строк и областей редактирования, каждая из "
-"которых описывает свою форму множественного числа."
+"которых снабжена меткой, описывающей и приводящей числовые примеры для этой "
+"формы множественного числа в данном языке."
 
 #: ../../user/translating.rst:106
 msgid ""
