@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.5.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-03-03 20:14+0000\n"
-"PO-Revision-Date: 2021-02-18 14:50+0000\n"
+"PO-Revision-Date: 2021-03-04 07:36+0000\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: Hebrew <https://hosted.weblate.org/projects/weblate/"
 "application/he/>\n"
@@ -21,7 +21,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n == 1) ? 0 : ((n == 2) ? 1 : ((n > 10 && "
 "n % 10 == 0) ? 2 : 3));\n"
-"X-Generator: Weblate 4.5\n"
+"X-Generator: Weblate 4.5.1-dev\n"
 
 #: weblate/accounts/avatar.py:103
 msgctxt "No known user"
@@ -3875,18 +3875,14 @@ msgid ""
 "For questions about specific translation project, contact its maintainers "
 "directly, not by this form."
 msgstr ""
+"לשאלות על מיזם תרגום מסוים, יש ליצור קשר עם המתחזקים שלו, לא דרך הטופס הזה."
 
 #: weblate/templates/accounts/contact.html:16
-#, fuzzy
-#| msgid "You can contact maintainers of this server here."
 msgid "You can only contact maintainers of the whole server here."
-msgstr "ניתן ליצור קשר עם מתחזקי השרת דרך כאן."
+msgstr "כאן ניתן ליצור קשר רק עם מתחזקי השרת כולו."
 
 #: weblate/templates/accounts/contact.html:17
-#, fuzzy, python-format
-#| msgid ""
-#| "If you are looking for support for Weblate or want to file bug reports "
-#| "check its website at %(weblate_link)s."
+#, python-format
 msgid ""
 "If you are looking for support for Weblate, or want to file a bug report, "
 "check its website at %(weblate_link)s."
@@ -6365,31 +6361,25 @@ msgid "Mark as spam"
 msgstr "סימון כזבל"
 
 #: weblate/templates/mail/account_activity.html:7
-#, fuzzy, python-format
-#| msgid "There has been a change in your account at %(site_title)s:"
+#, python-format
 msgid "There has been a following change in your account at %(site_title)s:"
-msgstr "נערך שינוי בחשבון שלך באתר %(site_title)s:"
+msgstr "השינוי הבא נערך בחשבון שלך באתר %(site_title)s:"
 
 #: weblate/templates/mail/account_activity.html:32
-#, fuzzy
-#| msgid ""
-#| "If you did not request this change, please report it as soon as possible."
 msgid ""
 "If you don’t recognize this change, you can report it by clicking the button "
 "bellow."
-msgstr "אם לא הגשת בקשה לשינוי שכזה, נא לדווח על כך במהירות האפשרית."
+msgstr "אם השינוי הזה לא מוכר לך, ניתן לדווח עליו בלחיצה על הכפתור שלהלן."
 
 #: weblate/templates/mail/account_activity.html:33
 msgid ""
 "Don’t use this button for support questions. Such questions won’t be "
 "answered."
-msgstr ""
+msgstr "אין להשתמש בכפתור הזה לשאלות בנושאי תמיכה. שאלות שכאלו לא יזכו למענה."
 
 #: weblate/templates/mail/account_activity.html:37
-#, fuzzy
-#| msgid "Reports"
 msgid "Report"
-msgstr "דיווחים"
+msgstr "דיווח"
 
 #: weblate/templates/mail/account_activity_subject.txt:4
 #, python-format
@@ -7683,14 +7673,13 @@ msgid "%(value)s of %(all)s"
 msgstr "%(value)s מתוך %(all)s"
 
 #: weblate/templates/snippets/list-objects-percent.html:7
-#, fuzzy, python-format
-#| msgid "Apply selected translation to current string"
+#, python-format
 msgid "Completed translation with %(count)s string"
 msgid_plural "Completed translation with %(count)s strings"
-msgstr[0] "להחיל את התרגום הנבחר למחרוזת הנוכחית"
-msgstr[1] "להחיל את התרגום הנבחר למחרוזת הנוכחית"
-msgstr[2] "להחיל את התרגום הנבחר למחרוזת הנוכחית"
-msgstr[3] "להחיל את התרגום הנבחר למחרוזת הנוכחית"
+msgstr[0] "התרגום הושלם עם מחרוזת אחת"
+msgstr[1] "התרגום הושלם עם 2 מחרוזות"
+msgstr[2] "התרגום הושלם עם %(count)s מחרוזות"
+msgstr[3] "התרגום הושלם עם %(count)s מחרוזות"
 
 #: weblate/templates/snippets/list-objects.html:19
 #: weblate/templates/snippets/list-objects.html:29
@@ -9616,10 +9605,8 @@ msgstr "אין לך הרשאות לגשת לרכיב הזה!"
 
 #: weblate/trans/forms.py:1232 weblate/trans/forms.py:1240
 #: weblate/trans/forms.py:1246
-#, fuzzy
-#| msgid "Your suggestion has been identified as spam!"
 msgid "This field has been identified as spam!"
-msgstr "ההצעה שלך זוהתה כזבל!"
+msgstr "השדה הזה זוהה כספאם!"
 
 #: weblate/trans/forms.py:1317 weblate/trans/forms.py:1869
 msgid "Basic"
