@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-02-17 15:02+0100\n"
-"PO-Revision-Date: 2021-02-17 09:14+0000\n"
+"PO-Revision-Date: 2021-03-03 16:01+0000\n"
 "Last-Translator: Adolfo Jayme Barrientos <fitojb@ubuntu.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/weblate/"
 "documentation/es/>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.5\n"
+"X-Generator: Weblate 4.5.1-dev\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:181
@@ -14210,34 +14210,37 @@ msgid ""
 "visible when browsing other projects. User still need to have access to the "
 "actual component in order to be able to browse or translate it."
 msgstr ""
+"La compartición de componentes no modifica el control de acceso. Únicamente "
+"los hace visibles al explorar otros proyectos. Los usuarios aún deberán "
+"tener acceso al componente para poder explorarlo o traducirlo."
 
 #: ../../admin/projects.rst:796
 msgid "Use as a glossary"
 msgstr "Utilizar como glosario"
 
 #: ../../admin/projects.rst:800
-#, fuzzy
-#| msgid ""
-#| "You can use any component as a glossary by turning on :ref:`component-"
-#| "is_glossary`."
 msgid ""
 "Allows using this component as a glossary. You can configure how it will be "
 "listed using :ref:`component-glossary_color`."
 msgstr ""
-"Puede utilizar cualquier componente como glosario al activar :ref:`component-"
-"is_glossary`."
+"Permite la utilización de este componente como glosario. Puede definir cómo "
+"se mostrará en las listas mediante :ref:`component-glossary_color`."
 
 #: ../../admin/projects.rst:803
 msgid ""
 "The glossary will be accessible in all projects defined by :ref:`component-"
 "links`."
 msgstr ""
+"El glosario será accesible en todos los proyectos definidos por :ref"
+":`component-links`."
 
 #: ../../admin/projects.rst:805
 msgid ""
 "It is recommended to enable :ref:`component-manage_units` on glossaries in "
 "order to allow adding new words to them."
 msgstr ""
+"Se recomienda la activación de :ref:`component-manage_units` en los "
+"glosarios para permitir la adición de palabras nuevas."
 
 #: ../../admin/projects.rst:810
 #, fuzzy
@@ -17422,12 +17425,12 @@ msgstr ""
 
 #: ../../api.rst:2339
 msgid "Generic information about GitHub Webhooks"
-msgstr ""
+msgstr "Información genérica sobre los actuadores web de GitHub"
 
 #: ../../api.rst:2340 ../../api.rst:2354 ../../api.rst:2368 ../../api.rst:2384
 #: ../../api.rst:2400 ../../api.rst:2416 ../../api.rst:2432
 msgid ":setting:`ENABLE_HOOKS`"
-msgstr ""
+msgstr ":setting:`ENABLE_HOOKS`"
 
 #: ../../api.rst:2341 ../../api.rst:2355 ../../api.rst:2369 ../../api.rst:2385
 #: ../../api.rst:2401 ../../api.rst:2417 ../../api.rst:2433
@@ -17454,7 +17457,7 @@ msgstr ""
 
 #: ../../api.rst:2353
 msgid "Generic information about GitLab Webhooks"
-msgstr ""
+msgstr "Información genérica sobre los actuadores web de GitLab"
 
 #: ../../api.rst:2359
 msgid ""
@@ -17476,7 +17479,7 @@ msgstr ""
 
 #: ../../api.rst:2367
 msgid "Generic information about Bitbucket Webhooks"
-msgstr ""
+msgstr "Información genérica sobre los actuadores web de Bitbucket"
 
 #: ../../api.rst:2375
 msgid ""
@@ -17498,7 +17501,7 @@ msgstr ""
 
 #: ../../api.rst:2383
 msgid "Generic information about Pagure Webhooks"
-msgstr ""
+msgstr "Información genérica sobre los actuadores web de Pagure"
 
 #: ../../api.rst:2391
 msgid ""
@@ -17522,7 +17525,7 @@ msgstr ""
 
 #: ../../api.rst:2399
 msgid "Generic information about Azure Repos Web Hooks"
-msgstr ""
+msgstr "Información genérica sobre los actuadores web de Azure Repos"
 
 #: ../../api.rst:2407
 msgid ""
@@ -17544,7 +17547,7 @@ msgstr ""
 
 #: ../../api.rst:2415
 msgid "Generic information about Gitea Webhooks"
-msgstr ""
+msgstr "Información genérica sobre los actuadores web de Gitea"
 
 #: ../../api.rst:2423
 msgid ""
@@ -17566,7 +17569,7 @@ msgstr ""
 
 #: ../../api.rst:2431
 msgid "Generic information about Gitee Webhooks"
-msgstr ""
+msgstr "Información genérica sobre los actuadores web de Gitee"
 
 #: ../../api.rst:2438
 msgid "Exports"
@@ -17590,6 +17593,10 @@ msgid ""
 "component)/(string:language)/statistics/` instead; it allows access to ACL "
 "controlled projects as well."
 msgstr ""
+"Utilice :http:get:`/api/components/(string:project)/(string:component)/"
+"statistics/` y :http:get:`/api/translations/"
+"(string:project)/(string:component)/(string:language)/statistics/` en su "
+"lugar; esto permite además el acceso a los proyectos controlados por ACL."
 
 #: ../../api.rst:2452
 msgid "Retrieves statistics for given component in given format."
@@ -17644,10 +17651,8 @@ msgid "Weblate 4.5"
 msgstr "Weblate 4.5"
 
 #: ../../changes.rst:4
-#, fuzzy
-#| msgid "Released on February 17th 2021."
 msgid "Released on February 19th 2021."
-msgstr "Publicada el 17 de febrero de 2021."
+msgstr "Publicada el 19 de febrero de 2021."
 
 #: ../../changes.rst:6
 msgid "Added support for ``lua-format`` used in gettext PO."
@@ -31041,12 +31046,11 @@ msgstr ""
 #: ../../user/glossary.rst:26
 msgid "The glossary component looks like any other component in Weblate:"
 msgstr ""
+"El componente del glosario luce como cualquier otro componente en Weblate:"
 
 #: ../../user/glossary.rst:30
-#, fuzzy
-#| msgid "Browse all glossary changes"
 msgid "You can browse all glossary terms:"
-msgstr "Explorar todos los cambios del glosario"
+msgstr "Puede explorar todos los términos del glosario:"
 
 #: ../../user/glossary.rst:35
 msgid "Glossary terms"
