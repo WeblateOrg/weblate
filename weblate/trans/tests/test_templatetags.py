@@ -228,6 +228,25 @@ class TranslationFormatTestCase(FixtureTestCase):
             """,
         )
 
+    def test_glossary_space(self):
+        self.assertHTMLEqual(
+            format_translation(
+                "text  Hello world",
+                self.component.source_language,
+                glossary=[
+                    Unit(source="hello", target="ahoj", translation=self.translation)
+                ],
+            )["items"][0]["content"],
+            """
+            text
+            <span class="hlspace"><span class="space-nl"><span class="sr-only">
+            </span></span></span>
+            <span class="glossary-term"
+                title="Glossary translation: ahoj">Hello</span>
+            world
+            """,
+        )
+
     def test_glossary_escape(self):
         self.assertHTMLEqual(
             format_translation(
