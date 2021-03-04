@@ -330,7 +330,7 @@
       <tr>
         <th class="number">{{ object.stats.all|intcomma }}</th>
         <td>
-          {% trans "Original format as translated in the repository" %}
+          {% trans "File in original format as translated in the repository" %}
         </td>
         <td class="number">
           <a class="btn-inline" href="{% url 'download_translation' project=object.component.project.slug component=object.component.slug lang=object.language.code %}">{{ object.component.file_format_name }}</a>
@@ -339,7 +339,7 @@
       <tr>
         <th class="number">{{ object.stats.all|intcomma }}</th>
         <td>
-          {% trans "All strings, converted files enriched with comments, flags, suggestions; suitable for translating offline" %}
+          {% trans "All strings, converted files enriched with comments; suitable for translating offline" %}
         </td>
         <td class="number">
           {% for exporter in exporters %}
@@ -351,7 +351,7 @@
       <tr>
         <th class="number">{{ object.stats.todo|intcomma }}</th>
         <td>
-          {% trans "Strings needing action, converted files enriched with comments and suitable for translating offline" %}
+          {% trans "Strings needing action, converted files enriched with comments; suitable for translating offline" %}
         </td>
         <td class="number">
           {% for exporter in exporters %}
