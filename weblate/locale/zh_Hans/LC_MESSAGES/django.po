@@ -32,7 +32,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.5.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-03-03 20:14+0000\n"
-"PO-Revision-Date: 2021-02-18 14:50+0000\n"
+"PO-Revision-Date: 2021-03-04 01:00+0000\n"
 "Last-Translator: Eric <spice2wolf@gmail.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "weblate/application/zh_Hans/>\n"
@@ -41,7 +41,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 4.5\n"
+"X-Generator: Weblate 4.5.1-dev\n"
 
 #: weblate/accounts/avatar.py:103
 msgctxt "No known user"
@@ -3844,24 +3844,18 @@ msgstr "确认完后，您将可以使用%(backend_verbose)s （%(uid)s）认证
 msgid ""
 "For questions about specific translation project, contact its maintainers "
 "directly, not by this form."
-msgstr ""
+msgstr "如果对特定翻译项目有疑问，请直接联系其维护者，而不要通过此表格。"
 
 #: weblate/templates/accounts/contact.html:16
-#, fuzzy
-#| msgid "You can contact maintainers of this server here."
 msgid "You can only contact maintainers of the whole server here."
-msgstr "您可以通过这里联系此服务器的维护人员。"
+msgstr "您只能通过这里联系整个服务器的维护人员。"
 
 #: weblate/templates/accounts/contact.html:17
-#, fuzzy, python-format
-#| msgid ""
-#| "If you are looking for support for Weblate or want to file bug reports "
-#| "check its website at %(weblate_link)s."
+#, python-format
 msgid ""
 "If you are looking for support for Weblate, or want to file a bug report, "
 "check its website at %(weblate_link)s."
-msgstr ""
-"如果您要获得有关 Weblate 的帮助或者报告缺陷，请到 %(weblate_link)s 网站了解。"
+msgstr "如果您要获得有关 Weblate 的帮助或者提交缺陷报告，请到 %(weblate_link)s 网站了解。"
 
 #: weblate/templates/accounts/contact.html:32
 #: weblate/templates/manage/tools.html:26
@@ -6247,29 +6241,23 @@ msgid "Mark as spam"
 msgstr "标记为垃圾"
 
 #: weblate/templates/mail/account_activity.html:7
-#, fuzzy, python-format
-#| msgid "There has been a change in your account at %(site_title)s:"
+#, python-format
 msgid "There has been a following change in your account at %(site_title)s:"
-msgstr "您在 %(site_title)s 网站上的账户有一个变更："
+msgstr "你在 %(site_title)s 网站上的账户有下列变更："
 
 #: weblate/templates/mail/account_activity.html:32
-#, fuzzy
-#| msgid ""
-#| "If you did not request this change, please report it as soon as possible."
 msgid ""
 "If you don’t recognize this change, you can report it by clicking the button "
 "bellow."
-msgstr "如果您没有请求此更改，请尽快报告。"
+msgstr "如果你不认可此更改，你可以单击下面的按钮进行报告。"
 
 #: weblate/templates/mail/account_activity.html:33
 msgid ""
 "Don’t use this button for support questions. Such questions won’t be "
 "answered."
-msgstr ""
+msgstr "不要使用此按钮来解决支持问题。 这样的问题将不会得到解答。"
 
 #: weblate/templates/mail/account_activity.html:37
-#, fuzzy
-#| msgid "Reports"
 msgid "Report"
 msgstr "报告"
 
@@ -7518,11 +7506,10 @@ msgid "%(value)s of %(all)s"
 msgstr "%(value)s of %(all)s"
 
 #: weblate/templates/snippets/list-objects-percent.html:7
-#, fuzzy, python-format
-#| msgid "Apply selected translation to current string"
+#, python-format
 msgid "Completed translation with %(count)s string"
 msgid_plural "Completed translation with %(count)s strings"
-msgstr[0] "将选中的翻译应用到当前字符串"
+msgstr[0] "完成了 %(count)s 字符串的翻译"
 
 #: weblate/templates/snippets/list-objects.html:19
 #: weblate/templates/snippets/list-objects.html:29
@@ -9393,10 +9380,8 @@ msgstr "您没有访问这个组建的权限！"
 
 #: weblate/trans/forms.py:1232 weblate/trans/forms.py:1240
 #: weblate/trans/forms.py:1246
-#, fuzzy
-#| msgid "Your suggestion has been identified as spam!"
 msgid "This field has been identified as spam!"
-msgstr "您的建议已被识别为垃圾信息！"
+msgstr "此字段已被识别为垃圾信息！"
 
 #: weblate/trans/forms.py:1317 weblate/trans/forms.py:1869
 msgid "Basic"
