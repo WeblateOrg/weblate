@@ -13,7 +13,7 @@ Not yet released.
 * Paginated component listing of huge projects.
 * Improved performance of translation, component or project removal.
 * Improved bulk edit performance.
-* Fixed preserving needs editing and approved states for ODF files.
+* Fixed preserving "Needs editing" and "Approved" states for ODF files.
 * Improved interface for translation files download customizations.
 
 Weblate 4.5
