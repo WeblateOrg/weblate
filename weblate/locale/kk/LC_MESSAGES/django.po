@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.5.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
-"POT-Creation-Date: 2021-03-03 20:14+0000\n"
+"POT-Creation-Date: 2021-03-04 21:31+0000\n"
 "PO-Revision-Date: 2021-03-04 07:36+0000\n"
 "Last-Translator: Anonymous <noreply@weblate.org>\n"
 "Language-Team: Kazakh <https://hosted.weblate.org/projects/weblate/"
@@ -1147,8 +1147,8 @@ msgid ""
 msgstr ""
 
 #. Translators: Name of event in the history
-#: weblate/addons/autotranslate.py:34 weblate/templates/translation.html:70
-#: weblate/templates/translation.html:250 weblate/trans/models/change.py:236
+#: weblate/addons/autotranslate.py:34 weblate/templates/translation.html:76
+#: weblate/templates/translation.html:249 weblate/trans/models/change.py:236
 msgid "Automatic translation"
 msgstr "Avtomatty tárjime"
 
@@ -1303,8 +1303,8 @@ msgstr ""
 
 #: weblate/addons/flags.py:105 weblate/templates/component.html:69
 #: weblate/templates/component.html:217 weblate/templates/project.html:68
-#: weblate/templates/project.html:219 weblate/templates/translation.html:67
-#: weblate/templates/translation.html:289
+#: weblate/templates/project.html:219 weblate/templates/translation.html:73
+#: weblate/templates/translation.html:288
 #, fuzzy
 #| msgid "Full editor"
 msgid "Bulk edit"
@@ -1602,7 +1602,7 @@ msgstr ""
 #: weblate/addons/forms.py:453 weblate/billing/models.py:291
 #: weblate/templates/snippets/query-builder.html:13
 #: weblate/templates/snippets/query-builder.html:15
-#: weblate/templates/translation.html:127 weblate/trans/admin.py:95
+#: weblate/templates/translation.html:133 weblate/trans/admin.py:95
 msgid "Source strings"
 msgstr "Qaınar joldary"
 
@@ -3292,8 +3292,8 @@ msgstr "Bul jol buryn tárjimelengen"
 #: weblate/checks/views.py:85 weblate/templates/component.html:72
 #: weblate/templates/language-project.html:41
 #: weblate/templates/language.html:27 weblate/templates/progress.html:14
-#: weblate/templates/project.html:71 weblate/templates/translation.html:73
-#: weblate/templates/translation.html:438
+#: weblate/templates/project.html:71 weblate/templates/translation.html:79
+#: weblate/templates/translation.html:491
 msgid "Failing checks"
 msgstr "Aqaý tekserýler"
 
@@ -3425,7 +3425,7 @@ msgstr "RC faıly"
 msgid "gettext PO"
 msgstr "Gettext PO"
 
-#: weblate/formats/exporters.py:248
+#: weblate/formats/exporters.py:248 weblate/formats/ttkit.py:1084
 msgid "XLIFF with gettext extensions"
 msgstr "XLIFF (gettext keńeıtimderi bar)"
 
@@ -3449,9 +3449,9 @@ msgstr "Gettext MO"
 msgid "CSV"
 msgstr "CSV"
 
-#: weblate/formats/exporters.py:396 weblate/formats/external.py:40
-msgid "Excel Open XML"
-msgstr "Excel Open XML"
+#: weblate/formats/exporters.py:396
+msgid "XLSX"
+msgstr ""
 
 #: weblate/formats/exporters.py:422 weblate/trans/forms.py:1075
 msgid "JSON"
@@ -3466,6 +3466,10 @@ msgstr "Android jol qor kózi"
 #| msgid "iOS Strings"
 msgid "iOS strings"
 msgstr "iOS joldary"
+
+#: weblate/formats/external.py:40
+msgid "Excel Open XML"
+msgstr "Excel Open XML"
 
 #: weblate/formats/ttkit.py:1004
 #, fuzzy
@@ -3490,12 +3494,6 @@ msgstr "Qt Linguist tárjimelik faıly"
 #| msgid "XLIFF Translation File"
 msgid "XLIFF translation file"
 msgstr "XLIFF tárjimelik faıly"
-
-#: weblate/formats/ttkit.py:1084
-#, fuzzy
-#| msgid "XLIFF Translation File with PO extensions"
-msgid "XLIFF translation file with PO extensions"
-msgstr "XLIFF tárjimelik faıly (PO keńeıtimderi bar)"
 
 #: weblate/formats/ttkit.py:1114
 #, fuzzy
@@ -4391,7 +4389,7 @@ msgstr "Komitke qol qoıý rettelmegen."
 
 #: weblate/templates/about/stats.html:7 weblate/templates/about/stats.html:80
 #: weblate/templates/dashboard/user.html:37 weblate/templates/data.html:51
-#: weblate/templates/translation.html:47 weblate/templates/translation.html:403
+#: weblate/templates/translation.html:47 weblate/templates/translation.html:456
 #: weblate/trans/views/about.py:33
 msgid "Statistics"
 msgstr "Statıstıka"
@@ -4822,7 +4820,7 @@ msgstr "Jańa baılanysty ústeý"
 #: weblate/templates/accounts/profile.html:165
 #: weblate/templates/component.html:108
 #: weblate/templates/language-project.html:44
-#: weblate/templates/project.html:113 weblate/templates/translation.html:97
+#: weblate/templates/project.html:113 weblate/templates/translation.html:103
 msgid "Removal"
 msgstr "Alastaý"
 
@@ -5350,7 +5348,7 @@ msgstr "Quramdas faıl aty joǵarǵy regıstrdegi birinshi árippen"
 #: weblate/templates/dashboard/user.html:82
 #: weblate/templates/language-project.html:54
 #: weblate/templates/project.html:138 weblate/templates/translate.html:304
-#: weblate/templates/translation.html:198 weblate/trans/forms.py:1505
+#: weblate/templates/translation.html:205 weblate/trans/forms.py:1505
 #: weblate/trans/models/announcement.py:97
 #: weblate/trans/models/component.py:661
 msgid "Component"
@@ -5496,7 +5494,7 @@ msgstr "Jańa tárjimelik jobany ústeý"
 
 #: weblate/templates/base.html:212 weblate/templates/project.html:92
 #: weblate/templates/project.html:144
-#: weblate/templates/snippets/project-component-settings.html:15
+#: weblate/templates/snippets/project-component-settings.html:18
 #: weblate/templates/trans/component_form.html:26
 msgid "Add new translation component"
 msgstr "Jańa tárjimelik quramdasty ústeý"
@@ -5579,7 +5577,7 @@ msgstr "Jabý"
 #: weblate/templates/manage/users_check.html:19
 #: weblate/templates/project-labels.html:27 weblate/templates/replace.html:40
 #: weblate/templates/screenshots/screenshot_list.html:60
-#: weblate/templates/translation.html:188
+#: weblate/templates/translation.html:194
 msgid "Edit"
 msgstr "Óńdeý"
 
@@ -5642,7 +5640,7 @@ msgid "Download invoice"
 msgstr "Invoısty júktep alý"
 
 #: weblate/templates/billing/detail.html:83
-#: weblate/templates/translation.html:228
+#: weblate/templates/translation.html:227
 msgid "Not available"
 msgstr "Qoljetimdi emes"
 
@@ -5860,8 +5858,8 @@ msgstr "Bılıń mártebesin tekserińiz"
 
 #: weblate/templates/browse.html:26
 #: weblate/templates/snippets/list-objects.html:111
-#: weblate/templates/translation.html:141
-#: weblate/templates/translation.html:187
+#: weblate/templates/translation.html:147
+#: weblate/templates/translation.html:193
 msgid "Browse"
 msgstr "Sharlaý"
 
@@ -5884,7 +5882,7 @@ msgstr "Joba"
 
 #: weblate/templates/check.html:20 weblate/templates/check_component.html:22
 #: weblate/templates/check_project.html:21 weblate/templates/checks.html:19
-#: weblate/templates/translation.html:416
+#: weblate/templates/translation.html:469
 msgid "Total"
 msgstr "Qorytyndy"
 
@@ -5899,7 +5897,7 @@ msgstr "Bas tartý"
 #: weblate/templates/check_project.html:24 weblate/templates/checks.html:22
 #: weblate/templates/engage.html:33
 #: weblate/templates/snippets/list-objects.html:33
-#: weblate/templates/translation.html:423 weblate/trans/widgets.py:273
+#: weblate/templates/translation.html:476 weblate/trans/widgets.py:273
 #: weblate/trans/widgets.py:291
 msgid "Translated"
 msgstr "Tárjimelengen"
@@ -5952,9 +5950,6 @@ msgstr "Faıldar"
 
 #: weblate/templates/component-list.html:20 weblate/templates/component.html:57
 #: weblate/templates/language-project.html:33 weblate/templates/project.html:56
-#: weblate/templates/translation-download.html:7
-#: weblate/templates/translation-download.html:11
-#: weblate/templates/translation-download.html:16
 msgid "Download for offline translation."
 msgstr "Oflaın tárjimeleý úshin júktep alý."
 
@@ -6062,20 +6057,20 @@ msgstr "Tárjimelik faıl túpnusqasyn júktep alý (%(format)s)"
 #: weblate/templates/language-project.html:38
 #: weblate/templates/language.html:24 weblate/templates/manage/tools.html:9
 #: weblate/templates/project.html:61 weblate/templates/translate.html:182
-#: weblate/templates/translation.html:60 weblate/wladmin/views.py:72
+#: weblate/templates/translation.html:66 weblate/wladmin/views.py:72
 msgid "Tools"
 msgstr "Quraldar"
 
 #. Translators: Name of event in the history
 #: weblate/templates/component.html:66 weblate/templates/component.html:199
 #: weblate/templates/project.html:65 weblate/templates/project.html:201
-#: weblate/templates/replace.html:14 weblate/templates/translation.html:64
-#: weblate/templates/translation.html:271 weblate/trans/models/change.py:274
+#: weblate/templates/replace.html:14 weblate/templates/translation.html:70
+#: weblate/templates/translation.html:270 weblate/trans/models/change.py:274
 msgid "Search and replace"
 msgstr "Izdeý men aýystyrý"
 
 #: weblate/templates/component.html:71 weblate/templates/data.html:7
-#: weblate/templates/project.html:70 weblate/templates/translation.html:72
+#: weblate/templates/project.html:70 weblate/templates/translation.html:78
 msgid "Data exports"
 msgstr "Derekter eksporttary"
 
@@ -6099,17 +6094,17 @@ msgstr "Jańa tárjime bastaý"
 #: weblate/templates/manage/tools.html:8 weblate/templates/manage/users.html:8
 #: weblate/templates/manage/users_check.html:9
 #: weblate/templates/memory/index.html:14 weblate/templates/project.html:77
-#: weblate/templates/translation.html:82
+#: weblate/templates/translation.html:88
 msgid "Manage"
 msgstr "Basqarý"
 
 #: weblate/templates/component.html:86 weblate/templates/js/git-status.html:29
-#: weblate/templates/project.html:81 weblate/templates/translation.html:86
+#: weblate/templates/project.html:81 weblate/templates/translation.html:92
 msgid "Commit"
 msgstr "Komıt"
 
 #: weblate/templates/component.html:89 weblate/templates/project.html:84
-#: weblate/templates/translation.html:89
+#: weblate/templates/translation.html:95
 msgid "Repository maintenance"
 msgstr "Repozıtorıǵa qyzmet kórsetý"
 
@@ -6121,8 +6116,8 @@ msgstr "Ekran sýretteri"
 
 #: weblate/templates/component.html:95 weblate/templates/component.html:245
 #: weblate/templates/manage/tools.html:20 weblate/templates/project.html:89
-#: weblate/templates/project.html:239 weblate/templates/translation.html:93
-#: weblate/templates/translation.html:365
+#: weblate/templates/project.html:239 weblate/templates/translation.html:99
+#: weblate/templates/translation.html:418
 #, fuzzy
 #| msgid "Post comment"
 msgid "Post announcement"
@@ -6139,32 +6134,32 @@ msgid "Rename"
 msgstr "Qaıta ataý"
 
 #: weblate/templates/component.html:116 weblate/templates/project.html:121
-#: weblate/templates/translation.html:105
+#: weblate/templates/translation.html:111
 msgid "Share"
 msgstr "Bólisý"
 
 #: weblate/templates/component.html:120 weblate/templates/project.html:125
-#: weblate/templates/translation.html:109
+#: weblate/templates/translation.html:115
 msgid "Share on Facebook"
 msgstr "Facebook jelisinde bólisý"
 
 #: weblate/templates/component.html:121 weblate/templates/project.html:126
-#: weblate/templates/translation.html:110
+#: weblate/templates/translation.html:116
 #, python-format
 msgid "Translate %(object)s using %%23Weblate at %(share_url)s!"
 msgstr "%(share_url)s janynda %%23Weblate arqyly %(object)s tárjimeleý!"
 
-#: weblate/templates/component.html:121 weblate/templates/translation.html:110
+#: weblate/templates/component.html:121 weblate/templates/translation.html:116
 msgid "Tweet this translation!"
 msgstr "Bul tárjimeni Twiter-ge!"
 
 #: weblate/templates/component.html:122 weblate/templates/project.html:127
-#: weblate/templates/translation.html:111
+#: weblate/templates/translation.html:117
 msgid "Engage page"
 msgstr "Kirispe beti"
 
 #: weblate/templates/component.html:123 weblate/templates/project.html:128
-#: weblate/templates/translation.html:112
+#: weblate/templates/translation.html:118
 msgid "Status widgets"
 msgstr "Mártebe ýıjetteri"
 
@@ -6205,18 +6200,18 @@ msgstr ""
 "kishiligin eskerip qarapaıym tabý."
 
 #: weblate/templates/component.html:206 weblate/templates/project.html:208
-#: weblate/templates/replace.html:52 weblate/templates/translation.html:278
+#: weblate/templates/replace.html:52 weblate/templates/translation.html:277
 msgid "Replace"
 msgstr ""
 
-#: weblate/templates/component.html:219 weblate/templates/translation.html:291
+#: weblate/templates/component.html:219 weblate/templates/translation.html:290
 msgid "You can change the state of all strings matching a given type at once."
 msgstr ""
 "Berilgen túrge sáıkes keletin barlyq joldardyń kúıin birden ózgertýge bolady."
 
 #: weblate/templates/component.html:223 weblate/templates/project.html:225
-#: weblate/templates/translation.html:259
-#: weblate/templates/translation.html:295
+#: weblate/templates/translation.html:258
+#: weblate/templates/translation.html:294
 msgid "Apply"
 msgstr ""
 
@@ -6246,8 +6241,8 @@ msgstr ""
 #: weblate/templates/snippets/query-builder.html:97
 #: weblate/templates/snippets/query-builder.html:102
 #: weblate/templates/snippets/query-builder.html:107
-#: weblate/templates/translate.html:743 weblate/templates/translation.html:315
-#: weblate/templates/translation.html:373
+#: weblate/templates/translate.html:743 weblate/templates/translation.html:314
+#: weblate/templates/translation.html:426
 msgid "Add"
 msgstr "Ústeý"
 
@@ -6282,7 +6277,7 @@ msgid "Move"
 msgstr "Jyljytý"
 
 #: weblate/templates/component.html:304 weblate/templates/project.html:282
-#: weblate/templates/translate.html:353 weblate/templates/translation.html:387
+#: weblate/templates/translate.html:353 weblate/templates/translation.html:440
 msgid "Loading…"
 msgstr "Júktelýde…"
 
@@ -6716,7 +6711,7 @@ msgstr "Tirkelgińizdi belsendirgennen keıin, tárjime bólimine ótińiz."
 
 #: weblate/templates/engage.html:64
 #: weblate/templates/snippets/list-objects.html:109
-#: weblate/templates/translate.html:30 weblate/templates/translation.html:142
+#: weblate/templates/translate.html:30 weblate/templates/translation.html:148
 msgid "Translate"
 msgstr "Tárjimeleý"
 
@@ -6794,8 +6789,8 @@ msgstr "Qaripti ústeý"
 #: weblate/templates/fonts/font_list.html:97
 #: weblate/templates/memory/index.html:165
 #: weblate/templates/screenshots/screenshot_list.html:28
-#: weblate/templates/translation.html:340
-#: weblate/templates/translation.html:351
+#: weblate/templates/translation.html:391
+#: weblate/templates/translation.html:404
 msgid "Upload"
 msgstr "Júktep salý"
 
@@ -7195,7 +7190,7 @@ msgstr "%(site_title)s saıtyndaǵy tirkelgińizde ózgeris oryn aldy:"
 #| "using following form:"
 msgid ""
 "If you don’t recognize this change, you can report it by clicking the button "
-"bellow."
+"below."
 msgstr ""
 "Eger osy ózgeriske saýal jibermegen bolsańyz, múmkindiginshe tezirek kelesi "
 "pishin arqyly bizge habarlańyz:"
@@ -8289,7 +8284,7 @@ msgstr "Bekitilgen"
 msgid "Good"
 msgstr "Daıyn"
 
-#: weblate/templates/progress.html:17 weblate/templates/translation.html:430
+#: weblate/templates/progress.html:17 weblate/templates/translation.html:483
 #: weblate/trans/forms.py:446 weblate/trans/forms.py:465
 msgid "Needs editing"
 msgstr "Óńdeýge"
@@ -8472,8 +8467,8 @@ msgid "Add new screenshot"
 msgstr "Jańa ekran sýretin ústeý"
 
 #: weblate/templates/screenshots/screenshot_list.html:39
-#: weblate/templates/translation.html:136
-#: weblate/templates/translation.html:409
+#: weblate/templates/translation.html:142
+#: weblate/templates/translation.html:462
 msgid "Strings"
 msgstr "Joldar"
 
@@ -8979,13 +8974,18 @@ msgstr ""
 msgid "Translated strings in a certain language"
 msgstr "Kezkelgen aqaý tekserýleri bar joldar"
 
-#: weblate/templates/snippets/query-field.html:9
+#: weblate/templates/snippets/query-field.html:7 weblate/trans/filter.py:33
+#: weblate/trans/filter.py:121
+msgid "All strings"
+msgstr "Barlyq joldar"
+
+#: weblate/templates/snippets/query-field.html:11
 #, fuzzy
 #| msgid "Search"
 msgid "Custom search"
 msgstr "Izdeý"
 
-#: weblate/templates/snippets/query-field.html:19
+#: weblate/templates/snippets/query-field.html:21
 #: weblate/templates/snippets/user-query-field.html:5
 #: weblate/trans/forms.py:173
 msgid "Query"
@@ -9848,7 +9848,7 @@ msgstr ""
 msgid "Edit in Zen mode"
 msgstr "Zen rejiminde óńdeý"
 
-#: weblate/templates/translate.html:57 weblate/templates/translation.html:189
+#: weblate/templates/translate.html:57 weblate/templates/translation.html:195
 #: weblate/templates/zen.html:26
 msgid "Zen"
 msgstr "Zen"
@@ -10197,7 +10197,7 @@ msgstr "Joldar mártebesi"
 msgid "Source string age"
 msgstr "Qaınar jol jasy"
 
-#: weblate/templates/translate.html:685 weblate/templates/translation.html:214
+#: weblate/templates/translate.html:685 weblate/templates/translation.html:221
 msgid "Translation file"
 msgstr "Tárjimelik faıl"
 
@@ -10212,87 +10212,77 @@ msgstr "%(filename)s, jol %(position)s"
 msgid "string %(position)s"
 msgstr "%(filename)s, jol %(position)s"
 
-#: weblate/templates/translate.html:737 weblate/templates/translation.html:75
-#: weblate/templates/translation.html:306
+#: weblate/templates/translate.html:737 weblate/templates/translation.html:81
+#: weblate/templates/translation.html:305
 msgid "Add new translation string"
 msgstr "Jańa tárjimlenetin joldy ústeý"
 
-#: weblate/templates/translation-download.html:7
-#, python-format
-msgid "Download original translation file (%(format)s)"
-msgstr "Tárjimelik faıl túpnusqasyn júktep alý (%(format)s)"
+#: weblate/templates/translation.html:56
+#, fuzzy
+#| msgid "Upload translation"
+msgid "Download translation"
+msgstr "Tárjimeni júktep salý"
 
-#: weblate/templates/translation-download.html:11
-#, python-format
-msgid "Download translation file as %(format)s"
-msgstr "Tárjimelik faılyn %(format)s retinde júktep alý"
-
-#: weblate/templates/translation-download.html:16
-#, python-format
-msgid "Download strings needing action as %(format)s"
-msgstr "Áreket qajet joldardy %(format)s retinde júktep alý"
-
-#: weblate/templates/translation-download.html:20
-#: weblate/templates/translation.html:325
+#: weblate/templates/translation.html:58 weblate/templates/translation.html:371
 msgid "Customize download"
 msgstr "Júktep alýdy teńsheý"
 
-#: weblate/templates/translation-download.html:23
+#: weblate/templates/translation.html:60
 msgid "Upload translation"
 msgstr "Tárjimeni júktep salý"
 
-#: weblate/templates/translation.html:129 weblate/templates/widgets.html:70
+#: weblate/templates/translation.html:135 weblate/templates/widgets.html:70
 #: weblate/templates/widgets.html:78 weblate/templates/widgets.html:85
 #: weblate/templates/widgets.html:93
 msgid "Translation status"
 msgstr "Tárjime mártebesi"
 
-#: weblate/templates/translation.html:149
-#: weblate/templates/translation.html:410
+#: weblate/templates/translation.html:155
+#: weblate/templates/translation.html:463
 msgid "Words"
 msgstr "Sózder"
 
-#: weblate/templates/translation.html:157
+#: weblate/templates/translation.html:163
 msgid "This translation is being used as source strings within this component."
 msgstr "Bul tárjime osy quramdas ishinde qaınar joldar retinde paıdalanylýda."
 
-#: weblate/templates/translation.html:167
+#: weblate/templates/translation.html:173
 msgid "Strings status"
 msgstr "Joldar mártebesi"
 
-#: weblate/templates/translation.html:183
+#: weblate/templates/translation.html:189
 #, python-format
 msgid "%(count)s word"
 msgid_plural "%(count)s words"
 msgstr[0] "%(count)s sóz"
 msgstr[1] "sany %(count)s sóz"
 
-#: weblate/templates/translation.html:197
+#: weblate/templates/translation.html:204
 msgid "Other components"
 msgstr "Basqa quramdastar"
 
-#: weblate/templates/translation.html:200
+#: weblate/templates/translation.html:207
 #, fuzzy
 #| msgid "Browse all component changes"
 msgid "Browse all components"
 msgstr "Quramdastaǵy barlyq ózgeristerin sharlaý"
 
-#: weblate/templates/translation.html:209
+#: weblate/templates/translation.html:216
 #, fuzzy
 #| msgid "Translation notifications"
 msgid "Translation Information"
 msgstr "Tárjimelik habarlandyrýlar"
 
-#: weblate/templates/translation.html:218
-#: weblate/templates/translation.html:330
+#: weblate/templates/translation.html:224
+#: weblate/templates/translation.html:378
 msgid "Download"
 msgstr "Júktep alý"
 
-#: weblate/templates/translation.html:239
+#: weblate/templates/translation.html:238
 msgid "Browse all translation changes"
 msgstr "Tárjimeniń barlyq ózgeristerin sharlaý"
 
-#: weblate/templates/translation.html:254
+#: weblate/templates/translation.html:253
 msgid ""
 "Automatic translation takes existing translations in this project and "
 "applies them to the current component. It can be used to push translations "
@@ -10304,7 +10294,7 @@ msgstr ""
 "úılesimsiz tárjimelerdi túzetý nemese tárjimelik jady arqyly jańa quramdasty "
 "tárjimeleý úshin paıdalanylýy múmkin."
 
-#: weblate/templates/translation.html:255
+#: weblate/templates/translation.html:254
 msgid ""
 "Automatic translation via machine translation uses active machine "
 "translation engines to get the best possible translations and applies them "
@@ -10314,7 +10304,7 @@ msgstr ""
 "úshin belsendi kompıýterlik tárjime mehanızmdaryn paıdalanady jáne olardy "
 "osy jobada qoldanady."
 
-#: weblate/templates/translation.html:273
+#: weblate/templates/translation.html:272
 #, fuzzy
 #| msgid ""
 #| "You can substitute all instances of a string. The search is a simple "
@@ -10326,7 +10316,7 @@ msgstr ""
 "Joldyń barlyq danalaryn aýystyra alasyz. Izdeý - ishki joldy úlken-"
 "kishiligin eskerip qarapaıym tabý."
 
-#: weblate/templates/translation.html:309
+#: weblate/templates/translation.html:308
 msgid ""
 "You can add a new translation string here, it will automatically appear in "
 "all translations."
@@ -10334,7 +10324,31 @@ msgstr ""
 "Munda jańa tárjimelenetin joldy ústeýge bolady, ol barlyq tárjimelerde "
 "avtomatty paıda bolady."
 
-#: weblate/templates/translation.html:343
+#: weblate/templates/translation.html:326
+#, fuzzy
+#| msgid "Customize download"
+msgid "Quick downloads"
+msgstr "Júktep alýdy teńsheý"
+
+#: weblate/templates/translation.html:333
+#, fuzzy
+#| msgid "Some plural forms are translated in the same way"
+msgid "File in original format as translated in the repository"
+msgstr "Keıbir kópshe pishinder birdeı ádispen tárjimelengen"
+
+#: weblate/templates/translation.html:342
+msgid ""
+"All strings, converted files enriched with comments; suitable for "
+"translating offline"
+msgstr ""
+
+#: weblate/templates/translation.html:354
+msgid ""
+"Strings needing action, converted files enriched with comments; suitable for "
+"translating offline"
+msgstr ""
+
+#: weblate/templates/translation.html:396
 msgid ""
 "The uploaded file will be merged with the current translation. In case you "
 "want to overwrite already translated strings, don't forget to turn it on."
@@ -10342,11 +10356,11 @@ msgstr ""
 "Júktep salynǵan faıl aǵymdyq tárjimemen biriktiriledi. Eger áldeqashan "
 "tárjimelengen joldardy qaıta jazǵyńyz kelse, ony qosýdy umytpańyz."
 
-#: weblate/templates/translation.html:345
+#: weblate/templates/translation.html:398
 msgid "The uploaded file will be merged with the current translation."
 msgstr "Júktep salynǵan faıl aǵymdyq tárjimemen biriktiriledi."
 
-#: weblate/templates/translation.html:370
+#: weblate/templates/translation.html:423
 #, fuzzy
 #| msgid ""
 #| "The message is shown on the translation page, until its given expiry, or "
@@ -10358,23 +10372,23 @@ msgstr ""
 "Habar, onyń merzimi aıaqtalǵansha deıin, nemese ol birjolata joıylǵansha "
 "deıin, tárjimelik betinde kórsetiledi."
 
-#: weblate/templates/translation.html:408
+#: weblate/templates/translation.html:461
 msgid "Percent"
 msgstr "Paıyz"
 
-#: weblate/templates/translation.html:411
+#: weblate/templates/translation.html:464
 msgid "Chars"
 msgstr ""
 
-#: weblate/templates/translation.html:455
+#: weblate/templates/translation.html:508
 msgid "Last activity"
 msgstr "Sońǵy áreket"
 
-#: weblate/templates/translation.html:459
+#: weblate/templates/translation.html:512
 msgid "Last change"
 msgstr "Sońǵy ózgeris"
 
-#: weblate/templates/translation.html:463
+#: weblate/templates/translation.html:516
 msgid "Last author"
 msgstr "Sońǵy avtor"
 
@@ -10523,10 +10537,6 @@ msgstr "%s ishinde jýyqtaǵy ózgerister"
 #, python-format
 msgid "All recent changes made using Weblate in %s."
 msgstr "Barlyq jýyqtaǵy ózgerister Weblate arqyly %s ishinde jasaldy."
-
-#: weblate/trans/filter.py:33 weblate/trans/filter.py:121
-msgid "All strings"
-msgstr "Barlyq joldar"
 
 #: weblate/trans/filter.py:34
 #, fuzzy
@@ -13954,6 +13964,23 @@ msgstr "Tirkelgińiz joıylǵan."
 #| msgid "Failed to dismiss configuration error!"
 msgid "Could not dismiss the configuration error!"
 msgstr "Konfigýrasıa qatesin joıý sátsiz aıaqtaldy!"
+
+#, fuzzy
+#~| msgid "XLIFF Translation File with PO extensions"
+#~ msgid "XLIFF translation file with PO extensions"
+#~ msgstr "XLIFF tárjimelik faıly (PO keńeıtimderi bar)"
+
+#, python-format
+#~ msgid "Download original translation file (%(format)s)"
+#~ msgstr "Tárjimelik faıl túpnusqasyn júktep alý (%(format)s)"
+
+#, python-format
+#~ msgid "Download translation file as %(format)s"
+#~ msgstr "Tárjimelik faılyn %(format)s retinde júktep alý"
+
+#, python-format
+#~ msgid "Download strings needing action as %(format)s"
+#~ msgstr "Áreket qajet joldardy %(format)s retinde júktep alý"
 
 #, fuzzy
 #~| msgid "Duplicated translation."

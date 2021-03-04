@@ -20,7 +20,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.5.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
-"POT-Creation-Date: 2021-03-03 20:14+0000\n"
+"POT-Creation-Date: 2021-03-04 21:31+0000\n"
 "PO-Revision-Date: 2021-03-04 07:36+0000\n"
 "Last-Translator: Anonymous <noreply@weblate.org>\n"
 "Language-Team: Finnish <https://hosted.weblate.org/projects/weblate/"
@@ -1017,8 +1017,8 @@ msgstr ""
 "muuttaaksesi ilmoitusasetuksia."
 
 #. Translators: Name of event in the history
-#: weblate/addons/autotranslate.py:34 weblate/templates/translation.html:70
-#: weblate/templates/translation.html:250 weblate/trans/models/change.py:236
+#: weblate/addons/autotranslate.py:34 weblate/templates/translation.html:76
+#: weblate/templates/translation.html:249 weblate/trans/models/change.py:236
 msgid "Automatic translation"
 msgstr "Automaattinen käännös"
 
@@ -1169,8 +1169,8 @@ msgstr ""
 
 #: weblate/addons/flags.py:105 weblate/templates/component.html:69
 #: weblate/templates/component.html:217 weblate/templates/project.html:68
-#: weblate/templates/project.html:219 weblate/templates/translation.html:67
-#: weblate/templates/translation.html:289
+#: weblate/templates/project.html:219 weblate/templates/translation.html:73
+#: weblate/templates/translation.html:288
 msgid "Bulk edit"
 msgstr "Massamuokkaus"
 
@@ -1436,7 +1436,7 @@ msgstr ""
 #: weblate/addons/forms.py:453 weblate/billing/models.py:291
 #: weblate/templates/snippets/query-builder.html:13
 #: weblate/templates/snippets/query-builder.html:15
-#: weblate/templates/translation.html:127 weblate/trans/admin.py:95
+#: weblate/templates/translation.html:133 weblate/trans/admin.py:95
 msgid "Source strings"
 msgstr "Lähdetekstit"
 
@@ -2936,8 +2936,8 @@ msgstr "Tätä tekstiä ei ole käännetty pitkään aikaan"
 #: weblate/checks/views.py:85 weblate/templates/component.html:72
 #: weblate/templates/language-project.html:41
 #: weblate/templates/language.html:27 weblate/templates/progress.html:14
-#: weblate/templates/project.html:71 weblate/templates/translation.html:73
-#: weblate/templates/translation.html:438
+#: weblate/templates/project.html:71 weblate/templates/translation.html:79
+#: weblate/templates/translation.html:491
 msgid "Failing checks"
 msgstr "Virheitä löytynyt tarkistuksessa"
 
@@ -3048,7 +3048,7 @@ msgstr "RC-tiedosto"
 msgid "gettext PO"
 msgstr "gettext PO"
 
-#: weblate/formats/exporters.py:248
+#: weblate/formats/exporters.py:248 weblate/formats/ttkit.py:1084
 msgid "XLIFF with gettext extensions"
 msgstr "XLIFF gettext-laajennuksilla"
 
@@ -3072,9 +3072,9 @@ msgstr "gettext MO"
 msgid "CSV"
 msgstr "CSV"
 
-#: weblate/formats/exporters.py:396 weblate/formats/external.py:40
-msgid "Excel Open XML"
-msgstr "Excel Open XML"
+#: weblate/formats/exporters.py:396
+msgid "XLSX"
+msgstr ""
 
 #: weblate/formats/exporters.py:422 weblate/trans/forms.py:1075
 msgid "JSON"
@@ -3087,6 +3087,10 @@ msgstr "Android-tekstiresurssi"
 #: weblate/formats/exporters.py:454
 msgid "iOS strings"
 msgstr "iOS-tekstit"
+
+#: weblate/formats/external.py:40
+msgid "Excel Open XML"
+msgstr "Excel Open XML"
 
 #: weblate/formats/ttkit.py:1004
 msgid "gettext PO file"
@@ -3103,10 +3107,6 @@ msgstr "Qt Linguist -käännöstiedosto"
 #: weblate/formats/ttkit.py:1054
 msgid "XLIFF translation file"
 msgstr "XLIFF-käännöstiedosto"
-
-#: weblate/formats/ttkit.py:1084
-msgid "XLIFF translation file with PO extensions"
-msgstr "XLIFF-käännöstiedosto PO-laajennuksilla"
 
 #: weblate/formats/ttkit.py:1114
 msgid "iOS strings (UTF-16)"
@@ -3936,7 +3936,7 @@ msgstr "Committien allekirjoitusasetuksia ei ole määritelty."
 
 #: weblate/templates/about/stats.html:7 weblate/templates/about/stats.html:80
 #: weblate/templates/dashboard/user.html:37 weblate/templates/data.html:51
-#: weblate/templates/translation.html:47 weblate/templates/translation.html:403
+#: weblate/templates/translation.html:47 weblate/templates/translation.html:456
 #: weblate/trans/views/about.py:33
 msgid "Statistics"
 msgstr "Tilastot"
@@ -4352,7 +4352,7 @@ msgstr "Liitä uusi ulkoinen tunnistautumismenetelmä"
 #: weblate/templates/accounts/profile.html:165
 #: weblate/templates/component.html:108
 #: weblate/templates/language-project.html:44
-#: weblate/templates/project.html:113 weblate/templates/translation.html:97
+#: weblate/templates/project.html:113 weblate/templates/translation.html:103
 msgid "Removal"
 msgstr "Poistaminen"
 
@@ -4841,7 +4841,7 @@ msgstr "Komponentin tiedostonimessä iso ensimmäinen kirjain"
 #: weblate/templates/dashboard/user.html:82
 #: weblate/templates/language-project.html:54
 #: weblate/templates/project.html:138 weblate/templates/translate.html:304
-#: weblate/templates/translation.html:198 weblate/trans/forms.py:1505
+#: weblate/templates/translation.html:205 weblate/trans/forms.py:1505
 #: weblate/trans/models/announcement.py:97
 #: weblate/trans/models/component.py:661
 msgid "Component"
@@ -4974,7 +4974,7 @@ msgstr "Lisää uusi käännösprojekti"
 
 #: weblate/templates/base.html:212 weblate/templates/project.html:92
 #: weblate/templates/project.html:144
-#: weblate/templates/snippets/project-component-settings.html:15
+#: weblate/templates/snippets/project-component-settings.html:18
 #: weblate/templates/trans/component_form.html:26
 msgid "Add new translation component"
 msgstr "Lisää uusi käännöskomponentti"
@@ -5055,7 +5055,7 @@ msgstr "Sulje"
 #: weblate/templates/manage/users_check.html:19
 #: weblate/templates/project-labels.html:27 weblate/templates/replace.html:40
 #: weblate/templates/screenshots/screenshot_list.html:60
-#: weblate/templates/translation.html:188
+#: weblate/templates/translation.html:194
 msgid "Edit"
 msgstr "Muokkaa"
 
@@ -5117,7 +5117,7 @@ msgid "Download invoice"
 msgstr "Lataa lasku"
 
 #: weblate/templates/billing/detail.html:83
-#: weblate/templates/translation.html:228
+#: weblate/templates/translation.html:227
 msgid "Not available"
 msgstr "Ei saatavilla"
 
@@ -5317,8 +5317,8 @@ msgstr "Tarkista laskutustilanteesi"
 
 #: weblate/templates/browse.html:26
 #: weblate/templates/snippets/list-objects.html:111
-#: weblate/templates/translation.html:141
-#: weblate/templates/translation.html:187
+#: weblate/templates/translation.html:147
+#: weblate/templates/translation.html:193
 msgid "Browse"
 msgstr "Selaa"
 
@@ -5339,7 +5339,7 @@ msgstr "Projekti"
 
 #: weblate/templates/check.html:20 weblate/templates/check_component.html:22
 #: weblate/templates/check_project.html:21 weblate/templates/checks.html:19
-#: weblate/templates/translation.html:416
+#: weblate/templates/translation.html:469
 msgid "Total"
 msgstr "Yhteensä"
 
@@ -5352,7 +5352,7 @@ msgstr "Hylätty"
 #: weblate/templates/check_project.html:24 weblate/templates/checks.html:22
 #: weblate/templates/engage.html:33
 #: weblate/templates/snippets/list-objects.html:33
-#: weblate/templates/translation.html:423 weblate/trans/widgets.py:273
+#: weblate/templates/translation.html:476 weblate/trans/widgets.py:273
 #: weblate/trans/widgets.py:291
 msgid "Translated"
 msgstr "Käännetty"
@@ -5404,9 +5404,6 @@ msgstr "Tiedostot"
 
 #: weblate/templates/component-list.html:20 weblate/templates/component.html:57
 #: weblate/templates/language-project.html:33 weblate/templates/project.html:56
-#: weblate/templates/translation-download.html:7
-#: weblate/templates/translation-download.html:11
-#: weblate/templates/translation-download.html:16
 msgid "Download for offline translation."
 msgstr "Lataa offline-kääntämistä varten."
 
@@ -5508,20 +5505,20 @@ msgstr "Lataa käännöstiedostot ZIP-tiedostona"
 #: weblate/templates/language-project.html:38
 #: weblate/templates/language.html:24 weblate/templates/manage/tools.html:9
 #: weblate/templates/project.html:61 weblate/templates/translate.html:182
-#: weblate/templates/translation.html:60 weblate/wladmin/views.py:72
+#: weblate/templates/translation.html:66 weblate/wladmin/views.py:72
 msgid "Tools"
 msgstr "Työkalut"
 
 #. Translators: Name of event in the history
 #: weblate/templates/component.html:66 weblate/templates/component.html:199
 #: weblate/templates/project.html:65 weblate/templates/project.html:201
-#: weblate/templates/replace.html:14 weblate/templates/translation.html:64
-#: weblate/templates/translation.html:271 weblate/trans/models/change.py:274
+#: weblate/templates/replace.html:14 weblate/templates/translation.html:70
+#: weblate/templates/translation.html:270 weblate/trans/models/change.py:274
 msgid "Search and replace"
 msgstr "Etsi ja korvaa"
 
 #: weblate/templates/component.html:71 weblate/templates/data.html:7
-#: weblate/templates/project.html:70 weblate/templates/translation.html:72
+#: weblate/templates/project.html:70 weblate/templates/translation.html:78
 msgid "Data exports"
 msgstr "Tietojen viennit"
 
@@ -5545,17 +5542,17 @@ msgstr "Aloita uusi käännös"
 #: weblate/templates/manage/tools.html:8 weblate/templates/manage/users.html:8
 #: weblate/templates/manage/users_check.html:9
 #: weblate/templates/memory/index.html:14 weblate/templates/project.html:77
-#: weblate/templates/translation.html:82
+#: weblate/templates/translation.html:88
 msgid "Manage"
 msgstr "Hallinnoi"
 
 #: weblate/templates/component.html:86 weblate/templates/js/git-status.html:29
-#: weblate/templates/project.html:81 weblate/templates/translation.html:86
+#: weblate/templates/project.html:81 weblate/templates/translation.html:92
 msgid "Commit"
 msgstr "Commitoi"
 
 #: weblate/templates/component.html:89 weblate/templates/project.html:84
-#: weblate/templates/translation.html:89
+#: weblate/templates/translation.html:95
 msgid "Repository maintenance"
 msgstr "Arkiston ylläpito"
 
@@ -5567,8 +5564,8 @@ msgstr "Ruudunkaappauskuvat"
 
 #: weblate/templates/component.html:95 weblate/templates/component.html:245
 #: weblate/templates/manage/tools.html:20 weblate/templates/project.html:89
-#: weblate/templates/project.html:239 weblate/templates/translation.html:93
-#: weblate/templates/translation.html:365
+#: weblate/templates/project.html:239 weblate/templates/translation.html:99
+#: weblate/templates/translation.html:418
 msgid "Post announcement"
 msgstr "Julkaise tiedotus"
 
@@ -5583,32 +5580,32 @@ msgid "Rename"
 msgstr "Nimeä uudelleen"
 
 #: weblate/templates/component.html:116 weblate/templates/project.html:121
-#: weblate/templates/translation.html:105
+#: weblate/templates/translation.html:111
 msgid "Share"
 msgstr "Jaa"
 
 #: weblate/templates/component.html:120 weblate/templates/project.html:125
-#: weblate/templates/translation.html:109
+#: weblate/templates/translation.html:115
 msgid "Share on Facebook"
 msgstr "Jaa Facebookissa"
 
 #: weblate/templates/component.html:121 weblate/templates/project.html:126
-#: weblate/templates/translation.html:110
+#: weblate/templates/translation.html:116
 #, python-format
 msgid "Translate %(object)s using %%23Weblate at %(share_url)s!"
 msgstr "Käännä %(object)s %%23Weblaten avulla osoitteessa %(share_url)s!"
 
-#: weblate/templates/component.html:121 weblate/templates/translation.html:110
+#: weblate/templates/component.html:121 weblate/templates/translation.html:116
 msgid "Tweet this translation!"
 msgstr "Twiittaa tämä käännös!"
 
 #: weblate/templates/component.html:122 weblate/templates/project.html:127
-#: weblate/templates/translation.html:111
+#: weblate/templates/translation.html:117
 msgid "Engage page"
 msgstr "Osallistu-sivu"
 
 #: weblate/templates/component.html:123 weblate/templates/project.html:128
-#: weblate/templates/translation.html:112
+#: weblate/templates/translation.html:118
 msgid "Status widgets"
 msgstr "Vimpaimet"
 
@@ -5646,18 +5643,18 @@ msgstr ""
 "alimerkkijonoja."
 
 #: weblate/templates/component.html:206 weblate/templates/project.html:208
-#: weblate/templates/replace.html:52 weblate/templates/translation.html:278
+#: weblate/templates/replace.html:52 weblate/templates/translation.html:277
 msgid "Replace"
 msgstr "Korvaa"
 
-#: weblate/templates/component.html:219 weblate/templates/translation.html:291
+#: weblate/templates/component.html:219 weblate/templates/translation.html:290
 msgid "You can change the state of all strings matching a given type at once."
 msgstr ""
 "Voit muuttaa kerralla kaikkien tiettyyn tyyppiin täsmäävien tekstien tilan."
 
 #: weblate/templates/component.html:223 weblate/templates/project.html:225
-#: weblate/templates/translation.html:259
-#: weblate/templates/translation.html:295
+#: weblate/templates/translation.html:258
+#: weblate/templates/translation.html:294
 msgid "Apply"
 msgstr "Käytä"
 
@@ -5687,8 +5684,8 @@ msgstr ""
 #: weblate/templates/snippets/query-builder.html:97
 #: weblate/templates/snippets/query-builder.html:102
 #: weblate/templates/snippets/query-builder.html:107
-#: weblate/templates/translate.html:743 weblate/templates/translation.html:315
-#: weblate/templates/translation.html:373
+#: weblate/templates/translate.html:743 weblate/templates/translation.html:314
+#: weblate/templates/translation.html:426
 msgid "Add"
 msgstr "Lisää"
 
@@ -5721,7 +5718,7 @@ msgid "Move"
 msgstr "Siirrä"
 
 #: weblate/templates/component.html:304 weblate/templates/project.html:282
-#: weblate/templates/translate.html:353 weblate/templates/translation.html:387
+#: weblate/templates/translate.html:353 weblate/templates/translation.html:440
 msgid "Loading…"
 msgstr "Ladataan…"
 
@@ -6141,7 +6138,7 @@ msgstr "Kun olet aktivoinut tilisi, siirry kääntämisosioon."
 
 #: weblate/templates/engage.html:64
 #: weblate/templates/snippets/list-objects.html:109
-#: weblate/templates/translate.html:30 weblate/templates/translation.html:142
+#: weblate/templates/translate.html:30 weblate/templates/translation.html:148
 msgid "Translate"
 msgstr "Käännä"
 
@@ -6217,8 +6214,8 @@ msgstr "Lisää fontti"
 #: weblate/templates/fonts/font_list.html:97
 #: weblate/templates/memory/index.html:165
 #: weblate/templates/screenshots/screenshot_list.html:28
-#: weblate/templates/translation.html:340
-#: weblate/templates/translation.html:351
+#: weblate/templates/translation.html:391
+#: weblate/templates/translation.html:404
 msgid "Upload"
 msgstr "Lähetä"
 
@@ -6606,7 +6603,7 @@ msgstr "Sivuston %(site_title)s käyttäjätililläsi on tapahtunut muutos:"
 #| "If you did not request this change, please report it as soon as possible."
 msgid ""
 "If you don’t recognize this change, you can report it by clicking the button "
-"bellow."
+"below."
 msgstr "Jos et itse pyytänyt tätä muutosta, raportoi se mahdollisimman pian."
 
 #: weblate/templates/mail/account_activity.html:33
@@ -7581,7 +7578,7 @@ msgstr "Hyväksytty"
 msgid "Good"
 msgstr "Hyvä"
 
-#: weblate/templates/progress.html:17 weblate/templates/translation.html:430
+#: weblate/templates/progress.html:17 weblate/templates/translation.html:483
 #: weblate/trans/forms.py:446 weblate/trans/forms.py:465
 msgid "Needs editing"
 msgstr "Vaatii muokkaamista"
@@ -7756,8 +7753,8 @@ msgid "Add new screenshot"
 msgstr "Lisää uusi ruudunkaappauskuva"
 
 #: weblate/templates/screenshots/screenshot_list.html:39
-#: weblate/templates/translation.html:136
-#: weblate/templates/translation.html:409
+#: weblate/templates/translation.html:142
+#: weblate/templates/translation.html:462
 msgid "Strings"
 msgstr "Tekstit"
 
@@ -8191,13 +8188,18 @@ msgstr "Kaikki viimeisen kuukauden aikana lisätyt kääntämättömät tekstit"
 msgid "Translated strings in a certain language"
 msgstr "Tietyn kielen käännetyt tekstit"
 
-#: weblate/templates/snippets/query-field.html:9
+#: weblate/templates/snippets/query-field.html:7 weblate/trans/filter.py:33
+#: weblate/trans/filter.py:121
+msgid "All strings"
+msgstr "Kaikki tekstit"
+
+#: weblate/templates/snippets/query-field.html:11
 #, fuzzy
 #| msgid "Custom Search"
 msgid "Custom search"
 msgstr "Oma haku"
 
-#: weblate/templates/snippets/query-field.html:19
+#: weblate/templates/snippets/query-field.html:21
 #: weblate/templates/snippets/user-query-field.html:5
 #: weblate/trans/forms.py:173
 msgid "Query"
@@ -8997,7 +8999,7 @@ msgstr ""
 msgid "Edit in Zen mode"
 msgstr "Muokkaa Zen-tilassa"
 
-#: weblate/templates/translate.html:57 weblate/templates/translation.html:189
+#: weblate/templates/translate.html:57 weblate/templates/translation.html:195
 #: weblate/templates/zen.html:26
 msgid "Zen"
 msgstr "Zen"
@@ -9295,7 +9297,7 @@ msgstr "Tekstin ikä"
 msgid "Source string age"
 msgstr "Lähdetekstin ikä"
 
-#: weblate/templates/translate.html:685 weblate/templates/translation.html:214
+#: weblate/templates/translate.html:685 weblate/templates/translation.html:221
 msgid "Translation file"
 msgstr "Käännöstiedosto"
 
@@ -9309,83 +9311,73 @@ msgstr "%(filename)s, teksti %(position)s"
 msgid "string %(position)s"
 msgstr "teksti %(position)s"
 
-#: weblate/templates/translate.html:737 weblate/templates/translation.html:75
-#: weblate/templates/translation.html:306
+#: weblate/templates/translate.html:737 weblate/templates/translation.html:81
+#: weblate/templates/translation.html:305
 msgid "Add new translation string"
 msgstr "Lisää uusi käännösteksti"
 
-#: weblate/templates/translation-download.html:7
-#, python-format
-msgid "Download original translation file (%(format)s)"
-msgstr "Lataa alkuperäinen käännöstiedosto (%(format)s)"
+#: weblate/templates/translation.html:56
+#, fuzzy
+#| msgid "Download translation as CSV"
+msgid "Download translation"
+msgstr "Lataa käännöstiedosto (CSV)"
 
-#: weblate/templates/translation-download.html:11
-#, python-format
-msgid "Download translation file as %(format)s"
-msgstr "Lataa käännöstiedosto (%(format)s)-muodossa"
-
-#: weblate/templates/translation-download.html:16
-#, python-format
-msgid "Download strings needing action as %(format)s"
-msgstr "Lataa toimenpiteitä vaativat tekstit %(format)s-muodossa"
-
-#: weblate/templates/translation-download.html:20
-#: weblate/templates/translation.html:325
+#: weblate/templates/translation.html:58 weblate/templates/translation.html:371
 msgid "Customize download"
 msgstr "Muokkaa latausta"
 
-#: weblate/templates/translation-download.html:23
+#: weblate/templates/translation.html:60
 msgid "Upload translation"
 msgstr "Lähetä käännöstiedosto"
 
-#: weblate/templates/translation.html:129 weblate/templates/widgets.html:70
+#: weblate/templates/translation.html:135 weblate/templates/widgets.html:70
 #: weblate/templates/widgets.html:78 weblate/templates/widgets.html:85
 #: weblate/templates/widgets.html:93
 msgid "Translation status"
 msgstr "Käännöksen tila"
 
-#: weblate/templates/translation.html:149
-#: weblate/templates/translation.html:410
+#: weblate/templates/translation.html:155
+#: weblate/templates/translation.html:463
 msgid "Words"
 msgstr "Sanat"
 
-#: weblate/templates/translation.html:157
+#: weblate/templates/translation.html:163
 msgid "This translation is being used as source strings within this component."
 msgstr "Tätä käännöstä käytetään lähdetekstinä tässä komponentissa."
 
-#: weblate/templates/translation.html:167
+#: weblate/templates/translation.html:173
 msgid "Strings status"
 msgstr "Tekstien tila"
 
-#: weblate/templates/translation.html:183
+#: weblate/templates/translation.html:189
 #, python-format
 msgid "%(count)s word"
 msgid_plural "%(count)s words"
 msgstr[0] "%(count)s sana"
 msgstr[1] "%(count)s sanaa"
 
-#: weblate/templates/translation.html:197
+#: weblate/templates/translation.html:204
 msgid "Other components"
 msgstr "Muut komponentit"
 
-#: weblate/templates/translation.html:200
+#: weblate/templates/translation.html:207
 msgid "Browse all components"
 msgstr "Selaa kaikkia komponentteja"
 
-#: weblate/templates/translation.html:209
+#: weblate/templates/translation.html:216
 msgid "Translation Information"
 msgstr "Tietoa käännöksestä"
 
-#: weblate/templates/translation.html:218
-#: weblate/templates/translation.html:330
+#: weblate/templates/translation.html:224
+#: weblate/templates/translation.html:378
 msgid "Download"
 msgstr "Lataa"
 
-#: weblate/templates/translation.html:239
+#: weblate/templates/translation.html:238
 msgid "Browse all translation changes"
 msgstr "Selaa kaikkia tapahtumia"
 
-#: weblate/templates/translation.html:254
+#: weblate/templates/translation.html:253
 msgid ""
 "Automatic translation takes existing translations in this project and "
 "applies them to the current component. It can be used to push translations "
@@ -9397,7 +9389,7 @@ msgstr ""
 "työntämiseen (push) eri haaraan, epäyhtenäisten käännösten korjaamiseen tai "
 "uuden komponentin kääntämiseen käännösmuistin avulla."
 
-#: weblate/templates/translation.html:255
+#: weblate/templates/translation.html:254
 msgid ""
 "Automatic translation via machine translation uses active machine "
 "translation engines to get the best possible translations and applies them "
@@ -9407,7 +9399,7 @@ msgstr ""
 "konekäännöspalveluita hakeakseen parhaat mahdolliset käännökset ja lisää ne "
 "tähän projektiin."
 
-#: weblate/templates/translation.html:273
+#: weblate/templates/translation.html:272
 #, fuzzy
 #| msgid ""
 #| "You can substitute all instances of a string. The search is a simple "
@@ -9420,7 +9412,7 @@ msgstr ""
 "riippuvainen, ja se hakee myös pidempiin sanoihin sisältyviä sanoja, ts. "
 "alimerkkijonoja."
 
-#: weblate/templates/translation.html:309
+#: weblate/templates/translation.html:308
 msgid ""
 "You can add a new translation string here, it will automatically appear in "
 "all translations."
@@ -9428,7 +9420,31 @@ msgstr ""
 "Voit lisätä uuden käännöstekstin täällä, ja se tulee näkyviin "
 "automaattisesti kaikissa käännöksissä."
 
-#: weblate/templates/translation.html:343
+#: weblate/templates/translation.html:326
+#, fuzzy
+#| msgid "Customize download"
+msgid "Quick downloads"
+msgstr "Muokkaa latausta"
+
+#: weblate/templates/translation.html:333
+#, fuzzy
+#| msgid "Some plural forms are translated in the same way"
+msgid "File in original format as translated in the repository"
+msgstr "Jotkin monikkomuodot on käännetty samalla tavalla"
+
+#: weblate/templates/translation.html:342
+msgid ""
+"All strings, converted files enriched with comments; suitable for "
+"translating offline"
+msgstr ""
+
+#: weblate/templates/translation.html:354
+msgid ""
+"Strings needing action, converted files enriched with comments; suitable for "
+"translating offline"
+msgstr ""
+
+#: weblate/templates/translation.html:396
 msgid ""
 "The uploaded file will be merged with the current translation. In case you "
 "want to overwrite already translated strings, don't forget to turn it on."
@@ -9437,34 +9453,34 @@ msgstr ""
 "ylikirjoittaa ennestään käännetyt tekstit, muista laittaa ylikirjoitus "
 "päälle."
 
-#: weblate/templates/translation.html:345
+#: weblate/templates/translation.html:398
 msgid "The uploaded file will be merged with the current translation."
 msgstr "Lähetetty tiedosto yhdistetään nykyisen käännöksen kanssa."
 
-#: weblate/templates/translation.html:370
+#: weblate/templates/translation.html:423
 msgid ""
 "The message is shown on the translation page, until its given expiry, or "
 "deletion."
 msgstr ""
 "Tämä viesti näytetään käännössivulla kunnes se vanhenee tai se poistetaan."
 
-#: weblate/templates/translation.html:408
+#: weblate/templates/translation.html:461
 msgid "Percent"
 msgstr "Prosenttia"
 
-#: weblate/templates/translation.html:411
+#: weblate/templates/translation.html:464
 msgid "Chars"
 msgstr "Merkit"
 
-#: weblate/templates/translation.html:455
+#: weblate/templates/translation.html:508
 msgid "Last activity"
 msgstr "Viimeiset tapahtumat"
 
-#: weblate/templates/translation.html:459
+#: weblate/templates/translation.html:512
 msgid "Last change"
 msgstr "Viimeinen muutos"
 
-#: weblate/templates/translation.html:463
+#: weblate/templates/translation.html:516
 msgid "Last author"
 msgstr "Viimeisimmän tekstin kääntäjä"
 
@@ -9611,10 +9627,6 @@ msgstr "Tuoreet muutokset sivustolla %s"
 #, python-format
 msgid "All recent changes made using Weblate in %s."
 msgstr "Kaikki Weblatella tehdyt tuoreet muutokset sivustolla %s."
-
-#: weblate/trans/filter.py:33 weblate/trans/filter.py:121
-msgid "All strings"
-msgstr "Kaikki tekstit"
 
 #: weblate/trans/filter.py:34
 #, fuzzy
@@ -12776,6 +12788,21 @@ msgstr "Varmuuskopiointi käynnistetty"
 msgid "Could not dismiss the configuration error!"
 msgstr "Asetusvirheen sivuuttaminen epäonnistui!"
 
+#~ msgid "XLIFF translation file with PO extensions"
+#~ msgstr "XLIFF-käännöstiedosto PO-laajennuksilla"
+
+#, python-format
+#~ msgid "Download original translation file (%(format)s)"
+#~ msgstr "Lataa alkuperäinen käännöstiedosto (%(format)s)"
+
+#, python-format
+#~ msgid "Download translation file as %(format)s"
+#~ msgstr "Lataa käännöstiedosto (%(format)s)-muodossa"
+
+#, python-format
+#~ msgid "Download strings needing action as %(format)s"
+#~ msgstr "Lataa toimenpiteitä vaativat tekstit %(format)s-muodossa"
+
 #~ msgid "Completed translation"
 #~ msgstr "Valmis käännös"
 
@@ -14769,9 +14796,6 @@ msgstr "Asetusvirheen sivuuttaminen epäonnistui!"
 #~| msgid "Download translation as Gettext MO"
 #~ msgid "Download translation as gettext MO"
 #~ msgstr "Lataa käännöstiedosto (Gettext MO)"
-
-#~ msgid "Download translation as CSV"
-#~ msgstr "Lataa käännöstiedosto (CSV)"
 
 #, fuzzy
 #~| msgid "Download translation as XLIFF with Gettext extensions"
