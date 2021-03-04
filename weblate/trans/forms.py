@@ -587,7 +587,7 @@ class DownloadForm(forms.Form):
         self.helper.form_tag = False
         self.helper.layout = Layout(
             SearchField("q"),
-            Field("format"),
+            InlineRadios("format"),
         )
 
 

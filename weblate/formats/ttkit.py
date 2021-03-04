@@ -1081,7 +1081,7 @@ class XliffFormat(TTKitFormat):
 
 
 class PoXliffFormat(XliffFormat):
-    name = _("XLIFF translation file with PO extensions")
+    name = _("XLIFF with gettext extensions")
     format_id = "poxliff"
     autoload = ("*.poxliff",)
     loader = PoXliffFile

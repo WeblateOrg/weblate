@@ -1375,8 +1375,8 @@ The translatable content is extracted from the Adobe InDesign Markup Language fi
 
 .. _tbx:
 
-Term Base eXchange format
--------------------------
+TermBase eXchange format
+------------------------
 
 .. versionadded:: 4.5
 
@@ -1391,7 +1391,7 @@ TBX is an XML format for the exchange of terminology data.
 +--------------------------------+----------------------------------+
 | Template for new translations  | `Empty`                          |
 +--------------------------------+----------------------------------+
-| File format                    | `Term Base eXchange file`        |
+| File format                    | `TermBase eXchange file`         |
 +--------------------------------+----------------------------------+
 
 .. seealso::
