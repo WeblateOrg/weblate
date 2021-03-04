@@ -6,15 +6,15 @@ Not yet released.
 * Fixed editing of glossary flags in some corner cases.
 * Extend metrics usage to improve performance of several pages.
 * Store correct source language in TMX files.
-* Better handle uploads for monolingual PO using API.
-* Improved alerts behavior with glossaries.
+* Better handling for uploads of monolingual PO using API.
+* Improved alerts behavior glossaries.
 * Improved Markdown link checks.
 * Indicate glossary and source language in breadcrumbs.
-* Paginate component listing on huge projects.
+* Paginating component listing in huge projects.
 * Improved performance of translation, component or project removal.
 * Improved bulk edit performance.
 * Fixed preserving needs editing and approved states for ODF files.
-* Improved download customization interface.
+* Improved interface for translation files download customizations.
 
 Weblate 4.5
 -----------
