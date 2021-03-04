@@ -213,16 +213,8 @@
 <tr>
 <th>{% trans "Translation file" %}</th>
 <td>
-<div class="dropdown pull-right flip">
-  <button class="btn btn-primary btn-xs dropdown-toggle" type="button" id="dropdownMenuDownload" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-    {% trans "Download" %}
-    <span class="caret"></span>
-  </button>
-  <ul class="dropdown-menu" aria-labelledby="dropdownMenuDownload">
-    {% include "translation-download.html" %}
-  </ul>
-</div>
 {% if object.filename %}
+<a class="btn btn-primary btn-xs pull-right flip" href="{% url 'download_translation' project=object.component.project.slug component=object.component.slug lang=object.language.code %}">{% trans "Download" %}</a>
 <code>{{ object.filename }}</code>
 {% else %}
 {% trans "Not available" %}
