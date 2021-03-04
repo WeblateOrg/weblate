@@ -24,7 +24,7 @@ and the up-to-date file is downloaded without conversion.
 You can also download the translation converted into one of the widely used
 localization formats. The converted files will be enriched with data provided
 in Weblate; such as additional context, comments or flags. Several file formats
-are available via the :guilabel:`Files` ↓ :guilabel:`Customize download`:
+are available via the :guilabel:`Files` ↓ :guilabel:`Customize download` menu:
 
 * gettext PO
 * XLIFF with gettext extensions
