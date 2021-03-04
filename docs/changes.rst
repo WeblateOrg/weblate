@@ -10,7 +10,7 @@ Not yet released.
 * Improved alerts behavior glossaries.
 * Improved Markdown link checks.
 * Indicate glossary and source language in breadcrumbs.
-* Paginating component listing in huge projects.
+* Paginated component listing of huge projects.
 * Improved performance of translation, component or project removal.
 * Improved bulk edit performance.
 * Fixed preserving needs editing and approved states for ODF files.
