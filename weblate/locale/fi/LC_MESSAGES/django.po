@@ -21,8 +21,8 @@ msgstr ""
 "Project-Id-Version: Weblate 4.5.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-03-04 21:31+0000\n"
-"PO-Revision-Date: 2021-03-04 07:36+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2021-03-05 14:17+0000\n"
+"Last-Translator: Tuomas Hietala <tuomas.hietala@iki.fi>\n"
 "Language-Team: Finnish <https://hosted.weblate.org/projects/weblate/"
 "application/fi/>\n"
 "Language: fi\n"
@@ -3074,7 +3074,7 @@ msgstr "CSV"
 
 #: weblate/formats/exporters.py:396
 msgid "XLSX"
-msgstr ""
+msgstr "XLSX"
 
 #: weblate/formats/exporters.py:422 weblate/trans/forms.py:1075
 msgid "JSON"
@@ -4008,24 +4008,21 @@ msgid ""
 "For questions about specific translation project, contact its maintainers "
 "directly, not by this form."
 msgstr ""
+"Kysy tiettyä käännösprojektia koskevat kysymykset suoraan sen ylläpitäjiltä, "
+"älä tällä lomakkeella."
 
 #: weblate/templates/accounts/contact.html:16
-#, fuzzy
-#| msgid "You can contact maintainers of this server here."
 msgid "You can only contact maintainers of the whole server here."
-msgstr "Voit ottaa yhteyttä palvelimen ylläpitäjiin."
+msgstr "Voit ottaa tässä yhteyttä vain koko palvelimen ylläpitäjiin."
 
 #: weblate/templates/accounts/contact.html:17
-#, fuzzy, python-format
-#| msgid ""
-#| "If you are looking for support for Weblate or want to file bug reports "
-#| "check its website at %(weblate_link)s."
+#, python-format
 msgid ""
 "If you are looking for support for Weblate, or want to file a bug report, "
 "check its website at %(weblate_link)s."
 msgstr ""
-"Jos etsit tukea Weblaten käytössä tai haluat lähettää virheraportteja, "
-"löydät lisätietoja sivustolta %(weblate_link)s."
+"Jos etsit tukea Weblaten käytössä tai haluat lähettää virheraportin, löydät "
+"lisätietoja sivustolta %(weblate_link)s."
 
 #: weblate/templates/accounts/contact.html:32
 #: weblate/templates/manage/tools.html:26
@@ -5920,15 +5917,10 @@ msgid "RSS feeds"
 msgstr "RSS-syötteet"
 
 #: weblate/templates/data.html:22
-#, fuzzy
-#| msgid ""
-#| "To follow translation progress you can use RSS feeds, detailing all "
-#| "important translation changes."
 msgid ""
 "Follow the translation progress and all important changes from RSS feeds."
 msgstr ""
-"Voit käyttää kaikista tärkeistä muutoksista kertovia RSS-syötteitä "
-"seurataksesi kääntämisen etenemistä."
+"Seuraa kääntämisen etenemistä ja kaikkia tärkeitä muutoksia RSS-syötteistä."
 
 #: weblate/templates/data.html:30 weblate/templates/data.html:64
 #: weblate/templates/data.html:105
@@ -5940,16 +5932,12 @@ msgid "RSS"
 msgstr "RSS-syöte"
 
 #: weblate/templates/data.html:48
-#, fuzzy
-#| msgid ""
-#| "Per language RSS feeds are also available, you can construct them by "
-#| "appending a language code to the above URLs."
 msgid ""
 "Per language RSS feeds are also available. Construct them by appending a "
 "language code to the URLs above."
 msgstr ""
 "Saatavilla on myös kielikohtaiset RSS-syötteet. Voit luoda niitä lisäämällä "
-"kielikoodin edellä olevaan URL-osoitteen loppuun."
+"kielikoodin yllä olevien URL-osoiteiden loppuun."
 
 #: weblate/templates/data.html:56
 msgid ""
@@ -5960,15 +5948,10 @@ msgstr ""
 "hyödyntämisen myös muilla verkkosivuilla tai työkaluilla."
 
 #: weblate/templates/data.html:79
-#, fuzzy
-#| msgid ""
-#| "As an example, fetching stats for all translations in one component can "
-#| "be done thusly:"
 msgid ""
 "You can fetch statistics for all translations in one component like this:"
 msgstr ""
-"Esimerkkinä voit hakea tilastot kaikista komponentin käännöksistä "
-"seuraavasti:"
+"Voit hakea tilastot kaikista yhden komponentin käännöksistä seuraavasti:"
 
 #: weblate/templates/data.html:91
 msgid "Notification hooks"
@@ -6014,10 +5997,8 @@ msgstr "Huomautus"
 #: weblate/templates/data.html:146 weblate/templates/data.html:151
 #: weblate/templates/data.html:156 weblate/templates/data.html:161
 #: weblate/templates/data.html:166 weblate/templates/data.html:171
-#, fuzzy
-#| msgid "Browse the documentation for detailed instructions"
 msgid "The documentation has detailed instructions"
-msgstr "Dokumentaatiosta löydät tarkempia tietoja"
+msgstr "Dokumentaatiosta löydät tarkat ohjeet"
 
 #: weblate/templates/engage.html:14
 #, python-format
@@ -6592,10 +6573,10 @@ msgid "Mark as spam"
 msgstr "Merkitse roskapostiksi"
 
 #: weblate/templates/mail/account_activity.html:7
-#, fuzzy, python-format
-#| msgid "There has been a change in your account at %(site_title)s:"
+#, python-format
 msgid "There has been a following change in your account at %(site_title)s:"
-msgstr "Sivuston %(site_title)s käyttäjätililläsi on tapahtunut muutos:"
+msgstr ""
+"Käyttäjätililläsi sivustolla %(site_title)s on tapahtunut seuraava muutos:"
 
 #: weblate/templates/mail/account_activity.html:32
 #, fuzzy
@@ -6611,6 +6592,7 @@ msgid ""
 "Don’t use this button for support questions. Such questions won’t be "
 "answered."
 msgstr ""
+"Älä käytä tätä painiketta tukikysymysten lähettämiseen. Niihin ei vastata."
 
 #: weblate/templates/mail/account_activity.html:37
 #, fuzzy
@@ -7954,12 +7936,11 @@ msgid "%(value)s of %(all)s"
 msgstr "%(value)s / %(all)s"
 
 #: weblate/templates/snippets/list-objects-percent.html:7
-#, fuzzy, python-format
-#| msgid "Apply selected translation to current string"
+#, python-format
 msgid "Completed translation with %(count)s string"
 msgid_plural "Completed translation with %(count)s strings"
-msgstr[0] "Käytä valittua käännöstä nykyiseen tekstiin"
-msgstr[1] "Käytä valittua käännöstä nykyiseen tekstiin"
+msgstr[0] "Valmis käännös, jossa on yksi teksti"
+msgstr[1] "Valmis käännös, jossa on %(count)s tekstiä"
 
 #: weblate/templates/snippets/list-objects.html:19
 #: weblate/templates/snippets/list-objects.html:29
@@ -8616,10 +8597,8 @@ msgid "This project does no longer fit into libre hosting conditions."
 msgstr ""
 
 #: weblate/templates/trans/alert/nomaskmatches.html:4
-#, fuzzy
-#| msgid "There are some alerts on this component"
 msgid "There are no translations in this component."
-msgstr "Tällä komponentilla on hälytyksiä"
+msgstr "Tässä komponentissa ei ole käännöksiä."
 
 #: weblate/templates/trans/alert/nomaskmatches.html:7
 #, python-format
@@ -9137,10 +9116,8 @@ msgid "Other occurrences"
 msgstr "Muut esiintymät"
 
 #: weblate/templates/translate.html:258
-#, fuzzy
-#| msgid "Machine translation suggestions"
 msgid "Computer-aided translation suggestions"
-msgstr "Koneen kääntämät ehdotukset"
+msgstr "Tietokoneavusteiset käännösehdotukset"
 
 #: weblate/templates/translate.html:258
 msgid "Automatic suggestions"
@@ -9160,7 +9137,7 @@ msgstr "Luettelo tuoreista muutoksista Weblatessa"
 
 #: weblate/templates/translate.html:296
 msgid "Showing only subset of the strings as there were too many matches."
-msgstr ""
+msgstr "Vain osa teksteistä näytetään, koska osumia oli liikaa."
 
 #: weblate/templates/translate.html:306
 msgid "Difference to current string"
@@ -9317,10 +9294,8 @@ msgid "Add new translation string"
 msgstr "Lisää uusi käännösteksti"
 
 #: weblate/templates/translation.html:56
-#, fuzzy
-#| msgid "Download translation as CSV"
 msgid "Download translation"
-msgstr "Lataa käännöstiedosto (CSV)"
+msgstr "Lataa käännös"
 
 #: weblate/templates/translation.html:58 weblate/templates/translation.html:371
 msgid "Customize download"
@@ -10007,10 +9982,8 @@ msgstr "Sinulla ei ole oikeuksia tähän komponenttiin!"
 
 #: weblate/trans/forms.py:1232 weblate/trans/forms.py:1240
 #: weblate/trans/forms.py:1246
-#, fuzzy
-#| msgid "Your suggestion has been identified as spam!"
 msgid "This field has been identified as spam!"
-msgstr "Ehdotuksesi on tunnistettu roskapostiksi!"
+msgstr "Tämä kenttä on tunnistettu roskapostiksi!"
 
 #: weblate/trans/forms.py:1317 weblate/trans/forms.py:1869
 msgid "Basic"
@@ -10988,10 +10961,8 @@ msgstr ""
 "generoimiseen."
 
 #: weblate/trans/models/component.py:486
-#, fuzzy
-#| msgid "Target strings"
 msgid "Manage strings"
-msgstr "Kohdetekstit"
+msgstr "Hallitse tekstejä"
 
 #: weblate/trans/models/component.py:489
 msgid ""
@@ -11292,13 +11263,9 @@ msgid "Could not parse translation base file: %s"
 msgstr "Käännöksen kantatiedoston jäsennys epäonnistui: %s"
 
 #: weblate/trans/models/component.py:2348
-#, fuzzy, python-brace-format
-#| msgid ""
-#| "Template language ({0}) does not match project source language ({1})!"
+#, python-brace-format
 msgid "Template language ({0}) does not match source language ({1})!"
-msgstr ""
-"Mallin kieli ({0}) ei vastaa projektille määriteltyä lähdetekstin kieltä "
-"({1})!"
+msgstr "Mallin kieli ({0}) ei vastaa lähdekieltä ({1})!"
 
 #: weblate/trans/models/component.py:2353
 msgid "You can not use a monolingual translation without a base file."
