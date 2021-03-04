@@ -7,7 +7,7 @@ This works even if it has been changed in the meantime.
 
 .. note::
 
-    The available options might be limited by :ref:`privileges`.
+    What options are available might be limited by :ref:`privileges`.
 
 .. _download:
 
