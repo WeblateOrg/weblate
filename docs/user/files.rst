@@ -17,9 +17,9 @@ Downloading translations
 From the project or component dashboard, translatable files can be downloaded
 in the :guilabel:`Files` menu.
 
-The first option is to download the original format as translated in the
-repository. In this case, any pending changes in the translation are committed
-and the up-to-date file is downloaded without conversion.
+The first option is to download the file in the original format as it is stored in the
+repository. In this case, any pending changes in the translation are getting committed
+and the up-to-date file is yield without any conversions.
 
 You can also download the translation converted into one of the widely used
 localization formats. The converted files will be enriched with data provided
