@@ -9,21 +9,37 @@ This works even if it has been changed in the meantime.
 
     The available options might be limited by :ref:`privileges`.
 
+.. _download:
+
 Downloading translations
 ------------------------
 
 From the project or component dashboard, translatable files can be downloaded
-using the :guilabel:`Download original translation file` in the :guilabel:`Files`
-menu, producing a copy of the original file as it is stored in the upstream
-Version Control System.
+in the :guilabel:`Files` menu.
+
+The first option is to download original format as translated in the
+repository. In this case any pending changes in the translation are committed
+and up-to-date file is download without any conversion.
 
 You can also download the translation converted into one of widely used
-localization formats. The converted files will be enriched with data
-provided in Weblate such as additional context, comments or flags.
+localization formats. The converted files will be enriched with data provided
+in Weblate such as additional context, comments or flags. Several file formats
+are available via the :guilabel:`Customize download` in the :guilabel:`Files`
+menu:
 
-Several file formats are available, including a compiled file
-to use in your choice of application (for example ``.mo`` files for GNU Gettext) using
-the :guilabel:`Files` menu.
+* gettext PO
+* XLIFF with gettext extensions
+* XLIFF 1.1
+* TermBase eXchange
+* Translation Memory eXchange
+* gettext MO
+* CSV
+* Excel Open XML
+* JSON
+* Android String Resource
+* iOS strings
+
+.. _upload:
 
 Uploading translations
 ----------------------

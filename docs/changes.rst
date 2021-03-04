@@ -14,6 +14,7 @@ Not yet released.
 * Improved performance of translation, component or project removal.
 * Improved bulk edit performance.
 * Fixed preserving needs editing and approved states for ODF files.
+* Improved download customization interface.
 
 Weblate 4.5
 -----------

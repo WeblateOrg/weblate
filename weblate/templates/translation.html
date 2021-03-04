@@ -52,7 +52,13 @@
       {% trans "Files" %} <span class="caret"></span>
     </a>
     <ul class="dropdown-menu">
-{% include "translation-download.html" %}
+      {% if object.filename %}
+        <li><a href="{% url 'download_translation' project=object.component.project.slug component=object.component.slug lang=object.language.code %}">{% trans "Download translation" %}</a></li>
+      {% endif %}
+      <li><a href="#download" data-toggle="tab">{% trans "Customize download" %}</a></li>
+      {% if user_can_upload_translation %}
+        <li><a href="#upload" data-toggle="tab">{% trans "Upload translation" %}</a></li>
+      {% endif %}
     </ul>
   </li>
   <li class="dropdown">
@@ -188,6 +194,7 @@
   <a class="btn-inline" href="{{ edit_url }}?q={{ query }}">{% trans "Edit" %}</a>
   <a class="btn-inline" href="{{ zen_url }}?q={{ query }}">{% trans "Zen" %}</a>
 </td>
+</tr>
 {% endfor %}
 </table>
 </div>
@@ -312,24 +319,78 @@
 {% endif %}
 
 <div class="tab-pane" id="download">
-<form action="{% url 'download_translation' project=object.component.project.slug component=object.component.slug lang=object.language.code %}" method="get" data-persist="download-translation">
-<div class="panel panel-default">
-<div class="panel-heading"><h4 class="panel-title">{% trans "Customize download" %}</h4></div>
-<div class="panel-body">
-{% crispy download_form %}
-</div>
-<div class="panel-footer">
-<input type="submit" value="{% trans "Download" %}" class="btn btn-primary" />
-</div>
-</form>
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h4 class="panel-title">
+        {% documentation_icon 'user/files' 'download' right=True %}
+        {% trans "Quick downloads" %}
+      </h4>
+    </div>
+    <table class="table table-listing table-striped">
+      <tr>
+        <th class="number">{{ object.stats.all|intcomma }}</th>
+        <td>
+          {% trans "Original format as translated in the repository" %}
+        </td>
+        <td class="number">
+          <a class="btn-inline" href="{% url 'download_translation' project=object.component.project.slug component=object.component.slug lang=object.language.code %}">{{ object.component.file_format_name }}</a>
+        </td>
+      </tr>
+      <tr>
+        <th class="number">{{ object.stats.all|intcomma }}</th>
+        <td>
+          {% trans "All strings, converted files enriched with comments and suitable for translating offline" %}
+        </td>
+        <td class="number">
+          {% for exporter in exporters %}
+            <a class="btn-inline" href="{% url 'download_translation' project=object.component.project.slug component=object.component.slug lang=object.language.code %}?format={{ exporter.name }}">{{ exporter.verbose }}</a>
+          {% endfor %}
+        </td>
+      </tr>
+      {% if object.stats.todo %}
+      <tr>
+        <th class="number">{{ object.stats.todo|intcomma }}</th>
+        <td>
+          {% trans "Strings needing action, converted files enriched with comments and suitable for translating offline" %}
+        </td>
+        <td class="number">
+          {% for exporter in exporters %}
+            <a class="btn-inline" href="{% url 'download_translation' project=object.component.project.slug component=object.component.slug lang=object.language.code %}?format={{ exporter.name }}&amp;q=state:&lt;translated">{{ exporter.verbose }}</a>
+          {% endfor %}
+        </td>
+      </tr>
+      {% endif %}
+    </table>
+  </div>
 
+  <form action="{% url 'download_translation' project=object.component.project.slug component=object.component.slug lang=object.language.code %}" method="get" data-persist="download-translation">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h4 class="panel-title">
+          {% documentation_icon 'user/files' 'download' right=True %}
+          {% trans "Customize download" %}
+        </h4>
+      </div>
+      <div class="panel-body">
+      {% crispy download_form %}
+      </div>
+      <div class="panel-footer">
+        <input type="submit" value="{% trans "Download" %}" class="btn btn-primary" />
+      </div>
+    </div>
+  </form>
 </div>
-</div>
+
 {% if user_can_upload_translation %}
 <div class="tab-pane" id="upload">
 <form action="{% url 'upload_translation' project=object.component.project.slug component=object.component.slug lang=object.language.code %}" method="post" enctype="multipart/form-data" data-persist="upload-translation">
 <div class="panel panel-default">
-<div class="panel-heading"><h4 class="panel-title">{% trans "Upload" %}</h4></div>
+<div class="panel-heading">
+  <h4 class="panel-title">
+    {% documentation_icon 'user/files' 'upload' right=True %}
+    {% trans "Upload" %}
+  </h4>
+</div>
 <div class="panel-body">
 {% if user_can_overwrite_translation %}
 <p>{% trans "The uploaded file will be merged with the current translation. In case you want to overwrite already translated strings, don't forget to turn it on." %}</p>
