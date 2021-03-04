@@ -1793,8 +1793,8 @@ Translations
 
 .. http:get:: /api/translations/(string:project)/(string:component)/(string:language)/file/
 
-    Download current translation file as stored in VCS (without the ``format``
-    parameter) or as converted to another format (see :ref:`download`).
+    Download current translation file as it is stored in the VCS (without the ``format``
+    parameter) or converted to another format (see :ref:`download`).
 
     .. note::
 
