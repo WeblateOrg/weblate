@@ -18,8 +18,8 @@ msgstr ""
 "Project-Id-Version: Weblate 4.5.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-03-05 14:18+0000\n"
-"PO-Revision-Date: 2021-03-04 07:36+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2021-03-05 17:21+0000\n"
+"Last-Translator: pan93412 <pan93412@gmail.com>\n"
 "Language-Team: Chinese (Traditional) <https://hosted.weblate.org/projects/"
 "weblate/application/zh_Hant/>\n"
 "Language: zh_Hant\n"
@@ -1093,8 +1093,6 @@ msgid "Bulk edit"
 msgstr "大量編輯"
 
 #: weblate/addons/flags.py:106
-#, fuzzy
-#| msgid "Bulk edit flags, labels or state for strings."
 msgid "Bulk edit flags, labels, or states of strings."
 msgstr "大量編輯字串的旗標、標籤或狀態。"
 
@@ -2937,7 +2935,7 @@ msgstr "CSV"
 
 #: weblate/formats/exporters.py:396
 msgid "XLSX"
-msgstr ""
+msgstr "XLSX"
 
 #: weblate/formats/exporters.py:422 weblate/trans/forms.py:1075
 msgid "JSON"
@@ -3841,25 +3839,18 @@ msgstr ""
 msgid ""
 "For questions about specific translation project, contact its maintainers "
 "directly, not by this form."
-msgstr ""
+msgstr "如果對特定翻譯專案有疑問，請直接，不要透過這表單，聯絡專案維護者。"
 
 #: weblate/templates/accounts/contact.html:16
-#, fuzzy
-#| msgid "You can contact maintainers of this server here."
 msgid "You can only contact maintainers of the whole server here."
-msgstr "您您可在此聯繫本伺服器的維護人員。"
+msgstr "您只能在這聯絡整台伺服器的維護者。"
 
 #: weblate/templates/accounts/contact.html:17
-#, fuzzy, python-format
-#| msgid ""
-#| "If you are looking for support for Weblate or want to file bug reports "
-#| "check its website at %(weblate_link)s."
+#, python-format
 msgid ""
 "If you are looking for support for Weblate, or want to file a bug report, "
 "check its website at %(weblate_link)s."
-msgstr ""
-"若您正在尋找 Weblate 的支援，或是希望提交臭蟲回報，請至 %(weblate_link)s 查看"
-"其網站。"
+msgstr "若您正在尋找 Weblate 的支援，或是希望提交臭蟲報告，請至 %(weblate_link)s 網站了解。"
 
 #: weblate/templates/accounts/contact.html:32
 #: weblate/templates/manage/tools.html:26
@@ -4731,10 +4722,9 @@ msgid "Failed checks in %(project)s"
 msgstr "%(project)s 中的未通過查核"
 
 #: weblate/templates/base.html:180
-#, fuzzy, python-format
-#| msgid "Failed checks in %(project)s — %(language)s"
+#, python-format
 msgid "Failed checks in %(language)s"
-msgstr "%(project)s — %(language)s 中的未通過查核"
+msgstr "%(language)s 中的未通過查核"
 
 #: weblate/templates/base.html:184
 msgid "Checks overview"
@@ -6262,29 +6252,23 @@ msgid "Mark as spam"
 msgstr "標記為垃圾"
 
 #: weblate/templates/mail/account_activity.html:7
-#, fuzzy, python-format
-#| msgid "There has been a change in your account at %(site_title)s:"
+#, python-format
 msgid "There has been a following change in your account at %(site_title)s:"
-msgstr "您的 %(site_title)s 帳號有所更動："
+msgstr "您的 %(site_title)s 帳號有下列更動："
 
 #: weblate/templates/mail/account_activity.html:32
-#, fuzzy
-#| msgid ""
-#| "If you did not request this change, please report it as soon as possible."
 msgid ""
 "If you don’t recognize this change, you can report it by clicking the button "
 "below."
-msgstr "如您未請求此變更，請盡早回報給我們。"
+msgstr "如果您不記得有更動過，您可以按下方的按鈕回報。"
 
 #: weblate/templates/mail/account_activity.html:33
 msgid ""
 "Don’t use this button for support questions. Such questions won’t be "
 "answered."
-msgstr ""
+msgstr "這顆按鈕不是用來詢問支援問題的。這種問題不會得到回應。"
 
 #: weblate/templates/mail/account_activity.html:37
-#, fuzzy
-#| msgid "Reports"
 msgid "Report"
 msgstr "回報"
 
@@ -7536,11 +7520,10 @@ msgid "%(value)s of %(all)s"
 msgstr "%(value)s/%(all)s"
 
 #: weblate/templates/snippets/list-objects-percent.html:7
-#, fuzzy, python-format
-#| msgid "Apply selected translation to current string"
+#, python-format
 msgid "Completed translation with %(count)s string"
 msgid_plural "Completed translation with %(count)s strings"
-msgstr[0] "將所選翻譯套用至目前的字串"
+msgstr[0] "已完成 %(count)s 條字串的翻譯"
 
 #: weblate/templates/snippets/list-objects.html:19
 #: weblate/templates/snippets/list-objects.html:29
@@ -8147,10 +8130,8 @@ msgid "This project does no longer fit into libre hosting conditions."
 msgstr "本專案不再符合自由軟體託管條件。"
 
 #: weblate/templates/trans/alert/nomaskmatches.html:4
-#, fuzzy
-#| msgid "There are some alerts on this component"
 msgid "There are no translations in this component."
-msgstr "此組件有一些警告"
+msgstr "這個組件沒有翻譯。"
 
 #: weblate/templates/trans/alert/nomaskmatches.html:7
 #, python-format
@@ -8160,14 +8141,10 @@ msgid ""
 msgstr "檢查檔案遮罩 <code>%(filemask)s</code>是否與存儲庫中的檔案匹配。"
 
 #: weblate/templates/trans/alert/nomaskmatches.html:8
-#, fuzzy
-#| msgid ""
-#| "You can add a new translation string here, it will automatically appear "
-#| "in all translations."
 msgid ""
 "You can also start new translations directly in Weblate, it will create "
 "files based on the file mask."
-msgstr "您可以在此新增翻譯字串，它會自動出現在所有翻譯中。"
+msgstr "您亦可在 Weblate 直接開始新翻譯。Weblate 會根據檔案遮罩建立檔案。"
 
 #: weblate/templates/trans/alert/occurrences-limit.html:4
 #, python-format
@@ -8770,10 +8747,8 @@ msgid "string %(position)s"
 msgstr "字串 %(position)s"
 
 #: weblate/templates/translation.html:56
-#, fuzzy
-#| msgid "Download translation as CSV"
 msgid "Download translation"
-msgstr "下載翻譯，格式為 CSV"
+msgstr "下載翻譯"
 
 #: weblate/templates/translation.html:58 weblate/templates/translation.html:374
 msgid "Customize download"
@@ -8859,28 +8834,24 @@ msgid ""
 msgstr "您可以在此新增翻譯字串，它會自動出現在所有翻譯中。"
 
 #: weblate/templates/translation.html:329
-#, fuzzy
-#| msgid "Customize download"
 msgid "Quick downloads"
-msgstr "自訂下載"
+msgstr "快速下載"
 
 #: weblate/templates/translation.html:336
-#, fuzzy
-#| msgid "Some plural forms are translated in the same way"
 msgid "File in original format as translated in the repository"
-msgstr "有些複數形沒有以相同方式翻譯"
+msgstr "儲存庫中已經翻譯的原格式檔案"
 
 #: weblate/templates/translation.html:345
 msgid ""
 "All strings, converted files enriched with comments; suitable for "
 "translating offline"
-msgstr ""
+msgstr "所有字串，包含評註的已轉換檔案；適合離線翻譯"
 
 #: weblate/templates/translation.html:357
 msgid ""
 "Strings needing action, converted files enriched with comments; suitable for "
 "translating offline"
-msgstr ""
+msgstr "需要處理的字串，包含評註的已轉換檔案；適合離線翻譯"
 
 #: weblate/templates/translation.html:399
 msgid ""
@@ -9419,10 +9390,8 @@ msgstr "您無權存取此組件！"
 
 #: weblate/trans/forms.py:1232 weblate/trans/forms.py:1240
 #: weblate/trans/forms.py:1246
-#, fuzzy
-#| msgid "Your suggestion has been identified as spam!"
 msgid "This field has been identified as spam!"
-msgstr "您的建議被判定為垃圾內容！"
+msgstr "這個欄位經辨識後認定是垃圾訊息！"
 
 #: weblate/trans/forms.py:1317 weblate/trans/forms.py:1869
 msgid "Basic"
@@ -9795,10 +9764,8 @@ msgid "Unused enforced checks."
 msgstr "未使用的強制查核。"
 
 #: weblate/trans/models/alert.py:360
-#, fuzzy
-#| msgid "More users matched."
 msgid "No mask matches."
-msgstr "找到多位相符的使用者。"
+msgstr "找不到符合的遮罩。"
 
 #: weblate/trans/models/announcement.py:111
 msgid "Category"
@@ -10350,16 +10317,11 @@ msgid "Manage strings"
 msgstr "管理字串"
 
 #: weblate/trans/models/component.py:489
-#, fuzzy
-#| msgid ""
-#| "Disable adding and removing strings in Weblate in case these are "
-#| "automatically extracted from the source code or managed externally."
 msgid ""
 "Enables adding and removing strings straight from Weblate. If your strings "
 "are extracted from the source code or managed externally you probably want "
 "to keep it disabled."
-msgstr ""
-"如果字串是從原始碼自動擷取或是在外部管理，則禁止在 Weblate 新增或移除字串。"
+msgstr "允許在 Weblate 直接加入及移除字串。如果字串擷取自原始碼，或是由外部管理，您可能會希望將其停用。"
 
 #: weblate/trans/models/component.py:497
 msgid "Merge style"
