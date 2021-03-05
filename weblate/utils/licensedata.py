@@ -295,6 +295,12 @@ LICENSES = (
         True,
     ),
     (
+        "BSD-3-Clause-Modification",
+        "BSD 3-Clause Modification",
+        "https://fedoraproject.org/wiki/Licensing:BSD#Modification_Variant",
+        False,
+    ),
+    (
         "BSD-3-Clause-No-Nuclear-License",
         "BSD 3-Clause No Nuclear License",
         "http://download.oracle.com/otn-pub/java/licenses/bsd.txt?AuthParam=1467140197_43d516ce1776bd08a58235a7785be1cc",
