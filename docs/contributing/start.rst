@@ -111,7 +111,7 @@ To stop the background containers, run:
 
    ./rundev.sh stop
 
-Running the script without args will re-create a Docker container and restart it.
+Running the script without arguments will re-create the Docker container and restart it.
 
 .. note::
 
