@@ -157,18 +157,23 @@ var _rollbarConfig = {
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" id="checks-menu">{% trans "Checks" %} <b class="caret"></b></a>
           <ul class="dropdown-menu">
             {% if watched_projects %}
-            {% for project in watched_projects %}
-            <li><a href="{% url 'checks' %}?project={{ project.slug }}">{% blocktrans %}Failed checks in {{ project }}{% endblocktrans %}</a></li>
-            {% endfor %}
-            <li role="separator" class="divider"></li>
-            {% endif %}
-            {% if languages %}
-              {% for project in watched_projects %}
-                {% for language in languages %}
-                  <li><a href="{% url 'checks' %}?project={{ project.slug }}&amp;lang={{ language.code }}">{% blocktrans %}Failed checks in {{ project }} — {{ language }}{% endblocktrans %}</a></li>
+              {% if languages %}
+                {% for project in watched_projects %}
+                  {% for language in languages %}
+                    <li><a href="{% url 'checks' %}?project={{ project.slug }}&amp;lang={{ language.code }}">{% blocktrans %}Failed checks in {{ project }} — {{ language }}{% endblocktrans %}</a></li>
+                  {% endfor %}
+                  {% if languages|length > 1 %}
+                    <li role="separator" class="divider"></li>
+                  {% endif %}
                 {% endfor %}
-                <li role="separator" class="divider"></li>
+                {% if languages|length == 1 %}
+                  <li role="separator" class="divider"></li>
+                {% endif %}
+              {% endif %}
+              {% for project in watched_projects %}
+                <li><a href="{% url 'checks' %}?project={{ project.slug }}">{% blocktrans %}Failed checks in {{ project }}{% endblocktrans %}</a></li>
               {% endfor %}
+              <li role="separator" class="divider"></li>
             {% endif %}
             <li><a href="{% url 'checks' %}">{% trans "Checks overview" %}</a></li>
           </ul>
