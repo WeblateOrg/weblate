@@ -51,7 +51,7 @@ from weblate.auth.models import User
 from weblate.lang.models import Language
 from weblate.logger import LOGGER
 from weblate.trans.defines import EMAIL_LENGTH, FULLNAME_LENGTH
-from weblate.trans.models import Component, Project
+from weblate.trans.models import Component, ComponentList, Project
 from weblate.utils import messages
 from weblate.utils.forms import SortedSelect, SortedSelectMultiple, UsernameField
 from weblate.utils.ratelimit import check_rate_limit, reset_rate_limit
@@ -266,6 +266,10 @@ class DashboardSettingsForm(ProfileBaseForm):
         self.helper = FormHelper(self)
         self.helper.disable_csrf = True
         self.helper.form_tag = False
+        self.fields["dashboard_component_list"].queryset = ComponentList.objects.filter(
+            show_dashboard=True,
+            components__project_id__in=self.instance.user.allowed_project_ids,
+        ).distinct()
 
 
 class UserForm(forms.ModelForm):
