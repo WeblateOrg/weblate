@@ -146,7 +146,7 @@ For that you need to specify the root path of the Django project and the path to
 .. image:: /images/pycharm-3.png
 
 Be careful, the `Django project root` is the root of the repository, not the weblate
-sub-directory. About the settings, I personally use the `settings_test` from the
+sub-directory. About the settings, you could use the :file:`weblate/settings_test.py` from the
 repository, but you could create your own setting and set it there.
 
 Last step is to be able to run the server and to put breakpoints on the code to be able
@@ -164,8 +164,8 @@ to debug it. This is done by creating a new `Django Server` configuration:
    reload.
 
 
-Bootstraping your devel instance
---------------------------------
+Bootstrapping your devel instance
+---------------------------------
 
 You might want to use :djadmin:`import_demo` to create demo translations and
 :djadmin:`createadmin` to create admin user.
