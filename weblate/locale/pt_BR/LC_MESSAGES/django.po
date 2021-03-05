@@ -1,7 +1,7 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# Luiz Fernando Ranghetti <elchevive@opensuse.org>, 2018, 2019.
+# Luiz Fernando Ranghetti <elchevive@opensuse.org>, 2018, 2019, 2021.
 # Rafael Fontenelle <rafaelff@gnome.org>, 2018, 2019, 2020, 2021.
 # RD WebDesign <weblate@rdwebdesign.com.br>, 2019.
 # Paulo Schopf <pschopf@gmail.com>, 2019.
@@ -25,7 +25,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-03-04 21:31+0000\n"
 "PO-Revision-Date: 2021-03-05 14:17+0000\n"
-"Last-Translator: Rafael Fontenelle <rafaelff@gnome.org>\n"
+"Last-Translator: Luiz Fernando Ranghetti <elchevive@opensuse.org>\n"
 "Language-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/"
 "weblate/application/pt_BR/>\n"
 "Language: pt_BR\n"
@@ -1203,16 +1203,12 @@ msgid "No line wrapping"
 msgstr "Sem quebra de linhas"
 
 #: weblate/addons/forms.py:119
-#, fuzzy
-#| msgid ""
-#| "By default gettext wraps lines at 77 chars and newlines. With --no-wrap "
-#| "parameter, it wraps only at newlines."
 msgid ""
 "By default gettext wraps lines at 77 characters and at newlines. With the --"
 "no-wrap parameter, wrapping is only done at newlines."
 msgstr ""
 "Por padrão, o gettext quebra as linhas em 77 caracteres e em novas linhas. "
-"Com o parâmetro --no-wrap ele quebra apenas em novas linhas."
+"Com o parâmetro --no-wrap a quebra é feita apenas em novas linhas."
 
 #: weblate/addons/forms.py:127
 msgid "Keep previous msgids of translated strings"
@@ -3058,7 +3054,7 @@ msgstr "CSV"
 
 #: weblate/formats/exporters.py:396
 msgid "XLSX"
-msgstr ""
+msgstr "XLSX"
 
 #: weblate/formats/exporters.py:422 weblate/trans/forms.py:1075
 msgid "JSON"
@@ -3209,10 +3205,8 @@ msgid "Inno Setup INI file"
 msgstr "Arquivo Inno Setup INI"
 
 #: weblate/formats/ttkit.py:1712
-#, fuzzy
-#| msgid "Term Base eXchange file"
 msgid "TermBase eXchange file"
-msgstr "Arquivo Term Base eXchange"
+msgstr "Arquivo TermBase eXchange"
 
 #: weblate/formats/txt.py:180
 msgid "App store metadata files"
@@ -6518,16 +6512,11 @@ msgid "Mark as spam"
 msgstr "Marcar como spam"
 
 #: weblate/templates/mail/account_activity.html:7
-#, fuzzy, python-format
-#| msgid "There has been a change in your account at %(site_title)s:"
+#, python-format
 msgid "There has been a following change in your account at %(site_title)s:"
-msgstr "Houve uma alteração na sua conta em %(site_title)s:"
+msgstr "Houve a seguinte alteração na sua conta em %(site_title)s:"
 
 #: weblate/templates/mail/account_activity.html:32
-#, fuzzy
-#| msgid ""
-#| "If you don’t recognize this change, you can report it by clicking the "
-#| "button bellow."
 msgid ""
 "If you don’t recognize this change, you can report it by clicking the button "
 "below."
@@ -7878,12 +7867,11 @@ msgid "%(value)s of %(all)s"
 msgstr "%(value)s de %(all)s"
 
 #: weblate/templates/snippets/list-objects-percent.html:7
-#, fuzzy, python-format
-#| msgid "Apply selected translation to current string"
+#, python-format
 msgid "Completed translation with %(count)s string"
 msgid_plural "Completed translation with %(count)s strings"
-msgstr[0] "Aplicar a tradução selecionada ao texto atual"
-msgstr[1] "Aplicar a tradução selecionada ao texto atual"
+msgstr[0] "Tradução concluída com %(count)s texto"
+msgstr[1] "Tradução concluída com %(count)s textos"
 
 #: weblate/templates/snippets/list-objects.html:19
 #: weblate/templates/snippets/list-objects.html:29
@@ -8614,20 +8602,17 @@ msgstr ""
 "há falta de dependências."
 
 #: weblate/templates/trans/alert/unusedenforcedcheck.html:4
-#, fuzzy
-#| msgid "Following enforced checks are not enabled anywhere:"
 msgid "Following enforced checks are not used anywhere:"
-msgstr ""
-"As seguintes verificações aplicadas não estão habilitadas em nenhum lugar:"
+msgstr "As seguintes verificações aplicadas não são usadas em nenhum lugar:"
 
 #: weblate/templates/trans/alert/unusedenforcedcheck.html:8
-#, fuzzy, python-format
-#| msgid "%(check)s is enforced, but not enabled using <code>%(flag)s</code>."
+#, python-format
 msgid ""
 "%(check)s quality check is enforced, but not turned on using <code>%(flag)s</"
 "code>."
 msgstr ""
-"%(check)s está aplicada, mas não habilitada usando <code>%(flag)s</code>."
+"A verificação de qualidade %(check)s está aplicada, mas não está ligada "
+"usando <code>%(flag)s</code>."
 
 #: weblate/templates/trans/alert/unusedscreenshot.html:2
 msgid "There is at least one screenshot which is not assigned to any strings."
@@ -9216,10 +9201,8 @@ msgid "Add new translation string"
 msgstr "Adicionar novo texto de tradução"
 
 #: weblate/templates/translation.html:56
-#, fuzzy
-#| msgid "Download translation as CSV"
 msgid "Download translation"
-msgstr "Baixar tradução como CSV"
+msgstr "Baixar tradução"
 
 #: weblate/templates/translation.html:58 weblate/templates/translation.html:371
 msgid "Customize download"
@@ -9316,28 +9299,28 @@ msgstr ""
 "automaticamente em todas as traduções."
 
 #: weblate/templates/translation.html:326
-#, fuzzy
-#| msgid "Customize download"
 msgid "Quick downloads"
-msgstr "Personalizar o download"
+msgstr "Downloads rápidos"
 
 #: weblate/templates/translation.html:333
-#, fuzzy
-#| msgid "Some plural forms are translated in the same way"
 msgid "File in original format as translated in the repository"
-msgstr "Algumas formas de plural estão traduzidas da mesma forma"
+msgstr "O arquivo no formato original como traduzido no repositório"
 
 #: weblate/templates/translation.html:342
 msgid ""
 "All strings, converted files enriched with comments; suitable for "
 "translating offline"
 msgstr ""
+"Todos os textos, arquivos convertidos enriquecidos com comentários; adequado "
+"para tradução offline"
 
 #: weblate/templates/translation.html:354
 msgid ""
 "Strings needing action, converted files enriched with comments; suitable for "
 "translating offline"
 msgstr ""
+"Textos que necessitam atenção, arquivos convertidos enriquecidos com "
+"comentários; adequado para tradução offline"
 
 #: weblate/templates/translation.html:396
 msgid ""
@@ -10866,17 +10849,14 @@ msgid "Manage strings"
 msgstr "Gerenciar textos"
 
 #: weblate/trans/models/component.py:489
-#, fuzzy
-#| msgid ""
-#| "Disable adding and removing strings in Weblate in case these are "
-#| "automatically extracted from the source code or managed externally."
 msgid ""
 "Enables adding and removing strings straight from Weblate. If your strings "
 "are extracted from the source code or managed externally you probably want "
 "to keep it disabled."
 msgstr ""
-"Desabilite a adição e a remoção de textos no Weblate no caso de serem "
-"automaticamente extraídos do código-fonte ou gerenciados externamente."
+"Habilita a adição e remoção de textos direto do Weblate. Se seus textos são "
+"extraídos do código-fonte ou gerenciados externamente, você provavelmente "
+"quer manter isto desabilitado."
 
 #: weblate/trans/models/component.py:497
 msgid "Merge style"
@@ -11714,8 +11694,7 @@ msgstr[0] "%(count)s texto não está sendo traduzido aqui."
 msgstr[1] "%(count)s textos não estão sendo traduzidos aqui."
 
 #: weblate/trans/templatetags/translations.py:834
-#, fuzzy, python-format
-#| msgid "Shared from project %s."
+#, python-format
 msgid "Shared from the %s project."
 msgstr "Compartilhado do projeto %s."
 
