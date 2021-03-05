@@ -144,6 +144,9 @@
 <td class="percent">{{ object.stats.translated_percent|percent_format }}</td>
 <td rowspan="2" class="buttons-cell full-cell">
 <div class="pull-right flip">
+  {% if user_can_add_unit %}
+    <a href="#new" data-toggle="tab" class="btn btn-info">{% trans "Add new translation string" %}</a>
+  {% endif %}
   <a href="{{ browse_url }}" class=" btn btn-info">{% trans "Browse" %}</a>
   <a href="{{ translate_url }}{% if object.stats.todo > 0 %}?q=state:&lt;translated{% endif %}" class="btn btn-primary">{% trans "Translate" %}</a>
 </div>
