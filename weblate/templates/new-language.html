@@ -13,7 +13,7 @@
 {% perm 'translation.add' object as user_can_add_translation %}
 {% perm 'translation.add_more' object as user_can_add_more_translation %}
 
-{% if object.can_add_language and user_can_add_translation %}
+{% if user_can_add_translation %}
 
 <div class="tab-pane" id="newlang">
 

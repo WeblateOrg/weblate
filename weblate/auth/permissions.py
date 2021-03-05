@@ -248,6 +248,8 @@ def check_unit_add(user, permission, translation):
 
 @register_perm("translation.add")
 def check_component_locked(user, permission, component):
+    if component.new_lang == "none" and not user.has_perm("component.edit", component):
+        return False
     if component.locked:
         return True
     return check_permission(user, permission, component)
