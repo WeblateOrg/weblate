@@ -82,7 +82,7 @@
 {% if not user.profile.hide_source_secondary or not item.secondary %}
 <div class="form-group">
   <a href="{{ item.unit.source_unit.get_absolute_url }}" class="language">{{ item.unit.translation.component.source_language }}</a>
-  {% format_translation item.unit.source item.unit.translation.component.source_language search_match=search_query num_plurals=item.unit.translation.plural.number unit=item.unit %}
+  {% format_translation item.unit.source item.unit.translation.component.source_language search_match=search_query num_plurals=item.unit.translation.plural.number unit=item.unit glossary=item.glossary %}
 </div>
 {% endif %}
 

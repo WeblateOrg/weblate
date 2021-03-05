@@ -795,6 +795,7 @@ def get_zen_unitdata(obj, project, unit_set, request):
                 request.user, unit, tabindex=100 + (unit.position * 10)
             ),
             "offset": offset + pos + 1,
+            "glossary": get_glossary_terms(unit),
         }
         for pos, unit in enumerate(units)
     ]
