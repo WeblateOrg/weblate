@@ -42,7 +42,7 @@ from weblate.lang import data
 from weblate.logger import LOGGER
 from weblate.trans.defines import LANGUAGE_CODE_LENGTH, LANGUAGE_NAME_LENGTH
 from weblate.trans.mixins import CacheKeyMixin
-from weblate.trans.util import sort_choices, sort_objects
+from weblate.trans.util import sort_objects, sort_unicode
 from weblate.utils.templatetags.icons import icon
 from weblate.utils.validators import validate_plural_formula
 
@@ -321,9 +321,15 @@ class LanguageQuerySet(models.QuerySet):
         return language
 
     def as_choices(self):
-        return sort_choices(
-            (code, "{} ({})".format(_(name), code))
-            for name, code in self.values_list("name", "code")
+        return (
+            item[:2]
+            for item in sort_unicode(
+                (
+                    (code, "{} ({})".format(_(name), code), name)
+                    for name, code in self.values_list("name", "code")
+                ),
+                lambda tup: tup[2],
+            )
         )
 
     def get(self, *args, **kwargs):

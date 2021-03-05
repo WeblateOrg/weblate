@@ -968,7 +968,7 @@ class NewLanguageOwnerForm(forms.Form):
     """Form for requesting new language."""
 
     lang = forms.MultipleChoiceField(
-        label=_("Languages"), choices=[], widget=SortedSelectMultiple
+        label=_("Languages"), choices=[], widget=forms.SelectMultiple
     )
 
     def get_lang_objects(self):
@@ -986,7 +986,7 @@ class NewLanguageOwnerForm(forms.Form):
 class NewLanguageForm(NewLanguageOwnerForm):
     """Form for requesting new language."""
 
-    lang = forms.ChoiceField(label=_("Language"), choices=[], widget=SortedSelect)
+    lang = forms.ChoiceField(label=_("Language"), choices=[], widget=forms.Select)
 
     def get_lang_objects(self):
         codes = BASIC_LANGUAGES
@@ -1968,7 +1968,7 @@ class MatrixLanguageForm(forms.Form):
     """Form for requesting new language."""
 
     lang = forms.MultipleChoiceField(
-        label=_("Languages"), choices=[], widget=SortedSelectMultiple
+        label=_("Languages"), choices=[], widget=forms.SelectMultiple
     )
 
     def __init__(self, component, *args, **kwargs):
