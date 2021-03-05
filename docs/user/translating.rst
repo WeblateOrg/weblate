@@ -204,13 +204,13 @@ The following keyboard shortcuts can be utilized during translation:
 |                                           |                                                                       |
 | :kbd:`Cmd+1` to :kbd:`Cmd+9`              |                                                                       |
 +-------------------------------------------+-----------------------------------------------------------------------+
-| :kbd:`Ctrl+M`+:kbd:`1` to :kbd:`9` or     | Copy the machine translation of given number to current translation.  |
+| :kbd:`Ctrl+M`\+\ :kbd:`1` to :kbd:`9` or  | Copy the machine translation of given number to current translation.  |
 |                                           |                                                                       |
-| :kbd:`Cmd+M`+:kbd:`1` to :kbd:`9`         |                                                                       |
+| :kbd:`Cmd+M`\+\ :kbd:`1` to :kbd:`9`      |                                                                       |
 +-------------------------------------------+-----------------------------------------------------------------------+
-| :kbd:`Ctrl+I`+:kbd:`1` to :kbd:`9` or     | Ignore one item in the list of failing checks.                        |
+| :kbd:`Ctrl+I`\+\ :kbd:`1` to :kbd:`9` or  | Ignore one item in the list of failing checks.                        |
 |                                           |                                                                       |
-| :kbd:`Cmd+I`+:kbd:`1` to :kbd:`9`         |                                                                       |
+| :kbd:`Cmd+I`\+\ :kbd:`1` to :kbd:`9`      |                                                                       |
 +-------------------------------------------+-----------------------------------------------------------------------+
 | :kbd:`Ctrl+J` or                          | Shows the :guilabel:`Nearby strings` tab.                             |
 |                                           |                                                                       |
