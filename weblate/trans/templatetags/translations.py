@@ -841,7 +841,7 @@ def indicate_alerts(context, obj):
 
 @register.filter
 def markdown(text):
-    return render_markdown(text)
+    return mark_safe('<div class="markdown">{}</div>'.format(render_markdown(text)))
 
 
 @register.filter
