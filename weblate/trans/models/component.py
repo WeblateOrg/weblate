@@ -714,8 +714,11 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
                 self.drop_repository_cache()
             create = False
         else:
-            # Turn on unit management for glossary
-            self.manage_units |= self.is_glossary
+            # Turn on unit management for glossary and disable adding languages
+            # as they are added automatically
+            if self.is_glossary:
+                self.manage_units = True
+                self.new_lang = "none"
 
         # Remove leading ./ from paths
         self.filemask = cleanup_path(self.filemask)
@@ -847,7 +850,6 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
             is_glossary=True,
             has_template=False,
             allow_translation_propagation=False,
-            manage_units=True,
             license=self.license,
         )
 
