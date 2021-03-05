@@ -674,11 +674,13 @@ def show_contributor_agreement(context, component):
 
 
 @register.simple_tag(takes_context=True)
-def get_translate_url(context, obj):
+def get_translate_url(context, obj, glossary_browse=True):
     """Get translate URL based on user preference."""
     if isinstance(obj, BaseStats) or not hasattr(obj, "get_translate_url"):
         return ""
-    if context["user"].profile.translate_mode == Profile.TRANSLATE_ZEN:
+    if glossary_browse and hasattr(obj, "component") and obj.component.is_glossary:
+        name = "browse"
+    elif context["user"].profile.translate_mode == Profile.TRANSLATE_ZEN:
         name = "zen"
     else:
         name = "translate"

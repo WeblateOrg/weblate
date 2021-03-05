@@ -148,7 +148,7 @@
     <a href="#new" data-toggle="tab" class="btn btn-info">{% trans "Add new translation string" %}</a>
   {% endif %}
   <a href="{{ browse_url }}" class=" btn btn-info">{% trans "Browse" %}</a>
-  <a href="{{ translate_url }}{% if object.stats.todo > 0 %}?q=state:&lt;translated{% endif %}" class="btn btn-primary">{% trans "Translate" %}</a>
+  <a href="{% get_translate_url object glossary_browse=False %}{% if object.stats.todo > 0 %}?q=state:&lt;translated{% endif %}" class="btn btn-primary">{% trans "Translate" %}</a>
 </div>
 </td>
 </tr>
