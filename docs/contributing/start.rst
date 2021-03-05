@@ -17,7 +17,7 @@ The most comfortable approach to get started with Weblate development is to
 follow :doc:`../admin/install/source`. It will get you a virtualenv with editable Weblate
 sources.
 
-1. Clone the Weblate source:
+1. Clone the Weblate source code:
 
    .. code-block:: sh
 
