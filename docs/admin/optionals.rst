@@ -280,3 +280,13 @@ The API has separate rate limiting settings, see :ref:`api-rate`.
    :ref:`user-rate`,
    :ref:`reverse-proxy`,
    :ref:`api-rate`
+
+Fedora Messaging integration
+----------------------------
+
+Fedora Messaging is AMQP-based publisher for all changes happening in Weblate.
+You can hook additional services on changes happening in Weblate using this.
+
+The Fedora Messaging integration is available as a separate Python module
+``weblate-fedora-messaging``. Please see
+<https://github.com/WeblateOrg/fedora_messaging/> for setup instructions.
