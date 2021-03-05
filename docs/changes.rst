@@ -1,7 +1,7 @@
 Weblate 4.5.1
 -------------
 
-Not yet released.
+Released on March 05th 2021.
 
 * Fixed editing of glossary flags in some corner cases.
 * Extend metrics usage to improve performance of several pages.
