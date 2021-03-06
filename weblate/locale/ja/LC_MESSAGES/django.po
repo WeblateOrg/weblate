@@ -24,8 +24,8 @@ msgstr ""
 "Project-Id-Version: Weblate 4.5.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-03-05 14:18+0000\n"
-"PO-Revision-Date: 2021-03-04 07:36+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2021-03-06 21:59+0000\n"
+"Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "application/ja/>\n"
 "Language: ja\n"
@@ -33,7 +33,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 4.5.1-dev\n"
+"X-Generator: Weblate 4.5.1\n"
 
 #: weblate/accounts/avatar.py:103
 msgctxt "No known user"
@@ -3010,7 +3010,7 @@ msgstr "CSV"
 
 #: weblate/formats/exporters.py:396
 msgid "XLSX"
-msgstr ""
+msgstr "XLSX"
 
 #: weblate/formats/exporters.py:422 weblate/trans/forms.py:1075
 msgid "JSON"
@@ -3934,25 +3934,18 @@ msgstr ""
 msgid ""
 "For questions about specific translation project, contact its maintainers "
 "directly, not by this form."
-msgstr ""
+msgstr "特定の翻訳プロジェクトについての質問は、このフォームではなく、そのプロジェクトの管理者に直接お問い合わせください。"
 
 #: weblate/templates/accounts/contact.html:16
-#, fuzzy
-#| msgid "You can contact maintainers of this server here."
 msgid "You can only contact maintainers of the whole server here."
-msgstr "ここから、このサーバーの管理者に連絡できます。"
+msgstr "ここからは、サーバー全体の管理者にのみ連絡を取ることができます。"
 
 #: weblate/templates/accounts/contact.html:17
-#, fuzzy, python-format
-#| msgid ""
-#| "If you are looking for support for Weblate or want to file bug reports "
-#| "check its website at %(weblate_link)s."
+#, python-format
 msgid ""
 "If you are looking for support for Weblate, or want to file a bug report, "
 "check its website at %(weblate_link)s."
-msgstr ""
-"Weblate のサポートの申し込みやバグレポートの登録については、 "
-"%(weblate_link)s をご覧ください。"
+msgstr "Weblate のサポートの申し込みやバグレポートの提出については、 %(weblate_link)s をご覧ください。"
 
 #: weblate/templates/accounts/contact.html:32
 #: weblate/templates/manage/tools.html:26
@@ -4870,10 +4863,9 @@ msgid "Failed checks in %(project)s"
 msgstr "不合格項目：%(project)s プロジェクト"
 
 #: weblate/templates/base.html:180
-#, fuzzy, python-format
-#| msgid "Failed checks in %(project)s — %(language)s"
+#, python-format
 msgid "Failed checks in %(language)s"
-msgstr "不合格項目：%(project)s — %(language)s"
+msgstr "不合格項目：%(language)s"
 
 #: weblate/templates/base.html:184
 msgid "Checks overview"
@@ -6444,29 +6436,23 @@ msgid "Mark as spam"
 msgstr "迷惑と見なす"
 
 #: weblate/templates/mail/account_activity.html:7
-#, fuzzy, python-format
-#| msgid "There has been a change in your account at %(site_title)s:"
+#, python-format
 msgid "There has been a following change in your account at %(site_title)s:"
-msgstr "お使いの %(site_title)s のアカウントに対して、変更がありました。"
+msgstr "ご使用の %(site_title)s のアカウントに対して行われた変更内容:"
 
 #: weblate/templates/mail/account_activity.html:32
-#, fuzzy
-#| msgid ""
-#| "If you did not request this change, please report it as soon as possible."
 msgid ""
 "If you don’t recognize this change, you can report it by clicking the button "
 "below."
-msgstr "この変更を実行していない場合は、急いで連絡してください。"
+msgstr "この変更に身に覚えがないときは、以下のボタンをクリックして報告してください。"
 
 #: weblate/templates/mail/account_activity.html:33
 msgid ""
 "Don’t use this button for support questions. Such questions won’t be "
 "answered."
-msgstr ""
+msgstr "このボタンはサポートの質問には使用しないでください。そのような質問には答えられません。"
 
 #: weblate/templates/mail/account_activity.html:37
-#, fuzzy
-#| msgid "Reports"
 msgid "Report"
 msgstr "レポート"
 
@@ -7778,11 +7764,10 @@ msgid "%(value)s of %(all)s"
 msgstr "%(value)s / %(all)s"
 
 #: weblate/templates/snippets/list-objects-percent.html:7
-#, fuzzy, python-format
-#| msgid "Apply selected translation to current string"
+#, python-format
 msgid "Completed translation with %(count)s string"
 msgid_plural "Completed translation with %(count)s strings"
-msgstr[0] "選択した翻訳を現在の文字列に適用"
+msgstr[0] "翻訳完了 %(count)s 文字列"
 
 #: weblate/templates/snippets/list-objects.html:19
 #: weblate/templates/snippets/list-objects.html:29
@@ -9078,10 +9063,8 @@ msgid "string %(position)s"
 msgstr "%(position)s 番目の文字列"
 
 #: weblate/templates/translation.html:56
-#, fuzzy
-#| msgid "Download translation as CSV"
 msgid "Download translation"
-msgstr "翻訳を CSV でダウンロード"
+msgstr "翻訳のダウンロード"
 
 #: weblate/templates/translation.html:58 weblate/templates/translation.html:374
 msgid "Customize download"
@@ -9174,28 +9157,24 @@ msgstr ""
 "ここで新しい翻訳文字列を追加できます。すべての翻訳に自動的に表示されます。"
 
 #: weblate/templates/translation.html:329
-#, fuzzy
-#| msgid "Customize download"
 msgid "Quick downloads"
-msgstr "ダウンロードのカスタマイズ"
+msgstr "簡単ダウンロード"
 
 #: weblate/templates/translation.html:336
-#, fuzzy
-#| msgid "Some plural forms are translated in the same way"
 msgid "File in original format as translated in the repository"
-msgstr "同じように翻訳されている複数形のもの"
+msgstr "リポジトリ内の翻訳済みの元の形式のファイル"
 
 #: weblate/templates/translation.html:345
 msgid ""
 "All strings, converted files enriched with comments; suitable for "
 "translating offline"
-msgstr ""
+msgstr "すべての文字列、コメント付きの翻訳済みファイル（オフラインでの翻訳に最適）"
 
 #: weblate/templates/translation.html:357
 msgid ""
 "Strings needing action, converted files enriched with comments; suitable for "
 "translating offline"
-msgstr ""
+msgstr "作業が必要な文字列、コメントが豊富な翻訳ファイル（オフラインでの翻訳に最適）"
 
 #: weblate/templates/translation.html:399
 msgid ""
@@ -9744,14 +9723,12 @@ msgstr "このコンポーネントにアクセスする権限はありません
 
 #: weblate/trans/forms.py:1232 weblate/trans/forms.py:1240
 #: weblate/trans/forms.py:1246
-#, fuzzy
-#| msgid "Your suggestion has been identified as spam!"
 msgid "This field has been identified as spam!"
-msgstr "あなたからの提案は迷惑投稿と判断されています！"
+msgstr "このフィールドの内容はスパムと認定されました！"
 
 #: weblate/trans/forms.py:1317 weblate/trans/forms.py:1869
 msgid "Basic"
-msgstr "基本"
+msgstr "ベーシック"
 
 #: weblate/trans/forms.py:1319
 msgid "License"
@@ -11222,7 +11199,7 @@ msgstr "翻訳禁止の解除"
 
 #: weblate/trans/models/unit.py:1370
 msgid "Mark as forbidden translation"
-msgstr "翻訳禁止の設定"
+msgstr "翻訳禁止に設定"
 
 #: weblate/trans/models/unit.py:1379
 msgid "Unmark as terminology"
