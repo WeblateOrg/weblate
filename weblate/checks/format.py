@@ -44,6 +44,24 @@ PYTHON_PRINTF_MATCH = re.compile(
     re.VERBOSE,
 )
 
+SCHEME_PRINTF_MATCH = re.compile(
+    r"""
+    ~(                          # initial ~
+        (?:(?P<ord>\d+)@\*~)?   # variable order, like ~1@*~d
+        (?P<fullvar>
+          (?:                   # any number of comma-separated parameters
+            #([+-]?\d+|\'.|[vV]|#)
+            ([+-]?\d+|'.|[vV]|\#)
+            (, ([+-]?\d+|'.|[vV]|\#))*
+          )?
+          :?
+          @?
+          (?P<type>[a-zA-Z%\$\?&_/|!\[\]\(\)~]) # type (~a, ~s, etc.)
+        |)                      # incomplete format string
+    )""",
+    re.VERBOSE,
+)
+
 
 PHP_PRINTF_MATCH = re.compile(
     r"""
@@ -197,6 +215,10 @@ def c_format_is_position_based(string):
     return "$" not in string and string != "%"
 
 
+def scheme_format_is_position_based(string):
+    return "@*" not in string and string != "~"
+
+
 def python_format_is_position_based(string):
     return "(" not in string and string != "%"
 
@@ -213,6 +235,7 @@ FLAG_RULES = {
     "javascript-format": (C_PRINTF_MATCH, c_format_is_position_based),
     "lua-format": (C_PRINTF_MATCH, c_format_is_position_based),
     "python-brace-format": (PYTHON_BRACE_MATCH, name_format_is_position_based),
+    "scheme-format": (SCHEME_PRINTF_MATCH, scheme_format_is_position_based),
     "c-sharp-format": (C_SHARP_MATCH, name_format_is_position_based),
     "java-format": (JAVA_MATCH, c_format_is_position_based),
 }
@@ -437,6 +460,20 @@ class LuaFormatCheck(BasePrintfCheck):
     check_id = "lua_format"
     name = _("Lua format")
     description = _("Lua format string does not match source")
+
+
+class SchemeFormatCheck(BasePrintfCheck):
+    """Check for Scheme format string."""
+
+    check_id = "scheme_format"
+    name = _("Scheme format")
+    description = _("Scheme format string does not match source")
+
+    def normalize(self, matches):
+        return [m for m in matches if m != "~"]
+
+    def format_string(self, string):
+        return f"~{string}"
 
 
 class PythonBraceFormatCheck(BaseFormatCheck):
