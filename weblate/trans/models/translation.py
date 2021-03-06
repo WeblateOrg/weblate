@@ -1163,7 +1163,7 @@ class Translation(
             previous_revision = (self.component.repository.last_revision,)
             for translation in self.get_store_change_translations():
                 for context, source, target in batch:
-                    translation.store.new_unit(context, source, target)
+                    translation.store.new_unit(context, source, target, skip_save=True)
                     Change.objects.create(
                         translation=translation,
                         action=Change.ACTION_NEW_UNIT,
@@ -1171,6 +1171,7 @@ class Translation(
                         user=user,
                         author=user,
                     )
+                translation.store.save()
                 translation.drop_store_cache()
                 translation.git_commit(user, user.get_author_name(), store_hash=False)
             self.handle_store_change(request, user, previous_revision)

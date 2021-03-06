@@ -148,7 +148,7 @@ def migrate_glossaries(apps, schema_editor):  # noqa: C901
                         )
                         source_units[id_hash].source_unit = source_units[id_hash]
                         source_units[id_hash].save()
-                    store.new_unit(context, source, target)
+                    store.new_unit(context, source, target, skip_save=True)
                     # Migrate database
                     if is_source:
                         unit = source_units[id_hash]
