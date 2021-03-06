@@ -16,13 +16,14 @@
 # Riku Viitanen <riku.viitanen@protonmail.com>, 2020, 2021.
 # Jussi Timperi <bane@iki.fi>, 2020.
 # Michal Čihař <michal@weblate.org>, 2021.
+# Ricky Tigg <ricky.tigg@gmail.com>, 2021.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.5.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-03-05 14:18+0000\n"
-"PO-Revision-Date: 2021-03-05 14:17+0000\n"
-"Last-Translator: Tuomas Hietala <tuomas.hietala@iki.fi>\n"
+"PO-Revision-Date: 2021-03-06 21:59+0000\n"
+"Last-Translator: Ricky Tigg <ricky.tigg@gmail.com>\n"
 "Language-Team: Finnish <https://hosted.weblate.org/projects/weblate/"
 "application/fi/>\n"
 "Language: fi\n"
@@ -30,7 +31,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.5.1-dev\n"
+"X-Generator: Weblate 4.5.1\n"
 
 #: weblate/accounts/avatar.py:103
 msgctxt "No known user"
@@ -2920,10 +2921,8 @@ msgid "The translations in several languages have failing checks"
 msgstr "Monilla eri kielisillä käännöksillä on epäonnistuneita tarkistuksia"
 
 #: weblate/checks/source.py:92
-#, fuzzy
-#| msgid "Failing checks found"
 msgid "Following checks are failing:"
-msgstr "Löytyneet epäonnistuneet tarkistukset"
+msgstr "Seuraavat tarkastukset epäonnistuvat:"
 
 #: weblate/checks/source.py:109
 msgid "Long untranslated"
@@ -4952,10 +4951,9 @@ msgid "Failed checks in %(project)s"
 msgstr "Virheitä löytynyt projektin %(project)s tarkistuksissa"
 
 #: weblate/templates/base.html:180
-#, fuzzy, python-format
-#| msgid "Failed checks in %(project)s — %(language)s"
+#, python-format
 msgid "Failed checks in %(language)s"
-msgstr "Virheitä löytynyt: %(project)s – %(language)s"
+msgstr "Epäonnistuneet tarkastukset %(language)s::ssa"
 
 #: weblate/templates/base.html:184
 msgid "Checks overview"
@@ -5986,10 +5984,8 @@ msgid "Hook"
 msgstr "Koukku"
 
 #: weblate/templates/data.html:123
-#, fuzzy
-#| msgid "Pull changes from the remote repository"
 msgid "You pull changes from a remote repository to Weblate like this:"
-msgstr "Nouda muutokset etäarkistosta"
+msgstr "Vedät muutokset etätietovarastosta Weblate:hen näin:"
 
 #: weblate/templates/data.html:132
 msgid ""
@@ -6053,11 +6049,7 @@ msgid "%(percent)s%%"
 msgstr "%(percent)s%%"
 
 #: weblate/templates/engage.html:40
-#, fuzzy, python-format
-#| msgid ""
-#| "The translation project for %(project)s into English currently contains "
-#| "<strong>%(total)s strings</strong> for translation and is <strong>"
-#| "%(percent)s%% complete</strong>."
+#, python-format
 msgid ""
 "The translation project for %(project)s currently contains <strong>%(count)s "
 "string</strong> for translation and is <strong>%(percent)s%% complete</"
@@ -6067,13 +6059,13 @@ msgid_plural ""
 "strings</strong> for translation and is <strong>%(percent)s%% complete</"
 "strong>."
 msgstr[0] ""
-"%(project)s-käännösprojekti sisältää tällä hetkellä <strong>%(count)s "
-"tekstin</strong> käännettäväksi ja on <strong>%(percent)s %-prosenttisesti "
-"käännetty</strong>."
+"Kielen %(project)s käännösprojekti sisältää tällä hetkellä <strong>%(count)s "
+"merkkijono </strong> käännökselle ja on <strong>%(percent)s %% "
+"valmis</strong>."
 msgstr[1] ""
-"%(project)s-käännösprojekti sisältää tällä hetkellä <strong>%(count)s "
-"tekstiä</strong> käännettäväksi ja on <strong>%(percent)s %-prosenttisesti "
-"käännetty</strong>."
+"Kielen %(project)s käännösprojekti sisältää tällä hetkellä <strong>%(count)s "
+"merkkijono </strong> käännökselle ja on <strong>%(percent)s %% "
+"valmis</strong>."
 
 #: weblate/templates/engage.html:44
 #, python-format
@@ -6389,10 +6381,8 @@ msgid "Commit pending changes to the Weblate repository"
 msgstr "Commitoi kaikki muutokset paikalliseen arkistoon"
 
 #: weblate/templates/js/git-status.html:38
-#, fuzzy
-#| msgid "There are some new commits in the local repository."
 msgid "Outgoing commits in the Weblate repository"
-msgstr "Palvelussa on uusia committeja paikallisessa arkistossa."
+msgstr "Lähtevät sitoumukset Weblate-tietovarastossa"
 
 #: weblate/templates/js/git-status.html:42
 msgid "Push changes to the remote repository"
@@ -6403,10 +6393,8 @@ msgid "Push"
 msgstr "Lähetä"
 
 #: weblate/templates/js/git-status.html:51
-#, fuzzy
-#| msgid "There are some new commits in the local repository."
 msgid "Missing commits in the Weblate repository"
-msgstr "Palvelussa on uusia committeja paikallisessa arkistossa."
+msgstr "Puuttuvat sitoumukset Weblat-tietovarastossa"
 
 #: weblate/templates/js/git-status.html:56
 #, fuzzy
@@ -7581,9 +7569,8 @@ msgstr "Vaatii muokkaamista"
 #: weblate/templates/project-labels.html:9 weblate/templates/project.html:100
 #: weblate/templates/translate.html:632 weblate/trans/models/unit.py:322
 #: weblate/utils/views.py:132
-#, fuzzy
 msgid "Labels"
-msgstr "Otsikot"
+msgstr "Nimiöt"
 
 #: weblate/templates/project-label-edit.html:16
 msgid "Edit label"
@@ -7753,10 +7740,8 @@ msgid "Strings"
 msgstr "Tekstit"
 
 #: weblate/templates/screenshots/screenshot_list.html:54
-#, fuzzy
-#| msgid "Search in target strings"
 msgid "There are no assigned strings."
-msgstr "Etsi käännösteksteistä"
+msgstr "Määritettyjä merkkijonoja ei ole."
 
 #: weblate/templates/screenshots/screenshot_sources_body.html:28
 msgid "No source strings are currently assigned!"
@@ -8691,10 +8676,8 @@ msgstr ""
 "jos jotain riippuvuuksia puuttu."
 
 #: weblate/templates/trans/alert/unusedenforcedcheck.html:4
-#, fuzzy
-#| msgid "Failing checks found"
 msgid "Following enforced checks are not used anywhere:"
-msgstr "Löytyneet epäonnistuneet tarkistukset"
+msgstr "Seuraavia pakkotarkastuksia ei käytetä missään:"
 
 #: weblate/templates/trans/alert/unusedenforcedcheck.html:8
 #, python-format
@@ -9016,10 +8999,8 @@ msgid "Source change"
 msgstr "Lähteen muutos"
 
 #: weblate/templates/translate.html:128
-#, fuzzy
-#| msgid "Interface Language"
 msgid "Intermediate language"
-msgstr "Käyttöliittymän kieli"
+msgstr "Välikieli"
 
 #: weblate/templates/translate.html:144 weblate/templates/translate.html:603
 #: weblate/templates/zen-units.html:44 weblate/trans/models/unit.py:307
@@ -9102,14 +9083,12 @@ msgid "Nearby strings"
 msgstr "Lähellä olevat tekstit"
 
 #: weblate/templates/translate.html:243
-#, fuzzy
 msgid "Strings with similar keys"
-msgstr "Tekstit joilla on samat avainsanat"
+msgstr "Merkkijonot samankaltaisilla avaimilla"
 
 #: weblate/templates/translate.html:243
-#, fuzzy
 msgid "Nearby keys"
-msgstr "Viereiset avainsanat"
+msgstr "Viereiset avaimet"
 
 #: weblate/templates/translate.html:246
 #, fuzzy
@@ -9118,10 +9097,8 @@ msgid "Variants of the string"
 msgstr "Muotoilut merkkijonot"
 
 #: weblate/templates/translate.html:246 weblate/templates/translate.html:513
-#, fuzzy
-#| msgid "Bavarian"
 msgid "Variants"
-msgstr "Bavarian"
+msgstr "Muunelmat"
 
 #: weblate/templates/translate.html:252
 msgid "Other occurrences"
@@ -9249,30 +9226,24 @@ msgid "Source information"
 msgstr "Tietoa lähdetekstistä"
 
 #: weblate/templates/translate.html:595
-#, fuzzy
-#| msgid "No screenshot currently associated!"
 msgid "No screenshot currently associated."
-msgstr "Yhtään ruudunkaappauskuvaa ei ole liitetty!"
+msgstr "Yhtään ruudunkaappauskuvaa liitettynä."
 
 #: weblate/templates/translate.html:608
 msgid "No explanation currently provided."
 msgstr "Selitystä ei ole tällä erää tarjolla."
 
 #: weblate/templates/translate.html:637
-#, fuzzy
-#| msgid "No labels currently set!"
 msgid "No labels currently set."
-msgstr "Ei merkintöjä tällä hetkellä!"
+msgstr "Ei nimiöitä tällä hetkellä asetettuina."
 
 #: weblate/templates/translate.html:645
 msgid "Flags"
 msgstr "Automaattitarkistukset"
 
 #: weblate/templates/translate.html:650
-#, fuzzy
-#| msgid "No flags currently set!"
 msgid "No flags currently set."
-msgstr "Automaattitarkistuksia ei ole asetettu!"
+msgstr "Ei lippuja tällä hetkellä asetettuina."
 
 #: weblate/templates/translate.html:657
 msgid "Source string location"
@@ -9611,10 +9582,8 @@ msgid "All recent changes made using Weblate in %s."
 msgstr "Kaikki Weblatella tehdyt tuoreet muutokset sivustolla %s."
 
 #: weblate/trans/filter.py:34
-#, fuzzy
-#| msgid "Nearby strings"
 msgid "Read only strings"
-msgstr "Lähellä olevat tekstit"
+msgstr "Vain-luku-merkkijonot"
 
 #: weblate/trans/filter.py:35 weblate/trans/filter.py:122
 msgid "Not translated strings"
@@ -9631,9 +9600,8 @@ msgid "Strings with variants"
 msgstr "Muotoillut merkkijonot"
 
 #: weblate/trans/filter.py:41
-#, fuzzy
 msgid "Strings with labels"
-msgstr "Merkkijono merkinnät"
+msgstr "Merkkijonot nimiöillä"
 
 #: weblate/trans/filter.py:42
 msgid "Strings with context"
@@ -9644,16 +9612,12 @@ msgid "Strings needing action without suggestions"
 msgstr "Toimenpiteitä vaativat tekstit, joille ei ole ehdotuksia"
 
 #: weblate/trans/filter.py:52
-#, fuzzy
-#| msgid "Strings with any failing checks"
 msgid "Translated strings with any failing checks"
-msgstr "Automaattitarkistuksen hylkäämät tekstit"
+msgstr "Käännetyt merkkijonot epäonnistuneilla tarkastuksilla"
 
 #: weblate/trans/filter.py:57
-#, fuzzy
-#| msgid "Strings with any failing checks"
 msgid "Translated strings with dismissed checks"
-msgstr "Automaattitarkistuksen hylkäämät tekstit"
+msgstr "Käännetyt merkkijonot hylätyillä tarkastuksilla"
 
 #: weblate/trans/filter.py:60 weblate/trans/filter.py:130
 msgid "Approved strings"
@@ -9664,10 +9628,8 @@ msgid "Strings waiting for review"
 msgstr "Tarkistusta odottavat tekstit"
 
 #: weblate/trans/filter.py:67
-#, fuzzy
-#| msgid "Strings with labels"
 msgid "Strings without a label"
-msgstr "Merkkijono merkinnät"
+msgstr "Merkkijonot ilman nimiötä"
 
 #: weblate/trans/filter.py:68
 msgid "Pluralized string"
@@ -10383,10 +10345,8 @@ msgid "Does not meet libre hosting conditions."
 msgstr ""
 
 #: weblate/trans/models/alert.py:353
-#, fuzzy
-#| msgid "Enforced checks"
 msgid "Unused enforced checks."
-msgstr "Pakolliset tarkistukset"
+msgstr "Käyttämättömät pakkotarkastukset."
 
 #: weblate/trans/models/alert.py:360
 #, fuzzy
@@ -11296,10 +11256,8 @@ msgid ""
 msgstr "Lähdekieltä ei voi muuttaa. Luo komponentti sen sijaan uudelleen."
 
 #: weblate/trans/models/component.py:2437
-#, fuzzy
-#| msgid "Similar translation already exists in the project ({0})!"
 msgid "Component with this URL slug already exists in the project."
-msgstr "Projektissa ({0}) on jo samantapainen käännös!"
+msgstr "Komponentti tämän URL-etanan kanssa on jo olemassa projektissa."
 
 #: weblate/trans/models/component.py:2442
 msgid "Component with this name already exists in the project."
@@ -12269,10 +12227,8 @@ msgid "Language of the project was removed."
 msgstr "Projektin kieli poistettiin."
 
 #: weblate/trans/views/source.py:68
-#, fuzzy
-#| msgid "Edit additional string info"
 msgid "Failed to change additional string info!"
-msgstr "Muokkaa tekstin lisätietoja"
+msgstr "Merkkijonon lisätietojen muuttaminen epäonnistui!"
 
 #: weblate/trans/widgets.py:247
 msgid "Big status badge"
@@ -12438,10 +12394,9 @@ msgid "Empty"
 msgstr "Tyhjä"
 
 #: weblate/utils/validators.py:66
-#, fuzzy, python-brace-format
-#| msgid "Component: {}"
+#, python-brace-format
 msgid "Compilation failed: {0}"
-msgstr "Komponentti: {}"
+msgstr "Kokoaminen epäonnistui: {0}"
 
 #: weblate/utils/validators.py:69
 msgid "The regular expression can not match an empty string."
