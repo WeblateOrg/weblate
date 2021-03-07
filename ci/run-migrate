@@ -62,7 +62,7 @@ if [ -f ./weblate/trans/tests/data/memory.json ] ; then
     ./manage.py import_memory ./weblate/trans/tests/data/memory.json
     check
     # Create huge entry
-    ./manage.py shell -c 'from weblate.memory.models import Memory; from weblate.lang.models import Language; Memory.objects.create(source_language=Language.objetcs.get(code="en"), target_language=Language.objects.get(code="cs"), source="source"*1000, target="target"*1000, origin="origin"*1000)'
+    ./manage.py shell -c 'from weblate.memory.models import Memory; from weblate.lang.models import Language; Memory.objects.create(source_language=Language.objects.get(code="en"), target_language=Language.objects.get(code="cs"), source="source"*1000, target="target"*1000, origin="origin"*1000)'
     check
 fi
 # Create glossaries
