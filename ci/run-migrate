@@ -58,12 +58,17 @@ check
 check
 # Load translation memory
 if [ -f ./weblate/trans/tests/data/memory.json ] ; then
+    # Import some data
     ./manage.py import_memory ./weblate/trans/tests/data/memory.json
+    check
+    # Create huge entry
+    ./manage.py -c 'from weblate.memory.models import Memory; from weblate.lang.models import Language; Memory.objects.create(source_language=Language.objetcs.get(code="en"), target_language=Language.objects.get(code="cs"), source="source"*1000, target="target"*1000, origin="origin"*1000)'
     check
 fi
 # Create glossaries
 if [ "$TAG" = "weblate-4.4" ] ; then
-    ./manage.py shell -c 'from weblate.glossary.models import Glossary; from weblate.trans.models import Component; component = Component.objects.first(); glossary = Glossary.objects.create(project=component.project, name="Test Glossary", source_language=component.source_language); glossary.term_set.create(language=Language.objects.get(code="cs"), source="hello", target="ahoj")'
+    ./manage.py shell -c 'from weblate.lang.models import Language; from weblate.glossary.models import Glossary; from weblate.trans.models import Component; component = Component.objects.first(); glossary = Glossary.objects.create(project=component.project, name="Test Glossary", source_language=component.source_language); glossary.term_set.create(language=Language.objects.get(code="cs"), source="hello", target="ahoj")'
+    check
 fi
 git reset --hard
 check
