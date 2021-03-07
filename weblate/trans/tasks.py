@@ -407,10 +407,16 @@ def update_checks(pk):
 
 @app.task(trail=False)
 def daily_update_checks():
-    # Update every component roughly once in a month
-    components = Component.objects.annotate(idmod=F("id") % 30).filter(
-        idmod=date.today().day
-    )
+    components = Component.objects.all()
+    today = date.today()
+    if settings.BACKGROUND_TASKS == "never":
+        return
+    if settings.BACKGROUND_TASKS == "monthly":
+        components = components.annotate(idmod=F("id") % 30).filter(idmod=today.day)
+    elif settings.BACKGROUND_TASKS == "weekly":
+        components = components.annotate(idmod=F("id") % 7).filter(
+            idmod=today.weekday()
+        )
     for component_id in components.values_list("id", flat=True):
         update_checks.delay(component_id)
 

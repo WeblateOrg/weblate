@@ -188,6 +188,33 @@ You can select which ones to use:
 
    :ref:`autofix`, :ref:`custom-autofix`
 
+.. setting:: BACKGROUND_TASKS
+
+BACKGROUND_TASKS
+----------------
+
+.. versionadded:: 4.5.2
+
+Defines how often lengthy maintenance tasks should be triggered for a
+component.
+
+Right now this controls:
+
+* :ref:`addon-weblate.autotranslate.autotranslate` addon
+* :doc:`checks` recalculation
+
+Possible choices:
+
+* ``monthly`` (this is the default)
+* ``weekly``
+* ``daily``
+* ``never``
+
+.. note::
+
+   Increasing the frequency is not recommended when Weblate contains thousands
+   of components.
+
 .. setting:: BASE_DIR
 
 BASE_DIR

@@ -23,7 +23,10 @@ Automatic translation
 
 Automatically translates strings using machine translation or other components.
 
-Triggered automatically when new strings appear in a component.
+It is triggered:
+
+* When new strings appear in a component.
+* Once in a month for every component, this can be configured using :setting:`BACKGROUND_TASKS`.
 
 .. seealso::
 

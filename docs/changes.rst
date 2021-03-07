@@ -3,6 +3,8 @@ Weblate 4.5.2
 
 Not yet released.
 
+* Configurable schedule for automatic translation.
+
 Weblate 4.5.1
 -------------
 
