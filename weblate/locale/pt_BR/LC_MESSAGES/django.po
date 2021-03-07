@@ -24,7 +24,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.5.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-03-05 14:18+0000\n"
-"PO-Revision-Date: 2021-03-06 21:59+0000\n"
+"PO-Revision-Date: 2021-03-07 09:37+0000\n"
 "Last-Translator: Rafael Fontenelle <rafaelff@gnome.org>\n"
 "Language-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/"
 "weblate/application/pt_BR/>\n"
@@ -1154,10 +1154,10 @@ msgid ""
 "source string, it is flagged as needing editing in Weblate. Especially "
 "useful for file formats that include source strings for untranslated strings."
 msgstr ""
-"Sempre que uma nova string traduzível é importada do VCS e corresponde a um "
-"texto de origem, é sinalizado como necessitando de edição no Weblate. "
-"Especialmente útil para formatos de arquivo que incluem textos de origem "
-"para textos não traduzidas."
+"Sempre que um novo texto traduzível é importado do VCS e corresponde a um "
+"texto fonte, é sinalizado como necessitando de edição no Weblate. "
+"Especialmente útil para formatos de arquivo que incluem textos fonte para "
+"textos não traduzidas."
 
 #: weblate/addons/flags.py:105 weblate/templates/component.html:69
 #: weblate/templates/component.html:215 weblate/templates/project.html:68
@@ -1445,7 +1445,7 @@ msgstr "Sufixo do texto"
 
 #: weblate/addons/forms.py:478
 msgid "The source and target have to be different languages."
-msgstr "A origem e o destino do idioma devem ser diferentes."
+msgstr "A fonte e o destino devem ser idiomas diferentes."
 
 #: weblate/addons/generate.py:34
 msgid "Statistics generator"
@@ -1466,7 +1466,7 @@ msgid ""
 "Generates a translation by adding prefix and suffix to source strings "
 "automatically."
 msgstr ""
-"Gera uma tradução adicionando prefixo e sufixo de textos de origem "
+"Gera uma tradução adicionando prefixo e sufixo de textos fonte "
 "automaticamente."
 
 #: weblate/addons/gettext.py:41
@@ -2782,7 +2782,7 @@ msgstr "Marcação XML"
 
 #: weblate/checks/markup.py:183
 msgid "XML tags in translation do not match source"
-msgstr "As etiquetas XML na tradução não correspondem com a fonte"
+msgstr "As tags XML na tradução não correspondem com a fonte"
 
 #: weblate/checks/markup.py:245
 msgid "Markdown references"
@@ -2810,7 +2810,7 @@ msgstr "A sintaxe de Markdown não corresponde à fonte"
 
 #: weblate/checks/markup.py:327
 msgid "The translation does not contain an URL"
-msgstr "A tradução não contém uma URL válida"
+msgstr "A tradução não contém uma URL"
 
 #: weblate/checks/markup.py:346 weblate/trans/autofixes/html.py:32
 msgid "Unsafe HTML"
@@ -2899,7 +2899,7 @@ msgstr "Várias verificações com falha"
 
 #: weblate/checks/source.py:69
 msgid "The translations in several languages have failing checks"
-msgstr "As traduções em diversos idiomas tem verificações com falha"
+msgstr "As traduções em diversos idiomas têm verificações com falha"
 
 #: weblate/checks/source.py:92
 msgid "Following checks are failing:"
@@ -3651,7 +3651,7 @@ msgstr "Falha ao analisar o arquivo TMX!"
 
 #: weblate/memory/models.py:174
 msgid "Failed to find source language!"
-msgstr "Falha ao encontrar o idioma de origem!"
+msgstr "Falha ao encontrar o idioma fonte!"
 
 #: weblate/memory/models.py:251
 msgctxt "Translation memory category"
@@ -3766,7 +3766,7 @@ msgid ""
 msgstr ""
 "Se você tiver configurado o seu navegador web para não enviar os cabeçalhos "
 "\"Referer\", ative isso (pelo menos para este site, para conexões HTTPS ou "
-"para pedidos de \"mesma origem\")."
+"para pedidos de \"same-origin\")."
 
 #: weblate/templates/403_csrf.html:16
 msgid ""
@@ -3784,8 +3784,8 @@ msgid ""
 "again (at-least for this site, or for 'same-origin' requests)."
 msgstr ""
 "Se você tiver configurado seu navegador para não salvar os cookies, ative-os "
-"novamente (pelo menos para este site, ou para solicitações de \"mesma origem"
-"\")."
+"novamente (pelo menos para este site, ou para solicitações de \"same-origin\""
+")."
 
 #: weblate/templates/404.html:5 weblate/trans/views/error.py:43
 msgid "Page Not Found"
@@ -3953,7 +3953,7 @@ msgstr "Verificações com falhas encontradas"
 
 #: weblate/templates/about/stats.html:109
 msgid "Dismissed checks"
-msgstr "Verificações descartadas"
+msgstr "Verificações dispensadas"
 
 #: weblate/templates/accounts/confirm.html:7
 #: weblate/templates/accounts/password.html:6
@@ -5327,7 +5327,7 @@ msgstr "Total"
 #: weblate/templates/check.html:21 weblate/templates/check_component.html:23
 #: weblate/templates/check_project.html:22 weblate/templates/checks.html:20
 msgid "Dismissed"
-msgstr "Ignorado"
+msgstr "Dispensada"
 
 #: weblate/templates/check.html:23 weblate/templates/check_component.html:25
 #: weblate/templates/check_project.html:24 weblate/templates/checks.html:22
@@ -5609,7 +5609,7 @@ msgstr "Apareceu %(first)s, visto pela última vez %(last)s"
 #: weblate/templates/manage/performance.html:42
 #: weblate/templates/translate.html:470
 msgid "Dismiss"
-msgstr "Ignorar"
+msgstr "Dispensar"
 
 #: weblate/templates/component.html:170
 msgid "Please sign in to see the alerts."
@@ -7066,7 +7066,7 @@ msgstr "Alertas de componente"
 
 #: weblate/templates/manage/alerts.html:22
 msgid "dismissed"
-msgstr "descartado"
+msgstr "dispensada"
 
 #: weblate/templates/manage/alerts.html:33
 msgid "Projects without components"
@@ -8157,17 +8157,17 @@ msgstr "Idiomas"
 #: weblate/templates/snippets/stats.html:11
 msgctxt "Number of source strings"
 msgid "Source strings"
-msgstr "Textos de origem"
+msgstr "Textos fonte"
 
 #: weblate/templates/snippets/stats.html:16
 msgctxt "Number of source words"
 msgid "Source words"
-msgstr "Palavras de origem"
+msgstr "Palavras fonte"
 
 #: weblate/templates/snippets/stats.html:21
 msgctxt "Number of source characters"
 msgid "Source characters"
-msgstr "Caracteres de origem"
+msgstr "Caracteres fonte"
 
 #: weblate/templates/snippets/stats.html:27
 msgctxt "Number of hosted strings"
@@ -8267,7 +8267,7 @@ msgstr "Verificações de falhas"
 #: weblate/templates/snippets/unit-state.html:19
 msgctxt "String state"
 msgid "Dismissed checks"
-msgstr "Verificações ignoradas"
+msgstr "Verificações dispensadas"
 
 #: weblate/templates/snippets/unit-state.html:24
 msgctxt "String state"
@@ -8413,7 +8413,7 @@ msgstr "As seguintes máscaras de arquivos foram encontradas várias vezes:"
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:6
 msgid "The component contains translation file for the source language."
-msgstr "O componente contém arquivo de tradução para o idioma de origem."
+msgstr "O componente contém arquivo de tradução para o idioma fonte."
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:8
 #: weblate/templates/trans/alert/duplicatelanguage.html:28
@@ -8434,24 +8434,24 @@ msgid ""
 "In case translation to the source language is desired, please change the "
 "source language in the component settings."
 msgstr ""
-"No caso da tradução para o idioma de origem ser desejada, altere o idioma de "
-"origem nas configurações do componente."
+"No caso da tradução para o idioma fonte ser desejada, altere o idioma fonte "
+"nas configurações do componente."
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:15
 msgid ""
 "If the translation file for the source language is not needed, please remove "
 "it from the repository."
 msgstr ""
-"Se o arquivo de tradução para o idioma de origem não for necessário, remova-"
-"o do repositório."
+"Se o arquivo de tradução para o idioma fonte não for necessário, remova-o do "
+"repositório."
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:16
 msgid ""
 "If the translation file for the source language is needed, but should be "
 "ignored by Weblate, please adjust the language filter to exclude it."
 msgstr ""
-"Se o arquivo de tradução para o idioma de origem for necessário, mas deva "
-"ser ignorado pelo Weblate, ajuste o filtro de idiomas para excluí-lo."
+"Se o arquivo de tradução para o idioma fonte for necessário, mas deva ser "
+"ignorado pelo Weblate, ajuste o filtro de idiomas para excluí-lo."
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:24
 msgid ""
@@ -10043,18 +10043,18 @@ msgstr ""
 
 #: weblate/trans/forms.py:1996
 msgid "Source language text"
-msgstr "Texto do idioma de origem"
+msgstr "Texto do idioma fonte"
 
 #: weblate/trans/forms.py:1998
 msgid ""
 "You can edit this later, as with any other string in the source language."
 msgstr ""
 "Você pode editar posteriormente, assim como qualquer outro texto no idioma "
-"de origem."
+"fonte."
 
 #: weblate/trans/forms.py:2021
 msgid "Optional context to clarify the source strings."
-msgstr "Contexto opcional para esclarecer os textos de origem."
+msgstr "Contexto opcional para esclarecer os textos fonte."
 
 #: weblate/trans/forms.py:2056
 msgid "You can edit this later, as with any other string in the translation."
@@ -11151,7 +11151,7 @@ msgstr "Não foi possível analisar os arquivos base de tradução: %s"
 #: weblate/trans/models/component.py:2350
 #, python-brace-format
 msgid "Template language ({0}) does not match source language ({1})!"
-msgstr "O idioma do modelo ({0}) não corresponde ao idioma de origem ({1})!"
+msgstr "O idioma modelo ({0}) não corresponde ao idioma fonte ({1})!"
 
 #: weblate/trans/models/component.py:2355
 msgid "You can not use a monolingual translation without a base file."
@@ -11173,7 +11173,7 @@ msgstr ""
 #: weblate/trans/models/component.py:2429
 msgid ""
 "Source language can not be changed, please recreate the component instead."
-msgstr "O idioma de origem não pode ser alterado. Recrie o componente."
+msgstr "O idioma fonte não pode ser alterado. Recrie o componente."
 
 #: weblate/trans/models/component.py:2437
 msgid "Component with this URL slug already exists in the project."
@@ -12415,7 +12415,7 @@ msgstr "Sem repositório remoto"
 #. Translators: placeholder SSH hashed hostname
 #: weblate/vcs/ssh.py:68
 msgid "[hostname hashed]"
-msgstr "[hostname com hash]"
+msgstr "[nome de host com hash]"
 
 #: weblate/vcs/ssh.py:132
 #, python-format
@@ -12428,7 +12428,7 @@ msgstr "Nova chave SSH criada."
 
 #: weblate/vcs/ssh.py:146
 msgid "Invalid host name given!"
-msgstr "Hostname fornecido inválido!"
+msgstr "Nome de host fornecido inválido!"
 
 #: weblate/vcs/ssh.py:171
 #, python-format
