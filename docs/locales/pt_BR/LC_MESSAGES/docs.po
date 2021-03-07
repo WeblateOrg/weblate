@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-03-05 15:19+0100\n"
-"PO-Revision-Date: 2021-03-06 21:59+0000\n"
+"PO-Revision-Date: 2021-03-07 09:37+0000\n"
 "Last-Translator: Rafael Fontenelle <rafaelff@gnome.org>\n"
 "Language-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/"
 "weblate/documentation/pt_BR/>\n"
@@ -1452,10 +1452,10 @@ msgid ""
 "source string, it is flagged as needing editing in Weblate. Especially "
 "useful for file formats that include source strings for untranslated strings."
 msgstr ""
-"Sempre que uma nova string traduzível é importada do VCS e corresponde a um "
-"texto de origem, é sinalizado como necessitando de edição no Weblate. "
-"Especialmente útil para formatos de arquivo que incluem textos de origem "
-"para textos não traduzidas."
+"Sempre que um novo texto traduzível é importado do VCS e corresponde a um "
+"texto fonte, é sinalizado como necessitando de edição no Weblate. "
+"Especialmente útil para formatos de arquivo que incluem textos fonte para "
+"textos não traduzidas."
 
 #: ../../admin/addons.rst:192
 msgid ""
@@ -1547,7 +1547,7 @@ msgid ""
 "Generates a translation by adding prefix and suffix to source strings "
 "automatically."
 msgstr ""
-"Gera uma tradução adicionando prefixo e sufixo de textos de origem "
+"Gera uma tradução adicionando prefixo e sufixo de textos fonte "
 "automaticamente."
 
 #: ../../admin/addons.rst:263
@@ -5601,7 +5601,7 @@ msgid ""
 "Default source language to use for example in :ref:`component-"
 "source_language`."
 msgstr ""
-"Idioma de origem padrão para usar, por exemplo, em :ref:`component-"
+"Idioma fonte padrão para usar, por exemplo, em :ref:`component-"
 "source_language`."
 
 #: ../../admin/config.rst:536
@@ -12940,7 +12940,7 @@ msgstr ""
 
 #: ../../admin/machine.rst:10
 msgid "The source language can be configured at :ref:`project`."
-msgstr ""
+msgstr "O idioma fonte pode ser configurado na :ref:`project`."
 
 #: ../../admin/machine.rst:13
 msgid "amaGama"
@@ -14446,7 +14446,7 @@ msgstr ""
 #: ../../admin/optionals.rst:31 ../../admin/optionals.rst:86
 #: ../../admin/optionals.rst:161 ../../faq.rst:259
 msgid "Usage"
-msgstr ""
+msgstr "Uso"
 
 #: ../../admin/optionals.rst:33
 msgid ""
@@ -15231,6 +15231,10 @@ msgid ""
 "matches are case sensitive, so make sure you use the source language codes "
 "in same form as used in the filenames."
 msgstr ""
+"Os códigos de idioma são mapeados ao combinar os arquivos de tradução e as "
+"correspondências diferenciam maiúsculas de minúsculas, por isso certifique-"
+"se de usar os códigos de idioma fonte na mesma forma usada nos nomes dos "
+"arquivos."
 
 #: ../../admin/projects.rst:244
 msgid ":ref:`language-parsing-codes`"
@@ -15238,7 +15242,7 @@ msgstr ""
 
 #: ../../admin/projects.rst:249 ../../devel/sphinx.rst:30
 msgid "Component configuration"
-msgstr ""
+msgstr "Configuração de componente"
 
 #: ../../admin/projects.rst:251
 msgid ""
@@ -15724,6 +15728,9 @@ msgid ""
 "are automatically added or removed in the translations. The strings appear "
 "in the translation files once they are translated."
 msgstr ""
+"Para formatos monolíngues, os textos são gerenciados apenas no idioma fonte "
+"e são automaticamente adicionados ou removidos nas traduções. Os textos "
+"aparecem nos arquivos de tradução assim que são traduzidos."
 
 #: ../../admin/projects.rst:602
 msgid ""
@@ -19784,10 +19791,8 @@ msgid "Improved support for non-standard language codes."
 msgstr ""
 
 #: ../../changes.rst:91
-#, fuzzy
-#| msgid "The component contains translation file for the source language."
 msgid "Added alert when using ambiguous language codes."
-msgstr "O componente contém arquivo de tradução para o idioma de origem."
+msgstr "O componente contém arquivo de tradução para o idioma fonte."
 
 #: ../../changes.rst:92
 msgid ""
@@ -20401,7 +20406,7 @@ msgstr ""
 
 #: ../../changes.rst:265
 msgid "Fixed editor keyboard shortcut to dismiss checks."
-msgstr "Corrigido o atalho de teclado do editor para descartar verificações."
+msgstr "Corrigido o atalho de teclado do editor para dispensar verificações."
 
 #: ../../changes.rst:266
 msgid "Improved machine translation of strings with placeholders."
@@ -27099,7 +27104,7 @@ msgstr ""
 #: ../../devel/gettext.rst:222 ../../workflows.rst:71 ../../workflows.rst:102
 #: ../../workflows.rst:138
 msgid "Value"
-msgstr ""
+msgstr "Valor"
 
 #: ../../devel/gettext.rst:224
 msgid "URL of the VCS repository with your project"
@@ -28470,11 +28475,11 @@ msgstr ""
 
 #: ../../faq.rst:2
 msgid "Frequently Asked Questions"
-msgstr ""
+msgstr "Perguntas frequentes"
 
 #: ../../faq.rst:10
 msgid "How to create an automated workflow?"
-msgstr ""
+msgstr "Como criar um fluxo de trabalho automatizado?"
 
 #: ../../faq.rst:12
 msgid ""
@@ -28482,40 +28487,52 @@ msgid ""
 "you give it push access to your repository, the translations can happen "
 "without interaction, unless some merge conflict occurs."
 msgstr ""
+"Weblate pode tratar de todas as coisas de tradução semiautomaticamente para "
+"si. Se você der acesso de push ao seu repositório, as traduções podem "
+"acontecer sem interação, a menos que algum conflito de mesclagem ocorra."
 
 #: ../../faq.rst:16
 msgid ""
 "Set up your Git repository to tell Weblate when there is any change, see :"
 "ref:`hooks` for info on how to do it."
 msgstr ""
+"Configure seu repositório Git para informar Weblate quando houver alguma "
+"alteração, veja :ref:`hooks` para informações sobre como fazer isso."
 
 #: ../../faq.rst:18
 msgid ""
 "Set a push URL at your :ref:`component` in Weblate, this allows Weblate to "
 "push changes to your repository."
 msgstr ""
+"Defina uma URL de push na sua :ref:`component` no Weblate, isto permite que "
+"o Weblate faça o push das alterações para o seu repositório."
 
 #: ../../faq.rst:20
 msgid ""
 "Turn on push-on-commit on your :ref:`project` in Weblate, this will make "
 "Weblate push changes to your repository whenever they happen at Weblate."
 msgstr ""
+"Ative o \"push ao fazer commit\" na sua :ref:`project` no Weblate, isto fará "
+"com que o Weblate faça push das alterações no seu repositório sempre que "
+"elas acontecerem no Weblate."
 
 #: ../../faq.rst:25
 msgid ":ref:`continuous-translation`, :ref:`avoid-merge-conflicts`"
-msgstr ""
+msgstr ":ref:`continuous-translation`, :ref:`avoid-merge-conflicts`"
 
 #: ../../faq.rst:28
 msgid "How to access repositories over SSH?"
-msgstr ""
+msgstr "Como acessar os repositórios por SSH?"
 
 #: ../../faq.rst:30
 msgid "Please see :ref:`vcs-repos` for info on setting up SSH keys."
 msgstr ""
+"Por favor, veja :ref:`vcs-repos` para informações sobre a configuração das "
+"chaves SSH."
 
 #: ../../faq.rst:35
 msgid "How to fix merge conflicts in translations?"
-msgstr ""
+msgstr "Como resolver conflitos de mesclagem nas traduções?"
 
 #: ../../faq.rst:37
 msgid ""
@@ -28527,6 +28544,14 @@ msgid ""
 "maintenance` in the :guilabel:`Manage` menu) and merge the repository (if "
 "automatic push is not on)."
 msgstr ""
+"Os conflitos de mesclagem acontecem de tempos em tempos quando o arquivo de "
+"tradução é alterado tanto na Weblate como no repositório upstream ao mesmo "
+"tempo. Você geralmente pode evitar isso mesclando traduções Weblate antes de "
+"fazer alterações nos arquivos de tradução (por exemplo, antes de executar o "
+"msgmerge). Apenas diga ao Weblate para fazer o commit de todas as traduções "
+"pendentes (você pode fazer isso em :guilabel:`Manutenção do repositório` no "
+"menu :guilabel:`Gerenciar`) e mesclar o repositório (se o push automático "
+"não estiver ligado)."
 
 #: ../../faq.rst:45
 msgid ""
@@ -28536,6 +28561,12 @@ msgid ""
 "changes back, Weblate will be able to use the merged version without any "
 "other special actions."
 msgstr ""
+"Se você já encontrou um conflito de mesclagem, a maneira mais fácil é "
+"resolver todos os conflitos localmente na sua estação de trabalho - é "
+"simplesmente adicionar Weblate como um repositório remoto, mesclá-lo com "
+"upstream e corrigir quaisquer conflitos. Uma vez que você fizer push das "
+"mudanças de volta, Weblate será capaz de usar a versão unida sem nenhuma "
+"outra ação especial."
 
 #: ../../faq.rst:53
 msgid ""
@@ -28543,18 +28574,25 @@ msgid ""
 "authentication. When using the built in :ref:`git-exporter` in Weblate, you "
 "authenticate with your username and the API key."
 msgstr ""
+"Dependendo da sua configuração, o acesso ao repositório Weblate pode "
+"requerer autenticação. Ao utilizar o :ref:`git-exporter` embutido no "
+"Weblate, você se autentica com seu nome de usuário e a chave da API."
 
 #: ../../faq.rst:86
 msgid ""
 "If you're using multiple branches in Weblate, you can do the same to all of "
 "them:"
 msgstr ""
+"Se você estiver usando vários ramos na Weblate, você pode fazer o mesmo com "
+"todos eles:"
 
 #: ../../faq.rst:110
 msgid ""
 "In case of gettext PO files, there is a way to merge conflicts in a semi-"
 "automatic way:"
 msgstr ""
+"No caso de arquivos PO gettext, há uma forma de mesclar conflitos de uma "
+"forma semiautomática:"
 
 #: ../../faq.rst:112
 msgid ""
@@ -28562,16 +28600,22 @@ msgid ""
 "second fresh local clone of the upstream Git repository (i. e. you need two "
 "copies of the upstream Git repository: An intact and a working copy):"
 msgstr ""
+"Obtenha e mantenha um clone local do repositório Weblate Git. Obtenha também "
+"um segundo clone local novo do repositório upstream Git (ou seja, você "
+"precisa de duas cópias do repositório upstream Git: Uma cópia intacta e uma "
+"cópia de trabalho):"
 
 #: ../../faq.rst:143
 msgid ""
 ":ref:`git-export`, :ref:`continuous-translation`, :ref:`avoid-merge-"
 "conflicts`"
 msgstr ""
+":ref:`git-export`, :ref:`continuous-translation`, :ref:`avoid-merge-"
+"conflicts`"
 
 #: ../../faq.rst:146
 msgid "How do I translate several branches at once?"
-msgstr ""
+msgstr "Como faço para traduzir vários ramos ao mesmo tempo?"
 
 #: ../../faq.rst:148
 msgid ""
@@ -28582,12 +28626,21 @@ msgid ""
 "quite a lot, and it is not possible to simply merge translation changes "
 "between them."
 msgstr ""
+"Weblate tem suporte a fazer push de alterações de tradução dentro de uma "
+":ref:`project`. Para cada :ref:`component` que o tem ligado (o comportamento "
+"padrão), a alteração feita é automaticamente propagada para outros. Desta "
+"forma as traduções são mantidas sincronizadas mesmo que os próprios ramos já "
+"tenham divergido bastante, e não é possível simplesmente fundir as mudanças "
+"de tradução entre eles."
 
 #: ../../faq.rst:154
 msgid ""
 "Once you merge changes from Weblate, you might have to merge these branches "
 "(depending on your development workflow) discarding differences:"
 msgstr ""
+"Uma vez mescladas as mudanças do Weblate, você pode ter que mesclar esses "
+"ramos (dependendo do seu fluxo de trabalho de desenvolvimento) descartando "
+"as diferenças:"
 
 #: ../../faq.rst:163 ../../faq.rst:178 ../../user/checks.rst:505
 #: ../../user/translating.rst:347
@@ -28596,13 +28649,16 @@ msgstr ""
 
 #: ../../faq.rst:166
 msgid "How to translate multi-platform projects?"
-msgstr ""
+msgstr "Como traduzir projetos multiplataforma?"
 
 #: ../../faq.rst:168
 msgid ""
 "Weblate supports a wide range of file formats (see :doc:`formats`) and the "
 "easiest approach is to use the native format for each platform."
 msgstr ""
+"Weblate tem suporte a uma grande variedade de formatos de arquivo (veja "
+":doc:`formats`) e a abordagem mais fácil é utilizar o formato nativo para "
+"cada plataforma."
 
 #: ../../faq.rst:171
 msgid ""
@@ -28611,10 +28667,15 @@ msgid ""
 "propagation feature (turned on by default, and can be turned off in the :ref:"
 "`component`) to translate strings for all platforms at once."
 msgstr ""
+"Uma vez que você tenha adicionado todos os arquivos de tradução da "
+"plataforma como componentes em um projeto (veja :ref:`adding-projects`), "
+"você pode utilizar o recurso de propagação de tradução (ligado por padrão, e "
+"pode ser desligado na :ref:`component`) para traduzir textos para todas as "
+"plataformas ao mesmo tempo."
 
 #: ../../faq.rst:183
 msgid "How to export the Git repository that Weblate uses?"
-msgstr ""
+msgstr "Como exportar o repositório Git que a Weblate usa?"
 
 #: ../../faq.rst:185
 msgid ""
@@ -28622,45 +28683,61 @@ msgid ""
 "`DATA_DIR` directory and is named :file:`vcs/<project>/<component>/`. If you "
 "have SSH access to this machine, you can use the repository directly."
 msgstr ""
+"Não há nada de especial no repositório, ele vive sob o diretório "
+":setting:`DATA_DIR` e é chamado :file:`vcs/<projeto>/<componente>/`. Se você "
+"tem acesso SSH a esta máquina, você pode usar o repositório diretamente."
 
 #: ../../faq.rst:189
 msgid ""
 "For anonymous access, you might want to run a Git server and let it serve "
 "the repository to the outside world."
 msgstr ""
+"Para acesso anônimo, você pode querer executar um servidor Git e deixá-lo "
+"servir o repositório para o mundo exterior."
 
 #: ../../faq.rst:192
 msgid ""
 "Alternatively, you can use :ref:`git-exporter` inside Weblate to automate "
 "this."
 msgstr ""
+"Alternativamente, você pode usar :ref:`git-exporter` dentro do Weblate para "
+"automatizar isto."
 
 #: ../../faq.rst:195
 msgid "What are the options for pushing changes back upstream?"
 msgstr ""
+"Quais são as opções para fazer push das alterações de volta para o upstream?"
 
 #: ../../faq.rst:197
 msgid ""
 "This heavily depends on your setup, Weblate is quite flexible in this area. "
 "Here are examples of some workflows used with Weblate:"
 msgstr ""
+"Isto depende muito da sua configuração, Weblate é bastante flexível nesta "
+"área. Aqui estão exemplos de alguns fluxos de trabalho usados com o Weblate:"
 
 #: ../../faq.rst:200
 msgid ""
 "Weblate automatically pushes and merges changes (see :ref:`auto-workflow`)."
 msgstr ""
+"O Weblate faz push e mescla automaticamente alterações (veja :ref:`auto-"
+"workflow`)."
 
 #: ../../faq.rst:201
 msgid ""
 "You manually tell Weblate to push (it needs push access to the upstream "
 "repository)."
 msgstr ""
+"Você diz manualmente ao Weblate para fazer push (ele precisa de acesso push "
+"ao repositório upstream)."
 
 #: ../../faq.rst:202
 msgid ""
 "Somebody manually merges changes from the Weblate git repository into the "
 "upstream repository."
 msgstr ""
+"Alguém mescla manualmente as alterações do repositório Weblate git para o "
+"repositório upstream."
 
 #: ../../faq.rst:204
 msgid ""
@@ -28668,48 +28745,61 @@ msgid ""
 "commits), merges changes, and tells Weblate to reset the content in the "
 "upstream repository."
 msgstr ""
+"Alguém reescreve o histórico produzido pelo Weblate (por exemplo, eliminando "
+"compromissos de mesclagem), mescla alterações e diz ao Weblate para "
+"redefinir o conteúdo no repositório upstream."
 
 #: ../../faq.rst:208
 msgid "Of course you are free to mix all of these as you wish."
-msgstr ""
+msgstr "Claro que você é livre para misturar tudo isso como quiser."
 
 #: ../../faq.rst:213
 msgid ""
 "How can I limit Weblate access to only translations, without exposing source "
 "code to it?"
 msgstr ""
+"Como posso limitar o acesso ao Weblate apenas às traduções, sem lhe expor o "
+"código-fonte?"
 
 #: ../../faq.rst:215
 msgid ""
 "You can use `git submodule`_ for separating translations from source code "
 "while still having them under version control."
 msgstr ""
+"Você pode utilizar o `git submodule`_ para separar as traduções do código-"
+"fonte enquanto ainda as tem sob controle de versão."
 
 #: ../../faq.rst:218
 msgid "Create a repository with your translation files."
-msgstr ""
+msgstr "Crie um repositório com seus arquivos de tradução."
 
 #: ../../faq.rst:219
 msgid "Add this as a submodule to your code:"
-msgstr ""
+msgstr "Adicione-o como um submódulo ao seu código:"
 
 #: ../../faq.rst:225
 msgid ""
 "Link Weblate to this repository, it no longer needs access to the repository "
 "containing your source code."
 msgstr ""
+"Vincule o Weblate a este repositório, ele não precisa mais ter acesso ao "
+"repositório que contém o seu código-fonte."
 
 #: ../../faq.rst:227
 msgid "You can update the main repository with translations from Weblate by:"
 msgstr ""
+"Você pode atualizar o repositório principal com traduções do Weblate "
+"executando:"
 
 #: ../../faq.rst:233
 msgid "Please consult the `git submodule`_ documentation for more details."
 msgstr ""
+"Por favor, consulte a documentação do submódulo `git`_ para obter mais "
+"detalhes."
 
 #: ../../faq.rst:238
 msgid "How can I check whether my Weblate is set up properly?"
-msgstr ""
+msgstr "Como posso verificar se a minha Weblate está configurada corretamente?"
 
 #: ../../faq.rst:240
 msgid ""
@@ -28717,38 +28807,53 @@ msgid ""
 "admin interface, just follow the :guilabel:`Performance report` link in the "
 "admin interface, or open the ``/manage/performance/`` URL directly."
 msgstr ""
+"Weblate inclui um conjunto de verificações de configuração que você pode ver "
+"na interface administrativa, basta seguir o link :guilabel:`Relatório de "
+"desempenho` na interface administrativa, ou abrir a URL ``/manage/"
+"performance/`` diretamente."
 
 #: ../../faq.rst:246
 msgid "Why are all commits committed by Weblate <noreply@weblate.org>?"
 msgstr ""
+"Por que é que todos os commits são feitos por Weblate <noreply@weblate.org>?"
 
 #: ../../faq.rst:248
 msgid ""
 "This is the default committer name, configured when you create a translation "
 "component. You can change it in the administration at any time."
 msgstr ""
+"Este é o nome padrão do \"committer\", configurado quando você cria um "
+"componente de tradução. Você pode alterá-lo na administração a qualquer "
+"momento."
 
 #: ../../faq.rst:251
 msgid ""
 "The author of every commit (if the underlying VCS supports it) is still "
 "recorded correctly as the user that made the translation."
 msgstr ""
+"O autor de cada commit (se o VCS subjacente o suportar) ainda é registado "
+"corretamente como o usuário que fez a tradução."
 
 #: ../../faq.rst:262
 msgid "How do I review the translations of others?"
-msgstr ""
+msgstr "Como faço para rever as traduções dos outros?"
 
 #: ../../faq.rst:264
 msgid ""
 "There are several review based workflows available in Weblate, see :ref:"
 "`workflows`."
 msgstr ""
+"Há vários fluxos de trabalho baseados em revisões disponíveis em Weblate, "
+"veja :ref:`workflows`."
 
 #: ../../faq.rst:265
 msgid ""
 "You can subscribe to any changes made in :ref:`subscriptions` and then check "
 "others contributions as they come in by e-mail."
 msgstr ""
+"Você pode se inscrever para quaisquer alterações feitas em "
+":ref:`subscriptions` e depois verificar outras contribuições à medida que "
+"elas chegam por e-mail."
 
 #: ../../faq.rst:267
 msgid ""
@@ -28756,6 +28861,9 @@ msgid ""
 "where you can choose to browse translations made by others since a given "
 "date."
 msgstr ""
+"Há uma ferramenta de revisão disponível na parte inferior da vista de "
+"tradução, onde você pode optar por navegar pelas traduções feitas por outros "
+"desde uma data determinada."
 
 #: ../../faq.rst:272
 #, fuzzy
@@ -28765,17 +28873,20 @@ msgstr ":ref:`hooks`"
 
 #: ../../faq.rst:275
 msgid "How do I provide feedback on a source string?"
-msgstr ""
+msgstr "Como posso fornecer feedback sobre um texto fonte?"
 
 #: ../../faq.rst:277
 msgid ""
 "On context tabs below translation, you can use the :guilabel:`Comments` tab "
 "to provide feedback on a source string, or discuss it with other translators."
 msgstr ""
+"Nas abas de contexto abaixo da tradução, você pode utilizar a aba "
+":guilabel:`Comentários` para fornecer feedback sobre um texto fonte, ou "
+"discuti-lo com outros tradutores."
 
 #: ../../faq.rst:286
 msgid "How can I use existing translations while translating?"
-msgstr ""
+msgstr "Como posso usar as traduções existentes enquanto traduzo?"
 
 #: ../../faq.rst:288
 msgid ""
@@ -28797,6 +28908,10 @@ msgid ""
 "or translations needing review. This is the best approach for a one-time "
 "translation using a compendium or a similar translation database."
 msgstr ""
+"Use a funcionalidade de importação para carregar compêndios como traduções, "
+"sugestões ou traduções que necessitem de revisão. Esta é a melhor abordagem "
+"para uma tradução única usando um compêndio ou uma base de dados de tradução "
+"similar."
 
 #: ../../faq.rst:293
 msgid ""
@@ -28804,6 +28919,9 @@ msgid ""
 "use it. This is good when you want to use it several times during "
 "translation."
 msgstr ""
+"Você pode configurar :ref:`tmserver` com todos os bancos de dados que você "
+"tem e deixar o Weblate utilizá-lo. Isto é bom quando você quer utilizá-lo "
+"várias vezes durante a tradução."
 
 #: ../../faq.rst:296
 msgid ""
@@ -28811,17 +28929,19 @@ msgid ""
 "instance, which will make it automatically pick up translations from other "
 "projects as well."
 msgstr ""
+"Outra opção é traduzir todos os projetos relacionados em uma única instância "
+"Weblate, o que o fará pegar automaticamente as traduções de outros projetos "
+"também."
 
 #: ../../faq.rst:302
-#, fuzzy
-#| msgid ":ref:`machine-translation-setup`, :ref:`machine-translation`"
 msgid ""
 ":ref:`machine-translation-setup`, :ref:`machine-translation`, :ref:`memory`"
-msgstr ":ref:`machine-translation-setup`, :ref:`machine-translation`"
+msgstr ""
+":ref:`machine-translation-setup`, :ref:`machine-translation`, :ref:`memory`"
 
 #: ../../faq.rst:309
 msgid "Does Weblate update translation files besides translations?"
-msgstr ""
+msgstr "O Weblate atualiza arquivos de tradução além de traduções?"
 
 #: ../../faq.rst:311
 msgid ""
@@ -28830,6 +28950,10 @@ msgid ""
 "want to keep the file formatted your way, please use a pre-commit hook for "
 "that."
 msgstr ""
+"Weblate tenta limitar ao mínimo as alterações nos arquivos de tradução. Para "
+"alguns formatos de arquivo, infelizmente, isso pode levar a reformatar o "
+"arquivo. Se você quiser manter o arquivo formatado do seu jeito, use um "
+"gancho (hook) de pré-commit para isso."
 
 #: ../../faq.rst:317 ../../faq.rst:378
 #, fuzzy
@@ -28840,6 +28964,7 @@ msgstr ":ref:`static-files`"
 #: ../../faq.rst:321
 msgid "Where do language definitions come from and how can I add my own?"
 msgstr ""
+"De onde vêm as definições linguísticas e como posso adicionar as minhas?"
 
 #: ../../faq.rst:323
 msgid ""
@@ -28847,39 +28972,51 @@ msgid ""
 "Translate-toolkit. This covers more than 150 languages and includes info "
 "about plural forms or text direction."
 msgstr ""
+"O conjunto básico de definições de idiomas está incluído no Weblate e no "
+"Translate-toolkit. Isso abrange mais de 150 idiomas e inclui informações "
+"sobre formas plurais ou direção do texto."
 
 #: ../../faq.rst:327
 msgid ""
 "You are free to define your own languages in the administrative interface, "
 "you just need to provide info about it."
 msgstr ""
+"Você é livre para definir seus próprios idiomas na interface administrativa, "
+"você só precisa fornecer informações sobre isso."
 
 #: ../../faq.rst:335
 msgid "Can Weblate highlight changes in a fuzzy string?"
-msgstr ""
+msgstr "Weblate pode destacar alterações em um texto aproximado?"
 
 #: ../../faq.rst:337
 msgid ""
 "Weblate supports this, however it needs the data to show the difference."
 msgstr ""
+"Weblate tem suporte a isso, porém precisa dos dados para mostrar a diferença."
 
 #: ../../faq.rst:339
 msgid ""
 "For Gettext PO files, you have to pass the parameter ``--previous`` to :"
 "command:`msgmerge` when updating PO files, for example:"
 msgstr ""
+"Para arquivos PO Gettext, você tem que passar o parâmetro ``--previous`` "
+"para :command:`msgmgmerge` ao atualizar arquivos PO, por exemplo:"
 
 #: ../../faq.rst:346
 msgid ""
 "For monolingual translations, Weblate can find the previous string by ID, so "
 "it shows the differences automatically."
 msgstr ""
+"Para traduções monolíngues, a Weblate pode encontrar o texto anterior por "
+"ID, por isso mostra as diferenças automaticamente."
 
 #: ../../faq.rst:352
 msgid ""
 "Why does Weblate still show old translation strings when I've updated the "
 "template?"
 msgstr ""
+"Por que é que o Weblate ainda mostra os textos de tradução antigos quando eu "
+"atualizei o modelo?"
 
 #: ../../faq.rst:354
 msgid ""
@@ -28889,6 +29026,12 @@ msgid ""
 "simply have to do this manually and push changes to the repository, Weblate "
 "will then pick up the changes automatically."
 msgstr ""
+"Weblate não tenta manipular os arquivos de tradução de nenhuma outra forma "
+"que não seja permitir que os tradutores traduzam. Por isso, também não "
+"atualiza os arquivos traduzíveis quando o modelo ou código-fonte tiverem "
+"sido alterados. Você simplesmente tem que fazer isso manualmente e fazer "
+"push das alterações para o repositório, o Weblate irá então pegar as "
+"alterações automaticamente."
 
 #: ../../faq.rst:362
 msgid ""
@@ -28896,40 +29039,49 @@ msgid ""
 "translation files, as otherwise you will usually end up with some conflicts "
 "to merge."
 msgstr ""
+"Normalmente é uma boa ideia mesclar as alterações feitas na Weblate antes de "
+"atualizar os arquivos de tradução, pois de outra forma geralmente acabará "
+"com alguns conflitos para mesclar."
 
 #: ../../faq.rst:366
 msgid ""
 "For example with gettext PO files, you can update the translation files "
 "using the :command:`msgmerge` tool:"
 msgstr ""
+"Por exemplo, com os arquivos PO gettext, você pode atualizar os arquivos de "
+"tradução utilizando a ferramenta :command:`msgmgmerge`:"
 
 #: ../../faq.rst:373
 msgid ""
 "In case you want to do the update automatically, you can install addon :ref:"
 "`addon-weblate.gettext.msgmerge`."
 msgstr ""
+"Caso você queira fazer a atualização automaticamente, você pode instalar a "
+"extensão :ref:`addon-weblate.gettext.msgmerge`."
 
 #: ../../faq.rst:382
 msgid "Troubleshooting"
-msgstr ""
+msgstr "Soluções de problemas"
 
 #: ../../faq.rst:385
 msgid "Requests sometimes fail with \"too many open files\" error"
-msgstr ""
+msgstr "As solicitações às vezes falham com o erro \"muitos arquivos abertos\""
 
 #: ../../faq.rst:387
 msgid ""
 "This happens sometimes when your Git repository grows too much and you have "
 "many of them. Compressing the Git repositories will improve this situation."
 msgstr ""
+"Isto acontece às vezes quando o seu repositório Git cresce demais e você tem "
+"muitos deles. Comprimir os repositórios Git irá melhorar esta situação."
 
 #: ../../faq.rst:390
 msgid "The easiest way to do this is to run:"
-msgstr ""
+msgstr "A maneira mais fácil de fazer isto é executar:"
 
 #: ../../faq.rst:409
 msgid "When accessing the site I get a \"Bad Request (400)\" error"
-msgstr ""
+msgstr "Ao acessar ao site recebo um erro de \"Bad Request (400)\""
 
 #: ../../faq.rst:411
 msgid ""
@@ -28937,6 +29089,9 @@ msgid ""
 "`ALLOWED_HOSTS`. It needs to contain all hostnames you want to access on "
 "your Weblate. For example:"
 msgstr ""
+"Isto é muito provavelmente causado por uma :setting:`ALLOWED_HOSTS` mal "
+"configurada. Ele precisa conter todos os nomes de host que você quer acessar "
+"no seu Weblate. Por exemplo:"
 
 #: ../../faq.rst:420
 msgid ":ref:`production-hosts`"
@@ -28944,7 +29099,7 @@ msgstr ""
 
 #: ../../faq.rst:425
 msgid "What does mean \"There are more files for the single language (en)\"?"
-msgstr ""
+msgstr "O que significa \"Existem mais arquivos para o idioma único (en)\"?"
 
 #: ../../faq.rst:427
 msgid ""
@@ -28952,22 +29107,25 @@ msgid ""
 "Weblate keeps track of source strings and reserves source language for this. "
 "The additional file for same language is not processed."
 msgstr ""
+"Isso normalmente acontece quando você tem arquivo de tradução para idioma "
+"fonte. Weblate mantém o controle de textos fonte e reserva o idioma fonte "
+"para isso. O arquivo adicional para o mesmo idioma não é processado."
 
 #: ../../faq.rst:431
 msgid ""
 "In case the translation to the source language is desired, please change "
 "the :ref:`component-source_language` in the component settings."
 msgstr ""
-"Caso a tradução para o idioma de origem seja desejada, altere o :ref:"
-"`component-source_language` nas configurações do projeto."
+"Caso a tradução para o idioma fonte seja desejada, altere o :ref:`component-"
+"source_language` nas configurações do projeto."
 
 #: ../../faq.rst:432
 msgid ""
 "In case the translation file for the source language is not needed, please "
 "remove it from the repository."
 msgstr ""
-"Caso o arquivo de tradução para o idioma de origem não seja necessário, "
-"remova-o do repositório."
+"Caso o arquivo de tradução para o idioma fonte não seja necessário, remova-o "
+"do repositório."
 
 #: ../../faq.rst:433
 msgid ""
@@ -28975,8 +29133,8 @@ msgid ""
 "be ignored by Weblate, please adjust the :ref:`component-language_regex` to "
 "exclude it."
 msgstr ""
-"Caso o arquivo de tradução para o idioma de origem seja necessário, mas deva "
-"ser ignorado pelo Weblate, ajuste o :ref:`component-language_regex` para "
+"Caso o arquivo de tradução para o idioma fonte seja necessário, mas deva ser "
+"ignorado pelo Weblate, ajuste o :ref:`component-language_regex` para "
 "excluí-lo."
 
 #: ../../faq.rst:437
@@ -28985,6 +29143,9 @@ msgid ""
 "case the most likely reason is that several files map to single language in "
 "Weblate."
 msgstr ""
+"Você também pode receber mensagens de erro semelhantes para outros idiomas. "
+"Nesse caso, o motivo mais provável é que vários arquivos mapeiam para um "
+"único idioma no Weblate."
 
 #: ../../faq.rst:441
 msgid ""
@@ -28993,6 +29154,10 @@ msgid ""
 "generic codes (``fr`` and ``fr_FR``). See :ref:`language-parsing-codes` for "
 "more details."
 msgstr ""
+"Isto pode ser causado pelo uso de códigos de idioma obsoletos juntamente com "
+"um novo (``ja`` e ``jp`` para japonês) ou incluindo tanto códigos "
+"específicos do país como genéricos (``fr`` e ``fr_FR``). Veja :ref"
+":`languagage-parsing-codes` para mais detalhes."
 
 #: ../../faq.rst:447
 msgid "Features"
@@ -29000,7 +29165,7 @@ msgstr "Recursos"
 
 #: ../../faq.rst:452
 msgid "Does Weblate support other VCSes than Git and Mercurial?"
-msgstr ""
+msgstr "O Weblate tem suporte a outros VCSs que não o Git e o Mercurial?"
 
 #: ../../faq.rst:454
 msgid ""
@@ -29009,14 +29174,19 @@ msgid ""
 "and :ref:`vcs-git-svn`) and :ref:`vcs-mercurial`, but it is possible to "
 "write backends for other VCSes."
 msgstr ""
+"Weblate atualmente não tem suporte nativo para nada além de :ref:`vcs-git` ("
+"com suporte estendido para :ref:`vcs-github`, :ref:`vcs-gerrit' e :ref:`vcs-"
+"git-svn`) e :ref:`vcs-mercurial`, mas é possível escrever backends para "
+"outros VCSs."
 
 #: ../../faq.rst:459
 msgid "You can also use :ref:`vcs-git-helpers` in Git to access other VCSes."
 msgstr ""
+"Você também pode usar :ref:`vcs-git-helpers` no Git para acessar outros VCSs."
 
 #: ../../faq.rst:461
 msgid "Weblate also supports VCS less operation, see :ref:`vcs-local`."
-msgstr ""
+msgstr "Weblate também tem suporte à operação sem VCS, veja :ref:`vcs-local`."
 
 #: ../../faq.rst:465
 msgid ""
@@ -29024,10 +29194,14 @@ msgid ""
 "and could probably be adjusted to work with anything other than Git and "
 "Mercurial, but somebody has to implement this support."
 msgstr ""
+"Para suporte nativo de outros VCSs, Weblate requer o uso de VCS "
+"distribuídos, e provavelmente poderia ser ajustado para trabalhar com "
+"qualquer outra coisa além de Git e Mercurial, mas alguém tem que implementar "
+"esse suporte."
 
 #: ../../faq.rst:472
 msgid "How does Weblate credit translators?"
-msgstr ""
+msgstr "Como o Weblate credita os tradutores?"
 
 #: ../../faq.rst:474
 msgid ""
@@ -29035,20 +29209,26 @@ msgid ""
 "name. This way every single change has proper authorship, and you can track "
 "it down using the standard VCS tools you use for code."
 msgstr ""
+"Cada alteração feita no Weblate é colocada em commit no VCS sob o nome dos "
+"tradutores. Desta forma, cada alteração tem a devida autoria, e você pode "
+"rastreá-la usando as ferramentas VCS padrão que você usa para código."
 
 #: ../../faq.rst:478
 msgid ""
 "Additionally, when the translation file format supports it, the file headers "
 "are updated to include the translator's name."
 msgstr ""
+"Além disso, quando o formato do arquivo de tradução o suporta, os cabeçalhos "
+"do arquivo são atualizados para incluir o nome do tradutor."
 
 #: ../../faq.rst:483
 msgid ":djadmin:`list_translators`, :doc:`../devel/reporting`"
-msgstr ""
+msgstr ":djadmin:`list_translators`, :doc:`../devel/reporting`"
 
 #: ../../faq.rst:487
 msgid "Why does Weblate force showing all PO files in a single tree?"
 msgstr ""
+"Por que o Weblate força mostrar todos os arquivos PO em uma única árvore?"
 
 #: ../../faq.rst:489
 msgid ""
@@ -29056,18 +29236,21 @@ msgid ""
 "component. This is beneficial for translators, so they know what they are "
 "actually translating."
 msgstr ""
+"O Weblate foi projetado de uma forma que cada arquivo PO é representado como "
+"um único componente. Isso é benéfico para os tradutores, então eles sabem o "
+"que estão realmente traduzindo."
 
 #: ../../faq.rst:495
-#, fuzzy
-#| msgid "Allow translating all components a language at once."
 msgid ""
 "Translators can translate all the components of a project into a specific "
 "language as a whole."
-msgstr "Permite traduzir todos os componentes um idioma de uma só vez."
+msgstr ""
+"Tradutores podem traduzir todos os componentes de um projeto em um idioma "
+"específico como um todo."
 
 #: ../../faq.rst:501
 msgid "Why does Weblate use language codes such sr_Latn or zh_Hant?"
-msgstr ""
+msgstr "Por que o Weblate usa códigos de idioma como sr_Latn ou zh_Hant?"
 
 #: ../../faq.rst:503
 msgid ""
@@ -29075,6 +29258,10 @@ msgid ""
 "are really different languages instead previously wrongly used modifiers "
 "(for ``@latin`` variants) or country codes (for Chinese)."
 msgstr ""
+"Estes são códigos de idioma definidos por :rfc:`4646` para melhor indicar "
+"que eles são idiomas realmente diferentes, em vez de modificadores "
+"utilizados anteriormente de forma errada (para variantes ``@latin```) ou "
+"códigos de país (para chinês)."
 
 #: ../../faq.rst:507
 msgid ""
@@ -29082,6 +29269,9 @@ msgid ""
 "one - for example ``sr@latin`` will be handled as ``sr_Latn`` or ``zh@CN`` "
 "as ``zh_Hans``."
 msgstr ""
+"O Weblate ainda entende códigos de linguagem legados e irá mapeá-los para o "
+"atual - por exemplo ``sr@latin`` será tratado como ``sr_Latn``` ou ``zh@CN`` "
+"como ``zh_Hans``."
 
 #: ../../formats.rst:4 ../../user/files.rst:54
 msgid "Supported file formats"
@@ -29093,10 +29283,13 @@ msgid ""
 "however each format being slightly different, some issues with formats that "
 "are not well tested can arise."
 msgstr ""
+"O Weblate tem suporte à maioria dos formatos de tradução compreendidos pelo "
+"`translate-toolkit`_, porém cada formato sendo ligeiramente diferente, "
+"alguns problemas com formatos que não são bem testados podem surgir."
 
 #: ../../formats.rst:12 ../../formats.rst:1414
 msgid ":doc:`tt:formats/index`"
-msgstr ""
+msgstr ":doc:`tt:formats/index`"
 
 #: ../../formats.rst:16
 msgid ""
@@ -29105,10 +29298,15 @@ msgid ""
 "translators can additionally use whatever tools they are used to, and will "
 "more likely contribute to your project."
 msgstr ""
+"Ao escolher um formato de arquivo para o seu aplicativo, é melhor colocar "
+"algum formato bem estabelecido no kit de ferramentas/plataforma que você "
+"usa. Dessa forma, seus tradutores podem usar adicionalmente todas as "
+"ferramentas que estão acostumados, e provavelmente contribuirão para o seu "
+"projeto."
 
 #: ../../formats.rst:25
 msgid "Bilingual and monolingual formats"
-msgstr ""
+msgstr "Formatos bilíngues e monolíngues"
 
 #: ../../formats.rst:27
 msgid ""
@@ -29121,6 +29319,14 @@ msgid ""
 "`aresource`). Some file formats are used in both variants, see the detailed "
 "description below."
 msgstr ""
+"Ambos os formatos :index:`monolingual <pair: translation; monolingual>` e "
+":index:`bilingual <pair: translation; bilingual>` são suportados. Formatos "
+"bilíngues armazenam dois idiomas em um único arquivo e tradução (exemplos "
+"típicos são :ref:`gettext`, :ref:`xliff` ou :ref:`apple`). Por outro lado, "
+"formatos monolíngues identificam o texto por ID, e cada arquivo de idioma "
+"contém apenas o mapeamento desses para qualquer idioma (tipicamente "
+":ref:`aresource`). Alguns formatos de arquivo são utilizados em ambas as "
+"variantes, veja a descrição detalhada abaixo."
 
 #: ../../formats.rst:35
 msgid ""
@@ -29129,6 +29335,10 @@ msgid ""
 "is called :ref:`component-template` within Weblate, though the naming might "
 "vary in your paradigm."
 msgstr ""
+"Para o uso correto de arquivos monolíngues, Weblate requer acesso a um "
+"arquivo contendo uma lista completa de textos para traduzir com sua fonte – "
+"este arquivo é chamado de :ref:`component-template` dentro do Weblate, "
+"embora a nomenclatura possa variar no seu paradigma."
 
 #: ../../formats.rst:40
 msgid ""
@@ -29136,6 +29346,9 @@ msgid ""
 "intermediate` to include strings provided by developers, but not to be used "
 "as is in the final strings."
 msgstr ""
+"Além disso este fluxo de trabalho pode ser estendido usando :ref:`component-"
+"intermediate` para incluir textos fornecidos pelos desenvolvedores, mas não "
+"para ser usado como está nos textos finais."
 
 #: ../../formats.rst:45
 msgid "Automatic detection"
@@ -29147,50 +29360,54 @@ msgid ""
 "detection can harm your performance and will limit features specific to "
 "given file format (for example automatic addition of new translations)."
 msgstr ""
+"O Weblate pode detectar automaticamente vários formatos de arquivos "
+"generalizados, mas essa detecção pode prejudicar seu desempenho e limitará "
+"recursos específicos para o formato de arquivo dado (por exemplo, a adição "
+"automática de novas traduções)."
 
 #: ../../formats.rst:54
 msgid "Translation types capabilities"
-msgstr ""
+msgstr "Capacidades dos tipos de tradução"
 
 #: ../../formats.rst:56
 msgid "Capabilities of all supported formats:"
-msgstr ""
+msgstr "Capacidades de todos os formatos suportados:"
 
 #: ../../formats.rst:59
 msgid "Format"
-msgstr ""
+msgstr "Formato"
 
 #: ../../formats.rst:59
 msgid "Linguality [#m]_"
-msgstr ""
+msgstr "Lingualidade [#m]_"
 
 #: ../../formats.rst:59
 msgid "Plurals [#p]_"
-msgstr ""
+msgstr "Plurais [#p]_"
 
 #: ../../formats.rst:59
 msgid "Comments [#n]_"
-msgstr ""
+msgstr "Comentários [#n]_"
 
 #: ../../formats.rst:59
 msgid "Context [#c]_"
-msgstr ""
+msgstr "Contexto [#c]_"
 
 #: ../../formats.rst:59
 msgid "Location [#l]_"
-msgstr ""
+msgstr "Localização [#l]_"
 
 #: ../../formats.rst:59
 msgid "Flags [#f]_"
-msgstr ""
+msgstr "Sinalizadores [#f]_"
 
 #: ../../formats.rst:59
 msgid "Additional states [#a]_"
-msgstr ""
+msgstr "Estados adicionais [#a]_"
 
 #: ../../formats.rst:61 ../../formats.rst:77 ../../formats.rst:121
 msgid "bilingual"
-msgstr ""
+msgstr "bilíngue"
 
 #: ../../formats.rst:61 ../../formats.rst:63 ../../formats.rst:65
 #: ../../formats.rst:67 ../../formats.rst:69 ../../formats.rst:71
@@ -29201,16 +29418,16 @@ msgstr ""
 #: ../../formats.rst:103 ../../formats.rst:105 ../../formats.rst:109
 #: ../../formats.rst:121
 msgid "yes"
-msgstr ""
+msgstr "sim"
 
 #: ../../formats.rst:61 ../../formats.rst:63
 msgid "yes [#po]_"
-msgstr ""
+msgstr "sim [#po]_"
 
 #: ../../formats.rst:61 ../../formats.rst:63 ../../formats.rst:73
 #: ../../formats.rst:93 ../../formats.rst:105
 msgid "needs editing"
-msgstr ""
+msgstr "necessita edição"
 
 #: ../../formats.rst:63
 msgid ":ref:`mono_gettext`"
@@ -29225,7 +29442,7 @@ msgstr ""
 #: ../../formats.rst:109 ../../formats.rst:111 ../../formats.rst:113
 #: ../../formats.rst:115 ../../formats.rst:117 ../../formats.rst:119
 msgid "mono"
-msgstr ""
+msgstr "mono"
 
 #: ../../formats.rst:65
 msgid ":ref:`xliff`"
@@ -29234,16 +29451,16 @@ msgstr ""
 #: ../../formats.rst:65 ../../formats.rst:67 ../../formats.rst:73
 #: ../../formats.rst:93
 msgid "both"
-msgstr ""
+msgstr "ambos"
 
 #: ../../formats.rst:65 ../../formats.rst:73 ../../formats.rst:75
 #: ../../formats.rst:91 ../../formats.rst:101 ../../formats.rst:121
 msgid "yes [#xl]_"
-msgstr ""
+msgstr "sim [#xl]_"
 
 #: ../../formats.rst:65
 msgid "needs editing, approved"
-msgstr ""
+msgstr "necessita edição, aprovado"
 
 #: ../../formats.rst:67
 msgid ":ref:`javaprop`"
@@ -29260,7 +29477,7 @@ msgstr ""
 #: ../../formats.rst:115 ../../formats.rst:117 ../../formats.rst:119
 #: ../../formats.rst:121
 msgid "no"
-msgstr ""
+msgstr "não"
 
 #: ../../formats.rst:69
 msgid ":ref:`gwt`"
@@ -29272,7 +29489,7 @@ msgstr ""
 
 #: ../../formats.rst:75
 msgid "yes [#x]_"
-msgstr ""
+msgstr "sim [#x]_"
 
 #: ../../formats.rst:79
 msgid ":ref:`php`"
@@ -29280,7 +29497,7 @@ msgstr ""
 
 #: ../../formats.rst:79
 msgid "no [#lp]_"
-msgstr ""
+msgstr "não [#lp]_"
 
 #: ../../formats.rst:81
 msgid ":ref:`json`"
@@ -29358,16 +29575,20 @@ msgstr ":ref:`acl`"
 
 #: ../../formats.rst:124
 msgid "See :ref:`bimono`"
-msgstr ""
+msgstr "Veja :ref:`bimono`"
 
 #: ../../formats.rst:125
 msgid "Plurals are necessary to properly localize strings with variable count."
 msgstr ""
+"Os plurais são necessários para localizar adequadamente os textos com "
+"contagem variável."
 
 #: ../../formats.rst:126
 msgid ""
 "Comments can be used to pass additional info about the string to translate."
 msgstr ""
+"Os comentários podem ser usados para passar informações adicionais sobre o "
+"texto para traduzir."
 
 #: ../../formats.rst:127
 msgid ""
@@ -29375,32 +29596,41 @@ msgid ""
 "(for example `Sun` can be used as an abbreviated name of the day \"Sunday\" "
 "or as the name of our closest star)."
 msgstr ""
+"O contexto é usado para diferenciar textos idênticos usados em diferentes "
+"escopos (por exemplo, `Sun` pode ser usado como um nome abreviado do dia "
+"\"Sunday\" ou como o nome de nossa estrela mais próxima)."
 
 #: ../../formats.rst:128
 msgid ""
 "Location of a string in source code might help proficient translators figure "
 "out how the string is used."
 msgstr ""
+"A localização de um texto no código-fonte pode ajudar tradutores "
+"proficientes a descobrir como o texto é usado."
 
 #: ../../formats.rst:129
 msgid ""
 "Additional states supported by the file format in addition to \"Not "
 "translated\" and \"Translated\"."
 msgstr ""
+"Estados adicionais suportados pelo formato do arquivo, além de \"Não "
+"traduzido\" e \"Traduzido\"."
 
 #: ../../formats.rst:130
 msgid ""
 "XML comment placed before the ``<string>`` element, parsed as a developer "
 "comment."
 msgstr ""
+"Comentário XML colocado antes do elemento ``<string>``, analisado como um "
+"comentário do desenvolvedor."
 
 #: ../../formats.rst:131
 msgid "See :ref:`custom-checks`"
-msgstr ""
+msgstr "Veja :ref:`custom-checks`"
 
 #: ../../formats.rst:132
 msgid "The gettext type comments are used as flags."
-msgstr ""
+msgstr "Os comentários do tipo gettext são usados como sinalizadores."
 
 #: ../../formats.rst:133
 msgid ""
@@ -29410,32 +29640,39 @@ msgid ""
 "os/xliff-core.html#maxwidth>`_ as defined in the XLIFF standard, see :ref:"
 "`xliff-flags`."
 msgstr ""
+"Os sinalizadores são extraídos do atributo não padrão ``weblate-flags`` para "
+"todos os formatos baseados em XML. Adicionalmente, o ``max-length:N`` é "
+"suportado através do `atributo <http://docs.oasis-open.org/xliff/v1.2/os/"
+"xliff-core.html#maxwidth>`_ ``maxwidth`` como definido no padrão XLIFF, veja "
+":ref:`xliff-flags`."
 
 #: ../../formats.rst:134
 msgid ""
 "The plurals are supported only for Laravel which uses in string syntax to "
 "define them, see `Localization in Laravel`_."
 msgstr ""
+"Os plurais são suportados apenas para Laravel, que usa em sintaxe de textos "
+"para defini-los, veja Localização em Laravel`_."
 
 #: ../../formats.rst:139
 msgid "GNU gettext"
-msgstr ""
+msgstr "GNU gettext"
 
 #: ../../formats.rst:145
-#, fuzzy
-#| msgid "Inno Setup INI file format for translations."
 msgid "Most widely used format for translating libre software."
-msgstr "Formato de arquivo Inno Setup INI para traduções."
+msgstr "O formato mais usado para traduzir software livre."
 
 #: ../../formats.rst:147
 msgid ""
 "Contextual info stored in the file is supported by adjusting its headers or "
 "linking to corresponding source files."
 msgstr ""
+"As informações contextuais armazenadas no arquivo são suportadas ajustando "
+"seus cabeçalhos ou vinculando-se a arquivos fonte correspondentes."
 
 #: ../../formats.rst:150
 msgid "The bilingual gettext PO file typically looks like this:"
-msgstr ""
+msgstr "O arquivo de PO de texto bilíngue normalmente se parece com este:"
 
 #: ../../formats.rst:168 ../../formats.rst:234 ../../formats.rst:408
 #: ../../formats.rst:439 ../../formats.rst:473 ../../formats.rst:517
@@ -29446,7 +29683,7 @@ msgstr ""
 #: ../../formats.rst:1170 ../../formats.rst:1199 ../../formats.rst:1234
 #: ../../formats.rst:1265 ../../formats.rst:1297 ../../formats.rst:1386
 msgid "Typical Weblate :ref:`component`"
-msgstr ""
+msgstr ":ref:`component` típica do Weblate"
 
 #: ../../formats.rst:170 ../../formats.rst:236 ../../formats.rst:357
 #: ../../formats.rst:410 ../../formats.rst:441 ../../formats.rst:475
@@ -29470,15 +29707,15 @@ msgstr "Máscara do arquivo"
 #: ../../formats.rst:1147 ../../formats.rst:1176 ../../formats.rst:1205
 #: ../../formats.rst:1390 ../../formats.rst:1392
 msgid "`Empty`"
-msgstr ""
+msgstr "`Vazio`"
 
 #: ../../formats.rst:174 ../../formats.rst:240
 msgid "``po/messages.pot``"
-msgstr ""
+msgstr "``po/messages.pot``"
 
 #: ../../formats.rst:176
 msgid "`Gettext PO file`"
-msgstr ""
+msgstr "`Arquivo Gettext PO`"
 
 #: ../../formats.rst:181
 msgid ""
@@ -29488,10 +29725,15 @@ msgid ""
 "weblate.gettext.linguas`, :ref:`addon-weblate.gettext.mo`, :ref:`addon-"
 "weblate.gettext.msgmerge`"
 msgstr ""
+":doc:`devel/gettext`, :doc:`devel/sphinx`, `Gettext on Wikipedia <https://en."
+"wikipedia.org/wiki/Gettext>`_, :doc:`tt:formats/po`, :ref:`addon-weblate."
+"gettext.configure`, :ref:`addon-weblate.gettext.customize`, :ref:`addon-"
+"weblate.gettext.linguas`, :ref:`addon-weblate.gettext.mo`, :ref:`addon-"
+"weblate.gettext.msgmerge`"
 
 #: ../../formats.rst:194
 msgid "Monolingual gettext"
-msgstr ""
+msgstr "Gettext monolíngue"
 
 #: ../../formats.rst:196
 msgid ""
@@ -29500,22 +29742,27 @@ msgid ""
 "all languages, including English. This is supported, though you have to "
 "choose this file format explicitly when importing components into Weblate."
 msgstr ""
+"Alguns projetos decidem usar o gettext como formatos monolíngues – eles "
+"codificam apenas os IDs em seu código-fonte e o texto então precisa ser "
+"traduzido para todos os idiomas, incluindo o inglês. Isso é suportado, "
+"embora você tenha que escolher este formato de arquivo explicitamente ao "
+"importar componentes para o Weblate."
 
 #: ../../formats.rst:201
 msgid "The monolingual gettext PO file typically looks like this:"
-msgstr ""
+msgstr "O arquivo gettext PO monolíngue normalmente se parece com este:"
 
 #: ../../formats.rst:217
 msgid "While the base language file will be:"
-msgstr ""
+msgstr "Enquanto o arquivo de idioma base será:"
 
 #: ../../formats.rst:238
 msgid "``po/en.po``"
-msgstr ""
+msgstr "``po/en.po``"
 
 #: ../../formats.rst:242
 msgid "`Gettext PO file (monolingual)`"
-msgstr ""
+msgstr "`Arquivo Gettext PO (monolíngue)`"
 
 #: ../../formats.rst:248
 msgid "XLIFF"
@@ -29539,7 +29786,7 @@ msgstr ""
 
 #: ../../formats.rst:266 ../../workflows.rst:26
 msgid "Translation states"
-msgstr ""
+msgstr "Estados de tradução"
 
 #: ../../formats.rst:270
 msgid "Weblate ignored the state attribute prior to the 3.3 release."
@@ -32075,6 +32322,9 @@ msgid ""
 "Translation rendered text should not exceed given size. It renders the text "
 "with line wrapping and checks if it fits into given boundaries."
 msgstr ""
+"O texto traduzido não deve exceder o tamanho determinado. Ele renderiza o "
+"texto com quebra de linhas e verifica se ele se encaixa nos limites "
+"determinados."
 
 #: ../../user/checks.rst:607
 msgid ""
@@ -32082,6 +32332,9 @@ msgid ""
 "lines. In case the number of lines is not provided, one line text is "
 "considered."
 msgstr ""
+"Esta verificação necessita de um ou dois parâmetros - largura máxima e "
+"número máximo de linhas. Caso o número de linhas não seja fornecido, é "
+"considerado um texto de uma linha."
 
 #: ../../user/checks.rst:611
 msgid ""
@@ -32089,6 +32342,10 @@ msgid ""
 "checks`), for example following translation flags say that the text rendered "
 "with ubuntu font size 22 should fit into two lines and 500 pixels:"
 msgstr ""
+"Você também pode configurar a fonte utilizada pelas diretivas ``font-*`` ("
+"veja :ref:`custom-checks`), por exemplo, após os sinalizadores de tradução "
+"dizer que o texto renderizado com fonte ubuntu tamanho 22 deve caber em duas "
+"linhas e 500 pixels:"
 
 #: ../../user/checks.rst:622
 msgid ""
@@ -32096,10 +32353,14 @@ msgid ""
 "same font configured for all strings within a component. You can override "
 "those values per string in case you need to customize it per string."
 msgstr ""
+"Você pode querer definir as diretivas ``font-*`` na :ref:`component` para "
+"ter a mesma fonte configurada para todas as strings dentro de um componente. "
+"Você pode sobrescrever esses valores por texto, caso você precise "
+"personalizá-la por texto."
 
 #: ../../user/checks.rst:631
 msgid ":ref:`fonts`, :ref:`custom-checks`, :ref:`check-max-length`"
-msgstr ""
+msgstr ":ref:`fonts`, :ref:`custom-checks`, :ref:`check-max-length`"
 
 #: ../../user/checks.rst:636
 msgid "Mismatched \\\\n"
@@ -32115,6 +32376,9 @@ msgid ""
 "fails if the number of ``\\n`` literals in translation do not match the "
 "source."
 msgstr ""
+"Normalmente as novas linhas escapadas são importantes para a formatação da "
+"saída do programa. A verificação falha se o número de literais ``\\n"
+"`` na tradução não corresponder à fonte."
 
 #: ../../user/checks.rst:646
 msgid "Mismatched colon"
@@ -32122,7 +32386,7 @@ msgstr "Caractere de dois pontos não correspondente"
 
 #: ../../user/checks.rst:648
 msgid "*Source and translation do not both end with a colon*"
-msgstr ""
+msgstr "*Fonte e tradução não terminam com dois pontos*"
 
 #: ../../user/checks.rst:650
 msgid ""
@@ -32130,11 +32394,14 @@ msgid ""
 "presence of colons is also checked for various languages where they do not "
 "belong (Chinese or Japanese)."
 msgstr ""
+"Verifica se os dois pontos são replicados entre a fonte e a tradução. A "
+"presença de dois pontos também é verificada para vários idiomas onde eles "
+"não pertencem (chinês ou japonês)."
 
 #: ../../user/checks.rst:656
 msgid ""
 "`Colon on Wikipedia <https://en.wikipedia.org/wiki/Colon_(punctuation)>`_"
-msgstr ""
+msgstr "`Dois pontos na Wikipédia <https://pt.wikipedia.org/wiki/Dois-pontos>`_"
 
 #: ../../user/checks.rst:661
 msgid "Mismatched ellipsis"
@@ -32142,7 +32409,7 @@ msgstr "Reticências não correspondentes"
 
 #: ../../user/checks.rst:663
 msgid "*Source and translation do not both end with an ellipsis*"
-msgstr ""
+msgstr "*Fonte e tradução não terminam com uma reticências*"
 
 #: ../../user/checks.rst:665
 msgid ""
@@ -32150,16 +32417,21 @@ msgid ""
 "translation. This only checks for real ellipsis (``…``) not for three dots "
 "(``...``)."
 msgstr ""
+"Verifica se as reticências ao final são replicadas entre a fonte e a "
+"tradução. Isto só verifica se há reticências reais (``…``) e não três pontos "
+"(``...``)."
 
 #: ../../user/checks.rst:668
 msgid ""
 "An ellipsis is usually rendered nicer than three dots in print, and sounds "
 "better with text-to-speech."
 msgstr ""
+"Uma reticência é normalmente mais agradável do que três pontos na impressão "
+"e soa melhor com o texto para a fala."
 
 #: ../../user/checks.rst:672 ../../user/checks.rst:1008
 msgid "`Ellipsis on Wikipedia <https://en.wikipedia.org/wiki/Ellipsis>`_"
-msgstr ""
+msgstr "`Reticências na Wikipédia <https://pt.wikipedia.org/wiki/Reticências>`_"
 
 #: ../../user/checks.rst:678
 msgid "Mismatched exclamation mark"
@@ -32167,7 +32439,7 @@ msgstr "Ponto de exclamação não correspondente"
 
 #: ../../user/checks.rst:680
 msgid "*Source and translation do not both end with an exclamation mark*"
-msgstr ""
+msgstr "*Fonte e tradução não terminam com um ponto de exclamação*"
 
 #: ../../user/checks.rst:682
 msgid ""
@@ -32176,12 +32448,18 @@ msgid ""
 "where they do not belong (Chinese, Japanese, Korean, Armenian, Limbu, "
 "Myanmar or Nko)."
 msgstr ""
+"Verifica se as exclamações são replicadas entre a fonte e a tradução. A "
+"presença de pontos de exclamação também é verificada para vários idiomas "
+"onde eles não pertencem (chinês, japonês, coreano, armênio, limbu, mianmar "
+"ou Nko)."
 
 #: ../../user/checks.rst:689
 msgid ""
 "`Exclamation mark on Wikipedia <https://en.wikipedia.org/wiki/"
 "Exclamation_mark>`_"
 msgstr ""
+"`Ponto de exclamação na Wikipédia <https://pt.wikipedia.org/wiki/"
+"Ponto_de_exclamação>`_"
 
 #: ../../user/checks.rst:694
 msgid "Mismatched full stop"
@@ -32189,7 +32467,7 @@ msgstr "Ponto final não correspondente"
 
 #: ../../user/checks.rst:696
 msgid "*Source and translation do not both end with a full stop*"
-msgstr ""
+msgstr "*Fonte e tradução não terminam com um ponto final*"
 
 #: ../../user/checks.rst:698
 msgid ""
@@ -32197,10 +32475,13 @@ msgid ""
 "The presence of full stops is checked for various languages where they do "
 "not belong (Chinese, Japanese, Devanagari or Urdu)."
 msgstr ""
+"Verifica se os pontos finais são replicados entre a fonte e a tradução. A "
+"presença de pontos finais é verificada para vários idiomas onde eles não "
+"pertencem (chinês, japonês, devanágari ou urdu)."
 
 #: ../../user/checks.rst:704
 msgid "`Full stop on Wikipedia <https://en.wikipedia.org/wiki/Full_stop>`_"
-msgstr ""
+msgstr "`Ponto final na Wikipédia <https://pt.wikipedia.org/wiki/Ponto_final>`_"
 
 #: ../../user/checks.rst:709
 msgid "Mismatched question mark"
@@ -32217,11 +32498,17 @@ msgid ""
 "languages where they do not belong (Armenian, Arabic, Chinese, Korean, "
 "Japanese, Ethiopic, Vai or Coptic)."
 msgstr ""
+"Verifica se os pontos de interrogação são replicados entre a fonte e a "
+"tradução. A presença de pontos de interrogação também é verificada para "
+"vários idiomas onde eles não pertencem (armênio, árabe, chinês, coreano, "
+"japonês, etíope, vai ou copta)."
 
 #: ../../user/checks.rst:720
 msgid ""
 "`Question mark on Wikipedia <https://en.wikipedia.org/wiki/Question_mark>`_"
 msgstr ""
+"`Ponto de interrogação na Wikipédia <https://pt.wikipedia.org/wiki/"
+"Ponto_de_interrogação>`_"
 
 #: ../../user/checks.rst:725
 msgid "Mismatched semicolon"
@@ -32229,7 +32516,7 @@ msgstr "Ponto e vírgula não correspondente"
 
 #: ../../user/checks.rst:727
 msgid "*Source and translation do not both end with a semicolon*"
-msgstr ""
+msgstr "*Fonte e tradução não terminam com ponto e vírgula*"
 
 #: ../../user/checks.rst:729
 msgid ""
@@ -32237,10 +32524,15 @@ msgid ""
 "source and translation. This can be useful to keep formatting of entries "
 "such as desktop files."
 msgstr ""
+"Verifica se os caracteres de ponto e vírgula no final das frases são "
+"replicados entre a fonte e a tradução. Isto pode ser útil para manter a "
+"formatação das entradas, como arquivos desktop."
 
 #: ../../user/checks.rst:734
 msgid "`Semicolon on Wikipedia <https://en.wikipedia.org/wiki/Semicolon>`_"
 msgstr ""
+"`Ponto e vírgula na Wikipédia <https://pt.wikipedia.org/wiki/"
+"Ponto_e_vírgula>`_"
 
 #: ../../user/checks.rst:739
 msgid "Mismatching line breaks"
@@ -32248,13 +32540,16 @@ msgstr "Quebras de linha descasadas"
 
 #: ../../user/checks.rst:741
 msgid "*Number of new lines in translation does not match source*"
-msgstr ""
+msgstr "*Número de novas linhas na tradução não corresponde à fonte*"
 
 #: ../../user/checks.rst:743
 msgid ""
 "Usually newlines are important for formatting program output. Check fails if "
 "the number of ``\\n`` literals in translation do not match the source."
 msgstr ""
+"Geralmente, as novas linhas são importantes para formatar a saída do "
+"programa. A verificação falha se o número de literais ``\\n"
+"`` na tradução não corresponder à fonte."
 
 #: ../../user/checks.rst:750
 msgid "Missing plurals"
@@ -32262,7 +32557,7 @@ msgstr "Faltam plurais"
 
 #: ../../user/checks.rst:752
 msgid "*Some plural forms are not translated*"
-msgstr ""
+msgstr "*Algumas formas no plural não estão traduzidas*"
 
 #: ../../user/checks.rst:754
 msgid ""
@@ -32270,12 +32565,17 @@ msgid ""
 "Specifics on how each plural form is used can be found in the string "
 "definition."
 msgstr ""
+"Verifica se todas as formas plurais de um texto fonte foram traduzidas. "
+"Especificações sobre como cada forma plural é usada podem ser encontradas na "
+"definição do texto."
 
 #: ../../user/checks.rst:757
 msgid ""
 "Failing to fill in plural forms will in some cases lead to displaying "
 "nothing when the plural form is in use."
 msgstr ""
+"O não preenchimento correto das formas de plural vai levar, em alguns casos, "
+"a exibir nada quando a forma do plural está em uso."
 
 #: ../../user/checks.rst:763
 msgid "Placeholders"
@@ -32283,7 +32583,7 @@ msgstr "Espaços reservados"
 
 #: ../../user/checks.rst:765
 msgid "*Translation is missing some placeholders:*"
-msgstr ""
+msgstr "*Falta a tradução de alguns espaços reservados:*"
 
 #: ../../user/checks.rst:771
 msgid "You can use regular expression as placeholder."
@@ -32295,12 +32595,18 @@ msgid ""
 "the translation file or defined manually using ``placeholders`` flag, more "
 "can be separated with colon, strings with space can be quoted:"
 msgstr ""
+"A tradução não contém alguns espaços reservados. Estes são extraídos do "
+"arquivo de tradução ou definidos manualmente usando o sinalizador "
+"``placeholders``, outros podem ser separados com ponto e vírgula, textos com "
+"o espaço podem ser colocados entre aspas:"
 
 #: ../../user/checks.rst:781
 msgid ""
 "In case you have some syntax for placeholders, you can use a regular "
 "expression:"
 msgstr ""
+"Caso você tenha alguma sintaxe para os espaços reservados, você pode usar "
+"uma expressão regular:"
 
 #: ../../user/checks.rst:789 ../../user/glossary.rst:57
 #: ../../user/glossary.rst:76 ../../user/glossary.rst:95
@@ -32313,7 +32619,7 @@ msgstr "Espaçamento de pontuação"
 
 #: ../../user/checks.rst:796
 msgid "*Missing non breakable space before double punctuation sign*"
-msgstr ""
+msgstr "*Espaço rígido antes do sinal de pontuação dupla*"
 
 #: ../../user/checks.rst:800
 msgid ""
@@ -32322,22 +32628,31 @@ msgid ""
 "only in a few selected languages like French or Breton, where space before "
 "double punctuation sign is a typographic rule."
 msgstr ""
+"Verifica se há espaço rígido antes do sinal de pontuação dupla (ponto de "
+"exclamação, ponto de interrogação, ponto e vírgula e dois pontos). Esta "
+"regra é usada apenas em alguns idiomas selecionados, como o francês ou o "
+"bretão, onde o espaço antes do sinal de pontuação dupla é uma regra "
+"tipográfica."
 
 #: ../../user/checks.rst:807
 msgid ""
 "`French and English spacing on Wikipedia <https://en.wikipedia.org/wiki/"
 "History_of_sentence_spacing#French_and_English_spacing>`_"
 msgstr ""
+"`Espaçamento em francês e inglês na Wikipédia <https://en.wikipedia.org/wiki/"
+"History_of_sentence_spacing#French_and_English_spacing>`_"
 
 #: ../../user/checks.rst:815
 msgid "*Translation does not match regular expression:*"
-msgstr ""
+msgstr "*A tradução não corresponde à expressão regular:*"
 
 #: ../../user/checks.rst:819
 msgid ""
 "Translation does not match regular expression. The expression is either "
 "extracted from the translation file or defined manually using ``regex`` flag:"
 msgstr ""
+"A tradução não corresponde à expressão regular. A expressão é extraída do "
+"arquivo de tradução ou definida manualmente usando o sinalizador ``regex``:"
 
 #: ../../user/checks.rst:831
 msgid "Same plurals"
@@ -32345,13 +32660,15 @@ msgstr "Mesmos plurais"
 
 #: ../../user/checks.rst:833
 msgid "*Some plural forms are translated in the same way*"
-msgstr ""
+msgstr "*Algumas formas de plural estão traduzidas da mesma forma*"
 
 #: ../../user/checks.rst:835
 msgid ""
 "Check that fails if some plural forms are duplicated in the translation. In "
 "most languages they have to be different."
 msgstr ""
+"Verifica que falha se algumas formas de plural estiverem duplicadas na "
+"tradução. Na maioria dos idiomas, elas têm que ser diferentes."
 
 #: ../../user/checks.rst:841
 msgid "Starting newline"
@@ -32359,7 +32676,7 @@ msgstr "Nova linha no início"
 
 #: ../../user/checks.rst:843
 msgid "*Source and translation do not both start with a newline*"
-msgstr ""
+msgstr "*Fonte e tradução não iniciam com uma nova linha*"
 
 #: ../../user/checks.rst:845 ../../user/checks.rst:869
 msgid ""
@@ -32367,6 +32684,9 @@ msgid ""
 "additions can lead to formatting problems when the translated text is put to "
 "use."
 msgstr ""
+"As novas linhas costumam aparecer nos textos fonte por uma boa razão, de "
+"forma que omissões ou adições podem levar a problemas de formatação quando o "
+"texto traduzido é colocado em uso."
 
 #: ../../user/checks.rst:850
 msgid ":ref:`check-end-newline`"
@@ -32378,13 +32698,15 @@ msgstr "Espaços no início"
 
 #: ../../user/checks.rst:857
 msgid "*Source and translation do not both start with same number of spaces*"
-msgstr ""
+msgstr "*Fonte e tradução não iniciam com o mesmo número de espaços*"
 
 #: ../../user/checks.rst:859
 msgid ""
 "A space in the beginning of a string is usually used for indentation in the "
 "interface and thus important to keep."
 msgstr ""
+"Um espaço no início de um texto é normalmente usado para recuo na interface "
+"e, portanto, importante de manter."
 
 #: ../../user/checks.rst:865
 msgid "Trailing newline"
@@ -32392,7 +32714,7 @@ msgstr "Linha em branco no final"
 
 #: ../../user/checks.rst:867
 msgid "*Source and translation do not both end with a newline*"
-msgstr ""
+msgstr "*Fonte e tradução não terminam com uma nova linha*"
 
 #: ../../user/checks.rst:874
 msgid ":ref:`check-begin-newline`"
@@ -32404,19 +32726,22 @@ msgstr "Espaço no final"
 
 #: ../../user/checks.rst:881
 msgid "*Source and translation do not both end with a space*"
-msgstr ""
+msgstr "*Fonte e tradução não terminam com um espaço*"
 
 #: ../../user/checks.rst:883
 msgid ""
 "Checks that trailing spaces are replicated between both source and "
 "translation."
 msgstr ""
+"Verifica se os espaços no final são replicados entre a fonte e a tradução."
 
 #: ../../user/checks.rst:885
 msgid ""
 "Trailing space is usually utilized to space out neighbouring elements, so "
 "removing it might break layout."
 msgstr ""
+"O espaço ao final é normalmente utilizado para espaçar os elementos "
+"vizinhos, de forma que a sua remoção pode quebrar a disposição."
 
 #: ../../user/checks.rst:891
 msgid "Unchanged translation"
@@ -32424,7 +32749,7 @@ msgstr "Tradução não alterada"
 
 #: ../../user/checks.rst:893
 msgid "*Source and translation are identical*"
-msgstr ""
+msgstr "*A fonte e a tradução são idênticas*"
 
 #: ../../user/checks.rst:895
 msgid ""
@@ -32433,10 +32758,15 @@ msgid ""
 "all languages are ignored, and various markup is stripped. This reduces the "
 "number of false positives."
 msgstr ""
+"Acontece se o texto fonte e a tradução correspondente forem idênticos, até "
+"pelo menos uma das formas de plural. Alguns textos normalmente encontrados "
+"em todos os idiomas são ignorados, e várias marcações são ignoradas. Isto "
+"reduz o número de falsos positivos."
 
 #: ../../user/checks.rst:900
 msgid "This check can help find strings mistakenly untranslated."
 msgstr ""
+"Esta verificação pode ajudar a encontrar textos erroneamente não traduzidos."
 
 #: ../../user/checks.rst:902
 msgid ""
@@ -32447,10 +32777,16 @@ msgid ""
 "blacklist can be disabled by adding ``strict-same`` flag to string or "
 "component."
 msgstr ""
+"O comportamento padrão desta verificação é excluir palavras da lista negra "
+"embutida da verificação. Estas são palavras que frequentemente não estão "
+"sendo traduzidas. Isto é útil para evitar falsos positivos em textos curtos, "
+"que consistem apenas em uma única palavra que é a mesma em vários idiomas. "
+"Esta lista negra pode ser desabilitada adicionando ``strict-same`` ao texto "
+"ou componente."
 
 #: ../../user/checks.rst:910
 msgid ":ref:`component`, :ref:`custom-checks`"
-msgstr ""
+msgstr ":ref:`component`, :ref:`custom-checks`"
 
 #: ../../user/checks.rst:916
 msgid "Unsafe HTML"
@@ -32458,7 +32794,7 @@ msgstr "HTML inseguro"
 
 #: ../../user/checks.rst:918
 msgid "*The translation uses unsafe HTML markup*"
-msgstr ""
+msgstr "*A tradução usa uma marcação HTML insegura*"
 
 #: ../../user/checks.rst:922
 msgid ""
@@ -32466,12 +32802,18 @@ msgid ""
 "``safe-html`` flag (see :ref:`custom-checks`). There is also accompanied "
 "autofixer which can automatically sanitize the markup."
 msgstr ""
+"A tradução utiliza uma marcação HTML insegura. Esta verificação tem que ser "
+"habilitada utilizando o sinalizador ``safe-html`` (veja :ref:`custom-checks`)"
+". Há também o autocorretor acompanhado que pode automaticamente corrigir a "
+"marcação."
 
 #: ../../user/checks.rst:928
 msgid ""
 "The HTML check is performed by the `Bleach <https://bleach.readthedocs.io/"
 ">`_ library developed by Mozilla."
 msgstr ""
+"A verificação HTML é feita pela biblioteca `Bleach <https://bleach."
+"readthedocs.io/>`_ desenvolvida pela Mozilla."
 
 #: ../../user/checks.rst:936
 msgid "URL"
@@ -32479,7 +32821,7 @@ msgstr "URL"
 
 #: ../../user/checks.rst:938
 msgid "*The translation does not contain an URL*"
-msgstr ""
+msgstr "*A tradução não contém uma URL*"
 
 #: ../../user/checks.rst:942
 msgid ""
@@ -32487,6 +32829,9 @@ msgid ""
 "unit is marked as containing URL. In that case the translation has to be a "
 "valid URL."
 msgstr ""
+"A tradução não contém uma URL. Isso só é acionado caso a unidade esteja "
+"marcada como contendo uma URL. Nesse caso, a tradução tem de ser uma URL "
+"válido."
 
 #: ../../user/checks.rst:949
 msgid "XML markup"
@@ -32494,7 +32839,7 @@ msgstr "Marcação XML"
 
 #: ../../user/checks.rst:951
 msgid "*XML tags in translation do not match source*"
-msgstr ""
+msgstr "*As tags na tradução não correspondem com a fonte*"
 
 #: ../../user/checks.rst:953
 msgid ""
@@ -32502,11 +32847,14 @@ msgid ""
 "this is not a desired result from changing the translation, but occasionally "
 "it is."
 msgstr ""
+"Isso geralmente significa que a saída resultante terá uma aparência "
+"diferente. Na maioria dos casos, este não é o resultado desejado de alterar "
+"a tradução, mas ocasionalmente é."
 
 #: ../../user/checks.rst:956
 msgid ""
 "Checks that XML tags are replicated between both source and translation."
-msgstr ""
+msgstr "Verifica se as tags XML são replicadas entre a fonte e a tradução."
 
 #: ../../user/checks.rst:963
 msgid "XML syntax"
@@ -32514,11 +32862,11 @@ msgstr "Sintaxe XML"
 
 #: ../../user/checks.rst:965
 msgid "*The translation is not valid XML*"
-msgstr ""
+msgstr "*A tradução não é um XML válido*"
 
 #: ../../user/checks.rst:969
 msgid "The XML markup is not valid."
-msgstr ""
+msgstr "A marcação XML não é válida."
 
 #: ../../user/checks.rst:974
 msgid "Zero-width space"
@@ -32526,13 +32874,15 @@ msgstr "Espaço com largura zero"
 
 #: ../../user/checks.rst:976
 msgid "*Translation contains extra zero-width space character*"
-msgstr ""
+msgstr "*A tradução contém um caractere extra de espaço com largura zero*"
 
 #: ../../user/checks.rst:978
 msgid ""
 "Zero-width space (<U+200B>) characters are used to break messages within "
 "words (word wrapping)."
 msgstr ""
+"Os caracteres de largura zero (<U+200B>) são usados para quebrar mensagens "
+"dentro das palavras (*word wrapping*)."
 
 #: ../../user/checks.rst:980
 msgid ""
@@ -32540,21 +32890,28 @@ msgid ""
 "are present in translation. Some programs might have problems when this "
 "character is used."
 msgstr ""
+"Como geralmente são inseridas por engano, esta verificação é acionada uma "
+"vez que estão presentes na tradução. Alguns programas podem ter problemas "
+"quando este caractere é usado."
 
 #: ../../user/checks.rst:985
 msgid ""
 "`Zero width space on Wikipedia <https://en.wikipedia.org/wiki/Zero-"
 "width_space>`_"
 msgstr ""
+"`Espaço de largura zero na Wikipédia <https://pt.wikipedia.org/wiki/"
+"Espaço_de_largura_zero>`_"
 
 #: ../../user/checks.rst:990
 msgid "Source checks"
-msgstr ""
+msgstr "Verificações de texto fonte"
 
 #: ../../user/checks.rst:992
 msgid ""
 "Source checks can help developers improve the quality of source strings."
 msgstr ""
+"Estas verificações podem ajudar os desenvolvedores a melhorar a qualidade "
+"dos textos fonte."
 
 #: ../../user/checks.rst:997
 msgid "Ellipsis"
@@ -32563,18 +32920,24 @@ msgstr "Reticências"
 #: ../../user/checks.rst:999
 msgid "*The string uses three dots (...) instead of an ellipsis character (…)*"
 msgstr ""
+"*O texto usa três pontos (...) ao invés do caractere de reticências (…)*"
 
 #: ../../user/checks.rst:1001
 msgid ""
 "This fails when the string uses three dots (``...``) when it should use an "
 "ellipsis character (``…``)."
 msgstr ""
+"Isto falha quando o texto usa três pontos (``...``) quando deveria usar um "
+"caractere de reticências (``…``)."
 
 #: ../../user/checks.rst:1003
 msgid ""
 "Using the Unicode character is in most cases the better approach and looks "
 "better rendered, and may sound better with text-to-speech."
 msgstr ""
+"O uso do caractere Unicode é, na maioria dos casos, a melhor abordagem e "
+"parece melhor renderizado, e pode soar melhor com texto para fala (*text-to-"
+"speech*)."
 
 #: ../../user/checks.rst:1014
 msgid "Long untranslated"
@@ -32582,13 +32945,15 @@ msgstr "Não traduzido a muito tempo"
 
 #: ../../user/checks.rst:1016
 msgid "*The string has not been translated for a long time*"
-msgstr ""
+msgstr "*Este texto não foi traduzido há muito tempo*"
 
 #: ../../user/checks.rst:1020
 msgid ""
 "When the string has not been translated for a long time, it is can indicate "
 "problem in a source string making it hard to translate."
 msgstr ""
+"Quando o texto não é traduzida há muito tempo, pode indicar um problema em "
+"um texto fonte, tornando difícil a tradução."
 
 #: ../../user/checks.rst:1027
 msgid "Multiple failing checks"
@@ -32596,7 +32961,7 @@ msgstr "Várias verificações com falha"
 
 #: ../../user/checks.rst:1029
 msgid "*The translations in several languages have failing checks*"
-msgstr ""
+msgstr "*As traduções em diversos idiomas têm verificações com falha*"
 
 #: ../../user/checks.rst:1031
 msgid ""
@@ -32604,6 +32969,9 @@ msgid ""
 "usually an indication that something could be done to improve the source "
 "string."
 msgstr ""
+"Várias traduções deste texto têm falhas nas verificações de qualidade. Isto "
+"é normalmente uma indicação de que algo poderia ser feito para melhorar o "
+"texto fonte."
 
 #: ../../user/checks.rst:1035
 msgid ""
@@ -32611,6 +32979,9 @@ msgid ""
 "end of a sentence, or similar minor issues which translators tend to fix in "
 "translation, while it would be better to fix it in the source string."
 msgstr ""
+"Esta falha na verificação pode muitas vezes ser causada por um ponto final "
+"de uma frase, ou por questões menores similares que os tradutores tendem a "
+"corrigir na tradução, enquanto que seria melhor corrigi-la no texto fonte."
 
 #: ../../user/checks.rst:1042
 msgid "Multiple unnamed variables"
@@ -32621,17 +32992,23 @@ msgid ""
 "*There are multiple unnamed variables in the string, making it impossible "
 "for translators to reorder them*"
 msgstr ""
+"*Há várias variáveis sem nome no texto, o que impossibilita aos tradutores "
+"reordená-las*"
 
 #: ../../user/checks.rst:1049
 msgid ""
 "There are multiple unnamed variables in the string, making it impossible for "
 "translators to reorder them."
 msgstr ""
+"Há várias variáveis sem nome no texto, o que impossibilita aos tradutores "
+"reordená-las."
 
 #: ../../user/checks.rst:1052
 msgid ""
 "Consider using named variables instead to allow translators to reorder them."
 msgstr ""
+"Considere usar variáveis nomeadas para permitir que os tradutores as "
+"reordenem."
 
 #: ../../user/checks.rst:1057
 msgid "Unpluralised"
@@ -32639,7 +33016,7 @@ msgstr "Não pluralizado"
 
 #: ../../user/checks.rst:1059
 msgid "*The string is used as plural, but not using plural forms*"
-msgstr ""
+msgstr "*O texto é usado como plural, mas não está usando formas de plural*"
 
 #: ../../user/checks.rst:1061
 msgid ""
@@ -32647,10 +33024,13 @@ msgid ""
 "translation system supports this, you should use the plural aware variant of "
 "it."
 msgstr ""
+"O texto é usado como um plural, mas não usa formas de plural. Caso o seu "
+"sistema de tradução tenha suporte a isso, você deve usar a variante que "
+"reconheça o plural."
 
 #: ../../user/checks.rst:1065
 msgid "For example with Gettext in Python it could be:"
-msgstr ""
+msgstr "Por exemplo, com o Gettext em Python poderia ser:"
 
 #: ../../user/files.rst:2
 msgid "Downloading and uploading translations"
@@ -33457,23 +33837,28 @@ msgstr ":ref:`reverse-proxy`"
 
 #: ../../user/search.rst:4
 msgid "Searching"
-msgstr ""
+msgstr "Pesquisando"
 
 #: ../../user/search.rst:8
 msgid ""
 "Advanced queries using boolean operations, parentheses, or field specific "
 "lookup can be used to find the strings you want."
 msgstr ""
+"Consultas avançadas usando operações booleanas, parênteses ou pesquisas "
+"específicas de campo podem ser usadas para encontrar os textos que você "
+"deseja."
 
 #: ../../user/search.rst:11
 msgid ""
 "When no field is defined, the lookup happens on :guilabel:`Source`, :"
 "guilabel:`Translate` and :guilabel:`Context` fields."
 msgstr ""
+"Quando nenhum campo é definido, a pesquisa acontece nos campos "
+":guilabel:`Fonte`, :guilabel:`Tradução` e :guilabel:`Contexto`."
 
 #: ../../user/search.rst:17
 msgid "Simple search"
-msgstr ""
+msgstr "Pesquisa simples"
 
 #: ../../user/search.rst:19
 msgid ""
@@ -33482,10 +33867,15 @@ msgid ""
 "into quotes (both single (') and double (\") quotes will work): ``\"this is "
 "a quoted string\"`` or ``'another quoted string'``."
 msgstr ""
+"Qualquer frase digitada na caixa de pesquisa é dividida em palavras. As "
+"cordas que contêm qualquer uma delas são mostradas. Para procurar uma frase "
+"exata, coloque \"a frase de pesquisa\" entre aspas (ambas aspas simples (') "
+"e duplas (\") funcionarão: ``\"este é um texto entre aspas\"`` ou ``'outro "
+"texto entre aspas'``."
 
 #: ../../user/search.rst:25
 msgid "Fields"
-msgstr ""
+msgstr "Campos"
 
 #: ../../user/search.rst:27
 msgid "``source:TEXT``"
@@ -33493,7 +33883,7 @@ msgstr ""
 
 #: ../../user/search.rst:28
 msgid "Source string case insensitive search."
-msgstr ""
+msgstr "Pesquisa em texto fonte sem diferenciar maiúscula de minúscula."
 
 #: ../../user/search.rst:29
 msgid "``target:TEXT``"
@@ -33501,7 +33891,7 @@ msgstr ""
 
 #: ../../user/search.rst:30
 msgid "Target string case insensitive search."
-msgstr ""
+msgstr "Pesquisa em texto destino sem diferenciar maiúscula de minúscula."
 
 #: ../../user/search.rst:31
 msgid "``context:TEXT``"
@@ -33509,7 +33899,7 @@ msgstr ""
 
 #: ../../user/search.rst:32
 msgid "Context string case insensitive search."
-msgstr ""
+msgstr "Pesquisa em texto de contexto sem diferenciar maiúscula de minúscula."
 
 #: ../../user/search.rst:33
 msgid "``key:TEXT``"
@@ -33517,7 +33907,7 @@ msgstr ""
 
 #: ../../user/search.rst:34
 msgid "Key string case insensitive search."
-msgstr ""
+msgstr "Pesquisa em texto chave sem diferenciar maiúscula de minúscula."
 
 #: ../../user/search.rst:35
 msgid "``note:TEXT``"
@@ -33525,7 +33915,7 @@ msgstr ""
 
 #: ../../user/search.rst:36
 msgid "Comment string case insensitive search."
-msgstr ""
+msgstr "Pesquisa em texto de comentário sem diferenciar maiúscula de minúscula."
 
 #: ../../user/search.rst:37
 msgid "``location:TEXT``"
@@ -33534,6 +33924,7 @@ msgstr ""
 #: ../../user/search.rst:38
 msgid "Location string case insensitive search."
 msgstr ""
+"Pesquisa em texto de localização sem diferenciar maiúscula de minúscula."
 
 #: ../../user/search.rst:39
 msgid "``priority:NUMBER``"
@@ -33541,7 +33932,7 @@ msgstr ""
 
 #: ../../user/search.rst:40
 msgid "String priority."
-msgstr ""
+msgstr "Prioridade do texto."
 
 #: ../../user/search.rst:41
 msgid "``added:DATETIME``"
@@ -33549,7 +33940,7 @@ msgstr ""
 
 #: ../../user/search.rst:42
 msgid "Timestamp for when the string was added to Weblate."
-msgstr ""
+msgstr "Data e hora de quando o texto foi adicionado ao Weblate."
 
 #: ../../user/search.rst:43
 msgid "``state:TEXT``"
@@ -33560,6 +33951,8 @@ msgid ""
 "State search (``approved``, ``translated``, ``needs-editing``, ``empty``, "
 "``read-only``), supports :ref:`search-operators`."
 msgstr ""
+"Pesquisa de estado (``approved``, ``translated``, ``needs-editing``, "
+"``empty``, ``read-only``), suporta :ref:`search-operators`."
 
 #: ../../user/search.rst:45
 msgid "``pending:BOOLEAN``"
@@ -33567,7 +33960,7 @@ msgstr ""
 
 #: ../../user/search.rst:46
 msgid "String pending for flushing to VCS."
-msgstr ""
+msgstr "Texto pendente para descarga para o VCS."
 
 #: ../../user/search.rst:47
 msgid "``has:TEXT``"
@@ -33580,6 +33973,9 @@ msgid ""
 "``translation``, ``variant``, ``screenshot``, ``flags``, ``explanation``, "
 "``glossary``."
 msgstr ""
+"Pesquisa por texto com atributos - ``plural``, ``context``, ``suggestion``, "
+"``comment``, ``check``, ``dismissed-check``, ``translation``, ``variant``, "
+"``screenshot``, ``flags``, ``explanation``, ``glossary``."
 
 #: ../../user/search.rst:49
 msgid "``is:TEXT``"
@@ -33589,6 +33985,8 @@ msgstr ""
 msgid ""
 "Search for string states (``pending``, ``translated``, ``untranslated``)."
 msgstr ""
+"Pesquisa por estados de texto (``pending```, ``translated```, "
+"``untranslated```)."
 
 #: ../../user/search.rst:51
 msgid "``language:TEXT``"
@@ -33596,7 +33994,7 @@ msgstr ""
 
 #: ../../user/search.rst:52
 msgid "String target language."
-msgstr ""
+msgstr "Idioma de destino do texto."
 
 #: ../../user/search.rst:53
 msgid "``component:TEXT``"
@@ -33604,7 +34002,7 @@ msgstr "``component:TEXTO``"
 
 #: ../../user/search.rst:54
 msgid "Component slug, see :ref:`component-slug`."
-msgstr "Slug do componente, consulte :ref:`component-slug`."
+msgstr "Slug do componente, veja :ref:`component-slug`."
 
 #: ../../user/search.rst:55
 msgid "``project:TEXT``"
@@ -33612,7 +34010,7 @@ msgstr "``project:TEXTO``"
 
 #: ../../user/search.rst:56
 msgid "Project slug, see :ref:`project-slug`."
-msgstr ""
+msgstr "Slug do projeto, veja :ref:`project-slug`."
 
 #: ../../user/search.rst:57
 msgid "``changed_by:TEXT``"
@@ -33620,7 +34018,7 @@ msgstr ""
 
 #: ../../user/search.rst:58
 msgid "String was changed by author with given username."
-msgstr ""
+msgstr "O texto foi alterado pelo autor com o nome de usuário fornecido."
 
 #: ../../user/search.rst:59
 msgid "``changed:DATETIME``"
@@ -33629,6 +34027,8 @@ msgstr ""
 #: ../../user/search.rst:60
 msgid "String content was changed on date, supports :ref:`search-operators`."
 msgstr ""
+"O conteúdo do texto foi alterado na data, suporta :ref:`operadores de "
+"pesquisa`."
 
 #: ../../user/search.rst:63
 #, fuzzy
@@ -33642,6 +34042,9 @@ msgid ""
 "``changed`` this includes event which don't change content and you can apply "
 "custom action filtering using ``change_action``."
 msgstr ""
+"Texto foi alterado na data, suporta :ref:`search-operators`; ao contrário de "
+"``changed``, isso inclui eventos que não alteram o conteúdo e você pode "
+"aplicar uma filtragem de ação personalizada utilizando ``change_action``."
 
 #: ../../user/search.rst:68
 #, fuzzy
@@ -33656,6 +34059,10 @@ msgid ""
 "lowercase and spaces replaced by a hyphen. See :ref:`search-changes` for "
 "examples."
 msgstr ""
+"Filtros em ação de alteração, útil juntamente com ``change_time``. Aceita o "
+"nome em inglês da ação de alteração, seja entre aspas e com espaços ou "
+"letras minúsculas e espaços substituídos por um hífen. Veja :ref:`search-"
+"changes` para exemplos."
 
 #: ../../user/search.rst:70
 msgid "``check:TEXT``"
@@ -33663,7 +34070,7 @@ msgstr ""
 
 #: ../../user/search.rst:71
 msgid "String has failing check."
-msgstr ""
+msgstr "O texto tem verificação com falha."
 
 #: ../../user/search.rst:72
 msgid "``dismissed_check:TEXT``"
@@ -33671,7 +34078,7 @@ msgstr ""
 
 #: ../../user/search.rst:73
 msgid "String has dismissed check."
-msgstr ""
+msgstr "O texto tem verificação dispensada."
 
 #: ../../user/search.rst:74
 msgid "``comment:TEXT``"
@@ -33679,7 +34086,7 @@ msgstr ""
 
 #: ../../user/search.rst:75
 msgid "Search in user comments."
-msgstr ""
+msgstr "Pesquisa nos comentários de usuários."
 
 #: ../../user/search.rst:76
 msgid "``comment_author:TEXT``"
@@ -33687,7 +34094,7 @@ msgstr ""
 
 #: ../../user/search.rst:77
 msgid "Filter by comment author."
-msgstr ""
+msgstr "Filtra por autor do comentário."
 
 #: ../../user/search.rst:78
 msgid "``suggestion:TEXT``"
@@ -33695,7 +34102,7 @@ msgstr ""
 
 #: ../../user/search.rst:79
 msgid "Search in suggestions."
-msgstr ""
+msgstr "Pesquisa nas sugestões."
 
 #: ../../user/search.rst:80
 msgid "``suggestion_author:TEXT``"
@@ -33703,7 +34110,7 @@ msgstr ""
 
 #: ../../user/search.rst:81
 msgid "Filter by suggestion author."
-msgstr ""
+msgstr "Filtra por autor da sugestão."
 
 #: ../../user/search.rst:83
 #, fuzzy
@@ -33717,7 +34124,7 @@ msgstr "Pesquisa em explicações."
 
 #: ../../user/search.rst:86
 msgid "Boolean operators"
-msgstr ""
+msgstr "Operadores booleanos"
 
 #: ../../user/search.rst:88
 msgid ""
@@ -33725,24 +34132,29 @@ msgid ""
 "form complex queries. For example: ``state:translated AND (source:hello OR "
 "source:bar)``"
 msgstr ""
+"Você pode combinar pesquisas usando ``AND```, ``OR``, ``NOT`` e parênteses "
+"para formar consultas complexas. Por exemplo: ``state:translated AND (source:"
+"hello OR source:bar)``"
 
 #: ../../user/search.rst:94
 msgid "Field operators"
-msgstr ""
+msgstr "Operações de campo"
 
 #: ../../user/search.rst:96
 msgid ""
 "You can specify operators, ranges or partial lookups for date or numeric "
 "searches:"
 msgstr ""
+"Você pode especificar operadores, intervalos ou pesquisas parciais para "
+"pesquisas de data ou numéricas:"
 
 #: ../../user/search.rst:98
 msgid "``state:>=translated``"
-msgstr ""
+msgstr "``state:>=translated``"
 
 #: ../../user/search.rst:99
 msgid "State is ``translated`` or better (``approved``)."
-msgstr ""
+msgstr "Estado é ``translated`` ou melhor (``approved``)."
 
 #: ../../user/search.rst:100
 msgid "``changed:2019``"
@@ -33750,19 +34162,19 @@ msgstr ""
 
 #: ../../user/search.rst:101
 msgid "Changed in year 2019."
-msgstr ""
+msgstr "Alterado no ano de 2019."
 
 #: ../../user/search.rst:103
 msgid "``changed:[2019-03-01 to 2019-04-01]``"
-msgstr ""
+msgstr "``changed:[2019-03-01 to 2019-04-01]``"
 
 #: ../../user/search.rst:103
 msgid "Changed between two given dates."
-msgstr ""
+msgstr "Alterado entre as duas datas dadas."
 
 #: ../../user/search.rst:106
 msgid "Exact operators"
-msgstr ""
+msgstr "Operadores exatos"
 
 #: ../../user/search.rst:108
 msgid ""
@@ -33772,18 +34184,24 @@ msgid ""
 "expressions, you can skip quotes. For example, to search for all source "
 "strings matching ``hello``, you can use: ``source:=hello``."
 msgstr ""
+"Você pode fazer uma consulta de correspondência exata em diferentes campos "
+"de texto usando o operador ``=``. Por exemplo, para procurar por todos os "
+"textos fonte que correspondem exatamente a ``hello world``, use: ``source:="
+"\"hello world\"``. Para pesquisar por expressões de uma única palavra, você "
+"não precisa de aspas. Por exemplo, para procurar por todos os textos fonte "
+"que correspondam a ``hello``, você pode utilizar: ``source:=hello``."
 
 #: ../../user/search.rst:116
-#, fuzzy
-#| msgid "Number of changes"
 msgid "Searching for changes"
-msgstr "Quantidade de alterações"
+msgstr "Pesquisando por alterações"
 
 #: ../../user/search.rst:120
 msgid ""
 "Searching for history events can be done using ``change_action`` and "
 "``change_time`` operators."
 msgstr ""
+"A pesquisa por eventos do histórico pode ser feita utilizando os operadores "
+"``change_action`` e ``change_time``."
 
 #: ../../user/search.rst:123
 msgid ""
@@ -33791,40 +34209,50 @@ msgid ""
 "``change_time:2018 AND change_action:marked-for-edit`` or ``change_time:2018 "
 "AND change_action:\"Marked for edit\"``."
 msgstr ""
+"Por exemplo, uma pesquisa por textos marcados para edição em 2018 pode ser "
+"inserida como ``change_time:2018 AND change_action:marked-for-edit`` ou "
+"``change_time:2018 AND change_action:\"Marked for edit\"``."
 
 #: ../../user/search.rst:129
 msgid "Regular expressions"
-msgstr ""
+msgstr "Expressões regulares"
 
 #: ../../user/search.rst:131
 msgid ""
 "Anywhere text is accepted you can also specify a regular expression as ``r"
 "\"regexp\"``."
 msgstr ""
+"Em qualquer lugar que o texto seja aceito, você também pode especificar uma "
+"expressão regular como ``r \"regexp\"``."
 
 #: ../../user/search.rst:133
 msgid ""
 "For example, to search for all source strings which contain any digit "
 "between 2 and 5, use ``source:r\"[2-5]\"``."
 msgstr ""
+"Por exemplo, para pesquisar por todos os textos que contenham qualquer "
+"dígito entre 2 e 5, utilize ``source:r\"[2-5]\"``."
 
 #: ../../user/search.rst:137
 msgid "Predefined queries"
-msgstr ""
+msgstr "Consultas predefinidas"
 
 #: ../../user/search.rst:139
 msgid ""
 "You can select out of predefined queries on the search page, this allows you "
 "to quickly access the most frequent searches:"
 msgstr ""
+"Pode selecionar entre as consultas predefinidas na página de pesquisa, o que "
+"lhe permite acessar rapidamente as pesquisas mais frequentes:"
 
 #: ../../user/search.rst:144
 msgid "Ordering the results"
-msgstr ""
+msgstr "Ordenando os resultados"
 
 #: ../../user/search.rst:146
 msgid "There are many options to order the strings according to your needs:"
 msgstr ""
+"Há muitas opções para ordenar os textos de acordo com as suas necessidades:"
 
 #: ../../user/translating.rst:2
 msgid "Translating using Weblate"
@@ -35625,6 +36053,9 @@ msgid ""
 "you closer to your translators.  It is up to you to decide how many of its "
 "features you want to make use of."
 msgstr ""
+"Usar o Weblate é um processo que aproxima seus usuários de você, aproximando "
+"você de seus tradutores. Depende de você decidir quantos recursos deseja "
+"usar."
 
 #: ../../workflows.rst:10
 msgid ""
@@ -35682,22 +36113,17 @@ msgid "Needs editing"
 msgstr "Necessita edição"
 
 #: ../../workflows.rst:34
-#, fuzzy
-#| msgid ""
-#| "Translation needs editing, this is usually the result of a source string "
-#| "change. The translation is stored in the file, depending on the file "
-#| "format it might be marked as needing edit (for example as it gets a fuzzy "
-#| "flag)."
 msgid ""
 "Translation needs editing, this is usually the result of a source string "
 "change, fuzzy matching or translator action. The translation is stored in "
 "the file, depending on the file format it might be marked as needing edit "
 "(for example as it gets a ``fuzzy`` flag in the Gettext file)."
 msgstr ""
-"A tradução precisa ser editada, isso geralmente é o resultado de uma mudança "
-"de texto fonte. A tradução está armazenada no arquivo, dependendo do formato "
-"do arquivo que pode ser marcado como necessidade de edição (por exemplo, à "
-"medida que recebe uma sinalização de \"fuzzy\")."
+"A tradução precisa ser editada, isso geralmente é o resultado de uma "
+"alteração de texto fonte, correspondência aproximada ou ação de um tradutor. "
+"A tradução está armazenada no arquivo, dependendo do formato do arquivo que "
+"pode ser marcado como necessidade de edição (por exemplo, da mesma forma que "
+"receberia uma sinalização ``fuzzy`` no arquivo de Gettext)."
 
 #: ../../workflows.rst:38
 msgid "Waiting for review"
@@ -35879,7 +36305,7 @@ msgstr "*Qualquer usuário* pode editar traduções não aprovadas."
 
 #: ../../workflows.rst:133
 msgid "*Reviewer* can approve / unapprove strings."
-msgstr "*Revisor* pode aprovar / retirara aprovação de textos."
+msgstr "*Revisor* pode aprovar / retirar a aprovação de textos."
 
 #: ../../workflows.rst:134
 msgid "*Reviewer* can edit all translations (including approved ones)."
@@ -35900,11 +36326,6 @@ msgid "Turning on reviews"
 msgstr "Ativando revisões"
 
 #: ../../workflows.rst:159
-#, fuzzy
-#| msgid ""
-#| "Reviews can be turned on in the project configuration, from the :guilabel:"
-#| "`Workflow` subpage of project settings (to be found in the :guilabel:"
-#| "`Manage` → `Settings` menu):"
 msgid ""
 "Reviews can be turned on in the project configuration, from the :guilabel:"
 "`Workflow` subpage of project settings (to be found in the :guilabel:"
@@ -35912,7 +36333,7 @@ msgid ""
 msgstr ""
 "As revisões podem ser ativadas na configuração do projeto, a partir da "
 "subpágina :guilabel:`Fluxo de trabalho` das configurações do projeto (pode "
-"ser encontrada no menu :guilabel:`Gerenciar` → `Configurações`):"
+"ser encontrada no menu :guilabel:`Gerenciar` → :guilabel:`Configurações`):"
 
 #: ../../workflows.rst:167
 msgid ""
@@ -35937,12 +36358,12 @@ msgid ""
 "can help you in addressing this - there is additional quality gateway for "
 "the strings between developers and translators and users."
 msgstr ""
-"Em muitos casos, as textos fonte do idioma de origem vêm de desenvolvedores, "
+"Em muitos casos, os textos fonte do idioma fonte vêm de desenvolvedores, "
 "porque eles escrevem o código e fornecem textos iniciais. No entanto, os "
-"desenvolvedores muitas vezes não são falantes nativos do idioma de origem e "
-"não fornecem qualidade desejada dos textos fonte. A tradução intermediária "
-"pode ajudá-lo a lidar com isso - há uma rota de qualidade adicional para os "
-"tetos entre desenvolvedores e tradutores e usuários."
+"desenvolvedores muitas vezes não são falantes nativos do idioma fonte e não "
+"fornecem qualidade desejada dos textos fonte. A tradução intermediária pode "
+"ajudá-lo a lidar com isso - há uma rota de qualidade adicional para os tetos "
+"entre desenvolvedores e tradutores e usuários."
 
 #: ../../workflows.rst:183
 msgid ""
@@ -35952,9 +36373,9 @@ msgid ""
 "for translators to translate into additional languages."
 msgstr ""
 "Ao definir um :ref:`component-intermediate`, este arquivo será usado como "
-"fonte para os textos, mas será editado para o idioma de origem para poli-lo. "
-"Uma vez que o texto esteja pronto no idioma de origem, ela também estará "
-"disponível para os tradutores traduzirem em idiomas adicionais."
+"fonte para os textos, mas será editado para o idioma fonte para poli-lo. Uma "
+"vez que o texto esteja pronto no idioma fonte, ele também estará disponível "
+"para os tradutores traduzirem em idiomas adicionais."
 
 #: ../../workflows.rst:227
 msgid ":ref:`component-intermediate`, :ref:`component-template`, :ref:`bimono`"
