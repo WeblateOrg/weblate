@@ -3,23 +3,10 @@
 from django.db import migrations
 
 
-def create_index(apps, schema_editor):
-    vendor = schema_editor.connection.vendor
-    if vendor == "postgresql":
-        schema_editor.execute("DROP INDEX memory_source_index")
-        schema_editor.execute("DROP INDEX memory_target_index")
-        schema_editor.execute("DROP INDEX memory_origin_index")
-        schema_editor.execute(
-            "CREATE INDEX memory_lookup_index ON memory_memory (source, target, origin)"
-        )
-
-
 class Migration(migrations.Migration):
 
     dependencies = [
         ("memory", "0008_adjust_similarity"),
     ]
 
-    operations = [
-        migrations.RunPython(code=create_index),
-    ]
+    operations = []
