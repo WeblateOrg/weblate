@@ -217,6 +217,10 @@ class FastCollector(Collector):
                         unit__source_unit__in=item
                     )
                 )
+                fast_deletes.append(Unit.labels.through.objects.filter(unit__in=item))
+                fast_deletes.append(
+                    Unit.labels.through.objects.filter(unit__source_unit__in=item)
+                )
                 fast_deletes.append(Unit.objects.filter(source_unit__in=item))
             fast_deletes.append(item)
         self.fast_deletes = fast_deletes
