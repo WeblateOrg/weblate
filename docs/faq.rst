@@ -17,8 +17,9 @@ without interaction, unless some merge conflict occurs.
    :ref:`hooks` for info on how to do it.
 2. Set a push URL at your :ref:`component` in Weblate, this allows Weblate
    to push changes to your repository.
-3. Turn on push-on-commit on your :ref:`project` in Weblate, this will make
-   Weblate push changes to your repository whenever they happen at Weblate.
+3. Turn on :ref:`component-push_on_commit` on your :ref:`component` in Weblate,
+   this will make Weblate push changes to your repository whenever they happen
+   at Weblate.
 
 .. seealso::
 
