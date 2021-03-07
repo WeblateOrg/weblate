@@ -27,8 +27,8 @@ msgstr ""
 "Project-Id-Version: Weblate 4.5.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-03-05 14:18+0000\n"
-"PO-Revision-Date: 2021-03-04 07:36+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2021-03-08 13:16+0000\n"
+"Last-Translator: WaldiS <sto@tutanota.de>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/weblate/"
 "application/pl/>\n"
 "Language: pl\n"
@@ -37,7 +37,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 4.5.1-dev\n"
+"X-Generator: Weblate 4.5.1\n"
 
 #: weblate/accounts/avatar.py:103
 msgctxt "No known user"
@@ -3062,7 +3062,7 @@ msgstr "CSV"
 
 #: weblate/formats/exporters.py:396
 msgid "XLSX"
-msgstr ""
+msgstr "XLSX"
 
 #: weblate/formats/exporters.py:422 weblate/trans/forms.py:1075
 msgid "JSON"
@@ -4000,16 +4000,13 @@ msgid "You can only contact maintainers of the whole server here."
 msgstr "Tutaj możesz skontaktować się tylko z opiekunami całego serwera."
 
 #: weblate/templates/accounts/contact.html:17
-#, fuzzy, python-format
-#| msgid ""
-#| "If you are looking for support for Weblate or want to file bug reports "
-#| "check its website at %(weblate_link)s."
+#, python-format
 msgid ""
 "If you are looking for support for Weblate, or want to file a bug report, "
 "check its website at %(weblate_link)s."
 msgstr ""
-"Jeśli szukasz wsparcia dla Weblate lub chcesz uzupełnić raporty błędów, "
-"sprawdź witrynę internetową na %(weblate_link)s."
+"Jeśli szukasz wsparcia dla Weblate lub chcesz zgłosić błąd, sprawdź jego "
+"stronę internetową pod adresem %(weblate_link)s."
 
 #: weblate/templates/accounts/contact.html:32
 #: weblate/templates/manage/tools.html:26
@@ -4943,10 +4940,9 @@ msgid "Failed checks in %(project)s"
 msgstr "Niepowiedzione kontrole w projekcie %(project)s"
 
 #: weblate/templates/base.html:180
-#, fuzzy, python-format
-#| msgid "Failed checks in %(project)s — %(language)s"
+#, python-format
 msgid "Failed checks in %(language)s"
-msgstr "Niepowiedzione kontrole w projekcie %(project)s — %(language)s"
+msgstr "Nieudane kontrole w %(language)s"
 
 #: weblate/templates/base.html:184
 msgid "Checks overview"
@@ -6549,21 +6545,17 @@ msgid "Mark as spam"
 msgstr "Oznacz jako spam"
 
 #: weblate/templates/mail/account_activity.html:7
-#, fuzzy, python-format
-#| msgid "There has been a change in your account at %(site_title)s:"
+#, python-format
 msgid "There has been a following change in your account at %(site_title)s:"
-msgstr "Na twoim koncie, na stronie %(site_title)s pojawiła się zmiana:"
+msgstr ""
+"Na Twoim koncie pod adresem %(site_title)s nastąpiła następująca zmiana:"
 
 #: weblate/templates/mail/account_activity.html:32
-#, fuzzy
-#| msgid ""
-#| "If you don’t recognize this change, you can report it by clicking the "
-#| "button bellow."
 msgid ""
 "If you don’t recognize this change, you can report it by clicking the button "
 "below."
 msgstr ""
-"Jeśli nie rozpoznajesz tej zmiany, możesz ją zgłosić klikając na przycisk "
+"Jeśli nie rozpoznajesz tej zmiany, możesz zgłosić ją, klikając przycisk "
 "poniżej."
 
 #: weblate/templates/mail/account_activity.html:33
@@ -9241,10 +9233,8 @@ msgid "string %(position)s"
 msgstr "ciąg %(position)s"
 
 #: weblate/templates/translation.html:56
-#, fuzzy
-#| msgid "Download translation as CSV"
 msgid "Download translation"
-msgstr "Pobierz tłumaczenie jako CSV"
+msgstr "Pobierz tłumaczenie"
 
 #: weblate/templates/translation.html:58 weblate/templates/translation.html:374
 msgid "Customize download"
@@ -9343,28 +9333,28 @@ msgstr ""
 "wszystkich tłumaczeniach."
 
 #: weblate/templates/translation.html:329
-#, fuzzy
-#| msgid "Customize download"
 msgid "Quick downloads"
-msgstr "Dostosuj pobieranie"
+msgstr "Szybkie pobieranie"
 
 #: weblate/templates/translation.html:336
-#, fuzzy
-#| msgid "Some plural forms are translated in the same way"
 msgid "File in original format as translated in the repository"
-msgstr "Niektóre formy mnogie są tłumaczone w ten sam sposób"
+msgstr "Plik w oryginalnym formacie przetłumaczony w repozytorium"
 
 #: weblate/templates/translation.html:345
 msgid ""
 "All strings, converted files enriched with comments; suitable for "
 "translating offline"
 msgstr ""
+"Wszystkie ciągi, przekonwertowane pliki wzbogacone komentarzami; nadaje się "
+"do tłumaczenia offline"
 
 #: weblate/templates/translation.html:357
 msgid ""
 "Strings needing action, converted files enriched with comments; suitable for "
 "translating offline"
 msgstr ""
+"Ciągi wymagające działania, przekonwertowane pliki wzbogacone komentarzami; "
+"nadaje się do tłumaczenia offline"
 
 #: weblate/templates/translation.html:399
 msgid ""
@@ -9916,10 +9906,8 @@ msgstr "Nie masz uprawnień dostępu do tego komponentu!"
 
 #: weblate/trans/forms.py:1232 weblate/trans/forms.py:1240
 #: weblate/trans/forms.py:1246
-#, fuzzy
-#| msgid "Your suggestion has been identified as spam!"
 msgid "This field has been identified as spam!"
-msgstr "Sugestię zidentyfikowano jako spam!"
+msgstr "To pole zostało zidentyfikowane jako spam!"
 
 #: weblate/trans/forms.py:1317 weblate/trans/forms.py:1869
 msgid "Basic"
