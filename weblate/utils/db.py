@@ -176,6 +176,7 @@ class FastCollector(Collector):
 
     def delete(self):
         from weblate.checks.models import Check
+        from weblate.screenshots.models import Screenshot
         from weblate.trans.models import (
             Change,
             Comment,
@@ -216,6 +217,12 @@ class FastCollector(Collector):
                     Variant.defining_units.through.objects.filter(
                         unit__source_unit__in=item
                     )
+                )
+                fast_deletes.append(
+                    Screenshot.units.through.objects.filter(unit__in=item)
+                )
+                fast_deletes.append(
+                    Screenshot.units.through.objects.filter(unit__source_unit__in=item)
                 )
                 fast_deletes.append(Unit.labels.through.objects.filter(unit__in=item))
                 fast_deletes.append(
