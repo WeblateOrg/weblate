@@ -520,6 +520,12 @@ LICENSES = (
         False,
     ),
     (
+        "C-UDA-1.0",
+        "Computational Use of Data Agreement v1.0",
+        "https://github.com/microsoft/Computational-Use-of-Data-Agreement/blob/master/C-UDA-1.0.md",
+        False,
+    ),
+    (
         "CATOSL-1.1",
         "Computer Associates Trusted Open Source License 1.1",
         "https://opensource.org/licenses/CATOSL-1.1",
@@ -727,6 +733,12 @@ LICENSES = (
         "CC-BY-SA-2.0",
         "Creative Commons Attribution Share Alike 2.0 Generic",
         "https://creativecommons.org/licenses/by-sa/2.0/legalcode",
+        False,
+    ),
+    (
+        "CC-BY-SA-2.1-JP",
+        "Creative Commons Attribution Share Alike 2.1 Japan",
+        "https://creativecommons.org/licenses/by-sa/2.1/jp/legalcode",
         False,
     ),
     (
@@ -990,6 +1002,12 @@ LICENSES = (
         "FSFULLR",
         "FSF Unlimited License (with License Retention)",
         "https://fedoraproject.org/wiki/Licensing/FSF_Unlimited_License#License_Retention_Variant",
+        False,
+    ),
+    (
+        "GD",
+        "GD License",
+        "https://libgd.github.io/manuals/2.3.0/files/license-txt.html",
         False,
     ),
     (
@@ -1472,6 +1490,12 @@ LICENSES = (
         False,
     ),
     ("MIT", "MIT License", "https://opensource.org/licenses/MIT", True),
+    (
+        "MIT-Modern-Variant",
+        "MIT License Modern Variant",
+        "https://fedoraproject.org/wiki/Licensing:MIT#Modern_Variants",
+        True,
+    ),
     ("MIT-0", "MIT No Attribution", "https://github.com/aws/mit-0", True),
     (
         "MIT-open-group",
