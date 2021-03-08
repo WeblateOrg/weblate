@@ -788,6 +788,8 @@ def indicate_alerts(context, obj):
         project = obj
     elif isinstance(obj, ProjectLanguage):
         project = obj.project
+        # For source language
+        result.extend(translation_alerts(obj))
     elif isinstance(obj, GhostProjectLanguageStats):
         component = obj.component
         project = component.project

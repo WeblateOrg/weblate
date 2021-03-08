@@ -757,25 +757,11 @@ class ProjectLanguage:
         )
 
     @cached_property
-    def translation_set(self):
-        result = (
-            self.language.translation_set.prefetch()
-            .filter(
-                Q(component__project=self.project) | Q(component__links=self.project)
-            )
-            .order_by("component__priority", "component__name")
-        )
-        for item in result:
-            item.is_shared = (
-                None
-                if item.component.project == self.project
-                else item.component.project
-            )
-        return result
-
-    @cached_property
     def is_source(self):
-        return any(translation.is_source for translation in self.translation_set)
+        return all(
+            self.language.id == component.source_language_id
+            for component in self.project.child_components
+        )
 
 
 class ProjectLanguageStats(LanguageStats):
@@ -819,6 +805,13 @@ class ProjectLanguageStats(LanguageStats):
 
     def get_single_language_stats(self, language):
         return self
+
+    @cached_property
+    def is_source(self):
+        return all(
+            self.language.id == component.source_language_id
+            for component in self.project.child_components
+        )
 
 
 class ProjectStats(BaseStats):
