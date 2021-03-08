@@ -321,6 +321,9 @@ def get_state_css(unit):
     if unit.has_suggestion:
         flags.append("state-suggest")
 
+    if "forbidden" in unit.all_flags:
+        flags.append("state-forbidden")
+
     return flags
 
 
