@@ -638,13 +638,16 @@ class Profile(models.Model):
     def secondary_language_ids(self) -> Set[int]:
         return set(self.secondary_languages.values_list("pk", flat=True))
 
-    def get_language_order(self, language: Language) -> int:
+    def get_translation_order(self, translation) -> int:
         """Returns key suitable for ordering languages based on user preferences."""
+        language = translation.language
         if language.pk in self.primary_language_ids:
             return 0
         if language.pk in self.secondary_language_ids:
             return 1
-        return 2
+        if translation.is_source:
+            return 2
+        return 3
 
     @cached_property
     def watched_project_ids(self):
