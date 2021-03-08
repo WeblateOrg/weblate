@@ -527,9 +527,9 @@
   <div class="panel-heading">
   <h4 class="panel-title">
     {% with glossaries=unit.translation.component.project.glossaries %}
-      {% if glossaries|length == 1 %}
-        <a class="pull-right flip btn btn-link btn-xs" title="{% trans "Manage glossary" %}" href="{% url 'browse' project=glossaries.0.project.slug component=glossaries.0.slug lang=unit.translation.language.code %}">{% icon "pencil.svg" %}</a>
-      {% endif %}
+      {% for glossary in glossaries %}
+        <a class="pull-right flip btn btn-link btn-xs" title="{% blocktrans with name=glossary.name %}Browse glossary {{ name }}{% endblocktrans %}" href="{% url 'browse' project=glossaries.0.project.slug component=glossaries.0.slug lang=unit.translation.language.code %}">{% icon "folder-search-outline.svg" %}</a>
+      {% endfor %}
     {% endwith %}
     {% loading_icon "glossary-add" %}
     {% trans "Glossary" %}
