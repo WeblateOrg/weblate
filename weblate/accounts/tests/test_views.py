@@ -400,7 +400,7 @@ class ProfileTest(FixtureTestCase):
                 "nearby_strings": 10,
             },
         )
-        self.assertRedirects(response, reverse("profile"))
+        self.assertContains(response, "Select a valid choice.")
 
     def test_userdata(self):
         response = self.client.post(reverse("userdata"))
