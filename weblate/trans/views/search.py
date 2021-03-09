@@ -200,7 +200,9 @@ def search(request, project=None, component=None, lang=None):
         if lang:
             units = units.filter(translation__language=context["language"])
 
-        units = get_paginator(request, units.order_by_request(search_form.cleaned_data))
+        units = get_paginator(
+            request, units.order_by_request(search_form.cleaned_data, obj)
+        )
         # Rebuild context from scratch here to get new form
         context = {
             "search_form": search_form,

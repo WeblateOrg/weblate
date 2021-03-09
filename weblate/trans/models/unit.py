@@ -161,7 +161,7 @@ class UnitQuerySet(FastDeleteQuerySetMixin, models.QuerySet):
             result = result.exclude(pk=unit.id)
         return result
 
-    def order_by_request(self, form_data):
+    def order_by_request(self, form_data, obj):
         sort_list_request = form_data.get("sort_by", "").split(",")
         available_sort_choices = [
             "priority",
@@ -196,7 +196,10 @@ class UnitQuerySet(FastDeleteQuerySetMixin, models.QuerySet):
                     choice = choice.replace("labels", "max_labels_name")
                 sort_list.append(choice)
         if not sort_list:
-            return self.order()
+            if hasattr(obj, "component") and obj.component.is_glossary:
+                sort_list = ["source"]
+            else:
+                sort_list = ["-priority", "position"]
         if "max_labels_name" in sort_list or "-max_labels_name" in sort_list:
             return self.annotate(max_labels_name=Max("labels__name")).order_by(
                 *sort_list

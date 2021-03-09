@@ -240,7 +240,7 @@ def search(base, project, unit_set, request, blank: bool = False):
 
     # Grab unit IDs
     unit_ids = list(
-        allunits.order_by_request(cleaned_data).values_list("id", flat=True)
+        allunits.order_by_request(cleaned_data, base).values_list("id", flat=True)
     )
 
     # Check empty search results
