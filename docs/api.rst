@@ -933,11 +933,28 @@ Projects
 
     :param project: Project URL slug
     :type project: string
-    :<json file zipfile: ZIP file to upload into Weblate for translations initialization
-    :<json file docfile: Document to translate
+    :form file zipfile: ZIP file to upload into Weblate for translations initialization
+    :form file docfile: Document to translate
     :>json object result: Created component object; see :http:get:`/api/components/(string:project)/(string:component)/`
 
-    **CURL example:**
+    JSON can not be used when uploading the files using the ``zipfile`` and
+    ``docfile`` parameters. The data has to be uploaded as
+    :mimetype:`multipart/form-data`.
+
+    **CURL form request example:**
+
+    .. code-block:: sh
+
+        curl \
+            --form docfile=@strings.html \
+            --form name=Weblate \
+            --form slug=weblate \
+            --form file_format=html \
+            --form new_lang=add \
+            -H "Authorization: Token TOKEN" \
+            http://example.com/api/projects/hello/components/
+
+    **CURL JSON request example:**
 
     .. code-block:: sh
 
