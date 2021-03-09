@@ -552,23 +552,31 @@ class ComponentSerializer(RemovableSerializer):
         if "manage_units" not in data and data.get("template"):
             data["manage_units"] = "1"
         if "docfile" in data:
-            fake = create_component_from_doc(self.fixup_request_payload(data))
-            data["template"] = fake.template
-            data["new_base"] = fake.template
-            data["filemask"] = fake.filemask
+            if hasattr(data["docfile"], "name"):
+                fake = create_component_from_doc(self.fixup_request_payload(data))
+                data["template"] = fake.template
+                data["new_base"] = fake.template
+                data["filemask"] = fake.filemask
+                data.pop("docfile")
+            else:
+                # Provide a filemask so that it is not listed as an
+                # error. The validation of docfile will fail later
+                data["filemask"] = "fake.*"
             data["repo"] = "local:"
             data["vcs"] = "local"
             data["branch"] = "main"
-            data.pop("docfile")
         if "zipfile" in data:
-            try:
-                create_component_from_zip(self.fixup_request_payload(data))
-            except BadZipfile:
-                raise serializers.ValidationError("Failed to parse uploaded ZIP file.")
+            if hasattr(data["zipfile"], "name"):
+                try:
+                    create_component_from_zip(self.fixup_request_payload(data))
+                except BadZipfile:
+                    raise serializers.ValidationError(
+                        "Failed to parse uploaded ZIP file."
+                    )
+                data.pop("zipfile")
             data["repo"] = "local:"
             data["vcs"] = "local"
             data["branch"] = "main"
-            data.pop("zipfile")
         # DRF processing
         result = super().to_internal_value(data)
         # Postprocess to inject values

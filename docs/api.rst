@@ -917,7 +917,7 @@ Projects
 
     .. versionchanged:: 4.3
 
-       The ``zipfile`` and ``docfile`` parameters are now accepted for VCS less components, see :ref:`vcs-local`.
+       The ``zipfile`` and ``docfile`` parameters are now accepted for VCS-less components, see :ref:`vcs-local`.
 
     Creates translation components in the given project.
 
