@@ -2043,7 +2043,7 @@ LICENSES = (
         "OFL-1.0",
         "SIL Open Font License 1.0",
         "http://scripts.sil.org/cms/scripts/page.php?item_id=OFL10_web",
-        False,
+        True,
     ),
     (
         "OFL-1.0-no-RFN",
