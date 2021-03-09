@@ -395,16 +395,12 @@ class UnitTest(ModelTestCase):
             "num_failing_checks",
         ]
         for order_option in order_options:
-            ordered_unit = (
-                Unit.objects.filter(translation__language_code="cs").order_by_request(
-                    {"sort_by": order_option}, None
-                ),
-            )
-            ordered_desc_unit = (
-                Unit.objects.filter(translation__language_code="cs").order_by_request(
-                    {"sort_by": f"-{order_option}"}, None
-                ),
-            )
+            ordered_unit = Unit.objects.filter(
+                translation__language_code="cs"
+            ).order_by_request({"sort_by": order_option}, None)
+            ordered_desc_unit = Unit.objects.filter(
+                translation__language_code="cs"
+            ).order_by_request({"sort_by": f"-{order_option}"}, None)
             self.assertEqual(len(ordered_unit), 4)
             self.assertEqual(len(ordered_desc_unit), 4)
 
