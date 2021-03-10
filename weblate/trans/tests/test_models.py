@@ -405,11 +405,9 @@ class UnitTest(ModelTestCase):
             self.assertEqual(len(ordered_desc_unit), 4)
 
         # check sorting with multiple options work
-        multiple_ordered_unit = (
-            Unit.objects.filter(translation__language_code="cs").order_by_request(
-                {"sort_by": "position,timestamp"}, None
-            ),
-        )
+        multiple_ordered_unit = Unit.objects.filter(
+            translation__language_code="cs"
+        ).order_by_request({"sort_by": "position,timestamp"}, None)
         self.assertEqual(multiple_ordered_unit.count(), 4)
 
     def test_get_max_length_no_pk(self):
