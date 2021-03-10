@@ -689,6 +689,9 @@
     {% else %}
       {% blocktrans with filename=unit.translation.filename %}string {{ position }}{% endblocktrans %}
     {% endif %}
+    {% if unit.pending %}
+      <span class="badge" title="{% trans "Pending changes not yet committed to the Weblate repository" %}">{% trans "pending" %}</span>
+    {% endif %}
     </span>
     </div>
     {% endif %}
