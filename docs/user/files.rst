@@ -38,6 +38,8 @@ are available via the :guilabel:`Files` ↓ :guilabel:`Customize download` menu:
 * Android String Resource
 * iOS strings
 
+.. image:: /images/file-download.png
+
 .. seealso::
 
    :http:get:`/api/translations/(string:project)/(string:component)/(string:language)/file/`
@@ -50,7 +52,7 @@ Uploading translations
 When you have made your changes, use :guilabel:`Upload translation`
 in the :guilabel:`Files` menu.
 
-.. image:: /images/export-import.png
+.. image:: /images/file-upload.png
 
 .. _upload-file:
 
