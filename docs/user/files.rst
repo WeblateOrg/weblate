@@ -38,6 +38,10 @@ are available via the :guilabel:`Files` ↓ :guilabel:`Customize download` menu:
 * Android String Resource
 * iOS strings
 
+.. seealso::
+
+   :http:get:`/api/translations/(string:project)/(string:component)/(string:language)/file/`
+
 .. _upload:
 
 Uploading translations
