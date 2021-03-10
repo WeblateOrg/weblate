@@ -42,7 +42,7 @@ from django.utils.translation import gettext as _
 from django.utils.translation import gettext_lazy, ngettext, pgettext
 from django_redis.cache import RedisCache
 from filelock import FileLock, Timeout
-from redis_lock import Lock, NotAcquired
+from redis_lock import AlreadyAcquired, Lock, NotAcquired
 from weblate_language_data.ambiguous import AMBIGUOUS
 
 from weblate.checks.flags import Flags
@@ -878,8 +878,11 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
         default_cache = caches["default"]
         if isinstance(default_cache, RedisCache):
             # Prefer Redis locking as it works distributed
-            if not self._lock.acquire(timeout=1):
-                raise ComponentLockTimeout()
+            try:
+                if not self._lock.acquire(timeout=1):
+                    raise ComponentLockTimeout()
+            except AlreadyAcquired:
+                pass
         else:
             # Fall back to file based locking
             try:
