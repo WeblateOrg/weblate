@@ -733,7 +733,7 @@
         <div class="modal-content">
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="{% trans "Close" %}"><span aria-hidden="true">&times;</span></button>
-            <h4 class="panel-title">{% trans "Add new translation string" %}</h4>
+            <h4 class="panel-title">{% blocktrans with existing=unit.get_source_plurals.0 %}Add a new variant for "{{ existing }}"{% endblocktrans %}</h4>
           </div>
           <div class="modal-body">
             {{ new_unit_form|crispy }}
