@@ -78,7 +78,7 @@
       <li><a href="{% url 'data_project' project=object.component.project.slug  %}">{% trans "Data exports" %}</a></li>
       <li><a href="{% url 'checks' %}?project={{ object.component.project.slug}}&amp;component={{ object.component.slug }}&amp;language={{ object.language.code }}">{% trans "Failing checks" %}</a></li>
       {% if user_can_add_unit %}
-      <li><a href="#new" data-toggle="tab">{% trans "Add new translation string" %}</a></li>
+      <li><a href="#new" data-toggle="tab">{{ object.component.get_add_label }}</a></li>
       {% endif %}
     </ul>
   </li>
@@ -145,7 +145,7 @@
 <td rowspan="2" class="buttons-cell full-cell">
 <div class="pull-right flip">
   {% if user_can_add_unit %}
-    <a href="#new" data-toggle="tab" class="btn btn-info">{% trans "Add new translation string" %}</a>
+    <a href="#new" data-toggle="tab" class="btn btn-info">{{ object.component.get_add_label }}</a>
   {% endif %}
   <a href="{{ browse_url }}" class=" btn btn-info">{% trans "Browse" %}</a>
   <a href="{% get_translate_url object glossary_browse=False %}{% if object.stats.todo > 0 %}?q=state:&lt;translated{% endif %}" class="btn btn-primary">{% trans "Translate" %}</a>
@@ -305,7 +305,7 @@
 <div class="tab-pane" id="new">
 <form action="{% url 'new-unit' project=object.component.project.slug component=object.component.slug lang=object.language.code %}" method="post">
 <div class="panel panel-default">
-<div class="panel-heading"><h4 class="panel-title">{% trans "Add new translation string" %}</h4></div>
+<div class="panel-heading"><h4 class="panel-title">{{ object.component.get_add_label }}</h4></div>
 <div class="panel-body">
 {% if obj.is_source %}
 <p>{% trans "You can add a new translation string here, it will automatically appear in all translations." %}</p>

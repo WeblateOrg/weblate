@@ -3062,3 +3062,9 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
         if code in ("source", "src", "default"):
             return self.source_language.code
         return code
+
+    @property
+    def get_add_label(self):
+        if self.is_glossary:
+            return _("Add new glossary term")
+        return _("Add new translation string")

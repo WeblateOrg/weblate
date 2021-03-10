@@ -38,7 +38,7 @@
 
 {% perm 'unit.add' object as user_can_add_unit %}
 {% if user_can_add_unit %}
-  <a class="btn btn-link green pull-right flip" href="{{ object.get_absolute_url }}#new">{% icon "plus-circle.svg" %} {% trans "Add new translation string" %}</a>
+  <a class="btn btn-link green pull-right flip" href="{{ object.get_absolute_url }}#new">{% icon "plus-circle.svg" %} {{ object.component.get_add_label }}</a>
 {% endif %}
 
 <form method="GET" class="result-page-form">
