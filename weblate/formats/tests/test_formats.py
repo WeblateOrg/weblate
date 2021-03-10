@@ -295,6 +295,7 @@ class AutoFormatTest(FixtureTestCase, TempDirMixin):
 
         # Add new unit
         storage.new_unit(self.NEW_UNIT_KEY, "Source string")
+        storage.save()
 
         # Read new content
         with open(testfile, "rb") as handle:

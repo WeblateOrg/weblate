@@ -486,13 +486,10 @@ class TranslationFormat:
         key: str,
         source: Union[str, List[str]],
         target: Optional[Union[str, List[str]]] = None,
-        skip_save: bool = False,
     ):
         """Add new unit to monolingual store."""
         unit = self.create_unit(key, source, target)
         self.add_unit(unit)
-        if not skip_save:
-            self.save()
 
     @classmethod
     def get_class(cls):
