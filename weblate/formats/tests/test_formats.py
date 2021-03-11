@@ -173,12 +173,13 @@ class AutoFormatTest(FixtureTestCase, TempDirMixin):
     FIND = "Hello, world!\n"
     FIND_CONTEXT = ""
     FIND_MATCH = "Ahoj světe!\n"
-    NEW_UNIT_MATCH = b'\nmsgid "key"\nmsgstr "Source string"\n'
+    NEW_UNIT_MATCH = b'\nmsgctxt "key"\nmsgid "Source string"\n'
     NEW_UNIT_KEY = "key"
     SUPPORTS_FLAG = True
     EXPECTED_FLAGS = "c-format, max-length:100"
     EDIT_OFFSET = 0
     EDIT_TARGET = "Nazdar, svete!\n"
+    MONOLINGUAL = False
 
     def setUp(self):
         super().setUp()
@@ -191,6 +192,8 @@ class AutoFormatTest(FixtureTestCase, TempDirMixin):
         self.remove_temp()
 
     def parse_file(self, filename):
+        if self.MONOLINGUAL:
+            return self.FORMAT(filename, template_store=self.FORMAT(filename))
         return self.FORMAT(filename)
 
     def test_parse(self):
@@ -388,6 +391,7 @@ class PropertiesFormatTest(AutoFormatTest):
     MATCH = "\n"
     NEW_UNIT_MATCH = b"\nkey=Source string\n"
     EXPECTED_FLAGS = ""
+    MONOLINGUAL = True
 
     def assert_same(self, newdata, testdata):
         self.assertEqual(
@@ -415,6 +419,7 @@ class GWTFormatTest(AutoFormatTest):
     NEW_UNIT_MATCH = b"\nkey=Source string\n"
     EXPECTED_FLAGS = ""
     BASE = ""
+    MONOLINGUAL = True
 
     def assert_same(self, newdata, testdata):
         self.assertEqual(
@@ -437,6 +442,7 @@ class JoomlaFormatTest(AutoFormatTest):
     FIND_MATCH = 'Ahoj "světe"!\n'
     NEW_UNIT_MATCH = b'\nkey="Source string"\n'
     EXPECTED_FLAGS = ""
+    MONOLINGUAL = True
 
 
 class JSONFormatTest(AutoFormatTest):
@@ -449,7 +455,7 @@ class JSONFormatTest(AutoFormatTest):
     EXPECTED_PATH = "json/cs_CZ.json"
     MATCH = "{}\n"
     BASE = ""
-    NEW_UNIT_MATCH = b'\n    "key": "Source string"\n'
+    NEW_UNIT_MATCH = b'\n    "Source string": ""\n'
     EXPECTED_FLAGS = ""
 
     def assert_same(self, newdata, testdata):
@@ -462,8 +468,10 @@ class JSONNestedFormatTest(JSONFormatTest):
     COUNT = 4
     MASK = "json-nested/*.json"
     EXPECTED_PATH = "json-nested/cs_CZ.json"
-    FIND = "weblate.hello"
+    FIND_CONTEXT = "weblate.hello"
     EXPECTED_FLAGS = ""
+    MONOLINGUAL = True
+    NEW_UNIT_MATCH = b'\n    "key": "Source string"\n'
 
 
 class WebExtesionJSONFormatTest(JSONFormatTest):
@@ -472,9 +480,10 @@ class WebExtesionJSONFormatTest(JSONFormatTest):
     COUNT = 4
     MASK = "webextension/_locales/*/messages.json"
     EXPECTED_PATH = "webextension/_locales/cs_CZ/messages.json"
-    FIND = "hello"
+    FIND_CONTEXT = "hello"
     NEW_UNIT_MATCH = b'\n    "key": {\n        "message": "Source string"\n    }\n'
     EXPECTED_FLAGS = "placeholders:$URL$"
+    MONOLINGUAL = True
 
 
 class PhpFormatTest(AutoFormatTest):
@@ -492,6 +501,7 @@ class PhpFormatTest(AutoFormatTest):
     BASE = ""
     NEW_UNIT_MATCH = b"\n$key = 'Source string';\n"
     EXPECTED_FLAGS = ""
+    MONOLINGUAL = True
 
 
 class LaravelPhpFormatTest(PhpFormatTest):
@@ -517,6 +527,7 @@ class AndroidFormatTest(XMLMixin, AutoFormatTest):
     FIND_MATCH = "Hello, world!\n"
     BASE = ""
     NEW_UNIT_MATCH = b'<string name="key">Source string</string>'
+    MONOLINGUAL = True
 
     def test_get_language_filename(self):
         self.assertEqual(
@@ -540,8 +551,7 @@ class XliffFormatTest(XMLMixin, AutoFormatTest):
     EXPECTED_PATH = "loc/cs-CZ/default.xliff"
     NEW_UNIT_MATCH = (
         b'<trans-unit xml:space="preserve" id="key" approved="no">',
-        b"<source>key</source>",
-        b'<target state="translated">Source string</target>',
+        b"<source>Source string</source>",
     )
 
     def test_mark_fuzzy(self):
@@ -655,8 +665,7 @@ class PoXliffFormatTest(XMLMixin, AutoFormatTest):
     EXPECTED_PATH = "loc/cs-CZ/default.xliff"
     NEW_UNIT_MATCH = (
         b'<trans-unit xml:space="preserve" id="key" approved="no">',
-        b"<source>key</source>",
-        b'<target state="translated">Source string</target>',
+        b"<source>Source string</source>",
     )
 
 
@@ -689,6 +698,7 @@ class RESXFormatTest(XMLMixin, AutoFormatTest):
         b'<data name="key" xml:space="preserve">',
         b"<value>Source string</value>",
     )
+    MONOLINGUAL = True
 
 
 class YAMLFormatTest(AutoFormatTest):
@@ -700,11 +710,12 @@ class YAMLFormatTest(AutoFormatTest):
     COUNT = 4
     MASK = "yaml/*.yml"
     EXPECTED_PATH = "yaml/cs_CZ.yml"
-    FIND = "weblate->hello"
+    FIND_CONTEXT = "weblate->hello"
     FIND_MATCH = ""
     MATCH = "weblate:"
     NEW_UNIT_MATCH = b"\nkey: Source string\n"
     EXPECTED_FLAGS = ""
+    MONOLINGUAL = True
 
     def assert_same(self, newdata, testdata):
         # Fixup quotes as different translate toolkit versions behave
@@ -721,6 +732,7 @@ class RubyYAMLFormatTest(YAMLFormatTest):
     BASE = TEST_RUBY_YAML
     NEW_UNIT_MATCH = b"\n  key: Source string\n"
     EXPECTED_FLAGS = ""
+    MONOLINGUAL = True
 
 
 class TSFormatTest(XMLMixin, AutoFormatTest):
@@ -734,10 +746,7 @@ class TSFormatTest(XMLMixin, AutoFormatTest):
     EXPECTED_PATH = "ts/cs_CZ.ts"
     MATCH = '<TS version="2.0" language="cs">'
     FIND_MATCH = "Ahoj svete!\n"
-    NEW_UNIT_MATCH = (
-        b"<source>key</source>",
-        b"<translation>Source string</translation>",
-    )
+    NEW_UNIT_MATCH = b"<source>Source string</source>"
 
     def assert_same(self, newdata, testdata):
         # Comparing of XML with doctype fails...
@@ -756,10 +765,11 @@ class DTDFormatTest(AutoFormatTest):
     MASK = "dtd/*.dtd"
     EXPECTED_PATH = "dtd/cs_CZ.dtd"
     MATCH = "<!ENTITY"
-    FIND = "hello"
+    FIND_CONTEXT = "hello"
     FIND_MATCH = ""
     NEW_UNIT_MATCH = b'<!ENTITY key "Source string">'
     EXPECTED_FLAGS = ""
+    MONOLINGUAL = True
 
 
 class CSVFormatTest(AutoFormatTest):
@@ -774,7 +784,7 @@ class CSVFormatTest(AutoFormatTest):
     BASE = TEST_CSV
     FIND = "HELLO"
     FIND_MATCH = "Hello, world!\r\n"
-    NEW_UNIT_MATCH = b'"key","Source string"\r\n'
+    NEW_UNIT_MATCH = b'"Source string",""\r\n'
     EXPECTED_FLAGS = ""
 
 
@@ -784,6 +794,7 @@ class CSVFormatNoHeadTest(CSVFormatTest):
     FIND = "Thank you for using Weblate."
     FIND_MATCH = "Děkujeme za použití Weblate."
     EXPECTED_FLAGS = ""
+    NEW_UNIT_MATCH = b'"Source string",""\r\n'
 
     def test_save(self, edit=False):
         raise SkipTest("Saving currently adds field headers")
@@ -809,6 +820,7 @@ class FlatXMLFormatTest(AutoFormatTest):
     FIND_MATCH = "Hello World!"
     NEW_UNIT_MATCH = b'<str key="key">Source string</str>\n'
     EXPECTED_FLAGS = ""
+    MONOLINGUAL = True
 
 
 class INIFormatTest(AutoFormatTest):
@@ -827,6 +839,7 @@ class INIFormatTest(AutoFormatTest):
     NEW_UNIT_MATCH = b"\nkey = Source string"
     NEW_UNIT_KEY = "[test]key"
     EXPECTED_FLAGS = ""
+    MONOLINGUAL = True
 
 
 class InnoSetupINIFormatTest(INIFormatTest):
@@ -851,6 +864,7 @@ class XWikiPropertiesFormatTest(PropertiesFormatTest):
     NEW_UNIT_MATCH = b"\nkey=Source string\n"
     EXPECTED_FLAGS = ""
     EDIT_TARGET = "[{0}] تىپتىكى خىزمەتنى باشلاش"
+    EDIT_OFFSET = 3
 
     def test_new_language(self):
         self.maxDiff = None

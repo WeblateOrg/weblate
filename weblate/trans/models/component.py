@@ -2840,10 +2840,10 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
         except Exception as exc:
             self.handle_parse_error(exc)
 
-    def load_template_store(self):
+    def load_template_store(self, fileobj=None):
         """Load translate-toolkit store for template."""
         return self.file_format_cls.parse(
-            self.get_template_filename(),
+            fileobj or self.get_template_filename(),
             source_language=self.source_language.code,
         )
 

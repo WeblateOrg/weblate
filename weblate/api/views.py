@@ -33,7 +33,7 @@ from django.utils.safestring import mark_safe
 from django_filters import rest_framework as filters
 from rest_framework import parsers, viewsets
 from rest_framework.decorators import action
-from rest_framework.exceptions import ParseError, ValidationError
+from rest_framework.exceptions import ParseError
 from rest_framework.mixins import CreateModelMixin, DestroyModelMixin, UpdateModelMixin
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
@@ -1055,11 +1055,10 @@ class TranslationViewSet(MultipleFieldMixin, WeblateViewSet, DestroyModelMixin):
         if request.method == "POST":
             if not request.user.has_perm("unit.add", obj):
                 self.permission_denied(request, "Can not add unit")
-            serializer = serializer_class(data=request.data)
+            serializer = serializer_class(
+                data=request.data, context={"translation": obj}
+            )
             serializer.is_valid(raise_exception=True)
-
-            if serializer.unit_exists(obj):
-                raise ValidationError("This this string already exists!")
 
             obj.add_units(request, [serializer.as_tuple()])
             serializer = self.serializer_class(obj, context={"request": request})

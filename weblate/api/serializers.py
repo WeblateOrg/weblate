@@ -38,11 +38,7 @@ from weblate.trans.models import (
     Translation,
     Unit,
 )
-from weblate.trans.util import (
-    check_upload_method_permissions,
-    cleanup_repo_url,
-    join_plural,
-)
+from weblate.trans.util import check_upload_method_permissions, cleanup_repo_url
 from weblate.utils.site import get_site_url
 from weblate.utils.validators import validate_bitmap
 from weblate.utils.views import create_component_from_doc, create_component_from_zip
@@ -898,34 +894,39 @@ class UnitWriteSerializer(serializers.ModelSerializer):
         )
 
 
-class MonolingualUnitSerializer(serializers.Serializer):
+class NewUnitSerializer(serializers.Serializer):
+    def as_tuple(self, data=None):
+        raise NotImplementedError()
+
+    def validate(self, attrs):
+        try:
+            data = self.as_tuple(attrs)
+        except KeyError:
+            # Probably some fields validation has failed
+            return attrs
+        self._context["translation"].validate_new_unit_data(*data)
+        return attrs
+
+
+class MonolingualUnitSerializer(NewUnitSerializer):
     key = serializers.CharField()
     value = PluralField()
 
-    def as_tuple(self):
-        return (self.validated_data["key"], self.validated_data["value"], None)
+    def as_tuple(self, data=None):
+        if data is None:
+            data = self.validated_data
+        return (data["key"], data["value"], None)
 
-    def unit_exists(self, obj):
-        return obj.unit_set.filter(context=self.validated_data["key"]).exists()
 
-
-class BilingualUnitSerializer(serializers.Serializer):
+class BilingualUnitSerializer(NewUnitSerializer):
     context = serializers.CharField(required=False)
     source = PluralField()
     target = PluralField()
 
-    def as_tuple(self):
-        return (
-            self.validated_data.get("context", ""),
-            self.validated_data["source"],
-            self.validated_data["target"],
-        )
-
-    def unit_exists(self, obj):
-        return obj.unit_set.filter(
-            context=self.validated_data.get("context", ""),
-            source=join_plural(self.validated_data["source"]),
-        ).exists()
+    def as_tuple(self, data=None):
+        if data is None:
+            data = self.validated_data
+        return (data.get("context", ""), data["source"], data["target"])
 
 
 class ScreenshotSerializer(RemovableSerializer):
