@@ -1180,7 +1180,7 @@ Example DTD file:
 
 .. seealso:: :doc:`tt:formats/dtd`
 
-.. flatxml:
+.. _flatxml:
 
 Flat XML files
 --------------

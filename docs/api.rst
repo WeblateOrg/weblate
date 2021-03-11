@@ -1,8 +1,8 @@
-.. _api:
-
 .. index::
     single: REST
     single: API
+
+.. _api:
 
 Weblate's REST API
 ==================

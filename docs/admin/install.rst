@@ -826,7 +826,7 @@ After enabling it, you should set :setting:`ENABLE_HTTPS` in the settings:
 Set properly SECURE_HSTS_SECONDS
 ++++++++++++++++++++++++++++++++
 
-If your site is served over SSL, you have to consider setting a value for :setting:`SECURE_HSTS_SECONDS`
+If your site is served over SSL, you have to consider setting a value for :setting:`django:SECURE_HSTS_SECONDS`
 in the :file:`settings.py` to enable HTTP Strict Transport Security.
 By default it's set to 0 as shown below.
 
