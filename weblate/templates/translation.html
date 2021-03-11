@@ -335,7 +335,7 @@
         <td>
           {% trans "File in original format as translated in the repository" %}
         </td>
-        <td class="number">
+        <td class="number" colspan="{{ exporters|length }}">
           <a class="btn-inline" href="{% url 'download_translation' project=object.component.project.slug component=object.component.slug lang=object.language.code %}">{{ object.component.file_format_name }}</a>
         </td>
       </tr>
@@ -344,11 +344,11 @@
         <td>
           {% trans "All strings, converted files enriched with comments; suitable for translating offline" %}
         </td>
-        <td class="number">
-          {% for exporter in exporters %}
+        {% for exporter in exporters %}
+          <td class="formats">
             <a class="btn-inline" href="{% url 'download_translation' project=object.component.project.slug component=object.component.slug lang=object.language.code %}?format={{ exporter.name }}">{{ exporter.verbose }}</a>
-          {% endfor %}
-        </td>
+          </td>
+        {% endfor %}
       </tr>
       {% if object.stats.todo %}
       <tr>
@@ -356,11 +356,11 @@
         <td>
           {% trans "Strings needing action, converted files enriched with comments; suitable for translating offline" %}
         </td>
-        <td class="number">
-          {% for exporter in exporters %}
+        {% for exporter in exporters %}
+          <td class="formats">
             <a class="btn-inline" href="{% url 'download_translation' project=object.component.project.slug component=object.component.slug lang=object.language.code %}?format={{ exporter.name }}&amp;q=state:&lt;translated">{{ exporter.verbose }}</a>
-          {% endfor %}
-        </td>
+          </td>
+        {% endfor %}
       </tr>
       {% endif %}
     </table>
