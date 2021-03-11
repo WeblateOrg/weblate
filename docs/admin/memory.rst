@@ -1,3 +1,4 @@
+.. _memory:
 .. _translation-memory:
 
 Translation Memory
