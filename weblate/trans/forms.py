@@ -1982,6 +1982,11 @@ class MatrixLanguageForm(forms.Form):
 class NewUnitBaseForm(forms.Form):
     variant = forms.CharField(required=False, widget=forms.HiddenInput)
 
+    def __init__(self, translation, user, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.translation = translation
+        self.user = user
+
 
 class NewMonolingualUnitForm(NewUnitBaseForm):
     key = forms.CharField(
@@ -2002,7 +2007,7 @@ class NewMonolingualUnitForm(NewUnitBaseForm):
     )
 
     def __init__(self, translation, user, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+        super().__init__(translation, user, *args, **kwargs)
         self.fields["key"].widget.attrs["tabindex"] = 99
         self.fields["value"].widget.attrs["tabindex"] = 100
         self.fields["value"].widget.profile = user.profile
@@ -2027,7 +2032,7 @@ class NewBilingualSourceUnitForm(NewUnitBaseForm):
     )
 
     def __init__(self, translation, user, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+        super().__init__(translation, user, *args, **kwargs)
         self.fields["context"].widget.attrs["tabindex"] = 99
         self.fields["source"].widget.attrs["tabindex"] = 100
         self.fields["source"].widget.profile = user.profile
