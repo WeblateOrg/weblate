@@ -371,7 +371,7 @@ class TTKitFormat(TranslationFormat):
                 target = multistring(target)
         if key:
             unit.setid(key)
-            if hasattr(unit, "setcontext"):
+            if hasattr(unit, "setcontext") and self.set_context_bilingual:
                 unit.setcontext(key)
         elif target is not None and self.set_context_bilingual:
             unit.setid(context)
@@ -1029,6 +1029,7 @@ class PoMonoFormat(BasePoFormat):
     )
     unit_class = PoMonoUnit
     bilingual_class = PoFormat
+    set_context_bilingual = False
 
     def create_unit_key(self, key: str, source: Union[str, List[str]]) -> str:
         if isinstance(source, list):
@@ -1042,6 +1043,7 @@ class TSFormat(TTKitFormat):
     loader = tsfile
     autoload = ("*.ts",)
     unit_class = TSUnit
+    set_context_bilingual = False
 
     @classmethod
     def untranslate_store(cls, store, language, fuzzy=False):
