@@ -197,6 +197,8 @@ intersphinx_mapping = {
     "pip": ("https://pip.pypa.io/en/stable/", None),
     "compressor": ("https://django-compressor.readthedocs.io/en/stable/", None),
 }
+# See https://github.com/sphinx-doc/sphinx/pull/8981
+intersphinx_strict_prefix = True
 
 # Ignore missing targets for the http:obj <type>, it's how we declare the types
 # for input/output fields in the API docs.
