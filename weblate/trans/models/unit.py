@@ -286,6 +286,7 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
         default=STATE_EMPTY, db_index=True, choices=STATE_CHOICES
     )
     original_state = models.IntegerField(default=STATE_EMPTY, choices=STATE_CHOICES)
+    details = models.JSONField(default=dict)
 
     position = models.IntegerField()
 
