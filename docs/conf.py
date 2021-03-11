@@ -175,7 +175,7 @@ epub_exclude_files = ["search.html"]
 graphviz_output_format = "svg"
 
 # Use localized Python docs on Read the Docs build
-rtd_lang = os.environment.get("READTHEDOCS_LANGUAGE")
+rtd_lang = os.environ.get("READTHEDOCS_LANGUAGE")
 
 python_doc_url = "https://docs.python.org/3.9/"
 if rtd_lang == "pt_BR":
