@@ -51,7 +51,7 @@ from weblate.trans.models.unit import (
     Unit,
 )
 from weblate.trans.signals import store_post_load, vcs_pre_commit
-from weblate.trans.util import split_plural
+from weblate.trans.util import join_plural, split_plural
 from weblate.trans.validators import validate_check_flags
 from weblate.utils.db import (
     FastDeleteModelMixin,
@@ -274,13 +274,16 @@ class Translation(
 
     def load_store(self, fileobj=None, force_intermediate=False):
         """Load translate-toolkit storage from disk."""
-        if fileobj is None:
-            fileobj = self.get_filename()
         # Use intermediate store as template for source translation
         if force_intermediate or (self.is_template and self.component.intermediate):
             template = self.component.intermediate_store
         else:
             template = self.component.template_store
+        if fileobj is None:
+            fileobj = self.get_filename()
+        elif self.is_template:
+            template = self.component.load_template_store(fileobj)
+            fileobj.seek(0)
         store = self.component.file_format_cls.parse(
             fileobj,
             template,
@@ -1223,6 +1226,78 @@ class Translation(
 
         if missing:
             self.add_units(None, missing)
+
+    def validate_new_unit_data(
+        self,
+        key: str,
+        source: Union[str, List[str]],
+        target: Optional[Union[str, List[str]]] = None,
+    ):
+        extra = {}
+        if not self.component.has_template():
+            extra["source"] = join_plural(source)
+        if self.unit_set.filter(context=key, **extra).exists():
+            raise ValidationError(_("This string seems to already exist."))
+        # Avoid using source translations without a filename
+        if not self.filename:
+            try:
+                translation = self.component.translation_set.exclude(pk=self.pk)[0]
+            except IndexError:
+                raise ValidationError(
+                    _("Failed adding string: %s") % _("No translation found.")
+                )
+            translation.validate_new_unit_data(key, source, target)
+            return
+        # Always load a new copy of store
+        store = self.load_store()
+        old_units = len(store.all_units)
+        # Add new unit
+        store.new_unit(key, source, target)
+        # Serialize the content
+        handle = BytesIOMode("", b"")
+        # Catch serialization error
+        try:
+            store.save_content(handle)
+        except Exception as error:
+            raise ValidationError(_("Failed adding string: %s") % error)
+        handle.seek(0)
+        # Parse new file (check that it is valid)
+        try:
+            newstore = self.load_store(handle)
+        except Exception as error:
+            raise ValidationError(_("Failed adding string: %s") % error)
+        # Verify there is a single unit added
+        if len(newstore.all_units) != old_units + 1:
+            raise ValidationError(
+                _("Failed adding string: %s") % _("Failed to parse new string")
+            )
+        # Find newly added unit (it can be on any position), but we assume
+        # the storage has consistent ordering
+        unit = None
+        for pos, current in enumerate(newstore.all_units):
+            if pos >= old_units or (
+                current.source != store.all_units[pos].source
+                and current.context != store.all_units[pos].context
+            ):
+                unit = current
+                break
+        # Verify unit matches data
+        if unit is None:
+            raise ValidationError(
+                _("Failed adding string: %s") % _("Failed to parse new string")
+            )
+        created_source = split_plural(unit.source)
+        if unit.context != key and (
+            self.component.has_template()
+            or self.component.file_format_cls.set_context_bilingual
+        ):
+            raise ValidationError(
+                {"context": _('Context would created as "%s"') % unit.context}
+            )
+        if created_source != source:
+            raise ValidationError(
+                {"source": _("Source would be created as %s") % created_source}
+            )
 
 
 class GhostTranslation:

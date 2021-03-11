@@ -39,6 +39,7 @@ class EditTest(ViewTestCase):
     target = "Nazdar svete!\n"
     second_target = "Ahoj svete!\n"
     already_translated = 0
+    needs_bilingual_context = False
 
     def setUp(self):
         super().setUp()
@@ -119,10 +120,12 @@ class EditTest(ViewTestCase):
 
     def add_unit(self, key, force_source: bool = False):
         if force_source or self.component.has_template():
-            args = {"key": key, "value_0": "Source string" * 100000, "source_0": key}
+            args = {"context": key, "source_0": "Source string" * 100000}
             language = "en"
         else:
             args = {"source_0": key, "target_0": "Translation string"}
+            if self.needs_bilingual_context:
+                args["context"] = key * 2
             language = "cs"
         return self.client.post(
             reverse(
@@ -458,6 +461,7 @@ class EditAppStoreTest(EditTest):
 
 class EditXliffComplexTest(EditTest):
     has_plurals = False
+    needs_bilingual_context = True
 
     def create_component(self):
         return self.create_xliff("complex")
@@ -474,6 +478,7 @@ class EditXliffComplexTest(EditTest):
 
 class EditXliffResnameTest(EditTest):
     has_plurals = False
+    needs_bilingual_context = True
 
     def create_component(self):
         return self.create_xliff("only-resname")
@@ -481,6 +486,7 @@ class EditXliffResnameTest(EditTest):
 
 class EditXliffTest(EditTest):
     has_plurals = False
+    needs_bilingual_context = True
 
     def create_component(self):
         return self.create_xliff()
