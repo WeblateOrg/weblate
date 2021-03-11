@@ -25,6 +25,7 @@ from django.utils.translation import gettext_lazy as _
 
 from weblate.checks.base import TargetCheck
 from weblate.checks.data import NON_WORD_CHARS
+from weblate.checks.same import strip_format
 
 # Regexp for non word chars
 NON_WORD = re.compile("[{}\\]]+".format("".join(NON_WORD_CHARS)))
@@ -71,8 +72,14 @@ class DuplicateCheck(TargetCheck):
         source_code = unit.translation.component.source_language.base_code
         lang_code = unit.translation.language.base_code
 
-        source_groups, source_words = self.extract_groups(source, source_code)
-        target_groups, target_words = self.extract_groups(target, lang_code)
+        source_groups, source_words = self.extract_groups(
+            strip_format(source, unit.all_flags),
+            source_code,
+        )
+        target_groups, target_words = self.extract_groups(
+            strip_format(target, unit.all_flags),
+            lang_code,
+        )
 
         # The same groups in source and target
         if source_groups == target_groups:

@@ -5,6 +5,7 @@ Not yet released.
 
 * Configurable schedule for automatic translation.
 * Added Lua format check.
+* Ignore format strings in the :ref:`check-duplicate` check.
 
 Weblate 4.5.1
 -------------
