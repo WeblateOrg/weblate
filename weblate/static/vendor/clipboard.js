@@ -1,5 +1,5 @@
 /*!
- * clipboard.js v2.0.7
+ * clipboard.js v2.0.8
  * https://clipboardjs.com/
  *
  * Licensed MIT © Zeno Rocha
@@ -14,17 +14,17 @@
 	else
 		root["ClipboardJS"] = factory();
 })(this, function() {
-return /******/ (() => { // webpackBootstrap
+return /******/ (function() { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
 /***/ 134:
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 
 // EXPORTS
 __webpack_require__.d(__webpack_exports__, {
-  "default": () => /* binding */ clipboard
+  "default": function() { return /* binding */ clipboard; }
 });
 
 // EXTERNAL MODULE: ./node_modules/tiny-emitter/index.js
@@ -285,7 +285,7 @@ var ClipboardAction = /*#__PURE__*/function () {
   return ClipboardAction;
 }();
 
-/* harmony default export */ const clipboard_action = (ClipboardAction);
+/* harmony default export */ var clipboard_action = (ClipboardAction);
 ;// CONCATENATED MODULE: ./src/clipboard.js
 function clipboard_typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { clipboard_typeof = function _typeof(obj) { return typeof obj; }; } else { clipboard_typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return clipboard_typeof(obj); }
 
@@ -478,12 +478,12 @@ var Clipboard = /*#__PURE__*/function (_Emitter) {
   return Clipboard;
 }((tiny_emitter_default()));
 
-/* harmony default export */ const clipboard = (Clipboard);
+/* harmony default export */ var clipboard = (Clipboard);
 
 /***/ }),
 
 /***/ 828:
-/***/ ((module) => {
+/***/ (function(module) {
 
 var DOCUMENT_NODE_TYPE = 9;
 
@@ -523,7 +523,7 @@ module.exports = closest;
 /***/ }),
 
 /***/ 438:
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+/***/ (function(module, __unused_webpack_exports, __webpack_require__) {
 
 var closest = __webpack_require__(828);
 
@@ -608,7 +608,7 @@ module.exports = delegate;
 /***/ }),
 
 /***/ 879:
-/***/ ((__unused_webpack_module, exports) => {
+/***/ (function(__unused_webpack_module, exports) {
 
 /**
  * Check if argument is a HTML element.
@@ -664,7 +664,7 @@ exports.fn = function(value) {
 /***/ }),
 
 /***/ 370:
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+/***/ (function(module, __unused_webpack_exports, __webpack_require__) {
 
 var is = __webpack_require__(879);
 var delegate = __webpack_require__(438);
@@ -766,7 +766,7 @@ module.exports = listen;
 /***/ }),
 
 /***/ 817:
-/***/ ((module) => {
+/***/ (function(module) {
 
 function select(element) {
     var selectedText;
@@ -816,7 +816,7 @@ module.exports = select;
 /***/ }),
 
 /***/ 279:
-/***/ ((module) => {
+/***/ (function(module) {
 
 function E () {
   // Keep this empty so it's easier to inherit from
@@ -916,33 +916,33 @@ module.exports.TinyEmitter = E;
 /******/ 	
 /************************************************************************/
 /******/ 	/* webpack/runtime/compat get default export */
-/******/ 	(() => {
+/******/ 	!function() {
 /******/ 		// getDefaultExport function for compatibility with non-harmony modules
-/******/ 		__webpack_require__.n = (module) => {
+/******/ 		__webpack_require__.n = function(module) {
 /******/ 			var getter = module && module.__esModule ?
-/******/ 				() => module['default'] :
-/******/ 				() => module;
+/******/ 				function() { return module['default']; } :
+/******/ 				function() { return module; };
 /******/ 			__webpack_require__.d(getter, { a: getter });
 /******/ 			return getter;
 /******/ 		};
-/******/ 	})();
+/******/ 	}();
 /******/ 	
 /******/ 	/* webpack/runtime/define property getters */
-/******/ 	(() => {
+/******/ 	!function() {
 /******/ 		// define getter functions for harmony exports
-/******/ 		__webpack_require__.d = (exports, definition) => {
+/******/ 		__webpack_require__.d = function(exports, definition) {
 /******/ 			for(var key in definition) {
 /******/ 				if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
 /******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
 /******/ 				}
 /******/ 			}
 /******/ 		};
-/******/ 	})();
+/******/ 	}();
 /******/ 	
 /******/ 	/* webpack/runtime/hasOwnProperty shorthand */
-/******/ 	(() => {
-/******/ 		__webpack_require__.o = (obj, prop) => Object.prototype.hasOwnProperty.call(obj, prop)
-/******/ 	})();
+/******/ 	!function() {
+/******/ 		__webpack_require__.o = function(obj, prop) { return Object.prototype.hasOwnProperty.call(obj, prop); }
+/******/ 	}();
 /******/ 	
 /************************************************************************/
 /******/ 	// module exports must be returned from runtime so entry inlining is disabled
