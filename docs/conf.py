@@ -174,13 +174,49 @@ epub_exclude_files = ["search.html"]
 
 graphviz_output_format = "svg"
 
+# Use localized Python docs on Read the Docs build
+rtd_lang = os.environment.get("READTHEDOCS_LANGUAGE")
+
+python_doc_url = "https://docs.python.org/3.9/"
+if rtd_lang == "pt_BR":
+    python_doc_url = "https://docs.python.org/pt-br/3.9/"
+elif rtd_lang in ("es", "fr", "ja", "ko"):
+    python_doc_url = f"https://docs.python.org/{rtd_lang}/3.9/"
+elif rtd_lang == "zh_CN":
+    python_doc_url = "https://docs.python.org/zh-cn/3.9/"
+elif rtd_lang == "zh_TW":
+    python_doc_url = "https://docs.python.org/zh-tw/3.9/"
+
+django_doc_url = "https://docs.djangoproject.com/en/stable/"
+if rtd_lang in ("el", "es", "fr", "id", "ja", "ko", "pl"):
+    django_doc_url = f"https://docs.djangoproject.com/{rtd_lang}/stable/"
+elif rtd_lang == "pt_BR":
+    django_doc_url = "https://docs.djangoproject.com/pt-br/stable/"
+elif rtd_lang == "zh_CN":
+    django_doc_url = "https://docs.djangoproject.com/zh-hans/stable/"
+
+sphinx_doc_url = "https://www.sphinx-doc.org/en/stable/"
+if rtd_lang in (
+    "ar",
+    "ca",
+    "de",
+    "ru",
+    "es",
+    "fr",
+    "it",
+    "ja",
+    "ko",
+    "pl",
+    "pt_BR",
+    "sr",
+    "zh_CN",
+):
+    sphinx_doc_url = f"https://www.sphinx-doc.org/{rtd_lang}/stable/"
+
 # Configuration for intersphinx
 intersphinx_mapping = {
-    "python": ("https://docs.python.org/3.7", None),
-    "django": (
-        "https://docs.djangoproject.com/en/stable/",
-        "https://docs.djangoproject.com/en/stable/_objects/",
-    ),
+    "python": (python_doc_url, None),
+    "django": (django_doc_url, f"{django_doc_url}_objects/"),
     "psa": ("https://python-social-auth.readthedocs.io/en/latest/", None),
     "tt": (
         "http://docs.translatehouse.org/projects/translate-toolkit/en/latest/",
@@ -190,7 +226,7 @@ intersphinx_mapping = {
     "virtaal": ("http://docs.translatehouse.org/projects/virtaal/en/latest/", None),
     "ldap": ("https://django-auth-ldap.readthedocs.io/en/latest/", None),
     "celery": ("https://docs.celeryproject.org/en/latest/", None),
-    "sphinx": ("https://www.sphinx-doc.org/en/stable/", None),
+    "sphinx": (sphinx_doc_url, None),
     "rtd": ("https://docs.readthedocs.io/en/latest/", None),
     "venv": ("https://virtualenv.pypa.io/en/stable/", None),
     "borg": ("https://borgbackup.readthedocs.io/en/stable/", None),
