@@ -371,6 +371,8 @@ class TTKitFormat(TranslationFormat):
                 target = multistring(target)
         if key:
             unit.setid(key)
+            if hasattr(unit, "setcontext"):
+                unit.setcontext(key)
         elif target is not None and self.set_context_bilingual:
             unit.setid(context)
             unit.context = context
