@@ -82,6 +82,7 @@ class SupportStatus(models.Model):
     secret = models.CharField(max_length=400)
     expiry = models.DateTimeField(db_index=True, null=True)
     in_limits = models.BooleanField(default=True)
+    discoverable = models.BooleanField(default=False)
 
     objects = SupportStatusManager()
 
@@ -104,7 +105,19 @@ class SupportStatus(models.Model):
             "source_strings": stats.source_strings,
             "strings": stats.all,
             "words": stats.all_words,
+            "discoverable": self.discoverable,
         }
+        if self.discoverable:
+            data["public_projects"] = [
+                {
+                    "name": project.name,
+                    "url": project.get_absolute_url(),
+                    "web": project.web,
+                }
+                for project in Project.objects.filter(
+                    access_control=Project.ACCESS_PUBLIC
+                ).iterator()
+            ]
         ssh_key = get_key_data()
         if not ssh_key:
             generate_ssh_key(None)

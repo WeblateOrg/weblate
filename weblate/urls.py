@@ -947,6 +947,7 @@ real_patterns = [
         name="manage-users-check",
     ),
     path("manage/activate/", weblate.wladmin.views.activate, name="manage-activate"),
+    path("manage/discovery/", weblate.wladmin.views.discovery, name="manage-discovery"),
     path("manage/alerts/", weblate.wladmin.views.alerts, name="manage-alerts"),
     path("manage/repos/", weblate.wladmin.views.repos, name="manage-repos"),
     path("manage/ssh/", weblate.wladmin.views.ssh, name="manage-ssh"),

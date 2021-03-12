@@ -26,6 +26,7 @@ from django.shortcuts import redirect, render
 from django.utils import timezone
 from django.utils.translation import gettext as _
 from django.utils.translation import gettext_lazy
+from django.views.decorators.http import require_POST
 
 from weblate.auth.decorators import management_access
 from weblate.auth.forms import AdminInviteUserForm
@@ -57,7 +58,11 @@ from weblate.wladmin.forms import (
     UserSearchForm,
 )
 from weblate.wladmin.models import BackupService, ConfigurationError, SupportStatus
-from weblate.wladmin.tasks import backup_service, configuration_health_check
+from weblate.wladmin.tasks import (
+    backup_service,
+    configuration_health_check,
+    support_status_update,
+)
 
 MENU = (
     ("index", "manage", gettext_lazy("Weblate status")),
@@ -141,6 +146,20 @@ def tools(request):
 
 
 @management_access
+@require_POST
+def discovery(request):
+    support = SupportStatus.objects.get_current()
+
+    if support.secret:
+        support.discoverable = not support.discoverable
+        support.save(update_fields=["discoverable"])
+        support_status_update.delay()
+
+    return redirect("manage")
+
+
+@management_access
+@require_POST
 def activate(request):
     form = ActivateForm(request.POST)
     if form.is_valid():
