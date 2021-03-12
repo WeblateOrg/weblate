@@ -1323,8 +1323,6 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
             change = self.recent_content_changes[0]
             return change.author or get_anonymous(), change.timestamp
         except IndexError:
-            if not silent:
-                report_error(level="error")
             return get_anonymous(), timezone.now()
 
     def get_locations(self):
