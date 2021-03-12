@@ -83,6 +83,10 @@ if "weblate.billing" in settings.INSTALLED_APPS:
 @management_access
 def manage(request):
     support = SupportStatus.objects.get_current()
+    initial = None
+    activation_code = request.GET.get("activation")
+    if activation_code and len(activation_code) < 400:
+        initial = {"secret": activation_code}
     return render(
         request,
         "manage/index.html",
@@ -90,7 +94,7 @@ def manage(request):
             "menu_items": MENU,
             "menu_page": "index",
             "support": support,
-            "activate_form": ActivateForm(),
+            "activate_form": ActivateForm(initial=initial),
         },
     )
 
