@@ -9,7 +9,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-03-05 15:19+0100\n"
 "PO-Revision-Date: 2021-03-12 10:08+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"Last-Translator: Rafael Fontenelle <rafaelff@gnome.org>\n"
 "Language-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/"
 "weblate/documentation/pt_BR/>\n"
 "Language: pt_BR\n"
@@ -29781,12 +29781,12 @@ msgid ""
 "`XML Localization Interchange File Format (XLIFF)` is usually used as "
 "bilingual, but Weblate supports it as monolingual as well."
 msgstr ""
-"XML Localization Interchange File Format (XLIFF)` é normalmente utilizado "
+"`XML Localization Interchange File Format (XLIFF)` é normalmente utilizado "
 "como bilíngue, mas Weblate também o suporta como monolíngue."
 
 #: ../../formats.rst:260
 msgid "`XML Localization Interchange File Format (XLIFF)` specification"
-msgstr "Especificação do `XML Localization Interchange File Format (XLIFF)`"
+msgstr "`Especificação do `XML Localization Interchange File Format (XLIFF)`"
 
 #: ../../formats.rst:266 ../../workflows.rst:26
 msgid "Translation states"
@@ -29806,11 +29806,11 @@ msgid ""
 "``<target>`` element exists."
 msgstr ""
 "O atributo ``state`` no arquivo é parcialmente processado e mapeado para o "
-"estado \"Necessita ediçãor\" no Weblate (os seguintes estados são utilizados "
-"para marcar a string como necessitando editar se houver um alvo presente: "
-"``new```, ``needs-translation```, ``needs-adaptation```, ``needs-l10n```). "
-"Caso o atributo ``state`` esteja faltando, um texto é considerado traduzido "
-"assim que um elemento ``<target>`` existir."
+"estado \"Necessita edição\" no Weblate (os seguintes estados são utilizados "
+"para marcar o texto como necessitando editar se houver um alvo presente: "
+"``new``, ``needs-translation``, ``needs-adaptation``, ``needs-l10n``). Caso "
+"o atributo ``state`` esteja faltando, um texto é considerado traduzido assim "
+"que um elemento ``<target>`` existir."
 
 #: ../../formats.rst:279
 msgid ""
@@ -29900,6 +29900,9 @@ msgid ""
 "using the ``weblate-flags`` attribute. Weblate also understands ``maxwidth`` "
 "and ``font`` attributes from the XLIFF specification:"
 msgstr ""
+"Você pode especificar marcadores de tradução adicionais (veja :ref:`custom-"
+"checks`) utilizando o atributo ``weblate-flags``. Weblate também entende os "
+"atributos ``maxwidth`` e ``font`` da especificação XLIFF:"
 
 #: ../../formats.rst:335
 msgid ""
@@ -29909,12 +29912,15 @@ msgid ""
 "Pro`` becomes ``Source_Sans_Pro``, please keep that in mind when naming the "
 "font group (see :ref:`fonts`)."
 msgstr ""
+"O atributo ``fonte`` é analisado para a família de fontes, tamanho e peso, o "
+"exemplo acima mostra tudo isso, embora apenas a família de fontes seja "
+"necessária. Qualquer espaço em branco na família de fontes é convertido para "
+"sublinhado, então ``Source Sans Pro`` torna-se ``Source_Sans_Pro``, por "
+"favor tenha isso em mente ao nomear o grupo de fontes (veja :ref:`fonts`)."
 
 #: ../../formats.rst:342
-#, fuzzy
-#| msgid "Strings"
 msgid "String keys"
-msgstr "Textos"
+msgstr "Chaves de textos"
 
 #: ../../formats.rst:344
 msgid ""
@@ -29922,6 +29928,9 @@ msgid ""
 "case it is present and falls back to ``id`` (together with ``file`` tag if "
 "present)."
 msgstr ""
+"Weblate identifica as unidades no arquivo XLIFF pelo atributo ``resname`` no "
+"caso de estar presente e, do contrário, recorre a ``id`` (junto com a tag "
+"``file`` se presente)."
 
 #: ../../formats.rst:347
 msgid ""
@@ -29931,26 +29940,31 @@ msgid ""
 "Weblate and is not covered by the XLIFF standard - it does not put any "
 "uniqueness restrictions on this attribute."
 msgstr ""
+"O atributo ``resname`` deveria ser um identificador humanamente amigável da "
+"unidade, tornando-a mais adequada para a exibição de Weblate em vez de ``id``"
+". O ``resname`` tem de ser único em todo o arquivo XLIFF. Isto é exigido "
+"pelo Weblate e não é coberto pelo padrão XLIFF -- não coloca nenhuma "
+"restrição de exclusividade neste atributo."
 
 #: ../../formats.rst:355
 msgid "Typical Weblate :ref:`component` for bilingual XLIFF"
-msgstr ""
+msgstr ":ref:`component` típica do Weblate para XLIFF bilíngue"
 
 #: ../../formats.rst:357 ../../formats.rst:369
 msgid "``localizations/*.xliff``"
-msgstr ""
+msgstr "``localizations/*.xliff``"
 
 #: ../../formats.rst:361 ../../formats.rst:371 ../../formats.rst:373
 msgid "``localizations/en-US.xliff``"
-msgstr ""
+msgstr "``localizations/en-US.xliff``"
 
 #: ../../formats.rst:363 ../../formats.rst:375
 msgid "`XLIFF Translation File`"
-msgstr ""
+msgstr "`Arquivo de tradução XLIFF`"
 
 #: ../../formats.rst:367
 msgid "Typical Weblate :ref:`component` for monolingual XLIFF"
-msgstr ""
+msgstr ":ref:`component` típica do Weblate para XLIFF monolíngue"
 
 #: ../../formats.rst:380
 msgid ""
@@ -29959,18 +29973,22 @@ msgid ""
 "xliff/v1.2/os/xliff-core.html#font>`_, `maxwidth attribute in XLIFF 1.2 "
 "<http://docs.oasis-open.org/xliff/v1.2/os/xliff-core.html#maxwidth>`_"
 msgstr ""
+"`XLIFF na Wikipédia <https://en.wikipedia.org/wiki/XLIFF>`_, :doc:`tt:"
+"formats/xliff`, `Atributo font no XLIFF 1.2 <http://docs.oasis-open.org/"
+"xliff/v1.2/os/xliff-core.html#font>`_, `Atributo maxwidth no XLIFF 1.2 "
+"<http://docs.oasis-open.org/xliff/v1.2/os/xliff-core.html#maxwidth>`_"
 
 #: ../../formats.rst:388
 msgid "Java properties"
-msgstr ""
+msgstr "Propriedades Java"
 
 #: ../../formats.rst:393
 msgid "Native Java format for translations."
-msgstr ""
+msgstr "Formato nativo do Java para traduções."
 
 #: ../../formats.rst:395
 msgid "Java properties are usually used as monolingual translations."
-msgstr ""
+msgstr "As propriedades Java são geralmente usadas como traduções monolíngues."
 
 #: ../../formats.rst:397
 msgid ""
@@ -29980,24 +29998,32 @@ msgid ""
 "example ``zkou\\u0161ka``), all others encode characters directly either in "
 "UTF-8 or UTF-16."
 msgstr ""
+"Weblate é compatível com as variantes ISO-8859-1, UTF-8 e UTF-16 deste "
+"formato. Todos eles suportam o armazenamento de todos os caracteres Unicode, "
+"mas são codificados de forma diferente. No ISO-8859-1, as sequências de "
+"escape Unicode são usadas (por exemplo, ``zkou\\u0161ka``), todas as outras "
+"codificam caracteres diretamente em UTF-8 ou UTF-16."
 
 #: ../../formats.rst:404
 msgid ""
 "Loading escape sequences works in UTF-8 mode as well, so please be careful "
 "choosing the correct encoding set to match your application needs."
 msgstr ""
+"Carregar sequências de escape também funciona no modo UTF-8, por isso, tenha "
+"cuidado ao escolher o conjunto de codificação correto para corresponder às "
+"necessidades do aplicativo."
 
 #: ../../formats.rst:410 ../../formats.rst:441
 msgid "``src/app/Bundle_*.properties``"
-msgstr ""
+msgstr "``src/app/Bundle_*.properties``"
 
 #: ../../formats.rst:412 ../../formats.rst:443
 msgid "``src/app/Bundle.properties``"
-msgstr ""
+msgstr "``src/app/Bundle.properties``"
 
 #: ../../formats.rst:416
 msgid "`Java Properties (ISO-8859-1)`"
-msgstr ""
+msgstr "`Propriedades Java (ISO-8859-1)`"
 
 #: ../../formats.rst:421
 msgid ""
@@ -30005,6 +30031,9 @@ msgid ""
 "properties>`_, :doc:`tt:formats/properties`, :ref:`addon-weblate.properties."
 "sort`, :ref:`addon-weblate.cleanup.generic`"
 msgstr ""
+"`Java properties na Wikipédia <https://pt.wikipedia.org/wiki/Properties>`_, "
+":doc:`tt:formats/properties`, :ref:`addon-weblate.properties.sort`, :ref"
+":`addon-weblate.cleanup.generic`"
 
 #: ../../formats.rst:429
 msgid "GWT properties"
