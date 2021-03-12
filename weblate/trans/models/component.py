@@ -548,16 +548,6 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
         validators=[validate_render_addon],
         default=settings.DEFAULT_ADDON_MESSAGE,
     )
-    committer_name = models.CharField(
-        verbose_name=gettext_lazy("Committer name"),
-        max_length=200,
-        default=settings.DEFAULT_COMMITER_NAME,
-    )
-    committer_email = models.EmailField(
-        verbose_name=gettext_lazy("Committer e-mail"),
-        max_length=254,
-        default=settings.DEFAULT_COMMITER_EMAIL,
-    )
     push_on_commit = models.BooleanField(
         verbose_name=gettext_lazy("Push on commit"),
         default=settings.DEFAULT_PUSH_ON_COMMIT,
@@ -1298,7 +1288,9 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
             self.repository.configure_remote(
                 self.repo, self.push, self.branch, fast=not self.id
             )
-            self.repository.set_committer(self.committer_name, self.committer_email)
+            self.repository.set_committer(
+                settings.DEFAULT_COMMITER_NAME, settings.DEFAULT_COMMITER_EMAIL
+            )
 
             if pull:
                 self.update_remote_branch(validate)

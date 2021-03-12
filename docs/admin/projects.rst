@@ -643,25 +643,6 @@ Default value can be changed by :setting:`DEFAULT_ADD_MESSAGE`,
 :setting:`DEFAULT_ADDON_MESSAGE`, :setting:`DEFAULT_COMMIT_MESSAGE`,
 :setting:`DEFAULT_DELETE_MESSAGE`, :setting:`DEFAULT_MERGE_MESSAGE`.
 
-.. _component-committer_name:
-
-Committer name
-++++++++++++++
-
-Name of the committer used for Weblate commits, the author will always be the
-real translator. On some VCSs this might be not supported.
-
-Default value can be changed by :setting:`DEFAULT_COMMITER_NAME`.
-
-.. _component-committer_email:
-
-Committer e-mail
-++++++++++++++++
-
-Email of committer used for Weblate commits, the author will always be the
-real translator. On some VCSs this might be not supported. The default value
-can be changed in :setting:`DEFAULT_COMMITER_EMAIL`.
-
 .. _component-push_on_commit:
 
 Push on commit

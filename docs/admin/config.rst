@@ -528,13 +528,11 @@ DEFAULT_COMMITER_EMAIL
 
 .. versionadded:: 2.4
 
-Committer e-mail address for created translation components defaulting to ``noreply@weblate.org``.
+Committer e-mail address defaulting to ``noreply@weblate.org``.
 
 .. seealso::
 
-   :setting:`DEFAULT_COMMITER_NAME`,
-   :ref:`component`,
-   :ref:`component-committer_email`
+   :setting:`DEFAULT_COMMITER_NAME`
 
 .. setting:: DEFAULT_COMMITER_NAME
 
@@ -543,13 +541,11 @@ DEFAULT_COMMITER_NAME
 
 .. versionadded:: 2.4
 
-Committer name for created translation components defaulting to ``Weblate``.
+Committer name defaulting to ``Weblate``.
 
 .. seealso::
 
-   :setting:`DEFAULT_COMMITER_EMAIL`,
-   :ref:`component`,
-   :ref:`component-committer_name`
+   :setting:`DEFAULT_COMMITER_EMAIL`
 
 .. setting:: DEFAULT_LANGUAGE
 
