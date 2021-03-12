@@ -446,6 +446,7 @@ class Project(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKeyM
             source_language=source_language,
             name=name,
             slug=slug,
+            manage_units=True,
             **kwargs,
         )
 
