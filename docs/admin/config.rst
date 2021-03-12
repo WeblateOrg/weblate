@@ -580,6 +580,15 @@ Merge style for any new components.
    :ref:`component`,
    :ref:`component-merge_style`
 
+.. setting:: DEFAULT_SHARED_TM
+
+DEFAULT_SHARED_TM
+-----------------
+
+.. versionadded:: 3.2
+
+Configures default value of :ref:`project-use_shared_tm` and :ref:`project-contribute_shared_tm`.
+
 .. setting:: DEFAULT_TRANSLATION_PROPAGATION
 
 DEFAULT_TRANSLATION_PROPAGATION
