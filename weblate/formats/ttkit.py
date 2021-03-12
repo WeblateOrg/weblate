@@ -345,7 +345,9 @@ class TTKitFormat(TranslationFormat):
             return unit
         return self.store.UnitClass(source)
 
-    def create_unit_key(self, key: str, source: Union[str, List[str]]) -> str:
+    def create_unit_key(
+        self, key: str, source: Union[str, List[str], multistring]
+    ) -> Union[str, multistring]:
         return key
 
     def create_unit(
@@ -1031,8 +1033,10 @@ class PoMonoFormat(BasePoFormat):
     bilingual_class = PoFormat
     set_context_bilingual = False
 
-    def create_unit_key(self, key: str, source: Union[str, List[str]]) -> str:
-        if isinstance(source, list):
+    def create_unit_key(
+        self, key: str, source: Union[str, List[str], multistring]
+    ) -> Union[str, multistring]:
+        if isinstance(source, (list, multistring)):
             return multistring([key, f"{key}_plural"])
         return key
 
