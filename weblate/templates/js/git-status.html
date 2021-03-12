@@ -111,6 +111,9 @@
             <li>
               <a href="{{ object.get_cleanup_url }}" class="link-post" title="{% trans "Cleanup all untracked files in the Weblate repository" %}">{% trans "Cleanup" %}</a>
             </li>
+            <li>
+              <a href="{{ object.get_file_sync_url }}" class="link-post" title="{% trans "Force writing all translations to the Weblate repository" %}">{% trans "Force synchronization" %}</a>
+            </li>
           </ul>
         </div>
       </td>

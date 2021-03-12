@@ -1546,6 +1546,15 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
 
             return True
 
+    @perform_on_link
+    def do_file_sync(self, request=None):
+        from weblate.trans.models import Unit
+
+        Unit.objects.filter(translation__component=self).exclude(
+            translation__language_id=self.source_language_id
+        ).update(pending=True)
+        return self.commit_pending("file-sync", request.user if request else None)
+
     def get_repo_link_url(self):
         return f"weblate://{self.project.slug}/{self.slug}"
 

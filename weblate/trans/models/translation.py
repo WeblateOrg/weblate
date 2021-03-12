@@ -457,6 +457,9 @@ class Translation(
     def do_cleanup(self, request=None):
         return self.component.do_cleanup(request)
 
+    def do_file_sync(self, request=None):
+        return self.component.do_file_sync(request)
+
     def can_push(self):
         return self.component.can_push()
 

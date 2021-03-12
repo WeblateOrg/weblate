@@ -7,6 +7,7 @@ Not yet released.
 * Added Lua format check.
 * Ignore format strings in the :ref:`check-duplicate` check.
 * Allow uploading screenshot from a translate page.
+* Added forced file synchronization to the repository maintenance.
 
 Weblate 4.5.1
 -------------

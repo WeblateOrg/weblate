@@ -110,6 +110,7 @@ REPO_OPERATIONS = {
     "reset": ("vcs.reset", "do_reset", (), True),
     "cleanup": ("vcs.reset", "do_cleanup", (), True),
     "commit": ("vcs.commit", "commit_pending", ("api",), False),
+    "file-sync": ("vcs.reset", "do_file_sync", (), True),
 }
 
 DOC_TEXT = """
