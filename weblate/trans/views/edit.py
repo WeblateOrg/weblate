@@ -45,6 +45,7 @@ from weblate.glossary.forms import TermForm
 from weblate.glossary.models import get_glossary_terms
 from weblate.lang.models import Language
 from weblate.machinery import MACHINE_TRANSLATION_SERVICES
+from weblate.screenshots.forms import ScreenshotForm
 from weblate.trans.forms import (
     AntispamForm,
     AutoForm,
@@ -506,7 +507,7 @@ def handle_suggestions(request, unit, this_unit_url, next_unit_url):
     return HttpResponseRedirect(redirect_url)
 
 
-def translate(request, project, component, lang):
+def translate(request, project, component, lang):  # noqa: C901
     """Generic entry point for translating, suggesting and searching."""
     obj, project, unit_set = parse_params(request, project, component, lang)
 
@@ -604,6 +605,10 @@ def translate(request, project, component, lang):
     form = TranslationForm(request.user, unit)
     sort = get_sort_name(request, obj)
 
+    screenshot_form = None
+    if request.user.has_perm("screenshot.add", obj):
+        screenshot_form = ScreenshotForm(obj.component, initial={"translation": obj})
+
     return render(
         request,
         "translate.html",
@@ -650,6 +655,7 @@ def translate(request, project, component, lang):
             "new_unit_form": get_new_unit_form(
                 unit.translation, request.user, initial={"variant": unit.source}
             ),
+            "screenshot_form": screenshot_form,
         },
     )
 

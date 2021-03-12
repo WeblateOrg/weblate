@@ -6,6 +6,7 @@ Not yet released.
 * Configurable schedule for automatic translation.
 * Added Lua format check.
 * Ignore format strings in the :ref:`check-duplicate` check.
+* Allow uploading screenshot from a translate page.
 
 Weblate 4.5.1
 -------------
