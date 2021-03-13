@@ -1086,7 +1086,7 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
             Check.objects.filter(unit=self, check__in=old_checks).delete()
 
         # Trigger source checks on target check update (multiple failing checks)
-        if (create or old_checks) and not not self.is_source:
+        if (create or old_checks) and not self.is_source:
             if self.is_batch_update:
                 self.translation.component.updated_sources[
                     self.source_unit.id
