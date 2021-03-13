@@ -670,6 +670,11 @@ older than this period.
 
 Default value can be changed by :setting:`COMMIT_PENDING_HOURS`.
 
+.. hint::
+
+   There are other situations where pending changes might be committed, see
+   :ref:`lazy-commit`.
+
 .. _component-auto_lock_error:
 
 Lock on error
