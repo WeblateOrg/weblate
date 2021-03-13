@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-03-13 07:01+0100\n"
-"PO-Revision-Date: 2021-03-09 10:04+0000\n"
+"PO-Revision-Date: 2021-03-13 21:46+0000\n"
 "Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "documentation/ja/>\n"
@@ -1106,16 +1106,12 @@ msgid ""
 msgstr "機械翻訳または他のコンポーネントを使用して文字列を自動的に翻訳します。"
 
 #: ../../admin/addons.rst:26
-#, fuzzy
-#| msgid "Backup process triggered"
 msgid "It is triggered:"
-msgstr "バックアップ処理をトリガーしました"
+msgstr "起動条件:"
 
 #: ../../admin/addons.rst:28
-#, fuzzy
-#| msgid "Triggered automatically when new strings appear in a component."
 msgid "When new strings appear in a component."
-msgstr "コンポーネントに新しい文字列が追加されると自動的に起動します。"
+msgstr "コンポーネントに新しい文字列が追加されたとき。"
 
 #: ../../admin/addons.rst:29
 msgid ""
@@ -4546,46 +4542,32 @@ msgid "Right now this controls:"
 msgstr ""
 
 #: ../../admin/config.rst:203
-#, fuzzy
-#| msgid ""
-#| "Auto-translate the newly added strings with :ref:`addon-weblate."
-#| "autotranslate.autotranslate`."
 msgid ":ref:`addon-weblate.autotranslate.autotranslate` addon"
-msgstr ""
-"新しく追加した文字列を :ref:`addon-weblate.autotranslate.autotranslate` で自"
-"動翻訳します。"
+msgstr ":ref:`addon-weblate.autotranslate.autotranslate` アドオン"
 
 #: ../../admin/config.rst:204
 msgid ":doc:`checks` recalculation"
 msgstr ""
 
 #: ../../admin/config.rst:206
-#, fuzzy
-#| msgid "Possible configuration"
 msgid "Possible choices:"
-msgstr "考えられる設定"
+msgstr "可能な選択肢:"
 
 #: ../../admin/config.rst:208
 msgid "``monthly`` (this is the default)"
 msgstr ""
 
 #: ../../admin/config.rst:209
-#, fuzzy
-#| msgid "``weblate``"
 msgid "``weekly``"
-msgstr "``weblate``"
+msgstr "``weekly``"
 
 #: ../../admin/config.rst:210
-#, fuzzy
-#| msgid "``read-only``"
 msgid "``daily``"
-msgstr "``read-only``"
+msgstr "``daily``"
 
 #: ../../admin/config.rst:211
-#, fuzzy
-#| msgid "``dev-docker``"
 msgid "``never``"
-msgstr "``dev-docker``"
+msgstr "``never``"
 
 #: ../../admin/config.rst:215
 msgid ""
@@ -5014,39 +4996,24 @@ msgid "DEFAULT_COMMITER_EMAIL"
 msgstr "DEFAULT_COMMITER_EMAIL"
 
 #: ../../admin/config.rst:531
-#, fuzzy
-#| msgid ""
-#| "Committer e-mail address for created translation components defaulting to "
-#| "``noreply@weblate.org``."
 msgid "Committer e-mail address defaulting to ``noreply@weblate.org``."
-msgstr ""
-"作成された翻訳コンポーネントのコミッターのメールアドレスのデフォルトは "
-"``noreply@weblate.org`` です。"
+msgstr "コミッターのメールアドレスのデフォルトは ``noreply@weblate.org`` です。"
 
 #: ../../admin/config.rst:535
-#, fuzzy
-#| msgid "DEFAULT_COMMITER_NAME"
 msgid ":setting:`DEFAULT_COMMITER_NAME`"
-msgstr "DEFAULT_COMMITER_NAME"
+msgstr ":setting:`DEFAULT_COMMITER_NAME`"
 
 #: ../../admin/config.rst:540
 msgid "DEFAULT_COMMITER_NAME"
 msgstr "DEFAULT_COMMITER_NAME"
 
 #: ../../admin/config.rst:544
-#, fuzzy
-#| msgid ""
-#| "Committer name for created translation components defaulting to "
-#| "``Weblate``."
 msgid "Committer name defaulting to ``Weblate``."
-msgstr ""
-"作成された翻訳コンポーネントのコミッター名のデフォルトは ``Weblate`` です。"
+msgstr "コミッター名のデフォルトは ``Weblate`` です。"
 
 #: ../../admin/config.rst:548
-#, fuzzy
-#| msgid "DEFAULT_COMMITER_EMAIL"
 msgid ":setting:`DEFAULT_COMMITER_EMAIL`"
-msgstr "DEFAULT_COMMITER_EMAIL"
+msgstr ":setting:`DEFAULT_COMMITER_EMAIL`"
 
 #: ../../admin/config.rst:553
 msgid "DEFAULT_LANGUAGE"
@@ -5092,10 +5059,8 @@ msgid ":ref:`component`, :ref:`component-merge_style`"
 msgstr ":ref:`component`、:ref:`component-merge_style`"
 
 #: ../../admin/config.rst:586
-#, fuzzy
-#| msgid "DEFAULT_MERGE_STYLE"
 msgid "DEFAULT_SHARED_TM"
-msgstr "DEFAULT_MERGE_STYLE"
+msgstr "DEFAULT_SHARED_TM"
 
 #: ../../admin/config.rst:590
 msgid ""
@@ -8939,19 +8904,14 @@ msgid "Set properly SECURE_HSTS_SECONDS"
 msgstr "SECURE_HSTS_SECONDS を適切に設定"
 
 #: ../../admin/install.rst:829
-#, fuzzy
-#| msgid ""
-#| "If your site is served over SSL, you have to consider setting a value "
-#| "for :setting:`SECURE_HSTS_SECONDS` in the :file:`settings.py` to enable "
-#| "HTTP Strict Transport Security. By default it's set to 0 as shown below."
 msgid ""
 "If your site is served over SSL, you have to consider setting a value for :"
 "setting:`django:SECURE_HSTS_SECONDS` in the :file:`settings.py` to enable "
 "HTTP Strict Transport Security. By default it's set to 0 as shown below."
 msgstr ""
-"サイトを SSL で提供している場合、HTTP Strict Transport Security を有効にする"
-"には、:file:`settings.py` 内の :setting:`SECURE_HSTS_SECONDS` の値を設定する"
-"検討が必要です。以下のように、デフォルトでは 0 に設定されています。"
+"サイトを SSL で提供している場合、HTTP Strict Transport Security を有効にするには、:file:`settings."
+"py` 内の :setting:`django:SECURE_HSTS_SECONDS` の値を設定する検討が必要です。以下のように、デフォルトでは 0 "
+"に設定されています。"
 
 #: ../../admin/install.rst:837
 msgid ""
@@ -10546,10 +10506,8 @@ msgid "Configures :setting:`DEFAULT_COMMITER_NAME`."
 msgstr ""
 
 #: ../../admin/install/docker.rst:546
-#, fuzzy
-#| msgid "Configures :setting:`DEFAULT_AUTO_WATCH`."
 msgid "Configures :setting:`DEFAULT_SHARED_TM`."
-msgstr ":setting:`DEFAULT_AUTO_WATCH` の設定。"
+msgstr ":setting:`DEFAULT_SHARED_TM` の設定。"
 
 #: ../../admin/install/docker.rst:550
 msgid "Configures the Akismet API key, see :setting:`AKISMET_API_KEY`."
@@ -14401,12 +14359,8 @@ msgid ""
 msgstr ""
 
 #: ../../admin/projects.rst:171 ../../admin/projects.rst:180
-#, fuzzy
-#| msgid ""
-#| "Default value can be changed by :setting:`DEFAULT_RESTRICTED_COMPONENT`."
 msgid "Default value is determined by :setting:`DEFAULT_SHARED_TM`."
-msgstr ""
-"デフォルト値は :setting:`DEFAULT_RESTRICTED_COMPONENT` で変更できます。"
+msgstr "デフォルト値は :setting:`DEFAULT_SHARED_TM` により決定します。"
 
 #: ../../admin/projects.rst:176
 msgid "Contribute to shared translation memory"
@@ -15771,10 +15725,8 @@ msgid ":ref:`cloudbackup`"
 msgstr ":ref:`cloudbackup`"
 
 #: ../../admin/support.rst:44
-#, fuzzy
-#| msgid ":ref:`weblate-ssh-key`"
 msgid ":ref:`weblate-discovery`"
-msgstr ":ref:`weblate-ssh-key`"
+msgstr ":ref:`weblate-discovery`"
 
 #: ../../admin/support.rst:48
 msgid ""
@@ -15785,16 +15737,12 @@ msgstr ""
 "てもご利用いただけます。"
 
 #: ../../admin/support.rst:53
-#, fuzzy
-#| msgid "Weblate keys"
 msgid "Weblate discovery"
-msgstr "Weblate 暗号鍵"
+msgstr "Weblate の検出"
 
 #: ../../admin/support.rst:59
-#, fuzzy
-#| msgid "Service is currently not available."
 msgid "This feature is currently in early beta."
-msgstr "現在、サービスは利用できません。"
+msgstr "この機能は現在、初期のベータ版です。"
 
 #: ../../admin/support.rst:61
 msgid ""
@@ -17310,16 +17258,12 @@ msgid "Performs given operation on the VCS repository."
 msgstr "VCS リポジトリで指定の操作を実行します。"
 
 #: ../../api.rst:865
-#, fuzzy
-#| msgid ""
-#| "Operation to perform: one of ``push``, ``pull``, ``commit``, ``reset``, "
-#| "``cleanup``"
 msgid ""
 "Operation to perform: one of ``push``, ``pull``, ``commit``, ``reset``, "
 "``cleanup``, ``file-sync``"
 msgstr ""
-"実行する操作: ``push``, ``pull``, ``commit``, ``reset``, ``cleanup`` のいずれ"
-"か一つ"
+"実行する操作: ``push``, ``pull``, ``commit``, ``reset``, ``cleanup``, ``file-sync``"
+" のいずれか一つ"
 
 #: ../../api.rst:866 ../../api.rst:1421 ../../api.rst:1884
 msgid "result of the operation"
@@ -17343,16 +17287,12 @@ msgstr ""
 "project)/(string:component)/`"
 
 #: ../../api.rst:920
-#, fuzzy
-#| msgid ""
-#| "The ``zipfile`` and ``docfile`` parameters are now accepted for VCS less "
-#| "components, see :ref:`vcs-local`."
 msgid ""
 "The ``zipfile`` and ``docfile`` parameters are now accepted for VCS-less "
 "components, see :ref:`vcs-local`."
 msgstr ""
-"``zipfile`` および ``docfile`` パラメータは、VCS のないコンポーネントでも使用"
-"できるようになりました。参照: :ref:`vcs-local`。"
+"``zipfile`` および ``docfile`` パラメータは、VCS なしのコンポーネントでも使用できるようになりました。参照: :ref"
+":`vcs-local`。"
 
 #: ../../api.rst:922
 msgid "Creates translation components in the given project."
@@ -17398,16 +17338,12 @@ msgid ""
 msgstr ""
 
 #: ../../api.rst:944
-#, fuzzy
-#| msgid "**Form request example:**"
 msgid "**CURL form request example:**"
-msgstr "**フォーム リクエストの例:**"
+msgstr "**CURL フォーム リクエスト例:**"
 
 #: ../../api.rst:957
-#, fuzzy
-#| msgid "**JSON request example:**"
 msgid "**CURL JSON request example:**"
-msgstr "**JSON リクエストの例:**"
+msgstr "**CURL JSON リクエスト例:**"
 
 #: ../../api.rst:1052
 msgid "Returns paginated statistics for all languages within a project."
@@ -18837,26 +18773,20 @@ msgid "`RSS on wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 msgstr "`RSS Wikipedia 参照: <https://ja.wikipedia.org/wiki/RSS>`_"
 
 #: ../../changes.rst:2
-#, fuzzy
-#| msgid "Weblate 4.5.1"
 msgid "Weblate 4.5.2"
-msgstr "Weblate 4.5.1"
+msgstr "Weblate 4.5.2"
 
 #: ../../changes.rst:4
 msgid "Not yet released."
 msgstr "まだリリースしていません。"
 
 #: ../../changes.rst:6
-#, fuzzy
-#| msgid "Perform automatic translation"
 msgid "Configurable schedule for automatic translation."
-msgstr "自動翻訳の実行"
+msgstr "自動翻訳のスケジュールを設定できます。"
 
 #: ../../changes.rst:7
-#, fuzzy
-#| msgid "Add Vue I18n formatting check."
 msgid "Added Lua format check."
-msgstr "Vue I18n 書式の検査の追加。"
+msgstr "Lua 形式の検査の追加。"
 
 #: ../../changes.rst:8
 msgid "Ignore format strings in the :ref:`check-duplicate` check."
@@ -25354,16 +25284,12 @@ msgid "*string*"
 msgstr "*文字列*"
 
 #: ../../contributing/schemas.rst:9
-#, fuzzy
-#| msgid "test"
 msgid "test.tmx"
-msgstr "test"
+msgstr "test.tmx"
 
 #: ../../contributing/schemas.rst:9
-#, fuzzy
-#| msgid "Move component"
 msgid "project/component"
-msgstr "コンポーネントを移動"
+msgstr "プロジェクト/コンポーネント"
 
 #: ../../contributing/schemas.rst:9
 msgid "**source**"
@@ -25826,37 +25752,25 @@ msgid "Starting contributing code to Weblate"
 msgstr "Weblate にコードの提供開始"
 
 #: ../../contributing/start.rst:4
-#, fuzzy
-#| msgid ""
-#| "To understand Weblate source code, please first look into :doc:`code`, :"
-#| "doc:`frontend` and :doc:`internals`."
 msgid ""
 "Understand the Weblate source code by going through :doc:`code`, :doc:"
 "`frontend` and :doc:`internals`."
 msgstr ""
-"Weblate のソース コードを理解するには、まず :doc:`code`、:doc:`frontend`、:"
-"doc:`internals` を確認してください。"
+"Weblate のソース コードを理解するには、まず :doc:`code`、:doc:`frontend`、:doc:`internals` "
+"を確認してください。"
 
 #: ../../contributing/start.rst:8
-#, fuzzy
-#| msgid "Starting with our codebase"
 msgid "Starting with the codebase"
 msgstr "コードベースから始める"
 
 #: ../../contributing/start.rst:10
-#, fuzzy
-#| msgid ""
-#| "If looking for some bugs to familiarize yourself with the Weblate "
-#| "codebase, look for ones labelled `good first issue <https://github.com/"
-#| "WeblateOrg/weblate/labels/good%20first%20issue>`_."
 msgid ""
 "Familiarize yourself with the Weblate codebase, by having a go at the bugs "
 "labelled `good first issue <https://github.com/WeblateOrg/weblate/labels/good"
 "%20first%20issue>`_."
 msgstr ""
-"Weblate コードベースに慣れるためにバグを探しているなら、`good first issue "
-"<https://github.com/WeblateOrg/weblate/labels/good%20first%20issue>`_ という"
-"ラベルのついたものを探してください。"
+"`good first issue <https://github.com/WeblateOrg/weblate/labels/"
+"good%20first%20issue>`_ というラベルの付いたバグを試して、Weblate コードベースに慣れてください。"
 
 #: ../../contributing/start.rst:14
 msgid "Running Weblate locally"
@@ -25872,28 +25786,19 @@ msgstr ""
 "ことです。編集可能な Weblate のソースを付属した virtualenv を入手します。"
 
 #: ../../contributing/start.rst:20
-#, fuzzy
-#| msgid "Clone Weblate source:"
 msgid "Clone the Weblate source code:"
-msgstr "Weblate ソースのクローン："
+msgstr "Weblate ソースコードのクローン:"
 
 #: ../../contributing/start.rst:27
-#, fuzzy
-#| msgid "Create an virtualenv:"
 msgid "Create a virtualenv:"
-msgstr "virtualenv の作成："
+msgstr "virtualenv の作成:"
 
 #: ../../contributing/start.rst:34
-#, fuzzy
-#| msgid ""
-#| "Install Weblate (this will need some system deps, see :doc:`../admin/"
-#| "install/source`):"
 msgid ""
 "Install Weblate (for this you need some system dependencies, see :doc:`../"
 "admin/install/source`):"
 msgstr ""
-"Weblate のインストール（複数のシステム内のプログラムが必要、参照: :doc:`../"
-"admin/install/source`）："
+"Weblate のインストール（そのためには複数のシステム依存関係が必要。参照: :doc:`../admin/install/source`）:"
 
 #: ../../contributing/start.rst:40
 msgid "Install all dependencies useful for development:"
@@ -25904,19 +25809,13 @@ msgid "Start a development server:"
 msgstr "開発サーバーの起動:"
 
 #: ../../contributing/start.rst:52
-#, fuzzy
-#| msgid ""
-#| "Depending on your configuration you might also want to start Celery "
-#| "workers:"
 msgid ""
 "Depending on your configuration, you might also want to start Celery workers:"
-msgstr "設定すると、Celery Worker を起動することもできます:"
+msgstr "Celery Worker を起動する場合の設定方法:"
 
 #: ../../contributing/start.rst:58
-#, fuzzy
-#| msgid "To run test (see :ref:`local-tests` for more details):"
 msgid "To run a test (see :ref:`local-tests` for more details):"
-msgstr "テストの実行（詳細は :ref:`local-tests` を確認してください）："
+msgstr "テストの実行（詳細は :ref:`local-tests` を確認してください）:"
 
 #: ../../contributing/start.rst:67
 msgid ":doc:`../admin/install/source`"
@@ -25927,61 +25826,38 @@ msgid "Running Weblate locally in Docker"
 msgstr "Docker上でローカルに Weblate の実行"
 
 #: ../../contributing/start.rst:74
-#, fuzzy
-#| msgid ""
-#| "If you have Docker and docker-compose installed, you can spin up the "
-#| "development environment simply by running:"
 msgid ""
 "If you have Docker and docker-compose installed, you can spin up the "
 "development environment by simply running:"
-msgstr ""
-"Docker と docker-compose をインストールしている場合は、以下を実行するだけで開"
-"発環境を起動できます。"
+msgstr "Docker と docker-compose をインストールしている場合は、以下を実行するだけで開発環境を起動できます。"
 
 #: ../../contributing/start.rst:81
-#, fuzzy
-#| msgid ""
-#| "It will create development Docker image and start it. Weblate is running "
-#| "on <http://127.0.0.1:8080/> and you can sign in with ``admin`` user and "
-#| "``admin`` password. The new installation is empty, so you might want to "
-#| "continue with :ref:`adding-projects`."
 msgid ""
 "It will create a development Docker image and start it. Weblate is running "
 "on <http://127.0.0.1:8080/> and you can sign in as the user ``admin`` using "
 "``admin`` as the password. The new installation is empty, so you might want "
 "to continue with :ref:`adding-projects`."
 msgstr ""
-"開発用 Docker イメージを作成して起動します。Weblate は "
-"<http://127.0.0.1:8080/> で動作しており、``admin`` ユーザと ``admin`` パス"
-"ワードでサインインできます。新しいインストールは空なので、:ref:`adding-"
-"projects` に進んでください。"
+"開発用 Docker イメージを作成して起動します。Weblate は <http://127.0.0.1:8080/> "
+"で動作しており、``admin`` ユーザーとして ``admin`` パスワードでサインインできます。新しいインストールは空なので、:ref"
+":`adding-projects` に進んでください。"
 
 #: ../../contributing/start.rst:86
-#, fuzzy
-#| msgid ""
-#| "The :file:`Dockerfile` and :file:`docker-compose.yml` for this are "
-#| "located in :file:`dev-docker` directory."
 msgid ""
 "The :file:`Dockerfile` and :file:`docker-compose.yml` for this are located "
 "in the :file:`dev-docker` directory."
 msgstr ""
-":file:`Dockerfile` と :file:`docker-compose.yml` は、:file:`dev-docker` ディ"
-"レクトリにあります。"
+":file:`Dockerfile` と :file:`docker-compose.yml` は、:file:`dev-docker` "
+"ディレクトリにあります。"
 
 #: ../../contributing/start.rst:89
-#, fuzzy
-#| msgid ""
-#| "The script also accepts some parameters, to execute tests run it with "
-#| "``test`` parameter and then specify any :djadmin:`django:test` "
-#| "parameters, for example:"
 msgid ""
 "The script also accepts some parameters, to execute tests, run it with the "
 "``test`` parameter and then specify any :djadmin:`django:test` parameters, "
 "for example:"
 msgstr ""
-"スクリプトは、複数のパラメータを受け取り、テストを実行するために ``test`` パ"
-"ラメータを指定して実行し、次に :djadmin:`django:test` パラメータを指定しま"
-"す。使用例:"
+"スクリプトは、複数のパラメータを受け取り、テストを実行するために ``test`` パラメータを指定して実行し、次に "
+":djadmin:`django:test` パラメータを指定します。使用例:"
 
 #: ../../contributing/start.rst:99
 msgid ""
@@ -25996,64 +25872,40 @@ msgid "To display the logs:"
 msgstr "ログの表示方法："
 
 #: ../../contributing/start.rst:108
-#, fuzzy
-#| msgid "To stop the background containers run:"
 msgid "To stop the background containers, run:"
 msgstr "バックグラウンド コンテナの実行の停止方法:"
 
 #: ../../contributing/start.rst:114
-#, fuzzy
-#| msgid ""
-#| "Running the script without args will recreate Docker container and "
-#| "restart it."
 msgid ""
 "Running the script without arguments will re-create the Docker container and "
 "restart it."
-msgstr ""
-"引数を指定せずにスクリプトを実行すると、Docker コンテナが再作成されて再起動し"
-"ます。"
+msgstr "引数を指定せずにスクリプトを実行すると、Docker コンテナが再作成されて再起動します。"
 
 #: ../../contributing/start.rst:118
-#, fuzzy
-#| msgid ""
-#| "This is not suitable setup for production, it includes several hacks "
-#| "which are insecure, but make development easier."
 msgid ""
 "This is not a suitable setup for production, as it includes several hacks "
 "which are insecure, but they make development easier."
-msgstr ""
-"これは本番環境には適していません。安全とは言えないものの開発を容易にする複数"
-"のハックを含んでいます。"
+msgstr "これは本番環境には適していません。安全ではないが開発を楽にする複数のハックが含まれています。"
 
 #: ../../contributing/start.rst:122
 msgid "Coding Weblate with PyCharm"
 msgstr "PyCharm による Weblate のコーディング"
 
 #: ../../contributing/start.rst:124
-#, fuzzy
-#| msgid ""
-#| "PyCharm is a known IDE for Python, here's some guidelines to help you "
-#| "setup Weblate project in it."
 msgid ""
 "PyCharm is a known IDE for Python, here are some guidelines to help you set "
 "up your Weblate project in it."
 msgstr ""
-"PyCharm は Python の IDE として知られていますが、この中に Weblate プロジェク"
-"トをセットアップするためのガイドラインがあります。"
+"PyCharm は Python の IDE として知られていますが、ここでは Weblate "
+"プロジェクトをセットアップするためのガイドラインを紹介します。"
 
 #: ../../contributing/start.rst:127
-#, fuzzy
-#| msgid ""
-#| "Considering you have just cloned the GitHub repository, just open the "
-#| "folder in which you cloned it in PyCharm. Once the IDE is open, the first "
-#| "step is to specify the interpreter you want:"
 msgid ""
 "Considering you have just cloned the GitHub repository to a folder, just "
 "open it with PyCharm. Once the IDE is open, the first step is to specify the "
 "interpreter you want to use:"
 msgstr ""
-"GitHub リポジトリをクローンした直後なので、PyCharm でクローンしたフォルダを開"
-"くだけです。IDE を開いて、最初に必要なインタプリターの指定方法:"
+"GitHub リポジトリをフォルダにクローンしたので、PyCharm から開くだけです。IDE を開いたあとの、最初に必要なインタプリターの指定方法:"
 
 #: ../../contributing/start.rst:133
 msgid ""
@@ -26062,72 +25914,44 @@ msgid ""
 msgstr "PyCharm で virtualenv を作成するか、または既存の仮想環境の選択方法："
 
 #: ../../contributing/start.rst:138
-#, fuzzy
-#| msgid ""
-#| "Don't forget to install the dependencies once the interpreter is set: you "
-#| "can do it, either through the console (the console from the IDE will "
-#| "directly use your virtualenv by default), or through the interface when "
-#| "you get a warning about missing dependencies."
 msgid ""
 "Don't forget to install the dependencies once the interpreter is set: Either "
 "through the console (the console from the IDE will directly use your "
 "virtualenv by default), or through the interface when you get a warning "
 "about missing dependencies."
 msgstr ""
-"インタープリターを設定したら、依存関係をインストールすることを忘れないでくだ"
-"さい:　依存関係は、コンソール（デフォルトでは、IDE のコンソールが virtualenv "
-"を直接使用する）からインストールします。また、依存関係が存在しない、という警"
-"告が表示されたときはインターフェースからインストールします。"
+"インタープリターを設定したあと、忘れてはいけないインストールが必要な依存関係:　依存関係は、コンソール（デフォルトでは、IDE のコンソールが "
+"virtualenv "
+"を直接使用する）からインストールします。また、依存関係が存在しない、という警告が表示されたときはインターフェースからインストールします。"
 
 #: ../../contributing/start.rst:143
-#, fuzzy
-#| msgid ""
-#| "The second step is to set the right information to use natively Django "
-#| "inside PyCharm: the idea is to be able to immediately trigger the unit "
-#| "tests in the IDE. For that you need to specify the root path of the "
-#| "Django project and the path to its settings:"
 msgid ""
 "The second step is to set the right info to use Django natively inside "
 "PyCharm: The idea is to be able to immediately trigger the unit tests in the "
 "IDE. For that you need to specify the root path of the Django project and "
 "the path to its settings:"
 msgstr ""
-"2 番目のステップは、PyCharm 内でネイティブで Django を使用するための適切な情"
-"報の設定: アイデアは、IDE で単体テストをすぐに起動できるようにすることです。"
-"そのためには、Django プロジェクトのルート パスと、その設定へのパスを指定する"
-"ことが必要:"
+"2 番目のステップは、PyCharm 内でネイティブで Django を使用するための適切な情報の設定: アイデアは、IDE "
+"で単体テストをすぐに起動できるようにすることです。そのために必要な、Django プロジェクトのルート パスと、その設定へのパスの指定の設定方法:"
 
 #: ../../contributing/start.rst:149
-#, fuzzy
-#| msgid ""
-#| "Be careful, the `Django project root` is the root of the repository, not "
-#| "the weblate sub-directory. About the settings, I personally use the "
-#| "`settings_test` from the repository, but you could create your own "
-#| "setting and set it there."
 msgid ""
 "Be careful, the `Django project root` is the actual root of the repository, "
 "not the Weblate sub-directory. About the settings, you could use the :file:"
 "`weblate/settings_test.py` from the repository, but you could create your "
 "own setting and set it there."
 msgstr ""
-"「Djangoプロジェクトのルート」 はリポジトリのルートであり、weblate のサブ "
-"ディレクトリではないことに注意してください。設定に関しては、個人的にはリポジ"
-"トリの `settings_test` を使用していますが、独自の設定を作成してそこで設定する"
-"こともできます。"
+"「Djangoプロジェクトのルート」 はリポジトリのルートであり、weblate のサブ ディレクトリではないことに注意してください。設定については、"
+"リポジトリから :file:`weblate/settings_test.py` の使用もできますが、独自の設定を作成してそこで設定することもできます。"
 
 #: ../../contributing/start.rst:153
-#, fuzzy
-#| msgid ""
-#| "Last step is to be able to run the server and to put breakpoints on the "
-#| "code to be able to debug it. This is done by creating a new `Django "
-#| "Server` configuration:"
 msgid ""
 "The last step is to run the server and to put breakpoints in the code to be "
 "able to debug it. This is done by creating a new `Django Server` "
 "configuration:"
 msgstr ""
-"最後のステップは、サーバーを実行して、コードにブレークポイントを設定してデ"
-"バッグできること。そのための、新しい `Django Server` 設定の作成方法："
+"最後のステップは、サーバーを実行して、コードにブレークポイントを設定してデバッグを行います。そのための、新しい `Django Server` "
+"設定の作成方法:"
 
 #: ../../contributing/start.rst:162
 msgid ""
@@ -26138,22 +25962,16 @@ msgid ""
 msgstr ""
 
 #: ../../contributing/start.rst:169
-#, fuzzy
-#| msgid "Bootstraping your devel instance"
 msgid "Bootstrapping your devel instance"
-msgstr "開発者のインスタンスをブートストラップ"
+msgstr "開発インスタンスの強化"
 
 #: ../../contributing/start.rst:171
-#, fuzzy
-#| msgid ""
-#| "You might want to use :djadmin:`import_demo` to create demo translations "
-#| "and :djadmin:`createadmin` to create admin user."
 msgid ""
 "You might want to use :djadmin:`import_demo` to create demo translations "
 "and :djadmin:`createadmin` to make an admin user."
 msgstr ""
-":djadmin:`import_demo` を使用してデモ翻訳を作成し、:djadmin:`createadmin` を"
-"使用して管理者ユーザーを作成できます。"
+":djadmin:`import_demo` を使用してデモ翻訳を作成し、:djadmin:`createadmin` "
+"を使用して管理者ユーザーを作成できます。"
 
 #: ../../contributing/tests.rst:2
 msgid "Weblate testsuite and continuous integration"
@@ -27877,17 +27695,13 @@ msgstr ""
 "は変更をリポジトリにプッシュできます。"
 
 #: ../../faq.rst:20
-#, fuzzy
-#| msgid ""
-#| "Turn on push-on-commit on your :ref:`project` in Weblate, this will make "
-#| "Weblate push changes to your repository whenever they happen at Weblate."
 msgid ""
 "Turn on :ref:`component-push_on_commit` on your :ref:`component` in Weblate, "
 "this will make Weblate push changes to your repository whenever they happen "
 "at Weblate."
 msgstr ""
-"Weblate の :ref:`project` で push-on-commit を有効にすると、Weblate で変更が"
-"行われるたびに Weblate のプッシュがリポジトリに反映されます。"
+"Weblate の :ref:`component` で :ref:`component-push_on_commit` を有効にすると、Weblate "
+"で変更が行われるたびに Weblate によりリポジトリに変更がプッシュされます。"
 
 #: ../../faq.rst:26
 msgid ":ref:`continuous-translation`, :ref:`avoid-merge-conflicts`"
@@ -29733,10 +29547,8 @@ msgid "`.NET resource file`"
 msgstr "`.NET resource file`"
 
 #: ../../formats.rst:1022
-#, fuzzy
-#| msgid ":doc:`tt:formats/resx`, :ref:`addon-weblate.cleanup.generic`,"
 msgid ":doc:`tt:formats/resx`, :ref:`addon-weblate.cleanup.generic`"
-msgstr ":doc:`tt:formats/resx`、ref:`addon-weblate.cleanup.generic`、"
+msgstr ":doc:`tt:formats/resx`、ref:`addon-weblate.cleanup.generic`"
 
 #: ../../formats.rst:1028
 msgid "CSV files"
@@ -30166,19 +29978,13 @@ msgid "Change history"
 msgstr "変更履歴"
 
 #: ../../../README.rst:6
-#, fuzzy
-#| msgid ""
-#| "**Weblate is a copylefted libre software web-based continuous "
-#| "localization system, used by over 1150 libre projects and companies in "
-#| "more than 115 countries.**"
 msgid ""
 "**Weblate is a copylefted libre software web-based continuous localization "
 "system, used by over 2500 libre projects and companies in more than 165 "
 "countries.**"
 msgstr ""
-"**Weblate は、Web ベースのサービスを連携して動作する翻訳システムであり、コ"
-"ピーレフトで保護された Libre ソフトウェアです。1150 件以上の Libre プロジェク"
-"トや、115 か国以上の企業で使用されています**"
+"**Weblate は、Web ベースのサービスを連携して動作する翻訳システムであり、コピーレフトで保護された Libre ソフトウェアです。2500 "
+"件以上の Libre プロジェクトや、165 か国以上の企業で使用されています**"
 
 #: ../../../README.rst:9
 msgid "Install it, or use the Hosted Weblate service at `weblate.org`_."
@@ -31231,28 +31037,20 @@ msgstr ""
 "sprintf>`_"
 
 #: ../../user/checks.rst:447
-#, fuzzy
-#| msgid "File format"
 msgid "Scheme format"
-msgstr "ファイル形式"
+msgstr "Scheme 形式"
 
 #: ../../user/checks.rst:449
-#, fuzzy
-#| msgid "C format string does not match source"
 msgid "*Scheme format string does not match source*"
-msgstr "C 言語形式の文字列が原文と不一致"
+msgstr "*Scheme 形式の文字列が原文と不一致*"
 
 #: ../../user/checks.rst:452
-#, fuzzy
-#| msgid "``There are %d apples``"
 msgid "``There are ~d apples``"
-msgstr "``There are %d apples``"
+msgstr "``There are ~d apples``"
 
 #: ../../user/checks.rst:454
-#, fuzzy
-#| msgid "`c-format`"
 msgid "`scheme-format`"
-msgstr "`c-format`"
+msgstr "`scheme-format`"
 
 #: ../../user/checks.rst:459
 msgid ""
@@ -32284,16 +32082,12 @@ msgid "iOS strings"
 msgstr "iOS の文字列"
 
 #: ../../user/files.rst:45
-#, fuzzy
-#| msgid ""
-#| ":http:post:`/api/translations/(string:project)/(string:component)/(string:"
-#| "language)/file/`"
 msgid ""
 ":http:get:`/api/translations/(string:project)/(string:component)/(string:"
 "language)/file/`"
 msgstr ""
-":http:post:`/api/translations/(string:project)/(string:component)/(string:"
-"language)/file/`"
+":http:get:`/api/translations/"
+"(string:project)/(string:component)/(string:language)/file/`"
 
 #: ../../user/files.rst:50
 msgid "Uploading translations"
@@ -33769,32 +33563,24 @@ msgid "Copies placeable of given number from source string."
 msgstr "番号を指定して、原文に設定されたプレースホルダを、翻訳にコピーする。"
 
 #: ../../user/translating.rst:207
-#, fuzzy
-#| msgid ":kbd:`Ctrl+M`+:kbd:`1` to :kbd:`9` or"
 msgid ":kbd:`Ctrl+M`\\+\\ :kbd:`1` to :kbd:`9` or"
-msgstr ":kbd:`Ctrl M` :kbd:`1` ～ :kbd:`9` or"
+msgstr ":kbd:`Ctrl+M`\\+\\ :kbd:`1` to :kbd:`9` or"
 
 #: ../../user/translating.rst:209
-#, fuzzy
-#| msgid ":kbd:`Cmd+M`+:kbd:`1` to :kbd:`9`"
 msgid ":kbd:`Cmd+M`\\+\\ :kbd:`1` to :kbd:`9`"
-msgstr ":kbd:`Cmd+M`+:kbd:`1` to :kbd:`9`"
+msgstr ":kbd:`Cmd+M`\\+\\ :kbd:`1` to :kbd:`9`"
 
 #: ../../user/translating.rst:207
 msgid "Copy the machine translation of given number to current translation."
 msgstr "番号を指定して、機械翻訳を翻訳にコピーする。"
 
 #: ../../user/translating.rst:211
-#, fuzzy
-#| msgid ":kbd:`Ctrl+I`+:kbd:`1` to :kbd:`9` or"
 msgid ":kbd:`Ctrl+I`\\+\\ :kbd:`1` to :kbd:`9` or"
-msgstr ":kbd:`Ctrl+I`+:kbd:`1` to :kbd:`9` or"
+msgstr ":kbd:`Ctrl+I`\\+\\ :kbd:`1` to :kbd:`9` or"
 
 #: ../../user/translating.rst:213
-#, fuzzy
-#| msgid ":kbd:`Cmd+I`+:kbd:`1` to :kbd:`9`"
 msgid ":kbd:`Cmd+I`\\+\\ :kbd:`1` to :kbd:`9`"
-msgstr ":kbd:`Cmd+I`+:kbd:`1` to :kbd:`9`"
+msgstr ":kbd:`Cmd+I`\\+\\ :kbd:`1` to :kbd:`9`"
 
 #: ../../user/translating.rst:211
 msgid "Ignore one item in the list of failing checks."
