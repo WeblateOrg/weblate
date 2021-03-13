@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-03-13 07:01+0100\n"
-"PO-Revision-Date: 2021-03-13 10:15+0000\n"
+"PO-Revision-Date: 2021-03-13 21:46+0000\n"
 "Last-Translator: Adolfo Jayme Barrientos <fitojb@ubuntu.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/weblate/"
 "documentation/es/>\n"
@@ -1084,26 +1084,20 @@ msgstr ""
 "componentes."
 
 #: ../../admin/addons.rst:26
-#, fuzzy
-#| msgid "Backup process triggered"
 msgid "It is triggered:"
-msgstr "Se inició el proceso de respaldo"
+msgstr "Se desencadena:"
 
 #: ../../admin/addons.rst:28
-#, fuzzy
-#| msgid ""
-#| "This addon is triggered automatically when new strings appear in a "
-#| "component."
 msgid "When new strings appear in a component."
-msgstr ""
-"Este complemento se desencadena automáticamente siempre que aparecen cadenas "
-"nuevas en un componente."
+msgstr "Cuando aparecen cadenas nuevas en un componente."
 
 #: ../../admin/addons.rst:29
 msgid ""
 "Once in a month for every component, this can be configured using :setting:"
 "`BACKGROUND_TASKS`."
 msgstr ""
+"Una vez al mes por cada componente; esto puede configurarse mediante las "
+":setting:`BACKGROUND_TASKS`."
 
 #: ../../admin/addons.rst:33
 msgid ":ref:`auto-translation`, :ref:`translation-consistency`"
@@ -4382,38 +4376,32 @@ msgid ":doc:`checks` recalculation"
 msgstr ""
 
 #: ../../admin/config.rst:206
-#, fuzzy
-#| msgid "Possible configuration"
 msgid "Possible choices:"
-msgstr "Configuración posible"
+msgstr "Elecciones posibles:"
 
 #: ../../admin/config.rst:208
 msgid "``monthly`` (this is the default)"
-msgstr ""
+msgstr "``monthly`` (valor predeterminado)"
 
 #: ../../admin/config.rst:209
-#, fuzzy
-#| msgid "``weblate``"
 msgid "``weekly``"
-msgstr "``weblate``"
+msgstr "``weekly``"
 
 #: ../../admin/config.rst:210
-#, fuzzy
-#| msgid "``read-only``"
 msgid "``daily``"
-msgstr "``read-only``"
+msgstr "``daily``"
 
 #: ../../admin/config.rst:211
-#, fuzzy
-#| msgid "``dev-docker``"
 msgid "``never``"
-msgstr "``dev-docker``"
+msgstr "``never``"
 
 #: ../../admin/config.rst:215
 msgid ""
 "Increasing the frequency is not recommended when Weblate contains thousands "
 "of components."
 msgstr ""
+"No es recomendable aumentar la frecuencia cuando Weblate contiene miles de "
+"componentes."
 
 #: ../../admin/config.rst:221
 msgid "BASE_DIR"
@@ -4828,20 +4816,16 @@ msgid "DEFAULT_COMMITER_NAME"
 msgstr ""
 
 #: ../../admin/config.rst:544
-#, fuzzy
-#| msgid "Contributing to Weblate"
 msgid "Committer name defaulting to ``Weblate``."
-msgstr "Contribuir con Weblate"
+msgstr "El nombre del consignante, cuyo valor predeterminado es ``Weblate``."
 
 #: ../../admin/config.rst:548
-#, fuzzy
-#| msgid "Configures :setting:`DEFAULT_COMMITER_EMAIL`."
 msgid ":setting:`DEFAULT_COMMITER_EMAIL`"
-msgstr "Configura :setting:`DEFAULT_COMMITER_EMAIL`."
+msgstr ":setting:`DEFAULT_COMMITER_EMAIL`"
 
 #: ../../admin/config.rst:553
 msgid "DEFAULT_LANGUAGE"
-msgstr ""
+msgstr "DEFAULT_LANGUAGE"
 
 #: ../../admin/config.rst:557
 msgid ""
@@ -5245,7 +5229,7 @@ msgstr ""
 #: ../../admin/config.rst:935 ../../admin/config.rst:963
 #: ../../admin/config.rst:1102 ../../formats.rst:307
 msgid "For example:"
-msgstr ""
+msgstr "Por ejemplo:"
 
 #: ../../admin/config.rst:950
 msgid "LICENSE_FILTER"
@@ -10656,15 +10640,15 @@ msgstr ""
 
 #: ../../admin/install/steps/install-python.rst:10
 msgid "Create the virtualenv for Weblate:"
-msgstr ""
+msgstr "Cree el entorno virtual para Weblate:"
 
 #: ../../admin/install/steps/install-python.rst:16
 msgid "Activate the virtualenv for Weblate:"
-msgstr ""
+msgstr "Active el entorno virtual para Weblate:"
 
 #: ../../admin/install/steps/install-python.rst:22
 msgid "Install Weblate including all dependencies:"
-msgstr ""
+msgstr "Instale Weblate y todas sus dependencias:"
 
 #: ../../admin/install/steps/install-python.rst:28
 msgid "Install database driver:"
@@ -13171,10 +13155,8 @@ msgid ":ref:`user-rate`, :ref:`reverse-proxy`, :ref:`api-rate`"
 msgstr ""
 
 #: ../../admin/optionals.rst:285
-#, fuzzy
-#| msgid "Test Sentry integration"
 msgid "Fedora Messaging integration"
-msgstr "Probar integración con Sentry"
+msgstr "Integración con Fedora Messaging"
 
 #: ../../admin/optionals.rst:287
 msgid ""
@@ -13182,6 +13164,9 @@ msgid ""
 "Weblate. You can hook additional services on changes happening in Weblate "
 "using this."
 msgstr ""
+"Fedora Messaging es un publicador basado en AMQP para todos los cambios que "
+"ocurren en Weblate. Puede integrar servicios adicionales para actuar ante "
+"cambios que ocurran en Weblate mediante esta herramienta."
 
 #: ../../admin/optionals.rst:290
 msgid ""
@@ -13189,6 +13174,9 @@ msgid ""
 "``weblate-fedora-messaging``. Please see <https://github.com/WeblateOrg/"
 "fedora_messaging/> for setup instructions."
 msgstr ""
+"La integración con Fedora Messaging está disponible como un módulo Python "
+"separado, ``weblate-fedora-messaging``. Consulte <https://github.com/"
+"WeblateOrg/fedora_messaging/> para obtener instrucciones de instalación."
 
 #: ../../admin/projects.rst:2 ../../user/translating.rst:26
 msgid "Translation projects"
@@ -14805,10 +14793,8 @@ msgid "Weblate discovery"
 msgstr "Descubrimiento mediante Weblate"
 
 #: ../../admin/support.rst:59
-#, fuzzy
-#| msgid "Service is currently not available."
 msgid "This feature is currently in early beta."
-msgstr "El servicio no está disponible por ahora."
+msgstr "Esta función está disponible actualmente en fase beta temprana."
 
 #: ../../admin/support.rst:61
 msgid ""
@@ -15057,7 +15043,7 @@ msgstr ""
 
 #: ../../admin/upgrade.rst:93
 msgid "Version specific instructions"
-msgstr ""
+msgstr "Instrucciones específicas de las versiones"
 
 #: ../../admin/upgrade.rst:96
 msgid "Upgrade from 2.x"
@@ -15370,8 +15356,6 @@ msgid "Weblate should be now ready to run from the PostgreSQL database."
 msgstr ""
 
 #: ../../admin/upgrade.rst:322
-#, fuzzy
-#| msgid "Migrating to PotsgreSQL using pgloader"
 msgid "Migrating to PostgreSQL using pgloader"
 msgstr "Migrar a PostgreSQL con pgloader"
 
@@ -17834,20 +17818,16 @@ msgid "`RSS on wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 msgstr "`RSS en Wikipedia <https://es.wikipedia.org/wiki/RSS>`_"
 
 #: ../../changes.rst:2
-#, fuzzy
-#| msgid "Weblate 4.4.1"
 msgid "Weblate 4.5.2"
-msgstr "Weblate 4.4.1"
+msgstr "Weblate 4.5.2"
 
 #: ../../changes.rst:4
 msgid "Not yet released."
 msgstr "No publicada aún."
 
 #: ../../changes.rst:6
-#, fuzzy
-#| msgid "Perform automatic translation"
 msgid "Configurable schedule for automatic translation."
-msgstr "Realizar una traducción automática"
+msgstr "Programación configurable para traducciones automáticas."
 
 #: ../../changes.rst:7
 #, fuzzy
@@ -17858,30 +17838,28 @@ msgstr "Añade la comprobación «Formato de Vue I18n»."
 #: ../../changes.rst:8
 msgid "Ignore format strings in the :ref:`check-duplicate` check."
 msgstr ""
+"Se pasan por alto las cadenas de formato en la comprobación :ref:`check-"
+"duplicate`."
 
 #: ../../changes.rst:9
-#, fuzzy
-#| msgid "Add direct link to edit screenshot from translate page."
 msgid "Allow uploading screenshot from a translate page."
 msgstr ""
-"Se añadió un enlace directo para editar capturas de pantalla desde la página "
-"de traducción."
+"Se permite cargar capturas de pantalla directamente desde una página de "
+"traducción."
 
 #: ../../changes.rst:10
 msgid "Added forced file synchronization to the repository maintenance."
 msgstr ""
+"Se añadió la sincronización de archivos forzada en el área de mantenimiento "
+"del repositorio."
 
 #: ../../changes.rst:13
-#, fuzzy
-#| msgid "Weblate 4.4.1"
 msgid "Weblate 4.5.1"
-msgstr "Weblate 4.4.1"
+msgstr "Weblate 4.5.1"
 
 #: ../../changes.rst:15
-#, fuzzy
-#| msgid "Released on March 10th 2019."
 msgid "Released on March 05th 2021."
-msgstr "Publicada el 10 de marzo de 2019."
+msgstr "Publicada el 5 de marzo de 2021."
 
 #: ../../changes.rst:17
 #, fuzzy
@@ -17895,10 +17873,8 @@ msgid "Extend metrics usage to improve performance of several pages."
 msgstr ""
 
 #: ../../changes.rst:19
-#, fuzzy
-#| msgid "Project source language code (optional)"
 msgid "Store correct source language in TMX files."
-msgstr "Código del idioma de origen del proyecto (opcional)"
+msgstr "Se almacena el idioma de origen correcto en los archivos TMX."
 
 #: ../../changes.rst:20
 #, fuzzy
@@ -18349,20 +18325,22 @@ msgstr ""
 #: ../../changes.rst:129
 msgid "Fixed CodeMirror display issues in some situations."
 msgstr ""
+"Se arreglaron problemas de visualización de CodeMirror en algunas "
+"situaciones."
 
 #: ../../changes.rst:130
 msgid "Renamed Template group to \"Sources\" to clarify its meaning."
 msgstr ""
+"Se cambió el nombre del grupo Plantilla a «Orígenes» para clarificar su "
+"significado."
 
 #: ../../changes.rst:131
 msgid "Fixed GitLab pull requests on repositories with longer paths."
 msgstr ""
 
 #: ../../changes.rst:134
-#, fuzzy
-#| msgid "Weblate 4.2.1"
 msgid "Weblate 4.3.1"
-msgstr "Weblate 4.2.1"
+msgstr "Weblate 4.3.1"
 
 #: ../../changes.rst:136
 msgid "Released on October 21st 2020."
@@ -18377,11 +18355,8 @@ msgid "Fixed session expiry for authenticated users."
 msgstr "Se arregló la caducidad de la sesión para usuarios autenticados."
 
 #: ../../changes.rst:140
-#, fuzzy
-#| msgid "Added support for toggling GitHub or Gerrit integration."
 msgid "Add support for hiding version information."
-msgstr ""
-"Es posible ahora activar o desactivar las integraciones con GitHub y Gerrit."
+msgstr "Se puede ocultar la información de versión."
 
 #: ../../changes.rst:141
 msgid "Improve hooks compatibility with Bitbucket Server."
@@ -18449,11 +18424,9 @@ msgid "Improve documentation about built-in backups."
 msgstr "Se mejoró la documentación sobre las copias de respaldo incorporadas."
 
 #: ../../changes.rst:160
-#, fuzzy
-#| msgid "Include source language in project creation form."
 msgid "Moved source language attribute from project to a component."
 msgstr ""
-"Se incluye el idioma de origen en el formulario de creación de proyecto."
+"Se movió el atributo de idioma de origen del proyecto a cada componente."
 
 #: ../../changes.rst:161
 msgid "Add Vue I18n formatting check."
@@ -18536,10 +18509,8 @@ msgid "Added support for Python 3.9."
 msgstr "Se admite Python 3.9."
 
 #: ../../changes.rst:179
-#, fuzzy
-#| msgid "Fixed searching for fields with certain priority."
 msgid "Fixed translating HTML files under certain conditions."
-msgstr "Se corrigió la búsqueda de campos con una determinada prioridad."
+msgstr "Se arregló la traducción de HTML en ciertas condiciones."
 
 #: ../../changes.rst:182
 msgid "Weblate 4.2.2"
@@ -18602,8 +18573,6 @@ msgid "Fixed crash in the cleanup addon for some XLIFF files."
 msgstr ""
 
 #: ../../changes.rst:200
-#, fuzzy
-#| msgid "Allow to configure localization CDN in Docker image."
 msgid "Allow setting up localization CDN in Docker image."
 msgstr "Se permite configurar la CDN en la imagen de Docker."
 
@@ -20493,6 +20462,7 @@ msgstr ""
 #: ../../changes.rst:755
 msgid "Improved performance of fulltext index updates."
 msgstr ""
+"Se mejoró el rendimiento de las actualizaciones de índice de texto completo."
 
 #: ../../changes.rst:756
 msgid "Extended file upload API to support more parameters."
@@ -20500,7 +20470,7 @@ msgstr ""
 
 #: ../../changes.rst:759
 msgid "Weblate 3.3"
-msgstr ""
+msgstr "Weblate 3.3"
 
 #: ../../changes.rst:761
 msgid "Released on November 30th 2018."
@@ -20518,6 +20488,8 @@ msgstr ""
 msgid ""
 "Added translation component alerts to highlight problems with a translation."
 msgstr ""
+"Se añadieron alertas de componente de traducción para destacar los problemas "
+"con una traducción."
 
 #: ../../changes.rst:766
 msgid "Expose XLIFF string resname as context when available."
@@ -23761,13 +23733,15 @@ msgstr ""
 
 #: ../../contributing/frontend.rst:2
 msgid "Weblate frontend"
-msgstr ""
+msgstr "Interfaz de Weblate"
 
 #: ../../contributing/frontend.rst:4
 msgid ""
 "The frontend is currently built using Bootstrap, jQuery and few third party "
 "libraries."
 msgstr ""
+"La interfaz está elaborada con Bootstrap, jQuery y algunas bibliotecas de "
+"terceros."
 
 #: ../../contributing/frontend.rst:7
 msgid "Supported browsers"
@@ -24407,7 +24381,7 @@ msgstr ""
 
 #: ../../contributing/schemas.rst:2
 msgid "Data schemas"
-msgstr ""
+msgstr "Esquemas de datos"
 
 #: ../../contributing/schemas.rst:4
 msgid ""
@@ -24533,10 +24507,8 @@ msgid "test.tmx"
 msgstr ""
 
 #: ../../contributing/schemas.rst:9
-#, fuzzy
-#| msgid "Move component"
 msgid "project/component"
-msgstr "Mover componente"
+msgstr "proyecto/componente"
 
 #: ../../contributing/schemas.rst:9
 msgid "**source**"
@@ -24575,14 +24547,12 @@ msgid "ISO 639-1 / ISO 639-2 / IETF BCP 47"
 msgstr ""
 
 #: ../../contributing/schemas.rst:9
-#, fuzzy
-#| msgid "Zen"
 msgid "en"
-msgstr "Zen"
+msgstr "es"
 
 #: ../../contributing/schemas.rst:9 ../../contributing/schemas.rst:19
 msgid "pattern"
-msgstr ""
+msgstr "pauta"
 
 #: ../../contributing/schemas.rst:9
 msgid "^[^ ]+$"
@@ -24616,7 +24586,7 @@ msgstr "Idioma de destino de cadena"
 
 #: ../../contributing/schemas.rst:9 ../../contributing/schemas.rst:19
 msgid "cs"
-msgstr ""
+msgstr "cs"
 
 #: ../../contributing/schemas.rst:9
 #, fuzzy
@@ -24626,24 +24596,21 @@ msgstr "Proyectos adicionales"
 
 #: ../../contributing/schemas.rst:9 ../../contributing/schemas.rst:19
 msgid "False"
-msgstr ""
+msgstr "Falso"
 
 #: ../../contributing/schemas.rst:9 ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Add language definitions"
 msgid "definitions"
-msgstr "Añadir definiciones de idioma"
+msgstr "definiciones"
 
 #: ../../contributing/schemas.rst:12
 msgid ""
 ":ref:`translation-memory`, :djadmin:`dump_memory`, :djadmin:`import_memory`"
 msgstr ""
+":ref:`translation-memory`, :djadmin:`dump_memory`, :djadmin:`import_memory`"
 
 #: ../../contributing/schemas.rst:None
-#, fuzzy
-#| msgid "data exports"
 msgid "Weblate user data export"
-msgstr "exportaciones de datos"
+msgstr "Exportación de datos de usuarios de Weblate"
 
 #: ../../contributing/schemas.rst:19
 msgid "https://weblate.org/schemas/weblate-userdata.schema.json"
@@ -24666,10 +24633,8 @@ msgid "**username**"
 msgstr "Nombre de usuario"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Username"
 msgid "*Username*"
-msgstr "Nombre de usuario"
+msgstr "*Nombre de usuario*"
 
 #: ../../contributing/schemas.rst:19
 msgid "admin"
@@ -24682,10 +24647,8 @@ msgid "**full\\_name**"
 msgstr "Nombre completo"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Full name"
 msgid "*Full name*"
-msgstr "Nombre completo"
+msgstr "*Nombre completo*"
 
 #: ../../contributing/schemas.rst:19
 #, fuzzy
@@ -24698,10 +24661,8 @@ msgid "**email**"
 msgstr ""
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "E-mail"
 msgid "*E-mail*"
-msgstr "Correo electrónico"
+msgstr "*Correo electrónico*"
 
 #: ../../contributing/schemas.rst:19
 msgid "noreply@example.com"
@@ -24714,10 +24675,8 @@ msgid "**date\\_joined**"
 msgstr "Fecha de incorporación"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Date joined"
 msgid "*Date joined*"
-msgstr "Fecha de incorporación"
+msgstr "*Fecha de incorporación*"
 
 #: ../../contributing/schemas.rst:19
 msgid "2019-11-18T18:53:54.862Z"
@@ -24730,10 +24689,8 @@ msgid "**profile**"
 msgstr "Perfil"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Profile"
 msgid "*Profile*"
-msgstr "Perfil"
+msgstr "*Perfil*"
 
 #: ../../contributing/schemas.rst:19
 #, fuzzy
@@ -24742,10 +24699,8 @@ msgid "**language**"
 msgstr "Por idioma"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Language"
 msgid "*Language*"
-msgstr "Idioma"
+msgstr "*Idioma*"
 
 #: ../../contributing/schemas.rst:19
 msgid "^.\\*$"
@@ -25091,12 +25046,12 @@ msgid ""
 "Understand the Weblate source code by going through :doc:`code`, :doc:"
 "`frontend` and :doc:`internals`."
 msgstr ""
+"Para entender el código fuente de Weblate, explore :doc:`code`, "
+":doc:`frontend` y :doc:`internals`."
 
 #: ../../contributing/start.rst:8
-#, fuzzy
-#| msgid "Starting with our codebase"
 msgid "Starting with the codebase"
-msgstr "Primeros pasos en el código"
+msgstr "Primeros pasos con el código"
 
 #: ../../contributing/start.rst:10
 msgid ""
@@ -25107,7 +25062,7 @@ msgstr ""
 
 #: ../../contributing/start.rst:14
 msgid "Running Weblate locally"
-msgstr ""
+msgstr "Ejecutar Weblate localmente"
 
 #: ../../contributing/start.rst:16
 msgid ""
@@ -25117,22 +25072,20 @@ msgid ""
 msgstr ""
 
 #: ../../contributing/start.rst:20
-#, fuzzy
-#| msgid "Clone source"
 msgid "Clone the Weblate source code:"
-msgstr "Clonar origen"
+msgstr "Clone el código fuente de Weblate:"
 
 #: ../../contributing/start.rst:27
-#, fuzzy
-#| msgid "Create an account using:"
 msgid "Create a virtualenv:"
-msgstr "Crear una cuenta a través de:"
+msgstr "Cree un entorno virtual:"
 
 #: ../../contributing/start.rst:34
 msgid ""
 "Install Weblate (for this you need some system dependencies, see :doc:`../"
 "admin/install/source`):"
 msgstr ""
+"Instale Weblate (para esto necesitará algunas dependencias de sistema; vea "
+":doc:`../admin/install/source`):"
 
 #: ../../contributing/start.rst:40
 msgid "Install all dependencies useful for development:"
@@ -25140,7 +25093,7 @@ msgstr ""
 
 #: ../../contributing/start.rst:46
 msgid "Start a development server:"
-msgstr ""
+msgstr "Inicie un servidor de desarrollo:"
 
 #: ../../contributing/start.rst:52
 msgid ""
@@ -25157,7 +25110,7 @@ msgstr ""
 
 #: ../../contributing/start.rst:72
 msgid "Running Weblate locally in Docker"
-msgstr ""
+msgstr "Ejecutar Weblate localmente en Docker"
 
 #: ../../contributing/start.rst:74
 msgid ""
@@ -25194,33 +25147,34 @@ msgstr ""
 
 #: ../../contributing/start.rst:102
 msgid "To display the logs:"
-msgstr ""
+msgstr "Para mostrar los registros:"
 
 #: ../../contributing/start.rst:108
 msgid "To stop the background containers, run:"
-msgstr ""
+msgstr "Para detener los contenedores en segundo plano, ejecute:"
 
 #: ../../contributing/start.rst:114
 msgid ""
 "Running the script without arguments will re-create the Docker container and "
 "restart it."
 msgstr ""
+"Ejecutar la secuencia de órdenes sin argumentos recreará el contenedor de "
+"Docker y lo reiniciará."
 
 #: ../../contributing/start.rst:118
 msgid ""
 "This is not a suitable setup for production, as it includes several hacks "
 "which are insecure, but they make development easier."
 msgstr ""
+"Esta no es una puesta en funcionamiento ideal para entornos de producción, "
+"puesto que incluye varios arreglos apurados inseguros que, sin embargo, "
+"facilitan el desarrollo."
 
 #: ../../contributing/start.rst:122
 msgid "Coding Weblate with PyCharm"
 msgstr "Trabajar en Weblate con PyCharm"
 
 #: ../../contributing/start.rst:124
-#, fuzzy
-#| msgid ""
-#| "PyCharm is a known IDE for Python, here's some guidelines to help you "
-#| "setup Weblate project in it."
 msgid ""
 "PyCharm is a known IDE for Python, here are some guidelines to help you set "
 "up your Weblate project in it."
@@ -25302,7 +25256,7 @@ msgstr ""
 
 #: ../../contributing/tests.rst:10
 msgid "Continuous integration"
-msgstr ""
+msgstr "Integración continua"
 
 #: ../../contributing/tests.rst:12
 msgid ""
@@ -25356,7 +25310,7 @@ msgstr "Puesta a prueba local"
 
 #: ../../contributing/tests.rst:48
 msgid "To run a testsuite locally, use:"
-msgstr ""
+msgstr "Para ejecutar un conjunto de pruebas localmente, utilice:"
 
 #: ../../contributing/tests.rst:56
 msgid ""
@@ -25381,7 +25335,7 @@ msgstr ""
 
 #: ../../contributing/tests.rst:74
 msgid "You can also specify individual tests to run:"
-msgstr ""
+msgstr "También puede especificar que se ejecuten solo pruebas individuales:"
 
 #: ../../contributing/tests.rst:82
 msgid ""
@@ -26471,7 +26425,7 @@ msgstr ":ref:`component-slug`"
 
 #: ../../devel/share.rst:4
 msgid "Promoting the translation"
-msgstr ""
+msgstr "Promocionar la traducción"
 
 #: ../../devel/share.rst:6
 msgid ""
@@ -29404,7 +29358,7 @@ msgstr "Historial de cambios"
 
 #: ../../legal.rst:2
 msgid "Legal documents"
-msgstr ""
+msgstr "Documentos legales"
 
 #: ../../legal.rst:6
 msgid ""
@@ -30311,16 +30265,12 @@ msgid "*Scheme format string does not match source*"
 msgstr "La cadena en formato C no coincide con la de origen"
 
 #: ../../user/checks.rst:452
-#, fuzzy
-#| msgid "``There are %d apples``"
 msgid "``There are ~d apples``"
-msgstr "``Hay %d manzanas``"
+msgstr "``Hay ~d manzanas``"
 
 #: ../../user/checks.rst:454
-#, fuzzy
-#| msgid "`c-format`"
 msgid "`scheme-format`"
-msgstr "`c-format`"
+msgstr "`scheme-format`"
 
 #: ../../user/checks.rst:459
 msgid ""
@@ -31228,10 +31178,8 @@ msgid "XLIFF 1.1"
 msgstr "XLIFF 1.1"
 
 #: ../../user/files.rst:32
-#, fuzzy
-#| msgid "TermBase eXchange file"
 msgid "TermBase eXchange"
-msgstr "Archivo TermBase eXchange"
+msgstr "TermBase eXchange"
 
 #: ../../user/files.rst:33
 #, fuzzy
@@ -31260,16 +31208,12 @@ msgid "iOS strings"
 msgstr "Cadenas de iOS"
 
 #: ../../user/files.rst:45
-#, fuzzy
-#| msgid ""
-#| "URL to translations list; see :http:get:`/api/components/(string:project)/"
-#| "(string:component)/translations/`"
 msgid ""
 ":http:get:`/api/translations/(string:project)/(string:component)/(string:"
 "language)/file/`"
 msgstr ""
-"URL a la lista de traducciones; vea :http:get:`/api/components/(string:"
-"project)/(string:component)/translations/`"
+":http:get:`/api/translations/"
+"(string:project)/(string:component)/(string:language)/file/`"
 
 #: ../../user/files.rst:50
 msgid "Uploading translations"
@@ -31280,6 +31224,8 @@ msgid ""
 "When you have made your changes, use :guilabel:`Upload translation` in the :"
 "guilabel:`Files` menu."
 msgstr ""
+"Cuando haya efectuado sus cambios, utilice :guilabel:`Cargar traducción` en "
+"el menú :guilabel:`Archivos`."
 
 #: ../../user/files.rst:62
 msgid ""
@@ -31287,12 +31233,19 @@ msgid ""
 "recommended to use the same file format as the one used for translation, "
 "otherwise some features might not be translated properly."
 msgstr ""
+"Es posible cargar archivos en cualquier formato compatible, pero aun así se "
+"recomienda utilizar el mismo formato de archivo que el utilizado para la "
+"traducción; de lo contrario, algunas funciones podrían no convertirse "
+"apropiadamente."
 
 #: ../../user/files.rst:70
 msgid ""
 "The uploaded file is merged to update the translation, overwriting existing "
 "entries by default (this can be turned off or on in the upload dialog)."
 msgstr ""
+"El archivo cargado se combina con el del repositorio para actualizar la "
+"traducción, de manera predeterminada sobrescribiendo las entradas existentes "
+"(en el diálogo de carga se puede activar o desactivar este comportamiento)."
 
 #: ../../user/files.rst:76
 msgid "Import methods"
