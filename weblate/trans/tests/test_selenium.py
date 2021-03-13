@@ -55,7 +55,7 @@ from weblate.trans.tests.utils import (
 )
 from weblate.utils.db import using_postgresql
 from weblate.vcs.ssh import get_key_data
-from weblate.wladmin.models import ConfigurationError
+from weblate.wladmin.models import ConfigurationError, SupportStatus
 
 TEST_BACKENDS = (
     "social_core.backends.email.EmailAuth",
@@ -1075,6 +1075,10 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             self.click(self.driver.find_element(By.CLASS_NAME, "createdbackup"))
             time.sleep(0.5)
             self.screenshot("backups.png")
+            SupportStatus.objects.create(secret="123", name="community")
+            with self.wait_for_page_load():
+                self.click("Weblate status")
+            self.screenshot("support-discovery.png")
         finally:
             self.remove_temp()
 
