@@ -4,7 +4,10 @@ Glossary
 ========
 
 Each project can have an assigned glossary as a shorthand for storing
-terminology in all languages. Consistency is more easily maintained this way.
+terminology. With it it would be easier to maintain consistency of the translation.
+A glossary for each language can be managed on its own, but they are
+stored together as a single component which can help multilingual translators
+to maintain some cross-language consistency as well.
 Terms from the glossary containing words from the currently translated string can be
 displayed in the sidebar.
 
