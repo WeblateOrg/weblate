@@ -400,7 +400,6 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
         super().__init__(*args, **kwargs)
         self.old_unit = copy(self)
         self.is_batch_update = False
-        self.is_bulk_edit = False
         self.source_updated = False
         self.check_cache = {}
         self.fixups = []
@@ -463,7 +462,7 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
                 unit.update_state()
                 unit.update_priority()
                 unit.run_checks()
-            if not self.is_bulk_edit and not self.is_batch_update:
+            if not self.is_batch_update:
                 self.translation.component.invalidate_cache()
 
     def sync_terminology(self):
