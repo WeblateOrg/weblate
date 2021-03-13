@@ -32,7 +32,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.5.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-03-13 06:00+0000\n"
-"PO-Revision-Date: 2021-03-06 21:59+0000\n"
+"PO-Revision-Date: 2021-03-13 21:46+0000\n"
 "Last-Translator: Eric <spice2wolf@gmail.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "weblate/application/zh_Hans/>\n"
@@ -41,7 +41,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 4.5.1\n"
+"X-Generator: Weblate 4.5.2-dev\n"
 
 #: weblate/accounts/avatar.py:103
 msgctxt "No known user"
@@ -74,10 +74,9 @@ msgid "Public e-mail"
 msgstr "公共电子邮件"
 
 #: weblate/accounts/forms.py:284
-#, fuzzy, python-format
-#| msgid "Component lists"
+#, python-format
 msgid "Component list: %s"
-msgstr "组件列表"
+msgstr "组件列表：%s"
 
 #: weblate/accounts/forms.py:310 weblate/accounts/forms.py:385
 #: weblate/accounts/templatetags/authnames.py:42 weblate/auth/models.py:322
@@ -2575,16 +2574,12 @@ msgid "Lua format string does not match source"
 msgstr "Lua 格式的字符串与源文不匹配"
 
 #: weblate/checks/format.py:469
-#, fuzzy
-#| msgid "File format"
 msgid "Scheme format"
-msgstr "文件格式"
+msgstr "方案格式"
 
 #: weblate/checks/format.py:470
-#, fuzzy
-#| msgid "C format string does not match source"
 msgid "Scheme format string does not match source"
-msgstr "C 格式的字符串与源文不匹配"
+msgstr "方案格式字符串与源文不匹配"
 
 #: weblate/checks/format.py:483
 msgid "Python brace format"
@@ -6177,16 +6172,12 @@ msgid "Cleanup"
 msgstr "清理"
 
 #: weblate/templates/js/git-status.html:115
-#, fuzzy
-#| msgid "Reset all changes in the Weblate repository"
 msgid "Force writing all translations to the Weblate repository"
-msgstr "重置Weblate存储库中的所有更改"
+msgstr "强制将所有翻译写入 Weblate 存储库"
 
 #: weblate/templates/js/git-status.html:115
-#, fuzzy
-#| msgid "Source information"
 msgid "Force synchronization"
-msgstr "源字符串信息"
+msgstr "强制同步"
 
 #: weblate/templates/js/git-status.html:129
 #, python-format
@@ -6881,42 +6872,32 @@ msgid "Support expiry"
 msgstr "支持过期"
 
 #: weblate/templates/manage/index.html:46
-#, fuzzy
-#| msgid "Weblate keys"
 msgid "Weblate discovery"
-msgstr "Weblate 密钥"
+msgstr "Weblate 发现"
 
 #: weblate/templates/manage/index.html:48
-#, fuzzy
-#| msgid "Component discovery"
 msgid "Browse discovery"
-msgstr "组件发现"
+msgstr "浏览“发现”"
 
 #: weblate/templates/manage/index.html:50
 msgid "Your Weblate is listed on weblate.org"
-msgstr ""
+msgstr "你的 Weblate 在 weblate.org 上列出"
 
 #: weblate/templates/manage/index.html:52
-#, fuzzy
-#| msgid "disabled"
 msgid "Disable discovery"
-msgstr "已禁用"
+msgstr "禁用“发现”"
 
 #: weblate/templates/manage/index.html:53
-#, fuzzy
-#| msgid "Manage your languages"
 msgid "Manage your listing"
-msgstr "管理您的语言"
+msgstr "管理你的清单"
 
 #: weblate/templates/manage/index.html:55
 msgid "Your Weblate is not listed on weblate.org"
-msgstr ""
+msgstr "你的 Weblate 未在 weblate.org 上列出"
 
 #: weblate/templates/manage/index.html:57
-#, fuzzy
-#| msgid "Component discovery"
 msgid "Enable discovery"
-msgstr "组件发现"
+msgstr "启用“发现”"
 
 #: weblate/templates/manage/index.html:65
 msgid "Manage support package"
@@ -7922,21 +7903,17 @@ msgid "Source in review"
 msgstr "正在审查的源"
 
 #: weblate/templates/snippets/unit-readonly-badge.html:6
-#, fuzzy
-#| msgid "Source strings in %s"
 msgid "Source string editing is disabled."
-msgstr "%s 的源字符串"
+msgstr "源字符串编辑被禁止"
 
 #: weblate/templates/snippets/unit-readonly-badge.html:8
 msgid ""
 "Source string cannot be edited, but you can delete it and add a new one."
-msgstr ""
+msgstr "源字符串不能被编辑，但是你可以删除它并添加一个新的。"
 
 #: weblate/templates/snippets/unit-readonly-badge.html:10
-#, fuzzy
-#| msgid "Source string changed"
 msgid "Source string cannot be edited."
-msgstr "源字符串已改变"
+msgstr "源字符串无法被编辑。"
 
 #: weblate/templates/snippets/unit-state.html:5
 #: weblate/trans/templatetags/translations.py:556 weblate/utils/state.py:31
@@ -8775,20 +8752,17 @@ msgid_plural "There are %(count)s variants of this string."
 msgstr[0] "此字串符有 %(count)s 个变体。"
 
 #: weblate/templates/translate.html:532
-#, fuzzy, python-format
-#| msgid "Browse all glossary changes"
+#, python-format
 msgid "Browse glossary %(name)s"
-msgstr "查看所有词汇表变更"
+msgstr "浏览词汇表%(name)s"
 
 #: weblate/templates/translate.html:554 weblate/templates/translate.html:564
 msgid "Add term to glossary"
 msgstr "将术语添加到术语表"
 
 #: weblate/templates/translate.html:583
-#, fuzzy
-#| msgid "Source information"
 msgid "String information"
-msgstr "源字符串信息"
+msgstr "字符串信息"
 
 #: weblate/templates/translate.html:595
 msgid "No screenshot currently associated."
@@ -8837,16 +8811,13 @@ msgid "string %(position)s"
 msgstr "字符串 %(position)s"
 
 #: weblate/templates/translate.html:696
-#, fuzzy
-#| msgid "Browse pending"
 msgid "pending"
-msgstr "浏览待定"
+msgstr "待定"
 
 #: weblate/templates/translate.html:742
-#, fuzzy, python-format
-#| msgid "Add variant of this string"
+#, python-format
 msgid "Add a new variant for \"%(existing)s\""
-msgstr "添加这个字符串的变体"
+msgstr "添加 \"%(existing)s\" 的一个新变体"
 
 #: weblate/templates/translation.html:56
 msgid "Download translation"
@@ -10742,10 +10713,8 @@ msgid "Key"
 msgstr "键"
 
 #: weblate/trans/models/component.py:3073
-#, fuzzy
-#| msgid "Forbidden glossary term"
 msgid "Add new glossary term"
-msgstr "禁止的术语表术语"
+msgstr "添加新的词汇表术语"
 
 #: weblate/trans/models/component.py:3074
 msgid "Add new translation string"
@@ -10909,34 +10878,28 @@ msgstr "此字符串似乎已存在。"
 #: weblate/trans/models/translation.py:1268
 #: weblate/trans/models/translation.py:1272
 #: weblate/trans/models/translation.py:1287
-#, fuzzy, python-format
-#| msgid "Pending string"
+#, python-format
 msgid "Failed adding string: %s"
-msgstr "待处理的字符串"
+msgstr "添加字符串失败：%s"
 
 #: weblate/trans/models/translation.py:1247
-#, fuzzy
-#| msgid "No matching translations found!"
 msgid "No translation found."
-msgstr "未找到匹配的翻译！"
+msgstr "未找到翻译。"
 
 #: weblate/trans/models/translation.py:1272
 #: weblate/trans/models/translation.py:1287
-#, fuzzy
-#| msgid "Failed to parse query string: {}"
 msgid "Failed to parse new string"
-msgstr "无法解析查询字符串：{}"
+msgstr "解析新字符串失败"
 
 #: weblate/trans/models/translation.py:1295
 #, python-format
 msgid "Context would created as \"%s\""
-msgstr ""
+msgstr "上下文将被创建为 \"%s\""
 
 #: weblate/trans/models/translation.py:1299
-#, fuzzy, python-format
-#| msgid "Following components would be created"
+#, python-format
 msgid "Source would be created as %s"
-msgstr "以下组件将被创建"
+msgstr "源将被创建为 %s"
 
 #: weblate/trans/models/unit.py:315
 msgid "Additional explanation to clarify meaning or usage of the string."
@@ -11582,10 +11545,8 @@ msgid "All repositories have been cleaned up."
 msgstr "所有代码库均已清理。"
 
 #: weblate/trans/views/git.py:103
-#, fuzzy
-#| msgid "Translation has been removed."
 msgid "Translation files have been synchronized."
-msgstr "翻译已移除。"
+msgstr "已同步翻译文件。"
 
 #: weblate/trans/views/js.py:56
 msgid "Service is currently not available."
