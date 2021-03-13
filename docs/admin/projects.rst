@@ -762,14 +762,17 @@ By default the component is visible to anybody who has access to the project,
 even if the person can not perform any changes in the component. This makes it
 easier to keep translation consistency within the project.
 
-Turning this on at component-, or component-list level takes over
-access permission to a component, regardless of project-level permissions, and you will have to grant access to it explicitly. This can be done through making a group that has access and granting it to users by putting them in it, or using the default `custom` or `private` access control groups.
+Restricting access at a component, or component-list level takes over
+access permission to a component, regardless of project-level permissions.
+You will have to grant access to it explicitly. This can be done through 
+granting access to a new user group and putting users in it,
+or using the default `custom` or `private` access control groups.
 
 The default value can be changed in :setting:`DEFAULT_RESTRICTED_COMPONENT`.
 
 .. hint::
 
-   This applies to project managers as well — please make sure you will not
+   This applies to project admins as well — please make sure you will not
    loose access to the component after toggling the status.
 
 .. _component-links:
