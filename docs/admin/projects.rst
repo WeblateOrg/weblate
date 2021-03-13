@@ -654,7 +654,7 @@ Push on commit
 
 Whether committed changes should be automatically pushed to the upstream
 repository. When enabled, the push is initiated once Weblate commits
-changes to its internal repository (see :ref:`lazy-commit`). To actually
+changes to its underlying repository (see :ref:`lazy-commit`). To actually
 enable pushing :guilabel:`Repository push URL` has to be configured as
 well.
 
@@ -663,25 +663,21 @@ well.
 Age of changes to commit
 ++++++++++++++++++++++++
 
-Sets how old changes (in hours) are to get before they are committed by
+Sets how old (in hours) changes have to be before they are committed by
 background task or the :djadmin:`commit_pending` management command. All
-changes in a component are committed once there is at least one older than
-this period.
+changes in a component are committed once there is at least one change
+older than this period.
 
 Default value can be changed by :setting:`COMMIT_PENDING_HOURS`.
-
-.. hint::
-
-   There are other situations where pending changes might be committed, see
-   :ref:`lazy-commit`.
 
 .. _component-auto_lock_error:
 
 Lock on error
 +++++++++++++
 
-Locks any chosen component upon the first failed push or merge into its upstream repository, or pull from it.
-This avoids adding another conflict, which would have to be resolved manually.
+Locks the component (and linked components, see :ref:`internal-urls`)
+upon the first failed push or merge into its upstream repository, or pull from it.
+This avoids adding another conflicts, which would have to be resolved manually.
 
 The component will be automatically unlocked once there are no repository
 errors left.
