@@ -3,13 +3,14 @@
 Glossary
 ========
 
-Each project can have an assigned glossary as a shorthand for storing
-terminology. With it it would be easier to maintain consistency of the translation.
+Each project can include one or more glossaries as a shorthand for storing
+terminology. Glossary easify maintaining consistency of the translation.
+
 A glossary for each language can be managed on its own, but they are
-stored together as a single component which can help multilingual translators
-to maintain some cross-language consistency as well.
-Terms from the glossary containing words from the currently translated string can be
-displayed in the sidebar.
+stored together as a single component which helps project admins
+and multilingual translators to maintain some cross-language consistency as well.
+Terms from the glossary containing words from the currently translated string are
+displayed in the sidebar of the translation editor.
 
 Managing glossaries
 -------------------
@@ -17,23 +18,27 @@ Managing glossaries
 .. versionchanged:: 4.5
 
    Glossaries are now regular translation components and you can use all
-   Weblate features on them — commenting, storing in a Git repository, or
+   Weblate features on them — commenting, storing in a remote repository, or
    adding explanations.
 
 Use any component as a glossary by turning on :ref:`component-is_glossary`.
+You can create multiple glossaries for one project.
 
 An empty glossary for a given project is automatically created with the project.
 Glossaries are shared among all components of the same project, and optionally
 with other projects using :ref:`component-links` from the respective glossary
 component.
 
-The glossary component looks like any other component in Weblate:
+The glossary component looks like any other component in Weblate with added
+colored label:
 
 .. image:: /images/glossary-component.png
 
 You can browse all glossary terms:
 
 .. image:: /images/glossary-browse.png
+
+or edit them as any translations.
 
 Glossary terms
 --------------
@@ -50,7 +55,7 @@ Not translatable terms
 
 Flagging certain glossary term translations ``read-only`` by bulk-editing, typing in the flag, or
 by using :guilabel:`Tools` ↓:guilabel:`Mark as read-only` means they can not
-be translated. Use this for brand names or other terms that should not be changed in translation.
+be translated. Use this for brand names or other terms that should not be changed in other languages.
 Such terms are visually highlighted in the glossary sidebar.
 
 .. seealso::
