@@ -819,7 +819,6 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
         change_action=None,
         author=None,
         run_checks: bool = True,
-        propagate_checks: bool = True,
     ):
         """Stores unit to backend.
 
