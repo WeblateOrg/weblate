@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.5.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-03-13 06:00+0000\n"
-"PO-Revision-Date: 2021-03-06 21:59+0000\n"
+"PO-Revision-Date: 2021-03-13 21:46+0000\n"
 "Last-Translator: Heimen Stoffels <vistausss@outlook.com>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/weblate/"
 "application/nl/>\n"
@@ -26,7 +26,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.5.1\n"
+"X-Generator: Weblate 4.5.2-dev\n"
 
 #: weblate/accounts/avatar.py:103
 msgctxt "No known user"
@@ -59,10 +59,9 @@ msgid "Public e-mail"
 msgstr "Openbaar e-mailadres"
 
 #: weblate/accounts/forms.py:284
-#, fuzzy, python-format
-#| msgid "Component lists"
+#, python-format
 msgid "Component list: %s"
-msgstr "Onderdelenlijsten"
+msgstr "Onderdelenlijst: %s"
 
 #: weblate/accounts/forms.py:310 weblate/accounts/forms.py:385
 #: weblate/accounts/templatetags/authnames.py:42 weblate/auth/models.py:322
@@ -2667,16 +2666,12 @@ msgid "Lua format string does not match source"
 msgstr "De Lua-opmaak komt niet overeen met de bron"
 
 #: weblate/checks/format.py:469
-#, fuzzy
-#| msgid "File format"
 msgid "Scheme format"
-msgstr "Bestandsformaat"
+msgstr "Schemaformaat"
 
 #: weblate/checks/format.py:470
-#, fuzzy
-#| msgid "C format string does not match source"
 msgid "Scheme format string does not match source"
-msgstr "Het c-patroon komt niet overeen met de bron"
+msgstr "Het schemaformaat komt niet overeen met de bron"
 
 #: weblate/checks/format.py:483
 msgid "Python brace format"
@@ -6456,16 +6451,12 @@ msgid "Cleanup"
 msgstr "Opruimen"
 
 #: weblate/templates/js/git-status.html:115
-#, fuzzy
-#| msgid "Reset all changes in the Weblate repository"
 msgid "Force writing all translations to the Weblate repository"
-msgstr "Alle aanpassingen in de Weblate-opslagruimte herstellen"
+msgstr "Alle vertalingen gedwongen wegschrijven naar de Weblate-opslagruimte"
 
 #: weblate/templates/js/git-status.html:115
-#, fuzzy
-#| msgid "Source information"
 msgid "Force synchronization"
-msgstr "Broninformatie"
+msgstr "Synchronisatie afdwingen"
 
 #: weblate/templates/js/git-status.html:129
 #, python-format
@@ -7204,42 +7195,32 @@ msgid "Support expiry"
 msgstr "Ondersteuning vervalt op"
 
 #: weblate/templates/manage/index.html:46
-#, fuzzy
-#| msgid "Weblate keys"
 msgid "Weblate discovery"
-msgstr "Weblate-sleutels"
+msgstr "Weblate verkennen"
 
 #: weblate/templates/manage/index.html:48
-#, fuzzy
-#| msgid "Component discovery"
 msgid "Browse discovery"
-msgstr "Onderdeelopsporing"
+msgstr "Verkennen"
 
 #: weblate/templates/manage/index.html:50
 msgid "Your Weblate is listed on weblate.org"
-msgstr ""
+msgstr "Uw Weblate staat vermeld op weblate.org"
 
 #: weblate/templates/manage/index.html:52
-#, fuzzy
-#| msgid "Disabled"
 msgid "Disable discovery"
-msgstr "Uitgeschakeld"
+msgstr "Verkennen uitschakelen"
 
 #: weblate/templates/manage/index.html:53
-#, fuzzy
-#| msgid "Manage your languages"
 msgid "Manage your listing"
-msgstr "Uw talen beheren"
+msgstr "Vermelding beheren"
 
 #: weblate/templates/manage/index.html:55
 msgid "Your Weblate is not listed on weblate.org"
-msgstr ""
+msgstr "Uw Weblate staat niet vermeld op weblate.org"
 
 #: weblate/templates/manage/index.html:57
-#, fuzzy
-#| msgid "Component discovery"
 msgid "Enable discovery"
-msgstr "Onderdeelopsporing"
+msgstr "Verkennen inschakelen"
 
 #: weblate/templates/manage/index.html:65
 msgid "Manage support package"
@@ -8303,21 +8284,19 @@ msgid "Source in review"
 msgstr "Bron in beoordeling"
 
 #: weblate/templates/snippets/unit-readonly-badge.html:6
-#, fuzzy
-#| msgid "Source strings in %s"
 msgid "Source string editing is disabled."
-msgstr "Brontekenreeksen in %s"
+msgstr "Het aanpassen van brontekenreeksen is uitgeschakeld."
 
 #: weblate/templates/snippets/unit-readonly-badge.html:8
 msgid ""
 "Source string cannot be edited, but you can delete it and add a new one."
 msgstr ""
+"De brontekenreeks kan niet worden aangepast. Wél kunt u deze verwijderen en "
+"een nieuwe toevoegen."
 
 #: weblate/templates/snippets/unit-readonly-badge.html:10
-#, fuzzy
-#| msgid "Source string changed"
 msgid "Source string cannot be edited."
-msgstr "Brontekenreeks gewijzigd"
+msgstr "De brontekenreeks kan niet worden aangepast."
 
 #: weblate/templates/snippets/unit-state.html:5
 #: weblate/trans/templatetags/translations.py:556 weblate/utils/state.py:31
@@ -9247,20 +9226,17 @@ msgstr[0] "Er is %(count)s variant op deze tekenreeks."
 msgstr[1] "Er zijn %(count)s varianten op deze tekenreeks."
 
 #: weblate/templates/translate.html:532
-#, fuzzy, python-format
-#| msgid "Browse all glossary changes"
+#, python-format
 msgid "Browse glossary %(name)s"
-msgstr "Alle begrippenlijstaanpassingen tonen"
+msgstr "Bladeren door begrippenlijst van %(name)s"
 
 #: weblate/templates/translate.html:554 weblate/templates/translate.html:564
 msgid "Add term to glossary"
 msgstr "Term toevoegen"
 
 #: weblate/templates/translate.html:583
-#, fuzzy
-#| msgid "Source information"
 msgid "String information"
-msgstr "Broninformatie"
+msgstr "Tekenreeksinformatie"
 
 #: weblate/templates/translate.html:595
 msgid "No screenshot currently associated."
@@ -9309,16 +9285,13 @@ msgid "string %(position)s"
 msgstr "tekenreeks %(position)s"
 
 #: weblate/templates/translate.html:696
-#, fuzzy
-#| msgid "Browse pending"
 msgid "pending"
-msgstr "Bladeren door openstaande"
+msgstr "openstaande"
 
 #: weblate/templates/translate.html:742
-#, fuzzy, python-format
-#| msgid "Add variant of this string"
+#, python-format
 msgid "Add a new variant for \"%(existing)s\""
-msgstr "Tekenreeksvariant toevoegen"
+msgstr "Tekenreeksvariant toevoegen voor '%(existing)s'"
 
 #: weblate/templates/translation.html:56
 msgid "Download translation"
@@ -11334,10 +11307,8 @@ msgid "Key"
 msgstr "Sleutel"
 
 #: weblate/trans/models/component.py:3073
-#, fuzzy
-#| msgid "Forbidden glossary term"
 msgid "Add new glossary term"
-msgstr "Verboden begrip"
+msgstr "Term toevoegen"
 
 #: weblate/trans/models/component.py:3074
 msgid "Add new translation string"
@@ -11510,34 +11481,28 @@ msgstr "Deze tekenreeks lijkt reeds te bestaan."
 #: weblate/trans/models/translation.py:1268
 #: weblate/trans/models/translation.py:1272
 #: weblate/trans/models/translation.py:1287
-#, fuzzy, python-format
-#| msgid "Pending string"
+#, python-format
 msgid "Failed adding string: %s"
-msgstr "Te controleren tekenreeks"
+msgstr "De tekenreeks kan niet worden toegevoegd: %s"
 
 #: weblate/trans/models/translation.py:1247
-#, fuzzy
-#| msgid "No matching translations found!"
 msgid "No translation found."
-msgstr "Geen overeenkomstige vertalingen gevonden!"
+msgstr "Geen vertaling gevonden."
 
 #: weblate/trans/models/translation.py:1272
 #: weblate/trans/models/translation.py:1287
-#, fuzzy
-#| msgid "Failed to parse query string: {}"
 msgid "Failed to parse new string"
-msgstr "De zoekopdracht kan niet worden verwerkt: {}"
+msgstr "De nieuwe tekenreeks kan niet worden verwerkt"
 
 #: weblate/trans/models/translation.py:1295
 #, python-format
 msgid "Context would created as \"%s\""
-msgstr ""
+msgstr "De context wordt samengesteld als '%s'"
 
 #: weblate/trans/models/translation.py:1299
-#, fuzzy, python-format
-#| msgid "Following components would be created"
+#, python-format
 msgid "Source would be created as %s"
-msgstr "De volgende onderdelen zouden aangemaakt worden"
+msgstr "De bron wordt samengesteld als %s"
 
 #: weblate/trans/models/unit.py:315
 msgid "Additional explanation to clarify meaning or usage of the string."
@@ -12218,10 +12183,8 @@ msgid "All repositories have been cleaned up."
 msgstr "Alle opslagruimten zijn opgeruimd."
 
 #: weblate/trans/views/git.py:103
-#, fuzzy
-#| msgid "Translation has been removed."
 msgid "Translation files have been synchronized."
-msgstr "De vertaling is verwijderd."
+msgstr "De vertaalbestanden zijn gesynchroniseerd."
 
 #: weblate/trans/views/js.py:56
 msgid "Service is currently not available."
