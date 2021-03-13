@@ -22,8 +22,8 @@ msgstr ""
 "Project-Id-Version: Weblate 4.5.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-03-13 06:00+0000\n"
-"PO-Revision-Date: 2021-03-09 13:16+0000\n"
-"Last-Translator: Tymofij Lytvynenko <till.svit@gmail.com>\n"
+"PO-Revision-Date: 2021-03-13 10:15+0000\n"
+"Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/"
 "application/uk/>\n"
 "Language: uk\n"
@@ -67,10 +67,9 @@ msgid "Public e-mail"
 msgstr "Загальнодоступна ел. пошта"
 
 #: weblate/accounts/forms.py:284
-#, fuzzy, python-format
-#| msgid "Component lists"
+#, python-format
 msgid "Component list: %s"
-msgstr "Списки складників"
+msgstr "Списки складників: %s"
 
 #: weblate/accounts/forms.py:310 weblate/accounts/forms.py:385
 #: weblate/accounts/templatetags/authnames.py:42 weblate/auth/models.py:322
@@ -2679,16 +2678,12 @@ msgid "Lua format string does not match source"
 msgstr "Рядок, формату Lua, не відповідає джерелу"
 
 #: weblate/checks/format.py:469
-#, fuzzy
-#| msgid "File format"
 msgid "Scheme format"
-msgstr "Формат файлу"
+msgstr "Формат схеми"
 
 #: weblate/checks/format.py:470
-#, fuzzy
-#| msgid "C format string does not match source"
 msgid "Scheme format string does not match source"
-msgstr "Рядок, формату C, не відповідає джерелу"
+msgstr "Рядок форматування схеми не відповідає джерелу"
 
 #: weblate/checks/format.py:483
 msgid "Python brace format"
@@ -6489,16 +6484,12 @@ msgid "Cleanup"
 msgstr "Очистити"
 
 #: weblate/templates/js/git-status.html:115
-#, fuzzy
-#| msgid "Reset all changes in the Weblate repository"
 msgid "Force writing all translations to the Weblate repository"
-msgstr "Скинути усі зміни у сховищі Weblate"
+msgstr "Примусовий запис усіх перекладів до сховища Weblate"
 
 #: weblate/templates/js/git-status.html:115
-#, fuzzy
-#| msgid "Source information"
 msgid "Force synchronization"
-msgstr "Відомості по джерелу"
+msgstr "Примусова синхронізація"
 
 #: weblate/templates/js/git-status.html:129
 #, python-format
@@ -7242,42 +7233,32 @@ msgid "Support expiry"
 msgstr "Строк служби підтримки"
 
 #: weblate/templates/manage/index.html:46
-#, fuzzy
-#| msgid "Weblate keys"
 msgid "Weblate discovery"
-msgstr "Ключі Weblate"
+msgstr "Виявлення Weblate"
 
 #: weblate/templates/manage/index.html:48
-#, fuzzy
-#| msgid "Component discovery"
 msgid "Browse discovery"
-msgstr "Виявлення складників"
+msgstr "Навігаційний огляд"
 
 #: weblate/templates/manage/index.html:50
 msgid "Your Weblate is listed on weblate.org"
-msgstr ""
+msgstr "Ваш Weblate є у списку на weblate.org"
 
 #: weblate/templates/manage/index.html:52
-#, fuzzy
-#| msgid "Component discovery"
 msgid "Disable discovery"
-msgstr "Виявлення складників"
+msgstr "Вимкнути виявлення"
 
 #: weblate/templates/manage/index.html:53
-#, fuzzy
-#| msgid "Manage strings"
 msgid "Manage your listing"
-msgstr "Керування рядками"
+msgstr "Керування списком"
 
 #: weblate/templates/manage/index.html:55
 msgid "Your Weblate is not listed on weblate.org"
-msgstr ""
+msgstr "Вашого Weblate немає у списку на weblate.org"
 
 #: weblate/templates/manage/index.html:57
-#, fuzzy
-#| msgid "Component discovery"
 msgid "Enable discovery"
-msgstr "Виявлення складників"
+msgstr "Увімкнути виявлення"
 
 #: weblate/templates/manage/index.html:65
 msgid "Manage support package"
@@ -8353,21 +8334,19 @@ msgid "Source in review"
 msgstr "Початкові рядки рецензуються"
 
 #: weblate/templates/snippets/unit-readonly-badge.html:6
-#, fuzzy
-#| msgid "Source string changed"
 msgid "Source string editing is disabled."
-msgstr "Змінено джерельний рядок"
+msgstr "Редагування початкового рядка вимкнено."
 
 #: weblate/templates/snippets/unit-readonly-badge.html:8
 msgid ""
 "Source string cannot be edited, but you can delete it and add a new one."
 msgstr ""
+"Початковий рядок не можна редагувати, але ви можете вилучити його і додати "
+"новий."
 
 #: weblate/templates/snippets/unit-readonly-badge.html:10
-#, fuzzy
-#| msgid "Source string changed"
 msgid "Source string cannot be edited."
-msgstr "Змінено джерельний рядок"
+msgstr "Початковий рядок не можна редагувати."
 
 #: weblate/templates/snippets/unit-state.html:5
 #: weblate/trans/templatetags/translations.py:556 weblate/utils/state.py:31
@@ -9292,20 +9271,17 @@ msgstr[2] "Для цього рядка є%(count)s варіантів."
 msgstr[3] "Для цього рядка є %(count)s варіант."
 
 #: weblate/templates/translate.html:532
-#, fuzzy, python-format
-#| msgid "Browse all glossary changes"
+#, python-format
 msgid "Browse glossary %(name)s"
-msgstr "Перегляд усіх змін словника"
+msgstr "Навігація глосарієм %(name)s"
 
 #: weblate/templates/translate.html:554 weblate/templates/translate.html:564
 msgid "Add term to glossary"
 msgstr "Додати термін до глосарія"
 
 #: weblate/templates/translate.html:583
-#, fuzzy
-#| msgid "Source information"
 msgid "String information"
-msgstr "Відомості по джерелу"
+msgstr "Відомості щодо рядка"
 
 #: weblate/templates/translate.html:595
 msgid "No screenshot currently associated."
@@ -9355,13 +9331,12 @@ msgstr "рядок %(position)s"
 
 #: weblate/templates/translate.html:696
 msgid "pending"
-msgstr ""
+msgstr "у черзі"
 
 #: weblate/templates/translate.html:742
-#, fuzzy, python-format
-#| msgid "Add variant of this string"
+#, python-format
 msgid "Add a new variant for \"%(existing)s\""
-msgstr "Додати варіант цього рядка"
+msgstr "Додати новий варіант «%(existing)s»"
 
 #: weblate/templates/translation.html:56
 msgid "Download translation"
@@ -11364,10 +11339,8 @@ msgid "Key"
 msgstr "Ключ"
 
 #: weblate/trans/models/component.py:3073
-#, fuzzy
-#| msgid "Forbidden glossary term"
 msgid "Add new glossary term"
-msgstr "Заборонений термін глосарія"
+msgstr "Додати новий термін глосарія"
 
 #: weblate/trans/models/component.py:3074
 msgid "Add new translation string"
@@ -11541,34 +11514,28 @@ msgstr "Схоже цей рядок вже існує."
 #: weblate/trans/models/translation.py:1268
 #: weblate/trans/models/translation.py:1272
 #: weblate/trans/models/translation.py:1287
-#, fuzzy, python-format
-#| msgid "Pending string"
+#, python-format
 msgid "Failed adding string: %s"
-msgstr "Рядок, що очікується"
+msgstr "Не вдалося додати рядок: %s"
 
 #: weblate/trans/models/translation.py:1247
-#, fuzzy
-#| msgid "New translation"
 msgid "No translation found."
-msgstr "Новий переклад"
+msgstr "Не знайдено жодного перекладу."
 
 #: weblate/trans/models/translation.py:1272
 #: weblate/trans/models/translation.py:1287
-#, fuzzy
-#| msgid "Failed to parse query string: {}"
 msgid "Failed to parse new string"
-msgstr "Не вдалося розібрати рядок запиту: {}"
+msgstr "Не вдалося обробити новий рядок"
 
 #: weblate/trans/models/translation.py:1295
 #, python-format
 msgid "Context would created as \"%s\""
-msgstr ""
+msgstr "Контекст мало бути створено як «%s»"
 
 #: weblate/trans/models/translation.py:1299
-#, fuzzy, python-format
-#| msgid "Following components would be created"
+#, python-format
 msgid "Source would be created as %s"
-msgstr "Наступні складники будуть створені"
+msgstr "Джерело мало бути створено як %s"
 
 #: weblate/trans/models/unit.py:315
 msgid "Additional explanation to clarify meaning or usage of the string."
@@ -12283,10 +12250,8 @@ msgid "All repositories have been cleaned up."
 msgstr "Усі сховища вже очищені."
 
 #: weblate/trans/views/git.py:103
-#, fuzzy
-#| msgid "Translation has been removed."
 msgid "Translation files have been synchronized."
-msgstr "Переклад вилучено."
+msgstr "Файли перекладу синхронізовано."
 
 #: weblate/trans/views/js.py:56
 msgid "Service is currently not available."
