@@ -700,8 +700,13 @@ class ComponentStats(LanguageStats):
 class ProjectLanguageComponent:
     is_glossary = False
 
-    def __init__(self):
+    def __init__(self, parent):
         self.slug = "-"
+        self.parent = parent
+
+    @property
+    def translation_set(self):
+        return self.parent.translation_set
 
 
 class ProjectLanguage:
@@ -710,7 +715,7 @@ class ProjectLanguage:
     def __init__(self, project, language: Language):
         self.project = project
         self.language = language
-        self.component = ProjectLanguageComponent()
+        self.component = ProjectLanguageComponent(self)
 
     def __str__(self):
         return f"{self.project} - {self.language}"
