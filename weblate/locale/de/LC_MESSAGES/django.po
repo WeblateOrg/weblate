@@ -34,8 +34,8 @@ msgstr ""
 "Project-Id-Version: Weblate 4.5.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-03-13 06:00+0000\n"
-"PO-Revision-Date: 2021-03-12 12:35+0000\n"
-"Last-Translator: iLocIT! <matthiasc@ilocit.de>\n"
+"PO-Revision-Date: 2021-03-13 21:46+0000\n"
+"Last-Translator: nautilusx <translate@disroot.org>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "application/de/>\n"
 "Language: de\n"
@@ -80,10 +80,9 @@ msgid "Public e-mail"
 msgstr "Öffentliche E-Mail"
 
 #: weblate/accounts/forms.py:284
-#, fuzzy, python-format
-#| msgid "Component lists"
+#, python-format
 msgid "Component list: %s"
-msgstr "Komponentenlisten"
+msgstr "Komponentenliste: %s"
 
 #: weblate/accounts/forms.py:310 weblate/accounts/forms.py:385
 #: weblate/accounts/templatetags/authnames.py:42 weblate/auth/models.py:322
@@ -2404,7 +2403,7 @@ msgstr "Zeilenumbruch am Ende"
 #: weblate/checks/chars.py:58
 msgid "Source and translation do not both end with a newline"
 msgstr ""
-"Ausgangs- und übersetzte Zeichenkette enden nicht beide mit einem "
+"Ausgangs- und übersetzte Zeichenkette enden beide nicht mit einem "
 "Zeilenumbruch"
 
 #: weblate/checks/chars.py:68
@@ -2745,16 +2744,12 @@ msgid "Lua format string does not match source"
 msgstr "Lua-Format-Zeichenkette passt nicht zur Ausgangszeichenkette"
 
 #: weblate/checks/format.py:469
-#, fuzzy
-#| msgid "File format"
 msgid "Scheme format"
-msgstr "Dateiformat"
+msgstr "Schema-Format"
 
 #: weblate/checks/format.py:470
-#, fuzzy
-#| msgid "C format string does not match source"
 msgid "Scheme format string does not match source"
-msgstr "C-Format-Zeichenkette passt nicht zur Ausgangszeichenkette"
+msgstr "Schema-Formatzeichenkette stimmt nicht mit Quelle überein"
 
 #: weblate/checks/format.py:483
 msgid "Python brace format"
@@ -6601,16 +6596,12 @@ msgid "Cleanup"
 msgstr "Bereinigung"
 
 #: weblate/templates/js/git-status.html:115
-#, fuzzy
-#| msgid "Reset all changes in the Weblate repository"
 msgid "Force writing all translations to the Weblate repository"
-msgstr "Alle Änderungen im Weblate-Repository zurücksetzen"
+msgstr "Erzwingt das Schreibens aller Übersetzungen in das Weblate-Repository"
 
 #: weblate/templates/js/git-status.html:115
-#, fuzzy
-#| msgid "Source information"
 msgid "Force synchronization"
-msgstr "Quellinformation"
+msgstr "Synchronisation erzwingen"
 
 #: weblate/templates/js/git-status.html:129
 #, python-format
@@ -7357,42 +7348,32 @@ msgid "Support expiry"
 msgstr "Ablauf der Supportzeit"
 
 #: weblate/templates/manage/index.html:46
-#, fuzzy
-#| msgid "Weblate keys"
 msgid "Weblate discovery"
-msgstr "Weblate-Schlüssel"
+msgstr "Weblate-Entdeckung"
 
 #: weblate/templates/manage/index.html:48
-#, fuzzy
-#| msgid "Component discovery"
 msgid "Browse discovery"
-msgstr "Komponentenerkennung"
+msgstr "Entdeckung durchsuchen"
 
 #: weblate/templates/manage/index.html:50
 msgid "Your Weblate is listed on weblate.org"
-msgstr ""
+msgstr "Ihr Weblate ist auf weblate.org gelistet"
 
 #: weblate/templates/manage/index.html:52
-#, fuzzy
-#| msgid "Disabled"
 msgid "Disable discovery"
-msgstr "Deaktiviert"
+msgstr "Entdeckung deaktivieren"
 
 #: weblate/templates/manage/index.html:53
-#, fuzzy
-#| msgid "Manage your languages"
 msgid "Manage your listing"
-msgstr "Ihre Sprachen verwalten"
+msgstr "Verwalten Sie Ihren Eintrag"
 
 #: weblate/templates/manage/index.html:55
 msgid "Your Weblate is not listed on weblate.org"
-msgstr ""
+msgstr "Ihr Weblate ist nicht auf weblate.org gelistet"
 
 #: weblate/templates/manage/index.html:57
-#, fuzzy
-#| msgid "Component discovery"
 msgid "Enable discovery"
-msgstr "Komponentenerkennung"
+msgstr "Entdeckung aktivieren"
 
 #: weblate/templates/manage/index.html:65
 msgid "Manage support package"
@@ -8470,21 +8451,19 @@ msgid "Source in review"
 msgstr "Quelle wird überprüft"
 
 #: weblate/templates/snippets/unit-readonly-badge.html:6
-#, fuzzy
-#| msgid "Source strings in %s"
 msgid "Source string editing is disabled."
-msgstr "Ausgangszeichenketten in %s"
+msgstr "Bearbeitung der Ausgangszeichenkette ist deaktiviert."
 
 #: weblate/templates/snippets/unit-readonly-badge.html:8
 msgid ""
 "Source string cannot be edited, but you can delete it and add a new one."
 msgstr ""
+"Die Ausgangszeichenkette kann nicht bearbeitet werden, aber Sie können sie "
+"löschen und eine neue hinzufügen."
 
 #: weblate/templates/snippets/unit-readonly-badge.html:10
-#, fuzzy
-#| msgid "Source string changed"
 msgid "Source string cannot be edited."
-msgstr "Änderung der Ausgangszeichenkette"
+msgstr "Ausgangszeichenkette kann nicht bearbeitet werden."
 
 #: weblate/templates/snippets/unit-state.html:5
 #: weblate/trans/templatetags/translations.py:556 weblate/utils/state.py:31
@@ -9432,20 +9411,17 @@ msgstr[0] "Es gibt %(count)s Variante dieser Zeichenkette."
 msgstr[1] "Es gibt %(count)s Varianten dieser Zeichenkette."
 
 #: weblate/templates/translate.html:532
-#, fuzzy, python-format
-#| msgid "Browse all glossary changes"
+#, python-format
 msgid "Browse glossary %(name)s"
-msgstr "Alle durchgeführten Glossar-Änderungen anzeigen"
+msgstr "Glossar durchsuchen %(name)s"
 
 #: weblate/templates/translate.html:554 weblate/templates/translate.html:564
 msgid "Add term to glossary"
 msgstr "Begriff zum Glossar hinzufügen"
 
 #: weblate/templates/translate.html:583
-#, fuzzy
-#| msgid "Source information"
 msgid "String information"
-msgstr "Quellinformation"
+msgstr "Zeichenketteninformationen"
 
 #: weblate/templates/translate.html:595
 msgid "No screenshot currently associated."
@@ -9494,16 +9470,13 @@ msgid "string %(position)s"
 msgstr "Zeichenkette %(position)s"
 
 #: weblate/templates/translate.html:696
-#, fuzzy
-#| msgid "Browse pending"
 msgid "pending"
-msgstr "Ausstehende Vorschläge anzeigen"
+msgstr "ausstehend"
 
 #: weblate/templates/translate.html:742
-#, fuzzy, python-format
-#| msgid "Add variant of this string"
+#, python-format
 msgid "Add a new variant for \"%(existing)s\""
-msgstr "Variante dieser Zeichenkette hinzufügen"
+msgstr "Neue Variante für \"%(existing)s\" hinzufügen"
 
 #: weblate/templates/translation.html:56
 msgid "Download translation"
@@ -9607,7 +9580,7 @@ msgstr ""
 
 #: weblate/templates/translation.html:329
 msgid "Quick downloads"
-msgstr "Vorkonfigurierte Downloadoptionen"
+msgstr "Vorkonfigurierte Downloads"
 
 #: weblate/templates/translation.html:336
 msgid "File in original format as translated in the repository"
@@ -11555,10 +11528,8 @@ msgid "Key"
 msgstr "Schlüssel"
 
 #: weblate/trans/models/component.py:3073
-#, fuzzy
-#| msgid "Forbidden glossary term"
 msgid "Add new glossary term"
-msgstr "Unzulässiger Glossarbegriff"
+msgstr "Neuen Glossarbegriff hinzufügen"
 
 #: weblate/trans/models/component.py:3074
 msgid "Add new translation string"
@@ -11736,34 +11707,28 @@ msgstr "Diese Zeichenkette scheint bereits zu existieren."
 #: weblate/trans/models/translation.py:1268
 #: weblate/trans/models/translation.py:1272
 #: weblate/trans/models/translation.py:1287
-#, fuzzy, python-format
-#| msgid "Pending string"
+#, python-format
 msgid "Failed adding string: %s"
-msgstr "Ausstehende Zeichenkette"
+msgstr "Fehler beim Hinzufügen der Zeichenkette: %s"
 
 #: weblate/trans/models/translation.py:1247
-#, fuzzy
-#| msgid "No matching translations found!"
 msgid "No translation found."
-msgstr "Keine passenden Zeichenketten gefunden!"
+msgstr "Keine Übersetzung gefunden."
 
 #: weblate/trans/models/translation.py:1272
 #: weblate/trans/models/translation.py:1287
-#, fuzzy
-#| msgid "Failed to parse query string: {}"
 msgid "Failed to parse new string"
-msgstr "Fehler beim Analysieren der Abfragezeichenfolge: {}"
+msgstr "Neue Zeichenkette konnte nicht analysiert werden"
 
 #: weblate/trans/models/translation.py:1295
 #, python-format
 msgid "Context would created as \"%s\""
-msgstr ""
+msgstr "Kontext würde als \"%s\" erstellt"
 
 #: weblate/trans/models/translation.py:1299
-#, fuzzy, python-format
-#| msgid "Following components would be created"
+#, python-format
 msgid "Source would be created as %s"
-msgstr "Folgende Komponenten würden erzeugt werden"
+msgstr "Quelle würde als %s erstellt"
 
 #: weblate/trans/models/unit.py:315
 msgid "Additional explanation to clarify meaning or usage of the string."
@@ -12454,10 +12419,8 @@ msgid "All repositories have been cleaned up."
 msgstr "Alle Repositories wurden bereinigt."
 
 #: weblate/trans/views/git.py:103
-#, fuzzy
-#| msgid "Translation has been removed."
 msgid "Translation files have been synchronized."
-msgstr "Übersetzung wurde gelöscht."
+msgstr "Übersetzungsdateien wurden synchronisiert."
 
 #: weblate/trans/views/js.py:56
 msgid "Service is currently not available."
