@@ -769,7 +769,7 @@ easier to keep translation consistency within the project.
 
 Restricting access at a component, or component-list level takes over
 access permission to a component, regardless of project-level permissions.
-You will have to grant access to it explicitly. This can be done through 
+You will have to grant access to it explicitly. This can be done through
 granting access to a new user group and putting users in it,
 or using the default `custom` or `private` access control groups.
 
