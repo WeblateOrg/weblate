@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-03-13 07:01+0100\n"
-"PO-Revision-Date: 2021-03-05 17:21+0000\n"
+"PO-Revision-Date: 2021-03-13 10:15+0000\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/"
 "documentation/uk/>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=n==1 ? 3 : n%10==1 && n%100!=11 ? 0 : n"
 "%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 4.5.1-dev\n"
+"X-Generator: Weblate 4.5.2-dev\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:185
@@ -1170,22 +1170,20 @@ msgstr ""
 "складників."
 
 #: ../../admin/addons.rst:26
-#, fuzzy
-#| msgid "Backup process triggered"
 msgid "It is triggered:"
-msgstr "Процес резервного копіювання запустився"
+msgstr "Причини вмикання:"
 
 #: ../../admin/addons.rst:28
-#, fuzzy
-#| msgid "Triggered automatically when new strings appear in a component."
 msgid "When new strings appear in a component."
-msgstr "Автоматично вмикається, коли у складнику з'являються нові рядки."
+msgstr "У складнику з'явилися нові рядки."
 
 #: ../../admin/addons.rst:29
 msgid ""
 "Once in a month for every component, this can be configured using :setting:"
 "`BACKGROUND_TASKS`."
 msgstr ""
+"Автоматичне щомісячне вмикання для усіх складників. Можна налаштувати за "
+"допомогою :setting:`BACKGROUND_TASKS`."
 
 #: ../../admin/addons.rst:33
 msgid ":ref:`auto-translation`, :ref:`translation-consistency`"
@@ -4828,65 +4826,52 @@ msgstr ":ref:`autofix`, :ref:`custom-autofix`"
 
 #: ../../admin/config.rst:194
 msgid "BACKGROUND_TASKS"
-msgstr ""
+msgstr "BACKGROUND_TASKS"
 
 #: ../../admin/config.rst:198
 msgid ""
 "Defines how often lengthy maintenance tasks should be triggered for a "
 "component."
 msgstr ""
+"Визначає частоту, із якою запускатимуться тривалі завдання для складника."
 
 #: ../../admin/config.rst:201
 msgid "Right now this controls:"
-msgstr ""
+msgstr "У поточній версії керує такими елементами:"
 
 #: ../../admin/config.rst:203
-#, fuzzy
-#| msgid ""
-#| "Auto-translate the newly added strings with :ref:`addon-weblate."
-#| "autotranslate.autotranslate`."
 msgid ":ref:`addon-weblate.autotranslate.autotranslate` addon"
-msgstr ""
-"Автоматичний переклад нових доданих рядків за допомогою :ref:`addon-weblate."
-"autotranslate.autotranslate`."
+msgstr "додатком :ref:`addon-weblate.autotranslate.autotranslate`"
 
 #: ../../admin/config.rst:204
 msgid ":doc:`checks` recalculation"
-msgstr ""
+msgstr "повторною обробкою :doc:`checks`"
 
 #: ../../admin/config.rst:206
-#, fuzzy
-#| msgid "Possible configuration"
 msgid "Possible choices:"
-msgstr "Можлива конфігурація"
+msgstr "Можливі варіанти значень:"
 
 #: ../../admin/config.rst:208
 msgid "``monthly`` (this is the default)"
-msgstr ""
+msgstr "``monthly`` (щомісяця, типове значення)"
 
 #: ../../admin/config.rst:209
-#, fuzzy
-#| msgid "``weblate``"
 msgid "``weekly``"
-msgstr "``weblate``"
+msgstr "``weekly`` (щотижня)"
 
 #: ../../admin/config.rst:210
-#, fuzzy
-#| msgid "``read-only``"
 msgid "``daily``"
-msgstr "``read-only``"
+msgstr "``daily`` (щодня)"
 
 #: ../../admin/config.rst:211
-#, fuzzy
-#| msgid "``dev-docker``"
 msgid "``never``"
-msgstr "``dev-docker``"
+msgstr "``never`` (ніколи)"
 
 #: ../../admin/config.rst:215
 msgid ""
 "Increasing the frequency is not recommended when Weblate contains thousands "
 "of components."
-msgstr ""
+msgstr "Не рекомендуємо збільшувати частоту, якщо у Weblate тисячі складників."
 
 #: ../../admin/config.rst:221
 msgid "BASE_DIR"
@@ -5316,20 +5301,14 @@ msgid "DEFAULT_COMMITER_EMAIL"
 msgstr "DEFAULT_COMMITER_EMAIL"
 
 #: ../../admin/config.rst:531
-#, fuzzy
-#| msgid ""
-#| "Committer e-mail address for created translation components defaulting to "
-#| "``noreply@weblate.org``."
 msgid "Committer e-mail address defaulting to ``noreply@weblate.org``."
 msgstr ""
-"Адреса електронної пошти автора внеску для створених складників перекладу. "
-"Типове значення — ``noreply@weblate.org``."
+"Адреса електронної пошти автора внеску. Типове значення — ``noreply@weblate."
+"org``."
 
 #: ../../admin/config.rst:535
-#, fuzzy
-#| msgid "Configures :setting:`DEFAULT_COMMITER_NAME`."
 msgid ":setting:`DEFAULT_COMMITER_NAME`"
-msgstr "Налаштовує :setting:`DEFAULT_COMMITER_NAME`."
+msgstr ":setting:`DEFAULT_COMMITER_NAME`"
 
 #: ../../admin/config.rst:540
 msgid "DEFAULT_COMMITER_NAME"
@@ -17502,10 +17481,8 @@ msgstr ""
 "користуватися без інтеграції."
 
 #: ../../admin/support.rst:53
-#, fuzzy
-#| msgid "Weblate keys"
 msgid "Weblate discovery"
-msgstr "Ключі Weblate"
+msgstr "Виявлення Weblate"
 
 #: ../../admin/support.rst:59
 #, fuzzy
@@ -34783,10 +34760,8 @@ msgstr ""
 "sprintf>`_"
 
 #: ../../user/checks.rst:447
-#, fuzzy
-#| msgid "File format"
 msgid "Scheme format"
-msgstr "Формат файлу"
+msgstr "Формат схеми"
 
 #: ../../user/checks.rst:449
 #, fuzzy
