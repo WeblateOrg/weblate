@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-03-13 07:01+0100\n"
-"PO-Revision-Date: 2021-03-06 21:59+0000\n"
+"PO-Revision-Date: 2021-03-13 21:46+0000\n"
 "Last-Translator: Eric <spice2wolf@gmail.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "weblate/documentation/zh_Hans/>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 4.5.1\n"
+"X-Generator: Weblate 4.5.2-dev\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:185
@@ -1042,16 +1042,12 @@ msgid ""
 msgstr "使用机器翻译或其他组件自动翻译字符串。"
 
 #: ../../admin/addons.rst:26
-#, fuzzy
-#| msgid "Backup process triggered"
 msgid "It is triggered:"
-msgstr "已触发备份进程"
+msgstr "触发条件："
 
 #: ../../admin/addons.rst:28
-#, fuzzy
-#| msgid "Triggered automatically when new strings appear in a component."
 msgid "When new strings appear in a component."
-msgstr "当组件中出现新字符串时，会自动触发。"
+msgstr "当组件中出现新字符串时。"
 
 #: ../../admin/addons.rst:29
 msgid ""
@@ -4392,45 +4388,32 @@ msgid "Right now this controls:"
 msgstr ""
 
 #: ../../admin/config.rst:203
-#, fuzzy
-#| msgid ""
-#| "Auto-translate the newly added strings with :ref:`addon-weblate."
-#| "autotranslate.autotranslate`."
 msgid ":ref:`addon-weblate.autotranslate.autotranslate` addon"
-msgstr ""
-"用 :ref:`addon-weblate.autotranslate.autotranslate` 自动翻译新添加的字符串。"
+msgstr ":ref:`addon-weblate.autotranslate.autotranslate` 附加组件"
 
 #: ../../admin/config.rst:204
 msgid ":doc:`checks` recalculation"
 msgstr ""
 
 #: ../../admin/config.rst:206
-#, fuzzy
-#| msgid "Possible configuration"
 msgid "Possible choices:"
-msgstr "可能的设定"
+msgstr "可能的选项："
 
 #: ../../admin/config.rst:208
 msgid "``monthly`` (this is the default)"
 msgstr ""
 
 #: ../../admin/config.rst:209
-#, fuzzy
-#| msgid "``weblate``"
 msgid "``weekly``"
-msgstr "``weblate``"
+msgstr "``weekly``"
 
 #: ../../admin/config.rst:210
-#, fuzzy
-#| msgid "``read-only``"
 msgid "``daily``"
-msgstr "``read-only``"
+msgstr "``daily``"
 
 #: ../../admin/config.rst:211
-#, fuzzy
-#| msgid "``dev-docker``"
 msgid "``never``"
-msgstr "``dev-docker``"
+msgstr "``never``"
 
 #: ../../admin/config.rst:215
 msgid ""
@@ -4838,37 +4821,24 @@ msgid "DEFAULT_COMMITER_EMAIL"
 msgstr "DEFAULT_COMMITER_EMAIL"
 
 #: ../../admin/config.rst:531
-#, fuzzy
-#| msgid ""
-#| "Committer e-mail address for created translation components defaulting to "
-#| "``noreply@weblate.org``."
 msgid "Committer e-mail address defaulting to ``noreply@weblate.org``."
-msgstr ""
-"已创建的翻译组件的提交者电子邮件地址，默认为 ``noreply@weblate.org`` 。"
+msgstr "提交者电子邮件地址默认为 ``noreply@weblate.org`` 。"
 
 #: ../../admin/config.rst:535
-#, fuzzy
-#| msgid "Configures :setting:`DEFAULT_COMMITER_NAME`."
 msgid ":setting:`DEFAULT_COMMITER_NAME`"
-msgstr "配置 :setting:`DEFAULT_COMMITER_NAME`。"
+msgstr ":setting:`DEFAULT_COMMITER_NAME`"
 
 #: ../../admin/config.rst:540
 msgid "DEFAULT_COMMITER_NAME"
 msgstr "DEFAULT_COMMITER_NAME"
 
 #: ../../admin/config.rst:544
-#, fuzzy
-#| msgid ""
-#| "Committer name for created translation components defaulting to "
-#| "``Weblate``."
 msgid "Committer name defaulting to ``Weblate``."
-msgstr "建立翻译组件的执行者姓名默认为 ``Weblate`` 。"
+msgstr "提交者姓名默认为 ``Weblate`` 。"
 
 #: ../../admin/config.rst:548
-#, fuzzy
-#| msgid "Configures :setting:`DEFAULT_COMMITER_EMAIL`."
 msgid ":setting:`DEFAULT_COMMITER_EMAIL`"
-msgstr "配置 :setting:`DEFAULT_COMMITER_EMAIL`。"
+msgstr ":setting:`DEFAULT_COMMITER_EMAIL`"
 
 #: ../../admin/config.rst:553
 msgid "DEFAULT_LANGUAGE"
@@ -4911,10 +4881,8 @@ msgid ":ref:`component`, :ref:`component-merge_style`"
 msgstr ":ref:`component`, :ref:`component-merge_style`"
 
 #: ../../admin/config.rst:586
-#, fuzzy
-#| msgid "DEFAULT_MERGE_STYLE"
 msgid "DEFAULT_SHARED_TM"
-msgstr "DEFAULT_MERGE_STYLE"
+msgstr "DEFAULT_SHARED_TM"
 
 #: ../../admin/config.rst:590
 msgid ""
@@ -8712,18 +8680,13 @@ msgid "Set properly SECURE_HSTS_SECONDS"
 msgstr "适当设置 SECURE_HSTS_SECONDS"
 
 #: ../../admin/install.rst:829
-#, fuzzy
-#| msgid ""
-#| "If your site is served over SSL, you have to consider setting a value "
-#| "for :setting:`SECURE_HSTS_SECONDS` in the :file:`settings.py` to enable "
-#| "HTTP Strict Transport Security. By default it's set to 0 as shown below."
 msgid ""
 "If your site is served over SSL, you have to consider setting a value for :"
 "setting:`django:SECURE_HSTS_SECONDS` in the :file:`settings.py` to enable "
 "HTTP Strict Transport Security. By default it's set to 0 as shown below."
 msgstr ""
-"如果你的网站基于 SSL 上提供服务，那么必须考虑 :file:`settings.py` 中 :"
-"setting:`SECURE_HSTS_SECONDS` 的设置值，来允许 HTTP Strict Transport "
+"如果你的网站基于 SSL 上提供服务，那么必须考虑 :file:`settings.py` 中 "
+":setting:`django:SECURE_HSTS_SECONDS` 的设置值，来允许 HTTP Strict Transport "
 "Security （ HTTP 脚本传输安全）。默认设置为 0 ，如下所示。"
 
 #: ../../admin/install.rst:837
@@ -10357,10 +10320,8 @@ msgid "Configures :setting:`DEFAULT_COMMITER_NAME`."
 msgstr "配置 :setting:`DEFAULT_COMMITER_NAME`。"
 
 #: ../../admin/install/docker.rst:546
-#, fuzzy
-#| msgid "Configures :setting:`DEFAULT_AUTO_WATCH`."
 msgid "Configures :setting:`DEFAULT_SHARED_TM`."
-msgstr "配置 :setting:`DEFAULT_AUTO_WATCH`."
+msgstr "配置 :setting:`DEFAULT_SHARED_TM`."
 
 #: ../../admin/install/docker.rst:550
 msgid "Configures the Akismet API key, see :setting:`AKISMET_API_KEY`."
@@ -14493,10 +14454,8 @@ msgid ""
 msgstr "是否使用共享翻译记忆库，有关更多详细信息，请参见 :ref:`shared-tm`。"
 
 #: ../../admin/projects.rst:171 ../../admin/projects.rst:180
-#, fuzzy
-#| msgid "Default value can be changed by :setting:`DEFAULT_MERGE_STYLE`."
 msgid "Default value is determined by :setting:`DEFAULT_SHARED_TM`."
-msgstr "默认值可以由 :setting:`DEFAULT_MERGE_STYLE`更改。"
+msgstr "默认值取决于 :setting:`DEFAULT_SHARED_TM`。"
 
 #: ../../admin/projects.rst:176
 msgid "Contribute to shared translation memory"
@@ -15898,10 +15857,8 @@ msgid ":ref:`cloudbackup`"
 msgstr ":ref:`cloudbackup`"
 
 #: ../../admin/support.rst:44
-#, fuzzy
-#| msgid ":ref:`weblate-ssh-key`"
 msgid ":ref:`weblate-discovery`"
-msgstr ":ref:`weblate-ssh-key`"
+msgstr ":ref:`weblate-discovery`"
 
 #: ../../admin/support.rst:48
 msgid ""
@@ -15910,16 +15867,12 @@ msgid ""
 msgstr "购买的支持包在购买时已经激活，并且不必集成它们就可以使用。"
 
 #: ../../admin/support.rst:53
-#, fuzzy
-#| msgid "Weblate keys"
 msgid "Weblate discovery"
-msgstr "Weblate 密钥"
+msgstr "Weblate 发现"
 
 #: ../../admin/support.rst:59
-#, fuzzy
-#| msgid "Service is currently not available."
 msgid "This feature is currently in early beta."
-msgstr "服务当前不可用。"
+msgstr "该功能目前处于早期测试阶段。"
 
 #: ../../admin/support.rst:61
 msgid ""
@@ -17511,15 +17464,12 @@ msgid "Performs given operation on the VCS repository."
 msgstr "在版本控制系统（VCS）仓库上执行给定的操作。"
 
 #: ../../api.rst:865
-#, fuzzy
-#| msgid ""
-#| "Operation to perform: one of ``push``, ``pull``, ``commit``, ``reset``, "
-#| "``cleanup``"
 msgid ""
 "Operation to perform: one of ``push``, ``pull``, ``commit``, ``reset``, "
 "``cleanup``, ``file-sync``"
 msgstr ""
-"执行的操作： ``push``, ``pull``, ``commit``, ``reset``, ``cleanup``之一"
+"要执行的操作: one of ``push``, ``pull``, ``commit``, ``reset``, ``cleanup``, "
+"``file-sync``"
 
 #: ../../api.rst:866 ../../api.rst:1421 ../../api.rst:1884
 msgid "result of the operation"
@@ -17543,16 +17493,10 @@ msgstr ""
 "component)/`"
 
 #: ../../api.rst:920
-#, fuzzy
-#| msgid ""
-#| "The ``zipfile`` and ``docfile`` parameters are now accepted for VCS less "
-#| "components, see :ref:`vcs-local`."
 msgid ""
 "The ``zipfile`` and ``docfile`` parameters are now accepted for VCS-less "
 "components, see :ref:`vcs-local`."
-msgstr ""
-"现在对于没有版本控制系统（VCS）的组件接受参数 ``zipfile`` 和 ``docfile``，请"
-"参见 :ref:`vcs-local`。"
+msgstr "``zipfile`` 和 ``docfile`` 参数现在可被无 VCS 的组件所接受，见 :ref:`vcs-local`."
 
 #: ../../api.rst:922
 msgid "Creates translation components in the given project."
@@ -17596,16 +17540,12 @@ msgid ""
 msgstr ""
 
 #: ../../api.rst:944
-#, fuzzy
-#| msgid "**Form request example:**"
 msgid "**CURL form request example:**"
-msgstr "**表格请求示例：**"
+msgstr "**CURL表单请求示例:**"
 
 #: ../../api.rst:957
-#, fuzzy
-#| msgid "**JSON request example:**"
 msgid "**CURL JSON request example:**"
-msgstr "**JSON 请求的示例：**"
+msgstr "**CURL JSON 请求的示例：**"
 
 #: ../../api.rst:1052
 msgid "Returns paginated statistics for all languages within a project."
@@ -19067,42 +19007,32 @@ msgid "`RSS on wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 msgstr "`RSS on wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 
 #: ../../changes.rst:2
-#, fuzzy
-#| msgid "Weblate 4.5.1"
 msgid "Weblate 4.5.2"
-msgstr "Weblate 4.5.1"
+msgstr "Weblate 4.5.2"
 
 #: ../../changes.rst:4
 msgid "Not yet released."
 msgstr "尚未发布。"
 
 #: ../../changes.rst:6
-#, fuzzy
-#| msgid "Configurable options for adding new translations."
 msgid "Configurable schedule for automatic translation."
-msgstr "添加新翻译的可配置选项。"
+msgstr "可配置的自动翻译时间表。"
 
 #: ../../changes.rst:7
-#, fuzzy
-#| msgid "Added Perl format quality check."
 msgid "Added Lua format check."
-msgstr "添加了 Perl 格式质量检查。"
+msgstr "添加了 Lua 格式检查。"
 
 #: ../../changes.rst:8
 msgid "Ignore format strings in the :ref:`check-duplicate` check."
 msgstr ""
 
 #: ../../changes.rst:9
-#, fuzzy
-#| msgid "Add direct link to edit screenshot from translate page."
 msgid "Allow uploading screenshot from a translate page."
-msgstr "为编辑翻译页面的屏幕截图添加了直接链接。"
+msgstr "允许从翻译页面上传截图。"
 
 #: ../../changes.rst:10
-#, fuzzy
-#| msgid "Added support for notifications on repository operations."
 msgid "Added forced file synchronization to the repository maintenance."
-msgstr "为仓库操作的通知添加了支持。"
+msgstr "向存储库维护添加了强制文件同步。"
 
 #: ../../changes.rst:13
 msgid "Weblate 4.5.1"
@@ -25580,16 +25510,12 @@ msgid "*string*"
 msgstr "*字符串*"
 
 #: ../../contributing/schemas.rst:9
-#, fuzzy
-#| msgid "test"
 msgid "test.tmx"
-msgstr "检测"
+msgstr "test.tmx"
 
 #: ../../contributing/schemas.rst:9
-#, fuzzy
-#| msgid "Move component"
 msgid "project/component"
-msgstr "移动组件"
+msgstr "项目/组件"
 
 #: ../../contributing/schemas.rst:9
 msgid "**source**"
@@ -26049,37 +25975,23 @@ msgid "Starting contributing code to Weblate"
 msgstr "开始为 Weblate 贡献代码"
 
 #: ../../contributing/start.rst:4
-#, fuzzy
-#| msgid ""
-#| "To understand Weblate source code, please first look into :doc:`code`, :"
-#| "doc:`frontend` and :doc:`internals`."
 msgid ""
 "Understand the Weblate source code by going through :doc:`code`, :doc:"
 "`frontend` and :doc:`internals`."
-msgstr ""
-"为了理解 Weblate 源代码，请首先查看 :doc:`code`、:doc:`frontend` 和 :doc:"
-"`internals`。"
+msgstr "要理解 Weblate 源代码，请查看 :doc:`code`、 :doc:`frontend` 和 :doc:`internals`。"
 
 #: ../../contributing/start.rst:8
-#, fuzzy
-#| msgid "Starting with our codebase"
 msgid "Starting with the codebase"
-msgstr "用我们的代码库开始"
+msgstr "从代码库开始"
 
 #: ../../contributing/start.rst:10
-#, fuzzy
-#| msgid ""
-#| "If looking for some bugs to familiarize yourself with the Weblate "
-#| "codebase, look for ones labelled `good first issue <https://github.com/"
-#| "WeblateOrg/weblate/labels/good%20first%20issue>`_."
 msgid ""
 "Familiarize yourself with the Weblate codebase, by having a go at the bugs "
 "labelled `good first issue <https://github.com/WeblateOrg/weblate/labels/good"
 "%20first%20issue>`_."
 msgstr ""
-"如果查找一些缺陷来是自己熟悉 Weblate 代码库，那么请查看标记 `good first "
-"issue <https://github.com/WeblateOrg/weblate/labels/good%20first%20issue>`_ "
-"的那些。"
+"要让你自己熟悉 Weblate 代码库，那么请查看标记为 `good first issue <https://github.com/"
+"WeblateOrg/weblate/labels/good%20first%20issue>`_ 的那些 bug。"
 
 #: ../../contributing/start.rst:14
 msgid "Running Weblate locally"
@@ -26095,27 +26007,18 @@ msgstr ""
 "您一个带有可编辑的 Weblate 源代码的虚拟环境。"
 
 #: ../../contributing/start.rst:20
-#, fuzzy
-#| msgid "Clone Weblate source:"
 msgid "Clone the Weblate source code:"
 msgstr "复制 Weblate 源码："
 
 #: ../../contributing/start.rst:27
-#, fuzzy
-#| msgid "Create an virtualenv:"
 msgid "Create a virtualenv:"
-msgstr "创建一个虚拟环境（virtualenv）:"
+msgstr "创建一个虚拟环境："
 
 #: ../../contributing/start.rst:34
-#, fuzzy
-#| msgid ""
-#| "Install Weblate (this will need some system deps, see :doc:`../admin/"
-#| "install/source`):"
 msgid ""
 "Install Weblate (for this you need some system dependencies, see :doc:`../"
 "admin/install/source`):"
-msgstr ""
-"安装 Weblate（这需要一些系统依赖性，请参见 :doc:`../admin/install/source`）："
+msgstr "安装 Weblate（这需要一些系统依赖，见 :doc:`../admin/install/source`）："
 
 #: ../../contributing/start.rst:40
 msgid "Install all dependencies useful for development:"
@@ -26126,19 +26029,13 @@ msgid "Start a development server:"
 msgstr "启动一台开发服务器："
 
 #: ../../contributing/start.rst:52
-#, fuzzy
-#| msgid ""
-#| "Depending on your configuration you might also want to start Celery "
-#| "workers:"
 msgid ""
 "Depending on your configuration, you might also want to start Celery workers:"
-msgstr "依赖于配置，您会想要开始 Celery workers："
+msgstr "取决于配置，你也许想启动 Celery workers："
 
 #: ../../contributing/start.rst:58
-#, fuzzy
-#| msgid "To run test (see :ref:`local-tests` for more details):"
 msgid "To run a test (see :ref:`local-tests` for more details):"
-msgstr "运行测试 （更多细节请参见 :ref:`local-tests`）："
+msgstr "要运行测试 （更多细节见 :ref:`local-tests`）："
 
 #: ../../contributing/start.rst:67
 msgid ":doc:`../admin/install/source`"
@@ -26149,58 +26046,35 @@ msgid "Running Weblate locally in Docker"
 msgstr "在 Docker 中本地运行 Weblate"
 
 #: ../../contributing/start.rst:74
-#, fuzzy
-#| msgid ""
-#| "If you have Docker and docker-compose installed, you can spin up the "
-#| "development environment simply by running:"
 msgid ""
 "If you have Docker and docker-compose installed, you can spin up the "
 "development environment by simply running:"
-msgstr ""
-"如果安装了 Docker 和 docker-compose，您可以启动开发环境，只通过简单地运行："
+msgstr "如果你已经安装了 Docker 和 Docker -compose，你就可以启动开发环境，只需运行："
 
 #: ../../contributing/start.rst:81
-#, fuzzy
-#| msgid ""
-#| "It will create development Docker image and start it. Weblate is running "
-#| "on <http://127.0.0.1:8080/> and you can sign in with ``admin`` user and "
-#| "``admin`` password. The new installation is empty, so you might want to "
-#| "continue with :ref:`adding-projects`."
 msgid ""
 "It will create a development Docker image and start it. Weblate is running "
 "on <http://127.0.0.1:8080/> and you can sign in as the user ``admin`` using "
 "``admin`` as the password. The new installation is empty, so you might want "
 "to continue with :ref:`adding-projects`."
 msgstr ""
-"它将新建 Docker 影响并启动它。Weblate 运行在 <http://127.0.0.1:8080/> 上，并"
-"且您可以以 ``admin`` 用户和 ``admin`` 密码来登录。新的安装是空的，所以您会想"
-"要以 :ref:`adding-projects` 来继续。"
+"它将新建 Docker 影响并启动它。Weblate 运行在 <http://127.0.0.1:8080/> 上，并且你可以以 ``admin`` "
+"为用户名， ``admin`` 为密码来登录。新的安装是空的，所以您会想要以 :ref:`adding-projects` 来继续。"
 
 #: ../../contributing/start.rst:86
-#, fuzzy
-#| msgid ""
-#| "The :file:`Dockerfile` and :file:`docker-compose.yml` for this are "
-#| "located in :file:`dev-docker` directory."
 msgid ""
 "The :file:`Dockerfile` and :file:`docker-compose.yml` for this are located "
 "in the :file:`dev-docker` directory."
 msgstr ""
-"对此，:file:`Dockerfile` 和 :file:`docker-compose.yml` 位于本地的 :file:`dev-"
-"docker` 目录中。"
+"对此，:file:`Dockerfile` 和 :file:`docker-compose.yml` 位于本地的 :file:`dev-docker` "
+"目录中。"
 
 #: ../../contributing/start.rst:89
-#, fuzzy
-#| msgid ""
-#| "The script also accepts some parameters, to execute tests run it with "
-#| "``test`` parameter and then specify any :djadmin:`django:test` "
-#| "parameters, for example:"
 msgid ""
 "The script also accepts some parameters, to execute tests, run it with the "
 "``test`` parameter and then specify any :djadmin:`django:test` parameters, "
 "for example:"
-msgstr ""
-"脚本还接受一些参数，要执行测试，以 ``test`` 参数来运行，然后指定任何 :"
-"djadmin:`django:test` 参数，例如："
+msgstr "脚本还接受一些参数，要执行测试，以 ``test`` 参数来运行，然后指定任何 :djadmin:`django:test` 参数，例如："
 
 #: ../../contributing/start.rst:99
 msgid ""
@@ -26215,59 +26089,38 @@ msgid "To display the logs:"
 msgstr "展示日志："
 
 #: ../../contributing/start.rst:108
-#, fuzzy
-#| msgid "To stop the background containers run:"
 msgid "To stop the background containers, run:"
 msgstr "为了停止后台容器，运行："
 
 #: ../../contributing/start.rst:114
-#, fuzzy
-#| msgid ""
-#| "Running the script without args will recreate Docker container and "
-#| "restart it."
 msgid ""
 "Running the script without arguments will re-create the Docker container and "
 "restart it."
 msgstr "运行没有任何参数的脚本将重建 Docker 容器并重启动它。"
 
 #: ../../contributing/start.rst:118
-#, fuzzy
-#| msgid ""
-#| "This is not suitable setup for production, it includes several hacks "
-#| "which are insecure, but make development easier."
 msgid ""
 "This is not a suitable setup for production, as it includes several hacks "
 "which are insecure, but they make development easier."
-msgstr "这不是用于生产的合适设置，它包括几个不安全的破解，但使开发更容易。"
+msgstr "这不是用于生产的合适设置，因它包括几个不安全的小技巧，但它们会使开发更容易。"
 
 #: ../../contributing/start.rst:122
 msgid "Coding Weblate with PyCharm"
 msgstr "使用 PyCharm 为 Weblate 编写代码"
 
 #: ../../contributing/start.rst:124
-#, fuzzy
-#| msgid ""
-#| "PyCharm is a known IDE for Python, here's some guidelines to help you "
-#| "setup Weblate project in it."
 msgid ""
 "PyCharm is a known IDE for Python, here are some guidelines to help you set "
 "up your Weblate project in it."
-msgstr ""
-"PyCharm 是 Python 的著名 IDE，这里是一些指示，帮助您在其中设置 Weblate 项目。"
+msgstr "PyCharm 是 Python 的著名 IDE，这里有一些帮助你在其中建立你的 Weblate 项目的指南。"
 
 #: ../../contributing/start.rst:127
-#, fuzzy
-#| msgid ""
-#| "Considering you have just cloned the GitHub repository, just open the "
-#| "folder in which you cloned it in PyCharm. Once the IDE is open, the first "
-#| "step is to specify the interpreter you want:"
 msgid ""
 "Considering you have just cloned the GitHub repository to a folder, just "
 "open it with PyCharm. Once the IDE is open, the first step is to specify the "
 "interpreter you want to use:"
 msgstr ""
-"考虑刚刚克隆了 GitHub 仓库，只是在 PyCharm 中打开将其克隆进去的文件夹。一旦打"
-"开 IDE，第一步是指定想要的解释程序："
+"考虑到你刚刚将 GitHub 存储库复制到一个文件夹中，只需使用 PyCharm 打开它。一旦 IDE 打开，第一步要做的是指定你想要使用的解释器："
 
 #: ../../contributing/start.rst:133
 msgid ""
@@ -26277,101 +26130,62 @@ msgstr ""
 "可以或者选择让 PyCharm 为您创建 virtualenv（虚拟环境），或者选择已经存在的："
 
 #: ../../contributing/start.rst:138
-#, fuzzy
-#| msgid ""
-#| "Don't forget to install the dependencies once the interpreter is set: you "
-#| "can do it, either through the console (the console from the IDE will "
-#| "directly use your virtualenv by default), or through the interface when "
-#| "you get a warning about missing dependencies."
 msgid ""
 "Don't forget to install the dependencies once the interpreter is set: Either "
 "through the console (the console from the IDE will directly use your "
 "virtualenv by default), or through the interface when you get a warning "
 "about missing dependencies."
 msgstr ""
-"一旦设置了解释程序就不要忘记安装依赖性：可以通过控制台来进行（来自 IDE 的控制"
-"台将默认直接使用虚拟环境），或者在得到丢失依赖性的警告是通过界面来进行。"
+"一旦设置了解释程序不要忘记安装依赖：要么通过控制台(IDE的控制台默认情况下会直接使用你的 "
+"virtualenv)，或者当你得到一个关于缺少依赖项的警告时通过接口。"
 
 #: ../../contributing/start.rst:143
-#, fuzzy
-#| msgid ""
-#| "The second step is to set the right information to use natively Django "
-#| "inside PyCharm: the idea is to be able to immediately trigger the unit "
-#| "tests in the IDE. For that you need to specify the root path of the "
-#| "Django project and the path to its settings:"
 msgid ""
 "The second step is to set the right info to use Django natively inside "
 "PyCharm: The idea is to be able to immediately trigger the unit tests in the "
 "IDE. For that you need to specify the root path of the Django project and "
 "the path to its settings:"
 msgstr ""
-"第二步是设置正确的信息，在 PyCharm 内使用本地 Django：理念是能够立即触发 IDE "
-"中的单元测试。 为此，你需要指定该 Django 项目的根路径及其设置路径："
+"第二步是设置正确的信息来在 PyCharm 中原生使用 Django：理念是能够立即触发 IDE 中的单元测试。 为此，你需要指定该 Django "
+"项目的根路径及其设置路径："
 
 #: ../../contributing/start.rst:149
-#, fuzzy
-#| msgid ""
-#| "Be careful, the `Django project root` is the root of the repository, not "
-#| "the weblate sub-directory. About the settings, I personally use the "
-#| "`settings_test` from the repository, but you could create your own "
-#| "setting and set it there."
 msgid ""
 "Be careful, the `Django project root` is the actual root of the repository, "
 "not the Weblate sub-directory. About the settings, you could use the :file:"
 "`weblate/settings_test.py` from the repository, but you could create your "
 "own setting and set it there."
 msgstr ""
-"要小心，`Django project root`（Dejango 项目的根）是仓库的根，而不是 weblate "
-"子目录。关于设置，我个人使用来自仓库的`settings_test`，但您可以新建自己的设"
-"置，并在那里设置。"
+"要小心，`Django project root`（Dejango 项目的根）是代码库的实际根目录，而不是 Weblate 子目录。关于设置，"
+"你可以使用来自代码库的 :file:`weblate/settings_test.py`，你也可以创建自己的设置并在那里设置它。"
 
 #: ../../contributing/start.rst:153
-#, fuzzy
-#| msgid ""
-#| "Last step is to be able to run the server and to put breakpoints on the "
-#| "code to be able to debug it. This is done by creating a new `Django "
-#| "Server` configuration:"
 msgid ""
 "The last step is to run the server and to put breakpoints in the code to be "
 "able to debug it. This is done by creating a new `Django Server` "
 "configuration:"
-msgstr ""
-"最后一步是能够运行服务器，并将断点放置在代码中而能够调试它。这通过新建新的 "
-"`Django Server` 配置来完成："
+msgstr "最后一步是运行服务器，并将断点放置在代码中而能够调试它。这通过新建新的 `Django Server` 配置来完成："
 
 #: ../../contributing/start.rst:162
-#, fuzzy
-#| msgid ""
-#| "Be careful with the property called :guilabel:`No reload`: if you check "
-#| "it, the server live reloads won't happened when you modify files. This "
-#| "allows the existing debugger breakpoints to persist as these would be "
-#| "discarded on reload."
 msgid ""
 "Be careful with the property called :guilabel:`No reload`: It prevents the "
 "server from being reloaded live if you modify files. This allows the "
 "existing debugger breakpoints to persist, when they normally would be "
 "discarded upon reloading the server."
 msgstr ""
-"小心被称为 :guilabel:`No reload`的属性，如果勾选了，那么当修改文件时服务器的"
-"现场重载不会发生。这允许现有的调试断点被持续保留，因为它们将在重载时丢弃。"
+"小心被称为 :guilabel:`No "
+"reload`的属性：如果你修改文件，它会阻止服务器被实时重新加载。这允许保留现有的调试器断点，而它们通常会在重新加载服务器时被丢弃。"
 
 #: ../../contributing/start.rst:169
-#, fuzzy
-#| msgid "Bootstraping your devel instance"
 msgid "Bootstrapping your devel instance"
-msgstr "创立引得开发实例"
+msgstr "引导你的开发实例"
 
 #: ../../contributing/start.rst:171
-#, fuzzy
-#| msgid ""
-#| "You might want to use :djadmin:`import_demo` to create demo translations "
-#| "and :djadmin:`createadmin` to create admin user."
 msgid ""
 "You might want to use :djadmin:`import_demo` to create demo translations "
 "and :djadmin:`createadmin` to make an admin user."
 msgstr ""
-"您会想要使用 :djadmin:`import_demo` 来新建演示翻译，并且使用 :djadmin:"
-"`createadmin` 来创建管理用户。"
+"您会想要使用 :djadmin:`import_demo` 来新建演示翻译，并且使用 :djadmin:`createadmin` 来创建一名管理用户。"
 
 #: ../../contributing/tests.rst:2
 msgid "Weblate testsuite and continuous integration"
@@ -28293,17 +28107,13 @@ msgstr ""
 "推送到仓库。"
 
 #: ../../faq.rst:20
-#, fuzzy
-#| msgid ""
-#| "Turn on push-on-commit on your :ref:`project` in Weblate, this will make "
-#| "Weblate push changes to your repository whenever they happen at Weblate."
 msgid ""
 "Turn on :ref:`component-push_on_commit` on your :ref:`component` in Weblate, "
 "this will make Weblate push changes to your repository whenever they happen "
 "at Weblate."
 msgstr ""
-"在 Weblate 中打开 :ref:`project` 配置上的 push-on-commit，这将使 Weblate 在 "
-"Weblate 发生更改时将更改推送到仓库。"
+"在 Weblate 中打开 :ref:`compoent`上的 :ref:`component-push_on_commit`，这将使 Weblate "
+"在 Weblate 发生更改时将更改推送到仓库。"
 
 #: ../../faq.rst:26
 msgid ":ref:`continuous-translation`, :ref:`avoid-merge-conflicts`"
@@ -28888,8 +28698,6 @@ msgid "You can also use :ref:`vcs-git-helpers` in Git to access other VCSes."
 msgstr "还可以在 Git 中使用 :ref:`vcs-git-helpers` 来访问其它 VCSes。"
 
 #: ../../faq.rst:462
-#, fuzzy
-#| msgid "Weblate also supports VCS less operation, see :ref:`vcs-local`."
 msgid "Weblate also supports VCS-less operation, see :ref:`vcs-local`."
 msgstr "Weblate 还支持无 VCS 的操作，请参见 :ref:`vcs-local`。"
 
@@ -29462,10 +29270,8 @@ msgid "Translation states"
 msgstr "翻译状态"
 
 #: ../../formats.rst:270
-#, fuzzy
-#| msgid "Weblate ignored the state attribute prior to the 3.3 release."
 msgid "Weblate ignored the ``state`` attribute prior to the 3.3 release."
-msgstr "Weblate 忽略 3.3 发布版本之前的状态属性。"
+msgstr "3.3 版本前的 Weblate 忽略 ``state`` 属性。"
 
 #: ../../formats.rst:272
 msgid ""
@@ -30277,10 +30083,8 @@ msgid "`.NET resource file`"
 msgstr "`.NET 资源文件`"
 
 #: ../../formats.rst:1022
-#, fuzzy
-#| msgid ":doc:`tt:formats/ini`, :ref:`joomla`, :ref:`ini`"
 msgid ":doc:`tt:formats/resx`, :ref:`addon-weblate.cleanup.generic`"
-msgstr ":doc:`tt:formats/ini`, :ref:`joomla`, :ref:`ini`"
+msgstr ":doc:`tt:formats/resx`, :ref:`addon-weblate.cleanup.generic`"
 
 #: ../../formats.rst:1028
 msgid "CSV files"
@@ -30304,33 +30108,21 @@ msgstr ""
 "荐的方法，因为它最不容易出错。挑选 :guilabel:`CSV file` 作为一种文件格式。"
 
 #: ../../formats.rst:1043
-#, fuzzy
-#| msgid ""
-#| "Files with two fields—source and translation (in this order), choose :"
-#| "guilabel:`Simple CSV file` as a file format"
 msgid ""
 "Files with two fields—source and translation (in this order). Choose :"
 "guilabel:`Simple CSV file` as a file format."
-msgstr ""
-"具有两个字段的文件 —— 源和翻译（按此顺序），选择 :guilabel:`Simple CSV file` "
-"作为文件格式"
+msgstr "具有两个字段的文件 —— 源和翻译（按此顺序），选择 :guilabel:`Simple CSV file` 作为文件格式。"
 
 #: ../../formats.rst:1045
-#, fuzzy
-#| msgid ""
-#| "Headerless files with fields in order defined by the `translate-"
-#| "toolkit`_: ``location``, ``source``, ``target``, ``ID``, ``fuzzy``, "
-#| "``context``, ``translator_comments``, ``developer_comments`` Choose :"
-#| "guilabel:`CSV file` as a file format."
 msgid ""
 "Headerless files with fields in order defined by the `translate-toolkit`_: "
 "``location``, ``source``, ``target``, ``ID``, ``fuzzy``, ``context``, "
 "``translator_comments``, ``developer_comments``. Choose :guilabel:`CSV file` "
 "as a file format."
 msgstr ""
-"无标头文件字段顺序由 `translate-toolkit`_: ``location``、 ``source``、"
-"``target``、 ``ID``、 ``fuzzy``、 ``context``、``translator_comments``、 "
-"``developer_comments`` 所定义。选择 :guilabel:`CSV file` 作为一种文件格式。"
+"无标头文件字段顺序由 `translate-toolkit`_: ``location``、 ``source``、``target``、 ``ID``、"
+" ``fuzzy``、 ``context``、``translator_comments``、 ``developer_comments`` 所定义。"
+"选择 :guilabel:`CSV file` 作为一种文件格式。"
 
 #: ../../formats.rst:1048
 msgid ""
@@ -30727,18 +30519,13 @@ msgid "Change history"
 msgstr ""
 
 #: ../../../README.rst:6
-#, fuzzy
-#| msgid ""
-#| "**Weblate is a copylefted libre software web-based continuous "
-#| "localization system, used by over 1150 libre projects and companies in "
-#| "more than 115 countries.**"
 msgid ""
 "**Weblate is a copylefted libre software web-based continuous localization "
 "system, used by over 2500 libre projects and companies in more than 165 "
 "countries.**"
 msgstr ""
-"**Weblate 是 Copylefted 的自由软件，是一个基于 Web 的持续本地化系统，来自 "
-"115+ 国家的 1150+ 开源项目正在使用。**"
+"**Weblate 是 Copylefted 的自由软件，是一个基于 Web 的持续本地化系统，使用者包括来自 165+ 国家的 2500+ "
+"开源项目。**"
 
 #: ../../../README.rst:9
 msgid "Install it, or use the Hosted Weblate service at `weblate.org`_."
@@ -31720,26 +31507,20 @@ msgid ""
 msgstr ""
 
 #: ../../user/checks.rst:447
-#, fuzzy
-#| msgid "File format"
 msgid "Scheme format"
-msgstr "文件格式"
+msgstr "方案格式"
 
 #: ../../user/checks.rst:449
-#, fuzzy
-#| msgid "C format string does not match source"
 msgid "*Scheme format string does not match source*"
-msgstr "C 格式的字符串与源文不匹配"
+msgstr "*方案格式字符串不匹配源*"
 
 #: ../../user/checks.rst:452
 msgid "``There are ~d apples``"
 msgstr ""
 
 #: ../../user/checks.rst:454
-#, fuzzy
-#| msgid "File format"
 msgid "`scheme-format`"
-msgstr "文件格式"
+msgstr "`scheme-format`"
 
 #: ../../user/checks.rst:459
 msgid ""
@@ -32620,16 +32401,12 @@ msgid "iOS strings"
 msgstr "iOS 字符串"
 
 #: ../../user/files.rst:45
-#, fuzzy
-#| msgid ""
-#| "URL to file object; see :http:get:`/api/translations/(string:project)/"
-#| "(string:component)/(string:language)/file/`"
 msgid ""
 ":http:get:`/api/translations/(string:project)/(string:component)/(string:"
 "language)/file/`"
 msgstr ""
-"文件对象的 URL；请参见 :http:get:`/api/translations/(string:project)/(string:"
-"component)/(string:language)/file/`"
+":http:get:`/api/translations/"
+"(string:project)/(string:component)/(string:language)/file/`"
 
 #: ../../user/files.rst:50
 msgid "Uploading translations"
