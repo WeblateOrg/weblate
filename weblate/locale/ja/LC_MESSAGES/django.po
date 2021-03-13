@@ -24,7 +24,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.5.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-03-13 06:00+0000\n"
-"PO-Revision-Date: 2021-03-06 21:59+0000\n"
+"PO-Revision-Date: 2021-03-13 21:46+0000\n"
 "Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "application/ja/>\n"
@@ -33,7 +33,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 4.5.1\n"
+"X-Generator: Weblate 4.5.2-dev\n"
 
 #: weblate/accounts/avatar.py:103
 msgctxt "No known user"
@@ -67,10 +67,9 @@ msgid "Public e-mail"
 msgstr "公開メールアドレス"
 
 #: weblate/accounts/forms.py:284
-#, fuzzy, python-format
-#| msgid "Component lists"
+#, python-format
 msgid "Component list: %s"
-msgstr "複数のコンポーネント リスト"
+msgstr "コンポーネント リスト: %s"
 
 #: weblate/accounts/forms.py:310 weblate/accounts/forms.py:385
 #: weblate/accounts/templatetags/authnames.py:42 weblate/auth/models.py:322
@@ -2633,16 +2632,12 @@ msgid "Lua format string does not match source"
 msgstr "Lua 形式の文字列が原文と不一致"
 
 #: weblate/checks/format.py:469
-#, fuzzy
-#| msgid "File format"
 msgid "Scheme format"
-msgstr "ファイル形式"
+msgstr "Scheme 形式"
 
 #: weblate/checks/format.py:470
-#, fuzzy
-#| msgid "C format string does not match source"
 msgid "Scheme format string does not match source"
-msgstr "C 言語形式の文字列が原文と不一致"
+msgstr "Scheme 形式の文字列が原文と不一致"
 
 #: weblate/checks/format.py:483
 msgid "Python brace format"
@@ -5254,7 +5249,7 @@ msgstr "請求状況の確認"
 #: weblate/templates/translation.html:150
 #: weblate/templates/translation.html:196
 msgid "Browse"
-msgstr "閲覧"
+msgstr "表示"
 
 #: weblate/templates/browse.html:49
 msgid "No strings found!"
@@ -6366,16 +6361,12 @@ msgid "Cleanup"
 msgstr "クリーンアップ"
 
 #: weblate/templates/js/git-status.html:115
-#, fuzzy
-#| msgid "Reset all changes in the Weblate repository"
 msgid "Force writing all translations to the Weblate repository"
-msgstr "Weblate のリポジトリ内のすべての変更をリセットする"
+msgstr "すべての翻訳を Weblate リポジトリに強制的に書き込む"
 
 #: weblate/templates/js/git-status.html:115
-#, fuzzy
-#| msgid "Source information"
 msgid "Force synchronization"
-msgstr "原文の情報"
+msgstr "同期の強制"
 
 #: weblate/templates/js/git-status.html:129
 #, python-format
@@ -7103,42 +7094,32 @@ msgid "Support expiry"
 msgstr "サポートの有効期限"
 
 #: weblate/templates/manage/index.html:46
-#, fuzzy
-#| msgid "Weblate keys"
 msgid "Weblate discovery"
-msgstr "Weblate 暗号鍵"
+msgstr "Weblate の検出"
 
 #: weblate/templates/manage/index.html:48
-#, fuzzy
-#| msgid "Component discovery"
 msgid "Browse discovery"
-msgstr "コンポーネントの検出"
+msgstr "閲覧の確認"
 
 #: weblate/templates/manage/index.html:50
 msgid "Your Weblate is listed on weblate.org"
-msgstr ""
+msgstr "ご使用の Weblate は weblate.org に掲載済みです"
 
 #: weblate/templates/manage/index.html:52
-#, fuzzy
-#| msgid "disabled"
 msgid "Disable discovery"
-msgstr "無効"
+msgstr "検出の無効化"
 
 #: weblate/templates/manage/index.html:53
-#, fuzzy
-#| msgid "Manage your languages"
 msgid "Manage your listing"
-msgstr "お使いの言語の管理"
+msgstr "リストの管理"
 
 #: weblate/templates/manage/index.html:55
 msgid "Your Weblate is not listed on weblate.org"
-msgstr ""
+msgstr "ご使用の Weblate は weblate.org に未掲載です"
 
 #: weblate/templates/manage/index.html:57
-#, fuzzy
-#| msgid "Component discovery"
 msgid "Enable discovery"
-msgstr "コンポーネントの検出"
+msgstr "検出の有効化"
 
 #: weblate/templates/manage/index.html:65
 msgid "Manage support package"
@@ -8182,21 +8163,17 @@ msgid "Source in review"
 msgstr "査読中の原文"
 
 #: weblate/templates/snippets/unit-readonly-badge.html:6
-#, fuzzy
-#| msgid "Source strings in %s"
 msgid "Source string editing is disabled."
-msgstr "原文の文字列: %s"
+msgstr "原文の編集は無効です。"
 
 #: weblate/templates/snippets/unit-readonly-badge.html:8
 msgid ""
 "Source string cannot be edited, but you can delete it and add a new one."
-msgstr ""
+msgstr "原文の編集はできませんが、削除して新しい文字列の追加はできます。"
 
 #: weblate/templates/snippets/unit-readonly-badge.html:10
-#, fuzzy
-#| msgid "Source string changed"
 msgid "Source string cannot be edited."
-msgstr "原文の変更"
+msgstr "原文の編集はできません。"
 
 #: weblate/templates/snippets/unit-state.html:5
 #: weblate/trans/templatetags/translations.py:556 weblate/utils/state.py:31
@@ -9097,20 +9074,17 @@ msgid_plural "There are %(count)s variants of this string."
 msgstr[0] "この文字列には %(count)s 種類の異なる表記があります。"
 
 #: weblate/templates/translate.html:532
-#, fuzzy, python-format
-#| msgid "Browse all glossary changes"
+#, python-format
 msgid "Browse glossary %(name)s"
-msgstr "用語集の変更をすべて表示"
+msgstr "%(name)s 用語集の表示"
 
 #: weblate/templates/translate.html:554 weblate/templates/translate.html:564
 msgid "Add term to glossary"
 msgstr "用語集に用語を追加"
 
 #: weblate/templates/translate.html:583
-#, fuzzy
-#| msgid "Source information"
 msgid "String information"
-msgstr "原文の情報"
+msgstr "文字列情報"
 
 #: weblate/templates/translate.html:595
 msgid "No screenshot currently associated."
@@ -9159,16 +9133,13 @@ msgid "string %(position)s"
 msgstr "%(position)s 番目の文字列"
 
 #: weblate/templates/translate.html:696
-#, fuzzy
-#| msgid "Browse pending"
 msgid "pending"
-msgstr "保留中のものを表示"
+msgstr "保留中"
 
 #: weblate/templates/translate.html:742
-#, fuzzy, python-format
-#| msgid "Add variant of this string"
+#, python-format
 msgid "Add a new variant for \"%(existing)s\""
-msgstr "この文字列の異なる表記の追加"
+msgstr "\"%(existing)s\" の異なる表記の追加"
 
 #: weblate/templates/translation.html:56
 msgid "Download translation"
@@ -11128,10 +11099,8 @@ msgid "Key"
 msgstr "キー"
 
 #: weblate/trans/models/component.py:3073
-#, fuzzy
-#| msgid "Forbidden glossary term"
 msgid "Add new glossary term"
-msgstr "用語集の使用禁止"
+msgstr "用語集の新しい用語の追加"
 
 #: weblate/trans/models/component.py:3074
 msgid "Add new translation string"
@@ -11302,34 +11271,28 @@ msgstr "この文字列はすでに存在しています。"
 #: weblate/trans/models/translation.py:1268
 #: weblate/trans/models/translation.py:1272
 #: weblate/trans/models/translation.py:1287
-#, fuzzy, python-format
-#| msgid "Pending string"
+#, python-format
 msgid "Failed adding string: %s"
-msgstr "採用待ちの文字列"
+msgstr "追加に失敗した文字列: %s"
 
 #: weblate/trans/models/translation.py:1247
-#, fuzzy
-#| msgid "No matching translations found!"
 msgid "No translation found."
-msgstr "該当する翻訳は見つかりませんでした！"
+msgstr "翻訳が見つかりません。"
 
 #: weblate/trans/models/translation.py:1272
 #: weblate/trans/models/translation.py:1287
-#, fuzzy
-#| msgid "Failed to parse query string: {}"
 msgid "Failed to parse new string"
-msgstr "解析に失敗したクエリ文字列: {}"
+msgstr "解析に失敗した新しい文字列"
 
 #: weblate/trans/models/translation.py:1295
 #, python-format
 msgid "Context would created as \"%s\""
-msgstr ""
+msgstr "コンテキストを \"%s\" として作成"
 
 #: weblate/trans/models/translation.py:1299
-#, fuzzy, python-format
-#| msgid "Following components would be created"
+#, python-format
 msgid "Source would be created as %s"
-msgstr "以下のコンポーネントが作成されます"
+msgstr "ソースを %s として作成"
 
 #: weblate/trans/models/unit.py:315
 msgid "Additional explanation to clarify meaning or usage of the string."
@@ -11983,10 +11946,8 @@ msgid "All repositories have been cleaned up."
 msgstr "すべてのリポジトリをクリーンアップしました。"
 
 #: weblate/trans/views/git.py:103
-#, fuzzy
-#| msgid "Translation has been removed."
 msgid "Translation files have been synchronized."
-msgstr "翻訳を削除しました。"
+msgstr "翻訳ファイルが同期されました。"
 
 #: weblate/trans/views/js.py:56
 msgid "Service is currently not available."
