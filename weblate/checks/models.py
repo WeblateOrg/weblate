@@ -17,11 +17,9 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-
 import json
 
 from appconf import AppConf
-from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
 from django.db.models import Q
 from django.db.models.signals import post_delete, post_save
@@ -208,17 +206,6 @@ def remove_complimentary_checks(sender, instance, **kwargs):
         for other in unit.same_source_units:
             other.translation.invalidate_cache()
             other.clear_checks_cache()
-
-    # Update source checks if needed
-    if check_obj.target:
-        source_unit = unit.source_unit
-        if unit.is_batch_update:
-            unit.translation.component.updated_sources[source_unit.id] = source_unit
-        else:
-            try:
-                source_unit.run_checks()
-            except ObjectDoesNotExist:
-                pass
 
 
 def get_display_checks(unit):
