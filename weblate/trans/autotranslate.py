@@ -31,6 +31,7 @@ class AutoTranslate:
     def __init__(self, user, translation, filter_type, mode):
         self.user = user
         self.translation = translation
+        translation.component.batch_checks = True
         self.filter_type = filter_type
         self.mode = mode
         self.updated = 0
@@ -57,6 +58,7 @@ class AutoTranslate:
         if self.mode == "suggest" or len(target) > unit.get_max_length():
             Suggestion.objects.add(unit, target, None, False)
         else:
+            unit.is_batch_update = True
             unit.translate(
                 self.user, target, state, Change.ACTION_AUTO, propagate=False
             )
@@ -64,6 +66,8 @@ class AutoTranslate:
 
     def post_process(self):
         if self.updated > 0:
+            self.translation.component.update_source_checks()
+            self.translation.component.run_batched_checks()
             self.translation.invalidate_cache()
             if self.user:
                 self.user.profile.increase_count("translated", self.updated)
