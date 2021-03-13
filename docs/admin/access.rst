@@ -12,7 +12,7 @@ Simple access control
 ---------------------
 
 If you are not administrating the whole Weblate installation and just have
-some access to manage certain projects (like on Hosted Weblate Service),
+some access to manage certain projects (like on Hosted Weblate),
 your access control management options will be limited to following settings.
 If you don't need any complex setup, those could be sufficient for you as well.
 
@@ -35,15 +35,15 @@ Private
 Custom
     :ref:`User management <manage-acl>` features will be disabled; by
     default all users will be forbidden to performed any actions on the project.
-    You will have to setup all the permissions using :ref:`custom-acl`.
+    You will have to set up all the permissions using :ref:`custom-acl`.
 
-:guilabel:`Access control` can be changed on the :guilabel:`Access` tab in the
+:guilabel:`Access control` can be changed in the :guilabel:`Access` tab of the
 configuration (:guilabel:`Manage` ↓ :guilabel:`Settings`) of each respective
 project.
 
 .. image:: /images/project-access.png
 
-Default value can be changed by :setting:`DEFAULT_ACCESS_CONTROL`.
+The default value can be changed by :setting:`DEFAULT_ACCESS_CONTROL`.
 
 .. note::
 
@@ -91,7 +91,7 @@ Translate
     Can translate the project, and upload translations made offline.
 
 Sources
-    Can edit source strings (if allowed in settings) and source string info.
+    Can edit source strings (if allowed in the settings) and source string info.
 
 Languages
     Can manage translated languages (add or remove translations).
@@ -114,14 +114,14 @@ Billing
 
 Unfortunately, as for now it's not possible to change this predefined set of
 groups. Also this way it's not possible to give just some additional permissions
-to all the users.
+to all users.
 
 .. note::
 
     For non-`Custom` access control an instance of each group described above is
     actulally defined for each project. The actual name of those groups will be
     ``Project@Group``. They will be displayed in the Django admin interface.
-    Although they can't be edited via it.
+    Although they can't be edited from there.
 
 .. image:: /images/manage-users.png
 
@@ -131,9 +131,9 @@ accessed from the project's menu :guilabel:`Manage` ↓ :guilabel:`Users`.
 New user invitation
 ^^^^^^^^^^^^^^^^^^^
 
-Also besides adding an existing user to the project it is possible to invite a
-new one. The new user will be created immediately, but his or her account will
-be inactive till signing in with a link in the invitation e-mail. It is not
+Also, besides adding an existing user to the project, it is possible to invite
+new ones. Any new user will be created immediately, but the account will
+remain inactive till signing in with a link in the invitation sent via e-mail. It is not
 required to have any site-wide privileges in order to do so, access management
 permission on the project's scope (e.g. a membership in the `Administration`
 group) would be sufficient.
@@ -156,7 +156,7 @@ Custom access control
 .. versionchanged:: 3.0
 
     Before Weblate 3.0, the privilege system was based on Django, but is now
-    specifically built for Weblate. If you are using anything older, please consult
+    specifically built for Weblate. If using anything older, please consult
     the documentation for the specific version you are using.
 
 The permission system is based on groups and roles, where roles define a set of
@@ -171,19 +171,19 @@ you must have superuser privileges in order to use it.
 
 If you are not interested in details of implementation and just want to create a
 simple-enough configuration based on defaults or don't have a site-wide access
-to whole Weblate installation (e.g. on Hosted Weblate Service), please refer to the
+to the whole Weblate installation (e.g. on Hosted Weblate Service), please refer to the
 :ref:`access-simple` section.
 
 Common setups
 +++++++++++++
 
-This section contains overview of some common configurations you may be
+This section contains an overview of some common configurations you may be
 interested in.
 
-Site wide permission management
+Site-wide permission management
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-To manage permissions for a whole instance at once, you may just add users to
+To manage permissions for a whole instance at once, add users to
 appropriate :ref:`default groups <default-groups>`:
 
 * `Users` (this is done by default by
@@ -206,16 +206,16 @@ keep managing your permissions site-wide for these groups too, choose an
 appropriate value for the :guilabel:`Project selection` (e.g.
 :guilabel:`All projects` or :guilabel:`All public projects`).
 
-Per project permission management
+Per-project permission management
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 If you want, you still may set your projects to `Protected` or `Private`, and
 :ref:`manage users <manage-acl>` per-project in the Weblate interface.
 
-By default this actually just prevents Weblate from granting access provided by
+By default this just prevents Weblate from granting access provided by
 `Users` and `Viewers` :ref:`default groups <default-groups>` due to thees groups
 own configuration. This doesn't prevent you from granting permissions to those
-projects site-wide by altering default groups or creating new one, or creating
+projects site-wide by altering default groups or creating a new one, or creating
 additional custom settings for individual component as described bellow.
 
 One of the main benefits of managing the permissions through the Weblate
@@ -227,7 +227,7 @@ Custom permissions for languages, components or projects
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 You can create your own dedicated groups to manage permissions for distinct
-objects such as languages, components and projects. Although this groups can
+objects such as languages, components and projects. Although these groups can
 only grant additional privileges, you are not able to revoke any permission
 granted by site-wide or per-project groups by adding a yet another custom group.
 
@@ -308,7 +308,7 @@ The authentication models consist of several objects:
 .. note::
 
   A group can have no roles assigned to it, in that case access to browse the
-  project is assumed (see bellow).
+  project by anyone is assumed (see below).
 
 Access for browse to a project
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -322,9 +322,9 @@ Access for browse to a component
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 A user can access unrestricted components once able to access the components'
-project (and will have all the permissions he or she was granted for the
+project (and will have all the permissions the user was granted for the
 project). With :ref:`component-restricted` turned on, access to the component
-requires explicit permissions for the component (or a component list it is in).
+requires explicit permissions for the component (or a component list the component is in).
 
 .. _perm-check:
 
@@ -335,7 +335,7 @@ The scope of the permission assigned by the roles in the groups are applied by
 the following rules:
 
 - If the group specifies any :guilabel:`Component list` all the permissions given to
-  the members of that group are granted for all the components in the component
+  members of that group are granted for all the components in the component
   lists attached to the group and an access with no additional permissions is
   granted for all the projects these components are in. :guilabel:`Components`
   and :guilabel:`Projects` are ignored.
@@ -345,13 +345,13 @@ the following rules:
   group and an access with no additional permissions is granted for all the
   projects these components are in. :guilabel:`Projects` are ignored.
 
-- Otherwise if the group specifies any :guilabel:`Projects` either by directly
-  listing them or by :guilabel:`Selected projects` set to a value like `All
-  public`, all the permissions are applied to all the projects, which
-  effectively grants the same permissions to access all the projects'
+- Otherwise, if the group specifies any :guilabel:`Projects` either by directly
+  listing them or by having :guilabel:`Selected projects` set to a value like `All
+  public`, all those permissions are applied to all the projects, which
+  effectively grants the same permissions to access all projects'
   :ref:`unrestricted components <component-restricted>`.
 
-- The restrictions imposed by group's :guilabel:`Languages` are applied later,
+- The restrictions imposed by a group's :guilabel:`Languages` are applied later,
   when the access to perform certain action is checked, and it only affects just
   some translation-related permissions.
 
@@ -362,7 +362,7 @@ the following rules:
 
 **Example:**
 
-  Let's say there is a project ``foo`` with two component: ``foo/bar`` and
+  Let's say there is a project ``foo`` with the components: ``foo/bar`` and
   ``foo/baz`` and the next group:
 
   .. list-table:: Group `Spanish Admin-Reviewers`
@@ -379,9 +379,9 @@ the following rules:
 
   Members of that group will have next permissions (assuming the default role settings):
 
-    - General access (for browsing) to the whole project ``foo`` including both
+    - General (browsing) access to the whole project ``foo`` including both
       its subcomponents: ``foo/bar`` and ``foo/baz``.
-    - Review strings in ``foo/bar`` Spanish translation (and only it).
+    -  Review strings in ``foo/bar`` Spanish translation (not elsewhere).
     - Manage VCS for the whole ``foo/bar`` repository e.g. commit pending
       changes made by translators for all languages.
 
@@ -390,23 +390,23 @@ the following rules:
 Automatic group assignments
 +++++++++++++++++++++++++++
 
-On the bottom of :guilabel:`Group` editing page in the
+On the bottom of the :guilabel:`Group` editing page in the
 :ref:`Django admin interface <admin-interface>` you can specify
 :guilabel:`Automatic group assignments`, which is a list of regular expressions
-used to automatically assign newly created users to the group based on their
+used to automatically assign newly created users to a group based on their
 e-mail addresses. This assignment only happens upon account creation.
 
-The most common use case for the feature is to assign all new users to some
+The most common use-case for the feature is to assign all new users to some
 default group. In order to do so you will probably want to keep the default
-value (``^.*$``) for the regexp. Another use case for this option might be to
+value (``^.*$``) for the regular expression field. Another use-case for this option might be to
 give some additional privileges to employees of your company by default.
-Assuming all of them use corporative e-mail addresses on your domain, this can
-be accomplished with an expression like ``^.*@mycompony.com``.
+Assuming all of them use corporate e-mail addresses on your domain, this can
+be accomplished with an expression like ``^.*@mycompany.com``.
 
 .. note::
 
     Automatic group assignment to `Users` and `Viewers` is always recreated
-    during migrations. If you want to turn it off, set the regular expression to
+    when upgrading from one Weblate version to another. If you want to turn it off, set the regular expression to
     ``^$`` (which won't match anything).
 
 .. note::
@@ -619,10 +619,10 @@ Additional access restrictions
 ------------------------------
 
 If you want to use your Weblate installation in a less public manner i.e. allow
-new users on invitation basis only. You can configure the Weblate in a such way
-that only known users will have any access to it. In order to do so you can set
+new users on invitatational basis only, it can be done by configuring Weblate in a such way
+that only known users have any access to it. In order to do so you can set
 :setting:`REGISTRATION_OPEN` to ``False`` to prevent registrations of any new
-users and set :setting:`REQUIRE_LOGIN` to ``/.*`` to require sign in to access
+users and set :setting:`REQUIRE_LOGIN` to ``/.*`` to require logging in to access
 all the site pages.
 
 .. hint::
