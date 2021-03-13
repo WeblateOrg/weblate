@@ -1020,7 +1020,7 @@ syntax to .resx <https://lingohub.com/developers/resource-files/resw-resx-locali
 .. seealso::
 
     :doc:`tt:formats/resx`,
-    :ref:`addon-weblate.cleanup.generic`,
+    :ref:`addon-weblate.cleanup.generic`
 
 .. _csv:
 
@@ -1040,10 +1040,10 @@ the following files:
   ``ID``, ``fuzzy``, ``context``, ``translator_comments``,
   ``developer_comments``). This is the recommended approach, as it is the least
   error prone. Choose :guilabel:`CSV file` as a file format.
-* Files with two fields—source and translation (in this order), choose
-  :guilabel:`Simple CSV file` as a file format
+* Files with two fields—source and translation (in this order). Choose
+  :guilabel:`Simple CSV file` as a file format.
 * Headerless files with fields in order defined by the `translate-toolkit`_: ``location``, ``source``,
-  ``target``, ``ID``, ``fuzzy``, ``context``, ``translator_comments``, ``developer_comments``
+  ``target``, ``ID``, ``fuzzy``, ``context``, ``translator_comments``, ``developer_comments``.
   Choose :guilabel:`CSV file` as a file format.
 * Remember to define :ref:`component-template` when your files are monolingual
   (see :ref:`bimono`).
