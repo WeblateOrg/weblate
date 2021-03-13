@@ -27,8 +27,8 @@ msgstr ""
 "Project-Id-Version: Weblate 4.5.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-03-13 06:00+0000\n"
-"PO-Revision-Date: 2021-03-08 13:16+0000\n"
-"Last-Translator: WaldiS <sto@tutanota.de>\n"
+"PO-Revision-Date: 2021-03-13 09:19+0000\n"
+"Last-Translator: tomkolp <tomkolp@gmail.com>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/weblate/"
 "application/pl/>\n"
 "Language: pl\n"
@@ -37,7 +37,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 4.5.1\n"
+"X-Generator: Weblate 4.5.2-dev\n"
 
 #: weblate/accounts/avatar.py:103
 msgctxt "No known user"
@@ -71,10 +71,9 @@ msgid "Public e-mail"
 msgstr "Publiczny adres e-mail"
 
 #: weblate/accounts/forms.py:284
-#, fuzzy, python-format
-#| msgid "Component lists"
+#, python-format
 msgid "Component list: %s"
-msgstr "Listy komponentów"
+msgstr "Lista komponentów: %s"
 
 #: weblate/accounts/forms.py:310 weblate/accounts/forms.py:385
 #: weblate/accounts/templatetags/authnames.py:42 weblate/auth/models.py:322
@@ -2680,16 +2679,12 @@ msgid "Lua format string does not match source"
 msgstr "Tekst w formacie Lua nie pasuje do źródła"
 
 #: weblate/checks/format.py:469
-#, fuzzy
-#| msgid "File format"
 msgid "Scheme format"
-msgstr "Format pliku"
+msgstr "Format Scheme"
 
 #: weblate/checks/format.py:470
-#, fuzzy
-#| msgid "C format string does not match source"
 msgid "Scheme format string does not match source"
-msgstr "Tekst w formacie C nie pasuje do źródła"
+msgstr "Tekst w formacie Scheme nie pasuje do źródła"
 
 #: weblate/checks/format.py:483
 msgid "Python brace format"
@@ -6469,16 +6464,12 @@ msgid "Cleanup"
 msgstr "Oczyszczanie"
 
 #: weblate/templates/js/git-status.html:115
-#, fuzzy
-#| msgid "Reset all changes in the Weblate repository"
 msgid "Force writing all translations to the Weblate repository"
-msgstr "Zresetuj wszystkie zmiany w repozytorium Weblate"
+msgstr "Wymuś zapisywanie wszystkich tłumaczeń do repozytorium Weblate"
 
 #: weblate/templates/js/git-status.html:115
-#, fuzzy
-#| msgid "Source information"
 msgid "Force synchronization"
-msgstr "Informacje o źródle"
+msgstr "Wymuś synchronizację"
 
 #: weblate/templates/js/git-status.html:129
 #, python-format
@@ -8326,21 +8317,17 @@ msgid "Source in review"
 msgstr "Źródło w przeglądzie"
 
 #: weblate/templates/snippets/unit-readonly-badge.html:6
-#, fuzzy
-#| msgid "Source strings in %s"
 msgid "Source string editing is disabled."
-msgstr "Źródłowe ciągi znaków w %s"
+msgstr "Edycja ciągów źródłowych jest wyłączona."
 
 #: weblate/templates/snippets/unit-readonly-badge.html:8
 msgid ""
 "Source string cannot be edited, but you can delete it and add a new one."
-msgstr ""
+msgstr "Nie można edytować ciągu źródłowego, ale można go usunąć i dodać nowy."
 
 #: weblate/templates/snippets/unit-readonly-badge.html:10
-#, fuzzy
-#| msgid "Source string changed"
 msgid "Source string cannot be edited."
-msgstr "Tekst źródłowy został zmieniony"
+msgstr "Nie można edytować ciągu źródłowego."
 
 #: weblate/templates/snippets/unit-state.html:5
 #: weblate/trans/templatetags/translations.py:556 weblate/utils/state.py:31
@@ -9260,10 +9247,9 @@ msgstr[1] "Istnieją %(count)s warianty dla tego łańcucha."
 msgstr[2] "Istnieje %(count)s wariantów dla tego łańcucha."
 
 #: weblate/templates/translate.html:532
-#, fuzzy, python-format
-#| msgid "Browse all glossary changes"
+#, python-format
 msgid "Browse glossary %(name)s"
-msgstr "Przeglądaj wszystkie zmiany słownika"
+msgstr "Przeglądaj słownik %(name)s"
 
 #: weblate/templates/translate.html:554 weblate/templates/translate.html:564
 msgid "Add term to glossary"
@@ -9322,16 +9308,13 @@ msgid "string %(position)s"
 msgstr "ciąg %(position)s"
 
 #: weblate/templates/translate.html:696
-#, fuzzy
-#| msgid "Browse pending"
 msgid "pending"
-msgstr "Przeglądaj oczekujące"
+msgstr "oczekujące"
 
 #: weblate/templates/translate.html:742
-#, fuzzy, python-format
-#| msgid "Add variant of this string"
+#, python-format
 msgid "Add a new variant for \"%(existing)s\""
-msgstr "Dodaj wariant tego ciągu"
+msgstr "Dodaj nowy wariant dla \"%(existing)s\""
 
 #: weblate/templates/translation.html:56
 msgid "Download translation"
@@ -11339,10 +11322,8 @@ msgid "Key"
 msgstr "Klucze"
 
 #: weblate/trans/models/component.py:3073
-#, fuzzy
-#| msgid "Forbidden glossary term"
 msgid "Add new glossary term"
-msgstr "Zakazany termin ze słownika"
+msgstr "Dodaj nowy termin do słownika"
 
 #: weblate/trans/models/component.py:3074
 msgid "Add new translation string"
@@ -11517,34 +11498,28 @@ msgstr "Wydaje się, że ten ciąg już istnieje."
 #: weblate/trans/models/translation.py:1268
 #: weblate/trans/models/translation.py:1272
 #: weblate/trans/models/translation.py:1287
-#, fuzzy, python-format
-#| msgid "Pending string"
+#, python-format
 msgid "Failed adding string: %s"
-msgstr "Oczekujący ciąg"
+msgstr "Nie udało się dodać ciągu: %s"
 
 #: weblate/trans/models/translation.py:1247
-#, fuzzy
-#| msgid "No matching translations found!"
 msgid "No translation found."
-msgstr "Nie znaleziono pasujących tłumaczeń!"
+msgstr "Nie znaleziono tłumaczenia."
 
 #: weblate/trans/models/translation.py:1272
 #: weblate/trans/models/translation.py:1287
-#, fuzzy
-#| msgid "Failed to parse query string: {}"
 msgid "Failed to parse new string"
-msgstr "Nie udało się przetworzyć łańcucha zapytania: {}"
+msgstr "Nie można przeanalizować nowego ciągu"
 
 #: weblate/trans/models/translation.py:1295
 #, python-format
 msgid "Context would created as \"%s\""
-msgstr ""
+msgstr "Kontekst zostałby utworzony jako \"%s\""
 
 #: weblate/trans/models/translation.py:1299
-#, fuzzy, python-format
-#| msgid "Following components would be created"
+#, python-format
 msgid "Source would be created as %s"
-msgstr "Powstaną następujące komponenty"
+msgstr "Źródło zostałoby utworzone jako %s"
 
 #: weblate/trans/models/unit.py:315
 msgid "Additional explanation to clarify meaning or usage of the string."
@@ -12241,10 +12216,8 @@ msgid "All repositories have been cleaned up."
 msgstr "Wszystkie repozytoria zostały wyczyszczone."
 
 #: weblate/trans/views/git.py:103
-#, fuzzy
-#| msgid "Translation has been removed."
 msgid "Translation files have been synchronized."
-msgstr "Usunięto tłumaczenie."
+msgstr "Pliki tłumaczeń zostały zsynchronizowane."
 
 #: weblate/trans/views/js.py:56
 msgid "Service is currently not available."
