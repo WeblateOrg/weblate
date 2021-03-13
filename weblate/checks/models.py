@@ -22,12 +22,9 @@ import json
 from appconf import AppConf
 from django.db import models
 from django.db.models import Q
-from django.db.models.signals import post_delete
-from django.dispatch import receiver
 from django.utils.functional import cached_property
 
 from weblate.utils.classloader import ClassLoader
-from weblate.utils.decorators import disable_for_loaddata
 
 
 class ChecksLoader(ClassLoader):
@@ -179,26 +176,6 @@ class Check(models.Model):
         self.dismissed = state
         self.save(update_fields=["dismissed"])
         self.unit.translation.invalidate_cache()
-
-
-@receiver(post_delete, sender=Check)
-@disable_for_loaddata
-def remove_complimentary_checks(sender, instance, **kwargs):
-    """Remove propagate checks from all units."""
-    unit = instance.unit
-    unit.translation.invalidate_cache()
-    check_obj = instance.check_obj
-    if not check_obj:
-        return
-
-    # Handle propagating checks - remove on other units
-    if check_obj.propagates:
-        Check.objects.filter(
-            unit__in=unit.same_source_units, check=instance.check
-        ).delete()
-        for other in unit.same_source_units:
-            other.translation.invalidate_cache()
-            other.clear_checks_cache()
 
 
 def get_display_checks(unit):

@@ -1021,7 +1021,7 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
             if not comment.resolved and comment.unit_id == self.id
         ]
 
-    def run_checks(self, propagate: Optional[bool] = None):
+    def run_checks(self, propagate: Optional[bool] = None):  # noqa: C901
         """Update checks for this unit."""
         needs_propagate = bool(propagate)
 
@@ -1084,6 +1084,16 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
         # Delete no longer failing checks
         if old_checks:
             Check.objects.filter(unit=self, check__in=old_checks).delete()
+            propagated_old_checks = [
+                name for name in old_checks if CHECKS[name].propagates
+            ]
+            if propagated_old_checks:
+                Check.objects.filter(
+                    unit__in=self.same_source_units, check__in=propagated_old_checks
+                ).delete()
+                for other in self.same_source_units:
+                    other.translation.invalidate_cache()
+                    other.clear_checks_cache()
 
         # Trigger source checks on target check update (multiple failing checks)
         if (create or old_checks) and not self.is_source:
