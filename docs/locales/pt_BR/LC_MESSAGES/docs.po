@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-03-13 07:01+0100\n"
-"PO-Revision-Date: 2021-03-13 06:00+0000\n"
+"PO-Revision-Date: 2021-03-13 21:46+0000\n"
 "Last-Translator: Rafael Fontenelle <rafaelff@gnome.org>\n"
 "Language-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/"
 "weblate/documentation/pt_BR/>\n"
@@ -3023,16 +3023,12 @@ msgstr ""
 "backup e você deve copiá-lo e mantê-lo em um lugar seguro."
 
 #: ../../admin/backup.rst:37
-#, fuzzy
-#| msgid ""
-#| "In case you are using :ref:`cloudbackup`, please backup your private SSH "
-#| "key as well — it is used to access your backups."
 msgid ""
 "If you are using :ref:`cloudbackup`, please backup your private SSH key too, "
 "as it’s used to access your backups."
 msgstr ""
-"No caso de você estar usando :ref:`cloudbackup`, faça backup da sua chave "
-"SSH privada também — ela é usada para acessar seus backups."
+"Se você estiver usando :ref:`cloudbackup`, faça backup da sua chave SSH "
+"privada também, pois ela é usada para acessar seus backups."
 
 #: ../../admin/backup.rst:42
 msgid ":doc:`borg:usage/init`"
@@ -16579,16 +16575,12 @@ msgstr ""
 "podem ser usados sem integrá-los."
 
 #: ../../admin/support.rst:53
-#, fuzzy
-#| msgid "Weblate keys"
 msgid "Weblate discovery"
-msgstr "Chaves do Weblate"
+msgstr "Descoberta de Weblate"
 
 #: ../../admin/support.rst:59
-#, fuzzy
-#| msgid "Service is currently not available."
 msgid "This feature is currently in early beta."
-msgstr "O serviço não está disponível no momento."
+msgstr "Este recurso está atualmente em um beta inicial."
 
 #: ../../admin/support.rst:61
 msgid ""
@@ -16596,6 +16588,9 @@ msgid ""
 "find Weblate servers. Users can browse registered services on <https://"
 "weblate.org/discover/>, and find projects to contribute."
 msgstr ""
+"A descoberta de Weblate é um serviço opcional que facilita a localização de "
+"servidores Weblate. Os usuários podem navegar por serviços cadastrados em "
+"<https://weblate.org/discover/> e encontrar projetos para contribuir."
 
 #: ../../admin/translating.rst:2
 msgid "Translation process"
@@ -17180,11 +17175,11 @@ msgstr ""
 
 #: ../../api.rst:8
 msgid "Weblate's REST API"
-msgstr ""
+msgstr "API REST do Weblate"
 
 #: ../../api.rst:12
 msgid "The REST API is available since Weblate 2.6."
-msgstr ""
+msgstr "A API REST está disponível desde o Weblate 2.6."
 
 #: ../../api.rst:14
 msgid ""
@@ -17192,10 +17187,13 @@ msgid ""
 "framework <https://www.django-rest-framework.org/>`_. You can use it "
 "directly or by :ref:`wlc`."
 msgstr ""
+"A API é acessível na URL ``/api/`` e é baseada em `framework Django REST "
+"<https://www.django-rest-framework.org/>`_. Você pode utilizá-la diretamente "
+"ou por :ref:`wlc`."
 
 #: ../../api.rst:21
 msgid "Authentication and generic parameters"
-msgstr ""
+msgstr "Autenticação e parâmetros genéricos"
 
 #: ../../api.rst:23
 msgid ""
@@ -17205,16 +17203,23 @@ msgid ""
 "uses a token, which you can get in your profile. Use it in the "
 "``Authorization`` header:"
 msgstr ""
+"A API do projeto público está disponível sem autenticação, embora as "
+"solicitações não autenticadas sejam fortemente limitadas (por padrão a 100 "
+"solicitações por dia), por isso é recomendado usar autenticação. A "
+"autenticação usa um token, que você pode obter em seu perfil. Use-o no "
+"cabeçalho ``Authorization``:"
 
 #: ../../api.rst:30
 msgid ""
 "Generic request behaviour for the API, the headers, status codes and "
 "parameters here apply to all endpoints as well."
 msgstr ""
+"O comportamento de solicitação genérico para a API, os cabeçalhos, códigos "
+"de status e parâmetros aqui aplicam-se a todos os pontos finais também."
 
 #: ../../api.rst:0
 msgid "Query Parameters"
-msgstr ""
+msgstr "Parâmetros de consulta"
 
 #: ../../api.rst:33
 msgid ""
@@ -17222,106 +17227,112 @@ msgid ""
 "on REST framework setup, by default ``json`` and ``api`` are supported. The "
 "latter provides web browser interface for API."
 msgstr ""
+"Formato de resposta (substitui :http:header:`Accept`). Os valores possíveis "
+"dependem da configuração do quadro REST, por padrão ``json`` e ``api`` são "
+"suportados. Este último fornece uma interface de navegador web para API."
 
 #: ../../api.rst:0
 msgid "Request Headers"
-msgstr ""
+msgstr "Cabeçalhos de solicitação"
 
 #: ../../api.rst:37
 msgid "the response content type depends on :http:header:`Accept` header"
 msgstr ""
+"o tipo de conteúdo de resposta depende do cabeçalho :http:header:`Accept`"
 
 #: ../../api.rst:39
 msgid "optional token to authenticate"
-msgstr ""
+msgstr "token opcional para se autenticar"
 
 #: ../../api.rst:0
 msgid "Response Headers"
-msgstr ""
+msgstr "Cabeçalhos de resposta"
 
 #: ../../api.rst:40
 msgid "this depends on :http:header:`Accept` header of request"
-msgstr ""
+msgstr "isso depende de cabeçalho :http:header:`Accept` da solicitação"
 
 #: ../../api.rst:42
 msgid "list of allowed HTTP methods on object"
-msgstr ""
+msgstr "lista de métodos HTTP permitidos no objeto"
 
 #: ../../api.rst:0
 msgid "Response JSON Object"
-msgstr ""
+msgstr "Objeto JSON de resposta"
 
 #: ../../api.rst:43
 msgid ""
 "verbose description of failure (for HTTP status codes other than :http:"
 "statuscode:`200`)"
 msgstr ""
+"descrição detalhada da falha (para códigos de status HTTP diferentes de "
+":http:statuscode:`200`)"
 
 #: ../../api.rst:44
 msgid "total item count for object lists"
-msgstr ""
+msgstr "contagem total de itens para listas de objetos"
 
 #: ../../api.rst:45
 msgid "next page URL for object lists"
-msgstr ""
+msgstr "URL da próxima página para listas de objetos"
 
 #: ../../api.rst:46
 msgid "previous page URL for object lists"
-msgstr ""
+msgstr "URL da página anterior para listas de objetos"
 
 #: ../../api.rst:47
 msgid "results for object lists"
-msgstr ""
+msgstr "resultados para listas de objetos"
 
 #: ../../api.rst:48
 msgid "URL to access this resource using API"
-msgstr ""
+msgstr "URL para acessar esse recurso usando API"
 
 #: ../../api.rst:49
 msgid "URL to access this resource using web browser"
-msgstr ""
+msgstr "URL para acessar esse recurso usando navegador web"
 
 #: ../../api.rst:0
 msgid "Status Codes"
-msgstr ""
+msgstr "Códigos de status"
 
 #: ../../api.rst:50
 msgid "when request was correctly handled"
-msgstr ""
+msgstr "quando a solicitação foi corretamente tratada"
 
 #: ../../api.rst:51
 msgid "when form parameters are missing"
-msgstr ""
+msgstr "quando faltam parâmetros de formulário"
 
 #: ../../api.rst:52
 msgid "when access is denied"
-msgstr ""
+msgstr "quando o acesso é negado"
 
 #: ../../api.rst:53
 msgid "when throttling is in place"
-msgstr ""
+msgstr "quando a limitação está em vigor"
 
 #: ../../api.rst:56
 msgid "Authentication examples"
-msgstr ""
+msgstr "Exemplos de autenticação"
 
 #: ../../api.rst:58 ../../api.rst:186
 msgid "**Example request:**"
-msgstr ""
+msgstr "**Exemplo de solicitação:**"
 
 #: ../../api.rst:67 ../../api.rst:195
 msgid "**Example response:**"
-msgstr ""
+msgstr "*Exemplo de resposta:*"
 
 #: ../../api.rst:87 ../../api.rst:127 ../../api.rst:868 ../../api.rst:1205
 #: ../../api.rst:1356 ../../api.rst:1423 ../../api.rst:1499 ../../api.rst:1849
 #: ../../api.rst:2083
 msgid "**CURL example:**"
-msgstr ""
+msgstr "**Exemplo de CURL:**"
 
 #: ../../api.rst:96
 msgid "Passing Parameters Examples"
-msgstr ""
+msgstr "Exemplos de passagem de parâmetros"
 
 #: ../../api.rst:98
 msgid ""
@@ -17329,25 +17340,26 @@ msgid ""
 "form submission (:mimetype:`application/x-www-form-urlencoded`) or as JSON (:"
 "mimetype:`application/json`)."
 msgstr ""
+"Para o método :http:method:`POST` os parâmetros podem ser especificados como "
+"envio de formulário (:mimetype:`application/x-www-form-urlencoded`) ou como "
+"JSON (:mimetype:`application/json`)."
 
 #: ../../api.rst:102
 msgid "**Form request example:**"
-msgstr ""
+msgstr "**Exemplo de solicitação de formulário:**"
 
 #: ../../api.rst:114 ../../api.rst:877 ../../api.rst:980 ../../api.rst:1215
 #: ../../api.rst:1365 ../../api.rst:1432 ../../api.rst:1508
 msgid "**JSON request example:**"
-msgstr ""
+msgstr "**Exemplo de solicitação JSON:**"
 
 #: ../../api.rst:136
 msgid "**CURL JSON example:**"
-msgstr ""
+msgstr "**Exemplo de CURL JSON:**"
 
 #: ../../api.rst:149
-#, fuzzy
-#| msgid "Rate limiting"
 msgid "API rate limiting"
-msgstr "Limitação de taxa"
+msgstr "Limitação de taxa da API"
 
 #: ../../api.rst:151
 msgid ""
@@ -17355,6 +17367,9 @@ msgid ""
 "100 requests per day for anonymous users and 5000 requests per hour for "
 "authenticated users."
 msgstr ""
+"As solicitações de API são limitadas; a configuração padrão limita-a a 100 "
+"solicitações por dia para usuários anônimos e 5000 solicitações por hora "
+"para usuários autenticados."
 
 #: ../../api.rst:155
 msgid ""
@@ -17362,10 +17377,14 @@ msgid ""
 "Django REST framework documentation <https://www.django-rest-framework.org/"
 "api-guide/throttling/>`_ for more details how to configure it."
 msgstr ""
+"A limitação da taxa pode ser ajustada no :file:`settings.py`; consulte "
+"'Throttling na documentação do framework Django REST <https://www.django-"
+"rest-framework.org/api-guide/throttling/>'_ para obter mais detalhes sobre "
+"como configurá-la."
 
 #: ../../api.rst:159
 msgid "The status of rate limiting is reported in following headers:"
-msgstr ""
+msgstr "O status de limitação de taxa é relatado nos seguintes cabeçalhos:"
 
 #: ../../api.rst:162
 msgid "``X-RateLimit-Limit``"
@@ -17373,7 +17392,7 @@ msgstr ""
 
 #: ../../api.rst:162
 msgid "Rate limiting limit of requests to perform"
-msgstr ""
+msgstr "Limite de limitação de taxa de solicitações para realizar"
 
 #: ../../api.rst:164
 msgid "``X-RateLimit-Remaining``"
@@ -17381,7 +17400,7 @@ msgstr ""
 
 #: ../../api.rst:164
 msgid "Remaining limit of requests"
-msgstr ""
+msgstr "Limite restante de solicitações"
 
 #: ../../api.rst:166
 msgid "``X-RateLimit-Reset``"
@@ -17389,25 +17408,23 @@ msgstr ""
 
 #: ../../api.rst:166
 msgid "Number of seconds until ratelimit window resets"
-msgstr ""
+msgstr "Número de segundos até que a janela de \"ratelimit\" seja reiniciada"
 
 #: ../../api.rst:171
 msgid "Added ratelimiting status headers."
-msgstr ""
+msgstr "Adicionados cabeçalhos de status de limitação de taxa."
 
 #: ../../api.rst:175
-#, fuzzy
-#| msgid ":ref:`rate-limit`,"
 msgid ":ref:`rate-limit`, :ref:`user-rate`"
-msgstr ":ref:`rate-limit`,"
+msgstr ":ref:`rate-limit`, :ref:`user-rate`"
 
 #: ../../api.rst:180
 msgid "API Entry Point"
-msgstr ""
+msgstr "Ponto de entrada da API"
 
 #: ../../api.rst:184
 msgid "The API root entry point."
-msgstr ""
+msgstr "O ponto de entrada raiz da API."
 
 #: ../../api.rst:217
 msgid "Users"
@@ -17418,16 +17435,20 @@ msgid ""
 "Returns a list of users if you have permissions to see manage users. If not, "
 "then you get to see only your own details."
 msgstr ""
+"Retorna uma lista de usuários se você tiver permissões para ver usuários "
+"gerenciados. Se não, então você pode ver apenas seus próprios detalhes."
 
 #: ../../api.rst:228
 msgid ""
 "Users object attributes are documented at :http:get:`/api/users/(str:"
 "username)/`."
 msgstr ""
+"Os atributos do objeto dos usuários são documentados em :http:get:`/api/"
+"users/(str:username)/`."
 
 #: ../../api.rst:232
 msgid "Creates a new user."
-msgstr ""
+msgstr "Cria um novo usuário."
 
 #: ../../api.rst:234
 msgid "Username"
@@ -17435,87 +17456,87 @@ msgstr "Nome de usuário"
 
 #: ../../api.rst:236
 msgid "User full name"
-msgstr ""
+msgstr "Nome completo do usuário"
 
 #: ../../api.rst:238
 msgid "User email"
-msgstr ""
+msgstr "E-mail do usuário"
 
 #: ../../api.rst:240
 msgid "Is user superuser? (optional)"
-msgstr ""
+msgstr "O usuário é superusuário? (opcional)"
 
 #: ../../api.rst:242
 msgid "Is user active? (optional)"
-msgstr ""
+msgstr "O usuário está ativo? (opcional)"
 
 #: ../../api.rst:247
 msgid "Returns information about users."
-msgstr ""
+msgstr "Retorna informações sobre os usuários."
 
 #: ../../api.rst:249 ../../api.rst:282 ../../api.rst:295 ../../api.rst:308
 #: ../../api.rst:315 ../../api.rst:323 ../../api.rst:335 ../../api.rst:342
 #: ../../api.rst:352 ../../api.rst:361 ../../api.rst:373 ../../api.rst:385
 msgid "User's username"
-msgstr ""
+msgstr "Nome de usuário do usuário"
 
 #: ../../api.rst:251 ../../api.rst:284 ../../api.rst:297
 msgid "username of a user"
-msgstr ""
+msgstr "nome de usuário de um usuário"
 
 #: ../../api.rst:252 ../../api.rst:285 ../../api.rst:298
 msgid "full name of a user"
-msgstr ""
+msgstr "nome completo de um usuário"
 
 #: ../../api.rst:253 ../../api.rst:286 ../../api.rst:299
 msgid "email of a user"
-msgstr ""
+msgstr "e-mail de um usuário"
 
 #: ../../api.rst:254 ../../api.rst:287 ../../api.rst:300
 msgid "whether the user is a super user"
-msgstr ""
+msgstr "se o usuário é um superusuário"
 
 #: ../../api.rst:255 ../../api.rst:288 ../../api.rst:301
 msgid "whether the user is active"
-msgstr ""
+msgstr "se o usuário está ativo"
 
 #: ../../api.rst:256 ../../api.rst:289 ../../api.rst:302
 msgid "date the user is created"
-msgstr ""
+msgstr "data de criação do usuário"
 
 #: ../../api.rst:257
 msgid "link to associated groups; see :http:get:`/api/groups/(int:id)/`"
-msgstr ""
+msgstr "link para grupos associados; veja :http:get:`/api/groups/(int:id)/`"
 
 #: ../../api.rst:259 ../../api.rst:430 ../../api.rst:591 ../../api.rst:665
 #: ../../api.rst:785 ../../api.rst:847 ../../api.rst:1149 ../../api.rst:1335
 #: ../../api.rst:1667
 msgid "**Example JSON data:**"
-msgstr ""
+msgstr "**Exemplo de dados JSON:**"
 
 #: ../../api.rst:280 ../../api.rst:293
 msgid "Changes the user parameters."
-msgstr ""
+msgstr "Altera os parâmetros do usuário."
 
 #: ../../api.rst:306
 msgid "Deletes all user information and marks the user inactive."
-msgstr ""
+msgstr "Exclui todas as informações do usuário e marca o usuário como inativo."
 
 #: ../../api.rst:313
 msgid "Associate groups with a user."
-msgstr ""
+msgstr "Associa grupos a um usuário."
 
 #: ../../api.rst:0
 msgid "Form Parameters"
-msgstr ""
+msgstr "Parâmetros de formulário"
 
 #: ../../api.rst:317
 msgid "The unique group ID"
-msgstr ""
+msgstr "O ID de grupo único"
 
 #: ../../api.rst:321
 msgid "List statistics of a user."
-msgstr ""
+msgstr "Lista as estatísticas de um usuário."
 
 #: ../../api.rst:325
 msgid "Number of translations by user"
@@ -17539,31 +17560,31 @@ msgstr "Número de idiomas que o usuário pode traduzir"
 
 #: ../../api.rst:333
 msgid "List subscriptions of a user."
-msgstr ""
+msgstr "Lista assinaturas de um usuário."
 
 #: ../../api.rst:340
 msgid "Associate subscriptions with a user."
-msgstr ""
+msgstr "Associa assinaturas com um usuário."
 
 #: ../../api.rst:0
 msgid "Request JSON Object"
-msgstr ""
+msgstr "Objeto JSON da solicitação"
 
 #: ../../api.rst:344 ../../api.rst:365 ../../api.rst:377 ../../api.rst:387
 msgid "Name of notification registered"
-msgstr ""
+msgstr "Nome da notificação registada"
 
 #: ../../api.rst:345 ../../api.rst:366 ../../api.rst:378
 msgid "Scope of notification from the available choices"
-msgstr ""
+msgstr "Escopo de notificação a partir das opções disponíveis"
 
 #: ../../api.rst:346 ../../api.rst:367 ../../api.rst:379
 msgid "Frequency choices for notifications"
-msgstr ""
+msgstr "Escolha de frequência para notificações"
 
 #: ../../api.rst:350
 msgid "Get a subscription associated with a user."
-msgstr ""
+msgstr "Obtém uma assinatura associada a um usuário."
 
 #: ../../api.rst:354 ../../api.rst:363 ../../api.rst:375
 msgid "ID of notification registered"
@@ -17571,15 +17592,15 @@ msgstr "ID da notificação registrada"
 
 #: ../../api.rst:359 ../../api.rst:371
 msgid "Edit a subscription associated with a user."
-msgstr ""
+msgstr "Edita uma assinatura associada a um usuário."
 
 #: ../../api.rst:383
 msgid "Delete a subscription associated with a user."
-msgstr ""
+msgstr "Exclui uma assinatura associada a um usuário."
 
 #: ../../api.rst:388
 msgid "int"
-msgstr ""
+msgstr "int"
 
 #: ../../api.rst:392
 msgid "Groups"
@@ -26804,19 +26825,14 @@ msgstr ""
 "localizados no diretório :file:`dev-docker`."
 
 #: ../../contributing/start.rst:89
-#, fuzzy
-#| msgid ""
-#| "The script also accepts some parameters, to execute tests run it with "
-#| "``test`` parameter and then specify any :djadmin:`django:test` "
-#| "parameters, for example:"
 msgid ""
 "The script also accepts some parameters, to execute tests, run it with the "
 "``test`` parameter and then specify any :djadmin:`django:test` parameters, "
 "for example:"
 msgstr ""
 "O script também aceita alguns parâmetros; para executar testes, execute-o "
-"com o parâmetro ``test``` e então especifique qualquer parâmetro :djadmin:"
-"`django:test`, por exemplo:"
+"com o parâmetro ``test`` e então especifique qualquer parâmetro "
+":djadmin:`django:test`, por exemplo:"
 
 #: ../../contributing/start.rst:99
 msgid ""
@@ -29533,7 +29549,7 @@ msgid ""
 msgstr ""
 "Estes são códigos de idioma definidos por :rfc:`4646` para melhor indicar "
 "que eles são idiomas realmente diferentes, em vez de modificadores "
-"utilizados anteriormente de forma errada (para variantes ``@latin```) ou "
+"utilizados anteriormente de forma errada (para variantes ``@latin``) ou "
 "códigos de país (para chinês)."
 
 #: ../../faq.rst:508
@@ -29543,7 +29559,7 @@ msgid ""
 "as ``zh_Hans``."
 msgstr ""
 "O Weblate ainda entende códigos de linguagem legados e irá mapeá-los para o "
-"atual - por exemplo ``sr@latin`` será tratado como ``sr_Latn``` ou ``zh@CN`` "
+"atual - por exemplo ``sr@latin`` será tratado como ``sr_Latn`` ou ``zh@CN`` "
 "como ``zh_Hans``."
 
 #: ../../formats.rst:4 ../../user/files.rst:60
@@ -30416,8 +30432,8 @@ msgid ""
 "Only Unicode files (``.islu``) are currently supported, ANSI variant (``."
 "isl``) is currently not supported."
 msgstr ""
-"Apenas arquivos Unicode (``.islu```) são suportados atualmente, a variante "
-"ANSI (``.isl```) não é suportada atualmente."
+"Apenas arquivos Unicode (``.islu``) são suportados atualmente, a variante "
+"ANSI (``.isl``) não é suportada atualmente."
 
 #: ../../formats.rst:535
 msgid ":doc:`tt:formats/ini`, :ref:`joomla`, :ref:`ini`"
@@ -32364,7 +32380,7 @@ msgstr ""
 
 #: ../../user/checks.rst:294
 msgid "Lua format"
-msgstr "Formato lua"
+msgstr "Formato Lua"
 
 #: ../../user/checks.rst:296
 #, fuzzy
@@ -32596,10 +32612,8 @@ msgstr ""
 "sprintf>`_"
 
 #: ../../user/checks.rst:447
-#, fuzzy
-#| msgid "File format"
 msgid "Scheme format"
-msgstr "Formato de arquivo"
+msgstr "Formato Scheme"
 
 #: ../../user/checks.rst:449
 #, fuzzy
@@ -33978,9 +33992,9 @@ msgid ""
 "translation`. In the background this toggles the ``forbidden`` flag of the "
 "string."
 msgstr ""
-"Os termos podem ser sinalizados usando :guilabel:`Ferramentas` ↓ :guilabel:"
-"`Marcar como tradução proibida`. Em segundo plano, isto alterna o "
-"sinalizador ``forbidden``` do texto."
+"Os termos podem ser sinalizados usando :guilabel:`Ferramentas` ↓ :guilabel:`"
+"Marcar como tradução proibida`. Em segundo plano, isto alterna o sinalizador "
+"``forbidden`` do texto."
 
 #: ../../user/glossary.rst:81
 msgid "Terminology"
@@ -34002,9 +34016,9 @@ msgid ""
 "guilabel:`Mark as terminology`. In the background this toggles the "
 "``terminology`` flag of the string."
 msgstr ""
-"Os termos podem ser sinalizados no idioma fonte usando :guilabel:"
-"`Ferramentas` ↓ :guilabel:`Marcar como terminologia`. Em segundo plano, isto "
-"alterna o sinalizador ``terminology``` do texto."
+"Os termos podem ser sinalizados no idioma fonte usando "
+":guilabel:`Ferramentas` ↓ :guilabel:`Marcar como terminologia`. Em segundo "
+"plano, isto alterna o sinalizador ``terminology`` do texto."
 
 #: ../../user/glossary.rst:100 ../../user/translating.rst:81
 msgid "Variants"
@@ -34546,8 +34560,8 @@ msgstr ""
 msgid ""
 "Search for string states (``pending``, ``translated``, ``untranslated``)."
 msgstr ""
-"Pesquisa por estados de texto (``pending```, ``translated```, "
-"``untranslated```)."
+"Pesquisa por estados de texto (``pending``, ``translated``, "
+"``untranslated``)."
 
 #: ../../user/search.rst:51
 msgid "``language:TEXT``"
@@ -34693,7 +34707,7 @@ msgid ""
 "form complex queries. For example: ``state:translated AND (source:hello OR "
 "source:bar)``"
 msgstr ""
-"Você pode combinar pesquisas usando ``AND```, ``OR``, ``NOT`` e parênteses "
+"Você pode combinar pesquisas usando ``AND``, ``OR``, ``NOT`` e parênteses "
 "para formar consultas complexas. Por exemplo: ``state:translated AND (source:"
 "hello OR source:bar)``"
 
@@ -35774,8 +35788,8 @@ msgid ""
 "The Weblate public key is visible to all users browsing the :guilabel:"
 "`About` page."
 msgstr ""
-"A chave pública Weblate está visível para todos os usuários que navegam na "
-"página :guilabel:`Sobre`."
+"A chave pública do Weblate está visível para todos os usuários que navegam "
+"na página :guilabel:`Sobre`."
 
 #: ../../vcs.rst:70
 msgid ""
@@ -35842,6 +35856,9 @@ msgid ""
 "access more than one repository, you will hit a GitHub limitation on allowed "
 "SSH key usage (since each key can be used only once)."
 msgstr ""
+"O acesso via SSH é possível (veja :ref:`ssh-repos`), mas caso você precise "
+"acessar mais de um repositório, você atingirá uma limitação do GitHub no uso "
+"permitido da chave SSH (já que cada chave pode ser usada apenas uma vez)."
 
 #: ../../vcs.rst:109
 msgid ""
@@ -35849,6 +35866,9 @@ msgid ""
 "and changes pushed through a fork. In case it is set, changes are pushed to "
 "the upstream repository and chosen branch."
 msgstr ""
+"Caso o :ref:`component-push_branch` não seja definido, é criado um fork do "
+"projeto e feito um push das alterações através do fork. Caso seja definido, "
+"os pushes são feitos para o repositório upstream e para o ramo escolhido."
 
 #: ../../vcs.rst:113
 msgid ""
@@ -35856,6 +35876,9 @@ msgid ""
 "token and your GitHub account, see `Creating an access token for command-"
 "line use`_."
 msgstr ""
+"Para implantações menores, use autenticação HTTPS com um token de acesso "
+"pessoal e sua conta GitHub, veja `Criando um token de acesso para uso em "
+"linha de comando`_."
 
 #: ../../vcs.rst:118
 msgid ""
@@ -35865,6 +35888,11 @@ msgid ""
 "translate. This approach is also used for Hosted Weblate, there is "
 "dedicated :guilabel:`weblate` user for that."
 msgstr ""
+"Para configurações maiores, geralmente é melhor criar um usuário dedicado "
+"para o Weblate, atribuir-lhe a chave SSH pública gerada no Weblate (ver :ref"
+":`weblate-ssh-key`) e concedê-lo acesso a todos os repositórios que você "
+"deseja traduzir. Essa abordagem também é usada para o Hosted Weblate, há "
+"usuário dedicado :guilabel:`weblate` para isso."
 
 #: ../../vcs.rst:126
 msgid ":ref:`hosted-push`"
@@ -35872,7 +35900,7 @@ msgstr ""
 
 #: ../../vcs.rst:131
 msgid "Weblate internal URLs"
-msgstr ""
+msgstr "URLs internas do Weblate"
 
 #: ../../vcs.rst:133
 msgid ""
@@ -35881,10 +35909,15 @@ msgid ""
 "This way linked components use the VCS repository configuration of the "
 "main(referenced) component."
 msgstr ""
+"Compartilhe uma configuração de repositório entre diferentes componentes, "
+"fazendo referência à sua colocação como ``weblate://projeto/componente`` em "
+"outros componentes (vinculados). Desta forma, os componentes vinculados "
+"utilizam a configuração do repositório VCS do componente principal "
+"(referenciado)."
 
 #: ../../vcs.rst:139
 msgid "Removing main component also removes linked components."
-msgstr ""
+msgstr "A remoção do componente principal também remove componentes vinculados."
 
 #: ../../vcs.rst:141
 msgid ""
@@ -35892,34 +35925,44 @@ msgid ""
 "if it finds a component with a matching repository setup. You can override "
 "this in the last step of the component configuration."
 msgstr ""
+"O Weblate ajusta automaticamente a URL do repositório ao criar um componente "
+"se encontrar um componente com uma configuração de repositório "
+"correspondente. Você pode anular isso na última etapa da configuração do "
+"componente."
 
 #: ../../vcs.rst:145
 msgid "Reasons to use this:"
-msgstr ""
+msgstr "Motivos para usar isso:"
 
 #: ../../vcs.rst:147
 msgid "Saves disk space on the server, the repository is stored just once."
 msgstr ""
+"Economiza espaço em disco no servidor, o repositório é armazenado apenas uma "
+"vez."
 
 #: ../../vcs.rst:148
 msgid "Makes the updates faster, only one repository is updated."
-msgstr ""
+msgstr "Torna as atualizações mais rápidas, apenas um repositório é atualizado."
 
 #: ../../vcs.rst:149
 msgid ""
 "There is just single exported repository with Weblate translations (see :ref:"
 "`git-exporter`)."
 msgstr ""
+"Há apenas um repositório exportado com traduções do Weblate (ver :ref:`git-"
+"exporter`)."
 
 #: ../../vcs.rst:150
 msgid ""
 "Some addons can operate on multiple components sharing one repository, for "
 "example :ref:`addon-weblate.git.squash`."
 msgstr ""
+"Algumas extensões podem operar em vários componentes compartilhando um "
+"repositório; por exemplo, :ref:`addon-weblate.git.squash`."
 
 #: ../../vcs.rst:154
 msgid "HTTPS repositories"
-msgstr ""
+msgstr "Repositórios HTTPS"
 
 #: ../../vcs.rst:156
 msgid ""
@@ -35927,12 +35970,18 @@ msgid ""
 "the URL. Don't worry, Weblate will strip this info when the URL is shown to "
 "users (if even allowed to see the repository URL at all)."
 msgstr ""
+"Para acessar repositórios HTTPS protegidos, inclua o nome de usuário e a "
+"senha na URL. Não se preocupe, o Weblate irá remover essas informações "
+"quando a URL for mostrada aos usuários (se mesmo permitido ver a URL do "
+"repositório)."
 
 #: ../../vcs.rst:160
 msgid ""
 "For example the GitHub URL with authentication added might look like: "
 "``https://user:your_access_token@github.com/WeblateOrg/weblate.git``."
 msgstr ""
+"Por exemplo, a URL do GitHub com autenticação adicionada pode parecer: "
+"``https://usuario:seu_token_de_acesso@github.com/WeblateOrg/weblate.git``."
 
 #: ../../vcs.rst:165
 msgid ""
@@ -35940,16 +35989,21 @@ msgid ""
 "URL encoded, for example ``https://user%40example.com:%24password"
 "%23@bitbucket.org/…``."
 msgstr ""
+"Se seu nome de usuário ou senha contiver caracteres especiais, eles devem "
+"ser codificados para URL; por exemplo, ``https://usuario%40example."
+"com:%24senha%23@bitbucket.org/…``."
 
 #: ../../vcs.rst:170
 msgid "Using proxy"
-msgstr ""
+msgstr "Usando proxy"
 
 #: ../../vcs.rst:172
 msgid ""
 "If you need to access HTTP/HTTPS VCS repositories using a proxy server, "
 "configure the VCS to use it."
 msgstr ""
+"Se você precisar acessar repositórios VCS por HTTP/HTTPS usando um servidor "
+"proxy, configure o VCS para usá-lo."
 
 #: ../../vcs.rst:175
 msgid ""
@@ -35958,6 +36012,10 @@ msgid ""
 "documentation <https://curl.se/docs/>`_) or by enforcing it in the VCS "
 "configuration, for example:"
 msgstr ""
+"Isto pode ser feito utilizando as variáveis de ambiente ``http_proxy``, "
+"``https_proxy`` e ``all_proxy`` (como descrito na documentação do `cURL "
+"<https://curl.se/docs/>`_) ou aplicando-a na configuração do VCS, por "
+"exemplo:"
 
 #: ../../vcs.rst:185
 msgid ""
@@ -35965,22 +36023,30 @@ msgid ""
 "also :ref:`file-permissions`) and with ``HOME=$DATA_DIR/home`` (see :setting:"
 "`DATA_DIR`), otherwise Git executed by Weblate will not use it."
 msgstr ""
+"A configuração do proxy precisa ser feita com o usuário executando Weblate ("
+"veja também :ref:`file-permissions`) e com ``HOME=$DATA_DIR/home`` (veja "
+":setting:`DATA_DIR`), caso contrário o Git executado pelo Weblate não o "
+"utilizará."
 
 #: ../../vcs.rst:191
 msgid ""
 "`The cURL manpage <https://curl.se/docs/manpage.html>`_, `Git config "
 "documentation <https://git-scm.com/docs/git-config>`_"
 msgstr ""
+"`A página man do cURL <https://curl.se/docs/manpage.html>`_, `Documentação "
+"do git config <https://git-scm.com/docs/git-config>`_"
 
 #: ../../vcs.rst:198
 msgid "Git"
-msgstr ""
+msgstr "Git"
 
 #: ../../vcs.rst:202 ../../vcs.rst:403
 msgid ""
 "See :ref:`vcs-repos` for info on how to access different kinds of "
 "repositories."
 msgstr ""
+"Consulte :ref:`vcs-repos` para obter informações sobre como acessar "
+"diferentes tipos de repositórios."
 
 #: ../../vcs.rst:205
 msgid "Git with force push"
@@ -35992,16 +36058,21 @@ msgid ""
 "always force pushes. This is intended only in the case of using a separate "
 "repository for translations."
 msgstr ""
+"Ele se comporta exatamente como o próprio Git, a única diferença é que ele "
+"sempre força pushes. Isso se destina apenas no caso de usar um repositório "
+"separado para traduções."
 
 #: ../../vcs.rst:213
 msgid ""
 "Use with caution, as this easily leads to lost commits in your upstream "
 "repository."
 msgstr ""
+"Use com cautela, pois isso facilmente leva a commits perdidos em seu "
+"repositório upstream."
 
 #: ../../vcs.rst:217
 msgid "Customizing Git configuration"
-msgstr ""
+msgstr "Personalizando a configuração do Git"
 
 #: ../../vcs.rst:219
 msgid ""
@@ -36009,16 +36080,22 @@ msgid ""
 "`DATA_DIR`), therefore editing the user configuration needs to be done in "
 "``DATA_DIR/home/.git``."
 msgstr ""
+"Weblate invoca todos os comandos VCS com ``HOME=$DATA_DIR/home`` (veja "
+":set:`DATA_DIR`), portanto a edição da configuração do usuário precisa ser "
+"feita em ``DATA_DIR/home/.git``."
 
 #: ../../vcs.rst:226
 msgid "Git remote helpers"
-msgstr "Auxiliares de remotos do git"
+msgstr "Auxiliares de remotos do Git"
 
 #: ../../vcs.rst:228
 msgid ""
 "You can also use Git `remote helpers`_ for additionally supporting other "
 "version control systems, but be prepared to debug problems this may lead to."
 msgstr ""
+"Você também pode usar os `auxiliares de remotos` do Git para ter suporte "
+"adicionalmente a outros sistemas de controle de versão, mas esteja preparado "
+"para depurar problemas que isso pode levar."
 
 #: ../../vcs.rst:231
 msgid ""
@@ -36028,26 +36105,36 @@ msgid ""
 "bin`). Make sure you have the corresponding version control systems "
 "installed."
 msgstr ""
+"Neste momento, os auxiliares de Bazaar e Mercurial estão disponíveis em "
+"repositórios separados no GitHub: `git-remote-hg`_ e `git-remote-bzr`_. "
+"Baixe-os manualmente e coloque em algum lugar em seu caminho de pesquisa ("
+"por exemplo, :file:`~/bin `). Certifique-se de ter os sistemas de controle "
+"de versão correspondentes instalados."
 
 #: ../../vcs.rst:237
 msgid ""
 "Once you have these installed, such remotes can be used to specify a "
 "repository in Weblate."
 msgstr ""
+"Uma vez instalados, esses controles podem ser usados para especificar um "
+"repositório no Weblate."
 
 #: ../../vcs.rst:240
 msgid "To clone the ``gnuhello`` project from Launchpad using Bazaar::"
-msgstr ""
+msgstr "Para clonar o projeto ``gnuhello`` do Launchpad usando Bazaar::"
 
 #: ../../vcs.rst:244
 msgid "For the ``hello`` repository from selenic.com using Mercurial::"
-msgstr ""
+msgstr "Para o repositório ``hello`` de selenic.com usando Mercurial::"
 
 #: ../../vcs.rst:254
 msgid ""
 "The inconvenience of using Git remote helpers is for example with Mercurial, "
 "the remote helper sometimes creates a new tip when pushing changes back."
 msgstr ""
+"O inconveniente de usar auxiliares de remotos Git é, por exemplo, com o "
+"Mercurial, o auxiliar de remoto às vezes cria uma nova dica ao fazer push "
+"das mudanças de volta."
 
 #: ../../vcs.rst:264
 msgid ""
@@ -36055,6 +36142,9 @@ msgid ""
 "pushing translation changes as pull requests, instead of pushing directly to "
 "the repository."
 msgstr ""
+"Isto adiciona uma camada fina sobre o :ref:`vcs-git` utilizando a `API do "
+"GitHub`_ para permitir fazer push de alterações de tradução como pull "
+"requests, ao invés de fazer push diretamente para o repositório."
 
 #: ../../vcs.rst:267
 msgid ""
@@ -36062,26 +36152,33 @@ msgid ""
 "github` creates pull requests. The latter is not needed for merely accessing "
 "Git repositories."
 msgstr ""
+":ref:`vcs-git` faz push das alterações diretamente para um repositório, "
+"enquanto :ref:`vcs-github` cria pull requests. Este último não é necessário "
+"para apenas acessar repositórios Git."
 
 #: ../../vcs.rst:279
 msgid "Pushing changes to GitHub as pull requests"
-msgstr ""
+msgstr "Fazendo push de alterações para o GitHub como pull requests"
 
 #: ../../vcs.rst:281
 msgid ""
 "If not wanting to push translations to a GitHub repository, they can be sent "
 "as either one or many pull requests instead."
 msgstr ""
+"Se não quiser fazer push das traduções para um repositório do GitHub, elas "
+"podem ser enviadas como uma ou várias pull requests."
 
 #: ../../vcs.rst:284 ../../vcs.rst:322 ../../vcs.rst:360
 msgid "You need to configure API credentials to make this work."
-msgstr ""
+msgstr "Você precisa configurar credenciais de API para fazer isso funcionar."
 
 #: ../../vcs.rst:288
 msgid ""
 ":setting:`GITHUB_USERNAME`, :setting:`GITHUB_TOKEN`, :setting:"
 "`GITHUB_CREDENTIALS`"
 msgstr ""
+":setting:`GITHUB_USERNAME`, :setting:`GITHUB_TOKEN`, "
+":setting:`GITHUB_CREDENTIALS`"
 
 #: ../../vcs.rst:301
 msgid ""
@@ -36089,6 +36186,9 @@ msgid ""
 "allow pushing translation changes as merge requests instead of pushing "
 "directly to the repository."
 msgstr ""
+"Isto apenas adiciona uma camada fina sobre o :ref:`vcs-git` usando a `API do "
+"GitLab`_ para permitir fazer push de alterações de tradução como merge "
+"requests, ao invés de fazer push diretamente para o repositório."
 
 #: ../../vcs.rst:305
 msgid ""
@@ -36097,26 +36197,35 @@ msgid ""
 "handled. With :ref:`vcs-git` changes are pushed directly to the repository, "
 "while :ref:`vcs-gitlab` creates merge request."
 msgstr ""
+"Não há necessidade de usá-lo para acessar repositórios de Git, o :ref:`vcs-"
+"git` comum funciona da mesma forma, sendo a única diferença como o push para "
+"um repositório é manipulado. Com :ref:`vcs-git`, o push das alterações é "
+"feito diretamente para o repositório, enquanto :ref:`vcs-gitlab` cria merge "
+"request."
 
 #: ../../vcs.rst:317
 msgid "Pushing changes to GitLab as merge requests"
-msgstr ""
+msgstr "Fazendo push de alterações para o GitLab como merge requests"
 
 #: ../../vcs.rst:319
 msgid ""
 "If not wanting to push translations to a GitLab repository, they can be sent "
 "as either one or many merge requests instead."
 msgstr ""
+"Se não quiser fazer push das traduções para um repositório do GitLab, elas "
+"podem ser enviadas como uma ou várias merge requests."
 
 #: ../../vcs.rst:326
 msgid ""
 ":setting:`GITLAB_USERNAME`, :setting:`GITLAB_TOKEN`, :setting:"
 "`GITLAB_CREDENTIALS`"
 msgstr ""
+":setting:`GITLAB_USERNAME`, :setting:`GITLAB_TOKEN`, "
+":setting:`GITLAB_CREDENTIALS`"
 
 #: ../../vcs.rst:335
 msgid "Pagure"
-msgstr ""
+msgstr "Pagure"
 
 #: ../../vcs.rst:339
 msgid ""
@@ -36124,6 +36233,9 @@ msgid ""
 "allow pushing translation changes as merge requests instead of pushing "
 "directly to the repository."
 msgstr ""
+"Isto apenas adiciona uma camada fina sobre o :ref:`vcs-git` usando a `API do "
+"Pagure`_ para permitir fazer push de alterações de tradução como merge "
+"requests, ao invés de fazer push diretamente para o repositório."
 
 #: ../../vcs.rst:343
 msgid ""
@@ -36132,26 +36244,35 @@ msgid ""
 "handled. With :ref:`vcs-git` changes are pushed directly to the repository, "
 "while :ref:`vcs-pagure` creates merge request."
 msgstr ""
+"Não há necessidade de usá-lo para acessar repositórios de Git, o :ref:`vcs-"
+"git` comum funciona da mesma forma, sendo a única diferença como o push para "
+"um repositório é manipulado. Com :ref:`vcs-git`, o push das alterações é "
+"feito diretamente para o repositório, enquanto :ref:`vcs-pagure` cria merge "
+"request."
 
 #: ../../vcs.rst:355
 msgid "Pushing changes to Pagure as merge requests"
-msgstr "Fazendo push das alterações para o Pagure como merge requests"
+msgstr "Fazendo push de alterações para o Pagure como merge requests"
 
 #: ../../vcs.rst:357
 msgid ""
 "If not wanting to push translations to a Pagure repository, they can be sent "
 "as either one or many merge requests instead."
 msgstr ""
+"Se não quiser fazer push das traduções para um repositório do Pagure, elas "
+"podem ser enviadas como uma ou várias merge requests."
 
 #: ../../vcs.rst:364
 msgid ""
 ":setting:`PAGURE_USERNAME`, :setting:`PAGURE_TOKEN`, :setting:"
 "`PAGURE_CREDENTIALS`"
 msgstr ""
+":setting:`PAGURE_USERNAME`, :setting:`PAGURE_TOKEN`, "
+":setting:`PAGURE_CREDENTIALS`"
 
 #: ../../vcs.rst:373
 msgid "Gerrit"
-msgstr ""
+msgstr "Gerrit"
 
 #: ../../vcs.rst:377
 msgid ""
@@ -36159,20 +36280,25 @@ msgid ""
 "pushing translation changes as Gerrit review requests, instead of pushing "
 "them directly to the repository."
 msgstr ""
+"Adiciona uma camada fina sobre o :ref:`vcs-git` usando a ferramenta `git-"
+"review`_ para permitir fazer push de alterações de tradução como review "
+"requests do Gerrit, ao invés de fazer push diretamente para o repositório."
 
 #: ../../vcs.rst:381
 msgid ""
 "The Gerrit documentation has the details on the configuration necessary to "
 "set up such repositories."
 msgstr ""
+"A documentação Gerrit tem os detalhes sobre a configuração necessária para "
+"configurar tais repositórios."
 
 #: ../../vcs.rst:389
 msgid "Mercurial"
-msgstr ""
+msgstr "Mercurial"
 
 #: ../../vcs.rst:393
 msgid "Mercurial is another VCS you can use directly in Weblate."
-msgstr ""
+msgstr "Mercurial é outro VCS que você pode usar diretamente no Weblate."
 
 #: ../../vcs.rst:397
 msgid ""
@@ -36180,10 +36306,13 @@ msgid ""
 "incompatible changes to the command-line interface which breaks Weblate "
 "integration."
 msgstr ""
+"Ele deve funcionar com qualquer versão Mercurial, mas às vezes há alterações "
+"incompatíveis na interface de linha de comando que quebra a integração "
+"Weblate."
 
 #: ../../vcs.rst:409
 msgid "Subversion"
-msgstr ""
+msgstr "Subversion"
 
 #: ../../vcs.rst:413
 msgid ""
@@ -36191,6 +36320,10 @@ msgid ""
 "Perl script that lets subversion be used by a Git client, enabling users to "
 "maintain a full clone of the internal repository and commit locally."
 msgstr ""
+"O Weblate usa `git-svn`_ para interagir com repositórios `subversion`_. É um "
+"script Perl que permite que o subversion seja usado por um cliente Git, "
+"permitindo que os usuários mantenham um clone completo do repositório "
+"interno e façam commit localmente."
 
 #: ../../vcs.rst:419
 msgid ""
@@ -36202,15 +36335,23 @@ msgid ""
 "and you encounter errors, try including the branch name in the repository "
 "URL and leaving branch empty."
 msgstr ""
+"O Weblate tenta detectar o layout do repositório Subversion automaticamente –"
+" ele tem suporta a URLs diretas para remos ou repositórios com layout padrão "
+"(branches/, tags/ e trunk/). Mais informações sobre isso podem ser "
+"encontradas na `documentação do git-svn <https://git-scm.com/docs/git-svn#"
+"Documentation/git-svn.txt---stdlayout>`_. Se o repositório não tiver um "
+"layout padrão e você encontrar erros, tente incluir o nome do ramo na URL do "
+"repositório e deixar a ramo vazia."
 
 #: ../../vcs.rst:428
 msgid ""
 "Before this, only repositories using the standard layout were supported."
 msgstr ""
+"Antes disso, apenas repositórios usando o layout padrão eram suportados."
 
 #: ../../vcs.rst:435
 msgid "Subversion credentials"
-msgstr ""
+msgstr "Credenciais de Subversion"
 
 #: ../../vcs.rst:437
 msgid ""
@@ -36219,6 +36360,10 @@ msgid ""
 "`DATA_DIR` directory. Accept the certificate by using `svn` once with the `"
 "$HOME` environment variable set to the :setting:`DATA_DIR`:"
 msgstr ""
+"Weblate espera que você tenha aceito o certificado com antecedência (e suas "
+"credenciais, se necessário). Ele procurará inseri-las no diretório "
+":set:`DATA_DIR`. Aceite o certificado utilizando `svn` uma vez com a "
+"variável de ambiente `$HOME` definida como :setting:`DATA_DIR`:"
 
 #: ../../vcs.rst:455
 msgid "Local files"
@@ -36231,6 +36376,10 @@ msgid ""
 "upload, or add translation strings directly from Weblate (currently "
 "available only for monolingual translations)."
 msgstr ""
+"O Weblate também pode operar sem um VCS remoto. As traduções iniciais são "
+"importadas carregando-as. Mais tarde, você pode substituir arquivos "
+"individuais enviando arquivos ou adicionando textos de tradução diretamente "
+"do Weblate (atualmente disponível apenas para traduções monolíngues)."
 
 #: ../../vcs.rst:464
 msgid ""
@@ -36239,6 +36388,10 @@ msgid ""
 "translations, you already have a repository within Weblate can base your "
 "integration on."
 msgstr ""
+"No fundo, o Weblate cria um repositório de Git para você e todas as "
+"alterações são rastreadas. Caso você decida mais tarde usar um VCS para "
+"armazenar as traduções, você já tem um repositório dentro do Weblate pode "
+"basear sua integração."
 
 #: ../../wlc.rst:8
 msgid "Weblate Client"
