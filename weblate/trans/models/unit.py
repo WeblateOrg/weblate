@@ -1064,14 +1064,7 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
 
         if create:
             Check.objects.bulk_create(create, batch_size=500, ignore_conflicts=True)
-            # Trigger source checks on target check update (multiple failing checks)
-            if not self.is_source:
-                if self.is_batch_update:
-                    self.translation.component.updated_sources[
-                        self.source_unit.id
-                    ] = self.source_unit
-                else:
-                    self.source_unit.run_checks()
+
         # Propagate checks which need it (for example consistency)
         if (needs_propagate and propagate is not False) or propagate is True:
             for unit in self.same_source_units:
@@ -1091,6 +1084,15 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
         # Delete no longer failing checks
         if old_checks:
             Check.objects.filter(unit=self, check__in=old_checks).delete()
+
+        # Trigger source checks on target check update (multiple failing checks)
+        if (create or old_checks) and not not self.is_source:
+            if self.is_batch_update:
+                self.translation.component.updated_sources[
+                    self.source_unit.id
+                ] = self.source_unit
+            else:
+                self.source_unit.run_checks()
 
         # This is always preset as it is used in top of this method
         self.clear_checks_cache()
