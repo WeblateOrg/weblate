@@ -177,7 +177,7 @@ class Check(models.Model):
     def set_dismiss(self, state=True):
         """Set ignore flag."""
         self.dismissed = state
-        self.save()
+        self.save(update_fields=["dismissed"])
         self.unit.translation.invalidate_cache()
 
 
