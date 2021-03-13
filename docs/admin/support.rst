@@ -30,7 +30,7 @@ Data submitted to the Weblate
 * Tallies of some objects in your Weblate database (projects, components, languages, source strings and users)
 * The public SSH key of your instance
 
-Additionaly, when :ref:`weblate-discovery` is turned on:
+Additionaly, when :ref:`discover-weblate` is turned on:
 
 * List of public projects (name, URL and website)
 
@@ -41,16 +41,16 @@ Integration services
 
 * See if your support package is still valid
 * :ref:`cloudbackup`
-* :ref:`weblate-discovery`
+* :ref:`discover-weblate`
 
 .. hint::
 
    Purchased support packages are already activated upon purchase, and can be used without integrating them.
 
-.. _weblate-discovery:
+.. _discover-weblate:
 
-Weblate discovery
------------------
+Discover Weblate
+----------------
 
 .. versionadded:: 4.5.2
 
@@ -58,7 +58,7 @@ Weblate discovery
 
    This feature is currently in early beta.
 
-Weblate discovery is an opt-in service that makes it easier for users to find
+Discover Weblate is an opt-in service that makes it easier for users to find
 Weblate servers. Users can browse registered services on
 <https://weblate.org/discover/>, and find projects to contribute.
 
