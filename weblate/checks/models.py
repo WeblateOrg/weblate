@@ -22,7 +22,7 @@ import json
 from appconf import AppConf
 from django.db import models
 from django.db.models import Q
-from django.db.models.signals import post_delete, post_save
+from django.db.models.signals import post_delete
 from django.dispatch import receiver
 from django.utils.functional import cached_property
 
@@ -178,14 +178,7 @@ class Check(models.Model):
         """Set ignore flag."""
         self.dismissed = state
         self.save()
-
-
-@receiver(post_save, sender=Check)
-@disable_for_loaddata
-def check_post_save(sender, instance, created, **kwargs):
-    """Handle check creation or updates."""
-    if not created:
-        instance.unit.translation.invalidate_cache()
+        self.unit.translation.invalidate_cache()
 
 
 @receiver(post_delete, sender=Check)
