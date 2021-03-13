@@ -591,8 +591,13 @@ class Profile(models.Model):
             )
 
     def dump_data(self):
+        def map_attr(attr):
+            if attr.endswith("_id"):
+                return attr[:-3]
+            return attr
+
         def dump_object(obj, *attrs):
-            return {attr: getattr(obj, attr) for attr in attrs}
+            return {map_attr(attr): getattr(obj, attr) for attr in attrs}
 
         result = {
             "basic": dump_object(
