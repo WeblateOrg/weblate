@@ -105,9 +105,9 @@ class SupportStatus(models.Model):
             "source_strings": stats.source_strings,
             "strings": stats.all,
             "words": stats.all_words,
-            "discoverable": self.discoverable,
         }
         if self.discoverable:
+            data["discoverable"] = 1
             data["public_projects"] = [
                 {
                     "name": project.name,
