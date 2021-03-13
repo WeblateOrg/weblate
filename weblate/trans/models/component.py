@@ -2051,7 +2051,12 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
             self.sync_terminology()
 
         self.unload_sources()
+        self.run_batched_checks()
 
+        self.log_info("updating completed")
+        return was_change
+
+    def run_batched_checks(self):
         # Batch checks
         if self.batched_checks:
             from weblate.checks.tasks import batch_update_checks
@@ -2061,9 +2066,6 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
             )
         self.batch_checks = False
         self.batched_checks = set()
-
-        self.log_info("updating completed")
-        return was_change
 
     def invalidate_cache(self):
         from weblate.trans.tasks import update_component_stats
