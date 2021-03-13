@@ -41,13 +41,33 @@
   <td>{{ support.expiry|naturaltime }}</td>
   </tr>
   {% endif %}
+  {% if support.secret %}
+  <tr>
+  <th>{% trans "Discover Weblate" %}</th>
+  <td>
+    <a href="https://weblate.org/discover/" class="btn-inline pull-right flip">{% trans "Browse discovery" %}</a>
+    {% if support.discoverable %}
+      {% trans "Your Weblate is listed on weblate.org" %}
+      <br />
+      <a href="{% url 'manage-discovery' %}" class="btn btn-primary link-post">{% trans "Disable discovery" %}</a>
+      <a href="https://weblate.org/user/" class="btn btn-primary">{% trans "Manage your listing" %}</a>
+    {% else %}
+      {% trans "Your Weblate is not listed on weblate.org" %}
+      <br />
+      <a href="{% url 'manage-discovery' %}" class="btn btn-primary link-post">{% trans "Enable discovery" %}</a>
+    {% endif %}
+  </td>
+  </tr>
+  {% endif %}
   </table>
   <div class="panel-footer">
+  {% if support.secret %}
+  <a href="https://weblate.org/user/" class="btn btn-primary">{% trans "Manage support package" %}</a>
+  {% endif %}
   {% if support.name == 'community' %}
   <a href="https://weblate.org/support/" class="btn btn-primary">{% trans "Purchase support package" %}</a>
   <a href="https://weblate.org/donate/" class="btn btn-primary">{% trans "Donate to Weblate" %}</a>
   {% else %}
-  <a href="https://weblate.org/user/" class="btn btn-primary">{% trans "Manage support package" %}</a>
   <a href="mailto:support@weblate.org" id="support-form" data-fullname="{{ user.full_name }}" data-email="{{ user.email }}" class="btn btn-primary">{% trans "Get help" %}</a>
   {% endif %}
   </div>

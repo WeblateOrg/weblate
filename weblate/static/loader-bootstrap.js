@@ -238,15 +238,19 @@ function loadTableSorting() {
         // skip empty cells and cells with icon (probably already processed)
         if (
           th.text() !== "" &&
-          !th.hasClass("sort-cell") &&
+          !th.hasClass("sort-init") &&
           !th.hasClass("sort-skip")
         ) {
           // Store index copy
           let myIndex = thIndex;
           // Add icon, title and class
-          th.attr("title", gettext("Sort this column"))
-            .addClass("sort-cell")
-            .append('<span class="sort-icon" />');
+          th.addClass("sort-init");
+          if (!th.hasClass("sort-cell")) {
+            // Skip statically initialized parts (when server side ordering is supported)
+            attr("title", gettext("Sort this column"))
+              .addClass("sort-cell")
+              .append('<span class="sort-icon" />');
+          }
 
           // Click handler
           th.click(function () {
@@ -397,12 +401,24 @@ function initHighlight(root) {
     if (editor.classList.contains("translation-editor")) {
       let placeables = editor.getAttribute("data-placeables");
       let extension = {
-        hlspace: /  +| +$|^ +| +\n|\n +/,
+        hlspace: {
+          pattern: /  +|(^) +| +(?=$)| +\n|\n +/,
+          lookbehind: true,
+        },
       };
       if (placeables) {
         extension.placeable = RegExp(placeables);
       }
-      languageMode = Prism.languages.extend(mode, extension);
+      /*
+       * We can not use Prism.extend here as we want whitespace highlighting
+       * to apply first. The code is borrowed from Prism.util.clone.
+       */
+      for (var key in languageMode) {
+        if (languageMode.hasOwnProperty(key)) {
+          extension[key] = Prism.util.clone(languageMode[key]);
+        }
+      }
+      languageMode = extension;
     }
     var syncContent = function () {
       highlight.innerHTML = Prism.highlight(editor.value, languageMode, mode);

@@ -20,7 +20,7 @@
 import os
 
 from django.core.management.color import no_style
-from django.db import connection
+from django.db import connection, transaction
 from django.test import LiveServerTestCase, TestCase
 from django.test.utils import override_settings
 
@@ -142,12 +142,15 @@ class ProjectTest(RepoTestCase):
         self.assertFalse(os.path.exists(project.full_path))
 
     def test_delete_votes(self):
-        component = self.create_po(suggestion_voting=True, suggestion_autoaccept=True)
-        user = create_test_user()
-        translation = component.translation_set.get(language_code="cs")
-        unit = translation.unit_set.first()
-        suggestion = Suggestion.objects.add(unit, "Test", None)
-        Vote.objects.create(suggestion=suggestion, value=Vote.POSITIVE, user=user)
+        with transaction.atomic():
+            component = self.create_po(
+                suggestion_voting=True, suggestion_autoaccept=True
+            )
+            user = create_test_user()
+            translation = component.translation_set.get(language_code="cs")
+            unit = translation.unit_set.first()
+            suggestion = Suggestion.objects.add(unit, "Test", None)
+            Vote.objects.create(suggestion=suggestion, value=Vote.POSITIVE, user=user)
         component.project.delete()
 
     def test_delete_all(self):
@@ -358,27 +361,27 @@ class UnitTest(ModelTestCase):
 
         # test both ascending and descending order works
         unit1 = Unit.objects.filter(translation__language_code="cs")
-        unit1 = unit1.order_by_request({"sort_by": "-priority"})
+        unit1 = unit1.order_by_request({"sort_by": "-priority"}, None)
         self.assertEqual(unit1[0].priority, 200)
         unit1 = Unit.objects.filter(translation__language_code="cs")
-        unit1 = unit1.order_by_request({"sort_by": "priority"})
+        unit1 = unit1.order_by_request({"sort_by": "priority"}, None)
         self.assertEqual(unit1[0].priority, 100)
 
         # test if invalid sorting, then sorted in default order
         unit2 = Unit.objects.filter(translation__language_code="cs")
         unit2 = unit2.order()
         unit3 = Unit.objects.filter(translation__language_code="cs")
-        unit3 = unit3.order_by_request({"sort_by": "invalid"})
+        unit3 = unit3.order_by_request({"sort_by": "invalid"}, None)
         self.assertEqual(unit3[0], unit2[0])
 
         # test sorting by count
         unit4 = Unit.objects.filter(translation__language_code="cs")[2]
         Comment.objects.create(unit=unit4, comment="Foo")
         unit5 = Unit.objects.filter(translation__language_code="cs")
-        unit5 = unit5.order_by_request({"sort_by": "-num_comments"})
+        unit5 = unit5.order_by_request({"sort_by": "-num_comments"}, None)
         self.assertEqual(unit5[0].comment_set.count(), 1)
         unit5 = Unit.objects.filter(translation__language_code="cs")
-        unit5 = unit5.order_by_request({"sort_by": "num_comments"})
+        unit5 = unit5.order_by_request({"sort_by": "num_comments"}, None)
         self.assertEqual(unit5[0].comment_set.count(), 0)
 
         # check all order options produce valid queryset
@@ -394,17 +397,17 @@ class UnitTest(ModelTestCase):
         for order_option in order_options:
             ordered_unit = Unit.objects.filter(
                 translation__language_code="cs"
-            ).order_by_request({"sort_by": order_option})
+            ).order_by_request({"sort_by": order_option}, None)
             ordered_desc_unit = Unit.objects.filter(
                 translation__language_code="cs"
-            ).order_by_request({"sort_by": f"-{order_option}"})
+            ).order_by_request({"sort_by": f"-{order_option}"}, None)
             self.assertEqual(len(ordered_unit), 4)
             self.assertEqual(len(ordered_desc_unit), 4)
 
         # check sorting with multiple options work
         multiple_ordered_unit = Unit.objects.filter(
             translation__language_code="cs"
-        ).order_by_request({"sort_by": "position,timestamp"})
+        ).order_by_request({"sort_by": "position,timestamp"}, None)
         self.assertEqual(multiple_ordered_unit.count(), 4)
 
     def test_get_max_length_no_pk(self):

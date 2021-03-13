@@ -20,6 +20,7 @@
 import re
 from itertools import chain
 
+import ahocorasick
 from django.db.models import Q
 from django.db.models.functions import Lower
 
@@ -29,6 +30,7 @@ from weblate.utils.db import re_escape, using_postgresql
 from weblate.utils.state import STATE_TRANSLATED
 
 SPLIT_RE = re.compile(r"[\s,.:!?]+", re.UNICODE)
+NON_WORD_RE = re.compile(r"\W", re.UNICODE)
 
 
 def get_glossary_sources(component):
@@ -42,6 +44,21 @@ def get_glossary_sources(component):
     )
 
 
+def get_glossary_automaton(project):
+    # Chain terms
+    terms = set(
+        chain.from_iterable(
+            glossary.glossary_sources for glossary in project.glossaries
+        )
+    )
+    # Build automaton for efficient Aho-Corasick search
+    automaton = ahocorasick.Automaton()
+    for term in terms:
+        automaton.add_word(term, term)
+    automaton.make_automaton()
+    return automaton
+
+
 def get_glossary_terms(unit):
     """Return list of term pairs for an unit."""
     if unit.glossary_terms is not None:
@@ -49,8 +66,8 @@ def get_glossary_terms(unit):
     translation = unit.translation
     language = translation.language
     component = translation.component
+    project = component.project
     source_language = component.source_language
-    glossaries = component.project.glossaries
 
     units = (
         Unit.objects.prefetch().select_related("source_unit").order_by(Lower("source"))
@@ -58,24 +75,25 @@ def get_glossary_terms(unit):
     if language == source_language:
         return units.none()
 
-    # Chain terms
-    terms = set(
-        chain.from_iterable(glossary.glossary_sources for glossary in glossaries)
-    )
-
     # Build complete source for matching
-    parts = []
+    parts = [""]
     for text in unit.get_source_plurals() + [unit.context]:
         text = text.lower().strip()
         if text:
             parts.append(text)
+    parts.append("")
     source = PLURAL_SEPARATOR.join(parts)
 
-    # Extract terms present in the source
-    # This might use a suffix tree for improved performance
-    matches = [
-        term for term in terms if re.search(r"\b{}\b".format(re.escape(term)), source)
-    ]
+    matches = set()
+    automaton = project.glossary_automaton
+    if automaton.kind == ahocorasick.AHOCORASICK:
+
+        # Extract terms present in the source
+        for end, term in automaton.iter(source):
+            if NON_WORD_RE.match(source[end - len(term)]) and NON_WORD_RE.match(
+                source[end + 1]
+            ):
+                matches.add(term)
 
     if using_postgresql():
         match = r"^({})$".format("|".join(re_escape(term) for term in matches))
@@ -87,7 +105,7 @@ def get_glossary_terms(unit):
 
     units = units.filter(
         query,
-        translation__component__in=glossaries,
+        translation__component__in=project.glossaries,
         translation__component__source_language=source_language,
         translation__language=language,
     ).distinct()

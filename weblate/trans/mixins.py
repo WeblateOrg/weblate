@@ -62,6 +62,9 @@ class URLMixin:
     def get_cleanup_url(self):
         return self.reverse_url("cleanup")
 
+    def get_file_sync_url(self):
+        return self.reverse_url("file_sync")
+
     def get_lock_url(self):
         return self.reverse_url("lock")
 

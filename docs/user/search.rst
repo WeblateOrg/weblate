@@ -45,7 +45,7 @@ Fields
 ``pending:BOOLEAN``
    String pending for flushing to VCS.
 ``has:TEXT``
-   Search for string having attributes - ``plural``, ``context``, ``suggestion``, ``comment``, ``check``, ``dismissed-check``, ``translation``, ``variant``, ``screenshot``, ``flags``, ``explanation``, ``glossary``
+   Search for string having attributes - ``plural``, ``context``, ``suggestion``, ``comment``, ``check``, ``dismissed-check``, ``translation``, ``variant``, ``screenshot``, ``flags``, ``explanation``, ``glossary``.
 ``is:TEXT``
    Search for string states (``pending``, ``translated``, ``untranslated``).
 ``language:TEXT``
@@ -65,7 +65,7 @@ Fields
 ``change_action:TEXT``
    Filters on change action, useful together with ``change_time``. Accepts
    English name of the change action, either quoted and with spaces or
-   lowercase and spaces replaced by dash. See :ref:`search-changes` for
+   lowercase and spaces replaced by a hyphen. See :ref:`search-changes` for
    examples.
 ``check:TEXT``
    String has failing check.

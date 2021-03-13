@@ -51,19 +51,19 @@ def avatar_for_email(email, size=80):
     )
 
 
-def get_fallback_avatar_url(size):
+def get_fallback_avatar_url(size: int):
     """Return URL of fallback avatar."""
     return os.path.join(settings.STATIC_URL, f"weblate-{size}.png")
 
 
-def get_fallback_avatar(size):
+def get_fallback_avatar(size: int):
     """Return fallback avatar."""
     filename = finders.find(f"weblate-{size}.png")
     with open(filename, "rb") as handle:
         return handle.read()
 
 
-def get_avatar_image(user, size):
+def get_avatar_image(user, size: int):
     """Return avatar image from cache (if available) or download it."""
     cache_key = "-".join(("avatar-img", user.username, str(size)))
 
@@ -88,7 +88,7 @@ def get_avatar_image(user, size):
     return image
 
 
-def download_avatar_image(email, size):
+def download_avatar_image(email: str, size: int):
     """Download avatar image from remote server."""
     url = avatar_for_email(email, size)
     response = request("get", url, timeout=1.0)

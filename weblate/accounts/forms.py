@@ -27,6 +27,7 @@ from django.forms.widgets import EmailInput
 from django.middleware.csrf import rotate_token
 from django.utils.functional import cached_property
 from django.utils.html import escape
+from django.utils.translation import gettext
 from django.utils.translation import gettext_lazy as _
 from django.utils.translation import pgettext
 
@@ -51,7 +52,7 @@ from weblate.auth.models import User
 from weblate.lang.models import Language
 from weblate.logger import LOGGER
 from weblate.trans.defines import EMAIL_LENGTH, FULLNAME_LENGTH
-from weblate.trans.models import Component, Project
+from weblate.trans.models import Component, ComponentList, Project
 from weblate.utils import messages
 from weblate.utils.forms import SortedSelect, SortedSelectMultiple, UsernameField
 from weblate.utils.ratelimit import check_rate_limit, reset_rate_limit
@@ -259,13 +260,46 @@ class DashboardSettingsForm(ProfileBaseForm):
     class Meta:
         model = Profile
         fields = ("dashboard_view", "dashboard_component_list")
-        widgets = {"dashboard_view": forms.RadioSelect}
+        widgets = {
+            "dashboard_view": forms.RadioSelect,
+            "dashboard_component_list": forms.HiddenInput,
+        }
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper(self)
         self.helper.disable_csrf = True
         self.helper.form_tag = False
+        self.component_lists = ComponentList.objects.filter(
+            show_dashboard=True,
+            components__project_id__in=self.instance.user.allowed_project_ids,
+        ).distinct()
+        self.fields["dashboard_component_list"].queryset = self.component_lists
+        choices = [
+            choice
+            for choice in self.fields["dashboard_view"].choices
+            if choice[0] != Profile.DASHBOARD_COMPONENT_LIST
+        ]
+        for clist in self.component_lists:
+            choices.append((100 + clist.id, gettext("Component list: %s") % clist.name))
+        self.fields["dashboard_view"].choices = choices
+        if (
+            self.instance.dashboard_view == Profile.DASHBOARD_COMPONENT_LIST
+            and self.instance.dashboard_component_list
+        ):
+            self.initial["dashboard_view"] = (
+                100 + self.instance.dashboard_component_list_id
+            )
+
+    def clean(self):
+        view = self.cleaned_data.get("dashboard_view")
+        if view and view >= 100:
+            self.cleaned_data["dashboard_view"] = Profile.DASHBOARD_COMPONENT_LIST
+            view -= 100
+            for clist in self.component_lists:
+                if clist.id == view:
+                    self.cleaned_data["dashboard_component_list"] = clist
+                    break
 
 
 class UserForm(forms.ModelForm):

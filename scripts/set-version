@@ -6,7 +6,7 @@ if [ -z "$1" ] ; then
     exit 1
 fi
 
-sed -i "s/^VERSION =.*/VERSION = \"$1-dev\"/" weblate/__init__.py
+sed -i "s/^VERSION =.*/VERSION = \"$1-dev\"/" weblate/utils/version.py
 sed -i "s/release =.*/release = \"$1\"/" docs/conf.py
 sed -i "s/version=.*,/version=\"$1\",/" setup.py
 
@@ -23,4 +23,4 @@ EOT
 cat >> docs/changes.rst < $tmp
 rm $tmp
 
-git commit -m "Setting version to $1" weblate/__init__.py docs/conf.py docs/changes.rst setup.py
+git commit -m "Setting version to $1" weblate/utils/version.py docs/conf.py docs/changes.rst setup.py

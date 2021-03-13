@@ -279,6 +279,12 @@ class GlossaryTest(ViewTestCase):
             set(get_glossary_terms(unit).values_list("source", flat=True)),
             {"Reach", "Town"},
         )
+        self.add_term("The Reach", "x")
+        unit.glossary_terms = None
+        self.assertEqual(
+            set(get_glossary_terms(unit).values_list("source", flat=True)),
+            {"Reach", "The Reach", "Town"},
+        )
 
     def test_get_long(self):
         """Test parsing long source string."""

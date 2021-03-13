@@ -35,17 +35,24 @@ from weblate.lang.models import Language
 from weblate.metrics.models import Metric
 from weblate.trans.forms import ReportsForm, SearchForm
 from weblate.trans.models import Component, ComponentList, Project, Translation
+from weblate.trans.models.component import prefetch_tasks
 from weblate.trans.models.project import prefetch_project_flags
 from weblate.trans.models.translation import GhostTranslation
 from weblate.trans.util import render
 from weblate.utils import messages
 from weblate.utils.stats import prefetch_stats
+from weblate.utils.views import get_paginator
+
+
+def translation_prefetch_tasks(translations):
+    prefetch_tasks([translation.component for translation in translations])
+    return translations
 
 
 def get_untranslated(base, limit=None):
     """Filter untranslated."""
     result = []
-    for item in prefetch_stats(base):
+    for item in base:
         if item.stats.translated != item.stats.all:
             result.append(item)
             if limit and len(result) >= limit:
@@ -65,11 +72,14 @@ def get_suggestions(request, user, user_has_languages, base, filtered=False):
     if user_has_languages:
         # Remove user subscriptions
         result = get_untranslated(
-            base.exclude(component__project__in=user.profile.watched.all()), 10
+            prefetch_stats(
+                base.exclude(component__project__in=user.profile.watched.all())
+            ),
+            10,
         )
         if result:
             return result
-    return get_untranslated(base, 10)
+    return get_untranslated(prefetch_stats(base), 10)
 
 
 def guess_user_language(request, translations):
@@ -211,8 +221,8 @@ def fetch_componentlists(user, user_translations):
         # Force fetching the query now
         list(components)
 
-        translations = prefetch_stats(
-            list(user_translations.filter(component__in=components))
+        translations = translation_prefetch_tasks(
+            prefetch_stats(list(user_translations.filter(component__in=components)))
         )
 
         # Show ghost translations for user languages
@@ -260,17 +270,20 @@ def dashboard_user(request):
         active_tab_slug = user.profile.dashboard_component_list.tab_slug()
 
     if user.is_authenticated:
-        usersubscriptions = user_translations.filter_access(user).filter(
-            component__project__in=user.watched_projects
+        usersubscriptions = prefetch_stats(
+            user_translations.filter_access(user).filter(
+                component__project__in=user.watched_projects
+            )
         )
+        usersubscriptions = get_paginator(request, usersubscriptions)
 
         if user.profile.hide_completed:
             usersubscriptions = get_untranslated(usersubscriptions)
             for componentlist in componentlists:
                 componentlist.translations = get_untranslated(
-                    componentlist.translations
+                    prefetch_stats(componentlist.translations)
                 )
-        usersubscriptions = prefetch_stats(usersubscriptions)
+        usersubscriptions = translation_prefetch_tasks(usersubscriptions)
 
     return render(
         request,

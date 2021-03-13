@@ -1111,11 +1111,34 @@ class ProjectAPITest(APIBaseTest):
             },
         )
         self.assertEqual(Component.objects.count(), 3)
+        component = Component.objects.get(slug="api-project", project__slug="test")
         self.assertEqual(
-            Component.objects.get(slug="api-project", project__slug="test").push,
+            component.push,
             "https://username:password@github.com/example/push.git",
         )
+        self.assertFalse(component.manage_units)
+        self.assertFalse(response.data["manage_units"])
         self.assertEqual(response.data["push"], "https://github.com/example/push.git")
+        response = self.do_request(
+            "api:project-components",
+            self.project_kwargs,
+            method="post",
+            code=201,
+            superuser=True,
+            request={
+                "name": "Other",
+                "slug": "other",
+                "repo": self.format_local_path(self.git_repo_path),
+                "filemask": "android/values-*/strings.xml",
+                "file_format": "aresource",
+                "template": "android/values/strings.xml",
+                "new_lang": "none",
+            },
+        )
+        self.assertEqual(Component.objects.count(), 4)
+        component = Component.objects.get(slug="other", project__slug="test")
+        self.assertTrue(component.manage_units)
+        self.assertTrue(response.data["manage_units"])
 
     def test_create_component_no_format(self):
         repo_url = self.format_local_path(self.git_repo_path)
@@ -1259,6 +1282,24 @@ class ProjectAPITest(APIBaseTest):
         self.assertEqual(response.data["repo"], "local:")
         self.assertEqual(Component.objects.count(), 3)
 
+    def test_create_component_docfile_json(self):
+        with open(TEST_DOC, "rb") as handle:
+            self.do_request(
+                "api:project-components",
+                self.project_kwargs,
+                method="post",
+                code=400,
+                superuser=True,
+                format="json",
+                request={
+                    "docfile": handle.read(),
+                    "name": "Local project",
+                    "slug": "local-project",
+                    "file_format": "html",
+                    "new_lang": "add",
+                },
+            )
+
     def test_create_component_docfile_language(self):
         with open(TEST_DOC, "rb") as handle:
             response = self.do_request(
@@ -1336,6 +1377,111 @@ class ProjectAPITest(APIBaseTest):
                     "new_lang": "none",
                 },
             )
+
+    def test_create_component_enforced(self):
+        response = self.do_request(
+            "api:project-components",
+            self.project_kwargs,
+            method="post",
+            code=400,
+            superuser=True,
+            request={
+                "name": "Local project",
+                "slug": "local-project",
+                "repo": "local:",
+                "vcs": "local",
+                "filemask": "*.strings",
+                "template": "en.strings",
+                "file_format": "strings-utf8",
+                "push": "https://username:password@github.com/example/push.git",
+                "new_lang": "none",
+                "enforced_checks": "",
+            },
+        )
+        response = self.do_request(
+            "api:project-components",
+            self.project_kwargs,
+            method="post",
+            code=400,
+            superuser=True,
+            request={
+                "name": "Local project",
+                "slug": "local-project",
+                "repo": "local:",
+                "vcs": "local",
+                "filemask": "*.strings",
+                "template": "en.strings",
+                "file_format": "strings-utf8",
+                "push": "https://username:password@github.com/example/push.git",
+                "new_lang": "none",
+                "enforced_checks": '""',
+            },
+        )
+        response = self.do_request(
+            "api:project-components",
+            self.project_kwargs,
+            method="post",
+            code=400,
+            superuser=True,
+            format="json",
+            request={
+                "name": "Local project",
+                "slug": "local-project",
+                "repo": "local:",
+                "vcs": "local",
+                "filemask": "*.strings",
+                "template": "en.strings",
+                "file_format": "strings-utf8",
+                "push": "https://username:password@github.com/example/push.git",
+                "new_lang": "none",
+                "enforced_checks": "",
+            },
+        )
+        response = self.do_request(
+            "api:project-components",
+            self.project_kwargs,
+            method="post",
+            code=400,
+            superuser=True,
+            format="json",
+            request={
+                "name": "Local project",
+                "slug": "local-project",
+                "repo": "local:",
+                "vcs": "local",
+                "filemask": "*.strings",
+                "template": "en.strings",
+                "file_format": "strings-utf8",
+                "push": "https://username:password@github.com/example/push.git",
+                "new_lang": "none",
+                "enforced_checks": ["xxx"],
+            },
+        )
+        response = self.do_request(
+            "api:project-components",
+            self.project_kwargs,
+            method="post",
+            code=201,
+            superuser=True,
+            format="json",
+            request={
+                "name": "Local project",
+                "slug": "local-project",
+                "repo": "local:",
+                "vcs": "local",
+                "filemask": "*.strings",
+                "template": "en.strings",
+                "file_format": "strings-utf8",
+                "push": "https://username:password@github.com/example/push.git",
+                "new_lang": "none",
+                "enforced_checks": ["same"],
+            },
+        )
+        self.assertEqual(response.data["repo"], "local:")
+        self.assertEqual(response.data["enforced_checks"], ["same"])
+        self.assertEqual(Component.objects.count(), 3)
+        component = Component.objects.get(slug="local-project")
+        self.assertEqual(component.enforced_checks, ["same"])
 
 
 class ComponentAPITest(APIBaseTest):

@@ -541,6 +541,10 @@ Generic settings
 
     Configures :setting:`DEFAULT_COMMITER_NAME`.
 
+.. envvar::  WEBLATE_DEFAULT_SHARED_TM
+
+   Configures :setting:`DEFAULT_SHARED_TM`.
+
 .. envvar:: WEBLATE_AKISMET_API_KEY
 
     Configures the Akismet API key, see :setting:`AKISMET_API_KEY`.

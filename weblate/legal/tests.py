@@ -97,7 +97,7 @@ class LegalTest(TestCase, RegistrationTestMixin):
         )
         # Check that contact works even without TOS
         response = self.client.get(reverse("contact"), follow=True)
-        self.assertContains(response, "You can contact maintainers")
+        self.assertContains(response, "You can only contact maintainers")
         # Confirm current TOS
         request = HttpRequest()
         request.META["REMOTE_ADDR"] = "127.0.0.1"

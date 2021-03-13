@@ -1,7 +1,31 @@
-Weblate 4.5.1
+Weblate 4.5.2
 -------------
 
 Not yet released.
+
+* Configurable schedule for automatic translation.
+* Added Lua format check.
+* Ignore format strings in the :ref:`check-duplicate` check.
+* Allow uploading screenshot from a translate page.
+* Added forced file synchronization to the repository maintenance.
+
+Weblate 4.5.1
+-------------
+
+Released on March 05th 2021.
+
+* Fixed editing of glossary flags in some corner cases.
+* Extend metrics usage to improve performance of several pages.
+* Store correct source language in TMX files.
+* Better handling for uploads of monolingual PO using API.
+* Improved alerts behavior glossaries.
+* Improved Markdown link checks.
+* Indicate glossary and source language in breadcrumbs.
+* Paginated component listing of huge projects.
+* Improved performance of translation, component or project removal.
+* Improved bulk edit performance.
+* Fixed preserving "Needs editing" and "Approved" states for ODF files.
+* Improved interface for customizing translation-file downloads
 
 Weblate 4.5
 -----------

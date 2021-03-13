@@ -19,6 +19,7 @@
 
 from datetime import date
 
+from django.conf import settings
 from django.db import transaction
 from django.utils.translation import gettext_lazy as _
 
@@ -54,8 +55,18 @@ class AutoTranslateAddon(BaseAddon):
             transaction.on_commit(self.make_callback(translation))
 
     def daily(self, component):
-        # Translate every component once in a month to reduce load.
+        # Translate every component less frequenctly to reduce load.
         # The translation is anyway triggered on update, so it should
         # not matter that much that we run this less often.
-        if component.id % 30 == date.today().day:
-            self.component_update(component)
+        if settings.BACKGROUND_TASKS == "never":
+            return
+        today = date.today()
+        if settings.BACKGROUND_TASKS == "monthly" and component.id % 30 != today.day:
+            return
+        if (
+            settings.BACKGROUND_TASKS == "weekly"
+            and component.id % 7 != today.weekday()
+        ):
+            return
+
+        self.component_update(component)

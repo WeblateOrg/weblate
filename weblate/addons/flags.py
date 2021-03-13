@@ -112,6 +112,7 @@ class BulkEditAddon(BaseAddon):
         bulk_perform(
             None,
             Unit.objects.filter(translation__component=component),
+            components=[component],
             query=self.instance.configuration["q"],
             target_state=self.instance.configuration["state"],
             add_flags=self.instance.configuration["add_flags"],

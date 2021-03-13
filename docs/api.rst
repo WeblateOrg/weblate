@@ -1,8 +1,8 @@
-.. _api:
-
 .. index::
     single: REST
     single: API
+
+.. _api:
 
 Weblate's REST API
 ==================
@@ -862,7 +862,7 @@ Projects
 
     :param project: Project URL slug
     :type project: string
-    :<json string operation: Operation to perform: one of ``push``, ``pull``, ``commit``, ``reset``, ``cleanup``
+    :<json string operation: Operation to perform: one of ``push``, ``pull``, ``commit``, ``reset``, ``cleanup``, ``file-sync``
     :>json boolean result: result of the operation
 
     **CURL example:**
@@ -917,11 +917,15 @@ Projects
 
     .. versionchanged:: 4.3
 
-       The ``zipfile`` and ``docfile`` parameters are now accepted for VCS less components, see :ref:`vcs-local`.
+       The ``zipfile`` and ``docfile`` parameters are now accepted for VCS-less components, see :ref:`vcs-local`.
 
     Creates translation components in the given project.
 
     .. hint::
+
+       Use :ref:`internal-urls` when creating multiple components from a single VCS repository.
+
+    .. note::
 
         Most of the component creation happens in the background. Check the
         ``task_url`` attribute of created component and follow the progress
@@ -929,11 +933,28 @@ Projects
 
     :param project: Project URL slug
     :type project: string
-    :<json file zipfile: ZIP file to upload into Weblate for translations initialization
-    :<json file docfile: Document to translate
+    :form file zipfile: ZIP file to upload into Weblate for translations initialization
+    :form file docfile: Document to translate
     :>json object result: Created component object; see :http:get:`/api/components/(string:project)/(string:component)/`
 
-    **CURL example:**
+    JSON can not be used when uploading the files using the ``zipfile`` and
+    ``docfile`` parameters. The data has to be uploaded as
+    :mimetype:`multipart/form-data`.
+
+    **CURL form request example:**
+
+    .. code-block:: sh
+
+        curl \
+            --form docfile=@strings.html \
+            --form name=Weblate \
+            --form slug=weblate \
+            --form file_format=html \
+            --form new_lang=add \
+            -H "Authorization: Token TOKEN" \
+            http://example.com/api/projects/hello/components/
+
+    **CURL JSON request example:**
 
     .. code-block:: sh
 
@@ -1789,9 +1810,8 @@ Translations
 
 .. http:get:: /api/translations/(string:project)/(string:component)/(string:language)/file/
 
-    Download current translation file as stored in VCS (without ``format``
-    parameter) or as converted to a standard format (currently supported:
-    Gettext PO, MO, XLIFF and TBX).
+    Download current translation file as it is stored in the VCS (without the ``format``
+    parameter) or converted to another format (see :ref:`download`).
 
     .. note::
 

@@ -38,6 +38,16 @@ from weblate.trans.models import Component, Project, Translation
 from weblate.utils import messages
 from weblate.vcs.git import LocalRepository
 
+SORT_KEYS = {
+    "name": lambda x: x.name if hasattr(x, "name") else x.component.name,
+    "translated": lambda x: x.stats.translated_percent,
+    "untranslated": lambda x: x.stats.todo,
+    "untranslated_words": lambda x: x.stats.todo_words,
+    "checks": lambda x: x.stats.allchecks,
+    "suggestions": lambda x: x.stats.suggestions,
+    "comments": lambda x: x.stats.comments,
+}
+
 
 def optional_form(form, perm_user, perm, perm_obj, **kwargs):
     if not perm_user.has_perm(perm, perm_obj):
@@ -69,10 +79,28 @@ def get_page_limit(request, default):
     return page, limit
 
 
+def sort_objects(object_list, sort_by: str):
+    if sort_by.startswith("-"):
+        sort_key = sort_by[1:]
+        reverse = True
+    else:
+        sort_key = sort_by
+        reverse = False
+    try:
+        key = SORT_KEYS[sort_key]
+    except KeyError:
+        return object_list, None
+    return sorted(object_list, key=key, reverse=reverse), sort_by
+
+
 def get_paginator(request, object_list, default_page_limit=100):
     """Return paginator and current page."""
     page, limit = get_page_limit(request, default_page_limit)
+    sort_by = request.GET.get("sort_by")
+    if sort_by:
+        object_list, sort_by = sort_objects(object_list, sort_by)
     paginator = Paginator(object_list, limit)
+    paginator.sort_by = sort_by
     try:
         return paginator.page(page)
     except EmptyPage:

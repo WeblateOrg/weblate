@@ -443,6 +443,23 @@ Ruby format
 
     `Ruby Kernel#sprintf <https://ruby-doc.org/core/Kernel.html#method-i-sprintf>`_
 
+Scheme format
+*************
+
+*Scheme format string does not match source*
+
++------------------------+------------------------------------------------------------+
+| Simple format string   | ``There are ~d apples``                                    |
++------------------------+------------------------------------------------------------+
+| Flag to enable         | `scheme-format`                                            |
++------------------------+------------------------------------------------------------+
+
+.. seealso::
+
+    `Srfi 28 <https://srfi.schemers.org/srfi-28/srfi-28.html>`_,
+    `Chicken Scheme format <https://wiki.call-cc.org/eggref/5/format>`_,
+    `Guile Scheme formatted output <https://www.gnu.org/software/guile/manual/html_node/Formatted-Output.html>`_
+
 Vue I18n formatting
 *******************
 
@@ -550,7 +567,7 @@ Markdown link references do not match source.
 
 .. seealso::
 
-   `Markdown links`_
+   `Markdown links <https://daringfireball.net/projects/markdown/syntax#link>`_
 
 .. _check-md-syntax:
 
@@ -565,10 +582,7 @@ Markdown syntax does not match source
 
 .. seealso::
 
-   `Markdown span elements`_
-
-.. _Markdown links: https://daringfireball.net/projects/markdown/syntax#link
-.. _Markdown span elements: https://daringfireball.net/projects/markdown/syntax#span
+   `Markdown span elements <https://daringfireball.net/projects/markdown/syntax#span>`_
 
 .. _check-max-length:
 

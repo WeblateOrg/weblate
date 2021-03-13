@@ -29,6 +29,12 @@ class Command(BaseCommand):
 
     help = "imports demo project and components"
 
+    def add_arguments(self, parser):
+        super().add_arguments(parser)
+        parser.add_argument(
+            "--additional", type=int, default=0, help="number of additional components"
+        )
+
     def handle(self, *args, **options):
         # Create project
         project = Project.objects.create(
@@ -51,12 +57,12 @@ class Command(BaseCommand):
             file_format="po",
             license="GPL-3.0-or-later",
         )
-        component.clean()
         while component.in_progress():
             self.stdout.write(
                 "Importing base component: {}%".format(component.get_progress()[0])
             )
             sleep(1)
+        component.clean()
 
         # Install discovery
         DiscoveryAddon.create(
@@ -86,3 +92,16 @@ class Command(BaseCommand):
             file_format="aresource",
             license="GPL-3.0-or-later",
         )
+
+        for i in range(options["additional"]):
+            Component.objects.create(
+                name=f"Additional {i}",
+                slug=f"additional-{i}",
+                project=project,
+                vcs="git",
+                repo=component.get_repo_link_url(),
+                filemask="weblate/langdata/locale/*/LC_MESSAGES/django.po",
+                new_base="weblate/langdata/locale/django.pot",
+                file_format="po",
+                license="GPL-3.0-or-later",
+            )

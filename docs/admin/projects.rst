@@ -168,12 +168,16 @@ Use shared translation memory
 
 Whether to use shared translation memory, see :ref:`shared-tm` for more details.
 
+Default value is determined by :setting:`DEFAULT_SHARED_TM`.
+
 .. _project-contribute_shared_tm:
 
 Contribute to shared translation memory
 +++++++++++++++++++++++++++++++++++++++
 
 Whether to contribute to shared translation memory, see :ref:`shared-tm` for more details.
+
+Default value is determined by :setting:`DEFAULT_SHARED_TM`.
 
 .. _project-access_control:
 
@@ -197,6 +201,11 @@ Enable source reviews
 +++++++++++++++++++++
 
 Enable review workflow for source strings, see :ref:`source-reviews`.
+
+.. seealso::
+
+   :ref:`report-source`,
+   :ref:`user-comments`
 
 .. _project-enable_hooks:
 
@@ -298,6 +307,10 @@ Version control system
 
 VCS to use, see :ref:`vcs` for details.
 
+.. seealso::
+
+   :ref:`push-changes`
+
 .. _component-repo:
 
 Source code repository
@@ -372,6 +385,10 @@ Branch for pushing changes, leave empty to use :ref:`component-branch`.
 
    This is currently only supported for Git, GitLab and GitHub, it is ignored
    for other VCS integrations.
+
+.. seealso::
+
+   :ref:`push-changes`
 
 .. _component-filemask:
 
@@ -630,25 +647,6 @@ Default value can be changed by :setting:`DEFAULT_ADD_MESSAGE`,
 :setting:`DEFAULT_ADDON_MESSAGE`, :setting:`DEFAULT_COMMIT_MESSAGE`,
 :setting:`DEFAULT_DELETE_MESSAGE`, :setting:`DEFAULT_MERGE_MESSAGE`.
 
-.. _component-committer_name:
-
-Committer name
-++++++++++++++
-
-Name of the committer used for Weblate commits, the author will always be the
-real translator. On some VCSs this might be not supported.
-
-The default value can be changed by :setting:`DEFAULT_COMMITER_NAME`.
-
-.. _component-committer_email:
-
-Committer e-mail
-++++++++++++++++
-
-E-mail address of the committer used for Weblate commits. The author will always
-be the real translator. On some VCSs this might be not supported. The default
-value can be changed in :setting:`DEFAULT_COMMITER_EMAIL`.
-
 .. _component-push_on_commit:
 
 Push on commit
@@ -671,6 +669,11 @@ changes in a component are committed once there is at least one older than
 this period.
 
 Default value can be changed by :setting:`COMMIT_PENDING_HOURS`.
+
+.. hint::
+
+   There are other situations where pending changes might be committed, see
+   :ref:`lazy-commit`.
 
 .. _component-auto_lock_error:
 

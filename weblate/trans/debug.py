@@ -36,7 +36,12 @@ class WeblateExceptionReporterFilter(SafeExceptionReporterFilter):
             else:
                 meta["WEBLATE_LANGUAGE"] = ""
 
-            for name, _url, version in get_versions_list():
-                meta[f"WEBLATE_VERSION:{name}"] = version
+            try:
+                for name, _url, version in get_versions_list():
+                    meta[f"WEBLATE_VERSION:{name}"] = version
+            except FileNotFoundError:
+                # Can happen during upgrade - the module is installed
+                # in newer version and different path
+                pass
 
         return super().get_post_parameters(request)

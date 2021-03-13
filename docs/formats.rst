@@ -267,7 +267,7 @@ Translation states
 
 .. versionchanged:: 3.3
 
-   Weblate ignored the state attribute prior to the 3.3 release.
+   Weblate ignored the ``state`` attribute prior to the 3.3 release.
 
 The ``state`` attribute in the file is partially processed and mapped to the
 "Needs edit" state in Weblate (the following states are used to flag the string as
@@ -1020,7 +1020,7 @@ syntax to .resx <https://lingohub.com/developers/resource-files/resw-resx-locali
 .. seealso::
 
     :doc:`tt:formats/resx`,
-    :ref:`addon-weblate.cleanup.generic`,
+    :ref:`addon-weblate.cleanup.generic`
 
 .. _csv:
 
@@ -1040,10 +1040,10 @@ the following files:
   ``ID``, ``fuzzy``, ``context``, ``translator_comments``,
   ``developer_comments``). This is the recommended approach, as it is the least
   error prone. Choose :guilabel:`CSV file` as a file format.
-* Files with two fields—source and translation (in this order), choose
-  :guilabel:`Simple CSV file` as a file format
+* Files with two fields—source and translation (in this order). Choose
+  :guilabel:`Simple CSV file` as a file format.
 * Headerless files with fields in order defined by the `translate-toolkit`_: ``location``, ``source``,
-  ``target``, ``ID``, ``fuzzy``, ``context``, ``translator_comments``, ``developer_comments``
+  ``target``, ``ID``, ``fuzzy``, ``context``, ``translator_comments``, ``developer_comments``.
   Choose :guilabel:`CSV file` as a file format.
 * Remember to define :ref:`component-template` when your files are monolingual
   (see :ref:`bimono`).
@@ -1180,7 +1180,7 @@ Example DTD file:
 
 .. seealso:: :doc:`tt:formats/dtd`
 
-.. flatxml:
+.. _flatxml:
 
 Flat XML files
 --------------
@@ -1375,8 +1375,8 @@ The translatable content is extracted from the Adobe InDesign Markup Language fi
 
 .. _tbx:
 
-Term Base eXchange format
--------------------------
+TermBase eXchange format
+------------------------
 
 .. versionadded:: 4.5
 
@@ -1391,7 +1391,7 @@ TBX is an XML format for the exchange of terminology data.
 +--------------------------------+----------------------------------+
 | Template for new translations  | `Empty`                          |
 +--------------------------------+----------------------------------+
-| File format                    | `Term Base eXchange file`        |
+| File format                    | `TermBase eXchange file`         |
 +--------------------------------+----------------------------------+
 
 .. seealso::

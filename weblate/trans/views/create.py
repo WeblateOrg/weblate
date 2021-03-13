@@ -53,10 +53,6 @@ from weblate.utils.views import create_component_from_doc, create_component_from
 from weblate.vcs.models import VCS_REGISTRY
 
 
-def scratch_create_component(project, name, slug, source_language, file_format):
-    return project.scratch_create_component(name, slug, source_language, file_format)
-
-
 class BaseCreateView(CreateView):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -271,11 +267,11 @@ class CreateComponent(BaseCreateView):
         elif self.has_billing:
             from weblate.billing.models import Billing
 
-            self.projects = request.user.owned_projects.filter(
+            self.projects = request.user.managed_projects.filter(
                 billing__in=Billing.objects.get_valid()
             ).order()
         else:
-            self.projects = request.user.owned_projects
+            self.projects = request.user.managed_projects
         self.initial = {}
         for field in self.basic_fields:
             if field in request.GET:
@@ -430,7 +426,8 @@ class CreateComponentSelection(CreateComponent):
 
     def form_valid(self, form):
         if self.origin == "scratch":
-            component = scratch_create_component(**form.cleaned_data)
+            project = form.cleaned_data["project"]
+            component = project.scratch_create_component(**form.cleaned_data)
             return redirect(
                 reverse("component_progress", kwargs=component.get_reverse_url_kwargs())
             )

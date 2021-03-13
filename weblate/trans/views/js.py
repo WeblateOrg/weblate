@@ -105,7 +105,7 @@ def get_unit_translations(request, unit_id):
                 .prefetch()
                 .prefetch_full(),
                 lambda unit: "{}-{}".format(
-                    user.profile.get_language_order(unit.translation.language),
+                    user.profile.get_translation_order(unit.translation),
                     unit.translation.language,
                 ),
             )

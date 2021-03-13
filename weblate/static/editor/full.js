@@ -409,6 +409,7 @@
       var $form = $(e.currentTarget);
 
       increaseLoading("glossary-add");
+      $glossaryDialog.modal("hide");
       $.ajax({
         type: "POST",
         url: $form.attr("action"),
@@ -425,9 +426,6 @@
         error: function (xhr, textStatus, errorThrown) {
           addAlert(errorThrown);
           decreaseLoading("glossary-add");
-        },
-        complete: function () {
-          $glossaryDialog.modal("hide");
         },
       });
       return false;

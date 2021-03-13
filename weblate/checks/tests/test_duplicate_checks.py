@@ -95,7 +95,7 @@ class DuplicateCheckTest(CheckTestCase):
             target="I have two two lemons lemons",
             translation=Translation(
                 language=Language("cs"),
-                component=Component(source_language=Language("en")),
+                component=Component(source_language=Language("en"), file_format="po"),
             ),
         )
         check = Check(unit=unit)
@@ -109,3 +109,11 @@ class DuplicateCheckTest(CheckTestCase):
 
     def test_separator(self):
         self.assertFalse(self._run_check("plug-in in"))
+
+    def test_format_strip(self):
+        self.assertTrue(self.check.check_single("", "Gruppe %Gruppe%", MockUnit()))
+        self.assertFalse(
+            self.check.check_single(
+                "", "Gruppe %Gruppe%", MockUnit(flags="percent-placeholders")
+            )
+        )

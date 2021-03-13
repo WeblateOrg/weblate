@@ -826,7 +826,7 @@ After enabling it, you should set :setting:`ENABLE_HTTPS` in the settings:
 Set properly SECURE_HSTS_SECONDS
 ++++++++++++++++++++++++++++++++
 
-If your site is served over SSL, you have to consider setting a value for :setting:`SECURE_HSTS_SECONDS`
+If your site is served over SSL, you have to consider setting a value for :setting:`django:SECURE_HSTS_SECONDS`
 in the :file:`settings.py` to enable HTTP Strict Transport Security.
 By default it's set to 0 as shown below.
 
@@ -1185,6 +1185,10 @@ On each deploy you need to compress the files to match current version:
 Running server
 --------------
 
+.. hint::
+
+   In case you are not experienced with services described below, you might want to try :doc:`install/docker`.
+
 You will need several services to run Weblate, the recommended setup consists of:
 
 * Database server (see :ref:`database-setup`)
@@ -1265,9 +1269,12 @@ use that for the following paths:
 
 .. seealso::
 
-    :ref:`production-compress`,
-    :doc:`django:howto/deployment/index`,
-    :doc:`django:howto/static-files/deployment`
+   :ref:`uwsgi`,
+   :ref:`apache`,
+   :ref:`apache-gunicorn`,
+   :ref:`production-compress`,
+   :doc:`django:howto/deployment/index`,
+   :doc:`django:howto/static-files/deployment`
 
 .. _csp:
 

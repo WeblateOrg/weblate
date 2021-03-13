@@ -174,6 +174,7 @@ turned off using :setting:`ENABLE_AVATARS`.
 Weblate currently supports:
 
 * `Gravatar <https://gravatar.com/>`_
+* `Libravatar <https://www.libravatar.org/>`_
 
 .. seealso::
 
@@ -186,11 +187,17 @@ Weblate currently supports:
 Spam protection
 ---------------
 
-You can protect against suggestion spamming by unauthenticated users by using
-the `akismet.com <https://akismet.com/>`_ service.
+You can protect against spamming by users by using the `Akismet
+<https://akismet.com/>`_ service.
 
-1. Install the `akismet` Python module
-2. Configure the Akismet API key.
+1. Install the `akismet` Python module (this is already included in the official Docker image).
+2. Obtain the Akismet API key.
+3. Store it as :setting:`AKISMET_API_KEY` or :envvar:`WEBLATE_AKISMET_API_KEY` in Docker.
+
+Following content is sent to Akismet for checking:
+
+* Suggestions from unauthenticated users
+* Project and component descriptions and links
 
 .. note::
 
@@ -200,7 +207,8 @@ the `akismet.com <https://akismet.com/>`_ service.
 .. seealso::
 
     :ref:`reverse-proxy`,
-    :setting:`AKISMET_API_KEY`
+    :setting:`AKISMET_API_KEY`,
+    :envvar:`WEBLATE_AKISMET_API_KEY`
 
 
 .. _gpg-sign:
@@ -272,3 +280,13 @@ The API has separate rate limiting settings, see :ref:`api-rate`.
    :ref:`user-rate`,
    :ref:`reverse-proxy`,
    :ref:`api-rate`
+
+Fedora Messaging integration
+----------------------------
+
+Fedora Messaging is AMQP-based publisher for all changes happening in Weblate.
+You can hook additional services on changes happening in Weblate using this.
+
+The Fedora Messaging integration is available as a separate Python module
+``weblate-fedora-messaging``. Please see
+<https://github.com/WeblateOrg/fedora_messaging/> for setup instructions.

@@ -35,7 +35,7 @@ if CI_DATABASE in ("mysql", "mariadb"):
     default_user = "root"
     DATABASES["default"]["OPTIONS"] = {
         "init_command": (
-            "SET NAMES utf8, "
+            "SET NAMES utf8mb4, "
             "wait_timeout=28800, "
             "default_storage_engine=INNODB, "
             'sql_mode="STRICT_TRANS_TABLES"'

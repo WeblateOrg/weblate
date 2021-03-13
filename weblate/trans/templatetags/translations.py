@@ -139,8 +139,8 @@ class Formatter:
                     )
                 offset += len(data)
                 if data == " ":
-                    self.tags[offset].append("</span></span>")
-                self.tags[offset].append("</ins>")
+                    self.tags[offset].insert(0, "</span></span>")
+                self.tags[offset].insert(0, "</ins>")
             elif op == dmp.DIFF_EQUAL:
                 offset += len(data)
 
@@ -151,7 +151,7 @@ class Formatter:
             self.tags[start].append(
                 '<span class="hlcheck"><span class="highlight-number"></span>'
             )
-            self.tags[end].append("</span>")
+            self.tags[end].insert(0, "</span>")
 
     @staticmethod
     def format_terms(terms):
@@ -186,7 +186,7 @@ class Formatter:
                 self.tags[match.start()].append(
                     GLOSSARY_TEMPLATE.format(self.format_terms(entries))
                 )
-                self.tags[match.end()].append("</span>")
+                self.tags[match.end()].insert(0, "</span>")
 
     def parse_search(self):
         """Highlights search matches."""
@@ -209,13 +209,13 @@ class Formatter:
             self.tags[match.start()].append(
                 '<span class="hlspace"><span class="space-space"><span class="sr-only">'
             )
-            self.tags[match.end()].append("</span></span></span>")
+            self.tags[match.end()].insert(0, "</span></span></span>")
 
         for match in re.finditer("\t", self.value):
             self.tags[match.start()].append(
                 '<span class="hlspace"><span class="space-tab"><span class="sr-only">'
             )
-            self.tags[match.end()].append("</span></span></span>")
+            self.tags[match.end()].insert(0, "</span></span></span>")
 
     def format(self):
         tags = self.tags
@@ -674,11 +674,13 @@ def show_contributor_agreement(context, component):
 
 
 @register.simple_tag(takes_context=True)
-def get_translate_url(context, obj):
+def get_translate_url(context, obj, glossary_browse=True):
     """Get translate URL based on user preference."""
     if isinstance(obj, BaseStats) or not hasattr(obj, "get_translate_url"):
         return ""
-    if context["user"].profile.translate_mode == Profile.TRANSLATE_ZEN:
+    if glossary_browse and hasattr(obj, "component") and obj.component.is_glossary:
+        name = "browse"
+    elif context["user"].profile.translate_mode == Profile.TRANSLATE_ZEN:
         name = "zen"
     else:
         name = "translate"
@@ -786,6 +788,8 @@ def indicate_alerts(context, obj):
         project = obj
     elif isinstance(obj, ProjectLanguage):
         project = obj.project
+        # For source language
+        result.extend(translation_alerts(obj))
     elif isinstance(obj, GhostProjectLanguageStats):
         component = obj.component
         project = component.project
@@ -841,7 +845,7 @@ def indicate_alerts(context, obj):
 
 @register.filter
 def markdown(text):
-    return render_markdown(text)
+    return mark_safe('<div class="markdown">{}</div>'.format(render_markdown(text)))
 
 
 @register.filter

@@ -7,7 +7,7 @@
 {% if project %}
 <li><a href="{{ project.get_absolute_url }}">{{ project.name }}</a></li>
 {% if component %}
-<li><a href="{{ component.get_absolute_url }}">{{ component.name }}</a></li>
+{% include "snippets/component-breadcrumb.html" with object=component %}
 {% endif %}
 {% if language %}
 <li><a href="{% url 'project-language' project=project.slug lang=language.code %}">{{ language }}</a></li>

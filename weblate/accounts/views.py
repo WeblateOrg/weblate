@@ -606,7 +606,7 @@ def user_page(request, user):
     )
 
 
-def user_avatar(request, user, size):
+def user_avatar(request, user: str, size: int):
     """User avatar view."""
     allowed_sizes = (
         # Used in top navigation

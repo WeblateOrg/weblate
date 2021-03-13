@@ -32,6 +32,7 @@ from django.core.exceptions import NON_FIELD_ERRORS, PermissionDenied, Validatio
 from django.core.validators import FileExtensionValidator
 from django.db.models import Q
 from django.forms import model_to_dict
+from django.forms.models import ModelChoiceIterator
 from django.forms.utils import from_current_timezone
 from django.template.loader import render_to_string
 from django.urls import reverse
@@ -54,12 +55,9 @@ from weblate.trans.defines import COMPONENT_NAME_LENGTH, REPO_LENGTH
 from weblate.trans.filter import FILTERS, get_filter_choice
 from weblate.trans.models import Announcement, Change, Component, Label, Project, Unit
 from weblate.trans.specialchars import RTL_CHARS_DATA, get_special_chars
-from weblate.trans.util import (
-    check_upload_method_permissions,
-    is_repo_link,
-    join_plural,
-)
+from weblate.trans.util import check_upload_method_permissions, is_repo_link
 from weblate.trans.validators import validate_check_flags
+from weblate.utils.antispam import is_spam
 from weblate.utils.errors import report_error
 from weblate.utils.forms import (
     ColorWidget,
@@ -585,7 +583,7 @@ class DownloadForm(forms.Form):
         self.helper.form_tag = False
         self.helper.layout = Layout(
             SearchField("q"),
-            Field("format"),
+            InlineRadios("format"),
         )
 
 
@@ -966,7 +964,7 @@ class NewLanguageOwnerForm(forms.Form):
     """Form for requesting new language."""
 
     lang = forms.MultipleChoiceField(
-        label=_("Languages"), choices=[], widget=SortedSelectMultiple
+        label=_("Languages"), choices=[], widget=forms.SelectMultiple
     )
 
     def get_lang_objects(self):
@@ -984,7 +982,7 @@ class NewLanguageOwnerForm(forms.Form):
 class NewLanguageForm(NewLanguageOwnerForm):
     """Form for requesting new language."""
 
-    lang = forms.ChoiceField(label=_("Language"), choices=[], widget=SortedSelect)
+    lang = forms.ChoiceField(label=_("Language"), choices=[], widget=forms.Select)
 
     def get_lang_objects(self):
         codes = BASIC_LANGUAGES
@@ -1223,7 +1221,31 @@ class ProjectDocsMixin:
         return ("admin/projects", f"project-{field.name}")
 
 
-class ComponentSettingsForm(SettingsBaseForm, ComponentDocsMixin):
+class ComponentAntispamMixin:
+    def clean_agreement(self):
+        value = self.cleaned_data["agreement"]
+        if is_spam(value, self.request):
+            raise ValidationError(_("This field has been identified as spam!"))
+        return value
+
+
+class ProjectAntispamMixin:
+    def clean_web(self):
+        value = self.cleaned_data["web"]
+        if is_spam(value, self.request):
+            raise ValidationError(_("This field has been identified as spam!"))
+        return value
+
+    def clean_instructions(self):
+        value = self.cleaned_data["instructions"]
+        if is_spam(value, self.request):
+            raise ValidationError(_("This field has been identified as spam!"))
+        return value
+
+
+class ComponentSettingsForm(
+    SettingsBaseForm, ComponentDocsMixin, ComponentAntispamMixin
+):
     """Component settings form."""
 
     class Meta:
@@ -1282,7 +1304,7 @@ class ComponentSettingsForm(SettingsBaseForm, ComponentDocsMixin):
         super().__init__(request, *args, **kwargs)
         if self.hide_restricted:
             self.fields["restricted"].widget = forms.HiddenInput()
-        self.fields["links"].queryset = request.user.owned_projects.exclude(
+        self.fields["links"].queryset = request.user.managed_projects.exclude(
             pk=self.instance.pk
         )
         self.helper.layout = Layout(
@@ -1419,7 +1441,7 @@ class ComponentSettingsForm(SettingsBaseForm, ComponentDocsMixin):
             data["restricted"] = self.instance.restricted
 
 
-class ComponentCreateForm(SettingsBaseForm, ComponentDocsMixin):
+class ComponentCreateForm(SettingsBaseForm, ComponentDocsMixin, ComponentAntispamMixin):
     """Component creation form."""
 
     class Meta:
@@ -1450,7 +1472,7 @@ class ComponentCreateForm(SettingsBaseForm, ComponentDocsMixin):
         widgets = {"source_language": SortedSelect}
 
 
-class ComponentNameForm(forms.Form, ComponentDocsMixin):
+class ComponentNameForm(forms.Form, ComponentDocsMixin, ComponentAntispamMixin):
     name = forms.CharField(
         label=_("Component name"),
         max_length=COMPONENT_NAME_LENGTH,
@@ -1461,11 +1483,16 @@ class ComponentNameForm(forms.Form, ComponentDocsMixin):
         max_length=COMPONENT_NAME_LENGTH,
         help_text=_("Name used in URLs and filenames."),
     )
+    is_glossary = forms.BooleanField(
+        label=_("Use as a glossary"),
+        required=False,
+    )
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, request, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper()
         self.helper.form_tag = False
+        self.request = request
 
 
 class ComponentSelectForm(ComponentNameForm):
@@ -1480,7 +1507,7 @@ class ComponentSelectForm(ComponentNameForm):
             kwargs.pop("instance")
         if "auto_id" not in kwargs:
             kwargs["auto_id"] = "id_existing_%s"
-        super().__init__(*args, **kwargs)
+        super().__init__(request, *args, **kwargs)
 
 
 class ComponentBranchForm(ComponentSelectForm):
@@ -1539,7 +1566,7 @@ class ComponentProjectForm(ComponentNameForm):
     def __init__(self, request, *args, **kwargs):
         if "instance" in kwargs:
             kwargs.pop("instance")
-        super().__init__(*args, **kwargs)
+        super().__init__(request, *args, **kwargs)
         # It might be overriden based on preset project
         self.fields["source_language"].initial = Language.objects.default_language
         self.request = request
@@ -1742,10 +1769,10 @@ class ComponentMoveForm(SettingsBaseForm):
 
     def __init__(self, request, *args, **kwargs):
         super().__init__(request, *args, **kwargs)
-        self.fields["project"].queryset = request.user.owned_projects
+        self.fields["project"].queryset = request.user.managed_projects
 
 
-class ProjectSettingsForm(SettingsBaseForm, ProjectDocsMixin):
+class ProjectSettingsForm(SettingsBaseForm, ProjectDocsMixin, ProjectAntispamMixin):
     """Project settings form."""
 
     class Meta:
@@ -1894,7 +1921,7 @@ class ProjectRenameForm(SettingsBaseForm):
         fields = ["slug"]
 
 
-class ProjectCreateForm(SettingsBaseForm, ProjectDocsMixin):
+class ProjectCreateForm(SettingsBaseForm, ProjectDocsMixin, ProjectAntispamMixin):
     """Project creation form."""
 
     # This is fake field with is either hidden or configured
@@ -1937,7 +1964,7 @@ class MatrixLanguageForm(forms.Form):
     """Form for requesting new language."""
 
     lang = forms.MultipleChoiceField(
-        label=_("Languages"), choices=[], widget=SortedSelectMultiple
+        label=_("Languages"), choices=[], widget=forms.SelectMultiple
     )
 
     def __init__(self, component, *args, **kwargs):
@@ -1951,9 +1978,22 @@ class MatrixLanguageForm(forms.Form):
 class NewUnitBaseForm(forms.Form):
     variant = forms.CharField(required=False, widget=forms.HiddenInput)
 
+    def __init__(self, translation, user, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.translation = translation
+        self.user = user
+
+    def clean(self):
+        try:
+            data = self.as_tuple()
+        except KeyError:
+            # Probably some fields validation has failed
+            return
+        self.translation.validate_new_unit_data(*data)
+
 
 class NewMonolingualUnitForm(NewUnitBaseForm):
-    key = forms.CharField(
+    context = forms.CharField(
         label=_("Translation key"),
         help_text=_(
             "Key used to identify string in translation file. "
@@ -1961,7 +2001,7 @@ class NewMonolingualUnitForm(NewUnitBaseForm):
         ),
         required=True,
     )
-    value = PluralField(
+    source = PluralField(
         label=_("Source language text"),
         help_text=_(
             "You can edit this later, as with any other string in "
@@ -1971,17 +2011,14 @@ class NewMonolingualUnitForm(NewUnitBaseForm):
     )
 
     def __init__(self, translation, user, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.fields["key"].widget.attrs["tabindex"] = 99
-        self.fields["value"].widget.attrs["tabindex"] = 100
-        self.fields["value"].widget.profile = user.profile
-        self.fields["value"].initial = Unit(translation=translation, id_hash=0)
+        super().__init__(translation, user, *args, **kwargs)
+        self.fields["context"].widget.attrs["tabindex"] = 99
+        self.fields["source"].widget.attrs["tabindex"] = 100
+        self.fields["source"].widget.profile = user.profile
+        self.fields["source"].initial = Unit(translation=translation, id_hash=0)
 
     def as_tuple(self):
-        return (self.cleaned_data["key"], self.cleaned_data["value"], None)
-
-    def unit_exists(self, obj):
-        return obj.unit_set.filter(context=self.cleaned_data["key"]).exists()
+        return (self.cleaned_data["context"], self.cleaned_data["source"], None)
 
 
 class NewBilingualSourceUnitForm(NewUnitBaseForm):
@@ -1996,7 +2033,7 @@ class NewBilingualSourceUnitForm(NewUnitBaseForm):
     )
 
     def __init__(self, translation, user, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+        super().__init__(translation, user, *args, **kwargs)
         self.fields["context"].widget.attrs["tabindex"] = 99
         self.fields["source"].widget.attrs["tabindex"] = 100
         self.fields["source"].widget.profile = user.profile
@@ -2008,14 +2045,8 @@ class NewBilingualSourceUnitForm(NewUnitBaseForm):
         return (
             self.cleaned_data.get("context", ""),
             self.cleaned_data["source"],
-            self.cleaned_data.get("target", ""),
+            self.cleaned_data.get("target"),
         )
-
-    def unit_exists(self, obj):
-        return obj.unit_set.filter(
-            context=self.cleaned_data.get("context", ""),
-            source=join_plural(self.cleaned_data["source"]),
-        ).exists()
 
 
 class NewBilingualUnitForm(NewBilingualSourceUnitForm):
@@ -2042,6 +2073,39 @@ def get_new_unit_form(translation, user, data=None, initial=None):
     return NewBilingualUnitForm(translation, user, data=data, initial=initial)
 
 
+class CachedQueryIterator(ModelChoiceIterator):
+    """
+    Choice iterator for cached querysets.
+
+    It assumes the queryset is reused and avoids using iterator or count queries.
+    """
+
+    def __iter__(self):
+        if self.field.empty_label is not None:
+            yield ("", self.field.empty_label)
+        for obj in self.queryset:
+            yield self.choice(obj)
+
+    def __len__(self):
+        return len(self.queryset) + (1 if self.field.empty_label is not None else 0)
+
+    def __bool__(self):
+        return self.field.empty_label is not None or bool(self.queryset)
+
+
+class CachedModelMultipleChoiceField(forms.ModelMultipleChoiceField):
+    iterator = CachedQueryIterator
+
+    def _get_queryset(self):
+        return self._queryset
+
+    def _set_queryset(self, queryset):
+        self._queryset = queryset
+        self.widget.choices = self.choices
+
+    queryset = property(_get_queryset, _set_queryset)
+
+
 class BulkEditForm(forms.Form):
     q = QueryField(required=True)
     state = forms.ChoiceField(
@@ -2049,13 +2113,13 @@ class BulkEditForm(forms.Form):
     )
     add_flags = FlagField(label=_("Translation flags to add"), required=False)
     remove_flags = FlagField(label=_("Translation flags to remove"), required=False)
-    add_labels = forms.ModelMultipleChoiceField(
+    add_labels = CachedModelMultipleChoiceField(
         queryset=Label.objects.none(),
         label=_("Labels to add"),
         widget=forms.CheckboxSelectMultiple(),
         required=False,
     )
-    remove_labels = forms.ModelMultipleChoiceField(
+    remove_labels = CachedModelMultipleChoiceField(
         queryset=Label.objects.none(),
         label=_("Labels to remove"),
         widget=forms.CheckboxSelectMultiple(),

@@ -188,6 +188,33 @@ You can select which ones to use:
 
    :ref:`autofix`, :ref:`custom-autofix`
 
+.. setting:: BACKGROUND_TASKS
+
+BACKGROUND_TASKS
+----------------
+
+.. versionadded:: 4.5.2
+
+Defines how often lengthy maintenance tasks should be triggered for a
+component.
+
+Right now this controls:
+
+* :ref:`addon-weblate.autotranslate.autotranslate` addon
+* :doc:`checks` recalculation
+
+Possible choices:
+
+* ``monthly`` (this is the default)
+* ``weekly``
+* ``daily``
+* ``never``
+
+.. note::
+
+   Increasing the frequency is not recommended when Weblate contains thousands
+   of components.
+
 .. setting:: BASE_DIR
 
 BASE_DIR
@@ -501,13 +528,11 @@ DEFAULT_COMMITER_EMAIL
 
 .. versionadded:: 2.4
 
-Committer e-mail address for created translation components defaulting to ``noreply@weblate.org``.
+Committer e-mail address defaulting to ``noreply@weblate.org``.
 
 .. seealso::
 
-   :setting:`DEFAULT_COMMITER_NAME`,
-   :ref:`component`,
-   :ref:`component-committer_email`
+   :setting:`DEFAULT_COMMITER_NAME`
 
 .. setting:: DEFAULT_COMMITER_NAME
 
@@ -516,13 +541,11 @@ DEFAULT_COMMITER_NAME
 
 .. versionadded:: 2.4
 
-Committer name for created translation components defaulting to ``Weblate``.
+Committer name defaulting to ``Weblate``.
 
 .. seealso::
 
-   :setting:`DEFAULT_COMMITER_EMAIL`,
-   :ref:`component`,
-   :ref:`component-committer_name`
+   :setting:`DEFAULT_COMMITER_EMAIL`
 
 .. setting:: DEFAULT_LANGUAGE
 
@@ -556,6 +579,15 @@ Merge style for any new components.
 
    :ref:`component`,
    :ref:`component-merge_style`
+
+.. setting:: DEFAULT_SHARED_TM
+
+DEFAULT_SHARED_TM
+-----------------
+
+.. versionadded:: 3.2
+
+Configures default value of :ref:`project-use_shared_tm` and :ref:`project-contribute_shared_tm`.
 
 .. setting:: DEFAULT_TRANSLATION_PROPAGATION
 

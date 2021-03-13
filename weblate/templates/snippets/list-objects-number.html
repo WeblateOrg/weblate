@@ -2,7 +2,7 @@
 {% load humanize %}
 
 <td class="number {{ class }}" data-value="{{ value }}">
-    {% if value == 0 %}
+    {% if value == 0 and not show_zero %}
     {% elif translate_url %}
         <a href="{{ translate_url }}?{{ query }}">
             {{ value|intcomma }}

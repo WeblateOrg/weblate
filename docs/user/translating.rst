@@ -62,22 +62,25 @@ Comments
 --------
 
 Three types of comments can be posted: for translations, source strings, or to
-report source string bugs when this functionality is turned on. Choose
-the one suitable to topic you want to discuss. Source string comments are
-in any event good for providing feedback on the original string, for example that it should
-be rephrased or to ask questions about it.
+report source string bugs when this functionality is turned on using
+:ref:`project-source_review`. Choose the one suitable to topic you want to
+discuss. Source string comments are in any event good for providing feedback on
+the original string, for example that it should be rephrased or to ask
+questions about it.
 
 You can use Markdown syntax in all comments and mention other users using
 ``@mention``.
 
 .. seealso::
 
-   :ref:`report-source`
+   :ref:`report-source`,
+   :ref:`source-reviews`,
+   :ref:`project-source_review`
 
 Variants
 --------
 
-Variants are used to group different length variants of the a string. The
+Variants are used to group different length variants of the string. The
 frontend of your project can then use different strings depending on the screen
 or window size.
 
@@ -99,7 +102,7 @@ localization workflow (for example to define categories of strings).
 Translating
 -----------
 
-On the translation page, the source string and an editing area for its translattion is shown.
+On the translation page, the source string and an editing area for its translation are shown.
 Should the translation be plural, multiple source strings and editing areas are
 shown, each described and labeled in the amount of plural forms the translated language has.
 
@@ -201,13 +204,13 @@ The following keyboard shortcuts can be utilized during translation:
 |                                           |                                                                       |
 | :kbd:`Cmd+1` to :kbd:`Cmd+9`              |                                                                       |
 +-------------------------------------------+-----------------------------------------------------------------------+
-| :kbd:`Ctrl+M`+:kbd:`1` to :kbd:`9` or     | Copy the machine translation of given number to current translation.  |
+| :kbd:`Ctrl+M`\+\ :kbd:`1` to :kbd:`9` or  | Copy the machine translation of given number to current translation.  |
 |                                           |                                                                       |
-| :kbd:`Cmd+M`+:kbd:`1` to :kbd:`9`         |                                                                       |
+| :kbd:`Cmd+M`\+\ :kbd:`1` to :kbd:`9`      |                                                                       |
 +-------------------------------------------+-----------------------------------------------------------------------+
-| :kbd:`Ctrl+I`+:kbd:`1` to :kbd:`9` or     | Ignore one item in the list of failing checks.                        |
+| :kbd:`Ctrl+I`\+\ :kbd:`1` to :kbd:`9` or  | Ignore one item in the list of failing checks.                        |
 |                                           |                                                                       |
-| :kbd:`Cmd+I`+:kbd:`1` to :kbd:`9`         |                                                                       |
+| :kbd:`Cmd+I`\+\ :kbd:`1` to :kbd:`9`      |                                                                       |
 +-------------------------------------------+-----------------------------------------------------------------------+
 | :kbd:`Ctrl+J` or                          | Shows the :guilabel:`Nearby strings` tab.                             |
 |                                           |                                                                       |

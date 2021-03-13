@@ -30,6 +30,10 @@ Data submitted to the Weblate
 * Tallies of some objects in your Weblate database (projects, components, languages, source strings and users)
 * The public SSH key of your instance
 
+Additionally, when :ref:`discover-weblate` is turned on:
+
+* List of public projects (name, URL and website)
+
 No other data is submitted.
 
 Integration services
@@ -37,7 +41,37 @@ Integration services
 
 * See if your support package is still valid
 * :ref:`cloudbackup`
+* :ref:`discover-weblate`
 
 .. hint::
 
    Purchased support packages are already activated upon purchase, and can be used without integrating them.
+
+.. _discover-weblate:
+
+Discover Weblate
+----------------
+
+.. versionadded:: 4.5.2
+
+.. note::
+
+   This feature is currently in early beta.
+
+Discover Weblate is an opt-in service that makes it easier for users to find
+Weblate servers. Users can browse registered services on
+<https://weblate.org/discover/>, and find projects to contribute.
+
+To listed a Weblate server in the discovery:
+
+.. hint::
+
+   You can skip the first two steps with activate support package. The server
+   registration was already done during activation of your support package, see
+   :ref:`activate-support`.
+
+1. Register yourself at weblate.org
+2. Register your Weblate server in the discovery database
+3. Turn on the discovery listing in your Weblate management page using :guilabel:`Enable discovery` button:
+
+.. image:: /images/support-discovery.png

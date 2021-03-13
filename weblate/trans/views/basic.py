@@ -56,6 +56,7 @@ from weblate.utils.ratelimit import session_ratelimit_post
 from weblate.utils.stats import GhostProjectLanguageStats, prefetch_stats
 from weblate.utils.views import (
     get_component,
+    get_paginator,
     get_project,
     get_translation,
     optional_form,
@@ -135,12 +136,13 @@ def show_project(request, project):
 
     last_changes = obj.change_set.prefetch().order()[:10]
     last_announcements = (
-        Change.objects.prefetch()
-        .order()
-        .filter(project=obj, action=Change.ACTION_ANNOUNCEMENT)[:10]
+        obj.change_set.prefetch().order().filter(action=Change.ACTION_ANNOUNCEMENT)[:10]
     )
 
-    all_components = obj.child_components.filter_access(user).prefetch().order()
+    all_components = prefetch_stats(
+        obj.child_components.filter_access(user).prefetch().order()
+    )
+    all_components = get_paginator(request, all_components)
     for component in all_components:
         component.is_shared = None if component.project == obj else component.project
 
@@ -161,12 +163,10 @@ def show_project(request, project):
 
     language_stats = sort_unicode(
         language_stats,
-        lambda x: "{}-{}".format(
-            user.profile.get_language_order(x.language), x.language
-        ),
+        lambda x: "{}-{}".format(user.profile.get_translation_order(x), x.language),
     )
 
-    components = prefetch_tasks(prefetch_stats(all_components))
+    components = prefetch_tasks(all_components)
 
     return render(
         request,
@@ -230,9 +230,7 @@ def show_component(request, project, component):
 
     translations = sort_unicode(
         translations,
-        lambda x: "{}-{}".format(
-            user.profile.get_language_order(x.language), x.language
-        ),
+        lambda x: "{}-{}".format(user.profile.get_translation_order(x), x.language),
     )
 
     return render(

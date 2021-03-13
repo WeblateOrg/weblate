@@ -38,50 +38,77 @@ def bulk_perform(
     add_labels,
     remove_labels,
     project,
+    components=None,
 ):
     matching = unit_set.search(query, project=project).prefetch()
-    components = Component.objects.filter(
-        id__in=matching.values_list("translation__component_id", flat=True)
-    )
+    if components is None:
+        components = Component.objects.filter(
+            id__in=matching.values_list("translation__component_id", flat=True)
+        )
 
     target_state = int(target_state)
     add_flags = Flags(add_flags)
     remove_flags = Flags(remove_flags)
 
+    update_source = add_flags or remove_flags or add_labels or remove_labels
+
     updated = 0
     for component in components:
         with transaction.atomic(), component.lock():
-            component.preload_sources()
             component.commit_pending("bulk edit", user)
-            component_units = matching.filter(
-                translation__component=component
-            ).select_for_update(**get_nokey_args())
+            component_units = matching.filter(translation__component=component)
 
-            can_edit_source = user is None or user.has_perm("source.edit", component)
+            source_unit_ids = set()
 
-            update_unit_ids = []
-            source_units = []
+            if target_state == -1:
+                # Only fetch source unit ids here
+                source_unit_ids = set(
+                    component_units.values_list("source_unit_id", flat=True)
+                )
+            else:
+                update_unit_ids = []
+                source_units = []
+                # Generate changes for state change
+                for unit in component_units.select_for_update(**get_nokey_args()):
+                    source_unit_ids.add(unit.source_unit_id)
 
-            for unit in component_units:
-                changed = False
-                source_unit = unit.source_unit
+                    if (
+                        (user is None or user.has_perm("unit.edit", unit))
+                        and target_state != unit.state
+                        and unit.state in EDITABLE_STATES
+                    ):
+                        # Create change object for edit, update is done outside the loop
+                        unit.generate_change(
+                            user, user, Change.ACTION_BULK_EDIT, check_new=False
+                        )
+                        updated += 1
+                        update_unit_ids.append(unit.pk)
+                        if unit.is_source:
+                            source_units.append(unit)
 
-                if (
-                    target_state != -1
-                    and (user is None or user.has_perm("unit.edit", unit))
-                    and target_state != unit.state
-                    and unit.state in EDITABLE_STATES
-                ):
-                    # Create change object for edit, update is done outside the looop
-                    unit.generate_change(
-                        user, user, Change.ACTION_BULK_EDIT, check_new=False
-                    )
-                    changed = True
-                    update_unit_ids.append(unit.pk)
-                    if unit.is_source:
-                        source_units.append(unit)
+                # Bulk update state
+                Unit.objects.filter(pk__in=update_unit_ids).update(
+                    pending=True, state=target_state
+                )
+                # Fire source_change event in bulk for source units
+                for unit in source_units:
+                    # The change is already done in the database, we
+                    # need it here to recalculate state of translation
+                    # units
+                    unit.is_bulk_edit = True
+                    unit.pending = True
+                    unit.state = target_state
+                    unit.source_unit_save()
 
-                if can_edit_source:
+            if update_source and (
+                user is None or user.has_perm("source.edit", component)
+            ):
+                # Perform changes on the source units
+                source_units = Unit.objects.filter(pk__in=source_unit_ids).prefetch()
+                if add_labels or remove_labels:
+                    source_units = source_units.prefetch_related("labels")
+                for source_unit in source_units.select_for_update(**get_nokey_args()):
+                    changed = False
                     if add_flags or remove_flags:
                         flags = Flags(source_unit.extra_flags)
                         flags.merge(add_flags)
@@ -103,23 +130,8 @@ def bulk_perform(
                         source_unit.labels.remove(*remove_labels)
                         changed = True
 
-                if changed:
-                    updated += 1
-
-            if target_state != -1:
-                # Bulk update state
-                Unit.objects.filter(pk__in=update_unit_ids).update(
-                    pending=True, state=target_state
-                )
-                # Fire source_change event in bulk for source units
-                for unit in source_units:
-                    # The change is already done in the database, we
-                    # need it here to recalculate state of translation
-                    # units
-                    unit.is_bulk_edit = True
-                    unit.pending = True
-                    unit.state = target_state
-                    unit.source_unit_save()
+                    if changed:
+                        updated += 1
 
         component.invalidate_cache()
 

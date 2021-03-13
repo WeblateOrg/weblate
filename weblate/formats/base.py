@@ -490,7 +490,6 @@ class TranslationFormat:
         """Add new unit to monolingual store."""
         unit = self.create_unit(key, source, target)
         self.add_unit(unit)
-        self.save()
 
     @classmethod
     def get_class(cls):

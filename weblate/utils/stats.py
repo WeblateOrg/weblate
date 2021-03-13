@@ -775,7 +775,10 @@ class ProjectLanguage:
 
     @cached_property
     def is_source(self):
-        return any(translation.is_source for translation in self.translation_set)
+        return all(
+            self.language.id == component.source_language_id
+            for component in self.project.child_components
+        )
 
 
 class ProjectLanguageStats(LanguageStats):
@@ -819,6 +822,13 @@ class ProjectLanguageStats(LanguageStats):
 
     def get_single_language_stats(self, language):
         return self
+
+    @cached_property
+    def is_source(self):
+        return all(
+            self.language.id == component.source_language_id
+            for component in self.project.child_components
+        )
 
 
 class ProjectStats(BaseStats):

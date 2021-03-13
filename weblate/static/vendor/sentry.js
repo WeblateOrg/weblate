@@ -1,4 +1,4 @@
-/*! @sentry/browser 6.2.0 (37dd210) | https://github.com/getsentry/sentry-javascript */
+/*! @sentry/browser 6.2.2 (547a01e) | https://github.com/getsentry/sentry-javascript */
 var Sentry = (function (exports) {
     /*! *****************************************************************************
     Copyright (c) Microsoft Corporation. All rights reserved.
@@ -4306,7 +4306,7 @@ var Sentry = (function (exports) {
         hub.bindClient(client);
     }
 
-    var SDK_VERSION = '6.2.0';
+    var SDK_VERSION = '6.2.2';
 
     var originalFunctionToString;
     /** Patch toString calls to return proper name for wrapped functions */
@@ -5031,12 +5031,74 @@ var Sentry = (function (exports) {
         return BaseTransport;
     }());
 
-    var global$3 = getGlobalObject();
+    /**
+     * A special usecase for incorrectly wrapped Fetch APIs in conjunction with ad-blockers.
+     * Whenever someone wraps the Fetch API and returns the wrong promise chain,
+     * this chain becomes orphaned and there is no possible way to capture it's rejections
+     * other than allowing it bubble up to this very handler. eg.
+     *
+     * const f = window.fetch;
+     * window.fetch = function () {
+     *   const p = f.apply(this, arguments);
+     *
+     *   p.then(function() {
+     *     console.log('hi.');
+     *   });
+     *
+     *   return p;
+     * }
+     *
+     * `p.then(function () { ... })` is producing a completely separate promise chain,
+     * however, what's returned is `p` - the result of original `fetch` call.
+     *
+     * This mean, that whenever we use the Fetch API to send our own requests, _and_
+     * some ad-blocker blocks it, this orphaned chain will _always_ reject,
+     * effectively causing another event to be captured.
+     * This makes a whole process become an infinite loop, which we need to somehow
+     * deal with, and break it in one way or another.
+     *
+     * To deal with this issue, we are making sure that we _always_ use the real
+     * browser Fetch API, instead of relying on what `window.fetch` exposes.
+     * The only downside to this would be missing our own requests as breadcrumbs,
+     * but because we are already not doing this, it should be just fine.
+     *
+     * Possible failed fetch error messages per-browser:
+     *
+     * Chrome:  Failed to fetch
+     * Edge:    Failed to Fetch
+     * Firefox: NetworkError when attempting to fetch resource
+     * Safari:  resource blocked by content blocker
+     */
+    function getNativeFetchImplementation() {
+        var _a, _b;
+        // Make sure that the fetch we use is always the native one.
+        var global = getGlobalObject();
+        var document = global.document;
+        // eslint-disable-next-line deprecation/deprecation
+        if (typeof ((_a = document) === null || _a === void 0 ? void 0 : _a.createElement) === "function") {
+            try {
+                var sandbox = document.createElement('iframe');
+                sandbox.hidden = true;
+                document.head.appendChild(sandbox);
+                if ((_b = sandbox.contentWindow) === null || _b === void 0 ? void 0 : _b.fetch) {
+                    return sandbox.contentWindow.fetch.bind(global);
+                }
+                document.head.removeChild(sandbox);
+            }
+            catch (e) {
+                logger.warn('Could not create sandbox iframe for pure fetch check, bailing to window.fetch: ', e);
+            }
+        }
+        return global.fetch.bind(global);
+    }
     /** `fetch` based transport */
     var FetchTransport = /** @class */ (function (_super) {
         __extends(FetchTransport, _super);
-        function FetchTransport() {
-            return _super !== null && _super.apply(this, arguments) || this;
+        function FetchTransport(options, fetchImpl) {
+            if (fetchImpl === void 0) { fetchImpl = getNativeFetchImplementation(); }
+            var _this = _super.call(this, options) || this;
+            _this._fetch = fetchImpl;
+            return _this;
         }
         /**
          * @inheritDoc
@@ -5080,8 +5142,7 @@ var Sentry = (function (exports) {
                 options.headers = this.options.headers;
             }
             return this._buffer.add(new SyncPromise(function (resolve, reject) {
-                global$3
-                    .fetch(sentryRequest.url, options)
+                _this._fetch(sentryRequest.url, options)
                     .then(function (response) {
                     var headers = {
                         'x-sentry-rate-limits': response.headers.get('X-Sentry-Rate-Limits'),
@@ -6098,7 +6159,7 @@ var Sentry = (function (exports) {
         return LinkedErrors;
     }());
 
-    var global$4 = getGlobalObject();
+    var global$3 = getGlobalObject();
     /** UserAgent */
     var UserAgent = /** @class */ (function () {
         function UserAgent() {
@@ -6115,13 +6176,13 @@ var Sentry = (function (exports) {
                 var _a, _b, _c;
                 if (getCurrentHub().getIntegration(UserAgent)) {
                     // if none of the information we want exists, don't bother
-                    if (!global$4.navigator && !global$4.location && !global$4.document) {
+                    if (!global$3.navigator && !global$3.location && !global$3.document) {
                         return event;
                     }
                     // grab as much info as exists and add it to the event
-                    var url = ((_a = event.request) === null || _a === void 0 ? void 0 : _a.url) || ((_b = global$4.location) === null || _b === void 0 ? void 0 : _b.href);
-                    var referrer = (global$4.document || {}).referrer;
-                    var userAgent = (global$4.navigator || {}).userAgent;
+                    var url = ((_a = event.request) === null || _a === void 0 ? void 0 : _a.url) || ((_b = global$3.location) === null || _b === void 0 ? void 0 : _b.href);
+                    var referrer = (global$3.document || {}).referrer;
+                    var userAgent = (global$3.navigator || {}).userAgent;
                     var headers = __assign(__assign(__assign({}, (_c = event.request) === null || _c === void 0 ? void 0 : _c.headers), (referrer && { Referer: referrer })), (userAgent && { 'User-Agent': userAgent }));
                     var request = __assign(__assign({}, (url && { url: url })), { headers: headers });
                     return __assign(__assign({}, event), { request: request });
@@ -6162,7 +6223,20 @@ var Sentry = (function (exports) {
          */
         function BrowserClient(options) {
             if (options === void 0) { options = {}; }
-            return _super.call(this, BrowserBackend, options) || this;
+            var _this = this;
+            options._metadata = options._metadata || {};
+            options._metadata.sdk = options._metadata.sdk || {
+                name: 'sentry.javascript.browser',
+                packages: [
+                    {
+                        name: 'npm:@sentry/browser',
+                        version: SDK_VERSION,
+                    },
+                ],
+                version: SDK_VERSION,
+            };
+            _this = _super.call(this, BrowserBackend, options) || this;
+            return _this;
         }
         /**
          * Show a report dialog to the user to send feedback to a specific event.
@@ -6283,17 +6357,6 @@ var Sentry = (function (exports) {
         if (options.autoSessionTracking === undefined) {
             options.autoSessionTracking = true;
         }
-        options._metadata = options._metadata || {};
-        options._metadata.sdk = {
-            name: 'sentry.javascript.browser',
-            packages: [
-                {
-                    name: 'npm:@sentry/browser',
-                    version: SDK_VERSION,
-                },
-            ],
-            version: SDK_VERSION,
-        };
         initAndBind(BrowserClient, options);
         if (options.autoSessionTracking) {
             startSessionTracking();
@@ -6384,16 +6447,23 @@ var Sentry = (function (exports) {
             return;
         }
         var hub = getCurrentHub();
-        hub.startSession();
-        hub.captureSession();
-        // We want to create a session for every navigation as well
-        addInstrumentationHandler({
-            callback: function () {
-                hub.startSession();
-                hub.captureSession();
-            },
-            type: 'history',
-        });
+        if ('startSession' in hub) {
+            // The only way for this to be false is for there to be a version mismatch between @sentry/browser (>= 6.0.0) and
+            // @sentry/hub (< 5.27.0). In the simple case, there won't ever be such a mismatch, because the two packages are
+            // pinned at the same version in package.json, but there are edge cases where it's possible'. See
+            // https://github.com/getsentry/sentry-javascript/issues/3234 and
+            // https://github.com/getsentry/sentry-javascript/issues/3207.
+            hub.startSession();
+            hub.captureSession();
+            // We want to create a session for every navigation as well
+            addInstrumentationHandler({
+                callback: function () {
+                    hub.startSession();
+                    hub.captureSession();
+                },
+                type: 'history',
+            });
+        }
     }
 
     // TODO: Remove in the next major release and rely only on @sentry/core SDK_VERSION and SdkInfo metadata

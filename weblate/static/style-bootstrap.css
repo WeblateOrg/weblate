@@ -244,7 +244,7 @@ textarea#id_comment {
   outline: 1px dotted red;
   outline-offset: -1px;
   color: #bfc3c7;
-  white-space: pre;
+  white-space: pre-wrap;
   display: inline-block;
 }
 
@@ -288,12 +288,16 @@ td .list-group {
   height: auto;
 }
 
-.sort-cell {
+.sort-cell,
+.sort-cell a {
   cursor: pointer;
+  color: #2a3744;
 }
 
-.sort-cell:hover {
+.sort-cell:hover,
+.sort-cell:hover a {
   color: #1fa385;
+  text-decoration: none;
 }
 
 .sort-icon {
@@ -407,6 +411,9 @@ th:hover .sort-icon.sort-up {
 .btn-inline {
   font-weight: 600;
   padding: 0 20px;
+}
+.formats .btn-inline {
+  padding: 0;
 }
 
 .btn-desc p {
@@ -654,8 +661,10 @@ legend {
   max-width: 100%;
 }
 
+.forbidden-term svg,
 .search-icon svg {
   height: 16px;
+  width: 16px;
 }
 
 .sort-field {
@@ -1295,6 +1304,10 @@ a.format-item:hover {
   display: inline;
 }
 
+.state-icon.state-forbidden .state-forbidden {
+  display: inline;
+}
+
 .icon-spin {
   -webkit-animation: icon-spin 1s infinite linear;
   animation: icon-spin 1s infinite linear;
@@ -1613,4 +1626,7 @@ a.language:hover {
 }
 .token.namespace {
   opacity: 0.7;
+}
+.markdown p:last-child {
+  margin-bottom: 0;
 }

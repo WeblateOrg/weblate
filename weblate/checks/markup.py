@@ -35,11 +35,21 @@ BBCODE_MATCH = re.compile(
 )
 
 MD_LINK = re.compile(
-    r"!?\[("
-    r"(?:\[[^^\]]*\]|[^\[\]]|\](?=[^\[]*\]))*"
-    r")\]\("
-    r"""\s*(<)?([\s\S]*?)(?(2)>)(?:\s+['"]([\s\S]*?)['"])?\s*"""
-    r"\)"
+    r"""
+    (?:
+    !?                                                          # Exclamation for images
+    \[((?:\[[^^\]]*\]|[^\[\]]|\](?=[^\[]*\]))*)\]               # Link text
+    \(
+        \s*(<)?([\s\S]*?)(?(2)>)                                # URL
+        (?:\s+['"]([\s\S]*?)['"])?\s*                           # Title
+    \)
+    |
+    <(https?://[^>]+)>                                          # URL
+    |
+    <([^>]+@[^>]+\.[^>]+)>                                      # E-mail
+    )
+    """,
+    re.VERBOSE,
 )
 MD_BROKEN_LINK = re.compile(r"\] +\(")
 MD_REFLINK = re.compile(
@@ -48,18 +58,26 @@ MD_REFLINK = re.compile(
     r")\]\s*\[([^^\]]*)\]"  # trailing ] with optional target
 )
 MD_SYNTAX = re.compile(
-    r"(_{2})(?:[\s\S]+?)_{2}(?!_)"  # __word__
-    r"|"
-    r"(\*{2})(?:[\s\S]+?)\*{2}(?!\*)"  # **word**
-    r"|"
-    r"\b(_)(?:(?:__|[^_])+?)_\b"  # _word_
-    r"|"
-    r"(\*)(?:(?:\*\*|[^\*])+?)\*(?!\*)"  # *word*
-    r"|"
-    r"(`+)\s*(?:[\s\S]*?[^`])\s*\5(?!`)"  # `code`
-    r"|"
-    r"(~~)(?=\S)(?:[\s\S]*?\S)~~"  # ~~word~~
+    r"""
+    (_{2})(?:[\s\S]+?)_{2}(?!_)         # __word__
+    |
+    (\*{2})(?:[\s\S]+?)\*{2}(?!\*)      # **word**
+    |
+    \b(_)(?:(?:__|[^_])+?)_\b           # _word_
+    |
+    (\*)(?:(?:\*\*|[^\*])+?)\*(?!\*)    # *word*
+    |
+    (`+)\s*(?:[\s\S]*?[^`])\s*\5(?!`)   # `code`
+    |
+    (~~)(?=\S)(?:[\s\S]*?\S)~~          # ~~word~~
+    |
+    (<)(?:https?://[^>]+)>              # URL
+    |
+    (<)(?:[^>]+@[^>]+\.[^>]+)>          # E-mail
+    """,
+    re.VERBOSE,
 )
+MD_SYNTAX_GROUPS = 8
 
 XML_MATCH = re.compile(r"<[^>]+>")
 XML_ENTITY_MATCH = re.compile(r"&#?\w+;")
@@ -292,14 +310,14 @@ class MarkdownSyntaxCheck(MarkdownBaseCheck):
         ret = []
         for match in MD_SYNTAX.finditer(source):
             value = ""
-            for i in range(6):
+            for i in range(MD_SYNTAX_GROUPS):
                 value = match.group(i + 1)
                 if value:
                     break
             start = match.start()
             end = match.end()
             ret.append((start, start + len(value), value))
-            ret.append((end - len(value), end, value))
+            ret.append((end - len(value), end, value if value != "<" else ">"))
         return ret
 
 

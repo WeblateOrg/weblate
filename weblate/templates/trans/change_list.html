@@ -9,9 +9,9 @@
 {% if project %}
 <li><a href="{{ project.get_absolute_url }}">{{ project }}</a></li>
 {% if component %}
-<li><a href="{{ component.get_absolute_url }}">{{ component.name }}</a></li>
+{% include "snippets/component-breadcrumb.html" with object=component %}
 {% if translation %}
-<li><a href="{{ translation.get_absolute_url }}">{{ translation.language }}</a></li>
+{% include "snippets/translation-breadcrumb.html" with object=translation %}
 {% endif %}
 {% endif %}
 {% elif changes_user %}
