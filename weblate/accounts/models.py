@@ -612,7 +612,7 @@ class Profile(models.Model):
                 "zen_mode",
                 "special_chars",
                 "dashboard_view",
-                "dashboard_component_list",
+                "dashboard_component_list_id",
             ),
             "auditlog": [
                 dump_object(log, "address", "user_agent", "timestamp", "activity")
