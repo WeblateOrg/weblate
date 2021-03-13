@@ -1107,6 +1107,9 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
         # This is always preset as it is used in top of this method
         self.clear_checks_cache()
 
+        if not self.is_batch_update:
+            self.translation.invalidate_cache()
+
     def nearby(self, count):
         """Return list of nearby messages based on location."""
         return (
