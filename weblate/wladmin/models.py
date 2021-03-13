@@ -109,7 +109,7 @@ class SupportStatus(models.Model):
         }
         if self.discoverable:
             data["discoverable"] = 1
-            data["public_projects"] = json.encode(
+            data["public_projects"] = json.dumps(
                 [
                     {
                         "name": project.name,
