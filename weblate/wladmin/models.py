@@ -17,6 +17,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
+import json
 
 import dateutil.parser
 from django.conf import settings
@@ -108,16 +109,18 @@ class SupportStatus(models.Model):
         }
         if self.discoverable:
             data["discoverable"] = 1
-            data["public_projects"] = [
-                {
-                    "name": project.name,
-                    "url": project.get_absolute_url(),
-                    "web": project.web,
-                }
-                for project in Project.objects.filter(
-                    access_control=Project.ACCESS_PUBLIC
-                ).iterator()
-            ]
+            data["public_projects"] = json.encode(
+                [
+                    {
+                        "name": project.name,
+                        "url": project.get_absolute_url(),
+                        "web": project.web,
+                    }
+                    for project in Project.objects.filter(
+                        access_control=Project.ACCESS_PUBLIC
+                    ).iterator()
+                ]
+            )
         ssh_key = get_key_data()
         if not ssh_key:
             generate_ssh_key(None)
