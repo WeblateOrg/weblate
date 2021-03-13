@@ -764,7 +764,7 @@ even if the person can not perform any changes in the component. This makes it
 easier to keep translation consistency within the project.
 
 Turning this on at component-, or component-list level takes over
-access permission to a component, regardless of project-level permissions.
+access permission to a component, regardless of project-level permissions, and you will have to grant access to it explicitly. This can be done through making a group that has access and granting it to users by putting them in it, or using the default `custom` or `private` access control groups.
 
 The default value can be changed in :setting:`DEFAULT_RESTRICTED_COMPONENT`.
 
