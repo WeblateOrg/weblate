@@ -30,7 +30,7 @@ Data submitted to the Weblate
 * Tallies of some objects in your Weblate database (projects, components, languages, source strings and users)
 * The public SSH key of your instance
 
-Additionaly, when :ref:`discover-weblate` is turned on:
+Additionally, when :ref:`discover-weblate` is turned on:
 
 * List of public projects (name, URL and website)
 
