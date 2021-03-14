@@ -40,9 +40,10 @@ Please respect these guidelines while writing:
     This means: you change or ask. Don’t do both at the same time.
  4. Verify your changes by performing described actions while following the docs.
  5. Send PR with changes in small chunks to make it easier to review and merge.
- 5. If you want to rewrite and change the structure of a big article, do it in two steps.
-     1. Rewrite
-     2. Once the rewrite is reviewed, polished, and merged, change the structure of the paragraphs in another PR.
+ 6. If you want to rewrite and change the structure of a big article, do it in two steps.
+    
+    1. Rewrite
+    2. Once the rewrite is reviewed, polished, and merged, change the structure of the paragraphs in another PR.
 
 .. _funding-weblate:
 
