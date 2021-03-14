@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-03-14 06:32+0100\n"
-"PO-Revision-Date: 2021-03-14 07:04+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2021-03-14 11:53+0000\n"
+"Last-Translator: Eric <spice2wolf@gmail.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "weblate/documentation/zh_Hans/>\n"
 "Language: zh_Hans\n"
@@ -15158,43 +15158,28 @@ msgid "Push on commit"
 msgstr "提交时推送"
 
 #: ../../admin/projects.rst:655
-#, fuzzy
-#| msgid ""
-#| "Whether committed changes should be automatically pushed to the upstream "
-#| "repository. When enabled, the push is initiated once Weblate commits "
-#| "changes to its internal repository (see :ref:`lazy-commit`). To actually "
-#| "enable pushing :guilabel:`Repository push URL` has to be configured as "
-#| "well."
 msgid ""
 "Whether committed changes should be automatically pushed to the upstream "
 "repository. When enabled, the push is initiated once Weblate commits changes "
 "to its underlying repository (see :ref:`lazy-commit`). To actually enable "
 "pushing :guilabel:`Repository push URL` has to be configured as well."
 msgstr ""
-"是否提交更改应该被自动推送到上游仓库。当允许时，一旦 Weblate 将更改提交给内部"
-"仓库，推动就被启动（请参见 :ref:`lazy-commit`）。为了真正允许推送，还要配置 :"
-"guilabel:`Repository push URL`。"
+"是否提交更改应该被自动推送到上游仓库。当允许时，一旦 Weblate 将更改提交给基础仓库，推动就被启动（请参见 :ref:`lazy-"
+"commit`）。为了真正允许推送，还要配置 :guilabel:`Repository push URL`。"
 
 #: ../../admin/projects.rst:664
 msgid "Age of changes to commit"
 msgstr "对变更进行提交的延时时间"
 
 #: ../../admin/projects.rst:666
-#, fuzzy
-#| msgid ""
-#| "Sets how old changes (in hours) are to get before they are committed by "
-#| "background task or :djadmin:`commit_pending` management command. All "
-#| "changes in a component are committed once there is at least one older "
-#| "than this period."
 msgid ""
 "Sets how old (in hours) changes have to be before they are committed by "
 "background task or the :djadmin:`commit_pending` management command. All "
 "changes in a component are committed once there is at least one change older "
 "than this period."
 msgstr ""
-"在它们由后台任务或由 :djadmin:`commit_pending` 管理命令提交前，设置如何得到旧"
-"的更改（几个小时内）。一旦有至少一个比这个时间段更旧，组件中所有的更改就会提"
-"交。"
+"设置在后台任务或 :djadmin:`commit_pending`管理命令提交更改前，这些更改存在的时长 "
+"(以小时为单位)。一旦存在至少一个比该时长更旧的更改，便会提交组件中的所有更改。"
 
 #: ../../admin/projects.rst:671
 msgid "Default value can be changed by :setting:`COMMIT_PENDING_HOURS`."
@@ -15211,19 +15196,14 @@ msgid "Lock on error"
 msgstr "出错时锁定"
 
 #: ../../admin/projects.rst:683
-#, fuzzy
-#| msgid ""
-#| "Enables locking the component on repository error (failed pull, push or "
-#| "merge). Locking in this situation avoids adding another conflict which "
-#| "would have to be resolved manually."
 msgid ""
 "Locks the component (and linked components, see :ref:`internal-urls`) upon "
 "the first failed push or merge into its upstream repository, or pull from "
 "it. This avoids adding another conflicts, which would have to be resolved "
 "manually."
 msgstr ""
-"允许在仓库故障（拉取、推动或合并失败）时锁定组件。这种情况下的锁定，避免了添"
-"加另一个必须由手动解决的冲突。"
+"锁定组件 (及关联的组件，见:ref:`internal-urls` "
+")，触发条件是第一个失败的推送，合并到其上游存储库，或从中拉出。这样可以避免添加其他冲突，这些冲突必须手动解决。"
 
 #: ../../admin/projects.rst:687
 msgid ""
@@ -15242,21 +15222,14 @@ msgid ""
 msgstr "用于源字符串的语言。如果您要翻译的不是英语，请更改此选项。"
 
 #: ../../admin/projects.rst:700
-#, fuzzy
-#| msgid ""
-#| "In case you are translating bilingual files from English, but want to be "
-#| "able to do fixes in the English translation as well, you might want to "
-#| "choose :guilabel:`English (Developer)` as a source language to avoid "
-#| "conflict between name of the source language and existing translation."
 msgid ""
 "In case you are translating bilingual files from English, but want to be "
 "able to do fixes in the English translation as well, choose :guilabel:"
 "`English (Developer)` as a source language to avoid conflict between the "
 "name of the source language and the existing translation."
 msgstr ""
-"如果你正在从英语翻译双语文件，但又希望能够在英语翻译中进行修复，你也许会想要"
-"选择 :guilabel:`English (Developer)` 作为一种源语言以避免源语言和现有翻译之间"
-"名称上的冲突。"
+"如果你正在从英语翻译双语文件，但又希望能够在英语翻译中进行修复，选择 :guilabel:`English (Developer)` "
+"作为一种源语言以避免源语言和现有翻译之间名称上的冲突。"
 
 #: ../../admin/projects.rst:705
 msgid ""
@@ -15271,17 +15244,10 @@ msgid "Language filter"
 msgstr "语言筛选"
 
 #: ../../admin/projects.rst:714
-#, fuzzy
-#| msgid ""
-#| "Regular expression used to filter the translation when scanning for "
-#| "filemask. This can be used to limit the list of languages managed by "
-#| "Weblate."
 msgid ""
 "Regular expression used to filter the translation when scanning for "
 "filemask. It can be used to limit the list of languages managed by Weblate."
-msgstr ""
-"当扫描文件掩码时用于将翻译过滤的正则表达式。这可以用于限制 Weblate 管理的语言"
-"列表。"
+msgstr "当扫描文件掩码时用于将翻译过滤的正则表达式。它可以用于限制 Weblate 管理的语言列表。"
 
 #: ../../admin/projects.rst:719
 msgid "You need to list language codes as they appear in the filename."
@@ -15390,50 +15356,32 @@ msgid ""
 msgstr ""
 
 #: ../../admin/projects.rst:776
-#, fuzzy
-#| msgid ""
-#| "Default value can be changed by :setting:`DEFAULT_RESTRICTED_COMPONENT`."
 msgid ""
 "The default value can be changed in :setting:`DEFAULT_RESTRICTED_COMPONENT`."
-msgstr "默认只可以由 :setting:`DEFAULT_RESTRICTED_COMPONENT` 更改。"
+msgstr "默认设置可在 :setting:`DEFAULT_RESTRICTED_COMPONENT` 中更改。"
 
 #: ../../admin/projects.rst:780
-#, fuzzy
-#| msgid ""
-#| "This applies to project managers as well - please make sure you will not "
-#| "loose access to the component after toggling the status."
 msgid ""
 "This applies to project admins as well — please make sure you will not loose "
 "access to the component after toggling the status."
-msgstr "这也应用于项目管理——请确认切换状态后，您不会丢失对组件的访问。"
+msgstr "这也应用于项目管理员—请确认切换状态后，您不会丢失对组件的访问。"
 
 #: ../../admin/projects.rst:786
 msgid "Share in projects"
 msgstr "在项目中分享"
 
 #: ../../admin/projects.rst:788
-#, fuzzy
-#| msgid ""
-#| "You can choose additional projects where the component will be visible. "
-#| "This can be useful for shared libraries which you use in several projects."
 msgid ""
 "You can choose additional projects where the component will be visible. "
 "Useful for shared libraries which you use in several projects."
 msgstr "可以选择组件可见的附加项目。这在分享不同项目间使用的库时是有用的。"
 
 #: ../../admin/projects.rst:793
-#, fuzzy
-#| msgid ""
-#| "Sharing component doesn't change its access control. It makes it only "
-#| "visible when browsing other projects. User still need to have access to "
-#| "the actual component in order to be able to browse or translate it."
 msgid ""
 "Sharing a component doesn't change its access control. It only makes it "
 "visible when browsing other projects. Users still need access to the actual "
 "component to browse or translate it."
-msgstr ""
-"分享组件不更改其访问控制。这使它只在浏览其它项目时可见。用户仍然需要访问真实"
-"组件从而能够浏览或翻译它。"
+msgstr "分享组件不更改其访问控制。这样做只是让它在浏览其它项目时可见。用户仍然需要访问实际组件的权限来浏览或翻译它。"
 
 #: ../../admin/projects.rst:801
 msgid "Use as a glossary"
@@ -15941,8 +15889,6 @@ msgid ""
 msgstr ""
 
 #: ../../admin/support.rst:73
-#, fuzzy
-#| msgid "Register in Weblate"
 msgid "Register yourself at weblate.org"
 msgstr "注册 Weblate"
 
@@ -32672,14 +32618,10 @@ msgid ""
 msgstr ""
 
 #: ../../user/glossary.rst:24
-#, fuzzy
-#| msgid ""
-#| "Use any component as a glossary by turning on :ref:`component-"
-#| "is_glossary`."
 msgid ""
 "Use any component as a glossary by turning on :ref:`component-is_glossary`. "
 "You can create multiple glossaries for one project."
-msgstr "使用任何组件作为术语表，方法是开启 :ref:`component-is_glossary`。"
+msgstr "使用任何组件作为词汇表，方法是开启 :ref:`component-is_glossary`。你可以为一个项目创建多个词汇表。"
 
 #: ../../user/glossary.rst:27
 msgid ""
@@ -32700,10 +32642,8 @@ msgid "You can browse all glossary terms:"
 msgstr "你可以浏览所有术语表术语："
 
 #: ../../user/glossary.rst:41
-#, fuzzy
-#| msgid "Deletes a translation."
 msgid "or edit them as any translations."
-msgstr "删除翻译。"
+msgstr "或将它们作为任意翻译进行编辑。"
 
 #: ../../user/glossary.rst:44
 msgid "Glossary terms"
