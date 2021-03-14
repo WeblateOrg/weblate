@@ -149,8 +149,8 @@ ACCOUNT_ACTIVITY = {
     "auth-disconnect": _("Removed sign in using {method} ({name})."),
     "login": _("Signed in using {method} ({name})."),
     "login-new": _("Signed in using {method} ({name}) from a new device."),
-    "register": _("Somebody has attempted to register with your e-mail."),
-    "connect": _("Somebody has attempted to register using your e-mail address."),
+    "register": _("Somebody attempted to register with your e-mail."),
+    "connect": _("Somebody attempted to register using your e-mail address."),
     "failed-auth": _("Could not sign in using {method} ({name})."),
     "locked": _("Account locked due to many failed sign in attempts."),
     "removed": _("Account and all private data removed."),
@@ -159,7 +159,7 @@ ACCOUNT_ACTIVITY = {
     "trial": _("Started trial period."),
     "sent-email": _("Sent confirmation mail to {email}."),
     "autocreated": _(
-        "System created user to track authorship of "
+        "The system created a user to track authorship of "
         "translations uploaded by other user."
     ),
 }
