@@ -33,12 +33,12 @@ Do it easily by clicking the :guilabel:`Edit on GitHub` button in the top-right 
 Please respect these guidelines while writing:
 
  1. Don’t remove part of the documentation if it’s valid.
- 2. Use clear and easily-understandable language. You are writing tech docs, not a poem. 
+ 2. Use clear and easily-understandable language. You are writing tech docs, not a poem.
     Not all docs readers are native speakers, be thoughtful.
  3. Don’t be affraid to ask if you are not certain.
-    If you have to ask about some feature while editing, don’t change its docs before you have the answer. 
+    If you have to ask about some feature while editing, don’t change its docs before you have the answer.
     This means: you change or ask. Don’t do both at the same time.
- 4. Verify your changes by performing described actions while following the docs.   
+ 4. Verify your changes by performing described actions while following the docs.
  5. Send PR with changes in small chunks to make it easier to review and merge.
  5. If you want to rewrite and change the structure of a big article, do it in two steps.
      1. Rewrite
