@@ -74,6 +74,14 @@ The user profile contains your preferences. Name and e-mail address is used in V
     Request or add other languages you want to translate by clicking the button to make
     them available too.
 
+Languages
++++++++++
+
+Interface language
+------------------
+
+Choose the language you want to display the UI in.
+
 Translated languages
 ++++++++++++++++++++
 
@@ -94,6 +102,9 @@ the Hebrew language is shown as secondarily:
 
 .. image:: /images/secondary-language.png
 
+Preferences
+-----------
+
 Default dashboard view
 ++++++++++++++++++++++
 
@@ -105,16 +116,6 @@ list`, you have to select which component list will be displayed from the
 .. seealso::
 
     :ref:`componentlists`
-
-Public profile
-++++++++++++++
-
-All of the fields on this page are optional and can be deleted at any time, and
-by filling them out, you're giving us consent to share this data wherever your
-user profile appears.
-
-Avatar can be shown for each user (depending on :setting:`ENABLE_AVATARS`).
-These images are obtained using https://gravatar.com/.
 
 Editor link
 +++++++++++
@@ -176,6 +177,19 @@ remove your account, or download your user data (see :ref:`schema-userdata`).
    OAuth 2.0 providers.
 
 .. image:: /images/authentication.png
+
+Profile
+-------
+
+All of the fields on this page are optional and can be deleted at any time, and
+by filling them out, you're giving us consent to share this data wherever your
+user profile appears.
+
+Avatar can be shown for each user (depending on :setting:`ENABLE_AVATARS`).
+These images are obtained using https://gravatar.com/.
+
+Licenses
+--------
 
 API access
 ----------
