@@ -95,7 +95,7 @@ from weblate.accounts.forms import (
     UserSearchForm,
     UserSettingsForm,
 )
-from weblate.accounts.models import AuditLog, Subscription, VerifiedEmail
+from weblate.accounts.models import AuditLog, Profile, Subscription, VerifiedEmail
 from weblate.accounts.notifications import (
     FREQ_INSTANT,
     FREQ_NONE,
@@ -310,14 +310,46 @@ def get_notification_forms(request):
             )
 
 
+def fixup_profile(profile):
+    fields = set()
+    if not profile.language:
+        profile.language = get_language()
+        fields.add("language")
+
+    allowed = {clist.pk for clist in profile.allowed_dashboard_component_lists}
+
+    if not allowed and profile.dashboard_view in (
+        Profile.DASHBOARD_COMPONENT_LIST,
+        Profile.DASHBOARD_COMPONENT_LISTS,
+    ):
+        profile.dashboard_view = Profile.DASHBOARD_WATCHED
+        fields.add("dashboard_view")
+
+    if profile.dashboard_component_list_id and (
+        profile.dashboard_component_list_id not in allowed
+        or profile.dashboard_view != Profile.DASHBOARD_COMPONENT_LIST
+    ):
+        profile.dashboard_component_list = None
+        profile.dashboard_view = Profile.DASHBOARD_WATCHED
+        fields.add("dashboard_view")
+        fields.add("dashboard_component_list")
+
+    if (
+        not profile.dashboard_component_list_id
+        and profile.dashboard_view == Profile.DASHBOARD_COMPONENT_LIST
+    ):
+        profile.dashboard_view = Profile.DASHBOARD_WATCHED
+        fields.add("dashboard_view")
+
+    if fields:
+        profile.save(update_fields=fields)
+
+
 @never_cache
 @login_required
 def user_profile(request):
     profile = request.user.profile
-
-    if not profile.language:
-        profile.language = get_language()
-        profile.save(update_fields=["language"])
+    fixup_profile(profile)
 
     form_classes = [
         LanguagesForm,
