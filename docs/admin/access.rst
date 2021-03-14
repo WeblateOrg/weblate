@@ -13,7 +13,7 @@ Simple access control
 
 If you are not administrating the whole Weblate installation and just have
 some access to manage certain projects (like on Hosted Weblate),
-your access control management options will be limited to following settings.
+your access control management options are limited to following settings.
 If you don't need any complex setup, those could be sufficient for you as well.
 
 .. _acl:
@@ -54,7 +54,7 @@ The default value can be changed by :setting:`DEFAULT_ACCESS_CONTROL`.
 .. note::
 
     The actual set of permissions available for users by default in `Public`,
-    `Protected` and `Private` projects can be redefined by a Webalate instance
+    `Protected` and `Private` projects can be redefined by Webalate instance
     administrator using :ref:`custom settings <custom-acl>`.
 
 .. warning::
@@ -112,8 +112,8 @@ VCS
 Billing
     Can access billing info (see :ref:`billing`).
 
-Unfortunately, as for now it's not possible to change this predefined set of
-groups. Also this way it's not possible to give just some additional permissions
+Unfortunately, it's not possible to change this predefined set of
+groups for now. Also this way it's not possible to give just some additional permissions
 to all users.
 
 .. note::
@@ -163,7 +163,7 @@ The permission system is based on groups and roles, where roles define a set of
 permissions, and groups link them to users and translations, see
 :ref:`auth-model` for more details.
 
-Most powerful features of the Weblate's access control system for now are
+The most powerful features of the Weblate's access control system for now are
 available only through the :ref:`Django admin interface <admin-interface>`. You
 can use it to manage permissions of any project: you are not necessary have to
 actually switch it to `Custom` :ref:`access control <acl>` to utilize it. However
@@ -213,7 +213,7 @@ If you want, you still may set your projects to `Protected` or `Private`, and
 :ref:`manage users <manage-acl>` per-project in the Weblate interface.
 
 By default this just prevents Weblate from granting access provided by
-`Users` and `Viewers` :ref:`default groups <default-groups>` due to thees groups
+`Users` and `Viewers` :ref:`default groups <default-groups>` due to these groups’
 own configuration. This doesn't prevent you from granting permissions to those
 projects site-wide by altering default groups or creating a new one, or creating
 additional custom settings for individual component as described bellow.
@@ -267,9 +267,9 @@ granted by site-wide or per-project groups by adding a yet another custom group.
 
 ..
 
-  3. Add to the group some users you wish to give the permissions to.
+  3. Add users you wish to give the permissions to into the group.
 
-As you can see, permissions management this way is a powerful tool.
+As you can see, permissions management this way is powerful.
 Unfortunately, on the down side it can be quite a tedious job. And you can't
 delegate it to another user without granting superuser permissions.
 
@@ -352,7 +352,7 @@ the following rules:
   :ref:`unrestricted components <component-restricted>`.
 
 - The restrictions imposed by a group's :guilabel:`Languages` are applied later,
-  when the access to perform certain action is checked, and it only affects just
+  when the access to perform certain action is enabled, and it only affects just
   some translation-related permissions.
 
 .. hint::
@@ -377,11 +377,11 @@ the following rules:
 
 ..
 
-  Members of that group will have next permissions (assuming the default role settings):
+  Members of that group will have following permissions (assuming the default role settings):
 
     - General (browsing) access to the whole project ``foo`` including both
       its subcomponents: ``foo/bar`` and ``foo/baz``.
-    -  Review strings in ``foo/bar`` Spanish translation (not elsewhere).
+    - Review strings in ``foo/bar`` Spanish translation (not elsewhere).
     - Manage VCS for the whole ``foo/bar`` repository e.g. commit pending
       changes made by translators for all languages.
 
