@@ -270,7 +270,7 @@ granted by site-wide or per-project groups by adding a yet another custom group.
   3. Add users you wish to give the permissions to into the group.
 
 As you can see, permissions management this way is powerful.
-Unfortunately, on the down side it can be quite a tedious job. And you can't
+While powerful, this can be quite a tedious job. You can't
 delegate it to another user without granting superuser permissions.
 
 .. _auth-model:
