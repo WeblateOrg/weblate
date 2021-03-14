@@ -280,6 +280,12 @@ class DashboardSettingsForm(ProfileBaseForm):
             for choice in self.fields["dashboard_view"].choices
             if choice[0] != Profile.DASHBOARD_COMPONENT_LIST
         ]
+        if not self.component_lists:
+            choices = [
+                choice
+                for choice in self.fields["dashboard_view"].choices
+                if choice[0] != Profile.DASHBOARD_COMPONENT_LISTS
+            ]
         for clist in self.component_lists:
             choices.append((100 + clist.id, gettext("Component list: %s") % clist.name))
         self.fields["dashboard_view"].choices = choices
