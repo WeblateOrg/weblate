@@ -6,6 +6,16 @@ Access control
 Weblate comes with a fine-grained privilege system to assign user permissions
 for the whole instance, or in a limited scope.
 
+.. versionchanged:: 3.0
+
+    Before Weblate 3.0, the privilege system was based on Django privilege system only,
+    but is specifically built for Weblate now. If using anything older, please consult
+    the documentation for the specific version you are using.
+
+The permission system is based on groups and roles, where roles define a set of
+permissions, and groups link them to users and translations, see
+:ref:`auth-model` for more details.
+
 .. _access-simple:
 
 Simple access control
@@ -158,16 +168,6 @@ Custom access control
 ---------------------
 
 .. include:: /snippets/not-hosted-libre.rst
-
-.. versionchanged:: 3.0
-
-    Before Weblate 3.0, the privilege system was based on Django, but is now
-    specifically built for Weblate. If using anything older, please consult
-    the documentation for the specific version you are using.
-
-The permission system is based on groups and roles, where roles define a set of
-permissions, and groups link them to users and translations, see
-:ref:`auth-model` for more details.
 
 The most powerful features of the Weblate's access control system for now are
 available only through the :ref:`Django admin interface <admin-interface>`. You
