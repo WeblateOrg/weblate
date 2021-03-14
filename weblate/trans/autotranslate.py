@@ -136,7 +136,7 @@ class AutoTranslate:
         num_units = len(units)
 
         engines = sorted(
-            engines,
+            (engine for engine in engines if engine in MACHINE_TRANSLATION_SERVICES),
             key=lambda x: MACHINE_TRANSLATION_SERVICES[x].get_rank(),
             reverse=True,
         )
