@@ -1111,10 +1111,6 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
         """Check whether a repository is just a link to another one."""
         return is_repo_link(self.repo)
 
-    def can_add_language(self):
-        """Return true if new languages can be added."""
-        return self.new_lang != "none"
-
     @property
     def repository_class(self):
         return VCS_REGISTRY[self.vcs]
