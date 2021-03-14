@@ -283,7 +283,7 @@ class DashboardSettingsForm(ProfileBaseForm):
         if not self.component_lists:
             choices = [
                 choice
-                for choice in self.fields["dashboard_view"].choices
+                for choice in choices
                 if choice[0] != Profile.DASHBOARD_COMPONENT_LISTS
             ]
         for clist in self.component_lists:
