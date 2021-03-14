@@ -31,7 +31,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.5.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-03-14 05:31+0000\n"
-"PO-Revision-Date: 2021-03-09 10:04+0000\n"
+"PO-Revision-Date: 2021-03-14 11:53+0000\n"
 "Last-Translator: bovirus <roberto.boriotti@canon-europe.com>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/weblate/"
 "application/it/>\n"
@@ -74,10 +74,9 @@ msgid "Public e-mail"
 msgstr "Email pubblica"
 
 #: weblate/accounts/forms.py:284
-#, fuzzy, python-format
-#| msgid "Component lists"
+#, python-format
 msgid "Component list: %s"
-msgstr "Elenchi componenti"
+msgstr "Elenchi componenti: %s"
 
 #: weblate/accounts/forms.py:310 weblate/accounts/forms.py:385
 #: weblate/accounts/templatetags/authnames.py:42 weblate/auth/models.py:322
@@ -2686,16 +2685,12 @@ msgid "Lua format string does not match source"
 msgstr "La stringa Lua non corrisponde al sorgente"
 
 #: weblate/checks/format.py:469
-#, fuzzy
-#| msgid "File format"
 msgid "Scheme format"
-msgstr "Formato file"
+msgstr "Formato schema"
 
 #: weblate/checks/format.py:470
-#, fuzzy
-#| msgid "C format string does not match source"
 msgid "Scheme format string does not match source"
-msgstr "La stringa in formato C non corrisponde al sorgente"
+msgstr "La stringa in formato schema non corrisponde al sorgente"
 
 #: weblate/checks/format.py:483
 msgid "Python brace format"
@@ -6465,16 +6460,12 @@ msgid "Cleanup"
 msgstr "Pulizia"
 
 #: weblate/templates/js/git-status.html:115
-#, fuzzy
-#| msgid "Reset all changes in the Weblate repository"
 msgid "Force writing all translations to the Weblate repository"
-msgstr "Reimposta tutte le modifiche nel repository Weblate"
+msgstr "Forza la scrittura di tutte le traduzioni nel repository Weblate"
 
 #: weblate/templates/js/git-status.html:115
-#, fuzzy
-#| msgid "Source information"
 msgid "Force synchronization"
-msgstr "Informazioni sorgente"
+msgstr "Forza sincronizzazione"
 
 #: weblate/templates/js/git-status.html:129
 #, python-format
@@ -7216,42 +7207,32 @@ msgid "Support expiry"
 msgstr "Scadenza dell'assistenza"
 
 #: weblate/templates/manage/index.html:46
-#, fuzzy
-#| msgid "Register in Weblate"
 msgid "Discover Weblate"
-msgstr "Registra in Weblate"
+msgstr "Scopri Weblate"
 
 #: weblate/templates/manage/index.html:48
-#, fuzzy
-#| msgid "Component discovery"
 msgid "Browse discovery"
-msgstr "Scoperta dei componenti"
+msgstr "Sfoglia discovery"
 
 #: weblate/templates/manage/index.html:50
 msgid "Your Weblate is listed on weblate.org"
-msgstr ""
+msgstr "Il tuo Weblate è elencato su weblate.org"
 
 #: weblate/templates/manage/index.html:52
-#, fuzzy
-#| msgid "disabled"
 msgid "Disable discovery"
-msgstr "disabilitato"
+msgstr "Disabilita discovery"
 
 #: weblate/templates/manage/index.html:53
-#, fuzzy
-#| msgid "Manage your languages"
 msgid "Manage your listing"
-msgstr "Gestisci le tue lingue"
+msgstr "Gestisci i tuoi elenchi"
 
 #: weblate/templates/manage/index.html:55
 msgid "Your Weblate is not listed on weblate.org"
-msgstr ""
+msgstr "Il tuo Weblate non è elencato su weblate.org"
 
 #: weblate/templates/manage/index.html:57
-#, fuzzy
-#| msgid "Component discovery"
 msgid "Enable discovery"
-msgstr "Scoperta dei componenti"
+msgstr "Abilita discovery"
 
 #: weblate/templates/manage/index.html:65
 msgid "Manage support package"
@@ -8325,21 +8306,19 @@ msgid "Source in review"
 msgstr "Richiede revisione sorgente"
 
 #: weblate/templates/snippets/unit-readonly-badge.html:6
-#, fuzzy
-#| msgid "Source strings in %s"
 msgid "Source string editing is disabled."
-msgstr "Stringhe sorgenti in %s"
+msgstr "La modifica delle stringhe sorgenti è disabilitata."
 
 #: weblate/templates/snippets/unit-readonly-badge.html:8
 msgid ""
 "Source string cannot be edited, but you can delete it and add a new one."
 msgstr ""
+"La stringa sorgente non può essere modificata, ma puoi eliminarla e "
+"aggiungerne una nuova."
 
 #: weblate/templates/snippets/unit-readonly-badge.html:10
-#, fuzzy
-#| msgid "Source string changed"
 msgid "Source string cannot be edited."
-msgstr "Età stringa sorgente"
+msgstr "La stringa sorgente non può essere modificata."
 
 #: weblate/templates/snippets/unit-state.html:5
 #: weblate/trans/templatetags/translations.py:556 weblate/utils/state.py:31
@@ -9266,20 +9245,17 @@ msgstr[0] "C'è %(count)s variante di questa stringa."
 msgstr[1] "Ci sono %(count)s varianti di questa stringa."
 
 #: weblate/templates/translate.html:532
-#, fuzzy, python-format
-#| msgid "Browse all glossary changes"
+#, python-format
 msgid "Browse glossary %(name)s"
-msgstr "Sfoglia tutte le modifiche del glossario"
+msgstr "Sfoglia glossario %(name)s"
 
 #: weblate/templates/translate.html:554 weblate/templates/translate.html:564
 msgid "Add term to glossary"
 msgstr "Aggiungi termine al glossario"
 
 #: weblate/templates/translate.html:583
-#, fuzzy
-#| msgid "Source information"
 msgid "String information"
-msgstr "Informazioni sorgente"
+msgstr "Informazioni stringa"
 
 #: weblate/templates/translate.html:595
 msgid "No screenshot currently associated."
@@ -9328,16 +9304,13 @@ msgid "string %(position)s"
 msgstr "stringa %(position)s"
 
 #: weblate/templates/translate.html:696
-#, fuzzy
-#| msgid "Browse pending"
 msgid "pending"
-msgstr "Sfoglia gli elementi in attesa"
+msgstr "pendente"
 
 #: weblate/templates/translate.html:742
-#, fuzzy, python-format
-#| msgid "Add variant of this string"
+#, python-format
 msgid "Add a new variant for \"%(existing)s\""
-msgstr "Aggiungi variante di questa stringa"
+msgstr "Aggiungi una nuova variante per \"%(existing)s\""
 
 #: weblate/templates/translation.html:56
 msgid "Download translation"
@@ -11354,10 +11327,8 @@ msgid "Key"
 msgstr "Chiave"
 
 #: weblate/trans/models/component.py:3075
-#, fuzzy
-#| msgid "Forbidden glossary term"
 msgid "Add new glossary term"
-msgstr "Voce glossario vietata"
+msgstr "Aggiungi nuovo termine glossario"
 
 #: weblate/trans/models/component.py:3076
 msgid "Add new translation string"
@@ -11537,35 +11508,28 @@ msgstr "Questa stringa sembra esista già."
 #: weblate/trans/models/translation.py:1268
 #: weblate/trans/models/translation.py:1272
 #: weblate/trans/models/translation.py:1287
-#, fuzzy, python-format
-#| msgid "Pending string"
+#, python-format
 msgid "Failed adding string: %s"
-msgstr "Stringa in sospeso"
+msgstr "Aggiunta stringa fallita: %s"
 
 #: weblate/trans/models/translation.py:1247
-#, fuzzy
-#| msgid "No matching translations found!"
 msgid "No translation found."
-msgstr "Nessuna corrispondenza di traduzione trovata!"
+msgstr "Nessuna traduzione trovata."
 
 #: weblate/trans/models/translation.py:1272
 #: weblate/trans/models/translation.py:1287
-#, fuzzy
-#| msgid "Failed to parse query string: {}"
 msgid "Failed to parse new string"
-msgstr "Query fallita per la stringa: {}"
+msgstr "Analisi fallita nuova stringa"
 
 #: weblate/trans/models/translation.py:1295
-#, fuzzy, python-format
-#| msgid "Following components would be created"
+#, python-format
 msgid "Context would be created as \"%s\""
-msgstr "I seguenti componenti verrebbero creati"
+msgstr "Il contesto verrà creato come \"%s\""
 
 #: weblate/trans/models/translation.py:1299
-#, fuzzy, python-format
-#| msgid "Following components would be created"
+#, python-format
 msgid "Source would be created as %s"
-msgstr "I seguenti componenti verrebbero creati"
+msgstr "Il sorgente verrà creato da %s"
 
 #: weblate/trans/models/unit.py:315
 msgid "Additional explanation to clarify meaning or usage of the string."
@@ -12247,10 +12211,8 @@ msgid "All repositories have been cleaned up."
 msgstr "Tutti i repository sono stati azzerati."
 
 #: weblate/trans/views/git.py:103
-#, fuzzy
-#| msgid "Translation has been removed."
 msgid "Translation files have been synchronized."
-msgstr "La traduzione è stata rimossa."
+msgstr "I file traduzione sono stati sincronizzati."
 
 #: weblate/trans/views/js.py:56
 msgid "Service is currently not available."
