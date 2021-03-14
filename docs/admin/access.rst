@@ -412,7 +412,7 @@ be accomplished with an expression like ``^.*@mycompany.com``.
 .. note::
 
     As for now there is no way to bulk-add already existing users to some group
-    via UI. For that you may resolve to the :ref:`REST API <api>`.
+    via the user interface. For that you may resort to using the :ref:`REST API <api>`.
 
 Default groups and roles
 ++++++++++++++++++++++++
