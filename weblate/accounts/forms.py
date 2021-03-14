@@ -52,7 +52,7 @@ from weblate.auth.models import User
 from weblate.lang.models import Language
 from weblate.logger import LOGGER
 from weblate.trans.defines import EMAIL_LENGTH, FULLNAME_LENGTH
-from weblate.trans.models import Component, ComponentList, Project
+from weblate.trans.models import Component, Project
 from weblate.utils import messages
 from weblate.utils.forms import SortedSelect, SortedSelectMultiple, UsernameField
 from weblate.utils.ratelimit import check_rate_limit, reset_rate_limit
@@ -270,23 +270,20 @@ class DashboardSettingsForm(ProfileBaseForm):
         self.helper = FormHelper(self)
         self.helper.disable_csrf = True
         self.helper.form_tag = False
-        self.component_lists = ComponentList.objects.filter(
-            show_dashboard=True,
-            components__project_id__in=self.instance.user.allowed_project_ids,
-        ).distinct()
-        self.fields["dashboard_component_list"].queryset = self.component_lists
+        component_lists = self.instance.allowed_dashboard_component_lists
+        self.fields["dashboard_component_list"].queryset = component_lists
         choices = [
             choice
             for choice in self.fields["dashboard_view"].choices
             if choice[0] != Profile.DASHBOARD_COMPONENT_LIST
         ]
-        if not self.component_lists:
+        if not component_lists:
             choices = [
                 choice
                 for choice in choices
                 if choice[0] != Profile.DASHBOARD_COMPONENT_LISTS
             ]
-        for clist in self.component_lists:
+        for clist in component_lists:
             choices.append((100 + clist.id, gettext("Component list: %s") % clist.name))
         self.fields["dashboard_view"].choices = choices
         if (
@@ -302,7 +299,7 @@ class DashboardSettingsForm(ProfileBaseForm):
         if view and view >= 100:
             self.cleaned_data["dashboard_view"] = Profile.DASHBOARD_COMPONENT_LIST
             view -= 100
-            for clist in self.component_lists:
+            for clist in self.instance.allowed_dashboard_component_lists:
                 if clist.id == view:
                     self.cleaned_data["dashboard_component_list"] = clist
                     break

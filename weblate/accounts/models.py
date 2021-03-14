@@ -45,6 +45,7 @@ from weblate.accounts.tasks import notify_auditlog
 from weblate.auth.models import User
 from weblate.lang.models import Language
 from weblate.trans.defines import EMAIL_LENGTH
+from weblate.trans.models import ComponentList
 from weblate.utils import messages
 from weblate.utils.decorators import disable_for_loaddata
 from weblate.utils.fields import EmailField, JSONField
@@ -638,6 +639,13 @@ class Profile(models.Model):
     @cached_property
     def primary_language_ids(self) -> Set[int]:
         return set(self.languages.values_list("pk", flat=True))
+
+    @cached_property
+    def allowed_dashboard_component_lists(self):
+        return ComponentList.objects.filter(
+            show_dashboard=True,
+            components__project_id__in=self.user.allowed_project_ids,
+        ).distinct()
 
     @cached_property
     def secondary_language_ids(self) -> Set[int]:
