@@ -17,7 +17,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.5.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
-"POT-Creation-Date: 2021-03-13 06:00+0000\n"
+"POT-Creation-Date: 2021-03-14 05:31+0000\n"
 "PO-Revision-Date: 2021-03-05 17:21+0000\n"
 "Last-Translator: pan93412 <pan93412@gmail.com>\n"
 "Language-Team: Chinese (Traditional) <https://hosted.weblate.org/projects/"
@@ -610,7 +610,7 @@ msgstr "請選擇您想在控制面板上顯示的組件列表。"
 msgid "Selecting component list has no effect when not shown on the dashboard."
 msgstr "如果控制面板上沒顯示組件清單，則選取組件清單不會有作用。"
 
-#: weblate/accounts/models.py:712
+#: weblate/accounts/models.py:717
 msgid ""
 "You can not submit translations as you do not have assigned any e-mail "
 "address."
@@ -6886,9 +6886,9 @@ msgstr "支援到期"
 
 #: weblate/templates/manage/index.html:46
 #, fuzzy
-#| msgid "Weblate keys"
-msgid "Weblate discovery"
-msgstr "Weblate 金鑰"
+#| msgid "Register in Weblate"
+msgid "Discover Weblate"
+msgstr "在 Weblate 中註冊帳號"
 
 #: weblate/templates/manage/index.html:48
 #, fuzzy
@@ -8253,7 +8253,7 @@ msgid "Weblate could not push changes to the upstream repository."
 msgstr "Weblate 無法將變更推送至上游儲存庫。"
 
 #: weblate/templates/trans/alert/pushfailure.html:9
-#: weblate/trans/models/component.py:2380
+#: weblate/trans/models/component.py:2382
 msgid ""
 "Your push URL seems to miss credentials. Either provide them in the URL or "
 "use SSH with key based authentication."
@@ -10548,8 +10548,8 @@ msgid "Could not fetch the repository: %s"
 msgstr "無法取得儲存庫：%s"
 
 #: weblate/trans/models/component.py:1278
-#: weblate/trans/models/component.py:2280
-#: weblate/trans/models/component.py:2339
+#: weblate/trans/models/component.py:2282
+#: weblate/trans/models/component.py:2341
 msgid "File does not exist."
 msgstr "檔案不存在。"
 
@@ -10583,168 +10583,168 @@ msgstr "無法將本機分支衍合到遠端分支 %s。"
 msgid "Could not merge remote branch into %s."
 msgstr "無法將遠端分支合併到 %s。"
 
-#: weblate/trans/models/component.py:2151
+#: weblate/trans/models/component.py:2153
 msgid "Invalid link to a Weblate project, cannot link to linked repository!"
 msgstr "無效的 Weblate 專案連結，無法連到連結的儲存庫！"
 
-#: weblate/trans/models/component.py:2160
+#: weblate/trans/models/component.py:2162
 msgid "Invalid link to a Weblate project, cannot link it to itself!"
 msgstr "無效的 Weblate 專案連結，無法連到自身連結！"
 
-#: weblate/trans/models/component.py:2169
+#: weblate/trans/models/component.py:2171
 msgid "Invalid link to a Weblate project, use weblate://project/component."
 msgstr "無效的 Weblate 專案連結，請使用 weblate://project/component。"
 
-#: weblate/trans/models/component.py:2178
+#: weblate/trans/models/component.py:2180
 msgid "Option is not available for linked repositories."
 msgstr "選項無法在連結儲存庫使用。"
 
-#: weblate/trans/models/component.py:2187
+#: weblate/trans/models/component.py:2189
 msgid "The filemask did not match any files."
 msgstr "此檔案遮罩不符合任何檔案。"
 
-#: weblate/trans/models/component.py:2196
+#: weblate/trans/models/component.py:2198
 #, python-format
 msgid "The language code for %s was empty, please check the filemask."
 msgstr "%s 的語言代碼空白，請檢查檔案遮罩。"
 
-#: weblate/trans/models/component.py:2205
+#: weblate/trans/models/component.py:2207
 #, python-format
 msgid "The language code \"%s\" is too long, please check the filemask."
 msgstr "「%s」語言代碼過長，請檢查檔案遮罩。"
 
-#: weblate/trans/models/component.py:2212
+#: weblate/trans/models/component.py:2214
 #, python-format
 msgid ""
 "There is more than one file for %s language, please adjust the filemask and "
 "use components for translating different resources."
 msgstr "%s語言具有多個檔案，請調整檔案遮罩，並利用組件翻譯不同的資源。"
 
-#: weblate/trans/models/component.py:2226
+#: weblate/trans/models/component.py:2228
 msgid "Could not find any matching language, please check the filemask."
 msgstr "找不到任何符合的語言，請檢查檔案遮罩。"
 
-#: weblate/trans/models/component.py:2245
+#: weblate/trans/models/component.py:2247
 #, python-format
 msgid "Could not parse %d matched file."
 msgid_plural "Could not parse %d matched files."
 msgstr[0] "無法解析 %d 個符合檔案。"
 
-#: weblate/trans/models/component.py:2273
+#: weblate/trans/models/component.py:2275
 msgid ""
 "You have set up Weblate to add new translation files, but did not provide a "
 "base file to do that."
 msgstr "您已設定 Weblate 要加入新翻譯檔，但是卻沒有提供基底檔。"
 
-#: weblate/trans/models/component.py:2284
+#: weblate/trans/models/component.py:2286
 #, python-format
 msgid "Failed to parse base file for new translations: %s"
 msgstr "無法解析新翻譯的基礎檔：%s"
 
-#: weblate/trans/models/component.py:2288
+#: weblate/trans/models/component.py:2290
 msgid "Unrecognized base file for new translations."
 msgstr "無法識別新翻譯的基底檔。"
 
-#: weblate/trans/models/component.py:2299
+#: weblate/trans/models/component.py:2301
 msgid "You can not use a base file for bilingual translation."
 msgstr "您無法使用基底檔進行雙語翻譯。"
 
-#: weblate/trans/models/component.py:2305
-#: weblate/trans/models/component.py:2321
+#: weblate/trans/models/component.py:2307
+#: weblate/trans/models/component.py:2323
 msgid ""
 "An intermediate language file can not be used without an editing template."
 msgstr "中間語言檔案需要與編輯模板一起使用。"
 
-#: weblate/trans/models/component.py:2313
+#: weblate/trans/models/component.py:2315
 msgid ""
 "An intermediate language file has to be different from monolingual base "
 "language file. You can probably keep it empty."
 msgstr "中間語言檔必須和單語基礎語言檔不同。您也可以保留空白。"
 
-#: weblate/trans/models/component.py:2328
+#: weblate/trans/models/component.py:2330
 msgid "Using a .pot file as base file is unsupported."
 msgstr "不支援使用 .pot 檔作為基底檔。"
 
-#: weblate/trans/models/component.py:2344
+#: weblate/trans/models/component.py:2346
 #, python-format
 msgid "Could not parse translation base file: %s"
 msgstr "無法解析翻譯基底檔：%s"
 
-#: weblate/trans/models/component.py:2354
+#: weblate/trans/models/component.py:2356
 #, python-brace-format
 msgid "Template language ({0}) does not match source language ({1})!"
 msgstr "模板語言 ({0}) 和來源語言 ({1}) 不符！"
 
-#: weblate/trans/models/component.py:2359
+#: weblate/trans/models/component.py:2361
 msgid "You can not use a monolingual translation without a base file."
 msgstr "您不用基底檔就不能作單語翻譯。"
 
-#: weblate/trans/models/component.py:2385
+#: weblate/trans/models/component.py:2387
 #, python-format
 msgid "Could not update repository: %s"
 msgstr "無法更新儲存庫：%s"
 
-#: weblate/trans/models/component.py:2402
+#: weblate/trans/models/component.py:2404
 msgid ""
 "Please either fill in an instruction URL or use a different option for "
 "adding a new language."
 msgstr "請填寫新增翻譯的步驟指示 URL 或使用其他方法。"
 
-#: weblate/trans/models/component.py:2433
+#: weblate/trans/models/component.py:2435
 msgid ""
 "Source language can not be changed, please recreate the component instead."
 msgstr "無法變更來源語言，請改為重建組件。"
 
-#: weblate/trans/models/component.py:2441
+#: weblate/trans/models/component.py:2443
 msgid "Component with this URL slug already exists in the project."
 msgstr "此專案中已有相同 URL slug 的組件。"
 
-#: weblate/trans/models/component.py:2446
+#: weblate/trans/models/component.py:2448
 msgid "Component with this name already exists in the project."
 msgstr "此專案已有同名組件。"
 
-#: weblate/trans/models/component.py:2471
+#: weblate/trans/models/component.py:2473
 msgid "Can not validate file matches due to invalid regular expression."
 msgstr "因為正則表達式無效而無法驗證檔案是否相符。"
 
-#: weblate/trans/models/component.py:2481
+#: weblate/trans/models/component.py:2483
 msgid "Accepting suggestions automatically only works with voting turned on."
 msgstr "只能在投票功能開啟時才能使用自動接受建議功能。"
 
-#: weblate/trans/models/component.py:2907
+#: weblate/trans/models/component.py:2909
 msgid "Could not add new translation file."
 msgstr "無法新增翻譯檔。"
 
-#: weblate/trans/models/component.py:2923
+#: weblate/trans/models/component.py:2925
 msgid "The given language is filtered by the language filter."
 msgstr "指定的語言已由語言過濾器過濾。"
 
-#: weblate/trans/models/component.py:2947
+#: weblate/trans/models/component.py:2949
 msgid "Translation file already exists!"
 msgstr "翻譯檔已經存在！"
 
-#: weblate/trans/models/component.py:2967
+#: weblate/trans/models/component.py:2969
 msgid "The translation will be updated in the background."
 msgstr "翻譯會在後台更新。"
 
 #. Translators: Translation context for Gettext
-#: weblate/trans/models/component.py:3010
+#: weblate/trans/models/component.py:3012
 msgid "Context"
 msgstr "情境"
 
 #. Translators: Translation key for monolingual translations
-#: weblate/trans/models/component.py:3012 weblate/utils/views.py:139
+#: weblate/trans/models/component.py:3014 weblate/utils/views.py:139
 msgctxt "Translation key"
 msgid "Key"
 msgstr "字串鍵"
 
-#: weblate/trans/models/component.py:3073
+#: weblate/trans/models/component.py:3075
 #, fuzzy
 #| msgid "Forbidden glossary term"
 msgid "Add new glossary term"
 msgstr "禁止的詞彙表字詞"
 
-#: weblate/trans/models/component.py:3074
+#: weblate/trans/models/component.py:3076
 msgid "Add new translation string"
 msgstr "新增翻譯字串"
 
@@ -10925,9 +10925,10 @@ msgid "Failed to parse new string"
 msgstr "解析查詢字串時失敗：{}"
 
 #: weblate/trans/models/translation.py:1295
-#, python-format
-msgid "Context would created as \"%s\""
-msgstr ""
+#, fuzzy, python-format
+#| msgid "Following components would be created"
+msgid "Context would be created as \"%s\""
+msgstr "會建立下列組件"
 
 #: weblate/trans/models/translation.py:1299
 #, fuzzy, python-format
@@ -10939,27 +10940,27 @@ msgstr "會建立下列組件"
 msgid "Additional explanation to clarify meaning or usage of the string."
 msgstr "用來闡明意義或字串用法的額外解釋。"
 
-#: weblate/trans/models/unit.py:1354
+#: weblate/trans/models/unit.py:1367
 msgid "Unmark as read-only"
 msgstr "取消已讀標記"
 
-#: weblate/trans/models/unit.py:1357
+#: weblate/trans/models/unit.py:1370
 msgid "Mark as read-only"
 msgstr "標記為唯讀"
 
-#: weblate/trans/models/unit.py:1364
+#: weblate/trans/models/unit.py:1377
 msgid "Unmark as forbidden translation"
 msgstr "取消禁止的翻譯標記"
 
-#: weblate/trans/models/unit.py:1372
+#: weblate/trans/models/unit.py:1385
 msgid "Mark as forbidden translation"
 msgstr "標記為禁止的翻譯"
 
-#: weblate/trans/models/unit.py:1381
+#: weblate/trans/models/unit.py:1394
 msgid "Unmark as terminology"
 msgstr "取消專有名詞標記"
 
-#: weblate/trans/models/unit.py:1389
+#: weblate/trans/models/unit.py:1402
 msgid "Mark as terminology"
 msgstr "標記為專有名詞"
 
@@ -12023,46 +12024,46 @@ msgid ""
 "there is room for a full menu."
 msgstr "右上角恆久顯示導覽用下拉選單，即使畫面空間足以呈現完整選單時依然如此。"
 
-#: weblate/wladmin/models.py:65
+#: weblate/wladmin/models.py:66
 msgid "Community support"
 msgstr "社群支援"
 
-#: weblate/wladmin/models.py:66
+#: weblate/wladmin/models.py:67
 msgid "Hosted service"
 msgstr "託管服務"
 
-#: weblate/wladmin/models.py:67
+#: weblate/wladmin/models.py:68
 msgid "Basic self-hosted support"
 msgstr "自行架設的基本支援"
 
-#: weblate/wladmin/models.py:68
+#: weblate/wladmin/models.py:69
 msgid "Extended self-hosted support"
 msgstr "自行架設的延伸支援"
 
-#: weblate/wladmin/models.py:143
+#: weblate/wladmin/models.py:146
 msgid "Backup repository URL"
 msgstr "備份儲存庫 URL"
 
-#: weblate/wladmin/models.py:145
+#: weblate/wladmin/models.py:148
 msgid ""
 "Use /path/to/repo for local backups or user@host:/path/to/repo for remote "
 "SSH backups."
 msgstr ""
 "本機備份使用 /path/to/repo，遠端 SSH 備份則使用 user@host:/path/to/repo。"
 
-#: weblate/wladmin/models.py:188
+#: weblate/wladmin/models.py:191
 msgid "Backup performed"
 msgstr "已執行備份"
 
-#: weblate/wladmin/models.py:189
+#: weblate/wladmin/models.py:192
 msgid "Backup failed"
 msgstr "備份失敗"
 
-#: weblate/wladmin/models.py:190
+#: weblate/wladmin/models.py:193
 msgid "Deleted the oldest backups"
 msgstr "刪除最舊備份"
 
-#: weblate/wladmin/models.py:191
+#: weblate/wladmin/models.py:194
 msgid "Repository initialization"
 msgstr "初始化儲存庫"
 
@@ -12137,6 +12138,11 @@ msgstr "已觸發備份程序"
 #: weblate/wladmin/views.py:247
 msgid "Could not dismiss the configuration error!"
 msgstr "無法略過組態設定錯誤！"
+
+#, fuzzy
+#~| msgid "Weblate keys"
+#~ msgid "Weblate discovery"
+#~ msgstr "Weblate 金鑰"
 
 #~ msgid "Manage glossary"
 #~ msgstr "管理詞彙表"

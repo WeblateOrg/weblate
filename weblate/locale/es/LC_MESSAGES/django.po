@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.5.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
-"POT-Creation-Date: 2021-03-13 06:00+0000\n"
+"POT-Creation-Date: 2021-03-14 05:31+0000\n"
 "PO-Revision-Date: 2021-03-13 21:46+0000\n"
 "Last-Translator: Adolfo Jayme Barrientos <fitojb@ubuntu.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/weblate/"
@@ -653,7 +653,7 @@ msgstr ""
 "Seleccionar una lista de componentes no surte ningún efecto si no se muestra "
 "en el cuadro de mando."
 
-#: weblate/accounts/models.py:712
+#: weblate/accounts/models.py:717
 msgid ""
 "You can not submit translations as you do not have assigned any e-mail "
 "address."
@@ -6486,7 +6486,8 @@ msgstr "Limpieza"
 
 #: weblate/templates/js/git-status.html:115
 msgid "Force writing all translations to the Weblate repository"
-msgstr "Forzar escritura de todas las traducciones en el repositorio de Weblate"
+msgstr ""
+"Forzar escritura de todas las traducciones en el repositorio de Weblate"
 
 #: weblate/templates/js/git-status.html:115
 msgid "Force synchronization"
@@ -6589,7 +6590,8 @@ msgstr "Hubo un cambio en su cuenta en %(site_title)s:"
 msgid ""
 "If you don’t recognize this change, you can report it by clicking the button "
 "below."
-msgstr "Si no reconoce este cambio, notifíquelo mediante el botón de más abajo."
+msgstr ""
+"Si no reconoce este cambio, notifíquelo mediante el botón de más abajo."
 
 #: weblate/templates/mail/account_activity.html:33
 msgid ""
@@ -7226,8 +7228,10 @@ msgid "Support expiry"
 msgstr "Caducidad de asistencia"
 
 #: weblate/templates/manage/index.html:46
-msgid "Weblate discovery"
-msgstr "Descubrimiento mediante Weblate"
+#, fuzzy
+#| msgid "Register in Weblate"
+msgid "Discover Weblate"
+msgstr "Registrarse en Weblate"
 
 #: weblate/templates/manage/index.html:48
 msgid "Browse discovery"
@@ -8690,7 +8694,7 @@ msgid "Weblate could not push changes to the upstream repository."
 msgstr "Weblate no pudo enviar los cambios al repositorio originario."
 
 #: weblate/templates/trans/alert/pushfailure.html:9
-#: weblate/trans/models/component.py:2380
+#: weblate/trans/models/component.py:2382
 msgid ""
 "Your push URL seems to miss credentials. Either provide them in the URL or "
 "use SSH with key based authentication."
@@ -11141,8 +11145,8 @@ msgid "Could not fetch the repository: %s"
 msgstr "No se pudo recuperar el repositorio: %s"
 
 #: weblate/trans/models/component.py:1278
-#: weblate/trans/models/component.py:2280
-#: weblate/trans/models/component.py:2339
+#: weblate/trans/models/component.py:2282
+#: weblate/trans/models/component.py:2341
 msgid "File does not exist."
 msgstr "El archivo no existe."
 
@@ -11176,43 +11180,43 @@ msgstr "No se pudo cambiar la base de la rama local sobre la rama remota %s."
 msgid "Could not merge remote branch into %s."
 msgstr "No se pudo fusionar la rama remota con %s."
 
-#: weblate/trans/models/component.py:2151
+#: weblate/trans/models/component.py:2153
 msgid "Invalid link to a Weblate project, cannot link to linked repository!"
 msgstr ""
 "Enlace no válido a un proyecto de Weblate; no se puede enlazar al "
 "repositorio asociado."
 
-#: weblate/trans/models/component.py:2160
+#: weblate/trans/models/component.py:2162
 msgid "Invalid link to a Weblate project, cannot link it to itself!"
 msgstr ""
 "Enlace no válido a un proyecto de Weblate; no se puede enlazar a sí mismo."
 
-#: weblate/trans/models/component.py:2169
+#: weblate/trans/models/component.py:2171
 msgid "Invalid link to a Weblate project, use weblate://project/component."
 msgstr ""
 "Enlace inválido a un proyecto de Weblate, utilice weblate://proyecto/"
 "componente."
 
-#: weblate/trans/models/component.py:2178
+#: weblate/trans/models/component.py:2180
 msgid "Option is not available for linked repositories."
 msgstr "La opción no está disponible para repositorios enlazados."
 
-#: weblate/trans/models/component.py:2187
+#: weblate/trans/models/component.py:2189
 msgid "The filemask did not match any files."
 msgstr "La máscara de archivos no encontró ningún archivo."
 
-#: weblate/trans/models/component.py:2196
+#: weblate/trans/models/component.py:2198
 #, python-format
 msgid "The language code for %s was empty, please check the filemask."
 msgstr "El código de idioma de %s estaba vacío; revise la máscara de archivos."
 
-#: weblate/trans/models/component.py:2205
+#: weblate/trans/models/component.py:2207
 #, python-format
 msgid "The language code \"%s\" is too long, please check the filemask."
 msgstr ""
 "El código de idioma «%s» es demasiado extenso; revise la máscara de archivos."
 
-#: weblate/trans/models/component.py:2212
+#: weblate/trans/models/component.py:2214
 #, python-format
 msgid ""
 "There is more than one file for %s language, please adjust the filemask and "
@@ -11221,20 +11225,20 @@ msgstr ""
 "Existe más de un archivo para el idioma %s; ajuste la máscara y utilice "
 "componentes para traducir diferentes recursos."
 
-#: weblate/trans/models/component.py:2226
+#: weblate/trans/models/component.py:2228
 msgid "Could not find any matching language, please check the filemask."
 msgstr ""
 "No se pudo encontrar ningún idioma que coincidiera; revise la máscara de "
 "archivos."
 
-#: weblate/trans/models/component.py:2245
+#: weblate/trans/models/component.py:2247
 #, python-format
 msgid "Could not parse %d matched file."
 msgid_plural "Could not parse %d matched files."
 msgstr[0] "No se pudo procesar %d archivo encontrado."
 msgstr[1] "No se pudieron procesar %d archivos encontrados."
 
-#: weblate/trans/models/component.py:2273
+#: weblate/trans/models/component.py:2275
 msgid ""
 "You have set up Weblate to add new translation files, but did not provide a "
 "base file to do that."
@@ -11242,28 +11246,28 @@ msgstr ""
 "Ha configurado Weblate para que añada archivos de traducción nuevos, pero no "
 "ha proporcionado un archivo de base para hacerlo."
 
-#: weblate/trans/models/component.py:2284
+#: weblate/trans/models/component.py:2286
 #, python-format
 msgid "Failed to parse base file for new translations: %s"
 msgstr "No se pudo analizar el archivo de base para traducciones nuevas: %s"
 
-#: weblate/trans/models/component.py:2288
+#: weblate/trans/models/component.py:2290
 msgid "Unrecognized base file for new translations."
 msgstr "No se reconoció el archivo de base para traducciones nuevas."
 
-#: weblate/trans/models/component.py:2299
+#: weblate/trans/models/component.py:2301
 msgid "You can not use a base file for bilingual translation."
 msgstr "No puede utilizar un archivo de base para una traducción bilingüe."
 
-#: weblate/trans/models/component.py:2305
-#: weblate/trans/models/component.py:2321
+#: weblate/trans/models/component.py:2307
+#: weblate/trans/models/component.py:2323
 msgid ""
 "An intermediate language file can not be used without an editing template."
 msgstr ""
 "Un archivo de idioma intermediario no puede utilizarse sin una plantilla de "
 "edición."
 
-#: weblate/trans/models/component.py:2313
+#: weblate/trans/models/component.py:2315
 msgid ""
 "An intermediate language file has to be different from monolingual base "
 "language file. You can probably keep it empty."
@@ -11271,31 +11275,31 @@ msgstr ""
 "Un archivo de idioma intermediario debe ser distinto del archivo de idioma "
 "de base monolingüe. Probablemente pueda mantenerlo vacío."
 
-#: weblate/trans/models/component.py:2328
+#: weblate/trans/models/component.py:2330
 msgid "Using a .pot file as base file is unsupported."
 msgstr "No se admite utilizar un archivo .pot como base."
 
-#: weblate/trans/models/component.py:2344
+#: weblate/trans/models/component.py:2346
 #, python-format
 msgid "Could not parse translation base file: %s"
 msgstr "No se pudo procesar el archivo de base de la traducción: %s"
 
-#: weblate/trans/models/component.py:2354
+#: weblate/trans/models/component.py:2356
 #, python-brace-format
 msgid "Template language ({0}) does not match source language ({1})!"
 msgstr ""
 "El idioma de la plantilla ({0}) no coincide con el idioma de origen ({1})."
 
-#: weblate/trans/models/component.py:2359
+#: weblate/trans/models/component.py:2361
 msgid "You can not use a monolingual translation without a base file."
 msgstr "No puede utilizar una traducción monolingüe sin un archivo de base."
 
-#: weblate/trans/models/component.py:2385
+#: weblate/trans/models/component.py:2387
 #, python-format
 msgid "Could not update repository: %s"
 msgstr "No se pudo actualizar el repositorio: %s"
 
-#: weblate/trans/models/component.py:2402
+#: weblate/trans/models/component.py:2404
 msgid ""
 "Please either fill in an instruction URL or use a different option for "
 "adding a new language."
@@ -11303,64 +11307,64 @@ msgstr ""
 "Complete el URL de instrucciones o utilice una opción diferente para añadir "
 "un idioma."
 
-#: weblate/trans/models/component.py:2433
+#: weblate/trans/models/component.py:2435
 msgid ""
 "Source language can not be changed, please recreate the component instead."
 msgstr ""
 "No se puede cambiar el idioma de origen; en su lugar, recree el componente."
 
-#: weblate/trans/models/component.py:2441
+#: weblate/trans/models/component.py:2443
 msgid "Component with this URL slug already exists in the project."
 msgstr "Ya existe un componente con este «slug» de URL en el proyecto."
 
-#: weblate/trans/models/component.py:2446
+#: weblate/trans/models/component.py:2448
 msgid "Component with this name already exists in the project."
 msgstr "Ya existe un componente con este nombre en el proyecto."
 
-#: weblate/trans/models/component.py:2471
+#: weblate/trans/models/component.py:2473
 msgid "Can not validate file matches due to invalid regular expression."
 msgstr ""
 "No se pueden validar las coincidencias del archivo a causa de una expresión "
 "regular no válida."
 
-#: weblate/trans/models/component.py:2481
+#: weblate/trans/models/component.py:2483
 msgid "Accepting suggestions automatically only works with voting turned on."
 msgstr ""
 "La aceptación automática de sugerencias solo funcionará cuando active los "
 "votos."
 
-#: weblate/trans/models/component.py:2907
+#: weblate/trans/models/component.py:2909
 msgid "Could not add new translation file."
 msgstr "No se pudo añadir el archivo de traducción nuevo."
 
-#: weblate/trans/models/component.py:2923
+#: weblate/trans/models/component.py:2925
 msgid "The given language is filtered by the language filter."
 msgstr "El filtro de idioma filtra el idioma indicado."
 
-#: weblate/trans/models/component.py:2947
+#: weblate/trans/models/component.py:2949
 msgid "Translation file already exists!"
 msgstr "Ya existe el archivo de traducción."
 
-#: weblate/trans/models/component.py:2967
+#: weblate/trans/models/component.py:2969
 msgid "The translation will be updated in the background."
 msgstr "Se actualizará la traducción en segundo plano."
 
 #. Translators: Translation context for Gettext
-#: weblate/trans/models/component.py:3010
+#: weblate/trans/models/component.py:3012
 msgid "Context"
 msgstr "Contexto"
 
 #. Translators: Translation key for monolingual translations
-#: weblate/trans/models/component.py:3012 weblate/utils/views.py:139
+#: weblate/trans/models/component.py:3014 weblate/utils/views.py:139
 msgctxt "Translation key"
 msgid "Key"
 msgstr "Clave"
 
-#: weblate/trans/models/component.py:3073
+#: weblate/trans/models/component.py:3075
 msgid "Add new glossary term"
 msgstr "Añadir término nuevo al glosario"
 
-#: weblate/trans/models/component.py:3074
+#: weblate/trans/models/component.py:3076
 msgid "Add new translation string"
 msgstr "Añadir cadena de traducción nueva"
 
@@ -11550,8 +11554,9 @@ msgid "Failed to parse new string"
 msgstr "No se pudo analizar la cadena nueva"
 
 #: weblate/trans/models/translation.py:1295
-#, python-format
-msgid "Context would created as \"%s\""
+#, fuzzy, python-format
+#| msgid "Context would created as \"%s\""
+msgid "Context would be created as \"%s\""
 msgstr "El contexto se crearía como «%s»"
 
 #: weblate/trans/models/translation.py:1299
@@ -11564,27 +11569,27 @@ msgid "Additional explanation to clarify meaning or usage of the string."
 msgstr ""
 "Explicación adicional para aclarar el significado o el uso de la cadena."
 
-#: weblate/trans/models/unit.py:1354
+#: weblate/trans/models/unit.py:1367
 msgid "Unmark as read-only"
 msgstr "Desmarcar como de solo lectura"
 
-#: weblate/trans/models/unit.py:1357
+#: weblate/trans/models/unit.py:1370
 msgid "Mark as read-only"
 msgstr "Marcar como de solo lectura"
 
-#: weblate/trans/models/unit.py:1364
+#: weblate/trans/models/unit.py:1377
 msgid "Unmark as forbidden translation"
 msgstr "Desmarcar como traducción prohibida"
 
-#: weblate/trans/models/unit.py:1372
+#: weblate/trans/models/unit.py:1385
 msgid "Mark as forbidden translation"
 msgstr "Marcar como traducción prohibida"
 
-#: weblate/trans/models/unit.py:1381
+#: weblate/trans/models/unit.py:1394
 msgid "Unmark as terminology"
 msgstr "Desmarcar como terminología"
 
-#: weblate/trans/models/unit.py:1389
+#: weblate/trans/models/unit.py:1402
 msgid "Mark as terminology"
 msgstr "Marcar como terminología"
 
@@ -12695,27 +12700,27 @@ msgstr ""
 "Se mostrará un menú de navegación desplegable en la esquina superior derecha "
 "aun cuando haya espacio para un menú completo."
 
-#: weblate/wladmin/models.py:65
+#: weblate/wladmin/models.py:66
 msgid "Community support"
 msgstr "Asistencia comunitaria"
 
-#: weblate/wladmin/models.py:66
+#: weblate/wladmin/models.py:67
 msgid "Hosted service"
 msgstr "Servicio alojado"
 
-#: weblate/wladmin/models.py:67
+#: weblate/wladmin/models.py:68
 msgid "Basic self-hosted support"
 msgstr "Asistencia básica para instalaciones autoalojadas"
 
-#: weblate/wladmin/models.py:68
+#: weblate/wladmin/models.py:69
 msgid "Extended self-hosted support"
 msgstr "Asistencia ampliada para instalaciones autoalojadas"
 
-#: weblate/wladmin/models.py:143
+#: weblate/wladmin/models.py:146
 msgid "Backup repository URL"
 msgstr "URL de repositorio de respaldos"
 
-#: weblate/wladmin/models.py:145
+#: weblate/wladmin/models.py:148
 msgid ""
 "Use /path/to/repo for local backups or user@host:/path/to/repo for remote "
 "SSH backups."
@@ -12724,19 +12729,19 @@ msgstr ""
 "usuario@anfitrión:/ruta/al/repositorio para copias de respaldo remotas vía "
 "SSH."
 
-#: weblate/wladmin/models.py:188
+#: weblate/wladmin/models.py:191
 msgid "Backup performed"
 msgstr "Copia de respaldo realizada"
 
-#: weblate/wladmin/models.py:189
+#: weblate/wladmin/models.py:192
 msgid "Backup failed"
 msgstr "Falló la copia de respaldo"
 
-#: weblate/wladmin/models.py:190
+#: weblate/wladmin/models.py:193
 msgid "Deleted the oldest backups"
 msgstr "Se eliminaron los respaldos más antiguos"
 
-#: weblate/wladmin/models.py:191
+#: weblate/wladmin/models.py:194
 msgid "Repository initialization"
 msgstr "Inicialización de repositorio"
 
@@ -12814,6 +12819,9 @@ msgstr "Se inició el proceso de respaldo"
 #: weblate/wladmin/views.py:247
 msgid "Could not dismiss the configuration error!"
 msgstr "No se pudo descartar el error de configuración."
+
+#~ msgid "Weblate discovery"
+#~ msgstr "Descubrimiento mediante Weblate"
 
 #~ msgid "Manage glossary"
 #~ msgstr "Gestionar glosario"

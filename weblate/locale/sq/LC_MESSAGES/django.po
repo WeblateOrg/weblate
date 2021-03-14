@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.5.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
-"POT-Creation-Date: 2021-03-13 06:00+0000\n"
+"POT-Creation-Date: 2021-03-14 05:31+0000\n"
 "PO-Revision-Date: 2021-03-13 21:46+0000\n"
 "Last-Translator: Besnik Bleta <besnik@programeshqip.org>\n"
 "Language-Team: Albanian <https://hosted.weblate.org/projects/weblate/"
@@ -645,7 +645,7 @@ msgstr ""
 msgid "Selecting component list has no effect when not shown on the dashboard."
 msgstr "Përzgjedhja e liste përbërësish s’ka efekt, kur nuk shfaqet te pulti."
 
-#: weblate/accounts/models.py:712
+#: weblate/accounts/models.py:717
 msgid ""
 "You can not submit translations as you do not have assigned any e-mail "
 "address."
@@ -7224,8 +7224,10 @@ msgid "Support expiry"
 msgstr "Skadim asistence"
 
 #: weblate/templates/manage/index.html:46
-msgid "Weblate discovery"
-msgstr "Zbulim i Weblate-it"
+#, fuzzy
+#| msgid "Register in Weblate"
+msgid "Discover Weblate"
+msgstr "Regjistrohuni në Weblate"
 
 #: weblate/templates/manage/index.html:48
 #, fuzzy
@@ -8689,7 +8691,7 @@ msgid "Weblate could not push changes to the upstream repository."
 msgstr "Weblate-i s’kreu dot \"push\" te depoja \"upstream."
 
 #: weblate/templates/trans/alert/pushfailure.html:9
-#: weblate/trans/models/component.py:2380
+#: weblate/trans/models/component.py:2382
 msgid ""
 "Your push URL seems to miss credentials. Either provide them in the URL or "
 "use SSH with key based authentication."
@@ -11140,8 +11142,8 @@ msgid "Could not fetch the repository: %s"
 msgstr "S’u soll dot depoja: %s"
 
 #: weblate/trans/models/component.py:1278
-#: weblate/trans/models/component.py:2280
-#: weblate/trans/models/component.py:2339
+#: weblate/trans/models/component.py:2282
+#: weblate/trans/models/component.py:2341
 msgid "File does not exist."
 msgstr "Kartela s’ekziston."
 
@@ -11175,42 +11177,42 @@ msgstr "S’u krye dot rebase i degës vendore te dega e largët %s."
 msgid "Could not merge remote branch into %s."
 msgstr "S’u krye dot përzierja e degës së largët me %s."
 
-#: weblate/trans/models/component.py:2151
+#: weblate/trans/models/component.py:2153
 msgid "Invalid link to a Weblate project, cannot link to linked repository!"
 msgstr ""
 "Lidhje e pavlefshme te një projekt Weblate, s’mund të lidhet një depo e "
 "lidhur!"
 
-#: weblate/trans/models/component.py:2160
+#: weblate/trans/models/component.py:2162
 msgid "Invalid link to a Weblate project, cannot link it to itself!"
 msgstr "Lidhje e pavlefshme te një projekt Weblate, s’mund të lidhet vetvetja!"
 
-#: weblate/trans/models/component.py:2169
+#: weblate/trans/models/component.py:2171
 msgid "Invalid link to a Weblate project, use weblate://project/component."
 msgstr ""
 "Lidhje e pavlefshme te një projekt Weblate, përdorni weblate://project/"
 "component."
 
-#: weblate/trans/models/component.py:2178
+#: weblate/trans/models/component.py:2180
 msgid "Option is not available for linked repositories."
 msgstr "Mundësia s’është e passhme për depo të lidhura."
 
-#: weblate/trans/models/component.py:2187
+#: weblate/trans/models/component.py:2189
 msgid "The filemask did not match any files."
 msgstr "Filemask-a s’pat përputhje me ndonjë kartelë."
 
-#: weblate/trans/models/component.py:2196
+#: weblate/trans/models/component.py:2198
 #, python-format
 msgid "The language code for %s was empty, please check the filemask."
 msgstr "Kodi i gjuhës për %s qe i zbrazët, ju lutemi, kontrolloni filemask-ën."
 
-#: weblate/trans/models/component.py:2205
+#: weblate/trans/models/component.py:2207
 #, python-format
 msgid "The language code \"%s\" is too long, please check the filemask."
 msgstr ""
 "Kodi i gjuhës \"%s\" është shumë i gjatë, ju lutemi, kontrolloni filemask-ën."
 
-#: weblate/trans/models/component.py:2212
+#: weblate/trans/models/component.py:2214
 #, fuzzy, python-format
 #| msgid ""
 #| "There is more than one file for %s language, please adjust the filemask "
@@ -11222,18 +11224,18 @@ msgstr ""
 "Ka më tepër se një kartelë për gjuhën %s, ju lutemi, përshtatni filemask-ën "
 "dhe përdorni përbërës për përkthimin e tjetër burimi."
 
-#: weblate/trans/models/component.py:2226
+#: weblate/trans/models/component.py:2228
 msgid "Could not find any matching language, please check the filemask."
 msgstr "S’u gjet dot gjuhë me përputhje, ju lutemi, kontrolloni filemask-ën."
 
-#: weblate/trans/models/component.py:2245
+#: weblate/trans/models/component.py:2247
 #, python-format
 msgid "Could not parse %d matched file."
 msgid_plural "Could not parse %d matched files."
 msgstr[0] "S’u përtyp dot %d kartelë me përputhje."
 msgstr[1] "S’u përtypën dot %d kartela me përputhje."
 
-#: weblate/trans/models/component.py:2273
+#: weblate/trans/models/component.py:2275
 msgid ""
 "You have set up Weblate to add new translation files, but did not provide a "
 "base file to do that."
@@ -11241,27 +11243,27 @@ msgstr ""
 "E keni ujdisur Weblate-in të shtojë kartela të reja përkthimesh, por "
 "s’furnizuat një kartelë bazë për t’u bërë kjo."
 
-#: weblate/trans/models/component.py:2284
+#: weblate/trans/models/component.py:2286
 #, python-format
 msgid "Failed to parse base file for new translations: %s"
 msgstr "S’u arrit të përtypet kartelë bazë për përkthime të reja: %s"
 
-#: weblate/trans/models/component.py:2288
+#: weblate/trans/models/component.py:2290
 msgid "Unrecognized base file for new translations."
 msgstr "Kartelë bazë jo e pranuar për përkthime të reja."
 
-#: weblate/trans/models/component.py:2299
+#: weblate/trans/models/component.py:2301
 msgid "You can not use a base file for bilingual translation."
 msgstr "S’mund të përdorni një kartelë bazë për përkthim dygjuhësh."
 
-#: weblate/trans/models/component.py:2305
-#: weblate/trans/models/component.py:2321
+#: weblate/trans/models/component.py:2307
+#: weblate/trans/models/component.py:2323
 msgid ""
 "An intermediate language file can not be used without an editing template."
 msgstr ""
 "Kartela e gjuhës ndërmjetëse s’mund të përdoret pa një gjedhe përpunimi."
 
-#: weblate/trans/models/component.py:2313
+#: weblate/trans/models/component.py:2315
 msgid ""
 "An intermediate language file has to be different from monolingual base "
 "language file. You can probably keep it empty."
@@ -11269,30 +11271,30 @@ msgstr ""
 "Kartela e gjuhës ndërmjetëse duhet të jetë e ndryshme nga kartela gjuhësore "
 "bazë. Mundet ta mbani edhe të zbrazët."
 
-#: weblate/trans/models/component.py:2328
+#: weblate/trans/models/component.py:2330
 msgid "Using a .pot file as base file is unsupported."
 msgstr "Nuk mbulohet përdorimi i një kartele .pot si kartelë bazë."
 
-#: weblate/trans/models/component.py:2344
+#: weblate/trans/models/component.py:2346
 #, python-format
 msgid "Could not parse translation base file: %s"
 msgstr "S’u përtyp dot kartela bazë e përkthimit: %s"
 
-#: weblate/trans/models/component.py:2354
+#: weblate/trans/models/component.py:2356
 #, python-brace-format
 msgid "Template language ({0}) does not match source language ({1})!"
 msgstr "Gjuha e gjedhes ({0}) s’përputhet me gjuhën burim ({1})!"
 
-#: weblate/trans/models/component.py:2359
+#: weblate/trans/models/component.py:2361
 msgid "You can not use a monolingual translation without a base file."
 msgstr "S’mund të përdorni një përkthim njëgjuhësh pa një kartelë bazë."
 
-#: weblate/trans/models/component.py:2385
+#: weblate/trans/models/component.py:2387
 #, python-format
 msgid "Could not update repository: %s"
 msgstr "S’u përditësua dot depo: %s"
 
-#: weblate/trans/models/component.py:2402
+#: weblate/trans/models/component.py:2404
 msgid ""
 "Please either fill in an instruction URL or use a different option for "
 "adding a new language."
@@ -11300,67 +11302,67 @@ msgstr ""
 "Ju lutemi, ose plotësoni URL udhëzimesh, ose përdorni një mundësi tjetër për "
 "shtim gjuhe të re."
 
-#: weblate/trans/models/component.py:2433
+#: weblate/trans/models/component.py:2435
 msgid ""
 "Source language can not be changed, please recreate the component instead."
 msgstr ""
 "Gjuha burim s’mund të ndryshohet, ju lutemi, në vend të kësaj, rikrijojeni "
 "përbërësin."
 
-#: weblate/trans/models/component.py:2441
+#: weblate/trans/models/component.py:2443
 msgid "Component with this URL slug already exists in the project."
 msgstr "Te projekti ka tashmë një përbërës me këtë identifikues URL-je."
 
-#: weblate/trans/models/component.py:2446
+#: weblate/trans/models/component.py:2448
 msgid "Component with this name already exists in the project."
 msgstr "Te projekti ekziston tashmë një përbërës me këtë emër."
 
-#: weblate/trans/models/component.py:2471
+#: weblate/trans/models/component.py:2473
 msgid "Can not validate file matches due to invalid regular expression."
 msgstr ""
 "S’mund të vlerësohen përputhje kartelash, për shkak të një shprehjeje të "
 "rregullt të pavlefshme."
 
-#: weblate/trans/models/component.py:2481
+#: weblate/trans/models/component.py:2483
 msgid "Accepting suggestions automatically only works with voting turned on."
 msgstr ""
 "Pranimi automatikisht i sugjerimeve funksionon vetëm kur votimi është i "
 "aktivizuar."
 
-#: weblate/trans/models/component.py:2907
+#: weblate/trans/models/component.py:2909
 msgid "Could not add new translation file."
 msgstr "S’u shtua dot kartelë e re përkthimi."
 
-#: weblate/trans/models/component.py:2923
+#: weblate/trans/models/component.py:2925
 msgid "The given language is filtered by the language filter."
 msgstr "Gjuha e dhënë filtrohet nga filtri i gjuhëve."
 
-#: weblate/trans/models/component.py:2947
+#: weblate/trans/models/component.py:2949
 msgid "Translation file already exists!"
 msgstr "Ka një kartelë të tillë përkthimi!"
 
-#: weblate/trans/models/component.py:2967
+#: weblate/trans/models/component.py:2969
 msgid "The translation will be updated in the background."
 msgstr "Përkthimi do të përditësohet në prapaskenë."
 
 #. Translators: Translation context for Gettext
-#: weblate/trans/models/component.py:3010
+#: weblate/trans/models/component.py:3012
 msgid "Context"
 msgstr "Kontekst"
 
 #. Translators: Translation key for monolingual translations
-#: weblate/trans/models/component.py:3012 weblate/utils/views.py:139
+#: weblate/trans/models/component.py:3014 weblate/utils/views.py:139
 msgctxt "Translation key"
 msgid "Key"
 msgstr ""
 
-#: weblate/trans/models/component.py:3073
+#: weblate/trans/models/component.py:3075
 #, fuzzy
 #| msgid "Forbidden glossary term"
 msgid "Add new glossary term"
 msgstr "Zë fjalorthi i ndaluar"
 
-#: weblate/trans/models/component.py:3074
+#: weblate/trans/models/component.py:3076
 msgid "Add new translation string"
 msgstr "Shtoni varg të ri përkthimi"
 
@@ -11551,9 +11553,10 @@ msgid "Failed to parse new string"
 msgstr "S’u arrit të përtypet varg kërkese: {}"
 
 #: weblate/trans/models/translation.py:1295
-#, python-format
-msgid "Context would created as \"%s\""
-msgstr ""
+#, fuzzy, python-format
+#| msgid "Following components would be created"
+msgid "Context would be created as \"%s\""
+msgstr "Përbërësit vijues do të krijohen"
 
 #: weblate/trans/models/translation.py:1299
 #, fuzzy, python-format
@@ -11565,27 +11568,27 @@ msgstr "Përbërësit vijues do të krijohen"
 msgid "Additional explanation to clarify meaning or usage of the string."
 msgstr "Shpjegim shtesë për qartësimin e domethënies ose përdorimit të vargut."
 
-#: weblate/trans/models/unit.py:1354
+#: weblate/trans/models/unit.py:1367
 msgid "Unmark as read-only"
 msgstr "Hiqja shenjë si vetëm-për-lexim"
 
-#: weblate/trans/models/unit.py:1357
+#: weblate/trans/models/unit.py:1370
 msgid "Mark as read-only"
 msgstr "Vëri shenjë si vetëm-për-lexim"
 
-#: weblate/trans/models/unit.py:1364
+#: weblate/trans/models/unit.py:1377
 msgid "Unmark as forbidden translation"
 msgstr "Hiqja shenjë si përkthim i ndaluar"
 
-#: weblate/trans/models/unit.py:1372
+#: weblate/trans/models/unit.py:1385
 msgid "Mark as forbidden translation"
 msgstr "Vëri shenjë si përkthim i ndaluar"
 
-#: weblate/trans/models/unit.py:1381
+#: weblate/trans/models/unit.py:1394
 msgid "Unmark as terminology"
 msgstr "Hiqja shenjë si terminologji"
 
-#: weblate/trans/models/unit.py:1389
+#: weblate/trans/models/unit.py:1402
 msgid "Mark as terminology"
 msgstr "Vëri shenjë si terminologji"
 
@@ -12695,27 +12698,27 @@ msgstr ""
 "Menu e qëndrueshme hapmbyll për lëvizjen, në cepin e sipërm djathtas, edhe "
 "nëse ka vend për një menu të plotë."
 
-#: weblate/wladmin/models.py:65
+#: weblate/wladmin/models.py:66
 msgid "Community support"
 msgstr "Asistencë nga bashkësia"
 
-#: weblate/wladmin/models.py:66
+#: weblate/wladmin/models.py:67
 msgid "Hosted service"
 msgstr "Shërbim i strehuar"
 
-#: weblate/wladmin/models.py:67
+#: weblate/wladmin/models.py:68
 msgid "Basic self-hosted support"
 msgstr "Asistencë elementare për të vetëstrehuar"
 
-#: weblate/wladmin/models.py:68
+#: weblate/wladmin/models.py:69
 msgid "Extended self-hosted support"
 msgstr "Asistencë e thelluar për të vetëstrehuar"
 
-#: weblate/wladmin/models.py:143
+#: weblate/wladmin/models.py:146
 msgid "Backup repository URL"
 msgstr "URL depo kopjeruajtesh"
 
-#: weblate/wladmin/models.py:145
+#: weblate/wladmin/models.py:148
 msgid ""
 "Use /path/to/repo for local backups or user@host:/path/to/repo for remote "
 "SSH backups."
@@ -12723,19 +12726,19 @@ msgstr ""
 "Përdorni /shteg/për/te/depoja për kopjeruajtje vendore, ose përdorues@host:/"
 "shteg/për/te/depoja për kopjeruajtje të largëta përmes SSH-je."
 
-#: weblate/wladmin/models.py:188
+#: weblate/wladmin/models.py:191
 msgid "Backup performed"
 msgstr "U krye kopjeruajtje"
 
-#: weblate/wladmin/models.py:189
+#: weblate/wladmin/models.py:192
 msgid "Backup failed"
 msgstr "Kopjeruajtja dështoi"
 
-#: weblate/wladmin/models.py:190
+#: weblate/wladmin/models.py:193
 msgid "Deleted the oldest backups"
 msgstr "U fshinë kopjeruajtjet më të vjetra"
 
-#: weblate/wladmin/models.py:191
+#: weblate/wladmin/models.py:194
 msgid "Repository initialization"
 msgstr "Gatitje depoje"
 
@@ -12814,6 +12817,9 @@ msgstr "U shkaktua proces kopjeruajtjeje"
 #: weblate/wladmin/views.py:247
 msgid "Could not dismiss the configuration error!"
 msgstr "S’u hodh dot tej gabimi i formësimit!"
+
+#~ msgid "Weblate discovery"
+#~ msgstr "Zbulim i Weblate-it"
 
 #~ msgid "Manage glossary"
 #~ msgstr "Të administrojë fjalorth"

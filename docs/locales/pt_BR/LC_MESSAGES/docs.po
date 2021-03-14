@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-03-13 07:01+0100\n"
+"POT-Creation-Date: 2021-03-14 06:32+0100\n"
 "PO-Revision-Date: 2021-03-13 21:46+0000\n"
 "Last-Translator: Rafael Fontenelle <rafaelff@gnome.org>\n"
 "Language-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/"
@@ -11842,7 +11842,7 @@ msgid ""
 "Redis instance when running Weblate in Docker."
 msgstr ""
 
-#: ../../admin/install/docker.rst:945 ../../admin/projects.rst:939
+#: ../../admin/install/docker.rst:945 ../../admin/projects.rst:941
 msgid ":ref:`production-cache`"
 msgstr ""
 
@@ -12743,7 +12743,7 @@ msgstr ""
 msgid "Each language consists of following fields:"
 msgstr ""
 
-#: ../../admin/languages.rst:99 ../../admin/projects.rst:842 ../../api.rst:658
+#: ../../admin/languages.rst:99 ../../admin/projects.rst:844 ../../api.rst:658
 #: ../../api.rst:660 ../../api.rst:723 ../../api.rst:2121
 msgid "Language code"
 msgstr "Código do idioma"
@@ -12764,7 +12764,7 @@ msgstr ""
 msgid ":ref:`language-parsing-codes`, :ref:`new-translations`"
 msgstr ":ref:`machine-translation-setup`, :ref:`machine-translation`"
 
-#: ../../admin/languages.rst:116 ../../admin/projects.rst:844 ../../api.rst:645
+#: ../../admin/languages.rst:116 ../../admin/projects.rst:846 ../../api.rst:645
 #: ../../api.rst:647 ../../api.rst:698 ../../api.rst:708
 msgid "Language name"
 msgstr "Nome do idioma"
@@ -15173,7 +15173,7 @@ msgstr ""
 msgid "These basic attributes set up and inform translators of a project:"
 msgstr ""
 
-#: ../../admin/projects.rst:124 ../../admin/projects.rst:850 ../../api.rst:759
+#: ../../admin/projects.rst:124 ../../admin/projects.rst:852 ../../api.rst:759
 #: ../../contributing/about.rst:11
 msgid "Project name"
 msgstr "Nome do projeto"
@@ -15182,7 +15182,7 @@ msgstr "Nome do projeto"
 msgid "Verbose project name, used to display the project name."
 msgstr ""
 
-#: ../../admin/projects.rst:131 ../../admin/projects.rst:852 ../../api.rst:761
+#: ../../admin/projects.rst:131 ../../admin/projects.rst:854 ../../api.rst:761
 #: ../../api.rst:1602 ../../api.rst:2119 ../../api.rst:2183
 msgid "Project slug"
 msgstr ""
@@ -15382,7 +15382,7 @@ msgid ""
 "and for getting translations out of it:"
 msgstr ""
 
-#: ../../admin/projects.rst:285 ../../admin/projects.rst:846
+#: ../../admin/projects.rst:285 ../../admin/projects.rst:848
 msgid "Component name"
 msgstr "Nome do componente"
 
@@ -15390,7 +15390,7 @@ msgstr "Nome do componente"
 msgid "Verbose component name, used to display the component name."
 msgstr ""
 
-#: ../../admin/projects.rst:292 ../../admin/projects.rst:848 ../../api.rst:2120
+#: ../../admin/projects.rst:292 ../../admin/projects.rst:850 ../../api.rst:2120
 #: ../../api.rst:2184 ../../api.rst:2280
 msgid "Component slug"
 msgstr ""
@@ -15898,7 +15898,7 @@ msgstr "Push ao fazer commit"
 msgid ""
 "Whether committed changes should be automatically pushed to the upstream "
 "repository. When enabled, the push is initiated once Weblate commits changes "
-"to its internal repository (see :ref:`lazy-commit`). To actually enable "
+"to its underlying repository (see :ref:`lazy-commit`). To actually enable "
 "pushing :guilabel:`Repository push URL` has to be configured as well."
 msgstr ""
 
@@ -15908,10 +15908,10 @@ msgstr "Idade das alterações para fazer commit"
 
 #: ../../admin/projects.rst:666
 msgid ""
-"Sets how old changes (in hours) are to get before they are committed by "
-"background task or :djadmin:`commit_pending` management command. All changes "
-"in a component are committed once there is at least one older than this "
-"period."
+"Sets how old (in hours) changes have to be before they are committed by "
+"background task or the :djadmin:`commit_pending` management command. All "
+"changes in a component are committed once there is at least one change older "
+"than this period."
 msgstr ""
 
 #: ../../admin/projects.rst:671
@@ -15930,9 +15930,10 @@ msgstr "Bloquear em erro"
 
 #: ../../admin/projects.rst:683
 msgid ""
-"Enables locking the component on repository error (failed pull, push or "
-"merge). Locking in this situation avoids adding another conflict which would "
-"have to be resolved manually."
+"Locks the component (and linked components, see :ref:`internal-urls`) upon "
+"the first failed push or merge into its upstream repository, or pull from "
+"it. This avoids adding another conflicts, which would have to be resolved "
+"manually."
 msgstr ""
 
 #: ../../admin/projects.rst:687
@@ -15954,9 +15955,9 @@ msgstr ""
 #: ../../admin/projects.rst:700
 msgid ""
 "In case you are translating bilingual files from English, but want to be "
-"able to do fixes in the English translation as well, you might want to "
-"choose :guilabel:`English (Developer)` as a source language to avoid "
-"conflict between name of the source language and existing translation."
+"able to do fixes in the English translation as well, choose :guilabel:"
+"`English (Developer)` as a source language to avoid conflict between the "
+"name of the source language and the existing translation."
 msgstr ""
 
 #: ../../admin/projects.rst:705
@@ -15970,10 +15971,16 @@ msgid "Language filter"
 msgstr "Filtro de idioma"
 
 #: ../../admin/projects.rst:714
+#, fuzzy
+#| msgid ""
+#| "Regular expression used to filter translation files when scanning for "
+#| "filemask."
 msgid ""
 "Regular expression used to filter the translation when scanning for "
-"filemask. This can be used to limit the list of languages managed by Weblate."
+"filemask. It can be used to limit the list of languages managed by Weblate."
 msgstr ""
+"Expressão regular usada para filtrar arquivos traduções ao examinar por uma "
+"máscara de arquivo."
 
 #: ../../admin/projects.rst:719
 msgid "You need to list language codes as they appear in the filename."
@@ -16074,44 +16081,46 @@ msgstr ""
 
 #: ../../admin/projects.rst:770
 msgid ""
-"Enable this in case you want to grant access to this component explicitly - "
-"the project level permissions will not apply and you will have to specify "
-"component or component list level permission in order to grant access."
+"Restricting access at a component, or component-list level takes over access "
+"permission to a component, regardless of project-level permissions. You will "
+"have to grant access to it explicitly. This can be done through granting "
+"access to a new user group and putting users in it, or using the default "
+"`custom` or `private` access control groups."
 msgstr ""
 
-#: ../../admin/projects.rst:774
+#: ../../admin/projects.rst:776
 msgid ""
-"Default value can be changed by :setting:`DEFAULT_RESTRICTED_COMPONENT`."
+"The default value can be changed in :setting:`DEFAULT_RESTRICTED_COMPONENT`."
 msgstr ""
 
-#: ../../admin/projects.rst:778
+#: ../../admin/projects.rst:780
 msgid ""
-"This applies to project managers as well - please make sure you will not "
-"loose access to the component after toggling the status."
+"This applies to project admins as well — please make sure you will not loose "
+"access to the component after toggling the status."
 msgstr ""
 
-#: ../../admin/projects.rst:784
+#: ../../admin/projects.rst:786
 msgid "Share in projects"
 msgstr "Compartilhar em projetos"
 
-#: ../../admin/projects.rst:786
+#: ../../admin/projects.rst:788
 msgid ""
-"You can choose additional projects where the component will be visible. This "
-"can be useful for shared libraries which you use in several projects."
+"You can choose additional projects where the component will be visible. "
+"Useful for shared libraries which you use in several projects."
 msgstr ""
 
-#: ../../admin/projects.rst:791
+#: ../../admin/projects.rst:793
 msgid ""
-"Sharing component doesn't change its access control. It makes it only "
-"visible when browsing other projects. User still need to have access to the "
-"actual component in order to be able to browse or translate it."
+"Sharing a component doesn't change its access control. It only makes it "
+"visible when browsing other projects. Users still need access to the actual "
+"component to browse or translate it."
 msgstr ""
 
-#: ../../admin/projects.rst:799
+#: ../../admin/projects.rst:801
 msgid "Use as a glossary"
 msgstr "Usar como um glossário"
 
-#: ../../admin/projects.rst:803
+#: ../../admin/projects.rst:805
 #, fuzzy
 #| msgid "Please define a glossary name to use component as a glossary."
 msgid ""
@@ -16119,263 +16128,263 @@ msgid ""
 "listed using :ref:`component-glossary_color`."
 msgstr "Defina um nome de glossário para usar o componente como um glossário."
 
-#: ../../admin/projects.rst:806
+#: ../../admin/projects.rst:808
 msgid ""
 "The glossary will be accessible in all projects defined by :ref:`component-"
 "links`."
 msgstr ""
 
-#: ../../admin/projects.rst:808
+#: ../../admin/projects.rst:810
 msgid ""
 "It is recommended to enable :ref:`component-manage_units` on glossaries in "
 "order to allow adding new words to them."
 msgstr ""
 
-#: ../../admin/projects.rst:813
+#: ../../admin/projects.rst:815
 #, fuzzy
 #| msgid ":ref:`celery`"
 msgid ":ref:`glossary`"
 msgstr ":ref:`celery`"
 
-#: ../../admin/projects.rst:818
+#: ../../admin/projects.rst:820
 msgid "Glossary color"
 msgstr "Cor do glossário"
 
-#: ../../admin/projects.rst:820
+#: ../../admin/projects.rst:822
 msgid "Display color for a glossary used when showing word matches."
 msgstr ""
 
-#: ../../admin/projects.rst:825
+#: ../../admin/projects.rst:827
 msgid "Template markup"
 msgstr ""
 
-#: ../../admin/projects.rst:827
+#: ../../admin/projects.rst:829
 msgid ""
 "Weblate uses simple markup language in several places where text rendering "
 "is needed. It is based on :doc:`django:ref/templates/language`, so it can be "
 "quite powerful."
 msgstr ""
 
-#: ../../admin/projects.rst:831
+#: ../../admin/projects.rst:833
 msgid "Currently it is used in:"
 msgstr ""
 
-#: ../../admin/projects.rst:833
+#: ../../admin/projects.rst:835
 msgid "Commit message formatting, see :ref:`component`"
 msgstr ""
 
-#: ../../admin/projects.rst:837
+#: ../../admin/projects.rst:839
 msgid "Several addons"
 msgstr ""
 
-#: ../../admin/projects.rst:835
+#: ../../admin/projects.rst:837
 msgid ":ref:`addon-weblate.discovery.discovery`"
 msgstr ""
 
-#: ../../admin/projects.rst:836
+#: ../../admin/projects.rst:838
 msgid ":ref:`addon-weblate.generate.generate`"
 msgstr ""
 
-#: ../../admin/projects.rst:837
+#: ../../admin/projects.rst:839
 msgid ":ref:`addon-script`"
 msgstr ""
 
-#: ../../admin/projects.rst:839
+#: ../../admin/projects.rst:841
 msgid "There following variables are available in the component templates:"
 msgstr ""
 
-#: ../../admin/projects.rst:841
+#: ../../admin/projects.rst:843
 msgid "``{{ language_code }}``"
 msgstr ""
 
-#: ../../admin/projects.rst:843
+#: ../../admin/projects.rst:845
 msgid "``{{ language_name }}``"
 msgstr ""
 
-#: ../../admin/projects.rst:845
+#: ../../admin/projects.rst:847
 msgid "``{{ component_name }}``"
 msgstr ""
 
-#: ../../admin/projects.rst:847
+#: ../../admin/projects.rst:849
 msgid "``{{ component_slug }}``"
 msgstr ""
 
-#: ../../admin/projects.rst:849
+#: ../../admin/projects.rst:851
 msgid "``{{ project_name }}``"
 msgstr ""
 
-#: ../../admin/projects.rst:851
+#: ../../admin/projects.rst:853
 msgid "``{{ project_slug }}``"
 msgstr ""
 
-#: ../../admin/projects.rst:853
+#: ../../admin/projects.rst:855
 msgid "``{{ url }}``"
 msgstr ""
 
-#: ../../admin/projects.rst:854
+#: ../../admin/projects.rst:856
 msgid "Translation URL"
 msgstr ""
 
-#: ../../admin/projects.rst:855
+#: ../../admin/projects.rst:857
 msgid "``{{ filename }}``"
 msgstr ""
 
-#: ../../admin/projects.rst:856
+#: ../../admin/projects.rst:858
 msgid "Translation filename"
 msgstr "Nome do arquivo de tradução"
 
-#: ../../admin/projects.rst:857
+#: ../../admin/projects.rst:859
 msgid "``{{ stats }}``"
 msgstr ""
 
-#: ../../admin/projects.rst:858
+#: ../../admin/projects.rst:860
 msgid "Translation stats, this has further attributes, examples below."
 msgstr ""
 
-#: ../../admin/projects.rst:859
+#: ../../admin/projects.rst:861
 msgid "``{{ stats.all }}``"
 msgstr ""
 
-#: ../../admin/projects.rst:860
+#: ../../admin/projects.rst:862
 msgid "Total strings count"
 msgstr ""
 
-#: ../../admin/projects.rst:861
+#: ../../admin/projects.rst:863
 msgid "``{{ stats.fuzzy }}``"
 msgstr ""
 
-#: ../../admin/projects.rst:862
+#: ../../admin/projects.rst:864
 msgid "Count of strings needing review"
 msgstr ""
 
-#: ../../admin/projects.rst:863
+#: ../../admin/projects.rst:865
 msgid "``{{ stats.fuzzy_percent }}``"
 msgstr ""
 
-#: ../../admin/projects.rst:864
+#: ../../admin/projects.rst:866
 msgid "Percent of strings needing review"
 msgstr ""
 
-#: ../../admin/projects.rst:865
+#: ../../admin/projects.rst:867
 msgid "``{{ stats.translated }}``"
 msgstr ""
 
-#: ../../admin/projects.rst:866
+#: ../../admin/projects.rst:868
 msgid "Translated strings count"
 msgstr ""
 
-#: ../../admin/projects.rst:867
+#: ../../admin/projects.rst:869
 msgid "``{{ stats.translated_percent }}``"
 msgstr ""
 
-#: ../../admin/projects.rst:868
+#: ../../admin/projects.rst:870
 msgid "Translated strings percent"
 msgstr ""
 
-#: ../../admin/projects.rst:869
+#: ../../admin/projects.rst:871
 msgid "``{{ stats.allchecks }}``"
 msgstr ""
 
-#: ../../admin/projects.rst:870
+#: ../../admin/projects.rst:872
 msgid "Number of strings with failing checks"
 msgstr ""
 
-#: ../../admin/projects.rst:871
+#: ../../admin/projects.rst:873
 msgid "``{{ stats.allchecks_percent }}``"
 msgstr ""
 
-#: ../../admin/projects.rst:872
+#: ../../admin/projects.rst:874
 msgid "Percent of strings with failing checks"
 msgstr ""
 
-#: ../../admin/projects.rst:873
+#: ../../admin/projects.rst:875
 msgid "``{{ author }}``"
 msgstr ""
 
-#: ../../admin/projects.rst:874
+#: ../../admin/projects.rst:876
 msgid "Author of current commit, available only in the commit scope."
 msgstr ""
 
-#: ../../admin/projects.rst:876
+#: ../../admin/projects.rst:878
 msgid "``{{ addon_name }}``"
 msgstr ""
 
-#: ../../admin/projects.rst:876
+#: ../../admin/projects.rst:878
 msgid ""
 "Name of currently executed addon, available only in the addon commit message."
 msgstr ""
 
-#: ../../admin/projects.rst:878
+#: ../../admin/projects.rst:880
 msgid ""
 "The following variables are available in the repository browser or editor "
 "templates:"
 msgstr ""
 
-#: ../../admin/projects.rst:880
+#: ../../admin/projects.rst:882
 msgid "``{{branch}}``"
 msgstr ""
 
-#: ../../admin/projects.rst:881
+#: ../../admin/projects.rst:883
 msgid "current branch"
 msgstr ""
 
-#: ../../admin/projects.rst:882
+#: ../../admin/projects.rst:884
 msgid "``{{line}}``"
 msgstr ""
 
-#: ../../admin/projects.rst:883
+#: ../../admin/projects.rst:885
 msgid "line in file"
 msgstr ""
 
-#: ../../admin/projects.rst:885
+#: ../../admin/projects.rst:887
 msgid "``{{filename}}``"
 msgstr ""
 
-#: ../../admin/projects.rst:885
+#: ../../admin/projects.rst:887
 msgid ""
 "filename, you can also strip leading parts using the ``parentdir`` filter, "
 "for example ``{{filename|parentdir}}``"
 msgstr ""
 
-#: ../../admin/projects.rst:887
+#: ../../admin/projects.rst:889
 msgid "You can combine them with filters:"
 msgstr ""
 
-#: ../../admin/projects.rst:893
+#: ../../admin/projects.rst:895
 msgid "You can use conditions:"
 msgstr ""
 
-#: ../../admin/projects.rst:899
+#: ../../admin/projects.rst:901
 msgid "There is additional tag available for replacing characters:"
 msgstr ""
 
-#: ../../admin/projects.rst:905
+#: ../../admin/projects.rst:907
 msgid "You can combine it with filters:"
 msgstr ""
 
-#: ../../admin/projects.rst:911
+#: ../../admin/projects.rst:913
 msgid "There are also additional filter to manipulate with filenames:"
 msgstr ""
 
-#: ../../admin/projects.rst:920
+#: ../../admin/projects.rst:922
 msgid "...and other Django template features."
 msgstr ""
 
-#: ../../admin/projects.rst:925
+#: ../../admin/projects.rst:927
 msgid "Importing speed"
 msgstr ""
 
-#: ../../admin/projects.rst:927
+#: ../../admin/projects.rst:929
 msgid ""
 "Fetching VCS repository and importing translations to Weblate can be a "
 "lengthy process, depending on size of your translations. Here are some tips:"
 msgstr ""
 
-#: ../../admin/projects.rst:931
+#: ../../admin/projects.rst:933
 msgid "Optimize configuration"
 msgstr ""
 
-#: ../../admin/projects.rst:933
+#: ../../admin/projects.rst:935
 msgid ""
 "The default configuration is useful for testing and debugging Weblate, while "
 "for a production setup, you should do some adjustments. Many of them have "
@@ -16383,62 +16392,62 @@ msgid ""
 "details, especially:"
 msgstr ""
 
-#: ../../admin/projects.rst:938
+#: ../../admin/projects.rst:940
 msgid "Configure Celery for executing background tasks (see :ref:`celery`)"
 msgstr ""
 
-#: ../../admin/projects.rst:940
+#: ../../admin/projects.rst:942
 msgid ":ref:`production-database`"
 msgstr ""
 
-#: ../../admin/projects.rst:941 ../../contributing/debugging.rst:17
+#: ../../admin/projects.rst:943 ../../contributing/debugging.rst:17
 msgid ":ref:`production-debug`"
 msgstr ""
 
-#: ../../admin/projects.rst:944
+#: ../../admin/projects.rst:946
 msgid "Check resource limits"
 msgstr ""
 
-#: ../../admin/projects.rst:946
+#: ../../admin/projects.rst:948
 msgid ""
 "If you are importing huge translations or repositories, you might be hit by "
 "resource limitations of your server."
 msgstr ""
 
-#: ../../admin/projects.rst:949
+#: ../../admin/projects.rst:951
 msgid ""
 "Check the amount of free memory, having translation files cached by the "
 "operating system will greatly improve performance."
 msgstr ""
 
-#: ../../admin/projects.rst:950
+#: ../../admin/projects.rst:952
 msgid ""
 "Disk operations might be bottleneck if there is a lot of strings to process—"
 "the disk is pushed by both Weblate and the database."
 msgstr ""
 
-#: ../../admin/projects.rst:951
+#: ../../admin/projects.rst:953
 msgid ""
 "Additional CPU cores might help improve performance of background tasks "
 "(see :ref:`celery`)."
 msgstr ""
 
-#: ../../admin/projects.rst:954
+#: ../../admin/projects.rst:956
 msgid "Disable unneeded checks"
 msgstr ""
 
-#: ../../admin/projects.rst:956
+#: ../../admin/projects.rst:958
 msgid ""
 "Some quality checks can be quite expensive, and if not needed, can save you "
 "some time during import if omitted. See :setting:`CHECK_LIST` for info on "
 "configuration."
 msgstr ""
 
-#: ../../admin/projects.rst:963
+#: ../../admin/projects.rst:965
 msgid "Automatic creation of components"
 msgstr ""
 
-#: ../../admin/projects.rst:965
+#: ../../admin/projects.rst:967
 msgid ""
 "In case your project has dozen of translation files (e.g. for different "
 "gettext domains, or parts of Android apps), you might want to import them "
@@ -16447,21 +16456,21 @@ msgid ""
 "ref:`addon-weblate.discovery.discovery` addon."
 msgstr ""
 
-#: ../../admin/projects.rst:971
+#: ../../admin/projects.rst:973
 msgid ""
 "To use the addon, you first need to create a component for one translation "
 "file (choose the one that is the least likely to be renamed or removed in "
 "future), and install the addon on this component."
 msgstr ""
 
-#: ../../admin/projects.rst:975
+#: ../../admin/projects.rst:977
 msgid ""
 "For the management commands, you need to create a project which will contain "
 "all components and then run :djadmin:`import_project` or :djadmin:"
 "`import_json`."
 msgstr ""
 
-#: ../../admin/projects.rst:981
+#: ../../admin/projects.rst:983
 msgid ":ref:`manage`, :ref:`addon-weblate.discovery.discovery`"
 msgstr ""
 
@@ -16537,7 +16546,7 @@ msgid "The public SSH key of your instance"
 msgstr "A chave pública SSH da sua instância"
 
 #: ../../admin/support.rst:33
-msgid "Additionaly, when :ref:`weblate-discovery` is turned on:"
+msgid "Additionally, when :ref:`discover-weblate` is turned on:"
 msgstr ""
 
 #: ../../admin/support.rst:35
@@ -16563,7 +16572,7 @@ msgstr ":ref:`cloudbackup`"
 #: ../../admin/support.rst:44
 #, fuzzy
 #| msgid ":ref:`funding-weblate`"
-msgid ":ref:`weblate-discovery`"
+msgid ":ref:`discover-weblate`"
 msgstr ":ref:`funding-weblate`"
 
 #: ../../admin/support.rst:48
@@ -16575,22 +16584,56 @@ msgstr ""
 "podem ser usados sem integrá-los."
 
 #: ../../admin/support.rst:53
-msgid "Weblate discovery"
-msgstr "Descoberta de Weblate"
+#, fuzzy
+#| msgid "Register in Weblate"
+msgid "Discover Weblate"
+msgstr "Registrar no Weblate"
 
 #: ../../admin/support.rst:59
 msgid "This feature is currently in early beta."
 msgstr "Este recurso está atualmente em um beta inicial."
 
 #: ../../admin/support.rst:61
+#, fuzzy
+#| msgid ""
+#| "Weblate discovery is an opt-in service that makes it easier for users to "
+#| "find Weblate servers. Users can browse registered services on <https://"
+#| "weblate.org/discover/>, and find projects to contribute."
 msgid ""
-"Weblate discovery is an opt-in service that makes it easier for users to "
-"find Weblate servers. Users can browse registered services on <https://"
-"weblate.org/discover/>, and find projects to contribute."
+"Discover Weblate is an opt-in service that makes it easier for users to find "
+"Weblate servers. Users can browse registered services on <https://weblate."
+"org/discover/>, and find projects to contribute."
 msgstr ""
 "A descoberta de Weblate é um serviço opcional que facilita a localização de "
 "servidores Weblate. Os usuários podem navegar por serviços cadastrados em "
 "<https://weblate.org/discover/> e encontrar projetos para contribuir."
+
+#: ../../admin/support.rst:65
+msgid "To listed a Weblate server in the discovery:"
+msgstr ""
+
+#: ../../admin/support.rst:69
+msgid ""
+"You can skip the first two steps with activate support package. The server "
+"registration was already done during activation of your support package, "
+"see :ref:`activate-support`."
+msgstr ""
+
+#: ../../admin/support.rst:73
+#, fuzzy
+#| msgid "Register in Weblate"
+msgid "Register yourself at weblate.org"
+msgstr "Registrar no Weblate"
+
+#: ../../admin/support.rst:74
+msgid "Register your Weblate server in the discovery database"
+msgstr ""
+
+#: ../../admin/support.rst:75
+msgid ""
+"Turn on the discovery listing in your Weblate management page using :"
+"guilabel:`Enable discovery` button:"
+msgstr ""
 
 #: ../../admin/translating.rst:2
 msgid "Translation process"
@@ -17265,8 +17308,8 @@ msgid ""
 "verbose description of failure (for HTTP status codes other than :http:"
 "statuscode:`200`)"
 msgstr ""
-"descrição detalhada da falha (para códigos de status HTTP diferentes de "
-":http:statuscode:`200`)"
+"descrição detalhada da falha (para códigos de status HTTP diferentes de :"
+"http:statuscode:`200`)"
 
 #: ../../api.rst:44
 msgid "total item count for object lists"
@@ -26831,8 +26874,8 @@ msgid ""
 "for example:"
 msgstr ""
 "O script também aceita alguns parâmetros; para executar testes, execute-o "
-"com o parâmetro ``test`` e então especifique qualquer parâmetro "
-":djadmin:`django:test`, por exemplo:"
+"com o parâmetro ``test`` e então especifique qualquer parâmetro :djadmin:"
+"`django:test`, por exemplo:"
 
 #: ../../contributing/start.rst:99
 msgid ""
@@ -33170,8 +33213,8 @@ msgstr ""
 "Caso você tenha alguma sintaxe para os espaços reservados, você pode usar "
 "uma expressão regular:"
 
-#: ../../user/checks.rst:803 ../../user/glossary.rst:57
-#: ../../user/glossary.rst:76 ../../user/glossary.rst:95
+#: ../../user/checks.rst:803 ../../user/glossary.rst:63
+#: ../../user/glossary.rst:79 ../../user/glossary.rst:95
 msgid ":ref:`custom-checks`"
 msgstr ""
 
@@ -33882,63 +33925,102 @@ msgstr ""
 
 #: ../../user/glossary.rst:6
 msgid ""
-"Each project can have an assigned glossary for any language as a shorthand "
-"for storing terminology. Consistency is more easily maintained this way. "
-"Terms from the glossary containing words from the currently translated "
-"string can be displayed in the sidebar."
+"Each project can include one or more glossaries as a shorthand for storing "
+"terminology. Glossary easify maintaining consistency of the translation."
+msgstr ""
+
+#: ../../user/glossary.rst:9
+#, fuzzy
+#| msgid ""
+#| "Each project can have an assigned glossary for any language as a "
+#| "shorthand for storing terminology. Consistency is more easily maintained "
+#| "this way. Terms from the glossary containing words from the currently "
+#| "translated string can be displayed in the sidebar."
+msgid ""
+"A glossary for each language can be managed on its own, but they are stored "
+"together as a single component which helps project admins and multilingual "
+"translators to maintain some cross-language consistency as well. Terms from "
+"the glossary containing words from the currently translated string are "
+"displayed in the sidebar of the translation editor."
 msgstr ""
 "Cada projeto pode ter um glossário atribuído para qualquer idioma como "
 "abreviação para armazenar terminologia. A consistência é mais facilmente "
 "mantida desta forma. Os termos do glossário contendo palavras de texto "
 "traduzido atualmente podem ser exibidos na barra lateral."
 
-#: ../../user/glossary.rst:12
+#: ../../user/glossary.rst:16
 msgid "Managing glossaries"
 msgstr "Gerenciando glossários"
 
-#: ../../user/glossary.rst:16
+#: ../../user/glossary.rst:20
+#, fuzzy
+#| msgid ""
+#| "Glossaries are now regular translation components and you can use all "
+#| "Weblate features on them — commenting, storing in a Git repository, or "
+#| "adding explanations."
 msgid ""
 "Glossaries are now regular translation components and you can use all "
-"Weblate features on them — commenting, storing in a Git repository, or "
+"Weblate features on them — commenting, storing in a remote repository, or "
 "adding explanations."
 msgstr ""
 "Glossários são agora componentes de tradução comuns e você pode usar todos "
 "os recursos da Weblate neles — comentando, armazenando em um repositório Git "
 "ou adicionando explicações."
 
-#: ../../user/glossary.rst:20
+#: ../../user/glossary.rst:24
+#, fuzzy
+#| msgid ""
+#| "Use any component as a glossary by turning on :ref:`component-"
+#| "is_glossary`."
 msgid ""
-"Use any component as a glossary by turning on :ref:`component-is_glossary`."
+"Use any component as a glossary by turning on :ref:`component-is_glossary`. "
+"You can create multiple glossaries for one project."
 msgstr ""
 "Use qualquer componente como um glossário ligando :ref:`component-"
 "is_glossary`."
 
-#: ../../user/glossary.rst:22
+#: ../../user/glossary.rst:27
+#, fuzzy
+#| msgid ""
+#| "An empty glossary for a given project is automatically created with the "
+#| "project. Glossaries are shared among all components of the same project, "
+#| "and optionally with other projects using :ref:`component-links` on the "
+#| "glossary component."
 msgid ""
 "An empty glossary for a given project is automatically created with the "
 "project. Glossaries are shared among all components of the same project, and "
-"optionally with other projects using :ref:`component-links` on the glossary "
-"component."
+"optionally with other projects using :ref:`component-links` from the "
+"respective glossary component."
 msgstr ""
 "Um glossário vazio para um determinado projeto é criado automaticamente com "
 "o projeto. Os glossários são compartilhados entre todos os componentes de um "
 "mesmo projeto, e opcionalmente com outros projetos utilizando :ref:"
 "`component-links` no componente do glossário."
 
-#: ../../user/glossary.rst:26
-msgid "The glossary component looks like any other component in Weblate:"
+#: ../../user/glossary.rst:32
+#, fuzzy
+#| msgid "The glossary component looks like any other component in Weblate:"
+msgid ""
+"The glossary component looks like any other component in Weblate with added "
+"colored label:"
 msgstr ""
 "O componente do glossário se parece com qualquer outro componente da Weblate:"
 
-#: ../../user/glossary.rst:30
+#: ../../user/glossary.rst:37
 msgid "You can browse all glossary terms:"
 msgstr "Você pode navegar por todos os termos do glossário:"
 
-#: ../../user/glossary.rst:35
+#: ../../user/glossary.rst:41
+#, fuzzy
+#| msgid "Forbidden translations"
+msgid "or edit them as any translations."
+msgstr "Traduções proibidas"
+
+#: ../../user/glossary.rst:44
 msgid "Glossary terms"
 msgstr "Termos de glossário"
 
-#: ../../user/glossary.rst:37
+#: ../../user/glossary.rst:46
 msgid ""
 "Glossary terms are translated the same way regular strings are. You can "
 "toggle additional features using the :guilabel:`Tools` menu for each term."
@@ -33947,78 +34029,62 @@ msgstr ""
 "Você pode alternar recursos adicionais utilizando o menu :guilabel:"
 "`Ferramenta` para cada termo."
 
-#: ../../user/glossary.rst:43
+#: ../../user/glossary.rst:52
 msgid "Not translatable terms"
 msgstr "Termos não traduzíveis"
 
-#: ../../user/glossary.rst:47
+#: ../../user/glossary.rst:56
+#, fuzzy
+#| msgid ""
+#| "Glossary terms which are read-only are not meant to be translated. You "
+#| "can use this for names or other terms which should not change while "
+#| "translating. Such terms are visually highlighted in the glossary sidebar."
 msgid ""
-"Glossary terms which are read-only are not meant to be translated. You can "
-"use this for names or other terms which should not change while translating. "
-"Such terms are visually highlighted in the glossary sidebar."
+"Flagging certain glossary term translations ``read-only`` by bulk-editing, "
+"typing in the flag, or by using :guilabel:`Tools` ↓:guilabel:`Mark as read-"
+"only` means they can not be translated. Use this for brand names or other "
+"terms that should not be changed in other languages. Such terms are visually "
+"highlighted in the glossary sidebar."
 msgstr ""
 "Os termos de glossário que são apenas de leitura não se destinam a ser "
 "traduzidos. Você pode usar isso para nomes ou outros termos que não devem "
 "mudar durante a tradução. Tais termos são visualmente destacados na barra "
 "lateral do glossário."
 
-#: ../../user/glossary.rst:51
-msgid ""
-"The terms can be flagged using :guilabel:`Tools` ↓ :guilabel:`Mark as read-"
-"only`. In the background this toggles the ``read-only`` flag of the string."
-msgstr ""
-"Os termos podem ser sinalizados utilizando :guilabel:`Ferramentas` ↓ :"
-"guilabel:`Marcar com somente leitura`. Em segundo plano, isto alterna o "
-"sinalizador ``read-only`` do texto."
-
-#: ../../user/glossary.rst:62
+#: ../../user/glossary.rst:68
 msgid "Forbidden translations"
 msgstr "Traduções proibidas"
 
-#: ../../user/glossary.rst:66
+#: ../../user/glossary.rst:72
+#, fuzzy
+#| msgid ""
+#| "You can flag certain glossary terms as forbidden, meaning ones _not_ to "
+#| "be used for translations. Use this to clarify translation when some words "
+#| "are ambiguous or could have unexpected meanings."
 msgid ""
-"You can flag certain glossary terms as forbidden, meaning ones _not_ to be "
-"used for translations. Use this to clarify translation when some words are "
-"ambiguous or could have unexpected meanings."
+"Flagging certain glossary term translations as ``forbidden``,  by bulk-"
+"editing, typing in the flag, or by using :guilabel:`Tools` ↓:guilabel:`Mark "
+"as forbidden translation` means they are **not** to be used. Use this to "
+"clarify translation when some words are ambiguous or could have unexpected "
+"meanings."
 msgstr ""
 "Você pode marcar certos termos do glossário como proibidos, que são aqueles "
 "que _não_ devem serem usados para traduções. Use isto para esclarecer a "
 "tradução quando algumas palavras são ambíguas ou podem ter significados "
 "inesperados."
 
-#: ../../user/glossary.rst:70
-msgid ""
-"Terms can be flagged using :guilabel:`Tools` ↓ :guilabel:`Mark as forbidden "
-"translation`. In the background this toggles the ``forbidden`` flag of the "
-"string."
-msgstr ""
-"Os termos podem ser sinalizados usando :guilabel:`Ferramentas` ↓ :guilabel:`"
-"Marcar como tradução proibida`. Em segundo plano, isto alterna o sinalizador "
-"``forbidden`` do texto."
-
-#: ../../user/glossary.rst:81
+#: ../../user/glossary.rst:84
 msgid "Terminology"
 msgstr "Terminologia"
 
-#: ../../user/glossary.rst:85
+#: ../../user/glossary.rst:88
 msgid ""
-"Flagging certain glossary terms as terminology puts them in all glossary "
-"languages. Use this to flag important terms which should be translated "
-"consistently."
+"Flagging certain glossary terms as ``terminology``  by bulk-editing, typing "
+"in the flag, or or by using :guilabel:`Tools` ↓:guilabel:`Mark as "
+"terminology` adds entries for them to all languages in the glossary. Use "
+"this for important terms that should be well thought out, and retain a "
+"consistent meaning across all languages."
 msgstr ""
-"Marcar certos termos do glossário como terminologia coloca-os em todos os "
-"idiomas do glossário. Use isto para sinalizar termos importantes que devem "
-"ser traduzidos de forma consistente."
-
-#: ../../user/glossary.rst:89
-msgid ""
-"The terms can be flagged in the source language using :guilabel:`Tools` ↓ :"
-"guilabel:`Mark as terminology`. In the background this toggles the "
-"``terminology`` flag of the string."
-msgstr ""
-"Os termos podem ser sinalizados no idioma fonte usando "
-":guilabel:`Ferramentas` ↓ :guilabel:`Marcar como terminologia`. Em segundo "
-"plano, isto alterna o sinalizador ``terminology`` do texto."
 
 #: ../../user/glossary.rst:100 ../../user/translating.rst:81
 msgid "Variants"
@@ -35889,8 +35955,8 @@ msgid ""
 "dedicated :guilabel:`weblate` user for that."
 msgstr ""
 "Para configurações maiores, geralmente é melhor criar um usuário dedicado "
-"para o Weblate, atribuir-lhe a chave SSH pública gerada no Weblate (ver :ref"
-":`weblate-ssh-key`) e concedê-lo acesso a todos os repositórios que você "
+"para o Weblate, atribuir-lhe a chave SSH pública gerada no Weblate (ver :ref:"
+"`weblate-ssh-key`) e concedê-lo acesso a todos os repositórios que você "
 "deseja traduzir. Essa abordagem também é usada para o Hosted Weblate, há "
 "usuário dedicado :guilabel:`weblate` para isso."
 
@@ -35917,7 +35983,8 @@ msgstr ""
 
 #: ../../vcs.rst:139
 msgid "Removing main component also removes linked components."
-msgstr "A remoção do componente principal também remove componentes vinculados."
+msgstr ""
+"A remoção do componente principal também remove componentes vinculados."
 
 #: ../../vcs.rst:141
 msgid ""
@@ -35942,7 +36009,8 @@ msgstr ""
 
 #: ../../vcs.rst:148
 msgid "Makes the updates faster, only one repository is updated."
-msgstr "Torna as atualizações mais rápidas, apenas um repositório é atualizado."
+msgstr ""
+"Torna as atualizações mais rápidas, apenas um repositório é atualizado."
 
 #: ../../vcs.rst:149
 msgid ""
@@ -35990,8 +36058,8 @@ msgid ""
 "%23@bitbucket.org/…``."
 msgstr ""
 "Se seu nome de usuário ou senha contiver caracteres especiais, eles devem "
-"ser codificados para URL; por exemplo, ``https://usuario%40example."
-"com:%24senha%23@bitbucket.org/…``."
+"ser codificados para URL; por exemplo, ``https://usuario%40example.com:"
+"%24senha%23@bitbucket.org/…``."
 
 #: ../../vcs.rst:170
 msgid "Using proxy"
@@ -36023,9 +36091,9 @@ msgid ""
 "also :ref:`file-permissions`) and with ``HOME=$DATA_DIR/home`` (see :setting:"
 "`DATA_DIR`), otherwise Git executed by Weblate will not use it."
 msgstr ""
-"A configuração do proxy precisa ser feita com o usuário executando Weblate ("
-"veja também :ref:`file-permissions`) e com ``HOME=$DATA_DIR/home`` (veja "
-":setting:`DATA_DIR`), caso contrário o Git executado pelo Weblate não o "
+"A configuração do proxy precisa ser feita com o usuário executando Weblate "
+"(veja também :ref:`file-permissions`) e com ``HOME=$DATA_DIR/home`` (veja :"
+"setting:`DATA_DIR`), caso contrário o Git executado pelo Weblate não o "
 "utilizará."
 
 #: ../../vcs.rst:191
@@ -36080,9 +36148,9 @@ msgid ""
 "`DATA_DIR`), therefore editing the user configuration needs to be done in "
 "``DATA_DIR/home/.git``."
 msgstr ""
-"Weblate invoca todos os comandos VCS com ``HOME=$DATA_DIR/home`` (veja "
-":set:`DATA_DIR`), portanto a edição da configuração do usuário precisa ser "
-"feita em ``DATA_DIR/home/.git``."
+"Weblate invoca todos os comandos VCS com ``HOME=$DATA_DIR/home`` (veja :set:"
+"`DATA_DIR`), portanto a edição da configuração do usuário precisa ser feita "
+"em ``DATA_DIR/home/.git``."
 
 #: ../../vcs.rst:226
 msgid "Git remote helpers"
@@ -36107,8 +36175,8 @@ msgid ""
 msgstr ""
 "Neste momento, os auxiliares de Bazaar e Mercurial estão disponíveis em "
 "repositórios separados no GitHub: `git-remote-hg`_ e `git-remote-bzr`_. "
-"Baixe-os manualmente e coloque em algum lugar em seu caminho de pesquisa ("
-"por exemplo, :file:`~/bin `). Certifique-se de ter os sistemas de controle "
+"Baixe-os manualmente e coloque em algum lugar em seu caminho de pesquisa "
+"(por exemplo, :file:`~/bin `). Certifique-se de ter os sistemas de controle "
 "de versão correspondentes instalados."
 
 #: ../../vcs.rst:237
@@ -36177,8 +36245,8 @@ msgid ""
 ":setting:`GITHUB_USERNAME`, :setting:`GITHUB_TOKEN`, :setting:"
 "`GITHUB_CREDENTIALS`"
 msgstr ""
-":setting:`GITHUB_USERNAME`, :setting:`GITHUB_TOKEN`, "
-":setting:`GITHUB_CREDENTIALS`"
+":setting:`GITHUB_USERNAME`, :setting:`GITHUB_TOKEN`, :setting:"
+"`GITHUB_CREDENTIALS`"
 
 #: ../../vcs.rst:301
 msgid ""
@@ -36220,8 +36288,8 @@ msgid ""
 ":setting:`GITLAB_USERNAME`, :setting:`GITLAB_TOKEN`, :setting:"
 "`GITLAB_CREDENTIALS`"
 msgstr ""
-":setting:`GITLAB_USERNAME`, :setting:`GITLAB_TOKEN`, "
-":setting:`GITLAB_CREDENTIALS`"
+":setting:`GITLAB_USERNAME`, :setting:`GITLAB_TOKEN`, :setting:"
+"`GITLAB_CREDENTIALS`"
 
 #: ../../vcs.rst:335
 msgid "Pagure"
@@ -36267,8 +36335,8 @@ msgid ""
 ":setting:`PAGURE_USERNAME`, :setting:`PAGURE_TOKEN`, :setting:"
 "`PAGURE_CREDENTIALS`"
 msgstr ""
-":setting:`PAGURE_USERNAME`, :setting:`PAGURE_TOKEN`, "
-":setting:`PAGURE_CREDENTIALS`"
+":setting:`PAGURE_USERNAME`, :setting:`PAGURE_TOKEN`, :setting:"
+"`PAGURE_CREDENTIALS`"
 
 #: ../../vcs.rst:373
 msgid "Gerrit"
@@ -36335,11 +36403,11 @@ msgid ""
 "and you encounter errors, try including the branch name in the repository "
 "URL and leaving branch empty."
 msgstr ""
-"O Weblate tenta detectar o layout do repositório Subversion automaticamente –"
-" ele tem suporta a URLs diretas para remos ou repositórios com layout padrão "
-"(branches/, tags/ e trunk/). Mais informações sobre isso podem ser "
-"encontradas na `documentação do git-svn <https://git-scm.com/docs/git-svn#"
-"Documentation/git-svn.txt---stdlayout>`_. Se o repositório não tiver um "
+"O Weblate tenta detectar o layout do repositório Subversion automaticamente "
+"– ele tem suporta a URLs diretas para remos ou repositórios com layout "
+"padrão (branches/, tags/ e trunk/). Mais informações sobre isso podem ser "
+"encontradas na `documentação do git-svn <https://git-scm.com/docs/git-"
+"svn#Documentation/git-svn.txt---stdlayout>`_. Se o repositório não tiver um "
 "layout padrão e você encontrar erros, tente incluir o nome do ramo na URL do "
 "repositório e deixar a ramo vazia."
 
@@ -36361,9 +36429,9 @@ msgid ""
 "$HOME` environment variable set to the :setting:`DATA_DIR`:"
 msgstr ""
 "Weblate espera que você tenha aceito o certificado com antecedência (e suas "
-"credenciais, se necessário). Ele procurará inseri-las no diretório "
-":set:`DATA_DIR`. Aceite o certificado utilizando `svn` uma vez com a "
-"variável de ambiente `$HOME` definida como :setting:`DATA_DIR`:"
+"credenciais, se necessário). Ele procurará inseri-las no diretório :set:"
+"`DATA_DIR`. Aceite o certificado utilizando `svn` uma vez com a variável de "
+"ambiente `$HOME` definida como :setting:`DATA_DIR`:"
 
 #: ../../vcs.rst:455
 msgid "Local files"
@@ -37200,6 +37268,50 @@ msgstr ""
 #| msgid ":ref:`bimono`, :ref:`reviews`, :ref:`labels`"
 msgid ":ref:`bimono`, :ref:`reviews`, :ref:`labels`, :ref:`user-comments`"
 msgstr ":ref:`bimono`, :ref:`reviews`, :ref:`labels`"
+
+#, fuzzy
+#~| msgid ":ref:`funding-weblate`"
+#~ msgid ":ref:`weblate-discovery`"
+#~ msgstr ":ref:`funding-weblate`"
+
+#~ msgid "Weblate discovery"
+#~ msgstr "Descoberta de Weblate"
+
+#~ msgid ""
+#~ "The terms can be flagged using :guilabel:`Tools` ↓ :guilabel:`Mark as "
+#~ "read-only`. In the background this toggles the ``read-only`` flag of the "
+#~ "string."
+#~ msgstr ""
+#~ "Os termos podem ser sinalizados utilizando :guilabel:`Ferramentas` ↓ :"
+#~ "guilabel:`Marcar com somente leitura`. Em segundo plano, isto alterna o "
+#~ "sinalizador ``read-only`` do texto."
+
+#~ msgid ""
+#~ "Terms can be flagged using :guilabel:`Tools` ↓ :guilabel:`Mark as "
+#~ "forbidden translation`. In the background this toggles the ``forbidden`` "
+#~ "flag of the string."
+#~ msgstr ""
+#~ "Os termos podem ser sinalizados usando :guilabel:`Ferramentas` ↓ :"
+#~ "guilabel:`Marcar como tradução proibida`. Em segundo plano, isto alterna "
+#~ "o sinalizador ``forbidden`` do texto."
+
+#~ msgid ""
+#~ "Flagging certain glossary terms as terminology puts them in all glossary "
+#~ "languages. Use this to flag important terms which should be translated "
+#~ "consistently."
+#~ msgstr ""
+#~ "Marcar certos termos do glossário como terminologia coloca-os em todos os "
+#~ "idiomas do glossário. Use isto para sinalizar termos importantes que "
+#~ "devem ser traduzidos de forma consistente."
+
+#~ msgid ""
+#~ "The terms can be flagged in the source language using :guilabel:`Tools` "
+#~ "↓ :guilabel:`Mark as terminology`. In the background this toggles the "
+#~ "``terminology`` flag of the string."
+#~ msgstr ""
+#~ "Os termos podem ser sinalizados no idioma fonte usando :guilabel:"
+#~ "`Ferramentas` ↓ :guilabel:`Marcar como terminologia`. Em segundo plano, "
+#~ "isto alterna o sinalizador ``terminology`` do texto."
 
 #~ msgid ""
 #~ ":setting:`DEFAULT_COMMITER_NAME`, :ref:`component`, :ref:`component-"

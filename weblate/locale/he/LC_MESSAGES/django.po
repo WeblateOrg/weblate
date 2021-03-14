@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.5.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
-"POT-Creation-Date: 2021-03-13 06:00+0000\n"
+"POT-Creation-Date: 2021-03-14 05:31+0000\n"
 "PO-Revision-Date: 2021-03-13 21:46+0000\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: Hebrew <https://hosted.weblate.org/projects/weblate/"
@@ -619,7 +619,7 @@ msgstr "נא לבחור את רשימת הרכיבים שברצונך להציג
 msgid "Selecting component list has no effect when not shown on the dashboard."
 msgstr "לבחירת רשימת רכיבים אין שום השפעה כאשר אינה מוצגת על לוח הבקרה."
 
-#: weblate/accounts/models.py:712
+#: weblate/accounts/models.py:717
 msgid ""
 "You can not submit translations as you do not have assigned any e-mail "
 "address."
@@ -7022,8 +7022,10 @@ msgid "Support expiry"
 msgstr "תפוגת תמיכה"
 
 #: weblate/templates/manage/index.html:46
-msgid "Weblate discovery"
-msgstr "לגלות את Weblate"
+#, fuzzy
+#| msgid "Register in Weblate"
+msgid "Discover Weblate"
+msgstr "רישום ב־Weblate"
 
 #: weblate/templates/manage/index.html:48
 msgid "Browse discovery"
@@ -8415,7 +8417,7 @@ msgid "Weblate could not push changes to the upstream repository."
 msgstr "ל־Weblate אין אפשרות לדחוף את השינויים למאגר המקור."
 
 #: weblate/templates/trans/alert/pushfailure.html:9
-#: weblate/trans/models/component.py:2380
+#: weblate/trans/models/component.py:2382
 msgid ""
 "Your push URL seems to miss credentials. Either provide them in the URL or "
 "use SSH with key based authentication."
@@ -10761,8 +10763,8 @@ msgid "Could not fetch the repository: %s"
 msgstr "לא ניתן לקבל את המאגר: %s"
 
 #: weblate/trans/models/component.py:1278
-#: weblate/trans/models/component.py:2280
-#: weblate/trans/models/component.py:2339
+#: weblate/trans/models/component.py:2282
+#: weblate/trans/models/component.py:2341
 msgid "File does not exist."
 msgstr "קובץ לא קיים."
 
@@ -10796,37 +10798,37 @@ msgstr "לא ניתן להחליף את הבסיס של הענף המקומי ל
 msgid "Could not merge remote branch into %s."
 msgstr "לא ניתן למזג את הענף המרוחק לתוך %s."
 
-#: weblate/trans/models/component.py:2151
+#: weblate/trans/models/component.py:2153
 msgid "Invalid link to a Weblate project, cannot link to linked repository!"
 msgstr "קישור שגוי למיזם Weblate, לא ניתן לקשר למאגר מקושר!"
 
-#: weblate/trans/models/component.py:2160
+#: weblate/trans/models/component.py:2162
 msgid "Invalid link to a Weblate project, cannot link it to itself!"
 msgstr "קישור שגוי למיזם Weblate, לא ניתן לקשר אותו לעצמו!"
 
-#: weblate/trans/models/component.py:2169
+#: weblate/trans/models/component.py:2171
 msgid "Invalid link to a Weblate project, use weblate://project/component."
 msgstr "קישור שגוי למיזם Weblate, יש להשתמש בצורה weblate://project/component."
 
-#: weblate/trans/models/component.py:2178
+#: weblate/trans/models/component.py:2180
 msgid "Option is not available for linked repositories."
 msgstr "האפשרות אינה זמינה במאגרים מקושרים."
 
-#: weblate/trans/models/component.py:2187
+#: weblate/trans/models/component.py:2189
 msgid "The filemask did not match any files."
 msgstr "המסכה אינה תואמת קבצים כלשהם."
 
-#: weblate/trans/models/component.py:2196
+#: weblate/trans/models/component.py:2198
 #, python-format
 msgid "The language code for %s was empty, please check the filemask."
 msgstr "קוד השפה עבור %s היה ריק, נא לבדוק את מסכת הקובץ."
 
-#: weblate/trans/models/component.py:2205
+#: weblate/trans/models/component.py:2207
 #, python-format
 msgid "The language code \"%s\" is too long, please check the filemask."
 msgstr "קוד השפה „%s” ארוך מדי, נא לבדוק את מסכת הקובץ."
 
-#: weblate/trans/models/component.py:2212
+#: weblate/trans/models/component.py:2214
 #, python-format
 msgid ""
 "There is more than one file for %s language, please adjust the filemask and "
@@ -10835,11 +10837,11 @@ msgstr ""
 "יש יותר מקובץ אחד לשפה %s, נא להתאים את מסכת הקבצים ולהשתמש ברכיבים כדי "
 "לתרגם משאבים שונים."
 
-#: weblate/trans/models/component.py:2226
+#: weblate/trans/models/component.py:2228
 msgid "Could not find any matching language, please check the filemask."
 msgstr "לא ניתן למצוא שפה תואמת כלשהי, נא לבדוק את מסכת הקובץ."
 
-#: weblate/trans/models/component.py:2245
+#: weblate/trans/models/component.py:2247
 #, python-format
 msgid "Could not parse %d matched file."
 msgid_plural "Could not parse %d matched files."
@@ -10848,121 +10850,121 @@ msgstr[1] "לא ניתן לפענח את %d הקבצים התואמים."
 msgstr[2] "לא ניתן לפענח את %d הקבצים התואמים."
 msgstr[3] "לא ניתן לפענח את %d הקבצים התואמים."
 
-#: weblate/trans/models/component.py:2273
+#: weblate/trans/models/component.py:2275
 msgid ""
 "You have set up Weblate to add new translation files, but did not provide a "
 "base file to do that."
 msgstr ""
 "הגדרת את Weblate להוספת קובצי תרגום חדשים, אך לא סיפקת קובץ בסיס לעשות זאת."
 
-#: weblate/trans/models/component.py:2284
+#: weblate/trans/models/component.py:2286
 #, python-format
 msgid "Failed to parse base file for new translations: %s"
 msgstr "פענוח קובץ הבסיס לאיתור תרגומים חדשים נכשל: %s"
 
-#: weblate/trans/models/component.py:2288
+#: weblate/trans/models/component.py:2290
 msgid "Unrecognized base file for new translations."
 msgstr "קובץ בסיס בלתי מזוהה לתרגומים חדשים."
 
-#: weblate/trans/models/component.py:2299
+#: weblate/trans/models/component.py:2301
 msgid "You can not use a base file for bilingual translation."
 msgstr "לא ניתן להשתמש בקובץ בסיס עבור תרגום דו־לשוני."
 
-#: weblate/trans/models/component.py:2305
-#: weblate/trans/models/component.py:2321
+#: weblate/trans/models/component.py:2307
+#: weblate/trans/models/component.py:2323
 msgid ""
 "An intermediate language file can not be used without an editing template."
 msgstr "לא ניתן להשתמש בקובץ שפת ביניים מבלי תבנית עריכה."
 
-#: weblate/trans/models/component.py:2313
+#: weblate/trans/models/component.py:2315
 msgid ""
 "An intermediate language file has to be different from monolingual base "
 "language file. You can probably keep it empty."
 msgstr ""
 "קובץ שפת ביניים חייב להיות שונה מקובץ השפה הבסיסי החד־לשוני. מוטב להשאיר ריק."
 
-#: weblate/trans/models/component.py:2328
+#: weblate/trans/models/component.py:2330
 msgid "Using a .pot file as base file is unsupported."
 msgstr "אין תמיכה בשימוש בקובץ ‎.pot כבסיס."
 
-#: weblate/trans/models/component.py:2344
+#: weblate/trans/models/component.py:2346
 #, python-format
 msgid "Could not parse translation base file: %s"
 msgstr "לא ניתן לפענח את קובץ בסיס התרגום: %s"
 
-#: weblate/trans/models/component.py:2354
+#: weblate/trans/models/component.py:2356
 #, python-brace-format
 msgid "Template language ({0}) does not match source language ({1})!"
 msgstr "שפת התבנית ({0}) אינה תואמת את שפת המקור ({1})!"
 
-#: weblate/trans/models/component.py:2359
+#: weblate/trans/models/component.py:2361
 msgid "You can not use a monolingual translation without a base file."
 msgstr "לא ניתן להשתמש בתרגום חד־לשוני ללא קובץ בסיס."
 
-#: weblate/trans/models/component.py:2385
+#: weblate/trans/models/component.py:2387
 #, python-format
 msgid "Could not update repository: %s"
 msgstr "לא ניתן לעדכן מאגר: %s"
 
-#: weblate/trans/models/component.py:2402
+#: weblate/trans/models/component.py:2404
 msgid ""
 "Please either fill in an instruction URL or use a different option for "
 "adding a new language."
 msgstr "נא למלא את כתובת ההנחיות או להשתמש באפשרות אחרת להוספת שפה חדשה."
 
-#: weblate/trans/models/component.py:2433
+#: weblate/trans/models/component.py:2435
 msgid ""
 "Source language can not be changed, please recreate the component instead."
 msgstr "לא ניתן להחליף את שפת המקור, במקום זאת יש ליצור את הרכיב מחדש."
 
-#: weblate/trans/models/component.py:2441
+#: weblate/trans/models/component.py:2443
 msgid "Component with this URL slug already exists in the project."
 msgstr "כבר קיים רכיב עם הכתובת הייצוגית הזאת במיזם."
 
-#: weblate/trans/models/component.py:2446
+#: weblate/trans/models/component.py:2448
 msgid "Component with this name already exists in the project."
 msgstr "כבר קיים רכיב בשם הזה במיזם."
 
-#: weblate/trans/models/component.py:2471
+#: weblate/trans/models/component.py:2473
 msgid "Can not validate file matches due to invalid regular expression."
 msgstr "לא ניתן לאמת את התאמות הקבצים עקב ביטוי רגולרי שגוי."
 
-#: weblate/trans/models/component.py:2481
+#: weblate/trans/models/component.py:2483
 msgid "Accepting suggestions automatically only works with voting turned on."
 msgstr "קבלת הצעות אוטומטית פועלת רק כשההצבעה פעילה."
 
-#: weblate/trans/models/component.py:2907
+#: weblate/trans/models/component.py:2909
 msgid "Could not add new translation file."
 msgstr "לא ניתן להוסיף קובץ תרגום חדש."
 
-#: weblate/trans/models/component.py:2923
+#: weblate/trans/models/component.py:2925
 msgid "The given language is filtered by the language filter."
 msgstr "השפה הנבחרת מסוננת על ידי מסנן השפות."
 
-#: weblate/trans/models/component.py:2947
+#: weblate/trans/models/component.py:2949
 msgid "Translation file already exists!"
 msgstr "קובץ התרגום כבר קיים!"
 
-#: weblate/trans/models/component.py:2967
+#: weblate/trans/models/component.py:2969
 msgid "The translation will be updated in the background."
 msgstr "התרגום יעודכן ברקע."
 
 #. Translators: Translation context for Gettext
-#: weblate/trans/models/component.py:3010
+#: weblate/trans/models/component.py:3012
 msgid "Context"
 msgstr "הקשר"
 
 #. Translators: Translation key for monolingual translations
-#: weblate/trans/models/component.py:3012 weblate/utils/views.py:139
+#: weblate/trans/models/component.py:3014 weblate/utils/views.py:139
 msgctxt "Translation key"
 msgid "Key"
 msgstr "מפתח"
 
-#: weblate/trans/models/component.py:3073
+#: weblate/trans/models/component.py:3075
 msgid "Add new glossary term"
 msgstr "הוספת מונח חדש למונחון"
 
-#: weblate/trans/models/component.py:3074
+#: weblate/trans/models/component.py:3076
 msgid "Add new translation string"
 msgstr "הוספת מחרוזת תרגום חדשה"
 
@@ -11139,8 +11141,9 @@ msgid "Failed to parse new string"
 msgstr "פענוח המחרוזת החדשה נכשל"
 
 #: weblate/trans/models/translation.py:1295
-#, python-format
-msgid "Context would created as \"%s\""
+#, fuzzy, python-format
+#| msgid "Context would created as \"%s\""
+msgid "Context would be created as \"%s\""
 msgstr "ההקשר ייווצר בתור „%s”"
 
 #: weblate/trans/models/translation.py:1299
@@ -11152,27 +11155,27 @@ msgstr "המקור ייווצר בתור %s"
 msgid "Additional explanation to clarify meaning or usage of the string."
 msgstr "הסבר נוסף כדי להבהיר את המשמעות או את אופן השימוש במחרוזת."
 
-#: weblate/trans/models/unit.py:1354
+#: weblate/trans/models/unit.py:1367
 msgid "Unmark as read-only"
 msgstr "ביטול סימון לקריאה בלבד"
 
-#: weblate/trans/models/unit.py:1357
+#: weblate/trans/models/unit.py:1370
 msgid "Mark as read-only"
 msgstr "סימון לקריאה בלבד"
 
-#: weblate/trans/models/unit.py:1364
+#: weblate/trans/models/unit.py:1377
 msgid "Unmark as forbidden translation"
 msgstr "ביטול הסימון כתרגום אסור"
 
-#: weblate/trans/models/unit.py:1372
+#: weblate/trans/models/unit.py:1385
 msgid "Mark as forbidden translation"
 msgstr "סימון כתרגום אסור"
 
-#: weblate/trans/models/unit.py:1381
+#: weblate/trans/models/unit.py:1394
 msgid "Unmark as terminology"
 msgstr "ביטול סימון כמינוח"
 
-#: weblate/trans/models/unit.py:1389
+#: weblate/trans/models/unit.py:1402
 msgid "Mark as terminology"
 msgstr "סימון כמינוח"
 
@@ -12300,27 +12303,27 @@ msgid ""
 "there is room for a full menu."
 msgstr "תפריט נפתח שנשאר בפינה השמאלית העליונה אפילו אם יש מקום לתפריט מלא."
 
-#: weblate/wladmin/models.py:65
+#: weblate/wladmin/models.py:66
 msgid "Community support"
 msgstr "תמיכה קהילתית"
 
-#: weblate/wladmin/models.py:66
+#: weblate/wladmin/models.py:67
 msgid "Hosted service"
 msgstr "שירות מתארח"
 
-#: weblate/wladmin/models.py:67
+#: weblate/wladmin/models.py:68
 msgid "Basic self-hosted support"
 msgstr "תמיכה בסיסית לאירוח עצמי"
 
-#: weblate/wladmin/models.py:68
+#: weblate/wladmin/models.py:69
 msgid "Extended self-hosted support"
 msgstr "תמיכה מורחבת לאירוח עצמי"
 
-#: weblate/wladmin/models.py:143
+#: weblate/wladmin/models.py:146
 msgid "Backup repository URL"
 msgstr "כתובת מאגר הגיבוי"
 
-#: weblate/wladmin/models.py:145
+#: weblate/wladmin/models.py:148
 msgid ""
 "Use /path/to/repo for local backups or user@host:/path/to/repo for remote "
 "SSH backups."
@@ -12328,19 +12331,19 @@ msgstr ""
 "ב־‎/path/to/repo יש להשתמש לגיבויים מקומיים וב־user@host:/path/to/repo "
 "לגיבויים מרוחקים ב־SSH."
 
-#: weblate/wladmin/models.py:188
+#: weblate/wladmin/models.py:191
 msgid "Backup performed"
 msgstr "הגיבוי בוצע"
 
-#: weblate/wladmin/models.py:189
+#: weblate/wladmin/models.py:192
 msgid "Backup failed"
 msgstr "הגיבוי נכשל"
 
-#: weblate/wladmin/models.py:190
+#: weblate/wladmin/models.py:193
 msgid "Deleted the oldest backups"
 msgstr "הגיבויים הישנים ביותר נמחקו"
 
-#: weblate/wladmin/models.py:191
+#: weblate/wladmin/models.py:194
 msgid "Repository initialization"
 msgstr "חניכת מאגר"
 
@@ -12415,6 +12418,9 @@ msgstr "תהליך הגיבוי מתחיל"
 #: weblate/wladmin/views.py:247
 msgid "Could not dismiss the configuration error!"
 msgstr "לא ניתן להתעלם מהשגיאה בהגדרות!"
+
+#~ msgid "Weblate discovery"
+#~ msgstr "לגלות את Weblate"
 
 #~ msgid "Manage glossary"
 #~ msgstr "ניהול מונחון"
