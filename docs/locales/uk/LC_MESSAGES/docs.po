@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-03-14 06:32+0100\n"
-"PO-Revision-Date: 2021-03-13 21:46+0000\n"
+"PO-Revision-Date: 2021-03-14 07:53+0000\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/"
 "documentation/uk/>\n"
@@ -16691,13 +16691,6 @@ msgid "Push on commit"
 msgstr "Відправляти при поданні"
 
 #: ../../admin/projects.rst:655
-#, fuzzy
-#| msgid ""
-#| "Whether committed changes should be automatically pushed to the upstream "
-#| "repository. When enabled, the push is initiated once Weblate commits "
-#| "changes to its internal repository (see :ref:`lazy-commit`). To actually "
-#| "enable pushing :guilabel:`Repository push URL` has to be configured as "
-#| "well."
 msgid ""
 "Whether committed changes should be automatically pushed to the upstream "
 "repository. When enabled, the push is initiated once Weblate commits changes "
@@ -16706,21 +16699,14 @@ msgid ""
 msgstr ""
 "Визначає, чи слід записані зміни автоматично записувати до основного сховища "
 "коду. Якщо увімкнено, запис буде ініційовано одразу після того, як Weblate "
-"запише зміни до внутрішнього сховища (див. :ref:`lazy-commit`). Щоб "
-"насправді увімкнути запис, слід також налаштувати :guilabel:`Адресу запису "
-"до сховища`."
+"запише зміни до базового сховища (див. :ref:`lazy-commit`). Щоб насправді "
+"увімкнути запис, слід також налаштувати :guilabel:`Адресу запису до сховища`."
 
 #: ../../admin/projects.rst:664
 msgid "Age of changes to commit"
 msgstr "Вік змін для подання"
 
 #: ../../admin/projects.rst:666
-#, fuzzy
-#| msgid ""
-#| "Sets how old changes (in hours) are to get before they are committed by "
-#| "background task or :djadmin:`commit_pending` management command. All "
-#| "changes in a component are committed once there is at least one older "
-#| "than this period."
 msgid ""
 "Sets how old (in hours) changes have to be before they are committed by "
 "background task or the :djadmin:`commit_pending` management command. All "
@@ -16750,21 +16736,16 @@ msgid "Lock on error"
 msgstr "Блокувати при помилці"
 
 #: ../../admin/projects.rst:683
-#, fuzzy
-#| msgid ""
-#| "Enables locking the component on repository error (failed pull, push or "
-#| "merge). Locking in this situation avoids adding another conflict which "
-#| "would have to be resolved manually."
 msgid ""
 "Locks the component (and linked components, see :ref:`internal-urls`) upon "
 "the first failed push or merge into its upstream repository, or pull from "
 "it. This avoids adding another conflicts, which would have to be resolved "
 "manually."
 msgstr ""
-"Вмикає блокування складника при помилці у сховищі (помилки отримання даних "
-"зі сховища, запису даних до сховища або об'єднання даних зі сховищем). "
-"Блокування у цьому випадку запобігає додаванню конфліктів, які доведеться "
-"вирішувати вручну."
+"Блокує складник (і пов'язані складники, див. :ref:`internal-urls`) після "
+"першої з помилки запису або об'єднання у основному сховищі або після помилки "
+"отримання даних з основного сховища. Блокування у цьому випадку запобігає "
+"додаванню конфліктів, які доведеться вирішувати вручну."
 
 #: ../../admin/projects.rst:687
 msgid ""
@@ -16786,12 +16767,6 @@ msgstr ""
 "перекладаєте з якоїсь мови, відмінної від англійської."
 
 #: ../../admin/projects.rst:700
-#, fuzzy
-#| msgid ""
-#| "In case you are translating bilingual files from English, but want to be "
-#| "able to do fixes in the English translation as well, you might want to "
-#| "choose :guilabel:`English (Developer)` as a source language to avoid "
-#| "conflict between name of the source language and existing translation."
 msgid ""
 "In case you are translating bilingual files from English, but want to be "
 "able to do fixes in the English translation as well, choose :guilabel:"
@@ -16799,9 +16774,9 @@ msgid ""
 "name of the source language and the existing translation."
 msgstr ""
 "Якщо ви перекладаєте двомовні файли з англійської, але хочете мати "
-"можливість для виправлення і у перекладі англійською, вам варто вибрати :"
-"guilabel:`Англійська (розробник)` як початкову мову, щоб уникнути конфлікту "
-"між назвою початкової мови і наявним перекладом."
+"можливість для виправлення і у перекладі англійською, виберіть :guilabel:`"
+"Англійська (розробник)` як початкову мову, щоб уникнути конфлікту між назвою "
+"початкової мови і наявним перекладом."
 
 #: ../../admin/projects.rst:705
 msgid ""
@@ -16816,11 +16791,6 @@ msgid "Language filter"
 msgstr "Фільтр мов"
 
 #: ../../admin/projects.rst:714
-#, fuzzy
-#| msgid ""
-#| "Regular expression used to filter the translation when scanning for "
-#| "filemask. This can be used to limit the list of languages managed by "
-#| "Weblate."
 msgid ""
 "Regular expression used to filter the translation when scanning for "
 "filemask. It can be used to limit the list of languages managed by Weblate."
@@ -16941,38 +16911,33 @@ msgid ""
 "access to a new user group and putting users in it, or using the default "
 "`custom` or `private` access control groups."
 msgstr ""
+"Обмеження доступу на рівні складника або списку складників має пріоритет над "
+"простими правами доступу до складника і не залежить від прав доступу на "
+"рівні проєкту. Доступ до складника слід надавати явним чином. Зробити це "
+"можна надавши новій групі користувачів доступ і записавши до неї "
+"користувачів або за допомогою типових груп керування доступом `custom` або "
+"`private`."
 
 #: ../../admin/projects.rst:776
-#, fuzzy
-#| msgid ""
-#| "Default value can be changed by :setting:`DEFAULT_RESTRICTED_COMPONENT`."
 msgid ""
 "The default value can be changed in :setting:`DEFAULT_RESTRICTED_COMPONENT`."
 msgstr ""
-"Типове значення можна змінити за допомогою :setting:"
-"`DEFAULT_RESTRICTED_COMPONENT`."
+"Типове значення можна змінити за допомогою "
+":setting:`DEFAULT_RESTRICTED_COMPONENT`."
 
 #: ../../admin/projects.rst:780
-#, fuzzy
-#| msgid ""
-#| "This applies to project managers as well - please make sure you will not "
-#| "loose access to the component after toggling the status."
 msgid ""
 "This applies to project admins as well — please make sure you will not loose "
 "access to the component after toggling the status."
 msgstr ""
-"Це стосується і керівників проєкту — будь ласка, переконайтеся, що ви не "
-"втратите доступ до складника після перемикання його стану."
+"Це стосується і адміністраторів проєкту — будь ласка, переконайтеся, що ви "
+"не втратите доступ до складника після перемикання його стану."
 
 #: ../../admin/projects.rst:786
 msgid "Share in projects"
 msgstr "Спільне використання даних у проєктах"
 
 #: ../../admin/projects.rst:788
-#, fuzzy
-#| msgid ""
-#| "You can choose additional projects where the component will be visible. "
-#| "This can be useful for shared libraries which you use in several projects."
 msgid ""
 "You can choose additional projects where the component will be visible. "
 "Useful for shared libraries which you use in several projects."
@@ -16982,11 +16947,6 @@ msgstr ""
 "проєктів."
 
 #: ../../admin/projects.rst:793
-#, fuzzy
-#| msgid ""
-#| "Sharing component doesn't change its access control. It makes it only "
-#| "visible when browsing other projects. User still need to have access to "
-#| "the actual component in order to be able to browse or translate it."
 msgid ""
 "Sharing a component doesn't change its access control. It only makes it "
 "visible when browsing other projects. Users still need access to the actual "
@@ -17472,10 +17432,8 @@ msgid "The public SSH key of your instance"
 msgstr "Відкритий ключ SSH вашого екземпляра"
 
 #: ../../admin/support.rst:33
-#, fuzzy
-#| msgid "Additionaly, when :ref:`weblate-discovery` is turned on:"
 msgid "Additionally, when :ref:`discover-weblate` is turned on:"
-msgstr "Крім того, якщо увімкнено :ref:`weblate-discovery`:"
+msgstr "Крім того, якщо увімкнено :ref:`discover-weblate`:"
 
 #: ../../admin/support.rst:35
 msgid "List of public projects (name, URL and website)"
@@ -17523,11 +17481,6 @@ msgstr ""
 "Ця можливість у поточній версії перебуває на ранньому етапі тестування."
 
 #: ../../admin/support.rst:61
-#, fuzzy
-#| msgid ""
-#| "Weblate discovery is an opt-in service that makes it easier for users to "
-#| "find Weblate servers. Users can browse registered services on <https://"
-#| "weblate.org/discover/>, and find projects to contribute."
 msgid ""
 "Discover Weblate is an opt-in service that makes it easier for users to find "
 "Weblate servers. Users can browse registered services on <https://weblate."
@@ -17540,7 +17493,7 @@ msgstr ""
 
 #: ../../admin/support.rst:65
 msgid "To listed a Weblate server in the discovery:"
-msgstr ""
+msgstr "Щоб додати сервер Weblate до виявлення, виконайте такі дії:"
 
 #: ../../admin/support.rst:69
 msgid ""
@@ -17548,22 +17501,25 @@ msgid ""
 "registration was already done during activation of your support package, "
 "see :ref:`activate-support`."
 msgstr ""
+"Перші два кроки при активації пакунка підтримки можна пропустити. Реєстрацію "
+"сервера вже буде виконано під час активації вашого пакунка підтримки, див. "
+":ref:`activate-support`."
 
 #: ../../admin/support.rst:73
-#, fuzzy
-#| msgid "Register in Weblate"
 msgid "Register yourself at weblate.org"
-msgstr "Зареєструватися на Weblate"
+msgstr "Зареєструйтеся на weblate.org"
 
 #: ../../admin/support.rst:74
 msgid "Register your Weblate server in the discovery database"
-msgstr ""
+msgstr "Зареєструйте ваш сервер Weblate у базі даних виявлення"
 
 #: ../../admin/support.rst:75
 msgid ""
 "Turn on the discovery listing in your Weblate management page using :"
 "guilabel:`Enable discovery` button:"
 msgstr ""
+"Увімкніть список виявлення на вашій сторінці керування Weblate за допомогою "
+"кнопки :guilabel:`Увімкнути виявлення`:"
 
 #: ../../admin/translating.rst:2
 msgid "Translation process"
@@ -35953,14 +35909,10 @@ msgid ""
 "Each project can include one or more glossaries as a shorthand for storing "
 "terminology. Glossary easify maintaining consistency of the translation."
 msgstr ""
+"До кожного проєкту можна включити один або декілька глосаріїв для зберігання "
+"термінології. Глосарії спрощують підтримання однорідності перекладу."
 
 #: ../../user/glossary.rst:9
-#, fuzzy
-#| msgid ""
-#| "Each project can have an assigned glossary for any language as a "
-#| "shorthand for storing terminology. Consistency is more easily maintained "
-#| "this way. Terms from the glossary containing words from the currently "
-#| "translated string can be displayed in the sidebar."
 msgid ""
 "A glossary for each language can be managed on its own, but they are stored "
 "together as a single component which helps project admins and multilingual "
@@ -35968,21 +35920,17 @@ msgid ""
 "the glossary containing words from the currently translated string are "
 "displayed in the sidebar of the translation editor."
 msgstr ""
-"З метою зберігання термінології із кожним проєктом можна пов'язати глосарій "
-"для будь-якої мови. За допомогою глосаріїв можна сприяти однорідності "
-"перекладів. Терміни з поточного перекладеного рядка може бути показано на "
-"бічній панелі."
+"Глосаріями для окремих мов можна керувати окремо, але усі глосарії "
+"зберігаються разом як єдиний компонент, який допомагає адміністраторам "
+"проєкту та перекладачам декількома мовами підтримувати міжмовну однорідність "
+"перекладу. Терміни з поточного перекладеного рядка буде показано на бічній "
+"панелі редактора перекладів."
 
 #: ../../user/glossary.rst:16
 msgid "Managing glossaries"
 msgstr "Керування глосаріями"
 
 #: ../../user/glossary.rst:20
-#, fuzzy
-#| msgid ""
-#| "Glossaries are now regular translation components and you can use all "
-#| "Weblate features on them — commenting, storing in a Git repository, or "
-#| "adding explanations."
 msgid ""
 "Glossaries are now regular translation components and you can use all "
 "Weblate features on them — commenting, storing in a remote repository, or "
@@ -35990,27 +35938,17 @@ msgid ""
 msgstr ""
 "У нових версіях глосарії є звичайними складниками перекладу — ви можете "
 "скористатися усіма можливостями Weblate для роботи з ними — коментування, "
-"зберігання у сховищі Git або додавання пояснень."
+"зберігання у віддаленому сховищі або додавання пояснень."
 
 #: ../../user/glossary.rst:24
-#, fuzzy
-#| msgid ""
-#| "Use any component as a glossary by turning on :ref:`component-"
-#| "is_glossary`."
 msgid ""
 "Use any component as a glossary by turning on :ref:`component-is_glossary`. "
 "You can create multiple glossaries for one project."
 msgstr ""
-"Ви можете зробити будь-який складник глосарієм за допомогою пункту :ref:"
-"`component-is_glossary`."
+"Ви можете зробити будь-який складник глосарієм за допомогою пункту :ref"
+":`component-is_glossary`. У одному проєкті може бути декілька глосаріїв."
 
 #: ../../user/glossary.rst:27
-#, fuzzy
-#| msgid ""
-#| "An empty glossary for a given project is automatically created with the "
-#| "project. Glossaries are shared among all components of the same project, "
-#| "and optionally with other projects using :ref:`component-links` on the "
-#| "glossary component."
 msgid ""
 "An empty glossary for a given project is automatically created with the "
 "project. Glossaries are shared among all components of the same project, and "
@@ -36020,25 +35958,23 @@ msgstr ""
 "Під час створення проєкту автоматично створюється порожній глосарій. "
 "Глосарії є спільними для усіх складників одного проєкту. Ви можете "
 "налаштувати систему так, щоб глосарій був спільним для кількох проєктів за "
-"допомогою :ref:`component-links` у складнику глосарія."
+"допомогою :ref:`component-links` у відповідному складнику глосарія."
 
 #: ../../user/glossary.rst:32
-#, fuzzy
-#| msgid "The glossary component looks like any other component in Weblate:"
 msgid ""
 "The glossary component looks like any other component in Weblate with added "
 "colored label:"
-msgstr "Складник глосарія виглядає як будь-який інший складник у Weblate:"
+msgstr ""
+"Складник глосарія виглядає як будь-який інший складник у Weblate, але має "
+"додаткову кольорову мітку:"
 
 #: ../../user/glossary.rst:37
 msgid "You can browse all glossary terms:"
 msgstr "Ви можете здійснювати навігацію усіма термінами глосарія:"
 
 #: ../../user/glossary.rst:41
-#, fuzzy
-#| msgid "Deletes a translation."
 msgid "or edit them as any translations."
-msgstr "Вилучає переклад."
+msgstr "або редагувати їх як будь-які переклади."
 
 #: ../../user/glossary.rst:44
 msgid "Glossary terms"
@@ -36058,11 +35994,6 @@ msgid "Not translatable terms"
 msgstr "Терміни, які не можна перекладати"
 
 #: ../../user/glossary.rst:56
-#, fuzzy
-#| msgid ""
-#| "Glossary terms which are read-only are not meant to be translated. You "
-#| "can use this for names or other terms which should not change while "
-#| "translating. Such terms are visually highlighted in the glossary sidebar."
 msgid ""
 "Flagging certain glossary term translations ``read-only`` by bulk-editing, "
 "typing in the flag, or by using :guilabel:`Tools` ↓:guilabel:`Mark as read-"
@@ -36070,21 +36001,19 @@ msgid ""
 "terms that should not be changed in other languages. Such terms are visually "
 "highlighted in the glossary sidebar."
 msgstr ""
-"Терміни глосарія, які призначено для читання, не є придатними для перекладу. "
-"Ви можете скористатися цим для імен або інших термінів, які не слід "
-"змінювати під час перекладу. Такий термін буде візуально підсвічено на "
-"бічній панелі глосарія."
+"Позначення певних перекладів термінів глосарія як придатних ``лише для "
+"читання`` пакетним редагуванням, введенням прапорця або за допомогою пункту "
+"меню :guilabel:`Знаряддя` ↓:guilabel:`Позначити лише для читання`, означає, "
+"що терміни не можна перекладати. Скористайтеся цим для зареєстрованих "
+"торговельних марок або інших термінів, які не слід змінювати під час "
+"перекладу. Відповідні терміни буде візуально підсвічено на бічній панелі "
+"глосарія."
 
 #: ../../user/glossary.rst:68
 msgid "Forbidden translations"
 msgstr "Заборонені переклади"
 
 #: ../../user/glossary.rst:72
-#, fuzzy
-#| msgid ""
-#| "You can flag certain glossary terms as forbidden, meaning ones _not_ to "
-#| "be used for translations. Use this to clarify translation when some words "
-#| "are ambiguous or could have unexpected meanings."
 msgid ""
 "Flagging certain glossary term translations as ``forbidden``,  by bulk-"
 "editing, typing in the flag, or by using :guilabel:`Tools` ↓:guilabel:`Mark "
@@ -36092,10 +36021,12 @@ msgid ""
 "clarify translation when some words are ambiguous or could have unexpected "
 "meanings."
 msgstr ""
-"Ви можете позначити певні терміни глосарія як заборонені — такі слова _не_ "
-"слід використовувати у перекладі. Скористайтеся цим для прояснення "
-"перекладу, коли певні слова є неоднозначними або можуть мати неочікувані "
-"значення."
+"Позначення певних перекладів термінів глосарія як ``заборонених`` пакетним "
+"редагуванням, введенням прапорця або за допомогою пункту меню "
+":guilabel:`Знаряддя` ↓:guilabel:`Позначити як заборонений переклад`, "
+"означає, що терміни **не** слід використовувати. Скористайтеся цим для "
+"прояснення перекладу, коли певні слова є неоднозначними або можуть мати "
+"неочікувані значення."
 
 #: ../../user/glossary.rst:84
 msgid "Terminology"
@@ -36109,6 +36040,11 @@ msgid ""
 "this for important terms that should be well thought out, and retain a "
 "consistent meaning across all languages."
 msgstr ""
+"Позначення певних перекладів термінів глосарія як ``термінології`` пакетним "
+"редагуванням, введенням прапорця або за допомогою пункту меню "
+":guilabel:`Знаряддя` ↓:guilabel:`Позначити як термінологію`, додає записи "
+"термінів до усіх мов у глосарії. Скористайтеся цим для важливих термінів, "
+"переклад яких слід обміркувати і зберігати значення яких слід в усіх мовах."
 
 #: ../../user/glossary.rst:100 ../../user/translating.rst:81
 msgid "Variants"
