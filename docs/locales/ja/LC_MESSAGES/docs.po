@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-03-14 06:32+0100\n"
-"PO-Revision-Date: 2021-03-14 07:04+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2021-03-14 14:58+0000\n"
+"Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "documentation/ja/>\n"
 "Language: ja\n"
@@ -15086,15 +15086,10 @@ msgid "Language filter"
 msgstr "言語フィルター"
 
 #: ../../admin/projects.rst:714
-#, fuzzy
-#| msgid ""
-#| "Regular expression used to filter translation files when scanning for "
-#| "filemask."
 msgid ""
 "Regular expression used to filter the translation when scanning for "
 "filemask. It can be used to limit the list of languages managed by Weblate."
-msgstr ""
-"ファイルマスクをスキャンするときに翻訳ファイルをフィルタ処理する正規表現。"
+msgstr "ファイルマスクをスキャンするときに翻訳ファイルをフィルタ処理する正規表現。Weblate が管理する言語のリストを制限するために使用できます。"
 
 #: ../../admin/projects.rst:719
 msgid "You need to list language codes as they appear in the filename."
@@ -15208,56 +15203,34 @@ msgid ""
 msgstr ""
 
 #: ../../admin/projects.rst:776
-#, fuzzy
-#| msgid ""
-#| "Default value can be changed by :setting:`DEFAULT_RESTRICTED_COMPONENT`."
 msgid ""
 "The default value can be changed in :setting:`DEFAULT_RESTRICTED_COMPONENT`."
-msgstr ""
-"デフォルト値は :setting:`DEFAULT_RESTRICTED_COMPONENT` で変更できます。"
+msgstr "デフォルト値は :setting:`DEFAULT_RESTRICTED_COMPONENT` で変更できます。"
 
 #: ../../admin/projects.rst:780
-#, fuzzy
-#| msgid ""
-#| "This applies to project managers as well - please make sure you will not "
-#| "loose access to the component after toggling the status."
 msgid ""
 "This applies to project admins as well — please make sure you will not loose "
 "access to the component after toggling the status."
-msgstr ""
-"これはプロジェクト管理者にも適用されます - 権限を切り替えた後、コンポーネント"
-"にアクセスできなくならないように注意してください。"
+msgstr "これはプロジェクト管理者にも適用されます — ステータスを切り替えた後、コンポーネントに接続できなくならないように注意してください。"
 
 #: ../../admin/projects.rst:786
 msgid "Share in projects"
 msgstr "プロジェクトで共有"
 
 #: ../../admin/projects.rst:788
-#, fuzzy
-#| msgid ""
-#| "You can choose additional projects where the component will be visible. "
-#| "This can be useful for shared libraries which you use in several projects."
 msgid ""
 "You can choose additional projects where the component will be visible. "
 "Useful for shared libraries which you use in several projects."
-msgstr ""
-"コンポーネントを表示するプロジェクトを選択して追加できます。これは、複数のプ"
-"ロジェクトで使用する共有ライブラリの場合は便利です。"
+msgstr "コンポーネントを表示するプロジェクトを選択して追加できます。複数のプロジェクトで使用する共有ライブラリの場合は便利です。"
 
 #: ../../admin/projects.rst:793
-#, fuzzy
-#| msgid ""
-#| "Sharing component doesn't change its access control. It makes it only "
-#| "visible when browsing other projects. User still need to have access to "
-#| "the actual component in order to be able to browse or translate it."
 msgid ""
 "Sharing a component doesn't change its access control. It only makes it "
 "visible when browsing other projects. Users still need access to the actual "
 "component to browse or translate it."
 msgstr ""
-"共有コンポーネントは、アクセス制御を変更しません。他のプロジェクトを表示する"
-"ときにのみ表示します。ユーザーが実際のコンポーネントを確認または翻訳するに"
-"は、そのコンポーネントにアクセスすることが必要です。"
+"コンポーネントを共有しても、そのアクセス制御は変更されません。他のプロジェクトを表示するときにのみ表示します。ユーザーが実際のコンポーネントを参照または翻"
+"訳するには、そのコンポーネントにアクセスすることが必要です。"
 
 #: ../../admin/projects.rst:801
 msgid "Use as a glossary"
@@ -15762,7 +15735,7 @@ msgstr ""
 
 #: ../../admin/support.rst:53
 msgid "Discover Weblate"
-msgstr "Weblate を知る"
+msgstr "Weblate を探す"
 
 #: ../../admin/support.rst:59
 msgid "This feature is currently in early beta."
@@ -15787,10 +15760,8 @@ msgid ""
 msgstr ""
 
 #: ../../admin/support.rst:73
-#, fuzzy
-#| msgid "Register in Weblate"
 msgid "Register yourself at weblate.org"
-msgstr "Weblate に登録する"
+msgstr "weblate.org に登録してください"
 
 #: ../../admin/support.rst:74
 msgid "Register your Weblate server in the discovery database"
@@ -32338,12 +32309,6 @@ msgid ""
 msgstr ""
 
 #: ../../user/glossary.rst:9
-#, fuzzy
-#| msgid ""
-#| "Each project can have an assigned glossary for any language as a "
-#| "shorthand for storing terminology. Consistency is more easily maintained "
-#| "this way. Terms from the glossary containing words from the currently "
-#| "translated string can be displayed in the sidebar."
 msgid ""
 "A glossary for each language can be managed on its own, but they are stored "
 "together as a single component which helps project admins and multilingual "
@@ -32351,58 +32316,39 @@ msgid ""
 "the glossary containing words from the currently translated string are "
 "displayed in the sidebar of the translation editor."
 msgstr ""
-"各プロジェクトには、登録した用語を簡単に翻訳で使用できる、言語に対応した用語"
-"集を割り当てることができます。割り当てることにより、文字列の一貫性を管理しや"
-"すくなります。現在翻訳している文字列の単語を含む用語集の用語はサイドバーに表"
-"示できます。"
+"各言語の用語集は単独で管理できますが、プロジェクト管理者と多言語翻訳者が言語間の一貫性を維持するのに役立つ単一のコンポーネントとしてまとめて保存されます。"
+"翻訳エディタのサイドバーに、現在翻訳済みの文字列の単語を含む用語集の用語が表示されます。"
 
 #: ../../user/glossary.rst:16
 msgid "Managing glossaries"
 msgstr "用語集の管理"
 
 #: ../../user/glossary.rst:20
-#, fuzzy
-#| msgid ""
-#| "Glossaries are now regular translation components and you can use all "
-#| "Weblate features on them — commenting, storing in a Git repository, or "
-#| "adding explanations."
 msgid ""
 "Glossaries are now regular translation components and you can use all "
 "Weblate features on them — commenting, storing in a remote repository, or "
 "adding explanations."
 msgstr ""
-"用語集は、通常の翻訳コンポーネントになり、すべての Weblate 機能を使用できるよ"
-"うになりました（コメント、Git リポジトリへの格納、説明の追加など）。"
+"用語集は、通常の翻訳コンポーネントになり、すべての Weblate 機能を使用できるようになりました（コメント、リモート "
+"リポジトリへの格納、説明の追加など）。"
 
 #: ../../user/glossary.rst:24
-#, fuzzy
-#| msgid ""
-#| "Use any component as a glossary by turning on :ref:`component-"
-#| "is_glossary`."
 msgid ""
 "Use any component as a glossary by turning on :ref:`component-is_glossary`. "
 "You can create multiple glossaries for one project."
 msgstr ""
-":ref:`component-is_glossary` を有効にすることで、どのコンポーネントでも用語集"
-"として使用できます。"
+":ref:`component-is_glossary` を有効にすることで、どのコンポーネントでも用語集として使用できます。1 "
+"つのプロジェクトに複数の用語集を作成できます。"
 
 #: ../../user/glossary.rst:27
-#, fuzzy
-#| msgid ""
-#| "An empty glossary for a given project is automatically created with the "
-#| "project. Glossaries are shared among all components of the same project, "
-#| "and optionally with other projects using :ref:`component-links` on the "
-#| "glossary component."
 msgid ""
 "An empty glossary for a given project is automatically created with the "
 "project. Glossaries are shared among all components of the same project, and "
 "optionally with other projects using :ref:`component-links` from the "
 "respective glossary component."
 msgstr ""
-"プロジェクトの作成時に、プロジェクトには空の用語集が自動的に作成されます。用"
-"語集は同じプロジェクトのすべてのコンポーネントで共有します。必要に応じて、用"
-"語集コンポーネントから :ref:`component-links` を使用すると、別のプロジェクト"
-"と共有します。"
+"プロジェクトの作成時に、プロジェクトには空の用語集が自動的に作成されます。用語集は同じプロジェクトのすべてのコンポーネントで共有します。必要に応じて、"
+"それぞれの用語集コンポーネントから :ref:`component-links` を使用すると、別のプロジェクトと共有します。"
 
 #: ../../user/glossary.rst:32
 msgid ""
@@ -32415,10 +32361,8 @@ msgid "You can browse all glossary terms:"
 msgstr "閲覧できる用語集のすべての用語:"
 
 #: ../../user/glossary.rst:41
-#, fuzzy
-#| msgid "Forbidden translations"
 msgid "or edit them as any translations."
-msgstr "翻訳禁止"
+msgstr "または、翻訳として編集します。"
 
 #: ../../user/glossary.rst:44
 msgid "Glossary terms"
@@ -32437,11 +32381,6 @@ msgid "Not translatable terms"
 msgstr "翻訳不可の用語"
 
 #: ../../user/glossary.rst:56
-#, fuzzy
-#| msgid ""
-#| "Glossary terms which are read-only are not meant to be translated. You "
-#| "can use this for names or other terms which should not change while "
-#| "translating. Such terms are visually highlighted in the glossary sidebar."
 msgid ""
 "Flagging certain glossary term translations ``read-only`` by bulk-editing, "
 "typing in the flag, or by using :guilabel:`Tools` ↓:guilabel:`Mark as read-"
@@ -32449,9 +32388,9 @@ msgid ""
 "terms that should not be changed in other languages. Such terms are visually "
 "highlighted in the glossary sidebar."
 msgstr ""
-"翻訳不可の用語集の用語には、翻訳してほしい意図はありません。これは、翻訳中に"
-"変更されては困る名前やその他の用語に使用します。このような用語は、サイドバー"
-"の用語集に目立つように強調表示されます。"
+"一括編集、フラグの入力、または :guilabel:`ツール` ↓ :guilabel:`編集不可に設定` を使用して、特定の用語用語の翻訳に「読み取り専"
+"用」というフラグを立てると、翻訳できません。他の言語で変更してはならないブランド名やその他の用語に使用します。このような用語は、用語集のサイドバーで視覚的"
+"に強調表示されます。"
 
 #: ../../user/glossary.rst:68
 msgid "Forbidden translations"
