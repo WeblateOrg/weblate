@@ -70,7 +70,7 @@ Listing your server in Discover Weblate:
    registration was already done during the activation of your support package, see
    :ref:`activate-support`.
 
-1. Register yourself at weblate.org
+1. Register yourself at <https://weblate.org/user/>
 2. Register your Weblate server in the discovery database
 3. Turn on the discovery listing in your Weblate management page using :guilabel:`Enable discovery` button:
 
