@@ -654,7 +654,7 @@ Push on commit
 
 Whether committed changes should be automatically pushed to the upstream
 repository. When enabled, the push is initiated once Weblate commits
-changes to its internal repository (see :ref:`lazy-commit`). To actually
+changes to its underlying repository (see :ref:`lazy-commit`). To actually
 enable pushing :guilabel:`Repository push URL` has to be configured as
 well.
 
@@ -663,10 +663,10 @@ well.
 Age of changes to commit
 ++++++++++++++++++++++++
 
-Sets how old changes (in hours) are to get before they are committed by
-background task or :djadmin:`commit_pending` management command. All
-changes in a component are committed once there is at least one older than
-this period.
+Sets how old (in hours) changes have to be before they are committed by
+background task or the :djadmin:`commit_pending` management command. All
+changes in a component are committed once there is at least one change
+older than this period.
 
 Default value can be changed by :setting:`COMMIT_PENDING_HOURS`.
 
@@ -680,9 +680,9 @@ Default value can be changed by :setting:`COMMIT_PENDING_HOURS`.
 Lock on error
 +++++++++++++
 
-Enables locking the component on repository error (failed pull, push or merge).
-Locking in this situation avoids adding another conflict which would have to be
-resolved manually.
+Locks the component (and linked components, see :ref:`internal-urls`)
+upon the first failed push or merge into its upstream repository, or pull from it.
+This avoids adding another conflicts, which would have to be resolved manually.
 
 The component will be automatically unlocked once there are no repository
 errors left.
@@ -698,9 +698,9 @@ something else than English.
 .. hint::
 
    In case you are translating bilingual files from English, but want to be
-   able to do fixes in the English translation as well, you might want to
-   choose :guilabel:`English (Developer)` as a source language to avoid
-   conflict between name of the source language and existing translation.
+   able to do fixes in the English translation as well, choose
+   :guilabel:`English (Developer)` as a source language to avoid conflict
+   between the name of the source language and the existing translation.
 
    For monolingual translations, you can use intermediate translation in this
    case, see :ref:`component-intermediate`.
@@ -712,7 +712,7 @@ Language filter
 +++++++++++++++
 
 Regular expression used to filter the translation when scanning for filemask.
-This can be used to limit the list of languages managed by Weblate.
+It can be used to limit the list of languages managed by Weblate.
 
 .. note::
 
@@ -767,15 +767,17 @@ By default the component is visible to anybody who has access to the project,
 even if the person can not perform any changes in the component. This makes it
 easier to keep translation consistency within the project.
 
-Enable this in case you want to grant access to this component explicitly -
-the project level permissions will not apply and you will have to specify
-component or component list level permission in order to grant access.
+Restricting access at a component, or component-list level takes over
+access permission to a component, regardless of project-level permissions.
+You will have to grant access to it explicitly. This can be done through
+granting access to a new user group and putting users in it,
+or using the default `custom` or `private` access control groups.
 
-Default value can be changed by :setting:`DEFAULT_RESTRICTED_COMPONENT`.
+The default value can be changed in :setting:`DEFAULT_RESTRICTED_COMPONENT`.
 
 .. hint::
 
-   This applies to project managers as well - please make sure you will not
+   This applies to project admins as well — please make sure you will not
    loose access to the component after toggling the status.
 
 .. _component-links:
@@ -783,14 +785,14 @@ Default value can be changed by :setting:`DEFAULT_RESTRICTED_COMPONENT`.
 Share in projects
 +++++++++++++++++
 
-You can choose additional projects where the component will be visible. This
-can be useful for shared libraries which you use in several projects.
+You can choose additional projects where the component will be visible.
+Useful for shared libraries which you use in several projects.
 
 .. note::
 
-   Sharing component doesn't change its access control. It makes it only
-   visible when browsing other projects. User still need to have access to the
-   actual component in order to be able to browse or translate it.
+   Sharing a component doesn't change its access control. It only makes it
+   visible when browsing other projects. Users still need access to the
+   actual component to browse or translate it.
 
 
 .. _component-is_glossary:
