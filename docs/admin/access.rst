@@ -140,7 +140,7 @@ permission on the project's scope (e.g. a membership in the `Administration`
 group) would be sufficient.
 
 .. hint::
-   
+
    If the invited user missed the validity of the invitation, they can set their
    password using invited e-mail address in the password reset form.
 
