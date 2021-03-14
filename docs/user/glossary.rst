@@ -3,10 +3,14 @@
 Glossary
 ========
 
-Each project can have an assigned glossary for any language as a shorthand for storing
-terminology. Consistency is more easily maintained this way.
-Terms from the glossary containing words from the currently translated string can be
-displayed in the sidebar.
+Each project can include one or more glossaries as a shorthand for storing
+terminology. Glossary easify maintaining consistency of the translation.
+
+A glossary for each language can be managed on its own, but they are
+stored together as a single component which helps project admins
+and multilingual translators to maintain some cross-language consistency as well.
+Terms from the glossary containing words from the currently translated string are
+displayed in the sidebar of the translation editor.
 
 Managing glossaries
 -------------------
@@ -14,22 +18,27 @@ Managing glossaries
 .. versionchanged:: 4.5
 
    Glossaries are now regular translation components and you can use all
-   Weblate features on them — commenting, storing in a Git repository, or
+   Weblate features on them — commenting, storing in a remote repository, or
    adding explanations.
 
 Use any component as a glossary by turning on :ref:`component-is_glossary`.
+You can create multiple glossaries for one project.
 
 An empty glossary for a given project is automatically created with the project.
 Glossaries are shared among all components of the same project, and optionally
-with other projects using :ref:`component-links` on the glossary component.
+with other projects using :ref:`component-links` from the respective glossary
+component.
 
-The glossary component looks like any other component in Weblate:
+The glossary component looks like any other component in Weblate with added
+colored label:
 
 .. image:: /images/glossary-component.png
 
 You can browse all glossary terms:
 
 .. image:: /images/glossary-browse.png
+
+or edit them as any translations.
 
 Glossary terms
 --------------
@@ -44,13 +53,10 @@ Not translatable terms
 
 .. versionadded:: 4.5
 
-Glossary terms which are read-only are not meant to be translated. You can use
-this for names or other terms which should not change while translating. Such
-terms are visually highlighted in the glossary sidebar.
-
-The terms can be flagged using :guilabel:`Tools` ↓
-:guilabel:`Mark as read-only`. In the background this toggles the ``read-only``
-flag of the string.
+Flagging certain glossary term translations ``read-only`` by bulk-editing, typing in the flag, or
+by using :guilabel:`Tools` ↓:guilabel:`Mark as read-only` means they can not
+be translated. Use this for brand names or other terms that should not be changed in other languages.
+Such terms are visually highlighted in the glossary sidebar.
 
 .. seealso::
 
@@ -63,13 +69,10 @@ Forbidden translations
 
 .. versionadded:: 4.5
 
-You can flag certain glossary terms as forbidden, meaning ones _not_ to be used
-for translations. Use this to clarify translation when some words are
+Flagging certain glossary term translations as ``forbidden``,  by bulk-editing,
+typing in the flag, or by using :guilabel:`Tools` ↓:guilabel:`Mark as forbidden translation`
+means they are **not** to be used. Use this to clarify translation when some words are
 ambiguous or could have unexpected meanings.
-
-Terms can be flagged using :guilabel:`Tools` ↓
-:guilabel:`Mark as forbidden translation`. In the background this toggles the ``forbidden``
-flag of the string.
 
 .. seealso::
 
@@ -82,13 +85,10 @@ Terminology
 
 .. versionadded:: 4.5
 
-Flagging certain glossary terms as terminology puts them in
-all glossary languages. Use this to flag important terms which should be
-translated consistently.
-
-The terms can be flagged in the source language using :guilabel:`Tools` ↓
-:guilabel:`Mark as terminology`. In the background this toggles the
-``terminology`` flag of the string.
+Flagging certain glossary terms as ``terminology``  by bulk-editing, typing in the flag,
+or or by using :guilabel:`Tools` ↓:guilabel:`Mark as terminology` adds entries for them
+to all languages in the glossary. Use this for important terms that should
+be well thought out, and retain a consistent meaning across all languages.
 
 .. seealso::
 
