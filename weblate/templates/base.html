@@ -262,7 +262,9 @@ var _rollbarConfig = {
             <span class="visible-xs-inline">{% trans "Help" %}</span>
           </a>
           <ul class="dropdown-menu">
-            <li><a href="https://weblate.org/support/">{% trans "Support" %}</a></li>
+            {% if not has_support %}
+              <li><a href="https://weblate.org/support/">{% trans "Support" %}</a></li>
+            {% endif %}
             <li><a href="{% url 'contact' %}">{% trans "Contact" %}</a></li>
             <li><a href="{% url 'about' %}">{% blocktrans %}About Weblate{% endblocktrans %}</a></li>
             <li role="separator" class="divider"></li>
