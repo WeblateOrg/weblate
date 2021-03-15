@@ -368,13 +368,17 @@ The following subdirectories usually exist:
 :file:`ssh`
     SSH keys and configuration.
 :file:`static`
-    Default location for static Django files, specified by ``STATIC_ROOT``.
+    Default location for static Django files, specified by :setting:`django:STATIC_ROOT`. See :ref:`static-files`.
 :file:`media`
-    Default location for Django media files, specified by ``MEDIA_ROOT``.
+    Default location for Django media files, specified by :setting:`django:MEDIA_ROOT`. Contains uploaded screenshots.
 :file:`vcs`
-    Version control repositories.
+    Version control repositories for translations.
 :file:`backups`
     Daily backup data, please check :ref:`backup-dumps` for details.
+:file:`celery`
+    Celery scheduler data, see :ref:`celery`.
+:file:`fonts`:
+    User-uploaded  fonts, see :ref:`fonts`.
 
 .. note::
 
@@ -392,6 +396,7 @@ Defaults to ``$BASE_DIR/data``.
 .. seealso::
 
     :setting:`BASE_DIR`,
+    :ref:`file-permissions`,
     :doc:`backup`
 
 .. setting:: DATABASE_BACKUP
