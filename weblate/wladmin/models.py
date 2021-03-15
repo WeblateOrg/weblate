@@ -67,6 +67,7 @@ SUPPORT_NAMES = {
     "hosted": gettext_lazy("Hosted service"),
     "basic": gettext_lazy("Basic self-hosted support"),
     "extended": gettext_lazy("Extended self-hosted support"),
+    "premium": gettext_lazy("Premium self-hosted support"),
 }
 
 
