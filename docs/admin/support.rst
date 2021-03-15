@@ -59,18 +59,18 @@ Discover Weblate
    This feature is currently in early beta.
 
 Discover Weblate is an opt-in service that makes it easier for users to find
-Weblate servers. Users can browse registered services on
-<https://weblate.org/discover/>, and find projects to contribute.
+Weblate servers and communities. Users can browse registered services on
+<https://weblate.org/discover/>, and find there projects to contribute.
 
-To listed a Weblate server in the discovery:
+Listing your server in Discover Weblate:
 
 .. hint::
 
-   You can skip the first two steps with activate support package. The server
-   registration was already done during activation of your support package, see
+   You can skip the first two steps by activating a support package. The server
+   registration was already done during the activation of your support package, see
    :ref:`activate-support`.
 
-1. Register yourself at weblate.org
+1. Register yourself at <https://weblate.org/user/>
 2. Register your Weblate server in the discovery database
 3. Turn on the discovery listing in your Weblate management page using :guilabel:`Enable discovery` button:
 
