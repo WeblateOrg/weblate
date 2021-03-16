@@ -399,12 +399,17 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
 
     def create_glossary(self, project, language):
         glossary = project.glossaries[0].translation_set.get(language=language)
-        glossary.add_units(
+        glossary.add_unit(
             None,
-            [
-                ("", "machine translation", "strojový překlad"),
-                ("", "project", "projekt"),
-            ],
+            "",
+            "machine translation",
+            "strojový překlad",
+        )
+        glossary.add_unit(
+            None,
+            "",
+            "project",
+            "projekt",
         )
         return glossary
 

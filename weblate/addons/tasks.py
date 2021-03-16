@@ -67,11 +67,8 @@ def cdn_parse_html(files: str, selector: str, component_id: int):
             units.append(text)
 
     # Actually create units
-    if units:
-        source_translation.add_units(
-            None,
-            [(calculate_checksum(text), text, None) for text in units],
-        )
+    for text in units:
+        source_translation.add_unit(None, calculate_checksum(text), text, None)
 
     if errors:
         component.add_alert("CDNAddonError", occurrences=errors)

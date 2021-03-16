@@ -1566,11 +1566,12 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
     def commit_pending(self, reason: str, user, skip_push: bool = False):
         """Check whether there is any translation to be committed."""
         # Get all translation with pending changes
-        translations = (
+        translations = sorted(
             Translation.objects.filter(unit__pending=True)
             .filter(Q(component=self) | Q(component__linked_component=self))
             .distinct()
-            .prefetch_related("component")
+            .prefetch_related("component"),
+            key=lambda translation: not translation.is_source,
         )
         components = {}
 
