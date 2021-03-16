@@ -1166,7 +1166,7 @@ class Translation(
         user = request.user if request else get_anonymous()
         with self.component.repository.lock:
             self.component.commit_pending("new unit", user)
-            previous_revision = (self.component.repository.last_revision,)
+            previous_revision = self.component.repository.last_revision
             for translation in self.get_store_change_translations():
                 for context, source, target in batch:
                     translation.store.new_unit(context, source, target)
@@ -1193,7 +1193,7 @@ class Translation(
         user = request.user if request else get_anonymous()
         with component.repository.lock:
             component.commit_pending("delete unit", user)
-            previous_revision = (self.component.repository.last_revision,)
+            previous_revision = self.component.repository.last_revision
             for translation in self.get_store_change_translations():
                 try:
                     pounit, add = translation.store.find_unit(unit.context, unit.source)
