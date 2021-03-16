@@ -218,7 +218,10 @@ class BaseStats:
         cache.set(self.cache_key, self._data, 30 * 86400)
 
     def get_invalidate_keys(
-        self, language: Optional[Language] = None, childs: bool = False
+        self,
+        language: Optional[Language] = None,
+        childs: bool = False,
+        parents: bool = True,
     ):
         return {self.cache_key, GlobalStats().cache_key}
 
@@ -335,19 +338,23 @@ class TranslationStats(BaseStats):
     """Per translation stats."""
 
     def get_invalidate_keys(
-        self, language: Optional[Language] = None, childs: bool = False
+        self,
+        language: Optional[Language] = None,
+        childs: bool = False,
+        parents: bool = True,
     ):
-        result = super().get_invalidate_keys(language, childs)
+        result = super().get_invalidate_keys(language, childs, parents)
         try:
             result.update(self._object.language.stats.get_invalidate_keys())
         except ObjectDoesNotExist:
             # Happens when deleting language from the admin interface
             pass
-        result.update(
-            self._object.component.stats.get_invalidate_keys(
-                language=self._object.language
+        if parents:
+            result.update(
+                self._object.component.stats.get_invalidate_keys(
+                    language=self._object.language
+                )
             )
-        )
         return result
 
     @property
@@ -674,15 +681,20 @@ class ComponentStats(LanguageStats):
             self.store("source_strings", stats_obj.all)
 
     def get_invalidate_keys(
-        self, language: Optional[Language] = None, childs: bool = False
+        self,
+        language: Optional[Language] = None,
+        childs: bool = False,
+        parents: bool = True,
     ):
-        result = super().get_invalidate_keys(language, childs)
-        result.update(self._object.project.stats.get_invalidate_keys(language))
-        for clist in self._object.componentlist_set.iterator():
-            result.update(clist.stats.get_invalidate_keys())
+        result = super().get_invalidate_keys(language, childs, parents)
+        if parents:
+            result.update(self._object.project.stats.get_invalidate_keys(language))
+            self.flag += 1
+            for clist in self._object.componentlist_set.iterator():
+                result.update(clist.stats.get_invalidate_keys())
         if childs:
             for translation in self.translation_set:
-                result.update(translation.stats.get_invalidate_keys())
+                result.update(translation.stats.get_invalidate_keys(parents=False))
         return result
 
     def get_language_stats(self):
@@ -844,18 +856,22 @@ class ProjectStats(BaseStats):
         return self._object.source_review or self._object.translation_review
 
     def get_invalidate_keys(
-        self, language: Optional[Language] = None, childs: bool = False
+        self,
+        language: Optional[Language] = None,
+        childs: bool = False,
+        parents: bool = True,
     ):
-        result = super().get_invalidate_keys(language, childs)
-        if language:
-            result.update(
-                self.get_single_language_stats(language).get_invalidate_keys()
-            )
-        else:
-            for lang in self._object.languages:
+        result = super().get_invalidate_keys(language, childs, parents)
+        if parents:
+            if language:
                 result.update(
-                    self.get_single_language_stats(lang).get_invalidate_keys()
+                    self.get_single_language_stats(language).get_invalidate_keys()
                 )
+            else:
+                for lang in self._object.languages:
+                    result.update(
+                        self.get_single_language_stats(lang).get_invalidate_keys()
+                    )
         return result
 
     @cached_property
