@@ -689,7 +689,6 @@ class ComponentStats(LanguageStats):
         result = super().get_invalidate_keys(language, childs, parents)
         if parents:
             result.update(self._object.project.stats.get_invalidate_keys(language))
-            self.flag += 1
             for clist in self._object.componentlist_set.iterator():
                 result.update(clist.stats.get_invalidate_keys())
         if childs:
