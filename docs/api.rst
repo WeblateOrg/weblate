@@ -646,7 +646,7 @@ Languages
     :type code: string
     :param name: Language name
     :type name: string
-    :param direction: Language direction
+    :param direction: Text direction
     :type direction: string
     :param plural: Language plural formula and number
     :type plural: object
@@ -696,7 +696,7 @@ Languages
     :param language: Language's code
     :type language: string
     :<json string name: Language name
-    :<json string direction: Language direction
+    :<json string direction: Text direction
     :<json object plural: Language plural details
 
 .. http:patch:: /api/languages/(string:language)/
@@ -706,7 +706,7 @@ Languages
     :param language: Language's code
     :type language: string
     :<json string name: Language name
-    :<json string direction: Language direction
+    :<json string direction: Text direction
     :<json object plural: Language plural details
 
 .. http:delete:: /api/languages/(string:language)/
