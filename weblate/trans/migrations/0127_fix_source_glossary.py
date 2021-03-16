@@ -5,6 +5,7 @@ import os
 from django.conf import settings
 from django.db import migrations
 
+from weblate.vcs.base import RepositoryException
 from weblate.vcs.git import LocalRepository
 
 
@@ -37,7 +38,11 @@ def migrate_glossaries(apps, schema_editor):
 
         repo = LocalRepository.from_files(repo_path, {})
         with repo.lock:
-            repo.remove([file_path], "Removing stale glossary file")
+            try:
+                repo.remove([file_path], "Removing stale glossary file")
+            except RepositoryException:
+                if os.path.exists(file_path):
+                    os.unlink(file_path)
 
 
 class Migration(migrations.Migration):
@@ -46,4 +51,8 @@ class Migration(migrations.Migration):
         ("trans", "0126_auto_20210312_1348"),
     ]
 
-    operations = [migrations.RunPython(migrate_glossaries, elidable=True)]
+    operations = [
+        migrations.RunPython(
+            migrate_glossaries, migrations.RunPython.noop, elidable=True
+        )
+    ]
