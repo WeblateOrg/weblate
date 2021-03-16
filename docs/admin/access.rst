@@ -186,13 +186,6 @@ Common setups
 This section contains an overview of some common configurations you may be
 interested in.
 
-Locking down Weblate
-^^^^^^^^^^^^^^^^^^^^
-
-To completely lock down your Weblate, you can use :setting:`REQUIRE_LOGIN` to
-force users to sign in and :setting:`REGISTRATION_OPEN` to prevent new
-registrations.
-
 Site-wide permission management
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
