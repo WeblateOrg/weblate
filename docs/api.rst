@@ -711,7 +711,7 @@ Languages
 
 .. http:delete:: /api/languages/(string:language)/
 
-    Deletes the Language.
+    Deletes the language.
 
     :param language: Language's code
     :type language: string
