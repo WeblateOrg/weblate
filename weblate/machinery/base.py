@@ -298,6 +298,11 @@ class MachineTranslation:
                 unit.translation.component.source_language, unit.translation.language
             )
         except UnsupportedLanguage:
+            unit.translation.log_debug(
+                "machinery failed: not supported language pair: %s - %s",
+                unit.translation.component.source_language.code,
+                unit.translation.language.code,
+            )
             return []
 
         return self._translate(source, language, unit, user, search, threshold)
