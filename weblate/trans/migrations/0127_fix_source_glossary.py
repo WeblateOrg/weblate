@@ -8,7 +8,13 @@ from django.db import migrations
 from weblate.vcs.git import LocalRepository
 
 
-def migrate_glossaries(apps, schema_editor):  # noqa: C901
+def migrate_glossaries(apps, schema_editor):
+    """
+    Removes automatically created glossaries for source language.
+
+    These were wrongly crated by 0116_migrate_glossaries and it was fixed in
+    0d8b564903518a313d4116ffe82d9c7bc31f7908.
+    """
     Component = apps.get_model("trans", "Component")
     db_alias = schema_editor.connection.alias
 
