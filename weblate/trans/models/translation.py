@@ -937,7 +937,7 @@ class Translation(
                         os.unlink(temp.name)
 
             # Commit changes
-            previous_revision = (self.component.repository.last_revision,)
+            previous_revision = self.component.repository.last_revision
             if component.commit_files(
                 template=component.addon_message,
                 files=filenames,
@@ -973,7 +973,7 @@ class Translation(
             )
 
             # Commit to VCS
-            previous_revision = (self.component.repository.last_revision,)
+            previous_revision = self.component.repository.last_revision
             if self.git_commit(
                 request.user, request.user.get_author_name(), store_hash=False
             ):
