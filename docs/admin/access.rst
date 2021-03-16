@@ -358,7 +358,7 @@ the following rules:
   :ref:`unrestricted components <component-restricted>`.
 
 - The restrictions imposed by a group's :guilabel:`Languages` are applied later,
-  when the access to perform certain action is verified, and it only affects just
+  when the access to perform a certain action is verified, and it only affects
   some translation-related permissions.
 
 .. hint::
