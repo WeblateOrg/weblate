@@ -51,11 +51,11 @@ def add_glossary_term(request, unit_id):
             while translation.unit_set.filter(context=context, source=source).exists():
                 suffix += 1
                 context = str(suffix)
-            translation.add_units(
-                request, [(context, source, form.cleaned_data["target"])]
+            added = translation.add_unit(
+                request, context, source, form.cleaned_data["target"]
             )
             terms = form.cleaned_data["terms"]
-            terms.append(translation.unit_set.get(context=context, source=source).pk)
+            terms.append(added.pk)
             code = 200
             results = render_to_string(
                 "snippets/glossary.html",

@@ -486,10 +486,40 @@ class TranslationFormat:
         key: str,
         source: Union[str, List[str]],
         target: Optional[Union[str, List[str]]] = None,
+        skip_build: bool = False,
     ):
         """Add new unit to monolingual store."""
+        # Create backend unit object
         unit = self.create_unit(key, source, target)
+
+        # Add it to the file
         self.add_unit(unit)
+
+        if skip_build:
+            return None
+
+        # Build an unit object
+        if self.has_template:
+            if self.is_template:
+                template_unit = unit
+            else:
+                template_unit = self._find_unit_template(key)
+        else:
+            template_unit = None
+        result = self.unit_class(self, unit, template_unit)
+        mono_unit = self.unit_class(self, None, unit)
+
+        # Update cached lookups
+        if "all_units" in self.__dict__:
+            self.all_units.append(result)
+        if "mono_units" in self.__dict__:
+            self.mono_units.append(mono_unit)
+        if "_source_index" in self.__dict__:
+            self._source_index[(unit.context, unit.source)] = unit
+        if "_context_index" in self.__dict__:
+            self._context_index[mono_unit.context] = mono_unit
+
+        return result
 
     @classmethod
     def get_class(cls):
