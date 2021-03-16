@@ -19,7 +19,7 @@ Options for translation project visibility:
 
 .. seealso::
 
-   :ref:`privileges`,
+   :ref:`access-control`,
    :ref:`workflows`
 
 Translation projects

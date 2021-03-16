@@ -7,7 +7,8 @@ This works even if it has been changed in the meantime.
 
 .. note::
 
-    The available options might be limited by :ref:`privileges`.
+    The available options might be limited by
+    :ref:`access control <access-control>` settings.
 
 Downloading translations
 ------------------------
