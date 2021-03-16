@@ -256,24 +256,22 @@ class MachineTranslation:
                     text = text.replace(source, target)
                 result[key] = text
 
+    def get_variants(self, language):
+        code = self.convert_language(language)
+        yield code
+        if not isinstance(code, str):
+            return
+        code = code.replace("-", "_")
+        if "_" in code:
+            yield code.split("_")[0]
+
     def get_languages(self, source_language, target_language):
-        def get_variants(language):
-            code = self.convert_language(language)
-            yield code
-            if not isinstance(code, str):
-                return
-            code = code.replace("-", "_")
-            if "_" in code:
-                yield code.split("_")[0]
 
         if source_language == target_language and not self.same_languages:
             raise UnsupportedLanguage("Same languages")
 
-        source_variants = get_variants(source_language)
-        target_variants = get_variants(target_language)
-
-        for source in source_variants:
-            for target in target_variants:
+        for source in self.get_variants(source_language):
+            for target in self.get_variants(target_language):
                 if self.is_supported(source, target):
                     return source, target
 

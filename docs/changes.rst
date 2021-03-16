@@ -8,6 +8,7 @@ Not yet released.
 * Ignore format strings in the :ref:`check-duplicate` check.
 * Allow uploading screenshot from a translate page.
 * Added forced file synchronization to the repository maintenance.
+* Fixed automatic suggestions for languages with a longer code.
 
 Weblate 4.5.1
 -------------
