@@ -67,6 +67,10 @@ class MockTranslation:
         self.is_template = False
         self.is_source = False
 
+    @staticmethod
+    def log_debug(text, *args):
+        return text % args
+
 
 class MockUnit:
     """Mock unit object."""
