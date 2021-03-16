@@ -127,8 +127,8 @@ Verbose project name, used to display the project name.
 
 .. _project-slug:
 
-Project slug
-++++++++++++
+URL slug
+++++++++
 
 Project name suitable for URLs.
 
@@ -139,13 +139,6 @@ Project website
 
 URL where translators can find more info about the project.
 
-.. _project-mail:
-
-Mailing list
-++++++++++++
-
-Mailing list where translators can discuss or comment translations.
-
 .. _project-instructions:
 
 Translation instructions
@@ -155,8 +148,8 @@ URL to more site with more detailed instructions for translators.
 
 .. _project-set_language_team:
 
-Set Language-Team header
-++++++++++++++++++++++++
+Set "Language-Team" header
+++++++++++++++++++++++++++
 
 Whether Weblate should manage the ``Language-Team`` header (this is a
 :ref:`gettext` only feature right now).
