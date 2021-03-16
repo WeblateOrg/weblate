@@ -608,7 +608,7 @@ def translate(request, project, component, lang):  # noqa: C901
     screenshot_form = None
     if request.user.has_perm("screenshot.add", unit.translation):
         screenshot_form = ScreenshotForm(
-            obj.component, initial={"translation": unit.translation}
+            unit.translation.component, initial={"translation": unit.translation}
         )
 
     return render(
