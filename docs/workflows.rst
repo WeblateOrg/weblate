@@ -13,9 +13,9 @@ You can base other workflows on the most usual examples listed here.
 Translation access
 ------------------
 
-The :ref:`access control <access-control>` in general is not much discussed in
-the workflows as most of its option can be applied to any workflow. Please
-consult that documentation for information on how to manage access to
+The :ref:`access control <access-control>` is not discussed in detail as a whole in
+the workflows, as most of its options can be applied to any workflow. Please
+consult the respective documentation on how to manage access to
 translations.
 
 In the following chapters, *any user* means a user who has access to the
