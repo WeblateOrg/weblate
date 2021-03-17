@@ -680,7 +680,7 @@ Turn on/off the :guilabel:`Share` menu so users can share translation progress o
 .. setting:: GET_HELP_URL
 
 GET_HELP_URL
------------
+------------
 
 .. versionadded:: 4.5.2
 
