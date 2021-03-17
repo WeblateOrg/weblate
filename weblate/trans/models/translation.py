@@ -82,7 +82,7 @@ class TranslationManager(models.Manager):
             translation.save(update_fields=["filename", "language_code"])
         flags = ""
         if (not component.edit_template and translation.is_template) or (
-            not translation.is_template and translation.is_source
+            not component.has_template() and translation.is_source
         ):
             flags = "read-only"
         if translation.check_flags != flags:
