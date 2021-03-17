@@ -5,6 +5,8 @@
 
 INSTALL_DIR=`mktemp -d`
 
+chmod 755 "$INSTALL_DIR"
+
 trap "rm -rf $INSTALL_DIR" EXIT
 
 # Do setup.py install
