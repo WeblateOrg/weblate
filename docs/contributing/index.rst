@@ -16,12 +16,6 @@ Here in the documentation, click :guilabel:`Edit on GitHub` atop the page to do 
 if you know something is wrong or have an issue with the documentation, but not how to fix it.
 Remove the template stuff; a link and description will do.
 
-.. _translating-weblate:
-
-.. _contributing-docs:
-
-.. _funding-weblate:
-
 Funding
 -------
 
