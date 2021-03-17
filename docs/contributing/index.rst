@@ -16,6 +16,13 @@ Here in the documentation, click :guilabel:`Edit on GitHub` atop the page to do 
 if you know something is wrong or have an issue with the documentation, but not how to fix it.
 Remove the template stuff; a link and description will do.
 
+Graphics
+--------
+The visuals are in https://github.com/WeblateOrg/graphics
+
+`Simple Icons issue https://github.com/simple-icons/simple-icons/issues/5085>`_
+`Fork Awesome issue https://github.com/ForkAwesome/Fork-Awesome/issues/218#issuecomment-611892888>`_
+
 Funding
 -------
 
