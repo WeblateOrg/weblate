@@ -1067,9 +1067,9 @@ Example SSL configuration:
 Site integration
 ~~~~~~~~~~~~~~~~
 
-.. envvar:: WEBLATE_SUPPORT_URL
+.. envvar:: WEBLATE_GET_HELP_URL
 
-   Configures :setting:`SUPPORT_URL`.
+   Configures :setting:`GET_HELP_URL`.
 
 .. envvar:: WEBLATE_STATUS_URL
 

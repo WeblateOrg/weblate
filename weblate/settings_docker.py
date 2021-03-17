@@ -1198,7 +1198,7 @@ LOCALIZE_CDN_URL = os.environ.get("WEBLATE_LOCALIZE_CDN_URL", None)
 LOCALIZE_CDN_PATH = os.environ.get("WEBLATE_LOCALIZE_CDN_PATH", None)
 
 # Integration links
-SUPPORT_URL = os.environ.get("WEBLATE_SUPPORT_URL", None)
+GET_HELP_URL = os.environ.get("WEBLATE_GET_HELP_URL", None)
 STATUS_URL = os.environ.get("WEBLATE_STATUS_URL", None)
 LEGAL_URL = os.environ.get("WEBLATE_LEGAL_URL", None)
 

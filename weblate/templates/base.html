@@ -265,8 +265,8 @@ var _rollbarConfig = {
             {% if not has_support %}
               <li><a href="https://weblate.org/support/">{% trans "Get support" %}</a></li>
             {% endif %}
-            {% if support_url %}
-              <li><a href="{{ support_url }}">{% trans "Support" %}</a></li>
+            {% if get_help_url %}
+              <li><a href="{{ get_help_url }}">{% trans "Get help" %}</a></li>
             {% endif %}
             <li><a href="{% url 'contact' %}">{% trans "Contact" %}</a></li>
             <li><a href="{% url 'about' %}">{% blocktrans %}About Weblate{% endblocktrans %}</a></li>

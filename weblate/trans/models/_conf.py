@@ -76,7 +76,7 @@ class WeblateConf(AppConf):
     GOOGLE_ANALYTICS_ID = None
 
     # Link for support portal
-    SUPPORT_URL = None
+    GET_HELP_URL = None
 
     # URL with status monitoring
     STATUS_URL = None
