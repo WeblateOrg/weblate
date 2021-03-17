@@ -1892,6 +1892,15 @@ SUGGESTION_CLEANUP_DAYS
 Automatically deletes suggestions after a given number of days.
 Defaults to ``None``, meaning no deletions.
 
+.. setting:: SUPPORT_URL
+
+SUPPORT_URL
+-----------
+
+.. versionadded:: 4.5.2
+
+URL where support for your Weblate instance can be found.
+
 .. setting:: UPDATE_LANGUAGES
 
 UPDATE_LANGUAGES

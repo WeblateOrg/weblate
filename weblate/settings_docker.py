@@ -1197,6 +1197,11 @@ WEBLATE_GPG_IDENTITY = os.environ.get("WEBLATE_GPG_IDENTITY", None)
 LOCALIZE_CDN_URL = os.environ.get("WEBLATE_LOCALIZE_CDN_URL", None)
 LOCALIZE_CDN_PATH = os.environ.get("WEBLATE_LOCALIZE_CDN_PATH", None)
 
+# Integration links
+SUPPORT_URL = os.environ.get("WEBLATE_SUPPORT_URL", None)
+STATUS_URL = os.environ.get("WEBLATE_STATUS_URL", None)
+LEGAL_URL = os.environ.get("WEBLATE_LEGAL_URL", None)
+
 # Third party services integration
 MATOMO_SITE_ID = os.environ.get("WEBLATE_MATOMO_SITE_ID", None)
 MATOMO_URL = os.environ.get("WEBLATE_MATOMO_URL", None)
