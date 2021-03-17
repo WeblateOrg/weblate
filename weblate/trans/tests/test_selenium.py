@@ -504,9 +504,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         # Upload screenshot
         self.driver.find_element(By.ID, "id_name").send_keys("Automatic translation")
         element = self.driver.find_element(By.ID, "id_image")
-        element.send_keys(
-            element._upload(get_test_file("screenshot.png"))  # noqa: SLF001
-        )
+        element.send_keys(get_test_file("screenshot.png"))
         with self.wait_for_page_load():
             element.submit()
 
@@ -1011,7 +1009,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
 
         # Upload font
         element = self.driver.find_element(By.ID, "id_font")
-        element.send_keys(element._upload(FONT))  # noqa: SF01,SLF001
+        element.send_keys(FONT)
         with self.wait_for_page_load():
             self.click(htmlid="upload_font_submit")
 
@@ -1022,7 +1020,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
 
         # Upload second font
         element = self.driver.find_element(By.ID, "id_font")
-        element.send_keys(element._upload(SOURCE_FONT))  # noqa: SF01,SLF001
+        element.send_keys(SOURCE_FONT)
         with self.wait_for_page_load():
             self.click(htmlid="upload_font_submit")
 
