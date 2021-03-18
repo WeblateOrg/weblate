@@ -40,9 +40,7 @@ jobs:
       - name: Used versions
         run: ./ci/print-versions
       - name: Install pip dependencies
-        run: |
-          ./ci/pip-install
-          pip install --upgrade -r requirements-dist.txt
+        run: ./ci/pip-install
       - name: Setup install and test
         run: ./ci/run-setup
       - name: Coverage
@@ -77,9 +75,7 @@ jobs:
         with:
           python-version: 3.9
       - name: Install pip dependencies
-        run: |
-          ./ci/pip-install
-          pip install --upgrade -r requirements-dist.txt
+        run: ./ci/pip-install
       - name: Compile messages
         run: coverage run ./manage.py compilemessages
       - name: Build sdist
