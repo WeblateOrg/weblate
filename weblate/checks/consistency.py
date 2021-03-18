@@ -79,6 +79,7 @@ class ConsistencyCheck(TargetCheck):
     )
     ignore_untranslated = False
     propagates = True
+    batch_project_wide = True
 
     def check_target_unit(self, sources, targets, unit):
         component = unit.translation.component
