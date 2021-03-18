@@ -394,6 +394,7 @@ def create_component(addons_from=None, in_task=False, **kwargs):
 @app.task(trail=False)
 def update_checks(pk):
     component = Component.objects.get(pk=pk)
+    component.batch_checks = True
     for translation in component.translation_set.exclude(
         pk=component.source_translation.pk
     ).iterator():
@@ -403,6 +404,7 @@ def update_checks(pk):
         unit.run_checks()
     for translation in component.translation_set.iterator():
         translation.invalidate_cache()
+    component.run_batched_checks()
 
 
 @app.task(trail=False)
