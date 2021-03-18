@@ -353,6 +353,7 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
         propagate_checks: Optional[bool] = None,
         force_insert: bool = False,
         force_update: bool = False,
+        only_save: bool = False,
         using=None,
         update_fields: Optional[List[str]] = None,
     ):
@@ -370,6 +371,8 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
             using=using,
             update_fields=update_fields,
         )
+        if only_save:
+            return
 
         # Set source_unit for source units
         if self.is_source and not self.source_unit:
@@ -574,7 +577,7 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
             )
         self.source_unit = source_unit
 
-    def update_from_unit(self, unit, pos, created):
+    def update_from_unit(self, unit, pos, created):  # noqa: C901
         """Update Unit from ttkit unit."""
         translation = self.translation
         component = translation.component
@@ -643,23 +646,23 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
         # Update checks on fuzzy update or on content change
         same_target = target == self.target
         same_state = state == self.state and flags == self.flags
-
-        # Check if we actually need to change anything
-        # pylint: disable=too-many-boolean-expressions
-        if (
+        same_metadata = (
+            location == self.location and note == self.note and pos == self.position
+        )
+        same_data = (
             not created
             and same_source
             and same_target
             and same_state
             and original_state == self.original_state
-            and location == self.location
             and flags == self.flags
-            and note == self.note
-            and pos == self.position
             and previous_source == self.previous_source
             and self.source_unit == old_source_unit
             and old_source_unit is not None
-        ):
+        )
+
+        # Check if we actually need to change anything
+        if same_data and same_metadata:
             return
 
         # Store updated values
@@ -674,6 +677,12 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
         self.note = note
         self.previous_source = previous_source
         self.update_priority(save=False)
+
+        # Metadata update only, these do not trigger any actions in Weblate and
+        # are display only
+        if same_data and not same_metadata:
+            self.save(same_content=True, only_save=True)
+            return
 
         # Sanitize number of plurals
         if self.is_plural:

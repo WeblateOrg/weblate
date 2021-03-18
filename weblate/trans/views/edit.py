@@ -926,24 +926,18 @@ def new_unit(request, project, component, lang):
     if not form.is_valid():
         show_form_errors(request, form)
     else:
-        # This is slow way of detecting unit, add_units should directly
-        # create the database units, return them and they should be saved to
-        # file as regular pending ones.
-        existing = list(translation.unit_set.values_list("pk", flat=True))
-        translation.add_units(request, [form.as_tuple()])
+        new_unit = translation.add_unit(request, *form.as_tuple())
         messages.success(request, _("New string has been added."))
-        new_units = translation.unit_set.exclude(pk__in=existing)
         if form.cleaned_data["variant"]:
-            for new_unit in new_units:
-                flags = Flags(new_unit.extra_flags)
-                flags.set_value("variant", form.cleaned_data["variant"])
-                new_unit.extra_flags = flags.format()
-                new_unit.save(
-                    update_fields=["extra_flags"],
-                    same_content=True,
-                    run_checks=False,
-                )
-                return redirect(new_unit)
+            flags = Flags(new_unit.extra_flags)
+            flags.set_value("variant", form.cleaned_data["variant"])
+            new_unit.extra_flags = flags.format()
+            new_unit.save(
+                update_fields=["extra_flags"],
+                same_content=True,
+                run_checks=False,
+            )
+        return redirect(new_unit)
 
     return redirect(translation)
 

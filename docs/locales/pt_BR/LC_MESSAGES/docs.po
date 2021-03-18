@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-03-16 20:17+0100\n"
-"PO-Revision-Date: 2021-03-16 19:16+0000\n"
+"PO-Revision-Date: 2021-03-17 16:57+0000\n"
 "Last-Translator: Rafael Fontenelle <rafaelff@gnome.org>\n"
 "Language-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/"
 "weblate/documentation/pt_BR/>\n"
@@ -15421,7 +15421,7 @@ msgstr ""
 #: ../../admin/projects.rst:285 ../../admin/projects.rst:843 ../../api.rst:2120
 #: ../../api.rst:2184 ../../api.rst:2280
 msgid "Component slug"
-msgstr ""
+msgstr "URL amigável do componente"
 
 #: ../../admin/projects.rst:287
 msgid "Component name suitable for URLs."
@@ -15547,7 +15547,7 @@ msgstr ""
 #: ../../admin/projects.rst:389 ../../devel/gettext.rst:226
 #: ../../formats.rst:369
 msgid "File mask"
-msgstr ""
+msgstr "Máscara de arquivo"
 
 #: ../../admin/projects.rst:391
 msgid ""
@@ -18115,7 +18115,7 @@ msgstr ":ref:`component-language_regex`"
 
 #: ../../api.rst:801
 msgid "Edit a project by a :http:method:`PATCH` request."
-msgstr ""
+msgstr "Edita um projeto por uma solicitação :http:method:`PATCH`."
 
 #: ../../api.rst:805 ../../api.rst:1100 ../../api.rst:1197 ../../api.rst:1280
 #: ../../api.rst:1300 ../../api.rst:1310 ../../api.rst:1320 ../../api.rst:1331
@@ -18130,21 +18130,24 @@ msgstr "URL amigável do componente"
 
 #: ../../api.rst:812
 msgid "Edit a project by a :http:method:`PUT` request."
-msgstr ""
+msgstr "Edita um projeto por uma solicitação :http:method:PUT`."
 
 #: ../../api.rst:821
 msgid "Deletes a project."
-msgstr ""
+msgstr "Exclui um projeto."
 
 #: ../../api.rst:828
 msgid ""
 "Returns a list of project changes. This is essentially a project scoped :"
 "http:get:`/api/changes/` accepting same params."
 msgstr ""
+"Retorna uma lista de alterações no projeto. Este é essencialmente um "
+":http:get:`/api/changes/` no escopo do projeto aceitando os mesmos "
+"parâmetros."
 
 #: ../../api.rst:833 ../../api.rst:1312 ../../api.rst:1759
 msgid "array of component objects; see :http:get:`/api/changes/(int:id)/`"
-msgstr ""
+msgstr "vetor de objetos componentes; veja :http:get:`/api/changes/(int:id)/`"
 
 #: ../../api.rst:837
 msgid ""
@@ -18153,73 +18156,87 @@ msgid ""
 "detailed status use :http:get:`/api/components/(string:project)/(string:"
 "component)/repository/`."
 msgstr ""
+"Retorna informações sobre o status do repositório VCS. Este contém apenas um "
+"resumo geral de todos os repositórios para o projeto. Para obter um status "
+"mais detalhado, use http:get:`/api/components/"
+"(string:project)/(string:component)/repository/`."
 
 #: ../../api.rst:843 ../../api.rst:1403
 msgid "whether there are any pending changes to commit"
-msgstr ""
+msgstr "se há alguma alteração pendente de commit"
 
 #: ../../api.rst:844 ../../api.rst:1404
 msgid "whether there are any upstream changes to merge"
-msgstr ""
+msgstr "se há alguma alteração do upstream para mesclar"
 
 #: ../../api.rst:845 ../../api.rst:1405
 msgid "whether there are any local changes to push"
-msgstr ""
+msgstr "se há alguma alteração local para fazer push"
 
 #: ../../api.rst:860 ../../api.rst:1873
 msgid "Performs given operation on the VCS repository."
-msgstr ""
+msgstr "Realiza a operação dada no repositório VCS."
 
 #: ../../api.rst:865
 msgid ""
 "Operation to perform: one of ``push``, ``pull``, ``commit``, ``reset``, "
 "``cleanup``, ``file-sync``"
 msgstr ""
+"Operação para realizar: uma de ``push``, ``pull``, ``commit``, ``reset``, "
+"``cleanup``, ``file-sync``"
 
 #: ../../api.rst:866 ../../api.rst:1421 ../../api.rst:1884
 msgid "result of the operation"
-msgstr ""
+msgstr "resultado da operação"
 
 #: ../../api.rst:890 ../../api.rst:1006 ../../api.rst:1230 ../../api.rst:1378
 #: ../../api.rst:1445 ../../api.rst:1521
 msgid "**JSON response example:**"
-msgstr ""
+msgstr "**Exemplo de resposta JSON:**"
 
 #: ../../api.rst:908
 msgid "Returns a list of translation components in the given project."
-msgstr ""
+msgstr "Retorna uma lista de componentes de tradução no projeto dado."
 
 #: ../../api.rst:912
 msgid ""
 "array of component objects; see :http:get:`/api/components/(string:project)/"
 "(string:component)/`"
 msgstr ""
+"vetor de objetos componentes; veja :http:get:`/api/components/"
+"(string:project)/(string:component)/`"
 
 #: ../../api.rst:920
 msgid ""
 "The ``zipfile`` and ``docfile`` parameters are now accepted for VCS-less "
 "components, see :ref:`vcs-local`."
 msgstr ""
+"Os parâmetros `` zipfile`` e `` docfile`` agora são aceitos para componentes "
+"sem VCS, veja :ref:`vcs-local`."
 
 #: ../../api.rst:922
 msgid "Creates translation components in the given project."
-msgstr ""
+msgstr "Cria componentes de tradução no projeto dado."
 
 #: ../../api.rst:926
 msgid ""
 "Use :ref:`internal-urls` when creating multiple components from a single VCS "
 "repository."
 msgstr ""
+"Use :ref:`internal-urls` ao criar vários componentes a partir de um único "
+"repositório VCS."
 
 #: ../../api.rst:930
 msgid ""
 "Most of the component creation happens in the background. Check the "
 "``task_url`` attribute of created component and follow the progress there."
 msgstr ""
+"A maior parte da criação de componentes acontece em segundo plano. Verifique "
+"o atributo ``task_url`` do componente criado e siga o progresso por lá."
 
 #: ../../api.rst:936
 msgid "ZIP file to upload into Weblate for translations initialization"
-msgstr ""
+msgstr "Arquivo ZIP para carregar no Weblate para inicialização de traduções"
 
 #: ../../api.rst:937
 msgid "Document to translate"
@@ -18230,6 +18247,8 @@ msgid ""
 "Created component object; see :http:get:`/api/components/(string:project)/"
 "(string:component)/`"
 msgstr ""
+"Objeto componente criado; veja :http:get:`/api/components/"
+"(string:project)/(string:component)/`"
 
 #: ../../api.rst:940
 msgid ""
@@ -18237,26 +18256,29 @@ msgid ""
 "``docfile`` parameters. The data has to be uploaded as :mimetype:`multipart/"
 "form-data`."
 msgstr ""
+"JSON não pode ser usado ao enviar os arquivos usando os parâmetros "
+"``zipfile`` e ``docfile``. Os dados devem ser enviados como :mimetype:`"
+"multipart/form-data`."
 
 #: ../../api.rst:944
 msgid "**CURL form request example:**"
-msgstr ""
+msgstr "**Exemplo de solicitação de formulário com CURL:**"
 
 #: ../../api.rst:957
 msgid "**CURL JSON request example:**"
-msgstr ""
+msgstr "**Exemplo de solicitação JSON com CURL:**"
 
 #: ../../api.rst:1052
 msgid "Returns paginated statistics for all languages within a project."
-msgstr ""
+msgstr "Retorna estatísticas paginadas para todos os idiomas em um projeto."
 
 #: ../../api.rst:1058
 msgid "array of translation statistics objects"
-msgstr ""
+msgstr "vetor de objetos de estatísticas de tradução"
 
 #: ../../api.rst:1059 ../../api.rst:1907
 msgid "language name"
-msgstr ""
+msgstr "nome de idioma"
 
 #: ../../api.rst:1060 ../../api.rst:1898
 msgid "language code"
@@ -18264,7 +18286,7 @@ msgstr "código de idioma"
 
 #: ../../api.rst:1070
 msgid "Returns statistics for a project."
-msgstr ""
+msgstr "Retorna estatísticas para um projeto."
 
 #: ../../api.rst:1084
 msgid "Components"
@@ -18272,22 +18294,24 @@ msgstr "Componentes"
 
 #: ../../api.rst:1088
 msgid "Returns a list of translation components."
-msgstr ""
+msgstr "Retorna uma lista de componentes de tradução."
 
 #: ../../api.rst:1092
 msgid ""
 "Component object attributes are documented at :http:get:`/api/components/"
 "(string:project)/(string:component)/`."
 msgstr ""
+"Os atributos do objeto componente estão documentados em :http:get:`/api/"
+"components/(string:project)/(string:component)/`."
 
 #: ../../api.rst:1096
 msgid "Returns information about translation component."
-msgstr ""
+msgstr "Retorna informações sobre o componente de tradução."
 
 #: ../../api.rst:1102
 msgid ""
 "the translation project; see :http:get:`/api/projects/(string:project)/`"
-msgstr ""
+msgstr "o projeto de tradução; veja :http:get:`/api/projects/(string:project)/`"
 
 #: ../../api.rst:1103 ../../devel/sphinx.rst:32
 msgid ":ref:`component-name`"
@@ -34786,7 +34810,7 @@ msgstr "``component:TEXTO``"
 
 #: ../../user/search.rst:54
 msgid "Component slug, see :ref:`component-slug`."
-msgstr "Slug do componente, veja :ref:`component-slug`."
+msgstr "URL amigável do componente, veja :ref:`component-slug`."
 
 #: ../../user/search.rst:55
 msgid "``project:TEXT``"

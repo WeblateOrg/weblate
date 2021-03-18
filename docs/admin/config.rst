@@ -677,6 +677,15 @@ ENABLE_SHARING
 
 Turn on/off the :guilabel:`Share` menu so users can share translation progress on social networks.
 
+.. setting:: GET_HELP_URL
+
+GET_HELP_URL
+------------
+
+.. versionadded:: 4.5.2
+
+URL where support for your Weblate instance can be found.
+
 .. setting:: GITLAB_CREDENTIALS
 
 GITLAB_CREDENTIALS

@@ -183,6 +183,9 @@ class EditTest(ViewTestCase):
                 Unit.objects.count(),
             )
 
+        # Make sure writing out pending units works
+        self.component.commit_pending("test", None)
+
 
 class EditValidationTest(ViewTestCase):
     def edit(self, **kwargs):

@@ -1064,6 +1064,21 @@ Example SSL configuration:
         :ref:`production-email`,
         :setting:`django:EMAIL_BACKEND`
 
+Site integration
+~~~~~~~~~~~~~~~~
+
+.. envvar:: WEBLATE_GET_HELP_URL
+
+   Configures :setting:`GET_HELP_URL`.
+
+.. envvar:: WEBLATE_STATUS_URL
+
+   Configures :setting:`STATUS_URL`.
+
+.. envvar:: WEBLATE_LEGAL_URL
+
+   Configures :setting:`LEGAL_URL`.
+
 Error reporting
 ~~~~~~~~~~~~~~~
 

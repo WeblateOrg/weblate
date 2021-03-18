@@ -33,16 +33,14 @@ jobs:
           key: ${{ runner.os }}-pip-setup-${{ hashFiles('**/requirements*.txt') }}
       - name: Install apt dependencies
         run: sudo ./ci/apt-install
-      - name: Set up Python 3.7
+      - name: Set up Python
         uses: actions/setup-python@v2.2.1
         with:
-          python-version: 3.7
+          python-version: 3.9
       - name: Used versions
         run: ./ci/print-versions
       - name: Install pip dependencies
-        run: |
-          ./ci/pip-install
-          pip install --upgrade -r requirements-dist.txt
+        run: ./ci/pip-install
       - name: Setup install and test
         run: ./ci/run-setup
       - name: Coverage
@@ -75,11 +73,9 @@ jobs:
       - name: Setup Python
         uses: actions/setup-python@v2.2.1
         with:
-          python-version: 3.8
+          python-version: 3.9
       - name: Install pip dependencies
-        run: |
-          ./ci/pip-install
-          pip install --upgrade -r requirements-dist.txt
+        run: ./ci/pip-install
       - name: Compile messages
         run: coverage run ./manage.py compilemessages
       - name: Build sdist
