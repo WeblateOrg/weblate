@@ -47,7 +47,7 @@ jobs:
         run: diff -ruNqp weblate $(python -c 'import weblate; import os; print(os.path.dirname(weblate.__file__))')
       - name: Collect static files
         run: weblate collectstatic --noinput
-      - name: Run tets
+      - name: Run tests
         run: |
           cd /tmp
           weblate test weblate.trans weblate.lang weblate.accounts weblate.api weblate.billing weblate.utils weblate.gitexport weblate.screenshots weblate.auth weblate.legal weblate.checks weblate.addons weblate.formats weblate.wladmin weblate
