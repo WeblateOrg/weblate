@@ -504,7 +504,10 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         # Upload screenshot
         self.driver.find_element(By.ID, "id_name").send_keys("Automatic translation")
         element = self.driver.find_element(By.ID, "id_image")
-        element.send_keys(get_test_file("screenshot.png"))
+        filename = get_test_file("screenshot.png")
+        if not os.path.exists(filename):
+            raise Exception(f"Test file not found: {filename}")
+        element.send_keys(filename)
         with self.wait_for_page_load():
             element.submit()
 
@@ -1009,6 +1012,8 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
 
         # Upload font
         element = self.driver.find_element(By.ID, "id_font")
+        if not os.path.exists(FONT):
+            raise Exception(f"Test file not found: {FONT}")
         element.send_keys(FONT)
         with self.wait_for_page_load():
             self.click(htmlid="upload_font_submit")
