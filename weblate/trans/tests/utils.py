@@ -53,7 +53,7 @@ def wait_for_celery(timeout=10):
 
 def get_test_file(name):
     """Return filename of test file."""
-    return os.path.join(TEST_DATA, name)
+    return os.path.abspath(os.path.join(TEST_DATA, name))
 
 
 def create_test_user():
