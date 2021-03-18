@@ -123,7 +123,7 @@ class ConsistencyCheck(TargetCheck):
                 reduce(
                     lambda x, y: x
                     | (
-                        Q(source=y["id_hash"])
+                        Q(id_hash=y["id_hash"])
                         & Q(translation__language=y["translation__language"])
                     ),
                     matches,
