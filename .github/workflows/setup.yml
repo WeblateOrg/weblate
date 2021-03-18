@@ -41,16 +41,16 @@ jobs:
         run: ./ci/print-versions
       - name: Install pip dependencies
         run: ./ci/pip-install
-      - name: Setup install and test
-        run: ./ci/run-setup
-      - name: Coverage
+      - name: Install Weblate
+        run: pip install .
+      - name: Check difference
+        run: diff -ruNqp weblate $(python -c 'import weblate; import os; print(os.path.dirname(weblate.__file__))')
+      - name: Collect static files
+        run: weblate collectstatic --noinput
+      - name: Run tets
         run: |
-          coverage combine
-          coverage xml
-      - uses: codecov/codecov-action@v1
-        with:
-          flags: setup
-          name: Setup
+          cd /tmp
+          weblate test weblate.trans weblate.lang weblate.accounts weblate.api weblate.billing weblate.utils weblate.gitexport weblate.screenshots weblate.auth weblate.legal weblate.checks weblate.addons weblate.formats weblate.wladmin weblate
       - name: Stop services
         if: always()
         run: ./ci/services-down ${{ matrix.database }}
