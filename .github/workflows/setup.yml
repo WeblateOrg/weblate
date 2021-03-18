@@ -38,9 +38,10 @@ jobs:
         with:
           python-version: 3.9
       - name: Virtualenv
-        run: virtualenv ~/.venv
-      - name: Virtualenv activate
-        run: . ~/.venv/bin/activate
+        run: |
+          pip install virtualenv
+          virtualenv ~/.venv
+          . ~/.venv/bin/activate
       - name: Used versions
         run: ./ci/print-versions
       - name: Install pip dependencies
