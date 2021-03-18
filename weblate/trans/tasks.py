@@ -397,10 +397,10 @@ def update_checks(pk):
     component.batch_checks = True
     for translation in component.translation_set.exclude(
         pk=component.source_translation.pk
-    ).iterator():
-        for unit in translation.unit_set.iterator():
+    ).prefetch():
+        for unit in translation.unit_set.prefetch():
             unit.run_checks()
-    for unit in component.source_translation.unit_set.iterator():
+    for unit in component.source_translation.unit_set.prefetch():
         unit.run_checks()
     component.invalidate_cache()
     component.run_batched_checks()
