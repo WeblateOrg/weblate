@@ -402,8 +402,7 @@ def update_checks(pk):
             unit.run_checks()
     for unit in component.source_translation.unit_set.iterator():
         unit.run_checks()
-    for translation in component.translation_set.iterator():
-        translation.invalidate_cache()
+    component.invalidate_cache()
     component.run_batched_checks()
 
 
