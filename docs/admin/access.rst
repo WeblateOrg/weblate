@@ -90,7 +90,7 @@ Administration
     Includes all permissions available for the project.
 
 Review (only if :ref:`review workflow <reviews>` is turned on)
-    Can approve translations during the review.
+    Can approve translations during review.
 
 For `Protected` and `Private` projects only:
 
