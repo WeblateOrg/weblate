@@ -11,23 +11,12 @@ jobs:
   setup:
     runs-on: ubuntu-20.04
 
-    strategy:
-      matrix:
-        database: [postgresql]
     env:
-      CI_DATABASE: ${{ matrix.database }}
-      CI_DB_PASSWORD: weblate
-      CI_DB_HOST: 127.0.0.1
-      CI_DB_PORT: "60000"
-      CI_SELENIUM: "1"
-      CI_BASE_DIR: /tmp/weblate-test
-      DJANGO_SETTINGS_MODULE: weblate.settings_test
       PYTHONUNBUFFERED: 1
+      PYTHONWARNINGS: default,ignore:unclosed:ResourceWarning
 
     steps:
       - uses: actions/checkout@v2
-      - name: Start services
-        run: ./ci/services-up ${{ matrix.database }}
       - name: Cache pip
         uses: actions/cache@v2.1.4
         with:
@@ -39,48 +28,56 @@ jobs:
         uses: actions/setup-python@v2.2.1
         with:
           python-version: 3.9
-      - name: Virtualenv
-        run: |
-          pip install virtualenv
-          virtualenv ~/.venv
-          . ~/.venv/bin/activate
       - name: Used versions
         run: ./ci/print-versions
       - name: Install pip dependencies
-        run: |
-          . ~/.venv/bin/activate
-          ./ci/pip-install
+        run: ./ci/pip-install
       - name: Install Weblate
-        run: |
-          . ~/.venv/bin/activate
-          pip install .
+        run: coverage run ./setup.py install
       - name: Check difference
+        run: diff -ruNqp weblate $(python -c 'import weblate; import os; print(os.path.dirname(weblate.__file__))')
+      - name: Coverage
         run: |
-          . ~/.venv/bin/activate
-          diff -ruNqp weblate $(python -c 'import weblate; import os; print(os.path.dirname(weblate.__file__))')
-      - name: Collect static files
-        run: |
-          . ~/.venv/bin/activate
-          weblate collectstatic --noinput
-      - name: Run tests
-        run: |
-          . ~/.venv/bin/activate
-          rm -rf weblate
-          weblate test weblate.trans weblate.lang weblate.accounts weblate.api weblate.billing weblate.utils weblate.gitexport weblate.screenshots weblate.auth weblate.legal weblate.checks weblate.addons weblate.formats weblate.wladmin weblate
-      - uses: actions/upload-artifact@v2.2.2
-        if: always()
+          coverage combine
+          coverage xml
+      - uses: codecov/codecov-action@v1
         with:
-          name: Screenshots
-          path: /tmp/weblate-test/test-images
-      - name: Stop services
-        if: always()
-        run: ./ci/services-down ${{ matrix.database }}
+          flags: setup
+          name: setup
+
+  pip:
+    runs-on: ubuntu-20.04
+
+    env:
+      PYTHONUNBUFFERED: 1
+      PYTHONWARNINGS: default,ignore:unclosed:ResourceWarning
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Cache pip
+        uses: actions/cache@v2.1.4
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-setup-${{ hashFiles('**/requirements*.txt') }}
+      - name: Install apt dependencies
+        run: sudo ./ci/apt-install
+      - name: Set up Python
+        uses: actions/setup-python@v2.2.1
+        with:
+          python-version: 3.9
+      - name: Used versions
+        run: ./ci/print-versions
+      - name: Install pip dependencies
+        run: ./ci/pip-install
+      - name: Install Weblate
+        run: pip install .
+      - name: Check difference
+        run: diff -ruNqp weblate $(python -c 'import weblate; import os; print(os.path.dirname(weblate.__file__))')
 
   dist:
     runs-on: ubuntu-20.04
     env:
-      DJANGO_SETTINGS_MODULE: weblate.settings_test
-      CI_DATABASE: postgresql
+      PYTHONUNBUFFERED: 1
       PYTHONWARNINGS: default,ignore:unclosed:ResourceWarning
 
     steps:
@@ -97,8 +94,6 @@ jobs:
           python-version: 3.9
       - name: Install pip dependencies
         run: ./ci/pip-install
-      - name: Compile messages
-        run: coverage run ./manage.py compilemessages
       - name: Build sdist
         run: coverage run ./setup.py sdist
       - name: Install sdist
