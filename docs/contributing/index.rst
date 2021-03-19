@@ -45,7 +45,7 @@ Please respect these guidelines while writing:
 
     1. Rewrite
     2. Once the rewrite is reviewed, polished, and merged, change the structure of the paragraphs in another PR.
- 
+
 .. hint::
 
     You can `translate the docs <https://hosted.weblate.org/projects/weblate/documentation/>`_.
@@ -66,7 +66,7 @@ Funding Weblate development
 
 You can boost Weblate’s development on the `donate page`_. Funds collected
 there are used to enable gratis hosting for libre software projects and further
-development of Weblate. 
+development of Weblate.
 Please check the `donate page` for options, such
 as funding goals and the rewards you get as a proud funder.
 
