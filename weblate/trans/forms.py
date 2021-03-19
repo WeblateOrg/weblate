@@ -1720,7 +1720,7 @@ class ComponentDiscoverForm(ComponentInitCreateForm):
             self.fields["discovery"].choices.append((i, self.render_choice(value)))
 
     def perform_discovery(self, request, kwargs):
-        if "data" in kwargs:
+        if "data" in kwargs and "create_discovery" in request.session:
             discovered = []
             for i, data in enumerate(request.session["create_discovery"]):
                 item = DiscoveryResult(data)
