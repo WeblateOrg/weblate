@@ -361,7 +361,7 @@ the following rules:
 
 - The restrictions imposed by a group's :guilabel:`Languages` are applied separately,
   when it’s verified if a user has an access to perform certain actions. Namely,
-  it's applied only to actions directly related to translation process itself like
+  it's applied only to actions directly related to the translation process itself like
   reviewing, saving translations, adding suggestions, etc.
 
 .. hint::
