@@ -46,6 +46,8 @@ def edit_context(request, pk):
         if not request.user.has_perm("unit.flag", unit.translation):
             raise PermissionDenied()
         flag = request.POST.get("addflag", request.POST.get("removeflag"))
+        if flag == "terminology" and not unit.is_source:
+            unit = unit.source_unit
         flags = Flags(unit.extra_flags)
         if do_add:
             flags.merge(flag)

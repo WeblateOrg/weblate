@@ -1394,7 +1394,6 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
                         gettext("Mark as forbidden translation"),
                     )
                 )
-        if self.is_source and self.translation.component.is_glossary:
             if "terminology" in flags:
                 result.append(
                     (
