@@ -30,7 +30,7 @@ from PIL import Image
 
 from weblate.screenshots.forms import ScreenshotEditForm, ScreenshotForm, SearchForm
 from weblate.screenshots.models import Screenshot
-from weblate.trans.models import Unit
+from weblate.trans.models import Change, Unit
 from weblate.utils import messages
 from weblate.utils.locale import c_locale
 from weblate.utils.search import parse_query
@@ -91,6 +91,11 @@ class ScreenshotList(ListView, ComponentViewMixin):
                 user=request.user, **self._add_form.cleaned_data
             )
             request.user.profile.increase_count("uploaded")
+            obj.change_set.create(
+                action=Change.ACTION_SCREENSHOT_ADDED,
+                user=request.user,
+                target=obj.name,
+            )
 
             try_add_source(request, obj)
             messages.success(
@@ -136,6 +141,11 @@ class ScreenshotDetail(DetailView):
                 if request.FILES:
                     obj.user = request.user
                     request.user.profile.increase_count("uploaded")
+                    obj.change_set.create(
+                        action=Change.ACTION_SCREENSHOT_UPLOADED,
+                        user=request.user,
+                        target=obj.name,
+                    )
                 self._edit_form.save()
             else:
                 return self.get(request, **kwargs)

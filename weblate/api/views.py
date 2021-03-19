@@ -1321,7 +1321,12 @@ class ScreenshotViewSet(DownloadViewSet, viewsets.ModelViewSet):
                 data=request.data, context={"request": request}
             )
             serializer.is_valid(raise_exception=True)
-            serializer.save(translation=translation, user=request.user)
+            instance = serializer.save(translation=translation, user=request.user)
+            instance.change_set.create(
+                action=Change.ACTION_SCREENSHOT_ADDED,
+                user=request.user,
+                target=instance.name,
+            )
             return Response(serializer.data, status=HTTP_201_CREATED)
 
     def update(self, request, *args, **kwargs):

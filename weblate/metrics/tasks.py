@@ -143,6 +143,15 @@ def collect_users():
             comments=Count("id", filter=Q(action=Change.ACTION_COMMENT)),
             suggestions=Count("id", filter=Q(action=Change.ACTION_SUGGESTION)),
             translations=Count("id", filter=Q(action__in=Change.ACTIONS_CONTENT)),
+            screenshots=Count(
+                "id",
+                filter=Q(
+                    action__in=(
+                        Change.ACTION_SCREENSHOT_ADDED,
+                        Change.ACTION_SCREENSHOT_UPLOADED,
+                    )
+                ),
+            ),
         )
         create_metrics(data, None, None, Metric.SCOPE_USER, user.pk)
 
