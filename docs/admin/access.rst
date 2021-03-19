@@ -174,7 +174,7 @@ additional custom settings for individual component as described in :ref:`custom
 
 One of the main benefits of managing permissions through the Weblate
 user interface is that you can delegate it to other users without giving them
-superuser privilege. In order to do so, add them to the `Administration`
+the superuser privilege. In order to do so, add them to the `Administration`
 group of the project.
 
 .. _custom-acl:
@@ -219,7 +219,7 @@ appropriate :ref:`default groups <default-groups>`:
   else).
 
 You should keep all projects configured as `Public` (see :ref:`acl`), otherwise
-the site-wide permissions provided by membership in `Users` and `Reviewers` groups
+the site-wide permissions provided by membership in the `Users` and `Reviewers` groups
 won't have any effect.
 
 You may also grant some additional permissions of your choice to the default
