@@ -4,13 +4,14 @@ Contributing to Weblate
 =======================
 
 
-There are dozens of ways to contribute in Weblate. Any help is welcomed, be it
-coding, graphics design, documentation or sponsorship:
+There are dozens of ways to improve Weblate. You can choose the one you feel comfortable with, be it
+coding, graphics design, documentation, sponsorship, or an idea:
 
 * :doc:`issues`
 * :doc:`start`
 * :ref:`translating-weblate`
 * :ref:`contributing-docs`
+* :ref:`discussions`
 * :ref:`funding-weblate`
 
 .. _translating-weblate:
@@ -18,17 +19,17 @@ coding, graphics design, documentation or sponsorship:
 Translating Weblate
 -------------------
 
-Weblate is being `translated <https://hosted.weblate.org/>`_ using Weblate itself, feel
-free to take part in the effort of making Weblate available in as many human languages
-as possible.
+Weblate is continually being `translated <https://hosted.weblate.org/>`_ using Weblate itself. Feel
+free to take your part in the effort of making Weblate available in as many human languages
+as possible. It brings Weblate closer to it’s users!
 
 .. _contributing-docs:
 
 Contribute to Weblate documentation
 -----------------------------------
 
-You are welcome to improve any documentation page.
-Do it easily by clicking the :guilabel:`Edit on GitHub` button in the top-right corner of the chosen page.
+You are welcome to improve the documentation page of your choice.
+Do it easily by clicking the :guilabel:`Edit on GitHub` button in the top-right corner of the page.
 
 Please respect these guidelines while writing:
 
@@ -44,16 +45,30 @@ Please respect these guidelines while writing:
 
     1. Rewrite
     2. Once the rewrite is reviewed, polished, and merged, change the structure of the paragraphs in another PR.
+ 
+.. hint::
+
+    You can `translate the docs <https://hosted.weblate.org/projects/weblate/documentation/>`_.
+
+
+.. _discussions:
+
+Weblate discussions
+-------------------
+
+If you have an idea and you are not sure if it’s suitable for an issue, don’t worry. You can join the community in the `discussions <https://github.com/WeblateOrg/weblate/discussions>`_.
+
 
 .. _funding-weblate:
 
 Funding Weblate development
 ---------------------------
 
-You can fund further Weblate development on the `donate page`_. Funds collected
-there are used to fund gratis hosting for libre software projects, and further
-development of Weblate. Please check the `donate page` for details, such
-as funding goals and rewards you can get for being a funder.
+You can boost Weblate’s development on the `donate page`_. Funds collected
+there are used to enable gratis hosting for libre software projects and further
+development of Weblate. 
+Please check the `donate page` for options, such
+as funding goals and the rewards you get as a proud funder.
 
 .. include:: ../../BACKERS.rst
 
