@@ -25,6 +25,7 @@ from rest_framework import serializers
 from weblate.accounts.models import Subscription
 from weblate.addons.models import ADDONS, Addon
 from weblate.auth.models import Group, Permission, Role, User
+from weblate.checks.models import CHECKS
 from weblate.lang.models import Language, Plural
 from weblate.screenshots.models import Screenshot
 from weblate.trans.defines import LANGUAGE_NAME_LENGTH, REPO_LENGTH
@@ -37,11 +38,7 @@ from weblate.trans.models import (
     Translation,
     Unit,
 )
-from weblate.trans.util import (
-    check_upload_method_permissions,
-    cleanup_repo_url,
-    join_plural,
-)
+from weblate.trans.util import check_upload_method_permissions, cleanup_repo_url
 from weblate.utils.site import get_site_url
 from weblate.utils.validators import validate_bitmap
 from weblate.utils.views import create_component_from_doc, create_component_from_zip
@@ -514,6 +511,14 @@ class ComponentSerializer(RemovableSerializer):
             }
         }
 
+    def validate_enforced_checks(self, value):
+        if not isinstance(value, list):
+            raise serializers.ValidationError("Enforced checks has to be a list.")
+        for item in value:
+            if item not in CHECKS:
+                raise serializers.ValidationError(f"Unsupported enforced check: {item}")
+        return value
+
     def to_representation(self, instance):
         """Remove VCS properties if user has no permission for that."""
         result = super().to_representation(instance)
@@ -543,23 +548,31 @@ class ComponentSerializer(RemovableSerializer):
         if "manage_units" not in data and data.get("template"):
             data["manage_units"] = "1"
         if "docfile" in data:
-            fake = create_component_from_doc(self.fixup_request_payload(data))
-            data["template"] = fake.template
-            data["new_base"] = fake.template
-            data["filemask"] = fake.filemask
+            if hasattr(data["docfile"], "name"):
+                fake = create_component_from_doc(self.fixup_request_payload(data))
+                data["template"] = fake.template
+                data["new_base"] = fake.template
+                data["filemask"] = fake.filemask
+                data.pop("docfile")
+            else:
+                # Provide a filemask so that it is not listed as an
+                # error. The validation of docfile will fail later
+                data["filemask"] = "fake.*"
             data["repo"] = "local:"
             data["vcs"] = "local"
             data["branch"] = "main"
-            data.pop("docfile")
         if "zipfile" in data:
-            try:
-                create_component_from_zip(self.fixup_request_payload(data))
-            except BadZipfile:
-                raise serializers.ValidationError("Failed to parse uploaded ZIP file.")
+            if hasattr(data["zipfile"], "name"):
+                try:
+                    create_component_from_zip(self.fixup_request_payload(data))
+                except BadZipfile:
+                    raise serializers.ValidationError(
+                        "Failed to parse uploaded ZIP file."
+                    )
+                data.pop("zipfile")
             data["repo"] = "local:"
             data["vcs"] = "local"
             data["branch"] = "main"
-            data.pop("zipfile")
         # DRF processing
         result = super().to_internal_value(data)
         # Postprocess to inject values
@@ -881,34 +894,39 @@ class UnitWriteSerializer(serializers.ModelSerializer):
         )
 
 
-class MonolingualUnitSerializer(serializers.Serializer):
+class NewUnitSerializer(serializers.Serializer):
+    def as_tuple(self, data=None):
+        raise NotImplementedError()
+
+    def validate(self, attrs):
+        try:
+            data = self.as_tuple(attrs)
+        except KeyError:
+            # Probably some fields validation has failed
+            return attrs
+        self._context["translation"].validate_new_unit_data(*data)
+        return attrs
+
+
+class MonolingualUnitSerializer(NewUnitSerializer):
     key = serializers.CharField()
     value = PluralField()
 
-    def as_tuple(self):
-        return (self.validated_data["key"], self.validated_data["value"], None)
+    def as_tuple(self, data=None):
+        if data is None:
+            data = self.validated_data
+        return (data["key"], data["value"], None)
 
-    def unit_exists(self, obj):
-        return obj.unit_set.filter(context=self.validated_data["key"]).exists()
 
-
-class BilingualUnitSerializer(serializers.Serializer):
+class BilingualUnitSerializer(NewUnitSerializer):
     context = serializers.CharField(required=False)
     source = PluralField()
     target = PluralField()
 
-    def as_tuple(self):
-        return (
-            self.validated_data.get("context", ""),
-            self.validated_data["source"],
-            self.validated_data["target"],
-        )
-
-    def unit_exists(self, obj):
-        return obj.unit_set.filter(
-            context=self.validated_data.get("context", ""),
-            source=join_plural(self.validated_data["source"]),
-        ).exists()
+    def as_tuple(self, data=None):
+        if data is None:
+            data = self.validated_data
+        return (data.get("context", ""), data["source"], data["target"])
 
 
 class ScreenshotSerializer(RemovableSerializer):

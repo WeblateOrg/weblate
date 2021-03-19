@@ -394,23 +394,30 @@ def create_component(addons_from=None, in_task=False, **kwargs):
 @app.task(trail=False)
 def update_checks(pk):
     component = Component.objects.get(pk=pk)
+    component.batch_checks = True
     for translation in component.translation_set.exclude(
         pk=component.source_translation.pk
-    ).iterator():
-        for unit in translation.unit_set.iterator():
+    ).prefetch():
+        for unit in translation.unit_set.prefetch():
             unit.run_checks()
-    for unit in component.source_translation.unit_set.iterator():
+    for unit in component.source_translation.unit_set.prefetch():
         unit.run_checks()
-    for translation in component.translation_set.iterator():
-        translation.invalidate_cache()
+    component.invalidate_cache()
+    component.run_batched_checks()
 
 
 @app.task(trail=False)
 def daily_update_checks():
-    # Update every component roughly once in a month
-    components = Component.objects.annotate(idmod=F("id") % 30).filter(
-        idmod=date.today().day
-    )
+    components = Component.objects.all()
+    today = date.today()
+    if settings.BACKGROUND_TASKS == "never":
+        return
+    if settings.BACKGROUND_TASKS == "monthly":
+        components = components.annotate(idmod=F("id") % 30).filter(idmod=today.day)
+    elif settings.BACKGROUND_TASKS == "weekly":
+        components = components.annotate(idmod=F("id") % 7).filter(
+            idmod=today.weekday()
+        )
     for component_id in components.values_list("id", flat=True):
         update_checks.delay(component_id)
 

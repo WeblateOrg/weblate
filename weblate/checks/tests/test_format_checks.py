@@ -36,6 +36,7 @@ from weblate.checks.format import (
     PHPFormatCheck,
     PythonBraceFormatCheck,
     PythonFormatCheck,
+    SchemeFormatCheck,
     VueFormattingCheck,
 )
 from weblate.checks.models import Check
@@ -239,6 +240,66 @@ class PHPFormatCheckTest(CheckTestCase):
         self.assertTrue(
             self.check.check_format("%d % string", "%d % other", False, None)
         )
+
+
+class SchemeFormatCheckTest(CheckTestCase):
+    check = SchemeFormatCheck()
+
+    def setUp(self):
+        super().setUp()
+        self.test_highlight = (
+            "scheme-format",
+            "~sstring~d",
+            [(0, 2, "~s"), (8, 10, "~d")],
+        )
+
+    def test_no_format(self):
+        self.assertFalse(self.check.check_format("strins", "string", False, None))
+
+    def test_format(self):
+        self.assertFalse(self.check.check_format("~s string", "~s string", False, None))
+
+    def test_named_format(self):
+        self.assertFalse(
+            self.check.check_format("~0@*~s string", "~0@*~s string", False, None)
+        )
+
+    def test_missing_format(self):
+        self.assertTrue(self.check.check_format("~s string", "string", False, None))
+
+    def test_missing_named_format(self):
+        self.assertTrue(self.check.check_format("~1@*~s string", "string", False, None))
+
+    def test_missing_named_format_ignore(self):
+        self.assertFalse(self.check.check_format("~1@*~s string", "string", True, None))
+
+    def test_wrong_format(self):
+        self.assertTrue(self.check.check_format("~s string", "~c string", False, None))
+
+    def test_double_format(self):
+        self.assertTrue(
+            self.check.check_format("~s string", "~s~s string", False, None)
+        )
+
+    def test_reorder_format(self):
+        self.assertFalse(
+            self.check.check_format(
+                "~1@*~s ~2@*~s string", "~2@*~s ~1@*~s string", False, None
+            )
+        )
+
+    def test_wrong_named_format(self):
+        self.assertTrue(
+            self.check.check_format("~1@*~s string", "~s string", False, None)
+        )
+
+    def test_wrong_tilde_format(self):
+        self.assertTrue(
+            self.check.check_format("~s~~ (0.1~~)", "~s~~ (0.1~x)", False, None)
+        )
+
+    def test_missing_tilde_format(self):
+        self.assertFalse(self.check.check_format("~s~~ ~~", "~s~~ tilde", False, None))
 
 
 class CFormatCheckTest(CheckTestCase):

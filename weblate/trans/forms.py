@@ -55,11 +55,7 @@ from weblate.trans.defines import COMPONENT_NAME_LENGTH, REPO_LENGTH
 from weblate.trans.filter import FILTERS, get_filter_choice
 from weblate.trans.models import Announcement, Change, Component, Label, Project, Unit
 from weblate.trans.specialchars import RTL_CHARS_DATA, get_special_chars
-from weblate.trans.util import (
-    check_upload_method_permissions,
-    is_repo_link,
-    join_plural,
-)
+from weblate.trans.util import check_upload_method_permissions, is_repo_link
 from weblate.trans.validators import validate_check_flags
 from weblate.utils.antispam import is_spam
 from weblate.utils.errors import report_error
@@ -587,7 +583,7 @@ class DownloadForm(forms.Form):
         self.helper.form_tag = False
         self.helper.layout = Layout(
             SearchField("q"),
-            Field("format"),
+            InlineRadios("format"),
         )
 
 
@@ -968,7 +964,7 @@ class NewLanguageOwnerForm(forms.Form):
     """Form for requesting new language."""
 
     lang = forms.MultipleChoiceField(
-        label=_("Languages"), choices=[], widget=SortedSelectMultiple
+        label=_("Languages"), choices=[], widget=forms.SelectMultiple
     )
 
     def get_lang_objects(self):
@@ -986,7 +982,7 @@ class NewLanguageOwnerForm(forms.Form):
 class NewLanguageForm(NewLanguageOwnerForm):
     """Form for requesting new language."""
 
-    lang = forms.ChoiceField(label=_("Language"), choices=[], widget=SortedSelect)
+    lang = forms.ChoiceField(label=_("Language"), choices=[], widget=forms.Select)
 
     def get_lang_objects(self):
         codes = BASIC_LANGUAGES
@@ -1724,7 +1720,7 @@ class ComponentDiscoverForm(ComponentInitCreateForm):
             self.fields["discovery"].choices.append((i, self.render_choice(value)))
 
     def perform_discovery(self, request, kwargs):
-        if "data" in kwargs:
+        if "data" in kwargs and "create_discovery" in request.session:
             discovered = []
             for i, data in enumerate(request.session["create_discovery"]):
                 item = DiscoveryResult(data)
@@ -1968,7 +1964,7 @@ class MatrixLanguageForm(forms.Form):
     """Form for requesting new language."""
 
     lang = forms.MultipleChoiceField(
-        label=_("Languages"), choices=[], widget=SortedSelectMultiple
+        label=_("Languages"), choices=[], widget=forms.SelectMultiple
     )
 
     def __init__(self, component, *args, **kwargs):
@@ -1982,9 +1978,22 @@ class MatrixLanguageForm(forms.Form):
 class NewUnitBaseForm(forms.Form):
     variant = forms.CharField(required=False, widget=forms.HiddenInput)
 
+    def __init__(self, translation, user, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.translation = translation
+        self.user = user
+
+    def clean(self):
+        try:
+            data = self.as_tuple()
+        except KeyError:
+            # Probably some fields validation has failed
+            return
+        self.translation.validate_new_unit_data(*data)
+
 
 class NewMonolingualUnitForm(NewUnitBaseForm):
-    key = forms.CharField(
+    context = forms.CharField(
         label=_("Translation key"),
         help_text=_(
             "Key used to identify string in translation file. "
@@ -1992,7 +2001,7 @@ class NewMonolingualUnitForm(NewUnitBaseForm):
         ),
         required=True,
     )
-    value = PluralField(
+    source = PluralField(
         label=_("Source language text"),
         help_text=_(
             "You can edit this later, as with any other string in "
@@ -2002,17 +2011,14 @@ class NewMonolingualUnitForm(NewUnitBaseForm):
     )
 
     def __init__(self, translation, user, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.fields["key"].widget.attrs["tabindex"] = 99
-        self.fields["value"].widget.attrs["tabindex"] = 100
-        self.fields["value"].widget.profile = user.profile
-        self.fields["value"].initial = Unit(translation=translation, id_hash=0)
+        super().__init__(translation, user, *args, **kwargs)
+        self.fields["context"].widget.attrs["tabindex"] = 99
+        self.fields["source"].widget.attrs["tabindex"] = 100
+        self.fields["source"].widget.profile = user.profile
+        self.fields["source"].initial = Unit(translation=translation, id_hash=0)
 
     def as_tuple(self):
-        return (self.cleaned_data["key"], self.cleaned_data["value"], None)
-
-    def unit_exists(self, obj):
-        return obj.unit_set.filter(context=self.cleaned_data["key"]).exists()
+        return (self.cleaned_data["context"], self.cleaned_data["source"], None)
 
 
 class NewBilingualSourceUnitForm(NewUnitBaseForm):
@@ -2027,7 +2033,7 @@ class NewBilingualSourceUnitForm(NewUnitBaseForm):
     )
 
     def __init__(self, translation, user, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+        super().__init__(translation, user, *args, **kwargs)
         self.fields["context"].widget.attrs["tabindex"] = 99
         self.fields["source"].widget.attrs["tabindex"] = 100
         self.fields["source"].widget.profile = user.profile
@@ -2039,14 +2045,8 @@ class NewBilingualSourceUnitForm(NewUnitBaseForm):
         return (
             self.cleaned_data.get("context", ""),
             self.cleaned_data["source"],
-            self.cleaned_data.get("target", ""),
+            self.cleaned_data.get("target"),
         )
-
-    def unit_exists(self, obj):
-        return obj.unit_set.filter(
-            context=self.cleaned_data.get("context", ""),
-            source=join_plural(self.cleaned_data["source"]),
-        ).exists()
 
 
 class NewBilingualUnitForm(NewBilingualSourceUnitForm):

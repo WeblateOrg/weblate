@@ -19,11 +19,11 @@
 # July Ighor <julyighor@gmail.com>, 2021.
 msgid ""
 msgstr ""
-"Project-Id-Version: Weblate 4.5\n"
+"Project-Id-Version: Weblate 4.5.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
-"POT-Creation-Date: 2021-02-17 14:01+0000\n"
-"PO-Revision-Date: 2021-03-02 13:11+0000\n"
-"Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
+"POT-Creation-Date: 2021-03-16 19:16+0000\n"
+"PO-Revision-Date: 2021-03-16 21:15+0000\n"
+"Last-Translator: Anonymous <noreply@weblate.org>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/"
 "application/uk/>\n"
 "Language: uk\n"
@@ -32,7 +32,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=n==1 ? 3 : n%10==1 && n%100!=11 ? 0 : n"
 "%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 4.5\n"
+"X-Generator: Weblate 4.5.2-dev\n"
 
 #: weblate/accounts/avatar.py:103
 msgctxt "No known user"
@@ -40,12 +40,12 @@ msgid "None"
 msgstr "Невідомо"
 
 #: weblate/accounts/avatar.py:129 weblate/templates/accounts/profile.html:205
-#: weblate/templates/accounts/user.html:15 weblate/templates/base.html:226
+#: weblate/templates/accounts/user.html:15 weblate/templates/base.html:237
 #: weblate/templates/weblate_auth/user_list.html:18
 msgid "User avatar"
 msgstr "Аватар користувача"
 
-#: weblate/accounts/forms.py:77
+#: weblate/accounts/forms.py:78
 msgid ""
 "This e-mail address is already in use. Please supply a different e-mail "
 "address."
@@ -53,49 +53,54 @@ msgstr ""
 "Ця адреса електронної пошти вже використовується. Будь ласка, надайте іншу "
 "адресу електронної пошти."
 
-#: weblate/accounts/forms.py:117
+#: weblate/accounts/forms.py:118
 msgid "This username is already taken. Please choose another."
 msgstr "Таке ім'я користувача вже використовується. Виберіть собі інше."
 
-#: weblate/accounts/forms.py:128 weblate/accounts/forms.py:764
+#: weblate/accounts/forms.py:129 weblate/accounts/forms.py:801
 #: weblate/auth/models.py:316 weblate/templates/manage-access.html:34
 msgid "Full name"
 msgstr "Повне ім’я"
 
-#: weblate/accounts/forms.py:179 weblate/accounts/models.py:533
+#: weblate/accounts/forms.py:180 weblate/accounts/models.py:534
 msgid "Public e-mail"
 msgstr "Загальнодоступна ел. пошта"
 
-#: weblate/accounts/forms.py:276 weblate/accounts/forms.py:351
+#: weblate/accounts/forms.py:287
+#, python-format
+msgid "Component list: %s"
+msgstr "Списки складників: %s"
+
+#: weblate/accounts/forms.py:313 weblate/accounts/forms.py:388
 #: weblate/accounts/templatetags/authnames.py:42 weblate/auth/models.py:322
 #: weblate/templates/manage-access.html:35
 #: weblate/templates/manage/users_check.html:30 weblate/wladmin/forms.py:56
 msgid "E-mail"
 msgstr "Електронна пошта"
 
-#: weblate/accounts/forms.py:277
+#: weblate/accounts/forms.py:314
 msgid "You can add another e-mail address below."
 msgstr "Ви можете додати ще одну адресу ел. пошти нижче."
 
-#: weblate/accounts/forms.py:319
+#: weblate/accounts/forms.py:356
 msgid "Subject"
 msgstr "Тема"
 
-#: weblate/accounts/forms.py:321
+#: weblate/accounts/forms.py:358
 msgid "Your name"
 msgstr "Ваше ім’я"
 
-#: weblate/accounts/forms.py:323
+#: weblate/accounts/forms.py:360
 msgid "Your e-mail"
 msgstr "Ваша електронна пошта"
 
-#: weblate/accounts/forms.py:325 weblate/templates/manage/performance.html:27
+#: weblate/accounts/forms.py:362 weblate/templates/manage/performance.html:27
 #: weblate/templates/manage/performance.html:73
 #: weblate/trans/models/announcement.py:85
 msgid "Message"
 msgstr "Повідомлення"
 
-#: weblate/accounts/forms.py:328
+#: weblate/accounts/forms.py:365
 msgid ""
 "Please contact us in English, otherwise we might be unable to process your "
 "request."
@@ -103,27 +108,27 @@ msgstr ""
 "Будь ласка, пишіть повідомлення англійською мовою, інакше ми можемо не "
 "опрацювати ваш запит."
 
-#: weblate/accounts/forms.py:352
+#: weblate/accounts/forms.py:389
 msgid "Activation e-mail will be sent here."
 msgstr "Тут буде надіслано повідомлення активації."
 
-#: weblate/accounts/forms.py:389
+#: weblate/accounts/forms.py:426
 msgid "Too many failed registration attempts from this location."
 msgstr "Надто багато невдалих спроб реєстрації з цього місця."
 
-#: weblate/accounts/forms.py:396
+#: weblate/accounts/forms.py:433
 msgid "New password"
 msgstr "Новий пароль"
 
-#: weblate/accounts/forms.py:399
+#: weblate/accounts/forms.py:436
 msgid "New password confirmation"
 msgstr "Підтвердження нового пароля"
 
-#: weblate/accounts/forms.py:421
+#: weblate/accounts/forms.py:458
 msgid "Your password has been changed."
 msgstr "Ваш пароль змінено."
 
-#: weblate/accounts/forms.py:447
+#: weblate/accounts/forms.py:484
 #, python-format
 msgctxt ""
 "Question for a mathematics-based CAPTCHA, the %s is an arithmetic problem"
@@ -131,91 +136,91 @@ msgid "What is %s?"
 msgstr "Що таке %s?"
 
 #. Translators: Shown on wrong answer to the mathematics-based CAPTCHA
-#: weblate/accounts/forms.py:459
+#: weblate/accounts/forms.py:496
 msgid "That was not correct, please try again."
 msgstr "Відповідь не правильна. Будь ласка, спробуйте знову."
 
-#: weblate/accounts/forms.py:483
+#: weblate/accounts/forms.py:520
 msgid "Current password"
 msgstr "Поточний пароль"
 
-#: weblate/accounts/forms.py:484
+#: weblate/accounts/forms.py:521
 msgid "Leave empty if you have not yet set a password."
 msgstr "Залиште поле порожнім, якщо не хочете задавати пароль."
 
-#: weblate/accounts/forms.py:496
+#: weblate/accounts/forms.py:533
 msgid "You have entered an invalid password."
 msgstr "Ви ввели неправильний пароль."
 
-#: weblate/accounts/forms.py:509
+#: weblate/accounts/forms.py:546
 msgid "Username or e-mail"
 msgstr "Ім'я користувача або електронна пошта"
 
-#: weblate/accounts/forms.py:510 weblate/accounts/templatetags/authnames.py:41
+#: weblate/accounts/forms.py:547 weblate/accounts/templatetags/authnames.py:41
 msgid "Password"
 msgstr "Пароль"
 
-#: weblate/accounts/forms.py:513
+#: weblate/accounts/forms.py:550
 msgid "Please enter the correct username and password."
 msgstr "Введіть правильне ім’я користувача та пароль."
 
-#: weblate/accounts/forms.py:514
+#: weblate/accounts/forms.py:551
 msgid "This account is inactive."
 msgstr "Цей обліковий запис не активний."
 
-#: weblate/accounts/forms.py:531
+#: weblate/accounts/forms.py:568
 msgid "Too many authentication attempts from this location."
 msgstr "Надто багато спроб автентифікації з цього місця."
 
-#: weblate/accounts/forms.py:616
+#: weblate/accounts/forms.py:653
 msgid "Component wide notifications"
 msgstr "Сповіщення про перекладацькі складники"
 
-#: weblate/accounts/forms.py:621
+#: weblate/accounts/forms.py:658
 msgid "Translation notifications"
 msgstr "Сповіщення з перекладу"
 
-#: weblate/accounts/forms.py:640
+#: weblate/accounts/forms.py:677
 msgid "Use default setting"
 msgstr "Використовувати усталене значення"
 
-#: weblate/accounts/forms.py:666
+#: weblate/accounts/forms.py:703
 msgid "Other projects"
 msgstr "Інші проєкти"
 
-#: weblate/accounts/forms.py:668 weblate/accounts/models.py:475
+#: weblate/accounts/forms.py:705 weblate/accounts/models.py:476
 #: weblate/templates/accounts/profile.html:67
 #: weblate/templates/accounts/user.html:122
 msgid "Watched projects"
 msgstr "Відстежувані проєкти"
 
-#: weblate/accounts/forms.py:670 weblate/templates/accounts/user.html:121
+#: weblate/accounts/forms.py:707 weblate/templates/accounts/user.html:121
 msgid "Managed projects"
 msgstr "Керовані проєкти"
 
-#: weblate/accounts/forms.py:672
+#: weblate/accounts/forms.py:709
 msgid "Project: {}"
 msgstr "Проєкт: {}"
 
-#: weblate/accounts/forms.py:673
+#: weblate/accounts/forms.py:710
 msgid "Component: {}"
 msgstr "Складник: {}"
 
-#: weblate/accounts/forms.py:679
+#: weblate/accounts/forms.py:716
 msgid ""
 "You will receive a notification for every such event in non-watched projects."
 msgstr ""
 "Ви отримуватимете сповіщення про кожну з цих подій у проєктах, за якими ви "
 "не стежите."
 
-#: weblate/accounts/forms.py:684
+#: weblate/accounts/forms.py:721
 msgid ""
 "You will receive a notification for every such event in your watched "
 "projects."
 msgstr ""
 "Ви отримуватимете сповіщення про кожну з цих подій у відстежуваних проєктах."
 
-#: weblate/accounts/forms.py:689
+#: weblate/accounts/forms.py:726
 msgid ""
 "You will receive a notification for every such event in projects where you "
 "have admin permissions."
@@ -223,18 +228,18 @@ msgstr ""
 "Ви будете отримувати повідомлення про кожну подію у проєктах, де у вас є "
 "права доступу адміністратора."
 
-#: weblate/accounts/forms.py:694
+#: weblate/accounts/forms.py:731
 #, python-format
 msgid "You will receive a notification for every such event in %(project)s."
 msgstr "Ви будете отримувати повідомлення про кожну таку подію у %(project)s."
 
-#: weblate/accounts/forms.py:697
+#: weblate/accounts/forms.py:734
 #, python-format
 msgid "You will receive a notification for every such event in %(component)s."
 msgstr ""
 "Ви будете отримувати повідомлення про кожну таку подію у %(component)s."
 
-#: weblate/accounts/forms.py:704
+#: weblate/accounts/forms.py:741
 msgid ""
 "You will only receive these notifications for your translated languages in "
 "non-watched projects."
@@ -242,7 +247,7 @@ msgstr ""
 "Ви отримуватимете ці сповіщення лише для мов, якими ви перекладаєте, у "
 "проєктах, за якими ви не стежите."
 
-#: weblate/accounts/forms.py:709
+#: weblate/accounts/forms.py:746
 msgid ""
 "You will only receive these notifications for your translated languages in "
 "your watched projects."
@@ -250,7 +255,7 @@ msgstr ""
 "Ви отримуватимете ці сповіщення лише для мов, на які ви перекладаєте у "
 "відстежуваних вами проєктах."
 
-#: weblate/accounts/forms.py:714
+#: weblate/accounts/forms.py:751
 msgid ""
 "You will only receive these notifications for your translated languages in "
 "projects where you have admin permissions."
@@ -258,7 +263,7 @@ msgstr ""
 "Ви будете отримувати ці сповіщення лише для ваших мов перекладу у проєктах, "
 "де ви маєте права адміністратора."
 
-#: weblate/accounts/forms.py:719
+#: weblate/accounts/forms.py:756
 #, python-format
 msgid ""
 "You will only receive these notifications for your translated languages in "
@@ -267,7 +272,7 @@ msgstr ""
 "Ви будете отримувати ці сповіщення лише для ваших мов перекладу у "
 "%(project)s."
 
-#: weblate/accounts/forms.py:723
+#: weblate/accounts/forms.py:760
 #, python-format
 msgid ""
 "You will only receive these notifications for your translated languages in "
@@ -276,165 +281,165 @@ msgstr ""
 "Ви будете отримувати ці сповіщення лише для ваших мов перекладу у "
 "%(component)s."
 
-#: weblate/accounts/forms.py:763 weblate/auth/models.py:305
+#: weblate/accounts/forms.py:800 weblate/auth/models.py:305
 #: weblate/templates/manage-access.html:33 weblate/utils/forms.py:42
 msgid "Username"
 msgstr "Ім'я користувача"
 
-#: weblate/accounts/forms.py:765 weblate/auth/models.py:339
+#: weblate/accounts/forms.py:802 weblate/auth/models.py:339
 #: weblate/templates/manage/users_check.html:25
 msgid "Date joined"
 msgstr "Дата приєднання"
 
-#: weblate/accounts/forms.py:766 weblate/templates/about/stats.html:101
+#: weblate/accounts/forms.py:803 weblate/templates/about/stats.html:101
 msgid "Translations made"
 msgstr "Зроблені переклади"
 
-#: weblate/accounts/forms.py:767 weblate/templates/about/stats.html:97
+#: weblate/accounts/forms.py:804 weblate/templates/about/stats.html:97
 msgid "Suggestions made"
 msgstr "Зроблені пропозиції"
 
-#: weblate/accounts/forms.py:768
+#: weblate/accounts/forms.py:805
 msgid "Comments made"
 msgstr "Додано коментарі"
 
-#: weblate/accounts/forms.py:769
+#: weblate/accounts/forms.py:806
 msgid "Screenshots uploaded"
 msgstr "Знімки вивантажено"
 
-#: weblate/accounts/forms.py:792
+#: weblate/accounts/forms.py:829
 msgid "Chosen sorting is not supported."
 msgstr "Підтримки вибраного упорядковування не передбачено."
 
-#: weblate/accounts/models.py:141
+#: weblate/accounts/models.py:142
 msgid "Password changed."
 msgstr "Пароль змінено."
 
-#: weblate/accounts/models.py:142
+#: weblate/accounts/models.py:143
 #, python-brace-format
 msgid "Username changed from {old} to {new}."
 msgstr "Ім'я користувача було змінено з {old} на {new}."
 
-#: weblate/accounts/models.py:143
+#: weblate/accounts/models.py:144
 #, python-brace-format
 msgid "E-mail changed from {old} to {new}."
 msgstr "Е-пошту змінено з {old} на {new}."
 
-#: weblate/accounts/models.py:144
+#: weblate/accounts/models.py:145
 #, python-brace-format
 msgid "Full name changed from {old} to {new}."
 msgstr "Повну назву було змінено з {old} на {new}."
 
-#: weblate/accounts/models.py:145
+#: weblate/accounts/models.py:146
 msgid "Password reset requested."
 msgstr "Подано запит на відновлення пароля."
 
-#: weblate/accounts/models.py:146
+#: weblate/accounts/models.py:147
 msgid "Password reset confirmed, password turned off."
 msgstr "Відновлення пароля підтверджено і пароль вимкнено."
 
-#: weblate/accounts/models.py:147
+#: weblate/accounts/models.py:148
 #, python-brace-format
 msgid "Configured sign in using {method} ({name})."
 msgstr "Увійшли за допомогою {method} ({name})."
 
-#: weblate/accounts/models.py:148
+#: weblate/accounts/models.py:149
 #, python-brace-format
 msgid "Removed sign in using {method} ({name})."
 msgstr "Увійшли за допомогою {method} ({name})."
 
-#: weblate/accounts/models.py:149
+#: weblate/accounts/models.py:150
 #, python-brace-format
 msgid "Signed in using {method} ({name})."
 msgstr "Увійшли за допомогою {method} ({name})."
 
-#: weblate/accounts/models.py:150
+#: weblate/accounts/models.py:151
 #, python-brace-format
 msgid "Signed in using {method} ({name}) from a new device."
 msgstr "Увійдено за допомогою {method} ({name}) з нового пристрою."
 
-#: weblate/accounts/models.py:151
-msgid "Somebody has attempted to register with your e-mail."
+#: weblate/accounts/models.py:152
+msgid "Somebody attempted to register with your e-mail."
 msgstr "Хтось спробував зареєструватися з вашим email."
 
-#: weblate/accounts/models.py:152
-msgid "Somebody has attempted to register using your e-mail address."
+#: weblate/accounts/models.py:153
+msgid "Somebody attempted to register using your e-mail address."
 msgstr "Хтось спробував зареєструватися з вашою адресою ел. пошти."
 
-#: weblate/accounts/models.py:153
+#: weblate/accounts/models.py:154
 #, python-brace-format
 msgid "Could not sign in using {method} ({name})."
 msgstr "Не вдалося увійти за допомогою {method} ({name})."
 
-#: weblate/accounts/models.py:154
+#: weblate/accounts/models.py:155
 msgid "Account locked due to many failed sign in attempts."
 msgstr "Обліковий запис заблоковано через безліч спроб входу."
 
-#: weblate/accounts/models.py:155
+#: weblate/accounts/models.py:156
 msgid "Account and all private data removed."
 msgstr "Вилучено профіль та усі особисті дані."
 
-#: weblate/accounts/models.py:156
+#: weblate/accounts/models.py:157
 #, python-brace-format
 msgid "Agreement with Terms of Service {date}."
 msgstr "Угода щодо умов надання послуг {date}."
 
-#: weblate/accounts/models.py:157
+#: weblate/accounts/models.py:158
 #, python-brace-format
 msgid "Invited to Weblate by {username}."
 msgstr "Запрошений у Weblate користувачем {username}."
 
-#: weblate/accounts/models.py:158
+#: weblate/accounts/models.py:159
 msgid "Started trial period."
 msgstr "Розпочато тестовий період."
 
-#: weblate/accounts/models.py:159
+#: weblate/accounts/models.py:160
 #, python-brace-format
 msgid "Sent confirmation mail to {email}."
 msgstr "Надіслано повідомлення щодо підтвердження на адресу {email}."
 
-#: weblate/accounts/models.py:161
+#: weblate/accounts/models.py:162
 msgid ""
-"System created user to track authorship of translations uploaded by other "
-"user."
+"The system created a user to track authorship of translations uploaded by "
+"other user."
 msgstr ""
-"Створений системою запис користувача для стеження за авторством перекладів, "
+"Системою створено запис користувача для стеження за авторством перекладів, "
 "які завантажено іншим користувачем."
 
-#: weblate/accounts/models.py:168
+#: weblate/accounts/models.py:169
 msgid "Configured password to sign in."
 msgstr "Налаштований пароль для входу."
 
-#: weblate/accounts/models.py:169
+#: weblate/accounts/models.py:170
 msgid "Signed in using password."
 msgstr "Вхід за допомогою пароля."
 
-#: weblate/accounts/models.py:170
+#: weblate/accounts/models.py:171
 msgid "Signed in using password from a new device."
 msgstr "Вхід за допомогою пароля з нового пристрою."
 
-#: weblate/accounts/models.py:171
+#: weblate/accounts/models.py:172
 msgid "Could not sign in using password."
 msgstr "Не вдалось увійти за допомогою пароля."
 
-#: weblate/accounts/models.py:176
+#: weblate/accounts/models.py:177
 msgid "To restore access to your account, please reset your password."
 msgstr "Для відновлення доступу до вашого профілю, спершу відновіть пароль."
 
-#: weblate/accounts/models.py:292 weblate/templates/accounts/profile.html:227
+#: weblate/accounts/models.py:293 weblate/templates/accounts/profile.html:227
 #: weblate/templates/manage/users_check.html:48
 msgid "Account activity"
 msgstr "Активність у профілі"
 
-#: weblate/accounts/models.py:345
+#: weblate/accounts/models.py:346
 msgid "Interface Language"
 msgstr "Мова інтерфейсу"
 
-#: weblate/accounts/models.py:352
+#: weblate/accounts/models.py:353
 msgid "Translated languages"
 msgstr "Перекладено мовами"
 
-#: weblate/accounts/models.py:355
+#: weblate/accounts/models.py:356
 msgid ""
 "Choose the languages you can translate to. These will be offered to you on "
 "the dashboard for easier access to your chosen translations."
@@ -442,11 +447,11 @@ msgstr ""
 "Виберіть, на які мови бажаєте здійснювати переклад. Вони будуть "
 "пропонуватися вам у домівці для легкого доступу до вибраних перекладів."
 
-#: weblate/accounts/models.py:362
+#: weblate/accounts/models.py:363
 msgid "Secondary languages"
 msgstr "Допоміжні мови"
 
-#: weblate/accounts/models.py:364
+#: weblate/accounts/models.py:365
 msgid ""
 "Choose languages you can understand, strings in those languages will be "
 "shown in addition to the source string."
@@ -454,23 +459,23 @@ msgstr ""
 "Виберіть мови, які ви розумієте. Рядки, перекладені на ці мови, будуть "
 "відображатися поруч із джерельним рядком."
 
-#: weblate/accounts/models.py:376
+#: weblate/accounts/models.py:377
 msgid "Hide completed translations on the dashboard"
 msgstr "Приховати завершені переклади у домівці"
 
-#: weblate/accounts/models.py:379
+#: weblate/accounts/models.py:380
 msgid "Show secondary translations in the Zen mode"
 msgstr "Показувати переклади на інших мовах у режимі Дзен"
 
-#: weblate/accounts/models.py:382
+#: weblate/accounts/models.py:383
 msgid "Hide source if a secondary translation exists"
 msgstr "Приховати джерельний текст, коли є переклад будь-якою допоміжною мовою"
 
-#: weblate/accounts/models.py:388
+#: weblate/accounts/models.py:389
 msgid "Editor link"
 msgstr "Посилання на редактор"
 
-#: weblate/accounts/models.py:390
+#: weblate/accounts/models.py:391
 msgid ""
 "Enter a custom URL to be used as link to the source code. You can use "
 "{{branch}} for branch, {{filename}} and {{line}} as filename and line "
@@ -480,35 +485,35 @@ msgstr ""
 "джерельного коду. Можна застосовувати {{branch}} для гілки, {{filename}} для "
 "назви файлу, {{line}} номером рядка."
 
-#: weblate/accounts/models.py:399
+#: weblate/accounts/models.py:400
 msgid "Translation editor mode"
 msgstr "Режим редактора перекладу"
 
-#: weblate/accounts/models.py:400
+#: weblate/accounts/models.py:401
 msgid "Full editor"
 msgstr "Повний редактор"
 
-#: weblate/accounts/models.py:400
+#: weblate/accounts/models.py:401
 msgid "Zen mode"
 msgstr "Режим дзен"
 
-#: weblate/accounts/models.py:406
+#: weblate/accounts/models.py:407
 msgid "Zen editor mode"
 msgstr "Режим Zen-редактора"
 
-#: weblate/accounts/models.py:408
+#: weblate/accounts/models.py:409
 msgid "Top to bottom"
 msgstr "Зверху вниз"
 
-#: weblate/accounts/models.py:409
+#: weblate/accounts/models.py:410
 msgid "Side by side"
 msgstr "Пліч-о-пліч"
 
-#: weblate/accounts/models.py:417
+#: weblate/accounts/models.py:418
 msgid "Special characters"
 msgstr "Спеціальні символи"
 
-#: weblate/accounts/models.py:419
+#: weblate/accounts/models.py:420
 msgid ""
 "You can specify additional special visual keyboard characters to be shown "
 "while translating. It can be useful for characters you use frequently, but "
@@ -518,55 +523,55 @@ msgstr ""
 "набірниці при перекладі. Це корисно для знаків, які ви часто вживаєте, але "
 "їх важко набирати на набірниці."
 
-#: weblate/accounts/models.py:425
+#: weblate/accounts/models.py:426
 msgid "Number of nearby strings"
 msgstr "Кількість близьких рядків"
 
-#: weblate/accounts/models.py:429
+#: weblate/accounts/models.py:430
 msgid "Number of nearby strings to show in each direction in the full editor."
 msgstr ""
 "Кількість близьких рядків, які буде показано у обох напрямках у повній "
 "версії редактора."
 
-#: weblate/accounts/models.py:433
+#: weblate/accounts/models.py:434
 msgid "Automatically watch projects on contribution"
 msgstr "Автоматично стежити за проєктами із внеском"
 
-#: weblate/accounts/models.py:436
+#: weblate/accounts/models.py:437
 msgid ""
 "Whenever you translate a string in a project, you will start watching it."
 msgstr ""
 "Якщо ви перекладете рядок у якомусь проєкті, ви автоматично почнете за ним "
 "стежити."
 
-#: weblate/accounts/models.py:446 weblate/templates/dashboard/user.html:20
+#: weblate/accounts/models.py:447 weblate/templates/dashboard/user.html:20
 msgid "Watched translations"
 msgstr "Відстежувані переклади"
 
-#: weblate/accounts/models.py:447 weblate/auth/models.py:137
+#: weblate/accounts/models.py:448 weblate/auth/models.py:137
 #: weblate/templates/dashboard/user.html:23
 #: weblate/trans/models/componentlist.py:70
 msgid "Component lists"
 msgstr "Списки складників"
 
-#: weblate/accounts/models.py:448 weblate/templates/dashboard/user.html:64
+#: weblate/accounts/models.py:449 weblate/templates/dashboard/user.html:66
 #: weblate/trans/models/componentlist.py:69
 msgid "Component list"
 msgstr "Список складників"
 
-#: weblate/accounts/models.py:449 weblate/templates/dashboard/user.html:25
+#: weblate/accounts/models.py:450 weblate/templates/dashboard/user.html:25
 msgid "Suggested translations"
 msgstr "Запропоновані переклади"
 
-#: weblate/accounts/models.py:461
+#: weblate/accounts/models.py:462
 msgid "Default dashboard view"
 msgstr "Усталений вигляд домівки"
 
-#: weblate/accounts/models.py:467
+#: weblate/accounts/models.py:468
 msgid "Default component list"
 msgstr "Усталений список складників"
 
-#: weblate/accounts/models.py:477
+#: weblate/accounts/models.py:478
 #: weblate/templates/snippets/watch-dropdown.html:28
 #: weblate/templates/snippets/watch-dropdown.html:30
 msgid ""
@@ -576,15 +581,15 @@ msgstr ""
 "Для відстежуваних проєктів ви можете отримувати повідомлення, які "
 "відображаються у вашій домівці."
 
-#: weblate/accounts/models.py:485
+#: weblate/accounts/models.py:486
 msgid "Website URL"
 msgstr "Адреса сайта"
 
-#: weblate/accounts/models.py:489
+#: weblate/accounts/models.py:490
 msgid "Liberapay username"
 msgstr "Користувач Liberapay"
 
-#: weblate/accounts/models.py:492
+#: weblate/accounts/models.py:493
 msgid ""
 "Liberapay is a platform to donate money to teams, organizations and "
 "individuals."
@@ -592,11 +597,11 @@ msgstr ""
 "Liberapay — платформа для фінансової підтримки команд, організацій та "
 "окремих осіб."
 
-#: weblate/accounts/models.py:497
+#: weblate/accounts/models.py:498
 msgid "Fediverse URL"
 msgstr "Адреса Fediverse"
 
-#: weblate/accounts/models.py:500
+#: weblate/accounts/models.py:501
 msgid ""
 "Link to your Fediverse profile for federated services like Mastodon or "
 "diaspora*."
@@ -604,55 +609,55 @@ msgstr ""
 "Посилання на ваш профіль fediverse із федерованими службами, подібними до "
 "Mastodon або diaspora*."
 
-#: weblate/accounts/models.py:505
+#: weblate/accounts/models.py:506
 msgid "Code site URL"
 msgstr "Адреса сайта з кодом"
 
-#: weblate/accounts/models.py:507
+#: weblate/accounts/models.py:508
 msgid "Link to your code profile for services like Codeberg or GitLab."
 msgstr ""
 "Пов'яжіть ваш профіль програміста для служб, подібних до Codeberg або GitLab."
 
-#: weblate/accounts/models.py:510
+#: weblate/accounts/models.py:511
 msgid "GitHub username"
 msgstr "Ім'я користувача GitHub"
 
-#: weblate/accounts/models.py:514
+#: weblate/accounts/models.py:515
 msgid "Twitter username"
 msgstr "Ім'я користувача Twitter"
 
-#: weblate/accounts/models.py:518
+#: weblate/accounts/models.py:519
 msgid "LinkedIn profile name"
 msgstr "Назва профілю LinkedIn"
 
-#: weblate/accounts/models.py:519
+#: weblate/accounts/models.py:520
 msgid "Your LinkedIn profile name from linkedin.com/in/profilename"
 msgstr "Назва вашого профілю LinkedIn з linkedin.com/in/назва_профілю"
 
-#: weblate/accounts/models.py:523
+#: weblate/accounts/models.py:524
 #: weblate/templates/screenshots/screenshot_detail.html:29
 #: weblate/templates/screenshots/screenshot_detail.html:57
 msgid "Location"
 msgstr "Розташування"
 
-#: weblate/accounts/models.py:528
+#: weblate/accounts/models.py:529
 msgid "Company"
 msgstr "Компанія"
 
-#: weblate/accounts/models.py:575
+#: weblate/accounts/models.py:576
 msgid ""
 "Please choose which component list you want to display on the dashboard."
 msgstr ""
 "Будь ласка, виберіть складник списку, який ви хочете відобразити на "
 "приладовій панелі."
 
-#: weblate/accounts/models.py:586
+#: weblate/accounts/models.py:587
 msgid "Selecting component list has no effect when not shown on the dashboard."
 msgstr ""
 "Вибір списку складників не має ніякого впливу, коли не відображається на "
 "приладовій панелі."
 
-#: weblate/accounts/models.py:709
+#: weblate/accounts/models.py:725
 msgid ""
 "You can not submit translations as you do not have assigned any e-mail "
 "address."
@@ -734,7 +739,7 @@ msgstr "Згаданий в коментарі"
 
 #. Translators: Notification name
 #: weblate/accounts/notifications.py:579 weblate/templates/translate.html:401
-#: weblate/trans/forms.py:937
+#: weblate/trans/forms.py:933
 msgid "New comment"
 msgstr "Новий коментар"
 
@@ -744,8 +749,8 @@ msgid "Changed string"
 msgstr "Змінено рядок"
 
 #. Translators: Notification name
-#: weblate/accounts/notifications.py:609 weblate/trans/forms.py:2025
-#: weblate/utils/views.py:106
+#: weblate/accounts/notifications.py:609 weblate/trans/forms.py:2054
+#: weblate/utils/views.py:134
 msgid "Translated string"
 msgstr "Перекладено рядок"
 
@@ -833,8 +838,8 @@ msgstr ""
 "Ваш email більше не належить до перевіреного профілю, він був змінений на "
 "{0}."
 
-#: weblate/accounts/views.py:171 weblate/accounts/views.py:843
-#: weblate/accounts/views.py:889 weblate/templates/accounts/reset.html:7
+#: weblate/accounts/views.py:171 weblate/accounts/views.py:875
+#: weblate/accounts/views.py:921 weblate/templates/accounts/reset.html:7
 #: weblate/templates/accounts/reset.html:36
 msgid "Password reset"
 msgstr "Перевстановити пароль"
@@ -843,7 +848,7 @@ msgstr "Перевстановити пароль"
 msgid "Remove account"
 msgstr "Видалити профіль"
 
-#: weblate/accounts/views.py:177 weblate/accounts/views.py:739
+#: weblate/accounts/views.py:177 weblate/accounts/views.py:771
 msgid "User registration"
 msgstr "Реєстрацiя користувача"
 
@@ -855,33 +860,33 @@ msgstr "Не вдалося надіслати повідомлення адмі
 msgid "Your request has been sent, you will shortly hear from us."
 msgstr "Ваш запит надіслано. Невдовзі ви отримаєте від нас відповідь."
 
-#: weblate/accounts/views.py:342
+#: weblate/accounts/views.py:374
 msgid "Your profile has been updated."
 msgstr "Ваш профіль оновлено."
 
-#: weblate/accounts/views.py:377
+#: weblate/accounts/views.py:409
 msgid "User profile"
 msgstr "Профіль користувача"
 
-#: weblate/accounts/views.py:398
+#: weblate/accounts/views.py:430
 msgid "Your account has been removed."
 msgstr "Ваш акаунт було видалено."
 
-#: weblate/accounts/views.py:464
+#: weblate/accounts/views.py:496
 msgid "Too many messages sent, please try again later."
 msgstr "Надіслано забагато повідомлень. Будь ласка, спробуйте знову."
 
-#: weblate/accounts/views.py:492 weblate/templates/accounts/contact.html:6
-#: weblate/templates/accounts/contact.html:20 weblate/templates/base.html:255
+#: weblate/accounts/views.py:524 weblate/templates/accounts/contact.html:6
+#: weblate/templates/accounts/contact.html:23 weblate/templates/base.html:268
 #: weblate/templates/footer.html:13
 msgid "Contact"
 msgstr "Контакти"
 
-#: weblate/accounts/views.py:516 weblate/templates/accounts/hosting.html:8
+#: weblate/accounts/views.py:548 weblate/templates/accounts/hosting.html:8
 msgid "Hosting"
 msgstr "Хостинг"
 
-#: weblate/accounts/views.py:537
+#: weblate/accounts/views.py:569
 msgid ""
 "Seems you've already requested a trial period recently. Please contact us "
 "with your inquiry so we can find the best solution for you."
@@ -889,7 +894,7 @@ msgstr ""
 "Здається, нещодавно ви вже надіслали запит щодо тестового періоду. Будь "
 "ласка, зв'яжіться із нами, і ми знайдемо для вас найкраще рішення."
 
-#: weblate/accounts/views.py:557
+#: weblate/accounts/views.py:589
 msgid ""
 "Your trial period is now up and running; create your translation project and "
 "start Weblating!"
@@ -897,66 +902,66 @@ msgstr ""
 "Ваш тестовий період розпочато. Створіть ваш проєкт перекладу і розпочніть "
 "роботу з Weblate!"
 
-#: weblate/accounts/views.py:563 weblate/templates/accounts/hosting.html:54
+#: weblate/accounts/views.py:595 weblate/templates/accounts/hosting.html:54
 #: weblate/templates/accounts/trial.html:7
 msgid "Gratis trial"
 msgstr "Безкоштовне тестування"
 
-#: weblate/accounts/views.py:657 weblate/templates/403.html:15
+#: weblate/accounts/views.py:689 weblate/templates/403.html:15
 #: weblate/templates/404.html:16 weblate/templates/accounts/login.html:8
 #: weblate/templates/accounts/login.html:29
 #: weblate/templates/accounts/login.html:39
-#: weblate/templates/accounts/redirect.html:7 weblate/templates/base.html:203
+#: weblate/templates/accounts/redirect.html:7 weblate/templates/base.html:214
 msgid "Sign in"
 msgstr "Увійти"
 
-#: weblate/accounts/views.py:684 weblate/wladmin/sites.py:187
+#: weblate/accounts/views.py:716 weblate/wladmin/sites.py:187
 msgid "Thank you for using Weblate."
 msgstr "Дякуємо за використання Weblate."
 
-#: weblate/accounts/views.py:773 weblate/templates/accounts/email.html:17
+#: weblate/accounts/views.py:805 weblate/templates/accounts/email.html:17
 msgid "Register e-mail"
 msgstr "Зареєструвати електронну пошту"
 
-#: weblate/accounts/views.py:788 weblate/accounts/views.py:858
+#: weblate/accounts/views.py:820 weblate/accounts/views.py:890
 msgid "Cannot reset password, e-mail authentication is turned off."
 msgstr ""
 "Неможливо відновити пароль, бо вимкнена перевірка через електронну пошту."
 
-#: weblate/accounts/views.py:819 weblate/templates/accounts/password.html:13
+#: weblate/accounts/views.py:851 weblate/templates/accounts/password.html:13
 #: weblate/templates/accounts/profile.html:133
 #: weblate/wladmin/templates/admin/base.html:12
 msgid "Change password"
 msgstr "Змінити пароль"
 
-#: weblate/accounts/views.py:829
+#: weblate/accounts/views.py:861
 msgid "Password reset has been already completed."
 msgstr "Скидання пароля вже завершено."
 
-#: weblate/accounts/views.py:1035
+#: weblate/accounts/views.py:1067
 msgid "Could not remove user identity"
 msgstr "Не вдалося видалити облікові дані користувача"
 
-#: weblate/accounts/views.py:1045
+#: weblate/accounts/views.py:1077
 msgid "Add another identity by confirming your e-mail address first."
 msgstr ""
 "Додайте новий профіль спершу підтвердивши вашу адресу електронної пошти."
 
-#: weblate/accounts/views.py:1091
+#: weblate/accounts/views.py:1123
 msgid "Could not complete registration."
 msgstr "Не вдалося завершити реєстрацію."
 
-#: weblate/accounts/views.py:1094
+#: weblate/accounts/views.py:1126
 msgid "Please check if you have already registered an account."
 msgstr "Будь ласка, перевірте, чи ваш обліковий запис вже зареєстровано."
 
-#: weblate/accounts/views.py:1096
+#: weblate/accounts/views.py:1128
 msgid "You can also request a new password, if you have lost your credentials."
 msgstr ""
 "Ви також можете надіслати запит щодо нового пароля, якщо ви втратили свої "
 "реєстраційні дані."
 
-#: weblate/accounts/views.py:1106
+#: weblate/accounts/views.py:1138
 msgid ""
 "Try registering again to verify your identity, the verification token "
 "probably expired."
@@ -964,57 +969,57 @@ msgstr ""
 "Спробуйте зареєструватися ще раз, щоб перевірити ваш профіль. Ймовірно, "
 "строк дії ключа перевірки вичерпано."
 
-#: weblate/accounts/views.py:1113
+#: weblate/accounts/views.py:1145
 msgid "Could not authenticate due to invalid session state."
 msgstr "Не вдалося підтвердити автентифікацію через недійсний стан сеансу."
 
-#: weblate/accounts/views.py:1120
+#: weblate/accounts/views.py:1152
 msgid "Got no e-mail address from third party authentication service."
 msgstr "Немає електронної адреси від сторонньої служби автентифікації."
 
-#: weblate/accounts/views.py:1122
+#: weblate/accounts/views.py:1154
 msgid "Please register using e-mail instead."
 msgstr "Будь ласка, зареєструйтеся за допомогою електронної пошти."
 
-#: weblate/accounts/views.py:1129
+#: weblate/accounts/views.py:1161
 msgid "New registrations are turned off."
 msgstr "Нові реєстрації вимкнено."
 
-#: weblate/accounts/views.py:1187
+#: weblate/accounts/views.py:1219
 msgid ""
 "Could not authenticate, probably due to an expired token or connection error."
 msgstr ""
 "Ввійти не вдалося, ймовірно, через закінчення строку дії токена або помилки "
 "з'єднання."
 
-#: weblate/accounts/views.py:1193
+#: weblate/accounts/views.py:1225
 msgid "Authentication cancelled."
 msgstr "Автентифікацію скасовано."
 
-#: weblate/accounts/views.py:1196
+#: weblate/accounts/views.py:1228
 msgid "The server does not allow authentication."
 msgstr "Сервер не дозволяє автентифікацію."
 
-#: weblate/accounts/views.py:1200
+#: weblate/accounts/views.py:1232
 msgid "The supplied e-mail address is already in use for another account."
 msgstr ""
 "Вказану адресу електронної пошти вже використано для реєстрації іншого "
 "облікового запису."
 
-#: weblate/accounts/views.py:1204
+#: weblate/accounts/views.py:1236
 msgid "The supplied username is already in use for another account."
 msgstr "Вказане ім'я користувача вже використано для іншого облікового запису."
 
-#: weblate/accounts/views.py:1209
+#: weblate/accounts/views.py:1241
 msgid "The supplied user identity is already in use for another account."
 msgstr ""
 "Вказаний профіль користувача вже використано для іншого облікового запису."
 
-#: weblate/accounts/views.py:1233 weblate/accounts/views.py:1246
+#: weblate/accounts/views.py:1265 weblate/accounts/views.py:1278
 msgid "Notification settings adjusted."
 msgstr "Налаштування сповіщень скориговано."
 
-#: weblate/accounts/views.py:1251
+#: weblate/accounts/views.py:1283
 msgid ""
 "The notification change link is no longer valid, please sign in to configure "
 "notifications."
@@ -1023,12 +1028,12 @@ msgstr ""
 "сповіщення."
 
 #. Translators: Name of event in the history
-#: weblate/addons/autotranslate.py:34 weblate/templates/translation.html:70
-#: weblate/templates/translation.html:250 weblate/trans/models/change.py:236
+#: weblate/addons/autotranslate.py:35 weblate/templates/translation.html:76
+#: weblate/templates/translation.html:252 weblate/trans/models/change.py:236
 msgid "Automatic translation"
 msgstr "Автоматичний переклад"
 
-#: weblate/addons/autotranslate.py:36
+#: weblate/addons/autotranslate.py:37
 msgid ""
 "Automatically translates strings using machine translation or other "
 "components."
@@ -1036,7 +1041,7 @@ msgstr ""
 "Автоматично перекладає рядки за допомогою машинного перекладу або інших "
 "складників."
 
-#: weblate/addons/base.py:334 weblate/trans/views/create.py:180
+#: weblate/addons/base.py:334 weblate/trans/views/create.py:176
 #: weblate/trans/views/settings.py:110
 msgid ""
 "The repository is outdated, you might not get expected results until you "
@@ -1166,9 +1171,9 @@ msgstr ""
 "включають початкові рядки, навіть ті, які не перекладено."
 
 #: weblate/addons/flags.py:105 weblate/templates/component.html:69
-#: weblate/templates/component.html:217 weblate/templates/project.html:68
-#: weblate/templates/project.html:217 weblate/templates/translation.html:67
-#: weblate/templates/translation.html:289
+#: weblate/templates/component.html:215 weblate/templates/project.html:68
+#: weblate/templates/project.html:219 weblate/templates/translation.html:73
+#: weblate/templates/translation.html:291
 msgid "Bulk edit"
 msgstr "Масове редагування"
 
@@ -1334,8 +1339,8 @@ msgstr "Регулярний вираз для зіставлення файлі
 
 #: weblate/addons/forms.py:241
 #: weblate/templates/trans/alert/unsupportedconfiguration.html:15
-#: weblate/templates/trans/discover-choice.html:5 weblate/trans/forms.py:575
-#: weblate/trans/forms.py:1566 weblate/trans/models/component.py:388
+#: weblate/templates/trans/discover-choice.html:5 weblate/trans/forms.py:573
+#: weblate/trans/forms.py:1591 weblate/trans/models/component.py:388
 msgid "File format"
 msgstr "Формат файлу"
 
@@ -1363,7 +1368,7 @@ msgstr ""
 "Ім'я файлу, використане для створення нових перекладів. Для gettext виберіть "
 "pot-файл."
 
-#: weblate/addons/forms.py:267 weblate/trans/models/component.py:592
+#: weblate/addons/forms.py:267 weblate/trans/models/component.py:582
 msgid "Language filter"
 msgstr "Фільтр мов"
 
@@ -1434,7 +1439,7 @@ msgstr ""
 #: weblate/addons/forms.py:453 weblate/billing/models.py:291
 #: weblate/templates/snippets/query-builder.html:13
 #: weblate/templates/snippets/query-builder.html:15
-#: weblate/templates/translation.html:127 weblate/trans/admin.py:95
+#: weblate/templates/translation.html:133 weblate/trans/admin.py:95
 msgid "Source strings"
 msgstr "Джерельні рядки"
 
@@ -1613,20 +1618,20 @@ msgstr ""
 "Дозволяє налаштовувати поведінку виводу YAML, наприклад, довжину рядка або "
 "нові рядки."
 
-#: weblate/auth/admin.py:138 weblate/auth/admin.py:143
+#: weblate/auth/admin.py:140 weblate/auth/admin.py:145
 msgid "Personal info"
 msgstr "Особисті відомості"
 
-#: weblate/auth/admin.py:139
+#: weblate/auth/admin.py:141
 msgid "Authentication"
 msgstr "Розпізнавання"
 
-#: weblate/auth/admin.py:144 weblate/auth/models.py:75
+#: weblate/auth/admin.py:146 weblate/auth/models.py:75
 #: weblate/auth/models.py:88
 msgid "Permissions"
 msgstr "Дозволи"
 
-#: weblate/auth/admin.py:145
+#: weblate/auth/admin.py:147
 msgid "Important dates"
 msgstr "Важливі дати"
 
@@ -1711,7 +1716,7 @@ msgid "Download reports"
 msgstr "Завантажити звіти"
 
 #. Translators: Permission name
-#: weblate/auth/data.py:66
+#: weblate/auth/data.py:66 weblate/templates/translate.html:598
 msgid "Add screenshot"
 msgstr "Додати знімок"
 
@@ -1728,7 +1733,7 @@ msgid "Delete screenshot"
 msgstr "Видалити знімок"
 
 #. Translators: Permission name
-#: weblate/auth/data.py:72 weblate/templates/translate.html:715
+#: weblate/auth/data.py:72 weblate/templates/translate.html:718
 msgid "Edit additional string info"
 msgstr "Редагувати додаткові відомості про рядок"
 
@@ -2054,7 +2059,7 @@ msgstr "%s (права доступу на рівні сайта)"
 #: weblate/auth/models.py:85 weblate/auth/models.py:110
 #: weblate/templates/fonts/fontgroup_detail.html:18
 #: weblate/templates/manage/performance.html:26
-#: weblate/templates/manage/performance.html:72 weblate/trans/forms.py:1294
+#: weblate/templates/manage/performance.html:72 weblate/trans/forms.py:1314
 msgid "Name"
 msgstr "Назва"
 
@@ -2098,16 +2103,16 @@ msgstr "Зі списку складників"
 #: weblate/billing/models.py:282 weblate/templates/base.html:124
 #: weblate/templates/billing/list.html:11
 #: weblate/templates/billing/status.html:101 weblate/templates/language.html:18
-#: weblate/templates/projects.html:5 weblate/trans/models/project.py:170
-#: weblate/trans/views/basic.py:77
+#: weblate/templates/projects.html:5 weblate/trans/models/project.py:171
+#: weblate/trans/views/basic.py:78
 msgid "Projects"
 msgstr "Проєкти"
 
 #: weblate/auth/models.py:133 weblate/templates/component-list.html:13
 #: weblate/templates/language-project.html:16
 #: weblate/templates/mail/base.html:287 weblate/templates/project.html:30
-#: weblate/trans/forms.py:851 weblate/trans/forms.py:1867
-#: weblate/trans/models/component.py:662
+#: weblate/trans/forms.py:849 weblate/trans/forms.py:1892
+#: weblate/trans/models/component.py:652
 msgid "Components"
 msgstr "Складники"
 
@@ -2115,12 +2120,12 @@ msgstr "Складники"
 msgid "Language selection"
 msgstr "Вибір мови"
 
-#: weblate/auth/models.py:145 weblate/trans/forms.py:952
+#: weblate/auth/models.py:145 weblate/trans/forms.py:948
 msgid "All languages"
 msgstr "Всі мови"
 
 #: weblate/auth/models.py:150 weblate/billing/models.py:315
-#: weblate/lang/models.py:469 weblate/lang/views.py:56
+#: weblate/lang/models.py:475 weblate/lang/views.py:56
 #: weblate/templates/accounts/profile.html:24
 #: weblate/templates/accounts/profile.html:38 weblate/templates/base.html:141
 #: weblate/templates/lang/create.html:6
@@ -2129,7 +2134,7 @@ msgstr "Всі мови"
 #: weblate/templates/languages.html:6 weblate/templates/mail/base.html:272
 #: weblate/templates/mail/base.html:292 weblate/templates/project.html:31
 #: weblate/templates/trans/change_list.html:20 weblate/trans/admin.py:106
-#: weblate/trans/forms.py:971 weblate/trans/forms.py:1942
+#: weblate/trans/forms.py:967 weblate/trans/forms.py:1967
 msgid "Languages"
 msgstr "Мови"
 
@@ -2143,8 +2148,8 @@ msgid ""
 "Username may only contain letters, numbers or the following characters: @ . "
 "+ - _"
 msgstr ""
-"Ім’я користувача може містити лише літери, цифр, або наступні символи: @. + "
-"- _"
+"Ім’я користувача може містити лише букви, цифр, або наступні символи: @. + - "
+"_"
 
 #: weblate/auth/models.py:313
 msgid "A user with that username already exists."
@@ -2177,25 +2182,25 @@ msgid ""
 "The user is granted all permissions included in membership of these groups."
 msgstr "Користувач отримає всі дозволи, надані кожній з цих груп."
 
-#: weblate/auth/models.py:613
+#: weblate/auth/models.py:618
 msgid "Regular expression for e-mail address"
 msgstr "Регулярний вираз для адреси електронної пошти"
 
-#: weblate/auth/models.py:617
+#: weblate/auth/models.py:622
 msgid "Users with e-mail addresses found to match will be added to this group."
 msgstr ""
 "До цієї групи буде додано користувачів із відповідними адресами електронної "
 "пошти."
 
-#: weblate/auth/models.py:621
+#: weblate/auth/models.py:626
 msgid "Group to assign"
 msgstr "Група для призначення"
 
-#: weblate/auth/models.py:625
+#: weblate/auth/models.py:630
 msgid "Automatic group assignment"
 msgstr "Автоматичне призначення групи"
 
-#: weblate/auth/models.py:626
+#: weblate/auth/models.py:631
 msgid "Automatic group assignments"
 msgstr "Автоматичні призначення груп"
 
@@ -2511,11 +2516,11 @@ msgstr "Цей рядок перекладено раніше"
 msgid "Previous translation was \"%s\"."
 msgstr "Попереднім перекладом був «%s."
 
-#: weblate/checks/duplicate.py:45
+#: weblate/checks/duplicate.py:46
 msgid "Consecutive duplicated words"
 msgstr "Послідовне повторення слів"
 
-#: weblate/checks/duplicate.py:46
+#: weblate/checks/duplicate.py:47
 msgid "Text contains the same word twice in a row:"
 msgstr "Текст містить те саме слово двічі поспіль:"
 
@@ -2535,7 +2540,7 @@ msgstr "XML-текст"
 msgid "DOS line endings"
 msgstr "Кінець рядка як у DOS"
 
-#: weblate/checks/flags.py:49 weblate/checks/markup.py:308
+#: weblate/checks/flags.py:49 weblate/checks/markup.py:326
 #: weblate/templates/data.html:29 weblate/templates/data.html:63
 #: weblate/templates/data.html:104 weblate/templates/data.html:138
 msgid "URL"
@@ -2546,7 +2551,7 @@ msgid "Automatically detect Java MessageFormat"
 msgstr "Автоматично виявляти Java MessageFormat"
 
 #: weblate/checks/flags.py:53 weblate/templates/progress.html:5
-#: weblate/templates/snippets/unit-readonly-badge.html:6
+#: weblate/templates/snippets/unit-readonly-badge.html:12
 #: weblate/templates/translate.html:214 weblate/templates/translate.html:231
 msgid "Read only"
 msgstr "Лише читання"
@@ -2581,8 +2586,8 @@ msgstr "Насиченість шрифта"
 msgid "Font spacing"
 msgstr "Щільність шрифта"
 
-#: weblate/checks/flags.py:66 weblate/trans/models/component.py:614
-#: weblate/utils/views.py:103
+#: weblate/checks/flags.py:66 weblate/trans/models/component.py:604
+#: weblate/utils/views.py:131
 msgid "Priority"
 msgstr "Пріоритет"
 
@@ -2614,137 +2619,145 @@ msgstr "Неправильні параметри для прапорця пер
 msgid "Missing parameters for translation flag: \"%s\""
 msgstr "Відсутні параметри для прапорця перекладу: \"%s\""
 
-#: weblate/checks/format.py:343 weblate/checks/placeholders.py:93
+#: weblate/checks/format.py:366 weblate/checks/placeholders.py:93
 #, python-format
 msgid "Following format strings are missing: %s"
 msgstr "Пропущено такі рядки форматування: %s"
 
-#: weblate/checks/format.py:347 weblate/checks/placeholders.py:98
+#: weblate/checks/format.py:370 weblate/checks/placeholders.py:98
 #, python-format
 msgid "Following format strings are extra: %s"
 msgstr "Ці рядки форматування є зайвими: %s"
 
-#: weblate/checks/format.py:398
+#: weblate/checks/format.py:421
 msgid "Python format"
 msgstr "Формат Python"
 
-#: weblate/checks/format.py:399
+#: weblate/checks/format.py:422
 msgid "Python format string does not match source"
 msgstr "Рядок, формату Python, не відповідає джерелу"
 
-#: weblate/checks/format.py:406
+#: weblate/checks/format.py:429
 msgid "PHP format"
 msgstr "Формат PHP"
 
-#: weblate/checks/format.py:407
+#: weblate/checks/format.py:430
 msgid "PHP format string does not match source"
 msgstr "Рядок, формату PHP, не відповідає джерелу"
 
-#: weblate/checks/format.py:414
+#: weblate/checks/format.py:437
 msgid "C format"
 msgstr "Формат C"
 
-#: weblate/checks/format.py:415
+#: weblate/checks/format.py:438
 msgid "C format string does not match source"
 msgstr "Рядок, формату C, не відповідає джерелу"
 
-#: weblate/checks/format.py:422
+#: weblate/checks/format.py:445
 msgid "Perl format"
 msgstr "Формат Perl"
 
-#: weblate/checks/format.py:423
+#: weblate/checks/format.py:446
 msgid "Perl format string does not match source"
 msgstr "Рядок формату Perl не відповідає джерелу"
 
-#: weblate/checks/format.py:430
+#: weblate/checks/format.py:453
 msgid "JavaScript format"
 msgstr "Формат JavaScript"
 
-#: weblate/checks/format.py:431
+#: weblate/checks/format.py:454
 msgid "JavaScript format string does not match source"
 msgstr "Рядок, формату JavaScript, не відповідає джерелу"
 
-#: weblate/checks/format.py:438
+#: weblate/checks/format.py:461
 msgid "Lua format"
 msgstr "Формат Lua"
 
-#: weblate/checks/format.py:439
+#: weblate/checks/format.py:462
 msgid "Lua format string does not match source"
 msgstr "Рядок, формату Lua, не відповідає джерелу"
 
-#: weblate/checks/format.py:446
+#: weblate/checks/format.py:469
+msgid "Scheme format"
+msgstr "Формат Scheme"
+
+#: weblate/checks/format.py:470
+msgid "Scheme format string does not match source"
+msgstr "Рядок форматування Scheme не відповідає джерелу"
+
+#: weblate/checks/format.py:483
 msgid "Python brace format"
 msgstr "Формат дужок Python"
 
-#: weblate/checks/format.py:447
+#: weblate/checks/format.py:484
 msgid "Python brace format string does not match source"
 msgstr "Рядок, формату Python brace, не відповідає джерелу"
 
-#: weblate/checks/format.py:461
+#: weblate/checks/format.py:498
 msgid "C# format"
 msgstr "Формат C#"
 
-#: weblate/checks/format.py:462
+#: weblate/checks/format.py:499
 msgid "C# format string does not match source"
 msgstr "Рядок формату C# не відповідає джерелу"
 
-#: weblate/checks/format.py:476
+#: weblate/checks/format.py:513
 msgid "Java format"
 msgstr "Формат Java"
 
-#: weblate/checks/format.py:477
+#: weblate/checks/format.py:514
 msgid "Java format string does not match source"
 msgstr "Рядок формату Java не відповідає джерелу"
 
-#: weblate/checks/format.py:484
+#: weblate/checks/format.py:521
 msgid "Java MessageFormat"
 msgstr "Формат Java Message"
 
-#: weblate/checks/format.py:485
+#: weblate/checks/format.py:522
 msgid "Java MessageFormat string does not match source"
 msgstr "Рядок формату Java Message не відповідає джерелу"
 
-#: weblate/checks/format.py:516
+#: weblate/checks/format.py:553
 msgid "You need to pair up an apostrophe with another one."
 msgstr "Вам потрібно з’єднати апостроф з іншим."
 
-#: weblate/checks/format.py:522
+#: weblate/checks/format.py:559
 msgid "i18next interpolation"
 msgstr "i18next інтерполяція"
 
-#: weblate/checks/format.py:523
+#: weblate/checks/format.py:560
 msgid "The i18next interpolation does not match source"
 msgstr "Інтерполяція i18next не відповідає джерелу"
 
-#: weblate/checks/format.py:534
+#: weblate/checks/format.py:571
 msgid "ECMAScript template literals"
 msgstr "Літерали шаблонів ECMAScript"
 
-#: weblate/checks/format.py:535
+#: weblate/checks/format.py:572
 msgid "ECMAScript template literals do not match source"
 msgstr "Літерали шаблонів ECMAScript не відповідають джерелу"
 
-#: weblate/checks/format.py:547
+#: weblate/checks/format.py:584
 msgid "Percent placeholders"
 msgstr "Відсоток заповнювачів"
 
-#: weblate/checks/format.py:548
+#: weblate/checks/format.py:585
 msgid "The percent placeholders do not match source"
 msgstr "Відсоток заповнювачів не відповідає джерелам"
 
-#: weblate/checks/format.py:554
+#: weblate/checks/format.py:591
 msgid "Vue I18n formatting"
 msgstr "Форматування I18n Vue"
 
-#: weblate/checks/format.py:555
+#: weblate/checks/format.py:592
 msgid "The Vue I18n formatting does not match source"
 msgstr "Форматування I18n Vue не збігається із початковим рядком"
 
-#: weblate/checks/format.py:561
+#: weblate/checks/format.py:598
 msgid "Multiple unnamed variables"
 msgstr "Декілька змінних без назв"
 
-#: weblate/checks/format.py:563
+#: weblate/checks/format.py:600
 msgid ""
 "There are multiple unnamed variables in the string, making it impossible for "
 "translators to reorder them"
@@ -2765,63 +2778,63 @@ msgstr "Переклад не слідує термінам, які визнач
 msgid "Following terms are not translated according to glossary: %s"
 msgstr "Ці терміни не перекладено так, як це вказано у глосарії: %s"
 
-#: weblate/checks/markup.py:77
+#: weblate/checks/markup.py:95
 msgid "BBcode markup"
 msgstr "Розмітка BBcode"
 
-#: weblate/checks/markup.py:78
+#: weblate/checks/markup.py:96
 msgid "BBcode in translation does not match source"
 msgstr "BB-код у перекладі не збігається з BB-кодом у джерелі"
 
-#: weblate/checks/markup.py:136
+#: weblate/checks/markup.py:154
 msgid "XML syntax"
 msgstr "Синтаксис XML"
 
-#: weblate/checks/markup.py:137
+#: weblate/checks/markup.py:155
 msgid "The translation is not valid XML"
 msgstr "Цей переклад не є правильним XML"
 
-#: weblate/checks/markup.py:164
+#: weblate/checks/markup.py:182
 msgid "XML markup"
 msgstr "Розмітка XML"
 
-#: weblate/checks/markup.py:165
+#: weblate/checks/markup.py:183
 msgid "XML tags in translation do not match source"
 msgstr "Теґи XML у перекладі не збігаються з тегами XML у джерелі"
 
-#: weblate/checks/markup.py:227
+#: weblate/checks/markup.py:245
 msgid "Markdown references"
 msgstr "Markdown посилання"
 
-#: weblate/checks/markup.py:228
+#: weblate/checks/markup.py:246
 msgid "Markdown link references do not match source"
 msgstr "Посилання Markdown не збігаються з джерелом"
 
-#: weblate/checks/markup.py:244
+#: weblate/checks/markup.py:262
 msgid "Markdown links"
 msgstr "Посилання Markdown"
 
-#: weblate/checks/markup.py:245
+#: weblate/checks/markup.py:263
 msgid "Markdown links do not match source"
 msgstr "Посилання Markdown не відповідають джерелу"
 
-#: weblate/checks/markup.py:273
+#: weblate/checks/markup.py:291
 msgid "Markdown syntax"
 msgstr "Синтаксис Markdown"
 
-#: weblate/checks/markup.py:274
+#: weblate/checks/markup.py:292
 msgid "Markdown syntax does not match source"
 msgstr "Синтаксис Markdown не відповідає джерелу"
 
-#: weblate/checks/markup.py:309
+#: weblate/checks/markup.py:327
 msgid "The translation does not contain an URL"
 msgstr "Цей переклад не містить URL"
 
-#: weblate/checks/markup.py:328 weblate/trans/autofixes/html.py:32
+#: weblate/checks/markup.py:346 weblate/trans/autofixes/html.py:32
 msgid "Unsafe HTML"
 msgstr "Небезпечний HTML-код"
 
-#: weblate/checks/markup.py:329
+#: weblate/checks/markup.py:347
 msgid "The translation uses unsafe HTML markup"
 msgstr "Переклад використовує небезпечну HTML-розмітку"
 
@@ -2874,11 +2887,11 @@ msgstr "Формат Ruby"
 msgid "Ruby format string does not match source"
 msgstr "Рядок формату Ruby не збігається з джерелом"
 
-#: weblate/checks/same.py:155
+#: weblate/checks/same.py:157
 msgid "Unchanged translation"
 msgstr "Переклад не змінено"
 
-#: weblate/checks/same.py:156
+#: weblate/checks/same.py:158
 msgid "Source and translation are identical"
 msgstr "Джерело і переклад збігаються"
 
@@ -2921,8 +2934,8 @@ msgstr "Цей рядок вже тривалий час не перекладе
 #: weblate/checks/views.py:85 weblate/templates/component.html:72
 #: weblate/templates/language-project.html:41
 #: weblate/templates/language.html:27 weblate/templates/progress.html:14
-#: weblate/templates/project.html:71 weblate/templates/translation.html:73
-#: weblate/templates/translation.html:438
+#: weblate/templates/project.html:71 weblate/templates/translation.html:79
+#: weblate/templates/translation.html:494
 msgid "Failing checks"
 msgstr "Непройдені перевірки"
 
@@ -2970,14 +2983,14 @@ msgstr ""
 msgid "Font"
 msgstr "Шрифт"
 
-#: weblate/fonts/models.py:137 weblate/lang/models.py:468
+#: weblate/fonts/models.py:137 weblate/lang/models.py:474
 #: weblate/templates/component.html:134
 #: weblate/templates/js/translations.html:7 weblate/templates/languages.html:11
-#: weblate/templates/project.html:167
+#: weblate/templates/project.html:169
 #: weblate/templates/screenshots/screenshot_detail.html:118
 #: weblate/templates/trans/alert/duplicatelanguage.html:41
 #: weblate/templates/trans/alert/duplicatestring.html:10
-#: weblate/trans/forms.py:989 weblate/trans/forms.py:2176
+#: weblate/trans/forms.py:985 weblate/trans/forms.py:2238
 #: weblate/trans/models/announcement.py:104
 msgid "Language"
 msgstr "Мова"
@@ -2988,8 +3001,8 @@ msgid "Unsupported file format."
 msgstr "Формат файлу не підтримується."
 
 #: weblate/fonts/views.py:72 weblate/fonts/views.py:134
-#: weblate/fonts/views.py:146 weblate/trans/forms.py:1558
-#: weblate/trans/forms.py:1561
+#: weblate/fonts/views.py:146 weblate/trans/forms.py:1583
+#: weblate/trans/forms.py:1586
 msgid "Entry by the same name already exists."
 msgstr "Запис з однойменною назвою вже існує."
 
@@ -3009,23 +3022,23 @@ msgstr "Перевизначення не знайдено."
 msgid "Font group deleted."
 msgstr "Групу шрифтів видалено."
 
-#: weblate/formats/base.py:232
+#: weblate/formats/base.py:234
 msgid "Failed to load strings from the file, try choosing other format."
 msgstr "Не вдалося завантажити рядки з файлу, спробуйте вибрати інший формат."
 
-#: weblate/formats/convert.py:164
+#: weblate/formats/convert.py:182
 msgid "HTML file"
 msgstr "Файл HTML"
 
-#: weblate/formats/convert.py:219
+#: weblate/formats/convert.py:237
 msgid "OpenDocument file"
 msgstr "Файл OpenDocument"
 
-#: weblate/formats/convert.py:279
+#: weblate/formats/convert.py:297
 msgid "IDML file"
 msgstr "Файл IDML"
 
-#: weblate/formats/convert.py:333
+#: weblate/formats/convert.py:351
 msgid "RC file"
 msgstr "Файл RC"
 
@@ -3033,7 +3046,7 @@ msgstr "Файл RC"
 msgid "gettext PO"
 msgstr "gettext PO"
 
-#: weblate/formats/exporters.py:248
+#: weblate/formats/exporters.py:248 weblate/formats/ttkit.py:1108
 msgid "XLIFF with gettext extensions"
 msgstr "XLIFF із розширеннями gettext"
 
@@ -3057,15 +3070,15 @@ msgstr "gettext MO"
 msgid "CSV"
 msgstr "CSV"
 
-#: weblate/formats/exporters.py:396 weblate/formats/external.py:40
-msgid "Excel Open XML"
-msgstr "Excel Open XML"
+#: weblate/formats/exporters.py:396
+msgid "XLSX"
+msgstr "XLSX"
 
-#: weblate/formats/exporters.py:422 weblate/trans/forms.py:1075
+#: weblate/formats/exporters.py:422 weblate/trans/forms.py:1071
 msgid "JSON"
 msgstr "JSON"
 
-#: weblate/formats/exporters.py:430 weblate/formats/ttkit.py:1215
+#: weblate/formats/exporters.py:430 weblate/formats/ttkit.py:1249
 msgid "Android String Resource"
 msgstr "Рядки ресурсів Android"
 
@@ -3073,143 +3086,143 @@ msgstr "Рядки ресурсів Android"
 msgid "iOS strings"
 msgstr "Рядки iOS"
 
-#: weblate/formats/ttkit.py:995
+#: weblate/formats/external.py:40
+msgid "Excel Open XML"
+msgstr "Excel Open XML"
+
+#: weblate/formats/ttkit.py:1025
 msgid "gettext PO file"
 msgstr "gettext PO файл"
 
-#: weblate/formats/ttkit.py:1008
+#: weblate/formats/ttkit.py:1038
 msgid "gettext PO file (monolingual)"
 msgstr "gettext PO файл (одномовний)"
 
-#: weblate/formats/ttkit.py:1028
+#: weblate/formats/ttkit.py:1062
 msgid "Qt Linguist translation file"
 msgstr "файл перекладу Qt Linguist"
 
-#: weblate/formats/ttkit.py:1044
+#: weblate/formats/ttkit.py:1079
 msgid "XLIFF translation file"
 msgstr "Файл перекладу XLIFF"
 
-#: weblate/formats/ttkit.py:1074
-msgid "XLIFF translation file with PO extensions"
-msgstr "Файл перекладу XLIFF із розширенням PO"
-
-#: weblate/formats/ttkit.py:1104
+#: weblate/formats/ttkit.py:1138
 msgid "iOS strings (UTF-16)"
 msgstr "Рядки iOS (UTF-16)"
 
-#: weblate/formats/ttkit.py:1113
+#: weblate/formats/ttkit.py:1147
 msgid "iOS strings (UTF-8)"
 msgstr "Рядки iOS (UTF-8)"
 
-#: weblate/formats/ttkit.py:1120
+#: weblate/formats/ttkit.py:1154
 msgid "Java Properties (UTF-8)"
 msgstr "Властивості Java (UTF-8)"
 
-#: weblate/formats/ttkit.py:1129
+#: weblate/formats/ttkit.py:1163
 msgid "Java Properties (UTF-16)"
 msgstr "Властивості Java (UTF-16)"
 
-#: weblate/formats/ttkit.py:1145
+#: weblate/formats/ttkit.py:1179
 msgid "Java Properties (ISO 8859-1)"
 msgstr "Властивості Java (ISO 8859-1)"
 
-#: weblate/formats/ttkit.py:1163
+#: weblate/formats/ttkit.py:1197
 msgid "Joomla language file"
 msgstr "Мовний файл Joomla"
 
-#: weblate/formats/ttkit.py:1172
+#: weblate/formats/ttkit.py:1206
 msgid "GWT properties"
 msgstr "Властивості GWT"
 
-#: weblate/formats/ttkit.py:1180
+#: weblate/formats/ttkit.py:1214
 msgid "PHP strings"
 msgstr "Рядки PHP"
 
-#: weblate/formats/ttkit.py:1199
+#: weblate/formats/ttkit.py:1233
 msgid "Laravel PHP strings"
 msgstr "Рядки PHP Laravel"
 
-#: weblate/formats/ttkit.py:1205
+#: weblate/formats/ttkit.py:1239
 msgid ".NET resource file"
 msgstr "Файл ресурсів .NET"
 
-#: weblate/formats/ttkit.py:1227
+#: weblate/formats/ttkit.py:1261
 msgid "JSON file"
 msgstr "Файл JSON"
 
-#: weblate/formats/ttkit.py:1246
+#: weblate/formats/ttkit.py:1281
 msgid "JSON nested structure file"
 msgstr "Файл JSON із вкладеною структурою"
 
-#: weblate/formats/ttkit.py:1253
+#: weblate/formats/ttkit.py:1288
 msgid "WebExtension JSON file"
 msgstr "Файл JSON для WebExtension"
 
-#: weblate/formats/ttkit.py:1262
+#: weblate/formats/ttkit.py:1297
 msgid "i18next JSON file"
 msgstr "Файл i18next JSON"
 
-#: weblate/formats/ttkit.py:1270
+#: weblate/formats/ttkit.py:1305
 msgid "go-i18n JSON file"
 msgstr "Файл JSON go-i18n"
 
-#: weblate/formats/ttkit.py:1277
+#: weblate/formats/ttkit.py:1312
 msgid "ARB file"
 msgstr "Файл ARB"
 
-#: weblate/formats/ttkit.py:1285
+#: weblate/formats/ttkit.py:1320
 msgid "CSV file"
 msgstr "Файл CSV"
 
-#: weblate/formats/ttkit.py:1371
+#: weblate/formats/ttkit.py:1407
 msgid "Simple CSV file"
 msgstr "Простий файл CSV"
 
-#: weblate/formats/ttkit.py:1392
+#: weblate/formats/ttkit.py:1428
 msgid "Simple CSV file (ISO-8859-1)"
 msgstr "Простий файл CSV (ISO-8859-1)"
 
-#: weblate/formats/ttkit.py:1399
+#: weblate/formats/ttkit.py:1435
 msgid "YAML file"
 msgstr "Файл YAML"
 
-#: weblate/formats/ttkit.py:1418
+#: weblate/formats/ttkit.py:1454
 msgid "Ruby YAML file"
 msgstr "Файл Ruby YAML"
 
-#: weblate/formats/ttkit.py:1425
+#: weblate/formats/ttkit.py:1461
 msgid "DTD file"
 msgstr "Файл DTD"
 
-#: weblate/formats/ttkit.py:1466
+#: weblate/formats/ttkit.py:1502
 msgid "SubRip subtitle file"
 msgstr "Файл субтитрів SubRip"
 
-#: weblate/formats/ttkit.py:1480
+#: weblate/formats/ttkit.py:1516
 msgid "MicroDVD subtitle file"
 msgstr "Файл субтитрів MicroDVD"
 
-#: weblate/formats/ttkit.py:1487
+#: weblate/formats/ttkit.py:1523
 msgid "Advanced SubStation Alpha subtitle file"
 msgstr "Розширений файл субтитрів SubStation Alpha"
 
-#: weblate/formats/ttkit.py:1494
+#: weblate/formats/ttkit.py:1530
 msgid "SubStation Alpha subtitle file"
 msgstr "Файл субтитрів SubStation Alpha"
 
-#: weblate/formats/ttkit.py:1501
+#: weblate/formats/ttkit.py:1537
 msgid "Flat XML file"
 msgstr "Плаский XML-файл"
 
-#: weblate/formats/ttkit.py:1510
+#: weblate/formats/ttkit.py:1546
 msgid "INI file"
 msgstr "Файл INI"
 
-#: weblate/formats/ttkit.py:1550
+#: weblate/formats/ttkit.py:1586
 msgid "Inno Setup INI file"
 msgstr "Файл INI Inno Setup"
 
-#: weblate/formats/ttkit.py:1701
+#: weblate/formats/ttkit.py:1739
 msgid "TermBase eXchange file"
 msgstr "Файл TermBase eXchange"
 
@@ -3225,8 +3238,9 @@ msgstr "Словники"
 msgid "Invalid integer list!"
 msgstr "Неправильний цілий список!"
 
-#: weblate/glossary/forms.py:70 weblate/templates/snippets/list-objects.html:50
-#: weblate/templates/translate.html:537 weblate/trans/forms.py:1304
+#: weblate/glossary/forms.py:70
+#: weblate/templates/snippets/component-glossary-badge.html:4
+#: weblate/templates/translate.html:536 weblate/trans/forms.py:1324
 msgid "Glossary"
 msgstr "Глосарій"
 
@@ -3292,160 +3306,160 @@ msgctxt "Plural form description"
 msgid "Three"
 msgstr "Три"
 
-#: weblate/lang/models.py:449 weblate/templates/addons/generate_help.html:12
+#: weblate/lang/models.py:455 weblate/templates/addons/generate_help.html:12
 #: weblate/templates/language.html:51
 #: weblate/templates/trans/alert/ambiguouslanguage.html:13
 msgid "Language code"
 msgstr "Код мови"
 
-#: weblate/lang/models.py:452 weblate/templates/addons/generate_help.html:10
+#: weblate/lang/models.py:458 weblate/templates/addons/generate_help.html:10
 msgid "Language name"
 msgstr "Назва мови"
 
-#: weblate/lang/models.py:455 weblate/templates/language.html:68
+#: weblate/lang/models.py:461 weblate/templates/language.html:68
 msgid "Text direction"
 msgstr "Напрямок тексту"
 
-#: weblate/lang/models.py:460
+#: weblate/lang/models.py:466
 msgid "Left to right"
 msgstr "Зліва направо"
 
-#: weblate/lang/models.py:461
+#: weblate/lang/models.py:467
 msgid "Right to left"
 msgstr "Справа наліво"
 
-#: weblate/lang/models.py:539
+#: weblate/lang/models.py:545
 msgctxt "Plural type"
 msgid "None"
 msgstr "Жодний"
 
-#: weblate/lang/models.py:542
+#: weblate/lang/models.py:548
 msgctxt "Plural type"
 msgid "One/other (classic plural)"
 msgstr "Один/багато (класичне множинне число)"
 
-#: weblate/lang/models.py:546
+#: weblate/lang/models.py:552
 msgctxt "Plural type"
 msgid "One/few/other (Slavic languages)"
 msgstr "Один/декілька/багато (слов'янські мови)"
 
-#: weblate/lang/models.py:548
+#: weblate/lang/models.py:554
 msgctxt "Plural type"
 msgid "Arabic languages"
 msgstr "Арабські мови"
 
-#: weblate/lang/models.py:549
+#: weblate/lang/models.py:555
 msgctxt "Plural type"
 msgid "Zero/one/other"
 msgstr "Нуль/один/інше"
 
-#: weblate/lang/models.py:550
+#: weblate/lang/models.py:556
 msgctxt "Plural type"
 msgid "One/two/other"
 msgstr "Один/два/інше"
 
-#: weblate/lang/models.py:551
+#: weblate/lang/models.py:557
 msgctxt "Plural type"
 msgid "One/other/two"
 msgstr "Один/інше/два"
 
-#: weblate/lang/models.py:554
+#: weblate/lang/models.py:560
 msgctxt "Plural type"
 msgid "One/two/few/other"
 msgstr "Один/два/декілька/інше"
 
-#: weblate/lang/models.py:558
+#: weblate/lang/models.py:564
 msgctxt "Plural type"
 msgid "Other/one/two/few"
 msgstr "Інше/один/два/декілька"
 
-#: weblate/lang/models.py:562
+#: weblate/lang/models.py:568
 msgctxt "Plural type"
 msgid "One/two/three/other"
 msgstr "Один/два/три/інше"
 
-#: weblate/lang/models.py:564
+#: weblate/lang/models.py:570
 msgctxt "Plural type"
 msgid "One/other/zero"
 msgstr "Один/інше/нуль"
 
-#: weblate/lang/models.py:567
+#: weblate/lang/models.py:573
 msgctxt "Plural type"
 msgid "One/few/many/other"
 msgstr "Один/декілька/багато/інше"
 
-#: weblate/lang/models.py:569
+#: weblate/lang/models.py:575
 msgctxt "Plural type"
 msgid "Two/other"
 msgstr "Два/інше"
 
-#: weblate/lang/models.py:572
+#: weblate/lang/models.py:578
 msgctxt "Plural type"
 msgid "One/two/few/many/other"
 msgstr "Один/два/декілька/багато/інше"
 
-#: weblate/lang/models.py:576
+#: weblate/lang/models.py:582
 msgctxt "Plural type"
 msgid "Zero/one/two/few/many/other"
 msgstr "Нуль/один/два/декілька/багато/інше"
 
-#: weblate/lang/models.py:578
+#: weblate/lang/models.py:584
 msgctxt "Plural type"
 msgid "Unknown"
 msgstr "Невідомо"
 
-#: weblate/lang/models.py:585
+#: weblate/lang/models.py:591
 msgid "Plural definition source"
 msgstr "Джерело для визначення множини"
 
-#: weblate/lang/models.py:587
+#: weblate/lang/models.py:593
 msgid "Default plural"
 msgstr "Типова форма множини"
 
-#: weblate/lang/models.py:588
+#: weblate/lang/models.py:594
 msgid "Plural gettext formula"
 msgstr "Формула множини gettext"
 
-#: weblate/lang/models.py:589
+#: weblate/lang/models.py:595
 msgid "Manually entered formula"
 msgstr "Ручновведена формула"
 
-#: weblate/lang/models.py:593 weblate/templates/language.html:83
+#: weblate/lang/models.py:599 weblate/templates/language.html:83
 msgid "Number of plurals"
 msgstr "Число множин"
 
-#: weblate/lang/models.py:600 weblate/templates/language.html:106
+#: weblate/lang/models.py:606 weblate/templates/language.html:106
 #: weblate/templates/snippets/plural-formula.html:4
 msgid "Plural formula"
 msgstr "Форма множини"
 
-#: weblate/lang/models.py:605 weblate/templates/language.html:87
+#: weblate/lang/models.py:611 weblate/templates/language.html:87
 msgid "Plural type"
 msgstr "Вид множини"
 
-#: weblate/lang/models.py:613
+#: weblate/lang/models.py:619
 msgid "Plural form"
 msgstr "Форма множини"
 
-#: weblate/lang/models.py:614
+#: weblate/lang/models.py:620
 msgid "Plural forms"
 msgstr "Форми множини"
 
 #. Translators: Label for plurals with example counts
-#: weblate/lang/models.py:696
+#: weblate/lang/models.py:702
 #, python-brace-format
 msgid "For example: {0}"
 msgstr "Наприклад: {0}"
 
-#: weblate/lang/models.py:707
+#: weblate/lang/models.py:713
 msgid "Singular"
 msgstr "Однина"
 
-#: weblate/lang/models.py:709
+#: weblate/lang/models.py:715
 msgid "Plural"
 msgstr "Множина"
 
-#: weblate/lang/models.py:710
+#: weblate/lang/models.py:716
 #, python-format
 msgid "Plural form %d"
 msgstr "Форма множини %d"
@@ -3592,8 +3606,8 @@ msgid ""
 "Weblate development follows the Best Practices of the Linux Foundation's "
 "Core Infrastructure Initiative."
 msgstr ""
-"Розробка веб-сайтів відповідає найкращим практикам основної ініціативи "
-"інфраструктури Linux Foundation."
+"Розробка Weblate відповідає найкращим практикам Основної інфраструктурної "
+"ініціативи Linux Foundation."
 
 #: weblate/legal/templates/legal/security.html:37
 msgid "Security FAQ"
@@ -3625,7 +3639,7 @@ msgstr "Умови"
 msgid "Overview"
 msgstr "Огляд"
 
-#: weblate/memory/forms.py:30 weblate/trans/forms.py:595
+#: weblate/memory/forms.py:30 weblate/trans/forms.py:593
 msgid "File"
 msgstr "Файл"
 
@@ -3742,7 +3756,7 @@ msgid "Insufficient privileges to display this page."
 msgstr "Недостатні права для відображення цієї сторінки."
 
 #: weblate/templates/403.html:17 weblate/templates/404.html:18
-#: weblate/templates/base.html:122 weblate/templates/base.html:274
+#: weblate/templates/base.html:122 weblate/templates/base.html:287
 msgid "Dashboard"
 msgstr "Домівка"
 
@@ -3831,13 +3845,13 @@ msgstr ""
 
 #: weblate/templates/about/index.html:5 weblate/templates/about/index.html:11
 #: weblate/templates/about/keys.html:6 weblate/templates/about/stats.html:6
-#: weblate/templates/base.html:256 weblate/templates/footer.html:6
-#: weblate/trans/views/about.py:33 weblate/trans/views/about.py:45
+#: weblate/templates/base.html:269 weblate/templates/footer.html:6
+#: weblate/trans/views/about.py:32 weblate/trans/views/about.py:44
 msgid "About Weblate"
 msgstr "Про Weblate"
 
-#: weblate/templates/about/index.html:18 weblate/templates/base.html:260
-#: weblate/templates/footer.html:15 weblate/templates/manage/index.html:48
+#: weblate/templates/about/index.html:18 weblate/templates/base.html:273
+#: weblate/templates/footer.html:15 weblate/templates/manage/index.html:69
 msgid "Donate to Weblate"
 msgstr "Пожертвувати на Weblate"
 
@@ -3888,7 +3902,7 @@ msgstr "Зв'яжіться з нами, що до комерційного хо
 msgid "Weblate is built on libre software"
 msgstr "Weblate побудований на вільному програмному забезпеченні"
 
-#: weblate/templates/about/keys.html:7 weblate/trans/views/about.py:103
+#: weblate/templates/about/keys.html:7 weblate/trans/views/about.py:100
 msgid "Weblate keys"
 msgstr "Ключі Weblate"
 
@@ -3917,8 +3931,8 @@ msgstr "Не налаштовано підписування подань."
 
 #: weblate/templates/about/stats.html:7 weblate/templates/about/stats.html:80
 #: weblate/templates/dashboard/user.html:37 weblate/templates/data.html:51
-#: weblate/templates/translation.html:47 weblate/templates/translation.html:403
-#: weblate/trans/views/about.py:34
+#: weblate/templates/translation.html:47 weblate/templates/translation.html:459
+#: weblate/trans/views/about.py:33
 msgid "Statistics"
 msgstr "Статистика"
 
@@ -3963,8 +3977,8 @@ msgstr "Пропущені перевірки"
 #: weblate/templates/accounts/confirm.html:7
 #: weblate/templates/accounts/password.html:6
 #: weblate/templates/accounts/profile.html:9
-#: weblate/templates/accounts/removal.html:7 weblate/templates/base.html:224
-#: weblate/templates/base.html:227 weblate/templates/billing/detail.html:8
+#: weblate/templates/accounts/removal.html:7 weblate/templates/base.html:235
+#: weblate/templates/base.html:238 weblate/templates/billing/detail.html:8
 #: weblate/templates/billing/overview.html:5
 msgid "Your profile"
 msgstr "Ваш профіль"
@@ -3984,20 +3998,28 @@ msgstr ""
 "Після підтвердження цього ви будете мати можливість автентифікуватися у "
 "Weblate за допомогою %(backend_verbose)s (%(uid)s)."
 
-#: weblate/templates/accounts/contact.html:14
-msgid "You can contact maintainers of this server here."
-msgstr "Тут ви можете зв'язатися з супровідником цього сервера."
-
 #: weblate/templates/accounts/contact.html:15
+msgid ""
+"For questions about specific translation project, contact its maintainers "
+"directly, not by this form."
+msgstr ""
+"З питань щодо певного проєкту перекладу зв'яжіться з його супроводжувачами "
+"безпосередньо, а не через цю форму."
+
+#: weblate/templates/accounts/contact.html:16
+msgid "You can only contact maintainers of the whole server here."
+msgstr "Тут ви можете зв'язатися лише з супровідником всього сервера."
+
+#: weblate/templates/accounts/contact.html:17
 #, python-format
 msgid ""
-"If you are looking for support for Weblate or want to file bug reports check "
-"its website at %(weblate_link)s."
+"If you are looking for support for Weblate, or want to file a bug report, "
+"check its website at %(weblate_link)s."
 msgstr ""
-"Якщо вам потрібна допомога з Weblate або ви хочете повідомити про помилку, "
+"Якщо ви потребуєте допомоги з Weblate або хочете повідомити про помилку, "
 "зверніться на сайт%(weblate_link)s."
 
-#: weblate/templates/accounts/contact.html:29
+#: weblate/templates/accounts/contact.html:32
 #: weblate/templates/manage/tools.html:26
 #: weblate/templates/manage/tools.html:54
 #: weblate/templates/manage/tools.html:69
@@ -4094,7 +4116,7 @@ msgstr ""
 "проєктів."
 
 #: weblate/templates/accounts/email.html:30
-#: weblate/templates/accounts/register.html:46 weblate/templates/base.html:201
+#: weblate/templates/accounts/register.html:46 weblate/templates/base.html:212
 #: weblate/templates/engage.html:62
 msgid "Register"
 msgstr "Зареєструватися"
@@ -4199,7 +4221,7 @@ msgstr ""
 msgid "Change my password"
 msgstr "Змінити мій пароль"
 
-#: weblate/templates/accounts/profile.html:15 weblate/trans/views/basic.py:424
+#: weblate/templates/accounts/profile.html:15 weblate/trans/views/basic.py:422
 #: weblate/trans/views/files.py:157
 msgid "Please fix errors in the form."
 msgstr "Будь ласка, виправте помилки у формі."
@@ -4268,7 +4290,7 @@ msgstr ""
 #: weblate/templates/trans/component_form.html:38
 #: weblate/templates/trans/project_form.html:33
 #: weblate/templates/translate.html:221 weblate/templates/translate.html:407
-#: weblate/templates/translate.html:571 weblate/templates/translate.html:721
+#: weblate/templates/translate.html:570 weblate/templates/translate.html:724
 msgid "Save"
 msgstr "Зберегти"
 
@@ -4306,7 +4328,7 @@ msgstr "Профіль"
 msgid "User ID"
 msgstr "Ідентифікатор користувача"
 
-#: weblate/templates/accounts/profile.html:125 weblate/trans/forms.py:2178
+#: weblate/templates/accounts/profile.html:125 weblate/trans/forms.py:2240
 msgid "Action"
 msgstr "Дія"
 
@@ -4325,7 +4347,7 @@ msgstr "Додати новий зв'язок"
 #: weblate/templates/accounts/profile.html:165
 #: weblate/templates/component.html:108
 #: weblate/templates/language-project.html:44
-#: weblate/templates/project.html:113 weblate/templates/translation.html:97
+#: weblate/templates/project.html:113 weblate/templates/translation.html:103
 msgid "Removal"
 msgstr "Видалення"
 
@@ -4405,7 +4427,6 @@ msgid "No recent activity found!"
 msgstr "Не помічено нещодавньої активності!"
 
 #: weblate/templates/accounts/profile.html:246
-#: weblate/templates/mail/account_activity.html:36
 msgid "Report suspicious activity"
 msgstr "Звіт про підозрілу діяльність"
 
@@ -4599,7 +4620,7 @@ msgstr "Розпочніть тестування!"
 #: weblate/templates/manage/users_check.html:10
 #: weblate/templates/project.html:95
 #: weblate/templates/trans/suggestion_list.html:6
-#: weblate/templates/weblate_auth/user_list.html:6 weblate/wladmin/views.py:70
+#: weblate/templates/weblate_auth/user_list.html:6 weblate/wladmin/views.py:75
 msgid "Users"
 msgstr "Користувачі"
 
@@ -4615,7 +4636,7 @@ msgid_plural "%(count)s translations"
 msgstr[0] "%(count)s переклад"
 msgstr[1] "%(count)s переклади"
 msgstr[2] "%(count)s перекладів"
-msgstr[3] ""
+msgstr[3] "%(count)s переклад"
 
 #: weblate/templates/accounts/user.html:40
 #, python-format
@@ -4826,13 +4847,13 @@ msgstr "Назва файлу складника з великою першою 
 #: weblate/templates/check_project.html:20
 #: weblate/templates/component-list.html:28
 #: weblate/templates/dashboard/user.html:51
-#: weblate/templates/dashboard/user.html:71
-#: weblate/templates/dashboard/user.html:80
+#: weblate/templates/dashboard/user.html:73
+#: weblate/templates/dashboard/user.html:82
 #: weblate/templates/language-project.html:54
 #: weblate/templates/project.html:138 weblate/templates/translate.html:304
-#: weblate/templates/translation.html:198 weblate/trans/forms.py:1476
+#: weblate/templates/translation.html:208 weblate/trans/forms.py:1501
 #: weblate/trans/models/announcement.py:97
-#: weblate/trans/models/component.py:661
+#: weblate/trans/models/component.py:651
 msgid "Component"
 msgstr "Складник"
 
@@ -4876,7 +4897,7 @@ msgstr "Число перекладених рядків"
 msgid "Translation filename"
 msgstr "Назва файлу перекладу"
 
-#: weblate/templates/addons/generate_help.html:22 weblate/trans/forms.py:1457
+#: weblate/templates/addons/generate_help.html:22 weblate/trans/forms.py:1477
 #: weblate/trans/models/component.py:244
 msgid "Component name"
 msgstr "Назва складника"
@@ -4886,7 +4907,7 @@ msgid "Component URL slug"
 msgstr "Ідентифікатор адрес складника"
 
 #: weblate/templates/addons/generate_help.html:26
-#: weblate/trans/models/project.py:79
+#: weblate/trans/models/project.py:80
 msgid "Project name"
 msgstr "Назва проєкту"
 
@@ -4929,85 +4950,90 @@ msgstr "Перегляд усіх мов"
 #: weblate/templates/base.html:157 weblate/templates/check.html:7
 #: weblate/templates/check_component.html:7
 #: weblate/templates/check_project.html:7 weblate/templates/checks.html:7
-#: weblate/templates/snippets/list-objects.html:19
+#: weblate/templates/snippets/list-objects.html:63
 msgid "Checks"
 msgstr "Перевірки"
 
-#: weblate/templates/base.html:161
-#, python-format
-msgid "Failed checks in %(project)s"
-msgstr "Перевірки, які не пройдено у %(project)s"
-
-#: weblate/templates/base.html:168
+#: weblate/templates/base.html:163
 #, python-format
 msgid "Failed checks in %(project)s — %(language)s"
 msgstr "Невдалі перевірки %(project)s — %(language)s"
 
-#: weblate/templates/base.html:173
+#: weblate/templates/base.html:174
+#, python-format
+msgid "Failed checks in %(project)s"
+msgstr "Перевірки, які не пройдено у %(project)s"
+
+#: weblate/templates/base.html:180
+#, python-format
+msgid "Failed checks in %(language)s"
+msgstr "Не пройдено перевірки, мова — %(language)s"
+
+#: weblate/templates/base.html:184
 msgid "Checks overview"
 msgstr "Огляд перевірок"
 
-#: weblate/templates/base.html:183 weblate/templates/base.html:185
+#: weblate/templates/base.html:194 weblate/templates/base.html:196
 msgid "Administration"
 msgstr "Управління"
 
-#: weblate/templates/base.html:190 weblate/templates/base.html:192
+#: weblate/templates/base.html:201 weblate/templates/base.html:203
 #: weblate/templates/manage/performance.html:19
 msgid "Configuration errors"
 msgstr "Помилкові налаштування"
 
-#: weblate/templates/base.html:211 weblate/templates/billing/status.html:105
+#: weblate/templates/base.html:222 weblate/templates/billing/status.html:105
 #: weblate/templates/trans/project_form.html:26
 msgid "Add new translation project"
 msgstr "Додати новий проєкт для перекладу"
 
-#: weblate/templates/base.html:212 weblate/templates/project.html:92
-#: weblate/templates/project.html:142
-#: weblate/templates/snippets/project-component-settings.html:15
+#: weblate/templates/base.html:223 weblate/templates/project.html:92
+#: weblate/templates/project.html:144
+#: weblate/templates/snippets/project-component-settings.html:18
 #: weblate/templates/trans/component_form.html:26
 msgid "Add new translation component"
 msgstr "Додати новий складник для перекладу"
 
-#: weblate/templates/base.html:215 weblate/templates/billing/overview.html:25
+#: weblate/templates/base.html:226 weblate/templates/billing/overview.html:25
 #: weblate/templates/projects.html:13
 msgid "Purchase new hosting plan"
 msgstr "Придбати новий план хостингу"
 
-#: weblate/templates/base.html:237
+#: weblate/templates/base.html:248
 #: weblate/templates/trans/alert/billinglimit.html:4
 msgid "Billing overview"
 msgstr "Огляд платежу"
 
-#: weblate/templates/base.html:239 weblate/templates/component.html:93
+#: weblate/templates/base.html:250 weblate/templates/component.html:93
 #: weblate/templates/memory/index.html:12
 #: weblate/templates/memory/index.html:15
 #: weblate/templates/memory/index.html:18 weblate/templates/project.html:87
 #: weblate/templates/translate.html:367
 #: weblate/wladmin/templates/admin/weblate-index.html:43
-#: weblate/wladmin/views.py:65
+#: weblate/wladmin/views.py:70
 msgid "Translation memory"
 msgstr "Пам'ять перекладу"
 
-#: weblate/templates/base.html:240 weblate/templates/component-settings.html:9
+#: weblate/templates/base.html:251 weblate/templates/component-settings.html:9
 #: weblate/templates/component.html:103
 #: weblate/templates/project-settings.html:8 weblate/templates/project.html:101
 msgid "Settings"
 msgstr "Налаштування"
 
-#: weblate/templates/base.html:242 weblate/wladmin/sites.py:191
+#: weblate/templates/base.html:253 weblate/wladmin/sites.py:191
 #: weblate/wladmin/templates/admin/base.html:14
 msgid "Sign out"
 msgstr "Вийти"
 
-#: weblate/templates/base.html:249 weblate/templates/base.html:251
+#: weblate/templates/base.html:260 weblate/templates/base.html:262
 msgid "Help"
 msgstr "Довідка"
 
-#: weblate/templates/base.html:254
+#: weblate/templates/base.html:266
 msgid "Support"
 msgstr "Підтримка"
 
-#: weblate/templates/base.html:258 weblate/templates/check.html:50
+#: weblate/templates/base.html:271 weblate/templates/check.html:50
 #: weblate/templates/check_component.html:72
 #: weblate/templates/check_project.html:51 weblate/templates/checks.html:48
 #: weblate/templates/documentation-icon.html:4 weblate/templates/footer.html:14
@@ -5022,21 +5048,22 @@ msgstr "Підтримка"
 msgid "Documentation"
 msgstr "Документація"
 
-#: weblate/templates/base.html:259
+#: weblate/templates/base.html:272
 msgid "Contribute to Weblate"
 msgstr "Посприяйте Weblate"
 
-#: weblate/templates/base.html:306 weblate/templates/base.html:314
+#: weblate/templates/base.html:319 weblate/templates/base.html:327
 #: weblate/templates/manage-access.html:61
 #: weblate/templates/manage/backups.html:77
 #: weblate/templates/manage/backups.html:86
 #: weblate/templates/memory/index.html:78
-#: weblate/templates/memory/index.html:112 weblate/templates/translate.html:564
-#: weblate/templates/translate.html:714 weblate/templates/translate.html:738
+#: weblate/templates/memory/index.html:112 weblate/templates/translate.html:563
+#: weblate/templates/translate.html:717 weblate/templates/translate.html:741
+#: weblate/templates/translate.html:763
 msgid "Close"
 msgstr "Закрити"
 
-#: weblate/templates/base.html:313 weblate/templates/fonts/font_list.html:40
+#: weblate/templates/base.html:326 weblate/templates/fonts/font_list.html:40
 #: weblate/templates/fonts/font_list.html:82
 #: weblate/templates/js/translations.html:10
 #: weblate/templates/js/translations.html:19 weblate/templates/language.html:33
@@ -5044,15 +5071,15 @@ msgstr "Закрити"
 #: weblate/templates/manage/users_check.html:19
 #: weblate/templates/project-labels.html:27 weblate/templates/replace.html:40
 #: weblate/templates/screenshots/screenshot_list.html:60
-#: weblate/templates/translation.html:188
+#: weblate/templates/translation.html:197
 msgid "Edit"
 msgstr "Редагувати"
 
 #: weblate/templates/billing/detail.html:9
 #: weblate/templates/billing/overview.html:6
 #: weblate/templates/manage/billing.html:7 weblate/templates/project.html:106
-#: weblate/templates/project_info.html:23 weblate/trans/forms.py:1905
-#: weblate/wladmin/views.py:75
+#: weblate/templates/project_info.html:23 weblate/trans/forms.py:1930
+#: weblate/wladmin/views.py:80
 msgid "Billing"
 msgstr "Оплата"
 
@@ -5105,7 +5132,7 @@ msgid "Download invoice"
 msgstr "Завантажити рахунок"
 
 #: weblate/templates/billing/detail.html:83
-#: weblate/templates/translation.html:228
+#: weblate/templates/translation.html:230
 msgid "Not available"
 msgstr "Не доступно"
 
@@ -5133,7 +5160,7 @@ msgstr "Затвердити як вільний"
 
 #: weblate/templates/billing/detail.html:123
 #: weblate/templates/mail/billing_expired.html:49
-#: weblate/templates/project.html:147
+#: weblate/templates/project.html:149
 #: weblate/templates/snippets/project/billing-libre-trial.html:10
 msgid "Request approval for libre hosting"
 msgstr "Надіслати запит на затвердження для безплатного розміщення"
@@ -5292,7 +5319,7 @@ msgstr ""
 "може відкликати ваш доступ до проєкту."
 
 #: weblate/templates/bootstrap3/layout/radioselect_access.html:82
-#: weblate/trans/forms.py:1791 weblate/trans/forms.py:1833
+#: weblate/trans/forms.py:1816 weblate/trans/forms.py:1858
 msgid "You do not have permission to change project access control."
 msgstr "У вас немає права змінювати доступ до проєкту."
 
@@ -5301,31 +5328,31 @@ msgstr "У вас немає права змінювати доступ до п�
 msgid "Check your billing status"
 msgstr "Перевірте стан платежів"
 
-#: weblate/templates/browse.html:26
-#: weblate/templates/snippets/list-objects.html:44
-#: weblate/templates/translation.html:141
-#: weblate/templates/translation.html:187
+#: weblate/templates/browse.html:23
+#: weblate/templates/snippets/list-objects.html:111
+#: weblate/templates/translation.html:150
+#: weblate/templates/translation.html:196
 msgid "Browse"
 msgstr "Перегляд змін"
 
-#: weblate/templates/browse.html:51
+#: weblate/templates/browse.html:49
 msgid "No strings found!"
 msgstr "Не знайдено жодного рядка!"
 
 #: weblate/templates/check.html:19 weblate/templates/data.html:28
 #: weblate/templates/data.html:62 weblate/templates/data.html:103
 #: weblate/templates/language.html:43 weblate/templates/list-projects.html:5
-#: weblate/templates/snippets/list-objects.html:15 weblate/trans/forms.py:1532
-#: weblate/trans/forms.py:1613 weblate/trans/forms.py:2175
+#: weblate/templates/snippets/list-objects.html:23 weblate/trans/forms.py:1557
+#: weblate/trans/forms.py:1638 weblate/trans/forms.py:2237
 #: weblate/trans/models/announcement.py:90
 #: weblate/trans/models/component.py:256 weblate/trans/models/component.py:281
-#: weblate/trans/models/project.py:169
+#: weblate/trans/models/project.py:170
 msgid "Project"
 msgstr "Проєкт"
 
 #: weblate/templates/check.html:20 weblate/templates/check_component.html:22
 #: weblate/templates/check_project.html:21 weblate/templates/checks.html:19
-#: weblate/templates/translation.html:416
+#: weblate/templates/translation.html:472
 msgid "Total"
 msgstr "Всього"
 
@@ -5337,8 +5364,8 @@ msgstr "Пропущено"
 #: weblate/templates/check.html:23 weblate/templates/check_component.html:25
 #: weblate/templates/check_project.html:24 weblate/templates/checks.html:22
 #: weblate/templates/engage.html:33
-#: weblate/templates/snippets/list-objects.html:16
-#: weblate/templates/translation.html:423 weblate/trans/widgets.py:273
+#: weblate/templates/snippets/list-objects.html:33
+#: weblate/templates/translation.html:479 weblate/trans/widgets.py:273
 #: weblate/trans/widgets.py:291
 msgid "Translated"
 msgstr "Перекладено"
@@ -5354,7 +5381,7 @@ msgstr "Подробиці перевірки"
 #: weblate/templates/mail/pending_suggestions.html:8
 #: weblate/templates/mail/todo_strings.html:8
 #: weblate/templates/translate.html:90 weblate/templates/translate.html:305
-#: weblate/templates/translate.html:375 weblate/trans/forms.py:1311
+#: weblate/templates/translate.html:375 weblate/trans/forms.py:1331
 msgid "Translation"
 msgstr "Переклад"
 
@@ -5384,15 +5411,12 @@ msgstr ""
 
 #: weblate/templates/component-list.html:17 weblate/templates/component.html:54
 #: weblate/templates/language-project.html:30 weblate/templates/project.html:53
-#: weblate/templates/translation.html:52 weblate/trans/forms.py:1366
+#: weblate/templates/translation.html:52 weblate/trans/forms.py:1386
 msgid "Files"
 msgstr "Файли"
 
 #: weblate/templates/component-list.html:20 weblate/templates/component.html:57
 #: weblate/templates/language-project.html:33 weblate/templates/project.html:56
-#: weblate/templates/translation-download.html:7
-#: weblate/templates/translation-download.html:11
-#: weblate/templates/translation-download.html:16
 msgid "Download for offline translation."
 msgstr "Завантажити для редагування поза мережею."
 
@@ -5440,7 +5464,7 @@ msgstr "Переклади"
 msgid "Info"
 msgstr "Відомості"
 
-#: weblate/templates/component.html:35 weblate/wladmin/views.py:68
+#: weblate/templates/component.html:35 weblate/wladmin/views.py:73
 msgid "Alerts"
 msgstr "Попередження"
 
@@ -5494,20 +5518,20 @@ msgstr "Отримати файли перекладу як ZIP-файл"
 #: weblate/templates/language-project.html:38
 #: weblate/templates/language.html:24 weblate/templates/manage/tools.html:9
 #: weblate/templates/project.html:61 weblate/templates/translate.html:182
-#: weblate/templates/translation.html:60 weblate/wladmin/views.py:72
+#: weblate/templates/translation.html:66 weblate/wladmin/views.py:77
 msgid "Tools"
 msgstr "Знаряддя"
 
 #. Translators: Name of event in the history
-#: weblate/templates/component.html:66 weblate/templates/component.html:199
-#: weblate/templates/project.html:65 weblate/templates/project.html:199
-#: weblate/templates/replace.html:14 weblate/templates/translation.html:64
-#: weblate/templates/translation.html:271 weblate/trans/models/change.py:274
+#: weblate/templates/component.html:66 weblate/templates/component.html:197
+#: weblate/templates/project.html:65 weblate/templates/project.html:201
+#: weblate/templates/replace.html:14 weblate/templates/translation.html:70
+#: weblate/templates/translation.html:273 weblate/trans/models/change.py:274
 msgid "Search and replace"
 msgstr "Пошук та заміна"
 
 #: weblate/templates/component.html:71 weblate/templates/data.html:7
-#: weblate/templates/project.html:70 weblate/templates/translation.html:72
+#: weblate/templates/project.html:70 weblate/templates/translation.html:78
 msgid "Data exports"
 msgstr "Експорт даних"
 
@@ -5515,8 +5539,8 @@ msgstr "Експорт даних"
 msgid "Matrix view"
 msgstr "Матричний перегляд"
 
-#: weblate/templates/component.html:75 weblate/templates/component.html:138
-#: weblate/templates/component.html:140 weblate/templates/new-language.html:23
+#: weblate/templates/component.html:75 weblate/templates/component.html:137
+#: weblate/templates/component.html:139 weblate/templates/new-language.html:23
 #: weblate/templates/new-language.html:43
 msgid "Start new translation"
 msgstr "Розпочніть новий переклад"
@@ -5531,17 +5555,17 @@ msgstr "Розпочніть новий переклад"
 #: weblate/templates/manage/tools.html:8 weblate/templates/manage/users.html:8
 #: weblate/templates/manage/users_check.html:9
 #: weblate/templates/memory/index.html:14 weblate/templates/project.html:77
-#: weblate/templates/translation.html:82
+#: weblate/templates/translation.html:88
 msgid "Manage"
 msgstr "Управління"
 
 #: weblate/templates/component.html:86 weblate/templates/js/git-status.html:29
-#: weblate/templates/project.html:81 weblate/templates/translation.html:86
+#: weblate/templates/project.html:81 weblate/templates/translation.html:92
 msgid "Commit"
 msgstr "Внести"
 
 #: weblate/templates/component.html:89 weblate/templates/project.html:84
-#: weblate/templates/translation.html:89
+#: weblate/templates/translation.html:95
 msgid "Repository maintenance"
 msgstr "Супровід сховища"
 
@@ -5551,10 +5575,10 @@ msgstr "Супровід сховища"
 msgid "Screenshots"
 msgstr "Знімки екрана"
 
-#: weblate/templates/component.html:95 weblate/templates/component.html:245
+#: weblate/templates/component.html:95 weblate/templates/component.html:243
 #: weblate/templates/manage/tools.html:20 weblate/templates/project.html:89
-#: weblate/templates/project.html:237 weblate/templates/translation.html:93
-#: weblate/templates/translation.html:365
+#: weblate/templates/project.html:239 weblate/templates/translation.html:99
+#: weblate/templates/translation.html:421
 msgid "Post announcement"
 msgstr "Повідомлення оголошення"
 
@@ -5563,66 +5587,66 @@ msgstr "Повідомлення оголошення"
 msgid "Community localization checklist"
 msgstr "Список перевірок локалізації спільнотою"
 
-#: weblate/templates/component.html:107 weblate/templates/component.html:278
-#: weblate/templates/project.html:112 weblate/templates/project.html:270
+#: weblate/templates/component.html:107 weblate/templates/component.html:276
+#: weblate/templates/project.html:112 weblate/templates/project.html:272
 msgid "Rename"
 msgstr "Перейменувати"
 
 #: weblate/templates/component.html:116 weblate/templates/project.html:121
-#: weblate/templates/translation.html:105
+#: weblate/templates/translation.html:111
 msgid "Share"
 msgstr "Поширити"
 
 #: weblate/templates/component.html:120 weblate/templates/project.html:125
-#: weblate/templates/translation.html:109
+#: weblate/templates/translation.html:115
 msgid "Share on Facebook"
 msgstr "Поширити на Facebook"
 
 #: weblate/templates/component.html:121 weblate/templates/project.html:126
-#: weblate/templates/translation.html:110
+#: weblate/templates/translation.html:116
 #, python-format
 msgid "Translate %(object)s using %%23Weblate at %(share_url)s!"
 msgstr "Перекладайте %(object)s за допомогою %%23Weblate на %(share_url)s!"
 
-#: weblate/templates/component.html:121 weblate/templates/translation.html:110
+#: weblate/templates/component.html:121 weblate/templates/translation.html:116
 msgid "Tweet this translation!"
 msgstr "Твітніть цей переклад!"
 
 #: weblate/templates/component.html:122 weblate/templates/project.html:127
-#: weblate/templates/translation.html:111
+#: weblate/templates/translation.html:117
 msgid "Engage page"
 msgstr "Сторінка залучення"
 
 #: weblate/templates/component.html:123 weblate/templates/project.html:128
-#: weblate/templates/translation.html:112
+#: weblate/templates/translation.html:118
 msgid "Status widgets"
 msgstr "Віджети-стани"
 
-#: weblate/templates/component.html:140
+#: weblate/templates/component.html:139
 msgid "You don't have permission to start a new translation"
 msgstr "У вас немає прав для початку нового перекладу"
 
-#: weblate/templates/component.html:140
+#: weblate/templates/component.html:139
 msgid "Please sign in to start new translation"
 msgstr "Будь ласка, увійдіть, щоб розпочати новий переклад"
 
 #. Translators: Component alert footer, first and last contain localized human readable time span, for example 5 days ago
-#: weblate/templates/component.html:160
+#: weblate/templates/component.html:158
 #, python-format
 msgid "Appeared %(first)s, last seen %(last)s"
 msgstr "З'явився %(first)s, востаннє зареєстровано %(last)s"
 
-#: weblate/templates/component.html:164
+#: weblate/templates/component.html:162
 #: weblate/templates/manage/performance.html:42
 #: weblate/templates/translate.html:470
 msgid "Dismiss"
 msgstr "Знехтувати"
 
-#: weblate/templates/component.html:172
+#: weblate/templates/component.html:170
 msgid "Please sign in to see the alerts."
 msgstr "Увійдіть, щоб побачити сповіщення."
 
-#: weblate/templates/component.html:201 weblate/templates/project.html:201
+#: weblate/templates/component.html:199 weblate/templates/project.html:203
 msgid ""
 "You can substitute all instances of a string. The search is a simple "
 "substring case sensitive search."
@@ -5630,27 +5654,27 @@ msgstr ""
 "Ви можете замінити всі примірники рядка. Цей пошук є простим пошуком "
 "підрядка із врахуванням регістру."
 
-#: weblate/templates/component.html:206 weblate/templates/project.html:206
-#: weblate/templates/replace.html:52 weblate/templates/translation.html:278
+#: weblate/templates/component.html:204 weblate/templates/project.html:208
+#: weblate/templates/replace.html:52 weblate/templates/translation.html:280
 msgid "Replace"
 msgstr "Замінити"
 
-#: weblate/templates/component.html:219 weblate/templates/translation.html:291
+#: weblate/templates/component.html:217 weblate/templates/translation.html:293
 msgid "You can change the state of all strings matching a given type at once."
 msgstr ""
 "Ви можете відразу змінити стан усіх рядків, що відповідають заданому типу."
 
-#: weblate/templates/component.html:223 weblate/templates/project.html:223
-#: weblate/templates/translation.html:259
-#: weblate/templates/translation.html:295
+#: weblate/templates/component.html:221 weblate/templates/project.html:225
+#: weblate/templates/translation.html:261
+#: weblate/templates/translation.html:297
 msgid "Apply"
 msgstr "Застосувати"
 
-#: weblate/templates/component.html:232 weblate/templates/translate.html:359
+#: weblate/templates/component.html:230 weblate/templates/translate.html:359
 msgid "Browse all component changes"
 msgstr "Перегляд всіх змін складника"
 
-#: weblate/templates/component.html:250
+#: weblate/templates/component.html:248
 msgid ""
 "The message is shown for all translations within the component, until its "
 "given expiry, or permanently until it is deleted."
@@ -5658,9 +5682,9 @@ msgstr ""
 "Повідомлення показується у всіх перекладах складників до завершення строку "
 "або постійно до вилучення."
 
-#: weblate/templates/component.html:253 weblate/templates/lang/create.html:16
+#: weblate/templates/component.html:251 weblate/templates/lang/create.html:16
 #: weblate/templates/manage-access.html:110
-#: weblate/templates/manage/backups.html:110 weblate/templates/project.html:245
+#: weblate/templates/manage/backups.html:110 weblate/templates/project.html:247
 #: weblate/templates/snippets/query-builder.html:29
 #: weblate/templates/snippets/query-builder.html:45
 #: weblate/templates/snippets/query-builder.html:59
@@ -5672,16 +5696,16 @@ msgstr ""
 #: weblate/templates/snippets/query-builder.html:97
 #: weblate/templates/snippets/query-builder.html:102
 #: weblate/templates/snippets/query-builder.html:107
-#: weblate/templates/translate.html:745 weblate/templates/translation.html:315
-#: weblate/templates/translation.html:373
+#: weblate/templates/translate.html:748 weblate/templates/translation.html:317
+#: weblate/templates/translation.html:429
 msgid "Add"
 msgstr "Додати"
 
-#: weblate/templates/component.html:270
+#: weblate/templates/component.html:268
 msgid "Rename component"
 msgstr "Перейменувати складник"
 
-#: weblate/templates/component.html:273
+#: weblate/templates/component.html:271
 msgid ""
 "Renaming the component will change all its URLs, users will have to update "
 "bookmarks or references in cloned repositories!"
@@ -5689,11 +5713,11 @@ msgstr ""
 "Перейменування складників буде змінювати всі URL, користувачі будуть "
 "оновлювати заклади чи посилання у клонованих сховищах!"
 
-#: weblate/templates/component.html:285
+#: weblate/templates/component.html:283
 msgid "Move component"
 msgstr "Перемістити складник"
 
-#: weblate/templates/component.html:288
+#: weblate/templates/component.html:286
 msgid ""
 "Moving the component will change all its URLs, users will have to update "
 "bookmarks or references in cloned repositories!"
@@ -5701,17 +5725,17 @@ msgstr ""
 "Перейменування складника буде змінювати всі URL, користувачі будуть "
 "оновлювати закладки чи посилання у клонованих сховищах!"
 
-#: weblate/templates/component.html:293
+#: weblate/templates/component.html:291
 msgid "Move"
 msgstr "Перемістити"
 
-#: weblate/templates/component.html:304 weblate/templates/project.html:280
-#: weblate/templates/translate.html:353 weblate/templates/translation.html:387
+#: weblate/templates/component.html:302 weblate/templates/project.html:282
+#: weblate/templates/translate.html:353 weblate/templates/translation.html:443
 msgid "Loading…"
 msgstr "Завантаження…"
 
-#: weblate/templates/component.html:311
-#: weblate/templates/dashboard/user.html:98 weblate/templates/project.html:287
+#: weblate/templates/component.html:309
+#: weblate/templates/dashboard/user.html:100 weblate/templates/project.html:289
 msgid ""
 "You don't have permission to view reports for all users, only your "
 "contributions will be listed."
@@ -5719,12 +5743,12 @@ msgstr ""
 "У вас немає дозволу на перегляд звітів для всіх користувачів, буде зазначено "
 "лише ваші внески."
 
-#: weblate/templates/component.html:321
-#: weblate/templates/dashboard/user.html:108 weblate/templates/project.html:297
+#: weblate/templates/component.html:319
+#: weblate/templates/dashboard/user.html:110 weblate/templates/project.html:299
 msgid "Credits"
 msgstr "Подяки"
 
-#: weblate/templates/component.html:325
+#: weblate/templates/component.html:323
 msgid ""
 "Lists all translators contributing to this component in a given time period. "
 "Useful for inclusion in documentation or the app itself, to thank "
@@ -5734,21 +5758,21 @@ msgstr ""
 "зазначений проміжок часу. Може придатися для включення в документацію або у "
 "застосунок, щоб подякувати перекладачам та створити відгуки для них."
 
-#: weblate/templates/component.html:329 weblate/templates/component.html:348
-#: weblate/templates/dashboard/user.html:116
-#: weblate/templates/dashboard/user.html:135
-#: weblate/templates/manage/ssh.html:48 weblate/templates/project.html:305
-#: weblate/templates/project.html:324
+#: weblate/templates/component.html:327 weblate/templates/component.html:346
+#: weblate/templates/dashboard/user.html:118
+#: weblate/templates/dashboard/user.html:137
+#: weblate/templates/manage/ssh.html:48 weblate/templates/project.html:307
+#: weblate/templates/project.html:326
 msgid "Generate"
 msgstr "Згенерувати"
 
-#: weblate/templates/component.html:340
-#: weblate/templates/dashboard/user.html:127 weblate/templates/project.html:316
+#: weblate/templates/component.html:338
+#: weblate/templates/dashboard/user.html:129 weblate/templates/project.html:318
 msgid "Contributor stats"
 msgstr "Статистика учасника"
 
-#: weblate/templates/component.html:344
-#: weblate/templates/dashboard/user.html:131 weblate/templates/project.html:320
+#: weblate/templates/component.html:342
+#: weblate/templates/dashboard/user.html:133 weblate/templates/project.html:322
 msgid "Reports the number of strings and words translated by each translator."
 msgstr "Повідомляє число рядків або слів, перекладених кожним перекладачем."
 
@@ -5876,7 +5900,7 @@ msgstr "Налаштування приладової панелі"
 msgid "Recent additions"
 msgstr "Останні доповнення"
 
-#: weblate/templates/dashboard/user.html:56
+#: weblate/templates/dashboard/user.html:58
 msgid ""
 "Choose what languages you want in the preferences, to see overview of "
 "available translations for those languages in your watched projects."
@@ -5884,7 +5908,7 @@ msgstr ""
 "Виберіть бажані для вас мови у налаштуваннях і отримаєте огляд доступних "
 "перекладів для цих мов у відстежуваних вами проєктах."
 
-#: weblate/templates/dashboard/user.html:73
+#: weblate/templates/dashboard/user.html:75
 msgid ""
 "Could not find any suggestions for you, please choose your languages in the "
 "preferences to get some."
@@ -5892,7 +5916,7 @@ msgstr ""
 "Не вдалося знайти для вас які-небудь пропозиції. Будь ласка, виберіть у "
 "налаштуваннях ваші мови, щоби ми змогли рекомендувати вам більше перекладів."
 
-#: weblate/templates/dashboard/user.html:112
+#: weblate/templates/dashboard/user.html:114
 msgid ""
 "Lists all translators contributing in a given time period. Useful for "
 "inclusion in documentation or the app itself, to thank translators and "
@@ -6029,7 +6053,7 @@ msgstr[2] "Мов"
 msgstr[3] "Мова"
 
 #: weblate/templates/engage.html:32
-#: weblate/trans/templatetags/translations.py:878 weblate/trans/widgets.py:100
+#: weblate/trans/templatetags/translations.py:882 weblate/trans/widgets.py:100
 #, python-format
 msgctxt "Translated percents"
 msgid "%(percent)s%%"
@@ -6119,8 +6143,8 @@ msgstr ""
 "Після активації свого профілю ви зможете приступити до розділу перекладу."
 
 #: weblate/templates/engage.html:64
-#: weblate/templates/snippets/list-objects.html:42
-#: weblate/templates/translate.html:30 weblate/templates/translation.html:142
+#: weblate/templates/snippets/list-objects.html:109
+#: weblate/templates/translate.html:30 weblate/templates/translation.html:151
 msgid "Translate"
 msgstr "Переклад"
 
@@ -6197,8 +6221,8 @@ msgstr "Додати шрифт"
 #: weblate/templates/fonts/font_list.html:97
 #: weblate/templates/memory/index.html:165
 #: weblate/templates/screenshots/screenshot_list.html:28
-#: weblate/templates/translation.html:340
-#: weblate/templates/translation.html:351
+#: weblate/templates/translate.html:771 weblate/templates/translation.html:394
+#: weblate/templates/translation.html:407
 msgid "Upload"
 msgstr "Вивантажити"
 
@@ -6360,7 +6384,7 @@ msgstr "Ваш пароль не може містити повторені сл
 msgid "Repository status"
 msgstr "Стан сховища"
 
-#: weblate/templates/js/git-status.html:24
+#: weblate/templates/js/git-status.html:24 weblate/templates/translate.html:696
 msgid "Pending changes not yet committed to the Weblate repository"
 msgstr "Зміни з черги, які ще не подано до сховища Weblate"
 
@@ -6459,16 +6483,24 @@ msgstr "Вилучити усі невідстежувані файли у сх�
 msgid "Cleanup"
 msgstr "Очистити"
 
-#: weblate/templates/js/git-status.html:126
+#: weblate/templates/js/git-status.html:115
+msgid "Force writing all translations to the Weblate repository"
+msgstr "Примусовий запис усіх перекладів до сховища Weblate"
+
+#: weblate/templates/js/git-status.html:115
+msgid "Force synchronization"
+msgstr "Примусова синхронізація"
+
+#: weblate/templates/js/git-status.html:129
 #, python-format
 msgid "Repository for %(component)s"
 msgstr "Сховище для %(component)s"
 
-#: weblate/templates/js/git-status.html:132
+#: weblate/templates/js/git-status.html:135
 msgid "Repository details"
 msgstr "Подробиці сховища"
 
-#: weblate/templates/js/git-status.html:140
+#: weblate/templates/js/git-status.html:143
 msgid "Repository changes"
 msgstr "Зміни сховища"
 
@@ -6551,13 +6583,28 @@ msgstr "Позначити як спам"
 
 #: weblate/templates/mail/account_activity.html:7
 #, python-format
-msgid "There has been a change in your account at %(site_title)s:"
-msgstr "Наявна зміна у вашому профілі на %(site_title)s:"
+msgid "There has been a following change in your account at %(site_title)s:"
+msgstr "Наявна така зміна у вашому профілі на %(site_title)s:"
 
 #: weblate/templates/mail/account_activity.html:32
 msgid ""
-"If you did not request this change, please report it as soon as possible."
-msgstr "Якщо ви не запитуєте цю зміну, повідомте про це якомога скоріше."
+"If you don’t recognize this change, you can report it by clicking the button "
+"below."
+msgstr ""
+"Якщо ви не впізнаєте цієї зміни, ви можете повідомити про неї натиснувши "
+"кнопку знизу."
+
+#: weblate/templates/mail/account_activity.html:33
+msgid ""
+"Don’t use this button for support questions. Such questions won’t be "
+"answered."
+msgstr ""
+"Не використовуйте цю кнопку для питань щодо підтримки. На такі питання "
+"відповіді не буде."
+
+#: weblate/templates/mail/account_activity.html:37
+msgid "Report"
+msgstr "Звіт"
 
 #: weblate/templates/mail/account_activity_subject.txt:4
 #, python-format
@@ -6988,13 +7035,16 @@ msgstr "Якщо є проблеми з реєстрацією, будь лас�
 #: weblate/templates/mail/snippets/source-string.html:9
 #: weblate/templates/screenshots/screenshot_detail.html:27
 #: weblate/templates/screenshots/screenshot_detail.html:55
-#: weblate/templates/translate.html:88 weblate/trans/forms.py:1996
-#: weblate/utils/views.py:105
+#: weblate/templates/snippets/unit-readonly-badge.html:6
+#: weblate/templates/snippets/unit-readonly-badge.html:8
+#: weblate/templates/snippets/unit-readonly-badge.html:10
+#: weblate/templates/translate.html:88 weblate/trans/forms.py:2031
+#: weblate/utils/views.py:133
 msgid "Source string"
 msgstr "Джерельні рядки"
 
 #: weblate/templates/mail/snippets/unit-screenshots.html:5
-#: weblate/templates/translate.html:592
+#: weblate/templates/translate.html:590
 msgid "Screenshot context"
 msgstr "Знімок контексту"
 
@@ -7016,7 +7066,7 @@ msgstr[1] "%(count)s рядки, які потребують дій"
 msgstr[2] "%(count)s рядків, які потребують дій"
 msgstr[3] "%(count)s рядок, який потребує дій"
 
-#: weblate/templates/manage-access.html:10 weblate/trans/models/project.py:125
+#: weblate/templates/manage-access.html:10 weblate/trans/models/project.py:126
 msgid "Access control"
 msgstr "Керування доступом"
 
@@ -7098,7 +7148,7 @@ msgstr "Проєкти без складників"
 msgid "Congratulations, your setup seems to work."
 msgstr "Вітаємо, ваше налаштування, здається, працює."
 
-#: weblate/templates/manage/appearance.html:10 weblate/wladmin/views.py:71
+#: weblate/templates/manage/appearance.html:10 weblate/wladmin/views.py:76
 msgid "Appearance"
 msgstr "Зовнішній вигляд"
 
@@ -7110,7 +7160,7 @@ msgstr "Підлаштування вигляду"
 msgid "Reset customization"
 msgstr "Скинути підлаштування"
 
-#: weblate/templates/manage/backups.html:8 weblate/wladmin/views.py:64
+#: weblate/templates/manage/backups.html:8 weblate/wladmin/views.py:69
 msgid "Backups"
 msgstr "Резервне копіювання"
 
@@ -7182,22 +7232,50 @@ msgstr "Перевищення лімітів на обслуговування"
 msgid "Support expiry"
 msgstr "Строк служби підтримки"
 
-#: weblate/templates/manage/index.html:47
+#: weblate/templates/manage/index.html:46
+msgid "Discover Weblate"
+msgstr "Виявлення Weblate"
+
+#: weblate/templates/manage/index.html:48
+msgid "Browse discovery"
+msgstr "Навігаційний огляд"
+
+#: weblate/templates/manage/index.html:50
+msgid "Your Weblate is listed on weblate.org"
+msgstr "Ваш Weblate є у списку на weblate.org"
+
+#: weblate/templates/manage/index.html:52
+msgid "Disable discovery"
+msgstr "Вимкнути виявлення"
+
+#: weblate/templates/manage/index.html:53
+msgid "Manage your listing"
+msgstr "Керування списком"
+
+#: weblate/templates/manage/index.html:55
+msgid "Your Weblate is not listed on weblate.org"
+msgstr "Вашого Weblate немає у списку на weblate.org"
+
+#: weblate/templates/manage/index.html:57
+msgid "Enable discovery"
+msgstr "Увімкнути виявлення"
+
+#: weblate/templates/manage/index.html:65
+msgid "Manage support package"
+msgstr "Керування пакунком підтримки"
+
+#: weblate/templates/manage/index.html:68
 #: weblate/templates/manage/snippets/activation-form.html:18
 msgid "Purchase support package"
 msgstr "Придбати пакунок підтримки"
 
-#: weblate/templates/manage/index.html:50
-msgid "Manage support package"
-msgstr "Керування пакунком підтримки"
-
-#: weblate/templates/manage/index.html:51
+#: weblate/templates/manage/index.html:71
 msgid "Get help"
 msgstr "Ознайомитися із довідкою"
 
 #: weblate/templates/manage/performance.html:9
 #: weblate/wladmin/templates/admin/weblate-index.html:36
-#: weblate/wladmin/views.py:66
+#: weblate/wladmin/views.py:71
 msgid "Performance report"
 msgstr "Звіт щодо швидкодії"
 
@@ -7280,7 +7358,7 @@ msgstr ""
 
 #: weblate/templates/manage/ssh.html:8
 #: weblate/wladmin/templates/admin/weblate-index.html:26
-#: weblate/wladmin/views.py:67
+#: weblate/wladmin/views.py:72
 msgid "SSH keys"
 msgstr "Ключі SSH"
 
@@ -7365,7 +7443,7 @@ msgstr "Утворити тестову подію для перевірки і�
 msgid "User billings"
 msgstr "Рахунки користувача"
 
-#: weblate/templates/manage/users_check.html:63 weblate/trans/forms.py:163
+#: weblate/templates/manage/users_check.html:63 weblate/trans/forms.py:161
 msgid "No matching user found."
 msgstr "Жодного збігу серед користувачів не виявлено."
 
@@ -7516,7 +7594,7 @@ msgstr "Перейти"
 msgid "/ %(total)s"
 msgstr "з %(total)s"
 
-#: weblate/templates/progress.html:8 weblate/trans/forms.py:465
+#: weblate/templates/progress.html:8 weblate/trans/forms.py:463
 msgid "Approved"
 msgstr "Схвалено"
 
@@ -7524,15 +7602,15 @@ msgstr "Схвалено"
 msgid "Good"
 msgstr "Добре"
 
-#: weblate/templates/progress.html:17 weblate/templates/translation.html:430
-#: weblate/trans/forms.py:444 weblate/trans/forms.py:463
+#: weblate/templates/progress.html:17 weblate/templates/translation.html:486
+#: weblate/trans/forms.py:442 weblate/trans/forms.py:461
 msgid "Needs editing"
 msgstr "Потребує редагування"
 
 #: weblate/templates/project-label-edit.html:9
 #: weblate/templates/project-labels.html:9 weblate/templates/project.html:100
-#: weblate/templates/translate.html:634 weblate/trans/models/unit.py:322
-#: weblate/utils/views.py:104
+#: weblate/templates/translate.html:634 weblate/trans/models/unit.py:326
+#: weblate/utils/views.py:132
 msgid "Labels"
 msgstr "Мітки"
 
@@ -7560,16 +7638,16 @@ msgstr "Оголошення"
 msgid "Tweet this translation"
 msgstr "Твітнути цей переклад"
 
-#: weblate/templates/project.html:173 weblate/templates/project.html:179
+#: weblate/templates/project.html:175 weblate/templates/project.html:181
 msgid "Browse all project changes"
 msgstr "Перегляд всіх змін проєкту"
 
-#: weblate/templates/project.html:219
+#: weblate/templates/project.html:221
 msgid "You can change the state of all strings matching given type at once."
 msgstr ""
 "Ви можете відразу змінити стан усіх рядків, що відповідають заданому типу."
 
-#: weblate/templates/project.html:242
+#: weblate/templates/project.html:244
 msgid ""
 "The message is shown for all translations within the project, until its "
 "given expiry, or permanently until it is deleted."
@@ -7577,11 +7655,11 @@ msgstr ""
 "Повідомлення показується у всіх перекладах проєкту до закінчення терміну або "
 "завжди до вилучення."
 
-#: weblate/templates/project.html:262
+#: weblate/templates/project.html:264
 msgid "Rename project"
 msgstr "Перейменувати проєкт"
 
-#: weblate/templates/project.html:265
+#: weblate/templates/project.html:267
 msgid ""
 "Renaming the project will change all URLs, users will have to update "
 "bookmarks or references in cloned repositories!"
@@ -7589,7 +7667,7 @@ msgstr ""
 "Перейменування проєкту змінить всі URL-адреси, користувачам доведеться "
 "оновлювати закладки або посилання в клонованих сховищах!"
 
-#: weblate/templates/project.html:301
+#: weblate/templates/project.html:303
 msgid ""
 "Lists all translators contributing to this project in a given time period. "
 "Useful for inclusion in documentation or the app itself, to thank "
@@ -7599,7 +7677,7 @@ msgstr ""
 "проміжок часу. Корисно для включення в документацію або сам додаток, щоб "
 "подякувати перекладачам та утворити їм відгуки."
 
-#: weblate/templates/project_info.html:7 weblate/trans/models/project.py:92
+#: weblate/templates/project_info.html:7 weblate/trans/models/project.py:93
 msgid "Project website"
 msgstr "Вебсайт проєкту"
 
@@ -7694,12 +7772,13 @@ msgstr ""
 "джерельних рядків."
 
 #: weblate/templates/screenshots/screenshot_list.html:23
+#: weblate/templates/translate.html:764
 msgid "Add new screenshot"
 msgstr "Додати новий знімок"
 
 #: weblate/templates/screenshots/screenshot_list.html:39
-#: weblate/templates/translation.html:136
-#: weblate/templates/translation.html:409
+#: weblate/templates/translation.html:142
+#: weblate/templates/translation.html:465
 msgid "Strings"
 msgstr "Рядки"
 
@@ -7792,13 +7871,13 @@ msgstr "Довжина початкового рядка"
 msgid "State"
 msgstr "Стан"
 
-#: weblate/templates/snippets/git-info.html:10 weblate/trans/forms.py:1625
+#: weblate/templates/snippets/git-info.html:10 weblate/trans/forms.py:1650
 #: weblate/trans/models/component.py:272
 msgid "Source code repository"
 msgstr "Сховище з джерелами"
 
-#: weblate/templates/snippets/git-info.html:18 weblate/trans/forms.py:1489
-#: weblate/trans/forms.py:1633 weblate/trans/models/component.py:321
+#: weblate/templates/snippets/git-info.html:18 weblate/trans/forms.py:1514
+#: weblate/trans/forms.py:1658 weblate/trans/models/component.py:321
 msgid "Repository branch"
 msgstr "Гілка сховища"
 
@@ -7817,6 +7896,7 @@ msgid "Weblate repository"
 msgstr "Сховище Weblate"
 
 #: weblate/templates/snippets/glossary.html:7
+#: weblate/templates/snippets/unit-state.html:26
 msgid "This translation is forbidden."
 msgstr "Цей переклад заборонено."
 
@@ -7828,11 +7908,11 @@ msgstr "Цей термін не слід перекладати."
 msgid "Copy word into translation"
 msgstr "Копіювати слово у переклад"
 
-#: weblate/templates/snippets/glossary.html:16
+#: weblate/templates/snippets/glossary.html:23
 msgid "Edit glossary term"
 msgstr "Змінити термін глосарія"
 
-#: weblate/templates/snippets/glossary.html:27
+#: weblate/templates/snippets/glossary.html:45
 msgid "No related strings found in the glossary."
 msgstr "Відповідних рядків у словнику не знайдено."
 
@@ -7900,35 +7980,50 @@ msgid "%(value)s of %(all)s"
 msgstr "%(value)s з %(all)s"
 
 #: weblate/templates/snippets/list-objects-percent.html:7
-msgid "Completed translation"
-msgstr "Завершений переклад"
+#, python-format
+msgid "Completed translation with %(count)s string"
+msgid_plural "Completed translation with %(count)s strings"
+msgstr[0] "Завершений переклад з %(count)s рядком"
+msgstr[1] "Завершений переклад з %(count)s рядками"
+msgstr[2] "Завершений переклад з %(count)s рядками"
+msgstr[3] "Завершений переклад з %(count)s рядком"
 
-#: weblate/templates/snippets/list-objects.html:17
+#: weblate/templates/snippets/list-objects.html:19
+#: weblate/templates/snippets/list-objects.html:29
+#: weblate/templates/snippets/list-objects.html:39
+#: weblate/templates/snippets/list-objects.html:49
+#: weblate/templates/snippets/list-objects.html:59
+#: weblate/templates/snippets/list-objects.html:69
+#: weblate/templates/snippets/list-objects.html:79
+msgid "Sort this column"
+msgstr "Відсортувати цей стовпець"
+
+#: weblate/templates/snippets/list-objects.html:43
 msgid "Untranslated"
 msgstr "Не перекладено"
 
-#: weblate/templates/snippets/list-objects.html:18
+#: weblate/templates/snippets/list-objects.html:53
 msgid "Untranslated words"
 msgstr "Не перекладено слів"
 
-#: weblate/templates/snippets/list-objects.html:20
+#: weblate/templates/snippets/list-objects.html:73
 #: weblate/templates/trans/suggestion_list.html:8
 #: weblate/templates/translate.html:249 weblate/templates/translate.html:433
-#: weblate/trans/forms.py:1313
+#: weblate/trans/forms.py:1333
 msgid "Suggestions"
 msgstr "Пропозиції"
 
-#: weblate/templates/snippets/list-objects.html:21
+#: weblate/templates/snippets/list-objects.html:83
 #: weblate/templates/translate.html:255 weblate/templates/translate.html:499
 #: weblate/templates/translate.html:667
 msgid "Comments"
 msgstr "Коментарі"
 
-#: weblate/templates/snippets/list-objects.html:38
+#: weblate/templates/snippets/list-objects.html:105
 msgid "Create translation"
 msgstr "Створити переклад"
 
-#: weblate/templates/snippets/list-objects.html:106
+#: weblate/templates/snippets/list-objects.html:179
 msgid "Nothing to list here."
 msgstr "Тут нічого перелічити."
 
@@ -8125,13 +8220,18 @@ msgstr "Усі неперекладені рядки, додані за оста
 msgid "Translated strings in a certain language"
 msgstr "Перекладені рядки певною мовою"
 
-#: weblate/templates/snippets/query-field.html:9
+#: weblate/templates/snippets/query-field.html:7 weblate/trans/filter.py:33
+#: weblate/trans/filter.py:121
+msgid "All strings"
+msgstr "Усі рядки"
+
+#: weblate/templates/snippets/query-field.html:11
 msgid "Custom search"
 msgstr "Нетиповий пошук"
 
-#: weblate/templates/snippets/query-field.html:19
+#: weblate/templates/snippets/query-field.html:21
 #: weblate/templates/snippets/user-query-field.html:5
-#: weblate/trans/forms.py:171
+#: weblate/trans/forms.py:169
 msgid "Query"
 msgstr "Запит"
 
@@ -8232,6 +8332,21 @@ msgstr "Непройдені перевірки:"
 #: weblate/templates/snippets/unit-readonly-badge.html:4
 msgid "Source in review"
 msgstr "Початкові рядки рецензуються"
+
+#: weblate/templates/snippets/unit-readonly-badge.html:6
+msgid "Source string editing is disabled."
+msgstr "Редагування початкового рядка вимкнено."
+
+#: weblate/templates/snippets/unit-readonly-badge.html:8
+msgid ""
+"Source string cannot be edited, but you can delete it and add a new one."
+msgstr ""
+"Початковий рядок не можна редагувати, але ви можете вилучити його і додати "
+"новий."
+
+#: weblate/templates/snippets/unit-readonly-badge.html:10
+msgid "Source string cannot be edited."
+msgstr "Початковий рядок не можна редагувати."
 
 #: weblate/templates/snippets/unit-state.html:5
 #: weblate/trans/templatetags/translations.py:556 weblate/utils/state.py:31
@@ -8550,21 +8665,12 @@ msgstr ""
 
 #: weblate/templates/trans/alert/occurrences-limit.html:4
 #, python-format
-msgid ""
-"Only part of the occurrences are shown, in total there was %(count)s of them."
-msgid_plural ""
-"Only part of the occurrences are shown, in total there were %(count)s of "
-"them."
-msgstr[0] ""
-"Показано лише частину відповідників. Загалом, виявлено %(count)s відповідник."
-msgstr[1] ""
-"Показано лише частину відповідників. Загалом, виявлено %(count)s "
-"відповідники."
-msgstr[2] ""
-"Показано лише частину відповідників. Загалом, виявлено %(count)s "
-"відповідників."
-msgstr[3] ""
-"Показано лише частину відповідників. Загалом, виявлено %(count)s відповідник."
+msgid "Only some of the %(count)s occurrences are shown."
+msgid_plural "Only some of the %(count)s occurrences are shown."
+msgstr[0] "Показано лише деякі із %(count)s відповідника."
+msgstr[1] "Показано лише деякі із %(count)s відповідників."
+msgstr[2] "Показано лише деякі із %(count)s відповідників."
+msgstr[3] "Показано лише деякі із %(count)s відповідника."
 
 #: weblate/templates/trans/alert/parseerror.html:4
 msgid ""
@@ -8578,7 +8684,7 @@ msgid "Weblate could not push changes to the upstream repository."
 msgstr "Weblate не зміг записати поточні зміни у основне сховище."
 
 #: weblate/templates/trans/alert/pushfailure.html:9
-#: weblate/trans/models/component.py:2363
+#: weblate/trans/models/component.py:2378
 msgid ""
 "Your push URL seems to miss credentials. Either provide them in the URL or "
 "use SSH with key based authentication."
@@ -8603,7 +8709,7 @@ msgstr ""
 "вручну або налаштуйте автоматизацію."
 
 #: weblate/templates/trans/alert/unsupportedconfiguration.html:9
-#: weblate/trans/forms.py:1616 weblate/trans/models/component.py:260
+#: weblate/trans/forms.py:1641 weblate/trans/models/component.py:260
 msgid "Version control system"
 msgstr "Система керування версіями"
 
@@ -8913,7 +9019,7 @@ msgstr ""
 msgid "Edit in Zen mode"
 msgstr "Редагувати у режимі Дзен"
 
-#: weblate/templates/translate.html:57 weblate/templates/translation.html:189
+#: weblate/templates/translate.html:57 weblate/templates/translation.html:198
 #: weblate/templates/zen.html:26
 msgid "Zen"
 msgstr "Дзен"
@@ -8943,11 +9049,11 @@ msgid "Intermediate language"
 msgstr "Проміжна мова"
 
 #: weblate/templates/translate.html:144 weblate/templates/translate.html:605
-#: weblate/templates/zen-units.html:44 weblate/trans/models/unit.py:307
+#: weblate/templates/zen-units.html:44 weblate/trans/models/unit.py:311
 msgid "Explanation"
 msgstr "Пояснення"
 
-#: weblate/templates/translate.html:167 weblate/trans/forms.py:923
+#: weblate/templates/translate.html:167 weblate/trans/forms.py:919
 msgid "Report issue with the source string"
 msgstr "Повідомити про проблему із початковим рядком"
 
@@ -8991,9 +9097,9 @@ msgstr "Для участі в цьому перекладі вам слід п�
 msgid "Insufficient privileges for editing source strings."
 msgstr "Недостатньо прав доступу для редагування початкових рядків."
 
-#: weblate/templates/translate.html:218 weblate/trans/views/edit.py:389
-#: weblate/trans/views/edit.py:409 weblate/trans/views/edit.py:427
-#: weblate/trans/views/edit.py:879
+#: weblate/templates/translate.html:218 weblate/trans/views/edit.py:390
+#: weblate/trans/views/edit.py:410 weblate/trans/views/edit.py:428
+#: weblate/trans/views/edit.py:888
 msgid "Insufficient privileges for saving translations."
 msgstr "Недостатньо прав для збереження перекладів."
 
@@ -9155,19 +9261,20 @@ msgstr[1] "Для цього рядка є %(count)s варіанти."
 msgstr[2] "Для цього рядка є%(count)s варіантів."
 msgstr[3] "Для цього рядка є %(count)s варіант."
 
-#: weblate/templates/translate.html:533
-msgid "Manage glossary"
-msgstr "Управління словником"
+#: weblate/templates/translate.html:532
+#, python-format
+msgid "Browse glossary %(name)s"
+msgstr "Навігація глосарієм %(name)s"
 
-#: weblate/templates/translate.html:555 weblate/templates/translate.html:565
+#: weblate/templates/translate.html:554 weblate/templates/translate.html:564
 msgid "Add term to glossary"
 msgstr "Додати термін до глосарія"
 
-#: weblate/templates/translate.html:585
-msgid "Source information"
-msgstr "Відомості по джерелу"
+#: weblate/templates/translate.html:583
+msgid "String information"
+msgstr "Відомості щодо рядка"
 
-#: weblate/templates/translate.html:597
+#: weblate/templates/translate.html:595
 msgid "No screenshot currently associated."
 msgstr "Наразі немає пов'язаного знімка."
 
@@ -9199,7 +9306,7 @@ msgstr "Вік рядків"
 msgid "Source string age"
 msgstr "Вік джерельного рядка"
 
-#: weblate/templates/translate.html:687 weblate/templates/translation.html:214
+#: weblate/templates/translate.html:687 weblate/templates/translation.html:224
 msgid "Translation file"
 msgstr "Файл перекладу"
 
@@ -9213,55 +9320,47 @@ msgstr "%(filename)s, рядок %(position)s"
 msgid "string %(position)s"
 msgstr "рядок %(position)s"
 
-#: weblate/templates/translate.html:739 weblate/templates/translation.html:75
-#: weblate/templates/translation.html:306
-msgid "Add new translation string"
-msgstr "Додати новий рядок перекладу"
+#: weblate/templates/translate.html:696
+msgid "pending"
+msgstr "у черзі"
 
-#: weblate/templates/translation-download.html:7
+#: weblate/templates/translate.html:742
 #, python-format
-msgid "Download original translation file (%(format)s)"
-msgstr "Завантажити оригінальний файл з перекладом (%(format)s)"
+msgid "Add a new variant for \"%(existing)s\""
+msgstr "Додати новий варіант «%(existing)s»"
 
-#: weblate/templates/translation-download.html:11
-#, python-format
-msgid "Download translation file as %(format)s"
-msgstr "Завантажити файл перекладу як (%(format)s)"
+#: weblate/templates/translation.html:56
+msgid "Download translation"
+msgstr "Завантажити переклад"
 
-#: weblate/templates/translation-download.html:16
-#, python-format
-msgid "Download strings needing action as %(format)s"
-msgstr "Звантажити рядки, які потребують дій, як %(format)s"
-
-#: weblate/templates/translation-download.html:20
-#: weblate/templates/translation.html:325
+#: weblate/templates/translation.html:58 weblate/templates/translation.html:374
 msgid "Customize download"
 msgstr "Налаштувати завантаження"
 
-#: weblate/templates/translation-download.html:23
+#: weblate/templates/translation.html:60
 msgid "Upload translation"
 msgstr "Вивантажити переклад"
 
-#: weblate/templates/translation.html:129 weblate/templates/widgets.html:70
+#: weblate/templates/translation.html:135 weblate/templates/widgets.html:70
 #: weblate/templates/widgets.html:78 weblate/templates/widgets.html:85
 #: weblate/templates/widgets.html:93
 msgid "Translation status"
 msgstr "Стан перекладу"
 
-#: weblate/templates/translation.html:149
-#: weblate/templates/translation.html:410
+#: weblate/templates/translation.html:158
+#: weblate/templates/translation.html:466
 msgid "Words"
 msgstr "Слова"
 
-#: weblate/templates/translation.html:157
+#: weblate/templates/translation.html:166
 msgid "This translation is being used as source strings within this component."
 msgstr "Цей переклад використовується як джерельний рядок у цьому складнику."
 
-#: weblate/templates/translation.html:167
+#: weblate/templates/translation.html:176
 msgid "Strings status"
 msgstr "Стан рядків"
 
-#: weblate/templates/translation.html:183
+#: weblate/templates/translation.html:192
 #, python-format
 msgid "%(count)s word"
 msgid_plural "%(count)s words"
@@ -9270,28 +9369,28 @@ msgstr[1] "%(count)s слова"
 msgstr[2] "%(count)s слів"
 msgstr[3] "%(count)s слово"
 
-#: weblate/templates/translation.html:197
+#: weblate/templates/translation.html:207
 msgid "Other components"
 msgstr "Інші складники"
 
-#: weblate/templates/translation.html:200
+#: weblate/templates/translation.html:210
 msgid "Browse all components"
 msgstr "Навігація всіма складниками"
 
-#: weblate/templates/translation.html:209
+#: weblate/templates/translation.html:219
 msgid "Translation Information"
 msgstr "Відомості про переклад"
 
-#: weblate/templates/translation.html:218
-#: weblate/templates/translation.html:330
+#: weblate/templates/translation.html:227
+#: weblate/templates/translation.html:381
 msgid "Download"
 msgstr "Завантажити"
 
-#: weblate/templates/translation.html:239
+#: weblate/templates/translation.html:241
 msgid "Browse all translation changes"
 msgstr "Переглянути всі зміни перекладу"
 
-#: weblate/templates/translation.html:254
+#: weblate/templates/translation.html:256
 msgid ""
 "Automatic translation takes existing translations in this project and "
 "applies them to the current component. It can be used to push translations "
@@ -9303,7 +9402,7 @@ msgstr ""
 "виправити відповідні переклади або перекласти новий складник за допомогою "
 "пам'яті перекладу."
 
-#: weblate/templates/translation.html:255
+#: weblate/templates/translation.html:257
 msgid ""
 "Automatic translation via machine translation uses active machine "
 "translation engines to get the best possible translations and applies them "
@@ -9313,7 +9412,7 @@ msgstr ""
 "комп'ютерного перекладу, щоби отримати найкращі можливі переклади та "
 "застосовує їх у цьому проєкті."
 
-#: weblate/templates/translation.html:273
+#: weblate/templates/translation.html:275
 msgid ""
 "You can substitute all instances of a string. The search is a simple case "
 "sensitive substring search."
@@ -9321,7 +9420,7 @@ msgstr ""
 "Ви можете замінити всі примірники рядка. Цей пошук є простим пошуком "
 "підрядка із врахуванням регістру."
 
-#: weblate/templates/translation.html:309
+#: weblate/templates/translation.html:311
 msgid ""
 "You can add a new translation string here, it will automatically appear in "
 "all translations."
@@ -9329,7 +9428,31 @@ msgstr ""
 "Тут ви можете додати новий рядок перекладу. Він автоматично з'явиться у всіх "
 "перекладах."
 
-#: weblate/templates/translation.html:343
+#: weblate/templates/translation.html:329
+msgid "Quick downloads"
+msgstr "Швидке завантаження"
+
+#: weblate/templates/translation.html:336
+msgid "File in original format as translated in the repository"
+msgstr "Файл у початковому форматі, перекладено у сховищі"
+
+#: weblate/templates/translation.html:345
+msgid ""
+"All strings, converted files enriched with comments; suitable for "
+"translating offline"
+msgstr ""
+"Всі рядки, перетворені файли, доповнені коментарями; підходить для перекладу "
+"в автономному режимі"
+
+#: weblate/templates/translation.html:357
+msgid ""
+"Strings needing action, converted files enriched with comments; suitable for "
+"translating offline"
+msgstr ""
+"Рядки, що потребують дії, перетворені файли, доповнені коментарями; "
+"підходить для перекладу в автономному режимі"
+
+#: weblate/templates/translation.html:399
 msgid ""
 "The uploaded file will be merged with the current translation. In case you "
 "want to overwrite already translated strings, don't forget to turn it on."
@@ -9337,11 +9460,11 @@ msgstr ""
 "Завантажені файли будуть злиті з поточним перекладом. Якщо хочете переписати "
 "перекладені рядки, не забудьте це увімкнути."
 
-#: weblate/templates/translation.html:345
+#: weblate/templates/translation.html:401
 msgid "The uploaded file will be merged with the current translation."
 msgstr "Вивантажений файл буде злитий з поточним перекладом."
 
-#: weblate/templates/translation.html:370
+#: weblate/templates/translation.html:426
 msgid ""
 "The message is shown on the translation page, until its given expiry, or "
 "deletion."
@@ -9349,23 +9472,23 @@ msgstr ""
 "Повідомлення буде показано на сторінці перекладів до завершення терміну або "
 "до вилучення."
 
-#: weblate/templates/translation.html:408
+#: weblate/templates/translation.html:464
 msgid "Percent"
 msgstr "Відсоток"
 
-#: weblate/templates/translation.html:411
+#: weblate/templates/translation.html:467
 msgid "Chars"
 msgstr "Знаки"
 
-#: weblate/templates/translation.html:455
+#: weblate/templates/translation.html:511
 msgid "Last activity"
 msgstr "Остання діяльність"
 
-#: weblate/templates/translation.html:459
+#: weblate/templates/translation.html:515
 msgid "Last change"
 msgstr "Остання зміна"
 
-#: weblate/templates/translation.html:463
+#: weblate/templates/translation.html:519
 msgid "Last author"
 msgstr "Останній автор"
 
@@ -9439,7 +9562,7 @@ msgstr "URL малюнку"
 msgid "Open in full editor"
 msgstr "Відкрити у повному редакторі"
 
-#: weblate/templates/zen-units.html:113 weblate/trans/views/edit.py:538
+#: weblate/templates/zen-units.html:113 weblate/trans/views/edit.py:539
 msgid "The translation has come to an end."
 msgstr "Переклад завершено."
 
@@ -9491,12 +9614,12 @@ msgstr "Апострофи у Java MessageFormat"
 msgid "Trailing and leading whitespace"
 msgstr "Кінцеві й початкові пропуски"
 
-#: weblate/trans/context_processors.py:135
+#: weblate/trans/context_processors.py:136
 msgid "Hosted Weblate, the place to localize your software project."
 msgstr ""
 "Хостинг Weblate — це місце для локалізації вашого програмного забезпечення."
 
-#: weblate/trans/context_processors.py:138
+#: weblate/trans/context_processors.py:139
 msgid "This site runs Weblate for localizing various software projects."
 msgstr ""
 "Цей сайт запускає Weblate для локалізації різноманітних проєктів програмного "
@@ -9511,10 +9634,6 @@ msgstr "Останні зміни в %s"
 #, python-format
 msgid "All recent changes made using Weblate in %s."
 msgstr "Всі останні зміни, внесені за допомогою Weblate у %s."
-
-#: weblate/trans/filter.py:33 weblate/trans/filter.py:121
-msgid "All strings"
-msgstr "Усі рядки"
 
 #: weblate/trans/filter.py:34
 msgid "Read only strings"
@@ -9576,51 +9695,51 @@ msgstr "Невдалі перевірки: {}"
 msgid "Labeled: {}"
 msgstr "Помічено: {}"
 
-#: weblate/trans/forms.py:153
+#: weblate/trans/forms.py:151
 msgid "Invalid checksum specified!"
 msgstr "Вказано хибну контрольну суму!"
 
-#: weblate/trans/forms.py:165
+#: weblate/trans/forms.py:163
 msgid "More users matched."
 msgstr "Знайдено більше користувачів."
 
-#: weblate/trans/forms.py:179
+#: weblate/trans/forms.py:177
 msgid "Missing query string."
 msgstr "Відсутній рядок запиту."
 
-#: weblate/trans/forms.py:186
+#: weblate/trans/forms.py:184
 msgid "Failed to parse query string: {}"
 msgstr "Не вдалося розібрати рядок запиту: {}"
 
-#: weblate/trans/forms.py:229 weblate/trans/forms.py:237
+#: weblate/trans/forms.py:227 weblate/trans/forms.py:235
 msgid "Toggle text direction"
 msgstr "Перемкнути напрямок тексту"
 
-#: weblate/trans/forms.py:258
+#: weblate/trans/forms.py:256
 msgid "Fill in with source string"
 msgstr "Заповнити джерельним рядком"
 
-#: weblate/trans/forms.py:260
+#: weblate/trans/forms.py:258
 msgid "Clone source"
 msgstr "Копіювати джерело"
 
-#: weblate/trans/forms.py:387
+#: weblate/trans/forms.py:385
 msgid "Missing translated string!"
 msgstr "Втрачений перекладений рядок!"
 
-#: weblate/trans/forms.py:393
+#: weblate/trans/forms.py:391
 msgid "Search filter"
 msgstr "Фільтр пошуку"
 
-#: weblate/trans/forms.py:398
+#: weblate/trans/forms.py:396
 msgid "Please choose a valid filter type."
 msgstr "Будь ласка, виберіть правильний тип фільтру."
 
-#: weblate/trans/forms.py:430
+#: weblate/trans/forms.py:428
 msgid "The string you wanted to translate is no longer available."
 msgstr "Рядок, який ви хотіли перекласти, більше недоступний."
 
-#: weblate/trans/forms.py:446
+#: weblate/trans/forms.py:444
 msgid ""
 "Strings are usually marked as \"Needs editing\" after the source string is "
 "updated, or when marked as such manually."
@@ -9628,135 +9747,135 @@ msgstr ""
 "Рядок, як правило, позначається таким, що потребує редагування після "
 "оновлення джерельного рядка, або це може бути зроблено вручну."
 
-#: weblate/trans/forms.py:461
+#: weblate/trans/forms.py:459
 msgid "Review state"
 msgstr "Стан перевірки"
 
-#: weblate/trans/forms.py:464
+#: weblate/trans/forms.py:462
 msgid "Waiting for review"
 msgstr "Очікує на перевірку"
 
-#: weblate/trans/forms.py:520
+#: weblate/trans/forms.py:518
 msgid "Source string has been changed meanwhile. Please check your changes."
 msgstr "Змінено джерельний рядок. Будь ласка, перевірте свої зміни."
 
-#: weblate/trans/forms.py:528
+#: weblate/trans/forms.py:526
 msgid ""
 "Translation of the string has been changed meanwhile. Please check your "
 "changes."
 msgstr "Переклад рядка змінено. Перевірте свої зміни."
 
-#: weblate/trans/forms.py:536
+#: weblate/trans/forms.py:534
 msgid "Translation text too long!"
 msgstr "Текст перекладу надто довгий!"
 
-#: weblate/trans/forms.py:597
+#: weblate/trans/forms.py:595
 msgid "File upload mode"
 msgstr "Режим завантаження файлів"
 
-#: weblate/trans/forms.py:599 weblate/trans/forms.py:836
+#: weblate/trans/forms.py:597 weblate/trans/forms.py:834
 msgid "Add as translation"
 msgstr "Додати як переклад"
 
-#: weblate/trans/forms.py:600
+#: weblate/trans/forms.py:598
 msgid "Add as approved translation"
 msgstr "Додати як схвалений переклад"
 
-#: weblate/trans/forms.py:601 weblate/trans/forms.py:835
+#: weblate/trans/forms.py:599 weblate/trans/forms.py:833
 msgid "Add as suggestion"
 msgstr "Додати як пропозицію"
 
-#: weblate/trans/forms.py:602
+#: weblate/trans/forms.py:600
 msgid "Add as translation needing edit"
 msgstr "Додати як переклад, що потребує редагування"
 
-#: weblate/trans/forms.py:603
+#: weblate/trans/forms.py:601
 msgid "Replace existing translation file"
 msgstr "Замінити наявний файл перекладу"
 
-#: weblate/trans/forms.py:604
+#: weblate/trans/forms.py:602
 msgid "Update source strings"
 msgstr "Оновити початкові рядки"
 
-#: weblate/trans/forms.py:605
+#: weblate/trans/forms.py:603
 msgid "Add new strings"
 msgstr "Додати нові рядки"
 
-#: weblate/trans/forms.py:611
+#: weblate/trans/forms.py:609
 msgid "Processing of strings needing edit"
 msgstr "Обробка рядків, які потребують редагування"
 
-#: weblate/trans/forms.py:613
+#: weblate/trans/forms.py:611
 msgid "Do not import"
 msgstr "Не імпортувати"
 
-#: weblate/trans/forms.py:614
+#: weblate/trans/forms.py:612
 msgid "Import as string needing edit"
 msgstr "Імпортувати як рядок, що потребує редагування"
 
-#: weblate/trans/forms.py:615
+#: weblate/trans/forms.py:613
 msgid "Import as translated"
 msgstr "Імпортувати як перекладене"
 
-#: weblate/trans/forms.py:641
+#: weblate/trans/forms.py:639
 msgid "Conflict handling"
 msgstr "Обробка конфліктів"
 
-#: weblate/trans/forms.py:643
+#: weblate/trans/forms.py:641
 msgid ""
 "Whether to overwrite existing translations if the string is already "
 "translated."
 msgstr "Чи переписувати наявні переклади, коли рядок вже перекладений."
 
-#: weblate/trans/forms.py:647
+#: weblate/trans/forms.py:645
 msgid "Update only non translated strings"
 msgstr "Оновити лише неперекладені рядки"
 
-#: weblate/trans/forms.py:648
+#: weblate/trans/forms.py:646
 msgid "Update translated strings"
 msgstr "Оновити перекладені рядки"
 
-#: weblate/trans/forms.py:649
+#: weblate/trans/forms.py:647
 msgid "Update translated and approved strings"
 msgstr "Оновити перекладені і затверджені рядки"
 
-#: weblate/trans/forms.py:659
+#: weblate/trans/forms.py:657
 msgid "Author name"
 msgstr "Ім’я автора"
 
-#: weblate/trans/forms.py:660
+#: weblate/trans/forms.py:658
 msgid "Author e-mail"
 msgstr "Адреса ел. пошти автора"
 
-#: weblate/trans/forms.py:805 weblate/trans/forms.py:807
+#: weblate/trans/forms.py:803 weblate/trans/forms.py:805
 msgid "Could not find merged string."
 msgstr "Не можна знайти об'єднані рядки."
 
-#: weblate/trans/forms.py:825
+#: weblate/trans/forms.py:823
 msgid "Could not find reverted change."
 msgstr "Не вдалося знайти скасовану зміну."
 
-#: weblate/trans/forms.py:833
+#: weblate/trans/forms.py:831
 msgid "Automatic translation mode"
 msgstr "Режим автоматичного перекладу"
 
-#: weblate/trans/forms.py:837
+#: weblate/trans/forms.py:835
 msgid "Add as needing edit"
 msgstr "Додати як \"потребує редагування\""
 
-#: weblate/trans/forms.py:843
+#: weblate/trans/forms.py:841
 msgid "Automatic translation source"
 msgstr "Джерело автоматичного перекладу"
 
-#: weblate/trans/forms.py:845
+#: weblate/trans/forms.py:843
 msgid "Other translation components"
 msgstr "Інші складники перекладу"
 
-#: weblate/trans/forms.py:846
+#: weblate/trans/forms.py:844
 msgid "Machine translation"
 msgstr "Машинний переклад"
 
-#: weblate/trans/forms.py:854
+#: weblate/trans/forms.py:852
 msgid ""
 "Turn on contribution to shared translation memory for the project to get "
 "access to additional components."
@@ -9764,215 +9883,224 @@ msgstr ""
 "Щоб отримати доступ до додаткових складників, увімкніть спільний внесок у "
 "пам'ять перекладів для проєкту."
 
-#: weblate/trans/forms.py:860
+#: weblate/trans/forms.py:858
 msgid "Machine translation engines"
 msgstr "Рушії комп'ютерного перекладу"
 
-#: weblate/trans/forms.py:863
+#: weblate/trans/forms.py:861
 msgid "Score threshold"
 msgstr "Поріг оцінки"
 
-#: weblate/trans/forms.py:887
+#: weblate/trans/forms.py:883
 msgid "All components in current project"
 msgstr "Усі складники у поточному проєкті"
 
-#: weblate/trans/forms.py:915
+#: weblate/trans/forms.py:911
 msgid "Scope"
 msgstr "Область"
 
-#: weblate/trans/forms.py:917
+#: weblate/trans/forms.py:913
 msgid ""
 "Is your comment specific to this translation or generic for all of them?"
 msgstr "Ваш коментар тільки для цього перекладу чи він стосується й інших?"
 
-#: weblate/trans/forms.py:927
+#: weblate/trans/forms.py:923
 msgid "Source string comment, suggestions for changes to this string"
 msgstr "Коментар до джерельного рядка, пропозиції щодо змін цього рядка"
 
-#: weblate/trans/forms.py:931
+#: weblate/trans/forms.py:927
 msgid "Translation comment, discussions with other translators"
 msgstr "Коментар до перекладу, обговорення з іншими перекладачами"
 
-#: weblate/trans/forms.py:938 weblate/trans/models/announcement.py:86
-#: weblate/trans/models/project.py:98
+#: weblate/trans/forms.py:934 weblate/trans/models/announcement.py:86
+#: weblate/trans/models/project.py:99
 msgid "You can use Markdown and mention users by @username."
 msgstr ""
 "Ви можете використовувати Markdown і згадувати користувачів за допомогою "
 "@username."
 
-#: weblate/trans/forms.py:953
+#: weblate/trans/forms.py:949
 msgid "All components"
 msgstr "Усі складники"
 
-#: weblate/trans/forms.py:999
+#: weblate/trans/forms.py:995
 msgid "Please choose"
 msgstr "Будь ласка, виберіть"
 
-#: weblate/trans/forms.py:1062
+#: weblate/trans/forms.py:1058
 msgid "User to add"
 msgstr "Додати користувача"
 
-#: weblate/trans/forms.py:1064
+#: weblate/trans/forms.py:1060
 msgid "Please type in an existing Weblate account name or e-mail address."
 msgstr ""
 "Будь ласка, введіть назву або адресу електронної пошти наявного облікового "
 "запису Weblate."
 
-#: weblate/trans/forms.py:1071
+#: weblate/trans/forms.py:1067
 msgid "Report format"
 msgstr "Формат звіту"
 
-#: weblate/trans/forms.py:1072
+#: weblate/trans/forms.py:1068
 msgid "Choose file format for the report"
 msgstr "Виберіть формат файлу для звіту"
 
-#: weblate/trans/forms.py:1074
+#: weblate/trans/forms.py:1070
 msgid "reStructuredText"
 msgstr "reStructuredText"
 
-#: weblate/trans/forms.py:1076
+#: weblate/trans/forms.py:1072
 msgid "HTML"
 msgstr "HTML"
 
-#: weblate/trans/forms.py:1080
+#: weblate/trans/forms.py:1076
 msgid "Report period"
 msgstr "Період звіту"
 
-#: weblate/trans/forms.py:1082
+#: weblate/trans/forms.py:1078
 msgid "Last 30 days"
 msgstr "Останні 30 днів"
 
-#: weblate/trans/forms.py:1083
+#: weblate/trans/forms.py:1079
 msgid "This month"
 msgstr "Цього місяця"
 
-#: weblate/trans/forms.py:1084
+#: weblate/trans/forms.py:1080
 msgid "Last month"
 msgstr "Останній місяць"
 
-#: weblate/trans/forms.py:1085
+#: weblate/trans/forms.py:1081
 msgid "This year"
 msgstr "Цього року"
 
-#: weblate/trans/forms.py:1086
+#: weblate/trans/forms.py:1082
 msgid "Last year"
 msgstr "Останній рік"
 
-#: weblate/trans/forms.py:1087
+#: weblate/trans/forms.py:1083
 msgid "As specified"
 msgstr "Як вказано"
 
-#: weblate/trans/forms.py:1092
+#: weblate/trans/forms.py:1088
 msgid "Starting date"
 msgstr "Дата початку"
 
-#: weblate/trans/forms.py:1095
+#: weblate/trans/forms.py:1091
 msgid "Ending date"
 msgstr "Дата закінчення"
 
-#: weblate/trans/forms.py:1142 weblate/trans/forms.py:1144
+#: weblate/trans/forms.py:1138 weblate/trans/forms.py:1140
 msgid "Missing date!"
 msgstr "Пропущено дату!"
 
-#: weblate/trans/forms.py:1156
+#: weblate/trans/forms.py:1152
 msgid "Starting date has to be before ending date!"
 msgstr "Дата початку повинна передувати даті кінця!"
 
-#: weblate/trans/forms.py:1174
+#: weblate/trans/forms.py:1170
 msgid "You do not have permission to access this component!"
 msgstr "У вас немає права доступу до цього складника!"
 
-#: weblate/trans/forms.py:1293 weblate/trans/forms.py:1840
+#: weblate/trans/forms.py:1228 weblate/trans/forms.py:1236
+#: weblate/trans/forms.py:1242
+msgid "This field has been identified as spam!"
+msgstr "Це поле визначено спамом!"
+
+#: weblate/trans/forms.py:1313 weblate/trans/forms.py:1865
 msgid "Basic"
 msgstr "Основне"
 
-#: weblate/trans/forms.py:1295
+#: weblate/trans/forms.py:1315
 msgid "License"
 msgstr "Ліцензія"
 
-#: weblate/trans/forms.py:1296
+#: weblate/trans/forms.py:1316
 msgid "Upstream links"
 msgstr "Посилання на проєкт"
 
-#: weblate/trans/forms.py:1298
+#: weblate/trans/forms.py:1318
 msgid "Listing and access"
 msgstr "Список і доступ"
 
-#: weblate/trans/forms.py:1319
+#: weblate/trans/forms.py:1339
 msgid "Translation settings"
 msgstr "Параметри перекладу"
 
-#: weblate/trans/forms.py:1329
+#: weblate/trans/forms.py:1349
 msgid "Version control"
 msgstr "Контроль версій"
 
-#: weblate/trans/forms.py:1331
+#: weblate/trans/forms.py:1351
 msgid "Locations"
 msgstr "Розташування"
 
-#: weblate/trans/forms.py:1341
+#: weblate/trans/forms.py:1361
 msgid "Version control settings"
 msgstr "Налаштування устрою контролю версій"
 
-#: weblate/trans/forms.py:1350 weblate/trans/forms.py:1352
+#: weblate/trans/forms.py:1370 weblate/trans/forms.py:1372
 msgid "Commit messages"
 msgstr "Повідомлення щодо подання"
 
-#: weblate/trans/forms.py:1368
+#: weblate/trans/forms.py:1388
 msgid "Translation files"
 msgstr "Файли перекладу"
 
-#: weblate/trans/forms.py:1375
+#: weblate/trans/forms.py:1395
 msgid "Monolingual translations"
 msgstr "Одномовні переклади"
 
-#: weblate/trans/forms.py:1381
+#: weblate/trans/forms.py:1401
 msgid "Adding new languages"
 msgstr "Додавання нових мов"
 
-#: weblate/trans/forms.py:1459 weblate/trans/models/component.py:246
-#: weblate/trans/models/componentlist.py:44 weblate/trans/models/project.py:82
+#: weblate/trans/forms.py:1479 weblate/trans/models/component.py:246
+#: weblate/trans/models/componentlist.py:44 weblate/trans/models/project.py:83
 msgid "Display name"
 msgstr "Показувана назва"
 
-#: weblate/trans/forms.py:1462 weblate/trans/models/component.py:249
-#: weblate/trans/models/componentlist.py:48 weblate/trans/models/project.py:85
+#: weblate/trans/forms.py:1482 weblate/trans/models/component.py:249
+#: weblate/trans/models/componentlist.py:48 weblate/trans/models/project.py:86
 msgid "URL slug"
 msgstr "Ідентифікатор адреси"
 
-#: weblate/trans/forms.py:1464 weblate/trans/models/component.py:251
-#: weblate/trans/models/componentlist.py:52 weblate/trans/models/project.py:88
+#: weblate/trans/forms.py:1484 weblate/trans/models/component.py:251
+#: weblate/trans/models/componentlist.py:52 weblate/trans/models/project.py:89
 msgid "Name used in URLs and filenames."
 msgstr "Ім'я, що використовується в URL-адресах та іменах файлів."
 
-#: weblate/trans/forms.py:1477
+#: weblate/trans/forms.py:1487 weblate/trans/models/component.py:631
+msgid "Use as a glossary"
+msgstr "Використовувати як глосарій"
+
+#: weblate/trans/forms.py:1502
 msgid "Select existing component to copy configuration from."
 msgstr "Виберіть існуючий складник для копіювання конфігурації."
 
-#: weblate/trans/forms.py:1536 weblate/trans/models/component.py:586
+#: weblate/trans/forms.py:1561 weblate/trans/models/component.py:576
 msgid "Source language"
 msgstr "Джерельна мова"
 
-#: weblate/trans/forms.py:1537 weblate/trans/models/component.py:587
+#: weblate/trans/forms.py:1562 weblate/trans/models/component.py:577
 msgid "Language used for source strings in all components"
 msgstr "Мова, використана для джерельних рядків у всіх складниках"
 
-#: weblate/trans/forms.py:1580
+#: weblate/trans/forms.py:1605
 msgid "ZIP file containing translations"
 msgstr "ZIP-файл, що містить переклади"
 
-#: weblate/trans/forms.py:1594
+#: weblate/trans/forms.py:1619
 msgid "Document to translate"
 msgstr "Документ для перекладу"
 
-#: weblate/trans/forms.py:1618
+#: weblate/trans/forms.py:1643
 msgid ""
 "Version control system to use to access your repository with translations."
 msgstr ""
 "Устрій контролю версій, який використовується для доступу до сховищ із "
 "перекладами."
 
-#: weblate/trans/forms.py:1628
+#: weblate/trans/forms.py:1653
 msgid ""
 "URL of a repository, use weblate://project/component for sharing with other "
 "component."
@@ -9980,19 +10108,19 @@ msgstr ""
 "URL-адреса сховища, використовуйте weblate://project/component для спільного "
 "використання з іншими складниками."
 
-#: weblate/trans/forms.py:1635 weblate/trans/models/component.py:323
+#: weblate/trans/forms.py:1660 weblate/trans/models/component.py:323
 msgid "Repository branch to translate"
 msgstr "Гілка сховища для перекладу"
 
-#: weblate/trans/forms.py:1667
+#: weblate/trans/forms.py:1692
 msgid "Choose translation files to import"
 msgstr "Вибрати файли перекладу для імпорту"
 
-#: weblate/trans/forms.py:1668
+#: weblate/trans/forms.py:1693
 msgid "Specify configuration manually"
 msgstr "Задати вручну параметри"
 
-#: weblate/trans/forms.py:1804
+#: weblate/trans/forms.py:1829
 #, python-format
 msgid ""
 "You must specify a license for these components to make them publicly "
@@ -10001,32 +10129,32 @@ msgstr ""
 "Ви повинні вказати ліцензію для цих складників, щоби зробити їх "
 "загальнодоступними: %s"
 
-#: weblate/trans/forms.py:1847
+#: weblate/trans/forms.py:1872
 msgid "Access"
 msgstr "Доступ"
 
-#: weblate/trans/forms.py:1856
+#: weblate/trans/forms.py:1881
 msgid "Workflow"
 msgstr "Процес"
 
-#: weblate/trans/forms.py:1881
+#: weblate/trans/forms.py:1906
 msgid ""
 "Uses and contributes to the pool of shared translations between projects."
 msgstr "Використовує та додає у базу спільних перекладів для різних проєктів."
 
-#: weblate/trans/forms.py:1918
+#: weblate/trans/forms.py:1943
 msgid "Search string"
 msgstr "Пошук рядка"
 
-#: weblate/trans/forms.py:1921
+#: weblate/trans/forms.py:1946
 msgid "Replacement string"
 msgstr "Заміна рядка"
 
-#: weblate/trans/forms.py:1959 weblate/trans/forms.py:1991
+#: weblate/trans/forms.py:1997 weblate/trans/forms.py:2026
 msgid "Translation key"
 msgstr "Ключ до перекладу"
 
-#: weblate/trans/forms.py:1961
+#: weblate/trans/forms.py:1999
 msgid ""
 "Key used to identify string in translation file. File format specific rules "
 "might apply."
@@ -10034,82 +10162,82 @@ msgstr ""
 "Ключ використовується для визначення рядка у файлі перекладу. Можуть "
 "застосовуватися спеціальні правила формату файлу."
 
-#: weblate/trans/forms.py:1967
+#: weblate/trans/forms.py:2005
 msgid "Source language text"
 msgstr "Текст мовою первини"
 
-#: weblate/trans/forms.py:1969
+#: weblate/trans/forms.py:2007
 msgid ""
 "You can edit this later, as with any other string in the source language."
 msgstr ""
 "Ви можете виконати редагування пізніше, як і будь-якого іншого початкового "
 "рядка."
 
-#: weblate/trans/forms.py:1992
+#: weblate/trans/forms.py:2027
 msgid "Optional context to clarify the source strings."
 msgstr "Додаткове пояснення щодо значення або використання початкових рядків."
 
-#: weblate/trans/forms.py:2027
+#: weblate/trans/forms.py:2056
 msgid "You can edit this later, as with any other string in the translation."
 msgstr ""
 "Ви можете виконати редагування пізніше, як і будь-якого іншого рядка "
 "перекладу."
 
-#: weblate/trans/forms.py:2050
+#: weblate/trans/forms.py:2112
 msgid "State to set"
 msgstr "Стан для встановлення"
 
-#: weblate/trans/forms.py:2050
+#: weblate/trans/forms.py:2112
 msgid "Do not change"
 msgstr "Не змінюйте"
 
-#: weblate/trans/forms.py:2052
+#: weblate/trans/forms.py:2114
 msgid "Translation flags to add"
 msgstr "Прапорці перекладу для додавання"
 
-#: weblate/trans/forms.py:2053
+#: weblate/trans/forms.py:2115
 msgid "Translation flags to remove"
 msgstr "Прапорці для перекладу для видалення"
 
-#: weblate/trans/forms.py:2056
+#: weblate/trans/forms.py:2118
 msgid "Labels to add"
 msgstr "Мітки для додавання"
 
-#: weblate/trans/forms.py:2062
+#: weblate/trans/forms.py:2124
 msgid "Labels to remove"
 msgstr "Мітки для видалення"
 
-#: weblate/trans/forms.py:2096
+#: weblate/trans/forms.py:2158
 msgid "I accept the contributor agreement"
 msgstr "Я приймаю угоду учасника"
 
-#: weblate/trans/forms.py:2122
+#: weblate/trans/forms.py:2184
 msgid "The slug does not match the one marked for deletion!"
 msgstr "Ідентифікатор не відповідає позначеному для вилучення!"
 
-#: weblate/trans/forms.py:2128 weblate/trans/forms.py:2137
-#: weblate/trans/forms.py:2146 weblate/trans/forms.py:2155
+#: weblate/trans/forms.py:2190 weblate/trans/forms.py:2199
+#: weblate/trans/forms.py:2208 weblate/trans/forms.py:2217
 msgid "Removal confirmation"
 msgstr "Підтвердження вилучення"
 
-#: weblate/trans/forms.py:2129
+#: weblate/trans/forms.py:2191
 msgid "Please type in the full slug of the translation to confirm."
 msgstr ""
 "Будь ласка, вкажіть повний ідентифікатор перекладу для підтвердження дії."
 
-#: weblate/trans/forms.py:2138
+#: weblate/trans/forms.py:2200
 msgid "Please type in the full slug of the component to confirm."
 msgstr "Будь ласка, введіть повний ідентифікатор складника для підтвердження."
 
-#: weblate/trans/forms.py:2147
+#: weblate/trans/forms.py:2209
 msgid "Please type in the slug of the project to confirm."
 msgstr "Будь ласка, введіть ідентифікатор проєкту для підтвердження."
 
-#: weblate/trans/forms.py:2156
+#: weblate/trans/forms.py:2218
 msgid "Please type in the slug of the project and language to confirm."
 msgstr "Введіть ідентифікатор проєкту та мови для підтвердження."
 
-#: weblate/trans/forms.py:2183
+#: weblate/trans/forms.py:2245
 msgid "Author username"
 msgstr "Ім’я користувача автора"
 
@@ -10138,7 +10266,7 @@ msgstr "Визначте вказівки з перекладу, щоб дати
 msgid "Make your translations available under a libre license."
 msgstr "Зробіть свої переклади доступними за вільною ліцензією."
 
-#: weblate/trans/guide.py:157 weblate/trans/templatetags/translations.py:740
+#: weblate/trans/guide.py:157 weblate/trans/templatetags/translations.py:742
 msgid "Fix this component to clear its alerts."
 msgstr "Виправити цей складник, щоб очистити його сповіщення."
 
@@ -10713,8 +10841,8 @@ msgid ""
 "Filename of translation base file, containing all strings and their source; "
 "it is recommended for monolingual translation formats."
 msgstr ""
-"Ім'я основного файлу перекладу, який містить весь переклад та відповідні "
-"первинні рядки. Пораджено для одномовних форматів."
+"Назва базового файлу перекладу, який містить весь переклад та відповідні "
+"початкові рядки. Радимо користуватися для одномовних форматів."
 
 #: weblate/trans/models/component.py:358
 msgid "Edit base file"
@@ -10794,11 +10922,11 @@ msgstr ""
 "Автоматичне прийняття пропозиції з таким числом голосів. Задайте 0 для "
 "вимкнення."
 
-#: weblate/trans/models/component.py:432 weblate/trans/models/unit.py:297
+#: weblate/trans/models/component.py:432 weblate/trans/models/unit.py:301
 msgid "Translation flags"
 msgstr "Прапорці перекладу"
 
-#: weblate/trans/models/component.py:435 weblate/trans/models/unit.py:300
+#: weblate/trans/models/component.py:435 weblate/trans/models/unit.py:304
 msgid ""
 "Additional comma-separated flags to influence quality checks. Possible "
 "values can be found in the documentation."
@@ -10899,40 +11027,32 @@ msgid "Commit message when addon makes a change"
 msgstr "Повідомлення подання, коли доповнення робить зміну"
 
 #: weblate/trans/models/component.py:552
-msgid "Committer name"
-msgstr "Ім'я подавача"
-
-#: weblate/trans/models/component.py:557
-msgid "Committer e-mail"
-msgstr "Ел. пошта подавача"
-
-#: weblate/trans/models/component.py:562
 msgid "Push on commit"
 msgstr "Відправляти при поданні"
 
-#: weblate/trans/models/component.py:565
+#: weblate/trans/models/component.py:555
 msgid "Whether the repository should be pushed upstream on every commit."
 msgstr "Чи потрібно передавати сховище щоразу при кожному поданні."
 
-#: weblate/trans/models/component.py:569
+#: weblate/trans/models/component.py:559
 msgid "Age of changes to commit"
 msgstr "Вік змін для подання"
 
-#: weblate/trans/models/component.py:572
+#: weblate/trans/models/component.py:562
 msgid ""
 "Time in hours after which any pending changes will be committed to the VCS."
 msgstr ""
 "Час у годинах, після якого будь-які неперевірені зміни будуть подані до VCS."
 
-#: weblate/trans/models/component.py:577
+#: weblate/trans/models/component.py:567
 msgid "Lock on error"
 msgstr "Блокувати при помилці"
 
-#: weblate/trans/models/component.py:580
+#: weblate/trans/models/component.py:570
 msgid "Whether the component should be locked on repository errors."
 msgstr "Чи слід блокувати складник, якщо буде виявлено помилки зі сховищем."
 
-#: weblate/trans/models/component.py:596
+#: weblate/trans/models/component.py:586
 msgid ""
 "Regular expression used to filter translation files when scanning for "
 "filemask."
@@ -10940,44 +11060,40 @@ msgstr ""
 "Регулярний вираз, який використовується для фільтрації перекладу при "
 "скануванні маски файлів."
 
-#: weblate/trans/models/component.py:601
+#: weblate/trans/models/component.py:591
 msgid "Variants regular expression"
 msgstr "Формальний вираз варіантів"
 
-#: weblate/trans/models/component.py:607
+#: weblate/trans/models/component.py:597
 msgid "Regular expression used to determine variants of a string."
 msgstr "Формальний вираз для визначення варіантів рядка."
 
-#: weblate/trans/models/component.py:616
+#: weblate/trans/models/component.py:606
 msgid "Components with higher priority are offered first to translators."
 msgstr "Перекладачам спершу пропонуються складники із більшою перевагою."
 
-#: weblate/trans/models/component.py:620
+#: weblate/trans/models/component.py:610
 msgid "Restricted component"
 msgstr "Складник із обмеженим доступом"
 
-#: weblate/trans/models/component.py:624
+#: weblate/trans/models/component.py:614
 msgid ""
 "Restrict access to the component to only those explicitly given permission."
 msgstr "Обмежити доступу до складника явно вказаними правами доступу."
 
-#: weblate/trans/models/component.py:631
+#: weblate/trans/models/component.py:621
 msgid "Share in projects"
 msgstr "Спільне використання даних у проєктах"
 
-#: weblate/trans/models/component.py:635
+#: weblate/trans/models/component.py:625
 msgid "Choose additional projects where this component will be listed."
 msgstr "Виберіть додаткові проєкти, де буде показано цей складник."
 
-#: weblate/trans/models/component.py:641
-msgid "Use as a glossary"
-msgstr "Використовувати як глосарій"
-
-#: weblate/trans/models/component.py:646
+#: weblate/trans/models/component.py:636
 msgid "Glossary color"
 msgstr "Колір глосарія"
 
-#: weblate/trans/models/component.py:1212
+#: weblate/trans/models/component.py:1207
 msgid ""
 "Could not verify SSH host key, please add them in SSH page in the admin "
 "interface."
@@ -10985,7 +11101,7 @@ msgstr ""
 "Не вдалося перевірити SSH-ключ вузла. Будь ласка, додайте їх на сторінці SSH "
 "в інтерфейсі адміністратора."
 
-#: weblate/trans/models/component.py:1221
+#: weblate/trans/models/component.py:1216
 msgid ""
 "The repository requires authentication, please specify credentials in the "
 "URL or use SSH access instead."
@@ -10993,84 +11109,84 @@ msgstr ""
 "Для доступу до сховища слід пройти розпізнавання. Будь ласка, вкажіть "
 "реєстраційні дані у адресі або скористайтеся доступом за допомогою SSH."
 
-#: weblate/trans/models/component.py:1227
+#: weblate/trans/models/component.py:1222
 #, python-format
 msgid "Could not fetch the repository: %s"
 msgstr "Не вдалося вибрати сховище: %s"
 
-#: weblate/trans/models/component.py:1278
-#: weblate/trans/models/component.py:2263
-#: weblate/trans/models/component.py:2322
+#: weblate/trans/models/component.py:1274
+#: weblate/trans/models/component.py:2278
+#: weblate/trans/models/component.py:2337
 msgid "File does not exist."
 msgstr "Файлу не існує."
 
-#: weblate/trans/models/component.py:1439
+#: weblate/trans/models/component.py:1437
 #, python-format
 msgid "Could not push to remote branch on %s."
 msgstr "Не вдалося записати до віддаленої гілки сховища %s."
 
-#: weblate/trans/models/component.py:1452
+#: weblate/trans/models/component.py:1450
 #, python-format
 msgid "Push is turned off for %s."
 msgstr "Записування для %s вимкнено."
 
-#: weblate/trans/models/component.py:1510
+#: weblate/trans/models/component.py:1508
 #, python-format
 msgid "Could not reset to remote branch on %s."
 msgstr "Не вдалося відновити на віддаленій гілці %s."
 
-#: weblate/trans/models/component.py:1541
+#: weblate/trans/models/component.py:1539
 #, python-format
 msgid "Could not clean the repository on %s."
 msgstr "Не вдалося очистити сховище на %s."
 
-#: weblate/trans/models/component.py:1661
+#: weblate/trans/models/component.py:1668
 #, python-format
 msgid "Could not rebase local branch onto remote branch %s."
 msgstr "Не вдалося перебазувати зміни у віддалену гілку %s."
 
-#: weblate/trans/models/component.py:1667
+#: weblate/trans/models/component.py:1674
 #, python-format
 msgid "Could not merge remote branch into %s."
 msgstr "Не вдалося злити віддалені гілки з %s."
 
-#: weblate/trans/models/component.py:2134
+#: weblate/trans/models/component.py:2149
 msgid "Invalid link to a Weblate project, cannot link to linked repository!"
 msgstr ""
 "Неправильне посилання на проєкт Weblate, неможливо створити посилання на "
 "зв'язане сховище!"
 
-#: weblate/trans/models/component.py:2143
+#: weblate/trans/models/component.py:2158
 msgid "Invalid link to a Weblate project, cannot link it to itself!"
 msgstr ""
 "Неправильне посилання на проєкт Weblate, неможливо створити посилання на "
 "самого себе!"
 
-#: weblate/trans/models/component.py:2152
+#: weblate/trans/models/component.py:2167
 msgid "Invalid link to a Weblate project, use weblate://project/component."
 msgstr ""
 "Невірне посилання на проєкт Weblate, використовуйте weblate://project/"
 "component."
 
-#: weblate/trans/models/component.py:2161
+#: weblate/trans/models/component.py:2176
 msgid "Option is not available for linked repositories."
 msgstr "Параметр не доступний для зв'язаних сховищ."
 
-#: weblate/trans/models/component.py:2170
+#: weblate/trans/models/component.py:2185
 msgid "The filemask did not match any files."
 msgstr "Маска не відповідає жодним файлам."
 
-#: weblate/trans/models/component.py:2179
+#: weblate/trans/models/component.py:2194
 #, python-format
 msgid "The language code for %s was empty, please check the filemask."
 msgstr "Не вдалося визначити мову для %s. Будь ласка, перевірте маску файлу."
 
-#: weblate/trans/models/component.py:2188
+#: weblate/trans/models/component.py:2203
 #, python-format
 msgid "The language code \"%s\" is too long, please check the filemask."
 msgstr "Мовний код \"%s\" надто довгий. Будь ласка, перевірте маску файлу."
 
-#: weblate/trans/models/component.py:2195
+#: weblate/trans/models/component.py:2210
 #, python-format
 msgid ""
 "There is more than one file for %s language, please adjust the filemask and "
@@ -11079,13 +11195,13 @@ msgstr ""
 "Існує більше одного файла для мови %s. Налаштуйте маску файлів і "
 "використовуйте складники для перекладу різних ресурсів."
 
-#: weblate/trans/models/component.py:2209
+#: weblate/trans/models/component.py:2224
 msgid "Could not find any matching language, please check the filemask."
 msgstr ""
 "Не вдалося знайти жодної відповідної мови. Будь ласка, перевірте маску "
 "файлів."
 
-#: weblate/trans/models/component.py:2228
+#: weblate/trans/models/component.py:2243
 #, python-format
 msgid "Could not parse %d matched file."
 msgid_plural "Could not parse %d matched files."
@@ -11094,7 +11210,7 @@ msgstr[1] "Не вдалося розібрати %d відповідні фай
 msgstr[2] "Не вдалося розібрати %d відповідних файлів."
 msgstr[3] "Не вдалося розібрати %d відповідний файл."
 
-#: weblate/trans/models/component.py:2256
+#: weblate/trans/models/component.py:2271
 msgid ""
 "You have set up Weblate to add new translation files, but did not provide a "
 "base file to do that."
@@ -11102,26 +11218,26 @@ msgstr ""
 "Ви налаштували Weblate на додавання нових файлів перекладу, але не надали "
 "основного файлу для цього."
 
-#: weblate/trans/models/component.py:2267
+#: weblate/trans/models/component.py:2282
 #, python-format
 msgid "Failed to parse base file for new translations: %s"
 msgstr "Не вдалося визначити основний файл для нових перекладів: %s"
 
-#: weblate/trans/models/component.py:2271
+#: weblate/trans/models/component.py:2286
 msgid "Unrecognized base file for new translations."
 msgstr "Нерозпізнаний основний файл для нових перекладів."
 
-#: weblate/trans/models/component.py:2282
+#: weblate/trans/models/component.py:2297
 msgid "You can not use a base file for bilingual translation."
 msgstr "Неможливо використовувати основний файл для двомовного перекладу."
 
-#: weblate/trans/models/component.py:2288
-#: weblate/trans/models/component.py:2304
+#: weblate/trans/models/component.py:2303
+#: weblate/trans/models/component.py:2319
 msgid ""
 "An intermediate language file can not be used without an editing template."
 msgstr "Проміжним мовним файлом не можна скористатися без редагування шаблона."
 
-#: weblate/trans/models/component.py:2296
+#: weblate/trans/models/component.py:2311
 msgid ""
 "An intermediate language file has to be different from monolingual base "
 "language file. You can probably keep it empty."
@@ -11129,30 +11245,30 @@ msgstr ""
 "Проміжний мовний файл має бути відмінним від базового одномовного файла. "
 "Ймовірно, вам слід лишити його порожнім."
 
-#: weblate/trans/models/component.py:2311
+#: weblate/trans/models/component.py:2326
 msgid "Using a .pot file as base file is unsupported."
 msgstr "Використання *.pot файлу в якості основного не підтримується."
 
-#: weblate/trans/models/component.py:2327
+#: weblate/trans/models/component.py:2342
 #, python-format
 msgid "Could not parse translation base file: %s"
 msgstr "Не вдалося розібрати основний файл перекладу: %s"
 
-#: weblate/trans/models/component.py:2337
+#: weblate/trans/models/component.py:2352
 #, python-brace-format
 msgid "Template language ({0}) does not match source language ({1})!"
 msgstr "Мова шаблону ({0}) не збігається з початковою мовою ({1})!"
 
-#: weblate/trans/models/component.py:2342
+#: weblate/trans/models/component.py:2357
 msgid "You can not use a monolingual translation without a base file."
 msgstr "Неможливо використовувати одномовний переклад без основного файлу."
 
-#: weblate/trans/models/component.py:2368
+#: weblate/trans/models/component.py:2383
 #, python-format
 msgid "Could not update repository: %s"
 msgstr "Не вдалося оновити сховище: %s"
 
-#: weblate/trans/models/component.py:2385
+#: weblate/trans/models/component.py:2400
 msgid ""
 "Please either fill in an instruction URL or use a different option for "
 "adding a new language."
@@ -11160,58 +11276,66 @@ msgstr ""
 "Будь ласка, заповніть вказівками URL або використовуйте інший параметр для "
 "додавання нової мови."
 
-#: weblate/trans/models/component.py:2416
+#: weblate/trans/models/component.py:2431
 msgid ""
 "Source language can not be changed, please recreate the component instead."
 msgstr ""
 "Не можна змінювати початкову мову. Якщо вам потрібно змінити мову, будь "
 "ласка, створіть складник повторно."
 
-#: weblate/trans/models/component.py:2424
+#: weblate/trans/models/component.py:2439
 msgid "Component with this URL slug already exists in the project."
 msgstr "Складник з таким ідентифікатором адреси вже є у проєкті."
 
-#: weblate/trans/models/component.py:2429
+#: weblate/trans/models/component.py:2444
 msgid "Component with this name already exists in the project."
 msgstr "У проєкті вже є складник із цією назвою."
 
-#: weblate/trans/models/component.py:2454
+#: weblate/trans/models/component.py:2469
 msgid "Can not validate file matches due to invalid regular expression."
 msgstr ""
 "Не вдалося перевірити відповідності файлів через помилки в регулярному "
 "виразі."
 
-#: weblate/trans/models/component.py:2464
+#: weblate/trans/models/component.py:2479
 msgid "Accepting suggestions automatically only works with voting turned on."
 msgstr ""
 "Автоматичне прийняття пропозицій працює тільки з дозволеним голосуванням."
 
-#: weblate/trans/models/component.py:2886
+#: weblate/trans/models/component.py:2905
 msgid "Could not add new translation file."
 msgstr "Не вдалося розібрати файли перекладу."
 
-#: weblate/trans/models/component.py:2902
+#: weblate/trans/models/component.py:2921
 msgid "The given language is filtered by the language filter."
 msgstr "Задана мова фільтрується мовним фільтром."
 
-#: weblate/trans/models/component.py:2926
+#: weblate/trans/models/component.py:2945
 msgid "Translation file already exists!"
 msgstr "Файл перекладу вже існує!"
 
-#: weblate/trans/models/component.py:2946
+#: weblate/trans/models/component.py:2965
 msgid "The translation will be updated in the background."
 msgstr "Переклад буде оновлено у фоновому режимі."
 
 #. Translators: Translation context for Gettext
-#: weblate/trans/models/component.py:2989
+#: weblate/trans/models/component.py:3008
 msgid "Context"
 msgstr "Контекст"
 
 #. Translators: Translation key for monolingual translations
-#: weblate/trans/models/component.py:2991 weblate/utils/views.py:111
+#: weblate/trans/models/component.py:3010 weblate/utils/views.py:139
 msgctxt "Translation key"
 msgid "Key"
 msgstr "Ключ"
+
+#: weblate/trans/models/component.py:3071
+msgid "Add new glossary term"
+msgstr "Додати новий термін глосарія"
+
+#: weblate/trans/models/component.py:3072
+msgid "Add new translation string"
+msgstr "Додати новий рядок перекладу"
 
 #: weblate/trans/models/componentlist.py:41
 msgid "Component list name"
@@ -11255,97 +11379,97 @@ msgstr "Списки складників для призначення"
 msgid "Automatic component list assignments"
 msgstr "Автоматичні призначення списку складників"
 
-#: weblate/trans/models/project.py:72
+#: weblate/trans/models/project.py:73
 msgid "Public"
 msgstr "Відкритий"
 
-#: weblate/trans/models/project.py:73
+#: weblate/trans/models/project.py:74
 msgid "Protected"
 msgstr "Захищений"
 
-#: weblate/trans/models/project.py:74
+#: weblate/trans/models/project.py:75
 msgid "Private"
 msgstr "Приватний"
 
-#: weblate/trans/models/project.py:75
+#: weblate/trans/models/project.py:76
 msgid "Custom"
 msgstr "Власний"
 
-#: weblate/trans/models/project.py:93
+#: weblate/trans/models/project.py:94
 msgid "Main website of translated project."
 msgstr "Головний сайт перекладеного проєкту."
 
-#: weblate/trans/models/project.py:96
+#: weblate/trans/models/project.py:97
 msgid "Translation instructions"
 msgstr "Вказівки щодо перекладу"
 
-#: weblate/trans/models/project.py:102
+#: weblate/trans/models/project.py:103
 msgid "Set \"Language-Team\" header"
 msgstr "Установлення заголовка «Language-Team»"
 
-#: weblate/trans/models/project.py:105
+#: weblate/trans/models/project.py:106
 msgid "Lets Weblate update the \"Language-Team\" file header of your project."
 msgstr ""
 "Дозволяє Weblate оновлювати поле «Language-Team» у заголовках файлів вашого "
 "проєкту."
 
-#: weblate/trans/models/project.py:109
+#: weblate/trans/models/project.py:110
 msgid "Use shared translation memory"
 msgstr "Використовувати спільну пам'ять перекладів"
 
-#: weblate/trans/models/project.py:112
+#: weblate/trans/models/project.py:113
 msgid "Uses the pool of shared translations between projects."
 msgstr "Використовує котел спільних перекладів між проєктами."
 
-#: weblate/trans/models/project.py:116
+#: weblate/trans/models/project.py:117
 msgid "Contribute to shared translation memory"
 msgstr "Зробіть внесок у спільну пам'ять перекладів"
 
-#: weblate/trans/models/project.py:119
+#: weblate/trans/models/project.py:120
 msgid "Contributes to the pool of shared translations between projects."
 msgstr "Здійснює внесок у спільний переклад між проєктами."
 
-#: weblate/trans/models/project.py:127
+#: weblate/trans/models/project.py:128
 msgid ""
 "How to restrict access to this project is detailed in the documentation."
 msgstr "Як обмежити доступ до цього проєкту описано в документації."
 
-#: weblate/trans/models/project.py:132
+#: weblate/trans/models/project.py:133
 msgid "Enable reviews"
 msgstr "Увімкнути рецензії"
 
-#: weblate/trans/models/project.py:134
+#: weblate/trans/models/project.py:135
 msgid "Requires dedicated reviewers to approve translations."
 msgstr "Вимагає виділених рецензентів для затвердження перекладів."
 
-#: weblate/trans/models/project.py:137
+#: weblate/trans/models/project.py:138
 msgid "Enable source reviews"
 msgstr "Увімкнути рецензування початкових даних"
 
-#: weblate/trans/models/project.py:140
+#: weblate/trans/models/project.py:141
 msgid "Requires dedicated reviewers to approve source strings."
 msgstr "Вимагає окремих рецензентів для затвердження початкових рядків."
 
-#: weblate/trans/models/project.py:144
+#: weblate/trans/models/project.py:145
 msgid "Enable hooks"
 msgstr "Дозволити гачки"
 
-#: weblate/trans/models/project.py:147
+#: weblate/trans/models/project.py:148
 msgid "Whether to allow updating this repository by remote hooks."
 msgstr "Чи дозволяти оновлення цього сховища віддаленими засобами."
 
-#: weblate/trans/models/project.py:152
+#: weblate/trans/models/project.py:153
 msgid "Language aliases"
 msgstr "Альтернативні назви мови"
 
-#: weblate/trans/models/project.py:156
+#: weblate/trans/models/project.py:157
 msgid ""
 "Comma-separated list of language code mappings, for example: en_GB:en,en_US:"
 "en"
 msgstr ""
 "Список відокремлених комами прив'язок кодів мов. Приклад: en_GB:en,en_US:en"
 
-#: weblate/trans/models/suggestion.py:139
+#: weblate/trans/models/suggestion.py:138
 msgid "Failed to accept suggestion!"
 msgstr "Не вдалося прийняти пропозицію!"
 
@@ -11354,7 +11478,7 @@ msgid "source"
 msgstr "джерело"
 
 #: weblate/trans/models/translation.py:168
-#: weblate/trans/templatetags/translations.py:723
+#: weblate/trans/templatetags/translations.py:725
 msgid "This translation is used for source strings."
 msgstr "Цей переклад використовується для джерельних рядків."
 
@@ -11372,31 +11496,63 @@ msgstr ""
 msgid "Failed to parse file %(file)s: %(error)s"
 msgstr "Не вдалося прочитати файл %(file)s: %(error)s"
 
-#: weblate/trans/models/unit.py:311
+#: weblate/trans/models/translation.py:1240
+msgid "This string seems to already exist."
+msgstr "Схоже цей рядок вже існує."
+
+#: weblate/trans/models/translation.py:1247
+#: weblate/trans/models/translation.py:1262
+#: weblate/trans/models/translation.py:1268
+#: weblate/trans/models/translation.py:1272
+#: weblate/trans/models/translation.py:1287
+#, python-format
+msgid "Failed adding string: %s"
+msgstr "Не вдалося додати рядок: %s"
+
+#: weblate/trans/models/translation.py:1247
+msgid "No translation found."
+msgstr "Не знайдено жодного перекладу."
+
+#: weblate/trans/models/translation.py:1272
+#: weblate/trans/models/translation.py:1287
+msgid "Failed to parse new string"
+msgstr "Не вдалося обробити новий рядок"
+
+#: weblate/trans/models/translation.py:1295
+#, python-format
+msgid "Context would be created as \"%s\""
+msgstr "Контекст мало бути створено як «%s»"
+
+#: weblate/trans/models/translation.py:1299
+#, python-format
+msgid "Source would be created as %s"
+msgstr "Джерело мало бути створено як %s"
+
+#: weblate/trans/models/unit.py:315
 msgid "Additional explanation to clarify meaning or usage of the string."
 msgstr "Додаткове пояснення щодо значення або використання рядка."
 
-#: weblate/trans/models/unit.py:1351
+#: weblate/trans/models/unit.py:1367
 msgid "Unmark as read-only"
 msgstr "Скасувати позначення «лише читання»"
 
-#: weblate/trans/models/unit.py:1354
+#: weblate/trans/models/unit.py:1370
 msgid "Mark as read-only"
 msgstr "Позначити «лише читання»"
 
-#: weblate/trans/models/unit.py:1361
+#: weblate/trans/models/unit.py:1377
 msgid "Unmark as forbidden translation"
 msgstr "Скасувати позначення як забороненого перекладу"
 
-#: weblate/trans/models/unit.py:1369
+#: weblate/trans/models/unit.py:1385
 msgid "Mark as forbidden translation"
 msgstr "Позначити як заборонений переклад"
 
-#: weblate/trans/models/unit.py:1378
+#: weblate/trans/models/unit.py:1394
 msgid "Unmark as terminology"
 msgstr "Скасувати позначення як термінології"
 
-#: weblate/trans/models/unit.py:1386
+#: weblate/trans/models/unit.py:1402
 msgid "Mark as terminology"
 msgstr "Позначити як термінологію"
 
@@ -11690,33 +11846,33 @@ msgstr "Не перекладено"
 msgid "string ID %s"
 msgstr "ID рядка %s"
 
-#: weblate/trans/templatetags/translations.py:732
+#: weblate/trans/templatetags/translations.py:734
 #, python-format
 msgid "This component is linked to the %(target)s repository."
 msgstr "Цей складник пов'язаний зі сховищем %(target)s."
 
-#: weblate/trans/templatetags/translations.py:745
-#: weblate/trans/templatetags/translations.py:765
+#: weblate/trans/templatetags/translations.py:747
+#: weblate/trans/templatetags/translations.py:767
 msgid "This translation is locked."
 msgstr "Цей переклад заблоковано."
 
-#: weblate/trans/templatetags/translations.py:750
+#: weblate/trans/templatetags/translations.py:752
 msgid "Updating translation component…"
 msgstr "Оновлення складника перекладу…"
 
-#: weblate/trans/templatetags/translations.py:760
+#: weblate/trans/templatetags/translations.py:762
 msgid "Some of the components within this project have alerts."
 msgstr "Деякі складники в цьому проєкті мають оповіщення."
 
-#: weblate/trans/templatetags/translations.py:795
+#: weblate/trans/templatetags/translations.py:799
 msgid "You administrate this project."
 msgstr "Ви управляєте цей проєкт."
 
-#: weblate/trans/templatetags/translations.py:808
+#: weblate/trans/templatetags/translations.py:812
 msgid "This translation does not yet exist."
 msgstr "Цього перекладу ще не існує."
 
-#: weblate/trans/templatetags/translations.py:821
+#: weblate/trans/templatetags/translations.py:825
 #, python-format
 msgid "%(count)s string is not being translated here."
 msgid_plural "%(count)s strings are not being translated here."
@@ -11725,12 +11881,12 @@ msgstr[1] "%(count)s рядки тут не перекладаються."
 msgstr[2] "%(count)s рядків тут не перекладаються."
 msgstr[3] "%(count)s рядок тут не перекладається."
 
-#: weblate/trans/templatetags/translations.py:834
+#: weblate/trans/templatetags/translations.py:838
 #, python-format
 msgid "Shared from the %s project."
 msgstr "Спільне з проєктом %s."
 
-#: weblate/trans/templatetags/translations.py:857
+#: weblate/trans/templatetags/translations.py:861
 msgid "enabled"
 msgstr "увімкнено"
 
@@ -11775,11 +11931,11 @@ msgstr ""
 "Значення 1 не можна використовувати для автоматичного прийняття, оскільки "
 "кожен користувач відразу ж голосує за власну пропозицію."
 
-#: weblate/trans/views/about.py:35
+#: weblate/trans/views/about.py:34
 msgid "Keys"
 msgstr "Ключі"
 
-#: weblate/trans/views/about.py:69
+#: weblate/trans/views/about.py:68
 msgid "Weblate statistics"
 msgstr "Статистика Weblate"
 
@@ -11800,7 +11956,7 @@ msgid "Failed to find group to add a user!"
 msgstr "Не вдалося знайти групу, щоб додати користувача!"
 
 #: weblate/trans/views/acl.py:145 weblate/trans/views/acl.py:160
-#: weblate/wladmin/views.py:318
+#: weblate/wladmin/views.py:341
 msgid "User has been invited to this project."
 msgstr "Користувача запрошено до цього проєкту."
 
@@ -11808,12 +11964,12 @@ msgstr "Користувача запрошено до цього проєкту
 msgid "User has been removed from this project."
 msgstr "Користувача видалено з поточного проєкту."
 
-#: weblate/trans/views/basic.py:125
+#: weblate/trans/views/basic.py:126
 #, python-brace-format
 msgid "Get involved in {0}!"
 msgstr "Приєднуйтеся до {0}!"
 
-#: weblate/trans/views/basic.py:419
+#: weblate/trans/views/basic.py:417
 msgid ""
 "A request for a new translation has been sent to the project's maintainers."
 msgstr "Запит на новий переклад був відправлений до супровідника проєкту."
@@ -11872,25 +12028,25 @@ msgctxt "Format string for monthly activity chart"
 msgid "{day}/{month}"
 msgstr "{day}/{month}"
 
-#: weblate/trans/views/create.py:210
+#: weblate/trans/views/create.py:206
 #, python-format
 msgid "Detected license as %s, please check whether it is correct."
 msgstr ""
 "Умови ліцензування визначено як %s. Будь ласка, перевірте, чи є визначення "
 "правильним."
 
-#: weblate/trans/views/create.py:316
+#: weblate/trans/views/create.py:312
 msgid "Failed to parse uploaded ZIP file."
 msgstr "Не вдалося розібрати завантажений ZIP-файл."
 
-#: weblate/trans/views/dashboard.py:162
+#: weblate/trans/views/dashboard.py:172
 msgid ""
 "The project you were looking for has been removed, however you are welcome "
 "to contribute to other ones."
 msgstr ""
 "Проєкт, який ви шукали, видалений. Однак ви можете внести свій вклад в інші."
 
-#: weblate/trans/views/dashboard.py:171
+#: weblate/trans/views/dashboard.py:181
 msgid ""
 "You have activated your account, now you should set the password to be able "
 "to sign in next time."
@@ -11898,36 +12054,36 @@ msgstr ""
 "Ви активували свій обліковий запис, тепер ви повинні встановити пароль, щоб "
 "бути в змозі увійти наступного разу."
 
-#: weblate/trans/views/dashboard.py:185
+#: weblate/trans/views/dashboard.py:195
 msgid "Please set your full name and e-mail in your profile."
 msgstr "Будь ласка, вкажіть у профілі повне ім'я та електронну пошту."
 
-#: weblate/trans/views/edit.py:248 weblate/trans/views/edit.py:533
+#: weblate/trans/views/edit.py:249 weblate/trans/views/edit.py:534
 msgid "No string matched your search!"
 msgstr "Немає рядків, відповідних вашому пошуку!"
 
-#: weblate/trans/views/edit.py:272
+#: weblate/trans/views/edit.py:273
 msgid "Your suggestion is empty!"
 msgstr "Ваша пропозиція - порожня!"
 
-#: weblate/trans/views/edit.py:277
+#: weblate/trans/views/edit.py:278
 msgid "You don't have privileges to add suggestions!"
 msgstr "У вас немає прав для додавання пропозицій!"
 
-#: weblate/trans/views/edit.py:283
+#: weblate/trans/views/edit.py:284
 msgid "Your suggestion has been identified as spam!"
 msgstr "Ваша пропозиція визначена як спам!"
 
-#: weblate/trans/views/edit.py:294
+#: weblate/trans/views/edit.py:295
 msgid "Your suggestion already exists!"
 msgstr "Ваша пропозиція вже існує!"
 
-#: weblate/trans/views/edit.py:315
+#: weblate/trans/views/edit.py:316
 #, python-format
 msgid "Following fixups were applied to translation: %s"
 msgstr "До перекладу застосовано такі правки: %s"
 
-#: weblate/trans/views/edit.py:331
+#: weblate/trans/views/edit.py:332
 #, python-format
 msgid ""
 "Added %(language)s to your translated languages. You can adjust them in the "
@@ -11936,7 +12092,7 @@ msgstr ""
 "До мов перекладу додано %(language)s. Ви можете внести корективи у "
 "параметрах перекладу."
 
-#: weblate/trans/views/edit.py:341
+#: weblate/trans/views/edit.py:342
 #, python-format
 msgid ""
 "Added %(project)s to your watched projects. You can adjust them and this "
@@ -11945,79 +12101,75 @@ msgstr ""
 "%(project)s додано до проєктів, за якими ви спостерігаєте. Ви можете "
 "скоригувати список проєктів та цю поведінку у параметрах облікового запису."
 
-#: weblate/trans/views/edit.py:360
+#: weblate/trans/views/edit.py:361
 #, python-brace-format
 msgid ""
 "The translation has been saved, however there are some newly failing checks: "
 "{0}"
 msgstr "Переклад збережено, однак з'явилися нові непройдені перевірки: {0}"
 
-#: weblate/trans/views/edit.py:403
+#: weblate/trans/views/edit.py:404
 msgid "Invalid merge request!"
 msgstr "Неправильний запит на злиття!"
 
-#: weblate/trans/views/edit.py:421
+#: weblate/trans/views/edit.py:422
 msgid "Invalid revert request!"
 msgstr "Неправильний запит на відкликання!"
 
-#: weblate/trans/views/edit.py:431
+#: weblate/trans/views/edit.py:432
 msgid "Can not revert to empty translation!"
 msgstr "Не можна повернутися до порожнього перекладу!"
 
-#: weblate/trans/views/edit.py:450
+#: weblate/trans/views/edit.py:451
 msgid "You do not have privilege to accept suggestions!"
 msgstr "У вас немає прав для прийняття пропозицій!"
 
-#: weblate/trans/views/edit.py:456
+#: weblate/trans/views/edit.py:457
 msgid "You do not have privilege to delete suggestions!"
 msgstr "У вас немає прав для вилучення пропозицій!"
 
-#: weblate/trans/views/edit.py:462
+#: weblate/trans/views/edit.py:463
 msgid "You do not have privilege to vote for suggestions!"
 msgstr "У вас немає прав для голосування за пропозиції!"
 
-#: weblate/trans/views/edit.py:486
+#: weblate/trans/views/edit.py:487
 msgid "Invalid suggestion!"
 msgstr "Хибна пропозиція!"
 
-#: weblate/trans/views/edit.py:548
+#: weblate/trans/views/edit.py:549
 msgid "Invalid search string!"
 msgstr "Хибний пошуковий рядок!"
 
-#: weblate/trans/views/edit.py:668 weblate/trans/views/search.py:86
-#: weblate/trans/views/search.py:236
+#: weblate/trans/views/edit.py:676 weblate/trans/views/search.py:88
+#: weblate/trans/views/search.py:240
 msgid "Failed to process form!"
 msgstr "Не вдалося обробити форму!"
 
-#: weblate/trans/views/edit.py:688
+#: weblate/trans/views/edit.py:696
 msgid "Automatic translation in progress"
 msgstr "Виконуємо автоматичний переклад"
 
-#: weblate/trans/views/edit.py:724
+#: weblate/trans/views/edit.py:732
 msgid "Source needs review"
 msgstr "Початкові рядки потребують рецензування"
 
-#: weblate/trans/views/edit.py:727
+#: weblate/trans/views/edit.py:735
 msgid "Posted new comment"
 msgstr "Опублікований новий коментар"
 
-#: weblate/trans/views/edit.py:729
+#: weblate/trans/views/edit.py:737
 msgid "Failed to add comment!"
 msgstr "Не вдалося додати коментар!"
 
-#: weblate/trans/views/edit.py:748
+#: weblate/trans/views/edit.py:756
 msgid "Translation comment has been deleted."
 msgstr "Коментар до перекладу вилучено."
 
-#: weblate/trans/views/edit.py:766
+#: weblate/trans/views/edit.py:774
 msgid "Translation comment has been resolved."
 msgstr "Коментар до перекладу вирішено."
 
-#: weblate/trans/views/edit.py:921
-msgid "This string seems to already exist."
-msgstr "Схоже цей рядок вже існує."
-
-#: weblate/trans/views/edit.py:928
+#: weblate/trans/views/edit.py:934
 msgid "New string has been added."
 msgstr "Новий рядок додано."
 
@@ -12088,6 +12240,10 @@ msgstr "Усі сховища вже перевстановлені."
 msgid "All repositories have been cleaned up."
 msgstr "Усі сховища вже очищені."
 
+#: weblate/trans/views/git.py:103
+msgid "Translation files have been synchronized."
+msgstr "Файли перекладу синхронізовано."
+
 #: weblate/trans/views/js.py:56
 msgid "Service is currently not available."
 msgstr "Служба зараз недоступна."
@@ -12108,11 +12264,11 @@ msgstr "Усі складники тепер заблоковані для он�
 msgid "Project is now open for translation updates."
 msgstr "Проєкт наразі відкрито для оновлення перекладів."
 
-#: weblate/trans/views/search.py:136
+#: weblate/trans/views/search.py:138
 msgid "Search and replace completed, no strings were updated."
 msgstr "Пошук і заміна завершені, жодний рядок не змінено."
 
-#: weblate/trans/views/search.py:138
+#: weblate/trans/views/search.py:140
 #, python-format
 msgid "Search and replace completed, %d string was updated."
 msgid_plural "Search and replace completed, %d strings were updated."
@@ -12121,24 +12277,24 @@ msgstr[1] "Пошук та заміну завершено, оновлено %d 
 msgstr[2] "Пошук та заміну завершено, оновлено %d рядків."
 msgstr[3] "Пошук та заміну завершено, оновлено %d рядок."
 
-#: weblate/trans/views/search.py:207
+#: weblate/trans/views/search.py:211
 #, python-format
 msgid "Search for %s"
 msgstr "Пошук %s"
 
-#: weblate/trans/views/search.py:216
+#: weblate/trans/views/search.py:220
 msgid "Too many search queries, please try again later."
 msgstr "Надіслано забагато запитів. Будь ласка, спробуйте знову пізніше."
 
-#: weblate/trans/views/search.py:218
+#: weblate/trans/views/search.py:222
 msgid "Invalid search query!"
 msgstr "Неправильний пошуковий запит!"
 
-#: weblate/trans/views/search.py:255
+#: weblate/trans/views/search.py:260
 msgid "Bulk edit completed, no strings were updated."
 msgstr "Масове редагування завершено, жоден рядок не оновлено."
 
-#: weblate/trans/views/search.py:257
+#: weblate/trans/views/search.py:262
 #, python-format
 msgid "Bulk edit completed, %d string was updated."
 msgid_plural "Bulk edit completed, %d strings were updated."
@@ -12171,7 +12327,7 @@ msgstr "Проєкт запланований до вилучення."
 msgid "Language of the project was removed."
 msgstr "Мову проєкту вилучено."
 
-#: weblate/trans/views/source.py:67
+#: weblate/trans/views/source.py:68
 msgid "Failed to change additional string info!"
 msgstr "Не вдалося змінити додаткові відомості щодо рядка!"
 
@@ -12411,31 +12567,31 @@ msgstr "Не можна використовувати таку назву"
 msgid "Syntax error in language aliases."
 msgstr "Синтаксична помилка у визначенні альтернативних назв мов."
 
-#: weblate/utils/views.py:101 weblate/utils/views.py:125
+#: weblate/utils/views.py:129 weblate/utils/views.py:153
 msgid "Position and priority"
 msgstr "Позиція і пріоритетність"
 
-#: weblate/utils/views.py:102
+#: weblate/utils/views.py:130
 msgid "Position"
 msgstr "Позиція"
 
-#: weblate/utils/views.py:107
+#: weblate/utils/views.py:135
 msgid "Age of string"
 msgstr "Вік рядка"
 
-#: weblate/utils/views.py:108
+#: weblate/utils/views.py:136
 msgid "Number of words"
 msgstr "Число слів"
 
-#: weblate/utils/views.py:109
+#: weblate/utils/views.py:137
 msgid "Number of comments"
 msgstr "Кількість коментарів"
 
-#: weblate/utils/views.py:110
+#: weblate/utils/views.py:138
 msgid "Number of failing checks"
 msgstr "Кількість невдалих перевірок"
 
-#: weblate/utils/views.py:330
+#: weblate/utils/views.py:358
 #, python-format
 msgid "Error in parameter %(field)s: %(error)s"
 msgstr "Помилка у параметрі %(field)s: %(error)s"
@@ -12444,7 +12600,7 @@ msgstr "Помилка у параметрі %(field)s: %(error)s"
 msgid "Git with force push"
 msgstr "Git з примусовим \"push\""
 
-#: weblate/vcs/git.py:835
+#: weblate/vcs/git.py:838
 msgid "No remote repository"
 msgstr "Немає віддаленого сховища"
 
@@ -12542,27 +12698,31 @@ msgstr ""
 "Стале спадне меню навігації у верхньому правому куті, навіть якщо є місце "
 "для повного меню."
 
-#: weblate/wladmin/models.py:65
+#: weblate/wladmin/models.py:66
 msgid "Community support"
 msgstr "Підтримка спільноти"
 
-#: weblate/wladmin/models.py:66
+#: weblate/wladmin/models.py:67
 msgid "Hosted service"
 msgstr "Послуга хостингу"
 
-#: weblate/wladmin/models.py:67
+#: weblate/wladmin/models.py:68
 msgid "Basic self-hosted support"
 msgstr "Основна підтримка Weblate"
 
-#: weblate/wladmin/models.py:68
+#: weblate/wladmin/models.py:69
 msgid "Extended self-hosted support"
 msgstr "Розширена підтримка власного хостингу"
 
-#: weblate/wladmin/models.py:130
+#: weblate/wladmin/models.py:70
+msgid "Premium self-hosted support"
+msgstr "Власна служба підтримки Weblate найвищої якості"
+
+#: weblate/wladmin/models.py:147
 msgid "Backup repository URL"
 msgstr "Адреса резервного сховища"
 
-#: weblate/wladmin/models.py:132
+#: weblate/wladmin/models.py:149
 msgid ""
 "Use /path/to/repo for local backups or user@host:/path/to/repo for remote "
 "SSH backups."
@@ -12570,19 +12730,19 @@ msgstr ""
 "Скористайтеся записом /шлях/до/сховища для локальних резервних копій або "
 "користувач@вузол:/шлях/до/сховища для віддалених резервних копій SSH."
 
-#: weblate/wladmin/models.py:175
+#: weblate/wladmin/models.py:192
 msgid "Backup performed"
 msgstr "Резервне копіювання виконано"
 
-#: weblate/wladmin/models.py:176
+#: weblate/wladmin/models.py:193
 msgid "Backup failed"
 msgstr "Не вдалося виконати резервне копіювання"
 
-#: weblate/wladmin/models.py:177
+#: weblate/wladmin/models.py:194
 msgid "Deleted the oldest backups"
 msgstr "Видалено найстаріші резервні копії"
 
-#: weblate/wladmin/models.py:178
+#: weblate/wladmin/models.py:195
 msgid "Repository initialization"
 msgstr "Сховище започатковано"
 
@@ -12625,28 +12785,28 @@ msgstr ""
 msgid "Reports"
 msgstr "Звіти"
 
-#: weblate/wladmin/views.py:63
+#: weblate/wladmin/views.py:68
 msgid "Weblate status"
 msgstr "Стан Weblate"
 
-#: weblate/wladmin/views.py:69
+#: weblate/wladmin/views.py:74
 msgid "Repositories"
 msgstr "Сховища"
 
-#: weblate/wladmin/views.py:113
+#: weblate/wladmin/views.py:122
 msgid "Test e-mail sent."
 msgstr "Перевірковий лист електронної пошти надіслано."
 
-#: weblate/wladmin/views.py:116
+#: weblate/wladmin/views.py:125
 #, python-format
 msgid "Could not send test e-mail: %s"
 msgstr "Не вдалося надіслати лист електронної пошти для перевірки: %s"
 
-#: weblate/wladmin/views.py:151
+#: weblate/wladmin/views.py:174
 msgid "Activation completed."
 msgstr "Активацію завершено."
 
-#: weblate/wladmin/views.py:157
+#: weblate/wladmin/views.py:180
 msgid ""
 "Could not activate your installation. Please ensure your activation token is "
 "correct."
@@ -12654,13 +12814,63 @@ msgstr ""
 "Не вдалося активувати встановлення. Переконайтесь, що токен активації є "
 "правильним."
 
-#: weblate/wladmin/views.py:202
+#: weblate/wladmin/views.py:225
 msgid "Backup process triggered"
 msgstr "Процес резервного копіювання запустився"
 
-#: weblate/wladmin/views.py:224
+#: weblate/wladmin/views.py:247
 msgid "Could not dismiss the configuration error!"
 msgstr "Не вдалося відхилити помилку конфігурації!"
+
+#, python-format
+#~ msgid ""
+#~ "Only part of the occurrences are shown, in total there was %(count)s of "
+#~ "them."
+#~ msgid_plural ""
+#~ "Only part of the occurrences are shown, in total there were %(count)s of "
+#~ "them."
+#~ msgstr[0] ""
+#~ "Показано лише частину відповідників. Загалом, виявлено %(count)s "
+#~ "відповідник."
+#~ msgstr[1] ""
+#~ "Показано лише частину відповідників. Загалом, виявлено %(count)s "
+#~ "відповідники."
+#~ msgstr[2] ""
+#~ "Показано лише частину відповідників. Загалом, виявлено %(count)s "
+#~ "відповідників."
+#~ msgstr[3] ""
+#~ "Показано лише частину відповідників. Загалом, виявлено %(count)s "
+#~ "відповідник."
+
+#~ msgid "Weblate discovery"
+#~ msgstr "Виявлення Weblate"
+
+#~ msgid "Manage glossary"
+#~ msgstr "Управління словником"
+
+#~ msgid "Committer name"
+#~ msgstr "Ім'я подавача"
+
+#~ msgid "Committer e-mail"
+#~ msgstr "Ел. пошта подавача"
+
+#~ msgid "XLIFF translation file with PO extensions"
+#~ msgstr "Файл перекладу XLIFF із розширенням PO"
+
+#, python-format
+#~ msgid "Download original translation file (%(format)s)"
+#~ msgstr "Завантажити оригінальний файл з перекладом (%(format)s)"
+
+#, python-format
+#~ msgid "Download translation file as %(format)s"
+#~ msgstr "Завантажити файл перекладу як (%(format)s)"
+
+#, python-format
+#~ msgid "Download strings needing action as %(format)s"
+#~ msgstr "Звантажити рядки, які потребують дій, як %(format)s"
+
+#~ msgid "Completed translation"
+#~ msgstr "Завершений переклад"
 
 #~ msgid "Glossary name"
 #~ msgstr "Назва глосарія"
@@ -12774,9 +12984,6 @@ msgstr "Не вдалося відхилити помилку конфігура
 
 #~ msgid "Import"
 #~ msgstr "Імпорт"
-
-#~ msgid "Browse all glossary changes"
-#~ msgstr "Перегляд усіх змін словника"
 
 #~ msgid "There are no glossaries defined for this language."
 #~ msgstr "Словники для цієї мови не визначені."

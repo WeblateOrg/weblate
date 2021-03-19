@@ -244,7 +244,7 @@ textarea#id_comment {
   outline: 1px dotted red;
   outline-offset: -1px;
   color: #bfc3c7;
-  white-space: pre;
+  white-space: pre-wrap;
   display: inline-block;
 }
 
@@ -411,6 +411,9 @@ th:hover .sort-icon.sort-up {
 .btn-inline {
   font-weight: 600;
   padding: 0 20px;
+}
+.formats .btn-inline {
+  padding: 0;
 }
 
 .btn-desc p {
@@ -658,8 +661,10 @@ legend {
   max-width: 100%;
 }
 
+.forbidden-term svg,
 .search-icon svg {
   height: 16px;
+  width: 16px;
 }
 
 .sort-field {
@@ -1299,6 +1304,10 @@ a.format-item:hover {
   display: inline;
 }
 
+.state-icon.state-forbidden .state-forbidden {
+  display: inline;
+}
+
 .icon-spin {
   -webkit-animation: icon-spin 1s infinite linear;
   animation: icon-spin 1s infinite linear;
@@ -1403,6 +1412,69 @@ a.format-item:hover {
 .label-silver {
   background-color: #ddd;
   color: #000;
+}
+.btn-navy path {
+  fill: #001f3f;
+}
+
+.btn-blue path {
+  fill: #0074d9;
+}
+
+.btn-aqua path {
+  fill: #7fdbff;
+}
+
+.btn-teal path {
+  fill: #39cccc;
+}
+
+.btn-olive path {
+  fill: #3d9970;
+}
+
+.btn-green path {
+  fill: #2ecc40;
+}
+
+.btn-lime path {
+  fill: #01ff70;
+}
+
+.btn-yellow path {
+  fill: #ffdc00;
+}
+
+.btn-orange path {
+  fill: #ff851b;
+}
+
+.btn-red path {
+  fill: #ff4136;
+}
+
+.btn-maroon path {
+  fill: #85144b;
+}
+
+.btn-fuchsia path {
+  fill: #f012be;
+}
+
+.btn-purple path {
+  fill: #b10dc9;
+}
+
+.btn-black path {
+  fill: #111;
+}
+
+.btn-gray path {
+  fill: #aaa;
+}
+
+.btn-silver path {
+  fill: #bbb;
 }
 
 input.color_edit {
@@ -1617,4 +1689,7 @@ a.language:hover {
 }
 .token.namespace {
   opacity: 0.7;
+}
+.markdown p:last-child {
+  margin-bottom: 0;
 }

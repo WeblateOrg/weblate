@@ -71,6 +71,7 @@ class MachineTranslation:
     same_languages = False
     do_cleanup = True
     batch_size = 100
+    accounting_key = "external"
 
     @classmethod
     def get_rank(cls):
@@ -89,6 +90,13 @@ class MachineTranslation:
 
     def get_identifier(self):
         return self.mtid
+
+    def account_usage(self, project, delta: int = 1):
+        key = f"machinery-accounting:{self.accounting_key}:{project.id}"
+        try:
+            cache.incr(key, delta=delta)
+        except ValueError:
+            cache.set(key, delta)
 
     def get_authentication(self):
         """Hook for backends to allow add authentication headers to request."""
@@ -256,24 +264,22 @@ class MachineTranslation:
                     text = text.replace(source, target)
                 result[key] = text
 
+    def get_variants(self, language):
+        code = self.convert_language(language)
+        yield code
+        if not isinstance(code, str):
+            return
+        code = code.replace("-", "_")
+        if "_" in code:
+            yield code.split("_")[0]
+
     def get_languages(self, source_language, target_language):
-        def get_variants(language):
-            code = self.convert_language(language)
-            yield code
-            if not isinstance(code, str):
-                return
-            code = code.replace("-", "_")
-            if "_" in code:
-                yield code.split("_")[0]
 
         if source_language == target_language and not self.same_languages:
             raise UnsupportedLanguage("Same languages")
 
-        source_variants = get_variants(source_language)
-        target_variants = get_variants(target_language)
-
-        for source in source_variants:
-            for target in target_variants:
+        for source in self.get_variants(source_language):
+            for target in self.get_variants(target_language):
                 if self.is_supported(source, target):
                     return source, target
 
@@ -293,13 +299,20 @@ class MachineTranslation:
 
     def translate(self, unit, user=None, search=None, threshold: int = 75):
         """Return list of machine translations."""
+        translation = unit.translation
         try:
             source, language = self.get_languages(
-                unit.translation.component.source_language, unit.translation.language
+                translation.component.source_language, translation.language
             )
         except UnsupportedLanguage:
+            unit.translation.log_debug(
+                "machinery failed: not supported language pair: %s - %s",
+                translation.component.source_language.code,
+                translation.language.code,
+            )
             return []
 
+        self.account_usage(translation.component.project)
         return self._translate(source, language, unit, user, search, threshold)
 
     def _translate(
@@ -360,13 +373,17 @@ class MachineTranslation:
 
     def batch_translate(self, units, user=None, threshold: int = 75):
         try:
+            translation = units[0].translation
+        except IndexError:
+            return
+        try:
             source, language = self.get_languages(
-                units[0].translation.component.source_language,
-                units[0].translation.language,
+                translation.component.source_language, translation.language
             )
-        except (UnsupportedLanguage, IndexError):
+        except UnsupportedLanguage:
             return
 
+        self.account_usage(translation.component.project, delta=len(units))
         self._batch_translate(source, language, units, user=user, threshold=threshold)
 
     def _batch_translate(self, source, language, units, user=None, threshold: int = 75):

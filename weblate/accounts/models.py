@@ -45,6 +45,7 @@ from weblate.accounts.tasks import notify_auditlog
 from weblate.auth.models import User
 from weblate.lang.models import Language
 from weblate.trans.defines import EMAIL_LENGTH
+from weblate.trans.models import ComponentList
 from weblate.utils import messages
 from weblate.utils.decorators import disable_for_loaddata
 from weblate.utils.fields import EmailField, JSONField
@@ -148,8 +149,8 @@ ACCOUNT_ACTIVITY = {
     "auth-disconnect": _("Removed sign in using {method} ({name})."),
     "login": _("Signed in using {method} ({name})."),
     "login-new": _("Signed in using {method} ({name}) from a new device."),
-    "register": _("Somebody has attempted to register with your e-mail."),
-    "connect": _("Somebody has attempted to register using your e-mail address."),
+    "register": _("Somebody attempted to register with your e-mail."),
+    "connect": _("Somebody attempted to register using your e-mail address."),
     "failed-auth": _("Could not sign in using {method} ({name})."),
     "locked": _("Account locked due to many failed sign in attempts."),
     "removed": _("Account and all private data removed."),
@@ -158,7 +159,7 @@ ACCOUNT_ACTIVITY = {
     "trial": _("Started trial period."),
     "sent-email": _("Sent confirmation mail to {email}."),
     "autocreated": _(
-        "System created user to track authorship of "
+        "The system created a user to track authorship of "
         "translations uploaded by other user."
     ),
 }
@@ -591,8 +592,13 @@ class Profile(models.Model):
             )
 
     def dump_data(self):
+        def map_attr(attr):
+            if attr.endswith("_id"):
+                return attr[:-3]
+            return attr
+
         def dump_object(obj, *attrs):
-            return {attr: getattr(obj, attr) for attr in attrs}
+            return {map_attr(attr): getattr(obj, attr) for attr in attrs}
 
         result = {
             "basic": dump_object(
@@ -612,7 +618,7 @@ class Profile(models.Model):
                 "zen_mode",
                 "special_chars",
                 "dashboard_view",
-                "dashboard_component_list",
+                "dashboard_component_list_id",
             ),
             "auditlog": [
                 dump_object(log, "address", "user_agent", "timestamp", "activity")
@@ -635,16 +641,26 @@ class Profile(models.Model):
         return set(self.languages.values_list("pk", flat=True))
 
     @cached_property
+    def allowed_dashboard_component_lists(self):
+        return ComponentList.objects.filter(
+            show_dashboard=True,
+            components__project_id__in=self.user.allowed_project_ids,
+        ).distinct()
+
+    @cached_property
     def secondary_language_ids(self) -> Set[int]:
         return set(self.secondary_languages.values_list("pk", flat=True))
 
-    def get_language_order(self, language: Language) -> int:
+    def get_translation_order(self, translation) -> int:
         """Returns key suitable for ordering languages based on user preferences."""
+        language = translation.language
         if language.pk in self.primary_language_ids:
             return 0
         if language.pk in self.secondary_language_ids:
             return 1
-        return 2
+        if translation.is_source:
+            return 2
+        return 3
 
     @cached_property
     def watched_project_ids(self):

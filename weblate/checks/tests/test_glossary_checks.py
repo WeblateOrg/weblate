@@ -39,7 +39,7 @@ class GlossaryCheckTest(ViewTestCase):
         )
 
     def add_glossary(self, target, context=""):
-        self.glossary.add_units(None, [(context, "hello", target)])
+        self.glossary.add_unit(None, context, "hello", target)
 
     def test_missing(self):
         self.assertFalse(

@@ -35,7 +35,8 @@ WLT.Editor = (function () {
     var translationAreaSelector = ".translation-editor";
 
     this.$editor = $(".js-editor");
-    this.$translationArea = $(translationAreaSelector);
+    /* Only insert actual translation editor, not a popup for adding variant */
+    this.$translationArea = $(".translator .translation-editor");
 
     this.$editor.on("input", translationAreaSelector, (e) => {
       WLT.Utils.markTranslated($(e.target).closest("form"));

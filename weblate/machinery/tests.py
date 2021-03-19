@@ -1051,6 +1051,27 @@ class AWSTranslationTest(BaseMachineTranslationTest):
                 machine=machine,
             )
 
+    def test_translate_language_map(self, **kwargs):
+        machine = self.get_machine()
+        with Stubber(machine.client) as stubber:
+            stubber.add_response(
+                "translate_text",
+                {
+                    "TranslatedText": "Ahoj",
+                    "SourceLanguageCode": "en",
+                    "TargetLanguageCode": "cs",
+                },
+                {"SourceLanguageCode": ANY, "TargetLanguageCode": ANY, "Text": ANY},
+            )
+            unit = MockUnit(code="cs_CZ", source="Hello")
+            unit.translation.component.source_language.code = "en_US"
+            translation = machine.translate(unit)
+            self.assertIsInstance(translation, list)
+            self.assertEqual(
+                translation,
+                [{"text": "Ahoj", "quality": 88, "service": "AWS", "source": "Hello"}],
+            )
+
     def test_batch(self, machine=None):
         if machine is None:
             machine = self.get_machine()

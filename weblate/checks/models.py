@@ -17,19 +17,14 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-
 import json
 
 from appconf import AppConf
-from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
 from django.db.models import Q
-from django.db.models.signals import post_delete, post_save
-from django.dispatch import receiver
 from django.utils.functional import cached_property
 
 from weblate.utils.classloader import ClassLoader
-from weblate.utils.decorators import disable_for_loaddata
 
 
 class ChecksLoader(ClassLoader):
@@ -71,6 +66,7 @@ class WeblateChecksConf(AppConf):
         "weblate.checks.format.PerlFormatCheck",
         "weblate.checks.format.JavaScriptFormatCheck",
         "weblate.checks.format.LuaFormatCheck",
+        "weblate.checks.format.SchemeFormatCheck",
         "weblate.checks.format.CSharpFormatCheck",
         "weblate.checks.format.JavaFormatCheck",
         "weblate.checks.format.JavaMessageFormatCheck",
@@ -178,46 +174,8 @@ class Check(models.Model):
     def set_dismiss(self, state=True):
         """Set ignore flag."""
         self.dismissed = state
-        self.save()
-
-
-@receiver(post_save, sender=Check)
-@disable_for_loaddata
-def check_post_save(sender, instance, created, **kwargs):
-    """Handle check creation or updates."""
-    if not created:
-        instance.unit.translation.invalidate_cache()
-
-
-@receiver(post_delete, sender=Check)
-@disable_for_loaddata
-def remove_complimentary_checks(sender, instance, **kwargs):
-    """Remove propagate checks from all units."""
-    unit = instance.unit
-    unit.translation.invalidate_cache()
-    check_obj = instance.check_obj
-    if not check_obj:
-        return
-
-    # Handle propagating checks - remove on other units
-    if check_obj.propagates:
-        Check.objects.filter(
-            unit__in=unit.same_source_units, check=instance.check
-        ).delete()
-        for other in unit.same_source_units:
-            other.translation.invalidate_cache()
-            other.clear_checks_cache()
-
-    # Update source checks if needed
-    if check_obj.target:
-        source_unit = unit.source_unit
-        if unit.is_batch_update:
-            unit.translation.component.updated_sources[source_unit.id] = source_unit
-        else:
-            try:
-                source_unit.run_checks()
-            except ObjectDoesNotExist:
-                pass
+        self.save(update_fields=["dismissed"])
+        self.unit.translation.invalidate_cache()
 
 
 def get_display_checks(unit):

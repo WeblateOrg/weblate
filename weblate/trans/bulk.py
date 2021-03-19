@@ -54,6 +54,7 @@ def bulk_perform(
 
     updated = 0
     for component in components:
+        component.batch_checks = True
         with transaction.atomic(), component.lock():
             component.commit_pending("bulk edit", user)
             component_units = matching.filter(translation__component=component)
@@ -95,7 +96,7 @@ def bulk_perform(
                     # The change is already done in the database, we
                     # need it here to recalculate state of translation
                     # units
-                    unit.is_bulk_edit = True
+                    unit.is_batch_update = True
                     unit.pending = True
                     unit.state = target_state
                     unit.source_unit_save()
@@ -115,18 +116,18 @@ def bulk_perform(
                         flags.remove(remove_flags)
                         new_flags = flags.format()
                         if source_unit.extra_flags != new_flags:
-                            source_unit.is_bulk_edit = True
+                            source_unit.is_batch_update = True
                             source_unit.extra_flags = new_flags
                             source_unit.save(update_fields=["extra_flags"])
                             changed = True
 
                     if add_labels:
-                        source_unit.is_bulk_edit = True
+                        source_unit.is_batch_update = True
                         source_unit.labels.add(*add_labels)
                         changed = True
 
                     if remove_labels:
-                        source_unit.is_bulk_edit = True
+                        source_unit.is_batch_update = True
                         source_unit.labels.remove(*remove_labels)
                         changed = True
 
@@ -134,5 +135,7 @@ def bulk_perform(
                         updated += 1
 
         component.invalidate_cache()
+        component.update_source_checks()
+        component.run_batched_checks()
 
     return updated

@@ -728,9 +728,12 @@ class GitMergeRequestBase(GitForcePushRepository):
         raise NotImplementedError()
 
     def get_merge_message(self):
-        return render_template(
+        parts = render_template(
             settings.DEFAULT_PULL_MESSAGE, component=self.component
         ).split("\n\n", 1)
+        if len(parts) == 1:
+            parts.append("")
+        return parts
 
     def format_api_host(self, host):
         return host

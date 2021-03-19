@@ -11,21 +11,12 @@ jobs:
   setup:
     runs-on: ubuntu-20.04
 
-    strategy:
-      matrix:
-        database: [postgresql]
     env:
-      CI_DATABASE: ${{ matrix.database }}
-      CI_DB_PASSWORD: weblate
-      CI_DB_HOST: 127.0.0.1
-      CI_DB_PORT: "60000"
-      CI_SELENIUM: "1"
-      DJANGO_SETTINGS_MODULE: weblate.settings_test
+      PYTHONUNBUFFERED: 1
+      PYTHONWARNINGS: default,ignore:unclosed:ResourceWarning
 
     steps:
       - uses: actions/checkout@v2
-      - name: Start services
-        run: ./ci/services-up ${{ matrix.database }}
       - name: Cache pip
         uses: actions/cache@v2.1.4
         with:
@@ -33,18 +24,18 @@ jobs:
           key: ${{ runner.os }}-pip-setup-${{ hashFiles('**/requirements*.txt') }}
       - name: Install apt dependencies
         run: sudo ./ci/apt-install
-      - name: Set up Python 3.7
+      - name: Set up Python
         uses: actions/setup-python@v2.2.1
         with:
-          python-version: 3.7
+          python-version: 3.9
       - name: Used versions
         run: ./ci/print-versions
       - name: Install pip dependencies
-        run: |
-          ./ci/pip-install
-          pip install --upgrade -r requirements-dist.txt
-      - name: Setup install and test
-        run: ./ci/run-setup
+        run: ./ci/pip-install
+      - name: Install Weblate
+        run: coverage run ./setup.py install
+      - name: Check difference
+        run: diff -ruNqp weblate $(python -c 'import weblate; import os; print(os.path.dirname(weblate.__file__))')
       - name: Coverage
         run: |
           coverage combine
@@ -52,16 +43,41 @@ jobs:
       - uses: codecov/codecov-action@v1
         with:
           flags: setup
-          name: Setup
-      - name: Stop services
-        if: always()
-        run: ./ci/services-down ${{ matrix.database }}
+          name: setup
+
+  pip:
+    runs-on: ubuntu-20.04
+
+    env:
+      PYTHONUNBUFFERED: 1
+      PYTHONWARNINGS: default,ignore:unclosed:ResourceWarning
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Cache pip
+        uses: actions/cache@v2.1.4
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-setup-${{ hashFiles('**/requirements*.txt') }}
+      - name: Install apt dependencies
+        run: sudo ./ci/apt-install
+      - name: Set up Python
+        uses: actions/setup-python@v2.2.1
+        with:
+          python-version: 3.9
+      - name: Used versions
+        run: ./ci/print-versions
+      - name: Install pip dependencies
+        run: ./ci/pip-install
+      - name: Install Weblate
+        run: pip install .
+      - name: Check difference
+        run: diff -ruNqp weblate $(python -c 'import weblate; import os; print(os.path.dirname(weblate.__file__))')
 
   dist:
     runs-on: ubuntu-20.04
     env:
-      DJANGO_SETTINGS_MODULE: weblate.settings_test
-      CI_DATABASE: postgresql
+      PYTHONUNBUFFERED: 1
       PYTHONWARNINGS: default,ignore:unclosed:ResourceWarning
 
     steps:
@@ -75,13 +91,9 @@ jobs:
       - name: Setup Python
         uses: actions/setup-python@v2.2.1
         with:
-          python-version: 3.8
+          python-version: 3.9
       - name: Install pip dependencies
-        run: |
-          ./ci/pip-install
-          pip install --upgrade -r requirements-dist.txt
-      - name: Compile messages
-        run: coverage run ./manage.py compilemessages
+        run: ./ci/pip-install
       - name: Build sdist
         run: coverage run ./setup.py sdist
       - name: Install sdist

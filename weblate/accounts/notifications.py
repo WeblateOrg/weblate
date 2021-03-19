@@ -519,7 +519,7 @@ class LastAuthorCommentNotificaton(Notification):
         translation=None,
         users=None,
     ):
-        last_author = change.unit.get_last_content_change(silent=True)[0]
+        last_author = change.unit.get_last_content_change()[0]
         if last_author.is_anonymous:
             users = []
         else:

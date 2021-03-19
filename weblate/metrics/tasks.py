@@ -19,6 +19,8 @@
 from datetime import date, timedelta
 
 from celery.schedules import crontab
+from django.core.cache import cache
+from django.db.models import Count, Q
 
 from weblate.auth.models import User
 from weblate.memory.models import Memory
@@ -51,6 +53,19 @@ SOURCE_KEYS = BASIC_KEYS | {
 }
 
 
+def create_metrics(data, stats, keys, scope, relation):
+    if stats is not None:
+        for key in keys:
+            data[key] = getattr(stats, key)
+
+    Metric.objects.bulk_create(
+        [
+            Metric(scope=Metric.SCOPE_GLOBAL, relation=0, name=name, value=value)
+            for name, value in data.items()
+        ]
+    )
+
+
 def collect_global():
     stats = GlobalStats()
     data = {
@@ -64,21 +79,101 @@ def collect_global():
         ).count(),
         "users": User.objects.count(),
     }
+    create_metrics(data, stats, SOURCE_KEYS, Metric.SCOPE_GLOBAL, 0)
 
-    for key in SOURCE_KEYS:
-        data[key] = getattr(stats, key)
 
-    Metric.objects.bulk_create(
-        [
-            Metric(scope=Metric.SCOPE_GLOBAL, relation=0, name=name, value=value)
-            for name, value in data.items()
+def collect_projects():
+    for project in Project.objects.all():
+        data = {
+            "components": project.component_set.count(),
+            "translations": Translation.objects.filter(
+                component__project=project
+            ).count(),
+            "memory": project.memory_set.count(),
+            "screenshots": Screenshot.objects.filter(
+                translation__component__project=project
+            ).count(),
+            "changes": project.change_set.filter(
+                timestamp__date=date.today() - timedelta(days=1)
+            ).count(),
+        }
+        keys = [
+            f"machinery-accounting:internal:{project.id}",
+            f"machinery-accounting:external:{project.id}",
         ]
-    )
+        for key, value in cache.get_many(keys):
+            if ":internal:" in key:
+                data["machinery:internal"] = value
+            else:
+                data["machinery:external"] = value
+
+        create_metrics(
+            data, project.stats, SOURCE_KEYS, Metric.SCOPE_PROJECT, project.pk
+        )
+
+
+def collect_components():
+    for component in Component.objects.all():
+        data = {
+            "translations": component.translation_set.count(),
+            "screenshots": Screenshot.objects.filter(
+                translation__component=component
+            ).count(),
+            "changes": component.change_set.filter(
+                timestamp__date=date.today() - timedelta(days=1)
+            ).count(),
+        }
+        create_metrics(
+            data, component.stats, SOURCE_KEYS, Metric.SCOPE_COMPONENT, component.pk
+        )
+
+
+def collect_translations():
+    for translation in Translation.objects.all():
+        data = {
+            "screenshots": translation.screenshot_set.count(),
+            "changes": translation.change_set.filter(
+                timestamp__date=date.today() - timedelta(days=1)
+            ).count(),
+        }
+        create_metrics(
+            data,
+            translation.stats,
+            BASIC_KEYS,
+            Metric.SCOPE_TRANSLATION,
+            translation.pk,
+        )
+
+
+def collect_users():
+    for user in User.objects.filter(is_active=True):
+        data = user.change_set.filter(
+            timestamp__date=date.today() - timedelta(days=1)
+        ).aggregate(
+            changes=Count("id"),
+            comments=Count("id", filter=Q(action=Change.ACTION_COMMENT)),
+            suggestions=Count("id", filter=Q(action=Change.ACTION_SUGGESTION)),
+            translations=Count("id", filter=Q(action__in=Change.ACTIONS_CONTENT)),
+            screenshots=Count(
+                "id",
+                filter=Q(
+                    action__in=(
+                        Change.ACTION_SCREENSHOT_ADDED,
+                        Change.ACTION_SCREENSHOT_UPLOADED,
+                    )
+                ),
+            ),
+        )
+        create_metrics(data, None, None, Metric.SCOPE_USER, user.pk)
 
 
 @app.task(trail=False)
 def collect_metrics():
     collect_global()
+    collect_projects()
+    collect_components()
+    collect_translations()
+    collect_users()
 
 
 @app.on_after_finalize.connect

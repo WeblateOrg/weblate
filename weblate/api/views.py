@@ -33,7 +33,7 @@ from django.utils.safestring import mark_safe
 from django_filters import rest_framework as filters
 from rest_framework import parsers, viewsets
 from rest_framework.decorators import action
-from rest_framework.exceptions import ParseError, ValidationError
+from rest_framework.exceptions import ParseError
 from rest_framework.mixins import CreateModelMixin, DestroyModelMixin, UpdateModelMixin
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
@@ -110,6 +110,7 @@ REPO_OPERATIONS = {
     "reset": ("vcs.reset", "do_reset", (), True),
     "cleanup": ("vcs.reset", "do_cleanup", (), True),
     "commit": ("vcs.commit", "commit_pending", ("api",), False),
+    "file-sync": ("vcs.reset", "do_file_sync", (), True),
 }
 
 DOC_TEXT = """
@@ -1055,13 +1056,12 @@ class TranslationViewSet(MultipleFieldMixin, WeblateViewSet, DestroyModelMixin):
         if request.method == "POST":
             if not request.user.has_perm("unit.add", obj):
                 self.permission_denied(request, "Can not add unit")
-            serializer = serializer_class(data=request.data)
+            serializer = serializer_class(
+                data=request.data, context={"translation": obj}
+            )
             serializer.is_valid(raise_exception=True)
 
-            if serializer.unit_exists(obj):
-                raise ValidationError("This this string already exists!")
-
-            obj.add_units(request, [serializer.as_tuple()])
+            obj.add_unit(request, *serializer.as_tuple())
             serializer = self.serializer_class(obj, context={"request": request})
             return Response(serializer.data, status=HTTP_200_OK)
 
@@ -1321,7 +1321,12 @@ class ScreenshotViewSet(DownloadViewSet, viewsets.ModelViewSet):
                 data=request.data, context={"request": request}
             )
             serializer.is_valid(raise_exception=True)
-            serializer.save(translation=translation, user=request.user)
+            instance = serializer.save(translation=translation, user=request.user)
+            instance.change_set.create(
+                action=Change.ACTION_SCREENSHOT_ADDED,
+                user=request.user,
+                target=instance.name,
+            )
             return Response(serializer.data, status=HTTP_201_CREATED)
 
     def update(self, request, *args, **kwargs):

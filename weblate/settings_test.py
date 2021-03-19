@@ -64,6 +64,8 @@ SECRET_KEY = "secret key used for tests only"
 SITE_DOMAIN = "example.com"
 
 # Different root for test repos
+if "CI_BASE_DIR" in os.environ:
+    BASE_DIR = os.environ["CI_BASE_DIR"]
 DATA_DIR = os.path.join(BASE_DIR, "data-test")
 MEDIA_ROOT = os.path.join(DATA_DIR, "media")
 STATIC_ROOT = os.path.join(DATA_DIR, "static")

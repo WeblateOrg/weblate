@@ -256,6 +256,7 @@ or remove the label.
 
 .. seealso::
 
-    :ref:`bimono`,
-    :ref:`reviews`,
-    :ref:`labels`
+   :ref:`bimono`,
+   :ref:`reviews`,
+   :ref:`labels`,
+   :ref:`user-comments`

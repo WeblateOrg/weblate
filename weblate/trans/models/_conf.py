@@ -75,6 +75,9 @@ class WeblateConf(AppConf):
     # Google Analytics
     GOOGLE_ANALYTICS_ID = None
 
+    # Link for support portal
+    GET_HELP_URL = None
+
     # URL with status monitoring
     STATUS_URL = None
 
@@ -173,6 +176,7 @@ Current translation status:
     SUGGESTION_CLEANUP_DAYS = None
     COMMENT_CLEANUP_DAYS = None
     REPOSITORY_ALERT_THRESHOLD = 25
+    BACKGROUND_TASKS = "monthly"
 
     SINGLE_PROJECT = False
     LICENSE_EXTRA = []

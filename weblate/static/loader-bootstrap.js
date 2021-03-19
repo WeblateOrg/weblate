@@ -401,12 +401,24 @@ function initHighlight(root) {
     if (editor.classList.contains("translation-editor")) {
       let placeables = editor.getAttribute("data-placeables");
       let extension = {
-        hlspace: /  +| +$|^ +| +\n|\n +/,
+        hlspace: {
+          pattern: /  +|(^) +| +(?=$)| +\n|\n +/,
+          lookbehind: true,
+        },
       };
       if (placeables) {
         extension.placeable = RegExp(placeables);
       }
-      languageMode = Prism.languages.extend(mode, extension);
+      /*
+       * We can not use Prism.extend here as we want whitespace highlighting
+       * to apply first. The code is borrowed from Prism.util.clone.
+       */
+      for (var key in languageMode) {
+        if (languageMode.hasOwnProperty(key)) {
+          extension[key] = Prism.util.clone(languageMode[key]);
+        }
+      }
+      languageMode = extension;
     }
     var syncContent = function () {
       highlight.innerHTML = Prism.highlight(editor.value, languageMode, mode);

@@ -218,6 +218,8 @@ class Change(models.Model, UserDisplayMixin):
     ACTION_REPLACE_UPLOAD = 54
     ACTION_LICENSE_CHANGE = 55
     ACTION_AGREEMENT_CHANGE = 56
+    ACTION_SCREENSHOT_ADDED = 57
+    ACTION_SCREENSHOT_UPLOADED = 58
 
     ACTION_CHOICES = (
         # Translators: Name of event in the history
@@ -328,6 +330,10 @@ class Change(models.Model, UserDisplayMixin):
         (ACTION_LICENSE_CHANGE, gettext_lazy("License changed")),
         # Translators: Name of event in the history
         (ACTION_AGREEMENT_CHANGE, gettext_lazy("Contributor agreement changed")),
+        # Translators: Name of event in the history
+        (ACTION_SCREENSHOT_ADDED, gettext_lazy("Screnshot added")),
+        # Translators: Name of event in the history
+        (ACTION_SCREENSHOT_UPLOADED, gettext_lazy("Screnshot uploaded")),
     )
     ACTIONS_DICT = dict(ACTION_CHOICES)
     ACTION_STRINGS = {
@@ -425,6 +431,9 @@ class Change(models.Model, UserDisplayMixin):
     announcement = models.ForeignKey(
         "Announcement", null=True, on_delete=models.deletion.SET_NULL
     )
+    screenshot = models.ForeignKey(
+        "screenshots.Screenshot", null=True, on_delete=models.deletion.SET_NULL
+    )
     alert = models.ForeignKey("Alert", null=True, on_delete=models.deletion.SET_NULL)
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL, null=True, on_delete=models.deletion.CASCADE
@@ -466,6 +475,8 @@ class Change(models.Model, UserDisplayMixin):
 
         if self.unit:
             self.translation = self.unit.translation
+        if self.screenshot:
+            self.translation = self.screenshot.translation
         if self.translation:
             self.component = self.translation.component
             self.language = self.translation.language
@@ -478,6 +489,8 @@ class Change(models.Model, UserDisplayMixin):
         """Return link either to unit or translation."""
         if self.unit is not None:
             return self.unit.get_absolute_url()
+        if self.screenshot is not None:
+            return self.screenshot.get_absolute_url()
         if self.translation is not None:
             if self.action == self.ACTION_NEW_STRING:
                 return self.translation.get_translate_url() + "?q=is:untranslated"

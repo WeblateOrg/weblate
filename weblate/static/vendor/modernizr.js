@@ -1,5 +1,5 @@
 /*!
- * modernizr v3.11.4
+ * modernizr v3.11.6
  * Build https://modernizr.com/download?-inputtypes-dontmin
  *
  * Copyright (c)
@@ -35,7 +35,7 @@
    * @access public
    */
   var ModernizrProto = {
-    _version: '3.11.4',
+    _version: '3.11.6',
 
     // Any settings that don't work as separate modules
     // can go in here as configuration.

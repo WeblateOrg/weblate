@@ -78,8 +78,14 @@ with open("weblate/utils/licensedata.py", "w") as output:
     for license in sorted(data["licenses"], key=lambda x: x["name"].lower()):
         if license["isDeprecatedLicenseId"]:
             continue
+        with open(
+            f"scripts/spdx-license-list/json/details/{license['reference']}"
+        ) as handle:
+            details = json.load(handle)
         libre = (
-            license.get("isFsfLibre", False)
+            details.get("isFsfLibre", False)
+            or details["isOsiApproved"]
+            or license.get("isFsfLibre", False)
             or license["isOsiApproved"]
             or license["licenseId"] in EXCEPTIONS
         )

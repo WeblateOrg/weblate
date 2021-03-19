@@ -21,6 +21,7 @@ from datetime import datetime
 from urllib.parse import urlparse
 
 from django.conf import settings
+from django.core.cache import cache
 from django.utils.html import escape
 from django.utils.http import url_has_allowed_host_and_scheme
 from django.utils.safestring import mark_safe
@@ -30,7 +31,7 @@ import weblate.screenshots.views
 import weblate.utils.version
 from weblate.configuration.views import CustomCSSView
 from weblate.utils.site import get_site_domain, get_site_url
-from weblate.wladmin.models import ConfigurationError
+from weblate.wladmin.models import ConfigurationError, SupportStatus
 
 WEBLATE_URL = "https://weblate.org/"
 DONATE_URL = "https://weblate.org/donate/"
@@ -45,6 +46,7 @@ CONTEXT_SETTINGS = [
     "GOOGLE_ANALYTICS_ID",
     "ENABLE_HOOKS",
     "REGISTRATION_OPEN",
+    "GET_HELP_URL",
     "STATUS_URL",
     "LEGAL_URL",
     "FONTS_CDN_URL",
@@ -138,7 +140,15 @@ def weblate_context(request):
             "This site runs Weblate for localizing various software projects."
         )
 
+    has_support_cache_key = "weblate:has:support"
+    has_support = cache.get(has_support_cache_key)
+    if has_support is None:
+        support_status = SupportStatus.objects.get_current()
+        has_support = support_status.name != "community"
+        cache.set(has_support_cache_key, has_support, 86400)
+
     context = {
+        "has_support": has_support,
         "cache_param": f"?v={weblate.utils.version.GIT_VERSION}"
         if not settings.COMPRESS_ENABLED
         else "",

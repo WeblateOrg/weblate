@@ -205,6 +205,8 @@ def check_edit_approved(user, permission, obj):
 
 
 def check_manage_units(translation: Translation, component: Component) -> bool:
+    if not isinstance(component, Component):
+        return False
     source = translation.is_source
     template = component.has_template()
     # Add only to source in monolingual
@@ -248,6 +250,8 @@ def check_unit_add(user, permission, translation):
 
 @register_perm("translation.add")
 def check_component_locked(user, permission, component):
+    if component.new_lang == "none" and not user.has_perm("component.edit", component):
+        return False
     if component.locked:
         return True
     return check_permission(user, permission, component)

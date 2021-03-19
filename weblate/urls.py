@@ -537,6 +537,22 @@ real_patterns = [
         weblate.trans.views.git.cleanup_translation,
         name="cleanup_translation",
     ),
+    # VCS manipulation - force sync
+    path(
+        "file-sync/<name:project>/",
+        weblate.trans.views.git.file_sync_project,
+        name="file_sync_project",
+    ),
+    path(
+        "file-sync/<name:project>/<name:component>/",
+        weblate.trans.views.git.file_sync_component,
+        name="file_sync_component",
+    ),
+    path(
+        "file-sync/<name:project>/<name:component>/<name:lang>/",
+        weblate.trans.views.git.file_sync_translation,
+        name="file_sync_translation",
+    ),
     path(
         "progress/<name:project>/<name:component>/",
         weblate.trans.views.settings.component_progress,
@@ -947,6 +963,7 @@ real_patterns = [
         name="manage-users-check",
     ),
     path("manage/activate/", weblate.wladmin.views.activate, name="manage-activate"),
+    path("manage/discovery/", weblate.wladmin.views.discovery, name="manage-discovery"),
     path("manage/alerts/", weblate.wladmin.views.alerts, name="manage-alerts"),
     path("manage/repos/", weblate.wladmin.views.repos, name="manage-repos"),
     path("manage/ssh/", weblate.wladmin.views.ssh, name="manage-ssh"),

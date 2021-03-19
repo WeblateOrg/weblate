@@ -96,7 +96,7 @@ def change_labels(sender, instance, action, pk_set, **kwargs):
         or not instance.is_source
     ):
         return
-    if not instance.is_bulk_edit:
+    if not instance.is_batch_update:
         instance.translation.component.invalidate_cache()
 
 

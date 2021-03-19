@@ -5,16 +5,13 @@
 {% load translations %}
 {% load icons %}
 {% load static %}
+{% load permissions %}
 
 {% block extra_script %}
 {% compress js %}
 <script defer data-cfasync="false" src="{% static 'editor/base.js' %}{{ cache_param }}"></script>
 <script defer data-cfasync="false" src="{% static 'editor/zen.js' %}{{ cache_param }}"></script>
 {% endcompress %}
-{% endblock %}
-
-{% block extra_meta %}
-<link rel="canonical" href="{{ unit.get_absolute_url }}" />
 {% endblock %}
 
 {% block breadcrumbs %}
@@ -39,18 +36,19 @@
   {% include "snippets/component/state.html" with object=object.component %}
 {% endif %}
 
-<div class="row">
-  <div class="col-sm-9">
-    <form method="GET" class="result-page-form">
-      {% crispy search_form  %}
-    </form>
-  </div>
-</div>
+{% perm 'unit.add' object as user_can_add_unit %}
+{% if user_can_add_unit %}
+  <a class="btn btn-link green pull-right flip" href="{{ object.get_absolute_url }}#new">{% icon "plus-circle.svg" %} {{ object.component.get_add_label }}</a>
+{% endif %}
+
+<form method="GET" class="result-page-form">
+  {% crispy search_form  %}
+</form>
 
 {% if not units %}
   <em>{% trans "No strings found!" %}</em>
 {% else %}
-  {% include "snippets/embed-units.html" with translation=object %}
+  {% include "snippets/embed-units.html" with translation=object include_search=True %}
 {% endif %}
 
 {% endblock %}

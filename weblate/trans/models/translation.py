@@ -21,7 +21,7 @@ import codecs
 import os
 import tempfile
 from datetime import datetime
-from typing import BinaryIO, List, Optional, Tuple, Union
+from typing import BinaryIO, List, Optional, Union
 
 from django.core.cache import cache
 from django.core.exceptions import ObjectDoesNotExist, ValidationError
@@ -46,12 +46,13 @@ from weblate.trans.models.change import Change
 from weblate.trans.models.suggestion import Suggestion
 from weblate.trans.models.unit import (
     STATE_APPROVED,
+    STATE_EMPTY,
     STATE_FUZZY,
     STATE_TRANSLATED,
     Unit,
 )
 from weblate.trans.signals import store_post_load, vcs_pre_commit
-from weblate.trans.util import split_plural
+from weblate.trans.util import join_plural, split_plural
 from weblate.trans.validators import validate_check_flags
 from weblate.utils.db import (
     FastDeleteModelMixin,
@@ -59,6 +60,7 @@ from weblate.utils.db import (
     get_nokey_args,
 )
 from weblate.utils.errors import report_error
+from weblate.utils.hash import calculate_hash
 from weblate.utils.render import render_template
 from weblate.utils.site import get_site_url
 from weblate.utils.stats import GhostStats, TranslationStats
@@ -82,7 +84,7 @@ class TranslationManager(models.Manager):
             translation.save(update_fields=["filename", "language_code"])
         flags = ""
         if (not component.edit_template and translation.is_template) or (
-            not translation.is_template and translation.is_source
+            not component.has_template() and translation.is_source
         ):
             flags = "read-only"
         if translation.check_flags != flags:
@@ -274,13 +276,16 @@ class Translation(
 
     def load_store(self, fileobj=None, force_intermediate=False):
         """Load translate-toolkit storage from disk."""
-        if fileobj is None:
-            fileobj = self.get_filename()
         # Use intermediate store as template for source translation
         if force_intermediate or (self.is_template and self.component.intermediate):
             template = self.component.intermediate_store
         else:
             template = self.component.template_store
+        if fileobj is None:
+            fileobj = self.get_filename()
+        elif self.is_template:
+            template = self.component.load_template_store(fileobj)
+            fileobj.seek(0)
         store = self.component.file_format_cls.parse(
             fileobj,
             template,
@@ -457,6 +462,9 @@ class Translation(
     def do_cleanup(self, request=None):
         return self.component.do_cleanup(request)
 
+    def do_file_sync(self, request=None):
+        return self.component.do_file_sync(request)
+
     def can_push(self):
         return self.component.can_push()
 
@@ -496,6 +504,16 @@ class Translation(
         if not force and not self.needs_commit():
             return False
 
+        # Commit template first
+        if (
+            not self.is_source
+            and self.component.has_template()
+            and self.component.source_translation.needs_commit()
+        ):
+            self.component.source_translation.commit_pending(
+                reason, user, skip_push=skip_push, force=force, signals=signals
+            )
+
         self.log_info("committing pending changes (%s)", reason)
 
         try:
@@ -529,9 +547,6 @@ class Translation(
                 self.git_commit(
                     user, author_name, timestamp, skip_push=skip_push, signals=signals
                 )
-
-            # Remove the pending flag
-            units.update(pending=False)
 
         # Update stats (the translated flag might have changed)
         self.invalidate_cache()
@@ -622,36 +637,47 @@ class Translation(
             # Remove pending flag
             unit.pending = False
 
-            try:
-                pounit, add = store.find_unit(unit.context, unit.source)
-            except UnitNotFound:
-                # Bail out if we have not found anything
-                report_error(cause="String disappeared")
-                self.log_error("disappeared string: %s", unit)
-                continue
-
-            # Check for changes
-            if (
-                (not add or unit.target == "")
-                and unit.target == pounit.target
-                and unit.approved == pounit.is_approved(unit.approved)
-                and unit.fuzzy == pounit.is_fuzzy()
-            ):
-                continue
-
-            updated = True
-
-            # Optionally add unit to translation file.
-            # This has be done prior setting tatget as some formats
-            # generate content based on target language.
-            if add:
-                store.add_unit(pounit.unit)
-
-            # Store translations
-            if unit.is_plural:
-                pounit.set_target(unit.get_target_plurals())
+            if unit.details.get("add_unit"):
+                pounit = store.new_unit(
+                    unit.context, unit.get_source_plurals(), unit.get_target_plurals()
+                )
+                updated = True
+                del unit.details["add_unit"]
             else:
-                pounit.set_target(unit.target)
+                try:
+                    pounit, add = store.find_unit(unit.context, unit.source)
+                except UnitNotFound:
+                    # Bail out if we have not found anything
+                    report_error(cause="String disappeared")
+                    self.log_error("disappeared string: %s", unit)
+                    continue
+
+                # Check for changes
+                if (
+                    (not add or unit.target == "")
+                    and unit.target == pounit.target
+                    and unit.approved == pounit.is_approved(unit.approved)
+                    and unit.fuzzy == pounit.is_fuzzy()
+                ):
+                    continue
+
+                updated = True
+
+                # Optionally add unit to translation file.
+                # This has be done prior setting tatget as some formats
+                # generate content based on target language.
+                if add:
+                    store.add_unit(pounit.unit)
+
+                # Store translations
+                if unit.is_plural:
+                    pounit.set_target(unit.get_target_plurals())
+                else:
+                    pounit.set_target(unit.target)
+
+            unit.save(
+                update_fields=["pending", "details"], same_content=True, only_save=True
+            )
 
             # Update fuzzy/approved flag
             pounit.mark_fuzzy(unit.state == STATE_FUZZY)
@@ -931,7 +957,7 @@ class Translation(
                         os.unlink(temp.name)
 
             # Commit changes
-            previous_revision = (self.component.repository.last_revision,)
+            previous_revision = self.component.repository.last_revision
             if component.commit_files(
                 template=component.addon_message,
                 files=filenames,
@@ -967,7 +993,7 @@ class Translation(
             )
 
             # Commit to VCS
-            previous_revision = (self.component.repository.last_revision,)
+            previous_revision = self.component.repository.last_revision
             if self.git_commit(
                 request.user, request.user.get_author_name(), store_hash=False
             ):
@@ -987,20 +1013,23 @@ class Translation(
         skipped = 0
         accepted = 0
         existing = set(self.unit_set.values_list("context", "source"))
-        units = []
         for _set_fuzzy, unit in store.iterate_merge(fuzzy):
             if (unit.context, unit.source) in existing:
                 skipped += 1
                 continue
-            units.append(
-                (
-                    unit.context,
-                    split_plural(unit.source),
-                    split_plural(unit.target),
-                )
+            self.add_unit(
+                request,
+                unit.context,
+                split_plural(unit.source),
+                split_plural(unit.target),
+                is_batch_update=True,
             )
             accepted += 1
-        self.add_units(request, units)
+        self.invalidate_cache()
+        self.component.update_variants()
+        self.component.sync_terminology()
+        self.component.update_source_checks()
+        self.component.run_batched_checks()
         return (0, skipped, accepted, len(list(store.content_units)))
 
     @transaction.atomic
@@ -1077,8 +1106,7 @@ class Translation(
                         request, store, conflicts, method, fuzzy
                     )
             elif method == "add":
-                with self.component.repository.lock:
-                    return self.handle_add_upload(request, store, fuzzy=fuzzy)
+                return self.handle_add_upload(request, store, fuzzy=fuzzy)
 
             # Add as sugestions
             return self.merge_suggestions(request, store, fuzzy)
@@ -1150,33 +1178,88 @@ class Translation(
         return component.translation_set.exclude(id=self.id)
 
     @transaction.atomic
-    def add_units(
+    def add_unit(  # noqa: C901
         self,
         request,
-        batch: List[Tuple[str, Union[str, List[str]], Optional[Union[str, List[str]]]]],
+        context: str,
+        source: Union[str, List[str]],
+        target: Optional[Union[str, List[str]]] = None,
+        is_batch_update: bool = False,
     ):
-        from weblate.auth.models import get_anonymous
+        user = request.user if request else None
+        component = self.component
+        if self.is_source:
+            translations = [self]
+            translations.extend(component.translation_set.exclude(id=self.id))
+        else:
+            translations = [component.source_translation, self]
+        has_template = component.has_template()
+        source_unit = None
+        result = None
 
-        user = request.user if request else get_anonymous()
-        with self.component.repository.lock:
-            self.component.commit_pending("new unit", user)
-            previous_revision = (self.component.repository.last_revision,)
-            for translation in self.get_store_change_translations():
-                for context, source, target in batch:
-                    translation.store.new_unit(context, source, target)
-                    Change.objects.create(
-                        translation=translation,
-                        action=Change.ACTION_NEW_UNIT,
-                        target=source,
-                        user=user,
-                        author=user,
-                    )
-                translation.drop_store_cache()
-                translation.git_commit(user, user.get_author_name(), store_hash=False)
-            self.handle_store_change(request, user, previous_revision)
+        for translation in translations:
+            is_source = translation.is_source
+            kwargs = {}
+            if has_template:
+                kwargs["pending"] = is_source
+            else:
+                kwargs["pending"] = not is_source
+            if kwargs["pending"]:
+                kwargs["details"] = {"add_unit": True}
+            if is_source:
+                current_target = source
+            else:
+                current_target = target
+            if current_target is None:
+                current_target = ""
+            if isinstance(current_target, list):
+                current_target = join_plural(current_target)
+            if isinstance(source, list):
+                source = join_plural(source)
+            if has_template:
+                id_hash = calculate_hash(context)
+            else:
+                id_hash = calculate_hash(source, context)
+            # When adding to a target the source string can already exist
+            unit = None
+            if not self.is_source and is_source:
+                try:
+                    unit = translation.unit_set.get(id_hash=id_hash)
+                except Unit.DoesNotExist:
+                    pass
+            if unit is None:
+                unit = Unit(
+                    translation=translation,
+                    context=context,
+                    source=source,
+                    target=current_target,
+                    state=STATE_TRANSLATED if bool(current_target) else STATE_EMPTY,
+                    source_unit=source_unit,
+                    id_hash=id_hash,
+                    position=0,
+                    **kwargs,
+                )
+                unit.is_batch_update = is_batch_update
+                unit.save(force_insert=True)
+                Change.objects.create(
+                    unit=unit,
+                    action=Change.ACTION_NEW_UNIT,
+                    target=source,
+                    user=user,
+                    author=user,
+                )
+            # The source language is always first in the translations array
+            if source_unit is None:
+                source_unit = unit
+            if translation == self:
+                result = unit
 
         if self.is_source:
-            self.component.sync_terminology()
+            component.sync_terminology()
+        if not is_batch_update:
+            component.update_variants()
+            component.sync_terminology()
+        return result
 
     @transaction.atomic
     def delete_unit(self, request, unit):
@@ -1186,7 +1269,7 @@ class Translation(
         user = request.user if request else get_anonymous()
         with component.repository.lock:
             component.commit_pending("delete unit", user)
-            previous_revision = (self.component.repository.last_revision,)
+            previous_revision = self.component.repository.last_revision
             for translation in self.get_store_change_translations():
                 try:
                     pounit, add = translation.store.find_unit(unit.context, unit.source)
@@ -1200,25 +1283,91 @@ class Translation(
                 translation.git_commit(user, user.get_author_name(), store_hash=False)
             self.handle_store_change(request, user, previous_revision)
 
+    @transaction.atomic
     def sync_terminology(self):
         if self.is_source:
             return
-        store = self.store
-        missing = []
         for source in self.component.get_all_sources():
+            # Is the string a terminology
             if "terminology" not in source.all_flags:
                 continue
-            try:
-                _unit, add = store.find_unit(source.context, source.source)
-            except UnitNotFound:
-                add = True
-            # Unit is already present
-            if not add:
+            # Does it already exist
+            if self.unit_set.filter(id_hash=source.id_hash).exists():
                 continue
-            missing.append((source.context, source.source, ""))
+            # Unit is already present
+            self.add_unit(None, source.context, source.get_source_plurals(), "")
 
-        if missing:
-            self.add_units(None, missing)
+    def validate_new_unit_data(
+        self,
+        key: str,
+        source: Union[str, List[str]],
+        target: Optional[Union[str, List[str]]] = None,
+    ):
+        extra = {}
+        if not self.component.has_template():
+            extra["source"] = join_plural(source)
+        if self.unit_set.filter(context=key, **extra).exists():
+            raise ValidationError(_("This string seems to already exist."))
+        # Avoid using source translations without a filename
+        if not self.filename:
+            try:
+                translation = self.component.translation_set.exclude(pk=self.pk)[0]
+            except IndexError:
+                raise ValidationError(
+                    _("Failed adding string: %s") % _("No translation found.")
+                )
+            translation.validate_new_unit_data(key, source, target)
+            return
+        # Always load a new copy of store
+        store = self.load_store()
+        old_units = len(store.all_units)
+        # Add new unit
+        store.new_unit(key, source, target, skip_build=True)
+        # Serialize the content
+        handle = BytesIOMode("", b"")
+        # Catch serialization error
+        try:
+            store.save_content(handle)
+        except Exception as error:
+            raise ValidationError(_("Failed adding string: %s") % error)
+        handle.seek(0)
+        # Parse new file (check that it is valid)
+        try:
+            newstore = self.load_store(handle)
+        except Exception as error:
+            raise ValidationError(_("Failed adding string: %s") % error)
+        # Verify there is a single unit added
+        if len(newstore.all_units) != old_units + 1:
+            raise ValidationError(
+                _("Failed adding string: %s") % _("Failed to parse new string")
+            )
+        # Find newly added unit (it can be on any position), but we assume
+        # the storage has consistent ordering
+        unit = None
+        for pos, current in enumerate(newstore.all_units):
+            if pos >= old_units or (
+                current.source != store.all_units[pos].source
+                and current.context != store.all_units[pos].context
+            ):
+                unit = current
+                break
+        # Verify unit matches data
+        if unit is None:
+            raise ValidationError(
+                _("Failed adding string: %s") % _("Failed to parse new string")
+            )
+        created_source = split_plural(unit.source)
+        if unit.context != key and (
+            self.component.has_template()
+            or self.component.file_format_cls.set_context_bilingual
+        ):
+            raise ValidationError(
+                {"context": _('Context would be created as "%s"') % unit.context}
+            )
+        if created_source != source:
+            raise ValidationError(
+                {"source": _("Source would be created as %s") % created_source}
+            )
 
 
 class GhostTranslation:

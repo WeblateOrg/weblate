@@ -257,7 +257,7 @@
 {% if user_can_use_machinery %}
 <li><a href="#machinery" data-toggle="tab" id="toggle-machinery" data-load="machinery" title="{% trans "Computer-aided translation suggestions" %}">{% trans "Automatic suggestions" %}</a></li>
 {% endif %}
-<li><a href="#translations" data-toggle="tab" id="toggle-translations" data-href="{% url 'js-unit-translations' unit_id=unit.id %}" title="{% trans "Translations of this string in the other languages" %}">{% trans "Other languages" %} <span class="badge">{{ object.component.stats.languages|add:-1 }}</span> </a></li>
+<li><a href="#translations" data-toggle="tab" id="toggle-translations" data-href="{% url 'js-unit-translations' unit_id=unit.id %}" title="{% trans "Translations of this string in the other languages" %}">{% trans "Other languages" %} <span class="badge">{{ unit.source_unit.unit_set.count|add:-1 }}</span> </a></li>
 <li><a href="#history" data-toggle="tab" id="toggle-history" title="{% trans "List of recent changes done in Weblate" %}">{% trans "History" %}</a></li>
 </ul>
 
@@ -527,9 +527,9 @@
   <div class="panel-heading">
   <h4 class="panel-title">
     {% with glossaries=unit.translation.component.project.glossaries %}
-      {% if glossaries|length == 1 %}
-        <a class="pull-right flip btn btn-link btn-xs" title="{% trans "Manage glossary" %}" href="{% url 'browse' project=glossaries.0.project.slug component=glossaries.0.slug lang=unit.translation.language.code %}">{% icon "pencil.svg" %}</a>
-      {% endif %}
+      {% for glossary in glossaries %}
+        <a class="pull-right flip btn btn-link btn-xs btn-{{glossary.glossary_color}}" title="{% blocktrans with name=glossary.name %}Browse glossary {{ name }}{% endblocktrans %}" href="{% url 'browse' project=glossary.project.slug component=glossary.slug lang=unit.translation.language.code %}">{% icon "folder-search-outline.svg" %}</a>
+      {% endfor %}
     {% endwith %}
     {% loading_icon "glossary-add" %}
     {% trans "Glossary" %}
@@ -579,7 +579,7 @@
   <div class="panel-heading">
   <h4 class="panel-title">
     {% documentation_icon 'user/translating' 'source-context' right=True %}
-  {% trans "Source information" %}
+  {% trans "String information" %}
   </h4>
   </div>
   <div class="list-group">
@@ -593,6 +593,8 @@
     {% empty %}
     <em>{% trans "No screenshot currently associated." %}</em>
     {% endfor %}
+    <br />
+    <a class="btn btn-link green" href="#" data-toggle="modal" data-target="#add-screenshot-form">{% icon "plus-circle.svg" %} {% trans "Add screenshot" %}</a>
     </div>
     {% endif %}
     {% if unit.source_unit.explanation or user_can_edit_source %}
@@ -689,6 +691,9 @@
     {% else %}
       {% blocktrans with filename=unit.translation.filename %}string {{ position }}{% endblocktrans %}
     {% endif %}
+    {% if unit.pending %}
+      <span class="badge" title="{% trans "Pending changes not yet committed to the Weblate repository" %}">{% trans "pending" %}</span>
+    {% endif %}
     </span>
     </div>
     {% endif %}
@@ -733,13 +738,36 @@
         <div class="modal-content">
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="{% trans "Close" %}"><span aria-hidden="true">&times;</span></button>
-            <h4 class="panel-title">{% trans "Add new translation string" %}</h4>
+            <h4 class="panel-title">{% blocktrans with existing=unit.get_source_plurals.0 %}Add a new variant for "{{ existing }}"{% endblocktrans %}</h4>
           </div>
           <div class="modal-body">
             {{ new_unit_form|crispy }}
           </div>
           <div class="modal-footer">
             <input type="submit" class="btn btn-primary" value="{% trans "Add" %}" />
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+  </form>
+{% endif %}
+
+{% if screenshot_form %}
+  <form action="{% url 'screenshots' project=unit.translation.component.project.slug component=unit.translation.component.slug %}" method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="modal fade" tabindex="-1" role="dialog" id="add-screenshot-form">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="{% trans "Close" %}"><span aria-hidden="true">&times;</span></button>
+            <h4 class="panel-title">{% trans "Add new screenshot" %}</h4>
+          </div>
+          <div class="modal-body">
+            {{ screenshot_form|crispy }}
+            <input type="hidden" name="source" value="{{ unit.pk }}" />
+          </div>
+          <div class="modal-footer">
+            <input type="submit" class="btn btn-primary" value="{% trans "Upload" %}" />
           </div>
         </div><!-- /.modal-content -->
       </div><!-- /.modal-dialog -->

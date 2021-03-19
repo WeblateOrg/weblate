@@ -188,6 +188,33 @@ You can select which ones to use:
 
    :ref:`autofix`, :ref:`custom-autofix`
 
+.. setting:: BACKGROUND_TASKS
+
+BACKGROUND_TASKS
+----------------
+
+.. versionadded:: 4.5.2
+
+Defines how often lengthy maintenance tasks should be triggered for a
+component.
+
+Right now this controls:
+
+* :ref:`addon-weblate.autotranslate.autotranslate` addon
+* :doc:`checks` recalculation
+
+Possible choices:
+
+* ``monthly`` (this is the default)
+* ``weekly``
+* ``daily``
+* ``never``
+
+.. note::
+
+   Increasing the frequency is not recommended when Weblate contains thousands
+   of components.
+
 .. setting:: BASE_DIR
 
 BASE_DIR
@@ -341,13 +368,17 @@ The following subdirectories usually exist:
 :file:`ssh`
     SSH keys and configuration.
 :file:`static`
-    Default location for static Django files, specified by ``STATIC_ROOT``.
+    Default location for static Django files, specified by :setting:`django:STATIC_ROOT`. See :ref:`static-files`.
 :file:`media`
-    Default location for Django media files, specified by ``MEDIA_ROOT``.
+    Default location for Django media files, specified by :setting:`django:MEDIA_ROOT`. Contains uploaded screenshots.
 :file:`vcs`
-    Version control repositories.
+    Version control repositories for translations.
 :file:`backups`
     Daily backup data, please check :ref:`backup-dumps` for details.
+:file:`celery`
+    Celery scheduler data, see :ref:`celery`.
+:file:`fonts`:
+    User-uploaded  fonts, see :ref:`fonts`.
 
 .. note::
 
@@ -365,6 +396,7 @@ Defaults to ``$BASE_DIR/data``.
 .. seealso::
 
     :setting:`BASE_DIR`,
+    :ref:`file-permissions`,
     :doc:`backup`
 
 .. setting:: DATABASE_BACKUP
@@ -499,13 +531,11 @@ DEFAULT_COMMITER_EMAIL
 
 .. versionadded:: 2.4
 
-Committer e-mail address for created translation components defaulting to ``noreply@weblate.org``.
+Committer e-mail address defaulting to ``noreply@weblate.org``.
 
 .. seealso::
 
-   :setting:`DEFAULT_COMMITER_NAME`,
-   :ref:`component`,
-   :ref:`component-committer_email`
+   :setting:`DEFAULT_COMMITER_NAME`
 
 .. setting:: DEFAULT_COMMITER_NAME
 
@@ -514,13 +544,11 @@ DEFAULT_COMMITER_NAME
 
 .. versionadded:: 2.4
 
-Committer name for created translation components defaulting to ``Weblate``.
+Committer name defaulting to ``Weblate``.
 
 .. seealso::
 
-   :setting:`DEFAULT_COMMITER_EMAIL`,
-   :ref:`component`,
-   :ref:`component-committer_name`
+   :setting:`DEFAULT_COMMITER_EMAIL`
 
 .. setting:: DEFAULT_LANGUAGE
 
@@ -554,6 +582,15 @@ Merge style for any new components.
 
    :ref:`component`,
    :ref:`component-merge_style`
+
+.. setting:: DEFAULT_SHARED_TM
+
+DEFAULT_SHARED_TM
+-----------------
+
+.. versionadded:: 3.2
+
+Configures default value of :ref:`project-use_shared_tm` and :ref:`project-contribute_shared_tm`.
 
 .. setting:: DEFAULT_TRANSLATION_PROPAGATION
 
@@ -637,6 +674,15 @@ ENABLE_SHARING
 --------------
 
 Turn on/off the :guilabel:`Share` menu so users can share translation progress on social networks.
+
+.. setting:: GET_HELP_URL
+
+GET_HELP_URL
+------------
+
+.. versionadded:: 4.5.2
+
+URL where support for your Weblate instance can be found.
 
 .. setting:: GITLAB_CREDENTIALS
 

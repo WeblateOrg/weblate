@@ -222,7 +222,7 @@ class Repository:
                 stdin=stdin,
             )
         except RepositoryException as error:
-            if not is_status:
+            if not is_status and not self.local:
                 self.log_status(error)
             raise
         return self.last_output

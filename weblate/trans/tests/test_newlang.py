@@ -66,7 +66,8 @@ class NewLangTest(ViewTestCase):
         self.component.save()
 
         response = self.client.get(reverse("component", kwargs=self.kw_component))
-        self.assertNotContains(response, "Start new translation")
+        self.assertContains(response, "Start new translation")
+        self.assertNotContains(response, "/new-lang/")
 
     def test_url(self):
         self.component.new_lang = "url"

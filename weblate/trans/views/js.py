@@ -66,6 +66,9 @@ def handle_machinery(request, service, unit, search=None):
             report_error()
             response["responseDetails"] = f"{error.__class__.__name__}: {error}"
 
+    if response["responseStatus"] != 200:
+        unit.translation.log_info("machinery failed: %s", response["responseDetails"])
+
     return JsonResponse(data=response)
 
 
@@ -105,7 +108,7 @@ def get_unit_translations(request, unit_id):
                 .prefetch()
                 .prefetch_full(),
                 lambda unit: "{}-{}".format(
-                    user.profile.get_language_order(unit.translation.language),
+                    user.profile.get_translation_order(unit.translation),
                     unit.translation.language,
                 ),
             )

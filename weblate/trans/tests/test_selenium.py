@@ -55,7 +55,7 @@ from weblate.trans.tests.utils import (
 )
 from weblate.utils.db import using_postgresql
 from weblate.vcs.ssh import get_key_data
-from weblate.wladmin.models import ConfigurationError
+from weblate.wladmin.models import ConfigurationError, SupportStatus
 
 TEST_BACKENDS = (
     "social_core.backends.email.EmailAuth",
@@ -197,6 +197,12 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         except ElementNotVisibleException:
             self.actions.move_to_element(element).perform()
             element.click()
+
+    def upload_file(self, element, filename):
+        filename = os.path.abspath(filename)
+        if not os.path.exists(filename):
+            raise Exception(f"Test file not found: {filename}")
+        element.send_keys(filename)
 
     def clear_field(self, element):
         element.send_keys(Keys.CONTROL + "a")
@@ -399,12 +405,17 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
 
     def create_glossary(self, project, language):
         glossary = project.glossaries[0].translation_set.get(language=language)
-        glossary.add_units(
+        glossary.add_unit(
             None,
-            [
-                ("", "machine translation", "strojový překlad"),
-                ("", "project", "projekt"),
-            ],
+            "",
+            "machine translation",
+            "strojový překlad",
+        )
+        glossary.add_unit(
+            None,
+            "",
+            "project",
+            "projekt",
         )
         return glossary
 
@@ -499,9 +510,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         # Upload screenshot
         self.driver.find_element(By.ID, "id_name").send_keys("Automatic translation")
         element = self.driver.find_element(By.ID, "id_image")
-        element.send_keys(
-            element._upload(get_test_file("screenshot.png"))  # noqa: SLF001
-        )
+        self.upload_file(element, get_test_file("screenshot.png"))
         with self.wait_for_page_load():
             element.submit()
 
@@ -811,7 +820,10 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         self.click("Files")
         self.click("Upload translation")
         self.click("Files")
-        self.screenshot("export-import.png")
+        self.screenshot("file-upload.png")
+        self.click("Customize download")
+        self.click("Files")
+        self.screenshot("file-download.png")
         self.click("Tools")
         self.click("Automatic translation")
         self.click(htmlid="id_select_auto_source_2")
@@ -1003,7 +1015,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
 
         # Upload font
         element = self.driver.find_element(By.ID, "id_font")
-        element.send_keys(element._upload(FONT))  # noqa: SF01,SLF001
+        self.upload_file(element, FONT)
         with self.wait_for_page_load():
             self.click(htmlid="upload_font_submit")
 
@@ -1014,7 +1026,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
 
         # Upload second font
         element = self.driver.find_element(By.ID, "id_font")
-        element.send_keys(element._upload(SOURCE_FONT))  # noqa: SF01,SLF001
+        self.upload_file(element, SOURCE_FONT)
         with self.wait_for_page_load():
             self.click(htmlid="upload_font_submit")
 
@@ -1072,6 +1084,10 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             self.click(self.driver.find_element(By.CLASS_NAME, "createdbackup"))
             time.sleep(0.5)
             self.screenshot("backups.png")
+            SupportStatus.objects.create(secret="123", name="community")
+            with self.wait_for_page_load():
+                self.click("Weblate status")
+            self.screenshot("support-discovery.png")
         finally:
             self.remove_temp()
 
