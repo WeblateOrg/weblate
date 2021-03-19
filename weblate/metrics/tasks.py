@@ -79,9 +79,65 @@ def collect_global():
     create_metrics(data, stats, SOURCE_KEYS, Metric.SCOPE_GLOBAL, 0)
 
 
+def collect_projects():
+    for project in Project.objects.all():
+        data = {
+            "components": project.component_set.count(),
+            "translations": Translation.objects.filter(
+                component__project=project
+            ).count(),
+            "memory": project.memory_set.count(),
+            "screenshots": Screenshot.objects.filter(
+                translation__component__project=project
+            ).count(),
+            "changes": project.change_set.filter(
+                timestamp__date=date.today() - timedelta(days=1)
+            ).count(),
+        }
+        create_metrics(
+            data, project.stats, SOURCE_KEYS, Metric.SCOPE_PROJECT, project.pk
+        )
+
+
+def collect_components():
+    for component in Component.objects.all():
+        data = {
+            "translations": component.translation_set.count(),
+            "screenshots": Screenshot.objects.filter(
+                translation__component=component
+            ).count(),
+            "changes": component.change_set.filter(
+                timestamp__date=date.today() - timedelta(days=1)
+            ).count(),
+        }
+        create_metrics(
+            data, component.stats, SOURCE_KEYS, Metric.SCOPE_COMPONENT, component.pk
+        )
+
+
+def collect_translations():
+    for translation in Translation.objects.all():
+        data = {
+            "screenshots": translation.screenshot_set.count(),
+            "changes": translation.change_set.filter(
+                timestamp__date=date.today() - timedelta(days=1)
+            ).count(),
+        }
+        create_metrics(
+            data,
+            translation.stats,
+            BASIC_KEYS,
+            Metric.SCOPE_TRANSLATION,
+            translation.pk,
+        )
+
+
 @app.task(trail=False)
 def collect_metrics():
     collect_global()
+    collect_projects()
+    collect_components()
+    collect_translations()
 
 
 @app.on_after_finalize.connect
