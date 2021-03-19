@@ -45,8 +45,7 @@ MANAGERS = ADMINS
 DATABASES = {}
 
 if os.environ["POSTGRES_HOST"]:
-    DATABASES.update(
-    {
+    DATABASES.update({
         "default": {
             # Use 'postgresql' or 'mysql'.
             "ENGINE": "django.db.backends.postgresql",
