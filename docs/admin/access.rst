@@ -245,7 +245,7 @@ by site-wide or per-project groups by adding another custom group.
   specific language (lets say `Czech`) only to a closed set of reliable translators
   while keeping translations to other languages public, you will have to:
 
-  1. Remove the permission to translate to the `Czech` from all the users. In the
+  1. Remove the permission to translate `Czech` from all the users. In the
      default configuration this can be done by altering the `Users`
      :ref:`default group <default-groups>`.
 
