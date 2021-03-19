@@ -69,13 +69,15 @@ TEST_BACKENDS = (
     "weblate.accounts.auth.WeblateUserBackend",
 )
 
-SOURCE_FONT = os.path.join(
-    os.path.dirname(os.path.dirname(os.path.dirname(__file__))),
-    "static",
-    "vendor",
-    "font-source",
-    "TTF",
-    "SourceSansPro-Bold.ttf",
+SOURCE_FONT = os.path.abspath(
+    os.path.join(
+        os.path.dirname(os.path.dirname(os.path.dirname(__file__))),
+        "static",
+        "vendor",
+        "font-source",
+        "TTF",
+        "SourceSansPro-Bold.ttf",
+    )
 )
 
 
