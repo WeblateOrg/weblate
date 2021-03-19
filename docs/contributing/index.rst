@@ -67,7 +67,7 @@ Funding Weblate development
 You can boost Weblate’s development on the `donate page`_. Funds collected
 there are used to enable gratis hosting for libre software projects and further
 development of Weblate.
-Please check the `donate page` for options, such
+Please check the `donate page`_ for options, such
 as funding goals and the rewards you get as a proud funder.
 
 .. include:: ../../BACKERS.rst
