@@ -65,7 +65,7 @@ class BackupForm(forms.ModelForm):
 
 
 class UserSearchForm(forms.Form):
-    email = forms.CharField(label=_("User e-mail"))
+    email = forms.CharField(label=_("Username or registered e-mail"))
 
 
 class FontField(forms.CharField):
