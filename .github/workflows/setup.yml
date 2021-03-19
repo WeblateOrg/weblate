@@ -22,6 +22,7 @@ jobs:
       CI_SELENIUM: "1"
       CI_BASE_DIR: /tmp/weblate-test
       DJANGO_SETTINGS_MODULE: weblate.settings_test
+      PYTHONUNBUFFERED: 1
 
     steps:
       - uses: actions/checkout@v2
