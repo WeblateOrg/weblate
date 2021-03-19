@@ -51,6 +51,18 @@ SOURCE_KEYS = BASIC_KEYS | {
 }
 
 
+def create_metrics(data, stats, keys, scope, relation):
+    for key in keys:
+        data[key] = getattr(stats, key)
+
+    Metric.objects.bulk_create(
+        [
+            Metric(scope=Metric.SCOPE_GLOBAL, relation=0, name=name, value=value)
+            for name, value in data.items()
+        ]
+    )
+
+
 def collect_global():
     stats = GlobalStats()
     data = {
@@ -64,16 +76,7 @@ def collect_global():
         ).count(),
         "users": User.objects.count(),
     }
-
-    for key in SOURCE_KEYS:
-        data[key] = getattr(stats, key)
-
-    Metric.objects.bulk_create(
-        [
-            Metric(scope=Metric.SCOPE_GLOBAL, relation=0, name=name, value=value)
-            for name, value in data.items()
-        ]
-    )
+    create_metrics(data, stats, SOURCE_KEYS, Metric.SCOPE_GLOBAL, 0)
 
 
 @app.task(trail=False)
