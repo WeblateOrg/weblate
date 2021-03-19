@@ -226,8 +226,8 @@ You may also grant some additional permissions of your choice to the default
 groups. For example, you may want to give a permission to manage screenshots to all
 the `Users`.
 
-You can define some new custom groups as well. In this case, if you want to
-keep managing your permissions site-wide for these groups too, choose an
+You can define some new custom groups as well. If you want to
+keep managing your permissions site-wide for these groups, choose an
 appropriate value for the :guilabel:`Project selection` (e.g.
 :guilabel:`All projects` or :guilabel:`All public projects`).
 
