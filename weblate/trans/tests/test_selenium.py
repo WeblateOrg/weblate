@@ -69,15 +69,13 @@ TEST_BACKENDS = (
     "weblate.accounts.auth.WeblateUserBackend",
 )
 
-SOURCE_FONT = os.path.abspath(
-    os.path.join(
-        os.path.dirname(os.path.dirname(os.path.dirname(__file__))),
-        "static",
-        "vendor",
-        "font-source",
-        "TTF",
-        "SourceSansPro-Bold.ttf",
-    )
+SOURCE_FONT = os.path.join(
+    os.path.dirname(os.path.dirname(os.path.dirname(__file__))),
+    "static",
+    "vendor",
+    "font-source",
+    "TTF",
+    "SourceSansPro-Bold.ttf",
 )
 
 
@@ -199,6 +197,12 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         except ElementNotVisibleException:
             self.actions.move_to_element(element).perform()
             element.click()
+
+    def upload_file(self, element, filename):
+        filename = os.path.abspath(filename)
+        if not os.path.exists(filename):
+            raise Exception(f"Test file not found: {filename}")
+        element.send_keys(filename)
 
     def clear_field(self, element):
         element.send_keys(Keys.CONTROL + "a")
@@ -506,10 +510,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         # Upload screenshot
         self.driver.find_element(By.ID, "id_name").send_keys("Automatic translation")
         element = self.driver.find_element(By.ID, "id_image")
-        filename = get_test_file("screenshot.png")
-        if not os.path.exists(filename):
-            raise Exception(f"Test file not found: {filename}")
-        element.send_keys(filename)
+        self.upload_file(element, get_test_file("screenshot.png"))
         with self.wait_for_page_load():
             element.submit()
 
@@ -1014,9 +1015,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
 
         # Upload font
         element = self.driver.find_element(By.ID, "id_font")
-        if not os.path.exists(FONT):
-            raise Exception(f"Test file not found: {FONT}")
-        element.send_keys(FONT)
+        self.upload_file(element, FONT)
         with self.wait_for_page_load():
             self.click(htmlid="upload_font_submit")
 
@@ -1027,7 +1026,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
 
         # Upload second font
         element = self.driver.find_element(By.ID, "id_font")
-        element.send_keys(SOURCE_FONT)
+        self.upload_file(element, SOURCE_FONT)
         with self.wait_for_page_load():
             self.click(htmlid="upload_font_submit")
 
