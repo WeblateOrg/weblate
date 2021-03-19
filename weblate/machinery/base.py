@@ -71,6 +71,7 @@ class MachineTranslation:
     same_languages = False
     do_cleanup = True
     batch_size = 100
+    accounting_key = "external"
 
     @classmethod
     def get_rank(cls):
@@ -89,6 +90,13 @@ class MachineTranslation:
 
     def get_identifier(self):
         return self.mtid
+
+    def account_usage(self, project, delta: int = 1):
+        key = f"machinery-accounting:{self.accounting_key}:{project.id}"
+        try:
+            cache.incr(key, delta=delta)
+        except ValueError:
+            cache.set(key, delta)
 
     def get_authentication(self):
         """Hook for backends to allow add authentication headers to request."""
@@ -291,18 +299,20 @@ class MachineTranslation:
 
     def translate(self, unit, user=None, search=None, threshold: int = 75):
         """Return list of machine translations."""
+        translation = unit.translation
         try:
             source, language = self.get_languages(
-                unit.translation.component.source_language, unit.translation.language
+                translation.component.source_language, translation.language
             )
         except UnsupportedLanguage:
             unit.translation.log_debug(
                 "machinery failed: not supported language pair: %s - %s",
-                unit.translation.component.source_language.code,
-                unit.translation.language.code,
+                translation.component.source_language.code,
+                translation.language.code,
             )
             return []
 
+        self.account_usage(translation.component.project)
         return self._translate(source, language, unit, user, search, threshold)
 
     def _translate(
@@ -373,6 +383,7 @@ class MachineTranslation:
         except UnsupportedLanguage:
             return
 
+        self.account_usage(translation.component.project, delta=len(units))
         self._batch_translate(source, language, units, user=user, threshold=threshold)
 
     def _batch_translate(self, source, language, units, user=None, threshold: int = 75):

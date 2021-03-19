@@ -19,6 +19,7 @@
 from datetime import date, timedelta
 
 from celery.schedules import crontab
+from django.core.cache import cache
 from django.db.models import Count, Q
 
 from weblate.auth.models import User
@@ -96,6 +97,16 @@ def collect_projects():
                 timestamp__date=date.today() - timedelta(days=1)
             ).count(),
         }
+        keys = [
+            f"machinery-accounting:internal:{project.id}",
+            f"machinery-accounting:external:{project.id}",
+        ]
+        for key, value in cache.get_many(keys):
+            if ":internal:" in key:
+                data["machinery:internal"] = value
+            else:
+                data["machinery:external"] = value
+
         create_metrics(
             data, project.stats, SOURCE_KEYS, Metric.SCOPE_PROJECT, project.pk
         )
