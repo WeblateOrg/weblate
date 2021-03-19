@@ -363,11 +363,14 @@ class MachineTranslation:
 
     def batch_translate(self, units, user=None, threshold: int = 75):
         try:
+            translation = units[0].translation
+        except IndexError:
+            return
+        try:
             source, language = self.get_languages(
-                units[0].translation.component.source_language,
-                units[0].translation.language,
+                translation.component.source_language, translation.language
             )
-        except (UnsupportedLanguage, IndexError):
+        except UnsupportedLanguage:
             return
 
         self._batch_translate(source, language, units, user=user, threshold=threshold)
