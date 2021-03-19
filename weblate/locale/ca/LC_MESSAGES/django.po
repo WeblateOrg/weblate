@@ -17,8 +17,8 @@ msgstr ""
 "Project-Id-Version: Weblate 4.5.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-03-16 19:16+0000\n"
-"PO-Revision-Date: 2021-03-17 07:22+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2021-03-20 01:08+0000\n"
+"Last-Translator: Eduard Ereza Martínez <eduard@ereza.cat>\n"
 "Language-Team: Catalan <https://hosted.weblate.org/projects/weblate/"
 "application/ca/>\n"
 "Language: ca\n"
@@ -60,10 +60,9 @@ msgid "Public e-mail"
 msgstr "Adreça electrònica pública"
 
 #: weblate/accounts/forms.py:287
-#, fuzzy, python-format
-#| msgid "Component lists"
+#, python-format
 msgid "Component list: %s"
-msgstr "Llistes de components"
+msgstr "Llista de components: %s"
 
 #: weblate/accounts/forms.py:313 weblate/accounts/forms.py:388
 #: weblate/accounts/templatetags/authnames.py:42 weblate/auth/models.py:322
@@ -358,14 +357,10 @@ msgstr ""
 "S'ha iniciat la sessió utilitzant {method} ({name}) en un dispositiu nou."
 
 #: weblate/accounts/models.py:152
-#, fuzzy
-#| msgid "Somebody has attempted to register with your e-mail."
 msgid "Somebody attempted to register with your e-mail."
 msgstr "Algú ha provat de registrar-se amb la vostra adreça electrònica."
 
 #: weblate/accounts/models.py:153
-#, fuzzy
-#| msgid "Somebody has attempted to register using your e-mail address."
 msgid "Somebody attempted to register using your e-mail address."
 msgstr ""
 "Algú ha provat de registrar-se fent servir la vostra adreça electrònica."
@@ -405,15 +400,11 @@ msgid "Sent confirmation mail to {email}."
 msgstr "S'ha enviat un missatge de confirmació a {email}."
 
 #: weblate/accounts/models.py:162
-#, fuzzy
-#| msgid ""
-#| "System created user to track authorship of translations uploaded by other "
-#| "user."
 msgid ""
 "The system created a user to track authorship of translations uploaded by "
 "other user."
 msgstr ""
-"Usuari creat pel sistema per a fer un seguiment de l'autoria de les "
+"El sistema ha creat un usuari per a fer un seguiment de l'autoria de les "
 "traduccions pujades per un altre usuari."
 
 #: weblate/accounts/models.py:169
@@ -2692,16 +2683,12 @@ msgid "Lua format string does not match source"
 msgstr "La cadena de format Lua no coincideix amb la d'origen"
 
 #: weblate/checks/format.py:469
-#, fuzzy
-#| msgid "File format"
 msgid "Scheme format"
-msgstr "Format de fitxer"
+msgstr "Format Scheme"
 
 #: weblate/checks/format.py:470
-#, fuzzy
-#| msgid "C format string does not match source"
 msgid "Scheme format string does not match source"
-msgstr "La cadena de format C no coincideix amb la d'origen"
+msgstr "La cadena de format Scheme no coincideix amb la d'origen"
 
 #: weblate/checks/format.py:483
 msgid "Python brace format"
@@ -3097,7 +3084,7 @@ msgstr "CSV"
 
 #: weblate/formats/exporters.py:396
 msgid "XLSX"
-msgstr ""
+msgstr "XLSX"
 
 #: weblate/formats/exporters.py:422 weblate/trans/forms.py:1071
 msgid "JSON"
@@ -4032,24 +4019,21 @@ msgid ""
 "For questions about specific translation project, contact its maintainers "
 "directly, not by this form."
 msgstr ""
+"Per a qüestions relatives a un projecte de traducció específic, contacteu-ne "
+"els mantenidors directament, no feu servir aquest formulari."
 
 #: weblate/templates/accounts/contact.html:16
-#, fuzzy
-#| msgid "You can contact maintainers of this server here."
 msgid "You can only contact maintainers of the whole server here."
-msgstr "Aquí podeu contactar amb els mantenidors d'aquest servidor."
+msgstr "Aquí només podeu contactar amb els mantenidors d'aquest servidor."
 
 #: weblate/templates/accounts/contact.html:17
-#, fuzzy, python-format
-#| msgid ""
-#| "If you are looking for support for Weblate or want to file bug reports "
-#| "check its website at %(weblate_link)s."
+#, python-format
 msgid ""
 "If you are looking for support for Weblate, or want to file a bug report, "
 "check its website at %(weblate_link)s."
 msgstr ""
-"Si cerqueu assistència per al Weblate o voleu informar d'errors, visiteu-ne "
-"el lloc web a %(weblate_link)s."
+"Si cerqueu assistència per al Weblate o voleu informar d'un error, visiteu-"
+"ne el lloc web a %(weblate_link)s."
 
 #: weblate/templates/accounts/contact.html:32
 #: weblate/templates/manage/tools.html:26
@@ -4990,10 +4974,9 @@ msgid "Failed checks in %(project)s"
 msgstr "Comprovacions fallides a %(project)s"
 
 #: weblate/templates/base.html:180
-#, fuzzy, python-format
-#| msgid "Failed checks in %(project)s — %(language)s"
+#, python-format
 msgid "Failed checks in %(language)s"
-msgstr "Comprovacions fallides a %(project)s — %(language)s"
+msgstr "Comprovacions fallides en %(language)s"
 
 #: weblate/templates/base.html:184
 msgid "Checks overview"
@@ -6507,16 +6490,12 @@ msgid "Cleanup"
 msgstr "Neteja"
 
 #: weblate/templates/js/git-status.html:115
-#, fuzzy
-#| msgid "Reset all changes in the Weblate repository"
 msgid "Force writing all translations to the Weblate repository"
-msgstr "Desfés tots els canvis del dipòsit del Weblate"
+msgstr "Força l'escriptura de totes les traduccions al dipòsit del Weblate"
 
 #: weblate/templates/js/git-status.html:115
-#, fuzzy
-#| msgid "Source information"
 msgid "Force synchronization"
-msgstr "Informació d'origen"
+msgstr "Força la sincronització"
 
 #: weblate/templates/js/git-status.html:129
 #, python-format
@@ -6607,32 +6586,28 @@ msgid "Mark as spam"
 msgstr "Marca com a brossa"
 
 #: weblate/templates/mail/account_activity.html:7
-#, fuzzy, python-format
-#| msgid "There has been a change in your account at %(site_title)s:"
+#, python-format
 msgid "There has been a following change in your account at %(site_title)s:"
-msgstr "S'ha produït un canvi al vostre compte de %(site_title)s:"
+msgstr "S'ha produït el canvi següent al vostre compte de %(site_title)s:"
 
 #: weblate/templates/mail/account_activity.html:32
-#, fuzzy
-#| msgid ""
-#| "If you did not request this change, please report it as soon as possible."
 msgid ""
 "If you don’t recognize this change, you can report it by clicking the button "
 "below."
 msgstr ""
-"Si no heu demanat aquest canvi, informeu-nos-en tan aviat com sigui possible."
+"Si no reconeixeu aquest canvi, podeu informar-nos-en fent clic al botó de "
+"sota."
 
 #: weblate/templates/mail/account_activity.html:33
 msgid ""
 "Don’t use this button for support questions. Such questions won’t be "
 "answered."
 msgstr ""
+"No utilitzeu aquest botó per a qüestions d'assistència; no les respondrem."
 
 #: weblate/templates/mail/account_activity.html:37
-#, fuzzy
-#| msgid "Reports"
 msgid "Report"
-msgstr "Informes"
+msgstr "Informa"
 
 #: weblate/templates/mail/account_activity_subject.txt:4
 #, python-format
@@ -7259,42 +7234,32 @@ msgid "Support expiry"
 msgstr "Caducitat de l'assistència"
 
 #: weblate/templates/manage/index.html:46
-#, fuzzy
-#| msgid "Register in Weblate"
 msgid "Discover Weblate"
-msgstr "Registreu-vos al Weblate"
+msgstr "Descobriu el Weblate"
 
 #: weblate/templates/manage/index.html:48
-#, fuzzy
-#| msgid "Component discovery"
 msgid "Browse discovery"
-msgstr "Descobriment de components"
+msgstr "Explora i descobreix"
 
 #: weblate/templates/manage/index.html:50
 msgid "Your Weblate is listed on weblate.org"
-msgstr ""
+msgstr "El vostre Weblate apareix llistat a weblate.org"
 
 #: weblate/templates/manage/index.html:52
-#, fuzzy
-#| msgid "Component discovery"
 msgid "Disable discovery"
-msgstr "Descobriment de components"
+msgstr "Desactiva'n la descoberta"
 
 #: weblate/templates/manage/index.html:53
-#, fuzzy
-#| msgid "Manage your languages"
 msgid "Manage your listing"
-msgstr "Gestiona les meves llengües"
+msgstr "Gestiona la meva visualització"
 
 #: weblate/templates/manage/index.html:55
 msgid "Your Weblate is not listed on weblate.org"
-msgstr ""
+msgstr "El vostre Weblate no apareix llistat a weblate.org"
 
 #: weblate/templates/manage/index.html:57
-#, fuzzy
-#| msgid "Component discovery"
 msgid "Enable discovery"
-msgstr "Descobriment de components"
+msgstr "Activa'n la descoberta"
 
 #: weblate/templates/manage/index.html:65
 msgid "Manage support package"
@@ -8027,12 +7992,11 @@ msgid "%(value)s of %(all)s"
 msgstr "%(value)s de %(all)s"
 
 #: weblate/templates/snippets/list-objects-percent.html:7
-#, fuzzy, python-format
-#| msgid "Apply selected translation to current string"
+#, python-format
 msgid "Completed translation with %(count)s string"
 msgid_plural "Completed translation with %(count)s strings"
-msgstr[0] "Aplica la traducció seleccionada a la cadena actual"
-msgstr[1] "Aplica la traducció seleccionada a la cadena actual"
+msgstr[0] "Traducció completada amb %(count)s cadena"
+msgstr[1] "Traducció completada amb %(count)s cadenes"
 
 #: weblate/templates/snippets/list-objects.html:19
 #: weblate/templates/snippets/list-objects.html:29
@@ -8378,21 +8342,19 @@ msgid "Source in review"
 msgstr "Se n'està revisant l'origen"
 
 #: weblate/templates/snippets/unit-readonly-badge.html:6
-#, fuzzy
-#| msgid "Source strings in %s"
 msgid "Source string editing is disabled."
-msgstr "Cadenes d'origen en %s"
+msgstr "L'edició de la cadena d'origen està desactivada."
 
 #: weblate/templates/snippets/unit-readonly-badge.html:8
 msgid ""
 "Source string cannot be edited, but you can delete it and add a new one."
 msgstr ""
+"La cadena d'origen no es pot editar, però podeu suprimir-la i afegir-ne una "
+"altra."
 
 #: weblate/templates/snippets/unit-readonly-badge.html:10
-#, fuzzy
-#| msgid "Source string changed"
 msgid "Source string cannot be edited."
-msgstr "S'ha canviat la cadena d'origen"
+msgstr "La cadena d'origen no es pot editar."
 
 #: weblate/templates/snippets/unit-state.html:5
 #: weblate/trans/templatetags/translations.py:556 weblate/utils/state.py:31
@@ -8718,8 +8680,8 @@ msgstr ""
 #, python-format
 msgid "Only some of the %(count)s occurrences are shown."
 msgid_plural "Only some of the %(count)s occurrences are shown."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Només es mostren algunes de les %(count)s coincidències."
+msgstr[1] "Només es mostren algunes de les %(count)s coincidències."
 
 #: weblate/templates/trans/alert/parseerror.html:4
 msgid ""
@@ -9308,20 +9270,17 @@ msgstr[0] "Hi ha %(count)s variant d'aquesta cadena."
 msgstr[1] "Hi ha %(count)s variants d'aquesta cadena."
 
 #: weblate/templates/translate.html:532
-#, fuzzy, python-format
-#| msgid "Browse all glossary changes"
+#, python-format
 msgid "Browse glossary %(name)s"
-msgstr "Explora tots els canvis del glossari"
+msgstr "Explora el glossari %(name)s"
 
 #: weblate/templates/translate.html:554 weblate/templates/translate.html:564
 msgid "Add term to glossary"
 msgstr "Afegeix un terme al glossari"
 
 #: weblate/templates/translate.html:583
-#, fuzzy
-#| msgid "Source information"
 msgid "String information"
-msgstr "Informació d'origen"
+msgstr "Informació de la cadena"
 
 #: weblate/templates/translate.html:595
 msgid "No screenshot currently associated."
@@ -9370,22 +9329,17 @@ msgid "string %(position)s"
 msgstr "cadena %(position)s"
 
 #: weblate/templates/translate.html:696
-#, fuzzy
-#| msgid "Browse pending"
 msgid "pending"
-msgstr "Explora els pendents"
+msgstr "pendent"
 
 #: weblate/templates/translate.html:742
-#, fuzzy, python-format
-#| msgid "Add variant of this string"
+#, python-format
 msgid "Add a new variant for \"%(existing)s\""
-msgstr "Afegeix una variant d'aquesta cadena"
+msgstr "Afegeix una variant nova de «%(existing)s»"
 
 #: weblate/templates/translation.html:56
-#, fuzzy
-#| msgid "Good translations"
 msgid "Download translation"
-msgstr "Bones traduccions"
+msgstr "Baixa la traducció"
 
 #: weblate/templates/translation.html:58 weblate/templates/translation.html:374
 msgid "Customize download"
@@ -9482,28 +9436,28 @@ msgstr ""
 "totes les traduccions."
 
 #: weblate/templates/translation.html:329
-#, fuzzy
-#| msgid "Customize download"
 msgid "Quick downloads"
-msgstr "Personalitza la baixada"
+msgstr "Baixades ràpides"
 
 #: weblate/templates/translation.html:336
-#, fuzzy
-#| msgid "Some plural forms are translated in the same way"
 msgid "File in original format as translated in the repository"
-msgstr "Alguna forma del plural s'ha traduït de manera idèntica"
+msgstr "Fitxer en el format original, tal com es tradueix al dipòsit"
 
 #: weblate/templates/translation.html:345
 msgid ""
 "All strings, converted files enriched with comments; suitable for "
 "translating offline"
 msgstr ""
+"Totes les cadenes; fitxers convertits amb comentaris inclosos, útil per a "
+"traduir sense connexió"
 
 #: weblate/templates/translation.html:357
 msgid ""
 "Strings needing action, converted files enriched with comments; suitable for "
 "translating offline"
 msgstr ""
+"Cadenes pendents; fitxers convertits amb comentaris inclosos, útil per a "
+"traduir sense connexió"
 
 #: weblate/templates/translation.html:399
 msgid ""
@@ -10059,10 +10013,8 @@ msgstr "No teniu permisos per a accedir a aquest component!"
 
 #: weblate/trans/forms.py:1228 weblate/trans/forms.py:1236
 #: weblate/trans/forms.py:1242
-#, fuzzy
-#| msgid "Your suggestion has been identified as spam!"
 msgid "This field has been identified as spam!"
-msgstr "El vostre suggeriment s'ha identificat com a missatge brossa!"
+msgstr "Aquest camp s'ha identificat com a missatge brossa!"
 
 #: weblate/trans/forms.py:1313 weblate/trans/forms.py:1865
 msgid "Basic"
@@ -11404,10 +11356,8 @@ msgid "Key"
 msgstr "Clau"
 
 #: weblate/trans/models/component.py:3071
-#, fuzzy
-#| msgid "Forbidden glossary term"
 msgid "Add new glossary term"
-msgstr "Terme del glossari prohibit"
+msgstr "Afegeix un terme nou al glossari"
 
 #: weblate/trans/models/component.py:3072
 msgid "Add new translation string"
@@ -11585,35 +11535,28 @@ msgstr "Sembla que aquesta cadena ja existeix."
 #: weblate/trans/models/translation.py:1268
 #: weblate/trans/models/translation.py:1272
 #: weblate/trans/models/translation.py:1287
-#, fuzzy, python-format
-#| msgid "Pending string"
+#, python-format
 msgid "Failed adding string: %s"
-msgstr "Cadena pendent"
+msgstr "No s'ha pogut afegir la cadena: %s"
 
 #: weblate/trans/models/translation.py:1247
-#, fuzzy
-#| msgid "No matching translations found!"
 msgid "No translation found."
-msgstr "No s'ha trobat cap traducció coincident!"
+msgstr "No s'ha trobat cap traducció."
 
 #: weblate/trans/models/translation.py:1272
 #: weblate/trans/models/translation.py:1287
-#, fuzzy
-#| msgid "Failed to parse query string: {}"
 msgid "Failed to parse new string"
-msgstr "No s'ha pogut analitzar la cadena de la consulta: {}"
+msgstr "No s'ha pogut analitzar la cadena nova"
 
 #: weblate/trans/models/translation.py:1295
-#, fuzzy, python-format
-#| msgid "Following components would be created"
+#, python-format
 msgid "Context would be created as \"%s\""
-msgstr "Es crearan els següents components"
+msgstr "El context es crearia com a «%s»"
 
 #: weblate/trans/models/translation.py:1299
-#, fuzzy, python-format
-#| msgid "Following components would be created"
+#, python-format
 msgid "Source would be created as %s"
-msgstr "Es crearan els següents components"
+msgstr "L'origen es crearia com a %s"
 
 #: weblate/trans/models/unit.py:315
 msgid "Additional explanation to clarify meaning or usage of the string."
@@ -12294,10 +12237,8 @@ msgid "All repositories have been cleaned up."
 msgstr "S'han netejat tots els dipòsits."
 
 #: weblate/trans/views/git.py:103
-#, fuzzy
-#| msgid "Translation has been removed."
 msgid "Translation files have been synchronized."
-msgstr "S'ha suprimit la traducció."
+msgstr "S'han sincronitzat els fitxers de traducció."
 
 #: weblate/trans/views/js.py:56
 msgid "Service is currently not available."
