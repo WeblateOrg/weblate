@@ -20,6 +20,7 @@ jobs:
       CI_DB_HOST: 127.0.0.1
       CI_DB_PORT: "60000"
       CI_SELENIUM: "1"
+      CI_BASE_DIR: /tmp/weblate-test
       DJANGO_SETTINGS_MODULE: weblate.settings_test
 
     steps:
@@ -63,8 +64,13 @@ jobs:
       - name: Run tests
         run: |
           . ~/.venv/bin/activate
-          cd /tmp
+          rm -rf weblate
           weblate test weblate.trans weblate.lang weblate.accounts weblate.api weblate.billing weblate.utils weblate.gitexport weblate.screenshots weblate.auth weblate.legal weblate.checks weblate.addons weblate.formats weblate.wladmin weblate
+      - uses: actions/upload-artifact@v2.2.2
+        if: always()
+        with:
+          name: Screenshots
+          path: /tmp/weblate-test/test-images
       - name: Stop services
         if: always()
         run: ./ci/services-down ${{ matrix.database }}
