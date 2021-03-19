@@ -44,7 +44,7 @@ MANAGERS = ADMINS
 
 DATABASES = {}
 
-if (os.environ["POSTGRES_HOST"]):
+if os.environ["POSTGRES_HOST"]:
     DATABASES.update(
     {
         "default": {
