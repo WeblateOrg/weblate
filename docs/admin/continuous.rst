@@ -120,6 +120,10 @@ all separately:
     able to control Weblate remotely. You can also achieve this using any HTTP
     client instead of wlc, e.g. curl, see :ref:`api`.
 
+.. seealso::
+
+   :ref:`wlc`
+
 .. _github-setup:
 
 Automatically receiving changes from GitHub
