@@ -357,9 +357,10 @@ the following rules:
   effectively grants the same permissions to access all projects'
   :ref:`unrestricted components <component-restricted>`.
 
-- The restrictions imposed by a group's :guilabel:`Languages` are applied later,
-  when the access to perform a certain action is verified, and it only affects
-  some translation-related permissions.
+- The restrictions imposed by a group's :guilabel:`Languages` are applied separately,
+  when it is verified if a user has an access to perform certain actions. Namely,
+  It's applied only to actions directly related to translation process itself like
+  reviewing, saving translations, adding suggestions, etc.
 
 .. hint::
 
