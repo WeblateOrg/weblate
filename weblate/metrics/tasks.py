@@ -19,6 +19,7 @@
 from datetime import date, timedelta
 
 from celery.schedules import crontab
+from django.db.models import Count, Q
 
 from weblate.auth.models import User
 from weblate.memory.models import Memory
@@ -52,8 +53,9 @@ SOURCE_KEYS = BASIC_KEYS | {
 
 
 def create_metrics(data, stats, keys, scope, relation):
-    for key in keys:
-        data[key] = getattr(stats, key)
+    if stats is not None:
+        for key in keys:
+            data[key] = getattr(stats, key)
 
     Metric.objects.bulk_create(
         [
@@ -132,12 +134,26 @@ def collect_translations():
         )
 
 
+def collect_users():
+    for user in User.objects.filter(is_active=True):
+        data = user.change_set.filter(
+            timestamp__date=date.today() - timedelta(days=1)
+        ).aggregate(
+            changes=Count("id"),
+            comments=Count("id", filter=Q(action=Change.ACTION_COMMENT)),
+            suggestions=Count("id", filter=Q(action=Change.ACTION_SUGGESTION)),
+            translations=Count("id", filter=Q(action__in=Change.ACTIONS_CONTENT)),
+        )
+        create_metrics(data, None, None, Metric.SCOPE_USER, user.pk)
+
+
 @app.task(trail=False)
 def collect_metrics():
     collect_global()
     collect_projects()
     collect_components()
     collect_translations()
+    collect_users()
 
 
 @app.on_after_finalize.connect
