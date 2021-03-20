@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-03-16 20:17+0100\n"
-"PO-Revision-Date: 2021-03-20 21:24+0000\n"
+"PO-Revision-Date: 2021-03-21 12:38+0000\n"
 "Last-Translator: Rafael Fontenelle <rafaelff@gnome.org>\n"
 "Language-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/"
 "weblate/documentation/pt_BR/>\n"
@@ -10522,7 +10522,7 @@ msgstr ""
 
 #: ../../admin/install.rst:1300
 msgid "Sample configuration for NGINX and uWSGI"
-msgstr "Configuração de amostra para NGINX e uWSGI"
+msgstr "Amostra de configuração para NGINX e uWSGI"
 
 #: ../../admin/install.rst:1303
 msgid ""
@@ -10567,7 +10567,7 @@ msgstr ":doc:`django:howto/deployment/wsgi/uwsgi`"
 
 #: ../../admin/install.rst:1328
 msgid "Sample configuration for Apache"
-msgstr "Configuração Amostra para Apache"
+msgstr "Amostra de configuração para o Apache"
 
 #: ../../admin/install.rst:1330 ../../admin/install.rst:1370
 msgid "It is recommended to use prefork MPM when using WSGI with Weblate."
@@ -10599,7 +10599,7 @@ msgstr ""
 
 #: ../../admin/install.rst:1352
 msgid "Sample configuration for Apache and Gunicorn"
-msgstr "Configuração Amostra para Apache and Gunicorn"
+msgstr "Amostra de configuração para Apache e Gunicorn"
 
 #: ../../admin/install.rst:1354
 msgid ""
@@ -10940,19 +10940,14 @@ msgid "Hardware requirements"
 msgstr "Requisitos de hardware"
 
 #: ../../admin/install/steps/hw.rst:4
-#, fuzzy
-#| msgid ""
-#| "Weblate should run on all contemporary hardware without problems, the "
-#| "following is the minimal configuration required to run Weblate on a "
-#| "single host (Weblate, database and webserver):"
 msgid ""
 "Weblate should run on any contemporary hardware without problems, the "
 "following is the minimal configuration required to run Weblate on a single "
 "host (Weblate, database and webserver):"
 msgstr ""
-"O Weblate deve ser executado em todos os hardwares contemporâneos sem "
-"problemas, a seguir é a configuração mínima necessária para executar o "
-"Weblate em um único host (Weblate, banco de dados e servidor web):"
+"O Weblate deve funcionar em qualquer hardware contemporâneo sem problemas. A "
+"seguir está a configuração mínima necessária para executar o Weblate em um "
+"único host (Weblate, banco de dados e servidor web):"
 
 #: ../../admin/install/steps/hw.rst:8
 msgid "2 GB of RAM"
@@ -11017,50 +11012,68 @@ msgid ""
 "``docker-compose`` installed. Please check the Docker documentation for "
 "instructions."
 msgstr ""
+"Os exemplos a seguir presumem que você tem um ambiente Docker funcional, com "
+"``docker-compose`` instalado. Verifique a documentação do Docker para obter "
+"instruções."
 
 #: ../../admin/install/docker.rst:18
 msgid "Clone the weblate-docker repo:"
-msgstr ""
+msgstr "Clone o repositório weblate-docker:"
 
 #: ../../admin/install/docker.rst:25
 msgid ""
 "Create a :file:`docker-compose.override.yml` file with your settings. See :"
 "ref:`docker-environment` for full list of environment variables."
 msgstr ""
+"Crie um arquivo :file:`docker-compose.override.yml` com suas configurações. "
+"Veja :ref:`docker-environment` para uma lista completa das variáveis de "
+"ambiente."
 
 #: ../../admin/install/docker.rst:47
 msgid ""
 "If :envvar:`WEBLATE_ADMIN_PASSWORD` is not set, the admin user is created "
 "with a random password shown on first startup."
 msgstr ""
+"Se :envvar:`WEBLATE_ADMIN_PASSWORD` não estiver definida, o usuário admin é "
+"criado com uma senha aleatória mostrada na primeira inicialização."
 
 #: ../../admin/install/docker.rst:50
 msgid ""
 "The provided example makes Weblate listen on port 80, edit the port mapping "
 "in the :file:`docker-compose.override.yml` file to change it."
 msgstr ""
+"O exemplo fornecido faz o Weblate escutar na porta 80. Edite o mapeamento da "
+"porta no arquivo :file:`docker-compose.override.yml` para alterar isso."
 
 #: ../../admin/install/docker.rst:53
 msgid "Start Weblate containers:"
-msgstr ""
+msgstr "Inicie os contêineres do Weblate:"
 
 #: ../../admin/install/docker.rst:59
 msgid ""
 "Enjoy your Weblate deployment, it's accessible on port 80 of the ``weblate`` "
 "container."
 msgstr ""
+"Aproveite a implantação do Weblate, ele está acessível na porta 80 do "
+"contêiner ``weblate``."
 
 #: ../../admin/install/docker.rst:63
 msgid ""
 "The setup has changed recently, priorly there was separate web server "
 "container, since 2.15-2 the web server is embedded in the Weblate container."
 msgstr ""
+"A configuração foi alterada recentemente, antes havia um contêiner de "
+"servidor web separado, desde 2.15-2 o servidor web está embutido no "
+"contêiner do Weblate."
 
 #: ../../admin/install/docker.rst:69
 msgid ""
 "In July 2019 (starting with the 3.7.1-6 tag), the containers are not running "
 "as a root user. This has changed the exposed port from 80 to 8080."
 msgstr ""
+"Em julho de 2019 (começando com a tag 3.7.1-6), os contêineres não estão "
+"sendo executados como um usuário root. Isso mudou a porta exposta de 80 para "
+"8080."
 
 #: ../../admin/install/docker.rst:72
 msgid ":ref:`invoke-manage`"
@@ -11068,33 +11081,39 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:77
 msgid "Docker container with HTTPS support"
-msgstr ""
+msgstr "Contêiner Docker com suporte a HTTPS"
 
 #: ../../admin/install/docker.rst:79
 msgid ""
 "Please see :ref:`docker-deploy` for generic deployment instructions, this "
 "section only mentions differences compared to it."
 msgstr ""
+"Por favor, veja :ref:`docker-deploy` para instruções genéricas de "
+"implantação, esta seção apenas menciona diferenças em comparação a ela."
 
 #: ../../admin/install/docker.rst:83
 msgid "Using own SSL certificates"
-msgstr ""
+msgstr "Usando seus próprios certificados SSL"
 
 #: ../../admin/install/docker.rst:87
 msgid ""
 "In case you have own SSL certificate you want to use, simply place the files "
 "into the Weblate data volume (see :ref:`docker-volume`):"
 msgstr ""
+"No caso de você ter seu próprio certificado SSL que deseja usar, basta "
+"colocar os arquivos no volume de dados Weblate (veja :ref:`docker-volume`):"
 
 #: ../../admin/install/docker.rst:90
 msgid ""
 ":file:`ssl/fullchain.pem` containing the certificate including any needed CA "
 "certificates"
 msgstr ""
+":file:`ssl/fullchain.pem` contendo o certificado, incluindo quaisquer "
+"certificados CA necessários"
 
 #: ../../admin/install/docker.rst:91
 msgid ":file:`ssl/privkey.pem` containing the private key"
-msgstr ""
+msgstr ":file:`ssl/privkey.pem` contendo a chave privada"
 
 #: ../../admin/install/docker.rst:93
 msgid ""
@@ -11102,6 +11121,9 @@ msgid ""
 "docker container and have file mask set to ``600`` (readable and writable "
 "only by the owning user)."
 msgstr ""
+"Ambos os arquivos devem pertencer ao mesmo usuário que inicia o contêiner do "
+"docker e ter a máscara de arquivo definida como ``600`` (legível e gravável "
+"apenas pelo usuário dono)."
 
 #: ../../admin/install/docker.rst:95
 msgid ""
@@ -11109,6 +11131,9 @@ msgid ""
 "4443, you will want to include the port forwarding for HTTPS in docker "
 "compose override:"
 msgstr ""
+"Além disso, o contêiner Weblate agora aceitará conexões SSL na porta 4443. "
+"Você ainda vai querer incluir o encaminhamento de porta para HTTPS na "
+"substituição de composição do docker:"
 
 #: ../../admin/install/docker.rst:107
 msgid ""
@@ -11117,16 +11142,22 @@ msgid ""
 "HTTPS connection from NGINX to the docker container, you can use the "
 "following configuration:"
 msgstr ""
+"Se você já hospeda outros sites no mesmo servidor, é provável que as portas "
+"``80`` e ``443`` sejam usadas por um proxy reverso, como NGINX. Para passar "
+"a conexão HTTPS do NGINX para o contêiner do docker, você pode usar a "
+"seguinte configuração:"
 
 #: ../../admin/install/docker.rst:129
 msgid ""
 "Replace ``<SITE_URL>``, ``<SITE>`` and ``<EXPOSED_DOCKER_PORT>`` with actual "
 "values from your environment."
 msgstr ""
+"Substitua ``<SITE_URL>``, ``<SITE>`` e ``<EXPOSED_DOCKER_PORT>`` por valores "
+"reais de seu ambiente."
 
 #: ../../admin/install/docker.rst:132
 msgid "Automatic SSL certificates using Let’s Encrypt"
-msgstr ""
+msgstr "Certificados SSL automáticos usando Let's Encrypt"
 
 #: ../../admin/install/docker.rst:134
 msgid ""
@@ -11210,7 +11241,7 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:215
 msgid "Docker environment variables"
-msgstr ""
+msgstr "Variáveis de ambiente do Docker"
 
 #: ../../admin/install/docker.rst:217
 msgid ""
