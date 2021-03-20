@@ -652,15 +652,6 @@ class Translation(
                     self.log_error("disappeared string: %s", unit)
                     continue
 
-                # Check for changes
-                if (
-                    (not add or unit.target == "")
-                    and unit.target == pounit.target
-                    and unit.approved == pounit.is_approved(unit.approved)
-                    and unit.fuzzy == pounit.is_fuzzy()
-                ):
-                    continue
-
                 updated = True
 
                 # Optionally add unit to translation file.
@@ -675,10 +666,6 @@ class Translation(
                 else:
                     pounit.set_target(unit.target)
 
-            unit.save(
-                update_fields=["pending", "details"], same_content=True, only_save=True
-            )
-
             # Update fuzzy/approved flag
             pounit.mark_fuzzy(unit.state == STATE_FUZZY)
             pounit.mark_approved(unit.state == STATE_APPROVED)
@@ -686,13 +673,18 @@ class Translation(
             # Update comments as they might have been changed by state changes
             state = unit.get_unit_state(pounit, "")
             flags = pounit.flags
+            update_fields = ["pending", "details"]
+            only_save = True
             if state != unit.state or flags != unit.flags:
                 unit.state = state
+                update_fields.append("state")
                 unit.flags = flags
-                unit.save(
-                    update_fields=["state", "flags", "pending"],
-                    same_content=True,
-                )
+                update_fields.append("flags")
+                only_save = False
+
+            unit.save(
+                update_fields=update_fields, same_content=True, only_save=only_save
+            )
 
         # Did we do any updates?
         if not updated:
