@@ -417,6 +417,10 @@ Following configuration is recommended for Weblate:
 * Set the isolation level to ``READ COMMITTED``.
 * The SQL mode should be set to ``STRICT_TRANS_TABLES``.
 
+MySQL 8.x, MariaDB 10.5.x or newer have reasonable default configuration so
+that no server tweaking should be necessary and all what is needed can be
+configured on the client side.
+
 Below is an example :file:`/etc/my.cnf.d/server.cnf` for a server with 8 GB of
 RAM. These settings should be sufficient for most installs. MySQL and MariaDB
 have tunables that will increase the performance of your server that are
