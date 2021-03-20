@@ -24,8 +24,8 @@ msgstr ""
 "Project-Id-Version: Weblate 4.5.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-03-16 19:16+0000\n"
-"PO-Revision-Date: 2021-03-17 16:57+0000\n"
-"Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
+"PO-Revision-Date: 2021-03-20 12:24+0000\n"
+"Last-Translator: amano <amano.hajime@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "application/ja/>\n"
 "Language: ja\n"
@@ -400,7 +400,7 @@ msgstr "{email} に確認メールを送信しました。"
 msgid ""
 "The system created a user to track authorship of translations uploaded by "
 "other user."
-msgstr "システムが作成したユーザー、これは他のユーザーがアップロードした翻訳の著者を調べるために作成されました。"
+msgstr "他のユーザーがアップロードした翻訳の著者を追跡するために、システムがユーザーアカウントを作成しました。"
 
 #: weblate/accounts/models.py:169
 msgid "Configured password to sign in."
@@ -533,7 +533,7 @@ msgstr "貢献したプロジェクトを自動的に監視する"
 #: weblate/accounts/models.py:437
 msgid ""
 "Whenever you translate a string in a project, you will start watching it."
-msgstr "プロジェクト内の文字列を翻訳するたびに、その文字列が表示されます。"
+msgstr "プロジェクト内の文字列を翻訳するたびに、そのプロジェクトを監視対象に加えます。"
 
 #: weblate/accounts/models.py:447 weblate/templates/dashboard/user.html:20
 msgid "Watched translations"
@@ -8393,9 +8393,7 @@ msgstr ""
 msgid ""
 "If the translation file for the source language is needed, but should be "
 "ignored by Weblate, please adjust the language filter to exclude it."
-msgstr ""
-"原文の言語の翻訳ファイルは必要とするが、Weblate では無視することが必要であれ"
-"ば、言語フィルターの設定を変更して除外してください。"
+msgstr "原文用の翻訳ファイルが必要だが、Weblate で無効にする場合は、言語フィルタを調整して除外してください。"
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:24
 msgid ""
@@ -8857,7 +8855,7 @@ msgstr "パーマリンクをコピー"
 
 #: weblate/templates/translate.html:82
 msgid "Forbidden glossary term"
-msgstr "用語集の使用禁止"
+msgstr "禁止された用語集の用語"
 
 #: weblate/templates/translate.html:84
 msgid "Glossary term"
@@ -9218,9 +9216,7 @@ msgstr ""
 msgid ""
 "You can substitute all instances of a string. The search is a simple case "
 "sensitive substring search."
-msgstr ""
-"文字列のすべてのインスタンスを置換できます。検索は単純な部分検索で、大文字と"
-"小文字を区別します。"
+msgstr "文字列を一括で置換できます。検索は単純な部分検索で、大文字と小文字を区別します。"
 
 #: weblate/templates/translation.html:311
 msgid ""
@@ -10173,7 +10169,7 @@ msgstr "Libre ホスティングの条件を満たしていません。"
 
 #: weblate/trans/models/alert.py:353
 msgid "Unused enforced checks."
-msgstr "検査の強制を使用しない。"
+msgstr "強制したが使われていない検査。"
 
 #: weblate/trans/models/alert.py:360
 msgid "No mask matches."
@@ -11294,11 +11290,11 @@ msgstr "文字列の意味や使い方を明確にするための追加説明。
 
 #: weblate/trans/models/unit.py:1367
 msgid "Unmark as read-only"
-msgstr "編集不可の解除"
+msgstr "読み取り専用の解除"
 
 #: weblate/trans/models/unit.py:1370
 msgid "Mark as read-only"
-msgstr "編集不可に設定"
+msgstr "読み取り専用に設定"
 
 #: weblate/trans/models/unit.py:1377
 msgid "Unmark as forbidden translation"
@@ -11390,7 +11386,7 @@ msgstr "考えられる設定"
 #: weblate/trans/templatetags/translations.py:173
 #, python-format
 msgid "Forbidden translation: %s"
-msgstr "翻訳禁止: %s"
+msgstr "禁止された翻訳: %s"
 
 #: weblate/trans/templatetags/translations.py:175
 #, python-format
