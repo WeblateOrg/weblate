@@ -23,6 +23,10 @@ Weblate is continually being `translated <https://hosted.weblate.org/>`_ using W
 free to take your part in the effort of making Weblate available in as many human languages
 as possible. It brings Weblate closer to it’s users!
 
+If you find a possible mistake in the source string, you can mark it with a comment in the Weblate editor.
+This way, it can be discussed and corrected. If you’re certain, you can also click on the link in the
+:guilabel:`Source string location` section and submit a PR with your correction.
+
 .. _contributing-docs:
 
 Contribute to Weblate documentation
