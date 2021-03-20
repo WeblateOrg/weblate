@@ -42,10 +42,10 @@ Please respect these guidelines while writing:
     Not all docs readers are native speakers, be thoughtful.
  3. Don’t be affraid to ask if you are not certain.
     If you have to ask about some feature while editing, don’t change its docs before you have the answer.
-    This means: you change or ask. Don’t do both at the same time.
+    This means: You change or ask. Don’t do both at the same time.
  4. Verify your changes by performing described actions while following the docs.
- 5. Send PR with changes in small chunks to make it easier to review and merge.
- 6. If you want to rewrite and change the structure of a big article, do it in two steps.
+ 5. Send PR with changes in small chunks to make it easier and quicker to review and merge.
+ 6. If you want to rewrite and change the structure of a big article, do it in two steps:
 
     1. Rewrite
     2. Once the rewrite is reviewed, polished, and merged, change the structure of the paragraphs in another PR.
@@ -60,7 +60,8 @@ Please respect these guidelines while writing:
 Weblate discussions
 -------------------
 
-If you have an idea and you are not sure if it’s suitable for an issue, don’t worry. You can join the community in the `GitHub discussions <https://github.com/WeblateOrg/weblate/discussions>`_.
+If you have an idea and not sure if it’s suitable for an issue, don’t worry.
+You can join the community in `GitHub discussions <https://github.com/WeblateOrg/weblate/discussions>`_.
 
 
 .. _funding-weblate:
