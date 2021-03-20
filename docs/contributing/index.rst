@@ -56,7 +56,7 @@ Please respect these guidelines while writing:
 Weblate discussions
 -------------------
 
-If you have an idea and you are not sure if it’s suitable for an issue, don’t worry. You can join the community in the `discussions <https://github.com/WeblateOrg/weblate/discussions>`_.
+If you have an idea and you are not sure if it’s suitable for an issue, don’t worry. You can join the community in the `GitHub discussions <https://github.com/WeblateOrg/weblate/discussions>`_.
 
 
 .. _funding-weblate:
