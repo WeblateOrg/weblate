@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-03-21 13:40+0100\n"
-"PO-Revision-Date: 2021-03-17 07:22+0000\n"
+"PO-Revision-Date: 2021-03-21 16:50+0000\n"
 "Last-Translator: Eric <spice2wolf@gmail.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "weblate/documentation/zh_Hans/>\n"
@@ -32,25 +32,18 @@ msgstr ""
 "Weblate 带有细粒度的特权系统，可以为整个实例或在有限范围内分配用户权限。"
 
 #: ../../admin/access.rst:11
-#, fuzzy
-#| msgid ""
-#| "Before Weblate 3.0, the privilege system was based on Django, but is now "
-#| "specifically built for Weblate. If you are using anything older, please "
-#| "consult the documentation for the specific version you are using."
 msgid ""
 "Before Weblate 3.0, the privilege system was based on Django privilege "
 "system only, but is specifically built for Weblate now. If using anything "
 "older, please consult the documentation for the specific version you are "
 "using."
 msgstr ""
-"在 Weblate 3.0 之前，特权系统基于 Django，但现在是专门为 Weblate 构建的。如果"
-"使用的是更旧的版本，那么请查阅所使用的特定版本的文档。"
+"在 Weblate 3.0 之前，特权系统仅基于 Django，但现在是专门为 Weblate "
+"构建的。如果使用的是更旧的版本，那么请查阅所使用的特定版本的文档。"
 
 #: ../../admin/access.rst:18
-#, fuzzy
-#| msgid "Tunable access control."
 msgid "Simple access control"
-msgstr "可调整的访问控制。"
+msgstr "简单的访问控制。"
 
 #: ../../admin/access.rst:20
 msgid ""
@@ -82,30 +75,24 @@ msgid "Public"
 msgstr "公开的"
 
 #: ../../admin/access.rst:36
-#, fuzzy
-#| msgid "Publicly visible, translatable for all logged-in users"
 msgid "Publicly visible, translatable for all logged-in users."
-msgstr "公开可见，且所有登录用户均可进行翻译"
+msgstr "公开可见，且所有登录用户均可进行翻译。"
 
 #: ../../admin/access.rst:37
 msgid "Protected"
 msgstr "受保护的"
 
 #: ../../admin/access.rst:38
-#, fuzzy
-#| msgid "Publicly visible, but translatable only for selected users"
 msgid "Publicly visible, but translatable only for selected users."
-msgstr "公开可见，但只允许被选择的用户翻译"
+msgstr "公开可见，但只允许被选择的用户翻译。"
 
 #: ../../admin/access.rst:39
 msgid "Private"
 msgstr "私有的"
 
 #: ../../admin/access.rst:40
-#, fuzzy
-#| msgid "Visible and translatable only for selected users"
 msgid "Visible and translatable only for selected users."
-msgstr "公开可见，但只允许被选择的用户翻译"
+msgstr "公开可见，但只允许被选择的用户翻译。"
 
 #: ../../admin/access.rst:44
 msgid "Custom"
@@ -126,8 +113,6 @@ msgid ""
 msgstr ""
 
 #: ../../admin/access.rst:52
-#, fuzzy
-#| msgid "Default value can be changed by :setting:`DEFAULT_ACCESS_CONTROL`."
 msgid "The default value can be changed by :setting:`DEFAULT_ACCESS_CONTROL`."
 msgstr "可以通过 :setting:`DEFAULT_ACCESS_CONTROL` 更改默认值。"
 
@@ -147,19 +132,14 @@ msgid ""
 msgstr ""
 
 #: ../../admin/access.rst:69
-#, fuzzy
-#| msgid ""
-#| "By turning this on, Weblate will remove all :ref:`acl` it has created for "
-#| "this project. If you are doing this without admin permission from the "
-#| "instance, you will instantly lose your access to manage the project."
 msgid ""
 "By turning on `Custom` access control, Weblate will remove all :ref:`special "
 "groups <manage-acl>` it has created for a selected project. If you are doing "
 "this without admin permission for the whole Weblate instance, you will "
 "instantly lose your access to manage the project."
 msgstr ""
-"通过将其打开， Weblate 会删除所有为这个项目建立的 :ref:`acl` 。如果没有事件的"
-"管理权限却去做的话，会立即丢失管理项目的访问权限。"
+"通过打开 `Custom` 访问控制， Weblate 会删除所有为一个选定项目建立的 :ref:`special groups <manage-"
+"acl>`。如果你在没有整个 Weblate 实例的管理员权限的情况下这样做，你会立即丢失管理项目的权限。"
 
 #: ../../admin/access.rst:76
 #, fuzzy
@@ -172,18 +152,13 @@ msgid "Managing per-project access control"
 msgstr "管理每个项目的访问控制"
 
 #: ../../admin/access.rst:83
-#, fuzzy
-#| msgid ""
-#| "Users with the :guilabel:`Manage project access` privilege (see :ref:"
-#| "`privileges`) can also manage users in projects with access control "
-#| "turned on through the project page. The interface allows you to:"
 msgid ""
 "Users with the :guilabel:`Manage project access` privilege (see :ref:"
 "`privileges`) can manage users in projects with non-`Custom` access control. "
 "They can assign users to one of the following groups."
 msgstr ""
-"具有 :guilabel:`Manage project access` 特权的用户（请参见 :ref:"
-"`privileges` ）还可以通过项目页面上的打开访问控制来管理用户。这个界面允许你："
+"有 :guilabel:`Manage project access` 特权的用户（请参见 :ref:`privileges` ）还可以通过 "
+"non-`Custom` 访问控制来管理用户。它们可以将用户分配到以下组之一。"
 
 #: ../../admin/access.rst:87
 msgid "For `Public`, `Protected` and `Private` projects:"
@@ -194,10 +169,8 @@ msgid "Administration"
 msgstr "管理"
 
 #: ../../admin/access.rst:90
-#, fuzzy
-#| msgid "Has all permissions available in the project."
 msgid "Includes all permissions available for the project."
-msgstr "在项目中可以有所有的权限。"
+msgstr "包括项目可用的所有权限。"
 
 #: ../../admin/access.rst:93
 msgid "Review (only if :ref:`review workflow <reviews>` is turned on)"
@@ -216,8 +189,6 @@ msgid "Translate"
 msgstr "翻译"
 
 #: ../../admin/access.rst:98
-#, fuzzy
-#| msgid "Can translate the project, and upload translations made offline."
 msgid "Can translate the project and upload translations made offline."
 msgstr "可以翻译项目，并将离线的翻译上传。"
 
@@ -229,13 +200,12 @@ msgid "Sources"
 msgstr "源"
 
 #: ../../admin/access.rst:101
-#, fuzzy
-#| msgid ""
-#| "Can edit source strings in :ref:`monolingual` and source string info."
 msgid ""
 "Can edit source strings (if allowed in the :ref:`project settings <component-"
 "manage_units>`) and source string info."
-msgstr "可以在:ref: ' monollingual '和源字符串信息中编辑源字符串。"
+msgstr ""
+"可以编辑源字符串 (如果在 :ref:`project settings <component-manage_units>` 中允许的话 "
+")及源字符串信息。"
 
 #: ../../admin/access.rst:105 ../../admin/access.rst:257
 #: ../../admin/access.rst:273 ../../admin/access.rst:384 ../../api.rst:631
@@ -253,10 +223,8 @@ msgid "Glossary"
 msgstr "词汇表"
 
 #: ../../admin/access.rst:108
-#, fuzzy
-#| msgid "Can manage glossary (add or remove entries, or upload)."
 msgid "Can manage glossary (add or remove entries, also upload)."
-msgstr "可以管理词汇表（添加或删除权限，或上传）。"
+msgstr "可以管理词汇表（添加或删除条目，并上传）。"
 
 #: ../../admin/access.rst:111
 #, fuzzy
@@ -293,10 +261,8 @@ msgid "Billing"
 msgstr "账单"
 
 #: ../../admin/access.rst:121
-#, fuzzy
-#| msgid "Can access billing info (see :ref:`billing`)."
 msgid "Can access billing info and settings (see :ref:`billing`)."
-msgstr "可以访问账单信息（请参见 :ref:`billing` ）。"
+msgstr "可以访问账单信息和设置（请参见 :ref:`billing` ）。"
 
 #: ../../admin/access.rst:123
 msgid ""
@@ -321,10 +287,8 @@ msgid ""
 msgstr ""
 
 #: ../../admin/access.rst:140
-#, fuzzy
-#| msgid "Resend invitation"
 msgid "New user invitation"
-msgstr "重新发送邀请"
+msgstr "新用户邀请"
 
 #: ../../admin/access.rst:142
 msgid ""
@@ -344,14 +308,10 @@ msgid ""
 msgstr ""
 
 #: ../../admin/access.rst:157
-#, fuzzy
-#| msgid ""
-#| "Resend the e-mail for user invitations (invalidating any previously sent "
-#| "invitation)"
 msgid ""
 "It is possible to resend the e-mail for user invitations (invalidating any "
 "previously sent invitation)."
-msgstr "重新发送用户电子邮件邀请 (使任何之前发送的邀请无效)"
+msgstr "重新发送用户邀请电子邮件是有可能的 (使任何之前发送的邀请无效)"
 
 #: ../../admin/access.rst:160
 msgid ""
@@ -360,22 +320,16 @@ msgid ""
 msgstr ""
 
 #: ../../admin/access.rst:164
-#, fuzzy
-#| msgid "Per project permissions"
 msgid "Per-project permission management"
-msgstr "每个每个项目的权限"
+msgstr "每项目的权限管理"
 
 #: ../../admin/access.rst:166
-#, fuzzy
-#| msgid ""
-#| "Set your projects to `Protected` or `Private`, and manage users per "
-#| "project in the Weblate interface."
 msgid ""
 "You can set your projects to `Protected` or `Private`, and :ref:`manage "
 "users <manage-acl>` per-project in the Weblate user interface."
 msgstr ""
-"将项目设置为 `Protected` 或 `Private` ，并在Weblate的界面上管理每个项目的用"
-"户。"
+"你可以将你的项目设置为 `Protected` 或 `Private` ，并在 Weblate 的界面上设置每个项目的 :ref:`manage "
+"users <manage-acl>` 。"
 
 #: ../../admin/access.rst:169
 msgid ""
@@ -400,18 +354,11 @@ msgid "Custom access control"
 msgstr "客户访问控制"
 
 #: ../../admin/access.rst:187
-#, fuzzy
-#| msgid ""
-#| "The permission system is based on groups and roles, where roles define a "
-#| "set of permissions, and groups assign them to users and translations, "
-#| "see :ref:`auth-model` for more details."
 msgid ""
 "The permission system is based on groups and roles, where roles define a set "
 "of permissions, and groups link them to users and translations, see :ref:"
 "`auth-model` for more details."
-msgstr ""
-"权限系统基于组和角色，其中角色定义了一组权限，组将它们分配给用户和翻译，请参"
-"阅 :ref:`auth-model` 以获取更多详细信息。"
+msgstr "权限系统基于组和角色，其中角色定义了一组权限，组将它们链接到用户和翻译，请参阅 :ref:`auth-model` 以获取更多详细信息。"
 
 #: ../../admin/access.rst:191
 msgid ""
@@ -442,10 +389,8 @@ msgid ""
 msgstr ""
 
 #: ../../admin/access.rst:209
-#, fuzzy
-#| msgid "Site wide permissions"
 msgid "Site-wide permission management"
-msgstr "全网站范围的权限"
+msgstr "站点范围的权限管理"
 
 #: ../../admin/access.rst:211
 msgid ""
@@ -532,20 +477,16 @@ msgid ""
 msgstr ""
 
 #: ../../admin/access.rst:252
-#, fuzzy
-#| msgid "`Users`"
 msgid "Group `Users`"
-msgstr "`用户`"
+msgstr "`Users` 用户组"
 
 #: ../../admin/access.rst:255 ../../admin/access.rst:271
 msgid "Language selection"
 msgstr "语言选择"
 
 #: ../../admin/access.rst:256 ../../admin/access.rst:272
-#, fuzzy
-#| msgid "As defined"
 msgid "`As defined`"
-msgstr "按所指定"
+msgstr "`As defined`"
 
 #: ../../admin/access.rst:258
 msgid "All but `Czech`"
@@ -556,37 +497,28 @@ msgid "Add a dedicated group for `Czech` translators."
 msgstr ""
 
 #: ../../admin/access.rst:264
-#, fuzzy
-#| msgid "Most active translators"
 msgid "Group `Czech translators`"
-msgstr "最活跃的翻译者"
+msgstr "小组 `Czech translators`"
 
 #: ../../admin/access.rst:267 ../../admin/access.rst:380 ../../api.rst:562
 msgid "Roles"
 msgstr "角色"
 
 #: ../../admin/access.rst:268
-#, fuzzy
-#| msgctxt "Access-control role"
-#| msgid "Power user"
 msgid "`Power users`"
-msgstr "高级用户"
+msgstr "`高级用户`"
 
 #: ../../admin/access.rst:269
 msgid "Project selection"
 msgstr "项目选择"
 
 #: ../../admin/access.rst:270
-#, fuzzy
-#| msgid "All public projects"
 msgid "`All public projects`"
-msgstr "所有公开项目"
+msgstr "`所有公开项目`"
 
 #: ../../admin/access.rst:274
-#, fuzzy
-#| msgid "Czech"
 msgid "`Czech`"
-msgstr "捷克语（čeština）"
+msgstr "`捷克语`"
 
 #: ../../admin/access.rst:278
 msgid "Add users you wish to give the permissions to into this group."
@@ -600,10 +532,8 @@ msgid ""
 msgstr ""
 
 #: ../../admin/access.rst:287
-#, fuzzy
-#| msgid "Users, roles, groups and permissions"
 msgid "Users, roles, groups, and permissions"
-msgstr "用户，角色，用户组和权限"
+msgstr "用户、角色、用户组和权限"
 
 #: ../../admin/access.rst:289
 msgid "The authentication models consist of several objects:"
@@ -614,10 +544,6 @@ msgid "`Permission`"
 msgstr "`权限`"
 
 #: ../../admin/access.rst:292
-#, fuzzy
-#| msgid ""
-#| "Individual permissions defined by Weblate. Permissions can not be "
-#| "assigned to users. This can only be done through assignment of roles."
 msgid ""
 "Individual permission defined by Weblate. Permissions cannot be assigned to "
 "users. This can only be done through assignment of roles."
@@ -628,10 +554,6 @@ msgid "`Role`"
 msgstr "`Role`"
 
 #: ../../admin/access.rst:295
-#, fuzzy
-#| msgid ""
-#| "A Role defines a set of permissions. This allows reuse of these sets in "
-#| "several places, making the administration easier."
 msgid ""
 "A role defines a set of permissions. This allows reuse of these sets in "
 "several places, making the administration easier."
@@ -642,8 +564,6 @@ msgid "`User`"
 msgstr "`User`"
 
 #: ../../admin/access.rst:298
-#, fuzzy
-#| msgid "Users can belong to several groups."
 msgid "User can belong to several groups."
 msgstr "用户可归属于几个用户组。"
 
@@ -652,14 +572,10 @@ msgid "`Group`"
 msgstr "`群组`"
 
 #: ../../admin/access.rst:300
-#, fuzzy
-#| msgid ""
-#| "Groups connect roles, users and authentication objects (projects, "
-#| "languages and component lists)."
 msgid ""
 "Group connect roles, users, and authentication objects (projects, languages, "
 "and component lists)."
-msgstr "用户组与角色、用户和身份验证对象（项目、语言和组件列表）联系。"
+msgstr "用户组连接角色、用户和身份验证对象（项目、语言和组件列表）。"
 
 #: ../../admin/access.rst:318
 msgid ""
@@ -668,41 +584,24 @@ msgid ""
 msgstr ""
 
 #: ../../admin/access.rst:322
-#, fuzzy
-#| msgid "Checking access to a project"
 msgid "Access for browse to a project"
-msgstr "检查项目的访问权限"
+msgstr "浏览到项目的访问权限"
 
 #: ../../admin/access.rst:324
-#, fuzzy
-#| msgid ""
-#| "A user has to be a member of a group linked to the project, or any "
-#| "component inside that project. Having membership is enough, no specific "
-#| "permissions are needed to access the project (this is used in the default "
-#| "`Viewers` group, see :ref:`default-groups`)."
 msgid ""
 "A user has to be a member of a group linked to the project, or any component "
 "inside that project. Having membership is enough, no specific permissions "
 "are needed to browse the project (this is used in the default `Viewers` "
 "group, see :ref:`default-groups`)."
 msgstr ""
-"用户必须是链接到项目的组或项目中的任何组件的成员。拥有成员身份就足够了，访问"
-"项目不需要特定的权限 （这被用于默认的 `查看者` 小组，见 :ref:`default-"
-"groups` ）。"
+"用户必须是链接到项目的组或项目中的任何组件的成员。拥有成员身份就足够了，浏览项目不需要特定的权限 （这被用于默认的 `查看者` 小组，见 :ref"
+":`default-groups` ）。"
 
 #: ../../admin/access.rst:330
-#, fuzzy
-#| msgid "Associate project with a component."
 msgid "Access for browse to a component"
-msgstr "将项目与一个组件相关联。"
+msgstr "浏览组件的权限。"
 
 #: ../../admin/access.rst:332
-#, fuzzy
-#| msgid ""
-#| "A user can access the unrestricted component once able to access the "
-#| "containing project. With :ref:`component-restricted` turned on, access to "
-#| "the component requires explicit permission to that component (or a "
-#| "component list it is in)."
 msgid ""
 "A user can access unrestricted components once able to access the "
 "components’ project (and will have all the permissions the user was granted "
@@ -710,15 +609,12 @@ msgid ""
 "component requires explicit permissions for the component (or a component "
 "list the component is in)."
 msgstr ""
-"用户一旦能够访问包含的项目，就可以不受限制地访问组件。在开启 :ref:`component-"
-"restricted` 的情况下，访问组件需要对该组件的显式权限 （或者它所在的组件列"
-"表）。"
+"用户一旦能够访问组件的项目，就可以不受限制地访问组件。（并将拥有该项目授予用户的所有权限）。在开启 :ref:`component-restricted`"
+" 的情况下，访问组件需要对该组件（或该组件所在的组件列表）具有显式权限。"
 
 #: ../../admin/access.rst:340
-#, fuzzy
-#| msgid "List of groups"
 msgid "Scope of groups"
-msgstr "群组列表"
+msgstr "群组范围"
 
 #: ../../admin/access.rst:342
 msgid ""
@@ -762,16 +658,12 @@ msgid ""
 msgstr ""
 
 #: ../../admin/access.rst:369
-#, fuzzy
-#| msgid ""
-#| "Use :guilabel:`Language selection` or :guilabel:`Project selection` to "
-#| "automate inclusion of all languages or projects."
 msgid ""
 "Use :guilabel:`Language selection` or :guilabel:`Project selection` to "
 "automate inclusion of all languages or projects."
 msgstr ""
-"使用 :guilabel:`Language selection` 或 :guilabel:`Project selection` 来自动包"
-"括所有语言或项目。"
+"使用 :guilabel:`Language selection` 或 :guilabel:`Project selection` "
+"来自动包括所有语言或项目。"
 
 #: ../../admin/access.rst:374
 msgid ""
@@ -784,11 +676,8 @@ msgid "Group `Spanish Admin-Reviewers`"
 msgstr ""
 
 #: ../../admin/access.rst:381
-#, fuzzy
-#| msgctxt "Access-control role"
-#| msgid "Manage repository"
 msgid "`Review Strings`, `Manage repository`"
-msgstr "管理代码库"
+msgstr "`审核字符串`、`管理代码库`"
 
 #: ../../admin/access.rst:382 ../../api.rst:1084
 msgid "Components"
@@ -799,10 +688,8 @@ msgid "foo/bar"
 msgstr ""
 
 #: ../../admin/access.rst:385
-#, fuzzy
-#| msgid "Spanish"
 msgid "`Spanish`"
-msgstr "西班牙语（español）"
+msgstr "`西班牙语`"
 
 #: ../../admin/access.rst:389
 msgid ""
@@ -851,18 +738,13 @@ msgid ""
 msgstr ""
 
 #: ../../admin/access.rst:417
-#, fuzzy
-#| msgid ""
-#| "Automatic group assignment to `Users` and `Viewers` is always recreated "
-#| "during migrations. If you want to turn it off, set the regular expression "
-#| "to ``^$`` (which will never match)."
 msgid ""
 "Automatic group assignment to `Users` and `Viewers` is always recreated when "
 "upgrading from one Weblate version to another. If you want to turn it off, "
 "set the regular expression to ``^$`` (which won’t match anything)."
 msgstr ""
-"在迁移期间，总是会重新创建对 `用户`和`查看者` 的自动组分配。如果要关闭，请将"
-"正则表达式设置为 ``^$`` （永不匹配）。"
+"从一个 Weblate 版本升级到另一个版本时z总是会重新创建对 `Users` 和 `Viewers` 的用户组分配。如果你想关闭它，"
+"将正则表达式设置为 ``^$``（不匹配任何内容）。"
 
 #: ../../admin/access.rst:423
 msgid ""
@@ -882,20 +764,13 @@ msgid ""
 msgstr ""
 
 #: ../../admin/access.rst:431
-#, fuzzy
-#| msgid ""
-#| "These roles and groups are created upon installation. The built-in roles "
-#| "are always kept up to date by the database migration when upgrading. "
-#| "Custom changes are not lost. Please define a new role if you want to "
-#| "define your own set of permissions."
 msgid ""
 "These roles and groups are created upon installation. The built-in roles are "
 "always kept up to date by the database migration when upgrading. You can’t "
 "actually change them, please define a new role if you want to define your "
 "own set of permissions."
 msgstr ""
-"这些角色和组是在安装时创建的。在升级时，内置角色总是通过数据库迁移保持最新。"
-"自定义更改不会丢失。如果要定义自己的权限集，请定义新角色。"
+"这些角色和组是在安装时创建的。 升级时，内置角色始终通过数据库迁移保持最新状态。你实际上无法更改它们，如果要定义自己的权限集，请定义一个新角色。"
 
 #: ../../admin/access.rst:439
 msgid "List of privileges"
@@ -1246,18 +1121,13 @@ msgid "List of groups"
 msgstr "群组列表"
 
 #: ../../admin/access.rst:580
-#, fuzzy
-#| msgid ""
-#| "The following groups are created upon installation (or after executing :"
-#| "djadmin:`setupgroups`) and you are free to modify them. The migration "
-#| "will however re-create them if you delete or rename them."
 msgid ""
 "The following groups are created upon installation (or after executing :"
 "djadmin:`setupgroups`) and you are free to modify them. The migration will, "
 "however, re-create them if you delete or rename them."
 msgstr ""
-"下面的群组在安装时建立（或在执行 :djadmin:`setupgroups` 后）, 您可以自由修改"
-"它们。但是，如果它们被删除或重命名，迁移后将重新创建这些名称。"
+"下面的群组在安装时建立（或在执行 :djadmin:`setupgroups` 后）, "
+"您可以自由修改它们。但是，如果它们被删除或重命名，迁移后将重新创建这些名称。"
 
 #: ../../admin/access.rst:592
 msgid "`Guests`"
@@ -1288,14 +1158,10 @@ msgid "`Viewers`"
 msgstr "`Viewers`"
 
 #: ../../admin/access.rst:595
-#, fuzzy
-#| msgid ""
-#| "This role ensures visibility of public projects for all users. By default "
-#| "all users are members of this group."
 msgid ""
 "This role ensures visibility of public projects for all users. By default, "
 "all users are members of this group."
-msgstr "这一角色确保公开项目对所有用户可见。所有用户默认是这个群组的成员。"
+msgstr "这一角色确保公开项目对所有用户可见。默认情况下，所有用户都是该组的成员。"
 
 #: ../../admin/access.rst:598 ../../admin/access.rst:606
 msgid ""
@@ -1345,24 +1211,15 @@ msgid "Default roles: `Administration`"
 msgstr "默认角色: `Administration`"
 
 #: ../../admin/access.rst:623
-#, fuzzy
-#| msgid ""
-#| "Never remove the predefined Weblate groups and users, as this can lead to "
-#| "unexpected problems. If you have no use for them, you can removing all "
-#| "their privileges instead."
 msgid ""
 "Never remove the predefined Weblate groups and users as this can lead to "
 "unexpected problems! If you have no use for them, you can removing all their "
 "privileges instead."
-msgstr ""
-"决不要移除预先定义的 Weblate 群组和用户，因为这会这可能会导致意想不到的问题。"
-"如果你不需要他们，你可以删除他们的所有特权。"
+msgstr "决不要移除预先定义的 Weblate 群组和用户，因为这会这可能会导致意想不到的问题！如果你不需要他们，你可以删除他们的所有特权。"
 
 #: ../../admin/access.rst:628
-#, fuzzy
-#| msgid "Additional projects"
 msgid "Additional access restrictions"
-msgstr "其他项目"
+msgstr "额外访问限制"
 
 #: ../../admin/access.rst:630
 msgid ""
@@ -5128,10 +4985,8 @@ msgstr ""
 "理。"
 
 #: ../../admin/config.rst:443
-#, fuzzy
-#| msgid ":ref:`acl`, :ref:`project-access_control`, :ref:`privileges`"
 msgid ":ref:`acl`, :ref:`project-access_control`"
-msgstr ":ref:`acl`, :ref:`project-access_control`, :ref:`privileges`"
+msgstr ":ref:`acl`, :ref:`project-access_control`"
 
 #: ../../admin/config.rst:449
 msgid "DEFAULT_AUTO_WATCH"
@@ -5156,10 +5011,8 @@ msgid "The default value for component restriction."
 msgstr "组件限制的默认值。"
 
 #: ../../admin/config.rst:471
-#, fuzzy
-#| msgid ":ref:`acl`, :ref:`component-restricted`, :ref:`privileges`"
 msgid ":ref:`component-restricted`, :ref:`perm-check`"
-msgstr ":ref:`acl`, :ref:`component-restricted`, :ref:`privileges`"
+msgstr ":ref:`component-restricted`, :ref:`perm-check`"
 
 #: ../../admin/config.rst:481
 msgid ""
@@ -5392,10 +5245,8 @@ msgid "GET_HELP_URL"
 msgstr ""
 
 #: ../../admin/config.rst:685
-#, fuzzy
-#| msgid "URL where your Weblate instance is configured"
 msgid "URL where support for your Weblate instance can be found."
-msgstr "配置 Weblate 事件的 URL"
+msgstr "可以找到你的 Weblate 实例支持的 URL"
 
 #: ../../admin/config.rst:690
 msgid "GITLAB_CREDENTIALS"
@@ -11214,28 +11065,20 @@ msgid ":ref:`production-email`, :setting:`django:EMAIL_BACKEND`"
 msgstr ":ref:`production-email`, :setting:`django:EMAIL_BACKEND`"
 
 #: ../../admin/install/docker.rst:1068
-#, fuzzy
-#| msgid "Test Sentry integration"
 msgid "Site integration"
-msgstr "测试 Sentry 集成"
+msgstr "站点集成"
 
 #: ../../admin/install/docker.rst:1072
-#, fuzzy
-#| msgid "Configures :setting:`DEFAULT_SHARED_TM`."
 msgid "Configures :setting:`GET_HELP_URL`."
-msgstr "配置 :setting:`DEFAULT_SHARED_TM`."
+msgstr "配置 :setting:`GET_HELP_URL`."
 
 #: ../../admin/install/docker.rst:1076
-#, fuzzy
-#| msgid "Configures :setting:`BASIC_LANGUAGES`."
 msgid "Configures :setting:`STATUS_URL`."
-msgstr "配置 :setting:`BASIC_LANGUAGES`."
+msgstr "配置 :setting:`STATUS_URL`."
 
 #: ../../admin/install/docker.rst:1080
-#, fuzzy
-#| msgid "Configures :setting:`LICENSE_FILTER`."
 msgid "Configures :setting:`LEGAL_URL`."
-msgstr "配置 :setting:`LICENSE_FILTER`."
+msgstr "配置: setting:`LEGAL_URL`."
 
 #: ../../admin/install/docker.rst:1083
 msgid "Error reporting"
@@ -12074,13 +11917,6 @@ msgid "Built-in language definitions"
 msgstr "内置语言定义"
 
 #: ../../admin/languages.rst:65
-#, fuzzy
-#| msgid ""
-#| "Definitions for more than 550 languages are included in Weblate and the "
-#| "list is extended in every release. Whenever Weblate is upgraded (more "
-#| "specifically whenever :program:`weblate migrate` is executed, see :ref:"
-#| "`generic-upgrade-instructions`) the database of languages is updated to "
-#| "include all language definitions shipped in Weblate."
 msgid ""
 "Definitions for about 600 languages are included in Weblate and the list is "
 "extended in every release. Whenever Weblate is upgraded (more specifically "
@@ -12088,10 +11924,9 @@ msgid ""
 "instructions`) the database of languages is updated to include all language "
 "definitions shipped in Weblate."
 msgstr ""
-"Weblate 中包括了超过 550 种语言的定义，并且每次发布时列表都在扩大。无论何时更"
-"新 Weblate 时（更特别地是无论何时执行 :program:`weblate migrate`时，请参见 :"
-"ref:`generic-upgrade-instructions`）。语言数据库都被更新，来包括 Weblate 上市"
-"时的所有语言定义。"
+"Weblate 中包括了大约 600 种语言的定义，并且每次发布时列表都在扩大。无论何时更新 Weblate 时（更特别地是无论何时执行 "
+":program:`weblate migrate`时，请参见 :ref:`generic-upgrade-"
+"instructions`）。语言数据库都被更新，来包括 Weblate 上市时的所有语言定义。"
 
 #: ../../admin/languages.rst:71
 msgid ""
@@ -14163,19 +13998,15 @@ msgid ""
 msgstr "公共可用项目的仓库可以被克隆而无需认证："
 
 #: ../../admin/optionals.rst:44
-#, fuzzy
-#| msgid ""
-#| "Access to the repositories with restricted access (using :ref:`acl` or "
-#| "when :setting:`REQUIRE_LOGIN` is enabled) requires a API token which can "
-#| "be obtained in your :ref:`user-profile`:"
 msgid ""
 "Access to browse the repositories with restricted access (with `Private` :"
 "ref:`access control <acl>` or when :setting:`REQUIRE_LOGIN` is enabled) "
 "requires an API token which can be obtained in your :ref:`user profile <user-"
 "profile>`:"
 msgstr ""
-"对存储库的受限制访问（使用 :ref:`acl` 或在 :setting:`REQUIRE_LOGIN` 处于启用"
-"状态时）需要一个 API 令牌，获取地点在你的 :ref:`user-profile`:"
+"对存储库的受限制的访问（使用 `Private` :ref:`access control <acl>` 或在 "
+":setting:`REQUIRE_LOGIN` 处于启用状态时）需要一个 API 令牌，获取位置在你的 :ref:`user-profile "
+"<user-profile>`:"
 
 #: ../../admin/optionals.rst:55
 msgid ""
