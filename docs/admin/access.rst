@@ -127,7 +127,7 @@ to all users.
 .. note::
 
     For non-`Custom` access control an instance of each group described above is
-    actulally defined for each project. The actual name of those groups will be
+    actually defined for each project. The actual name of those groups will be
     ``Project@Group``, also displayed in the Django admin interface this way.
     Although they can’t be edited from Weblate user-interface.
 
