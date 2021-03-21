@@ -13,8 +13,10 @@ You can base other workflows on the most usual examples listed here.
 Translation access
 ------------------
 
-The :ref:`privileges` is not much discussed in the workflows as each access control option can be applied to any workflow. Please consult that
-documentation for information on how to manage access to translations.
+The :ref:`access control <access-control>` is not discussed in detail as a whole in
+the workflows, as most of its options can be applied to any workflow. Please
+consult the respective documentation on how to manage access to
+translations.
 
 In the following chapters, *any user* means a user who has access to the
 translation. It can be any authenticated user if the project is public, or a user
@@ -80,7 +82,8 @@ This is also the default setup in Weblate.
 | Autoaccept suggestions | 0           |                                    |
 +------------------------+-------------+------------------------------------+
 | Translators group      | `Users`     | Or `Translate` with                |
-|                        |             | :ref:`privileges`.                 |
+|                        |             | :ref:`per-project access control   |
+|                        |             | <manage-acl>`.                     |
 +------------------------+-------------+------------------------------------+
 | Reviewers group        | N/A         | Not used.                          |
 +------------------------+-------------+------------------------------------+
@@ -111,7 +114,8 @@ from additional member(s) before it is accepted as a translation.
 |                        |             | require more peer reviews.         |
 +------------------------+-------------+------------------------------------+
 | Translators group      | `Users`     | Or `Translate` with                |
-|                        |             | :ref:`privileges`.                 |
+|                        |             | :ref:`per-project access control   |
+|                        |             | <manage-acl>`.                     |
 +------------------------+-------------+------------------------------------+
 | Reviewers group        | N/A         | Not used, all translators review.  |
 +------------------------+-------------+------------------------------------+
@@ -147,10 +151,12 @@ consistent and that the quality is good.
 | Autoaccept suggestions | 0           |                                    |
 +------------------------+-------------+------------------------------------+
 | Translators group      | `Users`     | Or `Translate` with                |
-|                        |             | :ref:`privileges`.                 |
+|                        |             | :ref:`per-project access control   |
+|                        |             | <manage-acl>`.                     |
 +------------------------+-------------+------------------------------------+
 | Reviewers group        | `Reviewers` | Or `Review` with                   |
-|                        |             | :ref:`privileges`.                 |
+|                        |             | :ref:`per-project access control   |
+|                        |             | <manage-acl>`.                     |
 +------------------------+-------------+------------------------------------+
 
 Turning on reviews

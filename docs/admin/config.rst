@@ -36,7 +36,7 @@ Username of users that are not signed in.
 
 .. seealso::
 
-    :ref:`privileges`
+    :ref:`access-control`
 
 .. setting:: AUDITLOG_EXPIRY
 
@@ -441,8 +441,7 @@ on the internal Weblate management.
 .. seealso::
 
    :ref:`acl`,
-   :ref:`project-access_control`,
-   :ref:`privileges`
+   :ref:`project-access_control`
 
 .. setting:: DEFAULT_AUTO_WATCH
 
@@ -469,9 +468,8 @@ The default value for component restriction.
 
 .. seealso::
 
-   :ref:`acl`,
    :ref:`component-restricted`,
-   :ref:`privileges`
+   :ref:`perm-check`
 
 .. setting:: DEFAULT_COMMIT_MESSAGE
 .. setting:: DEFAULT_ADD_MESSAGE

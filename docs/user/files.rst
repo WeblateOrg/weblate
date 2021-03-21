@@ -7,7 +7,8 @@ This works even if it has been changed in the meantime.
 
 .. note::
 
-    What options are available might be limited by :ref:`privileges`.
+    Available options might be limited by
+    :ref:`access control <access-control>` settings.
 
 .. _download:
 

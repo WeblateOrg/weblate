@@ -41,9 +41,10 @@ Repositories for publicly available projects can be cloned without authenticatio
 
     git clone 'https://example.org/git/weblate/master/'
 
-Access to the repositories with restricted access (using :ref:`acl` or when
-:setting:`REQUIRE_LOGIN` is enabled) requires a API token which can be obtained
-in your :ref:`user-profile`:
+Access to browse the repositories with restricted access (with `Private`
+:ref:`access control <acl>` or when :setting:`REQUIRE_LOGIN` is enabled)
+requires an API token which can be obtained in your
+:ref:`user profile <user-profile>`:
 
 .. code-block:: sh
 

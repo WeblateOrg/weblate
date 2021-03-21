@@ -17,10 +17,11 @@ making the suggestion if it is cast).
 
     Once automatic acceptance is set up, normal users lose the privilege to
     directly save translations or accept suggestions. This can be overridden
-    with the :guilabel:`Edit string when suggestions are enforced` privilege
-    (see :ref:`privileges`).
+    with the :guilabel:`Edit string when suggestions are enforced`
+    :ref:`permission <privileges>`.
 
-You can combine these with :ref:`privileges` into one of the following setups:
+You can combine these with :ref:`access control <access-control>` into one of
+the following setups:
 
 * Users suggest and vote for suggestions and a limited group controls what is
   accepted.
