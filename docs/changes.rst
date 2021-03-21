@@ -9,7 +9,7 @@ Not yet released.
 * Allow uploading screenshot from a translate page.
 * Added forced file synchronization to the repository maintenance.
 * Fixed automatic suggestions for languages with a longer code.
-* Improved peformance when adding new strings.
+* Improved performance when adding new strings.
 * Several bug fixes in quality checks.
 * Several performance improvements.
 
