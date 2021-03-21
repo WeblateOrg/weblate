@@ -632,7 +632,7 @@ new users on an invitational basis only, it can be done by configuring Weblate
 in such a way that only known users have an access to it. In order to do so, you can set
 :setting:`REGISTRATION_OPEN` to ``False`` to prevent registrations of any new
 users, and set :setting:`REQUIRE_LOGIN` to ``/.*`` to require logging-in to access
-all the site pages.
+all the site pages. This is basically the way to lock your Weblate installation.
 
 .. hint::
 
