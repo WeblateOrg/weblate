@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-03-21 13:40+0100\n"
-"PO-Revision-Date: 2021-03-21 16:50+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2021-03-21 18:05+0000\n"
+"Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/"
 "documentation/uk/>\n"
 "Language: uk\n"
@@ -424,7 +424,7 @@ msgid ""
 msgstr ""
 "Однією з головних переваг керування правами доступу з інтерфейсу користувача "
 "Weblate є те, що ви можете делегувати його іншим користувачам без надання їм "
-"прав доступу суперкористувача. Для цього додайте користувачів до групи "
+"прав доступу надкористувача. Для цього додайте користувачів до групи "
 "`Administration` проєкту."
 
 #: ../../admin/access.rst:183
@@ -449,6 +449,12 @@ msgid ""
 "necessarily have to switch it to `Custom` :ref:`access control <acl>` to "
 "utilize it. However you must have superuser privileges in order to use it."
 msgstr ""
+"Найпотужнішими можливостями поточної версії системи керування доступом "
+"Weblate можна скористатися лише за допомогою :ref:`адміністративного "
+"інтерфейсу Django <admin-interface>`. Цей інтерфейс надає змогу керувати "
+"правами доступу до будь-якого проєкту. Щоб скористатися ним, не обов'язково "
+"перемикатися на :ref:`керування доступом <acl>` `Custom`. Втім, що "
+"скористатися цим вам знадобляться права доступу надкористувача."
 
 #: ../../admin/access.rst:197
 msgid ""
@@ -458,6 +464,11 @@ msgid ""
 "<https://hosted.weblate.org/>`_), please refer to the :ref:`access-simple` "
 "section."
 msgstr ""
+"Якщо вам не цікаві подробиці реалізації і ви просто хочете створити "
+"достатньо прості налаштування на основі типових або не маєте доступу на "
+"рівні сайта до усього встановленого екземпляра Weblate (зокрема на `Hosted "
+"Weblate <https://hosted.weblate.org/>`_), будь ласка, зверніться до розділу "
+":ref:`access-simple`."
 
 #: ../../admin/access.rst:203
 msgid "Common setups"
@@ -468,6 +479,8 @@ msgid ""
 "This section contains an overview of some common configurations you may be "
 "interested in."
 msgstr ""
+"У цьому розділі міститься огляд деяких типових конфігурацій, які можуть бути "
+"для вас цікавим."
 
 #: ../../admin/access.rst:209
 msgid "Site-wide permission management"
@@ -478,24 +491,32 @@ msgid ""
 "To manage permissions for a whole instance at once, add users to "
 "appropriate :ref:`default groups <default-groups>`:"
 msgstr ""
+"Для керування правами доступами для усього екземпляра одразу додайте "
+"користувачів до відповідних :ref:`типових груп <default-groups>`:"
 
 #: ../../admin/access.rst:214
 msgid ""
 "`Users` (this is done by default by the :ref:`automatic group assignment "
 "<autogroup>`)."
 msgstr ""
+"`Users` (це виконується типово :ref:`автоматичною прив'язкою до груп "
+"<autogroup>`)."
 
 #: ../../admin/access.rst:216
 msgid ""
 "`Reviewers` (if you are using :ref:`review workflow <reviews>` with "
 "dedicated reviewers)."
 msgstr ""
+"`Reviewers` (якщо ви використовуєте :ref:`процес із рецензуванням <reviews>` "
+"із спеціалізованими рецензентами)."
 
 #: ../../admin/access.rst:218
 msgid ""
 "`Managers` (if you want to delegate most of the management operations to "
 "somebody else)."
 msgstr ""
+"`Managers` (якщо ви хочете делегувати більшість дій з керування комусь "
+"іншому)."
 
 #: ../../admin/access.rst:221
 msgid ""
@@ -503,6 +524,9 @@ msgid ""
 "otherwise the site-wide permissions provided by membership in the `Users` "
 "and `Reviewers` groups won’t have any effect."
 msgstr ""
+"Вам слід зберігати налаштовування усіх проєктів як `Public` (див. :ref:`acl`)"
+". Якщо цього не зробити, загальносайтові права доступу, які надаються "
+"членством у групах `Users` і `Reviewers`, ні на що не вплинуть."
 
 #: ../../admin/access.rst:225
 msgid ""
@@ -510,6 +534,9 @@ msgid ""
 "groups. For example, you may want to give a permission to manage screenshots "
 "to all the `Users`."
 msgstr ""
+"Крім того, ви можете надати бажані додаткові права доступу типовим групам. "
+"Наприклад, ви можете надати права доступу для керування знімками вікон усім "
+"учасникам групи `Users`."
 
 #: ../../admin/access.rst:229
 msgid ""
@@ -518,6 +545,10 @@ msgid ""
 "the :guilabel:`Project selection` (e.g. :guilabel:`All projects` or :"
 "guilabel:`All public projects`)."
 msgstr ""
+"Ви також маєте визначити деякі нові нетипові групи. Якщо ви хочете зберегти "
+"керування вашими загальносайтовими правами доступу для цих груп, виберіть "
+"відповідне значення для параметра :guilabel:`Вибір проєкту` (наприклад, "
+":guilabel:`Усі проєкти` або :guilabel:`Усі публічні проєкти`)."
 
 #: ../../admin/access.rst:235
 msgid "Custom permissions for languages, components or projects"
@@ -530,6 +561,11 @@ msgid ""
 "can only grant additional privileges, you can’t revoke any permission "
 "granted by site-wide or per-project groups by adding another custom group."
 msgstr ""
+"Ви можете створити ваші власні спеціалізовані групи для керування правами "
+"доступу для певних об'єктів, зокрема мов, складників та проєктів. Хоча ці "
+"групи можуть додавати лише додаткові права доступу — ви не можете відкликати "
+"будь-які права доступу за загальносайтовими групами або групами проєкту "
+"додаванням ще однієї нетипової групи."
 
 #: ../../admin/access.rst:242 ../../admin/access.rst:372
 #: ../../admin/config.rst:249 ../../admin/config.rst:274
@@ -549,6 +585,9 @@ msgid ""
 "language (lets say `Czech`) only to a closed set of reliable translators "
 "while keeping translations to other languages public, you will have to:"
 msgstr ""
+"Якщо ви хочете (з будь-яких причин) дозволити переклад певною мовою ("
+"наприклад `чеською`) лише обмеженому набору надійних перекладачів, а "
+"переклади іншими мовами зробити загальнодоступними, вам слід зробити так:"
 
 #: ../../admin/access.rst:248
 msgid ""
@@ -556,6 +595,9 @@ msgid ""
 "default configuration this can be done by altering the `Users` :ref:`default "
 "group <default-groups>`."
 msgstr ""
+"Вилучити права доступу до перекладу `Czech` для усіх користувачів. За "
+"типових налаштувань це можна зробити зміною :ref:`типової групи <default-"
+"groups>` `Users`."
 
 #: ../../admin/access.rst:252
 msgid "Group `Users`"
@@ -571,11 +613,11 @@ msgstr "`As defined`"
 
 #: ../../admin/access.rst:258
 msgid "All but `Czech`"
-msgstr ""
+msgstr "Усі, окрім `Czech`"
 
 #: ../../admin/access.rst:262
 msgid "Add a dedicated group for `Czech` translators."
-msgstr ""
+msgstr "Додати спеціалізовану групу для перекладачів `Czech`."
 
 #: ../../admin/access.rst:264
 msgid "Group `Czech translators`"
@@ -604,6 +646,7 @@ msgstr "`Czech`"
 #: ../../admin/access.rst:278
 msgid "Add users you wish to give the permissions to into this group."
 msgstr ""
+"Додати користувачів, яким ви хочете надати права доступу, до цієї групи."
 
 #: ../../admin/access.rst:280
 msgid ""
@@ -611,6 +654,9 @@ msgid ""
 "quite a tedious job. You can’t delegate it to another user, unless granting "
 "superuser permissions."
 msgstr ""
+"Як ви можете бачити, керування правами доступу у цей спосіб є потужним, але "
+"користуватися ним є марудною справою. Ви не можете делегувати його іншому "
+"користувачу без надання прав доступу надкористувача."
 
 #: ../../admin/access.rst:287
 msgid "Users, roles, groups, and permissions"
@@ -671,6 +717,8 @@ msgid ""
 "A group can have no roles assigned to it, in that case access to browse the "
 "project by anyone is assumed (see below)."
 msgstr ""
+"Із групою може бути не пов'язано жодних ролей. У цьому випадку програма "
+"припускатиме доступ до навігації проєктом для будь-кого (див. нижче)."
 
 #: ../../admin/access.rst:322
 msgid "Access for browse to a project"
@@ -715,6 +763,8 @@ msgid ""
 "The scope of the permission assigned by the roles in the groups are applied "
 "by the following rules:"
 msgstr ""
+"Область дії прав доступу, які призначаються ролями у групах, застосовуються "
+"такими правилами:"
 
 #: ../../admin/access.rst:345
 msgid ""
@@ -724,6 +774,11 @@ msgid ""
 "permissions is granted for all the projects these components are in. :"
 "guilabel:`Components` and :guilabel:`Projects` are ignored."
 msgstr ""
+"Якщо група визначає якийсь :guilabel:`Список складників`, усі права доступу, "
+"надані учасникам цієї групи, надаються для усіх складників у списках "
+"складників, пов'язаних із групою, і доступ без додаткових прав доступу "
+"надається для усіх проєктів, частиною яких є ці складники. "
+":guilabel:`Складники` і :guilabel:`Проєкти` буде проігноровано."
 
 #: ../../admin/access.rst:351
 msgid ""
@@ -732,6 +787,10 @@ msgid ""
 "the group, and an access with no additional permissions is granted for all "
 "the projects these components are in. :guilabel:`Projects` are ignored."
 msgstr ""
+"Якщо група визначає якийсь :guilabel:`Складники`, усі права доступу, надані "
+"учасникам цієї групи, надаються для усіх складників, пов'язаних із групою, і "
+"доступ без додаткових прав доступу надається для усіх проєктів, частиною "
+"яких є ці складники. :guilabel:`Проєкти` буде проігноровано."
 
 #: ../../admin/access.rst:356
 msgid ""
@@ -741,6 +800,12 @@ msgid ""
 "projects, which effectively grants the same permissions to access all "
 "projects :ref:`unrestricted components <component-restricted>`."
 msgstr ""
+"Інакше, якщо група визначає якісь :guilabel:`Проєкти`, або безпосереднім "
+"визначенням їхнього списку, або встановленням для параметра :guilabel:`"
+"Вибрані проєкти` значення, подібного до `Усі публічні проєкти`, усі ці права "
+"доступу застосовуються до усіх проєктів, які насправді надають ті самі права "
+"доступу для доступу до усіх :ref:`складників без обмежень <component-"
+"restricted>` проєкту."
 
 #: ../../admin/access.rst:362
 msgid ""
@@ -750,6 +815,11 @@ msgid ""
 "translation process itself like reviewing, saving translations, adding "
 "suggestions, etc."
 msgstr ""
+"Обмеження, які накладаються параметром :guilabel:`Мови` групи, "
+"застосовуються окремо, після перевірки, чи має користувач доступ до певних "
+"дій. А саме, вони застосовуються лише до дій безпосередньо пов'язаних із "
+"самим процесом перекладу, зокрема рецензуванням, збереженням перекладів, "
+"додаванням пропозицій тощо."
 
 #: ../../admin/access.rst:369
 msgid ""
@@ -764,6 +834,8 @@ msgid ""
 "Let’s say there is a project ``foo`` with the components: ``foo/bar`` and "
 "``foo/baz`` and the following group:"
 msgstr ""
+"Припустімо, маємо проєкт ``щось`` із такими складниками: ``щось/десь`` і "
+"``щось/там`` і таку групу:"
 
 #: ../../admin/access.rst:377
 msgid "Group `Spanish Admin-Reviewers`"
@@ -790,22 +862,30 @@ msgid ""
 "Members of that group will have following permissions (assuming the default "
 "role settings):"
 msgstr ""
+"Учасники цієї групи матимуть такі права доступу (припускаємо параметри "
+"типової ролі):"
 
 #: ../../admin/access.rst:391
 msgid ""
 "General (browsing) access to the whole project ``foo`` including both "
 "components in it: ``foo/bar`` and ``foo/baz``."
 msgstr ""
+"Загальний доступ (до навігації) до усього проєкту ``щось``, включно із обома "
+"складниками у ньому: ``щось/десь`` і ``щось/там``."
 
 #: ../../admin/access.rst:393
 msgid "Review strings in ``foo/bar`` Spanish translation (not elsewhere)."
 msgstr ""
+"Рецензування рядків у іспанському перекладі ``щось/десь`` (і тільки у ньому)."
 
 #: ../../admin/access.rst:394
 msgid ""
 "Manage VCS for the whole ``foo/bar`` repository e.g. commit pending changes "
 "made by translators for all languages."
 msgstr ""
+"Керування системою керування версіями для усього сховища ``щось/десь``, "
+"наприклад внесення зміни з черги, які є результатами роботи перекладачів, "
+"для усіх мов."
 
 #: ../../admin/access.rst:400
 msgid "Automatic group assignments"
@@ -836,6 +916,13 @@ msgid ""
 "your domain, this can be accomplished with an expression like ``^."
 "*@mycompany.com``."
 msgstr ""
+"Найзагальнішим випадком використання цієї можливості є пов'язування усіх "
+"нових користувачів до певної типової групи. Для цього вам, ймовірно, слід "
+"зберегти типове значення (``^.*$``) у полі регулярного виразу. Ще одним "
+"випадком використання для цього параметра може бути типове надання певних "
+"додаткових прав доступу працівникам вашої компанії. Припускаючи, що усі вони "
+"користуються корпоративними адресами електронної пошти на вашому домені, "
+"досягти цього можна виразом, подібним до ``^.*@mycompany.com``."
 
 #: ../../admin/access.rst:417
 msgid ""
@@ -854,6 +941,9 @@ msgid ""
 "via the user interface. For that, you may resort to using the :ref:`REST API "
 "<api>`."
 msgstr ""
+"У поточній версії немає способу пакетного додавання наявних користувачів до "
+"певної групи за допомогою інтерфейсу користувача. Для цього ви можете "
+"вдатися до використання :ref:`програмного інтерфейсу REST <api>`."
 
 #: ../../admin/access.rst:427
 msgid "Default groups and roles"
@@ -864,6 +954,8 @@ msgid ""
 "After installation, a default set of groups is created (see :ref:`default-"
 "groups`)."
 msgstr ""
+"Після встановлення буде створено типовий набір груп (див. :ref:`default-"
+"groups`)."
 
 #: ../../admin/access.rst:431
 msgid ""
@@ -1240,7 +1332,7 @@ msgid ""
 "your Weblate installation."
 msgstr ""
 "Привілеї на рівні сайта не надаються будь-якій типовій ролі. Ці привілеї є "
-"доволі широкими і дуже близькими до стану суперкористувача — більшість з них "
+"доволі широкими і дуже близькими до стану надкористувача — більшість з них "
 "стосуються усіх проєктів у встановленому вами Weblate."
 
 #: ../../admin/access.rst:578
@@ -1371,10 +1463,21 @@ msgid ""
 "to require logging-in to access all the site pages. This is basically the "
 "way to lock your Weblate installation."
 msgstr ""
+"Якщо ви хочете скористатися встановленим вами Weblate у менш відкритий "
+"спосіб, тобто дозволити нових користувачів лише на основі запрошень, зробити "
+"це можна налаштовуванням Weblate так, що до нього матимуть доступ лише "
+"відомі користувачі. Для цього ви можете встановити для параметра "
+":setting:`REGISTRATION_OPEN` значення ``False`` для запобігання реєстрації "
+"будь-яких нових користувачів і встановити для :setting:`REQUIRE_LOGIN` "
+"значення ``/.*``, щоб вимагати входу до системи для доступу до усіх сторінок "
+"сайта. Це, на базовому рівні, є способом блокування встановленого вами "
+"Weblate."
 
 #: ../../admin/access.rst:639
 msgid "You can use built-in :ref:`invitations <manage-acl>` to add new users."
 msgstr ""
+"Ви можете скористатися вбудованими :ref:`запрошеннями <manage-acl>` для "
+"додавання нових користувачів."
 
 #: ../../admin/addons.rst:4 ../../api.rst:2157
 msgid "Addons"
@@ -9166,10 +9269,10 @@ msgid ""
 "can omit that. In that case you will have to perform some of the migration "
 "steps manually as a PostgreSQL superuser in schema Weblate will use:"
 msgstr ""
-"Якщо ви не хочете робити користувача Weblate суперкористувачем у PostgreSQL, "
+"Якщо ви не хочете робити користувача Weblate надкористувачем у PostgreSQL, "
 "ви можете пропустити це. У такому випадку вам доведеться виконати деякі з "
-"кроків з перенесення вручну від імені суперкористувача PostgreSQL у схемі, "
-"яку використовуватиме Weblate:"
+"кроків з перенесення вручну від імені надкористувача PostgreSQL у схемі, яку "
+"використовуватиме Weblate:"
 
 #: ../../admin/install.rst:359
 msgid "Configuring Weblate to use PostgreSQL"
@@ -9271,6 +9374,9 @@ msgid ""
 "that no server tweaking should be necessary and all what is needed can be "
 "configured on the client side."
 msgstr ""
+"MySQL 8.x, MariaDB 10.5.x або новіші версії мають придатні типові "
+"налаштування, отже потреби у додатковому коригуванні налаштувань сервера не "
+"повинно виникнути — усе, що потрібно, можна налаштувати на клієнтському боці."
 
 #: ../../admin/install.rst:424
 msgid ""
@@ -13117,6 +13223,8 @@ msgid ""
 "The language definitions are in the `weblate-language-data repository "
 "<https://github.com/WeblateOrg/language-data/>`_."
 msgstr ""
+"Визначення мов зберігаються у `сховищі weblate-language-data <https://github."
+"com/WeblateOrg/language-data/>`_."
 
 #: ../../admin/languages.rst:83
 msgid "Ambiguous language codes and macrolanguages"
@@ -15439,7 +15547,7 @@ msgid ""
 "is possible when following conditions are met:"
 msgstr ""
 "Крім того, модуль обліку надає змогу адміністраторам проєкту створювати "
-"проєкти і складники без отримання прав суперкористувача (див. :ref:`adding-"
+"проєкти і складники без отримання прав надкористувача (див. :ref:`adding-"
 "projects`). Це можливо при задоволенні таких умов:"
 
 #: ../../admin/optionals.rst:97
@@ -18888,7 +18996,7 @@ msgstr "Адреса електронної пошти користувача"
 
 #: ../../api.rst:240
 msgid "Is user superuser? (optional)"
-msgstr "Чи є користувач суперкористувачем? (необов'язковий)"
+msgstr "Чи є користувач надкористувачем? (необов'язковий)"
 
 #: ../../api.rst:242
 msgid "Is user active? (optional)"
@@ -18918,7 +19026,7 @@ msgstr "адреса електронної пошти користувача"
 
 #: ../../api.rst:254 ../../api.rst:287 ../../api.rst:300
 msgid "whether the user is a super user"
-msgstr "чи є користувач суперкористувачем"
+msgstr "чи є користувач надкористувачем"
 
 #: ../../api.rst:255 ../../api.rst:288 ../../api.rst:301
 msgid "whether the user is active"
@@ -19184,7 +19292,7 @@ msgid ""
 "list of all existing roles is returned."
 msgstr ""
 "Повертає список усіх ролей, які пов'язано із користувачем. Якщо користувач є "
-"суперкористувачем, буде повернуто список усіх наявних ролей."
+"надкористувачем, буде повернуто список усіх наявних ролей."
 
 #: ../../api.rst:571
 msgid ""
@@ -22303,7 +22411,7 @@ msgstr ""
 msgid "Fixed PostgreSQL migration for non superusers."
 msgstr ""
 "Виправлено перенесення даних PostgreSQL для користувачів, які не є "
-"суперкористувачами."
+"надкористувачами."
 
 #: ../../changes.rst:320
 msgid "Fixed changing the repository URL while creating component."
@@ -27623,6 +27731,11 @@ msgid ""
 "If you’re certain, you can also click on the link in the :guilabel:`Source "
 "string location` section and submit a PR with your correction."
 msgstr ""
+"Якщо вами виявлено можливу помилку у початковому рядку, ви можете позначити "
+"її коментарем у редакторі Weblate. У такий спосіб її може бути обговорено і "
+"виправлено. Якщо ви певні щодо помилки, ви також можете натиснути посилання "
+"у розділі :guilabel:`Позиція джерельного рядка` і створити запит щодо "
+"об'єднання із вашим виправленням."
 
 #: ../../contributing/index.rst:33
 msgid "Contribute to Weblate documentation"
@@ -27704,6 +27817,8 @@ msgid ""
 "You can `translate the docs <https://hosted.weblate.org/projects/weblate/"
 "documentation/>`_."
 msgstr ""
+"Ви можете `перекласти документацію <https://hosted.weblate.org/projects/"
+"weblate/documentation/>`_."
 
 #: ../../contributing/index.rst:61
 msgid "Weblate discussions"
@@ -27715,6 +27830,9 @@ msgid ""
 "You can join the community in `GitHub discussions <https://github.com/"
 "WeblateOrg/weblate/discussions>`_."
 msgstr ""
+"Якщо у вас є ідея і ви не певні, чи варта вона створення повідомлення про "
+"ваду, не переймайтеся. Ви можете долучитися до спільноти у `обговореннях "
+"GitHub <https://github.com/WeblateOrg/weblate/discussions>`_."
 
 #: ../../contributing/index.rst:70
 msgid "Funding Weblate development"
@@ -28044,6 +28162,8 @@ msgid ""
 "If you are not sure about your bug report or feature request, you can try :"
 "ref:`discussions`."
 msgstr ""
+"Якщо ви не певні щодо вашого звіту щодо вади або запиту щодо можливості, ви "
+"можете спробувати :ref:`discussions`."
 
 #: ../../contributing/issues.rst:19
 msgid "Security issues"
