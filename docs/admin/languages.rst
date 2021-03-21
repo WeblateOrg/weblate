@@ -62,7 +62,7 @@ those translations.
 Built-in language definitions
 -----------------------------
 
-Definitions for more than 550 languages are included in Weblate and the list is
+Definitions for about 600 languages are included in Weblate and the list is
 extended in every release. Whenever Weblate is upgraded (more specifically
 whenever :program:`weblate migrate` is executed, see
 :ref:`generic-upgrade-instructions`) the database of languages is updated to
@@ -71,6 +71,11 @@ include all language definitions shipped in Weblate.
 This feature can be disable using :setting:`UPDATE_LANGUAGES`. You can also
 enforce updating the database to match Weblate built-in data using
 :djadmin:`setuplang`.
+
+.. seealso::
+
+   The language definitions are in the `weblate-language-data repository
+   <https://github.com/WeblateOrg/language-data/>`_.
 
 .. _ambiguous-languages:
 
