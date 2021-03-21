@@ -75,3 +75,8 @@ Listing your server in Discover Weblate:
 3. Turn on the discovery listing in your Weblate management page using :guilabel:`Enable discovery` button:
 
 .. image:: /images/support-discovery.png
+
+.. hint::
+
+   You can customize the listing by providing a text and image (570 x 260
+   pixels) at <https://weblate.org/user/>
