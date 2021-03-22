@@ -21,6 +21,8 @@ Basic instance details about your installation are also reported back to Weblate
 
 .. image:: /images/support.png
 
+.. _support-data:
+
 Data submitted to the Weblate
 -----------------------------
 
@@ -62,17 +64,9 @@ Discover Weblate is an opt-in service that makes it easier for users to find
 Weblate servers and communities. Users can browse registered services on
 <https://weblate.org/discover/>, and find there projects to contribute.
 
-Listing your server in Discover Weblate:
-
-.. hint::
-
-   You can skip the first two steps by activating a support package. The server
-   registration was already done during the activation of your support package, see
-   :ref:`activate-support`.
-
-1. Register yourself at <https://weblate.org/user/>
-2. Register your Weblate server in the discovery database
-3. Turn on the discovery listing in your Weblate management page using :guilabel:`Enable discovery` button:
+To list your server with an active support subscription (see
+:ref:`activate-support`) in Discover Weblate all you need to do is turn this on
+in the management panel:
 
 .. image:: /images/support-discovery.png
 
@@ -80,3 +74,16 @@ Listing your server in Discover Weblate:
 
    You can customize the listing by providing a text and image (570 x 260
    pixels) at <https://weblate.org/user/>
+
+Listing your server without a support subsription in Discover Weblate:
+
+1. Register yourself at <https://weblate.org/user/>
+2. Register your Weblate server in the discovery database at <https://weblate.org/subscription/discovery/>
+3. Confirm the service activation in your Weblate and turn on the discovery listing in your Weblate management page using :guilabel:`Enable discovery` button:
+
+.. image:: /images/support-discovery.png
+
+.. hint::
+
+   Participating in Discover Weblate makes Weblate submit some information
+   about your server, please see :ref:`support-data`.
