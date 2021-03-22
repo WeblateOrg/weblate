@@ -412,8 +412,14 @@ def check_perms(app_configs=None, **kwargs):
     for dirpath, dirnames, filenames in os.walk(settings.DATA_DIR):
         for name in chain(dirnames, filenames):
             # Skip toplevel lost+found dir, that one is typically owned by root
-            # on filesystem toplevel directory
-            if dirpath == settings.DATA_DIR and name == "lost+found":
+            # on filesystem toplevel directory. Also skip settings-override.py
+            # used in the Docker container as that one is typically bind mouted
+            # with different permissions (and Weblate is not expected to write
+            # to it).
+            if dirpath == settings.DATA_DIR and name in (
+                "lost+found",
+                "settings-override.py",
+            ):
                 continue
             path = os.path.join(dirpath, name)
             try:
