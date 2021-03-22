@@ -40,7 +40,7 @@ token, which you can get in your profile. Use it in the ``Authorization`` header
     :resheader Content-Type: this depends on :http:header:`Accept`
                              header of request
     :resheader Allow: list of allowed HTTP methods on object
-    :>json string detail: verbose description of failure (for HTTP status codes other than :http:statuscode:`200`)
+    :>json string detail: verbose description of the result (for HTTP status codes other than :http:statuscode:`200`)
     :>json int count: total item count for object lists
     :>json string next: next page URL for object lists
     :>json string previous: previous page URL for object lists
@@ -48,6 +48,8 @@ token, which you can get in your profile. Use it in the ``Authorization`` header
     :>json string url: URL to access this resource using API
     :>json string web_url: URL to access this resource using web browser
     :status 200: when request was correctly handled
+    :status 201: when a new object was created successfully
+    :status 204: when an object was created successfully
     :status 400: when form parameters are missing
     :status 403: when access is denied
     :status 429: when throttling is in place
