@@ -148,7 +148,7 @@ access to manage the project’s scope (e.g. membership in the `Administration` 
 
    If the invitation expires, it is still possible to request the resetting the password
    for it for anyone with access to the e-mail address it is sent to.
-   
+
 .. versionadded:: 3.11
 
   Sending a new invitation to a previously invited e-mail address invalidates
