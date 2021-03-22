@@ -232,7 +232,7 @@ Generic settings
 
     .. seealso::
 
-            :ref:`production-debug`.
+            :ref:`production-debug`
 
 .. envvar:: WEBLATE_LOGLEVEL
 
