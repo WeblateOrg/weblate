@@ -4,32 +4,32 @@ Access control
 ==============
 
 Weblate comes with a fine-grained privilege system to assign user permissions
-for the whole instance, or in a limited scope.
+for the whole instance with predefined roles, or by assigning one or more
+groups of permissions to users for everything, or individual projects, components,
+glossaries, and so on.
 
 .. versionchanged:: 3.0
 
-    Before Weblate 3.0, the privilege system was based on Django privilege system only,
-    but is specifically built for Weblate now. If using anything older, please consult
-    the documentation for the specific version you are using.
+    Before Weblate 3.0, the privilege system was based on Django, but is now
+    specifically built for Weblate. Please consult the documentation for the
+    specific version you are using if it is older.
 
 .. _access-simple:
 
 Simple access control
 ---------------------
 
-If you are not administrating the whole Weblate installation and just have
-access to manage certain projects (like on `Hosted Weblate <https://hosted.weblate.org/>`_),
-your access control management options are limited to following settings.
-If you don’t need any complex setup, those are sufficient for you.
+To manage only certain projects (like on `Hosted Weblate <https://hosted.weblate.org/>`_)
+instead of an entire Weblate installation, the following is sufficient:
 
 .. _acl:
 
-Project access control
+Project access-control
 ++++++++++++++++++++++
 
 .. include:: /snippets/not-hosted-libre.rst
 
-You can limit user’s access to individual projects by selecting a different
+Limit user access to individual projects by selecting a different
 :guilabel:`Access control` setting. Available options are:
 
 Public
@@ -39,9 +39,9 @@ Protected
 Private
     Visible and translatable only for selected users.
 Custom
-    :ref:`User management <manage-acl>` features will be disabled; by
-    default all users are forbidden to performed any actions on the project.
-    You will have to set up all the permissions using :ref:`custom-acl`.
+    :ref:`User management <manage-acl>` features are off; by
+    default no users can do anything in any of the projects.
+    All permissions are granted using :ref:`custom-acl`.
 
 :guilabel:`Access control` can be changed in the :guilabel:`Access` tab of the
 configuration (:guilabel:`Manage` ↓ :guilabel:`Settings`) of each respective
@@ -49,27 +49,25 @@ project.
 
 .. image:: /images/project-access.png
 
-The default value can be changed by :setting:`DEFAULT_ACCESS_CONTROL`.
+Access mode can also be changed by setting :setting:`DEFAULT_ACCESS_CONTROL`.
 
 .. note::
 
-    Even for `Private` projects, some info about your project will be exposed:
-    statistics and language summary for the whole instance will include counts
-    for all projects despite the access control setting.
-    Your project name and other information can’t be revealed through this.
+    `Private` projects still expose counts for all projects in their
+    respective statistics and language summary. This does not reveal
+    project name or other info.
 
 .. note::
 
-    The actual set of permissions available for users by default in `Public`,
-    `Protected`, and `Private` projects can be redefined by Weblate instance
-    administrator using :ref:`custom settings <custom-acl>`.
+    Administraotrs can change what default permissions are available to users
+    of `Public`, `Protected`, and `Private` projects by using :ref:`custom settings <custom-acl>`.
 
 .. warning::
 
-    By turning on `Custom` access control, Weblate will remove all
-    :ref:`special groups <manage-acl>` it has created for a selected project.
-    If you are doing this without admin permission for the whole Weblate
-    instance, you will instantly lose your access to manage the project.
+    Turning on `Custom` access control for a project removes all its
+    created :ref:`special groups <manage-acl>`.
+    This means you instantly lose access to the project if you don't have
+    admin access to the whole project beforehand.
 
 .. seealso::
 
@@ -80,82 +78,81 @@ The default value can be changed by :setting:`DEFAULT_ACCESS_CONTROL`.
 Managing per-project access control
 +++++++++++++++++++++++++++++++++++
 
-Users with the :guilabel:`Manage project access` privilege (see
-:ref:`privileges`) can manage users in projects with non-`Custom` access
-control. They can assign users to one of the following groups.
+Users granted :guilabel:`Manage project access` (see :ref:`privileges`)
+can manage users in all non-`Custom` projects by assigning users
+to one of the following groups:
 
 For `Public`, `Protected` and `Private` projects:
 
-Administration
-    Includes all permissions available for the project.
+Granting users :guilabel:`Manage project access` (see :ref:`privileges`)
+gives them access to assign other users in Public`, `Protected` and
+`Private` (but not `Custom`) projects to one of the following groups:
 
-Review (only if :ref:`review workflow <reviews>` is turned on)
-    Can approve translations during review.
+Administration
+    All available permissions for the project.
+
+Review (if :ref:`review workflow <reviews>` is on)
+    Approve translations during review.
 
 For `Protected` and `Private` projects only:
 
 Translate
-    Can translate the project and upload translations made offline.
+    Translate the project and upload translations made offline.
 
 Sources
-    Can edit source strings (if allowed in the
-    :ref:`project settings <component-manage_units>`) and source string info.
+    Edit source strings (if allowed in the
+    :ref:`project settings <component-manage_units>`) and source-string info.
 
 Languages
-    Can manage translated languages (add or remove translations).
+    Manage translated languages (add or remove translations).
 
 Glossary
-    Can manage glossary (add or remove entries, also upload).
+    Manage glossary (add, remove and upload entries).
 
 Memory
-    Can manage translation memory.
+    Manage translation memory.
 
 Screenshots
-    Can manage screenshots (add or remove them, and associate them to source
+    Manage screenshots (add, remove, and associate them to source
     strings).
 
 VCS
-    Can manage VCS and access the exported repository.
+    Manage VCS and access the exported repository.
 
 Billing
-    Can access billing info and settings (see :ref:`billing`).
+    Access billing info and settings (see :ref:`billing`).
 
-Unfortunately, it’s not possible to change this predefined set of
-groups for now. Also this way it’s not possible to give just some additional permissions
-to all users.
+The groups that make up these predefined roles can not be changed for now.
+Make your own groups to grant specific permissions to users.
 
 .. note::
 
-    For non-`Custom` access control an instance of each group described above is
-    actually defined for each project. The actual name of those groups will be
-    ``Project@Group``, also displayed in the Django admin interface this way.
-    Although they can’t be edited from Weblate user-interface.
+    Permissions for each group described above is defined for every project.
+    The actual name of those groups (as shown in the Django admin interface) is
+    ``Project@Group``. They can't be edited from the Weblate user-interface.
 
 .. image:: /images/manage-users.png
 
-These features are available on the :guilabel:`Access control` page, which can be
-accessed from the project’s menu :guilabel:`Manage` ↓ :guilabel:`Users`.
+These features are available on the :guilabel:`Access control` page in
+the project’s menu :guilabel:`Manage` ↓ :guilabel:`Users`.
 
-New user invitation
+New user-invitation
 ^^^^^^^^^^^^^^^^^^^
 
-Also, besides adding an existing user to the project, it is possible to invite
-new ones. Any new user will be created immediately, but the account will
-remain inactive until signing in with a link in the invitation sent via an e-mail.
-It is not required to have any site-wide privileges in order to do so, access management
-permission on the project’s scope (e.g. a membership in the `Administration`
-group) would be sufficient.
+Besides adding existing users to a project, new ones can be invited to it.
+The system creates an account that remains inactive until accessed via the link in the
+invitation sent via e-mail. Site-wide privileges are not needed to do so, only
+access to manage the project’s scope (e.g. membership in the `Administration` group).
 
 .. hint::
 
-   If the invited user missed the validity of the invitation, they can set their
-   password using invited e-mail address in the password reset form as the account
-   is created already.
-
+   If the invitation expires, it is still possible to request the resetting the password
+   for it for anyone with access to the e-mail address it is sent to.
+   
 .. versionadded:: 3.11
 
-  It is possible to resend the e-mail for user invitations (invalidating any
-  previously sent invitation).
+  Sending a new invitation to a previously invited e-mail address invalidates
+  the prior invitation by deleting the account for it.
 
 The same kind of invitations are available site-wide from the
 :ref:`management interface <management-interface>` on the :guilabel:`Users` tab.
@@ -166,86 +163,78 @@ Per-project permission management
 You can set your projects to `Protected` or `Private`, and
 :ref:`manage users <manage-acl>` per-project in the Weblate user interface.
 
-By default this prevents Weblate from granting access provided by
-`Users` and `Viewers` :ref:`default groups <default-groups>` due to these groups’
-own configuration. This doesn’t prevent you from granting permissions to those
-projects site-wide by altering default groups, creating a new one, or creating
-additional custom settings for individual component as described in :ref:`custom-acl` below.
+By default this prevents access provided by `Users` and `Viewers` :ref:`default groups <default-groups>`.
+Change site-wide permissions to such projects by altering the default groups,
+creating a new one, or adding settings for its components as described in :ref:`custom-acl` below.
 
 One of the main benefits of managing permissions through the Weblate
-user interface is that you can delegate it to other users without giving them
-the superuser privilege. In order to do so, add them to the `Administration`
+user interface is the ability to delegate it to other users without grating
+site-wide administrator access. In order to do so, add them to the `Administration`
 group of the project.
 
 .. _custom-acl:
 
-Custom access control
+Custom access-control
 ---------------------
 
 .. include:: /snippets/not-hosted-libre.rst
 
-The permission system is based on groups and roles, where roles define a set of
-permissions, and groups link them to users and translations, see
-:ref:`auth-model` for more details.
+
+.. hint::
+
+   If you only need to grant users access to invidual projects
+   (like on `Hosted Weblate <https://hosted.weblate.org/>`_), refer to the :ref:`access-simple` section.
+
+The permission system is based on roles defining a set of permissions,
+and groups linking these to users and translations, read :ref:`auth-model`
+for more details.
 
 The most powerful features of the Weblate’s access control system for now are
-available only through the :ref:`Django admin interface <admin-interface>`. You
+only available through the :ref:`Django admin interface <admin-interface>`. You
 can use it to manage permissions of any project. You don’t necessarily have to
 switch it to `Custom` :ref:`access control <acl>` to utilize it. However
-you must have superuser privileges in order to use it.
-
-If you are not interested in details of implementation, and just want to create a
-simple-enough configuration based on the defaults, or don’t have a site-wide access
-to the whole Weblate installation (like on `Hosted Weblate <https://hosted.weblate.org/>`_),
-please refer to the :ref:`access-simple` section.
+you must have site-wide administrator privileges to use it.
 
 Common setups
 +++++++++++++
 
-This section contains an overview of some common configurations you may be
-interested in.
-
 Site-wide permission management
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-To manage permissions for a whole instance at once, add users to
-appropriate :ref:`default groups <default-groups>`:
+Manage permissions for a whole instance at once by adding users to
+their appropriate :ref:`default groups <default-groups>`:
 
-* `Users` (this is done by default by the
-  :ref:`automatic group assignment <autogroup>`).
-* `Reviewers` (if you are using :ref:`review workflow <reviews>` with dedicated
-  reviewers).
-* `Managers` (if you want to delegate most of the management operations to somebody
-  else).
+* `Users` (done by default with
+  :ref:`automatic group assignment <autogroup>` on).
+* `Reviewers` (only if :ref:`review workflow <reviews>` with dedicated
+  reviewers is on).
+* `Managers` (to delegate most management operations to someone else).
 
-You should keep all projects configured as `Public` (see :ref:`acl`), otherwise
-the site-wide permissions provided by membership in the `Users` and `Reviewers` groups
+Keep all projects `Public` (see :ref:`acl`), otherwise the site-wide
+permissions provided by membership in the `Users` and `Reviewers` groups
 won’t have any effect.
 
-You may also grant some additional permissions of your choice to the default
-groups. For example, you may want to give a permission to manage screenshots to all
-the `Users`.
+Additional permissions can be granted to the default
+groups. In this example the ability manage screenshots for all `Users`.
 
-You can define some new custom groups as well. If you want to
-keep managing your permissions site-wide for these groups, choose an
-appropriate value for the :guilabel:`Project selection` (e.g.
+To keep managing your permissions site-wide for custom groups you create,
+choose an appropriate value for the :guilabel:`Project selection` (e.g.
 :guilabel:`All projects` or :guilabel:`All public projects`).
 
 Custom permissions for languages, components or projects
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-You can create your own dedicated groups to manage permissions for distinct
-objects such as languages, components, and projects. Although these groups can
-only grant additional privileges, you can’t revoke any permission granted
-by site-wide or per-project groups by adding another custom group.
+Dedicated groups to manage permissions for languages, components, and projects
+can be created. These groups can only grant additional privileges that can not
+revoke any permission granted by site-wide or per-project groups by adding another
+custom group.
 
 **Example:**
 
-  If you want (for whatever reason) to allow translation to a
-  specific language (lets say `Czech`) only to a closed set of reliable translators
-  while keeping translations to other languages public, you will have to:
+  Restricting translation to `Czech` to select set of translators, (while keeping
+  translations to other languages public):
 
-  1. Remove the permission to translate `Czech` from all the users. In the
+  1. Remove the permission to translate `Czech` from all users. In the
      default configuration this can be done by altering the `Users`
      :ref:`default group <default-groups>`.
 
@@ -275,11 +264,10 @@ by site-wide or per-project groups by adding another custom group.
 
 ..
 
-  3. Add users you wish to give the permissions to into this group.
+  3. Add users you wish to grant the permissions to the newly created group.
 
-As you can see, permissions management this way is powerful,
-but can be quite a tedious job. You can’t
-delegate it to another user, unless granting superuser permissions.
+Management permissions this way is powerful, but can be quite a tedious.
+You can ony delegate it to other site-wide administrators.
 
 .. _auth-model:
 
@@ -290,15 +278,14 @@ The authentication models consist of several objects:
 
 `Permission`
     Individual permission defined by Weblate. Permissions cannot be
-    assigned to users. This can only be done through assignment of roles.
+    assigned to users, only through assignment of roles.
 `Role`
-    A role defines a set of permissions. This allows reuse of these sets in
-    several places, making the administration easier.
+    A role defines a set of permissions (and can be reused several
+    places).
 `User`
-    User can belong to several groups.
+    A user can belong to several groups.
 `Group`
-    Group connect roles, users, and authentication objects (projects,
-    languages, and component lists).
+    Groups connect roles, users, and projects, languages, and component lists).
 
 .. graphviz::
 
@@ -315,10 +302,10 @@ The authentication models consist of several objects:
 
 .. note::
 
-  A group can have no roles assigned to it, in that case access to browse the
-  project by anyone is assumed (see below).
+  A group can have no roles assigned to it. In this case public access to
+  browse the project is assumed (see below).
 
-Access for browse to a project
+Project browsing access
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 A user has to be a member of a group linked to the project, or any component
@@ -326,8 +313,8 @@ inside that project. Having membership is enough, no specific permissions are
 needed to browse the project (this is used in the default `Viewers` group, see
 :ref:`default-groups`).
 
-Access for browse to a component
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Component browsing access
+^^^^^^^^^^^^^^^^^^^^^^^^^
 
 A user can access unrestricted components once able to access the components’
 project (and will have all the permissions the user was granted for the
@@ -429,8 +416,8 @@ Default groups and roles
 After installation, a default set of groups is created (see :ref:`default-groups`).
 
 These roles and groups are created upon installation. The built-in roles are
-always kept up to date by the database migration when upgrading. You can’t
-actually change them, please define a new role if you want to define your own
+always kept up to date by the database migration when upgrading. Custom changes
+are not lost. Please define a new role if you want to define your own
 set of permissions.
 
 .. _privileges:
