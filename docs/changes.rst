@@ -12,6 +12,7 @@ Not yet released.
 * Improved performance when adding new strings.
 * Several bug fixes in quality checks.
 * Several performance improvements.
+* Added integration with :ref:`discover-weblate`.
 
 Weblate 4.5.1
 -------------
