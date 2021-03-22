@@ -681,7 +681,7 @@ class VCSGitLabTest(VCSGitUpstreamTest):
             status=pr_status,
         )
 
-    def mock_disable_fork_features(self):
+    def mock_configure_fork_features(self):
         responses.add(
             responses.PUT,
             "https://gitlab.com/api/v4/projects/20227391",
@@ -706,7 +706,7 @@ class VCSGitLabTest(VCSGitUpstreamTest):
         """
         self.mock_fork_responses(get_forks, repo_state)
         self.mock_pr_responses(pr_response, pr_status)
-        self.mock_disable_fork_features()
+        self.mock_configure_fork_features()
         self.mock_get_project_id()
 
     def test_api_url(self):
