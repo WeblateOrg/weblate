@@ -316,39 +316,35 @@ needed to browse the project (this is used in the default `Viewers` group, see
 Component browsing access
 ^^^^^^^^^^^^^^^^^^^^^^^^^
 
-A user can access unrestricted components once able to access the components’
-project (and will have all the permissions the user was granted for the
-project). With :ref:`component-restricted` turned on, access to the component
-requires explicit permissions for the component (or a component list the component is in).
+A user can access all components with the same permissions of
+projects the user is granted access to.
+With :ref:`component-restricted` on, access to components
+or component lists are granted explicitly.
 
 .. _perm-check:
 
-Scope of groups
-^^^^^^^^^^^^^^^
+Group permissions
+^^^^^^^^^^^^^^^^^
 
-The scope of the permission assigned by the roles in the groups are applied by
-the following rules:
+Roles in the groups are made from the following rules:
 
-- If the group specifies any :guilabel:`Component list`, all the permissions given to
-  members of that group are granted for all the components in the component
-  lists attached to the group, and an access with no additional permissions is
-  granted for all the projects these components are in. :guilabel:`Components`
+- Specifying any :guilabel:`Component list` for a group grants members in it
+  permission for all included components, along with browsing access
+  to the projects they are in. :guilabel:`Components`
   and :guilabel:`Projects` are ignored.
 
-- If the group specifies any :guilabel:`Components`, all the permissions given to
-  the members of that group are granted for all the components attached to the
-  group, and an access with no additional permissions is granted for all the
-  projects these components are in. :guilabel:`Projects` are ignored.
+- Specifying any :guilabel:`Components` for the group grants members of it
+  permission for all included components, along with browsing access
+  to the projects they are in. :guilabel:`Projects` are ignored.
 
-- Otherwise, if the group specifies any :guilabel:`Projects`, either by directly
-  listing them or by having :guilabel:`Selected projects` set to a value like `All
-  public`, all those permissions are applied to all the projects, which
-  effectively grants the same permissions to access all projects
-  :ref:`unrestricted components <component-restricted>`.
+- Otherwise, adding any :guilabel:`Projects` to a group (either by directly
+  listing them or by having :guilabel:`Selected projects` set to `All
+  public`) grants the group permissions for the projects. (Effectively
+  the same permissions as being granted access to :ref:`unrestricted components <component-restricted>`
+  in such projects.)
 
-- The restrictions imposed by a group’s :guilabel:`Languages` are applied separately,
-  when it’s verified if a user has an access to perform certain actions. Namely,
-  it’s applied only to actions directly related to the translation process itself like
+- Restrictions imposed by a group’s :guilabel:`Languages` only affect
+  actions directly related to the translation process itself, like
   reviewing, saving translations, adding suggestions, etc.
 
 .. hint::
@@ -358,8 +354,9 @@ the following rules:
 
 **Example:**
 
-  Let’s say there is a project ``foo`` with the components: ``foo/bar`` and
-  ``foo/baz`` and the following group:
+  A project ``foo`` with the components: ``foo/bar`` and
+  ``foo/baz``, with reviewing and management rights, in the
+  following group:
 
   .. list-table:: Group `Spanish Admin-Reviewers`
          :stub-columns: 1
@@ -373,7 +370,7 @@ the following rules:
 
 ..
 
-  Members of that group will have following permissions (assuming the default role settings):
+  Members of the group have these permissions (assuming default role settings):
 
     - General (browsing) access to the whole project ``foo`` including both
       components in it: ``foo/bar`` and ``foo/baz``.
@@ -386,29 +383,39 @@ the following rules:
 Automatic group assignments
 +++++++++++++++++++++++++++
 
-On the bottom of the :guilabel:`Group` editing page in the
-:ref:`Django admin interface <admin-interface>`, you can specify
-:guilabel:`Automatic group assignments`, which is a list of regular expressions
-used to automatically assign newly created users to a group based on their
-e-mail addresses. This assignment only happens upon account creation.
+At the bottom of the :guilabel:`Group` editing page in the
+:ref:`Django admin interface <admin-interface>`, specify
+:guilabel:`Automatic group assignments`.
 
-The most common use-case for the feature is to assign all new users to some
-default group. In order to do so, you will probably want to keep the default
-value (``^.*$``) in the regular expression field. Another use-case for this option might be to
-give some additional privileges to employees of your company by default.
-Assuming all of them use corporate e-mail addresses on your domain, this can
-be accomplished with an expression like ``^.*@mycompany.com``.
+.. note::
+
+   This is a list of regular expressions
+   used to automatically assign newly created users to a group based on their
+   e-mail addresses.
+
+.. hint::
+    Assignment only occurs upon account creation.
+
+This is often used to put new users in a default group.
+To do so, you will probably want to keep the default
+value (``^.*$``) in the regular expression field.
+Another use-case is granting some additional privileges to employees
+of your company by default.
+Assuming they all have corporate e-mail addresses on your domain,
+it can be done with an expression like ``^.*@mycompany.com``.
 
 .. note::
 
     Automatic group assignment to `Users` and `Viewers` is always recreated
-    when upgrading from one Weblate version to another. If you want to turn it off, set the regular expression to
-    ``^$`` (which won’t match anything).
+    when upgrading from one Weblate version to another.
+    Turn it off by setting the regular expression to ``^$``(which won’t
+    match anything).
 
 .. note::
 
-    As for now, there is no way to bulk-add already existing users to some group
-    via the user interface. For that, you may resort to using the :ref:`REST API <api>`.
+    For now, there is no way to add many existing users to any group
+    via the user interface. You can however use the :ref:`REST API <api>`
+    to do so.
 
 Default groups and roles
 ++++++++++++++++++++++++
@@ -416,9 +423,9 @@ Default groups and roles
 After installation, a default set of groups is created (see :ref:`default-groups`).
 
 These roles and groups are created upon installation. The built-in roles are
-always kept up to date by the database migration when upgrading. Custom changes
-are not lost. Please define a new role if you want to define your own
-set of permissions.
+always kept up to date by the database migration when upgrading.
+Custom changes are not lost. Define your own set of permissions by
+creating a new role.
 
 .. _privileges:
 
@@ -435,21 +442,21 @@ Changes
     Download changes [`Administration`]
 
 Comments
-    Post comment [`Administration`, `Edit source`, `Power user`, `Review strings`, `Translate`]
+    Post comments [`Administration`, `Edit source`, `Power user`, `Review strings`, `Translate`]
 
-    Delete comment [`Administration`]
+    Delete comments [`Administration`]
 
 Component
     Edit component settings [`Administration`]
 
-    Lock component, preventing translations [`Administration`]
+    Lock components, (preventing translations) [`Administration`]
 
 Glossary
-    Add glossary entry [`Administration`, `Manage glossary`, `Power user`]
+    Add glossary entries [`Administration`, `Manage glossary`, `Power user`]
 
-    Edit glossary entry [`Administration`, `Manage glossary`, `Power user`]
+    Edit glossary entries [`Administration`, `Manage glossary`, `Power user`]
 
-    Delete glossary entry [`Administration`, `Manage glossary`, `Power user`]
+    Delete glossary entries [`Administration`, `Manage glossary`, `Power user`]
 
     Upload glossary entries [`Administration`, `Manage glossary`, `Power user`]
 
@@ -470,50 +477,50 @@ Reports
     Download reports [`Administration`]
 
 Screenshots
-    Add screenshot [`Administration`, `Manage screenshots`]
+    Add screenshots [`Administration`, `Manage screenshots`]
 
-    Edit screenshot [`Administration`, `Manage screenshots`]
+    Edit screenshots [`Administration`, `Manage screenshots`]
 
-    Delete screenshot [`Administration`, `Manage screenshots`]
+    Delete screenshots [`Administration`, `Manage screenshots`]
 
 Source strings
     Edit additional string info [`Administration`, `Edit source`]
 
 Strings
-    Add new string [`Administration`]
+    Add new strings [`Administration`]
 
-    Remove a string [`Administration`]
+    Remove strings [`Administration`]
 
-    Ignore failing check [`Administration`, `Edit source`, `Power user`, `Review strings`, `Translate`]
+    Ignore failing checks [`Administration`, `Edit source`, `Power user`, `Review strings`, `Translate`]
 
     Edit strings [`Administration`, `Edit source`, `Power user`, `Review strings`, `Translate`]
 
     Review strings [`Administration`, `Review strings`]
 
-    Edit string when suggestions are enforced [`Administration`, `Review strings`]
+    Edit strings when suggestions are enforced [`Administration`, `Review strings`]
 
     Edit source strings [`Administration`, `Edit source`, `Power user`]
 
 Suggestions
-    Accept suggestion [`Administration`, `Edit source`, `Power user`, `Review strings`, `Translate`]
+    Accept suggestions [`Administration`, `Edit source`, `Power user`, `Review strings`, `Translate`]
 
-    Add suggestion [`Administration`, `Edit source`, `Add suggestion`, `Power user`, `Review strings`, `Translate`]
+    Add suggestions [`Administration`, `Edit source`, `Add suggestion`, `Power user`, `Review strings`, `Translate`]
 
-    Delete suggestion [`Administration`, `Power user`]
+    Delete suggestions [`Administration`, `Power user`]
 
-    Vote on suggestion [`Administration`, `Edit source`, `Power user`, `Review strings`, `Translate`]
+    Vote on suggestions [`Administration`, `Edit source`, `Power user`, `Review strings`, `Translate`]
 
 Translations
-    Add language for translation [`Administration`, `Power user`, `Manage languages`]
+    Add language for translations [`Administration`, `Power user`, `Manage languages`]
 
     Perform automatic translation [`Administration`, `Manage languages`]
 
-    Delete existing translation [`Administration`, `Manage languages`]
+    Delete existing translations [`Administration`, `Manage languages`]
 
     Add several languages for translation [`Administration`, `Manage languages`]
 
 Uploads
-    Define author of uploaded translation [`Administration`]
+    Define author of uploaded translations [`Administration`]
 
     Overwrite existing strings with upload [`Administration`, `Edit source`, `Power user`, `Review strings`, `Translate`]
 
@@ -524,16 +531,16 @@ VCS
 
     Commit changes to the internal repository [`Administration`, `Manage repository`]
 
-    Push change from the internal repository [`Administration`, `Manage repository`]
+    Push changes from the internal repository [`Administration`, `Manage repository`]
 
     Reset changes in the internal repository [`Administration`, `Manage repository`]
 
-    View upstream repository location [`Administration`, `Access repository`, `Power user`, `Manage repository`]
+    View the upstream repository location [`Administration`, `Access repository`, `Power user`, `Manage repository`]
 
     Update the internal repository [`Administration`, `Manage repository`]
 
-Site wide privileges
-    Use management interface
+Site-wide privileges
+    Use the management interface
 
     Add new projects
 
@@ -555,32 +562,36 @@ Site wide privileges
 
 .. note::
 
-   Site-wide privileges are not granted to any default role. These are
-   powerful and quite close to superuser status. Most of them affect all projects
-   in your Weblate installation.
+   Site-wide privileges are not granted to any default role.
+   These are powerful and quite close to site-wide administrator status.
+   Most of them affect all projects in your Weblate installation.
 
 .. _default-groups:
 
 List of groups
 ^^^^^^^^^^^^^^
 
-The following groups are created upon installation (or after executing
-:djadmin:`setupgroups`) and you are free to modify them. The migration will,
-however, re-create them if you delete or rename them.
+These groups are created upon installation (or after executing
+:djadmin:`setupgroups`) and can be modified.
+
+.. note:: 
+
+    The migration will, however, re-create them if you delete
+    or rename them.
 
 `Guests`
     Defines permissions for non-authenticated users.
 
     This group only contains anonymous users (see :setting:`ANONYMOUS_USER_NAME`).
 
-    You can remove roles from this group to limit permissions for
+    Remove roles from this group to limit permissions for
     non-authenticated users.
 
     Default roles: `Add suggestion`, `Access repository`
 
 `Viewers`
-    This role ensures visibility of public projects for all users. By default,
-    all users are members of this group.
+    This role ensures all users visibility of public projects.
+    By default, all users are members of this group.
 
     By default, :ref:`automatic group assignment <autogroup>` makes all new
     accounts members of this group when they join.
@@ -607,20 +618,19 @@ however, re-create them if you delete or rename them.
 
 .. warning::
 
-    Never remove the predefined Weblate groups and users as this can lead to
-    unexpected problems! If you have no use for them, you can removing all their
+    Never remove the predefined Weblate groups and users, as this can lead to
+    unexpected problems! If you have no use for them, remove all their
     privileges instead.
 
-Additional access restrictions
-------------------------------
+Locking down Weblate
+--------------------
 
-If you want to use your Weblate installation in a less public manner, i.e. allow
-new users on an invitational basis only, it can be done by configuring Weblate
-in such a way that only known users have an access to it. In order to do so, you can set
-:setting:`REGISTRATION_OPEN` to ``False`` to prevent registrations of any new
-users, and set :setting:`REQUIRE_LOGIN` to ``/.*`` to require logging-in to access
-all the site pages. This is basically the way to lock your Weblate installation.
+
+If you experience problems with malice on your Weblate installation,
+set :setting:`REQUIRE_LOGIN` to ``False`, which requires users to sign in
+and :setting:`REGISTRATION_OPEN` to ``/.*``, which prevents new registrations.
+Use built-in :ref:`invitations <manage-acl>` to add new users.
 
 .. hint::
 
-    You can use built-in :ref:`invitations <manage-acl>` to add new users.
+   This can also be used to conduct a translation effort in a secritive manner.
