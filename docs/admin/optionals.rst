@@ -33,13 +33,13 @@ Usage
 The module automatically hooks into Weblate and sets the exported repository URL in
 the :ref:`component`.
 The repositories are accessible under the ``/git/`` part of the Weblate URL, for example
-``https://example.org/git/weblate/master/``.
+``https://example.org/git/weblate/main/``.
 
 Repositories for publicly available projects can be cloned without authentication:
 
 .. code-block:: sh
 
-    git clone 'https://example.org/git/weblate/master/'
+    git clone 'https://example.org/git/weblate/main/'
 
 Access to browse the repositories with restricted access (with `Private`
 :ref:`access control <acl>` or when :setting:`REQUIRE_LOGIN` is enabled)
@@ -48,7 +48,7 @@ requires an API token which can be obtained in your
 
 .. code-block:: sh
 
-    git clone 'https://user:KEY@example.org/git/weblate/master/'
+    git clone 'https://user:KEY@example.org/git/weblate/main/'
 
 .. hint::
 
@@ -125,7 +125,7 @@ following templates in the documents:
 .. note::
 
     Legal documents for the Hosted Weblate service are available in this Git repository
-    <https://github.com/WeblateOrg/wllegal/tree/master/wllegal/templates/legal/documents>.
+    <https://github.com/WeblateOrg/wllegal/tree/main/wllegal/templates/legal/documents>.
 
     Most likely these will not be directly usable to you, but might come in handy
     as a starting point if adjusted to meet your needs.

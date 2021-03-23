@@ -962,7 +962,7 @@ Projects
 
         curl \
             --data-binary '{
-                "branch": "master",
+                "branch": "main",
                 "file_format": "po",
                 "filemask": "po/*.po",
                 "git_export": "",
@@ -991,7 +991,7 @@ Projects
         Content-Length: 20
 
         {
-            "branch": "master",
+            "branch": "main",
             "file_format": "po",
             "filemask": "po/*.po",
             "git_export": "",
@@ -1019,7 +1019,7 @@ Projects
         Allow: GET, POST, HEAD, OPTIONS
 
         {
-            "branch": "master",
+            "branch": "main",
             "file_format": "po",
             "filemask": "po/*.po",
             "git_export": "",
@@ -1153,7 +1153,7 @@ Components
     .. code-block:: json
 
         {
-            "branch": "master",
+            "branch": "main",
             "file_format": "po",
             "filemask": "po/*.po",
             "git_export": "",
@@ -1243,7 +1243,7 @@ Components
         Allow: GET, POST, HEAD, OPTIONS
 
         {
-            "branch": "master",
+            "branch": "main",
             "file_format": "po",
             "filemask": "po/*.po",
             "git_export": "",
@@ -1672,7 +1672,7 @@ Translations
 
         {
             "component": {
-                "branch": "master",
+                "branch": "main",
                 "file_format": "po",
                 "filemask": "po/*.po",
                 "git_export": "",
@@ -2477,7 +2477,7 @@ Weblate provides various exports to allow you to further process the data.
 
     .. sourcecode:: http
 
-        GET /exports/stats/weblate/master/ HTTP/1.1
+        GET /exports/stats/weblate/main/ HTTP/1.1
         Host: example.com
         Accept: application/json, text/javascript
 
@@ -2505,7 +2505,7 @@ Weblate provides various exports to allow you to further process the data.
                 "translated_percent": 100.0,
                 "translated_words": 3201,
                 "url": "http://hosted.weblate.org/engage/weblate/cs/",
-                "url_translate": "http://hosted.weblate.org/projects/weblate/master/cs/"
+                "url_translate": "http://hosted.weblate.org/projects/weblate/main/cs/"
             },
             {
                 "code": "nl",
@@ -2522,7 +2522,7 @@ Weblate provides various exports to allow you to further process the data.
                 "translated_percent": 73.2,
                 "translated_words": 3201,
                 "url": "http://hosted.weblate.org/engage/weblate/nl/",
-                "url_translate": "http://hosted.weblate.org/projects/weblate/master/nl/"
+                "url_translate": "http://hosted.weblate.org/projects/weblate/main/nl/"
             },
             {
                 "code": "el",
@@ -2539,7 +2539,7 @@ Weblate provides various exports to allow you to further process the data.
                 "translated_percent": 71.6,
                 "translated_words": 3201,
                 "url": "http://hosted.weblate.org/engage/weblate/el/",
-                "url_translate": "http://hosted.weblate.org/projects/weblate/master/el/"
+                "url_translate": "http://hosted.weblate.org/projects/weblate/main/el/"
             }
         ]
 
