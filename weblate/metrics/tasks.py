@@ -106,6 +106,7 @@ def collect_projects():
                 data["machinery:internal"] = value
             else:
                 data["machinery:external"] = value
+        cache.delete_many(keys)
 
         create_metrics(
             data, project.stats, SOURCE_KEYS, Metric.SCOPE_PROJECT, project.pk
