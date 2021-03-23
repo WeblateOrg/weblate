@@ -62,7 +62,7 @@ class MultiRepoTest(ViewTestCase):
     """Test handling of remote changes, conflicts and so on."""
 
     _vcs = "git"
-    _branch = "master"
+    _branch = "main"
     _filemask = "po/*.po"
 
     def setUp(self):

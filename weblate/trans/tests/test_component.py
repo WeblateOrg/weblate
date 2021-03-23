@@ -433,8 +433,8 @@ class ComponentTest(RepoTestCase):
         component.clean()
         component.save()
         self.verify_component(component, 4, "cs", 4)
-        # Switch back to master branch
-        component.branch = "master"
+        # Switch back to main branch
+        component.branch = "main"
         component.filemask = "po/*.po"
         component.clean()
         component.save()
@@ -449,7 +449,7 @@ class ComponentTest(RepoTestCase):
         component.clean()
         component.save()
         self.verify_component(component, 4, "cs", 4)
-        # Switch back to master branch
+        # Switch back to default branch
         component.branch = "default"
         component.filemask = "po/*.po"
         component.clean()

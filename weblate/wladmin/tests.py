@@ -122,7 +122,7 @@ class AdminTest(ViewTestCase):
 
     def test_report(self):
         response = self.client.get(reverse("manage-repos"))
-        self.assertContains(response, "On branch master")
+        self.assertContains(response, "On branch main")
 
     def test_create_project(self):
         response = self.client.get(reverse("admin:trans_project_add"))

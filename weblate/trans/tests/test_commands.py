@@ -58,7 +58,7 @@ class ImportProjectTest(RepoTestCase):
             "import_project",
             "test",
             self.git_repo_path if path is None else path,
-            "master",
+            "main",
             "**/*.po",
             **kwargs,
         )
@@ -74,7 +74,7 @@ class ImportProjectTest(RepoTestCase):
             "import_project",
             "test",
             self.git_repo_path,
-            "master",
+            "main",
             "deep/*/locales/*/LC_MESSAGES/**.po",
         )
         self.assertEqual(project.component_set.count(), 2)
@@ -97,7 +97,7 @@ class ImportProjectTest(RepoTestCase):
             "import_project",
             "test",
             self.git_repo_path,
-            "master",
+            "main",
             "**/*.po",
             main_component=name,
         )
@@ -118,7 +118,7 @@ class ImportProjectTest(RepoTestCase):
             "import_project",
             "test",
             self.git_repo_path,
-            "master",
+            "main",
             "**/*.po",
             language_regex="cs",
         )
@@ -132,7 +132,7 @@ class ImportProjectTest(RepoTestCase):
             "import_project",
             "test",
             self.git_repo_path,
-            "master",
+            "main",
             r"(?P<component>[^/-]*)/(?P<language>[^/]*)\.po",
         )
         self.assertEqual(project.component_set.count(), 2)
@@ -143,7 +143,7 @@ class ImportProjectTest(RepoTestCase):
             "import_project",
             "test",
             self.git_repo_path,
-            "master",
+            "main",
             r"(?P<component>[^/-]*)/(?P<language>[^/]*)\.po",
             name_template="Test name",
         )
@@ -156,7 +156,7 @@ class ImportProjectTest(RepoTestCase):
                 "import_project",
                 "test",
                 self.git_repo_path,
-                "master",
+                "main",
                 r"(?P<name>[^/-]*)/.*\.po",
             )
 
@@ -166,7 +166,7 @@ class ImportProjectTest(RepoTestCase):
                 "import_project",
                 "test",
                 self.git_repo_path,
-                "master",
+                "main",
                 r"(?P<name>[^/-]*",
             )
 
@@ -176,7 +176,7 @@ class ImportProjectTest(RepoTestCase):
             "import_project",
             "test",
             self.git_repo_path,
-            "master",
+            "main",
             "**/*.po",
             file_format="po",
         )
@@ -189,7 +189,7 @@ class ImportProjectTest(RepoTestCase):
                 "import_project",
                 "test",
                 self.git_repo_path,
-                "master",
+                "main",
                 "**/*.po",
                 file_format="INVALID",
             )
@@ -201,7 +201,7 @@ class ImportProjectTest(RepoTestCase):
             "import_project",
             "test",
             self.git_repo_path,
-            "master",
+            "main",
             "**/values-*/strings.xml",
             file_format="aresource",
             base_file_template="android/values/strings.xml",
@@ -214,7 +214,7 @@ class ImportProjectTest(RepoTestCase):
             "import_project",
             "test",
             self.git_repo_path,
-            "master",
+            "main",
             "**/values-*/strings.xml",
             file_format="aresource",
             base_file_template="%s/values/strings.xml",
@@ -223,10 +223,10 @@ class ImportProjectTest(RepoTestCase):
 
     def test_re_import(self):
         project = self.create_project()
-        call_command("import_project", "test", self.git_repo_path, "master", "**/*.po")
+        call_command("import_project", "test", self.git_repo_path, "main", "**/*.po")
         self.assertEqual(project.component_set.count(), 5)
 
-        call_command("import_project", "test", self.git_repo_path, "master", "**/*.po")
+        call_command("import_project", "test", self.git_repo_path, "main", "**/*.po")
         self.assertEqual(project.component_set.count(), 5)
 
     def test_import_against_existing(self):
@@ -238,7 +238,7 @@ class ImportProjectTest(RepoTestCase):
             "import_project",
             project.slug,
             f"weblate://{project.slug!s}/{android.slug!s}",
-            "master",
+            "main",
             "**/*.po",
         )
         self.assertEqual(project.component_set.count(), 6)
@@ -247,16 +247,14 @@ class ImportProjectTest(RepoTestCase):
         """Test of correct handling of missing project."""
         with self.assertRaises(CommandError):
             call_command(
-                "import_project", "test", self.git_repo_path, "master", "**/*.po"
+                "import_project", "test", self.git_repo_path, "main", "**/*.po"
             )
 
     def test_import_missing_wildcard(self):
         """Test of correct handling of missing wildcard."""
         self.create_project()
         with self.assertRaises(CommandError):
-            call_command(
-                "import_project", "test", self.git_repo_path, "master", "*/*.po"
-            )
+            call_command("import_project", "test", self.git_repo_path, "main", "*/*.po")
 
     def test_import_wrong_vcs(self):
         """Test of correct handling of wrong vcs."""
@@ -266,7 +264,7 @@ class ImportProjectTest(RepoTestCase):
                 "import_project",
                 "test",
                 self.git_repo_path,
-                "master",
+                "main",
                 "**/*.po",
                 vcs="nonexisting",
             )
@@ -317,7 +315,7 @@ class WeblateComponentCommandTestCase(ViewTestCase):
     """Base class for handling tests of WeblateComponentCommand based commands."""
 
     command_name = "checkgit"
-    expected_string = "On branch master"
+    expected_string = "On branch main"
 
     def do_test(self, *args, **kwargs):
         output = StringIO()

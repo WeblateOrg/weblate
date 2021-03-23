@@ -75,7 +75,7 @@ class GitRepository(Repository):
         for line in result.splitlines():
             if not line.startswith("ref: "):
                 continue
-            # Parses 'ref: refs/heads/master\tHEAD'
+            # Parses 'ref: refs/heads/main\tHEAD'
             return line.split("\t")[0].split("refs/heads/")[1]
 
         raise RepositoryException(0, "Failed to figure out remote branch")

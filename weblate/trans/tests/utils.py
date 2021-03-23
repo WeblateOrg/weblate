@@ -41,7 +41,7 @@ from weblate.vcs.models import VCS_REGISTRY
 # Directory holding test data
 TEST_DATA = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data")
 
-REPOWEB_URL = "https://nonexisting.weblate.org/blob/master/{{filename}}#L{{line}}"
+REPOWEB_URL = "https://nonexisting.weblate.org/blob/main/{{filename}}#L{{line}}"
 
 TESTPASSWORD = make_password("testpassword")
 
@@ -216,7 +216,10 @@ class RepoTestMixin:
             kwargs["manage_units"] = True
 
         if branch is None:
-            branch = VCS_REGISTRY[vcs].default_branch
+            if repo.startswith("weblate://"):
+                branch = ""
+            else:
+                branch = VCS_REGISTRY[vcs].get_remote_branch(repo)
 
         return Component.objects.create(
             repo=repo,
