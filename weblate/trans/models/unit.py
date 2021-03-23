@@ -364,8 +364,6 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
             if update_fields and "num_words" not in update_fields:
                 update_fields.append("num_words")
 
-        created = not (self.id) or force_insert
-
         # Actually save the unit
         super().save(
             force_insert=force_insert,
@@ -393,7 +391,7 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
             self.source_unit_save()
 
         # Update manual variants
-        self.update_variants(created)
+        self.update_variants()
 
         # Update terminology
         self.sync_terminology()
@@ -479,24 +477,21 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
         if "terminology" in new_flags:
             self.translation.component.sync_terminology()
 
-    def update_variants(self, created: bool):
-        old_flags = self.old_unit.all_flags
-        new_flags = self.all_flags
-
-        old_variant = None
-        if old_flags.has_value("variant"):
-            old_variant = old_flags.get_value("variant")
+    def update_variants(self):
+        variants = self.defined_variants.all()
+        flags = self.all_flags
         new_variant = None
-        if new_flags.has_value("variant"):
-            new_variant = new_flags.get_value("variant")
-
-        # Check for relevant changes
-        if old_variant == new_variant and (not created or not new_variant):
-            return
+        remove = False
+        if not flags.has_value("variant"):
+            remove = True
+        else:
+            new_variant = flags.get_value("variant")
+            if any(variant.key != new_variant for variant in variants):
+                remove = True
 
         # Delete stale variant
-        if old_variant:
-            for variant in self.defined_variants.all():
+        if remove:
+            for variant in variants:
                 variant.defining_units.remove(self)
                 if variant.defining_units.count() == 0:
                     variant.delete()
@@ -511,7 +506,8 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
             variant.defining_units.add(self)
 
         # Update variant links
-        self.translation.component.update_variants()
+        if remove or new_variant:
+            self.translation.component.update_variants()
 
     def get_unit_state(self, unit, flags):
         """Calculate translated and fuzzy status."""
