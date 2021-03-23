@@ -82,7 +82,7 @@ class MultipleFailingCheck(SourceCheck):
             "unit", "unit__translation", "unit__translation__language"
         )
         if not related:
-            return super().get_description()
+            return super().get_description(check_obj)
 
         checks = defaultdict(list)
 
