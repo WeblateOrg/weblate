@@ -112,6 +112,7 @@ class AutoTranslate:
         units = (
             self.get_units(False)
             .filter(source__in=translations.keys())
+            .prefetch_bulk()
             .select_for_update(**get_nokey_args())
         )
         self.progress_steps = len(units)
@@ -173,7 +174,7 @@ class AutoTranslate:
             # Perform the translation
             for pos, unit in enumerate(
                 Unit.objects.filter(id__in=translations.keys())
-                .prefetch()
+                .prefetch_bulk()
                 .select_for_update(**get_nokey_args())
             ):
                 # Copy translation
