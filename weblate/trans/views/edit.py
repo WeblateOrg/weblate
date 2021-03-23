@@ -926,7 +926,7 @@ def new_unit(request, project, component, lang):
     if not form.is_valid():
         show_form_errors(request, form)
     else:
-        new_unit = translation.add_unit(request, *form.as_tuple())
+        new_unit = translation.add_unit(request, **form.as_kwargs())
         messages.success(request, _("New string has been added."))
         if form.cleaned_data["variant"]:
             flags = Flags(new_unit.extra_flags)

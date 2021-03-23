@@ -895,16 +895,16 @@ class UnitWriteSerializer(serializers.ModelSerializer):
 
 
 class NewUnitSerializer(serializers.Serializer):
-    def as_tuple(self, data=None):
+    def as_kwargs(self, data=None):
         raise NotImplementedError()
 
     def validate(self, attrs):
         try:
-            data = self.as_tuple(attrs)
+            data = self.as_kwargs(attrs)
         except KeyError:
             # Probably some fields validation has failed
             return attrs
-        self._context["translation"].validate_new_unit_data(*data)
+        self._context["translation"].validate_new_unit_data(**data)
         return attrs
 
 
@@ -912,10 +912,10 @@ class MonolingualUnitSerializer(NewUnitSerializer):
     key = serializers.CharField()
     value = PluralField()
 
-    def as_tuple(self, data=None):
+    def as_kwargs(self, data=None):
         if data is None:
             data = self.validated_data
-        return (data["key"], data["value"], None)
+        return {"context": data["key"], "source": data["value"], "target": None}
 
 
 class BilingualUnitSerializer(NewUnitSerializer):
@@ -923,10 +923,14 @@ class BilingualUnitSerializer(NewUnitSerializer):
     source = PluralField()
     target = PluralField()
 
-    def as_tuple(self, data=None):
+    def as_kwargs(self, data=None):
         if data is None:
             data = self.validated_data
-        return (data.get("context", ""), data["source"], data["target"])
+        return {
+            "context": data.get("context", ""),
+            "source": data["source"],
+            "target": data["target"],
+        }
 
 
 class ScreenshotSerializer(RemovableSerializer):
