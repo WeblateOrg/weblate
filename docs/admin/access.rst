@@ -574,7 +574,7 @@ List of groups
 These groups are created upon installation (or after executing
 :djadmin:`setupgroups`) and can be modified.
 
-.. note:: 
+.. note::
 
     The migration will, however, re-create them if you delete
     or rename them.
