@@ -280,6 +280,9 @@ class UnitQuerySet(FastDeleteQuerySetMixin, models.QuerySet):
         """Return list of units ordered by ID."""
         return sorted(self.filter(id__in=ids), key=lambda unit: ids.index(unit.id))
 
+    def select_for_update(self):
+        return super().select_for_update(**get_nokey_args())
+
 
 class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
 
@@ -1186,9 +1189,7 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
         Propagation is currently disabled on import.
         """
         # Fetch current copy from database and lock it for update
-        self.old_unit = Unit.objects.select_for_update(**get_nokey_args()).get(
-            pk=self.pk
-        )
+        self.old_unit = Unit.objects.select_for_update().get(pk=self.pk)
 
         # Handle simple string units
         if isinstance(new_target, str):
