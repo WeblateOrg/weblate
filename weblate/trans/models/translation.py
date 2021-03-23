@@ -375,7 +375,9 @@ class Translation(
             # Select all current units for update
             dbunits = {
                 unit.id_hash: unit
-                for unit in self.unit_set.select_for_update(**get_nokey_args())
+                for unit in self.unit_set.prefetch_bulk().select_for_update(
+                    **get_nokey_args()
+                )
             }
 
             # Process based on intermediate store if available
