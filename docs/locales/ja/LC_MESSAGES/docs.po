@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-03-21 13:40+0100\n"
-"PO-Revision-Date: 2021-03-21 16:49+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2021-03-23 17:49+0000\n"
+"Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "documentation/ja/>\n"
 "Language: ja\n"
@@ -33,26 +33,18 @@ msgstr ""
 "り当てるための詳細な権限システムを搭載しています。"
 
 #: ../../admin/access.rst:11
-#, fuzzy
-#| msgid ""
-#| "Before Weblate 3.0, the privilege system was based on Django, but is now "
-#| "specifically built for Weblate. If you are using anything older, please "
-#| "consult the documentation for the specific version you are using."
 msgid ""
 "Before Weblate 3.0, the privilege system was based on Django privilege "
 "system only, but is specifically built for Weblate now. If using anything "
 "older, please consult the documentation for the specific version you are "
 "using."
 msgstr ""
-"Weblate 3.0 より前の権限システムは Django をベースにしていましたが、現在は "
-"Weblate 用に独自に構築されています。古いバージョンを使用する場合は、使用する"
-"バージョンのドキュメントを確認してください。"
+"Weblate 3.0 以前は、Django の権限システムのみをベースにしていましたが、現在は Weblate "
+"専用に構築されています。古いバージョンを使用する場合は、使用するバージョンのドキュメントを確認してください。"
 
 #: ../../admin/access.rst:18
-#, fuzzy
-#| msgid "Custom access control"
 msgid "Simple access control"
-msgstr "カスタム アクセス制御"
+msgstr "シンプルなアクセス制御"
 
 #: ../../admin/access.rst:20
 msgid ""
@@ -86,30 +78,24 @@ msgid "Public"
 msgstr "公開"
 
 #: ../../admin/access.rst:36
-#, fuzzy
-#| msgid "Publicly visible, translatable for all logged-in users"
 msgid "Publicly visible, translatable for all logged-in users."
-msgstr "公開すると、ログインしたすべてのユーザーが翻訳可能"
+msgstr "公開、ログインしたすべてのユーザーが翻訳できます。"
 
 #: ../../admin/access.rst:37
 msgid "Protected"
 msgstr "保護"
 
 #: ../../admin/access.rst:38
-#, fuzzy
-#| msgid "Publicly visible, but translatable only for selected users"
 msgid "Publicly visible, but translatable only for selected users."
-msgstr "公開しているが、選択したユーザーのみ翻訳可能"
+msgstr "公開、選択したユーザーのみ翻訳できます。"
 
 #: ../../admin/access.rst:39
 msgid "Private"
 msgstr "プライベート"
 
 #: ../../admin/access.rst:40
-#, fuzzy
-#| msgid "Visible and translatable only for selected users"
 msgid "Visible and translatable only for selected users."
-msgstr "選択したユーザーのみ表示および翻訳可能"
+msgstr "選択したユーザーのみ表示および翻訳できます。"
 
 #: ../../admin/access.rst:44
 msgid "Custom"
@@ -130,13 +116,8 @@ msgid ""
 msgstr ""
 
 #: ../../admin/access.rst:52
-#, fuzzy
-#| msgid ""
-#| "The default value can be changed in :setting:"
-#| "`DEFAULT_RESTRICTED_COMPONENT`."
 msgid "The default value can be changed by :setting:`DEFAULT_ACCESS_CONTROL`."
-msgstr ""
-"デフォルト値は :setting:`DEFAULT_RESTRICTED_COMPONENT` で変更できます。"
+msgstr "デフォルト値は :setting:`DEFAULT_ACCESS_CONTROL` で変更できます。"
 
 #: ../../admin/access.rst:56
 msgid ""
@@ -154,20 +135,14 @@ msgid ""
 msgstr ""
 
 #: ../../admin/access.rst:69
-#, fuzzy
-#| msgid ""
-#| "By turning this on, Weblate will remove all :ref:`acl` it has created for "
-#| "this project. If you are doing this without admin permission from the "
-#| "instance, you will instantly lose your access to manage the project."
 msgid ""
 "By turning on `Custom` access control, Weblate will remove all :ref:`special "
 "groups <manage-acl>` it has created for a selected project. If you are doing "
 "this without admin permission for the whole Weblate instance, you will "
 "instantly lose your access to manage the project."
 msgstr ""
-"これを有効にすると、Weblate はこのプロジェクト用に作成したすべての :ref:"
-"`acl` を削除します。この操作をインスタンスからの管理者権限なしで実行すると、"
-"プロジェクトを管理するためのアクセス権を即座に失います。"
+"`カスタム` アクセス制御を有効にすると、Weblate は選択したプロジェクト用に作成したすべての :ref:`special groups` "
+"を削除します。Weblate インスタンス全体の管理者権限なしに実行すると、プロジェクトを管理するためのアクセス権を即座に失います。"
 
 #: ../../admin/access.rst:76
 #, fuzzy
@@ -180,19 +155,13 @@ msgid "Managing per-project access control"
 msgstr "プロジェクトごとのアクセス制御の管理"
 
 #: ../../admin/access.rst:83
-#, fuzzy
-#| msgid ""
-#| "Users with the :guilabel:`Manage project access` privilege (see :ref:"
-#| "`privileges`) can also manage users in projects with access control "
-#| "turned on through the project page. The interface allows you to:"
 msgid ""
 "Users with the :guilabel:`Manage project access` privilege (see :ref:"
 "`privileges`) can manage users in projects with non-`Custom` access control. "
 "They can assign users to one of the following groups."
 msgstr ""
-":guilabel:`プロジェクトのアクセス管理` 権限（参照: :ref:`privileges`）がある"
-"ユーザーは、プロジェクト ページでアクセス制御が有効になっているプロジェクト内"
-"のユーザーも管理できます。この管理画面でできること:"
+":guilabel:`プロジェクトのアクセス管理` 権限（参照: :ref:`privileges`）があるユーザーは、`カスタム` "
+"以外のアクセス制御を持つプロジェクトのユーザーを管理できます。ユーザーは、次のいずれかのグループに割り当てることができます。"
 
 #: ../../admin/access.rst:87
 msgid "For `Public`, `Protected` and `Private` projects:"
@@ -203,10 +172,8 @@ msgid "Administration"
 msgstr "管理"
 
 #: ../../admin/access.rst:90
-#, fuzzy
-#| msgid "Has all permissions available in the project."
 msgid "Includes all permissions available for the project."
-msgstr "プロジェクトで有効なすべてのアクセス権がある。"
+msgstr "プロジェクトで使用できるすべての権限を含みます。"
 
 #: ../../admin/access.rst:93
 msgid "Review (only if :ref:`review workflow <reviews>` is turned on)"
@@ -225,8 +192,6 @@ msgid "Translate"
 msgstr "翻訳"
 
 #: ../../admin/access.rst:98
-#, fuzzy
-#| msgid "Can translate the project, and upload translations made offline."
 msgid "Can translate the project and upload translations made offline."
 msgstr "プロジェクトを翻訳し、オフラインで作成した翻訳をアップロードできる。"
 
@@ -235,13 +200,10 @@ msgid "Sources"
 msgstr "原文"
 
 #: ../../admin/access.rst:101
-#, fuzzy
-#| msgid ""
-#| "Can edit source strings in :ref:`monolingual` and source string info."
 msgid ""
 "Can edit source strings (if allowed in the :ref:`project settings <component-"
 "manage_units>`) and source string info."
-msgstr "原文を :ref:`monolingual` と原文情報で編集できる。"
+msgstr "原文（`プロジェクトの設定` で許可している場合）および :ref:`monolingual` と原文情報で編集できる。"
 
 #: ../../admin/access.rst:105 ../../admin/access.rst:257
 #: ../../admin/access.rst:273 ../../admin/access.rst:384 ../../api.rst:631
@@ -259,8 +221,6 @@ msgid "Glossary"
 msgstr "用語集"
 
 #: ../../admin/access.rst:108
-#, fuzzy
-#| msgid "Can manage glossary (add or remove entries, or upload)."
 msgid "Can manage glossary (add or remove entries, also upload)."
 msgstr "用語集を管理できる（エントリの追加または削除、またはアップロード）。"
 
@@ -296,10 +256,8 @@ msgid "Billing"
 msgstr "請求"
 
 #: ../../admin/access.rst:121
-#, fuzzy
-#| msgid "Can access billing info (see :ref:`billing`)."
 msgid "Can access billing info and settings (see :ref:`billing`)."
-msgstr "請求情報にアクセスできる（参照: :ref:`billing`）。"
+msgstr "請求情報と設定にアクセスできる（参照: :ref:`billing`）。"
 
 #: ../../admin/access.rst:123
 msgid ""
@@ -324,10 +282,8 @@ msgid ""
 msgstr ""
 
 #: ../../admin/access.rst:140
-#, fuzzy
-#| msgid "Resend invitation"
 msgid "New user invitation"
-msgstr "招待状の再送信"
+msgstr "新しいユーザーの招待"
 
 #: ../../admin/access.rst:142
 msgid ""
@@ -347,14 +303,10 @@ msgid ""
 msgstr ""
 
 #: ../../admin/access.rst:157
-#, fuzzy
-#| msgid ""
-#| "Resend the e-mail for user invitations (invalidating any previously sent "
-#| "invitation)"
 msgid ""
 "It is possible to resend the e-mail for user invitations (invalidating any "
 "previously sent invitation)."
-msgstr "ユーザーを招待するメールの再送信（以前送信した招待を無効とする）"
+msgstr "ユーザーを招待するメールの再送信ができる（以前送信した招待を無効とする）。"
 
 #: ../../admin/access.rst:160
 msgid ""
@@ -363,22 +315,16 @@ msgid ""
 msgstr ""
 
 #: ../../admin/access.rst:164
-#, fuzzy
-#| msgid "Per project permissions"
 msgid "Per-project permission management"
-msgstr "プロジェクトごとのアクセス権"
+msgstr "プロジェクトごとのアクセス権の管理"
 
 #: ../../admin/access.rst:166
-#, fuzzy
-#| msgid ""
-#| "Set your projects to `Protected` or `Private`, and manage users per "
-#| "project in the Weblate interface."
 msgid ""
 "You can set your projects to `Protected` or `Private`, and :ref:`manage "
 "users <manage-acl>` per-project in the Weblate user interface."
 msgstr ""
-"プロジェクトを `保護` または `プライベート` に設定し、Weblate 管理画面でプロ"
-"ジェクトごとにユーザーを管理します。"
+"Weblate のユーザー インターフェイスでは、プロジェクトごとに `保護` または `プライベート` に設定、さらに :ref:`manage "
+"users <manage-acl>` に設定できます。"
 
 #: ../../admin/access.rst:169
 msgid ""
@@ -403,19 +349,13 @@ msgid "Custom access control"
 msgstr "カスタム アクセス制御"
 
 #: ../../admin/access.rst:187
-#, fuzzy
-#| msgid ""
-#| "The permission system is based on groups and roles, where roles define a "
-#| "set of permissions, and groups assign them to users and translations, "
-#| "see :ref:`auth-model` for more details."
 msgid ""
 "The permission system is based on groups and roles, where roles define a set "
 "of permissions, and groups link them to users and translations, see :ref:"
 "`auth-model` for more details."
 msgstr ""
-"権限システムはグループとロールに基づいています。ロールにはアクセス権のセット"
-"を設定し、グループはアクセス権をユーザーと翻訳に割り当てます。詳細について"
-"は、:ref:`auth-model` を確認してください。"
+"権限システムはグループとロールに基づいています。ロールにはアクセス権のセットを設定し、グループはアクセス権をユーザーと翻訳にリンクさせます。詳細については"
+"、:ref:`auth-model` を確認してください。"
 
 #: ../../admin/access.rst:191
 msgid ""
@@ -446,10 +386,8 @@ msgid ""
 msgstr ""
 
 #: ../../admin/access.rst:209
-#, fuzzy
-#| msgid "Site wide permissions"
 msgid "Site-wide permission management"
-msgstr "サイト全体のアクセス権"
+msgstr "サイト全体のアクセス権の管理"
 
 #: ../../admin/access.rst:211
 msgid ""
@@ -536,20 +474,16 @@ msgid ""
 msgstr ""
 
 #: ../../admin/access.rst:252
-#, fuzzy
-#| msgid "`Users`"
 msgid "Group `Users`"
-msgstr "`ユーザー`"
+msgstr "グループ `ユーザー`"
 
 #: ../../admin/access.rst:255 ../../admin/access.rst:271
 msgid "Language selection"
 msgstr "言語の選択"
 
 #: ../../admin/access.rst:256 ../../admin/access.rst:272
-#, fuzzy
-#| msgid "As defined"
 msgid "`As defined`"
-msgstr "個別に選択"
+msgstr "`設定に沿う`"
 
 #: ../../admin/access.rst:258
 msgid "All but `Czech`"
@@ -560,37 +494,28 @@ msgid "Add a dedicated group for `Czech` translators."
 msgstr ""
 
 #: ../../admin/access.rst:264
-#, fuzzy
-#| msgid "Most active translators"
 msgid "Group `Czech translators`"
-msgstr "最も活動している翻訳者"
+msgstr "グループ `チェコ語翻訳者`"
 
 #: ../../admin/access.rst:267 ../../admin/access.rst:380 ../../api.rst:562
 msgid "Roles"
 msgstr "ロール"
 
 #: ../../admin/access.rst:268
-#, fuzzy
-#| msgctxt "Access-control role"
-#| msgid "Power user"
 msgid "`Power users`"
-msgstr "パワー ユーザー"
+msgstr "`パワー ユーザー`"
 
 #: ../../admin/access.rst:269
 msgid "Project selection"
 msgstr "プロジェクトの選択"
 
 #: ../../admin/access.rst:270
-#, fuzzy
-#| msgid "All public projects"
 msgid "`All public projects`"
-msgstr "すべての公開プロジェクト"
+msgstr "`すべての公開プロジェクト`"
 
 #: ../../admin/access.rst:274
-#, fuzzy
-#| msgid "Czech"
 msgid "`Czech`"
-msgstr "チェコ語"
+msgstr "`チェコ語`"
 
 #: ../../admin/access.rst:278
 msgid "Add users you wish to give the permissions to into this group."
@@ -604,8 +529,6 @@ msgid ""
 msgstr ""
 
 #: ../../admin/access.rst:287
-#, fuzzy
-#| msgid "Users, roles, groups and permissions"
 msgid "Users, roles, groups, and permissions"
 msgstr "ユーザー、ロール、グループ、およびアクセス権"
 
@@ -618,40 +541,28 @@ msgid "`Permission`"
 msgstr "`アクセス権`"
 
 #: ../../admin/access.rst:292
-#, fuzzy
-#| msgid ""
-#| "Individual permissions defined by Weblate. Permissions can not be "
-#| "assigned to users. This can only be done through assignment of roles."
 msgid ""
 "Individual permission defined by Weblate. Permissions cannot be assigned to "
 "users. This can only be done through assignment of roles."
 msgstr ""
-"Weblate に設定済みの個別のアクセス権。ユーザーにアクセス権を割り当てることは"
-"できません。アクセス権は、ロールを使用してのみ割り当てることができます。"
+"Weblate "
+"に設定済みの個別のアクセス権。ユーザーにアクセス権を割り当てることはできません。アクセス権は、ロールを使用してのみ割り当てることができます。"
 
 #: ../../admin/access.rst:295
 msgid "`Role`"
 msgstr "`ロール`"
 
 #: ../../admin/access.rst:295
-#, fuzzy
-#| msgid ""
-#| "A Role defines a set of permissions. This allows reuse of these sets in "
-#| "several places, making the administration easier."
 msgid ""
 "A role defines a set of permissions. This allows reuse of these sets in "
 "several places, making the administration easier."
-msgstr ""
-"ロールは、アクセス権のセットを設定します。これにより、アクセス権のセットを複"
-"数の場所で再利用できるため、管理が簡単になります。"
+msgstr "ロールは、アクセス権のセットを設定します。これにより、アクセス権のセットを複数の場所で再利用できるため、管理が簡単になります。"
 
 #: ../../admin/access.rst:297
 msgid "`User`"
 msgstr "`ユーザー`"
 
 #: ../../admin/access.rst:298
-#, fuzzy
-#| msgid "Users can belong to several groups."
 msgid "User can belong to several groups."
 msgstr "ユーザーは複数のグループに所属できます。"
 
@@ -660,16 +571,10 @@ msgid "`Group`"
 msgstr "`グループ`"
 
 #: ../../admin/access.rst:300
-#, fuzzy
-#| msgid ""
-#| "Groups connect roles, users and authentication objects (projects, "
-#| "languages and component lists)."
 msgid ""
 "Group connect roles, users, and authentication objects (projects, languages, "
 "and component lists)."
-msgstr ""
-"グループは、ロール、ユーザー、認証オブジェクト（プロジェクト、言語、コンポー"
-"ネント リスト）を関連付けます。"
+msgstr "グループは、ロール、ユーザー、認証オブジェクト（プロジェクト、言語、コンポーネント リスト）を関連付けます。"
 
 #: ../../admin/access.rst:318
 msgid ""
@@ -678,42 +583,25 @@ msgid ""
 msgstr ""
 
 #: ../../admin/access.rst:322
-#, fuzzy
-#| msgid "Checking access to a project"
 msgid "Access for browse to a project"
-msgstr "プロジェクトへのアクセスの確認"
+msgstr "プロジェクトを表示させる接続"
 
 #: ../../admin/access.rst:324
-#, fuzzy
-#| msgid ""
-#| "A user has to be a member of a group linked to the project, or any "
-#| "component inside that project. Having membership is enough, no specific "
-#| "permissions are needed to access the project (this is used in the default "
-#| "`Viewers` group, see :ref:`default-groups`)."
 msgid ""
 "A user has to be a member of a group linked to the project, or any component "
 "inside that project. Having membership is enough, no specific permissions "
 "are needed to browse the project (this is used in the default `Viewers` "
 "group, see :ref:`default-groups`)."
 msgstr ""
-"ユーザーは、プロジェクトまたはプロジェクト内のコンポーネントにリンクされたグ"
-"ループの登録者であることが必要です。登録者であるだけで十分で、プロジェクトに"
-"参加するための特定なアクセル権は必要ありません（これはデフォルトの `閲覧者` "
-"グループで使用します。参照: :ref:`default-groups`）。"
+"ユーザーは、プロジェクトまたはプロジェクト内のコンポーネントにリンクされたグループの登録者であることが必要です。登録者であるだけで十分で、プロジェクトに表"
+"示させるための特定なアクセス権は必要ありません（これはデフォルトの `閲覧者` グループで使用します。参照: :ref:`default-"
+"groups`）。"
 
 #: ../../admin/access.rst:330
-#, fuzzy
-#| msgid "Associate project with a component."
 msgid "Access for browse to a component"
-msgstr "プロジェクトをコンポーネントに関連付けます。"
+msgstr "コンポーネントを表示させる接続"
 
 #: ../../admin/access.rst:332
-#, fuzzy
-#| msgid ""
-#| "A user can access the unrestricted component once able to access the "
-#| "containing project. With :ref:`component-restricted` turned on, access to "
-#| "the component requires explicit permission to that component (or a "
-#| "component list it is in)."
 msgid ""
 "A user can access unrestricted components once able to access the "
 "components’ project (and will have all the permissions the user was granted "
@@ -721,16 +609,14 @@ msgid ""
 "component requires explicit permissions for the component (or a component "
 "list the component is in)."
 msgstr ""
-"ユーザーは、参加しているプロジェクトにアクセスできれば、コンポーネントへ無制"
-"限にアクセスできます。:ref:`component-restricted` を有効にすると、コンポーネ"
-"ントへアクセスするには、そのコンポーネント（またはそれを含むコンポーネント リ"
-"スト）に対してアクセス権が設定されていることが必要になります。"
+"ユーザーは、参加しているプロジェクトにアクセスできれば、コンポーネントへ無制限にアクセスできます（そのプロジェクトに対してユーザーに与えられたすべてのアク"
+"セス権があることになります）。:ref:`component-restricted` "
+"を有効にすると、コンポーネントへアクセスするには、そのコンポーネント（または、そのコンポーネントが含まれるコンポーネント "
+"リスト）に対してアクセス権が設定されていることが必要になります。"
 
 #: ../../admin/access.rst:340
-#, fuzzy
-#| msgid "List of groups"
 msgid "Scope of groups"
-msgstr "グループ一覧"
+msgstr "グループの範囲"
 
 #: ../../admin/access.rst:342
 msgid ""
@@ -774,16 +660,12 @@ msgid ""
 msgstr ""
 
 #: ../../admin/access.rst:369
-#, fuzzy
-#| msgid ""
-#| "Use :guilabel:`Language selection` or :guilabel:`Project selection` to "
-#| "automate inclusion of all languages or projects."
 msgid ""
 "Use :guilabel:`Language selection` or :guilabel:`Project selection` to "
 "automate inclusion of all languages or projects."
 msgstr ""
-":guilabel:`言語の選択` または :guilabel:`プロジェクトの選択` を使用して、すべ"
-"ての言語またはプロジェクトを自動的に一括で設定できます。"
+":guilabel:`言語の選択` または :guilabel:`プロジェクトの選択` "
+"を使用して、すべての言語またはプロジェクトを自動的に一括で設定できます。"
 
 #: ../../admin/access.rst:374
 msgid ""
@@ -796,11 +678,8 @@ msgid "Group `Spanish Admin-Reviewers`"
 msgstr ""
 
 #: ../../admin/access.rst:381
-#, fuzzy
-#| msgctxt "Access-control role"
-#| msgid "Manage repository"
 msgid "`Review Strings`, `Manage repository`"
-msgstr "リポジトリの管理"
+msgstr "`文字列の査読`、`リポジトリの管理`"
 
 #: ../../admin/access.rst:382 ../../api.rst:1084
 msgid "Components"
@@ -811,10 +690,8 @@ msgid "foo/bar"
 msgstr ""
 
 #: ../../admin/access.rst:385
-#, fuzzy
-#| msgid "Spanish"
 msgid "`Spanish`"
-msgstr "スペイン語"
+msgstr "`スペイン語`"
 
 #: ../../admin/access.rst:389
 msgid ""
@@ -843,11 +720,6 @@ msgid "Automatic group assignments"
 msgstr "自動的なグループの割り当て"
 
 #: ../../admin/access.rst:402
-#, fuzzy
-#| msgid ""
-#| "From the :guilabel:`Authentication` in the Django admin interface, users "
-#| "can be assigned to groups [you want this for] automatically based on "
-#| "their e-mail addresses. This only happens upon account creation."
 msgid ""
 "On the bottom of the :guilabel:`Group` editing page in the :ref:`Django "
 "admin interface <admin-interface>`, you can specify :guilabel:"
@@ -855,9 +727,9 @@ msgid ""
 "to automatically assign newly created users to a group based on their e-mail "
 "addresses. This assignment only happens upon account creation."
 msgstr ""
-"Django 管理画面の :guilabel:`認証` から、ユーザーをメールアドレスに基づいて自"
-"動的に（必要な）グループに割り当てることができます。自動割り当てはアカウント"
-"作成時のみです。"
+":ref:`Django admin interface <admin-interface>` の :guilabel:`グループ` "
+"編集ページの下で、:guilabel:`自動的なグループの割り当て` を指定できます。これは、新規に作成したユーザーをメールアドレスに基づいてグループに自"
+"動的に割り当てるために使用する正規表現のリストです。この割り当ては、アカウントの作成時にのみ行われます。"
 
 #: ../../admin/access.rst:408
 msgid ""
@@ -871,19 +743,13 @@ msgid ""
 msgstr ""
 
 #: ../../admin/access.rst:417
-#, fuzzy
-#| msgid ""
-#| "Automatic group assignment to `Users` and `Viewers` is always recreated "
-#| "during migrations. If you want to turn it off, set the regular expression "
-#| "to ``^$`` (which will never match)."
 msgid ""
 "Automatic group assignment to `Users` and `Viewers` is always recreated when "
 "upgrading from one Weblate version to another. If you want to turn it off, "
 "set the regular expression to ``^$`` (which won’t match anything)."
 msgstr ""
-"`ユーザー` と `閲覧者` への自動グループ割り当ては、移行時に常に再作成されま"
-"す。無効にする場合は、正規表現を ``^$`` （何も一致しない）に設定してくださ"
-"い。"
+"ある Weblate バージョンから別のバージョンにアップグレードすると、`ユーザー` と `閲覧者` "
+"へのグループの自動割り当てが常に再作成されます。これを無効するときは、正規表現を ``^` （何にも一致しない）に設定してください。"
 
 #: ../../admin/access.rst:423
 msgid ""
@@ -903,22 +769,14 @@ msgid ""
 msgstr ""
 
 #: ../../admin/access.rst:431
-#, fuzzy
-#| msgid ""
-#| "These roles and groups are created upon installation. The built-in roles "
-#| "are always kept up to date by the database migration when upgrading. "
-#| "Custom changes are not lost. Please define a new role if you want to "
-#| "define your own set of permissions."
 msgid ""
 "These roles and groups are created upon installation. The built-in roles are "
 "always kept up to date by the database migration when upgrading. You can’t "
 "actually change them, please define a new role if you want to define your "
 "own set of permissions."
 msgstr ""
-"これらのロールとグループは、インストール時に作成されます。標準搭載されたロー"
-"ルは、アップグレード時にはデータベースを移行して常に最新の状態に保たれます。"
-"変更したロールの設定は消えません。独自のアクセス権のセットを設定したい場合"
-"は、新しいロールを設定してください。"
+"このロールとグループは、インストール時に作成されます。標準搭載されたロールは、アップグレード時にはデータベースを移行して常に最新の状態に保たれます。実際に"
+"変更することはできませんが、独自のアクセス権のセットを設定したい場合は、新しいロールを設定してください。"
 
 #: ../../admin/access.rst:439
 msgid "List of privileges"
@@ -1275,19 +1133,13 @@ msgid "List of groups"
 msgstr "グループ一覧"
 
 #: ../../admin/access.rst:580
-#, fuzzy
-#| msgid ""
-#| "The following groups are created upon installation (or after executing :"
-#| "djadmin:`setupgroups`) and you are free to modify them. The migration "
-#| "will however re-create them if you delete or rename them."
 msgid ""
 "The following groups are created upon installation (or after executing :"
 "djadmin:`setupgroups`) and you are free to modify them. The migration will, "
 "however, re-create them if you delete or rename them."
 msgstr ""
-"インストール時（または :djadmin:`setupgroups` の実行後 ）に、以下のグループが"
-"作成され、自由に変更できます。ただし、移行によって、削除または名前の変更を行"
-"うと、移行によって再作成されます。"
+"インストール時（または :djadmin:`setupgroups` の実行後 "
+"）に、以下のグループが作成され、自由に変更できます。ただし、移行によって、削除または名前の変更を行うと、移行によって再作成されます。"
 
 #: ../../admin/access.rst:592
 msgid "`Guests`"
@@ -1320,28 +1172,18 @@ msgid "`Viewers`"
 msgstr "`閲覧者`"
 
 #: ../../admin/access.rst:595
-#, fuzzy
-#| msgid ""
-#| "This role ensures visibility of public projects for all users. By default "
-#| "all users are members of this group."
 msgid ""
 "This role ensures visibility of public projects for all users. By default, "
 "all users are members of this group."
-msgstr ""
-"このロールにより、すべてのユーザーが公開プロジェクトを参照できる。デフォルト"
-"では、すべてのユーザーがこのグループのメンバーである。"
+msgstr "このロールにより、すべてのユーザーが公開プロジェクトを参照できる。デフォルトでは、すべてのユーザーがこのグループのメンバーである。"
 
 #: ../../admin/access.rst:598 ../../admin/access.rst:606
-#, fuzzy
-#| msgid ""
-#| "By default :ref:`autogroup` makes all new accounts members of this group "
-#| "when they join."
 msgid ""
 "By default, :ref:`automatic group assignment <autogroup>` makes all new "
 "accounts members of this group when they join."
 msgstr ""
-"デフォルトでは、:ref:`autogroup` と指定すると、新しい参加者には自動的にこのグ"
-"ループのメンバーのアカウントが作成されます。"
+"デフォルトでは、:ref:`automatic group assignment <autogroup>` "
+"と指定すると、新しい参加者には自動的にこのグループのメンバーのアカウントが作成されます。"
 
 #: ../../admin/access.rst:601
 msgid "Default roles: none"
@@ -1385,25 +1227,17 @@ msgid "Default roles: `Administration`"
 msgstr "デフォルトのロール: `Administration`"
 
 #: ../../admin/access.rst:623
-#, fuzzy
-#| msgid ""
-#| "Never remove the predefined Weblate groups and users, as this can lead to "
-#| "unexpected problems. If you have no use for them, you can removing all "
-#| "their privileges instead."
 msgid ""
 "Never remove the predefined Weblate groups and users as this can lead to "
 "unexpected problems! If you have no use for them, you can removing all their "
 "privileges instead."
 msgstr ""
-"予想できない問題が発生することあるので、デフォルトで設定済みの Weblate グルー"
-"プとユーザーは削除しないでください。これらの権限が必要でない場合は、権限をす"
-"べて削除できます。"
+"予想できない問題が発生することあるので、デフォルトで設定済みの Weblate "
+"グループとユーザーは削除しないでください。これらの権限が必要でない場合は、権限をすべて削除できます。"
 
 #: ../../admin/access.rst:628
-#, fuzzy
-#| msgid "Additional projects"
 msgid "Additional access restrictions"
-msgstr "追加のプロジェクト"
+msgstr "追加のアクセス制限"
 
 #: ../../admin/access.rst:630
 msgid ""
@@ -5277,10 +5111,8 @@ msgstr ""
 "Weblate の内部管理に依存しないという意味です。"
 
 #: ../../admin/config.rst:443
-#, fuzzy
-#| msgid ":ref:`acl`, :ref:`project-access_control`, :ref:`privileges`"
 msgid ":ref:`acl`, :ref:`project-access_control`"
-msgstr ":ref:`acl`、:ref:`project-access_control`、:ref:`privileges`"
+msgstr ":ref:`acl`、:ref:`project-access_control`"
 
 #: ../../admin/config.rst:449
 msgid "DEFAULT_AUTO_WATCH"
@@ -5305,10 +5137,8 @@ msgid "The default value for component restriction."
 msgstr "コンポーネント制限のデフォルト値。"
 
 #: ../../admin/config.rst:471
-#, fuzzy
-#| msgid ":ref:`component`, :ref:`custom-checks`"
 msgid ":ref:`component-restricted`, :ref:`perm-check`"
-msgstr ":ref:`component`、:ref:`custom-checks`"
+msgstr ":ref:`component-restricted`、:ref:`perm-check`"
 
 #: ../../admin/config.rst:481
 msgid ""
@@ -5556,10 +5386,8 @@ msgid "GET_HELP_URL"
 msgstr ""
 
 #: ../../admin/config.rst:685
-#, fuzzy
-#| msgid "URL where your Weblate instance is configured"
 msgid "URL where support for your Weblate instance can be found."
-msgstr "Weblate インスタンスが設定されている URL"
+msgstr "Weblate インスタンスのサポートを見つけられる URL。"
 
 #: ../../admin/config.rst:690
 msgid "GITLAB_CREDENTIALS"
@@ -11352,28 +11180,20 @@ msgid ":ref:`production-email`, :setting:`django:EMAIL_BACKEND`"
 msgstr ":ref:`production-email`、:setting:`django:EMAIL_BACKEND`"
 
 #: ../../admin/install/docker.rst:1068
-#, fuzzy
-#| msgid "Test Sentry integration"
 msgid "Site integration"
-msgstr "Sentry 統合のテスト"
+msgstr "サイト統合"
 
 #: ../../admin/install/docker.rst:1072
-#, fuzzy
-#| msgid "Configures :setting:`DEFAULT_SHARED_TM`."
 msgid "Configures :setting:`GET_HELP_URL`."
-msgstr ":setting:`DEFAULT_SHARED_TM` の設定。"
+msgstr ":setting:`GET_HELP_URL` の設定。"
 
 #: ../../admin/install/docker.rst:1076
-#, fuzzy
-#| msgid "Configures :setting:`BASIC_LANGUAGES`."
 msgid "Configures :setting:`STATUS_URL`."
-msgstr ":setting:`BASIC_LANGUAGES` の設定。"
+msgstr ":setting:`STATUS_URL` の設定。"
 
 #: ../../admin/install/docker.rst:1080
-#, fuzzy
-#| msgid "Configures :setting:`LICENSE_FILTER`."
 msgid "Configures :setting:`LEGAL_URL`."
-msgstr ":setting:`LICENSE_FILTER` の設定。"
+msgstr ":setting:`LEGAL_URL` の設定。"
 
 #: ../../admin/install/docker.rst:1083
 msgid "Error reporting"
@@ -12131,13 +11951,6 @@ msgid "Built-in language definitions"
 msgstr "標準搭載の言語定義"
 
 #: ../../admin/languages.rst:65
-#, fuzzy
-#| msgid ""
-#| "Definitions for more than 550 languages are included in Weblate and the "
-#| "list is extended in every release. Whenever Weblate is upgraded (more "
-#| "specifically whenever :program:`weblate migrate` is executed, see :ref:"
-#| "`generic-upgrade-instructions`) the database of languages is updated to "
-#| "include all language definitions shipped in Weblate."
 msgid ""
 "Definitions for about 600 languages are included in Weblate and the list is "
 "extended in every release. Whenever Weblate is upgraded (more specifically "
@@ -12145,11 +11958,9 @@ msgid ""
 "instructions`) the database of languages is updated to include all language "
 "definitions shipped in Weblate."
 msgstr ""
-"550 以上の言語の定義が Weblate に含まれており、リストはリリースごとに拡張され"
-"ます。Weblate がアップグレードされるたびに（具体的には :program:`weblate "
-"migrate` が実行されるたびに。参照: :ref:`generic-upgrade-instructions` ）、言"
-"語のデータベースが更新され、Weblate に付属するすべての言語定義が拡張されま"
-"す。"
+"訳 600 以上の言語の定義が Weblate に含まれており、リストはリリースごとに拡張されます。Weblate がアップグレードされるたびに（"
+"具体的には :program:`weblate migrate` が実行されるたびに。参照: :ref:`generic-upgrade-"
+"instructions` ）、言語のデータベースが更新され、Weblate に付属するすべての言語定義が拡張されます。"
 
 #: ../../admin/languages.rst:71
 msgid ""
@@ -19240,16 +19051,12 @@ msgid "Fixed automatic suggestions for languages with a longer code."
 msgstr "コードが長い言語の自動提案を修正しました。"
 
 #: ../../changes.rst:12
-#, fuzzy
-#| msgid "Improved performance when displaying ghost translations."
 msgid "Improved peformance when adding new strings."
-msgstr "ゴースト翻訳を表示するときのパフォーマンスの向上。"
+msgstr "新しい文字列を追加するときのパフォーマンスの向上。"
 
 #: ../../changes.rst:13
-#, fuzzy
-#| msgid "Skip the \"Trailing newline\" quality check."
 msgid "Several bug fixes in quality checks."
-msgstr "「末尾の改行」の品質検査を無効にする。"
+msgstr "品質チェックで複数のバグ修正。"
 
 #: ../../changes.rst:14
 msgid "Several performance improvements."
@@ -25047,17 +24854,13 @@ msgid "Contributing to Weblate"
 msgstr "Weblate に貢献"
 
 #: ../../contributing/index.rst:7
-#, fuzzy
-#| msgid ""
-#| "There are dozens of ways to contribute in Weblate. Any help is welcomed, "
-#| "be it coding, graphics design, documentation or sponsorship:"
 msgid ""
 "There are dozens of ways to improve Weblate. You can choose the one you feel "
 "comfortable with, be it coding, graphics design, documentation, sponsorship, "
 "or an idea:"
 msgstr ""
-"Weblate に貢献する方法はたくさんあります。コーディング、グラフィックデザイ"
-"ン、ドキュメンテーション、スポンサーシップなど、どのような援助も歓迎します:"
+"Weblate "
+"に貢献する方法はたくさんあります。納得して選択できるコーディング、グラフィックデザイン、ドキュメンテーション、スポンサーシップ、アイデアなど:"
 
 #: ../../contributing/index.rst:10
 msgid ":doc:`issues`"
@@ -25092,20 +24895,14 @@ msgid "Translating Weblate"
 msgstr "Weblate の翻訳"
 
 #: ../../contributing/index.rst:22
-#, fuzzy
-#| msgid ""
-#| "Weblate is being `translated <https://hosted.weblate.org/>`_ using "
-#| "Weblate itself, feel free to take part in the effort of making Weblate "
-#| "available in as many human languages as possible."
 msgid ""
 "Weblate is continually being `translated <https://hosted.weblate.org/>`_ "
 "using Weblate itself. Feel free to take your part in the effort of making "
 "Weblate available in as many human languages as possible. It brings Weblate "
 "closer to it’s users!"
 msgstr ""
-"Weblate は、Weblate 自体を用いて `翻訳されています <https://hosted.weblate."
-"org/>`_ 。できるだけ多くの人間の言語で Weblate を利用できるようにする取り組み"
-"に気軽に参加してください。"
+"Weblate は、Weblate 自体を用いて継続的に `翻訳されています <https://hosted.weblate.org/>`_ 。"
+"できるだけ多くの人間の言語で Weblate を利用できるようにする取り組みに気軽に参加してください。それは、Weblate をユーザーに近づけます！"
 
 #: ../../contributing/index.rst:26
 msgid ""
@@ -25181,10 +24978,8 @@ msgid ""
 msgstr ""
 
 #: ../../contributing/index.rst:61
-#, fuzzy
-#| msgid "Weblate discovery"
 msgid "Weblate discussions"
-msgstr "Weblate の検出"
+msgstr "Weblate の議論"
 
 #: ../../contributing/index.rst:63
 msgid ""
@@ -25198,23 +24993,15 @@ msgid "Funding Weblate development"
 msgstr "Weblate 開発に資金提供"
 
 #: ../../contributing/index.rst:72
-#, fuzzy
-#| msgid ""
-#| "You can fund further Weblate development on the `donate page`_. Funds "
-#| "collected there are used to fund gratis hosting for libre software "
-#| "projects, and further development of Weblate. Please check the `donate "
-#| "page` for details, such as funding goals and rewards you can get for "
-#| "being a funder."
 msgid ""
 "You can boost Weblate’s development on the `donate page`_. Funds collected "
 "there are used to enable gratis hosting for libre software projects and "
 "further development of Weblate. Please check the `donate page`_ for options, "
 "such as funding goals and the rewards you get as a proud funder."
 msgstr ""
-"`donate page`_ から Weblate の開発を前進させる資金を提供できます。集められた"
-"資金は、Libre ソフトウェア プロジェクトの無料ホスティング、および Weblate の"
-"開発を前進させるために使用されます。資金提供の目標や資金提供者への報酬などの"
-"詳細は `寄付ページ` をご覧ください。"
+"Weblate の開発を加速させるには `donate page`_ をご利用ください。集められた資金は、Libre ソフトウェア "
+"プロジェクトの無料ホスティング、および Weblate のさらなる開発を可能にするために使用されます。資金提供の目標や、"
+"資金提供者への報酬などのオプションの詳細は `寄付ページ` をご覧ください。"
 
 #: ../../../BACKERS.rst:2
 msgid "Backers who have funded Weblate"
@@ -25496,45 +25283,25 @@ msgid "Reporting issues in Weblate"
 msgstr "Weblate の問題の報告"
 
 #: ../../contributing/issues.rst:6
-#, fuzzy
-#| msgid ""
-#| "Our `issue tracker <https://github.com/WeblateOrg/weblate/issues>`_ is "
-#| "hosted at GitHub:"
 msgid ""
 "Weblate `issue tracker <https://github.com/WeblateOrg/weblate/issues>`_ is "
 "hosted at GitHub."
 msgstr ""
-"私たちの `課題管理ツール <https://github.com/WeblateOrg/weblate/issues>`_ は "
-"GitHub で管理中:"
+"Weblate の `課題管理ツール <https://github.com/WeblateOrg/weblate/issues>`_ は GitHub "
+"で管理しています。"
 
 #: ../../contributing/issues.rst:8
-#, fuzzy
-#| msgid ""
-#| "Feel welcome to report any issues with, or suggest improvement of Weblate "
-#| "there. If what you have found is a security issue in Weblate, please "
-#| "consult the \"Security issues\" section below."
 msgid ""
 "Feel welcome to report any issues you have, or suggest improvement for "
 "Weblate there. There are various templates prepared to comfortably guide you "
 "through the issue report."
-msgstr ""
-"Weblate の問題の報告や、改善の提案を歓迎します。発見したものが Weblate のセ"
-"キュリティ上の問題である場合は、下記の「セキュリティの問題」のセクションを確"
-"認してください。"
+msgstr "Weblate の問題の報告や、改善の提案を歓迎します。問題レポートを快適に案内するためのさまざまなテンプレートを用意しています。"
 
 #: ../../contributing/issues.rst:11
-#, fuzzy
-#| msgid ""
-#| "Feel welcome to report any issues with, or suggest improvement of Weblate "
-#| "there. If what you have found is a security issue in Weblate, please "
-#| "consult the \"Security issues\" section below."
 msgid ""
 "If what you have found is a security issue in Weblate, please consult the :"
 "ref:`security` section below."
-msgstr ""
-"Weblate の問題の報告や、改善の提案を歓迎します。発見したものが Weblate のセ"
-"キュリティ上の問題である場合は、下記の「セキュリティの問題」のセクションを確"
-"認してください。"
+msgstr "Weblate のセキュリティ上の問題を発見したときは、下記の :ref:`security` のセクションを確認してください。"
 
 #: ../../contributing/issues.rst:14
 msgid ""
@@ -28403,16 +28170,12 @@ msgstr ""
 "ピー）手順:"
 
 #: ../../faq.rst:144
-#, fuzzy
-#| msgid ""
-#| ":ref:`git-export`, :ref:`continuous-translation`, :ref:`avoid-merge-"
-#| "conflicts`"
 msgid ""
 ":ref:`git-export`, :ref:`continuous-translation`, :ref:`avoid-merge-"
 "conflicts`, :ref:`wlc`"
 msgstr ""
 ":ref:`git-export`、:ref:`continuous-translation`、:ref:`avoid-merge-"
-"conflicts`"
+"conflicts`、:ref:`wlc`"
 
 #: ../../faq.rst:150
 msgid "How do I translate several branches at once?"
@@ -33845,10 +33608,8 @@ msgid "Visible only to a certain group of translators"
 msgstr "特定のグループの翻訳者のみ閲覧可能"
 
 #: ../../user/translating.rst:22
-#, fuzzy
-#| msgid ":ref:`privileges`, :ref:`workflows`"
 msgid ":ref:`access-control`, :ref:`workflows`"
-msgstr ":ref:`privileges`、:ref:`workflows`"
+msgstr ":ref:`access-control`、:ref:`workflows`"
 
 #: ../../user/translating.rst:28
 msgid ""
@@ -35722,20 +35483,14 @@ msgid "Translation access"
 msgstr "翻訳にアクセス"
 
 #: ../../workflows.rst:16
-#, fuzzy
-#| msgid ""
-#| "The :ref:`privileges` is not much discussed in the workflows as each "
-#| "access control option can be applied to any workflow. Please consult that "
-#| "documentation for information on how to manage access to translations."
 msgid ""
 "The :ref:`access control <access-control>` is not discussed in detail as a "
 "whole in the workflows, as most of its options can be applied to any "
 "workflow. Please consult the respective documentation on how to manage "
 "access to translations."
 msgstr ""
-":ref:`privileges` は、各アクセス制御のオプションを、どのワークフローにも適用"
-"できるため、ワークフローではあまり説明していません。翻訳へのアクセスを管理す"
-"る方法については、ドキュメントを確認してください。"
+":ref:`access control <access-control>` は、そのオプションのほとんどは、どのワークフローにも適用できるので、ワークフ"
+"ロー全体として詳細な説明はありません。翻訳画面への接続や管理の方法については、それぞれのドキュメントを確認してください。"
 
 #: ../../workflows.rst:21
 msgid ""
@@ -35873,10 +35628,8 @@ msgid "Translators group"
 msgstr "翻訳者グループ"
 
 #: ../../workflows.rst:84 ../../workflows.rst:116 ../../workflows.rst:153
-#, fuzzy
-#| msgid "Or `Translate` with :ref:`privileges`."
 msgid "Or `Translate` with :ref:`per-project access control <manage-acl>`."
-msgstr "または :ref:`privileges` で `翻訳` 。"
+msgstr "または :ref:`per-project access control <manage-acl>` で `翻訳` 。"
 
 #: ../../workflows.rst:88 ../../workflows.rst:120 ../../workflows.rst:157
 msgid "Reviewers group"
@@ -35957,10 +35710,8 @@ msgid "Suggestions can also be used to suggest changes for approved strings."
 msgstr "提案は、承認済み文字列の変更の提案もできる。"
 
 #: ../../workflows.rst:157
-#, fuzzy
-#| msgid "Or `Review` with :ref:`privileges`."
 msgid "Or `Review` with :ref:`per-project access control <manage-acl>`."
-msgstr "または、:ref:`privileges` して `査読` する。"
+msgstr "または、 :ref:`per-project access control <manage-acl>` して `査読` 。"
 
 #: ../../workflows.rst:163
 msgid "Turning on reviews"
