@@ -223,7 +223,7 @@ class Flags:
         # Regexp objects
         if hasattr(value, "pattern"):
             value = value.pattern
-        if any(c in value for c in SYNTAXCHARS):
+        if " " in value or any(c in value for c in SYNTAXCHARS):
             return '"{}"'.format(value.replace('"', r"\""))
         return value
 
