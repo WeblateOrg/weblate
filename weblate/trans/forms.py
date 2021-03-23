@@ -45,6 +45,7 @@ from django.utils.translation import gettext_lazy as _
 from translation_finder import DiscoveryResult, discover
 
 from weblate.auth.models import User
+from weblate.checks.flags import Flags
 from weblate.checks.models import CHECKS
 from weblate.checks.utils import highlight_string
 from weblate.formats.models import EXPORTERS, FILE_FORMATS
@@ -1991,6 +1992,18 @@ class NewUnitBaseForm(forms.Form):
             return
         self.translation.validate_new_unit_data(**data)
 
+    def as_kwargs(self):
+        flags = Flags()
+        variant = self.cleaned_data.get("variant")
+        if variant:
+            flags.set_value("variant", variant)
+        return {
+            "context": self.cleaned_data.get("context", ""),
+            "source": self.cleaned_data["source"],
+            "target": self.cleaned_data.get("target"),
+            "extra_flags": flags.format(),
+        }
+
 
 class NewMonolingualUnitForm(NewUnitBaseForm):
     context = forms.CharField(
@@ -2017,13 +2030,6 @@ class NewMonolingualUnitForm(NewUnitBaseForm):
         self.fields["source"].widget.profile = user.profile
         self.fields["source"].initial = Unit(translation=translation, id_hash=0)
 
-    def as_kwargs(self):
-        return {
-            "context": self.cleaned_data["context"],
-            "source": self.cleaned_data["source"],
-            "target": None,
-        }
-
 
 class NewBilingualSourceUnitForm(NewUnitBaseForm):
     context = forms.CharField(
@@ -2044,13 +2050,6 @@ class NewBilingualSourceUnitForm(NewUnitBaseForm):
         self.fields["source"].initial = Unit(
             translation=translation.component.source_translation, id_hash=0
         )
-
-    def as_kwargs(self):
-        return {
-            "context": self.cleaned_data.get("context", ""),
-            "source": self.cleaned_data["source"],
-            "target": self.cleaned_data.get("target"),
-        }
 
 
 class NewBilingualUnitForm(NewBilingualSourceUnitForm):

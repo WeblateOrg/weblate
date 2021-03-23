@@ -364,6 +364,8 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
             if update_fields and "num_words" not in update_fields:
                 update_fields.append("num_words")
 
+        created = not (self.id) or force_insert
+
         # Actually save the unit
         super().save(
             force_insert=force_insert,
@@ -378,7 +380,10 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
         if self.is_source and not self.source_unit:
             self.source_unit = self
             self.save(
-                same_content=True, run_checks=False, update_fields=["source_unit"]
+                same_content=True,
+                run_checks=False,
+                only_save=True,
+                update_fields=["source_unit"],
             )
 
         # Update checks if content or fuzzy flag has changed
@@ -388,7 +393,7 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
             self.source_unit_save()
 
         # Update manual variants
-        self.update_variants()
+        self.update_variants(created)
 
         # Update terminology
         self.sync_terminology()
@@ -474,9 +479,9 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
         if "terminology" in new_flags:
             self.translation.component.sync_terminology()
 
-    def update_variants(self):
-        old_flags = Flags(self.old_unit.extra_flags, self.old_unit.flags)
-        new_flags = Flags(self.extra_flags, self.flags)
+    def update_variants(self, created: bool):
+        old_flags = self.old_unit.all_flags
+        new_flags = self.all_flags
 
         old_variant = None
         if old_flags.has_value("variant"):
@@ -486,7 +491,7 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
             new_variant = new_flags.get_value("variant")
 
         # Check for relevant changes
-        if old_variant == new_variant:
+        if old_variant == new_variant and (not created or not new_variant):
             return
 
         # Delete stale variant

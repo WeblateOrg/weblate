@@ -1176,6 +1176,7 @@ class Translation(
         context: str,
         source: Union[str, List[str]],
         target: Optional[Union[str, List[str]]] = None,
+        extra_flags: Optional[str] = None,
         is_batch_update: bool = False,
     ):
         user = request.user if request else None
@@ -1200,6 +1201,7 @@ class Translation(
                 kwargs["details"] = {"add_unit": True}
             if is_source:
                 current_target = source
+                kwargs["extra_flags"] = extra_flags
             else:
                 current_target = target
             if current_target is None:
@@ -1294,6 +1296,7 @@ class Translation(
         context: str,
         source: Union[str, List[str]],
         target: Optional[Union[str, List[str]]] = None,
+        extra_flags: Optional[str] = None,
     ):
         extra = {}
         if not self.component.has_template():

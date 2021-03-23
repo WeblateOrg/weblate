@@ -39,7 +39,6 @@ from django.utils.translation import gettext as _
 from django.utils.translation import gettext_noop
 from django.views.decorators.http import require_POST
 
-from weblate.checks.flags import Flags
 from weblate.checks.models import CHECKS, get_display_checks
 from weblate.glossary.forms import TermForm
 from weblate.glossary.models import get_glossary_terms
@@ -928,15 +927,6 @@ def new_unit(request, project, component, lang):
     else:
         new_unit = translation.add_unit(request, **form.as_kwargs())
         messages.success(request, _("New string has been added."))
-        if form.cleaned_data["variant"]:
-            flags = Flags(new_unit.extra_flags)
-            flags.set_value("variant", form.cleaned_data["variant"])
-            new_unit.extra_flags = flags.format()
-            new_unit.save(
-                update_fields=["extra_flags"],
-                same_content=True,
-                run_checks=False,
-            )
         return redirect(new_unit)
 
     return redirect(translation)

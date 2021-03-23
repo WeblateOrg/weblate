@@ -19,6 +19,8 @@
 
 """Test for variants."""
 
+from django.urls import reverse
+
 from weblate.trans.models import Variant
 from weblate.trans.tests.test_views import ViewTestCase
 
@@ -108,3 +110,29 @@ class VariantTest(ViewTestCase):
 
     def test_variants_flag_translation(self):
         self.test_variants_flag("cs")
+
+    def test_add_variant_unit(self):
+        self.make_manager()
+        base = "Thank you for using Weblate."
+        response = self.client.post(
+            reverse(
+                "new-unit",
+                kwargs={
+                    "project": self.component.project.slug,
+                    "component": self.component.slug,
+                    "lang": "en",
+                },
+            ),
+            {
+                "context": "variantial",
+                "source_0": "Source",
+                "variant": base,
+            },
+            follow=True,
+        )
+        self.assertContains(response, "New string has been added")
+
+        translation = self.component.translation_set.get(language_code="cs")
+        unit = translation.unit_set.get(context="variantial")
+        self.assertEqual(unit.source_unit.extra_flags, f'variant:"{base}"')
+        self.assertTrue(unit.defined_variants.exists())
