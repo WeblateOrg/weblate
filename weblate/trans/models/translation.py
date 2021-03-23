@@ -1176,7 +1176,7 @@ class Translation(
         context: str,
         source: Union[str, List[str]],
         target: Optional[Union[str, List[str]]] = None,
-        extra_flags: Optional[str] = None,
+        extra_flags: str = "",
         is_batch_update: bool = False,
     ):
         user = request.user if request else None
