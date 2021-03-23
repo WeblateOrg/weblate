@@ -1025,6 +1025,7 @@ class VCSSubversionTest(VCSGitTest):
     _class = SubversionRepository
     _vcs = "subversion"
     _remote_branches = []
+    _remote_branch = "master"
 
     def test_clone(self):
         self.assertTrue(os.path.exists(os.path.join(self.tempdir, ".git", "svn")))

@@ -218,6 +218,8 @@ class RepoTestMixin:
         if branch is None:
             if repo.startswith("weblate://"):
                 branch = ""
+            elif vcs == "subversion":
+                branch = "master"
             else:
                 branch = VCS_REGISTRY[vcs].get_remote_branch(repo)
 

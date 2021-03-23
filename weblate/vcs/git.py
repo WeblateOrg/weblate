@@ -463,6 +463,7 @@ class SubversionRepository(GitRepository):
 
     name = "Subversion"
     req_version = "2.12"
+    default_branch = "master"
 
     _version = None
 
@@ -577,7 +578,7 @@ class SubversionRepository(GitRepository):
 
         trunk if local branch is master, local branch otherwise.
         """
-        if self.branch == "master":
+        if self.branch == self.default_branch:
             fetch = self.get_config("svn-remote.svn.fetch")
             if "origin/trunk" in fetch:
                 return "origin/trunk"
