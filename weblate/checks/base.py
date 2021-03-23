@@ -206,9 +206,10 @@ class Check:
 
         # Delete stale checks
         stale_checks = Check.objects.exclude(unit_id__in=handled)
-        if self.batch_project_wide:
+        if self.batch_project_wide and component.allow_translation_propagation:
             stale_checks = stale_checks.filter(
                 unit__translation__component__project=component.project,
+                unit__translation__component__allow_translation_propagation=True,
                 check=self.check_id,
             )
             for current in Component.objects.filter(
