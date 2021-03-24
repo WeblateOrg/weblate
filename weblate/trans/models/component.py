@@ -1644,6 +1644,7 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
         if self.id:
             Change.objects.create(
                 component=self,
+                translation=translation,
                 action=Change.ACTION_PARSE_ERROR,
                 details={"error_message": error_message, "filename": filename},
                 user=self.acting_user,
