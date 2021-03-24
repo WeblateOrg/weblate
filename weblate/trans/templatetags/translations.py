@@ -74,7 +74,7 @@ NAME_MAPPING = {
 }
 
 FLAG_TEMPLATE = '<span title="{0}" class="{1}">{2}</span>'
-BADGE_TEMPLATE = '<span class="badge pull-right flip {1}">{0}</span>'
+BADGE_TEMPLATE = '<span class="badge pull-right flip">{0}</span>'
 
 PERM_TEMPLATE = """
 <td>
@@ -550,21 +550,18 @@ def words_progress(obj):
 @register.simple_tag
 def get_state_badge(unit):
     """Return state badge."""
-    flag = None
-
     if unit.fuzzy:
-        flag = (pgettext("String state", "Needs editing"), "text-danger")
+        flag = pgettext("String state", "Needs editing")
     elif not unit.translated:
-        flag = (pgettext("String state", "Not translated"), "text-danger")
+        flag = pgettext("String state", "Not translated")
     elif unit.approved:
-        flag = (pgettext("String state", "Approved"), "text-success")
+        flag = pgettext("String state", "Approved")
     elif unit.translated:
-        flag = (pgettext("String state", "Translated"), "text-primary")
-
-    if flag is None:
+        flag = pgettext("String state", "Translated")
+    else:
         return ""
 
-    return mark_safe(BADGE_TEMPLATE.format(*flag))
+    return mark_safe(BADGE_TEMPLATE.format(flag))
 
 
 @register.inclusion_tag("snippets/unit-state.html")
