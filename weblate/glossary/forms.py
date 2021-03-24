@@ -68,3 +68,22 @@ class TermForm(forms.ModelForm):
         super().__init__(data=data, instance=instance, initial=initial, **kwargs)
         self.fields["translation"].queryset = glossaries
         self.fields["translation"].label = _("Glossary")
+
+    def clean(self):
+        translation = self.cleaned_data.get("translation")
+        if not translation:
+            return
+        try:
+            data = self.as_kwargs()
+        except KeyError:
+            # Probably some fields validation has failed
+            return
+        translation.validate_new_unit_data(**data)
+
+    def as_kwargs(self):
+        return {
+            "context": "",
+            "source": self.cleaned_data["source"],
+            "target": self.cleaned_data.get("target"),
+            "auto_context": True,
+        }

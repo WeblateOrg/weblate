@@ -45,13 +45,7 @@ def add_glossary_term(request, unit_id):
         form = TermForm(unit, request.POST)
         if form.is_valid():
             translation = form.cleaned_data["translation"]
-            added = translation.add_unit(
-                request,
-                "",
-                form.cleaned_data["source"],
-                form.cleaned_data["target"],
-                auto_context=True,
-            )
+            added = translation.add_unit(request, **form.as_kwargs())
             terms = form.cleaned_data["terms"]
             terms.append(added.pk)
             code = 200

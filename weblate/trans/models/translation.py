@@ -1295,7 +1295,7 @@ class Translation(
             # Unit is already present
             self.add_unit(None, source.context, source.get_source_plurals(), "")
 
-    def validate_new_unit_data(
+    def validate_new_unit_data(  # noqa: C901
         self,
         context: str,
         source: Union[str, List[str]],
@@ -1304,6 +1304,10 @@ class Translation(
         extra_flags: Optional[str] = None,
     ):
         extra = {}
+        if isinstance(source, str):
+            source = [source]
+        if isinstance(target, str):
+            target = [target]
         if not self.component.has_template():
             extra["source"] = join_plural(source)
         if not auto_context and self.unit_set.filter(context=context, **extra).exists():
