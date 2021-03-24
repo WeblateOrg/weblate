@@ -1318,7 +1318,13 @@ class Translation(
                 raise ValidationError(
                     _("Failed adding string: %s") % _("No translation found.")
                 )
-            translation.validate_new_unit_data(context, source, target)
+            translation.validate_new_unit_data(
+                context,
+                source,
+                target,
+                auto_context=auto_context,
+                extra_flags=extra_flags,
+            )
             return
         # Always load a new copy of store
         store = self.load_store()
