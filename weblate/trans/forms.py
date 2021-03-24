@@ -1992,8 +1992,12 @@ class NewUnitBaseForm(forms.Form):
             return
         self.translation.validate_new_unit_data(**data)
 
+    def get_glossary_flags(self):
+        return ""
+
     def as_kwargs(self):
         flags = Flags()
+        flags.merge(self.get_glossary_flags())
         variant = self.cleaned_data.get("variant")
         if variant:
             flags.set_value("variant", variant)

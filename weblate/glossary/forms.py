@@ -20,6 +20,7 @@
 from django import forms
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext as _
+from django.utils.translation import gettext_lazy
 
 from weblate.trans.models import Translation, Unit
 
@@ -40,7 +41,33 @@ class GlossaryModelChoiceField(forms.ModelChoiceField):
         return obj.component.name
 
 
-class TermForm(forms.ModelForm):
+class GlossaryAddMixin(forms.Form):
+    terminology = forms.BooleanField(
+        label=gettext_lazy("Terminology"),
+        help_text=gettext_lazy("String will be propagated to all languages"),
+        required=False,
+    )
+    forbidden = forms.BooleanField(
+        label=gettext_lazy("Forbidden translation"),
+        required=False,
+    )
+    read_only = forms.BooleanField(
+        label=gettext_lazy("Not translatable term"),
+        required=False,
+    )
+
+    def get_glossary_flags(self):
+        result = []
+        if self.cleaned_data.get("terminology"):
+            result.append("terminology")
+        if self.cleaned_data.get("forbidden"):
+            result.append("forbidden")
+        if self.cleaned_data.get("read_only"):
+            result.append("read-only")
+        return ", ".join(result)
+
+
+class TermForm(GlossaryAddMixin, forms.ModelForm):
     """Form for adding term to a glossary."""
 
     terms = CommaSeparatedIntegerField(widget=forms.HiddenInput, required=False)
@@ -63,6 +90,8 @@ class TermForm(forms.ModelForm):
         )
         if not instance and not initial:
             initial = {}
+        if initial is not None and unit.is_source:
+            initial["terminology"] = True
         if initial is not None and "glossary" not in initial and len(glossaries) == 1:
             initial["translation"] = glossaries[0]
         super().__init__(data=data, instance=instance, initial=initial, **kwargs)
@@ -89,4 +118,5 @@ class TermForm(forms.ModelForm):
             if is_source
             else self.cleaned_data.get("target"),
             "auto_context": True,
+            "extra_flags": self.get_glossary_flags(),
         }
