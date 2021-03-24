@@ -1252,8 +1252,6 @@ class Translation(
             if translation == self:
                 result = unit
 
-        if self.is_source:
-            component.sync_terminology()
         if not is_batch_update:
             component.update_variants()
             component.sync_terminology()
