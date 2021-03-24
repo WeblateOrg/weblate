@@ -1223,6 +1223,11 @@ class Translation(
             if not self.is_source and is_source:
                 try:
                     unit = translation.unit_set.get(id_hash=id_hash)
+                    flags = Flags(unit.extra_flags)
+                    flags.merge(extra_flags)
+                    new_flags = flags.format()
+                    if unit.extra_flags != new_flags:
+                        unit.save(update_fields=["extra_flags"], same_content=True)
                 except Unit.DoesNotExist:
                     pass
             if unit is None:
