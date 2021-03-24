@@ -74,7 +74,7 @@ class Check:
     def check_target(self, sources, targets, unit):
         """Check target strings."""
         # No checking of not translated units (but we do check needs editing ones)
-        if self.ignore_untranslated and not unit.state:
+        if self.ignore_untranslated and (not unit.state or unit.readonly):
             return False
         if self.should_skip(unit):
             return False

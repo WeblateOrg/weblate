@@ -13,6 +13,7 @@ Not yet released.
 * Several bug fixes in quality checks.
 * Several performance improvements.
 * Added integration with :ref:`discover-weblate`.
+* Fixed checks behavior with read-only strings.
 
 Weblate 4.5.1
 -------------
