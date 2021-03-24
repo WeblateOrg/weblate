@@ -267,7 +267,7 @@ class Change(models.Model, UserDisplayMixin):
         # Translators: Name of event in the history
         (ACTION_FAILED_PUSH, gettext_lazy("Failed push on repository")),
         # Translators: Name of event in the history
-        (ACTION_PARSE_ERROR, gettext_lazy("Parse error")),
+        (ACTION_PARSE_ERROR, gettext_lazy("Parsing error")),
         # Translators: Name of event in the history
         (ACTION_REMOVE_TRANSLATION, gettext_lazy("Removed translation")),
         # Translators: Name of event in the history
