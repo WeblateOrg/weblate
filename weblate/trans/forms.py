@@ -49,6 +49,7 @@ from weblate.checks.flags import Flags
 from weblate.checks.models import CHECKS
 from weblate.checks.utils import highlight_string
 from weblate.formats.models import EXPORTERS, FILE_FORMATS
+from weblate.glossary.forms import GlossaryAddMixin
 from weblate.lang.data import BASIC_LANGUAGES
 from weblate.lang.models import Language
 from weblate.machinery import MACHINE_TRANSLATION_SERVICES
@@ -2078,9 +2079,29 @@ class NewBilingualUnitForm(NewBilingualSourceUnitForm):
         self.fields["target"].initial = Unit(translation=translation, id_hash=0)
 
 
+class NewBilingualGlossarySourceUnitForm(GlossaryAddMixin, NewBilingualSourceUnitForm):
+    def __init__(self, translation, user, *args, **kwargs):
+        if kwargs["initial"] is None:
+            kwargs["initial"] = {}
+        kwargs["initial"]["terminology"] = True
+        super().__init__(translation, user, *args, **kwargs)
+
+
+class NewBilingualGlossaryUnitForm(GlossaryAddMixin, NewBilingualUnitForm):
+    pass
+
+
 def get_new_unit_form(translation, user, data=None, initial=None):
     if translation.component.has_template():
         return NewMonolingualUnitForm(translation, user, data=data, initial=initial)
+    if translation.component.is_glossary:
+        if translation.is_source:
+            return NewBilingualGlossarySourceUnitForm(
+                translation, user, data=data, initial=initial
+            )
+        return NewBilingualGlossaryUnitForm(
+            translation, user, data=data, initial=initial
+        )
     if translation.is_source:
         return NewBilingualSourceUnitForm(translation, user, data=data, initial=initial)
     return NewBilingualUnitForm(translation, user, data=data, initial=initial)
