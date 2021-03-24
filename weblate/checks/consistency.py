@@ -119,17 +119,21 @@ class ConsistencyCheck(TargetCheck):
         if not matches:
             return []
 
-        return units.filter(
-            reduce(
-                lambda x, y: x
-                | (
-                    Q(id_hash=y["id_hash"])
-                    & Q(translation__language=y["translation__language"])
-                ),
-                matches,
-                Q(),
+        return (
+            units.filter(
+                reduce(
+                    lambda x, y: x
+                    | (
+                        Q(id_hash=y["id_hash"])
+                        & Q(translation__language=y["translation__language"])
+                    ),
+                    matches,
+                    Q(),
+                )
             )
-        ).prefetch_bulk()
+            .prefetch()
+            .prefetch_bulk()
+        )
 
 
 class TranslatedCheck(TargetCheck):
@@ -204,6 +208,7 @@ class TranslatedCheck(TargetCheck):
                     to_attr="recent_consistency_changes",
                 )
             )
+            .prefetch()
             .prefetch_bulk()
         )
 

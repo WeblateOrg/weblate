@@ -103,9 +103,11 @@ def bulk_perform(
                 user is None or user.has_perm("source.edit", component)
             ):
                 # Perform changes on the source units
-                source_units = Unit.objects.filter(
-                    pk__in=source_unit_ids
-                ).prefetch_bulk()
+                source_units = (
+                    Unit.objects.filter(pk__in=source_unit_ids)
+                    .prefetch()
+                    .prefetch_bulk()
+                )
                 if add_labels or remove_labels:
                     source_units = source_units.prefetch_related("labels")
                 for source_unit in source_units.select_for_update():

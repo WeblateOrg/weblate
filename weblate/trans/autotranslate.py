@@ -172,7 +172,7 @@ class AutoTranslate:
         with transaction.atomic():
             # Perform the translation
             for pos, unit in enumerate(
-                Unit.objects.filter(id__in=translations.keys())
+                self.translation.unit_set.filter(id__in=translations.keys())
                 .prefetch_bulk()
                 .select_for_update()
             ):
