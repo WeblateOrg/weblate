@@ -45,14 +45,12 @@ def add_glossary_term(request, unit_id):
         form = TermForm(unit, request.POST)
         if form.is_valid():
             translation = form.cleaned_data["translation"]
-            context = ""
-            suffix = 0
-            source = form.cleaned_data["source"]
-            while translation.unit_set.filter(context=context, source=source).exists():
-                suffix += 1
-                context = str(suffix)
             added = translation.add_unit(
-                request, context, source, form.cleaned_data["target"]
+                request,
+                "",
+                form.cleaned_data["source"],
+                form.cleaned_data["target"],
+                auto_context=True,
             )
             terms = form.cleaned_data["terms"]
             terms.append(added.pk)

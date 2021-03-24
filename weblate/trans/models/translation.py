@@ -1173,6 +1173,7 @@ class Translation(
         source: Union[str, List[str]],
         target: Optional[Union[str, List[str]]] = None,
         extra_flags: str = "",
+        auto_context: bool = False,
         is_batch_update: bool = False,
     ):
         user = request.user if request else None
@@ -1185,6 +1186,13 @@ class Translation(
         has_template = component.has_template()
         source_unit = None
         result = None
+
+        # Automatic context
+        suffix = 0
+        base = context
+        while self.unit_set.filter(context=context, source=source).exists():
+            suffix += 1
+            context = f"{base}{suffix}"
 
         for translation in translations:
             is_source = translation.is_source
@@ -1292,12 +1300,13 @@ class Translation(
         context: str,
         source: Union[str, List[str]],
         target: Optional[Union[str, List[str]]] = None,
+        auto_context: bool = False,
         extra_flags: Optional[str] = None,
     ):
         extra = {}
         if not self.component.has_template():
             extra["source"] = join_plural(source)
-        if self.unit_set.filter(context=context, **extra).exists():
+        if not auto_context and self.unit_set.filter(context=context, **extra).exists():
             raise ValidationError(_("This string seems to already exist."))
         # Avoid using source translations without a filename
         if not self.filename:

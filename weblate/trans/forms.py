@@ -2002,6 +2002,7 @@ class NewUnitBaseForm(forms.Form):
             "source": self.cleaned_data["source"],
             "target": self.cleaned_data.get("target"),
             "extra_flags": flags.format(),
+            "auto_context": self.cleaned_data.get("auto_context", False),
         }
 
 
@@ -2033,9 +2034,14 @@ class NewMonolingualUnitForm(NewUnitBaseForm):
 
 class NewBilingualSourceUnitForm(NewUnitBaseForm):
     context = forms.CharField(
-        label=_("Translation key"),
+        label=_("Context"),
         help_text=_("Optional context to clarify the source strings."),
         required=False,
+    )
+    auto_context = forms.BooleanField(
+        required=False,
+        initial=True,
+        label=_("Automatically adjust context when same string already exists."),
     )
     source = PluralField(
         label=_("Source string"),
