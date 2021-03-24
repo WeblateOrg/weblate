@@ -21,6 +21,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
 from django.template.loader import render_to_string
+from django.utils.translation import gettext as _
 from django.views.decorators.http import require_POST
 
 from weblate.glossary.forms import TermForm
@@ -39,6 +40,7 @@ def add_glossary_term(request, unit_id):
 
     code = 403
     results = ""
+    details = ""
     terms = []
 
     if request.user.has_perm("glossary.add", component.project):
@@ -62,10 +64,22 @@ def add_glossary_term(request, unit_id):
                     "user": request.user,
                 },
             )
+        else:
+            messages = []
+            for error in form.non_field_errors():
+                messages.append(error)
+            for field in form:
+                for error in field.errors:
+                    messages.append(
+                        _("Error in parameter %(field)s: %(error)s")
+                        % {"field": field.name, "error": error},
+                    )
+            details = "\n".join(messages)
 
     return JsonResponse(
         data={
             "responseCode": code,
+            "responseDetails": details,
             "results": results,
             "terms": ",".join(str(x) for x in terms),
         }
