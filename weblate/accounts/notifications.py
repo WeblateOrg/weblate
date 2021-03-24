@@ -458,7 +458,7 @@ class LicenseNotification(Notification):
 class ParseErrorNotification(Notification):
     actions = (Change.ACTION_PARSE_ERROR,)
     # Translators: Notification name
-    verbose = _("Parse error")
+    verbose = _("Parsing error")
     template_name = "parse_error"
 
 
