@@ -22,6 +22,11 @@ This can be done using :ref:`component-new_lang` in :ref:`component`.
 
     More info on the repository update settings can be found on the :ref:`update-vcs`.
 
+.. seealso::
+
+   :ref:`component-new_lang`,
+   :ref:`new-translations`
+
 .. _removing-translation:
 
 Removing existing translations
