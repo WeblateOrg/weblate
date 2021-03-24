@@ -495,8 +495,9 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
         flags = self.all_flags
         new_variant = None
         remove = False
+
         if not flags.has_value("variant"):
-            remove = True
+            remove = bool(variants)
         else:
             new_variant = flags.get_value("variant")
             if any(variant.key != new_variant for variant in variants):
