@@ -1,7 +1,7 @@
 Weblate 4.5.2
 -------------
 
-Not yet released.
+Released on March 26th 2021.
 
 * Configurable schedule for automatic translation.
 * Added Lua format check.
