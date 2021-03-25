@@ -199,7 +199,7 @@ At this point you should perform one of the following steps:
          63CB1DF1EF12CF2AC0EE5A329C27B31342B7511D
    uid           [ultimate] Michal Čihař <michal@cihar.com>
    uid           [ultimate] Michal Čihař <nijel@debian.org>
-   uid           [ultimate] [JPEG image of size 8848]
+   uid           [ultimate] [jpeg image of size 8848]
    uid           [ultimate] Michal Čihař (Braiins) <michal.cihar@braiins.cz>
    sub   rsa4096 2009-06-17 [E]
    sub   rsa4096 2015-09-09 [S]
@@ -232,7 +232,7 @@ but you can still not trust the name used in the key:
    gpg:                using RSA key 87E673AF83F6C3A0C344C8C3F4AA229D4D58C245
    gpg: Good signature from "Michal Čihař <michal@cihar.com>" [ultimate]
    gpg:                 aka "Michal Čihař <nijel@debian.org>" [ultimate]
-   gpg:                 aka "[JPEG image of size 8848]" [ultimate]
+   gpg:                 aka "[jpeg image of size 8848]" [ultimate]
    gpg:                 aka "Michal Čihař (Braiins) <michal.cihar@braiins.cz>" [ultimate]
    gpg: WARNING: This key is not certified with a trusted signature!
    gpg:          There is no indication that the signature belongs to the owner.
@@ -257,11 +257,11 @@ Once the key is trusted, the warning will not occur:
    gpg:                using RSA key 87E673AF83F6C3A0C344C8C3F4AA229D4D58C245
    gpg: Good signature from "Michal Čihař <michal@cihar.com>" [ultimate]
    gpg:                 aka "Michal Čihař <nijel@debian.org>" [ultimate]
-   gpg:                 aka "[JPEG image of size 8848]" [ultimate]
+   gpg:                 aka "[jpeg image of size 8848]" [ultimate]
    gpg:                 aka "Michal Čihař (Braiins) <michal.cihar@braiins.cz>" [ultimate]
 
 
-Should the signature be invalid (meaning archive has been changed),
+Should the signature be invalid (meaning the archive has been changed),
 you will get a clear error regardless of the fact that the key is trusted or not:
 
 .. code-block:: console
@@ -354,7 +354,7 @@ It is usually a good idea to run Weblate in a separate database, and separate us
 
    If you don't want to make the Weblate user a superuser in PostgreSQL, you can
    omit that and perform some of the migration steps manually.
-   This is an example of a PostgreSQL superuser in the scheme Weblate uses:
+   This is an example of a PostgreSQL superuser in the `schema <https://www.postgresql.org/docs/9.1/ddl-schemas.html>`_ Weblate uses:
 
    .. code-block:: postgres
 
@@ -416,7 +416,7 @@ please read :ref:`django:mysql-notes` and :ref:`django:mariadb-notes` for caveat
 Django with those. Because of these limitations it is recommended to use
 :ref:`postgresql` for new installations.
 
-Following configuration is recommended for Weblate:
+The following configuration is recommended for Weblate:
 
 * Use the ``utf8mb4`` charset to allow representation of higher Unicode planes (for example emojis).
 * Configure the server with ``innodb_large_prefix`` to allow longer indices on text fields.
@@ -853,7 +853,7 @@ applies the :ref:`django:http-strict-transport-security` header to all responses
 
 .. warning::
 
-    Setting this incorrectly can irreversibly (for some time) break your site.
+    Setting this incorrectly can irreversibly (for some time) `break your site <https://docs.djangoproject.com/en/3.0/ref/settings/#secure-hsts-seconds>`_.
     Read the :ref:`django:http-strict-transport-security` documentation first.
 
 
@@ -1098,7 +1098,10 @@ Running maintenance tasks
 
 For optimal performance, it is good idea to run some maintenance tasks in the
 background.
-This is now automatically done by :ref:`celery` and covers the following tasks:
+
+.. versionchanged:: 3.2
+
+    This is now automatically done by :ref:`celery` and covers the following tasks:
 
 * Configuration health check (hourly).
 * Committing pending changes (hourly), see :ref:`lazy-commit` and :djadmin:`commit_pending`.
@@ -1416,7 +1419,7 @@ A typical setup using Redis as a back-end looks like this:
 
    :ref:`Redis broker configuration in Celery <celery:broker-redis-configuration>`
 
-For development, you might want to use Eager configuration, which processes
+For development, you might want to use `eager mode <https://docs.celeryproject.org/en/stable/userguide/testing.html>`_ configuration, which processes
 all tasks in place, but has a negative performance impact on Weblate:
 
 .. code-block:: python
@@ -1529,7 +1532,7 @@ Use it by setting :setting:`SENTRY_DSN` in the :file:`settings.py`:
 Rollbar
 +++++++
 
-Weblate has built-in support for `Rollbar <https://rollbar.com/>`_. To use
+Weblate has built-in support for `Rollbar <https://rollbar.com/>`_.
 Follow the instructions for `Rollbar notifier for
 Python <https://docs.rollbar.com/docs/python/>`_ to use it.
 
