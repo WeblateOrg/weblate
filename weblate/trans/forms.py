@@ -2020,7 +2020,7 @@ class NewUnitBaseForm(forms.Form):
             "source": self.cleaned_data["source"],
             "target": self.cleaned_data.get("target"),
             "extra_flags": flags.format(),
-            "explanation": self.cleaned_data.get("explanation"),
+            "explanation": self.cleaned_data.get("explanation", ""),
             "auto_context": self.cleaned_data.get("auto_context", False),
         }
 
