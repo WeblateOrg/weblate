@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-03-25 16:32+0100\n"
-"PO-Revision-Date: 2021-03-21 18:05+0000\n"
+"PO-Revision-Date: 2021-03-25 17:38+0000\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/"
 "documentation/uk/>\n"
@@ -316,12 +316,6 @@ msgstr ""
 "доступу для усіх користувачів."
 
 #: ../../admin/access.rst:129
-#, fuzzy
-#| msgid ""
-#| "For non-`Custom` access control an instance of each group described above "
-#| "is actulally defined for each project. The actual name of those groups "
-#| "will be ``Project@Group``, also displayed in the Django admin interface "
-#| "this way. Although they can’t be edited from Weblate user-interface."
 msgid ""
 "For non-`Custom` access control an instance of each group described above is "
 "actually defined for each project. The actual name of those groups will be "
@@ -7594,16 +7588,17 @@ msgid ":ref:`gpg-sign`"
 msgstr ":ref:`gpg-sign`"
 
 #: ../../admin/config.rst:2101
-#, fuzzy
-#| msgid "LICENSE_REQUIRED"
 msgid "WEBSITE_REQUIRED"
-msgstr "LICENSE_REQUIRED"
+msgstr "WEBSITE_REQUIRED"
 
 #: ../../admin/config.rst:2103
 msgid ""
 "Defines whether :ref:`project-web` has to be specified when creating a "
 "project. Turned on by default as that suits public server setups."
 msgstr ""
+"Визначає, чи має бути вказано :ref:`project-web` при створенні проєкту. "
+"Типово увімкнено, оскільки це відповідає налаштуванням загальнодоступних "
+"серверів."
 
 #: ../../admin/continuous.rst:4
 msgid "Continuous localization"
@@ -7690,14 +7685,11 @@ msgstr ""
 "Вам слід налаштувати певний спосіб оновлення сховищ з початкового коду."
 
 #: ../../admin/continuous.rst:55
-#, fuzzy
-#| msgid ""
-#| "Use :ref:`hooks` to integrate with most of common code hosting services"
 msgid ""
 "Use :ref:`hooks` to integrate with most of common code hosting services:"
 msgstr ""
 "Скористайтеся :ref:`hooks` для інтеграції із більшістю типових служб "
-"зберігання коду"
+"зберігання коду:"
 
 #: ../../admin/continuous.rst:57 ../../api.rst:2358
 msgid ":ref:`github-setup`"
@@ -11821,16 +11813,12 @@ msgid "Configures :setting:`LICENSE_FILTER`."
 msgstr "Налаштовує :setting:`LICENSE_FILTER`."
 
 #: ../../admin/install/docker.rst:592
-#, fuzzy
-#| msgid "Configures :setting:`LICENSE_FILTER`."
 msgid "Configures :setting:`LICENSE_REQUIRED`"
-msgstr "Налаштовує :setting:`LICENSE_FILTER`."
+msgstr "Налаштовує :setting:`LICENSE_REQUIRED`"
 
 #: ../../admin/install/docker.rst:596
-#, fuzzy
-#| msgid "Configures :setting:`GET_HELP_URL`."
 msgid "Configures :setting:`WEBSITE_REQUIRED`"
-msgstr "Налаштовує :setting:`GET_HELP_URL`."
+msgstr "Налаштовує :setting:`WEBSITE_REQUIRED`"
 
 #: ../../admin/install/docker.rst:600
 msgid "Configures :setting:`HIDE_VERSION`."
@@ -15521,12 +15509,6 @@ msgid "Usage"
 msgstr "Користування"
 
 #: ../../admin/optionals.rst:33
-#, fuzzy
-#| msgid ""
-#| "The module automatically hooks into Weblate and sets the exported "
-#| "repository URL in the :ref:`component`. The repositories are accessible "
-#| "under the ``/git/`` part of the Weblate URL, for example ``https://"
-#| "example.org/git/weblate/master/``."
 msgid ""
 "The module automatically hooks into Weblate and sets the exported repository "
 "URL in the :ref:`component`. The repositories are accessible under the ``/"
@@ -15536,7 +15518,7 @@ msgstr ""
 "Модуль автоматично обробляє дані Weblate і встановлює адресу експортованого "
 "сховища у :ref:`компоненті <component>`. Доступ до сховищ можна отримати за "
 "частиною ``/git/`` адреси Weblate, наприклад ``https://example.org/git/"
-"weblate/master/``."
+"weblate/main/``."
 
 #: ../../admin/optionals.rst:38
 msgid ""
@@ -15677,18 +15659,13 @@ msgid "Short overview of the terms of service and privacy policy"
 msgstr "Короткий огляд умов надання послуг та правил конфіденційності"
 
 #: ../../admin/optionals.rst:127
-#, fuzzy
-#| msgid ""
-#| "Legal documents for the Hosted Weblate service are available in this Git "
-#| "repository <https://github.com/WeblateOrg/wllegal/tree/master/wllegal/"
-#| "templates/legal/documents>."
 msgid ""
 "Legal documents for the Hosted Weblate service are available in this Git "
 "repository <https://github.com/WeblateOrg/wllegal/tree/main/wllegal/"
 "templates/legal/documents>."
 msgstr ""
 "Юридичні документи для служби Hosted Weblate доступні у цьому сховищі Git: "
-"<https://github.com/WeblateOrg/wllegal/tree/master/wllegal/templates/legal/"
+"<https://github.com/WeblateOrg/wllegal/tree/main/wllegal/templates/legal/"
 "documents>."
 
 #: ../../admin/optionals.rst:130
@@ -16330,6 +16307,8 @@ msgid ""
 "This is a required parameter unless turned off by :setting:"
 "`WEBSITE_REQUIRED`."
 msgstr ""
+"Цей параметр є обов'язковим, якщо таку поведінку не вимкнено за допомогою "
+":setting:`WEBSITE_REQUIRED`."
 
 #: ../../admin/projects.rst:147
 msgid "Translation instructions"
@@ -16836,16 +16815,12 @@ msgstr ""
 "перекладу усі рядки було показано як порожні значення."
 
 #: ../../admin/projects.rst:463
-#, fuzzy
-#| msgid ""
-#| ":ref:`new-translations`, :ref:`component-new_lang`, :ref:`bimono`, :ref:"
-#| "`faq-duplicate-files`"
 msgid ""
 ":ref:`adding-translation`, :ref:`new-translations`, :ref:`component-"
 "new_lang`, :ref:`bimono`, :ref:`faq-duplicate-files`"
 msgstr ""
-":ref:`new-translations`, :ref:`component-new_lang`, :ref:`bimono`, :ref:`faq-"
-"duplicate-files`"
+":ref:`adding-translation`, :ref:`new-translations`, :ref:`component-new_lang`"
+", :ref:`bimono`, :ref:`faq-duplicate-files`"
 
 #: ../../admin/projects.rst:472 ../../devel/gettext.rst:230
 #: ../../formats.rst:176 ../../formats.rst:242 ../../formats.rst:363
@@ -17054,12 +17029,14 @@ msgid ""
 "it is possible (either :ref:`component-new_base` or the file format supports "
 "starting from an empty file)."
 msgstr ""
+"Адміністратори проєкту можуть додавати нові переклади, навіть якщо тут цю "
+"можливість вимкнено, якщо це можливо (у :ref:`component-new_base` або "
+"форматі файла передбачено підтримку можливості започаткування перекладу з "
+"порожнього файла)."
 
 #: ../../admin/projects.rst:583
-#, fuzzy
-#| msgid ":ref:`machine-translation-setup`, :ref:`machine-translation`"
 msgid ":ref:`adding-translation`, :ref:`new-translations`"
-msgstr ":ref:`machine-translation-setup`, :ref:`machine-translation`"
+msgstr ":ref:`adding-translation`, :ref:`new-translations`"
 
 #: ../../admin/projects.rst:589
 msgid "Manage strings"
@@ -17971,16 +17948,16 @@ msgstr ""
 "проєкти для участі в них."
 
 #: ../../admin/support.rst:68
-#, fuzzy
-#| msgid "Getting started"
 msgid "Getting listed"
-msgstr "Перші кроки"
+msgstr "Потрапляння до списку"
 
 #: ../../admin/support.rst:72
 msgid ""
 "Participating in Discover Weblate makes Weblate submit some information "
 "about your server, please see :ref:`support-data`."
 msgstr ""
+"Участь у Discover Weblate дозволяє Weblate надсилати певні відомості щодо "
+"вашого сервера. Будь ласка, див. :ref:`support-data`."
 
 #: ../../admin/support.rst:76
 msgid ""
@@ -17988,49 +17965,47 @@ msgid ""
 "support`) in Discover Weblate all you need to do is turn this on in the "
 "management panel:"
 msgstr ""
+"Щоб ваш сервер потрапив до списку із активною передплатою підтримки (див. "
+":ref:`activate-support`) у Discover Weblate, вам достатньо увімкнути "
+"можливість на панелі керування:"
 
 #: ../../admin/support.rst:82
-#, fuzzy
-#| msgid "Listing your server in Discover Weblate:"
 msgid "Listing your server without a support subsription in Discover Weblate:"
-msgstr "Додавання вашого сервера до виявлення Weblate:"
+msgstr "Додавання вашого сервера без передплати підтримки до Discover Weblate:"
 
 #: ../../admin/support.rst:84
 msgid "Register yourself at <https://weblate.org/user/>"
 msgstr "Зареєструйтеся на <https://weblate.org/user/>"
 
 #: ../../admin/support.rst:85
-#, fuzzy
-#| msgid "Register your Weblate server in the discovery database"
 msgid ""
 "Register your Weblate server in the discovery database at <https://weblate."
 "org/subscription/discovery/>"
-msgstr "Зареєструйте ваш сервер Weblate у базі даних виявлення"
+msgstr ""
+"Зареєструйте ваш сервер Weblate у базі даних виявлення на сторінці "
+"<https://weblate.org/subscription/discovery/>"
 
 #: ../../admin/support.rst:86
-#, fuzzy
-#| msgid ""
-#| "Turn on the discovery listing in your Weblate management page using :"
-#| "guilabel:`Enable discovery` button:"
 msgid ""
 "Confirm the service activation in your Weblate and turn on the discovery "
 "listing in your Weblate management page using :guilabel:`Enable discovery` "
 "button:"
 msgstr ""
-"Увімкніть список виявлення на вашій сторінці керування Weblate за допомогою "
-"кнопки :guilabel:`Увімкнути виявлення`:"
+"Підтвердьте активацію служби у вашому Weblate і увімкніть список виявлення "
+"на вашій сторінці керування Weblate за допомогою кнопки :guilabel:`Увімкнути "
+"виявлення`:"
 
 #: ../../admin/support.rst:93
-#, fuzzy
-#| msgid "Customizing list of addons"
 msgid "Customizing listing"
-msgstr "Налаштовування списку додатків"
+msgstr "Налаштовування пункту у списку"
 
 #: ../../admin/support.rst:95
 msgid ""
 "You can customize the listing by providing a text and image (570 x 260 "
 "pixels) at <https://weblate.org/user/>."
 msgstr ""
+"Ви можете налаштувати ваш пункту списку, надавши текст і зображення (570 x "
+"260 пікселів) на сторінці <https://weblate.org/user/>."
 
 #: ../../admin/translating.rst:2
 msgid "Translation process"
@@ -18900,16 +18875,12 @@ msgid "Response JSON Object"
 msgstr "Об'єкт відповіді JSON"
 
 #: ../../api.rst:43
-#, fuzzy
-#| msgid ""
-#| "verbose description of failure (for HTTP status codes other than :http:"
-#| "statuscode:`200`)"
 msgid ""
 "verbose description of the result (for HTTP status codes other than :http:"
 "statuscode:`200`)"
 msgstr ""
-"докладний опис помилки (для кодів станів HTTP, відмінних від :http:"
-"statuscode:`200`)"
+"докладний опис результатів (для кодів станів HTTP, відмінних від "
+":http:statuscode:`200`)"
 
 #: ../../api.rst:44
 msgid "total item count for object lists"
@@ -18946,11 +18917,11 @@ msgstr "якщо запит було оброблено коректно"
 
 #: ../../api.rst:51
 msgid "when a new object was created successfully"
-msgstr ""
+msgstr "якщо новий об'єкт було успішно створено"
 
 #: ../../api.rst:52
 msgid "when an object was created successfully"
-msgstr ""
+msgstr "якщо об'єкт було успішно створено"
 
 #: ../../api.rst:53
 msgid "when form parameters are missing"
@@ -21373,8 +21344,6 @@ msgid "Fixed automatic suggestions for languages with a longer code."
 msgstr "Виправлено автоматичні пропозиції для мов із довгим кодом."
 
 #: ../../changes.rst:12
-#, fuzzy
-#| msgid "Improved peformance when adding new strings."
 msgid "Improved performance when adding new strings."
 msgstr "Удосконалено швидкодію при додаванні нових рядків."
 
@@ -21387,16 +21356,12 @@ msgid "Several performance improvements."
 msgstr "Декілька удосконалень у швидкодії."
 
 #: ../../changes.rst:15
-#, fuzzy
-#| msgid "Additionally, when :ref:`discover-weblate` is turned on:"
 msgid "Added integration with :ref:`discover-weblate`."
-msgstr "Крім того, якщо увімкнено :ref:`discover-weblate`:"
+msgstr "Додано інтеграцію із :ref:`discover-weblate`."
 
 #: ../../changes.rst:16
-#, fuzzy
-#| msgid "Fixed some checks triggering on non translated strings."
 msgid "Fixed checks behavior with read-only strings."
-msgstr "Виправлено спрацьовування деяких перевірок на неперекладених рядках."
+msgstr "Виправлено поведінку перевірок для придатних лише до читання рядків."
 
 #: ../../changes.rst:19
 msgid "Weblate 4.5.1"
@@ -27215,19 +27180,14 @@ msgstr ""
 "«translate» («перекладати»)."
 
 #: ../../contributing/about.rst:18
-#, fuzzy
-#| msgid ""
-#| "The landing page is <https://weblate.org/> and a cloud hosted service at "
-#| "<https://hosted.weblate.org/>. This documentation can be found on "
-#| "<https://docs.weblate.org/>."
 msgid ""
 "The landing page is https://weblate.org and a cloud hosted service at "
 "https://hosted.weblate.org. This documentation can be found on https://docs."
 "weblate.org."
 msgstr ""
-"Основною сторінкою інструмента є <https://weblate.org/>, а власну «хмарну» "
-"службу розташовано за адресою <https://hosted.weblate.org/>. Відповідну "
-"документацію розміщено на сайті <https://docs.weblate.org/>."
+"Основною сторінкою інструмента є https://weblate.org/, а власну «хмарну» "
+"службу розташовано за адресою https://hosted.weblate.org/. Відповідну "
+"документацію розміщено на сайті https://docs.weblate.org/."
 
 #: ../../contributing/about.rst:23
 msgid "Project logos"
@@ -27837,12 +27797,6 @@ msgid "Translating Weblate"
 msgstr "Переклад Weblate"
 
 #: ../../contributing/index.rst:22
-#, fuzzy
-#| msgid ""
-#| "Weblate is continually being `translated <https://hosted.weblate.org/>`_ "
-#| "using Weblate itself. Feel free to take your part in the effort of making "
-#| "Weblate available in as many human languages as possible. It brings "
-#| "Weblate closer to it’s users!"
 msgid ""
 "Weblate is continually being `translated <https://hosted.weblate.org/>`_ "
 "using Weblate itself. Feel free to take your part in the effort of making "
@@ -29072,17 +29026,12 @@ msgstr ""
 "яке цінує безпеку і конфіденційність наших користувачів."
 
 #: ../../contributing/security.rst:8
-#, fuzzy
-#| msgid ""
-#| "Weblate development follows the `Best Practices of the Linux Foundation's "
-#| "Core Infrastructure Initiative <https://bestpractices.coreinfrastructure."
-#| "org/projects/552>`_."
 msgid ""
 "Development of Weblate adheres to the `Best Practices of the Linux "
 "Foundation's Core Infrastructure Initiative <https://bestpractices."
 "coreinfrastructure.org/projects/552>`_."
 msgstr ""
-"Розробка вебсайтів відповідає `найкращим практикам основної ініціативи "
+"Процес розробки Weblate відповідає `найкращим практикам ініціативи базової "
 "інфраструктури Linux Foundation <https://bestpractices.coreinfrastructure."
 "org/projects/552>`_."
 
@@ -29091,12 +29040,6 @@ msgid "Tracking dependencies for vulnerabilities"
 msgstr "Стеження за вразливостями у залежностях"
 
 #: ../../contributing/security.rst:13
-#, fuzzy
-#| msgid ""
-#| "We do monitor security issues in our dependencies using `Dependabot "
-#| "<https://dependabot.com/>`_. This covers Python and JavaScript libraries "
-#| "and latest stable release should have adjusted dependencies to avoid "
-#| "vulnerabilities."
 msgid ""
 "Security issues in our dependencies are monitored using `Dependabot <https://"
 "dependabot.com/>`_. This covers the Python and JavaScript libraries, and the "
@@ -29108,21 +29051,15 @@ msgstr ""
 "залежності з метою уникнення вразливостей."
 
 #: ../../contributing/security.rst:20
-#, fuzzy
-#| msgid ""
-#| "There might be vulnerabilities in third-party libraries which do not "
-#| "affect Weblate, and we do not address these in a bugfix release."
 msgid ""
 "There might be vulnerabilities in third-party libraries which do not affect "
 "Weblate, so those are not addressed by releasing bugfix versions of Weblate."
 msgstr ""
 "Можуть траплятися вразливості у сторонніх бібліотеках, які не впливають на "
 "роботу Weblate. Ми не намагаємося окремо усунути ці вразливості у випусках "
-"із виправленнями вад."
+"із виправленнями вад Weblate."
 
 #: ../../contributing/security.rst:24
-#, fuzzy
-#| msgid "Docker containers security"
 msgid "Docker container security"
 msgstr "Захист контейнерів Docker"
 
@@ -29135,22 +29072,14 @@ msgstr ""
 "anchore.com/>`_ і `Trivy <https://github.com/aquasecurity/trivy>`_."
 
 #: ../../contributing/security.rst:29
-#, fuzzy
-#| msgid ""
-#| "This allows us to detect vulnerabilities early and release an updated "
-#| "version of the container containing fixes."
 msgid ""
 "This allows us to detect vulnerabilities early and release improvements "
 "quickly."
 msgstr ""
-"Це надає нам змогу виявити вразливості на ранньому етапі і випустити "
-"оновлену версію контейнера із виправленнями вад."
+"Це надає нам змогу виявити вразливості на ранньому етапі і швидко випустити "
+"удосконалену версію."
 
 #: ../../contributing/security.rst:31
-#, fuzzy
-#| msgid ""
-#| "You can get the results of these scans at GitHub - they are stored as "
-#| "artifacts on our CI as Static Analysis Results Interchange Format (SARIF)."
 msgid ""
 "You can get the results of these scans at GitHub — they are stored as "
 "artifacts on our CI in the SARIF format (Static Analysis Results Interchange "
@@ -31292,10 +31221,8 @@ msgstr ""
 "`update-vcs`."
 
 #: ../../devel/translations.rst:27
-#, fuzzy
-#| msgid ":ref:`language-code`, :ref:`new-translations`"
 msgid ":ref:`component-new_lang`, :ref:`new-translations`"
-msgstr ":ref:`language-code`, :ref:`new-translations`"
+msgstr ":ref:`component-new_lang`, :ref:`new-translations`"
 
 #: ../../devel/translations.rst:33
 msgid "Removing existing translations"
@@ -31307,8 +31234,8 @@ msgid ""
 "from Weblate and remote repository if used) from the menu :guilabel:`Manage` "
 "↓ :guilabel:`Removal` of each project, component, or language."
 msgstr ""
-"Мови, складники або проєкти, в яких вони перебувають, можна вилучити "
-"(вилучити з Weblate та віддаленого сховища, якщо вони використовуються) з "
+"Мови, складники або проєкти, в яких вони перебувають, можна вилучити ("
+"вилучити з Weblate та віддаленого сховища, якщо воно використовується) з "
 "меню :guilabel:`Управління` ↓ :guilabel:`Видалення` кожного проєкту, "
 "складника чи мови."
 
