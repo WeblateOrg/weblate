@@ -110,7 +110,7 @@ You can find all of them in :file:`requirements-optional.txt`.
 Database back-end dependencies
 ++++++++++++++++++++++++++++++
 
-Weblate supports PostgreSQL, MySQL and MariaDB. Read the :ref:`database-setup` and
+Weblate supports PostgreSQL, MariaDB, and MySQL. Read the :ref:`database-setup` and
 back-end documentation for more details.
 
 Other system requirements
