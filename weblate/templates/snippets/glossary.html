@@ -31,6 +31,15 @@
         </td>
       </tr>
     {% endif %}
+    {% if item != item.source_unit and item.explanation %}
+      <tr>
+        <td colspan="4">
+          <em>
+          {{ item.explanation|markdown }}
+          </em>
+        </td>
+      </tr>
+    {% endif %}
     {% if item.source_unit.explanation %}
       <tr>
         <td colspan="4">
