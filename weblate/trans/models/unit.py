@@ -860,7 +860,9 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
             was_propagated = self.propagate(user, change_action, author=author)
 
         changed = (
-            self.old_unit.state == self.state and self.old_unit.target == self.target
+            self.old_unit.state == self.state
+            and self.old_unit.target == self.target
+            and self.old_unit.explanation == self.explanation
         )
         # Return if there was no change
         # We have to explicitly check for fuzzy flag change on monolingual
@@ -868,7 +870,7 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
         if changed and not was_propagated:
             return False
 
-        update_fields = ["target", "state", "original_state", "pending"]
+        update_fields = ["target", "state", "original_state", "pending", "explanation"]
         if self.is_source and not self.translation.component.intermediate:
             self.source = self.target
             update_fields.extend(["source"])

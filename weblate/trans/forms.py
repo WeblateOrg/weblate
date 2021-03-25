@@ -467,6 +467,15 @@ class TranslationForm(UnitForm):
         required=False,
         widget=forms.RadioSelect,
     )
+    explanation = forms.CharField(
+        widget=MarkdownTextarea,
+        label=_("Explanation"),
+        help_text=_(
+            "Additional explanation to clarify meaning or usage of the string."
+        ),
+        max_length=1000,
+        required=False,
+    )
 
     def __init__(self, user, unit: Unit, *args, **kwargs):
         if unit is not None:
@@ -477,6 +486,7 @@ class TranslationForm(UnitForm):
                 "target": unit,
                 "fuzzy": unit.fuzzy,
                 "review": unit.state,
+                "explanation": unit.explanation,
             }
             kwargs["auto_id"] = f"id_{unit.checksum}_%s"
         tabindex = kwargs.pop("tabindex", 100)
@@ -498,11 +508,14 @@ class TranslationForm(UnitForm):
             Field("contentsum"),
             Field("translationsum"),
             InlineRadios("review"),
+            Field("explanation"),
         )
         if unit and user.has_perm("unit.review", unit.translation):
             self.fields["fuzzy"].widget = forms.HiddenInput()
         else:
             self.fields["review"].widget = forms.HiddenInput()
+        if not unit.translation.component.is_glossary:
+            self.fields["explanation"].widget = forms.HiddenInput()
 
     def clean(self):
         super().clean()

@@ -303,6 +303,9 @@ def perform_translation(unit, form, request):
     # Remember old checks
     oldchecks = unit.all_checks_names
 
+    # Update explanation for glossary
+    if unit.translation.component.is_glossary:
+        unit.explanation = form.cleaned_data["explanation"]
     # Save
     saved = unit.translate(
         user, form.cleaned_data["target"], form.cleaned_data["state"]
