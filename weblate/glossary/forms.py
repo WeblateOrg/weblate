@@ -74,10 +74,11 @@ class TermForm(GlossaryAddMixin, forms.ModelForm):
 
     class Meta:
         model = Unit
-        fields = ["source", "target", "translation"]
+        fields = ["source", "target", "translation", "explanation"]
         widgets = {
             "source": forms.TextInput,
             "target": forms.TextInput,
+            "explanation": forms.TextInput,
         }
         field_classes = {
             "translation": GlossaryModelChoiceField,
@@ -97,6 +98,7 @@ class TermForm(GlossaryAddMixin, forms.ModelForm):
         super().__init__(data=data, instance=instance, initial=initial, **kwargs)
         self.fields["translation"].queryset = glossaries
         self.fields["translation"].label = _("Glossary")
+        self.fields["source"].required = True
 
     def clean(self):
         translation = self.cleaned_data.get("translation")
@@ -119,4 +121,5 @@ class TermForm(GlossaryAddMixin, forms.ModelForm):
             else self.cleaned_data.get("target"),
             "auto_context": True,
             "extra_flags": self.get_glossary_flags(),
+            "explanation": self.cleaned_data.get("explanation"),
         }

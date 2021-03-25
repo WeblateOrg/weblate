@@ -2007,6 +2007,7 @@ class NewUnitBaseForm(forms.Form):
             "source": self.cleaned_data["source"],
             "target": self.cleaned_data.get("target"),
             "extra_flags": flags.format(),
+            "explanation": self.cleaned_data.get("explanation"),
             "auto_context": self.cleaned_data.get("auto_context", False),
         }
 
@@ -2067,7 +2068,7 @@ class NewBilingualUnitForm(NewBilingualSourceUnitForm):
     target = PluralField(
         label=_("Translated string"),
         help_text=_(
-            "You can edit this later, as with any other string in " "the translation."
+            "You can edit this later, as with any other string in the translation."
         ),
         required=True,
     )

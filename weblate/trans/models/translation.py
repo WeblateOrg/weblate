@@ -1173,6 +1173,7 @@ class Translation(
         source: Union[str, List[str]],
         target: Optional[Union[str, List[str]]] = None,
         extra_flags: str = "",
+        explanation: Optional[str] = None,
         auto_context: bool = False,
         is_batch_update: bool = False,
     ):
@@ -1206,6 +1207,7 @@ class Translation(
             if is_source:
                 current_target = source
                 kwargs["extra_flags"] = extra_flags
+                kwargs["explanation"] = explanation
             else:
                 current_target = target
             if current_target is None:
@@ -1226,8 +1228,13 @@ class Translation(
                     flags = Flags(unit.extra_flags)
                     flags.merge(extra_flags)
                     new_flags = flags.format()
-                    if unit.extra_flags != new_flags:
-                        unit.save(update_fields=["extra_flags"], same_content=True)
+                    if unit.extra_flags != new_flags or unit.explanation != explanation:
+                        unit.extra_flags = new_flags
+                        unit.explanation = explanation
+                        unit.save(
+                            update_fields=["extra_flags", "explanation"],
+                            same_content=True,
+                        )
                 except Unit.DoesNotExist:
                     pass
             if unit is None:
@@ -1305,6 +1312,7 @@ class Translation(
         target: Optional[Union[str, List[str]]] = None,
         auto_context: bool = False,
         extra_flags: Optional[str] = None,
+        explanation: Optional[str] = None,
     ):
         extra = {}
         if isinstance(source, str):
@@ -1329,6 +1337,7 @@ class Translation(
                 target,
                 auto_context=auto_context,
                 extra_flags=extra_flags,
+                explanation=explanation,
             )
             return
         # Always load a new copy of store
