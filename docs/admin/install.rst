@@ -1533,7 +1533,7 @@ Rollbar
 +++++++
 
 Weblate has built-in support for `Rollbar <https://rollbar.com/>`_.
-Follow the instructions for `Rollbar notifier for
+Follow `the Rollbar notifier instructions for
 Python <https://docs.rollbar.com/docs/python/>`_ to use it.
 
 In short, you need to adjust :file:`settings.py`:
