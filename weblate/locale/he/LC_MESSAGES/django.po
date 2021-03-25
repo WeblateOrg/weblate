@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.5.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-03-25 19:14+0000\n"
-"PO-Revision-Date: 2021-03-23 19:09+0000\n"
+"PO-Revision-Date: 2021-03-26 11:37+0000\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: Hebrew <https://hosted.weblate.org/projects/weblate/"
 "application/he/>\n"
@@ -23,7 +23,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n == 1) ? 0 : ((n == 2) ? 1 : ((n > 10 && "
 "n % 10 == 0) ? 2 : 3));\n"
-"X-Generator: Weblate 4.5.2-dev\n"
+"X-Generator: Weblate 4.5.2\n"
 
 #: weblate/accounts/avatar.py:103
 msgctxt "No known user"
@@ -3146,16 +3146,12 @@ msgid "Invalid integer list!"
 msgstr "רשימת המספרים השלמים שגויה!"
 
 #: weblate/glossary/forms.py:47
-#, fuzzy
-#| msgid "String target language"
 msgid "String will be propagated to all languages"
-msgstr "שפת היעד של המחרוזת"
+msgstr "המחרוזת תופץ לכל השפות"
 
 #: weblate/glossary/forms.py:55
-#, fuzzy
-#| msgid "Not-translatable: %s"
 msgid "Not translatable term"
-msgstr "לא לתרגום: %s"
+msgstr "מונח שלא לתרגום"
 
 #: weblate/glossary/forms.py:100
 #: weblate/templates/snippets/component-glossary-badge.html:4
@@ -3952,10 +3948,6 @@ msgid "Registration almost complete"
 msgstr "הרישום כמעט הושלם"
 
 #: weblate/templates/accounts/email-sent.html:30
-#, fuzzy
-#| msgid ""
-#| "If your e-mail address exists in our database, you will receive further "
-#| "password recovery instructions in your inbox."
 msgid ""
 "If your e-mail address exists in our database, you will receive further "
 "password recovery instructions to your inbox."
@@ -3965,18 +3957,10 @@ msgstr ""
 
 #: weblate/templates/accounts/email-sent.html:31
 #: weblate/templates/accounts/email-sent.html:34
-#, fuzzy
-#| msgid ""
-#| "If the confirmation link expires before you get to use it, request a new "
-#| "one."
 msgid "If the confirmation link expires before you use it, request a new one."
-msgstr "אם קישור האימות פג בטרם הספקת להשתמש בו, ניתן לבקש אחד נוסף."
+msgstr "אם קישור האימות פג בטרם השימוש בו, ניתן לבקש אחד נוסף."
 
 #: weblate/templates/accounts/email-sent.html:33
-#, fuzzy
-#| msgid ""
-#| "Shortly you should receive an e-mail containing a confirmation link. "
-#| "Click it to remove your account."
 msgid ""
 "Shortly, you should receive an e-mail with a confirmation link. Click it to "
 "remove your account."
@@ -3993,18 +3977,11 @@ msgstr ""
 "את ההרשמה."
 
 #: weblate/templates/accounts/email-sent.html:37
-#, fuzzy
-#| msgid ""
-#| "If the confirmation link expires before you get to use it, register again."
 msgid "If the confirmation link expires before you use it, register again."
-msgstr "אם קישור האימות פג בטרם הספקת להשתמש בו, יש להירשם שוב."
+msgstr "אם קישור האימות פג בטרם השימוש בו, יש להירשם שוב."
 
 #: weblate/templates/accounts/email-sent.html:42
-#, fuzzy, python-format
-#| msgid ""
-#| "If you don't receive it shortly, please check your spam folder or retry "
-#| "the registration. Should the problem persist, please <a href="
-#| "\"%(contact_url)s\">contact us</a>."
+#, python-format
 msgid ""
 "If you don't receive it shortly, please check your spam folder or retry the "
 "registration. If the problem persist, please <a href=\"%(contact_url)s"
@@ -9180,20 +9157,12 @@ msgid "File in original format as translated in the repository"
 msgstr "קובץ בתצורתו המקורית כפי שתורגם במאגר"
 
 #: weblate/templates/translation.html:345
-#, fuzzy
-#| msgid ""
-#| "All strings, converted files enriched with comments; suitable for "
-#| "translating offline"
 msgid ""
 "All strings, converted files enriched with comments; suitable for offline "
 "translation"
 msgstr "כל המחרוזות, בהמרה לקבצים שמועשרים בתגובות, מתאים לתרגום בלתי־מקוון"
 
 #: weblate/templates/translation.html:357
-#, fuzzy
-#| msgid ""
-#| "Strings needing action, converted files enriched with comments; suitable "
-#| "for translating offline"
 msgid ""
 "Strings needing action, converted files enriched with comments; suitable for "
 "offline translation"
@@ -9915,10 +9884,8 @@ msgid "Optional context to clarify the source strings."
 msgstr "הקשר כרשות כדי להסביר על מחרוזות המקור."
 
 #: weblate/trans/forms.py:2063
-#, fuzzy
-#| msgid "Entry by the same name already exists."
 msgid "Automatically adjust context when same string already exists."
-msgstr "כבר קיימת רשומה בשם הזה."
+msgstr "להתאים את ההקשר אוטומטית כאשר אותה המחרוזת כבר קיימת."
 
 #: weblate/trans/forms.py:2084
 msgid "You can edit this later, as with any other string in the translation."
@@ -10409,17 +10376,13 @@ msgstr "הסכם תרומה התחלף"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:334
-#, fuzzy
-#| msgid "Screenshot name"
 msgid "Screnshot added"
-msgstr "שם צילום המסך"
+msgstr "נוסף צילום מסך"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:336
-#, fuzzy
-#| msgid "Screenshots uploaded"
 msgid "Screnshot uploaded"
-msgstr "צילומי המסך הועלו"
+msgstr "הועלה צילום מסך"
 
 #: weblate/trans/models/change.py:404
 msgid "New string to translate"
@@ -12327,10 +12290,8 @@ msgid "The test e-mail will be sent to this address."
 msgstr "הודעת הבדיקה תישלח לכתובת הזאת."
 
 #: weblate/wladmin/forms.py:68
-#, fuzzy
-#| msgid "Username or e-mail"
 msgid "Username or registered e-mail"
-msgstr "שם משתמש או דוא״ל"
+msgstr "שם משתמש או דוא״ל רשום"
 
 #: weblate/wladmin/forms.py:74
 msgid "Please provide font family suitable for CSS."
