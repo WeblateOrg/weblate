@@ -12,7 +12,7 @@ Tracking dependencies for vulnerabilities
 
 Security issues in our dependencies are monitored using `Dependabot
 <https://dependabot.com/>`_. This covers the Python and JavaScript libraries,
-and the latest stable release has its dependencies uppdated to avoid
+and the latest stable release has its dependencies updated to avoid
 vulnerabilities.
 
 .. hint::
