@@ -1173,7 +1173,7 @@ class Translation(
         source: Union[str, List[str]],
         target: Optional[Union[str, List[str]]] = None,
         extra_flags: str = "",
-        explanation: Optional[str] = None,
+        explanation: str = "",
         auto_context: bool = False,
         is_batch_update: bool = False,
     ):
@@ -1312,7 +1312,7 @@ class Translation(
         target: Optional[Union[str, List[str]]] = None,
         auto_context: bool = False,
         extra_flags: Optional[str] = None,
-        explanation: Optional[str] = None,
+        explanation: str = "",
     ):
         extra = {}
         if isinstance(source, str):
