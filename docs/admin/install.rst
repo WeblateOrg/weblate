@@ -138,7 +138,7 @@ Build-time dependencies
 +++++++++++++++++++++++
 
 To build some of the :ref:`python-deps` you might need to install their
-dependencies. This depends on how you install them, so please read
+dependencies. This depends on how you install them, you can read
 the documentation for individual packages.
 You won't need those if using the prebuilt ``Wheels`` while installing using
 ``pip``, or when you use distribution packages.
