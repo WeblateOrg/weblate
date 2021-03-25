@@ -139,6 +139,8 @@ Project website
 
 URL where translators can find more info about the project.
 
+This is a required parameter unless turned off by :setting:`WEBSITE_REQUIRED`.
+
 .. _project-instructions:
 
 Translation instructions

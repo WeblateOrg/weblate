@@ -191,6 +191,7 @@ class Migration(migrations.Migration):
                     models.URLField(
                         help_text="Main website of translated project.",
                         verbose_name="Project website",
+                        blank=not settings.WEBSITE_REQUIRED,
                     ),
                 ),
                 (

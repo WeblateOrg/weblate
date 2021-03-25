@@ -2094,3 +2094,11 @@ The Weblate GPG keyring is searched for a matching key (:file:`home/.gnupg` unde
 .. seealso::
 
     :ref:`gpg-sign`
+
+.. setting:: WEBSITE_REQUIRED
+
+WEBSITE_REQUIRED
+----------------
+
+Defines whether :ref:`project-web` has to be specified when creating a project.
+Turned on by default as that suits public server setups.

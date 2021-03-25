@@ -878,6 +878,9 @@ if "WEBLATE_LICENSE_FILTER" in os.environ:
     LICENSE_FILTER = set(get_env_list("WEBLATE_LICENSE_FILTER"))
     LICENSE_FILTER.discard("")
 
+LICENSE_REQUIRED = get_env_bool("WEBLATE_LICENSE_REQUIRED", False)
+WEBSITE_REQUIRED = get_env_bool("WEBLATE_WEBSITE_REQUIRED", True)
+
 # Language filter
 if "WEBLATE_BASIC_LANGUAGES" in os.environ:
     BASIC_LANGUAGES = set(get_env_list("WEBLATE_BASIC_LANGUAGES"))

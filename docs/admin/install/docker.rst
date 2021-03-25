@@ -587,6 +587,14 @@ Generic settings
 
     Configures :setting:`LICENSE_FILTER`.
 
+.. envvar:: WEBLATE_LICENSE_REQUIRED
+
+   Configures :setting:`LICENSE_REQUIRED`
+
+.. envvar:: WEBLATE_WEBSITE_REQUIRED
+
+   Configures :setting:`WEBSITE_REQUIRED`
+
 .. envvar:: WEBLATE_HIDE_VERSION
 
     Configures :setting:`HIDE_VERSION`.
