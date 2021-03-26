@@ -24,7 +24,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.5.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-03-25 19:14+0000\n"
-"PO-Revision-Date: 2021-03-23 19:09+0000\n"
+"PO-Revision-Date: 2021-03-27 02:49+0000\n"
 "Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "application/ja/>\n"
@@ -33,7 +33,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 4.5.2-dev\n"
+"X-Generator: Weblate 4.6-dev\n"
 
 #: weblate/accounts/avatar.py:103
 msgctxt "No known user"
@@ -3192,16 +3192,12 @@ msgid "Invalid integer list!"
 msgstr "整数リストが正しくありません！"
 
 #: weblate/glossary/forms.py:47
-#, fuzzy
-#| msgid "String target language"
 msgid "String will be propagated to all languages"
-msgstr "翻訳対象の言語"
+msgstr "文字列はすべての言語に反映されます"
 
 #: weblate/glossary/forms.py:55
-#, fuzzy
-#| msgid "Not-translatable: %s"
 msgid "Not translatable term"
-msgstr "翻訳不許可: %s"
+msgstr "翻訳不許可の用語"
 
 #: weblate/glossary/forms.py:100
 #: weblate/templates/snippets/component-glossary-badge.html:4
@@ -4013,39 +4009,21 @@ msgid "Registration almost complete"
 msgstr "登録完了まであと少しです"
 
 #: weblate/templates/accounts/email-sent.html:30
-#, fuzzy
-#| msgid ""
-#| "If your e-mail address exists in our database, you will receive further "
-#| "password recovery instructions in your inbox."
 msgid ""
 "If your e-mail address exists in our database, you will receive further "
 "password recovery instructions to your inbox."
-msgstr ""
-"お客様のメールアドレスが、私たちのデータベースに存在する場合は、パスワードの"
-"復元に関する詳細な指示をメールで受け取れます。"
+msgstr "お客様のメールアドレスが、私たちのデータベースに存在する場合は、パスワードの復元に関する詳細な指示をメールで受け取れます。"
 
 #: weblate/templates/accounts/email-sent.html:31
 #: weblate/templates/accounts/email-sent.html:34
-#, fuzzy
-#| msgid ""
-#| "If the confirmation link expires before you get to use it, request a new "
-#| "one."
 msgid "If the confirmation link expires before you use it, request a new one."
-msgstr ""
-"確認用のリンクの有効期限が切れてしまった場合は、新しいリンクを要求してくださ"
-"い。"
+msgstr "確認用のリンクの有効期限が切れたときは、新しいリンクを要求してください。"
 
 #: weblate/templates/accounts/email-sent.html:33
-#, fuzzy
-#| msgid ""
-#| "Shortly you should receive an e-mail containing a confirmation link. "
-#| "Click it to remove your account."
 msgid ""
 "Shortly, you should receive an e-mail with a confirmation link. Click it to "
 "remove your account."
-msgstr ""
-"確認用のリンクを記載したメールをお送りします。リンク先にアクセスすることで、"
-"アカウント削除が完了します。"
+msgstr "まもなく、確認用のリンクが記載されたメールが届きます。リンク先にアクセスすることで、アカウント削除が完了します。"
 
 #: weblate/templates/accounts/email-sent.html:36
 msgid ""
@@ -4056,28 +4034,18 @@ msgstr ""
 "お送りします。リンク先にアクセスすることで、ユーザー登録が完了します。"
 
 #: weblate/templates/accounts/email-sent.html:37
-#, fuzzy
-#| msgid ""
-#| "If the confirmation link expires before you get to use it, register again."
 msgid "If the confirmation link expires before you use it, register again."
-msgstr ""
-"確認用のリンクには有効期限が設定されています。リンク先にアクセスする前に期限"
-"が切れてしまった場合は、再度登録をお願いいたします。"
+msgstr "リンク先にアクセスする前に期限が切れたときは、再度登録をお願いいたします。"
 
 #: weblate/templates/accounts/email-sent.html:42
-#, fuzzy, python-format
-#| msgid ""
-#| "If you don't receive it shortly, please check your spam folder or retry "
-#| "the registration. Should the problem persist, please <a href="
-#| "\"%(contact_url)s\">contact us</a>."
+#, python-format
 msgid ""
 "If you don't receive it shortly, please check your spam folder or retry the "
 "registration. If the problem persist, please <a href=\"%(contact_url)s"
 "\">contact us</a>."
 msgstr ""
-"メールはすぐに届くはずですが、届かない場合は迷惑メールフォルダを確認するか再"
-"登録してください。どうしても問題が解決しない場合は、<a href=\"%(contact_url)s"
-"\">連絡</a>してください。"
+"メールはすぐに届くはずですが、届かない場合は迷惑メールフォルダを確認するか再登録してください。どうしても問題が解決しない場合は、<a href=\""
+"%(contact_url)s\">連絡</a>してください。"
 
 #: weblate/templates/accounts/email.html:10
 #: weblate/templates/accounts/register.html:19
@@ -10024,10 +9992,8 @@ msgid "Optional context to clarify the source strings."
 msgstr "原文の意味や使い方を明確にするための追加資料。"
 
 #: weblate/trans/forms.py:2063
-#, fuzzy
-#| msgid "Entry by the same name already exists."
 msgid "Automatically adjust context when same string already exists."
-msgstr "同じ名前の項目は既にあります。"
+msgstr "同じ文字列がすでに存在する場合は、コンテキストを自動的に調整します。"
 
 #: weblate/trans/forms.py:2084
 msgid "You can edit this later, as with any other string in the translation."
