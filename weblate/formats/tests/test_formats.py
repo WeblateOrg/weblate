@@ -269,7 +269,7 @@ class AutoFormatTest(FixtureTestCase, TempDirMixin):
                 mode = "r"
             with open(out, mode) as handle:
                 data = handle.read()
-            self.assertTrue(self.MATCH in data)
+            self.assertIn(self.MATCH, data)
 
     def test_get_language_filename(self):
         self.assertEqual(

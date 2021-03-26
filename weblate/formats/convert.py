@@ -19,6 +19,7 @@
 """Translate Toolkit convertor based file format wrappers."""
 
 import codecs
+import os
 import shutil
 from io import BytesIO
 from typing import List, Optional, Union
@@ -29,6 +30,7 @@ from django.utils.translation import gettext_lazy as _
 from translate.convert.po2html import po2html
 from translate.convert.po2idml import translate_idml, write_idml
 from translate.convert.po2rc import rerc
+from translate.convert.po2txt import po2txt
 from translate.convert.rc2po import rc2po
 from translate.convert.xliff2odf import translate_odf, write_odf
 from translate.storage.html import htmlfile
@@ -37,6 +39,7 @@ from translate.storage.odf_io import open_odf
 from translate.storage.odf_shared import inline_elements, no_translate_content_elements
 from translate.storage.po import pofile
 from translate.storage.rc import rcfile
+from translate.storage.txt import TxtFile
 from translate.storage.xliff import xlifffile
 from translate.storage.xml_extract.extract import (
     IdMaker,
@@ -406,3 +409,60 @@ class WindowsRCFormat(ConvertFormat):
             except UnicodeEncodeError:
                 handle.write(codecs.BOM_UTF16_LE)
                 handle.write(outputrclines.encode("utf-16-le"))
+
+
+class PlainTextFormat(ConvertFormat):
+    name = _("Plain text file")
+    format_id = "txt"
+    autoload = ("*.txt",)
+    flavour = "plain"
+
+    @staticmethod
+    def mimetype():
+        """Return most common media type for format."""
+        return "text/plain"
+
+    @staticmethod
+    def extension():
+        """Return most common file extension for format."""
+        return "txt"
+
+    @classmethod
+    def convertfile(cls, storefile, template_store):
+        input_store = TxtFile(encoding="utf-8", flavour=cls.flavour)
+        input_store.filename = os.path.basename(storefile.name)
+        input_store.parse(storefile.readlines())
+        store = pofile()
+        # This is translate.convert.txt2po.txt2po.convert_store
+        for source_unit in input_store.units:
+            target_unit = store.addsourceunit(source_unit.source)
+            target_unit.addlocations(source_unit.getlocations())
+        return store
+
+    def save_content(self, handle):
+        """Store content to file."""
+        templatename = self.template_store.storefile
+        if hasattr(templatename, "name"):
+            templatename = templatename.name
+        with open(templatename, "rb") as templatefile:
+            converter = po2txt(
+                input_file=self.store,
+                output_file=None,
+                template_file=templatefile,
+            )
+            outputstring = converter.merge_stores()
+        handle.write(outputstring.encode("utf-8"))
+
+
+class DokuWikiFormat(PlainTextFormat):
+    name = _("DokuWiki text file")
+    format_id = "dokuwiki"
+    autoload = ("*.dw",)
+    flavour = "dokuwiki"
+
+
+class MediaWikiFormat(PlainTextFormat):
+    name = _("MediaWiki text file")
+    format_id = "mediawiki"
+    autoload = ("*.mw",)
+    flavour = "mediawiki"

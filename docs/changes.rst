@@ -3,6 +3,8 @@ Weblate 4.6
 
 Not yet released.
 
+* Added support for :ref:`txt`.
+
 Weblate 4.5.2
 -------------
 

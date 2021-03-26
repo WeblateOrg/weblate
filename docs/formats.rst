@@ -120,6 +120,8 @@ Capabilities of all supported formats:
 +---------------------+------------------+---------------+----------------+---------------+----------------+----------------+-------------------------+
 | :ref:`tbx`          | bilingual        | no            | yes            | no            | no             | yes [#xl]_     |                         |
 +---------------------+------------------+---------------+----------------+---------------+----------------+----------------+-------------------------+
+| :ref:`txt`          | mono             | no            | no             | no            | no             | no             |                         |
++---------------------+------------------+---------------+----------------+---------------+----------------+----------------+-------------------------+
 
 .. [#m] See :ref:`bimono`
 .. [#p] Plurals are necessary to properly localize strings with variable count.
@@ -1342,6 +1344,30 @@ The translatable content is extracted from the HTML files and offered for the tr
 .. seealso::
 
    :doc:`tt:formats/html`
+
+.. _txt:
+
+Text files
+----------
+
+.. versionadded:: 4.5
+
+.. note::
+
+   Support for this format is currently in beta, feedback from testing is welcome.
+
+The translatable content is extracted from the plain text files and offered for
+the translation. Each paragraph is translated as a separate string.
+
+There are three flavors of this format:
+
+* Plain text file
+* DokuWiki text file
+* MediaWiki text file
+
+.. seealso::
+
+   :doc:`tt:formats/text`
 
 .. _odf:
 
