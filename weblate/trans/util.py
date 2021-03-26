@@ -77,6 +77,8 @@ def get_string(text):
         return ""
     if isinstance(text, multistring):
         return join_plural(get_string(str(item)) for item in text.strings)
+    if isinstance(text, list):
+        return join_plural(get_string(str(item)) for item in text)
     if isinstance(text, str):
         # Remove possible surrogates in the string. There doesn't seem to be
         # a cheap way to detect this, so do the conversion in both cases. In
