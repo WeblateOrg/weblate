@@ -906,6 +906,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         # Dashboard
         with self.wait_for_page_load():
             self.click("Dashboard")
+        time.sleep(0.5)
         self.screenshot("your-translations.png")
 
     @modify_settings(INSTALLED_APPS={"append": "weblate.billing"})
