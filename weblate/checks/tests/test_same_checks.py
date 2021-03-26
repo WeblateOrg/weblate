@@ -224,3 +224,8 @@ class SameCheckTest(CheckTestCase):
     def test_same_project(self):
         self.do_test(False, ("MockProject", "MockProject", ""))
         self.do_test(False, ("mockcomponent", "mockcomponent", ""))
+
+    def test_same_routine(self):
+        self.do_test(
+            False, ("routine 1, routine 2, ...", "routine 1, routine 2, ...", "")
+        )
