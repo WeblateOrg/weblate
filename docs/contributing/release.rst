@@ -38,13 +38,13 @@ Perform the release:
 
 Post release manual steps:
 
-5. Update Docker image.
-6. Close GitHub milestone.
-7. Once the Docker image is tested, add a tag and push it.
-8. Update Helm chart to new version.
-9. Include new version in :file:`.github/workflows/migrations.yml` to cover it in migration testing.
-10. Increase version in the website download links.
-11. Increase version in the repository by :command:`./scripts/set-version`.
+6. Update Docker image.
+7. Close GitHub milestone.
+8. Once the Docker image is tested, add a tag and push it.
+9. Update Helm chart to new version.
+10. Include new version in :file:`.github/workflows/migrations.yml` to cover it in migration testing.
+11. Increase version in the website download links.
+12. Increase version in the repository by :command:`./scripts/set-version`.
 
 To create tags using the :command:`./scripts/create-release` script you will need following:
 
