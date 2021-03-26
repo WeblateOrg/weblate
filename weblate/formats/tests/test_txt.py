@@ -32,7 +32,7 @@ class AppStoreFormatTest(AutoFormatTest):
     FILE = APPSTORE_FILE
     MIME = "text/plain"
     EXT = "txt"
-    COUNT = 1
+    COUNT = 2
     MASK = "market/*"
     EXPECTED_PATH = "market/cs-CZ"
     FIND = "Hello world"
