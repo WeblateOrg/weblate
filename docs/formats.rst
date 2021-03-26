@@ -1350,7 +1350,7 @@ The translatable content is extracted from the HTML files and offered for the tr
 Text files
 ----------
 
-.. versionadded:: 4.5
+.. versionadded:: 4.6
 
 .. note::
 
