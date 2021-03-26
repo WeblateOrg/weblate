@@ -54,7 +54,6 @@ from weblate.formats.base import (
 from weblate.trans.util import (
     get_clean_env,
     get_string,
-    join_plural,
     rich_to_xliff_string,
     xliff_string_to_rich,
 )
@@ -491,7 +490,7 @@ class PropertiesUnit(KeyValueUnit):
     @cached_property
     def source(self):
         # Need to decode property encoded string
-        return quote.propertiesdecode(super().source)
+        return get_string(quote.propertiesdecode(super().source))
 
     @cached_property
     def target(self):
@@ -504,7 +503,7 @@ class PropertiesUnit(KeyValueUnit):
         # which for some reason does not return translation
         value = quote.propertiesdecode(self.unit.value)
         value = re.sub("\\\\ ", " ", value)
-        return value
+        return get_string(value)
 
 
 class PoUnit(TTKitUnit):
@@ -727,7 +726,7 @@ class FlatXMLUnit(TTKitUnit):
 
     @cached_property
     def source(self):
-        return self.mainunit.target
+        return get_string(self.mainunit.target)
 
 
 class MonolingualIDUnit(TTKitUnit):
@@ -745,7 +744,7 @@ class TSUnit(MonolingualIDUnit):
             # Need to apply special magic for plurals here
             # as there is no singlular/plural in the source string
             source = self.unit.source
-            return join_plural([source.replace("(s)", ""), source.replace("(s)", "s")])
+            return get_string([source.replace("(s)", ""), source.replace("(s)", "s")])
         return super().source
 
     @cached_property
@@ -845,8 +844,8 @@ class CSVUnit(MonolingualSimpleUnit):
             and string[-1] == "'"
             and string[1] in ("=", "+", "-", "@", "\\", "%")
         ):
-            return string[1:-1].replace("\\|", "|")
-        return string
+            return get_string(string[1:-1].replace("\\|", "|"))
+        return get_string(string)
 
     @cached_property
     def context(self):
@@ -904,7 +903,7 @@ class PHPUnit(KeyValueUnit):
     def source(self):
         if self.template is not None:
             return get_string(self.template.source)
-        return self.unit.getid()
+        return get_string(self.unit.getid())
 
     @cached_property
     def target(self):
@@ -1608,7 +1607,7 @@ class XWikiUnit(PropertiesUnit):
     @cached_property
     def source(self):
         # Need to decode property encoded string
-        return quote.xwiki_properties_decode(super().source)
+        return get_string(quote.xwiki_properties_decode(super().source))
 
     @cached_property
     def target(self):
@@ -1621,7 +1620,7 @@ class XWikiUnit(PropertiesUnit):
         # which for some reason does not return translation
         value = quote.xwiki_properties_decode(self.unit.value)
         value = re.sub("\\\\ ", " ", value)
-        return value
+        return get_string(value)
 
 
 class XWikiPropertiesFormat(PropertiesBaseFormat):

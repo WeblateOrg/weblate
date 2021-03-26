@@ -294,7 +294,7 @@ def rich_to_xliff_string(string_elements):
     string_xml = etree.tostring(xml, encoding="unicode")
 
     # Strip dummy root element
-    return string_xml[3:][:-4]
+    return get_string(string_xml[3:][:-4])
 
 
 def get_state_css(unit):
