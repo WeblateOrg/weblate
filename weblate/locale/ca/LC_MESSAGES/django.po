@@ -1,7 +1,7 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# Joan Montané <joan@montane.cat>, 2018, 2019, 2020.
+# Joan Montané <joan@montane.cat>, 2018, 2019, 2020, 2021.
 # Adolfo Jayme Barrientos <fitojb@ubuntu.com>, 2019, 2020, 2021.
 # Eduard Ereza Martínez <eduard@ereza.cat>, 2019, 2020, 2021.
 # Marc Riera <marc.riera.irigoyen@gmail.com>, 2019.
@@ -17,8 +17,8 @@ msgstr ""
 "Project-Id-Version: Weblate 4.5.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-03-25 19:14+0000\n"
-"PO-Revision-Date: 2021-03-21 16:49+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2021-03-28 18:29+0000\n"
+"Last-Translator: Joan Montané <joan@montane.cat>\n"
 "Language-Team: Catalan <https://hosted.weblate.org/projects/weblate/"
 "application/ca/>\n"
 "Language: ca\n"
@@ -26,7 +26,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.5.2-dev\n"
+"X-Generator: Weblate 4.6-dev\n"
 
 #: weblate/accounts/avatar.py:103
 msgctxt "No known user"
@@ -3251,16 +3251,12 @@ msgid "Invalid integer list!"
 msgstr "Llista d'enters no vàlida!"
 
 #: weblate/glossary/forms.py:47
-#, fuzzy
-#| msgid "String target language"
 msgid "String will be propagated to all languages"
-msgstr "Llengua de destinació de la cadena"
+msgstr "La cadena es propagarà a totes les llengües"
 
 #: weblate/glossary/forms.py:55
-#, fuzzy
-#| msgid "Not-translatable: %s"
 msgid "Not translatable term"
-msgstr "No traduïble: %s"
+msgstr "Terme no traduïble"
 
 #: weblate/glossary/forms.py:100
 #: weblate/templates/snippets/component-glossary-badge.html:4
@@ -4044,15 +4040,12 @@ msgid "You can only contact maintainers of the whole server here."
 msgstr "Aquí només podeu contactar amb els mantenidors d'aquest servidor."
 
 #: weblate/templates/accounts/contact.html:17
-#, fuzzy, python-format
-#| msgid ""
-#| "If you are looking for support for Weblate, or want to file a bug report, "
-#| "check its website at %(weblate_link)s."
+#, python-format
 msgid ""
 "If you seek support for Weblate, or want to file a bug-report, check its "
 "website at %(weblate_link)s."
 msgstr ""
-"Si cerqueu assistència per al Weblate o voleu informar d'un error, visiteu-"
+"Si cerqueu assistència per al Weblate, o voleu informar d'un error, visiteu-"
 "ne el lloc web a %(weblate_link)s."
 
 #: weblate/templates/accounts/contact.html:32
@@ -4085,10 +4078,6 @@ msgid "Registration almost complete"
 msgstr "El registre gairebé s'ha completat"
 
 #: weblate/templates/accounts/email-sent.html:30
-#, fuzzy
-#| msgid ""
-#| "If your e-mail address exists in our database, you will receive further "
-#| "password recovery instructions in your inbox."
 msgid ""
 "If your e-mail address exists in our database, you will receive further "
 "password recovery instructions to your inbox."
@@ -4099,19 +4088,11 @@ msgstr ""
 
 #: weblate/templates/accounts/email-sent.html:31
 #: weblate/templates/accounts/email-sent.html:34
-#, fuzzy
-#| msgid ""
-#| "If the confirmation link expires before you get to use it, request a new "
-#| "one."
 msgid "If the confirmation link expires before you use it, request a new one."
 msgstr ""
 "Si l'enllaç de confirmació caduca abans que l'utilitzeu, demaneu-ne un altre."
 
 #: weblate/templates/accounts/email-sent.html:33
-#, fuzzy
-#| msgid ""
-#| "Shortly you should receive an e-mail containing a confirmation link. "
-#| "Click it to remove your account."
 msgid ""
 "Shortly, you should receive an e-mail with a confirmation link. Click it to "
 "remove your account."
@@ -4128,28 +4109,21 @@ msgstr ""
 "per correu electrònic per a completar el registre."
 
 #: weblate/templates/accounts/email-sent.html:37
-#, fuzzy
-#| msgid ""
-#| "If the confirmation link expires before you get to use it, register again."
 msgid "If the confirmation link expires before you use it, register again."
 msgstr ""
 "Si l'enllaç de confirmació caduca abans que l'utilitzeu, torneu-vos a "
 "registrar."
 
 #: weblate/templates/accounts/email-sent.html:42
-#, fuzzy, python-format
-#| msgid ""
-#| "If you don't receive it shortly, please check your spam folder or retry "
-#| "the registration. Should the problem persist, please <a href="
-#| "\"%(contact_url)s\">contact us</a>."
+#, python-format
 msgid ""
 "If you don't receive it shortly, please check your spam folder or retry the "
 "registration. If the problem persist, please <a href=\"%(contact_url)s"
 "\">contact us</a>."
 msgstr ""
 "Si no el rebeu aviat, verifiqueu la carpeta de correu brossa o torneu a "
-"registrar-vos. Si el problema continua, <a href=\"%(contact_url)s"
-"\">contacteu amb nosaltres</a>."
+"registrar-vos. Si el problema continua, <a href=\"%(contact_url)s\""
+">contacteu amb nosaltres</a>."
 
 #: weblate/templates/accounts/email.html:10
 #: weblate/templates/accounts/register.html:19
@@ -6652,6 +6626,8 @@ msgid ""
 "If you have an idea or a question, %(link_start)sthis%(link_end)s is a good "
 "place to start."
 msgstr ""
+"Si teniu cap idea o pregunta, %(link_start)saquest%(link_end)s és un bon "
+"lloc on començar."
 
 #: weblate/templates/mail/account_activity.html:38
 msgid "Report"
@@ -8390,19 +8366,14 @@ msgid "Source string editing is disabled."
 msgstr "L'edició de la cadena d'origen està desactivada."
 
 #: weblate/templates/snippets/unit-readonly-badge.html:8
-#, fuzzy
-#| msgid ""
-#| "Source string cannot be edited, but you can delete it and add a new one."
 msgid "Source strings can’t be edited. You can delete them and add new ones."
 msgstr ""
-"La cadena d'origen no es pot editar, però podeu suprimir-la i afegir-ne una "
-"altra."
+"Les cadenes originals no es pot editar. Podeu suprimir-les i afegir-ne "
+"d'altres."
 
 #: weblate/templates/snippets/unit-readonly-badge.html:10
-#, fuzzy
-#| msgid "Source string cannot be edited."
 msgid "The source string cannot be edited."
-msgstr "La cadena d'origen no es pot editar."
+msgstr "La cadena original no es pot editar."
 
 #: weblate/templates/snippets/unit-state.html:5
 #: weblate/trans/templatetags/translations.py:554 weblate/utils/state.py:31
@@ -9494,10 +9465,6 @@ msgid "File in original format as translated in the repository"
 msgstr "Fitxer en el format original, tal com es tradueix al dipòsit"
 
 #: weblate/templates/translation.html:345
-#, fuzzy
-#| msgid ""
-#| "All strings, converted files enriched with comments; suitable for "
-#| "translating offline"
 msgid ""
 "All strings, converted files enriched with comments; suitable for offline "
 "translation"
@@ -9506,10 +9473,6 @@ msgstr ""
 "traduir sense connexió"
 
 #: weblate/templates/translation.html:357
-#, fuzzy
-#| msgid ""
-#| "Strings needing action, converted files enriched with comments; suitable "
-#| "for translating offline"
 msgid ""
 "Strings needing action, converted files enriched with comments; suitable for "
 "offline translation"
@@ -10256,10 +10219,8 @@ msgid "Optional context to clarify the source strings."
 msgstr "Context opcional per a aclarir les cadenes d'origen."
 
 #: weblate/trans/forms.py:2063
-#, fuzzy
-#| msgid "Entry by the same name already exists."
 msgid "Automatically adjust context when same string already exists."
-msgstr "Ja hi ha una entrada amb aquest nom."
+msgstr "Ajusta el context automàticament si ja existeix la mateixa cadena."
 
 #: weblate/trans/forms.py:2084
 msgid "You can edit this later, as with any other string in the translation."
@@ -10764,17 +10725,13 @@ msgstr "Ha canviat l'acord de col·laboració"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:334
-#, fuzzy
-#| msgid "Screenshot name"
 msgid "Screnshot added"
-msgstr "Nom de la captura de pantalla"
+msgstr "S'ha afegit una captura de pantalla"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:336
-#, fuzzy
-#| msgid "Screenshots uploaded"
 msgid "Screnshot uploaded"
-msgstr "Captures de pantalla pujades"
+msgstr "Captura de pantalla pujada"
 
 #: weblate/trans/models/change.py:404
 msgid "New string to translate"
@@ -12726,10 +12683,8 @@ msgid "The test e-mail will be sent to this address."
 msgstr "S'enviarà el correu electrònic de prova a aquesta adreça."
 
 #: weblate/wladmin/forms.py:68
-#, fuzzy
-#| msgid "Username or e-mail"
 msgid "Username or registered e-mail"
-msgstr "Nom d'usuari o correu electrònic"
+msgstr "Nom d'usuari o correu electrònic registrat"
 
 #: weblate/wladmin/forms.py:74
 msgid "Please provide font family suitable for CSS."
