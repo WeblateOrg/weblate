@@ -27,7 +27,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.5.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-03-25 19:14+0000\n"
-"PO-Revision-Date: 2021-03-26 11:36+0000\n"
+"PO-Revision-Date: 2021-03-27 14:21+0000\n"
 "Last-Translator: tomkolp <tomkolp@gmail.com>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/weblate/"
 "application/pl/>\n"
@@ -37,7 +37,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 4.5.2\n"
+"X-Generator: Weblate 4.6-dev\n"
 
 #: weblate/accounts/avatar.py:103
 msgctxt "No known user"
@@ -405,16 +405,12 @@ msgid "Sent confirmation mail to {email}."
 msgstr "Wysłano wiadomość z potwierdzeniem na adres {email}."
 
 #: weblate/accounts/models.py:162
-#, fuzzy
-#| msgid ""
-#| "System created user to track authorship of translations uploaded by other "
-#| "user."
 msgid ""
 "The system created a user to track authorship of translations uploaded by "
 "other user."
 msgstr ""
-"System utworzył użytkownika, aby śledzić autorstwo tłumaczeń przesłanych "
-"przez innego użytkownika."
+"System utworzył użytkownika, aby śledzić autorstwo tłumaczeń przesyłanych "
+"przez innych użytkowników."
 
 #: weblate/accounts/models.py:169
 msgid "Configured password to sign in."
@@ -4030,10 +4026,7 @@ msgid "You can only contact maintainers of the whole server here."
 msgstr "Tutaj możesz skontaktować się tylko z opiekunami całego serwera."
 
 #: weblate/templates/accounts/contact.html:17
-#, fuzzy, python-format
-#| msgid ""
-#| "If you are looking for support for Weblate, or want to file a bug report, "
-#| "check its website at %(weblate_link)s."
+#, python-format
 msgid ""
 "If you seek support for Weblate, or want to file a bug-report, check its "
 "website at %(weblate_link)s."
@@ -4071,37 +4064,25 @@ msgid "Registration almost complete"
 msgstr "Rejestracja niemal zakończona"
 
 #: weblate/templates/accounts/email-sent.html:30
-#, fuzzy
-#| msgid ""
-#| "If your e-mail address exists in our database, you will receive further "
-#| "password recovery instructions in your inbox."
 msgid ""
 "If your e-mail address exists in our database, you will receive further "
 "password recovery instructions to your inbox."
 msgstr ""
 "Jeśli Twój adres e-mail znajduje się w naszej bazie danych, otrzymasz dalsze "
-"instrukcje dotyczące odzyskiwania hasła w swojej skrzynce odbiorczej."
+"instrukcje dotyczące odzyskiwania hasła na swoją skrzynkę pocztową."
 
 #: weblate/templates/accounts/email-sent.html:31
 #: weblate/templates/accounts/email-sent.html:34
-#, fuzzy
-#| msgid ""
-#| "If the confirmation link expires before you get to use it, request a new "
-#| "one."
 msgid "If the confirmation link expires before you use it, request a new one."
 msgstr "Jeśli link potwierdzający wygaśnie przed jego użyciem, poproś o nowy."
 
 #: weblate/templates/accounts/email-sent.html:33
-#, fuzzy
-#| msgid ""
-#| "Shortly you should receive an e-mail containing a confirmation link. "
-#| "Click it to remove your account."
 msgid ""
 "Shortly, you should receive an e-mail with a confirmation link. Click it to "
 "remove your account."
 msgstr ""
-"Wkrótce powinieneś otrzymać e-mail, zawierający odnośnik potwierdzający. "
-"Kliknij na niego, by usunąć konto."
+"Wkrótce powinieneś otrzymać e-mail z linkiem potwierdzającym. Kliknij go, "
+"aby usunąć swoje konto."
 
 #: weblate/templates/accounts/email-sent.html:36
 msgid ""
@@ -4112,28 +4093,21 @@ msgstr ""
 "potwierdzający, który otrzymasz e-mailem."
 
 #: weblate/templates/accounts/email-sent.html:37
-#, fuzzy
-#| msgid ""
-#| "If the confirmation link expires before you get to use it, register again."
 msgid "If the confirmation link expires before you use it, register again."
 msgstr ""
-"Jeśli link potwierdzający wygaśnie zanim zaczniesz z niego korzystać, "
-"zarejestruj się ponownie."
+"Jeśli link potwierdzający wygaśnie zanim go użyjesz, zarejestruj się "
+"ponownie."
 
 #: weblate/templates/accounts/email-sent.html:42
-#, fuzzy, python-format
-#| msgid ""
-#| "If you don't receive it shortly, please check your spam folder or retry "
-#| "the registration. Should the problem persist, please <a href="
-#| "\"%(contact_url)s\">contact us</a>."
+#, python-format
 msgid ""
 "If you don't receive it shortly, please check your spam folder or retry the "
 "registration. If the problem persist, please <a href=\"%(contact_url)s"
 "\">contact us</a>."
 msgstr ""
 "Jeśli nie otrzymasz go wkrótce, sprawdź folder spam lub ponów rejestrację. "
-"Jeżeli mimo to problem nadal będzie występował — prosimy o <a href="
-"\"%(contact_url)s\">kontakt</a>."
+"Jeżeli problem nadal występuje — prosimy o <a href=\"%(contact_url)s\""
+">kontakt</a>."
 
 #: weblate/templates/accounts/email.html:10
 #: weblate/templates/accounts/register.html:19
@@ -6629,6 +6603,8 @@ msgid ""
 "If you have an idea or a question, %(link_start)sthis%(link_end)s is a good "
 "place to start."
 msgstr ""
+"Jeśli masz pomysł lub pytanie, %(link_start)sto%(link_end)s jest dobrym "
+"miejscem, aby zacząć."
 
 #: weblate/templates/mail/account_activity.html:38
 msgid "Report"
@@ -7262,10 +7238,8 @@ msgid "Discover Weblate"
 msgstr "Odkryj Weblate"
 
 #: weblate/templates/manage/index.html:48
-#, fuzzy
-#| msgid "Component discovery"
 msgid "Browse discovery"
-msgstr "Wykrycie komponentów"
+msgstr "Przeglądaj odkrywanie"
 
 #: weblate/templates/manage/index.html:50
 msgid "Your Weblate is listed on weblate.org"
@@ -8356,17 +8330,12 @@ msgid "Source string editing is disabled."
 msgstr "Edycja ciągów źródłowych jest wyłączona."
 
 #: weblate/templates/snippets/unit-readonly-badge.html:8
-#, fuzzy
-#| msgid ""
-#| "Source string cannot be edited, but you can delete it and add a new one."
 msgid "Source strings can’t be edited. You can delete them and add new ones."
-msgstr "Nie można edytować ciągu źródłowego, ale można go usunąć i dodać nowy."
+msgstr "Ciągi źródłowe nie mogą być edytowane. Możesz je usuwać i dodawać nowe."
 
 #: weblate/templates/snippets/unit-readonly-badge.html:10
-#, fuzzy
-#| msgid "Source string cannot be edited."
 msgid "The source string cannot be edited."
-msgstr "Nie można edytować ciągu źródłowego."
+msgstr "Ciąg źródłowy nie może być edytowany."
 
 #: weblate/templates/snippets/unit-state.html:5
 #: weblate/trans/templatetags/translations.py:554 weblate/utils/state.py:31
@@ -8686,7 +8655,7 @@ msgstr ""
 
 #. Translators: This is shown when an alert contains too many occurences, the count will be always at least 100
 #: weblate/templates/trans/alert/occurrences-limit.html:5
-#, fuzzy, python-format
+#, python-format
 msgid "Only some of the %(count)s occurrences are shown."
 msgid_plural "Only some of the %(count)s occurrences are shown."
 msgstr[0] "Tylko niektóre z %(count)s wystąpień są wyświetlane."
@@ -9461,10 +9430,6 @@ msgid "File in original format as translated in the repository"
 msgstr "Plik w oryginalnym formacie przetłumaczony w repozytorium"
 
 #: weblate/templates/translation.html:345
-#, fuzzy
-#| msgid ""
-#| "All strings, converted files enriched with comments; suitable for "
-#| "translating offline"
 msgid ""
 "All strings, converted files enriched with comments; suitable for offline "
 "translation"
@@ -9473,10 +9438,6 @@ msgstr ""
 "do tłumaczenia offline"
 
 #: weblate/templates/translation.html:357
-#, fuzzy
-#| msgid ""
-#| "Strings needing action, converted files enriched with comments; suitable "
-#| "for translating offline"
 msgid ""
 "Strings needing action, converted files enriched with comments; suitable for "
 "offline translation"
@@ -11574,8 +11535,7 @@ msgid "Failed to parse new string"
 msgstr "Nie można przeanalizować nowego ciągu"
 
 #: weblate/trans/models/translation.py:1387
-#, fuzzy, python-format
-#| msgid "Context would created as \"%s\""
+#, python-format
 msgid "Context would be created as \"%s\""
 msgstr "Kontekst zostałby utworzony jako \"%s\""
 
@@ -12686,10 +12646,8 @@ msgid "The test e-mail will be sent to this address."
 msgstr "E-mail testowy zostanie wysłany na ten adres."
 
 #: weblate/wladmin/forms.py:68
-#, fuzzy
-#| msgid "Username or e-mail"
 msgid "Username or registered e-mail"
-msgstr "Nazwa użytkownika lub e-mail"
+msgstr "Nazwa użytkownika lub zarejestrowany e-mail"
 
 #: weblate/wladmin/forms.py:74
 msgid "Please provide font family suitable for CSS."
