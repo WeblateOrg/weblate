@@ -83,7 +83,7 @@ Listing your server manually:
 
 1. Register yourself at `https://weblate.org/user <https://weblate.org/user/>`_
 2. Register your Weblate site at `https://weblate.org/subscription/discovery <https://weblate.org/subscription/discovery/>`_
-3. Confirm you want to activate the service from your Weblate, and turn on "Discovery listing" from its management page by clicking :guilabel:`Enable discovery`:
+3. Confirm you you want your Weblate listed by clicking :guilabel:`Enable discovery` from its management page :
 
 .. image:: /images/support-discovery.png
 
