@@ -23,7 +23,7 @@ Project logos
 -------------
 
 The project logos and other graphics is available in
-`https://github.com/WeblateOrg/graphics <https://github.com/WeblateOrg/graphics/>`_.
+https://github.com/WeblateOrg/graphics.
 
 Leadership
 ----------
