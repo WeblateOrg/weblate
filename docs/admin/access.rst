@@ -425,7 +425,7 @@ After installation, a default set of groups is created (see :ref:`default-groups
 These roles and groups are created upon installation. The built-in roles are
 always kept up to date by the database migration when upgrading.
 Custom changes are not lost. Define your own set of permissions by
-creating a new role.
+creating a new role. Editing the built-in roles is not possible from the UI and any changes are lost when upgrading.
 
 .. _privileges:
 
