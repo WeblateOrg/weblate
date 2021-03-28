@@ -15,9 +15,9 @@ Project name
 Project website
 ---------------
 
-The landing page is `https://weblate.org <https://weblate.org/>`_ and there is a
-cloud-hosted service at `https://hosted.weblate.org <https://hosted.weblate.org/>`_.
-The documentation can be read at `https://docs.weblate.org <https://docs.weblate.org/>`_.
+The landing page is https://weblate.org and there is a
+cloud-hosted service at https://hosted.weblate.org.
+The documentation can be read at https://docs.weblate.org.
 
 Project logos
 -------------
