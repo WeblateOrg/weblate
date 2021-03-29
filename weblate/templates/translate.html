@@ -720,7 +720,10 @@
         {% crispy context_form %}
         {% if unit.translation.check_flags or unit.translation.component.check_flags or unit.flags %}
           <div class="form-group">
-            <label>{% trans "Inherited flags" %}</label>
+            <label>
+              {% trans "Inherited flags" %}
+              {% documentation_icon 'admin/checks' 'custom-checks' %}
+            </label>
             <div class="controls">
             {% if unit.flags %}
               <p>
