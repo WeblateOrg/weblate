@@ -70,7 +70,7 @@ class Command(WeblateTranslationCommand):
         parser.add_argument(
             "--mode",
             default="translate",
-            help=("Translation mode; translate, fuzzy or suggest")
+            help=("Translation mode; translate, fuzzy or suggest"),
         )
 
     def handle(self, *args, **options):
