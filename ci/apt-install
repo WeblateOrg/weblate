@@ -36,9 +36,7 @@ apt-get install -y \
     liblz4-dev \
     gir1.2-pango-1.0 \
     cython \
-    tesseract-ocr \
-    chromium-chromedriver \
-    chromium-browser
+    tesseract-ocr
 
 # Remove MySQL 8.x client, use older MariaDB one to ensure compatibility
 if [ "$CI_DATABASE" = "mariadb" ] ; then
