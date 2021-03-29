@@ -104,8 +104,7 @@ class Command(WeblateTranslationCommand):
 
         if options["mode"] not in ("translate", "fuzzy", "suggest"):
             raise CommandError("Invalid translation mode specified!")
-        else:
-            mode = options["mode"]
+        mode = options["mode"]
 
         if options["inconsistent"]:
             filter_type = "check:inconsistent"
