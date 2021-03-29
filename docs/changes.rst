@@ -3,6 +3,7 @@ Weblate 4.6
 
 Not yet released.
 
+* The auto_translate management command has now a parameter for specifying translation mode.
 * Added support for :ref:`txt`.
 
 Weblate 4.5.2
