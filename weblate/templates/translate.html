@@ -718,6 +718,28 @@
       </div>
       <div class="modal-body">
         {% crispy context_form %}
+        {% if unit.translation.check_flags or unit.translation.component.check_flags or unit.flags %}
+          <div class="form-group">
+            <label>{% trans "Inherited flags" %}</label>
+            <div class="controls">
+            {% if unit.flags %}
+              <p>
+                {% blocktrans with filename=unit.translation.filename flags=unit.flags %}<code>{{ flags }}</code> was extracted from {{ filename }}.{% endblocktrans %}
+              </p>
+            {% endif %}
+            {% if unit.translation.check_flags %}
+              <p>
+                {% blocktrans with object=unit.translation flags=unit.translation.check_flags %}<code>{{ flags }}</code> is inherited from {{ object }}.{% endblocktrans %}
+              </p>
+            {% endif %}
+            {% if unit.translation.component.check_flags %}
+              <p>
+                {% blocktrans with object=unit.translation.component flags=unit.translation.component.check_flags %}<code>{{ flags }}</code> is inherited from {{ object }}.{% endblocktrans %}
+              </p>
+            {% endif %}
+            </div>
+          </div>
+        {% endif %}
       </div>
       <div class="modal-footer">
         <input type="submit" class="btn btn-primary" value="{% trans "Save" %}" />
