@@ -67,6 +67,11 @@ class Command(WeblateTranslationCommand):
             type=int,
             help=("Set machine translation threshold"),
         )
+        parser.add_argument(
+            "--mode",
+            default="translate",
+            help=("Translation mode; translate, fuzzy or suggest"),
+        )
 
     def handle(self, *args, **options):
         # Get translation object
@@ -97,13 +102,17 @@ class Command(WeblateTranslationCommand):
                         f"Machine translation {translator} is not available"
                     )
 
+        if options["mode"] not in ("translate", "fuzzy", "suggest"):
+            raise CommandError("Invalid translation mode specified!")
+        mode = options["mode"]
+
         if options["inconsistent"]:
             filter_type = "check:inconsistent"
         elif options["overwrite"]:
             filter_type = "all"
         else:
             filter_type = "todo"
-        auto = AutoTranslate(user, translation, filter_type, "translate")
+        auto = AutoTranslate(user, translation, filter_type, mode)
         if options["mt"]:
             auto.process_mt(options["mt"], options["threshold"])
         else:
