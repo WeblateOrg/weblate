@@ -105,6 +105,10 @@ auto_translate
 
 .. versionadded:: 2.5
 
+.. versionchanged:: 4.6
+
+    Added parameter for translation mode.
+
 Performs automatic translation based on other component translations.
 
 .. django-admin-option:: --source PROJECT/COMPONENT
@@ -137,6 +141,11 @@ Performs automatic translation based on other component translations.
 .. django-admin-option:: --threshold THRESHOLD
 
     Similarity threshold for machine translation, defaults to 80.
+
+.. django-admin-option:: --mode MODE
+
+    Specify translation mode, default is "translate" but "fuzzy" or "suggest"
+    can be used.
 
 Example:
 
