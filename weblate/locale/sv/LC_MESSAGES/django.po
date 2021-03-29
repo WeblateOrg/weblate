@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.5.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-03-25 19:14+0000\n"
-"PO-Revision-Date: 2021-03-24 23:28+0000\n"
+"PO-Revision-Date: 2021-03-31 08:53+0000\n"
 "Last-Translator: Johan Jacobsson <johan.jacobsson@telia.com>\n"
 "Language-Team: Swedish <https://hosted.weblate.org/projects/weblate/"
 "application/sv/>\n"
@@ -22,7 +22,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.5.2-dev\n"
+"X-Generator: Weblate 4.6-dev\n"
 
 #: weblate/accounts/avatar.py:103
 msgctxt "No known user"
@@ -3209,16 +3209,12 @@ msgid "Invalid integer list!"
 msgstr "Ogiltig heltalslista!"
 
 #: weblate/glossary/forms.py:47
-#, fuzzy
-#| msgid "String target language"
 msgid "String will be propagated to all languages"
-msgstr "Strängens målspråk"
+msgstr "Strängen kommer att spridas till alla språk"
 
 #: weblate/glossary/forms.py:55
-#, fuzzy
-#| msgid "Not-translatable: %s"
 msgid "Not translatable term"
-msgstr "Ej översättbar: %s"
+msgstr "Inte översättningsbar term"
 
 #: weblate/glossary/forms.py:100
 #: weblate/templates/snippets/component-glossary-badge.html:4
@@ -4030,39 +4026,26 @@ msgid "Registration almost complete"
 msgstr "Registreringen nästan klar"
 
 #: weblate/templates/accounts/email-sent.html:30
-#, fuzzy
-#| msgid ""
-#| "If your e-mail address exists in our database, you will receive further "
-#| "password recovery instructions in your inbox."
 msgid ""
 "If your e-mail address exists in our database, you will receive further "
 "password recovery instructions to your inbox."
 msgstr ""
-"Om din e-postadress finns i vår databas, kommer du att få ytterligare "
+"Om din mejladress finns i vår databas, kommer du att få ytterligare "
 "instruktioner för återställning av lösenord i din inkorg."
 
 #: weblate/templates/accounts/email-sent.html:31
 #: weblate/templates/accounts/email-sent.html:34
-#, fuzzy
-#| msgid ""
-#| "If the confirmation link expires before you get to use it, request a new "
-#| "one."
 msgid "If the confirmation link expires before you use it, request a new one."
 msgstr ""
-"Om bekräftelselänken upphör att gälla innan du hunnit använda den, begär en "
-"ny."
+"Om bekräftelselänken upphör att gälla innan du har använt den, begär en ny."
 
 #: weblate/templates/accounts/email-sent.html:33
-#, fuzzy
-#| msgid ""
-#| "Shortly you should receive an e-mail containing a confirmation link. "
-#| "Click it to remove your account."
 msgid ""
 "Shortly, you should receive an e-mail with a confirmation link. Click it to "
 "remove your account."
 msgstr ""
-"Du kommer snart erhålla ett e-postmeddelande med en bekräftelselänk. Följ "
-"länken för att ta bort ditt konto."
+"Inom kort bör du få ett mejl med en bekräftelselänk. Klicka på den för att "
+"ta bort ditt konto."
 
 #: weblate/templates/accounts/email-sent.html:36
 msgid ""
@@ -4073,27 +4056,21 @@ msgstr ""
 "en bekräftelselänk. Följ länken för att slutföra din registrering."
 
 #: weblate/templates/accounts/email-sent.html:37
-#, fuzzy
-#| msgid ""
-#| "If the confirmation link expires before you get to use it, register again."
 msgid "If the confirmation link expires before you use it, register again."
 msgstr ""
-"Om bekräftelselänken förfaller innan du hunnit använda den, registrera dig "
+"Om bekräftelselänken upphör att gälla innan du använder den, registrera dig "
 "igen."
 
 #: weblate/templates/accounts/email-sent.html:42
-#, fuzzy, python-format
-#| msgid ""
-#| "If you don't receive it shortly, please check your spam folder or retry "
-#| "the registration. Should the problem persist, please <a href="
-#| "\"%(contact_url)s\">contact us</a>."
+#, python-format
 msgid ""
 "If you don't receive it shortly, please check your spam folder or retry the "
 "registration. If the problem persist, please <a href=\"%(contact_url)s"
 "\">contact us</a>."
 msgstr ""
-"Om du inte får det inom kort, kontrollera din spam-mapp eller försök igen. "
-"Om problemet kvarstår, var god <a href=\"%(contact_url)s\">kontakta oss</a>."
+"Om du inte får den inom kort kan du kontrollera din skräppostmapp eller "
+"försöka göra om registreringen. Om problemet kvarstår, vänligen <a href=\""
+"%(contact_url)s\">kontakta oss</a>."
 
 #: weblate/templates/accounts/email.html:10
 #: weblate/templates/accounts/register.html:19
@@ -10110,10 +10087,8 @@ msgid "Optional context to clarify the source strings."
 msgstr "Valfri kontext för att förtydliga källsträngarna."
 
 #: weblate/trans/forms.py:2063
-#, fuzzy
-#| msgid "Entry by the same name already exists."
 msgid "Automatically adjust context when same string already exists."
-msgstr "Det finns redan en post med samma namn."
+msgstr "Anpassar automatiskt kontexten när samma sträng redan finns."
 
 #: weblate/trans/forms.py:2084
 msgid "You can edit this later, as with any other string in the translation."
