@@ -3,6 +3,10 @@ Weblate 4.5.3
 
 Not yet released.
 
+* Fixed metrics collection.
+* Fixed possible crash when adding strings.
+* Improved search query examples.
+
 Weblate 4.5.2
 -------------
 
