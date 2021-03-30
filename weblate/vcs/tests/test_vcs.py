@@ -302,19 +302,19 @@ class VCSGitTest(TestCase, RepoTestMixin, TempDirMixin):
         self.assertFalse(self.repo.needs_commit(["dummy"]))
 
     def check_valid_info(self, info):
-        self.assertTrue("summary" in info)
+        self.assertIn("summary", info)
         self.assertNotEqual(info["summary"], "")
-        self.assertTrue("author" in info)
+        self.assertIn("author", info)
         self.assertNotEqual(info["author"], "")
-        self.assertTrue("authordate" in info)
+        self.assertIn("authordate", info)
         self.assertNotEqual(info["authordate"], "")
-        self.assertTrue("commit" in info)
+        self.assertIn("commit", info)
         self.assertNotEqual(info["commit"], "")
-        self.assertTrue("commitdate" in info)
+        self.assertIn("commitdate", info)
         self.assertNotEqual(info["commitdate"], "")
-        self.assertTrue("revision" in info)
+        self.assertIn("revision", info)
         self.assertNotEqual(info["revision"], "")
-        self.assertTrue("shortrevision" in info)
+        self.assertIn("shortrevision", info)
         self.assertNotEqual(info["shortrevision"], "")
 
     def test_revision_info(self):

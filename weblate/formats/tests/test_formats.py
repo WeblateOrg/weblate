@@ -251,7 +251,7 @@ class AutoFormatTest(FixtureTestCase, TempDirMixin):
         unit, add = storage.find_unit(self.FIND_CONTEXT, self.FIND)
         self.assertFalse(add)
         if self.COUNT == 0:
-            self.assertTrue(unit is None)
+            self.assertIn(unit, None)
         else:
             self.assertIsNotNone(unit)
             self.assertEqual(unit.target, self.FIND_MATCH)
@@ -333,7 +333,7 @@ class PoFormatTest(AutoFormatTest):
         self.FORMAT.add_language(out, Language.objects.get(code="cs"), TEST_POT_UNICODE)
         with open(out) as handle:
             data = handle.read()
-        self.assertTrue("Michal Čihař" in data)
+        self.assertIn("Michal Čihař", data)
 
     def load_plural(self, filename):
         with open(filename, "rb") as handle:

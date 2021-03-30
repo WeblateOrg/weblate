@@ -173,7 +173,7 @@ class ViewTestCase(RepoTestCase):
         self.assertEqual(path, exp_path)
 
         exp_offset = f"offset={exp_offset:d}"
-        self.assertTrue(exp_offset in query, f"Offset {exp_offset} not in {query}")
+        self.assertIn(exp_offset, query)
 
     def assert_png(self, response):
         """Check whether response contains valid PNG image."""
