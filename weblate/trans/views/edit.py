@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -29,32 +28,37 @@ from django.db.models import Q
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.shortcuts import get_object_or_404, redirect
 from django.utils.encoding import force_str
+from django.utils.http import urlencode
 from django.utils.translation import gettext as _
+from django.utils.translation import gettext_noop
 from django.views.decorators.http import require_POST
 
-from weblate.checks import CHECKS
+from weblate.checks.models import CHECKS, get_display_checks
+from weblate.glossary.forms import TermForm
+from weblate.glossary.models import Term
 from weblate.trans.autofixes import fix_target
 from weblate.trans.forms import (
     AntispamForm,
     AutoForm,
     CommentForm,
     ContextForm,
-    InlineWordForm,
     MergeForm,
     NewUnitForm,
+    PositionSearchForm,
     RevertForm,
     SearchForm,
     TranslationForm,
     ZenTranslationForm,
 )
-from weblate.trans.models import Change, Comment, Dictionary, Suggestion, Unit, Vote
+from weblate.trans.models import Change, Comment, Suggestion, Unit, Vote
 from weblate.trans.tasks import auto_translate
 from weblate.trans.util import get_state_css, join_plural, redirect_next, render
 from weblate.utils import messages
 from weblate.utils.antispam import is_spam
 from weblate.utils.hash import hash_to_checksum
 from weblate.utils.ratelimit import revert_rate_limit, session_ratelimit_post
-from weblate.utils.views import get_translation, show_form_errors
+from weblate.utils.state import STATE_FUZZY
+from weblate.utils.views import get_sort_name, get_translation, show_form_errors
 
 
 def get_other_units(unit):
@@ -63,17 +67,17 @@ def get_other_units(unit):
 
     translation = unit.translation
 
+    query = Q(source=unit.source)
+    if unit.context:
+        query |= Q(context=unit.context)
+
     units = (
         Unit.objects.prefetch()
         .filter(
             translation__component__project=translation.component.project,
             translation__language=translation.language,
         )
-        .filter(
-            Q(content_hash=unit.content_hash)
-            | Q(id_hash=unit.id_hash)
-            | Q(source=unit.source)
-        )
+        .filter(query)
     )
 
     # Is it only this unit?
@@ -107,10 +111,10 @@ def cleanup_session(session):
             del session[key]
 
 
-def search(translation, request):
+def search(translation, request, form_class=SearchForm):
     """Perform search or returns cached search results."""
     # Possible new search
-    form = SearchForm(request.user, request.GET)
+    form = form_class(request.user, request.GET, show_builder=False)
 
     # Process form
     form_valid = form.is_valid()
@@ -136,10 +140,12 @@ def search(translation, request):
     allunits = translation.unit_set.search(form.cleaned_data.get("q", "")).distinct()
 
     search_query = form.get_search_query() if form_valid else ""
-    name = form.get_name() if form_valid else ""
+    name = form.get_name()
 
     # Grab unit IDs
-    unit_ids = list(allunits.order().values_list("id", flat=True))
+    unit_ids = list(
+        allunits.order_by_request(form.cleaned_data).values_list("id", flat=True)
+    )
 
     # Check empty search results
     if not unit_ids:
@@ -196,7 +202,7 @@ def perform_suggestion(unit, form, request):
 def perform_translation(unit, form, request):
     """Handle translation and stores it to a backend."""
     # Remember old checks
-    oldchecks = set(unit.active_checks().values_list("check", flat=True))
+    oldchecks = unit.all_checks_names
 
     # Run AutoFixes on user input
     if not unit.translation.is_template:
@@ -222,7 +228,7 @@ def perform_translation(unit, form, request):
         )
 
     # Get new set of checks
-    newchecks = set(unit.active_checks().values_list("check", flat=True))
+    newchecks = unit.all_checks_names
 
     # Did we introduce any new failures?
     if saved and newchecks > oldchecks:
@@ -308,7 +314,10 @@ def handle_revert(translation, request, next_unit_url):
         return None
     # Store unit
     unit.translate(
-        request.user, change.old, unit.state, change_action=Change.ACTION_REVERT
+        request.user,
+        change.old,
+        STATE_FUZZY if change.action == Change.ACTION_MARKED_EDIT else unit.state,
+        change_action=Change.ACTION_REVERT,
     )
     # Redirect to next entry
     return HttpResponseRedirect(next_unit_url)
@@ -324,7 +333,7 @@ def check_suggest_permissions(request, mode, translation, suggestion):
             )
             return False
     elif mode in ("delete", "spam"):
-        if not user.has_perm("suggestion.delete", suggestion, translation):
+        if not user.has_perm("suggestion.delete", suggestion):
             messages.error(
                 request, _("You do not have privilege to delete suggestions!")
             )
@@ -373,10 +382,10 @@ def handle_suggestions(translation, request, this_unit_url, next_unit_url):
     elif "delete" in request.POST or "spam" in request.POST:
         suggestion.delete_log(request.user, is_spam="spam" in request.POST)
     elif "upvote" in request.POST:
-        suggestion.add_vote(translation, request, Vote.POSITIVE)
+        suggestion.add_vote(request, Vote.POSITIVE)
         redirect_url = next_unit_url
     elif "downvote" in request.POST:
-        suggestion.add_vote(translation, request, Vote.NEGATIVE)
+        suggestion.add_vote(request, Vote.NEGATIVE)
 
     return HttpResponseRedirect(redirect_url)
 
@@ -389,7 +398,7 @@ def translate(request, project, component, lang):
     locked = translation.component.locked
 
     # Search results
-    search_result = search(translation, request)
+    search_result = search(translation, request, PositionSearchForm)
 
     # Handle redirects
     if isinstance(search_result, HttpResponse):
@@ -481,6 +490,7 @@ def translate(request, project, component, lang):
 
     # Prepare form
     form = TranslationForm(request.user, translation, unit)
+    sort = get_sort_name(request)
 
     # Access namespace
     user_can_access_namespace = request.user.can_access_namespaced_lang(lang)
@@ -498,27 +508,32 @@ def translate(request, project, component, lang):
             "project": translation.component.project,
             "unit": unit,
             "others": get_other_units(unit),
-            "total": translation.unit_set.all().count(),
             "search_url": search_result["url"],
             "search_items": search_result["items"],
             "search_query": search_result["query"],
             "offset": offset,
+            "sort_name": sort["name"],
+            "sort_query": sort["query"],
             "filter_name": search_result["name"],
             "filter_count": num_results,
             "filter_pos": offset,
             "form": form,
             "antispam": antispam,
             "comment_form": CommentForm(
+                translation,
                 initial={
                     "scope": "global" if unit.translation.is_source else "translation"
-                }
+                },
             ),
             "context_form": ContextForm(instance=unit.source_info, user=request.user),
             "search_form": search_result["form"].reset_offset(),
             "secondary": secondary,
             "locked": locked,
-            "glossary": Dictionary.objects.get_words(unit),
-            "addword_form": InlineWordForm(),
+            "glossary": Term.objects.get_terms(unit),
+            "addterm_form": TermForm(translation.component.project),
+            "last_changes": unit.change_set.prefetch().order()[:10],
+            "last_changes_url": urlencode(unit.translation.get_reverse_url_kwargs()),
+            "display_checks": list(get_display_checks(unit)),
             "user_can_access_namespace": user_can_access_namespace,
         },
     )
@@ -566,17 +581,35 @@ def auto_translation(request, project, component, lang):
 def comment(request, pk):
     """Add new comment."""
     scope = unit = get_object_or_404(Unit, pk=pk)
-    request.user.check_access(unit.translation.component.project)
+    component = unit.translation.component
+    request.user.check_access_component(component)
 
     if not request.user.has_perm("comment.add", unit.translation):
         raise PermissionDenied()
 
-    form = CommentForm(request.POST)
+    form = CommentForm(unit.translation, request.POST)
 
     if form.is_valid():
-        if form.cleaned_data["scope"] == "global":
+        # Is this source or target comment?
+        if form.cleaned_data["scope"] in ("global", "report"):
             scope = unit.source_info
-        Comment.objects.add(scope, request.user, form.cleaned_data["comment"])
+        # Create comment object
+        Comment.objects.add(scope, request, form.cleaned_data["comment"])
+        # Add review label/flag
+        if form.cleaned_data["scope"] == "report":
+            if component.has_template():
+                if scope.translated and not scope.readonly:
+                    scope.translate(
+                        request.user,
+                        scope.target,
+                        STATE_FUZZY,
+                        change_action=Change.ACTION_MARKED_EDIT,
+                    )
+            else:
+                label = component.project.label_set.get_or_create(
+                    name=gettext_noop("Source needs review"), defaults={"color": "red"}
+                )[0]
+                scope.labels.add(label)
         messages.success(request, _("Posted new comment"))
     else:
         messages.error(request, _("Failed to add comment!"))
@@ -592,11 +625,13 @@ def delete_comment(request, pk):
     project = comment_obj.unit.translation.component.project
     request.user.check_access(project)
 
-    if not request.user.has_perm("comment.delete", comment_obj, project):
+    if not request.user.has_perm("comment.delete", comment_obj):
         raise PermissionDenied()
 
     fallback_url = comment_obj.unit.get_absolute_url()
 
+    if "spam" in request.POST:
+        comment_obj.report_spam()
     comment_obj.delete()
     messages.info(request, _("Translation comment has been deleted."))
 
@@ -611,7 +646,7 @@ def resolve_comment(request, pk):
     project = comment_obj.unit.translation.component.project
     request.user.check_access(project)
 
-    if not request.user.has_perm("comment.delete", comment_obj, project):
+    if not request.user.has_perm("comment.delete", comment_obj):
         raise PermissionDenied()
 
     fallback_url = comment_obj.unit.get_absolute_url()
@@ -663,6 +698,7 @@ def zen(request, project, component, lang):
     """Generic entry point for translating, suggesting and searching."""
     translation = get_translation(request, project, component, lang)
     search_result, unitdata = get_zen_unitdata(translation, request)
+    sort = get_sort_name(request)
 
     # Handle redirects
     if isinstance(search_result, HttpResponse):
@@ -678,6 +714,8 @@ def zen(request, project, component, lang):
             "search_query": search_result["query"],
             "filter_name": search_result["name"],
             "filter_count": len(search_result["ids"]),
+            "sort_name": sort["name"],
+            "sort_query": sort["query"],
             "last_section": search_result["last_section"],
             "search_url": search_result["url"],
             "offset": search_result["offset"],

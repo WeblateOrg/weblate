@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -28,18 +27,19 @@ from django.utils.translation import gettext_lazy as _
 from weblate.addons.base import BaseAddon, StoreBaseAddon, UpdateBaseAddon
 from weblate.addons.events import EVENT_DAILY, EVENT_POST_ADD, EVENT_PRE_COMMIT
 from weblate.addons.forms import GenerateMoForm, GettextCustomizeForm, MsgmergeForm
+from weblate.formats.base import UpdateError
 from weblate.formats.exporters import MoExporter
 
 
 class GettextBaseAddon(BaseAddon):
-    compat = {"file_format": frozenset(("po", "po-mono"))}
+    compat = {"file_format": {"po", "po-mono"}}
 
 
 class GenerateMoAddon(GettextBaseAddon):
     events = (EVENT_PRE_COMMIT,)
     name = "weblate.gettext.mo"
     verbose = _("Generate MO files")
-    description = _("Automatically generates MO file for every changed PO file.")
+    description = _("Automatically generates a MO file for every changed PO file.")
     settings_form = GenerateMoForm
 
     def pre_commit(self, translation, author):
@@ -81,6 +81,45 @@ class UpdateLinguasAddon(GettextBaseAddon):
         path = cls.get_linguas_path(component)
         return path and os.path.exists(path)
 
+    @staticmethod
+    def update_linguas(lines, codes):
+        changed = False
+        remove = []
+
+        for i, line in enumerate(lines):
+            # Split at comment and strip whitespace
+            stripped = line.split("#", 1)[0].strip()
+            # Comment/blank lines
+            if not stripped:
+                continue
+            # Languages in one line
+            if " " in stripped:
+                expected = " ".join(sorted(codes))
+                if stripped != expected:
+                    lines[i] = expected + "\n"
+                    changed = True
+                codes = set()
+                break
+            # Language is already there
+            if stripped in codes:
+                codes.remove(stripped)
+            else:
+                remove.append(i)
+
+        # Remove no longer present codes
+        if remove:
+            for i in reversed(remove):
+                del lines[i]
+            changed = True
+
+        # Add missing codes
+        if codes:
+            for code in codes:
+                lines.append("{}\n".format(code))
+            changed = True
+
+        return changed, lines
+
     def sync_linguas(self, component, path):
         with open(path, "r") as handle:
             lines = handle.readlines()
@@ -91,33 +130,13 @@ class UpdateLinguasAddon(GettextBaseAddon):
             ).values_list("language_code", flat=True)
         )
 
-        added = False
-        for i, line in enumerate(lines):
-            stripped = line.strip()
-            # Comment
-            if stripped.startswith("#"):
-                continue
-            # Languages in one line
-            if " " in stripped:
-                expected = " ".join(sorted(codes))
-                if lines[i] != expected:
-                    lines[i] = expected
-                    added = True
-                codes = set()
-                break
-            # Language is already there
-            if stripped in codes:
-                codes.remove(stripped)
-        if codes:
-            for code in codes:
-                lines.append("{}\n".format(code))
-            added = True
+        changed, lines = self.update_linguas(lines, codes)
 
-        if added:
+        if changed:
             with open(path, "w") as handle:
                 handle.writelines(lines)
 
-        return added
+        return changed
 
     def post_add(self, translation):
         with translation.component.repository.lock:
@@ -210,9 +229,8 @@ class MsgmergeAddon(GettextBaseAddon, UpdateBaseAddon):
     name = "weblate.gettext.msgmerge"
     verbose = _("Update PO files to match POT (msgmerge)")
     description = _(
-        "Update all PO files to match the POT file using msgmerge. This is "
-        "triggered whenever new changes are pulled from the upstream "
-        "repository."
+        "Updates all PO files to match the POT file using msgmerge. "
+        "Triggered whenever new changes are pulled from the upstream repository."
     )
     alert = "MsgmergeAddonError"
     settings_form = MsgmergeForm
@@ -224,31 +242,39 @@ class MsgmergeAddon(GettextBaseAddon, UpdateBaseAddon):
         return super().can_install(component, user)
 
     def update_translations(self, component, previous_head):
-        cmd = [
-            "msgmerge",
-            "--backup=none",
-            "--update",
-            "FILE",
-            component.get_new_base_filename(),
-        ]
+        template = component.get_new_base_filename()
+        args = []
         if not self.instance.configuration.get("fuzzy", True):
-            cmd.insert(1, "--no-fuzzy-matching")
+            args.append("--no-fuzzy-matching")
         if self.instance.configuration.get("previous", True):
-            cmd.insert(1, "--previous")
+            args.append("--previous")
+        if self.instance.configuration.get("no_location", False):
+            args.append("--no-location")
         try:
             width = component.addon_set.get(
                 name="weblate.gettext.customize"
             ).configuration["width"]
             if width != 77:
-                cmd.insert(1, "--no-wrap")
+                args.append("--no-wrap")
         except ObjectDoesNotExist:
             pass
         for translation in component.translation_set.iterator():
             filename = translation.get_filename()
             if not filename or not os.path.exists(filename):
                 continue
-            cmd[-2] = filename
-            self.execute_process(component, cmd)
+            try:
+                component.file_format_cls.update_bilingual(
+                    filename, template, args=args
+                )
+            except UpdateError as error:
+                self.alerts.append(
+                    {
+                        "addon": self.name,
+                        "command": error.cmd,
+                        "output": error.output,
+                        "error": str(error),
+                    }
+                )
         self.trigger_alerts(component)
 
 
@@ -269,8 +295,8 @@ class GettextAuthorComments(GettextBaseAddon):
     name = "weblate.gettext.authors"
     verbose = _("Contributors in comment")
     description = _(
-        "Update comment in the PO file header to include contributor name "
-        "and years of contributions."
+        "Update the comment in the PO file header to include contributor names and "
+        "years of contributions."
     )
 
     def pre_commit(self, translation, author):

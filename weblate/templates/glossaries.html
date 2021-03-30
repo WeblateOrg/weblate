@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load translations %}
+{% load crispy_forms_tags %}
+{% load permissions %}
+
+{% block breadcrumbs %}
+<li><a href="{{ project.get_absolute_url }}">{{ project }}</a></li>
+<li><a href="{% url 'show_glossaries' project=project.slug %}">{% trans "glossaries" %}</a></li>
+{% endblock %}
+
+{% block content %}
+
+{% perm 'project.edit' project as user_can_edit_project %}
+
+{% include "snippets/project-nav.html" %}
+
+{% for row in language_glossaries %}
+<form method="post">
+{% csrf_token %}
+<input type="hidden" name="edit_glossary" value="{{ row.glossary.id }}" />
+<div class="panel panel-default">
+    <div class="panel-heading">
+        {% documentation_icon "user/translating" "glossary" right=True %}
+        {{ row.glossary.name }} <span class="label label-{{ row.glossary.color }} label-box"></span>
+    </div>
+    <div class="panel-body formats">
+    {% for item in row.glossaries %}
+        <a class="format-item" href="{% url 'show_glossary' project=project.slug lang=item.language.code %}">{{ item.language }}
+        <span>{{ item.count }}</span>
+        </a>
+    {% endfor %}
+    </div>
+    {% if user_can_edit_project %}
+    <div class="panel-body">
+        {% crispy row.form %}
+    </div>
+    <div class="panel-footer">
+        <input type="submit" class="btn btn-primary" value="{% trans "Save" %}"/>
+        <a href="#" data-toggle="modal" data-target="#delete_glossary_form_{{ row.glossary.id }}" class="btn btn-danger pull-right flip">{% trans "Delete" %}</a>
+    </div>
+    {% endif %}
+</div>
+</form>
+
+<form method="POST">
+{% csrf_token %}
+<input type="hidden" name="delete_glossary" value="{{ row.glossary.id }}" />
+<div class="modal fade" tabindex="-1" role="dialog" id="delete_glossary_form_{{ row.glossary.id }}">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="{% trans "Close" %}"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">{% trans "Are you absolutely sure?" %}</h4>
+      </div>
+      <div class="modal-body">
+          {% blocktrans count count=row.count %}This will permanently delete {{ count }} entry from the glossary.{% plural %}This will permanently delete {{ count }} entries from the glossary.{% endblocktrans %}
+      </div>
+      <div class="modal-footer">
+        <input type="submit" class="btn btn-danger" value="{% trans "Delete" %}" />
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+</form>
+{% endfor %}
+
+{% if user_can_edit_project %}
+<form method="post">
+{% csrf_token %}
+<div class="panel panel-default">
+    <div class="panel-heading">
+        {% trans "Create new glossary" %}
+    </div>
+    <div class="panel-body">
+        {% crispy new_form %}
+    </div>
+    <div class="panel-footer">
+        <input type="submit" class="btn btn-primary" value="{% trans "Save" %}"/>
+
+    </div>
+</div>
+</form>
+{% endif %}
+
+{% endblock %}

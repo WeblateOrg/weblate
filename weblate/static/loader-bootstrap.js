@@ -1,8 +1,5 @@
 var loading = 0;
-var machineTranslationLoaded = false;
-var translationMemoryLoaded = false;
 var activityDataLoaded = false;
-var lastEditor = null;
 
 // Remove some weird things from location hash
 if (window.location.hash && (window.location.hash.indexOf('"') > -1 || window.location.hash.indexOf('=') > -1)) {
@@ -37,15 +34,6 @@ function addAlert(message, kind="danger") {
     setTimeout(function () {
         e.alert('close');
     }, 5000);
-}
-
-function getNumericKey(idx) {
-    var ret = idx + 1;
-
-    if (ret === 10) {
-        return '0';
-    }
-    return ret;
 }
 
 jQuery.fn.extend({
@@ -97,6 +85,10 @@ function submitForm(evt) {
     }
     return false;
 }
+Mousetrap.bindGlobal(
+    ['alt+enter', 'mod+enter'],
+    submitForm
+);
 
 function loadActivityChart(element) {
     if (activityDataLoaded) {
@@ -200,242 +192,6 @@ function screenshotLoaded(data) {
     }
 }
 
-function initEditor() {
-    /* Autosizing */
-    autosize($('.translation-editor'));
-
-    /* Minimal height for editor */
-    $('.zen-horizontal .translator').each(function () {
-        var $this = $(this);
-        var td_height = $this.height();
-        var editor_height = 0;
-        var content_height = $this.find('form').height();
-        var $editors = $this.find('.translation-editor');
-        $editors.each(function () {
-            var $editor = $(this);
-            editor_height += $editor.height();
-        });
-        /* There is 10px padding */
-        $editors.css('min-height', ((td_height - (content_height - editor_height - 10)) / $editors.length) + 'px');
-    });
-
-    /* Count characters */
-    $(".translation-editor").keyup(function() {
-        var $this = $(this);
-        var counter = $this.parent().find('.length-indicator');
-        var limit = parseInt(counter.data('max'));
-        var length = $this.val().length;
-        counter.text(length);
-        if (length >= limit) {
-            counter.parent().addClass('badge-danger').removeClass('badge-warning');
-        } else if (length + 10 >= limit) {
-            counter.parent().addClass('badge-warning').removeClass('badge-danger');
-        } else {
-            counter.parent().removeClass('badge-warning').removeClass('badge-danger');
-        }
-    });
-
-    /* Copy source text */
-    $('.copy-text').click(function (e) {
-        var $this = $(this);
-
-        $this.button('loading');
-        $this.closest('.translation-item').find('.translation-editor').val(
-            $.parseJSON($this.data('content'))
-        ).change();
-        autosize.update($('.translation-editor'));
-        $('#id_' + $this.data('checksum') + '_fuzzy').prop('checked', true);
-        $this.button('reset');
-        e.preventDefault();
-    });
-
-    /* Direction toggling */
-    $('.direction-toggle').change(function () {
-        var $this = $(this);
-
-        $this.closest('.translation-item').find('.translation-editor').attr(
-            'dir',
-            $this.find('input').val()
-        );
-    });
-
-    /* Special characters */
-    $('.specialchar').click(function (e) {
-        var $this = $(this);
-        var text = $this.data('value');
-
-        $this.closest('.translation-item').find('.translation-editor').insertAtCaret(text).change();
-        autosize.update($('.translation-editor'));
-        e.preventDefault();
-    });
-
-}
-
-function testChangeHandler(e) {
-    if (e.key && e.key === 'Tab') {
-        return;
-    }
-    $(this).closest('form').find('[name=fuzzy]').prop('checked', false);
-}
-
-function processMachineTranslation(data, scope) {
-    decreaseLoading(scope);
-    if (data.responseStatus === 200) {
-        data.translations.forEach(function (el, idx) {
-            var newRow = $('<tr/>').data('quality', el.quality);
-            var done = false;
-            var $machineTranslations = $('#' + scope + '-translations');
-
-            newRow.append($('<td/>').attr('class', 'target').attr('lang', data.lang).attr('dir', data.dir).text(el.text));
-            newRow.append($('<td/>').text(el.source));
-            if (scope === "mt") {
-                var service = $('<td/>').text(el.service);
-                if (typeof el.origin !== 'undefined') {
-                    service.append(' (');
-                    var origin;
-                    if (typeof el.origin_detail !== 'undefined') {
-                        origin = $('<abbr/>').text(el.origin).attr('title', el.origin_detail);
-                    } else if (typeof el.origin_url !== 'undefined') {
-                        origin = $('<a/>').text(el.origin).attr('href', el.origin_url);
-                    } else {
-                        origin = el.origin;
-                    }
-                    service.append(origin);
-                    service.append(')');
-                    // newRow.append($('<td/>').text(interpolate('%s (%s)', [el.service, ])));
-                }
-                newRow.append(service);
-            } else {
-                newRow.append($('<td/>').text(el.origin));
-            }
-            /* Quality score as bar with the text */
-            newRow.append($(
-                '<td>' +
-                '<div class="progress" title="' + el.quality + ' / 100">' +
-                '<div class="progress-bar ' +
-                ( el.quality >= 70 ? 'progress-bar-success' : el.quality >= 50 ? 'progress-bar-warning' : 'progress-bar-danger' ) + '"' +
-                ' role="progressbar" aria-valuenow="' + el.quality + '"' +
-                ' aria-valuemin="0" aria-valuemax="100" style="width: ' + el.quality + '%;"></div>' +
-                '</div>' +
-                '</td>'
-            ));
-            /* Translators: Verb for copy operation */
-            newRow.append($(
-                '<td>' +
-                '<a class="copymt btn btn-warning">' +
-                gettext('Copy') +
-                '<span class="mt-number text-info"></span>' +
-                '</a>' +
-                '</td>' +
-                '<td>' +
-                '<a class="copymt-save btn btn-primary">' +
-                gettext('Copy and save') +
-                '</a>' +
-                '</td>'
-            ));
-            $machineTranslations.children('tr').each(function (idx) {
-                if ($(this).data('quality') < el.quality && !done) {
-                    $(this).before(newRow);
-                    done = true;
-                }
-            });
-            if (! done) {
-                $machineTranslations.append(newRow);
-            }
-        });
-        $('a.copymt').click(function () {
-            var text = $(this).parent().parent().find('.target').text();
-
-            $('.translation-editor').val(text).change();
-            autosize.update($('.translation-editor'));
-            /* Standard worflow */
-            $('.translation-form input[name="fuzzy"]').prop('checked', true);
-            /* Review workflow */
-            $('.translation-form input[name="review"][value="10"]').prop('checked', true);
-        });
-        $('a.copymt-save').click(function () {
-            var text = $(this).parent().parent().find('.target').text();
-
-            $('.translation-editor').val(text).change();
-            autosize.update($('.translation-editor'));
-            /* Standard worflow */
-            $('.translation-form input[name="fuzzy"]').prop('checked', false);
-            /* Review workflow */
-            $('.translation-form input[name="review"][value="20"]').prop('checked', true);
-            submitForm({target:$('.translation-editor')});
-        });
-
-        for (var i = 1; i < 10; i++) {
-            Mousetrap.bindGlobal(
-                ['ctrl+m ' + i, 'command+m ' + i],
-                function() {
-                    return false;
-                }
-            );
-        }
-
-        var $machineTranslations = $('#' + scope + '-translations');
-
-        $machineTranslations.children('tr').each(function (idx) {
-            if (idx < 10) {
-                var key = getNumericKey(idx);
-
-                $(this).find('.mt-number').html(
-                    ' <kbd title="' +
-                    interpolate(gettext('Ctrl+M then %s'), [key]) +
-                    '">' +
-                    key +
-                    '</kbd>'
-                );
-                Mousetrap.bindGlobal(
-                    ['ctrl+m ' + key, 'command+m ' + key],
-                    function() {
-                        $($('#' + scope + '-translations').children('tr')[idx]).find('a.copymt').click();
-                        return false;
-                    }
-                );
-            } else {
-                $(this).find('.mt-number').html('');
-            }
-        });
-
-    } else {
-        var msg = interpolate(
-            gettext('The request for machine translation using %s has failed:'),
-            [data.service]
-        );
-
-        addAlert(msg + ' ' + data.responseDetails);
-    }
-}
-
-function failedMachineTranslation(jqXHR, textStatus, errorThrown, scope) {
-    decreaseLoading(scope);
-    if (jqXHR.state() !== 'rejected') {
-        addAlert(gettext('The request for machine translation has failed:') + ' ' + textStatus + ': ' + errorThrown);
-    }
-}
-
-function loadMachineTranslations(data, textStatus) {
-    var $form = $('#link-post');
-    decreaseLoading('mt');
-    data.forEach(function (el, idx) {
-        increaseLoading('mt');
-        $.ajax({
-            type: 'POST',
-            url: $('#js-translate').attr('href').replace('__service__', el),
-            success: function (data) {processMachineTranslation(data, 'mt');},
-            error: function (jqXHR, textStatus, errorThrown) {
-                failedMachineTranslation(jqXHR, textStatus, errorThrown, 'mt');
-            },
-            dataType: 'json',
-            data: {
-                csrfmiddlewaretoken: $form.find('input').val(),
-            },
-        });
-    });
-}
-
 function isNumber(n) {
     return !isNaN(parseFloat(n)) && isFinite(n);
 }
@@ -524,68 +280,6 @@ function loadTableSorting() {
         });
 
     });
-}
-
-function zenEditor() {
-    var $this = $(this);
-    var $row = $this.closest('tr');
-    var checksum = $row.find('[name=checksum]').val();
-
-    $row.addClass('translation-modified');
-
-    var form = $row.find('form');
-    var statusdiv = $('#status-' + checksum).hide();
-    var loadingdiv = $('#loading-' + checksum).show();
-    $.ajax({
-        type: 'POST',
-        url: form.attr('action'),
-        data: form.serialize(),
-        dataType: 'json',
-        error: function (jqXHR, textStatus, errorThrown) {
-            addAlert(errorThrown);
-        },
-        success: function (data) {
-            loadingdiv.hide();
-            statusdiv.show();
-            if (data.unit_flags.length > 0) {
-                $(statusdiv.children()[0]).attr('class', 'state-icon ' + data.unit_flags.join(' '));
-            }
-            $.each(data.messages, function (i, val) {
-                addAlert(val.text);
-            });
-            $row.removeClass('translation-modified').addClass('translation-saved');
-            if (data.translationsum !== '') {
-                $row.find('input[name=translationsum]').val(data.translationsum);
-            }
-        }
-    });
-}
-
-
-function insertEditor(text, element)
-{
-    var root;
-
-    /* Find withing root element */
-    if (typeof element !== 'undefined') {
-        root = element.closest('.zen-unit');
-        if (root.length === 0) {
-            root = element.closest('.translation-form');
-        }
-    } else {
-        root = $(document);
-    }
-
-    var editor = root.find('.translation-editor:focus');
-    if (editor.length === 0) {
-        editor = root.find(lastEditor);
-        if (editor.length === 0) {
-            editor = root.find('.translation-editor:first');
-        }
-    }
-
-    editor.insertAtCaret($.trim(text)).change();
-    autosize.update(editor);
 }
 
 /* Thin wrappers for django to avoid problems when i18n js can not be loaded */
@@ -700,61 +394,6 @@ $(function () {
         loadActivityChart(autoLoadActivity);
     }
 
-    /* Machine translation */
-    $document.on('show.bs.tab', '[data-load="mt"]', function (e) {
-        if (machineTranslationLoaded) {
-            return;
-        }
-        machineTranslationLoaded = true;
-        increaseLoading('mt');
-        $.ajax({
-            url: $('#js-mt-services').attr('href'),
-            success: loadMachineTranslations,
-            error: failedMachineTranslation,
-            dataType: 'json'
-        });
-    });
-
-    /* Translation memory */
-    $document.on('show.bs.tab', '[data-load="memory"]', function (e) {
-        if (translationMemoryLoaded) {
-            return;
-        }
-        translationMemoryLoaded = true;
-        increaseLoading('memory');
-        var $form = $('#link-post');
-        $.ajax({
-            type: 'POST',
-            url: $('#js-translate').attr('href').replace('__service__', 'weblate-translation-memory'),
-            success: function (data) {processMachineTranslation(data, 'memory');},
-            error: function (jqXHR, textStatus, errorThrown) {
-                failedMachineTranslation(jqXHR, textStatus, errorThrown, 'memory');
-            },
-            dataType: 'json',
-            data: {
-                csrfmiddlewaretoken: $form.find('input').val(),
-            },
-        });
-    });
-
-    $('#memory-search').submit(function () {
-        var form = $(this);
-
-        increaseLoading('memory');
-        $('#memory-translations').empty();
-        $.ajax({
-            type: 'POST',
-            url: form.attr('action'),
-            data: form.serialize(),
-            dataType: 'json',
-            success: function (data) {processMachineTranslation(data, 'memory');},
-            error: function (jqXHR, textStatus, errorThrown) {
-                failedMachineTranslation(jqXHR, textStatus, errorThrown, 'memory');
-            },
-        });
-        return false;
-    });
-
     /* Hiding spam protection field */
     $('#s_content').hide();
     $('#id_content').parent('div').hide();
@@ -797,12 +436,6 @@ $(function () {
         $('.selectable-row').removeClass('active');
     });
 
-    /* Store active translation tab in cookie */
-    $('.translation-tabs a[data-toggle="tab"]').on('shown.bs.tab', function(e) {
-        Cookies.remove('translate-tab', { path: '' });
-        Cookies.set('translate-tab', $(this).attr('href'), { path: '/', expires: 365 });
-    });
-
     /* Navigate to a tab when the history changes */
     window.addEventListener('popstate', function(e) {
         if (location.hash !== '') {
@@ -826,72 +459,7 @@ $(function () {
         }
     }
 
-    /* Translation editor */
-    Mousetrap.bindGlobal(
-        ['alt+enter', 'ctrl+enter', 'command+enter'],
-        submitForm
-    );
-    var translationEditor = $('.translation-editor');
-    if (translationEditor.length > 0) {
-        $document.on('change', '.translation-editor', testChangeHandler);
-        $document.on('keypress', '.translation-editor', testChangeHandler);
-        $document.on('keydown', '.translation-editor', testChangeHandler);
-        $document.on('paste', '.translation-editor', testChangeHandler);
-        $document.on('focusin', '.translation-editor', function () { lastEditor = $(this); });
-        initEditor();
-        translationEditor.get(0).focus();
-        if ($('#button-first').length > 0) {
-            Mousetrap.bindGlobal('alt+end', function(e) {window.location = $('#button-end').attr('href'); return false;});
-            Mousetrap.bindGlobal('alt+pagedown', function(e) {window.location = $('#button-next').attr('href'); return false;});
-            Mousetrap.bindGlobal('alt+pageup', function(e) {window.location = $('#button-prev').attr('href'); return false;});
-            Mousetrap.bindGlobal('alt+home', function(e) {window.location = $('#button-first').attr('href'); return false;});
-            Mousetrap.bindGlobal(['ctrl+o', 'command+o'], function(e) {$('.translation-item .copy-text').click(); return false;});
-            Mousetrap.bindGlobal(['ctrl+y', 'command+y'], function(e) {$('input[name="fuzzy"]').click(); return false;});
-            Mousetrap.bindGlobal(
-                ['ctrl+shift+enter', 'command+shift+enter'],
-                function(e) {$('input[name="fuzzy"]').prop('checked', false); return submitForm(e);}
-            );
-            Mousetrap.bindGlobal(
-                ['ctrl+e', 'command+e'],
-                function(e) {
-                    $('.translation-editor').get(0).focus();
-                    return false;
-                }
-            );
-            Mousetrap.bindGlobal(
-                ['ctrl+s', 'command+s'],
-                function(e) {
-                    $('#search-dropdown').click();
-                    $('input[name="q"]').focus();
-                    return false;
-                }
-            );
-            Mousetrap.bindGlobal(
-                ['ctrl+u', 'command+u'],
-                function(e) {
-                    $('.nav [href="#comments"]').click();
-                    $('textarea[name="comment"]').focus();
-                    return false;
-                }
-            );
-            Mousetrap.bindGlobal(
-                ['ctrl+j', 'command+j'],
-                function(e) {
-                    $('.nav [href="#nearby"]').click();
-                    return false;
-                }
-            );
-            Mousetrap.bindGlobal(
-                ['ctrl+m', 'command+m'],
-                function(e) {
-                    $('.nav [href="#machine"]').click();
-                    return false;
-                }
-            );
-        }
-    }
-
-    /* Whiteboard message discard */
+    /* Announcement discard */
     $('.alert').on('close.bs.alert', function () {
         var $this = $(this);
         var $form = $('#link-post');
@@ -910,108 +478,6 @@ $(function () {
             });
         }
     });
-
-    /* Check ignoring */
-    $('.check-dismiss').click(function () {
-        var $this = $(this);
-        var $form = $('#link-post');
-
-        $.ajax({
-            type: 'POST',
-            url: $this.attr('href'),
-            data: {
-                csrfmiddlewaretoken: $form.find('input').val(),
-            },
-            error: function (jqXHR, textStatus, errorThrown) {
-                addAlert(errorThrown);
-            },
-        });
-        if ($this.hasClass("check-dismiss-all")) {
-            $this.closest('.check').remove();
-        } else {
-            $this.closest('.check').toggleClass("check-disabled");
-        }
-        return false;
-    });
-
-    /* Check fix */
-    $('[data-check-fixup]').click(function (e) {
-        var fixups = $(this).data('check-fixup');
-        $('.translation-editor').each(function () {
-            var $this = $(this);
-            $.each(fixups, function (key, value) {
-                var re = new RegExp(value[0], value[2]);
-                $this.val($this.val().replace(re, value[1]));
-            });
-        });
-        return false;
-    });
-
-    /* Check link clicking */
-    $document.on('click', '.check [data-toggle="tab"]', function (e) {
-        var href = $(this).attr('href');
-
-        e.preventDefault();
-        $('.nav [href="' + href + '"]').click();
-        $window.scrollTop($(href).offset().top);
-    });
-
-    /* Copy from dictionary */
-    $document.on('click', '.glossary-embed', function (e) {
-        var text = $(this).find('.target').text();
-
-        insertEditor(text);
-        e.preventDefault();
-    });
-
-
-    /* Copy from source text highlight check */
-    $document.on('click', '.hlcheck', function (e) {
-        var text = $(this).clone();
-
-        text.find('.highlight-number').remove();
-        text=text.text();
-        insertEditor(text, $(this));
-        e.preventDefault();
-    });
-    /* and shortcuts */
-    for (var i = 1; i < 10; i++) {
-        Mousetrap.bindGlobal(
-            ['ctrl+' + i, 'command+' + i],
-            function(e) {
-                return false;
-            }
-        );
-    }
-    if ($('.hlcheck').length>0) {
-        $('.hlcheck').each(function(idx) {
-            var $this = $(this);
-
-            if (idx < 10) {
-                let key = getNumericKey(idx);
-
-                $(this).attr('title', interpolate(gettext('Ctrl/Command+%s'), [key]));
-                $(this).find('.highlight-number').html('<kbd>' + key + '</kbd>');
-
-                Mousetrap.bindGlobal(
-                    ['ctrl+' + key, 'command+' + key],
-                    function(e) {
-                        $this.click();
-                        return false;
-                    }
-                );
-            } else {
-                $this.find('.highlight-number').html('');
-            }
-        });
-        $('.highlight-number').hide();
-    }
-    Mousetrap.bindGlobal(['ctrl', 'command'], function (e) {
-        $('.highlight-number').show();
-    }, 'keydown');
-    Mousetrap.bindGlobal(['ctrl', 'command'], function (e) {
-        $('.highlight-number').hide();
-    }, 'keyup');
 
     /* Widgets selector */
     $('.select-tab').on('change', function (e) {
@@ -1033,89 +499,6 @@ $(function () {
         $window.scroll(function() {
             if ($window.scrollTop() >= $document.height() - (2 * $window.height())) {
                 load_matrix();
-            }
-        });
-    };
-
-
-    /* Zen mode handling */
-    if ($('.zen').length > 0) {
-        $window.scroll(function() {
-            var $loadingNext = $('#loading-next');
-            var loader = $('#zen-load');
-
-            if ($window.scrollTop() >= $document.height() - (2 * $window.height())) {
-                if ($('#last-section').length > 0 || $loadingNext.css('display') !== 'none') {
-                    return;
-                }
-                $loadingNext.show();
-
-                loader.data('offset', 20 + parseInt(loader.data('offset'), 10));
-
-                $.get(
-                    loader.attr('href') + '&offset=' + loader.data('offset'),
-                    function (data) {
-                        $loadingNext.hide();
-
-                        $('.zen tfoot').before(data);
-
-                        initEditor();
-                    }
-                );
-            }
-        });
-
-        /*
-         * Ensure current editor is reasonably located in the window
-         * - show whole element if moving back
-         * - scroll down if in bottom half of the window
-         */
-        $document.on('focus', '.zen .translation-editor', function() {
-            var current = $window.scrollTop();
-            var row_offset = $(this).closest('tbody').offset().top;
-            if (row_offset < current || row_offset - current > $window.height() / 2) {
-                $([document.documentElement, document.body]).animate({
-                    scrollTop: row_offset
-                }, 100);
-            }
-        });
-
-        $document.on('change', '.translation-editor', zenEditor);
-        $document.on('change', '.fuzzy_checkbox', zenEditor);
-        $document.on('change', '.review_radio', zenEditor);
-
-        Mousetrap.bindGlobal(['ctrl+end', 'command+end'], function(e) {
-            $('.zen-unit:last').find('.translation-editor:first').focus();
-            return false;
-        });
-        Mousetrap.bindGlobal(['ctrl+home', 'command+home'], function(e) {
-            $('.zen-unit:first').find('.translation-editor:first').focus();
-            return false;
-        });
-        Mousetrap.bindGlobal(['ctrl+pagedown', 'command+pagedown'], function(e) {
-            var focus = $(':focus');
-
-            if (focus.length === 0) {
-                $('.zen-unit:first').find('.translation-editor:first').focus();
-            } else {
-                focus.closest('.zen-unit').next().find('.translation-editor:first').focus();
-            }
-            return false;
-        });
-        Mousetrap.bindGlobal(['ctrl+pageup', 'command+pageup'], function(e) {
-            var focus = $(':focus');
-
-            if (focus.length === 0) {
-                $('.zen-unit:last').find('.translation-editor:first').focus();
-            } else {
-                focus.closest('.zen-unit').prev().find('.translation-editor:first').focus();
-            }
-            return false;
-        });
-
-        $window.on('beforeunload', function() {
-            if ($('.translation-modified').length > 0) {
-                return gettext('There are some unsaved changes, are you sure you want to leave?');
             }
         });
     };
@@ -1191,63 +574,28 @@ $(function () {
         titleFormat: 'MM yyyy'
     };
 
-    /* Check dismiss shortcuts */
-    Mousetrap.bindGlobal(['ctrl+i', 'command+i'], function(e) {});
-    for (var i = 1; i < 10; i++) {
-        Mousetrap.bindGlobal(
-            ['ctrl+i ' + i, 'command+i ' + i],
-            function(e) {
-                return false;
-            }
-        );
-    }
-
-    $('.check-item').each(function(idx) {
-        var $this = $(this);
-
-        if (idx < 10) {
-            let key = getNumericKey(idx);
-
-            $(this).find('.check-number').html(
-                ' <kbd title="' +
-                interpolate(gettext('Press Ctrl+I then %s to dismiss this.'), [key]) +
-                '">' +
-                key +
-                '</kbd>'
-            );
-
-            Mousetrap.bindGlobal(
-                ['ctrl+i ' + key, 'command+i ' + key],
-                function(e) {
-                    $this.find('.dismiss-single').click();
-                    return false;
-                }
-            );
-        } else {
-            $(this).find('.check-number').html('');
-        }
-    });
-
-    /* Labels in dropdown menu in Dashboard */
-    $('#views-menu li a').click(function() {
-      $('#views-title').html($(this).text()+' <span class="caret"></span>');
-    });
-
     $('.dropdown-menu').find('form').click(function (e) {
         e.stopPropagation();
     });
 
     $('.link-post').click(function () {
         var $form = $('#link-post');
+        var $this = $(this);
 
-        $form.attr('action', $(this).attr('href'));
+        $form.attr('action', $this.attr('href'));
+        $.each($this.data("params"), function (name, value) {
+            var elm = $("<input>").attr("name", name).attr("value", value);
+            $form.append(elm)
+        });
         $form.submit();
         return false;
     });
     $('.link-auto').click();
     $document.on('click', '.thumbnail', function() {
-        $('#imagepreview').attr('src', $(this).attr('href'));
-        $('#myModalLabel').text($(this).attr('title'));
+        var $this = $(this);
+        $('#imagepreview').attr('src', $this.attr('href'));
+        $('#screenshotModal').text($this.attr('title'));
+        $('#modalEditLink').attr('href', $this.data('edit'));
         $('#imagemodal').modal('show');
         return false;
     });
@@ -1298,34 +646,6 @@ $(function () {
                 $this.prop('disabled', false);
             },
         });
-    });
-
-    /* Inline dictionary adding */
-    $('.add-dict-inline').submit(function () {
-        var form = $(this);
-
-        increaseLoading('glossary-add');
-        $.ajax({
-            type: 'POST',
-            url: form.attr('action'),
-            data: form.serialize(),
-            dataType: 'json',
-            success: function (data) {
-                decreaseLoading('glossary-add');
-                if (data.responseCode === 200) {
-                    $('#glossary-words').html(data.results);
-                    form.find('[name=words]').attr('value', data.words);
-                }
-                $('.translation-editor:first').focus();
-                form.trigger('reset');
-            },
-            error: function (xhr, textStatus, errorThrown) {
-                addAlert(errorThrown);
-                decreaseLoading('glossary-add');
-            }
-        });
-        $('#add-glossary-form').modal('hide');
-        return false;
     });
 
     /* Avoid double submission of non AJAX forms */
@@ -1383,22 +703,6 @@ $(function () {
         });
     }
 
-    /* Translate forms persistence */
-    $forms = $('.translation-form');
-    if ($forms.length > 0 && window.localStorage && window.localStorage.translation_autosave) {
-        var translation_restore = JSON.parse(window.localStorage.translation_autosave);
-
-        $.each(translation_restore, function () {
-            var target = $('#' + this.id);
-
-            if (target.length > 0) {
-                target.val(this.value);
-                autosize.update(target);
-            }
-        });
-        localStorage.removeItem('translation_autosave');
-    }
-
     /*
      * Disable modal enforce focus to fix compatibility
      * issues with ClipboardJS, see https://stackoverflow.com/a/40862005/225718
@@ -1443,25 +747,13 @@ $(function () {
         'selected_header': gettext('Chosen:')
     });
 
-    $('.auto-save-translation').on('submit', function () {
-        if (window.localStorage) {
-            let data = $('.translation-editor').map(function () {
-                var $this = $(this);
-
-                return {id: $this.attr('id'), value: $this.val()};
-            });
-
-            window.localStorage.translation_autosave = JSON.stringify(data.get());
-        }
-    });
-
     /* Slugify name */
     slugify.extend({'.': '-'})
     $('input[name="slug"]').each(function () {
         var $slug = $(this);
         var $form = $slug.closest('form');
         $form.find('input[name="name"]').on('change keypress keydown paste', function () {
-            $slug.val(slugify($(this).val()).toLowerCase());
+            $slug.val(slugify($(this).val(), {remove: /[^\w\s-]+/g}).toLowerCase());
         });
 
     });
@@ -1509,6 +801,27 @@ $(function () {
         $(this).parent().find('input').attr('disabled', '1');
     });
 
+    // Show the correct toggle button
+    if ($('.sort-field').length) {
+        var sort_name = $('#query-sort-dropdown span.search-label').text();
+        var sort_dropdown_value = $(".sort-field li a").filter(function() {
+            return $(this).text() == sort_name;
+        }).data('sort');
+        var sort_value = $('#id_sort_by').val();
+        if (sort_dropdown_value) {
+            if (
+                sort_value.replace("-", "") === sort_dropdown_value.replace("-", "")
+                && sort_value !== sort_dropdown_value
+            ) {
+                $('#query-sort-toggle .asc').hide();
+                $('#query-sort-toggle .desc').show();
+            } else {
+                $('#query-sort-toggle .desc').hide();
+                $('#query-sort-toggle .asc').show();
+            }
+        }
+    }
+
     /* Branch loading */
     $('.branch-loader select[name=component]').change(function () {
         var $this = $(this);
@@ -1521,18 +834,88 @@ $(function () {
         });
     });
 
+    /* Click to edit position inline. Disable when clicked outside or pressed ESC */
+    $('#position-input').on('click', function() {
+        $('#position-input').hide();
+        $('#position-input-editable').show();
+        $('#position-input-editable input').focus();
+        document.addEventListener('click', clickedOutsideEditableInput);
+        document.addEventListener('keyup', pressedEscape);
+    });
+    var clickedOutsideEditableInput = function(event) {
+        if (!$.contains($('#position-input-editable')[0], event.target) &&
+            event.target != $('#position-input')[0]
+        ) {
+            $('#position-input').show();
+            $('#position-input-editable').hide();
+            document.removeEventListener('click', clickedOutsideEditableInput);
+            document.removeEventListener('keyup', pressedEscape);
+        }
+    }
+    var pressedEscape = function(event) {
+        if (event.key == 'Escape' && event.target != $('#position-input')[0]) {
+            $('#position-input').show();
+            $('#position-input-editable').hide();
+            document.removeEventListener('click', clickedOutsideEditableInput);
+            document.removeEventListener('keyup', pressedEscape);
+        }
+    }
+
     /* Advanced search */
     $('.search-group li a').click(function () {
         var $this = $(this);
         var $button = $this.closest('.input-group-btn').find('button');
-        $button.data('field', $this.data('field'));
-        $button.find('span.search-label').text($this.text());
+        $button.attr('data-field', $this.data('field'));
+        $button.find('span.search-label').not('#query-sort-toggle span').text($this.text());
+        if ($this.data('sort')) {
+            $('#id_sort_by').val($this.data('sort'));
+            if ($this.closest('.result-page-form').length) {
+                $this.closest('form').submit();
+            }
+        }
+        if ($this.closest('.query-field').length) {
+            $('#id_q').val($this.data('field'));
+            if ($this.closest('.result-page-form').length) {
+                var $form = $this.closest('form');
+                $form.find("input[name=offset]").val("1");
+                $form.submit();
+            }
+        }
     });
-    $('.search-group input').on('keydown', function (event) {
+    $('#query-sort-toggle').click(function () {
+        var $this = $(this);
+        var $label = $this.find('span.search-label');
+        $label.toggle();
+        var sort_params = $('#id_sort_by').val().split(",")
+        sort_params.forEach(function(param, index) {
+            if (param.indexOf("-") !== -1) {
+                sort_params[index] = param.replace("-", "");
+            } else {
+                sort_params[index] = `-${param}`;
+            }
+        });
+        $('#id_sort_by').val(sort_params.join(","));
+        if ($this.closest('.result-page-form').length) {
+            $this.closest('form').submit();
+        }
+    });
+    $('.search-group input').not('#id_q,#id_position').on('keydown', function (event) {
         if (event.key === "Enter") {
             $(this).closest('.input-group').find('.search-add').click();
             event.preventDefault();
             return false;
+        }
+    });
+    $('#id_position').on('keydown', function (event) {
+        if (event.key === "Enter") {
+            $(this).closest('form').submit();
+        }
+    });
+    $('#id_q').on('keydown', function (event) {
+        if (event.key === "Enter") {
+            var $form = $(this).closest('form');
+            $form.find("input[name=offset]").val("1");
+            $form.submit();
         }
     });
     $('.search-add').click(function () {
@@ -1543,7 +926,11 @@ $(function () {
         if (input.length === 0) {
             $('#id_q').insertAtCaret(' ' + button.data('field') + ' ');
         } else if (input.val() !== '') {
-            $('#id_q').insertAtCaret(' ' + button.data('field') + quoteSearch(input.val()) + ' ');
+            var prefix = '';
+            if ($('#is-exact input[type=checkbox]').is(':checked')) {
+                prefix = '=';
+            }
+            $('#id_q').insertAtCaret(' ' + button.data('field') + prefix + quoteSearch(input.val()) + ' ');
         }
     });
     $('.search-insert').click(function () {
@@ -1553,6 +940,17 @@ $(function () {
     /* Clickable rows */
     $('tr[data-href]').click(function () {
         window.location = $(this).data('href');
+    });
+
+    /* ZIP import - autofill name and slug */
+    $('#id_zipcreate_zipfile,#id_doccreate_docfile').change(function () {
+        var $form = $(this).closest('form');
+        var target = $form.find('input[name=name]');
+        if (this.files.length > 0 && target.val() === '') {
+            var name = this.files[0].name;
+            target.val(name.substring(0, name.lastIndexOf('.')));
+            target.change();
+        }
     });
 
     /* Warn users that they do not want to use developer console in most cases */

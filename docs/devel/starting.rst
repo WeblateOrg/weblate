@@ -318,7 +318,7 @@ Depending on exact setup, importing of the translation might look like:
 
 .. code-block:: console
 
-    $ ./manage.py import_project --name-template 'Documentation: %s' \
+    $ weblate import_project --name-template 'Documentation: %s' \
         --file-format po \
         project https://github.com/project/docs.git master \
         'docs/locale/*/LC_MESSAGES/**.po'
@@ -328,11 +328,11 @@ directly supported; you currently have to list them separately:
 
 .. code-block:: console
 
-    $ ./manage.py import_project --name-template 'Directory 1: %s' \
+    $ weblate import_project --name-template 'Directory 1: %s' \
         --file-format po \
         project https://github.com/project/docs.git master \
         'docs/locale/*/LC_MESSAGES/dir1/**.po'
-    $ ./manage.py import_project --name-template 'Directory 2: %s' \
+    $ weblate import_project --name-template 'Directory 2: %s' \
         --file-format po \
         project https://github.com/project/docs.git master \
         'docs/locale/*/LC_MESSAGES/dir2/**.po'

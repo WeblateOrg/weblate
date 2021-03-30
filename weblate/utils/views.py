@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -24,14 +23,16 @@ from time import mktime
 from zipfile import ZipFile
 
 from django.core.paginator import EmptyPage, Paginator
-from django.http import Http404, HttpResponse, HttpResponseRedirect
+from django.http import FileResponse, Http404, HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 from django.utils.http import http_date
 from django.utils.translation import activate
 from django.utils.translation import gettext as _
+from django.utils.translation import pgettext
 from django.views.generic.edit import FormView
 
 from weblate.formats.exporters import get_exporter
+from weblate.lang.models import Language
 from weblate.trans.models import Component, Project, Translation
 from weblate.utils import messages
 
@@ -52,7 +53,7 @@ def get_page_limit(request, default):
     return page, limit
 
 
-def get_paginator(request, object_list, default_page_limit=50):
+def get_paginator(request, object_list, default_page_limit=100):
     """Return paginator and current page."""
     page, limit = get_page_limit(request, default_page_limit)
     paginator = Paginator(object_list, limit)
@@ -80,32 +81,68 @@ class ProjectViewMixin:
         return super().dispatch(request, *args, **kwargs)
 
 
+def get_sort_name(request):
+    """Gets sort name."""
+    sort_dict = {
+        "position": _("Position"),
+        "priority": _("Priority"),
+        "labels": _("Labels"),
+        "timestamp": _("Age of string"),
+        "num_words": _("Word count"),
+        "num_comments": _("Number of comments"),
+        "num_failing_checks": _("Number of failing checks"),
+        "context": pgettext("Translation key", "Key"),
+        "priority,position": _("Position and priority"),
+    }
+    sort_params = request.GET.get("sort_by", "-priority,position").replace("-", "")
+    sort_name = sort_dict.get(sort_params, _("Position and priority"))
+    result = {
+        "query": request.GET.get("sort_by", "-priority,position"),
+        "name": sort_name,
+    }
+    return result
+
+
 def get_translation(request, project, component, lang, skip_acl=False):
     """Return translation matching parameters."""
-    translation = get_object_or_404(
-        Translation.objects.prefetch(),
-        language__code=lang,
-        component__slug=component,
-        component__project__slug=project,
-    )
+    try:
+        translation = get_object_or_404(
+            Translation.objects.prefetch(),
+            language__code=lang,
+            component__slug__iexact=component,
+            component__project__slug__iexact=project,
+        )
+    except Http404:
+        language = Language.objects.fuzzy_get(code=lang, strict=True)
+        if language is None:
+            raise
+        translation = get_object_or_404(
+            Translation.objects.prefetch(),
+            language=language,
+            component__slug__iexact=component,
+            component__project__slug__iexact=project,
+        )
+
     if not skip_acl:
-        request.user.check_access(translation.component.project)
+        request.user.check_access_component(translation.component)
     return translation
 
 
 def get_component(request, project, component, skip_acl=False):
     """Return component matching parameters."""
     component = get_object_or_404(
-        Component.objects.prefetch(), project__slug=project, slug=component
+        Component.objects.prefetch(),
+        project__slug__iexact=project,
+        slug__iexact=component,
     )
     if not skip_acl:
-        request.user.check_access(component.project)
+        request.user.check_access_component(component)
     return component
 
 
 def get_project(request, project, skip_acl=False):
     """Return project matching parameters."""
-    project = get_object_or_404(Project, slug=project)
+    project = get_object_or_404(Project, slug__iexact=project)
     if not skip_acl:
         request.user.check_access(project)
     return project
@@ -195,10 +232,9 @@ def download_translation_file(translation, fmt=None, units=None):
         if len(filenames) == 1:
             extension = translation.store.extension()
             # Create response
-            with open(filenames[0], "rb") as handle:
-                response = HttpResponse(
-                    handle.read(), content_type=translation.store.mimetype()
-                )
+            response = FileResponse(
+                open(filenames[0], "rb"), content_type=translation.store.mimetype()
+            )
         else:
             extension = "zip"
             response = zip_download(translation.get_filename(), filenames)

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -18,38 +17,8 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
+from sys import exc_info
 from unittest import mock
-
-from django.utils.translation import trans_real
-
-DjangoTranslation = trans_real.DjangoTranslation
-
-
-class WeblateTranslation(DjangoTranslation):
-    """Workaround to enforce our plural forms over Django ones.
-
-    We hook into merge and overwrite plural with each merge. As Weblate locales
-    load as last this way we end up using Weblate plurals.
-
-    When loading locales, Django uses it's own plural forms for all
-    localizations. This can break plurals for other applications as they can
-    have different plural form. We don't use much of Django messages in the UI
-    (with exception of the admin interface), so it's better to possibly break
-    Django translations rather than breaking our own ones.
-
-    See https://code.djangoproject.com/ticket/30439
-    """
-
-    def merge(self, other):
-        DjangoTranslation.merge(self, other)
-        # Override plural
-        if hasattr(other, "plural"):
-            self.plural = other.plural
-
-
-def monkey_patch_translate():
-    """Monkey patch translation to workaround Django bug in handling plurals."""
-    trans_real.DjangoTranslation = WeblateTranslation
 
 
 def immediate_on_commit(cls):
@@ -72,4 +41,4 @@ def immediate_on_commit(cls):
 
 
 def immediate_on_commit_leave(cls):
-    cls.on_commit_mgr.__exit__()
+    cls.on_commit_mgr.__exit__(*exc_info())

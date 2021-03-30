@@ -1,7 +1,7 @@
 <div
     class="alert alert-{% block tags %}{% if "error" in tags%}danger {{ tags }}{% else %}{{ tags }}{% endif %}{% endblock %}"
-{% if can_delete and whiteboard %}
-    data-action="{% url 'whiteboard-delete' pk=whiteboard.pk %}"
+{% if can_delete and announcement %}
+    data-action="{% url 'announcement-delete' pk=announcement.pk %}"
 {% endif %}
 {% if task_id %}
     data-task="{% url 'js_task_progress' task_id=task_id %}"

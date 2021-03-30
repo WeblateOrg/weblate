@@ -68,7 +68,7 @@ Your module structure should look like this:
         ├── addons.py
         └── checks.py
 
-You can find an example of custimizing Weblate at
+You can find an example of customizing Weblate at
 <https://github.com/WeblateOrg/customize-example>, it covers all the topics
 described below.
 
@@ -101,7 +101,7 @@ Branding appears in the following files:
 :file:`email-logo.png`
     Used in notifications e-mails.
 
-3. Run :samp:`./manage.py collectstatic --noinput`, to collect static files served to
+3. Run :samp:`weblate collectstatic --noinput`, to collect static files served to
    clients.
 
 .. seealso::
@@ -142,4 +142,4 @@ To install your code for :ref:`custom-autofix`, :ref:`own-checks` or
 
 .. seealso::
 
-    :ref:`custom-autofix`:, ref:`own-checks`, :ref:`own-addon`, :ref:`addon-script`
+    :ref:`custom-autofix`:, :ref:`own-checks`, :ref:`own-addon`, :ref:`addon-script`

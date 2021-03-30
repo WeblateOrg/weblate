@@ -3,10 +3,9 @@ include ChangeLog
 include README.rst
 include BACKERS.rst
 include CONTRIBUTING.md
-include requirements-optional.txt
+include requirements-*.txt
 include requirements.txt
 include manage.py
-include runtests.py
 recursive-include weblate *.py
 recursive-include weblate/static *
 recursive-include weblate/templates *
@@ -23,6 +22,7 @@ recursive-include weblate/langdata/locale *.mo
 recursive-include weblate/examples *
 recursive-include docs *.rst
 include docs/images/*
+include docs/schemas/*.json
 include docs/conf.py
 include docs/Makefile
 include docs/make.bat
@@ -34,4 +34,4 @@ include weblate/trans/tests/data/*
 include weblate/trans/fixtures/simple-project.json
 exclude weblate/settings.py
 prune docs/_build
-global-exclude *.swp *.swo __pycache__
+global-exclude *.swp *.swo __pycache__ *.pyc *.pyo

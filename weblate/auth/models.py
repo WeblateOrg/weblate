@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -19,6 +18,7 @@
 #
 
 import re
+from collections import defaultdict
 
 from appconf import AppConf
 from django.conf import settings
@@ -124,12 +124,11 @@ class Group(models.Model):
     projects = models.ManyToManyField(
         "trans.Project", verbose_name=_("Projects"), blank=True
     )
-    componentlist = models.ForeignKey(
-        "trans.ComponentList",
-        verbose_name=_("Component list"),
-        on_delete=models.deletion.CASCADE,
-        null=True,
-        blank=True,
+    components = models.ManyToManyField(
+        "trans.Component", verbose_name=_("Components"), blank=True
+    )
+    componentlists = models.ManyToManyField(
+        "trans.ComponentList", verbose_name=_("Component lists"), blank=True,
     )
 
     language_selection = models.IntegerField(
@@ -329,20 +328,55 @@ class User(AbstractBaseUser):
     REQUIRED_FIELDS = ["email", "full_name"]
     DUMMY_FIELDS = ("first_name", "last_name", "is_staff")
 
+    def __str__(self):
+        return self.full_name
+
+    def get_absolute_url(self):
+        return reverse("user_page", kwargs={"user": self.username})
+
+    def save(self, *args, **kwargs):
+        # Generate full name from parts
+        # This is needed with LDAP authentication when the
+        # server does not contain full name
+        if "first_name" in self.extra_data and "last_name" in self.extra_data:
+            self.full_name = "{first_name} {last_name}".format(**self.extra_data)
+        elif "first_name" in self.extra_data:
+            self.full_name = self.extra_data["first_name"]
+        elif "last_name" in self.extra_data:
+            self.full_name = self.extra_data["last_name"]
+        if not self.email:
+            self.email = None
+        super().save(*args, **kwargs)
+        self.clear_cache()
+
     def __init__(self, *args, **kwargs):
         self.extra_data = {}
-        self.perm_cache = {}
+        self.cla_cache = {}
+        self._permissions = None
         self.current_subscription = None
         for name in self.DUMMY_FIELDS:
             if name in kwargs:
                 self.extra_data[name] = kwargs.pop(name)
         super().__init__(*args, **kwargs)
 
-    def get_absolute_url(self):
-        return reverse("user_page", kwargs={"user": self.username})
-
     def clear_cache(self):
-        self.perm_cache = {}
+        self.cla_cache = {}
+        self._permissions = None
+        perm_caches = (
+            "project_permissions",
+            "component_permissions",
+            "allowed_projects",
+            "allowed_project_ids",
+            "watched_projects",
+            "owned_projects",
+        )
+        for name in perm_caches:
+            if name in self.__dict__:
+                del self.__dict__[name]
+
+    def has_usable_password(self):
+        # For some reason Django says that empty string is a valid password
+        return self.password and super().has_usable_password()
 
     @cached_property
     def is_anonymous(self):
@@ -358,29 +392,12 @@ class User(AbstractBaseUser):
     def get_short_name(self):
         return self.full_name
 
-    def __str__(self):
-        return self.full_name
-
     def __setattr__(self, name, value):
         """Mimic first/last name for third party auth and ignore is_staff flag."""
         if name in self.DUMMY_FIELDS:
             self.extra_data[name] = value
         else:
             super().__setattr__(name, value)
-
-    def save(self, *args, **kwargs):
-        # Generate full name from parts
-        # This is needed with LDAP authentication when the
-        # server does not contain full name
-        if "first_name" in self.extra_data and "last_name" in self.extra_data:
-            self.full_name = "{first_name} {last_name}".format(**self.extra_data)
-        elif "first_name" in self.extra_data:
-            self.full_name = self.extra_data["first_name"]
-        elif "last_name" in self.extra_data:
-            self.full_name = self.extra_data["last_name"]
-        if not self.email:
-            self.email = None
-        super().save(*args, **kwargs)
 
     def has_module_perms(self, module):
         """Compatibility API for admin interface."""
@@ -405,7 +422,7 @@ class User(AbstractBaseUser):
         return all(self.has_perm(perm, obj) for perm in perm_list)
 
     # pylint: disable=keyword-arg-before-vararg
-    def has_perm(self, perm, obj=None, *args):
+    def has_perm(self, perm, obj=None):
         """Permission check."""
         # Weblate global scope permissions
         if perm in GLOBAL_PERM_NAMES:
@@ -430,7 +447,7 @@ class User(AbstractBaseUser):
 
         # Special permission functions
         if perm in SPECIALS:
-            return SPECIALS[perm](self, perm, obj, *args)
+            return SPECIALS[perm](self, perm, obj)
 
         # Generic permission
         return check_permission(self, perm, obj)
@@ -450,11 +467,24 @@ class User(AbstractBaseUser):
         """Check access to given project."""
         if self.is_superuser:
             return True
-        return self.groups.filter(projects=project).exists()
+        return project.pk in self.project_permissions
 
     def check_access(self, project):
         """Raise an error if user is not allowed to access this project."""
         if not self.can_access_project(project):
+            raise Http404("Access denied")
+
+    def can_access_component(self, component):
+        """Check access to given component."""
+        if self.is_superuser:
+            return True
+        if not self.can_access_project(component.project):
+            return False
+        return not component.restricted or component.pk in self.component_permissions
+
+    def check_access_component(self, component):
+        """Raise an error if user is not allowed to access this component."""
+        if not self.can_access_component(component):
             raise Http404("Access denied")
 
     @cached_property
@@ -462,7 +492,7 @@ class User(AbstractBaseUser):
         """List of allowed projects."""
         if self.is_superuser:
             return Project.objects.order()
-        return Project.objects.filter(group__user=self).distinct().order()
+        return Project.objects.filter(pk__in=self.allowed_project_ids)
 
     @cached_property
     def allowed_project_ids(self):
@@ -471,7 +501,9 @@ class User(AbstractBaseUser):
 
         This is more effective to use in queries than doing complex joins.
         """
-        return {project.pk for project in self.allowed_projects}
+        if self.is_superuser:
+            return set(Project.objects.values_list("id", flat=True))
+        return set(self.project_permissions.keys())
 
     @cached_property
     def watched_projects(self):
@@ -486,6 +518,58 @@ class User(AbstractBaseUser):
     @cached_property
     def owned_projects(self):
         return self.projects_with_perm("project.edit")
+
+    def _fetch_permissions(self):
+        """Fetch all user permissions into a dictionary."""
+        projects = defaultdict(list)
+        components = defaultdict(list)
+        for group in self.groups.iterator():
+            languages = set(
+                Group.languages.through.objects.filter(group=group).values_list(
+                    "language_id", flat=True
+                )
+            )
+            permissions = set(
+                group.roles.values_list("permissions__codename", flat=True)
+            )
+            # Component list specific permissions
+            componentlist_values = group.componentlists.values_list(
+                "components__id", "components__project_id"
+            )
+            if componentlist_values:
+                for component, project in componentlist_values:
+                    components[component].append((permissions, languages))
+                    # Grant access to the project
+                    projects[project].append(((), languages))
+                continue
+            # Component specific permissions
+            component_values = group.components.values_list("id", "project_id")
+            if component_values:
+                for component, project in component_values:
+                    components[component].append((permissions, languages))
+                    # Grant access to the project
+                    projects[project].append(((), languages))
+                continue
+            # Project specific permissions
+            for project in Group.projects.through.objects.filter(
+                group=group
+            ).values_list("project_id", flat=True):
+                projects[project].append((permissions, languages))
+        self._permissions = {"projects": projects, "components": components}
+
+    @cached_property
+    def project_permissions(self):
+        """Dictionary with all project permissions."""
+        if self._permissions is None:
+            self._fetch_permissions()
+        return self._permissions["projects"]
+
+    @cached_property
+    def component_permissions(self):
+        """Dictionary with all project permissions."""
+        if self._permissions is None:
+            self._fetch_permissions()
+        return self._permissions["components"]
 
     def projects_with_perm(self, perm):
         if self.is_superuser:
@@ -564,15 +648,18 @@ def auto_assign_group(user):
     if user.username == settings.ANONYMOUS_USER_NAME:
         return
     # Add user to automatic groups
-    for auto in AutoGroup.objects.iterator():
+    for auto in AutoGroup.objects.prefetch_related("group"):
         if re.match(auto.match, user.email or ""):
             user.groups.add(auto.group)
 
 
 @receiver(m2m_changed, sender=ComponentList.components.through)
-def change_componentlist(sender, instance, **kwargs):
+@disable_for_loaddata
+def change_componentlist(sender, instance, action, **kwargs):
+    if not action.startswith("post_"):
+        return
     groups = Group.objects.filter(
-        componentlist=instance, project_selection=Group.SELECTION_COMPONENT_LIST
+        componentlists=instance, project_selection=Group.SELECTION_COMPONENT_LIST
     )
     for group in groups:
         group.projects.set(
@@ -631,7 +718,7 @@ def setup_project_groups(sender, instance, **kwargs):
         groups = set(ACL_GROUPS.keys())
 
     # Remove review group if review is not enabled
-    if not instance.enable_review:
+    if not instance.source_review and not instance.translation_review:
         groups.remove("Review")
 
     # Remove billing if billing is not installed

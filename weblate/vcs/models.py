@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -27,12 +26,23 @@ from weblate.utils.classloader import ClassLoader
 class VcsClassLoader(ClassLoader):
     def __init__(self):
         super().__init__("VCS_BACKENDS", False)
+        self.errors = {}
 
     def load_data(self):
         result = super().load_data()
 
         for key, vcs in list(result.items()):
-            if not vcs.is_supported():
+            try:
+                version = vcs.get_version()
+            except Exception as error:
+                supported = False
+                self.errors[vcs.name] = str(error)
+            else:
+                supported = vcs.is_supported()
+                if not supported:
+                    self.errors[vcs.name] = f"Outdated version: {version}"
+
+            if not supported or not vcs.is_configured():
                 result.pop(key)
 
         return result

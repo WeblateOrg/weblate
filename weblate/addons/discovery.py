@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -33,8 +32,8 @@ class DiscoveryAddon(BaseAddon):
     name = "weblate.discovery.discovery"
     verbose = _("Component discovery")
     description = _(
-        "This addon automatically adds or removes components to the "
-        "project based on file changes in the version control system."
+        "Automatically adds or removes project components based on file changes "
+        "in the version control system."
     )
     settings_form = DiscoveryForm
     multiple = True

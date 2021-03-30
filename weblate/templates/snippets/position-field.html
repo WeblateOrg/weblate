@@ -1,0 +1,18 @@
+{% load i18n %}
+{% load icons %}
+
+<div class="btn-group search-group unit-pagination">
+    <a id="button-first" class="btn btn-default green" href="{{ first_unit_url }}" title="{% trans "First" %}">{% if LANGUAGE_BIDI %}{% icon "page-last.svg" %}{% else %}{% icon "page-first.svg" %}{% endif %}</a>
+    <a id="button-prev" class="btn btn-default green" href="{{ prev_unit_url }}" title="{% trans "Previous" %}">{% if LANGUAGE_BIDI %}{% icon "page-next.svg" %}{% else %}{% icon "page-previous.svg" %}{% endif %}</a>
+    <div class="btn btn-default" id="position-input" title="{% trans "Click to edit position" %}">
+        {% blocktrans %}{{ filter_pos }} / {{ filter_count }}{% endblocktrans %}
+    </div>
+    <div class="btn btn-default" id="position-input-editable" title="{% trans "Go to position" %}" >
+          <div class="input-group">
+            <input type="number" min="1" max="{{ filter_count }}" name="offset" class="form-control" value="{{ filter_pos }}" aria-label="{% trans "Jump to" %}" id="id_position">
+            <span class="input-group-addon">{% blocktrans %}/ {{ filter_count }}{% endblocktrans %}</span>
+          </div>
+    </div>
+    <a id="button-next" class="btn btn-default green" href="{{ next_unit_url }}" title="{% trans "Next" %}">{% if not LANGUAGE_BIDI %}{% icon "page-next.svg" %}{% else %}{% icon "page-previous.svg" %}{% endif %}</a>
+    <a id="button-end" class="btn btn-default green" href="{{ last_unit_url }}" title="{% trans "Last" %}">{% if not LANGUAGE_BIDI %}{% icon "page-last.svg" %}{% else %}{% icon "page-first.svg" %}{% endif %}</a>
+</div>

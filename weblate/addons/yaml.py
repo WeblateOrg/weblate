@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -31,27 +30,10 @@ class YAMLCustomizeAddon(StoreBaseAddon):
     name = "weblate.yaml.customize"
     verbose = _("Customize YAML output")
     description = _(
-        "Allows to customize YAML output behavior, for example "
-        "line length or newlines."
+        "Allows adjusting YAML output behavior, for example line-length or newlines."
     )
     settings_form = YAMLCustomizeForm
     compat = {"file_format": {"yaml", "ruby-yaml"}}
-
-    @classmethod
-    def can_install(cls, component, user):
-        """Check whether store is compatible.
-
-        This can be dropped once we require translate-toolkit 2.4.1
-        """
-        if not super().can_install(component, user):
-            return False
-        try:
-            return hasattr(
-                component.translation_set.exclude(filename="")[0].store.store,
-                "dump_args",
-            )
-        except IndexError:
-            return False
 
     def store_post_load(self, translation, store):
         config = self.instance.configuration

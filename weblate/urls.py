@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -35,6 +34,7 @@ import weblate.addons.views
 import weblate.api.urls
 import weblate.checks.views
 import weblate.fonts.views
+import weblate.glossary.views
 import weblate.lang.views
 import weblate.memory.views
 import weblate.screenshots.views
@@ -46,7 +46,6 @@ import weblate.trans.views.basic
 import weblate.trans.views.charts
 import weblate.trans.views.create
 import weblate.trans.views.dashboard
-import weblate.trans.views.dictionary
 import weblate.trans.views.edit
 import weblate.trans.views.error
 import weblate.trans.views.files
@@ -56,7 +55,6 @@ import weblate.trans.views.hooks
 import weblate.trans.views.js
 import weblate.trans.views.labels
 import weblate.trans.views.lock
-import weblate.trans.views.manage
 import weblate.trans.views.reports
 import weblate.trans.views.search
 import weblate.trans.views.settings
@@ -124,36 +122,36 @@ real_patterns = [
         weblate.trans.views.basic.show_engage,
         name="engage",
     ),
-    # Glossary/Dictionary pages
+    # Glossary pages
     url(
-        r"^dictionaries/" + PROJECT + "$",
-        weblate.trans.views.dictionary.show_dictionaries,
-        name="show_dictionaries",
+        r"^glossaries/" + PROJECT + "$",
+        weblate.glossary.views.show_glossaries,
+        name="show_glossaries",
     ),
     url(
-        r"^dictionaries/" + PROJECT_LANG + "$",
-        weblate.trans.views.dictionary.show_dictionary,
-        name="show_dictionary",
+        r"^glossaries/" + PROJECT_LANG + "$",
+        weblate.glossary.views.show_glossary,
+        name="show_glossary",
     ),
     url(
-        r"^upload-dictionaries/" + PROJECT_LANG + "$",
-        weblate.trans.views.dictionary.upload_dictionary,
-        name="upload_dictionary",
+        r"^upload-glossaries/" + PROJECT_LANG + "$",
+        weblate.glossary.views.upload_glossary,
+        name="upload_glossary",
     ),
     url(
-        r"^delete-dictionaries/" + PROJECT_LANG + "(?P<pk>[0-9]+)/$",
-        weblate.trans.views.dictionary.delete_dictionary,
-        name="delete_dictionary",
+        r"^delete-glossaries/(?P<pk>[0-9]+)/$",
+        weblate.glossary.views.delete_glossary,
+        name="delete_glossary",
     ),
     url(
-        r"^edit-dictionaries/" + PROJECT_LANG + "(?P<pk>[0-9]+)/$",
-        weblate.trans.views.dictionary.edit_dictionary,
-        name="edit_dictionary",
+        r"^edit-glossaries/(?P<pk>[0-9]+)/$",
+        weblate.glossary.views.edit_glossary,
+        name="edit_glossary",
     ),
     url(
-        r"^download-dictionaries/" + PROJECT_LANG + "$",
-        weblate.trans.views.dictionary.download_dictionary,
-        name="download_dictionary",
+        r"^download-glossaries/" + PROJECT_LANG + "$",
+        weblate.glossary.views.download_glossary,
+        name="download_glossary",
     ),
     # Subroject pages
     url(
@@ -370,6 +368,11 @@ real_patterns = [
         name="create-component-zip",
     ),
     url(
+        r"^create/component/doc/$",
+        weblate.trans.views.create.CreateFromDoc.as_view(),
+        name="create-component-doc",
+    ),
+    url(
         r"^contributor-agreement/" + COMPONENT + "$",
         weblate.trans.views.agreement.agreement_confirm,
         name="contributor-agreement",
@@ -565,70 +568,70 @@ real_patterns = [
     ),
     url(
         r"^progress/" + COMPONENT + "$",
-        weblate.trans.views.manage.component_progress,
+        weblate.trans.views.settings.component_progress,
         name="component_progress",
     ),
     url(
         r"^progress/" + COMPONENT + "terminate/$",
-        weblate.trans.views.manage.component_progress_terminate,
+        weblate.trans.views.settings.component_progress_terminate,
         name="component_progress_terminate",
     ),
     url(
         r"^js/progress/" + COMPONENT + "$",
-        weblate.trans.views.manage.component_progress_js,
+        weblate.trans.views.settings.component_progress_js,
         name="component_progress_js",
     ),
-    # Whiteboard
+    # Announcements
     url(
-        r"^whiteboard/" + PROJECT + "$",
-        weblate.trans.views.manage.whiteboard_project,
-        name="whiteboard_project",
+        r"^announcement/" + PROJECT + "$",
+        weblate.trans.views.settings.announcement_project,
+        name="announcement_project",
     ),
     url(
-        r"^whiteboard/" + COMPONENT + "$",
-        weblate.trans.views.manage.whiteboard_component,
-        name="whiteboard_component",
+        r"^announcement/" + COMPONENT + "$",
+        weblate.trans.views.settings.announcement_component,
+        name="announcement_component",
     ),
     url(
-        r"^whiteboard/" + TRANSLATION + "$",
-        weblate.trans.views.manage.whiteboard_translation,
-        name="whiteboard_translation",
+        r"^announcement/" + TRANSLATION + "$",
+        weblate.trans.views.settings.announcement_translation,
+        name="announcement_translation",
     ),
     url(
-        r"^js/whiteboard/(?P<pk>[0-9]+)/delete/$",
-        weblate.trans.views.manage.whiteboard_delete,
-        name="whiteboard-delete",
+        r"^js/announcement/(?P<pk>[0-9]+)/delete/$",
+        weblate.trans.views.settings.announcement_delete,
+        name="announcement-delete",
     ),
     # VCS manipulation - remove
     url(
         r"^remove/" + PROJECT + "$",
-        weblate.trans.views.manage.remove_project,
+        weblate.trans.views.settings.remove_project,
         name="remove_project",
     ),
     url(
         r"^remove/" + COMPONENT + "$",
-        weblate.trans.views.manage.remove_component,
+        weblate.trans.views.settings.remove_component,
         name="remove_component",
     ),
     url(
         r"^remove/" + TRANSLATION + "$",
-        weblate.trans.views.manage.remove_translation,
+        weblate.trans.views.settings.remove_translation,
         name="remove_translation",
     ),
     # Rename/move
     url(
         r"^rename/" + PROJECT + "$",
-        weblate.trans.views.manage.rename_project,
+        weblate.trans.views.settings.rename_project,
         name="rename",
     ),
     url(
         r"^rename/" + COMPONENT + "$",
-        weblate.trans.views.manage.rename_component,
+        weblate.trans.views.settings.rename_component,
         name="rename",
     ),
     url(
         r"^move/" + COMPONENT + "$",
-        weblate.trans.views.manage.move_component,
+        weblate.trans.views.settings.move_component,
         name="move",
     ),
     # Locking
@@ -722,14 +725,14 @@ real_patterns = [
         name="manage-memory",
     ),
     url(
-        r"^(?P<manage>manage)/memory/delete/$",
-        management_access(weblate.memory.views.DeleteView.as_view()),
-        name="memory-delete",
-    ),
-    url(
         r"^(?P<manage>manage)/memory/upload/$",
         management_access(weblate.memory.views.UploadView.as_view()),
         name="memory-upload",
+    ),
+    url(
+        r"^(?P<manage>manage)/memory/delete/$",
+        management_access(weblate.memory.views.DeleteView.as_view()),
+        name="memory-delete",
     ),
     url(
         r"^(?P<manage>manage)/memory/download/$",
@@ -755,11 +758,6 @@ real_patterns = [
         r"^memory/project/" + PROJECT + "download/$",
         weblate.memory.views.DownloadView.as_view(),
         name="memory-download",
-    ),
-    url(
-        r"^memory/project/" + PROJECT + "import/$",
-        weblate.memory.views.ImportView.as_view(),
-        name="memory-import",
     ),
     # Languages browsing
     url(r"^languages/$", weblate.lang.views.show_languages, name="languages"),
@@ -814,7 +812,7 @@ real_patterns = [
         name="hook-project",
     ),
     url(
-        r"^hooks/(?P<service>github|gitlab|bitbucket|pagure|azure|gitea|gitee)/$",
+        r"^hooks/(?P<service>github|gitlab|bitbucket|pagure|azure|gitea|gitee)/?$",
         weblate.trans.views.hooks.vcs_service_hook,
         name="webhook",
     ),
@@ -924,7 +922,7 @@ real_patterns = [
     ),
     # AJAX/JS backends
     url(
-        r"^js/render-check/(?P<check_id>[0-9]+)/$",
+        r"^js/render-check/(?P<unit_id>[0-9]+)/(?P<check_id>[a-z_-]+)/$",
         weblate.checks.views.render_check,
         name="render-check",
     ),
@@ -952,6 +950,7 @@ real_patterns = [
         ),
         name="js-catalog",
     ),
+    url(r"^js/matomo/$", weblate.trans.views.js.matomo, name="js-matomo"),
     url(
         r"^js/mt-services/$", weblate.trans.views.js.mt_services, name="js-mt-services"
     ),
@@ -964,11 +963,6 @@ real_patterns = [
         r"^js/memory/(?P<unit_id>[0-9]+)/$",
         weblate.trans.views.js.memory,
         name="js-memory",
-    ),
-    url(
-        r"^js/changes/(?P<unit_id>[0-9]+)/$",
-        weblate.trans.views.js.get_unit_changes,
-        name="js-unit-changes",
     ),
     url(
         r"^js/translations/(?P<unit_id>[0-9]+)/$",
@@ -1000,8 +994,12 @@ real_patterns = [
         weblate.trans.views.edit.save_zen,
         name="save_zen",
     ),
+    url(
+        r"^js/glossary/(?P<unit_id>[0-9]+)/$",
+        weblate.glossary.views.add_glossary_term,
+        name="js-add-glossary",
+    ),
     # Admin interface
-    url(r"^admin/doc/", include("django.contrib.admindocs.urls")),
     url(
         r"^admin/",
         include(
@@ -1011,6 +1009,7 @@ real_patterns = [
     # Weblate management interface
     url(r"^manage/$", weblate.wladmin.views.manage, name="manage"),
     url(r"^manage/tools/$", weblate.wladmin.views.tools, name="manage-tools"),
+    url(r"^manage/users/$", weblate.wladmin.views.users, name="manage-users"),
     url(r"^manage/activate/$", weblate.wladmin.views.activate, name="manage-activate"),
     url(r"^manage/alerts/$", weblate.wladmin.views.alerts, name="manage-alerts"),
     url(r"^manage/repos/$", weblate.wladmin.views.repos, name="manage-repos"),
@@ -1098,43 +1097,6 @@ real_patterns = [
             permanent=True,
             query_string=True,
         ),
-    ),
-    url(
-        r"^dictionaries/" + PROJECT_LANG + "upload/$",
-        RedirectView.as_view(
-            url="/upload-dictionaries/%(project)s/%(lang)s/",
-            permanent=True,
-            query_string=True,
-        ),
-    ),
-    url(
-        r"^dictionaries/" + PROJECT_LANG + "delete/$",
-        RedirectView.as_view(
-            url="/delete-dictionaries/%(project)s/%(lang)s/",
-            permanent=True,
-            query_string=True,
-        ),
-    ),
-    url(
-        r"^dictionaries/" + PROJECT_LANG + "edit/$",
-        RedirectView.as_view(
-            url="/edit-dictionaries/%(project)s/%(lang)s/",
-            permanent=True,
-            query_string=True,
-        ),
-    ),
-    url(
-        r"^dictionaries/" + PROJECT_LANG + "download/$",
-        RedirectView.as_view(
-            url="/download-dictionaries/%(project)s/%(lang)s/",
-            permanent=True,
-            query_string=True,
-        ),
-    ),
-    url(
-        r"^js/glossary/(?P<unit_id>[0-9]+)/$",
-        weblate.trans.views.dictionary.add_dictionary,
-        name="js-add-glossary",
     ),
     # Old activity charts
     url(
@@ -1305,6 +1267,11 @@ if "wlhosted.integrations" in settings.INSTALLED_APPS:
 
     real_patterns += [
         url(r"^create/billing/$", CreateBillingView.as_view(), name="create-billing")
+    ]
+
+if "djangosaml2idp" in settings.INSTALLED_APPS:
+    real_patterns += [
+        url(r"^idp/", include("djangosaml2idp.urls")),
     ]
 
 

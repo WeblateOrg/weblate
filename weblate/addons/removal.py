@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -48,7 +47,7 @@ class RemovalAddon(BaseAddon):
 class RemoveComments(RemovalAddon):
     name = "weblate.removal.comments"
     verbose = _("Stale comment removal")
-    description = _("Set timeframe for removal of comments.")
+    description = _("Set a timeframe for removal of comments.")
 
     def daily(self, component):
         self.delete_older(
@@ -56,13 +55,12 @@ class RemoveComments(RemovalAddon):
                 unit__translation__component__project=component.project
             )
         )
-        component.project.update_unit_flags()
 
 
 class RemoveSuggestions(RemovalAddon):
     name = "weblate.removal.suggestions"
     verbose = _("Stale suggestion removal")
-    description = _("Set timeframe for removal of suggestions.")
+    description = _("Set a timeframe for removal of suggestions.")
     settings_form = RemoveSuggestionForm
 
     def daily(self, component):
@@ -76,4 +74,3 @@ class RemoveSuggestions(RemovalAddon):
                 | Q(vote__value__sum=None)
             )
         )
-        component.project.update_unit_flags()

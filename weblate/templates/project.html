@@ -14,7 +14,7 @@
 
 {% block content %}
 
-{% whiteboard_messages project=object %}
+{% announcements project=object %}
 
 {% include "watch-dropdown.html" with project=object %}
 
@@ -23,23 +23,21 @@
 {% perm 'project.permissions' object as user_can_manage_acl %}
 {% perm 'project.edit' object as user_can_edit_project %}
 {% perm 'reports.view' object as user_can_view_reports %}
-{% perm 'component.edit' object as user_can_edit_component %}
 
 {% include "snippets/project-nav.html" %}
 
 <div class="tab-content">
 <div class="tab-pane active" id="components">
 
-
 {% include "snippets/list-objects.html" with objects=components name_source="name" label=_("Component") %}
 
-{% if user_can_edit_project %}
-  <a class="btn btn-primary project-add-component" href="{% url 'create-component' %}?project={{ object.pk }}">{% trans "Add new translation component" %}</a>
-{% endif %}
+{% include "paginator.html" with page_obj=components%}
 
-{% with components as page_obj %}
-{% include "paginator.html" %}
-{% endwith %}
+{% if user_can_edit_project %}
+<p>
+  <a class="btn btn-primary project-add-component" href="{% url 'create-component' %}?project={{ object.pk }}">{% trans "Add new translation component" %}</a>
+</p>
+{% endif %}
 
 </div>
 
@@ -62,6 +60,13 @@
 {% include "last-changes-content.html" %}
 <a class="btn btn-primary" href="{% url 'changes' %}?{{ last_changes_url }}">{% trans "Browse all project changes" %}</a>
 </div>
+
+{% if last_announcements %}
+<div class="tab-pane" id="announcement-history">
+{% include "last-changes-content.html" with last_changes=last_announcements %}
+<a class="btn btn-primary" href="{% url 'changes' %}?{{ last_changes_url }}&amp;action=46">{% trans "Browse all project changes" %}</a>
+</div>
+{% endif %}
 
 {% include "activity-tab.html" %}
 
@@ -110,14 +115,17 @@
 {% endif %}
 
 
-{% if whiteboard_form %}
-<div class="tab-pane" id="whiteboard">
-<form action="{% url 'whiteboard_project' project=object.slug %}" method="post">
+{% if announcement_form %}
+<div class="tab-pane" id="announcement">
+<form action="{% url 'announcement_project' project=object.slug %}" method="post">
 <div class="panel panel-default">
-<div class="panel-heading"><h4 class="panel-title">{% trans "Add a project message" %}</h4></div>
+<div class="panel-heading"><h4 class="panel-title">
+{% documentation_icon 'admin/announcement' right=True %}
+{% trans "Post announcement" %}
+</h4></div>
 <div class="panel-body">
 {% csrf_token %}
-{{ whiteboard_form|crispy }}
+{{ announcement_form|crispy }}
 <p class="help-block">{% trans "The message is shown for all translations within the project, until its given expiry, or permanently until it is deleted." %}</p>
 </div>
 <div class="panel-footer">

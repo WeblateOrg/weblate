@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -30,8 +29,8 @@ class ResxUpdateAddon(BaseCleanupAddon):
     verbose = _("Update RESX files")
     description = _(
         "Update all translation files to match the monolingual upstream base file. "
-        "Unused strings are removed, and new ones are added as "
-        "copies of the source string."
+        "Unused strings are removed, and new ones added as copies of the source "
+        "string."
     )
     icon = "refresh.svg"
     compat = {"file_format": {"resx"}}
@@ -79,7 +78,8 @@ class ResxUpdateAddon(BaseCleanupAddon):
         return result
 
     def update_translations(self, component, previous_head):
-        index = self.build_index(self.template_store)
+        index, intermediate = self.build_indexes()
+
         if previous_head:
             content = component.repository.get_file(component.template, previous_head)
             changes = self.find_changes(index, RESXFile.parsestring(content))
@@ -87,4 +87,9 @@ class ResxUpdateAddon(BaseCleanupAddon):
             # No previous revision, probably first commit
             changes = set()
         for translation in self.iterate_translations(component):
-            self.update_resx(index, translation, translation.store, changes)
+            self.update_resx(
+                self.get_index(index, intermediate, translation),
+                translation,
+                translation.store,
+                changes,
+            )

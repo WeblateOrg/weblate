@@ -308,6 +308,10 @@ img {
             <p>
                 ▸ <a href="{% url 'unsubscribe' %}?i={{ unsubscribe_nonce }}">{% trans "Turn off this notification" %}</a>
             </p>
+            {% elif unsubscribe_note %}
+            <p>
+                ▸ {{ unsubscribe_note }}
+            </p>
             {% endif %}
         </div>
         {% comment %}This avoids Gmail hiding the footer, as it finds unique content here{% endcomment %}

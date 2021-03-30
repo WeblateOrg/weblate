@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -19,6 +18,7 @@
 #
 
 import json
+import os
 from zipfile import BadZipfile
 
 from django.conf import settings
@@ -37,6 +37,7 @@ from weblate.trans.forms import (
     ComponentBranchForm,
     ComponentCreateForm,
     ComponentDiscoverForm,
+    ComponentDocCreateForm,
     ComponentInitCreateForm,
     ComponentScratchCreateForm,
     ComponentSelectForm,
@@ -44,6 +45,8 @@ from weblate.trans.forms import (
     ProjectCreateForm,
 )
 from weblate.trans.models import Component, Project
+from weblate.trans.tasks import perform_update
+from weblate.utils import messages
 from weblate.vcs.git import LocalRepository
 from weblate.vcs.models import VCS_REGISTRY
 
@@ -181,6 +184,19 @@ class CreateComponent(BaseCreateView):
             "component_progress", kwargs=self.object.get_reverse_url_kwargs()
         )
 
+    def warn_outdated(self, form):
+        linked = form.instance.linked_component
+        if linked:
+            perform_update.delay("Component", linked.pk, auto=True)
+            if linked.repo_needs_merge():
+                messages.warning(
+                    self.request,
+                    _(
+                        "The repository is outdated, you might not get "
+                        "expected results until you update it."
+                    ),
+                )
+
     def form_valid(self, form):
         if self.stage == "create":
             result = super().form_valid(form)
@@ -191,11 +207,13 @@ class CreateComponent(BaseCreateView):
             self.initial = form.cleaned_data
             self.stage = "create"
             self.request.method = "GET"
+            self.warn_outdated(form)
             return self.get(self, self.request)
         # Move to discover
         self.stage = "discover"
         self.request.method = "GET"
         self.initial = form.cleaned_data
+        self.warn_outdated(form)
         return self.get(self, self.request)
 
     def get_form(self, form_class=None, empty=False):
@@ -291,6 +309,40 @@ class CreateFromZip(CreateComponent):
         return self.get(self, self.request)
 
 
+class CreateFromDoc(CreateComponent):
+    form_class = ComponentDocCreateForm
+
+    def form_valid(self, form):
+        if self.stage != "init":
+            return super().form_valid(form)
+
+        # Create fake component (needed to calculate path)
+        fake = Component(
+            project=form.cleaned_data["project"],
+            slug=form.cleaned_data["slug"],
+            name=form.cleaned_data["name"],
+        )
+
+        # Create repository
+        uploaded = form.cleaned_data["docfile"]
+        name, ext = os.path.splitext(os.path.basename(uploaded.name))
+        filename = "{}/{}{}".format(
+            form.cleaned_data["slug"],
+            form.cleaned_data["project"].source_language.code,
+            ext,
+        )
+        LocalRepository.from_files(fake.full_path, {filename: uploaded.read()})
+
+        # Move to discover phase
+        self.stage = "discover"
+        self.initial = form.cleaned_data
+        self.initial["vcs"] = "local"
+        self.initial["repo"] = "local:"
+        self.initial.pop("docfile")
+        self.request.method = "GET"
+        return self.get(self, self.request)
+
+
 class CreateComponentSelection(CreateComponent):
     template_name = "trans/component_create.html"
 
@@ -317,7 +369,10 @@ class CreateComponentSelection(CreateComponent):
     def fetch_params(self, request):
         super().fetch_params(request)
         self.components = (
-            Component.objects.with_repo().prefetch().filter(project__in=self.projects)
+            Component.objects.filter_access(request.user)
+            .with_repo()
+            .prefetch()
+            .filter(project__in=self.projects)
         )
         if self.selected_project:
             self.components = self.components.filter(project__pk=self.selected_project)
@@ -336,6 +391,7 @@ class CreateComponentSelection(CreateComponent):
             kwargs["scratch_form"] = self.get_form(
                 ComponentScratchCreateForm, empty=True
             )
+            kwargs["doc_form"] = self.get_form(ComponentDocCreateForm, empty=True)
         if self.origin == "branch":
             kwargs["branch_form"] = kwargs["form"]
         elif self.origin == "scratch":
@@ -351,10 +407,8 @@ class CreateComponentSelection(CreateComponent):
                 pk__in=self.branch_data.keys()
             )
             form.branch_data = self.branch_data
-            form.auto_id = "id_branch_%s"
         elif isinstance(form, ComponentSelectForm):
             form.fields["component"].queryset = self.components
-            form.auto_id = "id_existing_%s"
         return form
 
     def get_form_class(self):

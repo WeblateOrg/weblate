@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -31,10 +30,7 @@ class GenerateFileAddon(BaseAddon):
     events = (EVENT_PRE_COMMIT,)
     name = "weblate.generate.generate"
     verbose = _("Statistics generator")
-    description = _(
-        "This addon generates a file containing detailed information "
-        "about the translation."
-    )
+    description = _("Generates a file containing detailed info about the translation.")
     settings_form = GenerateForm
     multiple = True
     icon = "poll.svg"

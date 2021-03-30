@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -50,13 +49,15 @@ class WeblateConf(AppConf):
     RATELIMIT_GLOSSARY_WINDOW = 60
 
     SENTRY_DSN = None
+    SENTRY_SECURITY = None
+    SENTRY_ENVIRONMENT = "devel"
+    SENTRY_ORGANIZATION = "weblate"
+    SENTRY_TOKEN = None
+    SENTRY_PROJECTS = ["weblate"]
+    SENTRY_EXTRA_ARGS = {}
 
     CELERY_TASK_ALWAYS_EAGER = True
     CELERY_BROKER_URL = "memory://"
-
-    CELERY_IMPORTS = [
-        "weblate.trans.search",
-    ]
 
     DATABASE_BACKUP = "plain"
 

@@ -1,8 +1,8 @@
 Application developer guide
 ===========================
 
-Using Weblate for translating your projects can bring you quite a lot of
-benefits. It's only up to you how much of that you will use.
+Using Weblate is a process that brings your users closer to you, by bringing you closer to your translators.
+It up to you to decide how many of its features you want to make use of.
 
 .. toctree::
 

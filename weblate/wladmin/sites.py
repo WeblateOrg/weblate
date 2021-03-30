@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -42,35 +41,37 @@ from weblate.checks.admin import CheckAdmin
 from weblate.checks.models import Check
 from weblate.fonts.admin import FontAdmin, FontGroupAdmin
 from weblate.fonts.models import Font, FontGroup
+from weblate.glossary.admin import GlossaryAdmin, TermAdmin
+from weblate.glossary.models import Glossary, Term
 from weblate.lang.admin import LanguageAdmin
 from weblate.lang.models import Language
+from weblate.memory.admin import MemoryAdmin
+from weblate.memory.models import Memory
 from weblate.screenshots.admin import ScreenshotAdmin
 from weblate.screenshots.models import Screenshot
 from weblate.trans.admin import (
+    AnnouncementAdmin,
     ChangeAdmin,
     CommentAdmin,
     ComponentAdmin,
     ComponentListAdmin,
     ContributorAgreementAdmin,
-    DictionaryAdmin,
     ProjectAdmin,
     SuggestionAdmin,
     TranslationAdmin,
     UnitAdmin,
-    WhiteboardMessageAdmin,
 )
 from weblate.trans.models import (
+    Announcement,
     Change,
     Comment,
     Component,
     ComponentList,
     ContributorAgreement,
-    Dictionary,
     Project,
     Suggestion,
     Translation,
     Unit,
-    WhiteboardMessage,
 )
 from weblate.utils import messages
 from weblate.wladmin.models import ConfigurationError
@@ -81,6 +82,7 @@ class WeblateAdminSite(AdminSite):
     site_header = _("Weblate administration")
     site_title = _("Weblate administration")
     index_template = "admin/weblate-index.html"
+    enable_nav_sidebar = False
 
     @property
     def site_url(self):
@@ -101,6 +103,9 @@ class WeblateAdminSite(AdminSite):
         # Languages
         self.register(Language, LanguageAdmin)
 
+        # Memory
+        self.register(Memory, MemoryAdmin)
+
         # Screenshots
         self.register(Screenshot, ScreenshotAdmin)
 
@@ -111,9 +116,10 @@ class WeblateAdminSite(AdminSite):
         # Translations
         self.register(Project, ProjectAdmin)
         self.register(Component, ComponentAdmin)
-        self.register(WhiteboardMessage, WhiteboardMessageAdmin)
+        self.register(Announcement, AnnouncementAdmin)
         self.register(ComponentList, ComponentListAdmin)
         self.register(ContributorAgreement, ContributorAgreementAdmin)
+        self.register(Glossary, GlossaryAdmin)
 
         # Show some controls only in debug mode
         if settings.DEBUG:
@@ -122,7 +128,7 @@ class WeblateAdminSite(AdminSite):
             self.register(Suggestion, SuggestionAdmin)
             self.register(Comment, CommentAdmin)
             self.register(Check, CheckAdmin)
-            self.register(Dictionary, DictionaryAdmin)
+            self.register(Term, TermAdmin)
             self.register(Change, ChangeAdmin)
 
         # Billing
@@ -151,6 +157,15 @@ class WeblateAdminSite(AdminSite):
             from weblate.legal.models import Agreement
 
             self.register(Agreement, AgreementAdmin)
+
+        # SAML identity provider
+        if "djangosaml2idp" in settings.INSTALLED_APPS:
+            # pylint: disable=wrong-import-position
+            from djangosaml2idp.models import PersistentId, ServiceProvider
+            from djangosaml2idp.admin import PersistentIdAdmin, ServiceProviderAdmin
+
+            self.register(PersistentId, PersistentIdAdmin)
+            self.register(ServiceProvider, ServiceProviderAdmin)
 
         # Python Social Auth
         self.register(UserSocialAuth, UserSocialAuthOption)

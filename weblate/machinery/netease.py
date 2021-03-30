@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright ©2018 Sun Zhigang <hzsunzhigang@corp.netease.com>
 #
@@ -72,7 +71,7 @@ class NeteaseSightTranslation(MachineTranslation):
             "signature": sign,
         }
 
-    def download_translations(self, source, language, text, unit, user):
+    def download_translations(self, source, language, text, unit, user, search):
         """Download list of possible translations from a service."""
         response = self.request(
             "post", NETEASE_API_ROOT, json={"lang": source, "content": text}

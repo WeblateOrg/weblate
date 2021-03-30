@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -145,6 +144,13 @@ LANGUAGES = (
         "n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 ? 4 : 5",
     ),
     (
+        "ar_LY",
+        # Translators: Language name, ISO code: ar_LY
+        _("Arabic (Libya)"),
+        6,
+        "n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 ? 4 : 5",
+    ),
+    (
         "ar_MA",
         # Translators: Language name, ISO code: ar_MA
         _("Arabic (Morocco)"),
@@ -155,6 +161,13 @@ LANGUAGES = (
         "ar_SA",
         # Translators: Language name, ISO code: ar_SA
         _("Arabic (Saudi Arabia)"),
+        6,
+        "n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 ? 4 : 5",
+    ),
+    (
+        "ar_XB",
+        # Translators: Language name, ISO code: ar_XB
+        _("Arabic (XB pseudolocale)"),
         6,
         "n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 ? 4 : 5",
     ),
@@ -434,21 +447,21 @@ LANGUAGES = (
     (
         "ckb",
         # Translators: Language name, ISO code: ckb
-        _("Sorani"),
+        _("Central Kurdish"),
         2,
         "n != 1",
     ),
     (
         "ckb_IQ",
         # Translators: Language name, ISO code: ckb_IQ
-        _("Sorani (Iraq)"),
+        _("Central Kurdish (Iraq)"),
         2,
         "n != 1",
     ),
     (
         "ckb_IR",
         # Translators: Language name, ISO code: ckb_IR
-        _("Sorani (Iran)"),
+        _("Central Kurdish (Iran)"),
         2,
         "n != 1",
     ),
@@ -649,9 +662,23 @@ LANGUAGES = (
         "n != 1",
     ),
     (
+        "en_XA",
+        # Translators: Language name, ISO code: en_XA
+        _("English (XA pseudolocale)"),
+        2,
+        "n != 1",
+    ),
+    (
         "en_ZA",
         # Translators: Language name, ISO code: en_ZA
         _("English (South Africa)"),
+        2,
+        "n != 1",
+    ),
+    (
+        "en_devel",
+        # Translators: Language name, ISO code: en_devel
+        _("English (Developer)"),
         2,
         "n != 1",
     ),
@@ -1274,7 +1301,7 @@ LANGUAGES = (
     (
         "kmr",
         # Translators: Language name, ISO code: kmr
-        _("Kurmanji"),
+        _("Northern Kurdish"),
         2,
         "n != 1",
     ),
@@ -1387,6 +1414,13 @@ LANGUAGES = (
         "li",
         # Translators: Language name, ISO code: li
         _("Limburgish"),
+        2,
+        "n != 1",
+    ),
+    (
+        "lki",
+        # Translators: Language name, ISO code: lki
+        _("Laki"),
         2,
         "n != 1",
     ),
@@ -1548,6 +1582,13 @@ LANGUAGES = (
         "ms",
         # Translators: Language name, ISO code: ms
         _("Malay"),
+        1,
+        "0",
+    ),
+    (
+        "ms_Arab",
+        # Translators: Language name, ISO code: ms_Arab
+        _("Malay (Jawi)"),
         1,
         "0",
     ),
@@ -2528,6 +2569,13 @@ LANGUAGES = (
         "zh_Hant_HK",
         # Translators: Language name, ISO code: zh_Hant_HK
         _("Chinese (Traditional, Hong Kong)"),
+        1,
+        "0",
+    ),
+    (
+        "zh_Latn",
+        # Translators: Language name, ISO code: zh_Latn
+        _("Chinese (Pinyin)"),
         1,
         "0",
     ),

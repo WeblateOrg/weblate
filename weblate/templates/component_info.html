@@ -1,9 +1,7 @@
 {% load i18n %}
 {% load permissions %}
 
-{% with object.project as object %}
-{% include "project_info.html" %}
-{% endwith %}
+{% include "project_info.html" with object=object.project %}
 
 <tr>
 <th>{% trans "Translation process" %}</th>

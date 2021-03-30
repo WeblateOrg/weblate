@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -24,21 +23,29 @@ from django.conf.urls import include, url
 from weblate.api.routers import WeblateRouter
 from weblate.api.views import (
     ChangeViewSet,
+    ComponentListViewSet,
     ComponentViewSet,
+    GroupViewSet,
     LanguageViewSet,
     Metrics,
     ProjectViewSet,
+    RoleViewSet,
     ScreenshotViewSet,
     TranslationViewSet,
     UnitViewSet,
+    UserViewSet,
 )
 
 # Routers provide an easy way of automatically determining the URL conf.
 router = WeblateRouter()
+router.register(r"users", UserViewSet)
+router.register(r"groups", GroupViewSet)
+router.register(r"roles", RoleViewSet)
 router.register(r"projects", ProjectViewSet)
 router.register(r"components", ComponentViewSet, "component")
 router.register(r"translations", TranslationViewSet)
 router.register(r"languages", LanguageViewSet)
+router.register("component-lists", ComponentListViewSet)
 router.register(r"changes", ChangeViewSet)
 router.register(r"units", UnitViewSet)
 router.register(r"screenshots", ScreenshotViewSet)

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -143,9 +142,9 @@ def vcs_service_hook(request, service):
     # Send the request data to the service handler.
     try:
         service_data = hook_helper(data, request)
-    except Exception as error:
+    except Exception:
         LOGGER.error("failed to parse service %s data", service)
-        report_error(error, request)
+        report_error()
         return HttpResponseBadRequest("Invalid data in json payload!")
 
     # This happens on ping request upon installation
@@ -184,12 +183,13 @@ def vcs_service_hook(request, service):
 
     LOGGER.info(
         "received %s notification on repository %s, branch %s, "
-        "%d matching components, %d to process",
+        "%d matching components, %d to process, %d linked",
         service_long_name,
         repo_url,
         branch,
         all_components.count(),
         components.count(),
+        Component.objects.filter(linked_component__in=components).count(),
     )
 
     # Trigger updates

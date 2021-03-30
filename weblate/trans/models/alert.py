@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -49,6 +48,8 @@ class Alert(models.Model):
 
     class Meta:
         unique_together = ("component", "name")
+        verbose_name = "component alert"
+        verbose_name_plural = "component alerts"
 
     def __str__(self):
         return force_str(self.obj.verbose)
@@ -265,9 +266,10 @@ class BrokenBrowserURL(BaseAlert):
     # Translators: Name of an alert
     verbose = _("Broken repository browser URL")
 
-    def __init__(self, instance, links):
+    def __init__(self, instance, link, error):
         super().__init__(instance)
-        self.links = links
+        self.link = link
+        self.error = error
 
 
 @register
@@ -278,3 +280,9 @@ class BrokenProjectURL(BaseAlert):
     def __init__(self, instance, error=None):
         super().__init__(instance)
         self.error = error
+
+
+@register
+class UnusedScreenshot(BaseAlert):
+    # Translators: Name of an alert
+    verbose = _("Unused screenshot")

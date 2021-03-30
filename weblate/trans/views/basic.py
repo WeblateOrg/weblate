@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -23,7 +22,6 @@ from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect
-from django.utils.encoding import force_str
 from django.utils.html import escape
 from django.utils.http import urlencode
 from django.utils.safestring import mark_safe
@@ -33,25 +31,30 @@ from django.views.decorators.cache import never_cache
 from weblate.formats.exporters import list_exporters
 from weblate.lang.models import Language
 from weblate.trans.forms import (
+    AnnouncementForm,
     AutoForm,
     BulkEditForm,
+    ComponentDeleteForm,
     ComponentMoveForm,
     ComponentRenameForm,
-    DeleteForm,
     DownloadForm,
     NewUnitForm,
+    ProjectDeleteForm,
     ProjectRenameForm,
     ReplaceForm,
     ReportsForm,
     SearchForm,
-    WhiteboardForm,
+    TranslationDeleteForm,
     get_new_language_form,
     get_upload_form,
 )
 from weblate.trans.models import Change, ComponentList, Translation, Unit
+from weblate.trans.models.component import prefetch_tasks
+from weblate.trans.models.project import prefetch_project_flags
+from weblate.trans.models.translation import GhostTranslation
 from weblate.trans.util import render, sort_objects, sort_unicode
 from weblate.utils import messages
-from weblate.utils.stats import prefetch_stats
+from weblate.utils.stats import GhostProjectLanguageStats, prefetch_stats
 from weblate.utils.views import (
     get_component,
     get_paginator,
@@ -76,10 +79,22 @@ def list_projects(request):
         "projects.html",
         {
             "allow_index": True,
-            "projects": prefetch_stats(request.user.allowed_projects),
+            "projects": prefetch_project_flags(
+                prefetch_stats(request.user.allowed_projects)
+            ),
             "title": _("Projects"),
         },
     )
+
+
+def add_ghost_translations(component, user, translations, generator):
+    """Adds ghost translations for user languages to the list."""
+    if component.can_add_new_language(user):
+        existing = {translation.language.code for translation in translations}
+        for language in user.profile.languages.all():
+            if language.code in existing:
+                continue
+            translations.append(generator(component, language))
 
 
 def show_engage(request, project, lang=None):
@@ -123,17 +138,37 @@ def show_engage(request, project, lang=None):
 @never_cache
 def show_project(request, project):
     obj = get_project(request, project)
+    obj.stats.ensure_basic()
     user = request.user
 
     last_changes = Change.objects.prefetch().order().filter(project=obj)[:10]
+    last_announcements = (
+        Change.objects.prefetch()
+        .order()
+        .filter(project=obj, action=Change.ACTION_ANNOUNCEMENT)[:10]
+    )
+
+    language_stats = obj.stats.get_language_stats()
+    # Show ghost translations for user languages
+    component = None
+    for component in obj.component_set.filter_access(user).all():
+        if component.can_add_new_language(user):
+            break
+    if component:
+        add_ghost_translations(
+            component, user, language_stats, GhostProjectLanguageStats
+        )
 
     language_stats = sort_unicode(
-        obj.stats.get_language_stats(), lambda x: force_str(x.language)
+        language_stats,
+        lambda x: "{}-{}".format(
+            user.profile.get_language_order(x.language), x.language
+        ),
     )
 
     # Paginate components of project.
-    all_components = obj.component_set.prefetch().order()
-    components = prefetch_stats(get_paginator(request, all_components))
+    all_components = obj.component_set.filter_access(user).prefetch().order()
+    components = prefetch_tasks(prefetch_stats(get_paginator(request, all_components)))
 
     return render(
         request,
@@ -143,13 +178,16 @@ def show_project(request, project):
             "object": obj,
             "project": obj,
             "last_changes": last_changes,
+            "last_announcements": last_announcements,
             "reports_form": ReportsForm(),
             "last_changes_url": urlencode({"project": obj.slug}),
             "language_stats": language_stats,
             "search_form": SearchForm(request.user),
-            "whiteboard_form": optional_form(WhiteboardForm, user, "project.edit", obj),
+            "announcement_form": optional_form(
+                AnnouncementForm, user, "project.edit", obj
+            ),
             "delete_form": optional_form(
-                DeleteForm, user, "project.edit", obj, obj=obj
+                ProjectDeleteForm, user, "project.edit", obj, obj=obj
             ),
             "rename_form": optional_form(
                 ProjectRenameForm,
@@ -179,6 +217,7 @@ def show_project(request, project):
 @never_cache
 def show_component(request, project, component):
     obj = get_component(request, project, component)
+    obj.stats.ensure_basic()
     user = request.user
     user_namespace_query = user.groups.filter(roles__name=ACCESS_NAMESPACE).order_by(
         "name"
@@ -199,6 +238,7 @@ def show_component(request, project, component):
                 ~Q(language_code__contains=NAMESPACE_SEPARATOR)
                 | Q(language_code__contains=NAMESPACE_SEPARATOR + namespace)
             )
+
     return render(
         request,
         "component.html",
@@ -212,9 +252,6 @@ def show_component(request, project, component):
             "last_changes_url": urlencode(
                 {"component": obj.slug, "project": obj.project.slug}
             ),
-            "language_count": Language.objects.filter(translation__component=obj)
-            .distinct()
-            .count(),
             "replace_form": optional_form(ReplaceForm, user, "unit.edit", obj),
             "bulk_state_form": optional_form(
                 BulkEditForm,
@@ -226,11 +263,11 @@ def show_component(request, project, component):
                 project=obj.project,
                 auto_id="id_bulk_%s",
             ),
-            "whiteboard_form": optional_form(
-                WhiteboardForm, user, "component.edit", obj
+            "announcement_form": optional_form(
+                AnnouncementForm, user, "component.edit", obj
             ),
             "delete_form": optional_form(
-                DeleteForm, user, "component.edit", obj, obj=obj
+                ComponentDeleteForm, user, "component.edit", obj, obj=obj
             ),
             "rename_form": optional_form(
                 ComponentRenameForm,
@@ -267,6 +304,23 @@ def show_translation(request, project, component, lang):
 
     search_form = SearchForm(request.user)
 
+    other_translations = prefetch_stats(
+        list(
+            Translation.objects.prefetch()
+            .filter(component__project=obj.component.project, language=obj.language)
+            .exclude(pk=obj.pk)
+        )
+    )
+
+    # Include ghost translations for other components
+    existing = {translation.component.slug for translation in other_translations}
+    existing.add(obj.component.slug)
+    for component in obj.component.project.component_set.filter_access(user).exclude(
+        slug__in=existing
+    ):
+        if component.can_add_new_language(user):
+            other_translations.append(GhostTranslation(component, obj.language))
+
     return render(
         request,
         "translation.html",
@@ -294,19 +348,15 @@ def show_translation(request, project, component, lang):
             "new_unit_form": NewUnitForm(
                 user, initial={"value": Unit(translation=obj, id_hash=-1)}
             ),
-            "whiteboard_form": optional_form(
-                WhiteboardForm, user, "component.edit", obj
+            "announcement_form": optional_form(
+                AnnouncementForm, user, "component.edit", obj
             ),
             "delete_form": optional_form(
-                DeleteForm, user, "translation.delete", obj, obj=obj
+                TranslationDeleteForm, user, "translation.delete", obj, obj=obj
             ),
             "last_changes": last_changes,
             "last_changes_url": urlencode(obj.get_reverse_url_kwargs()),
-            "other_translations": prefetch_stats(
-                Translation.objects.prefetch()
-                .filter(component__project=obj.component.project, language=obj.language)
-                .exclude(pk=obj.pk)
-            ),
+            "other_translations": other_translations,
             "exporters": list_exporters(obj),
         },
     )
@@ -318,7 +368,11 @@ def data_project(request, project):
     return render(
         request,
         "data.html",
-        {"object": obj, "components": obj.component_set.order(), "project": obj},
+        {
+            "object": obj,
+            "components": obj.component_set.filter_access(request.user).order(),
+            "project": obj,
+        },
     )
 
 
@@ -328,7 +382,7 @@ def new_language(request, project, component):
     obj = get_component(request, project, component)
 
     form_class = get_new_language_form(request, obj)
-    can_add = obj.can_add_new_language(request)
+    can_add = obj.can_add_new_language(request.user)
 
     if request.method == "POST":
         form = form_class(obj, request.POST)
@@ -383,15 +437,10 @@ def healthz(request):
 
 @never_cache
 def show_component_list(request, name):
-    obj = get_object_or_404(ComponentList, slug=name)
+    obj = get_object_or_404(ComponentList, slug__iexact=name)
 
     return render(
         request,
         "component-list.html",
-        {
-            "object": obj,
-            "components": obj.components.filter(
-                project_id__in=request.user.allowed_project_ids
-            ),
-        },
+        {"object": obj, "components": obj.components.filter_access(request.user)},
     )

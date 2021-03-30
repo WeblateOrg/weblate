@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -31,7 +30,7 @@ class DummyTranslation(MachineTranslation):
         """Dummy translation supports just Czech language."""
         return ("en", "cs")
 
-    def download_translations(self, source, language, text, unit, user):
+    def download_translations(self, source, language, text, unit, user, search):
         """Dummy translation supports just single phrase."""
         if source == "en" and text.strip() == "Hello, world!":
             yield {
@@ -42,6 +41,13 @@ class DummyTranslation(MachineTranslation):
             }
             yield {
                 "text": "Ahoj světe!",
+                "quality": self.max_score,
+                "service": "Dummy",
+                "source": text,
+            }
+        if source == "en" and text.strip() == "Hello, [7]!":
+            yield {
+                "text": "Nazdar [7]!",
                 "quality": self.max_score,
                 "service": "Dummy",
                 "source": text,

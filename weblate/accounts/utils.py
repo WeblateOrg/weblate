@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -21,6 +20,7 @@
 
 import os
 
+from django.contrib.auth import update_session_auth_hash
 from social_django.models import Code
 
 from weblate.accounts.models import AuditLog, VerifiedEmail
@@ -61,13 +61,16 @@ def remove_user(user, request):
     # Remove user from all groups
     user.groups.clear()
 
+    # Remove user translation memory
+    user.memory_set.all().delete()
+
 
 def get_all_user_mails(user, entries=None):
     """Return all verified mails for user."""
-    verified = VerifiedEmail.objects.filter(social__user=user)
+    kwargs = {"social__user": user}
     if entries:
-        verified = verified.filter(social__in=entries)
-    emails = set(verified.values_list("email", flat=True))
+        kwargs["social__in"] = entries
+    emails = set(VerifiedEmail.objects.filter(**kwargs).values_list("email", flat=True))
     emails.add(user.email)
     return emails
 
@@ -77,3 +80,17 @@ def invalidate_reset_codes(user=None, entries=None, emails=None):
     if emails is None:
         emails = get_all_user_mails(user, entries)
     Code.objects.filter(email__in=emails).delete()
+
+
+def cycle_session_keys(request, user):
+    """
+    Cycle session keys.
+
+    Updating the password logs out all other sessions for the user
+    except the current one and change key for current session.
+    """
+    # Change unusable password hash to be able to invalidate other sessions
+    if not user.has_usable_password():
+        user.set_unusable_password()
+    # Cycle session key
+    update_session_auth_hash(request, user)

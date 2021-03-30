@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -51,6 +50,10 @@ COUNTS_DATA = [
         "chars_approve": 0,
         "t_chars_approve": 0,
         "t_words_approve": 0,
+        "edits": 14,
+        "edits_approve": 0,
+        "edits_edit": 0,
+        "edits_new": 14,
     }
 ]
 
@@ -75,7 +78,7 @@ class ReportsTest(BaseReportsTest):
         )
         self.assertEqual(data, [])
 
-    def test_credits_one(self):
+    def test_credits_one(self, expected_count=1):
         self.add_change()
         data = generate_credits(
             None,
@@ -83,11 +86,13 @@ class ReportsTest(BaseReportsTest):
             timezone.now() + timedelta(days=1),
             translation__component=self.component,
         )
-        self.assertEqual(data, [{"Czech": [("weblate@example.org", "Weblate Test")]}])
+        self.assertEqual(
+            data, [{"Czech": [("weblate@example.org", "Weblate Test", expected_count)]}]
+        )
 
     def test_credits_more(self):
         self.edit_unit("Hello, world!\n", "Nazdar svete2!\n")
-        self.test_credits_one()
+        self.test_credits_one(expected_count=2)
 
     def test_counts_one(self):
         self.add_change()
@@ -121,7 +126,7 @@ class ReportsComponentTest(BaseReportsTest):
         self.assertEqual(response.status_code, 200)
         self.assertJSONEqual(
             response.content.decode(),
-            [{"Czech": [["weblate@example.org", "Weblate Test"]]}],
+            [{"Czech": [["weblate@example.org", "Weblate Test", 1]]}],
         )
 
     def test_credits_view_rst(self):
@@ -129,7 +134,7 @@ class ReportsComponentTest(BaseReportsTest):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(
             response.content.decode(),
-            "\n\n* Czech\n\n    * Weblate Test <weblate@example.org>\n\n",
+            "\n\n* Czech\n\n    * Weblate Test <weblate@example.org> (1)\n\n",
         )
 
     def test_credits_view_html(self):
@@ -140,7 +145,7 @@ class ReportsComponentTest(BaseReportsTest):
             "<table>\n"
             "<tr>\n<th>Czech</th>\n"
             '<td><ul><li><a href="mailto:weblate@example.org">'
-            "Weblate Test</a></li></ul></td>\n</tr>\n"
+            "Weblate Test</a> (1)</li></ul></td>\n</tr>\n"
             "</table>",
         )
 
@@ -201,21 +206,25 @@ class ReportsComponentTest(BaseReportsTest):
         <th>Name</th>
         <th>Email</th>
         <th>Count total</th>
+        <th>Edits total</th>
         <th>Source words total</th>
         <th>Source chars total</th>
         <th>Target words total</th>
         <th>Target chars total</th>
         <th>Count new</th>
+        <th>Edits new</th>
         <th>Source words new</th>
         <th>Source chars new</th>
         <th>Target words new</th>
         <th>Target chars new</th>
         <th>Count approved</th>
+        <th>Edits approved</th>
         <th>Source words approved</th>
         <th>Source chars approved</th>
         <th>Target words approved</th>
         <th>Target chars approved</th>
         <th>Count edited</th>
+        <th>Edits edited</th>
         <th>Source words edited</th>
         <th>Source chars edited</th>
         <th>Target words edited</th>
@@ -225,15 +234,19 @@ class ReportsComponentTest(BaseReportsTest):
         <td>Weblate Test</td>
         <td>weblate@example.org</td>
         <td>1</td>
+        <td>14</td>
         <td>2</td>
         <td>14</td>
         <td>2</td>
         <td>14</td>
         <td>1</td>
-        <td>2</td>
         <td>14</td>
         <td>2</td>
         <td>14</td>
+        <td>2</td>
+        <td>14</td>
+        <td>0</td>
+        <td>0</td>
         <td>0</td>
         <td>0</td>
         <td>0</td>

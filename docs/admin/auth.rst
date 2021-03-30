@@ -329,7 +329,7 @@ The default :file:`settings.py` comes with a reasonable set of
 :setting:`django:AUTH_PASSWORD_VALIDATORS`:
 
 * Passwords can't be too similar to your other personal info.
-* Passwords must contain at least 6 characters.
+* Passwords must contain at least 10 characters.
 * Passwords can't be a commonly used password.
 * Passwords can't be entirely numeric.
 * Passwords can't consist of a single character or only whitespace.
@@ -341,6 +341,52 @@ Additionally you can also install
 `django-zxcvbn-password <https://pypi.org/project/django-zxcvbn-password/>`_
 which gives quite realistic estimates of password difficulty and allows rejecting
 passwords below a certain threshold.
+
+.. _saml-auth:
+
+SAML authentication
+-------------------
+
+.. versionadded:: 4.1.1
+
+Please follow the Python Social Auth instructions for configuration. Notable differences:
+
+* Weblate supports single IDP which has to be called ``weblate`` in
+  ``SOCIAL_AUTH_SAML_ENABLED_IDPS``.
+* The SAML XML metadata URL is ``/accounts/metadata/saml/``.
+* Following settings are automatically filled in:
+  ``SOCIAL_AUTH_SAML_SP_ENTITY_ID``, ``SOCIAL_AUTH_SAML_TECHNICAL_CONTACT``,
+  ``SOCIAL_AUTH_SAML_SUPPORT_CONTACT``
+
+Example configuration:
+
+.. code-block::
+
+    # Authentication configuration
+    AUTHENTICATION_BACKENDS = (
+        "social_core.backends.email.EmailAuth",
+        "social_core.backends.saml.SAMLAuth",
+        "weblate.accounts.auth.WeblateUserBackend",
+    )
+
+    # Social auth backends setup
+    SOCIAL_AUTH_SAML_SP_PUBLIC_CERT = "-----BEGIN CERTIFICATE-----"
+    SOCIAL_AUTH_SAML_SP_PRIVATE_KEY = "-----BEGIN PRIVATE KEY-----"
+    SOCIAL_AUTH_SAML_ENABLED_IDPS = {
+        "weblate": {
+            "entity_id": "https://idp.testshib.org/idp/shibboleth",
+            "url": "https://idp.testshib.org/idp/profile/SAML2/Redirect/SSO",
+            "x509cert": "MIIEDjCCAvagAwIBAgIBADA ... 8Bbnl+ev0peYzxFyF5sQA==",
+            "attr_name": "full_name",
+            "attr_username": "username",
+            "attr_email": "email",
+        }
+    }
+
+.. seealso::
+
+   :ref:`Configuring SAML in Docker <docker-saml>`,
+   :doc:`psa:backends/saml`
 
 .. _ldap-auth:
 
@@ -413,7 +459,7 @@ Once you have the package installed, you can hook it into the Django authenticat
     their password in Weblate, and authenticate using that. Keeping
     ``'weblate.accounts.auth.WeblateUserBackend'`` is still needed in order to
     make permissions and facilitate anonymous users. It will also allow you
-    to log in using a local admin account, if you have created it (e.g. by using
+    to sign in using a local admin account, if you have created it (e.g. by using
     :djadmin:`createadmin`).
 
 Using bind password
@@ -488,7 +534,7 @@ authentication system by modifying the :file:`settings.py` file:
 
 .. code-block:: python
 
-    # Add CAS backed, keep the Django one if you want to be able to log in
+    # Add CAS backed, keep the Django one if you want to be able to sign in
     # even without LDAP for the admin account
     AUTHENTICATION_BACKENDS = (
         'django_cas_ng.backends.CASBackend',

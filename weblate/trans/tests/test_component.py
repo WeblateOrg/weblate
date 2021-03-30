@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -24,6 +23,7 @@ import os
 import shutil
 
 from django.core.exceptions import ValidationError
+from django.test.utils import override_settings
 
 from weblate.checks.models import Check
 from weblate.lang.models import Language
@@ -38,8 +38,16 @@ class ComponentTest(RepoTestCase):
     """Component object testing."""
 
     def verify_component(
-        self, component, translations, lang=None, units=0, unit="Hello, world!\n"
+        self,
+        component,
+        translations,
+        lang=None,
+        units=0,
+        unit="Hello, world!\n",
+        source_units=None,
     ):
+        if source_units is None:
+            source_units = units
         # Validation
         component.full_clean()
         # Correct path
@@ -53,7 +61,12 @@ class ComponentTest(RepoTestCase):
             self.assertEqual(translation.unit_set.count(), units)
             # Check whether unit exists
             if units:
-                self.assertTrue(translation.unit_set.filter(source=unit).exists())
+                self.assertTrue(
+                    translation.unit_set.filter(source=unit).exists(),
+                    "Unit not found, all units: {}".format(
+                        "\n".join(translation.unit_set.values_list("source", flat=True))
+                    ),
+                )
 
         if component.has_template() and component.edit_template:
             translation = component.translation_set.get(filename=component.template)
@@ -61,7 +74,8 @@ class ComponentTest(RepoTestCase):
             self.assertEqual(translation.unit_set.count(), units)
             # Count translated units in it
             self.assertEqual(
-                translation.unit_set.filter(state__gte=STATE_TRANSLATED).count(), units
+                translation.unit_set.filter(state__gte=STATE_TRANSLATED).count(),
+                source_units,
             )
 
     def test_create(self):
@@ -192,9 +206,63 @@ class ComponentTest(RepoTestCase):
         component = self.create_json_webextension()
         self.verify_component(component, 2, "cs", 4)
 
+    def test_create_json_intermediate(self):
+        component = self.create_json_intermediate()
+        # The English one should have source from intermediate
+        # Only 3 source units are "translated" here
+        self.verify_component(component, 2, "en", 4, "Hello world!\n", source_units=3)
+        # For Czech the English source string should be used
+        self.verify_component(component, 2, "cs", 4, source_units=3)
+        # Verify source strings are loaded from correct file
+        translation = component.translation_set.get(language_code="cs")
+        self.assertEqual(
+            translation.unit_set.get(context=".hello").source, "Hello, world!\n"
+        )
+        self.assertEqual(
+            translation.unit_set.get(context=".thanks").source,
+            "Thank you for using Weblate.",
+        )
+
+    def test_switch_json_intermediate(self):
+        component = self._create_component(
+            "json",
+            "intermediate/*.json",
+            "intermediate/dev.json",
+            language_regex="^cs$",
+        )
+        translation = component.translation_set.get(language_code="cs")
+        self.assertEqual(
+            translation.unit_set.get(context=".hello").source, "Hello world!\n"
+        )
+        self.assertEqual(
+            translation.unit_set.get(context=".thanks").source,
+            "Thanks for using Weblate.",
+        )
+        component.intermediate = "intermediate/dev.json"
+        component.template = "intermediate/en.json"
+        component.save()
+        translation = component.translation_set.get(language_code="cs")
+        self.assertEqual(
+            translation.unit_set.get(context=".hello").source, "Hello, world!\n"
+        )
+        self.assertEqual(
+            translation.unit_set.get(context=".thanks").source,
+            "Thank you for using Weblate.",
+        )
+
+    def test_create_json_intermediate_empty(self):
+        # This should automatically create empty English file
+        component = self.create_json_intermediate_empty()
+        # The English one should have source from intermediate and no translated units
+        self.verify_component(component, 1, "en", 4, "Hello world!\n", source_units=0)
+
     def test_create_joomla(self):
         component = self.create_joomla()
         self.verify_component(component, 3, "cs", 4)
+
+    def test_create_ini(self):
+        component = self.create_ini()
+        self.verify_component(component, 2, "cs", 4, "Hello, world!\\n")
 
     def test_create_tsv_simple(self):
         component = self._create_component("csv-simple", "tsv/*.txt")
@@ -283,6 +351,24 @@ class ComponentTest(RepoTestCase):
         component = self.create_dtd()
         self.verify_component(component, 2, "cs", 4)
 
+    def test_create_html(self):
+        component = self.create_html()
+        self.verify_component(component, 2, "cs", 4, unit="Hello, world!")
+
+    def test_create_idml(self):
+        component = self.create_idml()
+        self.verify_component(
+            component,
+            1,
+            "en",
+            5,
+            unit="""<g id="0"><g id="1">THE HEADLINE HERE</g></g>""",
+        )
+
+    def test_create_odt(self):
+        component = self.create_odt()
+        self.verify_component(component, 2, "cs", 4, unit="Hello, world!")
+
     def test_link(self):
         component = self.create_link()
         self.verify_component(component, 4, "cs", 4)
@@ -361,6 +447,34 @@ class ComponentTest(RepoTestCase):
         component.save()
         self.assertEqual(Check.objects.count(), 0)
 
+    @override_settings(
+        DEFAULT_ADDONS={
+            # Invalid addon name
+            "weblate.invalid.invalid": {},
+            # Duplicate (installed by file format)
+            "weblate.flags.same_edit": {},
+            # Not compatible
+            "weblate.gettext.mo": {},
+            # Missing params
+            "weblate.removal.comments": {},
+            # Correct
+            "weblate.autotranslate.autotranslate": {
+                "mode": "suggest",
+                "filter_type": "todo",
+                "auto_source": "mt",
+                "component": "",
+                "engines": ["weblate-translation-memory"],
+                "threshold": "80",
+            },
+        }
+    )
+    def test_create_autoaddon(self):
+        component = self.create_idml()
+        self.assertEqual(
+            set(component.addon_set.values_list("name", flat=True)),
+            {"weblate.flags.same_edit", "weblate.autotranslate.autotranslate"},
+        )
+
 
 class ComponentDeleteTest(RepoTestCase):
     """Component object deleting testing."""
@@ -384,6 +498,17 @@ class ComponentDeleteTest(RepoTestCase):
         self.assertTrue(os.path.exists(component.full_path))
         Component.objects.all().delete()
         self.assertFalse(os.path.exists(component.full_path))
+
+    def test_delete_with_checks(self):
+        """Test deleting of component with checks works."""
+        component = self.create_component()
+        # Introduce missing source string check. This can happen when adding new check
+        # on upgrade or similar situation.
+        unit = Unit.objects.filter(check__isnull=False).first().source_info
+        unit.source = "Test..."
+        unit.save(update_fields=["source"])
+        unit.check_set.filter(check="ellipisis").delete()
+        component.delete()
 
 
 class ComponentChangeTest(RepoTestCase):
@@ -415,6 +540,19 @@ class ComponentChangeTest(RepoTestCase):
             Component.objects.filter(repo="weblate://test/changed").exists()
         )
         self.assertFalse(Component.objects.filter(repo="weblate://test/test").exists())
+
+    def test_unlink_clean(self):
+        """Test changing linked component to real repo based one."""
+        component = self.create_link()
+        component.repo = component.linked_component.repo
+        component.clean()
+        component.save()
+
+    def test_unlink(self):
+        """Test changing linked component to real repo based one."""
+        component = self.create_link()
+        component.repo = component.linked_component.repo
+        component.save()
 
     def test_change_project(self):
         component = self.create_component()

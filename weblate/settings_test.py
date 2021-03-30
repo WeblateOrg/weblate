@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -100,6 +99,14 @@ LOGGING = {
 
 # Reset caches
 CACHES = {"default": {"BACKEND": "django.core.cache.backends.locmem.LocMemCache"}}
+
+if "CI_REDIS_HOST" in os.environ:
+    CACHES["avatar"] = {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://{}:{}/0".format(
+            os.environ["CI_REDIS_HOST"], os.environ.get("CI_REDIS_PORT", "6379")
+        ),
+    }
 
 # Selenium can not clear HttpOnly cookies in MSIE
 SESSION_COOKIE_HTTPONLY = False

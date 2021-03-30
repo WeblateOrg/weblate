@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -23,15 +22,33 @@
 import os
 import tempfile
 from copy import deepcopy
+from typing import Dict, Optional, Tuple, Type
 
+from django.conf import settings
 from django.utils.functional import cached_property
 from django.utils.translation import gettext as _
+from sentry_sdk import add_breadcrumb
 
+from weblate.langdata.countries import DEFAULT_LANGS
 from weblate.utils.hash import calculate_hash
+
+EXPAND_LANGS = {
+    code[:2]: "{}_{}".format(code[:2], code[3:].upper()) for code in DEFAULT_LANGS
+}
 
 
 class UnitNotFound(Exception):
-    pass
+    def __str__(self):
+        args = list(self.args)
+        if "" in args:
+            args.remove("")
+        return "Unit not found: {}".format(", ".join(args))
+
+
+class UpdateError(Exception):
+    def __init__(self, cmd, output):
+        self.cmd = cmd
+        self.output = output
 
 
 class TranslationUnit:
@@ -146,16 +163,17 @@ class TranslationUnit:
 class TranslationFormat:
     """Generic object defining file format loader."""
 
-    name = ""
-    format_id = ""
-    monolingual = None
-    check_flags = ()
-    unit_class = TranslationUnit
-    autoload = ()
-    can_add_unit = True
-    language_format = "posix"
-    simple_filename = True
-    new_translation = None
+    name: str = ""
+    format_id: str = ""
+    monolingual: Optional[bool] = None
+    check_flags: Tuple[str, ...] = ()
+    unit_class: Type[TranslationUnit] = TranslationUnit
+    autoload: Tuple[str, ...] = ()
+    can_add_unit: bool = True
+    language_format: str = "posix"
+    simple_filename: bool = True
+    new_translation: Optional[str] = None
+    autoaddon: Dict[str, Dict[str, str]] = {}
 
     @classmethod
     def get_identifier(cls):
@@ -187,6 +205,13 @@ class TranslationFormat:
         # Remember template
         self.template_store = template_store
         self.is_template = is_template
+        self.add_breadcrumb(
+            "Loaded translation file {}".format(
+                getattr(storefile, "filename", storefile)
+            ),
+            template_store=str(template_store),
+            is_template=is_template,
+        )
 
     def check_valid(self):
         """Check store validity."""
@@ -230,13 +255,14 @@ class TranslationFormat:
     def _find_unit_template(self, context):
         # Need to create new unit based on template
         template_ttkit_unit = self.template_store.find_unit_mono(context)
+        if template_ttkit_unit is None:
+            raise UnitNotFound(context)
+
         # We search by ID when using template
         ttkit_unit = self.find_unit_mono(context)
 
         # We always need new unit to translate
         if ttkit_unit is None:
-            if template_ttkit_unit is None:
-                raise UnitNotFound("Unit not found: {}".format(context))
             ttkit_unit = deepcopy(template_ttkit_unit)
             add = True
         else:
@@ -253,9 +279,9 @@ class TranslationFormat:
         try:
             return (self._source_index[context, source], False)
         except KeyError:
-            raise UnitNotFound("Unit not found: {}, {}".format(context, source))
+            raise UnitNotFound(context, source)
 
-    def find_unit(self, context, source):
+    def find_unit(self, context, source=None):
         """Find unit by context and source.
 
         Returns tuple (ttkit_unit, created) indicating whether returned unit is new one.
@@ -347,6 +373,16 @@ class TranslationFormat:
         return code.replace("_", "-")
 
     @staticmethod
+    def get_language_posix_long(code):
+        if code in EXPAND_LANGS:
+            return EXPAND_LANGS[code]
+        return code
+
+    @classmethod
+    def get_language_bcp_long(cls, code):
+        return cls.get_language_posix_long(code).replace("_", "-")
+
+    @staticmethod
     def get_language_android(code):
         # Android doesn't use Hans/Hant, but rather TW/CN variants
         if code == "zh_Hans":
@@ -429,6 +465,11 @@ class TranslationFormat:
     def get_class(cls):
         raise NotImplementedError()
 
+    @classmethod
+    def add_breadcrumb(cls, message, **data):
+        if getattr(settings, "SENTRY_DSN", None):
+            add_breadcrumb(category="storage", message=message, data=data, level="info")
+
 
 class EmptyFormat(TranslationFormat):
     """For testing purposes."""
@@ -439,3 +480,22 @@ class EmptyFormat(TranslationFormat):
 
     def save(self):
         return
+
+
+class BilingualUpdateMixin:
+    @classmethod
+    def do_bilingual_update(cls, in_file: str, out_file: str, template: str, **kwargs):
+        raise NotImplementedError()
+
+    @classmethod
+    def update_bilingual(cls, filename: str, template: str, **kwargs):
+        temp = tempfile.NamedTemporaryFile(
+            prefix=filename, dir=os.path.dirname(filename), delete=False
+        )
+        temp.close()
+        try:
+            cls.do_bilingual_update(filename, temp.name, template, **kwargs)
+            os.replace(temp.name, filename)
+        finally:
+            if os.path.exists(temp.name):
+                os.unlink(temp.name)

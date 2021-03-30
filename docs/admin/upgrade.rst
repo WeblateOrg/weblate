@@ -28,46 +28,55 @@ work, but is not as well tested as single version upgrades.
     It is recommended to perform a full database backup prior to upgrade so that you
     can roll back the database in case upgrade fails, see :doc:`backup`.
 
-1. Upgrade configuration file, refer to :file:`settings_example.py` or
+1. Stop wsgi and Celery processes. The upgrade can perform incompatible changes in the
+   database, so it is always safer to avoid old processes running while upgrading.
+
+2. Upgrade Weblate code.
+
+   For pip installs it can be achieved by:
+
+   .. code-block:: sh
+
+      pip install -U Weblate
+
+   With Git checkout you need to fetch new source code and update your installation:
+
+   .. code-block:: sh
+
+        cd weblate-src
+        git pull
+        # Update Weblate inside your virtualenv
+        . ~/weblate-env/bin/pip install -e .
+        # Install dependecies directly when not using virtualenv
+        pip install --upgrade -r requirements.txt
+
+3. Upgrade configuration file, refer to :file:`settings_example.py` or
    :ref:`version-specific-instructions` for needed steps.
 
-2. Upgrade database structure:
+4. Upgrade database structure:
 
    .. code-block:: sh
 
-        ./manage.py migrate --noinput
+        weblate migrate --noinput
 
-3. Collect updated static files (mostly javascript and CSS):
-
-   .. code-block:: sh
-
-        ./manage.py collectstatic --noinput
-
-4. Update language definitions (this is not necessary, but heavily recommended):
+5. Collect updated static files (mostly javascript and CSS):
 
    .. code-block:: sh
 
-        ./manage.py setuplang
-
-5. Optionally upgrade default set of privileges definitions (you might want to
-   add new permissions manually if you have heavily tweaked access control):
-
-   .. code-block:: sh
-
-        ./manage.py setupgroups
+        weblate collectstatic --noinput
 
 6. If you are running version from Git, you should also regenerate locale files
    every time you are upgrading. You can do this by invoking:
 
    .. code-block:: sh
 
-        ./manage.py compilemessages
+        weblate compilemessages
 
 7. Verify that your setup is sane (see also :ref:`production`):
 
    .. code-block:: sh
 
-        ./manage.py check --deploy
+        weblate check --deploy
 
 8. Restart celery worker (see :ref:`celery`).
 
@@ -253,9 +262,30 @@ Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 
 Notable configuration or dependencies changes:
 
-* Python versions older than 3.5 are no longer supported, see :ref:`py3`
+* Python versions older than 3.6 are no longer supported, see :ref:`py3`
+* The only database backends supported by Weblate are now PostgreSQL, MySQL and MariaDB.
 * There are several new checks included in the :setting:`CHECK_LIST`.
 * There are several removed, updated and new dependencies.
+* The migration will take some time if you have big translation memory.
+* The translation memory and fulltext search now resides in the database, you can remove the :file:`memory` and :file:`whoosh` folders in the :setting:`DATA_DIR` after the upgrade.
+* The database migration now creates PostgreSQL extensions, Weblate user now has to be superuser or the extensions created manuall, see :ref:`dbsetup-postgres`.
+
+.. seealso:: :ref:`generic-upgrade-instructions`
+
+Upgrade from 4.0 to 4.1
+~~~~~~~~~~~~~~~~~~~~~~~
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+Notable configuration or dependencies changes:
+
+* There are several changes in :file:`settings_example.py`, most notable middleware changes, please adjust your settings accordingly.
+* There are new file formats, you might want to include them in case you modified the :setting:`WEBLATE_FORMATS`.
+* There are new quality checks, you might want to include them in case you modified the :setting:`CHECK_LIST`.
+* There is change in ``DEFAULT_THROTTLE_CLASSES`` setting to allow reporting of rate limiting the in API.
+* There are some new and updated requirements.
+* There is a change in :setting:`django:INSTALLED_APPS`.
+* The :ref:`deepl` machine translation now defaults to v2 API, you might need to adjust :setting:`MT_DEEPL_API_VERSION` in case your current DeepL subscription does not support that.
 
 .. seealso:: :ref:`generic-upgrade-instructions`
 
@@ -297,10 +327,12 @@ It is usually a good idea to run Weblate in a separate database, and separate us
     # Create the database "weblate" owned by "weblate"
     sudo -u postgres createdb -O weblate weblate
 
-Configuring Weblate to use PostgreSQL
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Migrating using Django JSON dumps
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Add PostgeSQL as additional database connection to the :file:`settings.py`:
+The simplest approach for migration is to utilize Django JSON dumps. This works well for smaller installations. On bigger sites you might want to use pgloader instead, see :ref:`pgloader-migration`.
+
+1. Add PostgeSQL as additional database connection to the :file:`settings.py`:
 
 .. code-block:: python
 
@@ -346,31 +378,56 @@ Add PostgeSQL as additional database connection to the :file:`settings.py`:
         }
     }
 
-Create empty tables in the PostgreSQL
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Run migrations and drop any data inserted into the tables:
+2. Run migrations and drop any data inserted into the tables:
 
 .. code-block:: sh
 
-   python manage.py migrate --database=postgresql
-   python manage.py sqlflush --database=postgresql | psql
+   weblate migrate --database=postgresql
+   weblate sqlflush --database=postgresql | weblate dbshell --database=postgresql
 
-Dump legacy database and import to PostgreSQL
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+3. Dump legacy database and import to PostgreSQL
 
 .. code-block:: sh
 
-   python manage.py dumpdata --all --output weblate.json
-   python manage.py loaddata weblate.json --database=postgresql
+   weblate dumpdata --all --output weblate.json
+   weblate loaddata weblate.json --database=postgresql
 
-Adjust configuration
-~~~~~~~~~~~~~~~~~~~~
-
-Adjust :setting:`django:DATABASES` to use just PostgreSQL database as default,
-remove legacy connection.
+4. Adjust :setting:`django:DATABASES` to use just PostgreSQL database as default,
+   remove legacy connection.
 
 Weblate should be now ready to run from the PostgreSQL database.
+
+.. _pgloader-migration:
+
+Migrating to PotsgreSQL using pgloader
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The `pgloader`_ is a generic migration tool to migrate data to PostgreSQL. You can use it to migrate Weblate database.
+
+1. Adjust your :file:`settings.py` to use PostgeSQL as a database.
+
+2. Migrate the schema in the PostgreSQL database:
+
+   .. code-block:: sh
+
+       weblate migrate
+       weblate sqlflush | weblate dbshell
+
+3. Run the pgloader to transfer the data. The following script can be used to migrate the database, but you might want to learn more about `pgloader`_ to understand what it does and tweak it to match your setup:
+
+   .. code-block:: postgresql
+
+       LOAD DATABASE
+            FROM      mysql://weblate:password@localhost/weblate
+            INTO postgresql://weblate:password@localhost/weblate
+
+       WITH include no drop, truncate, create no tables, create no indexes, no foreign keys, disable triggers, reset sequences, data only
+
+       ALTER SCHEMA 'weblate' RENAME TO 'public'
+       ;
+
+
+.. _pgloader: https://pgloader.io/
 
 .. _pootle-migration:
 

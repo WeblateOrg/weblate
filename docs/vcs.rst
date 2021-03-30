@@ -13,20 +13,30 @@ Accessing repositories
 ----------------------
 
 The VCS repository you want to use has to be accessible to Weblate. With a
-publicly available repository you just need to enter the correct URL (for example
-``git@github.com:WeblateOrg/weblate.git`` or
-``https://github.com/WeblateOrg/weblate.git``), but for private repositories the
-setup might be more complex.
+publicly available repository you just need to enter the correct URL (for
+example ``https://github.com/WeblateOrg/weblate.git``), but for private
+repositories or for push URLs the setup is more complex and requires
+authentication.
 
-.. _internal-urls:
+.. _hosted-push:
 
-Weblate internal URLs
-+++++++++++++++++++++
+Accessing repositories from Hosted Weblate
+++++++++++++++++++++++++++++++++++++++++++
 
-To share one repository between different components you can use a special URL
-like ``weblate://project/component``. This way, the component will share the VCS
-repository configuration with the referenced component, and the VCS repository will
-be stored just once on the disk.
+For Hosted Weblate there is a dedicated push user registered on GitHub,
+Bitbucket, Codeberg and GitLab (with username :guilabel:`weblate` named
+:guilabel:`Weblate push user`). You need to add this user as a collaborator and
+give it appropriate permission to your repository (read only is okay for
+cloning, write is required for pushing). Depending on service and your
+organization settings, this happens immediately or requires confirmation from
+Weblate side.
+
+The invitations on GitHub are accepted automatically within five minutes, on
+other services manual processing might be needed, so please be patient.
+
+Once the :guilabel:`weblate` user is added, you can configure
+:ref:`component-repo` and :ref:`component-push` using SSH protocol (for example
+``git@github.com:WeblateOrg/weblate.git``).
 
 .. _ssh-repos:
 
@@ -39,8 +49,8 @@ repository this way.
 
 .. warning::
 
-    On GitHub, the key can be added to only one repository. Other solutions
-    are to be found in the corresponding sections below.
+    On GitHub, each key can be added to only one repository, see
+    :ref:`vcs-repos-github` and :ref:`hosted-push`.
 
 Weblate also stores the host key fingerprint upon first connection, and fails to
 connect to the host should it be changed later (see :ref:`verify-ssh`).
@@ -55,11 +65,10 @@ In case adjustment is needed, do so from the Weblate admin interface:
 Weblate SSH key
 ~~~~~~~~~~~~~~~
 
-Generate or display the public key currently used by Weblate in the (from :guilabel:`SSH keys`)
-on the admin interface landing page. Once done, Weblate should be able to
-access your repository.
-
 The Weblate public key is visible to all users browsing the :guilabel:`About` page.
+
+Admins can generate or display the public key currently used by Weblate in the
+(from :guilabel:`SSH keys`) on the admin interface landing page.
 
 .. note::
 
@@ -87,6 +96,55 @@ confirmation message:
 
 .. image:: images/ssh-keys-added.png
 
+.. _vcs-repos-github:
+
+GitHub repositories
++++++++++++++++++++
+
+Access via SSH is possible (see :ref:`ssh-repos`), but in case you need to
+access more than one repository, you will hit a GitHub limitation on allowed
+SSH key usage (since one key can be used only for one repository).
+
+In case the :ref:`component-push_branch` is not set, the project is forked and
+changes pushed through a fork. In case it is set, changes are pushed to the
+upstream repository and chosen branch.
+
+For smaller deployments, use HTTPS authentication with a personal access
+token and your GitHub account, see `Creating an access token for command-line use`_.
+
+.. _Creating an access token for command-line use: https://help.github.com/en/github/authenticating-to-github/creating-a-personal-access-token-for-the-command-line
+
+For bigger setups, it is usually better to create a dedicated user for Weblate,
+assign it the public SSH key generated in Weblate (see :ref:`weblate-ssh-key`)
+and grant it access to all the repositories you want to translate. This
+approach is also used for Hosted Weblate, there is dedicated
+:guilabel:`weblate` user for that.
+
+.. seealso::
+
+    :ref:`hosted-push`
+
+.. _internal-urls:
+
+Weblate internal URLs
++++++++++++++++++++++
+
+To share one repository between different components you can use a special URL
+like ``weblate://project/component``. This way, the component will share the
+VCS repository configuration with the referenced component
+(``project/component`` in the example).
+
+Weblate automatically adjusts repository URL when creating component when it
+finds component with matching repository setup. You can override this in last
+step of component configuration.
+
+Reasons to use this:
+
+* Saves disk space on the server, the repository is stored just once.
+* Makes the updates faster, only one repository is updated.
+* There is just single exported repository with Weblate translations (see :ref:`git-exporter`).
+* Some addons can operate on more components sharing single repository, for example :ref:`addon-weblate.git.squash`.
+
 
 HTTPS repositories
 ++++++++++++++++++
@@ -111,7 +169,7 @@ If you need to access HTTP/HTTPS VCS repositories using a proxy server,
 configure the VCS to use it.
 
 This can be done using the ``http_proxy``, ``https_proxy``, and ``all_proxy``
-environment variables, (as described in the [cURL documentation](https://curl.haxx.se/docs/))
+environment variables, (as described in the `cURL documentation <https://curl.haxx.se/docs/>`_)
 or by enforcing it in the VCS configuration, for example:
 
 .. code-block:: sh
@@ -150,29 +208,6 @@ for translations.
 
     Use with caution, as this easily leads to lost commits in your
     upstream repository.
-
-.. _vcs-repos-github:
-
-GitHub repositories
-+++++++++++++++++++
-
-Access via SSH is possible (as mentioned above), but in case you need to access more
-than one repository, you will hit a GitHub limitation on allowed SSH key
-usage (since one key can be used only for one repository).
-
-For smaller deployments, use HTTPS authentication with a personal access
-token and your GitHub account, see `Creating an access token for command-line use`_.
-
-.. _Creating an access token for command-line use: https://help.github.com/en/github/authenticating-to-github/creating-a-personal-access-token-for-the-command-line
-
-For bigger setups, it is usually better to create a dedicated user for Weblate,
-assign it the public SSH key generated in Weblate and grant it access to all
-the repositories you want to translate.
-
-On Hosted Weblate, adding the ``weblate`` user is enough to grant the service
-access to a repository. Once invited, the bot accepts the invitation
-within five minutes, and as with :ref:`hosted-push`, you can use the SSH URL
-to access your repo (for example ``git@github.com:WeblateOrg/weblate.git```).
 
 Customizing Git configuration
 +++++++++++++++++++++++++++++
@@ -229,6 +264,11 @@ translation changes as pull requests, instead of pushing directly to the reposit
 :ref:`vcs-github` creates pull requests.
 The latter is not needed for merely accessing Git repositories.
 
+.. seealso::
+
+   :ref:`push-changes`
+
+
 .. _github-push:
 
 Pushing changes to GitHub as pull requests
@@ -237,7 +277,6 @@ Pushing changes to GitHub as pull requests
 If not wanting to push translations to a GitHub repository, they can be sent as either
 one or many pull requests instead.
 
-Configure the `hub`_ command line tool and set :setting:`GITHUB_USERNAME` for this to work.
 
 .. seealso::
 
@@ -268,6 +307,72 @@ Weblate.
     Docker image).
 
 .. _hub: https://hub.github.com/
+
+.. _vcs-gitlab:
+
+GitLab
+------
+
+.. versionadded:: 3.9
+
+This just adds a thin layer atop :ref:`vcs-git` using the `lab`_ tool to allow
+pushing translation changes as merge requests instead of
+pushing directly to the repository.
+
+There is no need to use this access Git repositories, ordinary :ref:`vcs-git`
+works the same, the only difference is how pushing to a repository is
+handled. With :ref:`vcs-git` changes are pushed directly to the repository,
+while :ref:`vcs-gitlab` creates merge request.
+
+.. seealso::
+
+   :ref:`push-changes`
+
+.. _gitlab-push:
+
+Pushing changes to GitLab as merge requests
++++++++++++++++++++++++++++++++++++++++++++
+
+If not wanting to push translations to a GitLab repository, they can be sent as either
+one or many merge requests instead.
+
+Configure the `lab`_ command line tool and set :setting:`GITLAB_USERNAME` for this to work.
+
+.. seealso::
+
+   :setting:`GITLAB_USERNAME`, :ref:`lab-setup` for configuration instructions
+
+.. _lab-setup:
+
+Setting up Lab
+++++++++++++++
+
+:ref:`gitlab-push` requires a configured `lab`_ installation on your server.
+Follow the installation instructions at `lab`_ and run it without any arguments to
+finish the configuration, for example:
+
+.. code-block:: sh
+
+    # Use DATA_DIR as configured in Weblate settings.py, it is /app/data in the Docker
+    $ HOME=${DATA_DIR}/home lab
+    Enter GitLab host (default: https://gitlab.com):
+    Create a token here: https://gitlab.com/profile/personal_access_tokens
+    Enter default GitLab token (scope: api):
+    (Config is saved to ~/.config/lab.hcl)
+
+
+The `lab`_ will ask you for your GitLab access token, retrieve it and
+store it in :file:`~/.config/lab.hcl`. The file has to be readable by
+the user running Weblate.
+
+
+.. note::
+
+    Use the username you configured :guilabel:`lab` with, as
+    :setting:`GITLAB_USERNAME` (:envvar:`WEBLATE_GITLAB_USERNAME` for the
+    Docker image).
+
+.. _lab: https://github.com/zaquestion/lab
 
 .. _vcs-gerrit:
 
@@ -322,6 +427,8 @@ users to maintain a full clone of the internal repository and commit locally.
     supports both direct URLs for branch or repositories with standard layout
     (branches/, tags/ and trunk/). More info about this is to be foud in the
     `git-svn documentation <https://git-scm.com/docs/git-svn#Documentation/git-svn.txt---stdlayout>`_.
+    If your repository does not have a standard layout and you encounter erros,
+    try including the branch name in the repository URL and leaving branch empty.
 
 .. versionchanged:: 2.19
 
@@ -363,65 +470,3 @@ monolingual translations).
 In the background Weblate creates a Git repository for you and all changes are
 tracked in in. In case you later decide to use a VCS to store the translations,
 you already have a repo within Weblate can base your integration on.
-
-.. _vcs-gitlab:
-
-GitLab
-------
-
-.. versionadded:: 3.9
-
-This just adds a thin layer atop :ref:`vcs-git` using the `lab`_ tool to allow
-pushing translation changes as merge requests instead of
-pushing directly to the repository.
-
-There is no need to use this access Git repositories, ordinary :ref:`vcs-git`
-works the same, the only difference is how pushing to a repository is
-handled. With :ref:`vcs-git` changes are pushed directly to the repository,
-while :ref:`vcs-gitlab` creates merge request.
-
-.. _gitlab-push:
-
-Pushing changes to GitLab as merge requests
-+++++++++++++++++++++++++++++++++++++++++++
-
-If not wanting to push translations to a GitLab repository, they can be sent as either
-one or many merge requests instead.
-
-Configure the `lab`_ command line tool and set :setting:`GITLAB_USERNAME` for this to work.
-
-.. seealso::
-
-   :setting:`GITLAB_USERNAME`, :ref:`lab-setup` for configuration instructions
-
-.. _lab-setup:
-
-Setting up Lab
-++++++++++++++
-
-:ref:`gitlab-push` requires a configured `lab`_ installation on your server.
-Follow the installation instructions at `lab`_ and run it without any arguments to
-finish the configuration, for example:
-
-.. code-block:: sh
-
-    # Use DATA_DIR as configured in Weblate settings.py, it is /app/data in the Docker
-    $ HOME=${DATA_DIR}/home lab
-    Enter GitLab host (default: https://gitlab.com):
-    Create a token here: https://gitlab.com/profile/personal_access_tokens
-    Enter default GitLab token (scope: api):
-    (Config is saved to ~/.config/lab.hcl)
-
-
-The `lab`_ will ask you for your GitLab access token, retrieve it and
-store it in :file:`~/.config/lab.hcl`. The file has to be readable by
-the user running Weblate.
-
-
-.. note::
-
-    Use the username you configured :guilabel:`lab` with, as
-    :setting:`GITLAB_USERNAME` (:envvar:`WEBLATE_GITLAB_USERNAME` for the
-    Docker image).
-
-.. _lab: https://github.com/zaquestion/lab

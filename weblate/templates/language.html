@@ -10,7 +10,7 @@
 
 {% block content %}
 
-{% whiteboard_messages language=object %}
+{% announcements language=object %}
 
 {% perm 'language.edit' as user_can_edit_language %}
 
@@ -25,8 +25,7 @@
       {% trans "Tools" %} <span class="caret"></span>
     </a>
     <ul class="dropdown-menu">
-      <li><a href="{% url 'checks' %}?language={{ object.code }}">{% trans "Failing checks" %}</a></li>
-      <li><a href="{% url 'checks' %}?language={{ object.code }}&amp;ignored=true">{% trans "Ignored checks" %}</a></li>
+      <li><a href="{% url 'checks' %}?lang={{ object.code }}">{% trans "Failing checks" %}</a></li>
       {% if user_can_edit_language %}
       <li role="separator" class="divider"></li>
       {% if not object.translation_set.exists %}
@@ -97,8 +96,8 @@
 </tr>
 {% endif %}
 <tr>
-<th>{% trans "Plural equation" %}</th>
-<td colspan="2"><code>{{ plural.equation }}</code></td>
+<th>{% trans "Plural formula" %}</th>
+<td colspan="2"><code>{{ plural.formula }}</code></td>
 </tr>
 {% endfor %}
 </table>
@@ -116,7 +115,7 @@
 {% if dicts %}
 <div class="list-group">
 {% for dict in dicts %}
-<a class="list-group-item" href="{% url 'show_dictionary' lang=object.code project=dict.slug %}">{{ dict }}</a>
+<a class="list-group-item" href="{% url 'show_glossary' lang=object.code project=dict.slug %}">{{ dict }}</a>
 {% endfor %}
 </div>
 {% else %}

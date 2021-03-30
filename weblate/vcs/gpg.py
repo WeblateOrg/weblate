@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -35,7 +34,7 @@ from weblate.utils.errors import report_error
 
 def generate_gpg_key():
     try:
-        subprocess.check_output(
+        subprocess.run(
             [
                 "gpg",
                 "--batch",
@@ -49,20 +48,23 @@ def generate_gpg_key():
                 "default",
                 "never",
             ],
-            stderr=subprocess.STDOUT,
             env=get_clean_env(),
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            universal_newlines=True,
+            check=True,
         )
         delete_configuration_error("GPG key generating")
         return get_gpg_key()
     except (subprocess.CalledProcessError, OSError) as exc:
-        report_error(exc, prefix="GPG key generating")
+        report_error(cause="GPG key generating")
         add_configuration_error("GPG key generating", force_str(exc))
         return None
 
 
 def get_gpg_key(silent=False):
     try:
-        output = subprocess.check_output(
+        result = subprocess.run(
             [
                 "gpg",
                 "--batch",
@@ -70,19 +72,22 @@ def get_gpg_key(silent=False):
                 "--list-secret-keys",
                 settings.WEBLATE_GPG_IDENTITY,
             ],
-            stderr=subprocess.STDOUT,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
             env=get_clean_env(),
-        ).decode()
-        for line in output.splitlines():
+            universal_newlines=True,
+            check=True,
+        )
+        for line in result.stdout.splitlines():
             if not line.startswith("fpr:"):
                 continue
             delete_configuration_error("GPG key listing")
             return line.split(":")[9]
         return None
-    except (subprocess.CalledProcessError, OSError) as exc:
-        report_error(exc, prefix="GPG key listing")
+    except (subprocess.CalledProcessError, OSError) as error:
+        report_error(cause="GPG key listing")
         if not silent:
-            add_configuration_error("GPG key listing", force_str(exc))
+            add_configuration_error("GPG key listing", force_str(error))
         return None
 
 
@@ -107,15 +112,19 @@ def get_gpg_public_key():
     data = cache.get("gpg-key-public")
     if not data:
         try:
-            data = subprocess.check_output(
+            result = subprocess.run(
                 ["gpg", "--batch", "-armor", "--export", key],
-                stderr=subprocess.STDOUT,
                 env=get_clean_env(),
-            ).decode()
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                universal_newlines=True,
+                check=True,
+            )
+            data = result.stdout
             cache.set("gpg-key-public", data, 7 * 86400)
             delete_configuration_error("GPG key public")
-        except (subprocess.CalledProcessError, OSError) as exc:
-            report_error(exc, prefix="GPG key public")
-            add_configuration_error("GPG key public", force_str(exc))
+        except (subprocess.CalledProcessError, OSError) as error:
+            report_error(cause="GPG key public")
+            add_configuration_error("GPG key public", force_str(error))
             return None
     return data

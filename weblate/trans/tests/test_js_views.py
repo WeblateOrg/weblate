@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -85,13 +84,6 @@ class JSViewsTest(FixtureTestCase):
         self.assertEqual(response.status_code, 200)
         data = json.loads(response.content.decode())
         self.assertEqual(data["service"], "Weblate Translation Memory")
-
-    def test_get_unit_changes(self):
-        unit = self.get_unit()
-        response = self.client.get(
-            reverse("js-unit-changes", kwargs={"unit_id": unit.id})
-        )
-        self.assertContains(response, 'href="/changes/?')
 
     def test_get_unit_translations(self):
         unit = self.get_unit()

@@ -49,11 +49,11 @@ The following examples assume you have a working Docker environment, with
         If :envvar:`WEBLATE_ADMIN_PASSWORD` is not set, the admin user is created with
         a random password shown on first startup.
 
-        Append ',localhost' to :envvar:`WEBLATE_ALLOWED_HOSTS` to be able to access locally for testing.
+        Append ``,localhost`` to :envvar:`WEBLATE_ALLOWED_HOSTS` to be able to
+        access locally for testing.
 
-        You may also need to edit the *docker-compose.yml* file and change the
-        default port from 80 if you already have a web server running on your
-        local machine.
+        The provided example makes Weblate listen on port 80, edit the port
+        mapping in the :file:`docker-compose-override.yml` file to change it.
 
 3. Start Weblate containers:
 
@@ -72,7 +72,7 @@ Enjoy your Weblate deployment, it's accessible on port 80 of the ``weblate`` con
 .. versionchanged:: 3.7.1-6
 
    In July 2019 (starting with the 3.7.1-6 tag), the containers is not running
-   as a root user. This has lead to changed exposed port from 80 to 8080.
+   as a root user. This has changed the exposed port from 80 to 8080.
 
 .. seealso:: :ref:`invoke-manage`
 
@@ -318,6 +318,19 @@ Generic settings
         environment:
           WEBLATE_REGISTRATION_OPEN: 0
 
+.. envvar:: WEBLATE_REGISTRATION_ALLOW_BACKENDS
+
+   Configure which authentication methods can be used to create new account via
+   :setting:`REGISTRATION_ALLOW_BACKENDS`.
+
+    **Example:**
+
+    .. code-block:: yaml
+
+        environment:
+          WEBLATE_REGISTRATION_OPEN: 0
+          WEBLATE_REGISTRATION_ALLOW_BACKENDS: azuread-oauth2,azuread-tenant-oauth2
+
 .. envvar:: WEBLATE_TIME_ZONE
 
     Configures the used time zone in Weblate, see :std:setting:`django:TIME_ZONE`.
@@ -412,7 +425,7 @@ Generic settings
 
     .. seealso::
 
-       :ref:`github-push`,
+       :ref:`vcs-github`,
        :ref:`hub-setup`
 
 .. envvar:: WEBLATE_GITLAB_USERNAME
@@ -422,7 +435,7 @@ Generic settings
 
     .. seealso::
 
-       :ref:`gitlab-push`
+       :ref:`vcs-gitlab`
        :ref:`lab-setup`
 
 .. envvar:: WEBLATE_GITLAB_HOST
@@ -431,7 +444,7 @@ Generic settings
 
     .. seealso::
 
-       :ref:`gitlab-push`
+       :ref:`vcs-gitlab`
        :ref:`lab-setup`
 
 .. envvar:: WEBLATE_GITLAB_TOKEN
@@ -440,12 +453,24 @@ Generic settings
 
     .. seealso::
 
-       :ref:`gitlab-push`
+       :ref:`vcs-gitlab`
        :ref:`lab-setup`
 
 .. envvar:: WEBLATE_SIMPLIFY_LANGUAGES
 
     Configures the language simplification policy, see :setting:`SIMPLIFY_LANGUAGES`.
+
+.. envvar:: WEBLATE_DEFAULT_ACCESS_CONTROL
+
+    Configures the default :ref:`project-access_control` for new projects, see :setting:`DEFAULT_ACCESS_CONTROL`.
+
+.. envvar:: WEBLATE_DEFAULT_RESTRICTED_COMPONENT
+
+    Configures the default value for :ref:`component-restricted` for new components, see :setting:`DEFAULT_RESTRICTED_COMPONENT`.
+
+.. envvar:: WEBLATE_DEFAULT_TRANSLATION_PROPAGATION
+
+    Configures the default value for :ref:`component-allow_translation_propagation` for new components, see :setting:`DEFAULT_TRANSLATION_PROPAGATION`.
 
 .. envvar:: WEBLATE_AKISMET_API_KEY
 
@@ -462,6 +487,11 @@ Generic settings
 .. envvar:: WEBLATE_URL_PREFIX
 
    Configures URL prefix where Weblate is running, see :setting:`URL_PREFIX`.
+
+.. envvar:: WEBLATE_SILENCED_SYSTEM_CHECKS
+
+   Configures checks which you do not want to be displayed, see
+   :setting:`django:SILENCED_SYSTEM_CHECKS`.
 
 
 Machine translation settings
@@ -484,6 +514,10 @@ Machine translation settings
 
     Enables :ref:`deepl` machine translation and sets :setting:`MT_DEEPL_KEY`
 
+.. envvar:: WEBLATE_MT_DEEPL_API_VERSION
+
+   Configures :ref:`deepl` API version to use, see :setting:`MT_DEEPL_API_VERSION`.
+
 .. envvar:: WEBLATE_MT_GOOGLE_KEY
 
     Enables :ref:`google-translate` and sets :setting:`MT_GOOGLE_KEY`
@@ -491,6 +525,14 @@ Machine translation settings
 .. envvar:: WEBLATE_MT_MICROSOFT_COGNITIVE_KEY
 
     Enables :ref:`ms-cognitive-translate` and sets :setting:`MT_MICROSOFT_COGNITIVE_KEY`
+
+.. envvar:: WEBLATE_MT_MICROSOFT_ENDPOINT_URL
+
+    Enables :ref:`ms-cognitive-translate` and sets :setting:`MT_MICROSOFT_ENDPOINT_URL`
+
+.. envvar:: WEBLATE_MT_MICROSOFT_BASE_URL
+
+    Enables :ref:`ms-cognitive-translate` and sets :setting:`MT_MICROSOFT_BASE_URL`
 
 .. envvar:: WEBLATE_MT_MYMEMORY_ENABLED
 
@@ -625,6 +667,8 @@ Google
 
 .. envvar:: WEBLATE_SOCIAL_AUTH_GOOGLE_OAUTH2_KEY
 .. envvar:: WEBLATE_SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET
+.. envvar:: WEBLATE_SOCIAL_AUTH_GOOGLE_OAUTH2_WHITELISTED_DOMAINS
+.. envvar:: WEBLATE_SOCIAL_AUTH_GOOGLE_OAUTH2_WHITELISTED_EMAILS
 
     Enables :ref:`google_auth`.
 
@@ -686,6 +730,22 @@ Slack
 
     Enables Slack authentication, see :ref:`slack-auth`.
 
+.. _docker-saml:
+
+SAML
+++++
+
+Self-signed SAML keys are automatically generated on first container startup.
+In case you want to use own keys, place the certificate and private key in
+:file:`/app/data/ssl/saml.crt` and :file:`/app/data/ssl/saml.key`.
+
+.. envvar:: WEBLATE_SAML_IDP_ENTITY_ID
+.. envvar:: WEBLATE_SAML_IDP_URL
+.. envvar:: WEBLATE_SAML_IDP_X509CERT
+
+    SAML Identity Provider settings, see :ref:`saml-auth`.
+
+
 Other authentication settings
 +++++++++++++++++++++++++++++
 
@@ -728,6 +788,17 @@ both Weblate and PostgreSQL containers.
    `SSL Mode Descriptions <https://www.postgresql.org/docs/11/libpq-ssl.html#LIBPQ-SSL-SSLMODE-STATEMENTS>`_
 
 
+Database backup settings
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. seealso::
+    :ref:`backup-dumps`
+
+.. envvar:: WEBLATE_DATABASE_BACKUP
+
+    Configures the daily database dump using :setting:`DATABASE_BACKUP`. Defaults to ``plain``.
+
+
 Caching server setup
 ~~~~~~~~~~~~~~~~~~~~
 
@@ -765,30 +836,56 @@ Email server setup
 
 To make outgoing e-mail work, you need to provide a mail server.
 
+Example TLS configuration:
+
+.. code-block:: yaml
+
+    environment:
+        WEBLATE_EMAIL_HOST: smtp.example.com
+        WEBLATE_EMAIL_HOST_USER: user
+        WEBLATE_EMAIL_HOST_PASSWORD: pass
+
+Example SSL configuration:
+
+.. code-block:: yaml
+
+    environment:
+        WEBLATE_EMAIL_HOST: smtp.example.com
+        WEBLATE_EMAIL_PORT: 465
+        WEBLATE_EMAIL_HOST_USER: user
+        WEBLATE_EMAIL_HOST_PASSWORD: pass
+        WEBLATE_EMAIL_USE_TLS: 0
+        WEBLATE_EMAIL_USE_SSL: 1
+
+
 .. seealso:: :ref:`out-mail`
 
 .. envvar:: WEBLATE_EMAIL_HOST
 
-    Mail server, the server has to listen on port 587 and understand TLS.
+    Mail server hostname or IP address.
 
-    .. seealso:: :setting:`django:EMAIL_HOST`
+    .. seealso::
+
+        :envvar:`WEBLATE_EMAIL_PORT`,
+        :envvar:`WEBLATE_EMAIL_USE_SSL`,
+        :envvar:`WEBLATE_EMAIL_USE_TLS`,
+        :setting:`django:EMAIL_HOST`
 
 .. envvar:: WEBLATE_EMAIL_PORT
 
-    Mail server port. Use if your cloud provider or ISP blocks outgoing
-    connections on port 587.
+    Mail server port, defaults to 25.
 
     .. seealso:: :setting:`django:EMAIL_PORT`
 
 .. envvar:: WEBLATE_EMAIL_HOST_USER
 
-    Email authentication user, do NOT use quotes here.
+    Email authentication user.
 
     .. seealso:: :setting:`django:EMAIL_HOST_USER`
 
 .. envvar:: WEBLATE_EMAIL_HOST_PASSWORD
 
-    Email authentication password, do NOT use quotes here.
+    Email authentication password.
 
     .. seealso:: :setting:`django:EMAIL_HOST_PASSWORD`
 
@@ -799,16 +896,34 @@ To make outgoing e-mail work, you need to provide a mail server.
     to as SSL. It is generally used on port 465. If you are experiencing
     problems, see the explicit TLS setting :envvar:`WEBLATE_EMAIL_USE_TLS`.
 
-    .. seealso:: :setting:`django:EMAIL_USE_SSL`
+    .. seealso::
+
+        :envvar:`WEBLATE_EMAIL_PORT`,
+        :envvar:`WEBLATE_EMAIL_USE_TLS`,
+        :setting:`django:EMAIL_USE_SSL`
 
 .. envvar:: WEBLATE_EMAIL_USE_TLS
 
     Whether to use a TLS (secure) connection when talking to the SMTP server.
-    This is used for explicit TLS connections, generally on port 587. If you
-    are experiencing connections that hang, see the implicit TLS setting
+    This is used for explicit TLS connections, generally on port 587 or 25. If
+    you are experiencing connections that hang, see the implicit TLS setting
     :envvar:`WEBLATE_EMAIL_USE_SSL`.
 
-    .. seealso:: :setting:`django:EMAIL_USE_TLS`
+    .. seealso::
+
+        :envvar:`WEBLATE_EMAIL_PORT`,
+        :envvar:`WEBLATE_EMAIL_USE_SSL`,
+        :setting:`django:EMAIL_USE_TLS`
+
+.. envvar:: WEBLATE_EMAIL_BACKEND
+
+    Configures Django backend to use for sending e-mails.
+
+
+    .. seealso::
+
+        :ref:`production-email`,
+        :setting:`django:EMAIL_BACKEND`
 
 Error reporting
 ~~~~~~~~~~~~~~~
@@ -831,6 +946,10 @@ To enable support for Sentry, set following:
 .. envvar:: SENTRY_DSN
 
     Your Sentry DSN.
+
+.. envvar:: SENTRY_ENVIRONMENT
+
+    Your Sentry Environment (optional).
 
 Changing enabled apps, checks, addons or autofixes
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -958,7 +1077,7 @@ The username passed for credentials must be the same as :setting:`GITHUB_USERNAM
 
 .. seealso::
 
-    :ref:`github-push`,
+    :ref:`vcs-github`,
     :ref:`hub-setup`
 
 
@@ -990,7 +1109,7 @@ The ``access_token`` passed for lab configuratoin must be same as :setting:`GITL
 
 .. seealso::
 
-     :ref:`gitlab-push`
+     :ref:`vcs-gitlab`
      :ref:`lab-setup`
 
 

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -26,14 +25,9 @@ from django.utils.safestring import mark_safe
 from django.utils.translation import gettext_lazy as _
 
 from weblate.checks.base import TargetCheckParametrized
+from weblate.checks.parser import multi_value_flag, single_value_flag
 
 
-@staticmethod
-def parse_placeholders(val):
-    return val.split(":")
-
-
-@staticmethod
 def parse_regex(val):
     return re.compile(val)
 
@@ -42,9 +36,11 @@ class PlaceholderCheck(TargetCheckParametrized):
     check_id = "placeholders"
     default_disabled = True
     name = _("Placeholders")
-    description = _("Translation is missing some placeholders")
-    severity = "danger"
-    param_type = parse_placeholders
+    description = _("Translation is missing some placeholders:")
+
+    @property
+    def param_type(self):
+        return multi_value_flag(str)
 
     def check_target_params(self, sources, targets, unit, value):
         return any(any(param not in target for param in value) for target in targets)
@@ -60,14 +56,30 @@ class PlaceholderCheck(TargetCheckParametrized):
             ret.append((match.start(), match.end(), match.group()))
         return ret
 
+    def get_description(self, check_obj):
+        unit = check_obj.unit
+        if not self.has_value(unit):
+            return super().get_description(check_obj)
+        targets = unit.get_target_plurals()
+        missing = [
+            param
+            for param in self.get_value(unit)
+            if any(param not in target for target in targets)
+        ]
+        return mark_safe(
+            "{} {}".format(escape(self.description), escape(", ".join(missing)))
+        )
+
 
 class RegexCheck(TargetCheckParametrized):
     check_id = "regex"
     default_disabled = True
     name = _("Regular expression")
     description = _("Translation does not match regular expression:")
-    severity = "danger"
-    param_type = parse_regex
+
+    @property
+    def param_type(self):
+        return single_value_flag(parse_regex)
 
     def check_target_params(self, sources, targets, unit, value):
         return any(not value.findall(target) for target in targets)
@@ -85,6 +97,8 @@ class RegexCheck(TargetCheckParametrized):
 
     def get_description(self, check_obj):
         unit = check_obj.unit
+        if not self.has_value(unit):
+            return super().get_description(check_obj)
         regex = self.get_value(unit)
         return mark_safe(
             "{} <code>{}</code>".format(escape(self.description), escape(regex.pattern))
