@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -57,7 +56,7 @@ COPY_ATTRIBUTES = (
     "push_on_commit",
     "commit_pending_age",
     "edit_template",
-    "shaping_regex",
+    "variant_regex",
 )
 
 
@@ -213,7 +212,7 @@ class ComponentDiscovery:
 
         # Deal with duplicate name or slug
         components = Component.objects.filter(project=kwargs["project"])
-        if components.filter(Q(slug=slug) | Q(name=name)).exists():
+        if components.filter(Q(slug__iexact=slug) | Q(name__iexact=name)).exists():
             base_name = get_val("name", 4)
             base_slug = get_val("slug", 4)
 
@@ -221,7 +220,9 @@ class ComponentDiscovery:
                 name = "{} {}".format(base_name, i)
                 slug = "{}-{}".format(base_slug, i)
 
-                if components.filter(Q(slug=slug) | Q(name=name)).exists():
+                if components.filter(
+                    Q(slug__iexact=slug) | Q(name__iexact=name)
+                ).exists():
                     continue
                 break
 
@@ -243,7 +244,7 @@ class ComponentDiscovery:
         # Can't pass objects, pass only IDs
         kwargs["project"] = kwargs["project"].pk
         if background:
-            create_component.delay(**kwargs)
+            create_component.delay(**kwargs, in_task=True)
             return None
         return create_component(**kwargs)
 

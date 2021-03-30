@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -44,7 +43,7 @@ def widgets(request, project):
     obj = get_project(request, project)
 
     # Parse possible language selection
-    form = EngageForm(obj, request.GET)
+    form = EngageForm(request.user, obj, request.GET)
     lang = None
     component = None
     if form.is_valid():

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -18,7 +17,6 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-from django.db.models import Count
 from django.utils.translation import gettext_lazy as _
 
 from weblate.checks.base import TargetCheck
@@ -31,7 +29,6 @@ class PluralsCheck(TargetCheck):
     check_id = "plurals"
     name = _("Missing plurals")
     description = _("Some plural forms are not translated")
-    severity = "danger"
 
     def check_target_unit(self, sources, targets, unit):
         # Is this plural?
@@ -54,7 +51,6 @@ class SamePluralsCheck(TargetCheck):
     check_id = "same-plurals"
     name = _("Same plurals")
     description = _("Some plural forms are translated in the same way")
-    severity = "warning"
 
     def check_target_unit(self, sources, targets, unit):
         # Is this plural?
@@ -74,21 +70,12 @@ class ConsistencyCheck(TargetCheck):
 
     check_id = "inconsistent"
     name = _("Inconsistent")
-    description = _("This string has more than one translation in this project")
+    description = _(
+        "This string has more than one translation in this project "
+        "or is not translated in some components."
+    )
     ignore_untranslated = False
-    severity = "warning"
-    batch_update = True
-
-    def check_target_project(self, project):
-        """Batch check for whole project."""
-        from weblate.trans.models import Unit
-
-        return (
-            Unit.objects.filter(translation__component__project=project)
-            .values("content_hash", "translation__language")
-            .annotate(Count("target", distinct=True))
-            .filter(target__count__gt=1)
-        )
+    propagates = True
 
     def check_target_unit(self, sources, targets, unit):
         for other in unit.same_source_units:
@@ -110,18 +97,6 @@ class TranslatedCheck(TargetCheck):
     name = _("Has been translated")
     description = _("This string has been translated in the past")
     ignore_untranslated = False
-    severity = "warning"
-    batch_update = True
-
-    def check_target_project(self, project):
-        """Batch check for whole project."""
-        from weblate.trans.models import Unit, Change
-
-        return Unit.objects.filter(
-            translation__component__project=project,
-            change__action__in=Change.ACTIONS_TRANSLATED,
-            state__lt=STATE_TRANSLATED,
-        ).values("content_hash", "translation__language")
 
     def check_target_unit(self, sources, targets, unit):
         if unit.translated:

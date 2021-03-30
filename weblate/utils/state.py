@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -42,5 +41,6 @@ STATE_NAMES = {
     "fuzzy": STATE_FUZZY,
     "translated": STATE_TRANSLATED,
     "approved": STATE_APPROVED,
+    "readonly": STATE_READONLY,
     "read-only": STATE_READONLY,
 }

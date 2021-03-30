@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -30,8 +29,10 @@ from django.test.utils import override_settings
 from django.urls import reverse
 
 from weblate.accounts.models import VerifiedEmail
+from weblate.accounts.tasks import cleanup_social_auth
 from weblate.auth.models import User
 from weblate.trans.tests.test_views import RegistrationTestMixin
+from weblate.trans.tests.utils import get_test_file
 from weblate.utils.django_hacks import immediate_on_commit, immediate_on_commit_leave
 from weblate.utils.ratelimit import reset_rate_limit
 
@@ -47,10 +48,20 @@ GH_BACKENDS = (
     "social_core.backends.github.GithubOAuth2",
     "weblate.accounts.auth.WeblateUserBackend",
 )
+SAML_BACKENDS = (
+    "social_core.backends.email.EmailAuth",
+    "social_core.backends.saml.SAMLAuth",
+    "weblate.accounts.auth.WeblateUserBackend",
+)
+with open(get_test_file("saml.crt"), "r") as handle:
+    SAML_CERT = handle.read()
+with open(get_test_file("saml.key"), "r") as handle:
+    SAML_KEY = handle.read()
 
 
 class BaseRegistrationTest(TestCase, RegistrationTestMixin):
     clear_cookie = False
+    social_cleanup = False
 
     @classmethod
     def setUpClass(cls):
@@ -75,6 +86,10 @@ class BaseRegistrationTest(TestCase, RegistrationTestMixin):
 
         if self.clear_cookie and "sessionid" in self.client.cookies:
             del self.client.cookies["sessionid"]
+
+        # Verify that cleanup does not break the workflow
+        if self.social_cleanup:
+            cleanup_social_auth()
 
         # Confirm account
         response = self.client.get(url, follow=True)
@@ -218,7 +233,7 @@ class RegistrationTest(BaseRegistrationTest):
         # Confirm account
         response = self.client.get(url, follow=True)
         self.assertRedirects(response, reverse("login"))
-        self.assertContains(response, "Could not verify your registration!")
+        self.assertContains(response, "the verification token probably expired")
 
     @override_settings(REGISTRATION_CAPTCHA=False, AUTH_LOCK_ATTEMPTS=5)
     def test_reset_ratelimit(self):
@@ -475,6 +490,30 @@ class RegistrationTest(BaseRegistrationTest):
         self.assert_notify_mailbox(notification)
 
     @override_settings(REGISTRATION_CAPTCHA=False)
+    def test_remove_mail_verified(self):
+        """Test rejected removal of association in case no verified e-mail left."""
+        # Register user with two mails
+        self.test_add_mail()
+        mail.outbox = []
+
+        user = User.objects.get(username="username")
+        social = user.social_auth.get(uid="noreply-weblate@example.org")
+
+        # Remove other verified emails
+        VerifiedEmail.objects.exclude(social=social).delete()
+
+        response = self.client.post(
+            reverse(
+                "social:disconnect_individual",
+                kwargs={"backend": social.provider, "association_id": social.pk},
+            ),
+            follow=True,
+        )
+        self.assertContains(
+            response, "Add another identity by confirming your e-mail address first."
+        )
+
+    @override_settings(REGISTRATION_CAPTCHA=False)
     def test_pipeline_redirect(self):
         """Test pipeline redirect using next parameter."""
         # Create user
@@ -622,6 +661,28 @@ class RegistrationTest(BaseRegistrationTest):
         self.assert_notify_mailbox(mail.outbox[0])
         self.assertEqual(mail.outbox[0].to, ["noreply-weblate@example.org"])
 
+    def test_saml_disabled(self):
+        url = reverse("social:saml-metadata")
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 404)
+
+    @override_settings(
+        AUTHENTICATION_BACKENDS=SAML_BACKENDS,
+        SOCIAL_AUTH_SAML_SP_PUBLIC_CERT=SAML_CERT,
+        SOCIAL_AUTH_SAML_SP_PRIVATE_KEY=SAML_KEY,
+    )
+    def test_saml(self):
+        try:
+            # psa creates copy of settings...
+            orig_backends = social_django.utils.BACKENDS
+            social_django.utils.BACKENDS = SAML_BACKENDS
+
+            url = reverse("social:saml-metadata")
+            response = self.client.get(url)
+            self.assertContains(response, url)
+        finally:
+            social_django.utils.BACKENDS = orig_backends
+
 
 class CookieRegistrationTest(BaseRegistrationTest):
     def test_register(self):
@@ -640,7 +701,7 @@ class CookieRegistrationTest(BaseRegistrationTest):
             del self.client.cookies["sessionid"]
 
         response = self.client.get(url, follow=True)
-        self.assertContains(response, "The verification token has probably expired.")
+        self.assertContains(response, "the verification token probably expired")
 
     @override_settings(REGISTRATION_CAPTCHA=False)
     def test_reset(self):
@@ -659,3 +720,8 @@ class CookieRegistrationTest(BaseRegistrationTest):
 
 class NoCookieRegistrationTest(CookieRegistrationTest):
     clear_cookie = True
+
+
+class NoCookieCleanupRegistrationTest(CookieRegistrationTest):
+    clear_cookie = True
+    social_cleanup = True

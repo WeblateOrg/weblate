@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -33,18 +32,12 @@ class WeblateConf(AppConf):
     AWS_SECRET_ACCESS_KEY = None
     AWS_REGION = None
 
-    # Microsoft Translator service, register at
-    # https://datamarket.azure.com/developer/applications/
-    MICROSOFT_ID = None
-    MICROSOFT_SECRET = None
-
-    # Microsoft Conginite Services Translator, register at
-    # https://portal.azure.com/
+    # Microsoft Conginite Services Translator
     MICROSOFT_COGNITIVE_KEY = None
+    MICROSOFT_BASE_URL = "api.cognitive.microsofttranslator.com"
+    MICROSOFT_ENDPOINT_URL = "api.cognitive.microsoft.com"
 
-    # Microsoft Azure services region identification code see
-    # https://docs.microsoft.com/en-us/azure/cognitive-services/translator/
-    # reference/v3-0-reference#multi-service-subscription
+    # Microsoft Azure services region identification code
     MICROSOFT_REGION = None
 
     # MyMemory identification email, see
@@ -58,6 +51,11 @@ class WeblateConf(AppConf):
     # Google API key for Google Translate API
     GOOGLE_KEY = None
 
+    # Google Translate API3 credentials and project id
+    GOOGLE_CREDENTIALS = None
+    GOOGLE_PROJECT = None
+    GOOGLE_LOCATION = "global"
+
     # API key for Yandex Translate API
     YANDEX_KEY = None
 
@@ -66,6 +64,7 @@ class WeblateConf(AppConf):
 
     # API key for DeepL API
     DEEPL_KEY = None
+    DEEPL_API_VERSION = "v2"
 
     # SAP Translation Hub
     SAP_BASE_URL = None

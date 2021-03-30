@@ -2,10 +2,15 @@ comment:
   layout: reach, changes, diff, files
 coverage:
   ignore:
-  - .*/settings_.*.py
-  - .*/settings.py
-  - .*/wsgi.py
+    - .*/settings_.*.py
+    - .*/settings.py
+    - .*/wsgi.py
   status:
     project:
       default:
         target: '90'
+codecov:
+  notify:
+    # Wait for reasonable amount of tests to complete before
+    # reporting coverage
+    after_n_builds: 8

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -124,6 +123,11 @@ class MsgmergeForm(BaseAddonForm):
         required=False,
         initial=True,
     )
+    no_location = forms.BooleanField(
+        label=_("Remove locations of translated strings"),
+        required=False,
+        initial=False,
+    )
     fuzzy = forms.BooleanField(
         label=_("Use fuzzy matching"), required=False, initial=True
     )
@@ -142,12 +146,33 @@ class GitSquashForm(BaseAddonForm):
         initial="all",
         required=True,
     )
+    append_trailers = forms.BooleanField(
+        label=_("Append trailers to squashed commit message"),
+        required=False,
+        initial=False,
+        help_text=_(
+            "Trailer lines are lines that look similar to RFC 822 e-mail "
+            "headers, at the end of the otherwise free-form part of a commit "
+            "message, such as 'Co-authored-by: ...'."
+        ),
+    )
+    commit_message = forms.CharField(
+        widget=forms.Textarea(),
+        required=False,
+        help_text=_(
+            "This commit message will be used instead of the combined commit "
+            "messages from the squashed commits."
+        ),
+    )
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper(self)
         self.helper.layout = Layout(
-            Field("squash"), Div(template="addons/squash_help.html")
+            Field("squash"),
+            Field("append_trailers"),
+            Field("commit_message"),
+            Div(template="addons/squash_help.html"),
         )
 
 

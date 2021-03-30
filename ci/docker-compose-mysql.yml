@@ -8,3 +8,8 @@ services:
       - 60000:3306
     environment:
       MYSQL_ROOT_PASSWORD: weblate
+  cache:
+    image: redis:5-alpine
+    restart: always
+    ports:
+      - 60001:6379

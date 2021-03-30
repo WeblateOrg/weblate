@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -19,6 +18,7 @@
 #
 
 import platform
+import sys
 
 from django import db
 from django.conf import settings
@@ -50,6 +50,12 @@ class Command(BaseCommand):
         )
         self.write_item(
             "Email setup", "{}: {}".format(settings.EMAIL_BACKEND, settings.EMAIL_HOST)
+        )
+        self.write_item(
+            "OS encoding",
+            "filesystem={}, default={}".format(
+                sys.getfilesystemencoding(), sys.getdefaultencoding()
+            ),
         )
         self.write_item(
             "Celery",

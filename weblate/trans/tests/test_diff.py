@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -63,6 +62,17 @@ class DiffTest(TestCase):
                 diff="Hello world!",
             )["items"][0]["content"],
             "Hello wor<del>l</del>d!",
+        )
+
+    def test_format_entities(self):
+        unit = MockUnit(source="'word'")
+        self.assertEqual(
+            format_translation(
+                unit.source,
+                unit.translation.component.project.source_language,
+                diff='"word"',
+            )["items"][0]["content"],
+            "<del>&quot;</del><ins>&#x27;</ins>word<del>&quot;</del><ins>&#x27;</ins>",
         )
 
     def test_fmtsearchmatch(self):

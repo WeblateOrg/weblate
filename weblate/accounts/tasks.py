@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -44,7 +43,7 @@ def cleanup_social_auth():
             # Old entry without expiry set, or expired entry
             partial.delete()
 
-    age = now() + timedelta(seconds=settings.AUTH_TOKEN_VALID)
+    age = now() - timedelta(seconds=settings.AUTH_TOKEN_VALID)
     # Delete old not verified codes
     Code.objects.filter(verified=False, timestamp__lt=age).delete()
 
@@ -139,8 +138,8 @@ def send_mails(mails):
     connection = get_connection()
     try:
         connection.open()
-    except Exception as error:
-        report_error(error, prefix="Failed to send notifications")
+    except Exception:
+        report_error(cause="Failed to send notifications")
         connection.close()
         return
 
@@ -180,5 +179,7 @@ def setup_periodic_tasks(sender, **kwargs):
         name="notify-weekly",
     )
     sender.add_periodic_task(
-        crontab(hour=3, minute=0, day=1), notify_monthly.s(), name="notify-monthly"
+        crontab(hour=3, minute=0, day_of_month=1),
+        notify_monthly.s(),
+        name="notify-monthly",
     )

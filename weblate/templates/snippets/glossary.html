@@ -5,9 +5,10 @@
     <tr class="glossary-embed clickable-row" title="{% trans "Copy word into translation" %}">
     <td>{{ item.source }}</td>
     <td class="target">{% format_translation item.target unit.translation.language unit.translation.plural simple=True %}</td>
+    <td>{% include "snippets/glossary-badge.html" with glossary=item.glossary %}</td>
     </tr>
 {% empty %}
     <tr>
-    <td colspan="2">{% trans "No related strings found in the glossary." %}</td>
+    <td colspan="3"><em>{% trans "No related strings found in the glossary." %}</em></td>
     </tr>
 {% endfor %}

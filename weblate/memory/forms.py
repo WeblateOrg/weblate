@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -25,7 +24,7 @@ from django.utils.translation import gettext_lazy as _
 
 
 class UploadForm(forms.Form):
-    """Uploading file to a dictionary."""
+    """Uploading file to a translation memory."""
 
     file = forms.FileField(
         label=_("File"),
@@ -38,7 +37,3 @@ class DeleteForm(forms.Form):
     confirm = forms.BooleanField(
         label=_("Confirm deleting all translation memory entries"), required=True
     )
-
-
-class ImportForm(forms.Form):
-    confirm = forms.BooleanField(required=True, initial=True, widget=forms.HiddenInput)

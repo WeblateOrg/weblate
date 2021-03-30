@@ -150,12 +150,17 @@ Rate limiting
 ~~~~~~~~~~~~~
 
 The API requests are rate limited; the default configuration limits it to 100
-requests per day for anonymous users and 1000 requests per day for authenticated
+requests per day for anonymous users and 5000 requests per hour for authenticated
 users.
 
 Rate limiting can be adjusted in the :file:`settings.py`; see
 `Throttling in Django REST framework documentation <https://www.django-rest-framework.org/api-guide/throttling/>`_
 for more details how to configure it.
+
+.. versionchanged:: 4.1
+
+    The status of rate limiting is reported in follwing headers:
+    ``X-RateLimit-Limit``, ``X-RateLimit-Remaining``, ``X-RateLimit-Reset``
 
 API Entry Point
 +++++++++++++++
@@ -193,6 +198,349 @@ API Entry Point
             "languages":"http://example.com/api/languages/"
         }
 
+
+Users
++++++
+
+.. versionadded:: 4.0
+
+.. http:get:: /api/users/
+
+    Returns a list of users if you have permissions to see manage users. If not, then you get to see
+    only your own details.
+
+    .. seealso::
+
+        Users object attributes are documented at :http:get:`/api/users/(str:username)/`.
+
+.. http:post:: /api/users/
+
+    Creates a new user.
+
+    :param username: Username
+    :type username: string
+    :param full_name: User full name
+    :type full_name: string
+    :param email: User email
+    :type email: string
+    :param is_superuser: Is user superuser? (optional)
+    :type is_superuser: boolean
+    :param is_active: Is user active? (optional)
+    :type is_active: boolean
+
+.. http:get:: /api/users/(str:username)/
+
+    Returns information about users.
+
+    :param username: User's username
+    :type username: string
+    :>json string username: username of a user
+    :>json string full_name: full name of a user
+    :>json string email: email of a user
+    :>json boolean is_superuser: whether the user is a super user
+    :>json boolean is_active: whether the user is active
+    :>json string date_joined: date the user is created
+    :>json array groups: link to associated groups; see :http:get:`/api/groups/(int:id)/`
+
+    **Example JSON data:**
+
+    .. code-block:: json
+
+        {
+            "email": "user@example.com",
+            "full_name": "Example User",
+            "username": "exampleusername",
+            "groups": [
+                "http://example.com/api/groups/2/",
+                "http://example.com/api/groups/3/"
+            ],
+            "is_superuser": true,
+            "is_active": true,
+            "date_joined": "2020-03-29T18:42:42.617681Z",
+            "url": "http://example.com/api/users/exampleusername/"
+        }
+
+.. http:put:: /api/users/(str:username)/
+
+    Changes the user parameters.
+
+    :param username: User's username
+    :type username: string
+    :>json string username: username of a user
+    :>json string full_name: full name of a user
+    :>json string email: email of a user
+    :>json boolean is_superuser: whether the user is a super user
+    :>json boolean is_active: whether the user is active
+    :>json string date_joined: date the user is created
+
+.. http:patch:: /api/users/(str:username)/
+
+    Changes the user parameters.
+
+    :param username: User's username
+    :type username: string
+    :>json string username: username of a user
+    :>json string full_name: full name of a user
+    :>json string email: email of a user
+    :>json boolean is_superuser: whether the user is a super user
+    :>json boolean is_active: whether the user is active
+    :>json string date_joined: date the user is created
+
+.. http:delete:: /api/users/(str:username)/
+
+    Deletes all user information and mark the user inactive.
+
+    :param username: User's username
+    :type username: string
+
+.. http:post:: /api/users/(str:username)/groups/
+
+    Associate groups with a user.
+
+    :param username: User's username
+    :type username: string
+    :form string group_id: The unique group ID
+
+
+Groups
+++++++
+
+.. versionadded:: 4.0
+
+.. http:get:: /api/groups/
+
+    Returns a list of groups if you have permissions to see manage groups. If not, then you get to see
+    only the groups the user is a part of.
+
+    .. seealso::
+
+        Group object attributes are documented at :http:get:`/api/groups/(int:id)/`.
+
+.. http:post:: /api/groups/
+
+    Creates a new group.
+
+    :param name: Group name
+    :type name: string
+    :param project_selection: Group of project selection from given options
+    :type project_selection: int
+    :param language_selection: Group of languages selected from given options
+    :type language_selection: int
+
+.. http:get:: /api/groups/(int:id)/
+
+    Returns information about group.
+
+    :param id: Group's ID
+    :type id: int
+    :>json string name: name of a group
+    :>json int project_selection: integer corresponding to group of projects
+    :>json int language_selection: integer corresponding to group of languages
+    :>json array roles: link to associated roles; see :http:get:`/api/roles/(int:id)/`
+    :>json array projects: link to associated projects; see :http:get:`/api/projects/(string:project)/`
+    :>json array components: link to associated components; see :http:get:`/api/components/(string:project)/(string:component)/`
+    :>json array componentlist: link to associated componentlist; see :http:get:`/api/component-lists/(str:slug)/`
+
+    **Example JSON data:**
+
+    .. code-block:: json
+
+        {
+            "name": "Guests",
+            "project_selection": 3,
+            "language_selection": 1,
+            "url": "http://example.com/api/groups/1/",
+            "roles": [
+                "http://example.com/api/roles/1/",
+                "http://example.com/api/roles/2/"
+            ],
+            "languages": [
+                "http://example.com/api/languages/en/",
+                "http://example.com/api/languages/cs/",
+            ],
+            "projects": [
+                "http://example.com/api/projects/demo1/",
+                "http://example.com/api/projects/demo/"
+            ],
+            "componentlist": "http://example.com/api/component-lists/new/",
+            "components": [
+                "http://example.com/api/components/demo/weblate/"
+            ]
+        }
+
+.. http:put:: /api/groups/(int:id)/
+
+    Changes the group parameters.
+
+    :param id: Group's ID
+    :type id: int
+    :>json string name: name of a group
+    :>json int project_selection: integer corresponding to group of projects
+    :>json int language_selection: integer corresponding to group of Languages
+
+.. http:patch:: /api/groups/(int:id)/
+
+    Changes the group parameters.
+
+    :param id: Group's ID
+    :type id: int
+    :>json string name: name of a group
+    :>json int project_selection: integer corresponding to group of projects
+    :>json int language_selection: integer corresponding to group of languages
+
+.. http:delete:: /api/groups/(int:id)/
+
+    Deletes the group.
+
+    :param id: Group's ID
+    :type id: int
+
+.. http:post:: /api/groups/(int:id)/roles/
+
+    Associate roles with a group.
+
+    :param id: Group's ID
+    :type id: int
+    :form string role_id: The unique role ID
+
+.. http:post:: /api/groups/(int:id)/components/
+
+    Associate components with a group.
+
+    :param id: Group's ID
+    :type id: int
+    :form string component_id: The unique component ID
+
+.. http:delete:: /api/groups/(int:id)/components/(int:component_id)
+
+    Delete component from a group.
+
+    :param id: Group's ID
+    :type id: int
+    :param component_id: The unique component ID
+    :type component_id: int
+
+.. http:post:: /api/groups/(int:id)/projects/
+
+    Associate projects with a group.
+
+    :param id: Group's ID
+    :type id: int
+    :form string project_id: The unique project ID
+
+.. http:delete:: /api/groups/(int:id)/projects/(int:project_id)
+
+    Delete project from a group.
+
+    :param id: Group's ID
+    :type id: int
+    :param project_id: The unique project ID
+    :type project_id: int
+
+.. http:post:: /api/groups/(int:id)/languages/
+
+    Associate languages with a group.
+
+    :param id: Group's ID
+    :type id: int
+    :form string language_code: The unique language code
+
+.. http:delete:: /api/groups/(int:id)/languages/(string:language_code)
+
+    Delete language from a group.
+
+    :param id: Group's ID
+    :type id: int
+    :param language_code: The unique language code
+    :type language_code: string
+
+.. http:post:: /api/groups/(int:id)/componentlists/
+
+    Associate componentlists with a group.
+
+    :param id: Group's ID
+    :type id: int
+    :form string component_list_id: The unique componentlist ID
+
+.. http:delete:: /api/groups/(int:id)/componentlists/(int:component_list_id)
+
+    Delete componentlist from a group.
+
+    :param id: Group's ID
+    :type id: int
+    :param component_list_id: The unique componentlist ID
+    :type component_list_id: int
+
+
+Roles
++++++
+
+.. http:get:: /api/roles/
+
+    Returns a list of all roles associated with user. If user is superuser, then list of all
+    existing roles is returned.
+
+    .. seealso::
+
+        Roles object attributes are documented at :http:get:`/api/roles/(int:id)/`.
+
+.. http:post:: /api/roles/
+
+    Creates a new role.
+
+    :param name: Role name
+    :type name: string
+    :param permissions: List of codenames of permissions
+    :type permissions: array
+
+.. http:get:: /api/roles/(int:id)/
+
+    Returns information about a role.
+
+    :param id: Role ID
+    :type id: int
+    :>json string name: Role name
+    :>json array permissions: list of codenames of permissions
+
+    **Example JSON data:**
+
+    .. code-block:: json
+
+        {
+            "name": "Access repository",
+            "permissions": [
+                "vcs.access",
+                "vcs.view"
+            ],
+            "url": "http://example.com/api/roles/1/",
+        }
+
+.. http:put:: /api/roles/(int:id)/
+
+    Changes the role parameters.
+
+    :param id: Role's ID
+    :type id: int
+    :>json string name: Role name
+    :>json array permissions: list of codenames of permissions
+
+.. http:patch:: /api/roles/(int:id)/
+
+    Changes the role parameters.
+
+    :param id: Role's ID
+    :type id: int
+    :>json string name: Role name
+    :>json array permissions: list of codenames of permissions
+
+.. http:delete:: /api/roles/(int:id)/
+
+    Deletes the role.
+
+    :param id: Role's ID
+    :type id: int
+
+
 Languages
 +++++++++
 
@@ -202,9 +550,20 @@ Languages
 
     .. seealso::
 
-        Additional common headers, parameters and status codes are documented at :ref:`api-generic`.
-
         Language object attributes are documented at :http:get:`/api/languages/(string:language)/`.
+
+.. http:post:: /api/languages/
+
+    Creates a new language.
+
+    :param code: Language name
+    :type code: string
+    :param name: Language name
+    :type name: string
+    :param direction: Language direction
+    :type direction: string
+    :param plural: Language plural formula and number
+    :type plural: object
 
 .. http:get:: /api/languages/(string:language)/
 
@@ -214,10 +573,8 @@ Languages
     :type language: string
     :>json string code: Language code
     :>json string direction: Text direction
-
-    .. seealso::
-
-        Additional common headers, parameters and status codes are documented at :ref:`api-generic`.
+    :>json object plural: Object of language plural information
+    :>json array aliases: Array of aliases for language
 
     **Example JSON data:**
 
@@ -227,9 +584,73 @@ Languages
             "code": "en",
             "direction": "ltr",
             "name": "English",
+            "plural": {
+                "id": 75,
+                "source": 0,
+                "number": 2,
+                "formula": "n != 1",
+                "type": 1
+            },
+            "aliases": [
+                "english",
+                "en_en",
+                "base",
+                "source",
+                "eng"
+            ],
             "url": "http://example.com/api/languages/en/",
-            "web_url": "http://example.com/languages/en/"
+            "web_url": "http://example.com/languages/en/",
+            "statistics_url": "http://example.com/api/languages/en/statistics/"
         }
+
+.. http:put:: /api/languages/(string:language)/
+
+    Changes the lnnguage parameters.
+
+    :param language: Language's code
+    :type language: string
+    :<json string name: Language name
+    :<json string direction: Language direction
+    :<json object plural: Language plural details
+
+.. http:patch:: /api/languages/(string:language)/
+
+    Changes the language parameters.
+
+    :param language: Language's code
+    :type language: string
+    :<json string name: Language name
+    :<json string direction: Language direction
+    :<json object plural: Language plural details
+
+.. http:delete:: /api/languages/(string:language)/
+
+    Deletes the Language.
+
+    :param language: Language's code
+    :type language: string
+
+.. http:get:: /api/languages/(string:language)/statistics/
+
+    Returns statistics for a language.
+
+    :param language: Language code
+    :type language: string
+    :>json int total: total number of strings
+    :>json int total_words: total number of words
+    :>json timestamp last_change: last changes in the language
+    :>json int recent_changes: total number of changes
+    :>json int translated: number of translated strings
+    :>json float translated_percent: percentage of translated strings
+    :>json int translated_words: number of translated words
+    :>json int translated_words_percent: percentage of translated words
+    :>json int translated_chars: number of translated characters
+    :>json int translated_chars_percent: percentage of translated characters
+    :>json int total_chars: number of total characters
+    :>json int fuzzy: number of fuzzy strings
+    :>json int fuzzy_percent: percentage of fuzzy strings
+    :>json int failing: number of failing strings
+    :>json int failing: percentage of failing strings
 
 
 Projects
@@ -241,8 +662,6 @@ Projects
 
     .. seealso::
 
-        Additional common headers, parameters and status codes are documented at :ref:`api-generic`.
-
         Project object attributes are documented at :http:get:`/api/projects/(string:project)/`.
 
 .. http:post:: /api/projects/
@@ -251,12 +670,14 @@ Projects
 
     Creates a new project.
 
-    :param name: project name
+    :param name: Project name
     :type name: string
-    :param slug: project slug
+    :param slug: Project slug
     :type slug: string
-    :param web: project website
+    :param web: Project website
     :type web: string
+    :param source_language: Project source language code (optional)
+    :type source_language: string
 
 .. http:get:: /api/projects/(string:project)/
 
@@ -271,10 +692,6 @@ Projects
     :>json string components_list_url: URL to components list; see :http:get:`/api/projects/(string:project)/components/`
     :>json string repository_url: URL to repository status; see :http:get:`/api/projects/(string:project)/repository/`
     :>json string changes_list_url: URL to changes list; see :http:get:`/api/projects/(string:project)/changes/`
-
-    .. seealso::
-
-        Additional common headers, parameters and status codes are documented at :ref:`api-generic`.
 
     **Example JSON data:**
 
@@ -310,11 +727,7 @@ Projects
 
     :param project: Project URL slug
     :type project: string
-    :>json array results: array of component objects; see :http:get:`/api/changes/(int:pk)/`
-
-    .. seealso::
-
-        Additional common headers, parameters and status codes are documented at :ref:`api-generic`.
+    :>json array results: array of component objects; see :http:get:`/api/changes/(int:id)/`
 
 .. http:get:: /api/projects/(string:project)/repository/
 
@@ -327,10 +740,6 @@ Projects
     :>json boolean needs_commit: whether there are any pending changes to commit
     :>json boolean needs_merge: whether there are any upstream changes to merge
     :>json boolean needs_push: whether there are any local changes to push
-
-    .. seealso::
-
-        Additional common headers, parameters and status codes are documented at :ref:`api-generic`.
 
     **Example JSON data:**
 
@@ -353,10 +762,6 @@ Projects
     :<json string operation: Operation to perform: one of ``push``, ``pull``, ``commit``, ``reset``, ``cleanup``
     :>json boolean result: result of the operation
 
-    .. seealso::
-
-        Additional common headers, parameters and status codes are documented at :ref:`api-generic`.
-
     **CURL example:**
 
     .. code-block:: sh
@@ -364,7 +769,7 @@ Projects
         curl \
             -d operation=pull \
             -H "Authorization: Token TOKEN" \
-            http://example.com/api/components/hello/weblate/repository/
+            http://example.com/api/projects/hello/repository/
 
     **JSON request example:**
 
@@ -403,10 +808,6 @@ Projects
     :type project: string
     :>json array results: array of component objects; see :http:get:`/api/components/(string:project)/(string:component)/`
 
-    .. seealso::
-
-        Additional common headers, parameters and status codes are documented at :ref:`api-generic`.
-
 .. http:post:: /api/projects/(string:project)/components/
 
     .. versionadded:: 3.9
@@ -415,6 +816,100 @@ Projects
 
     :param project: Project URL slug
     :type project: string
+    :>json object result: Created component object; see :http:get:`/api/components/(string:project)/(string:component)/`
+
+    **CURL example:**
+
+    .. code-block:: sh
+
+        curl \
+            --data-binary '{
+                "branch": "master",
+                "file_format": "po",
+                "filemask": "po/*.po",
+                "git_export": "",
+                "license": "",
+                "license_url": "",
+                "name": "Weblate",
+                "slug": "weblate",
+                "repo": "file:///home/nijel/work/weblate-hello",
+                "template": "",
+                "new_base": "",
+                "vcs": "git"
+            }' \
+            -H "Content-Type: application/json" \
+            -H "Authorization: Token TOKEN" \
+            http://example.com/api/projects/hello/components/
+
+    **JSON request example:**
+
+    .. sourcecode:: http
+
+        POST /api/projects/hello/components/ HTTP/1.1
+        Host: example.com
+        Accept: application/json
+        Content-Type: application/json
+        Authorization: Token TOKEN
+        Content-Length: 20
+
+        {
+            "branch": "master",
+            "file_format": "po",
+            "filemask": "po/*.po",
+            "git_export": "",
+            "license": "",
+            "license_url": "",
+            "name": "Weblate",
+            "slug": "weblate",
+            "repo": "file:///home/nijel/work/weblate-hello",
+            "template": "",
+            "new_base": "",
+            "vcs": "git"
+        }
+
+    **JSON response example:**
+
+    .. sourcecode:: http
+
+        HTTP/1.0 200 OK
+        Date: Tue, 12 Apr 2016 09:32:50 GMT
+        Server: WSGIServer/0.1 Python/2.7.11+
+        Vary: Accept, Accept-Language, Cookie
+        X-Frame-Options: SAMEORIGIN
+        Content-Type: application/json
+        Content-Language: en
+        Allow: GET, POST, HEAD, OPTIONS
+
+        {
+            "branch": "master",
+            "file_format": "po",
+            "filemask": "po/*.po",
+            "git_export": "",
+            "license": "",
+            "license_url": "",
+            "name": "Weblate",
+            "slug": "weblate",
+            "project": {
+                "name": "Hello",
+                "slug": "hello",
+                "source_language": {
+                    "code": "en",
+                    "direction": "ltr",
+                    "name": "English",
+                    "url": "http://example.com/api/languages/en/",
+                    "web_url": "http://example.com/languages/en/"
+                },
+                "url": "http://example.com/api/projects/hello/",
+                "web": "https://weblate.org/",
+                "web_url": "http://example.com/projects/hello/"
+            },
+            "repo": "file:///home/nijel/work/weblate-hello",
+            "template": "",
+            "new_base": "",
+            "url": "http://example.com/api/components/hello/weblate/",
+            "vcs": "git",
+            "web_url": "http://example.com/projects/hello/weblate/"
+        }
 
 .. http:get:: /api/projects/(string:project)/languages/
 
@@ -458,8 +953,6 @@ Components
 
     .. seealso::
 
-        Additional common headers, parameters and status codes are documented at :ref:`api-generic`.
-
         Component object attributes are documented at :http:get:`/api/components/(string:project)/(string:component)/`.
 
 .. http:get:: /api/components/(string:project)/(string:component)/
@@ -488,10 +981,6 @@ Components
     :>json string lock_url: URL to lock status; see :http:get:`/api/components/(string:project)/(string:component)/lock/`
     :>json string changes_list_url: URL to changes list; see :http:get:`/api/components/(string:project)/(string:component)/changes/`
     :>json string push: URL of a push repository
-
-    .. seealso::
-
-        Additional common headers, parameters and status codes are documented at :ref:`api-generic`.
 
     **Example JSON data:**
 
@@ -528,6 +1017,105 @@ Components
             "web_url": "http://example.com/projects/hello/weblate/"
         }
 
+.. http:patch:: /api/components/(string:project)/(string:component)/
+
+    Edit a component by a patch request.
+
+    :param project: Project URL slug
+    :type project: string
+    :param component: Component URL slug
+    :type component: string
+    :<json string name: name of component
+    :<json string slug: slug of component
+    :<json string repo: VCS repository URL
+
+    **CURL example:**
+
+    .. code-block:: sh
+
+        curl \
+            --data-binary '{"name": "new name"}' \
+            -H "Content-Type: application/json" \
+            -H "Authorization: Token TOKEN" \
+            PATCH http://example.com/api/projects/hello/components/
+
+    **JSON request example:**
+
+    .. sourcecode:: http
+
+        PATCH /api/projects/hello/components/ HTTP/1.1
+        Host: example.com
+        Accept: application/json
+        Content-Type: application/json
+        Authorization: Token TOKEN
+        Content-Length: 20
+
+        {
+            "name": "new name"
+        }
+
+    **JSON response example:**
+
+    .. sourcecode:: http
+
+        HTTP/1.0 200 OK
+        Date: Tue, 12 Apr 2016 09:32:50 GMT
+        Server: WSGIServer/0.1 Python/2.7.11+
+        Vary: Accept, Accept-Language, Cookie
+        X-Frame-Options: SAMEORIGIN
+        Content-Type: application/json
+        Content-Language: en
+        Allow: GET, POST, HEAD, OPTIONS
+
+        {
+            "branch": "master",
+            "file_format": "po",
+            "filemask": "po/*.po",
+            "git_export": "",
+            "license": "",
+            "license_url": "",
+            "name": "new name",
+            "slug": "weblate",
+            "project": {
+                "name": "Hello",
+                "slug": "hello",
+                "source_language": {
+                    "code": "en",
+                    "direction": "ltr",
+                    "name": "English",
+                    "url": "http://example.com/api/languages/en/",
+                    "web_url": "http://example.com/languages/en/"
+                },
+                "url": "http://example.com/api/projects/hello/",
+                "web": "https://weblate.org/",
+                "web_url": "http://example.com/projects/hello/"
+            },
+            "repo": "file:///home/nijel/work/weblate-hello",
+            "template": "",
+            "new_base": "",
+            "url": "http://example.com/api/components/hello/weblate/",
+            "vcs": "git",
+            "web_url": "http://example.com/projects/hello/weblate/"
+        }
+
+.. http:put:: /api/components/(string:project)/(string:component)/
+
+    Edit a component by a put request.
+
+    :param project: Project URL slug
+    :type project: string
+    :param component: Component URL slug
+    :type component: string
+    :<json string branch: VCS repository branch
+    :<json string file_format: file format of translations
+    :<json string filemask: mask of translation files in the repository
+    :<json string name: name of component
+    :<json string slug: slug of component
+    :<json string repo: VCS repository URL
+    :<json string template: base file for monolingual translations
+    :<json string new_base: base file for adding new translations
+    :<json string vcs: version control system
+
 .. http:delete:: /api/components/(string:project)/(string:component)/
 
     .. versionadded:: 3.9
@@ -547,11 +1135,17 @@ Components
     :type project: string
     :param component: Component URL slug
     :type component: string
-    :>json array results: array of component objects; see :http:get:`/api/changes/(int:pk)/`
+    :>json array results: array of component objects; see :http:get:`/api/changes/(int:id)/`
 
-    .. seealso::
+.. http:get::  /api/components/(string:project)/(string:component)/screenshots/
 
-        Additional common headers, parameters and status codes are documented at :ref:`api-generic`.
+    Returns a list of component screenshots.
+
+    :param project: Project URL slug
+    :type project: string
+    :param component: Component URL slug
+    :type component: string
+    :>json array results: array of component screenshots; see :http:get:`/api/screenshots/(int:id)/`
 
 
 .. http:get:: /api/components/(string:project)/(string:component)/lock/
@@ -563,10 +1157,6 @@ Components
     :param component: Component URL slug
     :type component: string
     :>json boolean locked: whether component is locked for updates
-
-    .. seealso::
-
-        Additional common headers, parameters and status codes are documented at :ref:`api-generic`.
 
     **Example JSON data:**
 
@@ -589,9 +1179,42 @@ Components
     :type component: string
     :<json lock: Boolean whether to lock or not.
 
-    .. seealso::
+    **CURL example:**
 
-        Additional common headers, parameters and status codes are documented at :ref:`api-generic`.
+    .. code-block:: sh
+
+        curl \
+            -d lock=true \
+            -H "Authorization: Token TOKEN" \
+            http://example.com/api/components/hello/weblate/repository/
+
+    **JSON request example:**
+
+    .. sourcecode:: http
+
+        POST /api/components/hello/weblate/repository/ HTTP/1.1
+        Host: example.com
+        Accept: application/json
+        Content-Type: application/json
+        Authorization: Token TOKEN
+        Content-Length: 20
+
+        {"lock": true}
+
+    **JSON response example:**
+
+    .. sourcecode:: http
+
+        HTTP/1.0 200 OK
+        Date: Tue, 12 Apr 2016 09:32:50 GMT
+        Server: WSGIServer/0.1 Python/2.7.11+
+        Vary: Accept, Accept-Language, Cookie
+        X-Frame-Options: SAMEORIGIN
+        Content-Type: application/json
+        Content-Language: en
+        Allow: GET, POST, HEAD, OPTIONS
+
+        {"locked":true}
 
 .. http:get:: /api/components/(string:project)/(string:component)/repository/
 
@@ -610,10 +1233,6 @@ Components
     :>json string status: VCS repository status as reported by VCS
     :>json merge_failure: Text describing merge failure or null if there is none
 
-    .. seealso::
-
-        Additional common headers, parameters and status codes are documented at :ref:`api-generic`.
-
 .. http:post:: /api/components/(string:project)/(string:component)/repository/
 
     Performs the given operation on a VCS repository.
@@ -627,9 +1246,42 @@ Components
     :<json string operation: Operation to perform: one of ``push``, ``pull``, ``commit``, ``reset``, ``cleanup``
     :>json boolean result: result of the operation
 
-    .. seealso::
+    **CURL example:**
 
-        Additional common headers, parameters and status codes are documented at :ref:`api-generic`.
+    .. code-block:: sh
+
+        curl \
+            -d operation=pull \
+            -H "Authorization: Token TOKEN" \
+            http://example.com/api/components/hello/weblate/repository/
+
+    **JSON request example:**
+
+    .. sourcecode:: http
+
+        POST /api/components/hello/weblate/repository/ HTTP/1.1
+        Host: example.com
+        Accept: application/json
+        Content-Type: application/json
+        Authorization: Token TOKEN
+        Content-Length: 20
+
+        {"operation":"pull"}
+
+    **JSON response example:**
+
+    .. sourcecode:: http
+
+        HTTP/1.0 200 OK
+        Date: Tue, 12 Apr 2016 09:32:50 GMT
+        Server: WSGIServer/0.1 Python/2.7.11+
+        Vary: Accept, Accept-Language, Cookie
+        X-Frame-Options: SAMEORIGIN
+        Content-Type: application/json
+        Content-Language: en
+        Allow: GET, POST, HEAD, OPTIONS
+
+        {"result":true}
 
 .. http:get:: /api/components/(string:project)/(string:component)/monolingual_base/
 
@@ -640,10 +1292,6 @@ Components
     :param component: Component URL slug
     :type component: string
 
-    .. seealso::
-
-        Additional common headers, parameters and status codes are documented at :ref:`api-generic`.
-
 .. http:get:: /api/components/(string:project)/(string:component)/new_template/
 
     Downloads template file for new translations.
@@ -652,10 +1300,6 @@ Components
     :type project: string
     :param component: Component URL slug
     :type component: string
-
-    .. seealso::
-
-        Additional common headers, parameters and status codes are documented at :ref:`api-generic`.
 
 .. http:get:: /api/components/(string:project)/(string:component)/translations/
 
@@ -667,10 +1311,6 @@ Components
     :type component: string
     :>json array results: array of translation objects; see :http:get:`/api/translations/(string:project)/(string:component)/(string:language)/`
 
-    .. seealso::
-
-        Additional common headers, parameters and status codes are documented at :ref:`api-generic`.
-
 .. http:post:: /api/components/(string:project)/(string:component)/translations/
 
     Creates new translation in the given component.
@@ -679,7 +1319,77 @@ Components
     :type project: string
     :param component: Component URL slug
     :type component: string
-    :>json string language_code: translation language code; see :http:get:`/api/languages/(string:language)/`
+    :<json string language_code: translation language code; see :http:get:`/api/languages/(string:language)/`
+    :>json object result: new translation object created
+
+    **CURL example:**
+
+    .. code-block:: sh
+
+        curl \
+            -d language_code=cs \
+            -H "Authorization: Token TOKEN" \
+            http://example.com/api/projects/hello/components/
+
+    **JSON request example:**
+
+    .. sourcecode:: http
+
+        POST /api/projects/hello/components/ HTTP/1.1
+        Host: example.com
+        Accept: application/json
+        Content-Type: application/json
+        Authorization: Token TOKEN
+        Content-Length: 20
+
+        {"language_code": "cs"}
+
+    **JSON response example:**
+
+    .. sourcecode:: http
+
+        HTTP/1.0 200 OK
+        Date: Tue, 12 Apr 2016 09:32:50 GMT
+        Server: WSGIServer/0.1 Python/2.7.11+
+        Vary: Accept, Accept-Language, Cookie
+        X-Frame-Options: SAMEORIGIN
+        Content-Type: application/json
+        Content-Language: en
+        Allow: GET, POST, HEAD, OPTIONS
+
+        {
+            "failing_checks": 0,
+            "failing_checks_percent": 0,
+            "failing_checks_words": 0,
+            "filename": "po/cs.po",
+            "fuzzy": 0,
+            "fuzzy_percent": 0.0,
+            "fuzzy_words": 0,
+            "have_comment": 0,
+            "have_suggestion": 0,
+            "is_template": false,
+            "is_source": false,
+            "language": {
+                "code": "cs",
+                "direction": "ltr",
+                "name": "Czech",
+                "url": "http://example.com/api/languages/cs/",
+                "web_url": "http://example.com/languages/cs/"
+            },
+            "language_code": "cs",
+            "id": 125,
+            "last_author": null,
+            "last_change": null,
+            "share_url": "http://example.com/engage/hello/cs/",
+            "total": 4,
+            "total_words": 15,
+            "translate_url": "http://example.com/translate/hello/weblate/cs/",
+            "translated": 0,
+            "translated_percent": 0.0,
+            "translated_words": 0,
+            "url": "http://example.com/api/translations/hello/weblate/cs/",
+            "web_url": "http://example.com/projects/hello/weblate/cs/"
+        }
 
 .. http:get:: /api/components/(string:project)/(string:component)/statistics/
 
@@ -701,8 +1411,6 @@ Translations
     Returns a list of translations.
 
     .. seealso::
-
-        Additional common headers, parameters and status codes are documented at :ref:`api-generic`.
 
         Translation object attributes are documented at :http:get:`/api/translations/(string:project)/(string:component)/(string:language)/`.
 
@@ -743,11 +1451,6 @@ Translations
     :>json string file_url: URL to file object; see :http:get:`/api/translations/(string:project)/(string:component)/(string:language)/file/`
     :>json string changes_list_url: URL to changes list; see :http:get:`/api/translations/(string:project)/(string:component)/(string:language)/changes/`
     :>json string units_list_url: URL to strings list; see :http:get:`/api/translations/(string:project)/(string:component)/(string:language)/units/`
-
-    .. seealso::
-
-        Additional common headers, parameters and status codes are documented at :ref:`api-generic`.
-
 
     **Example JSON data:**
 
@@ -840,11 +1543,7 @@ Translations
     :type component: string
     :param language: Translation language code
     :type language: string
-    :>json array results: array of component objects; see :http:get:`/api/changes/(int:pk)/`
-
-    .. seealso::
-
-        Additional common headers, parameters and status codes are documented at :ref:`api-generic`.
+    :>json array results: array of component objects; see :http:get:`/api/changes/(int:id)/`
 
 
 .. http:get:: /api/translations/(string:project)/(string:component)/(string:language)/units/
@@ -857,12 +1556,37 @@ Translations
     :type component: string
     :param language: Translation language code
     :type language: string
-    :>json array results: array of component objects; see :http:get:`/api/units/(int:pk)/`
+    :>json array results: array of component objects; see :http:get:`/api/units/(int:id)/`
 
-    .. seealso::
+.. http:post:: /api/translations/(string:project)/(string:component)/(string:language)/units/
 
-        Additional common headers, parameters and status codes are documented at :ref:`api-generic`.
+    Add new monolingual unit.
 
+    :param project: Project URL slug
+    :type project: string
+    :param component: Component URL slug
+    :type component: string
+    :param language: Translation language code
+    :type language: string
+    :<json string key: Name of translation unit
+    :<json string value: The translation unit value
+
+.. http:post:: /api/translations/(string:project)/(string:component)/(string:language)/autotranslate/
+
+    Trigger automatic translation.
+
+    :param project: Project URL slug
+    :type project: string
+    :param component: Component URL slug
+    :type component: string
+    :param language: Translation language code
+    :type language: string
+    :<json string mode: Automatic translation mode
+    :<json string filter_type: Automatic translation filter type
+    :<json string auto_source: Automatic translation source
+    :<json string component: Turn on contribution to shared translation memory for the project to get access to additional components.
+    :<json string engines: Machine translation engines
+    :<json string threshold: Score threshold
 
 .. http:get:: /api/translations/(string:project)/(string:component)/(string:language)/file/
 
@@ -886,10 +1610,6 @@ Translations
     :param language: Translation language code
     :type language: string
 
-    .. seealso::
-
-        Additional common headers, parameters and status codes are documented at :ref:`api-generic`.
-
 .. http:post:: /api/translations/(string:project)/(string:component)/(string:language)/file/
 
     Upload new file with translations.
@@ -904,12 +1624,8 @@ Translations
     :form file file: Uploaded file
     :form string email: Author e-mail
     :form string author: Author name
-    :form string method: Upload method (``translate``, ``approve``, ``suggest``, ``fuzzy``, ``replace``)
+    :form string method: Upload method (``translate``, ``approve``, ``suggest``, ``fuzzy``, ``replace``, ``source``)
     :form string fuzzy: Fuzzy strings processing (*empty*, ``process``, ``approve``)
-
-    .. seealso::
-
-        Additional common headers, parameters and status codes are documented at :ref:`api-generic`.
 
     **CURL example:**
 
@@ -933,10 +1649,6 @@ Translations
     :param language: Translation language code
     :type language: string
 
-    .. seealso::
-
-        Additional common headers, parameters and status codes are documented at :ref:`api-generic`.
-
 .. http:post:: /api/translations/(string:project)/(string:component)/(string:language)/repository/
 
     Performs given operation on the VCS repository.
@@ -951,10 +1663,6 @@ Translations
     :type language: string
     :<json string operation: Operation to perform: one of ``push``, ``pull``, ``commit``, ``reset``, ``cleanup``
     :>json boolean result: result of the operation
-
-    .. seealso::
-
-        Additional common headers, parameters and status codes are documented at :ref:`api-generic`.
 
 .. http:get:: /api/translations/(string:project)/(string:component)/(string:language)/statistics/
 
@@ -995,16 +1703,14 @@ Units
 
     .. seealso::
 
-        Additional common headers, parameters and status codes are documented at :ref:`api-generic`.
+        Unit object attributes are documented at :http:get:`/api/units/(int:id)/`.
 
-        Unit object attributes are documented at :http:get:`/api/units/(int:pk)/`.
-
-.. http:get:: /api/units/(int:pk)/
+.. http:get:: /api/units/(int:id)/
 
     Returns information about translation unit.
 
-    :param pk: Unit ID
-    :type pk: int
+    :param id: Unit ID
+    :type id: int
     :>json string translation: URL of a related translation object
     :>json string source: source string
     :>json string previous_source: previous source string used for fuzzy matching
@@ -1017,6 +1723,7 @@ Units
     :>json string flags: translation unit flags
     :>json boolean fuzzy: whether unit is fuzzy or marked for review
     :>json boolean translated: whether unit is translated
+    :>json boolean approved: whether translation is approved
     :>json int position: unit position in translation file
     :>json boolean has_suggestion: whether unit has suggestions
     :>json boolean has_comment: whether unit has comments
@@ -1025,7 +1732,7 @@ Units
     :>json int priority: translation priority; 100 is default
     :>json int id: unit identifier
     :>json string web_url: URL where unit can be edited
-    :>json string souce_info: Source string information link; see :http:get:`/api/units/(int:pk)/`
+    :>json string souce_info: Source string information link; see :http:get:`/api/units/(int:id)/`
 
 Changes
 +++++++
@@ -1034,24 +1741,31 @@ Changes
 
 .. http:get:: /api/changes/
 
+    .. versionchanged:: 4.1
+
+       Filtering of changes was introduced in the 4.1 release.
+
     Returns a list of translation changes.
 
     .. seealso::
 
-        Additional common headers, parameters and status codes are documented at :ref:`api-generic`.
+        Change object attributes are documented at :http:get:`/api/changes/(int:id)/`.
 
-        Change object attributes are documented at :http:get:`/api/changes/(int:pk)/`.
+    :query string user: Username of user to filters
+    :query int action: Action to filter, can be used several times
+    :query timestamp timestamp_after: ISO 8601 formatted timestmap to list changes after
+    :query timestamp timestamp_before: ISO 8601 formatted timestmap to list changes before
 
-.. http:get:: /api/changes/(int:pk)/
+.. http:get:: /api/changes/(int:id)/
 
     Returns information about translation change.
 
-    :param pk: Change ID
-    :type pk: int
+    :param id: Change ID
+    :type id: int
     :>json string unit: URL of a related unit object
     :>json string translation: URL of a related translation object
     :>json string component: URL of a related component object
-    :>json string dictionary: URL of a related dictionary object
+    :>json string glossary_term: URL of a related glossary term object
     :>json string user: URL of a related user object
     :>json string author: URL of a related author object
     :>json timestamp timestamp: event timestamp
@@ -1071,39 +1785,33 @@ Screenshots
 
     .. seealso::
 
-        Additional common headers, parameters and status codes are documented at :ref:`api-generic`.
+        Screenshot object attributes are documented at :http:get:`/api/screenshots/(int:id)/`.
 
-        Sources object attributes are documented at :http:get:`/api/screenshots/(int:pk)/`.
-
-.. http:get:: /api/screenshots/(int:pk)/
+.. http:get:: /api/screenshots/(int:id)/
 
     Returns information about screenshot information.
 
-    :param pk: Screenshot ID
-    :type pk: int
+    :param id: Screenshot ID
+    :type id: int
     :>json string name: name of a screenshot
     :>json string component: URL of a related component object
-    :>json string file_url: URL to download a file; see :http:get:`/api/screenshots/(int:pk)/file/`
-    :>json array units: link to associated source string information; see :http:get:`/api/units/(int:pk)/`
+    :>json string file_url: URL to download a file; see :http:get:`/api/screenshots/(int:id)/file/`
+    :>json array units: link to associated source string information; see :http:get:`/api/units/(int:id)/`
 
-.. http:get:: /api/screenshots/(int:pk)/file/
+.. http:get:: /api/screenshots/(int:id)/file/
 
     Download the screenshot image.
 
-    :param pk: Screenshot ID
-    :type pk: int
+    :param id: Screenshot ID
+    :type id: int
 
-.. http:post:: /api/screenshots/(int:pk)/file/
+.. http:post:: /api/screenshots/(int:id)/file/
 
     Replace screenshot image.
 
-    :param pk: Screenshot ID
-    :type pk: int
+    :param id: Screenshot ID
+    :type id: int
     :form file image: Uploaded file
-
-    .. seealso::
-
-        Additional common headers, parameters and status codes are documented at :ref:`api-generic`.
 
     **CURL example:**
 
@@ -1114,6 +1822,100 @@ Screenshots
             -H "Authorization: Token TOKEN" \
             http://example.com/api/screenshots/1/file/
 
+.. http:post:: /api/screenshots/(int:id)/units/
+
+    Associate source string with screenshot.
+
+    :param id: Screenshot ID
+    :type id: int
+    :form string unit_id: Unit ID
+    :>json string name: name of a screenshot
+    :>json string component: URL of a related component object
+    :>json string file_url: URL to download a file; see :http:get:`/api/screenshots/(int:id)/file/`
+    :>json array units: link to associated source string information; see :http:get:`/api/units/(int:id)/`
+
+.. http:post:: /api/screenshots/
+
+    Creates a new screenshot.
+
+    :form file image: Uploaded file
+    :form string name: Screenshot name
+    :form string project_slug: Project Slug
+    :form string component_slug: Component Slug
+    :>json string name: name of a screenshot
+    :>json string component: URL of a related component object
+    :>json string file_url: URL to download a file; see :http:get:`/api/screenshots/(int:id)/file/`
+    :>json array units: link to associated source string information; see :http:get:`/api/units/(int:id)/`
+
+
+Component lists
++++++++++++++++
+
+.. versionadded:: 4.0
+
+.. http:get:: /api/component-lists/
+
+    Returns a list of component lists.
+
+    .. seealso::
+
+        Component list object attributes are documented at :http:get:`/api/component-lists/(str:slug)/`.
+
+.. http:get:: /api/component-lists/(str:slug)/
+
+    Returns information about component list.
+
+    :param slug: Component list slug
+    :type slug: string
+    :>json string name: name of a component list
+    :>json string slug: slug of a component list
+    :>json boolean show_dashboard: whether to show it on a dashboard
+    :>json array components: link to associated components; see :http:get:`/api/components/(string:project)/(string:component)/`
+    :>json array auto_assign: automatic assignment rules
+
+.. http:put:: /api/component-lists/(str:slug)/
+
+    Changes the component list parameters.
+
+    :param slug: Component list slug
+    :type slug: string
+    :<json string name: name of a component list
+    :<json string slug: slug of a component list
+    :<json boolean show_dashboard: whether to show it on a dashboard
+
+.. http:patch:: /api/component-lists/(str:slug)/
+
+    Changes the component list parameters.
+
+    :param slug: Component list slug
+    :type slug: string
+    :<json string name: name of a component list
+    :<json string slug: slug of a component list
+    :<json boolean show_dashboard: whether to show it on a dashboard
+
+.. http:delete:: /api/component-lists/(str:slug)/
+
+    Deletes the component list.
+
+    :param slug: Component list slug
+    :type slug: string
+
+.. http:post:: /api/component-lists/(str:slug)/components/
+
+    Associate component with a component list.
+
+    :param slug: Component list slug
+    :type slug: string
+    :form string component_id: Component ID
+
+.. http:delete:: /api/component-lists/(str:slug)/components/(str:component_slug)
+
+    Disassociate a component from the component list.
+
+    :param slug: Component list slug
+    :type slug: string
+    :param component_slug: Component slug
+    :type component_slug: string
 
 .. _hooks:
 
@@ -1222,7 +2024,7 @@ update individual repositories; see
 
         :ref:`azure-setup`
             For instruction on setting up Azure integration
-        https://docs.microsoft.com/azure/devops/service-hooks/services/webhooks
+        https://docs.microsoft.com/en-us/azure/devops/service-hooks/services/webhooks
             Generic information about Azure Repos Web Hooks
         :setting:`ENABLE_HOOKS`
             For enabling hooks for whole Weblate

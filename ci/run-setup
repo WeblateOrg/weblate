@@ -7,20 +7,8 @@ INSTALL_DIR=`mktemp -d`
 
 trap "rm -rf $INSTALL_DIR" EXIT
 
-# TODO: setup build really should do this
-run_coverage ./manage.py compilemessages
-check
-
-run_coverage ./setup.py build
-check
-
+# Do setup.py install
 run_coverage ./setup.py install --root="$INSTALL_DIR"
-check
-
-run_coverage ./setup.py sdist
-check
-
-twine check dist/*
 check
 
 INSTALLED_DIR=`find $INSTALL_DIR -name '*-packages' -type d`

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -82,6 +81,11 @@ class GitNoVersionRepository(GitRepository):
 class RepositoryTest(TestCase):
     def test_not_supported(self):
         self.assertFalse(NonExistingRepository.is_supported())
+        with self.assertRaises(Exception):
+            NonExistingRepository.get_version()
+        # Test exception caching
+        with self.assertRaises(Exception):
+            NonExistingRepository.get_version()
 
     def test_not_supported_version(self):
         self.assertFalse(GitVersionRepository.is_supported())
@@ -164,7 +168,7 @@ class VCSGitTest(TestCase, RepoTestMixin, TempDirMixin):
                 )
 
                 # Push it
-                repo.push()
+                repo.push("")
         finally:
             shutil.rmtree(tempdir, onerror=remove_readonly)
 
@@ -185,13 +189,17 @@ class VCSGitTest(TestCase, RepoTestMixin, TempDirMixin):
         with self.repo.lock:
             self.repo.update_remote()
 
-    def test_push(self):
+    def test_push(self, branch=""):
         with self.repo.lock:
-            self.repo.push()
+            self.repo.push(branch)
 
     def test_push_commit(self):
         self.test_commit()
         self.test_push()
+
+    def test_push_branch(self):
+        self.test_commit()
+        self.test_push("push-branch")
 
     def test_reset(self):
         with self.repo.lock:

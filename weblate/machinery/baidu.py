@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright ©2018 Sun Zhigang <hzsunzhigang@corp.netease.com>
 #
@@ -22,6 +21,7 @@
 from django.conf import settings
 
 from weblate.machinery.base import (
+    MachineryRateLimit,
     MachineTranslation,
     MachineTranslationError,
     MissingConfiguration,
@@ -97,7 +97,7 @@ class BaiduTranslation(MachineTranslation):
             "vie",
         ]
 
-    def download_translations(self, source, language, text, unit, user):
+    def download_translations(self, source, language, text, unit, user, search):
         """Download list of possible translations from a service."""
         salt, sign = self.signed_salt(
             settings.MT_BAIDU_ID, settings.MT_BAIDU_SECRET, text
@@ -115,6 +115,11 @@ class BaiduTranslation(MachineTranslation):
         payload = response.json()
 
         if "error_code" in payload:
+            try:
+                if int(payload["error_code"]) == 54003:
+                    raise MachineryRateLimit(payload["error_msg"])
+            except ValueError:
+                pass
             raise MachineTranslationError(
                 "Error {error_code}: {error_msg}".format(**payload)
             )

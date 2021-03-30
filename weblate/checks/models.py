@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -22,13 +21,29 @@
 import json
 
 from appconf import AppConf
+from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
-from django.db.models.signals import post_save
+from django.db.models import Q
+from django.db.models.signals import post_delete, post_save
 from django.dispatch import receiver
 from django.utils.functional import cached_property
 
-from weblate.checks import CHECKS
+from weblate.utils.classloader import ClassLoader
 from weblate.utils.decorators import disable_for_loaddata
+
+
+class ChecksLoader(ClassLoader):
+    @cached_property
+    def source(self):
+        return {k: v for k, v in self.items() if v.source}
+
+    @cached_property
+    def target(self):
+        return {k: v for k, v in self.items() if v.target}
+
+
+# Initialize checks list
+CHECKS = ChecksLoader("CHECK_LIST")
 
 
 class WeblateChecksConf(AppConf):
@@ -58,7 +73,7 @@ class WeblateChecksConf(AppConf):
         "weblate.checks.format.CSharpFormatCheck",
         "weblate.checks.format.JavaFormatCheck",
         "weblate.checks.format.JavaMessageFormatCheck",
-        "weblate.checks.format.PercentInterpolationCheck",
+        "weblate.checks.format.PercentPlaceholdersCheck",
         "weblate.checks.format.I18NextInterpolationCheck",
         "weblate.checks.angularjs.AngularJSInterpolationCheck",
         "weblate.checks.qt.QtFormatCheck",
@@ -82,19 +97,45 @@ class WeblateChecksConf(AppConf):
         "weblate.checks.markup.SafeHTMLCheck",
         "weblate.checks.placeholders.PlaceholderCheck",
         "weblate.checks.placeholders.RegexCheck",
+        "weblate.checks.duplicate.DuplicateCheck",
         "weblate.checks.source.OptionalPluralCheck",
         "weblate.checks.source.EllipsisCheck",
         "weblate.checks.source.MultipleFailingCheck",
+        "weblate.checks.source.LongUntranslatedCheck",
+        "weblate.checks.format.MultipleUnnamedFormatsCheck",
     )
 
     class Meta:
         prefix = ""
 
 
+class CheckQuerySet(models.QuerySet):
+    def filter_access(self, user):
+        if user.is_superuser:
+            return self
+        return self.filter(
+            Q(unit__translation__component__project_id__in=user.allowed_project_ids)
+            & (
+                Q(unit__translation__component__restricted=False)
+                | Q(unit__translation__component_id__in=user.component_permissions)
+            )
+        )
+
+
 class Check(models.Model):
     unit = models.ForeignKey("trans.Unit", on_delete=models.deletion.CASCADE)
     check = models.CharField(max_length=50, choices=CHECKS.get_choices())
-    ignore = models.BooleanField(db_index=True, default=False)
+    dismissed = models.BooleanField(db_index=True, default=False)
+
+    weblate_unsafe_delete = True
+
+    objects = CheckQuerySet.as_manager()
+
+    class Meta:
+        unique_together = ("unit", "check")
+
+    def __str__(self):
+        return str(self.get_name())
 
     @cached_property
     def check_obj(self):
@@ -103,29 +144,17 @@ class Check(models.Model):
         except KeyError:
             return None
 
-    class Meta:
-        unique_together = ("unit", "check")
-
-    def __str__(self):
-        return "{0}: {1}".format(self.unit, self.check)
-
     def is_enforced(self):
         return self.check in self.unit.translation.component.enforced_checks
 
     def get_description(self):
         if self.check_obj:
-            try:
-                return self.check_obj.get_description(self)
-            except IndexError:
-                return self.check_obj.description
+            return self.check_obj.get_description(self)
         return self.check
 
     def get_fixup(self):
         if self.check_obj:
-            try:
-                return self.check_obj.get_fixup(self.unit)
-            except IndexError:
-                return None
+            return self.check_obj.get_fixup(self.unit)
         return None
 
     def get_fixup_json(self):
@@ -139,31 +168,55 @@ class Check(models.Model):
             return self.check_obj.name
         return self.check
 
-    def get_severity(self):
-        if self.check_obj:
-            return self.check_obj.severity
-        return "info"
-
     def get_doc_url(self):
         if self.check_obj:
             return self.check_obj.get_doc_url()
         return ""
 
-    def set_ignore(self, state=True):
+    def set_dismiss(self, state=True):
         """Set ignore flag."""
-        self.ignore = state
+        self.dismissed = state
         self.save()
 
 
 @receiver(post_save, sender=Check)
 @disable_for_loaddata
-def update_failed_check_flag(sender, instance, created, **kwargs):
-    """Update related unit failed check flag."""
-    if created:
+def check_post_save(sender, instance, created, **kwargs):
+    """Handle check creation or updates."""
+    if not created:
+        instance.unit.translation.invalidate_cache()
+
+
+@receiver(post_delete, sender=Check)
+@disable_for_loaddata
+def remove_complimentary_checks(sender, instance, **kwargs):
+    """Remove propagate checks from all units."""
+    instance.unit.translation.invalidate_cache()
+    check_obj = instance.check_obj
+    if not check_obj:
         return
-    try:
-        instance.unit.update_has_failing_check(
-            has_checks=None if instance.ignore else True, invalidate=True
-        )
-    except IndexError:
-        return
+
+    # Handle propagating checks - remove on other units
+    if check_obj.propagates:
+        Check.objects.filter(
+            unit__in=instance.unit.same_source_units, check=instance.check
+        ).delete()
+        for unit in instance.unit.same_source_units:
+            unit.translation.invalidate_cache()
+
+    # Update source checks if needed
+    if check_obj.target:
+        unit = instance.unit
+        if unit.is_batch_update:
+            unit.translation.component.updated_sources[unit.id_hash] = unit.source_info
+        else:
+            try:
+                unit.source_info.run_checks()
+            except ObjectDoesNotExist:
+                pass
+
+
+def get_display_checks(unit):
+    for check, check_obj in CHECKS.target.items():
+        if check_obj.should_display(unit):
+            yield Check(unit=unit, dismissed=False, check=check)

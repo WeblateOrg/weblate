@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -104,6 +103,7 @@ class WeblateConf(AppConf):
     DEFAULT_MERGE_STYLE = "rebase"
 
     DEFAULT_ACCESS_CONTROL = 0
+    DEFAULT_RESTRICTED_COMPONENT = False
     DEFAULT_SHARED_TM = True
 
     DEFAULT_PUSH_ON_COMMIT = True
@@ -161,8 +161,11 @@ Translations update from [Weblate]({{url}}) for {{ project_name }}/{{ component_
     # Special chars for visual keyboard
     SPECIAL_CHARS = ("\t", "\n", "…")
 
+    DEFAULT_ADDONS = {}
+
     SUGGESTION_CLEANUP_DAYS = None
     COMMENT_CLEANUP_DAYS = None
+    REPOSITORY_ALERT_THRESHOLD = 25
 
     SINGLE_PROJECT = False
     LICENSE_EXTRA = []

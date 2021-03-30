@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -46,6 +45,7 @@ class MockProject:
         self.id = 1
         self.source_language = MockLanguage("en")
         self.use_shared_tm = True
+        self.name = "MockProject"
 
 
 class MockComponent:
@@ -54,6 +54,7 @@ class MockComponent:
     def __init__(self):
         self.id = 1
         self.project = MockProject()
+        self.name = "MockComponent"
 
 
 class MockTranslation:
@@ -78,6 +79,7 @@ class MockUnit:
         self.source = source
         self.fuzzy = False
         self.translated = True
+        self.readonly = False
         self.state = 20
         self.note = note
 
@@ -172,6 +174,28 @@ class CheckTestCase(SimpleTestCase):
             )
         )
 
+    def test_check_good_none_singular(self):
+        if self.check is None:
+            return
+        self.assertFalse(
+            self.check.check_target(
+                [self.test_good_none[0]],
+                [self.test_good_none[1]],
+                MockUnit(None, self.test_good_none[2], self.default_lang),
+            )
+        )
+
+    def test_check_good_ignore_singular(self):
+        if self.check is None or not self.test_good_ignore:
+            return
+        self.assertFalse(
+            self.check.check_target(
+                [self.test_good_ignore[0]],
+                [self.test_good_ignore[1]],
+                MockUnit(None, self.test_good_ignore[2], self.default_lang),
+            )
+        )
+
     def test_check_good_matching_plural(self):
         if self.check is None:
             return
@@ -202,6 +226,28 @@ class CheckTestCase(SimpleTestCase):
                 [self.test_failure_1[0]] * 2,
                 [self.test_failure_1[1]] * 3,
                 MockUnit(None, self.test_failure_1[2], self.default_lang),
+            )
+        )
+
+    def test_check_failure_2_singular(self):
+        if not self.test_failure_2 or self.check is None:
+            return
+        self.assertTrue(
+            self.check.check_target(
+                [self.test_failure_2[0]],
+                [self.test_failure_2[1]],
+                MockUnit(None, self.test_failure_2[2], self.default_lang),
+            )
+        )
+
+    def test_check_failure_3_singular(self):
+        if not self.test_failure_3 or self.check is None:
+            return
+        self.assertTrue(
+            self.check.check_target(
+                [self.test_failure_3[0]],
+                [self.test_failure_3[1]],
+                MockUnit(None, self.test_failure_3[2], self.default_lang),
             )
         )
 

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -18,6 +17,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
+from functools import reduce
 
 from django.conf import settings
 
@@ -105,16 +105,15 @@ class ApertiumAPYTranslation(MachineTranslation):
     @property
     def all_langs(self):
         """Return all language codes known to service."""
-        langs = self.supported_languages
-        return set([l[0] for l in langs] + [l[1] for l in langs])
+        return reduce(lambda acc, x: acc.union(x), self.supported_languages, set())
 
-    def convert_language(self, language):
+    def map_language_code(self, code):
         """Convert language to service specific code."""
+        code = super().map_language_code(code).replace("-", "_")
         # Force download of supported languages
-        language = language.replace("-", "_")
-        if language not in self.all_langs and language in LANGUAGE_MAP:
-            return LANGUAGE_MAP[language]
-        return language
+        if code not in self.all_langs and code in LANGUAGE_MAP:
+            return LANGUAGE_MAP[code]
+        return code
 
     def download_languages(self):
         """Download list of supported languages from a service."""
@@ -128,9 +127,13 @@ class ApertiumAPYTranslation(MachineTranslation):
         """Check whether given language combination is supported."""
         return (source, language) in self.supported_languages
 
-    def download_translations(self, source, language, text, unit, user):
+    def download_translations(self, source, language, text, unit, user, search):
         """Download list of possible translations from Apertium."""
-        args = {"langpair": "{0}|{1}".format(source, language), "q": text}
+        args = {
+            "langpair": "{0}|{1}".format(source, language),
+            "q": text,
+            "markUnknown": "no",
+        }
         response = self.request_status(
             "get", "{0}/translate".format(self.url), params=args
         )

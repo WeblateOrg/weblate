@@ -1,8 +1,17 @@
 {% extends "base.html" %}
+{% load compress %}
 {% load i18n %}
 {% load crispy_forms_tags %}
 {% load translations %}
 {% load icons %}
+{% load static %}
+
+{% block extra_script %}
+{% compress js %}
+<script defer data-cfasync="false" src="{% static 'editor/base.js' %}{{ cache_param }}"></script>
+<script defer data-cfasync="false" src="{% static 'editor/zen.js' %}{{ cache_param }}"></script>
+{% endcompress %}
+{% endblock %}
 
 {% block extra_meta %}
 <link rel="canonical" href="{{ unit.get_absolute_url }}" />
@@ -18,6 +27,8 @@
 </a>
 {% endblock %}
 
+{% block content_class %}js-editor{% endblock %}
+
 {% block content %}
 
 {% include "show-component-state.html" with object=object.component %}
@@ -29,26 +40,12 @@
 <a href="{% url 'profile' %}#preferences" class="btn btn-link" title="{% trans "Configure editor" %}">{% icon "settings.svg" %}</a>
 </div>
 
-<div class="btn-group">
-<ul class="pagination unit-navi">
-<li>
-<a class="dropdown-toggle" data-toggle="dropdown" href="#" title="{% trans "Edit search parameters" %}" id="search-dropdown">
-{% icon "magnify.svg" %}
-{% blocktrans %}{{ filter_name }} ({{ filter_count }}){% endblocktrans %}
-<span class="caret"></span>
-</a>
-  <div class="dropdown-menu">
-
-<div class="panel-group">
-<form action="" method="GET">
-{{ search_form|crispy }}
-<input type="submit" value="{% trans "Search" %}" class="btn btn-primary" />
-</form>
-</div>
-
-</div>
-</li>
-</ul>
+<div class="row">
+  <div class="col-sm-9">
+    <form action="{{ unit.translation.get_translate_url }}" method="GET" class="result-page-form">
+      {% crispy search_form  %}
+    </form>
+  </div>
 </div>
 
 <table class="zen table table-condensed {% if user.profile.zen_mode == user.profile.ZEN_HORIZONTAL %}zen-horizontal{% endif %}">

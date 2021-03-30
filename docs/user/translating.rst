@@ -67,15 +67,15 @@ be rephrased or it is confusing.
 You can use Markdown syntax in the comments and mention other users using
 ``@mention``.
 
-Shapings
+Variants
 --------
 
-Shapings are used to group variants of the string in different lengths. The
+Variants are used to group variants of the string in different lengths. The
 frontend can use different strings depending on the screen or window size.
 
 .. seealso::
 
-    :ref:`shapings`
+    :ref:`variants`
 
 Labels
 ------
@@ -120,12 +120,16 @@ example Czech or Arabic have more plurals and also their rules for plurals are
 different.
 
 Weblate has full support for each of these forms, in each respective language
-by translating every plural separately.  The number of fields and how it is
-used in the translated application depends on the configured plural equation.
+by translating every plural separately. The number of fields and how it is
+used in the translated application depends on the configured plural formula.
 Weblate shows the basic information, but you can find a more detailed description in
 the `Language Plural Rules`_ by the Unicode Consortium.
 
-.. _Language Plural Rules: https://unicode.org/cldr/charts/latest/supplemental/language_plural_rules.html
+.. _Language Plural Rules: http://unicode.org/cldr/charts/latest/supplemental/language_plural_rules.html
+
+.. seealso::
+
+   :ref:`plural-formula`
 
 .. image:: /images/plurals.png
 
@@ -147,29 +151,29 @@ The following keyboard shortcuts can be utilized during translation:
     Navigates to previous translation in current search.
 :kbd:`Alt+PageDown`
     Navigates to next translation in current search.
-:kbd:`Ctrl+Enter` or :kbd:`Option+Enter`
+:kbd:`Alt+Enter`, :kbd:`Ctrl+Enter`, or :kbd:`Cmd+Enter`
     Saves current translation.
-:kbd:`Ctrl+Shift+Enter` or :kbd:`Option+Shift+Enter`
+:kbd:`Ctrl+Shift+Enter` or :kbd:`Cmd+Shift+Enter`
     Unmarks translation as fuzzy and submits it.
-:kbd:`Ctrl+E` or :kbd:`Option+E`
+:kbd:`Ctrl+E` or :kbd:`Cmd+E`
     Focus translation editor.
-:kbd:`Ctrl+U` or :kbd:`Option+U`
+:kbd:`Ctrl+U` or :kbd:`Cmd+U`
     Focus comment editor.
-:kbd:`Ctrl+M` or :kbd:`Option+M`
+:kbd:`Ctrl+M` or :kbd:`Cmd+M`
     Shows machine translation tab.
-:kbd:`Ctrl+<NUMBER>` or :kbd:`Option+<NUMBER>`
+:kbd:`Ctrl+<NUMBER>` or :kbd:`Cmd+<NUMBER>`
     Copies placeable of given number from source string.
-:kbd:`Ctrl+M <NUMBER>` or :kbd:`Option+M <NUMBER>`
+:kbd:`Ctrl+M <NUMBER>` or :kbd:`Cmd+M <NUMBER>`
     Copy machine translation of given number to current translation.
-:kbd:`Ctrl+I <NUMBER>` or :kbd:`Option+I <NUMBER>`
+:kbd:`Ctrl+I <NUMBER>` or :kbd:`Cmd+I <NUMBER>`
     Ignore failing check of given number.
-:kbd:`Ctrl+J` or :kbd:`Option+J`
+:kbd:`Ctrl+J` or :kbd:`Cmd+J`
     Shows nearby strings tab.
-:kbd:`Ctrl+S` or :kbd:`Option+S`
+:kbd:`Ctrl+S` or :kbd:`Cmd+S`
     Shows search tab.
-:kbd:`Ctrl+O` or :kbd:`Option+O`
+:kbd:`Ctrl+O` or :kbd:`Cmd+O`
     Copies source string.
-:kbd:`Ctrl+T` or :kbd:`Option+T`
+:kbd:`Ctrl+Y` or :kbd:`Cmd+Y`
     Toggles "Needs editing" flag.
 
 .. _visual-keyboard:
@@ -243,6 +247,8 @@ translated string is not too long:
   :ref:`check-max-length`.
 * Maximal rendered size in pixels defined by flags, see :ref:`check-max-size`.
 
+.. _glossary:
+
 Glossary
 --------
 
@@ -253,16 +259,20 @@ Terms from the currently translated string can be displayed in the bottom tabs.
 Managing glossaries
 +++++++++++++++++++
 
-On the :guilabel:`Glossaries` tab of each project page, you can edit
-existing glossaries. An empty glossary for a given project is automatically created when a language is added to a component (to do this, select a component, its :guilabel:`Translation` tab and click :guilabel:`Start new translation`). Once a glossary exists, it will also show up in this list.
+On the :guilabel:`Glossaries` tab of each project page, you can edit existing
+glossaries.
 
 .. image:: /images/project-glossaries.png
 
-Glossaries are shared among all components of the same project.
+An empty glossary for a given project is automatically created when project is
+created. Glossaries are shared among all components of the same project and you
+can also choose to share them with another projects. You can do this only for
+projects you can administer.
 
 On this list, you can choose which glossary to manage (all languages used in
-the current project are shown). Following one of the language links will lead you to a page
-which can be used to edit, import or export the selected glossary, or view the edit history:
+the current project are shown). Following one of the language links will lead
+you to a page which can be used to edit, import or export the selected
+glossary, or view the edit history:
 
 .. image:: /images/glossary-edit.png
 

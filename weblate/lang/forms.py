@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -29,8 +28,16 @@ class LanguageForm(forms.ModelForm):
         model = Language
         exclude = []
 
+    @staticmethod
+    def get_field_doc(field):
+        return ("admin/languages", "language-{}".format(field.name))
+
 
 class PluralForm(forms.ModelForm):
     class Meta:
         model = Plural
-        fields = ["number", "equation"]
+        fields = ["number", "formula"]
+
+    @staticmethod
+    def get_field_doc(field):
+        return ("admin/languages", "plural-{}".format(field.name))

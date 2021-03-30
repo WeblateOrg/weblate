@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -18,9 +17,9 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
+import json
 
-from weblate.memory.storage import TranslationMemory
-from weblate.memory.tasks import memory_backup
+from weblate.memory.models import Memory
 from weblate.utils.management.base import BaseCommand
 
 
@@ -45,10 +44,9 @@ class Command(BaseCommand):
         )
 
     def handle(self, *args, **options):
-        if options["backup"]:
-            memory_backup(options["indent"])
-            return
-        memory = TranslationMemory()
+        memory = Memory.objects.all().prefetch_lang()
         self.stdout.ending = None
-        memory.dump(self.stdout, indent=options["indent"])
+        json.dump(
+            [item.as_dict() for item in memory], self.stdout, indent=options["indent"]
+        )
         self.stdout.write("\n")

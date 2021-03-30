@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -29,11 +28,11 @@ from weblate.formats.exporters import (
     XlsxExporter,
 )
 from weblate.formats.helpers import BytesIOMode
+from weblate.glossary.models import Term
 from weblate.lang.models import Language, Plural
 from weblate.trans.models import (
     Comment,
     Component,
-    Dictionary,
     Project,
     Suggestion,
     Translation,
@@ -41,14 +40,6 @@ from weblate.trans.models import (
 )
 from weblate.trans.tests.test_models import BaseTestCase
 from weblate.utils.state import STATE_EMPTY, STATE_TRANSLATED
-
-
-def fake_get_comments():
-    return [Comment(comment="Weblate translator comment")]
-
-
-def empty_get_comments():
-    return []
 
 
 class PoExporterTest(BaseTestCase):
@@ -74,29 +65,27 @@ class PoExporterTest(BaseTestCase):
         self.assertIn(b"msgid_plural", result)
         self.assertIn(b"msgstr[2]", result)
 
-    def check_dict(self, word):
+    def check_glossary(self, word):
         exporter = self.get_exporter()
-        exporter.add_dictionary(word)
+        exporter.add_glossary_term(word)
         self.check_export(exporter)
 
-    def test_dictionary(self):
-        self.check_dict(Dictionary(source="foo", target="bar"))
+    def test_glossary(self):
+        self.check_glossary(Term(source="foo", target="bar"))
 
-    def test_dictionary_markup(self):
-        self.check_dict(Dictionary(source="<b>foo</b>", target="<b>bar</b>"))
+    def test_glossary_markup(self):
+        self.check_glossary(Term(source="<b>foo</b>", target="<b>bar</b>"))
 
-    def test_dictionary_special(self):
-        self.check_dict(Dictionary(source="bar\x1e\x1efoo", target="br\x1eff"))
+    def test_glossary_special(self):
+        self.check_glossary(Term(source="bar\x1e\x1efoo", target="br\x1eff"))
 
     def check_unit(self, nplurals=3, template=None, source_info=None, **kwargs):
         if nplurals == 3:
-            equation = "n==0 ? 0 : n==1 ? 1 : 2"
+            formula = "n==0 ? 0 : n==1 ? 1 : 2"
         else:
-            equation = "0"
+            formula = "0"
         lang = Language.objects.create(code="zz")
-        plural = Plural.objects.create(
-            language=lang, number=nplurals, equation=equation
-        )
+        plural = Plural.objects.create(language=lang, number=nplurals, formula=formula)
         project = Project(slug="test", source_language=Language.objects.get(code="en"))
         component = Component(
             slug="comp", project=project, file_format="xliff", template=template
@@ -108,12 +97,14 @@ class PoExporterTest(BaseTestCase):
         if source_info:
             for key, value in source_info.items():
                 setattr(unit, key, value)
-            unit.get_comments = fake_get_comments
+            unit.__dict__["all_comments"] = [
+                Comment(comment="Weblate translator comment")
+            ]
             unit.__dict__["suggestions"] = [
                 Suggestion(target="Weblate translator suggestion")
             ]
         else:
-            unit.get_comments = empty_get_comments
+            unit.__dict__["all_comments"] = []
         exporter = self.get_exporter(lang, translation=translation)
         exporter.add_unit(unit)
         return self.check_export(exporter)
@@ -159,7 +150,7 @@ class PoExporterTest(BaseTestCase):
             state=STATE_TRANSLATED,
             source_info={
                 "extra_flags": "max-length:200",
-                "extra_context": "Context in Weblate",
+                "explanation": "Context in Weblate",
             },
         )
         if self._has_context:
@@ -198,10 +189,38 @@ class PoXliffExporterTest(PoExporterTest):
     def check_plurals(self, result):
         self.assertIn(b"[2]", result)
 
+    def test_xml_nodes(self):
+        xml = """<xliff:g
+            xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2"
+            example="Launcher3"
+            id="app_name">
+            %1$s
+        </xliff:g>"""
+        result = self.check_unit(source="x " + xml, target="y " + xml).decode()
+        self.assertIn("<g", result)
 
-class XliffExporterTest(PoExporterTest):
+    def test_php_code(self):
+        text = """<?php
+if (!defined("FILENAME")){
+define("FILENAME",0);
+/*
+* @author AUTHOR
+*/
+
+class CLASSNAME extends BASECLASS {
+  //constructor
+  function CLASSNAME(){
+   BASECLASS::BASECLASS();
+  }
+ }
+}
+?>"""
+        result = self.check_unit(source="x " + text, target="y " + text).decode()
+        self.assertIn("&lt;?php", result)
+
+
+class XliffExporterTest(PoXliffExporterTest):
     _class = XliffExporter
-    _has_context = True
 
     def check_plurals(self, result):
         # Doesn't support plurals

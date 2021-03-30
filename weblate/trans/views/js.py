@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -24,7 +23,8 @@ from django.core.exceptions import PermissionDenied
 from django.http import Http404, HttpResponse, HttpResponseBadRequest, JsonResponse
 from django.shortcuts import get_object_or_404, render
 from django.utils.encoding import force_str
-from django.utils.http import urlencode
+from django.utils.translation import gettext as _
+from django.views.decorators.cache import cache_control
 from django.views.decorators.http import require_POST
 
 from weblate.checks.flags import Flags
@@ -38,21 +38,18 @@ from weblate.utils.errors import report_error
 from weblate.utils.views import get_component, get_project, get_translation
 
 
-def handle_machinery(request, service, unit, source):
-    request.user.check_access(unit.translation.component.project)
-    if service == "weblate-translation-memory":
-        perm = "memory.view"
-    else:
-        perm = "machinery.view"
-    if not request.user.has_perm(perm, unit.translation):
+def handle_machinery(request, service, unit, search=None):
+    request.user.check_access_component(unit.translation.component)
+    if not request.user.has_perm(
+        "memory.view" if service == "weblate-translation-memory" else "machinery.view",
+        unit.translation,
+    ):
         raise PermissionDenied()
-
-    translation_service = MACHINE_TRANSLATION_SERVICES[service]
 
     # Error response
     response = {
         "responseStatus": 500,
-        "service": translation_service.name,
+        "service": service,
         "responseDetails": "",
         "translations": [],
         "lang": unit.translation.language.code,
@@ -60,17 +57,23 @@ def handle_machinery(request, service, unit, source):
     }
 
     try:
-        response["translations"] = translation_service.translate(
-            unit.translation.language.code, source, unit, request.user
-        )
-        response["responseStatus"] = 200
-    except MachineTranslationError as exc:
-        response["responseDetails"] = str(exc)
-    except Exception as exc:
-        report_error(exc, request)
-        response["responseDetails"] = "{0}: {1}".format(
-            exc.__class__.__name__, str(exc)
-        )
+        translation_service = MACHINE_TRANSLATION_SERVICES[service]
+        response["service"] = translation_service.name
+    except KeyError:
+        response["responseDetails"] = _("Service is currently not available.")
+    else:
+        try:
+            response["translations"] = translation_service.translate(
+                unit, request.user, search=search
+            )
+            response["responseStatus"] = 200
+        except MachineTranslationError as exc:
+            response["responseDetails"] = str(exc)
+        except Exception as error:
+            report_error()
+            response["responseDetails"] = "{0}: {1}".format(
+                error.__class__.__name__, str(error)
+            )
 
     return JsonResponse(data=response)
 
@@ -82,7 +85,7 @@ def translate(request, unit_id, service):
         raise Http404("Invalid service specified")
 
     unit = get_object_or_404(Unit, pk=int(unit_id))
-    return handle_machinery(request, service, unit, unit.get_source_plurals()[0])
+    return handle_machinery(request, service, unit)
 
 
 @require_POST
@@ -93,28 +96,13 @@ def memory(request, unit_id):
     if not query:
         return HttpResponseBadRequest("Missing search string")
 
-    return handle_machinery(request, "weblate-translation-memory", unit, query)
-
-
-def get_unit_changes(request, unit_id):
-    """Return unit's recent changes."""
-    unit = get_object_or_404(Unit, pk=int(unit_id))
-    request.user.check_access(unit.translation.component.project)
-
-    return render(
-        request,
-        "js/changes.html",
-        {
-            "last_changes": unit.change_set.order()[:10],
-            "last_changes_url": urlencode(unit.translation.get_reverse_url_kwargs()),
-        },
-    )
+    return handle_machinery(request, "weblate-translation-memory", unit, search=query)
 
 
 def get_unit_translations(request, unit_id):
     """Return unit's other translations."""
     unit = get_object_or_404(Unit, pk=int(unit_id))
-    request.user.check_access(unit.translation.component.project)
+    request.user.check_access_component(unit.translation.component)
 
     return render(
         request,
@@ -140,7 +128,7 @@ def ignore_check(request, check_id):
         raise PermissionDenied()
 
     # Mark check for ignoring
-    obj.set_ignore("revert" not in request.GET)
+    obj.set_dismiss("revert" not in request.GET)
     # response for AJAX
     return HttpResponse("ok")
 
@@ -189,7 +177,7 @@ def git_status_project(request, project):
             "object": obj,
             "project": obj,
             "changes": Change.objects.filter(
-                component__project=obj, action__in=Change.ACTIONS_REPOSITORY
+                project=obj, action__in=Change.ACTIONS_REPOSITORY
             ).order()[:10],
             "statuses": statuses,
             "component": None,
@@ -259,10 +247,18 @@ def mt_services(request):
 @login_required
 def task_progress(request, task_id):
     task = AsyncResult(task_id)
+    result = task.result
     return JsonResponse(
         {
             "completed": is_task_ready(task),
             "progress": get_task_progress(task),
-            "result": task.result,
+            "result": str(result) if isinstance(result, Exception) else result,
         }
+    )
+
+
+@cache_control(max_age=3600)
+def matomo(request):
+    return render(
+        request, "js/matomo.js", content_type='text/javascript; charset="utf-8"'
     )

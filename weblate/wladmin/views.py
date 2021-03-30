@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -21,6 +20,7 @@
 
 from django.core.checks import run_checks
 from django.core.mail import send_mail
+from django.db.models import Count
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
 from django.utils import timezone
@@ -28,7 +28,9 @@ from django.utils.translation import gettext as _
 from django.utils.translation import gettext_lazy
 
 from weblate.auth.decorators import management_access
-from weblate.trans.models import Alert, Component
+from weblate.auth.forms import InviteUserForm
+from weblate.trans.forms import AnnouncementForm
+from weblate.trans.models import Alert, Announcement, Component, Project
 from weblate.utils import messages
 from weblate.utils.celery import get_queue_stats
 from weblate.utils.errors import report_error
@@ -44,7 +46,7 @@ from weblate.vcs.ssh import (
 )
 from weblate.wladmin.forms import ActivateForm, BackupForm, SSHAddForm, TestMailForm
 from weblate.wladmin.models import BackupService, ConfigurationError, SupportStatus
-from weblate.wladmin.tasks import backup_service
+from weblate.wladmin.tasks import backup_service, configuration_health_check
 
 MENU = (
     ("index", "manage", gettext_lazy("Weblate status")),
@@ -52,8 +54,9 @@ MENU = (
     ("memory", "manage-memory", gettext_lazy("Translation memory")),
     ("performance", "manage-performance", gettext_lazy("Performance report")),
     ("ssh", "manage-ssh", gettext_lazy("SSH keys")),
-    ("alerts", "manage-alerts", gettext_lazy("Component alerts")),
-    ("repos", "manage-repos", gettext_lazy("Status of repositories")),
+    ("alerts", "manage-alerts", gettext_lazy("Alerts")),
+    ("repos", "manage-repos", gettext_lazy("Repositories")),
+    ("users", "manage-users", gettext_lazy("Users")),
     ("tools", "manage-tools", gettext_lazy("Tools")),
 )
 
@@ -84,23 +87,42 @@ def send_test_mail(email):
 
 @management_access
 def tools(request):
-    emailform = TestMailForm(initial={"email": request.user.email})
+    email_form = TestMailForm(initial={"email": request.user.email})
+    announce_form = AnnouncementForm()
 
     if request.method == "POST":
         if "email" in request.POST:
-            emailform = TestMailForm(request.POST)
-            if emailform.is_valid():
+            email_form = TestMailForm(request.POST)
+            if email_form.is_valid():
                 try:
-                    send_test_mail(**emailform.cleaned_data)
+                    send_test_mail(**email_form.cleaned_data)
                     messages.success(request, _("Test e-mail sent."))
                 except Exception as error:
-                    report_error(error, request)
+                    report_error()
                     messages.error(request, _("Could not send test e-mail: %s") % error)
+
+        if "sentry" in request.POST:
+            try:
+                raise Exception("Test exception")
+            except Exception:
+                report_error()
+
+        if "message" in request.POST:
+            announce_form = AnnouncementForm(request.POST)
+            if announce_form.is_valid():
+                Announcement.objects.create(
+                    user=request.user, **announce_form.cleaned_data
+                )
 
     return render(
         request,
         "manage/tools.html",
-        {"menu_items": MENU, "menu_page": "tools", "email_form": emailform},
+        {
+            "menu_items": MENU,
+            "menu_page": "tools",
+            "email_form": email_form,
+            "announce_form": announce_form,
+        },
     )
 
 
@@ -113,8 +135,8 @@ def activate(request):
             support.refresh()
             support.save()
             messages.success(request, _("Activation completed."))
-        except Exception as error:
-            report_error(error, request)
+        except Exception:
+            report_error()
             messages.error(
                 request,
                 _(
@@ -190,8 +212,14 @@ def performance(request):
     if request.method == "POST":
         return handle_dismiss(request)
 
+    configuration_health_check()
+
     context = {
-        "checks": run_checks(include_deployment_checks=True),
+        "checks": [
+            check
+            for check in run_checks(include_deployment_checks=True)
+            if not check.is_silenced()
+        ],
         "errors": ConfigurationError.objects.filter(ignored=False),
         "queues": get_queue_stats().items(),
         "menu_items": MENU,
@@ -253,8 +281,30 @@ def alerts(request):
         "alerts": Alert.objects.order_by("name").prefetch_related(
             "component", "component__project"
         ),
+        "no_components": Project.objects.annotate(Count("component")).filter(
+            component__count=0
+        ),
         "menu_items": MENU,
         "menu_page": "alerts",
     }
 
     return render(request, "manage/alerts.html", context)
+
+
+@management_access
+def users(request):
+    invite_form = InviteUserForm()
+
+    if request.method == "POST":
+        if "email" in request.POST:
+            invite_form = InviteUserForm(request.POST)
+            if invite_form.is_valid():
+                invite_form.save(request)
+                messages.success(request, _("User has been invited to this project."))
+                return redirect("manage-users")
+
+    return render(
+        request,
+        "manage/users.html",
+        {"menu_items": MENU, "menu_page": "users", "invite_form": invite_form},
+    )

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -23,12 +22,14 @@ import os
 
 import responses
 from django.conf import settings
+from django.core import mail
 from django.core.serializers.json import DjangoJSONEncoder
 from django.test.utils import override_settings
 from django.urls import reverse
 from django.utils import timezone
 
 from weblate.auth.models import Group
+from weblate.trans.models import Announcement
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.tests.utils import get_test_file
 from weblate.trans.util import add_configuration_error, delete_configuration_error
@@ -159,6 +160,17 @@ class AdminTest(ViewTestCase):
         self.assertEqual(ConfigurationError.objects.count(), 1)
         configuration_health_check()
 
+    def test_post_announcenement(self):
+        response = self.client.get(reverse("manage-tools"))
+        self.assertContains(response, "announcement")
+        self.assertFalse(Announcement.objects.exists())
+        response = self.client.post(
+            reverse("manage-tools"),
+            {"message": "Test message", "category": "info"},
+            follow=True,
+        )
+        self.assertTrue(Announcement.objects.exists())
+
     def test_send_test_email(self, expected="Test e-mail sent"):
         response = self.client.get(reverse("manage-tools"))
         self.assertContains(response, "e-mail")
@@ -166,6 +178,23 @@ class AdminTest(ViewTestCase):
             reverse("manage-tools"), {"email": "noreply@example.com"}, follow=True
         )
         self.assertContains(response, expected)
+        if expected == "Test e-mail sent":
+            self.assertEqual(len(mail.outbox), 1)
+
+    def test_invite_user(self):
+        response = self.client.get(reverse("manage-users"))
+        self.assertContains(response, "E-mail")
+        response = self.client.post(
+            reverse("manage-users"),
+            {
+                "email": "noreply@example.com",
+                "username": "username",
+                "full_name": "name",
+            },
+            follow=True,
+        )
+        self.assertContains(response, "User has been invited")
+        self.assertEqual(len(mail.outbox), 1)
 
     @override_settings(
         EMAIL_HOST="nonexisting.weblate.org",

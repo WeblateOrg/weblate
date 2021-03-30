@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -40,3 +39,7 @@ GLOSSARY_LENGTH = 190
 FULLNAME_LENGTH = 150
 USERNAME_LENGTH = 150
 EMAIL_LENGTH = 190
+
+# Language
+LANGUAGE_CODE_LENGTH = 50
+LANGUAGE_NAME_LENGTH = 100

@@ -27,6 +27,8 @@ Fields
    Target string case insensitive search.
 ``context:TEXT``
    Context string case insensitive search.
+``key:TEXT``
+   Key string case insensitive search.
 ``note:TEXT``
    Comment string case insensitive search.
 ``location:TEXT``
@@ -40,7 +42,9 @@ Fields
 ``pending:BOOLEAN``
    String pending for flushing to VCS.
 ``has:TEXT``
-   Search for string having attributes (``plural``, ``suggestion``, ``comment``, ``check``, ``ignored-check``, ``translation``, ``shaping``).
+   Search for string having attributes - ``plural``, ``context``, ``suggestion``, ``comment``, ``check``, ``dismissed-check``, ``translation``, ``variant``, ``screenshot`` (works only on source strings).
+``is:TEXT``
+   Search for string states (``pending``, ``translated``, ``untranslated``).
 ``language:TEXT``
    String target language.
 ``changed_by:TEXT``
@@ -49,8 +53,8 @@ Fields
    String was changed on date, supports :ref:`search-operators`.
 ``check:TEXT``
    String has failing check.
-``ignored_check:TEXT``
-   String has ignored check.
+``dismissed_check:TEXT``
+   String has dismissed check.
 ``comment:TEXT``
    Search in user comments.
 ``comment_author:TEXT``
@@ -80,9 +84,31 @@ You can specify operators, ranges or partial lookups for date or numeric searche
 ``changed:[2019-03-01 to 2019-04-01]``
    Changed between two given dates.
 
+Exact operators
+---------------
+
+You can do an exact match query on different string fields using ``=`` operator. For example, to
+search for all source strings exactly matching ``hello world``, use: ``source:="hello world"``.
+For searching single word expressions, you can skip quotes. For example, to search for all source strings
+matching ``hello``, you can use: ``source:=hello``.
+
 
 Regular expressions
 -------------------
 
 Anywhere text is accepted you can also specify a regular expression as ``r"regexp"``. For instance, to search for all source strings which contain any digit between 2 and 5, use:
 ``source:r"[2-5]"``
+
+Predefined queries
+------------------
+
+You can select out of predefined queries on the search page, this allows you to quickly access the most frequent searches:
+
+.. image:: /images/query-dropdown.png
+
+Ordering the results
+--------------------
+
+There are many options to order the strings according to your needs:
+
+.. image:: /images/query-sort.png

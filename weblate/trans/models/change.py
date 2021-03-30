@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -20,10 +19,12 @@
 
 from django.conf import settings
 from django.db import models, transaction
-from django.db.models import Count
+from django.db.models import Count, Q
 from django.utils import timezone
+from django.utils.encoding import force_str
 from django.utils.translation import gettext as _
-from django.utils.translation import gettext_lazy
+from django.utils.translation import gettext_lazy, ngettext_lazy
+from jellyfish import damerau_levenshtein_distance
 
 from weblate.lang.models import Language
 from weblate.trans.mixins import UserDisplayMixin
@@ -85,13 +86,13 @@ class ChangeQuerySet(models.QuerySet):
         if translation is not None:
             base = base.filter(translation=translation)
         elif component is not None:
-            base = base.filter(translation__component=component)
+            base = base.filter(component=component)
         elif project is not None:
-            base = base.filter(translation__component__project=project)
+            base = base.filter(project=project)
 
         # Filter by language
         if language is not None:
-            base = base.filter(translation__language=language)
+            base = base.filter(language=language)
 
         # Filter by language
         if user is not None:
@@ -107,7 +108,7 @@ class ChangeQuerySet(models.QuerySet):
             "component",
             "project",
             "unit",
-            "dictionary",
+            "glossary_term",
             "translation__language",
             "translation__component",
             "translation__component__project",
@@ -126,14 +127,31 @@ class ChangeQuerySet(models.QuerySet):
         Prefilter Changes by ACL for users and fetches related fields for last changes
         display.
         """
-        return self.prefetch().filter(project_id__in=user.allowed_project_ids).order()
+        if user.is_superuser:
+            return self.prefetch().order()
+        return (
+            self.prefetch()
+            .filter(
+                Q(project_id__in=user.allowed_project_ids)
+                & (
+                    Q(component__isnull=True)
+                    | Q(component__restricted=False)
+                    | Q(component_id__in=user.component_permissions)
+                )
+            )
+            .order()
+        )
 
     def authors_list(self, date_range=None):
         """Return list of authors."""
         authors = self.content()
         if date_range is not None:
             authors = authors.filter(timestamp__range=date_range)
-        return authors.values_list("author__email", "author__full_name")
+        return (
+            authors.values("author")
+            .annotate(change_count=Count("id"))
+            .values_list("author__email", "author__full_name", "change_count")
+        )
 
     def order(self):
         return self.order_by("-timestamp")
@@ -180,7 +198,7 @@ class Change(models.Model, UserDisplayMixin):
     ACTION_SUGGESTION_CLEANUP = 29
     ACTION_SOURCE_CHANGE = 30
     ACTION_NEW_UNIT = 31
-    ACTION_MASS_STATE = 32
+    ACTION_BULK_EDIT = 32
     ACTION_ACCESS_EDIT = 33
     ACTION_ADD_USER = 34
     ACTION_REMOVE_USER = 35
@@ -194,7 +212,7 @@ class Change(models.Model, UserDisplayMixin):
     ACTION_MOVE_COMPONENT = 43
     ACTION_NEW_STRING = 44
     ACTION_NEW_CONTRIBUTOR = 45
-    ACTION_MESSAGE = 46
+    ACTION_ANNOUNCEMENT = 46
     ACTION_ALERT = 47
     ACTION_ADDED_LANGUAGE = 48
     ACTION_REQUESTED_LANGUAGE = 49
@@ -202,6 +220,7 @@ class Change(models.Model, UserDisplayMixin):
     ACTION_CREATE_COMPONENT = 51
     ACTION_INVITE_USER = 52
     ACTION_HOOK = 53
+    ACTION_REPLACE_UPLOAD = 54
 
     ACTION_CHOICES = (
         # Translators: Name of event in the history
@@ -225,7 +244,7 @@ class Change(models.Model, UserDisplayMixin):
         # Translators: Name of event in the history
         (ACTION_UPLOAD, gettext_lazy("Translation uploaded")),
         # Translators: Name of event in the history
-        (ACTION_DICTIONARY_NEW, gettext_lazy("Glossary added")),
+        (ACTION_DICTIONARY_NEW, gettext_lazy("Added to glossary")),
         # Translators: Name of event in the history
         (ACTION_DICTIONARY_EDIT, gettext_lazy("Glossary updated")),
         # Translators: Name of event in the history
@@ -269,7 +288,7 @@ class Change(models.Model, UserDisplayMixin):
         # Translators: Name of event in the history
         (ACTION_NEW_UNIT, gettext_lazy("New string added")),
         # Translators: Name of event in the history
-        (ACTION_MASS_STATE, gettext_lazy("Bulk status change")),
+        (ACTION_BULK_EDIT, gettext_lazy("Bulk status change")),
         # Translators: Name of event in the history
         (ACTION_ACCESS_EDIT, gettext_lazy("Changed visibility")),
         # Translators: Name of event in the history
@@ -297,7 +316,7 @@ class Change(models.Model, UserDisplayMixin):
         # Translators: Name of event in the history
         (ACTION_NEW_CONTRIBUTOR, gettext_lazy("New contributor")),
         # Translators: Name of event in the history
-        (ACTION_MESSAGE, gettext_lazy("New whiteboard message")),
+        (ACTION_ANNOUNCEMENT, gettext_lazy("New announcement")),
         # Translators: Name of event in the history
         (ACTION_ALERT, gettext_lazy("New alert")),
         # Translators: Name of event in the history
@@ -312,7 +331,10 @@ class Change(models.Model, UserDisplayMixin):
         (ACTION_INVITE_USER, gettext_lazy("Invited user")),
         # Translators: Name of event in the history
         (ACTION_HOOK, gettext_lazy("Received repository notification")),
+        # Translators: Name of event in the history
+        (ACTION_REPLACE_UPLOAD, gettext_lazy("Replaced file by upload")),
     )
+    ACTIONS_DICT = dict(ACTION_CHOICES)
 
     # Actions which can be reverted
     ACTIONS_REVERTABLE = {
@@ -323,6 +345,8 @@ class Change(models.Model, UserDisplayMixin):
         ACTION_NEW,
         ACTION_REPLACE,
         ACTION_AUTO,
+        ACTION_APPROVE,
+        ACTION_MARKED_EDIT,
     }
 
     # Content changes considered when looking for last author
@@ -334,7 +358,7 @@ class Change(models.Model, UserDisplayMixin):
         ACTION_REVERT,
         ACTION_UPLOAD,
         ACTION_REPLACE,
-        ACTION_MASS_STATE,
+        ACTION_BULK_EDIT,
         ACTION_APPROVE,
         ACTION_MARKED_EDIT,
     }
@@ -371,6 +395,7 @@ class Change(models.Model, UserDisplayMixin):
         ACTION_SUGGESTION,
         ACTION_SUGGESTION_DELETE,
         ACTION_SUGGESTION_CLEANUP,
+        ACTION_BULK_EDIT,
         ACTION_NEW_UNIT,
         ACTION_DICTIONARY_NEW,
         ACTION_DICTIONARY_EDIT,
@@ -383,7 +408,16 @@ class Change(models.Model, UserDisplayMixin):
         ACTION_FAILED_PUSH,
     }
 
+    PLURAL_ACTIONS = {
+        ACTION_NEW_STRING: ngettext_lazy(
+            "New string to translate", "New strings to translate"
+        ),
+    }
+
     unit = models.ForeignKey("Unit", null=True, on_delete=models.deletion.CASCADE)
+    language = models.ForeignKey(
+        "lang.Language", null=True, on_delete=models.deletion.CASCADE
+    )
     project = models.ForeignKey("Project", null=True, on_delete=models.deletion.CASCADE)
     component = models.ForeignKey(
         "Component", null=True, on_delete=models.deletion.CASCADE
@@ -391,8 +425,8 @@ class Change(models.Model, UserDisplayMixin):
     translation = models.ForeignKey(
         "Translation", null=True, on_delete=models.deletion.CASCADE
     )
-    dictionary = models.ForeignKey(
-        "Dictionary", null=True, on_delete=models.deletion.CASCADE
+    glossary_term = models.ForeignKey(
+        "glossary.Term", null=True, on_delete=models.deletion.CASCADE
     )
     comment = models.ForeignKey(
         "Comment", null=True, on_delete=models.deletion.SET_NULL
@@ -400,8 +434,8 @@ class Change(models.Model, UserDisplayMixin):
     suggestion = models.ForeignKey(
         "Suggestion", null=True, on_delete=models.deletion.SET_NULL
     )
-    whiteboard = models.ForeignKey(
-        "WhiteboardMessage", null=True, on_delete=models.deletion.SET_NULL
+    announcement = models.ForeignKey(
+        "Announcement", null=True, on_delete=models.deletion.SET_NULL
     )
     alert = models.ForeignKey("Alert", null=True, on_delete=models.deletion.SET_NULL)
     user = models.ForeignKey(
@@ -425,10 +459,11 @@ class Change(models.Model, UserDisplayMixin):
 
     class Meta:
         app_label = "trans"
-
-    def __init__(self, *args, **kwargs):
-        self.notify_state = {}
-        super().__init__(*args, **kwargs)
+        index_together = [
+            ("translation", "action", "timestamp"),
+        ]
+        verbose_name = "history event"
+        verbose_name_plural = "history events"
 
     def __str__(self):
         return _("%(action)s at %(time)s on %(translation)s by %(user)s") % {
@@ -438,22 +473,53 @@ class Change(models.Model, UserDisplayMixin):
             "user": self.get_user_display(False),
         }
 
-    def is_merge_failure(self):
-        return self.action in self.ACTIONS_MERGE_FAILURE
+    def save(self, *args, **kwargs):
+        from weblate.accounts.tasks import notify_change
+
+        if self.unit:
+            self.translation = self.unit.translation
+        if self.translation:
+            self.component = self.translation.component
+            self.language = self.translation.language
+        if self.component:
+            self.project = self.component.project
+        if self.glossary_term:
+            self.project = self.glossary_term.glossary.project
+            self.language = self.glossary_term.language
+        super().save(*args, **kwargs)
+        transaction.on_commit(lambda: notify_change.delay(self.pk))
 
     def get_absolute_url(self):
         """Return link either to unit or translation."""
         if self.unit is not None:
             return self.unit.get_absolute_url()
         if self.translation is not None:
+            if self.action == self.ACTION_NEW_STRING:
+                return self.translation.get_translate_url() + "?q=is:untranslated"
             return self.translation.get_absolute_url()
         if self.component is not None:
             return self.component.get_absolute_url()
-        if self.dictionary is not None:
-            return self.dictionary.get_parent_url()
+        if self.glossary_term is not None:
+            return self.glossary_term.get_absolute_url()
         if self.project is not None:
             return self.project.get_absolute_url()
         return None
+
+    def __init__(self, *args, **kwargs):
+        self.notify_state = {}
+        super().__init__(*args, **kwargs)
+
+    @property
+    def plural_count(self):
+        return self.details.get("count", 1)
+
+    def get_action_display(self):
+        if self.action in self.PLURAL_ACTIONS:
+            return self.PLURAL_ACTIONS[self.action] % self.plural_count
+        return force_str(self.ACTIONS_DICT.get(self.action, self.action))
+
+    def is_merge_failure(self):
+        return self.action in self.ACTIONS_MERGE_FAILURE
 
     def can_revert(self):
         return (
@@ -473,9 +539,13 @@ class Change(models.Model, UserDisplayMixin):
             or self.action in self.ACTIONS_REVERTABLE
         )
 
-    def get_details_display(self):
+    def get_details_display(self):  # noqa: C901
         from weblate.utils.markdown import render_markdown
 
+        if self.action == self.ACTION_ANNOUNCEMENT:
+            return render_markdown(self.target)
+
+        # Following rendering relies on details present
         if not self.details:
             return ""
         user_actions = {
@@ -515,16 +585,9 @@ class Change(models.Model, UserDisplayMixin):
 
         return ""
 
-    def save(self, *args, **kwargs):
-        from weblate.accounts.tasks import notify_change
-
-        if self.unit:
-            self.translation = self.unit.translation
-        if self.translation:
-            self.component = self.translation.component
-        if self.component:
-            self.project = self.component.project
-        if self.dictionary:
-            self.project = self.dictionary.project
-        super().save(*args, **kwargs)
-        transaction.on_commit(lambda: notify_change.delay(self.pk))
+    def get_distance(self):
+        try:
+            return damerau_levenshtein_distance(self.old, self.target)
+        except MemoryError:
+            # Too long strings
+            return abs(len(self.old) - len(self.target))

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -39,8 +38,7 @@ from PIL import Image
 from weblate.accounts.models import Profile
 from weblate.auth.models import Group, Permission, Role, setup_project_groups
 from weblate.lang.models import Language
-from weblate.trans.models import ComponentList, Project, WhiteboardMessage
-from weblate.trans.search import Fulltext
+from weblate.trans.models import Announcement, Component, ComponentList, Project
 from weblate.trans.tests.test_models import RepoTestCase
 from weblate.trans.tests.utils import (
     create_another_user,
@@ -83,12 +81,8 @@ class RegistrationTestMixin:
 
 
 class ViewTestCase(RepoTestCase):
-    fake_search = True
-
     def setUp(self):
         super().setUp()
-        if self.fake_search:
-            Fulltext.FAKE = True
         # Many tests needs access to the request factory.
         self.factory = RequestFactory()
         # Create user
@@ -123,11 +117,6 @@ class ViewTestCase(RepoTestCase):
         self.translation_url = self.get_translation().get_absolute_url()
         self.project_url = self.project.get_absolute_url()
         self.component_url = self.component.get_absolute_url()
-
-    def tearDown(self):
-        super().tearDown()
-        if self.fake_search:
-            Fulltext.FAKE = False
 
     def update_fulltext_index(self):
         wait_for_celery()
@@ -272,7 +261,9 @@ class FixtureTestCase(ViewTestCase):
         return project
 
     def create_component(self):
-        return self.create_project().component_set.all()[0]
+        component = self.create_project().component_set.all()[0]
+        component.create_path()
+        return component
 
 
 class TranslationManipulationTest(ViewTestCase):
@@ -487,7 +478,8 @@ class NewLangTest(ViewTestCase):
             self.component.save()
 
             self.assertFalse(
-                self.component.translation_set.filter(language__code=code).exists()
+                self.component.translation_set.filter(language__code=code).exists(),
+                f"Translation with code {code} already exists",
             )
             self.client.post(
                 reverse("new-language", kwargs=self.kw_component), {"lang": code}
@@ -498,7 +490,9 @@ class NewLangTest(ViewTestCase):
 
         perform("", "pt_BR", self.expected_lang_code)
         perform("posix", "pt_BR", "pt_BR")
+        perform("posix_long", "ms", "ms_MY")
         perform("bcp", "pt_BR", "pt-BR")
+        perform("bcp_long", "ms", "ms-MY")
         perform("android", "pt_BR", "pt-rBR")
 
 
@@ -513,10 +507,22 @@ class BasicViewTest(ViewTestCase):
     def test_view_project(self):
         response = self.client.get(reverse("project", kwargs=self.kw_project))
         self.assertContains(response, "test/test")
+        self.assertNotContains(response, "Spanish")
+
+    def test_view_project_ghost(self):
+        self.user.profile.languages.add(Language.objects.get(code="es"))
+        response = self.client.get(reverse("project", kwargs=self.kw_project))
+        self.assertContains(response, "Spanish")
 
     def test_view_component(self):
         response = self.client.get(reverse("component", kwargs=self.kw_component))
         self.assertContains(response, "Test/Test")
+        self.assertNotContains(response, "Spanish")
+
+    def test_view_component_ghost(self):
+        self.user.profile.languages.add(Language.objects.get(code="es"))
+        response = self.client.get(reverse("component", kwargs=self.kw_component))
+        self.assertContains(response, "Spanish")
 
     def test_view_component_guide(self):
         response = self.client.get(reverse("guide", kwargs=self.kw_component))
@@ -525,6 +531,37 @@ class BasicViewTest(ViewTestCase):
     def test_view_translation(self):
         response = self.client.get(reverse("translation", kwargs=self.kw_translation))
         self.assertContains(response, "Test/Test")
+
+    def test_view_translation_others(self):
+        other = Component.objects.create(
+            name="RESX component",
+            slug="resx",
+            project=self.project,
+            repo="weblate://test/test",
+            file_format="resx",
+            filemask="resx/*.resx",
+            template="resx/en.resx",
+            new_lang="add",
+        )
+        # Existing translation
+        response = self.client.get(reverse("translation", kwargs=self.kw_translation))
+        self.assertContains(response, other.name)
+        # Ghost translation
+        kwargs = {}
+        kwargs.update(self.kw_translation)
+        kwargs["lang"] = "it"
+        response = self.client.get(reverse("translation", kwargs=kwargs))
+        self.assertContains(response, other.name)
+
+    def test_view_translation_alias(self):
+        self.kw_translation["lang"] = "cs-CZ"
+        response = self.client.get(reverse("translation", kwargs=self.kw_translation))
+        self.assertContains(response, "Test/Test")
+
+    def test_view_translation_invalid(self):
+        self.kw_translation["lang"] = "cs-DE"
+        response = self.client.get(reverse("translation", kwargs=self.kw_translation))
+        self.assertEqual(response.status_code, 404)
 
     def test_view_unit(self):
         unit = self.get_unit()
@@ -539,49 +576,9 @@ class BasicViewTest(ViewTestCase):
         self.assertContains(response, self.component.name)
 
 
-class BasicResourceViewTest(BasicViewTest):
-    def create_component(self):
-        return self.create_android()
-
-
-class BasicBranchViewTest(BasicViewTest):
-    def create_component(self):
-        return self.create_po_branch()
-
-
-class BasicMercurialViewTest(BasicViewTest):
-    def create_component(self):
-        return self.create_po_mercurial()
-
-
-class BasicPoMonoViewTest(BasicViewTest):
+class BasicMonolingualViewTest(BasicViewTest):
     def create_component(self):
         return self.create_po_mono()
-
-
-class BasicIphoneViewTest(BasicViewTest):
-    def create_component(self):
-        return self.create_iphone()
-
-
-class BasicJSONViewTest(BasicViewTest):
-    def create_component(self):
-        return self.create_json()
-
-
-class BasicJavaViewTest(BasicViewTest):
-    def create_component(self):
-        return self.create_java()
-
-
-class BasicXliffViewTest(BasicViewTest):
-    def create_component(self):
-        return self.create_xliff()
-
-
-class BasicLinkViewTest(BasicViewTest):
-    def create_component(self):
-        return self.create_link()
 
 
 class DashboardTest(ViewTestCase):
@@ -604,17 +601,17 @@ class DashboardTest(ViewTestCase):
         response = self.client.get(reverse("projects"))
         self.assertContains(response, "Test")
 
-    def test_home_with_whiteboard(self):
-        msg = WhiteboardMessage(message="test_message")
+    def test_home_with_announcement(self):
+        msg = Announcement(message="test_message")
         msg.save()
 
         response = self.client.get(reverse("home"))
-        self.assertContains(response, "whiteboard")
+        self.assertContains(response, "announcement")
         self.assertContains(response, "test_message")
 
-    def test_home_without_whiteboard(self):
+    def test_home_without_announcement(self):
         response = self.client.get(reverse("home"))
-        self.assertNotContains(response, "whiteboard")
+        self.assertNotContains(response, "announcement")
 
     def test_component_list(self):
         clist = ComponentList.objects.create(name="TestCL", slug="testcl")
@@ -626,6 +623,16 @@ class DashboardTest(ViewTestCase):
             response, reverse("component-list", kwargs={"name": "testcl"})
         )
         self.assertEqual(len(response.context["componentlists"]), 1)
+
+    def test_component_list_ghost(self):
+        clist = ComponentList.objects.create(name="TestCL", slug="testcl")
+        clist.components.add(self.component)
+
+        self.user.profile.languages.add(Language.objects.get(code="es"))
+
+        response = self.client.get(reverse("home"))
+
+        self.assertContains(response, "Spanish")
 
     def test_user_component_list(self):
         clist = ComponentList.objects.create(name="TestCL", slug="testcl")
@@ -742,13 +749,13 @@ class SourceStringsTest(ViewTestCase):
         source = self.get_unit().source_info
         response = self.client.post(
             reverse("edit_context", kwargs={"pk": source.pk}),
-            {"extra_context": "Extra context"},
+            {"explanation": "Extra context"},
         )
         self.assertRedirects(response, source.get_absolute_url())
 
         unit = self.get_unit()
         self.assertEqual(unit.context, "")
-        self.assertEqual(unit.extra_context, "Extra context")
+        self.assertEqual(unit.explanation, "Extra context")
 
     def test_edit_check_flags(self):
         # Need extra power

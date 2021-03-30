@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -89,9 +88,11 @@ ALIASES = {
     "sr_rs@cyrillic": "sr_Cyrl",
     "uz@latin": "uz_Latn",
     "zh": "zh_Hans",
+    "zhcn": "zh_Hans",
     "zh_cn": "zh_Hans",
     "zh_chs": "zh_Hans",
     "zh_sg": "zh_Hans_SG",
+    "zhtw": "zh_Hant",
     "zh_tw": "zh_Hant",
     "zh_hant_tw": "zh_Hant",
     "cmn": "zh_Hans",
@@ -99,6 +100,8 @@ ALIASES = {
     "zh_hans_cn": "zh_Hans",
     "zh_cmn_hans": "zh_Hans",
     "zh_cmn_hant": "zh_Hant",
+    "zh_latn_pinyin": "zh_Latn",
+    "zh_latn@pinyin": "zh_Latn",
     "base": "en",
     "source": "en",
     "de_fo": "de_form",

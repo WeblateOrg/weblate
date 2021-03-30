@@ -25,15 +25,13 @@
 <thead>
 <tr>
     <th>{% trans "Source string" %}</th>
-    <th>{% trans "Context" %}</th>
+    <th>{{ object.component.context_label }}</th>
     <th>{% trans "Location" %}</th>
     <th colspan="2">{% trans "Actions" %}</th>
 </tr>
 </thead>
 <tbody id="sources-listing" data-href="{% url 'screenshot-js-get' pk=object.pk %}">
-{% with object.units.all as sources %}
-{% include "screenshots/screenshot_sources_body.html" %}
-{% endwith %}
+{% include "screenshots/screenshot_sources_body.html" with sources=objects.units.order %}
 </tbody>
 </table>
   <div class="panel-footer">
@@ -54,7 +52,7 @@
     <thead>
     <tr>
     <th>{% trans "Source string" %}</th>
-    <th>{% trans "Context" %}</th>
+    <th>{{ object.component.context_label }}</th>
     <th>{% trans "Location" %}</th>
     <th>{% trans "Actions" %}</th>
     </tr>
@@ -89,9 +87,7 @@
 <div class="panel-heading"><h4 class="panel-title">{% trans "Image" %}</h4></div>
   <div class="panel-body">
 
-{% with object as screenshot %}
-{% include "screenshots/screenshot_show.html" %}
-{% endwith %}
+{% include "screenshots/screenshot_show.html" with screenshot=object %}
 
 </div>
 </div>
@@ -115,7 +111,7 @@
 <div class="panel-heading"><h4 class="panel-title">{% trans "Screenshot details" %}</h4></div>
 
 <table class="table table-condensed table-striped">
-<tr><th>{% trans "Created on" %}</th><td>{{ object.timestamp|naturaltime }}</td></tr>
+<tr><th>{% trans "Created" %}</th><td>{{ object.timestamp|naturaltime }}</td></tr>
 <tr><th>{% trans "Uploaded by" %}</th><td>{{ object.get_user_display }}</td></tr>
 </table>
 

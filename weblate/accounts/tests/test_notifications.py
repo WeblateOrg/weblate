@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -50,7 +49,7 @@ from weblate.accounts.tasks import (
 )
 from weblate.auth.models import User
 from weblate.lang.models import Language
-from weblate.trans.models import Change, Comment, Suggestion, WhiteboardMessage
+from weblate.trans.models import Announcement, Change, Comment, Suggestion
 from weblate.trans.tests.test_views import RegistrationTestMixin, ViewTestCase
 
 TEMPLATES_RAISE = deepcopy(settings.TEMPLATES)
@@ -161,6 +160,18 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
             1, "[Weblate] New string to translate in Test/Test — Czech"
         )
 
+    def test_notify_new_strings(self):
+        Change.objects.create(
+            translation=self.get_translation(),
+            action=Change.ACTION_NEW_STRING,
+            details={"count": 10},
+        )
+
+        # Check mail
+        self.validate_notifications(
+            1, "[Weblate] New strings to translate in Test/Test — Czech"
+        )
+
     def test_notify_new_translation(self):
         Change.objects.create(
             unit=self.get_unit(),
@@ -267,14 +278,14 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
         )
         self.validate_notifications(1, "[Weblate] New translation component Test/Test")
 
-    def test_notify_new_whiteboard(self):
-        WhiteboardMessage.objects.create(component=self.component, message="Hello word")
-        self.validate_notifications(1, "[Weblate] New whiteboard message on Test")
+    def test_notify_new_announcement(self):
+        Announcement.objects.create(component=self.component, message="Hello word")
+        self.validate_notifications(1, "[Weblate] New announcement on Test")
         mail.outbox = []
-        WhiteboardMessage.objects.create(message="Hello global word")
+        Announcement.objects.create(message="Hello global word")
         self.validate_notifications(
             User.objects.filter(is_active=True).count(),
-            "[Weblate] New whiteboard message at Weblate",
+            "[Weblate] New announcement at Weblate",
         )
 
     def test_notify_alert(self):
@@ -354,7 +365,7 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
         frequency=FREQ_DAILY,
         notify=notify_daily,
         notification="ToDoStringsNotification",
-        subj="Strings needing action in Test/Test",
+        subj="4 strings needing action in Test/Test",
     ):
         self.user.subscription_set.create(
             scope=SCOPE_DEFAULT, notification=notification, frequency=frequency
@@ -377,7 +388,7 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
         Suggestion.objects.create(unit=unit, target="Foo")
         self.test_reminder(
             notification="PendingSuggestionsNotification",
-            subj="Pending suggestions in Test/Test",
+            subj="1 pending suggestion in Test/Test",
         )
 
 

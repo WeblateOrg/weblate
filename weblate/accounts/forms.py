@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -18,19 +17,15 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import HTML, Fieldset, Layout
 from django import forms
-from django.contrib.auth import (
-    authenticate,
-    password_validation,
-    update_session_auth_hash,
-)
+from django.contrib.auth import authenticate, password_validation
 from django.contrib.auth.forms import SetPasswordForm as DjangoSetPasswordForm
 from django.db.models import Q
 from django.forms.widgets import EmailInput
 from django.middleware.csrf import rotate_token
+from django.utils.functional import cached_property
 from django.utils.html import escape
 from django.utils.translation import gettext_lazy as _
 from django.utils.translation import pgettext
@@ -45,7 +40,11 @@ from weblate.accounts.notifications import (
     SCOPE_DEFAULT,
     SCOPE_PROJECT,
 )
-from weblate.accounts.utils import get_all_user_mails, invalidate_reset_codes
+from weblate.accounts.utils import (
+    cycle_session_keys,
+    get_all_user_mails,
+    invalidate_reset_codes,
+)
 from weblate.auth.models import User
 from weblate.lang.models import Language
 from weblate.logger import LOGGER
@@ -380,11 +379,8 @@ class SetPasswordForm(DjangoSetPasswordForm):
         self.user.save(update_fields=["password"])
 
         # Updating the password logs out all other sessions for the user
-        # except the current one.
-        update_session_auth_hash(request, self.user)
-
-        # Change key for current session
-        request.session.cycle_key()
+        # except the current one and change key for current session
+        cycle_session_keys(request, self.user)
 
         # Invalidate password reset codes
         invalidate_reset_codes(self.user)
@@ -484,10 +480,7 @@ class LoginForm(forms.Form):
     password = PasswordField(label=_("Password"))
 
     error_messages = {
-        "invalid_login": _(
-            "Please enter the correct username and password. "
-            "Note that both fields may be case-sensitive."
-        ),
+        "invalid_login": _("Please enter the correct username and password."),
         "inactive": _("This account is inactive."),
     }
 
@@ -516,7 +509,7 @@ class LoginForm(forms.Form):
                         user,
                         self.request,
                         "failed-auth",
-                        method="Password",
+                        method="password",
                         name=username,
                     )
                     audit.check_rate_limit(self.request)
@@ -529,7 +522,7 @@ class LoginForm(forms.Form):
                     self.error_messages["inactive"], code="inactive"
                 )
             AuditLog.objects.create(
-                self.user_cache, self.request, "login", method="Password", name=username
+                self.user_cache, self.request, "login", method="password", name=username
             )
             reset_rate_limit("login", self.request)
         return self.cleaned_data
@@ -603,9 +596,7 @@ class NotificationForm(forms.Form):
         self.is_active = is_active
         self.show_default = show_default
         self.fields["project"].queryset = user.allowed_projects
-        self.fields["component"].queryset = Component.objects.filter(
-            project_id__in=user.allowed_project_ids
-        )
+        self.fields["component"].queryset = Component.objects.filter_access(user)
         language_fields = []
         component_fields = []
         for field, notification_cls in self.notification_fields():
@@ -630,26 +621,12 @@ class NotificationForm(forms.Form):
             "component",
             Fieldset(
                 _("Component wide notifications"),
-                HTML(
-                    escape(
-                        _(
-                            "You will receive a notification for every such event"
-                            " in your watched projects."
-                        )
-                    )
-                ),
+                HTML(escape(self.get_help_component())),
                 *component_fields
             ),
             Fieldset(
                 _("Translation notifications"),
-                HTML(
-                    escape(
-                        _(
-                            "You will only receive these notifications for your"
-                            " translated languages in your watched projects."
-                        )
-                    )
-                ),
+                HTML(escape(self.get_help_translation())),
                 *language_fields
             ),
         )
@@ -671,22 +648,76 @@ class NotificationForm(forms.Form):
         result.extend(notification_cls.get_freq_choices())
         return result
 
-    def get_name(self):
+    @cached_property
+    def form_params(self):
         if self.is_bound:
             self.is_valid()
-            params = self.cleaned_data
-        else:
-            params = self.initial
-        scope = params.get("scope", SCOPE_DEFAULT)
-        project = params.get("project", None)
-        component = params.get("component", None)
+            return self.cleaned_data
+        return self.initial
+
+    @cached_property
+    def form_scope(self):
+        return self.form_params.get("scope", SCOPE_DEFAULT)
+
+    @cached_property
+    def form_project(self):
+        return self.form_params.get("project", None)
+
+    @cached_property
+    def form_component(self):
+        return self.form_params.get("component", None)
+
+    def get_name(self):
+        scope = self.form_scope
         if scope == SCOPE_DEFAULT:
             return _("Watched projects")
         if scope == SCOPE_ADMIN:
-            return _("Administered projects")
+            return _("Managed projects")
         if scope == SCOPE_PROJECT:
-            return _("Project: {}").format(project)
-        return _("Component: {}").format(component)
+            return _("Project: {}").format(self.form_project)
+        return _("Component: {}").format(self.form_component)
+
+    def get_help_component(self):
+        scope = self.form_scope
+        if scope == SCOPE_DEFAULT:
+            return _(
+                "You will receive a notification for every such event"
+                " in your watched projects."
+            )
+        if scope == SCOPE_ADMIN:
+            return _(
+                "You will receive a notification for every such event"
+                " in projects where you have admin permissions."
+            )
+        if scope == SCOPE_PROJECT:
+            return _(
+                "You will receive a notification for every such event in %(project)s."
+            ) % {"project": self.form_project}
+        return _(
+            "You will receive a notification for every such event in %(component)s."
+        ) % {"component": self.form_component}
+
+    def get_help_translation(self):
+        scope = self.form_scope
+        if scope == SCOPE_DEFAULT:
+            return _(
+                "You will only receive these notifications for your translated "
+                "languages in your watched projects."
+            )
+        if scope == SCOPE_ADMIN:
+            return _(
+                "You will only receive these notifications for your translated "
+                "languages in projects where you have admin permissions."
+            )
+        if scope == SCOPE_PROJECT:
+            return _(
+                "You will only receive these notifications for your"
+                " translated languages in %(project)s."
+            ) % {"project": self.form_project}
+        return _(
+            "You will only receive these notifications for your"
+            " translated languages in %(component)s."
+        ) % {"component": self.form_component}
 
     def save(self):
         # Lookup for this form

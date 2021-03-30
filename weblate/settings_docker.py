@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -27,6 +26,7 @@ from django.http import Http404
 
 from weblate.utils.environment import (
     get_env_bool,
+    get_env_int,
     get_env_list,
     get_env_map,
     modify_env_list,
@@ -100,6 +100,7 @@ LANGUAGES = (
     ("id", "Indonesia"),
     ("it", "Italiano"),
     ("ja", "日本語"),
+    ("kab", "Taqbaylit"),
     ("kk", "Қазақ тілі"),
     ("ko", "한국어"),
     ("nb", "Norsk bokmål"),
@@ -140,7 +141,7 @@ MEDIA_ROOT = os.path.join(DATA_DIR, "media")
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash.
-MEDIA_URL = "{0}/media/".format(URL_PREFIX)
+MEDIA_URL = f"{URL_PREFIX}/media/"
 
 # Absolute path to the directory static files should be collected to.
 # Don't put anything in this directory yourself; store your static files
@@ -148,7 +149,7 @@ MEDIA_URL = "{0}/media/".format(URL_PREFIX)
 STATIC_ROOT = os.path.join(DATA_DIR, "static")
 
 # URL prefix for static files.
-STATIC_URL = "{0}/static/".format(URL_PREFIX)
+STATIC_URL = f"{URL_PREFIX}/static/"
 
 # Additional locations of static files
 STATICFILES_DIRS = (
@@ -184,7 +185,6 @@ if not DEBUG:
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [os.path.join(BASE_DIR, "weblate", "templates")],
         "OPTIONS": {
             "context_processors": [
                 "django.contrib.auth.context_processors.auth",
@@ -205,7 +205,7 @@ TEMPLATES = [
 # Please see the documentation for more details.
 GITHUB_USERNAME = os.environ.get("WEBLATE_GITHUB_USERNAME", None)
 
-# GitLab username for sending pull requests.
+# GitLab username for sending merge requests.
 # Please see the documentation for more details.
 GITLAB_USERNAME = os.environ.get("WEBLATE_GITLAB_USERNAME", None)
 
@@ -253,6 +253,12 @@ SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = os.environ.get(
 SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = os.environ.get(
     "WEBLATE_SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET", ""
 )
+SOCIAL_AUTH_GOOGLE_OAUTH2_WHITELISTED_DOMAINS = get_env_list(
+    "WEBLATE_SOCIAL_AUTH_GOOGLE_OAUTH2_WHITELISTED_DOMAINS", ""
+)
+SOCIAL_AUTH_GOOGLE_OAUTH2_WHITELISTED_EMAILS = get_env_list(
+    "WEBLATE_SOCIAL_AUTH_GOOGLE_OAUTH2_WHITELISTED_EMAILS", ""
+)
 
 if "WEBLATE_SOCIAL_AUTH_GITLAB_KEY" in os.environ:
     AUTHENTICATION_BACKENDS += ("social_core.backends.gitlab.GitLabOAuth2",)
@@ -277,6 +283,26 @@ if "WEBLATE_SOCIAL_AUTH_AUTH0_AUTH_EXTRA_ARGUMENTS" in os.environ:
     SOCIAL_AUTH_AUTH0_AUTH_EXTRA_ARGUMENTS = get_env_map(
         "WEBLATE_SOCIAL_AUTH_AUTH0_AUTH_EXTRA_ARGUMENTS"
     )
+
+# SAML
+if "WEBLATE_SAML_IDP_URL" in os.environ:
+    AUTHENTICATION_BACKENDS += ("social_core.backends.saml.SAMLAuth",)
+    # The keys are generated on container startup if missing
+    with open("/app/data/ssl/saml.crt", "r") as handle:
+        SOCIAL_AUTH_SAML_SP_PUBLIC_CERT = handle.read()
+    with open("/app/data/ssl/saml.key", "r") as handle:
+        SOCIAL_AUTH_SAML_SP_PRIVATE_KEY = handle.read()
+    # Identity Provider
+    SOCIAL_AUTH_SAML_ENABLED_IDPS = {
+        "weblate": {
+            "entity_id": os.environ.get("WEBLATE_SAML_IDP_ENTITY_ID", ""),
+            "url": os.environ.get("WEBLATE_SAML_IDP_URL", ""),
+            "x509cert": os.environ.get("WEBLATE_SAML_IDP_X509CERT", ""),
+            "attr_name": "full_name",
+            "attr_username": "username",
+            "attr_email": "email",
+        }
+    }
 
 # Azure
 if "WEBLATE_SOCIAL_AUTH_AZUREAD_OAUTH2_KEY" in os.environ:
@@ -429,7 +455,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
     {
         "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",
-        "OPTIONS": {"min_length": 6},
+        "OPTIONS": {"min_length": 10},
     },
     {"NAME": "django.contrib.auth.password_validation.CommonPasswordValidator"},
     {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator"},
@@ -447,9 +473,13 @@ AUTH_PASSWORD_VALIDATORS = [
 
 # Allow new user registrations
 REGISTRATION_OPEN = get_env_bool("WEBLATE_REGISTRATION_OPEN", True)
+REGISTRATION_ALLOW_BACKENDS = get_env_list("WEBLATE_REGISTRATION_ALLOW_BACKENDS")
 
 # Email registration filter
 REGISTRATION_EMAIL_MATCH = os.environ.get("WEBLATE_REGISTRATION_EMAIL_MATCH", ".*")
+
+# Shortcut for login required setting
+REQUIRE_LOGIN = get_env_bool("WEBLATE_REQUIRE_LOGIN", False)
 
 # Middleware
 MIDDLEWARE = [
@@ -457,13 +487,13 @@ MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
-    "django.middleware.locale.LocaleMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "weblate.accounts.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "social_django.middleware.SocialAuthExceptionMiddleware",
     "weblate.accounts.middleware.RequireLoginMiddleware",
+    "weblate.api.middleware.ThrottlingMiddleware",
     "weblate.middleware.SecurityMiddleware",
 ]
 
@@ -488,25 +518,12 @@ ROOT_URLCONF = "weblate.urls"
 INSTALLED_APPS = [
     # Docker customization app, listed first to allow overriding static files
     "customize",
-    "django.contrib.auth",
-    "django.contrib.contenttypes",
-    "django.contrib.sessions",
-    "django.contrib.sites",
-    "django.contrib.messages",
-    "django.contrib.staticfiles",
-    "django.contrib.admin.apps.SimpleAdminConfig",
-    "django.contrib.admindocs",
-    "django.contrib.sitemaps",
-    "django.contrib.humanize",
-    "social_django",
-    "crispy_forms",
-    "compressor",
-    "rest_framework",
-    "rest_framework.authtoken",
+    # Weblate apps on top to override Django locales and templates
     "weblate.addons",
     "weblate.auth",
     "weblate.checks",
     "weblate.formats",
+    "weblate.glossary",
     "weblate.machinery",
     "weblate.trans",
     "weblate.lang",
@@ -521,12 +538,27 @@ INSTALLED_APPS = [
     "weblate",
     # Optional: Git exporter
     "weblate.gitexport",
+    # Standard Django modules
+    "django.contrib.auth",
+    "django.contrib.contenttypes",
+    "django.contrib.sessions",
+    "django.contrib.sites",
+    "django.contrib.messages",
+    "django.contrib.staticfiles",
+    "django.contrib.admin.apps.SimpleAdminConfig",
+    "django.contrib.admindocs",
+    "django.contrib.sitemaps",
+    "django.contrib.humanize",
+    # Third party Django modules
+    "social_django",
+    "crispy_forms",
+    "compressor",
+    "rest_framework",
+    "rest_framework.authtoken",
+    "django_filters",
 ]
 
 modify_env_list(INSTALLED_APPS, "APPS")
-
-# Path to locales
-LOCALE_PATHS = (os.path.join(BASE_DIR, "weblate", "locale"),)
 
 # Custom exception reporter to include some details
 DEFAULT_EXCEPTION_REPORTER_FILTER = "weblate.trans.debug.WeblateExceptionReporterFilter"
@@ -534,7 +566,7 @@ DEFAULT_EXCEPTION_REPORTER_FILTER = "weblate.trans.debug.WeblateExceptionReporte
 # Default logging of Weblate messages
 # - to syslog in production (if available)
 # - otherwise to console
-# - you can also choose 'logfile' to log into separate file
+# - you can also choose "logfile" to log into separate file
 #   after configuring it below
 
 # Detect if we can connect to syslog
@@ -588,13 +620,13 @@ LOGGING = {
             "facility": SysLogHandler.LOG_LOCAL2,
         },
         # Logging to a file
-        # 'logfile': {
-        #     'level':'DEBUG',
-        #     'class':'logging.handlers.RotatingFileHandler',
-        #     'filename': "/var/log/weblate/weblate.log",
-        #     'maxBytes': 100000,
-        #     'backupCount': 3,
-        #     'formatter': 'logfile',
+        # "logfile": {
+        #     "level":"DEBUG",
+        #     "class":"logging.handlers.RotatingFileHandler",
+        #     "filename": "/var/log/weblate/weblate.log",
+        #     "maxBytes": 100000,
+        #     "backupCount": 3,
+        #     "formatter": "logfile",
         # },
     },
     "loggers": {
@@ -609,9 +641,9 @@ LOGGING = {
             "propagate": False,
         },
         # Logging database queries
-        # 'django.db.backends': {
-        #     'handlers': [DEFAULT_LOG],
-        #     'level': 'DEBUG',
+        # "django.db.backends": {
+        #     "handlers": [DEFAULT_LOG],
+        #     "level": "DEBUG",
         # },
         "weblate": {
             "handlers": [DEFAULT_LOG],
@@ -637,21 +669,22 @@ if not HAVE_SYSLOG:
 
 # List of machine translations
 MT_SERVICES = (
-    #     'weblate.machinery.apertium.ApertiumAPYTranslation',
-    #     'weblate.machinery.baidu.BaiduTranslation',
-    #     'weblate.machinery.deepl.DeepLTranslation',
-    #     'weblate.machinery.glosbe.GlosbeTranslation',
-    #     'weblate.machinery.google.GoogleTranslation',
-    #     'weblate.machinery.microsoft.MicrosoftCognitiveTranslation',
-    #     'weblate.machinery.microsoftterminology.MicrosoftTerminologyService',
-    #     'weblate.machinery.mymemory.MyMemoryTranslation',
-    #     'weblate.machinery.netease.NeteaseSightTranslation',
-    #     'weblate.machinery.tmserver.AmagamaTranslation',
-    #     'weblate.machinery.tmserver.TMServerTranslation',
-    #     'weblate.machinery.yandex.YandexTranslation',
+    #     "weblate.machinery.apertium.ApertiumAPYTranslation",
+    #     "weblate.machinery.baidu.BaiduTranslation",
+    #     "weblate.machinery.deepl.DeepLTranslation",
+    #     "weblate.machinery.glosbe.GlosbeTranslation",
+    #     "weblate.machinery.google.GoogleTranslation",
+    #     "weblate.machinery.microsoft.MicrosoftCognitiveTranslation",
+    #     "weblate.machinery.microsoftterminology.MicrosoftTerminologyService",
+    #     "weblate.machinery.mymemory.MyMemoryTranslation",
+    #     "weblate.machinery.netease.NeteaseSightTranslation",
+    #     "weblate.machinery.tmserver.AmagamaTranslation",
+    #     "weblate.machinery.tmserver.TMServerTranslation",
+    #     "weblate.machinery.yandex.YandexTranslation",
+    #      "weblate.machinery.weblatetm.WeblateTranslation",
+    #     "weblate.machinery.saptranslationhub.SAPTranslationHub",
+    #     "weblate.machinery.youdao.YoudaoTranslation",
     "weblate.machinery.weblatetm.WeblateTranslation",
-    #     'weblate.machinery.saptranslationhub.SAPTranslationHub',
-    #     'weblate.machinery.youdao.YoudaoTranslation',
     "weblate.memory.machine.WeblateMemory",
 )
 
@@ -669,12 +702,21 @@ if MT_AWS_ACCESS_KEY_ID:
 
 # DeepL API key
 MT_DEEPL_KEY = os.environ.get("WEBLATE_MT_DEEPL_KEY", None)
+MT_DEEPL_API_VERSION = os.environ.get("WEBLATE_MT_DEEPL_API_VERSION", "v2")
 if MT_DEEPL_KEY:
     MT_SERVICES += ("weblate.machinery.deepl.DeepLTranslation",)
 
 # Microsoft Cognitive Services Translator API, register at
 # https://portal.azure.com/
 MT_MICROSOFT_COGNITIVE_KEY = os.environ.get("WEBLATE_MT_MICROSOFT_COGNITIVE_KEY", None)
+
+ms_endpoint_url = os.environ.get("WEBLATE_MT_MICROSOFT_ENDPOINT_URL", None)
+if ms_endpoint_url is not None:
+    MT_MICROSOFT_ENDPOINT_URL = ms_endpoint_url
+
+ms_base_url = os.environ.get("WEBLATE_MT_MICROSOFT_BASE_URL", None)
+if ms_base_url is not None:
+    MT_MICROSOFT_BASE_URL = ms_base_url
 
 if MT_MICROSOFT_COGNITIVE_KEY:
     MT_SERVICES += ("weblate.machinery.microsoft.MicrosoftCognitiveTranslation",)
@@ -751,6 +793,7 @@ CSRF_USE_SESSIONS = True
 # Customize CSRF failure view
 CSRF_FAILURE_VIEW = "weblate.trans.views.error.csrf_failure"
 SESSION_COOKIE_SECURE = ENABLE_HTTPS
+SESSION_COOKIE_HTTPONLY = True
 # SSL redirect
 SECURE_SSL_REDIRECT = ENABLE_HTTPS
 # Sent referrrer only for same origin links
@@ -762,14 +805,19 @@ SESSION_COOKIE_AGE = 1209600
 # Increase allowed upload size
 DATA_UPLOAD_MAX_MEMORY_SIZE = 50000000
 
+# Apply session coookie settings to language cookie as ewll
+LANGUAGE_COOKIE_SECURE = SESSION_COOKIE_SECURE
+LANGUAGE_COOKIE_HTTPONLY = SESSION_COOKIE_HTTPONLY
+LANGUAGE_COOKIE_AGE = SESSION_COOKIE_AGE * 10
+
 # Some security headers
 SECURE_BROWSER_XSS_FILTER = True
 X_FRAME_OPTIONS = "DENY"
 SECURE_CONTENT_TYPE_NOSNIFF = True
 
 # Optionally enable HSTS
-SECURE_HSTS_SECONDS = 0
-SECURE_HSTS_PRELOAD = False
+SECURE_HSTS_SECONDS = 31536000 if ENABLE_HTTPS else 0
+SECURE_HSTS_PRELOAD = ENABLE_HTTPS
 SECURE_HSTS_INCLUDE_SUBDOMAINS = False
 
 # URL of login
@@ -838,7 +886,7 @@ CHECK_LIST = [
     "weblate.checks.format.CSharpFormatCheck",
     "weblate.checks.format.JavaFormatCheck",
     "weblate.checks.format.JavaMessageFormatCheck",
-    "weblate.checks.format.PercentInterpolationCheck",
+    "weblate.checks.format.PercentPlaceholdersCheck",
     "weblate.checks.format.I18NextInterpolationCheck",
     "weblate.checks.angularjs.AngularJSInterpolationCheck",
     "weblate.checks.qt.QtFormatCheck",
@@ -862,9 +910,12 @@ CHECK_LIST = [
     "weblate.checks.markup.SafeHTMLCheck",
     "weblate.checks.placeholders.PlaceholderCheck",
     "weblate.checks.placeholders.RegexCheck",
+    "weblate.checks.duplicate.DuplicateCheck",
     "weblate.checks.source.OptionalPluralCheck",
     "weblate.checks.source.EllipsisCheck",
     "weblate.checks.source.MultipleFailingCheck",
+    "weblate.checks.source.LongUntranslatedCheck",
+    "weblate.checks.format.MultipleUnnamedFormatsCheck",
 ]
 modify_env_list(CHECK_LIST, "CHECK")
 
@@ -875,7 +926,7 @@ AUTOFIX_LIST = [
     "weblate.trans.autofixes.chars.RemoveZeroSpace",
     "weblate.trans.autofixes.chars.RemoveControlChars",
 ]
-modify_env_list(CHECK_LIST, "AUTOFIX")
+modify_env_list(AUTOFIX_LIST, "AUTOFIX")
 
 # List of enabled addons
 WEBLATE_ADDONS = [
@@ -902,7 +953,7 @@ WEBLATE_ADDONS = [
     "weblate.addons.yaml.YAMLCustomizeAddon",
     "weblate.addons.autotranslate.AutoTranslateAddon",
 ]
-modify_env_list(CHECK_LIST, "ADDONS")
+modify_env_list(WEBLATE_ADDONS, "ADDONS")
 
 # E-mail address that error messages come from.
 SERVER_EMAIL = os.environ["WEBLATE_SERVER_EMAIL"]
@@ -930,7 +981,7 @@ CACHES = {
         ),
         # If redis is running on same host as Weblate, you might
         # want to use unix sockets instead:
-        # 'LOCATION': 'unix:///var/run/redis/redis.sock?db=1',
+        # "LOCATION": "unix:///var/run/redis/redis.sock?db=1",
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
             "PARSER_CLASS": "redis.connection.HiredisParser",
@@ -952,13 +1003,18 @@ if not get_env_bool("REDIS_VERIFY_SSL", True) and REDIS_PROTO == "rediss":
 
 # Store sessions in cache
 SESSION_ENGINE = "django.contrib.sessions.backends.cache"
+# Store messages in session
+MESSAGE_STORAGE = "django.contrib.messages.storage.session.SessionStorage"
 
 # REST framework settings for API
 REST_FRAMEWORK = {
     # Use Django's standard `django.contrib.auth` permissions,
     # or allow read-only access for unauthenticated users.
     "DEFAULT_PERMISSION_CLASSES": [
-        "rest_framework.permissions.IsAuthenticatedOrReadOnly"
+        # Require authentication for login required sites
+        "rest_framework.permissions.IsAuthenticated"
+        if REQUIRE_LOGIN
+        else "rest_framework.permissions.IsAuthenticatedOrReadOnly"
     ],
     "DEFAULT_AUTHENTICATION_CLASSES": (
         "rest_framework.authentication.TokenAuthentication",
@@ -966,8 +1022,8 @@ REST_FRAMEWORK = {
         "rest_framework.authentication.SessionAuthentication",
     ),
     "DEFAULT_THROTTLE_CLASSES": (
-        "rest_framework.throttling.AnonRateThrottle",
-        "rest_framework.throttling.UserRateThrottle",
+        "weblate.api.throttling.UserRateThrottle",
+        "weblate.api.throttling.AnonRateThrottle",
     ),
     "DEFAULT_THROTTLE_RATES": {"anon": "100/day", "user": "5000/hour"},
     "DEFAULT_PAGINATION_CLASS": ("rest_framework.pagination.PageNumberPagination"),
@@ -976,33 +1032,28 @@ REST_FRAMEWORK = {
     "UNAUTHENTICATED_USER": "weblate.auth.models.get_anonymous",
 }
 
-if get_env_bool("WEBLATE_REQUIRE_LOGIN", False):
-    # Force authentication for REST API
-    REST_FRAMEWORK["DEFAULT_PERMISSION_CLASSES"] = [
-        "rest_framework.permissions.IsAuthenticated"
-    ]
-
-    # Example for restricting access to logged in users
+# Require login for all URLs
+if REQUIRE_LOGIN:
     LOGIN_REQUIRED_URLS = (r"/(.*)$",)
 
-    # In such case you will want to include some of the exceptions
-    LOGIN_REQUIRED_URLS_EXCEPTIONS = get_env_list(
-        "WEBLATE_LOGIN_REQUIRED_URLS_EXCEPTIONS",
-        (
-            rf"{URL_PREFIX}/accounts/(.*)$",  # Required for login
-            rf"{URL_PREFIX}/admin/login/(.*)$",  # Required for admin login
-            rf"{URL_PREFIX}/static/(.*)$",  # Required for development mode
-            rf"{URL_PREFIX}/widgets/(.*)$",  # Allowing public access to widgets
-            rf"{URL_PREFIX}/data/(.*)$",  # Allowing public access to data exports
-            rf"{URL_PREFIX}/hooks/(.*)$",  # Allowing public access to notifications
-            rf"{URL_PREFIX}/healthz/$",  # Allowing public access to health check
-            rf"{URL_PREFIX}/api/(.*)$",  # Allowing access to API
-            rf"{URL_PREFIX}/js/i18n/$",  # Javascript localization
-            rf"{URL_PREFIX}/contact/$",  # Optional for contact form
-            rf"{URL_PREFIX}/legal/(.*)$",  # Optional for legal app
-        ),
-    )
-    modify_env_list(LOGIN_REQUIRED_URLS_EXCEPTIONS, "LOGIN_REQUIRED_URLS_EXCEPTIONS")
+# In such case you will want to include some of the exceptions
+LOGIN_REQUIRED_URLS_EXCEPTIONS = get_env_list(
+    "WEBLATE_LOGIN_REQUIRED_URLS_EXCEPTIONS",
+    (
+        rf"{URL_PREFIX}/accounts/(.*)$",  # Required for login
+        rf"{URL_PREFIX}/admin/login/(.*)$",  # Required for admin login
+        rf"{URL_PREFIX}/static/(.*)$",  # Required for development mode
+        rf"{URL_PREFIX}/widgets/(.*)$",  # Allowing public access to widgets
+        rf"{URL_PREFIX}/data/(.*)$",  # Allowing public access to data exports
+        rf"{URL_PREFIX}/hooks/(.*)$",  # Allowing public access to notifications
+        rf"{URL_PREFIX}/healthz/$",  # Allowing public access to health check
+        rf"{URL_PREFIX}/api/(.*)$",  # Allowing access to API
+        rf"{URL_PREFIX}/js/i18n/$",  # Javascript localization
+        rf"{URL_PREFIX}/contact/$",  # Optional for contact form
+        rf"{URL_PREFIX}/legal/(.*)$",  # Optional for legal app
+    ),
+)
+modify_env_list(LOGIN_REQUIRED_URLS_EXCEPTIONS, "LOGIN_REQUIRED_URLS_EXCEPTIONS")
 
 # Email server
 EMAIL_USE_TLS = get_env_bool("WEBLATE_EMAIL_USE_TLS", True)
@@ -1015,6 +1066,9 @@ EMAIL_HOST_PASSWORD = os.environ.get(
     "WEBLATE_EMAIL_HOST_PASSWORD", os.environ.get("WEBLATE_EMAIL_PASSWORD", "")
 )
 EMAIL_PORT = int(os.environ.get("WEBLATE_EMAIL_PORT", "25"))
+EMAIL_BACKEND = os.environ.get(
+    "WEBLATE_EMAIL_BACKEND", "django.core.mail.backends.smtp.EmailBackend"
+)
 
 # Silence some of the Django system checks
 SILENCED_SYSTEM_CHECKS = [
@@ -1041,26 +1095,37 @@ if REDIS_PROTO == "rediss":
 CELERY_RESULT_BACKEND = CELERY_BROKER_URL
 
 # Celery settings, it is not recommended to change these
-CELERY_WORKER_PREFETCH_MULTIPLIER = 0
 CELERY_WORKER_MAX_MEMORY_PER_CHILD = 200000
 CELERY_BEAT_SCHEDULE_FILENAME = os.path.join(DATA_DIR, "celery", "beat-schedule")
 CELERY_TASK_ROUTES = {
-    "weblate.trans.search.*": {"queue": "search"},
-    "weblate.trans.tasks.optimize_fulltext": {"queue": "search"},
-    "weblate.trans.tasks.cleanup_fulltext": {"queue": "search"},
     "weblate.trans.tasks.auto_translate": {"queue": "translate"},
     "weblate.memory.tasks.*": {"queue": "memory"},
     "weblate.accounts.tasks.notify_*": {"queue": "notify"},
     "weblate.accounts.tasks.send_mails": {"queue": "notify"},
-    "weblate.memory.tasks.memory_backup": {"queue": "backup"},
     "weblate.utils.tasks.settings_backup": {"queue": "backup"},
     "weblate.utils.tasks.database_backup": {"queue": "backup"},
     "weblate.wladmin.tasks.backup": {"queue": "backup"},
     "weblate.wladmin.tasks.backup_service": {"queue": "backup"},
 }
 
+# Database backup type
+DATABASE_BACKUP = os.environ.get("WEBLATE_DATABASE_BACKUP", "plain")
+
 # Enable auto updating
 AUTO_UPDATE = get_env_bool("WEBLATE_AUTO_UPDATE", False)
+
+# Default access control
+DEFAULT_ACCESS_CONTROL = get_env_int("WEBLATE_DEFAULT_ACCESS_CONTROL", 0)
+
+# Default access control
+DEFAULT_RESTRICTED_COMPONENT = get_env_bool(
+    "WEBLATE_DEFAULT_RESTRICTED_COMPONENT", False
+)
+
+# Default translation propagation
+DEFAULT_TRANSLATION_PROPAGATION = get_env_bool(
+    "WEBLATE_DEFAULT_TRANSLATION_PROPAGATION", True
+)
 
 # PGP commits signing
 WEBLATE_GPG_IDENTITY = os.environ.get("WEBLATE_GPG_IDENTITY", None)
@@ -1070,6 +1135,7 @@ MATOMO_SITE_ID = os.environ.get("WEBLATE_MATOMO_SITE_ID", None)
 MATOMO_URL = os.environ.get("WEBLATE_MATOMO_URL", None)
 GOOGLE_ANALYTICS_ID = os.environ.get("WEBLATE_GOOGLE_ANALYTICS_ID", None)
 SENTRY_DSN = os.environ.get("SENTRY_DSN", None)
+SENTRY_ENVIRONMENT = os.environ.get("SENTRY_ENVIRONMENT", None)
 AKISMET_API_KEY = os.environ.get("WEBLATE_AKISMET_API_KEY", None)
 
 ADDITIONAL_CONFIG = "/app/data/settings-override.py"

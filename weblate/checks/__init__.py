@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -17,52 +16,5 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
-from django.utils.functional import cached_property
-
-from weblate.utils.classloader import ClassLoader
 
 default_app_config = "weblate.checks.apps.ChecksConfig"
-
-
-def highlight_string(source, unit):
-    """Return highlights for a string."""
-    if unit is None:
-        return []
-    highlights = []
-    for check in CHECKS:
-        if not CHECKS[check].target:
-            continue
-        highlights += CHECKS[check].check_highlight(source, unit)
-
-    # Sort by order in string
-    highlights.sort(key=lambda x: x[0])
-
-    # Remove overlapping ones
-    for hl_idx in range(0, len(highlights)):
-        if hl_idx >= len(highlights):
-            break
-        elref = highlights[hl_idx]
-        for hl_idx_next in range(hl_idx + 1, len(highlights)):
-            if hl_idx_next >= len(highlights):
-                break
-            eltest = highlights[hl_idx_next]
-            if eltest[0] >= elref[0] and eltest[0] < elref[1]:
-                highlights.pop(hl_idx_next)
-            elif eltest[0] > elref[1]:
-                break
-
-    return highlights
-
-
-class ChecksLoader(ClassLoader):
-    @cached_property
-    def source(self):
-        return {k: v for k, v in self.items() if v.source}
-
-    @cached_property
-    def target(self):
-        return {k: v for k, v in self.items() if v.target}
-
-
-# Initialize checks list
-CHECKS = ChecksLoader("CHECK_LIST")

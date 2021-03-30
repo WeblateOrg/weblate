@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -32,9 +31,10 @@ from weblate.lang.forms import LanguageForm, PluralForm
 from weblate.lang.models import Language, Plural
 from weblate.trans.forms import SearchForm
 from weblate.trans.models import Change
+from weblate.trans.models.project import prefetch_project_flags
 from weblate.trans.util import sort_objects
 from weblate.utils import messages
-from weblate.utils.stats import GlobalStats, prefetch_stats
+from weblate.utils.stats import GlobalStats, ProjectLanguageStats, prefetch_stats
 from weblate.utils.views import get_paginator, get_project
 
 
@@ -74,15 +74,18 @@ def show_language(request, lang):
             messages.success(request, _("Language %s removed.") % obj)
             return redirect("languages")
 
-    last_changes = Change.objects.last_changes(request.user).filter(
-        translation__language=obj
-    )[:10]
+    last_changes = Change.objects.last_changes(request.user).filter(language=obj)[:10]
     projects = request.user.allowed_projects
-    dicts = projects.filter(dictionary__language=obj).distinct()
-    projects = projects.filter(component__translation__language=obj).distinct()
+    dicts = projects.filter(glossary__term__language=obj).distinct()
+    projects = prefetch_project_flags(
+        prefetch_stats(projects.filter(component__translation__language=obj).distinct())
+    )
 
+    stats = []
     for project in projects:
         project.language_stats = project.stats.get_single_language_stats(obj)
+        stats.append(project.language_stats)
+    ProjectLanguageStats.prefetch_many(stats)
 
     return render(
         request,
@@ -110,7 +113,7 @@ def show_project(request, lang, project):
     pobj = get_project(request, project)
 
     last_changes = Change.objects.last_changes(request.user).filter(
-        translation__language=obj, component__project=pobj
+        language=obj, project=pobj
     )[:10]
 
     # Paginate translations.
