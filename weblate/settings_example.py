@@ -741,7 +741,6 @@ CRISPY_TEMPLATE_PACK = "bootstrap3"
 
 # List of enabled addons
 # WEBLATE_ADDONS = (
-#     "weblate.addons.autotranslate.AutoTranslateAddon",
 #     "weblate.addons.gettext.GenerateMoAddon",
 #     "weblate.addons.gettext.UpdateLinguasAddon",
 #     "weblate.addons.gettext.UpdateConfigureAddon",
