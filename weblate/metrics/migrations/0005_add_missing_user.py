@@ -40,12 +40,15 @@ def add_missing_user(apps, schema_editor):
     User = apps.get_model("weblate_auth", "User")
     db_alias = schema_editor.connection.alias
 
-    oldest = (
-        Metric.objects.using(db_alias)
-        .filter(scope=SCOPE_GLOBAL)
-        .order_by("-date")[0]
-        .date
-    )
+    try:
+        oldest = (
+            Metric.objects.using(db_alias)
+            .filter(scope=SCOPE_GLOBAL)
+            .order_by("-date")[0]
+            .date
+        )
+    except IndexError:
+        return
     days = (date.today() - oldest).days
 
     users = User.objects.using(db_alias).filter(is_active=True)
