@@ -24,7 +24,7 @@ from django.db.models import Q
 
 class MetricQuerySet(models.QuerySet):
     def get_current(self, scope: int, relation: int, **kwargs):
-        from weblate.metrics.tasks import collect_global
+        from weblate.metrics.tasks import collect_metrics
 
         today = date.today()
         yesterday = today - timedelta(days=1)
@@ -49,7 +49,7 @@ class MetricQuerySet(models.QuerySet):
             ).exists()
         ):
             # Trigger collection in case no data is present
-            collect_global()
+            collect_metrics()
             return self.get_current(scope, relation, **kwargs)
         return data
 
