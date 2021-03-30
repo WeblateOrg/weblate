@@ -234,6 +234,14 @@
         {% endif %}
         </td>
         </tr>
+        <tr>
+        <th>{% trans "Last change" %}</th>
+        <td class="number">{{ object.stats.last_changed }}</td>
+        </tr>
+        <tr>
+        <th>{% trans "Last author" %}</th>
+        <td class="number">{{ object.get_last_author }}</td>
+        </tr>
         </table>
       </div>
     </div>
@@ -278,21 +286,6 @@
         <td class="number">{{ object.stats.allchecks|intcomma }}</td>
         <td class="number">{{ object.stats.allchecks_words|intcomma }}</td>
         <td class="number">{{ object.stats.allchecks_chars|intcomma }}</td>
-        </tr>
-        </tbody>
-        </table>
-      </div>
-      <div class="panel panel-default">
-        <div class="panel-heading"><h4 class="panel-title">{% trans "Last activity" %}</h4></div>
-        <table class="table">
-        <tbody>
-        <tr>
-        <th>{% trans "Last change" %}<th>
-        <td class="number" colspan="3">{{ object.stats.last_changed }}</td>
-        </tr>
-        <tr>
-        <th>{% trans "Last author" %}<th>
-        <td class="number" colspan="3">{{ object.get_last_author }}</td>
         </tr>
         </tbody>
         </table>
