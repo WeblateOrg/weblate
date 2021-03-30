@@ -60,7 +60,7 @@ def create_metrics(data, stats, keys, scope, relation):
 
     Metric.objects.bulk_create(
         [
-            Metric(scope=Metric.SCOPE_GLOBAL, relation=0, name=name, value=value)
+            Metric(scope=scope, relation=relation, name=name, value=value)
             for name, value in data.items()
         ]
     )

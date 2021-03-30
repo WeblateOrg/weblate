@@ -6,6 +6,15 @@ Not yet released.
 * The auto_translate management command has now a parameter for specifying translation mode.
 * Added support for :ref:`txt`.
 
+Weblate 4.5.3
+-------------
+
+Not yet released.
+
+* Fixed metrics collection.
+* Fixed possible crash when adding strings.
+* Improved search query examples.
+
 Weblate 4.5.2
 -------------
 
