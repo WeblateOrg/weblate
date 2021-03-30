@@ -70,7 +70,7 @@ class Metric(models.Model):
     objects = MetricQuerySet.as_manager()
 
     class Meta:
-        index_together = (("date", "scope", "relation", "name"),)
+        unique_together = (("date", "scope", "relation", "name"),)
 
     def __str__(self):
         return f"<{self.scope}.{self.relation}>:{self.date}:{self.name}={self.value}"
