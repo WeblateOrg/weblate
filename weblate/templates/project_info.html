@@ -3,10 +3,12 @@
 {% load translations %}
 {% load urlformat %}
 
+{% if object.web %}
 <tr>
 <th>{% trans "Project website" %}</th>
 <td class="full-cell"><a href="{{ object.web }}">{{ object.web | urlformat }}</a></td>
 </tr>
+{% endif %}
 
 {% if object.instructions %}
 <tr>
