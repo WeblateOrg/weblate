@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -22,10 +21,21 @@ from django.conf import settings
 from django.core.exceptions import PermissionDenied
 from rest_framework import serializers
 
-from weblate.lang.models import Language
+from weblate.auth.models import Group, Permission, Role, User
+from weblate.lang import data
+from weblate.lang.models import Language, Plural
 from weblate.screenshots.models import Screenshot
-from weblate.trans.models import Change, Component, Project, Translation, Unit
-from weblate.trans.util import cleanup_repo_url
+from weblate.trans.defines import REPO_LENGTH
+from weblate.trans.models import (
+    AutoComponentList,
+    Change,
+    Component,
+    ComponentList,
+    Project,
+    Translation,
+    Unit,
+)
+from weblate.trans.util import check_upload_method_permissions, cleanup_repo_url
 from weblate.utils.site import get_site_url
 from weblate.utils.validators import validate_bitmap
 
@@ -79,20 +89,199 @@ class RemovableSerializer(serializers.ModelSerializer):
                 self.fields.pop(field_name)
 
 
+class LanguagePluralSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Plural
+        fields = (
+            "id",
+            "source",
+            "number",
+            "formula",
+            "type",
+        )
+
+
 class LanguageSerializer(serializers.ModelSerializer):
     web_url = AbsoluteURLField(source="get_absolute_url", read_only=True)
+    plural = LanguagePluralSerializer(required=False)
+    aliases = serializers.ListField(source="get_aliases_names", read_only=True)
+    statistics_url = serializers.HyperlinkedIdentityField(
+        view_name="api:language-statistics", lookup_field="code"
+    )
 
     class Meta:
         model = Language
-        fields = ("code", "name", "direction", "web_url", "url")
+        fields = (
+            "code",
+            "name",
+            "plural",
+            "aliases",
+            "direction",
+            "web_url",
+            "url",
+            "statistics_url",
+        )
         extra_kwargs = {
-            "url": {"view_name": "api:language-detail", "lookup_field": "code"}
+            "url": {"view_name": "api:language-detail", "lookup_field": "code"},
+            "code": {"validators": []},
         }
+
+    def validate_code(self, value):
+        check_query = Language.objects.filter(code=value)
+        if not check_query.exists() and (
+            isinstance(self.parent, ProjectSerializer)
+            and self.field_name == "source_language"
+        ):
+            raise serializers.ValidationError(
+                "Language with this language code was not found."
+            )
+        return value
+
+    def validate_plural(self, value):
+        if not value and not (
+            isinstance(self.parent, ProjectSerializer)
+            and self.field_name == "source_language"
+        ):
+            raise serializers.ValidationError("This field is required.")
+        return value
+
+    def create(self, validated_data):
+        plural_validated = validated_data.pop("plural", None)
+        if not plural_validated:
+            raise serializers.ValidationError("No valid plural data was provided.")
+
+        check_query = Language.objects.filter(code=validated_data.get("code"))
+        if check_query.exists():
+            raise serializers.ValidationError(
+                "Language with this Language code already exists."
+            )
+        language = Language.objects.create(**validated_data)
+        plural = Plural(**plural_validated)
+        plural.language = language
+        plural.type = data.PLURAL_UNKNOWN
+        plural.source = Plural.SOURCE_DEFAULT
+        plural.save()
+        return language
+
+
+class UserSerializer(serializers.ModelSerializer):
+    groups = serializers.HyperlinkedIdentityField(
+        view_name="api:group-detail", lookup_field="id", many=True, read_only=True,
+    )
+
+    class Meta:
+        model = User
+        fields = (
+            "email",
+            "full_name",
+            "username",
+            "groups",
+            "is_superuser",
+            "is_active",
+            "date_joined",
+            "url",
+        )
+        extra_kwargs = {
+            "url": {"view_name": "api:user-detail", "lookup_field": "username"}
+        }
+
+
+class PermissionSerializer(serializers.RelatedField):
+    class Meta:
+        model = Permission
+
+    def to_representation(self, value):
+        return value.codename
+
+    def get_queryset(self):
+        return Permission.objects.all()
+
+    def to_internal_value(self, data):
+        check_query = Permission.objects.filter(codename=data)
+        if not check_query.exists():
+            raise serializers.ValidationError(
+                "Permission with this codename was not found."
+            )
+        return data
+
+
+class RoleSerializer(serializers.ModelSerializer):
+    permissions = PermissionSerializer(many=True)
+
+    class Meta:
+        model = Role
+        fields = (
+            "name",
+            "permissions",
+            "url",
+        )
+        extra_kwargs = {"url": {"view_name": "api:role-detail", "lookup_field": "id"}}
+
+    def create(self, validated_data):
+        permissions_validated = validated_data.pop("permissions", [])
+        role = Role.objects.create(**validated_data)
+        role.permissions.add(
+            *Permission.objects.filter(codename__in=permissions_validated)
+        )
+        return role
+
+    def update(self, instance, validated_data):
+        permissions_validated = validated_data.pop("permissions", [])
+        instance.name = validated_data.get("name", instance.name)
+        instance.save()
+        if self.partial:
+            instance.permissions.add(
+                *Permission.objects.filter(codename__in=permissions_validated)
+            )
+        else:
+            instance.permissions.set(
+                Permission.objects.filter(codename__in=permissions_validated)
+            )
+        return instance
+
+
+class GroupSerializer(serializers.ModelSerializer):
+    roles = serializers.HyperlinkedIdentityField(
+        view_name="api:role-detail", lookup_field="id", many=True, read_only=True,
+    )
+    languages = serializers.HyperlinkedIdentityField(
+        view_name="api:language-detail", lookup_field="code", many=True, read_only=True,
+    )
+    projects = serializers.HyperlinkedIdentityField(
+        view_name="api:project-detail", lookup_field="slug", many=True, read_only=True,
+    )
+    componentlists = serializers.HyperlinkedRelatedField(
+        view_name="api:componentlist-detail",
+        lookup_field="slug",
+        many=True,
+        read_only=True,
+    )
+    components = MultiFieldHyperlinkedIdentityField(
+        view_name="api:component-detail",
+        lookup_field=("project__slug", "slug"),
+        many=True,
+        read_only=True,
+    )
+
+    class Meta:
+        model = Group
+        fields = (
+            "name",
+            "project_selection",
+            "language_selection",
+            "url",
+            "roles",
+            "languages",
+            "projects",
+            "componentlists",
+            "components",
+        )
+        extra_kwargs = {"url": {"view_name": "api:group-detail", "lookup_field": "id"}}
 
 
 class ProjectSerializer(serializers.ModelSerializer):
     web_url = AbsoluteURLField(source="get_absolute_url", read_only=True)
-    source_language = LanguageSerializer(read_only=True)
+    source_language = LanguageSerializer(required=False)
     components_list_url = serializers.HyperlinkedIdentityField(
         view_name="api:project-components", lookup_field="slug"
     )
@@ -114,6 +303,7 @@ class ProjectSerializer(serializers.ModelSerializer):
         fields = (
             "name",
             "slug",
+            "id",
             "web",
             "source_language",
             "web_url",
@@ -127,6 +317,15 @@ class ProjectSerializer(serializers.ModelSerializer):
         extra_kwargs = {
             "url": {"view_name": "api:project-detail", "lookup_field": "slug"}
         }
+
+    def create(self, validated_data):
+        source_language_validated = validated_data.get("source_language")
+        if source_language_validated:
+            validated_data["source_language"] = Language.objects.get(
+                code=source_language_validated.get("code")
+            )
+        project = Project.objects.create(**validated_data)
+        return project
 
 
 class RepoField(serializers.CharField):
@@ -159,9 +358,9 @@ class ComponentSerializer(RemovableSerializer):
     )
     license_url = serializers.CharField(read_only=True)
 
-    repo = RepoField()
+    repo = RepoField(max_length=REPO_LENGTH)
 
-    push = RepoField()
+    push = RepoField(required=False, allow_blank=True, max_length=REPO_LENGTH)
 
     serializer_url_field = MultiFieldHyperlinkedIdentityField
 
@@ -170,6 +369,7 @@ class ComponentSerializer(RemovableSerializer):
         fields = (
             "name",
             "slug",
+            "id",
             "project",
             "vcs",
             "repo",
@@ -177,6 +377,7 @@ class ComponentSerializer(RemovableSerializer):
             "branch",
             "filemask",
             "template",
+            "edit_template",
             "new_base",
             "file_format",
             "license",
@@ -192,6 +393,7 @@ class ComponentSerializer(RemovableSerializer):
             "push",
             "check_flags",
             "enforced_checks",
+            "restricted",
         )
         extra_kwargs = {
             "url": {
@@ -275,6 +477,7 @@ class TranslationSerializer(RemovableSerializer):
             "language",
             "component",
             "language_code",
+            "id",
             "filename",
             "revision",
             "web_url",
@@ -316,6 +519,11 @@ class TranslationSerializer(RemovableSerializer):
         }
 
 
+class MonolingualUnitSerializer(serializers.Serializer):
+    key = serializers.CharField()
+    value = serializers.CharField()
+
+
 class ReadOnlySerializer(serializers.Serializer):
     def update(self, instance, validated_data):
         return None
@@ -340,7 +548,7 @@ class UploadRequestSerializer(ReadOnlySerializer):
     author_email = serializers.EmailField(required=False)
     author_name = serializers.CharField(max_length=200, required=False)
     method = serializers.ChoiceField(
-        choices=("translate", "approve", "suggest", "fuzzy", "replace"),
+        choices=("translate", "approve", "suggest", "fuzzy", "replace", "source"),
         required=False,
         default="translate",
     )
@@ -353,16 +561,7 @@ class UploadRequestSerializer(ReadOnlySerializer):
         if data["overwrite"] and not user.has_perm("upload.overwrite", obj):
             raise PermissionDenied()
 
-        if not user.has_perm("unit.edit", obj) and data["method"] in (
-            "translate",
-            "fuzzy",
-        ):
-            raise PermissionDenied()
-        if not user.has_perm("suggestion.add", obj) and data["method"] == "suggest":
-            raise PermissionDenied()
-        if not user.has_perm("unit.review", obj) and data["method"] == "approve":
-            raise PermissionDenied()
-        if not user.has_perm("component.edit", obj) and data["method"] == "replace":
+        if not check_upload_method_permissions(user, obj, data["method"]):
             raise PermissionDenied()
 
 
@@ -374,7 +573,34 @@ class RepoRequestSerializer(ReadOnlySerializer):
 
 class StatisticsSerializer(ReadOnlySerializer):
     def to_representation(self, instance):
-        return instance.get_stats()
+        stats = instance.stats
+        result = {
+            "total": stats.all,
+            "total_words": stats.all_words,
+            "last_change": stats.last_changed,
+            "recent_changes": stats.recent_changes,
+            "translated": stats.translated,
+            "translated_words": stats.translated_words,
+            "translated_percent": stats.translated_percent,
+            "translated_words_percent": stats.translated_words_percent,
+            "translated_chars": stats.translated_chars,
+            "translated_chars_percent": stats.translated_chars_percent,
+            "total_chars": stats.all_chars,
+            "fuzzy": stats.fuzzy,
+            "fuzzy_percent": stats.fuzzy_percent,
+            "failing": stats.allchecks,
+            "failing_percent": stats.allchecks_percent,
+        }
+        if hasattr(instance, "language"):
+            result["code"] = instance.language.code
+            result["name"] = instance.language.name
+        elif hasattr(instance, "name"):
+            result["name"] = instance.name
+        if hasattr(instance, "get_absolute_url"):
+            result["url"] = get_site_url(instance.get_absolute_url())
+        if hasattr(instance, "get_translate_url"):
+            result["translate_url"] = get_site_url(instance.get_translate_url())
+        return result
 
 
 class UnitSerializer(RemovableSerializer):
@@ -404,6 +630,7 @@ class UnitSerializer(RemovableSerializer):
             "flags",
             "fuzzy",
             "translated",
+            "approved",
             "position",
             "has_suggestion",
             "has_comment",
@@ -464,6 +691,12 @@ class ChangeSerializer(RemovableSerializer):
     unit = serializers.HyperlinkedRelatedField(
         read_only=True, view_name="api:unit-detail"
     )
+    user = serializers.HyperlinkedRelatedField(
+        read_only=True, view_name="api:user-detail", lookup_field="username"
+    )
+    author = serializers.HyperlinkedRelatedField(
+        read_only=True, view_name="api:user-detail", lookup_field="username"
+    )
 
     class Meta:
         model = Change
@@ -471,7 +704,7 @@ class ChangeSerializer(RemovableSerializer):
             "unit",
             "component",
             "translation",
-            "dictionary",
+            "glossary_term",
             "user",
             "author",
             "timestamp",
@@ -482,3 +715,39 @@ class ChangeSerializer(RemovableSerializer):
             "url",
         )
         extra_kwargs = {"url": {"view_name": "api:change-detail"}}
+
+
+class AutoComponentListSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = AutoComponentList
+        fields = (
+            "project_match",
+            "component_match",
+        )
+
+
+class ComponentListSerializer(serializers.ModelSerializer):
+    components = MultiFieldHyperlinkedIdentityField(
+        view_name="api:component-detail",
+        lookup_field=("project__slug", "slug"),
+        many=True,
+        read_only=True,
+    )
+    auto_assign = AutoComponentListSerializer(
+        many=True, source="autocomponentlist_set", read_only=True
+    )
+
+    class Meta:
+        model = ComponentList
+        fields = (
+            "name",
+            "slug",
+            "id",
+            "show_dashboard",
+            "components",
+            "auto_assign",
+            "url",
+        )
+        extra_kwargs = {
+            "url": {"view_name": "api:componentlist-detail", "lookup_field": "slug"}
+        }

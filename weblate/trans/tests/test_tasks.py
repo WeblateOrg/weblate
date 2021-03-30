@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -29,6 +28,7 @@ from weblate.trans.tasks import (
     cleanup_old_comments,
     cleanup_old_suggestions,
     cleanup_suggestions,
+    daily_update_checks,
 )
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.utils.state import STATE_TRANSLATED
@@ -91,13 +91,19 @@ class CleanupTest(ViewTestCase):
         self.test_cleanup_old_suggestions(1)
 
     def test_cleanup_old_comments(self, expected=2):
+        request = self.get_request()
         unit = self.get_unit()
-        Comment.objects.add(unit.source_info, self.user, "Zkouška")
+        Comment.objects.add(unit.source_info, request, "Zkouška")
         Comment.objects.all().update(timestamp=timezone.now() - timedelta(days=30))
-        Comment.objects.add(unit.source_info, self.user, "Zkouška 2")
+        Comment.objects.add(unit.source_info, request, "Zkouška 2")
         cleanup_old_comments()
         self.assertEqual(Comment.objects.count(), expected)
 
     @override_settings(COMMENT_CLEANUP_DAYS=15)
     def test_cleanup_old_comments_enabled(self):
         self.test_cleanup_old_comments(1)
+
+
+class TasksTest(ViewTestCase):
+    def test_daily_update_checks(self):
+        daily_update_checks()

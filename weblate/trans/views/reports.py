@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -44,14 +43,12 @@ def generate_credits(user, start_date, end_date, **kwargs):
         base = base.filter(author=user)
 
     for language in Language.objects.filter(**kwargs).distinct().iterator():
-        authors = base.filter(translation__language=language, **kwargs).authors_list(
+        authors = base.filter(language=language, **kwargs).authors_list(
             (start_date, end_date)
         )
         if not authors:
             continue
-        result.append(
-            {language.name: sorted(author for author in set(authors) if author[0])}
-        )
+        result.append({language.name: sorted(authors, key=lambda item: item[2])})
 
     return result
 
@@ -91,7 +88,7 @@ def get_credits(request, project=None, component=None):
         row_start = "<tr>"
         language_format = "<th>{0}</th>"
         translator_start = "<td><ul>"
-        translator_format = '<li><a href="mailto:{0}">{1}</a></li>'
+        translator_format = '<li><a href="mailto:{0}">{1}</a> ({2})</li>'
         translator_end = "</ul></td>"
         row_end = "</tr>"
         mime = "text/html"
@@ -101,7 +98,7 @@ def get_credits(request, project=None, component=None):
         row_start = ""
         language_format = "* {0}\n"
         translator_start = ""
-        translator_format = "    * {1} <{0}>"
+        translator_format = "    * {1} <{0}> ({2})"
         translator_end = ""
         row_end = ""
         mime = "text/plain"
@@ -129,70 +126,81 @@ def get_credits(request, project=None, component=None):
     )
 
 
+COUNT_DEFAULTS = {
+    field: 0
+    for field in (
+        "t_chars",
+        "t_words",
+        "chars",
+        "words",
+        "edits",
+        "count",
+        "t_chars_new",
+        "t_words_new",
+        "chars_new",
+        "words_new",
+        "edits_new",
+        "count_new",
+        "t_chars_approve",
+        "t_words_approve",
+        "chars_approve",
+        "words_approve",
+        "edits_approve",
+        "count_approve",
+        "t_chars_edit",
+        "t_words_edit",
+        "chars_edit",
+        "words_edit",
+        "edits_edit",
+        "count_edit",
+    )
+}
+
+
 def generate_counts(user, start_date, end_date, **kwargs):
     """Generate credits data for given component."""
     result = {}
     action_map = {Change.ACTION_NEW: "new", Change.ACTION_APPROVE: "approve"}
 
-    base = Change.objects.content()
+    base = Change.objects.content().filter(unit__isnull=False)
     if user:
         base = base.filter(author=user)
+    else:
+        base = base.filter(author__isnull=False)
 
-    authors = base.filter(
+    changes = base.filter(
         timestamp__range=(start_date, end_date), **kwargs
-    ).values_list(
-        "author__email",
-        "author__full_name",
-        "unit__num_words",
-        "action",
-        "target",
-        "unit__source",
-    )
-    for email, name, src_words, action, target, source in authors:
-        if src_words is None:
-            continue
+    ).prefetch_related("author", "unit")
+    for change in changes:
+        email = change.author.email
+
         if email not in result:
-            result[email] = {
-                "name": name,
-                "email": email,
-                "t_chars": 0,
-                "t_words": 0,
-                "chars": 0,
-                "words": 0,
-                "count": 0,
-                "t_chars_new": 0,
-                "t_words_new": 0,
-                "chars_new": 0,
-                "words_new": 0,
-                "count_new": 0,
-                "t_chars_approve": 0,
-                "t_words_approve": 0,
-                "chars_approve": 0,
-                "words_approve": 0,
-                "count_approve": 0,
-                "t_chars_edit": 0,
-                "t_words_edit": 0,
-                "chars_edit": 0,
-                "words_edit": 0,
-                "count_edit": 0,
-            }
-        src_chars = len(source)
-        tgt_chars = len(target)
-        tgt_words = len(target.split())
+            result[email] = current = {"name": change.author.full_name, "email": email}
+            current.update(COUNT_DEFAULTS)
+        else:
+            current = result[email]
 
-        result[email]["chars"] += src_chars
-        result[email]["words"] += src_words
-        result[email]["t_chars"] += tgt_chars
-        result[email]["t_words"] += tgt_words
-        result[email]["count"] += 1
+        src_chars = len(change.unit.source)
+        src_words = change.unit.num_words
+        tgt_chars = len(change.target)
+        tgt_words = len(change.target.split())
+        edits = change.get_distance()
 
-        suffix = action_map.get(action, "edit")
+        current["chars"] += src_chars
+        current["words"] += src_words
+        current["t_chars"] += tgt_chars
+        current["t_words"] += tgt_words
+        current["edits"] += edits
+        current["count"] += 1
 
-        result[email]["t_chars_" + suffix] += tgt_chars
-        result[email]["t_words_" + suffix] += tgt_words
-        result[email]["chars_" + suffix] += src_chars
-        result[email]["words_" + suffix] += src_words
-        result[email]["count_" + suffix] += 1
+        suffix = action_map.get(change.action, "edit")
+
+        current["t_chars_" + suffix] += tgt_chars
+        current["t_words_" + suffix] += tgt_words
+        current["chars_" + suffix] += src_chars
+        current["words_" + suffix] += src_words
+        current["edits_" + suffix] += edits
+        current["count_" + suffix] += 1
 
     return list(result.values())
 
@@ -231,21 +239,25 @@ def get_counts(request, project=None, component=None):
         "Name",
         "Email",
         "Count total",
+        "Edits total",
         "Source words total",
         "Source chars total",
         "Target words total",
         "Target chars total",
         "Count new",
+        "Edits new",
         "Source words new",
         "Source chars new",
         "Target words new",
         "Target chars new",
         "Count approved",
+        "Edits approved",
         "Source words approved",
         "Source chars approved",
         "Target words approved",
         "Target chars approved",
         "Count edited",
+        "Edits edited",
         "Source words edited",
         "Source chars edited",
         "Target words edited",
@@ -280,28 +292,36 @@ def get_counts(request, project=None, component=None):
         if row_start:
             result.append(row_start)
         result.append(
-            cell_name.format(item["name"] or "Anonymous")
-            + cell_name.format(item["email"] or "")
-            + cell_count.format(item["count"])
-            + cell_count.format(item["words"])
-            + cell_count.format(item["chars"])
-            + cell_count.format(item["t_words"])
-            + cell_count.format(item["t_chars"])
-            + cell_count.format(item["count_new"])
-            + cell_count.format(item["words_new"])
-            + cell_count.format(item["chars_new"])
-            + cell_count.format(item["t_words_new"])
-            + cell_count.format(item["t_chars_new"])
-            + cell_count.format(item["count_approve"])
-            + cell_count.format(item["words_approve"])
-            + cell_count.format(item["chars_approve"])
-            + cell_count.format(item["t_words_approve"])
-            + cell_count.format(item["t_chars_approve"])
-            + cell_count.format(item["count_edit"])
-            + cell_count.format(item["words_edit"])
-            + cell_count.format(item["chars_edit"])
-            + cell_count.format(item["t_words_edit"])
-            + cell_count.format(item["t_chars_edit"])
+            "".join(
+                (
+                    cell_name.format(item["name"] or "Anonymous"),
+                    cell_name.format(item["email"] or ""),
+                    cell_count.format(item["count"]),
+                    cell_count.format(item["edits"]),
+                    cell_count.format(item["words"]),
+                    cell_count.format(item["chars"]),
+                    cell_count.format(item["t_words"]),
+                    cell_count.format(item["t_chars"]),
+                    cell_count.format(item["count_new"]),
+                    cell_count.format(item["edits_new"]),
+                    cell_count.format(item["words_new"]),
+                    cell_count.format(item["chars_new"]),
+                    cell_count.format(item["t_words_new"]),
+                    cell_count.format(item["t_chars_new"]),
+                    cell_count.format(item["count_approve"]),
+                    cell_count.format(item["edits_approve"]),
+                    cell_count.format(item["words_approve"]),
+                    cell_count.format(item["chars_approve"]),
+                    cell_count.format(item["t_words_approve"]),
+                    cell_count.format(item["t_chars_approve"]),
+                    cell_count.format(item["count_edit"]),
+                    cell_count.format(item["edits_edit"]),
+                    cell_count.format(item["words_edit"]),
+                    cell_count.format(item["chars_edit"]),
+                    cell_count.format(item["t_words_edit"]),
+                    cell_count.format(item["t_chars_edit"]),
+                )
+            )
         )
         if row_end:
             result.append(row_end)

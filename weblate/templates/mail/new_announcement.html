@@ -1,0 +1,11 @@
+{% extends "mail/base.html" %}
+
+{% load i18n %}{% load translations %}
+
+{% block content %}
+
+<h2>{% trans "Announcement" %}</h2>
+
+<p>{{ announcement.message|markdown }}</p>
+
+{% endblock %}

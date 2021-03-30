@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -49,8 +48,7 @@ class FileFormatLoader(ClassLoader):
                 fileformat.get_class()
             except (AttributeError, ImportError) as error:
                 result.pop(fileformat.format_id)
-                if fileformat.format_id != "rc":
-                    self.errors[fileformat.format_id] = str(error)
+                self.errors[fileformat.format_id] = str(error)
 
         return result
 
@@ -71,13 +69,17 @@ class FormatsConf(AppConf):
         "weblate.formats.ttkit.PropertiesUtf16Format",
         "weblate.formats.ttkit.PropertiesFormat",
         "weblate.formats.ttkit.JoomlaFormat",
+        "weblate.formats.ttkit.GWTFormat",
         "weblate.formats.ttkit.PhpFormat",
+        "weblate.formats.ttkit.LaravelPhpFormat",
         "weblate.formats.ttkit.RESXFormat",
         "weblate.formats.ttkit.AndroidFormat",
         "weblate.formats.ttkit.JSONFormat",
         "weblate.formats.ttkit.JSONNestedFormat",
         "weblate.formats.ttkit.WebExtensionJSONFormat",
         "weblate.formats.ttkit.I18NextFormat",
+        "weblate.formats.ttkit.GoI18JSONFormat",
+        "weblate.formats.ttkit.ARBFormat",
         "weblate.formats.ttkit.CSVFormat",
         "weblate.formats.ttkit.CSVSimpleFormat",
         "weblate.formats.ttkit.CSVSimpleFormatISO",
@@ -88,10 +90,15 @@ class FormatsConf(AppConf):
         "weblate.formats.ttkit.AdvSubStationAlphaFormat",
         "weblate.formats.ttkit.SubStationAlphaFormat",
         "weblate.formats.ttkit.DTDFormat",
-        "weblate.formats.ttkit.WindowsRCFormat",
         "weblate.formats.ttkit.FlatXMLFormat",
+        "weblate.formats.ttkit.INIFormat",
+        "weblate.formats.ttkit.InnoSetupINIFormat",
         "weblate.formats.external.XlsxFormat",
         "weblate.formats.txt.AppStoreFormat",
+        "weblate.formats.convert.HTMLFormat",
+        "weblate.formats.convert.IDMLFormat",
+        "weblate.formats.convert.OpenDocumentFormat",
+        "weblate.formats.convert.WindowsRCFormat",
     )
 
     class Meta:

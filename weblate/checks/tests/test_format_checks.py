@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -21,13 +20,16 @@
 """Tests for quality checks."""
 
 
+from django.test import SimpleTestCase
+
 from weblate.checks.format import (
     CFormatCheck,
     CSharpFormatCheck,
     I18NextInterpolationCheck,
     JavaFormatCheck,
     JavaMessageFormatCheck,
-    PercentInterpolationCheck,
+    MultipleUnnamedFormatsCheck,
+    PercentPlaceholdersCheck,
     PerlFormatCheck,
     PHPFormatCheck,
     PythonBraceFormatCheck,
@@ -485,7 +487,7 @@ class JavaMessageFormatCheckTest(CheckTestCase):
         check = Check(unit=unit)
         self.assertEqual(
             self.check.get_description(check),
-            "You need to screen an apostrophe with another one.",
+            "You need to pair up an apostrophe with another one.",
         )
 
 
@@ -695,6 +697,16 @@ class PluralTest(FixtureTestCase):
             )
         )
 
+    def test_non_format_singular(self):
+        czech = Language.objects.get(code="cs")
+        translation = Translation(language=czech, plural=czech.plural)
+        unit = Unit(translation=translation)
+        self.assertFalse(
+            self.check.check_target_unit(
+                ["One apple", "%d apples"], ["%d jablo", "%d jablka", "%d jablek"], unit
+            )
+        )
+
 
 class I18NextInterpolationCheckTest(CheckTestCase):
     check = I18NextInterpolationCheck()
@@ -744,13 +756,13 @@ class I18NextInterpolationCheckTest(CheckTestCase):
         )
 
 
-class PercentInterpolationCheckTest(CheckTestCase):
-    check = PercentInterpolationCheck()
+class PercentPlaceholdersCheckTest(CheckTestCase):
+    check = PercentPlaceholdersCheck()
 
     def setUp(self):
         super().setUp()
         self.test_highlight = (
-            "percent-interpolation",
+            "percent-placeholders",
             "%foo% string %bar%",
             [(0, 5, "%foo%"), (13, 18, "%bar%")],
         )
@@ -766,3 +778,26 @@ class PercentInterpolationCheckTest(CheckTestCase):
 
     def test_wrong_format(self):
         self.assertTrue(self.check.check_format("%foo% string", "%bar% string", False))
+
+
+class MultipleUnnamedFormatsCheckTestCase(SimpleTestCase):
+    check = MultipleUnnamedFormatsCheck()
+
+    def test_none_flag(self):
+        self.assertFalse(self.check.check_source(["text"], MockUnit()))
+
+    def test_none_format(self):
+        self.assertFalse(self.check.check_source(["text"], MockUnit(flags="c-format")))
+
+    def test_good(self):
+        self.assertFalse(
+            self.check.check_source(["%1$s %2$s"], MockUnit(flags="c-format"))
+        )
+
+    def test_bad_c(self):
+        self.assertTrue(self.check.check_source(["%s %s"], MockUnit(flags="c-format")))
+
+    def test_bad_python(self):
+        self.assertTrue(
+            self.check.check_source(["{} {}"], MockUnit(flags="python-brace-format"))
+        )

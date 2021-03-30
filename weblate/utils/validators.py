@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -37,27 +36,24 @@ USERNAME_MATCHER = re.compile(r"^[\w@+-][\w.@+-]*$")
 # Reject some suspicious e-mail addresses, based on checks enforced by Exim MTA
 EMAIL_BLACKLIST = re.compile(r"^([./|]|.*([@%!`#&?]|/\.\./))")
 
-ALLOWED_IMAGES = frozenset(("image/jpeg", "image/png", "image/apng", "image/gif"))
+ALLOWED_IMAGES = {"image/jpeg", "image/png", "image/apng", "image/gif"}
 
 # File formats we do not accept on translation/glossary upload
-FORBIDDEN_EXTENSIONS = frozenset(
-    (
-        ".png",
-        ".jpg",
-        ".gif",
-        ".svg",
-        ".doc",
-        ".rtf",
-        ".xls",
-        ".docx",
-        ".html",
-        ".py",
-        ".js",
-        ".exe",
-        ".dll",
-        ".zip",
-    )
-)
+FORBIDDEN_EXTENSIONS = {
+    ".png",
+    ".jpg",
+    ".gif",
+    ".svg",
+    ".doc",
+    ".rtf",
+    ".xls",
+    ".docx",
+    ".py",
+    ".js",
+    ".exe",
+    ".dll",
+    ".zip",
+}
 
 
 def validate_re(value, groups=None, allow_empty=True):
@@ -185,11 +181,11 @@ def validate_email(value):
         raise ValidationError(_("This e-mail address is disallowed."))
 
 
-def validate_pluraleq(value):
+def validate_plural_formula(value):
     try:
         gettext.c2py(value if value else "0")
     except ValueError as error:
-        raise ValidationError(_("Could not evaluate plural equation: {}").format(error))
+        raise ValidationError(_("Could not evaluate plural formula: {}").format(error))
 
 
 def validate_filename(value):

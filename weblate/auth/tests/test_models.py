@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -53,6 +52,23 @@ class ModelTest(FixtureTestCase):
         self.assertTrue(self.user.can_access_project(self.project))
         self.assertTrue(self.user.has_perm("unit.edit", self.translation))
 
+    def test_component(self):
+        self.group.projects.remove(self.project)
+
+        # Add user to group of power users
+        self.user.groups.add(self.group)
+        self.group.roles.add(Role.objects.get(name="Power user"))
+
+        # No permissions as component list is empty
+        self.assertFalse(self.user.can_access_project(self.project))
+        self.assertFalse(self.user.has_perm("unit.edit", self.translation))
+
+        # Permissions should exist after adding to a component list
+        self.user.clear_cache()
+        self.group.components.add(self.component)
+        self.assertTrue(self.user.can_access_project(self.project))
+        self.assertTrue(self.user.has_perm("unit.edit", self.translation))
+
     def test_componentlist(self):
         # Add user to group of power users
         self.user.groups.add(self.group)
@@ -60,11 +76,10 @@ class ModelTest(FixtureTestCase):
 
         # Assign component list to a group
         clist = ComponentList.objects.create(name="Test", slug="test")
-        self.group.componentlist = clist
-        self.group.save()
+        self.group.componentlists.add(clist)
 
         # No permissions as component list is empty
-        self.assertTrue(self.user.can_access_project(self.project))
+        self.assertFalse(self.user.can_access_project(self.project))
         self.assertFalse(self.user.has_perm("unit.edit", self.translation))
 
         # Permissions should exist after adding to a component list
@@ -82,6 +97,7 @@ class ModelTest(FixtureTestCase):
         self.group.languages.set(Language.objects.filter(code="de"), clear=True)
 
         # Permissions should deny access
+        self.user.clear_cache()
         self.assertTrue(self.user.can_access_project(self.project))
         self.assertFalse(self.user.has_perm("unit.edit", self.translation))
 

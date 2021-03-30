@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -18,7 +17,10 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
+import re
+
 from django.http import Http404
+from siphashc import siphash
 
 from weblate.utils.docs import get_doc_url
 
@@ -33,9 +35,9 @@ class Check:
     source = False
     ignore_untranslated = True
     default_disabled = False
-    severity = "info"
-    batch_update = False
+    propagates = False
     param_type = None
+    always_display = False
 
     def get_identifier(self):
         return self.check_id
@@ -58,6 +60,15 @@ class Check:
             return True
 
         return False
+
+    def should_display(self, unit):
+        """Display the check always, not only when failing."""
+        if self.ignore_untranslated and not unit.state:
+            return False
+        if self.should_skip(unit):
+            return False
+        # Display if enabled and the check is not triggered
+        return self.always_display and self.check_id not in unit.all_checks_names
 
     def check_target(self, sources, targets, unit):
         """Check target strings."""
@@ -92,6 +103,12 @@ class Check:
         raise NotImplementedError()
 
     def check_source(self, source, unit):
+        """Check source strings."""
+        if self.should_skip(unit):
+            return False
+        return self.check_source_unit(source, unit)
+
+    def check_source_unit(self, source, unit):
         """Check source string."""
         raise NotImplementedError()
 
@@ -103,9 +120,7 @@ class Check:
         except IndexError:
             return False
 
-        return (src in chars and tgt not in chars) or (
-            src not in chars and tgt in chars
-        )
+        return (src in chars) is not (tgt in chars)
 
     def is_language(self, unit, vals):
         """Detect whether language is in given list, ignores variants."""
@@ -132,6 +147,31 @@ class Check:
     def render(self, request, unit):
         raise Http404("Not supported")
 
+    def get_cache_key(self, unit, pos):
+        return "check:{}:{}:{}:{}".format(
+            self.check_id,
+            unit.pk,
+            siphash("Weblate   Checks", unit.all_flags.format()),
+            pos,
+        )
+
+    def get_replacement_function(self, unit):
+        flags = unit.all_flags
+        if not flags.has_value("replacements"):
+            return lambda text: text
+
+        # Parse the flag
+        replacements = flags.get_value("replacements")
+        # Create dict from that
+        replacements = dict(
+            replacements[pos : pos + 2] for pos in range(0, len(replacements), 2)
+        )
+
+        # Build regexp matcher
+        pattern = re.compile("|".join(re.escape(key) for key in replacements.keys()))
+
+        return lambda text: pattern.sub(lambda m: replacements[m.group(0)], text)
+
 
 class TargetCheck(Check):
     """Basic class for target checks."""
@@ -142,7 +182,7 @@ class TargetCheck(Check):
         """We don't check flag value here."""
         return False
 
-    def check_source(self, source, unit):
+    def check_source_unit(self, source, unit):
         """We don't check source strings here."""
         return False
 
@@ -164,7 +204,7 @@ class SourceCheck(Check):
         """We don't check target strings here."""
         return False
 
-    def check_source(self, source, unit):
+    def check_source_unit(self, source, unit):
         """Check source string."""
         raise NotImplementedError()
 
@@ -178,7 +218,10 @@ class TargetCheckParametrized(Check):
     def get_value(self, unit):
         return unit.all_flags.get_value(self.enable_string)
 
-    def check_target(self, sources, targets, unit):
+    def has_value(self, unit):
+        return unit.all_flags.has_value(self.enable_string)
+
+    def check_target_unit(self, sources, targets, unit):
         """Check flag value."""
         if unit.all_flags.has_value(self.enable_string):
             return self.check_target_params(
@@ -193,7 +236,7 @@ class TargetCheckParametrized(Check):
         """We don't check single phrase here."""
         return False
 
-    def check_source(self, source, unit):
+    def check_source_unit(self, source, unit):
         """We don't check source strings here."""
         return False
 

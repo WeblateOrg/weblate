@@ -10,13 +10,13 @@
 
 {% block content %}
 
-{% whiteboard_messages language=language project=project %}
+{% announcements language=language project=project %}
 
 <ul class="nav nav-pills">
   <li class="active"><a href="#overview" data-toggle="tab">{% trans "Components" %}</a></li>
   <li><a href="#information" data-toggle="tab">{% trans "Info" %}</a></li>
   <li><a href="#search" data-toggle="tab">{% trans "Search" %}</a></li>
-  <li><a href="{% url 'show_dictionary' project=project.slug lang=language.code %}">{% trans "Glossary" %}</a></li>
+  <li><a href="{% url 'show_glossary' project=project.slug lang=language.code %}">{% trans "Glossary" %}</a></li>
   <li class="dropdown">
     <a class="dropdown-toggle" data-toggle="dropdown" href="#">
       {% trans "Insights" %} <span class="caret"></span>
@@ -39,22 +39,17 @@
       {% trans "Tools" %} <span class="caret"></span>
     </a>
     <ul class="dropdown-menu">
-      <li><a href="{% url 'checks' %}?language={{ language.code }}&amp;project={{ project.slug }}">{% trans "Failing checks" %}</a></li>
-      <li><a href="{% url 'checks' %}?language={{ language.code }}&amp;project={{ project.slug }}&amp;ignored=true">{% trans "Ignored checks" %}</a></li>
+      <li><a href="{% url 'checks' %}?lang={{ language.code }}&amp;project={{ project.slug }}">{% trans "Failing checks" %}</a></li>
     </ul>
    </li>
-{% with project=project %}
 {% include "watch-dropdown.html" %}
-{% endwith %}
 </ul>
 
 <div class="tab-content">
 
 <div class="tab-pane active" id="overview">
-{% include "snippets/list-objects.html" with objects=translations name_source="component_name" label=_("Component") global_base=project.stats %}
-{% with translations as page_obj %}
-{% include "paginator.html" %}
-{% endwith %}
+{% include "snippets/list-objects.html" with objects=translations name_source="component_name" label=_("Component") %}
+{% include "paginator.html" with page_obj=translations %}
 </div>
 
 <div class="tab-pane" id="information">

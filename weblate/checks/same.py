@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -62,7 +61,9 @@ PATH_RE = re.compile(r"(^|[ ])(/[a-zA-Z0-9=:?._-]+)+")
 
 TEMPLATE_RE = re.compile(r"{[a-z_-]+}|@[A-Z_]@", re.IGNORECASE)
 
-RST_MATCH = re.compile(r"(?::(ref|config:option|file|guilabel):`[^`]+`|``[^`]+``)")
+RST_MATCH = re.compile(
+    r"(?::(ref|config:option|file|guilabel|download):`[^`]+`|``[^`]+``)"
+)
 
 SPLIT_RE = re.compile(
     r"(?:\&(?:nbsp|rsaquo|lt|gt|amp|ldquo|rdquo|times|quot);|"
@@ -136,9 +137,25 @@ def strip_string(msg, flags):
     return stripped
 
 
-def test_word(word):
+def test_word(word, extra_ignore):
     """Test whether word should be ignored."""
-    return len(word) <= 2 or word in SAME_BLACKLIST or word in LANGUAGES
+    return (
+        len(word) <= 2
+        or word in SAME_BLACKLIST
+        or word in LANGUAGES
+        or word in extra_ignore
+    )
+
+
+def strip_placeholders(msg, unit):
+
+    return re.sub(
+        "|".join(
+            re.escape(param) for param in unit.all_flags.get_value("placeholders")
+        ),
+        "",
+        msg,
+    )
 
 
 class SameCheck(TargetCheck):
@@ -147,13 +164,20 @@ class SameCheck(TargetCheck):
     check_id = "same"
     name = _("Unchanged translation")
     description = _("Source and translation are identical")
-    severity = "warning"
 
     def should_ignore(self, source, unit):
         """Check whether given unit should be ignored."""
+        if "strict-same" in unit.all_flags:
+            return False
         # Ignore some docbook tags
         if unit.note.startswith("Tag: ") and unit.note[5:] in DB_TAGS:
             return True
+
+        # Ignore name of the project
+        extra_ignore = set(
+            unit.translation.component.project.name.lower().split()
+            + unit.translation.component.name.lower().split()
+        )
 
         # Lower case source
         lower_source = source.lower()
@@ -168,6 +192,10 @@ class SameCheck(TargetCheck):
         # Strip format strings
         stripped = strip_string(source, unit.all_flags)
 
+        # Strip placeholder strings
+        if "placeholders" in unit.all_flags:
+            stripped = strip_placeholders(stripped, unit)
+
         # Ignore strings which don't contain any string to translate
         # or just single letter (usually unit or something like that)
         # or are whole uppercase (abbreviations)
@@ -176,12 +204,13 @@ class SameCheck(TargetCheck):
         # Check if we have any word which is not in blacklist
         # (words which are often same in foreign language)
         for word in SPLIT_RE.split(stripped.lower()):
-            if not test_word(word):
+            if not test_word(word, extra_ignore):
                 return False
         return True
 
     def should_skip(self, unit):
-        if super().should_skip(unit):
+        # Skip read-only units and ignored check
+        if unit.readonly or super().should_skip(unit):
             return True
 
         source_language = unit.translation.component.project.source_language.base_code

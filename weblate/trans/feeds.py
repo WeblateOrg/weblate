@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -79,7 +78,7 @@ class TranslationChangesFeed(ChangesFeed):
         return obj.get_absolute_url()
 
     def items(self, obj):
-        return Change.objects.filter(translation=obj).order()[:10]
+        return Change.objects.prefetch().filter(translation=obj).order()[:10]
 
 
 class ComponentChangesFeed(TranslationChangesFeed):
@@ -92,7 +91,7 @@ class ComponentChangesFeed(TranslationChangesFeed):
         return get_component(request, project, component)
 
     def items(self, obj):
-        return Change.objects.filter(component=obj).order()[:10]
+        return Change.objects.prefetch().filter(component=obj).order()[:10]
 
 
 class ProjectChangesFeed(TranslationChangesFeed):
@@ -105,7 +104,7 @@ class ProjectChangesFeed(TranslationChangesFeed):
         return get_project(request, project)
 
     def items(self, obj):
-        return Change.objects.filter(project=obj).order()[:10]
+        return Change.objects.prefetch().filter(project=obj).order()[:10]
 
 
 class LanguageChangesFeed(TranslationChangesFeed):
@@ -118,4 +117,4 @@ class LanguageChangesFeed(TranslationChangesFeed):
         return get_object_or_404(Language, code=lang)
 
     def items(self, obj):
-        return Change.objects.filter(translation__language=obj).order()[:10]
+        return Change.objects.prefetch().filter(language=obj).order()[:10]

@@ -1,7 +1,7 @@
 {% load translations %}
 {% load i18n %}
 {% if object.locked %}
-{% trans "This translation is currently locked for updates." as msg %}
+{% trans "The translation is temporarily closed for contributions due to maintenance, please come back later." as msg %}
 {% show_message "warning" msg %}
 {% endif %}
 

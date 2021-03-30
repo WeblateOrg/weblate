@@ -1,3 +1,4 @@
+# This file is maintained in https://github.com/WeblateOrg/meta/
 name: Issue closed
 
 on:
@@ -10,18 +11,18 @@ jobs:
     steps:
       - name: Add closed question comment
         uses: peter-evans/create-or-update-comment@v1
-        if: contains(github.event.issue.labels.*.name, 'question') && ! contains(github.event.issue.labels.*.name, 'wontfix')
+        if: (contains(github.event.issue.labels.*.name, 'question') && ! contains(github.event.issue.labels.*.name, 'wontfix')) || join(github.event.issue.labels.*.name) == ''
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           issue-number: ${{ github.event.issue.number }}
           body: |
             The issue you have reported seems to be resolved now.
 
-            * In case you see similar problem, please open separate issue.
+            * In case you see a similar problem, please open a separate issue.
             * If you are happy with the outcome, consider supporting Weblate by [donating](https://weblate.org/donate/).
       - name: Add closed issue comment
         uses: peter-evans/create-or-update-comment@v1
-        if: "! contains(github.event.issue.labels.*.name, 'invalid') && ! contains(github.event.issue.labels.*.name, 'question') && ! contains(github.event.issue.labels.*.name, 'wontfix') && ! contains(github.event.issue.labels.*.name, 'duplicate') && ! contains(github.event.issue.labels.*.name, 'undecided') && github.event.issue.labels.*.name != ''"
+        if: "! contains(github.event.issue.labels.*.name, 'invalid') && ! contains(github.event.issue.labels.*.name, 'question') && ! contains(github.event.issue.labels.*.name, 'wontfix') && ! contains(github.event.issue.labels.*.name, 'duplicate') && ! contains(github.event.issue.labels.*.name, 'undecided') && join(github.event.issue.labels.*.name) != ''"
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           issue-number: ${{ github.event.issue.number }}
@@ -29,5 +30,5 @@ jobs:
             Thank you for your report, the issue you have reported has just been fixed.
 
             * In case you see a problem with the fix, please comment on this issue.
-            * In case you see similar problem, please open separate issue.
+            * In case you see a similar problem, please open a separate issue.
             * If you are happy with the outcome, consider supporting Weblate by [donating](https://weblate.org/donate/).

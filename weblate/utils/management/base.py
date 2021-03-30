@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -24,6 +23,8 @@ from django.core.management.base import BaseCommand as DjangoBaseCommand
 
 
 class BaseCommand(DjangoBaseCommand):
+    requires_system_checks = False
+
     def execute(self, *args, **options):
         logger = logging.getLogger("weblate")
         if not any(handler.get_name() == "console" for handler in logger.handlers):

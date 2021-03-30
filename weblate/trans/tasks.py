@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -21,7 +20,7 @@
 
 import logging
 import os
-from datetime import timedelta
+from datetime import date, timedelta
 from glob import glob
 from shutil import rmtree
 from time import time
@@ -29,15 +28,14 @@ from time import time
 from celery.schedules import crontab
 from django.conf import settings
 from django.db import transaction
+from django.db.models import F
 from django.utils import timezone
 from django.utils.translation import gettext as _
 from django.utils.translation import ngettext, override
 from filelock import Timeout
-from whoosh.index import EmptyIndexError
 
 from weblate.addons.models import Addon
 from weblate.auth.models import User, get_anonymous
-from weblate.lang.models import Language
 from weblate.trans.autotranslate import AutoTranslate
 from weblate.trans.exceptions import FileParseError
 from weblate.trans.models import (
@@ -49,10 +47,11 @@ from weblate.trans.models import (
     Translation,
     Unit,
 )
-from weblate.trans.search import Fulltext
 from weblate.utils.celery import app
 from weblate.utils.data import data_dir
+from weblate.utils.errors import report_error
 from weblate.utils.files import remove_readonly
+from weblate.vcs.base import RepositoryException
 
 SEARCH_LOGGER = logging.getLogger("weblate.search")
 
@@ -129,42 +128,6 @@ def commit_pending(hours=None, pks=None, logger=None):
         perform_commit.delay(component.pk, "commit_pending", None)
 
 
-@app.task(trail=False)
-def cleanup_fulltext():
-    """Remove stale units from fulltext."""
-    fulltext = Fulltext()
-    languages = list(Language.objects.values_list("code", flat=True)) + [None]
-    # We operate only on target indexes as they will have all IDs anyway
-    for lang in languages:
-        if lang is None:
-            index = fulltext.get_source_index()
-        else:
-            index = fulltext.get_target_index(lang)
-        try:
-            fields = index.reader().all_stored_fields()
-        except EmptyIndexError:
-            continue
-        for item in fields:
-            if Unit.objects.filter(pk=item["pk"]).exists():
-                continue
-            fulltext.clean_search_unit(item["pk"], lang)
-
-
-@app.task(trail=False)
-def optimize_fulltext():
-    SEARCH_LOGGER.info("starting optimizing source index")
-    fulltext = Fulltext()
-    index = fulltext.get_source_index()
-    index.optimize()
-    SEARCH_LOGGER.info("completed optimizing source index")
-    languages = Language.objects.have_translation()
-    for lang in languages:
-        SEARCH_LOGGER.info("starting optimizing %s index", lang.code)
-        index = fulltext.get_target_index(lang.code)
-        index.optimize()
-        SEARCH_LOGGER.info("completed optimizing %s index", lang.code)
-
-
 def cleanup_sources(project):
     """Remove stale source Unit objects."""
     for component in project.component_set.filter(template="").iterator():
@@ -196,8 +159,8 @@ def cleanup_project(pk):
 def cleanup_suggestions():
     # Process suggestions
     anonymous_user = get_anonymous()
-    suggestions = Suggestion.objects.prefetch_related("project", "language")
-    for suggestion in suggestions.iterator():
+    suggestions = Suggestion.objects.prefetch_related("unit")
+    for suggestion in suggestions:
         with transaction.atomic():
             # Remove suggestions with same text as real translation
             if (
@@ -279,32 +242,40 @@ def cleanup_old_comments():
 
 
 @app.task(trail=False)
-def repository_alerts(threshold=10):
+def repository_alerts(threshold=settings.REPOSITORY_ALERT_THRESHOLD):
     non_linked = Component.objects.with_repo()
     for component in non_linked.iterator():
-        if component.repository.count_missing() > threshold:
-            component.add_alert("RepositoryOutdated")
-        else:
-            component.delete_alert("RepositoryOutdated")
-        if component.repository.count_outgoing() > threshold:
-            component.add_alert("RepositoryChanges")
-        else:
-            component.delete_alert("RepositoryChanges")
+        try:
+            if component.repository.count_missing() > threshold:
+                component.add_alert("RepositoryOutdated")
+            else:
+                component.delete_alert("RepositoryOutdated")
+            if component.repository.count_outgoing() > threshold:
+                component.add_alert("RepositoryChanges")
+            else:
+                component.delete_alert("RepositoryChanges")
+        except RepositoryException as error:
+            report_error(cause="Could not check repository status")
+            component.add_alert("MergeFailure", error=component.error_text(error))
 
 
 @app.task(trail=False)
-def component_alerts():
-    for component in Component.objects.iterator():
+def component_alerts(component_ids=None):
+    if component_ids:
+        components = Component.objects.filter(pk__in=component_ids).iterator()
+    else:
+        components = Component.objects.iterator()
+    for component in components:
         component.update_alerts()
 
 
 @app.task(trail=False, autoretry_for=(Component.DoesNotExist,), retry_backoff=60)
 def component_after_save(
-    pk, changed_git, changed_setup, changed_template, changed_shaping, skip_push
+    pk, changed_git, changed_setup, changed_template, changed_variant, skip_push
 ):
     component = Component.objects.get(pk=pk)
     component.after_save(
-        changed_git, changed_setup, changed_template, changed_shaping, skip_push
+        changed_git, changed_setup, changed_template, changed_variant, skip_push
     )
 
 
@@ -321,7 +292,7 @@ def component_removal(pk, uid):
             author=user,
         )
         obj.delete()
-    except Project.DoesNotExist:
+    except Component.DoesNotExist:
         return
 
 
@@ -376,7 +347,7 @@ def auto_translate(
 
 
 @app.task(trail=False)
-def create_component(addons_from=None, **kwargs):
+def create_component(addons_from=None, in_task=False, **kwargs):
     kwargs["project"] = Project.objects.get(pk=kwargs["project"])
     component = Component.objects.create(**kwargs)
     Change.objects.create(action=Change.ACTION_CREATE_COMPONENT, component=component)
@@ -385,9 +356,14 @@ def create_component(addons_from=None, **kwargs):
             component__pk=addons_from, project_scope=False, repo_scope=False
         )
         for addon in addons:
+            # Avoid installing duplicate addons
+            if component.addon_set.filter(name=addon.name).exists():
+                continue
             if not addon.addon.can_install(component, None):
                 continue
             addon.addon.create(component, configuration=addon.configuration)
+    if in_task:
+        return None
     return component
 
 
@@ -405,11 +381,24 @@ def update_checks(pk):
         translation.invalidate_cache()
 
 
+@app.task(trail=False)
+def daily_update_checks():
+    # Update every component roughly once in a month
+    components = Component.objects.annotate(idmod=F("id") % 30).filter(
+        idmod=date.today().day
+    )
+    for component_id in components.values_list("id", flat=True):
+        update_checks.delay(component_id)
+
+
 @app.on_after_finalize.connect
 def setup_periodic_tasks(sender, **kwargs):
     sender.add_periodic_task(3600, commit_pending.s(), name="commit-pending")
     sender.add_periodic_task(
         crontab(hour=3, minute=30), update_remotes.s(), name="update-remotes"
+    )
+    sender.add_periodic_task(
+        crontab(hour=0, minute=30), daily_update_checks.s(), name="daily-update-checks"
     )
     sender.add_periodic_task(3600 * 24, repository_alerts.s(), name="repository-alerts")
     sender.add_periodic_task(3600 * 24, component_alerts.s(), name="component-alerts")
@@ -424,17 +413,4 @@ def setup_periodic_tasks(sender, **kwargs):
     )
     sender.add_periodic_task(
         3600 * 24, cleanup_old_comments.s(), name="cleanup-old-comments"
-    )
-
-    # Following fulltext maintenance tasks should not be
-    # executed at same time
-    sender.add_periodic_task(
-        crontab(hour=2, minute=30, day_of_week="saturday"),
-        cleanup_fulltext.s(),
-        name="fulltext-cleanup",
-    )
-    sender.add_periodic_task(
-        crontab(hour=2, minute=30, day_of_week="sunday"),
-        optimize_fulltext.s(),
-        name="fulltext-optimize",
     )

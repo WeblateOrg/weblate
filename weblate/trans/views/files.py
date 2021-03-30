@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -17,6 +16,8 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
+
+import os
 
 from django.core.exceptions import PermissionDenied
 from django.shortcuts import get_object_or_404, redirect
@@ -43,15 +44,31 @@ from weblate.utils.views import (
 
 
 def download_multi(translations, fmt=None):
-    filenames = [t.get_filename() for t in translations]
-    return zip_download(
-        data_dir("vcs"), [filename for filename in filenames if filename]
-    )
+    filenames = set()
+    components = set()
+
+    for translation in translations:
+        # Add translation files
+        if translation.filename:
+            filenames.add(translation.get_filename())
+        # Add templates for all components
+        if translation.component_id in components:
+            continue
+        components.add(translation.component_id)
+        for name in (
+            translation.component.template,
+            translation.component.new_base,
+            translation.component.intermediate,
+        ):
+            if name:
+                filenames.add(os.path.join(translation.component.full_path, name))
+
+    return zip_download(data_dir("vcs"), sorted(filenames))
 
 
 def download_component_list(request, name):
-    obj = get_object_or_404(ComponentList, slug=name)
-    components = obj.components.filter(project_id__in=request.user.allowed_project_ids)
+    obj = get_object_or_404(ComponentList, slug__iexact=name)
+    components = obj.components.filter_access(request.user)
     for component in components:
         component.commit_pending("download", None)
     return download_multi(
@@ -165,7 +182,11 @@ def upload_translation(request, project, component, lang):
             _("Plural forms in the uploaded file do not match current translation."),
         )
     except Exception as error:
-        messages.error(request, _("File upload has failed: %s") % force_str(error))
-        report_error(error, request, prefix="Upload error")
+        messages.error(
+            request,
+            _("File upload has failed: %s")
+            % force_str(error).replace(obj.component.full_path, ""),
+        )
+        report_error(cause="Upload error")
 
     return redirect(obj)

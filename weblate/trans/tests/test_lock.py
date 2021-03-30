@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -41,7 +40,9 @@ class LockTest(ViewTestCase):
         self.assertTrue(component.locked)
         response = self.client.get(reverse("component", kwargs=self.kw_component))
         self.assertContains(
-            response, "This translation is currently locked for updates."
+            response,
+            "The translation is temporarily closed for contributions due "
+            "to maintenance, please come back later.",
         )
 
     def assert_component_not_locked(self):
@@ -51,7 +52,9 @@ class LockTest(ViewTestCase):
         self.assertFalse(component.locked)
         response = self.client.get(reverse("component", kwargs=self.kw_component))
         self.assertNotContains(
-            response, "This translation is currently locked for updates."
+            response,
+            "The translation is temporarily closed for contributions due "
+            "to maintenance, please come back later.",
         )
 
     def test_component(self):
@@ -78,7 +81,9 @@ class LockTest(ViewTestCase):
 
         response = self.client.get(reverse("component", kwargs=self.kw_component))
         self.assertContains(
-            response, "This translation is currently locked for updates."
+            response,
+            "The translation is temporarily closed for contributions due "
+            "to maintenance, please come back later.",
         )
 
         response = self.client.post(reverse("unlock_project", kwargs=self.kw_project))

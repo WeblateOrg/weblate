@@ -371,6 +371,7 @@ the :command:`msgmerge` tool:
 In case you want to do the update automatically, you can install
 addon :ref:`addon-weblate.gettext.msgmerge`.
 
+
 Troubleshooting
 +++++++++++++++
 
@@ -397,60 +398,6 @@ The easiest way to do this is to run:
 
     :setting:`DATA_DIR`
 
-.. _faq-ft-slow:
-
-Fulltext search is too slow
----------------------------
-
-Depending on various conditions (frequency of updates, server restarts and
-more), the fulltext index might become too fragmented over time. It is recommended to
-optimize it from time to time:
-
-.. code-block:: sh
-
-    ./manage.py rebuild_index --optimize
-
-In case it does not help (or if you have removed a lot of strings) it might be
-better to rebuild it from scratch:
-
-.. code-block:: sh
-
-    ./manage.py rebuild_index --clean
-
-.. seealso::
-
-   :djadmin:`rebuild_index`
-
-.. _faq-ft-lock:
-
-I get "Lock Error" quite often while translating
-------------------------------------------------
-
-This is usually caused by concurrent updates to the fulltext index. In case you are
-running a multi-threaded server (e.g. mod_wsgi), this happens quite often. For such
-setups, it is recommended to use Celery to perform updates in the background.
-
-.. seealso::
-
-   :ref:`fulltext`, :ref:`celery`
-
-.. _faq-ft-space:
-
-Rebuilding the index has failed with "No space left on device"
---------------------------------------------------------------
-
-Whoosh uses a temporary directory to build indices. In case you have a small /tmp
-(e.g. using ramdisk), this might fail. Change the temporary directory by passing it
-as a ``TEMP`` variable:
-
-.. code-block:: sh
-
-    TEMP=/path/to/big/temp ./manage.py rebuild_index --clean
-
-.. seealso::
-
-   :djadmin:`rebuild_index`
-
 
 When accessing the site I get a "Bad Request (400)" error
 ---------------------------------------------------------
@@ -465,6 +412,19 @@ It needs to contain all hostnames you want to access on your Weblate. For exampl
 .. seealso::
 
     :ref:`production-hosts`
+
+.. _faq-duplicate-files:
+
+What does mean "There are more files for the single language (en)"?
+-------------------------------------------------------------------
+
+This typically happens when you have translation file for source language.
+Weblate keeps track of source strings and reserves source language for this.
+The additional file for same language is not processed.
+
+* In case the translation to the source language is desired, please change the :ref:`project-source_language` in the project settings.
+* In case the translation file for the source language is not needed, please remove it from the repository.
+* In case the translation file for the source language is needed, but shoud be ignored by Weblate, please adjust the :ref:`component-language_regex` to exclude it.
 
 Features
 ++++++++
@@ -501,7 +461,10 @@ the standard VCS tools you use for code.
 Additionally, when the translation file format supports it, the file headers are
 updated to include the translator's name.
 
-.. seealso:: :djadmin:`list_translators`
+.. seealso::
+
+   :djadmin:`list_translators`,
+   :doc:`../devel/reporting`
 
 Why does Weblate force showing all PO files in a single tree?
 -------------------------------------------------------------

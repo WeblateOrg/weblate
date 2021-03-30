@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -29,13 +28,10 @@ class JSONCustomizeAddon(StoreBaseAddon):
     name = "weblate.json.customize"
     verbose = _("Customize JSON output")
     description = _(
-        "Allows to customize JSON output behavior, for example "
-        "indentation or sorting."
+        "Allows adjusting JSON output behavior, for example " "indentation or sorting."
     )
     settings_form = JSONCustomizeForm
-    compat = {
-        "file_format": frozenset(("json", "json-nested", "webextension", "i18next"))
-    }
+    compat = {"file_format": {"json", "json-nested", "webextension", "i18next"}}
 
     def store_post_load(self, translation, store):
         config = self.instance.configuration

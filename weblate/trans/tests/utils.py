@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -24,6 +23,7 @@ import sys
 from datetime import timedelta
 from tarfile import TarFile
 from tempfile import mkdtemp
+from typing import Set
 from unittest import SkipTest
 
 from celery.contrib.testing.tasks import ping
@@ -36,7 +36,6 @@ from django.utils.functional import cached_property
 from weblate.auth.models import User
 from weblate.formats.models import FILE_FORMATS
 from weblate.trans.models import Component, Project
-from weblate.trans.search import Fulltext
 from weblate.utils.files import remove_readonly
 from weblate.vcs.models import VCS_REGISTRY
 
@@ -79,7 +78,7 @@ def create_another_user():
 class RepoTestMixin:
     """Mixin for testing with test repositories."""
 
-    updated_base_repos = set()
+    updated_base_repos: Set[str] = set()
 
     local_repo_path = "local:"
 
@@ -169,9 +168,6 @@ class RepoTestMixin:
         if os.path.exists(test_repo_path):
             shutil.rmtree(test_repo_path, onerror=remove_readonly)
 
-        # Remove indexes
-        Fulltext.cleanup()
-
     def create_project(self, **kwargs):
         """Create test project."""
         project = Project.objects.create(
@@ -232,9 +228,9 @@ class RepoTestMixin:
             **kwargs
         )
 
-    def create_component(self):
+    def create_component(self, **kwargs):
         """Wrapper method for providing test component."""
-        return self.create_po()
+        return self.create_po(**kwargs)
 
     def create_po(self, **kwargs):
         return self._create_component("po", "po/*.po", **kwargs)
@@ -310,8 +306,29 @@ class RepoTestMixin:
             "webextension/_locales/en/messages.json",
         )
 
+    def create_json_intermediate(self, **kwargs):
+        return self._create_component(
+            "json",
+            "intermediate/*.json",
+            "intermediate/en.json",
+            intermediate="intermediate/dev.json",
+            **kwargs
+        )
+
+    def create_json_intermediate_empty(self, **kwargs):
+        return self._create_component(
+            "json",
+            "intermediate/lang-*.json",
+            "intermediate/lang-en.json",
+            intermediate="intermediate/dev.json",
+            **kwargs
+        )
+
     def create_joomla(self):
         return self._create_component("joomla", "joomla/*.ini", "joomla/en-GB.ini")
+
+    def create_ini(self):
+        return self._create_component("ini", "ini/*.ini", "ini/en.ini")
 
     def create_tsv(self):
         return self._create_component("csv", "tsv/*.txt")
@@ -353,6 +370,15 @@ class RepoTestMixin:
     def create_appstore(self):
         return self._create_component("appstore", "metadata/*", "metadata/en-US")
 
+    def create_html(self):
+        return self._create_component("html", "html/*.html", "html/en.html")
+
+    def create_idml(self):
+        return self._create_component("idml", "idml/*.idml", "idml/en.idml")
+
+    def create_odt(self):
+        return self._create_component("odf", "odt/*.odt", "odt/en.odt")
+
     def create_link(self, **kwargs):
         parent = self.create_iphone(*kwargs)
         return Component.objects.create(
@@ -389,18 +415,23 @@ class TempDirMixin:
             self.tempdir = None
 
 
-def create_billing(user):
+def create_test_billing(user, invoice=True):
     from weblate.billing.models import Billing, Invoice, Plan
 
     plan = Plan.objects.create(
-        display_limit_projects=1, name="Basic plan", price=19, yearly_price=199
+        limit_projects=1,
+        display_limit_projects=1,
+        name="Basic plan",
+        price=19,
+        yearly_price=199,
     )
     billing = Billing.objects.create(plan=plan)
     billing.owners.add(user)
-    Invoice.objects.create(
-        billing=billing,
-        amount=19,
-        start=timezone.now() - timedelta(days=1),
-        end=timezone.now() + timedelta(days=1),
-    )
+    if invoice:
+        Invoice.objects.create(
+            billing=billing,
+            amount=19,
+            start=timezone.now() - timedelta(days=1),
+            end=timezone.now() + timedelta(days=1),
+        )
     return billing

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -28,8 +27,6 @@ from weblate.trans.bulk import bulk_perform
 from weblate.trans.models import Unit
 from weblate.utils.state import STATE_FUZZY, STATE_TRANSLATED
 
-SUPPORT_FUZZY = {"ts", "po", "po-mono"}
-
 
 class FlagBase(BaseAddon):
     events = (EVENT_UNIT_PRE_CREATE,)
@@ -39,7 +36,8 @@ class FlagBase(BaseAddon):
     def can_install(cls, component, user):
         if not component.has_template():
             return False
-        if component.template_store.format_id in SUPPORT_FUZZY:
+        # Following formats support fuzzy flag, so avoid messing up with them
+        if component.file_format in {"ts", "po", "po-mono"}:
             return False
         return super().can_install(component, user)
 
@@ -76,10 +74,10 @@ class SameEditAddon(FlagBase):
     name = "weblate.flags.same_edit"
     verbose = _('Flag unchanged translations as "Needs editing"')
     description = _(
-        "Whenever a new translatable string is imported from the VCS and it "
-        "matches source strings, it is flagged as needing editing in Weblate. "
-        "This is especially useful for file formats that include all strings "
-        "even if they are not translated."
+        "Whenever a new translatable string is imported from the VCS and it matches a "
+        "source string, it is flagged as needing editing in Weblate. This is "
+        "especially useful for file formats that include all strings even if not "
+        "translated."
     )
 
     def unit_pre_create(self, unit):
@@ -96,7 +94,7 @@ class BulkEditAddon(BaseAddon):
     events = (EVENT_COMPONENT_UPDATE,)
     name = "weblate.flags.bulk"
     verbose = _("Bulk edit")
-    description = _("This addon allow to bulk edit flags, labels or state.")
+    description = _("Bulk edit flags, labels or state for strings.")
     settings_form = BulkEditAddonForm
     multiple = True
 

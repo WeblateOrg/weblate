@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -23,6 +22,7 @@ from django.utils.translation import gettext_lazy as _
 
 from weblate.checks.base import CountingCheck, TargetCheck, TargetCheckParametrized
 from weblate.checks.markup import strip_entities
+from weblate.checks.parser import single_value_flag
 
 KASHIDA_CHARS = (
     "\u0640",
@@ -45,7 +45,6 @@ class BeginNewlineCheck(TargetCheck):
     check_id = "begin_newline"
     name = _("Starting newline")
     description = _("Source and translation do not both start with a newline")
-    severity = "warning"
 
     def check_single(self, source, target, unit):
         return self.check_chars(source, target, 0, ["\n"])
@@ -57,7 +56,6 @@ class EndNewlineCheck(TargetCheck):
     check_id = "end_newline"
     name = _("Trailing newline")
     description = _("Source and translation do not both end with a newline")
-    severity = "warning"
 
     def check_single(self, source, target, unit):
         return self.check_chars(source, target, -1, ["\n"])
@@ -71,7 +69,6 @@ class BeginSpaceCheck(TargetCheck):
     description = _(
         "Source and translation do not both start with same number of spaces"
     )
-    severity = "warning"
 
     def check_single(self, source, target, unit):
         # One letter things are usually decimal/thousand separators
@@ -109,7 +106,6 @@ class EndSpaceCheck(TargetCheck):
     check_id = "end_space"
     name = _("Trailing space")
     description = _("Source and translation do not both end with a space")
-    severity = "warning"
 
     def check_single(self, source, target, unit):
         # One letter things are usually decimal/thousand separators
@@ -149,7 +145,6 @@ class DoubleSpaceCheck(TargetCheck):
     check_id = "double_space"
     name = _("Double space")
     description = _("Translation contains double space")
-    severity = "warning"
 
     def check_single(self, source, target, unit):
         # One letter things are usually decimal/thousand separators
@@ -172,7 +167,6 @@ class EndStopCheck(TargetCheck):
     check_id = "end_stop"
     name = _("Trailing stop")
     description = _("Source and translation do not both end with a full stop")
-    severity = "warning"
 
     def check_single(self, source, target, unit):
         if len(source) <= 4:
@@ -212,7 +206,6 @@ class EndColonCheck(TargetCheck):
     check_id = "end_colon"
     name = _("Trailing colon")
     description = _("Source and translation do not both end with a colon")
-    severity = "warning"
 
     def _check_hy(self, source, target):
         if source[-1] == ":":
@@ -242,10 +235,9 @@ class EndQuestionCheck(TargetCheck):
     """Check for final question mark."""
 
     check_id = "end_question"
-    name = _("Trailing question")
+    name = _("Trailing question mark")
     description = _("Source and translation do not both end with a question mark")
     question_el = ("?", ";", ";")
-    severity = "warning"
 
     def _check_hy(self, source, target):
         if source[-1] == "?":
@@ -276,7 +268,7 @@ class EndExclamationCheck(TargetCheck):
     """Check for final exclamation mark."""
 
     check_id = "end_exclamation"
-    name = _("Trailing exclamation")
+    name = _("Trailing exclamation mark")
     description = _("Source and translation do not both end with an exclamation mark")
 
     def check_single(self, source, target, unit):
@@ -302,7 +294,6 @@ class EndEllipsisCheck(TargetCheck):
     check_id = "end_ellipsis"
     name = _("Trailing ellipsis")
     description = _("Source and translation do not both end with an ellipsis")
-    severity = "warning"
 
     def check_single(self, source, target, unit):
         if not target:
@@ -322,7 +313,6 @@ class EscapedNewlineCountingCheck(CountingCheck):
     check_id = "escaped_newline"
     name = _("Mismatched \\n")
     description = _("Number of \\n in translation does not match source")
-    severity = "warning"
 
 
 class NewLineCountCheck(CountingCheck):
@@ -332,7 +322,6 @@ class NewLineCountCheck(CountingCheck):
     check_id = "newline-count"
     name = _("Mismatching line breaks")
     description = _("Number of new lines in translation does not match source")
-    severity = "warning"
 
 
 class ZeroWidthSpaceCheck(TargetCheck):
@@ -341,12 +330,13 @@ class ZeroWidthSpaceCheck(TargetCheck):
     check_id = "zero-width-space"
     name = _("Zero-width space")
     description = _("Translation contains extra zero-width space character")
-    severity = "warning"
 
     def check_single(self, source, target, unit):
         if self.is_language(unit, ("km",)):
             return False
-        return ("\u200b" in target) != ("\u200b" in source)
+        if "\u200b" in source:
+            return False
+        return "\u200b" in target
 
     def get_fixup(self, unit):
         return [("\u200b", "", "gu")]
@@ -358,12 +348,15 @@ class MaxLengthCheck(TargetCheckParametrized):
     check_id = "max-length"
     name = _("Maximum length of translation")
     description = _("Translation should not exceed given length")
-    severity = "danger"
     default_disabled = True
-    param_type = int
+
+    @property
+    def param_type(self):
+        return single_value_flag(int)
 
     def check_target_params(self, sources, targets, unit, value):
-        return any((len(target) > value for target in targets))
+        replace = self.get_replacement_function(unit)
+        return any((len(replace(target)) > value for target in targets))
 
 
 class EndSemicolonCheck(TargetCheck):
@@ -372,7 +365,6 @@ class EndSemicolonCheck(TargetCheck):
     check_id = "end_semicolon"
     name = _("Trailing semicolon")
     description = _("Source and translation do not both end with a semicolon")
-    severity = "warning"
 
     def check_single(self, source, target, unit):
         if self.is_language(unit, ("el",)) and source and source[-1] == "?":
@@ -383,9 +375,8 @@ class EndSemicolonCheck(TargetCheck):
 
 class KashidaCheck(TargetCheck):
     check_id = "kashida"
-    name = _("Kashida used")
+    name = _("Kashida letter used")
     description = _("The decorative kashida letters should not be used")
-    severity = "warning"
 
     def check_single(self, source, target, unit):
         return any((x in target for x in KASHIDA_CHARS))
@@ -398,10 +389,12 @@ class PuctuationSpacingCheck(TargetCheck):
     check_id = "punctuation_spacing"
     name = _("Punctuation spacing")
     description = _("Missing non breakable space before double punctuation sign")
-    severity = "warning"
 
     def check_single(self, source, target, unit):
-        if not self.is_language(unit, ("fr", "br")):
+        if (
+            not self.is_language(unit, ("fr", "br"))
+            or unit.translation.language.code == "fr_CA"
+        ):
             return False
 
         # Remove XML/HTML entities to simplify parsing

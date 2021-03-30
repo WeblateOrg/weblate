@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -32,7 +31,7 @@ from weblate.utils.errors import report_error
 def bad_request(request, exception=None):
     """Error handler for bad request."""
     if exception:
-        report_error(exception)
+        report_error(cause="Bad request")
     return render(request, "400.html", {"title": _("Bad Request")}, status=400)
 
 

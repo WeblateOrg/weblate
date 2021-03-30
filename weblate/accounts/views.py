@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -40,11 +39,11 @@ from django.core.signing import (
 from django.db import transaction
 from django.db.models import Q
 from django.http import Http404, HttpResponse, HttpResponseRedirect, JsonResponse
+from django.http.response import HttpResponseServerError
 from django.middleware.csrf import rotate_token
 from django.shortcuts import get_object_or_404, redirect, render
 from django.template.loader import render_to_string
 from django.urls import reverse
-from django.utils import translation
 from django.utils.cache import patch_response_headers
 from django.utils.crypto import get_random_string
 from django.utils.decorators import method_decorator
@@ -92,7 +91,7 @@ from weblate.accounts.forms import (
     UserForm,
     UserSettingsForm,
 )
-from weblate.accounts.models import AuditLog, Subscription, set_lang
+from weblate.accounts.models import AuditLog, Subscription, VerifiedEmail
 from weblate.accounts.notifications import (
     FREQ_NONE,
     NOTIFICATIONS,
@@ -113,6 +112,7 @@ from weblate.utils.ratelimit import (
     session_ratelimit_post,
 )
 from weblate.utils.request import get_ip_address, get_user_agent
+from weblate.utils.site import get_site_url
 from weblate.utils.views import get_component, get_project
 
 CONTACT_TEMPLATE = """
@@ -155,7 +155,7 @@ NOTIFICATION_PREFIX_TEMPLATE = "notifications__{}"
 
 
 class EmailSentView(TemplateView):
-    """Class for rendering e-mail sent page."""
+    r"""Class for rendering "E-mail sent" page."""
 
     template_name = "accounts/email-sent.html"
 
@@ -166,10 +166,10 @@ class EmailSentView(TemplateView):
         context["is_remove"] = False
         # This view is not visible for invitation that's
         # why don't handle user_invite here
-        if kwargs["password_reset"]:
+        if self.request.flags["password_reset"]:
             context["title"] = _("Password reset")
             context["is_reset"] = True
-        elif kwargs["account_remove"]:
+        elif self.request.flags["account_remove"]:
             context["title"] = _("Remove account")
             context["is_remove"] = True
         else:
@@ -181,9 +181,12 @@ class EmailSentView(TemplateView):
         if not request.session.get("registration-email-sent"):
             return redirect("home")
 
-        kwargs["password_reset"] = request.session["password_reset"]
-        kwargs["account_remove"] = request.session["account_remove"]
-        kwargs["user_invite"] = request.session["user_invite"]
+        request.flags = {
+            "password_reset": request.session["password_reset"],
+            "account_remove": request.session["account_remove"],
+            "user_invite": request.session["user_invite"],
+        }
+
         # Remove session for not authenticated user here.
         # It is no longer needed and will just cause problems
         # with multiple registrations from single browser.
@@ -201,8 +204,8 @@ def mail_admins_contact(request, subject, message, context, sender, to):
     if not to and settings.ADMINS:
         to = [a[1] for a in settings.ADMINS]
     elif not settings.ADMINS:
-        messages.error(request, _("Message could not be sent to administrator!"))
-        LOGGER.error("ADMINS not configured, can not send message!")
+        messages.error(request, _("Could not send message to administrator!"))
+        LOGGER.error("ADMINS not configured, cannot send message!")
         return
 
     mail = EmailMultiAlternatives(
@@ -266,8 +269,7 @@ def get_notification_forms(request):
                 pass
         if "notify_component" in request.GET:
             try:
-                component = Component.objects.get(
-                    project_id__in=user.allowed_project_ids,
+                component = Component.objects.filter_access(user).get(
                     pk=request.GET["notify_component"],
                 )
                 active = key = (SCOPE_COMPONENT, None, component.pk)
@@ -280,7 +282,7 @@ def get_notification_forms(request):
             except (ObjectDoesNotExist, ValueError):
                 pass
 
-        # Popupate scopes from the database
+        # Populate scopes from the database
         for subscription in user.subscription_set.iterator():
             key = (
                 subscription.scope,
@@ -334,20 +336,10 @@ def user_profile(request):
                     form.audit(request)
                 form.save()
 
-            # Change language
-            set_lang(request, request.user.profile)
-
-            # Redirect after saving (and possibly changing language)
-            response = redirect_profile(request.POST.get("activetab"))
-
-            # Set language cookie and activate new language (for message below)
-            lang_code = profile.language
-            response.set_cookie(settings.LANGUAGE_COOKIE_NAME, lang_code)
-            translation.activate(lang_code)
-
             messages.success(request, _("Your profile has been updated."))
 
-            return response
+            # Redirect after saving (and possibly changing language)
+            return redirect_profile(request.POST.get("activetab"))
     else:
         if not request.user.has_usable_password() and "email" in all_backends:
             messages.warning(
@@ -358,7 +350,7 @@ def user_profile(request):
     social_names = [assoc.provider for assoc in social]
     new_backends = [x for x in all_backends if x == "email" or x not in social_names]
     license_projects = (
-        Component.objects.filter(project_id__in=request.user.allowed_project_ids)
+        Component.objects.filter_access(request.user)
         .exclude(license="")
         .prefetch()
         .order_by("license")
@@ -383,7 +375,6 @@ def user_profile(request):
             "auditlog": request.user.auditlog_set.order()[:20],
         },
     )
-    result.set_cookie(settings.LANGUAGE_COOKIE_NAME, profile.language)
     return result
 
 
@@ -704,13 +695,16 @@ def email_login(request):
 @never_cache
 def password(request):
     """Password change / set form."""
-    do_change = False
+    do_change = True
+    change_form = None
 
-    if request.method == "POST":
-        change_form = PasswordConfirmForm(request, request.POST)
-        do_change = change_form.is_valid()
-    else:
-        change_form = PasswordConfirmForm(request)
+    if request.user.has_usable_password():
+        if request.method == "POST":
+            change_form = PasswordConfirmForm(request, request.POST)
+            do_change = change_form.is_valid()
+        else:
+            change_form = PasswordConfirmForm(request)
+            do_change = False
 
     if request.method == "POST":
         form = SetPasswordForm(request.user, request.POST)
@@ -893,13 +887,14 @@ class SuggestionView(ListView):
             user = None
         else:
             user = get_object_or_404(User, username=self.kwargs["user"])
-        allowed_project_ids = self.request.user.allowed_project_ids
-        return Suggestion.objects.filter(
-            user=user, unit__translation__component__project_id__in=allowed_project_ids
-        ).order()
+        return (
+            Suggestion.objects.filter_access(self.request.user)
+            .filter(user=user)
+            .order()
+        )
 
-    def get_context_data(self):
-        result = super().get_context_data()
+    def get_context_data(self, **kwargs):
+        result = super().get_context_data(**kwargs)
         if self.kwargs["user"] == "-":
             user = User.objects.get(username=settings.ANONYMOUS_USER_NAME)
         else:
@@ -925,9 +920,21 @@ def social_disconnect(request, backend, association_id=None):
     - Requires POST (to avoid CSRF on auth)
     - Blocks disconnecting last entry
     """
+    # Block removal of last social auth
     if request.user.social_auth.count() <= 1:
         messages.error(request, _("Could not remove user identity"))
         return redirect_profile("#account")
+
+    # Block removal of last verified email
+    verified = VerifiedEmail.objects.filter(social__user=request.user).exclude(
+        social__provider=backend, social_id=association_id
+    )
+    if not verified.exists():
+        messages.error(
+            request, _("Add another identity by confirming your e-mail address first."),
+        )
+        return redirect_profile("#account")
+
     return disconnect(request, backend, association_id)
 
 
@@ -941,6 +948,10 @@ def social_auth(request, backend):
     - Stores current user in session (to avoid CSRF upon completion)
     - Stores session ID in the request URL if needed
     """
+    # Fill in idp in case it is not provided
+    if backend == "saml" and "idp" not in request.GET:
+        request.GET = request.GET.copy()
+        request.GET["idp"] = "weblate"
     store_userid(request)
     uri = reverse("social:complete", args=(backend,))
     request.social_strategy = load_strategy(request)
@@ -948,7 +959,7 @@ def social_auth(request, backend):
         request.backend = load_backend(request.social_strategy, backend, uri)
     except MissingBackend:
         raise Http404("Backend not found")
-    # Store session ID for OpenId based auth. The session cookies will not be sent
+    # Store session ID for OpenID based auth. The session cookies will not be sent
     # on returning POST request due to SameSite cookie policy
     if isinstance(request.backend, OpenIdAuth):
         request.backend.redirect_uri += "?authid={}".format(
@@ -969,9 +980,8 @@ def auth_redirect_token(request):
     return auth_fail(
         request,
         _(
-            "Could not verify your registration! "
-            "The verification token has probably expired. "
-            "Please try to register again."
+            "Try registering again to verify your identity, "
+            "the verification token probably expired."
         ),
     )
 
@@ -981,7 +991,6 @@ def auth_redirect_state(request):
 
 
 def handle_missing_parameter(request, backend, error):
-    report_error(error, request)
     if backend != "email" and error.parameter == "email":
         return auth_fail(
             request,
@@ -1004,19 +1013,19 @@ def social_complete(request, backend):
     """Wrapper around social_django.views.complete.
 
     - Handles backend errors gracefully
-    - Intermediate page (autosubmitted by javascript) to avoid
+    - Intermediate page (autosubmitted by JavaScript) to avoid
       confirmations by bots
     - Restores session from authid for some backends (see social_auth)
     """
     if "authid" in request.GET and not request.session.session_key:
         try:
             session_key, ip_address = loads(
-                request.GET["authid"], max_age=300, salt="weblate.authid"
+                request.GET["authid"], max_age=600, salt="weblate.authid"
             )
         except (BadSignature, SignatureExpired):
-            return auth_redirect_token()
+            return auth_redirect_token(request)
         if ip_address != get_ip_address(request):
-            return auth_redirect_token()
+            return auth_redirect_token(request)
         engine = import_module(settings.SESSION_ENGINE)
         request.session = engine.SessionStore(session_key)
 
@@ -1039,15 +1048,16 @@ def social_complete(request, backend):
     except InvalidEmail:
         return auth_redirect_token(request)
     except AuthMissingParameter as error:
+        report_error()
         result = handle_missing_parameter(request, backend, error)
         if result:
             return result
         raise
-    except (AuthStateMissing, AuthStateForbidden) as error:
-        report_error(error, request)
+    except (AuthStateMissing, AuthStateForbidden):
+        report_error()
         return auth_redirect_state(request)
-    except AuthFailed as error:
-        report_error(error, request)
+    except AuthFailed:
+        report_error()
         return auth_fail(
             request,
             _(
@@ -1056,16 +1066,17 @@ def social_complete(request, backend):
             ),
         )
     except AuthCanceled:
+        report_error()
         return auth_fail(request, _("Authentication cancelled."))
-    except AuthForbidden as error:
-        report_error(error, request)
+    except AuthForbidden:
+        report_error()
         return auth_fail(request, _("The server does not allow authentication."))
     except AuthAlreadyAssociated:
         return auth_fail(
             request,
             _(
                 "Could not complete registration. The supplied authentication, "
-                "e-mail or username is already in use for another account."
+                "e-mail address or username is already in use for another account."
             ),
         )
 
@@ -1085,8 +1096,49 @@ def unsubscribe(request):
                 request,
                 _(
                     "The notification change link is no longer valid, "
-                    "please log in to configure notifications."
+                    "please sign in to configure notifications."
                 ),
             )
 
     return redirect_profile("#notifications")
+
+
+@csrf_exempt
+@never_cache
+def saml_metadata(request):
+    if "social_core.backends.saml.SAMLAuth" not in settings.AUTHENTICATION_BACKENDS:
+        raise Http404
+
+    # Generate configuration
+    settings.SOCIAL_AUTH_SAML_SP_ENTITY_ID = get_site_url(
+        reverse("social:saml-metadata")
+    )
+    settings.SOCIAL_AUTH_SAML_ORG_INFO = {
+        "en-US": {
+            "name": "weblate",
+            "displayname": settings.SITE_TITLE,
+            "url": get_site_url("/"),
+        }
+    }
+    admin_contact = {
+        "givenName": settings.ADMINS[0][0],
+        "emailAddress": settings.ADMINS[0][1],
+    }
+    settings.SOCIAL_AUTH_SAML_TECHNICAL_CONTACT = admin_contact
+    settings.SOCIAL_AUTH_SAML_SUPPORT_CONTACT = admin_contact
+
+    # Generate metadata
+    complete_url = reverse("social:complete", args=("saml",))
+    saml_backend = social_django.utils.load_backend(
+        load_strategy(request), "saml", complete_url
+    )
+    metadata, errors = saml_backend.generate_metadata_xml()
+
+    # Handle errors
+    if errors:
+        report_error(
+            level="error", cause="SAML metadata", extra_data={"errors": errors}
+        )
+        return HttpResponseServerError(content=", ".join(errors))
+
+    return HttpResponse(content=metadata, content_type="text/xml")

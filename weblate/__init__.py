@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -31,13 +30,16 @@ def get_root_dir():
 
 
 # Weblate version
-VERSION = "4.0-dev"
+VERSION = "4.1.1"
 
 # Version string without suffix
 VERSION_BASE = VERSION.replace("-dev", "")
 
 # User-Agent string to use
-USER_AGENT = "Weblate/{0}".format(VERSION)
+USER_AGENT = f"Weblate/{VERSION}"
+
+# Git tag name for this release
+TAG_NAME = f"weblate-{VERSION_BASE}"
 
 # Grab some information from git
 try:

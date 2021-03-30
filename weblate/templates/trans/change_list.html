@@ -40,9 +40,7 @@
 
 {% include "paginator.html" %}
 
-{% with object_list as last_changes %}
-{% include "last-changes-content.html" %}
-{% endwith %}
+{% include "last-changes-content.html" with last_changes=object_list %}
 
 {% include "paginator.html" %}
 

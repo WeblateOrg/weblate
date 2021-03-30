@@ -47,7 +47,6 @@ cp node_modules/slugify/slugify.js ../../weblate/static/js/slugify.js
 
 # Sentry
 cp node_modules/@sentry/browser/build/bundle.js ../../weblate/static/js/sentry.js
-dos2unix ../../weblate/static/js/sentry.js
 
 # Source Sans/Code Pro fonts
 sed '/font-family/ a font-display: swap;' < node_modules/source-sans-pro/source-sans-pro.css > ../../weblate/static/font-source/source-sans-pro.css
@@ -67,3 +66,7 @@ cp node_modules/dejavu-fonts-ttf/ttf/DejaVuSans.ttf node_modules/dejavu-fonts-tt
 # Not updated:
 # Bootstrap, use online customizer
 # bootstrap-rtl as the version in yarn is outdated
+
+# Fix line ends and others
+cd ../..
+pre-commit run --files $(git diff --name-only -- weblate/static)

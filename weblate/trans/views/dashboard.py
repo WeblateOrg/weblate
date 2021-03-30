@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -20,6 +19,7 @@
 
 
 from django.conf import settings
+from django.core.cache import cache
 from django.db.models import Count
 from django.shortcuts import redirect
 from django.urls import reverse
@@ -34,6 +34,7 @@ from weblate.accounts.models import Profile
 from weblate.lang.models import Language
 from weblate.trans.forms import ReportsForm, SearchForm
 from weblate.trans.models import Component, ComponentList, Project, Translation
+from weblate.trans.models.translation import GhostTranslation
 from weblate.trans.util import render
 from weblate.utils import messages
 from weblate.utils.stats import prefetch_stats
@@ -115,7 +116,7 @@ def get_user_translations(request, user, user_has_languages):
     """
     result = (
         Translation.objects.prefetch()
-        .filter(component__project_id__in=user.allowed_project_ids)
+        .filter_access(user)
         .order_by("component__priority", "component__project__name", "component__name")
     )
 
@@ -151,7 +152,7 @@ def home(request):
             request,
             _(
                 "You have activated your account, now you should set "
-                "the password to be able to login next time."
+                "the password to be able to sign in next time."
             ),
         )
         return redirect("password")
@@ -185,6 +186,45 @@ def home(request):
     return dashboard_user(request)
 
 
+def fetch_componentlists(user, user_translations):
+    componentlists = list(
+        ComponentList.objects.filter(
+            show_dashboard=True, components__project_id__in=user.allowed_project_ids,
+        )
+        .distinct()
+        .order()
+    )
+    for componentlist in componentlists:
+        components = componentlist.components.filter_access(user)
+        # Force fetching the query now
+        list(components)
+
+        translations = prefetch_stats(
+            list(user_translations.filter(component__in=components))
+        )
+
+        # Show ghost translations for user languages
+        existing = {
+            (translation.component.slug, translation.language.code)
+            for translation in translations
+        }
+        languages = user.profile.languages.all()
+        for component in components:
+            for language in languages:
+                if (
+                    component.slug,
+                    language.code,
+                ) in existing or not component.can_add_new_language(user):
+                    continue
+                translations.append(GhostTranslation(component, language))
+
+        componentlist.translations = translations
+
+    # Filter out component lists with translations
+    # This will remove the ones where user doesn't have access to anything
+    return [c for c in componentlists if c.translations]
+
+
 def dashboard_user(request):
     """Home page of Weblate for authenticated user."""
     user = request.user
@@ -197,21 +237,7 @@ def dashboard_user(request):
 
     usersubscriptions = None
 
-    componentlists = list(
-        ComponentList.objects.filter(
-            show_dashboard=True,
-            components__project_id__in=request.user.allowed_project_ids,
-        )
-        .distinct()
-        .order()
-    )
-    for componentlist in componentlists:
-        componentlist.translations = prefetch_stats(
-            user_translations.filter(component__in=componentlist.components.all())
-        )
-    # Filter out component lists with translations
-    # This will remove the ones where user doesn't have access to anything
-    componentlists = [c for c in componentlists if c.translations]
+    componentlists = fetch_componentlists(request.user, user_translations)
 
     active_tab_id = user.profile.dashboard_view
     active_tab_slug = Profile.DASHBOARD_SLUGS.get(active_tab_id)
@@ -222,7 +248,7 @@ def dashboard_user(request):
         active_tab_slug = user.profile.dashboard_component_list.tab_slug()
 
     if user.is_authenticated:
-        usersubscriptions = user_translations.filter(
+        usersubscriptions = user_translations.filter_access(user).filter(
             component__project__in=user.watched_projects
         )
 
@@ -258,11 +284,25 @@ def dashboard_user(request):
 
 def dashboard_anonymous(request):
     """Home page of Weblate showing list of projects for anonymous user."""
-    all_projects = prefetch_stats(request.user.allowed_projects)
-    top_projects = sorted(all_projects, key=lambda prj: -prj.stats.monthly_changes)
+    top_project_ids = cache.get("dashboard-anonymous-projects")
+    if top_project_ids is None:
+        top_projects = sorted(
+            prefetch_stats(request.user.allowed_projects),
+            key=lambda prj: -prj.stats.monthly_changes,
+        )[:20]
+        cache.set("dashboard-anonymous-projects", {p.id for p in top_projects}, 3600)
+    else:
+        # The allowed_projects is already fetched, so filter it in Python
+        # instead of doing additional query
+        top_projects = [
+            p for p in request.user.allowed_projects if p.id in top_project_ids
+        ]
 
     return render(
         request,
         "dashboard/anonymous.html",
-        {"top_projects": top_projects[:20], "all_projects": len(all_projects)},
+        {
+            "top_projects": top_projects,
+            "all_projects": len(request.user.allowed_projects),
+        },
     )

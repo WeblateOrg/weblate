@@ -1,0 +1,8 @@
+{% load i18n %}
+{% autoescape off %}
+{% if project %}
+{% blocktrans %}New announcement on {{ project }}{% endblocktrans %}
+{% else %}
+{% blocktrans %}New announcement at {{ site_title }}{% endblocktrans %}
+{% endif %}
+{% endautoescape %}

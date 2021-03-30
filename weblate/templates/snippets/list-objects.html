@@ -27,17 +27,13 @@
 <tbody>
 {% for object in objects %}
 {% get_stats object stats_attr as stats %}
-{% global_stats object stats global_base as global_stats %}
 {% get_translate_url object as translate_url %}
 {% get_browse_url object as browse_url %}
 {% get_unique_row_id object as row_id %}
 <tr id="{{ row_id }}">
 <th class="object-link">
-{% if name_source == "translation" %}
-    <a href="{{ object.component.project.get_absolute_url }}">{{ object.component.project.name }}</a>/<a href="{{ object.component.get_absolute_url }}">{{ object.component.name }}</a>
-    — <a class="tail" href="{{ browse_url }}">{{ object.language }}</a>
-{% else %}
-    <a href="{{ browse_url }}">
+{% if object.is_ghost %}
+    <span class="ghost">
     {% if name_source == "language" %}
         {{ object.language }}
     {% elif name_source == "component_name" %}
@@ -49,13 +45,31 @@
     {% else %}
         {{ object }}
     {% endif %}
-    </a>
+    </span>
+{% elif name_source == "translation" %}
+    <a href="{{ object.component.project.get_absolute_url }}">{{ object.component.project.name }}</a>/<a href="{{ object.component.get_absolute_url }}">{{ object.component.name }}</a>
+    — <a class="tail" href="{{ browse_url }}">{{ object.language }}</a>
+{% else %}
+    <a href="{{ browse_url }}">{% spaceless %}
+    {% if name_source == "language" %}
+        {{ object.language }}
+    {% elif name_source == "component_name" %}
+        {{ object.component.name }}
+    {% elif name_source == "name" %}
+        {{ object.name }}
+    {% elif name_source == "language" %}
+        {{ object.language }}
+    {% else %}
+        {{ object }}
+    {% endif %}
+    {% endspaceless %}</a>
 {% endif %}
 {% indicate_alerts object %}
 </th>
 {% include "snippets/list-objects-percent.html" with percent=stats.translated_percent value=stats.translated all=stats.all %}
 {% if global_base %}
-{% include "snippets/list-objects-percent.html" with percent=global_stats.translated_percent value=global_stats.translated all=global_stats.all class="zero-width-1000" %}
+    {% global_stats object stats global_base as global_stats %}
+    {% include "snippets/list-objects-percent.html" with percent=global_stats.translated_percent value=global_stats.translated all=global_stats.all class="zero-width-1000" %}
 {% endif %}
 {% include "snippets/list-objects-number.html" with value=stats.todo query="q=state:<translated" class="zero-width-640" %}
 {% include "snippets/list-objects-number.html" with value=stats.todo_words query="q=state:<translated" class="zero-width-720" %}
@@ -63,14 +77,22 @@
 {% include "snippets/list-objects-number.html" with value=stats.suggestions query="q=has:suggestion#suggestions" class="zero-width-900" %}
 {% include "snippets/list-objects-number.html" with value=stats.comments query="q=has:comment#comments" class="zero-width-1000" %}
 <td class="actions buttons-cell" rowspan="2">
-{% if translate_url %}
-<a href="{{ translate_url }}{% if stats.todo %}?q=state:&lt;translated{% endif %}" class="btn {% if stats.todo %}btn-primary{% else %}btn-info{% endif %}">
-{% trans "Translate" %}
-</a>
+{% if object.is_ghost %}
+    <form action="{% url 'new-language' project=object.component.project.slug component=object.component.slug %}" method="post">
+        {% csrf_token %}
+        <input type="hidden" name="lang" value="{{ object.language.code }}" />
+        <input type="submit" value="{% trans "Create translation" %}" class="btn btn-info" />
+    </form>
 {% else %}
-<a href="{{ browse_url }}" class="btn btn-info">
-{% trans "Browse" %}
-</a>
+    {% if translate_url %}
+    <a href="{{ translate_url }}{% if stats.todo %}?q=state:&lt;translated{% endif %}" class="btn {% if stats.todo %}btn-primary{% else %}btn-info{% endif %}">
+    {% trans "Translate" %}
+    </a>
+    {% else %}
+    <a href="{{ browse_url }}" class="btn btn-info">
+    {% trans "Browse" %}
+    </a>
+    {% endif %}
 {% endif %}
 </td>
 </tr>

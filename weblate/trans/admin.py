@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -162,24 +161,14 @@ class CommentAdmin(WeblateModelAdmin):
     search_fields = ["unit__content_hash", "comment"]
 
 
-class DictionaryAdmin(WeblateModelAdmin):
-    list_display = ["source", "target", "project", "language"]
-    search_fields = ["source", "target"]
-    list_filter = ["project", "language"]
-
-
 class ChangeAdmin(WeblateModelAdmin):
     list_display = ["unit", "user", "timestamp"]
     date_hierarchy = "timestamp"
-    list_filter = [
-        "unit__translation__component",
-        "unit__translation__component__project",
-        "unit__translation__language",
-    ]
+    list_filter = ["component", "project", "language"]
     raw_id_fields = ("unit",)
 
 
-class WhiteboardMessageAdmin(WeblateModelAdmin):
+class AnnouncementAdmin(WeblateModelAdmin):
     list_display = ["message", "project", "component", "language"]
     prepopulated_fields = {}
     search_fields = ["message"]

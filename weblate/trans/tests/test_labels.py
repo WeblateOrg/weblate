@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -18,7 +17,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-"""Test for shapings."""
+"""Test for variants."""
 
 
 from django.urls import reverse
@@ -73,14 +72,14 @@ class LabelTest(ViewTestCase):
         unit = self.get_unit().source_info
         self.client.post(
             reverse("edit_context", kwargs={"pk": unit.pk}),
-            {"extra_context": "", "extra_flags": "", "labels": label.pk},
+            {"explanation": "", "extra_flags": "", "labels": label.pk},
         )
         translation = self.get_translation()
         self.assertEqual(getattr(translation.stats, "label:Test label"), 1)
 
         self.client.post(
             reverse("edit_context", kwargs={"pk": unit.pk}),
-            {"extra_context": "", "extra_flags": ""},
+            {"explanation": "", "extra_flags": ""},
         )
         translation = self.get_translation()
         self.assertEqual(getattr(translation.stats, "label:Test label"), 0)

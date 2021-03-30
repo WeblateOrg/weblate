@@ -14,7 +14,7 @@
 {% for unit in units %}
 <tr>
 <th>{{ unit.translation.language }}</th>
-<td>{% get_state_flags unit %}</td>
+<td>{% get_state_flags unit True %}</td>
 <td>{% format_translation unit.target unit.translation.language unit.translation.plural %}</td>
 <td><a href="{{ unit.get_absolute_url }}" class="btn btn-primary">{% trans "Edit" %}</a></td>
 </tr>

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -54,6 +53,7 @@ class PlanQuerySet(models.QuerySet):
 
 class Plan(models.Model):
     name = models.CharField(max_length=100, unique=True)
+    slug = models.SlugField(max_length=100, unique=True)
     price = models.IntegerField(default=0)
     yearly_price = models.IntegerField(default=0)
     limit_strings = models.IntegerField(default=0)
@@ -467,5 +467,8 @@ def update_invoice_bill(sender, instance, **kwargs):
 
 
 @receiver(m2m_changed, sender=Billing.projects.through)
-def change_componentlist(sender, instance, **kwargs):
+@disable_for_loaddata
+def change_billing_projects(sender, instance, action, **kwargs):
+    if not action.startswith("post_"):
+        return
     instance.check_limits()

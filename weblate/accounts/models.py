@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -20,6 +19,7 @@
 
 
 import datetime
+from typing import Set
 
 from appconf import AppConf
 from django.conf import settings
@@ -29,9 +29,10 @@ from django.db import models, transaction
 from django.db.models import Q
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-from django.utils import timezone
+from django.utils import timezone, translation
 from django.utils.crypto import get_random_string
-from django.utils.translation import LANGUAGE_SESSION_KEY, gettext
+from django.utils.functional import cached_property
+from django.utils.translation import gettext
 from django.utils.translation import gettext_lazy as _
 from rest_framework.authtoken.models import Token
 from social_django.models import UserSocialAuth
@@ -82,24 +83,25 @@ ACCOUNT_ACTIVITY = {
     "full_name": _("Full name changed from {old} to {new}."),
     "reset-request": _("Password reset requested."),
     "reset": _("Password reset confirmed, password turned off."),
-    "auth-connect": _("You can now log in using {method} ({name})."),
-    "auth-disconnect": _("You can no longer log in using {method} ({name})."),
-    "login": _("Logged on using {method} ({name})."),
-    "login-new": _("Logged on using {method} ({name}) from a new device."),
+    "auth-connect": _("Configured sign in using {method} ({name})."),
+    "auth-disconnect": _("Removed sign in using {method} ({name})."),
+    "login": _("Signed in using {method} ({name})."),
+    "login-new": _("Signed in using {method} ({name}) from a new device."),
     "register": _("Somebody has attempted to register with your e-mail."),
     "connect": _("Somebody has attempted to register using your e-mail address."),
-    "failed-auth": _("Could not log in using {method} ({name})."),
-    "locked": _("Account locked due to many failed logins."),
+    "failed-auth": _("Could not sign in using {method} ({name})."),
+    "locked": _("Account locked due to many failed sign in attempts."),
     "removed": _("Account and all private data removed."),
     "tos": _("Agreement with Terms of Service {date}."),
+    "invited": _("Invited to Weblate by {username}."),
 }
 # Override activty messages based on method
 ACCOUNT_ACTIVITY_METHOD = {
     "password": {
-        "auth-connect": _("You can now log in using password."),
-        "login": _("Logged on using password."),
-        "login-new": _("Logged on using password from a new device."),
-        "failed-auth": _("Could not log in using password."),
+        "auth-connect": _("Configured password to sign in."),
+        "login": _("Signed in using password."),
+        "login-new": _("Signed in using password from a new device."),
+        "failed-auth": _("Could not sign in using password."),
     }
 }
 
@@ -204,10 +206,13 @@ class AuditLog(models.Model):
             transaction.on_commit(lambda: notify_auditlog.delay(self.pk, email))
 
     def get_params(self):
+        from weblate.accounts.templatetags.authnames import get_auth_name
+
         result = {}
         result.update(self.params)
         if "method" in result:
-            result["method"] = gettext(result["method"])
+            # The gettext is here for legacy entries which contained method name
+            result["method"] = gettext(get_auth_name(result["method"]))
         return result
 
     def get_message(self):
@@ -241,6 +246,7 @@ class AuditLog(models.Model):
 
         elif self.activity == "reset-request":
             failures = AuditLog.objects.filter(
+                user=self.user,
                 timestamp__gte=timezone.now() - datetime.timedelta(days=1),
                 activity="reset-request",
             )
@@ -482,11 +488,37 @@ class Profile(models.Model):
         ]
         return result
 
+    @cached_property
+    def primary_language_ids(self) -> Set[int]:
+        return set(self.languages.values_list("pk", flat=True))
 
-def set_lang(request, profile):
+    @cached_property
+    def secondary_language_ids(self) -> Set[int]:
+        return set(self.secondary_languages.values_list("pk", flat=True))
+
+    def get_language_order(self, language: Language) -> int:
+        """Returns key suitable for ordering languages based on user preferences."""
+        if language.pk in self.primary_language_ids:
+            return 0
+        if language.pk in self.secondary_language_ids:
+            return 1
+        return 2
+
+
+def set_lang(response, profile):
     """Set session language based on user preferences."""
     if profile.language:
-        request.session[LANGUAGE_SESSION_KEY] = profile.language
+        response.set_cookie(
+            settings.LANGUAGE_COOKIE_NAME,
+            profile.language,
+            max_age=settings.LANGUAGE_COOKIE_AGE,
+            path=settings.LANGUAGE_COOKIE_PATH,
+            domain=settings.LANGUAGE_COOKIE_DOMAIN,
+            secure=settings.LANGUAGE_COOKIE_SECURE,
+            httponly=settings.LANGUAGE_COOKIE_HTTPONLY,
+            samesite=settings.LANGUAGE_COOKIE_SAMESITE,
+        )
+        translation.activate(profile.language)
 
 
 @receiver(user_logged_in)
@@ -514,9 +546,6 @@ def post_login_handler(sender, request, user, **kwargs):
     ):
         social = user.social_auth.create(provider="email", uid=user.email)
         VerifiedEmail.objects.create(social=social, email=user.email)
-
-    # Set language for session based on preferences
-    set_lang(request, user.profile)
 
     # Fixup accounts with empty name
     if not user.full_name:
@@ -564,6 +593,9 @@ class WeblateAccountsConf(AppConf):
     # Enable registrations
     REGISTRATION_OPEN = True
 
+    # Allow registration from certain backends
+    REGISTRATION_ALLOW_BACKENDS = []
+
     # Registration email filter
     REGISTRATION_EMAIL_MATCH = ".*"
 
@@ -576,6 +608,8 @@ class WeblateAccountsConf(AppConf):
     # Auth0 provider default image & title on login page
     SOCIAL_AUTH_AUTH0_IMAGE = "auth0.svg"
     SOCIAL_AUTH_AUTH0_TITLE = "Auth0"
+    SOCIAL_AUTH_SAML_IMAGE = "saml.svg"
+    SOCIAL_AUTH_SAML_TITLE = "SAML"
 
     # Login required URLs
     LOGIN_REQUIRED_URLS = []

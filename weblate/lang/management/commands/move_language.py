@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -40,7 +39,7 @@ class Command(BaseCommand):
                 continue
             translation.language = target
             translation.save()
-        source.whiteboardmessage_set.update(language=target)
+        source.announcement_set.update(language=target)
 
         for profile in source.profile_set.iterator():
             profile.languages.remove(source)
@@ -54,11 +53,11 @@ class Command(BaseCommand):
         for group in source.group_set.iterator():
             group.languages.remove(source)
             group.languages.add(target)
-        source.dictionary_set.update(language=target)
+        source.term_set.update(language=target)
 
         for plural in source.plural_set.iterator():
             try:
-                new_plural = target.plural_set.get(equation=plural.equation)
+                new_plural = target.plural_set.get(formula=plural.formula)
                 plural.translation_set.update(plural=new_plural)
             except Plural.DoesNotExist:
                 plural.language = target

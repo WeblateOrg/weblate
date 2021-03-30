@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -22,21 +21,30 @@
 import os
 import subprocess
 import time
+from importlib import import_module
+from shutil import copyfile
 
 from celery.schedules import crontab
 from django.conf import settings
 from django.core.cache import cache
 from django.core.management.commands import diffsettings
 
+import weblate
+from weblate.formats.models import FILE_FORMATS
 from weblate.trans.util import get_clean_env
 from weblate.utils.celery import app
 from weblate.utils.data import data_dir
 from weblate.utils.errors import report_error
+from weblate.vcs.models import VCS_REGISTRY
 
 
 @app.task(trail=False)
 def ping():
-    return None
+    return {
+        "version": weblate.VERSION,
+        "vcs": sorted(VCS_REGISTRY.keys()),
+        "formats": sorted(FILE_FORMATS.keys()),
+    }
 
 
 @app.task(trail=False)
@@ -54,11 +62,17 @@ def ensure_backup_dir():
 @app.task(trail=False)
 def settings_backup():
     ensure_backup_dir()
-    filename = data_dir("backups", "settings.py")
+
+    # Expand settings in case it contains non-trivial code
     command = diffsettings.Command()
     kwargs = {"default": None, "all": False, "output": "hash"}
-    with open(filename, "w") as handle:
+    with open(data_dir("backups", "settings-expanded.py"), "w") as handle:
         handle.write(command.handle(**kwargs))
+
+    # Backup original settings
+    if settings.SETTINGS_MODULE:
+        settings_mod = import_module(settings.SETTINGS_MODULE)
+        copyfile(settings_mod.__file__, data_dir("backups", "settings.py"))
 
 
 @app.task(trail=False)
@@ -81,13 +95,16 @@ def database_backup():
         cmd += ["--file", data_dir("backups", "database.sql")]
 
     try:
-        subprocess.check_output(
+        subprocess.run(
             cmd,
             env=get_clean_env({"PGPASSWORD": database["PASSWORD"]}),
-            stderr=subprocess.STDOUT,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            check=True,
+            universal_newlines=True,
         )
     except subprocess.CalledProcessError as error:
-        report_error(error, extra_data={"stdout": error.stdout.decode()})
+        report_error(extra_data={"stdout": error.stdout, "stderr": error.stderr})
 
 
 @app.on_after_finalize.connect

@@ -3,18 +3,20 @@ name: Migrations
 on:
   push:
     paths:
-      - 'weblate/**'
+      - weblate/**
       - '*.py'
-      - 'requirements*.txt'
-      - 'ci/*'
-      - '.github/workflows/migrations.yml'
+      - requirements*.txt
+      - ci/*
+      - .github/workflows/migrations.yml
+    branches-ignore:
+      - "dependabot/**"
   pull_request:
     paths:
-      - 'weblate/**'
+      - weblate/**
       - '*.py'
-      - 'requirements*.txt'
-      - 'ci/*'
-      - '.github/workflows/migrations.yml'
+      - requirements*.txt
+      - ci/*
+      - .github/workflows/migrations.yml
 
 jobs:
   migrations:
@@ -22,50 +24,75 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        database: ["postgresql", "mysql"]
+        database: [postgresql, mysql]
       fail-fast: false
     name: ${{ matrix.database }}
+    env:
+      CI_DATABASE: ${{ matrix.database }}
+      CI_DB_PASSWORD: weblate
+      CI_DB_HOST: 127.0.0.1
+      CI_DB_PORT: '60000'
+      CI_SELENIUM: '1'
+      DJANGO_SETTINGS_MODULE: weblate.settings_test
+      COVERAGE_NO_ERASE: 1
 
     steps:
-    - uses: actions/checkout@v2
-    - name: Start services
-      run: ./ci/services-up ${{ matrix.database }}
-    - name: Cache pip
-      uses: actions/cache@v1
-      with:
-        path: ~/.cache/pip
-        key: ${{ runner.os }}-pip-migrate-${{ hashFiles('**/requirements*.txt') }}
-        restore-keys: |
-          ${{ runner.os }}-pip-
-    - name: Install apt dependencies
-      run: sudo ./ci/apt-install
-    - name: Set up Python 3.7
-      uses: actions/setup-python@v1
-      with:
-        python-version: 3.7
-    - name: Install pip dependencies
-      run: |
-        ./ci/pip-install
-        pip install psycopg2-binary==2.7.7
-    - name: Migrate
-      env:
-        CI_DATABASE: ${{ matrix.database }}
-        CI_DB_PASSWORD: "weblate"
-        CI_DB_HOST: "127.0.0.1"
-        CI_DB_PORT: "60000"
-        CI_SELENIUM: "1"
-        DJANGO_SETTINGS_MODULE: "weblate.settings_test"
-
-      run: ./ci/run-migrate
-    - name: Coverage
-      run: |
-        coverage combine
-        coverage xml
-    - uses: codecov/codecov-action@v1
-      with:
-        token: ${{secrets.CODECOV_TOKEN}}
-        flags: migrations
-        name: Migrations ${{ matrix.database }}
-    - name: Stop services
-      if: always()
-      run: ./ci/services-down ${{ matrix.database }}
+      - uses: actions/checkout@v2
+      - name: Start services
+        run: ./ci/services-up ${{ matrix.database }}
+      - name: Cache pip
+        uses: actions/cache@v1
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-migrate-${{ hashFiles('**/requirements*.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+      - name: Install apt dependencies
+        run: sudo ./ci/apt-install
+      - name: Set up Python 3.7
+        uses: actions/setup-python@v1
+        with:
+          python-version: 3.7
+      - name: Install pip dependencies
+        run: |
+          ./ci/pip-install
+          pip install psycopg2-binary==2.7.7
+      - name: Check missing migrations
+        run: ./ci/run-checkmigrate
+      - name: Migrate from 3.1.1
+        run: ./ci/run-migrate 3.1.1
+      - name: Migrate from 3.2.2
+        run: ./ci/run-migrate 3.2.2
+      - name: Migrate from 3.3
+        run: ./ci/run-migrate 3.3
+      - name: Migrate from 3.4
+        run: ./ci/run-migrate 3.4
+      - name: Migrate from 3.5.1
+        run: ./ci/run-migrate 3.5.1
+      # The 3.6.1 is skipped, suggestion import was broken there
+      - name: Migrate from 3.7.1
+        run: ./ci/run-migrate 3.7.1
+      - name: Migrate from 3.8
+        run: ./ci/run-migrate 3.8
+      - name: Migrate from 3.9.1
+        run: ./ci/run-migrate 3.9.1
+      - name: Migrate from 3.10.3
+        run: ./ci/run-migrate 3.10.3
+      - name: Migrate from 3.11.3
+        run: ./ci/run-migrate 3.11.3
+      - name: Migrate from 4.0.3
+        run: ./ci/run-migrate 4.0.4
+      - name: Migrate from 4.1
+        run: ./ci/run-migrate 4.1
+      - name: Coverage
+        run: |
+          coverage combine
+          coverage xml
+      - uses: codecov/codecov-action@v1
+        with:
+          token: ${{secrets.CODECOV_TOKEN}}
+          flags: migrations
+          name: Migrations ${{ matrix.database }}
+      - name: Stop services
+        if: always()
+        run: ./ci/services-down ${{ matrix.database }}

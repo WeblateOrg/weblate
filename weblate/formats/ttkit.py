@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -22,7 +21,9 @@
 
 import importlib
 import inspect
+import os
 import re
+import subprocess
 
 from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy as _
@@ -40,8 +41,14 @@ from translate.storage.xliff import ID_SEPARATOR, xlifffile
 
 import weblate
 from weblate.checks.flags import Flags
-from weblate.formats.base import TranslationFormat, TranslationUnit
+from weblate.formats.base import (
+    BilingualUpdateMixin,
+    TranslationFormat,
+    TranslationUnit,
+    UpdateError,
+)
 from weblate.trans.util import (
+    get_clean_env,
     get_string,
     join_plural,
     rich_to_xliff_string,
@@ -199,7 +206,7 @@ class KeyValueUnit(TTKitUnit):
         """Set translation unit target."""
         super().set_target(target)
         # Propagate to value so that is_translated works correctly
-        self.unit.value = self.unit.translation
+        self.unit.value = self.unit.target
 
 
 class TTKitFormat(TranslationFormat):
@@ -249,10 +256,14 @@ class TTKitFormat(TranslationFormat):
         # Get the class
         return getattr(module, class_name)
 
+    @staticmethod
+    def get_class_kwargs():
+        return {}
+
     @classmethod
     def parse_store(cls, storefile):
         """Parse the store."""
-        store = cls.get_class()()
+        store = cls.get_class()(**cls.get_class_kwargs())
 
         # Apply possible fixups
         cls.fixup(store)
@@ -360,8 +371,8 @@ class TTKitFormat(TranslationFormat):
         try:
             cls.parse_store(base)
             return True
-        except Exception as error:
-            report_error(error, prefix="File parse error")
+        except Exception:
+            report_error(cause="File parse error")
             return False
 
     @property
@@ -409,20 +420,11 @@ class PoUnit(TTKitUnit):
             self.unit.prev_msgctxt = []
 
     @cached_property
-    def context(self):
-        """Return context of message.
-
-        In some cases we have to use ID here to make all backends consistent.
-        """
-        if self.template is not None:
-            # Monolingual PO files
-            return self.template.source or self.template.getcontext()
-        return super().context
-
-    @cached_property
     def flags(self):
         """Return flags or typecomments from units."""
-        return Flags(*self.mainunit.typecomments).format()
+        flags = Flags(*self.mainunit.typecomments)
+        flags.remove({"fuzzy"})
+        return flags.format()
 
     @cached_property
     def previous_source(self):
@@ -430,6 +432,33 @@ class PoUnit(TTKitUnit):
         if not self.is_fuzzy():
             return ""
         return get_string(self.unit.prev_source)
+
+
+class PoMonoUnit(PoUnit):
+    @cached_property
+    def context(self):
+        """Return context of message.
+
+        In some cases we have to use ID here to make all backends consistent.
+        """
+        # Monolingual PO files
+        if self.template is not None:
+            return self.template.source or self.template.getcontext()
+        return super().context
+
+    @cached_property
+    def notes(self):
+        result = []
+        notes = super().notes
+        if notes:
+            result.append(notes)
+        # Use unit context as note only in case source is present, otherwise
+        # it is used as a context (see above)
+        if self.template is not None and self.template.source:
+            context = self.template.getcontext()
+            if context:
+                result.append(context)
+        return " ".join(notes)
 
 
 class XliffUnit(TTKitUnit):
@@ -474,9 +503,10 @@ class XliffUnit(TTKitUnit):
             if self.parent.is_template:
                 # Use source for monolingual files if editing template
                 self.unit.rich_source = converted
-                return
-            if self.unit.source:
+            elif self.unit.source:
+                # Update source to match current source
                 self.unit.rich_source = self.template.rich_source
+        # Always set target, even in monolingual template
         self.unit.rich_target = converted
 
     @cached_property
@@ -630,7 +660,7 @@ class MonolingualSimpleUnit(MonolingualIDUnit):
         return get_string(self.template.target)
 
     def has_content(self):
-        return True
+        return not self.mainunit.isheader()
 
     def is_readonly(self):
         return False
@@ -643,7 +673,24 @@ class WebExtensionJSONUnit(MonolingualSimpleUnit):
         if not placeholders:
             return ""
         return "placeholders:{}".format(
-            ":".join("${}$".format(key.upper()) for key in placeholders.keys())
+            ":".join(
+                Flags.format_value("${}$".format(key.upper()))
+                for key in placeholders.keys()
+            )
+        )
+
+
+class ARBJSONUnit(MonolingualSimpleUnit):
+    @cached_property
+    def flags(self):
+        placeholders = self.mainunit.placeholders
+        if not placeholders:
+            return ""
+        return "placeholders:{}".format(
+            ":".join(
+                Flags.format_value("{{{}}}".format(key.upper()))
+                for key in placeholders.keys()
+            )
         )
 
 
@@ -705,13 +752,26 @@ class PHPUnit(KeyValueUnit):
         return self.unit.source
 
 
-class PoFormat(TTKitFormat):
-    name = _("gettext PO file")
-    format_id = "po"
+class INIUnit(TTKitUnit):
+    @cached_property
+    def locations(self):
+        return ""
+
+    @cached_property
+    def context(self):
+        if self.template is not None:
+            return self.template.location
+        return self.unit.location
+
+    def has_content(self):
+        return True
+
+    def is_readonly(self):
+        return False
+
+
+class BasePoFormat(TTKitFormat, BilingualUpdateMixin):
     loader = pofile
-    monolingual = False
-    autoload = ("*.po", "*.pot")
-    unit_class = PoUnit
 
     def is_valid(self):
         result = super().is_valid()
@@ -729,13 +789,13 @@ class PoFormat(TTKitFormat):
 
         header = self.store.parseheader()
         try:
-            number, equation = Plural.parse_formula(header["Plural-Forms"])
+            number, formula = Plural.parse_plural_forms(header["Plural-Forms"])
         except (ValueError, KeyError):
             return super().get_plural(language)
 
         # Find matching one
         for plural in language.plural_set.iterator():
-            if plural.same_plural(number, equation):
+            if plural.same_plural(number, formula):
                 return plural
 
         # Create new one
@@ -743,7 +803,7 @@ class PoFormat(TTKitFormat):
             language=language,
             source=Plural.SOURCE_GETTEXT,
             number=number,
-            equation=equation,
+            formula=formula,
         )
 
     @classmethod
@@ -773,8 +833,54 @@ class PoFormat(TTKitFormat):
 
         self.store.updateheader(**kwargs)
 
+    @classmethod
+    def do_bilingual_update(cls, in_file: str, out_file: str, template: str, **kwargs):
+        """Wrapper around msgmerge."""
+        args = [
+            "--output-file",
+            out_file,
+            in_file,
+            template,
+        ]
+        if "args" in kwargs:
+            args = kwargs["args"] + args
+        else:
+            args = ["--previous"] + args
 
-class PoMonoFormat(PoFormat):
+        cmd = ["msgmerge"] + args
+        try:
+            result = subprocess.run(
+                cmd,
+                env=get_clean_env(),
+                cwd=os.path.dirname(out_file),
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                check=True,
+                universal_newlines=True,
+            )
+            # The warnings can cause corruption (for example in case
+            # PO file header is missing ASCII encoding is assumed)
+            if "warning:" in result.stderr:
+                raise UpdateError(" ".join(cmd), result.stderr)
+        except (OSError, subprocess.CalledProcessError) as error:
+            report_error(cause="Failed msgmerge")
+            raise UpdateError(" ".join(cmd), getattr(error, "output", str(error)))
+
+
+class PoFormat(BasePoFormat):
+    name = _("gettext PO file")
+    format_id = "po"
+    monolingual = False
+    autoload = ("*.po", "*.pot")
+    unit_class = PoUnit
+
+    @classmethod
+    def get_new_file_content(cls):
+        """Empty PO file content."""
+        return b""
+
+
+class PoMonoFormat(BasePoFormat):
     name = _("gettext PO file (monolingual)")
     format_id = "po-mono"
     monolingual = True
@@ -786,6 +892,7 @@ class PoMonoFormat(PoFormat):
         "Content-Type: text/plain; charset=UTF-8\\n"
         'Content-Transfer-Encoding: 8bit"'
     )
+    unit_class = PoMonoUnit
 
 
 class TSFormat(TTKitFormat):
@@ -911,6 +1018,13 @@ class JoomlaFormat(PropertiesBaseFormat):
     autoload = ("*.ini",)
 
 
+class GWTFormat(StringsFormat):
+    name = _("GWT Properties")
+    format_id = "gwt"
+    loader = ("properties", "gwtfile")
+    new_translation = "\n"
+
+
 class PhpFormat(TTKitFormat):
     name = _("PHP strings")
     format_id = "php"
@@ -928,6 +1042,12 @@ class PhpFormat(TTKitFormat):
     def extension():
         """Return most common file extension for format."""
         return "php"
+
+
+class LaravelPhpFormat(PhpFormat):
+    name = _("Laravel PHP strings")
+    format_id = "laravel"
+    loader = ("php", "LaravelPHPFile")
 
 
 class RESXFormat(TTKitFormat):
@@ -992,6 +1112,21 @@ class I18NextFormat(JSONFormat):
     loader = ("jsonl10n", "I18NextFile")
     autoload = ()
     check_flags = ("i18next-interpolation",)
+
+
+class GoI18JSONFormat(JSONFormat):
+    name = _("go-i18n JSON file")
+    format_id = "go-i18n-json"
+    loader = ("jsonl10n", "GoI18NJsonFile")
+    autoload = ()
+
+
+class ARBFormat(JSONFormat):
+    name = _("ARB file")
+    format_id = "arb"
+    loader = ("jsonl10n", "ARBJsonFile")
+    autoload = ("*.arb",)
+    unit_class = ARBJSONUnit
 
 
 class CSVFormat(TTKitFormat):
@@ -1148,31 +1283,6 @@ class DTDFormat(TTKitFormat):
         return (unit for unit in self.store.units if not unit.isnull())
 
 
-class WindowsRCFormat(TTKitFormat):
-    name = _("RC file")
-    format_id = "rc"
-    loader = ("rc", "rcfile")
-    autoload = ("*.rc",)
-    unit_class = MonolingualSimpleUnit
-    can_add_unit = False
-    language_format = "bcp"
-
-    @staticmethod
-    def mimetype():
-        """Return most common media type for format."""
-        return "text/plain"
-
-    @staticmethod
-    def extension():
-        """Return most common file extension for format."""
-        return "rc"
-
-    @classmethod
-    def get_class(cls):
-        """Return class for handling this module."""
-        raise ImportError("Windows RC file format unsupported on Python 3")
-
-
 class SubtitleUnit(MonolingualIDUnit):
     @cached_property
     def source(self):
@@ -1232,3 +1342,54 @@ class FlatXMLFormat(TTKitFormat):
     monolingual = True
     unit_class = FlatXMLUnit
     new_translation = '<?xml version="1.0" encoding="utf-8"?>\n<root></root>'
+
+
+class INIFormat(TTKitFormat):
+    name = _("INI file")
+    format_id = "ini"
+    loader = ("ini", "inifile")
+    monolingual = True
+    unit_class = INIUnit
+    new_translation = "\n"
+
+    @staticmethod
+    def mimetype():
+        """Return most common media type for format."""
+        # INI files do not expose mimetype
+        return "text/plain"
+
+    @classmethod
+    def extension(cls):
+        """Return most common file extension for format."""
+        # INI files do not expose extension
+        return "ini"
+
+    @classmethod
+    def load(cls, storefile):
+        store = super().load(storefile)
+        # Adjust store to have translations
+        for unit in store.units:
+            unit.target = unit.source
+            unit.rich_target = unit.rich_source
+        return store
+
+    def create_unit(self, key, source):
+        unit = super().create_unit(key, source)
+        unit.location = key
+        return unit
+
+
+class InnoSetupINIFormat(INIFormat):
+    name = _("InnoSetup INI file")
+    format_id = "islu"
+    loader = ("ini", "inifile")
+
+    @classmethod
+    def extension(cls):
+        """Return most common file extension for format."""
+        # INI files do not expose extension
+        return "islu"
+
+    @staticmethod
+    def get_class_kwargs():
+        return {"dialect": "inno"}

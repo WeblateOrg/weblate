@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -75,12 +74,12 @@ class ComponentList(models.Model):
     def get_absolute_url(self):
         return reverse("component-list", kwargs={"name": self.slug})
 
-    def tab_slug(self):
-        return "list-" + self.slug
-
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.stats = ComponentListStats(self)
+
+    def tab_slug(self):
+        return "list-" + self.slug
 
 
 class AutoComponentList(models.Model):

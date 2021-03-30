@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -49,8 +48,11 @@ social_urls = [
         weblate.accounts.views.social_disconnect,
         name="disconnect_individual",
     ),
+    # SAML
+    url(
+        r"^metadata/saml/$", weblate.accounts.views.saml_metadata, name="saml-metadata"
+    ),
 ]
-
 
 urlpatterns = [
     url(

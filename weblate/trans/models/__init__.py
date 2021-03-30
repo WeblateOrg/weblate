@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -28,18 +27,17 @@ from django.dispatch import receiver
 from weblate.trans.models._conf import WeblateConf
 from weblate.trans.models.agreement import ContributorAgreement
 from weblate.trans.models.alert import Alert
+from weblate.trans.models.announcement import Announcement
 from weblate.trans.models.change import Change
 from weblate.trans.models.comment import Comment
 from weblate.trans.models.component import Component
 from weblate.trans.models.componentlist import AutoComponentList, ComponentList
-from weblate.trans.models.dictionary import Dictionary
 from weblate.trans.models.label import Label
 from weblate.trans.models.project import Project
-from weblate.trans.models.shaping import Shaping
 from weblate.trans.models.suggestion import Suggestion, Vote
 from weblate.trans.models.translation import Translation
 from weblate.trans.models.unit import Unit
-from weblate.trans.models.whiteboard import WhiteboardMessage
+from weblate.trans.models.variant import Variant
 from weblate.trans.signals import user_pre_delete
 from weblate.utils.decorators import disable_for_loaddata
 from weblate.utils.files import remove_readonly
@@ -53,13 +51,12 @@ __all__ = [
     "Comment",
     "Vote",
     "Change",
-    "Dictionary",
-    "WhiteboardMessage",
+    "Announcement",
     "ComponentList",
     "WeblateConf",
     "ContributorAgreement",
     "Alert",
-    "Shaping",
+    "Variant",
     "Label",
 ]
 
@@ -103,69 +100,59 @@ def update_source(sender, instance, **kwargs):
         translation__component=instance.translation.component, id_hash=instance.id_hash
     )
     # Propagate attributes
-    units.update(extra_flags=instance.extra_flags, extra_context=instance.extra_context)
+    units.exclude(explanation=instance.explanation).update(
+        explanation=instance.explanation
+    )
+    units.exclude(extra_flags=instance.extra_flags).update(
+        extra_flags=instance.extra_flags
+    )
     # Run checks, update state and priority if flags changed
     if (
         instance.old_unit.extra_flags != instance.extra_flags
         or instance.state != instance.old_unit.state
     ):
         for unit in units:
+            # Optimize for recursive signal invocation
+            unit.translation.__dict__["is_source"] = False
             unit.update_state()
             unit.update_priority()
             unit.run_checks()
-            unit.translation.invalidate_cache()
+        if not instance.is_bulk_edit and not instance.is_batch_update:
+            instance.translation.component.invalidate_stats_deep()
 
 
 @receiver(m2m_changed, sender=Unit.labels.through)
-def change_labels(sender, instance, **kwargs):
+@disable_for_loaddata
+def change_labels(sender, instance, action, pk_set, **kwargs):
     """Update unit labels."""
-    if not instance.translation.is_source:
+    if (
+        action not in ("post_add", "post_remove", "post_clear")
+        or (action != "post_clear" and not pk_set)
+        or not instance.translation.is_source
+    ):
         return
-    units = Unit.objects.filter(
-        translation__component=instance.translation.component, id_hash=instance.id_hash
-    ).exclude(pk=instance.pk)
+    if action in ("post_remove", "post_clear"):
+        related = Unit.labels.through.objects.filter(
+            unit__translation__component=instance.translation.component,
+            unit__id_hash=instance.id_hash,
+        )
+        if action == "post_remove":
+            related.filter(label_id__in=pk_set).delete()
+        else:
+            related.delete()
+    else:
+        related = []
+        units = Unit.objects.filter(
+            translation__component=instance.translation.component,
+            id_hash=instance.id_hash,
+        ).exclude(pk=instance.pk)
+        for unit_id in units.values_list("id", flat=True):
+            for label_id in pk_set:
+                related.append(Unit.labels.through(label_id=label_id, unit_id=unit_id))
+        Unit.labels.through.objects.bulk_create(related, ignore_conflicts=True)
 
-    # Force fetching labels
-    labels = instance.labels.all()
-    list(labels)
-
-    for unit in units.iterator():
-        # This emulates set in ManyRelatedManager, we just need to know if there was
-        # any change to effectively invalidate caches
-        old_labels = set(unit.labels.all())
-        new_labels = []
-        for label in labels:
-            if label in old_labels:
-                old_labels.remove(label)
-            else:
-                new_labels.append(label)
-
-        if old_labels:
-            unit.labels.remove(*old_labels)
-        if new_labels:
-            unit.labels.add(*new_labels)
-        if old_labels or new_labels:
-            unit.translation.invalidate_cache()
-
-
-@receiver(post_delete, sender=Comment)
-@receiver(post_save, sender=Comment)
-@disable_for_loaddata
-def update_comment_flag(sender, instance, **kwargs):
-    """Update related unit comment flags."""
-    # Update unit stats
-    if instance.unit.update_has_comment():
-        instance.unit.translation.invalidate_cache()
-
-
-@receiver(post_delete, sender=Suggestion)
-@receiver(post_save, sender=Suggestion)
-@disable_for_loaddata
-def update_suggestion_flag(sender, instance, **kwargs):
-    """Update related unit suggestion flags."""
-    # Update unit stats
-    if instance.unit.update_has_suggestion():
-        instance.unit.translation.invalidate_cache()
+    if not instance.is_bulk_edit:
+        instance.translation.component.invalidate_stats_deep()
 
 
 @receiver(user_pre_delete)
@@ -189,7 +176,10 @@ def user_commit_pending(sender, instance, **kwargs):
 
 
 @receiver(m2m_changed, sender=ComponentList.components.through)
-def change_componentlist(sender, instance, **kwargs):
+@disable_for_loaddata
+def change_componentlist(sender, instance, action, **kwargs):
+    if not action.startswith("post_"):
+        return
     instance.stats.invalidate()
 
 
@@ -233,3 +223,16 @@ def post_delete_linked(sender, instance, **kwargs):
             instance.linked_component.update_alerts()
     except Component.DoesNotExist:
         pass
+
+
+@receiver(post_save, sender=Comment)
+@receiver(post_save, sender=Suggestion)
+@disable_for_loaddata
+def stats_invalidate(sender, instance, created, **kwargs):
+    """Invalidate stats on new comment or suggestion."""
+    # Invalidate stats counts
+    instance.unit.translation.invalidate_cache()
+    # Invalidate unit cached properties
+    for key in ["all_comments", "suggestions"]:
+        if key in instance.__dict__:
+            del instance.__dict__[key]

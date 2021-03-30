@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -23,7 +22,7 @@ from urllib.parse import urlparse
 
 from django.conf import settings
 from django.utils.html import escape
-from django.utils.http import is_safe_url
+from django.utils.http import url_has_allowed_host_and_scheme
 from django.utils.safestring import mark_safe
 from django.utils.translation import gettext as _
 
@@ -107,12 +106,19 @@ def get_bread_image(path):
         return "wrench.svg"
     if first in ("about", "stats", "keys", "legal"):
         return "weblate.svg"
+    if first in (
+        "glossaries",
+        "upload-glossaries",
+        "delete-glossaries",
+        "edit-glossaries",
+    ):
+        return "glossary.svg"
     return "project.svg"
 
 
 def weblate_context(request):
     """Context processor to inject various useful variables into context."""
-    if is_safe_url(request.GET.get("next", ""), allowed_hosts=None):
+    if url_has_allowed_host_and_scheme(request.GET.get("next", ""), allowed_hosts=None):
         login_redirect_url = request.GET["next"]
     else:
         login_redirect_url = request.get_full_path()
@@ -132,7 +138,9 @@ def weblate_context(request):
     weblate_url = URL_BASE % weblate.VERSION
 
     context = {
-        "cache_param": "?v={}".format(weblate.GIT_VERSION),
+        "cache_param": "?v={}".format(weblate.GIT_VERSION)
+        if not settings.COMPRESS_ENABLED
+        else "",
         "version": weblate.VERSION,
         "bread_image": get_bread_image(request.path),
         "description": description,
@@ -154,6 +162,7 @@ def weblate_context(request):
         "login_redirect_url": login_redirect_url,
         "has_ocr": weblate.screenshots.views.HAS_OCR,
         "has_antispam": bool(settings.AKISMET_API_KEY),
+        "has_sentry": bool(settings.SENTRY_DSN),
         "watched_projects": watched_projects,
         "allow_index": False,
         "configuration_errors": ConfigurationError.objects.filter(

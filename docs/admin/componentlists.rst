@@ -3,40 +3,41 @@
 Component Lists
 ===============
 
-Weblate allows you to specify multiple lists of components. These will then
-appear as options on the user dashboard, and users can pick a list to be their
-default view when they log in. See :ref:`dashboard` to learn more about this
-feature.
+Specify multiple lists of components to appear as options on the user dashboard,
+from which users can pick one as their default view.
+See :ref:`dashboard` to learn more.
 
 .. versionchanged:: 2.20
 
-    The overview of all component lists status is also available on the
-    dashboard.
+    A status will be presented for each component list presented on the dashboard.
 
-The names and contents of component lists can be specified in the admin
+The names and content of component lists can be specified in the admin
 interface, in :guilabel:`Component lists` section. Each component list must
-have a name that is displayed to the user, and a slug that represents it in the
+have a name that is displayed to the user, and a slug representing it in the
 URL.
 
-.. note::
 
-    Since version 2.13 you can also change the dashboard settings for the
-    anonymous user in the admin interface, this will change what dashboard is
-    visible to unauthenticated users.
+.. versionchanged:: 2.13
+
+    Change dashboard settings for anonymous users from the admin interface,
+    altering whatdashboard is presented to unauthenticated users.
 
 Automatic component lists
 -------------------------
 
 .. versionadded:: 2.13
 
-Additionally you can create :guilabel:`Automatic component list assignment`
-rules to automatically add components to the list based on their slug. This can
-be useful for maintaining component lists for large installations or in case
-you want to have component list with all components on your Weblate
-installation.
+Add components to the list automatically based on their slug by creating
+:guilabel:`Automatic component list assignment` rules.
 
-To create component list containing all components, you can simply define
-:guilabel:`Automatic component list assignment` with ``^.*$`` regular expression
-on both project and component as shown on following image:
+* Useful for maintaining component lists for large installations or in case
+
+.. hint::
+
+    Make a component list containing all the components of your Weblate installation.
+
+1. Define :guilabel:`Automatic component list assignment` with ``^.*$`` as regular expression
+in both the project and the component fields, as shown on this image:
 
 .. image:: /images/componentlist-add.png
+   :alt: Image showing the Weblate aministration panel with the above configuration filled in.

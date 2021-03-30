@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -21,7 +20,9 @@
 
 import errno
 import os
+import sys
 import time
+from collections import defaultdict
 from itertools import chain
 
 from celery.exceptions import TimeoutError
@@ -43,6 +44,72 @@ DEFAULT_MAILS = {
     "noreply@weblate.org",
     "noreply@example.com",
 }
+DOC_LINKS = {
+    "security.W001": ("admin/upgdade", "up-3-1"),
+    "security.W002": ("admin/upgdade", "up-3-1"),
+    "security.W003": ("admin/upgdade", "up-3-1"),
+    "security.W004": ("admin/install", "production-ssl"),
+    "security.W005": ("admin/install", "production-ssl"),
+    "security.W006": ("admin/upgdade", "up-3-1"),
+    "security.W007": ("admin/upgdade", "up-3-1"),
+    "security.W008": ("admin/install", "production-ssl"),
+    "security.W009": ("admin/install", "production-secret"),
+    "security.W010": ("admin/install", "production-ssl"),
+    "security.W011": ("admin/install", "production-ssl"),
+    "security.W012": ("admin/install", "production-ssl"),
+    "security.W018": ("admin/install", "production-debug"),
+    "security.W019": ("admin/upgdade", "up-3-1"),
+    "security.W020": ("admin/install", "production-hosts"),
+    "security.W021": ("admin/install", "production-ssl"),
+    "weblate.E002": ("admin/install", "file-permissions"),
+    "weblate.E003": ("admin/install", "out-mail"),
+    "weblate.E005": ("admin/install", "celery"),
+    "weblate.E006": ("admin/install", "production-database"),
+    "weblate.E007": ("admin/install", "production-cache"),
+    "weblate.E008": ("admin/install", "production-cache-avatar"),
+    "weblate.E009": ("admin/install", "celery"),
+    "weblate.E011": ("admin/install", "production-admins"),
+    "weblate.E012": ("admin/install", "production-email"),
+    "weblate.E013": ("admin/install", "production-email"),
+    "weblate.E014": ("admin/install", "production-secret"),
+    "weblate.E015": ("admin/install", "production-hosts"),
+    "weblate.E016": ("admin/install", "production-templates"),
+    "weblate.E017": ("admin/install", "production-site"),
+    "weblate.E018": ("admin/optionals", "avatars"),
+    "weblate.E019": ("admin/install", "celery"),
+    "weblate.E020": ("admin/install", "celery"),
+    "weblate.I021": ("admin/install", "collecting-errors"),
+    "weblate.E022": ("admin/optionals", "git-exporter"),
+    "weblate.C023": ("admin/install", "production-encoding"),
+    "weblate.C024": ("admin/install", "pangocairo"),
+    "weblate.W025": ("admin/install", "optional-deps"),
+    "weblate.E026": ("admin/install", "celery"),
+    "weblate.E027": ("admin/install", "file-permissions"),
+    "weblate.I028": ("admin/backup",),
+    "weblate.C029": ("admin/backup",),
+    "weblate.C030": ("admin/install", "celery"),
+    "weblate.I031": ("admin/upgrade",),
+    "weblate.C031": ("admin/upgrade",),
+    "weblate.C032": ("admin/install",),
+    "weblate.W033": ("vcs",),
+    "weblate.E034": ("admin/install", "celery"),
+}
+
+
+def check_doc_link(docid, strict=False):
+    while docid.count(".") > 1:
+        docid = docid.rsplit(".", 1)[0]
+    try:
+        return get_doc_url(*DOC_LINKS[docid])
+    except KeyError:
+        if strict:
+            raise
+        return None
+
+
+def weblate_check(id, message, cls=Critical):
+    """Returns Django check instance."""
+    return cls(message, hint=check_doc_link(id), id=id)
 
 
 def check_mail_connection(app_configs, **kwargs):
@@ -52,87 +119,117 @@ def check_mail_connection(app_configs, **kwargs):
         connection.open()
         connection.close()
     except Exception as error:
-        message = "Can not send email ({}), please check EMAIL_* settings."
-        errors.append(
-            Critical(
-                message.format(error),
-                hint=get_doc_url("admin/install", "out-mail"),
-                id="weblate.E003",
-            )
-        )
+        message = "Cannot send e-mail ({}), please check EMAIL_* settings."
+        errors.append(weblate_check("weblate.E003", message.format(error)))
 
     return errors
 
 
 def is_celery_queue_long():
+    """
+    Checks whether celery queue is too long.
+
+    It does trigger if it is too long for at least one hour. This way peaks are
+    filtered out, and no warning need be issued for big operations (for example
+    site-wide autotranslation).
+    """
+    cache_key = "celery_queue_stats"
+    queues_data = cache.get(cache_key, {})
+
+    # Hours since epoch
+    current_hour = int(time.time() / 3600)
+    test_hour = current_hour - 1
+
+    # Fetch current stats
     stats = get_queue_stats()
-    if stats.pop("search") > 10000:
-        return True
-    if stats.pop("translate", 0) > 1000:
-        return True
-    return any(stat > 50 for stat in stats.values())
+
+    # Update counters
+    if current_hour not in queues_data:
+        # Delete stale items
+        for key in list(queues_data.keys()):
+            if key < test_hour:
+                del queues_data[key]
+        # Add current one
+        queues_data[current_hour] = stats
+
+        # Store to cache
+        cache.set(cache_key, queues_data, 7200)
+
+    # Do not fire if we do not have counts for two hours ago
+    if test_hour not in queues_data:
+        return False
+
+    # Check if any queue got bigger
+    base = queues_data[test_hour]
+    thresholds = defaultdict(lambda: 50)
+    thresholds["translate"] = 1000
+    return any(
+        stat > thresholds[key] and base.get(key, 0) > thresholds[key]
+        for key, stat in stats.items()
+    )
 
 
 def check_celery(app_configs, **kwargs):
     errors = []
     if settings.CELERY_TASK_ALWAYS_EAGER:
         errors.append(
-            Error(
-                "Celery is configured in the eager mode",
-                hint=get_doc_url("admin/install", "celery"),
-                id="weblate.E005",
+            weblate_check(
+                "weblate.E005", "Celery is configured in the eager mode", Error
             )
         )
     elif settings.CELERY_BROKER_URL == "memory://":
         errors.append(
-            Critical(
-                "Celery is configured to store queue in local memory",
-                hint=get_doc_url("admin/install", "celery"),
-                id="weblate.E026",
+            weblate_check(
+                "weblate.E026", "Celery is configured to store queue in local memory"
             )
         )
     else:
         if is_celery_queue_long():
             errors.append(
-                Critical(
+                weblate_check(
+                    "weblate.E009",
                     "The Celery tasks queue is too long, either the worker "
-                    "is not running or is too slow.",
-                    hint=get_doc_url("admin/install", "celery"),
-                    id="weblate.E009",
+                    "is not running, or is too slow.",
                 )
             )
 
         result = ping.delay()
         try:
-            result.get(timeout=10, disable_sync_subtasks=False)
+            pong = result.get(timeout=10, disable_sync_subtasks=False)
+            # Check for outdated Celery running different version of configuration
+            if ping() != pong:
+                errors.append(
+                    weblate_check(
+                        "weblate.E034",
+                        "The Celery process is outdated, please restart it.",
+                    )
+                )
         except TimeoutError:
             errors.append(
-                Critical(
-                    "The Celery does not process tasks or is too slow "
+                weblate_check(
+                    "weblate.E019",
+                    "The Celery does not process tasks, or is too slow "
                     "in processing them.",
-                    hint=get_doc_url("admin/install", "celery"),
-                    id="weblate.E019",
                 )
             )
         except NotImplementedError:
             errors.append(
-                Critical(
+                weblate_check(
+                    "weblate.E020",
                     "The Celery is not configured to store results, "
                     "CELERY_RESULT_BACKEND is probably not set.",
-                    hint=get_doc_url("admin/install", "celery"),
-                    id="weblate.E020",
                 )
             )
+
     heartbeat = cache.get("celery_heartbeat")
     loaded = cache.get("celery_loaded")
     now = time.time()
     if loaded and now - loaded > 60 and (not heartbeat or now - heartbeat > 600):
         errors.append(
-            Critical(
-                "The Celery beats scheduler is not executing periodic tasks "
+            weblate_check(
+                "weblate.C030",
+                "The Celery beat scheduler is not executing periodic tasks "
                 "in a timely manner.",
-                hint=get_doc_url("admin/install", "celery"),
-                id="weblate.C030",
             )
         )
 
@@ -143,12 +240,10 @@ def check_database(app_configs, **kwargs):
     if settings.DATABASES["default"]["ENGINE"] == "django.db.backends.postgresql":
         return []
     return [
-        Error(
-            "Please migrate your database to use PostgreSQL. "
-            "Support for other database backends will be dropped in Weblate 4.0 "
-            "currently sheduled on April 2020.",
-            hint=get_doc_url("admin/install", "production-database"),
-            id="weblate.E006",
+        weblate_check(
+            "weblate.E006",
+            "Weblate performs best with PostgreSQL, consider migrating to it.",
+            Info,
         )
     ]
 
@@ -160,21 +255,20 @@ def check_cache(app_configs, **kwargs):
     cache_backend = settings.CACHES["default"]["BACKEND"].split(".")[-1]
     if cache_backend not in GOOD_CACHE:
         errors.append(
-            Critical(
-                "The configured cache backend will lead to serious "
+            weblate_check(
+                "weblate.E007",
+                "The configured cache back-end will lead to serious "
                 "performance or consistency issues.",
-                hint=get_doc_url("admin/install", "production-cache"),
-                id="weblate.E007",
             )
         )
 
     if settings.ENABLE_AVATARS and "avatar" not in settings.CACHES:
         errors.append(
-            Error(
-                "Please configure separate avatar caching to reduce pressure "
-                "on the default cache",
-                hint=get_doc_url("admin/install", "production-cache-avatar"),
-                id="weblate.E008",
+            weblate_check(
+                "weblate.E008",
+                "Please set up separate avatar caching to reduce pressure "
+                "on the default cache.",
+                Error,
             )
         )
 
@@ -187,73 +281,70 @@ def check_settings(app_configs, **kwargs):
 
     if not settings.ADMINS or "noreply@weblate.org" in (x[1] for x in settings.ADMINS):
         errors.append(
-            Error(
-                "The site admins seem to be wrongly configured",
-                hint=get_doc_url("admin/install", "production-admins"),
-                id="weblate.E011",
+            weblate_check(
+                "weblate.E011",
+                "E-mail addresses for site admins is misconfigured",
+                Error,
             )
         )
 
     if settings.SERVER_EMAIL in DEFAULT_MAILS:
         errors.append(
-            Critical(
-                "The server email has default value",
-                hint=get_doc_url("admin/install", "production-email"),
-                id="weblate.E012",
+            weblate_check(
+                "weblate.E012",
+                "The server e-mail address should be changed from its default value",
             )
         )
     if settings.DEFAULT_FROM_EMAIL in DEFAULT_MAILS:
         errors.append(
-            Critical(
-                "The default from email has default value",
-                hint=get_doc_url("admin/install", "production-email"),
-                id="weblate.E013",
+            weblate_check(
+                "weblate.E013",
+                'The "From" e-mail address should be changed from its default value',
             )
         )
 
     if settings.SECRET_KEY == settings_example.SECRET_KEY:
         errors.append(
-            Critical(
-                "The cookie secret key has default value",
-                hint=get_doc_url("admin/install", "production-secret"),
-                id="weblate.E014",
+            weblate_check(
+                "weblate.E014",
+                "The cookie secret key should be changed from its default value",
             )
         )
 
     if not settings.ALLOWED_HOSTS:
-        errors.append(
-            Critical(
-                "The allowed hosts are not configured",
-                hint=get_doc_url("admin/install", "production-hosts"),
-                id="weblate.E015",
-            )
-        )
+        errors.append(weblate_check("weblate.E015", "No allowed hosts are set up"))
     return errors
 
 
 def check_templates(app_configs, **kwargs):
-    """Check for sane settings."""
-    errors = []
+    """Check for cached DjangoTemplates Loader."""
+    if settings.DEBUG:
+        return []
 
-    if settings.TEMPLATES:
-        loaders = settings.TEMPLATES[0].get("OPTIONS", {}).get("loaders", [[""]])
-    else:
-        loaders = settings.TEMPLATE_LOADERS
+    from django.template import engines
+    from django.template.backends.django import DjangoTemplates
+    from django.template.loaders import cached
 
-    if isinstance(loaders[0], str):
-        loader = loaders[0]
-    else:
-        loader = loaders[0][0]
+    is_cached = True
 
-    if "cached.Loader" not in loader:
-        errors.append(
-            Error(
-                "Configure cached template loader for better performance",
-                hint=get_doc_url("admin/install", "production-templates"),
-                id="weblate.E016",
-            )
+    for engine in engines.all():
+        if not isinstance(engine, DjangoTemplates):
+            continue
+
+        for loader in engine.engine.template_loaders:
+            if not isinstance(loader, cached.Loader):
+                is_cached = False
+
+    if is_cached:
+        return []
+
+    return [
+        weblate_check(
+            "weblate.E016",
+            "Set up a cached template loader for better performance",
+            Error,
         )
-    return errors
+    ]
 
 
 def check_data_writable(app_configs=None, **kwargs):
@@ -262,10 +353,8 @@ def check_data_writable(app_configs=None, **kwargs):
     dirs = [
         settings.DATA_DIR,
         data_dir("home"),
-        data_dir("whoosh"),
         data_dir("ssh"),
         data_dir("vcs"),
-        data_dir("memory"),
         data_dir("celery"),
         data_dir("backups"),
         data_dir("fonts"),
@@ -276,13 +365,7 @@ def check_data_writable(app_configs=None, **kwargs):
         if not os.path.exists(path):
             os.makedirs(path)
         elif not os.access(path, os.W_OK):
-            errors.append(
-                Critical(
-                    message.format(path),
-                    hint=get_doc_url("admin/install", "file-permissions"),
-                    id="weblate.E002",
-                )
-            )
+            errors.append(weblate_check("weblate.E002", message.format(path)))
 
     return errors
 
@@ -292,23 +375,21 @@ def check_site(app_configs, **kwargs):
 
     errors = []
     if not check_domain(get_site_domain()):
-        errors.append(
-            Critical(
-                "Configure correct site domain",
-                hint=get_doc_url("admin/install", "production-site"),
-                id="weblate.E017",
-            )
-        )
+        errors.append(weblate_check("weblate.E017", "Correct the site domain"))
     return errors
 
 
 def check_perms(app_configs=None, **kwargs):
-    """Check we can write to data dir."""
+    """Check that the data dir can be written to."""
     errors = []
     uid = os.getuid()
-    message = "Path {} is owned by different user, check your DATA_DIR settings."
+    message = "The path {} is owned by different user, check your DATA_DIR settings."
     for dirpath, dirnames, filenames in os.walk(settings.DATA_DIR):
         for name in chain(dirnames, filenames):
+            # Skip toplevel lost+found dir, that one is typically owned by root
+            # on filesystem toplevel directory
+            if dirpath == settings.DATA_DIR and name == "lost+found":
+                continue
             path = os.path.join(dirpath, name)
             try:
                 stat = os.lstat(path)
@@ -318,19 +399,13 @@ def check_perms(app_configs=None, **kwargs):
                     continue
                 raise
             if stat.st_uid != uid:
-                errors.append(
-                    Critical(
-                        message.format(path),
-                        hint=get_doc_url("admin/install", "file-permissions"),
-                        id="weblate.E027",
-                    )
-                )
+                errors.append(weblate_check("weblate.E027", message.format(path)))
 
     return errors
 
 
 def check_errors(app_configs=None, **kwargs):
-    """Check there is error collection configured."""
+    """Check that error collection is configured."""
     if (
         hasattr(settings, "ROLLBAR")
         or hasattr(settings, "RAVEN_CONFIG")
@@ -338,10 +413,30 @@ def check_errors(app_configs=None, **kwargs):
     ):
         return []
     return [
-        Info(
-            "Error collection is not configured, "
+        weblate_check(
+            "weblate.I021",
+            "Error collection is not set up, "
             "it is highly recommended for production use",
-            hint=get_doc_url("admin/install", "collecting-errors"),
-            id="weblate.I021",
+            Info,
         )
     ]
+
+
+def check_encoding(app_configs=None, **kwargs):
+    """Check that the encoding is UTF-8."""
+    if sys.getfilesystemencoding() == "utf-8" and sys.getdefaultencoding() == "utf-8":
+        return []
+    return [
+        weblate_check(
+            "weblate.C023",
+            "System encoding is not UTF-8, processing non-ASCII strings will break",
+        )
+    ]
+
+
+def check_diskspace(app_configs=None, **kwargs):
+    """Check free disk space."""
+    stat = os.statvfs(settings.DATA_DIR)
+    if stat.f_bavail * stat.f_bsize < 10000000:
+        return [weblate_check("weblate.C032", "The disk is nearly full")]
+    return []
