@@ -19,29 +19,35 @@
 from datetime import date, timedelta
 
 from django.db import models
+from django.db.models import Q
 
 
 class MetricQuerySet(models.QuerySet):
     def get_current(self, scope: int, relation: int, **kwargs):
         from weblate.metrics.tasks import collect_global
 
+        today = date.today()
+        yesterday = today - timedelta(days=1)
+
         # Get todays stats
         data = dict(
             self.filter(
-                scope=scope, relation=relation, date=date.today(), **kwargs
+                scope=scope, relation=relation, date=today, **kwargs
             ).values_list("name", "value")
         )
         if not data:
             # Fallback to yesterday in case they are not yet calculated
             data = dict(
                 self.filter(
-                    scope=scope,
-                    relation=relation,
-                    date=date.today() - timedelta(days=1),
-                    **kwargs,
+                    scope=scope, relation=relation, date=yesterday, **kwargs
                 ).values_list("name", "value")
             )
-        if not data:
+        if (
+            not data
+            and not self.filter(
+                (Q(date=yesterday) | Q(date=today)) & Q(scope=Metric.SCOPE_GLOBAL)
+            ).exists()
+        ):
             # Trigger collection in case no data is present
             collect_global()
             return self.get_current(scope, relation, **kwargs)
