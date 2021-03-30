@@ -198,5 +198,67 @@
     </div>
   </div>
   <div class="col-md-6">
+    <div class="panel panel-default">
+      <div class="panel-heading"><h4 class="panel-title">{% trans "Quick numbers" %}</h4></div>
+      <div class="panel-body">
+        <div class="row">
+          <div class="col-xs-3">
+            <div class="metric">
+              <div class="metric-number">{{ metrics.all_words|intcomma }}</div>
+              <div class="metric-text">{% trans "Hosted words" context "Number of hosted words" %}</div>
+            </div>
+          </div>
+          <div class="col-xs-3">
+            <div class="metric">
+              <div class="metric-number">{{ metrics.all|intcomma }}</div>
+              <div class="metric-text">{% trans "Hosted strings" context "Number of hosted strings" %}</div>
+            </div>
+          </div>
+          <div class="col-xs-3">
+            <div class="metric">
+              <div class="metric-number">{{ metrics.translated_percent|percent_format }}</div>
+              <div class="metric-text">{% trans "Translated" %}</div>
+            </div>
+          </div>
+          <div class="col-xs-3">
+            <div class="metric">
+              <div class="metric-number">{{ metrics.contributors|intcomma }}</div>
+              <div class="metric-text">{% trans "Contributors" %}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="panel panel-default">
+      <div class="panel-heading"><h4 class="panel-title">{% trans "Trends of last 30 days" %}</h4></div>
+      <div class="panel-body">
+        <div class="row">
+          <div class="col-xs-3">
+            <div class="metric">
+              <div class="metric-number">{{ metrics.trend_all_words|trend_format }}</div>
+              <div class="metric-text">{% trans "Hosted words" context "Number of hosted words" %}</div>
+            </div>
+          </div>
+          <div class="col-xs-3">
+            <div class="metric">
+              <div class="metric-number">{{ metrics.trend_all|trend_format }}</div>
+              <div class="metric-text">{% trans "Hosted strings" context "Number of hosted strings" %}</div>
+            </div>
+          </div>
+          <div class="col-xs-3">
+            <div class="metric">
+              <div class="metric-number">{{ metrics.trend_translated_percent|trend_format }}</div>
+              <div class="metric-text">{% trans "Translated" %}</div>
+            </div>
+          </div>
+          <div class="col-xs-3">
+            <div class="metric">
+              <div class="metric-number">{{ metrics.trend_contributors|trend_format }}</div>
+              <div class="metric-text">{% trans "Contributors" %}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>

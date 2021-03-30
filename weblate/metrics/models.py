@@ -16,6 +16,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
+from collections import defaultdict
 from datetime import date, timedelta
 
 from django.db import models
@@ -52,6 +53,17 @@ class MetricQuerySet(models.QuerySet):
             collect_metrics()
             return self.get_current(scope, relation, **kwargs)
         return data
+
+    def get_past(self, scope: int, relation: int, **kwargs):
+        return defaultdict(
+            int,
+            self.filter(
+                scope=scope,
+                relation=relation,
+                date=date.today() - timedelta(days=30),
+                **kwargs,
+            ).values_list("name", "value"),
+        )
 
 
 class Metric(models.Model):

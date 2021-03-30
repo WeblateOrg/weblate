@@ -882,6 +882,18 @@ def percent_format(number):
 
 
 @register.filter
+def trend_format(number):
+    if number < 0:
+        prefix = "-"
+    else:
+        prefix = "+"
+    number = abs(number)
+    if number < 0.1:
+        return "—"
+    return "{}{}".format(prefix, percent_format(number))
+
+
+@register.filter
 def hash_text(name):
     """Hash text for use in HTML id."""
     return hash_to_checksum(siphash("Weblate URL hash", name.encode()))
