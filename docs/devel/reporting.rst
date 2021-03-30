@@ -25,24 +25,24 @@ and lists all contributors to a given language:
 
     * Czech
 
-        * Michal Čihař <michal@cihar.com>
-        * John Doe <john@example.com>
+        * Michal Čihař <michal@cihar.com> (10)
+        * John Doe <john@example.com> (5)
 
     * Dutch
 
-        * Jane Doe <jane@example.com>
+        * Jane Doe <jane@example.com> (42)
 
 
 It will render as:
 
     * Czech
 
-        * Michal Čihař <michal@cihar.com>
-        * John Doe <john@example.com>
+        * Michal Čihař <michal@cihar.com> (10)
+        * John Doe <john@example.com> (5)
 
     * Dutch
 
-        * Jae Doe <jane@example.com>
+        * Jae Doe <jane@example.com> (42)
 
 .. _stats:
 
@@ -78,6 +78,8 @@ The following metrics are available for each:
 
 `Count`
    Number of strings.
+`Edits`
+   Number of edits in the string, measured in Damerau–Levenshtein distance.
 `Source words`
    Number of words in the source string.
 `Source characters`

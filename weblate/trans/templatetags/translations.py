@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -18,7 +17,6 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-
 import re
 from datetime import date
 from uuid import uuid4
@@ -32,24 +30,26 @@ from django.utils.encoding import force_str
 from django.utils.html import escape
 from django.utils.safestring import mark_safe
 from django.utils.translation import gettext, gettext_lazy, ngettext, pgettext
+from siphashc import siphash
 
 from weblate.accounts.avatar import get_user_display
 from weblate.accounts.models import Profile
 from weblate.auth.models import User
-from weblate.checks import CHECKS, highlight_string
-from weblate.lang.models import Language
+from weblate.checks.models import CHECKS
+from weblate.checks.utils import highlight_string
 from weblate.trans.filter import get_filter_choice
 from weblate.trans.models import (
+    Announcement,
     Component,
     ContributorAgreement,
-    Dictionary,
     Project,
     Translation,
-    WhiteboardMessage,
 )
+from weblate.trans.models.translation import GhostTranslation
 from weblate.trans.simplediff import html_diff
 from weblate.trans.util import get_state_css, split_plural
 from weblate.utils.docs import get_doc_url
+from weblate.utils.hash import hash_to_checksum
 from weblate.utils.markdown import render_markdown
 from weblate.utils.stats import BaseStats, ProjectLanguageStats
 
@@ -115,9 +115,8 @@ def fmt_whitespace(value):
 def fmt_diff(value, diff, idx):
     """Format diff if there is any."""
     if diff is None:
-        return value
-    diffvalue = escape(force_str(diff[idx]))
-    return html_diff(diffvalue, value)
+        return escape(value)
+    return html_diff(force_str(diff[idx]), value)
 
 
 def fmt_highlights(raw_value, value, unit):
@@ -157,7 +156,7 @@ def fmt_search(value, search_match, match):
     return value
 
 
-@register.inclusion_tag("format-translation.html")
+@register.inclusion_tag("snippets/format-translation.html")
 def format_translation(
     value,
     language,
@@ -192,13 +191,14 @@ def format_translation(
 
     # We will collect part for each plural
     parts = []
+    has_content = False
 
     for idx, raw_value in enumerate(plurals):
         # HTML escape
-        value = escape(force_str(raw_value))
+        value = force_str(raw_value)
 
         # Content of the Copy to clipboard button
-        copy = value
+        copy = escape(value)
 
         # Format diff if there is any
         value = fmt_diff(value, diff, idx)
@@ -227,17 +227,15 @@ def format_translation(
         content = mark_safe(newline.join(paras))
 
         parts.append({"title": title, "content": content, "copy": copy})
+        has_content |= bool(content)
 
-    return {"simple": simple, "items": parts, "language": language, "unit": unit}
-
-
-@register.simple_tag
-def check_severity(check):
-    """Return check severity, or its id if check is not known."""
-    try:
-        return escape(CHECKS[check].severity)
-    except KeyError:
-        return "info"
+    return {
+        "simple": simple,
+        "items": parts,
+        "language": language,
+        "unit": unit,
+        "has_content": has_content,
+    }
 
 
 @register.simple_tag
@@ -259,30 +257,6 @@ def check_description(check):
 
 
 @register.simple_tag
-def project_name(prj):
-    """Get project name based on slug."""
-    return escape(force_str(Project.objects.get(slug=prj)))
-
-
-@register.simple_tag
-def component_name(prj, subprj):
-    """Get component name based on slug."""
-    return escape(force_str(Component.objects.get(project__slug=prj, slug=subprj)))
-
-
-@register.simple_tag
-def language_name(code):
-    """Get language name based on its code."""
-    return escape(force_str(Language.objects.get(code=code)))
-
-
-@register.simple_tag
-def dictionary_count(lang, project):
-    """Return number of words in dictionary."""
-    return Dictionary.objects.filter(project=project, language=lang).count()
-
-
-@register.simple_tag
 def documentation(page, anchor=""):
     """Return link to Weblate documentation."""
     return get_doc_url(page, anchor)
@@ -291,6 +265,13 @@ def documentation(page, anchor=""):
 @register.inclusion_tag("documentation-icon.html")
 def documentation_icon(page, anchor="", right=False):
     return {"right": right, "doc_url": get_doc_url(page, anchor)}
+
+
+@register.inclusion_tag("documentation-icon.html")
+def form_field_doc_link(form, field):
+    if hasattr(form, "get_field_doc"):
+        return {"right": False, "doc_url": get_doc_url(*form.get_field_doc(field))}
+    return {}
 
 
 @register.inclusion_tag("message.html")
@@ -465,8 +446,6 @@ def get_stats_parent(obj, parent):
 @register.simple_tag
 def global_stats(obj, stats, parent):
     """Return attribute from global stats."""
-    if not parent:
-        return None
     if isinstance(parent, str):
         parent = getattr(obj, parent)
     return get_stats_parent(stats, parent)
@@ -486,7 +465,7 @@ def translation_progress(obj, parent=None):
         stats.approved_percent,
         stats.translated_percent,
         stats.fuzzy_percent,
-        stats.allchecks_percent,
+        stats.translated_checks_percent,
     )
 
 
@@ -497,7 +476,7 @@ def words_progress(obj, parent=None):
         stats.approved_words_percent,
         stats.translated_words_percent,
         stats.fuzzy_words_percent,
-        stats.allchecks_words_percent,
+        stats.translated_checks_words_percent,
     )
 
 
@@ -522,9 +501,13 @@ def get_state_badge(unit):
 
 
 @register.inclusion_tag("snippets/unit-state.html")
-def get_state_flags(unit):
+def get_state_flags(unit, detail=False):
     """Return state flags."""
-    return {"state": " ".join(get_state_css(unit))}
+    return {
+        "state": " ".join(get_state_css(unit)),
+        "unit": unit,
+        "detail": detail,
+    }
 
 
 @register.simple_tag
@@ -553,26 +536,26 @@ def get_location_links(profile, unit):
 
 
 @register.simple_tag(takes_context=True)
-def whiteboard_messages(context, project=None, component=None, language=None):
-    """Display whiteboard messages for given context."""
+def announcements(context, project=None, component=None, language=None):
+    """Display announcement messages for given context."""
     ret = []
-
-    whiteboards = WhiteboardMessage.objects.context_filter(project, component, language)
 
     user = context["user"]
 
-    for whiteboard in whiteboards:
+    for announcement in Announcement.objects.context_filter(
+        project, component, language
+    ):
         can_delete = user.has_perm(
-            "component.edit", whiteboard.component
-        ) or user.has_perm("project.edit", whiteboard.project)
+            "component.edit", announcement.component
+        ) or user.has_perm("project.edit", announcement.project)
 
         ret.append(
             render_to_string(
                 "message.html",
                 {
-                    "tags": " ".join((whiteboard.category, "whiteboard")),
-                    "message": whiteboard.render(),
-                    "whiteboard": whiteboard,
+                    "tags": " ".join((announcement.category, "announcement")),
+                    "message": render_markdown(announcement.message),
+                    "announcement": announcement,
                     "can_delete": can_delete,
                 },
             )
@@ -681,7 +664,7 @@ def indicate_alerts(context, obj):
     component = None
     project = None
 
-    if isinstance(obj, Translation):
+    if isinstance(obj, (Translation, GhostTranslation)):
         translation = obj
         component = obj.component
         project = component.project
@@ -745,7 +728,7 @@ def indicate_alerts(context, obj):
                 )
             )
     elif project:
-        if project.all_alerts.exists():
+        if project.has_alerts:
             result.append(
                 (
                     "state/alert.svg",
@@ -758,6 +741,10 @@ def indicate_alerts(context, obj):
             result.append(
                 ("state/lock.svg", gettext("This translation is locked."), None)
             )
+    if getattr(obj, "is_ghost", False):
+        result.append(
+            ("state/ghost.svg", gettext("This translation does not yet exist."), None)
+        )
 
     return {"icons": result, "component": component, "project": project}
 
@@ -779,13 +766,19 @@ def choiceval(boundfield):
     Empty value is returned if value is not selected or invalid.
     """
     value = boundfield.value()
-    if not hasattr(boundfield.field, "choices"):
-        return value
     if value is None:
         return ""
-    choices = dict(boundfield.field.choices)
     if value is True:
         return gettext("enabled")
+    if not hasattr(boundfield.field, "choices"):
+        return value
+    choices = list(boundfield.field.choices)
+    if choices and hasattr(choices[0][0], "value"):
+        # Django 3.1+ yields ModelChoiceIteratorValue
+        choices = {choice.value: value for choice, value in choices}
+    else:
+        # Django 3.0
+        choices = dict(choices)
     if isinstance(value, list):
         return ", ".join(choices.get(val, val) for val in value)
     return choices.get(value, value)
@@ -806,3 +799,9 @@ def percent_format(number):
     return pgettext("Translated percents", "%(percent)s%%") % {
         "percent": intcomma(int(number))
     }
+
+
+@register.filter
+def hash_text(name):
+    """Hash text for use in HTML id."""
+    return hash_to_checksum(siphash("Weblate URL hash", name.encode()))

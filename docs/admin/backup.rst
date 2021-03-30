@@ -9,7 +9,7 @@ Automated backup
 .. versionadded:: 3.9
 
 Weblate has built in support for creating service backups using `BorgBackup`_.
-Borg creates space effective encrypted backups which can be safely stored in
+Borg creates space-effective encrypted backups which can be safely stored in
 the cloud. The backups can be controlled in the management interface on the
 :guilabel:`Backups` tab.
 
@@ -47,7 +47,7 @@ activating can be performed in few steps:
 Using custom backup storage
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-You can also use own storage for the backups. SSH can be used to store backups
+You can also use your own storage for the backups. SSH can be used to store backups
 on the remote destination, the target server needs to have `BorgBackup`_
 installed.
 
@@ -82,9 +82,9 @@ Restoring from BorgBackup
 
 4. Restore the database from the SQL dump placed in the ``backup`` directory in the Weblate data dir (see :ref:`backup-dumps`).
 
-5. Copy Weblate configuration and data dir to correct location.
+5. Copy Weblate configuration and data dir to the correct location.
 
-The borg session might look like:
+The Borg session might look like:
 
 .. code-block:: console
 
@@ -112,7 +112,8 @@ Depending on what you want to save, back up the type data Weblate stores in each
 
    In case you are doing manual backups, you might want to silent Weblate
    warning about lack of backups by adding ``weblate.I028`` to
-   :setting:`django:SILENCED_SYSTEM_CHECKS` in :file:`settings.py`:
+   :setting:`django:SILENCED_SYSTEM_CHECKS` in :file:`settings.py` or
+   :envvar:`WEBLATE_SILENCED_SYSTEM_CHECKS` for Docker.
 
    .. code-block:: python
 
@@ -157,7 +158,7 @@ delete such entries manually using management shell (see :ref:`invoke-manage`):
 
 .. code-block:: console
 
-   ./manage.py shell
+   weblate shell
    >>> from weblate.auth.models import User
    >>> User.objects.get(username='anonymous').delete()
 
@@ -180,11 +181,10 @@ Weblate dumps various data here, and you can include these files for more comple
 backups. The files are updated daily (requires a running Celery beats server, see
 :ref:`celery`). Currently, this includes:
 
-* Translation memory dump, in JSON format.
-* Weblate settings as :file:`settings.py`.
+* Weblate settings as :file:`settings.py` (there is also expanded version in :file:`settings-expanded.py`).
 * PostgreSQL database backup as :file:`database.sql`.
 
-The database backup are by default saved as plain text, but they also can be compressed
+The database backup are by default saved as plain text, but they can also be compressed
 or entirely skipped by using :setting:`DATABASE_BACKUP`.
 
 Version control repositories
@@ -214,28 +214,29 @@ Stored in :setting:`DATA_DIR` ``/media``.
 
 You should back up user uploaded files (e.g. :ref:`screenshots`).
 
-Translation memory
-++++++++++++++++++
+Command line for manual backup
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Stored in :setting:`DATA_DIR` ``/memory``.
+Using a cron task, you can set up a bash command to be executed on a daily basis, for instance:
 
-It is recommended to back up this content using
-:djadmin:`dump_memory` in JSON-, instead of binary format, as that
-might eventually change (and is also incompatible going from Python 2 to Python 3).
-Weblate prepares this dump daily, see :ref:`backup-dumps`.
+.. code-block:: console
 
-Fulltext index
-++++++++++++++
+     $ XZ_OPT="-9" tar -Jcf ~/backup/weblate-backup-$(date -u +%Y-%m-%d_%H%M%S).xz backups vcs ssh home media fonts secret
 
-Stored in :setting:`DATA_DIR` ``/whoosh``.
+The string between quotes after XZ_OPT allows you to choose your xz options, for instance the amount of memory used for compression; see https://linux.die.net/man/1/xz
 
-It is recommended to not backup this and regenerate it from scratch on restore.
+You can adjust the list of folders and files to your needs. For instance, to avoid saving the translation memory (in backups folder), you could use:
+
+.. code-block:: console
+
+     $ XZ_OPT="-9" tar -Jcf ~/backup/weblate-backup-$(date -u +%Y-%m-%d_%H%M%S).xz backups/database.sql backups/settings.py vcs ssh home media fonts secret
+
 
 Celery tasks
 ------------
 
 The Celery tasks queue might contain some info, but is usually not needed
-for a backup. At most your will lose updates that have not yet ben processed to translation
+for a backup. At most you will lose updates that have not yet ben processed to translation
 memory. It is recommended to perform the fulltext or repository updates upon
 restoring anyhow, so there is no problem in losing these.
 
@@ -248,28 +249,16 @@ Restoring manual backup
 
 1. Restore all data you have backed up.
 
-2. Recreate a fulltext index using :djadmin:`rebuild_index`:
+2. Update all repositories using :djadmin:`updategit`.
 
    .. code-block:: sh
 
-      ./manage.py rebuild_index --clean --all
-
-3. Restore your :ref:`translation-memory` using :djadmin:`import_memory`.
-
-   .. code-block:: sh
-
-         ./manage.py import_memory memory.json
-
-4. Update all repositories using :djadmin:`updategit`.
-
-   .. code-block:: sh
-
-         ./manage.py updategit --all
+         weblate updategit --all
 
 Moving a Weblate installation
 ------------------------------
 
-Relocatable your installation to a different system
+Relocate your installation to a different system
 by following the backup and restore instructions above.
 
 .. seealso::

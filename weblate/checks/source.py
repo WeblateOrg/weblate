@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -20,11 +19,13 @@
 
 
 import re
+from datetime import timedelta
 
-from django.db.models import Count, F
+from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
 from weblate.checks.base import SourceCheck
+from weblate.utils.state import STATE_EMPTY, STATE_FUZZY
 
 # Matches (s) not followed by alphanumeric chars or at the end
 PLURAL_MATCH = re.compile(r"\(s\)(\W|\Z)")
@@ -36,9 +37,8 @@ class OptionalPluralCheck(SourceCheck):
     check_id = "optional_plural"
     name = _("Unpluralised")
     description = _("The string is used as plural, but not using plural forms")
-    severity = "info"
 
-    def check_source(self, source, unit):
+    def check_source_unit(self, source, unit):
         if len(source) > 1:
             return False
         return len(PLURAL_MATCH.findall(source[0])) > 0
@@ -52,9 +52,8 @@ class EllipsisCheck(SourceCheck):
     description = _(
         "The string uses three dots (...) " "instead of an ellipsis character (…)"
     )
-    severity = "warning"
 
-    def check_source(self, source, unit):
+    def check_source_unit(self, source, unit):
         return "..." in source[0]
 
 
@@ -64,26 +63,32 @@ class MultipleFailingCheck(SourceCheck):
     check_id = "multiple_failures"
     name = _("Multiple failing checks")
     description = _("The translations in several languages have failing checks")
-    severity = "warning"
-    batch_update = True
 
-    def check_source(self, source, unit):
+    def check_source_unit(self, source, unit):
         from weblate.checks.models import Check
 
         related = Check.objects.filter(
-            unit__content_hash=unit.content_hash,
+            unit__id_hash=unit.id_hash,
             unit__translation__component=unit.translation.component,
         ).exclude(unit_id=unit.id)
         return related.count() >= 2
 
-    def check_source_project(self, project):
-        """Batch check for whole project."""
-        from weblate.checks.models import Check
 
-        return (
-            Check.objects.filter(unit__translation__component__project=project)
-            .exclude(unit__translation__language=project.source_language)
-            .values(content_hash=F("unit__content_hash"))
-            .annotate(Count("unit"))
-            .filter(unit__count__gt=1)
+class LongUntranslatedCheck(SourceCheck):
+    check_id = "long_untranslated"
+    name = _("Long untranslated")
+    description = _("The string was not translated for a long time")
+
+    def check_source_unit(self, source, unit):
+        from weblate.trans.models import Unit
+
+        if unit.timestamp > timezone.now() - timedelta(days=90):
+            return False
+        states = list(
+            Unit.objects.filter(
+                translation__component=unit.translation.component, id_hash=unit.id_hash
+            ).values_list("state", flat=True)
         )
+        total = len(states)
+        not_translated = states.count(STATE_EMPTY) + states.count(STATE_FUZZY)
+        return total and not_translated > total / 4

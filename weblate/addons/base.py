@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -216,10 +215,11 @@ class BaseAddon:
                 env=get_clean_env(env),
                 cwd=component.full_path,
                 stderr=subprocess.STDOUT,
+                universal_newlines=True,
             )
-            component.log_debug("exec result: %s", output.decode())
+            component.log_debug("exec result: %s", output)
         except (OSError, subprocess.CalledProcessError) as err:
-            output = getattr(err, "output", b"").decode()
+            output = getattr(err, "output", "")
             component.log_error("failed to exec %s: %s", repr(cmd), err)
             for line in output.splitlines():
                 component.log_error("program output: %s", line)
@@ -356,6 +356,10 @@ class TestCrashAddon(UpdateBaseAddon):
     def update_translations(self, component, previous_head):
         if previous_head:
             raise TestException("Test error")
+
+    @classmethod
+    def can_install(cls, component, user):
+        return False
 
 
 class StoreBaseAddon(BaseAddon):

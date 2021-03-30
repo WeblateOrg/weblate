@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -24,14 +23,14 @@ import sys
 from io import StringIO
 from unittest import SkipTest
 
+import requests
 from django.core.management import call_command
 from django.core.management.base import CommandError, SystemCheckError
-from django.test import SimpleTestCase
+from django.test import SimpleTestCase, TestCase
 
 from weblate.accounts.models import Profile
 from weblate.runner import main
 from weblate.trans.models import Component, Translation
-from weblate.trans.search import Fulltext
 from weblate.trans.tests.test_models import RepoTestCase
 from weblate.trans.tests.test_views import FixtureTestCase, ViewTestCase
 from weblate.trans.tests.utils import create_test_user, get_test_file
@@ -61,7 +60,7 @@ class ImportProjectTest(RepoTestCase):
             self.git_repo_path if path is None else path,
             "master",
             "**/*.po",
-            **kwargs
+            **kwargs,
         )
 
     def test_import(self):
@@ -314,24 +313,7 @@ class BasicCommandTest(FixtureTestCase):
             call_command("check", "--deploy")
 
 
-class CleanupCommandTest(RepoTestCase):
-    def test_cleanup(self):
-        orig_fake = Fulltext.FAKE
-        Fulltext.FAKE = False
-        fulltext = Fulltext()
-        try:
-            self.create_component()
-            index = fulltext.get_source_index()
-            self.assertEqual(len(list(index.reader().all_stored_fields())), 16)
-            # Remove all translations
-            Translation.objects.all().delete()
-            call_command("cleanuptrans")
-            self.assertEqual(len(list(index.reader().all_stored_fields())), 0)
-        finally:
-            Fulltext.FAKE = orig_fake
-
-
-class CheckGitTest(ViewTestCase):
+class WeblateComponentCommandTestCase(ViewTestCase):
     """Base class for handling tests of WeblateComponentCommand based commands."""
 
     command_name = "checkgit"
@@ -363,7 +345,7 @@ class CheckGitTest(ViewTestCase):
             self.do_test("test/notest")
 
 
-class CommitPendingTest(CheckGitTest):
+class CommitPendingTest(WeblateComponentCommandTestCase):
     command_name = "commit_pending"
     expected_string = ""
 
@@ -377,59 +359,58 @@ class CommitPendingChangesTest(CommitPendingTest):
         self.edit_unit("Hello, world!\n", "Nazdar svete!\n")
 
 
-class CommitGitTest(CheckGitTest):
+class CommitGitTest(WeblateComponentCommandTestCase):
     command_name = "commitgit"
     expected_string = ""
 
 
-class PushGitTest(CheckGitTest):
+class PushGitTest(WeblateComponentCommandTestCase):
     command_name = "pushgit"
     expected_string = ""
 
 
-class LoadTest(CheckGitTest):
+class LoadTest(WeblateComponentCommandTestCase):
     command_name = "loadpo"
     expected_string = ""
 
 
-class UpdateChecksTest(CheckGitTest):
+class UpdateChecksTest(WeblateComponentCommandTestCase):
     command_name = "updatechecks"
     expected_string = "Processing"
 
 
-class UpdateGitTest(CheckGitTest):
+class UpdateGitTest(WeblateComponentCommandTestCase):
     command_name = "updategit"
     expected_string = ""
 
 
-class RebuildIndexTest(CheckGitTest):
-    command_name = "rebuild_index"
-    expected_string = "Processing"
-
-    def test_all_clean(self):
-        self.do_test(all=True, clean=True)
-
-    def test_optimize(self):
-        self.expected_string = ""
-        try:
-            self.do_test(optimize=True)
-        finally:
-            self.expected_string = "Processing"
-
-
-class LockTranslationTest(CheckGitTest):
+class LockTranslationTest(WeblateComponentCommandTestCase):
     command_name = "lock_translation"
     expected_string = ""
 
 
-class UnLockTranslationTest(CheckGitTest):
+class UnLockTranslationTest(WeblateComponentCommandTestCase):
     command_name = "unlock_translation"
     expected_string = ""
 
 
-class FixupFlagsTest(CheckGitTest):
-    command_name = "fixup_flags"
-    expected_string = "Processing"
+class ImportDemoTestCase(TestCase):
+    def test_import(self):
+        try:
+            requests.get("https://github.com/")
+        except requests.exceptions.ConnectionError as error:
+            raise SkipTest(f"GitHub not reachable: {error}")
+        output = StringIO()
+        call_command("import_demo", stdout=output)
+        self.assertEqual(output.getvalue(), "")
+        self.assertEqual(Component.objects.count(), 4)
+
+
+class CleanupTestCase(TestCase):
+    def test_cleanup(self):
+        output = StringIO()
+        call_command("cleanuptrans", stdout=output)
+        self.assertEqual(output.getvalue(), "")
 
 
 class ListTranslatorsTest(RepoTestCase):

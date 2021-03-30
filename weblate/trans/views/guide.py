@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -23,8 +22,8 @@ from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 from django.views.decorators.cache import never_cache
 
-from weblate.addons.models import ADDONS
-from weblate.trans.models import Change, Unit
+from weblate.addons.models import ADDONS, Addon
+from weblate.trans.models import Change
 from weblate.trans.util import render
 from weblate.utils.docs import get_doc_url
 from weblate.utils.views import get_component
@@ -211,8 +210,8 @@ class SafeHTMLGuideline(Guideline):
     anchor = "translation"
 
     def is_relevant(self):
-        return Unit.objects.filter(
-            translation__component=self.component, source__contains="<a "
+        return self.component.source_translation.unit_set.filter(
+            source__contains="<a "
         ).exists()
 
     def is_passing(self):
@@ -240,7 +239,11 @@ class AddonGuideline(Guideline):
     url = "addons"
 
     def is_passing(self):
-        return self.component.addon_set.filter(name=self.addon).exists()
+        return (
+            Addon.objects.filter_component(self.component)
+            .filter(name=self.addon)
+            .exists()
+        )
 
     def is_relevant(self):
         if self.addon not in ADDONS:

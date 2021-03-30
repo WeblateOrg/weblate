@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -21,6 +20,7 @@
 
 
 import os
+from functools import lru_cache
 from io import BytesIO
 from tempfile import NamedTemporaryFile
 
@@ -28,12 +28,11 @@ import cairo
 import gi
 from django.conf import settings
 from django.core.cache import cache
-from django.core.checks import Critical
 from django.utils.html import escape
 from PIL import ImageFont
 
+from weblate.utils.checks import weblate_check
 from weblate.utils.data import data_dir
-from weblate.utils.docs import get_doc_url
 
 gi.require_version("PangoCairo", "1.0")
 gi.require_version("Pango", "1.0")
@@ -115,6 +114,7 @@ def get_font_weight(weight):
     return FONT_WEIGHTS[weight]
 
 
+@lru_cache(maxsize=512)
 def render_size(font, weight, size, spacing, text, width=1000, lines=1, cache_key=None):
     """Check whether rendered text fits."""
     configure_fontconfig()
@@ -151,13 +151,26 @@ def render_size(font, weight, size, spacing, text, width=1000, lines=1, cache_ke
     # Render box around desired size
     expected_height = lines * pixel_size.height / line_count
     context.new_path()
-    context.set_source_rgb(246, 102, 76)
-    context.set_source_rgb(246.0 / 255, 102.0 / 255, 76.0 / 255)
+    context.set_source_rgb(0.8, 0.8, 0.8)
     context.set_line_width(1)
     context.move_to(1, 1)
     context.line_to(width, 1)
     context.line_to(width, expected_height)
     context.line_to(1, expected_height)
+    context.line_to(1, 1)
+    context.stroke()
+
+    # Render box about actual size
+    context.new_path()
+    if pixel_size.width > width or line_count > lines:
+        context.set_source_rgb(246 / 255, 102 / 255, 76 / 255)
+    else:
+        context.set_source_rgb(0.4, 0.4, 0.4)
+    context.set_line_width(1)
+    context.move_to(1, 1)
+    context.line_to(pixel_size.width, 1)
+    context.line_to(pixel_size.width, pixel_size.height)
+    context.line_to(1, pixel_size.height)
     context.line_to(1, 1)
     context.stroke()
 
@@ -200,10 +213,4 @@ def check_fonts(app_configs=None, **kwargs):
         render_size("DejaVu Sans", Pango.Weight.NORMAL, 11, 0, "test")
         return []
     except Exception as error:
-        return [
-            Critical(
-                "Failed to use Pango: {}".format(error),
-                hint=get_doc_url("admin/install", "pangocairo"),
-                id="weblate.C024",
-            )
-        ]
+        return [weblate_check("weblate.C024", "Failed to use Pango: {}".format(error))]

@@ -1,4 +1,6 @@
 {% load i18n %}
+
+{% if show_builder %}
 <div class="form-group">
     <label class="control-label">{% trans "Advanced query builder" %}</label>
 
@@ -11,7 +13,7 @@
                 <ul class="dropdown-menu">
                   <li><a href="#" data-field="source:">{% trans "Source strings" %}</a></li>
                   <li><a href="#" data-field="target:">{% trans "Target strings" %}</a></li>
-                  <li><a href="#" data-field="context:">{% trans "Context strings" %}</a></li>
+                  <li><a href="#" data-field="context:">{% trans "Key/Context strings" %}</a></li>
                   <li><a href="#" data-field="note:">{% trans "Comment strings" %}</a></li>
                   <li><a href="#" data-field="location:">{% trans "Location strings" %}</a></li>
                   <li><a href="#" data-field="state:">{% trans "String state" %}</a></li>
@@ -21,6 +23,7 @@
                 </ul>
               </div><!-- /btn-group -->
               <input type="text" class="form-control" placeholder="{% trans "Search for…" %}">
+              <span id="is-exact" class="input-group-addon"><input type="checkbox" > <span>{% trans "Exact" context "Exact search toggle" %}</span> </span>
               <span class="input-group-btn">
                 <button class="btn btn-default search-add" type="button">{% trans "Add" %}</button>
               </span>
@@ -28,20 +31,17 @@
         </div>
 
         <div class="btn-group search-group" role="group">
-            <div class="input-group">
-              <div class="input-group-btn">
+              <div class="btn-group">
                 <button type="button" class="btn btn-default dropdown-toggle search-field" data-field="has:suggestion" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="search-label">{% trans "String has suggestion" %}</span> <span class="caret"></span></button>
                 <ul class="dropdown-menu">
                   <li><a href="#" data-field="has:suggestion">{% trans "String has suggestion" %}</a></li>
                   <li><a href="#" data-field="has:comment">{% trans "String has comment" %}</a></li>
                   <li><a href="#" data-field="has:failing_check">{% trans "String has failing check" %}</a></li>
                   <li><a href="#" data-field="has:plural">{% trans "String has plural" %}</a></li>
+                  <li><a href="#" data-field="has:context">{% trans "String has context" %}</a></li>
                 </ul>
               </div><!-- /btn-group -->
-              <span class="input-group-btn">
-                <button class="btn btn-default search-add" type="button">{% trans "Add" %}</button>
-              </span>
-            </div><!-- /input-group -->
+              <button class="btn btn-default search-add" type="button">{% trans "Add" %}</button>
         </div>
 
         <div class="btn-group search-group" role="group">
@@ -102,3 +102,4 @@
     </tr>
     </table>
 </div>
+{% endif %}

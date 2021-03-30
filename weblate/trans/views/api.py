@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -23,6 +22,7 @@ import csv
 
 from django.http import HttpResponse, JsonResponse
 
+from weblate.api.serializers import StatisticsSerializer
 from weblate.trans.stats import get_project_stats
 from weblate.utils.views import get_component, get_project
 
@@ -42,7 +42,10 @@ def export_stats_project(request, project):
             "translated_percent",
             "total_words",
             "translated_words",
-            "words_percent",
+            "translated_words_percent",
+            "total_chars",
+            "translated_chars",
+            "translated_chars_percent",
         ),
         get_project_stats(obj),
     )
@@ -62,19 +65,24 @@ def export_stats(request, project, component):
             "total",
             "translated",
             "translated_percent",
+            "translated_words_percent",
             "total_words",
             "translated_words",
+            "total_chars",
+            "translated_chars",
+            "translated_chars_percent",
             "failing",
             "failing_percent",
             "fuzzy",
             "fuzzy_percent",
             "url_translate",
             "url",
+            "translate_url",
             "last_change",
             "last_author",
             "recent_changes",
         ),
-        [trans.get_stats() for trans in translations.iterator()],
+        StatisticsSerializer(translations, many=True).data,
     )
 
 

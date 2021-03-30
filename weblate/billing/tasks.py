@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -24,13 +23,12 @@ from datetime import timedelta
 from celery.schedules import crontab
 from django.conf import settings
 from django.db.models import Q
-from django.urls import reverse
 from django.utils import timezone
+from django.utils.translation import gettext as _
 
 from weblate.accounts.notifications import send_notification_email
 from weblate.billing.models import Billing
 from weblate.utils.celery import app
-from weblate.utils.site import get_site_url
 
 
 @app.task(trail=False)
@@ -70,7 +68,7 @@ def billing_notify():
 def notify_expired():
     possible_billings = Billing.objects.filter(
         Q(state=Billing.STATE_ACTIVE) | Q(removal__isnull=False)
-    )
+    ).exclude(projects__isnull=True)
     for bill in possible_billings:
         if bill.state != Billing.STATE_TRIAL and bill.check_payment_status():
             continue
@@ -82,7 +80,11 @@ def notify_expired():
                 "billing_expired",
                 context={
                     "billing": bill,
-                    "billing_url": get_site_url(reverse("billing")),
+                    "payment_enabled": getattr(settings, "PAYMENT_ENABLED", False),
+                    "unsubscribe_note": _(
+                        "You will stop receiving this notification once "
+                        "you pay the bills or the project is removed."
+                    ),
                 },
                 info=bill,
             )
@@ -92,7 +94,7 @@ def notify_expired():
 def schedule_removal():
     removal = timezone.now() + timedelta(days=15)
     for bill in Billing.objects.filter(state=Billing.STATE_ACTIVE, removal=None):
-        if bill.check_payment_status(30):
+        if bill.check_payment_status(15):
             continue
         bill.removal = removal
         bill.save(update_fields=["removal"])
@@ -106,11 +108,7 @@ def perform_removal():
                 user.profile.language,
                 [user.email],
                 "billing_expired",
-                context={
-                    "billing": bill,
-                    "billing_url": get_site_url(reverse("billing")),
-                    "final_removal": True,
-                },
+                context={"billing": bill, "final_removal": True},
                 info=bill,
             )
         for prj in bill.projects.iterator():

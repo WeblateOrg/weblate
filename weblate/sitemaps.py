@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -51,6 +50,7 @@ class PagesSitemap(Sitemap):
 class WeblateSitemap(Sitemap):
     priority = None
     changefreq = None
+    limit = 1000
 
     def items(self):
         raise NotImplementedError()
@@ -73,7 +73,7 @@ class ComponentSitemap(WeblateSitemap):
 
     def items(self):
         return (
-            Component.objects.prefetch()
+            Component.objects.prefetch_related("project")
             .filter(project__access_control__lt=Project.ACCESS_PRIVATE)
             .order_by("id")
         )
@@ -84,7 +84,9 @@ class TranslationSitemap(WeblateSitemap):
 
     def items(self):
         return (
-            Translation.objects.prefetch()
+            Translation.objects.prefetch_related(
+                "component", "component__project", "language",
+            )
             .filter(component__project__access_control__lt=Project.ACCESS_PRIVATE)
             .order_by("id")
         )

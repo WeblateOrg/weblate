@@ -5,10 +5,10 @@
 <body>
 {% for item in data %}
 <tu>
-<tuv xml:lang="{{ item.source_language }}">
+<tuv xml:lang="{{ item.source_language.code }}">
 <seg>{{ item.source }}</seg>
 </tuv>
-<tuv xml:lang="{{ item.target_language }}">
+<tuv xml:lang="{{ item.target_language.code }}">
 <seg>{{ item.target }}</seg>
 </tuv>
 </tu>

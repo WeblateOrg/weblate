@@ -1,0 +1,15 @@
+{% extends "admin/base.html" %}
+{% load i18n %}
+{% load translations %}
+{% block userlinks %}
+    {% if site_url %}
+        <a href="{{ site_url }}" id="return-to-weblate">{% trans 'Return to Weblate' %}</a> /
+    {% endif %}
+    {% if user.is_active and user.is_staff %}
+        <a href="{% documentation "index" %}">{% trans 'Documentation' %}</a> /
+    {% endif %}
+    {% if user.has_usable_password %}
+    <a href="{% url 'admin:password_change' %}">{% trans 'Change password' %}</a> /
+    {% endif %}
+    <a href="{% url 'admin:logout' %}">{% trans 'Log out' %}</a>
+{% endblock %}

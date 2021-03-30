@@ -15,7 +15,7 @@
 
 {% block content %}
 
-{% whiteboard_messages component=object %}
+{% announcements component=object %}
 
 {% include "show-component-state.html" %}
 
@@ -35,7 +35,7 @@
   <li><a href="#alerts" data-toggle="tab">{% trans "Alerts" %}</a></li>
   {% endif %}
   <li><a href="#search" data-toggle="tab">{% trans "Search" %}</a></li>
-  <li><a href="{% url 'show_dictionaries' project=object.project.slug %}">{% trans "Glossaries" %}</a></li>
+  <li><a href="{% url 'show_glossaries' project=object.project.slug %}">{% trans "Glossaries" %}</a></li>
   <li class="dropdown">
     <a class="dropdown-toggle" data-toggle="dropdown" href="#">
       {% trans "Insights" %} <span class="caret"></span>
@@ -56,7 +56,7 @@
       {% trans "Files" %} <span class="caret"></span>
     </a>
     <ul class="dropdown-menu">
-      <li><a href="{% url "download_component" project=object.project.slug component=object.slug %}?format=zip" title="{% trans "Download for offline translation." %}">{% blocktrans %}Download original translation files as ZIP file{% endblocktrans %}</a></li>
+      <li><a href="{% url "download_component" project=object.project.slug component=object.slug %}?format=zip" title="{% trans "Download for offline translation." %}">{% blocktrans %}Download translation files as ZIP file{% endblocktrans %}</a></li>
     </ul>
   </li>
   <li class="dropdown">
@@ -72,7 +72,6 @@
       {% endif %}
       <li><a href="{% url 'data_project' project=object.project.slug %}">{% trans "Data exports" %}</a></li>
       <li><a href="{% url 'checks' %}?project={{ object.project.slug}}&amp;component={{ object.slug }}">{% trans "Failing checks" %}</a></li>
-      <li><a href="{% url 'checks' %}?project={{ object.project.slug}}&amp;component={{ object.slug }}&amp;ignored=true">{% trans "Ignored checks" %}</a></li>
       <li><a href="{% url 'matrix' project=object.project.slug component=object.slug %}">{% trans "Matrix view" %}</a></li>
       {% if object.can_add_language and user_can_add_translation %}
       <li><a href="{% url "new-language" project=object.project.slug component=object.slug %}">{% trans "Start new translation" %}</a></li>
@@ -94,8 +93,8 @@
       {% endif %}
       <li><a href="{% url 'screenshots' project=object.project.slug component=object.slug %}">{% trans "Screenshots" %}</a></li>
       <li><a href="{% url 'memory' project=object.project.slug %}">{% trans "Translation memory" %}</a></li>
-      {% if whiteboard_form %}
-      <li><a href="#whiteboard" data-toggle="tab">{% trans "Add a component message" %}</a></li>
+      {% if announcement_form %}
+      <li><a href="#announcement" data-toggle="tab">{% trans "Post announcement" %}</a></li>
       {% endif %}
       {% if user_can_manage_acl %}
       <li><a href="{% url 'manage-access' project=object.project.slug %}">{% trans "Users" %}</a></li>
@@ -139,7 +138,7 @@
 {% if user_can_add_translation %}
 <a class="btn btn-primary" href="{% url "new-language" project=object.project.slug component=object.slug %}">{% trans "Start new translation" %}</a>
 {% else %}
-<button disabled="disabled" class="btn btn-primary" title="{% if user.is_authenticated %}{% trans "You don't have permission to start a new translation" %}{% else %}{% trans "Please log in to start new translation"%}{% endif %}">{% trans "Start new translation" %}</button>
+<button disabled="disabled" class="btn btn-primary" title="{% if user.is_authenticated %}{% trans "You don't have permission to start a new translation" %}{% else %}{% trans "Please sign in to start new translation"%}{% endif %}">{% trans "Start new translation" %}</button>
 {% endif %}
 {% endif %}
 
@@ -155,7 +154,7 @@
 </div>
 {% endfor %}
 {% else %}
-{% trans "Please log in to see the alerts." as msg %}
+{% trans "Please sign in to see the alerts." as msg %}
 {% show_message "error" msg %}
 {% endif %}
 </div>
@@ -221,14 +220,17 @@
 
 {% include "activity-tab.html" %}
 
-{% if whiteboard_form %}
-<div class="tab-pane" id="whiteboard">
-<form action="{% url 'whiteboard_component' project=object.project.slug component=object.slug %}" method="post">
+{% if announcement_form %}
+<div class="tab-pane" id="announcement">
+<form action="{% url 'announcement_component' project=object.project.slug component=object.slug %}" method="post">
 <div class="panel panel-default">
-<div class="panel-heading"><h4 class="panel-title">{% trans "Add a component message" %}</h4></div>
+<div class="panel-heading"><h4 class="panel-title">
+    {% documentation_icon 'admin/announcements' right=True %}
+    {% trans "Post announcement" %}
+</h4></div>
 <div class="panel-body">
 {% csrf_token %}
-{{ whiteboard_form|crispy }}
+{{ announcement_form|crispy }}
 <p class="help-block">{% trans "The message is shown for all translations within the component, until its given expiry, or permanently until it is deleted." %}</p>
 </div>
 <div class="panel-footer">

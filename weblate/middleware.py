@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -57,8 +56,8 @@ class ProxyMiddleware:
             try:
                 validate_ipv46_address(address)
                 request.META["REMOTE_ADDR"] = address
-            except ValidationError as error:
-                report_error(error, prefix="Invalid IP address")
+            except ValidationError:
+                report_error(cause="Invalid IP address")
 
         return self.get_response(request)
 
@@ -99,14 +98,15 @@ class SecurityMiddleware:
         if settings.SENTRY_DSN and response.status_code == 500:
             domain = urlparse(settings.SENTRY_DSN).hostname
             script.add(domain)
+            script.add("sentry.io")
             connect.add(domain)
+            connect.add("sentry.io")
             script.add("'unsafe-inline'")
             image.add("data:")
 
         # Matomo (Piwik) analytics
         if settings.MATOMO_URL:
             domain = urlparse(settings.MATOMO_URL).hostname
-            script.add("'unsafe-inline'")
             script.add(domain)
             image.add(domain)
             connect.add(domain)
@@ -132,7 +132,7 @@ class SecurityMiddleware:
 
         # CDN for fonts
         if settings.FONTS_CDN_URL:
-            domain = urlparse(settings.STATIC_URL).hostname
+            domain = urlparse(settings.FONTS_CDN_URL).hostname
             style.add(domain)
             font.add(domain)
 
@@ -148,4 +148,12 @@ class SecurityMiddleware:
             " ".join(connect),
             " ".join(font),
         )
+        if settings.SENTRY_SECURITY:
+            response["Content-Security-Policy"] += " report-uri {}".format(
+                settings.SENTRY_SECURITY
+            )
+            response["Expect-CT"] = 'max-age=86400, enforce, report-uri="{}"'.format(
+                settings.SENTRY_SECURITY
+            )
+
         return response

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -73,7 +72,44 @@ class CommentViewTest(FixtureTestCase):
         self.assertFalse(unit.has_comment)
         self.assertEqual(translation.stats.comments, 0)
 
-    def test_delete_comment(self):
+    def test_add_source_report(self):
+        unit = self.get_unit()
+
+        # Add comment
+        response = self.client.post(
+            reverse("comment", kwargs={"pk": unit.id}),
+            {"comment": "New issue testing comment", "scope": "report"},
+        )
+        self.assertRedirects(response, unit.get_absolute_url())
+
+        # Check it is shown on page
+        response = self.client.get(unit.get_absolute_url())
+        self.assertNotContains(response, "New source testing comment")
+
+        # Enable reviews
+        self.project.source_review = True
+        self.project.save(update_fields=["source_review"])
+
+        # Add comment
+        response = self.client.post(
+            reverse("comment", kwargs={"pk": unit.id}),
+            {"comment": "New issue testing comment", "scope": "report"},
+        )
+        self.assertRedirects(response, unit.get_absolute_url())
+
+        # Check it is shown on page
+        response = self.client.get(unit.get_absolute_url())
+        self.assertContains(response, "New issue testing comment")
+        self.assertContains(response, "Source needs review")
+
+        # Reload from database
+        unit = self.get_unit()
+        translation = self.component.translation_set.get(language_code="cs")
+        # Check number of comments
+        self.assertFalse(unit.has_comment)
+        self.assertEqual(translation.stats.comments, 0)
+
+    def test_delete_comment(self, **kwargs):
         unit = self.get_unit()
         self.make_manager()
 
@@ -85,9 +121,12 @@ class CommentViewTest(FixtureTestCase):
 
         comment = Comment.objects.all()[0]
         response = self.client.post(
-            reverse("delete-comment", kwargs={"pk": comment.pk})
+            reverse("delete-comment", kwargs={"pk": comment.pk}), kwargs
         )
         self.assertRedirects(response, unit.get_absolute_url())
+
+    def test_spam_comment(self):
+        self.test_delete_comment(spam=1)
 
     def test_resolve_comment(self):
         unit = self.get_unit()

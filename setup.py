@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -20,8 +19,20 @@
 #
 
 import os
+from distutils.command.build import build
+from distutils.core import Command
+from distutils.dep_util import newer
+from glob import glob
+from itertools import chain
 
-from setuptools import setup
+from setuptools import find_packages, setup
+from setuptools.command.build_py import build_py
+from translate.tools.pocompile import convertmo
+
+LOCALE_MASKS = [
+    "weblate/locale/*/LC_MESSAGES/*.po",
+    "weblate/langdata/locale/*/LC_MESSAGES/*.po",
+]
 
 # allow setup.py to be run from any path
 os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
@@ -32,10 +43,7 @@ with open("README.rst") as readme:
 with open("requirements.txt") as requirements:
     REQUIRES = requirements.read().splitlines()
 
-with open("requirements-test.txt") as requirements:
-    TEST_REQUIRES = requirements.read().splitlines()[1:]
-
-EXTRAS = {}
+EXTRAS = {"all": []}
 with open("requirements-optional.txt") as requirements:
     section = None
     for line in requirements:
@@ -45,13 +53,50 @@ with open("requirements-optional.txt") as requirements:
         if line.startswith("#"):
             section = line[2:]
         else:
-            EXTRAS[section] = line.split(";")[0].strip()
+            dep = line.split(";")[0].strip()
+            EXTRAS[section] = dep
+            EXTRAS["all"].append(dep)
+
+
+class WeblateBuildPy(build_py):
+    def find_package_modules(self, package, package_dir):
+        """Filter settings.py from built module."""
+        result = super().find_package_modules(package, package_dir)
+        return [item for item in result if item[2] != "weblate/settings.py"]
+
+
+class BuildMo(Command):
+    description = "update MO files to match PO"
+    user_options = []
+
+    def initialize_options(self):
+        self.build_base = None
+
+    def finalize_options(self):
+        self.set_undefined_options("build", ("build_base", "build_base"))
+
+    def run(self):
+        for name in chain.from_iterable(glob(mask) for mask in LOCALE_MASKS):
+            output = os.path.splitext(name)[0] + ".mo"
+            if not newer(name, output):
+                continue
+            print(f"compiling {name} -> {output}")
+            with open(name) as pofile, open(output, "wb") as mofile:
+                convertmo(pofile, mofile, None)
+
+
+class WeblateBuild(build):
+    """Override the default build with new subcommands."""
+
+    # The build_mo has to be before build_data
+    sub_commands = [("build_mo", lambda self: True)] + build.sub_commands
+
 
 setup(
     name="Weblate",
-    version="4.0",
-    python_requires=">=3.5",
-    packages=["weblate"],
+    version="4.1.1",
+    python_requires=">=3.6",
+    packages=find_packages(),
     include_package_data=True,
     description=(
         "A web-based continuous localization system with "
@@ -84,7 +129,6 @@ setup(
         "Operating System :: OS Independent",
         "Programming Language :: Python",
         "Programming Language :: Python :: 3",
-        "Programming Language :: Python :: 3.5",
         "Programming Language :: Python :: 3.6",
         "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",
@@ -94,6 +138,5 @@ setup(
         "Topic :: Internet :: WWW/HTTP :: Dynamic Content",
     ],
     entry_points={"console_scripts": ["weblate = weblate.runner:main"]},
-    tests_require=TEST_REQUIRES,
-    test_suite="runtests.runtests",
+    cmdclass={"build_py": WeblateBuildPy, "build_mo": BuildMo, "build": WeblateBuild},
 )

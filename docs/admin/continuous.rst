@@ -206,7 +206,7 @@ settings`.
 
 .. seealso::
 
-   `Web hooks in Azure DevOps manual <https://docs.microsoft.com/azure/devops/service-hooks/services/webhooks>`_,
+   `Web hooks in Azure DevOps manual <https://docs.microsoft.com/en-us/azure/devops/service-hooks/services/webhooks>`_,
    :http:post:`/hooks/azure/`, :ref:`hosted-push`
 
 .. _gitea-setup:
@@ -252,51 +252,53 @@ nightly merges as well, by enabling :setting:`AUTO_UPDATE`.
 
 .. _push-changes:
 
-Pushing changes
----------------
+Pushing changes from Weblate
+----------------------------
 
-Each translation component can have a push URL set up (see :ref:`component`),
-and in that case Weblate will be able to push change to the remote repository.
-Weblate can be also be configured to automatically push changes on every commit
-(this is default, see :ref:`component`).  If you do not want changes to be
-pushed automatically, you can do that manually under :guilabel:`Repository
-maintenance` or using API via :option:`wlc push`.
-
-If you are using SSH to push, you will need to have a key without a passphrase
-(or use ssh-agent for Django), and the remote server needs to be verified by you
-via the admin interface first, otherwise pushing will fail.
+Each translation component can have a push URL set up (see
+:ref:`component-push`), and in that case Weblate will be able to push change to
+the remote repository.  Weblate can be also be configured to automatically push
+changes on every commit (this is default, see :ref:`component-push_on_commit`).
+If you do not want changes to be pushed automatically, you can do that manually
+under :guilabel:`Repository maintenance` or using API via :option:`wlc push`.
 
 The push options differ based on the :ref:`vcs` used, more details are found in that chapter.
 
+In case you do not want direct pushes by Weblate, there is support for
+:ref:`vcs-github`, :ref:`vcs-gitlab` pull requests or :ref:`vcs-gerrit`
+reviews, you can activate these by choosing :guilabel:`GitHub`,
+:guilabel:`GitLab` or :guilabel:`Gerrit` as :ref:`component-vcs` in :ref:`component`.
+
+Overall, following options are available with Git, GitHub and GitLab:
+
++-----------------------------------+-------------------------------+-------------------------------+-------------------------------+
+| Desired setup                     | :ref:`component-vcs`          | :ref:`component-push`         | :ref:`component-push_branch`  |
++===================================+===============================+===============================+===============================+
+| No push                           | :ref:`vcs-git`                | `empty`                       | `empty`                       |
++-----------------------------------+-------------------------------+-------------------------------+-------------------------------+
+| Push directly                     | :ref:`vcs-git`                | SSH URL                       | `empty`                       |
++-----------------------------------+-------------------------------+-------------------------------+-------------------------------+
+| Push to separate brach            | :ref:`vcs-git`                | SSH URL                       | Branch name                   |
++-----------------------------------+-------------------------------+-------------------------------+-------------------------------+
+| GitHub pull request from fork     | :ref:`vcs-github`             | `empty`                       | `empty`                       |
++-----------------------------------+-------------------------------+-------------------------------+-------------------------------+
+| GitHub pull request from branch   | :ref:`vcs-github`             | `empty`                       | Branch name                   |
++-----------------------------------+-------------------------------+-------------------------------+-------------------------------+
+| GitLab merge request from fork    | :ref:`vcs-gitlab`             | `empty`                       | `empty`                       |
++-----------------------------------+-------------------------------+-------------------------------+-------------------------------+
+| GitLab merge request from barnch  | :ref:`vcs-gitlab`             | `empty`                       | Branch name                   |
++-----------------------------------+-------------------------------+-------------------------------+-------------------------------+
+
+
 .. note::
 
-   You can also enable automatic pushing of changes on commits, this can be done in
-   :ref:`component`.
+   You can also enable automatic pushing of changes after Weblate commits, this can be done in
+   :ref:`component-push_on_commit`.
 
 .. seealso::
 
     See :ref:`vcs-repos` for setting up SSH keys, and :ref:`lazy-commit` for
     info about when Weblate decides to commit changes.
-
-.. _hosted-push:
-
-Pushing changes from Hosted Weblate
-+++++++++++++++++++++++++++++++++++
-
-For Hosted Weblate there is a dedicated push user registered on GitHub, Bitbucket
-and GitLab (with username :guilabel:`weblate` named
-:guilabel:`Weblate push user`). You need to add this user as a collaborator and
-give it permission to push to your repository.
-
-The user is added to the repository (in some cases this happens immediately, on
-GitHub it typically happens after accepting invitations what happens
-automatically every hour), you can configure your component push URL to a ssh
-URL of your repository (see :ref:`component`) and enjoy Weblate automatically
-pushing changes to your repository.
-
-In case you do not want direct pushes by Weblate, there is support for GitHub,
-GitLab pull requests or Gerrit reviews, you can activate these by choosing
-`GitHub`, `GitLab` or `Gerrit` as VCS in :ref:`component`.
 
 Protected branches
 ++++++++++++++++++

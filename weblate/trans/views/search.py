@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -45,6 +44,7 @@ from weblate.utils.views import (
     get_component,
     get_paginator,
     get_project,
+    get_sort_name,
     get_translation,
     import_message,
     show_form_errors,
@@ -149,6 +149,7 @@ def search(request, project=None, component=None, lang=None):
     """Perform site-wide search on units."""
     is_ratelimited = not check_rate_limit("search", request)
     search_form = SearchForm(request.user, request.GET)
+    sort = get_sort_name(request)
     context = {"search_form": search_form}
     if component:
         obj = get_component(request, project, component)
@@ -178,26 +179,34 @@ def search(request, project=None, component=None, lang=None):
             context["back_url"] = s_language.get_absolute_url()
 
     if not is_ratelimited and request.GET and search_form.is_valid():
+        # This is ugly way to hide query builder when showing results
+        search_form = SearchForm(request.user, request.GET, show_builder=False)
+        search_form.is_valid()
         # Filter results by ACL
         if component:
             units = Unit.objects.filter(translation__component=obj)
         elif project:
             units = Unit.objects.filter(translation__component__project=obj)
         else:
-            units = Unit.objects.filter(
-                translation__component__project_id__in=request.user.allowed_project_ids
-            )
+            units = Unit.objects.filter_access(request.user)
         units = units.search(search_form.cleaned_data.get("q", "")).distinct()
         if lang:
             units = units.filter(translation__language=context["language"])
 
-        units = get_paginator(request, units.order())
-
-        context["show_results"] = True
-        context["page_obj"] = units
-        context["title"] = _("Search for %s") % (search_form.cleaned_data["q"])
-        context["query_string"] = search_form.urlencode()
-        context["search_query"] = search_form.cleaned_data["q"]
+        units = get_paginator(request, units.order_by_request(search_form.cleaned_data))
+        # Rebuild context from scratch here to get new form
+        context = {
+            "search_form": search_form,
+            "show_results": True,
+            "page_obj": units,
+            "title": _("Search for %s") % (search_form.cleaned_data["q"]),
+            "query_string": search_form.urlencode(),
+            "search_query": search_form.cleaned_data["q"],
+            "search_items": search_form.items(),
+            "filter_name": search_form.get_name(),
+            "sort_name": sort["name"],
+            "sort_query": sort["query"],
+        }
     elif is_ratelimited:
         messages.error(request, _("Too many search queries, please try again later."))
     elif request.GET:

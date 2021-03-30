@@ -187,9 +187,7 @@
 <div class="panel panel-default">
   <div class="panel-heading"><h4 class="panel-title">{% trans "Your summary" %}</h4></div>
 <table class="table">
-{% with request.user as user %}
-{% include 'user-activity.html' %}
-{% endwith %}
+{% include 'user-activity.html' with user=request.user %}
 <tr>
 {% url 'user_page' user=request.user.username as user_page%}
 <th>{% trans "Your public profile" %}</th>

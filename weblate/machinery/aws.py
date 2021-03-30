@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -57,7 +56,7 @@ class AWSTranslation(MachineTranslation):
             "cs",
         )
 
-    def download_translations(self, source, language, text, unit, user):
+    def download_translations(self, source, language, text, unit, user, search):
         response = self.client.translate_text(
             Text=text, SourceLanguageCode=source, TargetLanguageCode=language
         )

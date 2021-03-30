@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -38,8 +37,8 @@ def is_spam(text, request):
                 comment_content=text,
                 comment_type="comment",
             )
-        except OSError as error:
-            report_error(error)
+        except OSError:
+            report_error()
             return True
     return False
 
@@ -54,5 +53,5 @@ def report_spam(text, user_ip, user_agent):
         akismet.submit_spam(
             user_ip, user_agent, comment_content=text, comment_type="comment"
         )
-    except (ProtocolError, OSError) as error:
-        report_error(error)
+    except (ProtocolError, OSError):
+        report_error()

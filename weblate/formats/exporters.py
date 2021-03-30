@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -22,6 +21,7 @@
 from django.http import HttpResponse
 from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy as _
+from lxml.etree import XMLSyntaxError
 from translate.misc.multistring import multistring
 from translate.storage.csvl10n import csvfile
 from translate.storage.mo import mofile
@@ -34,7 +34,7 @@ from translate.storage.xliff import xlifffile
 import weblate
 from weblate.formats.external import XlsxFormat
 from weblate.formats.ttkit import TTKitFormat
-from weblate.trans.util import split_plural
+from weblate.trans.util import split_plural, xliff_string_to_rich
 from weblate.utils.site import get_site_url
 
 # Map to remove control characters except newlines and tabs
@@ -109,8 +109,8 @@ class BaseExporter:
     def add(self, unit, word):
         unit.target = word
 
-    def add_dictionary(self, word):
-        """Add dictionary word."""
+    def add_glossary_term(self, word):
+        """Add glossary term."""
         unit = self.storage.UnitClass(self.string_filter(word.source))
         self.add(unit, self.string_filter(word.target))
         self.storage.addunit(unit)
@@ -119,9 +119,13 @@ class BaseExporter:
         for unit in units.iterator():
             self.add_unit(unit)
 
-    def add_unit(self, unit):
+    def build_unit(self, unit):
         output = self.storage.UnitClass(self.handle_plurals(unit.get_source_plurals()))
         self.add(output, self.handle_plurals(unit.get_target_plurals()))
+        return output
+
+    def add_unit(self, unit):
+        output = self.build_unit(unit)
         # Location needs to be set prior to ID to avoid overwrite
         # on some formats (for example xliff)
         for location in unit.location.split():
@@ -142,12 +146,12 @@ class BaseExporter:
         note = self.string_filter(unit.note)
         if note:
             output.addnote(note, origin="developer")
-        # In Weblate context
-        note = self.string_filter(unit.extra_context)
-        if context:
+        # In Weblate explanation
+        note = self.string_filter(unit.explanation)
+        if note:
             output.addnote(note, origin="developer")
         # Comments
-        for comment in unit.get_comments():
+        for comment in unit.all_comments:
             output.addnote(comment.comment, origin="translator")
         # Suggestions
         for suggestion in unit.suggestions:
@@ -203,7 +207,7 @@ class PoExporter(BaseExporter):
 
     def store_flags(self, output, flags):
         for flag in flags.items():
-            output.settypecomment(flag)
+            output.settypecomment(flags.format_flag(flag))
 
     def get_storage(self):
         store = super().get_storage()
@@ -247,6 +251,22 @@ class PoXliffExporter(XMLExporter):
             output.xmlelement.set("maxwidth", str(flags.get_value("max-length")))
 
         output.xmlelement.set("weblate-flags", flags.format())
+
+    def handle_plurals(self, plurals):
+        if len(plurals) == 1:
+            return self.string_filter(plurals[0])
+        return multistring([self.string_filter(plural) for plural in plurals])
+
+    def build_unit(self, unit):
+        output = super().build_unit(unit)
+        try:
+            converted_source = xliff_string_to_rich(unit.get_source_plurals())
+            converted_target = xliff_string_to_rich(unit.get_target_plurals())
+        except (XMLSyntaxError, TypeError):
+            return output
+        output.rich_source = converted_source
+        output.set_rich_target(converted_target, self.language.code)
+        return output
 
 
 @register_exporter

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -19,24 +18,22 @@
 #
 
 
-import functools
 import os
 import os.path
 
 from django.conf import settings
-from django.db import models
-from django.db.models import Q
+from django.db import models, transaction
+from django.db.models import Count
 from django.urls import reverse
 from django.utils.functional import cached_property
-from django.utils.translation import gettext as _
 from django.utils.translation import gettext_lazy
 
-from weblate.checks import CHECKS
-from weblate.checks.models import Check
 from weblate.lang.models import Language, get_english_lang
+from weblate.memory.tasks import import_memory
 from weblate.trans.defines import PROJECT_NAME_LENGTH
 from weblate.trans.mixins import PathMixin, URLMixin
 from weblate.utils.data import data_dir
+from weblate.utils.db import FastDeleteMixin
 from weblate.utils.site import get_site_url
 from weblate.utils.stats import ProjectStats
 
@@ -46,7 +43,24 @@ class ProjectQuerySet(models.QuerySet):
         return self.order_by("name")
 
 
-class Project(models.Model, URLMixin, PathMixin):
+def prefetch_project_flags(projects):
+    lookup = {project.id: project for project in projects}
+    if lookup:
+        for alert in projects.values("id").annotate(Count("component__alert")):
+            lookup[alert["id"]].__dict__["has_alerts"] = bool(
+                alert["component__alert__count"]
+            )
+        for locks in (
+            projects.filter(component__locked=False)
+            .values("id")
+            .distinct()
+            .annotate(Count("component__id"))
+        ):
+            lookup[locks["id"]].__dict__["locked"] = locks["component__id__count"] == 0
+    return projects
+
+
+class Project(FastDeleteMixin, models.Model, URLMixin, PathMixin):
     ACCESS_PUBLIC = 0
     ACCESS_PROTECTED = 1
     ACCESS_PRIVATE = 100
@@ -84,7 +98,7 @@ class Project(models.Model, URLMixin, PathMixin):
     instructions = models.TextField(
         verbose_name=gettext_lazy("Translation instructions"),
         blank=True,
-        help_text=_("You can use Markdown and mention users by @username."),
+        help_text=gettext_lazy("You can use Markdown and mention users by @username."),
     )
 
     set_language_team = models.BooleanField(
@@ -117,10 +131,17 @@ class Project(models.Model, URLMixin, PathMixin):
             "in the documentation."
         ),
     )
-    enable_review = models.BooleanField(
+    translation_review = models.BooleanField(
         verbose_name=gettext_lazy("Enable reviews"),
         default=False,
         help_text=gettext_lazy("Requires dedicated reviewers to approve translations."),
+    )
+    source_review = models.BooleanField(
+        verbose_name=gettext_lazy("Enable source reviews"),
+        default=False,
+        help_text=gettext_lazy(
+            "Requires dedicated reviewers to approve source strings."
+        ),
     )
     enable_hooks = models.BooleanField(
         verbose_name=gettext_lazy("Enable hooks"),
@@ -146,6 +167,49 @@ class Project(models.Model, URLMixin, PathMixin):
         app_label = "trans"
         verbose_name = gettext_lazy("Project")
         verbose_name_plural = gettext_lazy("Projects")
+
+    def __str__(self):
+        return self.name
+
+    def save(self, *args, **kwargs):
+        from weblate.trans.tasks import perform_load, component_alerts
+
+        update_tm = self.contribute_shared_tm
+
+        # Renaming detection
+        old = None
+        if self.id:
+            old = Project.objects.get(pk=self.id)
+            # Detect slug changes and rename directory
+            self.check_rename(old)
+            # Rename linked repos
+            if old.slug != self.slug:
+                for component in old.component_set.iterator():
+                    new_component = self.component_set.get(pk=component.pk)
+                    new_component.project = self
+                    component.linked_childs.update(
+                        repo=new_component.get_repo_link_url()
+                    )
+            update_tm = self.contribute_shared_tm and not old.contribute_shared_tm
+
+        self.create_path()
+
+        super().save(*args, **kwargs)
+
+        # Reload components after source language change
+        if old is not None and old.source_language != self.source_language:
+            for component in self.component_set.iterator():
+                perform_load.delay(component.pk, force=True, changed_template=True)
+
+        # Update alerts if needed
+        if old is not None and old.web != self.web:
+            component_alerts.delay(
+                list(self.component_set.values_list("id", flat=True))
+            )
+
+        # Update translation memory on enabled sharing
+        if update_tm:
+            transaction.on_commit(lambda: import_memory.delay(self.id))
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -186,44 +250,10 @@ class Project(models.Model, URLMixin, PathMixin):
 
     @cached_property
     def locked(self):
-        return (
-            self.component_set.exists()
-            and not self.component_set.filter(locked=False).exists()
-        )
+        return self.component_set.filter(locked=False).count() == 0
 
     def _get_path(self):
         return os.path.join(data_dir("vcs"), self.slug)
-
-    def __str__(self):
-        return self.name
-
-    def save(self, *args, **kwargs):
-
-        # Renaming detection
-        old = None
-        if self.id:
-            old = Project.objects.get(pk=self.id)
-            # Detect slug changes and rename directory
-            self.check_rename(old)
-            # Rename linked repos
-            if old.slug != self.slug:
-                for component in old.component_set.iterator():
-                    new_component = self.component_set.get(pk=component.pk)
-                    new_component.project = self
-                    component.linked_childs.update(
-                        repo=new_component.get_repo_link_url()
-                    )
-
-        self.create_path()
-
-        super().save(*args, **kwargs)
-
-        # Reload components after source language change
-        if old is not None and old.source_language != self.source_language:
-            from weblate.trans.tasks import perform_load
-
-            for component in self.component_set.iterator():
-                perform_load.delay(component.pk)
 
     @cached_property
     def languages(self):
@@ -236,10 +266,9 @@ class Project(models.Model, URLMixin, PathMixin):
 
     def needs_commit(self):
         """Check whether there are any uncommitted changes."""
-        for component in self.component_set.iterator():
-            if component.needs_commit():
-                return True
-        return False
+        return any(
+            component.needs_commit() for component in self.component_set.iterator()
+        )
 
     def on_repo_components(self, default, call, *args, **kwargs):
         """Wrapper for operations on repository."""
@@ -304,105 +333,6 @@ class Project(models.Model, URLMixin, PathMixin):
             or self.billing_set.filter(paid=True).exists()
         )
 
-    def run_batch_checks(self, attr_name):
-        """Run batch executed checks."""
-        from weblate.trans.models import Unit
-
-        create = []
-        meth_name = "check_{}_project".format(attr_name)
-        for check, check_obj in CHECKS.items():
-            if not getattr(check_obj, attr_name) or not check_obj.batch_update:
-                continue
-            self.log_info("running batch check: %s", check)
-            # List of triggered checks
-            data = getattr(check_obj, meth_name)(self)
-            # Fetch existing check instances
-            existing = set(
-                Check.objects.filter(
-                    unit__translation__component__project=self, check=check
-                ).values_list("unit__content_hash", "unit__translation__language_id")
-            )
-            # Create new check instances
-            for item in data:
-                if "translation__language" not in item:
-                    item["translation__language"] = self.source_language.id
-                key = (item["content_hash"], item["translation__language"])
-                if key in existing:
-                    existing.discard(key)
-                else:
-                    units = Unit.objects.filter(
-                        translation__component__project=self,
-                        translation__language_id=item["translation__language"],
-                        content_hash=item["content_hash"],
-                    )
-                    for unit in units:
-                        create.append(Check(unit=unit, check=check, ignore=False))
-            # Remove stale instances
-            if existing:
-                query = functools.reduce(
-                    lambda q, value: q
-                    | (
-                        Q(unit__content_hash=value[0])
-                        & Q(unit__translation__language_id=value[1])
-                    ),
-                    existing,
-                    Q(),
-                )
-                Check.objects.filter(check=check).filter(query).delete()
-        # Create new checks
-        if create:
-            Check.objects.bulk_create(create, batch_size=500, ignore_conflicts=True)
-
-    def run_target_checks(self):
-        """Run batch executed target checks."""
-        self.run_batch_checks("target")
-
-    def run_source_checks(self):
-        """Run batch executed source checks."""
-        self.run_batch_checks("source")
-
-    def update_unit_flags(self):
-        from weblate.trans.models import Unit
-
-        units = Unit.objects.filter(translation__component__project=self)
-
-        self.log_debug("updating unit flags: has_failing_check")
-
-        units.filter(has_failing_check=False).filter(check__ignore=False).update(
-            has_failing_check=True
-        )
-        units.filter(has_failing_check=True).exclude(check__ignore=False).update(
-            has_failing_check=False
-        )
-        self.log_debug("all unit flags updated")
-
-    def invalidate_stats_deep(self):
-        self.log_info("updating stats caches")
-        from weblate.trans.models import Translation
-
-        translations = Translation.objects.filter(component__project=self)
-        for translation in translations.iterator():
-            translation.invalidate_cache()
-
-    def get_stats(self):
-        """Return stats dictionary."""
-        return {
-            "name": self.name,
-            "total": self.stats.all,
-            "total_words": self.stats.all_words,
-            "last_change": self.stats.last_changed,
-            "recent_changes": self.stats.recent_changes,
-            "translated": self.stats.translated,
-            "translated_words": self.stats.translated_words,
-            "translated_percent": self.stats.translated_percent,
-            "fuzzy": self.stats.fuzzy,
-            "fuzzy_percent": self.stats.fuzzy_percent,
-            "failing": self.stats.allchecks,
-            "failing_percent": self.stats.allchecks_percent,
-            "url": self.get_share_url(),
-            "url_translate": get_site_url(self.get_absolute_url()),
-        }
-
     def post_create(self, user, billing=None):
         from weblate.trans.models import Change
 
@@ -423,3 +353,7 @@ class Project(models.Model, URLMixin, PathMixin):
         result = Alert.objects.filter(component__project=self)
         list(result)
         return result
+
+    @cached_property
+    def has_alerts(self):
+        return self.all_alerts.exists()

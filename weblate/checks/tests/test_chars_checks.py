@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -227,8 +226,8 @@ class ZeroWidthSpaceCheckTest(CheckTestCase):
     def setUp(self):
         super().setUp()
         self.test_good_matching = ("str\u200bing", "str\u200bing", "")
-        self.test_failure_1 = ("str\u200bing", "string", "")
-        self.test_failure_2 = ("string", "str\u200bing", "")
+        self.test_good_none = ("str\u200bing", "string", "")
+        self.test_failure_1 = ("string", "str\u200bing", "")
 
 
 class MaxLengthCheckTest(TestCase):
@@ -270,6 +269,20 @@ class MaxLengthCheckTest(TestCase):
                 [self.test_good_matching_unicode[0]],
                 [self.test_good_matching_unicode[1]],
                 MockUnit(flags="max-length:10"),
+            )
+        )
+
+    def test_replace_check(self):
+        self.assertFalse(
+            self.check.check_target(
+                ["hi %s"], ["ahoj %s"], MockUnit(flags="max-length:10"),
+            )
+        )
+        self.assertTrue(
+            self.check.check_target(
+                ["hi %s"],
+                ["ahoj %s"],
+                MockUnit(flags='max-length:10, replacements:%s:"very long text"'),
             )
         )
 
@@ -318,3 +331,7 @@ class PuctuationSpacingCheckTest(CheckTestCase):
         self.test_failure_1 = ("string", "string!", "")
         self.test_failure_2 = ("string", "string\u00A0? string;", "")
         self.test_failure_3 = ("string", "string\u00A0; string?", "")
+
+    def test_fr_ca(self):
+        self.do_test(True, ("string", "string!", ""), "fr")
+        self.do_test(False, ("string", "string!", ""), "fr_CA")

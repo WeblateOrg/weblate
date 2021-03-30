@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -36,6 +35,7 @@ class PlanAdmin(WeblateModelAdmin):
         "display_limit_projects",
     )
     ordering = ["price"]
+    prepopulated_fields = {"slug": ("name",)}
 
 
 def format_user(obj):

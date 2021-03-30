@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -22,23 +21,27 @@
 
 
 import re
-import shutil
-from unittest import TestCase
 
+from django.conf import settings
 from django.http import QueryDict
 from django.test.utils import override_settings
 from django.urls import reverse
-from whoosh.filedb.filestore import FileStorage
 
-from weblate.trans.search import Fulltext
 from weblate.trans.tests.test_views import ViewTestCase
-from weblate.trans.tests.utils import TempDirMixin
 from weblate.utils.ratelimit import reset_rate_limit
 from weblate.utils.state import STATE_FUZZY, STATE_TRANSLATED
 
 
 class SearchViewTest(ViewTestCase):
-    fake_search = False
+    @classmethod
+    def _databases_support_transactions(cls):
+        # This is workaroud for MySQL as FULL TEXT index does not work
+        # well inside a transaction, so we avoid using transactions for
+        # tests. Otherwise we end up with no matches for the query.
+        # See https://dev.mysql.com/doc/refman/5.6/en/innodb-fulltext-index.html
+        if settings.DATABASES["default"]["ENGINE"] == "django.db.backends.mysql":
+            return False
+        return super()._databases_support_transactions()
 
     def setUp(self):
         super().setUp()
@@ -193,63 +196,8 @@ class SearchViewTest(ViewTestCase):
         self.do_search({"checksum": "invalid"}, "Invalid checksum specified!")
 
 
-class SearchBackendTest(ViewTestCase):
-    fake_search = False
-
-    def setUp(self):
-        super().setUp()
-        self.update_fulltext_index()
-
-    def test_add(self):
-        self.edit_unit("Hello, world!\n", "Nazdar svete!\n")
-        unit = self.get_translation().unit_set.get(source="Hello, world!\n")
-        Fulltext.update_index_unit(unit)
-        Fulltext.update_index_unit(unit)
-
-
-class SearchMigrationTest(TestCase, TempDirMixin):
-    """Search index migration testing."""
-
-    def setUp(self):
-        self.create_temp()
-        self.storage = FileStorage(self.tempdir)
-        self.storage.create()
-
-    def tearDown(self):
-        self.remove_temp()
-
-    def do_test(self):
-        fulltext = Fulltext()
-        fulltext.storage = self.storage
-
-        sindex = fulltext.get_source_index()
-        self.assertIsNotNone(sindex)
-        tindex = fulltext.get_target_index("cs")
-        self.assertIsNotNone(tindex)
-        writer = sindex.writer()
-        writer.update_document(
-            pk=1, source="source", context="context", location="location"
-        )
-        writer.commit()
-        writer = tindex.writer()
-        writer.update_document(pk=1, target="target", comment="comment")
-        writer.commit()
-        for item in ("source", "context", "location", "target"):
-            self.assertEqual(fulltext.search(item, ["cs"], {item: True}), {1})
-
-    def test_nonexisting(self):
-        self.do_test()
-
-    def test_nonexisting_dir(self):
-        shutil.rmtree(self.tempdir)
-        self.tempdir = None
-        self.do_test()
-
-
 class ReplaceTest(ViewTestCase):
     """Test for search and replace functionality."""
-
-    fake_search = False
 
     def setUp(self):
         super().setUp()
@@ -364,6 +312,15 @@ class BulkStateTest(ViewTestCase):
         self.assertContains(response, "Bulk edit completed, 1 string was updated.")
         unit = self.get_unit()
         self.assertTrue(label in unit.labels.all())
+        self.assertEqual(
+            getattr(unit.translation.stats, "label:{}".format(label.name)), 1
+        )
+        # Clear local outdated cache
+        unit.source_info.translation.stats.clear()
+        self.assertEqual(
+            getattr(unit.source_info.translation.stats, "label:{}".format(label.name)),
+            1,
+        )
         response = self.client.post(
             reverse("bulk-edit", kwargs=self.kw_project),
             {"q": "state:needs-editing", "state": -1, "remove_labels": label.pk},
@@ -372,3 +329,12 @@ class BulkStateTest(ViewTestCase):
         self.assertContains(response, "Bulk edit completed, 1 string was updated.")
         unit = self.get_unit()
         self.assertFalse(label in unit.labels.all())
+        self.assertEqual(
+            getattr(unit.translation.stats, "label:{}".format(label.name)), 0
+        )
+        # Clear local outdated cache
+        unit.source_info.translation.stats.clear()
+        self.assertEqual(
+            getattr(unit.source_info.translation.stats, "label:{}".format(label.name)),
+            0,
+        )

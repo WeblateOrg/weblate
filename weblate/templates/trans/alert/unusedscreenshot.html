@@ -1,0 +1,4 @@
+{% load i18n %}
+<p>{% trans "There is at least one screenshot which is not assigned to any strings." %}</p>
+
+<a class="btn btn-primary" href="{% url 'screenshots' project=component.project.slug component=component.slug %}">{% trans "Manage screenshots" %}</a>

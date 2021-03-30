@@ -7,7 +7,7 @@
 
 {% block content %}
 
-{% whiteboard_messages %}
+{% announcements %}
 
 <div class="btn-group pull-right flip btn-group-settings" role="group">
 <a href="{% url 'profile' %}#preferences" class="btn btn-link" title="{% trans "Configure dashboard" %}">{% icon "settings.svg" %}</a>
@@ -40,17 +40,7 @@
       {% endif %}
   </ul>
 </li>
-<li class="dropdown">
-  <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-    {% trans "Tools" %} <span class="caret"></span>
-  </a>
-  <ul class="dropdown-menu">
-    <li><a href="#search" data-toggle="tab">{% trans "Search" %}</a></li>
-    <li><a href="{% url 'languages' %}">{% trans "All languages" %}</a></li>
-    <li><a href="{% url 'projects' %}">{% trans "All projects" %}</a></li>
-    <li><a href="{% url 'checks' %}">{% trans "Checks overview" %}</a></li>
-  </ul>
-</li>
+<li><a href="#search" data-toggle="tab">{% trans "Search" %}</a></li>
 </ul>
 
 <div class="tab-content">

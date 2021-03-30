@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -27,7 +26,7 @@ from weblate.utils.state import STATE_APPROVED
 class ReviewTest(ViewTestCase):
     def setUp(self):
         super().setUp()
-        self.project.enable_review = True
+        self.project.translation_review = True
         self.project.save()
 
     def approve(self):

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -21,8 +20,9 @@
 
 from django.utils.encoding import force_str
 
-from weblate.machinery.base import MachineTranslation
+from weblate.machinery.base import MachineTranslation, get_machinery_language
 from weblate.trans.models import Unit
+from weblate.utils.state import STATE_TRANSLATED
 
 
 class WeblateTranslation(MachineTranslation):
@@ -31,32 +31,32 @@ class WeblateTranslation(MachineTranslation):
     name = "Weblate"
     rank_boost = 1
     cache_translations = False
+    do_cleanup = False
+
+    def convert_language(self, language):
+        """No conversion of language object."""
+        return get_machinery_language(language)
 
     def is_supported(self, source, language):
         """Any language is supported."""
         return True
 
-    def download_translations(self, source, language, text, unit, user):
+    def download_translations(self, source, language, text, unit, user, search):
         """Download list of possible translations from a service."""
         if user:
-            kwargs = {
-                "translation__component__project_id__in": user.allowed_project_ids
-            }
+            base = Unit.objects.filter_access(user)
         else:
-            kwargs = {
-                "translation__component__project": unit.translation.component.project
-            }
-        matching_units = (
-            Unit.objects.prefetch()
-            .filter(**kwargs)
-            .more_like_this(unit, 1000)
-            .distinct()
+            base = Unit.objects.all()
+        matching_units = base.filter(
+            source__search=text,
+            translation__language=language,
+            state__gte=STATE_TRANSLATED,
         )
 
         for munit in matching_units:
             source = munit.get_source_plurals()[0]
             quality = self.comparer.similarity(text, source)
-            if quality < 50:
+            if quality < 10 or (quality < 75 and not search):
                 continue
             yield {
                 "text": munit.get_target_plurals()[0],

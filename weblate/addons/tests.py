@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -143,13 +142,16 @@ class IntegrationTest(ViewTestCase):
 
     def test_crash(self):
         addon = TestCrashAddon.create(self.component)
+        self.assertTrue(Addon.objects.filter(name=TestCrashAddon.name).exists())
         ADDONS[TestCrashAddon.get_identifier()] = TestCrashAddon
 
         with self.assertRaises(TestException):
             addon.post_update(self.component, "head")
 
-        with self.assertRaises(TestException):
-            self.component.update_branch()
+        # The crash should be handled here and addon uninstalled
+        self.component.update_branch()
+
+        self.assertFalse(Addon.objects.filter(name=TestCrashAddon.name).exists())
 
     def test_process_error(self):
         addon = TestAddon.create(self.component)
@@ -186,6 +188,44 @@ class GettextAddonTest(ViewTestCase):
         commit = other.repository.show(other.repository.last_revision)
         self.assertIn("LINGUAS", commit)
         self.assertIn("\n+cs de it", commit)
+
+    def assert_linguas(self, source, expected_add, expected_remove):
+        # Test no-op
+        self.assertEqual(
+            UpdateLinguasAddon.update_linguas(source, {"de", "it"}), (False, source)
+        )
+        # Test adding cs
+        self.assertEqual(
+            UpdateLinguasAddon.update_linguas(source, {"cs", "de", "it"}),
+            (True, expected_add),
+        )
+        # Test adding cs and removing de
+        self.assertEqual(
+            UpdateLinguasAddon.update_linguas(source, {"cs", "it"}),
+            (True, expected_remove),
+        )
+
+    def test_linguas_files_oneline(self):
+        self.assert_linguas(["de it\n"], ["cs de it\n"], ["cs it\n"])
+
+    def test_linguas_files_line(self):
+        self.assert_linguas(
+            ["de\n", "it\n"], ["de\n", "it\n", "cs\n"], ["it\n", "cs\n"]
+        )
+
+    def test_linguas_files_line_comment(self):
+        self.assert_linguas(
+            ["# Linguas list\n", "de\n", "it\n"],
+            ["# Linguas list\n", "de\n", "it\n", "cs\n"],
+            ["# Linguas list\n", "it\n", "cs\n"],
+        )
+
+    def test_linguas_files_inline_comment(self):
+        self.assert_linguas(
+            ["de # German\n", "it # Italian\n"],
+            ["de # German\n", "it # Italian\n", "cs\n"],
+            ["it # Italian\n", "cs\n"],
+        )
 
     def test_update_configure(self):
         translation = self.get_translation()
@@ -269,6 +309,25 @@ class AndroidAddonTest(ViewTestCase):
         addon.post_update(self.component, "")
         commit = self.component.repository.show(self.component.repository.last_revision)
         self.assertIn("android-not-synced/values-cs/strings.xml", commit)
+
+
+class IntermediateAddonTest(ViewTestCase):
+    def create_component(self):
+        return self.create_json_intermediate(new_lang="add")
+
+    def test_cleanup(self):
+        self.assertTrue(CleanupAddon.can_install(self.component, None))
+        rev = self.component.repository.last_revision
+        addon = CleanupAddon.create(self.component)
+        self.assertNotEqual(rev, self.component.repository.last_revision)
+        rev = self.component.repository.last_revision
+        addon.post_update(self.component, "")
+        self.assertEqual(rev, self.component.repository.last_revision)
+        addon.post_update(self.component, "")
+        commit = self.component.repository.show(self.component.repository.last_revision)
+        # It should remove string not present in the English file
+        self.assertIn("intermediate/cs.json", commit)
+        self.assertIn('-    "orangutan"', commit)
 
 
 class ResxAddonTest(ViewTestCase):
@@ -371,7 +430,9 @@ class YAMLAddonTest(ViewTestCase):
         self.assertNotEqual(rev, self.component.repository.last_revision)
         commit = self.component.repository.show(self.component.repository.last_revision)
         self.assertIn("        try:", commit)
-        self.assertIn("\r\n", commit)
+        self.assertIn("cs.yml", commit)
+        with open(self.get_translation().get_filename(), "rb") as handle:
+            self.assertIn(b"\r\n", handle.read())
 
 
 class ViewTests(ViewTestCase):
@@ -743,6 +804,36 @@ class GitSquashAddonTest(ViewTestCase):
         self.change_unit("Diky za pouzivani Weblate.", "Thank you for using Weblate.")
         self.component.commit_pending("test", None)
         self.assertEqual(self.component.repository.count_outgoing(), 3)
+
+    def test_commit_message(self):
+        commit_message = "Squashed commit message"
+        GitSquashAddon.create(
+            self.component,
+            configuration={"squash": "all", "commit_message": commit_message},
+        )
+
+        self.edit()
+
+        commit = self.component.repository.show(self.component.repository.last_revision)
+        self.assertIn(commit_message, commit)
+        self.assertEqual(self.component.repository.count_outgoing(), 1)
+
+    def test_append_trailers(self):
+        GitSquashAddon.create(
+            self.component, configuration={"squash": "all", "append_trailers": True}
+        )
+
+        self.edit()
+
+        commit = self.component.repository.show(self.component.repository.last_revision)
+
+        expected_trailers = (
+            "    Translation: Test/Test\n"
+            "    Translate-URL: http://example.com/projects/test/test/de/\n"
+            "    Translate-URL: http://example.com/projects/test/test/cs/\n"
+        )
+        self.assertIn(expected_trailers, commit)
+        self.assertEqual(self.component.repository.count_outgoing(), 1)
 
 
 class TestRemoval(FixtureTestCase):

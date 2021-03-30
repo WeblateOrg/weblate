@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -25,12 +24,7 @@ from django.utils import timezone
 
 from weblate.machinery.base import MachineTranslation, MissingConfiguration
 
-BASE_URL = "https://api.cognitive.microsofttranslator.com"
-TRANSLATE_URL = BASE_URL + "/translate"
-LIST_URL = BASE_URL + "/languages?api-version=3.0"
-TOKEN_URL = (
-    "https://{0}api.cognitive.microsoft.com/sts/v1.0/" "issueToken?Subscription-Key={1}"
-)
+TOKEN_URL = "https://{0}{1}/sts/v1.0/issueToken?Subscription-Key={2}"
 TOKEN_EXPIRY = timedelta(minutes=9)
 
 
@@ -38,12 +32,13 @@ class MicrosoftCognitiveTranslation(MachineTranslation):
     """Microsoft Cognitive Services Translator API support."""
 
     name = "Microsoft Translator"
+    max_score = 90
 
     language_map = {
-        "zh-hant": "zh-CHT",
-        "zh-hans": "zh-CHS",
-        "zh-tw": "zh-CHT",
-        "zh-cn": "zh-CHS",
+        "zh-hant": "zh-Hant",
+        "zh-hans": "zh-Hans",
+        "zh-tw": "zh-Hant",
+        "zh-cn": "zh-Hans",
         "tlh-qaak": "tlh-Qaak",
         "nb": "no",
         "bs-latn": "bs-Latn",
@@ -64,11 +59,17 @@ class MicrosoftCognitiveTranslation(MachineTranslation):
             region = "{}.".format(settings.MT_MICROSOFT_REGION)
 
         self._cognitive_token_url = TOKEN_URL.format(
-            region, settings.MT_MICROSOFT_COGNITIVE_KEY
+            region,
+            settings.MT_MICROSOFT_ENDPOINT_URL,
+            settings.MT_MICROSOFT_COGNITIVE_KEY,
         )
 
         if settings.MT_MICROSOFT_COGNITIVE_KEY is None:
             raise MissingConfiguration("Microsoft Translator requires credentials")
+
+    @staticmethod
+    def get_url(suffix):
+        return "https://{}/{}".format(settings.MT_MICROSOFT_BASE_URL, suffix)
 
     def is_token_expired(self):
         """Check whether token is about to expire."""
@@ -89,12 +90,9 @@ class MicrosoftCognitiveTranslation(MachineTranslation):
 
         return self._access_token
 
-    def convert_language(self, language):
-        """Convert language to service specific code.
-
-        Remove second part of locale in most of cases.
-        """
-        return super().convert_language(language.replace("_", "-").lower())
+    def map_language_code(self, code):
+        """Convert language to service specific code."""
+        return super().map_language_code(code).replace("_", "-")
 
     def download_languages(self):
         """Download list of supported languages from a service.
@@ -108,7 +106,9 @@ class MicrosoftCognitiveTranslation(MachineTranslation):
         'sr-Latn', 'sk', 'sl', 'es', 'sv', 'ty', 'th', 'to', 'tr', 'uk', 'ur', 'vi',
         'cy']
         """
-        response = self.request("get", LIST_URL)
+        response = self.request(
+            "get", self.get_url("languages"), params={"api-version": "3.0"}
+        )
         # Microsoft tends to use utf-8-sig instead of plain utf-8
         response.encoding = response.apparent_encoding
         payload = response.json()
@@ -119,7 +119,7 @@ class MicrosoftCognitiveTranslation(MachineTranslation):
 
         return payload["translation"].keys()
 
-    def download_translations(self, source, language, text, unit, user):
+    def download_translations(self, source, language, text, unit, user, search):
         """Download list of possible translations from a service."""
         args = {
             "api-version": "3.0",
@@ -128,10 +128,10 @@ class MicrosoftCognitiveTranslation(MachineTranslation):
             "category": "general",
         }
         response = self.request(
-            "post", TRANSLATE_URL, params=args, json=[{"Text": text[:5000]}]
+            "post", self.get_url("translate"), params=args, json=[{"Text": text[:5000]}]
         )
         # Microsoft tends to use utf-8-sig instead of plain utf-8
-        response.encoding = response.apparent_encoding
+        response.encoding = "utf-8-sig"
         payload = response.json()
         yield {
             "text": payload[0]["translations"][0]["text"],

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -23,6 +22,7 @@ import os
 import shutil
 from unittest import SkipTest
 
+from django.db import transaction
 from django.utils import timezone
 
 from weblate.trans.models import Component
@@ -110,9 +110,10 @@ class MultiRepoTest(ViewTestCase):
             handle.write(content)
 
         # Do changes in first repo
-        translation.git_commit(
-            self.request.user, "TEST <test@example.net>", timezone.now()
-        )
+        with transaction.atomic():
+            translation.git_commit(
+                self.request.user, "TEST <test@example.net>", timezone.now()
+            )
         self.assertFalse(translation.needs_commit())
         translation.component.do_push(self.request)
 
@@ -124,6 +125,24 @@ class MultiRepoTest(ViewTestCase):
         # Verify changes got to the second one
         translation = self.component2.translation_set.get(language_code="cs")
         self.assertEqual(translation.stats.translated, 1)
+
+        new_text = "Other text\n"
+
+        # Propagate edit
+        unit = self.get_unit()
+        self.assertEqual(len(unit.same_source_units), 1)
+        unit.translate(self.user, [new_text], STATE_TRANSLATED)
+
+        # Verify new content
+        unit = self.get_unit()
+        self.assertEqual(unit.target, new_text)
+        self.assertEqual(len(unit.same_source_units), 1)
+        other_unit = unit.same_source_units[0]
+        self.assertEqual(other_unit.target, new_text)
+
+        # There should be no checks on both
+        self.assertEqual(list(unit.check_set.values_list("check", flat=True)), [])
+        self.assertEqual(list(other_unit.check_set.values_list("check", flat=True)), [])
 
     def test_failed_update(self):
         """Test failed remote update."""

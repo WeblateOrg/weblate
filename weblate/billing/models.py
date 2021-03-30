@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -54,6 +53,7 @@ class PlanQuerySet(models.QuerySet):
 
 class Plan(models.Model):
     name = models.CharField(max_length=100, unique=True)
+    slug = models.SlugField(max_length=100, unique=True)
     price = models.IntegerField(default=0)
     yearly_price = models.IntegerField(default=0)
     limit_strings = models.IntegerField(default=0)
@@ -180,6 +180,11 @@ class Billing(models.Model):
         else:
             base = "Unassigned"
         return "{0} ({1})".format(base, self.plan)
+
+    def save(self, *args, **kwargs):
+        if not kwargs.pop("skip_limits", False) and self.pk:
+            self.check_limits(save=False)
+        super().save(*args, **kwargs)
 
     def get_absolute_url(self):
         return "{}#billing-{}".format(reverse("billing"), self.pk)
@@ -357,11 +362,6 @@ class Billing(models.Model):
         if save and modified:
             self.save(skip_limits=True)
 
-    def save(self, *args, **kwargs):
-        if not kwargs.pop("skip_limits", False) and self.pk:
-            self.check_limits(save=False)
-        super().save(*args, **kwargs)
-
     def is_active(self):
         return self.state in (Billing.STATE_ACTIVE, Billing.STATE_TRIAL)
 
@@ -467,5 +467,8 @@ def update_invoice_bill(sender, instance, **kwargs):
 
 
 @receiver(m2m_changed, sender=Billing.projects.through)
-def change_componentlist(sender, instance, **kwargs):
+@disable_for_loaddata
+def change_billing_projects(sender, instance, action, **kwargs):
+    if not action.startswith("post_"):
+        return
     instance.check_limits()

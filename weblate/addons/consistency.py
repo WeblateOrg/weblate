@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
 #
@@ -31,8 +30,8 @@ class LangaugeConsistencyAddon(BaseAddon):
     name = "weblate.consistency.languages"
     verbose = _("Language consistency")
     description = _(
-        "Ensure that all components within one project "
-        "have translation to same languages."
+        "Ensures all components within one project have translations for every added "
+        "language for translation."
     )
     icon = "language.svg"
     project_scope = True

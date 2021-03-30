@@ -1,0 +1,30 @@
+{% load i18n %}
+{% load icons %}
+
+<p>{% blocktrans %}This action cannot be undone. This will permanently delete the {{ object }} component and all related content.{% endblocktrans %}</p>
+
+{% with components=object.component_set.order %}
+{% if components %}
+<p>{% trans "The following translation components will be removed:" %}</p>
+<ul>
+    <li><a href="{{ object.get_absolute_url }}">{{ object }}</a></li>
+
+    {% for component in object.component_set.order %}
+        <li><a href="{{ component.get_absolute_url }}">{{ component }}</a></li>
+    {% endfor %}
+</ul>
+{% endif %}
+{% endwith %}
+
+<div class="form-group">
+    <label class="control-label">{% trans "Component to remove" %}</label>
+    <div class="list-group">
+        <div class="list-group-item">
+        <div class="list-group-item-text">
+            <button type="button" class="btn btn-link btn-xs pull-right flip" data-clipboard-text="{{ object.full_slug }}" title="{% trans "Copy to clipboard" %}">{% icon "copy.svg" %}</button>
+
+            {{ object.full_slug }}
+        </div>
+        </div>
+    </div>
+</div>

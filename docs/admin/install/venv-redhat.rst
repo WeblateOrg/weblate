@@ -32,7 +32,7 @@ Installing on RedHat, Fedora and CentOS
     dnf install redis
 
     # Database server: PostgreSQL
-    dnf install postgresql
+    dnf install postgresql postgresql-contrib
 
     # SMTP server
     dnf install postfix
