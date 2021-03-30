@@ -77,6 +77,12 @@ def collect_global():
         "changes": Change.objects.filter(
             timestamp__date=date.today() - timedelta(days=1)
         ).count(),
+        "contributors": Change.objects.filter(
+            timestamp__date__gte=date.today() - timedelta(days=30)
+        )
+        .values("user")
+        .distinct()
+        .count(),
         "users": User.objects.count(),
     }
     create_metrics(data, stats, SOURCE_KEYS, Metric.SCOPE_GLOBAL, 0)
@@ -96,6 +102,12 @@ def collect_projects():
             "changes": project.change_set.filter(
                 timestamp__date=date.today() - timedelta(days=1)
             ).count(),
+            "contributors": project.change_set.filter(
+                timestamp__date__gte=date.today() - timedelta(days=30)
+            )
+            .values("user")
+            .distinct()
+            .count(),
         }
         keys = [
             f"machinery-accounting:internal:{project.id}",
@@ -123,6 +135,12 @@ def collect_components():
             "changes": component.change_set.filter(
                 timestamp__date=date.today() - timedelta(days=1)
             ).count(),
+            "contributors": component.change_set.filter(
+                timestamp__date__gte=date.today() - timedelta(days=30)
+            )
+            .values("user")
+            .distinct()
+            .count(),
         }
         create_metrics(
             data, component.stats, SOURCE_KEYS, Metric.SCOPE_COMPONENT, component.pk
@@ -136,6 +154,12 @@ def collect_translations():
             "changes": translation.change_set.filter(
                 timestamp__date=date.today() - timedelta(days=1)
             ).count(),
+            "contributors": translation.change_set.filter(
+                timestamp__date__gte=date.today() - timedelta(days=30)
+            )
+            .values("user")
+            .distinct()
+            .count(),
         }
         create_metrics(
             data,
