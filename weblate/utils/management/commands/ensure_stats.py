@@ -17,6 +17,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
+from weblate.metrics.models import Metric
 from weblate.utils.management.base import BaseCommand
 from weblate.utils.stats import GlobalStats
 
@@ -26,3 +27,4 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         GlobalStats().ensure_basic()
+        Metric.objects.get_current(Metric.SCOPE_GLOBAL, 0)
