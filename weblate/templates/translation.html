@@ -44,7 +44,6 @@
     <ul class="dropdown-menu">
       <li><a href="#history" data-toggle="tab">{% trans "History" %}</a></li>
       <li><a href="#activity" data-toggle="tab">{% trans "Activity" %}</a></li>
-      <li><a href="#stats" data-toggle="tab">{% trans "Statistics" %}</a></li>
     </ul>
   </li>
   <li class="dropdown">
@@ -215,24 +214,91 @@
 </div>
 
 <div class="tab-pane" id="information">
-<div class="panel panel-default">
-  <div class="panel-heading"><h4 class="panel-title">{% trans "Translation Information" %}</h4></div>
 
-<table class="table table-striped table-autowidth">
-{% include "component_info.html" with object=object.component %}
-<tr>
-<th>{% trans "Translation file" %}</th>
-<td>
-{% if object.filename %}
-<a class="btn btn-primary btn-xs pull-right flip" href="{% url 'download_translation' project=object.component.project.slug component=object.component.slug lang=object.language.code %}">{% trans "Download" %}</a>
-<code>{{ object.filename }}</code>
-{% else %}
-{% trans "Not available" %}
-{% endif %}
-</td>
-</tr>
-</table>
-</div>
+  <div class="row">
+    <div class="col-md-6">
+
+      <div class="panel panel-default">
+        <div class="panel-heading"><h4 class="panel-title">{% trans "Translation Information" %}</h4></div>
+
+        <table class="table table-striped table-autowidth">
+        {% include "component_info.html" with object=object.component %}
+        <tr>
+        <th>{% trans "Translation file" %}</th>
+        <td>
+        {% if object.filename %}
+        <a class="btn btn-primary btn-xs pull-right flip" href="{% url 'download_translation' project=object.component.project.slug component=object.component.slug lang=object.language.code %}">{% trans "Download" %}</a>
+        <code>{{ object.filename }}</code>
+        {% else %}
+        {% trans "Not available" %}
+        {% endif %}
+        </td>
+        </tr>
+        </table>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="panel panel-default">
+        <div class="panel-heading"><h4 class="panel-title">{% trans "Statistics" %}</h4></div>
+        <table class="table">
+        <thead>
+        <tr>
+        <td></td>
+        <th>{% trans "Percent" %}</th>
+        <th>{% trans "Strings" %}</th>
+        <th>{% trans "Words" %}</th>
+        <th>{% trans "Chars" %}</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+        <th>{% trans "Total" %}</th>
+        <td class="percent"></td>
+        <td class="number">{{ object.stats.all|intcomma }}</td>
+        <td class="number">{{ object.stats.all_words|intcomma }}</td>
+        <td class="number">{{ object.stats.all_chars|intcomma }}</td>
+        </tr>
+        <tr>
+        <th>{% trans "Translated" %}</th>
+        <td class="percent">{{ object.stats.translated_percent|percent_format }}</td>
+        <td class="number">{{ object.stats.translated|intcomma }}</td>
+        <td class="number">{{ object.stats.translated_words|intcomma }}</td>
+        <td class="number">{{ object.stats.translated_chars|intcomma }}</td>
+        </tr>
+        <tr>
+        <th>{% trans "Needs editing" %}</th>
+        <td class="percent">{{ object.stats.fuzzy_percent|percent_format }}</td>
+        <td class="number">{{ object.stats.fuzzy|intcomma }}</td>
+        <td class="number">{{ object.stats.fuzzy_words|intcomma }}</td>
+        <td class="number">{{ object.stats.fuzzy_chars|intcomma }}</td>
+        </tr>
+        <tr>
+        <th>{% trans "Failing checks" %}</th>
+        <td class="percent">{{ object.stats.allchecks_percent|percent_format }}</td>
+        <td class="number">{{ object.stats.allchecks|intcomma }}</td>
+        <td class="number">{{ object.stats.allchecks_words|intcomma }}</td>
+        <td class="number">{{ object.stats.allchecks_chars|intcomma }}</td>
+        </tr>
+        </tbody>
+        </table>
+      </div>
+      <div class="panel panel-default">
+        <div class="panel-heading"><h4 class="panel-title">{% trans "Last activity" %}</h4></div>
+        <table class="table">
+        <tbody>
+        <tr>
+        <th>{% trans "Last change" %}<th>
+        <td class="number" colspan="3">{{ object.stats.last_changed }}</td>
+        </tr>
+        <tr>
+        <th>{% trans "Last author" %}<th>
+        <td class="number" colspan="3">{{ object.get_last_author }}</td>
+        </tr>
+        </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
 </div>
 
 
@@ -449,82 +515,6 @@
 <form action="{{ translate_url }}" method="GET" data-persist="search-translation">
 {% include "snippets/search-form.html" %}
 </form>
-
-</div>
-
-<div class="tab-pane" id="stats">
-<div class="row">
-<div class="col-lg-6">
-<div class="panel panel-default">
-<div class="panel-heading"><h4 class="panel-title">{% trans "Statistics" %}</h4></div>
-<table class="table">
-<thead>
-<tr>
-<td></td>
-<th>{% trans "Percent" %}</th>
-<th>{% trans "Strings" %}</th>
-<th>{% trans "Words" %}</th>
-<th>{% trans "Chars" %}</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<th>{% trans "Total" %}</th>
-<td class="percent"></td>
-<td class="number">{{ object.stats.all|intcomma }}</td>
-<td class="number">{{ object.stats.all_words|intcomma }}</td>
-<td class="number">{{ object.stats.all_chars|intcomma }}</td>
-</tr>
-<tr>
-<th>{% trans "Translated" %}</th>
-<td class="percent">{{ object.stats.translated_percent|percent_format }}</td>
-<td class="number">{{ object.stats.translated|intcomma }}</td>
-<td class="number">{{ object.stats.translated_words|intcomma }}</td>
-<td class="number">{{ object.stats.translated_chars|intcomma }}</td>
-</tr>
-<tr>
-<th>{% trans "Needs editing" %}</th>
-<td class="percent">{{ object.stats.fuzzy_percent|percent_format }}</td>
-<td class="number">{{ object.stats.fuzzy|intcomma }}</td>
-<td class="number">{{ object.stats.fuzzy_words|intcomma }}</td>
-<td class="number">{{ object.stats.fuzzy_chars|intcomma }}</td>
-<td class="number"></td>
-</tr>
-<tr>
-<th>{% trans "Failing checks" %}</th>
-<td class="percent">{{ object.stats.allchecks_percent|percent_format }}</td>
-<td class="number">{{ object.stats.allchecks|intcomma }}</td>
-<td class="number">{{ object.stats.allchecks_words|intcomma }}</td>
-<td class="number">{{ object.stats.allchecks_chars|intcomma }}</td>
-<td class="number"></td>
-</tr>
-</tbody>
-</table>
-
-</div>
-
-</div>
-
-
-<div class="col-lg-6">
-<div class="panel panel-default">
-<div class="panel-heading"><h4 class="panel-title">{% trans "Last activity" %}</h4></div>
-<table class="table">
-<tbody>
-<tr>
-<th>{% trans "Last change" %}<th>
-<td class="number" colspan="3">{{ object.stats.last_changed }}</td>
-</tr>
-<tr>
-<th>{% trans "Last author" %}<th>
-<td class="number" colspan="3">{{ object.get_last_author }}</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-
-</div>
 
 </div>
 
