@@ -33,13 +33,14 @@
 # Max Pastushkov <max@pastushkov.com>, 2020.
 # Igor Polyakov <igorpolyakov@protonmail.com>, 2021.
 # narrnika <narr13niki@gmail.com>, 2021.
+# Edward Smirnov <ed@microolap.com>, 2021.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.5.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-03-25 19:14+0000\n"
-"PO-Revision-Date: 2021-03-21 16:49+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2021-03-31 08:53+0000\n"
+"Last-Translator: Edward Smirnov <ed@microolap.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/"
 "application/ru/>\n"
 "Language: ru\n"
@@ -48,7 +49,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 4.5.2-dev\n"
+"X-Generator: Weblate 4.6-dev\n"
 
 #: weblate/accounts/avatar.py:103
 msgctxt "No known user"
@@ -81,10 +82,9 @@ msgid "Public e-mail"
 msgstr "Общедоступная электронная почта"
 
 #: weblate/accounts/forms.py:287
-#, fuzzy, python-format
-#| msgid "Component lists"
+#, python-format
 msgid "Component list: %s"
-msgstr "Списки компонентов"
+msgstr "Список компонентов: %s"
 
 #: weblate/accounts/forms.py:313 weblate/accounts/forms.py:388
 #: weblate/accounts/templatetags/authnames.py:42 weblate/auth/models.py:322
@@ -374,17 +374,12 @@ msgid "Signed in using {method} ({name}) from a new device."
 msgstr "Вошёл в систему, используя {method} ({name}) с нового устройства."
 
 #: weblate/accounts/models.py:152
-#, fuzzy
-#| msgid "Somebody has attempted to register with your e-mail."
 msgid "Somebody attempted to register with your e-mail."
-msgstr "Кто-то пробовал зарегистрироваться с вашей электронной почтой."
+msgstr "Кто-то пытался зарегистрироваться с вашим email-адресом."
 
 #: weblate/accounts/models.py:153
-#, fuzzy
-#| msgid "Somebody has attempted to register using your e-mail address."
 msgid "Somebody attempted to register using your e-mail address."
-msgstr ""
-"Кто-то пытался зарегистрироваться, используя ваш адрес электронной почты."
+msgstr "Кто-то пытался зарегистрироваться с вашим email-адресом."
 
 #: weblate/accounts/models.py:154
 #, python-brace-format
@@ -419,10 +414,6 @@ msgid "Sent confirmation mail to {email}."
 msgstr "Отправлено письмо с подтверждением на {email}."
 
 #: weblate/accounts/models.py:162
-#, fuzzy
-#| msgid ""
-#| "System created user to track authorship of translations uploaded by other "
-#| "user."
 msgid ""
 "The system created a user to track authorship of translations uploaded by "
 "other user."
@@ -2701,16 +2692,12 @@ msgid "Lua format string does not match source"
 msgstr "Строка в формате Lua не соответствует источнику"
 
 #: weblate/checks/format.py:469
-#, fuzzy
-#| msgid "File format"
 msgid "Scheme format"
-msgstr "Формат файла"
+msgstr "Формат схемы"
 
 #: weblate/checks/format.py:470
-#, fuzzy
-#| msgid "C format string does not match source"
 msgid "Scheme format string does not match source"
-msgstr "Строка в формате C не соответствует источнику"
+msgstr "Строка формата схемы не соответствует источнику"
 
 #: weblate/checks/format.py:483
 msgid "Python brace format"
@@ -3270,16 +3257,12 @@ msgid "Invalid integer list!"
 msgstr "Неправильный список целочисленных!"
 
 #: weblate/glossary/forms.py:47
-#, fuzzy
-#| msgid "String target language"
 msgid "String will be propagated to all languages"
-msgstr "Целевой язык строки"
+msgstr "Строка будет распространена на все языки"
 
 #: weblate/glossary/forms.py:55
-#, fuzzy
-#| msgid "Not-translatable: %s"
 msgid "Not translatable term"
-msgstr "Непереводимый термин: %s"
+msgstr "Непереводимый термин"
 
 #: weblate/glossary/forms.py:100
 #: weblate/templates/snippets/component-glossary-badge.html:4
@@ -4060,16 +4043,13 @@ msgid "You can only contact maintainers of the whole server here."
 msgstr "Вы можете связаться с сопровождающими этот сервер только здесь."
 
 #: weblate/templates/accounts/contact.html:17
-#, fuzzy, python-format
-#| msgid ""
-#| "If you are looking for support for Weblate, or want to file a bug report, "
-#| "check its website at %(weblate_link)s."
+#, python-format
 msgid ""
 "If you seek support for Weblate, or want to file a bug-report, check its "
 "website at %(weblate_link)s."
 msgstr ""
-"Если вам нужна поддержкаWeblate или вы хотите отправить отчёты об ошибках, "
-"проверьте его веб-сайт %(weblate_link)s."
+"Если требуется поддержка Weblate или нужно отчёт об ошибке, посетите "
+"%(weblate_link)s."
 
 #: weblate/templates/accounts/contact.html:32
 #: weblate/templates/manage/tools.html:26
@@ -4103,10 +4083,6 @@ msgid "Registration almost complete"
 msgstr "Регистрация почти завершена"
 
 #: weblate/templates/accounts/email-sent.html:30
-#, fuzzy
-#| msgid ""
-#| "If your e-mail address exists in our database, you will receive further "
-#| "password recovery instructions in your inbox."
 msgid ""
 "If your e-mail address exists in our database, you will receive further "
 "password recovery instructions to your inbox."
@@ -4116,20 +4092,12 @@ msgstr ""
 
 #: weblate/templates/accounts/email-sent.html:31
 #: weblate/templates/accounts/email-sent.html:34
-#, fuzzy
-#| msgid ""
-#| "If the confirmation link expires before you get to use it, request a new "
-#| "one."
 msgid "If the confirmation link expires before you use it, request a new one."
 msgstr ""
-"Если время действия ссылки для подтверждения истечёт прежде, чем вы "
-"воспользуетесь ею, запросите новую."
+"Если срок действия ссылки подтверждения истекает до того, как вы ее "
+"используете, запросите новую."
 
 #: weblate/templates/accounts/email-sent.html:33
-#, fuzzy
-#| msgid ""
-#| "Shortly you should receive an e-mail containing a confirmation link. "
-#| "Click it to remove your account."
 msgid ""
 "Shortly, you should receive an e-mail with a confirmation link. Click it to "
 "remove your account."
@@ -4146,28 +4114,21 @@ msgstr ""
 "получите в письме, для завершения регистрации."
 
 #: weblate/templates/accounts/email-sent.html:37
-#, fuzzy
-#| msgid ""
-#| "If the confirmation link expires before you get to use it, register again."
 msgid "If the confirmation link expires before you use it, register again."
 msgstr ""
 "Если время действия ссылки для подтверждения истечёт прежде, чем вы "
 "воспользуетесь ею, зарегистрируйтесь снова."
 
 #: weblate/templates/accounts/email-sent.html:42
-#, fuzzy, python-format
-#| msgid ""
-#| "If you don't receive it shortly, please check your spam folder or retry "
-#| "the registration. Should the problem persist, please <a href="
-#| "\"%(contact_url)s\">contact us</a>."
+#, python-format
 msgid ""
 "If you don't receive it shortly, please check your spam folder or retry the "
 "registration. If the problem persist, please <a href=\"%(contact_url)s"
 "\">contact us</a>."
 msgstr ""
 "Если в скором времени вы ее не получили, проверьте папку для спама или "
-"повторите регистрацию. Если это не помогает, <a href=\"%(contact_url)s"
-"\">свяжитесь с нами</a>."
+"повторите регистрацию. Если это не помогает, <a href=\"%(contact_url)s\""
+">свяжитесь с нами</a>."
 
 #: weblate/templates/accounts/email.html:10
 #: weblate/templates/accounts/register.html:19
@@ -5147,7 +5108,7 @@ msgstr "Правка"
 #: weblate/templates/project_info.html:23 weblate/trans/forms.py:1945
 #: weblate/wladmin/views.py:80
 msgid "Billing"
-msgstr "Тарифный план"
+msgstr "Биллинг"
 
 #: weblate/templates/billing/detail.html:23
 msgid "Recurring payment"
@@ -6539,16 +6500,12 @@ msgid "Cleanup"
 msgstr "Очистка"
 
 #: weblate/templates/js/git-status.html:115
-#, fuzzy
-#| msgid "Reset all changes in the Weblate repository"
 msgid "Force writing all translations to the Weblate repository"
 msgstr "Сбросить все изменения в репозитории Weblate"
 
 #: weblate/templates/js/git-status.html:115
-#, fuzzy
-#| msgid "Source information"
 msgid "Force synchronization"
-msgstr "Информация по источнику"
+msgstr "Синхронизировать принудительно"
 
 #: weblate/templates/js/git-status.html:129
 #, python-format
@@ -6666,6 +6623,8 @@ msgid ""
 "If you have an idea or a question, %(link_start)sthis%(link_end)s is a good "
 "place to start."
 msgstr ""
+"Если у вас есть идея или вопрос, %(link_start)s это %(link_end)s - хорошее "
+"место для начала."
 
 #: weblate/templates/mail/account_activity.html:38
 msgid "Report"
@@ -7302,42 +7261,32 @@ msgid "Support expiry"
 msgstr "Сроки поддержки истекли"
 
 #: weblate/templates/manage/index.html:46
-#, fuzzy
-#| msgid "Register in Weblate"
 msgid "Discover Weblate"
-msgstr "Зарегистрироваться в Weblate"
+msgstr "Освойте Weblate"
 
 #: weblate/templates/manage/index.html:48
-#, fuzzy
-#| msgid "Component discovery"
 msgid "Browse discovery"
-msgstr "Обнаружение компонентов"
+msgstr "Обзор открытия"
 
 #: weblate/templates/manage/index.html:50
 msgid "Your Weblate is listed on weblate.org"
-msgstr ""
+msgstr "Ваш Weblate указан на weblate.org"
 
 #: weblate/templates/manage/index.html:52
-#, fuzzy
-#| msgid "Disabled"
 msgid "Disable discovery"
-msgstr "Отключено"
+msgstr "Отключить обнаружение"
 
 #: weblate/templates/manage/index.html:53
-#, fuzzy
-#| msgid "Manage your languages"
 msgid "Manage your listing"
-msgstr "Управлять своими языками"
+msgstr "Управление своим списком"
 
 #: weblate/templates/manage/index.html:55
 msgid "Your Weblate is not listed on weblate.org"
-msgstr ""
+msgstr "Ваш Weblate не указан на weblate.org"
 
 #: weblate/templates/manage/index.html:57
-#, fuzzy
-#| msgid "Component discovery"
 msgid "Enable discovery"
-msgstr "Обнаружение компонентов"
+msgstr "Включить обнаружение"
 
 #: weblate/templates/manage/index.html:65
 msgid "Manage support package"
@@ -7462,7 +7411,7 @@ msgstr "Известные ключи серверов"
 
 #: weblate/templates/manage/ssh.html:67 weblate/wladmin/forms.py:40
 msgid "Hostname"
-msgstr "Имя узла"
+msgstr "Имя хоста"
 
 #: weblate/templates/manage/ssh.html:68
 msgid "Key type"
@@ -7970,7 +7919,7 @@ msgstr "Этот перевод нежелателен."
 
 #: weblate/templates/snippets/glossary.html:9
 msgid "This term should not be translated."
-msgstr "Этот термин не должен переводиться."
+msgstr "Не следует переводить этот термин."
 
 #: weblate/templates/snippets/glossary.html:11
 msgid "Copy word into translation"
@@ -8402,20 +8351,17 @@ msgid "Source in review"
 msgstr "Исходная строка рецензируется"
 
 #: weblate/templates/snippets/unit-readonly-badge.html:6
-#, fuzzy
-#| msgid "Source strings in %s"
 msgid "Source string editing is disabled."
-msgstr "Исходные строки на %s"
+msgstr "Редактирование исходной строки отключено."
 
 #: weblate/templates/snippets/unit-readonly-badge.html:8
 msgid "Source strings can’t be edited. You can delete them and add new ones."
 msgstr ""
+"Исходные строки нельзя редактировать. Вы можете удалить их и добавить новые."
 
 #: weblate/templates/snippets/unit-readonly-badge.html:10
-#, fuzzy
-#| msgid "Source string changed"
 msgid "The source string cannot be edited."
-msgstr "Изменена исходная строка"
+msgstr "Исходную строку нельзя редактировать."
 
 #: weblate/templates/snippets/unit-state.html:5
 #: weblate/trans/templatetags/translations.py:554 weblate/utils/state.py:31
@@ -8742,9 +8688,9 @@ msgstr ""
 #, python-format
 msgid "Only some of the %(count)s occurrences are shown."
 msgid_plural "Only some of the %(count)s occurrences are shown."
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "Показаны только некоторые из %(count)s случая."
+msgstr[1] "Показаны только некоторые из %(count)s случаев."
+msgstr[2] "Показаны только некоторые из %(count)s случаев."
 
 #: weblate/templates/trans/alert/parseerror.html:4
 msgid ""
@@ -9114,7 +9060,7 @@ msgstr "Скопировать постоянную ссылку"
 
 #: weblate/templates/translate.html:82
 msgid "Forbidden glossary term"
-msgstr "Нежелательный вариант перевода в глоссарии"
+msgstr "Запрещенный термин в глоссарии"
 
 #: weblate/templates/translate.html:84
 msgid "Glossary term"
@@ -9338,20 +9284,17 @@ msgstr[1] "Доступны %(count)s варианта этой строки."
 msgstr[2] "Доступно %(count)s вариантов этой строки."
 
 #: weblate/templates/translate.html:532
-#, fuzzy, python-format
-#| msgid "Browse all glossary changes"
+#, python-format
 msgid "Browse glossary %(name)s"
-msgstr "Навигация по всем изменениям глоссария"
+msgstr "Просмотреть глоссарий %(name)s"
 
 #: weblate/templates/translate.html:554 weblate/templates/translate.html:564
 msgid "Add term to glossary"
 msgstr "Добавить термин в глоссарий"
 
 #: weblate/templates/translate.html:583
-#, fuzzy
-#| msgid "Source information"
 msgid "String information"
-msgstr "Информация по источнику"
+msgstr "Информация о строке"
 
 #: weblate/templates/translate.html:595
 msgid "No screenshot currently associated."
@@ -9400,23 +9343,19 @@ msgid "string %(position)s"
 msgstr "строка %(position)s"
 
 #: weblate/templates/translate.html:696
-#, fuzzy
-#| msgid "Browse pending"
 msgid "pending"
-msgstr "Навигация по ожидающим"
+msgstr "в ожидании"
 
 #: weblate/templates/translate.html:742
-#, fuzzy, python-format
-#| msgid "Add variant of this string"
+#, python-format
 msgid "Add a new variant for \"%(existing)s\""
-msgstr "Добавить вариант строки"
+msgstr "Добавить новый вариант для \"%(existing)s\""
 
 #: weblate/templates/translation.html:56
 msgid "Download translation"
 msgstr "Скачать перевод"
 
 #: weblate/templates/translation.html:58 weblate/templates/translation.html:374
-#, fuzzy
 msgid "Customize download"
 msgstr "Настроить скачивание"
 
@@ -9511,10 +9450,8 @@ msgstr ""
 "во всех переводах."
 
 #: weblate/templates/translation.html:329
-#, fuzzy
-#| msgid "Customize download"
 msgid "Quick downloads"
-msgstr "Настроить скачивание"
+msgstr "Быстрое скачивание"
 
 #: weblate/templates/translation.html:336
 msgid "File in original format as translated in the repository"
@@ -9522,22 +9459,14 @@ msgstr ""
 "Файл в оригинальном формате, в том виде, в котором он хранится в репозитории"
 
 #: weblate/templates/translation.html:345
-#, fuzzy
-#| msgid ""
-#| "All strings, converted files enriched with comments; suitable for "
-#| "translating offline"
 msgid ""
 "All strings, converted files enriched with comments; suitable for offline "
 "translation"
 msgstr ""
-"Все строки; преобразованные файлы, снабжённые дополнительными комментариями; "
-"подходит для перевода оффлайн"
+"Все строки, преобразованные файлы, дополненные комментариями; подходит для "
+"офлайн-перевода"
 
 #: weblate/templates/translation.html:357
-#, fuzzy
-#| msgid ""
-#| "Strings needing action, converted files enriched with comments; suitable "
-#| "for translating offline"
 msgid ""
 "Strings needing action, converted files enriched with comments; suitable for "
 "offline translation"
@@ -10280,10 +10209,8 @@ msgid "Optional context to clarify the source strings."
 msgstr "Дополнительное пояснение для уточнения исходной строки."
 
 #: weblate/trans/forms.py:2063
-#, fuzzy
-#| msgid "Entry by the same name already exists."
 msgid "Automatically adjust context when same string already exists."
-msgstr "Запись с таким именем уже существует."
+msgstr "Автоматически настраивать контекст, если такая строка уже существует."
 
 #: weblate/trans/forms.py:2084
 msgid "You can edit this later, as with any other string in the translation."
@@ -10782,17 +10709,13 @@ msgstr "Соглашение с участниками изменено"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:334
-#, fuzzy
-#| msgid "Screenshot name"
 msgid "Screnshot added"
-msgstr "Название снимка экрана"
+msgstr "Добавлен снимок экрана"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:336
-#, fuzzy
-#| msgid "Screenshots uploaded"
 msgid "Screnshot uploaded"
-msgstr "Загруженные снимки экрана"
+msgstr "Снимок экрана загружен"
 
 #: weblate/trans/models/change.py:404
 msgid "New string to translate"
@@ -11453,10 +11376,8 @@ msgid "Key"
 msgstr "Ключ"
 
 #: weblate/trans/models/component.py:3073
-#, fuzzy
-#| msgid "Forbidden glossary term"
 msgid "Add new glossary term"
-msgstr "Нежелательный вариант перевода в глоссарии"
+msgstr "Добавить новый термин в глоссарий"
 
 #: weblate/trans/models/component.py:3074
 msgid "Add new translation string"
@@ -11634,35 +11555,28 @@ msgstr "Кажется, такая строка уже существует."
 #: weblate/trans/models/translation.py:1360
 #: weblate/trans/models/translation.py:1364
 #: weblate/trans/models/translation.py:1379
-#, fuzzy, python-format
-#| msgid "Pending string"
+#, python-format
 msgid "Failed adding string: %s"
-msgstr "Ожидает обновления в VCS"
+msgstr "Не удалось добавить строку: %s"
 
 #: weblate/trans/models/translation.py:1332
-#, fuzzy
-#| msgid "No matching translations found!"
 msgid "No translation found."
-msgstr "Соответствующих переводов не найдено!"
+msgstr "Соответствующих переводов не найдено."
 
 #: weblate/trans/models/translation.py:1364
 #: weblate/trans/models/translation.py:1379
-#, fuzzy
-#| msgid "Failed to parse query string: {}"
 msgid "Failed to parse new string"
-msgstr "Не удалось разобрать строку запроса: {}"
+msgstr "Не удалось разобрать новую строку"
 
 #: weblate/trans/models/translation.py:1387
-#, fuzzy, python-format
-#| msgid "Following components would be created"
+#, python-format
 msgid "Context would be created as \"%s\""
-msgstr "Следующие компоненты будут созданы"
+msgstr "Контекст будет создан как \"%s\""
 
 #: weblate/trans/models/translation.py:1391
-#, fuzzy, python-format
-#| msgid "Following components would be created"
+#, python-format
 msgid "Source would be created as %s"
-msgstr "Следующие компоненты будут созданы"
+msgstr "Источник будет создан как %s"
 
 #: weblate/trans/models/unit.py:1385
 msgid "Unmark as read-only"
@@ -12355,10 +12269,8 @@ msgid "All repositories have been cleaned up."
 msgstr "Все репозитории были очищены."
 
 #: weblate/trans/views/git.py:121
-#, fuzzy
-#| msgid "Translation has been removed."
 msgid "Translation files have been synchronized."
-msgstr "Перевод был удалён."
+msgstr "Файлы перевода синхронизированы."
 
 #: weblate/trans/views/js.py:56
 msgid "Service is currently not available."
@@ -12771,8 +12683,6 @@ msgid "The test e-mail will be sent to this address."
 msgstr "Тестовое письмо будет отправлено по этому адресу электронной почты."
 
 #: weblate/wladmin/forms.py:68
-#, fuzzy
-#| msgid "Username or e-mail"
 msgid "Username or registered e-mail"
 msgstr "Имя пользователя или e-mail"
 
