@@ -17,6 +17,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 from datetime import date, timedelta
+from typing import Dict, Optional, Set
 
 from celery.schedules import crontab
 from django.core.cache import cache
@@ -28,7 +29,7 @@ from weblate.metrics.models import Metric
 from weblate.screenshots.models import Screenshot
 from weblate.trans.models import Change, Component, Project, Translation
 from weblate.utils.celery import app
-from weblate.utils.stats import GlobalStats, prefetch_stats
+from weblate.utils.stats import GlobalStats, ProjectLanguage, prefetch_stats
 
 BASIC_KEYS = {
     "all",
@@ -53,14 +54,27 @@ SOURCE_KEYS = BASIC_KEYS | {
 }
 
 
-def create_metrics(data, stats, keys, scope, relation):
+def create_metrics(
+    data: Dict,
+    stats: Optional[Dict],
+    keys: Set,
+    scope: int,
+    relation: int,
+    secondary: int = 0,
+):
     if stats is not None:
         for key in keys:
             data[key] = getattr(stats, key)
 
     Metric.objects.bulk_create(
         [
-            Metric(scope=scope, relation=relation, name=name, value=value)
+            Metric(
+                scope=scope,
+                relation=relation,
+                secondary=secondary,
+                name=name,
+                value=value,
+            )
             for name, value in data.items()
         ]
     )
@@ -123,6 +137,32 @@ def collect_projects():
         create_metrics(
             data, project.stats, SOURCE_KEYS, Metric.SCOPE_PROJECT, project.pk
         )
+        languages = prefetch_stats(
+            [ProjectLanguage(project, language) for language in project.languages]
+        )
+        for project_language in languages:
+            data = {
+                "changes": project.change_set.filter(
+                    translation__language=project_language.language,
+                    timestamp__date=date.today() - timedelta(days=1),
+                ).count(),
+                "contributors": project.change_set.filter(
+                    translation__language=project_language.language,
+                    timestamp__date__gte=date.today() - timedelta(days=30),
+                )
+                .values("user")
+                .distinct()
+                .count(),
+            }
+
+            create_metrics(
+                data,
+                project.stats,
+                SOURCE_KEYS,
+                Metric.SCOPE_PROJECT_LANGUAGE,
+                project.pk,
+                project_language.language.pk,
+            )
 
 
 def collect_components():
