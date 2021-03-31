@@ -885,12 +885,18 @@ def percent_format(number):
 def trend_format(number):
     if number < 0:
         prefix = "-"
+        trend = "trend-down"
     else:
         prefix = "+"
+        trend = "trend-up"
     number = abs(number)
     if number < 0.1:
         return "—"
-    return "{}{}".format(prefix, percent_format(number))
+    return mark_safe(
+        '{}{} <span class="{}"></span>'.format(
+            prefix, escape(percent_format(number)), trend
+        )
+    )
 
 
 @register.filter
