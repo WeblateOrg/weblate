@@ -28,7 +28,7 @@ from weblate.metrics.models import Metric
 from weblate.screenshots.models import Screenshot
 from weblate.trans.models import Change, Component, Project, Translation
 from weblate.utils.celery import app
-from weblate.utils.stats import GlobalStats
+from weblate.utils.stats import GlobalStats, prefetch_stats
 
 BASIC_KEYS = {
     "all",
@@ -89,7 +89,7 @@ def collect_global():
 
 
 def collect_projects():
-    for project in Project.objects.all():
+    for project in prefetch_stats(Project.objects.all()):
         data = {
             "components": project.component_set.count(),
             "translations": Translation.objects.filter(
@@ -126,7 +126,7 @@ def collect_projects():
 
 
 def collect_components():
-    for component in Component.objects.all():
+    for component in prefetch_stats(Component.objects.all()):
         data = {
             "translations": component.translation_set.count(),
             "screenshots": Screenshot.objects.filter(
@@ -148,7 +148,7 @@ def collect_components():
 
 
 def collect_translations():
-    for translation in Translation.objects.all():
+    for translation in prefetch_stats(Translation.objects.all()):
         data = {
             "screenshots": translation.screenshot_set.count(),
             "changes": translation.change_set.filter(
