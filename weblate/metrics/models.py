@@ -20,8 +20,37 @@ from collections import defaultdict
 from datetime import date, timedelta
 from typing import Dict, Optional, Set
 
+from django.core.cache import cache
 from django.db import models
-from django.db.models import Q
+from django.db.models import Count, Q
+
+from weblate.auth.models import User
+from weblate.memory.models import Memory
+from weblate.screenshots.models import Screenshot
+from weblate.trans.models import Change, Component, ComponentList, Project, Translation
+from weblate.utils.stats import GlobalStats, ProjectLanguage, prefetch_stats
+
+BASIC_KEYS = {
+    "all",
+    "all_words",
+    "translated",
+    "translated_words",
+    "approved",
+    "approved_words",
+    "allchecks",
+    "allchecks_words",
+    "dismissed_checks",
+    "dismissed_checks_words",
+    "suggestions",
+    "suggestions_words",
+    "comments",
+    "comments_words",
+    "languages",
+}
+SOURCE_KEYS = BASIC_KEYS | {
+    "source_strings",
+    "source_words",
+}
 
 
 class MetricQuerySet(models.QuerySet):
@@ -104,6 +133,170 @@ class MetricsManager(models.Manager):
                 for name, value in data.items()
             ]
         )
+
+    def collect_global(self):
+        stats = GlobalStats()
+        data = {
+            "projects": Project.objects.count(),
+            "components": Component.objects.count(),
+            "translations": Translation.objects.count(),
+            "memory": Memory.objects.count(),
+            "screenshots": Screenshot.objects.count(),
+            "changes": Change.objects.filter(
+                timestamp__date=date.today() - timedelta(days=1)
+            ).count(),
+            "contributors": Change.objects.filter(
+                timestamp__date__gte=date.today() - timedelta(days=30)
+            )
+            .values("user")
+            .distinct()
+            .count(),
+            "users": User.objects.count(),
+        }
+        self.create_metrics(data, stats, SOURCE_KEYS, Metric.SCOPE_GLOBAL, 0)
+
+    def collect_project(self, project: Project):
+        data = {
+            "components": project.component_set.count(),
+            "translations": Translation.objects.filter(
+                component__project=project
+            ).count(),
+            "memory": project.memory_set.count(),
+            "screenshots": Screenshot.objects.filter(
+                translation__component__project=project
+            ).count(),
+            "changes": project.change_set.filter(
+                timestamp__date=date.today() - timedelta(days=1)
+            ).count(),
+            "contributors": project.change_set.filter(
+                timestamp__date__gte=date.today() - timedelta(days=30)
+            )
+            .values("user")
+            .distinct()
+            .count(),
+        }
+        keys = [
+            f"machinery-accounting:internal:{project.id}",
+            f"machinery-accounting:external:{project.id}",
+        ]
+        for key, value in cache.get_many(keys):
+            if ":internal:" in key:
+                data["machinery:internal"] = value
+            else:
+                data["machinery:external"] = value
+        cache.delete_many(keys)
+
+        self.create_metrics(
+            data, project.stats, SOURCE_KEYS, Metric.SCOPE_PROJECT, project.pk
+        )
+        languages = prefetch_stats(
+            [ProjectLanguage(project, language) for language in project.languages]
+        )
+        for project_language in languages:
+            data = {
+                "changes": project.change_set.filter(
+                    translation__language=project_language.language,
+                    timestamp__date=date.today() - timedelta(days=1),
+                ).count(),
+                "contributors": project.change_set.filter(
+                    translation__language=project_language.language,
+                    timestamp__date__gte=date.today() - timedelta(days=30),
+                )
+                .values("user")
+                .distinct()
+                .count(),
+            }
+
+            self.create_metrics(
+                data,
+                project.stats,
+                SOURCE_KEYS,
+                Metric.SCOPE_PROJECT_LANGUAGE,
+                project.pk,
+                project_language.language.pk,
+            )
+
+    def collect_component(self, component: Component):
+        data = {
+            "translations": component.translation_set.count(),
+            "screenshots": Screenshot.objects.filter(
+                translation__component=component
+            ).count(),
+            "changes": component.change_set.filter(
+                timestamp__date=date.today() - timedelta(days=1)
+            ).count(),
+            "contributors": component.change_set.filter(
+                timestamp__date__gte=date.today() - timedelta(days=30)
+            )
+            .values("user")
+            .distinct()
+            .count(),
+        }
+        self.create_metrics(
+            data, component.stats, SOURCE_KEYS, Metric.SCOPE_COMPONENT, component.pk
+        )
+
+    def collect_component_list(self, clist: ComponentList):
+        changes = Change.objects.filter(component__in=clist.components.all())
+        data = {
+            "changes": changes.filter(
+                timestamp__date=date.today() - timedelta(days=1)
+            ).count(),
+            "contributors": changes.filter(
+                timestamp__date__gte=date.today() - timedelta(days=30)
+            )
+            .values("user")
+            .distinct()
+            .count(),
+        }
+        self.create_metrics(
+            data,
+            clist.stats,
+            SOURCE_KEYS,
+            Metric.SCOPE_COMPONENT_LIST,
+            clist.pk,
+        )
+
+    def collect_translation(self, translation: Translation):
+        data = {
+            "screenshots": translation.screenshot_set.count(),
+            "changes": translation.change_set.filter(
+                timestamp__date=date.today() - timedelta(days=1)
+            ).count(),
+            "contributors": translation.change_set.filter(
+                timestamp__date__gte=date.today() - timedelta(days=30)
+            )
+            .values("user")
+            .distinct()
+            .count(),
+        }
+        self.create_metrics(
+            data,
+            translation.stats,
+            BASIC_KEYS,
+            Metric.SCOPE_TRANSLATION,
+            translation.pk,
+        )
+
+    def collect_user(self, user: User):
+        data = user.change_set.filter(
+            timestamp__date=date.today() - timedelta(days=1)
+        ).aggregate(
+            changes=Count("id"),
+            comments=Count("id", filter=Q(action=Change.ACTION_COMMENT)),
+            suggestions=Count("id", filter=Q(action=Change.ACTION_SUGGESTION)),
+            translations=Count("id", filter=Q(action__in=Change.ACTIONS_CONTENT)),
+            screenshots=Count(
+                "id",
+                filter=Q(
+                    action__in=(
+                        Change.ACTION_SCREENSHOT_ADDED,
+                        Change.ACTION_SCREENSHOT_UPLOADED,
+                    )
+                ),
+            ),
+        )
+        self.create_metrics(data, None, None, Metric.SCOPE_USER, user.pk)
 
 
 class Metric(models.Model):
