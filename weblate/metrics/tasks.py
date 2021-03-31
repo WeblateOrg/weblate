@@ -27,7 +27,7 @@ from weblate.auth.models import User
 from weblate.memory.models import Memory
 from weblate.metrics.models import Metric
 from weblate.screenshots.models import Screenshot
-from weblate.trans.models import Change, Component, Project, Translation
+from weblate.trans.models import Change, Component, ComponentList, Project, Translation
 from weblate.utils.celery import app
 from weblate.utils.stats import GlobalStats, ProjectLanguage, prefetch_stats
 
@@ -187,6 +187,29 @@ def collect_components():
         )
 
 
+def collect_component_lists():
+    for clist in prefetch_stats(ComponentList.objects.all()):
+        changes = Change.objects.filter(component__in=clist.components.all())
+        data = {
+            "changes": changes.filter(
+                timestamp__date=date.today() - timedelta(days=1)
+            ).count(),
+            "contributors": changes.filter(
+                timestamp__date__gte=date.today() - timedelta(days=30)
+            )
+            .values("user")
+            .distinct()
+            .count(),
+        }
+        create_metrics(
+            data,
+            clist.stats,
+            SOURCE_KEYS,
+            Metric.SCOPE_COMPONENT_LIST,
+            clist.pk,
+        )
+
+
 def collect_translations():
     for translation in prefetch_stats(Translation.objects.all()):
         data = {
@@ -237,6 +260,7 @@ def collect_metrics():
     collect_global()
     collect_projects()
     collect_components()
+    collect_component_lists()
     collect_translations()
     collect_users()
 
