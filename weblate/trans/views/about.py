@@ -72,7 +72,7 @@ class StatsView(AboutView):
         totals = Profile.objects.aggregate(
             Sum("translated"), Sum("suggested"), Count("id")
         )
-        metrics = Metric.objects.get_current(Metric.SCOPE_GLOBAL, 0)
+        metrics = Metric.objects.get_current(None, Metric.SCOPE_GLOBAL, 0)
 
         context["total_translations"] = totals["translated__sum"]
         context["total_suggestions"] = totals["suggested__sum"]

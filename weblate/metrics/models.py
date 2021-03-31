@@ -54,9 +54,7 @@ SOURCE_KEYS = BASIC_KEYS | {
 
 
 class MetricQuerySet(models.QuerySet):
-    def get_current(self, scope: int, relation: int, secondary: int = 0, **kwargs):
-        from weblate.metrics.tasks import collect_metrics
-
+    def get_current(self, obj, scope: int, relation: int, secondary: int = 0, **kwargs):
         today = date.today()
         yesterday = today - timedelta(days=1)
 
@@ -81,15 +79,9 @@ class MetricQuerySet(models.QuerySet):
                     **kwargs,
                 ).values_list("name", "value")
             )
-        if (
-            not data
-            and not self.filter(
-                (Q(date=yesterday) | Q(date=today)) & Q(scope=Metric.SCOPE_GLOBAL)
-            ).exists()
-        ):
+        if not data:
             # Trigger collection in case no data is present
-            collect_metrics()
-            return self.get_current(scope, relation, secondary, **kwargs)
+            return Metric.objects.collect_auto(obj)
         return data
 
     def get_past(
@@ -134,6 +126,21 @@ class MetricsManager(models.Manager):
             ]
         )
 
+    def collect_auto(self, obj):
+        if obj is None:
+            return self.collect_global()
+        if isinstance(obj, Translation):
+            return self.collect_translation(obj)
+        if isinstance(obj, Component):
+            return self.collect_component(obj)
+        if isinstance(obj, Project):
+            return self.collect_project(obj)
+        if isinstance(obj, ComponentList):
+            return self.collect_component_list(obj)
+        if isinstance(obj, ProjectLanguage):
+            return self.collect_project_language(obj)
+        raise ValueError(f"Unsupported type for metrics: {obj!r}")
+
     def collect_global(self):
         stats = GlobalStats()
         data = {
@@ -154,8 +161,40 @@ class MetricsManager(models.Manager):
             "users": User.objects.count(),
         }
         self.create_metrics(data, stats, SOURCE_KEYS, Metric.SCOPE_GLOBAL, 0)
+        return data
+
+    def collect_project_language(self, project_language: ProjectLanguage):
+        project = project_language.project
+        data = {
+            "changes": project.change_set.filter(
+                translation__language=project_language.language,
+                timestamp__date=date.today() - timedelta(days=1),
+            ).count(),
+            "contributors": project.change_set.filter(
+                translation__language=project_language.language,
+                timestamp__date__gte=date.today() - timedelta(days=30),
+            )
+            .values("user")
+            .distinct()
+            .count(),
+        }
+
+        self.create_metrics(
+            data,
+            project_language.stats,
+            SOURCE_KEYS,
+            Metric.SCOPE_PROJECT_LANGUAGE,
+            project.pk,
+            project_language.language.pk,
+        )
+        return data
 
     def collect_project(self, project: Project):
+        languages = prefetch_stats(
+            [ProjectLanguage(project, language) for language in project.languages]
+        )
+        for project_language in languages:
+            self.collect_project_language(project_language)
         data = {
             "components": project.component_set.count(),
             "translations": Translation.objects.filter(
@@ -189,32 +228,7 @@ class MetricsManager(models.Manager):
         self.create_metrics(
             data, project.stats, SOURCE_KEYS, Metric.SCOPE_PROJECT, project.pk
         )
-        languages = prefetch_stats(
-            [ProjectLanguage(project, language) for language in project.languages]
-        )
-        for project_language in languages:
-            data = {
-                "changes": project.change_set.filter(
-                    translation__language=project_language.language,
-                    timestamp__date=date.today() - timedelta(days=1),
-                ).count(),
-                "contributors": project.change_set.filter(
-                    translation__language=project_language.language,
-                    timestamp__date__gte=date.today() - timedelta(days=30),
-                )
-                .values("user")
-                .distinct()
-                .count(),
-            }
-
-            self.create_metrics(
-                data,
-                project.stats,
-                SOURCE_KEYS,
-                Metric.SCOPE_PROJECT_LANGUAGE,
-                project.pk,
-                project_language.language.pk,
-            )
+        return data
 
     def collect_component(self, component: Component):
         data = {
@@ -235,6 +249,7 @@ class MetricsManager(models.Manager):
         self.create_metrics(
             data, component.stats, SOURCE_KEYS, Metric.SCOPE_COMPONENT, component.pk
         )
+        return data
 
     def collect_component_list(self, clist: ComponentList):
         changes = Change.objects.filter(component__in=clist.components.all())
@@ -256,6 +271,7 @@ class MetricsManager(models.Manager):
             Metric.SCOPE_COMPONENT_LIST,
             clist.pk,
         )
+        return data
 
     def collect_translation(self, translation: Translation):
         data = {
@@ -277,6 +293,7 @@ class MetricsManager(models.Manager):
             Metric.SCOPE_TRANSLATION,
             translation.pk,
         )
+        return data
 
     def collect_user(self, user: User):
         data = user.change_set.filter(
@@ -297,6 +314,7 @@ class MetricsManager(models.Manager):
             ),
         )
         self.create_metrics(data, None, None, Metric.SCOPE_USER, user.pk)
+        return data
 
 
 class Metric(models.Model):

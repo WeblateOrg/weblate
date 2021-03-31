@@ -33,7 +33,7 @@ class MetricsWrapper:
         self.obj = obj
         self.scope = scope
         self.relation = relation
-        self.current = Metric.objects.get_current(scope, relation, secondary)
+        self.current = Metric.objects.get_current(obj, scope, relation, secondary)
         self.past_30 = Metric.objects.get_past(scope, relation, secondary, 30)
         self.past_60 = Metric.objects.get_past(scope, relation, secondary, 60)
 

@@ -16,8 +16,10 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
+from datetime import date
 
 from weblate.metrics.models import Metric
+from weblate.metrics.tasks import collect_metrics
 from weblate.utils.management.base import BaseCommand
 from weblate.utils.stats import GlobalStats
 
@@ -27,4 +29,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         GlobalStats().ensure_basic()
-        Metric.objects.get_current(Metric.SCOPE_GLOBAL, 0)
+        if not Metric.objects.filter(
+            date=date.today(), scope=Metric.SCOPE_GLOBAL
+        ).exists():
+            collect_metrics()
