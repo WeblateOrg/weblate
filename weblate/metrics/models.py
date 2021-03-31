@@ -223,7 +223,7 @@ class MetricsManager(models.Manager):
             f"machinery-accounting:internal:{project.id}",
             f"machinery-accounting:external:{project.id}",
         ]
-        for key, value in cache.get_many(keys):
+        for key, value in cache.get_many(keys).items():
             if ":internal:" in key:
                 data["machinery:internal"] = value
             else:
