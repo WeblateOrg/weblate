@@ -54,13 +54,13 @@ class MetricQuerySet(models.QuerySet):
             return self.get_current(scope, relation, **kwargs)
         return data
 
-    def get_past(self, scope: int, relation: int, **kwargs):
+    def get_past(self, scope: int, relation: int, delta: int = 30, **kwargs):
         return defaultdict(
             int,
             self.filter(
                 scope=scope,
                 relation=relation,
-                date=date.today() - timedelta(days=30),
+                date=date.today() - timedelta(days=delta),
                 **kwargs,
             ).values_list("name", "value"),
         )

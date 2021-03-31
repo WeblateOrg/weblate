@@ -230,31 +230,38 @@
       </div>
     </div>
     <div class="panel panel-default">
-      <div class="panel-heading"><h4 class="panel-title">{% trans "Trends of last 30 days" %}</h4></div>
+      <div class="panel-heading">
+        <span class="pull-right flip">{% trans "and previous 30 days" %}</span>
+        <h4 class="panel-title">{% trans "Trends of last 30 days" %}</h4>
+      </div>
       <div class="panel-body">
         <div class="row">
           <div class="col-xs-3">
             <div class="metric">
-              <div class="metric-number">{{ metrics.trend_all_words|trend_format }}</div>
+              <div class="metric-number">{{ metrics.trend_30_all_words|trend_format }}</div>
               <div class="metric-text">{% trans "Hosted words" context "Number of hosted words" %}</div>
+              <div class="metric-detail">{{ metrics.trend_60_all_words|trend_format }}</div>
             </div>
           </div>
           <div class="col-xs-3">
             <div class="metric">
-              <div class="metric-number">{{ metrics.trend_all|trend_format }}</div>
+              <div class="metric-number">{{ metrics.trend_30_all|trend_format }}</div>
               <div class="metric-text">{% trans "Hosted strings" context "Number of hosted strings" %}</div>
+              <div class="metric-detail">{{ metrics.trend_60_all|trend_format }}</div>
             </div>
           </div>
           <div class="col-xs-3">
             <div class="metric">
-              <div class="metric-number">{{ metrics.trend_translated_percent|trend_format }}</div>
+              <div class="metric-number">{{ metrics.trend_30_translated_percent|trend_format }}</div>
               <div class="metric-text">{% trans "Translated" %}</div>
+              <div class="metric-detail">{{ metrics.trend_60_translated_percent|trend_format }}</div>
             </div>
           </div>
           <div class="col-xs-3">
             <div class="metric">
-              <div class="metric-number">{{ metrics.trend_contributors|trend_format }}</div>
+              <div class="metric-number">{{ metrics.trend_30_contributors|trend_format }}</div>
               <div class="metric-text">{% trans "Contributors" %}</div>
+              <div class="metric-detail">{{ metrics.trend_60_contributors|trend_format }}</div>
             </div>
           </div>
         </div>
