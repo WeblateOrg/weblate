@@ -24,7 +24,7 @@ from django.db.models import Q
 
 
 class MetricQuerySet(models.QuerySet):
-    def get_current(self, scope: int, relation: int, **kwargs):
+    def get_current(self, scope: int, relation: int, secondary: int = 0, **kwargs):
         from weblate.metrics.tasks import collect_metrics
 
         today = date.today()
@@ -33,14 +33,22 @@ class MetricQuerySet(models.QuerySet):
         # Get todays stats
         data = dict(
             self.filter(
-                scope=scope, relation=relation, date=today, **kwargs
+                scope=scope,
+                relation=relation,
+                secondary=secondary,
+                date=today,
+                **kwargs,
             ).values_list("name", "value")
         )
         if not data:
             # Fallback to yesterday in case they are not yet calculated
             data = dict(
                 self.filter(
-                    scope=scope, relation=relation, date=yesterday, **kwargs
+                    scope=scope,
+                    relation=relation,
+                    secondary=secondary,
+                    date=yesterday,
+                    **kwargs,
                 ).values_list("name", "value")
             )
         if (
@@ -51,15 +59,18 @@ class MetricQuerySet(models.QuerySet):
         ):
             # Trigger collection in case no data is present
             collect_metrics()
-            return self.get_current(scope, relation, **kwargs)
+            return self.get_current(scope, relation, secondary, **kwargs)
         return data
 
-    def get_past(self, scope: int, relation: int, delta: int = 30, **kwargs):
+    def get_past(
+        self, scope: int, relation: int, secondary: int = 0, delta: int = 30, **kwargs
+    ):
         return defaultdict(
             int,
             self.filter(
                 scope=scope,
                 relation=relation,
+                secondary=secondary,
                 date=date.today() - timedelta(days=delta),
                 **kwargs,
             ).values_list("name", "value"),

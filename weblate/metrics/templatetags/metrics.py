@@ -22,18 +22,19 @@ from typing import Dict
 from django import template
 
 from weblate.metrics.models import Metric
-from weblate.trans.models import Component, Project, Translation
+from weblate.trans.models import Component, ComponentList, Project, Translation
+from weblate.utils.stats import ProjectLanguage
 
 register = template.Library()
 
 
 class MetricsWrapper:
-    def __init__(self, scope: int, relation: int):
+    def __init__(self, scope: int, relation: int, secondary: int = 0):
         self.scope = scope
         self.relation = relation
-        self.current = Metric.objects.get_current(scope, relation)
-        self.past_30 = Metric.objects.get_past(scope, relation, 30)
-        self.past_60 = Metric.objects.get_past(scope, relation, 60)
+        self.current = Metric.objects.get_current(scope, relation, secondary)
+        self.past_30 = Metric.objects.get_past(scope, relation, secondary, 30)
+        self.past_60 = Metric.objects.get_past(scope, relation, secondary, 60)
 
     @property
     def all_words(self):
@@ -121,4 +122,10 @@ def metrics(obj):
         return MetricsWrapper(Metric.SCOPE_COMPONENT, obj.pk)
     if isinstance(obj, Project):
         return MetricsWrapper(Metric.SCOPE_PROJECT, obj.pk)
+    if isinstance(obj, ComponentList):
+        return MetricsWrapper(Metric.SCOPE_COMPONENT_LIST, obj.pk)
+    if isinstance(obj, ProjectLanguage):
+        return MetricsWrapper(
+            Metric.SCOPE_PROJECT_LANGUAGE, obj.project.id, obj.language.id
+        )
     raise ValueError(f"Unsupported type for metrics: {obj!r}")
