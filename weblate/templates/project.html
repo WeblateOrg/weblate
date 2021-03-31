@@ -3,6 +3,7 @@
 {% load translations %}
 {% load permissions %}
 {% load crispy_forms_tags %}
+{% load metrics %}
 
 {% block breadcrumbs %}
 <li><a href="{{ object.get_absolute_url }}">{{ object }}</a></li>
@@ -156,14 +157,9 @@
 </div>
 
 <div class="tab-pane" id="information">
-
-<table class="table table-striped table-autowidth">
-{% include "project_info.html" %}
-{% include "snippets/license_info.html" %}
-{% include "snippets/stats.html" with stats=object.stats %}
-</table>
-
+  {% include "snippets/info.html" with project=object stats=object.stats metrics=object|metrics %}
 </div>
+
 <div class="tab-pane" id="languages">
 
 {% include "snippets/list-objects.html" with objects=language_stats name_source="language" label=_("Language") project=object global_base=object.stats %}
