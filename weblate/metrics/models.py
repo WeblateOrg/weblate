@@ -25,6 +25,7 @@ from django.db import models
 from django.db.models import Count, Q
 
 from weblate.auth.models import User
+from weblate.lang.models import Language
 from weblate.memory.models import Memory
 from weblate.screenshots.models import Screenshot
 from weblate.trans.models import Change, Component, ComponentList, Project, Translation
@@ -139,6 +140,8 @@ class MetricsManager(models.Manager):
             return self.collect_component_list(obj)
         if isinstance(obj, ProjectLanguage):
             return self.collect_project_language(obj)
+        if isinstance(obj, Language):
+            return self.collect_language(obj)
         raise ValueError(f"Unsupported type for metrics: {obj!r}")
 
     def collect_global(self):
@@ -165,13 +168,15 @@ class MetricsManager(models.Manager):
 
     def collect_project_language(self, project_language: ProjectLanguage):
         project = project_language.project
+        changes = project.change_set.filter(
+            translation__language=project_language.language
+        )
+
         data = {
-            "changes": project.change_set.filter(
-                translation__language=project_language.language,
+            "changes": changes.filter(
                 timestamp__date=date.today() - timedelta(days=1),
             ).count(),
-            "contributors": project.change_set.filter(
-                translation__language=project_language.language,
+            "contributors": changes.filter(
                 timestamp__date__gte=date.today() - timedelta(days=30),
             )
             .values("user")
@@ -316,6 +321,28 @@ class MetricsManager(models.Manager):
         self.create_metrics(data, None, None, Metric.SCOPE_USER, user.pk)
         return data
 
+    def collect_language(self, language: Language):
+        changes = Change.objects.filter(translation__language=language)
+        data = {
+            "changes": changes.filter(
+                timestamp__date=date.today() - timedelta(days=1),
+            ).count(),
+            "contributors": changes.filter(
+                timestamp__date__gte=date.today() - timedelta(days=30),
+            )
+            .values("user")
+            .distinct()
+            .count(),
+        }
+        self.create_metrics(
+            data,
+            language.stats,
+            SOURCE_KEYS,
+            Metric.SCOPE_LANGUAGE,
+            language.pk,
+        )
+        return data
+
 
 class Metric(models.Model):
     SCOPE_GLOBAL = 0
@@ -325,6 +352,7 @@ class Metric(models.Model):
     SCOPE_USER = 4
     SCOPE_COMPONENT_LIST = 5
     SCOPE_PROJECT_LANGUAGE = 6
+    SCOPE_LANGUAGE = 7
 
     date = models.DateField(auto_now_add=True)
     scope = models.SmallIntegerField()

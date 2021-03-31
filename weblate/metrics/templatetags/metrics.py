@@ -21,6 +21,7 @@ from typing import Dict
 
 from django import template
 
+from weblate.lang.models import Language
 from weblate.metrics.models import Metric
 from weblate.trans.models import Component, ComponentList, Project, Translation
 from weblate.utils.stats import ProjectLanguage
@@ -129,4 +130,6 @@ def metrics(obj):
         return MetricsWrapper(
             obj, Metric.SCOPE_PROJECT_LANGUAGE, obj.project.id, obj.language.id
         )
+    if isinstance(obj, Language):
+        return MetricsWrapper(obj, Metric.SCOPE_LANGUAGE, obj.id)
     raise ValueError(f"Unsupported type for metrics: {obj!r}")

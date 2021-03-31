@@ -19,6 +19,7 @@
 from celery.schedules import crontab
 
 from weblate.auth.models import User
+from weblate.lang.models import Language
 from weblate.metrics.models import Metric
 from weblate.trans.models import Component, ComponentList, Project, Translation
 from weblate.utils.celery import app
@@ -38,6 +39,8 @@ def collect_metrics():
         Metric.objects.collect_translation(translation)
     for user in User.objects.filter(is_active=True):
         Metric.objects.collect_user(user)
+    for language in prefetch_stats(Language.objects.all()):
+        Metric.objects.collect_language(language)
 
 
 @app.on_after_finalize.connect

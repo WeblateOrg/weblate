@@ -2,6 +2,7 @@
 {% load i18n %}
 {% load translations %}
 {% load permissions %}
+{% load metrics %}
 
 {% block breadcrumbs %}
 <li><a href="{% url 'languages' %}">{% trans "Languages" %}</a></li>
@@ -45,70 +46,7 @@
 </div>
 
 <div class="tab-pane" id="information">
-
-<table class="table">
-<tr>
-<th>{% trans "Language code" %}</th>
-<td colspan="2">
-{% if user_can_edit_language %}
-<a class="btn btn-primary btn-xs pull-right flip" href="{% url 'edit-language' pk=object.pk %}">{% trans "Edit" %}</a>
-{% endif %}
-{{ object.code }}
-</td>
-</tr>
-{% with object.get_aliases_names as aliases %}
-  {% if aliases %}
-    <tr>
-    <th>{% trans "Aliased language codes" %}</th>
-    <td colspan="2">{{ aliases|join:", " }}</td>
-    </tr>
-  {% endif %}
-{% endwith %}
-<tr>
-<th>{% trans "Text direction" %}</th>
-<td colspan="2">{{ object.get_direction_display }}</td>
-</tr>
-
-{% for plural in object.plural_set.order %}
-<tr class="info">
-<th colspan="3">
-{% if user_can_edit_language %}
-<a class="btn btn-primary btn-xs pull-right flip" href="{% url 'edit-plural' pk=plural.pk %}">{% trans "Edit" %}</a>
-{% endif %}
-{% blocktrans with source_description=plural.get_source_display %}Plural: {{ source_description }}{% endblocktrans %}
-<span class="badge">{% blocktrans count count=plural.translation_set.count %}{{ count }} translation{% plural %}{{ count }} translations{% endblocktrans %}</span>
-</th>
-</tr>
-<tr>
-<th>{% trans "Number of plurals" %}</th>
-<td colspan="2">{{ plural.number }}</td>
-</tr>
-<tr>
-<th>{% trans "Plural type" %}</th>
-<td colspan="2">{{ plural.get_type_display }}</td>
-</tr>
-<tr>
-<th rowspan="{{ plural.number }}">{% trans "Plurals" %}</th>
-{% if plural.number > 1 %}
-{% for item in plural.list_plurals %}
-{% if item.index > 1 %}
-<tr>
-{% endif %}
-<td>{{ item.name }}</td>
-<td>{{ item.examples }}</td>
-</tr>
-{% endfor %}
-{% else %}
-<td colspan="2"></td>
-</tr>
-{% endif %}
-<tr>
-<th>{% trans "Plural formula" %}</th>
-<td colspan="2"><code>{{ plural.formula }}</code></td>
-</tr>
-{% endfor %}
-</table>
-
+  {% include "snippets/info.html" with language=object stats=object.stats metrics=object|metrics %}
 </div>
 
 <div class="tab-pane" id="history">
