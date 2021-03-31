@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-03-25 20:14+0100\n"
-"PO-Revision-Date: 2021-03-21 16:49+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2021-03-31 08:53+0000\n"
+"Last-Translator: Edward Smirnov <ed@microolap.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/"
 "documentation/ru/>\n"
 "Language: ru\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 4.5.2-dev\n"
+"X-Generator: Weblate 4.6-dev\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:180
@@ -35,27 +35,20 @@ msgstr ""
 "и в рамках отдельных его частей."
 
 #: ../../admin/access.rst:11
-#, fuzzy
-#| msgid ""
-#| "Before Weblate 3.0, the privilege system was based on Django, but is now "
-#| "specifically built for Weblate. If you are using anything older, please "
-#| "consult the documentation for the specific version you are using."
 msgid ""
 "Before Weblate 3.0, the privilege system was based on Django privilege "
 "system only, but is specifically built for Weblate now. If using anything "
 "older, please consult the documentation for the specific version you are "
 "using."
 msgstr ""
-"До версии 3.0 система привилегий Weblate была основана на системе привилегий "
-"Django, однако в данный момент она заменена на собственную, созданную "
-"специально для Weblate. Если вы используете более старую версию, то "
-"обратитесь к документации той конкретной версии, которую вы используете."
+"До версии Weblate 3.0 система привилегий базировалась только на системе "
+"привилегий Django, но теперь построена специально для Weblate. Если вы "
+"используете что-то более старое, пожалуйста, обратитесь к документации по "
+"конкретной версии, которую вы используете."
 
 #: ../../admin/access.rst:18
-#, fuzzy
-#| msgid "Tunable access control."
 msgid "Simple access control"
-msgstr "Настраиваемый контроль доступа."
+msgstr "Простой контроль доступа"
 
 #: ../../admin/access.rst:20
 msgid ""
@@ -89,31 +82,26 @@ msgid "Public"
 msgstr "Публичный"
 
 #: ../../admin/access.rst:36
-#, fuzzy
-#| msgid "Publicly visible, translatable for all logged-in users"
 msgid "Publicly visible, translatable for all logged-in users."
 msgstr ""
-"Проект видим для всех и все зарегистрированные пользователи могут переводить"
+"Проект видим для всех, и все зарегистрированные пользователи могут "
+"переводить."
 
 #: ../../admin/access.rst:37
 msgid "Protected"
 msgstr "Защищённый"
 
 #: ../../admin/access.rst:38
-#, fuzzy
-#| msgid "Publicly visible, but translatable only for selected users"
 msgid "Publicly visible, but translatable only for selected users."
-msgstr "Проект видят все, но переводить могут только выбранные пользователи"
+msgstr "Проект видят все, но переводить могут только отдельные пользователи."
 
 #: ../../admin/access.rst:39
 msgid "Private"
 msgstr "Частный"
 
 #: ../../admin/access.rst:40
-#, fuzzy
-#| msgid "Visible and translatable only for selected users"
 msgid "Visible and translatable only for selected users."
-msgstr "Видеть и переводить проект могут только выбранные пользователи"
+msgstr "Видеть и переводить проект могут только отдельные пользователи."
 
 #: ../../admin/access.rst:44
 msgid "Custom"
@@ -134,12 +122,10 @@ msgid ""
 msgstr ""
 
 #: ../../admin/access.rst:52
-#, fuzzy
-#| msgid "Default value can be changed by :setting:`DEFAULT_ACCESS_CONTROL`."
 msgid "The default value can be changed by :setting:`DEFAULT_ACCESS_CONTROL`."
 msgstr ""
-"Значение по умолчанию можно изменить установкой параметра :setting:"
-"`DEFAULT_ACCESS_CONTROL`."
+"Значение по умолчанию можно изменить с помощью "
+":setting:`DEFAULT_ACCESS_CONTROL`."
 
 #: ../../admin/access.rst:56
 msgid ""
@@ -157,21 +143,16 @@ msgid ""
 msgstr ""
 
 #: ../../admin/access.rst:69
-#, fuzzy
-#| msgid ""
-#| "By turning this on, Weblate will remove all :ref:`acl` it has created for "
-#| "this project. If you are doing this without admin permission from the "
-#| "instance, you will instantly lose your access to manage the project."
 msgid ""
 "By turning on `Custom` access control, Weblate will remove all :ref:`special "
 "groups <manage-acl>` it has created for a selected project. If you are doing "
 "this without admin permission for the whole Weblate instance, you will "
 "instantly lose your access to manage the project."
 msgstr ""
-"При включении этого режима Weblate удалит все :ref:`по-проектные списки "
-"контроля доступа <acl>`, которые он создал для этого проекта. Если вы "
-"включаете его, не имея прав администратора, полученных от экземпляра "
-"приложения, вы мгновенно потеряете доступ к управлению проектом."
+"При включённом контроле доступа `Custom`, Weblate удалит все :ref:`special "
+"groups <manage-acl>`, которые он создал для выбранного проекта. Если вы "
+"делаете это без прав администратора для всего экземпляра Weblate, вы "
+"мгновенно потеряете доступ к управлению проектом."
 
 #: ../../admin/access.rst:76
 #, fuzzy
@@ -184,20 +165,15 @@ msgid "Managing per-project access control"
 msgstr "По-проектная настройка доступа"
 
 #: ../../admin/access.rst:83
-#, fuzzy
-#| msgid ""
-#| "Users with the :guilabel:`Manage project access` privilege (see :ref:"
-#| "`privileges`) can also manage users in projects with access control "
-#| "turned on through the project page. The interface allows you to:"
 msgid ""
 "Users with the :guilabel:`Manage project access` privilege (see :ref:"
 "`privileges`) can manage users in projects with non-`Custom` access control. "
 "They can assign users to one of the following groups."
 msgstr ""
-"Пользователи с привилегией :guilabel:`Управление доступом к проекту` "
-"(смотрите раздел :ref:`privileges`) также могут управлять пользователями в "
-"проектах (eсли на странице проекта включён контроль доступа). С помощью "
-"интерфейса вы можете:"
+"Пользователи с привилегией :guilabel:`Управление доступом к проекту` (см. "
+"раздел :ref:`privileges`) также могут управлять пользователями в проектах с "
+"не-`Custom` доступом. Они могут назначать пользователей в одну из следующих "
+"групп."
 
 #: ../../admin/access.rst:87
 msgid "For `Public`, `Protected` and `Private` projects:"
@@ -208,10 +184,8 @@ msgid "Administration"
 msgstr "Администрирование"
 
 #: ../../admin/access.rst:90
-#, fuzzy
-#| msgid "Has all permissions available in the project."
 msgid "Includes all permissions available for the project."
-msgstr "Даёт все разрешения, доступные в проекте."
+msgstr "Включает все разрешения, доступные для проекта."
 
 #: ../../admin/access.rst:93
 msgid "Review (only if :ref:`review workflow <reviews>` is turned on)"
@@ -230,8 +204,6 @@ msgid "Translate"
 msgstr "Перевести"
 
 #: ../../admin/access.rst:98
-#, fuzzy
-#| msgid "Can translate the project, and upload translations made offline."
 msgid "Can translate the project and upload translations made offline."
 msgstr ""
 "Может переводить проект и загружать переводы, сделанные в автономном режиме."
@@ -241,15 +213,12 @@ msgid "Sources"
 msgstr "Источники"
 
 #: ../../admin/access.rst:101
-#, fuzzy
-#| msgid ""
-#| "Can edit source strings in :ref:`monolingual` and source string info."
 msgid ""
 "Can edit source strings (if allowed in the :ref:`project settings <component-"
 "manage_units>`) and source string info."
 msgstr ""
-"Может редактировать исходные строки в :ref:`одноязычных компонентах "
-"<monolingual>` и информацию об исходной строке."
+"Может редактировать исходные строки (если это разрешено в :ref:`настройках "
+"проекта <component-manage_units>`) и информацию об исходной строке."
 
 #: ../../admin/access.rst:105 ../../admin/access.rst:257
 #: ../../admin/access.rst:273 ../../admin/access.rst:384 ../../api.rst:633
@@ -267,8 +236,6 @@ msgid "Glossary"
 msgstr "Глоссарий"
 
 #: ../../admin/access.rst:108
-#, fuzzy
-#| msgid "Can manage glossary (add or remove entries, or upload)."
 msgid "Can manage glossary (add or remove entries, also upload)."
 msgstr ""
 "Может управлять глоссарием (добавлять, удалять или загружать записи в "
@@ -307,13 +274,11 @@ msgstr ""
 
 #: ../../admin/access.rst:121 ../../admin/optionals.rst:63
 msgid "Billing"
-msgstr "Тарифный план"
+msgstr "Биллинг"
 
 #: ../../admin/access.rst:121
-#, fuzzy
-#| msgid "Can access billing info (see :ref:`billing`)."
 msgid "Can access billing info and settings (see :ref:`billing`)."
-msgstr "Имеет доступ к платёжной информации (смотрите раздел :ref:`billing`)."
+msgstr "Имеет доступ к биллингу и его настройкам (см. раздел :ref:`billing`)."
 
 #: ../../admin/access.rst:123
 msgid ""
@@ -338,10 +303,8 @@ msgid ""
 msgstr ""
 
 #: ../../admin/access.rst:140
-#, fuzzy
-#| msgid "Resend invitation"
 msgid "New user invitation"
-msgstr "Послать приглашение заново"
+msgstr "Новое приглашение пользователя"
 
 #: ../../admin/access.rst:142
 msgid ""
@@ -361,16 +324,12 @@ msgid ""
 msgstr ""
 
 #: ../../admin/access.rst:157
-#, fuzzy
-#| msgid ""
-#| "Resend the e-mail for user invitations (invalidating any previously sent "
-#| "invitation)"
 msgid ""
 "It is possible to resend the e-mail for user invitations (invalidating any "
 "previously sent invitation)."
 msgstr ""
-"Повторная отправка приглашения пользователям по электронной почте (при этом "
-"аннулируются все ранее отправленные приглашения)"
+"Есть возможность повторной отправки email с пользовательскими приглашениями ("
+"аннулирование любого ранее отправленного приглашения)."
 
 #: ../../admin/access.rst:160
 msgid ""
@@ -379,23 +338,17 @@ msgid ""
 msgstr ""
 
 #: ../../admin/access.rst:164
-#, fuzzy
-#| msgid "Per project permissions"
 msgid "Per-project permission management"
-msgstr "По-проектные разрешения"
+msgstr "Управление разрешениями для каждого проекта"
 
 #: ../../admin/access.rst:166
-#, fuzzy
-#| msgid ""
-#| "Set your projects to `Protected` or `Private`, and manage users per "
-#| "project in the Weblate interface."
 msgid ""
 "You can set your projects to `Protected` or `Private`, and :ref:`manage "
 "users <manage-acl>` per-project in the Weblate user interface."
 msgstr ""
-"Установите `Защищённый` или `Частный` тип доступа к вашим проектам и "
-"управляйте пользователями отдельно для каждого проекта через интерфейс "
-"Weblate."
+"Установите `Защищённый` или `Частный` тип доступа к вашим проектам и :ref:`"
+"управляйте пользователями <manage-acl>` отдельно для каждого проекта через "
+"интерфейс Weblate."
 
 #: ../../admin/access.rst:169
 msgid ""
@@ -420,20 +373,14 @@ msgid "Custom access control"
 msgstr "Настраиваемый контроль доступа"
 
 #: ../../admin/access.rst:187
-#, fuzzy
-#| msgid ""
-#| "The permission system is based on groups and roles, where roles define a "
-#| "set of permissions, and groups assign them to users and translations, "
-#| "see :ref:`auth-model` for more details."
 msgid ""
 "The permission system is based on groups and roles, where roles define a set "
 "of permissions, and groups link them to users and translations, see :ref:"
 "`auth-model` for more details."
 msgstr ""
-"Система разрешений построена на основе групп и ролей, в которой роли "
-"определяют набор разрешений, а группы назначают их пользователям и "
-"переводчикам, для получения более подробной информации смотрите раздел :ref:"
-"`auth-model`."
+"Система разрешений построена на основе групп и ролей. Роли определяют набор "
+"разрешений, а группы назначают их пользователям и переводчикам. Для "
+"получения более подробной информации см. раздел :ref:`auth-model`."
 
 #: ../../admin/access.rst:191
 msgid ""
@@ -464,10 +411,8 @@ msgid ""
 msgstr ""
 
 #: ../../admin/access.rst:209
-#, fuzzy
-#| msgid "Site wide permissions"
 msgid "Site-wide permission management"
-msgstr "Единый набор разрешений для всего сайта"
+msgstr "Управление разрешениями по всему сайту"
 
 #: ../../admin/access.rst:211
 msgid ""
@@ -554,20 +499,16 @@ msgid ""
 msgstr ""
 
 #: ../../admin/access.rst:252
-#, fuzzy
-#| msgid "`Users`"
 msgid "Group `Users`"
-msgstr "`Пользователи`"
+msgstr "Группа `Пользователи`"
 
 #: ../../admin/access.rst:255 ../../admin/access.rst:271
 msgid "Language selection"
 msgstr "Выбор языка"
 
 #: ../../admin/access.rst:256 ../../admin/access.rst:272
-#, fuzzy
-#| msgid "As defined"
 msgid "`As defined`"
-msgstr "Как задано"
+msgstr "`Как определено`"
 
 #: ../../admin/access.rst:258
 msgid "All but `Czech`"
@@ -578,37 +519,28 @@ msgid "Add a dedicated group for `Czech` translators."
 msgstr ""
 
 #: ../../admin/access.rst:264
-#, fuzzy
-#| msgid "Most active translators"
 msgid "Group `Czech translators`"
-msgstr "Наиболее деятельные переводчики"
+msgstr "Группа `Чешские переводчики`"
 
 #: ../../admin/access.rst:267 ../../admin/access.rst:380 ../../api.rst:564
 msgid "Roles"
 msgstr "Роли"
 
 #: ../../admin/access.rst:268
-#, fuzzy
-#| msgctxt "Access-control role"
-#| msgid "Power user"
 msgid "`Power users`"
-msgstr "Опытный пользователь"
+msgstr "`Опытные пользователи`"
 
 #: ../../admin/access.rst:269
 msgid "Project selection"
 msgstr "Выбор проекта"
 
 #: ../../admin/access.rst:270
-#, fuzzy
-#| msgid "All public projects"
 msgid "`All public projects`"
-msgstr "Все публичные проекты"
+msgstr "`Все публичные проекты`"
 
 #: ../../admin/access.rst:274
-#, fuzzy
-#| msgid "Czech"
 msgid "`Czech`"
-msgstr "Чешский"
+msgstr "`Чешский`"
 
 #: ../../admin/access.rst:278
 msgid "Add users you wish to give the permissions to into this group."
@@ -622,8 +554,6 @@ msgid ""
 msgstr ""
 
 #: ../../admin/access.rst:287
-#, fuzzy
-#| msgid "Users, roles, groups and permissions"
 msgid "Users, roles, groups, and permissions"
 msgstr "Пользователи, роли, группы и разрешения"
 
@@ -722,10 +652,8 @@ msgstr ""
 "`Просматривающие`, смотрите раздел :ref:`default-groups`)."
 
 #: ../../admin/access.rst:330
-#, fuzzy
-#| msgid "Associate project with a component."
 msgid "Access for browse to a component"
-msgstr "Связывает проект с компонентом."
+msgstr "Доступ для просмотра компонента"
 
 #: ../../admin/access.rst:332
 #, fuzzy
@@ -1511,10 +1439,8 @@ msgstr ""
 "компонентов."
 
 #: ../../admin/addons.rst:26
-#, fuzzy
-#| msgid "Backup process triggered"
 msgid "It is triggered:"
-msgstr "Запущен процесс создания резервной копии"
+msgstr "Сработало:"
 
 #: ../../admin/addons.rst:28
 #, fuzzy
@@ -5228,24 +5154,16 @@ msgid "Right now this controls:"
 msgstr ""
 
 #: ../../admin/config.rst:203
-#, fuzzy
-#| msgid ""
-#| "Auto-translate the newly added strings with :ref:`addon-weblate."
-#| "autotranslate.autotranslate`."
 msgid ":ref:`addon-weblate.autotranslate.autotranslate` addon"
-msgstr ""
-"Автоматически переводите новые добавленные строки с помощью надстройки :ref:"
-"`addon-weblate.autotranslate.autotranslate`."
+msgstr ":ref:`addon-weblate.autotranslate.autotranslate.autotranslate` addon"
 
 #: ../../admin/config.rst:204
 msgid ":doc:`checks` recalculation"
 msgstr ""
 
 #: ../../admin/config.rst:206
-#, fuzzy
-#| msgid "Possible configuration"
 msgid "Possible choices:"
-msgstr "Возможная конфигурация"
+msgstr "Возможные варианты:"
 
 #: ../../admin/config.rst:208
 msgid "``monthly`` (this is the default)"
@@ -5543,10 +5461,8 @@ msgid "Celery scheduler data, see :ref:`celery`."
 msgstr "Перезапустите рабочий процесс celery (смотрите раздел :ref:`celery`)."
 
 #: ../../admin/config.rst:381
-#, fuzzy
-#| msgid ":file:`ssh`"
 msgid ":file:`fonts`:"
-msgstr ":file:`ssh`"
+msgstr ":file:`fonts`:"
 
 #: ../../admin/config.rst:381
 msgid "User-uploaded  fonts, see :ref:`fonts`."
@@ -5749,10 +5665,8 @@ msgstr ""
 "умолчанию равен ``noreply@weblate.org``."
 
 #: ../../admin/config.rst:538
-#, fuzzy
-#| msgid "Configures :setting:`DEFAULT_COMMITER_NAME`."
 msgid ":setting:`DEFAULT_COMMITER_NAME`"
-msgstr "Настраивает параметр :setting:`DEFAULT_COMMITER_NAME`."
+msgstr ":setting:`DEFAULT_COMMITER_NAME`"
 
 #: ../../admin/config.rst:543
 msgid "DEFAULT_COMMITER_NAME"
@@ -5769,10 +5683,8 @@ msgstr ""
 "``Weblate``."
 
 #: ../../admin/config.rst:551
-#, fuzzy
-#| msgid "Configures :setting:`DEFAULT_COMMITER_EMAIL`."
 msgid ":setting:`DEFAULT_COMMITER_EMAIL`"
-msgstr "Настраивает параметр :setting:`DEFAULT_COMMITER_EMAIL`."
+msgstr ":setting:`DEFAULT_COMMITER_EMAIL`"
 
 #: ../../admin/config.rst:556
 msgid "DEFAULT_LANGUAGE"
@@ -5958,10 +5870,8 @@ msgid "GET_HELP_URL"
 msgstr ""
 
 #: ../../admin/config.rst:685
-#, fuzzy
-#| msgid "URL where your Weblate instance is configured"
 msgid "URL where support for your Weblate instance can be found."
-msgstr "URL, на котором настроен ваш экземпляр Weblate"
+msgstr "URL, где можно найти поддержку для вашего экземпляра Weblate."
 
 #: ../../admin/config.rst:690
 msgid "GITLAB_CREDENTIALS"
@@ -7791,14 +7701,11 @@ msgstr ""
 "источников."
 
 #: ../../admin/continuous.rst:55
-#, fuzzy
-#| msgid ""
-#| "Use :ref:`hooks` to integrate with most of common code hosting services"
 msgid ""
 "Use :ref:`hooks` to integrate with most of common code hosting services:"
 msgstr ""
-"Для интеграции с большинством распространённых сервисов хостинга кода "
-"используйте :ref:`обработчики уведомлений <hooks>`"
+"Используйте :ref:`hooks` для интеграции с большинством распространённых "
+"сервисов хостинга исходного кода:"
 
 #: ../../admin/continuous.rst:57 ../../api.rst:2358
 msgid ":ref:`github-setup`"
@@ -8179,13 +8086,13 @@ msgid ""
 "`GitHub`, :guilabel:`GitLab`, :guilabel:`Gerrit` or :guilabel:`Pagure` as :"
 "ref:`component-vcs` in :ref:`component`."
 msgstr ""
-"Если вам не хотите отправлять изменения из Weblate напрямую, то "
+"Если вы не хотите отправлять изменения из Weblate напрямую, то "
 "поддерживается также создание запросов на извлечение для :ref:`GitHub’а <vcs-"
-"github>`, :ref:`GitLab’а <vcs-gitlab>`, :ref:`vcs-pagure` или рецензий :ref:"
-"`vcs-gerrit`. Вы можете активировать их, выбрав в :ref:`конфигурациях "
+"github>`, :ref:`GitLab’а <vcs-gitlab>`, :ref:`vcs-pagure` или рецензий :ref"
+":`vcs-gerrit`. Вы можете активировать их, выбрав в :ref:`конфигурациях "
 "компонента <component>` в качестве :ref:`системы контроля версий <component-"
-"vcs>` :guilabel:`GitHub`, :guilabel:`GitLab` или :guilabel:`Gerrit` или :"
-"guilabel:`Pagure` соответственно."
+"vcs>` :guilabel:`GitHub`, :guilabel:`GitLab` или :guilabel:`Gerrit` или "
+":guilabel:`Pagure` соответственно."
 
 #: ../../admin/continuous.rst:291
 msgid "Overall, following options are available with Git, GitHub and GitLab:"
@@ -8739,8 +8646,8 @@ msgid ""
 "Add its fully-qualified path to the Python class in the dedicated settings (:"
 "setting:`WEBLATE_ADDONS`, :setting:`CHECK_LIST` or :setting:`AUTOFIX_LIST`):"
 msgstr ""
-"Добавьте полное имя его класса Python в список соответствующего параметра (:"
-"setting:`WEBLATE_ADDONS`, :setting:`CHECK_LIST` или :setting:`AUTOFIX_LIST`):"
+"Добавьте полное имя класса Python в настройки (:setting:`WEBLATE_ADDONS`, "
+":setting:`CHECK_LIST` или :setting:`AUTOFIX_LIST`):"
 
 #: ../../admin/customize.rst:139
 msgid ""
@@ -11983,16 +11890,12 @@ msgid "Configures :setting:`LICENSE_FILTER`."
 msgstr "Настраивает параметр :setting:`LICENSE_FILTER`."
 
 #: ../../admin/install/docker.rst:592
-#, fuzzy
-#| msgid "Configures :setting:`LICENSE_FILTER`."
 msgid "Configures :setting:`LICENSE_REQUIRED`"
-msgstr "Настраивает параметр :setting:`LICENSE_FILTER`."
+msgstr "Настройка :setting:`LICENSE_FILTER`"
 
 #: ../../admin/install/docker.rst:596
-#, fuzzy
-#| msgid "Configures :setting:`DEFAULT_AUTO_WATCH`."
 msgid "Configures :setting:`WEBSITE_REQUIRED`"
-msgstr "Настраивает параметр :setting:`DEFAULT_AUTO_WATCH`."
+msgstr "Настройка :setting:`DEFAULT_AUTO_WATCH`"
 
 #: ../../admin/install/docker.rst:600
 msgid "Configures :setting:`HIDE_VERSION`."
@@ -15128,9 +15031,7 @@ msgstr ""
 
 #: ../../admin/management.rst:437
 msgid "To give you some examples, let's try importing two projects."
-msgstr ""
-"Чтобы привести вам несколько примеров, давайте попробуем импортировать два "
-"проекта."
+msgstr "Для примера давайте попробуем импортировать два проекта."
 
 #: ../../admin/management.rst:439
 msgid ""
@@ -16015,10 +15916,8 @@ msgid "Following content is sent to Akismet for checking:"
 msgstr ""
 
 #: ../../admin/optionals.rst:200
-#, fuzzy
-#| msgid "Defines permissions for non-authenticated users."
 msgid "Suggestions from unauthenticated users"
-msgstr "Определяет разрешения для неаутентифицированных пользователей."
+msgstr "Предложения от неаутентифицированных пользователей"
 
 #: ../../admin/optionals.rst:201
 #, fuzzy
@@ -16535,7 +16434,7 @@ msgstr "Название проекта"
 
 #: ../../admin/projects.rst:126
 msgid "Verbose project name, used to display the project name."
-msgstr "Подробное наименование проекта, используемое для его отображения."
+msgstr "Более подробное наименование проекта для отображения."
 
 #: ../../admin/projects.rst:131
 msgid "URL slug"
@@ -17322,7 +17221,7 @@ msgid ""
 "remove existing ones. Adjust this to match your localization workflow - how "
 "the new strings are supposed to be introduced."
 msgstr ""
-"Настраивает, смогут ли пользователи добавлять новые строки и удалять "
+"Настраивает, могут ли пользователи добавлять новые строки и удалять "
 "существующие из Weblate. В зависимости от вашего рабочего процесса (как "
 "именно должны добавляться новые строки) вы можете включить этот параметр или "
 "оставить отключённым."
@@ -18250,10 +18149,8 @@ msgstr ""
 "использовать и без интеграции."
 
 #: ../../admin/support.rst:55
-#, fuzzy
-#| msgid "Register in Weblate"
 msgid "Discover Weblate"
-msgstr "Зарегистрироваться в Weblate"
+msgstr "Освойте Weblate"
 
 #: ../../admin/support.rst:61
 #, fuzzy
@@ -21771,10 +21668,8 @@ msgid "Several performance improvements."
 msgstr "Улучшения производительности."
 
 #: ../../changes.rst:15
-#, fuzzy
-#| msgid ":ref:`funding-weblate`"
 msgid "Added integration with :ref:`discover-weblate`."
-msgstr ":ref:`funding-weblate`"
+msgstr "Добавлена интеграция с :ref:`discover-weblate`."
 
 #: ../../changes.rst:16
 #, fuzzy
@@ -21806,10 +21701,8 @@ msgid "Extend metrics usage to improve performance of several pages."
 msgstr ""
 
 #: ../../changes.rst:25
-#, fuzzy
-#| msgid "Project source language code (optional)"
 msgid "Store correct source language in TMX files."
-msgstr "Код исходного языка проекта (необязательный)"
+msgstr "Правильный исходный язык в файлах TMX."
 
 #: ../../changes.rst:26
 #, fuzzy
@@ -21857,10 +21750,8 @@ msgid ""
 msgstr ""
 
 #: ../../changes.rst:34
-#, fuzzy
-#| msgid "Improved performance of loading translation files."
 msgid "Improved interface for customizing translation-file downloads"
-msgstr "Улучшена производительность загрузки файлов перевода."
+msgstr "Улучшенный интерфейс для настройки загрузки переводческих файлов"
 
 #: ../../changes.rst:37
 msgid "Weblate 4.5"
@@ -28255,20 +28146,16 @@ msgid "Translating Weblate"
 msgstr "Перевод Weblate"
 
 #: ../../contributing/index.rst:22
-#, fuzzy
-#| msgid ""
-#| "Weblate is being `translated <https://hosted.weblate.org/>`_ using "
-#| "Weblate itself, feel free to take part in the effort of making Weblate "
-#| "available in as many human languages as possible."
 msgid ""
 "Weblate is continually being `translated <https://hosted.weblate.org/>`_ "
 "using Weblate itself. Feel free to take your part in the effort of making "
 "Weblate available in as many human languages as possible. It brings Weblate "
 "closer to its users!"
 msgstr ""
-"Weblate `переводится <https://hosted.weblate.org/>`_ с помощью самого себя, "
-"не стесняйтесь принимать участие в работе по обеспечению доступности Weblate "
-"на максимально возможном количестве человеческих языков."
+"Weblate непрерывно `переводится <https://hosted.weblate.org/>`_ с "
+"использованием самого Weblate. Не стесняйтесь принять участие в усилиях, "
+"направленных на то, чтобы сделать Weblate доступным на как можно большем "
+"количестве человеческих языков. Это приближает Weblate к пользователям!"
 
 #: ../../contributing/index.rst:26
 msgid ""
@@ -28666,16 +28553,12 @@ msgid "Reporting issues in Weblate"
 msgstr "Сообщение о проблемах в Weblate’е"
 
 #: ../../contributing/issues.rst:6
-#, fuzzy
-#| msgid ""
-#| "Our `issue tracker <https://github.com/WeblateOrg/weblate/issues>`_ is "
-#| "hosted at GitHub:"
 msgid ""
 "Weblate `issue tracker <https://github.com/WeblateOrg/weblate/issues>`_ is "
 "hosted at GitHub."
 msgstr ""
-"Наша `система отслеживания проблем <https://github.com/WeblateOrg/weblate/"
-"issues>`_ размещена на GitHub’е:"
+"Weblate `issue tracker <https://github.com/WeblateOrg/weblate/issues>` на "
+"GitHub."
 
 #: ../../contributing/issues.rst:8
 #, fuzzy
@@ -29849,22 +29732,16 @@ msgstr ""
 "выбрать уже существующее:"
 
 #: ../../contributing/start.rst:138
-#, fuzzy
-#| msgid ""
-#| "Don't forget to install the dependencies once the interpreter is set: you "
-#| "can do it, either through the console (the console from the IDE will "
-#| "directly use your virtualenv by default), or through the interface when "
-#| "you get a warning about missing dependencies."
 msgid ""
 "Don't forget to install the dependencies once the interpreter is set: Either "
 "through the console (the console from the IDE will directly use your "
 "virtualenv by default), or through the interface when you get a warning "
 "about missing dependencies."
 msgstr ""
-"Не забывайте установить зависимости после того, как интерпретатор будет "
-"установлен: вы можете сделать это или через консоль (консоль в IDE будет "
-"использовать ваше виртуальное окружение по умолчанию), или через интерфейс, "
-"когда вы получите предупреждение об отсутствующих зависимостях."
+"Не забудьте установить зависимости после установки интерпретатора: Либо "
+"через консоль (по умолчанию консоль IDE будет напрямую использовать ваш "
+"virtualenv), либо через интерфейс, когда вы получите предупреждение о "
+"пропущенных зависимостях."
 
 #: ../../contributing/start.rst:143
 #, fuzzy
@@ -34366,16 +34243,12 @@ msgstr ""
 "ошибок. Выберите :guilabel:`CSV-файл` в качестве формата."
 
 #: ../../formats.rst:1043
-#, fuzzy
-#| msgid ""
-#| "Files with two fields—source and translation (in this order), choose :"
-#| "guilabel:`Simple CSV file` as a file format"
 msgid ""
 "Files with two fields—source and translation (in this order). Choose :"
 "guilabel:`Simple CSV file` as a file format."
 msgstr ""
-"Файлы с двумя полями — источником и переводом (в этом порядке), для этого в "
-"качестве формата файла выберите :guilabel:`Простой CSV файл`"
+"Файлы с двумя полями - источник и перевод (в данном порядке). Выберите "
+":guilabel:`Простой CSV-файл` в качестве формата файла."
 
 #: ../../formats.rst:1045
 #, fuzzy
@@ -35976,10 +35849,8 @@ msgstr ""
 "sprintf>`_"
 
 #: ../../user/checks.rst:447
-#, fuzzy
-#| msgid "File format"
 msgid "Scheme format"
-msgstr "Формат файла"
+msgstr "Формат схемы"
 
 #: ../../user/checks.rst:449
 #, fuzzy
@@ -37021,11 +36892,6 @@ msgid ""
 msgstr ""
 
 #: ../../user/files.rst:25
-#, fuzzy
-#| msgid ""
-#| "You can also download the translation converted into one of widely used "
-#| "localization formats. The converted files will be enriched with data "
-#| "provided in Weblate such as additional context, comments or flags."
 msgid ""
 "You can also download the translation converted into one of the widely used "
 "localization formats. The converted files will be enriched with data "
@@ -37033,10 +36899,11 @@ msgid ""
 "file formats are available via the :guilabel:`Files` ↓ :guilabel:`Customize "
 "download` menu:"
 msgstr ""
-"Также вы можете скачать перевод, преобразованный в один из широко "
-"распространённых форматов локализации. Преобразованные файлы будут обогащены "
-"данными, предоставленными Weblate, такими как дополнительный контекст, "
-"комментарии или флаги."
+"Вы также можете скачать перевод, преобразованный в один из широко "
+"используемых форматов локализации. Преобразованные файлы будут обогащены "
+"данными, предоставленными в Weblate, такими как дополнительный контекст, "
+"комментарии или флаги. Несколько форматов файлов доступны через меню "
+":guilabel:`Files` ↓ :guilabel:`Настройка загрузки`:"
 
 #: ../../user/files.rst:30
 msgid "gettext PO"
@@ -37051,10 +36918,8 @@ msgid "XLIFF 1.1"
 msgstr "XLIFF 1.1"
 
 #: ../../user/files.rst:33
-#, fuzzy
-#| msgid "TermBase eXchange file"
 msgid "TermBase eXchange"
-msgstr "Файл TermBase eXchange"
+msgstr "TermBase eXchange"
 
 #: ../../user/files.rst:34
 #, fuzzy
@@ -37512,7 +37377,8 @@ msgstr ""
 #: ../../user/profile.rst:32
 msgid "You can switch to different views using the navigation tabs."
 msgstr ""
-"При помощи вкладок навигации вы можете переключиться на другие представления."
+"Вы можете переключаться на различные представления с помощью вкладок "
+"навигации."
 
 #: ../../user/profile.rst:36
 msgid "The menu has these options:"
@@ -37651,7 +37517,7 @@ msgid ""
 "translating. An example can be seen in the following image, where the Hebrew "
 "language is shown as secondarily:"
 msgstr ""
-"Вы можете определить вспомогательные языки, которые будут вам показываться "
+"Вы можете определить дополнительные языки, которые будут вам показываться "
 "при переводе для ориентира. Пример показан на следующем рисунке, на котором "
 "вспомогательным языком выбран иврит:"
 
@@ -38539,14 +38405,6 @@ msgstr ""
 "английского."
 
 #: ../../user/translating.rst:134
-#, fuzzy
-#| msgid ""
-#| "Weblate has full support for each of these forms, in each respective "
-#| "language by translating every plural separately. The number of fields and "
-#| "how it is used in the translated application depends on the configured "
-#| "plural formula. Weblate shows the basic information, but you can find a "
-#| "more detailed description in the `Language Plural Rules`_ by the Unicode "
-#| "Consortium."
 msgid ""
 "Weblate has full support for each of these forms, in each respective "
 "language (by translating every plural separately). The number of fields and "
@@ -38556,11 +38414,11 @@ msgid ""
 "description."
 msgstr ""
 "Weblate полностью поддерживает каждую из этих форм, на каждом "
-"соответствующем языке, путём отдельного перевода каждой формы множественного "
-"числа. Количество полей и способ их использования в переводе зависит от "
-"настроенной формулы множественного числа. Weblate показывает только основную "
-"информацию, но вы можете найти более подробное описание в `языковых правилах "
-"для форм множественного числа`_ от Консорциума Юникода."
+"соответствующем языке (переводя каждое множественное число отдельно). "
+"Количество полей и как они, в свою очередь, используются в переведенной "
+"заявке или проекте, зависит от настроенной формулы множественного числа. "
+"Weblate показывает основную информацию. `Правила Множественного Языка`_ "
+"Консорциума Unicode содержат более подробное описание."
 
 #: ../../user/translating.rst:144
 msgid ":ref:`plural-formula`"
@@ -39190,14 +39048,10 @@ msgstr ""
 "все найденные строки обновляются. Поддерживаются следующие операции:"
 
 #: ../../user/translating.rst:382
-#, fuzzy
-#| msgid ""
-#| "Changing string state (for example to approve all strings waiting for "
-#| "review)"
 msgid "Changing string state (for example to approve all unreviewed strings)."
 msgstr ""
-"Изменение состояния строки (например, для одобрения всех строк, находящихся "
-"на рецензировании)"
+"Изменение состояния строки (например, для утверждения всех нерецензируемых "
+"строк)."
 
 #: ../../user/translating.rst:383
 msgid "Adjust translation flags (see :ref:`custom-checks`)"
@@ -40576,11 +40430,8 @@ msgid "Suggestions are stored in Weblate only and not in the translation file."
 msgstr "Предложения хранятся только в Weblate, а не в файле перевода."
 
 #: ../../workflows.rst:49
-#, fuzzy
-#| msgid "These are the choices presented when uploading translation files:"
 msgid "The states are represented in the translation files when possible."
-msgstr ""
-"При загрузке файлов перевода вы можете выбирать из следующих вариантов:"
+msgstr "Состояния по возможности представлены в файлах перевода."
 
 #: ../../workflows.rst:53
 msgid ""
@@ -40590,10 +40441,8 @@ msgid ""
 msgstr ""
 
 #: ../../workflows.rst:59
-#, fuzzy
-#| msgid ":ref:`privileges`, :ref:`workflows`"
 msgid ":ref:`fmt_capabs`, :ref:`workflows`"
-msgstr ":ref:`privileges`, :ref:`workflows`"
+msgstr ":ref:`fmt_capabs`, :ref:`workflows`"
 
 #: ../../workflows.rst:64
 msgid "Direct translation"
@@ -40855,10 +40704,8 @@ msgstr ""
 "отредактировать их в исходном коде, либо удалить эту метку."
 
 #: ../../workflows.rst:259
-#, fuzzy
-#| msgid ":ref:`bimono`, :ref:`reviews`, :ref:`labels`"
 msgid ":ref:`bimono`, :ref:`reviews`, :ref:`labels`, :ref:`user-comments`"
-msgstr ":ref:`bimono`, :ref:`reviews`, :ref:`labels`"
+msgstr ":ref:`bimono`, :ref:`reviews`, :ref:`labels`, :ref:`user-comments`"
 
 #~ msgid "Not yet released."
 #~ msgstr "Ещё не выпущен."
