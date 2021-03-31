@@ -497,9 +497,6 @@ class Translation(
     @transaction.atomic
     def commit_pending(self, reason, user, skip_push=False, force=False, signals=True):
         """Commit any pending changes."""
-        if not force and not self.needs_commit():
-            return False
-
         # Commit template first
         if (
             not self.is_source
@@ -509,6 +506,9 @@ class Translation(
             self.component.source_translation.commit_pending(
                 reason, user, skip_push=skip_push, force=force, signals=signals
             )
+
+        if not force and not self.needs_commit():
+            return False
 
         self.log_info("committing pending changes (%s)", reason)
 

@@ -6,6 +6,7 @@ Not yet released.
 * Fixed metrics collection.
 * Fixed possible crash when adding strings.
 * Improved search query examples.
+* Fixed possible loss of newly added strings on replace upload.
 
 Weblate 4.5.2
 -------------
