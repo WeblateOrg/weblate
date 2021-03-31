@@ -1,4 +1,4 @@
-/*! @sentry/browser 6.2.3 (dbb243c) | https://github.com/getsentry/sentry-javascript */
+/*! @sentry/browser 6.2.4 (40eab2e) | https://github.com/getsentry/sentry-javascript */
 var Sentry = (function (exports) {
     /*! *****************************************************************************
     Copyright (c) Microsoft Corporation. All rights reserved.
@@ -4306,7 +4306,7 @@ var Sentry = (function (exports) {
         hub.bindClient(client);
     }
 
-    var SDK_VERSION = '6.2.3';
+    var SDK_VERSION = '6.2.4';
 
     var originalFunctionToString;
     /** Patch toString calls to return proper name for wrapped functions */
@@ -4918,6 +4918,11 @@ var Sentry = (function (exports) {
         return event;
     }
 
+    var CATEGORY_MAPPING = {
+        event: 'error',
+        transaction: 'transaction',
+        session: 'session',
+    };
     /** Base Transport class implementation */
     var BaseTransport = /** @class */ (function () {
         function BaseTransport(options) {
@@ -4964,14 +4969,15 @@ var Sentry = (function (exports) {
         /**
          * Gets the time that given category is disabled until for rate limiting
          */
-        BaseTransport.prototype._disabledUntil = function (category) {
+        BaseTransport.prototype._disabledUntil = function (requestType) {
+            var category = CATEGORY_MAPPING[requestType];
             return this._rateLimits[category] || this._rateLimits.all;
         };
         /**
          * Checks if a category is rate limited
          */
-        BaseTransport.prototype._isRateLimited = function (category) {
-            return this._disabledUntil(category) > new Date(Date.now());
+        BaseTransport.prototype._isRateLimited = function (requestType) {
+            return this._disabledUntil(requestType) > new Date(Date.now());
         };
         /**
          * Sets internal _rateLimits from incoming headers. Returns true if headers contains a non-empty rate limiting header.
@@ -5070,10 +5076,15 @@ var Sentry = (function (exports) {
      * Safari:  resource blocked by content blocker
      */
     function getNativeFetchImplementation() {
+        /* eslint-disable @typescript-eslint/unbound-method */
         var _a, _b;
-        // Make sure that the fetch we use is always the native one.
+        // Fast path to avoid DOM I/O
         var global = getGlobalObject();
+        if (isNativeFetch(global.fetch)) {
+            return global.fetch.bind(global);
+        }
         var document = global.document;
+        var fetchImpl = global.fetch;
         // eslint-disable-next-line deprecation/deprecation
         if (typeof ((_a = document) === null || _a === void 0 ? void 0 : _a.createElement) === "function") {
             try {
@@ -5081,7 +5092,7 @@ var Sentry = (function (exports) {
                 sandbox.hidden = true;
                 document.head.appendChild(sandbox);
                 if ((_b = sandbox.contentWindow) === null || _b === void 0 ? void 0 : _b.fetch) {
-                    return sandbox.contentWindow.fetch.bind(global);
+                    fetchImpl = sandbox.contentWindow.fetch;
                 }
                 document.head.removeChild(sandbox);
             }
@@ -5089,7 +5100,8 @@ var Sentry = (function (exports) {
                 logger.warn('Could not create sandbox iframe for pure fetch check, bailing to window.fetch: ', e);
             }
         }
-        return global.fetch.bind(global);
+        return fetchImpl.bind(global);
+        /* eslint-enable @typescript-eslint/unbound-method */
     }
     /** `fetch` based transport */
     var FetchTransport = /** @class */ (function (_super) {
