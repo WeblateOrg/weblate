@@ -3,6 +3,7 @@
 {% load translations %}
 {% load crispy_forms_tags %}
 {% load humanize %}
+{% load metrics %}
 
 {% block breadcrumbs %}
 <li><a href="{{ object.get_absolute_url }}">{{ object }}</a></li>
@@ -30,59 +31,7 @@
 </div>
 
 <div class="tab-pane" id="information">
-
-<table class="table table-striped">
-<tr>
-<th>{% trans "Number of components" %}</th>
-<td class="full-cell number">{{ object.components.all|length }}</td>
-</tr>
-
-
-{% if object.stats.source_strings %}
-  <tr>
-    <th>{% trans "Languages" context "Number of used languages" %}</th>
-    <td class="full-cell number">{{ object.stats.languages|intcomma }}</td>
-  </tr>
-
-  <tr>
-    <th>{% trans "Source strings" context "Number of source strings" %}</th>
-    <td class="full-cell number">{{ object.stats.source_strings|intcomma }}</td>
-  </tr>
-
-  <tr>
-    <th>{% trans "Source words" context "Number of source words" %}</th>
-    <td class="full-cell number">{{ object.stats.source_words|intcomma }}</td>
-  </tr>
-
-  <tr>
-    <th>{% trans "Source characters" context "Number of source characters" %}</th>
-    <td class="full-cell number">{{ object.stats.source_chars|intcomma }}</td>
-  </tr>
-{% endif %}
-
-<tr>
-  <th>{% trans "Hosted strings" context "Number of hosted strings" %}</th>
-  <td class="full-cell number">{{ object.stats.all|intcomma }}</td>
-</tr>
-
-<tr>
-  <th>{% trans "Hosted words" context "Number of hosted words" %}</th>
-  <td class="full-cell number">{{ object.stats.all_words|intcomma }}</td>
-</tr>
-
-<tr>
-  <th>{% trans "Hosted characters" context "Number of hosted characters" %}</th>
-  <td class="full-cell number">{{ object.stats.all_chars|intcomma }}</td>
-</tr>
-{% for auto in object.autocomponentlist_set.all %}
-<tr>
-<th>{%if forloop.first%}{% trans "Automatic component list assignment" %}{% endif %}</th>
-<td><code>project ~= {{ auto.project_match }}</code></td>
-<td><code>component ~= {{ auto.component_match }}</code></td>
-</tr>
-{% endfor %}
-</table>
-
+  {% include "snippets/info.html" with componentlist=object stats=object.stats metrics=object|metrics %}
 </div>
 
 </div>

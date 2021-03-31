@@ -68,6 +68,14 @@
           </td>
         </tr>
       {% endif %}
+      {% if componentlist %}
+        {% for auto in componentlist.autocomponentlist_set.all %}
+          <tr>
+            <th>{%if forloop.first%}{% trans "Automatic component list assignment" %}{% endif %}</th>
+            <td><code>project ~= {{ auto.project_match }}, component ~= {{ auto.component_match }}</code></td>
+          </tr>
+        {% endfor %}
+      {% endif %}
 
       {% if component %}
         <tr>
