@@ -60,17 +60,20 @@ class Metric(models.Model):
     SCOPE_COMPONENT = 2
     SCOPE_TRANSLATION = 3
     SCOPE_USER = 4
+    SCOPE_COMPONENT_LIST = 5
+    SCOPE_PROJECT_LANGUAGE = 6
 
     date = models.DateField(auto_now_add=True)
     scope = models.SmallIntegerField()
     relation = models.IntegerField()
+    secondary = models.IntegerField(default=0)
     name = models.CharField(max_length=100)
     value = models.IntegerField(db_index=True)
 
     objects = MetricQuerySet.as_manager()
 
     class Meta:
-        unique_together = (("date", "scope", "relation", "name"),)
+        unique_together = (("date", "scope", "relation", "secondary", "name"),)
 
     def __str__(self):
         return f"<{self.scope}.{self.relation}>:{self.date}:{self.name}={self.value}"
