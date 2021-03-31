@@ -48,7 +48,10 @@ class MetricsWrapper:
 
     @property
     def translated_percent(self):
-        return 100 * self.current["translated"] / self.all
+        total = self.all
+        if not total:
+            return 0
+        return 100 * self.current["translated"] / total
 
     @property
     def contributors(self):
