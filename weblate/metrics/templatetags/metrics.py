@@ -118,9 +118,59 @@ class MetricsWrapper:
             "translated", "all", self.past_30, self.past_60
         )
 
+    @property
+    def projects(self):
+        return self.current["projects"]
+
+    @property
+    def languages(self):
+        return self.current["languages"]
+
+    @property
+    def components(self):
+        return self.current["components"]
+
+    @property
+    def users(self):
+        return self.current["users"]
+
+    @property
+    def trend_30_projects(self):
+        return self.calculate_trend("projects", self.current, self.past_30)
+
+    @property
+    def trend_30_languages(self):
+        return self.calculate_trend("languages", self.current, self.past_30)
+
+    @property
+    def trend_30_components(self):
+        return self.calculate_trend("components", self.current, self.past_30)
+
+    @property
+    def trend_30_users(self):
+        return self.calculate_trend("users", self.current, self.past_30)
+
+    @property
+    def trend_60_projects(self):
+        return self.calculate_trend("projects", self.past_30, self.past_60)
+
+    @property
+    def trend_60_languages(self):
+        return self.calculate_trend("languages", self.past_30, self.past_60)
+
+    @property
+    def trend_60_components(self):
+        return self.calculate_trend("components", self.past_30, self.past_60)
+
+    @property
+    def trend_60_users(self):
+        return self.calculate_trend("users", self.past_30, self.past_60)
+
 
 @register.filter
 def metrics(obj):
+    if obj is None:
+        return MetricsWrapper(obj, Metric.SCOPE_GLOBAL, 0)
     if isinstance(obj, Translation):
         return MetricsWrapper(obj, Metric.SCOPE_TRANSLATION, obj.pk)
     if isinstance(obj, Component):

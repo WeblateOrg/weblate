@@ -7,6 +7,7 @@
 <div class="row">
   <div class="col-md-6">
 
+  {% if language or project or component or translation %}
     <div class="panel panel-default">
       <div class="panel-heading"><h4 class="panel-title">{% trans "Overview" %}</h4></div>
 
@@ -235,6 +236,26 @@
       {% endif %}
       </table>
     </div>
+  {% endif %}
+  {% if top_users %}
+    {# Global stats #}
+    <div class="panel panel-default">
+      <div class="panel-heading"><h4 class="panel-title">{% trans "Most active translators" %}</h4></div>
+      <table class="table">
+        <tbody>
+          {% for u in top_users %}
+            <tr>
+              <td>{{ u.get_user_display_link }}</td>
+              <td class="number">{{ u.translated|intcomma }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      <div class="panel-footer">
+        <a href="{% url "user_list" %}" class="btn btn-primary">{% trans "Browse all users" %}</a>
+      </div>
+    </div>
+  {% endif %}
 
     <div class="panel panel-default">
       <div class="panel-heading"><h4 class="panel-title">{% trans "String statistics" %}</h4></div>
@@ -282,6 +303,78 @@
     </div>
   </div>
   <div class="col-md-6">
+    {% if show_global %}
+      <div class="panel panel-default">
+        <div class="panel-heading"><h4 class="panel-title">{% trans "Global numbers" %}</h4></div>
+        <div class="panel-body">
+          <div class="row">
+            <div class="col-xs-3">
+              <div class="metric">
+                <div class="metric-number">{{ metrics.projects|intcomma }}</div>
+                <div class="metric-text">{% trans "Projects" %}</div>
+              </div>
+            </div>
+            <div class="col-xs-3">
+              <div class="metric">
+                <div class="metric-number">{{ metrics.languages|intcomma }}</div>
+                <div class="metric-text">{% trans "Languages" %}</div>
+              </div>
+            </div>
+            <div class="col-xs-3">
+              <div class="metric">
+                <div class="metric-number">{{ metrics.components|intcomma }}</div>
+                <div class="metric-text">{% trans "Components" %}</div>
+              </div>
+            </div>
+            <div class="col-xs-3">
+              <div class="metric">
+                <div class="metric-number">{{ metrics.users|intcomma }}</div>
+                <div class="metric-text">{% trans "Users" %}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <span class="pull-right flip">{% trans "and previous 30 days" %}</span>
+          <h4 class="panel-title">{% trans "Trends of last 30 days" %}</h4>
+        </div>
+        <div class="panel-body">
+          <div class="row">
+            <div class="col-xs-3">
+              <div class="metric">
+                <div class="metric-number">{{ metrics.trend_30_projects|trend_format }}</div>
+                <div class="metric-text">{% trans "Projects" %}</div>
+                <div class="metric-detail">{{ metrics.trend_60_projects|trend_format }}</div>
+              </div>
+            </div>
+            <div class="col-xs-3">
+              <div class="metric">
+                <div class="metric-number">{{ metrics.trend_30_languages|trend_format }}</div>
+                <div class="metric-text">{% trans "Languages" %}</div>
+                <div class="metric-detail">{{ metrics.trend_60_languages|trend_format }}</div>
+              </div>
+            </div>
+            <div class="col-xs-3">
+              <div class="metric">
+                <div class="metric-number">{{ metrics.trend_30_components|trend_format }}</div>
+                <div class="metric-text">{% trans "Components" %}</div>
+                <div class="metric-detail">{{ metrics.trend_60_components|trend_format }}</div>
+              </div>
+            </div>
+            <div class="col-xs-3">
+              <div class="metric">
+                <div class="metric-number">{{ metrics.trend_30_users|trend_format }}</div>
+                <div class="metric-text">{% trans "Users" %}</div>
+                <div class="metric-detail">{{ metrics.trend_60_users|trend_format }}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    {% endif %}
+
     <div class="panel panel-default">
       <div class="panel-heading"><h4 class="panel-title">{% trans "Quick numbers" %}</h4></div>
       <div class="panel-body">
