@@ -16,12 +16,12 @@
         <th>{% trans "Language code" %}</th>
         <td colspan="2" class="full-cell">
         {% if user_can_edit_language %}
-        <a class="btn btn-primary btn-xs pull-right flip" href="{% url 'edit-language' pk=object.pk %}">{% trans "Edit" %}</a>
+        <a class="btn btn-primary btn-xs pull-right flip" href="{% url 'edit-language' pk=language.pk %}">{% trans "Edit" %}</a>
         {% endif %}
-        {{ object.code }}
+        {{ language.code }}
         </td>
         </tr>
-        {% with object.get_aliases_names as aliases %}
+        {% with language.get_aliases_names as aliases %}
           {% if aliases %}
             <tr>
             <th>{% trans "Aliased language codes" %}</th>
@@ -31,10 +31,10 @@
         {% endwith %}
         <tr>
         <th>{% trans "Text direction" %}</th>
-        <td colspan="2">{{ object.get_direction_display }}</td>
+        <td colspan="2">{{ language.get_direction_display }}</td>
         </tr>
 
-        {% for plural in object.plural_set.order %}
+        {% for plural in language.plural_set.order %}
           <tr class="info">
             <th colspan="3">
               {% if user_can_edit_language %}
