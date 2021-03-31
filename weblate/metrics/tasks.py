@@ -17,7 +17,6 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 from datetime import date, timedelta
-from typing import Dict, Optional, Set
 
 from celery.schedules import crontab
 from django.core.cache import cache
@@ -54,32 +53,6 @@ SOURCE_KEYS = BASIC_KEYS | {
 }
 
 
-def create_metrics(
-    data: Dict,
-    stats: Optional[Dict],
-    keys: Set,
-    scope: int,
-    relation: int,
-    secondary: int = 0,
-):
-    if stats is not None:
-        for key in keys:
-            data[key] = getattr(stats, key)
-
-    Metric.objects.bulk_create(
-        [
-            Metric(
-                scope=scope,
-                relation=relation,
-                secondary=secondary,
-                name=name,
-                value=value,
-            )
-            for name, value in data.items()
-        ]
-    )
-
-
 def collect_global():
     stats = GlobalStats()
     data = {
@@ -99,7 +72,7 @@ def collect_global():
         .count(),
         "users": User.objects.count(),
     }
-    create_metrics(data, stats, SOURCE_KEYS, Metric.SCOPE_GLOBAL, 0)
+    Metric.objects.create_metrics(data, stats, SOURCE_KEYS, Metric.SCOPE_GLOBAL, 0)
 
 
 def collect_projects():
@@ -134,7 +107,7 @@ def collect_projects():
                 data["machinery:external"] = value
         cache.delete_many(keys)
 
-        create_metrics(
+        Metric.objects.create_metrics(
             data, project.stats, SOURCE_KEYS, Metric.SCOPE_PROJECT, project.pk
         )
         languages = prefetch_stats(
@@ -155,7 +128,7 @@ def collect_projects():
                 .count(),
             }
 
-            create_metrics(
+            Metric.objects.create_metrics(
                 data,
                 project.stats,
                 SOURCE_KEYS,
@@ -182,7 +155,7 @@ def collect_components():
             .distinct()
             .count(),
         }
-        create_metrics(
+        Metric.objects.create_metrics(
             data, component.stats, SOURCE_KEYS, Metric.SCOPE_COMPONENT, component.pk
         )
 
@@ -201,7 +174,7 @@ def collect_component_lists():
             .distinct()
             .count(),
         }
-        create_metrics(
+        Metric.objects.create_metrics(
             data,
             clist.stats,
             SOURCE_KEYS,
@@ -224,7 +197,7 @@ def collect_translations():
             .distinct()
             .count(),
         }
-        create_metrics(
+        Metric.objects.create_metrics(
             data,
             translation.stats,
             BASIC_KEYS,
@@ -252,7 +225,7 @@ def collect_users():
                 ),
             ),
         )
-        create_metrics(data, None, None, Metric.SCOPE_USER, user.pk)
+        Metric.objects.create_metrics(data, None, None, Metric.SCOPE_USER, user.pk)
 
 
 @app.task(trail=False)

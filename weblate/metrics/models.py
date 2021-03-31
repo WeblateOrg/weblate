@@ -18,6 +18,7 @@
 #
 from collections import defaultdict
 from datetime import date, timedelta
+from typing import Dict, Optional, Set
 
 from django.db import models
 from django.db.models import Q
@@ -77,6 +78,34 @@ class MetricQuerySet(models.QuerySet):
         )
 
 
+class MetricsManager(models.Manager):
+    def create_metrics(
+        self,
+        data: Dict,
+        stats: Optional[Dict],
+        keys: Set,
+        scope: int,
+        relation: int,
+        secondary: int = 0,
+    ):
+        if stats is not None:
+            for key in keys:
+                data[key] = getattr(stats, key)
+
+        self.bulk_create(
+            [
+                Metric(
+                    scope=scope,
+                    relation=relation,
+                    secondary=secondary,
+                    name=name,
+                    value=value,
+                )
+                for name, value in data.items()
+            ]
+        )
+
+
 class Metric(models.Model):
     SCOPE_GLOBAL = 0
     SCOPE_PROJECT = 1
@@ -93,7 +122,7 @@ class Metric(models.Model):
     name = models.CharField(max_length=100)
     value = models.IntegerField(db_index=True)
 
-    objects = MetricQuerySet.as_manager()
+    objects = MetricsManager.from_queryset(MetricQuerySet)()
 
     class Meta:
         unique_together = (("date", "scope", "relation", "secondary", "name"),)
