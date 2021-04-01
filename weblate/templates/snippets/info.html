@@ -281,7 +281,7 @@
       <td class="number"></td>
       <td class="number">{{ stats.all_chars|intcomma }}</td>
       </tr>
-      {% if "source_strings" in stats.basic_keys %}
+      {% if show_source %}
       <tr>
       <th>{% trans "Source" %}</th>
       <td class="number"></td>
