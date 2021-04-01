@@ -28,6 +28,7 @@ from django.contrib.humanize.templatetags.humanize import intcomma
 from django.template.loader import render_to_string
 from django.urls import reverse
 from django.utils import timezone
+from django.utils.formats import number_format as django_number_format
 from django.utils.html import escape
 from django.utils.safestring import mark_safe
 from django.utils.translation import gettext, gettext_lazy, ngettext, pgettext
@@ -889,6 +890,18 @@ def percent_format(number):
     return pgettext("Translated percents", "%(percent)s%%") % {
         "percent": intcomma(percent)
     }
+
+
+@register.filter
+def number_format(number):
+    format_string = "%s"
+    if number > 99999999:
+        number = number // 1000000
+        format_string = "%s M"
+    elif number > 99999:
+        number = number // 1000
+        format_string = "%s k"
+    return format_string % django_number_format(number, force_grouping=True)
 
 
 @register.filter

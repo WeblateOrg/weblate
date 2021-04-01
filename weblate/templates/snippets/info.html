@@ -310,25 +310,25 @@
           <div class="row">
             <div class="col-xs-3">
               <div class="metric">
-                <div class="metric-number">{{ metrics.projects|intcomma }}</div>
+                <div class="metric-number">{{ metrics.projects|number_format }}</div>
                 <div class="metric-text">{% trans "Projects" %}</div>
               </div>
             </div>
             <div class="col-xs-3">
               <div class="metric">
-                <div class="metric-number">{{ metrics.languages|intcomma }}</div>
+                <div class="metric-number">{{ metrics.languages|number_format }}</div>
                 <div class="metric-text">{% trans "Languages" %}</div>
               </div>
             </div>
             <div class="col-xs-3">
               <div class="metric">
-                <div class="metric-number">{{ metrics.components|intcomma }}</div>
+                <div class="metric-number">{{ metrics.components|number_format }}</div>
                 <div class="metric-text">{% trans "Components" %}</div>
               </div>
             </div>
             <div class="col-xs-3">
               <div class="metric">
-                <div class="metric-number">{{ metrics.users|intcomma }}</div>
+                <div class="metric-number">{{ metrics.users|number_format }}</div>
                 <div class="metric-text">{% trans "Users" %}</div>
               </div>
             </div>
@@ -381,13 +381,13 @@
         <div class="row">
           <div class="col-xs-3">
             <div class="metric">
-              <div class="metric-number">{{ metrics.all_words|intcomma }}</div>
+              <div class="metric-number">{{ metrics.all_words|number_format }}</div>
               <div class="metric-text">{% trans "Hosted words" context "Number of hosted words" %}</div>
             </div>
           </div>
           <div class="col-xs-3">
             <div class="metric">
-              <div class="metric-number">{{ metrics.all|intcomma }}</div>
+              <div class="metric-number">{{ metrics.all|number_format }}</div>
               <div class="metric-text">{% trans "Hosted strings" context "Number of hosted strings" %}</div>
             </div>
           </div>
@@ -399,7 +399,7 @@
           </div>
           <div class="col-xs-3">
             <div class="metric">
-              <div class="metric-number">{{ metrics.contributors|intcomma }}</div>
+              <div class="metric-number">{{ metrics.contributors|number_format }}</div>
               <div class="metric-text">{% trans "Contributors" %}</div>
             </div>
           </div>

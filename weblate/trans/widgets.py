@@ -25,13 +25,13 @@ import gi
 from django.conf import settings
 from django.template.loader import render_to_string
 from django.urls import reverse
-from django.utils.formats import number_format
 from django.utils.html import escape
 from django.utils.translation import get_language
 from django.utils.translation import gettext as _
 from django.utils.translation import gettext_lazy, npgettext, pgettext, pgettext_lazy
 
 from weblate.fonts.utils import configure_fontconfig, render_size
+from weblate.trans.templatetags.translations import number_format
 from weblate.trans.util import sort_unicode
 from weblate.utils.site import get_site_url
 from weblate.utils.stats import GlobalStats
@@ -246,17 +246,10 @@ class NormalWidget(BitmapWidget):
     offset = 10
     verbose = gettext_lazy("Big status badge")
 
-    def number_format(self, total):
-        total_format = "%s"
-        if total > 99999:
-            total = (total // 100) / 10
-            total_format = "%sk"
-        return total_format % number_format(total, force_grouping=True)
-
     def get_columns(self):
         return [
             [
-                self.head_template.format(self.number_format(self.total)),
+                self.head_template.format(number_format(self.total)),
                 self.foot_template.format(
                     npgettext(
                         "Label on enage page", "String", "Strings", self.total
@@ -264,7 +257,7 @@ class NormalWidget(BitmapWidget):
                 ),
             ],
             [
-                self.head_template.format(self.number_format(self.languages)),
+                self.head_template.format(number_format(self.languages)),
                 self.foot_template.format(
                     npgettext(
                         "Label on enage page", "Language", "Languages", self.languages
