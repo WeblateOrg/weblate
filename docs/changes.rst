@@ -1,7 +1,7 @@
 Weblate 4.5.3
 -------------
 
-Not yet released.
+Released on April 1st 2021.
 
 * Fixed metrics collection.
 * Fixed possible crash when adding strings.
