@@ -277,6 +277,15 @@
       <td class="number">{{ stats.all_words|intcomma }}</td>
       <td class="number">{{ stats.all_chars|intcomma }}</td>
       </tr>
+      {% if "source_strings" in stats.basic_keys %}
+      <tr>
+      <th>{% trans "Source" %}</th>
+      <td class="number"></td>
+      <td class="number">{{ stats.source_strings|intcomma }}</td>
+      <td class="number">{{ stats.source_words|intcomma }}</td>
+      <td class="number">{{ stats.source_chars|intcomma }}</td>
+      </tr>
+      {% endif %}
       <tr>
       <th>{% trans "Translated" %}</th>
       <td class="number">{{ stats.translated_percent|percent_format }}</td>
