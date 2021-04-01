@@ -876,8 +876,18 @@ def format_commit_author(commit):
 
 @register.filter
 def percent_format(number):
+    if number < 0.1:
+        percent = 0
+    elif number < 1:
+        percent = 1
+    elif number >= 99.999999:
+        percent = 100
+    elif number > 99:
+        percent = 99
+    else:
+        percent = int(number)
     return pgettext("Translated percents", "%(percent)s%%") % {
-        "percent": intcomma(int(number))
+        "percent": intcomma(percent)
     }
 
 
