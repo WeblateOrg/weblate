@@ -77,7 +77,7 @@ class MetricsWrapper:
         return total - past
 
     def calculate_trend(self, key, base: Dict, origin: Dict):
-        total = base[key]
+        total = base.get(key, 0)
         if not total:
             return 0
         return 100 * (total - origin[key]) / total
