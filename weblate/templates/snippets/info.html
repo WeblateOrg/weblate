@@ -292,6 +292,17 @@
       <td class="number">{{ stats.source_chars|intcomma }}</td>
       </tr>
       {% endif %}
+      {% if stats.approved %}
+      <tr>
+      <th>{% trans "Approved" %}</th>
+      <td class="number">{{ stats.approved_percent|percent_format }}</td>
+      <td class="number">{{ stats.approved|intcomma }}</td>
+      <td class="number">{{ stats.approved_words_percent|percent_format }}</td>
+      <td class="number">{{ stats.approved_words|intcomma }}</td>
+      <td class="number">{{ stats.approved_chars_percent|percent_format }}</td>
+      <td class="number">{{ stats.approved_chars|intcomma }}</td>
+      </tr>
+      {% endif %}
       <tr>
       <th>{% trans "Translated" %}</th>
       <td class="number">{{ stats.translated_percent|percent_format }}</td>
