@@ -158,7 +158,25 @@ class BaseStats:
         self._data = data
 
     def get_data(self):
-        return copy(self._data)
+        percents = [
+            "translated_percent",
+            "approved_percent",
+            "fuzzy_percent",
+            "readonly_percent",
+            "allchecks_percent",
+            "translated_checks_percent",
+            "translated_words_percent",
+            "approved_words_percent",
+            "fuzzy_words_percent",
+            "readonly_words_percent",
+            "allchecks_words_percent",
+            "translated_checks_words_percent",
+        ]
+        self.ensure_basic()
+        data = copy(self._data)
+        for percent in percents:
+            data[percent] = self.calculate_percents(percent)
+        return data
 
     @staticmethod
     def prefetch_many(stats):
