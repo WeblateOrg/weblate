@@ -109,6 +109,7 @@ class MetricsManager(models.Manager):
         scope: int,
         relation: int,
         secondary: int = 0,
+        date=None,
     ):
         if stats is not None:
             for key in keys:
@@ -122,11 +123,43 @@ class MetricsManager(models.Manager):
                     secondary=secondary,
                     name=name,
                     value=value,
+                    date=date,
                 )
                 for name, value in data.items()
             ],
             ignore_conflicts=True,
         )
+
+    def calculate_changes(
+        self, date, obj, scope: int, relation: int, secondary: int = 0
+    ):
+        """
+        Calculate changes for given scope and date.
+
+        This is used to fill in blanks in a history.
+        """
+        if obj is None:
+            changes = Change.objects.all()
+        elif isinstance(obj, Translation):
+            changes = obj.change_set.all()
+        elif isinstance(obj, Component):
+            changes = obj.change_set.all()
+        elif isinstance(obj, Project):
+            changes = obj.change_set.all()
+        elif isinstance(obj, ComponentList):
+            changes = Change.objects.filter(component__in=obj.components.all())
+        elif isinstance(obj, ProjectLanguage):
+            changes = obj.project.change_set.filter(translation__language=obj.language)
+        elif isinstance(obj, Language):
+            changes = Change.objects.filter(translation__language=obj)
+        else:
+            raise ValueError(f"Unsupported type for metrics: {obj!r}")
+
+        count = changes.filter(timestamp__date=date).count()
+        self.create_metrics(
+            {"changes": count}, None, set(), scope, relation, secondary, date=date
+        )
+        return count
 
     def collect_auto(self, obj):
         if obj is None:

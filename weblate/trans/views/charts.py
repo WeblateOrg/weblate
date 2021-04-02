@@ -28,6 +28,8 @@ from django.utils.translation import pgettext
 
 from weblate.auth.models import User
 from weblate.lang.models import Language
+from weblate.metrics.models import Metric
+from weblate.metrics.wrapper import MetricsWrapper
 from weblate.trans.models import Change
 from weblate.utils.views import get_percent_color, get_project_translation
 
@@ -183,6 +185,5 @@ def monthly_activity_json(
     user: Optional[str] = None,
 ):
     """Return monthly activity for matching changes as json."""
-    activity = get_activity_stats(request, 52, 1, project, component, lang, user)
-
-    return JsonResponse(data=[item[1] for item in activity], safe=False)
+    metrics = MetricsWrapper(None, Metric.SCOPE_GLOBAL, 0)
+    return JsonResponse(data=metrics.daily_activity, safe=False)

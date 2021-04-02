@@ -17,6 +17,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
+from datetime import date, timedelta
 from typing import Dict
 
 from django.utils.functional import cached_property
@@ -172,3 +173,33 @@ class MetricsWrapper:
     @property
     def trend_60_users(self):
         return self.calculate_trend("users", self.past_30, self.past_60)
+
+    def get_daily_activity(self, start, days):
+        result = dict(
+            Metric.objects.filter(
+                scope=self.scope,
+                relation=self.relation,
+                secondary=self.secondary,
+                date__gte=start - timedelta(days=days),
+                name="changes",
+            ).values_list("date", "value")
+        )
+        for offset in range(days):
+            current = start - timedelta(days=offset)
+            if current not in result:
+                result[current] = Metric.objects.calculate_changes(
+                    date=current,
+                    obj=self.obj,
+                    scope=self.scope,
+                    relation=self.relation,
+                    secondary=self.secondary,
+                )
+        return result
+
+    @cached_property
+    def daily_activity(self):
+        today = date.today()
+        result = [0] * 52
+        for pos, value in self.get_daily_activity(today, 52).items():
+            result[51 - (today - pos).days] = value
+        return result
