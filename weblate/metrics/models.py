@@ -124,7 +124,8 @@ class MetricsManager(models.Manager):
                     value=value,
                 )
                 for name, value in data.items()
-            ]
+            ],
+            ignore_conflicts=True,
         )
 
     def collect_auto(self, obj):
