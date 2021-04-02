@@ -87,10 +87,10 @@ class GitNoVersionRepository(GitRepository):
 class RepositoryTest(TestCase):
     def test_not_supported(self):
         self.assertFalse(NonExistingRepository.is_supported())
-        with self.assertRaises(Exception):
+        with self.assertRaises(FileNotFoundError):
             NonExistingRepository.get_version()
         # Test exception caching
-        with self.assertRaises(Exception):
+        with self.assertRaises(FileNotFoundError):
             NonExistingRepository.get_version()
 
     def test_not_supported_version(self):
