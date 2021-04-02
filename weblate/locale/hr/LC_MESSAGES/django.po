@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.5.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-03-25 19:14+0000\n"
-"PO-Revision-Date: 2021-03-25 15:15+0000\n"
+"PO-Revision-Date: 2021-04-02 13:29+0000\n"
 "Last-Translator: Milo Ivir <mail@milotype.de>\n"
 "Language-Team: Croatian <https://hosted.weblate.org/projects/weblate/"
 "application/hr/>\n"
@@ -21,7 +21,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 4.5.2-dev\n"
+"X-Generator: Weblate 4.6-dev\n"
 
 #: weblate/accounts/avatar.py:103
 msgctxt "No known user"
@@ -3197,16 +3197,12 @@ msgid "Invalid integer list!"
 msgstr "Neispravan popis cijelih brojeva!"
 
 #: weblate/glossary/forms.py:47
-#, fuzzy
-#| msgid "String target language"
 msgid "String will be propagated to all languages"
-msgstr "Ciljni jezik izraza"
+msgstr "Izraz će se dijeliti u svim jezicima"
 
 #: weblate/glossary/forms.py:55
-#, fuzzy
-#| msgid "Not-translatable: %s"
 msgid "Not translatable term"
-msgstr "Neprevodiv izraz: %s"
+msgstr "Neprevodiv pojam"
 
 #: weblate/glossary/forms.py:100
 #: weblate/templates/snippets/component-glossary-badge.html:4
@@ -4014,10 +4010,6 @@ msgid "Registration almost complete"
 msgstr "Registracija je skoro završena"
 
 #: weblate/templates/accounts/email-sent.html:30
-#, fuzzy
-#| msgid ""
-#| "If your e-mail address exists in our database, you will receive further "
-#| "password recovery instructions in your inbox."
 msgid ""
 "If your e-mail address exists in our database, you will receive further "
 "password recovery instructions to your inbox."
@@ -4027,25 +4019,17 @@ msgstr ""
 
 #: weblate/templates/accounts/email-sent.html:31
 #: weblate/templates/accounts/email-sent.html:34
-#, fuzzy
-#| msgid ""
-#| "If the confirmation link expires before you get to use it, request a new "
-#| "one."
 msgid "If the confirmation link expires before you use it, request a new one."
 msgstr ""
 "Ako poveznica za potvrdu istekne prije nego što je upotrijebiš, zatraži novu."
 
 #: weblate/templates/accounts/email-sent.html:33
-#, fuzzy
-#| msgid ""
-#| "Shortly you should receive an e-mail containing a confirmation link. "
-#| "Click it to remove your account."
 msgid ""
 "Shortly, you should receive an e-mail with a confirmation link. Click it to "
 "remove your account."
 msgstr ""
-"Uskoro ćeš primiti e-poštu koja sadrži poveznicu za potvrdu. Klikni je za "
-"uklanjanje tvog računa."
+"Uskoro ćeš primiti e-poštu s poveznicom za potvrdu. Klikni je za uklanjanje "
+"tvog računa."
 
 #: weblate/templates/accounts/email-sent.html:36
 msgid ""
@@ -4056,20 +4040,13 @@ msgstr ""
 "koju smo ti poslali e-poštom."
 
 #: weblate/templates/accounts/email-sent.html:37
-#, fuzzy
-#| msgid ""
-#| "If the confirmation link expires before you get to use it, register again."
 msgid "If the confirmation link expires before you use it, register again."
 msgstr ""
 "Ako poveznica za potvrdu istekne prije nego što je upotrijebiš, registriraj "
 "se ponovo."
 
 #: weblate/templates/accounts/email-sent.html:42
-#, fuzzy, python-format
-#| msgid ""
-#| "If you don't receive it shortly, please check your spam folder or retry "
-#| "the registration. Should the problem persist, please <a href="
-#| "\"%(contact_url)s\">contact us</a>."
+#, python-format
 msgid ""
 "If you don't receive it shortly, please check your spam folder or retry the "
 "registration. If the problem persist, please <a href=\"%(contact_url)s"
@@ -8928,7 +8905,7 @@ msgstr "Ovaj prijevod"
 
 #: weblate/templates/trans/other-row.html:15
 msgid "Propagated"
-msgstr "Preuzeto"
+msgstr "Dijeljeno"
 
 #: weblate/templates/trans/project_form.html:7
 msgid "Create project"
@@ -9132,7 +9109,7 @@ msgstr[2] "Sljedeći izrazi imaju drugačije izvore, ali isti kontekst."
 
 #: weblate/templates/translate.html:343
 msgid "Apply selected translation to all propagated strings"
-msgstr "Primijeni odabrani prijevod na sve preuzete izraze"
+msgstr "Primijeni odabrani prijevod na sve dijeljene izraze"
 
 #: weblate/templates/translate.html:345
 msgid "Apply selected translation to current string"
@@ -10113,10 +10090,8 @@ msgid "Optional context to clarify the source strings."
 msgstr "Opcionalni kontekst za objašnjavanje izvornih izraza."
 
 #: weblate/trans/forms.py:2063
-#, fuzzy
-#| msgid "Entry by the same name already exists."
 msgid "Automatically adjust context when same string already exists."
-msgstr "Zapis s istim imenom već postoji."
+msgstr "Automatski prilagodi kontekst kad isti izraz već postoji."
 
 #: weblate/trans/forms.py:2084
 msgid "You can edit this later, as with any other string in the translation."
@@ -10828,7 +10803,7 @@ msgstr "Zaključana komponenta neće dobiti aktualizirane prijevode."
 
 #: weblate/trans/models/component.py:402
 msgid "Allow translation propagation"
-msgstr "Dopusti preuzimanje prijevoda"
+msgstr "Dopusti dijeljenje prijevoda"
 
 #: weblate/trans/models/component.py:406
 msgid ""
