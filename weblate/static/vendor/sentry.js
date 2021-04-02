@@ -1,4 +1,4 @@
-/*! @sentry/browser 6.2.4 (40eab2e) | https://github.com/getsentry/sentry-javascript */
+/*! @sentry/browser 6.2.5 (1b59574) | https://github.com/getsentry/sentry-javascript */
 var Sentry = (function (exports) {
     /*! *****************************************************************************
     Copyright (c) Microsoft Corporation. All rights reserved.
@@ -2286,11 +2286,16 @@ var Sentry = (function (exports) {
      * performance API is available.
      */
     var browserPerformanceTimeOrigin = (function () {
+        // Unfortunately browsers may report an inaccurate time origin data, through either performance.timeOrigin or
+        // performance.timing.navigationStart, which results in poor results in performance data. We only treat time origin
+        // data as reliable if they are within a reasonable threshold of the current time.
         var performance = getGlobalObject().performance;
         if (!performance) {
             return undefined;
         }
-        if (performance.timeOrigin) {
+        var threshold = 3600 * 1000;
+        var timeOriginIsReliable = performance.timeOrigin && Math.abs(performance.timeOrigin + performance.now() - Date.now()) < threshold;
+        if (timeOriginIsReliable) {
             return performance.timeOrigin;
         }
         // While performance.timing.navigationStart is deprecated in favor of performance.timeOrigin, performance.timeOrigin
@@ -2299,7 +2304,13 @@ var Sentry = (function (exports) {
         // a valid fallback. In the absence of an initial time provided by the browser, fallback to the current time from the
         // Date API.
         // eslint-disable-next-line deprecation/deprecation
-        return (performance.timing && performance.timing.navigationStart) || Date.now();
+        var navigationStart = performance.timing && performance.timing.navigationStart;
+        var hasNavigationStart = typeof navigationStart === 'number';
+        var navigationStartIsReliable = hasNavigationStart && Math.abs(navigationStart + performance.now() - Date.now()) < threshold;
+        if (navigationStartIsReliable) {
+            return navigationStart;
+        }
+        return Date.now();
     })();
 
     /**
@@ -4306,7 +4317,7 @@ var Sentry = (function (exports) {
         hub.bindClient(client);
     }
 
-    var SDK_VERSION = '6.2.4';
+    var SDK_VERSION = '6.2.5';
 
     var originalFunctionToString;
     /** Patch toString calls to return proper name for wrapped functions */
