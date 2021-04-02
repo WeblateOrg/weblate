@@ -432,15 +432,15 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
                 change.timestamp -= timedelta(days=day)
                 change.save()
 
-        # Render activity
-        self.click("Insights")
-        self.click("Activity")
-        time.sleep(0.5)
-        self.screenshot("activity.png")
-
         # Screenshot search
         self.click("Search")
         self.screenshot("search.png")
+
+        # Render activity
+        self.click("Insights")
+        with self.wait_for_page_load():
+            self.click("Statistics")
+        self.screenshot("activity.png")
 
     @override_settings(AUTHENTICATION_BACKENDS=TEST_BACKENDS)
     def test_auth_backends(self):
