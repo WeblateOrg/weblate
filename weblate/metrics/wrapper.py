@@ -19,6 +19,8 @@
 
 from typing import Dict
 
+from django.utils.functional import cached_property
+
 from weblate.metrics.models import Metric
 
 
@@ -27,9 +29,21 @@ class MetricsWrapper:
         self.obj = obj
         self.scope = scope
         self.relation = relation
-        self.current = Metric.objects.get_current(obj, scope, relation, secondary)
-        self.past_30 = Metric.objects.get_past(scope, relation, secondary, 30)
-        self.past_60 = Metric.objects.get_past(scope, relation, secondary, 60)
+        self.secondary = secondary
+
+    @cached_property
+    def current(self):
+        return Metric.objects.get_current(
+            self.obj, self.scope, self.relation, self.secondary
+        )
+
+    @cached_property
+    def past_30(self):
+        return Metric.objects.get_past(self.scope, self.relation, self.secondary, 30)
+
+    @cached_property
+    def past_60(self):
+        return Metric.objects.get_past(self.scope, self.relation, self.secondary, 60)
 
     @property
     def all_words(self):
