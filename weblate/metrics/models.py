@@ -355,7 +355,7 @@ class Metric(models.Model):
     SCOPE_PROJECT_LANGUAGE = 6
     SCOPE_LANGUAGE = 7
 
-    date = models.DateField(auto_now_add=True)
+    date = models.DateField(default=date.today)
     scope = models.SmallIntegerField()
     relation = models.IntegerField()
     secondary = models.IntegerField(default=0)
