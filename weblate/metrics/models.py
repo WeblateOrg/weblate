@@ -16,8 +16,8 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
+import datetime
 from collections import defaultdict
-from datetime import date, timedelta
 from typing import Dict, Optional, Set
 
 from django.core.cache import cache
@@ -56,8 +56,8 @@ SOURCE_KEYS = BASIC_KEYS | {
 
 class MetricQuerySet(models.QuerySet):
     def get_current(self, obj, scope: int, relation: int, secondary: int = 0, **kwargs):
-        today = date.today()
-        yesterday = today - timedelta(days=1)
+        today = datetime.date.today()
+        yesterday = today - datetime.timedelta(days=1)
 
         # Get todays stats
         data = dict(
@@ -80,9 +80,10 @@ class MetricQuerySet(models.QuerySet):
                     **kwargs,
                 ).values_list("name", "value")
             )
-        if not data:
-            # Trigger collection in case no data is present
-            return Metric.objects.collect_auto(obj)
+        if len(data.keys()) <= 1:
+            # Trigger collection in case no data is present or when only
+            # changes are counted
+            data.update(Metric.objects.collect_auto(obj))
         return data
 
     def get_past(
@@ -94,7 +95,7 @@ class MetricQuerySet(models.QuerySet):
                 scope=scope,
                 relation=relation,
                 secondary=secondary,
-                date=date.today() - timedelta(days=delta),
+                date=datetime.date.today() - datetime.timedelta(days=delta),
                 **kwargs,
             ).values_list("name", "value"),
         )
@@ -114,6 +115,8 @@ class MetricsManager(models.Manager):
         if stats is not None:
             for key in keys:
                 data[key] = getattr(stats, key)
+        if date is None:
+            date = datetime.date.today()
 
         self.bulk_create(
             [
@@ -187,10 +190,10 @@ class MetricsManager(models.Manager):
             "memory": Memory.objects.count(),
             "screenshots": Screenshot.objects.count(),
             "changes": Change.objects.filter(
-                timestamp__date=date.today() - timedelta(days=1)
+                timestamp__date=datetime.date.today() - datetime.timedelta(days=1)
             ).count(),
             "contributors": Change.objects.filter(
-                timestamp__date__gte=date.today() - timedelta(days=30)
+                timestamp__date__gte=datetime.date.today() - datetime.timedelta(days=30)
             )
             .values("user")
             .distinct()
@@ -208,10 +211,11 @@ class MetricsManager(models.Manager):
 
         data = {
             "changes": changes.filter(
-                timestamp__date=date.today() - timedelta(days=1),
+                timestamp__date=datetime.date.today() - datetime.timedelta(days=1),
             ).count(),
             "contributors": changes.filter(
-                timestamp__date__gte=date.today() - timedelta(days=30),
+                timestamp__date__gte=datetime.date.today()
+                - datetime.timedelta(days=30),
             )
             .values("user")
             .distinct()
@@ -244,10 +248,10 @@ class MetricsManager(models.Manager):
                 translation__component__project=project
             ).count(),
             "changes": project.change_set.filter(
-                timestamp__date=date.today() - timedelta(days=1)
+                timestamp__date=datetime.date.today() - datetime.timedelta(days=1)
             ).count(),
             "contributors": project.change_set.filter(
-                timestamp__date__gte=date.today() - timedelta(days=30)
+                timestamp__date__gte=datetime.date.today() - datetime.timedelta(days=30)
             )
             .values("user")
             .distinct()
@@ -276,10 +280,10 @@ class MetricsManager(models.Manager):
                 translation__component=component
             ).count(),
             "changes": component.change_set.filter(
-                timestamp__date=date.today() - timedelta(days=1)
+                timestamp__date=datetime.date.today() - datetime.timedelta(days=1)
             ).count(),
             "contributors": component.change_set.filter(
-                timestamp__date__gte=date.today() - timedelta(days=30)
+                timestamp__date__gte=datetime.date.today() - datetime.timedelta(days=30)
             )
             .values("user")
             .distinct()
@@ -294,10 +298,10 @@ class MetricsManager(models.Manager):
         changes = Change.objects.filter(component__in=clist.components.all())
         data = {
             "changes": changes.filter(
-                timestamp__date=date.today() - timedelta(days=1)
+                timestamp__date=datetime.date.today() - datetime.timedelta(days=1)
             ).count(),
             "contributors": changes.filter(
-                timestamp__date__gte=date.today() - timedelta(days=30)
+                timestamp__date__gte=datetime.date.today() - datetime.timedelta(days=30)
             )
             .values("user")
             .distinct()
@@ -316,10 +320,10 @@ class MetricsManager(models.Manager):
         data = {
             "screenshots": translation.screenshot_set.count(),
             "changes": translation.change_set.filter(
-                timestamp__date=date.today() - timedelta(days=1)
+                timestamp__date=datetime.date.today() - datetime.timedelta(days=1)
             ).count(),
             "contributors": translation.change_set.filter(
-                timestamp__date__gte=date.today() - timedelta(days=30)
+                timestamp__date__gte=datetime.date.today() - datetime.timedelta(days=30)
             )
             .values("user")
             .distinct()
@@ -336,7 +340,7 @@ class MetricsManager(models.Manager):
 
     def collect_user(self, user: User):
         data = user.change_set.filter(
-            timestamp__date=date.today() - timedelta(days=1)
+            timestamp__date=datetime.date.today() - datetime.timedelta(days=1)
         ).aggregate(
             changes=Count("id"),
             comments=Count("id", filter=Q(action=Change.ACTION_COMMENT)),
@@ -359,10 +363,11 @@ class MetricsManager(models.Manager):
         changes = Change.objects.filter(translation__language=language)
         data = {
             "changes": changes.filter(
-                timestamp__date=date.today() - timedelta(days=1),
+                timestamp__date=datetime.date.today() - datetime.timedelta(days=1),
             ).count(),
             "contributors": changes.filter(
-                timestamp__date__gte=date.today() - timedelta(days=30),
+                timestamp__date__gte=datetime.date.today()
+                - datetime.timedelta(days=30),
             )
             .values("user")
             .distinct()
@@ -388,7 +393,7 @@ class Metric(models.Model):
     SCOPE_PROJECT_LANGUAGE = 6
     SCOPE_LANGUAGE = 7
 
-    date = models.DateField(default=date.today)
+    date = models.DateField(default=datetime.date.today)
     scope = models.SmallIntegerField()
     relation = models.IntegerField()
     secondary = models.IntegerField(default=0)

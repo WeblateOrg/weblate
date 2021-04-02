@@ -17,12 +17,30 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
+from calendar import monthrange
 from datetime import date, timedelta
 from typing import Dict
 
+from django.core.cache import cache
 from django.utils.functional import cached_property
+from django.utils.translation import pgettext_lazy
 
 from weblate.metrics.models import Metric
+
+MONTH_NAMES = [
+    pgettext_lazy("Short name of month", "Jan"),
+    pgettext_lazy("Short name of month", "Feb"),
+    pgettext_lazy("Short name of month", "Mar"),
+    pgettext_lazy("Short name of month", "Apr"),
+    pgettext_lazy("Short name of month", "May"),
+    pgettext_lazy("Short name of month", "Jun"),
+    pgettext_lazy("Short name of month", "Jul"),
+    pgettext_lazy("Short name of month", "Aug"),
+    pgettext_lazy("Short name of month", "Sep"),
+    pgettext_lazy("Short name of month", "Oct"),
+    pgettext_lazy("Short name of month", "Nov"),
+    pgettext_lazy("Short name of month", "Dec"),
+]
 
 
 class MetricsWrapper:
@@ -202,4 +220,65 @@ class MetricsWrapper:
         result = [0] * 52
         for pos, value in self.get_daily_activity(today, 52).items():
             result[51 - (today - pos).days] = value
+        return result
+
+    @cached_property
+    def cache_key_prefix(self):
+        return f"metrics:{self.scope}:{self.relation}:{self.secondary}"
+
+    def get_month_cache_key(self, year, month):
+        return f"{self.cache_key_prefix}:month:{year}:{month}"
+
+    def get_month_activity(self, year, month, cached_results):
+        cache_key = self.get_month_cache_key(year, month)
+        if cache_key in cached_results:
+            return cached_results[cache_key]
+        numdays = monthrange(year, month)[1]
+        daily = self.get_daily_activity(date(year, month, 1), numdays)
+        result = sum(daily.values())
+        cache.set(cache_key, result, None)
+        return result
+
+    @cached_property
+    def monthly_activity(self):
+        months = []
+        prefetch = []
+        last_month_date = date.today().replace(day=1) - timedelta(days=1)
+        month = last_month_date.month
+        year = last_month_date.year
+        for _dummy in range(12):
+            months.append((year, month))
+            prefetch.append(self.get_month_cache_key(year, month))
+            prefetch.append(self.get_month_cache_key(year - 1, month))
+            month -= 1
+            if month < 1:
+                month = 12
+                year -= 1
+
+        cached_results = cache.get_many(prefetch)
+        result = []
+        for year, month in reversed(months):
+            result.append(
+                {
+                    "month": month,
+                    "year": year,
+                    "previous_year": year - 1,
+                    "month_name": MONTH_NAMES[month - 1],
+                    "current": self.get_month_activity(year, month, cached_results),
+                    "previous": self.get_month_activity(
+                        year - 1, month, cached_results
+                    ),
+                }
+            )
+
+        maximum = max(
+            max(item["current"] for item in result),
+            max(item["previous"] for item in result),
+        )
+        for item in result:
+            item["current_height"] = 140 * item["current"] // maximum
+            item["current_offset"] = 140 - item["current_height"]
+            item["previous_height"] = 140 * item["previous"] // maximum
+            item["previous_offset"] = 140 - item["previous_height"]
+
         return result
