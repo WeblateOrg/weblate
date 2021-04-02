@@ -182,12 +182,12 @@ class Formatter:
         """Highlights glossary entries."""
         for htext, entries in self.terms.items():
             for match in re.finditer(
-                r"\b{}\b".format(re.escape(htext)), self.value, re.IGNORECASE
+                r"(\W|^)({})(\W|$)".format(re.escape(htext)), self.value, re.IGNORECASE
             ):
-                self.tags[match.start()].append(
+                self.tags[match.start(2)].append(
                     GLOSSARY_TEMPLATE.format(self.format_terms(entries))
                 )
-                self.tags[match.end()].insert(0, "</span>")
+                self.tags[match.end(2)].insert(0, "</span>")
 
     def parse_search(self):
         """Highlights search matches."""
