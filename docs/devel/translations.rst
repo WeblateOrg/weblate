@@ -76,7 +76,7 @@ Automated key based variants
 .. versionadded:: 3.11
 
 You can define regular expression to group the strings based on the key of
-monolignual translations in the :ref:`component`:
+monolingual translations in the :ref:`component`:
 
 .. image:: /images/variants-settings.png
 
