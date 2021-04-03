@@ -199,6 +199,7 @@ class MetricsWrapper:
                 relation=self.relation,
                 secondary=self.secondary,
                 date__gte=start - timedelta(days=days),
+                date__lte=start,
                 name="changes",
             ).values_list("date", "value")
         )
