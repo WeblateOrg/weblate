@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-03-25 20:14+0100\n"
-"PO-Revision-Date: 2021-04-03 09:29+0000\n"
+"PO-Revision-Date: 2021-04-03 10:53+0000\n"
 "Last-Translator: Rafael Fontenelle <rafaelff@gnome.org>\n"
 "Language-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/"
 "weblate/documentation/pt_BR/>\n"
@@ -9867,7 +9867,7 @@ msgid ""
 "`Proxy Environment Variables <https://ec.haxx.se/usingcurl/usingcurl-"
 "proxies#proxy-environment-variables>`_"
 msgstr ""
-"`Variáveis de Ambiente de Proxy <https://ec.haxx.se/usingcurl/usingcurl-"
+"`Variáveis de ambiente de proxy <https://ec.haxx.se/usingcurl/usingcurl-"
 "proxies#proxy-environment-variables>`_"
 
 #: ../../admin/install.rst:579
@@ -13571,7 +13571,7 @@ msgstr ""
 
 #: ../../admin/languages.rst:158 ../../devel/translations.rst:7
 msgid "Adding new translations"
-msgstr ""
+msgstr "Adicionando novas traduções"
 
 #: ../../admin/languages.rst:162
 msgid ""
@@ -15477,7 +15477,7 @@ msgstr ""
 
 #: ../../admin/optionals.rst:189
 msgid "Spam protection"
-msgstr ""
+msgstr "Proteção contra spam"
 
 #: ../../admin/optionals.rst:191
 msgid ""
@@ -17245,7 +17245,7 @@ msgstr ""
 
 #: ../../admin/sample.rst:4
 msgid "Sample configuration"
-msgstr ""
+msgstr "Amostra de configuração"
 
 #: ../../admin/sample.rst:6
 msgid ""
@@ -28352,12 +28352,20 @@ msgid ""
 "course it has great support in Weblate (see :ref:`gettext` file format "
 "description)."
 msgstr ""
+"`GNU Gettext`_ é uma das ferramentas mais utilizadas para "
+"internacionalização de software livre. Ele fornece uma maneira simples, mas "
+"flexível, de localizar o software. Ele tem um ótimo suporte para plurais, "
+"pode adicionar mais contexto ao texto traduzido e há várias ferramentas "
+"construídas em torno dele. Claro que tem um ótimo suporte no Weblate (veja a "
+"descrição do formato de arquivo :ref:`gettext`)."
 
 #: ../../devel/gettext.rst:12
 msgid ""
 "If you are about to use it in proprietary software, please consult licensing "
 "first, it might not be suitable for you."
 msgstr ""
+"Se você estiver prestes a usá-lo em um software proprietário, consulte o "
+"licenciamento primeiro. Ele pode não ser adequado para você."
 
 #: ../../devel/gettext.rst:15
 msgid ""
@@ -28367,6 +28375,11 @@ msgid ""
 "call, which is often aliased to `_()` to make the code simpler and easier to "
 "read."
 msgstr ""
+"GNU Gettext pode ser usado a partir de uma variedade de linguagens (C, "
+"Python, PHP, Ruby, JavaScript e muitos mais) e geralmente os frameworks de "
+"UI já vêm com algum suporte para isso. O uso padrão é através da chamada de "
+"função `gettext()`, que geralmente é apelidada de `_()` para tornar o código "
+"mais simples e fácil de ler."
 
 #: ../../devel/gettext.rst:20
 msgid ""
@@ -28374,6 +28387,9 @@ msgid ""
 "translators and `ngettext()` which can handle plural types as defined for "
 "target language."
 msgstr ""
+"Além disso, ele fornece a chamada `pgettext()` para fornecer contexto "
+"adicional para tradutores e `ngettext()` que pode lidar com tipos plurais "
+"conforme definido para o idioma alvo."
 
 #: ../../devel/gettext.rst:24
 msgid ""
@@ -28381,22 +28397,26 @@ msgid ""
 "simple, instead of manual invoking of Gettext described below, you might "
 "want to try one of them, for example `intltool`_."
 msgstr ""
+"Como uma ferramenta amplamente difundida, ela possui muitos wrappers que "
+"tornam seu uso realmente simples, ao invés de invocar manualmente o Gettext "
+"descrito abaixo, você pode querer tentar um deles, por exemplo, o "
+"`intltool`_."
 
 #: ../../devel/gettext.rst:29
-#, fuzzy
-#| msgid "Performance overview"
 msgid "Workflow overview"
-msgstr "Resumo de performance"
+msgstr "Visão geral do fluxo de trabalho"
 
 #: ../../devel/gettext.rst:31
 msgid "The GNU Gettext uses several files to manage the localization:"
-msgstr ""
+msgstr "O GNU Gettext usa vários arquivos para gerenciar a localização:"
 
 #: ../../devel/gettext.rst:33
 msgid ""
 ":file:`PACKAGE.pot` contains strings extracted from your source code, "
 "typically using `xgettext`_ or some high level wrappers such as `intltool`_."
 msgstr ""
+":file:`PACKAGE.pot` contém textos extraídos de seu código-fonte, normalmente "
+"usando`xgettext`_ ou alguns wrappers de alto nível como `intltool`_."
 
 #: ../../devel/gettext.rst:34
 msgid ""
@@ -28404,6 +28424,10 @@ msgid ""
 "It has to be updated by `msgmerge`_ once the :file:`PACKAGE.pot` is updated. "
 "You can create new language files using `msginit`_ or within Weblate."
 msgstr ""
+":file:`LANGUAGE.po` contém textos com uma tradução para um único idioma. Ele "
+"deve ser atualizado por `msgmerge`_ uma vez que o :file:`PACKAGE.pot` seja "
+"atualizado. Você pode criar novos arquivos de idioma usando `msginit`_ ou "
+"dentro do Weblate."
 
 #: ../../devel/gettext.rst:35
 msgid ""
@@ -28413,34 +28437,35 @@ msgid ""
 "to have it in the version control, you can generate it in Weblate using :ref:"
 "`addon-weblate.gettext.mo` addon."
 msgstr ""
+":file:`LANGUAGE.mo` contém a representação binária de :file:`LANGUAGE.po` e "
+"é usado no tempo de execução do aplicativo. Normalmente não é mantido em um "
+"controle de versão, mas gerado em tempo de compilação usando `msgfmt`_. No "
+"caso de desejar tê-lo no controle de versão, pode gerá-lo no Weblate usando "
+"a extensão :ref:`addon-weblate.gettext.mo`."
 
 #: ../../devel/gettext.rst:37
 msgid "Overall the GNU Gettext workflow looks like this:"
-msgstr ""
+msgstr "No geral, o fluxo de trabalho do GNU Gettext é assim:"
 
 #: ../../devel/gettext.rst:56
-#, fuzzy
-#| msgid ""
-#| "`JavaScript formatting strings <https://www.gnu.org/software/gettext/"
-#| "manual/html_node/javascript_002dformat.html>`_"
 msgid ""
 "`Overview of GNU Gettext <https://www.gnu.org/software/gettext/manual/"
 "html_node/Overview.html>`_"
 msgstr ""
-"`JavaScript formatting strings <https://www.gnu.org/software/gettext/manual/"
-"html_node/javascript_002dformat.html>`_"
+"`Visão geral do GNU Gettext <https://www.gnu.org/software/gettext/manual/"
+"html_node/Overview.html>`_"
 
 #: ../../devel/gettext.rst:59
 msgid "Sample program"
-msgstr ""
+msgstr "Amostra de programa"
 
 #: ../../devel/gettext.rst:61
 msgid "The simple program in C using Gettext might look like following:"
-msgstr ""
+msgstr "O programa simples em C usando Gettext pode ter a seguinte aparência:"
 
 #: ../../devel/gettext.rst:89
 msgid "Extracting translatable strings"
-msgstr ""
+msgstr "Extraindo textos traduzíveis"
 
 #: ../../devel/gettext.rst:91
 msgid ""
@@ -28448,12 +28473,18 @@ msgid ""
 "extract messages from it and store them into a `.pot <https://www.gnu.org/"
 "software/gettext/manual/gettext.html#index-files_002c-_002epot>`_:"
 msgstr ""
+"Assim que tiver o código usando as chamadas gettext, você pode usar "
+"`xgettext`_ para extrair mensagens dele e armazená-las em um `.pot "
+"<https://www.gnu.org/software/gettext/manual/gettext.html#index-files_002c-"
+"_002epot>`_:"
 
 #: ../../devel/gettext.rst:101
 msgid ""
 "There are alternative programs to extract strings from the code, for example "
 "`pybabel`_."
 msgstr ""
+"Existem programas alternativos para extrair strings do código, por exemplo "
+"`pybabel`_."
 
 #: ../../devel/gettext.rst:104
 msgid ""
@@ -28462,6 +28493,10 @@ msgid ""
 "(you would use `msgmerge`_ for that). The resulting file is simply a "
 "structured text file:"
 msgstr ""
+"Isso cria um arquivo de modelo, que você pode usar para iniciar novas "
+"traduções (usando `msginit`_) ou atualizar as existentes após a mudança de "
+"código (você usaria `msgmerge`_ para isso). O arquivo resultante é "
+"simplesmente um arquivo texto estruturado:"
 
 #: ../../devel/gettext.rst:142
 msgid ""
@@ -28469,14 +28504,16 @@ msgid ""
 "in the beginning is the file header containing metadata about the "
 "translation."
 msgstr ""
+"Cada linha ``msgid`` define um texto a ser traduzido, o texto vazio especial "
+"no início é o cabeçalho do arquivo contendo metadados sobre a tradução."
 
 #: ../../devel/gettext.rst:146
 msgid "Starting new translation"
-msgstr ""
+msgstr "Iniciando nova tradução"
 
 #: ../../devel/gettext.rst:148
 msgid "With the template in place, we can start our first translation:"
-msgstr ""
+msgstr "Com o modelo no lugar, podemos começar nossa primeira tradução:"
 
 #: ../../devel/gettext.rst:155
 msgid ""
@@ -28484,6 +28521,10 @@ msgid ""
 "importantly it got the proper plural forms definition for chosen language "
 "and you can see number of plurals have changed according to that:"
 msgstr ""
+"O recém-criado :file:`cs.po` já tem algumas informações preenchidas. Mais "
+"importante ainda, ele obteve a definição de formas plurais apropriada para o "
+"idioma escolhido e você pode ver que o número de plurais mudou de acordo com "
+"isso:"
 
 #: ../../devel/gettext.rst:193
 msgid ""
@@ -28491,26 +28532,34 @@ msgid ""
 "gnu.org/software/gettext/manual/gettext.html#MO-Files>`_ file used by the "
 "`GNU Gettext`_ functions at runtime."
 msgstr ""
+"Este arquivo é compilado em um formato binário otimizado, o arquivo `.mo "
+"<https://www.gnu.org/software/gettext/manual/gettext.html#MO-Files>`_ usado "
+"pelas funções do `GNU Gettext`_ em tempo de execução."
 
 #: ../../devel/gettext.rst:198
 msgid "Updating strings"
-msgstr ""
+msgstr "Atualizando textos"
 
 #: ../../devel/gettext.rst:200
 msgid ""
 "Once you add more strings or change some strings in your program, you "
 "execute again `xgettext`_ which regenerates the template file:"
 msgstr ""
+"Depois de adicionar mais textos ou alterar alguns textos em seu programa, "
+"você executa novamente `xgettext`_ que gera novamente o arquivo de modelo:"
 
 #: ../../devel/gettext.rst:207
 msgid ""
 "Then you can update individual translation files to match newly created "
 "templates (this includes reordering the strings to match new template):"
 msgstr ""
+"Em seguida, você pode atualizar arquivos de tradução individuais para "
+"corresponder aos modelos recém-criados (isso inclui reordenar os textos para "
+"corresponder ao novo modelo):"
 
 #: ../../devel/gettext.rst:215
 msgid "Importing to Weblate"
-msgstr ""
+msgstr "Importando para o Weblate"
 
 #: ../../devel/gettext.rst:217
 msgid ""
@@ -28518,10 +28567,13 @@ msgid ""
 "following fields when creating component (see :ref:`component` for detailed "
 "description of the fields):"
 msgstr ""
+"Para importar tal tradução para o Weblate, tudo que você precisa definir são "
+"os seguintes campos ao criar o componente (veja :ref:`component` para uma "
+"descrição detalhada dos campos):"
 
 #: ../../devel/gettext.rst:222
 msgid "Field"
-msgstr ""
+msgstr "Campo"
 
 #: ../../devel/gettext.rst:222 ../../workflows.rst:73 ../../workflows.rst:105
 #: ../../workflows.rst:142
@@ -28530,19 +28582,19 @@ msgstr "Valor"
 
 #: ../../devel/gettext.rst:224
 msgid "URL of the VCS repository with your project"
-msgstr ""
+msgstr "URL do repositório VCS com seu projeto"
 
 #: ../../devel/gettext.rst:226 ../../formats.rst:170 ../../formats.rst:236
 msgid "``po/*.po``"
-msgstr ""
+msgstr "``po/*.po``"
 
 #: ../../devel/gettext.rst:228
 msgid "``po/hello.pot``"
-msgstr ""
+msgstr "``po/hello.pot``"
 
 #: ../../devel/gettext.rst:230
 msgid "Choose :guilabel:`Gettext PO file`"
-msgstr ""
+msgstr "Escolha :guilabel:`arquivo PO gettext`"
 
 #: ../../devel/gettext.rst:232
 msgid "New language"
@@ -28550,17 +28602,19 @@ msgstr "Novo idioma"
 
 #: ../../devel/gettext.rst:232
 msgid "Choose :guilabel:`Create new language file`"
-msgstr ""
+msgstr "Escolhar :guilabel:`Criar novo arquivo de idioma`"
 
 #: ../../devel/gettext.rst:235
 msgid "And that's it, you're now ready to start translating your software!"
-msgstr ""
+msgstr "E é isso. Agora você está pronto para começar a traduzir seu software!"
 
 #: ../../devel/gettext.rst:239
 msgid ""
 "You can find a Gettext example with many languages in the Weblate Hello "
 "project on GitHub: <https://github.com/WeblateOrg/hello>."
 msgstr ""
+"Você pode encontrar um exemplo de Gettext com muitos idiomas no projeto "
+"Weblate Hello no GitHub: <https://github.com/WeblateOrg/hello>."
 
 #: ../../devel/html.rst:4
 msgid "Translating HTML and JavaScript using Weblate CDN"
@@ -28813,10 +28867,8 @@ msgstr ""
 "allow_translation_propagation` caso as traduções devam divergir."
 
 #: ../../devel/integration.rst:7
-#, fuzzy
-#| msgid "HTML localization using Weblate CDN"
 msgid "Importing localization project into Weblate"
-msgstr "Localização de HTML usando CDN do Weblate"
+msgstr "Importando projeto de localização para o Weblate"
 
 #: ../../devel/integration.rst:9
 msgid ""
@@ -28825,18 +28877,22 @@ msgid ""
 "repository. The import process will guide you through configuring your "
 "translations into components."
 msgstr ""
+"O Weblate foi desenvolvido com a integração VCS em mente como seu recurso "
+"principal, então a maneira mais fácil é conceder ao Weblate o acesso ao seu "
+"repositório. O processo de importação o guiará pela configuração de suas "
+"traduções em componentes."
 
 #: ../../devel/integration.rst:13
 msgid ""
 "Alternatively, you can use Weblate to set up a local repository containing "
 "all the translations without integration."
 msgstr ""
+"Alternativamente, você pode usar o Weblate para configurar um repositório "
+"local contendo todas as traduções sem integração."
 
 #: ../../devel/integration.rst:18
-#, fuzzy
-#| msgid ":ref:`component`, :ref:`bimono`"
 msgid ":ref:`adding-projects`, :ref:`faq-submodule`"
-msgstr ":ref:`component`, :ref:`bimono`"
+msgstr ":ref:`adding-projects`, :ref:`faq-submodule`"
 
 #: ../../devel/integration.rst:22
 msgid "Fetching updated translations from Weblate"
@@ -28851,6 +28907,12 @@ msgid ""
 "the :guilabel:`Repository maintenance`) or from the command line using :ref:"
 "`wlc`."
 msgstr ""
+"Para buscar textos atualizados do Weblate, você pode simplesmente buscar o "
+"repositório Git subjacente (tanto do sistema de arquivos, ou pode ser "
+"disponibilizado através de :ref:`git-exporter`). Antes disso, você pode "
+"querer submeter quaisquer alterações pendentes (veja :ref:`lazy-commit`). "
+"Você pode fazer isso na interface do usuário (em :guilabel:`Manutenção do "
+"repositório`) ou na linha de comando usando o :ref:`wlc`."
 
 #: ../../devel/integration.rst:30
 msgid ""
@@ -28858,24 +28920,25 @@ msgid ""
 "and configure :ref:`component-push` in the :ref:`component`, see :ref:`push-"
 "changes`."
 msgstr ""
+"Isso pode ser automatizado se você conceder acesso push do Weblate ao seu "
+"repositório e configurar :ref:`component-push` na :ref:`component`. Veja :ref"
+":`push-changes`."
 
 #: ../../devel/integration.rst:33
 msgid ""
 "Alternatively, you can use :doc:`/api` to update translations to match their "
 "latest version."
 msgstr ""
+"Alternativamente, você pode usar :doc:`/api` para atualizar as traduções "
+"para corresponder às suas versões mais recentes."
 
 #: ../../devel/integration.rst:38
-#, fuzzy
-#| msgid ":ref:`machine-translation-setup`, :ref:`machine-translation`"
 msgid ":ref:`continuous-translation`, :ref:`push-changes`, :ref:`vcs-repos`"
-msgstr ":ref:`machine-translation-setup`, :ref:`machine-translation`"
+msgstr ":ref:`continuous-translation`, :ref:`push-changes`, :ref:`vcs-repos`"
 
 #: ../../devel/integration.rst:43
-#, fuzzy
-#| msgid "Pushing changes from Weblate"
 msgid "Fetching remote changes into Weblate"
-msgstr "Fazendo push das alterações do Weblate"
+msgstr "Buscando alterações remotas para o Weblate"
 
 #: ../../devel/integration.rst:45
 msgid ""
@@ -28884,6 +28947,10 @@ msgid ""
 "interface (in the :guilabel:`Repository maintenance`), or from the command "
 "line using :ref:`wlc`."
 msgstr ""
+"Para buscar os textos recém-atualizados em seu repositório para o Weblate, "
+"apenas deixe-o fazer pull do repositório upstream. Isso pode ser feito na "
+"interface do usuário (em :guilabel:`Manutenção do repositório`) ou na linha "
+"de comando usando o :ref:`wlc`."
 
 #: ../../devel/integration.rst:49
 msgid ""
@@ -28891,24 +28958,26 @@ msgid ""
 "Weblate whenever there is a new commit, see :ref:`update-vcs` for more "
 "details."
 msgstr ""
+"Isso pode ser automatizado configurando um webhook em seu repositório para "
+"acionar o Weblate sempre que houver um novo commit. Veja :ref:`update-vcs` "
+"para mais detalhes."
 
 #: ../../devel/integration.rst:52
 msgid ""
 "If you’re not using a VCS integration, you can use UI or :doc:`/api` to "
 "update translations to match your code base."
 msgstr ""
+"Se você não estiver usando uma integração VCS, você pode usar a UI ou "
+":doc:`/api` para atualizar as traduções para corresponder à sua base de "
+"código."
 
 #: ../../devel/integration.rst:57
-#, fuzzy
-#| msgid ":ref:`auto-translation`, :ref:`translation-consistency`"
 msgid ":ref:`continuous-translation`, :ref:`vcs-repos`"
-msgstr ":ref:`auto-translation`, :ref:`translation-consistency`"
+msgstr ":ref:`continuous-translation`, :ref:`vcs-repos`"
 
 #: ../../devel/integration.rst:63
-#, fuzzy
-#| msgid "Add new string"
 msgid "Adding new strings"
-msgstr "Adicionar novo texto"
+msgstr "Adicionando novos textos"
 
 #: ../../devel/integration.rst:65
 msgid ""
@@ -28917,26 +28986,35 @@ msgid ""
 "strings. Any way of adding strings will be picked up, but consider using :"
 "ref:`source-quality-gateway` to avoid introducing errors."
 msgstr ""
+"No caso de seus arquivos de tradução serem armazenados em um VCS junto com o "
+"código, você provavelmente tem um fluxo de trabalho existente para os "
+"desenvolvedores introduzirem novos textos. Qualquer forma de adicionar "
+"textos será escolhida, mas considere usar :ref:`source-quality-gateway` para "
+"evitar a introdução de erros."
 
 #: ../../devel/integration.rst:70
 msgid ""
 "When the translation files are separate from the code, there are following "
 "ways to introduce new strings into Weblate."
 msgstr ""
+"Quando os arquivos de tradução são separados do código, existem as seguintes "
+"maneiras de introduzir novos textos no Weblate."
 
 #: ../../devel/integration.rst:73
 msgid ""
 "Manually, using :guilabel:`Add new translation string` from :guilabel:"
 "`Tools` menu in the language used as the source for translations."
 msgstr ""
+"Manualmente, usando :guilabel:`Adicionar novo texto de tradução` do menu "
+":guilabel:`Ferramentas` no idioma usado como fonte para as traduções."
 
 #: ../../devel/integration.rst:75
 msgid ""
 "Programatically, using API :http:post:`/api/translations/(string:project)/"
 "(string:component)/(string:language)/units/`."
 msgstr ""
-"Programaticamente, usando API :http:post:`/api/translations/(string:project)/"
-"(string:component)/(string:language)/units/`."
+"Programaticamente, usando a API :http:post:`/api/translations/"
+"(string:project)/(string:component)/(string:language)/units/`."
 
 #: ../../devel/integration.rst:76
 msgid ""
@@ -28945,12 +29023,18 @@ msgid ""
 "both old and new strings) or :guilabel:`Add new strings`, see :ref:`upload-"
 "method`."
 msgstr ""
+"Ao enviar o arquivo fonte como :guilabel:`Substituir arquivo tradução "
+"existente` (isso sobrescreve as strings existentes, portanto, certifique-se "
+"de que o arquivo inclua as strings antigas e novas) ou :guilabel:`Adicionar "
+"novos textos`. Veja :ref:`upload-method`."
 
 #: ../../devel/integration.rst:82
 msgid ""
 "Availability of adding strings in Weblate depends on :ref:`component-"
 "manage_units`."
 msgstr ""
+"A disponibilidade de adicionar textos no Weblate depende de :ref:`component-"
+"manage_units`."
 
 #: ../../devel/integration.rst:87
 msgid "Updating target language files"
@@ -28965,6 +29049,12 @@ msgid ""
 "please install :ref:`addon-weblate.cleanup.generic` addon which will handle "
 "the cleanup according to your requirements."
 msgstr ""
+"Para arquivos monolíngues (veja :ref:`formats`), o Weblate pode adicionar "
+"novos textos de tradução não presentes no :ref:`component-template`, e não "
+"nas traduções reais. No entanto, ele não executa nenhuma limpeza automática "
+"de strings obsoletas, pois isso pode ter resultados inesperados. Se você "
+"quiser fazer isso, instale a extensão :ref:`addon-weblate.cleanup.generic` "
+"que fará a limpeza de acordo com seus requisitos."
 
 #: ../../devel/integration.rst:96
 msgid ""
@@ -28973,6 +29063,11 @@ msgid ""
 "yourself using :guilabel:`Update source strings` :ref:`upload-method` or "
 "using :ref:`addon-weblate.gettext.msgmerge` addon."
 msgstr ""
+"Weblate também não tentará atualizar arquivos bilíngues de nenhuma forma, "
+"então se você precisar que os arquivos :file:`po` sejam atualizados de "
+":file:`pot`, você precisa fazer isso sozinho usando :ref:`upload-method` de "
+":guilabel:`Atualizar textos fonte`: ou usando a extensão :ref:`addon-weblate."
+"gettext.msgmerge`."
 
 #: ../../devel/integration.rst:103
 msgid ""
@@ -28980,6 +29075,9 @@ msgid ""
 "cleanup.blank`, :ref:`addon-weblate.resx.update`, :ref:`addon-weblate."
 "gettext.msgmerge`"
 msgstr ""
+":ref:`processing`, :ref:`addon-weblate.cleanup.generic`, :ref:`addon-weblate."
+"cleanup.blank`, :ref:`addon-weblate.resx.update`, :ref:`addon-weblate.gettext"
+".msgmerge`"
 
 #: ../../devel/reporting.rst:2
 msgid "Translation progress reporting"
@@ -29394,6 +29492,11 @@ msgid ""
 "useful companion for using Sphinx is the `Read the Docs`_ service, which "
 "will build and publish your documentation for free."
 msgstr ""
+"`Sphinx`_ é uma ferramenta para criar documentação bonita. Ela usa a sintaxe "
+"reStructuredText simples e pode gerar saída em muitos formatos. Se você está "
+"procurando um exemplo, esta documentação também é construída usando-a. O "
+"companheiro muito útil para usar o Sphinx é o serviço `Read the Docs`_, que "
+"irá construir e publicar sua documentação gratuitamente."
 
 #: ../../devel/sphinx.rst:10
 msgid ""
@@ -29404,6 +29507,12 @@ msgid ""
 "intl`.  It's matter of few configuration directives and invoking of the "
 "``sphinx-intl`` tool."
 msgstr ""
+"Não vou me concentrar em escrever documentação em si, se você precisar de "
+"orientação com isso, basta seguir as instruções no site do `Sphinx`_. Assim "
+"que você tiver a documentação pronta, traduzi-la é bastante fácil, pois o "
+"Sphinx vem com suporte para isso e é muito bem abordado em sua "
+":ref:`sphinx:intl`. É uma questão de poucas diretivas de configuração e "
+"invocação da ferramenta ``sphinx-intl``."
 
 #: ../../devel/sphinx.rst:17
 msgid ""
@@ -29412,6 +29521,11 @@ msgid ""
 "pretty much everything you need - creating another project, set its language "
 "and link it from main project as a translation."
 msgstr ""
+"Se estiver usando o serviço Read the Docs, você pode começar a construir a "
+"documentação traduzida no Read the Docs. :doc:`rtd:localization` ("
+"localização de documentação) deles cobre praticamente tudo que você precisa -"
+" criar outro projeto, definir seu idioma e vinculá-lo do projeto principal "
+"como uma tradução."
 
 #: ../../devel/sphinx.rst:22
 msgid ""
@@ -29422,6 +29536,13 @@ msgid ""
 "component and then configure :ref:`addon-weblate.discovery.discovery` addon "
 "to automatically discover all others."
 msgstr ""
+"Agora tudo que você precisa é traduzir o conteúdo da documentação. O Sphinx "
+"gera um arquivo PO para cada diretório ou arquivo de nível superior, o que "
+"pode levar a muitos arquivos para traduzir (dependendo das configurações de "
+":confval:`sphinx: gettext_compact`). Você pode importar o :file:`index.po` "
+"no Weblate como um componente inicial e então configurar a extensão :ref"
+":`addon-weblate.discovery.discovery` para descobrir automaticamente todos os "
+"outros."
 
 #: ../../devel/sphinx.rst:33
 msgid "``Documentation``"
@@ -29429,11 +29550,11 @@ msgstr "``Documentation``"
 
 #: ../../devel/sphinx.rst:35
 msgid "``docs/locales/*/LC_MESSAGES/index.po``"
-msgstr ""
+msgstr "``docs/locales/*/LC_MESSAGES/index.po``"
 
 #: ../../devel/sphinx.rst:37
 msgid "``docs/locales/index.pot``"
-msgstr ""
+msgstr "``docs/locales/index.pot``"
 
 #: ../../devel/sphinx.rst:39
 msgid "`gettext PO file`"
@@ -29451,6 +29572,7 @@ msgstr "Expressão regular para corresponder aos arquivos de tradução"
 msgid ""
 "``docs/locales/(?P<language>[^/.]*)/LC_MESSAGES/(?P<component>[^/]*)\\.po``"
 msgstr ""
+"``docs/locales/(?P<language>[^/.]*)/LC_MESSAGES/(?P<component>[^/]*)\\.po``"
 
 #: ../../devel/sphinx.rst:47
 msgid "Customize the component name"
@@ -29458,41 +29580,48 @@ msgstr "Personalizar o nome do componente"
 
 #: ../../devel/sphinx.rst:48
 msgid "``Documentation: {{ component|title }}``"
-msgstr ""
+msgstr "``Documentation: {{ component|title }}``"
 
 #: ../../devel/sphinx.rst:49
 msgid "Define the base file for new translations"
-msgstr "Defina o arquivo base para novas traduções"
+msgstr "Define o arquivo base para novas traduções"
 
 #: ../../devel/sphinx.rst:50
 msgid "``docs/locales/{{ component }}.pot``"
-msgstr "``docs/locales/{{ componente }}.pot``"
+msgstr "``docs/locales/{{ component }}.pot``"
 
 #: ../../devel/sphinx.rst:54
 msgid ""
 "Would you prefer Sphinx to generate just single PO file? Since Sphinx 3.3.0 "
 "you can achieve this using:"
 msgstr ""
+"Você prefere que o Sphinx gere apenas um único arquivo PO? Desde o Sphinx "
+"3.3.0, você pode fazer isso usando:"
 
 #: ../../devel/sphinx.rst:62
 msgid ""
 "You can find several documentation projects being translated using this "
 "approach:"
 msgstr ""
+"Você pode encontrar vários projetos de documentação sendo traduzidos usando "
+"esta abordagem:"
 
 #: ../../devel/sphinx.rst:64
 msgid ""
 "`Weblate documentation <https://docs.weblate.org/>`_ (you are reading that "
 "now)"
 msgstr ""
+"`Documentação do Weblate <https://docs.weblate.org/>`_ (você está lendo-a "
+"agora)"
 
 #: ../../devel/sphinx.rst:65
 msgid "`Godot engine documentation <https://docs.godotengine.org/en/stable/>`_"
 msgstr ""
+"`Documentação do motor Godot <https://docs.godotengine.org/pt_BR/stable/>`_"
 
 #: ../../devel/sphinx.rst:66
 msgid "`Gallette documentation <https://doc.galette.eu/>`_"
-msgstr ""
+msgstr "`Documentação do Gallette <https://doc.galette.eu/>`_"
 
 #: ../../devel/sphinx.rst:67
 msgid "`phpMyAdmin documentation <https://docs.phpmyadmin.net/>`_"
@@ -29500,7 +29629,7 @@ msgstr ""
 
 #: ../../devel/starting.rst:4
 msgid "Starting with internationalization"
-msgstr ""
+msgstr "Começando com a internacionalização"
 
 #: ../../devel/starting.rst:6
 msgid ""
@@ -29508,6 +29637,9 @@ msgid ""
 "will help you do so. Several typical situations are showcased, but most of "
 "the examples are generic and can be applied to other scenarios as well."
 msgstr ""
+"Tem um projeto e quer traduzi-lo para vários idiomas? Este guia o ajudará a "
+"fazer isso. Várias situações típicas são apresentadas, mas a maioria dos "
+"exemplos são genéricos e podem ser aplicados a outros cenários também."
 
 #: ../../devel/starting.rst:11
 msgid ""
@@ -29518,6 +29650,13 @@ msgid ""
 "handle plural forms because many languages have complex rules for that and "
 "the internationalization framework you end up using should support this."
 msgstr ""
+"Antes de traduzir qualquer software, você deve perceber que os idiomas ao "
+"redor do mundo são realmente diferentes e não deve fazer nenhuma suposição "
+"com base em sua experiência. Para a maioria dos idiomas, parecerá estranho "
+"se você tentar concatenar uma frase de segmentos traduzidos. Você também "
+"deve lidar adequadamente com formas plurais porque muitos idiomas têm regras "
+"complexas para isso e a estrutura de internacionalização que você acaba "
+"usando deve oferecer suporte a isso."
 
 #: ../../devel/starting.rst:18
 msgid ""
@@ -29526,10 +29665,15 @@ msgid ""
 "translate. Without context most people would translate that as our closest "
 "star, but it might be actually used as an abbreviation for Sunday."
 msgstr ""
+"Por último, mas não menos importante, às vezes pode ser necessário adicionar "
+"algum contexto ao texto traduzido. Imagine que um tradutor receberia o texto "
+"``Sun`` para traduzir. Sem contexto, a maioria das pessoas traduziria isso "
+"como nossa estrela mais próxima, mas pode ser usado como uma abreviatura "
+"para domingo."
 
 #: ../../devel/starting.rst:24
 msgid "Choosing internationalization framework"
-msgstr ""
+msgstr "Escolhendo a estrutura de internacionalização"
 
 #: ../../devel/starting.rst:26
 msgid ""
@@ -29538,6 +29682,10 @@ msgid ""
 "supports most of the widely used frameworks, see :ref:`formats` for more "
 "information (especially :ref:`fmt_capabs`)."
 msgstr ""
+"Escolha o que for padrão em sua plataforma, tente evitar reinventar a roda "
+"criando sua própria estrutura para lidar com localizações. Weblate tem "
+"suporte à maioria dos frameworks amplamente usados, veja :ref:`formats` para "
+"mais informações (especialmente :ref:`fmt_capabs`)."
 
 #: ../../devel/starting.rst:31
 msgid ""
@@ -29545,14 +29693,17 @@ msgid ""
 "This is based on our experience, but that can not cover all use cases, so "
 "always consider your environment when doing the choice."
 msgstr ""
+"Nossa recomendação pessoal para algumas plataformas está na tabela a seguir. "
+"Isso se baseia em nossa experiência, mas não pode abranger todos os casos de "
+"uso, portanto, sempre considere seu ambiente ao fazer a escolha."
 
 #: ../../devel/starting.rst:36
 msgid "Platform"
-msgstr ""
+msgstr "Plataforma"
 
 #: ../../devel/starting.rst:36
 msgid "Recommended format"
-msgstr ""
+msgstr "Formato recomendado"
 
 #: ../../devel/starting.rst:38
 msgid "Android"
@@ -29580,7 +29731,7 @@ msgstr ""
 
 #: ../../devel/starting.rst:44
 msgid "Python"
-msgstr ""
+msgstr "Python"
 
 #: ../../devel/starting.rst:44 ../../devel/starting.rst:48
 #: ../../devel/starting.rst:52 ../../formats.rst:61
@@ -29593,15 +29744,15 @@ msgstr "PHP"
 
 #: ../../devel/starting.rst:46
 msgid ":ref:`gettext` [#php]_"
-msgstr ""
+msgstr ":ref:`gettext` [#php]_"
 
 #: ../../devel/starting.rst:48
 msgid "C/C++"
-msgstr ""
+msgstr "C/C++"
 
 #: ../../devel/starting.rst:50
 msgid "C#"
-msgstr ""
+msgstr "C#"
 
 #: ../../devel/starting.rst:50 ../../formats.rst:91
 msgid ":ref:`dotnet`"
@@ -29609,7 +29760,7 @@ msgstr ""
 
 #: ../../devel/starting.rst:52
 msgid "Perl"
-msgstr ""
+msgstr "Perl"
 
 #: ../../devel/starting.rst:54
 msgid "Ruby"
@@ -29621,7 +29772,7 @@ msgstr ""
 
 #: ../../devel/starting.rst:56
 msgid "Web extensions"
-msgstr ""
+msgstr "Extensões web"
 
 #: ../../devel/starting.rst:56 ../../formats.rst:89 ../../formats.rst:782
 msgid ":ref:`webex`"
@@ -29633,15 +29784,15 @@ msgstr "Java"
 
 #: ../../devel/starting.rst:58
 msgid ":ref:`xliff` [#java]_"
-msgstr ""
+msgstr ":ref:`xliff` [#java]_"
 
 #: ../../devel/starting.rst:60
 msgid "JavaScript"
-msgstr ""
+msgstr "JavaScript"
 
 #: ../../devel/starting.rst:60
 msgid ":ref:`js-i18next` [#js]_"
-msgstr ""
+msgstr ":ref:`js-i18next` [#js]_"
 
 #: ../../devel/starting.rst:65
 msgid ""
@@ -29649,20 +29800,29 @@ msgid ""
 "builds, it is recommended to use third party library `motranslator <https://"
 "github.com/phpmyadmin/motranslator>`_ instead."
 msgstr ""
+"O suporte nativo a Gettext no PHP é problemático e frequentemente está "
+"ausente nas compilações do Windows, é recomendado usar a biblioteca de "
+"terceiros `motranslator <https://github.com/phpmyadmin/motranslator>`_ em "
+"seu lugar."
 
 #: ../../devel/starting.rst:71
 msgid "You can also use :ref:`javaprop` if plurals are not needed."
 msgstr ""
+"Você também pode usar :ref:`javaprop` se os plurais não forem necessários."
 
 #: ../../devel/starting.rst:75
 msgid "You can also use plain :ref:`json` if plurals are not needed."
 msgstr ""
+"Você também pode usar :ref:`json` simples se os plurais não forem "
+"necessários."
 
 #: ../../devel/starting.rst:77
 msgid ""
 "The more detailed workflow for some formats is described in following "
 "chapters:"
 msgstr ""
+"O fluxo de trabalho mais detalhado para alguns formatos é descrito nos "
+"capítulos a seguir:"
 
 #: ../../devel/starting.rst:79
 msgid ":doc:`gettext`"
@@ -29677,14 +29837,12 @@ msgid ":doc:`html`"
 msgstr ":doc:`html`"
 
 #: ../../devel/starting.rst:85
-#, fuzzy
-#| msgid ":ref:`machine-translation-setup`, :ref:`machine-translation`"
 msgid ":doc:`integration`, :ref:`continuous-translation`"
-msgstr ":ref:`machine-translation-setup`, :ref:`machine-translation`"
+msgstr ":doc:`integration`, :ref:`continuous-translation`"
 
 #: ../../devel/translations.rst:2
 msgid "Managing translations"
-msgstr ""
+msgstr "Gerenciando traduções"
 
 #: ../../devel/translations.rst:9
 msgid ""
@@ -29694,6 +29852,11 @@ msgid ""
 "case with most monolingual translation flows, you can start with blank "
 "files)."
 msgstr ""
+"Novos textos podem ser disponibilizados para tradução quando aparecem no "
+"arquivo base, chamado :guilabel:`Modelo para novas traduções` (veja "
+":ref:`component`). Se o seu formato de arquivo não exige esse tipo de "
+"arquivo, como é o caso da maioria dos fluxos de tradução monolíngues, você "
+"pode começar com arquivos em branco)."
 
 #: ../../devel/translations.rst:14
 msgid ""
@@ -29702,6 +29865,10 @@ msgid ""
 "addition. This can be done using :ref:`component-new_lang` in :ref:"
 "`component`."
 msgstr ""
+"Novos idiomas podem ser adicionados imediatamente quando solicitados por um "
+"usuário no Weblate, ou uma notificação será enviada aos administradores do "
+"projeto para aprovação e adição manual. Isso pode ser feito usando :ref"
+":`component-new_lang` em :ref:`component`."
 
 #: ../../devel/translations.rst:20
 msgid ""
@@ -29709,24 +29876,25 @@ msgid ""
 "translation will be added to the component when Weblate updates local "
 "repository."
 msgstr ""
+"Se você adicionar um arquivo de idioma no repositório remoto conectado, a "
+"respectiva tradução será adicionada ao componente quando o Weblate atualizar "
+"o repositório local."
 
 #: ../../devel/translations.rst:23 ../../devel/translations.rst:58
 msgid ""
 "More info on the repository update settings can be found on the :ref:`update-"
 "vcs`."
 msgstr ""
+"Mais informações sobre as configurações de atualização do repositório podem "
+"ser encontradas em :ref:`update-vcs`."
 
 #: ../../devel/translations.rst:27
-#, fuzzy
-#| msgid ":ref:`machine-translation-setup`, :ref:`machine-translation`"
 msgid ":ref:`component-new_lang`, :ref:`new-translations`"
-msgstr ":ref:`machine-translation-setup`, :ref:`machine-translation`"
+msgstr ":ref:`component-new_lang`, :ref:`new-translations`"
 
 #: ../../devel/translations.rst:33
-#, fuzzy
-#| msgid "Import existing translations"
 msgid "Removing existing translations"
-msgstr "Importar traduções existentes"
+msgstr "Removendo traduções existentes"
 
 #: ../../devel/translations.rst:35
 msgid ""
@@ -29734,6 +29902,10 @@ msgid ""
 "from Weblate and remote repository if used) from the menu :guilabel:`Manage` "
 "↓ :guilabel:`Removal` of each project, component, or language."
 msgstr ""
+"Idiomas, componentes, ou os projetos em que estão, podem ser removidos ("
+"excluídos do Weblate e do repositório remoto se usado) do menu "
+":guilabel:`Gerenciar` ↓ :guilabel:`Remoção` de cada projeto, componente ou "
+"idioma."
 
 #: ../../devel/translations.rst:39
 msgid ""
@@ -29742,17 +29914,25 @@ msgid ""
 "`slug` is the project's, language's, or component's pathname as it can be "
 "seen in the URL."
 msgstr ""
+"Iniciar a ação :guilabel:`Remoção` mostra a lista de componentes a serem "
+"removidos. Você deve inserir o `slug` do objeto para confirmar a remoção. O "
+"`slug`, ou URL amigável, é o nome do caminho do projeto, da linguagem ou do "
+"componente conforme pode ser visto na URL."
 
 #: ../../devel/translations.rst:43
 msgid ""
 "If you want to remove just some specific strings, there are following ways:"
 msgstr ""
+"Se você deseja remover apenas alguns textos específicos, existem as "
+"seguintes maneiras:"
 
 #: ../../devel/translations.rst:45
 msgid ""
 "Manually in the source file. They will be removed from the translation "
 "project as well upon Weblate's repository update."
 msgstr ""
+"Manualmente no arquivo fonte. Eles também serão removidos do projeto de "
+"tradução após a atualização do repositório do Weblate."
 
 #: ../../devel/translations.rst:50
 msgid ""
@@ -29760,6 +29940,9 @@ msgid ""
 "editing the string. This has differences between file formats, see: :ref:"
 "`component-manage_units`"
 msgstr ""
+"Na UI do Weblate através do botão :guilabel:`Ferramentas` ↓ "
+":guilabel:`Remover` ao editar o texto. Isso tem diferenças entre os formatos "
+"de arquivo. Veja :ref:`component-manage_units`"
 
 #: ../../devel/translations.rst:55
 msgid ""
@@ -29767,6 +29950,9 @@ msgid ""
 "translation will be removed from the component when Weblate updates local "
 "repository."
 msgstr ""
+"Se você excluir um arquivo de idioma no repositório remoto conectado, a "
+"tradução respectiva será removida do componente quando o Weblate atualizar o "
+"repositório local."
 
 #: ../../devel/translations.rst:64
 msgid "String variants"
@@ -29777,21 +29963,26 @@ msgid ""
 "Variants are useful to group several strings together so that translators "
 "can see all variants of the string at one place."
 msgstr ""
+"As variantes são úteis para agrupar vários textos, de modo que os tradutores "
+"possam ver todas as variantes do texto em um só lugar."
 
 #: ../../devel/translations.rst:71
 msgid ""
 "Abbreviations (shortened forms, contractions) are a good example of variants."
 msgstr ""
+"Abreviaturas (formas abreviadas, contrações) são um bom exemplo de variantes."
 
 #: ../../devel/translations.rst:74
 msgid "Automated key based variants"
-msgstr ""
+msgstr "Variantes baseadas em chaves automatizadas"
 
 #: ../../devel/translations.rst:78
 msgid ""
 "You can define regular expression to group the strings based on the key of "
 "monolignual translations in the :ref:`component`:"
 msgstr ""
+"Você pode definir uma expressão regular para agrupar os textos com base na "
+"chave das traduções monolíngues no :ref:`component`:"
 
 #: ../../devel/translations.rst:83
 msgid ""
@@ -29800,46 +29991,51 @@ msgid ""
 "same root key become part of a single variant group, also including the "
 "string with the key exactly matching the root key."
 msgstr ""
+"No caso de :guilabel:`Chave` corresponder à expressão, a parte "
+"correspondente é removida para gerar a chave raiz da variante. Então, todos "
+"os textos com a mesma chave raiz tornam-se parte de um único grupo de "
+"variantes, incluindo também o texto com a chave que corresponde exatamente à "
+"chave raiz."
 
 #: ../../devel/translations.rst:88
 msgid "The following table lists some usage examples:"
-msgstr ""
+msgstr "A tabela a seguir lista alguns exemplos de uso:"
 
 #: ../../devel/translations.rst:91
 msgid "Use case"
-msgstr ""
+msgstr "Caso de uso"
 
 #: ../../devel/translations.rst:91
 msgid "Regular expression variant"
-msgstr ""
+msgstr "Variante de expressão regular"
 
 #: ../../devel/translations.rst:91
 msgid "Matched translation keys"
-msgstr ""
+msgstr "Chaves de tradução correspondentes"
 
 #: ../../devel/translations.rst:93
 msgid "Suffix identification"
-msgstr ""
+msgstr "Identificação de sufixo"
 
 #: ../../devel/translations.rst:93
 msgid "``(Short|Min)$``"
-msgstr ""
+msgstr "``(Short|Min)$``"
 
 #: ../../devel/translations.rst:93
 msgid "``monthShort``, ``monthMin``, ``month``"
-msgstr ""
+msgstr "``monthShort``, ``monthMin``, ``month``"
 
 #: ../../devel/translations.rst:95
 msgid "Inline identification"
-msgstr ""
+msgstr "Identificação em linha"
 
 #: ../../devel/translations.rst:95
 msgid "``#[SML]``"
-msgstr ""
+msgstr "``#[SML]``"
 
 #: ../../devel/translations.rst:95
 msgid "``dial#S.key``, ``dial#M.key``, ``dial.key``"
-msgstr ""
+msgstr "``dial#S.key``, ``dial#M.key``, ``dial.key``"
 
 #: ../../devel/translations.rst:99
 msgid "Manual variants"
@@ -29852,34 +30048,40 @@ msgid ""
 "strings automatically, or to group strings which keys are not matching, but "
 "should be considered together when translating."
 msgstr ""
+"Você pode vincular manualmente textos específicos usando o marcador "
+"``variant:SOURCE``. Isso pode ser útil para traduções bilíngues que não "
+"possuem chaves para agrupar textos automaticamente, ou para agrupar textos "
+"cujas chaves não são correspondentes, mas devem ser consideradas juntas "
+"durante a tradução."
 
 #: ../../devel/translations.rst:108
 msgid ""
 "The additional variant for a string can also be added using the :guilabel:"
 "`Tools` while translating (when :ref:`component-manage_units` is turned on):"
 msgstr ""
+"A variante adicional para um texto também pode ser adicionada usando "
+":guilabel:`Ferramentas` durante a tradução (quando :ref:`component-"
+"manage_units` está ativado):"
 
 #: ../../devel/translations.rst:115
 msgid ""
 "There the variant source string has to at most 768 characters long. This is "
 "technical limitation due to compatibility with MySQL database."
 msgstr ""
+"Nesse caso, o texto fonte da variante tem, no máximo, 768 caracteres. Esta é "
+"uma limitação técnica devido à compatibilidade com o banco de dados MySQL."
 
 #: ../../devel/translations.rst:120
-#, fuzzy
-#| msgid ":ref:`bimono`, :ref:`reviews`, :ref:`labels`"
 msgid ":ref:`custom-checks`, :ref:`glossary-variants`"
-msgstr ":ref:`bimono`, :ref:`reviews`, :ref:`labels`"
+msgstr ":ref:`custom-checks`, :ref:`glossary-variants`"
 
 #: ../../devel/translations.rst:124
-#, fuzzy
-#| msgid "Machine translation"
 msgid "Variants while translating"
-msgstr "Tradução de máquina"
+msgstr "Variantes durante a tradução"
 
 #: ../../devel/translations.rst:126
 msgid "The variant is later grouped when translating:"
-msgstr ""
+msgstr "A variante é agrupada posteriormente ao traduzir:"
 
 #: ../../devel/translations.rst:133
 msgid "String labels"
@@ -29890,12 +30092,16 @@ msgid ""
 "Split component translation strings into categories by text and colour in "
 "the project configuration."
 msgstr ""
+"Divide os textos de tradução do componente em categorias por texto e cor na "
+"configuração do projeto."
 
 #: ../../devel/translations.rst:141
 msgid ""
 "Labels can be assigned to units in :ref:`additional` by bulk editing, or "
 "using the :ref:`addon-weblate.flags.bulk` addon."
 msgstr ""
+"As etiquetas podem ser atribuídas a unidades em :ref:`additional` por edição "
+"em massa, ou usando a extensão :ref:`addon-weblate.flags.bulk`."
 
 #: ../../faq.rst:2
 msgid "Frequently Asked Questions"
@@ -35115,8 +35321,8 @@ msgid ""
 "highlighted in the glossary sidebar."
 msgstr ""
 "Sinalizar certas traduções de termos do glossário como ``read-only`` "
-"editando em massa, digitando o marcador ou usando :guilabel:`Ferramentas` "
-"↓:guilabel:`Marcar como somente leitura` significa que não podem ser "
+"editando em massa, digitando o marcador ou usando :guilabel:`Ferramentas` ↓ "
+":guilabel:`Marcar como somente leitura` significa que não podem ser "
 "traduzidas. Use-o para nomes de marcas ou outros termos que não devem ser "
 "alterados em outros idiomas. Esses termos são destacados visualmente na "
 "barra lateral do glossário."
@@ -35134,8 +35340,8 @@ msgid ""
 "meanings."
 msgstr ""
 "Marcar certas traduções de termos do glossário como ``forbidden``, editando "
-"em massa, digitando o marcador, ou usando :guilabel:`Ferramentas` "
-"↓:guilabel:`Marcar como tradução proibida` significa que **não** devem ser "
+"em massa, digitando o marcador, ou usando :guilabel:`Ferramentas` ↓ "
+":guilabel:`Marcar como tradução proibida` significa que **não** devem ser "
 "usado. Use isto para esclarecer a tradução quando algumas palavras são "
 "ambíguas ou podem ter significados inesperados."
 
@@ -35152,8 +35358,8 @@ msgid ""
 "consistent meaning across all languages."
 msgstr ""
 "Marcar certos termos do glossário como ``terminology`` editando em massa, "
-"digitando o marcador ou ou usando :guilabel:`Ferramentas` ↓:guilabel:`Marcar "
-"como terminologia` adiciona entradas para eles em todos os idiomas no "
+"digitando o marcador ou ou usando :guilabel:`Ferramentas` ↓ :guilabel:`"
+"Marcar como terminologia` adiciona entradas para eles em todos os idiomas no "
 "glossário. Use-o para termos importantes que devem ser bem pensados e manter "
 "um significado consistente em todos os idiomas."
 
