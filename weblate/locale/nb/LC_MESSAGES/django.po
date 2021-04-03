@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.5.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-03-25 19:14+0000\n"
-"PO-Revision-Date: 2021-03-24 15:51+0000\n"
+"PO-Revision-Date: 2021-04-03 10:53+0000\n"
 "Last-Translator: Allan Nordhøy <epost@anotheragency.no>\n"
 "Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/weblate/"
 "application/nb_NO/>\n"
@@ -27,7 +27,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.5.2-dev\n"
+"X-Generator: Weblate 4.6-dev\n"
 
 #: weblate/accounts/avatar.py:103
 msgctxt "No known user"
@@ -60,10 +60,9 @@ msgid "Public e-mail"
 msgstr "Offentlig e-post"
 
 #: weblate/accounts/forms.py:287
-#, fuzzy, python-format
-#| msgid "Component lists"
+#, python-format
 msgid "Component list: %s"
-msgstr "Komponentlister"
+msgstr "Komponentliste: %s"
 
 #: weblate/accounts/forms.py:313 weblate/accounts/forms.py:388
 #: weblate/accounts/templatetags/authnames.py:42 weblate/auth/models.py:322
@@ -4043,10 +4042,13 @@ msgstr ""
 "Weblate ved bruk av %(backend_verbose)s (%(uid)s)."
 
 #: weblate/templates/accounts/contact.html:15
+#, fuzzy
 msgid ""
 "For questions about specific translation project, contact its maintainers "
 "directly, not by this form."
 msgstr ""
+"Kontakt de som driver denne plattformen her. Spørsmål om spesifikke "
+"prosjekter bør rettes til deres respektive vedlikeholdere."
 
 #: weblate/templates/accounts/contact.html:16
 #, fuzzy
@@ -6654,17 +6656,20 @@ msgid ""
 msgstr "Hvis du ikke forespurte denne endringen, meld fra omgående."
 
 #: weblate/templates/mail/account_activity.html:33
+#, fuzzy
 msgid ""
 "Don’t use this button for support questions. Such questions won’t be "
 "answered."
-msgstr ""
+msgstr "Ikke bruk denne knappen for støttespørsmål."
 
 #: weblate/templates/mail/account_activity.html:34
-#, python-format
+#, fuzzy, python-format
 msgid ""
 "If you have an idea or a question, %(link_start)sthis%(link_end)s is a good "
 "place to start."
 msgstr ""
+"Idéer eller spørsmål om programvaren kan du rette til selve "
+"%(link_start)sWeblate%(link_end)s."
 
 #: weblate/templates/mail/account_activity.html:38
 #, fuzzy
@@ -8404,7 +8409,7 @@ msgstr "Kildestrenger i %s"
 
 #: weblate/templates/snippets/unit-readonly-badge.html:8
 msgid "Source strings can’t be edited. You can delete them and add new ones."
-msgstr ""
+msgstr "Kildestrenger kan ikke redigeres. Du kan slette dem og legge til nye."
 
 #: weblate/templates/snippets/unit-readonly-badge.html:10
 #, fuzzy
@@ -8759,11 +8764,11 @@ msgstr ""
 
 #. Translators: This is shown when an alert contains too many occurences, the count will be always at least 100
 #: weblate/templates/trans/alert/occurrences-limit.html:5
-#, python-format
+#, fuzzy, python-format
 msgid "Only some of the %(count)s occurrences are shown."
 msgid_plural "Only some of the %(count)s occurrences are shown."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Kun ett av de %(count)s treffene vises."
+msgstr[1] "Kun noen av de %(count)s treffene vises."
 
 #: weblate/templates/trans/alert/parseerror.html:4
 msgid ""
@@ -9548,16 +9553,22 @@ msgid "File in original format as translated in the repository"
 msgstr "Noen flertallsformer er oversatt på samme måte"
 
 #: weblate/templates/translation.html:345
+#, fuzzy
 msgid ""
 "All strings, converted files enriched with comments; suitable for offline "
 "translation"
 msgstr ""
+"Alle strengene, konverterte filer med deres kommentarer; passer for "
+"frakoblet oversettelse."
 
 #: weblate/templates/translation.html:357
+#, fuzzy
 msgid ""
 "Strings needing action, converted files enriched with comments; suitable for "
 "offline translation"
 msgstr ""
+"Strenger som trenger handling, konverterte filer og deres kommentarer; "
+"passer for frakoblet oversettelse."
 
 #: weblate/templates/translation.html:399
 msgid ""
@@ -12782,10 +12793,8 @@ msgid "The test e-mail will be sent to this address."
 msgstr "Test-e-post vil bli sendt til denne adressen."
 
 #: weblate/wladmin/forms.py:68
-#, fuzzy
-#| msgid "Username or e-mail"
 msgid "Username or registered e-mail"
-msgstr "Brukernavn eller e-postadresse"
+msgstr "Brukernavn eller registrert e-postadresse"
 
 #: weblate/wladmin/forms.py:74
 msgid "Please provide font family suitable for CSS."
