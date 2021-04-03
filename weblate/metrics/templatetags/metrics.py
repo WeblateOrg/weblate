@@ -19,6 +19,7 @@
 
 from django import template
 
+from weblate.auth.models import User
 from weblate.lang.models import Language
 from weblate.metrics.models import Metric
 from weblate.metrics.wrapper import MetricsWrapper
@@ -46,4 +47,6 @@ def metrics(obj):
         )
     if isinstance(obj, Language):
         return MetricsWrapper(obj, Metric.SCOPE_LANGUAGE, obj.id)
+    if isinstance(obj, User):
+        return MetricsWrapper(obj, Metric.SCOPE_USER, obj.id)
     raise ValueError(f"Unsupported type for metrics: {obj!r}")

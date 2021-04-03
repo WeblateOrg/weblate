@@ -155,6 +155,8 @@ class MetricsManager(models.Manager):
             changes = obj.project.change_set.filter(translation__language=obj.language)
         elif isinstance(obj, Language):
             changes = Change.objects.filter(translation__language=obj)
+        elif isinstance(obj, User):
+            changes = obj.change_set.all()
         else:
             raise ValueError(f"Unsupported type for metrics: {obj!r}")
 

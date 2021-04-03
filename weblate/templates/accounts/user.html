@@ -3,6 +3,7 @@
 {% load humanize %}
 {% load icons %}
 {% load urlformat %}
+{% load metrics %}
 
 {% block breadcrumbs %}
 <li><a href="{% url "user_list" %}">{% trans "Users" %}</a></li>
@@ -146,9 +147,7 @@
 
 <div class="tab-pane" id="activity">
 
-{% url 'yearly_activity' user=page_user.username as yearly_activity %}
-{% url 'monthly_activity' user=page_user.username as monthly_activity %}
-{% include "activity-tab.html" %}
+{% include "snippets/activity.html" with metrics=page_user|metrics %}
 
 </div>
 
