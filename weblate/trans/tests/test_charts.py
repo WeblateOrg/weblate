@@ -29,53 +29,5 @@ class ChartsTest(FixtureTestCase):
 
     def test_activity_monthly(self):
         """Test of monthly activity charts."""
-        response = self.client.get(reverse("monthly_activity"))
-        self.assert_svg(response)
-
         response = self.client.get(reverse("monthly_activity_json"))
         self.assertEqual(len(response.json()), 52)
-
-        response = self.client.get(reverse("monthly_activity", kwargs=self.kw_project))
-        self.assert_svg(response)
-
-        response = self.client.get(
-            reverse("monthly_activity", kwargs=self.kw_component)
-        )
-        self.assert_svg(response)
-
-        response = self.client.get(
-            reverse("monthly_activity", kwargs=self.kw_translation)
-        )
-        self.assert_svg(response)
-
-        response = self.client.get(reverse("monthly_activity", kwargs={"lang": "cs"}))
-        self.assert_svg(response)
-
-        response = self.client.get(
-            reverse("monthly_activity", kwargs={"user": self.user.username})
-        )
-        self.assert_svg(response)
-
-    def test_activity_yearly(self):
-        """Test of yearly activity charts."""
-        response = self.client.get(reverse("yearly_activity"))
-        self.assert_svg(response)
-
-        response = self.client.get(reverse("yearly_activity", kwargs=self.kw_project))
-        self.assert_svg(response)
-
-        response = self.client.get(reverse("yearly_activity", kwargs=self.kw_component))
-        self.assert_svg(response)
-
-        response = self.client.get(
-            reverse("yearly_activity", kwargs=self.kw_translation)
-        )
-        self.assert_svg(response)
-
-        response = self.client.get(reverse("yearly_activity", kwargs={"lang": "cs"}))
-        self.assert_svg(response)
-
-        response = self.client.get(
-            reverse("yearly_activity", kwargs={"user": self.user.username})
-        )
-        self.assert_svg(response)

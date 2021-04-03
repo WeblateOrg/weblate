@@ -10,8 +10,8 @@ Activity reports
 
 Activity reports check changes of translations, for projects, components or individual users.
 
-The activity reports for a project or component is accessible from its dashboard, on the :guilabel:`Insights`
-tab, selecting :guilabel:`Activity`.
+The activity reports for a project or component is accessible from its dashboard, on the :guilabel:`Info`
+tab.
 
 .. image:: /images/activity.png
 
