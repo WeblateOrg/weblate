@@ -15,8 +15,8 @@ msgstr ""
 "Project-Id-Version: Weblate 4.6\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-04-03 12:06+0000\n"
-"PO-Revision-Date: 2021-04-04 17:31+0000\n"
-"Last-Translator: Christian Eichert <c@zp1.net>\n"
+"PO-Revision-Date: 2021-04-04 17:32+0000\n"
+"Last-Translator: Simona Iacob <s@zp1.net>\n"
 "Language-Team: Romanian <https://hosted.weblate.org/projects/weblate/"
 "application/ro/>\n"
 "Language: ro\n"
@@ -4141,10 +4141,9 @@ msgid "Failed to upload screenshot, please fix errors below."
 msgstr ""
 
 #: weblate/screenshots/views.py:167
-#, fuzzy, python-format
-#| msgid "Your account has been removed."
+#, python-format
 msgid "Screenshot %s has been deleted."
-msgstr "Contul dvs. a fost șters."
+msgstr "Captura de ecran %s a fost ștearsă."
 
 #: weblate/screenshots/views.py:186
 #, fuzzy
@@ -4444,16 +4443,12 @@ msgid "Please check your mailbox for the confirmation link."
 msgstr ""
 
 #: weblate/templates/accounts/email-sent.html:19
-#, fuzzy
-#| msgid "Your password has been changed."
 msgid "Password reset almost complete"
-msgstr "Parola dvs. a fost schimbată."
+msgstr "Resetarea parolei aproape completă"
 
 #: weblate/templates/accounts/email-sent.html:21
-#, fuzzy
-#| msgid "Your password has been changed."
 msgid "Account removal almost complete"
-msgstr "Parola dvs. a fost schimbată."
+msgstr "Eliminarea conturilor este aproape completă"
 
 #: weblate/templates/accounts/email-sent.html:23
 msgid "Registration almost complete"
@@ -4573,10 +4568,8 @@ msgid "Sign in with:"
 msgstr ""
 
 #: weblate/templates/accounts/login.html:59
-#, fuzzy
-#| msgid "New password"
 msgid "Forgot your password?"
-msgstr "Parolă nouă"
+msgstr "Ați uitat parola?"
 
 #: weblate/templates/accounts/login.html:64
 #, fuzzy
@@ -4927,10 +4920,8 @@ msgid "Create an account using:"
 msgstr ""
 
 #: weblate/templates/accounts/register.html:67
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Sorry, new registrations are turned off on this site."
-msgstr "Notificare la orice traducere"
+msgstr "Ne pare rău, înregistrările noi sunt oprite pe acest site."
 
 #: weblate/templates/accounts/register.html:68
 msgid "You can contact us for more details."
@@ -4989,10 +4980,8 @@ msgid "Your trial offer"
 msgstr "Profilul utilizatorului"
 
 #: weblate/templates/accounts/trial.html:23
-#, fuzzy
-#| msgid "Your e-mail"
 msgid "Your trial will last 14 days."
-msgstr "Adresa ta de e-mail"
+msgstr "Perioada de probă va dura 14 zile."
 
 #: weblate/templates/accounts/trial.html:24
 msgid ""
@@ -5031,50 +5020,45 @@ msgstr ""
 
 #: weblate/templates/accounts/user.html:36
 #: weblate/templates/snippets/info.html:45
-#, fuzzy, python-format
-#| msgid "Notification on any translation"
+#, python-format
 msgid "%(count)s translation"
 msgid_plural "%(count)s translations"
-msgstr[0] "Notificare la orice traducere"
-msgstr[1] "Notificare la orice traducere"
-msgstr[2] "Notificare la orice traducere"
+msgstr[0] "%(count)s traducere"
+msgstr[1] "%(count)s traducere"
+msgstr[2] "%(count)s traduceri"
 
 #: weblate/templates/accounts/user.html:41
-#, fuzzy, python-format
-#| msgid "Notification on any translation"
+#, python-format
 msgid "%(count)s suggestion"
 msgid_plural "%(count)s suggestions"
-msgstr[0] "Notificare la orice traducere"
-msgstr[1] "Notificare la orice traducere"
-msgstr[2] "Notificare la orice traducere"
+msgstr[0] "Sugestie %(count)s"
+msgstr[1] "Sugestie %(count)s"
+msgstr[2] "Sugestii %(count)s"
 
 #: weblate/templates/accounts/user.html:48
 #: weblate/templates/mail/pending_suggestions_subject.txt:6
-#, fuzzy, python-format
-#| msgid "Notification on any translation"
+#, python-format
 msgid "%(count)s pending suggestion"
 msgid_plural "%(count)s pending suggestions"
-msgstr[0] "Notificare la orice traducere"
-msgstr[1] "Notificare la orice traducere"
-msgstr[2] "Notificare la orice traducere"
+msgstr[0] "%(count)s în așteptare de sugestie"
+msgstr[1] "%(count)s în așteptare de sugestii"
+msgstr[2] "%(count)s în așteptare de sugestii"
 
 #: weblate/templates/accounts/user.html:55
-#, fuzzy, python-format
-#| msgid "Subscribed projects"
+#, python-format
 msgid "%(count)s screenshot"
 msgid_plural "%(count)s screenshots"
-msgstr[0] "Proiecte abonate"
-msgstr[1] "Proiecte abonate"
-msgstr[2] "Proiecte abonate"
+msgstr[0] "captură de ecran %(count)s"
+msgstr[1] "captură de ecran %(count)s"
+msgstr[2] "captură de ecran %(count)s"
 
 #: weblate/templates/accounts/user.html:60
-#, fuzzy, python-format
-#| msgid "Subscribed projects"
+#, python-format
 msgid "%(count)s comment"
 msgid_plural "%(count)s comments"
-msgstr[0] "Proiecte abonate"
-msgstr[1] "Proiecte abonate"
-msgstr[2] "Proiecte abonate"
+msgstr[0] "Comentariu %(count)s"
+msgstr[1] "Comentariu %(count)s"
+msgstr[2] "Comentarii %(count)s"
 
 #: weblate/templates/accounts/user.html:121
 #, fuzzy
@@ -5148,13 +5132,12 @@ msgid "There are no addons currently installed."
 msgstr "Contul dvs. a fost șters."
 
 #: weblate/templates/addons/addon_list.html:43
-#, fuzzy, python-format
-#| msgid "Translate"
+#, python-format
 msgid "There is currently %(count)s addon installed."
 msgid_plural "There are currently %(count)s addons installed."
-msgstr[0] "Tradu"
-msgstr[1] "Tradu"
-msgstr[2] "Tradu"
+msgstr[0] "În prezent este instalat addon-ul %(count)s."
+msgstr[1] "În prezent este instalat addon-ul %(count)s."
+msgstr[2] "În prezent sunt instalate addon-urile %(count)s."
 
 #: weblate/templates/addons/addon_list.html:51
 msgid "Available addons"
@@ -5361,22 +5344,19 @@ msgid "Checks"
 msgstr ""
 
 #: weblate/templates/base.html:163
-#, fuzzy, python-format
-#| msgid "Subscribed projects"
+#, python-format
 msgid "Failed checks in %(project)s — %(language)s"
-msgstr "Proiecte abonate"
+msgstr "Controale eșuate în %(project)s — %(language)s"
 
 #: weblate/templates/base.html:174
-#, fuzzy, python-format
-#| msgid "Subscribed projects"
+#, python-format
 msgid "Failed checks in %(project)s"
-msgstr "Proiecte abonate"
+msgstr "Controale eșuate în %(project)s"
 
 #: weblate/templates/base.html:180
-#, fuzzy, python-format
-#| msgid "Subscribed projects"
+#, python-format
 msgid "Failed checks in %(language)s"
-msgstr "Proiecte abonate"
+msgstr "Verificări eșuate în %(language)s"
 
 #: weblate/templates/base.html:184
 msgid "Checks overview"
@@ -5447,10 +5427,8 @@ msgid "Help"
 msgstr ""
 
 #: weblate/templates/base.html:266
-#, fuzzy
-#| msgid "About Weblate"
 msgid "Get support"
-msgstr "Despre Weblate"
+msgstr "Obțineți asistență"
 
 #: weblate/templates/base.html:269 weblate/templates/manage/index.html:71
 msgid "Get help"
@@ -5563,10 +5541,8 @@ msgid "Not available"
 msgstr ""
 
 #: weblate/templates/billing/detail.html:88
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "No invoices found."
-msgstr "Notificare la orice traducere"
+msgstr "Nu s-au găsit facturi."
 
 #: weblate/templates/billing/detail.html:100
 #, fuzzy
@@ -5659,10 +5635,8 @@ msgid "Current plan"
 msgstr "Planul actual"
 
 #: weblate/templates/billing/status.html:17
-#, fuzzy
-#| msgid "Change password"
 msgid "Change plan"
-msgstr "Schimbare parolă"
+msgstr "Plan de schimbare"
 
 #: weblate/templates/billing/status.html:28
 #: weblate/templates/billing/status.html:39
@@ -5772,10 +5746,8 @@ msgid "Browse"
 msgstr "Navigare"
 
 #: weblate/templates/browse.html:49
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "No strings found!"
-msgstr "Notificare la orice traducere"
+msgstr "Nu s-au găsit șiruri!"
 
 #: weblate/templates/check.html:19 weblate/templates/data.html:28
 #: weblate/templates/data.html:62 weblate/templates/data.html:103
@@ -5874,10 +5846,8 @@ msgid "Progress"
 msgstr ""
 
 #: weblate/templates/component-progress.html:17
-#, fuzzy
-#| msgid "Project name"
 msgid "Component is being updated…"
-msgstr "Denumire proiect"
+msgstr "Componenta este în curs de actualizare…"
 
 #: weblate/templates/component-progress.html:31 weblate/templates/guide.html:63
 #, fuzzy
@@ -6020,7 +5990,7 @@ msgstr ""
 #: weblate/templates/screenshots/screenshot_detail.html:11
 #: weblate/templates/screenshots/screenshot_list.html:11
 msgid "Screenshots"
-msgstr ""
+msgstr "Capturi de ecran"
 
 #: weblate/templates/component.html:95 weblate/templates/component.html:234
 #: weblate/templates/manage/tools.html:20 weblate/templates/project.html:89
@@ -6074,10 +6044,8 @@ msgid "Status widgets"
 msgstr ""
 
 #: weblate/templates/component.html:139
-#, fuzzy
-#| msgid "You don't have privileges to display this page."
 msgid "You don't have permission to start a new translation"
-msgstr "Nu aveți drepturi pentru a vedea această pagină."
+msgstr "Nu aveți permisiunea de a începe o nouă traducere"
 
 #: weblate/templates/component.html:139
 #, fuzzy
@@ -6098,10 +6066,8 @@ msgid "Dismiss"
 msgstr ""
 
 #: weblate/templates/component.html:170
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Please sign in to see the alerts."
-msgstr "Notificare la orice traducere"
+msgstr "Vă rugăm să vă conectați pentru a vedea alertele."
 
 #: weblate/templates/component.html:194 weblate/templates/project.html:194
 msgid ""
@@ -6348,10 +6314,10 @@ msgid "Hook"
 msgstr ""
 
 #: weblate/templates/data.html:123
-#, fuzzy
-#| msgid "Git repository"
 msgid "You pull changes from a remote repository to Weblate like this:"
-msgstr "Repository Git"
+msgstr ""
+"Trageți modificările dintr-un depozit la distanță în Weblate în felul "
+"următor:"
 
 #: weblate/templates/data.html:132
 msgid ""
@@ -6373,10 +6339,9 @@ msgid "The documentation has detailed instructions"
 msgstr ""
 
 #: weblate/templates/engage.html:14
-#, fuzzy, python-format
-#| msgid "Subscribed projects"
+#, python-format
 msgid "Get involved in <strong>%(project)s</strong>"
-msgstr "Proiecte abonate"
+msgstr "Implică-te în <strong>%(project)s</strong>"
 
 #: weblate/templates/engage.html:17
 msgid "Hello and thank you for your interest"
@@ -6390,24 +6355,20 @@ msgid ""
 msgstr ""
 
 #: weblate/templates/engage.html:25 weblate/trans/widgets.py:255
-#, fuzzy
-#| msgid "Search"
 msgctxt "Label on enage page"
 msgid "String"
 msgid_plural "Strings"
-msgstr[0] "Caută"
-msgstr[1] "Caută"
-msgstr[2] "Caută"
+msgstr[0] "Șir de caractere"
+msgstr[1] "Șir de caractere"
+msgstr[2] "Șiruri de caractere"
 
 #: weblate/templates/engage.html:29 weblate/trans/widgets.py:263
-#, fuzzy
-#| msgid "Language"
 msgctxt "Label on enage page"
 msgid "Language"
 msgid_plural "Languages"
 msgstr[0] "Limbă"
 msgstr[1] "Limbă"
-msgstr[2] "Limbă"
+msgstr[2] "Limbi"
 
 #: weblate/templates/engage.html:32
 #: weblate/trans/templatetags/translations.py:890 weblate/trans/widgets.py:100
@@ -6448,9 +6409,9 @@ msgstr[2] ""
 msgid "It is being translated into <strong>%(count)s language</strong>."
 msgid_plural ""
 "It is being translated into <strong>%(count)s languages</strong>."
-msgstr[0] "Proiecte abonate"
-msgstr[1] "Proiecte abonate"
-msgstr[2] "Proiecte abonate"
+msgstr[0] "Este în curs de traducere în limba <strong>%(conte)s</strong>."
+msgstr[1] "Este în curs de traducere în limba <strong>%(conte)s</strong>."
+msgstr[2] "Sunt în curs de traducere în limba <strong>%(conte)s</strong>."
 
 #: weblate/templates/engage.html:48
 #, python-format
@@ -6855,10 +6816,9 @@ msgid "Force synchronization"
 msgstr ""
 
 #: weblate/templates/js/git-status.html:129
-#, fuzzy, python-format
-#| msgid "Notification on any translation"
+#, python-format
 msgid "Repository for %(component)s"
-msgstr "Notificare la orice traducere"
+msgstr "Depozit pentru %(component)s"
 
 #: weblate/templates/js/git-status.html:135
 msgid "Repository details"
@@ -6904,19 +6864,16 @@ msgstr ""
 
 #. Translators: Number of edits on a change in Damerau–Levenshtein distance
 #: weblate/templates/last-changes-content.html:49
-#, fuzzy, python-format
-#| msgid "Notification on any translation"
+#, python-format
 msgid "%(count)s character edited"
 msgid_plural "%(count)s characters edited"
-msgstr[0] "Notificare la orice traducere"
-msgstr[1] "Notificare la orice traducere"
-msgstr[2] "Notificare la orice traducere"
+msgstr[0] "%(count)s caracter editat"
+msgstr[1] "%(count)s caractere editate"
+msgstr[2] "%(count)s caractere editate"
 
 #: weblate/templates/last-changes-content.html:74
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "No matching activity found."
-msgstr "Notificare la orice traducere"
+msgstr "Nu s-a găsit nicio activitate corespunzătoare."
 
 #: weblate/templates/list-comments.html:13
 #, fuzzy
@@ -6945,10 +6902,10 @@ msgid "Mark as spam"
 msgstr ""
 
 #: weblate/templates/mail/account_activity.html:7
-#, fuzzy, python-format
-#| msgid "Secondary languages"
+#, python-format
 msgid "There has been a following change in your account at %(site_title)s:"
-msgstr "Limbi secundare"
+msgstr ""
+"A avut loc următoarea modificare în contul dumneavoastră la %(site_title)s:"
 
 #: weblate/templates/mail/account_activity.html:32
 msgid ""
@@ -6993,10 +6950,9 @@ msgid "Your registration on %(site_title)s"
 msgstr ""
 
 #: weblate/templates/mail/approved_string_subject.txt:3
-#, fuzzy, python-format
-#| msgid "Notification on any translation"
+#, python-format
 msgid "Approved translation in %(translation)s"
-msgstr "Notificare la orice traducere"
+msgstr "Traducere aprobată în %(translation)s"
 
 #: weblate/templates/mail/base.html:272
 #, fuzzy
@@ -7016,7 +6972,7 @@ msgstr ""
 
 #: weblate/templates/mail/base.html:319
 msgid "Weblate, the libre continuous localization system."
-msgstr ""
+msgstr "Weblate, sistemul liber de localizare continuă."
 
 #: weblate/templates/mail/base.html:326
 #, fuzzy
@@ -7084,10 +7040,8 @@ msgid ""
 msgstr ""
 
 #: weblate/templates/mail/billing_expired_subject.txt:3
-#, fuzzy
-#| msgid "Your account has been removed."
 msgid "Your translation project was removed"
-msgstr "Contul dvs. a fost șters."
+msgstr "Proiectul dvs. de traducere a fost eliminat"
 
 #: weblate/templates/mail/billing_expired_subject.txt:5
 msgid "Your translation project is scheduled for removal"
@@ -7127,56 +7081,46 @@ msgid "New translation in %(translation)s"
 msgstr ""
 
 #: weblate/templates/mail/component_license.html:12
-#, fuzzy, python-format
-#| msgid "Project name"
+#, python-format
 msgid "Contributor agreement for component %(component)s was changed."
-msgstr "Denumire proiect"
+msgstr ""
+"A fost modificat acordul contribuabililor pentru componentele %(component)s."
 
 #: weblate/templates/mail/component_license.html:15
 msgid "Old agreement:"
 msgstr ""
 
 #: weblate/templates/mail/component_license.html:18
-#, fuzzy
-#| msgid "Notification on new comment"
 msgid "There was no contributor agreement before."
-msgstr "Notificare la fiecare comentariu nou"
+msgstr "Nu a existat niciun acord al contribuabililor înainte."
 
 #: weblate/templates/mail/component_license.html:21
-#, fuzzy
-#| msgid "Project name"
 msgid "New agreement:"
-msgstr "Denumire proiect"
+msgstr "Un nou acord:"
 
 #: weblate/templates/mail/component_license.html:24
-#, fuzzy
-#| msgid "Notification on new comment"
 msgid "Contributor agreement was removed."
-msgstr "Notificare la fiecare comentariu nou"
+msgstr "Acordul contributorilor a fost eliminat."
 
 #: weblate/templates/mail/component_license_subject.txt:4
-#, fuzzy, python-format
-#| msgid "Secondary languages"
+#, python-format
 msgid "%(component)s was re-licensed to %(target)s"
-msgstr "Limbi secundare"
+msgstr "%(component)s a fost relicențiată la %(target)s"
 
 #: weblate/templates/mail/component_license_subject.txt:6
-#, fuzzy, python-format
-#| msgid "Project name"
+#, python-format
 msgid "Contributor agreement for %(component)s was changed"
-msgstr "Denumire proiect"
+msgstr "Acordul de colaborare pentru %(component)s a fost modificat"
 
 #: weblate/templates/mail/component_lock_subject.txt:4
-#, fuzzy, python-format
-#| msgid "Project name"
+#, python-format
 msgid "Component %(component)s was locked"
-msgstr "Denumire proiect"
+msgstr "Componenta %(component)s a fost blocată"
 
 #: weblate/templates/mail/component_lock_subject.txt:6
-#, fuzzy, python-format
-#| msgid "Project name"
+#, python-format
 msgid "Component %(component)s was unlocked"
-msgstr "Denumire proiect"
+msgstr "Componenta %(component)s a fost deblocată"
 
 #: weblate/templates/mail/digest_subject.txt:3
 #, python-format
@@ -7191,20 +7135,18 @@ msgid ""
 msgstr ""
 
 #: weblate/templates/mail/invite_subject.txt:4
-#, fuzzy, python-format
-#| msgid "Password reset"
+#, python-format
 msgid "Invitation to %(site_title)s"
-msgstr "Resetare parolă"
+msgstr "Invitație la %(site_title)s"
 
 #: weblate/templates/mail/new_alert.html:12
 msgid "View all alerts"
 msgstr ""
 
 #: weblate/templates/mail/new_alert_subject.txt:3
-#, fuzzy, python-format
-#| msgid "Secondary languages"
+#, python-format
 msgid "New alert on %(component)s"
-msgstr "Limbi secundare"
+msgstr "Alertă nouă privind %(component)s"
 
 #: weblate/templates/mail/new_announcement.html:7
 #: weblate/trans/models/announcement.py:142
@@ -7212,32 +7154,28 @@ msgid "Announcement"
 msgstr ""
 
 #: weblate/templates/mail/new_announcement_subject.txt:4
-#, fuzzy, python-format
-#| msgid "Secondary languages"
+#, python-format
 msgid "New announcement on %(project)s"
-msgstr "Limbi secundare"
+msgstr "Anunț nou privind %(project)s"
 
 #: weblate/templates/mail/new_announcement_subject.txt:6
-#, fuzzy, python-format
-#| msgid "Additional message"
+#, python-format
 msgid "New announcement at %(site_title)s"
-msgstr "Mesaj adițional"
+msgstr "Anunț nou la %(site_title)s"
 
 #: weblate/templates/mail/new_comment.html:9
 msgid "Comment"
 msgstr "Comentariu"
 
 #: weblate/templates/mail/new_comment_subject.txt:3
-#, fuzzy, python-format
-#| msgid "Secondary languages"
+#, python-format
 msgid "New comment in %(component)s"
-msgstr "Limbi secundare"
+msgstr "Comentariu nou în %(component)s"
 
 #: weblate/templates/mail/new_component_subject.txt:3
-#, fuzzy, python-format
-#| msgid "Notification on any translation"
+#, python-format
 msgid "New translation component %(component)s"
-msgstr "Notificare la orice traducere"
+msgstr "Noua componentă de traducere %(component)s"
 
 #: weblate/templates/mail/new_contributor.html:6
 #, fuzzy
@@ -7262,12 +7200,13 @@ msgid "Added language"
 msgstr "Limbi secundare"
 
 #: weblate/templates/mail/new_language.html:12
-#, fuzzy, python-format
-#| msgid "Secondary languages"
+#, python-format
 msgid ""
 "There has been a request for new language on %(component)s at %(site_title)s "
 "by %(user)s."
-msgstr "Limbi secundare"
+msgstr ""
+"A fost solicitată o nouă limbă pentru %(component)s at %(site_title)s by "
+"%(user)s."
 
 #: weblate/templates/mail/new_language.html:16
 msgid ""
@@ -7294,16 +7233,14 @@ msgid "View translation component"
 msgstr "Notificare la orice traducere"
 
 #: weblate/templates/mail/new_language_subject.txt:4
-#, fuzzy, python-format
-#| msgid "Secondary languages"
+#, python-format
 msgid "New language added to %(component)s"
-msgstr "Limbi secundare"
+msgstr "Limba nouă adăugată la %(component)s"
 
 #: weblate/templates/mail/new_language_subject.txt:6
-#, fuzzy, python-format
-#| msgid "Secondary languages"
+#, python-format
 msgid "New language request in %(component)s"
-msgstr "Limbi secundare"
+msgstr "Cerere de limbă nouă în %(component)s"
 
 #: weblate/templates/mail/new_string_subject.txt:3
 #, python-format
@@ -7349,8 +7286,8 @@ msgstr ""
 msgid "%(count)s pending suggestion in %(component)s"
 msgid_plural "%(count)s pending suggestions in %(component)s"
 msgstr[0] "Notificare la orice traducere"
-msgstr[1] "Notificare la orice traducere"
-msgstr[2] "Notificare la orice traducere"
+msgstr[1] "%(număr)s sugestie în așteptare în %(component)s"
+msgstr[2] "%(număr)s sugestie în așteptare în %(component)s"
 
 #: weblate/templates/mail/remove.html:7
 #, python-format
@@ -7358,22 +7295,19 @@ msgid "There was a request to remove your Weblate account at %(site_title)s."
 msgstr ""
 
 #: weblate/templates/mail/remove_subject.txt:4
-#, fuzzy, python-format
-#| msgid "Password reset"
+#, python-format
 msgid "Account removal on %(site_title)s"
-msgstr "Resetare parolă"
+msgstr "Eliminarea contului pe %(site_title)s"
 
 #: weblate/templates/mail/repository_error_subject.txt:3
-#, fuzzy, python-format
-#| msgid "Notification on any translation"
+#, python-format
 msgid "Repository failure in %(component)s"
-msgstr "Notificare la orice traducere"
+msgstr "Eșecul depozitului în %(component)s"
 
 #: weblate/templates/mail/repository_operation_subject.txt:3
-#, fuzzy, python-format
-#| msgid "Notification on any translation"
+#, python-format
 msgid "Repository operation in %(component)s"
-msgstr "Notificare la orice traducere"
+msgstr "Operațiunea de depozitare în %(component)s"
 
 #: weblate/templates/mail/reset.html:7
 #, python-format
@@ -7381,10 +7315,9 @@ msgid "There was a request to reset your Weblate password at %(site_title)s."
 msgstr ""
 
 #: weblate/templates/mail/reset_subject.txt:4
-#, fuzzy, python-format
-#| msgid "Password reset"
+#, python-format
 msgid "Password reset on %(site_title)s"
-msgstr "Resetare parolă"
+msgstr "Resetarea parolei pe %(site_title)s"
 
 #: weblate/templates/mail/shared-registration.html:3
 msgid ""
@@ -7414,10 +7347,8 @@ msgid "Confirm password reset"
 msgstr "Resetare parolă"
 
 #: weblate/templates/mail/shared-registration.html:21
-#, fuzzy
-#| msgid "Your account has been removed."
 msgid "Confirm account removal"
-msgstr "Contul dvs. a fost șters."
+msgstr "Confirmați ștergerea contului"
 
 #: weblate/templates/mail/shared-registration.html:23
 #, fuzzy
@@ -7448,22 +7379,20 @@ msgid "Screenshot context"
 msgstr ""
 
 #: weblate/templates/mail/todo_strings_subject.txt:4
-#, fuzzy, python-format
-#| msgid "Notification on any translation"
+#, python-format
 msgid "%(count)s string needing action in %(component)s"
 msgid_plural "%(count)s strings needing action in %(component)s"
-msgstr[0] "Notificare la orice traducere"
-msgstr[1] "Notificare la orice traducere"
-msgstr[2] "Notificare la orice traducere"
+msgstr[0] "Șirul %(count)s care necesită o acțiune în %(component)s"
+msgstr[1] "Șirul %(count)s care necesită o acțiune în %(component)s"
+msgstr[2] "Șirurile %(count)s care necesită niște acțiuni în %(component)s"
 
 #: weblate/templates/mail/todo_strings_subject.txt:6
-#, fuzzy, python-format
-#| msgid "Toggle navigation"
+#, python-format
 msgid "%(count)s string needing action"
 msgid_plural "%(count)s strings needing action"
-msgstr[0] "Comutare navigare"
-msgstr[1] "Comutare navigare"
-msgstr[2] "Comutare navigare"
+msgstr[0] "%(count)s șir de caractere care necesită acțiune"
+msgstr[1] "%(count)s șiruri de caractere care necesită acțiune"
+msgstr[2] "%(count)s șiruri de caractere care necesită acțiune"
 
 #: weblate/templates/manage-access.html:10 weblate/trans/models/project.py:127
 msgid "Access control"
@@ -7864,10 +7793,8 @@ msgid "User billings"
 msgstr "Limbi secundare"
 
 #: weblate/templates/manage/users_check.html:63 weblate/trans/forms.py:163
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "No matching user found."
-msgstr "Notificare la orice traducere"
+msgstr "Nu s-a găsit niciun utilizator corespunzător."
 
 #: weblate/templates/matrix.html:9
 msgid "Matrix"
@@ -7890,10 +7817,8 @@ msgid "Translation memory status"
 msgstr "Status traducere"
 
 #: weblate/templates/memory/index.html:34
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Shared translation memory"
-msgstr "Notificare la orice traducere"
+msgstr "Memorie partajată de traducere"
 
 #. Translators: Shared translation memory is enabled
 #: weblate/templates/memory/index.html:39
@@ -7909,10 +7834,9 @@ msgid "off"
 msgstr ""
 
 #: weblate/templates/memory/index.html:57
-#, fuzzy, python-format
-#| msgid "Secondary languages"
+#, python-format
 msgid "Number of entries for %(project)s"
-msgstr "Limbi secundare"
+msgstr "Numărul de intrări pentru %(project)s"
 
 #: weblate/templates/memory/index.html:59
 #, fuzzy
@@ -8221,10 +8145,8 @@ msgid "No source strings are currently assigned!"
 msgstr ""
 
 #: weblate/templates/search.html:45
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "No matching strings found."
-msgstr "Notificare la orice traducere"
+msgstr "Nu s-au găsit șiruri de caractere corespunzătoare."
 
 #: weblate/templates/snippets/about.html:3
 #, fuzzy
@@ -8267,13 +8189,12 @@ msgstr ""
 
 #: weblate/templates/snippets/activity.html:24
 #: weblate/templates/snippets/activity.html:29
-#, fuzzy, python-format
-#| msgid "Notification on any translation"
+#, python-format
 msgid "%(count)s change"
 msgid_plural "%(count)s changes"
-msgstr[0] "Notificare la orice traducere"
-msgstr[1] "Notificare la orice traducere"
-msgstr[2] "Notificare la orice traducere"
+msgstr[0] "%(count)s schimbare"
+msgstr[1] "%(count)s schimbare"
+msgstr[2] "%(count)s schimbari"
 
 #: weblate/templates/snippets/billing-failure.html:10
 msgid "This might be caused by missing subscription."
@@ -8308,10 +8229,8 @@ msgid ""
 msgstr ""
 
 #: weblate/templates/snippets/component/lock.html:21
-#, fuzzy
-#| msgid "Your account has been removed."
 msgid "The translation was automatically locked due to following alerts:"
-msgstr "Contul dvs. a fost șters."
+msgstr "Traducerea a fost blocată automat din cauza următoarelor alerte:"
 
 #: weblate/templates/snippets/editor.html:11
 msgid ""
@@ -8366,10 +8285,8 @@ msgid "This translation is forbidden."
 msgstr "Contul dvs. a fost șters."
 
 #: weblate/templates/snippets/glossary.html:9
-#, fuzzy
-#| msgid "Toggle navigation"
 msgid "This term should not be translated."
-msgstr "Comutare navigare"
+msgstr "Acest termen nu ar trebui să fie tradus."
 
 #: weblate/templates/snippets/glossary.html:11
 #, fuzzy
@@ -8397,7 +8314,7 @@ msgstr "Limbă"
 #, fuzzy, python-format
 #| msgid "Description"
 msgid "Plural: %(source_description)s"
-msgstr "Descriere"
+msgstr "Plural: %(source_description)s"
 
 #: weblate/templates/snippets/info.html:57
 msgid "Plurals"
@@ -8643,10 +8560,8 @@ msgid ""
 msgstr ""
 
 #: weblate/templates/snippets/libre-basic.html:6
-#, fuzzy
-#| msgid "Subscribed projects"
 msgid "Using Weblate has been approved by the upstream project."
-msgstr "Proiecte abonate"
+msgstr "Utilizarea Weblate a fost aprobată de proiectul din amonte."
 
 #: weblate/templates/snippets/libre-basic.html:7
 msgid ""
@@ -8668,13 +8583,12 @@ msgid "%(value)s of %(all)s"
 msgstr ""
 
 #: weblate/templates/snippets/list-objects-percent.html:7
-#, fuzzy, python-format
-#| msgid "New password (again)"
+#, python-format
 msgid "Completed translation with %(count)s string"
 msgid_plural "Completed translation with %(count)s strings"
-msgstr[0] "Parola nouă (iarăși)"
-msgstr[1] "Parola nouă (iarăși)"
-msgstr[2] "Parola nouă (iarăși)"
+msgstr[0] "Traducere finalizată cu șirul %(count)s"
+msgstr[1] "Traducere finalizată cu șirul %(count)s"
+msgstr[2] "Traduceri finalizate cu șiruri %(count)s"
 
 #: weblate/templates/snippets/list-objects.html:19
 #: weblate/templates/snippets/list-objects.html:29
@@ -8723,7 +8637,7 @@ msgstr ""
 
 #: weblate/templates/snippets/login-info.html:4
 msgid "Web-based <strong>continuous</strong> localization"
-msgstr ""
+msgstr "Localizare <strong>continuous</strong> bazată pe web"
 
 #: weblate/templates/snippets/login-info.html:9
 msgid "By registering and signing in to this service you accept our:"
@@ -8756,13 +8670,12 @@ msgid "%(filter_pos)s / %(filter_count)s"
 msgstr ""
 
 #: weblate/templates/snippets/position-field.html:14
-#, fuzzy, python-format
-#| msgid "Notification on any translation"
+#, python-format
 msgid "%(count)s string"
 msgid_plural "%(count)s strings"
-msgstr[0] "Notificare la orice traducere"
-msgstr[1] "Notificare la orice traducere"
-msgstr[2] "Notificare la orice traducere"
+msgstr[0] "%(count)s șir de caractere"
+msgstr[1] "%(count)s șir de caractere"
+msgstr[2] "%(count)s șiruri de caractere"
 
 #: weblate/templates/snippets/position-field.html:20
 #, python-format
@@ -8857,10 +8770,8 @@ msgid "String changed by"
 msgstr "Caută"
 
 #: weblate/templates/snippets/query-builder.html:26
-#, fuzzy
-#| msgid "Search"
 msgid "Search for…"
-msgstr "Caută"
+msgstr "Căutați…"
 
 #: weblate/templates/snippets/query-builder.html:27
 msgctxt "Exact search toggle"
@@ -8895,10 +8806,8 @@ msgid "Query examples"
 msgstr ""
 
 #: weblate/templates/snippets/query-builder.html:70
-#, fuzzy
-#| msgid "Your account has been removed."
 msgid "Review strings changed by other users"
-msgstr "Contul dvs. a fost șters."
+msgstr "Șiruri de recenzii modificate de alți utilizatori"
 
 #: weblate/templates/snippets/query-builder.html:75 weblate/trans/filter.py:37
 #: weblate/trans/filter.py:124
@@ -9011,26 +8920,20 @@ msgid "Failing checks:"
 msgstr ""
 
 #: weblate/templates/snippets/unit-readonly-badge.html:4
-#, fuzzy
-#| msgid "Your account has been removed."
 msgid "Source in review"
-msgstr "Contul dvs. a fost șters."
+msgstr "Sursa în revizuire"
 
 #: weblate/templates/snippets/unit-readonly-badge.html:6
-#, fuzzy
-#| msgid "Search"
 msgid "Source string editing is disabled."
-msgstr "Caută"
+msgstr "Editarea șirului sursă este dezactivată."
 
 #: weblate/templates/snippets/unit-readonly-badge.html:8
 msgid "Source strings can’t be edited. You can delete them and add new ones."
 msgstr ""
 
 #: weblate/templates/snippets/unit-readonly-badge.html:10
-#, fuzzy
-#| msgid "Search"
 msgid "The source string cannot be edited."
-msgstr "Caută"
+msgstr "Șirul sursă nu poate fi editat."
 
 #: weblate/templates/snippets/unit-state.html:5
 #: weblate/trans/templatetags/translations.py:555 weblate/utils/state.py:31
@@ -9067,11 +8970,9 @@ msgid "Untranslated"
 msgstr "Tradu"
 
 #: weblate/templates/snippets/unit-state.html:12
-#, fuzzy
-#| msgid "Subscribed projects"
 msgctxt "String state"
 msgid "Failed checks:"
-msgstr "Proiecte abonate"
+msgstr "Verificări eșuate:"
 
 #: weblate/templates/snippets/unit-state.html:14
 #: weblate/templates/snippets/unit-state.html:21
@@ -9105,40 +9006,35 @@ msgid "Watching"
 msgstr ""
 
 #: weblate/templates/snippets/watch-dropdown.html:13
-#, fuzzy, python-format
-#| msgid "Subscribed projects"
+#, python-format
 msgid "Unwatch project %(project)s"
-msgstr "Proiecte abonate"
+msgstr "Dezafectarea proiectului %(project)s"
 
 #: weblate/templates/snippets/watch-dropdown.html:15
 #: weblate/templates/snippets/watch-dropdown.html:18
-#, fuzzy, python-format
-#| msgid "Secondary languages"
+#, python-format
 msgid "Customize notifications for %(object)s"
-msgstr "Limbi secundare"
+msgstr "Personalizați notificările pentru %(object)s"
 
 #: weblate/templates/snippets/watch-dropdown.html:16
 #: weblate/templates/snippets/watch-dropdown.html:19
-#, fuzzy, python-format
-#| msgid "Secondary languages"
+#, python-format
 msgid "Mute notifications for %(object)s"
-msgstr "Limbi secundare"
+msgstr "Dezactivarea notificărilor pentru %(object)s"
 
 #: weblate/templates/snippets/watch-dropdown.html:24
 msgid "Not watching"
 msgstr ""
 
 #: weblate/templates/snippets/watch-dropdown.html:28
-#, fuzzy, python-format
-#| msgid "Subscribed projects"
+#, python-format
 msgid "Watch project %(project)s"
-msgstr "Proiecte abonate"
+msgstr "Urmăriți proiectul %(project)s"
 
 #: weblate/templates/snippets/watch-dropdown.html:30
-#, fuzzy, python-format
-#| msgid "Notification on any translation"
+#, python-format
 msgid "Watch component %(component)s"
-msgstr "Notificare la orice traducere"
+msgstr "Urmăriți componenta %(component)s"
 
 #: weblate/templates/trans/alert/addonscripterror.html:4
 msgid "Weblate could not execute script addon."
@@ -9214,10 +9110,8 @@ msgid "The project website URL points to a non-existing location:"
 msgstr ""
 
 #: weblate/templates/trans/alert/cdnaddonerror.html:4
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Weblate CDN addon could not parse the HTML files."
-msgstr "Notificare la orice traducere"
+msgstr "Weblate CDN addon nu a putut analiza fișierele HTML."
 
 #: weblate/templates/trans/alert/cdnaddonerror.html:10
 #: weblate/templates/trans/alert/parseerror.html:10
@@ -9280,10 +9174,10 @@ msgid ""
 msgstr ""
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:25
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Please fix this by removing one of the translation files."
-msgstr "Notificare la orice traducere"
+msgstr ""
+"Vă rugăm să remediați acest lucru prin eliminarea unuia dintre fișierele de "
+"traducere."
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:31
 msgid ""
@@ -9331,10 +9225,8 @@ msgid "This project does no longer fit into libre hosting conditions."
 msgstr ""
 
 #: weblate/templates/trans/alert/nomaskmatches.html:4
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "There are no translations in this component."
-msgstr "Notificare la orice traducere"
+msgstr "Nu există traduceri în această componentă."
 
 #: weblate/templates/trans/alert/nomaskmatches.html:7
 #, python-format
@@ -9365,10 +9257,8 @@ msgid ""
 msgstr ""
 
 #: weblate/templates/trans/alert/pushfailure.html:4
-#, fuzzy
-#| msgid "Git repository"
 msgid "Weblate could not push changes to the upstream repository."
-msgstr "Repository Git"
+msgstr "Weblate nu a putut să împingă modificările în depozitul din amonte."
 
 #: weblate/templates/trans/alert/pushfailure.html:9
 #: weblate/trans/models/component.py:2380
@@ -9562,10 +9452,8 @@ msgstr ""
 
 #: weblate/templates/trans/delete-component.html:8
 #: weblate/templates/trans/delete-project.html:11
-#, fuzzy
-#| msgid "Your account has been removed."
 msgid "The following translation components will be removed:"
-msgstr "Contul dvs. a fost șters."
+msgstr "Următoarele componente de traducere vor fi eliminate:"
 
 #: weblate/templates/trans/delete-component.html:20
 #, fuzzy
@@ -9585,10 +9473,8 @@ msgid ""
 msgstr ""
 
 #: weblate/templates/trans/delete-project-language.html:6
-#, fuzzy
-#| msgid "Your account has been removed."
 msgid "The following translations will be removed:"
-msgstr "Contul dvs. a fost șters."
+msgstr "Următoarele traduceri vor fi eliminate:"
 
 #: weblate/templates/trans/delete-project-language.html:14
 #, fuzzy
@@ -9623,10 +9509,8 @@ msgid ""
 msgstr ""
 
 #: weblate/templates/trans/delete-translation.html:9
-#, fuzzy
-#| msgid "Your account has been removed."
 msgid "Translation to remove"
-msgstr "Contul dvs. a fost șters."
+msgstr "Traducere pentru a elimina"
 
 #: weblate/templates/trans/discover-choice.html:3
 msgid "The detected file format is not supported."
@@ -9654,17 +9538,15 @@ msgid "Merge Weblate changes and resolve any conflicts."
 msgstr ""
 
 #: weblate/templates/trans/merge_instructions.html:22
-#, fuzzy
-#| msgid "Git repository"
 msgid "Push changes into upstream repository."
-msgstr "Repository Git"
+msgstr "Introduceți modificările în depozitul din amonte."
 
 #: weblate/templates/trans/merge_instructions.html:26
-#, fuzzy
-#| msgid "Git repository"
 msgid ""
 "Weblate should now be able to see updated repository and you can unlock it."
-msgstr "Repository Git"
+msgstr ""
+"Weblate ar trebui să fie acum capabil să vadă depozitul actualizat și îl "
+"puteți debloca."
 
 #: weblate/templates/trans/merge_instructions.html:33
 msgid "Check the FAQ for info on how to resolve this."
@@ -9740,10 +9622,8 @@ msgid "Source change"
 msgstr ""
 
 #: weblate/templates/translate.html:128
-#, fuzzy
-#| msgid "Interface Language"
 msgid "Intermediate language"
-msgstr "Limba interfeței"
+msgstr "Limbaj intermediar"
 
 #: weblate/templates/translate.html:144 weblate/templates/translate.html:605
 #: weblate/templates/zen-units.html:44 weblate/trans/forms.py:472
@@ -9778,10 +9658,8 @@ msgid "This translation is currently locked."
 msgstr "Contul dvs. a fost șters."
 
 #: weblate/templates/translate.html:206
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Please sign in to save translations."
-msgstr "Notificare la orice traducere"
+msgstr "Vă rugăm să vă conectați pentru a salva traducerile."
 
 #: weblate/templates/translate.html:208
 msgid ""
@@ -9801,18 +9679,14 @@ msgid ""
 msgstr ""
 
 #: weblate/templates/translate.html:216
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Insufficient privileges for editing source strings."
-msgstr "Notificare la orice traducere"
+msgstr "Privilegii insuficiente pentru editarea șirurilor sursă."
 
 #: weblate/templates/translate.html:218 weblate/trans/views/edit.py:392
 #: weblate/trans/views/edit.py:412 weblate/trans/views/edit.py:430
 #: weblate/trans/views/edit.py:890
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Insufficient privileges for saving translations."
-msgstr "Notificare la orice traducere"
+msgstr "Insuficiente privilegii pentru salvarea traducerilor."
 
 #: weblate/templates/translate.html:227
 msgid "Insufficient privileges for adding suggestions."
@@ -9855,10 +9729,8 @@ msgid "Variants of the string"
 msgstr "Caută"
 
 #: weblate/templates/translate.html:246 weblate/templates/translate.html:513
-#, fuzzy
-#| msgid "Bulgarian"
 msgid "Variants"
-msgstr "Bulgar"
+msgstr "Variante"
 
 #: weblate/templates/translate.html:252
 #, fuzzy
@@ -9956,13 +9828,12 @@ msgid "Things to check"
 msgstr ""
 
 #: weblate/templates/translate.html:435
-#, fuzzy, python-format
-#| msgid "Translate"
+#, python-format
 msgid "There is %(count)s suggestion for this string."
 msgid_plural "There are %(count)s suggestions for this string."
-msgstr[0] "Tradu"
-msgstr[1] "Tradu"
-msgstr[2] "Tradu"
+msgstr[0] "Există o sugestie %(count)s pentru acest șir de caractere."
+msgstr[1] "Există o sugestie %(count)s pentru acest șir de caractere."
+msgstr[2] "Există niște sugestii %(count)s pentru aceste șiruri de caractere."
 
 #: weblate/templates/translate.html:449
 msgid "Enforced"
@@ -9981,28 +9852,25 @@ msgid "Dismiss for all languages"
 msgstr "Limbi secundare"
 
 #: weblate/templates/translate.html:501
-#, fuzzy, python-format
-#| msgid "Translate"
+#, python-format
 msgid "There is %(count)s comment for this string."
 msgid_plural "There are %(count)s comments for this string."
-msgstr[0] "Tradu"
-msgstr[1] "Tradu"
-msgstr[2] "Tradu"
+msgstr[0] "Există un comentariu %(count)s pentru acest șir de caractere."
+msgstr[1] "Există un comentariu %(count)s pentru acest șir de caractere."
+msgstr[2] "Există niște comentarii %(count)s pentru aceste șiruri de caractere."
 
 #: weblate/templates/translate.html:515
-#, fuzzy, python-format
-#| msgid "Translate"
+#, python-format
 msgid "There is %(count)s variant of this string."
 msgid_plural "There are %(count)s variants of this string."
-msgstr[0] "Tradu"
-msgstr[1] "Tradu"
-msgstr[2] "Tradu"
+msgstr[0] "Există o variantă %(count)s a acestui șir."
+msgstr[1] "Există o variantă %(count)s a acestui șir."
+msgstr[2] "Există niște variante %(count)s a acestui șir."
 
 #: weblate/templates/translate.html:532
-#, fuzzy, python-format
-#| msgid "Glossary"
+#, python-format
 msgid "Browse glossary %(name)s"
-msgstr "Glosar"
+msgstr "Răsfoiți glosarul %(name)s"
 
 #: weblate/templates/translate.html:554 weblate/templates/translate.html:564
 #, fuzzy
@@ -10058,10 +9926,9 @@ msgid "%(filename)s, string %(position)s"
 msgstr ""
 
 #: weblate/templates/translate.html:693
-#, fuzzy, python-format
-#| msgid "Notification on any translation"
+#, python-format
 msgid "string %(position)s"
-msgstr "Notificare la orice traducere"
+msgstr "șir de caractere %(position)s"
 
 #: weblate/templates/translate.html:696
 #, fuzzy
@@ -10084,10 +9951,9 @@ msgid "<code>%(flags)s</code> is inherited from %(object)s."
 msgstr ""
 
 #: weblate/templates/translate.html:767
-#, fuzzy, python-format
-#| msgid "Search"
+#, python-format
 msgid "Add a new variant for \"%(existing)s\""
-msgstr "Caută"
+msgstr "Adăugați o nouă variantă pentru \"%(existing)s\""
 
 #: weblate/templates/translation.html:55
 #, fuzzy
@@ -10449,10 +10315,8 @@ msgid "More users matched."
 msgstr ""
 
 #: weblate/trans/forms.py:179
-#, fuzzy
-#| msgid "Translate"
 msgid "Missing query string."
-msgstr "Tradu"
+msgstr "Lipsește șirul de interogare."
 
 #: weblate/trans/forms.py:186
 #, fuzzy
@@ -10475,10 +10339,8 @@ msgid "Clone source"
 msgstr "Numele tău"
 
 #: weblate/trans/forms.py:387
-#, fuzzy
-#| msgid "Translate"
 msgid "Missing translated string!"
-msgstr "Tradu"
+msgstr "Lipsește șirul tradus!"
 
 #: weblate/trans/forms.py:393
 msgid "Search filter"
@@ -10523,10 +10385,8 @@ msgid ""
 msgstr ""
 
 #: weblate/trans/forms.py:549
-#, fuzzy
-#| msgid "Translation status"
 msgid "Translation text too long!"
-msgstr "Status traducere"
+msgstr "Textul traducerii este prea lung!"
 
 #: weblate/trans/forms.py:610
 msgid "File upload mode"
@@ -10777,27 +10637,21 @@ msgid "Ending date"
 msgstr ""
 
 #: weblate/trans/forms.py:1153 weblate/trans/forms.py:1155
-#, fuzzy
-#| msgid "Translate"
 msgid "Missing date!"
-msgstr "Tradu"
+msgstr "Lipsește data!"
 
 #: weblate/trans/forms.py:1167
 msgid "Starting date has to be before ending date!"
 msgstr ""
 
 #: weblate/trans/forms.py:1185
-#, fuzzy
-#| msgid "You don't have privileges to display this page."
 msgid "You do not have permission to access this component!"
-msgstr "Nu aveți drepturi pentru a vedea această pagină."
+msgstr "Nu aveți permisiunea de a accesa această componentă!"
 
 #: weblate/trans/forms.py:1243 weblate/trans/forms.py:1251
 #: weblate/trans/forms.py:1257
-#, fuzzy
-#| msgid "Translation status"
 msgid "This field has been identified as spam!"
-msgstr "Status traducere"
+msgstr "Acest câmp a fost identificat ca fiind spam!"
 
 #: weblate/trans/forms.py:1328 weblate/trans/forms.py:1880
 msgid "Basic"
@@ -11007,16 +10861,16 @@ msgid "Optional context to clarify the source strings."
 msgstr ""
 
 #: weblate/trans/forms.py:2063
-#, fuzzy
-#| msgid "Translation status"
 msgid "Automatically adjust context when same string already exists."
-msgstr "Status traducere"
+msgstr ""
+"Ajustarea automată a contextului atunci când există deja același șir de "
+"caractere."
 
 #: weblate/trans/forms.py:2084
-#, fuzzy
-#| msgid "Translate"
 msgid "You can edit this later, as with any other string in the translation."
-msgstr "Tradu"
+msgstr ""
+"Puteți edita acest lucru mai târziu, la fel ca orice alt șir de caractere "
+"din traducere."
 
 #: weblate/trans/forms.py:2160
 #, fuzzy
@@ -11037,10 +10891,8 @@ msgid "Translation flags to add"
 msgstr "Status traducere"
 
 #: weblate/trans/forms.py:2163
-#, fuzzy
-#| msgid "Your account has been removed."
 msgid "Translation flags to remove"
-msgstr "Contul dvs. a fost șters."
+msgstr "Indicatoare de traducere de eliminat"
 
 #: weblate/trans/forms.py:2166
 msgid "Labels to add"
@@ -11059,10 +10911,8 @@ msgid "I accept the contributor agreement"
 msgstr "Notificare la fiecare comentariu nou"
 
 #: weblate/trans/forms.py:2232
-#, fuzzy
-#| msgid "Your account has been removed."
 msgid "The slug does not match the one marked for deletion!"
-msgstr "Contul dvs. a fost șters."
+msgstr "Slug-ul nu se potrivește cu cel marcat pentru ștergere!"
 
 #: weblate/trans/forms.py:2238 weblate/trans/forms.py:2247
 #: weblate/trans/forms.py:2256 weblate/trans/forms.py:2265
@@ -11072,28 +10922,22 @@ msgid "Removal confirmation"
 msgstr "Parola nouă (iarăși)"
 
 #: weblate/trans/forms.py:2239
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Please type in the full slug of the translation to confirm."
-msgstr "Notificare la orice traducere"
+msgstr ""
+"Vă rugăm să introduceți denumirea completă a traducerii pentru a confirma."
 
 #: weblate/trans/forms.py:2248
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Please type in the full slug of the component to confirm."
-msgstr "Notificare la orice traducere"
+msgstr ""
+"Vă rugăm să introduceți denumirea completă a componentei pentru a confirma."
 
 #: weblate/trans/forms.py:2257
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Please type in the slug of the project to confirm."
-msgstr "Notificare la orice traducere"
+msgstr "Vă rugăm să introduceți slug-ul proiectului pentru a confirma."
 
 #: weblate/trans/forms.py:2266
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Please type in the slug of the project and language to confirm."
-msgstr "Notificare la orice traducere"
+msgstr "Vă rugăm să introduceți slug-ul proiectului și limba pentru a confirma."
 
 #: weblate/trans/forms.py:2293
 #, fuzzy
@@ -11142,10 +10986,8 @@ msgid "Add screenshots to show where strings are being used."
 msgstr ""
 
 #: weblate/trans/guide.py:192
-#, fuzzy
-#| msgid "Notification on new string to translate"
 msgid "Use flags to indicate special strings in your translation."
-msgstr "Notificare la fiecare nou termen de tradus"
+msgstr "Vă rugăm să introduceți slug-ul proiectului și limba pentru a confirma."
 
 #: weblate/trans/guide.py:210
 msgid "Add safe-html flag to avoid dangerous HTML from translators."
@@ -11157,52 +10999,38 @@ msgstr ""
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:168
-#, fuzzy
-#| msgid "Notification on new string to translate"
 msgid "Duplicated string found in the file."
-msgstr "Notificare la fiecare nou termen de tradus"
+msgstr "Șir duplicat găsit în fișier."
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:175
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Duplicated translation."
-msgstr "Notificare la orice traducere"
+msgstr "Traducere duplicată."
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:197
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Duplicated filemask."
-msgstr "Notificare la orice traducere"
+msgstr "Filemask duplicat."
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:208
-#, fuzzy
-#| msgid "Git repository"
 msgid "Could not merge the repository."
-msgstr "Repository Git"
+msgstr "Nu s-a putut fuziona depozitul."
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:215
-#, fuzzy
-#| msgid "Git repository"
 msgid "Could not update the repository."
-msgstr "Repository Git"
+msgstr "Nu s-a putut actualiza depozitul."
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:222
-#, fuzzy
-#| msgid "Git repository"
 msgid "Could not push the repository."
-msgstr "Repository Git"
+msgstr "Nu a fost posibilă împingerea depozitului."
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:234
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Could not parse translation files."
-msgstr "Notificare la orice traducere"
+msgstr "Nu s-au putut analiza fișierele de traducere."
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:241
@@ -11211,17 +11039,13 @@ msgstr ""
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:247
-#, fuzzy
-#| msgid "Git repository"
 msgid "Repository outdated."
-msgstr "Repository Git"
+msgstr "Depozit învechit."
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:254
-#, fuzzy
-#| msgid "Git repository"
 msgid "Repository has changes."
-msgstr "Repository Git"
+msgstr "Depozitul a suferit modificări."
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:261
@@ -11269,10 +11093,8 @@ msgstr "Proiecte abonate"
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:331
-#, fuzzy
-#| msgid "Language"
 msgid "Ambiguous language code."
-msgstr "Limbă"
+msgstr "Cod lingvistic ambiguu."
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:348
@@ -11482,10 +11304,8 @@ msgstr "Caută"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:284
-#, fuzzy
-#| msgid "Your password has been changed."
 msgid "Bulk status change"
-msgstr "Parola dvs. a fost schimbată."
+msgstr "Schimbarea în masă a statutului"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:286
@@ -11636,13 +11456,11 @@ msgid "Screnshot uploaded"
 msgstr "Proiecte abonate"
 
 #: weblate/trans/models/change.py:404
-#, fuzzy
-#| msgid "Notification on new string to translate"
 msgid "New string to translate"
 msgid_plural "New strings to translate"
-msgstr[0] "Notificare la fiecare nou termen de tradus"
-msgstr[1] "Notificare la fiecare nou termen de tradus"
-msgstr[2] "Notificare la fiecare nou termen de tradus"
+msgstr[0] "Șir nou de tradus"
+msgstr[1] "Șir nou de tradus"
+msgstr[2] "Șiruri noi de tradus"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:409
@@ -11669,11 +11487,12 @@ msgid "N/A"
 msgstr ""
 
 #: weblate/trans/models/change.py:553
-#, fuzzy, python-format
-#| msgid "Secondary languages"
+#, python-format
 msgid ""
 "License for component %(component)s was changed from %(old)s to %(target)s."
-msgstr "Limbi secundare"
+msgstr ""
+"Licența pentru componenta %(component)s a fost schimbată din %(old)s în "
+"%(target)s."
 
 #. Translators: Action when adding new translation
 #: weblate/trans/models/component.py:118
@@ -11822,12 +11641,12 @@ msgid "Edit base file"
 msgstr ""
 
 #: weblate/trans/models/component.py:361
-#, fuzzy
-#| msgid "Translate"
 msgid ""
 "Whether users will be able to edit the base file for monolingual "
 "translations."
-msgstr "Tradu"
+msgstr ""
+"Dacă utilizatorii vor putea să editeze fișierul de bază pentru traducerile "
+"monolingve."
 
 #: weblate/trans/models/component.py:366
 #, fuzzy
@@ -12025,12 +11844,12 @@ msgid "Whether the component should be locked on repository errors."
 msgstr ""
 
 #: weblate/trans/models/component.py:586
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid ""
 "Regular expression used to filter translation files when scanning for "
 "filemask."
-msgstr "Notificare la orice traducere"
+msgstr ""
+"Expresie regulată utilizată pentru a filtra fișierele de traducere la "
+"scanarea pentru filemask."
 
 #: weblate/trans/models/component.py:591
 #, fuzzy
@@ -12039,10 +11858,10 @@ msgid "Variants regular expression"
 msgstr "Denumire proiect"
 
 #: weblate/trans/models/component.py:597
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Regular expression used to determine variants of a string."
-msgstr "Notificare la orice traducere"
+msgstr ""
+"Expresie regulată utilizată pentru a determina variantele unui șir de "
+"caractere."
 
 #: weblate/trans/models/component.py:606
 msgid "Components with higher priority are offered first to translators."
@@ -12088,10 +11907,9 @@ msgid ""
 msgstr ""
 
 #: weblate/trans/models/component.py:1222
-#, fuzzy, python-format
-#| msgid "Git repository"
+#, python-format
 msgid "Could not fetch the repository: %s"
-msgstr "Repository Git"
+msgstr "Nu s-a putut prelua depozitul: %s"
 
 #: weblate/trans/models/component.py:1274
 #: weblate/trans/models/component.py:2280
@@ -12102,10 +11920,9 @@ msgid "File does not exist."
 msgstr "Contul dvs. a fost șters."
 
 #: weblate/trans/models/component.py:1437
-#, fuzzy, python-format
-#| msgid "Git repository"
+#, python-format
 msgid "Could not push to remote branch on %s."
-msgstr "Repository Git"
+msgstr "Nu s-a putut face push către ramura de la distanță pe %s."
 
 #: weblate/trans/models/component.py:1450
 #, python-format
@@ -12113,16 +11930,14 @@ msgid "Push is turned off for %s."
 msgstr ""
 
 #: weblate/trans/models/component.py:1508
-#, fuzzy, python-format
-#| msgid "Notification on any translation"
+#, python-format
 msgid "Could not reset to remote branch on %s."
-msgstr "Notificare la orice traducere"
+msgstr "Nu s-a putut reseta la ramura de la distanță pe %s."
 
 #: weblate/trans/models/component.py:1539
-#, fuzzy, python-format
-#| msgid "Git repository"
+#, python-format
 msgid "Could not clean the repository on %s."
-msgstr "Repository Git"
+msgstr "Nu s-a putut curăța depozitul pe %s."
 
 #: weblate/trans/models/component.py:1670
 #, python-format
@@ -12130,10 +11945,9 @@ msgid "Could not rebase local branch onto remote branch %s."
 msgstr ""
 
 #: weblate/trans/models/component.py:1676
-#, fuzzy, python-format
-#| msgid "Git repository"
+#, python-format
 msgid "Could not merge remote branch into %s."
-msgstr "Repository Git"
+msgstr "Nu s-a putut fuziona ramura de la distanță în %s."
 
 #: weblate/trans/models/component.py:2151
 msgid "Invalid link to a Weblate project, cannot link to linked repository!"
@@ -12173,19 +11987,18 @@ msgid ""
 msgstr ""
 
 #: weblate/trans/models/component.py:2226
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Could not find any matching language, please check the filemask."
-msgstr "Notificare la orice traducere"
+msgstr ""
+"Nu a fost găsită nicio limbă corespunzătoare, vă rugăm să verificați "
+"filemask."
 
 #: weblate/trans/models/component.py:2245
-#, fuzzy, python-format
-#| msgid "Notification on any translation"
+#, python-format
 msgid "Could not parse %d matched file."
 msgid_plural "Could not parse %d matched files."
-msgstr[0] "Notificare la orice traducere"
-msgstr[1] "Notificare la orice traducere"
-msgstr[2] "Notificare la orice traducere"
+msgstr[0] "Nu s-a putut analiza %d fișierul corespunzător."
+msgstr[1] "Nu s-a putut analiza %d fișierul corespunzător."
+msgstr[2] "Nu s-au putut analiza %d fișierele corespunzătoare."
 
 #: weblate/trans/models/component.py:2273
 msgid ""
@@ -12194,22 +12007,17 @@ msgid ""
 msgstr ""
 
 #: weblate/trans/models/component.py:2284
-#, fuzzy, python-format
-#| msgid "Translate"
+#, python-format
 msgid "Failed to parse base file for new translations: %s"
-msgstr "Tradu"
+msgstr "Nu a reușit să analizeze fișierul de bază pentru traduceri noi: %s"
 
 #: weblate/trans/models/component.py:2288
-#, fuzzy
-#| msgid "Translate"
 msgid "Unrecognized base file for new translations."
-msgstr "Tradu"
+msgstr "Fișier de bază nerecunoscut pentru noile traduceri."
 
 #: weblate/trans/models/component.py:2299
-#, fuzzy
-#| msgid "Translate"
 msgid "You can not use a base file for bilingual translation."
-msgstr "Tradu"
+msgstr "Nu puteți utiliza un fișier de bază pentru o traducere bilingvă."
 
 #: weblate/trans/models/component.py:2305
 #: weblate/trans/models/component.py:2321
@@ -12228,10 +12036,9 @@ msgid "Using a .pot file as base file is unsupported."
 msgstr ""
 
 #: weblate/trans/models/component.py:2344
-#, fuzzy, python-format
-#| msgid "Notification on any translation"
+#, python-format
 msgid "Could not parse translation base file: %s"
-msgstr "Notificare la orice traducere"
+msgstr "Nu s-a putut analiza fișierul de bază al traducerii: %s"
 
 #: weblate/trans/models/component.py:2354
 #, python-brace-format
@@ -12243,10 +12050,9 @@ msgid "You can not use a monolingual translation without a base file."
 msgstr ""
 
 #: weblate/trans/models/component.py:2385
-#, fuzzy, python-format
-#| msgid "Git repository"
+#, python-format
 msgid "Could not update repository: %s"
-msgstr "Repository Git"
+msgstr "Nu s-a putut actualiza depozitul: %s"
 
 #: weblate/trans/models/component.py:2402
 msgid ""
@@ -12264,10 +12070,8 @@ msgid "Component with this URL slug already exists in the project."
 msgstr ""
 
 #: weblate/trans/models/component.py:2446
-#, fuzzy
-#| msgid "Translation status"
 msgid "Component with this name already exists in the project."
-msgstr "Status traducere"
+msgstr "Componenta cu acest nume există deja în proiect."
 
 #: weblate/trans/models/component.py:2471
 msgid "Can not validate file matches due to invalid regular expression."
@@ -12278,20 +12082,16 @@ msgid "Accepting suggestions automatically only works with voting turned on."
 msgstr ""
 
 #: weblate/trans/models/component.py:2907
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Could not add new translation file."
-msgstr "Notificare la orice traducere"
+msgstr "Nu s-a putut adăuga un nou fișier de traducere."
 
 #: weblate/trans/models/component.py:2923
 msgid "The given language is filtered by the language filter."
 msgstr ""
 
 #: weblate/trans/models/component.py:2947
-#, fuzzy
-#| msgid "Translation status"
 msgid "Translation file already exists!"
-msgstr "Status traducere"
+msgstr "Fișierul de traducere există deja!"
 
 #: weblate/trans/models/component.py:2967
 #, fuzzy
@@ -12401,10 +12201,8 @@ msgid "Use shared translation memory"
 msgstr "Notificare la orice traducere"
 
 #: weblate/trans/models/project.py:114
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Uses the pool of shared translations between projects."
-msgstr "Notificare la orice traducere"
+msgstr "Folosește fondul de traduceri partajate între proiecte."
 
 #: weblate/trans/models/project.py:118
 #, fuzzy
@@ -12460,10 +12258,8 @@ msgid ""
 msgstr ""
 
 #: weblate/trans/models/suggestion.py:138
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Failed to accept suggestion!"
-msgstr "Notificare la orice traducere"
+msgstr "Nu a fost acceptată sugestia!"
 
 #: weblate/trans/models/translation.py:166
 #, fuzzy
@@ -12491,26 +12287,21 @@ msgid "Failed to parse file %(file)s: %(error)s"
 msgstr ""
 
 #: weblate/trans/models/translation.py:1325
-#, fuzzy
-#| msgid "Translation status"
 msgid "This string seems to already exist."
-msgstr "Status traducere"
+msgstr "Acest șir pare să existe deja."
 
 #: weblate/trans/models/translation.py:1332
 #: weblate/trans/models/translation.py:1354
 #: weblate/trans/models/translation.py:1360
 #: weblate/trans/models/translation.py:1364
 #: weblate/trans/models/translation.py:1379
-#, fuzzy, python-format
-#| msgid "Notification on any translation"
+#, python-format
 msgid "Failed adding string: %s"
-msgstr "Notificare la orice traducere"
+msgstr "Nu s-a reușit adăugarea șirului: %s"
 
 #: weblate/trans/models/translation.py:1332
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "No translation found."
-msgstr "Notificare la orice traducere"
+msgstr "Nu s-a găsit nicio traducere."
 
 #: weblate/trans/models/translation.py:1364
 #: weblate/trans/models/translation.py:1379
@@ -12633,22 +12424,19 @@ msgid "Possible configuration"
 msgstr ""
 
 #: weblate/trans/templatetags/translations.py:174
-#, fuzzy, python-format
-#| msgid "Notification on any translation"
+#, python-format
 msgid "Forbidden translation: %s"
-msgstr "Notificare la orice traducere"
+msgstr "Traducere interzisă: %s"
 
 #: weblate/trans/templatetags/translations.py:176
-#, fuzzy, python-format
-#| msgid "Translate"
+#, python-format
 msgid "Not-translatable: %s"
-msgstr "Tradu"
+msgstr "Nu este traductibil: %s"
 
 #: weblate/trans/templatetags/translations.py:178
-#, fuzzy, python-format
-#| msgid "New password (again)"
+#, python-format
 msgid "Glossary translation: %s"
-msgstr "Parola nouă (iarăși)"
+msgstr "Traducerea glosarului: %s"
 
 #: weblate/trans/templatetags/translations.py:224
 msgid "New line"
@@ -12852,20 +12640,16 @@ msgid "This translation is locked."
 msgstr "Contul dvs. a fost șters."
 
 #: weblate/trans/templatetags/translations.py:750
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Updating translation component…"
-msgstr "Notificare la orice traducere"
+msgstr "Actualizarea componentei de traducere…"
 
 #: weblate/trans/templatetags/translations.py:760
 msgid "Some of the components within this project have alerts."
 msgstr ""
 
 #: weblate/trans/templatetags/translations.py:797
-#, fuzzy
-#| msgid "Subscribed projects"
 msgid "You administrate this project."
-msgstr "Proiecte abonate"
+msgstr "Dumneavoastră administrați acest proiect."
 
 #: weblate/trans/templatetags/translations.py:810
 #, fuzzy
@@ -12874,19 +12658,17 @@ msgid "This translation does not yet exist."
 msgstr "Contul dvs. a fost șters."
 
 #: weblate/trans/templatetags/translations.py:823
-#, fuzzy, python-format
-#| msgid "Toggle navigation"
+#, python-format
 msgid "%(count)s string is not being translated here."
 msgid_plural "%(count)s strings are not being translated here."
-msgstr[0] "Comutare navigare"
-msgstr[1] "Comutare navigare"
-msgstr[2] "Comutare navigare"
+msgstr[0] "Șirul %(count)s nu este tradus aici."
+msgstr[1] "Șirul %(count)s nu este tradus aici."
+msgstr[2] "Șirurile %(count)s nu sunt traduse aici."
 
 #: weblate/trans/templatetags/translations.py:836
-#, fuzzy, python-format
-#| msgid "Subscribed projects"
+#, python-format
 msgid "Shared from the %s project."
-msgstr "Proiecte abonate"
+msgstr "Partajat din proiectul %s."
 
 #: weblate/trans/templatetags/translations.py:859
 msgid "enabled"
@@ -12957,10 +12739,8 @@ msgstr ""
 
 #: weblate/trans/views/acl.py:145 weblate/trans/views/acl.py:160
 #: weblate/wladmin/views.py:341
-#, fuzzy
-#| msgid "Subscribed projects"
 msgid "User has been invited to this project."
-msgstr "Proiecte abonate"
+msgstr "Utilizatorul a fost invitat la acest proiect."
 
 #: weblate/trans/views/acl.py:185
 msgid "User has been removed from this project."
@@ -13024,10 +12804,8 @@ msgid "Detected license as %s, please check whether it is correct."
 msgstr ""
 
 #: weblate/trans/views/create.py:312
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Failed to parse uploaded ZIP file."
-msgstr "Notificare la orice traducere"
+msgstr "Nu a reușit să analizeze fișierul ZIP încărcat."
 
 #: weblate/trans/views/dashboard.py:172
 msgid ""
@@ -13058,16 +12836,12 @@ msgid "You don't have privileges to add suggestions!"
 msgstr ""
 
 #: weblate/trans/views/edit.py:283
-#, fuzzy
-#| msgid "Translation status"
 msgid "Your suggestion has been identified as spam!"
-msgstr "Status traducere"
+msgstr "Sugestia dvs. a fost identificată ca fiind spam!"
 
 #: weblate/trans/views/edit.py:294
-#, fuzzy
-#| msgid "Translation status"
 msgid "Your suggestion already exists!"
-msgstr "Status traducere"
+msgstr "Sugestia ta există deja!"
 
 #: weblate/trans/views/edit.py:318
 #, python-format
@@ -13139,10 +12913,8 @@ msgid "Automatic translation in progress"
 msgstr "Notificare la orice traducere"
 
 #: weblate/trans/views/edit.py:734
-#, fuzzy
-#| msgid "Your account has been removed."
 msgid "Source needs review"
-msgstr "Contul dvs. a fost șters."
+msgstr "Sursa trebuie revizuită"
 
 #: weblate/trans/views/edit.py:737
 msgid "Posted new comment"
@@ -13232,10 +13004,8 @@ msgid "Translation files have been synchronized."
 msgstr "Contul dvs. a fost șters."
 
 #: weblate/trans/views/js.py:56
-#, fuzzy
-#| msgid "Translate"
 msgid "Service is currently not available."
-msgstr "Tradu"
+msgstr "Serviciul nu este disponibil în prezent."
 
 #: weblate/trans/views/lock.py:42
 msgid "Component is now locked for translation updates!"
@@ -13317,28 +13087,22 @@ msgid "Project was scheduled for removal."
 msgstr "Contul dvs. a fost șters."
 
 #: weblate/trans/views/settings.py:213
-#, fuzzy
-#| msgid "Language"
 msgid "Language of the project was removed."
-msgstr "Limbă"
+msgstr "Limba proiectului a fost eliminată."
 
 #: weblate/trans/views/source.py:70
-#, fuzzy
-#| msgid "Search"
 msgid "Failed to change additional string info!"
-msgstr "Caută"
+msgstr ""
+"Nu s-a reușit modificarea informațiilor suplimentare despre șirul de "
+"caractere!"
 
 #: weblate/trans/widgets.py:247
-#, fuzzy
-#| msgid "Your password has been changed."
 msgid "Big status badge"
-msgstr "Parola dvs. a fost schimbată."
+msgstr "Insigna mare de stare"
 
 #: weblate/trans/widgets.py:281
-#, fuzzy
-#| msgid "Your password has been changed."
 msgid "Small status badge"
-msgstr "Parola dvs. a fost schimbată."
+msgstr "Insignă mică de stare"
 
 #: weblate/trans/widgets.py:303
 msgctxt "Status widget name"
@@ -13347,10 +13111,9 @@ msgstr ""
 
 #. Translators: Text on OpenGraph image
 #: weblate/trans/widgets.py:316
-#, fuzzy, python-format
-#| msgid "Project"
+#, python-format
 msgid "Project %s"
-msgstr "Proiect"
+msgstr "Proiect %s"
 
 #: weblate/trans/widgets.py:361
 #, fuzzy
@@ -13503,16 +13266,13 @@ msgid "Empty"
 msgstr ""
 
 #: weblate/utils/validators.py:66
-#, fuzzy, python-brace-format
-#| msgid "Project name"
+#, python-brace-format
 msgid "Compilation failed: {0}"
-msgstr "Denumire proiect"
+msgstr "Compilarea a eșuat: {0}"
 
 #: weblate/utils/validators.py:69
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "The regular expression can not match an empty string."
-msgstr "Notificare la orice traducere"
+msgstr "Expresia regulată nu se poate potrivi cu un șir gol."
 
 #: weblate/utils/validators.py:77
 #, python-brace-format
@@ -13526,10 +13286,9 @@ msgid "Invalid image!"
 msgstr ""
 
 #: weblate/utils/validators.py:126
-#, fuzzy, python-format
-#| msgid "About Weblate"
+#, python-format
 msgid "Unsupported image type: %s"
-msgstr "Despre Weblate"
+msgstr "Tip de imagine neacceptat: %s"
 
 #: weblate/utils/validators.py:132
 msgid "The image is too big, please crop or scale it down."
@@ -13576,10 +13335,8 @@ msgid "The filename should be as simple as possible. Maybe you want to use: {}"
 msgstr ""
 
 #: weblate/utils/validators.py:220
-#, fuzzy
-#| msgid "This field is required."
 msgid "This name is prohibited"
-msgstr "Acest câmp este obligatoriu."
+msgstr "Acest nume este interzis"
 
 #: weblate/utils/validators.py:229
 msgid "Syntax error in language aliases."
@@ -13663,7 +13420,7 @@ msgstr ""
 
 #: weblate/wladmin/forms.py:30
 msgid "Activation token"
-msgstr ""
+msgstr "Jeton de activare"
 
 #: weblate/wladmin/forms.py:34
 msgid ""
@@ -13728,7 +13485,7 @@ msgstr ""
 
 #: weblate/wladmin/models.py:67
 msgid "Hosted service"
-msgstr ""
+msgstr "Serviciul găzduit"
 
 #: weblate/wladmin/models.py:68
 msgid "Basic self-hosted support"
@@ -13736,11 +13493,11 @@ msgstr ""
 
 #: weblate/wladmin/models.py:69
 msgid "Extended self-hosted support"
-msgstr ""
+msgstr "Suport extins pentru găzduire proprie"
 
 #: weblate/wladmin/models.py:70
 msgid "Premium self-hosted support"
-msgstr ""
+msgstr "Suport premium pentru găzduire proprie"
 
 #: weblate/wladmin/models.py:147
 #, fuzzy
@@ -13832,10 +13589,9 @@ msgid "Test e-mail sent."
 msgstr ""
 
 #: weblate/wladmin/views.py:125
-#, fuzzy, python-format
-#| msgid "Git repository"
+#, python-format
 msgid "Could not send test e-mail: %s"
-msgstr "Repository Git"
+msgstr "Nu s-a putut trimite un e-mail de test: %s"
 
 #: weblate/wladmin/views.py:174
 #, fuzzy
@@ -13850,16 +13606,12 @@ msgid ""
 msgstr ""
 
 #: weblate/wladmin/views.py:225
-#, fuzzy
-#| msgid "Your account has been removed."
 msgid "Backup process triggered"
-msgstr "Contul dvs. a fost șters."
+msgstr "Procesul de backup activat"
 
 #: weblate/wladmin/views.py:247
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Could not dismiss the configuration error!"
-msgstr "Notificare la orice traducere"
+msgstr "Nu s-a putut respinge eroarea de configurare!"
 
 #, fuzzy
 #~| msgid "Subscribed projects"
