@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.6\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-04-03 12:06+0000\n"
-"PO-Revision-Date: 2021-04-04 17:34+0000\n"
+"PO-Revision-Date: 2021-04-05 09:53+0000\n"
 "Last-Translator: Christian Eichert <c@zp1.net>\n"
 "Language-Team: Romanian <https://hosted.weblate.org/projects/weblate/"
 "application/ro/>\n"
@@ -43,17 +43,17 @@ msgid ""
 "This e-mail address is already in use. Please supply a different e-mail "
 "address."
 msgstr ""
-"Această adresă de e-mail este deja în uz. Vă rugăm să furnizați o adresă de "
-"e-mail."
+"Această adresă de e-mail este deja utilizată. Vă rugăm să furnizați o altă "
+"adresă de e-mail."
 
 #: weblate/accounts/forms.py:118
 msgid "This username is already taken. Please choose another."
-msgstr "Acest nume de utilizator este deja luat. Vă rugăm să alegeți altul."
+msgstr "Acest nume de utilizator este deja ocupat. Vă rugăm să alegeți altul."
 
 #: weblate/accounts/forms.py:129 weblate/accounts/forms.py:801
 #: weblate/auth/models.py:316 weblate/templates/manage-access.html:34
 msgid "Full name"
-msgstr "Nume complet"
+msgstr "Nume și prenume"
 
 #: weblate/accounts/forms.py:180 weblate/accounts/models.py:534
 #, fuzzy
@@ -64,7 +64,7 @@ msgstr "Adresa ta de e-mail"
 #: weblate/accounts/forms.py:287
 #, python-format
 msgid "Component list: %s"
-msgstr "Lista de componente %s"
+msgstr "Lista de componente: %s"
 
 #: weblate/accounts/forms.py:313 weblate/accounts/forms.py:388
 #: weblate/accounts/templatetags/authnames.py:42 weblate/auth/models.py:322
@@ -77,7 +77,7 @@ msgstr "E-mail"
 
 #: weblate/accounts/forms.py:314
 msgid "You can add another e-mail address below."
-msgstr "Puteți adăuga un alt e-mail în pagina de autentificare."
+msgstr "Puteți adăuga o altă adresă de e-mail mai jos."
 
 #: weblate/accounts/forms.py:356
 msgid "Subject"
@@ -85,11 +85,11 @@ msgstr "Subiect"
 
 #: weblate/accounts/forms.py:358
 msgid "Your name"
-msgstr "Numele tău"
+msgstr "Numele dumneavoastră"
 
 #: weblate/accounts/forms.py:360
 msgid "Your e-mail"
-msgstr "Adresa ta de e-mail"
+msgstr "E-mail-ul dvs"
 
 #: weblate/accounts/forms.py:362 weblate/templates/manage/performance.html:27
 #: weblate/templates/manage/performance.html:73
@@ -2346,7 +2346,7 @@ msgid ""
 "Username may only contain letters, numbers or the following characters: @ . "
 "+ - _"
 msgstr ""
-"Numele utilizatorului poate să conțină doar litere, cifre și următoarele "
+"Numele de utilizator poate să conțină doar litere, cifre sau următoarele "
 "caractere: @ . + - _"
 
 #: weblate/auth/models.py:313
@@ -2518,7 +2518,7 @@ msgstr[2] "Conține %d proiecte"
 msgid "Contains %d component"
 msgid_plural "Contains %d components"
 msgstr[0] "Conține %d component"
-msgstr[1] "Conține %d component"
+msgstr[1] "Conține %d componente"
 msgstr[2] "Conține %d componente"
 
 #: weblate/billing/models.py:463
@@ -4065,7 +4065,7 @@ msgstr "Feb"
 #: weblate/metrics/wrapper.py:33
 msgctxt "Short name of month"
 msgid "Mar"
-msgstr "Mar"
+msgstr "mar"
 
 #: weblate/metrics/wrapper.py:34
 msgctxt "Short name of month"
@@ -4080,17 +4080,17 @@ msgstr "Mai"
 #: weblate/metrics/wrapper.py:36
 msgctxt "Short name of month"
 msgid "Jun"
-msgstr "Iun"
+msgstr "iun"
 
 #: weblate/metrics/wrapper.py:37
 msgctxt "Short name of month"
 msgid "Jul"
-msgstr "Iul"
+msgstr "iul"
 
 #: weblate/metrics/wrapper.py:38
 msgctxt "Short name of month"
 msgid "Aug"
-msgstr "Aug"
+msgstr "aug"
 
 #: weblate/metrics/wrapper.py:39
 msgctxt "Short name of month"
@@ -4100,7 +4100,7 @@ msgstr "Sep"
 #: weblate/metrics/wrapper.py:40
 msgctxt "Short name of month"
 msgid "Oct"
-msgstr "Oct"
+msgstr "oct"
 
 #: weblate/metrics/wrapper.py:41
 msgctxt "Short name of month"
@@ -4141,10 +4141,8 @@ msgid "Screenshot %s has been deleted."
 msgstr "Captura de ecran %s a fost ștearsă."
 
 #: weblate/screenshots/views.py:186
-#, fuzzy
-#| msgid "Your account has been removed."
 msgid "Source has been removed."
-msgstr "Contul dvs. a fost șters."
+msgstr "Sursa a fost îndepărtata."
 
 #: weblate/templates/400.html:5 weblate/templates/400.html:9
 msgid "Bad request"
@@ -5401,8 +5399,6 @@ msgstr "Tradu"
 #: weblate/templates/translate.html:367
 #: weblate/wladmin/templates/admin/weblate-index.html:43
 #: weblate/wladmin/views.py:70
-#, fuzzy
-#| msgid "Translation status"
 msgid "Translation memory"
 msgstr "Memorie de traducere"
 
@@ -5427,7 +5423,7 @@ msgstr "Obțineți asistență"
 
 #: weblate/templates/base.html:269 weblate/templates/manage/index.html:71
 msgid "Get help"
-msgstr ""
+msgstr "Obțineți ajutor"
 
 #: weblate/templates/base.html:274 weblate/templates/check.html:50
 #: weblate/templates/check_component.html:72
@@ -5627,7 +5623,7 @@ msgstr "Denumire proiect"
 
 #: weblate/templates/billing/status.html:9
 msgid "Current plan"
-msgstr "Planul actual"
+msgstr "Plan actual"
 
 #: weblate/templates/billing/status.html:17
 msgid "Change plan"
@@ -5656,7 +5652,7 @@ msgstr ""
 
 #: weblate/templates/billing/status.html:76
 msgid "Strings limit"
-msgstr ""
+msgstr "Limită șiruri"
 
 #: weblate/templates/billing/status.html:81
 msgid "Languages limit"
@@ -5664,7 +5660,7 @@ msgstr "Limita de limbi"
 
 #: weblate/templates/billing/status.html:88
 msgid "Projects limit"
-msgstr "Limită de proiecte"
+msgstr "Limita de proiecte"
 
 #: weblate/templates/billing/status.html:128
 #: weblate/templates/manage/users.html:43
@@ -5731,7 +5727,7 @@ msgstr ""
 #: weblate/templates/bootstrap3/layout/radioselect_access.html:84
 #: weblate/templates/snippets/billing-failure.html:12
 msgid "Check your billing status"
-msgstr ""
+msgstr "Verificați statutul de facturare"
 
 #: weblate/templates/browse.html:23
 #: weblate/templates/snippets/list-objects.html:111
@@ -6399,14 +6395,13 @@ msgstr[1] ""
 msgstr[2] ""
 
 #: weblate/templates/engage.html:46
-#, fuzzy, python-format
-#| msgid "Subscribed projects"
+#, python-format
 msgid "It is being translated into <strong>%(count)s language</strong>."
 msgid_plural ""
 "It is being translated into <strong>%(count)s languages</strong>."
-msgstr[0] "Este în curs de traducere în limba <strong>%(conte)s</strong>."
-msgstr[1] "Este în curs de traducere în limba <strong>%(conte)s</strong>."
-msgstr[2] "Sunt în curs de traducere în limba <strong>%(conte)s</strong>."
+msgstr[0] "Este în curs de traducere în limba <strong>%(count)s</strong>."
+msgstr[1] "Sunt în curs de traducere în limba <strong>%(count)s</strong>."
+msgstr[2] "Sunt în curs de traducere în limba <strong>%(count)s</strong>."
 
 #: weblate/templates/engage.html:48
 #, python-format
@@ -7008,7 +7003,7 @@ msgstr ""
 
 #: weblate/templates/mail/billing_expired.html:21
 msgid "This billing plan covers following projects:"
-msgstr ""
+msgstr "Acest plan de facturare acoperă următoarele proiecte:"
 
 #: weblate/templates/mail/billing_expired.html:28
 #, fuzzy
@@ -7276,13 +7271,12 @@ msgid "Strings with suggestions"
 msgstr ""
 
 #: weblate/templates/mail/pending_suggestions_subject.txt:4
-#, fuzzy, python-format
-#| msgid "Notification on any translation"
+#, python-format
 msgid "%(count)s pending suggestion in %(component)s"
 msgid_plural "%(count)s pending suggestions in %(component)s"
 msgstr[0] "Notificare la orice traducere"
-msgstr[1] "%(număr)s sugestie în așteptare în %(component)s"
-msgstr[2] "%(număr)s sugestie în așteptare în %(component)s"
+msgstr[1] "%(count)s sugestie în așteptare în %(component)s"
+msgstr[2] "%(count)s sugestie în așteptare în %(component)s"
 
 #: weblate/templates/mail/remove.html:7
 #, python-format
