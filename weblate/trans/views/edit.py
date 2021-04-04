@@ -980,8 +980,10 @@ def browse(request, project, component, lang):
             "filter_name": search_result["name"],
             "first_unit_url": base_unit_url + "1",
             "last_unit_url": base_unit_url + str(num_results),
-            "next_unit_url": base_unit_url + str(offset + 1),
-            "prev_unit_url": base_unit_url + str(offset - 1),
+            "next_unit_url": base_unit_url + str(offset + 1)
+            if offset < num_results
+            else None,
+            "prev_unit_url": base_unit_url + str(offset - 1) if offset > 1 else None,
             "sort_name": sort["name"],
             "sort_query": sort["query"],
         },
