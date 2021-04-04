@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-04-03 14:07+0200\n"
-"PO-Revision-Date: 2021-03-26 11:37+0000\n"
+"PO-Revision-Date: 2021-04-05 09:54+0000\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/"
 "documentation/uk/>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=n==1 ? 3 : n%10==1 && n%100!=11 ? 0 : n"
 "%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 4.5.2\n"
+"X-Generator: Weblate 4.6-dev\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:180
@@ -14471,10 +14471,8 @@ msgid "auto_translate"
 msgstr "auto_translate"
 
 #: ../../admin/management.rst:110
-#, fuzzy
-#| msgid "Added UI for translation removal."
 msgid "Added parameter for translation mode."
-msgstr "Додано інтерфейс для вилучення перекладів."
+msgstr "Додано параметр для режиму перекладу."
 
 #: ../../admin/management.rst:112
 msgid "Performs automatic translation based on other component translations."
@@ -14528,6 +14526,8 @@ msgid ""
 "Specify translation mode, default is \"translate\" but \"fuzzy\" or \"suggest"
 "\" can be used."
 msgstr ""
+"Вказати режим перекладу. Типовим є «translate», але можна скористатися "
+"«fuzzy» або «suggest»."
 
 #: ../../admin/management.rst:158
 msgid ":ref:`auto-translation`"
@@ -18669,10 +18669,8 @@ msgid "There is a new dependency on the `pyahocorasick` module."
 msgstr "Існує нова залежність від модуля `pyahocorasick`."
 
 #: ../../admin/upgrade.rst:212
-#, fuzzy
-#| msgid "Upgrade from 4.4 to 4.5"
 msgid "Upgrade from 4.5 to 4.6"
-msgstr "Оновлення з 4.4 до 4.5"
+msgstr "Оновлення з 4.5 до 4.6"
 
 #: ../../admin/upgrade.rst:225
 msgid "Upgrading from Python 2 to Python 3"
@@ -21326,10 +21324,8 @@ msgid "`RSS on wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 msgstr "`RSS у Вікіпедії <https://en.wikipedia.org/wiki/RSS>`_"
 
 #: ../../changes.rst:2
-#, fuzzy
-#| msgid "Weblate 4.5"
 msgid "Weblate 4.6"
-msgstr "Weblate 4.5"
+msgstr "Weblate 4.6"
 
 #: ../../changes.rst:4
 msgid "Not yet released."
@@ -21340,58 +21336,41 @@ msgid ""
 "The auto_translate management command has now a parameter for specifying "
 "translation mode."
 msgstr ""
+"У новій версії команда керування auto_translate має параметр для визначення "
+"режиму перекладу."
 
 #: ../../changes.rst:7
-#, fuzzy
-#| msgid "Added support for :ref:`labels`."
 msgid "Added support for :ref:`txt`."
-msgstr "Додано підтримку :ref:`міток<labels>`."
+msgstr "Додано підтримку :ref:`txt`."
 
 #: ../../changes.rst:8
-#, fuzzy
-#| msgid "Returns a list of all projects."
 msgid "Added trends and metrics for all objects."
-msgstr "Повертає список усіх проєктів."
+msgstr "Додано тенденції та метрику для усіх об'єктів."
 
 #: ../../changes.rst:11
-#, fuzzy
-#| msgid "Weblate 4.5.2"
 msgid "Weblate 4.5.3"
-msgstr "Weblate 4.5.2"
+msgstr "Weblate 4.5.3"
 
 #: ../../changes.rst:13
-#, fuzzy
-#| msgid "Released on April 16th 2020."
 msgid "Released on April 1st 2021."
-msgstr "Випущено 16 квітня 2020 року."
+msgstr "Випущено 1 квітня 2021 року."
 
 #: ../../changes.rst:15
-#, fuzzy
-#| msgid "Fixed rendering of suggestions."
 msgid "Fixed metrics collection."
-msgstr "Виправлено показ пропозицій."
+msgstr "Виправлено збірку метрики."
 
 #: ../../changes.rst:16
-#, fuzzy
-#| msgid "Fixed possible crash on adding strings to JSON file."
 msgid "Fixed possible crash when adding strings."
-msgstr ""
-"Усунено можливе аварійне завершення роботи при додаванні рядків до файла "
-"JSON."
+msgstr "Усунено можливе аварійне завершення роботи при додаванні рядків."
 
 #: ../../changes.rst:17
-#, fuzzy
-#| msgid "Improved query search parser."
 msgid "Improved search query examples."
-msgstr "Удосконалено обробник запитів щодо пошуку."
+msgstr "Удосконалено приклади запитів щодо пошуку."
 
 #: ../../changes.rst:18
-#, fuzzy
-#| msgid "Fixed possible crash on adding strings to JSON file."
 msgid "Fixed possible loss of newly added strings on replace upload."
 msgstr ""
-"Усунено можливе аварійне завершення роботи при додаванні рядків до файла "
-"JSON."
+"Усунено можливу втрату щойно доданих рядків при вивантаженні із заміною."
 
 #: ../../changes.rst:21
 msgid "Weblate 4.5.2"
@@ -28522,6 +28501,8 @@ msgid ""
 "Merge any possibly pending translations :command:`wlc push; git remote "
 "update; git merge origin/weblate`"
 msgstr ""
+"Злити усі можливі переклади з черги :command:`wlc push; git remote update; "
+"git merge origin/weblate`"
 
 #: ../../contributing/release.rst:35
 msgid "Perform the release:"
@@ -28566,7 +28547,7 @@ msgstr ""
 
 #: ../../contributing/release.rst:46
 msgid "Increase version in the website download links."
-msgstr ""
+msgstr "Збільште номер версії у посиланнях на отримання пакунків на сайті."
 
 #: ../../contributing/release.rst:47
 msgid "Increase version in the repository by :command:`./scripts/set-version`."
@@ -29673,20 +29654,10 @@ msgstr ""
 "локалізації вашого проєкту перекладачами зі спільноти користувачів."
 
 #: ../../devel/gettext.rst:2
-#, fuzzy
-#| msgid "Translating software using GNU Gettext"
 msgid "Translating software using GNU gettext"
-msgstr "Переклад програмного забезпечення за допомогою GNU Gettext"
+msgstr "Переклад програмного забезпечення за допомогою GNU gettext"
 
 #: ../../devel/gettext.rst:4
-#, fuzzy
-#| msgid ""
-#| "`GNU Gettext`_ is one of the most widely used tool for "
-#| "internationalization of free software. It provides a simple yet flexible "
-#| "way to localize the software. It has great support for plurals, it can "
-#| "add further context to the translated string and there are quite a lot of "
-#| "tools built around it. Of course it has great support in Weblate (see :"
-#| "ref:`gettext` file format description)."
 msgid ""
 "`GNU gettext`_ is one of the most widely used tool for internationalization "
 "of free software. It provides a simple yet flexible way to localize the "
@@ -29695,13 +29666,13 @@ msgid ""
 "course it has great support in Weblate (see :ref:`gettext` file format "
 "description)."
 msgstr ""
-"`GNU Gettext`_ є одним із найпоширеніших інструментів перекладу вільного "
+"`GNU gettext`_ є одним із найпоширеніших інструментів перекладу вільного "
 "програмного забезпечення. Він надає простий, але гнучкий спосіб локалізації "
 "програмного забезпечення. У ньому передбачено чудову підтримку форм множини, "
 "у ньому можна додавати контекст до перекладеного рядка, на його основі "
 "побудовано доволі багато інших інструментів. Звичайно ж, його підтримку "
-"реалізовано у Weblate на найвищому рівні (див. опис формату файлів :ref:"
-"`gettext`)."
+"реалізовано у Weblate на найвищому рівні (див. опис формату файлів "
+":ref:`gettext`)."
 
 #: ../../devel/gettext.rst:12
 msgid ""
@@ -29713,13 +29684,6 @@ msgstr ""
 "може так статися, що ці умови видадуться вам непридатними."
 
 #: ../../devel/gettext.rst:15
-#, fuzzy
-#| msgid ""
-#| "GNU Gettext can be used from a variety of languages (C, Python, PHP, "
-#| "Ruby, JavaScript and many more) and usually the UI frameworks already "
-#| "come with some support for it. The standard usage is through the "
-#| "`gettext()` function call, which is often aliased to `_()` to make the "
-#| "code simpler and easier to read."
 msgid ""
 "GNU gettext can be used from a variety of languages (C, Python, PHP, Ruby, "
 "JavaScript and many more) and usually the UI frameworks already come with "
@@ -29727,7 +29691,7 @@ msgid ""
 "call, which is often aliased to `_()` to make the code simpler and easier to "
 "read."
 msgstr ""
-"GNU Gettext можна скористатися у коді широким спектром мов (C, Python, PHP, "
+"GNU gettext можна скористатися у коді широким спектром мов (C, Python, PHP, "
 "Ruby, JavaScript тощо) і, зазвичай, в оболонках інтерфейсу користувача "
 "передбачено певну його підтримку. Стандарт полягає у використанні виклику "
 "функції `gettext()`, альтернативним варіантом якої є `_()`, що спрощує код і "
@@ -29745,18 +29709,13 @@ msgstr ""
 "перекладу."
 
 #: ../../devel/gettext.rst:24
-#, fuzzy
-#| msgid ""
-#| "As a widely spread tool, it has many wrappers which make its usage really "
-#| "simple, instead of manual invoking of Gettext described below, you might "
-#| "want to try one of them, for example `intltool`_."
 msgid ""
 "As a widely spread tool, it has many wrappers which make its usage really "
 "simple, instead of manual invoking of gettext described below, you might "
 "want to try one of them, for example `intltool`_."
 msgstr ""
 "Як широко розповсюджений інструмент, він має багато обгорток, які роблять "
-"користування ним дуже простим. Замість виклику Gettext вручну, який описано "
+"користування ним дуже простим. Замість виклику gettext вручну, який описано "
 "нижче, ви можете скористатися однією з обгорток, наприклад `intltool`_."
 
 #: ../../devel/gettext.rst:29
@@ -29764,11 +29723,9 @@ msgid "Workflow overview"
 msgstr "Огляд робочого процесу"
 
 #: ../../devel/gettext.rst:31
-#, fuzzy
-#| msgid "The GNU Gettext uses several files to manage the localization:"
 msgid "The GNU gettext uses several files to manage the localization:"
 msgstr ""
-"Для керування локалізацією у GNU Gettext використовують декілька файлів:"
+"Для керування локалізацією у GNU gettext використовують декілька файлів:"
 
 #: ../../devel/gettext.rst:33
 msgid ""
@@ -29806,21 +29763,15 @@ msgstr ""
 "додатка Weblate :ref:`addon-weblate.gettext.mo`."
 
 #: ../../devel/gettext.rst:37
-#, fuzzy
-#| msgid "Overall the GNU Gettext workflow looks like this:"
 msgid "Overall the GNU gettext workflow looks like this:"
-msgstr "Загалом робочий процес GNU Gettext виглядає так:"
+msgstr "Загалом робочий процес GNU gettext виглядає так:"
 
 #: ../../devel/gettext.rst:56
-#, fuzzy
-#| msgid ""
-#| "`Overview of GNU Gettext <https://www.gnu.org/software/gettext/manual/"
-#| "html_node/Overview.html>`_"
 msgid ""
 "`Overview of GNU gettext <https://www.gnu.org/software/gettext/manual/"
 "html_node/Overview.html>`_"
 msgstr ""
-"`Огляд GNU Gettext <https://www.gnu.org/software/gettext/manual/html_node/"
+"`Огляд GNU gettext <https://www.gnu.org/software/gettext/manual/html_node/"
 "Overview.html>`_"
 
 #: ../../devel/gettext.rst:59
@@ -29828,10 +29779,8 @@ msgid "Sample program"
 msgstr "Зразок програми"
 
 #: ../../devel/gettext.rst:61
-#, fuzzy
-#| msgid "The simple program in C using Gettext might look like following:"
 msgid "The simple program in C using gettext might look like following:"
-msgstr "Проста програма мовою C із використанням Gettext може виглядати так:"
+msgstr "Проста програма мовою C із використанням gettext може виглядати так:"
 
 #: ../../devel/gettext.rst:89
 msgid "Extracting translatable strings"
@@ -29896,11 +29845,6 @@ msgstr ""
 "вибраної мови — кількість форм множини буде змінено відповідним чином:"
 
 #: ../../devel/gettext.rst:193
-#, fuzzy
-#| msgid ""
-#| "This file is compiled into an optimized binary form, the `.mo <https://"
-#| "www.gnu.org/software/gettext/manual/gettext.html#MO-Files>`_ file used by "
-#| "the `GNU Gettext`_ functions at runtime."
 msgid ""
 "This file is compiled into an optimized binary form, the `.mo <https://www."
 "gnu.org/software/gettext/manual/gettext.html#MO-Files>`_ file used by the "
@@ -29908,7 +29852,7 @@ msgid ""
 msgstr ""
 "Цей файл компілюється у оптимізовану двійкову форму — файл `.mo <https://www."
 "gnu.org/software/gettext/manual/gettext.html#MO-Files>`_, який "
-"використовується функціями `GNU Gettext`_ під час роботи програми."
+"використовується функціями `GNU gettext`_ під час роботи програми."
 
 #: ../../devel/gettext.rst:198
 msgid "Updating strings"
@@ -29967,10 +29911,8 @@ msgid "``po/hello.pot``"
 msgstr "``po/hello.pot``"
 
 #: ../../devel/gettext.rst:230
-#, fuzzy
-#| msgid "Choose :guilabel:`Gettext PO file`"
 msgid "Choose :guilabel:`gettext PO file`"
-msgstr "Виберіть :guilabel:`файл PO Gettext`"
+msgstr "Виберіть :guilabel:`файл PO gettext`"
 
 #: ../../devel/gettext.rst:232
 msgid "New language"
@@ -29985,15 +29927,11 @@ msgid "And that's it, you're now ready to start translating your software!"
 msgstr "Ось і все — можна починати переклад вашого програмного забезпечення!"
 
 #: ../../devel/gettext.rst:239
-#, fuzzy
-#| msgid ""
-#| "You can find a Gettext example with many languages in the Weblate Hello "
-#| "project on GitHub: <https://github.com/WeblateOrg/hello>."
 msgid ""
 "You can find a gettext example with many languages in the Weblate Hello "
 "project on GitHub: <https://github.com/WeblateOrg/hello>."
 msgstr ""
-"Ви можете знайти приклад Gettext із багатьма мовами у проєкті Weblate Hello "
+"Ви можете знайти приклад gettext із багатьма мовами у проєкті Weblate Hello "
 "на GitHub: <https://github.com/WeblateOrg/hello>."
 
 #: ../../devel/html.rst:4
@@ -30817,18 +30755,12 @@ msgstr ""
 "і окремих користувачів."
 
 #: ../../devel/review.rst:13
-#, fuzzy
-#| msgid ""
-#| "The activity reports for a project or component is accessible from its "
-#| "dashboard, on the :guilabel:`Insights` tab, selecting :guilabel:"
-#| "`Activity`."
 msgid ""
 "The activity reports for a project or component is accessible from its "
 "dashboard, on the :guilabel:`Info` tab."
 msgstr ""
 "Доступ до звітів щодо дій у проєкті або складнику можна отримати за "
-"допомогою панелі приладів, на вкладці :guilabel:`Огляди`, якщо вибрати :"
-"guilabel:`Діяльність`."
+"допомогою панелі приладів, на вкладці :guilabel:`Відомості`."
 
 #: ../../devel/review.rst:18
 msgid ""
@@ -34195,48 +34127,36 @@ msgid ":doc:`tt:formats/html`"
 msgstr ":doc:`tt:formats/html`"
 
 #: ../../formats.rst:1351
-#, fuzzy
-#| msgid "DTD files"
 msgid "Text files"
-msgstr "Файли DTD"
+msgstr "Текстові файли"
 
 #: ../../formats.rst:1359
-#, fuzzy
-#| msgid ""
-#| "The translatable content is extracted from the OpenDocument files and "
-#| "offered for the translation."
 msgid ""
 "The translatable content is extracted from the plain text files and offered "
 "for the translation. Each paragraph is translated as a separate string."
 msgstr ""
-"Придатні до перекладу дані буде видобуто з файлів OpenDocument і "
-"запропоновано до перекладу."
+"Придатні до перекладу дані буде видобуто з простих текстових файлів і "
+"запропоновано до перекладу. Кожен абзац перекладається як окремий рядок."
 
 #: ../../formats.rst:1362
-#, fuzzy
-#| msgid "There are no translations in this component."
 msgid "There are three flavors of this format:"
-msgstr "У цьому складнику немає перекладів."
+msgstr "Існує три різновиди цього формату:"
 
 #: ../../formats.rst:1364
-#, fuzzy
-#| msgid "i18next JSON file"
 msgid "Plain text file"
-msgstr "Файл i18next JSON"
+msgstr "Звичайний текстовий файл"
 
 #: ../../formats.rst:1365
 msgid "DokuWiki text file"
-msgstr ""
+msgstr "Текстовий файл DokuWiki"
 
 #: ../../formats.rst:1366
 msgid "MediaWiki text file"
-msgstr ""
+msgstr "Текстовий файл MediaWiki"
 
 #: ../../formats.rst:1370
-#, fuzzy
-#| msgid ":doc:`tt:formats/index`"
 msgid ":doc:`tt:formats/text`"
-msgstr ":doc:`tt:formats/index`"
+msgstr ":doc:`tt:formats/text`"
 
 #: ../../formats.rst:1375
 msgid "OpenDocument Format"
