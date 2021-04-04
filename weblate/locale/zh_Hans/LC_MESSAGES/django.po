@@ -32,7 +32,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.6\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-04-03 12:06+0000\n"
-"PO-Revision-Date: 2021-03-26 11:37+0000\n"
+"PO-Revision-Date: 2021-04-04 08:52+0000\n"
 "Last-Translator: Eric <spice2wolf@gmail.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "weblate/application/zh_Hans/>\n"
@@ -41,7 +41,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 4.5.2\n"
+"X-Generator: Weblate 4.6-dev\n"
 
 #: weblate/accounts/avatar.py:103
 msgctxt "No known user"
@@ -2937,18 +2937,16 @@ msgid "RC file"
 msgstr "RC 文件"
 
 #: weblate/formats/convert.py:415
-#, fuzzy
-#| msgid "i18next JSON file"
 msgid "Plain text file"
-msgstr "i18next JSON 文件"
+msgstr "纯文本文件"
 
 #: weblate/formats/convert.py:458
 msgid "DokuWiki text file"
-msgstr ""
+msgstr "DokuWiki 文本文件"
 
 #: weblate/formats/convert.py:465
 msgid "MediaWiki text file"
-msgstr ""
+msgstr "MediaWiki 文本文件"
 
 #: weblate/formats/exporters.py:204
 msgid "gettext PO"
@@ -7388,26 +7386,20 @@ msgid "Last year"
 msgstr "上一年"
 
 #: weblate/templates/snippets/activity.html:14
-#, fuzzy
-#| msgid "Previous"
 msgctxt "Previous year"
 msgid "Previous"
-msgstr "上一条"
+msgstr "上一年"
 
 #: weblate/templates/snippets/activity.html:16
-#, fuzzy
-#| msgid "Activity in last 30 days"
 msgid "Activity in last 12 months"
-msgstr "最近 30 天的活动"
+msgstr "过去 12 个月内的活动"
 
 #: weblate/templates/snippets/activity.html:24
 #: weblate/templates/snippets/activity.html:29
-#, fuzzy, python-format
-#| msgid "%(count)s hour ago"
-#| msgid_plural "%(count)s hours ago"
+#, python-format
 msgid "%(count)s change"
 msgid_plural "%(count)s changes"
-msgstr[0] "%(count)s 小时前"
+msgstr[0] "%(count)s 个更改"
 
 #: weblate/templates/snippets/billing-failure.html:10
 msgid "This might be caused by missing subscription."
@@ -7615,22 +7607,16 @@ msgid "Most active translators"
 msgstr "最活跃的翻译者"
 
 #: weblate/templates/snippets/info.html:255
-#, fuzzy
-#| msgid "Browse all languages"
 msgid "Browse all users"
-msgstr "查看所有语言"
+msgstr "浏览所有用户"
 
 #: weblate/templates/snippets/info.html:261
-#, fuzzy
-#| msgid "Strings status"
 msgid "String statistics"
-msgstr "字符串状态"
+msgstr "字符串统计数据"
 
 #: weblate/templates/snippets/info.html:266
-#, fuzzy
-#| msgid "String has comment"
 msgid "Strings percent"
-msgstr "带有注释的字符串"
+msgstr "字符串百分比"
 
 #: weblate/templates/snippets/info.html:267
 #: weblate/templates/snippets/info.html:424
@@ -7640,10 +7626,8 @@ msgid "Hosted strings"
 msgstr "托管的字符串"
 
 #: weblate/templates/snippets/info.html:268
-#, fuzzy
-#| msgid "Word count"
 msgid "Words percent"
-msgstr "字数"
+msgstr "字数百分比"
 
 #: weblate/templates/snippets/info.html:269
 #: weblate/templates/snippets/info.html:418
@@ -7654,7 +7638,7 @@ msgstr "托管的单词"
 
 #: weblate/templates/snippets/info.html:270
 msgid "Characters percent"
-msgstr ""
+msgstr "字符百分比"
 
 #: weblate/templates/snippets/info.html:271
 msgctxt "Number of hosted characters"
@@ -7669,32 +7653,26 @@ msgstr "源字符串"
 
 #: weblate/templates/snippets/info.html:341
 msgid "Global numbers"
-msgstr ""
+msgstr "全局数字"
 
 #: weblate/templates/snippets/info.html:373
 #: weblate/templates/snippets/info.html:444
-#, fuzzy
-#| msgid "Last 30 days"
 msgid "and previous 30 days"
-msgstr "最近 30 天的活动"
+msgstr "及之前 30 天"
 
 #: weblate/templates/snippets/info.html:374
 #: weblate/templates/snippets/info.html:445
-#, fuzzy
-#| msgid "Last 30 days"
 msgid "Trends of last 30 days"
-msgstr "最近 30 天的活动"
+msgstr "过去 30 天的趋势"
 
 #: weblate/templates/snippets/info.html:412
 msgid "Quick numbers"
-msgstr ""
+msgstr "快速数字"
 
 #: weblate/templates/snippets/info.html:436
 #: weblate/templates/snippets/info.html:473
-#, fuzzy
-#| msgid "Contributor stats"
 msgid "Contributors"
-msgstr "贡献者统计数据"
+msgstr "贡献者"
 
 #: weblate/templates/snippets/labels_description.html:7
 #, python-format
@@ -8957,20 +8935,18 @@ msgid "pending"
 msgstr "待定"
 
 #: weblate/templates/translate.html:725
-#, fuzzy
-#| msgid "Check flags"
 msgid "Inherited flags"
-msgstr "检查标记"
+msgstr "继承的标记"
 
 #: weblate/templates/translate.html:731
 #, python-format
 msgid "<code>%(flags)s</code> was extracted from %(filename)s."
-msgstr ""
+msgstr "<code>%(flags)s</code>被提取出来，它们原先位于%(filename)s。"
 
 #: weblate/templates/translate.html:736 weblate/templates/translate.html:741
 #, python-format
 msgid "<code>%(flags)s</code> is inherited from %(object)s."
-msgstr ""
+msgstr "<code>%(flags)s</code>是继承自%(object)s。"
 
 #: weblate/templates/translate.html:767
 #, python-format
