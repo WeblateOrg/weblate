@@ -8,13 +8,14 @@
 # anonymous <noreply@weblate.org>, 2019.
 # Prietenii Bunii <prieteniibunii77@gmail.com>, 2020.
 # Christian Eichert <c@zp1.net>, 2021.
+# Simona Iacob <s@zp1.net>, 2021.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.6\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-04-03 12:06+0000\n"
-"PO-Revision-Date: 2021-03-21 16:49+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2021-04-04 12:15+0000\n"
+"Last-Translator: Simona Iacob <s@zp1.net>\n"
 "Language-Team: Romanian <https://hosted.weblate.org/projects/weblate/"
 "application/ro/>\n"
 "Language: ro\n"
@@ -23,7 +24,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < "
 "20)) ? 1 : 2;\n"
-"X-Generator: Weblate 4.5.2-dev\n"
+"X-Generator: Weblate 4.6-dev\n"
 
 #: weblate/accounts/avatar.py:103
 msgctxt "No known user"
@@ -60,10 +61,9 @@ msgid "Public e-mail"
 msgstr "Adresa ta de e-mail"
 
 #: weblate/accounts/forms.py:287
-#, fuzzy, python-format
-#| msgid "Project name"
+#, python-format
 msgid "Component list: %s"
-msgstr "Denumire proiect"
+msgstr "Lista de componente %s"
 
 #: weblate/accounts/forms.py:313 weblate/accounts/forms.py:388
 #: weblate/accounts/templatetags/authnames.py:42 weblate/auth/models.py:322
@@ -209,16 +209,12 @@ msgid "Managed projects"
 msgstr "Proiecte abonate"
 
 #: weblate/accounts/forms.py:709
-#, fuzzy
-#| msgid "Project name"
 msgid "Project: {}"
-msgstr "Denumire proiect"
+msgstr "Proiect: {}"
 
 #: weblate/accounts/forms.py:710
-#, fuzzy
-#| msgid "Project name"
 msgid "Component: {}"
-msgstr "Denumire proiect"
+msgstr "Componente: {}"
 
 #: weblate/accounts/forms.py:716
 msgid ""
@@ -310,10 +306,8 @@ msgid "Screenshots uploaded"
 msgstr "Proiecte abonate"
 
 #: weblate/accounts/forms.py:829
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Chosen sorting is not supported."
-msgstr "Notificare la orice traducere"
+msgstr "Nu se acceptă sortarea aleasă."
 
 #: weblate/accounts/models.py:142
 #, fuzzy
@@ -369,16 +363,12 @@ msgid "Signed in using {method} ({name}) from a new device."
 msgstr ""
 
 #: weblate/accounts/models.py:152
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Somebody attempted to register with your e-mail."
-msgstr "Notificare la orice traducere"
+msgstr "Cineva a încercat să se înregistreze cu adresa dvs. de e-mail."
 
 #: weblate/accounts/models.py:153
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Somebody attempted to register using your e-mail address."
-msgstr "Notificare la orice traducere"
+msgstr "Cineva a încercat să se înregistreze folosind adresa dvs. de e-mail."
 
 #: weblate/accounts/models.py:154
 #, python-brace-format
@@ -421,22 +411,16 @@ msgid ""
 msgstr ""
 
 #: weblate/accounts/models.py:169
-#, fuzzy
-#| msgid "Current password"
 msgid "Configured password to sign in."
-msgstr "Parola curentă"
+msgstr "Parola configurată pentru autentificare."
 
 #: weblate/accounts/models.py:170
-#, fuzzy
-#| msgid "New password"
 msgid "Signed in using password."
-msgstr "Parolă nouă"
+msgstr "Conectat folosind parola."
 
 #: weblate/accounts/models.py:171
-#, fuzzy
-#| msgid "New password"
 msgid "Signed in using password from a new device."
-msgstr "Parolă nouă"
+msgstr "Conectat folosind parola de pe un dispozitiv nou."
 
 #: weblate/accounts/models.py:172
 #, fuzzy
@@ -928,10 +912,8 @@ msgid "User registration"
 msgstr "Înregistrare utilizator"
 
 #: weblate/accounts/views.py:208
-#, fuzzy
-#| msgid "Message could not be sent to administrator!"
 msgid "Could not send message to administrator."
-msgstr "Mesajul nu a putut fi transmis administratorului!"
+msgstr "Nu s-a putut trimite un mesaj către administrator."
 
 #: weblate/accounts/views.py:229
 msgid "Your request has been sent, you will shortly hear from us."
@@ -978,7 +960,7 @@ msgstr ""
 #: weblate/accounts/views.py:595 weblate/templates/accounts/hosting.html:54
 #: weblate/templates/accounts/trial.html:7
 msgid "Gratis trial"
-msgstr ""
+msgstr "Încercare gratuită"
 
 #: weblate/accounts/views.py:689 weblate/templates/403.html:15
 #: weblate/templates/404.html:16 weblate/templates/accounts/login.html:8
@@ -989,10 +971,8 @@ msgid "Sign in"
 msgstr ""
 
 #: weblate/accounts/views.py:716 weblate/wladmin/sites.py:187
-#, fuzzy
-#| msgid "Thanks for using Weblate!"
 msgid "Thank you for using Weblate."
-msgstr "Vă mulțumim că utilizați Weblate!"
+msgstr "Vă mulțumim că folosiți Weblate."
 
 #: weblate/accounts/views.py:805 weblate/templates/accounts/email.html:17
 msgid "Register e-mail"
@@ -1055,10 +1035,8 @@ msgid "Got no e-mail address from third party authentication service."
 msgstr "Puteți adăuga un alte e-mail-uri în pagina de autentificare."
 
 #: weblate/accounts/views.py:1154
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Please register using e-mail instead."
-msgstr "Notificare la orice traducere"
+msgstr "Vă rugăm să vă înregistrați prin e-mail."
 
 #: weblate/accounts/views.py:1161
 #, fuzzy
@@ -1104,10 +1082,8 @@ msgid "The supplied user identity is already in use for another account."
 msgstr "Acest nume de utilizator este deja luat. Vă rugăm să alegeți altul."
 
 #: weblate/accounts/views.py:1265 weblate/accounts/views.py:1278
-#, fuzzy
-#| msgid "Action"
 msgid "Notification settings adjusted."
-msgstr "Acțiune"
+msgstr "Setări de notificare ajustate."
 
 #: weblate/accounts/views.py:1283
 msgid ""
@@ -1445,10 +1421,8 @@ msgid "Define the monolingual base filename"
 msgstr ""
 
 #: weblate/addons/forms.py:255
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Leave empty for bilingual translation files."
-msgstr "Notificare la orice traducere"
+msgstr "Se lasă gol pentru fișierele de traducere bilingve."
 
 #: weblate/addons/forms.py:258
 #, fuzzy
@@ -1469,12 +1443,12 @@ msgid "Language filter"
 msgstr "Limbi"
 
 #: weblate/addons/forms.py:272
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid ""
 "Regular expression to filter translation files against when scanning for "
 "filemask."
-msgstr "Notificare la orice traducere"
+msgstr ""
+"Expresie regulată pentru filtrarea fișierelor de traducere la scanarea "
+"pentru filemask."
 
 #: weblate/addons/forms.py:277
 msgid "Clone addons from the main component to the newly created ones"
@@ -1497,16 +1471,12 @@ msgid "Please include component markup in the template."
 msgstr ""
 
 #: weblate/addons/forms.py:404
-#, fuzzy
-#| msgid "Your account has been removed."
 msgid "Translation threshold"
-msgstr "Contul dvs. a fost șters."
+msgstr "Pragul de traducere"
 
 #: weblate/addons/forms.py:409
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Threshold for inclusion of translations."
-msgstr "Notificare la orice traducere"
+msgstr "Pragul de includere a traducerilor."
 
 #: weblate/addons/forms.py:412
 msgid "CSS selector"
@@ -1570,10 +1540,10 @@ msgid "Statistics generator"
 msgstr ""
 
 #: weblate/addons/generate.py:36
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Generates a file containing detailed info about the translation status."
-msgstr "Notificare la orice traducere"
+msgstr ""
+"Generează un fișier care conține informații detaliate despre starea "
+"traducerii."
 
 #: weblate/addons/generate.py:65
 msgid "Pseudolocale generation"
@@ -2261,10 +2231,9 @@ msgid "Permission"
 msgstr "Versiuni"
 
 #: weblate/auth/models.py:80
-#, fuzzy, python-format
-#| msgid "Versions"
+#, python-format
 msgid "%s (site-wide permission)"
-msgstr "Versiuni"
+msgstr "%s (permisiune la nivel de site)"
 
 #: weblate/auth/models.py:85 weblate/auth/models.py:110
 #: weblate/templates/fonts/fontgroup_detail.html:18
@@ -2386,10 +2355,8 @@ msgstr ""
 "caractere: @ . + - _"
 
 #: weblate/auth/models.py:313
-#, fuzzy
-#| msgid "Translation status"
 msgid "A user with that username already exists."
-msgstr "Status traducere"
+msgstr "Există deja un utilizator cu acest nume de utilizator."
 
 #: weblate/auth/models.py:330
 #, fuzzy
@@ -2398,18 +2365,14 @@ msgid "Superuser status"
 msgstr "Stare"
 
 #: weblate/auth/models.py:332
-#, fuzzy
-#| msgid "Versions"
 msgid "User has all possible permissions."
-msgstr "Versiuni"
+msgstr "Utilizatorul are toate permisiunile posibile."
 
 #: weblate/auth/models.py:335 weblate/billing/models.py:164
 #: weblate/templates/check.html:22 weblate/templates/check_component.html:24
 #: weblate/templates/check_project.html:23 weblate/templates/checks.html:21
-#, fuzzy
-#| msgid "Action"
 msgid "Active"
-msgstr "Acțiune"
+msgstr "Activ"
 
 #: weblate/auth/models.py:337
 msgid "Mark user as inactive instead of removing."
@@ -2548,13 +2511,12 @@ msgid "In display limits"
 msgstr ""
 
 #: weblate/billing/models.py:431
-#, fuzzy, python-format
-#| msgid "Subscribed projects"
+#, python-format
 msgid "Contains %d project"
 msgid_plural "Contains %d projects"
 msgstr[0] "Proiecte abonate"
-msgstr[1] "Proiecte abonate"
-msgstr[2] "Proiecte abonate"
+msgstr[1] "Conține %d proiect"
+msgstr[2] "Conține %d proiecte"
 
 #: weblate/billing/models.py:448
 #, fuzzy, python-format
@@ -2650,10 +2612,8 @@ msgid "Mismatched colon"
 msgstr "Proiecte abonate"
 
 #: weblate/checks/chars.py:212
-#, fuzzy
-#| msgid "Your account has been removed."
 msgid "Source and translation do not both end with a colon"
-msgstr "Contul dvs. a fost șters."
+msgstr "Sursa și traducerea nu se termină amândouă cu două puncte"
 
 #: weblate/checks/chars.py:242
 #, fuzzy
@@ -2782,10 +2742,9 @@ msgid "This string has been translated in the past"
 msgstr ""
 
 #: weblate/checks/consistency.py:152
-#, fuzzy, python-format
-#| msgid "Translation status"
+#, python-format
 msgid "Previous translation was \"%s\"."
-msgstr "Status traducere"
+msgstr "Traducerea anterioară a fost \"%s\"."
 
 #: weblate/checks/duplicate.py:46
 #, fuzzy
@@ -2883,28 +2842,24 @@ msgid "String variant"
 msgstr "Stare"
 
 #: weblate/checks/flags.py:249
-#, fuzzy, python-format
-#| msgid "Translation status"
+#, python-format
 msgid "Invalid translation flag: \"%s\""
-msgstr "Status traducere"
+msgstr "Indicator de traducere invalid: \"%s\""
 
 #: weblate/checks/flags.py:253
-#, fuzzy, python-format
-#| msgid "Translation status"
+#, python-format
 msgid "Translation flag has no parameters: \"%s\""
-msgstr "Status traducere"
+msgstr "Indicatorul de traducere nu are parametri: \"%s\""
 
 #: weblate/checks/flags.py:259
-#, fuzzy, python-format
-#| msgid "Translation status"
+#, python-format
 msgid "Wrong parameters for translation flag: \"%s\""
-msgstr "Status traducere"
+msgstr "Parametrii incorecți pentru indicatorul de traducere: \"%s\""
 
 #: weblate/checks/flags.py:263
-#, fuzzy, python-format
-#| msgid "Translation status"
+#, python-format
 msgid "Missing parameters for translation flag: \"%s\""
-msgstr "Status traducere"
+msgstr "Parametrii lipsă pentru indicatorul de traducere: \"%s\""
 
 #: weblate/checks/format.py:366 weblate/checks/placeholders.py:93
 #, python-format
@@ -2965,10 +2920,8 @@ msgid "Lua format"
 msgstr "Repository Git"
 
 #: weblate/checks/format.py:462
-#, fuzzy
-#| msgid "Your account has been removed."
 msgid "Lua format string does not match source"
-msgstr "Contul dvs. a fost șters."
+msgstr "Șirul de format Lua nu se potrivește cu sursa"
 
 #: weblate/checks/format.py:469
 #, fuzzy
@@ -2977,10 +2930,8 @@ msgid "Scheme format"
 msgstr "Repository Git"
 
 #: weblate/checks/format.py:470
-#, fuzzy
-#| msgid "Your account has been removed."
 msgid "Scheme format string does not match source"
-msgstr "Contul dvs. a fost șters."
+msgstr "Șirul de format al schemei nu se potrivește cu sursa"
 
 #: weblate/checks/format.py:483
 msgid "Python brace format"
@@ -3037,10 +2988,8 @@ msgid "ECMAScript template literals"
 msgstr ""
 
 #: weblate/checks/format.py:572
-#, fuzzy
-#| msgid "Your account has been removed."
 msgid "ECMAScript template literals do not match source"
-msgstr "Contul dvs. a fost șters."
+msgstr "Literalele șablonului ECMAScript nu se potrivesc cu sursa"
 
 #: weblate/checks/format.py:584
 #, fuzzy
@@ -3049,10 +2998,8 @@ msgid "Percent placeholders"
 msgstr "Tradu"
 
 #: weblate/checks/format.py:585
-#, fuzzy
-#| msgid "Your account has been removed."
 msgid "The percent placeholders do not match source"
-msgstr "Contul dvs. a fost șters."
+msgstr "Procentajele nu se potrivesc cu sursa"
 
 #: weblate/checks/format.py:591
 #, fuzzy
@@ -3061,10 +3008,8 @@ msgid "Vue I18n formatting"
 msgstr "Informație"
 
 #: weblate/checks/format.py:592
-#, fuzzy
-#| msgid "Your account has been removed."
 msgid "The Vue I18n formatting does not match source"
-msgstr "Contul dvs. a fost șters."
+msgstr "Formatarea Vue I18n nu se potrivește cu sursa"
 
 #: weblate/checks/format.py:598
 msgid "Multiple unnamed variables"
@@ -3144,20 +3089,16 @@ msgid "Markdown syntax does not match source"
 msgstr ""
 
 #: weblate/checks/markup.py:327
-#, fuzzy
-#| msgid "Your account has been removed."
 msgid "The translation does not contain an URL"
-msgstr "Contul dvs. a fost șters."
+msgstr "Traducerea nu conține un URL"
 
 #: weblate/checks/markup.py:346 weblate/trans/autofixes/html.py:32
 msgid "Unsafe HTML"
 msgstr ""
 
 #: weblate/checks/markup.py:347
-#, fuzzy
-#| msgid "Your account has been removed."
 msgid "The translation uses unsafe HTML markup"
-msgstr "Contul dvs. a fost șters."
+msgstr "Traducerea folosește marcaje HTML nesigure"
 
 #: weblate/checks/placeholders.py:41
 msgid "Placeholders"
@@ -3177,10 +3118,8 @@ msgid "Regular expression"
 msgstr "Denumire proiect"
 
 #: weblate/checks/placeholders.py:109
-#, fuzzy
-#| msgid "Your account has been removed."
 msgid "Translation does not match regular expression:"
-msgstr "Contul dvs. a fost șters."
+msgstr "Traducerea nu se potrivește cu expresia regulată:"
 
 #: weblate/checks/qt.py:49
 #, fuzzy
@@ -3344,26 +3283,20 @@ msgstr ""
 #: weblate/fonts/views.py:72 weblate/fonts/views.py:134
 #: weblate/fonts/views.py:146 weblate/trans/forms.py:1598
 #: weblate/trans/forms.py:1601
-#, fuzzy
-#| msgid "Translation status"
 msgid "Entry by the same name already exists."
-msgstr "Status traducere"
+msgstr "Există deja o intrare cu același nume."
 
 #: weblate/fonts/views.py:74
 msgid "Creation failed, please fix the errors below."
 msgstr ""
 
 #: weblate/fonts/views.py:96
-#, fuzzy
-#| msgid "User profile"
 msgid "Font deleted."
-msgstr "Profilul utilizatorului"
+msgstr "Font șters."
 
 #: weblate/fonts/views.py:155
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "No override found."
-msgstr "Notificare la orice traducere"
+msgstr "Nu s-a găsit nicio suprascriere."
 
 #: weblate/fonts/views.py:158
 msgid "Font group deleted."
@@ -3623,7 +3556,7 @@ msgstr ""
 
 #: weblate/glossary/apps.py:27
 msgid "Glossaries"
-msgstr ""
+msgstr "Glosare"
 
 #: weblate/glossary/forms.py:36
 msgid "Invalid integer list!"
@@ -3899,10 +3832,9 @@ msgid "Remove all translations using this language first."
 msgstr "Contul dvs. a fost șters."
 
 #: weblate/lang/views.py:78
-#, fuzzy, python-format
-#| msgid "Language"
+#, python-format
 msgid "Language %s removed."
-msgstr "Limbă"
+msgstr "Limba %s a fost eliminată."
 
 #: weblate/legal/forms.py:27
 msgid "I agree with the Terms of Service document"
@@ -4031,10 +3963,8 @@ msgid "Security FAQ"
 msgstr ""
 
 #: weblate/legal/templates/legal/security.html:40
-#, fuzzy
-#| msgid "New password"
 msgid "How are user passwords stored?"
-msgstr "Parolă nouă"
+msgstr "Cum sunt stocate parolele utilizatorilor?"
 
 #: weblate/legal/templates/legal/security.html:42
 msgid ""
@@ -4087,16 +4017,12 @@ msgid "Failed to parse JSON file: {!s}"
 msgstr "Notificare la orice traducere"
 
 #: weblate/memory/models.py:164
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Failed to parse TMX file!"
-msgstr "Notificare la orice traducere"
+msgstr "Nu a reușit să analizeze fișierul TMX!"
 
 #: weblate/memory/models.py:174
-#, fuzzy
-#| msgid "Secondary languages"
 msgid "Failed to find source language!"
-msgstr "Limbi secundare"
+msgstr "Nu a reușit să găsească limba sursă!"
 
 #: weblate/memory/models.py:251
 #, fuzzy
@@ -4125,10 +4051,8 @@ msgid "File: {}"
 msgstr "Fișiere"
 
 #: weblate/memory/views.py:83
-#, fuzzy
-#| msgid "User profile"
 msgid "Entries deleted."
-msgstr "Profilul utilizatorului"
+msgstr "Înscrieri șterse."
 
 #: weblate/memory/views.py:98
 msgid "File processed, the entries will appear shortly."
