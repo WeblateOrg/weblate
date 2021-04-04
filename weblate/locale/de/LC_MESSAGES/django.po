@@ -37,7 +37,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-04-03 12:06+0000\n"
 "PO-Revision-Date: 2021-04-05 07:33+0000\n"
-"Last-Translator: nautilusx <translate@disroot.org>\n"
+"Last-Translator: Christian Eichert <c@zp1.net>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "application/de/>\n"
 "Language: de\n"
@@ -5696,7 +5696,7 @@ msgstr "Verwalten"
 #: weblate/templates/component.html:86 weblate/templates/js/git-status.html:29
 #: weblate/templates/project.html:81 weblate/templates/translation.html:91
 msgid "Commit"
-msgstr "Commit"
+msgstr "Hochladen"
 
 #: weblate/templates/component.html:89 weblate/templates/project.html:84
 #: weblate/templates/translation.html:94
@@ -6500,7 +6500,7 @@ msgstr "Aktualisieren"
 
 #: weblate/templates/js/git-status.html:63
 msgid "Pull changes from the remote repository"
-msgstr "Änderungen aus der entfernten Paketquelle abrufen"
+msgstr "Änderungen aus dem entfernten Repository ziehen"
 
 #: weblate/templates/js/git-status.html:63
 msgid "Pull"
@@ -9111,8 +9111,8 @@ msgid ""
 "Create a ZIP file containing any existing translation files you have, and "
 "%(link_start)supload it%(link_end)s."
 msgstr ""
-"Erstellen Sie eine ZIP-Datei mit allen vorhandenen Übersetzungsdateien die "
-"Sie haben und %(link_start)sladen Sie die ZIP-Datei hoch%(link_end)s."
+"Erstellen Sie eine ZIP-Datei aus allen vorliegenden Dateien mit Ihren "
+"Übersetzungen und %(link_start)sladen Sie diese hoch%(link_end)s."
 
 #: weblate/templates/trans/component_form.html:33
 msgid ""
@@ -9660,9 +9660,9 @@ msgid ""
 msgstr ""
 "Automatische Übersetzung verwendet vorhandene Übersetzungen in diesem "
 "Projekt und wendet sie auf die aktuelle Komponente an. Sie kann verwendet "
-"werden, um Übersetzungen in einen anderen Zweig zu pushen, inkonsistente "
-"Übersetzungen zu korrigieren oder eine neue Komponente mit Hilfe des "
-"Übersetzungsspeichers zu übersetzen."
+"werden, um Übersetzungen in einen anderen Zweig zu pushen, unvereinbare "
+"Übersetzungen zu beheben oder eine neue Komponente mit Hilfe vom "
+"Übersetzungsspeicher zu übersetzen."
 
 #: weblate/templates/translation.html:239
 msgid ""
@@ -9935,7 +9935,7 @@ msgstr "Zeichenkette mit Pluralformen"
 
 #: weblate/trans/filter.py:73 weblate/trans/filter.py:135
 msgid "Failed check: {}"
-msgstr "Fehlgeschlagene Überprüfung: {}"
+msgstr "Prüfung fehlgeschlagen: {}"
 
 #: weblate/trans/filter.py:99 weblate/trans/filter.py:140
 msgid "Labeled: {}"
@@ -10799,7 +10799,7 @@ msgstr "Commit für Änderungen"
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:256
 msgid "Pushed changes"
-msgstr "Änderungen angeschoben"
+msgstr "Überlieferte Änderungen"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:258
@@ -11117,12 +11117,12 @@ msgstr ""
 
 #: weblate/trans/models/component.py:328
 msgid "Push branch"
-msgstr "Push Branch"
+msgstr "Überlieferter Zweig"
 
 #: weblate/trans/models/component.py:331
 msgid "Branch for pushing changes, leave empty to use repository branch"
 msgstr ""
-"Branch zum Push von Änderungen. Leer lassen, um den Repository-Branch zu "
+"Zweig zum Verschieben von Änderungen, leer lassen, um Repository-Zweig zu "
 "verwenden"
 
 #: weblate/trans/models/component.py:341
@@ -12158,8 +12158,8 @@ msgstr "Diese Übersetzung existiert noch nicht."
 #, python-format
 msgid "%(count)s string is not being translated here."
 msgid_plural "%(count)s strings are not being translated here."
-msgstr[0] "%(count)s Zeichenkette wird hier nicht übersetzt."
-msgstr[1] "%(count)s Zeichenketten werden hier nicht übersetzt."
+msgstr[0] "%(count)s Zeichenkette hat keine Übersetzung."
+msgstr[1] "%(count)s Zeichenketten haben keine Übersetzungen."
 
 #: weblate/trans/templatetags/translations.py:836
 #, python-format
@@ -12500,7 +12500,7 @@ msgstr "Alle Repositories wurden aktualisiert."
 
 #: weblate/trans/views/git.py:85
 msgid "All repositories were pushed."
-msgstr "Push für alle Repositories durchgeführt."
+msgstr "Alle Paketquellen wurden übermittelt."
 
 #: weblate/trans/views/git.py:95
 msgid "All repositories have been reset."
@@ -12767,7 +12767,7 @@ msgstr "Leer"
 #: weblate/utils/validators.py:66
 #, python-brace-format
 msgid "Compilation failed: {0}"
-msgstr "Kompilierung fehlgeschlagen: {0}"
+msgstr "Kompilieren fehlgeschlagen: {0}"
 
 #: weblate/utils/validators.py:69
 msgid "The regular expression can not match an empty string."
