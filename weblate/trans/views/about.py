@@ -17,7 +17,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-from django.db.models import Count, Sum
+from django.db.models import Sum
 from django.utils.translation import gettext_lazy as _
 from django.views.generic import TemplateView
 
@@ -69,14 +69,10 @@ class StatsView(AboutView):
 
         stats = GlobalStats()
 
-        totals = Profile.objects.aggregate(
-            Sum("translated"), Sum("suggested"), Count("id")
-        )
+        totals = Profile.objects.aggregate(Sum("translated"))
         metrics = Metric.objects.get_current(None, Metric.SCOPE_GLOBAL, 0)
 
         context["total_translations"] = totals["translated__sum"]
-        context["total_suggestions"] = totals["suggested__sum"]
-        context["total_users"] = totals["id__count"]
         context["stats"] = stats
         context["metrics"] = metrics
 
