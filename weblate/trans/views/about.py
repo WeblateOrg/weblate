@@ -76,11 +76,17 @@ class StatsView(AboutView):
         context["stats"] = stats
         context["metrics"] = metrics
 
-        context["top_users"] = (
+        context["top_users"] = top_users = (
             Profile.objects.order_by("-translated")
             .filter(user__is_active=True)[:10]
             .select_related("user")
         )
+        translated_max = max(user.translated for user in top_users)
+        for user in top_users:
+            if translated_max:
+                user.translated_width = 100 * user.translated // translated_max
+            else:
+                user.translated_width = 0
 
 
 class KeysView(AboutView):

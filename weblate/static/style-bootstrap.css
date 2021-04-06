@@ -110,11 +110,16 @@ h1 {
   margin: 0;
 }
 
-.progress-row .progress {
+.progress-row .progress,
+.chart-progress {
   height: 8px;
   border-radius: 0;
   border: none;
   display: block;
+}
+
+.chart-progress .progress-bar-success {
+  background-color: #2eccaa;
 }
 
 .nav-pills {
@@ -1731,4 +1736,7 @@ a.language:hover {
 .table-activity .activity-names td {
   border-top: none;
   padding-top: 0;
+}
+.table-stats td {
+  vertical-align: middle !important;
 }

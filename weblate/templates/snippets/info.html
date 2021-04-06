@@ -241,11 +241,17 @@
     {# Global stats #}
     <div class="panel panel-default">
       <div class="panel-heading"><h4 class="panel-title">{% trans "Most active translators" %}</h4></div>
-      <table class="table">
+      <table class="table table-autowidth table-stats">
         <tbody>
           {% for u in top_users %}
             <tr>
+              <td>{{ forloop.counter }}.</td>
               <td>{{ u.get_user_display_link }}</td>
+              <td class="full-cell">
+                <div class="progress chart-progress">
+                  <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="{{ u.translated_width }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ u.translated_width }}%;"></div>
+                </div>
+              </td>
               <td class="number">{{ u.translated|intcomma }}</td>
             </tr>
           {% endfor %}
