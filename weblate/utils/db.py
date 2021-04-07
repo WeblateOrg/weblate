@@ -44,7 +44,7 @@ def get_nokey_args():
 
     This can be inlined once we support Django 3.2 only.
     """
-    if django.VERSION < (3, 2, 0):
+    if django.VERSION < (3, 2, 0) or not using_postgresql():
         return {}
     return {"no_key": True}
 
