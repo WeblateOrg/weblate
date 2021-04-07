@@ -2291,6 +2291,12 @@ class ChangesForm(forms.Form):
         choices=Change.ACTION_CHOICES,
     )
     user = UsernameField(label=_("Author username"), required=False, help_text=None)
+    start_date = WeblateDateField(
+        label=_("Starting date"), required=False, datepicker=False
+    )
+    end_date = WeblateDateField(
+        label=_("Ending date"), required=False, datepicker=False
+    )
 
     def __init__(self, request, *args, **kwargs):
         super().__init__(*args, **kwargs)
