@@ -37,7 +37,6 @@ from django.forms.utils import from_current_timezone
 from django.template.loader import render_to_string
 from django.urls import reverse
 from django.utils import timezone
-from django.utils.html import escape
 from django.utils.http import urlencode
 from django.utils.safestring import mark_safe
 from django.utils.translation import gettext
@@ -79,7 +78,6 @@ from weblate.utils.state import (
     STATE_READONLY,
     STATE_TRANSLATED,
 )
-from weblate.utils.templatetags.icons import icon
 from weblate.utils.validators import validate_file_extension
 from weblate.vcs.models import VCS_REGISTRY
 
@@ -248,19 +246,6 @@ class PluralTextarea(forms.Textarea):
         """Return toolbar HTML code."""
         profile = self.profile
         groups = []
-        # Copy button
-        if source:
-            groups.append(
-                GROUP_TEMPLATE.format(
-                    "",
-                    BUTTON_TEMPLATE.format(
-                        "copy-text",
-                        gettext("Fill in with source string"),
-                        COPY_TEMPLATE.format(unit.checksum, escape(json.dumps(source))),
-                        "{} {}".format(icon("clone.svg"), gettext("Clone source")),
-                    ),
-                )
-            )
 
         # Special chars
         chars = [

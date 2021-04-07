@@ -70,17 +70,40 @@ WLT.Editor = (function () {
     });
 
     /* Copy source text */
-    this.$editor.on("click", ".copy-text", function (e) {
+    this.$editor.on("click", "[data-clone-text]", function (e) {
       var $this = $(this);
+      var cloneText = $this.data("clone-text");
 
-      $this.button("loading");
-      $this
-        .closest(".translation-item")
-        .find(".translation-editor")
-        .replaceValue($.parseJSON($this.data("content")));
+      var row = $this.closest(".zen-unit");
+      if (row.length === 0) {
+        row = $this.closest(".translator");
+      }
+      var editors = row.find(".translation-editor");
+      var $document = $(document);
+      if (editors.length == 1) {
+        editors.replaceValue(cloneText);
+      } else {
+        addAlert(
+          gettext("Please select target plural by clicking."),
+          (kind = "info")
+        );
+        editors.addClass("editor-click-select");
+        editors.click(function () {
+          $(this).replaceValue(cloneText);
+          editors.removeClass("editor-click-select");
+          editors.off("click");
+          $document.off("click");
+          return false;
+        });
+        $document.on("click", function () {
+          editors.removeClass("editor-click-select");
+          editors.off("click");
+          $document.off("click");
+          return false;
+        });
+      }
       WLT.Utils.markFuzzy($this.closest("form"));
-      $this.button("reset");
-      e.preventDefault();
+      return false;
     });
 
     /* Direction toggling */
