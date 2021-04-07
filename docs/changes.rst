@@ -6,6 +6,9 @@ Not yet released.
 * The auto_translate management command has now a parameter for specifying translation mode.
 * Added support for :ref:`txt`.
 * Added trends and metrics for all objects.
+* Added support for direct copying text from secondary languages.
+* Added date filtering when browsing changes.
+* Improved activity charts.
 
 Weblate 4.5.3
 -------------
