@@ -19,16 +19,16 @@
         <tr>
           {% for activity in metrics.monthly_activity %}
             <td>
-              <svg height="140" width="8">
+              <a href="{% url 'changes' %}?{{ last_changes_url }}&amp;start_date={{activity.previous_start_date.isoformat}}&amp;end_date={{activity.previous_end_date.isoformat}}"><svg height="140" width="8">
                 <rect x="0" y="{{ activity.previous_offset }}" width="8" height="{{ activity.previous_height }}" fill="#E9EAEC">
                   <title>{% blocktrans count _count=activity.previous with count=activity.previous|intcomma %}{{ count }} change{% plural %}{{ count }} changes{% endblocktrans %}</title>
                 </rect>
-              </svg>
-              <svg height="140" width="8">
+              </svg></a>
+              <a href="{% url 'changes' %}?{{ last_changes_url }}&amp;start_date={{activity.start_date.isoformat}}&amp;end_date={{activity.end_date.isoformat }}"><svg height="140" width="8">
                 <rect x="0" y="{{ activity.current_offset }}" width="8" height="{{ activity.current_height }}" fill="#2ECCAA">
                   <title>{% blocktrans count _count=activity.current with count=activity.current|intcomma %}{{ count }} change{% plural %}{{ count }} changes{% endblocktrans %}</title>
                 </rect>
-              </svg>
+              </svg></a>
             </td>
           {% endfor %}
         </tr>

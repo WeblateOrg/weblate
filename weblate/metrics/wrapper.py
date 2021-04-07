@@ -265,6 +265,12 @@ class MetricsWrapper:
                     "year": year,
                     "previous_year": year - 1,
                     "month_name": MONTH_NAMES[month - 1],
+                    "start_date": date(year, month, 1),
+                    "end_date": date(year, month, monthrange(year, month)[1]),
+                    "previous_start_date": date(year - 1, month, 1),
+                    "previous_end_date": date(
+                        year - 1, month, monthrange(year - 1, month)[1]
+                    ),
                     "current": self.get_month_activity(year, month, cached_results),
                     "previous": self.get_month_activity(
                         year - 1, month, cached_results
