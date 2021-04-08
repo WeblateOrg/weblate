@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-04-03 14:07+0200\n"
-"PO-Revision-Date: 2021-04-07 15:27+0000\n"
+"PO-Revision-Date: 2021-04-08 15:12+0000\n"
 "Last-Translator: Simona Iacob <s@zp1.net>\n"
 "Language-Team: Romanian <https://hosted.weblate.org/projects/weblate/"
 "documentation/ro/>\n"
@@ -82,12 +82,16 @@ msgid ""
 "This feature is unavailable for the projects running Libre plan on Hosted "
 "Weblate."
 msgstr ""
+"Această funcție nu este disponibilă pentru proiectele care rulează planul "
+"Libre pe Hosted Weblate."
 
 #: ../../admin/access.rst:32
 msgid ""
 "You can limit user’s access to individual projects by selecting a different :"
 "guilabel:`Access control` setting. Available options are:"
 msgstr ""
+"Puteți limita accesul utilizatorilor la proiecte individuale selectând o "
+"altă setare :guilabel:`Controlul accesului`. Opțiunile disponibile sunt:"
 
 #: ../../admin/access.rst:35
 #, fuzzy
@@ -96,7 +100,7 @@ msgstr "Public"
 
 #: ../../admin/access.rst:36
 msgid "Publicly visible, translatable for all logged-in users."
-msgstr ""
+msgstr "Vizibil în mod public, traductibil pentru toți utilizatorii conectați."
 
 #: ../../admin/access.rst:37
 msgid "Protected"
@@ -105,6 +109,7 @@ msgstr "Protejat"
 #: ../../admin/access.rst:38
 msgid "Publicly visible, but translatable only for selected users."
 msgstr ""
+"Vizibil în mod public, dar traductibil doar pentru utilizatorii selectați."
 
 #: ../../admin/access.rst:39
 msgid "Private"
@@ -112,7 +117,7 @@ msgstr "Privat"
 
 #: ../../admin/access.rst:40
 msgid "Visible and translatable only for selected users."
-msgstr ""
+msgstr "Vizibil și traductibil numai pentru utilizatorii selectați."
 
 #: ../../admin/access.rst:44
 msgid "Custom"
@@ -143,6 +148,11 @@ msgid ""
 "for all projects despite the access control setting. Your project name and "
 "other information can’t be revealed through this."
 msgstr ""
+"Chiar și în cazul proiectelor `Private`, unele informații despre proiectul "
+"dumneavoastră vor fi expuse: statisticile și rezumatul limbii pentru "
+"întreaga instanță vor include cifrele pentru toate proiectele, în ciuda "
+"setărilor de control al accesului. Numele proiectului dvs. și alte "
+"informații nu pot fi dezvăluite prin intermediul acestui sistem."
 
 #: ../../admin/access.rst:63
 msgid ""
@@ -150,6 +160,10 @@ msgid ""
 "`Protected`, and `Private` projects can be redefined by Weblate instance "
 "administrator using :ref:`custom settings <custom-acl>`."
 msgstr ""
+"Setul real de permisiuni disponibile în mod implicit pentru utilizatori în "
+"proiectele `Public`, `Protected` și `Private` poate fi redefinit de "
+"administratorul instanței Weblate folosind :ref:`custom settings <custom-"
+"acl>`."
 
 #: ../../admin/access.rst:69
 msgid ""
@@ -158,6 +172,11 @@ msgid ""
 "this without admin permission for the whole Weblate instance, you will "
 "instantly lose your access to manage the project."
 msgstr ""
+"Prin activarea controlului de acces `Custom`, Weblate va elimina toate :ref:`"
+"special groups <manage-acl>` pe care le-a creat pentru un proiect selectat. "
+"Dacă faceți acest lucru fără a avea permisiunea de administrator pentru "
+"întreaga instanță Weblate, vă veți pierde instantaneu accesul la gestionarea "
+"proiectului."
 
 #: ../../admin/access.rst:76
 #, fuzzy
@@ -177,10 +196,14 @@ msgid ""
 "`privileges`) can manage users in projects with non-`Custom` access control. "
 "They can assign users to one of the following groups."
 msgstr ""
+"Utilizatorii cu privilegiul :guilabel:`Manage project access` (see "
+":ref:`privileges`) pot gestiona utilizatori în proiecte cu control de acces "
+"non-`Custom`. Aceștia pot atribui utilizatori la unul dintre următoarele "
+"grupuri."
 
 #: ../../admin/access.rst:87
 msgid "For `Public`, `Protected` and `Private` projects:"
-msgstr ""
+msgstr "Pentru proiecte `Public`, `Protected` and `Private`:"
 
 #: ../../admin/access.rst:90
 msgid "Administration"
@@ -188,19 +211,19 @@ msgstr "Administrare"
 
 #: ../../admin/access.rst:90
 msgid "Includes all permissions available for the project."
-msgstr ""
+msgstr "Include toate permisiunile disponibile pentru proiect."
 
 #: ../../admin/access.rst:93
 msgid "Review (only if :ref:`review workflow <reviews>` is turned on)"
-msgstr ""
+msgstr "Revizuire (numai dacă :ref:`review workflow <reviews>` este activat)"
 
 #: ../../admin/access.rst:93
 msgid "Can approve translations during review."
-msgstr ""
+msgstr "Poate aproba traducerile în timpul revizuirii."
 
 #: ../../admin/access.rst:95
 msgid "For `Protected` and `Private` projects only:"
-msgstr ""
+msgstr "Numai pentru proiectele `Protected` și `Private`:"
 
 #: ../../admin/access.rst:98
 msgid "Translate"
@@ -208,7 +231,7 @@ msgstr "Tradu"
 
 #: ../../admin/access.rst:98
 msgid "Can translate the project and upload translations made offline."
-msgstr ""
+msgstr "Poate traduce proiectul și poate încărca traducerile făcute offline."
 
 #: ../../admin/access.rst:102
 #, fuzzy
@@ -221,6 +244,8 @@ msgid ""
 "Can edit source strings (if allowed in the :ref:`project settings <component-"
 "manage_units>`) and source string info."
 msgstr ""
+"Poate edita șirurile de surse (dacă este permis în :ref:`project settings "
+"<component-manage_units>`) și informații despre șirurile de surse."
 
 #: ../../admin/access.rst:105 ../../admin/access.rst:257
 #: ../../admin/access.rst:273 ../../admin/access.rst:384 ../../api.rst:633
@@ -247,7 +272,7 @@ msgstr "Limbi secundare"
 
 #: ../../admin/access.rst:111
 msgid "Memory"
-msgstr ""
+msgstr "Memorie"
 
 #: ../../admin/access.rst:111
 #, fuzzy
@@ -265,14 +290,17 @@ msgid ""
 "Can manage screenshots (add or remove them, and associate them to source "
 "strings)."
 msgstr ""
+"Poate gestiona capturi de ecran (adăugați sau eliminați-le și asociați-le la "
+"șiruri de surse)."
 
 #: ../../admin/access.rst:118 ../../admin/access.rst:546
+#, fuzzy
 msgid "VCS"
-msgstr ""
+msgstr "VCS"
 
 #: ../../admin/access.rst:118
 msgid "Can manage VCS and access the exported repository."
-msgstr ""
+msgstr "Poate gestiona VCS și poate accesa depozitul exportat."
 
 #: ../../admin/access.rst:121 ../../admin/optionals.rst:63
 msgid "Billing"
@@ -281,6 +309,7 @@ msgstr "Facturare"
 #: ../../admin/access.rst:121
 msgid "Can access billing info and settings (see :ref:`billing`)."
 msgstr ""
+"Poate accesa informațiile și setările de facturare (see :ref:`billing`)."
 
 #: ../../admin/access.rst:123
 msgid ""
@@ -288,6 +317,9 @@ msgid ""
 "now. Also this way it’s not possible to give just some additional "
 "permissions to all users."
 msgstr ""
+"Din păcate, deocamdată nu este posibil să modificați acest set predefinit de "
+"grupuri. De asemenea, în acest fel nu este posibil să se acorde doar câteva "
+"permisiuni suplimentare tuturor utilizatorilor."
 
 #: ../../admin/access.rst:129
 msgid ""
@@ -296,6 +328,11 @@ msgid ""
 "``Project@Group``, also displayed in the Django admin interface this way. "
 "Although they can’t be edited from Weblate user-interface."
 msgstr ""
+"Pentru controlul accesului non-`Custom` se definește de fapt o instanță a "
+"fiecărui grup descris mai sus pentru fiecare proiect. Numele real al acestor "
+"grupuri va fi ``Project@Group``, afișat și în interfața de administrare "
+"Django în acest mod. Deși acestea nu pot fi editate din interfața de "
+"utilizator Weblate."
 
 #: ../../admin/access.rst:136
 msgid ""
@@ -303,6 +340,9 @@ msgid ""
 "can be accessed from the project’s menu :guilabel:`Manage` ↓ :guilabel:"
 "`Users`."
 msgstr ""
+"Aceste caracteristici sunt disponibile pe pagina :guilabel:`Access control`, "
+"care poate fi accesată din meniul proiectului :guilabel:`Manage` ↓ "
+":guilabel:`Users`."
 
 #: ../../admin/access.rst:140
 #, fuzzy
@@ -319,6 +359,13 @@ msgid ""
 "do so, access management permission on the project’s scope (e.g. a "
 "membership in the `Administration` group) would be sufficient."
 msgstr ""
+"De asemenea, pe lângă adăugarea unui utilizator existent la proiect, este "
+"posibilă și invitarea altora noi. Orice utilizator nou va fi creat imediat, "
+"dar contul va rămâne inactiv până la conectarea cu ajutorul unui link din "
+"invitația trimisă prin e-mail. Nu este necesar să aveți privilegii la "
+"nivelul întregului site pentru a face acest lucru, permisiunea de gestionare "
+"a accesului pe domeniul de aplicare al proiectului (e.g. a membership in the "
+"`Administration` group)."
 
 #: ../../admin/access.rst:151
 msgid ""
@@ -326,28 +373,38 @@ msgid ""
 "their password using invited e-mail address in the password reset form as "
 "the account is created already."
 msgstr ""
+"În cazul în care utilizatorul invitat a ratat valabilitatea invitației, "
+"acesta își poate seta parola folosind adresa de e-mail invitată în "
+"formularul de resetare a parolei, deoarece contul este deja creat."
 
 #: ../../admin/access.rst:157
 msgid ""
 "It is possible to resend the e-mail for user invitations (invalidating any "
 "previously sent invitation)."
 msgstr ""
+"Este posibil să se retrimită e-mailul pentru invitațiile utilizatorilor ("
+"invalidând orice invitație trimisă anterior)."
 
 #: ../../admin/access.rst:160
 msgid ""
 "The same kind of invitations are available site-wide from the :ref:"
 "`management interface <management-interface>` on the :guilabel:`Users` tab."
 msgstr ""
+"Același tip de invitații sunt disponibile la nivelul întregului site din "
+":ref:`management interface <management-interface>` din fila "
+":guilabel:`Users`."
 
 #: ../../admin/access.rst:164
 msgid "Per-project permission management"
-msgstr ""
+msgstr "Gestionarea permisiunilor per proiect"
 
 #: ../../admin/access.rst:166
 msgid ""
 "You can set your projects to `Protected` or `Private`, and :ref:`manage "
 "users <manage-acl>` per-project in the Weblate user interface."
 msgstr ""
+"Puteți seta proiectele dvs. la `Protected` sau `Private` și :ref:`manage "
+"users <manage-acl>` per-proiect în interfața de utilizator Weblate."
 
 #: ../../admin/access.rst:169
 msgid ""
@@ -358,6 +415,13 @@ msgid ""
 "creating additional custom settings for individual component as described "
 "in :ref:`custom-acl` below."
 msgstr ""
+"În mod implicit, acest lucru împiedică Weblate să acorde accesul oferit de "
+"`Users` și `Viewers` :ref:`default groups <default-groups>` din cauza "
+"configurației proprii a acestor grupuri. Acest lucru nu vă împiedică să "
+"acordați permisiuni pentru aceste proiecte la nivelul întregului site prin "
+"modificarea grupurilor implicite, prin crearea unuia nou sau prin crearea "
+"unor setări personalizate suplimentare pentru componente individuale, așa "
+"cum este descris în :ref:`custom-acl` de mai jos."
 
 #: ../../admin/access.rst:175
 msgid ""
@@ -366,10 +430,15 @@ msgid ""
 "superuser privilege. In order to do so, add them to the `Administration` "
 "group of the project."
 msgstr ""
+"Unul dintre principalele avantaje ale gestionării permisiunilor prin "
+"intermediul interfeței de utilizator Weblate este că puteți delega acest "
+"lucru altor utilizatori fără a le acorda privilegiul de superutilizator. "
+"Pentru a face acest lucru, adăugați-i la grupul `Administration` al "
+"proiectului."
 
 #: ../../admin/access.rst:183
 msgid "Custom access control"
-msgstr ""
+msgstr "Control acces personalizat"
 
 #: ../../admin/access.rst:187
 #, fuzzy
@@ -394,6 +463,12 @@ msgid ""
 "necessarily have to switch it to `Custom` :ref:`access control <acl>` to "
 "utilize it. However you must have superuser privileges in order to use it."
 msgstr ""
+"Cele mai puternice caracteristici ale sistemului de control al accesului la "
+"Weblate sunt deocamdată disponibile doar prin intermediul interfeței de "
+"administrare :ref:`Django <admin-interface>`. O puteți utiliza pentru a "
+"gestiona permisiunile oricărui proiect. Nu trebuie neapărat să o comutați la "
+"`Custom` :ref:`controlul accesului <acl>` pentru a o utiliza. Cu toate "
+"acestea, trebuie să aveți privilegii de superutilizator pentru a o utiliza."
 
 #: ../../admin/access.rst:197
 msgid ""
@@ -403,16 +478,23 @@ msgid ""
 "<https://hosted.weblate.org/>`_), please refer to the :ref:`access-simple` "
 "section."
 msgstr ""
+"Dacă nu vă interesează detaliile implementării și doriți doar să creați o "
+"configurație suficient de simplă bazată pe valorile implicite sau dacă nu "
+"aveți acces la întreaga instalație Weblate la nivelul întregului site (ca în "
+"`Hosted Weblate <https://hosted.weblate.org/>`_), vă rugăm să consultați "
+"secțiunea :ref:`access-simple`."
 
 #: ../../admin/access.rst:203
 msgid "Common setups"
-msgstr ""
+msgstr "Configurații comune"
 
 #: ../../admin/access.rst:205
 msgid ""
 "This section contains an overview of some common configurations you may be "
 "interested in."
 msgstr ""
+"Această secțiune conține o prezentare generală a unor configurații comune "
+"care ar putea să vă intereseze."
 
 #: ../../admin/access.rst:209
 #, fuzzy
@@ -425,24 +507,35 @@ msgid ""
 "To manage permissions for a whole instance at once, add users to "
 "appropriate :ref:`default groups <default-groups>`:"
 msgstr ""
+"Pentru a gestiona simultan permisiunile pentru o întreagă instanță, adăugați "
+"utilizatorii la grupurile corespunzătoare :ref:`default groups <default-"
+"groups>`:"
 
 #: ../../admin/access.rst:214
+#, fuzzy
 msgid ""
 "`Users` (this is done by default by the :ref:`automatic group assignment "
 "<autogroup>`)."
 msgstr ""
+"`Users` (this is done by default by the :ref:`automatic group assignment "
+"<autogroup>`)."
 
 #: ../../admin/access.rst:216
+#, fuzzy
 msgid ""
 "`Reviewers` (if you are using :ref:`review workflow <reviews>` with "
 "dedicated reviewers)."
 msgstr ""
+"`Reviewers` (if you are using :ref:`review workflow <reviews>` with "
+"dedicated reviewers)."
 
 #: ../../admin/access.rst:218
 msgid ""
 "`Managers` (if you want to delegate most of the management operations to "
 "somebody else)."
 msgstr ""
+"`Managers` (dacă doriți să delegați majoritatea operațiunilor de gestionare "
+"altcuiva)."
 
 #: ../../admin/access.rst:221
 msgid ""
@@ -450,6 +543,9 @@ msgid ""
 "otherwise the site-wide permissions provided by membership in the `Users` "
 "and `Reviewers` groups won’t have any effect."
 msgstr ""
+"Ar trebui să păstrați toate proiectele configurate ca `Public` (see "
+":ref:`acl`)), în caz contrar permisiunile la nivel de site oferite de "
+"apartenența la grupurile `Users` și `Reviewers` nu vor avea niciun efect."
 
 #: ../../admin/access.rst:225
 msgid ""
@@ -457,6 +553,10 @@ msgid ""
 "groups. For example, you may want to give a permission to manage screenshots "
 "to all the `Users`."
 msgstr ""
+"De asemenea, puteți acorda anumite permisiuni suplimentare la alegerea "
+"dumneavoastră grupurilor implicite. De exemplu, este posibil să doriți să "
+"acordați permisiunea de a gestiona capturi de ecran tuturor \"Utilizatorilor"
+"\"."
 
 #: ../../admin/access.rst:229
 msgid ""
@@ -465,6 +565,11 @@ msgid ""
 "the :guilabel:`Project selection` (e.g. :guilabel:`All projects` or :"
 "guilabel:`All public projects`)."
 msgstr ""
+"De asemenea, puteți defini noi grupuri personalizate. Dacă doriți să "
+"continuați să gestionați permisiunile la nivelul întregului site pentru "
+"aceste grupuri, alegeți o valoare corespunzătoare pentru :guilabel:`Project "
+"selection` (e.g. :guilabel:`All projects` or :guilabel:`All public "
+"projects`)."
 
 #: ../../admin/access.rst:235
 #, fuzzy
@@ -479,6 +584,11 @@ msgid ""
 "can only grant additional privileges, you can’t revoke any permission "
 "granted by site-wide or per-project groups by adding another custom group."
 msgstr ""
+"Puteți crea propriile grupuri dedicate pentru a gestiona permisiunile pentru "
+"obiecte distincte, cum ar fi limbile, componentele și proiectele. Deși "
+"aceste grupuri pot acorda doar privilegii suplimentare, nu puteți revoca "
+"nicio permisiune acordată de grupurile la nivel de site sau pe proiect prin "
+"adăugarea unui alt grup personalizat."
 
 #: ../../admin/access.rst:242 ../../admin/access.rst:372
 #: ../../admin/config.rst:249 ../../admin/config.rst:274
@@ -489,8 +599,9 @@ msgstr ""
 #: ../../admin/install/docker.rst:429 ../../admin/install/docker.rst:444
 #: ../../admin/install/docker.rst:667 ../../admin/install/docker.rst:1166
 #: ../../admin/install/docker.rst:1198 ../../admin/install/docker.rst:1216
+#, fuzzy
 msgid "**Example:**"
-msgstr ""
+msgstr "**Example:**"
 
 #: ../../admin/access.rst:244
 msgid ""
@@ -838,6 +949,8 @@ msgid ""
 "Post comment [`Administration`, `Edit source`, `Power user`, `Review "
 "strings`, `Translate`]"
 msgstr ""
+"Postați un comentariu [`Administration`, `Edit source`, `Power user`, `"
+"Review strings`, `Translate`]"
 
 #: ../../admin/access.rst:453
 #, fuzzy
@@ -864,20 +977,28 @@ msgstr "Notificare la orice traducere"
 #: ../../admin/access.rst:461
 msgid "Add glossary entry [`Administration`, `Manage glossary`, `Power user`]"
 msgstr ""
+"Adăugați o intrare în glosar [`Administration`, `Manage glossary`, `Power "
+"user`]"
 
 #: ../../admin/access.rst:463
 msgid "Edit glossary entry [`Administration`, `Manage glossary`, `Power user`]"
 msgstr ""
+"Editarea intrării în glosar [`Administration`, `Manage glossary`, `Power "
+"user`]"
 
 #: ../../admin/access.rst:465
 msgid ""
 "Delete glossary entry [`Administration`, `Manage glossary`, `Power user`]"
 msgstr ""
+"Ștergeți intrarea în glosar [`Administration`, `Manage glossary`, `Power "
+"user`]"
 
 #: ../../admin/access.rst:467
 msgid ""
 "Upload glossary entries [`Administration`, `Manage glossary`, `Power user`]"
 msgstr ""
+"Încărcați intrările din glosar [`Administration`, `Manage glossary`, `Power "
+"user`]"
 
 #: ../../admin/access.rst:470 ../../user/translating.rst:306
 msgid "Automatic suggestions"
@@ -930,19 +1051,19 @@ msgstr "Rapoarte"
 
 #: ../../admin/access.rst:483
 msgid "Download reports [`Administration`]"
-msgstr ""
+msgstr "Descărcați rapoarte [`Administration`]"
 
 #: ../../admin/access.rst:486
 msgid "Add screenshot [`Administration`, `Manage screenshots`]"
-msgstr ""
+msgstr "Adăugați captură de ecran [`Administration`, `Manage screenshots`]"
 
 #: ../../admin/access.rst:488
 msgid "Edit screenshot [`Administration`, `Manage screenshots`]"
-msgstr ""
+msgstr "Editare captură de ecran [`Administration`, `Manage screenshots`]"
 
 #: ../../admin/access.rst:490
 msgid "Delete screenshot [`Administration`, `Manage screenshots`]"
-msgstr ""
+msgstr "Ștergere captură de ecran [`Administration`, `Manage screenshots`]"
 
 #: ../../admin/access.rst:493
 msgid "Source strings"
@@ -975,16 +1096,20 @@ msgid ""
 "Ignore failing check [`Administration`, `Edit source`, `Power user`, `Review "
 "strings`, `Translate`]"
 msgstr ""
+"Ignoră verificarea nereușită [`Administration`, `Edit source`, `Power user`, "
+"`Review strings`, `Translate`]"
 
 #: ../../admin/access.rst:502
 msgid ""
 "Edit strings [`Administration`, `Edit source`, `Power user`, `Review "
 "strings`, `Translate`]"
 msgstr ""
+"Editarea șirurilor de caractere [`Administration`, `Edit source`, `Power "
+"user`, `Review strings`, `Translate`]"
 
 #: ../../admin/access.rst:504
 msgid "Review strings [`Administration`, `Review strings`]"
-msgstr ""
+msgstr "Șiruri de revizuire [`Administration`, `Review strings`]"
 
 #: ../../admin/access.rst:506
 #, fuzzy
@@ -997,6 +1122,7 @@ msgstr "Notificare la orice traducere"
 #: ../../admin/access.rst:508
 msgid "Edit source strings [`Administration`, `Edit source`, `Power user`]"
 msgstr ""
+"Editarea șirurilor de surse [`Administration`, `Edit source`, `Power user`]"
 
 #: ../../admin/access.rst:517 ../../user/translating.rst:46
 #: ../../workflows.rst:47
@@ -1008,12 +1134,16 @@ msgid ""
 "Accept suggestion [`Administration`, `Edit source`, `Power user`, `Review "
 "strings`, `Translate`]"
 msgstr ""
+"Acceptă sugestia [`Administration`, `Edit source`, `Power user`, `Review "
+"strings`, `Translate`]"
 
 #: ../../admin/access.rst:513
 msgid ""
 "Add suggestion [`Administration`, `Edit source`, `Add suggestion`, `Power "
 "user`, `Review strings`, `Translate`]"
 msgstr ""
+"Adăugare sugestie [`Administration`, `Edit source`, `Add suggestion`, `Power "
+"user`, `Review strings`, `Translate`]"
 
 #: ../../admin/access.rst:515
 #, fuzzy
@@ -1043,7 +1173,7 @@ msgstr "Parola nouă (iarăși)"
 
 #: ../../admin/access.rst:522
 msgid "Perform automatic translation [`Administration`, `Manage languages`]"
-msgstr ""
+msgstr "Efectuarea traducerii automate [`Administration`, `Manage languages`]"
 
 #: ../../admin/access.rst:524
 #, fuzzy
@@ -1060,7 +1190,7 @@ msgstr "Parola nouă (iarăși)"
 
 #: ../../admin/access.rst:533
 msgid "Uploads"
-msgstr ""
+msgstr "Încărcături"
 
 #: ../../admin/access.rst:529
 #, fuzzy
@@ -1073,6 +1203,8 @@ msgid ""
 "Overwrite existing strings with upload [`Administration`, `Edit source`, "
 "`Power user`, `Review strings`, `Translate`]"
 msgstr ""
+"Suprascrieți șirurile existente cu încărcare [`Administration`, `Edit source`"
+", `Power user`, `Review strings`, `Translate`]"
 
 #: ../../admin/access.rst:533
 #, fuzzy
@@ -1095,6 +1227,8 @@ msgid ""
 "Commit changes to the internal repository [`Administration`, `Manage "
 "repository`]"
 msgstr ""
+"Trimiterea modificărilor în depozitul intern [`Administration`, `Manage "
+"repository`]"
 
 #: ../../admin/access.rst:540
 #, fuzzy
@@ -1109,6 +1243,8 @@ msgid ""
 "Reset changes in the internal repository [`Administration`, `Manage "
 "repository`]"
 msgstr ""
+"Resetarea modificărilor din depozitul intern [`Administration`, `Manage "
+"repository`]"
 
 #: ../../admin/access.rst:544
 #, fuzzy
@@ -1126,7 +1262,7 @@ msgstr "Repository Git"
 
 #: ../../admin/access.rst:567
 msgid "Site wide privileges"
-msgstr ""
+msgstr "Privilegii la nivelul întregului site"
 
 #: ../../admin/access.rst:549
 msgid "Use management interface"
@@ -1174,10 +1310,14 @@ msgid ""
 "and quite close to superuser status. Most of them affect all projects in "
 "your Weblate installation."
 msgstr ""
+"Nu se acordă privilegii la nivelul întregului site pentru niciun rol "
+"implicit. Acestea sunt puternice și destul de apropiate de statutul de "
+"superutilizator. Cele mai multe dintre ele afectează toate proiectele din "
+"instalarea Weblate."
 
 #: ../../admin/access.rst:578
 msgid "List of groups"
-msgstr ""
+msgstr "Lista de grupuri"
 
 #: ../../admin/access.rst:580
 msgid ""
@@ -1185,87 +1325,103 @@ msgid ""
 "djadmin:`setupgroups`) and you are free to modify them. The migration will, "
 "however, re-create them if you delete or rename them."
 msgstr ""
+"Următoarele grupuri sunt create la instalare (or after executing "
+":djadmin:`setupgroups`) și puteți să le modificați. Cu toate acestea, "
+"migrația le va recrea dacă le ștergeți sau le redenumiți."
 
 #: ../../admin/access.rst:592
+#, fuzzy
 msgid "`Guests`"
-msgstr ""
+msgstr "`Guests`"
 
 #: ../../admin/access.rst:585
 msgid "Defines permissions for non-authenticated users."
-msgstr ""
+msgstr "Definește permisiunile pentru utilizatorii neautentificați."
 
 #: ../../admin/access.rst:587
 msgid ""
 "This group only contains anonymous users (see :setting:"
 "`ANONYMOUS_USER_NAME`)."
 msgstr ""
+"Acest grup conține numai utilizatori anonimi (see "
+":setting:`ANONYMOUS_USER_NAME`)."
 
 #: ../../admin/access.rst:589
 msgid ""
 "You can remove roles from this group to limit permissions for non-"
 "authenticated users."
 msgstr ""
+"Puteți elimina rolurile din acest grup pentru a limita permisiunile pentru "
+"utilizatorii neautentificați."
 
 #: ../../admin/access.rst:592
 msgid "Default roles: `Add suggestion`, `Access repository`"
-msgstr ""
+msgstr "Roluri implicite: `Adaugați sugestii`, `Accesați depozitul`"
 
 #: ../../admin/access.rst:601
+#, fuzzy
 msgid "`Viewers`"
-msgstr ""
+msgstr "`Viewers`"
 
 #: ../../admin/access.rst:595
 msgid ""
 "This role ensures visibility of public projects for all users. By default, "
 "all users are members of this group."
 msgstr ""
+"Acest rol asigură vizibilitatea proiectelor publice pentru toți "
+"utilizatorii. În mod implicit, toți utilizatorii sunt membri ai acestui grup."
 
 #: ../../admin/access.rst:598 ../../admin/access.rst:606
 msgid ""
 "By default, :ref:`automatic group assignment <autogroup>` makes all new "
 "accounts members of this group when they join."
 msgstr ""
+"În mod implicit, :ref:`automatic group assignment <autogroup>` face ca toate "
+"conturile noi să devină membri ai acestui grup atunci când se alătură."
 
 #: ../../admin/access.rst:601
 msgid "Default roles: none"
-msgstr ""
+msgstr "Roluri implicite: niciunul"
 
 #: ../../admin/access.rst:609 ../../workflows.rst:84 ../../workflows.rst:116
 #: ../../workflows.rst:153
+#, fuzzy
 msgid "`Users`"
-msgstr ""
+msgstr "`Users`"
 
 #: ../../admin/access.rst:604
 msgid "Default group for all users."
-msgstr ""
+msgstr "Grup implicit pentru toți utilizatorii."
 
 #: ../../admin/access.rst:609
 msgid "Default roles: `Power user`"
-msgstr ""
+msgstr "Roluri implicite: `Power user`"
 
 #: ../../admin/access.rst:614 ../../workflows.rst:157
+#, fuzzy
 msgid "`Reviewers`"
-msgstr ""
+msgstr "`Reviewers`"
 
 #: ../../admin/access.rst:612
 msgid "Group for reviewers (see :ref:`workflows`)."
-msgstr ""
+msgstr "Grup pentru recenzori (see :ref:`workflows`)."
 
 #: ../../admin/access.rst:614
 msgid "Default roles: `Review strings`"
-msgstr ""
+msgstr "Roluri implicite: `Review strings`"
 
 #: ../../admin/access.rst:619
+#, fuzzy
 msgid "`Managers`"
-msgstr ""
+msgstr "`Managers`"
 
 #: ../../admin/access.rst:617
 msgid "Group for administrators."
-msgstr ""
+msgstr "Grup pentru administratori."
 
 #: ../../admin/access.rst:619
 msgid "Default roles: `Administration`"
-msgstr ""
+msgstr "Roluri implicite: `Administration`"
 
 #: ../../admin/access.rst:623
 msgid ""
@@ -1273,6 +1429,9 @@ msgid ""
 "unexpected problems! If you have no use for them, you can removing all their "
 "privileges instead."
 msgstr ""
+"Nu eliminați niciodată grupurile și utilizatorii Weblate predefinite, "
+"deoarece acest lucru poate duce la probleme neașteptate! Dacă nu aveți "
+"nevoie de ei, puteți elimina în schimb toate privilegiile lor."
 
 #: ../../admin/access.rst:628
 #, fuzzy
@@ -1290,10 +1449,20 @@ msgid ""
 "to require logging-in to access all the site pages. This is basically the "
 "way to lock your Weblate installation."
 msgstr ""
+"Dacă doriți să folosiți instalația Weblate într-un mod mai puțin public, "
+"adică să permiteți noilor utilizatori doar pe bază de invitație, acest lucru "
+"se poate face prin configurarea Weblate astfel încât doar utilizatorii "
+"cunoscuți să aibă acces la el. Pentru a face acest lucru, puteți seta "
+":setting:`REGISTRATION_OPEN` la ``False`` pentru a împiedica înregistrarea "
+"oricăror utilizatori noi și setați :setting:`REQUIRE_LOGIN` la ``/.*`` "
+"pentru a solicita autentificarea pentru a accesa toate paginile site-ului. "
+"Aceasta este practic modalitatea de a bloca instalarea Weblate."
 
 #: ../../admin/access.rst:639
 msgid "You can use built-in :ref:`invitations <manage-acl>` to add new users."
 msgstr ""
+"Puteți utiliza built-in :ref:`invitations <manage-acl>` pentru a adăuga noi "
+"utilizatori."
 
 #: ../../admin/addons.rst:4 ../../api.rst:2159
 msgid "Addons"
@@ -1305,10 +1474,14 @@ msgid ""
 "Admins can add and mangage addons from the :guilabel:`Manage` ↓ :guilabel:"
 "`Addons` menu of each respective translation component."
 msgstr ""
+"Componentele suplimentare oferă modalități de personalizare și automatizare "
+"a fluxului de lucru al traducerii. Administratorii pot adăuga și manageria "
+"addons din meniul :guilabel:`Manage` ↓ :guilabel:`Addons` al fiecărei "
+"componente de traducere respective."
 
 #: ../../admin/addons.rst:15
 msgid "Built-in addons"
-msgstr ""
+msgstr "Suplimente încorporate"
 
 #: ../../admin/addons.rst:20 ../../admin/continuous.rst:433
 #: ../../user/translating.rst:319
@@ -1340,10 +1513,12 @@ msgid ""
 "Once in a month for every component, this can be configured using :setting:"
 "`BACKGROUND_TASKS`."
 msgstr ""
+"O dată pe lună pentru fiecare componentă, acest lucru poate fi configurat "
+"folosind :setting:`BACKGROUND_TASKS`."
 
 #: ../../admin/addons.rst:33
 msgid ":ref:`auto-translation`, :ref:`translation-consistency`"
-msgstr ""
+msgstr ":ref:`auto-translation`, :ref:`translation-consistency`"
 
 #: ../../admin/addons.rst:39
 msgid "JavaScript localization CDN"
@@ -1362,18 +1537,25 @@ msgid ""
 "Can be used to localize static HTML pages, or to load localization in the "
 "JavaScript code."
 msgstr ""
+"Poate fi utilizat pentru a localiza pagini HTML statice sau pentru a încărca "
+"localizarea în codul JavaScript."
 
 #: ../../admin/addons.rst:49
 msgid ""
 "Generates a unique URL for your component you can include in HTML pages to "
 "localize them. See :ref:`weblate-cdn` for more details."
 msgstr ""
+"Generează un URL unic pentru componenta dvs. pe care îl puteți include în "
+"paginile HTML pentru a le localiza. Consultați :ref:`weblate-cdn` pentru mai "
+"multe detalii."
 
 #: ../../admin/addons.rst:54
 msgid ""
 ":ref:`cdn-addon-config`, :ref:`weblate-cdn`, :ref:`cdn-addon-extract`, :ref:"
 "`cdn-addon-html`"
 msgstr ""
+":ref:`cdn-addon-config`, :ref:`weblate-cdn`, :ref:`cdn-addon-extract`, :ref"
+":`cdn-addon-html`"
 
 #: ../../admin/addons.rst:62
 msgid "Remove blank strings"
@@ -1390,6 +1572,9 @@ msgid ""
 "your localization library displays them as missing instead of falling back "
 "to the source string)."
 msgstr ""
+"Utilizați această opțiune pentru a nu avea șiruri goale în fișierele de "
+"traducere (de exemplu, dacă biblioteca de localizare le afișează ca fiind "
+"lipsă în loc să revină la șirul sursă)."
 
 #: ../../admin/addons.rst:74 ../../admin/addons.rst:87
 #: ../../admin/addons.rst:353 ../../admin/addons.rst:444
@@ -1432,16 +1617,22 @@ msgid ""
 "Missing languages are checked once every 24 hours, and when new languages "
 "are added in Weblate."
 msgstr ""
+"Limbile lipsă sunt verificate o dată la 24 de ore și atunci când sunt "
+"adăugate noi limbi în Weblate."
 
 #: ../../admin/addons.rst:101
 msgid "Unlike most others, this addon affects the whole project."
 msgstr ""
+"Spre deosebire de majoritatea celorlalte, acest addon afectează întregul "
+"proiect."
 
 #: ../../admin/addons.rst:105
 msgid ""
 "Auto-translate the newly added strings with :ref:`addon-weblate."
 "autotranslate.autotranslate`."
 msgstr ""
+"Traduceți automat șirurile nou adăugate cu :ref:`addon-weblate.autotranslate."
+"autotranslate`."
 
 #: ../../admin/addons.rst:111
 msgid "Component discovery"
@@ -1461,6 +1652,9 @@ msgid ""
 "djadmin:`import_project` management command. This way you can track multiple "
 "translation components within one VCS."
 msgstr ""
+"Se declanșează de fiecare dată când VCS este actualizat și, în rest, este "
+"similară comenzii de gestionare :djadmin:`import_project`. În acest fel, "
+"puteți urmări mai multe componente de traducere în cadrul unui VCS."
 
 #: ../../admin/addons.rst:120
 msgid ""
@@ -1468,6 +1662,10 @@ msgid ""
 "configuration, but some knowledge is required to do so. Some examples for "
 "common use cases can be found in the addon help section."
 msgstr ""
+"Potrivirea se face cu ajutorul expresiilor regulate, ceea ce permite o "
+"configurare complexă, dar sunt necesare anumite cunoștințe în acest sens. "
+"Câteva exemple pentru cazuri de utilizare obișnuită pot fi găsite în "
+"secțiunea de ajutor a addonului."
 
 #: ../../admin/addons.rst:125
 msgid ""
@@ -1475,6 +1673,9 @@ msgid ""
 "presented, from where you can check whether the configuration actually "
 "matches your needs:"
 msgstr ""
+"După ce apăsați pe :guilabel:`Save`, va fi prezentată o previzualizare a "
+"componentelor corespunzătoare, de unde puteți verifica dacă configurația se "
+"potrivește cu nevoile dumneavoastră:"
 
 #: ../../admin/addons.rst:132
 msgid ""
@@ -1486,6 +1687,13 @@ msgid ""
 "respective component. This saves time with configuration and system "
 "resources too."
 msgstr ""
+"Component discovery addon utilizează :ref:`internal-urls`. Este o modalitate "
+"convenabilă de a partaja configurația VCS între mai multe componente. "
+"Componentele legate utilizează depozitul local al componentei principale, "
+"configurat prin completarea ``weblate://project/main-component`` în câmpul "
+":ref:`component-repo` (în :guilabel:`Manage` ↓ :guilabel:`Settings` ↓ "
+":guilabel:`Version control system`) al fiecărei componente respective. Acest "
+"lucru economisește timp cu configurarea și, de asemenea, resurse de sistem."
 
 #: ../../admin/addons.rst:141 ../../admin/addons.rst:256
 msgid ":ref:`markup`"
@@ -1507,14 +1715,18 @@ msgid ""
 "and add labels till all strings have all required labels. Other automated "
 "operations for Weblate metadata can also be done."
 msgstr ""
+"Automatizați etichetarea începând cu interogarea de căutare ``NOT has:label``"
+" și adăugați etichete până când toate șirurile au toate etichetele necesare. "
+"Se pot efectua și alte operațiuni automatizate pentru metadatele Weblate."
 
 #: ../../admin/addons.rst:156 ../../admin/config.rst:1813
+#, fuzzy
 msgid "**Examples:**"
-msgstr ""
+msgstr "**Examples:**"
 
 #: ../../admin/addons.rst:158
 msgid "Label new strings automatically"
-msgstr ""
+msgstr "Etichetarea automată a șirurilor noi"
 
 #: ../../admin/addons.rst:161 ../../admin/addons.rst:169
 #, fuzzy
@@ -1523,8 +1735,9 @@ msgid "Search query"
 msgstr "Caută"
 
 #: ../../admin/addons.rst:162
+#, fuzzy
 msgid "``NOT has:label``"
-msgstr ""
+msgstr "``NOT has:label``"
 
 #: ../../admin/addons.rst:163
 msgid "Labels to add"
@@ -1539,10 +1752,13 @@ msgstr "Nume utilizator"
 #: ../../admin/addons.rst:166
 msgid "Marking all :ref:`appstore` changelog entries read-only"
 msgstr ""
+"Marcarea tuturor intrărilor din registrul de modificări :ref:`appstore` doar "
+"pentru citire"
 
 #: ../../admin/addons.rst:170
+#, fuzzy
 msgid "``language:en AND key:changelogs/``"
-msgstr ""
+msgstr "``language:en AND key:changelogs/``"
 
 #: ../../admin/addons.rst:171
 msgid "Translation flags to add"
@@ -1578,6 +1794,9 @@ msgid ""
 "You might also want to tighthen the :ref:`check-same` check by adding "
 "``strict-same`` flag to :ref:`component-check_flags`."
 msgstr ""
+"De asemenea, este posibil să doriți să întăriți verificarea :ref:`check-same`"
+" prin adăugarea indicatorului ``strict-same`` la :ref:`component-"
+"check_flags`."
 
 #: ../../admin/addons.rst:200 ../../admin/addons.rst:213
 #: ../../admin/addons.rst:226
@@ -1629,6 +1848,8 @@ msgid ""
 "You can use a Django template in both filename and content, see :ref:"
 "`markup` for a detailed markup description."
 msgstr ""
+"Puteți utiliza un șablon Django atât în numele fișierului, cât și în "
+"conținut; consultați :ref:`markup` pentru o descriere detaliată a marcajului."
 
 #: ../../admin/addons.rst:238
 #, fuzzy
@@ -1641,12 +1862,13 @@ msgid "Name of generated file"
 msgstr "Numele fișierului generat"
 
 #: ../../admin/addons.rst:241
+#, fuzzy
 msgid "``locale/{{ language_code }}.json``"
-msgstr ""
+msgstr "``locale/{{ language_code }}.json``"
 
 #: ../../admin/addons.rst:252
 msgid "Content"
-msgstr ""
+msgstr "Conținut"
 
 #: ../../admin/addons.rst:261
 msgid "Pseudolocale generation"
@@ -1667,18 +1889,26 @@ msgid ""
 "make it easy to spot unaltered strings when running the application in the "
 "pseudolocale language."
 msgstr ""
+"Pseudolocalele sunt utile pentru a găsi șiruri de caractere care nu sunt "
+"pregătite pentru localizare. Acest lucru se realizează prin modificarea "
+"tuturor șirurilor sursă traductibile pentru a facilita identificarea "
+"șirurilor nealterate la rularea aplicației în limba pseudolocală."
 
 #: ../../admin/addons.rst:271
 msgid ""
 "Finding strings whose localized counterparts might not fit the layout is "
 "also possible."
 msgstr ""
+"De asemenea, este posibil să se găsească șiruri de caractere ale căror "
+"omologi localizați ar putea să nu se potrivească cu aspectul."
 
 #: ../../admin/addons.rst:276
 msgid ""
 "You can use real languages for testing, but there are dedicated "
 "pseudolocales available in Weblate - `en_XA` and `ar_XB`."
 msgstr ""
+"Puteți folosi limbi reale pentru testare, dar există pseudolocale dedicate "
+"disponibile în Weblate - `en_XA` și `ar_XB`."
 
 #: ../../admin/addons.rst:282
 msgid "Contributors in comment"
@@ -1694,7 +1924,7 @@ msgstr ""
 
 #: ../../admin/addons.rst:287
 msgid "The PO file header will look like this:"
-msgstr ""
+msgstr "Antetul fișierului PO va arăta în felul următor:"
 
 #: ../../admin/addons.rst:299
 msgid "Update ALL_LINGUAS variable in the \"configure\" file"
@@ -1705,6 +1935,9 @@ msgid ""
 "Updates the ALL_LINGUAS variable in :file:`configure`, :file:`configure.in` "
 "or any :file:`configure.ac` files, when a new translation is added."
 msgstr ""
+"Actualizează variabila ALL_LINGUAS din :file:`configure`, :file:`configure."
+"in` sau din orice fișier :file:`configure.ac`, atunci când se adaugă o nouă "
+"traducere."
 
 #: ../../admin/addons.rst:307
 msgid "Customize gettext output"
@@ -1719,7 +1952,7 @@ msgstr ""
 
 #: ../../admin/addons.rst:311
 msgid "It offers the following options:"
-msgstr ""
+msgstr "Acesta oferă următoarele opțiuni:"
 
 #: ../../admin/addons.rst:313
 msgid "Wrap lines at 77 characters and at newlines"
@@ -1738,6 +1971,9 @@ msgid ""
 "By default gettext wraps lines at 77 characters and at newlines. With the "
 "``--no-wrap`` parameter, wrapping is only done at newlines."
 msgstr ""
+"În mod implicit, gettext înfășoară liniile la 77 de caractere și la liniile "
+"noi. Dacă se folosește parametrul ``--no-wrap``, se face o încadrare numai "
+"la liniile noi."
 
 #: ../../admin/addons.rst:326
 msgid "Update LINGUAS file"
@@ -1760,6 +1996,8 @@ msgid ""
 "The location of the generated MO file can be customized and the field for it "
 "uses :ref:`markup`."
 msgstr ""
+"Locația fișierului MO generat poate fi personalizată, iar câmpul pentru "
+"acesta utilizează :ref:`markup`."
 
 #: ../../admin/addons.rst:342
 msgid "Update PO files to match POT (msgmerge)"
@@ -1771,12 +2009,18 @@ msgid ""
 "the POT file (as configured by :ref:`component-new_base`) using :program:"
 "`msgmerge`."
 msgstr ""
+"Actualizează toate fișierele PO (as configured by :ref:`component-filemask`) "
+"pentru a se potrivi cu fișierul POT (as configured by :ref:`component-"
+"new_base`) utilizând :program:`msgmerge`."
 
 #: ../../admin/addons.rst:347
 msgid ""
 "Triggered whenever new changes are pulled from the upstream repository. Most "
 "msgmerge command-line options can be set up through the addon configuration."
 msgstr ""
+"Se declanșează ori de câte ori sunt extrase noi modificări din depozitul din "
+"amonte. Majoritatea opțiunilor de linie de comandă msgmerge pot fi setate "
+"prin intermediul configurației addon-ului."
 
 #: ../../admin/addons.rst:358
 msgid "Squash Git commits"
@@ -1791,6 +2035,8 @@ msgid ""
 "Git commits can be squashed prior to pushing changes in one of the following "
 "modes:"
 msgstr ""
+"Comițările Git pot fi eliminate înainte de împingerea modificărilor în unul "
+"dintre următoarele moduri:"
 
 #: ../../admin/addons.rst:367
 msgid "All commits into one"
@@ -1813,12 +2059,17 @@ msgid ""
 "Original commit messages are kept, but authorship is lost unless :guilabel:"
 "`Per author` is selected, or the commit message is customized to include it."
 msgstr ""
+"Mesajele de confirmare originale sunt păstrate, dar se pierde paternitatea, "
+"cu excepția cazului în care se selectează :guilabel:`Per author` sau mesajul "
+"de confirmare este personalizat pentru a o include."
 
 #: ../../admin/addons.rst:380
 msgid ""
 "The original commit messages can optionally be overridden with a custom "
 "commit message."
 msgstr ""
+"Mesajele de confirmare originale pot fi opțional înlocuite cu un mesaj de "
+"confirmare personalizat."
 
 #: ../../admin/addons.rst:382
 msgid ""
@@ -1827,6 +2078,10 @@ msgid ""
 "commit message. This also generates proper ``Co-authored-by:`` credit for "
 "every translator."
 msgstr ""
+"Remetele (commit lines like ``Co-authored-by: …``) pot fi opțional eliminate "
+"din mesajele de confirmare originale și adăugate la sfârșitul mesajului de "
+"confirmare strivit. Acest lucru generează, de asemenea, creditul "
+"corespunzător ``Co-authored-by:`` pentru fiecare traducător."
 
 #: ../../admin/addons.rst:390
 msgid "Customize JSON output"
@@ -1861,6 +2116,9 @@ msgid ""
 "Use with care as comments getting old does not mean they have lost their "
 "importance."
 msgstr ""
+"Acest lucru poate fi util pentru a elimina comentariile vechi care ar putea "
+"fi depășite. Folosiți-o cu grijă, deoarece faptul că comentariile devin "
+"vechi nu înseamnă că și-au pierdut importanța."
 
 #: ../../admin/addons.rst:417
 msgid "Stale suggestion removal"
@@ -1876,6 +2134,9 @@ msgid ""
 "review`) to remove suggestions which don't receive enough positive votes in "
 "a given timeframe."
 msgstr ""
+"Poate fi foarte utilă în legătură cu votarea sugestiilor (see :ref:`peer-"
+"review`) pentru a elimina sugestiile care nu primesc suficiente voturi "
+"pozitive într-un anumit interval de timp."
 
 #: ../../admin/addons.rst:430
 msgid "Update RESX files"
@@ -1896,6 +2157,8 @@ msgid ""
 "Use :ref:`addon-weblate.cleanup.generic` if you only want to remove stale "
 "translation keys."
 msgstr ""
+"Utilizați :ref:`addon-weblate.cleanup.generic` dacă doriți să eliminați doar "
+"cheile de traducere vechi."
 
 #: ../../admin/addons.rst:449
 msgid "Customize YAML output"
@@ -1910,17 +2173,20 @@ msgstr ""
 
 #: ../../admin/addons.rst:457
 msgid "Customizing list of addons"
-msgstr ""
+msgstr "Personalizarea listei de addon-uri"
 
 #: ../../admin/addons.rst:459
 msgid ""
 "The list of addons is configured by :setting:`WEBLATE_ADDONS`. To add "
 "another addon, simply include the absolute class name in this setting."
 msgstr ""
+"Lista de addon-uri este configurată prin :setting:`WEBLATE_ADDONS`. Pentru a "
+"adăuga un alt addon, este suficient să includeți numele absolut al clasei în "
+"această setare."
 
 #: ../../admin/addons.rst:466
 msgid "Writing addon"
-msgstr ""
+msgstr "Addon de scriere"
 
 #: ../../admin/addons.rst:468
 msgid ""
@@ -1928,14 +2194,18 @@ msgid ""
 "addons.base.BaseAddon` to define the addon metadata, and then implement a "
 "callback to do the processing."
 msgstr ""
+"Puteți să vă scrieți propriile addon-uri, să creați o subclasă de "
+":class:`weblate.addons.base.BaseAddon` pentru a defini metadatele addon-ului "
+"și apoi să implementați un callback pentru a face procesarea."
 
 #: ../../admin/addons.rst:474
+#, fuzzy
 msgid ":doc:`../contributing/addons`"
-msgstr ""
+msgstr ":doc:`../contributing/addons`"
 
 #: ../../admin/addons.rst:479
 msgid "Executing scripts from addon"
-msgstr ""
+msgstr "Executarea scripturilor din addon"
 
 #: ../../admin/addons.rst:481
 msgid ""
@@ -1943,88 +2213,101 @@ msgid ""
 "integrated in Weblate, but now you have to write some code to wrap your "
 "script with an addon."
 msgstr ""
+"Suplimentele pot fi utilizate și pentru a executa scripturi externe. Acest "
+"lucru era integrat în Weblate, dar acum trebuie să scrieți niște cod pentru "
+"a include scriptul dvs. într-un addon."
 
 #: ../../admin/addons.rst:488
 msgid "For installation instructions see :ref:`custom-addon-modules`."
 msgstr ""
+"Pentru instrucțiuni de instalare, consultați :ref:`custom-addon-modules`."
 
 #: ../../admin/addons.rst:490
 msgid ""
 "The script is executed with the current directory set to the root of the VCS "
 "repository for any given component."
 msgstr ""
+"Scriptul este executat cu directorul curent setat la rădăcina depozitului "
+"VCS pentru orice componentă dată."
 
 #: ../../admin/addons.rst:493
 msgid "Additionally, the following environment variables are available:"
-msgstr ""
+msgstr "În plus, sunt disponibile următoarele variabile de mediu:"
 
 #: ../../admin/addons.rst:497
 msgid "Version control system used."
-msgstr ""
+msgstr "Sistemul de control al versiunilor utilizat."
 
 #: ../../admin/addons.rst:501
 msgid "Upstream repository URL."
-msgstr ""
+msgstr "URL-ul depozitului din amonte."
 
 #: ../../admin/addons.rst:505
 msgid "Absolute path to VCS repository."
-msgstr ""
+msgstr "Calea absolută către depozitul VCS."
 
 #: ../../admin/addons.rst:511
 msgid "Repository branch configured in the current component."
-msgstr ""
+msgstr "Ramura de depozit configurată în componenta curentă."
 
 #: ../../admin/addons.rst:515
 msgid "Filemask for current component."
-msgstr ""
+msgstr "Masca de fișier pentru componenta curentă."
 
 #: ../../admin/addons.rst:519
 msgid "Filename of template for monolingual translations (can be empty)."
 msgstr ""
+"Numele de fișier al șablonului pentru traducerile monolingve (poate fi gol)."
 
 #: ../../admin/addons.rst:525
 msgid "Filename of the file used for creating new translations (can be empty)."
 msgstr ""
+"Numele de fișier al fișierului utilizat pentru crearea de noi traduceri ("
+"poate fi gol)."
 
 #: ../../admin/addons.rst:530
 msgid "File format used in current component."
-msgstr ""
+msgstr "Format de fișier utilizat în componenta curentă."
 
 #: ../../admin/addons.rst:534
 msgid ""
 "Language of currently processed translation (not available for component-"
 "level hooks)."
 msgstr ""
+"Limba traducerii procesate în prezent (nu este disponibilă pentru cârligele "
+"la nivel de componentă)."
 
 #: ../../admin/addons.rst:539
 msgid ""
 "Previous HEAD after update (only available after running the post-update "
 "hook)."
 msgstr ""
+"HEAD anterior după actualizare (disponibil numai după rularea cârligului "
+"post-update)."
 
 #: ../../admin/addons.rst:545
 msgid "Component slug used to construct URL."
-msgstr ""
+msgstr "Denumirea componentei utilizată pentru a construi URL-ul."
 
 #: ../../admin/addons.rst:551
 msgid "Project slug used to construct URL."
-msgstr ""
+msgstr "Denumirea proiectului utilizată pentru a construi URL-ul."
 
 #: ../../admin/addons.rst:557
 msgid "Component name."
-msgstr ""
+msgstr "Denumirea componentei."
 
 #: ../../admin/addons.rst:563
 msgid "Project name."
-msgstr ""
+msgstr "Numele proiectului."
 
 #: ../../admin/addons.rst:569
 msgid "Component URL."
-msgstr ""
+msgstr "URL-ul componentei."
 
 #: ../../admin/addons.rst:575
 msgid "Project engage URL."
-msgstr ""
+msgstr "URL de angajare a proiectului."
 
 #: ../../admin/addons.rst:579 ../../faq.rst:260
 msgid ":ref:`component`"
@@ -2042,10 +2325,14 @@ msgid ""
 "changes. To achieve this, please remember Weblate only sees files committed "
 "to the VCS, so you need to commit changes as a part of the script."
 msgstr ""
+"Poate fi utilizat pentru a actualiza fișierele de traducere atunci când "
+"sursa VCS din amonte se modifică. Pentru a realiza acest lucru, vă rugăm să "
+"rețineți că Weblate vede numai fișierele trimise în VCS, deci trebuie să "
+"trimiteți modificările ca parte a scriptului."
 
 #: ../../admin/addons.rst:588
 msgid "For example with Gulp you can do it using following code:"
-msgstr ""
+msgstr "De exemplu, cu Gulp puteți face acest lucru folosind următorul cod:"
 
 #: ../../admin/addons.rst:598
 #, fuzzy
@@ -2058,16 +2345,20 @@ msgid ""
 "Use the commit script to automatically change a translation before it is "
 "committed to the repository."
 msgstr ""
+"Utilizați scriptul de trimitere pentru a modifica automat o traducere "
+"înainte de a fi trimisă în depozit."
 
 #: ../../admin/addons.rst:603
 msgid ""
 "It is passed as a single parameter consisting of the filename of a current "
 "translation."
 msgstr ""
+"Acesta este transmis ca un singur parametru care constă în numele de fișier "
+"al unei traduceri curente."
 
 #: ../../admin/admin.rst:4 ../../admin/memory.rst:94
 msgid "Management interface"
-msgstr ""
+msgstr "Interfața de gestionare"
 
 #: ../../admin/admin.rst:6
 msgid ""
@@ -2075,18 +2366,23 @@ msgid ""
 "manage/` URL. It is available for users signed in with admin privileges, "
 "accessible by using the wrench icon top right:"
 msgstr ""
+"Interfața de gestionare oferă setări de administrare în cadrul URL-ului "
+":file:`/manage/`. Aceasta este disponibilă pentru utilizatorii conectați cu "
+"privilegii de administrator, accesibilă cu ajutorul pictogramei cu cheie "
+"franceză din dreapta sus:"
 
 #: ../../admin/admin.rst:12
 msgid "It includes basic overview of your Weblate:"
 msgstr ""
+"Acesta include o prezentare generală de bază a Weblate-ului dumneavoastră:"
 
 #: ../../admin/admin.rst:14
 msgid "Support status, see :doc:`support`"
-msgstr ""
+msgstr "Starea suportului, vezi :doc:`support`"
 
 #: ../../admin/admin.rst:15
 msgid "Backups, see :doc:`backup`"
-msgstr ""
+msgstr "Copii de rezervă, vezi :doc:`backup`"
 
 #: ../../admin/admin.rst:16
 #, fuzzy
@@ -2097,30 +2393,37 @@ msgstr "Notificare la orice traducere"
 #: ../../admin/admin.rst:17
 msgid "Performance report to review Weblate health and length of Celery queues"
 msgstr ""
+"Raport de performanță pentru a analiza starea de sănătate a Weblate și "
+"lungimea cozilor de așteptare Celery"
 
 #: ../../admin/admin.rst:18
 msgid "SSH keys management, see :ref:`ssh-repos`"
-msgstr ""
+msgstr "Gestionarea cheilor SSH, vezi :ref:`ssh-repos`"
 
 #: ../../admin/admin.rst:19
 msgid "Alerts overview for all components, see :ref:`alerts`"
 msgstr ""
+"Prezentare generală a alertelor pentru toate componentele, vezi :ref:`alerts`"
 
 #: ../../admin/admin.rst:24
 msgid "The Django admin interface"
-msgstr ""
+msgstr "Interfața de administrare Django"
 
 #: ../../admin/admin.rst:28
 msgid ""
 "Will be removed in the future, as its use is discouraged—most features can "
 "be managed directly in Weblate."
 msgstr ""
+"Va fi eliminat în viitor, deoarece utilizarea sa este descurajată - "
+"majoritatea funcțiilor pot fi gestionate direct în Weblate."
 
 #: ../../admin/admin.rst:31
 msgid ""
 "Here you can manage objects stored in the database, such as users, "
 "translations and other settings:"
 msgstr ""
+"Aici puteți gestiona obiectele stocate în baza de date, cum ar fi "
+"utilizatorii, traducerile și alte setări:"
 
 #: ../../admin/admin.rst:36
 msgid ""
@@ -2128,6 +2431,9 @@ msgid ""
 "tweak it for :ref:`production`, or manage SSH keys used to access :ref:`vcs-"
 "repos`."
 msgstr ""
+"În secțiunea :guilabel:`Reports`, puteți verifica starea site-ului "
+"dumneavoastră, îl puteți ajusta pentru :ref:`producție` sau puteți gestiona "
+"cheile SSH utilizate pentru a accesa :ref:`vcs-repos`."
 
 #: ../../admin/admin.rst:39
 msgid ""
@@ -2135,16 +2441,21 @@ msgid ""
 "is probably :guilabel:`Weblate translations`, where you can manage "
 "translatable projects, see :ref:`project` and :ref:`component`."
 msgstr ""
+"Gestionați obiectele bazei de date în oricare dintre secțiuni. Cea mai "
+"interesantă este probabil :guilabel:`Weblate translations`, unde puteți "
+"gestiona proiecte traductibile, vezi :ref:`project` și :ref:`component`."
 
 #: ../../admin/admin.rst:43
 msgid ""
 ":guilabel:`Weblate languages` holds language definitions, explained further "
 "in :ref:`languages`."
 msgstr ""
+":guilabel:`Weblate languages` conține definițiile limbilor, explicate mai "
+"detaliat în :ref:`languages`."
 
 #: ../../admin/admin.rst:47
 msgid "Adding a project"
-msgstr ""
+msgstr "Adăugarea unui proiect"
 
 #: ../../admin/admin.rst:49
 msgid ""
@@ -2152,6 +2463,9 @@ msgid ""
 "one project for one piece of software, or book (See :ref:`project` for info "
 "on individual parameters):"
 msgstr ""
+"Adăugarea unui proiect servește drept container pentru toate componentele. "
+"De obicei, creați un proiect pentru o singură piesă de software sau o "
+"singură carte (See :ref:`project` for info on individual parameters):"
 
 #: ../../admin/admin.rst:57
 msgid ":ref:`project`"
@@ -2159,21 +2473,24 @@ msgstr ""
 
 #: ../../admin/admin.rst:62
 msgid "Bilingual components"
-msgstr ""
+msgstr "Componente bilingve"
 
 #: ../../admin/admin.rst:64
 msgid ""
 "Once you have added a project, translation components can be added to it. "
 "(See :ref:`component` for info regarding individual parameters):"
 msgstr ""
+"După ce ați adăugat un proiect, i se pot adăuga componente de traducere. ("
+"See :ref:`component` for info regarding individual parameters):"
 
 #: ../../admin/admin.rst:71 ../../admin/admin.rst:87
+#, fuzzy
 msgid ":ref:`component`, :ref:`bimono`"
-msgstr ""
+msgstr ":ref:`component`, :ref:`bimono`"
 
 #: ../../admin/admin.rst:77
 msgid "Monolingual components"
-msgstr ""
+msgstr "Componente monolingve"
 
 #: ../../admin/admin.rst:79
 msgid ""
@@ -2181,6 +2498,10 @@ msgid ""
 "mapping of message IDs to its respective source language (usually English). "
 "(See :ref:`component` for info regarding individual parameters):"
 msgstr ""
+"Pentru o traducere mai ușoară a acestora, furnizați un fișier șablon care să "
+"conțină corespondența dintre ID-urile mesajelor și limba sursă respectivă ("
+"usually English). (See :ref:`component` for info regarding individual "
+"parameters):"
 
 #: ../../admin/announcements.rst:2
 msgid "Announcements"
@@ -2189,80 +2510,96 @@ msgstr "Anunțuri"
 #: ../../admin/announcements.rst:6
 msgid "In prior releases this feature was called whiteboard messages."
 msgstr ""
+"În versiunile anterioare, această funcție se numea mesaje de tablă albă."
 
 #: ../../admin/announcements.rst:8
 msgid ""
 "Provide info to your translators by posting announcements, site-wide, per "
 "project, component, or language."
 msgstr ""
+"Furnizați informații traducătorilor dvs. prin postarea de anunțuri, la "
+"nivelul întregului site, pentru fiecare proiect, componentă sau limbă."
 
 #: ../../admin/announcements.rst:10
 msgid ""
 "Announce the purpose, deadlines, status, or specify targets for translation."
 msgstr ""
+"Anunțați scopul, termenele limită, statutul sau specificați obiectivele "
+"pentru traducere."
 
 #: ../../admin/announcements.rst:12
 msgid ""
 "The users will receive notification on the announcements for watched "
 "projects (unless they opt out)."
 msgstr ""
+"Utilizatorii vor primi notificări cu privire la anunțurile privind "
+"proiectele urmărite (cu excepția cazului în care renunță)."
 
 #: ../../admin/announcements.rst:15
 msgid ""
 "This can be useful for various things from announcing the purpose of the "
 "website to specifying targets for translations."
 msgstr ""
+"Acest lucru poate fi util pentru diverse lucruri, de la anunțarea scopului "
+"site-ului până la specificarea țintelor pentru traduceri."
 
 #: ../../admin/announcements.rst:18
 msgid ""
 "The announcements can posted on each level in the :guilabel:`Manage` menu, "
 "using :guilabel:`Post announcement`:"
 msgstr ""
+"Anunțurile pot fi postate pe fiecare nivel în meniul :guilabel:`Manage`, "
+"folosind :guilabel:`Post announcement`:"
 
 #: ../../admin/announcements.rst:24
 msgid "It can be also added using the admin interface:"
-msgstr ""
+msgstr "Acesta poate fi adăugat și prin intermediul interfeței de administrare:"
 
 #: ../../admin/announcements.rst:28
 msgid "The announcements are then shown based on their specified context:"
-msgstr ""
+msgstr "Anunțurile sunt apoi afișate în funcție de contextul specificat:"
 
 #: ../../admin/announcements.rst:30
 msgid "No context specified"
-msgstr ""
+msgstr "Niciun context specificat"
 
 #: ../../admin/announcements.rst:32
 msgid "Shown on dashboard (landing page)."
-msgstr ""
+msgstr "Afișat pe tabloul de bord (pagina de destinație)."
 
 #: ../../admin/announcements.rst:34
 msgid "Project specified"
-msgstr ""
+msgstr "Proiect specificat"
 
 #: ../../admin/announcements.rst:36
 msgid ""
 "Shown within the project, including all its components and translations."
 msgstr ""
+"Afișat în cadrul proiectului, inclusiv toate componentele și traducerile "
+"acestuia."
 
 #: ../../admin/announcements.rst:38
 msgid "Component specified"
-msgstr ""
+msgstr "Componenta specificată"
 
 #: ../../admin/announcements.rst:40
 msgid "Shown for a given component and all its translations."
 msgstr ""
+"Afișat pentru o anumită componentă și pentru toate traducerile acesteia."
 
 #: ../../admin/announcements.rst:42
 msgid "Language specified"
-msgstr ""
+msgstr "Limba specificată"
 
 #: ../../admin/announcements.rst:44
 msgid "Shown on the language overview and all translations in that language."
 msgstr ""
+"Afișat în prezentarea generală a limbii și a tuturor traducerilor în limba "
+"respectivă."
 
 #: ../../admin/announcements.rst:47
 msgid "This is how it looks on the language overview page:"
-msgstr ""
+msgstr "Iată cum arată pe pagina de prezentare generală a limbilor:"
 
 #: ../../admin/auth.rst:2
 msgid "Authentication"
@@ -2279,20 +2616,26 @@ msgid ""
 "new user can contribute or authenticate by using one of the third party "
 "services."
 msgstr ""
+"Configurația implicită pentru Weblate este de a utiliza python-social-auth, "
+"un formular pe site-ul web pentru a gestiona înregistrarea noilor "
+"utilizatori. După confirmarea e-mail-ului, un nou utilizator poate contribui "
+"sau se poate autentifica prin utilizarea unuia dintre serviciile terților."
 
 #: ../../admin/auth.rst:11
 msgid ""
 "You can also turn off registration of new users using :setting:"
 "`REGISTRATION_OPEN`."
 msgstr ""
+"De asemenea, puteți dezactiva înregistrarea noilor utilizatori folosind "
+":setting:`REGISTRATION_OPEN`."
 
 #: ../../admin/auth.rst:14
 msgid "The authentication attempts are subject to :ref:`rate-limit`."
-msgstr ""
+msgstr "Încercările de autentificare sunt supuse :ref:`rate-limit`."
 
 #: ../../admin/auth.rst:18
 msgid "Authentication backends"
-msgstr ""
+msgstr "Backend-uri de autentificare"
 
 #: ../../admin/auth.rst:20
 msgid ""
@@ -2300,33 +2643,45 @@ msgid ""
 "various social options to do so. Using it means you can import the user "
 "database of other Django-based projects (see :ref:`pootle-migration`)."
 msgstr ""
+"Pentru autentificare se folosește soluția integrată în Django, care include "
+"diverse opțiuni sociale. Folosirea acesteia înseamnă că puteți importa baza "
+"de date de utilizatori din alte proiecte bazate pe Django (see :ref:`pootle-"
+"migration`)."
 
 #: ../../admin/auth.rst:25
 msgid ""
 "Django can additionally be set up to authenticate against other means too."
 msgstr ""
+"În plus, Django poate fi configurat pentru a se autentifica și prin alte "
+"mijloace."
 
 #: ../../admin/auth.rst:29
 msgid ""
 ":ref:`docker-auth` describes how to configure authentication in the official "
 "Docker image."
 msgstr ""
+":ref:`docker-auth` descrie modul de configurare a autentificării în imaginea "
+"oficială Docker."
 
 #: ../../admin/auth.rst:33
 msgid "Social authentication"
-msgstr ""
+msgstr "Autentificare socială"
 
 #: ../../admin/auth.rst:35
 msgid ""
 "Thanks to :doc:`psa:index`, Weblate support authentication using many third "
 "party services such as GitLab, Ubuntu, Fedora, etc."
 msgstr ""
+"Datorită :doc:`psa:index`, Weblate suportă autentificarea cu ajutorul multor "
+"servicii terțe, cum ar fi GitLab, Ubuntu, Fedora, etc."
 
 #: ../../admin/auth.rst:38
 msgid ""
 "Please check their documentation for generic configuration instructions in :"
 "doc:`psa:configuration/django`."
 msgstr ""
+"Vă rugăm să consultați documentația lor pentru instrucțiuni de configurare "
+"generică în :doc:`psa:configuration/django`."
 
 #: ../../admin/auth.rst:43
 msgid ""
@@ -2335,10 +2690,16 @@ msgid ""
 "support this, please enforce e-mail validation on the Weblate side by "
 "configuring FORCE_EMAIL_VALIDATION for them. For example:"
 msgstr ""
+"În mod implicit, Weblate se bazează pe serviciile de autentificare ale unor "
+"terțe părți pentru a furniza o adresă de e-mail validată. Dacă unele dintre "
+"serviciile pe care doriți să le utilizați nu acceptă acest lucru, vă rugăm "
+"să impuneți validarea e-mailului pe partea Weblate prin configurarea "
+"FORCE_EMAIL_VALIDATION pentru acestea. De exemplu:"
 
 #: ../../admin/auth.rst:52
+#, fuzzy
 msgid ":doc:`psa:pipeline`"
-msgstr ""
+msgstr ":doc:`psa:pipeline`"
 
 #: ../../admin/auth.rst:54
 msgid ""
@@ -2349,14 +2710,22 @@ msgid ""
 "explicitly, otherwise Weblate will not be able to properly credit "
 "contributions users make."
 msgstr ""
+"Activarea backend-urilor individuale este destul de ușoară, este doar o "
+"chestiune de adăugare a unei intrări la "
+":setting:`django:AUTHENTICATION_BACKENDS` și, eventual, adăugarea cheilor "
+"necesare pentru o anumită metodă de autentificare. Vă rugăm să rețineți că "
+"unele backend-uri nu furnizează în mod implicit e-mailul utilizatorului, "
+"trebuie să îl solicitați în mod explicit, altfel Weblate nu va putea să "
+"crediteze în mod corespunzător contribuțiile pe care le fac utilizatorii."
 
 #: ../../admin/auth.rst:62
+#, fuzzy
 msgid ":doc:`Python Social Auth backend <psa:backends/index>`"
-msgstr ""
+msgstr ":doc:`Python Social Auth backend <psa:backends/index>``"
 
 #: ../../admin/auth.rst:65
 msgid "OpenID authentication"
-msgstr ""
+msgstr "Autentificare OpenID"
 
 #: ../../admin/auth.rst:67
 msgid ""
@@ -2364,26 +2733,34 @@ msgid ""
 "following section enables OpenID authentication for OpenSUSE, Fedora and "
 "Ubuntu:"
 msgstr ""
+"În cazul serviciilor bazate pe OpenID, de obicei este vorba doar de "
+"activarea acestora. Următoarea secțiune permite autentificarea OpenID pentru "
+"OpenSUSE, Fedora și Ubuntu:"
 
 #: ../../admin/auth.rst:83
+#, fuzzy
 msgid ":doc:`psa:backends/openid`"
-msgstr ""
+msgstr ":doc:`psa:backends/openid`"
 
 #: ../../admin/auth.rst:88
 msgid "GitHub authentication"
-msgstr ""
+msgstr "Autentificarea GitHub"
 
 #: ../../admin/auth.rst:90
 msgid ""
 "You need to register an OAuth application on GitHub and then tell Weblate "
 "all its secrets:"
 msgstr ""
+"Trebuie să înregistrați o aplicație OAuth pe GitHub și apoi să-i spuneți lui "
+"Weblate toate secretele sale:"
 
 #: ../../admin/auth.rst:106
 msgid ""
 "The GitHub should be configured to have callback URL as ``https://example."
 "com/accounts/complete/github/``."
 msgstr ""
+"GitHub ar trebui să fie configurat pentru a avea un URL de callback ca "
+"``https://example.com/accounts/complete/github/``."
 
 #: ../../snippets/oauth-site.rst:3
 msgid ""
@@ -2391,93 +2768,120 @@ msgid ""
 "domain. In case you get errors about URL mismatch, you might want to fix "
 "this, see :ref:`production-site`."
 msgstr ""
+"URL-ul de callback furnizat de Weblate în timpul autentificării include "
+"domeniul configurat. În cazul în care primiți erori privind neconcordanța "
+"URL-ului, poate doriți să remediați acest lucru, consultați :ref:`production-"
+"site`."
 
 #: ../../admin/auth.rst:113
 msgid ":doc:`psa:backends/github`"
-msgstr ""
+msgstr ":doc:`psa:backends/github`"
 
 #: ../../admin/auth.rst:118
 msgid "Bitbucket authentication"
-msgstr ""
+msgstr "Autentificarea Bitbucket"
 
 #: ../../admin/auth.rst:120
 msgid ""
 "You need to register an application on Bitbucket and then tell Weblate all "
 "its secrets:"
 msgstr ""
+"Trebuie să înregistrați o aplicație pe Bitbucket și apoi să-i spuneți lui "
+"Weblate toate secretele sale:"
 
 #: ../../admin/auth.rst:140
+#, fuzzy
 msgid ":doc:`psa:backends/bitbucket`"
-msgstr ""
+msgstr ":doc:`psa:backends/bitbucket`"
 
 #: ../../admin/auth.rst:145
 msgid "Google OAuth 2"
-msgstr ""
+msgstr "Google OAuth 2"
 
 #: ../../admin/auth.rst:147
 msgid ""
 "To use Google OAuth 2, you need to register an application on <https://"
 "console.developers.google.com/> and enable the Google+ API."
 msgstr ""
+"Pentru a utiliza Google OAuth 2, trebuie să înregistrați o aplicație pe "
+"<https://console.developers.google.com/> și să activați API-ul Google+."
 
 #: ../../admin/auth.rst:150
 msgid ""
 "The redirect URL is ``https://WEBLATE SERVER/accounts/complete/google-oauth2/"
 "``"
 msgstr ""
+"URL-ul de redirecționare este ``https://WEBLATE SERVER/accounts/complete/"
+"google-oauth2/``"
 
 #: ../../admin/auth.rst:169
+#, fuzzy
 msgid ":doc:`psa:backends/google`"
-msgstr ""
+msgstr ":doc:`psa:backends/google`"
 
 #: ../../admin/auth.rst:174
+#, fuzzy
 msgid "Facebook OAuth 2"
-msgstr ""
+msgstr "Facebook OAuth 2"
 
 #: ../../admin/auth.rst:176
 msgid ""
 "As per usual with OAuth 2 services, you need to register your application "
 "with Facebook. Once this is done, you can set up Weblate to use it:"
 msgstr ""
+"Ca de obicei în cazul serviciilor OAuth 2, trebuie să vă înregistrați "
+"aplicația cu Facebook. După ce ați făcut acest lucru, puteți configura "
+"Weblate pentru a o utiliza:"
 
 #: ../../admin/auth.rst:179
 msgid ""
 "The redirect URL is ``https://WEBLATE SERVER/accounts/complete/facebook/``"
 msgstr ""
+"URL-ul de redirecționare este ``https://WEBLATE SERVER/accounts/complete/"
+"facebook/``"
 
 #: ../../admin/auth.rst:199
+#, fuzzy
 msgid ":doc:`psa:backends/facebook`"
-msgstr ""
+msgstr ":doc:`psa:backends/facebook`"
 
 #: ../../admin/auth.rst:205
+#, fuzzy
 msgid "GitLab OAuth 2"
-msgstr ""
+msgstr "GitLab OAuth 2"
 
 #: ../../admin/auth.rst:207
 msgid ""
 "For using GitLab OAuth 2, you need to register an application on <https://"
 "gitlab.com/profile/applications>."
 msgstr ""
+"Pentru a utiliza GitLab OAuth 2, trebuie să înregistrați o aplicație pe "
+"<https://gitlab.com/profile/applications>."
 
 #: ../../admin/auth.rst:210
 msgid ""
 "The redirect URL is ``https://WEBLATE SERVER/accounts/complete/gitlab/`` and "
 "ensure you mark the `read_user` scope."
 msgstr ""
+"URL-ul de redirecționare este ``https://WEBLATE SERVER/accounts/complete/"
+"gitlab/`` și asigurați-vă că ați marcat domeniul `read_user`."
 
 #: ../../admin/auth.rst:234
+#, fuzzy
 msgid ":doc:`psa:backends/gitlab`"
-msgstr ""
+msgstr ":doc:`psa:backends/gitlab`"
 
 #: ../../admin/auth.rst:239
 msgid "Microsoft Azure Active Directory"
-msgstr ""
+msgstr "Microsoft Azure directoare active"
 
 #: ../../admin/auth.rst:241
 msgid ""
 "Weblate can be configured to use common or specific tenants for "
 "authentication."
 msgstr ""
+"Weblate poate fi configurat pentru a utiliza chiriași comuni sau specifici "
+"pentru autentificare."
 
 #: ../../admin/auth.rst:243
 msgid ""
@@ -2485,33 +2889,42 @@ msgid ""
 "oauth2/`` for common and ``https://WEBLATE SERVER/accounts/complete/azuread-"
 "tenant-oauth2/`` for tenant-specific authentication."
 msgstr ""
+"URL-ul de redirecționare este ``https://WEBLATE SERVER/accounts/complete/"
+"azuread-oauth2/`` pentru autentificarea comună și ``https://WEBLATE SERVER/"
+"accounts/complete/azuread-tenant-oauth2/`` pentru autentificarea specifică "
+"chiriașilor."
 
 #: ../../admin/auth.rst:283
 msgid ":doc:`psa:backends/azuread`"
-msgstr ""
+msgstr ":doc:`psa:backends/azuread`"
 
 #: ../../admin/auth.rst:288 ../../admin/install/docker.rst:867
+#, fuzzy
 msgid "Slack"
-msgstr ""
+msgstr "Slack"
 
 #: ../../admin/auth.rst:290
 msgid ""
 "For using Slack OAuth 2, you need to register an application on <https://api."
 "slack.com/apps>."
 msgstr ""
+"Pentru a utiliza Slack OAuth 2, trebuie să înregistrați o aplicație pe "
+"<https://api.slack.com/apps>."
 
 #: ../../admin/auth.rst:293
 msgid ""
 "The redirect URL is ``https://WEBLATE SERVER/accounts/complete/slack/``."
 msgstr ""
+"URL-ul de redirecționare este ``https://WEBLATE SERVER/accounts/complete/"
+"slack/``."
 
 #: ../../admin/auth.rst:312
 msgid ":doc:`psa:backends/slack`"
-msgstr ""
+msgstr ":doc:`psa:backends/slack`"
 
 #: ../../admin/auth.rst:315
 msgid "Turning off password authentication"
-msgstr ""
+msgstr "Dezactivarea autentificării prin parolă"
 
 #: ../../admin/auth.rst:317
 msgid ""
@@ -2520,56 +2933,72 @@ msgid ""
 "AUTHENTICATION_BACKENDS`. Always keep ``weblate.accounts.auth."
 "WeblateUserBackend`` there, it is needed for core Weblate functionality."
 msgstr ""
+"Autentificarea prin e-mail și parolă poate fi dezactivată prin eliminarea "
+"``social_core.backends.email.EmailAuth`` din "
+":setting:`django:AUTHENTICATION_BACKENDS`. Păstrați întotdeauna ``weblate."
+"accounts.auth.WeblateUserBackend`` acolo, este necesar pentru "
+"funcționalitatea de bază a Weblate."
 
 #: ../../admin/auth.rst:325
 msgid ""
 "You can still use password authentication for the admin interface, for users "
 "you manually create there. Just navigate to ``/admin/``."
 msgstr ""
+"Puteți utiliza în continuare autentificarea prin parolă pentru interfața de "
+"administrare, pentru utilizatorii pe care îi creați manual acolo. Trebuie "
+"doar să navigați la ``/admin/``."
 
 #: ../../admin/auth.rst:328
 msgid ""
 "For example authentication using only the openSUSE Open ID provider can be "
 "achieved using the following:"
 msgstr ""
+"De exemplu, autentificarea folosind doar furnizorul openSUSE Open ID poate "
+"fi realizată folosind următoarele:"
 
 #: ../../admin/auth.rst:340
 msgid "Password authentication"
-msgstr ""
+msgstr "Autentificarea prin parolă"
 
 #: ../../admin/auth.rst:342
 msgid ""
 "The default :file:`settings.py` comes with a reasonable set of :setting:"
 "`django:AUTH_PASSWORD_VALIDATORS`:"
 msgstr ""
+"Fișierul implicit :file:`settings.py` vine cu un set rezonabil de "
+":setting:`django:AUTH_PASSWORD_VALIDATORS`:"
 
 #: ../../admin/auth.rst:345
 msgid "Passwords can't be too similar to your other personal info."
-msgstr ""
+msgstr "Parolele nu pot fi prea asemănătoare cu alte informații personale."
 
 #: ../../admin/auth.rst:346
 msgid "Passwords must contain at least 10 characters."
-msgstr ""
+msgstr "Parolele trebuie să conțină cel puțin 10 caractere."
 
 #: ../../admin/auth.rst:347
 msgid "Passwords can't be a commonly used password."
-msgstr ""
+msgstr "Parolele nu pot fi o parolă folosită în mod obișnuit."
 
 #: ../../admin/auth.rst:348
 msgid "Passwords can't be entirely numeric."
-msgstr ""
+msgstr "Parolele nu pot fi în întregime numerice."
 
 #: ../../admin/auth.rst:349
 msgid "Passwords can't consist of a single character or only whitespace."
 msgstr ""
+"Parolele nu pot fi formate dintr-un singur caracter sau numai din spații "
+"albe."
 
 #: ../../admin/auth.rst:350
 msgid "Passwords can't match a password you have used in the past."
-msgstr ""
+msgstr "Parolele nu se pot potrivi cu o parolă pe care ați folosit-o în trecut."
 
 #: ../../admin/auth.rst:352
 msgid "You can customize this setting to match your password policy."
 msgstr ""
+"Puteți personaliza această setare pentru a se potrivi cu politica "
+"dumneavoastră privind parolele."
 
 #: ../../admin/auth.rst:354
 msgid ""
@@ -2577,26 +3006,33 @@ msgid ""
 "project/django-zxcvbn-password/>`_ which gives quite realistic estimates of "
 "password difficulty and allows rejecting passwords below a certain threshold."
 msgstr ""
+"În plus, puteți instala și `django-zxcvbn-password <https://pypi.org/project/"
+"django-zxcvbn-password/>`_ care oferă estimări destul de realiste ale "
+"dificultății parolelor și permite respingerea parolelor sub un anumit prag."
 
 #: ../../admin/auth.rst:362
 msgid "SAML authentication"
-msgstr ""
+msgstr "Autentificare SAML"
 
 #: ../../admin/auth.rst:366
 msgid ""
 "Please follow the Python Social Auth instructions for configuration. Notable "
 "differences:"
 msgstr ""
+"Vă rugăm să urmați instrucțiunile Python Social Auth pentru configurare. "
+"Diferențe notabile:"
 
 #: ../../admin/auth.rst:368
 msgid ""
 "Weblate supports single IDP which has to be called ``weblate`` in "
 "``SOCIAL_AUTH_SAML_ENABLED_IDPS``."
 msgstr ""
+"Weblate acceptă un singur IDP care trebuie să fie numit ``weblate`` în "
+"``SOCIAL_AUTH_SAML_ENABLED_IDPS```."
 
 #: ../../admin/auth.rst:370
 msgid "The SAML XML metadata URL is ``/accounts/metadata/saml/``."
-msgstr ""
+msgstr "URL-ul metadatelor SAML XML este ``/accounts/metadata/saml/``."
 
 #: ../../admin/auth.rst:371
 msgid ""
@@ -2604,31 +3040,40 @@ msgid ""
 "``SOCIAL_AUTH_SAML_SP_ENTITY_ID``, ``SOCIAL_AUTH_SAML_TECHNICAL_CONTACT``, "
 "``SOCIAL_AUTH_SAML_SUPPORT_CONTACT``"
 msgstr ""
+"Următoarele setări sunt completate automat: ``SOCIAL_AUTH_SAML_SP_ENTITY_ID``"
+", ``SOCIAL_AUTH_SAML_TECHNICAL_CONTACT``, "
+"``SOCIAL_AUTH_SAML_SUPPORT_CONTACT``, ``SOCIAL_AUTH_SAML_SUPPORT_CONTACT``"
 
 #: ../../admin/auth.rst:375
 msgid "Example configuration:"
-msgstr ""
+msgstr "Exemplu de configurare:"
 
 #: ../../admin/auth.rst:402
+#, fuzzy
 msgid ""
 ":ref:`Configuring SAML in Docker <docker-saml>`, :doc:`psa:backends/saml`"
 msgstr ""
+":ref:`Configuring SAML in Docker <docker-saml>`, :doc:`psa:backends/saml`"
 
 #: ../../admin/auth.rst:408
 msgid "LDAP authentication"
-msgstr ""
+msgstr "Autentificare LDAP"
 
 #: ../../admin/auth.rst:410
 msgid ""
 "LDAP authentication can be best achieved using the `django-auth-ldap` "
 "package. You can install it via usual means:"
 msgstr ""
+"Autentificarea LDAP poate fi realizată cel mai bine folosind pachetul "
+"`django-auth-ldap`. Îl puteți instala prin mijloace obișnuite:"
 
 #: ../../admin/auth.rst:423
 msgid ""
 "With django-auth-ldap older than 1.3.0 the :ref:`autogroup` will not work "
 "properly for newly created users."
 msgstr ""
+"Cu django-auth-ldap mai vechi de 1.3.0, :ref:`autogroup` nu va funcționa "
+"corect pentru utilizatorii nou creați."
 
 #: ../../admin/auth.rst:428
 msgid ""
@@ -2637,12 +3082,18 @@ msgid ""
 "'module' object has no attribute '_trace_level' <https://github.com/python-"
 "ldap/python-ldap/issues/226>`_, downgrading python-ldap to 3.0.0 might help."
 msgstr ""
+"Există unele incompatibilități în modulul Python LDAP 3.1.0, care vă pot "
+"împiedica să utilizați această versiune. Dacă primiți eroarea "
+"`AttributeError: 'module' object has no attribute '_trace_level' "
+"<https://github.com/python-ldap/python-ldap/issues/226>`_, ar putea fi de "
+"ajutor dacă faceți downgrade la python-ldap 3.0.0."
 
 #: ../../admin/auth.rst:434
 msgid ""
 "Once you have the package installed, you can hook it into the Django "
 "authentication:"
 msgstr ""
+"După ce ați instalat pachetul, îl puteți conecta la autentificarea Django:"
 
 #: ../../admin/auth.rst:471
 msgid ""
@@ -2654,16 +3105,26 @@ msgid ""
 "sign in using a local admin account, if you have created it (e.g. by using :"
 "djadmin:`createadmin`)."
 msgstr ""
+"Ar trebui să eliminați ``'social_core.backends.email.EmailAuth'`` din "
+"setarea :setting:`django:AUTHENTICATION_BACKENDS`, altfel utilizatorii își "
+"vor putea seta parola în Weblate și se vor putea autentifica folosind-o. "
+"Păstrarea ``'weblate.accounts.auth.WeblateUserBackend'`` este încă necesară "
+"pentru a face permisiuni și a facilita utilizatorii anonimi. De asemenea, vă "
+"va permite să vă autentificați folosind un cont de administrator local, dacă "
+"l-ați creat (e.g. by using :djadmin:`createadmin`)."
 
 #: ../../admin/auth.rst:480
 msgid "Using bind password"
-msgstr ""
+msgstr "Utilizarea parolei bind"
 
 #: ../../admin/auth.rst:482
 msgid ""
 "If you can not use direct bind for authentication, you will need to use "
 "search, and provide a user to bind for the search. For example:"
 msgstr ""
+"Dacă nu puteți utiliza direct bind pentru autentificare, va trebui să "
+"utilizați căutarea și să furnizați un utilizator care să se lege pentru "
+"căutare. De exemplu:"
 
 #: ../../admin/auth.rst:497
 #, fuzzy
@@ -2673,16 +3134,18 @@ msgstr "Status traducere"
 
 #: ../../admin/auth.rst:530
 msgid ":doc:`ldap:index`, :doc:`ldap:authentication`"
-msgstr ""
+msgstr ":doc:`ldap:index`, :doc:`ldap:authentication`"
 
 #: ../../admin/auth.rst:537
 msgid "CAS authentication"
-msgstr ""
+msgstr "Autentificare CAS"
 
 #: ../../admin/auth.rst:539
 msgid ""
 "CAS authentication can be achieved using a package such as `django-cas-ng`."
 msgstr ""
+"Autentificarea CAS poate fi realizată cu ajutorul unui pachet precum `django-"
+"cas-ng`."
 
 #: ../../admin/auth.rst:541
 msgid ""
@@ -2690,20 +3153,28 @@ msgid ""
 "configured on the CAS server itself, and requires you run at least CAS v2 "
 "since CAS v1 doesn't support attributes at all."
 msgstr ""
+"Primul pas constă în dezvăluirea câmpului de e-mail al utilizatorului prin "
+"intermediul CAS. Acest lucru trebuie configurat chiar pe serverul CAS și "
+"necesită să rulați cel puțin CAS v2, deoarece CAS v1 nu acceptă deloc "
+"atribute."
 
 #: ../../admin/auth.rst:545
 msgid "Step two is updating Weblate to use your CAS server and attributes."
 msgstr ""
+"Al doilea pas este actualizarea Weblate pentru a utiliza serverul CAS și "
+"atributele."
 
 #: ../../admin/auth.rst:547
 msgid "To install `django-cas-ng`:"
-msgstr ""
+msgstr "Pentru a instala `django-cas-ng`:"
 
 #: ../../admin/auth.rst:553
 msgid ""
 "Once you have the package installed you can hook it up to the Django "
 "authentication system by modifying the :file:`settings.py` file:"
 msgstr ""
+"După ce ați instalat pachetul, îl puteți conecta la sistemul de "
+"autentificare Django modificând fișierul :file:`settings.py`:"
 
 #: ../../admin/auth.rst:571
 msgid ""
@@ -2712,23 +3183,32 @@ msgid ""
 "package and connect your code with this signal. Doing this in settings file "
 "can cause problems, therefore it's suggested to put it:"
 msgstr ""
+"În cele din urmă, se poate utiliza un semnal pentru a corela câmpul de e-"
+"mail cu obiectul utilizator. Pentru ca acest lucru să funcționeze, trebuie "
+"să importați semnalul din pachetul `django-cas-ng` și să vă conectați codul "
+"cu acest semnal. Făcând acest lucru în fișierul de setări poate cauza "
+"probleme, de aceea este sugerat să îl puneți:"
 
 #: ../../admin/auth.rst:576
 msgid ""
 "In your app config's :py:meth:`django:django.apps.AppConfig.ready` method"
 msgstr ""
+"În metoda :py:meth:`django:django.apps.AppConfig.ready` din configurația "
+"aplicației dvs"
 
 #: ../../admin/auth.rst:577
 msgid "In the project's :file:`urls.py` file (when no models exist)"
 msgstr ""
+"În fișierul :file:`urls.py` al proiectului (atunci când nu există modele)"
 
 #: ../../admin/auth.rst:594
+#, fuzzy
 msgid "`Django CAS NG <https://github.com/django-cas-ng/django-cas-ng>`_"
-msgstr ""
+msgstr "`Django CAS NG <https://github.com/django-cas-ng/django-cas-ng>`_"
 
 #: ../../admin/auth.rst:597
 msgid "Configuring third party Django authentication"
-msgstr ""
+msgstr "Configurarea autentificării Django de la o terță parte"
 
 #: ../../admin/auth.rst:599
 msgid ""
@@ -2736,10 +3216,13 @@ msgid ""
 "follow the instructions for the plugin, just remember to keep the Weblate "
 "user backend installed."
 msgstr ""
+"În general, orice plugin de autentificare Django ar trebui să funcționeze cu "
+"Weblate. Trebuie doar să urmați instrucțiunile pentru plugin, dar nu uitați "
+"să păstrați instalat backend-ul de utilizator Weblate."
 
 #: ../../admin/auth.rst:605
 msgid ":ref:`ldap-auth`, :ref:`cas-auth`"
-msgstr ""
+msgstr ":ref:`ldap-auth`, :ref:`cas-auth`"
 
 #: ../../admin/auth.rst:608
 msgid ""
@@ -2747,14 +3230,17 @@ msgid ""
 "to :setting:`django:AUTHENTICATION_BACKENDS` and installing an "
 "authentication app (if there is any) into :setting:`django:INSTALLED_APPS`:"
 msgstr ""
+"De obicei, instalarea va consta în adăugarea unui backend de autentificare "
+"la :setting:`django:AUTHENTICATION_BACKENDS` și instalarea unei aplicații de "
+"autentificare (dacă există) în :setting:`django:INSTALLED_APPS`:"
 
 #: ../../admin/backup.rst:4
 msgid "Backing up and moving Weblate"
-msgstr ""
+msgstr "Copierea de rezervă și mutarea Weblate"
 
 #: ../../admin/backup.rst:7
 msgid "Automated backup using BorgBackup"
-msgstr ""
+msgstr "Backup automatizat folosind BorgBackup"
 
 #: ../../admin/backup.rst:11
 msgid ""
@@ -2763,34 +3249,43 @@ msgid ""
 "safely stored in the cloud. The backups can be controlled in the management "
 "interface from the :guilabel:`Backups` tab."
 msgstr ""
+"Weblate are un suport încorporat pentru crearea de copii de rezervă pentru "
+"servicii folosind `BorgBackup`_. Borg creează copii de rezervă criptate, "
+"eficiente din punct de vedere al spațiului, care pot fi stocate în siguranță "
+"în cloud. Copiile de rezervă pot fi controlate în interfața de gestionare "
+"din fila :guilabel:`Backups`."
 
 #: ../../admin/backup.rst:18
 msgid ""
 "Both PostgreSQL and MySQL/MariaDB databases are included in the automated "
 "backups."
 msgstr ""
+"Atât bazele de date PostgreSQL, cât și MySQL/MariaDB sunt incluse în copiile "
+"de rezervă automate."
 
 #: ../../admin/backup.rst:20
 msgid ""
 "The backups using Borg are incremental and Weblate is configured to keep "
 "following backups:"
 msgstr ""
+"Copiile de rezervă care utilizează Borg sunt incrementale, iar Weblate este "
+"configurat să păstreze următoarele copii de rezervă:"
 
 #: ../../admin/backup.rst:22
 msgid "Daily backups for 14 days back"
-msgstr ""
+msgstr "Backup-uri zilnice pentru 14 zile înapoi"
 
 #: ../../admin/backup.rst:23
 msgid "Weekly backups for 8 weeks back"
-msgstr ""
+msgstr "Backup-uri săptămânale pentru 8 săptămâni în urmă"
 
 #: ../../admin/backup.rst:24
 msgid "Monthly backups for 6 months back"
-msgstr ""
+msgstr "Backup-uri lunare pentru 6 luni în urmă"
 
 #: ../../admin/backup.rst:31
 msgid "Borg encryption key"
-msgstr ""
+msgstr "Cheia de criptare Borg"
 
 #: ../../admin/backup.rst:33
 msgid ""
@@ -2798,20 +3293,27 @@ msgid ""
 "them without the passphrase. The passphrase is generated when adding a new "
 "backup service and you should copy it and keep it in a secure place."
 msgstr ""
+"`BorgBackup`_ creează copii de rezervă criptate și nu le veți putea restaura "
+"fără fraza de acces. Fraza de acces este generată la adăugarea unui nou "
+"serviciu de backup și ar trebui să o copiați și să o păstrați într-un loc "
+"sigur."
 
 #: ../../admin/backup.rst:37
 msgid ""
 "If you are using :ref:`cloudbackup`, please backup your private SSH key too, "
 "as it’s used to access your backups."
 msgstr ""
+"Dacă folosiți :ref:`cloudbackup`, vă rugăm să faceți o copie de rezervă și "
+"pentru cheia SSH privată, deoarece aceasta este folosită pentru a accesa "
+"copiile de rezervă."
 
 #: ../../admin/backup.rst:42
 msgid ":doc:`borg:usage/init`"
-msgstr ""
+msgstr ":doc:`borg:usage/init`"
 
 #: ../../admin/backup.rst:47
 msgid "Weblate provisioned backup storage"
-msgstr ""
+msgstr "Stocarea de backup provizionată Weblate"
 
 #: ../../admin/backup.rst:49
 msgid ""
@@ -2819,32 +3321,42 @@ msgid ""
 "`backup service at weblate.org <https://weblate.org/support/#backup>`_. This "
 "is how you get it running:"
 msgstr ""
+"Cel mai simplu mod de a face o copie de siguranță a instanței Weblate este "
+"achiziționarea serviciului `backup la weblate.org <https://weblate.org/"
+"support/#backup>`_. Iată cum îl puneți în funcțiune:"
 
 #: ../../admin/backup.rst:53
 msgid "Purchase the `Backup service` on https://weblate.org/support/#backup."
 msgstr ""
+"Achiziționați serviciul `Backup` pe https://weblate.org/support/#backup."
 
 #: ../../admin/backup.rst:54
 msgid ""
 "Enter the obtained key in the management interface, see :ref:`activate-"
 "support`."
 msgstr ""
+"Introduceți cheia obținută în interfața de management, a se vedea :ref"
+":`activate-support`."
 
 #: ../../admin/backup.rst:55
 msgid ""
 "Weblate connects to the cloud service and obtains access info for the "
 "backups."
 msgstr ""
+"Weblate se conectează la serviciul cloud și obține informații de acces "
+"pentru copiile de rezervă."
 
 #: ../../admin/backup.rst:56
 msgid "Turn on the new backup configuration from the :guilabel:`Backups` tab."
-msgstr ""
+msgstr "Activați noua configurație de backup din fila :guilabel:`Backups`."
 
 #: ../../admin/backup.rst:57
 msgid ""
 "Backup your Borg credentials to be able to restore the backups, see :ref:"
 "`borg-keys`."
 msgstr ""
+"Faceți o copie de rezervă a acreditărilor Borg pentru a putea restaura "
+"copiile de rezervă, consultați :ref:`borg-keys`."
 
 #: ../../admin/backup.rst:61
 msgid ""
@@ -2852,10 +3364,13 @@ msgid ""
 "your consent no data is sent to the backup repository obtained through the "
 "registration process."
 msgstr ""
+"Pasul manual de a porni totul există pentru siguranța dumneavoastră. Fără "
+"consimțământul dvs. nu se trimite niciun fel de date către depozitul de "
+"backup obținut prin procesul de înregistrare."
 
 #: ../../admin/backup.rst:68
 msgid "Using custom backup storage"
-msgstr ""
+msgstr "Utilizarea stocării de rezervă personalizate"
 
 #: ../../admin/backup.rst:70
 msgid ""
@@ -2863,14 +3378,18 @@ msgid ""
 "backups in the remote destination, the target server needs to have "
 "`BorgBackup`_ installed."
 msgstr ""
+"De asemenea, puteți utiliza propriul spațiu de stocare pentru copiile de "
+"rezervă. SSH poate fi folosit pentru a stoca copiile de rezervă în "
+"destinația la distanță, serverul țintă trebuie să aibă instalat "
+"`BorgBackup`_."
 
 #: ../../admin/backup.rst:76
 msgid ":doc:`borg:usage/general` in the Borg documentation"
-msgstr ""
+msgstr ":doc:`borg:usage/general` în documentația Borg"
 
 #: ../../admin/backup.rst:79
 msgid "Local filesystem"
-msgstr ""
+msgstr "Sistem de fișiere local"
 
 #: ../../admin/backup.rst:81
 msgid ""
@@ -2879,6 +3398,11 @@ msgid ""
 "running Weblate (see :ref:`file-permissions`). If it doesn't exist, Weblate "
 "attempts to create it but needs the appropriate permissions to do so."
 msgstr ""
+"Se recomandă să specificați calea absolută pentru copia de rezervă locală, "
+"de exemplu `/path/to/backup`. Directorul trebuie să poată fi inscripționat "
+"de către utilizatorul care rulează Weblate (a se vedea :ref:`file-"
+"permissions`). Dacă nu există, Weblate încearcă să îl creeze, dar are nevoie "
+"de permisiunile corespunzătoare pentru a face acest lucru."
 
 #: ../../admin/backup.rst:88
 msgid ""
@@ -2886,24 +3410,35 @@ msgid ""
 "as a volume from the Weblate container. Otherwise the backups will be "
 "discarded by Docker upon restarting the container it is in."
 msgstr ""
+"Atunci când executați Weblate în Docker, asigurați-vă că locația de backup "
+"este expusă ca volum din containerul Weblate. În caz contrar, copiile de "
+"rezervă vor fi aruncate de Docker la repornirea containerului în care se "
+"află."
 
 #: ../../admin/backup.rst:92
 msgid ""
 "One option is to place backups into an existing volume, for example :file:`/"
 "app/data/borgbackup`. This is an existing volume in the container."
 msgstr ""
+"O opțiune este de a plasa copiile de rezervă într-un volum existent, de "
+"exemplu :file:`/app/data/borgbackup`. Acesta este un volum existent în "
+"container."
 
 #: ../../admin/backup.rst:95
 msgid ""
 "You can also add a new container for the backups in the Docker Compose file "
 "for example by using :file:`/borgbackup`:"
 msgstr ""
+"Puteți, de asemenea, să adăugați un nou container pentru copiile de rezervă "
+"în fișierul Docker Compose, de exemplu, folosind :file:`/borgbackup`:"
 
 #: ../../admin/backup.rst:106
 msgid ""
 "The directory where backups will be stored have to be owned by UID 1000, "
 "otherwise Weblate won’t be able to write the backups there."
 msgstr ""
+"Directorul în care vor fi stocate copiile de rezervă trebuie să fie deținut "
+"de UID 1000, altfel Weblate nu va putea scrie copiile de rezervă acolo."
 
 #: ../../admin/backup.rst:110
 #, fuzzy
@@ -2918,10 +3453,14 @@ msgid ""
 "it accepts the Weblate's client SSH key, i.e. the one it uses to connect to "
 "other servers."
 msgstr ""
+"Pentru a crea copii de rezervă la distanță, va trebui să instalați "
+"`BorgBackup`_ pe un alt server care este accesibil prin SSH. Asigurați-vă că "
+"acesta acceptă cheia SSH a clientului Weblate, adică cea pe care o folosește "
+"pentru a se conecta la alte servere."
 
 #: ../../admin/backup.rst:119
 msgid ":ref:`cloudbackup` provides you automated remote backups."
-msgstr ""
+msgstr ":ref:`cloudbackup` vă oferă backup-uri automate de la distanță."
 
 #: ../../admin/backup.rst:123
 msgid ":ref:`weblate-ssh-key`"
@@ -2929,58 +3468,72 @@ msgstr ""
 
 #: ../../admin/backup.rst:126
 msgid "Restoring from BorgBackup"
-msgstr ""
+msgstr "Restaurarea din BorgBackup"
 
 #: ../../admin/backup.rst:128
 msgid ""
 "Restore access to your backup repository and prepare your backup passphrase."
 msgstr ""
+"Restaurați accesul la depozitul de copii de rezervă și pregătiți fraza de "
+"rezervă."
 
 #: ../../admin/backup.rst:130
 msgid "List all the backups on the server using ``borg list REPOSITORY``."
 msgstr ""
+"Listează toate copiile de rezervă de pe server folosind ``borg list "
+"REPOSITORY``."
 
 #: ../../admin/backup.rst:132
 msgid ""
 "Restore the desired backup to the current directory using ``borg extract "
 "REPOSITORY::ARCHIVE``."
 msgstr ""
+"Restaurați copia de rezervă dorită în directorul curent folosind ``borg "
+"extract REPOSITORY::ARCHIVE``."
 
 #: ../../admin/backup.rst:134
 msgid ""
 "Restore the database from the SQL dump placed in the ``backup`` directory in "
 "the Weblate data dir (see :ref:`backup-dumps`)."
 msgstr ""
+"Restaurați baza de date de la descărcarea SQL plasată în directorul "
+"``backup`` din directorul de date Weblate (see :ref:`backup-dumps`)."
 
 #: ../../admin/backup.rst:136
 msgid ""
 "Copy the Weblate configuration (:file:`backups/settings.py`, see :ref:"
 "`backup-dumps`) to the correct location, see :ref:`configuration`."
 msgstr ""
+"Copiați configurația Weblate (:file:`backups/settings.py`, see :ref:`backup-"
+"dumps`) în locația corectă, a se vedea :ref:`configuration`."
 
 #: ../../admin/backup.rst:138
 msgid ""
 "Copy the whole restored data dir to the location configured by :setting:"
 "`DATA_DIR`."
 msgstr ""
+"Copiați întregul director de date restaurat în locația configurată prin "
+":setting:`DATA_DIR`."
 
 #: ../../admin/backup.rst:140
 msgid "The Borg session might look like this:"
-msgstr ""
+msgstr "Sesiunea Borg ar putea arăta în felul următor:"
 
 #: ../../admin/backup.rst:152
 msgid ":doc:`borg:usage/list`, :doc:`borg:usage/extract`"
-msgstr ""
+msgstr ":doc:`borg:usage/list`, :doc:`borg:usage/extract`"
 
 #: ../../admin/backup.rst:160
 msgid "Manual backup"
-msgstr ""
+msgstr "Backup manual"
 
 #: ../../admin/backup.rst:162
 msgid ""
 "Depending on what you want to save, back up the type of data Weblate stores "
 "in each respective place."
 msgstr ""
+"În funcție de ceea ce doriți să salvați, faceți o copie de rezervă a tipului "
+"de date pe care Weblate le stochează în fiecare loc respectiv."
 
 #: ../../admin/backup.rst:166
 msgid ""
@@ -2989,24 +3542,32 @@ msgid ""
 "`django:SILENCED_SYSTEM_CHECKS` in :file:`settings.py` or :envvar:"
 "`WEBLATE_SILENCED_SYSTEM_CHECKS` for Docker."
 msgstr ""
+"Dacă efectuați copii de rezervă manuale, este posibil să doriți să reduceți "
+"la tăcere avertismentul Weblate privind lipsa de copii de rezervă adăugând "
+"``weblate.I028`` la :setting:`django:SILENCED_SYSTEM_CHECKS` în "
+":file:`settings.py` sau :envvar:`WEBLATE_SILENCED_SYSTEM_CHECKS` pentru "
+"Docker."
 
 #: ../../admin/backup.rst:176
 msgid "Database"
-msgstr ""
+msgstr "Baza de date"
 
 #: ../../admin/backup.rst:178
 msgid "The actual storage location depends on your database setup."
-msgstr ""
+msgstr "Locația efectivă de stocare depinde de configurația bazei de date."
 
 #: ../../admin/backup.rst:182
 msgid ""
 "The database is the most important storage. Set up regular backups of your "
 "database. Without the database, all the translations are gone."
 msgstr ""
+"Baza de date este cea mai importantă modalitate de stocare. Configurați în "
+"mod regulat copii de rezervă ale bazei de date. Fără baza de date, toate "
+"traducerile dispar."
 
 #: ../../admin/backup.rst:186
 msgid "Native database backup"
-msgstr ""
+msgstr "Backup nativ al bazei de date"
 
 #: ../../admin/backup.rst:188
 msgid ""
@@ -3015,6 +3576,10 @@ msgid ""
 "performs better than Django backup, and it restores complete tables with all "
 "their data."
 msgstr ""
+"Abordarea recomandată este să salvați o copie a bazei de date utilizând "
+"instrumente native pentru baze de date, cum ar fi :program:`pg_dump` sau "
+":program:`mysqldump`. De obicei, se comportă mai bine decât backup-ul Django "
+"și restaurează tabelele complete cu toate datele lor."
 
 #: ../../admin/backup.rst:192
 msgid ""
@@ -3023,10 +3588,14 @@ msgid ""
 "consult :doc:`upgrade` on more detailed info on how to upgrade between "
 "versions."
 msgstr ""
+"Puteți restaura această copie de rezervă într-o versiune Weblate mai nouă, "
+"aceasta va efectua toate migrările necesare atunci când este rulată în "
+":djadmin:`django:migrate`. Vă rugăm să consultați :doc:`upgrade` pentru "
+"informații mai detaliate despre cum să faceți upgrade între versiuni."
 
 #: ../../admin/backup.rst:197
 msgid "Django database backup"
-msgstr ""
+msgstr "Copie de rezervă a bazei de date Django"
 
 #: ../../admin/backup.rst:199
 msgid ""
@@ -3034,6 +3603,10 @@ msgid ""
 "dumpdata` command. That way the backup is database agnostic and can be used "
 "in case you want to change the database backend."
 msgstr ""
+"Alternativ, puteți face o copie de siguranță a bazei de date folosind "
+"comanda :djadmin:`django:dumpdata` de la Django. În acest fel, copia de "
+"rezervă este agnostică față de baza de date și poate fi utilizată în cazul "
+"în care doriți să schimbați backend-ul bazei de date."
 
 #: ../../admin/backup.rst:203
 msgid ""
@@ -3043,6 +3616,12 @@ msgid ""
 "data in some way. After installing the same version, run all database "
 "migrations using :djadmin:`django:migrate`."
 msgstr ""
+"Înainte de restaurarea bazei de date, trebuie să rulați exact aceeași "
+"versiune Weblate pe care a fost efectuată copia de rezervă. Acest lucru este "
+"necesar deoarece structura bazei de date se schimbă între versiuni și ați "
+"putea ajunge să corupeți datele într-un fel sau altul. După instalarea "
+"aceleiași versiuni, rulați toate migrările bazei de date folosind "
+":djadmin:`django:migrate`."
 
 #: ../../admin/backup.rst:209
 msgid ""
@@ -3051,6 +3630,10 @@ msgid ""
 "delete such entries manually using the management shell (see :ref:`invoke-"
 "manage`):"
 msgstr ""
+"Ulterior, unele intrări vor fi deja create în baza de date și le veți avea "
+"și în copia de rezervă a bazei de date. Abordarea recomandată este de a "
+"șterge manual astfel de intrări folosind shell-ul de management (a se vedea "
+":ref:`invoke-manage`):"
 
 #: ../../admin/backup.rst:220
 msgid "Files"
@@ -3063,10 +3646,14 @@ msgid ""
 "want. The following sections describe what you should back up and what you "
 "can skip in detail."
 msgstr ""
+"Dacă aveți suficient spațiu de backup, faceți o copie de rezervă a "
+"întregului :setting:`DATA_DIR`. Acesta este un pariu sigur, chiar dacă "
+"include unele fișiere pe care nu le doriți. Următoarele secțiuni descriu în "
+"detaliu ce trebuie să salvați și ce puteți sări peste."
 
 #: ../../admin/backup.rst:230
 msgid "Dumped data for backups"
-msgstr ""
+msgstr "Date descărcate pentru copii de rezervă"
 
 #: ../../admin/backup.rst:232
 msgid "Stored in :setting:`DATA_DIR` ``/backups``."
