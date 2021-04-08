@@ -1282,6 +1282,35 @@ class ProjectAPITest(APIBaseTest):
         self.assertEqual(response.data["repo"], "local:")
         self.assertEqual(Component.objects.count(), 3)
 
+    def test_create_component_docfile_missing(self):
+        with open(TEST_DOC, "rb") as handle:
+            self.do_request(
+                "api:project-components",
+                self.project_kwargs,
+                method="post",
+                code=400,
+                superuser=True,
+                request={
+                    "docfile": handle,
+                    "file_format": "html",
+                    "new_lang": "add",
+                },
+            )
+        with open(TEST_DOC, "rb") as handle:
+            self.do_request(
+                "api:project-components",
+                self.project_kwargs,
+                method="post",
+                code=400,
+                superuser=True,
+                request={
+                    "docfile": handle,
+                    "name": "Local project",
+                    "slug": "local-project",
+                    "new_lang": "add",
+                },
+            )
+
     def test_create_component_docfile_json(self):
         with open(TEST_DOC, "rb") as handle:
             self.do_request(

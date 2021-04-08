@@ -547,7 +547,12 @@ class ComponentSerializer(RemovableSerializer):
         data = data.copy()
         if "manage_units" not in data and data.get("template"):
             data["manage_units"] = "1"
-        if "docfile" in data:
+        if (
+            "docfile" in data
+            and "slug" in data
+            and "name" in data
+            and "file_format" in data
+        ):
             if hasattr(data["docfile"], "name"):
                 fake = create_component_from_doc(self.fixup_request_payload(data))
                 data["template"] = fake.template
@@ -561,7 +566,12 @@ class ComponentSerializer(RemovableSerializer):
             data["repo"] = "local:"
             data["vcs"] = "local"
             data["branch"] = "main"
-        if "zipfile" in data:
+        if (
+            "zipfile" in data
+            and "slug" in data
+            and "name" in data
+            and "file_format" in data
+        ):
             if hasattr(data["zipfile"], "name"):
                 try:
                     create_component_from_zip(self.fixup_request_payload(data))
