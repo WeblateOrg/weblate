@@ -594,9 +594,11 @@ def get_location_links(profile, unit):
 
     # Go through all locations separated by comma
     for location, filename, line in unit.get_locations():
-        link = unit.translation.component.get_repoweb_link(
-            filename, line, profile.editor_link
-        )
+        link = None
+        if profile:
+            link = unit.translation.component.get_repoweb_link(
+                filename, line, profile.editor_link
+            )
         if link is None:
             ret.append(escape(location))
         else:
