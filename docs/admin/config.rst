@@ -235,7 +235,7 @@ BASIC_LANGUAGES
 .. versionadded:: 4.4
 
 List of languages to offer users for starting new translation. When not
-specified built in list is used which includes all commonly used languages, but
+specified built-in list is used which includes all commonly used languages, but
 without country specific variants.
 
 This only limits non privileged users to add unwanted languages. The project
