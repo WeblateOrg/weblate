@@ -209,6 +209,11 @@ def mail_admins_contact(request, subject, message, context, sender, to):
         LOGGER.error("ADMINS not configured, cannot send message")
         return
 
+    if settings.CONTACT_FORM == "reply-to":
+        kwargs = {"headers": {"Reply-To": sender}}
+    else:
+        kwargs = {"from_email": sender}
+
     mail = EmailMultiAlternatives(
         subject="{}{}".format(settings.EMAIL_SUBJECT_PREFIX, subject % context),
         body="{}\n{}".format(
@@ -220,7 +225,7 @@ def mail_admins_contact(request, subject, message, context, sender, to):
             ),
         ),
         to=to,
-        from_email=sender,
+        **kwargs,
     )
 
     mail.send(fail_silently=False)

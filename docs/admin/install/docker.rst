@@ -307,6 +307,10 @@ Generic settings
 
         :ref:`production-email`
 
+.. envvar:: WEBLATE_CONTACT_FORM
+
+     Configures contact form behavior, see :setting:`CONTACT_FORM`.
+
 .. envvar:: WEBLATE_ALLOWED_HOSTS
 
     Configures allowed HTTP hostnames using :setting:`ALLOWED_HOSTS`.

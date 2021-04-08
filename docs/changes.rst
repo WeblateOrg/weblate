@@ -9,6 +9,7 @@ Not yet released.
 * Added support for direct copying text from secondary languages.
 * Added date filtering when browsing changes.
 * Improved activity charts.
+* Sender for contact form e-mails can now be configured.
 
 Weblate 4.5.3
 -------------

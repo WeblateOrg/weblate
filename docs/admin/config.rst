@@ -353,6 +353,23 @@ Number of hours between committing pending changes by way of the background task
    :ref:`production-cron`,
    :djadmin:`commit_pending`
 
+
+.. setting:: CONTACT_FORM
+
+CONTACT_FORM
+------------
+
+.. versionadded:: 4.6
+
+Configures how e-mail from the contact form is being sent. Choose a
+configuration that matches your mail server configuration.
+
+``"reply-to"``
+   The sender is used in as :mailheader:`Reply-To`, this is the default behaviour.
+``"from"``
+   The sender is used in as :mailheader:`From`. Your mail server needs to allow
+   sending such e-mails.
+
 .. setting:: DATA_DIR
 
 DATA_DIR
