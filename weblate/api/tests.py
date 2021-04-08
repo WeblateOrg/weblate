@@ -1140,6 +1140,16 @@ class ProjectAPITest(APIBaseTest):
         self.assertTrue(component.manage_units)
         self.assertTrue(response.data["manage_units"])
 
+    def test_create_component_blank_request(self):
+        self.do_request(
+            "api:project-components",
+            self.project_kwargs,
+            method="post",
+            code=400,
+            superuser=True,
+            request={},
+        )
+
     def test_create_component_no_format(self):
         repo_url = self.format_local_path(self.git_repo_path)
         response = self.do_request(

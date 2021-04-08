@@ -10,6 +10,7 @@ Not yet released.
 * Added date filtering when browsing changes.
 * Improved activity charts.
 * Sender for contact form e-mails can now be configured.
+* Improved parameters validation in component creation API.
 
 Weblate 4.5.3
 -------------
