@@ -942,7 +942,14 @@ class AutoForm(forms.Form):
         if "weblate" in engine_ids:
             self.fields["engines"].initial = "weblate"
 
-        use_types = {"all", "nottranslated", "todo", "fuzzy", "check:inconsistent"}
+        use_types = {
+            "all",
+            "nottranslated",
+            "todo",
+            "fuzzy",
+            "check:inconsistent",
+            "check:translated",
+        }
 
         self.fields["filter_type"].choices = [
             x for x in self.fields["filter_type"].choices if x[0] in use_types
