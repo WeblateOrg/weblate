@@ -1254,7 +1254,7 @@ class Translation(
                 Change.objects.create(
                     unit=unit,
                     action=Change.ACTION_NEW_UNIT,
-                    target=source,
+                    target=current_target,
                     user=user,
                     author=user,
                 )
