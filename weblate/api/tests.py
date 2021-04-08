@@ -1377,6 +1377,24 @@ class ProjectAPITest(APIBaseTest):
                     "new_lang": "none",
                 },
             )
+        with open(TEST_PO, "rb") as handle:
+            self.do_request(
+                "api:project-components",
+                self.project_kwargs,
+                method="post",
+                code=400,
+                superuser=True,
+                request={
+                    "zipfile": handle,
+                    "name": "Local project",
+                    "slug": "local-project",
+                    "filemask": "*.po",
+                    "new_base": "project.pot",
+                    "file_format": "po",
+                    "push": "https://username:password@github.com/example/push.git",
+                    "new_lang": "none",
+                },
+            )
 
     def test_create_component_enforced(self):
         response = self.do_request(

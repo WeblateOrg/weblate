@@ -567,7 +567,7 @@ class ComponentSerializer(RemovableSerializer):
                     create_component_from_zip(self.fixup_request_payload(data))
                 except BadZipfile:
                     raise serializers.ValidationError(
-                        "Failed to parse uploaded ZIP file."
+                        {"zipfile": "Failed to parse uploaded ZIP file."}
                     )
                 data.pop("zipfile")
             data["repo"] = "local:"
@@ -760,7 +760,7 @@ class UploadRequestSerializer(ReadOnlySerializer):
 
         if data["method"] == "source" and not obj.is_source:
             raise serializers.ValidationError(
-                "Source upload is supported only on source language."
+                {"method": "Source upload is supported only on source language."}
             )
 
         if not check_upload_method_permissions(user, obj, data["method"]):
@@ -1080,7 +1080,7 @@ class AddonSerializer(serializers.ModelSerializer):
             if self.partial and self.instance:
                 name = self.instance.name
             else:
-                raise serializers.ValidationError("Can not change addon name")
+                raise serializers.ValidationError({"name": "Can not change addon name"})
         if instance:
             # Update
             component = instance.component
@@ -1089,25 +1089,25 @@ class AddonSerializer(serializers.ModelSerializer):
             component = self._context["component"]
         # This could probably work, but it safer not to allow it
         if instance and instance.name != name:
-            raise serializers.ValidationError("Can not change addon name")
+            raise serializers.ValidationError({"name": "Can not change addon name"})
         try:
             addon_class = ADDONS[name]
         except KeyError:
-            raise serializers.ValidationError(f"Addon not found: {name}")
+            raise serializers.ValidationError({"name": f"Addon not found: {name}"})
         addon = addon_class()
         if not addon.can_install(component, None):
             raise serializers.ValidationError(
-                f"could not enable addon {name}, not compatible"
+                {"name": f"could not enable addon {name}, not compatible"}
             )
         if addon.has_settings and "configuration" in attrs:
             form = addon.get_add_form(None, component, data=attrs["configuration"])
             form.is_valid()
             if not form.is_valid():
                 for error in form.non_field_errors():
-                    raise serializers.ValidationError(error)
+                    raise serializers.ValidationError({"configuration": error})
                 for field in form:
                     for error in field.errors:
                         raise serializers.ValidationError(
-                            f"Error in {field.name}: {error}"
+                            {"configuration": f"Error in {field.name}: {error}"}
                         )
         return attrs
