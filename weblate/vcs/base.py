@@ -263,9 +263,10 @@ class Repository:
     @classmethod
     def clone(cls, source: str, target: str, branch: str, component=None):
         """Clone repository and return object for cloned repository."""
-        SSH_WRAPPER.create()
-        cls._clone(source, target, branch)
-        return cls(target, branch, component)
+        repo = cls(target, branch, component)
+        with repo.lock:
+            cls._clone(source, target, branch)
+        return repo
 
     def update_remote(self):
         """Update remote repository."""
