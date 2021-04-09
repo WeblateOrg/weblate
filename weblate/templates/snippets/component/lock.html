@@ -1,0 +1,28 @@
+{% extends "message.html" %}
+{% load i18n %}
+{% load permissions %}
+
+{% block tags %}warning{% endblock %}
+
+{% block message %}
+{% perm 'component.lock' object as user_can_lock_component %}
+<div class="pull-right flip">
+  {% if user_can_lock_component %}
+    <a href="{{ object.get_unlock_url }}" class="btn btn-warning link-post">{% trans "Unlock" %}</a>
+  {% endif %}
+  {% if user.is_authenticated %}
+    <a href="{% url 'subscribe' %}" data-params='{"onetime":"LockNotification","component":{{object.pk }}}' class="btn btn-primary link-post">{% trans "Get notified when this project is unlocked again" %}</a>
+  {% endif %}
+</div>
+{% trans "The translation is temporarily closed for contributions due to maintenance, please come back later." %}
+{% with alerts=object.lock_alerts %}
+  {% if alerts %}
+    <br />
+    {% trans "The translation was automatically locked due to following alerts:" %}
+    {% for alert in alerts %}
+      <a href="{{ object.get_absolute_url }}#alerts">{{ alert }}</a>
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+<div class="clearfix"></div>
+{% endblock %}

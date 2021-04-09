@@ -61,7 +61,9 @@ def download_multi(translations, fmt=None):
             translation.component.intermediate,
         ):
             if name:
-                filenames.add(os.path.join(translation.component.full_path, name))
+                fullname = os.path.join(translation.component.full_path, name)
+                if os.path.exists(fullname):
+                    filenames.add(fullname)
 
     return zip_download(data_dir("vcs"), sorted(filenames))
 
@@ -147,16 +149,16 @@ def upload_translation(request, project, component, lang):
         author_email = form.cleaned_data["author_email"]
 
     # Check for overwriting
-    overwrite = False
+    conflicts = ""
     if request.user.has_perm("upload.overwrite", obj):
-        overwrite = form.cleaned_data["upload_overwrite"]
+        conflicts = form.cleaned_data["conflicts"]
 
     # Do actual import
     try:
         not_found, skipped, accepted, total = obj.merge_upload(
             request,
             request.FILES["file"],
-            overwrite,
+            conflicts,
             author_name,
             author_email,
             method=form.cleaned_data["method"],

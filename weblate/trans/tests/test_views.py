@@ -25,6 +25,7 @@ from urllib.parse import urlsplit
 from xml.dom import minidom
 from zipfile import ZipFile
 
+from django.conf import settings
 from django.contrib.messages import get_messages
 from django.contrib.messages.storage.fallback import FallbackStorage
 from django.core import mail
@@ -553,15 +554,49 @@ class BasicViewTest(ViewTestCase):
         response = self.client.get(reverse("translation", kwargs=kwargs))
         self.assertContains(response, other.name)
 
-    def test_view_translation_alias(self):
-        self.kw_translation["lang"] = "cs-CZ"
-        response = self.client.get(reverse("translation", kwargs=self.kw_translation))
-        self.assertContains(response, "Test/Test")
-
-    def test_view_translation_invalid(self):
-        self.kw_translation["lang"] = "cs-DE"
-        response = self.client.get(reverse("translation", kwargs=self.kw_translation))
+    def test_view_redirect(self):
+        """Test case insentivite lookups and aliases in middleware."""
+        # Non existing fails with 404
+        kwargs = {"project": "invalid"}
+        response = self.client.get(reverse("project", kwargs=kwargs))
         self.assertEqual(response.status_code, 404)
+
+        # Different casing should redirect, MySQL always does case insensitive lookups
+        kwargs["project"] = self.project.slug.upper()
+        if settings.DATABASES["default"]["ENGINE"] != "django.db.backends.mysql":
+            response = self.client.get(reverse("project", kwargs=kwargs))
+            self.assertRedirects(
+                response, reverse("project", kwargs=self.kw_project), status_code=301
+            )
+
+        # Non existing fails with 404
+        kwargs["component"] = "invalid"
+        response = self.client.get(reverse("component", kwargs=kwargs))
+        self.assertEqual(response.status_code, 404)
+
+        # Different casing should redirect, MySQL always does case insensitive lookups
+        kwargs["component"] = self.component.slug.upper()
+        if settings.DATABASES["default"]["ENGINE"] != "django.db.backends.mysql":
+            response = self.client.get(reverse("component", kwargs=kwargs))
+            self.assertRedirects(
+                response,
+                reverse("component", kwargs=self.kw_component),
+                status_code=301,
+            )
+
+        # Non existing fails with 404
+        kwargs["lang"] = "cs-DE"
+        response = self.client.get(reverse("translation", kwargs=kwargs))
+        self.assertEqual(response.status_code, 404)
+
+        # Aliased language should redirect
+        kwargs["lang"] = "czech"
+        response = self.client.get(reverse("translation", kwargs=kwargs))
+        self.assertRedirects(
+            response,
+            reverse("translation", kwargs=self.kw_translation),
+            status_code=301,
+        )
 
     def test_view_unit(self):
         unit = self.get_unit()

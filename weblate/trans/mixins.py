@@ -17,8 +17,8 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-
 import os
+from typing import Optional
 
 from django.urls import reverse
 from django.utils.functional import cached_property
@@ -30,7 +30,7 @@ from weblate.logger import LOGGER
 class URLMixin:
     """Mixin for models providing standard shortcut API for few standard URLs."""
 
-    _reverse_url_name = None
+    _reverse_url_name: Optional[str] = None
 
     def get_reverse_url_kwargs(self):
         """Return kwargs for URL reversing."""
@@ -145,8 +145,14 @@ class PathMixin(LoggerMixin):
 
 
 class UserDisplayMixin:
-    def get_user_display(self, icon=True):
+    def get_user_display(self, icon: bool = True):
         return get_user_display(self.user, icon, link=True)
 
     def get_user_text_display(self):
         return get_user_display(self.user, icon=False, link=True)
+
+
+class CacheKeyMixin:
+    @cached_property
+    def cache_key(self):
+        return "{}-{}".format(self.__class__.__name__, self.pk)

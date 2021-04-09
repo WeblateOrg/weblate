@@ -8,7 +8,7 @@ Automated backup
 
 .. versionadded:: 3.9
 
-Weblate has built in support for creating service backups using `BorgBackup`_.
+Weblate has built-in support for creating service backups using `BorgBackup`_.
 Borg creates space-effective encrypted backups which can be safely stored in
 the cloud. The backups can be controlled in the management interface on the
 :guilabel:`Backups` tab.
@@ -17,8 +17,14 @@ the cloud. The backups can be controlled in the management interface on the
 
    Only PostgreSQL database is included in the automated backups. Other
    database engines have to be backed up manually. You are recommended to
-   migrate to PostgreSQL as that will be the only supported database in the
-   4.0 release. See :ref:`database-migration`.
+   migrate to PostgreSQL, see :ref:`database-setup` and
+   :ref:`database-migration`.
+
+The backups using Borg are incremental and Weblate is configured to keep following backups:
+
+* 14 daily backups
+* 8 weekly backups
+* 6 monthly backups
 
 .. image:: /images/backups.png
 
@@ -82,7 +88,9 @@ Restoring from BorgBackup
 
 4. Restore the database from the SQL dump placed in the ``backup`` directory in the Weblate data dir (see :ref:`backup-dumps`).
 
-5. Copy Weblate configuration and data dir to the correct location.
+5. Copy Weblate configuration (:file:`backups/settings.py`, see :ref:`backup-dumps`) to the correct location, see :ref:`configuration`.
+
+6. Copy the whole restored data dir to location configured by :setting:`DATA_DIR`.
 
 The Borg session might look like:
 
@@ -136,7 +144,7 @@ better than Django backup and restores complete tables with all data.
 
 You can restore this backup in newer Weblate release, it will perform any
 necessary migrations when running in :djadmin:`django:migrate`. Please consult
-:doc:`upgrade` on more detailed information how to peform upgrade between
+:doc:`upgrade` on more detailed information how to perform upgrade between
 versions.
 
 Django database backup
@@ -184,7 +192,7 @@ backups. The files are updated daily (requires a running Celery beats server, se
 * Weblate settings as :file:`settings.py` (there is also expanded version in :file:`settings-expanded.py`).
 * PostgreSQL database backup as :file:`database.sql`.
 
-The database backup are by default saved as plain text, but they can also be compressed
+The database backups are by default saved as plain text, but they can also be compressed
 or entirely skipped by using :setting:`DATABASE_BACKUP`.
 
 Version control repositories
@@ -236,7 +244,7 @@ Celery tasks
 ------------
 
 The Celery tasks queue might contain some info, but is usually not needed
-for a backup. At most you will lose updates that have not yet ben processed to translation
+for a backup. At most you will lose updates that have not yet been processed to translation
 memory. It is recommended to perform the fulltext or repository updates upon
 restoring anyhow, so there is no problem in losing these.
 

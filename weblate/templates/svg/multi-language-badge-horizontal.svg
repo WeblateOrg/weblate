@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="{{ height }}" height="{{ horizontal_height }}" xml:lang="en">
+<defs>
+{% include "svg/style.svg" %}
+</defs>
+<g id="layer1">
+
+{% for translation in translations %}
+<a xlink:href="{{ translation.6 }}" xlink:title="{{ translation.0 }}">
+<text
+   xml:space="preserve"
+   style="font-style:normal;font-weight:normal;font-size:11px;font-family:'Source Sans Pro',Sans;fill:#808080;text-anchor:end;"
+   x="-170"
+   y="{{ translation.2 }}"
+   transform="rotate(-90)"
+   id="text{{ translation.2 }}">{{ translation.0 }}</text>
+<rect
+   style="fill:{{ translation.5 }};fill-opacity:1;stroke:none"
+   id="rect{{ translation.2 }}"
+   height="{{ translation.4 }}"
+   width="6"
+   rx="2"
+   y="{{ translation.7 }}"
+   x="{{ translation.3 }}" />
+</a>
+{% endfor %}
+
+</g>
+</svg>

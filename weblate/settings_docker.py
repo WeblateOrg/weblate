@@ -103,6 +103,7 @@ LANGUAGES = (
     ("hu", "Magyar"),
     ("hr", "Hrvatski"),
     ("id", "Indonesia"),
+    ("is", "Íslenska"),
     ("it", "Italiano"),
     ("ja", "日本語"),
     ("kab", "Taqbaylit"),
@@ -172,14 +173,9 @@ STATICFILES_FINDERS = (
 )
 
 # Make this unique, and don't share it with anybody.
-# You can generate it using examples/generate-secret-key
-try:
-    with open("/app/data/secret", "r") as handle:
-        SECRET_KEY = handle.read()
-except IOError:
-    SECRET_KEY = os.environ.get(
-        "WEBLATE_SECRET_KEY", "jm8fqjlg+5!#xu%e-oh#7!$aa7!6avf7ud*_v=chdrb9qdco6("
-    )
+# You can generate it using weblate/examples/generate-secret-key
+with open("/app/data/secret", "r") as handle:
+    SECRET_KEY = handle.read()
 
 _TEMPLATE_LOADERS = [
     "django.template.loaders.filesystem.Loader",
@@ -259,10 +255,10 @@ SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = os.environ.get(
     "WEBLATE_SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET", ""
 )
 SOCIAL_AUTH_GOOGLE_OAUTH2_WHITELISTED_DOMAINS = get_env_list(
-    "WEBLATE_SOCIAL_AUTH_GOOGLE_OAUTH2_WHITELISTED_DOMAINS", ""
+    "WEBLATE_SOCIAL_AUTH_GOOGLE_OAUTH2_WHITELISTED_DOMAINS"
 )
 SOCIAL_AUTH_GOOGLE_OAUTH2_WHITELISTED_EMAILS = get_env_list(
-    "WEBLATE_SOCIAL_AUTH_GOOGLE_OAUTH2_WHITELISTED_EMAILS", ""
+    "WEBLATE_SOCIAL_AUTH_GOOGLE_OAUTH2_WHITELISTED_EMAILS"
 )
 
 if "WEBLATE_SOCIAL_AUTH_GITLAB_KEY" in os.environ:
@@ -375,7 +371,7 @@ if "WEBLATE_SOCIAL_AUTH_SLACK_KEY" in os.environ:
 # https://docs.weblate.org/en/latest/admin/auth.html#ldap-authentication
 if "WEBLATE_AUTH_LDAP_SERVER_URI" in os.environ:
     import ldap
-    from django_auth_ldap.config import LDAPSearch
+    from django_auth_ldap.config import LDAPSearch, LDAPSearchUnion
 
     AUTH_LDAP_SERVER_URI = os.environ.get("WEBLATE_AUTH_LDAP_SERVER_URI")
     AUTH_LDAP_USER_DN_TEMPLATE = (
@@ -388,13 +384,31 @@ if "WEBLATE_AUTH_LDAP_SERVER_URI" in os.environ:
     AUTH_LDAP_BIND_DN = os.environ.get("WEBLATE_AUTH_LDAP_BIND_DN", "")
     AUTH_LDAP_BIND_PASSWORD = os.environ.get("WEBLATE_AUTH_LDAP_BIND_PASSWORD", "")
 
-    _AUTH_LDAP_USER_SEARCH = get_env_list("")
     if "WEBLATE_AUTH_LDAP_USER_SEARCH" in os.environ:
         AUTH_LDAP_USER_SEARCH = LDAPSearch(
             os.environ["WEBLATE_AUTH_LDAP_USER_SEARCH"],
             ldap.SCOPE_SUBTREE,
             os.environ.get("WEBLATE_AUTH_LDAP_USER_SEARCH_FILTER", "(uid=%(user)s)"),
         )
+
+    if "WEBLATE_AUTH_LDAP_USER_SEARCH_UNION" in os.environ:
+
+        SEARCH_FILTER = os.environ.get(
+            "WEBLATE_AUTH_LDAP_USER_SEARCH_FILTER", "(uid=%(user)s)"
+        )
+
+        SEARCH_UNION = []
+        for string in os.environ.get("WEBLATE_AUTH_LDAP_USER_SEARCH_UNION").split(
+            os.environ.get("WEBLATE_AUTH_LDAP_USER_SEARCH_UNION_DELIMITER", "|")
+        ):
+            SEARCH_UNION.append(LDAPSearch(string, ldap.SCOPE_SUBTREE, SEARCH_FILTER))
+
+        AUTH_LDAP_USER_SEARCH = LDAPSearchUnion(*SEARCH_UNION)
+
+    if not get_env_bool("WEBLATE_AUTH_LDAP_CONNECTION_OPTION_REFERRALS", True):
+        AUTH_LDAP_CONNECTION_OPTIONS = {
+            ldap.OPT_REFERRALS: 0,
+        }
 
 if "WEBLATE_SOCIAL_AUTH_VENDASTA_KEY" in os.environ:
     AUTHENTICATION_BACKENDS += ("weblate.vendasta.auth.VendastaOpenIdConnect",)
@@ -479,13 +493,20 @@ AUTH_PASSWORD_VALIDATORS = [
     {"NAME": "weblate.accounts.password_validation.PastPasswordsValidator"},
     # Optional password strength validation by django-zxcvbn-password
     # {
-    #     'NAME': 'zxcvbn_password.ZXCVBNValidator',
-    #     'OPTIONS': {
-    #         'min_score': 3,
-    #         'user_attributes': ('username', 'email', 'full_name')
+    #     "NAME": "zxcvbn_password.ZXCVBNValidator",
+    #     "OPTIONS": {
+    #         "min_score": 3,
+    #         "user_attributes": ("username", "email", "full_name")
     #     }
     # },
 ]
+
+# Content-Security-Policy
+CSP_SCRIPT_SRC = get_env_list("WEBLATE_CSP_SCRIPT_SRC")
+CSP_IMG_SRC = get_env_list("WEBLATE_CSP_IMG_SRC")
+CSP_CONNECT_SRC = get_env_list("WEBLATE_CSP_CONNECT_SRC")
+CSP_STYLE_SRC = get_env_list("WEBLATE_CSP_STYLE_SRC")
+CSP_FONT_SRC = get_env_list("WEBLATE_CSP_FONT_SRC")
 
 # Allow new user registrations
 REGISTRATION_OPEN = get_env_bool("WEBLATE_REGISTRATION_OPEN", True)
@@ -499,6 +520,7 @@ REQUIRE_LOGIN = get_env_bool("WEBLATE_REQUIRE_LOGIN", False)
 
 # Middleware
 MIDDLEWARE = [
+    "weblate.middleware.RedirectMiddleware",
     "weblate.middleware.ProxyMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
@@ -558,7 +580,6 @@ INSTALLED_APPS = [
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.sessions",
-    "django.contrib.sites",
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "django.contrib.admin.apps.SimpleAdminConfig",
@@ -592,6 +613,7 @@ if DEBUG or not HAVE_SYSLOG:
     DEFAULT_LOG = "console"
 else:
     DEFAULT_LOG = "syslog"
+DEFAULT_LOGLEVEL = os.environ.get("WEBLATE_LOGLEVEL", "DEBUG" if DEBUG else "INFO")
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to
@@ -661,21 +683,13 @@ LOGGING = {
         #     "handlers": [DEFAULT_LOG],
         #     "level": "DEBUG",
         # },
-        "weblate": {
-            "handlers": [DEFAULT_LOG],
-            "level": os.environ.get("WEBLATE_LOGLEVEL", "DEBUG"),
-        },
-        # Logging search operations
-        "weblate.search": {"handlers": [DEFAULT_LOG], "level": "INFO"},
+        "weblate": {"handlers": [DEFAULT_LOG], "level": DEFAULT_LOGLEVEL},
         # Logging VCS operations
-        "weblate.vcs": {"handlers": [DEFAULT_LOG], "level": "WARNING"},
+        "weblate.vcs": {"handlers": [DEFAULT_LOG], "level": DEFAULT_LOGLEVEL},
         # Python Social Auth
-        "social": {"handlers": [DEFAULT_LOG], "level": "DEBUG" if DEBUG else "WARNING"},
+        "social": {"handlers": [DEFAULT_LOG], "level": DEFAULT_LOGLEVEL},
         # Django Authentication Using LDAP
-        "django_auth_ldap": {
-            "level": "DEBUG" if DEBUG else "WARNING",
-            "handlers": [DEFAULT_LOG],
-        },
+        "django_auth_ldap": {"handlers": [DEFAULT_LOG], "level": DEFAULT_LOGLEVEL},
     },
 }
 
@@ -685,21 +699,6 @@ if not HAVE_SYSLOG:
 
 # List of machine translations
 MT_SERVICES = (
-    #     "weblate.machinery.apertium.ApertiumAPYTranslation",
-    #     "weblate.machinery.baidu.BaiduTranslation",
-    #     "weblate.machinery.deepl.DeepLTranslation",
-    #     "weblate.machinery.glosbe.GlosbeTranslation",
-    #     "weblate.machinery.google.GoogleTranslation",
-    #     "weblate.machinery.microsoft.MicrosoftCognitiveTranslation",
-    #     "weblate.machinery.microsoftterminology.MicrosoftTerminologyService",
-    #     "weblate.machinery.mymemory.MyMemoryTranslation",
-    #     "weblate.machinery.netease.NeteaseSightTranslation",
-    #     "weblate.machinery.tmserver.AmagamaTranslation",
-    #     "weblate.machinery.tmserver.TMServerTranslation",
-    #     "weblate.machinery.yandex.YandexTranslation",
-    #      "weblate.machinery.weblatetm.WeblateTranslation",
-    #     "weblate.machinery.saptranslationhub.SAPTranslationHub",
-    #     "weblate.machinery.youdao.YoudaoTranslation",
     "weblate.machinery.weblatetm.WeblateTranslation",
     "weblate.memory.machine.WeblateMemory",
 )
@@ -725,17 +724,21 @@ if MT_DEEPL_KEY:
 # Microsoft Cognitive Services Translator API, register at
 # https://portal.azure.com/
 MT_MICROSOFT_COGNITIVE_KEY = os.environ.get("WEBLATE_MT_MICROSOFT_COGNITIVE_KEY", None)
-
-ms_endpoint_url = os.environ.get("WEBLATE_MT_MICROSOFT_ENDPOINT_URL", None)
-if ms_endpoint_url is not None:
-    MT_MICROSOFT_ENDPOINT_URL = ms_endpoint_url
-
-ms_base_url = os.environ.get("WEBLATE_MT_MICROSOFT_BASE_URL", None)
-if ms_base_url is not None:
-    MT_MICROSOFT_BASE_URL = ms_base_url
+MT_MICROSOFT_REGION = os.environ.get("WEBLATE_MT_MICROSOFT_REGION", None)
+MT_MICROSOFT_ENDPOINT_URL = os.environ.get(
+    "WEBLATE_MT_MICROSOFT_ENDPOINT_URL", "api.cognitive.microsoft.com"
+)
+MT_MICROSOFT_BASE_URL = os.environ.get(
+    "WEBLATE_MT_MICROSOFT_BASE_URL", "api.cognitive.microsofttranslator.com"
+)
 
 if MT_MICROSOFT_COGNITIVE_KEY:
     MT_SERVICES += ("weblate.machinery.microsoft.MicrosoftCognitiveTranslation",)
+
+# ModernMT
+MT_MODERNMT_KEY = os.environ.get("WEBLATE_MT_MODERNMT_KEY", None)
+if MT_MODERNMT_KEY:
+    MT_SERVICES += ("weblate.machinery.modernmt.ModernMTTranslation",)
 
 # MyMemory identification email, see
 # http://mymemory.translated.net/doc/spec.php
@@ -791,6 +794,9 @@ if MT_SAP_BASE_URL:
 # Title of site to use
 SITE_TITLE = os.environ.get("WEBLATE_SITE_TITLE", "Weblate")
 
+# Site domain
+SITE_DOMAIN = os.environ["WEBLATE_SITE_DOMAIN"]
+
 # Whether site uses https
 ENABLE_HTTPS = get_env_bool("WEBLATE_ENABLE_HTTPS", False)
 
@@ -833,7 +839,12 @@ SECURE_CONTENT_TYPE_NOSNIFF = True
 # Optionally enable HSTS
 SECURE_HSTS_SECONDS = 31536000 if ENABLE_HTTPS else 0
 SECURE_HSTS_PRELOAD = ENABLE_HTTPS
-SECURE_HSTS_INCLUDE_SUBDOMAINS = False
+SECURE_HSTS_INCLUDE_SUBDOMAINS = ENABLE_HTTPS
+
+# HTTPS detection behind reverse proxy
+WEBLATE_SECURE_PROXY_SSL_HEADER = get_env_list("WEBLATE_SECURE_PROXY_SSL_HEADER")
+if WEBLATE_SECURE_PROXY_SSL_HEADER:
+    SECURE_PROXY_SSL_HEADER = WEBLATE_SECURE_PROXY_SSL_HEADER
 
 # URL of login
 LOGIN_URL = "{0}/accounts/login/".format(URL_PREFIX)
@@ -860,9 +871,6 @@ EMAIL_SUBJECT_PREFIX = "[{0}] ".format(SITE_TITLE)
 
 # Enable remote hooks
 ENABLE_HOOKS = True
-
-# Number of nearby messages to show in each direction
-NEARBY_MESSAGES = 5
 
 # By default the length of a given translation is limited to the length of
 # the source string * 10 characters. Set this option to False to allow longer
@@ -903,6 +911,7 @@ CHECK_LIST = [
     "weblate.checks.format.JavaMessageFormatCheck",
     "weblate.checks.format.PercentPlaceholdersCheck",
     "weblate.checks.format.I18NextInterpolationCheck",
+    "weblate.checks.format.ESTemplateLiteralsCheck",
     "weblate.checks.angularjs.AngularJSInterpolationCheck",
     "weblate.checks.qt.QtFormatCheck",
     "weblate.checks.qt.QtPluralCheck",
@@ -966,6 +975,7 @@ WEBLATE_ADDONS = [
     "weblate.addons.removal.RemoveSuggestions",
     "weblate.addons.resx.ResxUpdateAddon",
     "weblate.addons.yaml.YAMLCustomizeAddon",
+    "weblate.addons.cdn.CDNJSAddon",
     "weblate.addons.autotranslate.AutoTranslateAddon",
     "weblate.vendasta.addons.NotifyLexicon",
 ]
@@ -1048,6 +1058,16 @@ REST_FRAMEWORK = {
     "UNAUTHENTICATED_USER": "weblate.auth.models.get_anonymous",
 }
 
+# Fonts CDN URL
+FONTS_CDN_URL = None
+
+# Django compressor offline mode
+COMPRESS_OFFLINE = True
+COMPRESS_OFFLINE_CONTEXT = [
+    {"fonts_cdn_url": FONTS_CDN_URL, "STATIC_URL": STATIC_URL, "LANGUAGE_BIDI": True},
+    {"fonts_cdn_url": FONTS_CDN_URL, "STATIC_URL": STATIC_URL, "LANGUAGE_BIDI": False},
+]
+
 # Require login for all URLs
 if REQUIRE_LOGIN:
     LOGIN_REQUIRED_URLS = (r"/(.*)$",)
@@ -1055,7 +1075,7 @@ if REQUIRE_LOGIN:
 # In such case you will want to include some of the exceptions
 LOGIN_REQUIRED_URLS_EXCEPTIONS = get_env_list(
     "WEBLATE_LOGIN_REQUIRED_URLS_EXCEPTIONS",
-    (
+    [
         rf"{URL_PREFIX}/accounts/(.*)$",  # Required for login
         rf"{URL_PREFIX}/admin/login/(.*)$",  # Required for admin login
         rf"{URL_PREFIX}/static/(.*)$",  # Required for development mode
@@ -1067,7 +1087,7 @@ LOGIN_REQUIRED_URLS_EXCEPTIONS = get_env_list(
         rf"{URL_PREFIX}/js/i18n/$",  # Javascript localization
         rf"{URL_PREFIX}/contact/$",  # Optional for contact form
         rf"{URL_PREFIX}/legal/(.*)$",  # Optional for legal app
-    ),
+    ],
 )
 modify_env_list(LOGIN_REQUIRED_URLS_EXCEPTIONS, "LOGIN_REQUIRED_URLS_EXCEPTIONS")
 
@@ -1115,7 +1135,6 @@ CELERY_WORKER_MAX_MEMORY_PER_CHILD = 200000
 CELERY_BEAT_SCHEDULE_FILENAME = os.path.join(DATA_DIR, "celery", "beat-schedule")
 CELERY_TASK_ROUTES = {
     "weblate.trans.tasks.auto_translate": {"queue": "translate"},
-    "weblate.memory.tasks.*": {"queue": "memory"},
     "weblate.accounts.tasks.notify_*": {"queue": "notify"},
     "weblate.accounts.tasks.send_mails": {"queue": "notify"},
     "weblate.utils.tasks.settings_backup": {"queue": "backup"},
@@ -1143,8 +1162,17 @@ DEFAULT_TRANSLATION_PROPAGATION = get_env_bool(
     "WEBLATE_DEFAULT_TRANSLATION_PROPAGATION", True
 )
 
+DEFAULT_COMMITER_EMAIL = os.environ.get(
+    "WEBLATE_DEFAULT_COMMITER_EMAIL", "noreply@weblate.org"
+)
+DEFAULT_COMMITER_NAME = os.environ.get("WEBLATE_DEFAULT_COMMITER_NAME", "Weblate")
+
 # PGP commits signing
 WEBLATE_GPG_IDENTITY = os.environ.get("WEBLATE_GPG_IDENTITY", None)
+
+# Localize CDN addon
+LOCALIZE_CDN_URL = os.environ.get("WEBLATE_LOCALIZE_CDN_URL", None)
+LOCALIZE_CDN_PATH = os.environ.get("WEBLATE_LOCALIZE_CDN_PATH", None)
 
 # Third party services integration
 MATOMO_SITE_ID = os.environ.get("WEBLATE_MATOMO_SITE_ID", None)

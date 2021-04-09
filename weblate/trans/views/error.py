@@ -19,6 +19,7 @@
 
 
 import django.views.defaults
+import rest_framework.exceptions
 from django.conf import settings
 from django.middleware.csrf import REASON_NO_CSRF_COOKIE, REASON_NO_REFERER
 from django.utils.translation import gettext as _
@@ -30,6 +31,8 @@ from weblate.utils.errors import report_error
 
 def bad_request(request, exception=None):
     """Error handler for bad request."""
+    if "text/html" not in request.META.get("HTTP_ACCEPT", ""):
+        return rest_framework.exceptions.bad_request(request, exception)
     if exception:
         report_error(cause="Bad request")
     return render(request, "400.html", {"title": _("Bad Request")}, status=400)
@@ -59,6 +62,8 @@ def csrf_failure(request, reason=""):
 
 def server_error(request):
     """Error handler for server errors."""
+    if "text/html" not in request.META.get("HTTP_ACCEPT", ""):
+        return rest_framework.exceptions.server_error(request)
     try:
         return render(
             request,

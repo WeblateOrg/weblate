@@ -17,7 +17,6 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-
 import os.path
 from datetime import timedelta
 
@@ -33,10 +32,10 @@ from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy as _
 
 from weblate.auth.models import User
-from weblate.lang.models import Language
-from weblate.trans.models import Change, Component, Project, Unit
+from weblate.trans.models import Component, Project
 from weblate.utils.decorators import disable_for_loaddata
 from weblate.utils.fields import JSONField
+from weblate.utils.stats import prefetch_stats
 
 
 class PlanQuerySet(models.QuerySet):
@@ -181,13 +180,29 @@ class Billing(models.Model):
             base = "Unassigned"
         return "{0} ({1})".format(base, self.plan)
 
-    def save(self, *args, **kwargs):
-        if not kwargs.pop("skip_limits", False) and self.pk:
+    def save(
+        self,
+        force_insert=False,
+        force_update=False,
+        using=None,
+        update_fields=None,
+        skip_limits=False,
+    ):
+        if not skip_limits and self.pk:
             self.check_limits(save=False)
-        super().save(*args, **kwargs)
+        super().save(
+            force_insert=force_insert,
+            force_update=force_update,
+            using=using,
+            update_fields=update_fields,
+        )
 
     def get_absolute_url(self):
         return "{}#billing-{}".format(reverse("billing"), self.pk)
+
+    @cached_property
+    def all_projects(self):
+        return prefetch_stats(self.projects.all())
 
     @cached_property
     def can_be_paid(self):
@@ -195,33 +210,21 @@ class Billing(models.Model):
             return True
         return self.count_projects > 0
 
-    def count_changes(self, interval):
-        return Change.objects.filter(
-            component__project__in=self.projects.all(),
-            timestamp__gt=timezone.now() - interval,
-        ).count()
+    @cached_property
+    def monthly_changes(self):
+        return sum(project.stats.monthly_changes for project in self.all_projects)
+
+    monthly_changes.short_description = _("Changes in last month")
 
     @cached_property
-    def count_changes_1m(self):
-        return self.count_changes(timedelta(days=31))
+    def total_changes(self):
+        return sum(project.stats.total_changes for project in self.all_projects)
 
-    count_changes_1m.short_description = _("Changes in last month")
-
-    @cached_property
-    def count_changes_1q(self):
-        return self.count_changes(timedelta(days=93))
-
-    count_changes_1q.short_description = _("Changes in last quarter")
-
-    @cached_property
-    def count_changes_1y(self):
-        return self.count_changes(timedelta(days=365))
-
-    count_changes_1y.short_description = _("Changes in last year")
+    total_changes.short_description = _("Number of changes")
 
     @cached_property
     def count_projects(self):
-        return self.projects.count()
+        return len(self.all_projects)
 
     def display_projects(self):
         return "{0} / {1}".format(self.count_projects, self.plan.display_limit_projects)
@@ -230,7 +233,7 @@ class Billing(models.Model):
 
     @cached_property
     def count_strings(self):
-        return sum(p.stats.source_strings for p in self.projects.iterator())
+        return sum(p.stats.source_strings for p in self.all_projects)
 
     def display_strings(self):
         return "{0} / {1}".format(self.count_strings, self.plan.display_limit_strings)
@@ -239,7 +242,7 @@ class Billing(models.Model):
 
     @cached_property
     def count_words(self):
-        return sum(p.stats.source_words for p in self.projects.iterator())
+        return sum(p.stats.source_words for p in self.all_projects)
 
     def display_words(self):
         return "{0}".format(self.count_words)
@@ -248,13 +251,9 @@ class Billing(models.Model):
 
     @cached_property
     def count_languages(self):
-        return (
-            Language.objects.filter(
-                translation__component__project__in=self.projects.all()
-            )
-            .distinct()
-            .count()
-        )
+        if not self.all_projects:
+            return 0
+        return max(p.stats.languages for p in self.all_projects)
 
     def display_languages(self):
         return "{0} / {1}".format(
@@ -289,9 +288,7 @@ class Billing(models.Model):
         )
 
     def unit_count(self):
-        return Unit.objects.filter(
-            translation__component__project__in=self.projects.all()
-        ).count()
+        return sum(p.stats.all for p in self.all_projects)
 
     unit_count.short_description = _("Number of strings")
 

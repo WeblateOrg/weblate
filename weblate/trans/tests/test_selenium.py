@@ -28,7 +28,6 @@ from unittest import SkipTest
 
 import social_django.utils
 from django.conf import settings
-from django.contrib.sites.models import Site
 from django.core import mail
 from django.test.utils import modify_settings, override_settings
 from django.urls import reverse
@@ -74,6 +73,7 @@ TEST_BACKENDS = (
 SOURCE_FONT = os.path.join(
     os.path.dirname(os.path.dirname(os.path.dirname(__file__))),
     "static",
+    "vendor",
     "font-source",
     "TTF",
     "SourceSansPro-Bold.ttf",
@@ -84,6 +84,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
     driver = None
     driver_error = ""
     image_path = None
+    site_domain = ""
 
     @classmethod
     def _databases_support_transactions(cls):
@@ -143,9 +144,12 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         super().setUp()
         self.driver.get("{0}{1}".format(self.live_server_url, reverse("home")))
         self.driver.set_window_size(1200, 1024)
-        site = Site.objects.get(pk=1)
-        site.domain = "{}:{}".format(self.host, self.server_thread.port)
-        site.save()
+        self.site_domain = settings.SITE_DOMAIN
+        settings.SITE_DOMAIN = "{}:{}".format(self.host, self.server_thread.port)
+
+    def tearDown(self):
+        super().tearDown()
+        settings.SITE_DOMAIN = self.site_domain
 
     @classmethod
     def tearDownClass(cls):
@@ -364,6 +368,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         """Test SSH admin interface."""
         self.open_admin()
 
+        time.sleep(0.5)
         self.screenshot("admin.png")
 
         # Open SSH page
@@ -536,7 +541,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         self.click(self.driver.find_element_by_class_name("add-string"))
 
         # Unit should have screenshot assigned now
-        capture_unit("screenshot-context.png", "toggle-machine")
+        capture_unit("screenshot-context.png", "toggle-machinery")
 
     def test_admin(self):
         """Test admin interface."""
@@ -865,7 +870,9 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         time.sleep(0.5)
         self.screenshot("query-dropdown.png")
         with self.wait_for_page_load():
-            self.click("Not translated strings")
+            self.click(
+                self.driver.find_element_by_partial_link_text("Not translated strings")
+            )
         self.driver.find_element_by_id("id_34a4642999e44a2b_0")
 
         # Test sort dropdown
@@ -1002,7 +1009,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             new_base="po-duplicates/hello.pot",
             file_format="po",
         )
-        self.do_login()
+        self.do_login(superuser=True)
         self.click(htmlid="projects-menu")
         with self.wait_for_page_load():
             self.click("Browse all projects")
@@ -1013,9 +1020,9 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         self.click("Alerts")
         self.screenshot("alerts.png")
 
-        self.click("Insights")
+        self.click("Manage")
         with self.wait_for_page_load():
-            self.click("Localization guide")
+            self.click("Community localization checklist")
         self.screenshot("guide.png")
 
     def test_fonts(self):
@@ -1101,6 +1108,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             with self.wait_for_page_load():
                 self.click(self.driver.find_element_by_class_name("runbackup"))
             self.click(self.driver.find_element_by_class_name("createdbackup"))
+            time.sleep(0.5)
             self.screenshot("backups.png")
         finally:
             self.remove_temp()
@@ -1180,5 +1188,5 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         self.screenshot("source-review-edit.png", scroll=False)
 
         # Close modal dialog
-        self.driver.find_element_by_id("id_explanation").send_keys(Keys.ESCAPE)
+        self.driver.find_element_by_id("id_extra_flags").send_keys(Keys.ESCAPE)
         time.sleep(0.5)

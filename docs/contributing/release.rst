@@ -9,7 +9,7 @@ Things to check prior to release:
 
 Perform the release:
 
-4. Create a release :command:`./scripts/create-release --tag` (see bellow for requirements)
+4. Create a release :command:`./scripts/create-release --tag` (see below for requirements)
 
 Post release manual steps:
 

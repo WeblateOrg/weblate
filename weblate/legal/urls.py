@@ -17,7 +17,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-from django.conf.urls import url
+from django.urls import path
 
 from weblate.legal.views import (
     CookiesView,
@@ -29,10 +29,10 @@ from weblate.legal.views import (
 )
 
 urlpatterns = [
-    url(r"^$", LegalView.as_view(), name="index"),
-    url(r"^terms/$", TermsView.as_view(), name="terms"),
-    url(r"^cookies/$", CookiesView.as_view(), name="cookies"),
-    url(r"^security/$", SecurityView.as_view(), name="security"),
-    url(r"^privacy/$", PrivacyView.as_view(), name="privacy"),
-    url(r"^confirm/$", tos_confirm, name="confirm"),
+    path("", LegalView.as_view(), name="index"),
+    path("terms/", TermsView.as_view(), name="terms"),
+    path("cookies/", CookiesView.as_view(), name="cookies"),
+    path("security/", SecurityView.as_view(), name="security"),
+    path("privacy/", PrivacyView.as_view(), name="privacy"),
+    path("confirm/", tos_confirm, name="confirm"),
 ]

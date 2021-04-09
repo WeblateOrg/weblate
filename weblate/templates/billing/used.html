@@ -1,12 +1,13 @@
 {% load i18n %}
+{% load humanize %}
 
 <td>
 {% if total == 0 %}
 {% comment %}Translators: Number of projects/repositories/strings used in billing when there is no limit{% endcomment %}
-{% blocktrans %}Used {{ used }}{% endblocktrans %}
+{% blocktrans with used=used|intcomma %}Used {{ used }}{% endblocktrans %}
 {% else %}
 {% comment %}Translators: Number of projects/repositories/strings used in billing from given limit{% endcomment %}
-{% blocktrans %}Used {{ used }} of {{ total }}{% endblocktrans %}
+{% blocktrans with used=used|intcomma total=total|intcomma %}Used {{ used }} of {{ total }}{% endblocktrans %}
 {% endif %}
 </td>
 <td>

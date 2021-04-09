@@ -25,8 +25,9 @@ from appconf import AppConf
 from django.conf import settings
 from django.contrib.auth.signals import user_logged_in
 from django.core.exceptions import ValidationError
+from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models, transaction
-from django.db.models import Q
+from django.db.models import F, Q
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.utils import timezone, translation
@@ -63,6 +64,7 @@ class Subscription(models.Model):
     component = models.ForeignKey(
         "trans.Component", on_delete=models.deletion.CASCADE, null=True
     )
+    onetime = models.BooleanField(default=False)
 
     class Meta:
         unique_together = [("notification", "scope", "project", "component", "user")]
@@ -305,6 +307,7 @@ class Profile(models.Model):
     suggested = models.IntegerField(default=0, db_index=True)
     translated = models.IntegerField(default=0, db_index=True)
     uploaded = models.IntegerField(default=0, db_index=True)
+    commented = models.IntegerField(default=0, db_index=True)
 
     hide_completed = models.BooleanField(
         verbose_name=_("Hide completed translations on the dashboard"), default=False
@@ -353,6 +356,14 @@ class Profile(models.Model):
             "You can specify additional special visual keyboard characters "
             "to be shown while translating. It can be useful for "
             "characters you use frequently, but are hard to type on your keyboard."
+        ),
+    )
+    nearby_strings = models.SmallIntegerField(
+        verbose_name=_("Number of nearby strings"),
+        default=settings.NEARBY_MESSAGES,
+        validators=[MinValueValidator(1), MaxValueValidator(50)],
+        help_text=_(
+            "Number of nearby strings to show in each direction in the full editor."
         ),
     )
 
@@ -413,6 +424,14 @@ class Profile(models.Model):
 
     def get_user_name(self):
         return get_user_display(self.user, False)
+
+    def increase_count(self, item: str, increase: int = 1):
+        """Updates user actions counter."""
+        # Update our copy
+        setattr(self, item, getattr(self, item) + increase)
+        # Update database
+        update = {item: F(item) + increase}
+        Profile.objects.filter(pk=self.pk).update(**update)
 
     @property
     def full_name(self):
@@ -503,6 +522,14 @@ class Profile(models.Model):
         if language.pk in self.secondary_language_ids:
             return 1
         return 2
+
+    @cached_property
+    def watched_project_ids(self):
+        # We do not use values_list, because we prefetch this
+        return {watched.id for watched in self.watched.all()}
+
+    def watches_project(self, project):
+        return project.id in self.watched_project_ids
 
 
 def set_lang(response, profile):

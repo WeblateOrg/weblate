@@ -21,11 +21,11 @@ from django.conf import settings
 from django.core.exceptions import PermissionDenied
 from rest_framework import serializers
 
+from weblate.accounts.models import Subscription
 from weblate.auth.models import Group, Permission, Role, User
-from weblate.lang import data
 from weblate.lang.models import Language, Plural
 from weblate.screenshots.models import Screenshot
-from weblate.trans.defines import REPO_LENGTH
+from weblate.trans.defines import LANGUAGE_NAME_LENGTH, REPO_LENGTH
 from weblate.trans.models import (
     AutoComponentList,
     Change,
@@ -102,6 +102,7 @@ class LanguagePluralSerializer(serializers.ModelSerializer):
 
 
 class LanguageSerializer(serializers.ModelSerializer):
+    name = serializers.CharField(required=False, max_length=LANGUAGE_NAME_LENGTH)
     web_url = AbsoluteURLField(source="get_absolute_url", read_only=True)
     plural = LanguagePluralSerializer(required=False)
     aliases = serializers.ListField(source="get_aliases_names", read_only=True)
@@ -126,22 +127,28 @@ class LanguageSerializer(serializers.ModelSerializer):
             "code": {"validators": []},
         }
 
-    def validate_code(self, value):
-        check_query = Language.objects.filter(code=value)
-        if not check_query.exists() and (
+    @property
+    def is_source_language(self):
+        return (
             isinstance(self.parent, ProjectSerializer)
             and self.field_name == "source_language"
-        ):
+        )
+
+    def validate_code(self, value):
+        check_query = Language.objects.filter(code=value)
+        if not check_query.exists() and self.is_source_language:
             raise serializers.ValidationError(
                 "Language with this language code was not found."
             )
         return value
 
     def validate_plural(self, value):
-        if not value and not (
-            isinstance(self.parent, ProjectSerializer)
-            and self.field_name == "source_language"
-        ):
+        if not value and not self.is_source_language:
+            raise serializers.ValidationError("This field is required.")
+        return value
+
+    def validate_name(self, value):
+        if not value and not self.is_source_language:
             raise serializers.ValidationError("This field is required.")
         return value
 
@@ -156,17 +163,26 @@ class LanguageSerializer(serializers.ModelSerializer):
                 "Language with this Language code already exists."
             )
         language = Language.objects.create(**validated_data)
-        plural = Plural(**plural_validated)
-        plural.language = language
-        plural.type = data.PLURAL_UNKNOWN
-        plural.source = Plural.SOURCE_DEFAULT
+        plural = Plural(language=language, **plural_validated)
         plural.save()
         return language
 
+    def get_value(self, dictionary):
+        if self.is_source_language and "source_language" in dictionary:
+            value = dictionary["source_language"]
+            if isinstance(value, str):
+                return {"code": value}
+        return super().get_value(dictionary)
 
-class UserSerializer(serializers.ModelSerializer):
+
+class FullUserSerializer(serializers.ModelSerializer):
     groups = serializers.HyperlinkedIdentityField(
         view_name="api:group-detail", lookup_field="id", many=True, read_only=True,
+    )
+    notifications = serializers.HyperlinkedIdentityField(
+        view_name="api:user-notifications",
+        lookup_field="username",
+        source="subscriptions",
     )
 
     class Meta:
@@ -176,6 +192,7 @@ class UserSerializer(serializers.ModelSerializer):
             "full_name",
             "username",
             "groups",
+            "notifications",
             "is_superuser",
             "is_active",
             "date_joined",
@@ -184,6 +201,15 @@ class UserSerializer(serializers.ModelSerializer):
         extra_kwargs = {
             "url": {"view_name": "api:user-detail", "lookup_field": "username"}
         }
+
+
+class BasicUserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = (
+            "full_name",
+            "username",
+        )
 
 
 class PermissionSerializer(serializers.RelatedField):
@@ -375,13 +401,16 @@ class ComponentSerializer(RemovableSerializer):
             "repo",
             "git_export",
             "branch",
+            "push_branch",
             "filemask",
             "template",
             "edit_template",
+            "intermediate",
             "new_base",
             "file_format",
             "license",
             "license_url",
+            "agreement",
             "web_url",
             "url",
             "repository_url",
@@ -390,10 +419,29 @@ class ComponentSerializer(RemovableSerializer):
             "lock_url",
             "changes_list_url",
             "new_lang",
+            "language_code_style",
             "push",
             "check_flags",
+            "priority",
             "enforced_checks",
             "restricted",
+            "repoweb",
+            "report_source_bugs",
+            "merge_style",
+            "commit_message",
+            "add_message",
+            "delete_message",
+            "merge_message",
+            "addon_message",
+            "allow_translation_propagation",
+            "enable_suggestions",
+            "suggestion_voting",
+            "suggestion_autoaccept",
+            "push_on_commit",
+            "commit_pending_age",
+            "auto_lock_error",
+            "language_regex",
+            "variant_regex",
         )
         extra_kwargs = {
             "url": {
@@ -413,6 +461,34 @@ class ComponentSerializer(RemovableSerializer):
             result["filemask"] = None
             result["push"] = None
         return result
+
+    def to_internal_value(self, data):
+        result = super().to_internal_value(data)
+        if "project" in self._context:
+            result["project"] = self._context["project"]
+        return result
+
+    def validate(self, attrs):
+        # Call model validation here, DRF does not do that
+        instance = Component(**attrs)
+        instance.clean()
+        return attrs
+
+
+class NotificationSerializer(serializers.ModelSerializer):
+    project = ProjectSerializer(read_only=True)
+    component = ComponentSerializer(read_only=True)
+
+    class Meta:
+        model = Subscription
+        fields = (
+            "notification",
+            "id",
+            "scope",
+            "frequency",
+            "project",
+            "component",
+        )
 
 
 class TranslationSerializer(RemovableSerializer):
@@ -543,7 +619,6 @@ class LockRequestSerializer(ReadOnlySerializer):
 
 
 class UploadRequestSerializer(ReadOnlySerializer):
-    overwrite = serializers.BooleanField()
     file = serializers.FileField()
     author_email = serializers.EmailField(required=False)
     author_name = serializers.CharField(max_length=200, required=False)
@@ -555,10 +630,19 @@ class UploadRequestSerializer(ReadOnlySerializer):
     fuzzy = serializers.ChoiceField(
         choices=("", "process", "approve"), required=False, default=""
     )
+    conflicts = serializers.ChoiceField(
+        choices=("", "replace-translated", "replace-approved"),
+        required=False,
+        default="",
+    )
 
     def check_perms(self, user, obj):
         data = self.validated_data
-        if data["overwrite"] and not user.has_perm("upload.overwrite", obj):
+        if data["conflicts"] and not user.has_perm("upload.overwrite", obj):
+            raise PermissionDenied()
+        if data["conflicts"] == "replace-approved" and not user.has_perm(
+            "unit.review", obj
+        ):
             raise PermissionDenied()
 
         if not check_upload_method_permissions(user, obj, data["method"]):

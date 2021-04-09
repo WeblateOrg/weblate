@@ -5,7 +5,7 @@ Management interface
 
 The management interface offer administration settings under the
 :file:`/management/` URL. It is available for users signed in with admin
-privileges, accessable by using the wrench icon top right:
+privileges, accessible by using the wrench icon top right:
 
 .. image:: /images/support.png
 
@@ -28,11 +28,11 @@ and other settings:
 In the :guilabel:`Reports` section, you can check the status of your site, tweak
 it for :ref:`production`, or manage SSH keys used to access :ref:`vcs-repos`.
 
-Manage database objects in any of the sections below.
+Manage database objects under any of the sections.
 The most interesting one is probably :guilabel:`Weblate translations`,
 where you can manage translatable projects, see :ref:`project` and :ref:`component`.
 
-:guilabel:`Weblate languages` holds language definitions, expained further in
+:guilabel:`Weblate languages` holds language definitions, explained further in
 :ref:`languages`.
 
 Adding a project
@@ -68,7 +68,7 @@ Once you have added a project, translation components can be added to it.
 Monolingual components
 ----------------------
 
-For easier translation of these, provide a template file containg the
+For easier translation of these, provide a template file containing the
 mapping of message IDs to its respective source language (usually English).
 (See :ref:`component` for info regarding individual parameters):
 

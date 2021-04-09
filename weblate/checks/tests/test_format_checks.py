@@ -25,6 +25,7 @@ from django.test import SimpleTestCase
 from weblate.checks.format import (
     CFormatCheck,
     CSharpFormatCheck,
+    ESTemplateLiteralsCheck,
     I18NextInterpolationCheck,
     JavaFormatCheck,
     JavaMessageFormatCheck,
@@ -111,6 +112,46 @@ class PythonFormatCheckTest(CheckTestCase):
                 "%(languages)d dil içinde %(count)d satır %%%(percent)d",
                 False,
             )
+        )
+
+    def test_feedback(self):
+        self.assertEqual(
+            self.check.check_format("%(count)d", "%(languages)d", False),
+            {"missing": ["(count)d"], "extra": ["(languages)d"]},
+        )
+        self.assertEqual(
+            self.check.check_format("%(count)d", "count", False),
+            {"missing": ["(count)d"], "extra": []},
+        )
+        self.assertEqual(
+            self.check.check_format("%(count)d", "%(count)d %(languages)d", False),
+            {"missing": [], "extra": ["(languages)d"]},
+        )
+        self.assertEqual(
+            self.check.check_format("%d", "%s", False),
+            {"missing": ["d"], "extra": ["s"]},
+        )
+        self.assertEqual(
+            self.check.check_format("%d", "ds", False), {"missing": ["d"], "extra": []}
+        )
+        self.assertEqual(
+            self.check.check_format("%d", "%d %s", False),
+            {"missing": [], "extra": ["s"]},
+        )
+        self.assertEqual(
+            self.check.check_format("%d %d", "%d", False),
+            {"missing": ["d"], "extra": []},
+        )
+
+    def test_description(self):
+        unit = Unit(
+            source="%(count)d", target="%(languages)d", extra_flags="python-format",
+        )
+        check = Check(unit=unit)
+        self.assertEqual(
+            self.check.get_description(check),
+            "Following format strings are missing: %(count)d<br />"
+            "Following format strings are extra: %(languages)d",
         )
 
 
@@ -703,7 +744,73 @@ class PluralTest(FixtureTestCase):
         unit = Unit(translation=translation)
         self.assertFalse(
             self.check.check_target_unit(
-                ["One apple", "%d apples"], ["%d jablo", "%d jablka", "%d jablek"], unit
+                ["One apple", "%d apples"],
+                ["%d jablko", "%d jablka", "%d jablek"],
+                unit,
+            )
+        )
+        self.assertFalse(
+            self.check.check_target_unit(
+                ["One apple", "%d apples"],
+                ["Jedno jablko", "%d jablka", "%d jablek"],
+                unit,
+            )
+        )
+        self.assertTrue(
+            self.check.check_target_unit(
+                ["One apple", "%d apples"],
+                ["Jedno jablko", "jablka", "%d jablek"],
+                unit,
+            )
+        )
+
+    def test_non_format_singular_named(self):
+        language = Language.objects.get(code="cs")
+        translation = Translation(language=language, plural=language.plural)
+        unit = Unit(translation=translation)
+        self.assertFalse(
+            self.check.check_target_unit(
+                ["One apple", "%(count)s apples"],
+                ["%(count)s jablko", "%(count)s jablka", "%(count)s jablek"],
+                unit,
+            )
+        )
+        self.assertFalse(
+            self.check.check_target_unit(
+                ["One apple", "%(count)s apples"],
+                ["Jedno jablko", "%(count)s jablka", "%(count)s jablek"],
+                unit,
+            )
+        )
+        self.assertTrue(
+            self.check.check_target_unit(
+                ["One apple", "%(count)s apples"],
+                ["Jedno jablko", "jablka", "%(count)s jablek"],
+                unit,
+            )
+        )
+
+    def test_non_format_singular_named_be(self):
+        language = Language.objects.get(code="be")
+        translation = Translation(language=language, plural=language.plural)
+        unit = Unit(translation=translation)
+        self.assertTrue(
+            self.check.check_target_unit(
+                ["One apple", "%(count)s apples"],
+                ["Jedno jablko", "%(count)s jablka", "%(count)s jablek"],
+                unit,
+            )
+        )
+
+    def test_non_format_singular_named_kab(self):
+        language = Language.objects.get(code="kab")
+        translation = Translation(language=language, plural=language.plural)
+        unit = Unit(translation=translation)
+        self.assertFalse(
+            self.check.check_target_unit(
+                ["One apple", "%(count)s apples"],
+                ["Jedno jablko", "%(count)s jablka", "%(count)s jablek"],
+                unit,
             )
         )
 
@@ -753,6 +860,49 @@ class I18NextInterpolationCheckTest(CheckTestCase):
     def test_wrong_format(self):
         self.assertTrue(
             self.check.check_format("{{foo}} string", "{{bar}} string", False)
+        )
+
+
+class ESTemplateLiteralsCheckTest(CheckTestCase):
+    check = ESTemplateLiteralsCheck()
+
+    def setUp(self):
+        super().setUp()
+        self.test_highlight = (
+            "es-format",
+            "${foo} string ${bar}",
+            [(0, 6, "${foo}"), (14, 20, "${bar}")],
+        )
+
+    def test_no_format(self):
+        self.assertFalse(self.check.check_format("strins", "string", False))
+
+    def test_format(self):
+        self.assertFalse(
+            self.check.check_format("${foo} string", "${foo} string", False)
+        )
+        self.assertFalse(
+            self.check.check_format("${ foo } string", "${ foo } string", False)
+        )
+        self.assertFalse(
+            self.check.check_format("${ foo } string", "${foo} string", False)
+        )
+
+    def test_missing_format(self):
+        self.assertTrue(self.check.check_format("${foo} string", "string", False))
+
+    def test_wrong_format(self):
+        self.assertTrue(
+            self.check.check_format("${foo} string", "${bar} string", False)
+        )
+
+    def test_description(self):
+        unit = Unit(source="${foo}", target="${bar}", extra_flags="es-format",)
+        check = Check(unit=unit)
+        self.assertEqual(
+            self.check.get_description(check),
+            "Following format strings are missing: ${foo}<br />"
+            "Following format strings are extra: ${bar}",
         )
 
 

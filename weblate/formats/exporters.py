@@ -23,11 +23,13 @@ from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy as _
 from lxml.etree import XMLSyntaxError
 from translate.misc.multistring import multistring
+from translate.storage.aresource import AndroidResourceFile
 from translate.storage.csvl10n import csvfile
 from translate.storage.jsonl10n import JsonFile, JsonNestedFile
 from translate.storage.mo import mofile
 from translate.storage.po import pofile
 from translate.storage.poxliff import PoXliffFile
+from translate.storage.properties import stringsfile
 from translate.storage.tbx import tbxfile
 from translate.storage.tmx import tmxfile
 from translate.storage.xliff import xlifffile
@@ -40,27 +42,6 @@ from weblate.utils.site import get_site_url
 
 # Map to remove control characters except newlines and tabs
 _CHARMAP = dict.fromkeys(x for x in range(32) if x not in (9, 10, 13))
-
-EXPORTERS = {}
-
-
-def register_exporter(exporter):
-    """Register an exporter."""
-    EXPORTERS[exporter.name] = exporter
-    return exporter
-
-
-def get_exporter(name):
-    """Return registered exporter."""
-    return EXPORTERS[name]
-
-
-def list_exporters(translation):
-    return [
-        {"name": x.name, "verbose": x.verbose}
-        for x in sorted(EXPORTERS.values(), key=lambda x: x.name)
-        if x.supports(translation)
-    ]
 
 
 class BaseExporter:
@@ -103,6 +84,10 @@ class BaseExporter:
         if len(plurals) == 1:
             return self.string_filter(plurals[0])
         return multistring([self.string_filter(plural) for plural in plurals])
+
+    @classmethod
+    def get_identifier(cls):
+        return cls.name
 
     def get_storage(self):
         return self.storage_class()
@@ -198,7 +183,6 @@ class BaseExporter:
         return
 
 
-@register_exporter
 class PoExporter(BaseExporter):
     name = "po"
     content_type = "text/x-po"
@@ -238,7 +222,6 @@ class XMLExporter(BaseExporter):
         unit.settarget(word, self.language.code)
 
 
-@register_exporter
 class PoXliffExporter(XMLExporter):
     name = "xliff"
     content_type = "application/x-xliff+xml"
@@ -270,7 +253,6 @@ class PoXliffExporter(XMLExporter):
         return output
 
 
-@register_exporter
 class XliffExporter(PoXliffExporter):
     name = "xliff11"
     content_type = "application/x-xliff+xml"
@@ -280,7 +262,6 @@ class XliffExporter(PoXliffExporter):
     storage_class = xlifffile
 
 
-@register_exporter
 class TBXExporter(XMLExporter):
     name = "tbx"
     content_type = "application/x-tbx"
@@ -289,7 +270,6 @@ class TBXExporter(XMLExporter):
     storage_class = tbxfile
 
 
-@register_exporter
 class TMXExporter(XMLExporter):
     name = "tmx"
     content_type = "application/x-tmx"
@@ -298,7 +278,6 @@ class TMXExporter(XMLExporter):
     storage_class = tmxfile
 
 
-@register_exporter
 class MoExporter(PoExporter):
     name = "mo"
     content_type = "application/x-gettext-catalog"
@@ -358,7 +337,6 @@ class CVSBaseExporter(BaseExporter):
         return self.storage_class(fieldnames=self.fieldnames)
 
 
-@register_exporter
 class CSVExporter(CVSBaseExporter):
     name = "csv"
     content_type = "text/csv"
@@ -378,7 +356,6 @@ class CSVExporter(CVSBaseExporter):
         return text
 
 
-@register_exporter
 class XlsxExporter(CVSBaseExporter):
     name = "xlsx"
     content_type = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
@@ -390,18 +367,53 @@ class XlsxExporter(CVSBaseExporter):
         return XlsxFormat.serialize(self.storage)
 
 
-@register_exporter
-class JsonExporter(BaseExporter):
+class MonolingualExporter(BaseExporter):
+    """Base class for monolingual exports."""
+
+    @staticmethod
+    def supports(translation):
+        return translation.component.has_template()
+
+    def build_unit(self, unit):
+        output = self.storage.UnitClass(unit.context)
+        output.setid(unit.context)
+        self.add(output, self.handle_plurals(unit.get_target_plurals()))
+        return output
+
+
+class JSONExporter(MonolingualExporter):
+    storage_class = JsonFile
     name = "json"
     content_type = "application/json"
     extension = "json"
     verbose = _("JSON")
-    storage_class = JsonFile
-    set_id = True
 
 
-@register_exporter
-class NestedJSONExporter(JsonExporter):
+class NestedJSONExporter(JSONExporter):
     name = "nested_json"
     verbose = _("JSON nested structure file")
     storage_class = JsonNestedFile
+
+
+class AndroidResourceExporter(MonolingualExporter):
+    storage_class = AndroidResourceFile
+    name = "aresource"
+    content_type = "application/xml"
+    extension = "xml"
+    verbose = _("Android String Resource")
+
+    def add(self, unit, word):
+        # Need to have storage to handle plurals
+        unit._store = self.storage
+        super().add(unit, word)
+
+    def string_filter(self, text):
+        return text.translate(_CHARMAP)
+
+
+class StringsExporter(MonolingualExporter):
+    storage_class = stringsfile
+    name = "strings"
+    content_type = "text/plain"
+    extension = "strings"
+    verbose = _("iOS strings")

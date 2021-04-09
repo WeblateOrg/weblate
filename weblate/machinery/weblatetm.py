@@ -41,6 +41,10 @@ class WeblateTranslation(MachineTranslation):
         """Any language is supported."""
         return True
 
+    def is_rate_limited(self):
+        """This service has no rate limiting."""
+        return False
+
     def download_translations(self, source, language, text, unit, user, search):
         """Download list of possible translations from a service."""
         if user:
@@ -54,7 +58,7 @@ class WeblateTranslation(MachineTranslation):
         )
 
         for munit in matching_units:
-            source = munit.get_source_plurals()[0]
+            source = munit.source_string
             quality = self.comparer.similarity(text, source)
             if quality < 10 or (quality < 75 and not search):
                 continue

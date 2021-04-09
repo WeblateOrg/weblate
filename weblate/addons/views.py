@@ -90,7 +90,13 @@ class AddonList(AddonViewMixin, ListView):
         if "form" in request.POST:
             form = addon.get_add_form(component, data=request.POST)
             if form.is_valid():
-                form.save()
+                instance = form.save()
+                if addon.stay_on_create:
+                    messages.info(
+                        self.request,
+                        _("Addon installed, please review integration instructions."),
+                    )
+                    return redirect(instance)
                 return self.redirect_list()
         else:
             form = addon.get_add_form(component)

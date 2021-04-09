@@ -135,7 +135,7 @@ A source code link is shown in the web-browser configured in the
 Notifications
 -------------
 
-Subscribe to various notifications from the :guilabel:`Subscriptions` tab.
+Subscribe to various notifications from the :guilabel:`Notifications` tab.
 Notifications for selected events on watched or administered
 projects will be sent to you per e-mail.
 
@@ -159,7 +159,7 @@ Account
 
 The :guilabel:`Account` tab lets you set up basic account details,
 connect various services you can use to sign in into Weblate, completely
-remove your account, or download your user data.
+remove your account, or download your user data (see :ref:`schema-userdata`).
 
 .. note::
 
@@ -168,3 +168,16 @@ remove your account, or download your user data.
    OAuth 2.0 providers.
 
 .. image:: /images/authentication.png
+
+.. _audit-log:
+
+Audit log
+---------
+
+Audit log keeps track of the actions performed with your account. It logs IP
+address and browser for every important action with your account. The critical
+actions also trigger a notification to a primary e-mail address.
+
+.. seealso::
+
+   :ref:`reverse-proxy`

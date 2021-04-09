@@ -27,7 +27,6 @@ from django.utils.http import urlencode
 from django.utils.translation import gettext as _
 from django.views.generic import CreateView, UpdateView
 
-from weblate.lang import data
 from weblate.lang.forms import LanguageForm, PluralForm
 from weblate.lang.models import Language, Plural
 from weblate.trans.forms import SearchForm
@@ -35,7 +34,12 @@ from weblate.trans.models import Change
 from weblate.trans.models.project import prefetch_project_flags
 from weblate.trans.util import sort_objects
 from weblate.utils import messages
-from weblate.utils.stats import GlobalStats, ProjectLanguageStats, prefetch_stats
+from weblate.utils.stats import (
+    GlobalStats,
+    ProjectLanguage,
+    ProjectLanguageStats,
+    prefetch_stats,
+)
 from weblate.utils.views import get_paginator, get_project
 from weblate.vendasta.constants import ACCESS_NAMESPACE, NAMESPACE_SEPARATOR
 
@@ -95,12 +99,9 @@ def show_language(request, lang):
     projects = prefetch_project_flags(
         prefetch_stats(projects.filter(component__translation__language=obj).distinct())
     )
+    projects = [ProjectLanguage(project, obj) for project in projects]
 
-    stats = []
-    for project in projects:
-        project.language_stats = project.stats.get_single_language_stats(obj)
-        stats.append(project.language_stats)
-    ProjectLanguageStats.prefetch_many(stats)
+    ProjectLanguageStats.prefetch_many([project.stats for project in projects])
 
     return render(
         request,
@@ -135,7 +136,7 @@ def show_project(request, lang, project):
     translation_list = (
         obj.translation_set.prefetch()
         .filter(component__project=pobj)
-        .order_by("component__name")
+        .order_by("component__priority", "component__name")
     )
     translations = get_paginator(request, translation_list)
 
@@ -177,8 +178,6 @@ class CreateLanguageView(CreateView):
         self.object = form[0].save()
         plural = form[1].instance
         plural.language = self.object
-        plural.type = data.PLURAL_UNKNOWN
-        plural.source = Plural.SOURCE_DEFAULT
         plural.save()
         return redirect(self.object)
 

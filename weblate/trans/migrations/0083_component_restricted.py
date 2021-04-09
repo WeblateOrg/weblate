@@ -17,7 +17,7 @@ class Migration(migrations.Migration):
             field=models.BooleanField(
                 default=settings.DEFAULT_RESTRICTED_COMPONENT,
                 db_index=True,
-                help_text="Restrict access to the component only to explicitly given permissions.",
+                help_text="Restrict access to the component to only those explicitly given permission.",
                 verbose_name="Restricted component",
             ),
         ),

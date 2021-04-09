@@ -128,7 +128,7 @@ Capabilities of all supported formats:
 .. [#x] XML comment placed before the ``<string>`` element, parsed as a developer comment.
 .. [#f] See :ref:`custom-checks`
 .. [#po] The gettext type comments are used as flags.
-.. [#xl] The flags are extracted from the non-standard attibute ``weblate-flags`` for all XML based formats. Additionally ``max-length:N`` is supported through the ``maxwidth`` `attribute <http://docs.oasis-open.org/xliff/v1.2/os/xliff-core.html#maxwidth>`_ as defined in the XLIFF standard, see :ref:`xliff-flags`.
+.. [#xl] The flags are extracted from the non-standard attribute ``weblate-flags`` for all XML based formats. Additionally ``max-length:N`` is supported through the ``maxwidth`` `attribute <http://docs.oasis-open.org/xliff/v1.2/os/xliff-core.html#maxwidth>`_ as defined in the XLIFF standard, see :ref:`xliff-flags`.
 .. [#lp] The plurals are supported only for Laravel which uses in string syntax to define them, see `Localization in Laravel`_.
 
 .. _gettext:
@@ -177,13 +177,15 @@ The bilingual gettext PO file typically looks like this:
 
 .. seealso::
 
+    :doc:`devel/gettext`,
+    :doc:`devel/sphinx`,
     `Gettext on Wikipedia <https://en.wikipedia.org/wiki/Gettext>`_,
     :doc:`tt:formats/po`,
     :ref:`addon-weblate.gettext.configure`,
     :ref:`addon-weblate.gettext.customize`,
     :ref:`addon-weblate.gettext.linguas`,
     :ref:`addon-weblate.gettext.mo`,
-    :ref:`addon-weblate.gettext.msgmerge`,
+    :ref:`addon-weblate.gettext.msgmerge`
 
 .. _mono_gettext:
 
@@ -290,7 +292,7 @@ See :ref:`reviews`.
 
 Similarly upon importing such files (in the upload form), you should choose
 :guilabel:`Import as translated` under
-:guilabel:`Processing of strings needing review`.
+:guilabel:`Processing of strings needing edit`.
 
 Whitespace and newlines in XLIFF
 ++++++++++++++++++++++++++++++++
@@ -384,7 +386,7 @@ all others encode characters directly either in UTF-8 or UTF-16.
 .. note::
 
    Loading escape sequences works in UTF-8 mode as well, so please be
-   careful choosing the correct enconding set to match your application needs.
+   careful choosing the correct encoding set to match your application needs.
 
 +-------------------------------------------------------------------+
 | Typical Weblate :ref:`component`                                  |
@@ -403,7 +405,7 @@ all others encode characters directly either in UTF-8 or UTF-16.
     `Java properties on Wikipedia <https://en.wikipedia.org/wiki/.properties>`_,
     :doc:`tt:formats/properties`,
     :ref:`addon-weblate.properties.sort`,
-    :ref:`addon-weblate.cleanup.generic`,
+    :ref:`addon-weblate.cleanup.generic`
 
 .. _gwt:
 
@@ -434,7 +436,7 @@ GWT properties are usually used as monolingual translations.
     `GWT localization guide <http://www.gwtproject.org/doc/latest/DevGuideI18n.html>`_
     :doc:`tt:formats/properties`,
     :ref:`addon-weblate.properties.sort`,
-    :ref:`addon-weblate.cleanup.generic`,
+    :ref:`addon-weblate.cleanup.generic`
 
 .. _ini:
 
@@ -470,17 +472,17 @@ INI translations are usually used as monolingual translations.
 
 .. _islu:
 
-InnoSetup INI translations
---------------------------
+Inno Setup INI translations
+---------------------------
 
 .. index::
     pair: INI translations; file format
 
 .. versionadded:: 4.1
 
-InnoSetup INI file format for translations.
+Inno Setup INI file format for translations.
 
-InnoSetup INI translations are usually used as monolingual translations.
+Inno Setup INI translations are usually used as monolingual translations.
 
 .. note::
 
@@ -496,7 +498,7 @@ InnoSetup INI translations are usually used as monolingual translations.
 +--------------------------------+----------------------------------+
 | Template for new translations  | `Empty`                          |
 +--------------------------------+----------------------------------+
-| File format                    | `InnoSetup INI File`             |
+| File format                    | `Inno Setup INI File`            |
 +--------------------------------+----------------------------------+
 
 .. note::
@@ -692,7 +694,6 @@ Example file:
 
 .. literalinclude:: ../weblate/trans/tests/data/cs.php
     :language: php
-    :encoding: utf-8
 
 +-------------------------------------------------------------------+
 | Typical Weblate :ref:`component`                                  |
@@ -713,7 +714,7 @@ Laravel PHP strings
 
 .. versionchanged:: 4.1
 
-The Laravel PHP locazation files are supported as well with plurals:
+The Laravel PHP localization files are supported as well with plurals:
 
 .. code-block:: php
 
@@ -763,13 +764,11 @@ Example file:
 
 .. literalinclude:: ../weblate/trans/tests/data/cs.json
     :language: json
-    :encoding: utf-8
 
 Nested files are supported as well (see above for requirements), such a file can look like:
 
 .. literalinclude:: ../weblate/trans/tests/data/cs-nested.json
     :language: json
-    :encoding: utf-8
 
 .. warning::
 
@@ -826,7 +825,6 @@ Example file:
 
 .. literalinclude:: ../weblate/trans/tests/data/en.i18next.json
     :language: json
-    :encoding: utf-8
 
 +-------------------------------------------------------------------+
 | Typical Weblate :ref:`component`                                  |
@@ -845,7 +843,7 @@ Example file:
     :doc:`tt:formats/json`,
     `i18next JSON Format <https://www.i18next.com/misc/json-format>`_,
     :ref:`addon-weblate.json.customize`,
-    :ref:`addon-weblate.cleanup.generic`,
+    :ref:`addon-weblate.cleanup.generic`
 
 .. _go-i18n-json:
 
@@ -915,7 +913,7 @@ with (what is most often the) English strings.
     `Application Resource Bundle Specification <https://github.com/google/app-resource-bundle/wiki/ApplicationResourceBundleSpecification>`_,
     `Internationalizing Flutter apps <https://flutter.dev/docs/development/accessibility-and-localization/internationalization>`_,
     :ref:`addon-weblate.json.customize`,
-    :ref:`addon-weblate.cleanup.generic`,
+    :ref:`addon-weblate.cleanup.generic`
 
 .. _webex:
 
@@ -938,7 +936,6 @@ Example file:
 
 .. literalinclude:: ../weblate/trans/tests/data/cs-webext.json
     :language: json
-    :encoding: utf-8
 
 +-------------------------------------------------------------------+
 | Typical Weblate :ref:`component`                                  |
@@ -970,8 +967,8 @@ Example file:
 .. versionadded:: 2.3
 
 A .XML resource (.resx) file employs a monolingual XML file format used in Microsoft
-.NET applications. It is [interchangeable with .resw, when using identical
-syntax to .resx](https://lingohub.com/developers/resource-files/resw-resx-localization).
+.NET applications. It is `interchangeable with .resw, when using identical
+syntax to .resx <https://lingohub.com/developers/resource-files/resw-resx-localization>`_.
 
 +-------------------------------------------------------------------+
 | Typical Weblate :ref:`component`                                  |
@@ -982,7 +979,7 @@ syntax to .resx](https://lingohub.com/developers/resource-files/resw-resx-locali
 +--------------------------------+----------------------------------+
 | Template for new translations  | `Empty`                          |
 +--------------------------------+----------------------------------+
-| File format                    | `.XML resource file`             |
+| File format                    | `.NET resource file`             |
 +--------------------------------+----------------------------------+
 
 .. seealso::
@@ -1022,7 +1019,6 @@ Example file:
 
 .. literalinclude:: ../weblate/trans/tests/data/cs.csv
     :language: text
-    :encoding: utf-8
 
 +-------------------------------------------------------------------+
 | Typical Weblate :ref:`component`                                  |
@@ -1055,7 +1051,6 @@ Example of a YAML file:
 
 .. literalinclude:: ../weblate/trans/tests/data/cs.pyml
     :language: yaml
-    :encoding: utf-8
 
 +-------------------------------------------------------------------+
 | Typical Weblate :ref:`component`                                  |
@@ -1089,7 +1084,6 @@ Example Ruby i18n YAML file:
 
 .. literalinclude:: ../weblate/trans/tests/data/cs.ryml
     :language: yaml
-    :encoding: utf-8
 
 +-------------------------------------------------------------------+
 | Typical Weblate :ref:`component`                                  |
@@ -1119,7 +1113,6 @@ Example DTD file:
 
 .. literalinclude:: ../weblate/trans/tests/data/cs.dtd
     :language: yaml
-    :encoding: utf-8
 
 +-------------------------------------------------------------------+
 | Typical Weblate :ref:`component`                                  |
@@ -1149,7 +1142,6 @@ Example of a flat XML file:
 
 .. literalinclude:: ../weblate/trans/tests/data/cs-flat.xml
     :language: xml
-    :encoding: utf-8
 
 +-------------------------------------------------------------------+
 | Typical Weblate :ref:`component`                                  |
@@ -1185,7 +1177,6 @@ Example Windows RC file:
 
 .. literalinclude:: ../weblate/trans/tests/data/cs-CZ.rc
     :language: text
-    :encoding: utf-8
 
 +-------------------------------------------------------------------+
 | Typical Weblate :ref:`component`                                  |
@@ -1237,7 +1228,7 @@ Subtitle files
 
 .. versionadded:: 3.7
 
-Weblate can translate various subtile files:
+Weblate can translate various subtitle files:
 
 * SubRip subtitle file (``*.srt``)
 * MicroDVD subtitle file (``*.sub``)
@@ -1288,7 +1279,7 @@ HTML files
 
    Support for this format is currently in beta, feedback from testing is welcome.
 
-The translatable content is extacted from the HTML files and offered for the translation.
+The translatable content is extracted from the HTML files and offered for the translation.
 
 .. seealso::
 
@@ -1305,7 +1296,7 @@ OpenDocument Format
 
    Support for this format is currently in beta, feedback from testing is welcome.
 
-The translatable content is extacted from the OpenDocument files and offered for the translation.
+The translatable content is extracted from the OpenDocument files and offered for the translation.
 
 .. seealso::
 
@@ -1322,7 +1313,7 @@ IDML Format
 
    Support for this format is currently in beta, feedback from testing is welcome.
 
-The translatable content is extacted from the Adobe InDesign Markup Language files and offered for the translation.
+The translatable content is extracted from the Adobe InDesign Markup Language files and offered for the translation.
 
 
 Others
@@ -1385,7 +1376,7 @@ Android style
    Only used in Android apps, produces language codes like
    `pt-rBR`.
 Java style
-   User by Java—mostly BCP with legacy codes for Chinese.
+   Used by Java—mostly BCP with legacy codes for Chinese.
 
 .. note::
 

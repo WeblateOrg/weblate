@@ -31,6 +31,29 @@ This addon is triggered automatically when new strings appear in a component.
    :ref:`auto-translation`,
    :ref:`translation-consistency`
 
+.. _addon-weblate.cdn.cdnjs:
+
+JavaScript localization CDN
+---------------------------
+
+.. versionadded:: 4.2
+
+Adds localization CDN for JavaScript or HTML localization.
+
+It can be used to localize static HTML pages or used to load localization in
+the JavaScript code.
+
+Upon installation the addon generates unique URL for your component which you
+can include in the HTML documents to get them localized. See :ref:`weblate-cdn`
+for more details.
+
+.. seealso::
+
+    :ref:`cdn-addon-config`,
+    :ref:`weblate-cdn`,
+    :ref:`cdn-addon-extract`,
+    :ref:`cdn-addon-html`
+
 .. _addon-weblate.cleanup.generic:
 
 Cleanup translation files
@@ -73,13 +96,13 @@ It is triggered on every VCS update, and otherwise similar to the :djadmin:`impo
 management command. This way you can track multiple translation
 components within one VCS.
 
-Create one master component least likely to disappear in the future, and others
+Create one main component least likely to disappear in the future, and others
 will employ :ref:`internal-urls` to it as a VCS configuration, and configure it
-to find all compoents in it.
+to find all components in it.
 
 The matching is done using regular expressions, where power is a tradeoff for
 complexity in configuration. Some examples for common use cases can be found in
-the addon help sectoin.
+the addon help section.
 
 Once you hit :guilabel:`Save`, a preview of matching components will be presented,
 from where you can check whether the configuration actually matches your needs:
@@ -102,6 +125,10 @@ Bulk edit flags, labels or state for strings.
 Automating the labeling of new strings can be useful (start out with search query ``NOT
 has:label`` and add desired labels till all strings are properly labeled).
 You can also carry out any other automated operations for Weblate metadata.
+
+.. seealso::
+
+   :ref:`bulk-edit`
 
 
 .. _addon-weblate.flags.same_edit:
@@ -255,8 +282,10 @@ the commit message is customized to include it.
 
 The original commit messages can optionally be overridden with a custom commit message.
 
-Trailers (commit lines like ``Co-authored-by: ...``) can optionally be removed from the
-original commit messages and appended to the end of the squashed commit message.
+Trailers (commit lines like ``Co-authored-by: ...``) can optionally be removed
+from the original commit messages and appended to the end of the squashed
+commit message. This also generates proper ``Co-authored-by:`` credit for every
+translator.
 
 .. _addon-weblate.json.customize:
 
@@ -406,19 +435,19 @@ Additionally, the following environment variables are available:
 
 .. envvar:: WL_PREVIOUS_HEAD
 
-    Previous HEAD on update (available only available when running post update hook).
+    Previous HEAD on update (available only when running post update hook).
 
 .. envvar:: WL_COMPONENT_SLUG
 
    .. versionadded:: 3.9
 
-   Component slug used to contruct URL.
+   Component slug used to construct URL.
 
 .. envvar:: WL_PROJECT_SLUG
 
    .. versionadded:: 3.9
 
-   Project slug used to contruct URL.
+   Project slug used to construct URL.
 
 .. envvar:: WL_COMPONENT_NAME
 

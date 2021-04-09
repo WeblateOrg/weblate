@@ -123,7 +123,7 @@ class Addon(models.Model):
     def delete(self, *args, **kwargs):
         # Delete any addon alerts
         if self.addon.alert:
-            self.component.alert_set.filter(name=self.addon.alert).delete()
+            self.component.delete_alert(self.addon.alert)
         super().delete(*args, **kwargs)
 
 
@@ -141,7 +141,7 @@ class Event(models.Model):
 
 
 class AddonsConf(AppConf):
-    ADDONS = (
+    WEBLATE_ADDONS = (
         "weblate.addons.gettext.GenerateMoAddon",
         "weblate.addons.gettext.UpdateLinguasAddon",
         "weblate.addons.gettext.UpdateConfigureAddon",
@@ -164,10 +164,14 @@ class AddonsConf(AppConf):
         "weblate.addons.removal.RemoveSuggestions",
         "weblate.addons.resx.ResxUpdateAddon",
         "weblate.addons.yaml.YAMLCustomizeAddon",
+        "weblate.addons.cdn.CDNJSAddon",
     )
 
+    LOCALIZE_CDN_URL = None
+    LOCALIZE_CDN_PATH = None
+
     class Meta:
-        prefix = "WEBLATE"
+        prefix = ""
 
 
 def handle_addon_error(addon, component):
@@ -242,12 +246,12 @@ def pre_commit(sender, translation, author, **kwargs):
 
 
 @receiver(vcs_post_commit)
-def post_commit(sender, component, translation=None, **kwargs):
+def post_commit(sender, component, **kwargs):
     addons = Addon.objects.filter_event(component, EVENT_POST_COMMIT)
     for addon in addons:
         component.log_debug("running post_commit addon: %s", addon.name)
         try:
-            addon.addon.post_commit(component, translation)
+            addon.addon.post_commit(component)
         except Exception:
             handle_addon_error(addon, component)
 

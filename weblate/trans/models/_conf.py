@@ -37,6 +37,9 @@ class WeblateConf(AppConf):
     # Title of site to use
     SITE_TITLE = "Weblate"
 
+    # Site domain
+    SITE_DOMAIN = ""
+
     # Whether this is hosted.weblate.org
     OFFER_HOSTING = False
 
@@ -47,7 +50,7 @@ class WeblateConf(AppConf):
     ENABLE_SHARING = False
 
     # Number of nearby messages to show in each direction
-    NEARBY_MESSAGES = 5
+    NEARBY_MESSAGES = 15
 
     # Minimal number of similar messages to show
     SIMILAR_MESSAGES = 5
@@ -89,12 +92,6 @@ class WeblateConf(AppConf):
     # Hiding repository credentials
     HIDE_REPO_CREDENTIALS = True
 
-    # GitHub username for sending pull requests
-    GITHUB_USERNAME = None
-
-    # GitLab username for sending merge requests
-    GITLAB_USERNAME = None
-
     # Default committer
     DEFAULT_COMMITER_EMAIL = "noreply@weblate.org"
     DEFAULT_COMMITER_NAME = "Weblate"
@@ -107,6 +104,7 @@ class WeblateConf(AppConf):
     DEFAULT_SHARED_TM = True
 
     DEFAULT_PUSH_ON_COMMIT = True
+    DEFAULT_AUTO_LOCK_ERROR = True
     DEFAULT_VCS = "git"
     DEFAULT_COMMIT_MESSAGE = (
         "Translated using Weblate ({{ language_name }})\n\n"
@@ -159,7 +157,7 @@ Translations update from [Weblate]({{url}}) for {{ project_name }}/{{ component_
     ADMINS_BILLING = []
 
     # Special chars for visual keyboard
-    SPECIAL_CHARS = ("\t", "\n", "…")
+    SPECIAL_CHARS = ("\t", "\n", "\u00a0", "…")
 
     DEFAULT_ADDONS = {}
 

@@ -71,8 +71,8 @@ class BaseScriptAddon(BaseAddon):
     def post_update(self, component, previous_head):
         self.run_script(component, env={"WL_PREVIOUS_HEAD": previous_head})
 
-    def post_commit(self, component, translation=None):
-        self.run_script(component=component, translation=translation)
+    def post_commit(self, component):
+        self.run_script(component=component)
 
     def pre_commit(self, translation, author):
         self.run_script(translation=translation)

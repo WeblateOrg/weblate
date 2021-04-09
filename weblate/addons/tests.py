@@ -17,7 +17,6 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-
 import os
 from datetime import timedelta
 from io import StringIO
@@ -25,11 +24,13 @@ from unittest import SkipTest
 
 from django.core.management import call_command
 from django.core.management.base import CommandError
+from django.test.utils import override_settings
 from django.urls import reverse
 from django.utils import timezone
 
 from weblate.addons.autotranslate import AutoTranslateAddon
 from weblate.addons.base import TestAddon, TestCrashAddon, TestException
+from weblate.addons.cdn import CDNJSAddon
 from weblate.addons.cleanup import CleanupAddon
 from weblate.addons.consistency import LangaugeConsistencyAddon
 from weblate.addons.discovery import DiscoveryAddon
@@ -62,6 +63,7 @@ from weblate.lang.models import Language
 from weblate.trans.models import Comment, Component, Suggestion, Translation, Unit, Vote
 from weblate.trans.tests.test_views import FixtureTestCase, ViewTestCase
 from weblate.utils.state import STATE_EMPTY, STATE_FUZZY
+from weblate.utils.unittest import tempdir_setting
 
 
 class AddonBaseTest(FixtureTestCase):
@@ -242,6 +244,8 @@ class GettextAddonTest(ViewTestCase):
         rev = self.component.repository.last_revision
         addon.post_update(self.component, "")
         self.assertEqual(rev, self.component.repository.last_revision)
+        addon.post_update(self.component, rev)
+        self.assertEqual(rev, self.component.repository.last_revision)
         commit = self.component.repository.show(self.component.repository.last_revision)
         self.assertIn("po/cs.po", commit)
         self.assertEqual('msgid "Try using Weblate demo' in commit, not wrapped)
@@ -309,6 +313,7 @@ class AndroidAddonTest(ViewTestCase):
         addon.post_update(self.component, "")
         commit = self.component.repository.show(self.component.repository.last_revision)
         self.assertIn("android-not-synced/values-cs/strings.xml", commit)
+        self.assertIn('\n-    <string name="hello"/>', commit)
 
 
 class IntermediateAddonTest(ViewTestCase):
@@ -828,9 +833,9 @@ class GitSquashAddonTest(ViewTestCase):
         commit = self.component.repository.show(self.component.repository.last_revision)
 
         expected_trailers = (
-            "    Translation: Test/Test\n"
-            "    Translate-URL: http://example.com/projects/test/test/de/\n"
             "    Translate-URL: http://example.com/projects/test/test/cs/\n"
+            "    Translate-URL: http://example.com/projects/test/test/de/\n"
+            "    Translation: Test/Test\n"
         )
         self.assertIn(expected_trailers, commit)
         self.assertEqual(self.component.repository.count_outgoing(), 1)
@@ -951,3 +956,101 @@ class BulkEditAddonTest(FixtureTestCase):
             follow=True,
         )
         self.assertContains(response, "1 addon installed")
+
+
+class CDNJSAddonTest(ViewTestCase):
+    def create_component(self):
+        return self.create_json_mono()
+
+    @override_settings(LOCALIZE_CDN_URL=None)
+    def test_noconfigured(self):
+        self.assertFalse(CDNJSAddon.can_install(self.component, None))
+
+    @tempdir_setting("LOCALIZE_CDN_PATH")
+    @override_settings(LOCALIZE_CDN_URL="http://localhost/")
+    def test_cdn(self):
+        self.make_manager()
+        self.assertTrue(CDNJSAddon.can_install(self.component, None))
+
+        # Install addon
+        addon = CDNJSAddon.create(
+            self.component,
+            configuration={
+                "threshold": 0,
+                "files": "",
+                "cookie_name": "django_languages",
+                "css_selector": ".l10n",
+            },
+        )
+
+        # Check generated files
+        self.assertTrue(os.path.isdir(addon.cdn_path("")))
+        jsname = addon.cdn_path("weblate.js")
+        self.assertTrue(os.path.isfile(jsname))
+
+        # Translate some content
+        self.edit_unit("Hello, world!\n", "Nazdar svete!\n")
+        self.component.commit_pending("test", None)
+
+        # Check translation files
+        with open(jsname, "r") as handle:
+            content = handle.read()
+            self.assertIn(".l10n", content)
+            self.assertIn('"cs"', content)
+        self.assertTrue(os.path.isfile(addon.cdn_path("cs.json")))
+
+        # Configuration
+        response = self.client.get(addon.instance.get_absolute_url())
+        self.assertContains(response, addon.cdn_js_url)
+
+    @tempdir_setting("LOCALIZE_CDN_PATH")
+    @override_settings(LOCALIZE_CDN_URL="http://localhost/")
+    def test_extract(self):
+        self.make_manager()
+        self.assertTrue(CDNJSAddon.can_install(self.component, None))
+        self.assertEqual(
+            Unit.objects.filter(translation__component=self.component).count(), 8
+        )
+
+        # Install addon
+        CDNJSAddon.create(
+            self.component,
+            configuration={
+                "threshold": 0,
+                "files": "html/en.html",
+                "cookie_name": "django_languages",
+                "css_selector": "*",
+            },
+        )
+
+        # Verify strings
+        self.assertEqual(
+            Unit.objects.filter(translation__component=self.component).count(), 14
+        )
+
+    @tempdir_setting("LOCALIZE_CDN_PATH")
+    @override_settings(LOCALIZE_CDN_URL="http://localhost/")
+    def test_extract_broken(self):
+        self.make_manager()
+        self.assertTrue(CDNJSAddon.can_install(self.component, None))
+        self.assertEqual(
+            Unit.objects.filter(translation__component=self.component).count(), 8
+        )
+
+        # Install addon
+        CDNJSAddon.create(
+            self.component,
+            configuration={
+                "threshold": 0,
+                "files": "html/missing.html",
+                "cookie_name": "django_languages",
+                "css_selector": "*",
+            },
+        )
+
+        # Verify strings
+        self.assertEqual(
+            Unit.objects.filter(translation__component=self.component).count(), 8
+        )
+        # The error should be there
+        self.assertTrue(self.component.alert_set.filter(name="CDNAddonError").exists())

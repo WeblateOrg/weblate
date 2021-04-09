@@ -30,17 +30,21 @@
       {% trans "Export glossary" %} <span class="caret"></span>
     </a>
     <ul class="dropdown-menu">
-<li><a href="{% url 'download_glossary' project=project.slug lang=language.code %}?format=csv">{% trans "Comma separated values (CSV)" %}</a></li>
-<li><a href="{% url 'download_glossary' project=project.slug lang=language.code %}?format=po">{% trans "gettext (PO)" %}</a></li>
-<li><a href="{% url 'download_glossary' project=project.slug lang=language.code %}?format=xliff">{% trans "XML Localization Interchange File Format (XLIFF)" %}</a></li>
-<li><a href="{% url 'download_glossary' project=project.slug lang=language.code %}?format=tbx">{% trans "TermBase eXchange (TBX)" %}</a></li>
-</ul>
+	{% for exporter in exporters %}
+	<li><a href="{% url 'download_glossary' project=project.slug lang=language.code %}?format={{ exporter.name  }}">Export as {{ exporter.verbose  }}</a></li>
+	{% endfor  %}
+    </ul>
 </li>
 <li><a href="#changes" data-toggle="tab">{% trans "History" %}</a></li>
 </ul>
 
 <div class="tab-content">
 <div class="tab-pane active" id="browse">
+
+<form class="searchform result-page-form" action="{% url 'show_glossary' project=project.slug lang=language.code %}">
+{% crispy searchform %}
+</form>
+
 {% include "paginator.html" %}
 
 <form class="autosubmit form-inline pull-right flip">
@@ -86,10 +90,6 @@
 {% else %}
 <p>{% trans "No words found!" %}</p>
 {% endif %}
-<form class="searchform" action="{% url 'show_glossary' project=project.slug lang=language.code %}">
-{{ searchform | crispy }}
-<button type="submit" class="btn btn-ok"> {% trans "Search" %} </button>
-</form>
 </div>
 
 {% if user_can_add_glossary %}

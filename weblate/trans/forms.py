@@ -17,13 +17,12 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-
 import copy
 import json
 from datetime import date, datetime, timedelta
 from typing import Dict, List
 
-from crispy_forms.bootstrap import InlineRadios, Tab, TabHolder
+from crispy_forms.bootstrap import InlineCheckboxes, InlineRadios, Tab, TabHolder
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Div, Field, Fieldset, Layout
 from django import forms
@@ -46,8 +45,7 @@ from translation_finder import DiscoveryResult, discover
 
 from weblate.auth.models import User
 from weblate.checks.models import CHECKS
-from weblate.formats.exporters import EXPORTERS
-from weblate.formats.models import FILE_FORMATS
+from weblate.formats.models import EXPORTERS, FILE_FORMATS
 from weblate.lang.models import Language
 from weblate.machinery import MACHINE_TRANSLATION_SERVICES
 from weblate.trans.defines import COMPONENT_NAME_LENGTH, REPO_LENGTH
@@ -154,7 +152,7 @@ class UserField(forms.CharField):
         if not value:
             return None
         try:
-            return User.objects.get(Q(username__iexact=value) | Q(email__iexact=value))
+            return User.objects.get(Q(username=value) | Q(email=value))
         except User.DoesNotExist:
             raise ValidationError(_("No matching user found."))
         except User.MultipleObjectsReturned:
@@ -391,8 +389,8 @@ class ChecksumForm(forms.Form):
 
     checksum = ChecksumField(required=True)
 
-    def __init__(self, translation, *args, **kwargs):
-        self.translation = translation
+    def __init__(self, unit_set, *args, **kwargs):
+        self.unit_set = unit_set
         super().__init__(*args, **kwargs)
 
     def clean_checksum(self):
@@ -400,7 +398,7 @@ class ChecksumForm(forms.Form):
         if "checksum" not in self.cleaned_data:
             return
 
-        unit_set = self.translation.unit_set
+        unit_set = self.unit_set
 
         try:
             self.cleaned_data["unit"] = unit_set.filter(
@@ -410,6 +408,12 @@ class ChecksumForm(forms.Form):
             raise ValidationError(
                 _("The string you wanted to translate is no longer available.")
             )
+
+
+class UnitForm(forms.Form):
+    def __init__(self, unit: Unit, *args, **kwargs):
+        self.unit = unit
+        super().__init__(*args, **kwargs)
 
 
 class FuzzyField(forms.BooleanField):
@@ -425,7 +429,7 @@ class FuzzyField(forms.BooleanField):
         self.widget.attrs["class"] = "fuzzy_checkbox"
 
 
-class TranslationForm(ChecksumForm):
+class TranslationForm(UnitForm):
     """Form used for translation of single string."""
 
     contentsum = ChecksumField(required=True)
@@ -443,7 +447,7 @@ class TranslationForm(ChecksumForm):
         widget=forms.RadioSelect,
     )
 
-    def __init__(self, user, translation, unit, *args, **kwargs):
+    def __init__(self, user, unit: Unit, *args, **kwargs):
         if unit is not None:
             kwargs["initial"] = {
                 "checksum": unit.checksum,
@@ -455,7 +459,7 @@ class TranslationForm(ChecksumForm):
             }
             kwargs["auto_id"] = "id_{0}_%s".format(unit.checksum)
         tabindex = kwargs.pop("tabindex", 100)
-        super().__init__(translation, *args, **kwargs)
+        super().__init__(unit, *args, **kwargs)
         self.user = user
         self.fields["target"].widget.attrs["tabindex"] = tabindex
         self.fields["target"].widget.profile = user.profile
@@ -468,7 +472,6 @@ class TranslationForm(ChecksumForm):
         self.helper.form_tag = False
         self.helper.disable_csrf = True
         self.helper.layout = Layout(
-            Field("checksum"),
             Field("target"),
             Field("fuzzy"),
             Field("contentsum"),
@@ -484,11 +487,11 @@ class TranslationForm(ChecksumForm):
         super().clean()
 
         # Check required fields
-        required = {"unit", "target", "contentsum", "translationsum"}
+        required = {"target", "contentsum", "translationsum"}
         if not required.issubset(self.cleaned_data):
             return
 
-        unit = self.cleaned_data["unit"]
+        unit = self.unit
 
         if self.cleaned_data["contentsum"] != unit.content_hash:
             raise ValidationError(
@@ -521,13 +524,16 @@ class TranslationForm(ChecksumForm):
 
 
 class ZenTranslationForm(TranslationForm):
-    def __init__(self, user, translation, unit, *args, **kwargs):
-        super().__init__(user, translation, unit, *args, **kwargs)
+    checksum = ChecksumField(required=True)
+
+    def __init__(self, user, unit, *args, **kwargs):
+        super().__init__(user, unit, *args, **kwargs)
         self.helper.form_action = reverse(
-            "save_zen", kwargs=translation.get_reverse_url_kwargs()
+            "save_zen", kwargs=unit.translation.get_reverse_url_kwargs()
         )
         self.helper.form_tag = True
         self.helper.disable_csrf = False
+        self.helper.layout.append(Field("checksum"))
 
 
 class AntispamForm(forms.Form):
@@ -551,6 +557,12 @@ class DownloadForm(forms.Form):
         required=True,
         widget=forms.RadioSelect,
     )
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper(self)
+        self.helper.form_tag = False
+        self.helper.layout = Layout(SearchField("q"), Field("format"))
 
 
 class SimpleUploadForm(forms.Form):
@@ -592,16 +604,21 @@ class SimpleUploadForm(forms.Form):
 
 
 class UploadForm(SimpleUploadForm):
-    """Upload form with option to overwrite current messages."""
+    """Upload form with the option to overwrite current messages."""
 
-    upload_overwrite = forms.BooleanField(
-        label=_("Overwrite existing translations"),
+    conflicts = forms.ChoiceField(
+        label=_("Conflict handling"),
         help_text=_(
             "Whether to overwrite existing translations if the string is "
             "already translated."
         ),
+        choices=(
+            ("", _("Update only non translated strings")),
+            ("replace-translated", _("Update translated strings")),
+            ("replace-approved", _("Update translated and approved strings")),
+        ),
         required=False,
-        initial=True,
+        initial="replace-translated",
     )
 
 
@@ -614,11 +631,10 @@ class ExtraUploadForm(UploadForm):
 
 def get_upload_form(user, translation, *args, **kwargs):
     """Return correct upload form based on user permissions."""
-    project = translation.component.project
-    if user.has_perm("upload.authorship", project):
+    if user.has_perm("upload.authorship", translation):
         form = ExtraUploadForm
         kwargs["initial"] = {"author_name": user.full_name, "author_email": user.email}
-    elif user.has_perm("upload.overwrite", project):
+    elif user.has_perm("upload.overwrite", translation):
         form = UploadForm
     else:
         form = SimpleUploadForm
@@ -626,6 +642,13 @@ def get_upload_form(user, translation, *args, **kwargs):
     for method in [x[0] for x in result.fields["method"].choices]:
         if not check_upload_method_permissions(user, translation, method):
             result.remove_translation_choice(method)
+    # Remove approved choice for non review projects
+    if not user.has_perm("unit.review", translation) and not form == SimpleUploadForm:
+        result.fields["conflicts"].choices = [
+            choice
+            for choice in result.fields["conflicts"].choices
+            if choice[0] != "approved"
+        ]
     return result
 
 
@@ -651,7 +674,8 @@ class SearchForm(forms.Form):
         self.helper.layout = Layout(
             Div(
                 Field("offset", **self.offset_kwargs),
-                SearchField("q", template="snippets/query-field.html"),
+                SearchField("q"),
+                Field("sort_by", template="snippets/sort-field.html"),
                 css_class="btn-toolbar",
                 role="toolbar",
             ),
@@ -681,7 +705,7 @@ class SearchForm(forms.Form):
     def items(self):
         items = []
         # Skip checksum and offset as these change
-        ignored = {"checksum", "offset"}
+        ignored = {"offset"}
         for param in sorted(self.cleaned_data):
             value = self.cleaned_data[param]
             # We don't care about empty values or ignored
@@ -716,7 +740,6 @@ class SearchForm(forms.Form):
         """Reset offset to avoid using form as default for new search."""
         data = copy.copy(self.data)
         data["offset"] = "1"
-        data["checksum"] = ""
         self.data = data
         return self
 
@@ -726,46 +749,44 @@ class PositionSearchForm(SearchForm):
     offset_kwargs = {"template": "snippets/position-field.html"}
 
 
-class MergeForm(ChecksumForm):
+class MergeForm(UnitForm):
     """Simple form for merging translation of two units."""
 
     merge = forms.IntegerField()
 
     def clean(self):
         super().clean()
-        if "unit" not in self.cleaned_data or "merge" not in self.cleaned_data:
+        if "merge" not in self.cleaned_data:
             return None
         try:
-            project = self.translation.component.project
+            unit = self.unit
+            translation = unit.translation
+            project = translation.component.project
             self.cleaned_data["merge_unit"] = merge_unit = Unit.objects.get(
                 pk=self.cleaned_data["merge"],
                 translation__component__project=project,
-                translation__language=self.translation.language,
+                translation__language=translation.language,
             )
-            unit = self.cleaned_data["unit"]
-            if (
-                unit.id_hash != merge_unit.id_hash
-                and unit.content_hash != merge_unit.content_hash
-                and unit.source != merge_unit.source
-            ):
+            # Compare in Python to ensure case sensitiveness on MySQL
+            if not translation.is_source and unit.source != merge_unit.source:
                 raise ValidationError(_("Could not find merged string."))
         except Unit.DoesNotExist:
             raise ValidationError(_("Could not find merged string."))
         return self.cleaned_data
 
 
-class RevertForm(ChecksumForm):
+class RevertForm(UnitForm):
     """Form for reverting edits."""
 
     revert = forms.IntegerField()
 
     def clean(self):
         super().clean()
-        if "unit" not in self.cleaned_data or "revert" not in self.cleaned_data:
+        if "revert" not in self.cleaned_data:
             return None
         try:
             self.cleaned_data["revert_change"] = Change.objects.get(
-                pk=self.cleaned_data["revert"], unit=self.cleaned_data["unit"]
+                pk=self.cleaned_data["revert"], unit=self.unit
             )
         except Change.DoesNotExist:
             raise ValidationError(_("Could not find reverted change."))
@@ -867,7 +888,7 @@ class CommentForm(forms.Form):
             "translation or generic for all of them?"
         ),
         choices=(
-            ("report", _("Report issue with the source string"),),
+            ("report", _("Report issue with the source string")),
             (
                 "global",
                 _("Source string comment, suggestions for changes to this string"),
@@ -879,16 +900,16 @@ class CommentForm(forms.Form):
         ),
     )
     comment = forms.CharField(
-        widget=forms.Textarea(attrs={"dir": "auto"}),
+        widget=forms.Textarea(attrs={"dir": "auto", "class": "codemirror-markdown"}),
         label=_("New comment"),
         help_text=_("You can use Markdown and mention users by @username."),
         max_length=1000,
     )
 
-    def __init__(self, translation, *args, **kwargs):
+    def __init__(self, project, *args, **kwargs):
         super().__init__(*args, **kwargs)
         # Remove bug report in case source review is not enabled
-        if not translation.component.project.source_review:
+        if not project.source_review:
             self.fields["scope"].choices = self.fields["scope"].choices[1:]
 
 
@@ -1010,7 +1031,7 @@ class ContextForm(forms.ModelForm):
         self.helper.disable_csrf = True
         self.helper.form_tag = False
         self.helper.layout = Layout(
-            Field("explanation"),
+            Field("explanation", css_class="codemirror-markdown"),
             Field("labels"),
             ContextDiv(
                 template="snippets/labels_description.html",
@@ -1101,9 +1122,9 @@ class ReportsForm(forms.Form):
             start = timezone.make_aware(datetime(year, 1, 1))
         else:
             # Validate custom period
-            if not self.cleaned_data["start_date"]:
+            if not self.cleaned_data.get("start_date"):
                 raise ValidationError({"start_date": _("Missing date!")})
-            if not self.cleaned_data["end_date"]:
+            if not self.cleaned_data.get("end_date"):
                 raise ValidationError({"end_date": _("Missing date!")})
             start = self.cleaned_data["start_date"]
             end = self.cleaned_data["end_date"]
@@ -1222,6 +1243,7 @@ class ComponentSettingsForm(SettingsBaseForm, ComponentDocsMixin):
             "language_regex",
             "variant_regex",
             "restricted",
+            "auto_lock_error",
         )
         widgets = {"enforced_checks": SelectChecksWidget()}
 
@@ -1274,6 +1296,7 @@ class ComponentSettingsForm(SettingsBaseForm, ComponentDocsMixin):
                         "push_on_commit",
                         "commit_pending_age",
                         "merge_style",
+                        "auto_lock_error",
                     ),
                     css_id="vcs",
                 ),
@@ -1480,7 +1503,7 @@ class ComponentZipCreateForm(ComponentProjectForm):
 
 class ComponentDocCreateForm(ComponentProjectForm):
     docfile = forms.FileField(
-        label=_("Document to translate"), validators=[validate_file_extension],
+        label=_("Document to translate"), validators=[validate_file_extension]
     )
 
     field_order = ["docfile", "project", "name", "slug"]
@@ -1638,6 +1661,7 @@ class ProjectSettingsForm(SettingsBaseForm, ProjectDocsMixin):
             "contribute_shared_tm",
             "enable_hooks",
             "source_language",
+            "language_aliases",
             "access_control",
             "translation_review",
             "source_review",
@@ -1645,6 +1669,7 @@ class ProjectSettingsForm(SettingsBaseForm, ProjectDocsMixin):
         widgets = {
             "access_control": forms.RadioSelect(),
             "source_language": SortedSelect,
+            "instructions": forms.Textarea(attrs={"class": "codemirror-markdown"}),
         }
 
     def clean(self):
@@ -1685,8 +1710,8 @@ class ProjectSettingsForm(SettingsBaseForm, ProjectDocsMixin):
                     }
                 )
 
-    def save(self):
-        super().save()
+    def save(self, commit: bool = True):
+        super().save(commit=commit)
         if self.changed_access:
             Change.objects.create(
                 project=self.instance,
@@ -1730,6 +1755,7 @@ class ProjectSettingsForm(SettingsBaseForm, ProjectDocsMixin):
                     "contribute_shared_tm",
                     "enable_hooks",
                     "source_language",
+                    "language_aliases",
                     "translation_review",
                     "source_review",
                     css_id="workflow",
@@ -1752,6 +1778,11 @@ class ProjectSettingsForm(SettingsBaseForm, ProjectDocsMixin):
                 "Uses and contributes to the pool of shared translations "
                 "between projects."
             )
+            self.fields["access_control"].choices = [
+                choice
+                for choice in self.fields["access_control"].choices
+                if choice[0] != Project.ACCESS_CUSTOM
+            ]
 
 
 class ProjectRenameForm(SettingsBaseForm):
@@ -1863,8 +1894,10 @@ class BulkEditForm(forms.Form):
     def __init__(self, user, obj, *args, **kwargs):
         project = kwargs.pop("project")
         super().__init__(*args, **kwargs)
-        self.fields["remove_labels"].queryset = project.label_set.all()
-        self.fields["add_labels"].queryset = project.label_set.all()
+        labels = project.label_set.all()
+        if labels:
+            self.fields["remove_labels"].queryset = labels
+            self.fields["add_labels"].queryset = labels
 
         excluded = {STATE_EMPTY, STATE_READONLY}
         if user is not None and not user.has_perm("unit.review", obj):
@@ -1874,6 +1907,15 @@ class BulkEditForm(forms.Form):
         self.fields["state"].choices = [
             x for x in self.fields["state"].choices if x[0] not in excluded
         ]
+
+        self.helper = FormHelper(self)
+        self.helper.form_tag = False
+        self.helper.layout = Layout(
+            SearchField("q"), Field("state"), Field("add_flags"), Field("remove_flags")
+        )
+        if labels:
+            self.helper.layout.append(InlineCheckboxes("add_labels"))
+            self.helper.layout.append(InlineCheckboxes("remove_labels"))
 
 
 class ContributorAgreementForm(forms.Form):
@@ -1941,7 +1983,10 @@ class AnnouncementForm(forms.ModelForm):
     class Meta:
         model = Announcement
         fields = ["message", "category", "expiry", "notify"]
-        widgets = {"expiry": WeblateDateInput()}
+        widgets = {
+            "expiry": WeblateDateInput(),
+            "message": forms.Textarea(attrs={"class": "codemirror-markdown"}),
+        }
 
 
 class ChangesForm(forms.Form):
@@ -1953,6 +1998,7 @@ class ChangesForm(forms.Form):
         widget=SortedSelectMultiple,
         choices=Change.ACTION_CHOICES,
     )
+    user = forms.SlugField(label=_("Author username"), required=False)
 
     def __init__(self, request, *args, **kwargs):
         super().__init__(*args, **kwargs)

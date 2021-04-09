@@ -18,7 +18,7 @@
 #
 
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import HTML, Fieldset, Layout
+from crispy_forms.layout import HTML, Div, Field, Fieldset, Layout
 from django import forms
 from django.contrib.auth import authenticate, password_validation
 from django.contrib.auth.forms import SetPasswordForm as DjangoSetPasswordForm
@@ -73,7 +73,7 @@ class UniqueEmailMixin:
         self.cleaned_data["email_user"] = None
         mail = self.cleaned_data["email"]
         users = User.objects.filter(
-            Q(social_auth__verifiedemail__email__iexact=mail) | Q(email__iexact=mail),
+            Q(social_auth__verifiedemail__email__iexact=mail) | Q(email=mail),
             is_active=True,
         )
         if users.exists():
@@ -135,7 +135,7 @@ class UsernameField(forms.CharField):
             existing = User.objects.filter(username=value)
             if existing.exists() and value != self.valid:
                 raise forms.ValidationError(
-                    _("This username is already taken. " "Please choose another.")
+                    _("This username is already taken. Please choose another.")
                 )
 
         return super().clean(value)
@@ -210,6 +210,7 @@ class UserSettingsForm(ProfileBaseForm):
             "hide_completed",
             "translate_mode",
             "zen_mode",
+            "nearby_strings",
             "secondary_in_zen",
             "hide_source_secondary",
             "editor_link",
@@ -218,6 +219,7 @@ class UserSettingsForm(ProfileBaseForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        self.fields["special_chars"].strip = False
         self.helper = FormHelper(self)
         self.helper.disable_csrf = True
         self.helper.form_tag = False
@@ -356,7 +358,7 @@ class RegistrationForm(EmailForm):
     def clean(self):
         if not check_rate_limit("registration", self.request):
             raise forms.ValidationError(
-                _("Too many failed registration attempts from this location!")
+                _("Too many failed registration attempts from this location.")
             )
         return self.cleaned_data
 
@@ -498,7 +500,7 @@ class LoginForm(forms.Form):
         if username and password:
             if not check_rate_limit("login", self.request):
                 raise forms.ValidationError(
-                    _("Too many authentication attempts from this location!")
+                    _("Too many authentication attempts from this location.")
                 )
             self.user_cache = authenticate(
                 self.request, username=username, password=password
@@ -527,13 +529,18 @@ class LoginForm(forms.Form):
             reset_rate_limit("login", self.request)
         return self.cleaned_data
 
-    def get_user_id(self):
-        if self.user_cache:
-            return self.user_cache.id
-        return None
-
     def get_user(self):
         return self.user_cache
+
+
+class AdminLoginForm(LoginForm):
+    def clean(self):
+        data = super().clean()
+        if not self.user_cache.is_superuser:
+            raise forms.ValidationError(
+                self.error_messages["inactive"], code="inactive"
+            )
+        return data
 
 
 class HostingForm(forms.Form):
@@ -622,12 +629,12 @@ class NotificationForm(forms.Form):
             Fieldset(
                 _("Component wide notifications"),
                 HTML(escape(self.get_help_component())),
-                *component_fields
+                *component_fields,
             ),
             Fieldset(
                 _("Translation notifications"),
                 HTML(escape(self.get_help_translation())),
-                *language_fields
+                *language_fields,
             ),
         )
 
@@ -736,7 +743,7 @@ class NotificationForm(forms.Form):
             subscription, created = self.user.subscription_set.get_or_create(
                 notification=notification_cls.get_name(),
                 defaults={"frequency": frequency},
-                **lookup
+                **lookup,
             )
             # Update old subscription
             if not created and subscription.frequency != frequency:
@@ -745,3 +752,45 @@ class NotificationForm(forms.Form):
             handled.add(subscription.pk)
         # Delete stale subscriptions
         self.user.subscription_set.filter(**lookup).exclude(pk__in=handled).delete()
+
+
+class UserSearchForm(forms.Form):
+    """User searching form."""
+
+    # pylint: disable=invalid-name
+    q = forms.CharField(required=False)
+    sort_by = forms.CharField(required=False, widget=forms.HiddenInput)
+
+    sort_choices = {
+        "username": _("Username"),
+        "full_name": _("Full name"),
+        "date_joined": _("Date joined"),
+        "profile__translated": _("Translations made"),
+        "profile__suggested": _("Suggestions made"),
+        "profile__commented": _("Comments made"),
+        "profile__uploaded": _("Screenshots uploaded"),
+    }
+    sort_values = set(sort_choices) | {f"-{val}" for val in sort_choices}
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        self.helper = FormHelper(self)
+        self.helper.form_tag = False
+        self.helper.disable_csrf = True
+        self.helper.layout = Layout(
+            Div(
+                Field("q", template="snippets/user-query-field.html"),
+                Field("sort_by", template="snippets/user-sort-field.html"),
+                css_class="btn-toolbar",
+                role="toolbar",
+            ),
+        )
+
+    def clean_sort_by(self):
+        sort_by = self.cleaned_data.get("sort_by")
+        if sort_by:
+            if sort_by not in self.sort_values:
+                raise forms.ValidationError(_("Invalid ordering"))
+            return sort_by
+        return None

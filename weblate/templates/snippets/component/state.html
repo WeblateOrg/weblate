@@ -1,0 +1,13 @@
+{% load translations %}
+{% load i18n %}
+
+{% if object.locked %}
+{% include "snippets/component/lock.html" %}
+{% endif %}
+
+{% show_contributor_agreement object %}
+
+{% if not object.project.paid %}
+{% trans "Pay the bills to unlock this project." as msg %}
+{% show_message "warning" msg %}
+{% endif %}
