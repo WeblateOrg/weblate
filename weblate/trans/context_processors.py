@@ -47,6 +47,7 @@ CONTEXT_SETTINGS = [
     "STATUS_URL",
     "LEGAL_URL",
     "FONTS_CDN_URL",
+    "AVATAR_URL_PREFIX",
     # Hosted Weblate integration
     "PAYMENT_ENABLED",
 ]

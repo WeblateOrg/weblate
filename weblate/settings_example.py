@@ -98,6 +98,7 @@ LANGUAGES = (
     ("hu", "Magyar"),
     ("hr", "Hrvatski"),
     ("id", "Indonesia"),
+    ("is", "Íslenska"),
     ("it", "Italiano"),
     ("ja", "日本語"),
     ("kab", "Taqbaylit"),
@@ -168,7 +169,7 @@ STATICFILES_FINDERS = (
 
 # Make this unique, and don't share it with anybody.
 # You can generate it using weblate/examples/generate-secret-key
-SECRET_KEY = "jm8fqjlg+5!#xu%e-oh#7!$aa7!6avf7ud*_v=chdrb9qdco6("  # noqa
+SECRET_KEY = ""
 
 _TEMPLATE_LOADERS = [
     "django.template.loaders.filesystem.Loader",
@@ -322,6 +323,7 @@ REQUIRE_LOGIN = False
 
 # Middleware
 MIDDLEWARE = [
+    "weblate.middleware.RedirectMiddleware",
     "weblate.middleware.ProxyMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
@@ -364,7 +366,6 @@ INSTALLED_APPS = [
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.sessions",
-    "django.contrib.sites",
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "django.contrib.admin.apps.SimpleAdminConfig",
@@ -403,6 +404,7 @@ if DEBUG or not HAVE_SYSLOG:
     DEFAULT_LOG = "console"
 else:
     DEFAULT_LOG = "syslog"
+DEFAULT_LOGLEVEL = "DEBUG" if DEBUG else "INFO"
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to
@@ -472,18 +474,13 @@ LOGGING = {
         #     "handlers": [DEFAULT_LOG],
         #     "level": "DEBUG",
         # },
-        "weblate": {"handlers": [DEFAULT_LOG], "level": "DEBUG"},
-        # Logging search operations
-        "weblate.search": {"handlers": [DEFAULT_LOG], "level": "INFO"},
+        "weblate": {"handlers": [DEFAULT_LOG], "level": DEFAULT_LOGLEVEL},
         # Logging VCS operations
-        "weblate.vcs": {"handlers": [DEFAULT_LOG], "level": "WARNING"},
+        "weblate.vcs": {"handlers": [DEFAULT_LOG], "level": DEFAULT_LOGLEVEL},
         # Python Social Auth
-        "social": {"handlers": [DEFAULT_LOG], "level": "DEBUG" if DEBUG else "WARNING"},
+        "social": {"handlers": [DEFAULT_LOG], "level": DEFAULT_LOGLEVEL},
         # Django Authentication Using LDAP
-        "django_auth_ldap": {
-            "level": "DEBUG" if DEBUG else "WARNING",
-            "handlers": [DEFAULT_LOG],
-        },
+        "django_auth_ldap": {"handlers": [DEFAULT_LOG], "level": DEFAULT_LOGLEVEL},
     },
 }
 
@@ -492,25 +489,26 @@ if not HAVE_SYSLOG:
     del LOGGING["handlers"]["syslog"]
 
 # List of machine translations
-# MT_SERVICES = (
-#     "weblate.machinery.apertium.ApertiumAPYTranslation",
-#     "weblate.machinery.baidu.BaiduTranslation",
-#     "weblate.machinery.deepl.DeepLTranslation",
-#     "weblate.machinery.glosbe.GlosbeTranslation",
-#     "weblate.machinery.google.GoogleTranslation",
-#     "weblate.machinery.googlev3.GoogleV3Translation",
-#     "weblate.machinery.microsoft.MicrosoftCognitiveTranslation",
-#     "weblate.machinery.microsoftterminology.MicrosoftTerminologyService",
-#     "weblate.machinery.mymemory.MyMemoryTranslation",
-#     "weblate.machinery.netease.NeteaseSightTranslation",
-#     "weblate.machinery.tmserver.AmagamaTranslation",
-#     "weblate.machinery.tmserver.TMServerTranslation",
-#     "weblate.machinery.yandex.YandexTranslation",
-#     "weblate.machinery.saptranslationhub.SAPTranslationHub",
-#     "weblate.machinery.youdao.YoudaoTranslation",
-#     "weblate.machinery.weblatetm.WeblateTranslation",
-#     "weblate.memory.machine.WeblateMemory",
-# )
+MT_SERVICES = (
+    #     "weblate.machinery.apertium.ApertiumAPYTranslation",
+    #     "weblate.machinery.baidu.BaiduTranslation",
+    #     "weblate.machinery.deepl.DeepLTranslation",
+    #     "weblate.machinery.glosbe.GlosbeTranslation",
+    #     "weblate.machinery.google.GoogleTranslation",
+    #     "weblate.machinery.googlev3.GoogleV3Translation",
+    #     "weblate.machinery.microsoft.MicrosoftCognitiveTranslation",
+    #     "weblate.machinery.microsoftterminology.MicrosoftTerminologyService",
+    #     "weblate.machinery.modernmt.ModernMTTranslation",
+    #     "weblate.machinery.mymemory.MyMemoryTranslation",
+    #     "weblate.machinery.netease.NeteaseSightTranslation",
+    #     "weblate.machinery.tmserver.AmagamaTranslation",
+    #     "weblate.machinery.tmserver.TMServerTranslation",
+    #     "weblate.machinery.yandex.YandexTranslation",
+    #     "weblate.machinery.saptranslationhub.SAPTranslationHub",
+    #     "weblate.machinery.youdao.YoudaoTranslation",
+    "weblate.machinery.weblatetm.WeblateTranslation",
+    "weblate.memory.machine.WeblateMemory",
+)
 
 # Machine translation API keys
 
@@ -524,6 +522,9 @@ MT_DEEPL_KEY = None
 # https://portal.azure.com/
 MT_MICROSOFT_COGNITIVE_KEY = None
 MT_MICROSOFT_REGION = None
+
+# ModernMT
+MT_MODERNMT_KEY = None
 
 # MyMemory identification email, see
 # https://mymemory.translated.net/doc/spec.php
@@ -568,6 +569,9 @@ MT_SAP_USE_MT = True
 # Title of site to use
 SITE_TITLE = "Weblate"
 
+# Site domain
+SITE_DOMAIN = ""
+
 # Whether site uses https
 ENABLE_HTTPS = False
 
@@ -610,7 +614,10 @@ SECURE_CONTENT_TYPE_NOSNIFF = True
 # Optionally enable HSTS
 SECURE_HSTS_SECONDS = 31536000 if ENABLE_HTTPS else 0
 SECURE_HSTS_PRELOAD = ENABLE_HTTPS
-SECURE_HSTS_INCLUDE_SUBDOMAINS = False
+SECURE_HSTS_INCLUDE_SUBDOMAINS = ENABLE_HTTPS
+
+# HTTPS detection behind reverse proxy
+SECURE_PROXY_SSL_HEADER = None
 
 # URL of login
 LOGIN_URL = "{0}/accounts/login/".format(URL_PREFIX)
@@ -637,9 +644,6 @@ EMAIL_SUBJECT_PREFIX = "[{0}] ".format(SITE_TITLE)
 
 # Enable remote hooks
 ENABLE_HOOKS = True
-
-# Number of nearby messages to show in each direction
-NEARBY_MESSAGES = 5
 
 # By default the length of a given translation is limited to the length of
 # the source string * 10 characters. Set this option to False to allow longer
@@ -680,6 +684,7 @@ CRISPY_TEMPLATE_PACK = "bootstrap3"
 #     "weblate.checks.format.JavaMessageFormatCheck",
 #     "weblate.checks.format.PercentPlaceholdersCheck",
 #     "weblate.checks.format.I18NextInterpolationCheck",
+#     "weblate.checks.format.ESTemplateLiteralsCheck",
 #     "weblate.checks.angularjs.AngularJSInterpolationCheck",
 #     "weblate.checks.qt.QtFormatCheck",
 #     "weblate.checks.qt.QtPluralCheck",
@@ -741,6 +746,7 @@ CRISPY_TEMPLATE_PACK = "bootstrap3"
 #     "weblate.addons.removal.RemoveSuggestions",
 #     "weblate.addons.resx.ResxUpdateAddon",
 #     "weblate.addons.yaml.YAMLCustomizeAddon",
+#     "weblate.addons.cdn.CDNJSAddon",
 #     "weblate.addons.autotranslate.AutoTranslateAddon",
 # )
 
@@ -752,7 +758,7 @@ SERVER_EMAIL = "noreply@example.com"
 DEFAULT_FROM_EMAIL = "noreply@example.com"
 
 # List of URLs your site is supposed to serve
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = [SITE_DOMAIN]
 
 # Configuration for caching
 CACHES = {
@@ -809,6 +815,16 @@ REST_FRAMEWORK = {
     "UNAUTHENTICATED_USER": "weblate.auth.models.get_anonymous",
 }
 
+# Fonts CDN URL
+FONTS_CDN_URL = None
+
+# Django compressor offline mode
+COMPRESS_OFFLINE = False
+COMPRESS_OFFLINE_CONTEXT = [
+    {"fonts_cdn_url": FONTS_CDN_URL, "STATIC_URL": STATIC_URL, "LANGUAGE_BIDI": True},
+    {"fonts_cdn_url": FONTS_CDN_URL, "STATIC_URL": STATIC_URL, "LANGUAGE_BIDI": False},
+]
+
 # Require login for all URLs
 if REQUIRE_LOGIN:
     LOGIN_REQUIRED_URLS = (r"/(.*)$",)
@@ -849,7 +865,6 @@ CELERY_WORKER_MAX_MEMORY_PER_CHILD = 200000
 CELERY_BEAT_SCHEDULE_FILENAME = os.path.join(DATA_DIR, "celery", "beat-schedule")
 CELERY_TASK_ROUTES = {
     "weblate.trans.tasks.auto_translate": {"queue": "translate"},
-    "weblate.memory.tasks.*": {"queue": "memory"},
     "weblate.accounts.tasks.notify_*": {"queue": "notify"},
     "weblate.accounts.tasks.send_mails": {"queue": "notify"},
     "weblate.utils.tasks.settings_backup": {"queue": "backup"},

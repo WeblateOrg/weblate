@@ -251,7 +251,7 @@ def verify_username(strategy, backend, details, username, user=None, **kwargs):
     """
     if user or not username:
         return
-    if User.objects.filter(username__iexact=username).exists():
+    if User.objects.filter(username=username).exists():
         raise AuthAlreadyAssociated(backend, "Username exists")
     return
 
@@ -293,7 +293,7 @@ def ensure_valid(
         if strategy.request.user.is_authenticated:
             messages.warning(
                 strategy.request,
-                _("You can not complete password reset while signed in!"),
+                _("You can not complete password reset while signed in."),
             )
             messages.warning(
                 strategy.request, _("The registration link has been invalidated.")
@@ -311,12 +311,12 @@ def ensure_valid(
         if registering_user is None:
             messages.warning(
                 strategy.request,
-                _("You can not complete registration while signed in!"),
+                _("You can not complete registration while signed in."),
             )
         else:
             messages.warning(
                 strategy.request,
-                _("You can confirm your registration only while signed in!"),
+                _("You can confirm your registration only while signed in."),
             )
         messages.warning(
             strategy.request, _("The registration link has been invalidated.")
@@ -327,7 +327,7 @@ def ensure_valid(
     # Verify if this mail is not used on other accounts
     # Vendasta auth allows for multiple email objects to exist
     if new_association and not isinstance(backend, VendastaOpenIdConnect):
-        same = VerifiedEmail.objects.filter(email=details["email"])
+        same = VerifiedEmail.objects.filter(email__iexact=details["email"])
         if user:
             same = same.exclude(social__user=user)
 

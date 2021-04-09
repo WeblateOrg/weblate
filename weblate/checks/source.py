@@ -77,7 +77,7 @@ class MultipleFailingCheck(SourceCheck):
 class LongUntranslatedCheck(SourceCheck):
     check_id = "long_untranslated"
     name = _("Long untranslated")
-    description = _("The string was not translated for a long time")
+    description = _("The string has not been translated for a long time")
 
     def check_source_unit(self, source, unit):
         from weblate.trans.models import Unit
@@ -91,4 +91,8 @@ class LongUntranslatedCheck(SourceCheck):
         )
         total = len(states)
         not_translated = states.count(STATE_EMPTY) + states.count(STATE_FUZZY)
-        return total and not_translated > total / 4
+        translated_percent = 100 * (total - not_translated) / total
+        return (
+            total
+            and translated_percent < unit.translation.component.stats.translated_percent
+        )

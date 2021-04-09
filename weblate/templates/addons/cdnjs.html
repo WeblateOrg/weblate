@@ -1,0 +1,14 @@
+{% load i18n %}
+{% load icons %}
+
+<div class="form-group">
+  <label>{% trans "Integration instructions" %}</label>
+
+  <p>{% trans "Include following snippet to load the localization from the CDN:" %}</p>
+  <code>
+  <button type="button" class="btn btn-link btn-xs pull-right flip" data-clipboard-text='&lt;script src="{{ url }}" async&gt;&lt;/script&gt;' title="{% trans "Copy to clipboard" %}">{% icon "copy.svg" %}</button>
+  &lt;script src="{{ url }}" async&gt;&lt;/script&gt;
+  </code>
+
+  <p>{% trans 'The localizable elements have to match configured CSS selector.' %}</p>
+</div>

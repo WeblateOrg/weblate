@@ -18,7 +18,7 @@
 <p>{% blocktrans with error_id=sentry_event_id %}If you need assistance, you may reference this error as {{ error_id }}.{% endblocktrans %}</p>
 
 {% if sentry_dsn %}
-<script src="{% static "js/sentry.js" %}"></script>
+<script src="{% static "vendor/sentry.js" %}"></script>
 
 <script>
   Sentry.init({ dsn: '{{ sentry_dsn }}' });

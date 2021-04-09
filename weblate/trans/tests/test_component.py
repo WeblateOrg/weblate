@@ -216,10 +216,10 @@ class ComponentTest(RepoTestCase):
         # Verify source strings are loaded from correct file
         translation = component.translation_set.get(language_code="cs")
         self.assertEqual(
-            translation.unit_set.get(context=".hello").source, "Hello, world!\n"
+            translation.unit_set.get(context="hello").source, "Hello, world!\n"
         )
         self.assertEqual(
-            translation.unit_set.get(context=".thanks").source,
+            translation.unit_set.get(context="thanks").source,
             "Thank you for using Weblate.",
         )
 
@@ -232,10 +232,10 @@ class ComponentTest(RepoTestCase):
         )
         translation = component.translation_set.get(language_code="cs")
         self.assertEqual(
-            translation.unit_set.get(context=".hello").source, "Hello world!\n"
+            translation.unit_set.get(context="hello").source, "Hello world!\n"
         )
         self.assertEqual(
-            translation.unit_set.get(context=".thanks").source,
+            translation.unit_set.get(context="thanks").source,
             "Thanks for using Weblate.",
         )
         component.intermediate = "intermediate/dev.json"
@@ -243,10 +243,10 @@ class ComponentTest(RepoTestCase):
         component.save()
         translation = component.translation_set.get(language_code="cs")
         self.assertEqual(
-            translation.unit_set.get(context=".hello").source, "Hello, world!\n"
+            translation.unit_set.get(context="hello").source, "Hello, world!\n"
         )
         self.assertEqual(
-            translation.unit_set.get(context=".thanks").source,
+            translation.unit_set.get(context="thanks").source,
             "Thank you for using Weblate.",
         )
 
@@ -586,6 +586,30 @@ class ComponentChangeTest(RepoTestCase):
         component.save()
         self.assertEqual(component.translation_set.count(), 4)
 
+    def test_autolock(self):
+        component = self.create_component()
+        start = component.change_set.count()
+
+        component.add_alert("MergeFailure")
+        self.assertTrue(component.locked)
+        # Locked event, alert added
+        self.assertEqual(component.change_set.count() - start, 2)
+
+        component.add_alert("UpdateFailure")
+        self.assertTrue(component.locked)
+        # No other locked event, alert added
+        self.assertEqual(component.change_set.count() - start, 3)
+
+        component.delete_alert("UpdateFailure")
+        self.assertTrue(component.locked)
+        # No other locked event
+        self.assertEqual(component.change_set.count() - start, 3)
+
+        component.delete_alert("MergeFailure")
+        self.assertFalse(component.locked)
+        # Unlocked event
+        self.assertEqual(component.change_set.count() - start, 4)
+
 
 class ComponentValidationTest(RepoTestCase):
     """Component object validation testing."""
@@ -706,12 +730,19 @@ class ComponentValidationTest(RepoTestCase):
         self.component.full_clean()
 
     def test_lang_code(self):
-        component = Component()
+        project = Project(language_aliases="xx:cs")
+        component = Component(project=project)
         component.filemask = "Solution/Project/Resources.*.resx"
+        # Pure extraction
         self.assertEqual(
             component.get_lang_code("Solution/Project/Resources.es-mx.resx"), "es-mx"
         )
+        # No match
         self.assertEqual(component.get_lang_code("Solution/Project/Resources.resx"), "")
+        # Language aliases
+        self.assertEqual(
+            component.get_lang_code("Solution/Project/Resources.xx.resx"), "cs"
+        )
         self.assertRaisesMessage(
             ValidationError,
             "The language code for "
@@ -729,7 +760,7 @@ class ComponentValidationTest(RepoTestCase):
         )
 
     def test_lang_code_double(self):
-        component = Component()
+        component = Component(project=Project())
         component.filemask = "path/*/resources/MessagesBundle_*.properties"
         self.assertEqual(
             component.get_lang_code(

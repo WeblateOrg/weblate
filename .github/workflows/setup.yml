@@ -2,27 +2,13 @@ name: Distribution
 
 on:
   push:
-    paths:
-      - weblate/**
-      - '*.py'
-      - MANIFEST.in
-      - requirements*.txt
-      - ci/*
-      - .github/workflows/setup.yml
     branches-ignore:
       - "dependabot/**"
+      - weblate
   pull_request:
-    paths:
-      - weblate/**
-      - '*.py'
-      - MANIFEST.in
-      - requirements*.txt
-      - ci/*
-      - .github/workflows/setup.yml
 
 jobs:
   setup:
-
     runs-on: ubuntu-latest
 
     strategy:
@@ -32,8 +18,8 @@ jobs:
       CI_DATABASE: ${{ matrix.database }}
       CI_DB_PASSWORD: weblate
       CI_DB_HOST: 127.0.0.1
-      CI_DB_PORT: '60000'
-      CI_SELENIUM: '1'
+      CI_DB_PORT: "60000"
+      CI_SELENIUM: "1"
       DJANGO_SETTINGS_MODULE: weblate.settings_test
 
     steps:
@@ -41,14 +27,14 @@ jobs:
       - name: Start services
         run: ./ci/services-up ${{ matrix.database }}
       - name: Cache pip
-        uses: actions/cache@v1
+        uses: actions/cache@v2.1.1
         with:
           path: ~/.cache/pip
           key: ${{ runner.os }}-pip-setup-${{ hashFiles('**/requirements*.txt') }}
       - name: Install apt dependencies
         run: sudo ./ci/apt-install
       - name: Set up Python 3.7
-        uses: actions/setup-python@v1
+        uses: actions/setup-python@v2.1.2
         with:
           python-version: 3.7
       - name: Used versions
@@ -72,22 +58,22 @@ jobs:
         run: ./ci/services-down ${{ matrix.database }}
 
   dist:
-
     runs-on: ubuntu-latest
     env:
       DJANGO_SETTINGS_MODULE: weblate.settings_test
       CI_DATABASE: postgresql
+      PYTHONWARNINGS: default,ignore:unclosed:ResourceWarning
 
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/cache@v1
+      - uses: actions/cache@v2.1.1
         with:
           path: ~/.cache/pip
           key: ${{ runner.os }}-pip-setup-${{ hashFiles('**/requirements*.txt') }}
       - name: Install apt dependencies
         run: sudo ./ci/apt-install
       - name: Setup Python
-        uses: actions/setup-python@v1
+        uses: actions/setup-python@v2.1.2
         with:
           python-version: 3.8
       - name: Install pip dependencies

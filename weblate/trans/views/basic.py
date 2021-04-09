@@ -28,7 +28,7 @@ from django.utils.safestring import mark_safe
 from django.utils.translation import gettext as _
 from django.views.decorators.cache import never_cache
 
-from weblate.formats.exporters import list_exporters
+from weblate.formats.models import EXPORTERS
 from weblate.lang.models import Language
 from weblate.trans.forms import (
     AnnouncementForm,
@@ -181,7 +181,7 @@ def show_project(request, project):
             "last_announcements": last_announcements,
             "reports_form": ReportsForm(),
             "last_changes_url": urlencode({"project": obj.slug}),
-            "language_stats": language_stats,
+            "language_stats": [stat.obj or stat for stat in language_stats],
             "search_form": SearchForm(request.user),
             "announcement_form": optional_form(
                 AnnouncementForm, user, "project.edit", obj
@@ -304,6 +304,7 @@ def show_translation(request, project, component, lang):
 
     search_form = SearchForm(request.user)
 
+    # Translations to same language from other components in this project
     other_translations = prefetch_stats(
         list(
             Translation.objects.prefetch()
@@ -312,14 +313,20 @@ def show_translation(request, project, component, lang):
         )
     )
 
-    # Include ghost translations for other components
+    # Include ghost translations for other components, this
+    # adds quick way to create translations in other components
     existing = {translation.component.slug for translation in other_translations}
     existing.add(obj.component.slug)
-    for component in obj.component.project.component_set.filter_access(user).exclude(
-        slug__in=existing
-    ):
-        if component.can_add_new_language(user):
-            other_translations.append(GhostTranslation(component, obj.language))
+    for test_component in obj.component.project.component_set.filter_access(
+        user
+    ).exclude(slug__in=existing):
+        if test_component.can_add_new_language(user):
+            other_translations.append(GhostTranslation(test_component, obj.language))
+
+    # Limit the number of other components displayed to 10, preferring untranslated ones
+    other_translations = sorted(
+        other_translations, key=lambda t: t.stats.translated_percent
+    )[:10]
 
     return render(
         request,
@@ -357,7 +364,7 @@ def show_translation(request, project, component, lang):
             "last_changes": last_changes,
             "last_changes_url": urlencode(obj.get_reverse_url_kwargs()),
             "other_translations": other_translations,
-            "exporters": list_exporters(obj),
+            "exporters": EXPORTERS.list_exporters(obj),
         },
     )
 

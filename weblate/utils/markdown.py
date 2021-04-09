@@ -36,7 +36,7 @@ def get_mention_users(text):
     if not matches:
         return User.objects.none()
     return User.objects.filter(
-        reduce(lambda acc, x: acc | Q(username__iexact=x[1:]), matches, Q())
+        reduce(lambda acc, x: acc | Q(username=x[1:]), matches, Q())
     )
 
 

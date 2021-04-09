@@ -271,10 +271,10 @@ LICENSES = (
         True,
     ),
     (
-        "BSD-2-Clause-FreeBSD",
-        "BSD 2-Clause FreeBSD License",
+        "BSD-2-Clause-Views",
+        "BSD 2-Clause with views sentence",
         "http://www.freebsd.org/copyright/freebsd-license.html",
-        True,
+        False,
     ),
     (
         "BSD-3-Clause",
@@ -543,6 +543,12 @@ LICENSES = (
         False,
     ),
     (
+        "CC-BY-3.0-AT",
+        "Creative Commons Attribution 3.0 Austria",
+        "https://creativecommons.org/licenses/by/3.0/at/legalcode",
+        False,
+    ),
+    (
         "CC-BY-3.0",
         "Creative Commons Attribution 3.0 Unported",
         "https://creativecommons.org/licenses/by/3.0/legalcode",
@@ -633,6 +639,12 @@ LICENSES = (
         False,
     ),
     (
+        "CC-BY-NC-ND-3.0-IGO",
+        "Creative Commons Attribution Non Commercial No Derivatives 3.0 IGO",
+        "https://creativecommons.org/licenses/by-nc-nd/3.0/igo/legalcode",
+        False,
+    ),
+    (
         "CC-BY-NC-ND-3.0",
         "Creative Commons Attribution Non Commercial No Derivatives 3.0 Unported",
         "https://creativecommons.org/licenses/by-nc-nd/3.0/legalcode",
@@ -705,6 +717,12 @@ LICENSES = (
         True,
     ),
     (
+        "CC-BY-SA-3.0-AT",
+        "Creative Commons Attribution-Share Alike 3.0 Austria",
+        "https://creativecommons.org/licenses/by-sa/3.0/at/legalcode",
+        False,
+    ),
+    (
         "CC-PDDC",
         "Creative Commons Public Domain Dedication and Certification",
         "https://creativecommons.org/licenses/publicdomain/",
@@ -768,7 +786,7 @@ LICENSES = (
     (
         "WTFPL",
         "Do What The F*ck You Want To Public License",
-        "http://sam.zoy.org/wtfpl/COPYING",
+        "http://www.wtfpl.net/about/",
         True,
     ),
     ("DOC", "DOC License", "http://www.cs.wustl.edu/~schmidt/ACE-copying.html", False),
@@ -845,6 +863,7 @@ LICENSES = (
         "https://opensource.org/licenses/Entessa",
         True,
     ),
+    ("EPICS", "EPICS Open License", "https://epics.anl.gov/license/open.php", False),
     (
         "ErlPL-1.1",
         "Erlang Public License v1.1",
@@ -962,10 +981,34 @@ LICENSES = (
         True,
     ),
     (
+        "GFDL-1.1-invariants-only",
+        "GNU Free Documentation License v1.1 only - invariants",
+        "https://www.gnu.org/licenses/old-licenses/fdl-1.1.txt",
+        False,
+    ),
+    (
+        "GFDL-1.1-no-invariants-only",
+        "GNU Free Documentation License v1.1 only - no invariants",
+        "https://www.gnu.org/licenses/old-licenses/fdl-1.1.txt",
+        False,
+    ),
+    (
         "GFDL-1.1-or-later",
         "GNU Free Documentation License v1.1 or later",
         "https://www.gnu.org/licenses/old-licenses/fdl-1.1.txt",
         True,
+    ),
+    (
+        "GFDL-1.1-invariants-or-later",
+        "GNU Free Documentation License v1.1 or later - invariants",
+        "https://www.gnu.org/licenses/old-licenses/fdl-1.1.txt",
+        False,
+    ),
+    (
+        "GFDL-1.1-no-invariants-or-later",
+        "GNU Free Documentation License v1.1 or later - no invariants",
+        "https://www.gnu.org/licenses/old-licenses/fdl-1.1.txt",
+        False,
     ),
     (
         "GFDL-1.2-only",
@@ -974,10 +1017,34 @@ LICENSES = (
         True,
     ),
     (
+        "GFDL-1.2-invariants-only",
+        "GNU Free Documentation License v1.2 only - invariants",
+        "https://www.gnu.org/licenses/old-licenses/fdl-1.2.txt",
+        False,
+    ),
+    (
+        "GFDL-1.2-no-invariants-only",
+        "GNU Free Documentation License v1.2 only - no invariants",
+        "https://www.gnu.org/licenses/old-licenses/fdl-1.2.txt",
+        False,
+    ),
+    (
         "GFDL-1.2-or-later",
         "GNU Free Documentation License v1.2 or later",
         "https://www.gnu.org/licenses/old-licenses/fdl-1.2.txt",
         True,
+    ),
+    (
+        "GFDL-1.2-invariants-or-later",
+        "GNU Free Documentation License v1.2 or later - invariants",
+        "https://www.gnu.org/licenses/old-licenses/fdl-1.2.txt",
+        False,
+    ),
+    (
+        "GFDL-1.2-no-invariants-or-later",
+        "GNU Free Documentation License v1.2 or later - no invariants",
+        "https://www.gnu.org/licenses/old-licenses/fdl-1.2.txt",
+        False,
     ),
     (
         "GFDL-1.3-only",
@@ -986,10 +1053,34 @@ LICENSES = (
         True,
     ),
     (
+        "GFDL-1.3-invariants-only",
+        "GNU Free Documentation License v1.3 only - invariants",
+        "https://www.gnu.org/licenses/fdl-1.3.txt",
+        False,
+    ),
+    (
+        "GFDL-1.3-no-invariants-only",
+        "GNU Free Documentation License v1.3 only - no invariants",
+        "https://www.gnu.org/licenses/fdl-1.3.txt",
+        False,
+    ),
+    (
         "GFDL-1.3-or-later",
         "GNU Free Documentation License v1.3 or later",
         "https://www.gnu.org/licenses/fdl-1.3.txt",
         True,
+    ),
+    (
+        "GFDL-1.3-invariants-or-later",
+        "GNU Free Documentation License v1.3 or later - invariants",
+        "https://www.gnu.org/licenses/fdl-1.3.txt",
+        False,
+    ),
+    (
+        "GFDL-1.3-no-invariants-or-later",
+        "GNU Free Documentation License v1.3 or later - no invariants",
+        "https://www.gnu.org/licenses/fdl-1.3.txt",
+        False,
     ),
     (
         "GPL-1.0-only",
@@ -1068,6 +1159,12 @@ LICENSES = (
         "gnuplot License",
         "https://fedoraproject.org/wiki/Licensing/Gnuplot",
         True,
+    ),
+    (
+        "GLWTPL",
+        "Good Luck With That Public License",
+        "https://github.com/me-shaon/GLWTPL/commit/da5f6bc734095efbacb442c0b31e33a65b9d6e85",
+        False,
     ),
     (
         "gSOAP-1.3b",
@@ -1415,6 +1512,18 @@ LICENSES = (
         "Newsletr",
         "Newsletr License",
         "https://fedoraproject.org/wiki/Licensing/Newsletr",
+        False,
+    ),
+    (
+        "NIST-PD",
+        "NIST Public Domain Notice",
+        "https://github.com/tcheneau/simpleRPL/blob/e645e69e38dd4e3ccfeceb2db8cba05b7c2e0cd3/LICENSE.txt",
+        False,
+    ),
+    (
+        "NIST-PD-fallback",
+        "NIST Public Domain Notice with license fallback",
+        "https://github.com/usnistgov/jsip/blob/59700e6926cbe96c5cdae897d9a7d2656b42abe3/LICENSE",
         False,
     ),
     (
@@ -1774,7 +1883,7 @@ LICENSES = (
     ),
     (
         "RSA-MD",
-        "RSA Message-Digest License ",
+        "RSA Message-Digest License",
         "http://www.faqs.org/rfcs/rfc1321.html",
         False,
     ),

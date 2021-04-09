@@ -43,7 +43,7 @@ class Migration(migrations.Migration):
                         max_length=150,
                         unique=True,
                         validators=[weblate.utils.validators.validate_username],
-                        verbose_name="username",
+                        verbose_name="Username",
                     ),
                 ),
                 (
@@ -66,8 +66,8 @@ class Migration(migrations.Migration):
                     "is_superuser",
                     models.BooleanField(
                         default=False,
-                        help_text="User has all permissions without having been given them.",
-                        verbose_name="superuser status",
+                        help_text="User has all possible permissions.",
+                        verbose_name="Superuser status",
                     ),
                 ),
                 (
@@ -75,7 +75,7 @@ class Migration(migrations.Migration):
                     models.BooleanField(
                         default=True,
                         help_text="Mark user as inactive instead of removing.",
-                        verbose_name="active",
+                        verbose_name="Active",
                     ),
                 ),
                 (

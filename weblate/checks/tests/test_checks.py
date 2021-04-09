@@ -82,6 +82,7 @@ class MockUnit:
         self.readonly = False
         self.state = 20
         self.note = note
+        self.check_cache = {}
 
     @property
     def all_flags(self):
@@ -89,6 +90,10 @@ class MockUnit:
 
     def get_source_plurals(self):
         return [self.source]
+
+    @property
+    def source_string(self):
+        return self.source
 
 
 class CheckTestCase(SimpleTestCase):

@@ -31,11 +31,12 @@ from django.utils.translation import gettext_lazy
 from weblate.lang.models import Language, get_english_lang
 from weblate.memory.tasks import import_memory
 from weblate.trans.defines import PROJECT_NAME_LENGTH
-from weblate.trans.mixins import PathMixin, URLMixin
+from weblate.trans.mixins import CacheKeyMixin, PathMixin, URLMixin
 from weblate.utils.data import data_dir
 from weblate.utils.db import FastDeleteMixin
 from weblate.utils.site import get_site_url
 from weblate.utils.stats import ProjectStats
+from weblate.utils.validators import validate_language_aliases, validate_slug
 
 
 class ProjectQuerySet(models.QuerySet):
@@ -60,7 +61,7 @@ def prefetch_project_flags(projects):
     return projects
 
 
-class Project(FastDeleteMixin, models.Model, URLMixin, PathMixin):
+class Project(FastDeleteMixin, models.Model, URLMixin, PathMixin, CacheKeyMixin):
     ACCESS_PUBLIC = 0
     ACCESS_PROTECTED = 1
     ACCESS_PRIVATE = 100
@@ -84,6 +85,7 @@ class Project(FastDeleteMixin, models.Model, URLMixin, PathMixin):
         unique=True,
         max_length=PROJECT_NAME_LENGTH,
         help_text=gettext_lazy("Name used in URLs and filenames."),
+        validators=[validate_slug],
     )
     web = models.URLField(
         verbose_name=gettext_lazy("Project website"),
@@ -157,6 +159,17 @@ class Project(FastDeleteMixin, models.Model, URLMixin, PathMixin):
         default=get_english_lang,
         on_delete=models.deletion.CASCADE,
     )
+    language_aliases = models.CharField(
+        max_length=200,
+        verbose_name=gettext_lazy("Language aliases"),
+        default="",
+        blank=True,
+        help_text=gettext_lazy(
+            "Comma-separated list of language code mappings, "
+            "for example: en_GB:en,en_US:en"
+        ),
+        validators=[validate_language_aliases],
+    )
 
     is_lockable = True
     _reverse_url_name = "project"
@@ -172,7 +185,7 @@ class Project(FastDeleteMixin, models.Model, URLMixin, PathMixin):
         return self.name
 
     def save(self, *args, **kwargs):
-        from weblate.trans.tasks import perform_load, component_alerts
+        from weblate.trans.tasks import component_alerts, perform_load
 
         update_tm = self.contribute_shared_tm
 
@@ -193,6 +206,10 @@ class Project(FastDeleteMixin, models.Model, URLMixin, PathMixin):
             update_tm = self.contribute_shared_tm and not old.contribute_shared_tm
 
         self.create_path()
+
+        if old is not None and old.source_language != self.source_language:
+            for component in old.component_set.iterator():
+                component.commit_pending("language change", None)
 
         super().save(*args, **kwargs)
 
@@ -216,6 +233,15 @@ class Project(FastDeleteMixin, models.Model, URLMixin, PathMixin):
         self.old_access_control = self.access_control
         self.stats = ProjectStats(self)
 
+    @cached_property
+    def language_aliases_dict(self):
+        if not self.language_aliases:
+            return {}
+        return dict(part.split(":") for part in self.language_aliases.split(","))
+
+    def get_group(self, group):
+        return self.group_set.get(name="{0}{1}".format(self.name, group))
+
     def add_user(self, user, group=None):
         """Add user based on username or email address."""
         if group is None:
@@ -223,7 +249,7 @@ class Project(FastDeleteMixin, models.Model, URLMixin, PathMixin):
                 group = "@Translate"
             else:
                 group = "@Administration"
-        group = self.group_set.get(name="{0}{1}".format(self.name, group))
+        group = self.get_group(group)
         user.groups.add(group)
         user.profile.watched.add(self)
 
@@ -233,7 +259,7 @@ class Project(FastDeleteMixin, models.Model, URLMixin, PathMixin):
             groups = self.group_set.filter(internal=True, name__contains="@")
             user.groups.remove(*groups)
         else:
-            group = self.group_set.get(name="{0}{1}".format(self.name, group))
+            group = self.get_group(group)
             user.groups.remove(group)
 
     def get_reverse_url_kwargs(self):

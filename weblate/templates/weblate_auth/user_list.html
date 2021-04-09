@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load crispy_forms_tags %}
+
+{% block breadcrumbs %}
+<li><a href="{% url "user_list" %}">{% trans "Users" %}</a></li>
+{% endblock %}
+
+{% block content %}
+
+<form method="GET" class="result-page-form">
+{% crispy form %}
+</form>
+
+<div class="user-list">
+{% for object in object_list %}
+    <a href="{{ object.get_absolute_url }}">
+        <img class="avatar w128" src="{% url 'user_avatar' user=object.username size=128 %}" alt="{% trans "User avatar" %}" />
+        <h4>{{ object }}</h4>
+        <span class="middle-dot-divider">@{{ object.username }}</span>
+    </a>
+{% endfor %}
+</div>
+
+{% include "paginator.html" %}
+
+{% endblock %}

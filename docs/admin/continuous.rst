@@ -278,16 +278,18 @@ Overall, following options are available with Git, GitHub and GitLab:
 +-----------------------------------+-------------------------------+-------------------------------+-------------------------------+
 | Push directly                     | :ref:`vcs-git`                | SSH URL                       | `empty`                       |
 +-----------------------------------+-------------------------------+-------------------------------+-------------------------------+
-| Push to separate brach            | :ref:`vcs-git`                | SSH URL                       | Branch name                   |
+| Push to separate branch           | :ref:`vcs-git`                | SSH URL                       | Branch name                   |
 +-----------------------------------+-------------------------------+-------------------------------+-------------------------------+
 | GitHub pull request from fork     | :ref:`vcs-github`             | `empty`                       | `empty`                       |
 +-----------------------------------+-------------------------------+-------------------------------+-------------------------------+
-| GitHub pull request from branch   | :ref:`vcs-github`             | `empty`                       | Branch name                   |
+| GitHub pull request from branch   | :ref:`vcs-github`             | SSH URL [#empty]_             | Branch name                   |
 +-----------------------------------+-------------------------------+-------------------------------+-------------------------------+
 | GitLab merge request from fork    | :ref:`vcs-gitlab`             | `empty`                       | `empty`                       |
 +-----------------------------------+-------------------------------+-------------------------------+-------------------------------+
-| GitLab merge request from barnch  | :ref:`vcs-gitlab`             | `empty`                       | Branch name                   |
+| GitLab merge request from branch  | :ref:`vcs-gitlab`             | SSH URL [#empty]_             | Branch name                   |
 +-----------------------------------+-------------------------------+-------------------------------+-------------------------------+
+
+.. [#empty] Can be empty in case :ref:`component-repo` supports pushing.
 
 
 .. note::
@@ -305,7 +307,7 @@ Protected branches
 
 If you are using Weblate on protected branch, you can configure it to use pull
 requests and perform actual review on the translations (what might be
-problematic for languages you do not know). Alternative approach is to to waive
+problematic for languages you do not know). An alternative approach is to waive
 this limitation for the Weblate push user.
 
 For example on GitHub this can be done in the repository configuration:
@@ -320,7 +322,7 @@ Merge or rebase
 By default, Weblate merges the upstream repository into its own. This is the safest way
 in case you also access the underlying repository by other means. In case you don't
 need this, you can enable rebasing of changes on upstream, which will produce
-history with fewer merge commits.
+a history with fewer merge commits.
 
 .. note::
 
@@ -366,7 +368,6 @@ can schedule a regular task to perform a commit:
 
 .. literalinclude:: ../../weblate/examples/beat-settings.py
     :language: python
-    :encoding: utf-8
 
 .. _processing:
 

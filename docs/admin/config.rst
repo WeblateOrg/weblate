@@ -61,7 +61,7 @@ Maximum number of failed authentication attempts before rate limiting is applied
 
 This is currently applied in the following locations:
 
-* Logins. Deletes the account password, preventing the user from loggin in
+* Logins. Deletes the account password, preventing the user from signing in
   without requesting a new password.
 * Password resets. Prevents new e-mails from being sent, avoiding spamming
   users with too many password reset attempts.
@@ -115,10 +115,10 @@ Prefix for constructing avatar URLs as:
 ``${AVATAR_URL_PREFIX}/avatar/${MAIL_HASH}?${PARAMS}``.
 The following services are known to work:
 
-Gravatar (default), see https://gravatar.com/
+Gravatar (default), as per https://gravatar.com/
     ``AVATAR_URL_PREFIX = 'https://www.gravatar.com/'``
-Libravatar, see https://www.libravatar.org/
-   ``AVATAR_URL_PREFIX = 'https://seccdn.libravatar.org/'``
+Libravatar, as per https://www.libravatar.org/
+   ``AVATAR_URL_PREFIX = 'https://www.libravatar.org/'``
 
 .. seealso::
 
@@ -134,8 +134,7 @@ AUTH_TOKEN_VALID
 .. versionadded:: 2.14
 
 How long the authentication token and temporary password from password reset e-mails is valid for.
-
-An amount of seconds defaulting to 172800 (2 days).
+Set in number of seconds, defaulting to 172800 (2 days).
 
 
 AUTH_PASSWORD_DAYS
@@ -166,7 +165,7 @@ List of automatic fixes to apply when saving a string.
 Available fixes:
 
 ``weblate.trans.autofixes.whitespace.SameBookendingWhitespace``
-    Matches whitespace at the strt and end of the string to the source.
+    Matches whitespace at the start and end of the string to the source.
 ``weblate.trans.autofixes.chars.ReplaceTrailingDotsWithEllipsis``
     Replaces trailing dots (...) if the source string has ellipsis (…).
 ``weblate.trans.autofixes.chars.RemoveZeroSpace``
@@ -201,6 +200,33 @@ Used to derive several other paths by default:
 
 Default value: Top level directory of Weblate sources.
 
+.. setting:: CSP_SCRIPT_SRC
+.. setting:: CSP_IMG_SRC
+.. setting:: CSP_CONNECT_SRC
+.. setting:: CSP_STYLE_SRC
+.. setting:: CSP_FONT_SRC
+
+CSP_SCRIPT_SRC, CSP_IMG_SRC, CSP_CONNECT_SRC, CSP_STYLE_SRC, CSP_FONT_SRC
+-------------------------------------------------------------------------
+
+Customize ``Content-Security-Policy`` header for Weblate. The header is
+automatically generated based on enabled integrations with third-party services
+(Matomo, Google Analytics, Sentry, ...).
+
+All these default to empty list.
+
+** Example:: **
+
+.. code-block:: python
+
+    # Enable Cloudflare Javascript optimizations
+    CSP_SCRIPT_SRC = ["ajax.cloudflare.com"]
+
+.. seealso::
+
+    :ref:`csp`,
+    `Content Security Policy (CSP) <https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP>`_
+
 .. setting:: CHECK_LIST
 
 CHECK_LIST
@@ -213,11 +239,11 @@ List of quality checks to perform on a translation.
     Provide a fully-qualified path to the Python class implementing the check
     interface.
 
-Adjust the list list of checks to include the ones you want to have performed.
+Adjust the list of checks to include ones relevant to you.
 
-All built-in quality :ref:`checks` are turned on by default, from
-where you can change these settings. They are also commented out in :ref:`sample-configuration`
-to use default values, which is to have new checks carried out when going to a new Weblate version.
+All built-in :ref:`checks` are turned on by default, from
+where you can change these settings. By default they are commented out in :ref:`sample-configuration`
+so that default values are used. New checks then carried out for each new Weblate version.
 
 You can turn off all checks:
 
@@ -262,7 +288,7 @@ COMMIT_PENDING_HOURS
 
 .. versionadded:: 2.10
 
-Number of hours between committing pending changes with background task.
+Number of hours between committing pending changes by way of the background task.
 
 .. seealso::
 
@@ -276,7 +302,7 @@ Number of hours between committing pending changes with background task.
 DATA_DIR
 --------
 
-The folder Weblate stores all data in. it contains links to VCS repositories,
+The folder Weblate stores all data in. It contains links to VCS repositories,
 a fulltext index and various configuration files for external tools.
 
 The following subdirectories usually exist:
@@ -292,11 +318,11 @@ The following subdirectories usually exist:
 :file:`vcs`
     Version control repositories.
 :file:`backups`
-    Daily backup data, see :ref:`backup-dumps`.
+    Daily backup data, please check :ref:`backup-dumps` for details.
 
 .. note::
 
-    This directory has to be writable by Weblate. If if running it as uWSGI means
+    This directory has to be writable by Weblate. Running it as uWSGI means
     the ``www-data`` user should have write access to it.
 
     The easiest way to achieve this is to make the user the owner of the directory:
@@ -348,7 +374,7 @@ The default access control setting for new projects:
 ``200``
    :guilabel:`Custom`
 
-Use :guilabel:`Custom` if you managing ACL manually, which means not realying
+Use :guilabel:`Custom` if you are managing ACL manually, which means not relying
 on the internal Weblate management.
 
 .. seealso::
@@ -381,7 +407,7 @@ The default value for component restriction.
 DEFAULT_ADD_MESSAGE, DEFAULT_ADDON_MESSAGE, DEFAULT_COMMIT_MESSAGE, DEFAULT_DELETE_MESSAGE, DEFAULT_MERGE_MESSAGE
 -----------------------------------------------------------------------------------------------------------------
 
-Default commit messages for different operations, see :ref:`component`.
+Default commit messages for different operations, please check :ref:`component` for details.
 
 
 .. seealso::
@@ -447,7 +473,7 @@ DEFAULT_COMMITER_NAME
 
 .. versionadded:: 2.4
 
-Committer name for created translation components defualting to ``Weblate``.
+Committer name for created translation components defaulting to ``Weblate``.
 
 .. seealso::
 
@@ -499,7 +525,7 @@ defaulting to ``'Update from Weblate'``.
 ENABLE_AVATARS
 --------------
 
-Whether to enable Gravatar based avatars for users. By default this is enabled.
+Whether to turn on Gravatar-based avatars for users. By default this is on.
 
 Avatars are fetched and cached on the server, lowering the risk of
 leaking private info, speeding up the user experience.
@@ -546,7 +572,7 @@ e-mails and generated absolute URLs.
 ENABLE_SHARING
 --------------
 
-Enable/disable the Share menu so users can share translation progress on social networks.
+Turn on/off the :guilabel:`Share` menu so users can share translation progress on social networks.
 
 .. setting:: GITLAB_USERNAME
 
@@ -605,9 +631,13 @@ IP_BEHIND_REVERSE_PROXY
 
 Indicates whether Weblate is running behind a reverse proxy.
 
-If set to "True", Weblate gets IP address from a header defined by :setting:`IP_BEHIND_REVERSE_PROXY`.
-Ensure you are actually using a reverse proxy and that it sets this header,
-otherwise users will be able to fake the IP address.
+If set to ``True``, Weblate gets IP address from a header defined by
+:setting:`IP_PROXY_HEADER`.
+
+.. warning::
+
+   Ensure you are actually using a reverse proxy and that it sets this header,
+   otherwise users will be able to fake the IP address.
 
 .. note::
 
@@ -615,8 +645,10 @@ otherwise users will be able to fake the IP address.
 
 .. seealso::
 
+    :ref:`reverse-proxy`,
     :ref:`rate-limit`,
-    :ref:`rate-ip`
+    :setting:`IP_PROXY_HEADER`,
+    :setting:`IP_PROXY_OFFSET`
 
 .. setting:: IP_PROXY_HEADER
 
@@ -632,8 +664,11 @@ Defaults to ``HTTP_X_FORWARDED_FOR``.
 
 .. seealso::
 
+    :ref:`reverse-proxy`,
     :ref:`rate-limit`,
-    :ref:`rate-ip`
+    :setting:`django:SECURE_PROXY_SSL_HEADER`,
+    :setting:`IP_BEHIND_REVERSE_PROXY`,
+    :setting:`IP_PROXY_OFFSET`
 
 .. setting:: IP_PROXY_OFFSET
 
@@ -642,7 +677,7 @@ IP_PROXY_OFFSET
 
 .. versionadded:: 2.14
 
-Indicates which part of :setting:`IP_BEHIND_REVERSE_PROXY` is used as client IP
+Indicates which part of :setting:`IP_PROXY_HEADER` is used as client IP
 address.
 
 Depending on your setup, this header might consist of several IP addresses,
@@ -658,8 +693,11 @@ Defaults to 0.
 
 .. seealso::
 
+    :ref:`reverse-proxy`,
     :ref:`rate-limit`,
-    :ref:`rate-ip`
+    :setting:`django:SECURE_PROXY_SSL_HEADER`,
+    :setting:`IP_BEHIND_REVERSE_PROXY`,
+    :setting:`IP_PROXY_HEADER`
 
 .. setting:: LEGAL_URL
 
@@ -673,7 +711,7 @@ URL where your Weblate instance shows its legal documents.
 .. hint::
 
     Useful if you host your legal documents outside Weblate for embedding them inside Weblate,
-    please see :ref:`legal`.
+    please check :ref:`legal` for details.
 
 Example:
 
@@ -698,9 +736,9 @@ For example:
 
     LICENSE_EXTRA = [
         (
-            "GPL-3.0-only",
-            "GNU General Public License v3.0 only",
-            "https://www.gnu.org/licenses/gpl-3.0-standalone.html",
+            "AGPL-3.0",
+            "GNU Affero General Public License v3.0",
+            "https://www.gnu.org/licenses/agpl-3.0-standalone.html",
         ),
     ]
 
@@ -719,7 +757,7 @@ For example:
 
 .. code-block:: python
 
-    LICENSE_FILTER = {"GPL-3.0-only", "GPL-3.0-or-later"}
+    LICENSE_FILTER = {"AGPL-3.0", "GPL-3.0-or-later"}
 
 .. setting:: LICENSE_REQUIRED
 
@@ -747,6 +785,25 @@ The restriction is the length of the source string * 10 characters.
 .. note::
 
     Defaults to ``True``.
+
+.. setting:: LOCALIZE_CDN_URL
+.. setting:: LOCALIZE_CDN_PATH
+
+LOCALIZE_CDN_URL and LOCALIZE_CDN_PATH
+--------------------------------------
+
+These settings configure the :ref:`addon-weblate.cdn.cdnjs` addon.
+:setting:`LOCALIZE_CDN_URL` defines root URL where the localization CDN is
+available and :setting:`LOCALIZE_CDN_PATH` defines path where Weblate should
+store generated files which will be served at the :setting:`LOCALIZE_CDN_URL`.
+
+.. hint::
+
+   On Hosted Weblate, this uses ``https://weblate-cdn.com/``.
+
+.. seealso::
+
+   :ref:`addon-weblate.cdn.cdnjs`
 
 .. setting:: LOGIN_REQUIRED_URLS
 
@@ -817,8 +874,7 @@ MATOMO_URL
 ----------
 
 Full URL (including trailing slash) of a Matomo (formerly Piwik) installation you want
-to use to track Weblate use. For more info about Matomo, see
-<https://matomo.org/>.
+to use to track Weblate use. Please check <https://matomo.org/> for more details.
 
 .. hint::
 
@@ -882,7 +938,7 @@ List of enabled machine translation services to use.
 MT_APERTIUM_APY
 ---------------
 
-URL of the Apertium-APy server, see http://wiki.apertium.org/wiki/Apertium-apy
+URL of the Apertium-APy server, https://wiki.apertium.org/wiki/Apertium-apy
 
 .. seealso::
 
@@ -953,14 +1009,14 @@ MT_DEEPL_API_VERSION
 API version to use with DeepL service. The version limits scope of usage:
 
 v1
-    Is meant for CAT tools and is usable with user based suscription.
+    Is meant for CAT tools and is usable with user-based subscription.
 v2
     Is meant for API usage and the subscription is usage based.
 
 Previously Weblate was classified as a CAT tool by DeepL, so it was supposed to
-use v1 API, but now it is not classified that way and is supposed to use v2
-API. Therefore it defaults to v2, you can change it to v1 in case you have
-existing CAT subscription and want Weblate to use that.
+use the v1 API, but now is supposed to use the v2 API.
+Therefore it defaults to v2, and you can change it to v1 in case you have
+an existing CAT subscription and want Weblate to use that.
 
 .. seealso::
 
@@ -993,17 +1049,17 @@ API key for Google Translate API v2, you can register at https://cloud.google.co
 MT_GOOGLE_CREDENTIALS
 ---------------------
 
-API v3 json credentials file obtained in Google cloud console. Please provide full OS path.
+API v3 JSON credentials file obtained in the Google cloud console. Please provide a full OS path.
 Credentials are per service-account affiliated with certain project.
-See https://cloud.google.com/docs/authentication/getting-started
+Please check https://cloud.google.com/docs/authentication/getting-started for more details.
 
 .. setting:: MT_GOOGLE_PROJECT
 
 MT_GOOGLE_PROJECT
 -----------------
 
-API v3 Google cloud `project id` with activated Translation service having billing activated.
-See https://cloud.google.com/appengine/docs/standard/nodejs/building-app/creating-project
+API v3 Google cloud `project id` with activated translation service and billing activated.
+Please check https://cloud.google.com/appengine/docs/standard/nodejs/building-app/creating-project for more details
 
 .. setting:: MT_GOOGLE_LOCATION
 
@@ -1011,9 +1067,9 @@ MT_GOOGLE_LOCATION
 ------------------
 
 API v3 Google Cloud Application Engine may be specific to a location.
-Change accordingly if default ``global`` fallback does not work for you.
+Change accordingly if the default ``global`` fallback does not work for you.
 
-See https://cloud.google.com/appengine/docs/locations
+Please check https://cloud.google.com/appengine/docs/locations for more details
 
 .. seealso::
 
@@ -1024,7 +1080,7 @@ See https://cloud.google.com/appengine/docs/locations
 MT_MICROSOFT_BASE_URL
 ---------------------
 
-Region base url domain as defined in the `Base URLs section
+Region base URL domain as defined in the `"Base URLs" section
 <https://docs.microsoft.com/en-us/azure/cognitive-services/translator/reference/v3-0-reference#base-urls>`_.
 
 Defaults to ``api.cognitive.microsofttranslator.com`` for Azure Global.
@@ -1048,26 +1104,53 @@ Client key for the Microsoft Cognitive Services Translator API.
 MT_MICROSOFT_REGION
 -------------------
 
-Region prefix as defined in `Multi service subscription <https://docs.microsoft.com/en-us/azure/cognitive-services/translator/reference/v3-0-reference#authenticating-with-a-multi-service-resource>`_.
+Region prefix as defined in `"Multi service subscription" <https://docs.microsoft.com/en-us/azure/cognitive-services/translator/reference/v3-0-reference#authenticating-with-a-multi-service-resource>`_.
 
 .. setting:: MT_MICROSOFT_ENDPOINT_URL
 
 MT_MICROSOFT_ENDPOINT_URL
 -------------------------
 
-Region endpoint url domain for access token as defined in the `Authenticating with an access token section
+Region endpoint URL domain for access token as defined in the `"Authenticating with an access token" section
 <https://docs.microsoft.com/en-us/azure/cognitive-services/translator/reference/v3-0-reference#authenticating-with-an-access-token>`_.
 
 Defaults to ``api.cognitive.microsoft.com`` for Azure Global.
 
-For Azure China, please use your endpoint from Azure Portal.
+For Azure China, please use your endpoint from the Azure Portal.
+
+
+.. setting:: MT_MODERNMT_KEY
+
+MT_MODERNMT_KEY
+---------------
+
+API key for the ModernMT machine translation engine.
+
+.. seealso::
+
+    :ref:`modernmt`
+    :setting:`MT_MODERNMT_URL`
+
+.. setting:: MT_MODERNMT_URL
+
+MT_MODERNMT_URL
+---------------
+
+URL of ModernMT. It defaults to ``https://api.modernmt.com/`` for the cloud
+service.
+
+.. seealso::
+
+    :ref:`modernmt`
+    :setting:`MT_MODERNMT_KEY`
+
 
 .. setting:: MT_MYMEMORY_EMAIL
 
 MT_MYMEMORY_EMAIL
 -----------------
 
-MyMemory identification e-mail address, you can get 1000 requests per day with this.
+MyMemory identification e-mail address. It permits 1000 requests per day.
 
 .. seealso::
 
@@ -1079,7 +1162,7 @@ MyMemory identification e-mail address, you can get 1000 requests per day with t
 MT_MYMEMORY_KEY
 ---------------
 
-MyMemory access key for private translation memory, use together with :setting:`MT_MYMEMORY_USER`.
+MyMemory access key for private translation memory, use it with :setting:`MT_MYMEMORY_USER`.
 
 .. seealso::
 
@@ -1091,7 +1174,7 @@ MyMemory access key for private translation memory, use together with :setting:`
 MT_MYMEMORY_USER
 ----------------
 
-MyMemory user ID for private translation memory, use together with :setting:`MT_MYMEMORY_KEY`.
+MyMemory user ID for private translation memory, use it with :setting:`MT_MYMEMORY_KEY`.
 
 .. seealso::
 
@@ -1211,7 +1294,7 @@ MT_SAP_USE_MT
 -------------
 
 Whether to also use machine translation services, in addition to the term database.
-Possible values: True / False
+Possible values: ``True`` or ``False``
 
 .. seealso::
     :ref:`saptranslationhub`, :ref:`machine-translation-setup`, :ref:`machine-translation`
@@ -1221,7 +1304,7 @@ Possible values: True / False
 NEARBY_MESSAGES
 ---------------
 
-How many messages to show around the currently translated string.
+How many strings to show around the currently translated string. This is just a default value, users can adjust this in :ref:`user-profile`.
 
 .. setting:: RATELIMIT_ATTEMPTS
 
@@ -1337,10 +1420,10 @@ REGISTRATION_OPEN
 -----------------
 
 Whether registration of new accounts is currently permitted.
-This optional setting can be be the default``True`` or changed to ``False``.
+This optional setting can remain the default ``True``, or changed to ``False``.
 
 This setting affects built-in authentication by e-mail address or through the
-Python Social Auth (you can white list certain backends using
+Python Social Auth (you can whitelist certain back-ends using
 :setting:`REGISTRATION_ALLOW_BACKENDS`).
 
 .. note::
@@ -1393,6 +1476,45 @@ combinations.
 
 Turn this off if you want to different translations for each variant.
 
+.. setting:: SITE_DOMAIN
+
+SITE_DOMAIN
+-----------
+
+Configures site domain. This is necessary to produce correct absolute links in
+many scopes (for example activation e-mails, notifications or RSS feeds).
+
+In case Weblate is running on non-standard port, include it here as well.
+
+**Examples:**
+
+.. code-block:: python
+
+    # Production site with domain name
+    SITE_DOMAIN = "weblate.example.com"
+
+    # Local development with IP address and port
+    SITE_DOMAIN = "127.0.0.1:8000"
+
+.. note::
+
+    This setting should only contain the domain name. For configuring protocol,
+    (enabling and enforcing HTTPS) use :setting:`ENABLE_HTTPS` and for changing
+    URL, use :setting:`URL_PREFIX`.
+
+.. hint::
+
+   On a Docker container, the site domain is configured through
+   :envvar:`WEBLATE_ALLOWED_HOSTS`.
+
+.. seealso::
+
+   :ref:`production-site`,
+   :ref:`production-hosts`,
+   :ref:`production-ssl`
+   :envvar:`WEBLATE_SITE_DOMAIN`,
+   :setting:`ENABLE_HTTPS`
+
 .. setting:: SITE_TITLE
 
 SITE_TITLE
@@ -1405,7 +1527,7 @@ Site title to be used for the website and sent e-mails.
 SPECIAL_CHARS
 -------------
 
-Additional characters to include in the visual keyboard, see :ref:`visual-keyboard`.
+Additional characters to include in the visual keyboard, :ref:`visual-keyboard`.
 
 The default value is:
 
@@ -1427,7 +1549,7 @@ the project slug, and it will redirect unconditionally to this project.
 
 .. versionchanged:: 3.11
 
-   The setting now also accepts a project slug, to force displaying that that
+   The setting now also accepts a project slug, to force displaying that
    single project.
 
 Example:
@@ -1441,7 +1563,7 @@ Example:
 STATUS_URL
 ----------
 
-The URL where your Weblate instance reports it's status.
+The URL where your Weblate instance reports its status.
 
 .. setting:: SUGGESTION_CLEANUP_DAYS
 
@@ -1458,7 +1580,7 @@ Defaults to ``None``, meaning no deletions.
 URL_PREFIX
 ----------
 
-This settings allows you to run Weblate under some path (otherwise it relies on
+This setting allows you to run Weblate under some path (otherwise it relies on
 being run from the webserver root).
 
 .. note::
@@ -1490,7 +1612,7 @@ Configuration of available VCS backends.
 
 .. note::
 
-    Weblate tries to use all supported backends you have the tools for.
+    Weblate tries to use all supported back-ends you have the tools for.
 
 .. hint::
 
@@ -1545,37 +1667,52 @@ example:
 .. code-block:: python
 
     WEBLATE_ADDONS = (
-        # Built in addons
-        'weblate.addons.gettext.GenerateMoAddon',
-        'weblate.addons.gettext.UpdateLinguasAddon',
-        'weblate.addons.gettext.UpdateConfigureAddon',
-        'weblate.addons.gettext.MsgmergeAddon',
-        'weblate.addons.gettext.GettextCustomizeAddon',
-        'weblate.addons.gettext.GettextAuthorComments',
-        'weblate.addons.cleanup.CleanupAddon',
-        'weblate.addons.consistency.LangaugeConsistencyAddon',
-        'weblate.addons.discovery.DiscoveryAddon',
-        'weblate.addons.flags.SourceEditAddon',
-        'weblate.addons.flags.TargetEditAddon',
-        'weblate.addons.flags.SameEditAddon',
-        'weblate.addons.flags.BulkEditAddon',
-        'weblate.addons.generate.GenerateFileAddon',
-        'weblate.addons.json.JSONCustomizeAddon',
-        'weblate.addons.properties.PropertiesSortAddon',
-        'weblate.addons.git.GitSquashAddon',
-        'weblate.addons.removal.RemoveComments',
-        'weblate.addons.removal.RemoveSuggestions',
-        'weblate.addons.resx.ResxUpdateAddon',
-        'weblate.addons.autotranslate.AutoTranslateAddon',
-        'weblate.addons.yaml.YAMLCustomizeAddon',
+        # Built-in addons
+        "weblate.addons.gettext.GenerateMoAddon",
+        "weblate.addons.gettext.UpdateLinguasAddon",
+        "weblate.addons.gettext.UpdateConfigureAddon",
+        "weblate.addons.gettext.MsgmergeAddon",
+        "weblate.addons.gettext.GettextCustomizeAddon",
+        "weblate.addons.gettext.GettextAuthorComments",
+        "weblate.addons.cleanup.CleanupAddon",
+        "weblate.addons.consistency.LangaugeConsistencyAddon",
+        "weblate.addons.discovery.DiscoveryAddon",
+        "weblate.addons.flags.SourceEditAddon",
+        "weblate.addons.flags.TargetEditAddon",
+        "weblate.addons.flags.SameEditAddon",
+        "weblate.addons.flags.BulkEditAddon",
+        "weblate.addons.generate.GenerateFileAddon",
+        "weblate.addons.json.JSONCustomizeAddon",
+        "weblate.addons.properties.PropertiesSortAddon",
+        "weblate.addons.git.GitSquashAddon",
+        "weblate.addons.removal.RemoveComments",
+        "weblate.addons.removal.RemoveSuggestions",
+        "weblate.addons.resx.ResxUpdateAddon",
+        "weblate.addons.autotranslate.AutoTranslateAddon",
+        "weblate.addons.yaml.YAMLCustomizeAddon",
+        "weblate.addons.cdn.CDNJSAddon",
 
         # Addon you want to include
-        'weblate.addons.example.ExampleAddon',
+        "weblate.addons.example.ExampleAddon",
     )
 
 .. seealso::
 
     :ref:`addons`
+
+.. setting:: WEBLATE_EXPORTERS
+
+WEBLATE_EXPORTERS
+-----------------
+
+.. versionadded:: 4.2
+
+List of a available exporters offering downloading translations
+or glossaries in various file formats.
+
+.. seealso::
+
+    :ref:`formats`
 
 .. setting:: WEBLATE_FORMATS
 
@@ -1607,11 +1744,9 @@ Identity used by Weblate to sign Git commits, for example:
 
     WEBLATE_GPG_IDENTITY = 'Weblate <weblate@example.com>'
 
-.. warning::
-
-    Clean the cache if you change this setting, to clear info about its key is otherwise being
-    cached for seven days. This does not apply for initial setup, as nothing is cached
-    if this feature is not configured.
+The Weblate GPG keyring is searched for a matching key (:file:`home/.gnupg` under
+:setting:`DATA_DIR`). If not found, a key is generated, please check
+:ref:`gpg-sign` for more details.
 
 .. seealso::
 

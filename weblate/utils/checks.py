@@ -31,11 +31,10 @@ from django.core.cache import cache
 from django.core.checks import Critical, Error, Info
 from django.core.mail import get_connection
 
-from weblate import settings_example
 from weblate.utils.celery import get_queue_stats
 from weblate.utils.data import data_dir
 from weblate.utils.docs import get_doc_url
-from weblate.utils.tasks import ping
+from weblate.utils.site import check_domain, get_site_domain
 
 GOOD_CACHE = {"MemcachedCache", "PyLibMCCache", "DatabaseCache", "RedisCache"}
 DEFAULT_MAILS = {
@@ -43,6 +42,10 @@ DEFAULT_MAILS = {
     "webmaster@localhost",
     "noreply@weblate.org",
     "noreply@example.com",
+}
+DEFAULT_SECRET_KEYS = {
+    "jm8fqjlg+5!#xu%e-oh#7!$aa7!6avf7ud*_v=chdrb9qdco6(",
+    "secret key used for tests only",
 }
 DOC_LINKS = {
     "security.W001": ("admin/upgdade", "up-3-1"),
@@ -93,6 +96,8 @@ DOC_LINKS = {
     "weblate.C032": ("admin/install",),
     "weblate.W033": ("vcs",),
     "weblate.E034": ("admin/install", "celery"),
+    "weblate.C035": ("vcs",),
+    "weblate.C036": ("admin/optionals", "gpg-sign"),
 }
 
 
@@ -170,6 +175,9 @@ def is_celery_queue_long():
 
 
 def check_celery(app_configs, **kwargs):
+    # Import this lazily to avoid evaluating settings too early
+    from weblate.utils.tasks import ping
+
     errors = []
     if settings.CELERY_TASK_ALWAYS_EAGER:
         errors.append(
@@ -196,12 +204,19 @@ def check_celery(app_configs, **kwargs):
         result = ping.delay()
         try:
             pong = result.get(timeout=10, disable_sync_subtasks=False)
+            current = ping()
             # Check for outdated Celery running different version of configuration
-            if ping() != pong:
+            if current != pong:
+                differing = [
+                    key
+                    for key, value in current.items()
+                    if key not in pong or value != pong[key]
+                ]
                 errors.append(
                     weblate_check(
                         "weblate.E034",
-                        "The Celery process is outdated, please restart it.",
+                        "The Celery process is outdated or misconfigured."
+                        " Following items differ: {}".format(", ".join(differing)),
                     )
                 )
         except TimeoutError:
@@ -303,7 +318,7 @@ def check_settings(app_configs, **kwargs):
             )
         )
 
-    if settings.SECRET_KEY == settings_example.SECRET_KEY:
+    if settings.SECRET_KEY in DEFAULT_SECRET_KEYS:
         errors.append(
             weblate_check(
                 "weblate.E014",
@@ -371,8 +386,6 @@ def check_data_writable(app_configs=None, **kwargs):
 
 
 def check_site(app_configs, **kwargs):
-    from weblate.utils.site import get_site_domain, check_domain
-
     errors = []
     if not check_domain(get_site_domain()):
         errors.append(weblate_check("weblate.E017", "Correct the site domain"))

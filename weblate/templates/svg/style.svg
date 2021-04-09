@@ -1,0 +1,6 @@
+{% load static %}
+{% if fonts_cdn_url %}
+  <style type="text/css">@import url({{ fonts_cdn_url }}font-source/source-sans-pro.css);</style>
+{% else %}
+  <style type="text/css">@import url({{ site_url }}{% static 'font-source/source-sans-pro.css' %});</style>
+{% endif %}

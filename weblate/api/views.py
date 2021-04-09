@@ -18,6 +18,7 @@
 #
 
 import os.path
+from typing import Tuple
 
 from django.conf import settings
 from django.contrib.messages import get_messages
@@ -29,7 +30,7 @@ from django.shortcuts import get_object_or_404
 from django.utils.encoding import force_str, smart_str
 from django.utils.safestring import mark_safe
 from django_filters import rest_framework as filters
-from rest_framework import parsers, status, viewsets
+from rest_framework import parsers, viewsets
 from rest_framework.decorators import action
 from rest_framework.exceptions import ParseError
 from rest_framework.mixins import CreateModelMixin, DestroyModelMixin, UpdateModelMixin
@@ -37,19 +38,29 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
 from rest_framework.settings import api_settings
+from rest_framework.status import (
+    HTTP_200_OK,
+    HTTP_201_CREATED,
+    HTTP_204_NO_CONTENT,
+    HTTP_400_BAD_REQUEST,
+)
 from rest_framework.utils import formatting
 from rest_framework.views import APIView
 
+from weblate.accounts.models import Subscription
 from weblate.accounts.utils import remove_user
 from weblate.api.serializers import (
+    BasicUserSerializer,
     ChangeSerializer,
     ComponentListSerializer,
     ComponentSerializer,
+    FullUserSerializer,
     GroupSerializer,
     LanguageSerializer,
     LockRequestSerializer,
     LockSerializer,
     MonolingualUnitSerializer,
+    NotificationSerializer,
     ProjectSerializer,
     RepoRequestSerializer,
     RoleSerializer,
@@ -59,11 +70,10 @@ from weblate.api.serializers import (
     TranslationSerializer,
     UnitSerializer,
     UploadRequestSerializer,
-    UserSerializer,
 )
 from weblate.auth.models import Group, Role, User
 from weblate.checks.models import Check
-from weblate.formats.exporters import EXPORTERS
+from weblate.formats.models import EXPORTERS
 from weblate.lang.models import Language
 from weblate.screenshots.models import Screenshot
 from weblate.trans.forms import AutoForm
@@ -142,8 +152,8 @@ class MultipleFieldMixin:
 
 
 class DownloadViewSet(viewsets.ReadOnlyModelViewSet):
-    raw_urls = ()
-    raw_formats = {}
+    raw_urls: Tuple[str, ...] = ()
+    raw_formats = EXPORTERS
 
     def perform_content_negotiation(self, request, force=False):
         """Custom content negotiation."""
@@ -261,17 +271,29 @@ class WeblateViewSet(DownloadViewSet):
         return Response(data)
 
 
+class UserFilter(filters.FilterSet):
+    username = filters.CharFilter(field_name="username", lookup_expr="startswith")
+
+    class Meta:
+        model = User
+        fields = ["username"]
+
+
 class UserViewSet(viewsets.ModelViewSet):
     """Users API."""
 
     queryset = User.objects.none()
-    serializer_class = UserSerializer
     lookup_field = "username"
+    filter_backends = (filters.DjangoFilterBackend,)
+    filterset_class = UserFilter
+
+    def get_serializer_class(self):
+        if self.request.user.has_perm("user.edit"):
+            return FullUserSerializer
+        return BasicUserSerializer
 
     def get_queryset(self):
-        if self.request.user.has_perm("user.edit"):
-            return User.objects.order_by("id")
-        return User.objects.filter(pk=self.request.user.pk).order_by("id")
+        return User.objects.order_by("id")
 
     def perm_check(self, request):
         if not request.user.has_perm("user.edit"):
@@ -289,7 +311,7 @@ class UserViewSet(viewsets.ModelViewSet):
         self.perm_check(request)
         instance = self.get_object()
         remove_user(instance, request)
-        return Response(status=status.HTTP_204_NO_CONTENT)
+        return Response(status=HTTP_204_NO_CONTENT)
 
     @action(
         detail=True, methods=["post"],
@@ -306,13 +328,75 @@ class UserViewSet(viewsets.ModelViewSet):
         except (Group.DoesNotExist, ValueError) as error:
             return Response(
                 data={"result": "Unsuccessful", "detail": force_str(error)},
-                status=status.HTTP_400_BAD_REQUEST,
+                status=HTTP_400_BAD_REQUEST,
             )
 
         obj.groups.add(group)
-        serializer = self.serializer_class(obj, context={"request": request})
+        serializer = self.get_serializer_class()(obj, context={"request": request})
 
-        return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.data, status=HTTP_200_OK)
+
+    @action(
+        detail=True, methods=["get", "post"], serializer_class=NotificationSerializer
+    )
+    def notifications(self, request, **kwargs):
+        obj = self.get_object()
+        if request.method == "POST":
+            self.perm_check(request)
+            with transaction.atomic():
+                serializer = NotificationSerializer(
+                    data=request.data, context={"request": request}
+                )
+                serializer.is_valid(raise_exception=True)
+                serializer.save(user=obj)
+                return Response(serializer.data, status=HTTP_201_CREATED)
+
+        queryset = obj.subscription_set.order_by("id")
+        page = self.paginate_queryset(queryset)
+        serializer = NotificationSerializer(
+            page, many=True, context={"request": request}
+        )
+
+        return self.get_paginated_response(serializer.data)
+
+    @action(
+        detail=True,
+        methods=["get", "put", "patch", "delete"],
+        url_path="notifications/(?P<subscription_id>[^/.]+)",
+        serializer_class=NotificationSerializer,
+    )
+    def notifications_details(self, request, username, subscription_id):
+        obj = self.get_object()
+
+        try:
+            subscription = obj.subscription_set.get(id=subscription_id)
+        except (Subscription.DoesNotExist, ValueError) as error:
+            return Response(
+                data={"result": "Unsuccessful", "detail": force_str(error)},
+                status=HTTP_400_BAD_REQUEST,
+            )
+
+        if request.method == "DELETE":
+            self.perm_check(request)
+            subscription.delete()
+            return Response(status=HTTP_204_NO_CONTENT)
+
+        if request.method == "GET":
+            serializer = NotificationSerializer(
+                subscription, context={"request": request}
+            )
+        else:
+            self.perm_check(request)
+            serializer = NotificationSerializer(
+                subscription,
+                data=request.data,
+                context={"request": request},
+                partial=request.method == "PATCH",
+            )
+            serializer.is_valid(raise_exception=True)
+            serializer.save()
+
+        return Response(serializer.data, status=HTTP_200_OK)
 
 
 class GroupViewSet(viewsets.ModelViewSet):
@@ -358,13 +442,13 @@ class GroupViewSet(viewsets.ModelViewSet):
         except (Role.DoesNotExist, ValueError) as error:
             return Response(
                 data={"result": "Unsuccessful", "detail": force_str(error)},
-                status=status.HTTP_400_BAD_REQUEST,
+                status=HTTP_400_BAD_REQUEST,
             )
 
         obj.roles.add(role)
         serializer = self.serializer_class(obj, context={"request": request})
 
-        return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.data, status=HTTP_200_OK)
 
     @action(
         detail=True, methods=["post"],
@@ -381,13 +465,13 @@ class GroupViewSet(viewsets.ModelViewSet):
         except (Language.DoesNotExist, ValueError) as error:
             return Response(
                 data={"result": "Unsuccessful", "detail": force_str(error)},
-                status=status.HTTP_400_BAD_REQUEST,
+                status=HTTP_400_BAD_REQUEST,
             )
 
         obj.languages.add(language)
         serializer = self.serializer_class(obj, context={"request": request})
 
-        return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.data, status=HTTP_200_OK)
 
     @action(
         detail=True, methods=["delete"], url_path="languages/(?P<language_code>[^/.]+)"
@@ -401,10 +485,10 @@ class GroupViewSet(viewsets.ModelViewSet):
         except (Language.DoesNotExist, ValueError) as error:
             return Response(
                 data={"result": "Unsuccessful", "detail": force_str(error)},
-                status=status.HTTP_400_BAD_REQUEST,
+                status=HTTP_400_BAD_REQUEST,
             )
         obj.languages.remove(language)
-        return Response(status=status.HTTP_204_NO_CONTENT)
+        return Response(status=HTTP_204_NO_CONTENT)
 
     @action(
         detail=True, methods=["post"],
@@ -421,12 +505,12 @@ class GroupViewSet(viewsets.ModelViewSet):
         except (Project.DoesNotExist, ValueError) as error:
             return Response(
                 data={"result": "Unsuccessful", "detail": force_str(error)},
-                status=status.HTTP_400_BAD_REQUEST,
+                status=HTTP_400_BAD_REQUEST,
             )
         obj.projects.add(project)
         serializer = self.serializer_class(obj, context={"request": request})
 
-        return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.data, status=HTTP_200_OK)
 
     @action(detail=True, methods=["delete"], url_path="projects/(?P<project_id>[^/.]+)")
     def delete_projects(self, request, id, project_id):
@@ -438,10 +522,10 @@ class GroupViewSet(viewsets.ModelViewSet):
         except (Project.DoesNotExist, ValueError) as error:
             return Response(
                 data={"result": "Unsuccessful", "detail": force_str(error)},
-                status=status.HTTP_400_BAD_REQUEST,
+                status=HTTP_400_BAD_REQUEST,
             )
         obj.projects.remove(project)
-        return Response(status=status.HTTP_204_NO_CONTENT)
+        return Response(status=HTTP_204_NO_CONTENT)
 
     @action(
         detail=True, methods=["post"],
@@ -460,12 +544,12 @@ class GroupViewSet(viewsets.ModelViewSet):
         except (ComponentList.DoesNotExist, ValueError) as error:
             return Response(
                 data={"result": "Unsuccessful", "detail": force_str(error)},
-                status=status.HTTP_400_BAD_REQUEST,
+                status=HTTP_400_BAD_REQUEST,
             )
         obj.componentlists.add(component_list)
         serializer = self.serializer_class(obj, context={"request": request})
 
-        return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.data, status=HTTP_200_OK)
 
     @action(
         detail=True,
@@ -480,10 +564,10 @@ class GroupViewSet(viewsets.ModelViewSet):
         except (ComponentList.DoesNotExist, ValueError) as error:
             return Response(
                 data={"result": "Unsuccessful", "detail": force_str(error)},
-                status=status.HTTP_400_BAD_REQUEST,
+                status=HTTP_400_BAD_REQUEST,
             )
         obj.componentlists.remove(component_list)
-        return Response(status=status.HTTP_204_NO_CONTENT)
+        return Response(status=HTTP_204_NO_CONTENT)
 
     @action(
         detail=True, methods=["post"],
@@ -501,12 +585,12 @@ class GroupViewSet(viewsets.ModelViewSet):
         except (Component.DoesNotExist, ValueError) as error:
             return Response(
                 data={"result": "Unsuccessful", "detail": force_str(error)},
-                status=status.HTTP_400_BAD_REQUEST,
+                status=HTTP_400_BAD_REQUEST,
             )
         obj.components.add(component)
         serializer = self.serializer_class(obj, context={"request": request})
 
-        return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.data, status=HTTP_200_OK)
 
     @action(
         detail=True, methods=["delete"], url_path="components/(?P<component_id>[^/.]+)"
@@ -520,10 +604,10 @@ class GroupViewSet(viewsets.ModelViewSet):
         except (Component.DoesNotExist, ValueError) as error:
             return Response(
                 data={"result": "Unsuccessful", "detail": force_str(error)},
-                status=status.HTTP_400_BAD_REQUEST,
+                status=HTTP_400_BAD_REQUEST,
             )
         obj.components.remove(component)
-        return Response(status=status.HTTP_204_NO_CONTENT)
+        return Response(status=HTTP_204_NO_CONTENT)
 
 
 class RoleViewSet(viewsets.ModelViewSet):
@@ -579,14 +663,14 @@ class ProjectViewSet(WeblateViewSet, CreateModelMixin, DestroyModelMixin):
                 self.permission_denied(request, message="Can not create components")
             with transaction.atomic():
                 serializer = ComponentSerializer(
-                    data=request.data, context={"request": request}
+                    data=request.data, context={"request": request, "project": obj}
                 )
                 serializer.is_valid(raise_exception=True)
-                serializer.save(project=obj)
+                serializer.save()
                 serializer.instance.post_create(self.request.user)
                 return Response(
                     serializer.data,
-                    status=status.HTTP_201_CREATED,
+                    status=HTTP_201_CREATED,
                     headers={
                         "Location": str(serializer.data[api_settings.URL_FIELD_NAME])
                     },
@@ -620,6 +704,7 @@ class ProjectViewSet(WeblateViewSet, CreateModelMixin, DestroyModelMixin):
         obj = self.get_object()
 
         queryset = Change.objects.prefetch().filter(project=obj).order_by("id")
+        queryset = ChangesFilterBackend().filter_queryset(request, queryset, self)
         page = self.paginate_queryset(queryset)
 
         serializer = ChangeSerializer(page, many=True, context={"request": request})
@@ -654,7 +739,7 @@ class ProjectViewSet(WeblateViewSet, CreateModelMixin, DestroyModelMixin):
         if not request.user.has_perm("project.edit", instance):
             self.permission_denied(request, message="Can not delete project")
         project_removal.delay(instance.pk, request.user.pk)
-        return Response(status=status.HTTP_204_NO_CONTENT)
+        return Response(status=HTTP_204_NO_CONTENT)
 
 
 class ComponentViewSet(
@@ -734,9 +819,7 @@ class ComponentViewSet(
                 translation, context={"request": request}, remove_fields=("component",)
             )
 
-            return Response(
-                data={"data": serializer.data}, status=status.HTTP_201_CREATED
-            )
+            return Response(data={"data": serializer.data}, status=HTTP_201_CREATED)
 
         queryset = obj.translation_set.all().order_by("id")
         page = self.paginate_queryset(queryset)
@@ -763,6 +846,7 @@ class ComponentViewSet(
         obj = self.get_object()
 
         queryset = Change.objects.prefetch().filter(component=obj).order_by("id")
+        queryset = ChangesFilterBackend().filter_queryset(request, queryset, self)
         page = self.paginate_queryset(queryset)
 
         serializer = ChangeSerializer(page, many=True, context={"request": request})
@@ -791,7 +875,7 @@ class ComponentViewSet(
         if not request.user.has_perm("component.edit", instance):
             self.permission_denied(request, message="Can not delete component")
         component_removal.delay(instance.pk, request.user.pk)
-        return Response(status=status.HTTP_204_NO_CONTENT)
+        return Response(status=HTTP_204_NO_CONTENT)
 
 
 class TranslationViewSet(MultipleFieldMixin, WeblateViewSet, DestroyModelMixin):
@@ -801,7 +885,6 @@ class TranslationViewSet(MultipleFieldMixin, WeblateViewSet, DestroyModelMixin):
     serializer_class = TranslationSerializer
     lookup_fields = ("component__project__slug", "component__slug", "language__code")
     raw_urls = ("translation-file",)
-    raw_formats = EXPORTERS
 
     def get_queryset(self):
         return (
@@ -850,7 +933,7 @@ class TranslationViewSet(MultipleFieldMixin, WeblateViewSet, DestroyModelMixin):
             not_found, skipped, accepted, total = obj.merge_upload(
                 request,
                 data["file"],
-                data["overwrite"],
+                data["conflicts"],
                 author_name,
                 author_email,
                 data["method"],
@@ -869,7 +952,7 @@ class TranslationViewSet(MultipleFieldMixin, WeblateViewSet, DestroyModelMixin):
                 }
             )
         except Exception as error:
-            report_error(cause="Upload error")
+            report_error(cause="Upload error", print_tb=True)
             return Response(
                 data={"result": False, "detail": force_str(error)}, status=400
             )
@@ -887,6 +970,7 @@ class TranslationViewSet(MultipleFieldMixin, WeblateViewSet, DestroyModelMixin):
         obj = self.get_object()
 
         queryset = Change.objects.prefetch().filter(translation=obj).order_by("id")
+        queryset = ChangesFilterBackend().filter_queryset(request, queryset, self)
         page = self.paginate_queryset(queryset)
 
         serializer = ChangeSerializer(page, many=True, context={"request": request})
@@ -912,12 +996,12 @@ class TranslationViewSet(MultipleFieldMixin, WeblateViewSet, DestroyModelMixin):
                         "result": "Unsuccessful",
                         "detail": "Translation with this key seem to already exist!",
                     },
-                    status=status.HTTP_400_BAD_REQUEST,
+                    status=HTTP_400_BAD_REQUEST,
                 )
 
             obj.new_unit(request, key, value)
             serializer = self.serializer_class(obj, context={"request": request})
-            return Response(serializer.data, status=status.HTTP_200_OK,)
+            return Response(serializer.data, status=HTTP_200_OK,)
 
         queryset = obj.unit_set.all().order_by("id")
         page = self.paginate_queryset(queryset)
@@ -938,7 +1022,7 @@ class TranslationViewSet(MultipleFieldMixin, WeblateViewSet, DestroyModelMixin):
                     "result": "Unsuccessful",
                     "detail": "Failed to process autotranslation data!",
                 },
-                status=status.HTTP_400_BAD_REQUEST,
+                status=HTTP_400_BAD_REQUEST,
             )
         args = (
             request.user.id,
@@ -952,7 +1036,7 @@ class TranslationViewSet(MultipleFieldMixin, WeblateViewSet, DestroyModelMixin):
         )
         return Response(
             data={"result": "Success", "details": auto_translate(*args)},
-            status=status.HTTP_200_OK,
+            status=HTTP_200_OK,
         )
 
     def destroy(self, request, *args, **kwargs):
@@ -960,7 +1044,7 @@ class TranslationViewSet(MultipleFieldMixin, WeblateViewSet, DestroyModelMixin):
         if not request.user.has_perm("translation.delete", instance):
             self.permission_denied(request, message="Can not delete translation")
         instance.remove(request.user)
-        return Response(status=status.HTTP_204_NO_CONTENT)
+        return Response(status=HTTP_204_NO_CONTENT)
 
 
 class LanguageViewSet(viewsets.ModelViewSet):
@@ -1010,7 +1094,7 @@ class UnitViewSet(viewsets.ReadOnlyModelViewSet):
         return Unit.objects.filter_access(self.request.user).order_by("id")
 
 
-class ScreenshotViewSet(DownloadViewSet, CreateModelMixin):
+class ScreenshotViewSet(DownloadViewSet, viewsets.ModelViewSet):
     """Screenshots API."""
 
     queryset = Screenshot.objects.none()
@@ -1066,13 +1150,31 @@ class ScreenshotViewSet(DownloadViewSet, CreateModelMixin):
         except (Unit.DoesNotExist, ValueError) as error:
             return Response(
                 data={"result": "Unsuccessful", "detail": force_str(error)},
-                status=status.HTTP_400_BAD_REQUEST,
+                status=HTTP_400_BAD_REQUEST,
             )
 
         obj.units.add(source_string)
         serializer = ScreenshotSerializer(obj, context={"request": request})
 
-        return Response(serializer.data, status=status.HTTP_200_OK,)
+        return Response(serializer.data, status=HTTP_200_OK,)
+
+    @action(detail=True, methods=["delete"], url_path="units/(?P<unit_id>[^/.]+)")
+    def delete_units(self, request, pk, unit_id):
+        obj = self.get_object()
+        if not request.user.has_perm("screenshot.edit", obj.component):
+            raise PermissionDenied()
+
+        try:
+            source_string = obj.component.source_translation.unit_set.get(
+                pk=int(unit_id)
+            )
+        except (Unit.DoesNotExist, ValueError) as error:
+            return Response(
+                data={"result": "Unsuccessful", "detail": force_str(error)},
+                status=HTTP_400_BAD_REQUEST,
+            )
+        obj.units.remove(source_string)
+        return Response(status=HTTP_204_NO_CONTENT)
 
     def create(self, request, *args, **kwargs):
         required_params = ["name", "image", "project_slug", "component_slug"]
@@ -1090,7 +1192,7 @@ class ScreenshotViewSet(DownloadViewSet, CreateModelMixin):
         except (Project.DoesNotExist, Component.DoesNotExist, ValueError) as error:
             return Response(
                 data={"result": "Unsuccessful", "detail": force_str(error)},
-                status=status.HTTP_400_BAD_REQUEST,
+                status=HTTP_400_BAD_REQUEST,
             )
 
         if not request.user.has_perm("screenshot.add", component):
@@ -1104,7 +1206,19 @@ class ScreenshotViewSet(DownloadViewSet, CreateModelMixin):
             serializer.save(
                 component=component, user=request.user, image=request.data["image"]
             )
-            return Response(serializer.data, status=status.HTTP_201_CREATED,)
+            return Response(serializer.data, status=HTTP_201_CREATED)
+
+    def update(self, request, *args, **kwargs):
+        instance = self.get_object()
+        if not request.user.has_perm("screenshot.edit", instance.component):
+            self.permission_denied(request, message="Can not edit screenshot.")
+        return super().update(request, *args, **kwargs)
+
+    def destroy(self, request, *args, **kwargs):
+        instance = self.get_object()
+        if not request.user.has_perm("screenshot.delete", instance.component):
+            self.permission_denied(request, message="Can not delete screenshot.")
+        return super().destroy(request, *args, **kwargs)
 
 
 class ChangeFilter(filters.FilterSet):
@@ -1117,13 +1231,17 @@ class ChangeFilter(filters.FilterSet):
         fields = ["action", "user", "timestamp"]
 
 
+class ChangesFilterBackend(filters.DjangoFilterBackend):
+    def get_filterset_class(self, view, queryset=None):
+        return ChangeFilter
+
+
 class ChangeViewSet(viewsets.ReadOnlyModelViewSet):
     """Changes API."""
 
     queryset = Change.objects.none()
     serializer_class = ChangeSerializer
-    filter_backends = (filters.DjangoFilterBackend,)
-    filterset_class = ChangeFilter
+    filter_backends = (ChangesFilterBackend,)
 
     def get_queryset(self):
         return Change.objects.last_changes(self.request.user).order_by("id")
@@ -1179,13 +1297,13 @@ class ComponentListViewSet(viewsets.ModelViewSet):
         except (Component.DoesNotExist, ValueError) as error:
             return Response(
                 data={"result": "Unsuccessful", "detail": force_str(error)},
-                status=status.HTTP_400_BAD_REQUEST,
+                status=HTTP_400_BAD_REQUEST,
             )
 
         obj.components.add(component)
         serializer = self.serializer_class(obj, context={"request": request})
 
-        return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.data, status=HTTP_200_OK)
 
     @action(
         detail=True,
@@ -1201,10 +1319,10 @@ class ComponentListViewSet(viewsets.ModelViewSet):
         except (Component.DoesNotExist, ValueError) as error:
             return Response(
                 data={"result": "Unsuccessful", "detail": force_str(error)},
-                status=status.HTTP_400_BAD_REQUEST,
+                status=HTTP_400_BAD_REQUEST,
             )
         obj.components.remove(component)
-        return Response(status=status.HTTP_204_NO_CONTENT)
+        return Response(status=HTTP_204_NO_CONTENT)
 
 
 class Metrics(APIView):

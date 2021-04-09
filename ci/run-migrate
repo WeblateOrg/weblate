@@ -12,9 +12,6 @@ fi
 
 HEAD_COMMIT=$(git rev-parse HEAD)
 
-# Install fixed version to avoid breakage with 1.0.0
-pip install httpretty==0.9.7
-
 print_step "Testing migration from $TAG on $CI_DATABASE..."
 cleanup_database
 check
@@ -26,21 +23,9 @@ fi
 check
 git checkout $TAG
 check
-case $TAG in
-    weblate-3.[12345].* | weblate-3.[12345])
-        # Older versions do not support Django 2.2
-        pip install 'Django>=2.1,<2.2'
-        ;;
-    *)
-        pip install 'Django>=2.2,<3.0'
-        ;;
-esac
-check
 pip install -r requirements-optional.txt -r docs/requirements.txt
 check
 if [ -f requirements-test.txt ] ; then pip install -r requirements-test.txt ; fi
-check
-if pip show Django  | grep -q '^Version: 3' ; then pip install django-compressor==2.4 ; fi
 check
 echo "DATABASES['default']['HOST'] = '$CI_DB_HOST'" >> weblate/settings_test.py
 check

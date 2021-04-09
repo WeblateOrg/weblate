@@ -18,9 +18,11 @@
 #
 """Git based version control system abstraction for Weblate needs."""
 
-
 import os
 import os.path
+from configparser import NoOptionError, NoSectionError
+from datetime import datetime
+from typing import List, Optional
 from zipfile import ZipFile
 
 from django.conf import settings
@@ -28,6 +30,7 @@ from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy
 from git.config import GitConfigParser
 
+from weblate.utils.errors import report_error
 from weblate.utils.xml import parse_xml
 from weblate.vcs.base import Repository, RepositoryException
 from weblate.vcs.gpg import get_gpg_sign_key
@@ -62,7 +65,16 @@ class GitRepository(Repository):
         filename = os.path.join(self.path, ".git", "config")
         with GitConfigParser(file_or_files=filename, read_only=False) as config:
             for section, key, value in updates:
-                if config.get_value(section, key, -1) != value:
+                try:
+                    old = config.get(section, key)
+                    if value is None:
+                        config.remove_option(section, key)
+                        continue
+                    if old == value:
+                        continue
+                except (NoSectionError, NoOptionError):
+                    pass
+                if value is not None:
                     config.set_value(section, key, value)
 
     def check_config(self):
@@ -96,12 +108,15 @@ class GitRepository(Repository):
     def rebase(self, abort=False):
         """Rebase working copy on top of remote branch."""
         if abort:
-            if self.has_rev("ORIG_HEAD"):
+            if self.has_git_file("rebase-apply") or self.has_git_file("rebase-merge"):
                 self.execute(["rebase", "--abort"])
             if self.needs_commit():
                 self.execute(["reset", "--hard"])
         else:
             self.execute(["rebase", self.get_remote_branch_name()])
+
+    def has_git_file(self, name):
+        return os.path.exists(os.path.join(self.path, ".git", name))
 
     def has_rev(self, rev):
         try:
@@ -225,7 +240,13 @@ class GitRepository(Repository):
         """Return VCS program version."""
         return cls._popen(["--version"], merge_err=False).split()[2]
 
-    def commit(self, message, author=None, timestamp=None, files=None):
+    def commit(
+        self,
+        message: str,
+        author: Optional[str] = None,
+        timestamp: Optional[datetime] = None,
+        files: Optional[List[str]] = None,
+    ):
         """Create new revision."""
         # Add files (some of them might not be in the index)
         if files:
@@ -246,7 +267,7 @@ class GitRepository(Repository):
         # Clean cache
         self.clean_revision_cache()
 
-    def remove(self, files, message, author=None):
+    def remove(self, files: List[str], message: str, author: Optional[str] = None):
         """Remove files and creates new revision."""
         self.execute(["rm", "--force", "--"] + files)
         self.commit(message, author)
@@ -256,8 +277,8 @@ class GitRepository(Repository):
         self.config_update(
             # Pull url
             ('remote "origin"', "url", pull_url),
-            # Push url
-            ('remote "origin"', "pushurl", push_url or ""),
+            # Push URL, None remove it
+            ('remote "origin"', "pushurl", push_url or None),
             # Fetch all branches (needed for clone branch)
             ('remote "origin"', "fetch", "+refs/heads/*:refs/remotes/origin/*"),
             # Disable fetching tags
@@ -588,16 +609,13 @@ class GitMergeRequestBase(GitForcePushRepository):
         try:
             self.create_pull_request(self.branch, fork_remote, fork_branch)
         except RepositoryException as error:
+            report_error(cause="Failed pull request")
             if error.retcode == 1:
                 # Pull request already exists.
                 return
             raise
 
-    def configure_remote(self, pull_url, push_url, branch):
-        # We don't use push URL at all
-        super().configure_remote(pull_url, None, branch)
-
-    def create_pull_request(self, origin_branch, fork_branch):
+    def create_pull_request(self, origin_branch, fork_remote, fork_branch):
         raise NotImplementedError()
 
     def get_merge_message(self):

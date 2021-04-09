@@ -18,7 +18,7 @@ Installation
 ++++++++++++
 
 The Weblate Client is shipped separately and includes the Python module.
-You need to install :mod:`wlc`:, wlc to use these.
+To use the commands below, you need to install :mod:`wlc`:
 
 .. code-block:: sh
 
@@ -64,10 +64,10 @@ Description
 
 Weblate Client is a Python library and command-line utility to manage Weblate remotely
 using :ref:`api`. The command-line utility can be invoked as :command:`wlc` and is
-built on :mod:`wlc`.
+built-in on :mod:`wlc`.
 
-Instance wide options
----------------------
+Site wide options
+-----------------
 
 The program accepts the following options for a whole instance, which must be entered before any subcommand.
 

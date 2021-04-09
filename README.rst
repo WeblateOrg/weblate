@@ -30,10 +30,16 @@ Install it, or use the Hosted Weblate service at `weblate.org`_.
     :alt: License
     :target: https://github.com/WeblateOrg/weblate/blob/master/COPYING
 
+Support
+-------
+
+Weblate is a libre software with optional professional support and cloud
+hosting offerings. Check out https://weblate.org/hosting/ for more information.
+
 Documentation
 -------------
 
-To be found in the ``docs`` directory the source code, or
+To be found in the ``docs`` directory of the source code, or
 viewed online on https://docs.weblate.org/
 
 Installation

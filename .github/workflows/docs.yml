@@ -2,33 +2,25 @@ name: Docs
 
 on:
   push:
-    paths:
-      - docs/**
-      - .github/workflows/docs.yml
-      - scripts/weblate_schemas
     branches-ignore:
       - "dependabot/**"
+      - weblate
   pull_request:
-    paths:
-      - docs/**
-      - .github/workflows/docs.yml
-      - scripts/weblate_schemas
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
     name: Sphinx
 
     steps:
       - uses: actions/checkout@v2
       - name: Cache pip
-        uses: actions/cache@v1
+        uses: actions/cache@v2.1.1
         with:
           path: ~/.cache/pip
           key: ${{ runner.os }}-pip-docs-${{ hashFiles('**/requirements*.txt') }}
       - name: Set up Python 3.8
-        uses: actions/setup-python@v1
+        uses: actions/setup-python@v2.1.2
         with:
           python-version: 3.8
       - name: Install apt dependencies
@@ -42,25 +34,24 @@ jobs:
           echo "::add-matcher::.github/matchers/sphinx.json"
           ./ci/run-docs
           echo "::remove-matcher owner=sphinx::"
-      - uses: actions/upload-artifact@v1
+      - uses: actions/upload-artifact@v2.1.4
         with:
           name: Documentation
           path: docs/_build/html
 
   linkcheck:
-
     runs-on: ubuntu-latest
     name: Linkcheck
 
     steps:
       - uses: actions/checkout@v2
       - name: Cache pip
-        uses: actions/cache@v1
+        uses: actions/cache@v2.1.1
         with:
           path: ~/.cache/pip
           key: ${{ runner.os }}-pip-docs-${{ hashFiles('**/requirements*.txt') }}
       - name: Set up Python 3.8
-        uses: actions/setup-python@v1
+        uses: actions/setup-python@v2.1.2
         with:
           python-version: 3.8
       - name: Install pip dependencies
@@ -74,7 +65,7 @@ jobs:
           echo "::add-matcher::.github/matchers/sphinx-linkcheck.json"
           sed 's@^@docs/@' docs/_build/linkcheck/output.txt
           echo "::remove-matcher owner=sphinx::"
-      - uses: actions/upload-artifact@v1
+      - uses: actions/upload-artifact@v2.1.4
         if: always()
         with:
           name: Linkcheck report

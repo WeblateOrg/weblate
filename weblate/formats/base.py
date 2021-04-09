@@ -22,7 +22,7 @@
 import os
 import tempfile
 from copy import deepcopy
-from typing import Dict, Optional, Tuple, Type
+from typing import Dict, Optional, Tuple, Type, Union
 
 from django.conf import settings
 from django.utils.functional import cached_property
@@ -47,6 +47,7 @@ class UnitNotFound(Exception):
 
 class UpdateError(Exception):
     def __init__(self, cmd, output):
+        super().__init__(output)
         self.cmd = cmd
         self.output = output
 
@@ -118,7 +119,7 @@ class TranslationUnit:
         """
         if self.template is None:
             return calculate_hash(self.source, self.context)
-        return calculate_hash(None, self.context)
+        return calculate_hash(self.context)
 
     @cached_property
     def content_hash(self):
@@ -172,7 +173,7 @@ class TranslationFormat:
     can_add_unit: bool = True
     language_format: str = "posix"
     simple_filename: bool = True
-    new_translation: Optional[str] = None
+    new_translation: Optional[Union[str, bytes]] = None
     autoaddon: Dict[str, Dict[str, str]] = {}
 
     @classmethod
@@ -358,32 +359,32 @@ class TranslationFormat:
         raise NotImplementedError()
 
     @classmethod
-    def get_language_code(cls, code, language_format=None):
+    def get_language_code(cls, code: str, language_format: Optional[str] = None):
         """Do any possible formatting needed for language code."""
         if not language_format:
             language_format = cls.language_format
         return getattr(cls, "get_language_{}".format(language_format))(code)
 
     @staticmethod
-    def get_language_posix(code):
+    def get_language_posix(code: str):
         return code
 
     @staticmethod
-    def get_language_bcp(code):
+    def get_language_bcp(code: str):
         return code.replace("_", "-")
 
     @staticmethod
-    def get_language_posix_long(code):
+    def get_language_posix_long(code: str):
         if code in EXPAND_LANGS:
             return EXPAND_LANGS[code]
         return code
 
     @classmethod
-    def get_language_bcp_long(cls, code):
+    def get_language_bcp_long(cls, code: str):
         return cls.get_language_posix_long(code).replace("_", "-")
 
     @staticmethod
-    def get_language_android(code):
+    def get_language_android(code: str):
         # Android doesn't use Hans/Hant, but rather TW/CN variants
         if code == "zh_Hans":
             return "zh-rCN"
@@ -395,7 +396,7 @@ class TranslationFormat:
         return sanitized.replace("_", "-r")
 
     @classmethod
-    def get_language_java(cls, code):
+    def get_language_java(cls, code: str):
         # Java doesn't use Hans/Hant, but rather TW/CN variants
         if code == "zh_Hans":
             return "zh-CN"
@@ -408,12 +409,14 @@ class TranslationFormat:
         return cls.get_language_bcp(code)
 
     @classmethod
-    def get_language_filename(cls, mask, code):
+    def get_language_filename(
+        cls, mask: str, code: str, language_format: Optional[str] = None
+    ):
         """Return full filename of a language file.
 
         Calculated forfor given path, filemask and language code.
         """
-        return mask.replace("*", cls.get_language_code(code))
+        return mask.replace("*", cls.get_language_code(code, language_format))
 
     @classmethod
     def add_language(cls, filename, language, base):

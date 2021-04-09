@@ -9,7 +9,7 @@ to their terms of use, so ensure you are allowed to use them how you want.
 
 The source language can be configured at :ref:`project`.
 
-Amagama
+amaGama
 -------
 
 Special installation of :ref:`tmserver` run by the authors of Virtaal.
@@ -19,8 +19,9 @@ Turn on this service by adding ``weblate.machinery.tmserver.AmagamaTranslation``
 
 .. seealso::
 
+    :ref:`amagama:installation`,
     :doc:`virtaal:amagama`,
-    `Amagama Translation Memory <https://amagama.translatehouse.org/>`_
+    `amaGama Translation Memory <https://amagama.translatehouse.org/>`_
 
 .. _apertium:
 
@@ -38,7 +39,7 @@ Turn on this service by adding ``weblate.machinery.apertium.ApertiumAPYTranslati
 .. seealso::
 
     :setting:`MT_APERTIUM_APY`, `Apertium website <https://www.apertium.org/>`_,
-    `Apertium APy documentation <http://wiki.apertium.org/wiki/Apertium-apy>`_
+    `Apertium APy documentation <https://wiki.apertium.org/wiki/Apertium-apy>`_
 
 .. _aws:
 
@@ -154,7 +155,7 @@ Google Translate API V3 (Advanced)
 
 Machine translation service provided by Google Cloud services.
 
-This services differs from the former one by having another mean of authentication.
+This service differs from the former one in how it authenticates.
 To enable service, add ``weblate.machinery.googlev3.GoogleV3Translation`` to
 :setting:`MT_SERVICES` and set
 
@@ -215,6 +216,23 @@ Turn this service on by adding ``weblate.machinery.microsoftterminology.Microsof
 .. seealso::
 
     `Microsoft Terminology Service API <https://www.microsoft.com/en-us/language/Microsoft-Terminology-API>`_
+
+.. _modernmt:
+
+ModernMT
+--------
+
+.. versionadded:: 4.2
+
+
+Turn this service on by adding ``weblate.machinery.modernmt.ModernMTTranslation`` to
+:setting:`MT_SERVICES` and configure :setting:`MT_MODERNMT_KEY`.
+
+.. seealso::
+
+    `ModernMT API <https://www.modernmt.com/api/translate/>`_,
+    :setting:`MT_MODERNMT_KEY`,
+    :setting:`MT_MODERNMT_URL`
 
 .. _mymemory:
 
@@ -294,6 +312,7 @@ amaGama server, which is an enhanced version of tmserver.
 
     :setting:`MT_TMSERVER`,
     :doc:`tt:commands/tmserver`
+    :ref:`amagama:installation`,
     :doc:`virtaal:amagama`,
     `Amagama Translation Memory <https://amagama.translatehouse.org/>`_
 

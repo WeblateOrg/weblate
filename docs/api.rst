@@ -1,18 +1,15 @@
 .. _api:
 
-Weblate's Web API
-=================
-
 .. index::
     single: REST
     single: API
 
-REST API
---------
+Weblate's REST API
+==================
 
 .. versionadded:: 2.6
 
-    The API is available since Weblate 2.6.
+    The REST API is available since Weblate 2.6.
 
 The API is accessible on the ``/api/`` URL and it is based on
 `Django REST framework <https://www.django-rest-framework.org/>`_.
@@ -157,10 +154,20 @@ Rate limiting can be adjusted in the :file:`settings.py`; see
 `Throttling in Django REST framework documentation <https://www.django-rest-framework.org/api-guide/throttling/>`_
 for more details how to configure it.
 
+The status of rate limiting is reported in following headers:
+
++---------------------------+---------------------------------------------------+
+| ``X-RateLimit-Limit``     | Rate limiting limit of requests to perform        |
++---------------------------+---------------------------------------------------+
+| ``X-RateLimit-Remaining`` | Remaining limit of requests                       |
++---------------------------+---------------------------------------------------+
+| ``X-RateLimit-Reset``     | Number of seconds until ratelimit window resets   |
++---------------------------+---------------------------------------------------+
+
 .. versionchanged:: 4.1
 
-    The status of rate limiting is reported in follwing headers:
-    ``X-RateLimit-Limit``, ``X-RateLimit-Remaining``, ``X-RateLimit-Reset``
+    Added ratelimiting status headers.
+
 
 API Entry Point
 +++++++++++++++
@@ -288,7 +295,7 @@ Users
 
 .. http:delete:: /api/users/(str:username)/
 
-    Deletes all user information and mark the user inactive.
+    Deletes all user information and marks the user inactive.
 
     :param username: User's username
     :type username: string
@@ -300,6 +307,65 @@ Users
     :param username: User's username
     :type username: string
     :form string group_id: The unique group ID
+
+.. http:get:: /api/users/(str:username)/notifications/
+
+    List subscriptions of a user.
+
+    :param username: User's username
+    :type username: string
+
+.. http:post:: /api/users/(str:username)/notifications/
+
+    Associate subscriptions with a user.
+
+    :param username: User's username
+    :type username: string
+    :<json string notification: Name of notification registered
+    :<json int scope: Scope of notification from the available choices
+    :<json int frequency: Frequency choices for notifications
+
+.. http:get:: /api/users/(str:username)/notifications/(int:subscription_id)/
+
+    Get a subscription associated with a user.
+
+    :param username: User's username
+    :type username: string
+    :param subscription_id: ID of notification registered
+    :type subscription_id: int
+
+.. http:put:: /api/users/(str:username)/notifications/(int:subscription_id)/
+
+    Edit a subscription associated with a user.
+
+    :param username: User's username
+    :type username: string
+    :param subscription_id: ID of notification registered
+    :type subscription_id: int
+    :<json string notification: Name of notification registered
+    :<json int scope: Scope of notification from the available choices
+    :<json int frequency: Frequency choices for notifications
+
+.. http:patch:: /api/users/(str:username)/notifications/(int:subscription_id)/
+
+    Edit a subscription associated with a user.
+
+    :param username: User's username
+    :type username: string
+    :param subscription_id: ID of notification registered
+    :type subscription_id: int
+    :<json string notification: Name of notification registered
+    :<json int scope: Scope of notification from the available choices
+    :<json int frequency: Frequency choices for notifications
+
+.. http:delete:: /api/users/(str:username)/notifications/(int:subscription_id)/
+
+    Delete a subscription associated with a user.
+
+    :param username: User's username
+    :type username: string
+    :param subscription_id: Name of notification registered
+    :param subscription_id: int
 
 
 Groups
@@ -605,7 +671,7 @@ Languages
 
 .. http:put:: /api/languages/(string:language)/
 
-    Changes the lnnguage parameters.
+    Changes the language parameters.
 
     :param language: Language's code
     :type language: string
@@ -723,7 +789,8 @@ Projects
 
 .. http:get:: /api/projects/(string:project)/changes/
 
-    Returns a list of project changes.
+    Returns a list of project changes. This is essentially a project scoped
+    :http:get:`/api/changes/` accepting same params.
 
     :param project: Project URL slug
     :type project: string
@@ -963,24 +1030,50 @@ Components
     :type project: string
     :param component: Component URL slug
     :type component: string
-    :>json string branch: VCS repository branch
-    :>json string file_format: file format of translations
-    :>json string filemask: mask of translation files in the repository
-    :>json string git_export: URL of the exported VCS repository with translations
-    :>json string license: license for translations
-    :>json string license_url: URL of license for translations
-    :>json string name: name of component
-    :>json string slug: slug of component
     :>json object project: the translation project; see :http:get:`/api/projects/(string:project)/`
-    :>json string repo: VCS repository URL
-    :>json string template: base file for monolingual translations
-    :>json string new_base: base file for adding new translations
-    :>json string vcs: version control system
+    :>json string name: :ref:`component-name`
+    :>json string slug: :ref:`component-slug`
+    :>json string vcs: :ref:`component-vcs`
+    :>json string repo: :ref:`component-repo`
+    :>json string git_export: :ref:`component-git_export`
+    :>json string branch: :ref:`component-branch`
+    :>json string push_branch: :ref:`component-push_branch`
+    :>json string filemask: :ref:`component-filemask`
+    :>json string template: :ref:`component-template`
+    :>json string edit_template: :ref:`component-edit_template`
+    :>json string intermediate: :ref:`component-intermediate`
+    :>json string new_base: :ref:`component-new_base`
+    :>json string file_format: :ref:`component-file_format`
+    :>json string license: :ref:`component-license`
+    :>json string agreement: :ref:`component-agreement`
+    :>json string new_lang: :ref:`component-new_lang`
+    :>json string language_code_style: :ref:`component-language_code_style`
+    :>json string push: :ref:`component-push`
+    :>json string check_flags: :ref:`component-check_flags`
+    :>json string priority: :ref:`component-priority`
+    :>json string enforced_checks: :ref:`component-enforced_checks`
+    :>json string restricted: :ref:`component-restricted`
+    :>json string repoweb: :ref:`component-repoweb`
+    :>json string report_source_bugs: :ref:`component-report_source_bugs`
+    :>json string merge_style: :ref:`component-merge_style`
+    :>json string commit_message: :ref:`component-commit_message`
+    :>json string add_message: :ref:`component-add_message`
+    :>json string delete_message: :ref:`component-delete_message`
+    :>json string merge_message: :ref:`component-merge_message`
+    :>json string addon_message: :ref:`component-addon_message`
+    :>json string allow_translation_propagation: :ref:`component-allow_translation_propagation`
+    :>json string enable_suggestions: :ref:`component-enable_suggestions`
+    :>json string suggestion_voting: :ref:`component-suggestion_voting`
+    :>json string suggestion_autoaccept: :ref:`component-suggestion_autoaccept`
+    :>json string push_on_commit: :ref:`component-push_on_commit`
+    :>json string commit_pending_age: :ref:`component-commit_pending_age`
+    :>json string auto_lock_error: :ref:`component-auto_lock_error`
+    :>json string language_regex: :ref:`component-language_regex`
+    :>json string variant_regex: :ref:`component-variant_regex`
     :>json string repository_url: URL to repository status; see :http:get:`/api/components/(string:project)/(string:component)/repository/`
     :>json string translations_url: URL to translations list; see :http:get:`/api/components/(string:project)/(string:component)/translations/`
     :>json string lock_url: URL to lock status; see :http:get:`/api/components/(string:project)/(string:component)/lock/`
     :>json string changes_list_url: URL to changes list; see :http:get:`/api/components/(string:project)/(string:component)/changes/`
-    :>json string push: URL of a push repository
 
     **Example JSON data:**
 
@@ -1129,7 +1222,8 @@ Components
 
 .. http:get::  /api/components/(string:project)/(string:component)/changes/
 
-    Returns a list of component changes.
+    Returns a list of component changes. This is essentially a component scoped
+    :http:get:`/api/changes/` accepting same params.
 
     :param project: Project URL slug
     :type project: string
@@ -1425,22 +1519,22 @@ Translations
     :param language: Translation language code
     :type language: string
     :>json object component: component object; see :http:get:`/api/components/(string:project)/(string:component)/`
-    :>json int failing_checks: number of strings failing check
-    :>json float failing_checks_percent: percentage of strings failing check
-    :>json int failing_checks_words: number of words with failing check
+    :>json int failing_checks: number of strings failing checks
+    :>json float failing_checks_percent: percentage of strings failing checks
+    :>json int failing_checks_words: number of words with failing checks
     :>json string filename: translation filename
     :>json int fuzzy: number of strings marked for review
     :>json float fuzzy_percent: percentage of strings marked for review
     :>json int fuzzy_words: number of words marked for review
     :>json int have_comment: number of strings with comment
     :>json int have_suggestion: number of strings with suggestion
-    :>json boolean is_template: whether translation is monolingual base
+    :>json boolean is_template: whether the translation has a monolingual base
     :>json object language: source language object; see :http:get:`/api/languages/(string:language)/`
     :>json string language_code: language code used in the repository; this can be different from language code in the language object
     :>json string last_author: name of last author
     :>json timestamp last_change: last change timestamp
-    :>json string revision: hash revision of the file
-    :>json string share_url: URL for sharing leading to engage page
+    :>json string revision: revision hash for the file
+    :>json string share_url: URL for sharing leading to engagement page
     :>json int total: total number of strings
     :>json int total_words: total number of words
     :>json string translate_url: URL for translating
@@ -1535,7 +1629,8 @@ Translations
 
 .. http:get:: /api/translations/(string:project)/(string:component)/(string:language)/changes/
 
-    Returns a list of translation changes.
+    Returns a list of translation changes. This is essentially a translations-scoped
+    :http:get:`/api/changes/` accepting the same parameters.
 
     :param project: Project URL slug
     :type project: string
@@ -1601,7 +1696,7 @@ Translations
         parameter differs and without such parameter you get translation file
         as stored in VCS.
 
-    :query format: File format to use; if not specified no format conversion happens; supported file formats: ``po``, ``mo``, ``xliff``, ``xliff11``, ``tbx``
+    :query format: File format to use; if not specified no format conversion happens; supported file formats: ``po``, ``mo``, ``xliff``, ``xliff11``, ``tbx``, ``csv``, ``xlsx``, ``json``, ``aresource``, ``strings``
 
     :param project: Project URL slug
     :type project: string
@@ -1620,11 +1715,11 @@ Translations
     :type component: string
     :param language: Translation language code
     :type language: string
-    :form boolean overwrite: Whether to overwrite existing translations (defaults to no)
+    :form string conflicts: How to deal with conflicts (``ignore``, ``replace-translated`` or ``replace-approved``)
     :form file file: Uploaded file
     :form string email: Author e-mail
     :form string author: Author name
-    :form string method: Upload method (``translate``, ``approve``, ``suggest``, ``fuzzy``, ``replace``, ``source``)
+    :form string method: Upload method (``translate``, ``approve``, ``suggest``, ``fuzzy``, ``replace``, ``source``), see :ref:`upload-method`
     :form string fuzzy: Fuzzy strings processing (*empty*, ``process``, ``approve``)
 
     **CURL example:**
@@ -1721,17 +1816,17 @@ Units
     :>json string context: translation unit context
     :>json string note: translation unit note
     :>json string flags: translation unit flags
-    :>json boolean fuzzy: whether unit is fuzzy or marked for review
-    :>json boolean translated: whether unit is translated
-    :>json boolean approved: whether translation is approved
+    :>json boolean fuzzy: whether the unit is fuzzy or marked for review
+    :>json boolean translated: whether the unit is translated
+    :>json boolean approved: whether the translation is approved
     :>json int position: unit position in translation file
-    :>json boolean has_suggestion: whether unit has suggestions
-    :>json boolean has_comment: whether unit has comments
-    :>json boolean has_failing_check: whether unit has failing checks
+    :>json boolean has_suggestion: whether the unit has suggestions
+    :>json boolean has_comment: whether the unit has comments
+    :>json boolean has_failing_check: whether the unit has failing checks
     :>json int num_words: number of source words
     :>json int priority: translation priority; 100 is default
     :>json int id: unit identifier
-    :>json string web_url: URL where unit can be edited
+    :>json string web_url: URL where the unit can be edited
     :>json string souce_info: Source string information link; see :http:get:`/api/units/(int:id)/`
 
 Changes
@@ -1753,8 +1848,8 @@ Changes
 
     :query string user: Username of user to filters
     :query int action: Action to filter, can be used several times
-    :query timestamp timestamp_after: ISO 8601 formatted timestmap to list changes after
-    :query timestamp timestamp_before: ISO 8601 formatted timestmap to list changes before
+    :query timestamp timestamp_after: ISO 8601 formatted timestamp to list changes after
+    :query timestamp timestamp_before: ISO 8601 formatted timestamp to list changes before
 
 .. http:get:: /api/changes/(int:id)/
 
@@ -1834,6 +1929,15 @@ Screenshots
     :>json string file_url: URL to download a file; see :http:get:`/api/screenshots/(int:id)/file/`
     :>json array units: link to associated source string information; see :http:get:`/api/units/(int:id)/`
 
+.. http:delete:: /api/screenshots/(int:id)/units/(int:unit_id)
+
+    Remove source string association with screenshot.
+
+    :param id: Screenshot ID
+    :type id: int
+    :param unit_id: Source string unit ID
+    :type id: int
+
 .. http:post:: /api/screenshots/
 
     Creates a new screenshot.
@@ -1846,6 +1950,35 @@ Screenshots
     :>json string component: URL of a related component object
     :>json string file_url: URL to download a file; see :http:get:`/api/screenshots/(int:id)/file/`
     :>json array units: link to associated source string information; see :http:get:`/api/units/(int:id)/`
+
+.. http:patch:: /api/screenshots/(int:id)/
+
+    Edit partial information about screenshot.
+
+    :param id: Screenshot ID
+    :type id: int
+    :>json string name: name of a screenshot
+    :>json string component: URL of a related component object
+    :>json string file_url: URL to download a file; see :http:get:`/api/screenshots/(int:id)/file/`
+    :>json array units: link to associated source string information; see :http:get:`/api/units/(int:id)/`
+
+.. http:put:: /api/screenshots/(int:id)/
+
+    Edit full information about screenshot.
+
+    :param id: Screenshot ID
+    :type id: int
+    :>json string name: name of a screenshot
+    :>json string component: URL of a related component object
+    :>json string file_url: URL to download a file; see :http:get:`/api/screenshots/(int:id)/file/`
+    :>json array units: link to associated source string information; see :http:get:`/api/units/(int:id)/`
+
+.. http:delete:: /api/screenshots/(int:id)/
+
+    Delete screenshot.
+
+    :param id: Screenshot ID
+    :type id: int
 
 
 Component lists
@@ -1920,7 +2053,7 @@ Component lists
 .. _hooks:
 
 Notification hooks
-------------------
+++++++++++++++++++
 
 Notification hooks allow external applications to notify Weblate that the VCS
 repository has been updated.
@@ -1964,7 +2097,7 @@ update individual repositories; see
 
         :ref:`github-setup`
             For instruction on setting up GitHub integration
-        https://help.github.com/en/github/extending-github/about-webhooks
+        https://docs.github.com/en/github/extending-github/about-webhooks
             Generic information about GitHub Webhooks
         :setting:`ENABLE_HOOKS`
             For enabling hooks for whole Weblate
@@ -2064,7 +2197,7 @@ update individual repositories; see
 .. _exports:
 
 Exports
--------
++++++++
 
 Weblate provides various exports to allow you to further process the data.
 
@@ -2153,7 +2286,7 @@ Weblate provides various exports to allow you to further process the data.
 .. _rss:
 
 RSS feeds
----------
++++++++++
 
 Changes in translations are exported in RSS feeds.
 

@@ -17,10 +17,10 @@ The authentication attempts are subject to :ref:`rate-limit`.
 Authentication backends
 -----------------------
 
-The inbuilt solution of Django is used for authentication,
+The built-in solution of Django is used for authentication,
 including various social options to do so.
-Using it means you can import the user database of other Django based projects (see
-:ref:`pootle-migration`).
+Using it means you can import the user database of other Django-based projects
+(see :ref:`pootle-migration`).
 
 Django can additionally be set up to authenticate against other means too.
 
@@ -64,7 +64,7 @@ to properly credit contributions users make.
 OpenID authentication
 ~~~~~~~~~~~~~~~~~~~~~
 
-For OpenID based services it's usually just a matter of enabling them. The following
+For OpenID-based services it's usually just a matter of enabling them. The following
 section enables OpenID authentication for OpenSUSE, Fedora and Ubuntu:
 
 .. code-block:: python
@@ -106,6 +106,8 @@ You need to register an application on GitHub and then tell Weblate all its secr
 The GitHub should be configured to have callback URL as
 ``https://example.com/accounts/complete/github/``.
 
+.. include:: /snippets/oauth-site.rst
+
 .. seealso::
 
     :doc:`psa:backends/github`
@@ -130,6 +132,8 @@ You need to register an application on Bitbucket and then tell Weblate all its s
     SOCIAL_AUTH_BITBUCKET_KEY = 'Bitbucket Client ID'
     SOCIAL_AUTH_BITBUCKET_SECRET = 'Bitbucket Client Secret'
     SOCIAL_AUTH_BITBUCKET_VERIFIED_EMAILS_ONLY = True
+
+.. include:: /snippets/oauth-site.rst
 
 .. seealso::
 
@@ -158,6 +162,8 @@ The redirect URL is ``https://WEBLATE SERVER/accounts/complete/google-oauth2/``
     SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = 'Client ID'
     SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'Client secret'
 
+.. include:: /snippets/oauth-site.rst
+
 .. seealso::
 
    :doc:`psa:backends/google`
@@ -185,6 +191,8 @@ The redirect URL is ``https://WEBLATE SERVER/accounts/complete/facebook/``
     SOCIAL_AUTH_FACEBOOK_KEY = 'key'
     SOCIAL_AUTH_FACEBOOK_SECRET = 'secret'
     SOCIAL_AUTH_FACEBOOK_SCOPE = ['email', 'public_profile']
+
+.. include:: /snippets/oauth-site.rst
 
 .. seealso::
 
@@ -219,6 +227,8 @@ ensure you mark the `read_user` scope.
     # If you are using your own GitLab
     # SOCIAL_AUTH_GITLAB_API_URL = 'https://gitlab.example.com/'
 
+.. include:: /snippets/oauth-site.rst
+
 .. seealso::
 
    :doc:`psa:backends/gitlab`
@@ -232,7 +242,7 @@ Weblate can be configured to use common or specific tenants for authentication.
 
 The redirect URL is ``https://WEBLATE SERVER/accounts/complete/azuread-oauth2/``
 for common and ``https://WEBLATE SERVER/accounts/complete/azuread-tenant-oauth2/``
-for tenant specific authentication.
+for tenant-specific authentication.
 
 .. code-block:: python
 
@@ -266,6 +276,8 @@ for tenant specific authentication.
     # Tenant ID
     SOCIAL_AUTH_AZUREAD_TENANT_OAUTH2_TENANT_ID = ""
 
+.. include:: /snippets/oauth-site.rst
+
 .. seealso::
 
    :doc:`psa:backends/azuread`
@@ -293,6 +305,8 @@ The redirect URL is ``https://WEBLATE SERVER/accounts/complete/slack/``.
     SOCIAL_AUTH_SLACK_KEY = ''
     SOCIAL_AUTH_SLACK_SECRET = ''
 
+.. include:: /snippets/oauth-site.rst
+
 .. seealso::
 
    :doc:`psa:backends/slack`
@@ -300,7 +314,7 @@ The redirect URL is ``https://WEBLATE SERVER/accounts/complete/slack/``.
 Turning off password authentication
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Email and password authentication can be disabled by removing
+E-mail and password authentication can be turned off by removing
 ``social_core.backends.email.EmailAuth`` from
 :setting:`django:AUTHENTICATION_BACKENDS`. Always keep
 ``weblate.accounts.auth.WeblateUserBackend`` there, it is needed for core
@@ -478,7 +492,7 @@ and provide a user to bind for the search. For example:
    AUTH_LDAP_USER_SEARCH = LDAPSearch("ou=users,dc=example,dc=com",
        ldap.SCOPE_SUBTREE, "(uid=%(user)s)")
 
-Active directory integration
+Active Directory integration
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: python
@@ -503,6 +517,8 @@ Active directory integration
     AUTH_LDAP_GROUP_TYPE = NestedActiveDirectoryGroupType()
     AUTH_LDAP_FIND_GROUP_PERMS = True
 
+    # Optionally enable group mirroring from LDAP to Weblate
+    # AUTH_LDAP_MIRROR_GROUPS = True
 
 .. seealso::
 

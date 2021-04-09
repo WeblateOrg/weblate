@@ -70,3 +70,9 @@ class DuplicateCheckTest(CheckTestCase):
             self.check.get_description(check),
             "Text contains the same word twice in a row: lemons, two",
         )
+
+    def test_check_duplicated_language_cleanup(self):
+        self.assertFalse(self._run_check("Cancel·la la baixada", lang="ca"))
+
+    def test_separator(self):
+        self.assertFalse(self._run_check("plug-in in"))

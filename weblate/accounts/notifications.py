@@ -20,6 +20,7 @@
 from collections import defaultdict
 from copy import copy
 from email.utils import formataddr
+from typing import Iterable, Optional
 
 from dateutil.relativedelta import relativedelta
 from django.conf import settings
@@ -84,13 +85,13 @@ def register_notification(handler):
 
 
 class Notification:
-    actions = ()
-    verbose = ""
-    template_name = None
-    digest_template = "digest"
-    filter_languages = False
-    ignore_watched = False
-    required_attr = None
+    actions: Iterable[int] = ()
+    verbose: str = ""
+    template_name: str = ""
+    digest_template: str = "digest"
+    filter_languages: bool = False
+    ignore_watched: bool = False
+    required_attr: Optional[str] = None
 
     def __init__(self, outgoing, perm_cache=None):
         self.outgoing = outgoing
@@ -131,7 +132,7 @@ class Notification:
         return (
             result.filter(query)
             .order_by("user", "-scope")
-            .prefetch_related("user__profile")
+            .prefetch_related("user__profile__watched")
         )
 
     def get_subscriptions(self, change, project, component, translation, users):
@@ -206,7 +207,7 @@ class Notification:
                     subscription.scope == SCOPE_DEFAULT
                     and not self.ignore_watched
                     and project is not None
-                    and not user.profile.watched.filter(pk=project.id).exists()
+                    and not user.profile.watches_project(project)
                 )
             ):
                 continue
@@ -338,6 +339,9 @@ class Notification:
                     change,
                     subscription=user.current_subscription,
                 )
+                # Delete onetime subscription
+                if user.current_subscription.onetime:
+                    user.current_subscription.delete()
 
     def send_digest(self, language, email, changes, subscription=None):
         with override("en" if language is None else language):
@@ -399,7 +403,10 @@ class MergeFailureNotification(Notification):
     # Translators: Notification name
     verbose = _("Repository failure")
     template_name = "repository_error"
-    fake_notify = None
+
+    def __init__(self, outgoing, perm_cache=None):
+        super().__init__(outgoing, perm_cache)
+        self.fake_notify = None
 
     def should_skip(self, user, change):
         fake = copy(change)
@@ -424,6 +431,25 @@ class RepositoryNotification(Notification):
     # Translators: Notification name
     verbose = _("Repository operation")
     template_name = "repository_operation"
+
+
+@register_notification
+class LockNotification(Notification):
+    actions = (
+        Change.ACTION_LOCK,
+        Change.ACTION_UNLOCK,
+    )
+    # Translators: Notification name
+    verbose = _("Component locking")
+    template_name = "component_lock"
+
+
+@register_notification
+class LicenseNotification(Notification):
+    actions = (Change.ACTION_LICENSE_CHANGE,)
+    # Translators: Notification name
+    verbose = _("Changed license")
+    template_name = "component_license"
 
 
 @register_notification
@@ -470,7 +496,10 @@ class LastAuthorCommentNotificaton(Notification):
     template_name = "new_comment"
     ignore_watched = True
     required_attr = "comment"
-    fake_notify = None
+
+    def __init__(self, outgoing, perm_cache=None):
+        super().__init__(outgoing, perm_cache)
+        self.fake_notify = None
 
     def should_skip(self, user, change):
         if self.fake_notify is None:
@@ -506,7 +535,10 @@ class MentionCommentNotificaton(Notification):
     template_name = "new_comment"
     ignore_watched = True
     required_attr = "comment"
-    fake_notify = None
+
+    def __init__(self, outgoing, perm_cache=None):
+        super().__init__(outgoing, perm_cache)
+        self.fake_notify = None
 
     def should_skip(self, user, change):
         if self.fake_notify is None:
@@ -569,6 +601,24 @@ class ChangedStringNotificaton(Notification):
     # Translators: Notification name
     verbose = _("Changed string")
     template_name = "changed_translation"
+    filter_languages = True
+
+
+@register_notification
+class TranslatedStringNotificaton(Notification):
+    actions = (Change.ACTION_CHANGE, Change.ACTION_NEW)
+    # Translators: Notification name
+    verbose = _("Translated string")
+    template_name = "translated_string"
+    filter_languages = True
+
+
+@register_notification
+class ApprovedStringNotificaton(Notification):
+    actions = (Change.ACTION_APPROVE,)
+    # Translators: Notification name
+    verbose = _("Approved string")
+    template_name = "approved_string"
     filter_languages = True
 
 

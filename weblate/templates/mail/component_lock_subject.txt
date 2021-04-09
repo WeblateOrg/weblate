@@ -1,0 +1,8 @@
+{% load i18n %}
+{% autoescape off %}
+{% if change.action == 14 %}
+{% blocktrans %}Component {{ component }} was locked{% endblocktrans %}
+{% else %}
+{% blocktrans %}Component {{ component }} was unlocked{% endblocktrans %}
+{% endif %}
+{% endautoescape %}

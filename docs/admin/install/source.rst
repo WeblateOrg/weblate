@@ -3,7 +3,7 @@
 Installing from sources
 =======================
 
-#. Please follow the installatin instructions for your system first:
+#. Please follow the installation instructions for your system first:
 
    * :doc:`venv-debian`
    * :doc:`venv-suse`
@@ -41,6 +41,7 @@ Installing from sources
 
         weblate migrate
         weblate collectstatic
+        weblate compress
         weblate compilemessages
 
    .. note::
