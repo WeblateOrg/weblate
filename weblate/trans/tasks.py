@@ -17,13 +17,12 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-
-import logging
 import os
 from datetime import date, timedelta
 from glob import glob
 from shutil import rmtree
 from time import time
+from typing import List, Optional
 
 from celery.schedules import crontab
 from django.conf import settings
@@ -53,8 +52,6 @@ from weblate.utils.errors import report_error
 from weblate.utils.files import remove_readonly
 from weblate.vcs.base import RepositoryException
 
-SEARCH_LOGGER = logging.getLogger("weblate.search")
-
 
 @app.task(
     trail=False, autoretry_for=(Timeout,), retry_backoff=600, retry_backoff_max=3600
@@ -77,9 +74,17 @@ def perform_update(cls, pk, auto=False):
 @app.task(
     trail=False, autoretry_for=(Timeout,), retry_backoff=600, retry_backoff_max=3600
 )
-def perform_load(pk, *args):
+def perform_load(
+    pk: int,
+    force: bool = False,
+    langs: Optional[List[str]] = None,
+    changed_template: bool = False,
+    from_link: bool = False,
+):
     component = Component.objects.get(pk=pk)
-    component.create_translations(*args)
+    component.create_translations(
+        force=force, langs=langs, changed_template=changed_template, from_link=from_link
+    )
 
 
 @app.task(

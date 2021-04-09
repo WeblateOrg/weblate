@@ -60,6 +60,9 @@ class BillingTest(TestCase):
         )
         self.projectnum = 0
 
+    def refresh_from_db(self):
+        self.billing = Billing.objects.get(pk=self.billing.pk)
+
     def add_project(self):
         name = "test{0}".format(self.projectnum)
         self.projectnum += 1
@@ -95,10 +98,10 @@ class BillingTest(TestCase):
     def test_limit_projects(self):
         self.assertTrue(self.billing.in_limits)
         self.add_project()
-        self.billing.refresh_from_db()
+        self.refresh_from_db()
         self.assertTrue(self.billing.in_limits)
         self.add_project()
-        self.billing.refresh_from_db()
+        self.refresh_from_db()
         self.assertFalse(self.billing.in_limits)
 
     def test_commands(self):
@@ -217,7 +220,7 @@ class BillingTest(TestCase):
         perform_removal()
         billing_alert()
         self.assertEqual(len(mail.outbox), 0)
-        self.billing.refresh_from_db()
+        self.refresh_from_db()
         self.assertIsNone(self.billing.removal)
         self.assertEqual(self.billing.state, Billing.STATE_ACTIVE)
         self.assertEqual(self.billing.projects.count(), 1)
@@ -231,7 +234,7 @@ class BillingTest(TestCase):
         perform_removal()
         billing_alert()
         self.assertEqual(len(mail.outbox), 1)
-        self.billing.refresh_from_db()
+        self.refresh_from_db()
         self.assertIsNone(self.billing.removal)
         self.assertEqual(self.billing.state, Billing.STATE_ACTIVE)
         self.assertEqual(self.billing.projects.count(), 1)
@@ -246,7 +249,7 @@ class BillingTest(TestCase):
         perform_removal()
         billing_alert()
         self.assertEqual(len(mail.outbox), 1)
-        self.billing.refresh_from_db()
+        self.refresh_from_db()
         self.assertIsNotNone(self.billing.removal)
         self.assertEqual(self.billing.state, Billing.STATE_ACTIVE)
         self.assertEqual(self.billing.projects.count(), 1)
@@ -259,7 +262,7 @@ class BillingTest(TestCase):
         self.billing.removal = timezone.now() - timedelta(days=30)
         self.billing.save()
         perform_removal()
-        self.billing.refresh_from_db()
+        self.refresh_from_db()
         self.assertEqual(self.billing.state, Billing.STATE_TERMINATED)
         self.assertEqual(self.billing.projects.count(), 0)
         self.assertEqual(len(mail.outbox), 1)
@@ -278,7 +281,7 @@ class BillingTest(TestCase):
         billing_check()
         notify_expired()
         perform_removal()
-        self.billing.refresh_from_db()
+        self.refresh_from_db()
         self.assertEqual(self.billing.state, Billing.STATE_TRIAL)
         self.assertEqual(self.billing.projects.count(), 1)
         self.assertIsNone(self.billing.removal)
@@ -290,7 +293,7 @@ class BillingTest(TestCase):
         billing_check()
         notify_expired()
         perform_removal()
-        self.billing.refresh_from_db()
+        self.refresh_from_db()
         self.assertEqual(self.billing.state, Billing.STATE_TRIAL)
         self.assertEqual(self.billing.projects.count(), 1)
         self.assertIsNone(self.billing.removal)
@@ -302,7 +305,7 @@ class BillingTest(TestCase):
         billing_check()
         notify_expired()
         perform_removal()
-        self.billing.refresh_from_db()
+        self.refresh_from_db()
         self.assertEqual(self.billing.state, Billing.STATE_EXPIRED)
         self.assertEqual(self.billing.projects.count(), 1)
         self.assertIsNotNone(self.billing.removal)
@@ -317,7 +320,7 @@ class BillingTest(TestCase):
         self.billing.save()
         billing_check()
         perform_removal()
-        self.billing.refresh_from_db()
+        self.refresh_from_db()
         self.assertEqual(self.billing.state, Billing.STATE_TERMINATED)
         self.assertEqual(self.billing.projects.count(), 0)
         self.assertEqual(len(mail.outbox), 1)

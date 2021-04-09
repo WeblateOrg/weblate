@@ -27,6 +27,7 @@
     <th>{% trans "Source string" %}</th>
     <th>{{ object.component.context_label }}</th>
     <th>{% trans "Location" %}</th>
+    <th>{% trans "Assigned screenshots" %}</th>
     <th colspan="2">{% trans "Actions" %}</th>
 </tr>
 </thead>
@@ -54,14 +55,15 @@
     <th>{% trans "Source string" %}</th>
     <th>{{ object.component.context_label }}</th>
     <th>{% trans "Location" %}</th>
+    <th>{% trans "Assigned screenshots" %}</th>
     <th>{% trans "Actions" %}</th>
     </tr>
     </thead>
     <tbody id="loading-screenshots" style="display:none;">
-      <tr><td colspan="4">{% loading_icon hidden=False %} {% trans "Loading results…" %}</td></tr>
+      <tr><td colspan="5">{% loading_icon hidden=False %} {% trans "Loading results…" %}</td></tr>
     </tbody>
     <tbody id="search-results">
-      <tr><td colspan="4">{% trans "Please search below to find matching source strings." %}</td></tr>
+      <tr><td colspan="5">{% trans "Please search below to find matching source strings." %}</td></tr>
     </tbody>
   </table>
   </div>

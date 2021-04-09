@@ -10,7 +10,7 @@ Everyone can add suggestions by default, to be accepted by signed in users.
 Suggestion voting can be used to make use of a string when more than signed in
 user agrees, by setting up the :ref:`component` configuration with
 :guilabel:`Suggestion voting` to turn on voting, and :guilabel:`Autoaccept suggestions`
-to set a treshold for accepted suggestions (this includes a vote from the user
+to set a threshold for accepted suggestions (this includes a vote from the user
 making the suggestion if it is cast).
 
 .. note::

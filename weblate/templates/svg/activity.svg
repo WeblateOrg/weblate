@@ -1,0 +1,29 @@
+{% load humanize %}
+{% load i18n %}
+
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="800" height="250" xml:lang="en">
+<defs>
+{% include "svg/style.svg" %}
+</defs>
+<g id="layer1">
+
+{% for value, label, offset, color, bar_height, bar_offset in serie %}
+<text
+   xml:space="preserve"
+   style="font-style:normal;font-weight:normal;font-size:11px;font-family:'Source Sans Pro',Sans;fill:#808080;text-anchor:end;"
+   x="-170"
+   y="{{ offset }}"
+   transform="rotate(-90)">{{ label }}</text>
+<rect
+   style="fill:{{ color }};fill-opacity:1;stroke:none"
+   height="{{ bar_height }}"
+   width="6"
+   rx="2"
+   y="{{ bar_offset }}"
+   x="{{ offset }}">
+   <title>{% blocktrans count _count=value with count=value|intcomma %}{{ count }} change{% plural %}{{ count }} changes{% endblocktrans %}</title>
+</rect>
+{% endfor %}
+
+</g>
+</svg>

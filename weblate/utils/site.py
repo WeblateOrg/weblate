@@ -18,15 +18,14 @@
 #
 
 from django.conf import settings
-from django.contrib.sites.models import Site
 
 # List of default domain names on which warn user
-DEFAULT_DOMAINS = ("example.net", "example.com")
+DEFAULT_DOMAINS = ("", "*")
 
 
 def get_site_domain():
     """Return current site domain."""
-    return Site.objects.get_current().domain
+    return settings.SITE_DOMAIN
 
 
 def get_site_url(url=""):

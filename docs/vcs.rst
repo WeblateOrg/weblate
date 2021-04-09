@@ -112,7 +112,7 @@ upstream repository and chosen branch.
 For smaller deployments, use HTTPS authentication with a personal access
 token and your GitHub account, see `Creating an access token for command-line use`_.
 
-.. _Creating an access token for command-line use: https://help.github.com/en/github/authenticating-to-github/creating-a-personal-access-token-for-the-command-line
+.. _Creating an access token for command-line use: https://docs.github.com/en/github/authenticating-to-github/creating-a-personal-access-token
 
 For bigger setups, it is usually better to create a dedicated user for Weblate,
 assign it the public SSH key generated in Weblate (see :ref:`weblate-ssh-key`)
@@ -160,7 +160,7 @@ For example the GitHub URL with authentication added might look like:
 
     If you username or password contains special characters, those have to be
     URL encoded, for example
-    ``https://user%40example.com:%24password%23@bitbucket.org/…```.
+    ``https://user%40example.com:%24password%23@bitbucket.org/…``.
 
 Using proxy
 +++++++++++
@@ -201,7 +201,7 @@ Git with force push
 +++++++++++++++++++
 
 This behaves exactly like Git itself, the only difference being that it always
-force pushes. This is intended only in the case of using a seperate repository
+force pushes. This is intended only in the case of using a separate repository
 for translations.
 
 .. warning::
@@ -241,7 +241,7 @@ For the ``hello`` repository from selenic.com using Mercurial::
 
     hg::http://selenic.com/repo/hello
 
-.. _remote helpers: https://git-scm.com/docs/git-remote-helpers
+.. _remote helpers: https://git-scm.com/docs/gitremote-helpers
 .. _git-remote-hg: https://github.com/felipec/git-remote-hg
 .. _git-remote-bzr: https://github.com/felipec/git-remote-bzr
 
@@ -427,7 +427,7 @@ users to maintain a full clone of the internal repository and commit locally.
     supports both direct URLs for branch or repositories with standard layout
     (branches/, tags/ and trunk/). More info about this is to be foud in the
     `git-svn documentation <https://git-scm.com/docs/git-svn#Documentation/git-svn.txt---stdlayout>`_.
-    If your repository does not have a standard layout and you encounter erros,
+    If your repository does not have a standard layout and you encounter errors,
     try including the branch name in the repository URL and leaving branch empty.
 
 .. versionchanged:: 2.19
@@ -468,5 +468,5 @@ or add translation strings directly from Weblate (currently available only for
 monolingual translations).
 
 In the background Weblate creates a Git repository for you and all changes are
-tracked in in. In case you later decide to use a VCS to store the translations,
-you already have a repo within Weblate can base your integration on.
+tracked in. In case you later decide to use a VCS to store the translations,
+you already have a repository within Weblate can base your integration on.

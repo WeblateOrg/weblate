@@ -28,8 +28,8 @@ Funding Weblate development
 
 You can fund further Weblate development on the `donate page`_. Funds collected
 there are used to fund gratis hosting for libre software projects, and further
-development of Weblate. Please check the the `donate page` for details, such
-as funding goals and rewards you can get by being a funder.
+development of Weblate. Please check the `donate page` for details, such
+as funding goals and rewards you can get for being a funder.
 
 .. include:: ../../BACKERS.rst
 

@@ -25,6 +25,7 @@ from django.core.cache import cache
 from django.test import TestCase
 from django.test.utils import override_settings
 
+import weblate.vcs.gpg
 from weblate.utils.checks import check_data_writable
 from weblate.utils.unittest import tempdir_setting
 from weblate.vcs.gpg import (
@@ -33,7 +34,6 @@ from weblate.vcs.gpg import (
     get_gpg_public_key,
     get_gpg_sign_key,
 )
-from weblate.wladmin.models import ConfigurationError
 
 
 class GPGTest(TestCase):
@@ -62,14 +62,7 @@ class GPGTest(TestCase):
             raise SkipTest(self.gpg_error)
 
     def check_errors(self):
-        self.assertEqual(
-            list(
-                ConfigurationError.objects.filter(name__startswith="GPG").values_list(
-                    "message", flat=True
-                )
-            ),
-            [],
-        )
+        self.assertEqual(weblate.vcs.gpg.GPG_ERRORS, {})
 
     @tempdir_setting("DATA_DIR")
     @override_settings(
@@ -77,7 +70,7 @@ class GPGTest(TestCase):
     )
     def test_generate(self):
         self.assertEqual(check_data_writable(), [])
-        self.assertIsNone(get_gpg_key())
+        self.assertIsNone(get_gpg_key(silent=True))
         key = generate_gpg_key()
         self.check_errors()
         self.assertIsNotNone(key)

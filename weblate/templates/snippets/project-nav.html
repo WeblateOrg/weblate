@@ -36,7 +36,7 @@
             {% if last_announcements %}
             <li><a href="{% url 'project' project=object.slug %}#announcement-history">{% trans "Announcements" %}</a></li>
             {% endif %}
-            <li><a href="{% url 'project' project=object.slug %}#activity" data-load="activity" data-yearly="{% url 'yearly_activity' project=object.slug %}" data-monthly="{% url 'monthly_activity' project=object.slug %}">{% trans "Activity" %}</a></li>
+            <li><a href="{% url 'project' project=object.slug %}#activity">{% trans "Activity" %}</a></li>
             <li><a href="{% url 'export_stats' project=object.slug %}?format=csv">{% trans "Download statistics (CSV)" %}</a></li>
             <li><a href="{% url 'export_stats' project=object.slug %}?format=json">{% trans "Download statistics (JSON)" %}</a></li>
             {% if user.is_authenticated %}
@@ -47,7 +47,7 @@
             {% if last_announcements %}
             <li><a href="#announcement-history" data-toggle="tab">{% trans "Announcements" %}</a></li>
             {% endif %}
-            <li><a href="#activity" data-toggle="tab" data-load="activity" data-yearly="{% url 'yearly_activity' project=object.slug %}" data-monthly="{% url 'monthly_activity' project=object.slug %}">{% trans "Activity" %}</a></li>
+            <li><a href="#activity" data-toggle="tab">{% trans "Activity" %}</a></li>
             <li><a href="{% url 'export_stats' project=object.slug %}?format=csv">{% trans "Download statistics (CSV)" %}</a></li>
             <li><a href="{% url 'export_stats' project=object.slug %}?format=json">{% trans "Download statistics (JSON)" %}</a></li>
             {% if user.is_authenticated %}

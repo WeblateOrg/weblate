@@ -20,7 +20,7 @@
 
 from django.core.checks import run_checks
 from django.core.mail import send_mail
-from django.db.models import Count
+from django.db.models import Count, Q
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
 from django.utils import timezone
@@ -29,6 +29,7 @@ from django.utils.translation import gettext_lazy
 
 from weblate.auth.decorators import management_access
 from weblate.auth.forms import InviteUserForm
+from weblate.auth.models import User
 from weblate.trans.forms import AnnouncementForm
 from weblate.trans.models import Alert, Announcement, Component, Project
 from weblate.utils import messages
@@ -44,14 +45,20 @@ from weblate.vcs.ssh import (
     get_key_data,
     ssh_file,
 )
-from weblate.wladmin.forms import ActivateForm, BackupForm, SSHAddForm, TestMailForm
+from weblate.wladmin.forms import (
+    ActivateForm,
+    BackupForm,
+    SSHAddForm,
+    TestMailForm,
+    UserSearchForm,
+)
 from weblate.wladmin.models import BackupService, ConfigurationError, SupportStatus
 from weblate.wladmin.tasks import backup_service, configuration_health_check
 
 MENU = (
     ("index", "manage", gettext_lazy("Weblate status")),
     ("backups", "manage-backups", gettext_lazy("Backups")),
-    ("memory", "manage-memory", gettext_lazy("Translation memory")),
+    ("memory", "memory", gettext_lazy("Translation memory")),
     ("performance", "manage-performance", gettext_lazy("Performance report")),
     ("ssh", "manage-ssh", gettext_lazy("SSH keys")),
     ("alerts", "manage-alerts", gettext_lazy("Alerts")),
@@ -211,15 +218,11 @@ def performance(request):
     """Show performance tuning tips."""
     if request.method == "POST":
         return handle_dismiss(request)
-
-    configuration_health_check()
+    checks = run_checks(include_deployment_checks=True)
+    configuration_health_check(checks)
 
     context = {
-        "checks": [
-            check
-            for check in run_checks(include_deployment_checks=True)
-            if not check.is_silenced()
-        ],
+        "checks": [check for check in checks if not check.is_silenced()],
         "errors": ConfigurationError.objects.filter(ignored=False),
         "queues": get_queue_stats().items(),
         "menu_items": MENU,
@@ -278,9 +281,9 @@ def ssh(request):
 def alerts(request):
     """Shows component alerts."""
     context = {
-        "alerts": Alert.objects.order_by("name").prefetch_related(
-            "component", "component__project"
-        ),
+        "alerts": Alert.objects.order_by(
+            "name", "component__project__name", "component__name"
+        ).select_related("component", "component__project"),
         "no_components": Project.objects.annotate(Count("component")).filter(
             component__count=0
         ),
@@ -306,5 +309,28 @@ def users(request):
     return render(
         request,
         "manage/users.html",
-        {"menu_items": MENU, "menu_page": "users", "invite_form": invite_form},
+        {
+            "menu_items": MENU,
+            "menu_page": "users",
+            "invite_form": invite_form,
+            "search_form": UserSearchForm,
+        },
+    )
+
+
+@management_access
+def users_check(request):
+    form = UserSearchForm(request.GET if request.GET else None)
+
+    user_list = None
+    if form.is_valid():
+        email = form.cleaned_data["email"]
+        user_list = User.objects.filter(
+            Q(email=email) | Q(social_auth__verifiedemail__email__iexact=email)
+        ).distinct()
+
+    return render(
+        request,
+        "manage/users_check.html",
+        {"menu_items": MENU, "menu_page": "users", "form": form, "users": user_list},
     )

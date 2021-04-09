@@ -117,7 +117,7 @@ class CleanupAddon(BaseCleanupAddon):
         # Remove extra units
         for unit in storage.store.units:
             if unit.getid() not in index:
-                storage.store.body.remove(unit.xmlelement)
+                unit.xmlelement.getparent().remove(unit.xmlelement)
                 changed = True
 
         if changed:

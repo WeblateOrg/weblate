@@ -17,9 +17,9 @@
 
 {% announcements component=object %}
 
-{% include "show-component-state.html" %}
+{% include "snippets/component/state.html" %}
 
-{% include "watch-dropdown.html" with project=object.project component=object %}
+{% include "snippets/watch-dropdown.html" with project=object.project component=object %}
 
 {% perm 'meta:vcs.status' object as user_can_see_repository_status %}
 {% perm 'vcs.commit' object as user_can_commit_translation %}
@@ -42,13 +42,12 @@
     </a>
     <ul class="dropdown-menu">
       <li><a href="#history" data-toggle="tab">{% trans "History" %}</a></li>
-      <li><a href="#activity" data-toggle="tab" data-load="activity" data-yearly="{% url 'yearly_activity' project=object.project.slug component=object.slug %}" data-monthly="{% url 'monthly_activity' project=object.project.slug component=object.slug %}">{% trans "Activity" %}</a></li>
+      <li><a href="#activity" data-toggle="tab">{% trans "Activity" %}</a></li>
       <li><a href="{% url 'export_stats' project=object.project.slug component=object.slug %}?format=csv">{% trans "Download statistics (CSV)" %}</a></li>
       <li><a href="{% url 'export_stats' project=object.project.slug component=object.slug %}?format=json">{% trans "Download statistics (JSON)" %}</a></li>
       {% if user.is_authenticated %}
       <li><a href="#reports" data-toggle="tab">{% trans "Translation reports" %}</a></li>
       {% endif %}
-      <li><a href="{% url 'guide' project=object.project.slug component=object.slug %}">{% trans "Localization guide" %}</a></li>
     </ul>
   </li>
   <li class="dropdown">
@@ -100,6 +99,7 @@
       <li><a href="{% url 'manage-access' project=object.project.slug %}">{% trans "Users" %}</a></li>
       {% endif %}
       {% if user_can_edit_component %}
+      <li><a href="{% url 'guide' project=object.project.slug component=object.slug %}">{% trans "Community localization checklist" %}</a></li>
       <li><a href="{% url 'addons' project=object.project.slug component=object.slug %}">{% trans "Addons" %}</a></li>
       <li><a href="{% url 'settings' project=object.project.slug component=object.slug %}">{% trans "Settings" %}</a></li>
       {% endif %}
@@ -150,7 +150,18 @@
 <div class="panel panel-default">
 <div class="panel-heading">{{ alert }}</div>
 <div class="panel-body">{{ alert.render }}</div>
-<div class="panel-footer">{{ alert.timestamp|naturaltime }}</div>
+<form action="{% url "dismiss-alert" project=object.project.slug component=object.slug %}" method="post">
+<div class="panel-footer">
+  {% comment %}Translators: Component alert footer, first and last contain localized human readable time span, for example 5 days ago{% endcomment %}
+  {% blocktrans with first=alert.timestamp|naturaltime last=alert.updated|naturaltime %}Appeared {{ first }}, last seen {{ last }}{% endblocktrans %}
+  {% if user_can_edit_component and alert.obj.dismissable %}
+    {% csrf_token %}
+    <input type="hidden" value="{{ alert.name }}" name="dismiss" />
+    <input type="submit" value="{% trans "Dismiss" %}" class="pull-right flip btn btn-danger" />
+    <div class="clearfix"></div>
+  {% endif %}
+</div>
+</form>
 </div>
 {% endfor %}
 {% else %}
@@ -202,8 +213,7 @@
 <div class="panel-heading"><h4 class="panel-title">{% trans "Bulk edit" %}</h4></div>
 <div class="panel-body">
 <p>{% trans "You can change the state of all strings matching a given type at once." %}</p>
-{% csrf_token %}
-{{ bulk_state_form|crispy }}
+{% crispy bulk_state_form %}
 </div>
 <div class="panel-footer">
 <input type="submit" value="{% trans "Apply" %}" class="btn btn-primary" />
@@ -218,6 +228,8 @@
 <a class="btn btn-primary" href="{% url 'changes' %}?{{ last_changes_url }}">{% trans "Browse all component changes" %}</a>
 </div>
 
+{% url 'yearly_activity' project=object.project.slug component=object.slug as yearly_activity %}
+{% url 'monthly_activity' project=object.project.slug component=object.slug as monthly_activity %}
 {% include "activity-tab.html" %}
 
 {% if announcement_form %}

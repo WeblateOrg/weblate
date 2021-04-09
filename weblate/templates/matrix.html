@@ -6,7 +6,7 @@
 {% block breadcrumbs %}
 <li><a href="{{ object.project.get_absolute_url }}">{{ object.project }}</a></li>
 <li><a href="{{ object.get_absolute_url }}">{{ object.name }}</a></li>
-<li><a href="{% url 'matrix' project=object.project.slug component=object.slug %}">{% trans "matrix" %}</a></li>
+<li><a href="{% url 'matrix' project=object.project.slug component=object.slug %}">{% trans "Matrix" %}</a></li>
 {% endblock %}
 
 {% block content %}

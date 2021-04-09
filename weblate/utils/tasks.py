@@ -20,6 +20,7 @@
 
 import os
 import subprocess
+import sys
 import time
 from importlib import import_module
 from shutil import copyfile
@@ -41,9 +42,10 @@ from weblate.vcs.models import VCS_REGISTRY
 @app.task(trail=False)
 def ping():
     return {
-        "version": weblate.VERSION,
+        "version": weblate.GIT_VERSION,
         "vcs": sorted(VCS_REGISTRY.keys()),
         "formats": sorted(FILE_FORMATS.keys()),
+        "encoding": [sys.getfilesystemencoding(), sys.getdefaultencoding()],
     }
 
 
@@ -105,6 +107,7 @@ def database_backup():
         )
     except subprocess.CalledProcessError as error:
         report_error(extra_data={"stdout": error.stdout, "stderr": error.stderr})
+        raise
 
 
 @app.on_after_finalize.connect

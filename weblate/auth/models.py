@@ -56,6 +56,7 @@ from weblate.trans.defines import EMAIL_LENGTH, FULLNAME_LENGTH, USERNAME_LENGTH
 from weblate.trans.fields import RegexField
 from weblate.trans.models import ComponentList, Project
 from weblate.utils.decorators import disable_for_loaddata
+from weblate.utils.fields import EmailField, UsernameField
 from weblate.utils.validators import (
     validate_email,
     validate_fullname,
@@ -72,7 +73,10 @@ class Permission(models.Model):
         verbose_name_plural = _("Permissions")
 
     def __str__(self):
-        return gettext(self.name)
+        name = gettext(self.name)
+        if self.codename in GLOBAL_PERM_NAMES:
+            return gettext("%s (site wide permission)") % name
+        return name
 
 
 class Role(models.Model):
@@ -237,17 +241,33 @@ def get_anonymous():
     )
 
 
+def convert_groups(objs):
+    """Convert Django Group objects to Weblate ones."""
+    objs = list(objs)
+    for idx, obj in enumerate(objs):
+        if isinstance(obj, DjangoGroup):
+            objs[idx] = Group.objects.get_or_create(name=obj.name)[0]
+    return objs
+
+
 def wrap_group(func):
     """Wrapper to replace Django Group instances by Weblate Group instances."""
 
     def group_wrapper(self, *objs, **kwargs):
-        objs = list(objs)
-        for idx, obj in enumerate(objs):
-            if isinstance(obj, DjangoGroup):
-                objs[idx] = Group.objects.get_or_create(name=obj.name)[0]
+        objs = convert_groups(objs)
         return func(self, *objs, **kwargs)
 
     return group_wrapper
+
+
+def wrap_group_list(func):
+    """Wrapper to replace Django Group instances by Weblate Group instances."""
+
+    def group_list_wrapper(self, objs, **kwargs):
+        objs = convert_groups(objs)
+        return func(self, objs, **kwargs)
+
+    return group_list_wrapper
 
 
 class GroupManyToManyField(models.ManyToManyField):
@@ -271,11 +291,12 @@ class GroupManyToManyField(models.ManyToManyField):
             # Monkey patch it to accept Django Group instances as well
             related_manager_cls.add = wrap_group(related_manager_cls.add)
             related_manager_cls.remove = wrap_group(related_manager_cls.remove)
+            related_manager_cls.set = wrap_group_list(related_manager_cls.set)
 
 
 class User(AbstractBaseUser):
-    username = models.CharField(
-        _("username"),
+    username = UsernameField(
+        _("Username"),
         max_length=USERNAME_LENGTH,
         unique=True,
         help_text=_(
@@ -291,7 +312,7 @@ class User(AbstractBaseUser):
         blank=False,
         validators=[validate_fullname],
     )
-    email = models.EmailField(  # noqa: DJ01
+    email = EmailField(  # noqa: DJ01
         _("E-mail"),
         blank=False,
         null=True,

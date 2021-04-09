@@ -6,7 +6,7 @@ Searching
 Advanced queries using boolean operations, parentheses, or field specific lookup can be used to
 find the strings you want.
 
-When not defining any field, the lookup happens on :guilabel:`Source`,
+When no field is defined, the lookup happens on :guilabel:`Source`,
 :guilabel:`Target` and :guilabel:`Context` fields.
 
 .. image:: /images/search.png
@@ -15,8 +15,9 @@ Simple search
 -------------
 
 Any phrase typed into the search box is split into words. Strings containing any
-of them are are shown. To look for an exact phrase, put "the searchphrase" into
-quotes (both single (') and double (") quotes will work).
+of them are shown. To look for an exact phrase, put "the searchphrase" into
+quotes (both single (') and double (") quotes will work): ``"this is a quoted
+string"`` or ``'another quoted string'``.
 
 Fields
 ------
@@ -36,7 +37,7 @@ Fields
 ``priority:NUMBER``
    String priority.
 ``added:DATETIME``
-   Timestamp when string was added to Weblate.
+   Timestamp for when the string was added to Weblate.
 ``state:TEXT``
    State search (``approved``, ``translated``, ``needs-editing``, ``empty``, ``read-only``), supports :ref:`search-operators`.
 ``pending:BOOLEAN``
@@ -47,6 +48,10 @@ Fields
    Search for string states (``pending``, ``translated``, ``untranslated``).
 ``language:TEXT``
    String target language.
+``component:TEXT``
+   Component slug, see :ref:`component-slug`.
+``project:TEXT``
+   Project slug, see :ref:`project-slug`.
 ``changed_by:TEXT``
    String was changed by author with given username.
 ``changed:DATETIME``

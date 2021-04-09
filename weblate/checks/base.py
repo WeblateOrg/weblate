@@ -77,11 +77,12 @@ class Check:
             return False
         if self.should_skip(unit):
             return False
-        return self.check_target_unit(sources, targets, unit)
-
-    def check_target_unit_with_flag(self, sources, targets, unit):
-        """Check flag value."""
-        raise NotImplementedError()
+        if self.check_id in unit.check_cache:
+            return unit.check_cache[self.check_id]
+        unit.check_cache[self.check_id] = result = self.check_target_unit(
+            sources, targets, unit
+        )
+        return result
 
     def check_target_unit(self, sources, targets, unit):
         """Check single unit, handling plurals."""
@@ -120,7 +121,7 @@ class Check:
         except IndexError:
             return False
 
-        return (src in chars) is not (tgt in chars)
+        return (src in chars) != (tgt in chars)
 
     def is_language(self, unit, vals):
         """Detect whether language is in given list, ignores variants."""
@@ -178,10 +179,6 @@ class TargetCheck(Check):
 
     target = True
 
-    def check_target_unit_with_flag(self, sources, targets, unit):
-        """We don't check flag value here."""
-        return False
-
     def check_source_unit(self, source, unit):
         """We don't check source strings here."""
         return False
@@ -195,10 +192,6 @@ class SourceCheck(Check):
     """Basic class for source checks."""
 
     source = True
-
-    def check_target_unit_with_flag(self, sources, targets, unit):
-        """We don't check flag value here."""
-        return False
 
     def check_single(self, source, target, unit):
         """We don't check target strings here."""
@@ -244,7 +237,7 @@ class TargetCheckParametrized(Check):
 class CountingCheck(TargetCheck):
     """Check whether there is same count of given string."""
 
-    string = None
+    string = ""
 
     def check_single(self, source, target, unit):
         if not target or not source:

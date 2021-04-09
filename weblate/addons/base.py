@@ -17,10 +17,10 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-
 import os
 import subprocess
 from itertools import chain
+from typing import List, Optional, Tuple
 
 from django.core.exceptions import ValidationError
 from django.utils.functional import cached_property
@@ -39,14 +39,15 @@ from weblate.trans.exceptions import FileParseError
 from weblate.trans.tasks import perform_update
 from weblate.trans.util import get_clean_env
 from weblate.utils import messages
+from weblate.utils.errors import report_error
 from weblate.utils.render import render_template
 from weblate.utils.validators import validate_filename
 
 
 class BaseAddon:
-    events = ()
+    events: Tuple[int, ...] = ()
     settings_form = None
-    name = None
+    name = ""
     compat = {}
     multiple = False
     verbose = "Base addon"
@@ -55,8 +56,9 @@ class BaseAddon:
     project_scope = False
     repo_scope = False
     has_summary = False
-    alert = None
+    alert: Optional[str] = None
     trigger_update = False
+    stay_on_create = False
 
     """Base class for Weblate addons."""
 
@@ -186,7 +188,7 @@ class BaseAddon:
     def post_update(self, component, previous_head):
         return
 
-    def post_commit(self, component, translation=None):
+    def post_commit(self, component):
         return
 
     def pre_commit(self, translation, author):
@@ -231,6 +233,7 @@ class BaseAddon:
                     "error": str(err),
                 }
             )
+            report_error(cause="Addon script error")
 
     def trigger_alerts(self, component):
         if self.alerts:
@@ -239,16 +242,7 @@ class BaseAddon:
         else:
             component.delete_alert(self.alert)
 
-    def get_commit_message(self, component):
-        return render_template(
-            component.addon_message,
-            # Compatibility with older
-            hook_name=self.verbose,
-            addon_name=self.verbose,
-            component=component,
-        )
-
-    def commit_and_push(self, component, files=None):
+    def commit_and_push(self, component, files: Optional[List[str]] = None):
         if files is None:
             files = list(
                 chain.from_iterable(
@@ -259,9 +253,11 @@ class BaseAddon:
             files += self.extra_files
         repository = component.repository
         with repository.lock:
-            if repository.needs_commit():
-                repository.commit(self.get_commit_message(component), files=files)
-                component.push_if_needed(None)
+            component.commit_files(
+                template=component.addon_message,
+                extra_context={"addon_name": self.verbose},
+                files=files,
+            )
 
     def render_repo_filename(self, template, translation):
         component = translation.component

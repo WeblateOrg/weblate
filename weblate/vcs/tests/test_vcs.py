@@ -396,9 +396,19 @@ class VCSGitTest(TestCase, RepoTestMixin, TempDirMixin):
         with self.repo.lock:
             if self._sets_push:
                 self.repo.configure_remote("pullurl", "", "branch")
-                self.assertEqual(self.repo.get_config("remote.origin.pushURL"), "")
+                with self.assertRaises(RepositoryException):
+                    self.repo.get_config("remote.origin.pushURL")
                 self.repo.configure_remote("pullurl", "push", "branch")
                 self.assertEqual(self.repo.get_config("remote.origin.pushURL"), "push")
+
+                # Inject blank value
+                self.repo.config_update(('remote "origin"', "pushurl", ""))
+
+                # Try to remove it
+                self.repo.configure_remote("pullurl", None, "branch")
+
+                with self.assertRaises(RepositoryException):
+                    self.repo.get_config("remote.origin.pushURL")
 
     def test_configure_branch(self):
         # Existing branch

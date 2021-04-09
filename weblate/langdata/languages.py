@@ -1019,6 +1019,13 @@ LANGUAGES = (
         "n > 1",
     ),
     (
+        "hi_Latn",
+        # Translators: Language name, ISO code: hi_Latn
+        _("Hindi (latin)"),
+        2,
+        "n > 1",
+    ),
+    (
         "hil",
         # Translators: Language name, ISO code: hil
         _("Hiligaynon"),
@@ -2401,6 +2408,13 @@ LANGUAGES = (
         "ur",
         # Translators: Language name, ISO code: ur
         _("Urdu"),
+        2,
+        "n != 1",
+    ),
+    (
+        "ur_IN",
+        # Translators: Language name, ISO code: ur_IN
+        _("Urdu (India)"),
         2,
         "n != 1",
     ),

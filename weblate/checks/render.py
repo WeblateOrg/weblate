@@ -55,7 +55,10 @@ class MaxSizeCheck(TargetCheckParametrized):
     def get_params(self, unit):
         for name, default in FONT_PARAMS:
             if unit.all_flags.has_value(name):
-                yield unit.all_flags.get_value(name)
+                try:
+                    yield unit.all_flags.get_value(name)
+                except KeyError:
+                    yield default
             else:
                 yield default
 

@@ -56,6 +56,10 @@ class WeblateConf(AppConf):
     GOOGLE_PROJECT = None
     GOOGLE_LOCATION = "global"
 
+    # ModernMT
+    MT_MODERNMT_KEY = None
+    MT_MODERNMT_URL = "https://api.modernmt.com/"
+
     # API key for Yandex Translate API
     YANDEX_KEY = None
 

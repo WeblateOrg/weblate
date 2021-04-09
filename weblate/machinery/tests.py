@@ -48,6 +48,7 @@ from weblate.machinery.microsoftterminology import (
     MST_API_URL,
     MicrosoftTerminologyService,
 )
+from weblate.machinery.modernmt import ModernMTTranslation
 from weblate.machinery.mymemory import MyMemoryTranslation
 from weblate.machinery.netease import NETEASE_API_ROOT, NeteaseSightTranslation
 from weblate.machinery.saptranslationhub import SAPTranslationHub
@@ -734,7 +735,7 @@ class YandexTranslationTest(BaseMachineTranslationTest):
         responses.add(
             responses.GET,
             "https://translate.yandex.net/api/v1.5/tr.json/translate",
-            json={"code": 401, "message": "Invalid request"},
+            json={"code": 400, "message": "Invalid request"},
         )
 
     def mock_response(self):
@@ -748,6 +749,22 @@ class YandexTranslationTest(BaseMachineTranslationTest):
             "https://translate.yandex.net/api/v1.5/tr.json/translate",
             json={"code": 200, "lang": "en-cs", "text": ["svet"]},
         )
+
+    @responses.activate
+    def test_error_message(self):
+        message = "Invalid test request"
+        responses.add(
+            responses.GET,
+            "https://translate.yandex.net/api/v1.5/tr.json/getLangs",
+            json={"langs": {"en": "English", "cs": "Czech"}},
+        )
+        responses.add(
+            responses.GET,
+            "https://translate.yandex.net/api/v1.5/tr.json/translate",
+            json={"code": 400, "message": message},
+        )
+        with self.assertRaisesRegex(MachineTranslationError, message):
+            self.assert_translate(self.SUPPORTED, self.SOURCE_BLANK, 0)
 
 
 @override_settings(MT_YOUDAO_ID="id", MT_YOUDAO_SECRET="secret")
@@ -867,6 +884,55 @@ class SAPTranslationHubTest(BaseMachineTranslationTest):
             responses.POST,
             "http://sth.example.com/translate",
             json=SAPTRANSLATIONHUB_JSON,
+            status=200,
+            content_type="text/json",
+        )
+
+
+@override_settings(MT_MODERNMT_KEY="key")
+class ModernMTHubTest(BaseMachineTranslationTest):
+    MACHINE_CLS = ModernMTTranslation
+    EXPECTED_LEN = 1
+
+    def mock_empty(self):
+        raise SkipTest("Not tested")
+
+    def mock_error(self):
+        responses.add(
+            responses.GET, "https://api.modernmt.com/languages", body="", status=500
+        )
+        responses.add(
+            responses.GET, "https://api.modernmt.com/translate", body="", status=500
+        )
+
+    def mock_response(self):
+        responses.add(
+            responses.GET,
+            "https://api.modernmt.com/languages",
+            json={
+                "data": {"en": ["cs", "it", "ja"], "fr": ["en", "it", "ja"]},
+                "status": 200,
+            },
+            status=200,
+        )
+        responses.add(
+            responses.GET,
+            "https://api.modernmt.com/translate",
+            json={
+                "data": {
+                    "contextVector": {
+                        "entries": [
+                            {
+                                "memory": {"id": 1, "name": "europarl"},
+                                "score": 0.20658109,
+                            },
+                            {"memory": {"id": 2, "name": "ibm"}, "score": 0.0017772929},
+                        ]
+                    },
+                    "translation": "Ciao",
+                },
+                "status": 200,
+            },
             status=200,
             content_type="text/json",
         )

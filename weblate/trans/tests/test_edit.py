@@ -85,8 +85,8 @@ class EditTest(ViewTestCase):
             target_1="Opice má %d banány.\n",
             target_2="Opice má %d banánů.\n",
         )
-        # We should get to second message
-        self.assert_redirects_offset(response, self.translate_url, 2)
+        # We should get to next message
+        self.assert_redirects_offset(response, self.translate_url, 3)
         # Check translations
         unit = self.get_unit("Orangutan")
         plurals = unit.get_target_plurals()
@@ -187,6 +187,30 @@ class EditResourceTest(EditTest):
 
     def create_component(self):
         return self.create_android()
+
+
+class EditLanguageTest(EditTest):
+    """Language wide editing tests."""
+
+    def setUp(self):
+        super().setUp()
+        self.translate_url = reverse(
+            "translate",
+            kwargs={"project": self.project.slug, "lang": "cs", "component": "-"},
+        )
+
+    def edit_unit(self, source, target, language="cs", **kwargs):
+        """Do edit single unit using web interface."""
+        unit = self.get_unit(source, language)
+        params = {
+            "checksum": unit.checksum,
+            "contentsum": hash_to_checksum(unit.content_hash),
+            "translationsum": hash_to_checksum(unit.get_target_hash()),
+            "target_0": target,
+            "review": "20",
+        }
+        params.update(kwargs)
+        return self.client.post(self.translate_url, params)
 
 
 class EditResourceSourceTest(ViewTestCase):

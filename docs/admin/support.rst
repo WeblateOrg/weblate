@@ -24,7 +24,7 @@ Basic instance details about your installation are also reported back to Weblate
 Data submitted to the Weblate
 -----------------------------
 
-* URL where your Weblate isntance is configured
+* URL where your Weblate instance is configured
 * Your site title
 * The Weblate version you are running
 * Tallies of some objects in your Weblate database (projects, components, languages, source strings and users)

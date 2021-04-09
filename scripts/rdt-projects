@@ -1,0 +1,100 @@
+#!/usr/bin/env python
+#
+# Copyright © 2012 - 2020 Michal Čihař <michal@cihar.com>
+#
+# This file is part of Weblate <https://weblate.org/>
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+#
+
+"""Synchronizes Read the Docs projects for all languages."""
+
+import os
+
+import requests
+
+# List of translations
+LOCALES = {"en", "zh_CN", "es", "no", "pt", "pt_BR", "ru", "uk", "ja"}
+
+# Default values
+FIELDS = {
+    "tags": ["django", "gettext", "translate", "localize", "language"],
+    "homepage": "https://weblate.org/",
+    "programming_language": {"code": "py", "name": "Python"},
+}
+
+
+def get_update(value):
+    if isinstance(value, dict) and "code" in value:
+        return value["code"]
+    return value
+
+
+# Read the authorization token
+with open(os.path.expanduser("~/.config/readthedocs.token"), "r") as handle:
+    TOKEN = handle.read().strip()
+
+AUTH = {"Authorization": f"Token {TOKEN}", "Content-Type": "application/json"}
+
+response = requests.get(
+    "https://readthedocs.org/api/v3/projects/weblate/", headers=AUTH
+)
+response.raise_for_status()
+base = response.json()
+
+result = {"next": "https://readthedocs.org/api/v3/projects/"}
+while result["next"]:
+    response = requests.get(result["next"], headers=AUTH)
+    response.raise_for_status()
+    result = response.json()
+    for project in result["results"]:
+        if project["name"].startswith("Weblate"):
+            code = project["language"]["code"]
+            # Check for defined locales
+            if code not in LOCALES:
+                print(f"Extra translation: {code}")
+                continue
+            LOCALES.remove(code)
+            # Sync attributes
+            for name, value in FIELDS.items():
+                if value != project[name]:
+                    print("Different {}: {}".format(name, project[name]))
+                    response = requests.patch(
+                        project["_links"]["_self"],
+                        json={name: get_update(value)},
+                        headers=AUTH,
+                    )
+                    response.raise_for_status()
+            if not project["translation_of"] and code != "en":
+                print("Not a translation: ", project["urls"]["home"])
+
+# Create missing ones
+for language in LOCALES:
+    print(f"Creating {language}")
+    payload = {
+        "language": language,
+        "name": f"Weblate ({language})",
+        "repository": {
+            "url": "https://github.com/WeblateOrg/weblate.git",
+            "type": "git",
+        },
+    }
+    for name, value in FIELDS.items():
+        payload[name] = get_update(value)
+    response = requests.post(
+        "https://readthedocs.org/api/v3/projects/", json=payload, headers=AUTH
+    )
+    project = response.json()
+    response.raise_for_status()
+    print("Not a translation: ", project["urls"]["home"])

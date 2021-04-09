@@ -1,24 +1,33 @@
 {% load i18n %}
 {% load translations %}
-<p>
-    {% trans "The component contains several translation files mapped to a single language in Weblate." %}
-    {% trans "Please fix this by removing one of the translation files." %}
-</p>
 
-{% if analysis %}
-
-<p>{% trans "Please consider the following:" %}</p>
-
-<ul>
 {% if analysis.source_language %}
-<li>{% trans "In case the translation to the source language is desired, please change the source language in the project settings." %} {% documentation_icon "admin/projects" "project-source_language" %}</li>
-<li>{% trans "In case the translation file for the source language is not needed, please remove it from the repository." %}</li>
-<li>{% trans "In case the translation file for the source language is needed, but shoud be ignored by Weblate, please adjust the language filter to exclude it." %} {% documentation_icon "admin/projects" "component-language_regex" %}</li>
-{% endif %}
-{% if analysis.default_country %}
-<li>{% trans "Avoid having translation files for both the plain language code and its equivalent territory designation (for example de and de_DE)." %}</li>
-{% endif %}
-</ul>
+
+    <p>{% trans "The component contains translation file for the source language." %}
+
+    <p>{% trans "Please consider the following:" %}</p>
+
+    <ul>
+    <li>{% trans "In case the translation to the source language is desired, please change the source language in the project settings." %} {% documentation_icon "admin/projects" "project-source_language" %}</li>
+    <li>{% trans "In case the translation file for the source language is not needed, please remove it from the repository." %}</li>
+    <li>{% trans "In case the translation file for the source language is needed, but shoud be ignored by Weblate, please adjust the language filter to exclude it." %} {% documentation_icon "admin/projects" "component-language_regex" %}</li>
+
+    </ul>
+
+
+{% else %}
+
+    <p>
+        {% trans "The component contains several translation files mapped to a single language in Weblate." %}
+        {% trans "Please fix this by removing one of the translation files." %}
+    </p>
+    {% if analysis.default_country %}
+        <p>{% trans "Please consider the following:" %}</p>
+
+        <ul>
+        <li>{% trans "Avoid having translation files for both the plain language code and its equivalent territory designation (for example de and de_DE)." %}</li>
+        </ul>
+    {% endif %}
 
 {% endif %}
 

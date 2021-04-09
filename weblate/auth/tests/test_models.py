@@ -128,6 +128,14 @@ class ModelTest(FixtureTestCase):
         self.user.groups.remove(DjangoGroup.objects.get(name="Second"))
         self.assertEqual(self.user.groups.count(), 2)
 
+        # Set Weblate group
+        self.user.groups.set(Group.objects.filter(name="Test"))
+        self.assertEqual(self.user.groups.count(), 1)
+
+        # Set Django group
+        self.user.groups.set(DjangoGroup.objects.filter(name="Second"))
+        self.assertEqual(self.user.groups.count(), 1)
+
     def test_user(self):
         # Create user with Django User fields
         user = User.objects.create(

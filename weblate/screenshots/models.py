@@ -77,7 +77,7 @@ class Screenshot(models.Model, UserDisplayMixin):
 
 @receiver(m2m_changed, sender=Screenshot.units.through)
 @disable_for_loaddata
-def change_componentlist(sender, instance, action, **kwargs):
+def change_screenshot_assignment(sender, instance, action, **kwargs):
     # Update alerts in case there is change in string assignment
     if instance.component.alert_set.filter(name="UnusedScreenshot").exists():
         component_alerts.delay([instance.pk])

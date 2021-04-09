@@ -23,6 +23,7 @@ import os
 import responses
 from django.conf import settings
 from django.core import mail
+from django.core.checks import Critical
 from django.core.serializers.json import DjangoJSONEncoder
 from django.test.utils import override_settings
 from django.urls import reverse
@@ -32,7 +33,6 @@ from weblate.auth.models import Group
 from weblate.trans.models import Announcement
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.tests.utils import get_test_file
-from weblate.trans.util import add_configuration_error, delete_configuration_error
 from weblate.utils.checks import check_data_writable
 from weblate.utils.unittest import tempdir_setting
 from weblate.wladmin.models import BackupService, ConfigurationError, SupportStatus
@@ -113,10 +113,10 @@ class AdminTest(ViewTestCase):
         self.assertContains(response, "weblate.E005")
 
     def test_error(self):
-        add_configuration_error("Test error", "FOOOOOOOOOOOOOO")
+        ConfigurationError.objects.create(name="Test error", message="FOOOOOOOOOOOOOO")
         response = self.client.get(reverse("manage-performance"))
         self.assertContains(response, "FOOOOOOOOOOOOOO")
-        delete_configuration_error("Test error")
+        ConfigurationError.objects.filter(name="Test error").delete()
         response = self.client.get(reverse("manage-performance"))
         self.assertNotContains(response, "FOOOOOOOOOOOOOO")
 
@@ -151,14 +151,22 @@ class AdminTest(ViewTestCase):
             self.assertRedirects(response, url)
 
     def test_configuration_health_check(self):
-        add_configuration_error("TEST", "Message", True)
-        add_configuration_error("TEST2", "Message", True)
-        configuration_health_check(False)
-        self.assertEqual(ConfigurationError.objects.count(), 2)
-        delete_configuration_error("TEST2", True)
-        configuration_health_check(False)
-        self.assertEqual(ConfigurationError.objects.count(), 1)
+        # Run checks internally
         configuration_health_check()
+        # List of triggered checks remotely
+        configuration_health_check(
+            [
+                Critical(msg="Error", id="weblate.E001"),
+                Critical(msg="Test Error", id="weblate.E002"),
+            ]
+        )
+        all_errors = ConfigurationError.objects.all()
+        self.assertEqual(len(all_errors), 1)
+        self.assertEqual(all_errors[0].name, "weblate.E002")
+        self.assertEqual(all_errors[0].message, "Test Error")
+        # No triggered checks
+        configuration_health_check([])
+        self.assertEqual(ConfigurationError.objects.count(), 0)
 
     def test_post_announcenement(self):
         response = self.client.get(reverse("manage-tools"))
@@ -195,6 +203,12 @@ class AdminTest(ViewTestCase):
         )
         self.assertContains(response, "User has been invited")
         self.assertEqual(len(mail.outbox), 1)
+
+    def test_check_user(self):
+        response = self.client.get(
+            reverse("manage-users-check"), {"email": self.user.email}
+        )
+        self.assertContains(response, "Last login")
 
     @override_settings(
         EMAIL_HOST="nonexisting.weblate.org",

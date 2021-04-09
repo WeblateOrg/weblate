@@ -7,7 +7,7 @@ Access control
 
     Before Weblate 3.0, the privilege system was based on Django, but is now
     specifically built for Weblate. If you are using an older version, please
-    the consult documentation for that version, the information here will not apply.
+    consult the documentation for that version, the information here will not apply.
 
 Weblate comes with a fine grained privilege system to assign user permissions
 for the whole instance, or in a limited scope.
@@ -157,26 +157,26 @@ Whenever a permission is checked to decide whether one is able to perform a
 given action, the check is carried out according to scope, and the following
 checks are performed in the order:
 
-1. :guilabel:`Component list` are matched against component or project.
+1. :guilabel:`Component list` is matched against component or project.
 
 2. :guilabel:`Components` are matched against component or project.
 
 3. :guilabel:`Projects` are matched against project.
 
-As you can see, grating access to a component automatically grants user access
+As you can see, granting access to a component automatically grants user access
 to a containing project as well.
 
 .. note::
 
-   Only first rule which is set is being used. So if you set all
+   Only the first rule will be used. So if you set all of
    :guilabel:`Component list`, :guilabel:`Components` and :guilabel:`Project`,
-   only :guilabel:`Component list` is being applied.
+   only :guilabel:`Component list` will be applied.
 
-Additionally step is performed if checking permission for the translation:
+An additional step is performed if checking permission for the translation:
 
 
-4. :guilabel:`Languages` are matches against scope of translations, if not set, this matches no
-   language.
+4. :guilabel:`Languages` are matched against the scope of translations if set,
+if not set, this does not match any language.
 
 .. hint::
 
@@ -196,7 +196,7 @@ Checking access to a component
 
 A user can access the unrestricted component once he can access the containing
 project. With enabled :ref:`component-restricted` the access to the component
-requires explicit perimission on the component (or containing component list).
+requires explicit permission to the component (or containing component list).
 
 .. _manage-users:
 
@@ -285,10 +285,10 @@ Custom access control
 ---------------------
 
 By choosing :guilabel:`Custom` as :guilabel:`Access control`, Weblate will stop
-managing access for a given project, and you can set up custom rules in the Django
+managing access for a given project, and all users and groups can be managed using the Django
 admin interface. This can be used to define more complex access control, or
 set up a shared access policy for all projects in a single Weblate instance. If you
-want to enable this for all projects by default, please configure the
+want to turn this on for all projects by default, please configure the
 :setting:`DEFAULT_ACCESS_CONTROL`.
 
 .. warning::
@@ -313,23 +313,29 @@ Changes
 
 Comments
     Post comment [`Administration`, `Edit source`, `Power user`, `Review strings`, `Translate`]
+
     Delete comment [`Administration`]
 
 Component
     Edit component settings [`Administration`]
+
     Lock component, preventing it from being translated [`Administration`]
 
 Glossary
     Add glossary entry [`Administration`, `Manage glossary`, `Power user`]
+
     Edit glossary entry [`Administration`, `Manage glossary`, `Power user`]
+
     Delete glossary entry [`Administration`, `Manage glossary`, `Power user`]
+
     Upload glossary entries [`Administration`, `Manage glossary`, `Power user`]
 
 Machinery
-    Use machine translation services [`Administration`, `Power user`]
+    Use machinery [`Administration`, `Power user`]
 
 Projects
     Edit project settings [`Administration`]
+
     Manage project access [`Administration`]
 
 Reports
@@ -337,7 +343,9 @@ Reports
 
 Screenshots
     Add screenshot [`Administration`, `Manage screenshots`]
+
     Edit screenshot [`Administration`, `Manage screenshots`]
+
     Delete screenshot [`Administration`, `Manage screenshots`]
 
 Source strings
@@ -345,53 +353,79 @@ Source strings
 
 Strings
     Add new strings [`Administration`]
+
     Ignore failing checks [`Administration`, `Edit source`, `Power user`, `Review strings`, `Translate`]
+
     Edit strings [`Administration`, `Edit source`, `Power user`, `Review strings`, `Translate`]
+
     Review strings [`Administration`, `Review strings`]
+
     Edit string when suggestions are enforced [`Administration`, `Review strings`]
+
     Edit source strings [`Administration`, `Edit source`, `Power user`]
 
 Suggestions
     Accept suggestions [`Administration`, `Edit source`, `Power user`, `Review strings`, `Translate`]
+
     Add suggestions [`Add suggestion`, `Administration`, `Edit source`, `Power user`, `Review strings`, `Translate`]
+
     Delete suggestions [`Administration`]
+
     Vote on suggestions [`Administration`, `Edit source`, `Power user`, `Review strings`, `Translate`]
 
 Translations
     Start new translation [`Administration`, `Manage languages`, `Power user`]
+
     Perform automatic translation [`Administration`, `Manage languages`]
+
     Delete existing translations [`Administration`, `Manage languages`]
+
     Start translation into a new language [`Administration`, `Manage languages`]
 
 Uploads
     Define author of translation upload [`Administration`]
+
     Overwrite existing strings with an upload [`Administration`, `Edit source`, `Power user`, `Review strings`, `Translate`]
+
     Upload translation strings [`Administration`, `Edit source`, `Power user`, `Review strings`, `Translate`]
 
 VCS
     Access the internal repository [`Access repository`, `Administration`, `Manage repository`, `Power user`]
+
     Commit changes to the internal repository [`Administration`, `Manage repository`]
+
     Push change from the internal repository [`Administration`, `Manage repository`]
+
     Reset changes in the internal repository [`Administration`, `Manage repository`]
+
     View upstream repository location [`Access repository`, `Administration`, `Manage repository`, `Power user`]
+
     Update the internal repository [`Administration`, `Manage repository`]
 
-Global privileges
-    Use management interface (global)
-    Add language definitions (global)
-    Manage language definitions (global)
-    Add groups (global)
-    Manage groups (global)
-    Add users (global)
-    Manage users (global)
-    Manage announcements (global)
-    Manage translation memory (global)
+Site wide privileges
+    Use management interface
+
+    Add language definitions
+
+    Manage language definitions
+
+    Add groups
+
+    Manage groups
+
+    Add users
+
+    Manage users
+
+    Manage announcements
+
+    Manage translation memory
 
 .. note::
 
-   The global privileges are not granted to any default role. These are
-   powerful and they are quite close to the superuser status - most of them can
-   affect all projects on your Weblate installation.
+   The site wide privileges are not granted to any default role. These are
+   powerful and quite close to the superuser status—most of them
+   affect all the projects of your Weblate installation.
 
 List of groups
 ++++++++++++++
@@ -436,6 +470,6 @@ The following groups are created upon installation (or after executing
 
 .. warning::
 
-    Never remove the predefined Weblate groups and users, this can lead to
+    Never remove the predefined Weblate groups and users, as this can lead to
     unexpected problems. If you do not want to use these features, just remove
     all privileges from them.

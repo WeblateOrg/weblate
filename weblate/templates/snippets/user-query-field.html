@@ -1,0 +1,6 @@
+{% load i18n %}
+{% load crispy_forms_field %}
+<div class="input-group search-group query-field" role="group" >
+  <span class="input-group-addon" id="basic-addon1">{% trans "Search" %}</span>
+  {% crispy_field field 'aria-label' _('Query') %}
+</div>

@@ -19,12 +19,17 @@
 {% endblock %}
 
 {% block breadcrumbs %}
-<li><a href="{{ unit.translation.component.project.get_absolute_url }}">{{ unit.translation.component.project }}</a></li>
+<li><a href="{{ project.get_absolute_url }}">{{ project }}</a></li>
+{% if object.component.slug != "-" %}
+<li><a href="{{ object.component.get_absolute_url }}">{{ object.component.name }}</a></li>
+{% endif %}
+<li><a href="{{ object.get_absolute_url }}">{{ object.language }}</a></li>
+{% if object.component.slug == "-" %}
 <li><a href="{{ unit.translation.component.get_absolute_url }}">{{ unit.translation.component.name }}</a></li>
-<li><a href="{{ unit.translation.get_absolute_url }}">{{ unit.translation.language }}</a></li>
-<li><a href="{{ unit.translation.get_translate_url }}">{% trans "translate" %}</a></li>
+{% endif %}
+<li><a href="{{ object.get_translate_url }}">{% trans "Translate" %}</a></li>
 <a class="pull-right flip" href="{{ object.get_widgets_url }}">
-<img src="{% url 'widget-image' project=object.component.project.slug component=object.component.slug widget='svg' color='badge' lang=object.language.code extension='svg' %}?native=1" />
+<img src="{% url 'widget-image' project=project.slug component=object.component.slug widget='svg' color='badge' lang=object.language.code extension='svg' %}?native=1" />
 </a>
 {% endblock %}
 
@@ -32,14 +37,13 @@
 
 {% block content %}
 
-{% include "show-component-state.html" with object=unit.translation.component %}
+{% include "snippets/component/state.html" with object=unit.translation.component %}
 
 {% perm 'unit.edit' unit as user_can_translate %}
 {% perm 'suggestion.add' unit as user_can_suggest %}
 {% perm 'suggestion.accept' unit as user_can_accept_suggestion %}
 {% perm 'suggestion.vote' unit.translation as user_can_vote_suggestion %}
-{% perm 'machinery.view' unit.translation as user_can_use_mt %}
-{% perm 'memory.view' unit.translation as user_can_use_tm %}
+{% perm 'machinery.view' unit.translation as user_can_use_machinery %}
 {% perm 'source.edit' unit.translation as user_can_edit_source %}
 {% perm 'unit.check' unit.translation as user_can_ignore_check %}
 {% perm 'screenshot.add' project as user_can_add_screenshot %}
@@ -48,16 +52,16 @@
 
 <div class="btn-group pull-right flip btn-group-settings" role="group">
 {% if user_can_translate %}
-<a href="{% url 'zen' project=unit.translation.component.project.slug component=unit.translation.component.slug lang=unit.translation.language.code %}?{{ search_url }}" data-params="{{ search_url }}" title="{% trans "Edit in Zen mode" %}" class="btn btn-link">{% icon "flash.svg" %} {% trans "Zen" %}</a>
+<a href="{% url 'zen' project=project.slug component=object.component.slug lang=object.language.code %}?{{ search_url }}" data-params="{{ search_url }}" title="{% trans "Edit in Zen mode" %}" class="btn btn-link">{% icon "flash.svg" %} {% trans "Zen" %}</a>
 {% endif %}
 
 <a href="{% url 'profile' %}#preferences" class="btn btn-link" title="{% trans "Configure editor" %}">{% icon "settings.svg" %}</a>
 </div>
 
-{% with nearby=unit.nearby nearby_keys=unit.nearby_keys variants=unit.variants %}
+{% with variants=unit.variants %}
 
 <div class="query-container">
-  <form action="{{ unit.translation.get_translate_url }}" method="GET" class="result-page-form">
+  <form method="GET" class="result-page-form">
     {% crispy search_form  %}
   </form>
 </div>
@@ -69,7 +73,7 @@
 <div class="panel {% if unit.approved %}panel-success{% elif unit.translation.is_source %}panel-warning{% else %}panel-default{% endif %}">
 
   <div class="panel-heading">
-  <a class="btn btn-link btn-xs pull-right flip" data-clipboard-text="{{ site_url }}{{ unit.get_absolute_url }}" title="{% trans "Copy permalink" %}">{% icon "link.svg" %}</a>
+  <a class="btn btn-link btn-xs pull-right flip" href="{{ site_url }}{{ unit.get_absolute_url }}" data-clipboard-text="{{ site_url }}{{ unit.get_absolute_url }}" title="{% trans "Copy permalink" %}">{% icon "link.svg" %}</a>
   <h4 class="panel-title">
     {% if unit.translation.is_source %}
         {% trans "Source string" %}
@@ -191,12 +195,14 @@
 
     {% if unit.translation.component.enable_suggestions %}
     <button class="btn btn-warning btn-spaced" type="submit" name="suggest" tabindex="151"
-    {% if project_locked or not user_can_suggest %}disabled="disabled"{% endif %}
-    {% if not user_can_suggest %}
-    title="{% trans "Insufficient privileges for adding suggestions." %}"
-    {% elif project_locked %}
-    title="{% trans "This translation is currently locked." %}"
-    {% endif %}
+    {% if project_locked or not user_can_suggest or unit.readonly %}disabled="disabled"{% endif %}
+      {% if not user_can_suggest %}
+        title="{% trans "Insufficient privileges for adding suggestions." %}"
+      {% elif project_locked %}
+        title="{% trans "This translation is currently locked." %}"
+      {% elif unit.readonly %}
+        title="{% trans "Read only" %}"
+      {% endif %}
     >{% icon "suggest.svg" %} {% trans "Suggest" %}</button>
     {% endif %}
     <button class="btn btn-warning btn-spaced" type="submit" name="skip" tabindex="152">{% if LANGUAGE_BIDI %}{% icon "rewind.svg" %}{% else %}{% icon "fast-forward.svg" %}{% endif %} {% trans "Skip" %}</button>
@@ -221,11 +227,8 @@
 {% if unit.all_comments or user_can_add_comment %}
 <li><a href="#comments" data-toggle="tab" id="toggle-comments">{% trans "Comments" %}{% if unit.all_comments %} <span class="badge">{{ unit.all_comments|length }}</span>{% endif %}</a></li>
 {% endif %}
-{% if user_can_use_mt %}
-<li><a href="#machine" data-toggle="tab" id="toggle-machine" data-load="mt" title="{% trans "Machine translation suggestions" %}">{% trans "Machine translation" %}</a></li>
-{% endif %}
-{% if user_can_use_tm %}
-<li><a href="#memory" data-toggle="tab" id="toggle-machine" data-load="memory">{% trans "Translation memory" %}</a></li>
+{% if user_can_use_machinery %}
+<li><a href="#machinery" data-toggle="tab" id="toggle-machinery" data-load="machinery" title="{% trans "Computer-aided translation suggestions" %}">{% trans "Machinery" %}</a></li>
 {% endif %}
 <li><a href="#translations" data-toggle="tab" id="toggle-translations" data-href="{% url 'js-unit-translations' unit_id=unit.id %}" title="{% trans "Translations of this string in the other languages" %}">{% trans "Other languages" %}</a></li>
 <li><a href="#history" data-toggle="tab" id="toggle-history" title="{% trans "List of recent changes done in Weblate" %}">{% trans "History" %}</a></li>
@@ -311,51 +314,30 @@
 <a class="btn btn-link" href="{% url 'changes' %}?{{ last_changes_url }}">{% trans "Browse all component changes" %}</a>
 </div>
 
-{% if user_can_use_mt %}
-<div class="tab-pane" id="machine">
-<table class="table table-compact table-striped">
-<thead>
-<tr>
-<th>{% trans "Translation" %}</th>
-<th>{% trans "Source" %}</th>
-<th>{% trans "Service" %}</th>
-<th>{% trans "Quality" %}</th>
-<th colspan="2">
-{% loading_icon "mt" %}
-</th>
-<tr>
-</thead>
-<tbody id="mt-translations">
-</tbody>
-</table>
-</div>
-{% endif %}
-
-{% if user_can_use_tm %}
-<div class="tab-pane" id="memory">
-<form class="form-inline" id="memory-search" action="{% url 'js-memory' unit_id=unit.id %}">
-  {% csrf_token %}
-  <div class="form-group">
-    <label for="memory-search-input">{% trans "Translation memory" %}</label>
-    <input type="text" class="form-control" id="memory-search-input" name="q">
-  </div>
-  <button type="submit" class="btn btn-primary">{% trans "Search" %}</button>
-</form>
-<table class="table table-compact table-striped">
-<thead>
-<tr>
-<th>{% trans "Translation" %}</th>
-<th>{% trans "Source" %}</th>
-<th>{% trans "Origin" %}</th>
-<th>{% trans "Similarity" %}</th>
-<th colspan="2">
-{% loading_icon "memory" %}
-</th>
-<tr>
-</thead>
-<tbody id="memory-translations">
-</tbody>
-</table>
+{% if user_can_use_machinery %}
+<div class="tab-pane" id="machinery">
+  <form class="form-inline" id="memory-search" action="{% url 'js-memory' unit_id=unit.id %}">
+    {% csrf_token %}
+    <div class="form-group">
+      <label for="memory-search-input">{% trans "Translation memory" %}</label>
+      <input type="text" class="form-control" id="memory-search-input" name="q">
+    </div>
+    <button type="submit" class="btn btn-primary">{% trans "Search" %}</button>
+  </form>
+  <table class="table table-compact table-striped">
+    <thead>
+      <tr>
+        <th>{% trans "Translation" %}</th>
+        <th>{% trans "Source" %}</th>
+        <th>{% trans "Origin" %}</th>
+        <th>{% trans "Similarity" %}</th>
+        <th colspan="2">
+        {% loading_icon "machinery" %}
+      </th>
+      <tr>
+    </thead>
+    <tbody id="machinery-translations"></tbody>
+  </table>
 </div>
 {% endif %}
 
@@ -363,9 +345,7 @@
 <div class="tab-pane" id="comments">
 
 {% if unit.all_comments %}
-  {% with this_unit_url as next_url %}
-    {% include "list-comments.html" with object=unit.translation comments=unit.all_comments %}
-  {% endwith %}
+    {% include "list-comments.html" with object=unit.translation comments=unit.all_comments next_url=this_unit_url %}
 {% endif %}
 
 {% if user_can_add_comment %}
@@ -426,7 +406,11 @@
         {% with fixup=check.get_fixup_json %}
         {% if fixup %}
         <p class="list-group-item-text list-buttons check-fixup">
-            <a data-check-fixup="{{ fixup }}" class="btn btn-primary">{% trans "Fix string" %}</a>
+            <a data-check-fixup="{{ fixup }}" class="btn btn-primary"
+              {% if locked or not user_can_translate %}
+                disabled="disabled"
+              {% endif %}
+            >{% trans "Fix string" %}</a>
         </p>
         {% endif %}
         {% endwith %}
@@ -640,7 +624,11 @@
     {% trans "Translation file" %}
     </h5>
     <span class="long-filename">
-    {% blocktrans with unit.translation.filename as filename and unit.position as position %}{{ filename }}, string {{ position }}{% endblocktrans %}
+    {% if unit.translation.filename %}
+      {% blocktrans with filename=unit.translation.filename position=unit.position %}{{ filename }}, string {{ position }}{% endblocktrans %}
+    {% else %}
+      {% blocktrans with filename=unit.translation.filename %}string {{ position }}{% endblocktrans %}
+    {% endif %}
     </span>
     </div>
     {% endif %}
@@ -651,8 +639,7 @@
 
 </div>
 
-<a href="{% url 'js-translate' unit_id=unit.id service="__service__" %}" class="hidden" id="js-translate"></a>
-<a href="{% url 'js-mt-services' %}" class="hidden" id="js-mt-services"></a>
+<a href="{% url 'js-translate' unit_id=unit.id service="__service__" %}" class="hidden" id="js-translate" data-services="{{ machinery_services }}"></a>
 
 <form method="post" action="{% url 'edit_context' pk=unit.source_info.pk %}">
 {% csrf_token %}
