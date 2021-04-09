@@ -19,10 +19,13 @@
 
 from weblate.formats.base import EmptyFormat
 from weblate.formats.exporters import (
+    AndroidResourceExporter,
     CSVExporter,
+    JSONExporter,
     MoExporter,
     PoExporter,
     PoXliffExporter,
+    StringsExporter,
     TBXExporter,
     XliffExporter,
     XlsxExporter,
@@ -115,6 +118,9 @@ class PoExporterTest(BaseTestCase):
     def test_unit_mono(self):
         self.check_unit(source="xxx", target="yyy", template="template")
 
+    def _encode(self, string):
+        return string.encode("utf-8")
+
     def test_unit_plural(self):
         result = self.check_unit(
             source="xxx\x1e\x1efff",
@@ -138,9 +144,9 @@ class PoExporterTest(BaseTestCase):
             source="foo", target="bar", context="context", state=STATE_TRANSLATED
         )
         if self._has_context:
-            self.assertIn(b"context", result)
+            self.assertIn(self._encode("context"), result)
         elif self._has_context is not None:
-            self.assertNotIn(b"context", result)
+            self.assertNotIn(self._encode("context"), result)
 
     def test_extra_info(self):
         result = self.check_unit(
@@ -154,14 +160,14 @@ class PoExporterTest(BaseTestCase):
             },
         )
         if self._has_context:
-            self.assertIn(b"context", result)
+            self.assertIn(self._encode("context"), result)
         elif self._has_context is not None:
-            self.assertNotIn(b"context", result)
+            self.assertNotIn(self._encode("context"), result)
         if self._has_comments:
-            self.assertIn(b"Context in Weblate", result)
-            self.assertIn(b"Weblate translator comment", result)
-            self.assertIn(b"Suggested in Weblate", result)
-            self.assertIn(b"Weblate translator suggestion", result)
+            self.assertIn(self._encode("Context in Weblate"), result)
+            self.assertIn(self._encode("Weblate translator comment"), result)
+            self.assertIn(self._encode("Suggested in Weblate"), result)
+            self.assertIn(self._encode("Weblate translator suggestion"), result)
 
     def setUp(self):
         self.exporter = self.get_exporter()
@@ -264,6 +270,36 @@ class XlsxExporterTest(PoExporterTest):
     _class = XlsxExporter
     _has_context = False
     _has_comments = False
+
+    def check_plurals(self, result):
+        # Doesn't support plurals
+        pass
+
+
+class AndroidResourceExporterTest(PoExporterTest):
+    _class = AndroidResourceExporter
+    _has_comments = False
+
+    def check_plurals(self, result):
+        self.assertIn(b"<plural", result)
+
+
+class JSONExporterTest(PoExporterTest):
+    _class = JSONExporter
+    _has_comments = False
+
+    def check_plurals(self, result):
+        # Doesn't support plurals
+        pass
+
+
+class StringsExporterTest(PoExporterTest):
+    _class = StringsExporter
+    _has_comments = False
+
+    def _encode(self, string):
+        # Skip BOM
+        return string.encode("utf-16")[2:]
 
     def check_plurals(self, result):
         # Doesn't support plurals

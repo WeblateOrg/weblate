@@ -5,21 +5,27 @@
 # Exit on failure
 set -e
 
-version=`DJANGO_SETTINGS_MODULE=weblate.settings_example python -c 'import weblate; print(weblate.VERSION_BASE)'`
+export CI_DATABASE=postgresql
+export DJANGO_SETTINGS_MODULE=weblate.settings_test
+
+version=`python -c 'import weblate; print(weblate.VERSION_BASE)'`
 
 # Lock Weblate
-wlc lock weblate/master
+wlc lock weblate/application
 wlc lock weblate/javascript
 wlc lock weblate/languages
+wlc lock weblate/documentation
 
 # Push changes from Weblate to GitHub
 wlc push weblate
 
+# Update Weblate remote
+git remote update weblate
+
 # Pull changes from GitHub
-git pull --rebase
+git rebase --onto weblate/master
 
 # Update po files itself
-export DJANGO_SETTINGS_MODULE=weblate.settings_test
 ./manage.py makemessages --keep-pot -a -i 'data/*' -i 'docs/*' -i 'examples/*' -i 'build/*'
 ./manage.py makemessages --keep-pot -a -i 'data/*' -i 'docs/*' -i 'examples/*' -i 'build/*' -d djangojs
 
@@ -52,11 +58,15 @@ for locale in weblate/locale/*/LC_MESSAGES/django.po ; do
     fi
 done
 
+# Update PO files for documentation
+make -C docs update-po
+
 # Commit changes
 git add weblate/locale/*/*/*.po
 git add weblate/locale/*.pot
 git add weblate/langdata/locale/*/*/*.po
 git add weblate/langdata/locale/*.pot
+git add $(find docs/locales/ -name '*.po' -o -name '*.pot')
 
 git commit -m "i18n: Update PO files"
 
@@ -64,6 +74,7 @@ git commit -m "i18n: Update PO files"
 git push
 
 # Unlock Weblate
-wlc unlock weblate/master
+wlc unlock weblate/application
 wlc unlock weblate/javascript
 wlc unlock weblate/languages
+wlc unlock weblate/documentation

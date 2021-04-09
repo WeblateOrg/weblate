@@ -31,7 +31,7 @@ SELECTION_ALL_PROTECTED = 4
 
 PERMISSIONS = (
     # Translators: Permission name
-    ("billing.view", _("View billing information")),
+    ("billing.view", _("View billing info")),
     # Translators: Permission name
     ("change.download", _("Download changes")),
     # Translators: Permission name
@@ -51,13 +51,11 @@ PERMISSIONS = (
     # Translators: Permission name
     ("glossary.upload", _("Upload glossary entries")),
     # Translators: Permission name
-    ("machinery.view", _("Use machine translation services")),
+    ("machinery.view", _("Use machinery")),
     # Translators: Permission name
     ("memory.edit", _("Edit translation memory")),
     # Translators: Permission name
     ("memory.delete", _("Delete translation memory")),
-    # Translators: Permission name
-    ("memory.view", _("Use translation memory")),
     # Translators: Permission name
     ("project.edit", _("Edit project settings")),
     # Translators: Permission name
@@ -123,25 +121,25 @@ PERMISSIONS = (
 # Permissions which are not scoped per project
 GLOBAL_PERMISSIONS = (
     # Translators: Permission name
-    ("management.use", _("Use management interface (on the entire platform)")),
+    ("management.use", _("Use management interface")),
     # Translators: Permission name
-    ("project.add", _("Add new projects (on the entire platform)")),
+    ("project.add", _("Add new projects")),
     # Translators: Permission name
-    ("language.add", _("Add language definitions (on the entire platform)")),
+    ("language.add", _("Add language definitions")),
     # Translators: Permission name
-    ("language.edit", _("Manage language definitions (on the entire platform)")),
+    ("language.edit", _("Manage language definitions")),
     # Translators: Permission name
-    ("group.edit", _("Manage groups (on the entire platform)")),
+    ("group.edit", _("Manage groups")),
     # Translators: Permission name
-    ("user.edit", _("Manage users (on the entire platform)")),
+    ("user.edit", _("Manage users")),
     # Translators: Permission name
-    ("role.edit", _("Manage roles (on the entire platform)")),
+    ("role.edit", _("Manage roles")),
     # Translators: Permission name
-    ("announcement.edit", _("Manage announcements (on the entire platform)")),
+    ("announcement.edit", _("Manage announcements")),
     # Translators: Permission name
-    ("memory.edit", _("Manage translation memory (on the entire platform)")),
+    ("memory.edit", _("Manage translation memory")),
     # Translators: Permission name
-    ("componentlist.edit", _("Manage component lists (on the entire platform)")),
+    ("componentlist.edit", _("Manage component lists")),
 )
 
 GLOBAL_PERM_NAMES = {perm[0] for perm in GLOBAL_PERMISSIONS}
@@ -163,7 +161,6 @@ TRANSLATE_PERMS = {
     "upload.overwrite",
     "upload.perform",
     "machinery.view",
-    "memory.view",
 }
 
 # Default set of roles

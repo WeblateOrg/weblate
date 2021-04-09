@@ -72,7 +72,7 @@ Installation
         'weblate.billing',
     )
 
-2. Run the database migration to optinally install additional database structures for the module:
+2. Run the database migration to optionally install additional database structures for the module:
 
 .. code-block:: sh
 
@@ -89,8 +89,8 @@ The billing module additionally allows project admins to create new projects
 and components without being superusers (see :ref:`adding-projects`). This is
 possible when following conditions are met:
 
-* The billing is in it's configured limits (any overusage results in blocking
-  of project/component creation) and paid (if it's price is non zero)
+* The billing is in its configured limits (any overusage results in blocking
+  of project/component creation) and paid (if its price is non zero)
 * The user is admin of existing project with billing or user is owner of
   billing (the latter is necessary when creating new billing for users to be
   able to import new projects).
@@ -119,7 +119,7 @@ following templates in the documents:
 
 .. note::
 
-    Legal documents for the Hosted Weblate service is availalbe in this Git repository
+    Legal documents for the Hosted Weblate service is available in this Git repository
     <https://github.com/WeblateOrg/hosted/tree/master/wlhosted/legal/templates/legal/documents>.
 
     Most likely these will not be directly usable to you, but might come in handy
@@ -149,7 +149,7 @@ Installation
         'weblate.legal.middleware.RequireTOSMiddleware',
     ]
 
-2. Run the database migration to optinally install additional database structures for the module:
+2. Run the database migration to optionally install additional database structures for the module:
 
 .. code-block:: sh
 
@@ -181,6 +181,8 @@ Weblate currently supports:
    :setting:`AVATAR_URL_PREFIX`,
    :setting:`ENABLE_AVATARS`
 
+.. _spam-protection:
+
 Spam protection
 ---------------
 
@@ -190,8 +192,14 @@ the `akismet.com <https://akismet.com/>`_ service.
 1. Install the `akismet` Python module
 2. Configure the Akismet API key.
 
+.. note::
+
+   This (among other things) relies on IP address of the client, please see
+   :ref:`reverse-proxy` for properly configuring that.
+
 .. seealso::
 
+    :ref:`reverse-proxy`,
     :setting:`AKISMET_API_KEY`
 
 
@@ -256,18 +264,5 @@ If a user fails to log in :setting:`AUTH_LOCK_ATTEMPTS` times, password authenti
 
 .. seealso::
 
-   :ref:`user-rate`
-
-.. _rate-ip:
-
-IP address for rate limiting
-++++++++++++++++++++++++++++
-
-The rate limiting is based on the client IP address, obtained from HTTP headers.
-Change them if your Weblate instance is running behind a reverse proxy to make it work.
-
-.. seealso::
-
-    :setting:`IP_BEHIND_REVERSE_PROXY`,
-    :setting:`IP_PROXY_HEADER`,
-    :setting:`IP_PROXY_OFFSET`
+   :ref:`user-rate`,
+   :ref:`reverse-proxy`

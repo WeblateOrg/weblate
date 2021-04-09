@@ -23,6 +23,29 @@ from appconf import AppConf
 from weblate.utils.classloader import ClassLoader
 
 
+class VCSConf(AppConf):
+    VCS_BACKENDS = (
+        "weblate.vcs.git.GitRepository",
+        "weblate.vcs.git.GitWithGerritRepository",
+        "weblate.vcs.git.SubversionRepository",
+        "weblate.vcs.git.GithubRepository",
+        "weblate.vcs.git.GitLabRepository",
+        "weblate.vcs.git.LocalRepository",
+        "weblate.vcs.git.GitForcePushRepository",
+        "weblate.vcs.mercurial.HgRepository",
+    )
+    VCS_CLONE_DEPTH = 1
+
+    # GitHub username for sending pull requests
+    GITHUB_USERNAME = None
+
+    # GitLab username for sending merge requests
+    GITLAB_USERNAME = None
+
+    class Meta:
+        prefix = ""
+
+
 class VcsClassLoader(ClassLoader):
     def __init__(self):
         super().__init__("VCS_BACKENDS", False)
@@ -50,20 +73,3 @@ class VcsClassLoader(ClassLoader):
 
 # Initialize VCS list
 VCS_REGISTRY = VcsClassLoader()
-
-
-class VCSConf(AppConf):
-    BACKENDS = (
-        "weblate.vcs.git.GitRepository",
-        "weblate.vcs.git.GitWithGerritRepository",
-        "weblate.vcs.git.SubversionRepository",
-        "weblate.vcs.git.GithubRepository",
-        "weblate.vcs.git.GitLabRepository",
-        "weblate.vcs.git.LocalRepository",
-        "weblate.vcs.git.GitForcePushRepository",
-        "weblate.vcs.mercurial.HgRepository",
-    )
-    CLONE_DEPTH = 1
-
-    class Meta:
-        prefix = "VCS"

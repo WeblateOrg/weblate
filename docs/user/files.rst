@@ -12,12 +12,13 @@ This works even if it has been changed in the meantime.
 Downloading translations
 ------------------------
 
-From the project or component dashboard, translatable files can be downloaded using the :guilabel:`Download source file`
-in the :guilabel:`Files` menu, producing a copy of the file as it is stored
-in the upstream Version Control System.
+From the project or component dashboard, translatable files can be downloaded
+using the :guilabel:`Download original translation file` in the :guilabel:`Files`
+menu, producing a copy of the original file as it is stored in the upstream
+Version Control System.
 
-You can either download the original file as is or converted into one of widely
-used localization formats. The converted files will be enriched with data
+You can also download the translation converted into one of widely used
+localization formats. The converted files will be enriched with data
 provided in Weblate such as additional context, comments or flags.
 
 Several file formats are available, including a compiled file
@@ -55,22 +56,32 @@ Import methods
 
 These are the choices presented when uploading translation files:
 
-Add as translation
+Add as translation (``translate``)
     Imported translations are added as translations. This is the most common usecase, and
     the default behavior.
-Add as suggestion
+Add as suggestion (``suggest``)
     Imported translations are added as suggestions, do this when you want to have your
     uploaded strings reviewed.
-Add as translation needing edit
+Add as translation needing edit (``fuzzy``)
     Imported translations are added as translations needing edit. This can be useful
     when you want translations to be used, but also reviewed.
-Replace existing translation file
+Replace existing translation file (``replace``)
     Existing file is replaced with new content. This can lead to loss of existing
     translations, use with caution.
-Update source strings
+Update source strings (``source``)
     Updates source strings in bilingual translation file. This is similar to
     what :ref:`addon-weblate.gettext.msgmerge` does.
 
+.. seealso::
+
+   :http:post:`/api/translations/(string:project)/(string:component)/(string:language)/file/`
+
+.. _upload-conflicts:
+
+Conflicts handling
+++++++++++++++++++
+
+Defines how to deal with uploaded strings which are already translated.
 
 .. _upload-fuzzy:
 

@@ -17,8 +17,8 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-
 import os.path
+from typing import Tuple
 
 import cairo
 import gi
@@ -30,14 +30,16 @@ from django.utils.formats import number_format
 from django.utils.html import escape
 from django.utils.translation import get_language
 from django.utils.translation import gettext as _
-from django.utils.translation import gettext_lazy, npgettext, pgettext
+from django.utils.translation import gettext_lazy, npgettext, pgettext, pgettext_lazy
 
 from weblate.fonts.utils import configure_fontconfig, render_size
 from weblate.utils.site import get_site_url
 from weblate.utils.stats import GlobalStats
+from weblate.utils.views import get_percent_color
 
 gi.require_version("PangoCairo", "1.0")
 gi.require_version("Pango", "1.0")
+# pylint:disable=wrong-import-position,wrong-import-order
 from gi.repository import Pango, PangoCairo  # noqa:E402,I001 isort:skip
 
 COLOR_DATA = {
@@ -59,9 +61,9 @@ def register_widget(widget):
 class Widget:
     """Generic widget class."""
 
-    name = None
+    name = ""
     verbose = ""
-    colors = ()
+    colors: Tuple[str, ...] = ()
     extension = "png"
     content_type = "image/png"
     order = 100
@@ -103,14 +105,15 @@ class ContentWidget(Widget):
 class BitmapWidget(ContentWidget):
     """Base class for bitmap rendering widgets."""
 
-    colors = ("grey", "white", "black")
+    colors: Tuple[str, ...] = ("grey", "white", "black")
     extension = "png"
     content_type = "image/png"
     order = 100
     show = True
-    head_template = '<span letter_spacing="-1000"><b>{}</b></span>'
+    head_template = '<span letter_spacing="-500"><b>{}</b></span>'
     foot_template = '<span letter_spacing="1000">{}</span>'
     font_size = 10
+    line_spacing = 1.0
     offset = 0
     column_offset = 0
     lines = True
@@ -186,7 +189,7 @@ class BitmapWidget(ContentWidget):
                 layout.set_alignment(Pango.Alignment.CENTER)
                 layout.set_width(column_width * Pango.SCALE)
 
-                offset += layout.get_pixel_size().height
+                offset += layout.get_pixel_size().height * self.line_spacing
 
                 # Render to cairo context
                 PangoCairo.show_layout(ctx, layout)
@@ -277,6 +280,8 @@ class SmallWidget(BitmapWidget):
     name = "88x31"
     order = 111
     font_size = 7
+    line_spacing = 0.8
+    offset = -1
     verbose = gettext_lazy("Small status badge")
 
     def get_columns(self):
@@ -291,7 +296,7 @@ class SmallWidget(BitmapWidget):
 @register_widget
 class OpenGraphWidget(NormalWidget):
     name = "open"
-    colors = ("graph",)
+    colors: Tuple[str, ...] = ("graph",)
     order = 120
     lines = False
     offset = 300
@@ -299,7 +304,7 @@ class OpenGraphWidget(NormalWidget):
     column_offset = 265
     head_template = '<span letter_spacing="-1000">{}</span>'
     foot_template = '<span letter_spacing="2000">{}</span>'
-    verbose = gettext_lazy("Open Graph image")
+    verbose = pgettext_lazy("Status widget name", "Panel")
 
     def get_column_width(self, surface, columns):
         return 230
@@ -311,7 +316,8 @@ class OpenGraphWidget(NormalWidget):
         ]
 
     def get_title(self):
-        return "Project <b>{}</b>".format(escape(self.obj.name))
+        # Translators: Text on OpenGraph image
+        return _("Project %s") % "<b>{}</b>".format(escape(self.obj.name))
 
     def render_additional(self, ctx):
         ctx.move_to(280, 170)
@@ -339,7 +345,7 @@ class BadgeWidget(RedirectWidget):
     """Legacy badge which used to render PNG."""
 
     name = "status"
-    colors = ("badge",)
+    colors: Tuple[str, ...] = ("badge",)
 
 
 @register_widget
@@ -347,15 +353,15 @@ class ShieldsBadgeWidget(RedirectWidget):
     """Legacy badge which used to redirect to shields.io."""
 
     name = "shields"
-    colors = ("badge",)
+    colors: Tuple[str, ...] = ("badge",)
 
 
 @register_widget
 class SVGBadgeWidget(SVGWidget):
     name = "svg"
-    colors = ("badge",)
+    colors: Tuple[str, ...] = ("badge",)
     order = 80
-    template_name = "badge.svg"
+    template_name = "svg/badge.svg"
     verbose = gettext_lazy("Status badge")
 
     def render(self, response):
@@ -395,6 +401,7 @@ class SVGBadgeWidget(SVGWidget):
                     "translated_offset": translated_width // 2,
                     "percent_offset": translated_width + percent_width // 2,
                     "lang": get_language(),
+                    "fonts_cdn_url": settings.FONTS_CDN_URL,
                 },
             )
         )
@@ -404,9 +411,9 @@ class SVGBadgeWidget(SVGWidget):
 class MultiLanguageWidget(SVGWidget):
     name = "multi"
     order = 81
-    colors = ("auto", "red", "green", "blue")
-    template_name = "multi-language-badge.svg"
-    verbose = gettext_lazy("Vertical multi language status widget")
+    colors: Tuple[str, ...] = ("auto", "red", "green", "blue")
+    template_name = "svg/multi-language-badge.svg"
+    verbose = pgettext_lazy("Status widget name", "Vertical language bar chart")
 
     COLOR_MAP = {"red": "#fa3939", "green": "#3fed48", "blue": "#3f85ed", "auto": None}
 
@@ -416,15 +423,13 @@ class MultiLanguageWidget(SVGWidget):
         color = self.COLOR_MAP[self.color]
         language_width = 190
         for stats in self.obj.stats.get_language_stats():
+            # Skip empty translations
+            if stats.translated == 0:
+                continue
             language = stats.language
             percent = stats.translated_percent
             if self.color == "auto":
-                if percent >= 85:
-                    color = "#2eccaa"
-                elif percent >= 50:
-                    color = "#38f"
-                else:
-                    color = "#f6664c"
+                color = get_percent_color(percent)
             language_name = force_str(language)
 
             language_width = max(
@@ -475,6 +480,7 @@ class MultiLanguageWidget(SVGWidget):
                     "translations": translations,
                     "site_url": get_site_url(),
                     "horizontal_height": language_width + 130,
+                    "fonts_cdn_url": settings.FONTS_CDN_URL,
                 },
             )
         )
@@ -484,5 +490,5 @@ class MultiLanguageWidget(SVGWidget):
 class HorizontalMultiLanguageWidget(MultiLanguageWidget):
     name = "horizontal"
     order = 82
-    template_name = "multi-language-badge-horizontal.svg"
-    verbose = gettext_lazy("Horizontal multi language status widget")
+    template_name = "svg/multi-language-badge-horizontal.svg"
+    verbose = pgettext_lazy("Status widget name", "Horizontal language bar chart")

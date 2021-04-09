@@ -204,12 +204,12 @@ class MachineTranslation:
         if not self.cache_translations:
             return None
         return "mt:{}:{}:{}".format(
-            self.mtid, calculate_hash(source, language), calculate_hash(None, text)
+            self.mtid, calculate_hash(source, language), calculate_hash(text)
         )
 
     def cleanup_text(self, unit):
         """Removes placeholder to avoid confusing the machine translation."""
-        text = unit.get_source_plurals()[0]
+        text = unit.source_string
         replacements = {}
         if not self.do_cleanup:
             return text, replacements
@@ -294,7 +294,7 @@ class MachineTranslation:
             if replacements:
                 self.uncleanup_results(replacements, result)
             if cache_key:
-                cache.set(cache_key, result, 7 * 86400)
+                cache.set(cache_key, result, 30 * 86400)
             return result
         except Exception as exc:
             if self.is_rate_limit_error(exc):
@@ -313,6 +313,6 @@ class MachineTranslation:
         salt = str(random.randint(0, 10000000000))
 
         payload = appid + text + salt + secret
-        digest = md5(payload.encode()).hexdigest()
+        digest = md5(payload.encode()).hexdigest()  # nosec
 
         return salt, digest

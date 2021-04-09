@@ -13,16 +13,31 @@
 import os
 import sys
 
+import sphinx.transforms.i18n
+import sphinx.util.i18n
+
 # -- Path setup --------------------------------------------------------------
 
 # sys.path.insert(0, os.path.abspath('.'))
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "_ext")))
+
+# Hacky way to have all localized content in single domain
+sphinx.transforms.i18n.docname_to_domain = (
+    sphinx.util.i18n.docname_to_domain
+) = lambda docname, compact: "docs"
 
 
 def setup(app):
     app.add_css_file("https://s.weblate.org/cdn/font-source/source-sans-pro.css")
     app.add_css_file("https://s.weblate.org/cdn/font-source/source-code-pro.css")
     app.add_css_file("docs.css")
+    # Used in Sphinx docs, needed for intersphinx links to it
+    app.add_object_type(
+        "confval",
+        "confval",
+        objname="configuration value",
+        indextemplate="pair: %s; configuration value",
+    )
 
 
 # -- Project information -----------------------------------------------------
@@ -32,7 +47,7 @@ copyright = "2012 - 2020 Michal Čihař"
 author = "Michal Čihař"
 
 # The full version, including alpha/beta/rc tags
-release = "4.1.1"
+release = "4.2.2"
 
 
 # -- General configuration ---------------------------------------------------
@@ -174,7 +189,8 @@ intersphinx_mapping = {
         "http://docs.translatehouse.org/projects/translate-toolkit/en/latest/",
         None,
     ),
-    "virtaal": ("https://virtaal.readthedocs.io/en/latest/", None),
+    "amagama": ("https://docs.translatehouse.org/projects/amagama/en/latest/", None),
+    "virtaal": ("http://docs.translatehouse.org/projects/virtaal/en/latest/", None),
     "ldap": ("https://django-auth-ldap.readthedocs.io/en/latest/", None),
     "celery": ("https://docs.celeryproject.org/en/latest/", None),
     "sphinx": ("https://www.sphinx-doc.org/en/stable/", None),
@@ -182,6 +198,7 @@ intersphinx_mapping = {
     "venv": ("https://virtualenv.pypa.io/en/stable/", None),
     "borg": ("https://borgbackup.readthedocs.io/en/stable/", None),
     "pip": ("https://pip.pypa.io/en/stable/", None),
+    "compressor": ("https://django-compressor.readthedocs.io/en/stable/", None),
 }
 
 # Ignore missing targets for the http:obj <type>, it's how we declare the types

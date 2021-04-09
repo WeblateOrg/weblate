@@ -31,7 +31,7 @@ string (in source strings review, see :ref:`additional`) or in the
 :ref:`component` (:ref:`component-check_flags`). Some file formats also allow
 to specify flags directly in the format (see :ref:`formats`).
 
-The flags are comma separated, the parameters are separated with colon. You can
+The flags are comma-separated, the parameters are separated with colon. You can
 use quotes to include whitespace or special chars in the string. For example:
 
 .. code-block:: text
@@ -76,7 +76,7 @@ Here is a list of flags currently accepted:
     use case for this is to expand placeables to ensure that the text fits even
     with long names, for example: ``replacements:%s:"John Doe"``.
 ``regex:REGEX``
-    Regular expresion to match translation, see :ref:`check-regex`.
+    Regular expression to match translation, see :ref:`check-regex`.
 ``python-format``, ``c-format``, ``php-format``, ``python-brace-format``, ``javascript-format``, ``c-sharp-format``, ``java-format``, ``java-messageformat``, ``auto-java-messageformat``, ``qt-format``, ``qt-plural-format``, ``ruby-format``
     Treats all strings like format strings, affects :ref:`check-python-format`,
     :ref:`check-c-format`, :ref:`check-php-format`,
@@ -85,7 +85,7 @@ Here is a list of flags currently accepted:
     :ref:`check-c-sharp-format`, :ref:`check-java-format`,
     :ref:`check-java-messageformat`, :ref:`check-same`.
 ``strict-same``
-    Make "Unchanged translation" avoid using built in words blacklist, see :ref:`check-same`.
+    Make "Unchanged translation" avoid using built-in words blacklist, see :ref:`check-same`.
 ``ignore-bbcode``
     Skip the "BBcode markup" quality check.
 ``ignore-duplicate``
@@ -98,6 +98,8 @@ Here is a list of flags currently accepted:
     Skip the "C format" quality check.
 ``ignore-c-sharp-format``
     Skip the "C# format" quality check.
+``ignore-es-format``
+    Skip the "ECMAScript template literals" quality check.
 ``ignore-i18next-interpolation``
     Skip the "i18next interpolation" quality check.
 ``ignore-java-format``
@@ -140,6 +142,18 @@ Here is a list of flags currently accepted:
     Skip the "Maximum size of translation" quality check.
 ``ignore-escaped-newline``
     Skip the "Mismatched \n" quality check.
+``ignore-end-colon``
+    Skip the "Mismatched colon" quality check.
+``ignore-end-ellipsis``
+    Skip the "Mismatched ellipsis" quality check.
+``ignore-end-exclamation``
+    Skip the "Mismatched exclamation mark" quality check.
+``ignore-end-stop``
+    Skip the "Mismatched full stop" quality check.
+``ignore-end-question``
+    Skip the "Mismatched question mark" quality check.
+``ignore-end-semicolon``
+    Skip the "Mismatched semicolon" quality check.
 ``ignore-newline-count``
     Skip the "Mismatching line breaks" quality check.
 ``ignore-plurals``
@@ -156,22 +170,10 @@ Here is a list of flags currently accepted:
     Skip the "Starting newline" quality check.
 ``ignore-begin-space``
     Skip the "Starting spaces" quality check.
-``ignore-end-colon``
-    Skip the "Trailing colon" quality check.
-``ignore-end-ellipsis``
-    Skip the "Trailing ellipsis" quality check.
-``ignore-end-exclamation``
-    Skip the "Trailing exclamation mark" quality check.
 ``ignore-end-newline``
     Skip the "Trailing newline" quality check.
-``ignore-end-question``
-    Skip the "Trailing question mark" quality check.
-``ignore-end-semicolon``
-    Skip the "Trailing semicolon" quality check.
 ``ignore-end-space``
     Skip the "Trailing space" quality check.
-``ignore-end-stop``
-    Skip the "Trailing stop" quality check.
 ``ignore-same``
     Skip the "Unchanged translation" quality check.
 ``ignore-safe-html``
@@ -227,7 +229,7 @@ needs font info to be selected, which can be done in the Weblate font management
 tool in :guilabel:`Fonts` under the :guilabel:`Manage` menu of your translation project.
 
 TrueType or OpenType fonts can be uploaded, set up font-groups and use those
-in the the check.
+in the check.
 
 The font-groups allow you to define different fonts for different languages,
 which is typically needed for non-latin languages:
@@ -270,7 +272,7 @@ can be adjusted using :setting:`CHECK_LIST`, and you can also add custom checks.
 1. Subclass the `weblate.checks.Check`
 2. Set a few attributes.
 3. Implement either the ``check`` (if you want to deal with plurals in your code) or
-   the ``check_single`` method, (which does it for you).
+   the ``check_single`` method (which does it for you).
 
 Some examples:
 

@@ -258,7 +258,7 @@ img {
             {% trans "Translation Info" %}
         </h2>
         <table>
-            {% include "mail/snippets/stats.html" with stats=translation.stats %}
+            {% include "mail/snippets/stats.html" with stats=translation.stats url=translation.get_translate_url %}
         </table>
         <div class="buttons">
             <a class="button" href="{{ translation_url }}">{% trans "View" %}</a>
@@ -270,7 +270,8 @@ img {
         <table>
             <tr>
                 <td>{% trans "Languages" %}</td>
-                <td>{{ component.stats.languages|intcomma }}</td>
+                <td><a href="{{ component.get_absolute_url }}">{{ component.stats.languages|intcomma }}</a></td>
+                <td></td>
             </tr>
             {% include "mail/snippets/stats.html" with stats=component.stats %}
         </table>
@@ -284,11 +285,13 @@ img {
         <table>
             <tr>
                 <td>{% trans "Components" %}</td>
-                <td>{{ project.component_set.count|intcomma }}</td>
+                <td><a href="{{ project.get_absolute_url }}">{{ project.component_set.count|intcomma }}</a></td>
+                <td></td>
             </tr>
             <tr>
                 <td>{% trans "Languages" %}</td>
-                <td>{{ project.stats.languages|intcomma }}</td>
+                <td><a href="{{ project.get_absolute_url }}#languages">{{ project.stats.languages|intcomma }}</td>
+                <td></td>
             </tr>
             {% include "mail/snippets/stats.html" with stats=project.stats %}
         </table>

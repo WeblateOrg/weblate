@@ -24,7 +24,12 @@ from urllib.parse import urlparse
 
 from django.conf import settings
 from django.db.models import Q
-from django.http import HttpResponseBadRequest, HttpResponseNotAllowed, JsonResponse
+from django.http import (
+    Http404,
+    HttpResponseBadRequest,
+    HttpResponseNotAllowed,
+    JsonResponse,
+)
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 
@@ -127,6 +132,12 @@ def vcs_service_hook(request, service):
     if not settings.ENABLE_HOOKS:
         return HttpResponseNotAllowed(())
 
+    # Get service helper
+    try:
+        hook_helper = HOOK_HANDLERS[service]
+    except KeyError:
+        raise Http404(f"Hook {service} not supported")
+
     # Check if we got payload
     try:
         data = parse_hook_payload(request)
@@ -135,9 +146,6 @@ def vcs_service_hook(request, service):
 
     if not data:
         return HttpResponseBadRequest("Invalid data in json payload!")
-
-    # Get service helper
-    hook_helper = HOOK_HANDLERS[service]
 
     # Send the request data to the service handler.
     try:
@@ -161,18 +169,18 @@ def vcs_service_hook(request, service):
     # Generate filter
     spfilter = Q(repo__in=repos) | Q(repo__iendswith=full_name)
 
-    # We need to match also URLs which include username and password
     for repo in repos:
+        # We need to match also URLs which include username and password
         if repo.startswith("http://"):
-            spfilter = spfilter | (
-                Q(repo__startswith="http://")
-                & Q(repo__endswith="@{0}".format(repo[7:]))
+            spfilter |= Q(repo__startswith="http://") & Q(
+                repo__endswith="@{0}".format(repo[7:])
             )
         elif repo.startswith("https://"):
-            spfilter = spfilter | (
-                Q(repo__startswith="https://")
-                & Q(repo__endswith="@{0}".format(repo[8:]))
+            spfilter |= Q(repo__startswith="https://") & Q(
+                repo__endswith="@{0}".format(repo[8:])
             )
+        # Include URLs with trailing slash
+        spfilter |= Q(repo=repo + "/")
 
     all_components = Component.objects.filter(spfilter)
 

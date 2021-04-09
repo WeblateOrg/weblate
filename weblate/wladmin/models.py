@@ -48,32 +48,11 @@ class WeblateModelAdmin(ModelAdmin):
     delete_selected_confirmation_template = "wladmin/delete_selected_confirmation.html"
 
 
-class ConfigurationErrorManager(models.Manager):
-    def add(self, name, message, timestamp=None):
-        if timestamp is None:
-            timestamp = timezone.now()
-        obj, created = self.get_or_create(
-            name=name, defaults={"message": message, "timestamp": timestamp}
-        )
-        if created:
-            return obj
-        if obj.message != message or obj.timestamp != timestamp:
-            obj.message = message
-            obj.timestamp = timestamp
-            obj.save(update_fields=["message", "timestamp"])
-        return obj
-
-    def remove(self, name):
-        self.filter(name=name).delete()
-
-
 class ConfigurationError(models.Model):
     name = models.CharField(unique=True, max_length=150)
     message = models.TextField()
     timestamp = models.DateTimeField(default=timezone.now)
     ignored = models.BooleanField(default=False, db_index=True)
-
-    objects = ConfigurationErrorManager()
 
     class Meta:
         index_together = [("ignored", "timestamp")]

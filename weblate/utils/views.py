@@ -28,13 +28,20 @@ from django.shortcuts import get_object_or_404
 from django.utils.http import http_date
 from django.utils.translation import activate
 from django.utils.translation import gettext as _
-from django.utils.translation import pgettext
+from django.utils.translation import gettext_lazy, pgettext_lazy
 from django.views.generic.edit import FormView
 
-from weblate.formats.exporters import get_exporter
-from weblate.lang.models import Language
+from weblate.formats.models import EXPORTERS
 from weblate.trans.models import Component, Project, Translation
 from weblate.utils import messages
+
+
+def get_percent_color(percent):
+    if percent >= 85:
+        return "#2eccaa"
+    if percent >= 50:
+        return "#38f"
+    return "#f6664c"
 
 
 def get_page_limit(request, default):
@@ -81,21 +88,25 @@ class ProjectViewMixin:
         return super().dispatch(request, *args, **kwargs)
 
 
+SORT_CHOICES = {
+    "-priority,position": gettext_lazy("Position and priority"),
+    "position": gettext_lazy("Position"),
+    "priority": gettext_lazy("Priority"),
+    "labels": gettext_lazy("Labels"),
+    "timestamp": gettext_lazy("Age of string"),
+    "num_words": gettext_lazy("Number of words"),
+    "num_comments": gettext_lazy("Number of comments"),
+    "num_failing_checks": gettext_lazy("Number of failing checks"),
+    "context": pgettext_lazy("Translation key", "Key"),
+}
+
+SORT_LOOKUP = {key.replace("-", ""): value for key, value in SORT_CHOICES.items()}
+
+
 def get_sort_name(request):
     """Gets sort name."""
-    sort_dict = {
-        "position": _("Position"),
-        "priority": _("Priority"),
-        "labels": _("Labels"),
-        "timestamp": _("Age of string"),
-        "num_words": _("Word count"),
-        "num_comments": _("Number of comments"),
-        "num_failing_checks": _("Number of failing checks"),
-        "context": pgettext("Translation key", "Key"),
-        "priority,position": _("Position and priority"),
-    }
     sort_params = request.GET.get("sort_by", "-priority,position").replace("-", "")
-    sort_name = sort_dict.get(sort_params, _("Position and priority"))
+    sort_name = SORT_LOOKUP.get(sort_params, _("Position and priority"))
     result = {
         "query": request.GET.get("sort_by", "-priority,position"),
         "name": sort_name,
@@ -105,23 +116,12 @@ def get_sort_name(request):
 
 def get_translation(request, project, component, lang, skip_acl=False):
     """Return translation matching parameters."""
-    try:
-        translation = get_object_or_404(
-            Translation.objects.prefetch(),
-            language__code=lang,
-            component__slug__iexact=component,
-            component__project__slug__iexact=project,
-        )
-    except Http404:
-        language = Language.objects.fuzzy_get(code=lang, strict=True)
-        if language is None:
-            raise
-        translation = get_object_or_404(
-            Translation.objects.prefetch(),
-            language=language,
-            component__slug__iexact=component,
-            component__project__slug__iexact=project,
-        )
+    translation = get_object_or_404(
+        Translation.objects.prefetch(),
+        language__code=lang,
+        component__slug=component,
+        component__project__slug=project,
+    )
 
     if not skip_acl:
         request.user.check_access_component(translation.component)
@@ -131,9 +131,7 @@ def get_translation(request, project, component, lang, skip_acl=False):
 def get_component(request, project, component, skip_acl=False):
     """Return component matching parameters."""
     component = get_object_or_404(
-        Component.objects.prefetch(),
-        project__slug__iexact=project,
-        slug__iexact=component,
+        Component.objects.prefetch(), project__slug=project, slug=component,
     )
     if not skip_acl:
         request.user.check_access_component(component)
@@ -142,7 +140,7 @@ def get_component(request, project, component, skip_acl=False):
 
 def get_project(request, project, skip_acl=False):
     """Return project matching parameters."""
-    project = get_object_or_404(Project, slug__iexact=project)
+    project = get_object_or_404(Project, slug=project)
     if not skip_acl:
         request.user.check_access(project)
     return project
@@ -209,7 +207,7 @@ def zip_download(root, filenames):
 def download_translation_file(translation, fmt=None, units=None):
     if fmt is not None:
         try:
-            exporter_cls = get_exporter(fmt)
+            exporter_cls = EXPORTERS[fmt]
         except KeyError:
             raise Http404("File format not supported")
         if not exporter_cls.supports(translation):
@@ -230,10 +228,11 @@ def download_translation_file(translation, fmt=None, units=None):
         filenames = translation.filenames
 
         if len(filenames) == 1:
-            extension = translation.store.extension()
+            extension = translation.component.file_format_cls.extension()
             # Create response
             response = FileResponse(
-                open(filenames[0], "rb"), content_type=translation.store.mimetype()
+                open(filenames[0], "rb"),
+                content_type=translation.component.file_format_cls.mimetype(),
             )
         else:
             extension = "zip"

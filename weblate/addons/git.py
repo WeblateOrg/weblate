@@ -19,7 +19,7 @@
 
 
 import os.path
-from collections import OrderedDict, defaultdict
+from collections import defaultdict
 
 from django.utils.translation import gettext_lazy as _
 
@@ -74,22 +74,20 @@ class GitSquashAddon(BaseAddon):
 
             commit_message = repository.execute(command)
 
-        if self.instance.configuration.get("append_trailers"):
+        if self.instance.configuration.get("append_trailers", True):
             command = [
                 "log",
-                "--format=%(trailers)",
+                "--format=%(trailers)%nCo-authored-by: %an <%ae>",
                 "{}..HEAD".format(remote),
             ]
             if filenames:
                 command += ["--"] + filenames
 
-            trailer_lines = OrderedDict.fromkeys(
-                [
-                    trailer
-                    for trailer in repository.execute(command).split("\n")
-                    if trailer.strip()
-                ]
-            )
+            trailer_lines = {
+                trailer
+                for trailer in repository.execute(command).split("\n")
+                if trailer.strip()
+            }
 
             commit_message_lines_with_trailers_removed = [
                 line for line in commit_message.split("\n") if line not in trailer_lines
@@ -98,9 +96,9 @@ class GitSquashAddon(BaseAddon):
             commit_message = "\n\n".join(
                 [
                     "\n".join(commit_message_lines_with_trailers_removed),
-                    "\n".join(trailer_lines),
+                    "\n".join(sorted(trailer_lines)),
                 ]
-            )
+            ).strip("\n")
 
         return commit_message
 
@@ -204,19 +202,23 @@ class GitSquashAddon(BaseAddon):
             repository.execute(["checkout", repository.branch])
             repository.delete_branch(tmp)
 
-    def post_commit(self, component, translation=None):
+    def post_commit(self, component):
         repository = component.repository
         with repository.lock:
             if component.repo_needs_merge() and not component.update_branch(
                 method="rebase"
             ):
                 return
-            squash = self.instance.configuration["squash"]
             if not repository.needs_push():
                 return
-            method = getattr(self, "squash_{}".format(squash))
+            method = getattr(
+                self, "squash_{}".format(self.instance.configuration["squash"])
+            )
             method(component, repository)
             # Commit any left files, those were most likely generated
             # by addon and do not exactly match patterns above
-            if repository.needs_commit():
-                repository.commit(self.get_commit_message(component))
+            component.commit_files(
+                template=component.addon_message,
+                extra_context={"addon_name": self.verbose},
+                signals=False,
+            )

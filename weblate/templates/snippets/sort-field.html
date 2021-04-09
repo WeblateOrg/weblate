@@ -1,0 +1,30 @@
+{% load i18n %}
+{% load icons %}
+{% load translations %}
+<div class="btn-group search-group sort-field" role="group">
+  <div class="btn-group" role="group">
+    <button type="button" id="query-sort-dropdown" class="btn btn-default dropdown-toggle search-field" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      {% if sort_name %}
+      <span class="search-label">{{ sort_name }}</span>
+      {% else %}
+      <span class="search-label">{% trans "Sort By" %}</span>
+      {% endif %}
+      <span class="caret"></span>
+    </button>
+    <input type="hidden" id="id_sort_by" name="sort_by" value="{{ sort_query|default:'-priority,position' }}" aria-label="{% trans "Sort By" %}" />
+    <ul class="dropdown-menu">
+      {% sort_choices as sort_choices %}
+      {% for key, name in sort_choices %}
+        <li><a href="#" data-sort="{{ key }}">{{ name }}</a></li>
+      {% endfor %}
+    </ul>
+  </div>
+  <div class="btn-group" role="group">
+    <button type="button" class="btn btn-default search-field query-sort-toggle">
+      <span class="search-icon asc active">
+        {% icon "sort-ascending.svg" %}
+      </span>
+      <span class="search-icon desc">{% icon "sort-descending.svg" %}</span>
+    </button>
+  </div>
+</div>

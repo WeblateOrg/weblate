@@ -61,7 +61,7 @@ Comments
 
 The comments can be posted in two scopes - source string or translation. Choose
 the one which matches the topic you want to discuss. The source string comments are
-good for prividing feedback on the original string, for example that it should
+good for providing feedback on the original string, for example that it should
 be rephrased or it is confusing.
 
 You can use Markdown syntax in the comments and mention other users using
@@ -125,7 +125,7 @@ used in the translated application depends on the configured plural formula.
 Weblate shows the basic information, but you can find a more detailed description in
 the `Language Plural Rules`_ by the Unicode Consortium.
 
-.. _Language Plural Rules: http://unicode.org/cldr/charts/latest/supplemental/language_plural_rules.html
+.. _Language Plural Rules: https://unicode-org.github.io/cldr-staging/charts/37/supplemental/language_plural_rules.html
 
 .. seealso::
 
@@ -144,15 +144,15 @@ Keyboard shortcuts
 The following keyboard shortcuts can be utilized during translation:
 
 :kbd:`Alt+Home`
-    Navigates to first translation in current search.
+    Navigate to first translation in current search.
 :kbd:`Alt+End`
-    Navigates to last translation in current search.
+    Navigate to last translation in current search.
 :kbd:`Alt+PageUp`
-    Navigates to previous translation in current search.
+    Navigate to previous translation in current search.
 :kbd:`Alt+PageDown`
-    Navigates to next translation in current search.
+    Navigate to next translation in current search.
 :kbd:`Alt+Enter`, :kbd:`Ctrl+Enter`, or :kbd:`Cmd+Enter`
-    Saves current translation.
+    Save current translation.
 :kbd:`Ctrl+Shift+Enter` or :kbd:`Cmd+Shift+Enter`
     Unmarks translation as fuzzy and submits it.
 :kbd:`Ctrl+E` or :kbd:`Cmd+E`
@@ -164,17 +164,17 @@ The following keyboard shortcuts can be utilized during translation:
 :kbd:`Ctrl+<NUMBER>` or :kbd:`Cmd+<NUMBER>`
     Copies placeable of given number from source string.
 :kbd:`Ctrl+M <NUMBER>` or :kbd:`Cmd+M <NUMBER>`
-    Copy machine translation of given number to current translation.
+    Copy the machine translation of given number to current translation.
 :kbd:`Ctrl+I <NUMBER>` or :kbd:`Cmd+I <NUMBER>`
-    Ignore failing check of given number.
+    Ignore one item in the list of failing checks.
 :kbd:`Ctrl+J` or :kbd:`Cmd+J`
-    Shows nearby strings tab.
+    Shows the :guilabel:`Nearby strings` tab.
 :kbd:`Ctrl+S` or :kbd:`Cmd+S`
     Shows search tab.
 :kbd:`Ctrl+O` or :kbd:`Cmd+O`
     Copies source string.
 :kbd:`Ctrl+Y` or :kbd:`Cmd+Y`
-    Toggles "Needs editing" flag.
+    Toggles the :guilabel:`Needs editing` flag.
 
 .. _visual-keyboard:
 
@@ -207,7 +207,7 @@ Screenshots
 Nearby strings
     Displays neighbouring messages from the translation file. These
     are usually also used in a similar context and prove useful in keeping the translation consistent.
-Other occurences
+Other occurrences
     In case a message appears in multiple places (e.g. multiple components),
     this tab shows all of them if they are found to be inconsistent (see
     :ref:`check-inconsistent`). You can choose which one to use.
@@ -215,7 +215,7 @@ Translation memory
     Look at similar strings translated in past, see :ref:`memory`.
 Glossary
     Displays terms from the project glossary used in the current message.
-Recent edits
+Recent changes
     List of people whom have changed this message recently using Weblate.
 Project
     Project information like instructions for translators, or information about
@@ -328,8 +328,32 @@ Rate limiting
 
 To avoid abuse of the interface, there is rate limiting applied to several
 operations like searching, sending contact form or translating. In case you are
-are hit by this, you are blocked for a certain period until you can perform the
+hit by this, you are blocked for a certain period until you can perform the
 operation again.
 
 The default limits are described in the administrative manual in
 :ref:`rate-limit`, but can be tweaked by configuration.
+
+.. _bulk-edit:
+
+Bulk edit
+---------
+
+Bulk edit allows you to perform operation on number of strings. You define
+search strings and operation to perform and all matching strings are updated.
+Following operations are supported:
+
+* Changing string state (for example to approve all strings waiting for review)
+* Adjust translation flags (see :ref:`custom-checks`)
+* Adjust string labels (see :ref:`labels`)
+
+.. hint::
+
+    This tool is called :guilabel:`Bulk edit` accessible in the
+    :guilabel:`Tools` menu for each project, component or translation.
+
+
+
+.. seealso::
+
+   :ref:`Bulk edit addon <addon-weblate.flags.bulk>`

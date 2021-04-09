@@ -63,7 +63,22 @@ After creating the project, you are taken directly to the project page:
 
 Creating a new translation component can be initiated via a single click there.
 The process of creating a component is multi-staged and automatically detects most
-translation parameters.
+translation parameters. There are several approaches to creating component:
+
+From version control
+    Creates component from remote version control repository.
+From existing component
+    Creates additional component to existing one by choosing different files.
+Additional branch
+    Creates additional component to existing one, just for different branch.
+Upload translations files
+    Upload translation files to Weblate in case you do not have version control
+    or do not want to integrate it with Weblate. You can later update the
+    content using the web interface or :ref:`api`.
+Translate document
+    Upload single document and translate that.
+Start from scratch
+    Create blank translation project and add strings manually.
 
 Once you have existing translation components, you can also easily add new ones
 for additional files or branches using same repository.
@@ -210,6 +225,29 @@ translating from something else than English.
    :ref:`source-quality-gateway`,
    :ref:`bimono`,
    :ref:`languages`
+
+.. _project-language_aliases:
+
+Language aliases
+++++++++++++++++
+
+Define language codes mapping when importing translations into Weblate. Use
+this when language codes are inconsistent in your repositories and you want to
+get a consistent view in Weblate.
+
+The typical use case might be mapping American English to English: ``en_US:en``
+
+Multiple mappings to be separated by comma: ``en_GB:en,en_US:en``
+
+.. hint::
+
+   The language codes are mapped when matching the translation files and the
+   matches are case sensitive, so make sure you use the source language codes
+   in same form as used in the filenames.
+
+.. seealso::
+
+    :ref:`language-parsing-codes`
 
 .. _component:
 
@@ -491,7 +529,7 @@ List of checks which can not be ignored, see :ref:`enforcing-checks`.
 Translation license
 +++++++++++++++++++
 
-License of the translation, (does not need to be the same as the source code license).
+License of the translation (does not need to be the same as the source code license).
 
 .. _component-agreement:
 
@@ -602,6 +640,18 @@ this period.
 
 Default value can be changed by :setting:`COMMIT_PENDING_HOURS`.
 
+.. _component-auto_lock_error:
+
+Lock on error
++++++++++++++
+
+Enables locking the component on repository error (failed pull, push or merge).
+Locking in this situation avoids adding another conflict which would have to be
+resolved manually.
+
+The component will be automatically unlocked once there are no repository
+errors left.
+
 .. _component-language_regex:
 
 Language filter
@@ -706,7 +756,7 @@ There following variables are available in the component templates:
 ``{{ url }}``
     Translation URL
 ``{{ filename }}``
-    Transaltion filename
+    Translation filename
 ``{{ stats }}``
     Translation stats, this has further attributes, examples below.
 ``{{ stats.all }}``

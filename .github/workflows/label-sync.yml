@@ -1,5 +1,5 @@
 # This file is maintained in https://github.com/WeblateOrg/meta/
-name: Sync labels in the declarative way
+name: Sync labels
 on:
   push:
     branches:
@@ -9,10 +9,11 @@ on:
       - .github/workflows/label-sync.yml
 jobs:
   build:
+    name: Sync labels
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@1.0.0
-      - uses: micnncim/action-label-syncer@v0.3.1
+      - uses: micnncim/action-label-syncer@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_REPOSITORY: ${{ github.repository }}

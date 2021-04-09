@@ -24,6 +24,7 @@ import inspect
 import os
 import re
 import subprocess
+from typing import Optional, Tuple, Union
 
 from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy as _
@@ -101,7 +102,7 @@ class TTKitUnit(TranslationUnit):
             # Avoid duplication in case template has same notes
             template_comment = self.template.getnotes()
             if template_comment != comment:
-                comment = template_comment + " " + comment
+                comment = template_comment + "\n" + comment
 
         return comment
 
@@ -219,7 +220,8 @@ class TTKitFormat(TranslationFormat):
         super().__init__(storefile, template_store, language_code, is_template)
         # Set language (needed for some which do not include this)
         if language_code is not None and self.store.gettargetlanguage() is None:
-            self.store.settargetlanguage(self.get_language_code(language_code))
+            # This gets already native language code, so no conversion is needed
+            self.store.settargetlanguage(language_code)
 
     @staticmethod
     def serialize(store):
@@ -317,8 +319,11 @@ class TTKitFormat(TranslationFormat):
 
         return True
 
+    def construct_unit(self, source):
+        return self.store.UnitClass(source)
+
     def create_unit(self, key, source):
-        unit = self.store.UnitClass(source)
+        unit = self.construct_unit(source)
         unit.setid(key)
         unit.source = key
         unit.target = source
@@ -458,7 +463,7 @@ class PoMonoUnit(PoUnit):
             context = self.template.getcontext()
             if context:
                 result.append(context)
-        return " ".join(notes)
+        return "\n".join(notes)
 
 
 class XliffUnit(TTKitUnit):
@@ -666,7 +671,16 @@ class MonolingualSimpleUnit(MonolingualIDUnit):
         return False
 
 
-class WebExtensionJSONUnit(MonolingualSimpleUnit):
+class JSONUnit(MonolingualSimpleUnit):
+    @cached_property
+    def context(self):
+        context = super().context
+        if context.startswith("."):
+            return context[1:]
+        return context
+
+
+class WebExtensionJSONUnit(JSONUnit):
     @cached_property
     def flags(self):
         placeholders = self.mainunit.placeholders
@@ -680,7 +694,7 @@ class WebExtensionJSONUnit(MonolingualSimpleUnit):
         )
 
 
-class ARBJSONUnit(MonolingualSimpleUnit):
+class ARBJSONUnit(JSONUnit):
     @cached_property
     def flags(self):
         placeholders = self.mainunit.placeholders
@@ -915,7 +929,7 @@ class XliffFormat(TTKitFormat):
     name = _("XLIFF translation file")
     format_id = "xliff"
     loader = xlifffile
-    autoload = ("*.xlf", "*.xliff")
+    autoload: Tuple[str, ...] = ("*.xlf", "*.xliff")
     unit_class = XliffUnit
     language_format = "bcp"
 
@@ -952,12 +966,15 @@ class PropertiesBaseFormat(TTKitFormat):
         # Properties files do not expose mimetype
         return "text/plain"
 
+    def construct_unit(self, source):
+        return self.store.UnitClass(source, personality=self.store.personality.name)
+
 
 class StringsFormat(PropertiesBaseFormat):
     name = _("iOS strings")
     format_id = "strings"
     loader = ("properties", "stringsfile")
-    new_translation = "\n".encode("utf-16")
+    new_translation: Optional[Union[str, bytes]] = "\n".encode("utf-16")
     autoload = ("*.strings",)
     language_format = "bcp"
 
@@ -1075,8 +1092,8 @@ class JSONFormat(TTKitFormat):
     name = _("JSON file")
     format_id = "json"
     loader = ("jsonl10n", "JsonFile")
-    unit_class = MonolingualSimpleUnit
-    autoload = ("*.json",)
+    unit_class = JSONUnit
+    autoload: Tuple[str, ...] = ("*.json",)
     new_translation = "{}\n"
 
     @staticmethod
@@ -1134,7 +1151,7 @@ class CSVFormat(TTKitFormat):
     format_id = "csv"
     loader = ("csvl10n", "csvfile")
     unit_class = CSVUnit
-    autoload = ("*.csv",)
+    autoload: Tuple[str, ...] = ("*.csv",)
     encoding = "auto"
 
     def __init__(
@@ -1208,7 +1225,7 @@ class CSVFormat(TTKitFormat):
 class CSVSimpleFormat(CSVFormat):
     name = _("Simple CSV file")
     format_id = "csv-simple"
-    autoload = ("*.txt",)
+    autoload: Tuple[str, ...] = ("*.txt",)
     encoding = "auto"
 
     @staticmethod
@@ -1238,7 +1255,7 @@ class YAMLFormat(TTKitFormat):
     format_id = "yaml"
     loader = ("yaml", "YAMLFile")
     unit_class = MonolingualSimpleUnit
-    autoload = ("*.pyml",)
+    autoload: Tuple[str, ...] = ("*.pyml",)
     new_translation = "{}\n"
 
     @staticmethod
@@ -1380,7 +1397,7 @@ class INIFormat(TTKitFormat):
 
 
 class InnoSetupINIFormat(INIFormat):
-    name = _("InnoSetup INI file")
+    name = _("Inno Setup INI file")
     format_id = "islu"
     loader = ("ini", "inifile")
 
@@ -1393,3 +1410,101 @@ class InnoSetupINIFormat(INIFormat):
     @staticmethod
     def get_class_kwargs():
         return {"dialect": "inno"}
+
+
+class XWikiUnit(PropertiesUnit):
+    """Dedicated unit for XWiki.
+
+    Inspired from PropertiesUnit, allow to override the methods to use the right
+    XWikiDialect methods for decoding properties.
+    """
+
+    @cached_property
+    def source(self):
+        # Need to decode property encoded string
+        return quote.xwiki_properties_decode(super().source)
+
+    @cached_property
+    def target(self):
+        """Return target string from a Translate Toolkit unit."""
+        if self.unit is None:
+            return ""
+        # Need to decode property encoded string
+        # This is basically stolen from
+        # translate.storage.properties.propunit.gettarget
+        # which for some reason does not return translation
+        value = quote.xwiki_properties_decode(self.unit.value)
+        value = re.sub("\\\\ ", " ", value)
+        return value
+
+
+class XWikiPropertiesFormat(PropertiesBaseFormat):
+    """Represents an XWiki Java Properties translation file.
+
+    This format specification is detailed in
+    https://dev.xwiki.org/xwiki/bin/view/Community/XWiki%20Translations%20Formats/#HXWikiJavaProperties
+    """
+
+    unit_class = XWikiUnit
+    name = "XWiki Java Properties"
+    format_id = "xwiki-java-properties"
+    loader = ("properties", "xwikifile")
+    language_format = "java"
+    autoload = ("*.properties",)
+    new_translation = "\n"
+
+    def save_content(self, handle):
+        current_units = self.all_units
+        self.store.units = []
+        # Ensure that not translated units are saved too as missing properties.
+        for unit in current_units:
+            if unit.unit is None:
+                if not unit.has_content():
+                    unit.unit = unit.mainunit
+                else:
+                    missingunit = self.find_unit(unit.context, unit.source)[0]
+                    unit.unit = missingunit.unit
+                    unit.unit.missing = True
+            self.add_unit(unit.unit)
+
+        self.store.serialize(handle)
+
+
+class XWikiPagePropertiesFormat(XWikiPropertiesFormat):
+    """Represents an XWiki Page Properties translation file.
+
+    This format specification is detailed in
+    https://dev.xwiki.org/xwiki/bin/view/Community/XWiki%20Translations%20Formats/#HXWikiPageProperties
+    """
+
+    name = "XWiki Page Properties"
+    format_id = "xwiki-page-properties"
+    loader = ("properties", "XWikiPageProperties")
+    language_format = "java"
+
+    @classmethod
+    def fixup(cls, store):
+        """Fix encoding.
+
+        Force encoding to UTF-8 since we inherit from XWikiProperties which force
+        for ISO-8859-1.
+        """
+        store.encoding = "utf-8"
+
+    def save_content(self, handle):
+        if self.store.root is None:
+            self.store.root = self.template_store.store.root
+        super(XWikiPagePropertiesFormat, self).save_content(handle)
+
+
+class XWikiFullPageFormat(XWikiPagePropertiesFormat):
+    """Represents an XWiki Full Page translation file.
+
+    This format specification is detailed in
+    https://dev.xwiki.org/xwiki/bin/view/Community/XWiki%20Translations%20Formats/#HXWikiFullContentTranslation
+    """
+
+    name = "XWiki Full Page"
+    format_id = "xwiki-fullpage"
+    loader = ("properties", "XWikiFullPage")
+    language_format = "java"

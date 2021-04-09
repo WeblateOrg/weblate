@@ -29,7 +29,7 @@ from django.core.cache import InvalidCacheBackendError, caches
 from django.urls import reverse
 from django.utils.html import escape
 from django.utils.safestring import mark_safe
-from django.utils.translation import pgettext
+from django.utils.translation import gettext, pgettext
 
 from weblate.utils.errors import report_error
 from weblate.utils.requests import request
@@ -41,7 +41,7 @@ def avatar_for_email(email, size=80):
     if not email:
         email = "noreply@weblate.org"
 
-    mail_hash = hashlib.md5(email.lower().encode()).hexdigest()
+    mail_hash = hashlib.md5(email.lower().encode()).hexdigest()  # nosec
 
     return "{0}avatar/{1}?d={2}&s={3}".format(
         settings.AVATAR_URL_PREFIX,
@@ -76,7 +76,7 @@ def get_avatar_image(user, size):
     image = cache.get(cache_key)
     if image is None:
         try:
-            image = download_avatar_image(user, size)
+            image = download_avatar_image(user.email, size)
             cache.set(cache_key, image)
         except (IOError, CertificateError):
             report_error(
@@ -87,14 +87,14 @@ def get_avatar_image(user, size):
     return image
 
 
-def download_avatar_image(user, size):
+def download_avatar_image(email, size):
     """Download avatar image from remote server."""
-    url = avatar_for_email(user.email, size)
+    url = avatar_for_email(email, size)
     response = request("get", url, timeout=1.0)
     return response.content
 
 
-def get_user_display(user, icon=True, link=False, prefix=""):
+def get_user_display(user, icon: bool = True, link: bool = False):
     """Nicely format user for display."""
     # Did we get any user?
     if user is None:
@@ -120,9 +120,8 @@ def get_user_display(user, icon=True, link=False, prefix=""):
         else:
             avatar = reverse("user_avatar", kwargs={"user": user.username, "size": 32})
 
-        username = f'<img src="{avatar}" class="avatar" /> {prefix}{username}'
-    else:
-        username = prefix + username
+        alt = escape(gettext("User avatar"))
+        username = f'<img src="{avatar}" class="avatar w32" alt="{alt}" /> {username}'
 
     if link and user is not None:
         return mark_safe(

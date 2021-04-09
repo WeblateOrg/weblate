@@ -21,8 +21,29 @@
 from appconf import AppConf
 from django.utils.functional import cached_property
 
-from weblate.trans.util import delete_configuration_error
 from weblate.utils.classloader import ClassLoader
+
+
+class ExporterLoader(ClassLoader):
+    def __init__(self):
+        super().__init__("WEBLATE_EXPORTERS", False)
+
+    def list_exporters(self, translation):
+        return [
+            {"name": x.name, "verbose": x.verbose}
+            for x in sorted(self.values(), key=lambda x: x.name)
+            if x.supports(translation)
+        ]
+
+    def list_exporters_filter(self, allowed):
+        return [
+            {"name": x.name, "verbose": x.verbose}
+            for x in sorted(self.values(), key=lambda x: x.name)
+            if x.name in allowed
+        ]
+
+
+EXPORTERS = ExporterLoader()
 
 
 class FileFormatLoader(ClassLoader):
@@ -40,10 +61,7 @@ class FileFormatLoader(ClassLoader):
 
     def load_data(self):
         result = super().load_data()
-
         for fileformat in list(result.values()):
-            error_name = "File format: {0}".format(fileformat.format_id)
-            delete_configuration_error(error_name)
             try:
                 fileformat.get_class()
             except (AttributeError, ImportError) as error:
@@ -57,6 +75,20 @@ FILE_FORMATS = FileFormatLoader()
 
 
 class FormatsConf(AppConf):
+    EXPORTERS = (
+        "weblate.formats.exporters.PoExporter",
+        "weblate.formats.exporters.PoXliffExporter",
+        "weblate.formats.exporters.XliffExporter",
+        "weblate.formats.exporters.TBXExporter",
+        "weblate.formats.exporters.TMXExporter",
+        "weblate.formats.exporters.MoExporter",
+        "weblate.formats.exporters.CSVExporter",
+        "weblate.formats.exporters.XlsxExporter",
+        "weblate.formats.exporters.JSONExporter",
+        "weblate.formats.exporters.AndroidResourceExporter",
+        "weblate.formats.exporters.StringsExporter",
+    )
+
     FORMATS = (
         "weblate.formats.ttkit.PoFormat",
         "weblate.formats.ttkit.PoMonoFormat",
@@ -99,6 +131,9 @@ class FormatsConf(AppConf):
         "weblate.formats.convert.IDMLFormat",
         "weblate.formats.convert.OpenDocumentFormat",
         "weblate.formats.convert.WindowsRCFormat",
+        "weblate.formats.ttkit.XWikiPropertiesFormat",
+        "weblate.formats.ttkit.XWikiPagePropertiesFormat",
+        "weblate.formats.ttkit.XWikiFullPageFormat",
     )
 
     class Meta:

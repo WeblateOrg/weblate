@@ -44,6 +44,10 @@ It will render as:
 
         * Jae Doe <jane@example.com> (42)
 
+.. hint::
+
+    The number in parenthesis indicates number of contributions in given period.
+
 .. _stats:
 
 
@@ -54,7 +58,6 @@ Generates the number of translated words and strings by translator name:
 
 .. literalinclude:: reporting-example.rst
     :language: rst
-    :encoding: utf-8
 
 And it will get rendered as:
 

@@ -22,14 +22,14 @@ import os
 from typing import Dict, List, Optional
 
 
-def get_env_list(name, default: Optional[List[str]] = None) -> List[str]:
+def get_env_list(name: str, default: Optional[List[str]] = None) -> List[str]:
     """Helper to get list from environment."""
     if name not in os.environ:
         return default or []
     return os.environ[name].split(",")
 
 
-def get_env_map(name, default: Optional[Dict[str, str]] = None) -> Dict[str, str]:
+def get_env_map(name: str, default: Optional[Dict[str, str]] = None) -> Dict[str, str]:
     """Helper to get mapping from environment.
 
     parses 'full_name:name,email:mail' into {'email': 'mail', 'full_name': 'name'}
@@ -39,14 +39,14 @@ def get_env_map(name, default: Optional[Dict[str, str]] = None) -> Dict[str, str
     return default or {}
 
 
-def get_env_int(name, default: int = 0) -> int:
+def get_env_int(name: str, default: int = 0) -> int:
     """Helper to get integer value from environment."""
     if name not in os.environ:
         return default
     return int(os.environ[name])
 
 
-def get_env_bool(name, default: bool = False) -> bool:
+def get_env_bool(name: str, default: bool = False) -> bool:
     """Helper to get boolean value from environment."""
     if name not in os.environ:
         return default

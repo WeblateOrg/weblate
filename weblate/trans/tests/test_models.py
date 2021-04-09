@@ -144,9 +144,7 @@ class ProjectTest(RepoTestCase):
         self.assertFalse(os.path.exists(project.full_path))
 
     def test_delete_votes(self):
-        component = self.create_component(
-            suggestion_voting=True, suggestion_autoaccept=True,
-        )
+        component = self.create_po(suggestion_voting=True, suggestion_autoaccept=True)
         user = create_test_user()
         translation = component.translation_set.get(language_code="cs")
         unit = translation.unit_set.first()
@@ -183,6 +181,11 @@ class ProjectTest(RepoTestCase):
 
         # We now should have access
         self.assertTrue(user.can_access_project(project))
+
+    def test_change_source_language(self):
+        component = self.create_component()
+        component.project.source_language = Language.objects.get(code="cs")
+        component.project.save()
 
 
 class TranslationTest(RepoTestCase):

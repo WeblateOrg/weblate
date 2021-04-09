@@ -82,9 +82,9 @@ class Flags:
     def get_items(self, flags):
         if isinstance(flags, str):
             return self.parse(flags)
-        elif hasattr(flags, "tag"):
+        if hasattr(flags, "tag"):
             return self.parse_xml(flags)
-        elif isinstance(flags, Flags):
+        if isinstance(flags, Flags):
             return flags.items()
         return flags
 
@@ -120,10 +120,7 @@ class Flags:
                 pass
             elif state == 0:
                 # Handle aliases
-                if token in FLAG_ALIASES:
-                    name = FLAG_ALIASES[token]
-                else:
-                    name = token
+                name = FLAG_ALIASES.get(token, token)
                 value = [name]
                 state = 1
             elif state == 1 and token == ",":
@@ -138,6 +135,9 @@ class Flags:
                 state = 0
                 value.append("")
                 yield tuple(value)
+            elif state == 2 and token == ":":
+                # Empty param
+                value.append("")
             elif state == 2:
                 # Value
                 value.append(token)

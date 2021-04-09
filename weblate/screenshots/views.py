@@ -28,7 +28,7 @@ from django.views.decorators.http import require_POST
 from django.views.generic import DetailView, ListView
 from PIL import Image
 
-from weblate.screenshots.forms import ScreenshotForm
+from weblate.screenshots.forms import ScreenshotForm, SearchForm
 from weblate.screenshots.models import Screenshot
 from weblate.trans.models import Unit
 from weblate.utils import messages
@@ -38,7 +38,7 @@ from weblate.utils.views import ComponentViewMixin
 
 try:
     with c_locale():
-        from tesserocr import PyTessBaseAPI, RIL
+        from tesserocr import RIL, PyTessBaseAPI
     HAS_OCR = True
 except ImportError:
     HAS_OCR = False
@@ -88,8 +88,7 @@ class ScreenshotList(ListView, ComponentViewMixin):
             obj = Screenshot.objects.create(
                 component=component, user=request.user, **self._add_form.cleaned_data
             )
-            request.user.profile.uploaded += 1
-            request.user.profile.save(update_fields=["uploaded"])
+            request.user.profile.increase_count("uploaded")
 
             try_add_source(request, obj)
             messages.success(
@@ -132,8 +131,7 @@ class ScreenshotDetail(DetailView):
             if self._edit_form.is_valid():
                 if request.FILES:
                     obj.user = request.user
-                    request.user.profile.uploaded += 1
-                    request.user.profile.save(update_fields=["uploaded"])
+                    request.user.profile.increase_count("uploaded")
                 self._edit_form.save()
             else:
                 return self.get(request, **kwargs)
@@ -185,10 +183,11 @@ def search_results(code, obj, units=None):
 
     results = [
         {
-            "text": unit.get_source_plurals()[0],
+            "text": unit.source_string,
             "pk": unit.pk,
             "context": unit.context,
             "location": unit.location,
+            "assigned": unit.screenshots.count(),
         }
         for unit in units
     ]
@@ -202,9 +201,12 @@ def search_source(request, pk):
     obj = get_screenshot(request, pk)
     translation = obj.component.source_translation
 
-    units = translation.unit_set.filter(parse_query(request.POST.get("q", "")))
-
-    return search_results(200, obj, units)
+    form = SearchForm(request.POST)
+    if not form.is_valid():
+        return search_results(400, obj)
+    return search_results(
+        200, obj, translation.unit_set.filter(parse_query(form.cleaned_data["q"]))
+    )
 
 
 def ocr_extract(api, image, strings):

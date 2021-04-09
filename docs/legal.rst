@@ -30,7 +30,7 @@ for authentication, data-integrity and -confidentiality.
 Most likely Weblate would be classified as ECCN 5D002 or 5D992 and, as
 publicly available libre software, it should not be subject to EAR (see
 `Encryption items NOT Subject to the EAR
-<https://www.bis.doc.gov/index.php/policy-guidance/encryption/1-encryption-items-not-subject-to-the-ear>`_.
+<https://www.bis.doc.gov/index.php/policy-guidance/encryption/1-encryption-items-not-subject-to-the-ear>`_).
 
 Software components used by Weblate (listing only components related to
 cryptographic function):

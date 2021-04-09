@@ -48,4 +48,4 @@ class Command(WeblateLangCommand):
         else:
             loader = perform_load.delay
         for component in self.get_components(**options):
-            loader(component.pk, options["force"], langs)
+            loader(component.pk, force=options["force"], langs=langs)

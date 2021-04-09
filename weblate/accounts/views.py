@@ -17,7 +17,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-
+import os
 import re
 from collections import defaultdict
 from importlib import import_module
@@ -27,7 +27,7 @@ from django.conf import settings
 from django.contrib.auth import REDIRECT_FIELD_NAME, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import LoginView, LogoutView
-from django.core.exceptions import ObjectDoesNotExist
+from django.core.exceptions import ObjectDoesNotExist, ValidationError
 from django.core.mail.message import EmailMultiAlternatives
 from django.core.signing import (
     BadSignature,
@@ -89,10 +89,12 @@ from weblate.accounts.forms import (
     SetPasswordForm,
     SubscriptionForm,
     UserForm,
+    UserSearchForm,
     UserSettingsForm,
 )
 from weblate.accounts.models import AuditLog, Subscription, VerifiedEmail
 from weblate.accounts.notifications import (
+    FREQ_INSTANT,
     FREQ_NONE,
     NOTIFICATIONS,
     SCOPE_ADMIN,
@@ -104,6 +106,7 @@ from weblate.accounts.utils import remove_user
 from weblate.auth.models import User
 from weblate.logger import LOGGER
 from weblate.trans.models import Change, Component, Project, Suggestion
+from weblate.trans.models.project import prefetch_project_flags
 from weblate.utils import messages
 from weblate.utils.errors import report_error
 from weblate.utils.ratelimit import (
@@ -113,6 +116,7 @@ from weblate.utils.ratelimit import (
 )
 from weblate.utils.request import get_ip_address, get_user_agent
 from weblate.utils.site import get_site_url
+from weblate.utils.stats import prefetch_stats
 from weblate.utils.views import get_component, get_project
 
 CONTACT_TEMPLATE = """
@@ -152,6 +156,10 @@ CONTACT_SUBJECTS = {
 ANCHOR_RE = re.compile(r"^#[a-z]+$")
 
 NOTIFICATION_PREFIX_TEMPLATE = "notifications__{}"
+
+
+def get_auth_keys():
+    return set(load_backends(social_django.utils.BACKENDS).keys())
 
 
 class EmailSentView(TemplateView):
@@ -204,8 +212,8 @@ def mail_admins_contact(request, subject, message, context, sender, to):
     if not to and settings.ADMINS:
         to = [a[1] for a in settings.ADMINS]
     elif not settings.ADMINS:
-        messages.error(request, _("Could not send message to administrator!"))
-        LOGGER.error("ADMINS not configured, cannot send message!")
+        messages.error(request, _("Could not send message to administrator."))
+        LOGGER.error("ADMINS not configured, cannot send message")
         return
 
     mail = EmailMultiAlternatives(
@@ -276,7 +284,6 @@ def get_notification_forms(request):
                 subscriptions[key] = {}
                 initials[key] = {
                     "scope": SCOPE_COMPONENT,
-                    "project": None,
                     "component": component,
                 }
             except (ObjectDoesNotExist, ValueError):
@@ -326,7 +333,7 @@ def user_profile(request):
     ]
     forms = [form.from_request(request) for form in form_classes]
     forms.extend(get_notification_forms(request))
-    all_backends = set(load_backends(social_django.utils.BACKENDS).keys())
+    all_backends = get_auth_keys()
 
     if request.method == "POST":
         if all(form.is_valid() for form in forms):
@@ -348,7 +355,9 @@ def user_profile(request):
 
     social = request.user.social_auth.all()
     social_names = [assoc.provider for assoc in social]
-    new_backends = [x for x in all_backends if x == "email" or x not in social_names]
+    new_backends = [
+        x for x in sorted(all_backends) if x == "email" or x not in social_names
+    ]
     license_projects = (
         Component.objects.filter_access(request.user)
         .exclude(license="")
@@ -372,6 +381,7 @@ def user_profile(request):
             "licenses": license_projects,
             "associated": social,
             "new_backends": new_backends,
+            "has_email_auth": "email" in all_backends,
             "auditlog": request.user.auditlog_set.order()[:20],
         },
     )
@@ -454,7 +464,7 @@ def contact(request):
             captcha = CaptchaForm(request, form, request.POST)
         if not check_rate_limit("message", request):
             messages.error(
-                request, _("Too many messages sent, please try again later!")
+                request, _("Too many messages sent, please try again later.")
             )
         elif (captcha is None or captcha.is_valid()) and form.is_valid():
             mail_admins_contact(
@@ -515,6 +525,7 @@ def hosting(request):
 def user_page(request, user):
     """User details page."""
     user = get_object_or_404(User, username=user)
+    allowed_project_ids = request.user.allowed_project_ids
 
     # Filter all user activity
     all_changes = Change.objects.last_changes(request.user).filter(user=user)
@@ -526,7 +537,9 @@ def user_page(request, user):
     user_projects_ids = set(
         all_changes.values_list("translation__component__project", flat=True)
     )
-    user_projects = Project.objects.filter(id__in=user_projects_ids)
+    user_projects = Project.objects.filter(
+        id__in=user_projects_ids & allowed_project_ids
+    )
 
     return render(
         request,
@@ -536,17 +549,39 @@ def user_page(request, user):
             "page_user": user,
             "last_changes": last_changes,
             "last_changes_url": urlencode({"user": user.username}),
-            "user_projects": user_projects,
+            "user_projects": prefetch_project_flags(prefetch_stats(user_projects)),
+            "owned_projects": prefetch_project_flags(
+                prefetch_stats(user.owned_projects.filter(id__in=allowed_project_ids))
+            ),
+            "watched_projects": prefetch_project_flags(
+                prefetch_stats(user.watched_projects.filter(id__in=allowed_project_ids))
+            ),
+            "user_languages": user.profile.languages.all()[:7],
         },
     )
 
 
 def user_avatar(request, user, size):
     """User avatar view."""
+    allowed_sizes = (
+        # Used in top navigation
+        24,
+        # In text avatars
+        32,
+        # 80 pixes used when linked with weblate.org
+        80,
+        # Public profile
+        128,
+    )
+    if size not in allowed_sizes:
+        raise Http404(f"Not supported size: {size}")
+
     user = get_object_or_404(User, username=user)
 
     if user.email == "noreply@weblate.org":
         return redirect(get_fallback_avatar_url(size))
+    if user.email == "noreply+{}@weblate.org".format(user.pk):
+        return redirect(os.path.join(settings.STATIC_URL, "state/ghost.svg"))
 
     response = HttpResponse(
         content_type="image/png", content=get_avatar_image(user, size)
@@ -571,8 +606,8 @@ class WeblateLoginView(LoginView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        auth_backends = list(load_backends(social_django.utils.BACKENDS).keys())
-        context["login_backends"] = [x for x in auth_backends if x != "email"]
+        auth_backends = get_auth_keys()
+        context["login_backends"] = [x for x in sorted(auth_backends) if x != "email"]
         context["can_reset"] = "email" in auth_backends
         context["title"] = _("Sign in")
         return context
@@ -584,9 +619,9 @@ class WeblateLoginView(LoginView):
             return redirect_profile()
 
         # Redirect if there is only one backend
-        auth_backends = list(load_backends(social_django.utils.BACKENDS).keys())
-        if len(auth_backends) == 1 and auth_backends[0] != "email":
-            return redirect_single(request, auth_backends[0])
+        auth_backends = get_auth_keys()
+        if len(auth_backends) == 1 and "email" not in auth_backends:
+            return redirect_single(request, auth_backends.pop())
 
         return super().dispatch(request, *args, **kwargs)
 
@@ -640,7 +675,7 @@ def register(request):
         if settings.REGISTRATION_CAPTCHA:
             captcha = CaptchaForm(request)
 
-    backends = set(load_backends(social_django.utils.BACKENDS).keys())
+    backends = get_auth_keys()
 
     # Redirect if there is only one backend
     if len(backends) == 1 and "email" not in backends:
@@ -697,8 +732,15 @@ def password(request):
     """Password change / set form."""
     do_change = True
     change_form = None
+    usable = request.user.has_usable_password()
 
-    if request.user.has_usable_password():
+    if "email" not in get_auth_keys() and not usable:
+        messages.error(
+            request, _("Cannot reset password, e-mail authentication is turned off.")
+        )
+        return redirect("profile")
+
+    if usable:
         if request.method == "POST":
             change_form = PasswordConfirmForm(request, request.POST)
             do_change = change_form.is_valid()
@@ -735,7 +777,7 @@ def reset_password_set(request):
     if user.has_usable_password():
         request.session.flush()
         request.session.set_expiry(None)
-        messages.error(request, _("Password reset has been already completed!"))
+        messages.error(request, _("Password reset has been already completed."))
         return redirect("login")
     if request.method == "POST":
         form = SetPasswordForm(user, request.POST)
@@ -762,7 +804,7 @@ def reset_password(request):
     """Password reset handling."""
     if request.user.is_authenticated:
         return redirect_profile()
-    if "email" not in load_backends(social_django.utils.BACKENDS).keys():
+    if "email" not in get_auth_keys():
         messages.error(
             request, _("Cannot reset password, e-mail authentication is turned off.")
         )
@@ -827,10 +869,29 @@ def userdata(request):
 
 @require_POST
 @login_required
-def watch(request, project):
-    obj = get_project(request, project)
-    request.user.profile.watched.add(obj)
-    return redirect(obj)
+def watch(request, project, component=None):
+    user = request.user
+    if component:
+        redirect_obj = component_obj = get_component(request, project, component)
+        obj = component_obj.project
+        # Mute project level subscriptions
+        mute_real(user, scope=SCOPE_PROJECT, component=None, project=obj)
+        # Manually enable component level subscriptions
+        for default_subscription in user.subscription_set.filter(scope=SCOPE_DEFAULT):
+            subscription, created = user.subscription_set.get_or_create(
+                notification=default_subscription.notification,
+                scope=SCOPE_COMPONENT,
+                component=component_obj,
+                project=None,
+                defaults={"frequency": default_subscription.frequency},
+            )
+            if not created and subscription.frequency != default_subscription.frequency:
+                subscription.frequency = default_subscription.frequency
+                subscription.save(update_fields=["frequency"])
+    else:
+        redirect_obj = obj = get_project(request, project)
+    user.profile.watched.add(obj)
+    return redirect(redirect_obj)
 
 
 @require_POST
@@ -851,7 +912,7 @@ def mute_real(user, **kwargs):
         subscription = user.subscription_set.get_or_create(
             notification=notification_cls.get_name(),
             defaults={"frequency": FREQ_NONE},
-            **kwargs
+            **kwargs,
         )[0]
         if subscription.frequency != FREQ_NONE:
             subscription.frequency = FREQ_NONE
@@ -893,8 +954,8 @@ class SuggestionView(ListView):
             .order()
         )
 
-    def get_context_data(self, **kwargs):
-        result = super().get_context_data(**kwargs)
+    def get_context_data(self, *, object_list=None, **kwargs):
+        result = super().get_context_data(object_list=object_list, **kwargs)
         if self.kwargs["user"] == "-":
             user = User.objects.get(username=settings.ANONYMOUS_USER_NAME)
         else:
@@ -1081,6 +1142,29 @@ def social_complete(request, backend):
         )
 
 
+@login_required
+@require_POST
+def subscribe(request):
+    if "onetime" in request.POST:
+        component = Component.objects.get(pk=request.POST["component"])
+        request.user.check_access_component(component)
+        subscription = Subscription(
+            user=request.user,
+            notification=request.POST["onetime"],
+            scope=SCOPE_COMPONENT,
+            frequency=FREQ_INSTANT,
+            component=component,
+            onetime=True,
+        )
+        try:
+            subscription.full_clean()
+            subscription.save()
+        except ValidationError:
+            pass
+        messages.success(request, _("Notification settings adjusted."))
+    return redirect_profile("#notifications")
+
+
 def unsubscribe(request):
     if "i" in request.GET:
         signer = TimestampSigner()
@@ -1142,3 +1226,40 @@ def saml_metadata(request):
         return HttpResponseServerError(content=", ".join(errors))
 
     return HttpResponse(content=metadata, content_type="text/xml")
+
+
+class UserList(ListView):
+    paginate_by = 50
+    model = User
+
+    def get_queryset(self):
+        users = User.objects.filter(is_active=True)
+        form = self.form
+        if form.is_valid():
+            search = form.cleaned_data.get("q", "").strip()
+            if search:
+                users = users.filter(
+                    Q(username__icontains=search) | Q(full_name__icontains=search)
+                )
+        else:
+            users = User.objects.order()
+
+        return users.order_by(self.sort_query)
+
+    def setup(self, request, *args, **kwargs):
+        super().setup(request, *args, **kwargs)
+        self.form = form = UserSearchForm(request.GET)
+        self.sort_query = None
+        if form.is_valid():
+            self.sort_query = form.cleaned_data.get("sort_by")
+        if not self.sort_query:
+            self.sort_query = "-date_joined"
+
+    def get_context_data(self, **kwargs):
+        """Create context for rendering page."""
+        context = super().get_context_data(**kwargs)
+        context["form"] = self.form
+        context["sort_query"] = self.sort_query
+        context["sort_name"] = self.form.sort_choices[self.sort_query.strip("-")]
+        context["sort_choices"] = self.form.sort_choices
+        return context

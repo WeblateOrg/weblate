@@ -12,7 +12,7 @@
 <li><a href="{% url 'memory' project=project.slug %}">{% trans "Translation memory" %}</a></li>
 {% elif from_file %}
 <li><a href="{% url 'manage' %}">{% trans "Manage" %}</a></li>
-<li><a href="{% url 'memory' manage='manage' %}">{% trans "Translation memory" %}</a></li>
+<li><a href="{% url 'manage-memory' %}">{% trans "Translation memory" %}</a></li>
 {% else %}
 <li><a href="{% url 'profile' %}">{{ user.profile.get_user_name }}</a></li>
 <li><a href="{% url 'memory' %}">{% trans "Translation memory" %}</a></li>

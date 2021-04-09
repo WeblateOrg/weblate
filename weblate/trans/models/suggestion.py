@@ -31,7 +31,7 @@ from weblate.trans.models.change import Change
 from weblate.utils import messages
 from weblate.utils.antispam import report_spam
 from weblate.utils.fields import JSONField
-from weblate.utils.request import get_ip_address
+from weblate.utils.request import get_ip_address, get_user_agent_raw
 from weblate.utils.state import STATE_TRANSLATED
 
 
@@ -62,8 +62,8 @@ class SuggestionManager(models.Manager):
             unit=unit,
             user=user,
             userdetails={
-                "address": get_ip_address(request) if request else "",
-                "agent": request.META.get("HTTP_USER_AGENT", "") if request else "",
+                "address": get_ip_address(request),
+                "agent": get_user_agent_raw(request),
             },
         )
 
@@ -83,8 +83,7 @@ class SuggestionManager(models.Manager):
 
         # Update suggestion stats
         if user is not None:
-            user.profile.suggested += 1
-            user.profile.save()
+            user.profile.increase_count("suggested")
 
         return suggestion
 
@@ -134,7 +133,7 @@ class Suggestion(models.Model, UserDisplayMixin):
         )
 
     @transaction.atomic
-    def accept(self, translation, request, permission="suggestion.accept"):
+    def accept(self, request, permission="suggestion.accept"):
         if not request.user.has_perm(permission, self.unit):
             messages.error(request, _("Failed to accept suggestion!"))
             return
@@ -184,7 +183,7 @@ class Suggestion(models.Model, UserDisplayMixin):
         # Automatic accepting
         required_votes = self.unit.translation.component.suggestion_autoaccept
         if required_votes and self.get_num_votes() >= required_votes:
-            self.accept(self.unit.translation, request, "suggestion.vote")
+            self.accept(request, "suggestion.vote")
 
     def get_checks(self):
         # Build fake unit to run checks

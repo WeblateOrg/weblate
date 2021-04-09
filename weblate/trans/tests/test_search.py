@@ -132,7 +132,7 @@ class SearchViewTest(ViewTestCase):
         self.do_search({"q": "changed:>2010-01-10 AND changed_by:testuser"}, None)
         self.do_search({"q": "changed_by:testuser"}, None)
         # Review, partial date
-        self.do_search({"q": "changed:>=2010-01-"}, None)
+        self.do_search({"q": "changed:>=2010-01-"}, "Unknown string format: 2010-01-")
 
     def extract_params(self, response):
         search_url = re.findall(r'data-params="([^"]*)"', response.content.decode())[0]
@@ -301,6 +301,24 @@ class BulkStateTest(ViewTestCase):
         self.assertContains(response, "Bulk edit completed, 1 string was updated.")
         unit = self.get_unit()
         self.assertFalse("python-format" in unit.all_flags)
+
+    def test_bulk_read_only(self):
+        response = self.client.post(
+            reverse("bulk-edit", kwargs=self.kw_project),
+            {"q": "language:en", "state": -1, "add_flags": "read-only"},
+            follow=True,
+        )
+        self.assertContains(response, "Bulk edit completed, 4 strings were updated.")
+        unit = self.get_unit()
+        self.assertTrue("read-only" in unit.all_flags)
+        response = self.client.post(
+            reverse("bulk-edit", kwargs=self.kw_project),
+            {"q": "language:en", "state": -1, "remove_flags": "read-only"},
+            follow=True,
+        )
+        self.assertContains(response, "Bulk edit completed, 4 strings were updated.")
+        unit = self.get_unit()
+        self.assertFalse("read-only" in unit.all_flags)
 
     def test_bulk_labels(self):
         label = self.project.label_set.create(name="Test label", color="black")

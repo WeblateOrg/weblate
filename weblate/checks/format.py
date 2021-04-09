@@ -18,9 +18,15 @@
 #
 
 import re
-from functools import lru_cache
+from collections import defaultdict
+from typing import Optional, Pattern
 
+from django.utils.functional import SimpleLazyObject
+from django.utils.html import escape
+from django.utils.safestring import mark_safe
+from django.utils.translation import gettext
 from django.utils.translation import gettext_lazy as _
+from methodtools import lru_cache
 
 from weblate.checks.base import SourceCheck, TargetCheck
 
@@ -167,6 +173,18 @@ I18NEXT_MATCH = re.compile(
     re.VERBOSE,
 )
 
+ES_TEMPLATE_MATCH = re.compile(
+    r"""
+    \${             # start symbol
+        \s*         # ignore whitespace
+        (([^}]+))   # variable name
+        \s*         # ignore whitespace
+    }               # end symbol
+    """,
+    re.VERBOSE,
+)
+
+
 PERCENT_MATCH = re.compile(r"(%([a-zA-Z0-9_]+)%)")
 
 WHITESPACE = re.compile(r"\s+")
@@ -199,7 +217,7 @@ FLAG_RULES = {
 class BaseFormatCheck(TargetCheck):
     """Base class for fomat string checks."""
 
-    regexp = None
+    regexp: Optional[Pattern[str]] = None
     default_disabled = True
 
     def check_target_unit(self, sources, targets, unit):
@@ -212,21 +230,28 @@ class BaseFormatCheck(TargetCheck):
             yield self.check_format(sources[1], targets[0], False)
             return
 
-        # Use plural as source in case singlular misses format string
+        # Use plural as source in case singlular misses format string and plural has it
         if (
             len(sources) > 1
-            and not self.extract_maches(sources[0])
-            and self.extract_maches(sources[1])
+            and not self.extract_matches(sources[0])
+            and self.extract_matches(sources[1])
         ):
             source = sources[1]
         else:
             source = sources[0]
 
+        # Fetch plural examples
+        plural_examples = SimpleLazyObject(lambda: unit.translation.plural.examples)
+
         # Check singular
         yield self.check_format(
             source,
             targets[0],
-            len(sources) > 1 and len(unit.translation.plural.examples[0]) == 1,
+            # Allow to skip format string in case there is single plural or in special
+            # case of 0, 1 plural. It is technically wrong, but in many cases there
+            # won't be 0 so don't trigger too many false positives
+            len(sources) > 1
+            and (len(plural_examples[0]) == 1 or plural_examples[0] == ["0", "1"]),
         )
 
         # Do we have more to check?
@@ -236,7 +261,7 @@ class BaseFormatCheck(TargetCheck):
         # Check plurals against plural from source
         for i, target in enumerate(targets[1:]):
             yield self.check_format(
-                sources[1], target, len(unit.translation.plural.examples[i + 1]) == 1
+                sources[1], target, len(plural_examples[i + 1]) == 1
             )
 
     def format_string(self, string):
@@ -249,7 +274,7 @@ class BaseFormatCheck(TargetCheck):
         return matches
 
     @lru_cache(maxsize=1024)
-    def extract_maches(self, string):
+    def extract_matches(self, string):
         return [self.cleanup_string(x[0]) for x in self.regexp.findall(string)]
 
     def check_format(self, source, target, ignore_missing):
@@ -260,11 +285,11 @@ class BaseFormatCheck(TargetCheck):
         uses_position = True
 
         # Calculate value
-        src_matches = self.extract_maches(source)
+        src_matches = self.extract_matches(source)
         if src_matches:
             uses_position = any((self.is_position_based(x) for x in src_matches))
 
-        tgt_matches = self.extract_maches(target)
+        tgt_matches = self.extract_matches(target)
 
         if not uses_position:
             src_matches = set(src_matches)
@@ -279,14 +304,18 @@ class BaseFormatCheck(TargetCheck):
             if ignore_missing and tgt_matches < src_matches:
                 return False
             if not uses_position:
-                return src_matches - tgt_matches
-            result = []
-            for i in range(min(len(src_matches), len(tgt_matches))):
-                if src_matches[i] != tgt_matches[i]:
-                    result.append(src_matches[i])
-            result.extend(src_matches[len(tgt_matches) :])
-            result.extend(tgt_matches[len(src_matches) :])
-            return result
+                missing = sorted(src_matches - tgt_matches)
+                extra = sorted(tgt_matches - src_matches)
+            else:
+                missing = []
+                extra = []
+                for i in range(min(len(src_matches), len(tgt_matches))):
+                    if src_matches[i] != tgt_matches[i]:
+                        missing.append(src_matches[i])
+                        extra.append(tgt_matches[i])
+                missing.extend(src_matches[len(tgt_matches) :])
+                extra.extend(tgt_matches[len(src_matches) :])
+            return {"missing": missing, "extra": extra}
         return False
 
     def is_position_based(self, string):
@@ -306,18 +335,32 @@ class BaseFormatCheck(TargetCheck):
         return ret
 
     def format_result(self, result):
-        return _("Following format strings are wrong: %s") % ", ".join(
-            self.format_string(x) for x in result
-        )
+        if result["missing"]:
+            yield gettext("Following format strings are missing: %s") % ", ".join(
+                self.format_string(x) for x in sorted(set(result["missing"]))
+            )
+        if result["extra"]:
+            yield gettext("Following format strings are extra: %s") % ", ".join(
+                self.format_string(x) for x in sorted(set(result["extra"]))
+            )
 
     def get_description(self, check_obj):
         unit = check_obj.unit
         checks = self.check_generator(
             unit.get_source_plurals(), unit.get_target_plurals(), unit
         )
+        errors = []
+
+        # Merge plurals
+        results = defaultdict(list)
         for result in checks:
             if result:
-                return self.format_result(result)
+                for key, value in result.items():
+                    results[key].extend(value)
+        if results:
+            errors.extend(self.format_result(results))
+        if errors:
+            return mark_safe("<br />".join(escape(error) for error in errors))
         return super().get_description(check_obj)
 
 
@@ -326,10 +369,10 @@ class BasePrintfCheck(BaseFormatCheck):
 
     def __init__(self):
         super().__init__()
-        self.regexp, self.is_position_based = FLAG_RULES[self.enable_string]
+        self.regexp, self._is_position_based = FLAG_RULES[self.enable_string]
 
     def is_position_based(self, string):
-        raise NotImplementedError()
+        return self._is_position_based(string)
 
     def normalize(self, matches):
         return [m for m in matches if m != "%"]
@@ -444,16 +487,21 @@ class JavaMessageFormatCheck(BaseFormatCheck):
         if not target or not source:
             return False
 
+        result = super().check_format(source, target, ignore_missing)
+
         # Even number of quotes
         if target.count("'") % 2 != 0:
-            return ["'"]
+            if not result:
+                result = {"missing": [], "extra": []}
+            result["missing"].append("'")
 
-        return super().check_format(source, target, ignore_missing)
+        return result
 
     def format_result(self, result):
-        if "'" in result:
-            return _("You need to pair up an apostrophe with another one.")
-        return super().format_result(result)
+        if "'" in result["missing"]:
+            result["missing"].remove("'")
+            yield gettext("You need to pair up an apostrophe with another one.")
+        yield from super().format_result(result)
 
 
 class I18NextInterpolationCheck(BaseFormatCheck):
@@ -464,6 +512,21 @@ class I18NextInterpolationCheck(BaseFormatCheck):
 
     def cleanup_string(self, text):
         return WHITESPACE.sub("", text)
+
+
+class ESTemplateLiteralsCheck(BaseFormatCheck):
+    """Check for ES template literals."""
+
+    check_id = "es_format"
+    name = _("ECMAScript template literals")
+    description = _("ECMAScript template literals do not match source")
+    regexp = ES_TEMPLATE_MATCH
+
+    def cleanup_string(self, text):
+        return WHITESPACE.sub("", text)
+
+    def format_string(self, string):
+        return f"${{{string}}}"
 
 
 class PercentPlaceholdersCheck(BaseFormatCheck):

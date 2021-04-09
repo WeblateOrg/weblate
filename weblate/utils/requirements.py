@@ -189,20 +189,19 @@ def get_db_version():
             "https://www.postgresql.org/",
             version[0].split(" ")[0],
         )
-    else:
-        try:
-            with connection.cursor() as cursor:
-                version = cursor.connection.get_server_info()
-        except RuntimeError:
-            report_error(cause="MySQL version check")
-            return None
-        return (
-            f"{connection.display_name} sever",
-            "https://mariadb.org/"
-            if connection.mysql_is_mariadb
-            else "https://www.mysql.com/",
-            version.split("-", 1)[0],
-        )
+    try:
+        with connection.cursor() as cursor:
+            version = cursor.connection.get_server_info()
+    except RuntimeError:
+        report_error(cause="MySQL version check")
+        return None
+    return (
+        f"{connection.display_name} sever",
+        "https://mariadb.org/"
+        if connection.mysql_is_mariadb
+        else "https://www.mysql.com/",
+        version.split("-", 1)[0],
+    )
 
 
 def get_cache_version():

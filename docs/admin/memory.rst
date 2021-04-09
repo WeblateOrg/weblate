@@ -59,7 +59,7 @@ Shared translation memory
 All translation within projects with shared translation memory turned on
 are stored in a shared translation memory available to all projects.
 
-Please consider carefully whether to turn this this feature on for shared Weblate
+Please consider carefully whether to turn this feature on for shared Weblate
 installations, as it can have severe implications:
 
 * The translations can be used by anybody else.

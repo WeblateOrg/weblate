@@ -59,9 +59,7 @@ class AutoTranslate:
         if self.updated > 0:
             self.translation.invalidate_cache()
             if self.user:
-                self.user.profile.refresh_from_db()
-                self.user.profile.translated += self.updated
-                self.user.profile.save(update_fields=["translated"])
+                self.user.profile.increase_count("translated", self.updated)
 
     @transaction.atomic
     def process_others(self, source):
@@ -100,9 +98,11 @@ class AutoTranslate:
             Unit.objects.filter(id__in=units).select_for_update()
         ):
             # Get first matching entry
-            update = sources.filter(source=unit.source)[0]
-            # No save if translation is same
-            if unit.state == update.state and unit.target == update.target:
+            update = sources.filter(source=unit.source).first()
+            # No save if translation is same or unit does not exist
+            if update is None or (
+                unit.state == update.state and unit.target == update.target
+            ):
                 continue
             # Copy translation
             self.update(unit, update.state, update.target)

@@ -32,7 +32,7 @@ from weblate.checks.models import Check
 from weblate.machinery import MACHINE_TRANSLATION_SERVICES
 from weblate.machinery.base import MachineTranslationError
 from weblate.trans.models import Change, Unit
-from weblate.trans.util import sort_objects
+from weblate.trans.util import sort_unicode
 from weblate.utils.celery import get_task_progress, is_task_ready
 from weblate.utils.errors import report_error
 from weblate.utils.views import get_component, get_project, get_translation
@@ -40,10 +40,7 @@ from weblate.utils.views import get_component, get_project, get_translation
 
 def handle_machinery(request, service, unit, search=None):
     request.user.check_access_component(unit.translation.component)
-    if not request.user.has_perm(
-        "memory.view" if service == "weblate-translation-memory" else "machinery.view",
-        unit.translation,
-    ):
+    if not request.user.has_perm("machinery.view", unit.translation):
         raise PermissionDenied()
 
     # Error response
@@ -108,11 +105,14 @@ def get_unit_translations(request, unit_id):
         request,
         "js/translations.html",
         {
-            "units": sort_objects(
+            "units": sort_unicode(
                 Unit.objects.filter(
                     id_hash=unit.id_hash,
                     translation__component=unit.translation.component,
-                ).exclude(pk=unit.pk)
+                )
+                .exclude(pk=unit.pk)
+                .prefetch(),
+                lambda unit: str(unit.translation.language),
             )
         },
     )
@@ -236,17 +236,9 @@ def git_status_translation(request, project, component, lang):
     )
 
 
-def mt_services(request):
-    """Generate list of installed machine translation services in JSON."""
-    # Machine translation
-    machine_services = list(MACHINE_TRANSLATION_SERVICES.keys())
-
-    return JsonResponse(data=machine_services, safe=False)
-
-
 @login_required
 def task_progress(request, task_id):
-    task = AsyncResult(task_id)
+    task = AsyncResult(str(task_id))
     result = task.result
     return JsonResponse(
         {

@@ -23,8 +23,9 @@ import logging
 import os
 import os.path
 import subprocess
+from datetime import datetime
 from distutils.version import LooseVersion
-from typing import Optional
+from typing import List, Optional
 
 from dateutil import parser
 from django.conf import settings
@@ -60,14 +61,14 @@ class Repository:
     """Basic repository object."""
 
     _cmd = "false"
-    _cmd_last_revision = None
-    _cmd_last_remote_revision = None
+    _cmd_last_revision: Optional[List[str]] = None
+    _cmd_last_remote_revision: Optional[List[str]] = None
     _cmd_status = ["status"]
-    _cmd_list_changed_files = None
+    _cmd_list_changed_files: Optional[List[str]] = None
 
     name = None
     identifier: Optional[str] = None
-    req_version = None
+    req_version: Optional[str] = None
     default_branch = ""
     needs_push_url = True
 
@@ -147,7 +148,13 @@ class Repository:
 
     @classmethod
     def _popen(
-        cls, args, cwd=None, merge_err=True, fullcmd=False, raw=False, local=False
+        cls,
+        args: List[str],
+        cwd: Optional[str] = None,
+        merge_err: bool = True,
+        fullcmd: bool = False,
+        raw: bool = False,
+        local: bool = False,
     ):
         """Execute the command using popen."""
         if args is None:
@@ -163,6 +170,7 @@ class Repository:
             stderr=subprocess.STDOUT if merge_err else subprocess.PIPE,
             stdin=subprocess.PIPE,
             universal_newlines=not raw,
+            check=False,
         )
         cls.add_breadcrumb(
             text_cmd,
@@ -178,7 +186,13 @@ class Repository:
             )
         return process.stdout
 
-    def execute(self, args, needs_lock=True, fullcmd=False, merge_err=True):
+    def execute(
+        self,
+        args: List[str],
+        needs_lock: bool = True,
+        fullcmd: bool = False,
+        merge_err: bool = True,
+    ):
         """Execute command and caches its output."""
         if needs_lock:
             if not self.lock.is_locked:
@@ -341,6 +355,7 @@ class Repository:
             except Exception as error:
                 cls._version = error
         if isinstance(cls._version, Exception):
+            # pylint: disable=raising-bad-type
             raise cls._version
         return cls._version
 
@@ -353,11 +368,17 @@ class Repository:
         """Configure commiter name."""
         raise NotImplementedError()
 
-    def commit(self, message, author=None, timestamp=None, files=None):
+    def commit(
+        self,
+        message: str,
+        author: Optional[str] = None,
+        timestamp: Optional[datetime] = None,
+        files: Optional[List[str]] = None,
+    ):
         """Create new revision."""
         raise NotImplementedError()
 
-    def remove(self, files, message, author=None):
+    def remove(self, files: List[str], message: str, author: Optional[str] = None):
         """Remove files and creates new revision."""
         raise NotImplementedError()
 
@@ -378,7 +399,7 @@ class Repository:
         example permissions).
         """
         real_path = os.path.join(self.path, self.resolve_symlinks(path))
-        objhash = hashlib.sha1()
+        objhash = hashlib.sha1()  # nosec
 
         if os.path.isdir(real_path):
             files = []

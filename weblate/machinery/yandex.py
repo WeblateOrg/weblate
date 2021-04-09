@@ -80,3 +80,9 @@ class YandexTranslation(MachineTranslation):
                 "service": self.name,
                 "source": text,
             }
+
+    def get_error_message(self, exc):
+        try:
+            return exc.response.json()["message"]
+        except Exception:
+            return super().get_error_message(exc)

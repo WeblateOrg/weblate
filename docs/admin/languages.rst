@@ -15,6 +15,8 @@ Parsing language codes
 While parsing translations, Weblate attempts to map language code
 (usually the ISO 639-1 one) to any existing language object.
 
+You can further adjust this mapping at project level by :ref:`project-language_aliases`.
+
 If no exact match can be found, an attempt will be made
 to best fit it into an existing language (e.g. ignoring the default country code
 for a given language—choosing ``cs`` instead of ``cs_CZ``).
@@ -76,7 +78,7 @@ Text direction
 ++++++++++++++
 
 Determines whether language is written right to left or left to right. This
-properly is autodetected correctly for most of the languages.
+property is autodetected correctly for most of the languages.
 
 .. _plural-number:
 
@@ -96,4 +98,6 @@ Gettext compatible plural formula used to determine which plural form is used fo
 
    :ref:`plurals`,
    `GNU gettext utilities: Plural forms <https://www.gnu.org/software/gettext/manual/html_node/Plural-forms.html>`_,
-   `Language Plural Rules by the Unicode Consortium <http://unicode.org/cldr/charts/latest/supplemental/language_plural_rules.html>`_
+   `Language Plural Rules by the Unicode Consortium`_
+
+.. _Language Plural Rules by the Unicode Consortium: https://unicode-org.github.io/cldr-staging/charts/37/supplemental/language_plural_rules.html
