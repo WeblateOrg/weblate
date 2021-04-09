@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-04-03 14:07+0200\n"
-"PO-Revision-Date: 2021-04-07 15:27+0000\n"
-"Last-Translator: Fred Maranhão <fred.maranhao@gmail.com>\n"
+"PO-Revision-Date: 2021-04-09 00:35+0000\n"
+"Last-Translator: Rafael Fontenelle <rafaelff@gnome.org>\n"
 "Language-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/"
 "weblate/documentation/pt_BR/>\n"
 "Language: pt_BR\n"
@@ -15287,7 +15287,7 @@ msgstr "Importa arquivos TMX ou JSON para a memória de tradução"
 
 #: ../../admin/optionals.rst:2
 msgid "Optional Weblate modules"
-msgstr ""
+msgstr "Módulos opcionais do Weblate"
 
 #: ../../admin/optionals.rst:4
 msgid "Several optional modules are available for your setup."
@@ -26112,55 +26112,44 @@ msgstr ""
 "em 2012, milhares de pessoas contribuíram."
 
 #: ../../contributing/addons.rst:2
-#, fuzzy
-#| msgid "Built-in addons"
 msgid "Developing addons"
-msgstr "Extensões embutidas"
+msgstr "Desenvolvendo extensões"
 
 #: ../../contributing/addons.rst:4
 msgid ":ref:`addons` are way to customize localization workflow in Weblate."
 msgstr ""
+":ref:`addons` são uma forma de personalizar o fluxo de trabalho de "
+"localização no Weblate."
 
 #: ../../../weblate/addons/base.py:docstring of
 #: weblate.addons.base.BaseAddon.can_install:1
-#, fuzzy
-#| msgid ""
-#| "Could not find any additional addons compatible with this translation."
 msgid "Check whether addon is compatible with given component."
-msgstr ""
-"Não foi possível encontrar extensões adicionais compatíveis com esta "
-"tradução."
+msgstr "Verifica se a extensão é compatível com o componente dado."
 
 #: ../../../weblate/addons/base.py:docstring of
 #: weblate.addons.base.BaseAddon.configure:1
 msgid "Save configuration."
-msgstr "Salva configuração."
+msgstr "Salva a configuração."
 
 #: ../../../weblate/addons/base.py:docstring of
 #: weblate.addons.base.BaseAddon.daily:1
 msgid "Hook triggered daily."
-msgstr ""
+msgstr "Gancho acionado diariamente."
 
 #: ../../../weblate/addons/base.py:docstring of
 #: weblate.addons.base.BaseAddon.get_add_form:1
-#, fuzzy
-#| msgid "User configuration file on Windows."
 msgid "Return configuration form for adding new addon."
-msgstr "Arquivo de configuração do usuário no Windows."
+msgstr "Retorna um formulário de configuração para adicionar uma nova extensão."
 
 #: ../../../weblate/addons/base.py:docstring of
 #: weblate.addons.base.BaseAddon.get_settings_form:1
-#, fuzzy
-#| msgid "User configuration file on Windows."
 msgid "Return configuration form for this addon."
-msgstr "Arquivo de configuração do usuário no Windows."
+msgstr "Retorna um formulário de configuração para esta extensão."
 
 #: ../../../weblate/addons/base.py:docstring of
 #: weblate.addons.base.BaseAddon.post_add:1
-#, fuzzy
-#| msgid "Updates the LINGUAS file when a new translation is added."
 msgid "Hook triggered after new translation is added."
-msgstr "Atualiza o arquivo LINGUAS quando uma nova tradução for adicionada."
+msgstr "Gancho acionado após nova tradução ser adicionada."
 
 #: ../../../weblate/addons/base.py:docstring of
 #: weblate.addons.base.BaseAddon.post_commit:1
@@ -26170,21 +26159,20 @@ msgstr ""
 
 #: ../../../weblate/addons/base.py:docstring of
 #: weblate.addons.base.BaseAddon.post_push:1
-#, fuzzy
-#| msgid "Whether the repository should be pushed upstream on every commit."
 msgid "Hook triggered after repository is pushed upstream."
-msgstr ""
-"Define se deve-se fazer push do repositório para o upstream a cada commit."
+msgstr "Gancho acionado após repositório ter o push feito para o upstream."
 
 #: ../../../weblate/addons/base.py:docstring of
 #: weblate.addons.base.BaseAddon.post_update:1
 msgid "Hook triggered after repository is updated from upstream."
-msgstr ""
+msgstr "Gancho acionado após o repositório ser atualizado a partir do upstream."
 
 #: ../../../weblate/addons/base.py:docstring of
 #: weblate.addons.base.BaseAddon.post_update:3
 msgid "HEAD of the repository prior to update, can be blank on initial clone."
 msgstr ""
+"HEAD do repositório antes da atualização, pode estar vazio na clonagem "
+"inicial."
 
 #: ../../../weblate/addons/base.py:docstring of
 #: weblate.addons.base.BaseAddon.post_update:5
@@ -26192,6 +26180,9 @@ msgid ""
 "Whether the addon operation should skip pushing changes upstream. Usually "
 "you can pass this to underlying methods as commit_and_push or commit_pending."
 msgstr ""
+"Se a operação de extensão deve ignorar o push de alterações para o upstream. "
+"Normalmente você pode passar isso para métodos subjacentes como "
+"commit_and_push ou commit_pending."
 
 #: ../../../weblate/addons/base.py:docstring of
 #: weblate.addons.base.BaseAddon.pre_commit:1
@@ -26204,11 +26195,12 @@ msgstr ""
 #: weblate.addons.base.BaseAddon.pre_push:1
 msgid "Hook triggered before repository is pushed upstream."
 msgstr ""
+"Gancho acionado antes do repositório ter seu push feito para o upstream."
 
 #: ../../../weblate/addons/base.py:docstring of
 #: weblate.addons.base.BaseAddon.pre_update:1
 msgid "Hook triggered before repository is updated from upstream."
-msgstr ""
+msgstr "Hook acionado antes do repositório ser atualizado a partir do upstream."
 
 #: ../../../weblate/addons/base.py:docstring of
 #: weblate.addons.base.BaseAddon.save_state:1
@@ -26221,15 +26213,15 @@ msgstr "Classe base para as extensões do Weblate."
 
 #: ../../../weblate/addons/base.py:docstring of
 #: weblate.addons.base.BaseAddon.store_post_load:1
-#, fuzzy
-#| msgid "Updates the LINGUAS file when a new translation is added."
 msgid "Hook triggered after a file is parsed."
-msgstr "Atualiza o arquivo LINGUAS quando uma nova tradução for adicionada."
+msgstr "Gancho acionado após um arquivo ser analisado."
 
 #: ../../../weblate/addons/base.py:docstring of
 #: weblate.addons.base.BaseAddon.store_post_load:3
 msgid "It receives an instance of a file format class as a argument."
 msgstr ""
+"Ele recebe uma instância de uma classe de formato de arquivo como um "
+"argumento."
 
 #: ../../../weblate/addons/base.py:docstring of
 #: weblate.addons.base.BaseAddon.store_post_load:5
@@ -26237,11 +26229,13 @@ msgid ""
 "This is useful to modify file format class parameters, for example adjust "
 "how the file will be saved."
 msgstr ""
+"Isso é útil para modificar os parâmetros de classe de formato de arquivo, "
+"por exemplo, ajustar como o arquivo será salvo."
 
 #: ../../../weblate/addons/base.py:docstring of
 #: weblate.addons.base.BaseAddon.unit_pre_create:1
 msgid "Hook triggered before new unit is created."
-msgstr ""
+msgstr "Gancho acionado antes que a nova unidade seja criada."
 
 #: ../../contributing/addons.rst:11
 msgid "Here is an example addon:"
@@ -26522,18 +26516,20 @@ msgid ""
 "The frontend is currently built using Bootstrap, jQuery and few third party "
 "libraries."
 msgstr ""
+"O frontend atualmente é construído usando Bootstrap, jQuery e algumas "
+"bibliotecas de terceiros."
 
 #: ../../contributing/frontend.rst:7
-#, fuzzy
-#| msgid "Supported file formats"
 msgid "Supported browsers"
-msgstr "Formatos de arquivos suportados"
+msgstr "Navegadores suportados"
 
 #: ../../contributing/frontend.rst:9
 msgid ""
 "Weblate supports the latest, stable releases of all major browsers and "
 "platforms."
 msgstr ""
+"Weblate oferece suporte às versões mais recentes e estáveis de todos os "
+"principais navegadores e plataformas."
 
 #: ../../contributing/frontend.rst:12
 msgid ""
@@ -26542,14 +26538,21 @@ msgid ""
 "explicitly supported. However, Weblate should (in most cases) display and "
 "function correctly in these browsers as well."
 msgstr ""
+"Navegadores alternativos que usam a versão mais recente do WebKit, Blink ou "
+"Gecko, seja diretamente ou por meio da API de visualização da web da "
+"plataforma, não são explicitamente suportados. No entanto, o Weblate deve ("
+"na maioria dos casos) ser exibido e funcionar corretamente nesses "
+"navegadores também."
 
 #: ../../contributing/frontend.rst:17
 msgid "Older browsers might work, but some features might be limited."
 msgstr ""
+"Navegadores mais antigos podem funcionar, mas alguns recursos podem ser "
+"limitados."
 
 #: ../../contributing/frontend.rst:20
 msgid "Dependency management"
-msgstr ""
+msgstr "Gerenciamento de dependências"
 
 #: ../../contributing/frontend.rst:22
 msgid ""
@@ -26559,24 +26562,31 @@ msgid ""
 "correct locations in :file:`weblate/static/vendor`, where all third partly "
 "frontend code is located."
 msgstr ""
+"O gerenciador de pacotes yarn é usado para atualizar bibliotecas de "
+"terceiros. A configuração reside em :file:`scripts/yarn` e há um script "
+"wrapper :file:`scripts/yarn-update` para atualizar as bibliotecas, construí-"
+"las e copiá-las para os locais corretos em :file:`weblate/static/vendor`, "
+"onde todo o terceiro código parcialmente frontend está localizado."
 
 #: ../../contributing/frontend.rst:28
 msgid "Adding new third-party library typically consists of:"
-msgstr ""
+msgstr "Adicionar uma nova biblioteca de terceiros geralmente consiste em:"
 
 #: ../../contributing/frontend.rst:42
 msgid "Coding style"
-msgstr ""
+msgstr "Estilo de codificação"
 
 #: ../../contributing/frontend.rst:44
 msgid ""
 "Weblate relies on `Prettier`_ for the code formatting for both JavaScript "
 "and CSS files."
 msgstr ""
+"Weblate depende do `Prettier`_ para a formatação do código para arquivos "
+"JavaScript e CSS."
 
 #: ../../contributing/frontend.rst:46
 msgid "We also use `ESLint`_ to check the JavaScript code."
-msgstr ""
+msgstr "Também usamos `ESLint`_ para verificar o código JavaScript."
 
 #: ../../contributing/frontend.rst:53
 msgid "Localization"
@@ -26588,22 +26598,31 @@ msgid ""
 "localizable. In most cases all you need is to wrap your text inside "
 "``gettext`` function, but there are more complex features available:"
 msgstr ""
+"Se você precisar de qualquer texto visível para o usuário no código do "
+"frontend, ele deve ser localizável. Na maioria dos casos, tudo que você "
+"precisa é envolver seu texto dentro da função ``gettext``, mas existem "
+"recursos mais complexos disponíveis:"
 
 #: ../../contributing/frontend.rst:74
 msgid ""
 ":doc:`Translation topic in the Django documentation <django:topics/i18n/"
 "translation>`"
 msgstr ""
+":doc:`Tópico sobre tradução na documentação do Django <django:topics/i18n/"
+"translation>`"
 
 #: ../../contributing/frontend.rst:77
 msgid "Icons"
-msgstr ""
+msgstr "Ícones"
 
 #: ../../contributing/frontend.rst:79
 msgid ""
 "Weblate currently uses material design icons. In case you are looking for "
 "new symbol, check `Material Design Icons`_ or `Material Design Resources`_."
 msgstr ""
+"Weblate atualmente usa ícones de design de material. Caso você esteja "
+"procurando por um novo símbolo, verifique `Material Design Icons`_ ou `"
+"Material Design Resources`_."
 
 #: ../../contributing/frontend.rst:82
 msgid ""
@@ -26611,6 +26630,9 @@ msgid ""
 "SVG as most of the icons are embedded inside the HTML to allow styling of "
 "the paths."
 msgstr ""
+"Além disso, existe :file:`scripts/optimize-svg` para reduzir o tamanho do "
+"SVG, já que a maioria dos ícones são embutidos no HTML para permitir "
+"estilização dos caminhos."
 
 #: ../../contributing/index.rst:4
 msgid "Contributing to Weblate"
