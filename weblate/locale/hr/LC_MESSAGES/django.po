@@ -11,8 +11,8 @@ msgstr ""
 "Project-Id-Version: Weblate 4.6\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-04-03 12:06+0000\n"
-"PO-Revision-Date: 2021-04-05 09:53+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2021-04-11 21:42+0000\n"
+"Last-Translator: Milo Ivir <mail@milotype.de>\n"
 "Language-Team: Croatian <https://hosted.weblate.org/projects/weblate/"
 "application/hr/>\n"
 "Language: hr\n"
@@ -3005,18 +3005,16 @@ msgid "RC file"
 msgstr "RC datoteka"
 
 #: weblate/formats/convert.py:415
-#, fuzzy
-#| msgid "i18next JSON file"
 msgid "Plain text file"
-msgstr "i18next JSON datoteka"
+msgstr "Obična tekstualna datoteka"
 
 #: weblate/formats/convert.py:458
 msgid "DokuWiki text file"
-msgstr ""
+msgstr "DokuWiki tekstualna datoteka"
 
 #: weblate/formats/convert.py:465
 msgid "MediaWiki text file"
-msgstr ""
+msgstr "MediaWiki tekstualna datoteka"
 
 #: weblate/formats/exporters.py:204
 msgid "gettext PO"
@@ -3711,7 +3709,7 @@ msgstr "Tra"
 #: weblate/metrics/wrapper.py:35
 msgctxt "Short name of month"
 msgid "May"
-msgstr "Svibanj"
+msgstr "Svi"
 
 #: weblate/metrics/wrapper.py:36
 msgctxt "Short name of month"
@@ -7661,28 +7659,22 @@ msgid "Last year"
 msgstr "Prošla godina"
 
 #: weblate/templates/snippets/activity.html:14
-#, fuzzy
-#| msgid "Previous"
 msgctxt "Previous year"
 msgid "Previous"
-msgstr "Prethodni"
+msgstr "Prethodna"
 
 #: weblate/templates/snippets/activity.html:16
-#, fuzzy
-#| msgid "Activity in last 30 days"
 msgid "Activity in last 12 months"
-msgstr "Aktivnost u zadnjih 30 dana"
+msgstr "Aktivnost u zadnjih 12 mjeseci"
 
 #: weblate/templates/snippets/activity.html:24
 #: weblate/templates/snippets/activity.html:29
-#, fuzzy, python-format
-#| msgid "%(count)s hour ago"
-#| msgid_plural "%(count)s hours ago"
+#, python-format
 msgid "%(count)s change"
 msgid_plural "%(count)s changes"
-msgstr[0] "prije %(count)s sata"
-msgstr[1] "prije %(count)s sata"
-msgstr[2] "prije %(count)s sati"
+msgstr[0] "%(count)s promjena"
+msgstr[1] "%(count)s promjene"
+msgstr[2] "%(count)s promjena"
 
 #: weblate/templates/snippets/billing-failure.html:10
 msgid "This might be caused by missing subscription."
@@ -7901,22 +7893,16 @@ msgid "Most active translators"
 msgstr "Najaktivniji prevodioci"
 
 #: weblate/templates/snippets/info.html:255
-#, fuzzy
-#| msgid "Browse all languages"
 msgid "Browse all users"
-msgstr "Pregledaj sve jezike"
+msgstr "Pregledaj sve korisnike"
 
 #: weblate/templates/snippets/info.html:261
-#, fuzzy
-#| msgid "Strings status"
 msgid "String statistics"
-msgstr "Stanje izraza"
+msgstr "Statistika izraza"
 
 #: weblate/templates/snippets/info.html:266
-#, fuzzy
-#| msgid "String has comment"
 msgid "Strings percent"
-msgstr "Izraz ima komentar"
+msgstr "Postotak izraza"
 
 #: weblate/templates/snippets/info.html:267
 #: weblate/templates/snippets/info.html:424
@@ -7926,10 +7912,8 @@ msgid "Hosted strings"
 msgstr "Spremljeni izrazi"
 
 #: weblate/templates/snippets/info.html:268
-#, fuzzy
-#| msgid "Word count"
 msgid "Words percent"
-msgstr "Broj riječi"
+msgstr "Postotak riječi"
 
 #: weblate/templates/snippets/info.html:269
 #: weblate/templates/snippets/info.html:418
@@ -7940,7 +7924,7 @@ msgstr "Spremljene riječi"
 
 #: weblate/templates/snippets/info.html:270
 msgid "Characters percent"
-msgstr ""
+msgstr "Postotak znakova"
 
 #: weblate/templates/snippets/info.html:271
 msgctxt "Number of hosted characters"
@@ -7959,17 +7943,13 @@ msgstr ""
 
 #: weblate/templates/snippets/info.html:373
 #: weblate/templates/snippets/info.html:444
-#, fuzzy
-#| msgid "Last 30 days"
 msgid "and previous 30 days"
-msgstr "Zadnjih 30 dana"
+msgstr "i prethodnih 30 dana"
 
 #: weblate/templates/snippets/info.html:374
 #: weblate/templates/snippets/info.html:445
-#, fuzzy
-#| msgid "Last 30 days"
 msgid "Trends of last 30 days"
-msgstr "Zadnjih 30 dana"
+msgstr "Trendovi zadnjih 30 dana"
 
 #: weblate/templates/snippets/info.html:412
 msgid "Quick numbers"
@@ -7977,10 +7957,8 @@ msgstr ""
 
 #: weblate/templates/snippets/info.html:436
 #: weblate/templates/snippets/info.html:473
-#, fuzzy
-#| msgid "Contributor stats"
 msgid "Contributors"
-msgstr "Statiska o doprinositeljima"
+msgstr "Doprinositelji"
 
 #: weblate/templates/snippets/labels_description.html:7
 #, python-format
@@ -9347,17 +9325,17 @@ msgstr "na čekanju"
 
 #: weblate/templates/translate.html:725
 msgid "Inherited flags"
-msgstr ""
+msgstr "Naslijeđene oznake"
 
 #: weblate/templates/translate.html:731
 #, python-format
 msgid "<code>%(flags)s</code> was extracted from %(filename)s."
-msgstr ""
+msgstr "<code>%(flags)s</code> je izdvojeno iz %(filename)s."
 
 #: weblate/templates/translate.html:736 weblate/templates/translate.html:741
 #, python-format
 msgid "<code>%(flags)s</code> is inherited from %(object)s."
-msgstr ""
+msgstr "<code>%(flags)s</code> je naslijeđeno od %(object)s."
 
 #: weblate/templates/translate.html:767
 #, python-format
