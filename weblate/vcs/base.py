@@ -50,7 +50,7 @@ class RepositoryException(Exception):
 
     def get_message(self):
         if self.retcode != 0:
-            return "{} ({})".format(self.args[0], self.retcode)
+            return f"{self.args[0]} ({self.retcode})"
         return self.args[0]
 
     def __str__(self):
@@ -413,7 +413,7 @@ class Repository:
             data = handle.read()
         if extra:
             objhash.update(extra.encode())
-        objhash.update("blob {}\0".format(len(data)).encode("ascii"))
+        objhash.update(f"blob {len(data)}\0".encode("ascii"))
         objhash.update(data)
 
     def get_object_hash(self, path):

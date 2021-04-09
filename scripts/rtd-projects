@@ -71,7 +71,7 @@ while result["next"]:
             # Sync attributes
             for name, value in FIELDS.items():
                 if value != project[name]:
-                    print("Different {}: {}".format(name, project[name]))
+                    print(f"Different {name}: {project[name]}")
                     response = requests.patch(
                         project["_links"]["_self"],
                         json={name: get_update(value)},

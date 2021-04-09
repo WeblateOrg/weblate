@@ -182,7 +182,7 @@ class Formatter:
         """Highlights glossary entries."""
         for htext, entries in self.terms.items():
             for match in re.finditer(
-                r"(\W|^)({})(\W|$)".format(re.escape(htext)), self.value, re.IGNORECASE
+                fr"(\W|^)({re.escape(htext)})(\W|$)", self.value, re.IGNORECASE
             ):
                 self.tags[match.start(2)].append(
                     GLOSSARY_TEMPLATE.format(self.format_terms(entries))
@@ -517,7 +517,7 @@ def translation_progress_data(readonly, approved, translated, fuzzy, checks):
     return {
         "readonly": f"{readonly:.1f}",
         "approved": f"{approved:.1f}",
-        "good": "{:.1f}".format(max(translated - checks - approved - readonly, 0)),
+        "good": f"{max(translated - checks - approved - readonly, 0):.1f}",
         "checks": f"{checks:.1f}",
         "fuzzy": f"{fuzzy:.1f}",
         "percent": f"{translated:.1f}",
@@ -845,7 +845,7 @@ def indicate_alerts(context, obj):
 
 @register.filter
 def markdown(text):
-    return mark_safe('<div class="markdown">{}</div>'.format(render_markdown(text)))
+    return mark_safe(f'<div class="markdown">{render_markdown(text)}</div>')
 
 
 @register.filter

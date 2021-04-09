@@ -105,11 +105,9 @@ class ComponentDiscovery:
         parts = match.split("(?P=language)")
         offset = 1
         while len(parts) > 1:
-            parts[0:2] = [
-                "{}(?P<_language_{}>(?P=language)){}".format(parts[0], offset, parts[1])
-            ]
+            parts[0:2] = [f"{parts[0]}(?P<_language_{offset}>(?P=language)){parts[1]}"]
             offset += 1
-        return re.compile("^{}$".format(parts[0]))
+        return re.compile(f"^{parts[0]}$")
 
     @cached_property
     def matches(self):

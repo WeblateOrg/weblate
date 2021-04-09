@@ -1057,7 +1057,7 @@ class GitLabRepository(GitMergeRequestBase):
             # to be sent with the fork's API URL along with a parameter mentioning
             # the target project id
             target_project_id = self.get_target_project_id(credentials)
-            pr_url = "{}/merge_requests".format(self.get_forked_url(credentials))
+            pr_url = f"{self.get_forked_url(credentials)}/merge_requests"
 
         title, description = self.get_merge_message()
         request = {

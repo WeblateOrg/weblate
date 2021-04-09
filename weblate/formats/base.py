@@ -32,9 +32,7 @@ from weblate_language_data.countries import DEFAULT_LANGS
 
 from weblate.utils.hash import calculate_hash
 
-EXPAND_LANGS = {
-    code[:2]: "{}_{}".format(code[:2], code[3:].upper()) for code in DEFAULT_LANGS
-}
+EXPAND_LANGS = {code[:2]: f"{code[:2]}_{code[3:].upper()}" for code in DEFAULT_LANGS}
 
 
 class UnitNotFound(Exception):

@@ -215,7 +215,7 @@ def mail_admins_contact(request, subject, message, context, sender, to):
         kwargs = {"from_email": sender}
 
     mail = EmailMultiAlternatives(
-        subject="{}{}".format(settings.EMAIL_SUBJECT_PREFIX, subject % context),
+        subject=f"{settings.EMAIL_SUBJECT_PREFIX}{subject % context}",
         body="{}\n{}".format(
             message % context,
             TEMPLATE_FOOTER.format(

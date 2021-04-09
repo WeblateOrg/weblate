@@ -384,15 +384,15 @@ class TermExpr:
         if field in PLAIN_FIELDS:
             return f"{field}__{suffix}"
         if field in STRING_FIELD_MAP:
-            return "{}__{}".format(STRING_FIELD_MAP[field], suffix)
+            return f"{STRING_FIELD_MAP[field]}__{suffix}"
         if field in EXACT_FIELD_MAP:
             # Change contains to exact, do not change other (for example regex)
             if suffix == "substring":
                 suffix = "iexact"
-            return "{}__{}".format(EXACT_FIELD_MAP[field], suffix)
+            return f"{EXACT_FIELD_MAP[field]}__{suffix}"
         if field in NONTEXT_FIELDS:
             if suffix not in ("substring", "iexact"):
-                return "{}__{}".format(NONTEXT_FIELDS[field], suffix)
+                return f"{NONTEXT_FIELDS[field]}__{suffix}"
             return NONTEXT_FIELDS[field]
         raise ValueError(f"Unsupported field: {field}")
 

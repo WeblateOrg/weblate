@@ -34,7 +34,7 @@ from weblate.utils.views import get_component, get_project
 
 def encode_optional(params):
     if params:
-        return "?{}".format(urlencode(params))
+        return f"?{urlencode(params)}"
     return ""
 
 

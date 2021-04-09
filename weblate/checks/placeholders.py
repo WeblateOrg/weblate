@@ -137,5 +137,5 @@ class RegexCheck(TargetCheckParametrized):
             return super().get_description(check_obj)
         regex = self.get_value(unit)
         return mark_safe(
-            "{} <code>{}</code>".format(escape(self.description), escape(regex.pattern))
+            f"{escape(self.description)} <code>{escape(regex.pattern)}</code>"
         )

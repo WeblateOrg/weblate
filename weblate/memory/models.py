@@ -109,7 +109,7 @@ class MemoryManager(models.Manager):
         origin = os.path.basename(fileobj.name).lower()
         name, extension = os.path.splitext(origin)
         if len(name) > 25:
-            origin = "{}...{}".format(name[:25], extension)
+            origin = f"{name[:25]}...{extension}"
 
         if extension == ".tmx":
             result = self.import_tmx(request, fileobj, origin, langmap, **kwargs)

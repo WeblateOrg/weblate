@@ -312,7 +312,7 @@ class PluralTextarea(forms.Textarea):
             # Label for plural
             label = str(unit.translation.language)
             if len(values) != 1:
-                label = "{}, {}".format(label, plural.get_plural_label(idx))
+                label = f"{label}, {plural.get_plural_label(idx)}"
             ret.append(
                 render_to_string(
                     "snippets/editor.html",

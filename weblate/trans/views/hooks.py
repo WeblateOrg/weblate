@@ -191,12 +191,10 @@ def vcs_service_hook(request, service):
     for repo in repos:
         # We need to match also URLs which include username and password
         if repo.startswith("http://"):
-            spfilter |= Q(repo__startswith="http://") & Q(
-                repo__endswith="@{}".format(repo[7:])
-            )
+            spfilter |= Q(repo__startswith="http://") & Q(repo__endswith=f"@{repo[7:]}")
         elif repo.startswith("https://"):
             spfilter |= Q(repo__startswith="https://") & Q(
-                repo__endswith="@{}".format(repo[8:])
+                repo__endswith=f"@{repo[8:]}"
             )
         # Include URLs with trailing slash
         spfilter |= Q(repo=repo + "/")

@@ -940,7 +940,7 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
             if self.linked_component:
                 self.linked_component.store_log(slug, msg, *args)
                 return
-        self.logs.append("{}: {}".format(slug, msg % args))
+        self.logs.append(f"{slug}: {msg % args}")
         if current_task:
             cache.set(f"task-log-{current_task.request.id}", self.logs, 2 * 3600)
 
@@ -1965,7 +1965,7 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
                     code=self.get_language_alias(code)
                 )
                 if lang.code in languages:
-                    codes = "{}, {}".format(code, languages[lang.code])
+                    codes = f"{code}, {languages[lang.code]}"
                     detail = f"{lang.code} ({codes})"
                     self.log_warning("duplicate language found: %s", detail)
                     Change.objects.create(

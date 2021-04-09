@@ -60,7 +60,7 @@ class RepoAdminMixin:
         for translation in self.get_qs_translations(queryset):
             translation.invalidate_cache()
 
-        self.message_user(request, "Updated checks for {:d} units.".format(len(units)))
+        self.message_user(request, f"Updated checks for {len(units):d} units.")
 
     update_checks.short_description = _("Update quality checks")
 

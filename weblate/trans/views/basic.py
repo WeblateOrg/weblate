@@ -163,7 +163,7 @@ def show_project(request, project):
 
     language_stats = sort_unicode(
         language_stats,
-        lambda x: "{}-{}".format(user.profile.get_translation_order(x), x.language),
+        lambda x: f"{user.profile.get_translation_order(x)}-{x.language}",
     )
 
     components = prefetch_tasks(all_components)
@@ -230,7 +230,7 @@ def show_component(request, project, component):
 
     translations = sort_unicode(
         translations,
-        lambda x: "{}-{}".format(user.profile.get_translation_order(x), x.language),
+        lambda x: f"{user.profile.get_translation_order(x)}-{x.language}",
     )
 
     return render(
