@@ -80,9 +80,11 @@ class MetricQuerySet(models.QuerySet):
                     **kwargs,
                 ).values_list("name", "value")
             )
-        if len(data.keys()) <= 1:
-            # Trigger collection in case no data is present or when only
-            # changes are counted
+
+        # Trigger collection in case no data is present or when only
+        # changes are counted - when there is a single key. The exception from
+        # this is when name filtering is passed in the kwargs.
+        if not data or (len(data.keys()) <= 1 and "name" not in kwargs):
             data.update(Metric.objects.collect_auto(obj))
         return data
 
