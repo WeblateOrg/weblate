@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-04-03 14:07+0200\n"
-"PO-Revision-Date: 2021-04-09 00:35+0000\n"
+"PO-Revision-Date: 2021-04-10 23:33+0000\n"
 "Last-Translator: Rafael Fontenelle <rafaelff@gnome.org>\n"
 "Language-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/"
 "weblate/documentation/pt_BR/>\n"
@@ -330,12 +330,13 @@ msgid ""
 "can be accessed from the project’s menu :guilabel:`Manage` ↓ :guilabel:"
 "`Users`."
 msgstr ""
+"Esses recursos estão disponíveis na página :guilabel:`Controle de acesso`, "
+"que pode ser acessada no projeto a partir do menu :guilabel:`Gerenciar` ↓ "
+":guilabel:`Usuários`."
 
 #: ../../admin/access.rst:140
-#, fuzzy
-#| msgid "Resend invitation"
 msgid "New user invitation"
-msgstr "Reenviar convite"
+msgstr "Novo convite de usuário"
 
 #: ../../admin/access.rst:142
 msgid ""
@@ -346,6 +347,12 @@ msgid ""
 "do so, access management permission on the project’s scope (e.g. a "
 "membership in the `Administration` group) would be sufficient."
 msgstr ""
+"Além de adicionar um usuário existente ao projeto, também é possível "
+"convidar novos. Qualquer novo usuário será criado imediatamente, mas a conta "
+"permanecerá inativa até que você entre com um link no convite enviado por e-"
+"mail. Não é necessário ter nenhum privilégio de todo o site para fazer isso, "
+"a permissão de gerenciamento de acesso no escopo do projeto (por exemplo, "
+"uma associação no grupo `Administração`) seria suficiente."
 
 #: ../../admin/access.rst:151
 msgid ""
@@ -353,6 +360,9 @@ msgid ""
 "their password using invited e-mail address in the password reset form as "
 "the account is created already."
 msgstr ""
+"Se o usuário convidado perdeu a validade do convite, ele pode definir sua "
+"senha usando o endereço de e-mail convidado no formulário de redefinição de "
+"senha, pois a conta já foi criada."
 
 #: ../../admin/access.rst:157
 msgid ""
@@ -367,24 +377,22 @@ msgid ""
 "The same kind of invitations are available site-wide from the :ref:"
 "`management interface <management-interface>` on the :guilabel:`Users` tab."
 msgstr ""
+"O mesmo tipo de convite está disponível em todo o site a partir da :ref:`"
+"interface de gerenciamento <management-interface>` na aba "
+":guilabel:`Usuários`."
 
 #: ../../admin/access.rst:164
-#, fuzzy
-#| msgid "Per project permissions"
 msgid "Per-project permission management"
-msgstr "Permissões por projeto"
+msgstr "Gerenciamento de permissões por projeto"
 
 #: ../../admin/access.rst:166
-#, fuzzy
-#| msgid ""
-#| "Set your projects to `Protected` or `Private`, and manage users per "
-#| "project in the Weblate interface."
 msgid ""
 "You can set your projects to `Protected` or `Private`, and :ref:`manage "
 "users <manage-acl>` per-project in the Weblate user interface."
 msgstr ""
-"Defina seus projetos para o `Protegido` ou `Privado`, e gerencie usuários "
-"por projeto na interface do Weblate."
+"Você pode definir seus projetos para `Protegido` ou `Privado` e :ref:`"
+"gerenciar usuários <manage-acl>` por projeto na interface de usuário do "
+"Weblate."
 
 #: ../../admin/access.rst:169
 msgid ""
@@ -395,6 +403,12 @@ msgid ""
 "creating additional custom settings for individual component as described "
 "in :ref:`custom-acl` below."
 msgstr ""
+"Por padrão, isso impede que o Weblate conceda acesso fornecido por :ref:`"
+"grupos padrão <default-groups>` `Usuários` e `Visualizadores` devido à "
+"própria configuração desses grupos. Isso não impede que você conceda "
+"permissões a esses projetos em todo o site, alterando grupos padrão, criando "
+"um novo ou criando configurações personalizadas adicionais para componentes "
+"individuais, conforme descrito em :ref:`custom-acl` abaixo."
 
 #: ../../admin/access.rst:175
 msgid ""
@@ -403,24 +417,23 @@ msgid ""
 "superuser privilege. In order to do so, add them to the `Administration` "
 "group of the project."
 msgstr ""
+"Um dos principais benefícios de gerenciar permissões por meio da interface "
+"de usuário do Weblate é que você pode delegá-las a outros usuários sem dar a "
+"eles o privilégio de superusuário. Para isso, adicione-os ao grupo "
+"`Administração` do projeto."
 
 #: ../../admin/access.rst:183
 msgid "Custom access control"
 msgstr "Controle de acesso personalizado"
 
 #: ../../admin/access.rst:187
-#, fuzzy
-#| msgid ""
-#| "The permission system is based on groups and roles, where roles define a "
-#| "set of permissions, and groups assign them to users and translations, "
-#| "see :ref:`auth-model` for more details."
 msgid ""
 "The permission system is based on groups and roles, where roles define a set "
 "of permissions, and groups link them to users and translations, see :ref:"
 "`auth-model` for more details."
 msgstr ""
 "O sistema de permissão é baseado em grupos e funções, onde as funções de "
-"definir um conjunto de permissões, e grupos as atribuem para os usuários e "
+"definir um conjunto de permissões, e grupos vinculam-nas para os usuários e "
 "traduções. Veja :ref:`auth-model` para mais detalhes."
 
 #: ../../admin/access.rst:191
@@ -431,6 +444,12 @@ msgid ""
 "necessarily have to switch it to `Custom` :ref:`access control <acl>` to "
 "utilize it. However you must have superuser privileges in order to use it."
 msgstr ""
+"Os recursos mais poderosos do sistema de controle de acesso do Weblate por "
+"enquanto estão disponíveis apenas através da :ref:`interface administrativa "
+"do Django <admin-interface>`. Você pode usá-la para gerenciar as permissões "
+"de qualquer projeto. Você não precisa necessariamente definir o :ref:`"
+"controle de acesso <acl>` para `Personalizado` para utilizá-lo. No entanto, "
+"você deve ter privilégios de superusuário para usá-lo."
 
 #: ../../admin/access.rst:197
 msgid ""
@@ -440,6 +459,11 @@ msgid ""
 "<https://hosted.weblate.org/>`_), please refer to the :ref:`access-simple` "
 "section."
 msgstr ""
+"Se você não está interessado em detalhes de implementação, e apenas deseja "
+"criar uma configuração simples o suficiente com base nos padrões, ou não tem "
+"um acesso de todo o site para toda a instalação do Weblate (como em `Hosted "
+"Weblate <https://hosted.weblate.org/>`_), consulte a seção :ref:`access-"
+"simple`."
 
 #: ../../admin/access.rst:203
 msgid "Common setups"
@@ -450,36 +474,44 @@ msgid ""
 "This section contains an overview of some common configurations you may be "
 "interested in."
 msgstr ""
+"Esta seção contém uma visão geral de algumas configurações comuns nas quais "
+"você pode estar interessado."
 
 #: ../../admin/access.rst:209
-#, fuzzy
-#| msgid "Site wide permissions"
 msgid "Site-wide permission management"
-msgstr "Permissões para todo o site"
+msgstr "Gerenciamento de permissões para todo o site"
 
 #: ../../admin/access.rst:211
 msgid ""
 "To manage permissions for a whole instance at once, add users to "
 "appropriate :ref:`default groups <default-groups>`:"
 msgstr ""
+"Para gerenciar permissões para uma instância inteira de uma vez, adicione "
+"usuários aos :ref:`grupos padrão <default-groups>`:"
 
 #: ../../admin/access.rst:214
 msgid ""
 "`Users` (this is done by default by the :ref:`automatic group assignment "
 "<autogroup>`)."
 msgstr ""
+"`Usuários` (isso é feito por padrão pela :ref:`associação de grupo "
+"automática <autogroup>`)."
 
 #: ../../admin/access.rst:216
 msgid ""
 "`Reviewers` (if you are using :ref:`review workflow <reviews>` with "
 "dedicated reviewers)."
 msgstr ""
+"`Revisores` (se você estiver usando :ref:`fluxo de trabalho de revisão "
+"<reviews>` com revisores dedicados)."
 
 #: ../../admin/access.rst:218
 msgid ""
 "`Managers` (if you want to delegate most of the management operations to "
 "somebody else)."
 msgstr ""
+"`Gestores` (se você deseja delegar a maioria das operações de gestão a outra "
+"pessoa)."
 
 #: ../../admin/access.rst:221
 msgid ""
@@ -487,6 +519,9 @@ msgid ""
 "otherwise the site-wide permissions provided by membership in the `Users` "
 "and `Reviewers` groups won’t have any effect."
 msgstr ""
+"Você deve manter todos os projetos configurados como `Públicos` (veja "
+":ref:`acl`), caso contrário as permissões de todo o site fornecidas pela "
+"participação nos grupos `Usuários` e `Revisores` não terão nenhum efeito."
 
 #: ../../admin/access.rst:225
 msgid ""
@@ -494,6 +529,9 @@ msgid ""
 "groups. For example, you may want to give a permission to manage screenshots "
 "to all the `Users`."
 msgstr ""
+"Você também pode conceder algumas permissões adicionais de sua escolha aos "
+"grupos padrão. Por exemplo, você pode querer dar permissão para gerenciar "
+"capturas de tela para todos os `Usuários`."
 
 #: ../../admin/access.rst:229
 msgid ""
@@ -502,6 +540,10 @@ msgid ""
 "the :guilabel:`Project selection` (e.g. :guilabel:`All projects` or :"
 "guilabel:`All public projects`)."
 msgstr ""
+"Você também pode definir alguns novos grupos personalizados. Se você deseja "
+"continuar gerenciando suas permissões em todo o site para esses grupos, "
+"escolha um valor apropriado para :guilabel:`Seleção de projeto` (por exemplo "
+":guilabel:`Todos os projetos` ou :guilabel:`Todos os projetos públicos`)."
 
 #: ../../admin/access.rst:235
 msgid "Custom permissions for languages, components or projects"
@@ -514,6 +556,11 @@ msgid ""
 "can only grant additional privileges, you can’t revoke any permission "
 "granted by site-wide or per-project groups by adding another custom group."
 msgstr ""
+"Você pode criar seus próprios grupos dedicados para gerenciar permissões "
+"para objetos distintos, como linguagens, componentes e projetos. Embora "
+"esses grupos só possam conceder privilégios adicionais, você não pode "
+"revogar qualquer permissão concedida por grupos de todo o site ou por "
+"projeto adicionando outro grupo personalizado."
 
 #: ../../admin/access.rst:242 ../../admin/access.rst:372
 #: ../../admin/config.rst:249 ../../admin/config.rst:274
@@ -533,6 +580,10 @@ msgid ""
 "language (lets say `Czech`) only to a closed set of reliable translators "
 "while keeping translations to other languages public, you will have to:"
 msgstr ""
+"Se você quiser (por qualquer motivo) permitir a tradução para um idioma "
+"específico (digamos, `tcheco`) apenas para um conjunto fechado de tradutores "
+"confiáveis, mantendo as traduções para outros idiomas públicos, você terá "
+"que:"
 
 #: ../../admin/access.rst:248
 msgid ""
@@ -540,67 +591,57 @@ msgid ""
 "default configuration this can be done by altering the `Users` :ref:`default "
 "group <default-groups>`."
 msgstr ""
+"Remover a permissão para traduzir `Tcheco` de todos os usuários. Na "
+"configuração padrão, isso pode ser feito alterando o :ref:`grupo padrão "
+"<default-groups>` `Usuários`."
 
 #: ../../admin/access.rst:252
-#, fuzzy
-#| msgid "`Users`"
 msgid "Group `Users`"
-msgstr "`Usuários`"
+msgstr "Grupo `Usuários`"
 
 #: ../../admin/access.rst:255 ../../admin/access.rst:271
 msgid "Language selection"
 msgstr "Seleção de idioma"
 
 #: ../../admin/access.rst:256 ../../admin/access.rst:272
-#, fuzzy
-#| msgid "As defined"
 msgid "`As defined`"
-msgstr "Como definido"
+msgstr "`Como definido`"
 
 #: ../../admin/access.rst:258
 msgid "All but `Czech`"
-msgstr ""
+msgstr "Todos, exceto `Tcheco`"
 
 #: ../../admin/access.rst:262
 msgid "Add a dedicated group for `Czech` translators."
-msgstr ""
+msgstr "Adicionar um grupo dedicado para tradutores de `Tcheco`."
 
 #: ../../admin/access.rst:264
-#, fuzzy
-#| msgid "Most active translators"
 msgid "Group `Czech translators`"
-msgstr "Tradutores mais ativos"
+msgstr "Grupo `Tradutores de tcheco`"
 
 #: ../../admin/access.rst:267 ../../admin/access.rst:380 ../../api.rst:564
 msgid "Roles"
 msgstr "Funções"
 
 #: ../../admin/access.rst:268
-#, fuzzy
-#| msgctxt "Access-control role"
-#| msgid "Power user"
 msgid "`Power users`"
-msgstr "Usuário avançado"
+msgstr "`Usuários avançados`"
 
 #: ../../admin/access.rst:269
 msgid "Project selection"
 msgstr "Seleção de projeto"
 
 #: ../../admin/access.rst:270
-#, fuzzy
-#| msgid "All public projects"
 msgid "`All public projects`"
-msgstr "Todos os projetos públicos"
+msgstr "`Todos os projetos públicos`"
 
 #: ../../admin/access.rst:274
-#, fuzzy
-#| msgid "Czech"
 msgid "`Czech`"
-msgstr "Checo"
+msgstr "`Tcheco`"
 
 #: ../../admin/access.rst:278
 msgid "Add users you wish to give the permissions to into this group."
-msgstr ""
+msgstr "Adicionar usuários aos quais deseja conceder permissões a este grupo."
 
 #: ../../admin/access.rst:280
 msgid ""
@@ -608,10 +649,11 @@ msgid ""
 "quite a tedious job. You can’t delegate it to another user, unless granting "
 "superuser permissions."
 msgstr ""
+"Como você pode ver, o gerenciamento de permissões dessa maneira é poderoso, "
+"mas pode ser um trabalho tedioso. Você não pode delegá-lo a outro usuário, a "
+"menos que conceda permissões de superusuário."
 
 #: ../../admin/access.rst:287
-#, fuzzy
-#| msgid "Users, roles, groups and permissions"
 msgid "Users, roles, groups, and permissions"
 msgstr "Usuários, funções, grupos e permissões"
 
@@ -624,15 +666,11 @@ msgid "`Permission`"
 msgstr "`Permissão`"
 
 #: ../../admin/access.rst:292
-#, fuzzy
-#| msgid ""
-#| "Individual permissions defined by Weblate. Permissions can not be "
-#| "assigned to users. This can only be done through assignment of roles."
 msgid ""
 "Individual permission defined by Weblate. Permissions cannot be assigned to "
 "users. This can only be done through assignment of roles."
 msgstr ""
-"Permissões individuais definidas pelo Weblate. Permissões não podem ser "
+"Permissão individual definida pelo Weblate. Permissões não podem ser "
 "atribuídas a usuários. Isso só pode ser feito através da atribuição de "
 "funções."
 
@@ -641,10 +679,6 @@ msgid "`Role`"
 msgstr "`Função`"
 
 #: ../../admin/access.rst:295
-#, fuzzy
-#| msgid ""
-#| "A Role defines a set of permissions. This allows reuse of these sets in "
-#| "several places, making the administration easier."
 msgid ""
 "A role defines a set of permissions. This allows reuse of these sets in "
 "several places, making the administration easier."
@@ -657,46 +691,34 @@ msgid "`User`"
 msgstr "`Usuário`"
 
 #: ../../admin/access.rst:298
-#, fuzzy
-#| msgid "Users can belong to several groups."
 msgid "User can belong to several groups."
-msgstr "Os usuários podem pertencer a vários grupos."
+msgstr "Usuário pode pertencer a vários grupos."
 
 #: ../../admin/access.rst:301
 msgid "`Group`"
 msgstr "`Grupo`"
 
 #: ../../admin/access.rst:300
-#, fuzzy
-#| msgid ""
-#| "Groups connect roles, users and authentication objects (projects, "
-#| "languages and component lists)."
 msgid ""
 "Group connect roles, users, and authentication objects (projects, languages, "
 "and component lists)."
 msgstr ""
-"Grupos conectam funções, usuários e objetos de autenticação (projetos, "
-"idiomas e listas de componentes)."
+"Grupo conecta funções, usuários e objetos de autenticação (projetos, idiomas "
+"e listas de componentes)."
 
 #: ../../admin/access.rst:318
 msgid ""
 "A group can have no roles assigned to it, in that case access to browse the "
 "project by anyone is assumed (see below)."
 msgstr ""
+"Um grupo não pode ter funções atribuídas a ele; nesse caso, o acesso para "
+"navegar no projeto por qualquer pessoa é presumido (veja abaixo)."
 
 #: ../../admin/access.rst:322
-#, fuzzy
-#| msgid "Checking access to a project"
 msgid "Access for browse to a project"
-msgstr "Verificando acesso a um projeto"
+msgstr "Acesso para navegar até um projeto"
 
 #: ../../admin/access.rst:324
-#, fuzzy
-#| msgid ""
-#| "A user has to be a member of a group linked to the project, or any "
-#| "component inside that project. Having membership is enough, no specific "
-#| "permissions are needed to access the project (this is used in the default "
-#| "`Viewers` group, see :ref:`default-groups`)."
 msgid ""
 "A user has to be a member of a group linked to the project, or any component "
 "inside that project. Having membership is enough, no specific permissions "
@@ -705,7 +727,7 @@ msgid ""
 msgstr ""
 "Um usuário tem que ser um membro de um grupo vinculado ao projeto ou "
 "qualquer componente dentro daquele projeto. Ser membro é suficiente, não são "
-"necessárias permissões específicas para acessar o projeto (isso é usado no "
+"necessárias permissões específicas para navegar o projeto (isso é usado no "
 "grupo padrão `Visualizadores`, consulte :ref:`default-groups`)."
 
 #: ../../admin/access.rst:330
@@ -713,12 +735,6 @@ msgid "Access for browse to a component"
 msgstr "Acesso para navegar até um componente"
 
 #: ../../admin/access.rst:332
-#, fuzzy
-#| msgid ""
-#| "A user can access the unrestricted component once able to access the "
-#| "containing project. With :ref:`component-restricted` turned on, access to "
-#| "the component requires explicit permission to that component (or a "
-#| "component list it is in)."
 msgid ""
 "A user can access unrestricted components once able to access the "
 "components’ project (and will have all the permissions the user was granted "
@@ -726,22 +742,23 @@ msgid ""
 "component requires explicit permissions for the component (or a component "
 "list the component is in)."
 msgstr ""
-"Um usuário pode acessar o componente irrestrito assim que for possível "
-"acessar o projeto de contenção. Com o :ref:`component-restricted` ativado, o "
-"acesso ao componente requer permissão explícita àquele componente (ou uma "
-"lista de componentes em que ele está)."
+"Um usuário pode acessar componentes irrestritos assim que for possível "
+"acessar o projeto dos componentes (e terá todas as permissões que foram "
+"concedidas o usuário para o projeto). Com o :ref:`component-restricted` "
+"ativado, o acesso ao componente requer permissões explícitas para o "
+"componente (ou uma lista de componentes na qual o componente está contida)."
 
 #: ../../admin/access.rst:340
-#, fuzzy
-#| msgid "List of groups"
 msgid "Scope of groups"
-msgstr "Lista de grupos"
+msgstr "Escopo de grupos"
 
 #: ../../admin/access.rst:342
 msgid ""
 "The scope of the permission assigned by the roles in the groups are applied "
 "by the following rules:"
 msgstr ""
+"O escopo da permissão atribuída pelas funções nos grupos é aplicado pelas "
+"seguintes regras:"
 
 #: ../../admin/access.rst:345
 msgid ""
@@ -751,6 +768,11 @@ msgid ""
 "permissions is granted for all the projects these components are in. :"
 "guilabel:`Components` and :guilabel:`Projects` are ignored."
 msgstr ""
+"Se o grupo especificar qualquer :guilabel:`Lista de componentes`, todas as "
+"permissões dadas aos membros desse grupo são concedidas para todos os "
+"componentes nas listas de componentes anexadas ao grupo, e um acesso sem "
+"permissões adicionais é concedido para todos os projetos estes componentes "
+"estão contidos. :guilabel:`Componentes` e :guilabel:`Projetos` são ignorados."
 
 #: ../../admin/access.rst:351
 msgid ""
@@ -6015,7 +6037,7 @@ msgid ""
 "Defaults to `en`. The matching language object needs to exist in the "
 "database."
 msgstr ""
-"O padrão é `en`. O objeto deidioma correspondente precisa existir no banco "
+"O padrão é `en`. O objeto de idioma correspondente precisa existir no banco "
 "de dados."
 
 #: ../../admin/config.rst:566
@@ -26065,19 +26087,14 @@ msgid "\"Weblate\" is a portmanteau of the words \"web\" and \"translate\"."
 msgstr "\"Weblate\" é uma palavra-valise das palavras \"web\" e \"translate\"."
 
 #: ../../contributing/about.rst:18
-#, fuzzy
-#| msgid ""
-#| "The landing page is <https://weblate.org/> and a cloud hosted service at "
-#| "<https://hosted.weblate.org/>. This documentation can be found on "
-#| "<https://docs.weblate.org/>."
 msgid ""
 "The landing page is https://weblate.org and a cloud hosted service at "
 "https://hosted.weblate.org. This documentation can be found on https://docs."
 "weblate.org."
 msgstr ""
-"A página inicial é <https://weblate.org/> e um serviço hospedado na nuvem em "
-"<https://hosted.weblate.org/>. Esta documentação pode ser encontrada em "
-"<https://docs.weblate.org/>."
+"A página inicial é https://weblate.org e há um serviço hospedado na nuvem em "
+"https://hosted.weblate.org. Esta documentação pode ser encontrada em "
+"https://docs.weblate.org."
 
 #: ../../contributing/about.rst:23
 msgid "Project logos"
@@ -27119,18 +27136,25 @@ msgid ""
 "Weblate there. There are various templates prepared to comfortably guide you "
 "through the issue report."
 msgstr ""
+"Sinta-se à vontade para relatar quaisquer problemas que você tenha ou "
+"sugerir melhorias para o Weblate lá. Existem vários modelos preparados para "
+"lhe orientar confortavelmente durante o relatório de problemas."
 
 #: ../../contributing/issues.rst:11
 msgid ""
 "If what you have found is a security issue in Weblate, please consult the :"
 "ref:`security` section below."
 msgstr ""
+"Se o que você encontrou é um problema de segurança no Weblate, consulte a "
+"seção :ref:`security` abaixo."
 
 #: ../../contributing/issues.rst:14
 msgid ""
 "If you are not sure about your bug report or feature request, you can try :"
 "ref:`discussions`."
 msgstr ""
+"Se você não tem certeza sobre seu relatório de bug ou solicitação de "
+"recurso, você pode tentar :ref:`discussions`."
 
 #: ../../contributing/issues.rst:19
 msgid "Security issues"
@@ -27144,12 +27168,20 @@ msgid ""
 "hackerone.com/weblate>`_. Once you submit it there, community has limited "
 "but enough time to solve the incident."
 msgstr ""
+"A fim de dar à comunidade tempo para responder e fazer upgrade, recomendamos "
+"enfaticamente que você relate todos os problemas de segurança em particular. "
+"O HackerOne é usado para lidar com problemas de segurança e pode ser "
+"relatado diretamente em `HackerOne <https://hackerone.com/weblate>`_. Depois "
+"de enviá-lo lá, a comunidade terá tempo limitado, mas suficiente para "
+"resolver o incidente."
 
 #: ../../contributing/issues.rst:26
 msgid ""
 "Alternatively, report to security@weblate.org, which ends up on HackerOne as "
 "well."
 msgstr ""
+"Como alternativa, relate para security@weblate.org, que termina no HackerOne "
+"também."
 
 #: ../../contributing/issues.rst:29
 msgid ""
@@ -27158,6 +27190,11 @@ msgid ""
 "this PGP key `3CB 1DF1 EF12 CF2A C0EE  5A32 9C27 B313 42B7 511D`. You can "
 "also get the PGP key from `Keybase <https://keybase.io/nijel>`_."
 msgstr ""
+"Se você não quiser usar o HackerOne, por qualquer motivo, você pode enviar o "
+"relatório por e-mail para michal@cihar.com. Você pode optar por criptografá-"
+"lo usando esta chave PGP `3CB 1DF1 EF12 CF2A C0EE  5A32 9C27 B313 42B7 511D`"
+". Você também pode obter a chave PGP em `Keybase <https://keybase.io/"
+"nijel>`_."
 
 #: ../../contributing/issues.rst:36
 msgid ""
@@ -27165,23 +27202,27 @@ msgid ""
 "a vulnerability affecting one of those components in general, please report "
 "it directly to the respective project."
 msgstr ""
+"O Weblate depende de componentes de terceiros para muitas coisas. Caso você "
+"encontre uma vulnerabilidade afetando um desses componentes em geral, relate-"
+"o diretamente ao respectivo projeto."
 
 #: ../../contributing/issues.rst:40
 msgid "Some of these are:"
-msgstr ""
+msgstr "Alguns deles são:"
 
 #: ../../contributing/issues.rst:42
 msgid ":doc:`Django <django:internals/security>`"
-msgstr ""
+msgstr ":doc:`Django <django:internals/security>`"
 
 #: ../../contributing/issues.rst:43
 msgid ""
 "`Django REST framework <https://www.django-rest-framework.org/#security>`_"
 msgstr ""
+"`framework Django REST <https://www.django-rest-framework.org/#security>`_"
 
 #: ../../contributing/issues.rst:44
 msgid "`Python Social Auth <https://github.com/python-social-auth>`_"
-msgstr ""
+msgstr "`Python Social Auth <https://github.com/python-social-auth>`_"
 
 #: ../../contributing/license.rst:2 ../../../README.rst:60
 msgid "License"
@@ -27225,11 +27266,11 @@ msgstr ""
 
 #: ../../contributing/release.rst:2
 msgid "Releasing Weblate"
-msgstr ""
+msgstr "Criando lançamento do Weblate"
 
 #: ../../contributing/release.rst:5
 msgid "Releasing schedule"
-msgstr ""
+msgstr "Agenda de lançamentos"
 
 #: ../../contributing/release.rst:7
 msgid ""
@@ -27237,6 +27278,9 @@ msgid ""
 "followed by a bunch of bugfix releases to fix issues which slip into them (x."
 "y.z)."
 msgstr ""
+"O Weblate tem um ciclo de lançamento de dois meses para lançamentos (x.y). "
+"Geralmente, eles são seguidos por várias versões de correções de bugs para "
+"corrigir problemas que ocorrem neles (x.y.z)."
 
 #: ../../contributing/release.rst:11
 msgid ""
@@ -27244,14 +27288,17 @@ msgid ""
 "skip this version - you always have to upgrade to x.0 before upgrading to "
 "higher x.y releases."
 msgstr ""
+"A mudança na versão principal indica que o processo de atualização não pode "
+"ignorar esta versão - você sempre deve atualizar para x.0 antes de atualizar "
+"para versões x.y superiores."
 
 #: ../../contributing/release.rst:17
 msgid ":doc:`../admin/upgrade`"
-msgstr ""
+msgstr ":doc:`../admin/upgrade`"
 
 #: ../../contributing/release.rst:20
 msgid "Release planning"
-msgstr ""
+msgstr "Planejamento de lançamento"
 
 #: ../../contributing/release.rst:22
 msgid ""
@@ -27259,110 +27306,131 @@ msgid ""
 "you can see our roadmap at <https://github.com/WeblateOrg/weblate/"
 "milestones>."
 msgstr ""
+"Os recursos para os próximos lançamentos são coletados usando marcos do "
+"GitHub, você pode ver nosso roteiro em <https://github.com/WeblateOrg/"
+"weblate/milestones>."
 
 #: ../../contributing/release.rst:26
 msgid "Release process"
-msgstr ""
+msgstr "Processo de lançamento"
 
 #: ../../contributing/release.rst:28
 msgid "Things to check prior to release:"
-msgstr ""
+msgstr "Coisas para verificar antes de fazer um lançamento:"
 
 #: ../../contributing/release.rst:30
 msgid ""
 "Check newly translated languages by :command:`./scripts/list-translated-"
 "languages`."
 msgstr ""
+"Verificar novos idiomas traduzidos usando :command:`./scripts/list-"
+"translated-languages`."
 
 #: ../../contributing/release.rst:31
 msgid "Set final version by :command:`./scripts/prepare-release`."
-msgstr ""
+msgstr "Definir a versão final usando :command:`./scripts/prepare-release`."
 
 #: ../../contributing/release.rst:32
 msgid ""
 "Make sure screenshots are up to date :command:`make -C docs update-"
 "screenshots`."
 msgstr ""
+"Certificar-se de que as capturas de tela estejam atualizadas usando "
+":command:`make -C docs update-screenshots`."
 
 #: ../../contributing/release.rst:33
 msgid ""
 "Merge any possibly pending translations :command:`wlc push; git remote "
 "update; git merge origin/weblate`"
 msgstr ""
+"Junte todas as traduções pendentes usando :command:`wlc push; git remote "
+"update; git merge origin/weblate`"
 
 #: ../../contributing/release.rst:35
 msgid "Perform the release:"
-msgstr ""
+msgstr "Fazer o lançamento:"
 
 #: ../../contributing/release.rst:37
 msgid ""
 "Create a release :command:`./scripts/create-release --tag` (see below for "
 "requirements)."
 msgstr ""
+"Criar um lançamento usando :command:`./scripts/create-release --tag` (veja "
+"abaixo os requisitos)."
 
 #: ../../contributing/release.rst:39
 msgid "Post release manual steps:"
-msgstr ""
+msgstr "Etapas manuais pós-lançamento:"
 
 #: ../../contributing/release.rst:41
 msgid "Update Docker image."
-msgstr ""
+msgstr "Atualizar a imagem Docker."
 
 #: ../../contributing/release.rst:42
 msgid "Close GitHub milestone."
-msgstr ""
+msgstr "Fechar o marco do GitHub."
 
 #: ../../contributing/release.rst:43
 msgid "Once the Docker image is tested, add a tag and push it."
 msgstr ""
+"Assim que a imagem Docker for testada, adicionar uma tag e fazer o push dela."
 
 #: ../../contributing/release.rst:44
 msgid "Update Helm chart to new version."
-msgstr ""
+msgstr "Atualizar um chart Helm para a nova versão."
 
 #: ../../contributing/release.rst:45
 msgid ""
 "Include new version in :file:`.github/workflows/migrations.yml` to cover it "
 "in migration testing."
 msgstr ""
+"Incluir a nova versão em :file:`.github/workflows/migrations.yml` para cobri-"
+"la nos testes de migração."
 
 #: ../../contributing/release.rst:46
 msgid "Increase version in the website download links."
-msgstr ""
+msgstr "Incrementar a versão nos links de download do site."
 
 #: ../../contributing/release.rst:47
 msgid "Increase version in the repository by :command:`./scripts/set-version`."
 msgstr ""
+"Incrementar a versão no repositório usando :command:`./scripts/set-version`."
 
 #: ../../contributing/release.rst:49
 msgid ""
 "To create tags using the :command:`./scripts/create-release` script you will "
 "need following:"
 msgstr ""
+"Para criar tags usando o script :command:`./scripts/create-release`, você "
+"precisará do seguinte:"
 
 #: ../../contributing/release.rst:51
 msgid "GnuPG with private key used to sign the release"
-msgstr ""
+msgstr "GnuPG com chave privada usada para assinar o lançamento"
 
 #: ../../contributing/release.rst:52
 msgid "Push access to Weblate git repositories (it pushes tags)"
-msgstr ""
+msgstr "Acesso por push a repositórios git Weblate (ele envia tags)"
 
 #: ../../contributing/release.rst:53
 msgid ""
 "Configured :command:`hub` tool and access to create releases on the Weblate "
 "repo"
 msgstr ""
+"Ferramenta :command:`hub` configurada e acesso para criar lançamentos no "
+"repositório Weblate"
 
 #: ../../contributing/release.rst:54
 msgid ""
 "SSH access to Weblate download server (the Website downloads are copied "
 "there)"
 msgstr ""
+"Acesso SSH ao servidor de download Weblate (os downloads do site são "
+"copiados lá)"
 
 #: ../../contributing/schemas.rst:2
 msgid "Data schemas"
-msgstr ""
+msgstr "Esquemas de dados"
 
 #: ../../contributing/schemas.rst:4
 msgid ""
@@ -27378,7 +27446,7 @@ msgstr "Esquema de memória de tradução do Weblate"
 
 #: ../../contributing/schemas.rst:9
 msgid "https://weblate.org/schemas/weblate-memory.schema.json"
-msgstr ""
+msgstr "https://weblate.org/schemas/weblate-memory.schema.json"
 
 #: ../../contributing/schemas.rst:9 ../../contributing/schemas.rst:19
 msgid "type"
@@ -27537,7 +27605,7 @@ msgstr ""
 
 #: ../../contributing/schemas.rst:9
 msgid "additionalProperties"
-msgstr "Propriedadesadicionais"
+msgstr "additionalProperties"
 
 #: ../../contributing/schemas.rst:9 ../../contributing/schemas.rst:19
 msgid "False"
@@ -27862,10 +27930,8 @@ msgid ":ref:`user-profile`, :djadmin:`dumpuserdata`"
 msgstr ""
 
 #: ../../contributing/security.rst:2
-#, fuzzy
-#| msgid "Security Policy"
 msgid "Security and privacy"
-msgstr "Política de segurança"
+msgstr "Segurança e privacidade"
 
 #: ../../contributing/security.rst:6
 msgid ""
@@ -27876,21 +27942,18 @@ msgstr ""
 "nossos usuários."
 
 #: ../../contributing/security.rst:8
-#, fuzzy
-#| msgid ""
-#| "Weblate development follows the Best Practices of the Linux Foundation's "
-#| "Core Infrastructure Initiative."
 msgid ""
 "Development of Weblate adheres to the `Best Practices of the Linux "
 "Foundation's Core Infrastructure Initiative <https://bestpractices."
 "coreinfrastructure.org/projects/552>`_."
 msgstr ""
-"O desenvolvimento de Weblate segue as Boas Práticas da Core Infrastructure "
-"Initiative da Linux Foundation."
+"O desenvolvimento do Weblate segue as `Melhores Práticas da Core "
+"Infrastructure Initiative da Linux Foundation <https://bestpractices."
+"coreinfrastructure.org/projects/552>`_."
 
 #: ../../contributing/security.rst:11
 msgid "Tracking dependencies for vulnerabilities"
-msgstr ""
+msgstr "Rastreamento de dependências para vulnerabilidades"
 
 #: ../../contributing/security.rst:13
 msgid ""
@@ -27898,30 +27961,39 @@ msgid ""
 "dependabot.com/>`_. This covers the Python and JavaScript libraries, and the "
 "latest stable release has its dependencies updated to avoid vulnerabilities."
 msgstr ""
+"Problemas de segurança em nossas dependências são monitorados usando `"
+"Dependabot <https://dependabot.com/>`_. Isso cobre as bibliotecas Python e "
+"JavaScript, e a versão estável mais recente tem suas dependências "
+"atualizadas para evitar vulnerabilidades."
 
 #: ../../contributing/security.rst:20
 msgid ""
 "There might be vulnerabilities in third-party libraries which do not affect "
 "Weblate, so those are not addressed by releasing bugfix versions of Weblate."
 msgstr ""
+"Pode haver vulnerabilidades em bibliotecas de terceiros que não afetam o "
+"Weblate, portanto, não são solucionadas com o lançamento de versões de "
+"correção de bugs do Weblate."
 
 #: ../../contributing/security.rst:24
-#, fuzzy
-#| msgid "Docker container volumes"
 msgid "Docker container security"
-msgstr "Volumes de contêiner Docker"
+msgstr "Segurança de contêiner Docker"
 
 #: ../../contributing/security.rst:26
 msgid ""
 "The Docker containers are scanned using `Anchore <https://anchore.com/>`_ "
 "and `Trivy <https://github.com/aquasecurity/trivy>`_."
 msgstr ""
+"Os contêineres Docker são verificados usando `Anchore <https://anchore.com/>`"
+"_ e `Trivy <https://github.com/aquasecurity/trivy>`_."
 
 #: ../../contributing/security.rst:29
 msgid ""
 "This allows us to detect vulnerabilities early and release improvements "
 "quickly."
 msgstr ""
+"Isso nos permite detectar vulnerabilidades antecipadamente e lançar "
+"melhorias rapidamente."
 
 #: ../../contributing/security.rst:31
 msgid ""
@@ -27929,6 +28001,9 @@ msgid ""
 "artifacts on our CI in the SARIF format (Static Analysis Results Interchange "
 "Format)."
 msgstr ""
+"Você pode obter os resultados dessas varreduras no GitHub – eles são "
+"armazenados como artefatos em nosso CI no formato SARIF (Static Analysis "
+"Results Interchange Format)."
 
 #: ../../contributing/security.rst:36
 #, fuzzy
@@ -28192,17 +28267,20 @@ msgstr ""
 
 #: ../../contributing/tests.rst:2
 msgid "Weblate testsuite and continuous integration"
-msgstr ""
+msgstr "Conjunto de testes e integração contínua do Weblate"
 
 #: ../../contributing/tests.rst:4
 msgid ""
 "Testsuites exist for most of the current code, increase coverage by adding "
 "testcases for any new functionality, and verify that it works."
 msgstr ""
+"Existem conjuntos de teste para a maior parte do código atual, aumente a "
+"cobertura adicionando casos de teste para qualquer nova funcionalidade e "
+"verifique se funciona."
 
 #: ../../contributing/tests.rst:10
 msgid "Continuous integration"
-msgstr ""
+msgstr "Integração contínua"
 
 #: ../../contributing/tests.rst:12
 msgid ""
@@ -28210,32 +28288,37 @@ msgid ""
 "WeblateOrg/weblate/actions>`_ and coverage is reported on `Codecov <https://"
 "codecov.io/github/WeblateOrg/weblate>`_."
 msgstr ""
+"Os resultados do teste atual podem ser encontrados em `GitHub Actions "
+"<https://github.com/WeblateOrg/weblate/actions>`_ e a cobertura é relatada "
+"em `Codecov <https://codecov.io/github/WeblateOrg/weblate>`_."
 
 #: ../../contributing/tests.rst:16
 msgid "There are several jobs to verify different aspects:"
-msgstr ""
+msgstr "Existem vários trabalhos para verificar diferentes aspectos:"
 
 #: ../../contributing/tests.rst:18
 msgid "Unit tests"
-msgstr ""
+msgstr "Testes de unidade"
 
 #: ../../contributing/tests.rst:19
 msgid "Documentation build and external links"
-msgstr ""
+msgstr "Construção de documentação e links externos"
 
 #: ../../contributing/tests.rst:20
 msgid "Migration testing from all supported releases"
-msgstr ""
+msgstr "Testes de migração de todas as versões com suporte"
 
 #: ../../contributing/tests.rst:21
 msgid "Code linting"
-msgstr ""
+msgstr "Linting de código"
 
 #: ../../contributing/tests.rst:22
 msgid ""
 "Setup verification (ensures that generated dist files do not miss anything "
 "and can be tested)"
 msgstr ""
+"Verificação de configuração (garante que os arquivos dist gerados não percam "
+"nada e possam ser testados)"
 
 #: ../../contributing/tests.rst:24
 msgid ""
@@ -28245,18 +28328,24 @@ msgid ""
 "mostly defining Django settings file to use and database connection. The "
 "example definition of that is in :file:`scripts/test-database`:"
 msgstr ""
+"A configuração do CI está no diretório :file:`.github/workflows`. Ele usa "
+"muito scripts auxiliares armazenados no diretório :file:`ci`. Os scripts "
+"também podem ser executados manualmente, mas eles requerem várias variáveis "
+"de ambiente, principalmente definindo o arquivo de configurações do Django "
+"para usar e conexão com o banco de dados. A definição de exemplo disso está "
+"em :file:`scripts/test-database`:"
 
 #: ../../contributing/tests.rst:33
 msgid "The simple execution can look like:"
-msgstr ""
+msgstr "A execução simples pode ser semelhante a:"
 
 #: ../../contributing/tests.rst:45
 msgid "Local testing"
-msgstr ""
+msgstr "Teste local"
 
 #: ../../contributing/tests.rst:47
 msgid "To run a testsuite locally, use:"
-msgstr ""
+msgstr "Para executar um conjunto de testes localmente, use:"
 
 #: ../../contributing/tests.rst:55
 msgid ""
@@ -28266,34 +28355,48 @@ msgid ""
 "use ``test_weblate`` database. See :ref:`database-setup` for setup "
 "instructions."
 msgstr ""
+"Você precisará de um servidor de banco de dados (PostgreSQL) a ser usado "
+"para os testes. Por padrão, o Django cria um banco de dados separado para "
+"executar testes com o prefixo ``test_``, então no caso de suas configurações "
+"estarem configuradas para usar ``weblate``, os testes usarão o banco de "
+"dados ``test_weblate``. Veja :ref:`database-setup` para instruções de "
+"configuração."
 
 #: ../../contributing/tests.rst:61
 msgid ""
 "The :file:`weblate/settings_test.py` is used in CI environment as well (see :"
 "ref:`ci-tests`) and can be tuned using environment variables:"
 msgstr ""
+"O :file:`weblate/settings_test.py` é usado no ambiente CI também (veja :ref"
+":`ci-tests`) e pode ser ajustado usando variáveis de ambiente:"
 
 #: ../../contributing/tests.rst:67
 msgid ""
 "Prior to running tests you should collect static files as some tests rely on "
 "them being present:"
 msgstr ""
+"Antes de executar os testes, você deve coletar arquivos estáticos, pois "
+"alguns testes contam com a presença deles:"
 
 #: ../../contributing/tests.rst:73
 msgid "You can also specify individual tests to run:"
-msgstr ""
+msgstr "Você também pode especificar testes individuais para executar:"
 
 #: ../../contributing/tests.rst:81
 msgid ""
 "The tests can also be executed inside developer docker container, see :ref:"
 "`dev-docker`."
 msgstr ""
+"Os testes também podem ser executados dentro de um contêiner Docker do "
+"desenvolvedor, consulte :ref:`dev-docker`."
 
 #: ../../contributing/tests.rst:85
 msgid ""
 "See :doc:`django:topics/testing/index` for more info on running and writing "
 "tests for Django."
 msgstr ""
+"Veja :doc:`django:topics/testing/index`para mais informações sobre a "
+"execução e escrita de testes para Django."
 
 #: ../../devel/alerts.rst:4
 msgid "Translation component alerts"
@@ -30761,7 +30864,7 @@ msgid ""
 "command:`msgmerge` when updating PO files, for example:"
 msgstr ""
 "Para arquivos PO Gettext, você tem que passar o parâmetro ``--previous`` "
-"para :command:`msgmgmerge` ao atualizar arquivos PO, por exemplo:"
+"para :command:`msgmerge` ao atualizar arquivos PO, por exemplo:"
 
 #: ../../faq.rst:350
 msgid ""
@@ -30810,7 +30913,7 @@ msgid ""
 "using the :command:`msgmerge` tool:"
 msgstr ""
 "Por exemplo, com os arquivos PO gettext, você pode atualizar os arquivos de "
-"tradução utilizando a ferramenta :command:`msgmgmerge`:"
+"tradução utilizando a ferramenta :command:`msgmerge`:"
 
 #: ../../faq.rst:377
 msgid ""
