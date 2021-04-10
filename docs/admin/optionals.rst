@@ -247,6 +247,10 @@ Rate limiting
 
       The rate limiting now accepts more fine-grained configuration.
 
+.. versionchanged:: 4.6
+
+      The rate limiting no longer applies to superusers.
+
 Several operations in Weblate are rate limited. At most
 :setting:`RATELIMIT_ATTEMPTS` attempts are allowed within :setting:`RATELIMIT_WINDOW` seconds.
 The user is then blocked for :setting:`RATELIMIT_LOCKOUT`. There are also settings specific to scopes, for example ``RATELIMIT_CONTACT_ATTEMPTS`` or ``RATELIMIT_TRANSLATE_ATTEMPTS``. The table below is a full list of available scopes.

@@ -73,6 +73,9 @@ def revert_rate_limit(scope, request):
 
 def check_rate_limit(scope, request):
     """Check authentication rate limit."""
+    if request.user.is_superuser:
+        return True
+
     key = get_cache_key(scope, request)
 
     try:

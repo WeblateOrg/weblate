@@ -11,6 +11,7 @@ Not yet released.
 * Improved activity charts.
 * Sender for contact form e-mails can now be configured.
 * Improved parameters validation in component creation API.
+* The rate limiting no longer applies to superusers.
 
 Weblate 4.5.3
 -------------
