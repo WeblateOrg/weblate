@@ -1377,7 +1377,7 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
         return self.source_unit.all_labels
 
     def get_flag_actions(self):
-        flags = Flags(self.extra_flags)
+        flags = self.all_flags
         result = []
         if self.is_source or self.translation.component.is_glossary:
             if "read-only" in flags:
