@@ -34,13 +34,14 @@
 # Igor Polyakov <igorpolyakov@protonmail.com>, 2021.
 # narrnika <narr13niki@gmail.com>, 2021.
 # Edward Smirnov <ed@microolap.com>, 2021.
+# S3aBreeze <paperwork@evilcorp.ltd>, 2021.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.6\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-04-03 12:06+0000\n"
-"PO-Revision-Date: 2021-04-08 15:12+0000\n"
-"Last-Translator: Andrei Stepanov <adem4ik@gmail.com>\n"
+"PO-Revision-Date: 2021-04-11 21:40+0000\n"
+"Last-Translator: S3aBreeze <paperwork@evilcorp.ltd>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/"
 "application/ru/>\n"
 "Language: ru\n"
@@ -7775,14 +7776,12 @@ msgstr "Деятельность за последние 12 месяцев"
 
 #: weblate/templates/snippets/activity.html:24
 #: weblate/templates/snippets/activity.html:29
-#, fuzzy, python-format
-#| msgid "%(count)s hour ago"
-#| msgid_plural "%(count)s hours ago"
+#, python-format
 msgid "%(count)s change"
 msgid_plural "%(count)s changes"
-msgstr[0] "%(count)s час назад"
-msgstr[1] "%(count)s часа назад"
-msgstr[2] "%(count)s часов назад"
+msgstr[0] "%(count)s изменение"
+msgstr[1] "%(count)s изменения"
+msgstr[2] "%(count)s изменений"
 
 #: weblate/templates/snippets/billing-failure.html:10
 msgid "This might be caused by missing subscription."
@@ -8005,22 +8004,16 @@ msgid "Most active translators"
 msgstr "Наиболее деятельные переводчики"
 
 #: weblate/templates/snippets/info.html:255
-#, fuzzy
-#| msgid "Browse all languages"
 msgid "Browse all users"
-msgstr "Просмотр всех языков"
+msgstr "Просмотр всех пользователей"
 
 #: weblate/templates/snippets/info.html:261
-#, fuzzy
-#| msgid "Strings status"
 msgid "String statistics"
-msgstr "Статус строк"
+msgstr "Статистика строк"
 
 #: weblate/templates/snippets/info.html:266
-#, fuzzy
-#| msgid "String has comment"
 msgid "Strings percent"
-msgstr "Строка с комментарием"
+msgstr "Процент строк"
 
 #: weblate/templates/snippets/info.html:267
 #: weblate/templates/snippets/info.html:424
@@ -8030,10 +8023,8 @@ msgid "Hosted strings"
 msgstr "Хранимые строки"
 
 #: weblate/templates/snippets/info.html:268
-#, fuzzy
-#| msgid "Word count"
 msgid "Words percent"
-msgstr "Количество слов"
+msgstr "Процент слов"
 
 #: weblate/templates/snippets/info.html:269
 #: weblate/templates/snippets/info.html:418
@@ -8044,7 +8035,7 @@ msgstr "Хранимые слова"
 
 #: weblate/templates/snippets/info.html:270
 msgid "Characters percent"
-msgstr ""
+msgstr "Процент символов"
 
 #: weblate/templates/snippets/info.html:271
 msgctxt "Number of hosted characters"
@@ -8059,32 +8050,26 @@ msgstr "Источник"
 
 #: weblate/templates/snippets/info.html:341
 msgid "Global numbers"
-msgstr ""
+msgstr "Глобальные числа"
 
 #: weblate/templates/snippets/info.html:373
 #: weblate/templates/snippets/info.html:444
-#, fuzzy
-#| msgid "Last 30 days"
 msgid "and previous 30 days"
-msgstr "Последние 30 дней"
+msgstr "и предыдущие 30 дней"
 
 #: weblate/templates/snippets/info.html:374
 #: weblate/templates/snippets/info.html:445
-#, fuzzy
-#| msgid "Last 30 days"
 msgid "Trends of last 30 days"
-msgstr "Последние 30 дней"
+msgstr "Тенденции последних 30-ти дней"
 
 #: weblate/templates/snippets/info.html:412
 msgid "Quick numbers"
-msgstr ""
+msgstr "Быстрые числа"
 
 #: weblate/templates/snippets/info.html:436
 #: weblate/templates/snippets/info.html:473
-#, fuzzy
-#| msgid "Contributor stats"
 msgid "Contributors"
-msgstr "Статистика участника"
+msgstr "Участники"
 
 #: weblate/templates/snippets/labels_description.html:7
 #, python-format
@@ -9456,20 +9441,18 @@ msgid "pending"
 msgstr "в ожидании"
 
 #: weblate/templates/translate.html:725
-#, fuzzy
-#| msgid "Check flags"
 msgid "Inherited flags"
-msgstr "Отметки о проверке"
+msgstr "Унаследованные флаги"
 
 #: weblate/templates/translate.html:731
 #, python-format
 msgid "<code>%(flags)s</code> was extracted from %(filename)s."
-msgstr ""
+msgstr "<code>%(flags)s</code> были извлечены из %(filename)s."
 
 #: weblate/templates/translate.html:736 weblate/templates/translate.html:741
 #, python-format
 msgid "<code>%(flags)s</code> is inherited from %(object)s."
-msgstr ""
+msgstr "<code>%(flags)s</code> унаследованы от %(object)s."
 
 #: weblate/templates/translate.html:767
 #, python-format
@@ -12198,8 +12181,8 @@ msgid ""
 "Added %(language)s to your translated languages. You can adjust them in the "
 "settings."
 msgstr ""
-"Язык «%(language)s» добавлен к вашим языкам перевода. Вы мжете изменить их в "
-"параметрах профиля."
+"Язык «%(language)s» добавлен к вашим языкам перевода. Вы можете изменить их "
+"в параметрах профиля."
 
 #: weblate/trans/views/edit.py:344
 #, python-format
