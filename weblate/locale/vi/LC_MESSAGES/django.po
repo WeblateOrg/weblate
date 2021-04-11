@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.6\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-04-03 12:06+0000\n"
-"PO-Revision-Date: 2021-04-07 15:27+0000\n"
+"PO-Revision-Date: 2021-04-11 21:41+0000\n"
 "Last-Translator: bruh <quangtrung02hn16@gmail.com>\n"
 "Language-Team: Vietnamese <https://hosted.weblate.org/projects/weblate/"
 "application/vi/>\n"
@@ -127,7 +127,7 @@ msgstr "%s là cái gì?"
 #. Translators: Shown on wrong answer to the mathematics-based CAPTCHA
 #: weblate/accounts/forms.py:496
 msgid "That was not correct, please try again."
-msgstr ""
+msgstr "Câu trả lời đó không đúng, vui lòng thử lại."
 
 #: weblate/accounts/forms.py:520
 msgid "Current password"
@@ -385,7 +385,7 @@ msgstr "Đã bắt đầu khoảng thời gian dùng thử."
 #: weblate/accounts/models.py:160
 #, python-brace-format
 msgid "Sent confirmation mail to {email}."
-msgstr ""
+msgstr "Đã gửi mail xác nhận đến {email}."
 
 #: weblate/accounts/models.py:162
 msgid ""
@@ -412,11 +412,12 @@ msgstr "Không thể đăng nhập bằng mật khẩu."
 #: weblate/accounts/models.py:177
 msgid "To restore access to your account, please reset your password."
 msgstr ""
+"Để khôi phục quyền truy cập vào tài khoản của bạn, vui lòng đặt lại mật khẩu."
 
 #: weblate/accounts/models.py:293 weblate/templates/accounts/profile.html:227
 #: weblate/templates/manage/users_check.html:48
 msgid "Account activity"
-msgstr ""
+msgstr "Hoạt động tài khoản"
 
 #: weblate/accounts/models.py:346
 msgid "Interface Language"
@@ -455,10 +456,8 @@ msgid "Hide source if a secondary translation exists"
 msgstr ""
 
 #: weblate/accounts/models.py:389
-#, fuzzy
-#| msgid "PHP strings"
 msgid "Editor link"
-msgstr "PHP strings"
+msgstr "Liên kết trình chỉnh sửa"
 
 #: weblate/accounts/models.py:391
 msgid ""
@@ -485,7 +484,7 @@ msgstr "Chế độ chỉnh sửa Zen"
 
 #: weblate/accounts/models.py:409
 msgid "Top to bottom"
-msgstr ""
+msgstr "Trên xuống dưới"
 
 #: weblate/accounts/models.py:410
 msgid "Side by side"
@@ -493,7 +492,7 @@ msgstr ""
 
 #: weblate/accounts/models.py:418
 msgid "Special characters"
-msgstr ""
+msgstr "Kí tự đặc biệt"
 
 #: weblate/accounts/models.py:420
 msgid ""
@@ -508,7 +507,7 @@ msgstr "Số xâu lân cận"
 
 #: weblate/accounts/models.py:430
 msgid "Number of nearby strings to show in each direction in the full editor."
-msgstr ""
+msgstr "Số xâu lân cận để hiện ở mỗi hướng trong trình chỉnh sửa đầy đủ."
 
 #: weblate/accounts/models.py:434
 msgid "Automatically watch projects on contribution"
@@ -518,6 +517,7 @@ msgstr "Tự động theo dõi các dự án khi đóng góp"
 msgid ""
 "Whenever you translate a string in a project, you will start watching it."
 msgstr ""
+"Bất cứ khi nào bạn dịch một xâu trong một dự án, bạn sẽ bắt đầu theo dõi nó."
 
 #: weblate/accounts/models.py:447 weblate/templates/dashboard/user.html:20
 msgid "Watched translations"
@@ -556,7 +556,7 @@ msgstr ""
 
 #: weblate/accounts/models.py:486
 msgid "Website URL"
-msgstr ""
+msgstr "URL trang web"
 
 #: weblate/accounts/models.py:490
 msgid "Liberapay username"
@@ -596,11 +596,11 @@ msgstr "Tên người dùng Twitter"
 
 #: weblate/accounts/models.py:519
 msgid "LinkedIn profile name"
-msgstr ""
+msgstr "Tên hồ sơ LinkedIn"
 
 #: weblate/accounts/models.py:520
 msgid "Your LinkedIn profile name from linkedin.com/in/profilename"
-msgstr ""
+msgstr "Tên hồ sơ LinkedIn của bạn từ linkedin.com/in/profilename"
 
 #: weblate/accounts/models.py:524
 #: weblate/templates/screenshots/screenshot_detail.html:29
@@ -610,7 +610,7 @@ msgstr "Vị trí"
 
 #: weblate/accounts/models.py:529
 msgid "Company"
-msgstr ""
+msgstr "Công ty"
 
 #: weblate/accounts/models.py:576
 msgid ""
@@ -629,7 +629,7 @@ msgstr ""
 
 #: weblate/accounts/notifications.py:53
 msgid "Do not notify"
-msgstr ""
+msgstr "Không thông báo"
 
 #: weblate/accounts/notifications.py:54
 msgid "Instant notification"
@@ -671,7 +671,7 @@ msgstr "Thay đổi giấy phép"
 #. Translators: Name of event in the history
 #: weblate/accounts/notifications.py:461 weblate/trans/models/change.py:270
 msgid "Parse error"
-msgstr ""
+msgstr "Lỗi khi xử lý"
 
 #. Translators: Notification name
 #: weblate/accounts/notifications.py:469
@@ -691,10 +691,8 @@ msgstr "Đề xuất mới"
 
 #. Translators: Notification name
 #: weblate/accounts/notifications.py:497
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Comment on own translation"
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr "Bình luận về bản dịch của bạn"
 
 #. Translators: Notification name
 #: weblate/accounts/notifications.py:536
@@ -705,7 +703,7 @@ msgstr "Được nhắc đến trong bình luận"
 #: weblate/accounts/notifications.py:579 weblate/templates/translate.html:401
 #: weblate/trans/forms.py:948
 msgid "New comment"
-msgstr ""
+msgstr "Bình luận mới"
 
 #. Translators: Notification name
 #: weblate/accounts/notifications.py:600
@@ -755,11 +753,11 @@ msgstr "Đề xuất đang chờ"
 #: weblate/templates/mail/todo_strings.html:8 weblate/trans/filter.py:36
 #: weblate/trans/filter.py:123
 msgid "Strings needing action"
-msgstr ""
+msgstr "Xâu đang cần hành động"
 
 #: weblate/accounts/password_validation.py:37
 msgid "This password consists of only whitespace."
-msgstr ""
+msgstr "Mật khẩu này chỉ bao gồm khoảng trắng."
 
 #: weblate/accounts/password_validation.py:42
 msgid "This password is only a single character."
@@ -776,10 +774,12 @@ msgstr "Không thể sử dụng lại mật khẩu đã sử dụng trước đ
 #: weblate/accounts/password_validation.py:73
 msgid "Your password can't match a password you have used in the past."
 msgstr ""
+"Mật khẩu của bạn không thể trùng khớp với một mật khẩu bạn đã sử dụng trong "
+"quá khứ."
 
 #: weblate/accounts/pipeline.py:314
 msgid "You can not complete password reset while signed in."
-msgstr ""
+msgstr "Bạn không thể hoàn thành đặt lại mật khẩu khi đã đăng nhập."
 
 #: weblate/accounts/pipeline.py:317 weblate/accounts/pipeline.py:340
 msgid "The registration link has been invalidated."
@@ -799,12 +799,14 @@ msgid ""
 "Your e-mail no longer belongs to verified account, it has been changed to "
 "{0}."
 msgstr ""
+"E-mail của bạn không còn thuộc về tài khoản đã xác minh nữa, nó đã được đổi "
+"thành {0}."
 
 #: weblate/accounts/views.py:171 weblate/accounts/views.py:875
 #: weblate/accounts/views.py:921 weblate/templates/accounts/reset.html:7
 #: weblate/templates/accounts/reset.html:36
 msgid "Password reset"
-msgstr "Cài đặt lại mật khẩu"
+msgstr "Đặt lại mật khẩu"
 
 #: weblate/accounts/views.py:174
 msgid "Remove account"
@@ -820,7 +822,7 @@ msgstr "Không thể gửi tin nhắn đến quản trị viên."
 
 #: weblate/accounts/views.py:229
 msgid "Your request has been sent, you will shortly hear from us."
-msgstr ""
+msgstr "Yêu cầu của bạn đã được gửi, bạn sẽ sớm nhận phản hồi từ chúng tôi."
 
 #: weblate/accounts/views.py:374
 msgid "Your profile has been updated."
@@ -836,7 +838,7 @@ msgstr "Tài khoản của bạn đã được xoá."
 
 #: weblate/accounts/views.py:496
 msgid "Too many messages sent, please try again later."
-msgstr ""
+msgstr "Quá nhiều tin nhắn đã được gửi, vui lòng thử lại sau."
 
 #: weblate/accounts/views.py:524 weblate/templates/accounts/contact.html:6
 #: weblate/templates/accounts/contact.html:23 weblate/templates/base.html:271
@@ -846,7 +848,7 @@ msgstr "Liên lạc"
 
 #: weblate/accounts/views.py:548 weblate/templates/accounts/hosting.html:8
 msgid "Hosting"
-msgstr ""
+msgstr "Lưu trữ"
 
 #: weblate/accounts/views.py:569
 msgid ""
@@ -863,7 +865,7 @@ msgstr ""
 #: weblate/accounts/views.py:595 weblate/templates/accounts/hosting.html:54
 #: weblate/templates/accounts/trial.html:7
 msgid "Gratis trial"
-msgstr ""
+msgstr "Dùng thử miễn phí"
 
 #: weblate/accounts/views.py:689 weblate/templates/403.html:15
 #: weblate/templates/404.html:16 weblate/templates/accounts/login.html:8
@@ -871,19 +873,19 @@ msgstr ""
 #: weblate/templates/accounts/login.html:39
 #: weblate/templates/accounts/redirect.html:7 weblate/templates/base.html:214
 msgid "Sign in"
-msgstr ""
+msgstr "Đăng nhập"
 
 #: weblate/accounts/views.py:716 weblate/wladmin/sites.py:187
 msgid "Thank you for using Weblate."
-msgstr ""
+msgstr "Cảm ơn bạn vì đã sử dụng Weblate."
 
 #: weblate/accounts/views.py:805 weblate/templates/accounts/email.html:17
 msgid "Register e-mail"
-msgstr ""
+msgstr "Đăng ký e-mail"
 
 #: weblate/accounts/views.py:820 weblate/accounts/views.py:890
 msgid "Cannot reset password, e-mail authentication is turned off."
-msgstr ""
+msgstr "Không thể đặt lại mật khẩu, xác thực e-mail đã bị tắt."
 
 #: weblate/accounts/views.py:851 weblate/templates/accounts/password.html:13
 #: weblate/templates/accounts/profile.html:133
@@ -892,26 +894,21 @@ msgid "Change password"
 msgstr "Thay đổi mật khẩu"
 
 #: weblate/accounts/views.py:861
-#, fuzzy
-#| msgid "Your profile has been updated."
 msgid "Password reset has been already completed."
-msgstr "Hồ sơ của bạn đã được cập nhật."
+msgstr "Đã hoàn thành đặt lại mật khẩu rồi."
 
 #: weblate/accounts/views.py:1067
-#, fuzzy
-#| msgid "Failed to generate key: %s"
 msgid "Could not remove user identity"
-msgstr "Xảy ra lỗi khi tạo khóa: %s"
+msgstr "Không thể xoá danh tính người dùng"
 
 #: weblate/accounts/views.py:1077
 msgid "Add another identity by confirming your e-mail address first."
 msgstr ""
+"Thêm một danh tính khác bằng cách xác nhận địa chỉ e-mail của bạn trước tiên."
 
 #: weblate/accounts/views.py:1123
-#, fuzzy
-#| msgid "Failed to generate key: %s"
 msgid "Could not complete registration."
-msgstr "Xảy ra lỗi khi tạo khóa: %s"
+msgstr "Không thể hoàn thành đăng ký."
 
 #: weblate/accounts/views.py:1126
 msgid "Please check if you have already registered an account."
@@ -932,20 +929,16 @@ msgid "Could not authenticate due to invalid session state."
 msgstr ""
 
 #: weblate/accounts/views.py:1152
-#, fuzzy
-#| msgid "You can add another email address on the Authentication tab."
 msgid "Got no e-mail address from third party authentication service."
-msgstr "Bạn có thể thêm địa chỉ email khác trong mục Xác thực."
+msgstr "Không nhận được địa chỉ e-mail nào từ dịch vụ xác thực của bên thứ ba."
 
 #: weblate/accounts/views.py:1154
 msgid "Please register using e-mail instead."
 msgstr ""
 
 #: weblate/accounts/views.py:1161
-#, fuzzy
-#| msgid "XLIFF Translation File"
 msgid "New registrations are turned off."
-msgstr "Tập tin dịch kiểu XLIFF"
+msgstr "Các lượt đăng ký mới đã bị tắt."
 
 #: weblate/accounts/views.py:1219
 msgid ""
@@ -953,40 +946,28 @@ msgid ""
 msgstr ""
 
 #: weblate/accounts/views.py:1225
-#, fuzzy
-#| msgid "XLIFF Translation File"
 msgid "Authentication cancelled."
-msgstr "Tập tin dịch kiểu XLIFF"
+msgstr "Đã huỷ xác thực."
 
 #: weblate/accounts/views.py:1228
 msgid "The server does not allow authentication."
-msgstr ""
+msgstr "Máy chủ không cho phép xác thực."
 
 #: weblate/accounts/views.py:1232
-#, fuzzy
-#| msgid ""
-#| "This e-mail address is already in use. Please supply a different e-mail "
-#| "address."
 msgid "The supplied e-mail address is already in use for another account."
-msgstr "Địa chỉ email đã được sử dụng. Vui lòng cung cấp địa chỉ email khác."
+msgstr "Địa chỉ e-mail được nhập đã được một tài khoản khác sử dụng."
 
 #: weblate/accounts/views.py:1236
-#, fuzzy
-#| msgid "This username is already taken. Please choose another."
 msgid "The supplied username is already in use for another account."
-msgstr "Tài khoản này đã được sử dung, vui lòng chọn tài khoản khác."
+msgstr "Tên người dùng được nhập đã được một tài khoản khác sử dụng."
 
 #: weblate/accounts/views.py:1241
-#, fuzzy
-#| msgid "This username is already taken. Please choose another."
 msgid "The supplied user identity is already in use for another account."
-msgstr "Tài khoản này đã được sử dung, vui lòng chọn tài khoản khác."
+msgstr "Danh tính người dùng được nhập đã được một tài khoản khác sử dụng."
 
 #: weblate/accounts/views.py:1265 weblate/accounts/views.py:1278
-#, fuzzy
-#| msgid "Action"
 msgid "Notification settings adjusted."
-msgstr "Hành động"
+msgstr "Đã điều chỉnh cài đặt thông báo."
 
 #: weblate/accounts/views.py:1283
 msgid ""
@@ -998,13 +979,13 @@ msgstr ""
 #: weblate/addons/autotranslate.py:35 weblate/templates/translation.html:75
 #: weblate/templates/translation.html:234 weblate/trans/models/change.py:238
 msgid "Automatic translation"
-msgstr ""
+msgstr "Dịch tự động"
 
 #: weblate/addons/autotranslate.py:37
 msgid ""
 "Automatically translates strings using machine translation or other "
 "components."
-msgstr ""
+msgstr "Tự động dịch các xâu bằng dịch bằng máy hoặc các thành phần khác."
 
 #: weblate/addons/base.py:334 weblate/trans/views/create.py:176
 #: weblate/trans/views/settings.py:110
@@ -1024,10 +1005,8 @@ msgid ""
 msgstr ""
 
 #: weblate/addons/cleanup.py:37
-#, fuzzy
-#| msgid "XLIFF Translation File"
 msgid "Cleanup translation files"
-msgstr "Tập tin dịch kiểu XLIFF"
+msgstr "Dọn dẹp các tệp bản dịch"
 
 #: weblate/addons/cleanup.py:39
 msgid ""
@@ -1037,20 +1016,16 @@ msgid ""
 msgstr ""
 
 #: weblate/addons/cleanup.py:63
-#, fuzzy
-#| msgid "Status"
 msgid "Remove blank strings"
-msgstr "Tình trạng"
+msgstr "Xoá các xâu trống"
 
 #: weblate/addons/cleanup.py:64
 msgid "Removes strings without a translation from translation files."
-msgstr ""
+msgstr "Xoá các xâu không có bản dịch khỏi các tệp bản dịch."
 
 #: weblate/addons/consistency.py:32
-#, fuzzy
-#| msgid "Language"
 msgid "Language consistency"
-msgstr "Ngôn ngữ"
+msgstr "Tính nhất quán của ngôn ngữ"
 
 #: weblate/addons/consistency.py:34
 msgid ""
@@ -1061,7 +1036,7 @@ msgstr ""
 
 #: weblate/addons/discovery.py:33
 msgid "Component discovery"
-msgstr ""
+msgstr "Khám phá thành phần"
 
 #: weblate/addons/discovery.py:35
 msgid ""
@@ -1128,10 +1103,8 @@ msgstr ""
 #: weblate/templates/component.html:210 weblate/templates/project.html:68
 #: weblate/templates/project.html:210 weblate/templates/translation.html:72
 #: weblate/templates/translation.html:273
-#, fuzzy
-#| msgid "Fulltext"
 msgid "Bulk edit"
-msgstr "Toàn văn"
+msgstr "Chỉnh sửa hàng loạt"
 
 #: weblate/addons/flags.py:106
 msgid "Bulk edit flags, labels, or states of strings."
@@ -4042,16 +4015,12 @@ msgid "Failed to parse JSON file: {!s}"
 msgstr "Nhận thông báo về bất kỳ bản dịch nào"
 
 #: weblate/memory/models.py:164
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Failed to parse TMX file!"
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr "Xử lý tệp TMX thất bại!"
 
 #: weblate/memory/models.py:174
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Failed to find source language!"
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr "Tìm ngôn ngữ nguồn thất bại!"
 
 #: weblate/memory/models.py:251
 #, fuzzy
@@ -5020,10 +4989,8 @@ msgid "All configuration will stay once you start paying."
 msgstr ""
 
 #: weblate/templates/accounts/trial.html:30
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Start the trial!"
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr "Bắt đầu dùng thử!"
 
 #: weblate/templates/accounts/user.html:9 weblate/templates/component.html:98
 #: weblate/templates/manage-access.html:16
@@ -5760,10 +5727,8 @@ msgid "Browse"
 msgstr "Duyệt"
 
 #: weblate/templates/browse.html:49
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "No strings found!"
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr "Không tìm thấy xâu nào!"
 
 #: weblate/templates/check.html:19 weblate/templates/data.html:28
 #: weblate/templates/data.html:62 weblate/templates/data.html:103
@@ -9899,11 +9864,11 @@ msgstr "Nhận thông báo về bất kỳ bản dịch nào"
 
 #: weblate/templates/translate.html:377
 msgid "Origin"
-msgstr ""
+msgstr "Nguồn gốc"
 
 #: weblate/templates/translate.html:378
 msgid "Similarity"
-msgstr ""
+msgstr "Sự tương tự"
 
 #: weblate/templates/translate.html:403
 msgid "Comment on this string for fellow translators and developers to read."
@@ -9925,10 +9890,8 @@ msgid "Enforced"
 msgstr ""
 
 #: weblate/templates/translate.html:462
-#, fuzzy
-#| msgid "iOS Strings"
 msgid "Fix string"
-msgstr "Chuỗi hệ điều hành iOS"
+msgstr "Sửa xâu"
 
 #: weblate/templates/translate.html:472
 #, fuzzy
@@ -9961,24 +9924,20 @@ msgid "Add term to glossary"
 msgstr ""
 
 #: weblate/templates/translate.html:583
-#, fuzzy
-#| msgid "PHP strings"
 msgid "String information"
-msgstr "PHP strings"
+msgstr "Thông tin xâu"
 
 #: weblate/templates/translate.html:595
 msgid "No screenshot currently associated."
-msgstr ""
+msgstr "Không có ảnh chụp màn hình nào hiện tại được liên kết."
 
 #: weblate/templates/translate.html:610
-#, fuzzy
-#| msgid "XLIFF Translation File"
 msgid "No explanation currently provided."
-msgstr "Tập tin dịch kiểu XLIFF"
+msgstr "Không có sự giải thích nào hiện tại được cung cấp."
 
 #: weblate/templates/translate.html:639
 msgid "No labels currently set."
-msgstr ""
+msgstr "Không có nhãn nào hiện tại được đặt."
 
 #: weblate/templates/translate.html:647
 msgid "Flags"
@@ -9989,10 +9948,8 @@ msgid "No flags currently set."
 msgstr ""
 
 #: weblate/templates/translate.html:659
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Source string location"
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr "Vị trí xâu nguồn"
 
 #: weblate/templates/translate.html:674
 #, fuzzy
@@ -10010,16 +9967,13 @@ msgid "%(filename)s, string %(position)s"
 msgstr ""
 
 #: weblate/templates/translate.html:693
-#, fuzzy, python-format
-#| msgid "Notification on any translation"
+#, python-format
 msgid "string %(position)s"
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr "xâu %(position)s"
 
 #: weblate/templates/translate.html:696
-#, fuzzy
-#| msgid "Browse"
 msgid "pending"
-msgstr "Duyệt"
+msgstr "đang chờ"
 
 #: weblate/templates/translate.html:725
 msgid "Inherited flags"
@@ -10042,62 +9996,52 @@ msgid "Add a new variant for \"%(existing)s\""
 msgstr "Các thay đổi gần đây trong %s"
 
 #: weblate/templates/translation.html:55
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Download translation"
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr "Tải xuống bản dịch"
 
 #: weblate/templates/translation.html:57 weblate/templates/translation.html:356
 msgid "Customize download"
-msgstr ""
+msgstr "Tuỳ chỉnh tải xuống"
 
 #: weblate/templates/translation.html:59
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Upload translation"
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr "Tải bản dịch lên"
 
 #: weblate/templates/translation.html:134 weblate/templates/widgets.html:70
 #: weblate/templates/widgets.html:78 weblate/templates/widgets.html:85
 #: weblate/templates/widgets.html:93
 msgid "Translation status"
-msgstr ""
+msgstr "Trạng thái bản dịch"
 
 #: weblate/templates/translation.html:157
 msgid "Words"
-msgstr ""
+msgstr "Từ"
 
 #: weblate/templates/translation.html:165
 msgid "This translation is being used as source strings within this component."
 msgstr ""
 
 #: weblate/templates/translation.html:175
-#, fuzzy
-#| msgid "Status"
 msgid "Strings status"
-msgstr "Tình trạng"
+msgstr "Tình trạng xâu"
 
 #: weblate/templates/translation.html:191
 #, python-format
 msgid "%(count)s word"
 msgid_plural "%(count)s words"
-msgstr[0] ""
+msgstr[0] "%(count)s từ"
 
 #: weblate/templates/translation.html:206
 msgid "Other components"
-msgstr ""
+msgstr "Các thành phần khác"
 
 #: weblate/templates/translation.html:209
-#, fuzzy
-#| msgid "Subscribed projects"
 msgid "Browse all components"
-msgstr "Chủ đề đã đăng ký theo dõi"
+msgstr "Duyệt tất cả thành phần"
 
 #: weblate/templates/translation.html:223
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Browse all translation changes"
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr "Duyệt tất cả thay đổi bản dịch"
 
 #: weblate/templates/translation.html:238
 msgid ""
@@ -10127,10 +10071,8 @@ msgid ""
 msgstr ""
 
 #: weblate/templates/translation.html:311
-#, fuzzy
-#| msgid "Download"
 msgid "Quick downloads"
-msgstr "Tải về"
+msgstr "Tải về nhanh"
 
 #: weblate/templates/translation.html:318
 msgid "File in original format as translated in the repository"
@@ -10166,7 +10108,7 @@ msgstr ""
 
 #: weblate/templates/widgets.html:6
 msgid "Widgets"
-msgstr ""
+msgstr "Tiện ích"
 
 #: weblate/templates/widgets.html:11
 msgid "Promoting translation projects"
@@ -10200,11 +10142,11 @@ msgstr ""
 
 #: weblate/templates/widgets.html:47
 msgid "Color variants:"
-msgstr ""
+msgstr "Biến thể màu sắc:"
 
 #: weblate/templates/widgets.html:57
 msgid "HTML code"
-msgstr ""
+msgstr "Mã HTML"
 
 #: weblate/templates/widgets.html:58
 msgid "BB code"
@@ -10228,23 +10170,19 @@ msgstr ""
 
 #: weblate/templates/zen-units.html:17
 msgid "Open in full editor"
-msgstr ""
+msgstr "Mở trong trình chỉnh sửa đầy đủ"
 
 #: weblate/templates/zen-units.html:113 weblate/trans/views/edit.py:541
-#, fuzzy
-#| msgid "XLIFF Translation File"
 msgid "The translation has come to an end."
-msgstr "Tập tin dịch kiểu XLIFF"
+msgstr "Bản dịch đã đi đến hồi kết."
 
 #: weblate/templates/zen.html:46
-#, fuzzy
-#| msgid "PHP strings"
 msgid "Edit in single string mode"
-msgstr "PHP strings"
+msgstr "Chỉnh sửa trong chế độ một xâu"
 
 #: weblate/templates/zen.html:46
 msgid "Exit Zen"
-msgstr ""
+msgstr "Thoát Zen"
 
 #: weblate/trans/admin.py:38
 msgid "Commit pending changes"
@@ -10313,46 +10251,32 @@ msgid "All recent changes made using Weblate in %s."
 msgstr "Tất cả các thay đổi gần đây sử dụng Weblate trong %s."
 
 #: weblate/trans/filter.py:34
-#, fuzzy
-#| msgid "PHP strings"
 msgid "Read only strings"
-msgstr "PHP strings"
+msgstr "Xâu chỉ đọc"
 
 #: weblate/trans/filter.py:35 weblate/trans/filter.py:122
-#, fuzzy
-#| msgid "PHP strings"
 msgid "Not translated strings"
-msgstr "PHP strings"
+msgstr "Xâu chưa được dịch"
 
 #: weblate/trans/filter.py:38 weblate/trans/filter.py:125
-#, fuzzy
-#| msgid "iOS Strings"
 msgid "Strings marked for edit"
-msgstr "Chuỗi hệ điều hành iOS"
+msgstr "Xâu được đánh dấu để chỉnh sửa"
 
 #: weblate/trans/filter.py:40
-#, fuzzy
-#| msgid "Status"
 msgid "Strings with variants"
-msgstr "Tình trạng"
+msgstr "Xâu có biến thể"
 
 #: weblate/trans/filter.py:41
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Strings with labels"
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr "Xâu có nhãn"
 
 #: weblate/trans/filter.py:42
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Strings with context"
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr "Xâu có ngữ cảnh"
 
 #: weblate/trans/filter.py:45 weblate/trans/filter.py:127
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Strings needing action without suggestions"
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr "Xâu đang cần hành động mà không có đề xuất"
 
 #: weblate/trans/filter.py:52
 #, fuzzy
@@ -10374,19 +10298,15 @@ msgstr "PHP strings"
 
 #: weblate/trans/filter.py:66 weblate/trans/filter.py:132
 msgid "Strings waiting for review"
-msgstr ""
+msgstr "Xâu đang đợi xem xét"
 
 #: weblate/trans/filter.py:67
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Strings without a label"
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr "Xâu không có nhãn"
 
 #: weblate/trans/filter.py:68
-#, fuzzy
-#| msgid "PHP strings"
 msgid "Pluralized string"
-msgstr "PHP strings"
+msgstr "Xâu được số nhiều hoá"
 
 #: weblate/trans/filter.py:73 weblate/trans/filter.py:135
 #, fuzzy
