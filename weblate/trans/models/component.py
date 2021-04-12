@@ -3076,6 +3076,8 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
         same_repo = self.project.component_set.filter(
             repo=self.repo, vcs=self.vcs, branch=self.branch
         )
+        if self.push:
+            same_repo = same_repo.filter(push=self.push)
         try:
             return same_repo[0].get_repo_link_url()
         except IndexError:
