@@ -1250,9 +1250,10 @@ class ProjectAPITest(APIBaseTest):
             },
         )
         self.assertEqual(Component.objects.count(), 3)
+        # Auto linking in place
         self.assertEqual(
             Component.objects.get(slug="api-project", project__slug="test").repo,
-            repo_url,
+            "weblate://test/test",
         )
         self.assertEqual(response.data["repo"], repo_url)
 
@@ -1275,9 +1276,10 @@ class ProjectAPITest(APIBaseTest):
             },
         )
         self.assertEqual(Component.objects.count(), 3)
+        # Auto linking in place
         self.assertEqual(
             Component.objects.get(slug="api-project", project__slug="test").repo,
-            repo_url,
+            "weblate://test/test",
         )
         self.assertEqual(response.data["repo"], repo_url)
 
