@@ -148,6 +148,7 @@
       Cookies.set("translate-tab", $(this).attr("href"), {
         path: "/",
         expires: 365,
+        sameSite: "Lax",
       });
     });
 
