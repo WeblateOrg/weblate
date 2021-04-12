@@ -16,6 +16,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
+from copy import copy
 from zipfile import BadZipfile
 
 from django.conf import settings
@@ -561,18 +562,30 @@ class ComponentSerializer(RemovableSerializer):
             )
 
         # Add missing project context
-        result["project"] = self._context["project"]
+        if "project" in self._context:
+            result["project"] = self._context["project"]
+        elif self.instance:
+            result["project"] = self.instance.project
 
         return result
 
     def validate(self, attrs):
-        # Validate name/slug uniqueness
+        # Validate name/slug uniqueness, this has to be done prior docfile/zipfile
+        # extracting
         for field in ("name", "slug"):
+            # Skip optional fields on PATCH
+            if field not in attrs:
+                continue
+            # Skip non changed fields
+            if self.instance and getattr(self.instance, field) == attrs[field]:
+                continue
+            # Look for existing components
             if attrs["project"].component_set.filter(**{field: attrs[field]}).exists():
                 raise serializers.ValidationError(
                     {field: f"Component with this {field} already exists."}
                 )
 
+        # Handle uploaded files
         if "docfile" in attrs:
             fake = create_component_from_doc(attrs)
             attrs["template"] = fake.template
@@ -587,8 +600,14 @@ class ComponentSerializer(RemovableSerializer):
                     {"zipfile": "Failed to parse uploaded ZIP file."}
                 )
             attrs.pop("zipfile")
+
         # Call model validation here, DRF does not do that
-        instance = Component(**attrs)
+        if self.instance:
+            instance = copy(self.instance)
+            for key, value in attrs.items():
+                setattr(instance, key, value)
+        else:
+            instance = Component(**attrs)
         instance.clean()
 
         return attrs
