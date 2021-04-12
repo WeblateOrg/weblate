@@ -17,6 +17,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
+import os
 from copy import copy
 from datetime import timedelta
 from io import BytesIO
@@ -1434,6 +1435,38 @@ class ProjectAPITest(APIBaseTest):
                     "new_lang": "none",
                 },
             )
+
+    def test_create_component_overwrite(self):
+        translation = self.component.translation_set.get(language_code="cs")
+        trasnslation_filename = translation.get_filename()
+        self.assertTrue(os.path.exists(trasnslation_filename))
+        with open(TEST_PO, "rb") as handle:
+            self.do_request(
+                "api:project-components",
+                self.project_kwargs,
+                method="post",
+                code=400,
+                superuser=True,
+                request={
+                    "zipfile": handle,
+                    "name": "Local project",
+                    "slug": self.component.slug,
+                    "filemask": "*.po",
+                    "new_base": "project.pot",
+                    "file_format": "po",
+                    "push": "https://username:password@github.com/example/push.git",
+                    "new_lang": "none",
+                },
+            )
+        self.assertTrue(
+            os.path.exists(self.component.full_path),
+            f"File {self.component.full_path} does not exist",
+        )
+
+        self.assertTrue(
+            os.path.exists(trasnslation_filename),
+            f"File {trasnslation_filename} does not exist",
+        )
 
     def test_create_component_enforced(self):
         response = self.do_request(

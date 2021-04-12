@@ -531,58 +531,66 @@ class ComponentSerializer(RemovableSerializer):
             result["push"] = None
         return result
 
-    def fixup_request_payload(self, data):
-        data = data.copy()
-        if "source_language" in data:
-            language = data["source_language"]
-            data["source_language"] = Language.objects.get(
-                code=language if isinstance(language, str) else language["code"]
-            )
-        if "project" in self._context:
-            data["project"] = self._context["project"]
-        return data
-
     def to_internal_value(self, data):
         # Preprocess to inject params based on content
         data = data.copy()
+
+        # Provide a reasonable default
         if "manage_units" not in data and data.get("template"):
             data["manage_units"] = "1"
-        can_create = data.get("slug") and data.get("name") and data.get("file_format")
-        if "docfile" in data:
-            if hasattr(data["docfile"], "name") and can_create:
-                fake = create_component_from_doc(self.fixup_request_payload(data))
-                data["template"] = fake.template
-                data["new_base"] = fake.template
-                data["filemask"] = fake.filemask
-                data.pop("docfile")
-            else:
-                # Provide a filemask so that it is not listed as an
-                # error. The validation of docfile will fail later
+
+        # File uploads indicate usage of a local repo
+        if "docfile" in data or "zipfile" in data:
+            data["repo"] = "local:"
+            data["vcs"] = "local"
+            data["branch"] = "main"
+
+            # Provide a filemask so that it is not listed as an
+            # error. The validation of docfile will fail later
+            if "docfile" in data:
                 data["filemask"] = "fake.*"
-            data["repo"] = "local:"
-            data["vcs"] = "local"
-            data["branch"] = "main"
-        if "zipfile" in data:
-            if hasattr(data["zipfile"], "name") and can_create:
-                try:
-                    create_component_from_zip(self.fixup_request_payload(data))
-                except BadZipfile:
-                    raise serializers.ValidationError(
-                        {"zipfile": "Failed to parse uploaded ZIP file."}
-                    )
-                data.pop("zipfile")
-            data["repo"] = "local:"
-            data["vcs"] = "local"
-            data["branch"] = "main"
+
         # DRF processing
         result = super().to_internal_value(data)
-        # Postprocess to inject values
-        return self.fixup_request_payload(result)
+
+        # Handle source language attribute
+        if "source_language" in result:
+            language = result["source_language"]
+            result["source_language"] = Language.objects.get(
+                code=language if isinstance(language, str) else language["code"]
+            )
+
+        # Add missing project context
+        result["project"] = self._context["project"]
+
+        return result
 
     def validate(self, attrs):
+        # Validate name/slug uniqueness
+        for field in ("name", "slug"):
+            if attrs["project"].component_set.filter(**{field: attrs[field]}).exists():
+                raise serializers.ValidationError(
+                    {field: f"Component with this {field} already exists."}
+                )
+
+        if "docfile" in attrs:
+            fake = create_component_from_doc(attrs)
+            attrs["template"] = fake.template
+            attrs["new_base"] = fake.template
+            attrs["filemask"] = fake.filemask
+            attrs.pop("docfile")
+        if "zipfile" in attrs:
+            try:
+                create_component_from_zip(attrs)
+            except BadZipfile:
+                raise serializers.ValidationError(
+                    {"zipfile": "Failed to parse uploaded ZIP file."}
+                )
+            attrs.pop("zipfile")
         # Call model validation here, DRF does not do that
         instance = Component(**attrs)
         instance.clean()
+
         return attrs
 
 
