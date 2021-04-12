@@ -47,7 +47,6 @@ class DeepLTranslation(MachineTranslation):
         return super().map_language_code(code).replace("_", "-").upper()
 
     def download_languages(self):
-        """List of supported languages is currently hardcoded."""
         response = self.request(
             "post",
             DEEPL_LANGUAGES.format(settings.MT_DEEPL_API_VERSION),
