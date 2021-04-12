@@ -619,6 +619,11 @@ Generic settings
 
    Configures rate limiter.
 
+   .. hint::
+
+      You can set configuration for any rate limiter scopes. To do that add ``WEBLATE_`` prefix to
+      any of setting described in :ref:`rate-limit`.
+
    .. seealso::
 
       :ref:`rate-limit`,
