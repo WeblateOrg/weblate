@@ -47,7 +47,11 @@ def edit_context(request, pk):
             raise PermissionDenied()
         flag = request.POST.get("addflag", request.POST.get("removeflag"))
         flags = Flags(unit.extra_flags)
-        if flag == "terminology" and not unit.is_source and flag not in flags:
+        if (
+            flag in ("terminology", "forbidden")
+            and not unit.is_source
+            and flag not in flags
+        ):
             unit = unit.source_unit
             flags = Flags(unit.extra_flags)
         if do_add:
