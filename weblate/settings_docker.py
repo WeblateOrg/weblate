@@ -1062,7 +1062,7 @@ REST_FRAMEWORK = {
 FONTS_CDN_URL = None
 
 # Django compressor offline mode
-COMPRESS_OFFLINE = True
+COMPRESS_OFFLINE = False
 COMPRESS_OFFLINE_CONTEXT = [
     {"fonts_cdn_url": FONTS_CDN_URL, "STATIC_URL": STATIC_URL, "LANGUAGE_BIDI": True},
     {"fonts_cdn_url": FONTS_CDN_URL, "STATIC_URL": STATIC_URL, "LANGUAGE_BIDI": False},
