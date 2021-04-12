@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.6\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-04-03 12:06+0000\n"
-"PO-Revision-Date: 2021-04-11 21:41+0000\n"
+"PO-Revision-Date: 2021-04-13 09:14+0000\n"
 "Last-Translator: Allan Nordhøy <epost@anotheragency.no>\n"
 "Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/weblate/"
 "application/nb_NO/>\n"
@@ -5036,10 +5036,9 @@ msgid "Failed checks in %(project)s"
 msgstr "Mislykkede kontrollsjekker i %(project)s"
 
 #: weblate/templates/base.html:180
-#, fuzzy, python-format
-#| msgid "Failed checks in %(project)s — %(language)s"
+#, python-format
 msgid "Failed checks in %(language)s"
-msgstr "Mislykkede kontrollsjekker i %(project)s—%(language)s"
+msgstr "Mislykkede kontrollsjekker %(language)s"
 
 #: weblate/templates/base.html:184
 msgid "Checks overview"
@@ -8214,8 +8213,8 @@ msgstr "%(value)s av %(all)s"
 #| msgid "Upload translation strings"
 msgid "Completed translation with %(count)s string"
 msgid_plural "Completed translation with %(count)s strings"
-msgstr[0] "Bruk valgt oversettelse for nåværende streng"
-msgstr[1] "Bruk valgt oversettelse for nåværende streng"
+msgstr[0] "Fullførte oversettelse med %(count)s streng"
+msgstr[1] "Fullførte oversettelse med %(count)s strenger"
 
 #: weblate/templates/snippets/list-objects.html:19
 #: weblate/templates/snippets/list-objects.html:29
@@ -9488,7 +9487,7 @@ msgstr[1] "Det er %(count)s varianter av denne strengen."
 #, fuzzy, python-format
 #| msgid "Browse all glossary changes"
 msgid "Browse glossary %(name)s"
-msgstr "Bla gjennom alle ordlisteendringer"
+msgstr "Utforsk ordlisten %(name)s"
 
 #: weblate/templates/translate.html:554 weblate/templates/translate.html:564
 msgid "Add term to glossary"
@@ -9572,7 +9571,7 @@ msgstr "<code>%(flags)s</code> er nedarvet fra %(object)s."
 #, fuzzy, python-format
 #| msgid "Add variant of this string"
 msgid "Add a new variant for \"%(existing)s\""
-msgstr "Legg til variant av denne strengen"
+msgstr "Legg til ny variant for «%(existing)s»"
 
 #: weblate/templates/translation.html:55
 msgid "Download translation"
@@ -11761,7 +11760,7 @@ msgstr "Denne strengen ser ut til å finnes allerede."
 #, fuzzy, python-format
 #| msgid "Pending string"
 msgid "Failed adding string: %s"
-msgstr "Ventende streng"
+msgstr "Klarte ikke å legge til streng: %s"
 
 #: weblate/trans/models/translation.py:1332
 #, fuzzy
@@ -11777,16 +11776,15 @@ msgid "Failed to parse new string"
 msgstr "Klarte ikke å tolke spørringsstreng: {}"
 
 #: weblate/trans/models/translation.py:1387
-#, fuzzy, python-format
-#| msgid "Following components would be created"
+#, python-format
 msgid "Context would be created as \"%s\""
-msgstr "Følgende komponenter ville blitt opprettet"
+msgstr "Bindeleddsinfo ville blitt opprettet som \"%s\""
 
 #: weblate/trans/models/translation.py:1391
 #, fuzzy, python-format
 #| msgid "Following components would be created"
 msgid "Source would be created as %s"
-msgstr "Følgende komponenter ville blitt opprettet"
+msgstr "Kilde ville blitt opprettet som %s"
 
 #: weblate/trans/models/unit.py:1385
 #, fuzzy
