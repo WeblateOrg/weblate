@@ -135,6 +135,18 @@ Capabilities of all supported formats:
 .. [#xl] The flags are extracted from the non-standard attribute ``weblate-flags`` for all XML based formats. Additionally ``max-length:N`` is supported through the ``maxwidth`` `attribute <http://docs.oasis-open.org/xliff/v1.2/os/xliff-core.html#maxwidth>`_ as defined in the XLIFF standard, see :ref:`xliff-flags`.
 .. [#lp] The plurals are supported only for Laravel which uses in string syntax to define them, see `Localization in Laravel`_.
 
+.. _read-only-strings:
+
+Read only strings
++++++++++++++++++
+
+.. versionadded:: 3.10
+
+Read-only strings from translation files will be included, but
+can not be edited in Weblate. This feature is natively supported by few formats
+(:ref:`xliff` and :ref:`aresource`), but can be emulated in others by adding a
+``read-only`` flag, see :ref:`custom-checks`.
+
 .. _gettext:
 
 GNU gettext
@@ -1438,17 +1450,5 @@ different `translate-toolkit`_ storages.
 .. seealso::
 
     :doc:`tt:formats/index`
-
-.. _read-only-strings:
-
-Read only strings
------------------
-
-.. versionadded:: 3.10
-
-Read-only strings from translation files will be included, but
-can not be edited in Weblate. This feature is natively supported by few formats
-(:ref:`xliff` and :ref:`aresource`), but can be emulated in others by adding a
-``read-only`` flag, see :ref:`custom-checks`.
 
 .. _translate-toolkit: https://toolkit.translatehouse.org/
