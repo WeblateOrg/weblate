@@ -84,7 +84,7 @@ class BatchUpdateTest(ViewTestCase):
 
     def test_autotranslate(self):
         other = self.do_base()
-        translation = (other.translation_set.get(language_code="cs"),)
+        translation = other.translation_set.get(language_code="cs")
         auto_translate(
             None,
             translation.pk,
