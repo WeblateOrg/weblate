@@ -1439,13 +1439,16 @@ TBX is an XML format for the exchange of terminology data.
     :ref:`glossary`
 
 
-Others
-------
+Supporting other formats
+------------------------
 
 Most formats supported by `translate-toolkit`_ which support serializing can be
 easily supported, but they did not (yet) receive any testing. In most cases
 some thin layer is needed in Weblate to hide differences in behavior of
 different `translate-toolkit`_ storages.
+
+To add support for a new format, the preferred approach is to first implement
+support for it in the `translate-toolkit`_.
 
 .. seealso::
 
