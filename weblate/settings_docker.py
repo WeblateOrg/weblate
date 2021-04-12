@@ -1197,6 +1197,13 @@ DEFAULT_SHARED_TM = get_env_bool("WEBLATE_DEFAULT_SHARED_TM", True)
 
 CONTACT_FORM = os.environ.get("WEBLATE_CONTACT_FORM", "reply-to")
 
+# Wildcard loading
+for name in os.environ:
+    if name.startswith("WEBLATE_RATELIMIT_") and name.endswith(
+        ("_ATTEMPTS", "_WINDOW", "_LOCKOUT")
+    ):
+        locals()[name[8:]] = get_env_int(name)
+
 # PGP commits signing
 WEBLATE_GPG_IDENTITY = os.environ.get("WEBLATE_GPG_IDENTITY", None)
 

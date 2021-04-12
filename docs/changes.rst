@@ -13,6 +13,7 @@ Not yet released.
 * Improved parameters validation in component creation API.
 * The rate limiting no longer applies to superusers.
 * Improved automatic translation addon performance and reliability.
+* The rate limiting now can be customized in the Docker container.
 
 Weblate 4.5.3
 -------------

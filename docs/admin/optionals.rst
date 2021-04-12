@@ -278,6 +278,8 @@ The following operations are subject to rate limiting:
 
 If a user fails to log in :setting:`AUTH_LOCK_ATTEMPTS` times, password authentication will be turned off on the account until having gone through the process of having its password reset.
 
+The settings can be also applied in the Docker container by adding ``WEBLATE_`` prefix to the setting name, for example :setting:`RATELIMIT_ATTEMPTS` becomes :envvar:`WEBLATE_RATELIMIT_ATTEMPTS`.
+
 The API has separate rate limiting settings, see :ref:`api-rate`.
 
 .. seealso::
