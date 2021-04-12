@@ -335,13 +335,17 @@ def auto_translate(
     component: Optional[int],
     engines: List[str],
     threshold: int,
+    translation: Optional[Translation] = None,
 ):
+    if translation is None:
+        translation = Translation.objects.get(pk=translation_id)
     if user_id:
         user = User.objects.get(pk=user_id)
     else:
         user = None
-    with override(user.profile.language if user else "en"):
-        translation = Translation.objects.get(pk=translation_id)
+    with translation.component.lock(), override(
+        user.profile.language if user else "en"
+    ):
         translation.log_info(
             "starting automatic translation %s: %s: %s",
             current_task.request.id,

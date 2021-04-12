@@ -119,5 +119,6 @@ class Command(WeblateTranslationCommand):
             source,
             options["mt"],
             options["threshold"],
+            translation=translation,
         )
         self.stdout.write(result["message"])
