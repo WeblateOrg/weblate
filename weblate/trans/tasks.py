@@ -327,14 +327,14 @@ def project_removal(pk, uid):
 
 @app.task(trail=False)
 def auto_translate(
-    user_id,
-    translation_id,
-    mode,
-    filter_type,
-    auto_source,
-    component,
-    engines,
-    threshold,
+    user_id: int,
+    translation_id: int,
+    mode: str,
+    filter_type: str,
+    auto_source: str,
+    component: Optional[int],
+    engines: List[str],
+    threshold: int,
 ):
     if user_id:
         user = User.objects.get(pk=user_id)

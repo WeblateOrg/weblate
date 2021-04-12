@@ -17,6 +17,8 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
+from typing import List, Optional
+
 from celery import current_task
 from django.core.exceptions import PermissionDenied
 from django.db import transaction
@@ -27,7 +29,7 @@ from weblate.utils.state import STATE_FUZZY, STATE_TRANSLATED
 
 
 class AutoTranslate:
-    def __init__(self, user, translation, filter_type, mode):
+    def __init__(self, user, translation, filter_type: str, mode: str):
         self.user = user
         self.translation = translation
         translation.component.batch_checks = True
@@ -72,7 +74,7 @@ class AutoTranslate:
                 self.user.profile.increase_count("translated", self.updated)
 
     @transaction.atomic
-    def process_others(self, source):
+    def process_others(self, source: Optional[int]):
         """Perform automatic translation based on other components."""
         kwargs = {
             "translation__language": self.translation.language,
@@ -161,7 +163,7 @@ class AutoTranslate:
             if unit.machinery["best"] >= threshold
         }
 
-    def process_mt(self, engines, threshold):
+    def process_mt(self, engines: List[str], threshold: int):
         """Perform automatic translation based on machine translation."""
         translations = self.fetch_mt(engines, int(threshold))
 
