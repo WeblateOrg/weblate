@@ -29,7 +29,14 @@ from weblate.utils.state import STATE_FUZZY, STATE_TRANSLATED
 
 
 class AutoTranslate:
-    def __init__(self, user, translation, filter_type: str, mode: str):
+    def __init__(
+        self,
+        user,
+        translation,
+        filter_type: str,
+        mode: str,
+        component_wide: bool = False,
+    ):
         self.user = user
         self.translation = translation
         translation.component.batch_checks = True
@@ -38,6 +45,7 @@ class AutoTranslate:
         self.updated = 0
         self.progress_steps = 0
         self.target_state = STATE_FUZZY if mode == "fuzzy" else STATE_TRANSLATED
+        self.component_wide = component_wide
 
     def get_units(self, filter_mode=True):
         units = self.translation.unit_set.all()
@@ -67,8 +75,9 @@ class AutoTranslate:
 
     def post_process(self):
         if self.updated > 0:
-            self.translation.component.update_source_checks()
-            self.translation.component.run_batched_checks()
+            if not self.component_wide:
+                self.translation.component.update_source_checks()
+                self.translation.component.run_batched_checks()
             self.translation.invalidate_cache()
             if self.user:
                 self.user.profile.increase_count("translated", self.updated)

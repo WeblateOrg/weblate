@@ -336,6 +336,7 @@ def auto_translate(
     engines: List[str],
     threshold: int,
     translation: Optional[Translation] = None,
+    component_wide: bool = False,
 ):
     if translation is None:
         translation = Translation.objects.get(pk=translation_id)
@@ -352,7 +353,9 @@ def auto_translate(
             auto_source,
             ", ".join(engines) if engines else component,
         )
-        auto = AutoTranslate(user, translation, filter_type, mode)
+        auto = AutoTranslate(
+            user, translation, filter_type, mode, component_wide=component_wide
+        )
         if auto_source == "mt":
             auto.process_mt(engines, threshold)
         else:
@@ -371,6 +374,39 @@ def auto_translate(
                 % auto.updated
             )
         return {"translation": translation_id, "message": message}
+
+
+@app.task(trail=False)
+def auto_translate_component(
+    component_id: int,
+    mode: str,
+    filter_type: str,
+    auto_source: str,
+    component: Optional[int],
+    engines: List[str],
+    threshold: int,
+):
+    component = Component.objects.get(pk=component_id)
+
+    for translation in component.translation_set.iterator():
+        if translation.is_source:
+            continue
+
+        auto_translate(
+            None,
+            translation.pk,
+            mode,
+            filter_type,
+            auto_source,
+            component,
+            engines,
+            threshold,
+            translation=translation,
+            component_wide=True,
+        )
+    component.update_source_checks()
+    component.run_batched_checks()
+    return {"component": component.id}
 
 
 @app.task(trail=False)
