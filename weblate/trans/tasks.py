@@ -45,6 +45,7 @@ from weblate.trans.models import (
     Suggestion,
     Translation,
 )
+from weblate.trans.models.components import ComponentLockTimeout
 from weblate.utils.celery import app
 from weblate.utils.data import data_dir
 from weblate.utils.errors import report_error
@@ -325,7 +326,12 @@ def project_removal(pk, uid):
         return
 
 
-@app.task(trail=False)
+@app.task(
+    trail=False,
+    autoretry_for=(ComponentLockTimeout,),
+    retry_backoff=600,
+    retry_backoff_max=3600,
+)
 def auto_translate(
     user_id: int,
     translation_id: int,
@@ -376,7 +382,12 @@ def auto_translate(
         return {"translation": translation_id, "message": message}
 
 
-@app.task(trail=False)
+@app.task(
+    trail=False,
+    autoretry_for=(ComponentLockTimeout,),
+    retry_backoff=600,
+    retry_backoff_max=3600,
+)
 def auto_translate_component(
     component_id: int,
     mode: str,
