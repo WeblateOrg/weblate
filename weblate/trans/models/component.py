@@ -3068,3 +3068,15 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
         if self.is_glossary:
             return _("Add new glossary term")
         return _("Add new translation string")
+
+    def suggest_repo_link(self):
+        if self.is_repo_link or self.vcs == "local":
+            return None
+
+        same_repo = self.project.component_set.filter(
+            repo=self.repo, vcs=self.vcs, branch=self.branch
+        )
+        try:
+            return same_repo[0].get_repo_link_url()
+        except IndexError:
+            return None
