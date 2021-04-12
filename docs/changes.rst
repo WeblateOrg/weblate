@@ -15,6 +15,8 @@ Not yet released.
 * Improved automatic translation addon performance and reliability.
 * The rate limiting now can be customized in the Docker container.
 
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/61?closed=1>`_.
+
 Weblate 4.5.3
 -------------
 
@@ -42,6 +44,8 @@ Released on March 26th 2021.
 * Added integration with :ref:`discover-weblate`.
 * Fixed checks behavior with read-only strings.
 
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/63?closed=1>`_.
+
 Weblate 4.5.1
 -------------
 
@@ -59,6 +63,8 @@ Released on March 05th 2021.
 * Improved bulk edit performance.
 * Fixed preserving "Needs editing" and "Approved" states for ODF files.
 * Improved interface for customizing translation-file downloads
+
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/62?closed=1>`_.
 
 Weblate 4.5
 -----------
@@ -90,6 +96,8 @@ Released on February 19th 2021.
 * Added check whether translation matches the glossary.
 * Added support for customizing navigation text color.
 
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/59?closed=1>`_.
+
 Weblate 4.4.2
 -------------
 
@@ -116,6 +124,8 @@ Released on January 13th 2021.
 * Reimplemented translation editor to use native browser textarea.
 * Fixed cleanup addon breaking adding new strings.
 * Added API for addons.
+
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/60?closed=1>`_.
 
 Weblate 4.4
 -----------
@@ -146,6 +156,8 @@ Released on December 15th 2020.
 * Improved naming of ZIP downloads.
 * Added option for getting notifications on unwatched projects.
 
+ `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/56?closed=1>`_.
+
 Weblate 4.3.2
 -------------
 
@@ -163,6 +175,8 @@ Released on November 4th 2020.
 * Renamed Template group to "Sources" to clarify its meaning.
 * Fixed GitLab pull requests on repositories with longer paths.
 
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/58?closed=1>`_.
+
 Weblate 4.3.1
 -------------
 
@@ -176,6 +190,8 @@ Released on October 21st 2020.
 * Reduced memory usage.
 * Improved performance of Matrix view.
 * Added confirmation before removing a user from a project.
+
+ `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/57?closed=1>`_.
 
 Weblate 4.3
 -----------
@@ -210,6 +226,8 @@ Released on October 15th 2020.
 * Added support for localized screenshots.
 * Added support for Python 3.9.
 * Fixed translating HTML files under certain conditions.
+
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/53?closed=1>`_.
 
 Weblate 4.2.2
 -------------
