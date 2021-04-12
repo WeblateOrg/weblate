@@ -216,6 +216,7 @@ Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 Notable configuration or dependencies changes:
 
 * There are new file formats, you might want to include them in case you modified the :setting:`WEBLATE_FORMATS`.
+* API for creating components now automatically uses :ref:`internal-urls`, see :http:post:`/api/projects/(string:project)/components/`.
 
 .. seealso:: :ref:`generic-upgrade-instructions`
 

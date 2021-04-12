@@ -14,6 +14,7 @@ Not yet released.
 * The rate limiting no longer applies to superusers.
 * Improved automatic translation addon performance and reliability.
 * The rate limiting now can be customized in the Docker container.
+* API for creating components now automatically uses :ref:`internal-urls`.
 
 Weblate 4.5.3
 -------------

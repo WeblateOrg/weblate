@@ -1141,6 +1141,69 @@ class ProjectAPITest(APIBaseTest):
         self.assertTrue(component.manage_units)
         self.assertTrue(response.data["manage_units"])
 
+    def test_create_component_autoshare(self):
+        repo = self.component.repo
+        branch = self.component.branch
+        link_repo = self.component.get_repo_link_url()
+        response = self.do_request(
+            "api:project-components",
+            self.project_kwargs,
+            method="post",
+            code=201,
+            superuser=True,
+            request={
+                "name": "C 1",
+                "slug": "c-1",
+                "repo": repo,
+                "branch": branch,
+                "filemask": "po/*.po",
+                "file_format": "po",
+                "new_lang": "none",
+            },
+        )
+        self.assertEqual(response.data["repo"], repo)
+        component = Component.objects.get(slug="c-1")
+        self.assertEqual(component.repo, link_repo)
+        response = self.do_request(
+            "api:project-components",
+            self.project_kwargs,
+            method="post",
+            code=201,
+            superuser=True,
+            request={
+                "name": "C 2",
+                "slug": "c-2",
+                "repo": repo,
+                "branch": "translations",
+                "filemask": "translations/*.po",
+                "file_format": "po",
+                "new_lang": "none",
+            },
+        )
+        self.assertEqual(response.data["repo"], repo)
+        component = Component.objects.get(slug="c-2")
+        self.assertEqual(component.repo, repo)
+        response = self.do_request(
+            "api:project-components",
+            self.project_kwargs,
+            method="post",
+            code=201,
+            superuser=True,
+            request={
+                "name": "C 3",
+                "slug": "c-3",
+                "repo": repo,
+                "branch": branch,
+                "filemask": "po/*.po",
+                "file_format": "po",
+                "new_lang": "none",
+                "disable_autoshare": "1",
+            },
+        )
+        self.assertEqual(response.data["repo"], repo)
+        component = Component.objects.get(slug="c-3")
+        self.assertEqual(component.repo, repo)
+
     def test_create_component_blank_request(self):
         self.do_request(
             "api:project-components",

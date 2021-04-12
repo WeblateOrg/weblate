@@ -921,6 +921,10 @@ Projects
 
        The ``zipfile`` and ``docfile`` parameters are now accepted for VCS-less components, see :ref:`vcs-local`.
 
+    .. versionchanged:: 4.6
+
+       The cloned repositories are now automatically shared within a project using :ref:`internal-urls`. Use ``disable_autoshare`` to turn off this.
+
     Creates translation components in the given project.
 
     .. hint::
@@ -937,6 +941,7 @@ Projects
     :type project: string
     :form file zipfile: ZIP file to upload into Weblate for translations initialization
     :form file docfile: Document to translate
+    :form boolean disable_autoshare: Disables automatic repository sharing via :ref:`internal-urls`.
     :>json object result: Created component object; see :http:get:`/api/components/(string:project)/(string:component)/`
 
     JSON can not be used when uploading the files using the ``zipfile`` and

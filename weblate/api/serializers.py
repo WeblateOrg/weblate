@@ -431,6 +431,7 @@ class ComponentSerializer(RemovableSerializer):
 
     zipfile = serializers.FileField(required=False)
     docfile = serializers.FileField(required=False)
+    disable_autoshare = serializers.BooleanField(required=False)
 
     enforced_checks = serializers.JSONField(required=False)
 
@@ -504,6 +505,7 @@ class ComponentSerializer(RemovableSerializer):
             "addons",
             "is_glossary",
             "glossary_color",
+            "disable_autoshare",
         )
         extra_kwargs = {
             "url": {
@@ -600,6 +602,8 @@ class ComponentSerializer(RemovableSerializer):
                     {"zipfile": "Failed to parse uploaded ZIP file."}
                 )
             attrs.pop("zipfile")
+        # Handle non-component arg
+        disable_autoshare = attrs.pop("disable_autoshare", False)
 
         # Call model validation here, DRF does not do that
         if self.instance:
@@ -610,6 +614,11 @@ class ComponentSerializer(RemovableSerializer):
             instance = Component(**attrs)
         instance.clean()
 
+        if not self.instance and not disable_autoshare:
+            repo = instance.suggest_repo_link()
+            if repo:
+                attrs["repo"] = instance.repo = repo
+                attrs["branch"] = instance.branch = ""
         return attrs
 
 
