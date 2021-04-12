@@ -24,3 +24,7 @@ class FileParseError(Exception):
 
 class PluralFormsMismatch(Exception):
     """Plural forms do not match the language."""
+
+
+class ComponentLockTimeout(Exception):
+    """Component lock timeout."""

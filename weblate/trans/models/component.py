@@ -57,7 +57,7 @@ from weblate.trans.defines import (
     PROJECT_NAME_LENGTH,
     REPO_LENGTH,
 )
-from weblate.trans.exceptions import FileParseError
+from weblate.trans.exceptions import ComponentLockTimeout, FileParseError
 from weblate.trans.fields import RegexField
 from weblate.trans.mixins import CacheKeyMixin, PathMixin, URLMixin
 from weblate.trans.models.alert import ALERTS, ALERTS_IMPORT
@@ -144,10 +144,6 @@ LANGUAGE_CODE_STYLE_CHOICES = (
 MERGE_CHOICES = (("merge", gettext_lazy("Merge")), ("rebase", gettext_lazy("Rebase")))
 
 LOCKING_ALERTS = {"MergeFailure", "UpdateFailure", "PushFailure"}
-
-
-class ComponentLockTimeout(Exception):
-    """Component lock timeout."""
 
 
 def perform_on_link(func):

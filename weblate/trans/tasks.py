@@ -36,7 +36,7 @@ from weblate.addons.models import Addon
 from weblate.auth.models import User, get_anonymous
 from weblate.lang.models import Language
 from weblate.trans.autotranslate import AutoTranslate
-from weblate.trans.exceptions import FileParseError
+from weblate.trans.exceptions import ComponentLockTimeout, FileParseError
 from weblate.trans.models import (
     Change,
     Comment,
@@ -45,7 +45,6 @@ from weblate.trans.models import (
     Suggestion,
     Translation,
 )
-from weblate.trans.models.components import ComponentLockTimeout
 from weblate.utils.celery import app
 from weblate.utils.data import data_dir
 from weblate.utils.errors import report_error
