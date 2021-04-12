@@ -56,7 +56,7 @@
       return false;
     });
     Mousetrap.bindGlobal("mod+o", function (e) {
-      $(".translation-item .copy-text").click();
+      $(".source-language-group [data-clone-text]").click();
       return false;
     });
     Mousetrap.bindGlobal("mod+y", function (e) {
