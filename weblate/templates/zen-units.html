@@ -23,17 +23,6 @@
 </tr>
 
 
-{% if item.unit.note %}
-<tr id="row-note-{{ item.unit.checksum }}">
-<td></td>
-<td colspan="2" class="translatetext">
-    <label>{% trans "Source string comment" %}</label>
-    {{ item.unit.note }}
-</td>
-</tr>
-{% endif %}
-
-
 {% if item.unit.source_unit.explanation %}
 <tr id="row-explanation-{{ item.unit.checksum }}">
 <td></td>
@@ -64,6 +53,9 @@
 {% for unit in item.secondary %}
 <div class="form-group">
   <a href="{{ unit.get_absolute_url }}" class="language">{{ unit.translation.language }}</a>
+  {% if user.profile.hide_source_secondary %}
+    {% include "snippets/note-badge.html" with unit=item.unit %}
+  {% endif %}
   {% format_translation unit.target unit.translation.language unit.translation.plural unit=unit %}
 </div>
 {% endfor %}
@@ -79,6 +71,7 @@
 {% if not user.profile.hide_source_secondary or not item.secondary %}
 <div class="form-group">
   <a href="{{ item.unit.source_unit.get_absolute_url }}" class="language">{{ item.unit.translation.component.source_language }}</a>
+  {% include "snippets/note-badge.html" with unit=item.unit %}
   {% format_translation item.unit.source item.unit.translation.component.source_language search_match=search_query num_plurals=item.unit.translation.plural.number unit=item.unit glossary=item.glossary %}
 </div>
 {% endif %}

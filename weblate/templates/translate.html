@@ -101,6 +101,9 @@
     {% for secondary_unit in secondary %}
     <div class="form-group">
     <a class="language" href="{{ secondary_unit.get_absolute_url }}">{{ secondary_unit.translation.language }}</a>
+    {% if user.profile.hide_source_secondary %}
+      {% include "snippets/note-badge.html" with unit=unit %}
+    {% endif %}
     {% format_translation secondary_unit.target secondary_unit.translation.language secondary_unit.translation.plural search_match=search_query num_plurals=unit.translation.plural.number unit=secondary_unit %}
     </div>
     {% endfor %}
@@ -129,13 +132,6 @@
             {% format_translation unit.source unit.translation.component.source_language search_match=search_query num_plurals=unit.translation.plural.number unit=unit %}
             </div>
         {% endif %}
-    {% endif %}
-    {% if unit.note %}
-        <!-- note -->
-        <div class="form-group help-block">
-        <label>{% trans "Source string comment" %}</label>
-        {{ unit.note }}
-        </div>
     {% endif %}
 
     {% if unit.source_unit.explanation %}
@@ -166,6 +162,7 @@
             {% if unit.translation.component.project.source_review %}
             <a title="{% trans "Report issue with the source string" %}" href="#" class="btn btn-link btn-xs bug-comment">{% icon "bug.svg" %}</a>
             {% endif %}
+            {% include "snippets/note-badge.html" with unit=unit %}
             {% format_translation unit.source unit.translation.component.source_language search_match=search_query num_plurals=unit.translation.plural.number unit=unit glossary=glossary %}
           </div>
         {% endif %}
