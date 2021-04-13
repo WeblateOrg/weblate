@@ -392,11 +392,12 @@ def auto_translate_component(
     mode: str,
     filter_type: str,
     auto_source: str,
-    component: Optional[int],
     engines: List[str],
     threshold: int,
+    component: Optional[Component] = None,
 ):
-    component = Component.objects.get(pk=component_id)
+    if component is not None:
+        component = Component.objects.get(pk=component_id)
 
     for translation in component.translation_set.iterator():
         if translation.is_source:
@@ -408,7 +409,7 @@ def auto_translate_component(
             mode,
             filter_type,
             auto_source,
-            component,
+            component.id,
             engines,
             threshold,
             translation=translation,
