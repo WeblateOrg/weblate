@@ -943,3 +943,8 @@ def render_alert(context, alert):
 @register.simple_tag
 def get_message_kind(tags):
     return get_message_kind_impl(tags)
+
+
+@register.simple_tag
+def any_unit_has_context(units):
+    return any(unit.context for unit in units)
