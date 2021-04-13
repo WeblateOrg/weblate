@@ -354,8 +354,8 @@ the following rules:
   projects these components are in. :guilabel:`Projects` are ignored.
 
 - Otherwise, if the group specifies any :guilabel:`Projects`, either by directly
-  listing them or by having :guilabel:`Selected projects` set to a value like `All
-  public`, all those permissions are applied to all the projects, which
+  listing them or by having :guilabel:`Projects selection` set to a value like :guilabel:`All
+  public projects`, all those permissions are applied to all the projects, which
   effectively grants the same permissions to access all projects
   :ref:`unrestricted components <component-restricted>`.
 
