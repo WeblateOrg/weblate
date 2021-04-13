@@ -2055,8 +2055,9 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
         if self.batched_checks:
             from weblate.checks.tasks import batch_update_checks
 
+            batched_checks = list(self.batched_checks)
             transaction.on_commit(
-                lambda: batch_update_checks.delay(self.id, list(self.batched_checks))
+                lambda: batch_update_checks.delay(self.id, batched_checks)
             )
         self.batch_checks = False
         self.batched_checks = set()
