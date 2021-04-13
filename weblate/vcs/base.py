@@ -31,11 +31,11 @@ from dateutil import parser
 from django.conf import settings
 from django.core.cache import cache
 from django.utils.functional import cached_property
-from filelock import FileLock
 from pkg_resources import Requirement, resource_filename
 from sentry_sdk import add_breadcrumb
 
 from weblate.trans.util import get_clean_env, path_separator
+from weblate.utils.lock import WeblateLock
 from weblate.vcs.ssh import SSH_WRAPPER
 
 LOGGER = logging.getLogger("weblate.vcs")
@@ -93,7 +93,15 @@ class Repository:
             self.branch = branch
         self.component = component
         self.last_output = ""
-        self.lock = FileLock(self.path.rstrip("/").rstrip("\\") + ".lock", timeout=120)
+        base_path = self.path.rstrip("/").rstrip("\\")
+        self.lock = WeblateLock(
+            lock_path=os.path.dirname(base_path),
+            scope="repo",
+            key=component.pk if component else os.path.basename(base_path),
+            slug=os.path.basename(base_path),
+            file_template="{slug}.lock",
+            timeout=120,
+        )
         self.local = local
         if not local:
             # Create ssh wrapper for possible use

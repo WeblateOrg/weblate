@@ -21,11 +21,11 @@ from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 from django.utils.translation import gettext as _
 from django.views.decorators.http import require_POST
-from filelock import Timeout
 
 from weblate.trans.util import redirect_param
 from weblate.utils import messages
 from weblate.utils.errors import report_error
+from weblate.utils.lock import WeblateLockTimeout
 from weblate.utils.views import get_component, get_project, get_translation
 
 
@@ -36,7 +36,7 @@ def execute_locked(request, obj, message, call, *args, **kwargs):
         # With False the call is supposed to show errors on its own
         if result is None or result:
             messages.success(request, message)
-    except Timeout:
+    except WeblateLockTimeout:
         messages.error(
             request,
             _("Failed to lock the repository, another operation is in progress."),
