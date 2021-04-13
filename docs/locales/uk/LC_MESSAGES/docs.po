@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-04-13 11:15+0200\n"
-"PO-Revision-Date: 2021-04-05 09:54+0000\n"
+"PO-Revision-Date: 2021-04-13 11:17+0000\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/"
 "documentation/uk/>\n"
@@ -793,13 +793,6 @@ msgstr ""
 "яких є ці складники. :guilabel:`Проєкти` буде проігноровано."
 
 #: ../../admin/access.rst:356
-#, fuzzy
-#| msgid ""
-#| "Otherwise, if the group specifies any :guilabel:`Projects`, either by "
-#| "directly listing them or by having :guilabel:`Selected projects` set to a "
-#| "value like `All public`, all those permissions are applied to all the "
-#| "projects, which effectively grants the same permissions to access all "
-#| "projects :ref:`unrestricted components <component-restricted>`."
 msgid ""
 "Otherwise, if the group specifies any :guilabel:`Projects`, either by "
 "directly listing them or by having :guilabel:`Projects selection` set to a "
@@ -808,8 +801,8 @@ msgid ""
 "to access all projects :ref:`unrestricted components <component-restricted>`."
 msgstr ""
 "Інакше, якщо група визначає якісь :guilabel:`Проєкти`, або безпосереднім "
-"визначенням їхнього списку, або встановленням для параметра :guilabel:"
-"`Вибрані проєкти` значення, подібного до `Усі публічні проєкти`, усі ці "
+"визначенням їхнього списку, або встановленням для параметра :guilabel:`Вибір "
+"проєктів` значення, подібного до :guilabel:`Усі публічні проєкти`, усі ці "
 "права доступу застосовуються до усіх проєктів, які насправді надають ті самі "
 "права доступу для доступу до усіх :ref:`складників без обмежень <component-"
 "restricted>` проєкту."
@@ -5248,11 +5241,6 @@ msgid "BASIC_LANGUAGES"
 msgstr "BASIC_LANGUAGES"
 
 #: ../../admin/config.rst:237
-#, fuzzy
-#| msgid ""
-#| "List of languages to offer users for starting new translation. When not "
-#| "specified built in list is used which includes all commonly used "
-#| "languages, but without country specific variants."
 msgid ""
 "List of languages to offer users for starting new translation. When not "
 "specified built-in list is used which includes all commonly used languages, "
@@ -5398,33 +5386,40 @@ msgstr ""
 
 #: ../../admin/config.rst:360
 msgid "CONTACT_FORM"
-msgstr ""
+msgstr "CONTACT_FORM"
 
 #: ../../admin/config.rst:364
 msgid ""
 "Configures how e-mail from the contact form is being sent. Choose a "
 "configuration that matches your mail server configuration."
 msgstr ""
+"Налаштовує спосіб надсилання повідомлення електронної пошти з форми зв'язку. "
+"Виберіть налаштування, які відповідають налаштуванням вашого поштового "
+"сервера."
 
 #: ../../admin/config.rst:367
 msgid "``\"reply-to\"``"
-msgstr ""
+msgstr "``\"reply-to\"``"
 
 #: ../../admin/config.rst:368
 msgid ""
 "The sender is used in as :mailheader:`Reply-To`, this is the default "
 "behaviour."
 msgstr ""
+"Запис відправника той самий, що і у :mailheader:`Reply-To`, це типова "
+"поведінка."
 
 #: ../../admin/config.rst:371
 msgid "``\"from\"``"
-msgstr ""
+msgstr "``\"from\"``"
 
 #: ../../admin/config.rst:370
 msgid ""
 "The sender is used in as :mailheader:`From`. Your mail server needs to allow "
 "sending such e-mails."
 msgstr ""
+"Запис відправника той самий, що і у :mailheader:`From`. На вашому поштовому "
+"сервері має бути дозволено надсилання таких повідомлень електронної пошти."
 
 #: ../../admin/config.rst:376
 msgid "DATA_DIR"
@@ -11552,7 +11547,7 @@ msgstr ":ref:`production-email`"
 
 #: ../../admin/install/docker.rst:312
 msgid "Configures contact form behavior, see :setting:`CONTACT_FORM`."
-msgstr ""
+msgstr "Налаштовує поведінку форми зв'язку, див. :setting:`CONTACT_FORM`."
 
 #: ../../admin/install/docker.rst:316
 msgid "Configures allowed HTTP hostnames using :setting:`ALLOWED_HOSTS`."
@@ -11879,28 +11874,25 @@ msgid "Configures :setting:`DEFAULT_AUTO_WATCH`."
 msgstr "Налаштовує :setting:`DEFAULT_AUTO_WATCH`."
 
 #: ../../admin/install/docker.rst:620
-#, fuzzy
-#| msgid "Configure Weblate."
 msgid "Configures rate limiter."
-msgstr "Налаштуйте Weblate."
+msgstr "Налаштовує обмеження частоти."
 
 #: ../../admin/install/docker.rst:624
 msgid ""
 "You can set configuration for any rate limiter scopes. To do that add "
 "``WEBLATE_`` prefix to any of setting described in :ref:`rate-limit`."
 msgstr ""
+"Ви можете встановити налаштування для будь-яких діапазонів обмежень частоти. "
+"Для цього додайте префікс ``WEBLATE_`` до будь-якого з параметрів, які "
+"описано у :ref:`rate-limit`."
 
 #: ../../admin/install/docker.rst:629
-#, fuzzy
-#| msgid ""
-#| ":ref:`rate-limit`, :setting:`RATELIMIT_ATTEMPTS`, :setting:"
-#| "`RATELIMIT_LOCKOUT`"
 msgid ""
 ":ref:`rate-limit`, :setting:`RATELIMIT_ATTEMPTS`, :setting:"
 "`RATELIMIT_WINDOW`, :setting:`RATELIMIT_LOCKOUT`"
 msgstr ""
-":ref:`rate-limit`, :setting:`RATELIMIT_ATTEMPTS`, :setting:"
-"`RATELIMIT_LOCKOUT`"
+":ref:`rate-limit`, :setting:`RATELIMIT_ATTEMPTS`, :setting:`RATELIMIT_WINDOW`"
+", :setting:`RATELIMIT_LOCKOUT`"
 
 #: ../../admin/install/docker.rst:636
 msgid "Machine translation settings"
@@ -13234,8 +13226,6 @@ msgid "Normalizing underscores and dashes."
 msgstr "Нормалізація підкреслень та дефісів."
 
 #: ../../admin/languages.rst:24
-#, fuzzy
-#| msgid "Looking up built in language aliases."
 msgid "Looking up built-in language aliases."
 msgstr "Пошук вбудованих альтернативних назв мов."
 
@@ -15931,7 +15921,7 @@ msgstr "У поточній версії засіб обмеження част�
 
 #: ../../admin/optionals.rst:252 ../../changes.rst:14
 msgid "The rate limiting no longer applies to superusers."
-msgstr ""
+msgstr "Обмеження на частоту більше не стосується надкористувачів."
 
 #: ../../admin/optionals.rst:254
 msgid ""
@@ -16079,6 +16069,10 @@ msgid ""
 "``WEBLATE_`` prefix to the setting name, for example :setting:"
 "`RATELIMIT_ATTEMPTS` becomes :envvar:`WEBLATE_RATELIMIT_ATTEMPTS`."
 msgstr ""
+"Крім того, параметри може бути застосовано у контейнері Docker додаванням "
+"префікса ``WEBLATE_`` до назви параметра. Приклад: "
+":setting:`RATELIMIT_ATTEMPTS` слід замінити на "
+":envvar:`WEBLATE_RATELIMIT_ATTEMPTS`."
 
 #: ../../admin/optionals.rst:283
 msgid "The API has separate rate limiting settings, see :ref:`api-rate`."
@@ -18756,22 +18750,21 @@ msgid "Upgrade from 4.5 to 4.6"
 msgstr "Оновлення з 4.5 до 4.6"
 
 #: ../../admin/upgrade.rst:219
-#, fuzzy
-#| msgid ""
-#| "URL to components list; see :http:get:`/api/projects/(string:project)/"
-#| "components/`"
 msgid ""
 "API for creating components now automatically uses :ref:`internal-urls`, "
 "see :http:post:`/api/projects/(string:project)/components/`."
 msgstr ""
-"адреса списку складників, див. :http:get:`/api/projects/(string:project)/"
-"components/`"
+"У програмному інтерфейсі для створення складників тепер автоматично "
+"використовуються :ref:`internal-urls`, див. :http:post:`/api/projects/"
+"(string:project)/components/`."
 
 #: ../../admin/upgrade.rst:220
 msgid ""
 "There is a change in dependencies and :setting:`django:PASSWORD_HASHERS` to "
 "prefer Argon2 for passwords hashing."
 msgstr ""
+"Відбулися зміни у залежностях, і :setting:`django:PASSWORD_HASHERS` тепер "
+"пріоритетно використовує Argon2 для хешування паролів."
 
 #: ../../admin/upgrade.rst:227
 msgid "Upgrading from Python 2 to Python 3"
@@ -19862,6 +19855,9 @@ msgid ""
 "The cloned repositories are now automatically shared within a project using :"
 "ref:`internal-urls`. Use ``disable_autoshare`` to turn off this."
 msgstr ""
+"У нових версіях клоновані сховища автоматично спільно використовуються у "
+"межах проєкту з використанням :ref:`internal-urls`. Скористайтеся "
+"``disable_autoshare``, щоб вимкнути таку поведінку."
 
 #: ../../api.rst:928
 msgid "Creates translation components in the given project."
@@ -19895,6 +19891,8 @@ msgstr "Документ для перекладу"
 #: ../../api.rst:944
 msgid "Disables automatic repository sharing via :ref:`internal-urls`."
 msgstr ""
+"Вимикає автоматичне спільне використання сховищ за допомогою :ref:`internal-"
+"urls`."
 
 #: ../../api.rst:945
 msgid ""
@@ -21459,46 +21457,37 @@ msgid "Added trends and metrics for all objects."
 msgstr "Додано тенденції та метрику для усіх об'єктів."
 
 #: ../../changes.rst:9
-#, fuzzy
-#| msgid "Support for hiding source string in favor of secondary language."
 msgid "Added support for direct copying text from secondary languages."
 msgstr ""
-"Реалізовано приховування початкового рядка і показ замість нього рядка "
-"вторинною мовою."
+"Додано підтримку для безпосереднього копіювання тексту із вторинних мов."
 
 #: ../../changes.rst:10
-#, fuzzy
-#| msgid "Add support for filtering changes."
 msgid "Added date filtering when browsing changes."
-msgstr "Додано підтримку змін у фільтруванні."
+msgstr "Додано фільтрування за датою при навігації списком змін."
 
 #: ../../changes.rst:11 ../../changes.rst:262
 msgid "Improved activity charts."
 msgstr "Удосконалено діаграми діяльності."
 
 #: ../../changes.rst:12
-#, fuzzy
-#| msgid "Addon commit message now can be configured."
 msgid "Sender for contact form e-mails can now be configured."
-msgstr "Уможливлено налаштовування повідомлення про внесок від додатка."
+msgstr ""
+"Уможливлено налаштовування відправника для повідомлень форми зворотного "
+"зв'язку."
 
 #: ../../changes.rst:13
-#, fuzzy
-#| msgid "Improved filename validation on component creation."
 msgid "Improved parameters validation in component creation API."
-msgstr "Удосконалено перевірку назв файлів при створенні складників."
+msgstr ""
+"Удосконалено перевірку параметрів у програмному інтерфейсі створення "
+"складників."
 
 #: ../../changes.rst:15
-#, fuzzy
-#| msgid "Improved automatic translation performance."
 msgid "Improved automatic translation addon performance and reliability."
-msgstr "Удосконалено швидкодію автоматизованого перекладу."
+msgstr "Удосконалено швидкодію та надійність автоматизованого перекладу."
 
 #: ../../changes.rst:16
-#, fuzzy
-#| msgid "The rate limiting now accepts more fine-grained configuration."
 msgid "The rate limiting now can be customized in the Docker container."
-msgstr "У поточній версії засіб обмеження частоти можна налаштувати точніше."
+msgstr "Уможливлено налаштовування обмеження за частотою у контейнері Docker."
 
 #: ../../changes.rst:17
 msgid ""
