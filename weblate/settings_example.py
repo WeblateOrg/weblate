@@ -205,12 +205,12 @@ TEMPLATES = [
 ]
 
 
-# GitHub username for sending pull requests.
+# GitHub username and token for sending pull requests.
 # Please see the documentation for more details.
 GITHUB_USERNAME = None
 GITHUB_TOKEN = None
 
-# GitLab username for sending merge requests.
+# GitLab username and token for sending merge requests.
 # Please see the documentation for more details.
 GITLAB_USERNAME = None
 GITLAB_TOKEN = None
@@ -321,6 +321,14 @@ AUTH_PASSWORD_VALIDATORS = [
     #         "user_attributes": ("username", "email", "full_name")
     #     }
     # },
+]
+
+# Password hashing (prefer Argon)
+PASSWORD_HASHERS = [
+    "django.contrib.auth.hashers.Argon2PasswordHasher",
+    "django.contrib.auth.hashers.PBKDF2PasswordHasher",
+    "django.contrib.auth.hashers.PBKDF2SHA1PasswordHasher",
+    "django.contrib.auth.hashers.BCryptSHA256PasswordHasher",
 ]
 
 # Allow new user registrations
@@ -909,4 +917,5 @@ MATOMO_SITE_ID = None
 MATOMO_URL = None
 GOOGLE_ANALYTICS_ID = None
 SENTRY_DSN = None
+SENTRY_ENVIRONMENT = None
 AKISMET_API_KEY = None

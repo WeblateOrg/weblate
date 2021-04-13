@@ -119,6 +119,7 @@ LANGUAGES = (
     ("sl", "Slovenščina"),
     ("sq", "Shqip"),
     ("sr", "Српски"),
+    ("sr-latn", "Srpski"),
     ("sv", "Svenska"),
     ("tr", "Türkçe"),
     ("uk", "Українська"),
@@ -138,6 +139,9 @@ USE_L10N = True
 
 # If you set this to False, Django will not use timezone-aware datetimes.
 USE_TZ = True
+
+# Type of automatic primary key, introduced in Django 3.2
+DEFAULT_AUTO_FIELD = "django.db.models.AutoField"
 
 # URL prefix to use, please see documentation for more details
 URL_PREFIX = os.environ.get("WEBLATE_URL_PREFIX", "")
@@ -494,6 +498,14 @@ AUTH_PASSWORD_VALIDATORS = [
     # },
 ]
 
+# Password hashing (prefer Argon)
+PASSWORD_HASHERS = [
+    "django.contrib.auth.hashers.Argon2PasswordHasher",
+    "django.contrib.auth.hashers.PBKDF2PasswordHasher",
+    "django.contrib.auth.hashers.PBKDF2SHA1PasswordHasher",
+    "django.contrib.auth.hashers.BCryptSHA256PasswordHasher",
+]
+
 # Content-Security-Policy
 CSP_SCRIPT_SRC = get_env_list("WEBLATE_CSP_SCRIPT_SRC")
 CSP_IMG_SRC = get_env_list("WEBLATE_CSP_IMG_SRC")
@@ -684,6 +696,8 @@ LOGGING = {
         "social": {"handlers": [DEFAULT_LOG], "level": DEFAULT_LOGLEVEL},
         # Django Authentication Using LDAP
         "django_auth_ldap": {"handlers": [DEFAULT_LOG], "level": DEFAULT_LOGLEVEL},
+        # SAML IdP
+        "djangosaml2idp": {"handlers": [DEFAULT_LOG], "level": DEFAULT_LOGLEVEL},
     },
 }
 
@@ -1031,6 +1045,7 @@ CACHES = {
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
             "PARSER_CLASS": "redis.connection.HiredisParser",
+            # If you set password here, adjust CELERY_BROKER_URL as well
             "PASSWORD": REDIS_PASSWORD if REDIS_PASSWORD else None,
             "CONNECTION_POOL_KWARGS": {},
         },
@@ -1134,6 +1149,10 @@ SILENCED_SYSTEM_CHECKS = [
 ]
 SILENCED_SYSTEM_CHECKS.extend(get_env_list("WEBLATE_SILENCED_SYSTEM_CHECKS"))
 
+# Celery worker configuration for testing
+# CELERY_TASK_ALWAYS_EAGER = True
+# CELERY_BROKER_URL = "memory://"
+# CELERY_TASK_EAGER_PROPAGATES = True
 # Celery worker configuration for production
 CELERY_TASK_ALWAYS_EAGER = get_env_bool("WEBLATE_CELERY_EAGER", False)
 CELERY_BROKER_URL = "{}://{}{}:{}/{}".format(
