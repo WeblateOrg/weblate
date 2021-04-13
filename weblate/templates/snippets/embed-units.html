@@ -1,5 +1,6 @@
 {% load i18n %}
 {% load translations %}
+{% load icons %}
 
 {% any_unit_has_context units as any_unit_has_context %}
 
@@ -34,7 +35,12 @@
       {% endif %}
     </tr>
   </thead>
-  <tbody>
+  {% if loading_id %}
+    <tbody id="{{ loading_id }}" style="display:none;">
+      <tr><td colspan="5">{% loading_icon hidden=False %} {% trans "Loading results…" %}</td></tr>
+    </tbody>
+  {% endif %}
+  <tbody class="unit-listing-body">
 
     {% for unit in units %}
       <tr {% if current_unit.id == unit.id %}class="current_translation"{% endif %}>

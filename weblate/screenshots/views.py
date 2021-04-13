@@ -23,6 +23,7 @@ from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
+from django.template.loader import render_to_string
 from django.utils.translation import gettext as _
 from django.views.decorators.http import require_POST
 from django.views.generic import DetailView, ListView
@@ -188,24 +189,25 @@ def remove_source(request, pk):
     return redirect(obj)
 
 
-def search_results(code, obj, units=None):
+def search_results(request, code, obj, units=None):
     if units is None:
         units = []
     else:
         units = units.exclude(id__in=obj.units.values_list("id", flat=True))
 
-    results = [
-        {
-            "text": unit.source_string,
-            "pk": unit.pk,
-            "context": unit.context,
-            "location": unit.location,
-            "assigned": unit.screenshots.count(),
+    return JsonResponse(
+        data={
+            "responseCode": code,
+            "results": render_to_string(
+                "screenshots/screenshot_sources_search.html",
+                {
+                    "object": obj,
+                    "units": units,
+                    "user": request.user,
+                },
+            ),
         }
-        for unit in units
-    ]
-
-    return JsonResponse(data={"responseCode": code, "results": results})
+    )
 
 
 @login_required
@@ -216,8 +218,9 @@ def search_source(request, pk):
 
     form = SearchForm(request.POST)
     if not form.is_valid():
-        return search_results(400, obj)
+        return search_results(request, 400, obj)
     return search_results(
+        request,
         200,
         obj,
         translation.unit_set.filter(
@@ -243,7 +246,7 @@ def ocr_extract(api, image, strings):
 def ocr_search(request, pk):
     obj = get_screenshot(request, pk)
     if not HAS_OCR:
-        return search_results(500, obj)
+        return search_results(request, 500, obj)
     translation = obj.translation
 
     # Load image
@@ -271,7 +274,9 @@ def ocr_search(request, pk):
     original_image.close()
     scaled_image.close()
 
-    return search_results(200, obj, translation.unit_set.filter(pk__in=results))
+    return search_results(
+        request, 200, obj, translation.unit_set.filter(pk__in=results)
+    )
 
 
 @login_required

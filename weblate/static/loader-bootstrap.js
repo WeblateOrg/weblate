@@ -111,7 +111,7 @@ function submitForm(evt) {
 Mousetrap.bindGlobal(["alt+enter", "mod+enter"], submitForm);
 
 function screenshotStart() {
-  $("#search-results").empty();
+  $("#search-results tbody.unit-listing-body").empty();
   increaseLoading("screenshots");
 }
 
@@ -142,32 +142,9 @@ function screenshotAddString() {
 }
 
 function screnshotResultError(severity, message) {
-  $("#search-results").html(
+  $("#search-results tbody.unit-listing-body").html(
     '<tr class="' + severity + '"><td colspan="4">' + message + "</td></tr>"
   );
-}
-
-function screenshotResultSet(results) {
-  $("#search-results").empty();
-  $.each(results, function (idx, value) {
-    var row = $(
-      '<tr><td class="text"></td>' +
-        '<td class="context"></td>' +
-        '<td class="location"></td>' +
-        '<td class="assigned"></td>' +
-        '<td><a class="add-string btn btn-primary"> ' +
-        gettext("Add to screenshot") +
-        "</tr>"
-    );
-
-    row.find(".text").text(value.text);
-    row.find(".context").text(value.context);
-    row.find(".location").text(value.location);
-    row.find(".assigned").text(value.assigned);
-    row.find(".add-string").data("pk", value.pk);
-    $("#search-results").append(row);
-  });
-  $("#search-results").find(".add-string").click(screenshotAddString);
 }
 
 function screenshotLoaded(data) {
@@ -180,7 +157,8 @@ function screenshotLoaded(data) {
       gettext("No new matching source strings found.")
     );
   } else {
-    screenshotResultSet(data.results);
+    $("#search-results table").replaceWith(data.results);
+    $("#search-results").find(".add-string").click(screenshotAddString);
   }
 }
 
