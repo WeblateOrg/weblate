@@ -54,7 +54,12 @@ try:
     GIT_REVISION = GIT_REPO.last_revision
     del GIT_REPO
 except (RepositoryException, OSError):
-    # Import failed or git has troubles reading
-    # repo (for example swallow clone)
-    GIT_VERSION = VERSION
-    GIT_REVISION = None
+    # Special case for Docker bleeding builds
+    if "WEBLATE_DOCKER_GIT_REVISION" in os.environ:
+        GIT_REVISION = os.environ["WEBLATE_DOCKER_GIT_REVISION"]
+        GIT_VERSION = f"{VERSION_BASE}-{GIT_REVISION[:10]}"
+    else:
+        # Import failed or git has troubles reading
+        # repo (for example swallow clone)
+        GIT_VERSION = VERSION
+        GIT_REVISION = None
