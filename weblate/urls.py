@@ -1053,7 +1053,7 @@ real_patterns = [
     ),
     # VENDASTA URLS BELOW
     path(
-        "new-namespaced-lang/<name:component>",
+        "new-namespaced-lang/<name:project>/<name:component>",
         weblate.vendasta.views.new_namespaced_language,
         name="new-namespaced-language",
     ),
