@@ -603,7 +603,7 @@ def get_location_links(profile, unit):
             ret.append(escape(location))
         else:
             ret.append(SOURCE_LINK.format(escape(link), escape(location)))
-    return mark_safe("\n".join(ret))
+    return mark_safe('\n<span class="divisor">•</span>\n'.join(ret))
 
 
 @register.simple_tag(takes_context=True)
