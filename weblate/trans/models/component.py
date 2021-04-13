@@ -21,7 +21,6 @@ import os
 import re
 import time
 from collections import Counter, defaultdict
-from contextlib import contextmanager
 from copy import copy
 from datetime import datetime
 from glob import glob
@@ -32,7 +31,7 @@ from urllib.parse import urlparse
 from celery import current_task
 from celery.result import AsyncResult
 from django.conf import settings
-from django.core.cache import cache, caches
+from django.core.cache import cache
 from django.core.exceptions import ObjectDoesNotExist, ValidationError
 from django.db import models, transaction
 from django.db.models import Count, Q
@@ -40,9 +39,6 @@ from django.urls import reverse
 from django.utils.functional import cached_property
 from django.utils.translation import gettext as _
 from django.utils.translation import gettext_lazy, ngettext, pgettext
-from django_redis.cache import RedisCache
-from filelock import FileLock, Timeout
-from redis_lock import AlreadyAcquired, Lock, NotAcquired
 from weblate_language_data.ambiguous import AMBIGUOUS
 
 from weblate.checks.flags import Flags
@@ -57,7 +53,7 @@ from weblate.trans.defines import (
     PROJECT_NAME_LENGTH,
     REPO_LENGTH,
 )
-from weblate.trans.exceptions import ComponentLockTimeout, FileParseError
+from weblate.trans.exceptions import FileParseError
 from weblate.trans.fields import RegexField
 from weblate.trans.mixins import CacheKeyMixin, PathMixin, URLMixin
 from weblate.trans.models.alert import ALERTS, ALERTS_IMPORT
@@ -92,6 +88,7 @@ from weblate.utils.db import FastDeleteModelMixin, FastDeleteQuerySetMixin
 from weblate.utils.errors import report_error
 from weblate.utils.fields import JSONField
 from weblate.utils.licenses import get_license_choices, get_license_url, is_libre
+from weblate.utils.lock import WeblateLock, WeblateLockTimeout
 from weblate.utils.render import (
     render_template,
     validate_render_addon,
@@ -843,50 +840,15 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
         project.glossaries.append(component)
 
     @cached_property
-    def _lock(self):
-        default_cache = caches["default"]
-        if isinstance(default_cache, RedisCache):
-            # Prefer Redis locking as it works distributed
-            return Lock(
-                default_cache.client.get_client(),
-                name=f"component-update-lock-{self.pk}",
-                expire=60,
-                auto_renewal=True,
-            )
-        # Fall back to file based locking
-        return FileLock(
-            os.path.join(self.project.full_path, f"{self.slug}-update.lock"),
-            timeout=1,
-        )
-
-    @contextmanager
     def lock(self):
-        default_cache = caches["default"]
-        if isinstance(default_cache, RedisCache):
-            # Prefer Redis locking as it works distributed
-            try:
-                if not self._lock.acquire(timeout=1):
-                    raise ComponentLockTimeout()
-            except AlreadyAcquired:
-                pass
-        else:
-            # Fall back to file based locking
-            try:
-                self._lock.acquire()
-            except Timeout:
-                raise ComponentLockTimeout()
-
-        try:
-            # Execute context
-            yield
-        finally:
-            # Release lock (the API is same in both cases)
-            try:
-                self._lock.release()
-            except NotAcquired:
-                # This can happen in case of overloaded server fails to renew the
-                # lock before expiry
-                pass
+        return WeblateLock(
+            lock_path=self.project.full_path,
+            scope="component-update",
+            key=self.pk,
+            slug=self.slug,
+            cache_template="{scope}-lock-{key}",
+            file_template="{slug}-update.lock",
+        )
 
     @cached_property
     def update_key(self):
@@ -1857,11 +1819,11 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
     ):
         """Load translations from VCS."""
         try:
-            with self.lock():
+            with self.lock:
                 return self._create_translations(
                     force, langs, request, changed_template, from_link
                 )
-        except ComponentLockTimeout:
+        except WeblateLockTimeout:
             if settings.CELERY_TASK_ALWAYS_EAGER:
                 # Retry will not address anything
                 raise

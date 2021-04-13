@@ -271,6 +271,8 @@ autodoc_mock_imports = [
     "weblate.trans.tasks",
     "dateutil",
     "filelock",
+    "redis_lock",
+    "django_redis",
     "lxml",
     "translate",
     "siphashc",

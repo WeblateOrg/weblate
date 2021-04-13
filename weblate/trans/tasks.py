@@ -30,13 +30,12 @@ from django.db.models import Count, F
 from django.utils import timezone
 from django.utils.translation import gettext as _
 from django.utils.translation import ngettext, override
-from filelock import Timeout
 
 from weblate.addons.models import Addon
 from weblate.auth.models import User, get_anonymous
 from weblate.lang.models import Language
 from weblate.trans.autotranslate import AutoTranslate
-from weblate.trans.exceptions import ComponentLockTimeout, FileParseError
+from weblate.trans.exceptions import FileParseError
 from weblate.trans.models import (
     Change,
     Comment,
@@ -49,12 +48,16 @@ from weblate.utils.celery import app
 from weblate.utils.data import data_dir
 from weblate.utils.errors import report_error
 from weblate.utils.files import remove_tree
+from weblate.utils.lock import WeblateLockTimeout
 from weblate.utils.stats import prefetch_stats
 from weblate.vcs.base import RepositoryException
 
 
 @app.task(
-    trail=False, autoretry_for=(Timeout,), retry_backoff=600, retry_backoff_max=3600
+    trail=False,
+    autoretry_for=(WeblateLockTimeout,),
+    retry_backoff=600,
+    retry_backoff_max=3600,
 )
 def perform_update(cls, pk, auto=False, obj=None):
     try:
@@ -73,7 +76,10 @@ def perform_update(cls, pk, auto=False, obj=None):
 
 
 @app.task(
-    trail=False, autoretry_for=(Timeout,), retry_backoff=600, retry_backoff_max=3600
+    trail=False,
+    autoretry_for=(WeblateLockTimeout,),
+    retry_backoff=600,
+    retry_backoff_max=3600,
 )
 def perform_load(
     pk: int,
@@ -89,7 +95,10 @@ def perform_load(
 
 
 @app.task(
-    trail=False, autoretry_for=(Timeout,), retry_backoff=600, retry_backoff_max=3600
+    trail=False,
+    autoretry_for=(WeblateLockTimeout,),
+    retry_backoff=600,
+    retry_backoff_max=3600,
 )
 def perform_commit(pk, *args):
     component = Component.objects.get(pk=pk)
@@ -97,7 +106,10 @@ def perform_commit(pk, *args):
 
 
 @app.task(
-    trail=False, autoretry_for=(Timeout,), retry_backoff=600, retry_backoff_max=3600
+    trail=False,
+    autoretry_for=(WeblateLockTimeout,),
+    retry_backoff=600,
+    retry_backoff_max=3600,
 )
 def perform_push(pk, *args, **kwargs):
     component = Component.objects.get(pk=pk)
@@ -111,7 +123,10 @@ def update_component_stats(pk):
 
 
 @app.task(
-    trail=False, autoretry_for=(Timeout,), retry_backoff=600, retry_backoff_max=3600
+    trail=False,
+    autoretry_for=(WeblateLockTimeout,),
+    retry_backoff=600,
+    retry_backoff_max=3600,
 )
 def commit_pending(hours=None, pks=None, logger=None):
     if pks is None:
@@ -327,7 +342,7 @@ def project_removal(pk, uid):
 
 @app.task(
     trail=False,
-    autoretry_for=(ComponentLockTimeout,),
+    autoretry_for=(WeblateLockTimeout,),
     retry_backoff=600,
     retry_backoff_max=3600,
 )
@@ -349,9 +364,7 @@ def auto_translate(
         user = User.objects.get(pk=user_id)
     else:
         user = None
-    with translation.component.lock(), override(
-        user.profile.language if user else "en"
-    ):
+    with translation.component.lock, override(user.profile.language if user else "en"):
         translation.log_info(
             "starting automatic translation %s: %s: %s",
             current_task.request.id,
@@ -383,7 +396,7 @@ def auto_translate(
 
 @app.task(
     trail=False,
-    autoretry_for=(ComponentLockTimeout,),
+    autoretry_for=(WeblateLockTimeout,),
     retry_backoff=600,
     retry_backoff_max=3600,
 )
