@@ -24,7 +24,6 @@ from weblate.legal.views import (
     CookiesView,
     LegalView,
     PrivacyView,
-    SecurityView,
     TermsView,
     tos_confirm,
 )
@@ -33,7 +32,6 @@ urlpatterns = [
     path("", LegalView.as_view(), name="index"),
     path("terms/", TermsView.as_view(), name="terms"),
     path("cookies/", CookiesView.as_view(), name="cookies"),
-    path("security/", SecurityView.as_view(), name="security"),
     path("privacy/", PrivacyView.as_view(), name="privacy"),
     path("contracts/", ContractsView.as_view(), name="contracts"),
     path("confirm/", tos_confirm, name="confirm"),

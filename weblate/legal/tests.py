@@ -42,10 +42,6 @@ class LegalTest(TestCase, RegistrationTestMixin):
         response = self.client.get(reverse("legal:cookies"))
         self.assertContains(response, "Cookies Policy")
 
-    def test_security(self):
-        response = self.client.get(reverse("legal:security"))
-        self.assertContains(response, "Security Policy")
-
     def test_contracts(self):
         response = self.client.get(reverse("legal:contracts"))
         self.assertContains(response, "Subcontractors")
