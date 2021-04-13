@@ -790,7 +790,9 @@ def get_zen_unitdata(obj, project, unit_set, request):
     offset = search_result["offset"] - 1
     search_result["last_section"] = offset + 20 >= len(search_result["ids"])
 
-    units = unit_set.get_ordered(search_result["ids"][offset : offset + 20])
+    units = unit_set.prefetch_full().get_ordered(
+        search_result["ids"][offset : offset + 20]
+    )
 
     unitdata = [
         {
