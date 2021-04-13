@@ -10,16 +10,14 @@
 
 <tr id="row-status-{{ item.unit.checksum }}">
 <td>
-{{ item.unit.position }}
+{% if item.unit.context %}
+  {{ item.unit.context }}
+{% else %}
+  {{ item.unit.position }}
+{% endif %}
 </td>
 <td colspan="2">
 <a href="{% url 'translate' project=project.slug component=object.component.slug lang=object.language.code %}?{{ search_url }}&amp;offset={{ item.offset }}" class="btn btn-link btn-xs pull-right flip full-edit-link" title="{% trans "Open in full editor" %}">{% icon "pencil-mini.svg" %}</a>
-{% if item.unit.context %}
-<div class="pull-right flip zen-context">
-<label>{{ unit.translation.component.context_label }}</label>
-{{ item.unit.context }}
-</div>
-{% endif %}
 {% get_location_links user.profile item.unit %}
 </td>
 </tr>
