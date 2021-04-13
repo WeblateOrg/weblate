@@ -18,27 +18,12 @@
 {% perm 'screenshot.edit' object.translation.component as user_can_change_screenshot %}
 
 
-<div class="panel panel-default">
-<div class="panel-heading"><h4 class="panel-title">{% trans "Assigned source strings" %}</h4></div>
-
-<table class="table table-striped">
-<thead>
-<tr>
-    <th>{% trans "Source string" %}</th>
-    <th>{{ object.translation.component.context_label }}</th>
-    <th>{% trans "Location" %}</th>
-    <th>{% trans "Assigned screenshots" %}</th>
-    <th colspan="2">{% trans "Actions" %}</th>
-</tr>
-</thead>
-<tbody id="sources-listing" data-href="{% url 'screenshot-js-get' pk=object.pk %}">
-{% include "screenshots/screenshot_sources_body.html" with sources=objects.units.order %}
-</tbody>
-</table>
+<div class="panel panel-default" id="sources-listing" data-href="{% url 'screenshot-js-get' pk=object.pk %}">
+  <div class="panel-heading"><h4 class="panel-title">{% trans "Assigned source strings" %}</h4></div>
+  {% include "screenshots/screenshot_sources_body.html" with sources=objects.units.order %}
   <div class="panel-footer">
     {% trans "Screenshot is shown to add visual context for all listed source strings." %}
   </div>
-
 </div>
 
 {% if user_can_change_screenshot %}

@@ -131,9 +131,8 @@ function screenshotAddString() {
     dataType: "json",
     success: function () {
       var list = $("#sources-listing");
-
       $.get(list.data("href"), function (data) {
-        list.html(data);
+        list.find("table").replaceWith(data);
       });
     },
     error: function (jqXHR, textStatus, errorThrown) {

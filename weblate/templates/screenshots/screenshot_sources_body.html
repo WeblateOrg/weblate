@@ -4,27 +4,4 @@
 
 {% perm 'screenshot.edit' object.translation.component as user_can_change_screenshot %}
 
-{% for unit in object.units.all %}
-<tr>
-<td class="translatetext">{% format_translation unit.source unit.translation.component.source_language %}</td>
-<td>{{ unit.context }}</td>
-<td>{{ unit.location }}</td>
-<td>{{ unit.screenshots.count }}</td>
-<td>
-<a href="{{ unit.get_absolute_url }}" class="btn btn-primary">{% trans "View" %}</a>
-</td>
-{% if user_can_change_screenshot %}
-<td>
-<form action="{% url 'screenshot-remove-source' pk=object.pk %}" method="POST">
-{% csrf_token %}
-<input type="hidden" name="source" value="{{ unit.pk }}" />
-<button type="submit" class="btn btn-danger">{% trans "Remove" %}</button>
-</form>
-{% endif %}
-</td>
-</tr>
-{% empty %}
-<tr class="warning">
-<td colspan="5">{% trans "No source strings are currently assigned!" %}</td>
-</tr>
-{% endfor %}
+{% include "snippets/embed-units.html" with translation=object.translation component=object.translation.component units=object.units.all show_location=True show_screenshots=True actions_template="screenshots/screenshot_sources_body_actions.html" %}

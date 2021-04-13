@@ -22,10 +22,20 @@
           {{ translation.language }}
         {% endif %}
       </th>
+      {% if show_location %}
+        <th>{% trans "Location" %}</th>
+      {% endif %}
+      {% if show_screenshots %}
+        <th>{% trans "Assigned screenshots" %}</th>
+      {% endif %}
       <th>{% trans "State" %}</th>
+      {% if actions_template %}
+        <th>{% trans "Actions" %}</th>
+      {% endif %}
     </tr>
   </thead>
   <tbody>
+
     {% for unit in units %}
       <tr {% if current_unit.id == unit.id %}class="current_translation"{% endif %}>
         {% if show_language %}
@@ -38,8 +48,22 @@
           <td><a href="{{ unit.get_absolute_url }}{% if include_search and search_url %}&amp;{{ search_url }}{% elif sort_query %}&amp;sort_by={{ sort_query }}{% endif %}">{% format_translation unit.source unit.translation.component.source_language simple=True %}</a></td>
         {% endif %}
         <td><a href="{{ unit.get_absolute_url }}{% if include_search and search_url %}&amp;{{ search_url }}{% elif sort_query %}&amp;sort_by={{ sort_query }}{% endif %}">{% format_translation unit.target unit.translation.language unit.translation.plural simple=True %}</a></td>
+        {% if show_location %}
+          <td>{{ unit.location }}</th>
+        {% endif %}
+        {% if show_screenshots %}
+          <td>{{ unit.screenshots.count }}</td>
+        {% endif %}
         <td>{% get_state_flags unit True %}</td>
+        {% if actions_template %}
+          <td>{% include actions_template %}</td>
+        {% endif %}
+      </tr>
+    {% empty %}
+      <tr class="warning">
+        <td colspan="5"><em>{% trans "No matching strings found." %}</em></td>
       </tr>
     {% endfor %}
+
   </tbody>
 </table>
