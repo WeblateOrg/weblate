@@ -17,6 +17,7 @@ Not yet released.
 * API for creating components now automatically uses :ref:`internal-urls`.
 * Simplified state indication while listing strings.
 * Password hashing now uses Argon2 by default.
+* Simplified progress bars indicating translation status.
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/61?closed=1>`__.
 

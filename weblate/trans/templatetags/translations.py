@@ -48,7 +48,7 @@ from weblate.trans.models import (
     Translation,
 )
 from weblate.trans.models.translation import GhostTranslation
-from weblate.trans.util import get_state_css, split_plural
+from weblate.trans.util import get_state_css, split_plural, translation_percent
 from weblate.utils.docs import get_doc_url
 from weblate.utils.hash import hash_to_checksum
 from weblate.utils.markdown import render_markdown
@@ -513,38 +513,40 @@ def get_stats(obj):
     return obj.stats
 
 
-def translation_progress_data(readonly, approved, translated, fuzzy, checks):
+def translation_progress_data(
+    total: int, readonly: int, approved: int, translated: int
+):
+    translated -= approved
+    if approved:
+        approved += readonly
+        translated -= readonly
+    bad = total - approved - translated
     return {
-        "readonly": f"{readonly:.1f}",
-        "approved": f"{approved:.1f}",
-        "good": f"{max(translated - checks - approved - readonly, 0):.1f}",
-        "checks": f"{checks:.1f}",
-        "fuzzy": f"{fuzzy:.1f}",
-        "percent": f"{translated:.1f}",
+        "approved": f"{translation_percent(approved, total, False):.1f}",
+        "good": f"{translation_percent(translated, total):.1f}",
+        "bad": f"{translation_percent(bad, total, False):.1f}",
     }
 
 
-@register.inclusion_tag("progress.html")
+@register.inclusion_tag("snippets/progress.html")
 def translation_progress(obj):
     stats = get_stats(obj)
     return translation_progress_data(
-        stats.readonly_percent,
-        stats.approved_percent,
-        stats.translated_percent,
-        stats.fuzzy_percent,
-        stats.translated_checks_percent,
+        stats.all,
+        stats.readonly,
+        stats.approved,
+        stats.translated - stats.translated_checks,
     )
 
 
-@register.inclusion_tag("progress.html")
+@register.inclusion_tag("snippets/progress.html")
 def words_progress(obj):
     stats = get_stats(obj)
     return translation_progress_data(
-        stats.readonly_words_percent,
-        stats.approved_words_percent,
-        stats.translated_words_percent,
-        stats.fuzzy_words_percent,
-        stats.translated_checks_words_percent,
+        stats.all_words,
+        stats.readonly_words,
+        stats.approved_words,
+        stats.translated_words - stats.translated_checks_words,
     )
 
 
