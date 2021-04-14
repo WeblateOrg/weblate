@@ -956,7 +956,7 @@ def browse(request, project, component, lang):
     search_result = search(obj, project, unit_set, request, blank=True)
     offset = search_result["offset"]
     page = 20
-    units = unit_set.get_ordered(
+    units = unit_set.prefetch_full().get_ordered(
         search_result["ids"][(offset - 1) * page : (offset - 1) * page + page]
     )
 
