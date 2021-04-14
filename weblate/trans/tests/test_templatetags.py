@@ -117,7 +117,8 @@ class LocationLinksTest(TestCase):
     def test_filenames(self):
         self.unit.location = "foo.bar:123,bar.foo:321"
         self.assertEqual(
-            get_location_links(self.profile, self.unit), "foo.bar:123\nbar.foo:321"
+            get_location_links(self.profile, self.unit),
+            'foo.bar:123\n<span class="divisor">•</span>\nbar.foo:321',
         )
 
     def test_repowebs(self):
@@ -133,6 +134,7 @@ class LocationLinksTest(TestCase):
                 dir="ltr" rel="noopener noreferrer">
             foo.bar:123
             </a>
+            <span class="divisor">•</span>
             <a class="wrap-text"
                 href="http://example.net/bar.foo#L321" target="_blank"
                 dir="ltr" rel="noopener noreferrer">
