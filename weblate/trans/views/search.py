@@ -209,6 +209,7 @@ def search(request, project=None, component=None, lang=None):
             "page_obj": units,
             "title": _("Search for %s") % (search_form.cleaned_data["q"]),
             "query_string": search_form.urlencode(),
+            "search_url": search_form.urlencode(),
             "search_query": search_form.cleaned_data["q"],
             "search_items": search_form.items(),
             "filter_name": search_form.get_name(),

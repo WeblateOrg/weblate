@@ -23,23 +23,7 @@
         {% crispy search_form  %}
     </form>
     {% if page_obj.object_list %}
-        <div class="list-group">
-            {% for unit in page_obj.object_list %}
-                <a href="{{ unit.get_absolute_url }}{% if query_string %}&amp;{{ query_string }}{% endif %}" class="list-group-item">
-                    <h4 class="list-group-item-heading">
-                        {% get_state_flags unit %}
-                        {{ unit.translation }}
-                    </h4>
-                    <p class="list-group-item-text">
-                        {{ unit.translation.component.source_language }}
-                        {% format_translation unit.source unit.translation.component.source_language search_match=search_query %}
-                        {{ unit.translation.language }}
-                        {% format_translation unit.target unit.translation.language unit.translation.plural search_match=search_query %}
-                    </p>
-                </a>
-            {% endfor %}
-        </div>
-
+        {% include "snippets/embed-units.html" with units=page_obj.object_list hide_context=True include_search=True force_source=True show_translation=True %}
         {% include "paginator.html" %}
     {% else %}
         {% trans "No matching strings found." as msg %}
