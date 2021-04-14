@@ -16,6 +16,7 @@ Not yet released.
 * The rate limiting now can be customized in the Docker container.
 * API for creating components now automatically uses :ref:`internal-urls`.
 * Simplified state indication while listing strings.
+* Password hashing now uses Argon2 by default.
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/61?closed=1>`__.
 
