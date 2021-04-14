@@ -563,10 +563,6 @@ kbd {
   table-layout: fixed;
 }
 
-.zen tr td:first-child {
-  width: 60px;
-}
-
 .zen-unit:nth-child(even) {
   background-color: #f9f9f9;
 }
@@ -1774,6 +1770,7 @@ a.language:hover {
 .unit-state-cell {
   width: 6px;
   padding: 0px !important;
+  min-width: 6px;
 }
 .unit-state-translated {
   background-color: #2eccaa;
@@ -1783,4 +1780,18 @@ a.language:hover {
 }
 .unit-state-approved {
   background-color: #00d2e6;
+}
+.unit-state-saving {
+  animation: morph-state 2s infinite;
+}
+@keyframes morph-state {
+  0% {
+    background-color: black;
+  }
+  50% {
+    background-color: #2eccaa;
+  }
+  100% {
+    background-color: black;
+  }
 }

@@ -60,13 +60,8 @@ from weblate.trans.forms import (
 )
 from weblate.trans.models import Change, Comment, Suggestion, Unit, Vote
 from weblate.trans.tasks import auto_translate
-from weblate.trans.util import (
-    get_state_css,
-    join_plural,
-    redirect_next,
-    render,
-    split_plural,
-)
+from weblate.trans.templatetags.translations import unit_state_class, unit_state_title
+from weblate.trans.util import join_plural, redirect_next, render, split_plural
 from weblate.utils import messages
 from weblate.utils.antispam import is_spam
 from weblate.utils.hash import hash_to_checksum
@@ -899,7 +894,8 @@ def save_zen(request, project, component, lang):
         "messages": [],
         "state": "success",
         "translationsum": translationsum,
-        "unit_flags": get_state_css(unit) if unit is not None else [],
+        "unit_state_class": unit_state_class(unit) if unit else "",
+        "unit_state_title": unit_state_title(unit) if unit else "",
     }
 
     storage = get_messages(request)

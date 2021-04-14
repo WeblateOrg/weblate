@@ -9,14 +9,12 @@
 
 
 <tr id="row-status-{{ item.unit.checksum }}">
-<td>
+<td colspan="3">
 {% if item.unit.context %}
   {{ item.unit.context }}
 {% else %}
   {{ item.unit.position }}
 {% endif %}
-</td>
-<td colspan="2">
 <a href="{% url 'translate' project=project.slug component=object.component.slug lang=object.language.code %}?{{ search_url }}&amp;offset={{ item.offset }}" class="btn btn-link btn-xs pull-right flip full-edit-link" title="{% trans "Open in full editor" %}">{% icon "pencil-mini.svg" %}</a>
 {% get_location_links user.profile item.unit %}
 </td>
@@ -41,10 +39,10 @@
 
 
 <tr id="row-source-{{ item.unit.checksum }}">
-<td>
 {% if user.profile.zen_mode == user.profile.ZEN_HORIZONTAL %}
-{% loading_icon item.unit.checksum %}
-<span id="status-{{ item.unit.checksum }}">{% get_state_flags item.unit %}</span>
+<td id="status-{{ item.unit.checksum }}" class="unit-state-cell {% unit_state_class item.unit %}" title="{% unit_state_title item.unit %}">
+{% else %}
+<td>
 {% endif %}
 </td>
 <td {% if user.profile.zen_mode != user.profile.ZEN_HORIZONTAL %}colspan="2"{% endif %} class="translatetext">
@@ -83,12 +81,10 @@
 
 
 <tr id="row-edit-{{ item.unit.checksum }}">
-<td>
-{% loading_icon item.unit.checksum %}
-<span id="status-{{ item.unit.checksum }}">{% get_state_flags item.unit %}</span>
+<td id="status-{{ item.unit.checksum }}" class="unit-state-cell {% unit_state_class item.unit %}" title="{% unit_state_title item.unit %}">
 </td>
 {% endif %}
-<td {% if user.profile.zen_mode != user.profile.ZEN_HORIZONTAL %}colspan="2"{% endif %} class="translator">
+<td {% if user.profile.zen_mode != user.profile.ZEN_HORIZONTAL %}colspan="2"{% endif %} class="full-cell translator">
 {% crispy item.form %}
 </td>
 </tr>

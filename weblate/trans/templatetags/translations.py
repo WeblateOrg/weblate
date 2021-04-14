@@ -48,7 +48,7 @@ from weblate.trans.models import (
     Translation,
 )
 from weblate.trans.models.translation import GhostTranslation
-from weblate.trans.util import get_state_css, split_plural, translation_percent
+from weblate.trans.util import split_plural, translation_percent
 from weblate.utils.docs import get_doc_url
 from weblate.utils.hash import hash_to_checksum
 from weblate.utils.markdown import render_markdown
@@ -75,7 +75,6 @@ NAME_MAPPING = {
 }
 
 FLAG_TEMPLATE = '<span title="{0}" class="{1}">{2}</span>'
-BADGE_TEMPLATE = '<span class="badge pull-right flip">{0}</span>'
 
 PERM_TEMPLATE = """
 <td>
@@ -548,33 +547,6 @@ def words_progress(obj):
         stats.approved_words,
         stats.translated_words - stats.translated_checks_words,
     )
-
-
-@register.simple_tag
-def get_state_badge(unit):
-    """Return state badge."""
-    if unit.fuzzy:
-        flag = pgettext("String state", "Needs editing")
-    elif not unit.translated:
-        flag = pgettext("String state", "Not translated")
-    elif unit.approved:
-        flag = pgettext("String state", "Approved")
-    elif unit.translated:
-        flag = pgettext("String state", "Translated")
-    else:
-        return ""
-
-    return mark_safe(BADGE_TEMPLATE.format(flag))
-
-
-@register.inclusion_tag("snippets/unit-state.html")
-def get_state_flags(unit, detail=False):
-    """Return state flags."""
-    return {
-        "state": " ".join(get_state_css(unit)),
-        "unit": unit,
-        "detail": detail,
-    }
 
 
 @register.simple_tag

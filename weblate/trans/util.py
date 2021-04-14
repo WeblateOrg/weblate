@@ -299,36 +299,6 @@ def rich_to_xliff_string(string_elements):
     return get_string(string_xml[3:][:-4])
 
 
-def get_state_css(unit):
-    """Return state flags."""
-    flags = []
-
-    if unit.fuzzy:
-        flags.append("state-need-edit")
-    elif not unit.translated:
-        flags.append("state-empty")
-    elif unit.readonly:
-        flags.append("state-readonly")
-    elif unit.approved:
-        flags.append("state-approved")
-    elif unit.translated:
-        flags.append("state-translated")
-
-    if unit.has_failing_check:
-        flags.append("state-check")
-    if unit.dismissed_checks:
-        flags.append("state-dismissed-check")
-    if unit.has_comment:
-        flags.append("state-comment")
-    if unit.has_suggestion:
-        flags.append("state-suggest")
-
-    if "forbidden" in unit.all_flags:
-        flags.append("state-forbidden")
-
-    return flags
-
-
 def check_upload_method_permissions(user, translation, method: str):
     """Check whether user has permission to perform upload method."""
     if method == "source":

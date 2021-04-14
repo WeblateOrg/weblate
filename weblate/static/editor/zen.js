@@ -136,8 +136,10 @@
     var $row = $this.closest("tr");
     var checksum = $row.find("[name=checksum]").val();
 
+    var statusdiv = $("#status-" + checksum);
+
     /* Wait until previous operation on this field is completed */
-    if ($("#loading-" + checksum).is(":visible")) {
+    if (statusdiv.hasClass("unit-state-saving")) {
       setTimeout(function () {
         $this.trigger("change");
       }, 100);
@@ -147,8 +149,7 @@
     $row.addClass("translation-modified");
 
     var form = $row.find("form");
-    var statusdiv = $("#status-" + checksum).hide();
-    var loadingdiv = $("#loading-" + checksum).show();
+    statusdiv.addClass("unit-state-saving");
     $.ajax({
       type: "POST",
       url: form.attr("action"),
@@ -158,14 +159,8 @@
         addAlert(errorThrown);
       },
       success: function (data) {
-        loadingdiv.hide();
-        statusdiv.show();
-        if (data.unit_flags.length > 0) {
-          $(statusdiv.children()[0]).attr(
-            "class",
-            "state-icon " + data.unit_flags.join(" ")
-          );
-        }
+        statusdiv.attr("class", "unit-state-cell " + data.unit_state_class);
+        statusdiv.attr("title", data.unit_state_title);
         $.each(data.messages, function (i, val) {
           addAlert(val.text, val.kind);
         });
