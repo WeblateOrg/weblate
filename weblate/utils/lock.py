@@ -47,6 +47,7 @@ class WeblateLock:
         self._scope = scope
         self._key = key
         self._slug = slug
+        self._depth = 0
         default_cache = caches["default"]
         self.use_redis = isinstance(default_cache, RedisCache)
         if self.use_redis:
@@ -72,6 +73,9 @@ class WeblateLock:
         )
 
     def __enter__(self):
+        self._depth += 1
+        if self._depth > 1:
+            return
         if self.use_redis:
             try:
                 if not self._lock.acquire(timeout=self._timeout):
@@ -86,6 +90,9 @@ class WeblateLock:
                 raise WeblateLockTimeout()
 
     def __exit__(self, exc_type, exc_value, traceback):
+        self._depth -= 1
+        if self._depth > 0:
+            return
         try:
             self._lock.release()
         except NotAcquired:
@@ -95,6 +102,4 @@ class WeblateLock:
 
     @property
     def is_locked(self):
-        if self.use_redis:
-            return self._lock.locked()
-        return self._lock.is_locked
+        return bool(self._depth)
