@@ -7,6 +7,7 @@
 <table class="table table-condensed">
   <thead>
     <tr>
+      <th class="unit-state-cell"></th>
       {% if show_language %}
         <th>{% trans "Language" %}</th>
       {% endif %}
@@ -29,7 +30,6 @@
       {% if show_screenshots %}
         <th>{% trans "Assigned screenshots" %}</th>
       {% endif %}
-      <th>{% trans "State" %}</th>
       {% if actions_template %}
         <th>{% trans "Actions" %}</th>
       {% endif %}
@@ -43,7 +43,8 @@
   <tbody class="unit-listing-body">
 
     {% for unit in units %}
-      <tr {% if current_unit.id == unit.id %}class="current_translation"{% endif %}>
+      <tr class="{% if current_unit.id == unit.id %}current_translation{% endif %}">
+        <td class="unit-state-cell {% unit_state_class unit %}" title="{% unit_state_title unit %}"></td>
         {% if show_language %}
           <td><a class="language" href="{{ unit.get_absolute_url }}">{{ unit.translation.language }}</a></td>
         {% endif %}
@@ -60,7 +61,6 @@
         {% if show_screenshots %}
           <td>{{ unit.screenshots.count }}</td>
         {% endif %}
-        <td>{% get_state_flags unit True %}</td>
         {% if actions_template %}
           <td>{% include actions_template %}</td>
         {% endif %}

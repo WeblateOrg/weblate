@@ -576,6 +576,44 @@ def get_state_flags(unit, detail=False):
 
 
 @register.simple_tag
+def unit_state_class(unit) -> str:
+    """Return state flags."""
+    if unit.has_failing_check or not unit.translated:
+        return "unit-state-todo"
+    if unit.approved or (unit.readonly and unit.translation.enable_review):
+        return "unit-state-approved"
+    return "unit-state-translated"
+
+
+@register.simple_tag
+def unit_state_title(unit) -> str:
+    state = [unit.get_state_display()]
+    checks = unit.active_checks
+    if checks:
+        state.append(
+            "{} {}".format(
+                pgettext("String state", "Failed checks:"),
+                ", ".join(str(check) for check in checks),
+            )
+        )
+    checks = unit.dismissed_checks
+    if checks:
+        state.append(
+            "{} {}".format(
+                pgettext("String state", "Dismissed checks:"),
+                ", ".join(str(check) for check in checks),
+            )
+        )
+    if unit.has_comment:
+        state.append(pgettext("String state", "Commented"))
+    if unit.has_suggestion:
+        state.append(pgettext("String state", "Suggested"))
+    if "forbidden" in unit.all_flags:
+        state.append(gettext("This translation is forbidden."))
+    return "; ".join(state)
+
+
+@register.simple_tag
 def get_location_links(profile, unit):
     """Generate links to source files where translation was used."""
     ret = []

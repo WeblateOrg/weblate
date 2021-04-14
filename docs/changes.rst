@@ -15,6 +15,7 @@ Not yet released.
 * Improved automatic translation addon performance and reliability.
 * The rate limiting now can be customized in the Docker container.
 * API for creating components now automatically uses :ref:`internal-urls`.
+* Simplified state indication while listing strings.
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/61?closed=1>`__.
 
