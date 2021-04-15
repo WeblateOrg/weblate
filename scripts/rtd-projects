@@ -71,7 +71,7 @@ while result["next"]:
             # Sync attributes
             for name, value in FIELDS.items():
                 if value != project[name]:
-                    print(f"Different {name}: {project[name]}")
+                    print(f"Different {name} on {project['name']}: {project[name]}")
                     response = requests.patch(
                         project["_links"]["_self"],
                         json={name: get_update(value)},
@@ -79,7 +79,7 @@ while result["next"]:
                     )
                     response.raise_for_status()
             if not project["translation_of"] and code != "en":
-                print("Not a translation: ", project["urls"]["home"])
+                print("Not a translation {project['name']}: ", project["urls"]["home"])
 
 # Create missing ones
 for language in LOCALES:
@@ -99,4 +99,4 @@ for language in LOCALES:
     )
     project = response.json()
     response.raise_for_status()
-    print("Not a translation: ", project["urls"]["home"])
+    print("Not a translation {project['name']}: ", project["urls"]["home"])
