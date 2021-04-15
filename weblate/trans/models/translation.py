@@ -756,8 +756,8 @@ class Translation(
             result.add_if(self.stats, "fuzzy", "danger")
 
             # Translations with suggestions
-            result.add_if(self.stats, "suggestions", "")
-            result.add_if(self.stats, "nosuggestions", "")
+            result.add_if(self.stats, "suggestions", "danger")
+            result.add_if(self.stats, "nosuggestions", "danger")
 
         # All checks
         result.add_if(self.stats, "allchecks", "danger")
