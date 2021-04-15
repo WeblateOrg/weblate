@@ -63,3 +63,10 @@ except (RepositoryException, OSError):
         # repo (for example swallow clone)
         GIT_VERSION = VERSION
         GIT_REVISION = None
+
+if GIT_REVISION:
+    GIT_LINK = f"https://github.com/WeblateOrg/weblate/commits/{GIT_REVISION}"
+elif "-dev" not in VERSION:
+    GIT_LINK = f"https://github.com/WeblateOrg/weblate/releases/tag/weblate-{VERSION}"
+else:
+    GIT_LINK = None

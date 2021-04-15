@@ -39,6 +39,7 @@ from weblate.utils import messages
 from weblate.utils.celery import get_queue_stats
 from weblate.utils.errors import report_error
 from weblate.utils.tasks import database_backup, settings_backup
+from weblate.utils.version import GIT_LINK, GIT_REVISION
 from weblate.utils.views import show_form_errors
 from weblate.vcs.ssh import (
     RSA_KEY,
@@ -95,6 +96,8 @@ def manage(request):
             "menu_page": "index",
             "support": support,
             "activate_form": ActivateForm(initial=initial),
+            "git_revision_link": GIT_LINK,
+            "git_revision": GIT_REVISION,
         },
     )
 
