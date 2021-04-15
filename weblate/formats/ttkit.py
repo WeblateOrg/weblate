@@ -58,6 +58,7 @@ from weblate.trans.util import (
     xliff_string_to_rich,
 )
 from weblate.utils.errors import report_error
+from weblate.utils.state import STATE_APPROVED, STATE_FUZZY, STATE_TRANSLATED
 
 LOCATIONS_RE = re.compile(r"^([+-]|.*, [+-]|.*:[+-])")
 PO_DOCSTRING_LOCATION = re.compile(r":docstring of [a-zA-Z0-9._]+:[0-9]+")
@@ -143,18 +144,13 @@ class TTKitUnit(TranslationUnit):
             target = multistring(target)
         self.unit.target = target
 
-    def mark_fuzzy(self, fuzzy):
-        """Set fuzzy flag on translated unit."""
+    def set_state(self, state):
+        """Set fuzzy /approved flag on translated unit."""
         if "flags" in self.__dict__:
             del self.__dict__["flags"]
-        self.unit.markfuzzy(fuzzy)
-
-    def mark_approved(self, value):
-        """Set approved flag on translated unit."""
-        if "flags" in self.__dict__:
-            del self.__dict__["flags"]
+        self.unit.markfuzzy(state == STATE_FUZZY)
         if hasattr(self.unit, "markapproved"):
-            self.unit.markapproved(value)
+            self.unit.markapproved(state == STATE_APPROVED)
 
     @cached_property
     def flags(self):
@@ -509,10 +505,10 @@ class PropertiesUnit(KeyValueUnit):
 class PoUnit(TTKitUnit):
     """Wrapper for gettext PO unit."""
 
-    def mark_fuzzy(self, fuzzy):
-        """Set fuzzy flag on translated unit."""
-        super().mark_fuzzy(fuzzy)
-        if not fuzzy:
+    def set_state(self, state):
+        """Set fuzzy /approved flag on translated unit."""
+        super().set_state(state)
+        if state != STATE_FUZZY:
             self.unit.prev_msgid = []
             self.unit.prev_msgid_plural = []
             self.unit.prev_msgctxt = []
@@ -681,15 +677,20 @@ class XliffUnit(TTKitUnit):
         """
         return self.target and self.xliff_state in XLIFF_FUZZY_STATES
 
-    def mark_fuzzy(self, fuzzy):
-        """Set fuzzy flag on translated unit.
-
-        We handle this on our own.
-        """
-        if fuzzy:
+    def set_state(self, state):
+        """Set fuzzy /approved flag on translated unit."""
+        self.unit.markapproved(state == STATE_APPROVED)
+        if state == STATE_FUZZY:
+            # Always set state for fuzzy
             self.xliff_node.set("state", "needs-translation")
         elif self.xliff_state:
-            self.xliff_node.set("state", "translated")
+            # Only update state if it exists
+            if state == STATE_APPROVED:
+                self.xliff_node.set("state", "final")
+            elif state == STATE_TRANSLATED:
+                self.xliff_node.set("state", "translated")
+            else:
+                self.xliff_node.set("state", "new")
 
     def is_approved(self, fallback=False):
         """Check whether unit is appoved."""
@@ -698,11 +699,6 @@ class XliffUnit(TTKitUnit):
         if hasattr(self.unit, "isapproved"):
             return self.unit.isapproved()
         return fallback
-
-    def mark_approved(self, value):
-        super().mark_approved(value)
-        if self.xliff_state:
-            self.xliff_node.set("state", "final" if value else "translated")
 
     def has_content(self):
         """Check whether unit has content.

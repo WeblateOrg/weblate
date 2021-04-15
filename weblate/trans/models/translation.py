@@ -663,8 +663,7 @@ class Translation(
                     pounit.set_target(unit.target)
 
             # Update fuzzy/approved flag
-            pounit.mark_fuzzy(unit.state == STATE_FUZZY)
-            pounit.mark_approved(unit.state == STATE_APPROVED)
+            pounit.set_state(unit.state)
 
             # Update comments as they might have been changed by state changes
             state = unit.get_unit_state(pounit, "")
