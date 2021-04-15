@@ -29,7 +29,7 @@ check
 git checkout $TAG
 check
 # Workaround for dependency issues with newer versions
-pip install "selenium==4.0.0.b2.post1"
+pip install "selenium==4.0.0.b2.post1" "trio==0.17.0"
 pip install -r requirements-test.txt -r docs/requirements.txt
 check
 echo "DATABASES['default']['HOST'] = '$CI_DB_HOST'" >> weblate/settings_test.py
