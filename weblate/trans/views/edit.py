@@ -46,7 +46,6 @@ from weblate.lang.models import Language
 from weblate.machinery import MACHINE_TRANSLATION_SERVICES
 from weblate.screenshots.forms import ScreenshotForm
 from weblate.trans.forms import (
-    AntispamForm,
     AutoForm,
     ChecksumForm,
     CommentForm,
@@ -368,12 +367,6 @@ def perform_translation(unit, form, request):
 @session_ratelimit_post("translate")
 def handle_translate(request, unit, this_unit_url, next_unit_url):
     """Save translation or suggestion to database and backend."""
-    # Antispam protection
-    antispam = AntispamForm(request.POST)
-    if not antispam.is_valid():
-        # Silently redirect to next entry
-        return HttpResponseRedirect(next_unit_url)
-
     form = TranslationForm(request.user, unit, request.POST)
     if not form.is_valid():
         show_form_errors(request, form)
@@ -595,9 +588,6 @@ def translate(request, project, component, lang):  # noqa: C901
     else:
         secondary = None
 
-    # Spam protection
-    antispam = AntispamForm()
-
     # Prepare form
     form = TranslationForm(request.user, unit)
     sort = get_sort_name(request, obj)
@@ -633,7 +623,6 @@ def translate(request, project, component, lang):  # noqa: C901
             "filter_count": num_results,
             "filter_pos": offset,
             "form": form,
-            "antispam": antispam,
             "comment_form": CommentForm(
                 project,
                 initial={"scope": "global" if unit.is_source else "translation"},

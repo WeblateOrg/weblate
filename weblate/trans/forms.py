@@ -555,18 +555,6 @@ class ZenTranslationForm(TranslationForm):
         self.helper.layout.append(Field("checksum"))
 
 
-class AntispamForm(forms.Form):
-    """Honeypot based spam protection form."""
-
-    content = forms.CharField(required=False)
-
-    def clean_content(self):
-        """Check if content is empty."""
-        if self.cleaned_data["content"] != "":
-            raise ValidationError("Invalid value")
-        return ""
-
-
 class DownloadForm(forms.Form):
     q = QueryField()
     format = forms.ChoiceField(

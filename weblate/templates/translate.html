@@ -94,8 +94,6 @@
   </h4></div>
   <div class="panel-body">
     {% csrf_token %}
-    {% if antispam %}<div id="s_content">{{ antispam|crispy }}</div>{% endif %}
-
     <!-- secondary -->
     {% if secondary %}
     {% for secondary_unit in secondary %}
