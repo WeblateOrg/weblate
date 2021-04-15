@@ -18,6 +18,7 @@ Not yet released.
 * Simplified state indication while listing strings.
 * Password hashing now uses Argon2 by default.
 * Simplified progress bars indicating translation status.
+* Renamed :ref:`addon-weblate.consistency.languages` to clarify the purpose.
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/61?closed=1>`__.
 

@@ -88,12 +88,11 @@ base file.
 
 .. _addon-weblate.consistency.languages:
 
-Language consistency
---------------------
+Add missing languages
+---------------------
 
-Ensures all components within a project have translations for every added
-translated language by creating empty translations in languages that have
-unadded components.
+Ensures a consistent set of languages is used for all components within a
+project.
 
 Missing languages are checked once every 24 hours, and when new languages
 are added in Weblate.
