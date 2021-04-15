@@ -162,7 +162,9 @@ class MetricsManager(models.Manager):
         else:
             raise ValueError(f"Unsupported type for metrics: {obj!r}")
 
-        count = changes.filter(timestamp__date=date).count()
+        count = changes.filter(
+            timestamp__date=date - datetime.timedelta(days=1)
+        ).count()
         self.create_metrics(
             {"changes": count}, None, set(), scope, relation, secondary, date=date
         )
