@@ -466,27 +466,7 @@
 
       /* Quality score as bar with the text */
       row.append(
-        $(
-          "<td>" +
-            '<div class="progress" title="' +
-            el.quality +
-            ' / 100">' +
-            '<div class="progress-bar ' +
-            (el.quality >= 70
-              ? "progress-bar-success"
-              : el.quality >= 50
-              ? "progress-bar-warning"
-              : "progress-bar-danger") +
-            '"' +
-            ' role="progressbar" aria-valuenow="' +
-            el.quality +
-            '"' +
-            ' aria-valuemin="0" aria-valuemax="100" style="width: ' +
-            el.quality +
-            '%;"></div>' +
-            "</div>" +
-            "</td>"
-        )
+        $("<td class='number'><strong>" + el.quality + "</strong> %</td>")
       );
       /* Translators: Verb for copy operation */
       row.append(
