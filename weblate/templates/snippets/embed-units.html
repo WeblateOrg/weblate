@@ -15,20 +15,51 @@
         <th>{% trans "Language" %}</th>
       {% endif %}
       {% if not hide_context and any_unit_has_context %}
-        <th>{{ component.context_label }}</th>
+        {% if include_search %}
+          <th class="sort-cell">
+            <a href="?q={{ search_query|urlencode }}&amp;sort_by={% if sort_query == "context" %}-{% endif %}context">
+        {% else %}
+          <th>
+        {% endif %}
+          {{ component.context_label }}
+        {% if include_search %}
+            <span class="sort-icon {% if sort_query == "context" %}sort-down{% elif sort_query == "-context" %}sort-up{% endif %}" />
+          </a>
+        {% endif %}
+        </th>
       {% endif %}
       {% if force_source %}
         <th>{% trans "Source string" %}</th>
       {% elif not hide_source and not translation.is_source %}
-        <th>{{ translation.component.source_language }}</th>
-      {% endif %}
-      <th>
-        {% if show_language or not translation %}
-          {% trans "Translated string" %}
+        {% if include_search %}
+          <th class="sort-cell">
+            <a href="?q={{ search_query|urlencode }}&amp;sort_by={% if sort_query == "source" %}-{% endif %}source">
         {% else %}
-          {{ translation.language }}
+          <th>
         {% endif %}
-      </th>
+          {{ translation.component.source_language }}
+        {% if include_search %}
+            <span class="sort-icon {% if sort_query == "source" %}sort-down{% elif sort_query == "-source" %}sort-up{% endif %}" />
+          </a>
+        {% endif %}
+        </th>
+      {% endif %}
+      {% if show_language or not translation %}
+        <th>{% trans "Translated string" %}</th>
+      {% else %}
+        {% if include_search %}
+          <th class="sort-cell">
+            <a href="?q={{ search_query|urlencode }}&amp;sort_by={% if sort_query == "target" %}-{% endif %}target">
+        {% else %}
+          <th>
+        {% endif %}
+          {{ translation.language }}
+        {% if include_search %}
+            <span class="sort-icon {% if sort_query == "target" %}sort-down{% elif sort_query == "-target" %}sort-up{% endif %}" />
+          </a>
+        {% endif %}
+        </th>
+      {% endif %}
       {% if show_location %}
         <th>{% trans "Location" %}</th>
       {% endif %}
