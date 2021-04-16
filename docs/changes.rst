@@ -1,7 +1,7 @@
 Weblate 4.6
 -----------
 
-Not yet released.
+Released on April 19th 2021.
 
 * The auto_translate management command has now a parameter for specifying translation mode.
 * Added support for :ref:`txt`.
