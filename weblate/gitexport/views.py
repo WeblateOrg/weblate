@@ -99,6 +99,8 @@ def git_export(request, project, component, path):
             return response_authenticate()
         raise
     if not request.user.has_perm("vcs.access", obj):
+        if not request.user.is_authenticated:
+            return response_authenticate()
         raise PermissionDenied("No VCS permissions")
     if obj.vcs not in SUPPORTED_VCS:
         raise Http404("Not a git repository")
