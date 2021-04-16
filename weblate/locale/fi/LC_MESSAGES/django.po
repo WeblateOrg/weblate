@@ -22,8 +22,8 @@ msgstr ""
 "Project-Id-Version: Weblate 4.6\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-04-16 14:38+0000\n"
-"PO-Revision-Date: 2021-04-05 09:53+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2021-04-17 23:26+0000\n"
+"Last-Translator: Tuomas Hietala <tuomas.hietala@iki.fi>\n"
 "Language-Team: Finnish <https://hosted.weblate.org/projects/weblate/"
 "application/fi/>\n"
 "Language: fi\n"
@@ -363,16 +363,12 @@ msgstr ""
 "({name})."
 
 #: weblate/accounts/models.py:154
-#, fuzzy
-#| msgid "Somebody has attempted to register with your e-mail."
 msgid "Somebody attempted to register with your e-mail."
-msgstr "Joku on yrittänyt rekisteröityä sähköpostiosoitteellasi."
+msgstr "Joku yritti rekisteröityä sähköpostiosoitteellasi."
 
 #: weblate/accounts/models.py:155
-#, fuzzy
-#| msgid "Somebody has attempted to register using your e-mail address."
 msgid "Somebody attempted to register using your e-mail address."
-msgstr "Joku on yrittänyt rekisteröityä sähköpostiosoitteellasi."
+msgstr "Joku yritti rekisteröityä sähköpostiosoitteellasi."
 
 #: weblate/accounts/models.py:156
 #, python-brace-format
@@ -1157,12 +1153,6 @@ msgid "Flag unchanged translations as \"Needs editing\""
 msgstr "Merkitse muuttamattomat käännökset muokkaamista vaativiksi"
 
 #: weblate/addons/flags.py:86
-#, fuzzy
-#| msgid ""
-#| "Whenever a new translatable string is imported from the VCS and it "
-#| "matches a source string, it is flagged as needing editing in Weblate. "
-#| "This is especially useful for file formats that include all strings even "
-#| "if not translated."
 msgid ""
 "Whenever a new translatable string is imported from the VCS and it matches a "
 "source string, it is flagged as needing editing in Weblate. Especially "
@@ -1171,7 +1161,7 @@ msgstr ""
 "Aina kun uusi käännettävissä oleva teksti on tuotu versionhallinnasta "
 "Weblateen ja se täsmää johonkin lähdetekstiin, se merkitään "
 "tarkistettavaksi. Tämä on hyödyksi erityisesti niillä tiedostomuodoilla, "
-"jotka sisältävät kaikki tekstit, myös sellaiset, joita ei ole käännetty."
+"jotka sisältävät kääntämättömien tekstien lähdetekstit."
 
 #: weblate/addons/flags.py:105 weblate/templates/component.html:69
 #: weblate/templates/component.html:210 weblate/templates/project.html:68
@@ -2692,16 +2682,12 @@ msgid "Lua format string does not match source"
 msgstr "Lua-muotoinen muotoilumerkkijono ei vastaa lähdettä"
 
 #: weblate/checks/format.py:478
-#, fuzzy
-#| msgid "File format"
 msgid "Scheme format"
-msgstr "Tiedostomuoto"
+msgstr "Scheme-muoto"
 
 #: weblate/checks/format.py:479
-#, fuzzy
-#| msgid "C format string does not match source"
 msgid "Scheme format string does not match source"
-msgstr "C-muotoinen teksti ei vastaa lähdettä"
+msgstr "Scheme-muotoinen teksti ei vastaa lähdettä"
 
 #: weblate/checks/format.py:492
 msgid "Python brace format"
@@ -3078,11 +3064,11 @@ msgstr "i18next JSON-tiedosto"
 
 #: weblate/formats/convert.py:459
 msgid "DokuWiki text file"
-msgstr ""
+msgstr "DokuWIki-tekstitiedosto"
 
 #: weblate/formats/convert.py:466
 msgid "MediaWiki text file"
-msgstr ""
+msgstr "MediaWiki-tekstitiedosto"
 
 #: weblate/formats/exporters.py:204
 msgid "gettext PO"
@@ -3287,10 +3273,8 @@ msgid "String will be propagated to all languages"
 msgstr "Tekstin kohdekieli"
 
 #: weblate/glossary/forms.py:55
-#, fuzzy
-#| msgid "Not-translatable: %s"
 msgid "Not translatable term"
-msgstr "Ei-käännettävä: %s"
+msgstr "Ei-käännettävä termi"
 
 #: weblate/glossary/forms.py:100
 #: weblate/templates/snippets/component-glossary-badge.html:4
@@ -4052,10 +4036,7 @@ msgid "You can only contact maintainers of the whole server here."
 msgstr "Voit ottaa tässä yhteyttä vain koko palvelimen ylläpitäjiin."
 
 #: weblate/templates/accounts/contact.html:23
-#, fuzzy, python-format
-#| msgid ""
-#| "If you are looking for support for Weblate, or want to file a bug report, "
-#| "check its website at %(weblate_link)s."
+#, python-format
 msgid ""
 "If you seek support for Weblate, or want to file a bug-report, check its "
 "website at %(weblate_link)s."
@@ -4093,10 +4074,6 @@ msgid "Registration almost complete"
 msgstr "Rekisteröinti melkein valmis"
 
 #: weblate/templates/accounts/email-sent.html:30
-#, fuzzy
-#| msgid ""
-#| "If your e-mail address exists in our database, you will receive further "
-#| "password recovery instructions in your inbox."
 msgid ""
 "If your e-mail address exists in our database, you will receive further "
 "password recovery instructions to your inbox."
@@ -4106,10 +4083,6 @@ msgstr ""
 
 #: weblate/templates/accounts/email-sent.html:31
 #: weblate/templates/accounts/email-sent.html:34
-#, fuzzy
-#| msgid ""
-#| "If the confirmation link expires before you get to use it, request a new "
-#| "one."
 msgid "If the confirmation link expires before you use it, request a new one."
 msgstr ""
 "Jos vahvistuslinkki ehtii raueta ennen kuin ehdit käyttää sitä, pyydä uutta."
@@ -4144,11 +4117,7 @@ msgstr ""
 "rekisteröidy uudelleen."
 
 #: weblate/templates/accounts/email-sent.html:42
-#, fuzzy, python-format
-#| msgid ""
-#| "If you don't receive it shortly, please check your spam folder or retry "
-#| "the registration. Should the problem persist, please <a href="
-#| "\"%(contact_url)s\">contact us</a>."
+#, python-format
 msgid ""
 "If you don't receive it shortly, please check your spam folder or retry the "
 "registration. If the problem persist, please <a href=\"%(contact_url)s"
@@ -5884,12 +5853,10 @@ msgstr ""
 "jotta kääntäjät saavat kiitosta ja palautetta."
 
 #: weblate/templates/data.html:13
-#, fuzzy
-#| msgid ""
-#| "You can retrieve various data from Weblate in machine readable format."
 msgid "Various data from Weblate is available in machine-readable format."
 msgstr ""
-"Voit hakea erilaisia tietoja Weblatesta koneellisesti luettavassa muodossa."
+"Erilaisia tietoja Weblatesta on saatavilla koneellisesti luettavassa "
+"muodossa."
 
 #: weblate/templates/data.html:17
 msgid "RSS feeds"
@@ -6457,10 +6424,8 @@ msgid "Force writing all translations to the Weblate repository"
 msgstr "Nollaa kaikki muutokset paikallisessa arkistossa"
 
 #: weblate/templates/js/git-status.html:115
-#, fuzzy
-#| msgid "Source information"
 msgid "Force synchronization"
-msgstr "Tietoa lähdetekstistä"
+msgstr "Pakota synkronointi"
 
 #: weblate/templates/js/git-status.html:129
 #, fuzzy, python-format
@@ -6562,6 +6527,7 @@ msgid ""
 "If you have an idea or a question, %(link_start)sthis%(link_end)s is a good "
 "place to start."
 msgstr ""
+"Jos sinulla on idea tai kysymys, aloita %(link_start)stäältä%(link_end)s."
 
 #: weblate/templates/mail/account_activity.html:38
 #, fuzzy
@@ -7187,10 +7153,8 @@ msgid "Weblate support status"
 msgstr "Weblaten tuen tila"
 
 #: weblate/templates/manage/index.html:28
-#, fuzzy
-#| msgid "Weblate translations"
 msgid "Weblate version"
-msgstr "Weblate-käännökset"
+msgstr "Weblate-versio"
 
 #: weblate/templates/manage/index.html:40
 msgid "Support status"
@@ -7205,10 +7169,8 @@ msgid "Support expiry"
 msgstr "Tuen päättyminen"
 
 #: weblate/templates/manage/index.html:58
-#, fuzzy
-#| msgid "Register in Weblate"
 msgid "Discover Weblate"
-msgstr "Rekisteröidy Weblateen"
+msgstr "Tutustu Weblateen"
 
 #: weblate/templates/manage/index.html:60
 #, fuzzy
@@ -7760,20 +7722,16 @@ msgid "Previous"
 msgstr "Edellinen"
 
 #: weblate/templates/snippets/activity.html:16
-#, fuzzy
-#| msgid "Activity in last 30 days"
 msgid "Activity in last 12 months"
-msgstr "Aktiivisuus viimeisen 30 päivän aikana"
+msgstr "Aktiivisuus viimeisen 12 kuukauden aikana"
 
 #: weblate/templates/snippets/activity.html:24
 #: weblate/templates/snippets/activity.html:29
-#, fuzzy, python-format
-#| msgid "%(count)s hour ago"
-#| msgid_plural "%(count)s hours ago"
+#, python-format
 msgid "%(count)s change"
 msgid_plural "%(count)s changes"
-msgstr[0] "%(count)s tunti sitten"
-msgstr[1] "%(count)s tuntia sitten"
+msgstr[0] "yksi muutos"
+msgstr[1] "%(count)s muutosta"
 
 #: weblate/templates/snippets/billing-failure.html:10
 msgid "This might be caused by missing subscription."
@@ -7840,10 +7798,8 @@ msgid "Loading results…"
 msgstr "Ladataan tuloksia…"
 
 #: weblate/templates/snippets/format-translation.html:16
-#, fuzzy
-#| msgid "Create translation"
 msgid "Clone to translation"
-msgstr "Luo käännös"
+msgstr "Kloonaa käännökseen"
 
 #: weblate/templates/snippets/git-info.html:10 weblate/trans/forms.py:1638
 #: weblate/trans/models/component.py:265
@@ -8013,16 +7969,12 @@ msgid "Most active translators"
 msgstr "Aktiivisimmat kääntäjät"
 
 #: weblate/templates/snippets/info.html:262
-#, fuzzy
-#| msgid "Browse all languages"
 msgid "Browse all users"
-msgstr "Selaa kaikkia kieliä"
+msgstr "Selaa kaikkia käyttäjiä"
 
 #: weblate/templates/snippets/info.html:268
-#, fuzzy
-#| msgid "Strings status"
 msgid "String statistics"
-msgstr "Tekstien tila"
+msgstr "Tekstitilastot"
 
 #: weblate/templates/snippets/info.html:273
 #, fuzzy
@@ -8087,17 +8039,13 @@ msgstr ""
 
 #: weblate/templates/snippets/info.html:380
 #: weblate/templates/snippets/info.html:451
-#, fuzzy
-#| msgid "Last 30 days"
 msgid "and previous 30 days"
-msgstr "Viimeiset 30 päivää"
+msgstr "ja edelliset 30 päivää"
 
 #: weblate/templates/snippets/info.html:381
 #: weblate/templates/snippets/info.html:452
-#, fuzzy
-#| msgid "Last 30 days"
 msgid "Trends of last 30 days"
-msgstr "Viimeiset 30 päivää"
+msgstr "Viimeisen 30 päivän trendit"
 
 #: weblate/templates/snippets/info.html:419
 msgid "Quick numbers"
@@ -8105,10 +8053,8 @@ msgstr ""
 
 #: weblate/templates/snippets/info.html:443
 #: weblate/templates/snippets/info.html:480
-#, fuzzy
-#| msgid "Contributor stats"
 msgid "Contributors"
-msgstr "Kääntäjän tilastot"
+msgstr "Osallistujat"
 
 #: weblate/templates/snippets/labels_description.html:7
 #, python-format
@@ -8285,16 +8231,12 @@ msgid "Last"
 msgstr "Viimeinen"
 
 #: weblate/templates/snippets/progress.html:8
-#, fuzzy
-#| msgid "Translation process"
 msgid "Translated without any problems"
-msgstr "Käännösprosessi"
+msgstr "Käännetty ongelmitta"
 
 #: weblate/templates/snippets/progress.html:11
-#, fuzzy
-#| msgid "Needs editing"
 msgid "Needs attention"
-msgstr "Vaatii muokkaamista"
+msgstr "Vaatii huomiota"
 
 #: weblate/templates/snippets/project-component-settings.html:5
 msgid ""
@@ -8503,20 +8445,16 @@ msgid "Source in review"
 msgstr "Lähteen yhteenveto"
 
 #: weblate/templates/snippets/unit-readonly-badge.html:6
-#, fuzzy
-#| msgid "Source strings in %s"
 msgid "Source string editing is disabled."
-msgstr "Lähdetekstejä käännöksessä %s"
+msgstr "Lähdetekstien muokkaus on pois käytöstä."
 
 #: weblate/templates/snippets/unit-readonly-badge.html:8
 msgid "Source strings can’t be edited. You can delete them and add new ones."
-msgstr ""
+msgstr "Lähdetekstejä ei voi muokata. Voit poistaa niitä ja lisätä uusia."
 
 #: weblate/templates/snippets/unit-readonly-badge.html:10
-#, fuzzy
-#| msgid "Source string changed"
 msgid "The source string cannot be edited."
-msgstr "Lähdetekstiä muutettu"
+msgstr "Lähdetekstiä ei voi muokata."
 
 #: weblate/templates/snippets/watch-dropdown.html:9
 msgid "Watching"
@@ -8633,10 +8571,8 @@ msgid "The project website URL points to a non-existing location:"
 msgstr "Projektin verkkosivuston URL-osoite johtaa olemattomaan sijaintiin:"
 
 #: weblate/templates/trans/alert/cdnaddonerror.html:4
-#, fuzzy
-#| msgid "Weblate could not parse HTML files using the addon."
 msgid "Weblate CDN addon could not parse the HTML files."
-msgstr "Weblate ei voinut jäsentää HTML-tiedostoja lisäosalla."
+msgstr "Weblaten CDN-lisäosa ei voinut jäsentää HTML-tiedostoja."
 
 #: weblate/templates/trans/alert/cdnaddonerror.html:10
 #: weblate/templates/trans/alert/parseerror.html:10
@@ -9368,10 +9304,8 @@ msgid "Fix string"
 msgstr "Korjaa teksti"
 
 #: weblate/templates/translate.html:467
-#, fuzzy
-#| msgid "Browse all languages"
 msgid "For all languages"
-msgstr "Selaa kaikkia kieliä"
+msgstr "Kaikille kielille"
 
 #: weblate/templates/translate.html:496
 #, python-format
@@ -9390,20 +9324,17 @@ msgstr[0] "Tälle merkkijonolle on %(count)s muotoilu ehdotus."
 msgstr[1] "Tälle merkkijonolle on %(count)s muotoilu ehdotusta."
 
 #: weblate/templates/translate.html:527
-#, fuzzy, python-format
-#| msgid "Browse all glossary changes"
+#, python-format
 msgid "Browse glossary %(name)s"
-msgstr "Selaa kaikkia sanaston muutoksia"
+msgstr "Selaa sanastoa %(name)s"
 
 #: weblate/templates/translate.html:549 weblate/templates/translate.html:559
 msgid "Add term to glossary"
 msgstr "Lisää termi sanastoon"
 
 #: weblate/templates/translate.html:578
-#, fuzzy
-#| msgid "Source information"
 msgid "String information"
-msgstr "Tietoa lähdetekstistä"
+msgstr "Tietoa tekstistä"
 
 #: weblate/templates/translate.html:590
 msgid "No screenshot currently associated."
@@ -9564,10 +9495,8 @@ msgstr ""
 "automaattisesti kaikissa käännöksissä."
 
 #: weblate/templates/translation.html:311
-#, fuzzy
-#| msgid "Customize download"
 msgid "Quick downloads"
-msgstr "Muokkaa latausta"
+msgstr "Pikalataukset"
 
 #: weblate/templates/translation.html:318
 #, fuzzy
@@ -11053,6 +10982,7 @@ msgstr "Ehdotuksista äänestäminen"
 #: weblate/trans/models/component.py:412
 msgid "Users can only vote for suggestions and can’t make direct translations."
 msgstr ""
+"Käyttäjät voivat vain äänestää ehdotuksista eivätkä tehdä suoria käännöksiä."
 
 #: weblate/trans/models/component.py:416
 msgid "Autoaccept suggestions"
@@ -11479,10 +11409,8 @@ msgid "Key"
 msgstr "Avaimet"
 
 #: weblate/trans/models/component.py:3032
-#, fuzzy
-#| msgid "Forbidden glossary term"
 msgid "Add new glossary term"
-msgstr "Kielletty sanaston termi"
+msgstr "Lisää uusi termi sanastoon"
 
 #: weblate/trans/models/component.py:3033
 msgid "Add new translation string"
@@ -11660,17 +11588,13 @@ msgid "Failed adding string: %s"
 msgstr "Odottava teksti"
 
 #: weblate/trans/models/translation.py:1331
-#, fuzzy
-#| msgid "No matching translations found!"
 msgid "No translation found."
-msgstr "Hakuehtoa vastaavia käännöksiä ei löytynyt!"
+msgstr "Käännöstä ei löytynyt."
 
 #: weblate/trans/models/translation.py:1363
 #: weblate/trans/models/translation.py:1378
-#, fuzzy
-#| msgid "Failed to parse query string: {}"
 msgid "Failed to parse new string"
-msgstr "Kyselytekstin jäsentäminen epäonnistui: {}"
+msgstr "Uuden tekstin jäsentäminen epäonnistui"
 
 #: weblate/trans/models/translation.py:1386
 #, fuzzy, python-format
@@ -11970,12 +11894,9 @@ msgid "Failed checks:"
 msgstr "Tarkistus löysi virheitä:"
 
 #: weblate/trans/templatetags/translations.py:577
-#, fuzzy
-#| msgctxt "String state"
-#| msgid "Dismissed checks"
 msgctxt "String state"
 msgid "Dismissed checks:"
-msgstr "Sivuutetut tarkistukset"
+msgstr "Sivuutetut tarkistukset:"
 
 #: weblate/trans/templatetags/translations.py:582
 msgctxt "String state"
@@ -12368,10 +12289,8 @@ msgid "All repositories have been cleaned up."
 msgstr "Kaikki arkistot on siivottu."
 
 #: weblate/trans/views/git.py:121
-#, fuzzy
-#| msgid "Translation has been removed."
 msgid "Translation files have been synchronized."
-msgstr "Käännös on poistettu."
+msgstr "Käännöstiedostot on synkronoitu."
 
 #: weblate/trans/views/js.py:56
 msgid "Service is currently not available."
@@ -12801,10 +12720,8 @@ msgid "The test e-mail will be sent to this address."
 msgstr "Testisähköposti lähetetään tähän osoitteeseen."
 
 #: weblate/wladmin/forms.py:68
-#, fuzzy
-#| msgid "Username or e-mail"
 msgid "Username or registered e-mail"
-msgstr "Käyttäjänimi tai sähköpostiosoite"
+msgstr "Käyttäjänimi tai rekisteröity sähköpostiosoite"
 
 #: weblate/wladmin/forms.py:74
 msgid "Please provide font family suitable for CSS."
