@@ -48,12 +48,10 @@
 <a href="{% url 'profile' %}#preferences" class="btn btn-link" title="{% trans "Configure editor" %}">{% icon "settings.svg" %}</a>
 </div>
 
-<div class="row">
-  <div class="col-sm-9">
-    <form method="GET" class="result-page-form">
-      {% crispy search_form  %}
-    </form>
-  </div>
+<div class="query-container">
+  <form method="GET" class="result-page-form">
+    {% crispy search_form  %}
+  </form>
 </div>
 
 <table class="zen table table-condensed table-autowidth {% if user.profile.zen_mode == user.profile.ZEN_HORIZONTAL %}zen-horizontal{% endif %}">
