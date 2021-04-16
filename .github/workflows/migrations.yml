@@ -39,8 +39,7 @@ jobs:
         with:
           python-version: 3.7
       - name: Install pip dependencies
-        run: |
-          ./ci/pip-install
+        run: pip install -r requirements-ci.txt
       - name: Check missing migrations
         run: ./ci/run-checkmigrate
       - name: Migrate from 4.0
