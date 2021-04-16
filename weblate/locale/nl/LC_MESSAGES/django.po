@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.6\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-04-16 14:38+0000\n"
-"PO-Revision-Date: 2021-04-13 11:17+0000\n"
+"PO-Revision-Date: 2021-04-17 23:26+0000\n"
 "Last-Translator: Heimen Stoffels <vistausss@fastmail.com>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/weblate/"
 "application/nl/>\n"
@@ -38,13 +38,13 @@ msgstr "Geen"
 #: weblate/templates/accounts/user.html:16 weblate/templates/base.html:237
 #: weblate/templates/weblate_auth/user_list.html:18
 msgid "User avatar"
-msgstr "Profielafbeelding"
+msgstr "Profielfoto"
 
 #: weblate/accounts/forms.py:78
 msgid ""
 "This e-mail address is already in use. Please supply a different e-mail "
 "address."
-msgstr "Dit e-mailadres is al in gebruik. Geef een ander e-mailadres op."
+msgstr "Dit e-mailadres is al in gebruik - geef een ander e-mailadres op."
 
 #: weblate/accounts/forms.py:118
 msgid "This username is already taken. Please choose another."
@@ -98,7 +98,7 @@ msgid ""
 "Please contact us in English, otherwise we might be unable to process your "
 "request."
 msgstr ""
-"Stel uw bericht op in het Engels, anders kunnen wij uw vraag mogelijk niet "
+"Stel uw bericht op in het Engels, anders kunnen wij uw verzoek mogelijk niet "
 "verwerken."
 
 #: weblate/accounts/forms.py:389
@@ -1074,16 +1074,16 @@ msgid "Removes strings without a translation from translation files."
 msgstr "Wist onvertaalde tekenreeksen uit vertaalbestanden."
 
 #: weblate/addons/consistency.py:32
-#, fuzzy
-#| msgid "Adding new languages"
 msgid "Add missing languages"
-msgstr "Nieuwe talen toevoegen"
+msgstr "Ontbrekende talen toevoegen"
 
 #: weblate/addons/consistency.py:34
 msgid ""
 "Ensures a consistent set of languages is used for all components within a "
 "project."
 msgstr ""
+"Dit zorgt dat er een consistente reeks talen wordt gebruikt bij alle "
+"onderdelen binnen een project."
 
 #: weblate/addons/discovery.py:33
 msgid "Component discovery"
@@ -2611,10 +2611,9 @@ msgid "Missing parameters for translation flag: \"%s\""
 msgstr "Ontbrekende aanvullende opties bij vertaaloptie: \"%s\""
 
 #: weblate/checks/format.py:371
-#, fuzzy, python-format
-#| msgid "Following format strings are extra: %s"
+#, python-format
 msgid "Following format strings are wrongly ordered: %s"
-msgstr "De volgende notatietekenreeksen zijn een aanvulling: %s"
+msgstr "De volgende notatietekenreeksen staan in de verkeerde volgorde: %s"
 
 #: weblate/checks/format.py:375 weblate/checks/placeholders.py:93
 #, python-format
@@ -4002,10 +4001,10 @@ msgstr ""
 "beheerders ervan."
 
 #: weblate/templates/accounts/contact.html:18
-#, fuzzy, python-format
-#| msgid "You can only contact maintainers of the whole server here."
+#, python-format
 msgid "You can only contact maintainers of %(site_title)s here."
-msgstr "U kunt hier alleen contact opnemen met de beheerders van de server."
+msgstr ""
+"U kunt hier alleen contact opnemen met de beheerders van %(site_title)s."
 
 #: weblate/templates/accounts/contact.html:20
 msgid "You can only contact maintainers of the whole server here."
@@ -4386,12 +4385,12 @@ msgstr ""
 
 #: weblate/templates/accounts/profile.html:203
 msgid "Your avatar"
-msgstr "Uw profielafbeelding"
+msgstr "Mijn profielfoto"
 
 #: weblate/templates/accounts/profile.html:206
 #, python-format
 msgid "Avatars are provided using %(avatar_url_prefix)s."
-msgstr "Profielafbeeldingen worden opgehaald van %(avatar_url_prefix)s."
+msgstr "Profielfoto's worden opgehaald van %(avatar_url_prefix)s."
 
 #: weblate/templates/accounts/profile.html:215
 #: weblate/templates/addons/discovery_help.html:10
@@ -7107,10 +7106,8 @@ msgid "Weblate support status"
 msgstr "Weblate-ondersteuningsstatus"
 
 #: weblate/templates/manage/index.html:28
-#, fuzzy
-#| msgid "Weblate translations"
 msgid "Weblate version"
-msgstr "Weblate-vertalingen"
+msgstr "Weblate-versie"
 
 #: weblate/templates/manage/index.html:40
 msgid "Support status"
@@ -7627,10 +7624,8 @@ msgid "There are no assigned strings."
 msgstr "Er zijn geen toegewezen tekenreeksen."
 
 #: weblate/templates/screenshots/screenshot_sources_search_actions.html:2
-#, fuzzy
-#| msgid "Add screenshot"
 msgid "Add to screenshot"
-msgstr "Schermfoto toevoegen"
+msgstr "Toevoegen aan schermfoto"
 
 #: weblate/templates/search.html:31
 #: weblate/templates/snippets/embed-units.html:114
@@ -8077,11 +8072,8 @@ msgid "Untranslated words"
 msgstr "Onvertaalde woorden"
 
 #: weblate/templates/snippets/list-objects.html:63
-#, fuzzy
-#| msgctxt "Number of hosted characters"
-#| msgid "Hosted characters"
 msgid "Untranslated characters"
-msgstr "Gehoste tekens"
+msgstr "Onvertaalde tekens"
 
 #: weblate/templates/snippets/list-objects.html:83
 #: weblate/templates/trans/suggestion_list.html:8
@@ -8168,16 +8160,12 @@ msgid "Last"
 msgstr "Laatste"
 
 #: weblate/templates/snippets/progress.html:8
-#, fuzzy
-#| msgid "Translation process"
 msgid "Translated without any problems"
-msgstr "Vertaalproces"
+msgstr "Zonder problemen vertaald"
 
 #: weblate/templates/snippets/progress.html:11
-#, fuzzy
-#| msgid "Needs editing"
 msgid "Needs attention"
-msgstr "Aanpassing nodig"
+msgstr "Moet worden nagekeken"
 
 #: weblate/templates/snippets/project-component-settings.html:5
 msgid ""
@@ -9247,10 +9235,8 @@ msgid "Fix string"
 msgstr "Tekenreeks repareren"
 
 #: weblate/templates/translate.html:467
-#, fuzzy
-#| msgid "Browse all languages"
 msgid "For all languages"
-msgstr "Alle talen tonen"
+msgstr "Voor alle tonen"
 
 #: weblate/templates/translate.html:496
 #, python-format
@@ -11809,12 +11795,9 @@ msgid "Failed checks:"
 msgstr "Foutmeldingen:"
 
 #: weblate/trans/templatetags/translations.py:577
-#, fuzzy
-#| msgctxt "String state"
-#| msgid "Dismissed checks"
 msgctxt "String state"
 msgid "Dismissed checks:"
-msgstr "Afgewezen controles"
+msgstr "Afgewezen controles:"
 
 #: weblate/trans/templatetags/translations.py:582
 msgctxt "String state"
