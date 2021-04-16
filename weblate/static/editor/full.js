@@ -530,6 +530,12 @@
           ) {
             // Add origin to current ones
             var current = $this.children("td:nth-child(3)");
+            if (base.quality < translation.quality) {
+              service.append("<br/>");
+              service.append(current.html());
+              $this.remove();
+              return false;
+            }
             current.append($("<br/>"));
             current.append(service.html());
             done = true;
