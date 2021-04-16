@@ -176,6 +176,18 @@ class PythonFormatCheckTest(CheckTestCase):
             "Following format strings are extra: %(languages)d",
         )
 
+    def test_description_nolocation(self):
+        unit = Unit(
+            source="%d %s",
+            target="%s %d",
+            extra_flags="python-format",
+        )
+        check = Check(unit=unit)
+        self.assertEqual(
+            self.check.get_description(check),
+            "Following format strings are wrongly ordered: %d, %s",
+        )
+
 
 class PHPFormatCheckTest(CheckTestCase):
     check = PHPFormatCheck()
