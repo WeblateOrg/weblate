@@ -303,9 +303,16 @@
     /* Check ignoring */
     this.$editor.on("click", ".check-dismiss", (e) => {
       var $el = $(e.currentTarget);
+      var url = $el.attr("href");
+      var $check = $el.closest(".check");
+      var dismiss_all = $check.find("input").prop("checked");
+      if (dismiss_all) {
+        url = $el.data("dismiss-all");
+      }
+
       $.ajax({
         type: "POST",
-        url: $el.attr("href"),
+        url: url,
         data: {
           csrfmiddlewaretoken: this.csrfToken,
         },
@@ -313,10 +320,10 @@
           addAlert(errorThrown);
         },
       });
-      if ($el.hasClass("check-dismiss-all")) {
-        $el.closest(".check").remove();
+      if (dismiss_all) {
+        $check.remove();
       } else {
-        $el.closest(".check").toggleClass("check-dismissed");
+        $check.toggleClass("check-dismissed");
       }
       return false;
     });
