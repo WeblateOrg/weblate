@@ -952,6 +952,11 @@ real_patterns = [
         name="search",
     ),
     path(
+        "languages/<name:lang>/-/search/",
+        weblate.trans.views.search.search,
+        name="search",
+    ),
+    path(
         "languages/<name:lang>/<name:project>/search/",
         weblate.trans.views.search.search,
         name="search",

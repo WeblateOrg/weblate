@@ -203,19 +203,21 @@ def search(request, project=None, component=None, lang=None):
             request, units.order_by_request(search_form.cleaned_data, obj)
         )
         # Rebuild context from scratch here to get new form
-        context = {
-            "search_form": search_form,
-            "show_results": True,
-            "page_obj": units,
-            "title": _("Search for %s") % (search_form.cleaned_data["q"]),
-            "query_string": search_form.urlencode(),
-            "search_url": search_form.urlencode(),
-            "search_query": search_form.cleaned_data["q"],
-            "search_items": search_form.items(),
-            "filter_name": search_form.get_name(),
-            "sort_name": sort["name"],
-            "sort_query": sort["query"],
-        }
+        context.update(
+            {
+                "search_form": search_form,
+                "show_results": True,
+                "page_obj": units,
+                "title": _("Search for %s") % (search_form.cleaned_data["q"]),
+                "query_string": search_form.urlencode(),
+                "search_url": search_form.urlencode(),
+                "search_query": search_form.cleaned_data["q"],
+                "search_items": search_form.items(),
+                "filter_name": search_form.get_name(),
+                "sort_name": sort["name"],
+                "sort_query": sort["query"],
+            }
+        )
     elif is_ratelimited:
         messages.error(request, _("Too many search queries, please try again later."))
     elif request.GET:

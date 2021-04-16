@@ -12,6 +12,8 @@
 {% if language %}
 <li><a href="{% url 'project-language' project=project.slug lang=language.code %}">{{ language }}</a></li>
 {% endif %}
+{% elif language %}
+<li><a href="{{ language.get_absolute_url }}">{{ language }}</a></li>
 {% endif %}
 <li><a href="{% if back_url %}{{ back_url }}#search{% else %}{% url 'search' %}{% endif %}">{% trans "Search" %}</a></li>
 {% endblock %}

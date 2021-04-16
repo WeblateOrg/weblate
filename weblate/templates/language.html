@@ -18,6 +18,7 @@
 <ul class="nav nav-pills">
   <li class="active"><a href="#overview" data-toggle="tab">{% trans "Projects" %}</a></li>
   <li><a href="#information" data-toggle="tab">{% trans "Information" %}</a></li>
+  <li><a href="#search" data-toggle="tab">{% trans "Search" %}</a></li>
   <li><a href="#history" data-toggle="tab">{% trans "History" %}</a></li>
   <li class="dropdown">
     <a class="dropdown-toggle" data-toggle="dropdown" href="#">
@@ -51,6 +52,12 @@
 <div class="tab-pane" id="history">
 {% include "last-changes-content.html" %}
 <a class="btn btn-primary" href="{% url 'changes' %}?{{ last_changes_url }}">{% trans "Browse all language changes" %}</a>
+</div>
+
+<div class="tab-pane" id="search">
+  <form action="{% url 'search' lang=object.code %}" method="GET">
+    {% include "snippets/search-form.html" %}
+  </form>
 </div>
 
 </div>

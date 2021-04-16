@@ -20,6 +20,7 @@ Not yet released.
 * Simplified progress bars indicating translation status.
 * Renamed :ref:`addon-weblate.consistency.languages` to clarify the purpose.
 * Fixed saving string state to XLIFF.
+* Added language-wide search.
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/61?closed=1>`__.
 
