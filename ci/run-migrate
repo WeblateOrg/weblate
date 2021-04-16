@@ -28,8 +28,11 @@ fi
 check
 git checkout $TAG
 check
-# Workaround for dependency issues with newer versions
-pip install "selenium==4.0.0.b2.post1" "trio==0.17.0"
+# Use clean virtualenv for each version, this avoids pip problems when trying to downgrade from current versions
+virtualenv .venv-$TAG
+. .venv-$TAG/bin/activate
+# Use olser psycopg2 for compatibility with older Django releases
+pip install psycopg2-binary==2.7.7
 pip install -r requirements-test.txt -r docs/requirements.txt
 check
 echo "DATABASES['default']['HOST'] = '$CI_DB_HOST'" >> weblate/settings_test.py
