@@ -217,6 +217,8 @@ class TermExpr:
             return Q(suggestion__isnull=False)
         if text == "explanation":
             return ~Q(source_unit__explanation="")
+        if text == "note":
+            return ~Q(note="")
         if text == "comment":
             return Q(comment__resolved=False)
         if text in ("resolved-comment", "resolved_comment"):
