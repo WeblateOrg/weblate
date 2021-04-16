@@ -24,8 +24,8 @@ msgstr ""
 "Project-Id-Version: Weblate 4.6\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-04-13 09:14+0000\n"
-"PO-Revision-Date: 2021-04-05 22:34+0000\n"
-"Last-Translator: 日陰のコスモス <baffclan@yahoo.co.jp>\n"
+"PO-Revision-Date: 2021-04-16 14:37+0000\n"
+"Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "application/ja/>\n"
 "Language: ja\n"
@@ -7575,14 +7575,12 @@ msgstr ""
 
 #: weblate/templates/snippets/activity.html:10 weblate/trans/forms.py:1082
 msgid "Last year"
-msgstr "昨年"
+msgstr "今年度"
 
 #: weblate/templates/snippets/activity.html:14
-#, fuzzy
-#| msgid "Previous"
 msgctxt "Previous year"
 msgid "Previous"
-msgstr "前へ"
+msgstr "昨年度"
 
 #: weblate/templates/snippets/activity.html:16
 msgid "Activity in last 12 months"
@@ -7590,12 +7588,10 @@ msgstr "過去 12 か月間の実績"
 
 #: weblate/templates/snippets/activity.html:24
 #: weblate/templates/snippets/activity.html:29
-#, fuzzy, python-format
-#| msgid "%(count)s hour ago"
-#| msgid_plural "%(count)s hours ago"
+#, python-format
 msgid "%(count)s change"
 msgid_plural "%(count)s changes"
-msgstr[0] "%(count)s 時間前"
+msgstr[0] "%(count)s 回変更"
 
 #: weblate/templates/snippets/billing-failure.html:10
 msgid "This might be caused by missing subscription."
@@ -7649,10 +7645,8 @@ msgid "State"
 msgstr "状態"
 
 #: weblate/templates/snippets/format-translation.html:16
-#, fuzzy
-#| msgid "Create translation"
 msgid "Clone to translation"
-msgstr "翻訳の作成"
+msgstr "翻訳にコピー"
 
 #: weblate/templates/snippets/git-info.html:10 weblate/trans/forms.py:1650
 #: weblate/trans/models/component.py:268
@@ -7821,10 +7815,8 @@ msgid "String statistics"
 msgstr "文字列の統計データ"
 
 #: weblate/templates/snippets/info.html:273
-#, fuzzy
-#| msgid "String has comment"
 msgid "Strings percent"
-msgstr "コメントがある文字列"
+msgstr "文字列の割合"
 
 #: weblate/templates/snippets/info.html:274
 #: weblate/templates/snippets/info.html:431
@@ -7834,10 +7826,8 @@ msgid "Hosted strings"
 msgstr "保管中の文章数"
 
 #: weblate/templates/snippets/info.html:275
-#, fuzzy
-#| msgid "Word count"
 msgid "Words percent"
-msgstr "単語数"
+msgstr "単語の割合"
 
 #: weblate/templates/snippets/info.html:276
 #: weblate/templates/snippets/info.html:425
@@ -7848,7 +7838,7 @@ msgstr "保管中の単語数"
 
 #: weblate/templates/snippets/info.html:277
 msgid "Characters percent"
-msgstr ""
+msgstr "文字数の割合"
 
 #: weblate/templates/snippets/info.html:278
 msgctxt "Number of hosted characters"
@@ -7863,25 +7853,21 @@ msgstr "原文"
 
 #: weblate/templates/snippets/info.html:348
 msgid "Global numbers"
-msgstr ""
+msgstr "グローバル番号"
 
 #: weblate/templates/snippets/info.html:380
 #: weblate/templates/snippets/info.html:451
-#, fuzzy
-#| msgid "Last 30 days"
 msgid "and previous 30 days"
-msgstr "過去 30 日間"
+msgstr "および過去 30 日間"
 
 #: weblate/templates/snippets/info.html:381
 #: weblate/templates/snippets/info.html:452
-#, fuzzy
-#| msgid "Last 30 days"
 msgid "Trends of last 30 days"
-msgstr "過去 30 日間"
+msgstr "過去 30 日間の動向"
 
 #: weblate/templates/snippets/info.html:419
 msgid "Quick numbers"
-msgstr ""
+msgstr "クイック ナンバー"
 
 #: weblate/templates/snippets/info.html:443
 #: weblate/templates/snippets/info.html:480
@@ -9220,20 +9206,18 @@ msgid "pending"
 msgstr "保留中"
 
 #: weblate/templates/translate.html:725
-#, fuzzy
-#| msgid "Check flags"
 msgid "Inherited flags"
-msgstr "チェックフラグ"
+msgstr "継承したフラグ"
 
 #: weblate/templates/translate.html:731
 #, python-format
 msgid "<code>%(flags)s</code> was extracted from %(filename)s."
-msgstr ""
+msgstr "<code>%(flags)s</code> は、%(filename)s から抽出しました。"
 
 #: weblate/templates/translate.html:736 weblate/templates/translate.html:741
 #, python-format
 msgid "<code>%(flags)s</code> is inherited from %(object)s."
-msgstr ""
+msgstr "<code>%(flags)s</code> は、%(object)s から継承しました。"
 
 #: weblate/templates/translate.html:767
 #, python-format
