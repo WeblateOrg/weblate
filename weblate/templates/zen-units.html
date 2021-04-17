@@ -23,7 +23,7 @@
 
 {% if item.unit.source_unit.explanation %}
 <tr id="row-explanation-{{ item.unit.checksum }}">
-<td></td>
+<td class="unit-state-cell"></td>
 <td colspan="2" class="translatetext">
     <label>{% trans "Explanation" %}</label>
     <div class="list-group">
@@ -84,7 +84,7 @@
 <td id="status-{{ item.unit.checksum }}" class="unit-state-cell {% unit_state_class item.unit %}" title="{% unit_state_title item.unit %}">
 </td>
 {% endif %}
-<td {% if user.profile.zen_mode != user.profile.ZEN_HORIZONTAL %}colspan="2"{% endif %} class="full-cell translator">
+<td {% if user.profile.zen_mode != user.profile.ZEN_HORIZONTAL %}colspan="2"{% endif %} class="translator">
 {% crispy item.form %}
 </td>
 </tr>
