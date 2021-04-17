@@ -84,14 +84,17 @@ def get_glossary_terms(unit):
     parts.append("")
     source = PLURAL_SEPARATOR.join(parts)
 
+    uses_ngram = source_language.uses_ngram()
+
     matches = set()
     automaton = project.glossary_automaton
     if automaton.kind == ahocorasick.AHOCORASICK:
 
         # Extract terms present in the source
         for end, term in automaton.iter(source):
-            if NON_WORD_RE.match(source[end - len(term)]) and NON_WORD_RE.match(
-                source[end + 1]
+            if uses_ngram or (
+                NON_WORD_RE.match(source[end - len(term)])
+                and NON_WORD_RE.match(source[end + 1])
             ):
                 matches.add(term)
 
