@@ -209,6 +209,26 @@ To reset `admin` password, restart the container with
         :envvar:`WEBLATE_ADMIN_NAME`,
         :envvar:`WEBLATE_ADMIN_EMAIL`
 
+.. _docker-scaling:
+
+Scaling horizontally
+--------------------
+
+.. versionadded:: 4.6
+
+.. warning::
+
+   This feature is a technology preview.
+
+You can run multiple Weblate containers to scale the service horizontally. The
+:file:`/app/data` volume has to be shared by all containers, it is recommended
+to use cluster filesystem such as GlusterFS for this. The :file:`/app/cache`
+volume should be separate for each container.
+
+Each Weblate container has defined role using :envvar:`WEBLATE_SERVICE`
+environment variable. Please follow carefully the documentation as some of the
+services should be running just once in the cluster.
+
 .. _docker-environment:
 
 Docker environment variables
@@ -1245,6 +1265,27 @@ Container settings
         environment:
           UWSGI_WORKERS: 32
 
+.. envvar:: WEBLATE_SERVICE
+
+   Defines which services shoul be executed inside the container. Use this for :ref:`docker-scaling`.
+
+   Following services are defined:
+
+   ``celery-backup``
+      Celery worker for backups, only one instance should be running.
+   ``celery-beat``
+      Celery task scheduler, only one instance should be running.
+   ``celery-celery``
+      Generic Celery worker.
+   ``celery-memory``
+      Trnaslation memory Celery worker.
+   ``celery-notify``
+      Notifications Celery worker.
+   ``celery-translate``
+      Automatic translation Celery worker.
+   ``web``
+      Web server.
+
 In case you have a lot of CPU cores and hit out of memory issues, try reducing
 number of workers:
 
@@ -1262,9 +1303,9 @@ number of workers:
 Docker container volumes
 ------------------------
 
-There is single data volume exported by the Weblate container. The other
-service containers (PostgreSQL or Redis) have their data volumes as well, but
-those are not covered by this document.
+There are two volumes (data and cache) exported by the Weblate container. The
+other service containers (PostgreSQL or Redis) have their data volumes as well,
+but those are not covered by this document.
 
 The data volume is used to store Weblate persistent data such as cloned
 repositories or to customize Weblate installation.
@@ -1273,6 +1314,10 @@ The placement of the Docker volume on host system depends on your Docker
 configuration, but usually it is stored in
 :file:`/var/lib/docker/volumes/weblate-docker_weblate-data/_data/`. In the
 container it is mounted as :file:`/app/data`.
+
+The cache volume is mounted as :file:`/app/cache` and is used to store static
+files. It's content is recreated on container startup and the volume can be
+mounted using ephemeral filesystem such as `tmpfs`.
 
 .. seealso::
 
