@@ -32,8 +32,10 @@ check
 virtualenv .venv-$TAG
 check
 . .venv-$TAG/bin/activate
-# Use olser psycopg2 for compatibility with older Django releases
+# Use older psycopg2 for compatibility with older Django releases
 pip install psycopg2-binary==2.7.7
+# Use specific Selenium versions to avoid issues with pip resolver
+pip install selenium==4.0.0a6.post2
 pip install -r requirements-test.txt -r docs/requirements.txt
 check
 echo "DATABASES['default']['HOST'] = '$CI_DB_HOST'" >> weblate/settings_test.py
