@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-04-18 09:16+0200\n"
+"POT-Creation-Date: 2021-04-18 13:37+0200\n"
 "PO-Revision-Date: 2021-04-18 11:36+0000\n"
 "Last-Translator: Eric <spice2wolf@gmail.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
@@ -458,13 +458,13 @@ msgstr ""
 
 #: ../../admin/access.rst:242 ../../admin/access.rst:372
 #: ../../admin/config.rst:249 ../../admin/config.rst:274
-#: ../../admin/install/docker.rst:251 ../../admin/install/docker.rst:287
-#: ../../admin/install/docker.rst:345 ../../admin/install/docker.rst:362
-#: ../../admin/install/docker.rst:374 ../../admin/install/docker.rst:391
-#: ../../admin/install/docker.rst:412 ../../admin/install/docker.rst:444
-#: ../../admin/install/docker.rst:458 ../../admin/install/docker.rst:473
-#: ../../admin/install/docker.rst:717 ../../admin/install/docker.rst:1216
-#: ../../admin/install/docker.rst:1248 ../../admin/install/docker.rst:1266
+#: ../../admin/install/docker.rst:279 ../../admin/install/docker.rst:315
+#: ../../admin/install/docker.rst:373 ../../admin/install/docker.rst:390
+#: ../../admin/install/docker.rst:402 ../../admin/install/docker.rst:419
+#: ../../admin/install/docker.rst:440 ../../admin/install/docker.rst:472
+#: ../../admin/install/docker.rst:486 ../../admin/install/docker.rst:501
+#: ../../admin/install/docker.rst:745 ../../admin/install/docker.rst:1244
+#: ../../admin/install/docker.rst:1276 ../../admin/install/docker.rst:1294
 msgid "**Example:**"
 msgstr "**示例：**"
 
@@ -2490,7 +2490,7 @@ msgstr ""
 msgid ":doc:`psa:backends/azuread`"
 msgstr ":doc:`psa:backends/azuread`"
 
-#: ../../admin/auth.rst:288 ../../admin/install/docker.rst:917
+#: ../../admin/auth.rst:288 ../../admin/install/docker.rst:945
 msgid "Slack"
 msgstr "Slack"
 
@@ -6855,7 +6855,7 @@ msgstr ""
 "搜索 Weblate GPG 钥匙链（ :file:`home/.gnupg` ，在 :setting:`DATA_DIR` 之"
 "下）。如果没有找到，则产生密钥，更多细节请查询 :ref:`gpg-sign` 。"
 
-#: ../../admin/config.rst:2113 ../../admin/install/docker.rst:587
+#: ../../admin/config.rst:2113 ../../admin/install/docker.rst:615
 msgid ":ref:`gpg-sign`"
 msgstr ":ref:`gpg-sign`"
 
@@ -7350,7 +7350,7 @@ msgid "GitHub pull request from fork"
 msgstr "来自叉子的 GitHub 拉取请求"
 
 #: ../../admin/continuous.rst:302 ../../admin/continuous.rst:304
-#: ../../admin/install/docker.rst:500 ../../admin/install/docker.rst:511
+#: ../../admin/install/docker.rst:528 ../../admin/install/docker.rst:539
 msgid ":ref:`vcs-github`"
 msgstr ":ref:`vcs-github`"
 
@@ -7368,7 +7368,7 @@ msgid "GitLab merge request from fork"
 msgstr "来自叉子的 GitLab 结合请求"
 
 #: ../../admin/continuous.rst:306 ../../admin/continuous.rst:308
-#: ../../admin/install/docker.rst:520 ../../admin/install/docker.rst:529
+#: ../../admin/install/docker.rst:548 ../../admin/install/docker.rst:557
 msgid ":ref:`vcs-gitlab`"
 msgstr ":ref:`vcs-gitlab`"
 
@@ -7381,7 +7381,7 @@ msgid "Pagure merge request from fork"
 msgstr "来自分叉的Pargue合并请求"
 
 #: ../../admin/continuous.rst:310 ../../admin/continuous.rst:312
-#: ../../admin/install/docker.rst:538 ../../admin/install/docker.rst:547
+#: ../../admin/install/docker.rst:566 ../../admin/install/docker.rst:575
 msgid ":ref:`vcs-pagure`"
 msgstr ":ref:`vcs-pagure`"
 
@@ -10312,15 +10312,41 @@ msgstr ""
 ":envvar:`WEBLATE_ADMIN_PASSWORD`, :envvar:`WEBLATE_ADMIN_NAME`, :envvar:"
 "`WEBLATE_ADMIN_EMAIL`"
 
+#: ../../admin/install/docker.rst:213
+msgid "Number of processes and memory consumption"
+msgstr ""
+
 #: ../../admin/install/docker.rst:215
+msgid ""
+"The number of worker processes for both uWSGI and Celery is determined "
+"automatically based on number of CPUs. This works well for most cloud "
+"virtual machines as these typically have few CPUs and good amount of memory."
+msgstr ""
+
+#: ../../admin/install/docker.rst:219
+msgid ""
+"In case you have a lot of CPU cores and hit out of memory issues, try "
+"reducing number of workers:"
+msgstr ""
+"在你有很多 CPU 核心并且碰到内存用尽问题情况下，尝试减少 worker 的数量："
+
+#: ../../admin/install/docker.rst:232
+msgid ""
+":envvar:`CELERY_MAIN_OPTIONS`, :envvar:`CELERY_NOTIFY_OPTIONS`, :envvar:"
+"`CELERY_MEMORY_OPTIONS`, :envvar:`CELERY_TRANSLATE_OPTIONS`, :envvar:"
+"`CELERY_BACKUP_OPTIONS`, :envvar:`CELERY_BEAT_OPTIONS`, :envvar:"
+"`UWSGI_WORKERS`"
+msgstr ""
+
+#: ../../admin/install/docker.rst:243
 msgid "Scaling horizontally"
 msgstr ""
 
-#: ../../admin/install/docker.rst:221
+#: ../../admin/install/docker.rst:249
 msgid "This feature is a technology preview."
 msgstr "该功能目前处于技术预览阶段。"
 
-#: ../../admin/install/docker.rst:223
+#: ../../admin/install/docker.rst:251
 msgid ""
 "You can run multiple Weblate containers to scale the service horizontally. "
 "The :file:`/app/data` volume has to be shared by all containers, it is "
@@ -10328,7 +10354,7 @@ msgid ""
 "`/app/cache` volume should be separate for each container."
 msgstr ""
 
-#: ../../admin/install/docker.rst:228
+#: ../../admin/install/docker.rst:256
 msgid ""
 "Each Weblate container has defined role using :envvar:`WEBLATE_SERVICE` "
 "environment variable. Please follow carefully the documentation as some of "
@@ -10336,53 +10362,53 @@ msgid ""
 "the services matters as well."
 msgstr ""
 
-#: ../../admin/install/docker.rst:233
+#: ../../admin/install/docker.rst:261
 msgid ""
 "You can find example setup in the ``docker-compose`` repo as `docker-compose-"
 "split.yml <https://github.com/WeblateOrg/docker-compose/blob/main/docker-"
 "compose-split.yml>`__."
 msgstr ""
 
-#: ../../admin/install/docker.rst:240
+#: ../../admin/install/docker.rst:268
 msgid "Docker environment variables"
 msgstr "Docker 环境变量"
 
-#: ../../admin/install/docker.rst:242
+#: ../../admin/install/docker.rst:270
 msgid ""
 "Many of Weblate's :ref:`config` can be set in the Docker container using "
 "environment variables:"
 msgstr "可以使用环境变量在 Docker 容器中设置许多 Weblate 的 :ref:`config` ："
 
-#: ../../admin/install/docker.rst:245
+#: ../../admin/install/docker.rst:273
 msgid "Generic settings"
 msgstr "通用设置"
 
-#: ../../admin/install/docker.rst:249
+#: ../../admin/install/docker.rst:277
 msgid "Configures Django debug mode using :setting:`DEBUG`."
 msgstr "使用 :setting:`DEBUG` 配置 Django 调试模式。"
 
-#: ../../admin/install/docker.rst:260 ../../admin/projects.rst:946
+#: ../../admin/install/docker.rst:288 ../../admin/projects.rst:946
 #: ../../contributing/debugging.rst:17
 msgid ":ref:`production-debug`"
 msgstr ":ref:`production-debug`"
 
-#: ../../admin/install/docker.rst:264
+#: ../../admin/install/docker.rst:292
 msgid "Configures the logging verbosity."
 msgstr "配置日志记录的详细程度。"
 
-#: ../../admin/install/docker.rst:269
+#: ../../admin/install/docker.rst:297
 msgid "Changes the site-title shown in the header of all pages."
 msgstr "更改所有页面页眉上显示的站点标题。"
 
-#: ../../admin/install/docker.rst:273
+#: ../../admin/install/docker.rst:301
 msgid "Configures the site domain. This parameter is required."
 msgstr "配置站点域名。此参数为必填项。"
 
-#: ../../admin/install/docker.rst:277
+#: ../../admin/install/docker.rst:305
 msgid ":ref:`production-site`, :setting:`SITE_DOMAIN`"
 msgstr ":ref:`production-site`, :setting:`SITE_DOMAIN`"
 
-#: ../../admin/install/docker.rst:283
+#: ../../admin/install/docker.rst:311
 msgid ""
 "Configures the site-admin's name and e-mail. It is used for both :setting:"
 "`ADMINS` setting and creating `admin` user (see :envvar:"
@@ -10391,15 +10417,15 @@ msgstr ""
 "配置站点管理员的姓名和电子邮件。它用于 :setting:`ADMINS` 设置和创建 `管理员` "
 "用户（有关此信息，请参阅 :envvar:`WEBLATE_ADMIN_PASSWORD`）。"
 
-#: ../../admin/install/docker.rst:297
+#: ../../admin/install/docker.rst:325
 msgid ":ref:`docker-admin-login`, :ref:`production-admins`, :setting:`ADMINS`"
 msgstr ":ref:`docker-admin-login`, :ref:`production-admins`, :setting:`ADMINS`"
 
-#: ../../admin/install/docker.rst:303
+#: ../../admin/install/docker.rst:331
 msgid "Sets the password for the `admin` user."
 msgstr "设置 `管理员` 用户的密码。"
 
-#: ../../admin/install/docker.rst:305
+#: ../../admin/install/docker.rst:333
 msgid ""
 "If not set and `admin` user does not exist, it is created with a random "
 "password shown on first container startup."
@@ -10407,11 +10433,11 @@ msgstr ""
 "如果未设置并且 `管理员` 用户不存在，则会使用首次启动容器时显示的随机密码来创"
 "建它。"
 
-#: ../../admin/install/docker.rst:307
+#: ../../admin/install/docker.rst:335
 msgid "If not set and `admin` user exists, no action is performed."
 msgstr "如果未设置并且 `管理员` 用户存在，则不执行任何操作。"
 
-#: ../../admin/install/docker.rst:308
+#: ../../admin/install/docker.rst:336
 msgid ""
 "If set the `admin` user is adjusted on every container startup to match :"
 "envvar:`WEBLATE_ADMIN_PASSWORD`, :envvar:`WEBLATE_ADMIN_NAME` and :envvar:"
@@ -10421,7 +10447,7 @@ msgstr ""
 "`WEBLATE_ADMIN_PASSWORD`，:envvar:`WEBLATE_ADMIN_NAME` 和 :envvar:"
 "`WEBLATE_ADMIN_EMAIL`。"
 
-#: ../../admin/install/docker.rst:314
+#: ../../admin/install/docker.rst:342
 msgid ""
 "It might be a security risk to store password in the configuration file. "
 "Consider using this variable only for initial setup (or let Weblate generate "
@@ -10430,7 +10456,7 @@ msgstr ""
 "将密码存储在配置文件中可能会带来安全风险。考虑仅将此变量用于初始设置（或让 "
 "Weblate 在初始启动时生成随机密码）或用于密码恢复。"
 
-#: ../../admin/install/docker.rst:321
+#: ../../admin/install/docker.rst:349
 msgid ""
 ":ref:`docker-admin-login`, :envvar:`WEBLATE_ADMIN_PASSWORD`, :envvar:"
 "`WEBLATE_ADMIN_NAME`, :envvar:`WEBLATE_ADMIN_EMAIL`"
@@ -10438,39 +10464,39 @@ msgstr ""
 ":ref:`docker-admin-login`, :envvar:`WEBLATE_ADMIN_PASSWORD`, :envvar:"
 "`WEBLATE_ADMIN_NAME`, :envvar:`WEBLATE_ADMIN_EMAIL`"
 
-#: ../../admin/install/docker.rst:329
+#: ../../admin/install/docker.rst:357
 msgid "Configures the address for outgoing e-mails."
 msgstr "配置外发电子邮件的地址。"
 
-#: ../../admin/install/docker.rst:333
+#: ../../admin/install/docker.rst:361
 msgid ":ref:`production-email`"
 msgstr ":ref:`production-email`"
 
-#: ../../admin/install/docker.rst:337
+#: ../../admin/install/docker.rst:365
 msgid "Configures contact form behavior, see :setting:`CONTACT_FORM`."
 msgstr ""
 
-#: ../../admin/install/docker.rst:341
+#: ../../admin/install/docker.rst:369
 msgid "Configures allowed HTTP hostnames using :setting:`ALLOWED_HOSTS`."
 msgstr "使用 :setting:`ALLOWED_HOSTS` 配置允许的 HTTP 主机名。"
 
-#: ../../admin/install/docker.rst:343
+#: ../../admin/install/docker.rst:371
 msgid "Defaults to ``*`` which allows all hostnames."
 msgstr "默认为 ``*`` 来允许所有的主机名称。"
 
-#: ../../admin/install/docker.rst:354
+#: ../../admin/install/docker.rst:382
 msgid ""
 ":setting:`ALLOWED_HOSTS`, :ref:`production-hosts`, :ref:`production-site`"
 msgstr ""
 ":setting:`ALLOWED_HOSTS`, :ref:`production-hosts`, :ref:`production-site`"
 
-#: ../../admin/install/docker.rst:360
+#: ../../admin/install/docker.rst:388
 msgid ""
 "Configures whether registrations are open by toggling :std:setting:"
 "`REGISTRATION_OPEN`."
 msgstr "通过切换 :std:setting:`REGISTRATION_OPEN` 配置是否打开注册。"
 
-#: ../../admin/install/docker.rst:371
+#: ../../admin/install/docker.rst:399
 msgid ""
 "Configure which authentication methods can be used to create new account "
 "via :setting:`REGISTRATION_ALLOW_BACKENDS`."
@@ -10478,19 +10504,19 @@ msgstr ""
 "配置可用于通过 :setting:`REGISTRATION_ALLOW_BACKENDS` 创建新帐户的身份验证方"
 "法。"
 
-#: ../../admin/install/docker.rst:384
+#: ../../admin/install/docker.rst:412
 msgid ""
 "Configures the used time zone in Weblate, see :std:setting:`django:"
 "TIME_ZONE`."
 msgstr "在 Weblate 中配置使用的时区，请参阅 :std:setting:`django:TIME_ZONE`。"
 
-#: ../../admin/install/docker.rst:388
+#: ../../admin/install/docker.rst:416
 msgid ""
 "To change the time zone of the Docker container itself, use the ``TZ`` "
 "environment variable."
 msgstr "为了更改 Docker 自己的时区，使用 ``TZ`` 环境变量。"
 
-#: ../../admin/install/docker.rst:400
+#: ../../admin/install/docker.rst:428
 msgid ""
 "Makes Weblate assume it is operated behind a reverse HTTPS proxy, it makes "
 "Weblate use HTTPS in e-mail and API links or set secure flags on cookies."
@@ -10498,11 +10524,11 @@ msgstr ""
 "让 Weblate 假定在反向 HTTPS 代理后面操作，这使 Weblate 在电子邮件和 API 链接"
 "中使用 HTTPS ，或者在 cookies 上设置安全标记。"
 
-#: ../../admin/install/docker.rst:405
+#: ../../admin/install/docker.rst:433
 msgid "Please see :setting:`ENABLE_HTTPS` documentation for possible caveats."
 msgstr "可能的警告请参见 :setting:`ENABLE_HTTPS` 文档。"
 
-#: ../../admin/install/docker.rst:409
+#: ../../admin/install/docker.rst:437
 msgid ""
 "This does not make the Weblate container accept HTTPS connections, you need "
 "to configure that as well, see :ref:`docker-ssl` for examples."
@@ -10510,7 +10536,7 @@ msgstr ""
 "这不会使 Weblate 容器接受 HTTPS 连接，您同样需要配置它，例子请参见 :ref:"
 "`docker-ssl` 。"
 
-#: ../../admin/install/docker.rst:421
+#: ../../admin/install/docker.rst:449
 msgid ""
 ":setting:`ENABLE_HTTPS` :ref:`production-site`, :envvar:"
 "`WEBLATE_SECURE_PROXY_SSL_HEADER`"
@@ -10518,7 +10544,7 @@ msgstr ""
 ":setting:`ENABLE_HTTPS` :ref:`production-site`, :envvar:"
 "`WEBLATE_SECURE_PROXY_SSL_HEADER`"
 
-#: ../../admin/install/docker.rst:427
+#: ../../admin/install/docker.rst:455
 msgid ""
 "Lets Weblate fetch the IP address from any given HTTP header. Use this when "
 "using a reverse proxy in front of the Weblate container."
@@ -10526,14 +10552,14 @@ msgstr ""
 "让 Weblate 从任何给定的 HTTP 标头中取回 IP 地址。在使用 Weblate 容器之前的反"
 "向代理时使用它。"
 
-#: ../../admin/install/docker.rst:430
+#: ../../admin/install/docker.rst:458
 msgid ""
 "Enables :setting:`IP_BEHIND_REVERSE_PROXY` and sets :setting:"
 "`IP_PROXY_HEADER`."
 msgstr ""
 "允许 :setting:`IP_BEHIND_REVERSE_PROXY` 并设置 :setting:`IP_PROXY_HEADER` 。"
 
-#: ../../admin/install/docker.rst:434
+#: ../../admin/install/docker.rst:462
 msgid ""
 "The format must conform to Django's expectations. Django `transforms "
 "<https://docs.djangoproject.com/en/2.2/ref/request-response/#django.http."
@@ -10543,23 +10569,23 @@ msgstr ""
 "com/en/2.2/ref/request-response/#django.http.HttpRequest.META>`_ 原始 HTTP 标"
 "头如下命名："
 
-#: ../../admin/install/docker.rst:438
+#: ../../admin/install/docker.rst:466
 msgid "converts all characters to uppercase"
 msgstr "将所有字符装换为大写"
 
-#: ../../admin/install/docker.rst:439
+#: ../../admin/install/docker.rst:467
 msgid "replaces any hyphens with underscores"
 msgstr "用下划线替换任何连字符"
 
-#: ../../admin/install/docker.rst:440
+#: ../../admin/install/docker.rst:468
 msgid "prepends ``HTTP_`` prefix"
 msgstr "预置 ``HTTP_`` 前缀"
 
-#: ../../admin/install/docker.rst:442
+#: ../../admin/install/docker.rst:470
 msgid "So ``X-Forwarded-For`` would be mapped to ``HTTP_X_FORWARDED_FOR``."
 msgstr "所以 ``X-Forwarded-For`` 将被映射到 ``HTTP_X_FORWARDED_FOR`` 。"
 
-#: ../../admin/install/docker.rst:454
+#: ../../admin/install/docker.rst:482
 msgid ""
 "A tuple representing a HTTP header/value combination that signifies a "
 "request is secure. This is needed when Weblate is running behind a reverse "
@@ -10569,16 +10595,16 @@ msgstr ""
 "在进行终止SSL 的反向代理之后运行时，这是需要的，终止 SSL 不通过标准 HTTPS 标"
 "头。"
 
-#: ../../admin/install/docker.rst:467
+#: ../../admin/install/docker.rst:495
 msgid ":setting:`django:SECURE_PROXY_SSL_HEADER`"
 msgstr ":setting:`django:SECURE_PROXY_SSL_HEADER`"
 
-#: ../../admin/install/docker.rst:471
+#: ../../admin/install/docker.rst:499
 msgid ""
 "Enables :setting:`REQUIRE_LOGIN` to enforce authentication on whole Weblate."
 msgstr "启用 :setting:`REQUIRE_LOGIN` 而在整个 Weblate 上强制认证。"
 
-#: ../../admin/install/docker.rst:484
+#: ../../admin/install/docker.rst:512
 msgid ""
 "Adds URL exceptions for authentication required for the whole Weblate "
 "installation using :setting:`LOGIN_REQUIRED_URLS_EXCEPTIONS`."
@@ -10586,20 +10612,20 @@ msgstr ""
 "使用 :setting:`LOGIN_REQUIRED_URLS_EXCEPTIONS` 来为整个 Webate 安装所需的身份"
 "验证添加 URL 例外。"
 
-#: ../../admin/install/docker.rst:487
+#: ../../admin/install/docker.rst:515
 msgid ""
 "You can either replace whole settings, or modify default value using ``ADD`` "
 "and ``REMOVE`` variables."
 msgstr "可以替换整个设置，或者使用 ``ADD`` 和 ``REMOVE`` 变量修改默认值。"
 
-#: ../../admin/install/docker.rst:491
+#: ../../admin/install/docker.rst:519
 msgid ""
 "Configures ID for Google Analytics by changing :setting:"
 "`GOOGLE_ANALYTICS_ID`."
 msgstr ""
 "通过 :setting:`GOOGLE_ANALYTICS_ID` 来配置用于 Google Analytics 的 ID 。"
 
-#: ../../admin/install/docker.rst:495
+#: ../../admin/install/docker.rst:523
 msgid ""
 "Configures GitHub username for GitHub pull-requests by changing :setting:"
 "`GITHUB_USERNAME`."
@@ -10607,7 +10633,7 @@ msgstr ""
 "通过更改 :setting:`GITHUB_USERNAME` 来配置用于 GitHub 拉取请求的 GitHub 用户"
 "名。"
 
-#: ../../admin/install/docker.rst:506
+#: ../../admin/install/docker.rst:534
 msgid ""
 "Configures GitHub personal access token for GitHub pull-requests via API by "
 "changing :setting:`GITHUB_TOKEN`."
@@ -10615,7 +10641,7 @@ msgstr ""
 "通过更改 :setting:`GITHUB_TOKEN`，为 Github 通过 API 的拉取请求来配置 GitHub "
 "的个人访问令牌。"
 
-#: ../../admin/install/docker.rst:515
+#: ../../admin/install/docker.rst:543
 msgid ""
 "Configures GitLab username for GitLab merge-requests by changing :setting:"
 "`GITLAB_USERNAME`"
@@ -10623,7 +10649,7 @@ msgstr ""
 "通过更改 :setting:`GITLAB_USERNAME` 来配置用于 GitLab 合并请求的 GitLab 用户"
 "名"
 
-#: ../../admin/install/docker.rst:524
+#: ../../admin/install/docker.rst:552
 msgid ""
 "Configures GitLab personal access token for GitLab merge-requests via API by "
 "changing :setting:`GITLAB_TOKEN`"
@@ -10631,7 +10657,7 @@ msgstr ""
 "通过更改 :setting:`GITLAB_TOKEN` ，为 GitLab 通过 API 的合并请求来配置 "
 "GitLab 的个人访问令牌"
 
-#: ../../admin/install/docker.rst:533
+#: ../../admin/install/docker.rst:561
 msgid ""
 "Configures Pagure username for Pagure merge-requests by changing :setting:"
 "`PAGURE_USERNAME`"
@@ -10639,7 +10665,7 @@ msgstr ""
 "通过更改 :setting:`PARGUE_USERNAME` 来配置用于 Pagure 合并请求的 Pagure 用户"
 "名"
 
-#: ../../admin/install/docker.rst:542
+#: ../../admin/install/docker.rst:570
 msgid ""
 "Configures Pagure personal access token for Pagure merge-requests via API by "
 "changing :setting:`PAGURE_TOKEN`"
@@ -10647,13 +10673,13 @@ msgstr ""
 "通过更改 :setting:`PAGURE_TOKEN` ，为通过API的Pagure合并请求配置Pagure个人访"
 "问令牌"
 
-#: ../../admin/install/docker.rst:551
+#: ../../admin/install/docker.rst:579
 msgid ""
 "Configures the language simplification policy, see :setting:"
 "`SIMPLIFY_LANGUAGES`."
 msgstr "配置语言简化策略，请参见 :setting:`SIMPLIFY_LANGUAGES` 。"
 
-#: ../../admin/install/docker.rst:555
+#: ../../admin/install/docker.rst:583
 msgid ""
 "Configures the default :ref:`project-access_control` for new projects, see :"
 "setting:`DEFAULT_ACCESS_CONTROL`."
@@ -10661,7 +10687,7 @@ msgstr ""
 "为新项目配置默认的 :ref:`project-access_control` ，请参见 :setting:"
 "`DEFAULT_ACCESS_CONTROL` 。"
 
-#: ../../admin/install/docker.rst:559
+#: ../../admin/install/docker.rst:587
 msgid ""
 "Configures the default value for :ref:`component-restricted` for new "
 "components, see :setting:`DEFAULT_RESTRICTED_COMPONENT`."
@@ -10669,7 +10695,7 @@ msgstr ""
 "为新组件的 :ref:`component-restricted` 配置默认值，请参见 :setting:"
 "`DEFAULT_RESTRICTED_COMPONENT` 。"
 
-#: ../../admin/install/docker.rst:563
+#: ../../admin/install/docker.rst:591
 msgid ""
 "Configures the default value for :ref:`component-"
 "allow_translation_propagation` for new components, see :setting:"
@@ -10678,43 +10704,43 @@ msgstr ""
 "为新组件的 :ref:`component-allow_translation_propagation` 配置默认值，请参"
 "见 :setting:`DEFAULT_TRANSLATION_PROPAGATION` 。"
 
-#: ../../admin/install/docker.rst:567
+#: ../../admin/install/docker.rst:595
 msgid "Configures :setting:`DEFAULT_COMMITER_EMAIL`."
 msgstr "配置 :setting:`DEFAULT_COMMITER_EMAIL`。"
 
-#: ../../admin/install/docker.rst:571
+#: ../../admin/install/docker.rst:599
 msgid "Configures :setting:`DEFAULT_COMMITER_NAME`."
 msgstr "配置 :setting:`DEFAULT_COMMITER_NAME`。"
 
-#: ../../admin/install/docker.rst:575
+#: ../../admin/install/docker.rst:603
 msgid "Configures :setting:`DEFAULT_SHARED_TM`."
 msgstr "配置 :setting:`DEFAULT_SHARED_TM`."
 
-#: ../../admin/install/docker.rst:579
+#: ../../admin/install/docker.rst:607
 msgid "Configures the Akismet API key, see :setting:`AKISMET_API_KEY`."
 msgstr "配置 Akismet API 密钥，请参见 :setting:`AKISMET_API_KEY` 。"
 
-#: ../../admin/install/docker.rst:583
+#: ../../admin/install/docker.rst:611
 msgid "Configures GPG signing of commits, see :setting:`WEBLATE_GPG_IDENTITY`."
 msgstr "配置提交的 GPG 签名，请参见 :setting:`WEBLATE_GPG_IDENTITY` 。"
 
-#: ../../admin/install/docker.rst:591
+#: ../../admin/install/docker.rst:619
 msgid ""
 "Configures URL prefix where Weblate is running, see :setting:`URL_PREFIX`."
 msgstr "配置 Weblate 运行的 URL 前缀，请参见 :setting:`URL_PREFIX` 。"
 
-#: ../../admin/install/docker.rst:595
+#: ../../admin/install/docker.rst:623
 msgid ""
 "Configures checks which you do not want to be displayed, see :setting:"
 "`django:SILENCED_SYSTEM_CHECKS`."
 msgstr ""
 "配置您不想要显示的检查，请参见 :setting:`django:SILENCED_SYSTEM_CHECKS` 。"
 
-#: ../../admin/install/docker.rst:604
+#: ../../admin/install/docker.rst:632
 msgid "Allows to customize ``Content-Security-Policy`` HTTP header."
 msgstr "允许定制 ``Content-Security-Policy`` HTTP 标头。"
 
-#: ../../admin/install/docker.rst:608
+#: ../../admin/install/docker.rst:636
 msgid ""
 ":ref:`csp`, :setting:`CSP_SCRIPT_SRC`, :setting:`CSP_IMG_SRC`, :setting:"
 "`CSP_CONNECT_SRC`, :setting:`CSP_STYLE_SRC`, :setting:`CSP_FONT_SRC`"
@@ -10722,41 +10748,41 @@ msgstr ""
 ":ref:`csp`, :setting:`CSP_SCRIPT_SRC`, :setting:`CSP_IMG_SRC`, :setting:"
 "`CSP_CONNECT_SRC`, :setting:`CSP_STYLE_SRC`, :setting:`CSP_FONT_SRC`"
 
-#: ../../admin/install/docker.rst:617
+#: ../../admin/install/docker.rst:645
 msgid "Configures :setting:`LICENSE_FILTER`."
 msgstr "配置 :setting:`LICENSE_FILTER`."
 
-#: ../../admin/install/docker.rst:621
+#: ../../admin/install/docker.rst:649
 msgid "Configures :setting:`LICENSE_REQUIRED`"
 msgstr "配置 :setting:`LICENSE_REQUIRED`"
 
-#: ../../admin/install/docker.rst:625
+#: ../../admin/install/docker.rst:653
 msgid "Configures :setting:`WEBSITE_REQUIRED`"
 msgstr "配置 :setting:`WEBSITE_REQUIRED`"
 
-#: ../../admin/install/docker.rst:629
+#: ../../admin/install/docker.rst:657
 msgid "Configures :setting:`HIDE_VERSION`."
 msgstr "配置 :setting:`HIDE_VERSION`。"
 
-#: ../../admin/install/docker.rst:633
+#: ../../admin/install/docker.rst:661
 msgid "Configures :setting:`BASIC_LANGUAGES`."
 msgstr "配置 :setting:`BASIC_LANGUAGES`."
 
-#: ../../admin/install/docker.rst:637
+#: ../../admin/install/docker.rst:665
 msgid "Configures :setting:`DEFAULT_AUTO_WATCH`."
 msgstr "配置 :setting:`DEFAULT_AUTO_WATCH`."
 
-#: ../../admin/install/docker.rst:645
+#: ../../admin/install/docker.rst:673
 msgid "Configures rate limiter."
 msgstr "配置速率限制器。"
 
-#: ../../admin/install/docker.rst:649
+#: ../../admin/install/docker.rst:677
 msgid ""
 "You can set configuration for any rate limiter scopes. To do that add "
 "``WEBLATE_`` prefix to any of setting described in :ref:`rate-limit`."
 msgstr ""
 
-#: ../../admin/install/docker.rst:654
+#: ../../admin/install/docker.rst:682
 msgid ""
 ":ref:`rate-limit`, :setting:`RATELIMIT_ATTEMPTS`, :setting:"
 "`RATELIMIT_WINDOW`, :setting:`RATELIMIT_LOCKOUT`"
@@ -10764,37 +10790,37 @@ msgstr ""
 ":ref:`rate-limit`, :setting:`RATELIMIT_ATTEMPTS`, :setting:"
 "`RATELIMIT_WINDOW`, :setting:`RATELIMIT_LOCKOUT`"
 
-#: ../../admin/install/docker.rst:661
+#: ../../admin/install/docker.rst:689
 msgid "Machine translation settings"
 msgstr "机器翻译设置"
 
-#: ../../admin/install/docker.rst:665
+#: ../../admin/install/docker.rst:693
 msgid ""
 "Enables :ref:`apertium` machine translation and sets :setting:"
 "`MT_APERTIUM_APY`"
 msgstr "启用 :ref:`apertium` 机器翻译并设置 :setting:`MT_APERTIUM_APY`"
 
-#: ../../admin/install/docker.rst:671
+#: ../../admin/install/docker.rst:699
 msgid "Configures :ref:`aws` machine translation."
 msgstr "配置 :ref:`aws` 机器翻译。"
 
-#: ../../admin/install/docker.rst:682
+#: ../../admin/install/docker.rst:710
 msgid ""
 "Enables :ref:`deepl` machine translation and sets :setting:`MT_DEEPL_KEY`"
 msgstr "允许 :ref:`deepl` 机器翻译，并设置 :setting:`MT_DEEPL_KEY`"
 
-#: ../../admin/install/docker.rst:686
+#: ../../admin/install/docker.rst:714
 msgid ""
 "Configures :ref:`deepl` API version to use, see :setting:"
 "`MT_DEEPL_API_VERSION`."
 msgstr ""
 "配置使用的 :ref:`deepl` API 版本，请参见 :setting:`MT_DEEPL_API_VERSION` 。"
 
-#: ../../admin/install/docker.rst:690
+#: ../../admin/install/docker.rst:718
 msgid "Enables :ref:`google-translate` and sets :setting:`MT_GOOGLE_KEY`"
 msgstr "允许 :ref:`google-translate` 并设置 :setting:`MT_GOOGLE_KEY`"
 
-#: ../../admin/install/docker.rst:694
+#: ../../admin/install/docker.rst:722
 msgid ""
 "Enables :ref:`ms-cognitive-translate` and sets :setting:"
 "`MT_MICROSOFT_COGNITIVE_KEY`"
@@ -10802,25 +10828,25 @@ msgstr ""
 "允许 :ref:`ms-cognitive-translate` 并设置 :setting:"
 "`MT_MICROSOFT_COGNITIVE_KEY`"
 
-#: ../../admin/install/docker.rst:698
+#: ../../admin/install/docker.rst:726
 msgid ""
 "Sets :setting:`MT_MICROSOFT_ENDPOINT_URL`, please note this is supposed to "
 "contain domain name only."
 msgstr "设置 :setting:`MT_MICROSOFT_ENDPOINT_URL` ，请注意，这应该只包含域名。"
 
-#: ../../admin/install/docker.rst:702
+#: ../../admin/install/docker.rst:730
 msgid "Sets :setting:`MT_MICROSOFT_REGION`"
 msgstr "设置 :setting:`MT_MICROSOFT_REGION`"
 
-#: ../../admin/install/docker.rst:706
+#: ../../admin/install/docker.rst:734
 msgid "Sets :setting:`MT_MICROSOFT_BASE_URL`"
 msgstr "设置 :setting:`MT_MICROSOFT_BASE_URL`"
 
-#: ../../admin/install/docker.rst:710
+#: ../../admin/install/docker.rst:738
 msgid "Enables :ref:`modernmt` and sets :setting:`MT_MODERNMT_KEY`."
 msgstr "允许 :ref:`modernmt` 并设置 :setting:`MT_MODERNMT_KEY` 。"
 
-#: ../../admin/install/docker.rst:714
+#: ../../admin/install/docker.rst:742
 msgid ""
 "Enables :ref:`mymemory` machine translation and sets :setting:"
 "`MT_MYMEMORY_EMAIL` to :envvar:`WEBLATE_ADMIN_EMAIL`."
@@ -10828,113 +10854,113 @@ msgstr ""
 "允许 :ref:`mymemory` 机器翻译，并将 :setting:`MT_MYMEMORY_EMAIL` 设置到 :"
 "envvar:`WEBLATE_ADMIN_EMAIL` 。"
 
-#: ../../admin/install/docker.rst:726
+#: ../../admin/install/docker.rst:754
 msgid "Enables :ref:`glosbe` machine translation."
 msgstr "允许 :ref:`glosbe` 机器翻译。"
 
-#: ../../admin/install/docker.rst:735
+#: ../../admin/install/docker.rst:763
 msgid "Enables :ref:`ms-terminology` machine translation."
 msgstr "允许 :ref:`ms-terminology` 机器翻译。"
 
-#: ../../admin/install/docker.rst:748
+#: ../../admin/install/docker.rst:776
 msgid "Configures :ref:`saptranslationhub` machine translation."
 msgstr "配置 :ref:`saptranslationhub` 机器翻译。"
 
-#: ../../admin/install/docker.rst:762
+#: ../../admin/install/docker.rst:790
 msgid "Authentication settings"
 msgstr "身份验证设置"
 
-#: ../../admin/install/docker.rst:765
+#: ../../admin/install/docker.rst:793
 msgid "LDAP"
 msgstr "LDAP"
 
-#: ../../admin/install/docker.rst:778
+#: ../../admin/install/docker.rst:806
 msgid "LDAP authentication configuration."
 msgstr "LDAP 身份验证配置。"
 
-#: ../../admin/install/docker.rst:780
+#: ../../admin/install/docker.rst:808
 msgid "**Example for direct bind:**"
 msgstr "**直接绑定的例子：**"
 
-#: ../../admin/install/docker.rst:791
+#: ../../admin/install/docker.rst:819
 msgid "**Example for search and bind:**"
 msgstr "**搜索与绑定的例子：**"
 
-#: ../../admin/install/docker.rst:803
+#: ../../admin/install/docker.rst:831
 msgid "**Example for union search and bind:**"
 msgstr "**联合搜索与绑定的例子：**"
 
-#: ../../admin/install/docker.rst:815
+#: ../../admin/install/docker.rst:843
 msgid "**Example with search and bind against Active Directory:**"
 msgstr "**针对活动目录（ Active Directory ）的搜索与绑定的例子：**"
 
-#: ../../admin/install/docker.rst:830
+#: ../../admin/install/docker.rst:858
 msgid ":ref:`ldap-auth`"
 msgstr ":ref:`ldap-auth`"
 
-#: ../../admin/install/docker.rst:833 ../../vcs.rst:260
+#: ../../admin/install/docker.rst:861 ../../vcs.rst:260
 msgid "GitHub"
 msgstr "GitHub"
 
-#: ../../admin/install/docker.rst:838
+#: ../../admin/install/docker.rst:866
 msgid "Enables :ref:`github_auth`."
 msgstr "允许 :ref:`github_auth` 。"
 
-#: ../../admin/install/docker.rst:841
+#: ../../admin/install/docker.rst:869
 msgid "Bitbucket"
 msgstr "Bitbucket"
 
-#: ../../admin/install/docker.rst:846
+#: ../../admin/install/docker.rst:874
 msgid "Enables :ref:`bitbucket_auth`."
 msgstr "允许 :ref:`bitbucket_auth` 。"
 
-#: ../../admin/install/docker.rst:849
+#: ../../admin/install/docker.rst:877
 msgid "Facebook"
 msgstr "Facebook"
 
-#: ../../admin/install/docker.rst:854
+#: ../../admin/install/docker.rst:882
 msgid "Enables :ref:`facebook_auth`."
 msgstr "允许 :ref:`facebook_auth`."
 
-#: ../../admin/install/docker.rst:857
+#: ../../admin/install/docker.rst:885
 msgid "Google"
 msgstr "Google"
 
-#: ../../admin/install/docker.rst:864
+#: ../../admin/install/docker.rst:892
 msgid "Enables :ref:`google_auth`."
 msgstr "允许 :ref:`google_auth` 。"
 
-#: ../../admin/install/docker.rst:867 ../../vcs.rst:297
+#: ../../admin/install/docker.rst:895 ../../vcs.rst:297
 msgid "GitLab"
 msgstr "GitLab"
 
-#: ../../admin/install/docker.rst:873
+#: ../../admin/install/docker.rst:901
 msgid "Enables :ref:`gitlab_auth`."
 msgstr "允许 :ref:`gitlab_auth` 。"
 
-#: ../../admin/install/docker.rst:876
+#: ../../admin/install/docker.rst:904
 msgid "Azure Active Directory"
 msgstr "Azure Active Directory"
 
-#: ../../admin/install/docker.rst:881
+#: ../../admin/install/docker.rst:909
 msgid "Enables Azure Active Directory authentication, see :ref:`azure-auth`."
 msgstr "允许 Azure 活动目录身份验证，请参见 :ref:`azure-auth` 。"
 
-#: ../../admin/install/docker.rst:884
+#: ../../admin/install/docker.rst:912
 msgid "Azure Active Directory with Tenant support"
 msgstr "带有租户支持的Azure 活动目录"
 
-#: ../../admin/install/docker.rst:890
+#: ../../admin/install/docker.rst:918
 msgid ""
 "Enables Azure Active Directory authentication with Tenant support, see :ref:"
 "`azure-auth`."
 msgstr "允许带有租户支持的Azure 活动目录身份验证，请参见 :ref:`azure-auth` 。"
 
-#: ../../admin/install/docker.rst:894
+#: ../../admin/install/docker.rst:922
 msgid "Keycloak"
 msgstr "Keycloak"
 
-#: ../../admin/install/docker.rst:903
+#: ../../admin/install/docker.rst:931
 msgid ""
 "Enables Keycloak authentication, see `documentation <https://github.com/"
 "python-social-auth/social-core/blob/master/social_core/backends/keycloak."
@@ -10943,11 +10969,11 @@ msgstr ""
 "允许 Keycloak 身份验证，请参见 `documentation <https://github.com/python-"
 "social-auth/social-core/blob/master/social_core/backends/keycloak.py>`_ 。"
 
-#: ../../admin/install/docker.rst:907
+#: ../../admin/install/docker.rst:935
 msgid "Linux vendors"
 msgstr "Linux 销售商"
 
-#: ../../admin/install/docker.rst:909
+#: ../../admin/install/docker.rst:937
 msgid ""
 "You can enable authentication using Linux vendors authentication services by "
 "setting following variables to any value."
@@ -10955,15 +10981,15 @@ msgstr ""
 "您可以通过将后面的变量设置为任何值，使用 Linux 销售商身份验证服务来允许身份验"
 "证。"
 
-#: ../../admin/install/docker.rst:922
+#: ../../admin/install/docker.rst:950
 msgid "Enables Slack authentication, see :ref:`slack-auth`."
 msgstr "允许 Slack 身份验证，请参见 :ref:`slack-auth` 。"
 
-#: ../../admin/install/docker.rst:927
+#: ../../admin/install/docker.rst:955
 msgid "SAML"
 msgstr "SAML"
 
-#: ../../admin/install/docker.rst:929
+#: ../../admin/install/docker.rst:957
 msgid ""
 "Self-signed SAML keys are automatically generated on first container "
 "startup. In case you want to use own keys, place the certificate and private "
@@ -10973,23 +10999,23 @@ msgstr ""
 "下，将证书和私钥放置在 :file:`/app/data/ssl/saml.crt` 和 :file:`/app/data/"
 "ssl/saml.key`中。"
 
-#: ../../admin/install/docker.rst:937
+#: ../../admin/install/docker.rst:965
 msgid "SAML Identity Provider settings, see :ref:`saml-auth`."
 msgstr "SAML 身份提供者设置，请参见 :ref:`saml-auth` 。"
 
-#: ../../admin/install/docker.rst:941
+#: ../../admin/install/docker.rst:969
 msgid "Other authentication settings"
 msgstr "其他身份认证设置"
 
-#: ../../admin/install/docker.rst:945
+#: ../../admin/install/docker.rst:973
 msgid "Disables e-mail authentication when set to any value."
 msgstr "当设置为任何值时禁止电子邮箱身份认证。"
 
-#: ../../admin/install/docker.rst:949
+#: ../../admin/install/docker.rst:977
 msgid "PostgreSQL database setup"
 msgstr "PostgreSQL 数据库设置"
 
-#: ../../admin/install/docker.rst:951
+#: ../../admin/install/docker.rst:979
 msgid ""
 "The database is created by :file:`docker-compose.yml`, so these settings "
 "affect both Weblate and PostgreSQL containers."
@@ -10997,31 +11023,31 @@ msgstr ""
 "数据库由 :file:`docker-compose.yml` 建立，所以这些设置影响 Weblate 和 "
 "PostgreSQL 容器。"
 
-#: ../../admin/install/docker.rst:954
+#: ../../admin/install/docker.rst:982
 msgid ":ref:`database-setup`"
 msgstr ":ref:`database-setup`"
 
-#: ../../admin/install/docker.rst:958
+#: ../../admin/install/docker.rst:986
 msgid "PostgreSQL password."
 msgstr "PostgreSQL 密码。"
 
-#: ../../admin/install/docker.rst:962
+#: ../../admin/install/docker.rst:990
 msgid "PostgreSQL username."
 msgstr "PostgreSQL 用户名。"
 
-#: ../../admin/install/docker.rst:966
+#: ../../admin/install/docker.rst:994
 msgid "PostgreSQL database name."
 msgstr "PostgreSQL 数据库名。"
 
-#: ../../admin/install/docker.rst:970
+#: ../../admin/install/docker.rst:998
 msgid "PostgreSQL server hostname or IP address. Defaults to ``database``."
 msgstr "PostgreSQL 服务器主机名成或 IP 地址。默认为 ``database`` 。"
 
-#: ../../admin/install/docker.rst:974
+#: ../../admin/install/docker.rst:1002
 msgid "PostgreSQL server port. Defaults to none (uses the default value)."
 msgstr "PostgreSQL 服务器端口。默认为无（使用默认值）。"
 
-#: ../../admin/install/docker.rst:978
+#: ../../admin/install/docker.rst:1006
 msgid ""
 "Configure how PostgreSQL handles SSL in connection to the server, for "
 "possible choices see `SSL Mode Descriptions <https://www.postgresql.org/"
@@ -11031,32 +11057,32 @@ msgstr ""
 "Descriptions <https://www.postgresql.org/docs/11/libpq-ssl.html#LIBPQ-SSL-"
 "SSLMODE-STATEMENTS>`_"
 
-#: ../../admin/install/docker.rst:983
+#: ../../admin/install/docker.rst:1011
 msgid ""
 "Configures name of role to alter during migrations, see :ref:`config-"
 "postgresql`."
 msgstr "在迁移过程中配置要改变的角色名称，请参见 :ref:`config-postgresql`。"
 
-#: ../../admin/install/docker.rst:987
+#: ../../admin/install/docker.rst:1015
 msgid "Database backup settings"
 msgstr "数据库备份设置"
 
-#: ../../admin/install/docker.rst:990
+#: ../../admin/install/docker.rst:1018
 msgid ":ref:`backup-dumps`"
 msgstr ":ref:`backup-dumps`"
 
-#: ../../admin/install/docker.rst:994
+#: ../../admin/install/docker.rst:1022
 msgid ""
 "Configures the daily database dump using :setting:`DATABASE_BACKUP`. "
 "Defaults to ``plain``."
 msgstr ""
 "使用 :setting:`DATABASE_BACKUP` 配置每日数据库转储。默认为 ``plain`` 。"
 
-#: ../../admin/install/docker.rst:998
+#: ../../admin/install/docker.rst:1026
 msgid "Caching server setup"
 msgstr "缓存服务器设置"
 
-#: ../../admin/install/docker.rst:1000
+#: ../../admin/install/docker.rst:1028
 msgid ""
 "Using Redis is strongly recommended by Weblate and you have to provide a "
 "Redis instance when running Weblate in Docker."
@@ -11064,60 +11090,60 @@ msgstr ""
 "Weblate 强烈推荐使用 Redis ，在 Docker 中运行 Weblate 时您必须提供 Redis 事"
 "例。"
 
-#: ../../admin/install/docker.rst:1003 ../../admin/projects.rst:944
+#: ../../admin/install/docker.rst:1031 ../../admin/projects.rst:944
 msgid ":ref:`production-cache`"
 msgstr ":ref:`production-cache`"
 
-#: ../../admin/install/docker.rst:1007
+#: ../../admin/install/docker.rst:1035
 msgid "The Redis server hostname or IP address. Defaults to ``cache``."
 msgstr "Redis 服务器主机名称或 IP 地址。默认为 ``cache`` 。"
 
-#: ../../admin/install/docker.rst:1011
+#: ../../admin/install/docker.rst:1039
 msgid "The Redis server port. Defaults to ``6379``."
 msgstr "Redis 服务器端口。默认为 ``6379`` 。"
 
-#: ../../admin/install/docker.rst:1015
+#: ../../admin/install/docker.rst:1043
 msgid "The Redis database number, defaults to ``1``."
 msgstr "Redis 数据库编号，默认为 ``1`` 。"
 
-#: ../../admin/install/docker.rst:1019
+#: ../../admin/install/docker.rst:1047
 msgid "The Redis server password, not used by default."
 msgstr "Redis 服务器密码，默认不使用。"
 
-#: ../../admin/install/docker.rst:1023
+#: ../../admin/install/docker.rst:1051
 msgid "Enables using SSL for Redis connection."
 msgstr "允许使用 SSL 进行 Redis 连接。"
 
-#: ../../admin/install/docker.rst:1027
+#: ../../admin/install/docker.rst:1055
 msgid ""
 "Can be used to disable SSL certificate verification for Redis connection."
 msgstr "可以用于禁止 Redis 连接的 SSL 身份认证。"
 
-#: ../../admin/install/docker.rst:1032
+#: ../../admin/install/docker.rst:1060
 msgid "Email server setup"
 msgstr "电子邮件服务器设置"
 
-#: ../../admin/install/docker.rst:1034
+#: ../../admin/install/docker.rst:1062
 msgid "To make outgoing e-mail work, you need to provide a mail server."
 msgstr "要使外发电子邮件正常工作，您需要提供一个邮件服务器。"
 
-#: ../../admin/install/docker.rst:1036
+#: ../../admin/install/docker.rst:1064
 msgid "Example TLS configuration:"
 msgstr "TLS 配置例子："
 
-#: ../../admin/install/docker.rst:1045
+#: ../../admin/install/docker.rst:1073
 msgid "Example SSL configuration:"
 msgstr "SSL 配置的示例："
 
-#: ../../admin/install/docker.rst:1058
+#: ../../admin/install/docker.rst:1086
 msgid ":ref:`out-mail`"
 msgstr ":ref:`out-mail`"
 
-#: ../../admin/install/docker.rst:1062
+#: ../../admin/install/docker.rst:1090
 msgid "Mail server hostname or IP address."
 msgstr "邮件服务器主机名或 IP 地址。"
 
-#: ../../admin/install/docker.rst:1066
+#: ../../admin/install/docker.rst:1094
 msgid ""
 ":envvar:`WEBLATE_EMAIL_PORT`, :envvar:`WEBLATE_EMAIL_USE_SSL`, :envvar:"
 "`WEBLATE_EMAIL_USE_TLS`, :setting:`django:EMAIL_HOST`"
@@ -11125,31 +11151,31 @@ msgstr ""
 ":envvar:`WEBLATE_EMAIL_PORT`, :envvar:`WEBLATE_EMAIL_USE_SSL`, :envvar:"
 "`WEBLATE_EMAIL_USE_TLS`, :setting:`django:EMAIL_HOST`"
 
-#: ../../admin/install/docker.rst:1073
+#: ../../admin/install/docker.rst:1101
 msgid "Mail server port, defaults to 25."
 msgstr "邮件服务器端口，默认为 25。"
 
-#: ../../admin/install/docker.rst:1075
+#: ../../admin/install/docker.rst:1103
 msgid ":setting:`django:EMAIL_PORT`"
 msgstr ":setting:`django:EMAIL_PORT`"
 
-#: ../../admin/install/docker.rst:1079
+#: ../../admin/install/docker.rst:1107
 msgid "E-mail authentication user."
 msgstr "电子邮件身份验证用户。"
 
-#: ../../admin/install/docker.rst:1081
+#: ../../admin/install/docker.rst:1109
 msgid ":setting:`django:EMAIL_HOST_USER`"
 msgstr ":setting:`django:EMAIL_HOST_USER`"
 
-#: ../../admin/install/docker.rst:1085
+#: ../../admin/install/docker.rst:1113
 msgid "E-mail authentication password."
 msgstr "电子邮件验证密码。"
 
-#: ../../admin/install/docker.rst:1087
+#: ../../admin/install/docker.rst:1115
 msgid ":setting:`django:EMAIL_HOST_PASSWORD`"
 msgstr ":setting:`django:EMAIL_HOST_PASSWORD`"
 
-#: ../../admin/install/docker.rst:1091
+#: ../../admin/install/docker.rst:1119
 msgid ""
 "Whether to use an implicit TLS (secure) connection when talking to the SMTP "
 "server. In most e-mail documentation, this type of TLS connection is "
@@ -11161,7 +11187,7 @@ msgstr ""
 "种 TLS 连接类型称为 SSL。通常在端口 465 上使用。如果遇到问题，请参阅显式 TLS "
 "设置 :envvar:`WEBLATE_EMAIL_USE_TLS`。"
 
-#: ../../admin/install/docker.rst:1098
+#: ../../admin/install/docker.rst:1126
 msgid ""
 ":envvar:`WEBLATE_EMAIL_PORT`, :envvar:`WEBLATE_EMAIL_USE_TLS`, :setting:"
 "`django:EMAIL_USE_SSL`"
@@ -11169,7 +11195,7 @@ msgstr ""
 ":envvar:`WEBLATE_EMAIL_PORT`, :envvar:`WEBLATE_EMAIL_USE_TLS`, :setting:"
 "`django:EMAIL_USE_SSL`"
 
-#: ../../admin/install/docker.rst:1104
+#: ../../admin/install/docker.rst:1132
 msgid ""
 "Whether to use a TLS (secure) connection when talking to the SMTP server. "
 "This is used for explicit TLS connections, generally on port 587 or 25. If "
@@ -11180,7 +11206,7 @@ msgstr ""
 "口 587 或 25 上。如果您遇到挂起的连接，请参见隐式 TLS 设置 :envvar:"
 "`WEBLATE_EMAIL_USE_SSL`。"
 
-#: ../../admin/install/docker.rst:1111
+#: ../../admin/install/docker.rst:1139
 msgid ""
 ":envvar:`WEBLATE_EMAIL_PORT`, :envvar:`WEBLATE_EMAIL_USE_SSL`, :setting:"
 "`django:EMAIL_USE_TLS`"
@@ -11188,73 +11214,73 @@ msgstr ""
 ":envvar:`WEBLATE_EMAIL_PORT`, :envvar:`WEBLATE_EMAIL_USE_SSL`, :setting:"
 "`django:EMAIL_USE_TLS`"
 
-#: ../../admin/install/docker.rst:1117
+#: ../../admin/install/docker.rst:1145
 msgid "Configures Django back-end to use for sending e-mails."
 msgstr "将 Django 后端配置为用于发送电子邮件。"
 
-#: ../../admin/install/docker.rst:1122
+#: ../../admin/install/docker.rst:1150
 msgid ":ref:`production-email`, :setting:`django:EMAIL_BACKEND`"
 msgstr ":ref:`production-email`, :setting:`django:EMAIL_BACKEND`"
 
-#: ../../admin/install/docker.rst:1126
+#: ../../admin/install/docker.rst:1154
 msgid "Site integration"
 msgstr "站点集成"
 
-#: ../../admin/install/docker.rst:1130
+#: ../../admin/install/docker.rst:1158
 msgid "Configures :setting:`GET_HELP_URL`."
 msgstr "配置 :setting:`GET_HELP_URL`."
 
-#: ../../admin/install/docker.rst:1134
+#: ../../admin/install/docker.rst:1162
 msgid "Configures :setting:`STATUS_URL`."
 msgstr "配置 :setting:`STATUS_URL`."
 
-#: ../../admin/install/docker.rst:1138
+#: ../../admin/install/docker.rst:1166
 msgid "Configures :setting:`LEGAL_URL`."
 msgstr "配置: setting:`LEGAL_URL`."
 
-#: ../../admin/install/docker.rst:1141
+#: ../../admin/install/docker.rst:1169
 msgid "Error reporting"
 msgstr "错误报告"
 
-#: ../../admin/install/docker.rst:1143
+#: ../../admin/install/docker.rst:1171
 msgid ""
 "It is recommended to collect errors from the installation systematically, "
 "see :ref:`collecting-errors`."
 msgstr "推荐从安装中系统地收集错误，请参见 :ref:`collecting-errors`。"
 
-#: ../../admin/install/docker.rst:1146
+#: ../../admin/install/docker.rst:1174
 msgid "To enable support for Rollbar, set the following:"
 msgstr "要启用对 Rollbar 的支持，请进行以下设置："
 
-#: ../../admin/install/docker.rst:1150
+#: ../../admin/install/docker.rst:1178
 msgid "Your Rollbar post server access token."
 msgstr "您的 Rollbar 发布服务器访问令牌。"
 
-#: ../../admin/install/docker.rst:1154
+#: ../../admin/install/docker.rst:1182
 msgid "Your Rollbar environment, defaults to ``production``."
 msgstr "您的 Rollbar 环境，默认为 ``production``。"
 
-#: ../../admin/install/docker.rst:1156
+#: ../../admin/install/docker.rst:1184
 msgid "To enable support for Sentry, set following:"
 msgstr "要启用对 Sentry 的支持，请进行以下设置："
 
-#: ../../admin/install/docker.rst:1160
+#: ../../admin/install/docker.rst:1188
 msgid "Your Sentry DSN."
 msgstr "您的 Sentry DSN。"
 
-#: ../../admin/install/docker.rst:1164
+#: ../../admin/install/docker.rst:1192
 msgid "Your Sentry Environment (optional)."
 msgstr "您的 Sentry 环境（可选）。"
 
-#: ../../admin/install/docker.rst:1167
+#: ../../admin/install/docker.rst:1195
 msgid "Localization CDN"
 msgstr "语言本地化内容分发网络"
 
-#: ../../admin/install/docker.rst:1174
+#: ../../admin/install/docker.rst:1202
 msgid "Configuration for :ref:`addon-weblate.cdn.cdnjs`."
 msgstr ":ref:`addon-weblate.cdn.cdnjs`的配置。"
 
-#: ../../admin/install/docker.rst:1176
+#: ../../admin/install/docker.rst:1204
 msgid ""
 "The :envvar:`WEBLATE_LOCALIZE_CDN_PATH` is path within the container. It "
 "should be stored on the persistent volume and not in the transient storage."
@@ -11262,33 +11288,33 @@ msgstr ""
 ":envvar:`WEBLATE_LOCALIZE_CDN_PATH` 是容器内的路径。它应该存储在持久卷上，而"
 "不能存储在瞬态存储器中。"
 
-#: ../../admin/install/docker.rst:1179
+#: ../../admin/install/docker.rst:1207
 msgid "One of possibilities is storing that inside the Weblate data dir:"
 msgstr "一种可能性是存储在 Weblate 数据目录中："
 
-#: ../../admin/install/docker.rst:1189
+#: ../../admin/install/docker.rst:1217
 msgid ""
 "You are responsible for setting up serving of the files generated by "
 "Weblate, it only does stores the files in configured location."
 msgstr "您负责设置Weblate生成的文件的服务，它只在配置的位置存储文件。"
 
-#: ../../admin/install/docker.rst:1194
+#: ../../admin/install/docker.rst:1222
 msgid ""
 ":ref:`weblate-cdn`, :setting:`LOCALIZE_CDN_URL`, :setting:`LOCALIZE_CDN_PATH`"
 msgstr ""
 ":ref:`weblate-cdn`, :setting:`LOCALIZE_CDN_URL`, :setting:`LOCALIZE_CDN_PATH`"
 
-#: ../../admin/install/docker.rst:1200
+#: ../../admin/install/docker.rst:1228
 msgid "Changing enabled apps, checks, addons or autofixes"
 msgstr "更改允许的 app 、检查、插件或自动修复"
 
-#: ../../admin/install/docker.rst:1204
+#: ../../admin/install/docker.rst:1232
 msgid ""
 "The built-in configuration of enabled checks, addons or autofixes can be "
 "adjusted by the following variables:"
 msgstr "可以通过后面的变量来调整允许的检查、插件或自动修复的内建配置："
 
-#: ../../admin/install/docker.rst:1226
+#: ../../admin/install/docker.rst:1254
 msgid ""
 ":setting:`CHECK_LIST`, :setting:`AUTOFIX_LIST`, :setting:`WEBLATE_ADDONS`, :"
 "setting:`django:INSTALLED_APPS`"
@@ -11296,11 +11322,11 @@ msgstr ""
 ":setting:`CHECK_LIST`, :setting:`AUTOFIX_LIST`, :setting:`WEBLATE_ADDONS`, :"
 "setting:`django:INSTALLED_APPS`"
 
-#: ../../admin/install/docker.rst:1232
+#: ../../admin/install/docker.rst:1260
 msgid "Container settings"
 msgstr "容器设置"
 
-#: ../../admin/install/docker.rst:1241
+#: ../../admin/install/docker.rst:1269
 msgid ""
 "These variables allow you to adjust Celery worker options. It can be useful "
 "to adjust concurrency (``--concurrency 16``) or use different pool "
@@ -11309,7 +11335,7 @@ msgstr ""
 "这些变量允许您调整 Celery worker 选项。它可以用于调整并发性（ ``--"
 "concurrency 16`` ），或使用不同的池实现（ ``--pool=gevent`` ）。"
 
-#: ../../admin/install/docker.rst:1245
+#: ../../admin/install/docker.rst:1273
 msgid ""
 "By default, the number of concurrent workers matches the number of "
 "processors (except the backup worker, which is supposed to run only once)."
@@ -11317,7 +11343,7 @@ msgstr ""
 "并发 worker 的数量默认与处理的数量匹配（除了被认为只运行一次的备份 "
 "worker ）。"
 
-#: ../../admin/install/docker.rst:1257
+#: ../../admin/install/docker.rst:1285
 msgid ""
 ":doc:`Celery worker options <celery:reference/celery.bin.worker>`, :ref:"
 "`celery`"
@@ -11325,116 +11351,116 @@ msgstr ""
 ":doc:`Celery worker options <celery:reference/celery.bin.worker>`, :ref:"
 "`celery`"
 
-#: ../../admin/install/docker.rst:1262
+#: ../../admin/install/docker.rst:1290
 msgid "Configure how many uWSGI workers should be executed."
 msgstr "配置应该执行多少个 uWSGI workers 。"
 
-#: ../../admin/install/docker.rst:1264
+#: ../../admin/install/docker.rst:1292
 msgid "It defaults to number of processors + 1."
 msgstr "默认为处理器的数量 + 1 。"
 
-#: ../../admin/install/docker.rst:1275
+#: ../../admin/install/docker.rst:1303
+#, fuzzy
+#| msgid ""
+#| "Defines which services shoul be executed inside the container. Use this "
+#| "for :ref:`docker-scaling`."
 msgid ""
-"Defines which services shoul be executed inside the container. Use this for :"
-"ref:`docker-scaling`."
+"Defines which services should be executed inside the container. Use this "
+"for :ref:`docker-scaling`."
 msgstr "定义应在容器内执行哪些服务，使用对象 :ref:`docker-scaling`。"
 
-#: ../../admin/install/docker.rst:1277
+#: ../../admin/install/docker.rst:1305
 msgid "Following services are defined:"
 msgstr "定义了以下服务:"
 
-#: ../../admin/install/docker.rst:1281
+#: ../../admin/install/docker.rst:1309
 msgid "``celery-beat``"
 msgstr ""
 
-#: ../../admin/install/docker.rst:1280
+#: ../../admin/install/docker.rst:1308
 msgid ""
 "Celery task scheduler, only one instance should be running. This container "
-"is also responsible for the database structure migrations and all others "
-"should be started prior others."
+"is also responsible for the database structure migrations and it should be "
+"started prior others."
 msgstr ""
 
-#: ../../admin/install/docker.rst:1283
+#: ../../admin/install/docker.rst:1311
 msgid "``celery-backup``"
 msgstr ""
 
-#: ../../admin/install/docker.rst:1284
+#: ../../admin/install/docker.rst:1312
 msgid "Celery worker for backups, only one instance should be running."
 msgstr ""
 
-#: ../../admin/install/docker.rst:1285
+#: ../../admin/install/docker.rst:1313
 msgid "``celery-celery``"
 msgstr ""
 
-#: ../../admin/install/docker.rst:1286
+#: ../../admin/install/docker.rst:1314
 msgid "Generic Celery worker."
 msgstr ""
 
-#: ../../admin/install/docker.rst:1287
+#: ../../admin/install/docker.rst:1315
 #, fuzzy
 #| msgid "``memory``"
 msgid "``celery-memory``"
 msgstr "``memory``"
 
-#: ../../admin/install/docker.rst:1288
-msgid "Trnaslation memory Celery worker."
+#: ../../admin/install/docker.rst:1316
+#, fuzzy
+#| msgid "Trnaslation memory Celery worker."
+msgid "Translation memory Celery worker."
 msgstr "翻译记忆库 Celery worker。"
 
-#: ../../admin/install/docker.rst:1289
+#: ../../admin/install/docker.rst:1317
 msgid "``celery-notify``"
 msgstr ""
 
-#: ../../admin/install/docker.rst:1290
+#: ../../admin/install/docker.rst:1318
 msgid "Notifications Celery worker."
 msgstr "通知 Celery worker。"
 
-#: ../../admin/install/docker.rst:1291
+#: ../../admin/install/docker.rst:1319
 #, fuzzy
 #| msgid "``ignore-translated``"
 msgid "``celery-translate``"
 msgstr "``ignore-translated``"
 
-#: ../../admin/install/docker.rst:1292
+#: ../../admin/install/docker.rst:1320
 msgid "Automatic translation Celery worker."
 msgstr "自动翻译 Celery worker。"
 
-#: ../../admin/install/docker.rst:1293
+#: ../../admin/install/docker.rst:1321
 #, fuzzy
 #| msgid "``weblate``"
 msgid "``web``"
 msgstr "``weblate``"
 
-#: ../../admin/install/docker.rst:1294
+#: ../../admin/install/docker.rst:1322
 msgid "Web server."
 msgstr "Web 服务器。"
 
-#: ../../admin/install/docker.rst:1296
-msgid ""
-"In case you have a lot of CPU cores and hit out of memory issues, try "
-"reducing number of workers:"
-msgstr ""
-"在你有很多 CPU 核心并且碰到内存用尽问题情况下，尝试减少 worker 的数量："
-
-#: ../../admin/install/docker.rst:1311
+#: ../../admin/install/docker.rst:1328
 msgid "Docker container volumes"
 msgstr "Docker 容器卷"
 
-#: ../../admin/install/docker.rst:1313
+#: ../../admin/install/docker.rst:1330
 msgid ""
 "There are two volumes (data and cache) exported by the Weblate container. "
 "The other service containers (PostgreSQL or Redis) have their data volumes "
 "as well, but those are not covered by this document."
 msgstr ""
-"Weblate 容器导出了两个卷 （数据和缓存）。其他服务容器（PostgreSQL 或 Redis）也具有其数据卷，但本文档未涵盖这些数据卷。"
+"Weblate 容器导出了两个卷 （数据和缓存）。其他服务容器（PostgreSQL 或 Redis）"
+"也具有其数据卷，但本文档未涵盖这些数据卷。"
 
-#: ../../admin/install/docker.rst:1317
+#: ../../admin/install/docker.rst:1334
 msgid ""
 "The data volume is used to store Weblate persistent data such as cloned "
 "repositories or to customize Weblate installation."
 msgstr ""
 "数据卷用于存储 Weblate 持久数据（例如克隆的仓库）或自定义 Weblate 安装。"
 
-#: ../../admin/install/docker.rst:1320
+#: ../../admin/install/docker.rst:1337
 msgid ""
 "The placement of the Docker volume on host system depends on your Docker "
 "configuration, but usually it is stored in :file:`/var/lib/docker/volumes/"
@@ -11445,34 +11471,34 @@ msgstr ""
 "lib/docker/volumes/weblate-docker_weblate-data/_data/` 中。在容器中，它挂载"
 "为 :file:`/app/data`。"
 
-#: ../../admin/install/docker.rst:1325
+#: ../../admin/install/docker.rst:1342
 msgid ""
 "The cache volume is mounted as :file:`/app/cache` and is used to store "
-"static files. It's content is recreated on container startup and the volume "
+"static files. Its content is recreated on container startup and the volume "
 "can be mounted using ephemeral filesystem such as `tmpfs`."
 msgstr ""
 
-#: ../../admin/install/docker.rst:1331
+#: ../../admin/install/docker.rst:1348
 msgid ""
 "`Docker volumes documentation <https://docs.docker.com/storage/volumes/>`_"
 msgstr "`Docker 卷文档 <https://docs.docker.com/storage/volumes/>`_"
 
-#: ../../admin/install/docker.rst:1334
+#: ../../admin/install/docker.rst:1351
 msgid "Further configuration customization"
 msgstr "进一步的配置定制"
 
-#: ../../admin/install/docker.rst:1336
+#: ../../admin/install/docker.rst:1353
 msgid ""
 "You can further customize Weblate installation in the data volume, see :ref:"
 "`docker-volume`."
 msgstr ""
 "您可以在数据卷中进一步自定义 Weblate 安装，请参阅 :ref:`docker-volume`。"
 
-#: ../../admin/install/docker.rst:1342
+#: ../../admin/install/docker.rst:1359
 msgid "Custom configuration files"
 msgstr "定制配置文件"
 
-#: ../../admin/install/docker.rst:1344
+#: ../../admin/install/docker.rst:1361
 msgid ""
 "You can additionally override the configuration in :file:`/app/data/settings-"
 "override.py` (see :ref:`docker-volume`). This is executed at the end of "
@@ -11483,11 +11509,11 @@ msgstr ""
 "`docker-volume`）。这是在所有环境设置加载之后，在内置设置末尾执行的，你可以调"
 "整或覆盖它们。"
 
-#: ../../admin/install/docker.rst:1350
+#: ../../admin/install/docker.rst:1367
 msgid "Replacing logo and other static files"
 msgstr "替换 logo 和其它静态文件"
 
-#: ../../admin/install/docker.rst:1354
+#: ../../admin/install/docker.rst:1371
 msgid ""
 "The static files coming with Weblate can be overridden by placing into :file:"
 "`/app/data/python/customize/static` (see :ref:`docker-volume`). For example "
@@ -11498,7 +11524,7 @@ msgstr ""
 "static` 中来覆盖（请参阅 :ref:`docker-volume`）。例如，创建 :file:`/app/data/"
 "python/customize/static/favicon.ico` 将替换 favicon。"
 
-#: ../../admin/install/docker.rst:1361
+#: ../../admin/install/docker.rst:1378
 msgid ""
 "The files are copied to the corresponding location upon container startup, "
 "so a restart of Weblate is needed after changing the content of the volume."
@@ -11506,7 +11532,7 @@ msgstr ""
 "在容器启动时，这些文件被复制到相应的位置，因此需要在更改卷的内容后重新启动 "
 "Weblate 。"
 
-#: ../../admin/install/docker.rst:1364
+#: ../../admin/install/docker.rst:1381
 msgid ""
 "Alternatively you can also include own module (see :doc:`../customize`) and "
 "add it as separate volume to the Docker container, for example:"
@@ -11514,11 +11540,11 @@ msgstr ""
 "或者，您也可以包括自己的模块（请参阅 :doc:`../customize`），并将其作为单独的"
 "卷添加到 Docker 容器中，例如："
 
-#: ../../admin/install/docker.rst:1377
+#: ../../admin/install/docker.rst:1394
 msgid "Adding own Python modules"
 msgstr "添加自己的 Python 模块"
 
-#: ../../admin/install/docker.rst:1381
+#: ../../admin/install/docker.rst:1398
 msgid ""
 "You can place own Python modules in :file:`/app/data/python/` (see :ref:"
 "`docker-volume`) and they can be then loaded by Weblate, most likely by "
@@ -11528,15 +11554,15 @@ msgstr ""
 "`docker-volume`），然后可以由 Weblate 加载它们，很可能是使用 :ref:`docker-"
 "custom-config`。"
 
-#: ../../admin/install/docker.rst:1387
+#: ../../admin/install/docker.rst:1404
 msgid ":doc:`../customize`"
 msgstr ":doc:`../customize`"
 
-#: ../../admin/install/docker.rst:1391
+#: ../../admin/install/docker.rst:1408
 msgid "Select your machine - local or cloud providers"
 msgstr "选择您的机器 —— 本地或云提供商"
 
-#: ../../admin/install/docker.rst:1393
+#: ../../admin/install/docker.rst:1410
 msgid ""
 "With Docker Machine you can create your Weblate deployment either on your "
 "local machine, or on any large number of cloud-based deployments on e.g. "
