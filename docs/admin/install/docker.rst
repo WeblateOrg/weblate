@@ -227,7 +227,12 @@ volume should be separate for each container.
 
 Each Weblate container has defined role using :envvar:`WEBLATE_SERVICE`
 environment variable. Please follow carefully the documentation as some of the
-services should be running just once in the cluster.
+services should be running just once in the cluster and the ordering of the
+services matters as well.
+
+You can find example setup in the ``docker-compose`` repo as
+`docker-compose-split.yml
+<https://github.com/WeblateOrg/docker-compose/blob/main/docker-compose-split.yml>`__.
 
 .. _docker-environment:
 
@@ -1271,10 +1276,12 @@ Container settings
 
    Following services are defined:
 
-   ``celery-backup``
-      Celery worker for backups, only one instance should be running.
    ``celery-beat``
       Celery task scheduler, only one instance should be running.
+      This container is also responsible for the database structure migrations
+      and all others should be started prior others.
+   ``celery-backup``
+      Celery worker for backups, only one instance should be running.
    ``celery-celery``
       Generic Celery worker.
    ``celery-memory``
