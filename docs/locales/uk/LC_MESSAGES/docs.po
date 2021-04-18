@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-04-18 13:37+0200\n"
-"PO-Revision-Date: 2021-04-18 11:36+0000\n"
+"PO-Revision-Date: 2021-04-18 15:08+0000\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/"
 "documentation/uk/>\n"
@@ -11430,7 +11430,7 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:213
 msgid "Number of processes and memory consumption"
-msgstr ""
+msgstr "Кількість процесів і споживання пам'яті"
 
 #: ../../admin/install/docker.rst:215
 msgid ""
@@ -11438,6 +11438,10 @@ msgid ""
 "automatically based on number of CPUs. This works well for most cloud "
 "virtual machines as these typically have few CPUs and good amount of memory."
 msgstr ""
+"Кількість процесів обробки у uWSGI і Celery визначається автоматично на "
+"основі кількості процесорів. Це добре працює для більшості «хмарних» "
+"віртуальних машин, оскільки у них, зазвичай, встановлено декілька процесорів "
+"і доволі багато оперативної пам'яті."
 
 #: ../../admin/install/docker.rst:219
 msgid ""
@@ -11454,6 +11458,10 @@ msgid ""
 "`CELERY_BACKUP_OPTIONS`, :envvar:`CELERY_BEAT_OPTIONS`, :envvar:"
 "`UWSGI_WORKERS`"
 msgstr ""
+":envvar:`CELERY_MAIN_OPTIONS`, :envvar:`CELERY_NOTIFY_OPTIONS`, "
+":envvar:`CELERY_MEMORY_OPTIONS`, :envvar:`CELERY_TRANSLATE_OPTIONS`, "
+":envvar:`CELERY_BACKUP_OPTIONS`, :envvar:`CELERY_BEAT_OPTIONS`, "
+":envvar:`UWSGI_WORKERS`"
 
 #: ../../admin/install/docker.rst:243
 msgid "Scaling horizontally"
@@ -12575,10 +12583,6 @@ msgid "It defaults to number of processors + 1."
 msgstr "Типовим значенням є кількість процесорів + 1."
 
 #: ../../admin/install/docker.rst:1303
-#, fuzzy
-#| msgid ""
-#| "Defines which services shoul be executed inside the container. Use this "
-#| "for :ref:`docker-scaling`."
 msgid ""
 "Defines which services should be executed inside the container. Use this "
 "for :ref:`docker-scaling`."
@@ -12595,11 +12599,6 @@ msgid "``celery-beat``"
 msgstr ""
 
 #: ../../admin/install/docker.rst:1308
-#, fuzzy
-#| msgid ""
-#| "Celery task scheduler, only one instance should be running. This "
-#| "container is also responsible for the database structure migrations and "
-#| "all others should be started prior others."
 msgid ""
 "Celery task scheduler, only one instance should be running. This container "
 "is also responsible for the database structure migrations and it should be "
@@ -12634,8 +12633,6 @@ msgid "``celery-memory``"
 msgstr "``memory``"
 
 #: ../../admin/install/docker.rst:1316
-#, fuzzy
-#| msgid "Trnaslation memory Celery worker."
 msgid "Translation memory Celery worker."
 msgstr "Обробник пам'яті перекладів Celery."
 
@@ -12702,11 +12699,6 @@ msgstr ""
 "app/data`."
 
 #: ../../admin/install/docker.rst:1342
-#, fuzzy
-#| msgid ""
-#| "The cache volume is mounted as :file:`/app/cache` and is used to store "
-#| "static files. It's content is recreated on container startup and the "
-#| "volume can be mounted using ephemeral filesystem such as `tmpfs`."
 msgid ""
 "The cache volume is mounted as :file:`/app/cache` and is used to store "
 "static files. Its content is recreated on container startup and the volume "
