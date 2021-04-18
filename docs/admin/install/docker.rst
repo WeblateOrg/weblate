@@ -1279,7 +1279,7 @@ Container settings
    ``celery-beat``
       Celery task scheduler, only one instance should be running.
       This container is also responsible for the database structure migrations
-      and all others should be started prior others.
+      and it should be started prior others.
    ``celery-backup``
       Celery worker for backups, only one instance should be running.
    ``celery-celery``
