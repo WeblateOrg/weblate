@@ -1272,7 +1272,7 @@ Container settings
 
 .. envvar:: WEBLATE_SERVICE
 
-   Defines which services shoul be executed inside the container. Use this for :ref:`docker-scaling`.
+   Defines which services should be executed inside the container. Use this for :ref:`docker-scaling`.
 
    Following services are defined:
 
@@ -1285,7 +1285,7 @@ Container settings
    ``celery-celery``
       Generic Celery worker.
    ``celery-memory``
-      Trnaslation memory Celery worker.
+      Translation memory Celery worker.
    ``celery-notify``
       Notifications Celery worker.
    ``celery-translate``
@@ -1323,7 +1323,7 @@ configuration, but usually it is stored in
 container it is mounted as :file:`/app/data`.
 
 The cache volume is mounted as :file:`/app/cache` and is used to store static
-files. It's content is recreated on container startup and the volume can be
+files. Its content is recreated on container startup and the volume can be
 mounted using ephemeral filesystem such as `tmpfs`.
 
 .. seealso::
