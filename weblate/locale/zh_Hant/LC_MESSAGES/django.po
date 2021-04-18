@@ -17,7 +17,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.6\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
-"POT-Creation-Date: 2021-04-16 14:38+0000\n"
+"POT-Creation-Date: 2021-04-18 07:15+0000\n"
 "PO-Revision-Date: 2021-04-17 23:27+0000\n"
 "Last-Translator: Anonymous <noreply@weblate.org>\n"
 "Language-Team: Chinese (Traditional) <https://hosted.weblate.org/projects/"
@@ -825,8 +825,7 @@ msgid "Too many messages sent, please try again later."
 msgstr "傳送訊息太多，請稍後重試。"
 
 #: weblate/accounts/views.py:529 weblate/templates/accounts/contact.html:6
-#: weblate/templates/accounts/contact.html:29 weblate/templates/base.html:271
-#: weblate/templates/footer.html:13
+#: weblate/templates/base.html:271 weblate/templates/footer.html:13
 msgid "Contact"
 msgstr "連絡"
 
@@ -3864,34 +3863,46 @@ msgstr ""
 "確認之後，您就可以使用 %(backend_verbose)s (%(uid)s) 的身份使用 Weblate。"
 
 #: weblate/templates/accounts/contact.html:15
+#, fuzzy
+#| msgid ""
+#| "For questions about specific translation project, contact its maintainers "
+#| "directly, not by this form."
 msgid ""
-"For questions about specific translation project, contact its maintainers "
+"For questions about a specific translation project, contact its maintainers "
 "directly, not by this form."
 msgstr "如果對特定翻譯專案有疑問，請直接，不要透過這表單，聯絡專案維護者。"
 
 #: weblate/templates/accounts/contact.html:18
 #, fuzzy, python-format
 #| msgid "You can only contact maintainers of the whole server here."
-msgid "You can only contact maintainers of %(site_title)s here."
+msgid "You can only contact administrators of %(site_title)s here."
 msgstr "您只能在這聯絡整台伺服器的維護者。"
 
 #: weblate/templates/accounts/contact.html:20
-msgid "You can only contact maintainers of the whole server here."
+#, fuzzy
+#| msgid "You can only contact maintainers of the whole server here."
+msgid "You can only contact administrators of the whole server here."
 msgstr "您只能在這聯絡整台伺服器的維護者。"
 
-#: weblate/templates/accounts/contact.html:23
+#: weblate/templates/accounts/contact.html:22
 #, fuzzy, python-format
 #| msgid ""
 #| "If you are looking for support for Weblate, or want to file a bug report, "
 #| "check its website at %(weblate_link)s."
 msgid ""
-"If you seek support for Weblate, or want to file a bug-report, check its "
-"website at %(weblate_link)s."
+"If you seek support for another Weblate deployment or want to file a bug "
+"report, check its website at %(weblate_link)s."
 msgstr ""
 "若您正在尋找 Weblate 的支援，或是希望提交臭蟲報告，請至 %(weblate_link)s 網站"
 "了解。"
 
-#: weblate/templates/accounts/contact.html:38
+#: weblate/templates/accounts/contact.html:28
+#, fuzzy
+#| msgid "Site administrator"
+msgid "Contact server administrators"
+msgstr "網站管理員"
+
+#: weblate/templates/accounts/contact.html:37
 #: weblate/templates/manage/tools.html:26
 #: weblate/templates/manage/tools.html:54
 #: weblate/templates/manage/tools.html:69
@@ -8309,8 +8320,10 @@ msgstr "您亦可在 Weblate 直接開始新翻譯。Weblate 會根據檔案遮�
 
 #. Translators: This is shown when an alert contains too many occurences, the count will be always at least 100
 #: weblate/templates/trans/alert/occurrences-limit.html:5
-#, python-format
-msgid "Only some of the %(count)s occurrences are shown."
+#, fuzzy, python-format
+#| msgid "Only some of the %(count)s occurrences are shown."
+#| msgid_plural "Only some of the %(count)s occurrences are shown."
+msgid "Only some of the %(count)s occurrence is shown."
 msgid_plural "Only some of the %(count)s occurrences are shown."
 msgstr[0] "只顯示出 %(count)s 個符合結果的一部分。"
 
@@ -14157,9 +14170,6 @@ msgstr "無法略過組態設定錯誤！"
 
 #~ msgid "Database backend"
 #~ msgstr "資料庫後端"
-
-#~ msgid "Site administrator"
-#~ msgstr "網站管理員"
 
 #~ msgid "Django caching"
 #~ msgstr "Django 快取"

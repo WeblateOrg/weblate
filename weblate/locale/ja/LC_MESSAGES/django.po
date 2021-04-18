@@ -24,7 +24,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.6\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
-"POT-Creation-Date: 2021-04-16 14:38+0000\n"
+"POT-Creation-Date: 2021-04-18 07:15+0000\n"
 "PO-Revision-Date: 2021-04-17 23:27+0000\n"
 "Last-Translator: 日陰のコスモス <baffclan@yahoo.co.jp>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
@@ -866,8 +866,7 @@ msgid "Too many messages sent, please try again later."
 msgstr "メッセージを送りすぎです。時間をおいて送信してください。"
 
 #: weblate/accounts/views.py:529 weblate/templates/accounts/contact.html:6
-#: weblate/templates/accounts/contact.html:29 weblate/templates/base.html:271
-#: weblate/templates/footer.html:13
+#: weblate/templates/base.html:271 weblate/templates/footer.html:13
 msgid "Contact"
 msgstr "お問い合わせ"
 
@@ -1065,7 +1064,9 @@ msgstr "不足している言語を追加"
 msgid ""
 "Ensures a consistent set of languages is used for all components within a "
 "project."
-msgstr "プロジェクト内のすべてのコンポーネントで一貫した言語のセットが使用されるようにします。"
+msgstr ""
+"プロジェクト内のすべてのコンポーネントで一貫した言語のセットが使用されるよう"
+"にします。"
 
 #: weblate/addons/discovery.py:33
 msgid "Component discovery"
@@ -3952,32 +3953,48 @@ msgstr ""
 "証できるようになります。"
 
 #: weblate/templates/accounts/contact.html:15
+#, fuzzy
+#| msgid ""
+#| "For questions about specific translation project, contact its maintainers "
+#| "directly, not by this form."
 msgid ""
-"For questions about specific translation project, contact its maintainers "
+"For questions about a specific translation project, contact its maintainers "
 "directly, not by this form."
 msgstr ""
 "特定の翻訳プロジェクトについての質問は、このフォームではなく、そのプロジェク"
 "トの管理者に直接お問い合わせください。"
 
 #: weblate/templates/accounts/contact.html:18
-#, python-format
-msgid "You can only contact maintainers of %(site_title)s here."
+#, fuzzy, python-format
+#| msgid "You can only contact maintainers of %(site_title)s here."
+msgid "You can only contact administrators of %(site_title)s here."
 msgstr "ここでは、%(site_title)sの管理者にのみ連絡を取ることができます。"
 
 #: weblate/templates/accounts/contact.html:20
-msgid "You can only contact maintainers of the whole server here."
+#, fuzzy
+#| msgid "You can only contact maintainers of the whole server here."
+msgid "You can only contact administrators of the whole server here."
 msgstr "ここでは、サーバー全体の管理者にのみ連絡を取ることができます。"
 
-#: weblate/templates/accounts/contact.html:23
-#, python-format
+#: weblate/templates/accounts/contact.html:22
+#, fuzzy, python-format
+#| msgid ""
+#| "If you seek support for Weblate, or want to file a bug-report, check its "
+#| "website at %(weblate_link)s."
 msgid ""
-"If you seek support for Weblate, or want to file a bug-report, check its "
-"website at %(weblate_link)s."
+"If you seek support for another Weblate deployment or want to file a bug "
+"report, check its website at %(weblate_link)s."
 msgstr ""
 "Weblate のサポートの申し込みやバグレポートの提出をするには、 "
 "%(weblate_link)s をご覧ください。"
 
-#: weblate/templates/accounts/contact.html:38
+#: weblate/templates/accounts/contact.html:28
+#, fuzzy
+#| msgid "Site administrator"
+msgid "Contact server administrators"
+msgstr "サイト管理者"
+
+#: weblate/templates/accounts/contact.html:37
 #: weblate/templates/manage/tools.html:26
 #: weblate/templates/manage/tools.html:54
 #: weblate/templates/manage/tools.html:69
@@ -8520,8 +8537,10 @@ msgstr ""
 
 #. Translators: This is shown when an alert contains too many occurences, the count will be always at least 100
 #: weblate/templates/trans/alert/occurrences-limit.html:5
-#, python-format
-msgid "Only some of the %(count)s occurrences are shown."
+#, fuzzy, python-format
+#| msgid "Only some of the %(count)s occurrences are shown."
+#| msgid_plural "Only some of the %(count)s occurrences are shown."
+msgid "Only some of the %(count)s occurrence is shown."
 msgid_plural "Only some of the %(count)s occurrences are shown."
 msgstr[0] "発生した %(count)s 回の一部のみが表示されます。"
 
@@ -14575,9 +14594,6 @@ msgstr "設定エラーは無視できません！"
 
 #~ msgid "Database backend"
 #~ msgstr "データベースのバックエンド"
-
-#~ msgid "Site administrator"
-#~ msgstr "サイト管理者"
 
 #~ msgid "Django caching"
 #~ msgstr "Django キャッシュ"

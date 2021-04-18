@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.6\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
-"POT-Creation-Date: 2021-04-16 14:38+0000\n"
+"POT-Creation-Date: 2021-04-18 07:15+0000\n"
 "PO-Revision-Date: 2021-04-13 09:14+0000\n"
 "Last-Translator: Milo Ivir <mail@milotype.de>\n"
 "Language-Team: Croatian <https://hosted.weblate.org/projects/weblate/"
@@ -851,8 +851,7 @@ msgid "Too many messages sent, please try again later."
 msgstr "Poslano je previše poruka. Pokušaj ponovo kasnije."
 
 #: weblate/accounts/views.py:529 weblate/templates/accounts/contact.html:6
-#: weblate/templates/accounts/contact.html:29 weblate/templates/base.html:271
-#: weblate/templates/footer.html:13
+#: weblate/templates/base.html:271 weblate/templates/footer.html:13
 msgid "Contact"
 msgstr "Kontakt"
 
@@ -3954,8 +3953,12 @@ msgstr ""
 "%(backend_verbose)s (%(uid)s)."
 
 #: weblate/templates/accounts/contact.html:15
+#, fuzzy
+#| msgid ""
+#| "For questions about specific translation project, contact its maintainers "
+#| "directly, not by this form."
 msgid ""
-"For questions about specific translation project, contact its maintainers "
+"For questions about a specific translation project, contact its maintainers "
 "directly, not by this form."
 msgstr ""
 "Za pitanja o određenom prevodilačkom projektu obrati se njegovim "
@@ -3964,23 +3967,34 @@ msgstr ""
 #: weblate/templates/accounts/contact.html:18
 #, fuzzy, python-format
 #| msgid "You can only contact maintainers of the whole server here."
-msgid "You can only contact maintainers of %(site_title)s here."
+msgid "You can only contact administrators of %(site_title)s here."
 msgstr "Ovdje možeš kontaktirati samo održavatelje cijelog poslužitelja."
 
 #: weblate/templates/accounts/contact.html:20
-msgid "You can only contact maintainers of the whole server here."
+#, fuzzy
+#| msgid "You can only contact maintainers of the whole server here."
+msgid "You can only contact administrators of the whole server here."
 msgstr "Ovdje možeš kontaktirati samo održavatelje cijelog poslužitelja."
 
-#: weblate/templates/accounts/contact.html:23
-#, python-format
+#: weblate/templates/accounts/contact.html:22
+#, fuzzy, python-format
+#| msgid ""
+#| "If you seek support for Weblate, or want to file a bug-report, check its "
+#| "website at %(weblate_link)s."
 msgid ""
-"If you seek support for Weblate, or want to file a bug-report, check its "
-"website at %(weblate_link)s."
+"If you seek support for another Weblate deployment or want to file a bug "
+"report, check its website at %(weblate_link)s."
 msgstr ""
 "Ako tražiš podršku za Weblate ili ako želiš poslati izvještaj o greškama, "
 "pregledaj web-stranicu %(weblate_link)s."
 
-#: weblate/templates/accounts/contact.html:38
+#: weblate/templates/accounts/contact.html:28
+#, fuzzy
+#| msgid "Could not send message to administrator."
+msgid "Contact server administrators"
+msgstr "Nije bilo moguće poslati poruku administratoru."
+
+#: weblate/templates/accounts/contact.html:37
 #: weblate/templates/manage/tools.html:26
 #: weblate/templates/manage/tools.html:54
 #: weblate/templates/manage/tools.html:69
@@ -8596,8 +8610,10 @@ msgstr ""
 
 #. Translators: This is shown when an alert contains too many occurences, the count will be always at least 100
 #: weblate/templates/trans/alert/occurrences-limit.html:5
-#, python-format
-msgid "Only some of the %(count)s occurrences are shown."
+#, fuzzy, python-format
+#| msgid "Only some of the %(count)s occurrences are shown."
+#| msgid_plural "Only some of the %(count)s occurrences are shown."
+msgid "Only some of the %(count)s occurrence is shown."
 msgid_plural "Only some of the %(count)s occurrences are shown."
 msgstr[0] "Prikazuju se samo neka od %(count)s pojavljivanja."
 msgstr[1] "Prikazuju se samo neka od %(count)s pojavljivanja."
