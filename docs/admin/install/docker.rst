@@ -209,6 +209,34 @@ To reset `admin` password, restart the container with
         :envvar:`WEBLATE_ADMIN_NAME`,
         :envvar:`WEBLATE_ADMIN_EMAIL`
 
+Number of processes and memory consumption
+------------------------------------------
+
+The number of worker processes for both uWSGI and Celery is determined
+automatically based on number of CPUs. This works well for most cloud virtual
+machines as these typically have few CPUs and good amount of memory.
+
+In case you have a lot of CPU cores and hit out of memory issues, try reducing
+number of workers:
+
+.. code-block:: yaml
+
+    environment:
+      UWSGI_WORKERS: 4
+      CELERY_MAIN_OPTIONS: --concurrency 2
+      CELERY_NOTIFY_OPTIONS: --concurrency 1
+      CELERY_TRANSLATE_OPTIONS: --concurrency 1
+
+.. seealso::
+
+   :envvar:`CELERY_MAIN_OPTIONS`,
+   :envvar:`CELERY_NOTIFY_OPTIONS`,
+   :envvar:`CELERY_MEMORY_OPTIONS`,
+   :envvar:`CELERY_TRANSLATE_OPTIONS`,
+   :envvar:`CELERY_BACKUP_OPTIONS`,
+   :envvar:`CELERY_BEAT_OPTIONS`,
+   :envvar:`UWSGI_WORKERS`
+
 .. _docker-scaling:
 
 Scaling horizontally
@@ -1292,17 +1320,6 @@ Container settings
       Automatic translation Celery worker.
    ``web``
       Web server.
-
-In case you have a lot of CPU cores and hit out of memory issues, try reducing
-number of workers:
-
-.. code-block:: yaml
-
-    environment:
-      UWSGI_WORKERS: 4
-      CELERY_MAIN_OPTIONS: --concurrency 2
-      CELERY_NOTIFY_OPTIONS: --concurrency 1
-      CELERY_TRANSLATE_OPTIONS: --concurrency 1
 
 
 .. _docker-volume:
