@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-04-18 09:16+0200\n"
-"PO-Revision-Date: 2021-04-17 23:27+0000\n"
+"PO-Revision-Date: 2021-04-18 11:36+0000\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/"
 "documentation/uk/>\n"
@@ -11430,14 +11430,13 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:215
 msgid "Scaling horizontally"
-msgstr ""
+msgstr "Горизонтальне масштабування"
 
 #: ../../admin/install/docker.rst:221
-#, fuzzy
-#| msgid "This feature is currently in early beta."
 msgid "This feature is a technology preview."
 msgstr ""
-"Ця можливість у поточній версії перебуває на ранньому етапі тестування."
+"Ця можливість у поточній версії перебуває на етапі технологічної "
+"демонстрації."
 
 #: ../../admin/install/docker.rst:223
 msgid ""
@@ -11446,6 +11445,11 @@ msgid ""
 "recommended to use cluster filesystem such as GlusterFS for this. The :file:"
 "`/app/cache` volume should be separate for each container."
 msgstr ""
+"Ви можете запускати декілька контейнерів Weblate для горизонтального "
+"масштабування служби. Том :file:`/app/data` має бути спільним для усіх "
+"контейнерів. Рекомендуємо використовувати для нього кластерну файлову "
+"систему, зокрема GlusterFS. Том :file:`/app/cache` має бути власним для "
+"кожного з контейнерів."
 
 #: ../../admin/install/docker.rst:228
 msgid ""
@@ -11454,6 +11458,10 @@ msgid ""
 "the services should be running just once in the cluster and the ordering of "
 "the services matters as well."
 msgstr ""
+"У кожного контейнера Weblate є визначена за допомогою змінної середовища "
+":envvar:`WEBLATE_SERVICE`роль. Будь ласка, точно виконуйте настанови з "
+"документації, оскільки деякі служби у кластері мають запускатися лише один "
+"раз, крім того, має значення порядок запуску служб."
 
 #: ../../admin/install/docker.rst:233
 msgid ""
@@ -11461,6 +11469,9 @@ msgid ""
 "split.yml <https://github.com/WeblateOrg/docker-compose/blob/main/docker-"
 "compose-split.yml>`__."
 msgstr ""
+"Прикладом налаштувань у сховищі ``docker-compose`` є файл `docker-compose-"
+"split.yml <https://github.com/WeblateOrg/docker-compose/blob/main/docker-"
+"compose-split.yml>`__."
 
 #: ../../admin/install/docker.rst:240
 msgid "Docker environment variables"
@@ -12537,22 +12548,16 @@ msgid "It defaults to number of processors + 1."
 msgstr "Типовим значенням є кількість процесорів + 1."
 
 #: ../../admin/install/docker.rst:1275
-#, fuzzy
-#| msgid ""
-#| "The tests can also be executed inside developer docker container, see :"
-#| "ref:`dev-docker`."
 msgid ""
 "Defines which services shoul be executed inside the container. Use this for :"
 "ref:`docker-scaling`."
 msgstr ""
-"Тести також можна запускати у межах контейнера docker розробника, див. :ref:"
-"`dev-docker`."
+"Визначає, які служби слід запускати всередині контейнера. Скористайтеся цим "
+"для :ref:`масштабування <docker-scaling`."
 
 #: ../../admin/install/docker.rst:1277
-#, fuzzy
-#| msgid "Following checks are failing:"
 msgid "Following services are defined:"
-msgstr "Не пройдено такі перевірки:"
+msgstr "Визначено такі перевірки:"
 
 #: ../../admin/install/docker.rst:1281
 msgid "``celery-beat``"
@@ -12564,6 +12569,9 @@ msgid ""
 "is also responsible for the database structure migrations and all others "
 "should be started prior others."
 msgstr ""
+"Планувальник завдань Celery, має бути запущено лише один екземпляр. Цей "
+"контейнер також відповідає за перенесення структури бази даних, його має "
+"бути запущено перед усіма іншими."
 
 #: ../../admin/install/docker.rst:1283
 msgid "``celery-backup``"
@@ -12572,6 +12580,8 @@ msgstr ""
 #: ../../admin/install/docker.rst:1284
 msgid "Celery worker for backups, only one instance should be running."
 msgstr ""
+"Обробник Celery для резервного копіювання, має бути запущено лише один "
+"екземпляр."
 
 #: ../../admin/install/docker.rst:1285
 msgid "``celery-celery``"
@@ -12579,7 +12589,7 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:1286
 msgid "Generic Celery worker."
-msgstr ""
+msgstr "Загальний обробник Celery."
 
 #: ../../admin/install/docker.rst:1287
 #, fuzzy
@@ -12588,20 +12598,16 @@ msgid "``celery-memory``"
 msgstr "``memory``"
 
 #: ../../admin/install/docker.rst:1288
-#, fuzzy
-#| msgid "Translation memory scopes"
 msgid "Trnaslation memory Celery worker."
-msgstr "Області дії пам'яті перекладів"
+msgstr "Обробник пам'яті перекладів Celery."
 
 #: ../../admin/install/docker.rst:1289
 msgid "``celery-notify``"
 msgstr ""
 
 #: ../../admin/install/docker.rst:1290
-#, fuzzy
-#| msgid "Notification hooks"
 msgid "Notifications Celery worker."
-msgstr "Обробники сповіщень"
+msgstr "Обробник сповіщень Celery."
 
 #: ../../admin/install/docker.rst:1291
 #, fuzzy
@@ -12610,10 +12616,8 @@ msgid "``celery-translate``"
 msgstr "``ignore-translated``"
 
 #: ../../admin/install/docker.rst:1292
-#, fuzzy
-#| msgid "Automatic translation filter type"
 msgid "Automatic translation Celery worker."
-msgstr "Автоматичний тип фільтрування перекладів"
+msgstr "Обробник автоматичних перекладів Celery."
 
 #: ../../admin/install/docker.rst:1293
 #, fuzzy
@@ -12622,10 +12626,8 @@ msgid "``web``"
 msgstr "``weblate``"
 
 #: ../../admin/install/docker.rst:1294
-#, fuzzy
-#| msgid "tmserver"
 msgid "Web server."
-msgstr "tmserver"
+msgstr "Вебсервер."
 
 #: ../../admin/install/docker.rst:1296
 msgid ""
@@ -12640,19 +12642,14 @@ msgid "Docker container volumes"
 msgstr "Томи контейнера Docker"
 
 #: ../../admin/install/docker.rst:1313
-#, fuzzy
-#| msgid ""
-#| "There is single data volume exported by the Weblate container. The other "
-#| "service containers (PostgreSQL or Redis) have their data volumes as well, "
-#| "but those are not covered by this document."
 msgid ""
 "There are two volumes (data and cache) exported by the Weblate container. "
 "The other service containers (PostgreSQL or Redis) have their data volumes "
 "as well, but those are not covered by this document."
 msgstr ""
-"Існує один том даних, який експортується контейнером Weblate. Інші "
-"контейнери служб (PostgreSQL або Redis) мають свої томи даних, але про них у "
-"цій документації не йтиметься."
+"Існує два томи даних (дані і кеш), які експортуються контейнером Weblate. "
+"Інші контейнери служб (PostgreSQL або Redis) мають свої томи даних, але про "
+"них у цій документації не йтиметься."
 
 #: ../../admin/install/docker.rst:1317
 msgid ""
@@ -12680,6 +12677,10 @@ msgid ""
 "static files. It's content is recreated on container startup and the volume "
 "can be mounted using ephemeral filesystem such as `tmpfs`."
 msgstr ""
+"Том кешу монтується як :file:`/app/cache` і використовується для зберігання "
+"статичних файлів. Його вміст відтворюється при запуску контейнера, а тому "
+"може бути змонтовано з використанням тимчасової файлової системи, зокрема "
+"`tmpfs`."
 
 #: ../../admin/install/docker.rst:1331
 msgid ""
@@ -21660,6 +21661,8 @@ msgstr "Додано пошук у межах мови."
 #: ../../changes.rst:24
 msgid "Initial support for :ref:`docker-scaling` the Docker deployment."
 msgstr ""
+"Початкова підтримка розгортання :ref:`горизонтального масштабування <docker-"
+"scaling>` для Docker."
 
 #: ../../changes.rst:26
 msgid ""
