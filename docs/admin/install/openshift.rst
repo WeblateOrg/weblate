@@ -15,6 +15,10 @@ The following examples assume you have a working OpenShift v3.x
 environment, with ``oc`` client tool installed. Please check the
 OpenShift documentation for instructions.
 
+The :file:`template.yml` is suited for running all components in OpenShift.
+There is also :file:`template-external-postgresql.yml` which does not start a
+PostgreSQL server and allows you to configure external PostgreSQL server.
+
 Web Console
 ~~~~~~~~~~~
 
