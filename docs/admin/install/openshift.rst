@@ -18,10 +18,11 @@ OpenShift documentation for instructions.
 Web Console
 ~~~~~~~~~~~
 
-Copy the raw content from :file:`template.yml` and import them into your
-project, then use the ``Create`` button in the OpenShift web console to
-create your application. The web console will prompt you for the values
-for all of the parameters used by the template.
+Copy the raw content from `template.yml
+<https://github.com/WeblateOrg/openshift/blob/main/template.yml>`_ and import
+them into your project, then use the ``Create`` button in the OpenShift web
+console to create your application. The web console will prompt you for the
+values for all of the parameters used by the template.
 
 CLI
 ~~~
