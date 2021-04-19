@@ -341,7 +341,7 @@ It is usually a good idea to run Weblate in a separate database, and separate us
     sudo -u postgres createuser --superuser --pwprompt weblate
 
     # Create the database "weblate" owned by "weblate"
-    sudo -u postgres createdb -O weblate weblate
+    sudo -u postgres createdb -E UTF8 -O weblate weblate
 
 .. hint::
 
