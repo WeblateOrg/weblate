@@ -8,7 +8,7 @@ from weblate.logger import LOGGER
 class VendastaOpenIdConnect(OpenIdConnectAuth):
     """Vendasta OpenID authentication Backend."""
 
-    name = "vendasta"
+    name = "Single sign-on"
     ACCESS_TOKEN_METHOD = "POST"
     EXTRA_DATA = [("sub", "id"), "namespace", "roles"]
     USERNAME_KEY = "sub"
@@ -16,7 +16,7 @@ class VendastaOpenIdConnect(OpenIdConnectAuth):
     @cache(ttl=86400)
     def oidc_config(self):
         oidc_endpoint = self.setting(
-            "OIDC_ENDPOINT", "http://iam-prod.vendasta-internal.com"
+            "OIDC_ENDPOINT", "https://iam-prod.apigateway.co"
         )
         LOGGER.info("OIDC_ENDPOINT: %s", oidc_endpoint)
         return self.get_json(oidc_endpoint + "/.well-known/openid-configuration")
