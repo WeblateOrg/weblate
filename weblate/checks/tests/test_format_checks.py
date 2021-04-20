@@ -374,7 +374,9 @@ class ObjectPascalFormatCheckTest(CheckTestCase):
 
     def setUp(self):
         super().setUp()
-        self.test_highlight = (self.flag, "%-9sstring%d", [(0, 4, "%-9s"), (10, 12, "%d")])
+        self.test_highlight = (
+            self.flag, "%-9sstring%d", [(0, 4, "%-9s"), (10, 12, "%d")]
+        )
 
     def test_no_format(self):
         self.assertFalse(self.check.check_format("strins", "string", False, None))
@@ -438,6 +440,7 @@ class ObjectPascalFormatCheckTest(CheckTestCase):
                 None
             )
         )
+
 
 class PerlFormatCheckTest(CFormatCheckTest):
     check = PerlFormatCheck()
