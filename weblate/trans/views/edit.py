@@ -155,7 +155,10 @@ def get_other_units(unit):
             item.translated and item.target != unit.target
         )
         item.is_propagated = (
-            propagation and item.source == unit.source and item.context == unit.context
+            propagation
+            and item.translation.component.allow_translation_propagation
+            and item.source == unit.source
+            and item.context == unit.context
         )
         untranslated |= not item.translated
         allow_merge |= item.allow_merge
