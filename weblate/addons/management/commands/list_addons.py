@@ -25,7 +25,7 @@ from weblate.utils.management.base import BaseCommand
 
 PARAMS_TABLE = """.. list-table:: Parameters to use in :ref:`API <addons-api>`, :setting:`DEFAULT_ADDONS`, or :djadmin:`install_addon`
 
-   * - Addon ID
+   * - Add-on ID
      - ``{}``
    * - Configuration
      - {}
@@ -33,10 +33,10 @@ PARAMS_TABLE = """.. list-table:: Parameters to use in :ref:`API <addons-api>`, 
 
 
 class Command(BaseCommand):
-    help = "List installed addons"
+    help = "List installed add-ons"
 
     def handle(self, *args, **options):
-        """List installed addons."""
+        """List installed add-ons."""
         fake_addon = Addon(component=Component(project=Project()))
         for _unused, obj in sorted(ADDONS.items()):
             self.stdout.write(f".. _addon-{obj.name}:")
@@ -48,7 +48,7 @@ class Command(BaseCommand):
                 form = obj(fake_addon).get_settings_form(None)
                 params = ", ".join(form.fields.keys())
             else:
-                params = "`This addon has no configuration.`"
+                params = "`This add-on has no configuration.`"
             self.stdout.write(PARAMS_TABLE.format(obj.name, params))
             self.stdout.write("\n")
             self.stdout.write("\n".join(wrap(obj.description, 79)))

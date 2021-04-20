@@ -523,9 +523,9 @@ Example:
 .. code-block:: python
 
    DEFAULT_ADDONS = {
-       # Addon with no parameters
+       # Add-on with no parameters
        "weblate.flags.target_edit": {},
-       # Addon with parameters
+       # Add-on with parameters
        "weblate.autotranslate.autotranslate": {
            "mode": "suggest",
            "filter_type": "todo",
@@ -2046,7 +2046,7 @@ example:
         "weblate.addons.autotranslate.AutoTranslateAddon",
         "weblate.addons.yaml.YAMLCustomizeAddon",
         "weblate.addons.cdn.CDNJSAddon",
-        # Addon you want to include
+        # Add-on you want to include
         "weblate.addons.example.ExampleAddon",
     )
 

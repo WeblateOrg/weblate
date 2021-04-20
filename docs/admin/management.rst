@@ -372,7 +372,7 @@ import_project
 .. versionchanged:: 3.0
 
     The import_project command is now based on the
-    :ref:`addon-weblate.discovery.discovery` addon, leading to some
+    :ref:`addon-weblate.discovery.discovery` add-on, leading to some
     changes in behavior and what parameters are accepted.
 
 Batch imports components into project based on filemask.
@@ -551,21 +551,21 @@ install_addon
 
 .. django-admin:: install_addon --addon ADDON <project|project/component>
 
-Installs an addon to a set of components.
+Installs an add-on to a set of components.
 
 .. django-admin-option:: --addon ADDON
 
-   Name of the addon to install. For example ``weblate.gettext.customize``.
+   Name of the add-on to install. For example ``weblate.gettext.customize``.
 
 .. django-admin-option:: --configuration CONFIG
 
-   JSON encoded configuration of an addon.
+   JSON encoded configuration of an add-on.
 
 .. django-admin-option:: --update
 
-   Update the existing addon configuration.
+   Update the existing add-on configuration.
 
-You can either define which project or component to install the addon in (for example
+You can either define which project or component to install the add-on in (for example
 ``weblate/application``), or use ``--all`` to include all existing components.
 
 To install :ref:`addon-weblate.gettext.customize` for all components:
@@ -576,7 +576,7 @@ To install :ref:`addon-weblate.gettext.customize` for all components:
 
 .. seealso::
 
-   :ref:`addons`
+   :doc:`addons`
 
 list_languages
 --------------

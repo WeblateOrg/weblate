@@ -35,7 +35,7 @@ Weblate consists of several Django applications (some optional, see
 
 ``addons``
 
-    Addons to tweak Weblate behavior, see :ref:`addons`.
+    Add-ons to tweak Weblate behavior, see :ref:`addons`.
 
 ``api``
 
