@@ -59,11 +59,7 @@ from weblate.wladmin.forms import (
     UserSearchForm,
 )
 from weblate.wladmin.models import BackupService, ConfigurationError, SupportStatus
-from weblate.wladmin.tasks import (
-    backup_service,
-    configuration_health_check,
-    support_status_update,
-)
+from weblate.wladmin.tasks import backup_service, support_status_update
 
 MENU = (
     ("index", "manage", gettext_lazy("Weblate status")),
@@ -257,7 +253,6 @@ def performance(request):
     if request.method == "POST":
         return handle_dismiss(request)
     checks = run_checks(include_deployment_checks=True)
-    configuration_health_check.delay()
 
     context = {
         "checks": [check for check in checks if not check.is_silenced()],

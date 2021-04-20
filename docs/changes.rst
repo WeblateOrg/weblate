@@ -3,6 +3,8 @@ Weblate 4.7
 
 Not yet released.
 
+* Improved configuration health check.
+
 Weblate 4.6
 -----------
 
