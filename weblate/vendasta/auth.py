@@ -8,7 +8,7 @@ from weblate.logger import LOGGER
 class VendastaOpenIdConnect(OpenIdConnectAuth):
     """Vendasta OpenID authentication Backend."""
 
-    name = "Single sign-on"
+    name = "Single-sign-on"
     ACCESS_TOKEN_METHOD = "POST"
     EXTRA_DATA = [("sub", "id"), "namespace", "roles"]
     USERNAME_KEY = "sub"
