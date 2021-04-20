@@ -50,6 +50,7 @@ def ping():
         "formats": sorted(FILE_FORMATS.keys()),
         "mt_services": sorted(MACHINE_TRANSLATION_SERVICES.keys()),
         "encoding": [sys.getfilesystemencoding(), sys.getdefaultencoding()],
+        "uid": os.getuid(),
     }
 
 
