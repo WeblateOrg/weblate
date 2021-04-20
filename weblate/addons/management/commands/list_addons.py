@@ -19,8 +19,17 @@
 
 from textwrap import wrap
 
-from weblate.addons.models import ADDONS
+from weblate.addons.models import ADDONS, Addon
+from weblate.trans.models import Component, Project
 from weblate.utils.management.base import BaseCommand
+
+PARAMS_TABLE = """.. list-table:: Parameters to use in :ref:`API <addons-api>`, :setting:`DEFAULT_ADDONS`, or :djadmin:`install_addon`
+
+   * - Addon ID
+     - ``{}``
+   * - Configuration
+     - {}
+"""
 
 
 class Command(BaseCommand):
@@ -28,11 +37,19 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         """List installed addons."""
+        fake_addon = Addon(component=Component(project=Project()))
         for _unused, obj in sorted(ADDONS.items()):
             self.stdout.write(f".. _addon-{obj.name}:")
             self.stdout.write("\n")
             self.stdout.write(obj.verbose)
             self.stdout.write("-" * len(obj.verbose))
+            self.stdout.write("\n")
+            if obj.settings_form:
+                form = obj(fake_addon).get_settings_form(None)
+                params = ", ".join(form.fields.keys())
+            else:
+                params = "`This addon has no configuration.`"
+            self.stdout.write(PARAMS_TABLE.format(obj.name, params))
             self.stdout.write("\n")
             self.stdout.write("\n".join(wrap(obj.description, 79)))
             self.stdout.write("\n")

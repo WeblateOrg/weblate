@@ -21,6 +21,13 @@ Automatic translation
 
 .. versionadded:: 3.9
 
+.. list-table:: Parameters to use in :ref:`API <addons-api>`, :setting:`DEFAULT_ADDONS`, or :djadmin:`install_addon`
+
+   * - Addon ID
+     - ``weblate.autotranslate.autotranslate``
+   * - Configuration
+     - mode, filter_type, auto_source, component, engines, threshold
+
 Automatically translates strings using machine translation or other components.
 
 It is triggered:
@@ -39,6 +46,13 @@ JavaScript localization CDN
 ---------------------------
 
 .. versionadded:: 4.2
+
+.. list-table:: Parameters to use in :ref:`API <addons-api>`, :setting:`DEFAULT_ADDONS`, or :djadmin:`install_addon`
+
+   * - Addon ID
+     - ``weblate.cdn.cdnjs``
+   * - Configuration
+     - threshold, css_selector, cookie_name, files
 
 Publishes translations into content delivery network for use in JavaScript or
 HTML localization.
@@ -63,6 +77,13 @@ Remove blank strings
 
 .. versionadded:: 4.4
 
+.. list-table:: Parameters to use in :ref:`API <addons-api>`, :setting:`DEFAULT_ADDONS`, or :djadmin:`install_addon`
+
+   * - Addon ID
+     - ``weblate.cleanup.blank``
+   * - Configuration
+     - `This addon has no configuration.`
+
 Removes strings without a translation from translation files.
 
 Use this to not have any empty strings in translation files (for
@@ -78,6 +99,13 @@ of falling back to the source string).
 Cleanup translation files
 -------------------------
 
+.. list-table:: Parameters to use in :ref:`API <addons-api>`, :setting:`DEFAULT_ADDONS`, or :djadmin:`install_addon`
+
+   * - Addon ID
+     - ``weblate.cleanup.generic``
+   * - Configuration
+     - `This addon has no configuration.`
+
 Update all translation files to match the monolingual base file. For most file
 formats, this means removing stale translation keys no longer present in the
 base file.
@@ -90,6 +118,13 @@ base file.
 
 Add missing languages
 ---------------------
+
+.. list-table:: Parameters to use in :ref:`API <addons-api>`, :setting:`DEFAULT_ADDONS`, or :djadmin:`install_addon`
+
+   * - Addon ID
+     - ``weblate.consistency.languages``
+   * - Configuration
+     - `This addon has no configuration.`
 
 Ensures a consistent set of languages is used for all components within a
 project.
@@ -108,6 +143,13 @@ Unlike most others, this addon affects the whole project.
 
 Component discovery
 -------------------
+
+.. list-table:: Parameters to use in :ref:`API <addons-api>`, :setting:`DEFAULT_ADDONS`, or :djadmin:`install_addon`
+
+   * - Addon ID
+     - ``weblate.discovery.discovery``
+   * - Configuration
+     - match, file_format, name_template, base_file_template, new_base_template, language_regex, copy_addons, remove, confirm
 
 Automatically adds or removes project components based on file changes in the
 version control system.
@@ -145,6 +187,13 @@ Bulk edit
 ---------
 
 .. versionadded:: 3.11
+
+.. list-table:: Parameters to use in :ref:`API <addons-api>`, :setting:`DEFAULT_ADDONS`, or :djadmin:`install_addon`
+
+   * - Addon ID
+     - ``weblate.flags.bulk``
+   * - Configuration
+     - q, state, add_flags, remove_flags, add_labels, remove_labels
 
 Bulk edit flags, labels, or states of strings.
 
@@ -185,6 +234,13 @@ Flag unchanged translations as "Needs editing"
 
 .. versionadded:: 3.1
 
+.. list-table:: Parameters to use in :ref:`API <addons-api>`, :setting:`DEFAULT_ADDONS`, or :djadmin:`install_addon`
+
+   * - Addon ID
+     - ``weblate.flags.same_edit``
+   * - Configuration
+     - `This addon has no configuration.`
+
 Whenever a new translatable string is imported from the VCS and it matches a
 source string, it is flagged as needing editing in Weblate. Especially useful
 for file formats that include source strings for untranslated strings.
@@ -203,6 +259,13 @@ for file formats that include source strings for untranslated strings.
 Flag new source strings as "Needs editing"
 ------------------------------------------
 
+.. list-table:: Parameters to use in :ref:`API <addons-api>`, :setting:`DEFAULT_ADDONS`, or :djadmin:`install_addon`
+
+   * - Addon ID
+     - ``weblate.flags.source_edit``
+   * - Configuration
+     - `This addon has no configuration.`
+
 Whenever a new source string is imported from the VCS, it is flagged as needing
 editing in Weblate. This way you can easily filter and edit source strings
 written by the developers.
@@ -216,6 +279,13 @@ written by the developers.
 Flag new translations as "Needs editing"
 ----------------------------------------
 
+.. list-table:: Parameters to use in :ref:`API <addons-api>`, :setting:`DEFAULT_ADDONS`, or :djadmin:`install_addon`
+
+   * - Addon ID
+     - ``weblate.flags.target_edit``
+   * - Configuration
+     - `This addon has no configuration.`
+
 Whenever a new translatable string is imported from the VCS, it is flagged as
 needing editing in Weblate. This way you can easily filter and edit
 translations created by the developers.
@@ -228,6 +298,13 @@ translations created by the developers.
 
 Statistics generator
 --------------------
+
+.. list-table:: Parameters to use in :ref:`API <addons-api>`, :setting:`DEFAULT_ADDONS`, or :djadmin:`install_addon`
+
+   * - Addon ID
+     - ``weblate.generate.generate``
+   * - Configuration
+     - filename, template
 
 Generates a file containing detailed info about the translation status.
 
@@ -259,6 +336,13 @@ Content
 Pseudolocale generation
 -----------------------
 
+.. list-table:: Parameters to use in :ref:`API <addons-api>`, :setting:`DEFAULT_ADDONS`, or :djadmin:`install_addon`
+
+   * - Addon ID
+     - ``weblate.generate.pseudolocale``
+   * - Configuration
+     - source, target, prefix, suffix
+
 Generates a translation by adding prefix and suffix to source strings
 automatically.
 
@@ -280,8 +364,15 @@ is also possible.
 Contributors in comment
 -----------------------
 
-Updates the comment part of the PO file header to include contributor names
-and years of contributions.
+.. list-table:: Parameters to use in :ref:`API <addons-api>`, :setting:`DEFAULT_ADDONS`, or :djadmin:`install_addon`
+
+   * - Addon ID
+     - ``weblate.gettext.authors``
+   * - Configuration
+     - `This addon has no configuration.`
+
+Updates the comment part of the PO file header to include contributor names and
+years of contributions.
 
 The PO file header will look like this:
 
@@ -297,6 +388,13 @@ The PO file header will look like this:
 Update ALL_LINGUAS variable in the "configure" file
 ---------------------------------------------------
 
+.. list-table:: Parameters to use in :ref:`API <addons-api>`, :setting:`DEFAULT_ADDONS`, or :djadmin:`install_addon`
+
+   * - Addon ID
+     - ``weblate.gettext.configure``
+   * - Configuration
+     - `This addon has no configuration.`
+
 Updates the ALL_LINGUAS variable in :file:`configure`, :file:`configure.in` or any
 :file:`configure.ac` files, when a new translation is added.
 
@@ -304,6 +402,13 @@ Updates the ALL_LINGUAS variable in :file:`configure`, :file:`configure.in` or a
 
 Customize gettext output
 ------------------------
+
+.. list-table:: Parameters to use in :ref:`API <addons-api>`, :setting:`DEFAULT_ADDONS`, or :djadmin:`install_addon`
+
+   * - Addon ID
+     - ``weblate.gettext.customize``
+   * - Configuration
+     - width
 
 Allows customization of gettext output behavior, for example line wrapping.
 
@@ -324,12 +429,26 @@ It offers the following options:
 Update LINGUAS file
 -------------------
 
+.. list-table:: Parameters to use in :ref:`API <addons-api>`, :setting:`DEFAULT_ADDONS`, or :djadmin:`install_addon`
+
+   * - Addon ID
+     - ``weblate.gettext.linguas``
+   * - Configuration
+     - `This addon has no configuration.`
+
 Updates the LINGUAS file when a new translation is added.
 
 .. _addon-weblate.gettext.mo:
 
 Generate MO files
 -----------------
+
+.. list-table:: Parameters to use in :ref:`API <addons-api>`, :setting:`DEFAULT_ADDONS`, or :djadmin:`install_addon`
+
+   * - Addon ID
+     - ``weblate.gettext.mo``
+   * - Configuration
+     - path
 
 Automatically generates a MO file for every changed PO file.
 
@@ -339,6 +458,13 @@ The location of the generated MO file can be customized and the field for it use
 
 Update PO files to match POT (msgmerge)
 ---------------------------------------
+
+.. list-table:: Parameters to use in :ref:`API <addons-api>`, :setting:`DEFAULT_ADDONS`, or :djadmin:`install_addon`
+
+   * - Addon ID
+     - ``weblate.gettext.msgmerge``
+   * - Configuration
+     - previous, no_location, fuzzy
 
 Updates all PO files (as configured by :ref:`component-filemask`) to match the
 POT file (as configured by :ref:`component-new_base`) using :program:`msgmerge`.
@@ -355,6 +481,13 @@ configuration.
 
 Squash Git commits
 ------------------
+
+.. list-table:: Parameters to use in :ref:`API <addons-api>`, :setting:`DEFAULT_ADDONS`, or :djadmin:`install_addon`
+
+   * - Addon ID
+     - ``weblate.git.squash``
+   * - Configuration
+     - squash, append_trailers, commit_message
 
 Squash Git commits prior to pushing changes.
 
@@ -388,12 +521,26 @@ translator.
 Customize JSON output
 ---------------------
 
+.. list-table:: Parameters to use in :ref:`API <addons-api>`, :setting:`DEFAULT_ADDONS`, or :djadmin:`install_addon`
+
+   * - Addon ID
+     - ``weblate.json.customize``
+   * - Configuration
+     - sort_keys, indent
+
 Allows adjusting JSON output behavior, for example indentation or sorting.
 
 .. _addon-weblate.properties.sort:
 
 Formats the Java properties file
 --------------------------------
+
+.. list-table:: Parameters to use in :ref:`API <addons-api>`, :setting:`DEFAULT_ADDONS`, or :djadmin:`install_addon`
+
+   * - Addon ID
+     - ``weblate.properties.sort``
+   * - Configuration
+     - `This addon has no configuration.`
 
 Sorts the Java properties file.
 
@@ -403,6 +550,13 @@ Stale comment removal
 ---------------------
 
 .. versionadded:: 3.7
+
+.. list-table:: Parameters to use in :ref:`API <addons-api>`, :setting:`DEFAULT_ADDONS`, or :djadmin:`install_addon`
+
+   * - Addon ID
+     - ``weblate.removal.comments``
+   * - Configuration
+     - age
 
 Set a timeframe for removal of comments.
 
@@ -417,6 +571,13 @@ Stale suggestion removal
 
 .. versionadded:: 3.7
 
+.. list-table:: Parameters to use in :ref:`API <addons-api>`, :setting:`DEFAULT_ADDONS`, or :djadmin:`install_addon`
+
+   * - Addon ID
+     - ``weblate.removal.suggestions``
+   * - Configuration
+     - age, votes
+
 Set a timeframe for removal of suggestions.
 
 Can be very useful in connection with suggestion voting
@@ -429,6 +590,13 @@ Update RESX files
 -----------------
 
 .. versionadded:: 3.9
+
+.. list-table:: Parameters to use in :ref:`API <addons-api>`, :setting:`DEFAULT_ADDONS`, or :djadmin:`install_addon`
+
+   * - Addon ID
+     - ``weblate.resx.update``
+   * - Configuration
+     - `This addon has no configuration.`
 
 Update all translation files to match the monolingual upstream base file.
 Unused strings are removed, and new ones added as copies of the source string.
@@ -448,6 +616,13 @@ Customize YAML output
 ---------------------
 
 .. versionadded:: 3.10.2
+
+.. list-table:: Parameters to use in :ref:`API <addons-api>`, :setting:`DEFAULT_ADDONS`, or :djadmin:`install_addon`
+
+   * - Addon ID
+     - ``weblate.yaml.customize``
+   * - Configuration
+     - indent, width, line_break
 
 Allows adjusting YAML output behavior, for example line-length or newlines.
 

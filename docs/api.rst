@@ -2160,6 +2160,8 @@ Screenshots
     :param id: Screenshot ID
     :type id: int
 
+.. _addons-api:
+
 Addons
 ++++++
 
@@ -2182,6 +2184,10 @@ Addons
     :>json string name: name of an addon
     :>json string component: URL of a related component object
     :>json object configuration: Optional addon configuration
+
+    .. seealso::
+
+       :doc:`/admin/addons`
 
 .. http:post:: /api/components/(string:project)/(string:component)/addons/
 
