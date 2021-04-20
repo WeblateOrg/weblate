@@ -29,8 +29,8 @@ msgstr ""
 "Project-Id-Version: Weblate 4.7\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-04-20 11:25+0000\n"
-"PO-Revision-Date: 2021-04-20 14:06+0000\n"
-"Last-Translator: Ldm Public <ldmpub@gmail.com>\n"
+"PO-Revision-Date: 2021-04-21 05:54+0000\n"
+"Last-Translator: Olivier Humbert <trebmuh@tuxfamily.org>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/weblate/"
 "application/fr/>\n"
 "Language: fr\n"
@@ -1131,11 +1131,11 @@ msgstr ""
 
 #: weblate/addons/example.py:36
 msgid "Example add-on"
-msgstr "Greffon exemple"
+msgstr "Module d'exemple"
 
 #: weblate/addons/example.py:38
 msgid "This add-on does nothing it is just an example."
-msgstr "Ce greffon ne fait rien, il s’agit seulement d’un exemple."
+msgstr "Ce module ne fait rien, il s’agit seulement d’un exemple."
 
 #: weblate/addons/example_pre.py:34
 msgid "Execute script before commit"
@@ -1143,7 +1143,7 @@ msgstr "Exécuter le script avant l’archivage"
 
 #: weblate/addons/example_pre.py:35
 msgid "This addon executes a script."
-msgstr "Ce greffon lance un script."
+msgstr "Ce module lance un script."
 
 #: weblate/addons/flags.py:45
 msgid "Flag new source strings as \"Needs editing\""
@@ -1409,7 +1409,7 @@ msgstr ""
 #: weblate/addons/forms.py:277
 msgid "Clone addons from the main component to the newly created ones"
 msgstr ""
-"Dupliquer les greffons du composant principal vers les éléments nouvellement "
+"Dupliquer les modules du composant principal vers les éléments nouvellement "
 "créés"
 
 #: weblate/addons/forms.py:282
@@ -1635,11 +1635,11 @@ msgstr ""
 
 #: weblate/addons/views.py:84
 msgid "Invalid add-on name specified!"
-msgstr "Le nom de greffon indiqué est non valide !"
+msgstr "Nom de module indiqué invalide !"
 
 #: weblate/addons/views.py:97
 msgid "Add-on installed, please review integration instructions."
-msgstr "Greffon installé, veuillez vérifier les instructions d’intégration."
+msgstr "Module installé, veuillez vérifier les instructions d’intégration."
 
 #: weblate/addons/yaml.py:31
 msgid "Customize YAML output"
@@ -4776,18 +4776,18 @@ msgstr "Afficher plus de modifications par cet utilisateur"
 #: weblate/templates/addons/addon_list.html:10
 #: weblate/templates/component.html:102
 msgid "Add-ons"
-msgstr "Greffons"
+msgstr "Modules"
 
 #: weblate/templates/addons/addon_detail.html:26
 msgid "Configure add-on"
-msgstr "Paramétrer le greffon"
+msgstr "Paramétrer le module"
 
 #: weblate/templates/addons/addon_head.html:7
 msgid ""
 "This addon is used for the whole project, it is enough to install it for one "
 "component."
 msgstr ""
-"Ce greffon est utilisé pour l’ensemble du projet, l’installer sur un "
+"Ce module est utilisé pour l’ensemble du projet, l’installer sur un "
 "composant suffit."
 
 #: weblate/templates/addons/addon_head.html:7
@@ -4796,7 +4796,7 @@ msgstr "sur l’ensemble du projet"
 
 #: weblate/templates/addons/addon_head.html:10
 msgid "This addon is used for all components sharing this repository."
-msgstr "Ce greffon est utilisé pour tous les composants partageant ce dépôt."
+msgstr "Ce module est utilisé pour tous les composants partageant ce dépôt."
 
 #: weblate/templates/addons/addon_head.html:10
 msgid "repository wide"
@@ -4804,7 +4804,7 @@ msgstr "au niveau du dépôt"
 
 #: weblate/templates/addons/addon_list.html:18
 msgid "Installed add-ons"
-msgstr "Greffons installés"
+msgstr "Modules installés"
 
 #: weblate/templates/addons/addon_list.html:28
 msgid "Uninstall"
@@ -4817,18 +4817,18 @@ msgstr "Paramétrer"
 
 #: weblate/templates/addons/addon_list.html:41
 msgid "There are no add-ons currently installed."
-msgstr "Aucun greffon n’est installé actuellement."
+msgstr "Aucun module n’est actuellement installé."
 
 #: weblate/templates/addons/addon_list.html:43
 #, python-format
 msgid "There is currently %(count)s add-on installed."
 msgid_plural "There are currently %(count)s add-ons installed."
-msgstr[0] "%(count)s greffon installé actuellement."
-msgstr[1] "%(count)s greffons installés actuellement."
+msgstr[0] "%(count)s module installé actuellement."
+msgstr[1] "%(count)s modules installés actuellement."
 
 #: weblate/templates/addons/addon_list.html:51
 msgid "Available add-ons"
-msgstr "Greffons disponibles"
+msgstr "Modules disponibles"
 
 #: weblate/templates/addons/addon_list.html:61
 msgid "Install"
@@ -4839,13 +4839,13 @@ msgid ""
 "Could not find any additional add-ons compatible with this translation "
 "component."
 msgstr ""
-"Impossible de trouver des greffons supplémentaires compatibles avec ce "
+"Impossible de trouver des modules supplémentaires compatibles avec ce "
 "composant de traduction."
 
 #: weblate/templates/addons/addon_list.html:71
 msgid "Some add-ons will ask for additional configuration during installation."
 msgstr ""
-"Certains greffons demanderont des paramètres supplémentaires lors de leur "
+"Certains modules demanderont une configuration supplémentaire lors de leur "
 "installation."
 
 #: weblate/templates/addons/cdnjs.html:5
@@ -8543,7 +8543,7 @@ msgstr "Suivre le composant %(component)s"
 
 #: weblate/templates/trans/alert/addonscripterror.html:4
 msgid "Weblate could not execute script addon."
-msgstr "Weblate n’est pas parvenu à exécuter le script du greffon."
+msgstr "Weblate n’est pas parvenu à exécuter le script du module."
 
 #: weblate/templates/trans/alert/addonscripterror.html:6
 #: weblate/templates/trans/alert/ambiguouslanguage.html:9
@@ -8621,7 +8621,7 @@ msgstr "L’URL du site Web du projet n’est pas une destination valide :"
 
 #: weblate/templates/trans/alert/cdnaddonerror.html:4
 msgid "Weblate CDN addon could not parse the HTML files."
-msgstr "Le greffon CDN de Weblate n’a pas pu analyser les fichiers HTML."
+msgstr "Le module CDN de Weblate n’a pas pu analyser les fichiers HTML."
 
 #: weblate/templates/trans/alert/cdnaddonerror.html:10
 #: weblate/templates/trans/alert/parseerror.html:10
@@ -9065,7 +9065,7 @@ msgstr "Le format de fichier détecté n’est pas pris en charge."
 
 #: weblate/templates/trans/guide/addon.html:3
 msgid "Enable addon:"
-msgstr "Activer le greffon :"
+msgstr "Activer le module :"
 
 #: weblate/templates/trans/merge_instructions.html:6
 msgid "Typical workflow for fixing merge conflicts"
@@ -10464,7 +10464,7 @@ msgstr "Informations de licence manquantes."
 #: weblate/trans/models/alert.py:267 weblate/trans/models/alert.py:273
 #: weblate/trans/models/alert.py:279
 msgid "Could not run addon."
-msgstr "Impossible d’exécuter le greffon."
+msgstr "Impossible d’exécuter le module."
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:285
@@ -11155,7 +11155,7 @@ msgstr "Message d’archivage lors de la fusion de la traduction"
 
 #: weblate/trans/models/component.py:536
 msgid "Commit message when addon makes a change"
-msgstr "Message d’archivage lorsqu’un greffon effectue une modification"
+msgstr "Message d’archivage lorsqu’un module effectue une modification"
 
 #: weblate/trans/models/component.py:545
 msgid "Push on commit"
