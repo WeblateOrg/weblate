@@ -3,6 +3,10 @@ Weblate 4.6.1
 
 Not yet released.
 
+* Remove obsolete spam protection code.
+* Improve source plural check accuracy.
+* Update list of user interface languages in Docker.
+
 Weblate 4.6
 -----------
 
