@@ -13,6 +13,7 @@ Not yet released.
 * Remove obsolete spam protection code.
 * Improve source plural check accuracy.
 * Update list of user interface languages in Docker.
+* Improved error messages when creating pull requests.
 
 Weblate 4.6
 -----------
