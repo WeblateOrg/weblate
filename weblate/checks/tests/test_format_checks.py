@@ -367,6 +367,10 @@ class LuaFormatCheckTest(CFormatCheckTest):
     flag = "lua-format"
 
 
+class ObjectPascalFormatCheckTest(CFormatCheckTest):
+    check = ObjectPascalFormatCheck()
+    flag = "object-pascal-format"
+
 class PerlFormatCheckTest(CFormatCheckTest):
     check = PerlFormatCheck()
     flag = "perl-format"
