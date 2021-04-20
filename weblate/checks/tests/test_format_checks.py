@@ -31,6 +31,7 @@ from weblate.checks.format import (
     JavaMessageFormatCheck,
     LuaFormatCheck,
     MultipleUnnamedFormatsCheck,
+    ObjectPascalFormatCheck,
     PercentPlaceholdersCheck,
     PerlFormatCheck,
     PHPFormatCheck,
@@ -367,9 +368,10 @@ class LuaFormatCheckTest(CFormatCheckTest):
     flag = "lua-format"
 
 
-class ObjectPascalFormatCheckTest(CFormatCheckTest):
+class ObjectPascalFormatCheckTest(CheckTestCase):
     check = ObjectPascalFormatCheck()
     flag = "object-pascal-format"
+
 
 class PerlFormatCheckTest(CFormatCheckTest):
     check = PerlFormatCheck()

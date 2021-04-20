@@ -94,8 +94,10 @@ C_PRINTF_MATCH = re.compile(
     re.VERBOSE,
 )
 
-OBJECT_PASCAL_PRINTF_MATCH = re.compile(
-    r"""                        # index, width and precision can be '*',  in which case their value will be read from the next element in the Args array
+# index, width and precision can be '*', in which case their value 
+# will be read from the next element in the Args array
+PASCAL_FORMAT_MATCH = re.compile(
+    r"""                        
     %(                          # initial %
 		(?:(?P<ord>\*|\d+):)?   # variable index, like %0:s
         (?P<fullvar>
@@ -249,7 +251,7 @@ FLAG_RULES = {
     "python-format": (PYTHON_PRINTF_MATCH, python_format_is_position_based),
     "php-format": (PHP_PRINTF_MATCH, c_format_is_position_based),
     "c-format": (C_PRINTF_MATCH, c_format_is_position_based),
-    "object-pascal-format": (OBJECT_PASCAL_PRINTF_MATCH, pascal_format_is_position_based),
+    "object-pascal-format": (PASCAL_FORMAT_MATCH, pascal_format_is_position_based),
     "perl-format": (C_PRINTF_MATCH, c_format_is_position_based),
     "javascript-format": (C_PRINTF_MATCH, c_format_is_position_based),
     "lua-format": (C_PRINTF_MATCH, c_format_is_position_based),
@@ -487,7 +489,7 @@ class ObjectPascalFormatCheck(BaseFormatCheck):
     check_id = "object_pascal_format"
     name = _("Object Pascal format")
     description = _("Object Pascal format string does not match source")
-    regexp = OBJECT_PASCAL_PRINTF_MATCH
+    regexp = PASCAL_FORMAT_MATCH
 
 
 class SchemeFormatCheck(BasePrintfCheck):
