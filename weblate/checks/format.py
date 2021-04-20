@@ -483,7 +483,7 @@ class LuaFormatCheck(BasePrintfCheck):
     description = _("Lua format string does not match source")
 
 
-class ObjectPascalFormatCheck(BaseFormatCheck):
+class ObjectPascalFormatCheck(BasePrintfCheck):
     """Check for Object Pascal format string."""
 
     check_id = "object_pascal_format"
