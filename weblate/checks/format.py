@@ -94,17 +94,17 @@ C_PRINTF_MATCH = re.compile(
     re.VERBOSE,
 )
 
-# index, width and precision can be '*', in which case their value 
+# index, width and precision can be '*', in which case their value
 # will be read from the next element in the Args array
 PASCAL_FORMAT_MATCH = re.compile(
-    r"""                        
+    r"""
     %(                          # initial %
-		(?:(?P<ord>\*|\d+):)?   # variable index, like %0:s
+        (?:(?P<ord>\*|\d+):)?   # variable index, like %0:s
         (?P<fullvar>
             -?                  # left align
             (?:\*|\d+)?         # width
             (\.(?:\*|\d+))?     # precision
-            (?P<type>[defgmnpsuxDEFGMNPSUX%]) # type (%s, %d, etc.)	
+            (?P<type>[defgmnpsuxDEFGMNPSUX%]) # type (%s, %d, etc.)
         |)                      # incomplete format string
     )""",
     re.VERBOSE,
