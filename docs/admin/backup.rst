@@ -247,7 +247,7 @@ Version control repositories
 Stored in :setting:`DATA_DIR` ``/vcs``.
 
 The version control repositories contain a copy of your upstream repositories
-with Weblate changes. If you have `Push on commit` enabled for all your
+with Weblate changes. If you have :ref:`component-push_on_commit` enabled for all your
 translation components, all Weblate changes are included upstream. No need to
 back up the repositories on the Weblate side as they can be cloned
 again from the upstream location(s) with no data loss.
