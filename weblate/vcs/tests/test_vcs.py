@@ -916,7 +916,7 @@ class VCSPagureTest(VCSGitUpstreamTest):
         )
         responses.add(
             responses.GET,
-            "https://pagure.io/api/0/testrepo/pull-request",
+            "https://pagure.io/api/0/testrepo/pull-requests",
             json=existing_response,
             status=200,
         )

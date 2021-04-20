@@ -1153,13 +1153,17 @@ class PagureRepository(GitMergeRequestBase):
         Use to merge branch in forked repository into branch of remote repository.
         """
         if credentials["owner"]:
-            pr_base_url = "{url}/{owner}/{slug}/pull-request".format(**credentials)
+            pr_list_url = "{url}/{owner}/{slug}/pull-requests".format(**credentials)
+            pr_create_url = "{url}/{owner}/{slug}/pull-request/new".format(
+                **credentials
+            )
         else:
-            pr_base_url = "{url}/{slug}/pull-request".format(**credentials)
+            pr_list_url = "{url}/{slug}/pull-requests".format(**credentials)
+            pr_create_url = "{url}/{slug}/pull-request/new".format(**credentials)
 
         # List existing pull requests
         response, error_message = self.request(
-            "get", credentials, pr_base_url, params={"author": credentials["username"]}
+            "get", credentials, pr_list_url, params={"author": credentials["username"]}
         )
         if error_message:
             raise RepositoryException(
@@ -1182,7 +1186,7 @@ class PagureRepository(GitMergeRequestBase):
             request["repo_from_username"] = credentials["username"]
 
         response, error_message = self.request(
-            "post", credentials, f"{pr_base_url}/new", data=request
+            "post", credentials, pr_create_url, data=request
         )
 
         if "id" not in response:
