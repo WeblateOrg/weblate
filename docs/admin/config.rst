@@ -539,6 +539,7 @@ Example:
 .. seealso::
 
    :djadmin:`install_addon`,
+   :doc:`addons`,
    :setting:`WEBLATE_ADDONS`
 
 .. setting:: DEFAULT_COMMITER_EMAIL
