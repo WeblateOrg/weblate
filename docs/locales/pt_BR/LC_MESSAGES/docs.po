@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-04-18 13:37+0200\n"
-"PO-Revision-Date: 2021-04-19 18:18+0000\n"
+"PO-Revision-Date: 2021-04-20 10:24+0000\n"
 "Last-Translator: Rafael Fontenelle <rafaelff@gnome.org>\n"
 "Language-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/"
 "weblate/documentation/pt_BR/>\n"
@@ -3443,69 +3443,45 @@ msgid "Native database backup"
 msgstr "Backup nativo do banco de dados"
 
 #: ../../admin/backup.rst:188
-#, fuzzy
-#| msgid ""
-#| "The recommended approach is to do dump of the database using database "
-#| "native tools such as :program:`pg_dump` or :program:`mysqldump`. It "
-#| "usually performs better than Django backup and restores complete tables "
-#| "with all data."
 msgid ""
 "The recommended approach is to save a dump of the database using database-"
 "native tools such as :program:`pg_dump` or :program:`mysqldump`. It usually "
 "performs better than Django backup, and it restores complete tables with all "
 "their data."
 msgstr ""
-"A abordagem recomendada é fazer o despejo do banco de dados usando "
+"A abordagem recomendada é salvar um despejo do banco de dados usando "
 "ferramentas nativas, tais como :program:`pg_dump` ou :program:`msqldump`. "
 "Esta abordagem normalmente tem um desempenho melhor do que o backup do "
-"Django e restaura tabelas completas com todos os dados."
+"Django e restaura tabelas completas com todos os seus dados."
 
 #: ../../admin/backup.rst:192
-#, fuzzy
-#| msgid ""
-#| "You can restore this backup in newer Weblate release, it will perform any "
-#| "necessary migrations when running in :djadmin:`django:migrate`. Please "
-#| "consult :doc:`upgrade` on more detailed information how to perform "
-#| "upgrade between versions."
 msgid ""
 "You can restore this backup in a newer Weblate release, it will perform all "
 "the necessary migrations when running in :djadmin:`django:migrate`. Please "
 "consult :doc:`upgrade` on more detailed info on how to upgrade between "
 "versions."
 msgstr ""
-"Você pode restaurar esse backup na versão mais nova do Weblate, ele "
-"executará quaisquer migrações necessárias ao executar em :djadmin:`django:"
-"migrate`. Consulte :doc:`upgrade` sobre informações mais detalhadas sobre "
-"como realizar a atualização entre as versões."
+"Você pode restaurar esse backup em uma versão mais nova do Weblate, ele "
+"executará todas as migrações necessárias ao executar em "
+":djadmin:`django:migrate`. Consulte :doc:`upgrade` sobre informações mais "
+"detalhadas sobre como a atualizar entre as versões."
 
 #: ../../admin/backup.rst:197
 msgid "Django database backup"
 msgstr "Backup do banco de dados do Django"
 
 #: ../../admin/backup.rst:199
-#, fuzzy
-#| msgid ""
-#| "Alternatively you can backup database using Django's :djadmin:`django:"
-#| "dumpdata` command. That way the backup is database agnostic and can be "
-#| "used in case you want to change database backend."
 msgid ""
 "Alternatively, you can back up your database using Django's :djadmin:`django:"
 "dumpdata` command. That way the backup is database agnostic and can be used "
 "in case you want to change the database backend."
 msgstr ""
-"Alternativamente, você pode fazer backup do banco de dados utilizando o "
+"Alternativamente, você pode fazer backup de seu banco de dados utilizando o "
 "comando :djadmin:`django:dumpdata` do Django. Dessa forma o backup é "
 "agnóstico de banco de dados e pode ser usado caso você queira alterar o "
 "backend do banco de dados."
 
 #: ../../admin/backup.rst:203
-#, fuzzy
-#| msgid ""
-#| "Prior to restoring you need to be running exactly same Weblate version as "
-#| "was used when doing backups. This is necessary as the database structure "
-#| "does change between releases and you would end up corrupting the data in "
-#| "some way. After installing the same version, run all database migrations "
-#| "using :djadmin:`django:migrate`."
 msgid ""
 "Prior to restoring the database you need to be running exactly the same "
 "Weblate version the backup was made on. This is necessary as the database "
@@ -3513,51 +3489,40 @@ msgid ""
 "data in some way. After installing the same version, run all database "
 "migrations using :djadmin:`django:migrate`."
 msgstr ""
-"Antes de restaurar, você precisa estar usando exatamente a mesma versão do "
-"Weblate que foi usada ao fazer backups. Isso é necessário, pois a estrutura "
-"do banco de dados muda entre as versões e você acabaria corrompendo os dados "
-"de alguma forma. Depois de instalar a mesma versão, execute todas as "
-"migrações do banco de dados usando :djadmin:`django:migrate`."
+"Antes de restaurar o banco de dados, você precisa estar usando exatamente a "
+"mesma versão do Weblate na qual o backup foi feito. Isso é necessário, pois "
+"a estrutura do banco de dados muda entre as versões e você acabaria "
+"corrompendo os dados de alguma forma. Depois de instalar a mesma versão, "
+"execute todas as migrações do banco de dados usando "
+":djadmin:`django:migrate`."
 
 #: ../../admin/backup.rst:209
-#, fuzzy
-#| msgid ""
-#| "Once this is done, some entries will be already created in the database "
-#| "and you will have them in the database backup as well. The recommended "
-#| "approach is to delete such entries manually using management shell (see :"
-#| "ref:`invoke-manage`):"
 msgid ""
 "Afterwards some entries will already be created in the database and you will "
 "have them in the database backup as well. The recommended approach is to "
 "delete such entries manually using the management shell (see :ref:`invoke-"
 "manage`):"
 msgstr ""
-"Uma vez feito isso, algumas entradas já serão criadas no banco de dados e "
-"você as terá no backup do banco de dados também. A abordagem recomendada é "
-"excluir essas entradas manualmente usando o shell de gerenciamento (veja :"
-"ref:`invoke-manage`):"
+"Depois disso, algumas entradas já serão criadas no banco de dados e você as "
+"terá no backup do banco de dados também. A abordagem recomendada é excluir "
+"essas entradas manualmente usando o shell de gerenciamento (veja :ref"
+":`invoke-manage`):"
 
 #: ../../admin/backup.rst:220
 msgid "Files"
 msgstr "Arquivos"
 
 #: ../../admin/backup.rst:222
-#, fuzzy
-#| msgid ""
-#| "If you have enough backup space, simply backup the whole :setting:"
-#| "`DATA_DIR`. This is safe bet even if it includes some files you don't "
-#| "want. The following sections describe in detail what you should back up "
-#| "and what you can skip."
 msgid ""
 "If you have enough backup space, simply back up the whole :setting:"
 "`DATA_DIR`. This is a safe bet even if it includes some files you don't "
 "want. The following sections describe what you should back up and what you "
 "can skip in detail."
 msgstr ""
-"Se você tiver espaço de backup suficiente, basta fazer backup de todo o :"
-"setting:`DATA_DIR`. Esta é uma aposta segura, mesmo que inclua alguns "
-"arquivos que você não quer. As seções a seguir descrevem em detalhes o que "
-"você deve fazer backup e o que você pode pular."
+"Se você tiver espaço de backup suficiente, basta fazer backup de todo o "
+":setting:`DATA_DIR`. Esta é uma aposta segura, mesmo que inclua alguns "
+"arquivos que você não quer. As seções a seguir descrevem o que você deve "
+"fazer backup e o que você pode pular em detalhes."
 
 #: ../../admin/backup.rst:230
 msgid "Dumped data for backups"
@@ -3591,18 +3556,13 @@ msgid "PostgreSQL database backup as :file:`database.sql`."
 msgstr "Backup de banco de dados PostgreSQL como :file:`database.sql`."
 
 #: ../../admin/backup.rst:241
-#, fuzzy
-#| msgid ""
-#| "The database backups are by default saved as plain text, but they can "
-#| "also be compressed or entirely skipped by using :setting:"
-#| "`DATABASE_BACKUP`."
 msgid ""
 "The database backups are saved as plain text by default, but they can also "
 "be compressed or entirely skipped using :setting:`DATABASE_BACKUP`."
 msgstr ""
-"Os backups do banco de dados são, por padrão, salvos como texto simples, mas "
-"eles também podem ser comprimidos ou totalmente ignorados usando :setting:"
-"`DATABASE_BACKUP`."
+"Os backups do banco de dados são salvos como texto simples por padrão, mas "
+"eles também podem ser comprimidos ou totalmente ignorados usando "
+":setting:`DATABASE_BACKUP`."
 
 #: ../../admin/backup.rst:245
 msgid "Version control repositories"
@@ -3613,14 +3573,6 @@ msgid "Stored in :setting:`DATA_DIR` ``/vcs``."
 msgstr "Armazenados em :setting:`DATA_DIR` ``/vcs``."
 
 #: ../../admin/backup.rst:249
-#, fuzzy
-#| msgid ""
-#| "The version control repositories contain a copy of your upstream "
-#| "repositories with Weblate changes. If you have push on commit enabled for "
-#| "all your translation components, all Weblate changes are included "
-#| "upstream and you do not have to backup the repositories on the Weblate "
-#| "side. They can be cloned again from the upstream locations with no data "
-#| "loss."
 msgid ""
 "The version control repositories contain a copy of your upstream "
 "repositories with Weblate changes. If you have `Push on commit` enabled for "
@@ -3629,11 +3581,11 @@ msgid ""
 "cloned again from the upstream location(s) with no data loss."
 msgstr ""
 "Os repositórios de controle de versão contêm uma cópia de seus repositórios "
-"upstream com alterações do Weblate. Se você tiver o push ao fazer commit "
+"upstream com alterações do Weblate. Se você tiver o `Push ao fazer commit` "
 "ativado para todos os seus componentes de tradução, todas as alterações do "
-"Weblate são incluídas upstream e você não precisa fazer backup dos "
-"repositórios no lado do Weblate. Eles podem ser clonados novamente a partir "
-"dos locais upstream sem perda de dados."
+"Weblate são incluídas upstream. Não há necessidade de fazer backup dos "
+"repositórios no lado do Weblate, pois eles podem ser clonados novamente a "
+"partir dos locais upstream sem perda de dados."
 
 #: ../../admin/backup.rst:256
 msgid "SSH and GPG keys"
@@ -3646,18 +3598,13 @@ msgstr ""
 "Armazenados em :setting:`DATA_DIR` ``/ssh`` e :setting:`DATA_DIR` ``/home``."
 
 #: ../../admin/backup.rst:260
-#, fuzzy
-#| msgid ""
-#| "If you are using SSH or GPG keys generated by Weblate, you should back up "
-#| "these locations, otherwise you will lose the private keys and you will "
-#| "have to regenerate new ones."
 msgid ""
 "If you are using SSH or GPG keys generated by Weblate, you should back up "
 "these locations. Otherwise you will lose the private keys and you will have "
 "to regenerate new ones."
 msgstr ""
 "Se você está usando chaves SSH ou GPG geradas pelo Weblate, você deve fazer "
-"backup destes locais; caso contrário, você vai perder as chaves privadas e "
+"backup destes locais. Caso contrário, você vai perder as chaves privadas e "
 "você terá que gerar novamente as novas."
 
 #: ../../admin/backup.rst:265
@@ -3669,25 +3616,16 @@ msgid "Stored in :setting:`DATA_DIR` ``/media``."
 msgstr "Armazenados em :setting:`DATA_DIR` ``/media``."
 
 #: ../../admin/backup.rst:269
-#, fuzzy
-#| msgid "You should back up user uploaded files (e.g. :ref:`screenshots`)."
 msgid "You should back up all user uploaded files (e.g. :ref:`screenshots`)."
 msgstr ""
-"Você deve fazer o backup dos arquivos enviados pelo usuário (por exemplo, :"
-"ref:`screenshots`)."
+"Você deve fazer o backup de todos os arquivos enviados pelo usuário (por "
+"exemplo, :ref:`screenshots`)."
 
 #: ../../admin/backup.rst:272
 msgid "Celery tasks"
 msgstr "Tarefas do Celery"
 
 #: ../../admin/backup.rst:274
-#, fuzzy
-#| msgid ""
-#| "The Celery tasks queue might contain some info, but is usually not needed "
-#| "for a backup. At most you will lose updates that have not yet been "
-#| "processed to translation memory. It is recommended to perform the "
-#| "fulltext or repository updates upon restoring anyhow, so there is no "
-#| "problem in losing these."
 msgid ""
 "The Celery task queue might contain some info, but is usually not needed for "
 "a backup. At most you will lose updates not yet been processed to "
@@ -3695,10 +3633,10 @@ msgid ""
 "update upon restoration anyhow, so there is no problem in losing these."
 msgstr ""
 "A fila de tarefas do Celery pode conter algumas informações, mas geralmente "
-"não é necessária para um backup. No máximo, você perderá atualizações que "
-"ainda não foram processadas para a memória de tradução. Recomenda-se "
-"realizar as atualizações de texto completo ou repositório ao restaurar de "
-"qualquer maneira, de modo que não há problema em perdê-las."
+"não é necessária para um backup. No máximo, você perderá atualizações ainda "
+"não processadas para a memória de tradução. Recomenda-se realizar a "
+"atualização de texto completo ou repositório ao restaurar de qualquer "
+"maneira, de modo que não há problema em perdê-las."
 
 #: ../../admin/backup.rst:281
 msgid ":ref:`celery`"
@@ -3709,44 +3647,30 @@ msgid "Command line for manual backup"
 msgstr "Linha de comando para backup manual"
 
 #: ../../admin/backup.rst:286
-#, fuzzy
-#| msgid ""
-#| "Using a cron job, you can set up a bash command to be executed on a daily "
-#| "basis, for instance:"
 msgid ""
 "Using a cron job, you can set up a Bash command to be executed on a daily "
 "basis, for example:"
 msgstr ""
-"Usando uma tarefa de cron, você pode configurar um comando bash para ser "
+"Usando uma tarefa de cron, você pode configurar um comando do Bash para ser "
 "executado diariamente, por exemplo:"
 
 #: ../../admin/backup.rst:292
-#, fuzzy
-#| msgid ""
-#| "The string between quotes after XZ_OPT allows you to choose your xz "
-#| "options, for instance the amount of memory used for compression; see "
-#| "https://linux.die.net/man/1/xz"
 msgid ""
 "The string between the quotes after `XZ_OPT` allows you to choose your xz "
 "options, for instance the amount of memory used for compression; see https://"
 "linux.die.net/man/1/xz"
 msgstr ""
-"O texto entre aspas após XZ_OPT permite que você escolha suas opções do xz, "
-"por exemplo, a quantidade de memória utilizada para compressão; veja https://"
-"linux.die.net/man/1/xz"
+"O texto entre as aspas após `XZ_OPT` permite que você escolha suas opções do "
+"xz, por exemplo, a quantidade de memória utilizada para compressão; veja "
+"https://linux.die.net/man/1/xz"
 
 #: ../../admin/backup.rst:294
-#, fuzzy
-#| msgid ""
-#| "You can adjust the list of folders and files to your needs. For instance, "
-#| "to avoid saving the translation memory (in backups folder), you could use:"
 msgid ""
 "You can adjust the list of folders and files to your needs. To avoid saving "
 "the translation memory (in backups folder), you can use:"
 msgstr ""
-"Você pode ajustar a lista de pastas e arquivos às suas necessidades. Por "
-"exemplo, para evitar salvar a memória de tradução (na pasta backups), você "
-"pode usar:"
+"Você pode ajustar a lista de pastas e arquivos às suas necessidades. Para "
+"evitar salvar a memória de tradução (na pasta backups), você pode usar:"
 
 #: ../../admin/backup.rst:301
 msgid "Restoring manual backup"
@@ -3765,10 +3689,6 @@ msgid "Moving a Weblate installation"
 msgstr "Movendo uma instalação do Weblate"
 
 #: ../../admin/backup.rst:314
-#, fuzzy
-#| msgid ""
-#| "Relocate your installation to a different system by following the backup "
-#| "and restore instructions above."
 msgid ""
 "Relocate your installation to a different system by following the backing up "
 "and restoration instructions above."
@@ -3978,18 +3898,14 @@ msgid "``font-spacing:SPACING``"
 msgstr "``font-spacing:ESPAÇAMENTO``"
 
 #: ../../admin/checks.rst:70
-#, fuzzy
-#| msgid "Define font-spacing for rendering checks, see :ref:`fonts`."
 msgid "Define letter spacing for rendering checks, see :ref:`fonts`."
 msgstr ""
-"Define o espaçamento da fonte para verificações da renderização, veja :ref:"
-"`fonts`."
+"Define o espaçamento de letras para verificações da renderização, veja "
+":ref:`fonts`."
 
 #: ../../admin/checks.rst:71
-#, fuzzy
-#| msgid "``placeholders:NAME``"
 msgid "``placeholders:NAME:NAME2:...``"
-msgstr "``placeholders:NOME``"
+msgstr "``placeholders:NOME:NOME2:...``"
 
 #: ../../admin/checks.rst:72
 msgid ""
@@ -4003,22 +3919,16 @@ msgid "``replacements:FROM:TO:FROM2:TO2...``"
 msgstr "``replacements:DE:PARA:DE2:PARA2...``"
 
 #: ../../admin/checks.rst:74
-#, fuzzy
-#| msgid ""
-#| "Replacements to perform when checking resulting text parameters (for "
-#| "example in :ref:`check-max-size` or :ref:`check-max-length`). The typical "
-#| "use case for this is to expand placeables to ensure that the text fits "
-#| "even with long names, for example: ``replacements:%s:\"John Doe\"``."
 msgid ""
 "Replacements to perform when checking resulting text parameters (for example "
 "in :ref:`check-max-size` or :ref:`check-max-length`). The typical use case "
 "for this is to expand placeables to ensure that the text fits even with long "
 "values, for example: ``replacements:%s:\"John Doe\"``."
 msgstr ""
-"Substituições para realizar ao verificar parâmetros de texto resultantes "
-"(por exemplo, em :ref:`check-max-size` ou :ref:`check-max-length`). O caso "
-"de uso típico para isso é expandir objetos colocáveis *(placeables)* para "
-"garantir que o texto se encaixe mesmo com nomes longos, por exemplo: "
+"Substituições para realizar ao verificar parâmetros de texto resultantes ("
+"por exemplo, em :ref:`check-max-size` ou :ref:`check-max-length`). O caso de "
+"uso típico para isso é expandir objetos colocáveis *(placeables)* para "
+"garantir que o texto se encaixe mesmo com valores longos, por exemplo: "
 "``replacements:%s:\"John Doe\"``."
 
 #: ../../admin/checks.rst:78
@@ -4050,12 +3960,6 @@ msgid ""
 msgstr ""
 
 #: ../../admin/checks.rst:89
-#, fuzzy
-#| msgid ""
-#| "``python-format``, ``c-format``, ``php-format``, ``python-brace-format``, "
-#| "``javascript-format``, ``c-sharp-format``, ``java-format``, ``java-"
-#| "messageformat``, ``auto-java-messageformat``, ``qt-format``, ``qt-plural-"
-#| "format``, ``ruby-format``, ``vue-format``"
 msgid ""
 "``python-format``, ``c-format``, ``php-format``, ``python-brace-format``, "
 "``javascript-format``, ``c-sharp-format``, ``java-format``, ``java-"
@@ -4064,18 +3968,10 @@ msgid ""
 msgstr ""
 "``python-format``, ``c-format``, ``php-format``, ``python-brace-format``, "
 "``javascript-format``, ``c-sharp-format``, ``java-format``, ``java-"
-"messageformat``, ``auto-java-messageformat``, ``qt-format``, ``qt-plural-"
-"format``, ``ruby-format``, ``vue-format``"
+"messageformat``, ``lua-format``, ``auto-java-messageformat``, ``qt-format``, "
+"``qt-plural-format``, ``ruby-format``, ``vue-format``"
 
 #: ../../admin/checks.rst:85
-#, fuzzy
-#| msgid ""
-#| "Treats all strings like format strings, affects :ref:`check-python-"
-#| "format`, :ref:`check-c-format`, :ref:`check-php-format`, :ref:`check-qt-"
-#| "format`, :ref:`check-qt-plural-format`, :ref:`check-ruby-format`, :ref:"
-#| "`check-vue-format`, :ref:`check-python-brace-format`, :ref:`check-"
-#| "javascript-format`, :ref:`check-c-sharp-format`, :ref:`check-java-"
-#| "format`, :ref:`check-java-messageformat`, :ref:`check-same`."
 msgid ""
 "Treats all strings like format strings, affects :ref:`check-python-format`, :"
 "ref:`check-c-format`, :ref:`check-php-format`, :ref:`check-qt-format`, :ref:"
@@ -4084,12 +3980,12 @@ msgid ""
 "ref:`check-c-sharp-format`, :ref:`check-java-format`, :ref:`check-java-"
 "messageformat`, :ref:`check-lua-format`, :ref:`check-same`."
 msgstr ""
-"Trata todas os textos como sendo de formato, afeta :ref:`check-python-"
-"format`, :ref:`check-c-format`, :ref:`check-php-format`, :ref:`check-qt-"
-"format`, :ref:`check-qt-plural-format`, :ref:`check-ruby-format`, :ref:"
-"`check-vue-format`, :ref:`check-python-brace-format`, :ref:`check-javascript-"
-"format`, :ref:`check-c-sharp-format`, :ref:`check-java-format`, :ref:`check-"
-"java-messageformat`, :ref:`check-same`."
+"Trata todas os textos como sendo de formato, afeta :ref:`check-python-format`"
+", :ref:`check-c-format`, :ref:`check-php-format`, :ref:`check-qt-format`, "
+":ref:`check-qt-plural-format`, :ref:`check-ruby-format`, :ref:`check-vue-"
+"format`, :ref:`check-python-brace-format`, :ref:`check-javascript-format`, "
+":ref:`check-c-sharp-format`, :ref:`check-java-format`, :ref:`check-java-"
+"messageformat`, :ref:`check-lua-format`, :ref:`check-same`."
 
 #: ../../admin/checks.rst:91
 msgid "``strict-same``"
@@ -4137,10 +4033,8 @@ msgid "``ignore-check-glossary``"
 msgstr "``ignore-c-format``"
 
 #: ../../admin/checks.rst:100
-#, fuzzy
-#| msgid "Skip the \"Qt format\" quality check."
 msgid "Skip the \"Does not follow glossary\" quality check."
-msgstr "Ignora a verificação de qualidade \"Formato Qt\"."
+msgstr "Ignora a verificação de qualidade \"Não seguir glossário\"."
 
 #: ../../admin/checks.rst:101
 msgid "``ignore-double-space``"
@@ -4222,10 +4116,8 @@ msgid "``ignore-lua-format``"
 msgstr "``ignore-vue-format``"
 
 #: ../../admin/checks.rst:120
-#, fuzzy
-#| msgid "Skip the \"C format\" quality check."
 msgid "Skip the \"Lua format\" quality check."
-msgstr "Ignora a verificação de qualidade \"Formato C\"."
+msgstr "Ignora a verificação de qualidade \"Formato Lua\"."
 
 #: ../../admin/checks.rst:121
 msgid "``ignore-percent-placeholders``"
@@ -4893,15 +4785,11 @@ msgstr ""
 "Weblate - tanto os processos WSGI quanto os Celery."
 
 #: ../../admin/config.rst:13
-#, fuzzy
-#| msgid ""
-#| "In case it is run as mod_wsgi, you need to restart Apache to reload the "
-#| "configuration."
 msgid ""
 "In case it is run as ``mod_wsgi``, you need to restart Apache to reload the "
 "configuration."
 msgstr ""
-"Caso seja executado como mod_wsgi, você precisa reiniciar o Apache para "
+"Caso seja executado como ``mod_wsgi:``, você precisa reiniciar o Apache para "
 "recarregar a configuração."
 
 #: ../../admin/config.rst:18
@@ -12609,20 +12497,16 @@ msgid "``celery-memory``"
 msgstr ""
 
 #: ../../admin/install/docker.rst:1316
-#, fuzzy
-#| msgid "Translation memory"
 msgid "Translation memory Celery worker."
-msgstr "Memória de tradução"
+msgstr "Worker do Celery para memória de tradução."
 
 #: ../../admin/install/docker.rst:1317
 msgid "``celery-notify``"
 msgstr ""
 
 #: ../../admin/install/docker.rst:1318
-#, fuzzy
-#| msgid "Notification hooks"
 msgid "Notifications Celery worker."
-msgstr "Ganchos de notificação"
+msgstr "Worker do Celery para notificações."
 
 #: ../../admin/install/docker.rst:1319
 #, fuzzy
@@ -12631,10 +12515,8 @@ msgid "``celery-translate``"
 msgstr "``ignore-translated``"
 
 #: ../../admin/install/docker.rst:1320
-#, fuzzy
-#| msgid "Automatic translation filter type"
 msgid "Automatic translation Celery worker."
-msgstr "Tipo de filtro da tradução automática"
+msgstr "Worker do Celery para tradução automática."
 
 #: ../../admin/install/docker.rst:1321
 #, fuzzy
@@ -12643,10 +12525,8 @@ msgid "``web``"
 msgstr "``read-only``"
 
 #: ../../admin/install/docker.rst:1322
-#, fuzzy
-#| msgid "Running web server"
 msgid "Web server."
-msgstr "Executando servidor web"
+msgstr "Servidor web."
 
 #: ../../admin/install/docker.rst:1328
 msgid "Docker container volumes"
