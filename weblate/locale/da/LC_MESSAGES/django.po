@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.6\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-04-18 11:36+0000\n"
-"PO-Revision-Date: 2021-04-19 12:24+0000\n"
+"PO-Revision-Date: 2021-04-20 10:24+0000\n"
 "Last-Translator: Aputsiaĸ Niels Janussen <aj@isit.gl>\n"
 "Language-Team: Danish <https://hosted.weblate.org/projects/weblate/"
 "application/da/>\n"
@@ -26,7 +26,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.6\n"
+"X-Generator: Weblate 4.7-dev\n"
 
 #: weblate/accounts/avatar.py:103
 msgctxt "No known user"
@@ -59,10 +59,9 @@ msgid "Public e-mail"
 msgstr "Offentlig e-mail"
 
 #: weblate/accounts/forms.py:287
-#, fuzzy, python-format
-#| msgid "Component lists"
+#, python-format
 msgid "Component list: %s"
-msgstr "Komponentlister"
+msgstr "Komponentliste: %s"
 
 #: weblate/accounts/forms.py:313 weblate/accounts/forms.py:388
 #: weblate/accounts/templatetags/authnames.py:42 weblate/auth/models.py:322
@@ -354,16 +353,12 @@ msgid "Signed in using {method} ({name}) from a new device."
 msgstr "Logget ind med {method} ({name}) fra en ny enhed."
 
 #: weblate/accounts/models.py:154
-#, fuzzy
-#| msgid "Somebody has attempted to register with your e-mail."
 msgid "Somebody attempted to register with your e-mail."
-msgstr "Nogen har prøvet at tilmelde sig med din e-mail."
+msgstr "Nogen forsøgte at tilmelde sig med din e-mail."
 
 #: weblate/accounts/models.py:155
-#, fuzzy
-#| msgid "Somebody has attempted to register using your e-mail address."
 msgid "Somebody attempted to register using your e-mail address."
-msgstr "Nogen har prøvet at tilmelde sig med din e-mailadresse."
+msgstr "Nogen forsøgte at tilmelde sig med din e-mailadresse."
 
 #: weblate/accounts/models.py:156
 #, python-brace-format
@@ -402,6 +397,8 @@ msgid ""
 "The system created a user to track authorship of translations uploaded by "
 "other user."
 msgstr ""
+"Systemet oprettede en bruger for at spore forfatterskab af oversættelser "
+"uploadet af anden bruger."
 
 #: weblate/accounts/models.py:171
 msgid "Configured password to sign in."
@@ -1076,16 +1073,16 @@ msgid "Removes strings without a translation from translation files."
 msgstr "Fjern strenge uden en oversættelse fra oversætnings-filer."
 
 #: weblate/addons/consistency.py:32
-#, fuzzy
-#| msgid "Add new language"
 msgid "Add missing languages"
-msgstr "Tilføj yt sprog"
+msgstr "Tilføj manglende sprog"
 
 #: weblate/addons/consistency.py:34
 msgid ""
 "Ensures a consistent set of languages is used for all components within a "
 "project."
 msgstr ""
+"Sikrer at et konsistent sæt af sprog anvendes for alle komponenter indenfor "
+"et projekt."
 
 #: weblate/addons/discovery.py:33
 msgid "Component discovery"
@@ -1191,8 +1188,6 @@ msgid "Long lines wrapping"
 msgstr "Ombrydning af lange linjer"
 
 #: weblate/addons/forms.py:112
-#, fuzzy
-#| msgid "Wrap lines at 77 chars and at newlines"
 msgid "Wrap lines at 77 characters and at newlines"
 msgstr "Ombryd linjer ved 77 tegn og ved linjeskift"
 
@@ -1205,16 +1200,12 @@ msgid "No line wrapping"
 msgstr "Ingen linjeombrydning"
 
 #: weblate/addons/forms.py:119
-#, fuzzy
-#| msgid ""
-#| "By default gettext wraps lines at 77 chars and newlines. With --no-wrap "
-#| "parameter, it wraps only at newlines."
 msgid ""
 "By default gettext wraps lines at 77 characters and at newlines. With the --"
 "no-wrap parameter, wrapping is only done at newlines."
 msgstr ""
 "Gettext ombryder som standard linjer ved 77 tegn og ved linjeskift. Med "
-"parameteren --no-wrap ombryder den kun ved linjeskift."
+"parameteren --no-wrap ombrydes der kun ved linjeskift."
 
 #: weblate/addons/forms.py:127
 msgid "Keep previous msgids of translated strings"
@@ -1250,7 +1241,7 @@ msgstr "Pr. forfatter"
 
 #: weblate/addons/forms.py:155
 msgid "Append trailers to squashed commit message"
-msgstr ""
+msgstr "Føj trailere til squashed commit-besked"
 
 #: weblate/addons/forms.py:159
 msgid ""
@@ -1258,12 +1249,17 @@ msgid ""
 "end of the otherwise free-form part of a commit message, such as 'Co-"
 "authored-by: …'."
 msgstr ""
+"Trailerlinjer er linjer, der ligner RFC 822-e-mail-overskrifter, i "
+"slutningen af den ellers frie del af en commit-besked, såsom 'Co-authored-"
+"by:…'."
 
 #: weblate/addons/forms.py:168
 msgid ""
 "This commit message will be used instead of the combined commit messages "
 "from the squashed commits."
 msgstr ""
+"Denne commit-besked vil blive anvendt i stedet for den kombineret commit-"
+"besked fra de squashed commits."
 
 #: weblate/addons/forms.py:185
 msgid "Sort JSON keys"
@@ -1314,14 +1310,14 @@ msgid "Days to keep"
 msgstr "Dage at beholde"
 
 #: weblate/addons/forms.py:227
-#, fuzzy
-#| msgid "Score threshold"
 msgid "Voting threshold"
-msgstr "Pointgrænse"
+msgstr "Stemmetærskel"
 
 #: weblate/addons/forms.py:231
 msgid "Threshold for removal. This field has no effect with voting turned off."
 msgstr ""
+"Tærskel for fjernelse. Dette felt har ingen effekt når stemmeafgivning af "
+"slået fra."
 
 #: weblate/addons/forms.py:238
 msgid "Regular expression to match translation files against"
@@ -1395,10 +1391,8 @@ msgid "Translation threshold"
 msgstr "Grænse for oversættelse"
 
 #: weblate/addons/forms.py:409
-#, fuzzy
-#| msgid "Base file for new translations"
 msgid "Threshold for inclusion of translations."
-msgstr "Skabelonfil for nye oversættelser"
+msgstr "Tærskel for inklusion af oversættelser."
 
 #: weblate/addons/forms.py:412
 msgid "CSS selector"
@@ -13612,7 +13606,7 @@ msgstr "Ugyldig billede!"
 #: weblate/utils/validators.py:126
 #, python-format
 msgid "Unsupported image type: %s"
-msgstr "Billedtypen understøttes ikke:  %s"
+msgstr "Billedtypen understøttes ikke: %s"
 
 #: weblate/utils/validators.py:132
 msgid "The image is too big, please crop or scale it down."
