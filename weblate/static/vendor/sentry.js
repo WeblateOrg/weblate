@@ -1,4 +1,4 @@
-/*! @sentry/browser 6.2.5 (1b59574) | https://github.com/getsentry/sentry-javascript */
+/*! @sentry/browser 6.3.0 (8bcd596) | https://github.com/getsentry/sentry-javascript */
 var Sentry = (function (exports) {
     /*! *****************************************************************************
     Copyright (c) Microsoft Corporation. All rights reserved.
@@ -1676,7 +1676,15 @@ var Sentry = (function (exports) {
                 to: to,
             });
             if (oldOnPopState) {
-                return oldOnPopState.apply(this, args);
+                // Apparently this can throw in Firefox when incorrectly implemented plugin is installed.
+                // https://github.com/getsentry/sentry-javascript/issues/3344
+                // https://github.com/bugsnag/bugsnag-js/issues/469
+                try {
+                    return oldOnPopState.apply(this, args);
+                }
+                catch (_oO) {
+                    // no-empty
+                }
             }
         };
         /** @hidden */
@@ -2294,10 +2302,13 @@ var Sentry = (function (exports) {
             return undefined;
         }
         var threshold = 3600 * 1000;
-        var timeOriginIsReliable = performance.timeOrigin && Math.abs(performance.timeOrigin + performance.now() - Date.now()) < threshold;
-        if (timeOriginIsReliable) {
-            return performance.timeOrigin;
-        }
+        var performanceNow = performance.now();
+        var dateNow = Date.now();
+        // if timeOrigin isn't available set delta to threshold so it isn't used
+        var timeOriginDelta = performance.timeOrigin
+            ? Math.abs(performance.timeOrigin + performanceNow - dateNow)
+            : threshold;
+        var timeOriginIsReliable = timeOriginDelta < threshold;
         // While performance.timing.navigationStart is deprecated in favor of performance.timeOrigin, performance.timeOrigin
         // is not as widely supported. Namely, performance.timeOrigin is undefined in Safari as of writing.
         // Also as of writing, performance.timing is not available in Web Workers in mainstream browsers, so it is not always
@@ -2306,11 +2317,19 @@ var Sentry = (function (exports) {
         // eslint-disable-next-line deprecation/deprecation
         var navigationStart = performance.timing && performance.timing.navigationStart;
         var hasNavigationStart = typeof navigationStart === 'number';
-        var navigationStartIsReliable = hasNavigationStart && Math.abs(navigationStart + performance.now() - Date.now()) < threshold;
-        if (navigationStartIsReliable) {
-            return navigationStart;
+        // if navigationStart isn't available set delta to threshold so it isn't used
+        var navigationStartDelta = hasNavigationStart ? Math.abs(navigationStart + performanceNow - dateNow) : threshold;
+        var navigationStartIsReliable = navigationStartDelta < threshold;
+        if (timeOriginIsReliable || navigationStartIsReliable) {
+            // Use the more reliable time origin
+            if (timeOriginDelta <= navigationStartDelta) {
+                return performance.timeOrigin;
+            }
+            else {
+                return navigationStart;
+            }
         }
-        return Date.now();
+        return dateNow;
     })();
 
     /**
@@ -3772,8 +3791,8 @@ var Sentry = (function (exports) {
          * @inheritDoc
          */
         BaseClient.prototype.captureSession = function (session) {
-            if (!session.release) {
-                logger.warn('Discarded session because of missing release');
+            if (!(typeof session.release === 'string')) {
+                logger.warn('Discarded session because of missing or non-string release');
             }
             else {
                 this._sendSession(session);
@@ -4247,7 +4266,7 @@ var Sentry = (function (exports) {
         event.sdk.packages = __spread((event.sdk.packages || []), (sdkInfo.packages || []));
         return event;
     }
-    /** Creates a SentryRequest from an event. */
+    /** Creates a SentryRequest from a Session. */
     function sessionToSentryRequest(session, api) {
         var sdkInfo = getSdkMetadataForEnvelopeHeader(api);
         var envelopeHeaders = JSON.stringify(__assign({ sent_at: new Date().toISOString() }, (sdkInfo && { sdk: sdkInfo })));
@@ -4317,7 +4336,7 @@ var Sentry = (function (exports) {
         hub.bindClient(client);
     }
 
-    var SDK_VERSION = '6.2.5';
+    var SDK_VERSION = '6.3.0';
 
     var originalFunctionToString;
     /** Patch toString calls to return proper name for wrapped functions */
@@ -4590,11 +4609,21 @@ var Sentry = (function (exports) {
                     parts[3] = submatch[2]; // line
                     parts[4] = submatch[3]; // column
                 }
+                // Arpad: Working with the regexp above is super painful. it is quite a hack, but just stripping the `address at `
+                // prefix here seems like the quickest solution for now.
+                var url = parts[2] && parts[2].indexOf('address at ') === 0 ? parts[2].substr('address at '.length) : parts[2];
+                // Kamil: One more hack won't hurt us right? Understanding and adding more rules on top of these regexps right now
+                // would be way too time consuming. (TODO: Rewrite whole RegExp to be more readable)
+                var func = parts[1] || UNKNOWN_FUNCTION;
+                var isSafariExtension = func.indexOf('safari-extension') !== -1;
+                var isSafariWebExtension = func.indexOf('safari-web-extension') !== -1;
+                if (isSafariExtension || isSafariWebExtension) {
+                    func = func.indexOf('@') !== -1 ? func.split('@')[0] : UNKNOWN_FUNCTION;
+                    url = isSafariExtension ? "safari-extension:" + url : "safari-web-extension:" + url;
+                }
                 element = {
-                    // working with the regexp above is super painful. it is quite a hack, but just stripping the `address at `
-                    // prefix here seems like the quickest solution for now.
-                    url: parts[2] && parts[2].indexOf('address at ') === 0 ? parts[2].substr('address at '.length) : parts[2],
-                    func: parts[1] || UNKNOWN_FUNCTION,
+                    url: url,
+                    func: func,
                     args: isNative ? [parts[2]] : [],
                     line: parts[3] ? +parts[3] : null,
                     column: parts[4] ? +parts[4] : null,
