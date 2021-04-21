@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.7\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-04-20 11:25+0000\n"
-"PO-Revision-Date: 2021-04-20 10:24+0000\n"
+"PO-Revision-Date: 2021-04-23 10:32+0000\n"
 "Last-Translator: Aputsiaĸ Niels Janussen <aj@isit.gl>\n"
 "Language-Team: Danish <https://hosted.weblate.org/projects/weblate/"
 "application/da/>\n"
@@ -1097,16 +1097,12 @@ msgstr ""
 "filændringer i versionskontrol-systemet."
 
 #: weblate/addons/example.py:36
-#, fuzzy
-#| msgid "Example addon"
 msgid "Example add-on"
 msgstr "Eksempel på tilføjelse"
 
 #: weblate/addons/example.py:38
-#, fuzzy
-#| msgid "This addon does nothing it is just an example."
 msgid "This add-on does nothing it is just an example."
-msgstr "Denne tilføjelse har ingen effekt; den er blot et eksempel."
+msgstr "Denne tilføjelse har ingen effekt, den er blot et eksempel."
 
 #: weblate/addons/example_pre.py:34
 msgid "Execute script before commit"
@@ -1423,6 +1419,8 @@ msgid ""
 "List of filenames in current repository or remote URLs to parse for "
 "translatable strings."
 msgstr ""
+"Liste over filnavne i det aktuelle lager eller fjern-URL-adresser, der skal "
+"fortolkes for strenge, der kan oversættes."
 
 #: weblate/addons/forms.py:453 weblate/billing/models.py:291
 #: weblate/templates/snippets/query-builder.html:13
@@ -1432,22 +1430,16 @@ msgid "Source strings"
 msgstr "Kildestrenge"
 
 #: weblate/addons/forms.py:454
-#, fuzzy
-#| msgid "Weblate translations"
 msgid "Target translation"
-msgstr "Weblate-oversættelser"
+msgstr "Måloversættelse"
 
 #: weblate/addons/forms.py:456
-#, fuzzy
-#| msgid "Service status"
 msgid "String prefix"
-msgstr "Status for tjeneste"
+msgstr "Strengpræfiks"
 
 #: weblate/addons/forms.py:461
-#, fuzzy
-#| msgid "Strings"
 msgid "String suffix"
-msgstr "Strenge"
+msgstr "Strengsuffiks"
 
 #: weblate/addons/forms.py:478
 msgid "The source and target have to be different languages."
@@ -1463,13 +1455,15 @@ msgstr "Genererer en fil med detaljeret information om oversættelsen."
 
 #: weblate/addons/generate.py:65
 msgid "Pseudolocale generation"
-msgstr ""
+msgstr "Generering af pseudolokaler"
 
 #: weblate/addons/generate.py:67
 msgid ""
 "Generates a translation by adding prefix and suffix to source strings "
 "automatically."
 msgstr ""
+"Genererer en oversættelse ved automatisk at tilføje præfiks og suffiks til "
+"kildetrådene."
 
 #: weblate/addons/gettext.py:41
 msgid "Generate MO files"
@@ -1508,6 +1502,9 @@ msgid ""
 "Updates all PO files (as configured by \"Filemask\") to match the POT file "
 "(as configured by \"Template for new translations\") using msgmerge."
 msgstr ""
+"Opdaterer alle po-filer (som konfigureret af \"Filemask\") til at matche POT-"
+"filen (som konfigureret af \"Skabelon til nye oversættelser\") ved hjælp af "
+"msgmerge."
 
 #: weblate/addons/gettext.py:303
 msgid "Customize gettext output"
@@ -1525,16 +1522,12 @@ msgid "Contributors in comment"
 msgstr "Bidragydere i kommentar"
 
 #: weblate/addons/gettext.py:318
-#, fuzzy
-#| msgid ""
-#| "Update the comment in the PO file header to include contributor names and "
-#| "years of contributions."
 msgid ""
 "Updates the comment part of the PO file header to include contributor names "
 "and years of contributions."
 msgstr ""
-"Opdater kommentaren i PO-filheaderen for at inkludere bidragsyderens navne "
-"og årene som der er blevet bidraget."
+"Opdaterer kommentardelen af po-filoverskriften, så den inkluderer "
+"bidragsnavne og år med bidrag."
 
 #: weblate/addons/git.py:34
 msgid "Squash Git commits"
@@ -1568,20 +1561,16 @@ msgid "Sorts the Java properties file."
 msgstr "Sortér Java-properties-filen."
 
 #: weblate/addons/removal.py:51
-#, fuzzy
-#| msgid "Account removal"
 msgid "Stale comment removal"
-msgstr "Fjernelse af konto"
+msgstr "Fjernelse af forældede kommentarer"
 
 #: weblate/addons/removal.py:52
 msgid "Set a timeframe for removal of comments."
 msgstr "Sæt en tidsramme for fjernelse af kommentarer."
 
 #: weblate/addons/removal.py:65
-#, fuzzy
-#| msgid "Suggestion removed"
 msgid "Stale suggestion removal"
-msgstr "Forslag fjernet"
+msgstr "Fjernelse af forældede forslag"
 
 #: weblate/addons/removal.py:66
 msgid "Set a timeframe for removal of suggestions."
@@ -1592,39 +1581,28 @@ msgid "Update RESX files"
 msgstr "Opdater RESX-filer"
 
 #: weblate/addons/resx.py:31
-#, fuzzy
-#| msgid ""
-#| "Update all translation files to match the monolingual base file. For most "
-#| "file formats, this means removing stale translation keys no longer "
-#| "present in the base file."
 msgid ""
 "Update all translation files to match the monolingual upstream base file. "
 "Unused strings are removed, and new ones added as copies of the source "
 "string."
 msgstr ""
-"Opdater alle oversættelsesfiler til at stemme overens med den enkeltsproget "
-"grundfil. For de fleste filformater vil dette betyde fjernelse af alle "
-"ubrugte oversættelsesnøgler som ikke længere findes i grundfilen."
+"Opdater alle oversættelsesfiler, så de passer til den etsprogede opstrøms "
+"grundfil. Ubrugte strenge fjernes, og nye strenge tilføjes som kopier af "
+"kildestrengen."
 
 #: weblate/addons/views.py:84
-#, fuzzy
-#| msgid "Invalid addon name specified!"
 msgid "Invalid add-on name specified!"
 msgstr "Ugyldigt tilføjelsesnavn angivet!"
 
 #: weblate/addons/views.py:97
 msgid "Add-on installed, please review integration instructions."
-msgstr ""
+msgstr "Tilføjelse er installeret, læs venligst integrationsvejledningen."
 
 #: weblate/addons/yaml.py:31
 msgid "Customize YAML output"
 msgstr "Tilpas YAML-output"
 
 #: weblate/addons/yaml.py:33
-#, fuzzy
-#| msgid ""
-#| "Allows to customize YAML output behavior, for example line length or "
-#| "newlines."
 msgid ""
 "Allows adjusting YAML output behavior, for example line-length or newlines."
 msgstr ""
@@ -1650,8 +1628,6 @@ msgstr "Vigtige datoer"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:34
-#, fuzzy
-#| msgid "View billing information"
 msgid "View billing info"
 msgstr "Vis faktureringsoplysninger"
 
@@ -1702,10 +1678,8 @@ msgstr "Upload indtastninger til ordbog"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:54
-#, fuzzy
-#| msgid "Autoaccept suggestions"
 msgid "Use automatic suggestions"
-msgstr "Accepter forslag automatisk"
+msgstr "Brug automatiske forslag"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:56
@@ -1761,10 +1735,8 @@ msgstr "Tilføje ny streng"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:76
-#, fuzzy
-#| msgid "Review strings"
 msgid "Remove a string"
-msgstr "Bedømme strenge"
+msgstr "Fjern en streng"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:78
@@ -1833,10 +1805,8 @@ msgstr "Tilføj flere sprog til oversættelse"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:104
-#, fuzzy
-#| msgid "Define author of translation upload"
 msgid "Define author of uploaded translation"
-msgstr "Definere forfatteren for upload af oversættelse"
+msgstr "Definer forfatteren af den uploadede oversættelse"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:106
@@ -1881,36 +1851,27 @@ msgstr "Opdatere det interne arkiv"
 #. Translators: Permission name
 #: weblate/auth/data.py:128
 msgid "Use management interface"
-msgstr ""
+msgstr "Brug administrationsgrænseflade"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:130
-#, fuzzy
-#| msgid "Additional context"
 msgid "Add new projects"
-msgstr "Yderligere kontekst"
+msgstr "Tilføj nye projekter"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:132
-#, fuzzy
-#| msgid "Add language definitions (global)"
 msgid "Add language definitions"
-msgstr "Tilføj sprogdefinitioner (globalt)"
+msgstr "Tilføj sprogdefinitioner"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:134
-#, fuzzy
-#| msgid "Manage language definitions (global)"
 msgid "Manage language definitions"
-msgstr "Håndtere sprogdefinitioner (globalt)"
+msgstr "Administrer sprogdefinitioner"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:136
-#, fuzzy
-#| msgctxt "Access-control group"
-#| msgid "Managers"
 msgid "Manage groups"
-msgstr "Administratorer"
+msgstr "Administrer grupper"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:138
@@ -1919,18 +1880,13 @@ msgstr "Håndter brugere"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:140
-#, fuzzy
-#| msgctxt "Access-control group"
-#| msgid "Managers"
 msgid "Manage roles"
-msgstr "Administratorer"
+msgstr "Administrer roller"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:142
-#, fuzzy
-#| msgid "New announcement"
 msgid "Manage announcements"
-msgstr "Ny meddelelse"
+msgstr "Administrer meddelelser"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:144
@@ -1939,10 +1895,8 @@ msgstr "Håndter oversættelseshukommelse"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:146
-#, fuzzy
-#| msgid "Manage users (on the entire platform)"
 msgid "Manage component lists"
-msgstr "Tilføj brugere (på hele platformen)"
+msgstr "Administrer lister over komponenter"
 
 #: weblate/auth/data.py:172
 msgctxt "Access-control role"
@@ -2040,11 +1994,9 @@ msgid "Translate"
 msgstr "Oversæt"
 
 #: weblate/auth/data.py:226
-#, fuzzy
-#| msgid "Source"
 msgctxt "Per-project access-control group"
 msgid "Sources"
-msgstr "Kilde"
+msgstr "Kilder"
 
 #: weblate/auth/data.py:227
 msgctxt "Per-project access-control group"
@@ -2091,10 +2043,9 @@ msgid "Permission"
 msgstr "Tilladelse"
 
 #: weblate/auth/models.py:80
-#, fuzzy, python-format
-#| msgid "Filtered permissions"
+#, python-format
 msgid "%s (site-wide permission)"
-msgstr "Filtrerede tilladelser"
+msgstr "%s (tilladelse for hele webstedet)"
 
 #: weblate/auth/models.py:85 weblate/auth/models.py:110
 #: weblate/templates/fonts/fontgroup_detail.html:18
@@ -2183,10 +2134,8 @@ msgid "Languages"
 msgstr "Sprog"
 
 #: weblate/auth/models.py:154
-#, fuzzy
-#| msgid "Internal Server Error"
 msgid "Internal Weblate group"
-msgstr "Intern serverfejl"
+msgstr "Intern Weblate-gruppe"
 
 #: weblate/auth/models.py:309 weblate/utils/forms.py:39
 #: weblate/utils/validators.py:173
@@ -2205,10 +2154,8 @@ msgid "Superuser status"
 msgstr "Superbrugerstatus"
 
 #: weblate/auth/models.py:332
-#, fuzzy
-#| msgid "User with reviewer permissions"
 msgid "User has all possible permissions."
-msgstr "Bruger med tilladelse til at gennemgå"
+msgstr "Brugeren har alle af mulige tilladelser."
 
 #: weblate/auth/models.py:335 weblate/billing/models.py:164
 #: weblate/templates/check.html:22 weblate/templates/check_component.html:24
@@ -2231,14 +2178,13 @@ msgstr ""
 "Brugeren tildeles alle tilladelser som findes i medlemskab af disse grupper."
 
 #: weblate/auth/models.py:618
-#, fuzzy
-#| msgid "Regular expression used to match user e-mail."
 msgid "Regular expression for e-mail address"
-msgstr "Regulært udtryk der bruges til at matche brugers e-mail."
+msgstr "Regulært udtryk for e-mail-adresse"
 
 #: weblate/auth/models.py:622
 msgid "Users with e-mail addresses found to match will be added to this group."
 msgstr ""
+"Brugere med e-mailadresser, der passer, vil blive tilføjet til denne gruppe."
 
 #: weblate/auth/models.py:626
 msgid "Group to assign"
@@ -2317,10 +2263,8 @@ msgid "Changes in last month"
 msgstr "Ændringer i sidste måned"
 
 #: weblate/billing/models.py:273
-#, fuzzy
-#| msgid "Number of languages"
 msgid "Number of changes"
-msgstr "Antal sprog"
+msgstr "Antal ændringer"
 
 #: weblate/billing/models.py:304 weblate/trans/admin.py:100
 msgid "Source words"
@@ -2358,22 +2302,16 @@ msgstr[0] "Indeholder %d komponent"
 msgstr[1] "Indeholder %d komponenter"
 
 #: weblate/billing/models.py:463
-#, fuzzy
-#| msgid "Changed license"
 msgid "Missing license"
-msgstr "Ændret licens"
+msgstr "Manglende licens"
 
 #: weblate/billing/tasks.py:95
-#, fuzzy
-#| msgid ""
-#| "You will only receive these notifications for your translated languages "
-#| "in your watched projects."
 msgid ""
 "You will stop receiving this notification once you pay the bills or the "
 "project is removed."
 msgstr ""
-"Du vil kun modtage disse underretninger for dine oversatte sprog i dine "
-"overvågede projekter."
+"Du vil ikke længere modtage denne meddelelse, når du har betalt regningerne, "
+"eller når projektet er blevet fjernet."
 
 #: weblate/billing/tasks.py:100
 #, fuzzy
@@ -2436,20 +2374,16 @@ msgid "Translation contains double space"
 msgstr "Oversættelsen indeholder dobbelt mellemrum"
 
 #: weblate/checks/chars.py:168
-#, fuzzy
-#| msgid "Mismatched \\n"
 msgid "Mismatched full stop"
-msgstr "Uoverensstemmende \\n"
+msgstr "Uoverensstemmende punktum"
 
 #: weblate/checks/chars.py:169
 msgid "Source and translation do not both end with a full stop"
 msgstr "Kilde og oversættelse slutter ikke begge med et punktum"
 
 #: weblate/checks/chars.py:211
-#, fuzzy
-#| msgid "Mismatched \\n"
 msgid "Mismatched colon"
-msgstr "Uoverensstemmende \\n"
+msgstr "Uoverensstemmende kolon"
 
 #: weblate/checks/chars.py:212
 #, fuzzy
@@ -2482,10 +2416,8 @@ msgid "Source and translation do not both end with an exclamation mark"
 msgstr "Kilde og oversættelse slutter ikke begge med semikolon"
 
 #: weblate/checks/chars.py:299
-#, fuzzy
-#| msgid "Mismatched \\n"
 msgid "Mismatched ellipsis"
-msgstr "Uoverensstemmende \\n"
+msgstr "Uoverensstemmende ellipse"
 
 #: weblate/checks/chars.py:300
 msgid "Source and translation do not both end with an ellipsis"
@@ -2524,10 +2456,8 @@ msgid "Translation should not exceed given length"
 msgstr "Oversættelsen bør ikke overstige given længde"
 
 #: weblate/checks/chars.py:370
-#, fuzzy
-#| msgid "Mismatched \\n"
 msgid "Mismatched semicolon"
-msgstr "Uoverensstemmende \\n"
+msgstr "Uoverensstemmende semikolon"
 
 #: weblate/checks/chars.py:371
 msgid "Source and translation do not both end with a semicolon"
@@ -4929,12 +4859,11 @@ msgstr[1] "%(count)s forslag"
 
 #: weblate/templates/accounts/user.html:48
 #: weblate/templates/mail/pending_suggestions_subject.txt:6
-#, fuzzy, python-format
-#| msgid "Pending suggestions"
+#, python-format
 msgid "%(count)s pending suggestion"
 msgid_plural "%(count)s pending suggestions"
-msgstr[0] "Afventende forslag"
-msgstr[1] "Afventende forslag"
+msgstr[0] "%(count)s forslag er under behandling"
+msgstr[1] "%(count)s forslag er under behandling"
 
 #: weblate/templates/accounts/user.html:55
 #, fuzzy, python-format
