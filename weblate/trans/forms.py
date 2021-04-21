@@ -630,7 +630,7 @@ class UploadForm(SimpleUploadForm):
             "already translated."
         ),
         choices=(
-            ("", _("Update only non translated strings")),
+            ("", _("Update only untranslated strings")),
             ("replace-translated", _("Update translated strings")),
             ("replace-approved", _("Update translated and approved strings")),
         ),
