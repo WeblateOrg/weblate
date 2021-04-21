@@ -23,7 +23,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.7\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-04-20 11:25+0000\n"
-"PO-Revision-Date: 2021-04-16 14:37+0000\n"
+"PO-Revision-Date: 2021-04-21 06:41+0000\n"
 "Last-Translator: Adolfo Jayme Barrientos <fitojb@ubuntu.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/weblate/"
 "application/es/>\n"
@@ -32,7 +32,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.6-dev\n"
+"X-Generator: Weblate 4.7-dev\n"
 
 #: weblate/accounts/avatar.py:103
 msgctxt "No known user"
@@ -1074,10 +1074,10 @@ msgid ""
 "file formats, this means removing stale translation keys no longer present "
 "in the base file."
 msgstr ""
-"Actualice todos los archivos de traducción para que coincidan con el archivo "
-"base monolingüe. Para la mayoría de los formatos de archivo, esto significa "
-"quitar las claves de traducción obsoletas que ya no están presentes en el "
-"archivo base."
+"Actualiza todos los archivos de traducción para que coincidan con el archivo "
+"de base monolingüe. Para la mayoría de los formatos de archivo, esto implica "
+"quitar las claves de traducción obsoletas que ya no están en el archivo de "
+"base."
 
 #: weblate/addons/cleanup.py:63
 msgid "Remove blank strings"
@@ -1089,16 +1089,16 @@ msgstr ""
 "Quita las cadenas que carecen de traducción de los archivos de traducción."
 
 #: weblate/addons/consistency.py:32
-#, fuzzy
-#| msgid "Adding new languages"
 msgid "Add missing languages"
-msgstr "Adición de idiomas nuevos"
+msgstr "Adición de idiomas faltantes"
 
 #: weblate/addons/consistency.py:34
 msgid ""
 "Ensures a consistent set of languages is used for all components within a "
 "project."
 msgstr ""
+"Garantiza que en todos los componentes de un proyecto se utilice el mismo "
+"conjunto de idiomas."
 
 #: weblate/addons/discovery.py:33
 msgid "Component discovery"
@@ -1113,14 +1113,10 @@ msgstr ""
 "cambios de los archivos en el sistema de control de versiones."
 
 #: weblate/addons/example.py:36
-#, fuzzy
-#| msgid "Example addon"
 msgid "Example add-on"
 msgstr "Complemento de ejemplo"
 
 #: weblate/addons/example.py:38
-#, fuzzy
-#| msgid "This addon does nothing it is just an example."
 msgid "This add-on does nothing it is just an example."
 msgstr "Este complemento no hace nada; es solo un ejemplo."
 
@@ -1611,14 +1607,10 @@ msgstr ""
 "nuevas se añaden como copias de las cadenas de origen."
 
 #: weblate/addons/views.py:84
-#, fuzzy
-#| msgid "Invalid addon name specified!"
 msgid "Invalid add-on name specified!"
 msgstr "Se especificó un nombre de complemento no válido."
 
 #: weblate/addons/views.py:97
-#, fuzzy
-#| msgid "Addon installed, please review integration instructions."
 msgid "Add-on installed, please review integration instructions."
 msgstr "Se instaló el complemento. Consulte las instrucciones de integración."
 
@@ -2642,10 +2634,9 @@ msgid "Missing parameters for translation flag: \"%s\""
 msgstr "Al indicador de traducción le faltan parámetros: «%s»"
 
 #: weblate/checks/format.py:371
-#, fuzzy, python-format
-#| msgid "Following format strings are extra: %s"
+#, python-format
 msgid "Following format strings are wrongly ordered: %s"
-msgstr "Sobran las cadenas de formato siguientes: %s"
+msgstr "Las cadenas de formato siguientes están mal ordenadas: %s"
 
 #: weblate/checks/format.py:375 weblate/checks/placeholders.py:93
 #, python-format
@@ -4033,10 +4024,6 @@ msgstr ""
 "%(backend_verbose)s (%(uid)s)."
 
 #: weblate/templates/accounts/contact.html:15
-#, fuzzy
-#| msgid ""
-#| "For questions about specific translation project, contact its maintainers "
-#| "directly, not by this form."
 msgid ""
 "For questions about a specific translation project, contact its maintainers "
 "directly, not by this form."
@@ -4045,34 +4032,26 @@ msgstr ""
 "con sus responsables directamente, no a través de este formulario."
 
 #: weblate/templates/accounts/contact.html:18
-#, fuzzy, python-format
-#| msgid "You can only contact maintainers of the whole server here."
+#, python-format
 msgid "You can only contact administrators of %(site_title)s here."
-msgstr "Aquí puede contactar solo a los encargados del servidor entero."
+msgstr "Aquí solo puede contactar a los encargados de %(site_title)s."
 
 #: weblate/templates/accounts/contact.html:20
-#, fuzzy
-#| msgid "You can only contact maintainers of the whole server here."
 msgid "You can only contact administrators of the whole server here."
-msgstr "Aquí puede contactar solo a los encargados del servidor entero."
+msgstr "Aquí solo puede contactar a los encargados del servidor entero."
 
 #: weblate/templates/accounts/contact.html:22
-#, fuzzy, python-format
-#| msgid ""
-#| "If you seek support for Weblate, or want to file a bug-report, check its "
-#| "website at %(weblate_link)s."
+#, python-format
 msgid ""
 "If you seek support for another Weblate deployment or want to file a bug "
 "report, check its website at %(weblate_link)s."
 msgstr ""
-"Si busca asistencia para Weblate o quiere informar de un error, revise su "
-"sitio web en %(weblate_link)s."
+"Si busca asistencia para otra implantación de Weblate o quiere informar de "
+"un error, revise su sitio web en %(weblate_link)s."
 
 #: weblate/templates/accounts/contact.html:28
-#, fuzzy
-#| msgid "Site administrator"
 msgid "Contact server administrators"
-msgstr "Administrador del sitio"
+msgstr "Contactar a los administradores del servidor"
 
 #: weblate/templates/accounts/contact.html:37
 #: weblate/templates/manage/tools.html:26
@@ -4737,13 +4716,11 @@ msgstr "Explorar todos los cambios del usuario"
 #: weblate/templates/addons/addon_list.html:10
 #: weblate/templates/component.html:102
 msgid "Add-ons"
-msgstr ""
+msgstr "Complementos"
 
 #: weblate/templates/addons/addon_detail.html:26
-#, fuzzy
-#| msgid "Configure addon"
 msgid "Configure add-on"
-msgstr "Configurar complementos"
+msgstr "Configurar complemento"
 
 #: weblate/templates/addons/addon_head.html:7
 msgid ""
@@ -4768,8 +4745,6 @@ msgid "repository wide"
 msgstr "todo el repositorio"
 
 #: weblate/templates/addons/addon_list.html:18
-#, fuzzy
-#| msgid "Installed addons"
 msgid "Installed add-ons"
 msgstr "Complementos instalados"
 
@@ -4783,10 +4758,8 @@ msgid "Configure"
 msgstr "Configurar"
 
 #: weblate/templates/addons/addon_list.html:41
-#, fuzzy
-#| msgid "There are no addons currently installed."
 msgid "There are no add-ons currently installed."
-msgstr "Sin complementos instalados actualmente."
+msgstr "No hay ningún complemento instalado actualmente."
 
 #: weblate/templates/addons/addon_list.html:43
 #, fuzzy, python-format
