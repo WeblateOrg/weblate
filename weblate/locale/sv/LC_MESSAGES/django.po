@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.7\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-04-20 11:25+0000\n"
-"PO-Revision-Date: 2021-04-17 23:26+0000\n"
+"PO-Revision-Date: 2021-04-23 10:32+0000\n"
 "Last-Translator: Johan Jacobsson <johan.jacobsson@telia.com>\n"
 "Language-Team: Swedish <https://hosted.weblate.org/projects/weblate/"
 "application/sv/>\n"
@@ -22,7 +22,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.6-dev\n"
+"X-Generator: Weblate 4.7-dev\n"
 
 #: weblate/accounts/avatar.py:103
 msgctxt "No known user"
@@ -1084,16 +1084,12 @@ msgstr ""
 "filändringar i versionskontrollsystemet."
 
 #: weblate/addons/example.py:36
-#, fuzzy
-#| msgid "Example addon"
 msgid "Example add-on"
 msgstr "Exempeltillägg"
 
 #: weblate/addons/example.py:38
-#, fuzzy
-#| msgid "This addon does nothing it is just an example."
 msgid "This add-on does nothing it is just an example."
-msgstr "Tillägget är endast ett exempel; det tillför inget."
+msgstr "Detta tillägg gör ingenting, det är bara ett exempel."
 
 #: weblate/addons/example_pre.py:34
 msgid "Execute script before commit"
@@ -1576,16 +1572,12 @@ msgstr ""
 "av källsträngen."
 
 #: weblate/addons/views.py:84
-#, fuzzy
-#| msgid "Invalid addon name specified!"
 msgid "Invalid add-on name specified!"
-msgstr "Ogiltigt tilläggsnamn angivet!"
+msgstr "Ett ogiltigt tilläggsnamn har angetts!"
 
 #: weblate/addons/views.py:97
-#, fuzzy
-#| msgid "Addon installed, please review integration instructions."
 msgid "Add-on installed, please review integration instructions."
-msgstr "Tillägg installerat, granska integrationsinstruktioner."
+msgstr "Tillägget är installerat, läs instruktionerna för integrering."
 
 #: weblate/addons/yaml.py:31
 msgid "Customize YAML output"
@@ -3976,46 +3968,34 @@ msgstr ""
 "%(backend_verbose)s (%(uid)s)."
 
 #: weblate/templates/accounts/contact.html:15
-#, fuzzy
-#| msgid ""
-#| "For questions about specific translation project, contact its maintainers "
-#| "directly, not by this form."
 msgid ""
 "For questions about a specific translation project, contact its maintainers "
 "directly, not by this form."
 msgstr ""
-"För frågor om specifikt översättningsprojekt, kontakta dess underhållare "
-"direkt, inte via detta formulär."
+"Om du har frågor om ett specifikt översättningsprojekt, kontakta dess "
+"ansvariga direkt, inte via det här formuläret."
 
 #: weblate/templates/accounts/contact.html:18
-#, fuzzy, python-format
-#| msgid "You can only contact maintainers of %(site_title)s here."
+#, python-format
 msgid "You can only contact administrators of %(site_title)s here."
-msgstr "Du kan bara kontakta underhållare av %(site_title)s här."
+msgstr "Du kan bara kontakta administratörer av %(site_title)s här."
 
 #: weblate/templates/accounts/contact.html:20
-#, fuzzy
-#| msgid "You can only contact maintainers of the whole server here."
 msgid "You can only contact administrators of the whole server here."
-msgstr "Du kan bara kontakta underhållare av hela servern här."
+msgstr "Du kan endast kontakta administratörer för hela servern här."
 
 #: weblate/templates/accounts/contact.html:22
-#, fuzzy, python-format
-#| msgid ""
-#| "If you seek support for Weblate, or want to file a bug-report, check its "
-#| "website at %(weblate_link)s."
+#, python-format
 msgid ""
 "If you seek support for another Weblate deployment or want to file a bug "
 "report, check its website at %(weblate_link)s."
 msgstr ""
-"Om du söker support för Weblate eller vill skicka en felrapport, kolla dess "
-"webbplats på %(weblate_link)s."
+"Om du söker support för en annan Weblate-installation eller vill skicka in "
+"en felrapport kan du gå till webbplatsen %(weblate_link)s."
 
 #: weblate/templates/accounts/contact.html:28
-#, fuzzy
-#| msgid "Could not send message to administrator."
 msgid "Contact server administrators"
-msgstr "Kunde inte skicka meddelande till administratören."
+msgstr "Kontakta serveradministratörer"
 
 #: weblate/templates/accounts/contact.html:37
 #: weblate/templates/manage/tools.html:26
@@ -4674,11 +4654,9 @@ msgstr "Utforska alla ändringar för användaren"
 #: weblate/templates/addons/addon_list.html:10
 #: weblate/templates/component.html:102
 msgid "Add-ons"
-msgstr ""
+msgstr "Tillägg"
 
 #: weblate/templates/addons/addon_detail.html:26
-#, fuzzy
-#| msgid "Configure addon"
 msgid "Configure add-on"
 msgstr "Konfigurera tillägg"
 
@@ -4703,8 +4681,6 @@ msgid "repository wide"
 msgstr "hela arkivet"
 
 #: weblate/templates/addons/addon_list.html:18
-#, fuzzy
-#| msgid "Installed addons"
 msgid "Installed add-ons"
 msgstr "Installerade tillägg"
 
@@ -4718,23 +4694,17 @@ msgid "Configure"
 msgstr "Konfigurera"
 
 #: weblate/templates/addons/addon_list.html:41
-#, fuzzy
-#| msgid "There are no addons currently installed."
 msgid "There are no add-ons currently installed."
 msgstr "Det finns inga tillägg installerade."
 
 #: weblate/templates/addons/addon_list.html:43
-#, fuzzy, python-format
-#| msgid "There is currently %(count)s addon installed."
-#| msgid_plural "There are currently %(count)s addons installed."
+#, python-format
 msgid "There is currently %(count)s add-on installed."
 msgid_plural "There are currently %(count)s add-ons installed."
 msgstr[0] "Det finns för närvarande %(count)s tillägg installerat."
 msgstr[1] "Det finns för närvarande %(count)s tillägg installerade."
 
 #: weblate/templates/addons/addon_list.html:51
-#, fuzzy
-#| msgid "Available addons"
 msgid "Available add-ons"
 msgstr "Tillgängliga tillägg"
 
@@ -4743,10 +4713,6 @@ msgid "Install"
 msgstr "Installera"
 
 #: weblate/templates/addons/addon_list.html:69
-#, fuzzy
-#| msgid ""
-#| "Could not find any additional addons compatible with this translation "
-#| "component."
 msgid ""
 "Could not find any additional add-ons compatible with this translation "
 "component."
@@ -4755,9 +4721,6 @@ msgstr ""
 "översättningskomponent."
 
 #: weblate/templates/addons/addon_list.html:71
-#, fuzzy
-#| msgid ""
-#| "Some addons will ask for additional configuration during installation."
 msgid "Some add-ons will ask for additional configuration during installation."
 msgstr ""
 "Några tillägg kommer att fråga efter ytterligare konfiguration under "
@@ -8628,9 +8591,7 @@ msgstr ""
 
 #. Translators: This is shown when an alert contains too many occurences, the count will be always at least 100
 #: weblate/templates/trans/alert/occurrences-limit.html:5
-#, fuzzy, python-format
-#| msgid "Only some of the %(count)s occurrences are shown."
-#| msgid_plural "Only some of the %(count)s occurrences are shown."
+#, python-format
 msgid "Only some of the %(count)s occurrence is shown."
 msgid_plural "Only some of the %(count)s occurrences are shown."
 msgstr[0] "Endast några av de %(count)s förekomsterna visas."
