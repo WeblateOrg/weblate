@@ -26,7 +26,7 @@ Automatic translation
    * - Add-on ID
      - ``weblate.autotranslate.autotranslate``
    * - Configuration
-     - mode, filter_type, auto_source, component, engines, threshold
+     - ``mode``, ``filter_type``, ``auto_source``, ``component``, ``engines``, ``threshold``
 
 Automatically translates strings using machine translation or other components.
 
@@ -52,7 +52,7 @@ JavaScript localization CDN
    * - Add-on ID
      - ``weblate.cdn.cdnjs``
    * - Configuration
-     - threshold, css_selector, cookie_name, files
+     - ``threshold``, ``css_selector``, ``cookie_name``, ``files``
 
 Publishes translations into content delivery network for use in JavaScript or
 HTML localization.
@@ -149,7 +149,7 @@ Component discovery
    * - Add-on ID
      - ``weblate.discovery.discovery``
    * - Configuration
-     - match, file_format, name_template, base_file_template, new_base_template, language_regex, copy_addons, remove, confirm
+     - ``match``, ``file_format``, ``name_template``, ``base_file_template``, ``new_base_template``, ``language_regex``, ``copy_addons``, ``remove``, ``confirm``
 
 Automatically adds or removes project components based on file changes in the
 version control system.
@@ -193,7 +193,7 @@ Bulk edit
    * - Add-on ID
      - ``weblate.flags.bulk``
    * - Configuration
-     - q, state, add_flags, remove_flags, add_labels, remove_labels
+     - ``q``, ``state``, ``add_flags``, ``remove_flags``, ``add_labels``, ``remove_labels``
 
 Bulk edit flags, labels, or states of strings.
 
@@ -304,7 +304,7 @@ Statistics generator
    * - Add-on ID
      - ``weblate.generate.generate``
    * - Configuration
-     - filename, template
+     - ``filename``, ``template``
 
 Generates a file containing detailed info about the translation status.
 
@@ -341,7 +341,7 @@ Pseudolocale generation
    * - Add-on ID
      - ``weblate.generate.pseudolocale``
    * - Configuration
-     - source, target, prefix, suffix
+     - ``source``, ``target``, ``prefix``, ``suffix``
 
 Generates a translation by adding prefix and suffix to source strings
 automatically.
@@ -408,7 +408,7 @@ Customize gettext output
    * - Add-on ID
      - ``weblate.gettext.customize``
    * - Configuration
-     - width
+     - ``width``
 
 Allows customization of gettext output behavior, for example line wrapping.
 
@@ -448,7 +448,7 @@ Generate MO files
    * - Add-on ID
      - ``weblate.gettext.mo``
    * - Configuration
-     - path
+     - ``path``
 
 Automatically generates a MO file for every changed PO file.
 
@@ -464,14 +464,7 @@ Update PO files to match POT (msgmerge)
    * - Add-on ID
      - ``weblate.gettext.msgmerge``
    * - Configuration
-     - previous, no_location, fuzzy
-
-Updates all PO files (as configured by :ref:`component-filemask`) to match the
-POT file (as configured by :ref:`component-new_base`) using :program:`msgmerge`.
-
-Triggered whenever new changes are pulled from the upstream repository.
-Most msgmerge command-line options can be set up through the add-on
-configuration.
+     - ``previous``, ``no_location``, ``fuzzy``
 
 .. seealso::
 
@@ -487,7 +480,7 @@ Squash Git commits
    * - Add-on ID
      - ``weblate.git.squash``
    * - Configuration
-     - squash, append_trailers, commit_message
+     - ``squash``, ``append_trailers``, ``commit_message``
 
 Squash Git commits prior to pushing changes.
 
@@ -526,7 +519,7 @@ Customize JSON output
    * - Add-on ID
      - ``weblate.json.customize``
    * - Configuration
-     - sort_keys, indent
+     - ``sort_keys``, ``indent``
 
 Allows adjusting JSON output behavior, for example indentation or sorting.
 
@@ -556,7 +549,7 @@ Stale comment removal
    * - Add-on ID
      - ``weblate.removal.comments``
    * - Configuration
-     - age
+     - ``age``
 
 Set a timeframe for removal of comments.
 
@@ -576,7 +569,7 @@ Stale suggestion removal
    * - Add-on ID
      - ``weblate.removal.suggestions``
    * - Configuration
-     - age, votes
+     - ``age``, ``votes``
 
 Set a timeframe for removal of suggestions.
 
@@ -622,7 +615,7 @@ Customize YAML output
    * - Add-on ID
      - ``weblate.yaml.customize``
    * - Configuration
-     - indent, width, line_break
+     - ``indent``, ``width``, ``line_break``
 
 Allows adjusting YAML output behavior, for example line-length or newlines.
 

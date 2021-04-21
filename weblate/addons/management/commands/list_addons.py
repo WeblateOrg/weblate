@@ -46,7 +46,7 @@ class Command(BaseCommand):
             self.stdout.write("\n")
             if obj.settings_form:
                 form = obj(fake_addon).get_settings_form(None)
-                params = ", ".join(form.fields.keys())
+                params = ", ".join(f"``{key}``" for key in form.fields.keys())
             else:
                 params = "`This add-on has no configuration.`"
             self.stdout.write(PARAMS_TABLE.format(obj.name, params))
