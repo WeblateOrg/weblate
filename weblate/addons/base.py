@@ -74,9 +74,9 @@ class BaseAddon:
     def get_doc_anchor(cls):
         return "addon-{}".format(cls.name.replace(".", "-").replace("_", "-"))
 
-    @cached_property
-    def has_settings(self):
-        return self.settings_form is not None
+    @classmethod
+    def has_settings(cls):
+        return cls.settings_form is not None
 
     @classmethod
     def get_identifier(cls):

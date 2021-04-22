@@ -792,12 +792,12 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
                 continue
 
             try:
-                addon = ADDONS[name]()
+                addon = ADDONS[name]
             except KeyError:
                 self.log_warning("could not enable addon %s, not found", name)
                 continue
 
-            if addon.has_settings:
+            if addon.has_settings():
                 form = addon.get_add_form(None, self, data=configuration)
                 if not form.is_valid():
                     self.log_warning(

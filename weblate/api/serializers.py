@@ -1138,7 +1138,7 @@ class AddonSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError(
                 {"name": f"could not enable add-on {name}, not compatible"}
             )
-        if addon.has_settings and "configuration" in attrs:
+        if addon.has_settings() and "configuration" in attrs:
             form = addon.get_add_form(None, component, data=attrs["configuration"])
             form.is_valid()
             if not form.is_valid():

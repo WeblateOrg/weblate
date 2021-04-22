@@ -52,10 +52,9 @@ class Command(WeblateComponentCommand):
 
     def handle(self, *args, **options):
         try:
-            addon_class = ADDONS[options["addon"]]
+            addon = ADDONS[options["addon"]]
         except KeyError:
             raise CommandError("Add-on not found: {}".format(options["addon"]))
-        addon = addon_class()
         try:
             configuration = json.loads(options["configuration"])
         except ValueError as error:
@@ -65,7 +64,7 @@ class Command(WeblateComponentCommand):
         except IndexError:
             user = get_anonymous()
         for component in self.get_components(*args, **options):
-            if addon.has_settings:
+            if addon.has_settings():
                 form = addon.get_add_form(None, component, data=configuration)
                 self.validate_form(form)
             addons = Addon.objects.filter_component(component).filter(name=addon.name)
