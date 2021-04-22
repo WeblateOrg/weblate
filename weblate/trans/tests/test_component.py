@@ -493,6 +493,19 @@ class ComponentTest(RepoTestCase):
             {"weblate.flags.same_edit", "weblate.autotranslate.autotranslate"},
         )
 
+    @override_settings(
+        DEFAULT_ADDONS={
+            "weblate.gettext.msgmerge": {},
+        }
+    )
+    def test_create_autoaddon_msgmerge(self):
+        component = self.create_po(new_base="po/project.pot")
+        self.assertEqual(
+            set(component.addon_set.values_list("name", flat=True)),
+            {"weblate.gettext.msgmerge"},
+        )
+        self.assertEqual(component.count_repo_outgoing, 1)
+
 
 class ComponentDeleteTest(RepoTestCase):
     """Component object deleting testing."""

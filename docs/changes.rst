@@ -15,6 +15,7 @@ Not yet released.
 * Update list of user interface languages in Docker.
 * Improved error messages when creating pull requests.
 * Fixed creating pull requests on Pagure.
+* Fixed triggering automatically installed add-ons.
 
 Weblate 4.6
 -----------

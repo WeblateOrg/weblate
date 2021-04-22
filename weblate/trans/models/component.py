@@ -2537,6 +2537,16 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
             # Make sure all languages are present
             self.sync_terminology()
 
+            # Run automatically installed addons. They are run upon installation,
+            # but there are no translations created at that point.
+            processed = set()
+            for addons in self.addons_cache.values():
+                for addon in addons:
+                    if addon.id in processed:
+                        continue
+                    processed.add(addon.id)
+                    addon.addon.post_configure()
+
     def update_variants(self):
         from weblate.trans.models import Unit
 
