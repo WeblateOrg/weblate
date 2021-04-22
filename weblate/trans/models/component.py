@@ -1478,7 +1478,7 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
 
             # create translation objects for all files
             try:
-                self.create_translations(request=request)
+                self.create_translations(request=request, force=True)
                 return True
             except FileParseError:
                 return False
