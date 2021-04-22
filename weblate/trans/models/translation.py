@@ -466,18 +466,21 @@ class Translation(
 
     def get_git_blob_hash(self):
         """Return current VCS blob hash for file."""
-        get_object_hash = self.component.repository.get_object_hash
+        component = self.component
+        get_object_hash = component.repository.get_object_hash
 
         # Include language file
         hashes = [get_object_hash(self.get_filename())]
 
-        if self.component.has_template():
+        if component.has_template():
             # Include template
-            hashes.append(get_object_hash(self.component.template))
+            hashes.append(get_object_hash(component.template))
 
-            if self.component.intermediate:
+            if component.intermediate and os.path.exists(
+                component.get_intermediate_filename()
+            ):
                 # Include intermediate language as it might add new strings
-                hashes.append(get_object_hash(self.component.intermediate))
+                hashes.append(get_object_hash(component.intermediate))
 
         return ",".join(hashes)
 
