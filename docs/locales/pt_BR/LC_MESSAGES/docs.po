@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-04-20 13:26+0200\n"
-"PO-Revision-Date: 2021-04-23 10:32+0000\n"
-"Last-Translator: Fred Maranhão <fred.maranhao@gmail.com>\n"
+"PO-Revision-Date: 2021-04-24 13:32+0000\n"
+"Last-Translator: Rafael Fontenelle <rafaelff@gnome.org>\n"
 "Language-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/"
 "weblate/documentation/pt_BR/>\n"
 "Language: pt_BR\n"
@@ -811,6 +811,11 @@ msgid ""
 "translation process itself like reviewing, saving translations, adding "
 "suggestions, etc."
 msgstr ""
+"As restrições impostas pelos :guilabel:`Idiomas` de um grupo são aplicadas "
+"separadamente, quando é verificado se um usuário tem acesso para realizar "
+"determinadas ações. Ou seja, é aplicado apenas a ações diretamente "
+"relacionadas ao próprio processo de tradução, como revisar, salvar "
+"traduções, adicionar sugestões, etc."
 
 #: ../../admin/access.rst:369
 msgid ""
@@ -825,10 +830,12 @@ msgid ""
 "Let’s say there is a project ``foo`` with the components: ``foo/bar`` and "
 "``foo/baz`` and the following group:"
 msgstr ""
+"Digamos que haja um projeto ``foo`` com os componentes ``foo/bar`` e ``foo/"
+"baz`` e o seguinte grupo:"
 
 #: ../../admin/access.rst:377
 msgid "Group `Spanish Admin-Reviewers`"
-msgstr ""
+msgstr "Grupo `Revisores-admins de espanhol`"
 
 #: ../../admin/access.rst:381
 msgid "`Review Strings`, `Manage repository`"
@@ -840,7 +847,7 @@ msgstr "Componentes"
 
 #: ../../admin/access.rst:383
 msgid "foo/bar"
-msgstr ""
+msgstr "foo/bar"
 
 #: ../../admin/access.rst:385
 msgid "`Spanish`"
@@ -851,22 +858,29 @@ msgid ""
 "Members of that group will have following permissions (assuming the default "
 "role settings):"
 msgstr ""
+"Membros deste grupo terão as seguintes permissões (presumindo as "
+"configurações padrão de papeis):"
 
 #: ../../admin/access.rst:391
 msgid ""
 "General (browsing) access to the whole project ``foo`` including both "
 "components in it: ``foo/bar`` and ``foo/baz``."
 msgstr ""
+"Acesso geral (navegação) para todo o projeto ``foo`` incluindo ambos "
+"componentes nele: ``foo/bar`` e ``foo/baz``."
 
 #: ../../admin/access.rst:393
 msgid "Review strings in ``foo/bar`` Spanish translation (not elsewhere)."
 msgstr ""
+"Revisar textos na tradução para espanhol de ``foo/bar`` (não em outro lugar)."
 
 #: ../../admin/access.rst:394
 msgid ""
 "Manage VCS for the whole ``foo/bar`` repository e.g. commit pending changes "
 "made by translators for all languages."
 msgstr ""
+"Gerenciar VCS para todo o repositório ``foo/bar``, por exemplo, fazer commit "
+"de alterações pendentes feitas por tradutores de todos os idiomas."
 
 #: ../../admin/access.rst:400
 msgid "Automatic group assignments"
@@ -897,6 +911,13 @@ msgid ""
 "your domain, this can be accomplished with an expression like ``^."
 "*@mycompany.com``."
 msgstr ""
+"O caso de uso mais comum para o recurso é atribuir todos os novos usuários a "
+"algum grupo padrão. Para fazer isso, você provavelmente desejará manter o "
+"valor padrão (``^.*$``) No campo da expressão regular. Outro caso de uso "
+"para essa opção pode ser conceder alguns privilégios adicionais aos "
+"funcionários de sua empresa por padrão. Supondo que todos eles usem "
+"endereços de e-mail corporativos em seu domínio, isso pode ser feito com uma "
+"expressão como ``^.*@minhaempresa.com``."
 
 #: ../../admin/access.rst:417
 msgid ""
@@ -915,6 +936,9 @@ msgid ""
 "via the user interface. For that, you may resort to using the :ref:`REST API "
 "<api>`."
 msgstr ""
+"Por enquanto, não há como adicionar em massa usuários já existentes a algum "
+"grupo por meio da interface do usuário. Para isso, você pode recorrer ao uso "
+"da :ref:`API REST <api>`."
 
 #: ../../admin/access.rst:427
 msgid "Default groups and roles"
@@ -925,6 +949,8 @@ msgid ""
 "After installation, a default set of groups is created (see :ref:`default-"
 "groups`)."
 msgstr ""
+"Após a instalação, um conjunto padrão de grupos é criado (veja :ref:`default-"
+"groups`)."
 
 #: ../../admin/access.rst:431
 msgid ""
@@ -1436,10 +1462,20 @@ msgid ""
 "to require logging-in to access all the site pages. This is basically the "
 "way to lock your Weblate installation."
 msgstr ""
+"Se você quiser usar a instalação do Weblate de uma maneira menos pública, ou "
+"seja, permitir novos usuários apenas por convite, isso pode ser feito "
+"configurando o Weblate de forma que apenas usuários conhecidos tenham acesso "
+"a ele. Para fazer isso, você pode definir :setting:`REGISTRATION_OPEN` para "
+"``False`` para prevenir registros de quaisquer novos usuários, e definir "
+":setting:`REQUIRE_LOGIN` para ``/.*`` para exigir login para acessar todas "
+"as páginas do site. Esta é basicamente a forma de bloquear a instalação do "
+"Weblate."
 
 #: ../../admin/access.rst:639
 msgid "You can use built-in :ref:`invitations <manage-acl>` to add new users."
 msgstr ""
+"Você pode usar os :ref:`convites <manage-acl>` embutidos para adicionar "
+"novos usuários."
 
 #: ../../admin/addons.rst:4 ../../api.rst:2166
 msgid "Add-ons"
@@ -1482,6 +1518,8 @@ msgid ""
 "Parameters to use in :ref:`API <addons-api>`, :setting:`DEFAULT_ADDONS`, or :"
 "djadmin:`install_addon`"
 msgstr ""
+"Parâmetros para usar em :ref:`API <addons-api>`, :setting:`DEFAULT_ADDONS` "
+"ou :djadmin:`install_addon`"
 
 #: ../../admin/addons.rst:26 ../../admin/addons.rst:52
 #: ../../admin/addons.rst:82 ../../admin/addons.rst:104
@@ -1546,6 +1584,8 @@ msgid ""
 "Once in a month for every component, this can be configured using :setting:"
 "`BACKGROUND_TASKS`."
 msgstr ""
+"Uma vez por mês para cada componente, isso pode ser configurado usando "
+":setting:`BACKGROUND_TASKS`."
 
 #: ../../admin/addons.rst:40
 msgid ":ref:`auto-translation`, :ref:`translation-consistency`"
@@ -1601,7 +1641,7 @@ msgstr "Remover textos vazios"
 
 #: ../../admin/addons.rst:83
 msgid "``weblate.cleanup.blank``"
-msgstr ""
+msgstr "``weblate.cleanup.blank``"
 
 #: ../../admin/addons.rst:85 ../../admin/addons.rst:107
 #: ../../admin/addons.rst:127 ../../admin/addons.rst:242
@@ -1748,6 +1788,14 @@ msgid ""
 "respective component. This saves time with configuration and system "
 "resources too."
 msgstr ""
+"A extensão de descoberta de componentes usa :ref:`internal-urls`. É uma "
+"maneira conveniente de compartilhar a configuração do VCS entre vários "
+"componentes. Os componentes vinculados usam o repositório local do "
+"componente principal configurado preenchendo ``weblate://project/main-"
+"component`` no campo :ref:`component-repo` (em :guilabel:`Gerenciar` ↓ "
+":guilabel:`Configurações` ↓ :guilabel:`Sistema de controle de versão`) de "
+"cada componente. Isso economiza tempo com configuração e recursos do sistema "
+"também."
 
 #: ../../admin/addons.rst:182 ../../admin/addons.rst:332
 msgid ":ref:`markup`"
@@ -1786,7 +1834,7 @@ msgstr "**Exemplos:**"
 
 #: ../../admin/addons.rst:206
 msgid "Label new strings automatically"
-msgstr ""
+msgstr "Rotula novos textos automaticamente"
 
 #: ../../admin/addons.rst:209 ../../admin/addons.rst:217
 msgid "Search query"
@@ -1849,6 +1897,8 @@ msgid ""
 "You might also want to tighthen the :ref:`check-same` check by adding "
 "``strict-same`` flag to :ref:`component-check_flags`."
 msgstr ""
+"Você também pode querer reforçar a verificação :ref:`check-same` adicionando "
+"o marcador ``strict-same`` aos :ref:`component-check_flags`."
 
 #: ../../admin/addons.rst:255 ../../admin/addons.rst:275
 #: ../../admin/addons.rst:295
@@ -1863,7 +1913,7 @@ msgstr "Marcar novos textos fonte como \"Necessita edição\""
 
 #: ../../admin/addons.rst:265
 msgid "``weblate.flags.source_edit``"
-msgstr ""
+msgstr "``weblate.flags.source_edit``"
 
 #: ../../admin/addons.rst:269
 msgid ""
@@ -1899,7 +1949,7 @@ msgstr "Gerador de estatísticas"
 
 #: ../../admin/addons.rst:305
 msgid "``weblate.generate.generate``"
-msgstr ""
+msgstr "``weblate.generate.generate``"
 
 #: ../../admin/addons.rst:307
 msgid "filename, template"
@@ -1941,7 +1991,7 @@ msgstr "Geração de pseudolocalidade"
 
 #: ../../admin/addons.rst:342
 msgid "``weblate.generate.pseudolocale``"
-msgstr ""
+msgstr "``weblate.generate.pseudolocale``"
 
 #: ../../admin/addons.rst:344
 msgid "source, target, prefix, suffix"
@@ -1962,18 +2012,26 @@ msgid ""
 "make it easy to spot unaltered strings when running the application in the "
 "pseudolocale language."
 msgstr ""
+"Pseudolocalidades são úteis para encontrar textos que não estão preparadas "
+"para localização. Isso é feito alterando todas os textos fonte traduzíveis "
+"para facilitar a descoberta de textos inalterados ao executar o aplicativo "
+"no idioma da pseudolocalidade."
 
 #: ../../admin/addons.rst:354
 msgid ""
 "Finding strings whose localized counterparts might not fit the layout is "
 "also possible."
 msgstr ""
+"Também é possível encontrar textos cujas contrapartes localizadas podem não "
+"se ajustar ao layout."
 
 #: ../../admin/addons.rst:359
 msgid ""
 "You can use real languages for testing, but there are dedicated "
 "pseudolocales available in Weblate - `en_XA` and `ar_XB`."
 msgstr ""
+"Você pode usar idiomas reais para teste, mas existem pseudolocalidades "
+"disponíveis no Weblate - `en_XA` e `ar_XB`."
 
 #: ../../admin/addons.rst:365
 msgid "Contributors in comment"
@@ -2001,7 +2059,7 @@ msgstr "Atualizar variável ALL_LINGUAS no arquivo \"configure\""
 
 #: ../../admin/addons.rst:394
 msgid "``weblate.gettext.configure``"
-msgstr ""
+msgstr "``weblate.gettext.configure``"
 
 #: ../../admin/addons.rst:398
 msgid ""
@@ -2018,7 +2076,7 @@ msgstr "Personalizar saída do gettext"
 
 #: ../../admin/addons.rst:409
 msgid "``weblate.gettext.customize``"
-msgstr ""
+msgstr "``weblate.gettext.customize``"
 
 #: ../../admin/addons.rst:411
 msgid "width"
@@ -2088,6 +2146,8 @@ msgid ""
 "The location of the generated MO file can be customized and the field for it "
 "uses :ref:`markup`."
 msgstr ""
+"O local do arquivo MO gerado pode ser personalizada e o campo para ele usa "
+":ref:`markup`."
 
 #: ../../admin/addons.rst:460
 msgid "Update PO files to match POT (msgmerge)"
@@ -2095,7 +2155,7 @@ msgstr "Atualizar arquivos PO para corresponder ao POT (msgmerge)"
 
 #: ../../admin/addons.rst:465
 msgid "``weblate.gettext.msgmerge``"
-msgstr ""
+msgstr "``weblate.gettext.msgmerge``"
 
 #: ../../admin/addons.rst:467
 msgid "previous, no_location, fuzzy"
@@ -2228,7 +2288,7 @@ msgstr "Remoção de comentário obsoleto"
 
 #: ../../admin/addons.rst:557
 msgid "``weblate.removal.comments``"
-msgstr ""
+msgstr "``weblate.removal.comments``"
 
 #: ../../admin/addons.rst:559
 #, fuzzy
@@ -2517,15 +2577,15 @@ msgstr ""
 
 #: ../../admin/admin.rst:12
 msgid "It includes basic overview of your Weblate:"
-msgstr ""
+msgstr "Ela inclui uma visão geral básica do seu Weblate:"
 
 #: ../../admin/admin.rst:14
 msgid "Support status, see :doc:`support`"
-msgstr ""
+msgstr "Status de suporte, veja :doc:`support`"
 
 #: ../../admin/admin.rst:15
 msgid "Backups, see :doc:`backup`"
-msgstr ""
+msgstr "Backups, veja :doc:`backup`"
 
 #: ../../admin/admin.rst:16
 msgid "Shared translation memory, see :doc:`memory`"
@@ -2534,6 +2594,8 @@ msgstr "Memória de tradução compartilhada, veja :doc:`memory`"
 #: ../../admin/admin.rst:17
 msgid "Performance report to review Weblate health and length of Celery queues"
 msgstr ""
+"Relatório de desempenho para revisar a saúde do Weblate e a duração das "
+"filas do Celery"
 
 #: ../../admin/admin.rst:18
 msgid "SSH keys management, see :ref:`ssh-repos`"
@@ -3376,6 +3438,8 @@ msgid ""
 "Both PostgreSQL and MySQL/MariaDB databases are included in the automated "
 "backups."
 msgstr ""
+"Os bancos de dados PostgreSQL e MySQL/MariaDB estão incluídos nos backups "
+"automatizados."
 
 #: ../../admin/backup.rst:20
 msgid ""
@@ -3391,11 +3455,11 @@ msgstr "Backups diários para 14 dias"
 
 #: ../../admin/backup.rst:23
 msgid "Weekly backups for 8 weeks back"
-msgstr ""
+msgstr "Backups semanais por 8 semanas atrás"
 
 #: ../../admin/backup.rst:24
 msgid "Monthly backups for 6 months back"
-msgstr ""
+msgstr "Backups mensais por 6 meses atrás"
 
 #: ../../admin/backup.rst:31
 msgid "Borg encryption key"
@@ -3559,6 +3623,10 @@ msgid ""
 "it accepts the Weblate's client SSH key, i.e. the one it uses to connect to "
 "other servers."
 msgstr ""
+"Para criar os backups remotos, você terá que instalar o `BorgBackup`_ em "
+"outro servidor que seja acessível via SSH. Certifique-se de que ele aceita a "
+"chave SSH do cliente do Weblate, ou seja, aquela que ele usa para se "
+"conectar a outros servidores."
 
 #: ../../admin/backup.rst:119
 msgid ":ref:`cloudbackup` provides you automated remote backups."
@@ -4162,13 +4230,15 @@ msgstr ""
 
 #: ../../admin/checks.rst:78
 msgid "``variants:SOURCE``"
-msgstr ""
+msgstr "``variants:FONTE``"
 
 #: ../../admin/checks.rst:79
 msgid ""
 "Mark this string as a variant of string with matching source. See :ref:"
 "`variants`."
 msgstr ""
+"Marca este texto como uma variante do texto com o fonte correspondente. Veja "
+":ref:`variants`."
 
 #: ../../admin/checks.rst:80
 msgid "``regex:REGEX``"
@@ -4187,6 +4257,7 @@ msgstr ""
 msgid ""
 "Indicates forbidden translation in a glossary, see :ref:`glossary-forbidden`."
 msgstr ""
+"Indica tradução proibida em um glossário, veja :ref:`glossary-forbidden`."
 
 #: ../../admin/checks.rst:89
 msgid ""
@@ -4760,6 +4831,9 @@ msgid ""
 "Fonts uploaded into Weblate are used purely for purposes of the :ref:`check-"
 "max-size` check, they do not have an effect in Weblate user interface."
 msgstr ""
+"As fontes carregadas no Weblate são usadas puramente para fins de "
+"verificação :ref:`check-max-size`, elas não têm efeito na interface de "
+"usuário do Weblate."
 
 #: ../../admin/checks.rst:245
 msgid ""
@@ -5320,17 +5394,19 @@ msgstr ":ref:`autofix`, :ref:`custom-autofix`"
 
 #: ../../admin/config.rst:194
 msgid "BACKGROUND_TASKS"
-msgstr ""
+msgstr "BACKGROUND_TASKS"
 
 #: ../../admin/config.rst:198
 msgid ""
 "Defines how often lengthy maintenance tasks should be triggered for a "
 "component."
 msgstr ""
+"Define com que frequência as tarefas de manutenção demoradas devem ser "
+"acionadas para um componente."
 
 #: ../../admin/config.rst:201
 msgid "Right now this controls:"
-msgstr ""
+msgstr "No momento, isso controla:"
 
 #: ../../admin/config.rst:203
 msgid ":ref:`addon-weblate.autotranslate.autotranslate` addon"
@@ -5338,7 +5414,7 @@ msgstr "Extensão :ref:`addon-weblate.autotranslate.autotranslate`"
 
 #: ../../admin/config.rst:204
 msgid ":doc:`checks` recalculation"
-msgstr ""
+msgstr "Recálculo de :doc:`checks`"
 
 #: ../../admin/config.rst:206
 msgid "Possible choices:"
@@ -5346,7 +5422,7 @@ msgstr "Escolhas possíveis:"
 
 #: ../../admin/config.rst:208
 msgid "``monthly`` (this is the default)"
-msgstr ""
+msgstr "``monthly`` (este é o padrão)"
 
 #: ../../admin/config.rst:209
 #, fuzzy
@@ -5369,6 +5445,8 @@ msgid ""
 "Increasing the frequency is not recommended when Weblate contains thousands "
 "of components."
 msgstr ""
+"O aumento da frequência não é recomendado quando o Weblate contém milhares "
+"de componentes."
 
 #: ../../admin/config.rst:221
 msgid "BASE_DIR"
@@ -5543,33 +5621,39 @@ msgstr ""
 
 #: ../../admin/config.rst:360
 msgid "CONTACT_FORM"
-msgstr ""
+msgstr "CONTACT_FORM"
 
 #: ../../admin/config.rst:364
 msgid ""
 "Configures how e-mail from the contact form is being sent. Choose a "
 "configuration that matches your mail server configuration."
 msgstr ""
+"Configura como o e-mail do formulário de contato está sendo enviado. Escolha "
+"uma configuração que corresponda à configuração do seu servidor de e-mail."
 
 #: ../../admin/config.rst:367
 msgid "``\"reply-to\"``"
-msgstr ""
+msgstr "``\"reply-to\"``"
 
 #: ../../admin/config.rst:368
 msgid ""
 "The sender is used in as :mailheader:`Reply-To`, this is the default "
 "behaviour."
 msgstr ""
+"O remetente é usado como :mailheader:`Reply-To`, este é o comportamento "
+"padrão."
 
 #: ../../admin/config.rst:371
 msgid "``\"from\"``"
-msgstr ""
+msgstr "``\"from\"``"
 
 #: ../../admin/config.rst:370
 msgid ""
 "The sender is used in as :mailheader:`From`. Your mail server needs to allow "
 "sending such e-mails."
 msgstr ""
+"O remetente é usado como :mailheader:`From`. Seu servidor de e-mail precisa "
+"permitir o envio de tais e-mails."
 
 #: ../../admin/config.rst:376
 msgid "DATA_DIR"
@@ -5661,7 +5745,7 @@ msgstr ":file:`fonts`:"
 
 #: ../../admin/config.rst:398
 msgid "User-uploaded  fonts, see :ref:`fonts`."
-msgstr ""
+msgstr "Fontes enviadas pelo usuário, veja :ref:`fonts`."
 
 #: ../../admin/config.rst:402
 msgid ""
@@ -5772,6 +5856,8 @@ msgid ""
 "Configures whether :guilabel:`Automatically watch projects on contribution` "
 "should be turned on for new users. Defaults to ``True``."
 msgstr ""
+"Configura se :guilabel:`Observar automaticamente projetos em contribuição` "
+"deve ser ativado para novos usuários. O padrão é ``True``."
 
 #: ../../admin/config.rst:475
 #, fuzzy
@@ -5912,6 +5998,8 @@ msgid ""
 "Configures default value of :ref:`project-use_shared_tm` and :ref:`project-"
 "contribute_shared_tm`."
 msgstr ""
+"Configura o valor padrão de :ref:`project-use_shared_tm` e :ref:`project-"
+"contrib_shared_tm`."
 
 #: ../../admin/config.rst:616
 msgid "DEFAULT_TRANSLATION_PROPAGATION"
