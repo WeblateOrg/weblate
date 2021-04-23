@@ -1091,7 +1091,7 @@ class Translation(
 
             if method in ("translate", "fuzzy", "approve"):
                 # Merge on units level
-                with self.component.repository.lock:
+                with self.component.lock:
                     return self.merge_translations(
                         request, store, conflicts, method, fuzzy
                     )
