@@ -1096,7 +1096,8 @@ class Translation(
                         request, store, conflicts, method, fuzzy
                     )
             elif method == "add":
-                return self.handle_add_upload(request, store, fuzzy=fuzzy)
+                with self.component.lock:
+                    return self.handle_add_upload(request, store, fuzzy=fuzzy)
 
             # Add as sugestions
             return self.merge_suggestions(request, store, fuzzy)
