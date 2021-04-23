@@ -24,6 +24,7 @@ from django.middleware.csrf import rotate_token
 from django.shortcuts import redirect
 from django.template.loader import render_to_string
 
+from weblate.logger import LOGGER
 from weblate.utils import messages
 from weblate.utils.hash import calculate_checksum
 from weblate.utils.request import get_ip_address
@@ -89,6 +90,7 @@ def check_rate_limit(scope, request):
     if attempts > get_rate_setting(scope, "ATTEMPTS"):
         # Set key to longer expiry for lockout period
         cache.set(key, attempts, get_rate_setting(scope, "LOCKOUT"))
+        LOGGER.info("rate-limit lockout for %s in %s scope", key, scope)
         return False
 
     return True
