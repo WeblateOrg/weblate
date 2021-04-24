@@ -180,7 +180,7 @@ class DuplicateLanguage(MultiAlert):
         result = {"monolingual": bool(component.template)}
         source = component.source_language
         for occurrence in self.occurrences:
-            if occurrence["language"] == source:
+            if occurrence["language_code"] == source:
                 result["source_language"] = True
             codes = {
                 code.strip().replace("-", "_").lower()
