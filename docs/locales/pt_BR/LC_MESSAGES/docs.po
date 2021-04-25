@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-04-20 13:26+0200\n"
-"PO-Revision-Date: 2021-04-24 13:32+0000\n"
+"PO-Revision-Date: 2021-04-26 06:32+0000\n"
 "Last-Translator: Rafael Fontenelle <rafaelff@gnome.org>\n"
 "Language-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/"
 "weblate/documentation/pt_BR/>\n"
@@ -6091,6 +6091,13 @@ msgid ""
 "or ``Forwarded`` headers or configure :setting:`django:"
 "SECURE_PROXY_SSL_HEADER` to let Django correctly detect the SSL status."
 msgstr ""
+"O redirecionamento HTTPS pode ser problemático em alguns casos e você pode "
+"ter problemas com o redirecionamento infinito no caso de estar usando um "
+"proxy reverso fazendo o encerramento SSL que não passa corretamente os "
+"cabeçalhos de protocolo para o Django. Ajuste sua configuração de proxy "
+"reverso para emitir cabeçalhos ``X-Forwarded-Proto`` ou ``Forwarded``, ou "
+"configure :setting:`django:SECURE_PROXY_SSL_HEADER` para permitir que o "
+"Django detecte corretamente o status SSL."
 
 #: ../../admin/config.rst:683
 msgid ""
@@ -6116,7 +6123,7 @@ msgstr ""
 
 #: ../../admin/config.rst:699
 msgid "GET_HELP_URL"
-msgstr ""
+msgstr "GET_HELP_URL"
 
 #: ../../admin/config.rst:703
 msgid "URL where support for your Weblate instance can be found."
@@ -7820,6 +7827,8 @@ msgid ""
 "Defines whether :ref:`project-web` has to be specified when creating a "
 "project. Turned on by default as that suits public server setups."
 msgstr ""
+"Define se :ref:`project-web` deve ser especificado ao criar um projeto. "
+"Ativado por padrão, pois se adapta às configurações do servidor público."
 
 #: ../../admin/continuous.rst:4
 msgid "Continuous localization"
@@ -9607,6 +9616,9 @@ msgid ""
 "that no server tweaking should be necessary and all what is needed can be "
 "configured on the client side."
 msgstr ""
+"MySQL 8.x, MariaDB 10.5.x ou mais recente têm uma configuração padrão "
+"razoável, de modo que nenhum ajuste de servidor deve ser necessário e tudo o "
+"que é necessário pode ser configurado no lado do cliente."
 
 #: ../../admin/install.rst:424
 msgid ""
@@ -11571,7 +11583,7 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:213
 msgid "Number of processes and memory consumption"
-msgstr ""
+msgstr "Número de processos e consumo de memória"
 
 #: ../../admin/install/docker.rst:215
 msgid ""
@@ -11579,6 +11591,10 @@ msgid ""
 "automatically based on number of CPUs. This works well for most cloud "
 "virtual machines as these typically have few CPUs and good amount of memory."
 msgstr ""
+"O número de processos de trabalho para uWSGI e Celery é determinado "
+"automaticamente com base no número de CPUs. Isso funciona bem para a maioria "
+"das máquinas virtuais em nuvem, pois normalmente têm poucas CPUs e boa "
+"quantidade de memória."
 
 #: ../../admin/install/docker.rst:219
 msgid ""
@@ -11595,10 +11611,14 @@ msgid ""
 "`CELERY_BACKUP_OPTIONS`, :envvar:`CELERY_BEAT_OPTIONS`, :envvar:"
 "`UWSGI_WORKERS`"
 msgstr ""
+":envvar:`CELERY_MAIN_OPTIONS`, :envvar:`CELERY_NOTIFY_OPTIONS`, "
+":envvar:`CELERY_MEMORY_OPTIONS`, :envvar:`CELERY_TRANSLATE_OPTIONS`, "
+":envvar:`CELERY_BACKUP_OPTIONS`, :envvar:`CELERY_BEAT_OPTIONS`, "
+":envvar:`UWSGI_WORKERS`"
 
 #: ../../admin/install/docker.rst:243
 msgid "Scaling horizontally"
-msgstr ""
+msgstr "Dimensionando horizontalmente"
 
 #: ../../admin/install/docker.rst:249
 msgid "This feature is a technology preview."
@@ -11611,6 +11631,11 @@ msgid ""
 "recommended to use cluster filesystem such as GlusterFS for this. The :file:"
 "`/app/cache` volume should be separate for each container."
 msgstr ""
+"Você pode executar vários contêineres Weblate para dimensionar o serviço "
+"horizontalmente. O volume :file:`/app/data` deve ser compartilhado por todos "
+"os contêineres, é recomendado usar um sistema de arquivos de cluster como o "
+"GlusterFS para isso. O volume :file:`/app/cache` deve ser separado para cada "
+"contêiner."
 
 #: ../../admin/install/docker.rst:256
 msgid ""
@@ -11619,6 +11644,10 @@ msgid ""
 "the services should be running just once in the cluster and the ordering of "
 "the services matters as well."
 msgstr ""
+"Cada contêiner Weblate tem um papel definido usando a variável de ambiente "
+":envvar:`WEBLATE_SERVICE`. Siga atentamente a documentação, pois alguns dos "
+"serviços devem ser executados apenas uma vez no cluster e a ordem dos "
+"serviços também é importante."
 
 #: ../../admin/install/docker.rst:261
 msgid ""
@@ -11626,6 +11655,9 @@ msgid ""
 "split.yml <https://github.com/WeblateOrg/docker-compose/blob/main/docker-"
 "compose-split.yml>`__."
 msgstr ""
+"Você pode encontrar configuração de exemplo no repositório ``docker-compose``"
+" como `docker-compose-split.yml <https://github.com/WeblateOrg/"
+"docker-compose/blob/main/docker-compose-split.yml>`__."
 
 #: ../../admin/install/docker.rst:268
 msgid "Docker environment variables"
@@ -11739,6 +11771,8 @@ msgstr ""
 #: ../../admin/install/docker.rst:365
 msgid "Configures contact form behavior, see :setting:`CONTACT_FORM`."
 msgstr ""
+"Configura o comportamento do formulário de contato, veja "
+":setting:`CONTACT_FORM`."
 
 #: ../../admin/install/docker.rst:369
 msgid "Configures allowed HTTP hostnames using :setting:`ALLOWED_HOSTS`."
@@ -12069,6 +12103,9 @@ msgid ""
 "You can set configuration for any rate limiter scopes. To do that add "
 "``WEBLATE_`` prefix to any of setting described in :ref:`rate-limit`."
 msgstr ""
+"Você pode definir a configuração para qualquer escopo do limitador de taxa. "
+"Para fazer isso, adicione o prefixo ``WEBLATE_`` a qualquer uma das "
+"configurações descritas em :ref:`rate-limit`."
 
 #: ../../admin/install/docker.rst:682
 msgid ""
@@ -12704,6 +12741,9 @@ msgid ""
 "is also responsible for the database structure migrations and it should be "
 "started prior others."
 msgstr ""
+"Agendador de tarefas do Celery, apenas uma instância deve estar em execução. "
+"Este contêiner também é responsável pelas migrações da estrutura do banco de "
+"dados e deve ser iniciado antes dos demais."
 
 #: ../../admin/install/docker.rst:1311
 msgid "``celery-backup``"
@@ -12712,6 +12752,7 @@ msgstr ""
 #: ../../admin/install/docker.rst:1312
 msgid "Celery worker for backups, only one instance should be running."
 msgstr ""
+"Worker do Celery para backups, apenas uma instância deve estar em execução."
 
 #: ../../admin/install/docker.rst:1313
 msgid "``celery-celery``"
@@ -12719,7 +12760,7 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:1314
 msgid "Generic Celery worker."
-msgstr ""
+msgstr "Worker genérico do Celery."
 
 #: ../../admin/install/docker.rst:1315
 msgid "``celery-memory``"
@@ -12797,6 +12838,9 @@ msgid ""
 "static files. Its content is recreated on container startup and the volume "
 "can be mounted using ephemeral filesystem such as `tmpfs`."
 msgstr ""
+"O volume do cache é montado como :file:`/app/cache` e é usado para armazenar "
+"arquivos estáticos. Seu conteúdo é recriado na inicialização do contêiner e "
+"o volume pode ser montado usando um sistema de arquivos efêmero como `tmpfs`."
 
 #: ../../admin/install/docker.rst:1348
 msgid ""
@@ -12969,6 +13013,10 @@ msgid ""
 "There is also :file:`template-external-postgresql.yml` which does not start "
 "a PostgreSQL server and allows you to configure external PostgreSQL server."
 msgstr ""
+"O :file:`template.yml` é adequado para executar todos os componentes em "
+"OpenShift. Existe também :file:`template-external-postgresql.yml` que não "
+"inicia um servidor PostgreSQL e permite que você configure um servidor "
+"PostgreSQL externo."
 
 #: ../../admin/install/openshift.rst:23
 msgid "Web Console"
@@ -13499,12 +13547,22 @@ msgid ""
 "`contributing`), so that the proper definition can be added to the upcoming "
 "Weblate release."
 msgstr ""
+"Se isso também falhar, uma nova definição de idioma será criada usando seu "
+"padrão (direção do texto da esquerda para a direita, um plural). A linguagem "
+"criada automaticamente com o código ``xx_XX`` será nomeada como :guilabel:`"
+"xx_XX (generated)`. Você pode querer mudar isso na interface administrativa "
+"mais tarde, (veja :ref:`changing-languages`) e relatar ao rastreador de "
+"problemas (veja :ref:`contributing`), para que a definição apropriada possa "
+"ser adicionada ao próximo lançamento do Weblate."
 
 #: ../../admin/languages.rst:38
 msgid ""
 "In case you see something unwanted as a language, you might want to adjust :"
 "ref:`component-language_regex` to ignore such file when parsing translations."
 msgstr ""
+"No caso de você ver algo indesejado como idioma, você pode querer ajustar "
+":ref:`component-language_regex` para ignorar tal arquivo ao analisar "
+"traduções."
 
 #: ../../admin/languages.rst:44
 msgid ":ref:`language-code`, :ref:`new-translations`"
@@ -13512,13 +13570,15 @@ msgstr ":ref:`language-code`, :ref:`new-translations`"
 
 #: ../../admin/languages.rst:51
 msgid "Changing language definitions"
-msgstr ""
+msgstr "Alterando as definições de idioma"
 
 #: ../../admin/languages.rst:53
 msgid ""
 "You can change language definitions in the languages interface (:file:`/"
 "languages/` URL)."
 msgstr ""
+"Você pode alterar as definições de idioma na interface de idiomas (URL "
+":file:`/languages/`)."
 
 #: ../../admin/languages.rst:56
 msgid ""
@@ -13526,6 +13586,9 @@ msgid ""
 "direction), otherwise translators will be unable to properly edit those "
 "translations."
 msgstr ""
+"Durante a edição, certifique-se de que todos os campos estejam corretos ("
+"especialmente os plurais e a direção do texto), caso contrário, os "
+"tradutores não poderão editar adequadamente essas traduções."
 
 #: ../../admin/languages.rst:63
 msgid "Built-in language definitions"
@@ -13539,6 +13602,11 @@ msgid ""
 "instructions`) the database of languages is updated to include all language "
 "definitions shipped in Weblate."
 msgstr ""
+"Definições para cerca de 600 idiomas estão incluídas no Weblate e a lista é "
+"estendida a cada versão. Sempre que o Weblate é atualizado (mais "
+"especificamente sempre que :program:`weblate migrate` é executado, veja :ref"
+":`generic-upgrade-Instructions`) o banco de dados de idiomas é atualizado "
+"para incluir todas as definições de idioma enviadas no Weblate."
 
 #: ../../admin/languages.rst:71
 msgid ""
@@ -13546,12 +13614,17 @@ msgid ""
 "enforce updating the database to match Weblate built-in data using :djadmin:"
 "`setuplang`."
 msgstr ""
+"Este recurso pode ser desabilitado usando :setting:`UPDATE_LANGUAGES`. Você "
+"também pode forçar a atualização do banco de dados para corresponder aos "
+"dados embutidos do Weblate usando :djadmin:`setuplang`."
 
 #: ../../admin/languages.rst:77
 msgid ""
 "The language definitions are in the `weblate-language-data repository "
 "<https://github.com/WeblateOrg/language-data/>`_."
 msgstr ""
+"As definições de idioma estão no repositório `weblate-language-data "
+"repository <https://github.com/WeblateOrg/language-data/>`_."
 
 #: ../../admin/languages.rst:83
 msgid "Ambiguous language codes and macrolanguages"
@@ -13565,6 +13638,11 @@ msgid ""
 "get correct behavior in Weblate, it is recommended to use individual "
 "language codes only and avoid macro languages."
 msgstr ""
+"Em muitos casos, não é uma boa ideia usar código de idioma macro para uma "
+"tradução. O caso típico problemático pode ser a língua curda, que pode ser "
+"escrita em árabe ou latim, dependendo da variante real. Para obter o "
+"comportamento correto no Weblate, é recomendável usar apenas códigos de "
+"idioma individuais e evitar macroidiomas."
 
 #: ../../admin/languages.rst:93
 msgid ""
@@ -13572,10 +13650,13 @@ msgid ""
 "scope#Macrolanguages>`_, `List of macrolanguages <https://iso639-3.sil.org/"
 "code_tables/macrolanguage_mappings/data>`_"
 msgstr ""
+"`Definição de macroidiomas <https://iso639-3.sil.org/about/"
+"scope#Macrolanguages>`_, `Lista de macroidiomas <https://iso639-3.sil.org/"
+"code_tables/macrolanguage_mappings/data>`_"
 
 #: ../../admin/languages.rst:99
 msgid "Each language consists of following fields:"
-msgstr ""
+msgstr "Cada idioma consiste nos seguintes campos:"
 
 #: ../../admin/languages.rst:104 ../../admin/projects.rst:847 ../../api.rst:660
 #: ../../api.rst:662 ../../api.rst:725 ../../api.rst:2128
@@ -13591,6 +13672,13 @@ msgid ""
 "letter code. It can also support extended codes as defined by `BCP 47 "
 "<https://tools.ietf.org/html/bcp47>`_."
 msgstr ""
+"Código identificando o idioma. Weblate prefere códigos de duas letras, "
+"conforme definido pela `ISO 639-1 <https://en.wikipedia.org/wiki/ISO_639-1>`"
+"_, mas usa códigos de `ISO 639-2 <https://en.wikipedia.org/wiki/ISO_639-2>`_ "
+"or `ISO 639-3 <https://en.wikipedia.org/wiki/ISO_639-3>`_ para idiomas que "
+"não têm código de duas letras. Ele também pode ter suporte a códigos "
+"estendidos, conforme definido por `BCP 47 <https://tools.ietf.org/html/"
+"bcp47>`_."
 
 #: ../../admin/languages.rst:115
 msgid ":ref:`language-parsing-codes`, :ref:`new-translations`"
@@ -13606,6 +13694,8 @@ msgid ""
 "Visible name of the language. The language names included in Weblate are "
 "also being localized depending on user interface language."
 msgstr ""
+"Nome visível do idioma. Os nomes dos idiomas incluídos no Weblate também "
+"estão sendo localizados dependendo do idioma da interface do usuário."
 
 #: ../../admin/languages.rst:128 ../../api.rst:651 ../../api.rst:663
 #: ../../api.rst:701 ../../api.rst:711
@@ -13617,14 +13707,17 @@ msgid ""
 "Determines whether language is written right to left or left to right. This "
 "property is autodetected correctly for most of the languages."
 msgstr ""
+"Determina se o idioma é escrito da direita para a esquerda ou da esquerda "
+"para a direita. Esta propriedade é autodetectada corretamente para a maioria "
+"dos idiomas."
 
 #: ../../admin/languages.rst:136
 msgid "Plural number"
-msgstr ""
+msgstr "Número de plurais"
 
 #: ../../admin/languages.rst:138
 msgid "Number of plurals used in the language."
-msgstr ""
+msgstr "Número de plurais usados no idioma."
 
 #: ../../admin/languages.rst:143
 msgid "Plural formula"
@@ -13635,6 +13728,8 @@ msgid ""
 "Gettext compatible plural formula used to determine which plural form is "
 "used for given count."
 msgstr ""
+"Fórmula de plural compatível com Gettext usada para determinar qual forma de "
+"plural é usada para determinada contagem."
 
 #: ../../admin/languages.rst:149
 msgid ""
@@ -13655,11 +13750,15 @@ msgid ""
 "In versions prior to 2.18 the behaviour of adding new translations was file "
 "format specific."
 msgstr ""
+"Nas versões anteriores a 2.18, o comportamento de adicionar novas traduções "
+"era específico do formato de arquivo."
 
 #: ../../admin/languages.rst:165
 msgid ""
 "Weblate can automatically start new translation for all of the file formats."
 msgstr ""
+"Weblate pode iniciar automaticamente uma nova tradução para todos os "
+"formatos de arquivo."
 
 #: ../../admin/languages.rst:168
 msgid ""
@@ -13669,6 +13768,12 @@ msgid ""
 "really doesn't depend on the format, but rather on the framework you use to "
 "handle the translation (for example with :ref:`json`)."
 msgstr ""
+"Alguns formatos esperam começar com um arquivo vazio e apenas textos "
+"traduzidos para serem incluídas (por exemplo, :ref:`aresource`), enquanto "
+"outros esperam ter todas as chaves presentes (por exemplo, :ref:`gettext`). "
+"Em algumas situações, isso realmente não depende do formato, mas sim do "
+"framework que você usa para lidar com a tradução (por exemplo, com "
+":ref:`json`)."
 
 #: ../../admin/languages.rst:174
 msgid ""
@@ -13676,6 +13781,9 @@ msgid ""
 "use this file to start new translations. Any exiting translations will be "
 "removed from the file when doing so."
 msgstr ""
+"Quando você especifica :ref:`component-new_base` em :ref:`component`, "
+"Weblate usará este arquivo para iniciar novas traduções. Todas as traduções "
+"existentes serão removidas do arquivo ao fazer isso."
 
 #: ../../admin/languages.rst:178
 msgid ""
@@ -13683,12 +13791,17 @@ msgid ""
 "empty file is created where new strings will be added once they are "
 "translated."
 msgstr ""
+"Quando :ref:`component-new_base` está vazio e o formato de arquivo suporta, "
+"um arquivo vazio é criado onde novos textos serão adicionados assim que "
+"forem traduzidos."
 
 #: ../../admin/languages.rst:182
 msgid ""
 "The :ref:`component-language_code_style` allows you to customize language "
 "code used in generated filenames:"
 msgstr ""
+"O :ref:`component-language_code_style` permite que você personalize o código "
+"de idioma usado nos nomes de arquivos gerados:"
 
 #: ../../admin/languages.rst:185
 msgid "Default based on the file format"
@@ -13697,6 +13810,7 @@ msgstr "Padrão baseado no formato de arquivo"
 #: ../../admin/languages.rst:186
 msgid "Dependent on file format, for most of them POSIX is used."
 msgstr ""
+"Dependendo do formato do arquivo, para a maioria deles utiliza-se POSIX."
 
 #: ../../admin/languages.rst:188
 msgid "POSIX style using underscore as a separator"
@@ -13707,6 +13821,8 @@ msgid ""
 "Typically used by gettext and related tools, produces language codes like "
 "``pt_BR``."
 msgstr ""
+"Normalmente usado por gettext e ferramentas relacionadas, produz códigos de "
+"linguagem como ``pt_BR``."
 
 #: ../../admin/languages.rst:191
 msgid "POSIX style using underscore as a separator, including country code"
@@ -13718,6 +13834,8 @@ msgid ""
 "POSIX style language code including the country code even when not necessary "
 "(for example ``cs_CZ``)."
 msgstr ""
+"Código de idioma do estilo POSIX incluindo o código do país mesmo quando não "
+"necessário (por exemplo, ``cs_CZ``)."
 
 #: ../../admin/languages.rst:194
 msgid "BCP style using hyphen as a separator"
@@ -13727,6 +13845,8 @@ msgstr "Estilo BCP usando hífen como um separador"
 msgid ""
 "Typically used on web platforms, produces language codes like ``pt-BR``."
 msgstr ""
+"Normalmente usado em plataformas web, produz códigos de idioma como ``pt-"
+"BR``."
 
 #: ../../admin/languages.rst:197
 msgid "BCP style using hyphen as a separator, including country code"
@@ -13737,6 +13857,8 @@ msgid ""
 "BCP style language code including the country code even when not necessary "
 "(for example ``cs-CZ``)."
 msgstr ""
+"Código de idioma do estilo BCP, incluindo o código do país, mesmo quando não "
+"necessário (por exemplo, ``cs-CZ``)."
 
 #: ../../admin/languages.rst:200
 msgid "Android style"
@@ -13745,6 +13867,8 @@ msgstr "Estilo Android"
 #: ../../admin/languages.rst:200
 msgid "Only used in Android apps, produces language codes like ``pt-rBR``."
 msgstr ""
+"Usado apenas em aplicativos Android, produz códigos de idioma como ``pt-"
+"rBR``."
 
 #: ../../admin/languages.rst:203
 msgid "Java style"
@@ -13752,19 +13876,23 @@ msgstr "Estilo Java"
 
 #: ../../admin/languages.rst:203
 msgid "Used by Java—mostly BCP with legacy codes for Chinese."
-msgstr ""
+msgstr "Usado por Java – principalmente BCP com códigos legados para chinês."
 
 #: ../../admin/languages.rst:205
 msgid ""
 "Additionally, any mappings defined in :ref:`project-language_aliases` are "
 "applied in reverse."
 msgstr ""
+"Além disso, quaisquer mapeamentos definidos em :ref:`project-"
+"language_aliases` são aplicados ao contrário."
 
 #: ../../admin/languages.rst:210
 msgid ""
 "Weblate recognizes any of these when parsing translation files, the above "
 "settings only influences how new files are created."
 msgstr ""
+"O Weblate reconhece qualquer um desses ao analisar arquivos de tradução; as "
+"configurações acima apenas influenciam como os novos arquivos são criados."
 
 #: ../../admin/languages.rst:215
 msgid ":ref:`language-code`, :ref:`language-parsing-codes`"
@@ -13861,6 +13989,10 @@ msgid ""
 "subject to their terms of use, so ensure you are allowed to use them how you "
 "want."
 msgstr ""
+"Suporte integrado para vários serviços de tradução automática e pode ser "
+"ativado pelo administrador usando :setting:`MT_SERVICES` para cada um. Eles "
+"estão sujeitos aos seus termos de uso, portanto, certifique-se de ter "
+"permissão para usá-los como desejar."
 
 #: ../../admin/machine.rst:10
 msgid "The source language can be configured at :ref:`project`."
@@ -13868,38 +14000,47 @@ msgstr "O idioma fonte pode ser configurado na :ref:`project`."
 
 #: ../../admin/machine.rst:13
 msgid "amaGama"
-msgstr ""
+msgstr "amaGama"
 
 #: ../../admin/machine.rst:15
 msgid "Special installation of :ref:`tmserver` run by the authors of Virtaal."
 msgstr ""
+"Instalação especial do :ref:`tmserver` executado pelos autores do Virtaal."
 
 #: ../../admin/machine.rst:17
 msgid ""
 "Turn on this service by adding ``weblate.machinery.tmserver."
 "AmagamaTranslation`` to :setting:`MT_SERVICES`."
 msgstr ""
+"Ative este serviço adicionando ``weblate.machinery.tmserver."
+"AmagamaTranslation`` a :setting:`MT_SERVICES`."
 
 #: ../../admin/machine.rst:22
 msgid ""
 ":ref:`amagama:installation`, :doc:`virtaal:amagama`, `amaGama Translation "
 "Memory <https://amagama.translatehouse.org/>`_"
 msgstr ""
+":ref:`amagama:installation`, :doc:`virtaal:amagama`, `Memória de tradução do "
+"amaGama <https://amagama.translatehouse.org/>`_"
 
 #: ../../admin/machine.rst:29 ../../changes.rst:1728
 msgid "Apertium"
-msgstr ""
+msgstr "Apertium"
 
 #: ../../admin/machine.rst:31
 msgid ""
 "A libre software machine translation platform providing translations to a "
 "limited set of languages."
 msgstr ""
+"Uma plataforma de tradução de máquina de software livre que fornece "
+"traduções para um conjunto limitado de idiomas."
 
 #: ../../admin/machine.rst:34
 msgid ""
 "The recommended way to use Apertium is to run your own Apertium-APy server."
 msgstr ""
+"A maneira recomendada de usar o Apertium é executar seu próprio servidor "
+"Apertium-APy."
 
 #: ../../admin/machine.rst:36
 msgid ""
@@ -13907,36 +14048,45 @@ msgid ""
 "ApertiumAPYTranslation`` to :setting:`MT_SERVICES` and set :setting:"
 "`MT_APERTIUM_APY`."
 msgstr ""
+"Ative este serviço adicionando ``weblate.machinery.apertium."
+"ApertiumAPYTranslation`` a :setting:`MT_SERVICES` e defina "
+":setting:`MT_APERTIUM_APY`."
 
 #: ../../admin/machine.rst:41
 msgid ""
 ":setting:`MT_APERTIUM_APY`, `Apertium website <https://www.apertium.org/>`_, "
 "`Apertium APy documentation <https://wiki.apertium.org/wiki/Apertium-apy>`_"
 msgstr ""
+":setting:`MT_APERTIUM_APY`, `Site do Apertium <https://www.apertium.org/>`_, "
+"`Documentação do Apertium APy <https://wiki.apertium.org/wiki/Apertium-apy>`_"
 
 #: ../../admin/machine.rst:47
 msgid "AWS"
-msgstr ""
+msgstr "AWS"
 
 #: ../../admin/machine.rst:51
 msgid ""
 "Amazon Translate is a neural machine translation service for translating "
 "text to and from English across a breadth of supported languages."
 msgstr ""
+"O Amazon Translate é um serviço de tradução de máquina neural para traduzir "
+"textos de e para o inglês em uma variedade de idiomas compatíveis."
 
 #: ../../admin/machine.rst:54
 msgid ""
 "1. Turn on this service by adding ``weblate.machinery.aws.AWSTranslation`` "
 "to :setting:`MT_SERVICES`."
 msgstr ""
+"1. Ative este serviço adicionando ``weblate.machinery.aws.AWSTranslation`` a "
+":setting:`MT_SERVICES`."
 
 #: ../../admin/machine.rst:57
 msgid "Install the `boto3` module."
-msgstr ""
+msgstr "Instale o módulo `boto3`."
 
 #: ../../admin/machine.rst:58
 msgid "Configure Weblate."
-msgstr ""
+msgstr "Configure o Weblate."
 
 #: ../../admin/machine.rst:62
 msgid ""
@@ -13944,20 +14094,25 @@ msgid ""
 "`MT_AWS_SECRET_ACCESS_KEY` `Amazon Translate Documentation <https://docs.aws."
 "amazon.com/translate/>`_"
 msgstr ""
+":setting:`MT_AWS_REGION`, :setting:`MT_AWS_ACCESS_KEY_ID`, "
+":setting:`MT_AWS_SECRET_ACCESS_KEY` `Documentação do Amazon Translate "
+"<https://docs.aws.amazon.com/translate/>`_"
 
 #: ../../admin/machine.rst:68
 msgid "Baidu API machine translation"
-msgstr ""
+msgstr "Tradução de máquina do Baidu API"
 
 #: ../../admin/machine.rst:72
 msgid "Machine translation service provided by Baidu."
-msgstr ""
+msgstr "Serviço de tradução de máquina fornecido pelo Baidu."
 
 #: ../../admin/machine.rst:74
 msgid ""
 "This service uses an API and you need to obtain an ID and API key from Baidu "
 "to use it."
 msgstr ""
+"Este serviço usa uma API e você precisa obter um ID e uma chave de API do "
+"Baidu para usá-lo."
 
 #: ../../admin/machine.rst:76
 msgid ""
@@ -13965,16 +14120,21 @@ msgid ""
 "to :setting:`MT_SERVICES` and set :setting:`MT_BAIDU_ID` and :setting:"
 "`MT_BAIDU_SECRET`."
 msgstr ""
+"Ative este serviço adicionando ``weblate.machinery.baidu.BaiduTranslation`` "
+"a :setting:`MT_SERVICES` e defina :setting:`MT_BAIDU_ID` e "
+":setting:`MT_BAIDU_SECRET`."
 
 #: ../../admin/machine.rst:82
 msgid ""
 ":setting:`MT_BAIDU_ID`, :setting:`MT_BAIDU_SECRET` `Baidu Translate API "
 "<https://api.fanyi.baidu.com/api/trans/product/index>`_"
 msgstr ""
+":setting:`MT_BAIDU_ID`, :setting:`MT_BAIDU_SECRET` `API de tradução do Baidu "
+"<https://api.fanyi.baidu.com/api/trans/product/index>`_"
 
 #: ../../admin/machine.rst:89
 msgid "DeepL"
-msgstr ""
+msgstr "DeepL"
 
 #: ../../admin/machine.rst:93
 msgid ""
@@ -13982,12 +14142,17 @@ msgid ""
 "languages. You need to purchase :guilabel:`DeepL API` subscription or you "
 "can use legacy :guilabel:`DeepL Pro (classic)` plan."
 msgstr ""
+"DeepL é um serviço pago que fornece boa tradução de máquina para alguns "
+"idiomas. Você precisa comprar a assinatura do :guilabel:`DeepL API` ou pode "
+"usar o plano legado :guilabel:`DeepL Pro (classic) `."
 
 #: ../../admin/machine.rst:97
 msgid ""
 "Turn on this service by adding ``weblate.machinery.deepl.DeepLTranslation`` "
 "to :setting:`MT_SERVICES` and set :setting:`MT_DEEPL_KEY`."
 msgstr ""
+"Ative este serviço adicionando ``weblate.machinery.deepl.DeepLTranslation`` "
+"a :setting:`MT_SERVICES` e definda :setting:`MT_DEEPL_KEY`."
 
 #: ../../admin/machine.rst:102
 msgid ""
@@ -13996,6 +14161,10 @@ msgid ""
 "version in this case). You can toggle this by :setting:"
 "`MT_DEEPL_API_VERSION`."
 msgstr ""
+"No caso de você ter uma assinatura para ferramentas CAT, você deve usar a "
+"\"API v1\" em vez da \"v2\" padrão usada pelo Weblate (não é realmente uma "
+"versão da API neste caso). Você pode alternar isso "
+":setting:`MT_DEEPL_API_VERSION`."
 
 #: ../../admin/machine.rst:108
 msgid ""
@@ -14003,15 +14172,19 @@ msgid ""
 "<https://www.deepl.com/>`_, `DeepL pricing <https://www.deepl.com/pro>`_, "
 "`DeepL API documentation <https://www.deepl.com/api.html>`_"
 msgstr ""
+":setting:`MT_DEEPL_KEY`, :setting:`MT_DEEPL_API_VERSION`, `Site do DeepL "
+"<https://www.deepl.com/>`_, `Preços do DeepL <https://www.deepl.com/pro>`_, `"
+"Documentação do DeepL <https://www.deepl.com/api.html>`_"
 
 #: ../../admin/machine.rst:118
 msgid "Glosbe"
-msgstr ""
+msgstr "Glosbe"
 
 #: ../../admin/machine.rst:120
 msgid ""
 "Free dictionary and translation memory for almost every living language."
 msgstr ""
+"Dicionário gratuito e memória de tradução para quase todos os idiomas vivos."
 
 #: ../../admin/machine.rst:122
 msgid ""
@@ -14019,50 +14192,63 @@ msgid ""
 "is a limit of calls that may be done from one IP in a set period of time, to "
 "prevent abuse."
 msgstr ""
+"O uso da API é gratuito, mas está sujeito à licença da fonte de dados usada. "
+"Existe um limite de chamadas que podem ser feitas de um IP em um determinado "
+"período de tempo, para evitar abusos."
 
 #: ../../admin/machine.rst:126
 msgid ""
 "Turn on this service by adding ``weblate.machinery.glosbe."
 "GlosbeTranslation`` to :setting:`MT_SERVICES`."
 msgstr ""
+"Ative este serviço adicionando ``weblate.machinery.glosbe.GlosbeTranslation``"
+" a :setting:`MT_SERVICES`."
 
 #: ../../admin/machine.rst:131
 msgid "`Glosbe website <https://glosbe.com/>`_"
-msgstr ""
+msgstr "`Site do Glosbe <https://glosbe.com/>`_"
 
 #: ../../admin/machine.rst:136
 msgid "Google Translate"
-msgstr ""
+msgstr "Google Tradutor"
 
 #: ../../admin/machine.rst:138
 msgid "Machine translation service provided by Google."
-msgstr ""
+msgstr "Serviço de tradução de máquina fornecido pelo Google."
 
 #: ../../admin/machine.rst:140
 msgid ""
 "This service uses the Google Translation API, and you need to obtain an API "
 "key and turn on billing in the Google API console."
 msgstr ""
+"Este serviço usa a API do Google Tradutor, e você precisa obter uma chave de "
+"API e ativar a cobrança no console da API do Google."
 
 #: ../../admin/machine.rst:143
 msgid ""
 "To turn on this service, add ``weblate.machinery.google.GoogleTranslation`` "
 "to :setting:`MT_SERVICES` and set :setting:`MT_GOOGLE_KEY`."
 msgstr ""
+"Para ativar este serviço, adicione ``weblate.machinery.google."
+"GoogleTranslation`` em :setting:`MT_SERVICES` e defina "
+":setting:`MT_GOOGLE_KEY`."
 
 #: ../../admin/machine.rst:148
 msgid ""
 ":setting:`MT_GOOGLE_KEY`, `Google translate documentation <https://cloud."
 "google.com/translate/docs>`_"
 msgstr ""
+":setting:`MT_GOOGLE_KEY`, `Documentação do Google Tradutor <https://cloud."
+"google.com/translate/docs>`_"
 
 #: ../../admin/machine.rst:154
 msgid "Google Translate API V3 (Advanced)"
-msgstr ""
+msgstr "API V3 do Google Tradutor (Avançado)"
 
 #: ../../admin/machine.rst:156
 msgid "Machine translation service provided by Google Cloud services."
 msgstr ""
+"Serviço de tradução de máquina fornecido pelos serviços do Google Cloud."
 
 #: ../../admin/machine.rst:158
 msgid ""
@@ -14070,20 +14256,25 @@ msgid ""
 "service, add ``weblate.machinery.googlev3.GoogleV3Translation`` to :setting:"
 "`MT_SERVICES` and set"
 msgstr ""
+"Este serviço difere do anterior na forma como autentica. Para habilitar o "
+"serviço, adicione ``weblate.machinery.googlev3.GoogleV3Translation`` para "
+":setting:`MT_SERVICES` e defina"
 
 #: ../../admin/machine.rst:162
 msgid ":setting:`MT_GOOGLE_CREDENTIALS`"
-msgstr ""
+msgstr ":setting:`MT_GOOGLE_CREDENTIALS`"
 
 #: ../../admin/machine.rst:163
 msgid ":setting:`MT_GOOGLE_PROJECT`"
-msgstr ""
+msgstr ":setting:`MT_GOOGLE_PROJECT`"
 
 #: ../../admin/machine.rst:165
 msgid ""
 "If `location` fails, you may also need to specify :setting:"
 "`MT_GOOGLE_LOCATION`."
 msgstr ""
+"Se `location` falhar, você também pode precisar especificar "
+":setting:`MT_GOOGLE_LOCATION`."
 
 #: ../../admin/machine.rst:169
 msgid ""
@@ -14091,6 +14282,9 @@ msgid ""
 "`MT_GOOGLE_LOCATION` `Google translate documentation <https://cloud.google."
 "com/translate/docs>`_"
 msgstr ""
+":setting:`MT_GOOGLE_CREDENTIALS`, :setting:`MT_GOOGLE_PROJECT`, "
+":setting:`MT_GOOGLE_LOCATION` `Documentação do Google Tradutor <https://cloud"
+".google.com/translate/docs>`_"
 
 #: ../../admin/machine.rst:175
 msgid "Microsoft Cognitive Services Translator"
