@@ -72,6 +72,7 @@ REQUIRES = [
     "borgbackup",
     "pyparsing",
     "pyahocorasick",
+    "python-redis-lock",
 ]
 
 OPTIONAL = [
