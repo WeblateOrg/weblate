@@ -23,12 +23,15 @@ from typing import Dict, Optional, Set
 from django.core.cache import cache
 from django.db import models
 from django.db.models import Count, Q
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 from weblate.auth.models import User
 from weblate.lang.models import Language
 from weblate.memory.models import Memory
 from weblate.screenshots.models import Screenshot
 from weblate.trans.models import Change, Component, ComponentList, Project, Translation
+from weblate.utils.decorators import disable_for_loaddata
 from weblate.utils.stats import GlobalStats, ProjectLanguage, prefetch_stats
 
 BASIC_KEYS = {
@@ -131,6 +134,24 @@ class MetricsManager(models.Manager):
                     date=date,
                 )
                 for name, value in data.items()
+            ],
+            ignore_conflicts=True,
+        )
+
+    def initialize_metrics(self, scope: int, relation: int, secondary: int = 0):
+        today = datetime.date.today()
+        # 2 years + one day for leap years
+        self.bulk_create(
+            [
+                Metric(
+                    scope=scope,
+                    relation=relation,
+                    secondary=secondary,
+                    name="changes",
+                    value=0,
+                    date=today - datetime.timedelta(days=day),
+                )
+                for day in range(2 * 365 + 1)
             ],
             ignore_conflicts=True,
         )
@@ -413,3 +434,30 @@ class Metric(models.Model):
 
     def __str__(self):
         return f"<{self.scope}.{self.relation}>:{self.date}:{self.name}={self.value}"
+
+
+@receiver(post_save, sender=Project)
+@disable_for_loaddata
+def create_metrics_project(sender, instance, created=False, **kwargs):
+    if created:
+        Metric.objects.initialize_metrics(
+            scope=Metric.SCOPE_PROJECT, relation=instance.pk
+        )
+
+
+@receiver(post_save, sender=Component)
+@disable_for_loaddata
+def create_metrics_component(sender, instance, created=False, **kwargs):
+    if created:
+        Metric.objects.initialize_metrics(
+            scope=Metric.SCOPE_COMPONENT, relation=instance.pk
+        )
+
+
+@receiver(post_save, sender=Translation)
+@disable_for_loaddata
+def create_metrics_translation(sender, instance, created=False, **kwargs):
+    if created:
+        Metric.objects.initialize_metrics(
+            scope=Metric.SCOPE_TRANSLATION, relation=instance.pk
+        )
