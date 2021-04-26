@@ -24,12 +24,12 @@ repos:
     hooks:
       - id: isort
   - repo: https://github.com/asottile/pyupgrade
-    rev: v2.12.0
+    rev: v2.13.0
     hooks:
       - id: pyupgrade
         args: [--py36-plus]
   - repo: https://github.com/psf/black
-    rev: 20.8b1
+    rev: 21.4b0
     hooks:
       - id: black
   - repo: https://github.com/PyCQA/flake8
@@ -74,7 +74,7 @@ repos:
           |yaml|yml\
           )$"
   - repo: https://github.com/pre-commit/mirrors-eslint
-    rev: v7.24.0
+    rev: v7.25.0
     hooks:
       - id: eslint
         args: ["--format=compact"]
