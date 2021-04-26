@@ -71,6 +71,7 @@ from weblate.trans.feeds import (
     TranslationChangesFeed,
 )
 from weblate.trans.views.changes import ChangesCSVView, ChangesView, show_change
+from weblate.utils.version import VERSION
 
 handler400 = weblate.trans.views.error.bad_request
 handler403 = weblate.trans.views.error.denied
@@ -815,7 +816,7 @@ real_patterns = [
     ),
     path(
         "js/i18n/",
-        cache_page(3600)(
+        cache_page(3600, key_prefix=VERSION)(
             vary_on_cookie(
                 django.views.i18n.JavaScriptCatalog.as_view(packages=["weblate"])
             )
@@ -933,13 +934,13 @@ real_patterns = [
     # Sitemap
     path(
         "sitemap.xml",
-        cache_page(3600)(django.contrib.sitemaps.views.index),
+        cache_page(3600, key_prefix=VERSION)(django.contrib.sitemaps.views.index),
         {"sitemaps": SITEMAPS, "sitemap_url_name": "sitemap"},
         name="sitemap-index",
     ),
     path(
         "sitemap-<slug:section>.xml",
-        cache_page(3600)(django.contrib.sitemaps.views.sitemap),
+        cache_page(3600, key_prefix=VERSION)(django.contrib.sitemaps.views.sitemap),
         {"sitemaps": SITEMAPS},
         name="sitemap",
     ),
