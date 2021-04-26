@@ -16,6 +16,7 @@ Not yet released.
 * Improved error messages when creating pull requests.
 * Fixed creating pull requests on Pagure.
 * Fixed triggering automatically installed add-ons.
+* Fixed possible caching issues on upgrade.
 
 Weblate 4.6
 -----------
