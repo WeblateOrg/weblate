@@ -1,4 +1,4 @@
-/*! @sentry/browser 6.3.0 (8bcd596) | https://github.com/getsentry/sentry-javascript */
+/*! @sentry/browser 6.3.1 (7962eee) | https://github.com/getsentry/sentry-javascript */
 var Sentry = (function (exports) {
     /*! *****************************************************************************
     Copyright (c) Microsoft Corporation. All rights reserved.
@@ -3796,7 +3796,7 @@ var Sentry = (function (exports) {
             }
             else {
                 this._sendSession(session);
-                // After sending, we set init false to inidcate it's not the first occurence
+                // After sending, we set init false to indicate it's not the first occurrence
                 session.update({ init: false });
             }
         };
@@ -4042,10 +4042,10 @@ var Sentry = (function (exports) {
          * @param event The event that will be filled with all integrations.
          */
         BaseClient.prototype._applyIntegrationsMetadata = function (event) {
-            var sdkInfo = event.sdk;
             var integrationsArray = Object.keys(this._integrations);
-            if (sdkInfo && integrationsArray.length > 0) {
-                sdkInfo.integrations = integrationsArray;
+            if (integrationsArray.length > 0) {
+                event.sdk = event.sdk || {};
+                event.sdk.integrations = __spread((event.sdk.integrations || []), integrationsArray);
             }
         };
         /**
@@ -4256,10 +4256,7 @@ var Sentry = (function (exports) {
         if (!sdkInfo) {
             return event;
         }
-        event.sdk = event.sdk || {
-            name: sdkInfo.name,
-            version: sdkInfo.version,
-        };
+        event.sdk = event.sdk || {};
         event.sdk.name = event.sdk.name || sdkInfo.name;
         event.sdk.version = event.sdk.version || sdkInfo.version;
         event.sdk.integrations = __spread((event.sdk.integrations || []), (sdkInfo.integrations || []));
@@ -4336,7 +4333,7 @@ var Sentry = (function (exports) {
         hub.bindClient(client);
     }
 
-    var SDK_VERSION = '6.3.0';
+    var SDK_VERSION = '6.3.1';
 
     var originalFunctionToString;
     /** Patch toString calls to return proper name for wrapped functions */
@@ -6499,23 +6496,25 @@ var Sentry = (function (exports) {
             return;
         }
         var hub = getCurrentHub();
-        if ('startSession' in hub) {
-            // The only way for this to be false is for there to be a version mismatch between @sentry/browser (>= 6.0.0) and
-            // @sentry/hub (< 5.27.0). In the simple case, there won't ever be such a mismatch, because the two packages are
-            // pinned at the same version in package.json, but there are edge cases where it's possible'. See
-            // https://github.com/getsentry/sentry-javascript/issues/3234 and
-            // https://github.com/getsentry/sentry-javascript/issues/3207.
-            hub.startSession();
-            hub.captureSession();
-            // We want to create a session for every navigation as well
-            addInstrumentationHandler({
-                callback: function () {
-                    hub.startSession();
-                    hub.captureSession();
-                },
-                type: 'history',
-            });
+        // The only way for this to be false is for there to be a version mismatch between @sentry/browser (>= 6.0.0) and
+        // @sentry/hub (< 5.27.0). In the simple case, there won't ever be such a mismatch, because the two packages are
+        // pinned at the same version in package.json, but there are edge cases where it's possible. See
+        // https://github.com/getsentry/sentry-javascript/issues/3207 and
+        // https://github.com/getsentry/sentry-javascript/issues/3234 and
+        // https://github.com/getsentry/sentry-javascript/issues/3278.
+        if (typeof hub.startSession !== 'function' || typeof hub.captureSession !== 'function') {
+            return;
         }
+        hub.startSession();
+        hub.captureSession();
+        // We want to create a session for every navigation as well
+        addInstrumentationHandler({
+            callback: function () {
+                hub.startSession();
+                hub.captureSession();
+            },
+            type: 'history',
+        });
     }
 
     // TODO: Remove in the next major release and rely only on @sentry/core SDK_VERSION and SdkInfo metadata
