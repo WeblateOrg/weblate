@@ -530,6 +530,8 @@ class TranslationFormat:
 
     def cleanup_unused(self) -> List[str]:
         """Removes unused strings, returning list of additional changed files."""
+        if not self.template_store:
+            return []
         existing = {unit.context for unit in self.template_store.mono_units}
         changed = False
 
