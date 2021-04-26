@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.7\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-04-20 11:25+0000\n"
-"PO-Revision-Date: 2021-04-26 06:32+0000\n"
+"PO-Revision-Date: 2021-04-26 08:53+0000\n"
 "Last-Translator: Michalis <michalisntovas@yahoo.gr>\n"
 "Language-Team: Greek <https://hosted.weblate.org/projects/weblate/"
 "application/el/>\n"
@@ -1207,10 +1207,8 @@ msgid "Use fuzzy matching"
 msgstr ""
 
 #: weblate/addons/forms.py:143
-#, fuzzy
-#| msgid "C format string"
 msgid "Commit squashing"
-msgstr "Κείμενο μορφής C"
+msgstr "Συμπίεση υποβολών"
 
 #: weblate/addons/forms.py:146
 msgid "All commits into one"
@@ -1508,11 +1506,11 @@ msgstr ""
 
 #: weblate/addons/git.py:34
 msgid "Squash Git commits"
-msgstr "Συγχώνευση Git εγγραφών"
+msgstr "Συμπίεση υποβολών στο Git"
 
 #: weblate/addons/git.py:35
 msgid "Squash Git commits prior to pushing changes."
-msgstr "Συγχώνευση των Git εγγραφών πριν από την προώθησή τους."
+msgstr "Συμπίεση των υποβολών στο Git πριν από την προώθησή τους."
 
 #: weblate/addons/json.py:29
 msgid "Customize JSON output"
@@ -1792,7 +1790,7 @@ msgstr "Μεταφόρτωση μεταφράσεων"
 #. Translators: Permission name
 #: weblate/auth/data.py:110
 msgid "Access the internal repository"
-msgstr "Πρόσβαση στο  αποθετήριο"
+msgstr "Πρόσβαση στο εσωτερικό αποθετήριο"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:112
@@ -1952,7 +1950,7 @@ msgstr "Χρήστες"
 #: weblate/auth/data.py:219
 msgctxt "Access-control group"
 msgid "Reviewers"
-msgstr "Επιθεωρητές"
+msgstr "Αναθεωρητές"
 
 #: weblate/auth/data.py:220
 msgctxt "Access-control group"
@@ -2106,7 +2104,7 @@ msgstr "Γλώσσες"
 
 #: weblate/auth/models.py:154
 msgid "Internal Weblate group"
-msgstr "Εσωτερικό ομάδα Weblate"
+msgstr "Εσωτερική ομάδα Weblate"
 
 #: weblate/auth/models.py:309 weblate/utils/forms.py:39
 #: weblate/utils/validators.py:173
@@ -4033,11 +4031,10 @@ msgid ""
 msgstr ""
 
 #: weblate/templates/accounts/contact.html:18
-#, fuzzy, python-format
-#| msgid "You can contact maintainers of this server here."
+#, python-format
 msgid "You can only contact administrators of %(site_title)s here."
 msgstr ""
-"Μπορείτε να επικοινωνήσετε με τους συντηρητές αυτού του διακομιστή εδώ."
+"Εδώ μπορείτε να επικοινωνήσετε μόνο με τους διαχειριστές του %(site_title)s."
 
 #: weblate/templates/accounts/contact.html:20
 #, fuzzy
@@ -4362,12 +4359,10 @@ msgid "Notification settings"
 msgstr "Ρυθμίσεις ειδοποιήσεων"
 
 #: weblate/templates/accounts/profile.html:111
-#, fuzzy
-#| msgid "Your name and email will appear as author on the commits."
 msgid "Your name and e-mail will appear as commit authorship."
 msgstr ""
-"Το όνομα σας και η ηλεκτρονική σας διεύθυνση θα εμφανίζεται ως δημιουργός "
-"στους συμμετέχοντες."
+"Το όνομα σας και η ηλεκτρονική σας διεύθυνση θα εμφανίζονται στους "
+"συμμετέχοντες."
 
 #: weblate/templates/accounts/profile.html:119
 #: weblate/templates/manage/users_check.html:26
@@ -4549,19 +4544,14 @@ msgstr ""
 "χρησιμοποιηθούν οι μεταφράσεις."
 
 #: weblate/templates/accounts/profile.html:318
-#, fuzzy
-#| msgid ""
-#| "By registering you agree to use your name and email in the commits and "
-#| "provide your contribution under license defined by each translated "
-#| "project."
 msgid ""
 "By registering you agree to use your name and e-mail in the commits, and "
 "provide your contribution under the license defined by each localization "
 "project."
 msgstr ""
-"Αφού εγγραφείτε, συμφωνείτε να χρησιμοποιηθούν το όνομά σας και η διεύθυνσή "
-"σας στους συμμετέχοντες του Git και παρέχετε τη συνεισφορά σας υπό την άδεια "
-"που ορίζεται από κάθε μεταφραστικό έργο."
+"Αφού εγγραφείτε, συμφωνείτε να χρησιμοποιηθούν το όνομά σας και η "
+"ηλεκτρονική διεύθυνσή σας στους συμμετέχοντες, και παρέχετε τη συνεισφορά "
+"σας υπό την άδεια που ορίζεται σε κάθε μεταφραστικό έργο."
 
 #: weblate/templates/accounts/profile.html:323
 #, fuzzy
@@ -4805,10 +4795,8 @@ msgstr[0] "Αυτή τη στιγμή είναι εγκατεστημένο %(co
 msgstr[1] "Αυτή τη στιγμή είναι εγκατεστημένα %(count)s πρόσθετα."
 
 #: weblate/templates/addons/addon_list.html:51
-#, fuzzy
-#| msgid "Enable addon:"
 msgid "Available add-ons"
-msgstr "Ενεργοποίηση πρόσθετου:"
+msgstr "Διαθέσιμα πρόσθετα"
 
 #: weblate/templates/addons/addon_list.html:61
 msgid "Install"
@@ -4960,6 +4948,7 @@ msgstr "Slug URL έργου"
 msgid ""
 "Weblate commits from components within this repository will be squashed."
 msgstr ""
+"Οι Weblate υποβολές από στοιχεία εντός αυτού του αποθετηρίου θα συμπιεσθούν."
 
 #: weblate/templates/addons/squash_help.html:7
 msgid ""
@@ -4998,7 +4987,7 @@ msgstr "Αποτυχημένοι έλεγχοι στο %(project)s — %(languag
 #: weblate/templates/base.html:174
 #, python-format
 msgid "Failed checks in %(project)s"
-msgstr "Αποτυχημένοι  έλεγχοι στο %(project)s"
+msgstr "Αποτυχημένοι έλεγχοι στο %(project)s"
 
 #: weblate/templates/base.html:180
 #, python-format
@@ -8328,10 +8317,8 @@ msgid "Translated without any problems"
 msgstr "Διαδικασία μετάφρασης"
 
 #: weblate/templates/snippets/progress.html:11
-#, fuzzy
-#| msgid "Needs editing"
 msgid "Needs attention"
-msgstr "Χρειάζεται επεξεργασία"
+msgstr "Χρειάζεται προσοχή"
 
 #: weblate/templates/snippets/project-component-settings.html:5
 msgid ""
@@ -9218,6 +9205,8 @@ msgid ""
 "Only reviewers can change approved strings, please add a suggestion if you "
 "think the string should be changed."
 msgstr ""
+"Μόνο οι αναθεωρητές μπορούν να αλλάξουν εγκεκριμένα κείμενα, προσθέστε μια "
+"πρόταση εάν πιστεύετε ότι το κείμενο πρέπει να αλλάξει."
 
 #: weblate/templates/translate.html:205
 msgid ""
@@ -9896,6 +9885,8 @@ msgid ""
 "Strings are usually marked as \"Needs editing\" after the source string is "
 "updated, or when marked as such manually."
 msgstr ""
+"Τα κείμενα επισημαίνονται συνήθως ως \"Χρειάζεται επεξεργασία\" μετά την "
+"ενημέρωση του πηγαίου κειμένου ή όταν επισημαίνονται έτσι χειροκίνητα."
 
 #: weblate/trans/forms.py:446
 #, fuzzy
