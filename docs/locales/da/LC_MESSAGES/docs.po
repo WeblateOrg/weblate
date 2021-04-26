@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-04-20 13:26+0200\n"
-"PO-Revision-Date: 2021-04-23 10:32+0000\n"
+"PO-Revision-Date: 2021-04-26 12:57+0000\n"
 "Last-Translator: Aputsiaĸ Niels Janussen <aj@isit.gl>\n"
 "Language-Team: Danish <https://hosted.weblate.org/projects/weblate/"
 "documentation/da/>\n"
@@ -858,20 +858,25 @@ msgstr "Lås komponent, hvorved oversættelser forhindres"
 #: ../../admin/access.rst:461
 msgid "Add glossary entry [`Administration`, `Manage glossary`, `Power user`]"
 msgstr ""
+"Tilføj post i ordliste [`Administration`, `Håndtér ordliste`, `Superbruger`]"
 
 #: ../../admin/access.rst:463
 msgid "Edit glossary entry [`Administration`, `Manage glossary`, `Power user`]"
 msgstr ""
+"Redigér post i ordliste [`Administration`, `Håndtér ordliste`, `Superbruger`]"
 
 #: ../../admin/access.rst:465
 msgid ""
 "Delete glossary entry [`Administration`, `Manage glossary`, `Power user`]"
 msgstr ""
+"Slet post i ordliste [`Administration`, `Håndtér ordliste`, `Superbruger`]"
 
 #: ../../admin/access.rst:467
 msgid ""
 "Upload glossary entries [`Administration`, `Manage glossary`, `Power user`]"
 msgstr ""
+"Upload poster i ordliste [`Administration`, `Håndtér ordliste`, "
+"`Superbruger`]"
 
 #: ../../admin/access.rst:470 ../../user/translating.rst:306
 #, fuzzy
@@ -1669,7 +1674,7 @@ msgstr "Komponent navn"
 
 #: ../../admin/addons.rst:233
 msgid "Flag unchanged translations as \"Needs editing\""
-msgstr "Markér uændrede oversættelser som \"Behøver redigering\""
+msgstr "Markér uændrede oversættelser som \"Kræver redigering\""
 
 #: ../../admin/addons.rst:240
 msgid "``weblate.flags.same_edit``"
@@ -1701,7 +1706,7 @@ msgstr "Komponent navn"
 
 #: ../../admin/addons.rst:260
 msgid "Flag new source strings as \"Needs editing\""
-msgstr "Markér nye kildestrenge som \"Behøver redigering\""
+msgstr "Markér nye kildestrenge som \"Kræver redigering\""
 
 #: ../../admin/addons.rst:265
 msgid "``weblate.flags.source_edit``"
@@ -1719,7 +1724,7 @@ msgstr ""
 
 #: ../../admin/addons.rst:280
 msgid "Flag new translations as \"Needs editing\""
-msgstr "Markér nye oversættelser som \"Behøver redigering\""
+msgstr "Markér nye oversættelser som \"Kræver redigering\""
 
 #: ../../admin/addons.rst:285
 msgid "``weblate.flags.target_edit``"
@@ -3668,6 +3673,7 @@ msgstr ""
 msgid ""
 "Indicates forbidden translation in a glossary, see :ref:`glossary-forbidden`."
 msgstr ""
+"Indikerer forbudt oversættelse i en ordliste, se ref:`glossary-forbidden`."
 
 #: ../../admin/checks.rst:89
 msgid ""
@@ -3704,10 +3710,8 @@ msgid "``check-glossary``"
 msgstr "Komponent navn"
 
 #: ../../admin/checks.rst:94
-#, fuzzy
-#| msgid "Added to glossary"
 msgid "Enable the \"Does not follow glossary\" quality check."
-msgstr "Tilføjet til ordlisten"
+msgstr "Slå kvalitetstjekket \"Følger ikke ordlisten\" til."
 
 #: ../../admin/checks.rst:95
 msgid "``ignore-bbcode``"
@@ -3732,10 +3736,8 @@ msgid "``ignore-check-glossary``"
 msgstr "Filformat"
 
 #: ../../admin/checks.rst:100
-#, fuzzy
-#| msgid "Cached template loader"
 msgid "Skip the \"Does not follow glossary\" quality check."
-msgstr "Cachet skabelonindlæser"
+msgstr "Spring kvalitetstjekket \"Følger ikke ordlisten\" over."
 
 #: ../../admin/checks.rst:101
 msgid "``ignore-double-space``"
@@ -13592,7 +13594,7 @@ msgstr ""
 
 #: ../../admin/optionals.rst:273
 msgid "Adding to glossary"
-msgstr ""
+msgstr "Tilføjer til ordliste"
 
 #: ../../admin/optionals.rst:273
 msgid "``GLOSSARY``"
@@ -14822,22 +14824,24 @@ msgid ""
 msgstr ""
 
 #: ../../admin/projects.rst:804
-#, fuzzy
-#| msgid "Manage glossary"
 msgid "Use as a glossary"
-msgstr "Håndter ordliste"
+msgstr "Brug som ordliste"
 
 #: ../../admin/projects.rst:808
 msgid ""
 "Allows using this component as a glossary. You can configure how it will be "
 "listed using :ref:`component-glossary_color`."
 msgstr ""
+"Tillader at bruge denne komponent som en ordliste. Du kan konfigurere, "
+"hvordan den vil blive vist ved hjælp af :ref:`component-glossary_color`."
 
 #: ../../admin/projects.rst:811
 msgid ""
 "The glossary will be accessible in all projects defined by :ref:`component-"
 "links`."
 msgstr ""
+"Ordlisten er tilgængelig i alle projekter defineret af: ref: `component-"
+"links`."
 
 #: ../../admin/projects.rst:813
 msgid ""
@@ -14852,14 +14856,12 @@ msgid ":ref:`glossary`"
 msgstr "Komponent navn"
 
 #: ../../admin/projects.rst:823
-#, fuzzy
-#| msgid "Glossary"
 msgid "Glossary color"
-msgstr "Ordliste"
+msgstr "Farve for ordliste"
 
 #: ../../admin/projects.rst:825
 msgid "Display color for a glossary used when showing word matches."
-msgstr ""
+msgstr "Visningsfarve for en ordliste, der bruges, når der vises ordmatch."
 
 #: ../../admin/projects.rst:830
 msgid "Template markup"
@@ -15830,6 +15832,8 @@ msgid ""
 "The glossary API is removed, use regular translation API to access "
 "glossaries."
 msgstr ""
+"Ordliste-API'en er fjernet, brug den almindelige oversættelses-API til at få "
+"adgang til ordlister."
 
 #: ../../admin/upgrade.rst:203
 msgid ""
@@ -18704,7 +18708,7 @@ msgstr ""
 
 #: ../../changes.rst:80
 msgid "Fixed editing of glossary flags in some corner cases."
-msgstr ""
+msgstr "Fast redigering af ordlisteflag i nogle specialtifælde."
 
 #: ../../changes.rst:81
 msgid "Extend metrics usage to improve performance of several pages."
@@ -18732,7 +18736,7 @@ msgstr "Markdown-links"
 
 #: ../../changes.rst:86
 msgid "Indicate glossary and source language in breadcrumbs."
-msgstr ""
+msgstr "Angiv ordliste og kildesprog i brødkrummerne."
 
 #: ../../changes.rst:87
 #, fuzzy
@@ -21600,10 +21604,10 @@ msgid "Removed support for soon shutdown libravatar service."
 msgstr ""
 
 #: ../../changes.rst:926
-#, fuzzy
-#| msgid "Flag unchanged translations as \"Needs editing\""
 msgid "New add-on to mark unchanged translations as needing edit."
-msgstr "Markér uændrede oversættelser som \"Behøver redigering\""
+msgstr ""
+"Ny tilføjelsesfunktion til at markere, at uændrede oversættelser kræver "
+"redigering."
 
 #: ../../changes.rst:927
 msgid "Add support for jumping to specific location while translating."
@@ -26789,10 +26793,8 @@ msgid ""
 msgstr ""
 
 #: ../../devel/html.rst:65
-#, fuzzy
-#| msgid "Strings needing action"
 msgid "String extraction for Weblate CDN"
-msgstr "Strenge der behøver handling"
+msgstr "Udtræk af strenge til Weblate CDN"
 
 #: ../../devel/html.rst:67
 msgid ""
@@ -26927,10 +26929,8 @@ msgid ":ref:`adding-projects`, :ref:`faq-submodule`"
 msgstr ""
 
 #: ../../devel/integration.rst:22
-#, fuzzy
-#| msgid "Strings needing action"
 msgid "Fetching updated translations from Weblate"
-msgstr "Strenge der behøver handling"
+msgstr "Henter opdaterede oversættelser fra Weblate"
 
 #: ../../devel/integration.rst:24
 msgid ""
@@ -30732,10 +30732,8 @@ msgid ""
 msgstr ""
 
 #: ../../user/checks.rst:65
-#, fuzzy
-#| msgid "Found duplicated string"
 msgid "Consecutive duplicated words"
-msgstr "Fandt dubleret streng"
+msgstr "Fortløbende duplikerede ord"
 
 #: ../../user/checks.rst:67
 msgid "*Text contains the same word twice in a row:*"
@@ -31435,10 +31433,8 @@ msgid ""
 msgstr ""
 
 #: ../../user/checks.rst:528
-#, fuzzy
-#| msgid "Kashida used"
 msgid "Kashida letter used"
-msgstr "Kashida brugt"
+msgstr "Kashidategn anvendt"
 
 #: ../../user/checks.rst:530
 msgid "*The decorative kashida letters should not be used*"
@@ -31644,10 +31640,8 @@ msgid "`Ellipsis on Wikipedia <https://en.wikipedia.org/wiki/Ellipsis>`_"
 msgstr ""
 
 #: ../../user/checks.rst:692
-#, fuzzy
-#| msgid "Trailing exclamation"
 msgid "Mismatched exclamation mark"
-msgstr "Efterstillede udråbstegn"
+msgstr "Forkert match for udråbstegn"
 
 #: ../../user/checks.rst:694
 msgid "*Source and translation do not both end with an exclamation mark*"
@@ -31687,10 +31681,8 @@ msgid "`Full stop on Wikipedia <https://en.wikipedia.org/wiki/Full_stop>`_"
 msgstr ""
 
 #: ../../user/checks.rst:723
-#, fuzzy
-#| msgid "Trailing question"
 msgid "Mismatched question mark"
-msgstr "Efterstillede spørgsmålstegn"
+msgstr "Forkert match for spørgsmålstegn"
 
 #: ../../user/checks.rst:725
 #, fuzzy
@@ -31732,7 +31724,7 @@ msgstr ""
 
 #: ../../user/checks.rst:753
 msgid "Mismatching line breaks"
-msgstr ""
+msgstr "Forkert match for linjeskift"
 
 #: ../../user/checks.rst:755
 msgid "*Number of new lines in translation does not match source*"
@@ -31798,10 +31790,8 @@ msgid ":ref:`custom-checks`"
 msgstr ""
 
 #: ../../user/checks.rst:808
-#, fuzzy
-#| msgid "Location strings"
 msgid "Punctuation spacing"
-msgstr "Placeringsstrenge"
+msgstr "Afstand mellem tegnsætninger"
 
 #: ../../user/checks.rst:810
 msgid "*Missing non breakable space before double punctuation sign*"
@@ -32300,10 +32290,8 @@ msgid ""
 msgstr ""
 
 #: ../../user/files.rst:88
-#, fuzzy
-#| msgid "Add as translation needing edit"
 msgid "Add as translation needing edit (``fuzzy``)"
-msgstr "Tilføj som en oversættelse der behøver redigering"
+msgstr "Tilføj som en oversættelse der kræver redigering (``fuzzy``)"
 
 #: ../../user/files.rst:88
 msgid ""
@@ -32503,7 +32491,7 @@ msgstr ""
 
 #: ../../user/glossary.rst:84
 msgid "Terminology"
-msgstr ""
+msgstr "Terminologi"
 
 #: ../../user/glossary.rst:88
 msgid ""
@@ -33504,10 +33492,9 @@ msgid ":kbd:`Cmd+Shift+Enter`"
 msgstr ""
 
 #: ../../user/translating.rst:187
-#, fuzzy
-#| msgid "Add as translation needing edit"
 msgid "Unmark translation as needing edit and submit it."
-msgstr "Tilføj som en oversættelse der behøver redigering"
+msgstr ""
+"Fjern oversættelsens markering af, at der kræver redigering og indsend den."
 
 #: ../../user/translating.rst:191
 msgid ":kbd:`Ctrl+E` or"
@@ -34867,7 +34854,7 @@ msgstr ""
 
 #: ../../workflows.rst:37
 msgid "Needs editing"
-msgstr "Behøver redigering"
+msgstr "Kræver redigering"
 
 #: ../../workflows.rst:36
 msgid ""
