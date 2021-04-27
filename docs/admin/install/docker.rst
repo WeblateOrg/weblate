@@ -996,7 +996,7 @@ both Weblate and PostgreSQL containers.
 
 .. envvar:: POSTGRES_PASSWORD_FILE
 
-    Path to file containing the PostgreSQL password. Use as an alternative to POSTGRES_PASSWORD.
+    Path to the file containing the PostgreSQL password. Use as an alternative to POSTGRES_PASSWORD.
 
 .. envvar:: POSTGRES_USER
 
