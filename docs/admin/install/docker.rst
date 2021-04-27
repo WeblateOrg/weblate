@@ -356,7 +356,6 @@ Generic settings
 
     Sets the path to a file containing the password for the `admin` user.
 
-
     .. seealso::
 
             :envvar:`WEBLATE_ADMIN_PASSWORD`
