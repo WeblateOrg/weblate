@@ -348,8 +348,18 @@ Generic settings
 
             :ref:`docker-admin-login`,
             :envvar:`WEBLATE_ADMIN_PASSWORD`,
+            :envvar:`WEBLATE_ADMIN_PASSWORD_FILE`,
             :envvar:`WEBLATE_ADMIN_NAME`,
             :envvar:`WEBLATE_ADMIN_EMAIL`
+
+.. envvar:: WEBLATE_ADMIN_PASSWORD_FILE
+
+    Sets the path to a file containing the password for the `admin` user.
+
+
+    .. seealso::
+
+            :envvar:`WEBLATE_ADMIN_PASSWORD`
 
 .. envvar:: WEBLATE_SERVER_EMAIL
 .. envvar:: WEBLATE_DEFAULT_FROM_EMAIL
@@ -985,6 +995,10 @@ both Weblate and PostgreSQL containers.
 
     PostgreSQL password.
 
+.. envvar:: POSTGRES_PASSWORD_FILE
+
+    Path to file containing the PostgreSQL password. use as an alternative to POSTGRES_PASSWORD.
+
 .. envvar:: POSTGRES_USER
 
     PostgreSQL username.
@@ -1113,6 +1127,14 @@ Example SSL configuration:
     E-mail authentication password.
 
     .. seealso:: :setting:`django:EMAIL_HOST_PASSWORD`
+
+.. envvar:: WEBLATE_EMAIL_HOST_PASSWORD_FILE
+
+    Path to file containing the e-mail authentication password.
+
+    .. seealso:: 
+
+      :envvar:`WEBLATE_EMAIL_HOST_PASSWORD`
 
 .. envvar:: WEBLATE_EMAIL_USE_SSL
 
