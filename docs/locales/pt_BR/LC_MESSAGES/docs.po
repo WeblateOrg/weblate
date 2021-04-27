@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-04-20 13:26+0200\n"
-"PO-Revision-Date: 2021-04-26 06:32+0000\n"
+"PO-Revision-Date: 2021-04-27 18:32+0000\n"
 "Last-Translator: Rafael Fontenelle <rafaelff@gnome.org>\n"
 "Language-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/"
 "weblate/documentation/pt_BR/>\n"
@@ -1291,7 +1291,7 @@ msgstr "Usar interface de gerenciamento"
 
 #: ../../admin/access.rst:551
 msgid "Add new projects"
-msgstr "adicionar novos projetos"
+msgstr "Adicionar novos projetos"
 
 #: ../../admin/access.rst:553
 msgid "Add language definitions"
@@ -8608,7 +8608,7 @@ msgid ""
 "choose the right translation."
 msgstr ""
 "A verificação :ref:`check-inconsistente` é acionada sempre que os textos são "
-"diferentes. Você pode usar isso para rever tais diferenças manualmente e "
+"diferentes. Você pode usar isso para revisar tais diferenças manualmente e "
 "escolher a tradução certa."
 
 #: ../../admin/continuous.rst:435
@@ -13975,7 +13975,7 @@ msgid ""
 "Any user can review all translation licenses of all public projects on the "
 "instance from their profile:"
 msgstr ""
-"Qualquer usuário pode rever todas as licenças de tradução de todos os "
+"Qualquer usuário pode revisar todas as licenças de tradução de todos os "
 "projetos públicos na instância a partir de seu perfil:"
 
 #: ../../admin/machine.rst:4
@@ -16013,13 +16013,15 @@ msgstr "Projetos de tradução"
 
 #: ../../admin/projects.rst:5
 msgid "Translation organization"
-msgstr ""
+msgstr "Organização de tradução"
 
 #: ../../admin/projects.rst:7
 msgid ""
 "Weblate organizes translatable VCS content of project/components into a tree-"
 "like structure."
 msgstr ""
+"O Weblate organiza o conteúdo VCS traduzível do projeto/componentes em uma "
+"estrutura semelhante a uma árvore."
 
 #: ../../admin/projects.rst:9
 msgid ""
@@ -16027,6 +16029,9 @@ msgid ""
 "translations belonging together (for example translation of an application "
 "in several versions and/or accompanying documentation)."
 msgstr ""
+"O objeto de nível inferior é :ref:`project`, que deve conter todas as "
+"traduções pertencentes a um conjunto (por exemplo, tradução de um aplicativo "
+"em várias versões e/ou documentação que o acompanha)."
 
 #: ../../admin/projects.rst:13
 msgid ""
@@ -16034,6 +16039,9 @@ msgid ""
 "translate, you define the VCS repository to use, and the mask of files to "
 "translate."
 msgstr ""
+"No nível acima, :ref:`component`, que é na verdade o componente a ser "
+"traduzido, você define o repositório VCS a ser usado e a máscara dos "
+"arquivos a serem traduzidos."
 
 #: ../../admin/projects.rst:17
 msgid ""
@@ -16041,12 +16049,18 @@ msgid ""
 "automatically by Weblate as translation files (which match :ref:`component-"
 "filemask` defined in :ref:`component`) appear in the VCS repository."
 msgstr ""
+"Acima da :ref:`component` existem traduções individuais, manipuladas "
+"automaticamente pelo Weblate como arquivos de tradução (que correspondem a "
+":ref:`component-filemask` definido em :ref:`component`) aparecem no "
+"repositório VCS."
 
 #: ../../admin/projects.rst:20
 msgid ""
 "Weblate supports a wide range of translation formats (both bilingual and "
 "monolingual ones) supported by Translate Toolkit, see :ref:`formats`."
 msgstr ""
+"O Weblate tem suporte a uma ampla gama de formatos de tradução (bilíngues e "
+"monolíngues) suportados pelo Translate Toolkit, veja :ref:`formats`."
 
 #: ../../admin/projects.rst:25
 msgid ""
@@ -16054,6 +16068,10 @@ msgid ""
 "feature is highly recommended when you have many components sharing the same "
 "VCS. It improves performance and decreases required disk space."
 msgstr ""
+"Você pode compartilhar repositórios VCS clonados usando :ref:`internal-urls`"
+". Usar este recurso é altamente recomendado quando você tem muitos "
+"componentes compartilhando o mesmo VCS. Ele melhora o desempenho e diminui o "
+"espaço em disco necessário."
 
 #: ../../admin/projects.rst:33
 msgid "Adding translation projects and components"
@@ -16064,12 +16082,16 @@ msgid ""
 "An interface for adding projects and components is included, and you no "
 "longer have to use :ref:`admin-interface`."
 msgstr ""
+"Uma interface para adicionar projetos e componentes está incluída, e você "
+"não precisa mais usar :ref:`admin-interface`."
 
 #: ../../admin/projects.rst:42
 msgid ""
 "The process of adding components is now multi staged, with automated "
 "discovery of most parameters."
 msgstr ""
+"O processo de adição de componentes agora tem vários estágios, com "
+"descoberta automatizada da maioria dos parâmetros."
 
 #: ../../admin/projects.rst:45
 msgid ""
@@ -16079,10 +16101,17 @@ msgid ""
 "hosted.weblate.org/ see :ref:`billing`), you can also create those based on "
 "your plans allowance from the user account that manages billing."
 msgstr ""
+"Com base em suas permissões, novos projetos e componentes de tradução podem "
+"ser criados. É sempre permitido para usuários com a permissão :guilabel:`"
+"Adicionar novos projetos`, e se sua instância usa cobrança (por exemplo, "
+"como https://hosted.weblate.org/, veja :ref:`billing`), você também pode "
+"criar aqueles com base na permissão de seus planos da conta de usuário que "
+"gerencia a cobrança."
 
 #: ../../admin/projects.rst:51
 msgid "You can view your current billing plan on a separate page:"
 msgstr ""
+"Você pode visualizar seu plano de cobrança atual em uma página separada:"
 
 #: ../../admin/projects.rst:55
 msgid ""
@@ -16090,10 +16119,15 @@ msgid ""
 "navigation bar, filling in basic info about the translation project to "
 "complete addition of it:"
 msgstr ""
+"A criação do projeto pode ser iniciada a partir daí, ou utilizando o menu da "
+"barra de navegação, preenchendo informações básicas sobre o projeto de "
+"tradução para completar a adição dele:"
 
 #: ../../admin/projects.rst:60
 msgid "After creating the project, you are taken directly to the project page:"
 msgstr ""
+"Depois de criar o projeto, você é levado diretamente para a página do "
+"projeto:"
 
 #: ../../admin/projects.rst:64
 msgid ""
@@ -16102,6 +16136,10 @@ msgid ""
 "detects most translation parameters. There are several approaches to "
 "creating component:"
 msgstr ""
+"A criação de um novo componente de tradução pode ser iniciada com um único "
+"clique lá. O processo de criação de um componente possui vários estágios e "
+"detecta automaticamente a maioria dos parâmetros de tradução. Existem várias "
+"abordagens para a criação de componentes:"
 
 #: ../../admin/projects.rst:68
 msgid "From version control"
@@ -16109,7 +16147,7 @@ msgstr "De controle de versão"
 
 #: ../../admin/projects.rst:69
 msgid "Creates component from remote version control repository."
-msgstr ""
+msgstr "Cria um componente do repositório de controle de versão remoto."
 
 #: ../../admin/projects.rst:70
 msgid "From existing component"
@@ -16119,6 +16157,7 @@ msgstr "De componente existente"
 msgid ""
 "Creates additional component to existing one by choosing different files."
 msgstr ""
+"Cria um componente adicional ao existente, escolhendo arquivos diferentes."
 
 #: ../../admin/projects.rst:72
 msgid "Additional branch"
@@ -16128,6 +16167,7 @@ msgstr "Ramo adicional"
 msgid ""
 "Creates additional component to existing one, just for different branch."
 msgstr ""
+"Cria um componente adicional ao existente, apenas para um ramo diferente."
 
 #: ../../admin/projects.rst:76
 msgid "Upload translations files"
@@ -16139,6 +16179,9 @@ msgid ""
 "or do not want to integrate it with Weblate. You can later update the "
 "content using the web interface or :ref:`api`."
 msgstr ""
+"Envia os arquivos de tradução para o Weblate caso você não tenha controle de "
+"versão ou não queira integrá-lo ao Weblate. Você pode atualizar o conteúdo "
+"posteriormente usando a interface web ou :ref:`api`."
 
 #: ../../admin/projects.rst:78
 msgid "Translate document"
@@ -16146,7 +16189,7 @@ msgstr "Traduzir documento"
 
 #: ../../admin/projects.rst:79
 msgid "Upload single document and translate that."
-msgstr ""
+msgstr "Envia um único documento e o traduz."
 
 #: ../../admin/projects.rst:81
 msgid "Start from scratch"
@@ -16154,33 +16197,39 @@ msgstr "Iniciar do zero"
 
 #: ../../admin/projects.rst:81
 msgid "Create blank translation project and add strings manually."
-msgstr ""
+msgstr "Cria um projeto de tradução vazio e adiciona textos manualmente."
 
 #: ../../admin/projects.rst:83
 msgid ""
 "Once you have existing translation components, you can also easily add new "
 "ones for additional files or branches using same repository."
 msgstr ""
+"Depois de ter os componentes de tradução existentes, você também pode "
+"adicionar facilmente novos para arquivos adicionais ou ramos usando o mesmo "
+"repositório."
 
 #: ../../admin/projects.rst:86
 msgid "First you need to fill in name and repository location:"
-msgstr ""
+msgstr "Primeiro você precisa preencher o nome e a localização do repositório:"
 
 #: ../../admin/projects.rst:90
 msgid ""
 "On the next page, you are presented with a list of discovered translatable "
 "resources:"
 msgstr ""
+"Na próxima página, você verá uma lista de recursos traduzíveis descobertos:"
 
 #: ../../admin/projects.rst:94
 msgid ""
 "As a last step, you review the translation component info and fill in "
 "optional details:"
 msgstr ""
+"Como última etapa, você analisa as informações do componente de tradução e "
+"preenche os detalhes opcionais:"
 
 #: ../../admin/projects.rst:100
 msgid ":ref:`admin-interface`, :ref:`project`, :ref:`component`"
-msgstr ""
+msgstr ":ref:`admin-interface`, :ref:`project`, :ref:`component`"
 
 #: ../../admin/projects.rst:107
 msgid "Project configuration"
@@ -16195,14 +16244,21 @@ msgid ""
 "single project (unless turned off in the component configuration), see :ref:"
 "`memory`."
 msgstr ""
+"Cria um projeto de tradução e, em seguida, adiciona um novo componente para "
+"tradução nele. O projeto é como uma estante, na qual as traduções reais "
+"estão empilhadas. Todos os componentes no mesmo projeto compartilham "
+"sugestões e seu dicionário; as traduções também são propagadas "
+"automaticamente por todos os componentes em um único projeto (a menos que "
+"desligado na configuração do componente), veja :ref:`memory`."
 
 #: ../../admin/projects.rst:117 ../../admin/projects.rst:256
 msgid ":doc:`/devel/integration`"
-msgstr ""
+msgstr ":doc:`/devel/integration`"
 
 #: ../../admin/projects.rst:119
 msgid "These basic attributes set up and inform translators of a project:"
 msgstr ""
+"Esses atributos básicos configuram e informam os tradutores de um projeto:"
 
 #: ../../admin/projects.rst:124 ../../admin/projects.rst:855 ../../api.rst:761
 #: ../../contributing/about.rst:11
@@ -16211,7 +16267,7 @@ msgstr "Nome do projeto"
 
 #: ../../admin/projects.rst:126
 msgid "Verbose project name, used to display the project name."
-msgstr ""
+msgstr "Nome detalhado do projeto, usado para exibir o nome do projeto."
 
 #: ../../admin/projects.rst:131
 msgid "URL slug"
@@ -16219,7 +16275,7 @@ msgstr "URL amigável"
 
 #: ../../admin/projects.rst:133
 msgid "Project name suitable for URLs."
-msgstr ""
+msgstr "Nome do projeto adequado para URLs."
 
 #: ../../admin/projects.rst:138 ../../api.rst:765
 #: ../../contributing/about.rst:16
@@ -16229,12 +16285,15 @@ msgstr "Site do projeto"
 #: ../../admin/projects.rst:140
 msgid "URL where translators can find more info about the project."
 msgstr ""
+"URL onde os tradutores podem encontrar mais informações sobre o projeto."
 
 #: ../../admin/projects.rst:142
 msgid ""
 "This is a required parameter unless turned off by :setting:"
 "`WEBSITE_REQUIRED`."
 msgstr ""
+"Este é um parâmetro obrigatório, a menos que seja desligado por "
+":setting:`WEBSITE_REQUIRED`."
 
 #: ../../admin/projects.rst:147
 msgid "Translation instructions"
@@ -16242,7 +16301,7 @@ msgstr "Instruções de tradução"
 
 #: ../../admin/projects.rst:149
 msgid "URL to more site with more detailed instructions for translators."
-msgstr ""
+msgstr "URL para mais sites com instruções mais detalhadas para tradutores."
 
 #: ../../admin/projects.rst:154
 msgid "Set \"Language-Team\" header"
@@ -16253,6 +16312,8 @@ msgid ""
 "Whether Weblate should manage the ``Language-Team`` header (this is a :ref:"
 "`gettext` only feature right now)."
 msgstr ""
+"Se o Weblate deve gerenciar o cabeçalho ``Language-Team`` (este é um recurso "
+"apenas do :ref:`gettext` no momento)."
 
 #: ../../admin/projects.rst:162
 msgid "Use shared translation memory"
@@ -16263,10 +16324,12 @@ msgid ""
 "Whether to use shared translation memory, see :ref:`shared-tm` for more "
 "details."
 msgstr ""
+"Para usar memória de tradução compartilhada, veja :ref:`shared-tm` para mais "
+"detalhes."
 
 #: ../../admin/projects.rst:166 ../../admin/projects.rst:175
 msgid "Default value is determined by :setting:`DEFAULT_SHARED_TM`."
-msgstr ""
+msgstr "O valor padrão é determinado por :setting:`DEFAULT_SHARED_TM`."
 
 #: ../../admin/projects.rst:171
 msgid "Contribute to shared translation memory"
@@ -16277,14 +16340,18 @@ msgid ""
 "Whether to contribute to shared translation memory, see :ref:`shared-tm` for "
 "more details."
 msgstr ""
+"Para contribuir com a memória de tradução compartilhada, veja :ref:`shared-"
+"tm` para mais detalhes."
 
 #: ../../admin/projects.rst:182
 msgid "Configure per project access control, see :ref:`acl` for more details."
 msgstr ""
+"Configura o controle de acesso por projeto, veja :ref:`acl` para mais "
+"detalhes."
 
 #: ../../admin/projects.rst:184
 msgid "Default value can be changed by :setting:`DEFAULT_ACCESS_CONTROL`."
-msgstr ""
+msgstr "O valor padrão pode ser alterado por :setting:`DEFAULT_ACCESS_CONTROL`."
 
 #: ../../admin/projects.rst:189 ../../workflows.rst:75 ../../workflows.rst:107
 #: ../../workflows.rst:144
@@ -16294,6 +16361,7 @@ msgstr "Habilitar revisões"
 #: ../../admin/projects.rst:191
 msgid "Enable review workflow for translations, see :ref:`reviews`."
 msgstr ""
+"Habilita o fluxo de trabalho de revisão para traduções, veja :ref:`reviews`."
 
 #: ../../admin/projects.rst:196
 msgid "Enable source reviews"
@@ -16302,6 +16370,8 @@ msgstr "Habilitar revisões de fontes"
 #: ../../admin/projects.rst:198
 msgid "Enable review workflow for source strings, see :ref:`source-reviews`."
 msgstr ""
+"Habilita o fluxo de trabalho de revisão para textos fonte, veja :ref:`source-"
+"reviews`."
 
 #: ../../admin/projects.rst:202 ../../faq.rst:286
 msgid ":ref:`report-source`, :ref:`user-comments`"
@@ -16315,12 +16385,15 @@ msgstr "Habilitar ganchos"
 msgid ""
 "Whether unauthenticated :ref:`hooks` are to be used for this repository."
 msgstr ""
+"Se :ref:`hooks` não autenticados devem ser usados para este repositório."
 
 #: ../../admin/projects.rst:214
 msgid ""
 ":ref:`component-intermediate`, :ref:`source-quality-gateway`, :ref:"
 "`bimono`, :ref:`languages`"
 msgstr ""
+":ref:`component-intermediate`, :ref:`source-quality-gateway`, :ref:`bimono`, "
+":ref:`languages`"
 
 #: ../../admin/projects.rst:222
 msgid "Language aliases"
@@ -16333,20 +16406,28 @@ msgid ""
 "to get a consistent view in Weblate or in case you want to use non-standard "
 "naming of your translation files."
 msgstr ""
+"Define o mapeamento dos códigos de idioma ao importar traduções para o "
+"Weblate. Use isso quando os códigos de idioma forem inconsistentes em seus "
+"repositórios e você quiser obter uma visualização consistente no Weblate ou "
+"no caso de desejar usar uma nomenclatura fora do padrão de seus arquivos de "
+"tradução."
 
 #: ../../admin/projects.rst:229
 msgid ""
 "The typical use case might be mapping American English to English: ``en_US:"
 "en``"
 msgstr ""
+"O caso de uso típico pode ser mapear inglês americano para inglês: "
+"``en_US:en``"
 
 #: ../../admin/projects.rst:231
 msgid "Multiple mappings to be separated by comma: ``en_GB:en,en_US:en``"
 msgstr ""
+"Vários mapeamentos devem ser separados por vírgula: ``en_GB:en,en_US:en``"
 
 #: ../../admin/projects.rst:233
 msgid "Using non standard code: ``ia_FOO:ia``"
-msgstr ""
+msgstr "Usando código não padrão: ``ia_FOO:ia``"
 
 #: ../../admin/projects.rst:237
 msgid ""
@@ -16374,11 +16455,17 @@ msgid ""
 "Weblate automatically fetches from this VCS, and finds all matching "
 "translatable files."
 msgstr ""
+"Um componente é um agrupamento de algo para tradução. Você insere um local "
+"de repositório VCS e uma máscara de arquivo para os arquivos que deseja "
+"traduzir, e o Weblate busca automaticamente neste VCS e encontra todos os "
+"arquivos traduzíveis correspondentes."
 
 #: ../../admin/projects.rst:258
 msgid ""
 "You can find some examples of typical configurations in the :ref:`formats`."
 msgstr ""
+"Você pode encontrar alguns exemplos de configurações típicas nos "
+":ref:`formats`."
 
 #: ../../admin/projects.rst:262
 msgid ""
@@ -16386,6 +16473,9 @@ msgid ""
 "split the translation by anything that makes sense in your case (individual "
 "apps or addons, book chapters or websites)."
 msgstr ""
+"Recomenda-se manter os componentes de tradução em um tamanho razoável -- "
+"divida a tradução por qualquer coisa que faça sentido no seu caso ("
+"aplicativos ou complementos individuais, capítulos de livros ou sites)."
 
 #: ../../admin/projects.rst:266
 msgid ""
@@ -16393,6 +16483,9 @@ msgid ""
 "to split work and coordinate among translators with such large translation "
 "components."
 msgstr ""
+"O Weblate lida facilmente com traduções com 10000s de textos, mas é mais "
+"difícil dividir o trabalho e coordenar entre os tradutores com componentes "
+"de tradução tão grandes."
 
 #: ../../admin/projects.rst:269
 msgid ""
@@ -16401,12 +16494,18 @@ msgid ""
 "the definition and report this back to the Weblate authors, so that the "
 "missing languages can be included in next release."
 msgstr ""
+"Se a definição do idioma de uma tradução estiver faltando, uma definição "
+"vazia é criada e nomeada como \"cs_CZ (generated)\". Você deve ajustar a "
+"definição e relatar isso aos autores do Weblate, para que os idiomas em "
+"falta possam ser incluídos na próxima versão."
 
 #: ../../admin/projects.rst:274
 msgid ""
 "The component contains all important parameters for working with the VCS, "
 "and for getting translations out of it:"
 msgstr ""
+"O componente contém todos os parâmetros importantes para trabalhar com o VCS "
+"e para obter traduções dele:"
 
 #: ../../admin/projects.rst:280 ../../admin/projects.rst:851
 msgid "Component name"
@@ -16414,7 +16513,7 @@ msgstr "Nome do componente"
 
 #: ../../admin/projects.rst:282
 msgid "Verbose component name, used to display the component name."
-msgstr ""
+msgstr "Nome detalhado do componente, usado para exibir o nome do componente."
 
 #: ../../admin/projects.rst:287 ../../admin/projects.rst:853 ../../api.rst:2127
 #: ../../api.rst:2197 ../../api.rst:2293
@@ -16423,15 +16522,15 @@ msgstr "URL amigável do componente"
 
 #: ../../admin/projects.rst:289
 msgid "Component name suitable for URLs."
-msgstr ""
+msgstr "Nome do componente adequado para URLs."
 
 #: ../../admin/projects.rst:294
 msgid "Component project"
-msgstr ""
+msgstr "Projeto do componente"
 
 #: ../../admin/projects.rst:296
 msgid ":ref:`project` where the component belongs."
-msgstr ""
+msgstr ":ref:`project` ao qual o componente pertence."
 
 #: ../../admin/projects.rst:301
 msgid "Version control system"
@@ -16439,7 +16538,7 @@ msgstr "Sistema de controle de versão"
 
 #: ../../admin/projects.rst:303
 msgid "VCS to use, see :ref:`vcs` for details."
-msgstr ""
+msgstr "VCS para usar, veja :ref:`vcs` para detalhes."
 
 #: ../../admin/projects.rst:307 ../../admin/projects.rst:386 ../../vcs.rst:273
 #: ../../vcs.rst:312 ../../vcs.rst:350
@@ -16452,11 +16551,11 @@ msgstr "Repositório do código-fonte"
 
 #: ../../admin/projects.rst:314
 msgid "VCS repository used to pull changes."
-msgstr ""
+msgstr "Repositório VCS usado para fazer pull das alterações."
 
 #: ../../admin/projects.rst:318
 msgid "See :ref:`vcs-repos` for more details on specifying URLs."
-msgstr ""
+msgstr "Veja :ref:`vcs-repos` para mais detalhes sobre especificar URLs."
 
 #: ../../admin/projects.rst:322
 msgid ""
@@ -16464,6 +16563,9 @@ msgid ""
 "indicating that the repository should be shared with another component. See :"
 "ref:`internal-urls` for more details."
 msgstr ""
+"Pode ser uma URL VCS real ou ``weblate://projeto/componente`` indicando que "
+"o repositório deve ser compartilhado com outro componente. Veja :ref"
+":`internal-urls` para mais detalhes."
 
 #: ../../admin/projects.rst:329
 msgid "Repository push URL"
@@ -16475,12 +16577,18 @@ msgid ""
 "git` and :ref:`vcs-mercurial` and push support is turned off for these when "
 "this is empty."
 msgstr ""
+"URL do repositório usado para fazer push. Esta configuração é usada apenas "
+"para :ref:`vcs-git` e :ref:`vcs-mercurial` e o suporte a push é desativado "
+"para estes quando está vazio."
 
 #: ../../admin/projects.rst:337
 msgid ""
 "See :ref:`vcs-repos` for more details on how to specify a repository URL "
 "and :ref:`push-changes` for more details on pushing changes from Weblate."
 msgstr ""
+"Veja :ref:`vcs-repos` para mais detalhes sobre como especificar uma URL de "
+"repositório e :ref:`push-changes` para mais detalhes sobre como fazer push "
+"de mudanças do Weblate."
 
 #: ../../admin/projects.rst:343
 msgid "Repository browser"
@@ -16492,12 +16600,17 @@ msgid ""
 "messages). When empty, no such links will be generated. You can use :ref:"
 "`markup`."
 msgstr ""
+"URL de navegação do repositório usada para exibir os arquivos fonte ("
+"localização das mensagens usadas). Quando vazio, nenhum desses links será "
+"gerado. Você pode usar :ref:`markup`."
 
 #: ../../admin/projects.rst:348
 msgid ""
 "For example on GitHub, use something like: ``https://github.com/WeblateOrg/"
 "hello/blob/{{branch}}/{{filename}}#L{{line}}``"
 msgstr ""
+"Por exemplo, no GitHub, use algo como: ``https://github.com/WeblateOrg/hello/"
+"blob/{{branch}}/{{filename}}#L{{line}}``"
 
 #: ../../admin/projects.rst:351
 msgid ""
@@ -16506,6 +16619,10 @@ msgid ""
 "github.com/WeblateOrg/hello/blob/{{branch}}/{{filename|parentdir}}#L{{line}}"
 "``"
 msgstr ""
+"No caso de seus caminhos serem relativos a pastas diferentes, você pode "
+"querer remover o diretório principal pelo filtro ``parentdir`` (veja "
+":ref:`markup`): ``https://github.com/WeblateOrg/hello/blob/"
+"{{branch}}/{{filename|parentdir}}#L{{line}}``"
 
 #: ../../admin/projects.rst:358
 msgid "Exported repository URL"
@@ -16518,6 +16635,10 @@ msgid ""
 "merge changes. You can use :ref:`git-exporter` to automate this for Git "
 "repositories."
 msgstr ""
+"URL para onde as alterações feitas pelo Weblate são exportadas. Isso é "
+"importante quando :ref:`continuous-translation` não é usada, ou quando há a "
+"necessidade de mesclar manualmente as alterações. Você pode usar :ref:`git-"
+"exporter` para automatizar isso para repositórios Git."
 
 #: ../../admin/projects.rst:368
 msgid "Repository branch"
@@ -16526,7 +16647,7 @@ msgstr "Ramo do repositório"
 #: ../../admin/projects.rst:370
 msgid ""
 "Which branch to checkout from the VCS, and where to look for translations."
-msgstr ""
+msgstr "De qual ramo fazer checkout do VCS e onde procurar traduções."
 
 #: ../../admin/projects.rst:375
 msgid "Push branch"
@@ -16535,12 +16656,16 @@ msgstr "Ramo do push"
 #: ../../admin/projects.rst:377
 msgid "Branch for pushing changes, leave empty to use :ref:`component-branch`."
 msgstr ""
+"Ramo para fazer push de alterações, deixe vazio para usar :ref:`component-"
+"branch`."
 
 #: ../../admin/projects.rst:381
 msgid ""
 "This is currently only supported for Git, GitLab and GitHub, it is ignored "
 "for other VCS integrations."
 msgstr ""
+"Atualmente, isso é compatível apenas com Git, GitLab e GitHub, mas é "
+"ignorado para outras integrações VCS."
 
 #: ../../admin/projects.rst:391 ../../devel/gettext.rst:226
 #: ../../formats.rst:383
@@ -16554,20 +16679,27 @@ msgid ""
 "processed). In case your repository contains more than one translation file "
 "(e.g. more gettext domains), you need to create a component for each of them."
 msgstr ""
+"Máscara de arquivos a traduzir, incluindo caminho. Deve incluir um \"*\" "
+"substituindo o código de idioma (veja :ref:`languages` para informações "
+"sobre como isso é processado). Caso seu repositório contenha mais de um "
+"arquivo de tradução (por exemplo, mais domínios gettext), você precisa criar "
+"um componente para cada um deles."
 
 #: ../../admin/projects.rst:399
 msgid "For example ``po/*.po`` or ``locale/*/LC_MESSAGES/django.po``."
-msgstr ""
+msgstr "Por exemplo, ``po/*.po`` ou ``locale/*/LC_MESSAGES/django.po``."
 
 #: ../../admin/projects.rst:401
 msgid ""
 "In case your filename contains special characters such as ``[``, ``]``, "
 "these need to be escaped as ``[[]`` or ``[]]``."
 msgstr ""
+"No caso de seu nome de arquivo conter caracteres especiais como ``[``, ``]``"
+", eles precisam ser escapados como ``[[]`` ou ``[]]``."
 
 #: ../../admin/projects.rst:406 ../../admin/projects.rst:418
 msgid ":ref:`bimono`, :ref:`faq-duplicate-files`"
-msgstr ""
+msgstr ":ref:`bimono`, :ref:`faq-duplicate-files`"
 
 #: ../../admin/projects.rst:412 ../../formats.rst:186 ../../formats.rst:252
 #: ../../formats.rst:373 ../../formats.rst:385 ../../formats.rst:426
@@ -16585,7 +16717,7 @@ msgstr "Arquivo de idioma da base monolíngue"
 
 #: ../../admin/projects.rst:414
 msgid "Base file containing string definitions for :ref:`monolingual`."
-msgstr ""
+msgstr "Arquivo base contendo definições de texto para :ref:`monolingual`."
 
 #: ../../admin/projects.rst:424
 msgid "Edit base file"
@@ -16593,7 +16725,7 @@ msgstr "Editar o arquivo base"
 
 #: ../../admin/projects.rst:426
 msgid "Whether to allow editing the base file for :ref:`monolingual`."
-msgstr ""
+msgstr "Permite a edição do arquivo base para :ref:`monolingual`."
 
 #: ../../admin/projects.rst:431
 msgid "Intermediate language file"
@@ -16605,6 +16737,9 @@ msgid ""
 "translation file provided by developers and is used when creating actual "
 "source strings."
 msgstr ""
+"Arquivo de idioma intermediário para :ref:`monolingual`. Na maioria dos "
+"casos, este é um arquivo de tradução fornecido por desenvolvedores e é usado "
+"ao criar strings de origem reais."
 
 #: ../../admin/projects.rst:437
 msgid ""
@@ -16613,11 +16748,16 @@ msgid ""
 "into the source langugage, translating to other languages is prohibited. "
 "This provides :ref:`source-quality-gateway`."
 msgstr ""
+"Quando definido, os textos fonte são baseados neste arquivo, mas todos os "
+"outros idiomas são baseados em :ref:`component-template`. Caso o texto não "
+"seja traduzida para o idioma fonte, a tradução para outros idiomas é "
+"proibida. Isso fornece uma :ref:`source-quality-gateway`."
 
 #: ../../admin/projects.rst:444
 msgid ""
 ":ref:`source-quality-gateway`, :ref:`bimono`, :ref:`faq-duplicate-files`"
 msgstr ""
+":ref:`source-quality-gateway`, :ref:`bimono`, :ref:`faq-duplicate-files`"
 
 #: ../../admin/projects.rst:451 ../../devel/gettext.rst:228
 #: ../../formats.rst:188 ../../formats.rst:254 ../../formats.rst:375
@@ -16637,6 +16777,8 @@ msgstr "Modelo para novas traduções"
 msgid ""
 "Base file used to generate new translations, e.g. ``.pot`` file with gettext."
 msgstr ""
+"Arquivo base usado para gerar novas traduções, por exemplo, arquivo ``.pot`` "
+"com gettext."
 
 #: ../../admin/projects.rst:457
 msgid ""
@@ -16644,6 +16786,9 @@ msgid ""
 "this in case you want to have all strings present with empty value when "
 "creating new translation."
 msgstr ""
+"Em muitos formatos monolíngues, o Weblate começa com um arquivo em branco "
+"por padrão. Use-o no caso de desejar que todas os textos estejam presentes "
+"com um valor vazio ao criar uma nova tradução."
 
 #: ../../admin/projects.rst:463
 msgid ""
@@ -16669,7 +16814,7 @@ msgstr "Formato de arquivo"
 
 #: ../../admin/projects.rst:474
 msgid "Translation file format, see also :ref:`formats`."
-msgstr ""
+msgstr "Formato do arquivo de tradução, veja também :ref:`formats`."
 
 #: ../../admin/projects.rst:479
 msgid "Source string bug reporting address"
@@ -16680,6 +16825,9 @@ msgid ""
 "Email address used for reporting upstream bugs. This address will also "
 "receive notification about any source string comments made in Weblate."
 msgstr ""
+"Endereço de e-mail usado para relatar bugs upstream. Este endereço também "
+"receberá notificação sobre quaisquer comentários de texto fonte feitos no "
+"Weblate."
 
 #: ../../admin/projects.rst:487
 msgid "Allow translation propagation"
@@ -16692,17 +16840,25 @@ msgid ""
 "translating, sometimes it's desirable to have make use of a translation more "
 "than once."
 msgstr ""
+"Você pode desativar a propagação de traduções para este componente de outros "
+"componentes dentro do mesmo projeto. Isso realmente depende do que você está "
+"traduzindo, às vezes é desejável ter feito uso de uma tradução mais de uma "
+"vez."
 
 #: ../../admin/projects.rst:493
 msgid ""
 "It's usually a good idea to turn this off for monolingual translations, "
 "unless you are using the same IDs across the whole project."
 msgstr ""
+"Normalmente, é uma boa ideia desligar isso para traduções monolíngues, a "
+"menos que você esteja usando os mesmos IDs em todo o projeto."
 
 #: ../../admin/projects.rst:496
 msgid ""
 "Default value can be changed by :setting:`DEFAULT_TRANSLATION_PROPAGATION`."
 msgstr ""
+"O valor padrão pode ser alterado por "
+":setting:`DEFAULT_TRANSLATION_PROPAGATION`."
 
 #: ../../admin/projects.rst:501 ../../workflows.rst:77 ../../workflows.rst:109
 #: ../../workflows.rst:146
@@ -16711,7 +16867,7 @@ msgstr "Habilitar sugestões"
 
 #: ../../admin/projects.rst:503
 msgid "Whether translation suggestions are accepted for this component."
-msgstr ""
+msgstr "Se sugestões de tradução são aceitas para este componente."
 
 #: ../../admin/projects.rst:508 ../../admin/translating.rst:7
 #: ../../workflows.rst:80 ../../workflows.rst:111 ../../workflows.rst:149
@@ -16720,7 +16876,7 @@ msgstr "Votação de sugestões"
 
 #: ../../admin/projects.rst:510
 msgid "Turns on vote casting for suggestions, see :ref:`voting`."
-msgstr ""
+msgstr "Ativa a emissão de votos para sugestões, veja :ref:`voting`."
 
 #: ../../admin/projects.rst:515 ../../workflows.rst:82 ../../workflows.rst:113
 #: ../../workflows.rst:151
@@ -16729,7 +16885,7 @@ msgstr "Aceitar sugestões automaticamente"
 
 #: ../../admin/projects.rst:517
 msgid "Automatically accept voted suggestions, see :ref:`voting`."
-msgstr ""
+msgstr "Aceita automaticamente sugestões votadas, veja :ref:`voting`."
 
 #: ../../admin/projects.rst:522 ../../admin/translating.rst:71
 msgid "Translation flags"
@@ -16740,6 +16896,8 @@ msgid ""
 "Customization of quality checks and other Weblate behavior, see :ref:`custom-"
 "checks`."
 msgstr ""
+"Personalização de verificações de qualidade e outros comportamentos do "
+"Weblate, veja :ref:`custom-checks`."
 
 #: ../../admin/projects.rst:529
 msgid "Enforced checks"
@@ -16748,6 +16906,8 @@ msgstr "Verificações forçadas"
 #: ../../admin/projects.rst:531
 msgid "List of checks which can not be ignored, see :ref:`enforcing-checks`."
 msgstr ""
+"Lista de verificações que não podem ser ignoradas, veja :ref:`enforcing-"
+"checks`."
 
 #: ../../admin/projects.rst:535
 msgid ""
@@ -16755,6 +16915,9 @@ msgid ""
 "enabled it using :ref:`custom-checks` in :ref:`component-check_flags` or :"
 "ref:`additional`."
 msgstr ""
+"Forçar a verificação não a habilita automaticamente, você ainda deve "
+"habilitá-la :ref:`custom-checks` em :ref:`component-check_flags` ou "
+":ref:`additional`."
 
 #: ../../admin/projects.rst:542
 msgid "Translation license"
@@ -16764,7 +16927,7 @@ msgstr "Licença da tradução"
 msgid ""
 "License of the translation (does not need to be the same as the source code "
 "license)."
-msgstr ""
+msgstr "Licença da tradução (não precisa ser igual à licença do código-fonte)."
 
 #: ../../admin/projects.rst:551
 msgid ""
@@ -16782,6 +16945,7 @@ msgstr "Adicionando nova tradução"
 msgid ""
 "How to handle requests for creation of new languages. Available options:"
 msgstr ""
+"Como lidar com solicitações de criação de novos idiomas. Opções disponíveis:"
 
 #: ../../admin/projects.rst:563
 msgid "Contact maintainers"
@@ -16793,6 +16957,9 @@ msgid ""
 "notification about this. It is up to them to add (or not) the language to "
 "the repository."
 msgstr ""
+"O usuário pode selecionar o idioma desejado e os mantenedores do projeto "
+"receberão uma notificação sobre isso. Cabe a eles adicionar (ou não) o "
+"idioma ao repositório."
 
 #: ../../admin/projects.rst:567
 msgid "Point to translation instructions URL"
@@ -16804,6 +16971,9 @@ msgid ""
 "translations. Use this in case more formal process is desired (for example "
 "forming a team of people before starting actual translation)."
 msgstr ""
+"É apresentado ao usuário um link para a página que descreve o processo de "
+"iniciar novas traduções. Use-o caso deseje um processo mais formal (por "
+"exemplo, formar uma equipe antes de iniciar a tradução real)."
 
 #: ../../admin/projects.rst:570
 msgid "Create new language file"
@@ -16814,6 +16984,8 @@ msgid ""
 "User can select language and Weblate automatically creates the file for it "
 "and translation can begin."
 msgstr ""
+"O usuário pode selecionar o idioma e o Weblate cria automaticamente o "
+"arquivo para ele e a tradução pode começar."
 
 #: ../../admin/projects.rst:573
 msgid "Disable adding new translations"
@@ -16821,7 +16993,7 @@ msgstr "Desabilitar adição de novas traduções"
 
 #: ../../admin/projects.rst:573
 msgid "There will be no option for user to start new translation."
-msgstr ""
+msgstr "Não haverá a opção para o usuário iniciar uma nova tradução."
 
 #: ../../admin/projects.rst:577
 msgid ""
@@ -31191,7 +31363,7 @@ msgstr ""
 
 #: ../../faq.rst:266
 msgid "How do I review the translations of others?"
-msgstr "Como faço para rever as traduções dos outros?"
+msgstr "Como faço para revisar as traduções dos outros?"
 
 #: ../../faq.rst:268
 msgid ""
