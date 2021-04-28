@@ -312,7 +312,7 @@ class PluralTextarea(forms.Textarea):
             # Label for plural
             label = str(unit.translation.language)
             if len(values) != 1:
-                label = "{}, {}".format(label, plural.get_plural_label(idx))
+                label = f"{label}, {plural.get_plural_label(idx)}"
             ret.append(
                 render_to_string(
                     "snippets/editor.html",
@@ -555,18 +555,6 @@ class ZenTranslationForm(TranslationForm):
         self.helper.layout.append(Field("checksum"))
 
 
-class AntispamForm(forms.Form):
-    """Honeypot based spam protection form."""
-
-    content = forms.CharField(required=False)
-
-    def clean_content(self):
-        """Check if content is empty."""
-        if self.cleaned_data["content"] != "":
-            raise ValidationError("Invalid value")
-        return ""
-
-
 class DownloadForm(forms.Form):
     q = QueryField()
     format = forms.ChoiceField(
@@ -642,7 +630,7 @@ class UploadForm(SimpleUploadForm):
             "already translated."
         ),
         choices=(
-            ("", _("Update only non translated strings")),
+            ("", _("Update only untranslated strings")),
             ("replace-translated", _("Update translated strings")),
             ("replace-approved", _("Update translated and approved strings")),
         ),
@@ -1673,15 +1661,11 @@ class ComponentInitCreateForm(CleanRepoMixin, ComponentProjectForm):
         self.instance = instance
 
         # Create linked repos automatically
-        if not self.instance.is_repo_link and self.instance.vcs != "local":
-            same_repo = instance.project.component_set.filter(
-                repo=instance.repo, vcs=instance.vcs, branch=instance.branch
-            )
-            if same_repo.exists():
-                component = same_repo[0]
-                data["repo"] = component.get_repo_link_url()
-                data["branch"] = ""
-                self.clean_instance(data)
+        repo = instance.suggest_repo_link()
+        if repo:
+            data["repo"] = repo
+            data["branch"] = ""
+            self.clean_instance(data)
 
     def clean(self):
         self.clean_instance(self.cleaned_data)

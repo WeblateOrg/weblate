@@ -105,6 +105,9 @@ class ViewTest(FixtureTestCase):
         self.client.post(reverse("screenshot-delete", kwargs={"pk": screenshot.pk}))
         self.assertEqual(Screenshot.objects.count(), 0)
 
+    def extract_pk(self, data):
+        return int(data.split('data-pk="')[1].split('"')[0])
+
     def test_source_manipulations(self):
         self.make_manager()
         self.do_upload()
@@ -117,9 +120,10 @@ class ViewTest(FixtureTestCase):
         )
         data = response.json()
         self.assertEqual(data["responseCode"], 200)
-        self.assertEqual(len(data["results"]), 1)
+        self.assertIn('<a class="add-string', data["results"])
 
-        source_pk = data["results"][0]["pk"]
+        source_pk = self.extract_pk(data["results"])
+
         self.assertEqual(
             source_pk,
             self.component.source_translation.unit_set.search("hello").get().pk,
@@ -163,7 +167,7 @@ class ViewTest(FixtureTestCase):
 
         self.assertEqual(data["responseCode"], 200)
         # We should find at least one string
-        self.assertGreaterEqual(len(data["results"]), 1)
+        self.assertIn('<a class="add-string', data["results"])
 
     def test_ocr_disabled(self):
         orig = weblate.screenshots.views.HAS_OCR
@@ -196,9 +200,9 @@ class ViewTest(FixtureTestCase):
         )
         data = response.json()
         self.assertEqual(data["responseCode"], 200)
-        self.assertEqual(len(data["results"]), 1)
+        self.assertIn('<a class="add-string', data["results"])
 
-        source_pk = data["results"][0]["pk"]
+        source_pk = self.extract_pk(data["results"])
         self.assertEqual(source_pk, translation.unit_set.search("hello").get().pk)
 
         # Add found string

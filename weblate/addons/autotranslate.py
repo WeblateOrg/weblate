@@ -26,7 +26,7 @@ from django.utils.translation import gettext_lazy as _
 from weblate.addons.base import BaseAddon
 from weblate.addons.events import EVENT_COMPONENT_UPDATE, EVENT_DAILY
 from weblate.addons.forms import AutoAddonForm
-from weblate.trans.tasks import auto_translate
+from weblate.trans.tasks import auto_translate_component
 
 
 class AutoTranslateAddon(BaseAddon):
@@ -41,18 +41,12 @@ class AutoTranslateAddon(BaseAddon):
     multiple = True
     icon = "language.svg"
 
-    def make_callback(self, translation):
-        def callback():
-            auto_translate.delay(None, translation.pk, **self.instance.configuration)
-
-        return callback
-
     def component_update(self, component):
-        for translation in component.translation_set.iterator():
-            if translation.is_source:
-                continue
-
-            transaction.on_commit(self.make_callback(translation))
+        transaction.on_commit(
+            lambda: auto_translate_component.delay(
+                component.pk, **self.instance.configuration
+            )
+        )
 
     def daily(self, component):
         # Translate every component less frequenctly to reduce load.

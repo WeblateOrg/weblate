@@ -20,13 +20,13 @@ from typing import Optional
 
 from weblate.lang.models import Language
 from weblate.trans.models import Component
-from weblate.trans.models.component import ComponentLockTimeout
 from weblate.utils.celery import app
+from weblate.utils.lock import WeblateLockTimeout
 
 
 @app.task(
     trail=False,
-    autoretry_for=(Component.DoesNotExist, ComponentLockTimeout),
+    autoretry_for=(Component.DoesNotExist, WeblateLockTimeout),
     retry_backoff=60,
 )
 def sync_terminology(pk: int, component: Optional[Component] = None):

@@ -656,7 +656,10 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
         same_target = target == self.target
         same_state = state == self.state and flags == self.flags
         same_metadata = (
-            location == self.location and note == self.note and pos == self.position
+            location == self.location
+            and note == self.note
+            and pos == self.position
+            and not self.pending
         )
         same_data = (
             not created
@@ -685,6 +688,7 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
         self.context = context
         self.note = note
         self.previous_source = previous_source
+        self.pending = False
         self.update_priority(save=False)
 
         # Metadata update only, these do not trigger any actions in Weblate and
@@ -1377,7 +1381,7 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
         return self.source_unit.all_labels
 
     def get_flag_actions(self):
-        flags = Flags(self.extra_flags)
+        flags = self.all_flags
         result = []
         if self.is_source or self.translation.component.is_glossary:
             if "read-only" in flags:

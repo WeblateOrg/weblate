@@ -68,7 +68,9 @@ def show_language(request, lang):
             return redirect(obj)
         raise Http404("No Language matches the given query.")
 
-    if request.method == "POST" and request.user.has_perm("language.edit"):
+    user = request.user
+
+    if request.method == "POST" and user.has_perm("language.edit"):
         if obj.translation_set.exists():
             messages.error(
                 request, _("Remove all translations using this language first.")
@@ -78,8 +80,8 @@ def show_language(request, lang):
             messages.success(request, _("Language %s removed.") % obj)
             return redirect("languages")
 
-    last_changes = Change.objects.last_changes(request.user).filter(language=obj)[:10]
-    projects = request.user.allowed_projects
+    last_changes = Change.objects.last_changes(user).filter(language=obj)[:10]
+    projects = user.allowed_projects
     projects = prefetch_project_flags(
         prefetch_stats(projects.filter(component__translation__language=obj).distinct())
     )
@@ -95,6 +97,7 @@ def show_language(request, lang):
             "object": obj,
             "last_changes": last_changes,
             "last_changes_url": urlencode({"lang": obj.code}),
+            "search_form": SearchForm(user, language=obj),
             "projects": projects,
         },
     )

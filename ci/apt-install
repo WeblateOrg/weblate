@@ -10,6 +10,11 @@ chown -R 1000:1000 /run/user/1000
 # Update package lists
 apt-get update
 
+# Remove non-installable git packages. There git-svn can not be installed
+# because the image contains newer versions which do not have matching git-svn
+# in enabled repositories.
+apt-get purge git git-man
+
 # Install dependencies
 apt-get install -y \
     gir1.2-pango-1.0 \

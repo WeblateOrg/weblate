@@ -99,6 +99,8 @@ def git_export(request, project, component, path):
             return response_authenticate()
         raise
     if not request.user.has_perm("vcs.access", obj):
+        if not request.user.is_authenticated:
+            return response_authenticate()
         raise PermissionDenied("No VCS permissions")
     if obj.vcs not in SUPPORTED_VCS:
         raise Http404("Not a git repository")
@@ -146,9 +148,7 @@ def run_git_http(request, obj, path):
     if output_err:
         output_err = output_err.decode()
         try:
-            raise Exception(
-                "Git http backend error: {}".format(output_err.splitlines()[0])
-            )
+            raise Exception(f"Git http backend error: {output_err.splitlines()[0]}")
         except Exception:
             report_error(cause="Git backend failure")
 

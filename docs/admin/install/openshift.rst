@@ -15,13 +15,18 @@ The following examples assume you have a working OpenShift v3.x
 environment, with ``oc`` client tool installed. Please check the
 OpenShift documentation for instructions.
 
+The :file:`template.yml` is suited for running all components in OpenShift.
+There is also :file:`template-external-postgresql.yml` which does not start a
+PostgreSQL server and allows you to configure external PostgreSQL server.
+
 Web Console
 ~~~~~~~~~~~
 
-Copy the raw content from :file:`template.yml` and import them into your
-project, then use the ``Create`` button in the OpenShift web console to
-create your application. The web console will prompt you for the values
-for all of the parameters used by the template.
+Copy the raw content from `template.yml
+<https://github.com/WeblateOrg/openshift/blob/main/template.yml>`_ and import
+them into your project, then use the ``Create`` button in the OpenShift web
+console to create your application. The web console will prompt you for the
+values for all of the parameters used by the template.
 
 CLI
 ~~~

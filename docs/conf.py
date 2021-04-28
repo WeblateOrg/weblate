@@ -42,7 +42,7 @@ copyright = "2012 - 2021 Michal Čihař"
 author = "Michal Čihař"
 
 # The full version, including alpha/beta/rc tags
-release = "4.6"
+release = "4.7"
 
 
 # -- General configuration ---------------------------------------------------
@@ -271,6 +271,8 @@ autodoc_mock_imports = [
     "weblate.trans.tasks",
     "dateutil",
     "filelock",
+    "redis_lock",
+    "django_redis",
     "lxml",
     "translate",
     "siphashc",

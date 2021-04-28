@@ -216,6 +216,19 @@ Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 Notable configuration or dependencies changes:
 
 * There are new file formats, you might want to include them in case you modified the :setting:`WEBLATE_FORMATS`.
+* API for creating components now automatically uses :ref:`internal-urls`, see :http:post:`/api/projects/(string:project)/components/`.
+* There is a change in dependencies and :setting:`django:PASSWORD_HASHERS` to prefer Argon2 for passwords hashing.
+
+.. seealso:: :ref:`generic-upgrade-instructions`
+
+Upgrade from 4.6 to 4.7
+~~~~~~~~~~~~~~~~~~~~~~~
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+Notable configuration or dependencies changes:
+
+* There are several changes in :file:`settings_example.py`, most notable middleware changes (:setting:`django:MIDDLEWARE`), please adjust your settings accordingly.
 
 .. seealso:: :ref:`generic-upgrade-instructions`
 
@@ -255,7 +268,7 @@ It is usually a good idea to run Weblate in a separate database, and separate us
     sudo -u postgres createuser -D -P weblate
 
     # Create the database "weblate" owned by "weblate"
-    sudo -u postgres createdb -O weblate weblate
+    sudo -u postgres createdb -E UTF8 -O weblate weblate
 
 Migrating using Django JSON dumps
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

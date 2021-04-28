@@ -196,7 +196,7 @@ class LanguageQuerySet(models.QuerySet):
 
         # Country codes used without underscore (ptbr insteat of pt_BR)
         if len(code) == 4:
-            expanded_code = "{}_{}".format(code[:2], code[2:]).lower()
+            expanded_code = f"{code[:2]}_{code[2:]}".lower()
             lookups.append(Q(code__iexact=expanded_code))
 
         for lookup in lookups:
@@ -325,7 +325,7 @@ class LanguageQuerySet(models.QuerySet):
             item[:2]
             for item in sort_unicode(
                 (
-                    (code, "{} ({})".format(_(name), code), name)
+                    (code, f"{_(name)} ({code})", name)
                     for name, code in self.values_list("name", "code")
                 ),
                 lambda tup: tup[2],
@@ -478,7 +478,7 @@ class Language(models.Model, CacheKeyMixin):
 
     def __str__(self):
         if self.show_language_code:
-            return "{} ({})".format(_(self.name), self.code)
+            return f"{_(self.name)} ({self.code})"
         return _(self.name)
 
     def save(self, *args, **kwargs):

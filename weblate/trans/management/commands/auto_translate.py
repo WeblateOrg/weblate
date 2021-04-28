@@ -17,14 +17,13 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-
 from django.core.management.base import CommandError
 
 from weblate.auth.models import User
 from weblate.machinery import MACHINE_TRANSLATION_SERVICES
-from weblate.trans.autotranslate import AutoTranslate
 from weblate.trans.management.commands import WeblateTranslationCommand
 from weblate.trans.models import Component
+from weblate.trans.tasks import auto_translate
 
 
 class Command(WeblateTranslationCommand):
@@ -83,6 +82,7 @@ class Command(WeblateTranslationCommand):
         except User.DoesNotExist:
             raise CommandError("User does not exist!")
 
+        source = None
         if options["source"]:
             parts = options["source"].split("/")
             if len(parts) != 2:
@@ -92,8 +92,6 @@ class Command(WeblateTranslationCommand):
             except Component.DoesNotExist:
                 raise CommandError("No matching source component found!")
             source = component.id
-        else:
-            source = ""
 
         if options["mt"]:
             for translator in options["mt"]:
@@ -104,7 +102,6 @@ class Command(WeblateTranslationCommand):
 
         if options["mode"] not in ("translate", "fuzzy", "suggest"):
             raise CommandError("Invalid translation mode specified!")
-        mode = options["mode"]
 
         if options["inconsistent"]:
             filter_type = "check:inconsistent"
@@ -112,9 +109,16 @@ class Command(WeblateTranslationCommand):
             filter_type = "all"
         else:
             filter_type = "todo"
-        auto = AutoTranslate(user, translation, filter_type, mode)
-        if options["mt"]:
-            auto.process_mt(options["mt"], options["threshold"])
-        else:
-            auto.process_others(source)
-        self.stdout.write(f"Updated {auto.updated} units")
+
+        result = auto_translate(
+            user.id,
+            translation.id,
+            options["mode"],
+            filter_type,
+            "mt" if options["mt"] else "others",
+            source,
+            options["mt"],
+            options["threshold"],
+            translation=translation,
+        )
+        self.stdout.write(result["message"])

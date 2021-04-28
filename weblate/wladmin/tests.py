@@ -35,8 +35,8 @@ from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.tests.utils import get_test_file
 from weblate.utils.checks import check_data_writable
 from weblate.utils.unittest import tempdir_setting
+from weblate.wladmin.middleware import ManageMiddleware
 from weblate.wladmin.models import BackupService, ConfigurationError, SupportStatus
-from weblate.wladmin.tasks import configuration_health_check
 
 
 class AdminTest(ViewTestCase):
@@ -152,9 +152,9 @@ class AdminTest(ViewTestCase):
 
     def test_configuration_health_check(self):
         # Run checks internally
-        configuration_health_check()
+        ManageMiddleware.configuration_health_check()
         # List of triggered checks remotely
-        configuration_health_check(
+        ManageMiddleware.configuration_health_check(
             [
                 Critical(msg="Error", id="weblate.E001"),
                 Critical(msg="Test Error", id="weblate.E002"),
@@ -165,7 +165,7 @@ class AdminTest(ViewTestCase):
         self.assertEqual(all_errors[0].name, "weblate.E002")
         self.assertEqual(all_errors[0].message, "Test Error")
         # No triggered checks
-        configuration_health_check([])
+        ManageMiddleware.configuration_health_check([])
         self.assertEqual(ConfigurationError.objects.count(), 0)
 
     def test_post_announcenement(self):

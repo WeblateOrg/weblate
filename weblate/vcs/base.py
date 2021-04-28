@@ -31,11 +31,11 @@ from dateutil import parser
 from django.conf import settings
 from django.core.cache import cache
 from django.utils.functional import cached_property
-from filelock import FileLock
 from pkg_resources import Requirement, resource_filename
 from sentry_sdk import add_breadcrumb
 
 from weblate.trans.util import get_clean_env, path_separator
+from weblate.utils.lock import WeblateLock
 from weblate.vcs.ssh import SSH_WRAPPER
 
 LOGGER = logging.getLogger("weblate.vcs")
@@ -50,7 +50,7 @@ class RepositoryException(Exception):
 
     def get_message(self):
         if self.retcode != 0:
-            return "{} ({})".format(self.args[0], self.retcode)
+            return f"{self.args[0]} ({self.retcode})"
         return self.args[0]
 
     def __str__(self):
@@ -78,7 +78,14 @@ class Repository:
     def get_identifier(cls):
         return cls.identifier or cls.name.lower()
 
-    def __init__(self, path, branch=None, component=None, local=False):
+    def __init__(
+        self,
+        path: str,
+        branch: Optional[str] = None,
+        component=None,
+        local: bool = False,
+        skip_init: bool = False,
+    ):
         self.path = path
         if branch is None:
             self.branch = self.default_branch
@@ -86,12 +93,20 @@ class Repository:
             self.branch = branch
         self.component = component
         self.last_output = ""
-        self.lock = FileLock(self.path.rstrip("/").rstrip("\\") + ".lock", timeout=120)
+        base_path = self.path.rstrip("/").rstrip("\\")
+        self.lock = WeblateLock(
+            lock_path=os.path.dirname(base_path),
+            scope="repo",
+            key=component.pk if component else os.path.basename(base_path),
+            slug=os.path.basename(base_path),
+            file_template="{slug}.lock",
+            timeout=120,
+        )
         self.local = local
         if not local:
             # Create ssh wrapper for possible use
             SSH_WRAPPER.create()
-            if not self.is_valid():
+            if not skip_init and not self.is_valid():
                 self.init()
 
     @classmethod
@@ -263,9 +278,10 @@ class Repository:
     @classmethod
     def clone(cls, source: str, target: str, branch: str, component=None):
         """Clone repository and return object for cloned repository."""
-        SSH_WRAPPER.create()
-        cls._clone(source, target, branch)
-        return cls(target, branch, component)
+        repo = cls(target, branch, component, skip_init=True)
+        with repo.lock:
+            cls._clone(source, target, branch)
+        return repo
 
     def update_remote(self):
         """Update remote repository."""
@@ -405,7 +421,7 @@ class Repository:
             data = handle.read()
         if extra:
             objhash.update(extra.encode())
-        objhash.update("blob {}\0".format(len(data)).encode("ascii"))
+        objhash.update(f"blob {len(data)}\0".encode("ascii"))
         objhash.update(data)
 
     def get_object_hash(self, path):

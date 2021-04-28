@@ -170,7 +170,7 @@ class GitSquashAddon(BaseAddon):
             x.split(None, 1)
             for x in reversed(
                 repository.execute(
-                    ["log", "--format=%H %aE", f"{remote}..HEAD"]
+                    ["log", "--no-merges", "--format=%H %aE", f"{remote}..HEAD"]
                 ).splitlines()
             )
         ]

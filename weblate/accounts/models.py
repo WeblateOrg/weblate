@@ -84,6 +84,8 @@ class WeblateAccountsConf(AppConf):
     # Auto-watch setting for new users
     DEFAULT_AUTO_WATCH = True
 
+    CONTACT_FORM = "reply-to"
+
     # Auth0 provider default image & title on login page
     SOCIAL_AUTH_AUTH0_IMAGE = "auth0.svg"
     SOCIAL_AUTH_AUTH0_TITLE = "Auth0"

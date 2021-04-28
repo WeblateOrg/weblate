@@ -53,6 +53,7 @@ from weblate.formats.base import TranslationFormat
 from weblate.formats.helpers import BytesIOMode
 from weblate.formats.ttkit import TTKitUnit, XliffUnit
 from weblate.utils.errors import report_error
+from weblate.utils.state import STATE_APPROVED
 
 
 class ConvertUnit(TTKitUnit):
@@ -279,7 +280,7 @@ class OpenDocumentFormat(ConvertFormat):
         # This is workaround for weird fuzzy handling in translate-toolkit
         for unit in self.all_units:
             if unit.xliff_state == "translated":
-                unit.mark_approved(True)
+                unit.set_state(STATE_APPROVED)
 
         with open(templatename, "rb") as templatefile:
             dom_trees = translate_odf(templatefile, self.store)

@@ -323,7 +323,7 @@ def dashboard_anonymous(request):
         request,
         "dashboard/anonymous.html",
         {
-            "top_projects": prefetch_project_flags(top_projects),
+            "top_projects": prefetch_stats(prefetch_project_flags(top_projects)),
             "all_projects": Metric.objects.get_current(
                 None, Metric.SCOPE_GLOBAL, 0, name="projects"
             )["projects"],

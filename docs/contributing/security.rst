@@ -7,6 +7,10 @@ Security and privacy
 
 Development of Weblate adheres to the `Best Practices of the Linux Foundation's Core Infrastructure Initiative <https://bestpractices.coreinfrastructure.org/projects/552>`_.
 
+.. seealso::
+
+   :ref:`security`
+
 Tracking dependencies for vulnerabilities
 -----------------------------------------
 

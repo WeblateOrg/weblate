@@ -16,6 +16,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
+from copy import copy
 from zipfile import BadZipfile
 
 from django.conf import settings
@@ -430,6 +431,7 @@ class ComponentSerializer(RemovableSerializer):
 
     zipfile = serializers.FileField(required=False)
     docfile = serializers.FileField(required=False)
+    disable_autoshare = serializers.BooleanField(required=False)
 
     enforced_checks = serializers.JSONField(required=False)
 
@@ -503,6 +505,7 @@ class ComponentSerializer(RemovableSerializer):
             "addons",
             "is_glossary",
             "glossary_color",
+            "disable_autoshare",
         )
         extra_kwargs = {
             "url": {
@@ -531,57 +534,91 @@ class ComponentSerializer(RemovableSerializer):
             result["push"] = None
         return result
 
-    def fixup_request_payload(self, data):
-        data = data.copy()
-        if "source_language" in data:
-            language = data["source_language"]
-            data["source_language"] = Language.objects.get(
-                code=language if isinstance(language, str) else language["code"]
-            )
-        if "project" in self._context:
-            data["project"] = self._context["project"]
-        return data
-
     def to_internal_value(self, data):
         # Preprocess to inject params based on content
         data = data.copy()
+
+        # Provide a reasonable default
         if "manage_units" not in data and data.get("template"):
             data["manage_units"] = "1"
-        if "docfile" in data:
-            if hasattr(data["docfile"], "name"):
-                fake = create_component_from_doc(self.fixup_request_payload(data))
-                data["template"] = fake.template
-                data["new_base"] = fake.template
-                data["filemask"] = fake.filemask
-                data.pop("docfile")
-            else:
-                # Provide a filemask so that it is not listed as an
-                # error. The validation of docfile will fail later
+
+        # File uploads indicate usage of a local repo
+        if "docfile" in data or "zipfile" in data:
+            data["repo"] = "local:"
+            data["vcs"] = "local"
+            data["branch"] = "main"
+
+            # Provide a filemask so that it is not listed as an
+            # error. The validation of docfile will fail later
+            if "docfile" in data:
                 data["filemask"] = "fake.*"
-            data["repo"] = "local:"
-            data["vcs"] = "local"
-            data["branch"] = "main"
-        if "zipfile" in data:
-            if hasattr(data["zipfile"], "name"):
-                try:
-                    create_component_from_zip(self.fixup_request_payload(data))
-                except BadZipfile:
-                    raise serializers.ValidationError(
-                        "Failed to parse uploaded ZIP file."
-                    )
-                data.pop("zipfile")
-            data["repo"] = "local:"
-            data["vcs"] = "local"
-            data["branch"] = "main"
+
         # DRF processing
         result = super().to_internal_value(data)
-        # Postprocess to inject values
-        return self.fixup_request_payload(result)
+
+        # Handle source language attribute
+        if "source_language" in result:
+            language = result["source_language"]
+            result["source_language"] = Language.objects.get(
+                code=language if isinstance(language, str) else language["code"]
+            )
+
+        # Add missing project context
+        if "project" in self._context:
+            result["project"] = self._context["project"]
+        elif self.instance:
+            result["project"] = self.instance.project
+
+        return result
 
     def validate(self, attrs):
+        # Validate name/slug uniqueness, this has to be done prior docfile/zipfile
+        # extracting
+        for field in ("name", "slug"):
+            # Skip optional fields on PATCH
+            if field not in attrs:
+                continue
+            # Skip non changed fields
+            if self.instance and getattr(self.instance, field) == attrs[field]:
+                continue
+            # Look for existing components
+            if attrs["project"].component_set.filter(**{field: attrs[field]}).exists():
+                raise serializers.ValidationError(
+                    {field: f"Component with this {field} already exists."}
+                )
+
+        # Handle uploaded files
+        if "docfile" in attrs:
+            fake = create_component_from_doc(attrs)
+            attrs["template"] = fake.template
+            attrs["new_base"] = fake.template
+            attrs["filemask"] = fake.filemask
+            attrs.pop("docfile")
+        if "zipfile" in attrs:
+            try:
+                create_component_from_zip(attrs)
+            except BadZipfile:
+                raise serializers.ValidationError(
+                    {"zipfile": "Failed to parse uploaded ZIP file."}
+                )
+            attrs.pop("zipfile")
+        # Handle non-component arg
+        disable_autoshare = attrs.pop("disable_autoshare", False)
+
         # Call model validation here, DRF does not do that
-        instance = Component(**attrs)
+        if self.instance:
+            instance = copy(self.instance)
+            for key, value in attrs.items():
+                setattr(instance, key, value)
+        else:
+            instance = Component(**attrs)
         instance.clean()
+
+        if not self.instance and not disable_autoshare:
+            repo = instance.suggest_repo_link()
+            if repo:
+                attrs["repo"] = instance.repo = repo
+                attrs["branch"] = instance.branch = ""
         return attrs
 
 
@@ -760,7 +797,7 @@ class UploadRequestSerializer(ReadOnlySerializer):
 
         if data["method"] == "source" and not obj.is_source:
             raise serializers.ValidationError(
-                "Source upload is supported only on source language."
+                {"method": "Source upload is supported only on source language."}
             )
 
         if not check_upload_method_permissions(user, obj, data["method"]):
@@ -1080,7 +1117,9 @@ class AddonSerializer(serializers.ModelSerializer):
             if self.partial and self.instance:
                 name = self.instance.name
             else:
-                raise serializers.ValidationError("Can not change addon name")
+                raise serializers.ValidationError(
+                    {"name": "Can not change add-on name"}
+                )
         if instance:
             # Update
             component = instance.component
@@ -1089,25 +1128,25 @@ class AddonSerializer(serializers.ModelSerializer):
             component = self._context["component"]
         # This could probably work, but it safer not to allow it
         if instance and instance.name != name:
-            raise serializers.ValidationError("Can not change addon name")
+            raise serializers.ValidationError({"name": "Can not change add-on name"})
         try:
             addon_class = ADDONS[name]
         except KeyError:
-            raise serializers.ValidationError(f"Addon not found: {name}")
+            raise serializers.ValidationError({"name": f"Add-on not found: {name}"})
         addon = addon_class()
         if not addon.can_install(component, None):
             raise serializers.ValidationError(
-                f"could not enable addon {name}, not compatible"
+                {"name": f"could not enable add-on {name}, not compatible"}
             )
-        if addon.has_settings and "configuration" in attrs:
+        if addon.has_settings() and "configuration" in attrs:
             form = addon.get_add_form(None, component, data=attrs["configuration"])
             form.is_valid()
             if not form.is_valid():
                 for error in form.non_field_errors():
-                    raise serializers.ValidationError(error)
+                    raise serializers.ValidationError({"configuration": error})
                 for field in form:
                     for error in field.errors:
                         raise serializers.ValidationError(
-                            f"Error in {field.name}: {error}"
+                            {"configuration": f"Error in {field.name}: {error}"}
                         )
         return attrs

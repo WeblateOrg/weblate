@@ -207,11 +207,6 @@ class EditValidationTest(ViewTestCase):
         response = self.edit(suggest="1")
         self.assertContains(response, "Missing translated string!")
 
-    def test_edit_spam(self):
-        """Editing with spam trap."""
-        response = self.edit(content="1")
-        self.assertContains(response, "po/cs.po, string 2")
-
     def test_merge(self):
         """Merging with invalid parameter."""
         unit = self.get_unit()

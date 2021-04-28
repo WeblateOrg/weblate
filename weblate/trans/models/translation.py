@@ -466,18 +466,21 @@ class Translation(
 
     def get_git_blob_hash(self):
         """Return current VCS blob hash for file."""
-        get_object_hash = self.component.repository.get_object_hash
+        component = self.component
+        get_object_hash = component.repository.get_object_hash
 
         # Include language file
         hashes = [get_object_hash(self.get_filename())]
 
-        if self.component.has_template():
+        if component.has_template():
             # Include template
-            hashes.append(get_object_hash(self.component.template))
+            hashes.append(get_object_hash(component.template))
 
-            if self.component.intermediate:
+            if component.intermediate and os.path.exists(
+                component.get_intermediate_filename()
+            ):
                 # Include intermediate language as it might add new strings
-                hashes.append(get_object_hash(self.component.intermediate))
+                hashes.append(get_object_hash(component.intermediate))
 
         return ",".join(hashes)
 
@@ -663,8 +666,7 @@ class Translation(
                     pounit.set_target(unit.target)
 
             # Update fuzzy/approved flag
-            pounit.mark_fuzzy(unit.state == STATE_FUZZY)
-            pounit.mark_approved(unit.state == STATE_APPROVED)
+            pounit.set_state(unit.state)
 
             # Update comments as they might have been changed by state changes
             state = unit.get_unit_state(pounit, "")
@@ -730,7 +732,7 @@ class Translation(
         # All strings
         result.add(self.stats, "all", "")
 
-        result.add_if(self.stats, "readonly", "default")
+        result.add_if(self.stats, "readonly", "success")
 
         if not self.is_readonly:
             if self.enable_review:
@@ -741,7 +743,7 @@ class Translation(
 
             # To approve
             if self.enable_review:
-                result.add_if(self.stats, "unapproved", "dark")
+                result.add_if(self.stats, "unapproved", "success")
 
                 # Approved with suggestions
                 result.add_if(self.stats, "approved_suggestions", "info")
@@ -756,26 +758,26 @@ class Translation(
             result.add_if(self.stats, "fuzzy", "danger")
 
             # Translations with suggestions
-            result.add_if(self.stats, "suggestions", "dark")
-            result.add_if(self.stats, "nosuggestions", "dark")
+            result.add_if(self.stats, "suggestions", "danger")
+            result.add_if(self.stats, "nosuggestions", "danger")
 
         # All checks
-        result.add_if(self.stats, "allchecks", "warning")
+        result.add_if(self.stats, "allchecks", "danger")
 
         # Translated strings with checks
         if not self.is_source:
-            result.add_if(self.stats, "translated_checks", "warning")
+            result.add_if(self.stats, "translated_checks", "danger")
 
         # Dismissed checks
-        result.add_if(self.stats, "dismissed_checks", "warning")
+        result.add_if(self.stats, "dismissed_checks", "danger")
 
         # Process specific checks
         for check in CHECKS:
             check_obj = CHECKS[check]
-            result.add_if(self.stats, check_obj.url_id, "warning")
+            result.add_if(self.stats, check_obj.url_id, "danger")
 
         # Grab comments
-        result.add_if(self.stats, "comments", "dark")
+        result.add_if(self.stats, "comments", "")
 
         # Include labels
         labels = self.component.project.label_set.order_by("name")
@@ -1089,12 +1091,13 @@ class Translation(
 
             if method in ("translate", "fuzzy", "approve"):
                 # Merge on units level
-                with self.component.repository.lock:
+                with self.component.lock:
                     return self.merge_translations(
                         request, store, conflicts, method, fuzzy
                     )
             elif method == "add":
-                return self.handle_add_upload(request, store, fuzzy=fuzzy)
+                with self.component.lock:
+                    return self.handle_add_upload(request, store, fuzzy=fuzzy)
 
             # Add as sugestions
             return self.merge_suggestions(request, store, fuzzy)
@@ -1254,7 +1257,7 @@ class Translation(
                 Change.objects.create(
                     unit=unit,
                     action=Change.ACTION_NEW_UNIT,
-                    target=source,
+                    target=current_target,
                     user=user,
                     author=user,
                 )

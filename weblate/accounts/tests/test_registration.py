@@ -405,12 +405,6 @@ class RegistrationTest(BaseRegistrationTest):
         response = self.client.post(reverse("register"), data, follow=True)
         self.assertNotContains(response, "This e-mail address is disallowed.")
 
-    def test_spam(self):
-        data = REGISTRATION_DATA.copy()
-        data["content"] = "x"
-        response = self.do_register(data)
-        self.assertContains(response, "Invalid value")
-
     @override_settings(REGISTRATION_CAPTCHA=False)
     def test_add_mail(self, fails=False):
         """Adding mail to existing account."""

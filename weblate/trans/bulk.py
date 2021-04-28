@@ -53,7 +53,7 @@ def bulk_perform(
     updated = 0
     for component in components:
         component.batch_checks = True
-        with transaction.atomic(), component.lock():
+        with transaction.atomic(), component.lock:
             component.commit_pending("bulk edit", user)
             component_units = matching.filter(translation__component=component)
 

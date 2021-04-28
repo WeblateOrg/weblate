@@ -368,13 +368,6 @@ class ContactForm(forms.Form):
         max_length=2000,
         widget=forms.Textarea,
     )
-    content = forms.CharField(required=False)
-
-    def clean_content(self):
-        """Check if content is empty."""
-        if self.cleaned_data["content"] != "":
-            raise forms.ValidationError("Invalid value")
-        return ""
 
 
 class EmailForm(forms.Form, UniqueEmailMixin):
@@ -388,13 +381,6 @@ class EmailForm(forms.Form, UniqueEmailMixin):
         label=_("E-mail"),
         help_text=_("Activation e-mail will be sent here."),
     )
-    content = forms.CharField(required=False)
-
-    def clean_content(self):
-        """Check if content is empty."""
-        if self.cleaned_data["content"] != "":
-            raise forms.ValidationError("Invalid value")
-        return ""
 
 
 class RegistrationForm(EmailForm):
@@ -406,19 +392,12 @@ class RegistrationForm(EmailForm):
     username = UniqueUsernameField()
     # This has to be without underscore for social-auth
     fullname = FullNameField()
-    content = forms.CharField(required=False)
 
     def __init__(self, request=None, *args, **kwargs):
         # The 'request' parameter is set for custom auth use by subclasses.
         # The form data comes in via the standard 'data' kwarg.
         self.request = request
         super().__init__(*args, **kwargs)
-
-    def clean_content(self):
-        """Check if content is empty."""
-        if self.cleaned_data["content"] != "":
-            raise forms.ValidationError("Invalid value")
-        return ""
 
     def clean(self):
         if not check_rate_limit("registration", self.request):

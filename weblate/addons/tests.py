@@ -531,7 +531,7 @@ class ViewTests(ViewTestCase):
             {"name": "weblate.gettext.authors"},
             follow=True,
         )
-        self.assertContains(response, "1 addon installed")
+        self.assertContains(response, "1 add-on installed")
 
     def test_add_invalid(self):
         response = self.client.post(
@@ -539,7 +539,7 @@ class ViewTests(ViewTestCase):
             {"name": "invalid"},
             follow=True,
         )
-        self.assertContains(response, "Invalid addon name specified!")
+        self.assertContains(response, "Invalid add-on name specified!")
 
     def test_add_config(self):
         response = self.client.post(
@@ -547,7 +547,7 @@ class ViewTests(ViewTestCase):
             {"name": "weblate.generate.generate"},
             follow=True,
         )
-        self.assertContains(response, "Configure addon")
+        self.assertContains(response, "Configure add-on")
         response = self.client.post(
             reverse("addons", kwargs=self.kw_component),
             {
@@ -558,15 +558,15 @@ class ViewTests(ViewTestCase):
             },
             follow=True,
         )
-        self.assertContains(response, "1 addon installed")
+        self.assertContains(response, "1 add-on installed")
 
     def test_edit_config(self):
         self.test_add_config()
         addon = self.component.addon_set.all()[0]
         response = self.client.get(addon.get_absolute_url())
-        self.assertContains(response, "Configure addon")
+        self.assertContains(response, "Configure add-on")
         response = self.client.post(addon.get_absolute_url())
-        self.assertContains(response, "Configure addon")
+        self.assertContains(response, "Configure add-on")
         self.assertContains(response, "This field is required")
 
     def test_delete(self):
@@ -574,7 +574,7 @@ class ViewTests(ViewTestCase):
         response = self.client.post(
             addon.instance.get_absolute_url(), {"delete": "1"}, follow=True
         )
-        self.assertContains(response, "no addons currently installed")
+        self.assertContains(response, "no add-ons currently installed")
 
 
 class PropertiesAddonTest(ViewTestCase):
@@ -812,7 +812,7 @@ class DiscoveryTest(ViewTestCase):
             },
             follow=True,
         )
-        self.assertContains(response, "1 addon installed")
+        self.assertContains(response, "1 add-on installed")
 
 
 class ScriptsTest(ViewTestCase):
@@ -1035,7 +1035,7 @@ class BulkEditAddonTest(FixtureTestCase):
             {"name": "weblate.flags.bulk"},
             follow=True,
         )
-        self.assertContains(response, "Configure addon")
+        self.assertContains(response, "Configure add-on")
         response = self.client.post(
             reverse("addons", kwargs=self.kw_component),
             {
@@ -1050,7 +1050,7 @@ class BulkEditAddonTest(FixtureTestCase):
             },
             follow=True,
         )
-        self.assertContains(response, "1 addon installed")
+        self.assertContains(response, "1 add-on installed")
 
 
 class CDNJSAddonTest(ViewTestCase):

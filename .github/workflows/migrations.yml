@@ -28,20 +28,19 @@ jobs:
       - name: Start services
         run: ./ci/services-up ${{ matrix.database }}
       - name: Cache pip
-        uses: actions/cache@v2.1.4
+        uses: actions/cache@v2.1.5
         with:
           path: ~/.cache/pip
           key: ${{ runner.os }}-pip-migrate-${{ hashFiles('**/requirements*.txt') }}
       - name: Install apt dependencies
         run: sudo ./ci/apt-install $CI_DATABASE
       - name: Set up Python 3.7
-        uses: actions/setup-python@v2.2.1
+        uses: actions/setup-python@v2.2.2
         with:
           python-version: 3.7
       - name: Install pip dependencies
         run: |
           ./ci/pip-install
-          pip install psycopg2-binary==2.7.7
       - name: Check missing migrations
         run: ./ci/run-checkmigrate
       - name: Migrate from 4.0
@@ -58,6 +57,8 @@ jobs:
         run: ./ci/run-migrate 4.4
       - name: Migrate from 4.5
         run: ./ci/run-migrate 4.5
+      - name: Migrate from 4.6
+        run: ./ci/run-migrate 4.6
       - name: Coverage
         run: |
           coverage combine

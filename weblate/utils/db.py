@@ -71,6 +71,7 @@ def adjust_similarity_threshold(value: float):
         # Change setting only for reasonably big difference
         if abs(connection.weblate_similarity - value) > 0.01:
             cursor.execute("SELECT set_limit(%s)", [value])
+            connection.weblate_similarity = value
 
 
 class PostgreSQLSearchLookup(PatternLookup):

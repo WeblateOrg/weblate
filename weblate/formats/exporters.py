@@ -116,6 +116,9 @@ class BaseExporter:
 
     def build_unit(self, unit):
         output = self.create_unit(self.handle_plurals(unit.get_source_plurals()))
+        # Propagate source language
+        if hasattr(output, "setsource"):
+            output.setsource(output.source, sourcelang=self.source_language.code)
         self.add(output, self.handle_plurals(unit.get_target_plurals()))
         return output
 
@@ -124,9 +127,6 @@ class BaseExporter:
 
     def add_unit(self, unit):
         output = self.build_unit(unit)
-        # Propagate source language
-        if hasattr(output, "setsource"):
-            output.setsource(output.source, sourcelang=self.source_language.code)
         # Location needs to be set prior to ID to avoid overwrite
         # on some formats (for example xliff)
         for location in unit.location.split():
@@ -266,7 +266,7 @@ class PoXliffExporter(XMLExporter):
             converted_target = xliff_string_to_rich(unit.get_target_plurals())
         except (XMLSyntaxError, TypeError, KeyError):
             return output
-        output.rich_source = converted_source
+        output.set_rich_source(converted_source, self.source_language.code)
         output.set_rich_target(converted_target, self.language.code)
         return output
 

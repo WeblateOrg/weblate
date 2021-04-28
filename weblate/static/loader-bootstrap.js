@@ -111,7 +111,7 @@ function submitForm(evt) {
 Mousetrap.bindGlobal(["alt+enter", "mod+enter"], submitForm);
 
 function screenshotStart() {
-  $("#search-results").empty();
+  $("#search-results tbody.unit-listing-body").empty();
   increaseLoading("screenshots");
 }
 
@@ -131,9 +131,8 @@ function screenshotAddString() {
     dataType: "json",
     success: function () {
       var list = $("#sources-listing");
-
       $.get(list.data("href"), function (data) {
-        list.html(data);
+        list.find("table").replaceWith(data);
       });
     },
     error: function (jqXHR, textStatus, errorThrown) {
@@ -143,32 +142,9 @@ function screenshotAddString() {
 }
 
 function screnshotResultError(severity, message) {
-  $("#search-results").html(
+  $("#search-results tbody.unit-listing-body").html(
     '<tr class="' + severity + '"><td colspan="4">' + message + "</td></tr>"
   );
-}
-
-function screenshotResultSet(results) {
-  $("#search-results").empty();
-  $.each(results, function (idx, value) {
-    var row = $(
-      '<tr><td class="text"></td>' +
-        '<td class="context"></td>' +
-        '<td class="location"></td>' +
-        '<td class="assigned"></td>' +
-        '<td><a class="add-string btn btn-primary"> ' +
-        gettext("Add to screenshot") +
-        "</tr>"
-    );
-
-    row.find(".text").text(value.text);
-    row.find(".context").text(value.context);
-    row.find(".location").text(value.location);
-    row.find(".assigned").text(value.assigned);
-    row.find(".add-string").data("pk", value.pk);
-    $("#search-results").append(row);
-  });
-  $("#search-results").find(".add-string").click(screenshotAddString);
 }
 
 function screenshotLoaded(data) {
@@ -181,7 +157,8 @@ function screenshotLoaded(data) {
       gettext("No new matching source strings found.")
     );
   } else {
-    screenshotResultSet(data.results);
+    $("#search-results table").replaceWith(data.results);
+    $("#search-results").find(".add-string").click(screenshotAddString);
   }
 }
 
@@ -247,7 +224,7 @@ function loadTableSorting() {
           th.addClass("sort-init");
           if (!th.hasClass("sort-cell")) {
             // Skip statically initialized parts (when server side ordering is supported)
-            attr("title", gettext("Sort this column"))
+            th.attr("title", gettext("Sort this column"))
               .addClass("sort-cell")
               .append('<span class="sort-icon" />');
           }
@@ -496,11 +473,6 @@ $(function () {
       $("#form-activetab").attr("value", $target.attr("href"));
     });
   }
-
-  /* Hiding spam protection field */
-  $("#s_content").hide();
-  $("#id_content").parent("div").hide();
-  $("#div_id_content").hide();
 
   /* Form automatic submission */
   $("form.autosubmit select").change(function () {

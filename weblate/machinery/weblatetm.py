@@ -22,19 +22,20 @@ from typing import Set
 
 from django.db.models import Q
 
-from weblate.machinery.base import BatchStringMachineTranslation, get_machinery_language
+from weblate.machinery.base import MachineTranslation, get_machinery_language
 from weblate.trans.models import Unit
 from weblate.utils.db import adjust_similarity_threshold
 from weblate.utils.state import STATE_TRANSLATED
 
 
-class WeblateTranslation(BatchStringMachineTranslation):
+class WeblateTranslation(MachineTranslation):
     """Translation service using strings already translated in Weblate."""
 
     name = "Weblate"
     rank_boost = 1
     cache_translations = False
     accounting_key = "internal"
+    do_cleanup = False
 
     def convert_language(self, language):
         """No conversion of language object."""

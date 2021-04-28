@@ -27,16 +27,18 @@ from weblate.trans.management.commands import WeblateComponentCommand
 
 
 class Command(WeblateComponentCommand):
-    help = "installs addon to all listed components"
+    help = "installs add-on to all listed components"
 
     def add_arguments(self, parser):
         super().add_arguments(parser)
-        parser.add_argument("--addon", required=True, help="Addon name")
+        parser.add_argument("--addon", required=True, help="Add-on name")
         parser.add_argument(
-            "--configuration", default="{}", help="Addon configuration in JSON"
+            "--configuration", default="{}", help="Add-on configuration in JSON"
         )
         parser.add_argument(
-            "--update", action="store_true", help="Update existing addons configuration"
+            "--update",
+            action="store_true",
+            help="Update existing add-ons configuration",
         )
 
     def validate_form(self, form):
@@ -46,24 +48,23 @@ class Command(WeblateComponentCommand):
             for field in form:
                 for error in field.errors:
                     self.stderr.write(f"Error in {field.name}: {error}")
-            raise CommandError("Invalid addon configuration!")
+            raise CommandError("Invalid add-on configuration!")
 
     def handle(self, *args, **options):
         try:
-            addon_class = ADDONS[options["addon"]]
+            addon = ADDONS[options["addon"]]
         except KeyError:
-            raise CommandError("Addon not found: {}".format(options["addon"]))
-        addon = addon_class()
+            raise CommandError("Add-on not found: {}".format(options["addon"]))
         try:
             configuration = json.loads(options["configuration"])
         except ValueError as error:
-            raise CommandError(f"Invalid addon configuration: {error}")
+            raise CommandError(f"Invalid add-on configuration: {error}")
         try:
             user = User.objects.filter(is_superuser=True)[0]
         except IndexError:
             user = get_anonymous()
         for component in self.get_components(*args, **options):
-            if addon.has_settings:
+            if addon.has_settings():
                 form = addon.get_add_form(None, component, data=configuration)
                 self.validate_form(form)
             addons = Addon.objects.filter_component(component).filter(name=addon.name)

@@ -108,7 +108,7 @@ class FilterRegistry:
             return self.id_query[name]
         except KeyError:
             if name.startswith("label:"):
-                return 'label:"{}"'.format(name[6:])
+                return f'label:"{name[6:]}"'
             raise
 
 

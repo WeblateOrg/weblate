@@ -19,57 +19,9 @@
 
 
 from celery.schedules import crontab
-from django.core.checks import run_checks
 
 from weblate.utils.celery import app
-from weblate.wladmin.models import BackupService, ConfigurationError, SupportStatus
-
-
-@app.task(trail=False)
-def configuration_health_check(checks=None):
-    # Run deployment checks if needed
-    if checks is None:
-        checks = run_checks(include_deployment_checks=True)
-    checks_dict = {check.id: check for check in checks}
-    criticals = {
-        "weblate.E002",
-        "weblate.E003",
-        "weblate.E007",
-        "weblate.E009",
-        "weblate.E012",
-        "weblate.E013",
-        "weblate.E014",
-        "weblate.E015",
-        "weblate.E017",
-        "weblate.E018",
-        "weblate.E019",
-        "weblate.C023",
-        "weblate.C029",
-        "weblate.C030",
-        "weblate.C031",
-        "weblate.C032",
-        "weblate.E034",
-        "weblate.C035",
-        "weblate.C036",
-    }
-    removals = []
-    existing = {error.name: error for error in ConfigurationError.objects.all()}
-
-    for check_id in criticals:
-        if check_id in checks_dict:
-            check = checks_dict[check_id]
-            if check_id in existing:
-                error = existing[check_id]
-                if error.message != check.msg:
-                    error.message = check.msg
-                    error.save(update_fields=["message"])
-            else:
-                ConfigurationError.objects.create(name=check_id, message=check.msg)
-        elif check_id in existing:
-            removals.append(check_id)
-
-    if removals:
-        ConfigurationError.objects.filter(name__in=removals).delete()
+from weblate.wladmin.models import BackupService, SupportStatus
 
 
 @app.task(trail=False)
@@ -96,9 +48,6 @@ def backup_service(pk):
 
 @app.on_after_finalize.connect
 def setup_periodic_tasks(sender, **kwargs):
-    sender.add_periodic_task(
-        3600, configuration_health_check.s(), name="configuration-health-check"
-    )
     sender.add_periodic_task(
         24 * 3600, support_status_update.s(), name="support-status-update"
     )

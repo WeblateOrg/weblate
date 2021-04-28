@@ -61,7 +61,7 @@ def migrate_glossaries(apps, schema_editor):  # noqa: C901
                 slug = "glossary"
             else:
                 name = f"Glossary: {glossary.name}"
-                slug = "glossary-{}".format(slugify(glossary.name))
+                slug = f"glossary-{slugify(glossary.name)}"
 
             base_name = name
             base_slug = slug

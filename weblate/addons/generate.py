@@ -108,5 +108,5 @@ class PseudolocaleAddon(BaseAddon):
         self.do_update(component, Q(state__lte=STATE_TRANSLATED))
 
     def component_update(self, component):
-        # Update only non translated strings
+        # Update only untranslated strings
         self.do_update(component, Q(state__lt=STATE_TRANSLATED))

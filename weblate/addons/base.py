@@ -50,8 +50,8 @@ class BaseAddon:
     name = ""
     compat = {}
     multiple = False
-    verbose = "Base addon"
-    description = "Base addon"
+    verbose = "Base add-on"
+    description = "Base add-on"
     icon = "cog.svg"
     project_scope = False
     repo_scope = False
@@ -60,7 +60,7 @@ class BaseAddon:
     trigger_update = False
     stay_on_create = False
 
-    """Base class for Weblate addons."""
+    """Base class for Weblate add-ons."""
 
     def __init__(self, storage=None):
         self.instance = storage
@@ -74,9 +74,9 @@ class BaseAddon:
     def get_doc_anchor(cls):
         return "addon-{}".format(cls.name.replace(".", "-").replace("_", "-"))
 
-    @cached_property
-    def has_settings(self):
-        return self.settings_form is not None
+    @classmethod
+    def has_settings(cls):
+        return cls.settings_form is not None
 
     @classmethod
     def get_identifier(cls):
@@ -90,7 +90,7 @@ class BaseAddon:
             # Reallocate to repository
             if cls.repo_scope and component.linked_component:
                 component = component.linked_component
-            # Clear addon cache
+            # Clear add-on cache
             component.drop_addons_cache()
         return Addon(
             component=component,
@@ -110,7 +110,7 @@ class BaseAddon:
 
     @classmethod
     def get_add_form(cls, user, component, **kwargs):
-        """Return configuration form for adding new addon."""
+        """Return configuration form for adding new add-on."""
         if cls.settings_form is None:
             return None
         storage = cls.create_object(component)
@@ -119,7 +119,7 @@ class BaseAddon:
         return cls.settings_form(user, instance, **kwargs)
 
     def get_settings_form(self, user, **kwargs):
-        """Return configuration form for this addon."""
+        """Return configuration form for this add-on."""
         if self.settings_form is None:
             return None
         if "data" not in kwargs:
@@ -156,7 +156,7 @@ class BaseAddon:
                 self.post_commit(component)
         if EVENT_POST_UPDATE in self.events:
             for component in components:
-                component.commit_pending("addon", None)
+                component.commit_pending("add-on", None)
                 self.post_update(component, "", False)
         if EVENT_COMPONENT_UPDATE in self.events:
             for component in components:
@@ -169,12 +169,12 @@ class BaseAddon:
                 self.daily(component)
 
     def save_state(self):
-        """Save addon state information."""
+        """Save add-on state information."""
         self.instance.save(update_fields=["state"])
 
     @classmethod
     def can_install(cls, component, user):
-        """Check whether addon is compatible with given component."""
+        """Check whether add-on is compatible with given component."""
         for key, values in cls.compat.items():
             if getattr(component, key) not in values:
                 return False
@@ -198,7 +198,7 @@ class BaseAddon:
 
         :param str previous_head: HEAD of the repository prior to update, can
                                   be blank on initial clone.
-        :param bool skip_push: Whether the addon operation should skip pushing
+        :param bool skip_push: Whether the add-on operation should skip pushing
                                changes upstream. Usually you can pass this to
                                underlying methods as commit_and_push or
                                commit_pending.
@@ -240,7 +240,7 @@ class BaseAddon:
         return
 
     def execute_process(self, component, cmd, env=None):
-        component.log_debug("%s addon exec: %s", self.name, " ".join(cmd))
+        component.log_debug("%s add-on exec: %s", self.name, " ".join(cmd))
         try:
             output = subprocess.check_output(
                 cmd,
@@ -263,7 +263,7 @@ class BaseAddon:
                     "error": str(err),
                 }
             )
-            report_error(cause="Addon script error")
+            report_error(cause="Add-on script error")
 
     def trigger_alerts(self, component):
         if self.alerts:
@@ -338,16 +338,16 @@ class BaseAddon:
 
 
 class TestAddon(BaseAddon):
-    """Testing addong doing nothing."""
+    """Testing add-on doing nothing."""
 
     settings_form = BaseAddonForm
     name = "weblate.base.test"
-    verbose = "Test addon"
-    description = "Test addon"
+    verbose = "Test add-on"
+    description = "Test add-on"
 
 
 class UpdateBaseAddon(BaseAddon):
-    """Base class for addons updating translation files.
+    """Base class for add-ons updating translation files.
 
     It hooks to post update and commits all changed translations.
     """
@@ -383,11 +383,11 @@ class TestException(Exception):
 
 
 class TestCrashAddon(UpdateBaseAddon):
-    """Testing addong doing nothing."""
+    """Testing add-on doing nothing."""
 
     name = "weblate.base.crash"
-    verbose = "Crash test addon"
-    description = "Crash test addon"
+    verbose = "Crash test add-on"
+    description = "Crash test add-on"
 
     def update_translations(self, component, previous_head):
         if previous_head:
@@ -399,7 +399,7 @@ class TestCrashAddon(UpdateBaseAddon):
 
 
 class StoreBaseAddon(BaseAddon):
-    """Base class for addons tweaking store."""
+    """Base class for add-ons tweaking store."""
 
     events = (EVENT_STORE_POST_LOAD,)
     icon = "wrench.svg"

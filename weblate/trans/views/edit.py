@@ -46,7 +46,6 @@ from weblate.lang.models import Language
 from weblate.machinery import MACHINE_TRANSLATION_SERVICES
 from weblate.screenshots.forms import ScreenshotForm
 from weblate.trans.forms import (
-    AntispamForm,
     AutoForm,
     ChecksumForm,
     CommentForm,
@@ -60,13 +59,8 @@ from weblate.trans.forms import (
 )
 from weblate.trans.models import Change, Comment, Suggestion, Unit, Vote
 from weblate.trans.tasks import auto_translate
-from weblate.trans.util import (
-    get_state_css,
-    join_plural,
-    redirect_next,
-    render,
-    split_plural,
-)
+from weblate.trans.templatetags.translations import unit_state_class, unit_state_title
+from weblate.trans.util import join_plural, redirect_next, render, split_plural
 from weblate.utils import messages
 from weblate.utils.antispam import is_spam
 from weblate.utils.hash import hash_to_checksum
@@ -161,7 +155,10 @@ def get_other_units(unit):
             item.translated and item.target != unit.target
         )
         item.is_propagated = (
-            propagation and item.source == unit.source and item.context == unit.context
+            propagation
+            and item.translation.component.allow_translation_propagation
+            and item.source == unit.source
+            and item.context == unit.context
         )
         untranslated |= not item.translated
         allow_merge |= item.allow_merge
@@ -373,12 +370,6 @@ def perform_translation(unit, form, request):
 @session_ratelimit_post("translate")
 def handle_translate(request, unit, this_unit_url, next_unit_url):
     """Save translation or suggestion to database and backend."""
-    # Antispam protection
-    antispam = AntispamForm(request.POST)
-    if not antispam.is_valid():
-        # Silently redirect to next entry
-        return HttpResponseRedirect(next_unit_url)
-
     form = TranslationForm(request.user, unit, request.POST)
     if not form.is_valid():
         show_form_errors(request, form)
@@ -600,9 +591,6 @@ def translate(request, project, component, lang):  # noqa: C901
     else:
         secondary = None
 
-    # Spam protection
-    antispam = AntispamForm()
-
     # Prepare form
     form = TranslationForm(request.user, unit)
     sort = get_sort_name(request, obj)
@@ -638,7 +626,6 @@ def translate(request, project, component, lang):  # noqa: C901
             "filter_count": num_results,
             "filter_pos": offset,
             "form": form,
-            "antispam": antispam,
             "comment_form": CommentForm(
                 project,
                 initial={"scope": "global" if unit.is_source else "translation"},
@@ -691,7 +678,7 @@ def auto_translation(request, project, component, lang):
     )
 
     if settings.CELERY_TASK_ALWAYS_EAGER:
-        messages.success(request, auto_translate(*args))
+        messages.success(request, auto_translate(*args, translation=translation))
     else:
         task = auto_translate.delay(*args)
         messages.success(
@@ -790,7 +777,9 @@ def get_zen_unitdata(obj, project, unit_set, request):
     offset = search_result["offset"] - 1
     search_result["last_section"] = offset + 20 >= len(search_result["ids"])
 
-    units = unit_set.get_ordered(search_result["ids"][offset : offset + 20])
+    units = unit_set.prefetch_full().get_ordered(
+        search_result["ids"][offset : offset + 20]
+    )
 
     unitdata = [
         {
@@ -897,7 +886,8 @@ def save_zen(request, project, component, lang):
         "messages": [],
         "state": "success",
         "translationsum": translationsum,
-        "unit_flags": get_state_css(unit) if unit is not None else [],
+        "unit_state_class": unit_state_class(unit) if unit else "",
+        "unit_state_title": unit_state_title(unit) if unit else "",
     }
 
     storage = get_messages(request)
@@ -954,7 +944,7 @@ def browse(request, project, component, lang):
     search_result = search(obj, project, unit_set, request, blank=True)
     offset = search_result["offset"]
     page = 20
-    units = unit_set.get_ordered(
+    units = unit_set.prefetch_full().get_ordered(
         search_result["ids"][(offset - 1) * page : (offset - 1) * page + page]
     )
 
