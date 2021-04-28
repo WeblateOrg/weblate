@@ -387,7 +387,9 @@ class ObjectPascalFormatCheckTest(CheckTestCase):
     def setUp(self):
         super().setUp()
         self.test_highlight = (
-            self.flag, "%-9sstring%d", [(0, 4, "%-9s"), (10, 12, "%d")]
+            self.flag,
+            "%-9sstring%d",
+            [(0, 4, "%-9s"), (10, 12, "%d")],
         )
 
     def test_no_format(self):
@@ -414,19 +416,13 @@ class ObjectPascalFormatCheckTest(CheckTestCase):
         self.assertFalse(self.check.check_format("%10s string", "string", True, None))
 
     def test_wrong_format(self):
-        self.assertTrue(
-            self.check.check_format("%s string", "%d string", False, None)
-        )
+        self.assertTrue(self.check.check_format("%s string", "%d string", False, None))
 
     def test_invalid_format(self):
-        self.assertTrue(
-            self.check.check_format("%d string", "%c string", False, None)
-        )
+        self.assertTrue(self.check.check_format("%d string", "%c string", False, None))
 
     def test_looks_like_format(self):
-        self.assertFalse(
-            self.check.check_format("%c string", "%c string", False, None)
-        )
+        self.assertFalse(self.check.check_format("%c string", "%c string", False, None))
 
     def test_percent_format(self):
         self.assertFalse(
@@ -445,12 +441,7 @@ class ObjectPascalFormatCheckTest(CheckTestCase):
 
     def test_reorder_format(self):
         self.assertFalse(
-            self.check.check_format(
-                "%1:s %2:d string",
-                "%2:d %1:s string",
-                False,
-                None
-            )
+            self.check.check_format("%1:s %2:d string", "%2:d %1:s string", False, None)
         )
 
 
