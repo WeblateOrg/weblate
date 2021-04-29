@@ -830,6 +830,17 @@ class GithubRepository(GitMergeRequestBase):
             ):
                 return
 
+            if "Validation Failed" in error_message:
+                for error in response["errors"]:
+                    if error.get("field") == "head":
+                        # This most likely indicates that Weblate repository has moved
+                        # and we should createa a fresh fork.
+                        self.create_fork(credentials)
+                        self.create_pull_request(
+                            credentials, origin_branch, fork_remote, fork_branch
+                        )
+                        return
+
             raise RepositoryException(0, f"Pull request failed: {error_message}")
 
 
