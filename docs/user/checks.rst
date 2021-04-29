@@ -118,6 +118,7 @@ Check is false when double space is found in source meaning double space is inte
 .. _check-java-messageformat:
 .. _check-javascript-format:
 .. _check-lua-format:
+.. _check-object-pascal-format:
 .. _check-percent-placeholders:
 .. _check-perl-format:
 .. _check-php-format:
@@ -304,6 +305,23 @@ Lua format
 .. seealso::
 
     `Lua formatting strings <https://www.gnu.org/software/gettext/manual/html_node/lua_002dformat.html#lua_002dformat>`_
+
+Object Pascal format
+********************
+
+*Object Pascal format string does not match source*
+
++------------------------+------------------------------------------------------------+
+| Simple format string   | ``There are %d apples``                                    |
++------------------------+------------------------------------------------------------+
+| Flag to enable         | `object-pascal-format`                                     |
++------------------------+------------------------------------------------------------+
+
+.. seealso::
+
+    `Object Pascal formatting strings <https://www.gnu.org/software/gettext/manual/html_node/object_002dpascal_002dformat.html#object_002dpascal_002dformat>`_
+    `Free Pascal formatting strings <https://www.freepascal.org/docs-html/rtl/sysutils/format.html>`_
+    `Delphi formatting strings <http://docwiki.embarcadero.com/Libraries/Sydney/en/System.SysUtils.Format>`_
 
 Percent placeholders
 ********************

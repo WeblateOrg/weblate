@@ -94,6 +94,22 @@ C_PRINTF_MATCH = re.compile(
     re.VERBOSE,
 )
 
+# index, width and precision can be '*', in which case their value
+# will be read from the next element in the Args array
+PASCAL_FORMAT_MATCH = re.compile(
+    r"""
+    %(                          # initial %
+        (?:(?P<ord>\*|\d+):)?   # variable index, like %0:s
+        (?P<fullvar>
+            -?                  # left align
+            (?:\*|\d+)?         # width
+            (\.(?:\*|\d+))?     # precision
+            (?P<type>[defgmnpsuxDEFGMNPSUX%]) # type (%s, %d, etc.)
+        |)                      # incomplete format string
+    )""",
+    re.VERBOSE,
+)
+
 PYTHON_BRACE_MATCH = re.compile(
     r"""
     {(                                  # initial {
@@ -215,6 +231,10 @@ def c_format_is_position_based(string):
     return "$" not in string and string != "%"
 
 
+def pascal_format_is_position_based(string):
+    return ":" not in string and string != "%"
+
+
 def scheme_format_is_position_based(string):
     return "@*" not in string and string != "~"
 
@@ -231,6 +251,7 @@ FLAG_RULES = {
     "python-format": (PYTHON_PRINTF_MATCH, python_format_is_position_based),
     "php-format": (PHP_PRINTF_MATCH, c_format_is_position_based),
     "c-format": (C_PRINTF_MATCH, c_format_is_position_based),
+    "object-pascal-format": (PASCAL_FORMAT_MATCH, pascal_format_is_position_based),
     "perl-format": (C_PRINTF_MATCH, c_format_is_position_based),
     "javascript-format": (C_PRINTF_MATCH, c_format_is_position_based),
     "lua-format": (C_PRINTF_MATCH, c_format_is_position_based),
@@ -469,6 +490,15 @@ class LuaFormatCheck(BasePrintfCheck):
     check_id = "lua_format"
     name = _("Lua format")
     description = _("Lua format string does not match source")
+
+
+class ObjectPascalFormatCheck(BasePrintfCheck):
+    """Check for Object Pascal format string."""
+
+    check_id = "object_pascal_format"
+    name = _("Object Pascal format")
+    description = _("Object Pascal format string does not match source")
+    regexp = PASCAL_FORMAT_MATCH
 
 
 class SchemeFormatCheck(BasePrintfCheck):

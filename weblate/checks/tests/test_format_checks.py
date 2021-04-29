@@ -31,6 +31,7 @@ from weblate.checks.format import (
     JavaMessageFormatCheck,
     LuaFormatCheck,
     MultipleUnnamedFormatsCheck,
+    ObjectPascalFormatCheck,
     PercentPlaceholdersCheck,
     PerlFormatCheck,
     PHPFormatCheck,
@@ -377,6 +378,71 @@ class CFormatCheckTest(CheckTestCase):
 class LuaFormatCheckTest(CFormatCheckTest):
     check = LuaFormatCheck()
     flag = "lua-format"
+
+
+class ObjectPascalFormatCheckTest(CheckTestCase):
+    check = ObjectPascalFormatCheck()
+    flag = "object-pascal-format"
+
+    def setUp(self):
+        super().setUp()
+        self.test_highlight = (
+            self.flag,
+            "%-9sstring%d",
+            [(0, 4, "%-9s"), (10, 12, "%d")],
+        )
+
+    def test_no_format(self):
+        self.assertFalse(self.check.check_format("strins", "string", False, None))
+
+    def test_format(self):
+        self.assertFalse(self.check.check_format("%s string", "%s string", False, None))
+
+    def test_width_format(self):
+        self.assertFalse(
+            self.check.check_format("%10s string", "%10s string", False, None)
+        )
+
+    def test_missing_format(self):
+        self.assertTrue(self.check.check_format("%s string", "string", False, None))
+
+    def test_added_format(self):
+        self.assertTrue(self.check.check_format("string", "%s string", False, None))
+
+    def test_missing_width_format(self):
+        self.assertTrue(self.check.check_format("%10s string", "string", False, None))
+
+    def test_missing_width_format_ignore(self):
+        self.assertFalse(self.check.check_format("%10s string", "string", True, None))
+
+    def test_wrong_format(self):
+        self.assertTrue(self.check.check_format("%s string", "%d string", False, None))
+
+    def test_invalid_format(self):
+        self.assertTrue(self.check.check_format("%d string", "%c string", False, None))
+
+    def test_looks_like_format(self):
+        self.assertFalse(self.check.check_format("%c string", "%c string", False, None))
+
+    def test_percent_format(self):
+        self.assertFalse(
+            self.check.check_format("%6.2f%% string", "%6.2f%% string", False, None)
+        )
+
+    def test_wrong_digits(self):
+        self.assertTrue(
+            self.check.check_format("%6.2f string", "%5.3f string", False, None)
+        )
+
+    def test_wrong_wildcard(self):
+        self.assertTrue(
+            self.check.check_format("%*s string", "%10s string", False, None)
+        )
+
+    def test_reorder_format(self):
+        self.assertFalse(
+            self.check.check_format("%1:s %2:d string", "%2:d %1:s string", False, None)
+        )
 
 
 class PerlFormatCheckTest(CFormatCheckTest):
