@@ -47,8 +47,6 @@ class Command(BaseCommand):
         lines = []
         for check in sorted(CHECKS.values(), key=sorter):
             is_format = isinstance(check, BaseFormatCheck)
-            if not is_format and lines:
-                self.flush_lines(lines)
             # Output immediately
             self.stdout.write(f".. _{check.doc_id}:\n")
             if not lines:
@@ -62,8 +60,7 @@ class Command(BaseCommand):
             lines.append("\n".join(wrap(f"*{check.description}*", 79)))
             lines.append("\n")
 
-            if not is_format:
-                self.flush_lines(lines)
+            self.flush_lines(lines)
 
             ignores.append(f"``{check.ignore_string}``")
             ignores.append(f'    Skip the "{check.name}" quality check.')
