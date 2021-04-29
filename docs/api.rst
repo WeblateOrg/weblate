@@ -2321,6 +2321,27 @@ Tasks
     :>json object result: Task result or progress details
     :>json string log: Task log
 
+Metrics
++++++++
+
+.. http:get:: /api/metrics/
+
+    Returns server metrics.
+
+    :>json int units: Number of units
+    :>json int units_translated: Number of translated units
+    :>json int users: Number of users
+    :>json int changes: Number of changes
+    :>json int projects: Number of projects
+    :>json int components":  Number of components
+    :>json int translations":  Number of translations
+    :>json int languages":  Number of used languages
+    :>json int checks":  Number of triggered quality checks
+    :>json int configuration_errors":  Number of confguration errors
+    :>json int suggestions":  Number of pending suggestions
+    :>json object celery_queues: Lengths of Celery queues, see :ref:`celery`
+    :>json string name: Configured server name
+
 .. _hooks:
 
 Notification hooks

@@ -1492,7 +1492,13 @@ Monitoring Weblate
 ------------------
 
 Weblate provides the ``/healthz/`` URL to be used in simple health checks, for example
-using Kubernetes.
+using Kubernetes. The Docker container has built-in health check using this URL.
+
+For monitoring metrics of Weblate you can use :http:get:`/api/metrics/` API endpoint.
+
+.. seealso::
+
+   `Weblate plugin for Munin <https://github.com/WeblateOrg/munin>`_
 
 .. _collecting-errors:
 
