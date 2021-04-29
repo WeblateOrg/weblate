@@ -1,9 +1,10 @@
-Weblate 4.7.1
--------------
+Weblate 4.7
+-----------
 
 Not yet released.
 
 * Improved configuration health check.
+* Added support for ``object-pascal-format`` used in gettext PO.
 
 Weblate 4.6.1
 -------------
@@ -23,7 +24,6 @@ Weblate 4.6
 
 Released on April 19th 2021.
 
-* Added support for ``object-pascal-format`` used in gettext PO.
 * The auto_translate management command has now a parameter for specifying translation mode.
 * Added support for :ref:`txt`.
 * Added trends and metrics for all objects.
