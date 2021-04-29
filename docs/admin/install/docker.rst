@@ -1131,9 +1131,7 @@ Example SSL configuration:
 
     Path to the file containing the e-mail authentication password.
 
-    .. seealso:: 
-
-      :envvar:`WEBLATE_EMAIL_HOST_PASSWORD`
+    .. seealso:: :envvar:`WEBLATE_EMAIL_HOST_PASSWORD`
 
 .. envvar:: WEBLATE_EMAIL_USE_SSL
 
