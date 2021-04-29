@@ -1,4 +1,4 @@
-/*! @sentry/browser 6.3.1 (7962eee) | https://github.com/getsentry/sentry-javascript */
+/*! @sentry/browser 6.3.3 (ee17023) | https://github.com/getsentry/sentry-javascript */
 var Sentry = (function (exports) {
     /*! *****************************************************************************
     Copyright (c) Microsoft Corporation. All rights reserved.
@@ -4333,7 +4333,7 @@ var Sentry = (function (exports) {
         hub.bindClient(client);
     }
 
-    var SDK_VERSION = '6.3.1';
+    var SDK_VERSION = '6.3.3';
 
     var originalFunctionToString;
     /** Patch toString calls to return proper name for wrapped functions */
@@ -4393,10 +4393,16 @@ var Sentry = (function (exports) {
                 if (self) {
                     var client = hub.getClient();
                     var clientOptions = client ? client.getOptions() : {};
-                    var options = self._mergeOptions(clientOptions);
-                    if (self._shouldDropEvent(event, options)) {
-                        return null;
+                    // This checks prevents most of the occurrences of the bug linked below:
+                    // https://github.com/getsentry/sentry-javascript/issues/2622
+                    // The bug is caused by multiple SDK instances, where one is minified and one is using non-mangled code.
+                    // Unfortunatelly we cannot fix it reliably (thus reserved property in rollup's terser config),
+                    // as we cannot force people using multiple instances in their apps to sync SDK versions.
+                    var options = typeof self._mergeOptions === 'function' ? self._mergeOptions(clientOptions) : {};
+                    if (typeof self._shouldDropEvent !== 'function') {
+                        return event;
                     }
+                    return self._shouldDropEvent(event, options) ? null : event;
                 }
                 return event;
             });
