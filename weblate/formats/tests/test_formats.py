@@ -411,10 +411,13 @@ class GWTFormatTest(AutoFormatTest):
     EXPECTED_PATH = "gwt/gwt_cs-CZ.properties"
     FIND = "cartItems"
     FIND_CONTEXT = "cartItems"
-    FIND_MATCH = "There are {0,number} items in your cart."
+    FIND_MATCH = (
+        "There is {0,number} item in your cart.\x1e\x1e"
+        "There are {0,number} items in your cart."
+    )
     EDIT_TARGET = [
-        "There are {0,number} goods in your cart.",
         "There is {0,number} good in your cart.",
+        "There are {0,number} goods in your cart.",
     ]
     MATCH = "\n"
     NEW_UNIT_MATCH = b"\nkey=Source string\n"

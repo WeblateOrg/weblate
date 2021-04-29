@@ -171,7 +171,7 @@ class KeyValueUnit(TTKitUnit):
     def source(self):
         """Return source string from a Translate Toolkit unit."""
         if self.template is not None:
-            return get_string(self.template.value)
+            return get_string(self.template.source)
         return get_string(self.unit.name)
 
     @cached_property
@@ -179,7 +179,7 @@ class KeyValueUnit(TTKitUnit):
         """Return target string from a Translate Toolkit unit."""
         if self.unit is None:
             return ""
-        return get_string(self.unit.value)
+        return get_string(self.unit.source)
 
     @cached_property
     def context(self):
@@ -205,8 +205,6 @@ class KeyValueUnit(TTKitUnit):
     def set_target(self, target):
         """Set translation unit target."""
         super().set_target(target)
-        # Propagate to value so that is_translated works correctly
-        self.unit.value = self.unit.target
 
 
 class TTKitFormat(TranslationFormat):
@@ -485,21 +483,18 @@ class PropertiesUnit(KeyValueUnit):
 
     @cached_property
     def source(self):
+        """Return source string from a Translate Toolkit unit."""
+        if self.template is not None:
+            return get_string(self.template.source)
         # Need to decode property encoded string
-        return get_string(quote.propertiesdecode(super().source))
+        return get_string(quote.propertiesdecode(self.unit.name))
 
     @cached_property
     def target(self):
         """Return target string from a Translate Toolkit unit."""
         if self.unit is None:
             return ""
-        # Need to decode property encoded string
-        # This is basically stolen from
-        # translate.storage.properties.propunit.gettarget
-        # which for some reason does not return translation
-        value = quote.propertiesdecode(self.unit.value)
-        value = re.sub("\\\\ ", " ", value)
-        return get_string(value)
+        return get_string(self.unit.target or self.unit.source)
 
 
 class PoUnit(TTKitUnit):
