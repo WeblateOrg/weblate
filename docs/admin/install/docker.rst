@@ -684,6 +684,12 @@ Generic settings
       :setting:`RATELIMIT_WINDOW`,
       :setting:`RATELIMIT_LOCKOUT`
 
+.. envvar:: WEBLATE_ENABLE_AVATARS
+
+   .. versionadded:: 4.6.1
+
+   Configures :setting:`ENABLE_AVATARS`.
+
 
 Machine translation settings
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
