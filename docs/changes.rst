@@ -12,6 +12,8 @@ Not yet released.
 * Fixed possible caching issues on upgrade.
 * Fixed adding new units to monolingual translations using upload.
 
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/65?closed=1>`__.
+
 Weblate 4.6
 -----------
 
