@@ -90,6 +90,8 @@ def get_all_user_mails(user, entries=None):
         kwargs["social__in"] = entries
     emails = set(VerifiedEmail.objects.filter(**kwargs).values_list("email", flat=True))
     emails.add(user.email)
+    emails.discard(None)
+    emails.discard("")
     return emails
 
 
