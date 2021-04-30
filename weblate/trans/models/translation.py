@@ -1068,11 +1068,20 @@ class Translation(
                 filecopy = filecopy[3:]
 
             # Load backend file
+            if method == "add" and self.is_template:
+                template_store = try_load(
+                    fileobj.name,
+                    filecopy,
+                    self.component.file_format_cls,
+                    None,
+                )
+            else:
+                template_store = self.component.template_store
             store = try_load(
                 fileobj.name,
                 filecopy,
                 self.component.file_format_cls,
-                self.component.template_store,
+                template_store,
             )
 
             # Check valid plural forms

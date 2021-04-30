@@ -10,6 +10,7 @@ Not yet released.
 * Fixed creating pull requests on Pagure.
 * Fixed triggering automatically installed add-ons.
 * Fixed possible caching issues on upgrade.
+* Fixed adding new units to monolingual translations using upload.
 
 Weblate 4.6
 -----------
