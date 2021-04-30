@@ -235,7 +235,7 @@
 <ul class="nav nav-pills translation-tabs">
 <li class="active"><a href="#nearby" data-toggle="tab" id="toggle-nearby" title="{% trans "Messages placed around this one" %}">{% trans "Nearby strings" %} <span class="badge">{{ nearby|length }}</span></a></li>
 {% if nearby_keys %}
-<li><a href="#keys" data-toggle="tab" id="toggle-keys" title="{% trans "Strings with similar keys" %}">{% trans "Nearby keys" %} <span class="badge">{{ nearby_keys|length }}</span></a></li>
+<li><a href="#keys" data-toggle="tab" id="toggle-keys" title="{% trans "Strings with similar keys" %}">{% trans "Similar keys" %} <span class="badge">{{ nearby_keys|length }}</span></a></li>
 {% endif %}
 {% if variants|length > 1 %}
 <li><a href="#variants" data-toggle="tab" id="toggle-variants" title="{% trans "Variants of the string" %}">{% trans "Variants" %} <span class="badge">{{ variants|length }}</span></a></li>

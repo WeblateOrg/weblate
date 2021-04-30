@@ -5,6 +5,7 @@ Not yet released.
 
 * Improved configuration health check.
 * Added support for ``object-pascal-format`` used in gettext PO.
+* Renamed :guilabel:`Nearby keys` to :guilabel:`Similar keys` to better describe the purpose.
 
 Weblate 4.6.1
 -------------
