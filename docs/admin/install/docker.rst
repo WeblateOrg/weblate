@@ -222,6 +222,13 @@ number of workers:
 .. code-block:: yaml
 
     environment:
+      WEBLATE_WORKERS: 2
+
+You can also fine-tune individual worker categories:
+
+.. code-block:: yaml
+
+    environment:
       UWSGI_WORKERS: 4
       CELERY_MAIN_OPTIONS: --concurrency 2
       CELERY_NOTIFY_OPTIONS: --concurrency 1
@@ -229,6 +236,7 @@ number of workers:
 
 .. seealso::
 
+   :envvar:`WEBLATE_WORKERS`
    :envvar:`CELERY_MAIN_OPTIONS`,
    :envvar:`CELERY_NOTIFY_OPTIONS`,
    :envvar:`CELERY_MEMORY_OPTIONS`,
@@ -1284,6 +1292,20 @@ adjusted by the following variables:
 Container settings
 ~~~~~~~~~~~~~~~~~~
 
+.. envvar:: WEBLATE_WORKERS
+
+   .. versionadded:: 4.6.1
+
+   Base number of worker processes running in the container. When not set it is
+   determined automatically on container startup based on number of CPU cores
+   available.
+
+   It is used to determine :envvar:`CELERY_MAIN_OPTIONS`,
+   :envvar:`CELERY_NOTIFY_OPTIONS`, :envvar:`CELERY_MEMORY_OPTIONS`,
+   :envvar:`CELERY_TRANSLATE_OPTIONS`, :envvar:`CELERY_BACKUP_OPTIONS`,
+   :envvar:`CELERY_BEAT_OPTIONS`, and :envvar:`UWSGI_WORKERS`. You can use
+   these settings to fine-tune.
+
 .. envvar:: CELERY_MAIN_OPTIONS
 .. envvar:: CELERY_NOTIFY_OPTIONS
 .. envvar:: CELERY_MEMORY_OPTIONS
@@ -1295,8 +1317,7 @@ Container settings
     to adjust concurrency (``--concurrency 16``) or use different pool
     implementation (``--pool=gevent``).
 
-    By default, the number of concurrent workers matches the number of processors
-    (except the backup worker, which is supposed to run only once).
+    By default, the number of concurrent workers is based on :envvar:`WEBLATE_WORKERS`.
 
     **Example:**
 
@@ -1314,7 +1335,7 @@ Container settings
 
     Configure how many uWSGI workers should be executed.
 
-    It defaults to number of processors + 1.
+    It defaults to :envvar:`WEBLATE_WORKERS`.
 
     **Example:**
 
