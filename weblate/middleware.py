@@ -283,4 +283,7 @@ class SecurityMiddleware:
                 settings.SENTRY_SECURITY
             )
 
+        # Opt-out from Google FLoC
+        response["Permissions-Policy"] = "interest-cohort=()"
+
         return response
