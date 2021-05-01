@@ -824,7 +824,10 @@ $(function () {
   /* Copy to clipboard */
   var clipboard = new ClipboardJS("[data-clipboard-text]");
   clipboard.on("success", function (e) {
-    addAlert(gettext("Text copied to clipboard."), (kind = "info"));
+    var text =
+      e.trigger.getAttribute("data-clipboard-message") ||
+      gettext("Text copied to clipboard.");
+    addAlert(text, (kind = "info"));
   });
   clipboard.on("error", function (e) {
     addAlert(gettext("Please press Ctrl+C to copy."), (kind = "danger"));

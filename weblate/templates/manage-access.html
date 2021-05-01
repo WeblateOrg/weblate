@@ -156,7 +156,7 @@
         <th>{% trans "Your personal API key:" %}</th>
         <td>
             {{ user.auth_token.key }}
-            <button type="button" class="btn btn-link btn-xs" data-clipboard-text="{{ user.auth_token.key }}" title="{% trans "Copy to clipboard" %}">{% icon "copy.svg" %}</button>
+            <button type="button" class="btn btn-link btn-xs" data-clipboard-text="{{ user.auth_token.key }}" data-clipboard-message="{% trans "API key copied to clipboard." %}" title="{% trans "Copy to clipboard" %}">{% icon "copy.svg" %}</button>
         </td>
       </tr>
     </table>
