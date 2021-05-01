@@ -23,6 +23,7 @@ from typing import List, Optional
 
 from django.conf import settings
 from django.core.cache import cache
+from django.db import Error as DjangoDatabaseError
 from django.db import models, transaction
 from django.db.models import Count, Max, Q
 from django.utils import timezone
@@ -608,6 +609,8 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
             self.check_valid([context])
             note = unit.notes
             previous_source = unit.previous_source
+        except DjangoDatabaseError:
+            raise
         except Exception as error:
             report_error(cause="Unit update error")
             translation.component.handle_parse_error(error, translation)
