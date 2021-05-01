@@ -208,7 +208,7 @@ class SecurityMiddleware:
 
         # Support form
         if request.resolver_match and request.resolver_match.view_name == "manage":
-            script.add("'care.weblate.org'")
+            script.add("care.weblate.org")
 
         # Rollbar client errors reporting
         if (
