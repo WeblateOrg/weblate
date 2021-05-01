@@ -2187,7 +2187,7 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
             raise ValidationError({"filemask": message})
 
     def clean_files(self, matches):
-        """Validate that translation files can be."""
+        """Validate that translation files can be parsed."""
         errors = []
         dir_path = self.full_path
         for match in matches:

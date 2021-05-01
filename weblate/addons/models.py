@@ -18,6 +18,7 @@
 #
 
 from appconf import AppConf
+from django.db import Error as DjangoDatabaseError
 from django.db import models
 from django.db.models import Q
 from django.db.models.signals import post_save
@@ -180,6 +181,8 @@ def pre_push(sender, component, **kwargs):
         component.log_debug("running pre_push addon: %s", addon.name)
         try:
             addon.addon.pre_push(component)
+        except DjangoDatabaseError:
+            raise
         except Exception:
             handle_addon_error(addon, component)
 
@@ -190,6 +193,8 @@ def post_push(sender, component, **kwargs):
         component.log_debug("running post_push addon: %s", addon.name)
         try:
             addon.addon.post_push(component)
+        except DjangoDatabaseError:
+            raise
         except Exception:
             handle_addon_error(addon, component)
 
@@ -209,6 +214,8 @@ def post_update(
         component.log_debug("running post_update addon: %s", addon.name)
         try:
             addon.addon.post_update(component, previous_head, skip_push)
+        except DjangoDatabaseError:
+            raise
         except Exception:
             handle_addon_error(addon, component)
 
@@ -219,6 +226,8 @@ def component_update(sender, component, **kwargs):
         component.log_debug("running component_update addon: %s", addon.name)
         try:
             addon.addon.component_update(component)
+        except DjangoDatabaseError:
+            raise
         except Exception:
             handle_addon_error(addon, component)
 
@@ -229,6 +238,8 @@ def pre_update(sender, component, **kwargs):
         component.log_debug("running pre_update addon: %s", addon.name)
         try:
             addon.addon.pre_update(component)
+        except DjangoDatabaseError:
+            raise
         except Exception:
             handle_addon_error(addon, component)
 
@@ -240,6 +251,8 @@ def pre_commit(sender, translation, author, **kwargs):
         translation.log_debug("running pre_commit addon: %s", addon.name)
         try:
             addon.addon.pre_commit(translation, author)
+        except DjangoDatabaseError:
+            raise
         except Exception:
             handle_addon_error(addon, translation.component)
 
@@ -251,6 +264,8 @@ def post_commit(sender, component, **kwargs):
         component.log_debug("running post_commit addon: %s", addon.name)
         try:
             addon.addon.post_commit(component)
+        except DjangoDatabaseError:
+            raise
         except Exception:
             handle_addon_error(addon, component)
 
@@ -262,6 +277,8 @@ def post_add(sender, translation, **kwargs):
         translation.log_debug("running post_add addon: %s", addon.name)
         try:
             addon.addon.post_add(translation)
+        except DjangoDatabaseError:
+            raise
         except Exception:
             handle_addon_error(addon, translation.component)
 
@@ -275,6 +292,8 @@ def unit_pre_create_handler(sender, unit, **kwargs):
         unit.translation.log_debug("running unit_pre_create addon: %s", addon.name)
         try:
             addon.addon.unit_pre_create(unit)
+        except DjangoDatabaseError:
+            raise
         except Exception:
             handle_addon_error(addon, unit.translation.component)
 
@@ -289,6 +308,8 @@ def unit_post_save_handler(sender, instance, created, **kwargs):
         instance.translation.log_debug("running unit_post_save addon: %s", addon.name)
         try:
             addon.addon.unit_post_save(instance, created)
+        except DjangoDatabaseError:
+            raise
         except Exception:
             handle_addon_error(addon, instance.translation.component)
 
@@ -300,5 +321,7 @@ def store_post_load_handler(sender, translation, store, **kwargs):
         translation.log_debug("running store_post_load addon: %s", addon.name)
         try:
             addon.addon.store_post_load(translation, store)
+        except DjangoDatabaseError:
+            raise
         except Exception:
             handle_addon_error(addon, translation.component)
