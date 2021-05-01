@@ -235,7 +235,7 @@ class MetricsWrapper:
         if cache_key in cached_results:
             return cached_results[cache_key]
         numdays = monthrange(year, month)[1]
-        daily = self.get_daily_activity(date(year, month, 1), numdays)
+        daily = self.get_daily_activity(date(year, month, numdays), numdays - 1)
         result = sum(daily.values())
         cache.set(cache_key, result, None)
         return result
