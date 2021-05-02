@@ -8,7 +8,7 @@ fi
 
 . scripts/test-database
 version=$(python -c 'import weblate.utils.version; print(weblate.utils.version.VERSION_BASE)')
-today=$(./manage.py shell -c 'from django.utils.dateformat import format; import datetime; print(format(datetime.date.today(), "F dS Y"))')
+today=$(./manage.py shell -c 'from django.utils.dateformat import format; import datetime; print(format(datetime.date.today(), "F jS Y"))')
 
 sed -i "s/^VERSION =.*/VERSION = \"$version\"/" weblate/utils/version.py
 sed -i "s/^Not yet released./Released on $today./" docs/changes.rst
