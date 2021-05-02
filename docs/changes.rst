@@ -1,7 +1,7 @@
 Weblate 4.6.1
 -------------
 
-Not yet released.
+Released on May 02nd 2021.
 
 * Remove obsolete spam protection code.
 * Improve source plural check accuracy.
