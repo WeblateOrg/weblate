@@ -1,7 +1,7 @@
 Weblate 4.6.1
 -------------
 
-Released on May 02nd 2021.
+Released on May 2nd 2021.
 
 * Remove obsolete spam protection code.
 * Improve source plural check accuracy.
@@ -73,7 +73,7 @@ Released on March 26th 2021.
 Weblate 4.5.1
 -------------
 
-Released on March 05th 2021.
+Released on March 5th 2021.
 
 * Fixed editing of glossary flags in some corner cases.
 * Extend metrics usage to improve performance of several pages.
@@ -369,7 +369,7 @@ Released on June 15th 2020.
 Weblate 4.0.4
 -------------
 
-Released on May 07th 2020.
+Released on May 7th 2020.
 
 * Fixed testsuite execution on some Python 3.8 environments.
 * Typo fixes in the documentation.
@@ -383,7 +383,7 @@ Released on May 07th 2020.
 Weblate 4.0.3
 -------------
 
-Released on May 02nd 2020.
+Released on May 2nd 2020.
 
 * Fixed possible crash in reports.
 * User mentions in comments are now case insensitive.
