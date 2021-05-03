@@ -15,9 +15,7 @@ class VendastaOpenIdConnect(OpenIdConnectAuth):
 
     @cache(ttl=86400)
     def oidc_config(self):
-        oidc_endpoint = self.setting(
-            "OIDC_ENDPOINT", "https://iam-prod.apigateway.co"
-        )
+        oidc_endpoint = self.setting("OIDC_ENDPOINT", "https://iam-prod.apigateway.co")
         LOGGER.info("OIDC_ENDPOINT: %s", oidc_endpoint)
         return self.get_json(oidc_endpoint + "/.well-known/openid-configuration")
 

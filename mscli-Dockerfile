@@ -32,6 +32,9 @@ COPY weblate /usr/src/weblate/
 # Fixes an error that appears while installing cryptography
 ENV CRYPTOGRAPHY_DONT_BUILD_RUST=1
 
+# Suppress error for disabled 'set-env' command
+ENV ACTIONS_ALLOW_UNSECURE_COMMANDS='true'
+
 # Install dependencies
 RUN set -x \
   && export DEBIAN_FRONTEND=noninteractive \

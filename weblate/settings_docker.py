@@ -415,7 +415,9 @@ if "WEBLATE_SOCIAL_AUTH_VENDASTA_KEY" in os.environ:
     SOCIAL_AUTH_SINGLE_SIGN_ON_OIDC_ENDPOINT = os.environ.get(
         "WEBLATE_SOCIAL_AUTH_VENDASTA_OIDC_URL", ""
     )
-    SOCIAL_AUTH_SINGLE_SIGN_ON_KEY = os.environ.get("WEBLATE_SOCIAL_AUTH_VENDASTA_KEY", "")
+    SOCIAL_AUTH_SINGLE_SIGN_ON_KEY = os.environ.get(
+        "WEBLATE_SOCIAL_AUTH_VENDASTA_KEY", ""
+    )
     SOCIAL_AUTH_SINGLE_SIGN_ON_SECRET = os.environ.get(
         "WEBLATE_SOCIAL_AUTH_VENDASTA_SECRET", ""
     )
@@ -978,6 +980,7 @@ WEBLATE_ADDONS = [
     "weblate.addons.cdn.CDNJSAddon",
     "weblate.addons.autotranslate.AutoTranslateAddon",
     "weblate.vendasta.addons.NotifyLexicon",
+    "weblate.vendasta.scripts.ApplyTranslationsFromHistory",
 ]
 modify_env_list(WEBLATE_ADDONS, "ADDONS")
 
