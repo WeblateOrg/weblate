@@ -3,6 +3,8 @@ Weblate 4.6.2
 
 Not yet released.
 
+* Fixed crash after moving shared component between projects.
+
 Weblate 4.6.1
 -------------
 
