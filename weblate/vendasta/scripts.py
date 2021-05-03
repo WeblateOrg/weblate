@@ -37,7 +37,7 @@ class ApplyTranslationsFromHistory(BaseAddon):
 
     def apply_translations_from_history(self):
         """Apply translations from history."""
-        LOGGER.error("Component from instance: %s", self.instance.component.name)
-        LOGGER.error(
+        LOGGER.debug("Component from instance: %s", self.instance.component.name)
+        LOGGER.debug(
             "User saved to config: %s", self.instance.configuration.get_value("user")
         )
