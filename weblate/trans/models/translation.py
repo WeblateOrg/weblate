@@ -1356,7 +1356,7 @@ class Translation(
             return
         # Always load a new copy of store
         store = self.load_store()
-        old_units = len(store.all_units)
+        old_units = len(store.content_units)
         # Add new unit
         store.new_unit(context, source, target, skip_build=True)
         # Serialize the content
@@ -1373,17 +1373,17 @@ class Translation(
         except Exception as error:
             raise ValidationError(_("Failed adding string: %s") % error)
         # Verify there is a single unit added
-        if len(newstore.all_units) != old_units + 1:
+        if len(newstore.content_units) != old_units + 1:
             raise ValidationError(
                 _("Failed adding string: %s") % _("Failed to parse new string")
             )
         # Find newly added unit (it can be on any position), but we assume
         # the storage has consistent ordering
         unit = None
-        for pos, current in enumerate(newstore.all_units):
+        for pos, current in enumerate(newstore.content_units):
             if pos >= old_units or (
-                current.source != store.all_units[pos].source
-                and current.context != store.all_units[pos].context
+                current.source != store.content_units[pos].source
+                and current.context != store.content_units[pos].context
             ):
                 unit = current
                 break

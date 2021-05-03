@@ -4,6 +4,7 @@ Weblate 4.6.2
 Not yet released.
 
 * Fixed crash after moving shared component between projects.
+* Fixed adding new strings to empty properties files.
 
 Weblate 4.6.1
 -------------
