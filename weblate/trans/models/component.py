@@ -691,7 +691,7 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
             # Detect slug changes and rename Git repo
             self.check_rename(old)
             # Rename linked repos
-            if old.slug != self.slug:
+            if old.slug != self.slug or old.project != self.project:
                 old.component_set.update(repo=self.get_repo_link_url())
             if changed_git:
                 self.drop_repository_cache()
