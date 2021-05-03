@@ -847,7 +847,7 @@ class Translation(
             self.invalidate_cache()
             request.user.profile.increase_count("translated", accepted)
 
-        return (not_found, skipped, accepted, len(list(store2.content_units)))
+        return (not_found, skipped, accepted, len(store2.content_units))
 
     def merge_suggestions(self, request, store, fuzzy):
         """Merge content of translate-toolkit store as a suggestions."""
@@ -878,7 +878,7 @@ class Translation(
         if accepted > 0:
             self.invalidate_cache()
 
-        return (not_found, skipped, accepted, len(list(store.content_units)))
+        return (not_found, skipped, accepted, len(store.content_units))
 
     def drop_store_cache(self):
         if "store" in self.__dict__:
@@ -994,7 +994,7 @@ class Translation(
                     change=Change.ACTION_REPLACE_UPLOAD,
                 )
 
-        return (0, 0, self.unit_set.count(), len(list(store2.content_units)))
+        return (0, 0, self.unit_set.count(), len(store2.content_units))
 
     def handle_add_upload(self, request, store, fuzzy: str = ""):
         has_template = self.component.has_template()
@@ -1023,7 +1023,7 @@ class Translation(
         self.component.sync_terminology()
         self.component.update_source_checks()
         self.component.run_batched_checks()
-        return (0, skipped, accepted, len(list(store.content_units)))
+        return (0, skipped, accepted, len(store.content_units))
 
     @transaction.atomic
     def merge_upload(

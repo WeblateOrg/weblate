@@ -345,7 +345,7 @@ class TranslationFormat:
 
     @property
     def content_units(self):
-        yield from (unit for unit in self.all_units if unit.has_content())
+        return [unit for unit in self.all_units if unit.has_content()]
 
     @staticmethod
     def mimetype():
