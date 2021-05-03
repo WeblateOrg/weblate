@@ -17,12 +17,10 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-
 from django.db import transaction
 
 from weblate.checks.flags import Flags
 from weblate.trans.models import Change, Component, Unit
-from weblate.utils.db import get_nokey_args
 from weblate.utils.state import STATE_APPROVED, STATE_FUZZY, STATE_TRANSLATED
 
 EDITABLE_STATES = STATE_FUZZY, STATE_TRANSLATED, STATE_APPROVED
@@ -55,7 +53,7 @@ def bulk_perform(
     updated = 0
     for component in components:
         component.batch_checks = True
-        with transaction.atomic(), component.lock():
+        with transaction.atomic(), component.lock:
             component.commit_pending("bulk edit", user)
             component_units = matching.filter(translation__component=component)
 
@@ -70,7 +68,7 @@ def bulk_perform(
                 update_unit_ids = []
                 source_units = []
                 # Generate changes for state change
-                for unit in component_units.select_for_update(**get_nokey_args()):
+                for unit in component_units.select_for_update():
                     source_unit_ids.add(unit.source_unit_id)
 
                     if (
@@ -105,10 +103,14 @@ def bulk_perform(
                 user is None or user.has_perm("source.edit", component)
             ):
                 # Perform changes on the source units
-                source_units = Unit.objects.filter(pk__in=source_unit_ids).prefetch()
+                source_units = (
+                    Unit.objects.filter(pk__in=source_unit_ids)
+                    .prefetch()
+                    .prefetch_bulk()
+                )
                 if add_labels or remove_labels:
                     source_units = source_units.prefetch_related("labels")
-                for source_unit in source_units.select_for_update(**get_nokey_args()):
+                for source_unit in source_units.select_for_update():
                     changed = False
                     if add_flags or remove_flags:
                         flags = Flags(source_unit.extra_flags)

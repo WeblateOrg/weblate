@@ -319,7 +319,7 @@ The configuration file is an INI file, for example:
     [weblate]
     url = https://hosted.weblate.org/api/
     key = APIKEY
-    translation = weblate/master
+    translation = weblate/application
 
 Additionally API keys can be stored in the ``[keys]`` section:
 
@@ -360,25 +360,25 @@ You can also designate what project wlc should work on:
     $ cat .weblate
     [weblate]
     url = https://hosted.weblate.org/api/
-    translation = weblate/master
+    translation = weblate/application
 
     $ wlc show
-    branch: master
+    branch: main
     file_format: po
     source_language: en
     filemask: weblate/locale/*/LC_MESSAGES/django.po
-    git_export: https://hosted.weblate.org/git/weblate/master/
+    git_export: https://hosted.weblate.org/git/weblate/application/
     license: GPL-3.0+
     license_url: https://spdx.org/licenses/GPL-3.0+
-    name: master
+    name: Application
     new_base: weblate/locale/django.pot
     project: weblate
     repo: git://github.com/WeblateOrg/weblate.git
-    slug: master
+    slug: application
     template:
-    url: https://hosted.weblate.org/api/components/weblate/master/
+    url: https://hosted.weblate.org/api/components/weblate/application/
     vcs: git
-    web_url: https://hosted.weblate.org/projects/weblate/master/
+    web_url: https://hosted.weblate.org/projects/weblate/application/
 
 
 With this setup it is easy to commit pending changes in the current project:

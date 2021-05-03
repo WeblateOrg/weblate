@@ -21,7 +21,6 @@ import os
 import re
 import time
 from collections import Counter, defaultdict
-from contextlib import contextmanager
 from copy import copy
 from datetime import datetime
 from glob import glob
@@ -32,7 +31,7 @@ from urllib.parse import urlparse
 from celery import current_task
 from celery.result import AsyncResult
 from django.conf import settings
-from django.core.cache import cache, caches
+from django.core.cache import cache
 from django.core.exceptions import ObjectDoesNotExist, ValidationError
 from django.db import models, transaction
 from django.db.models import Count, Q
@@ -40,9 +39,6 @@ from django.urls import reverse
 from django.utils.functional import cached_property
 from django.utils.translation import gettext as _
 from django.utils.translation import gettext_lazy, ngettext, pgettext
-from django_redis.cache import RedisCache
-from filelock import FileLock, Timeout
-from redis_lock import AlreadyAcquired, Lock, NotAcquired
 from weblate_language_data.ambiguous import AMBIGUOUS
 
 from weblate.checks.flags import Flags
@@ -92,6 +88,7 @@ from weblate.utils.db import FastDeleteModelMixin, FastDeleteQuerySetMixin
 from weblate.utils.errors import report_error
 from weblate.utils.fields import JSONField
 from weblate.utils.licenses import get_license_choices, get_license_url, is_libre
+from weblate.utils.lock import WeblateLock, WeblateLockTimeout
 from weblate.utils.render import (
     render_template,
     validate_render_addon,
@@ -144,10 +141,6 @@ LANGUAGE_CODE_STYLE_CHOICES = (
 MERGE_CHOICES = (("merge", gettext_lazy("Merge")), ("rebase", gettext_lazy("Rebase")))
 
 LOCKING_ALERTS = {"MergeFailure", "UpdateFailure", "PushFailure"}
-
-
-class ComponentLockTimeout(Exception):
-    """Component lock timeout."""
 
 
 def perform_on_link(func):
@@ -698,7 +691,7 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
             # Detect slug changes and rename Git repo
             self.check_rename(old)
             # Rename linked repos
-            if old.slug != self.slug:
+            if old.slug != self.slug or old.project != self.project:
                 old.component_set.update(repo=self.get_repo_link_url())
             if changed_git:
                 self.drop_repository_cache()
@@ -799,12 +792,12 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
                 continue
 
             try:
-                addon = ADDONS[name]()
+                addon = ADDONS[name]
             except KeyError:
                 self.log_warning("could not enable addon %s, not found", name)
                 continue
 
-            if addon.has_settings:
+            if addon.has_settings():
                 form = addon.get_add_form(None, self, data=configuration)
                 if not form.is_valid():
                     self.log_warning(
@@ -847,50 +840,15 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
         project.glossaries.append(component)
 
     @cached_property
-    def _lock(self):
-        default_cache = caches["default"]
-        if isinstance(default_cache, RedisCache):
-            # Prefer Redis locking as it works distributed
-            return Lock(
-                default_cache.client.get_client(),
-                name=f"component-update-lock-{self.pk}",
-                expire=60,
-                auto_renewal=True,
-            )
-        # Fall back to file based locking
-        return FileLock(
-            os.path.join(self.project.full_path, f"{self.slug}-update.lock"),
-            timeout=1,
-        )
-
-    @contextmanager
     def lock(self):
-        default_cache = caches["default"]
-        if isinstance(default_cache, RedisCache):
-            # Prefer Redis locking as it works distributed
-            try:
-                if not self._lock.acquire(timeout=1):
-                    raise ComponentLockTimeout()
-            except AlreadyAcquired:
-                pass
-        else:
-            # Fall back to file based locking
-            try:
-                self._lock.acquire()
-            except Timeout:
-                raise ComponentLockTimeout()
-
-        try:
-            # Execute context
-            yield
-        finally:
-            # Release lock (the API is same in both cases)
-            try:
-                self._lock.release()
-            except NotAcquired:
-                # This can happen in case of overloaded server fails to renew the
-                # lock before expiry
-                pass
+        return WeblateLock(
+            lock_path=self.project.full_path,
+            scope="component-update",
+            key=self.pk,
+            slug=self.slug,
+            cache_template="{scope}-lock-{key}",
+            file_template="{slug}-update.lock",
+        )
 
     @cached_property
     def update_key(self):
@@ -940,7 +898,7 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
             if self.linked_component:
                 self.linked_component.store_log(slug, msg, *args)
                 return
-        self.logs.append("{}: {}".format(slug, msg % args))
+        self.logs.append(f"{slug}: {msg % args}")
         if current_task:
             cache.set(f"task-log-{current_task.request.id}", self.logs, 2 * 3600)
 
@@ -1520,7 +1478,7 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
 
             # create translation objects for all files
             try:
-                self.create_translations(request=request)
+                self.create_translations(request=request, force=True)
                 return True
             except FileParseError:
                 return False
@@ -1644,6 +1602,7 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
         if self.id:
             Change.objects.create(
                 component=self,
+                translation=translation,
                 action=Change.ACTION_PARSE_ERROR,
                 details={"error_message": error_message, "filename": filename},
                 user=self.acting_user,
@@ -1860,11 +1819,11 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
     ):
         """Load translations from VCS."""
         try:
-            with self.lock():
+            with self.lock:
                 return self._create_translations(
                     force, langs, request, changed_template, from_link
                 )
-        except ComponentLockTimeout:
+        except WeblateLockTimeout:
             if settings.CELERY_TASK_ALWAYS_EAGER:
                 # Retry will not address anything
                 raise
@@ -1964,7 +1923,7 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
                     code=self.get_language_alias(code)
                 )
                 if lang.code in languages:
-                    codes = "{}, {}".format(code, languages[lang.code])
+                    codes = f"{code}, {languages[lang.code]}"
                     detail = f"{lang.code} ({codes})"
                     self.log_warning("duplicate language found: %s", detail)
                     Change.objects.create(
@@ -2058,8 +2017,9 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
         if self.batched_checks:
             from weblate.checks.tasks import batch_update_checks
 
+            batched_checks = list(self.batched_checks)
             transaction.on_commit(
-                lambda: batch_update_checks.delay(self.id, list(self.batched_checks))
+                lambda: batch_update_checks.delay(self.id, batched_checks)
             )
         self.batch_checks = False
         self.batched_checks = set()
@@ -2227,7 +2187,7 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
             raise ValidationError({"filemask": message})
 
     def clean_files(self, matches):
-        """Validate that translation files can be."""
+        """Validate that translation files can be parsed."""
         errors = []
         dir_path = self.full_path
         for match in matches:
@@ -2576,6 +2536,16 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
 
             # Make sure all languages are present
             self.sync_terminology()
+
+            # Run automatically installed addons. They are run upon installation,
+            # but there are no translations created at that point.
+            processed = set()
+            for addons in self.addons_cache.values():
+                for addon in addons:
+                    if addon.id in processed:
+                        continue
+                    processed.add(addon.id)
+                    addon.addon.post_configure()
 
     def update_variants(self):
         from weblate.trans.models import Unit
@@ -3071,3 +3041,17 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
         if self.is_glossary:
             return _("Add new glossary term")
         return _("Add new translation string")
+
+    def suggest_repo_link(self):
+        if self.is_repo_link or self.vcs == "local":
+            return None
+
+        same_repo = self.project.component_set.filter(
+            repo=self.repo, vcs=self.vcs, branch=self.branch
+        )
+        if self.push:
+            same_repo = same_repo.filter(push=self.push)
+        try:
+            return same_repo[0].get_repo_link_url()
+        except IndexError:
+            return None

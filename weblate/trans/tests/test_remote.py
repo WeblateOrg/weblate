@@ -62,7 +62,7 @@ class MultiRepoTest(ViewTestCase):
     """Test handling of remote changes, conflicts and so on."""
 
     _vcs = "git"
-    _branch = "master"
+    _branch = "main"
     _filemask = "po/*.po"
 
     def setUp(self):
@@ -254,6 +254,7 @@ class MercurialMultiRepoTest(MultiRepoTest):
 
 class SubversionMultiRepoTest(MultiRepoTest):
     _vcs = "subversion"
+    _branch = "master"
 
     def create_component(self):
         return self.create_po_svn()

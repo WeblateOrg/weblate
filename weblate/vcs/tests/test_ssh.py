@@ -49,9 +49,9 @@ class SSHTest(TestCase):
         wrapper.create()
         with open(filename) as handle:
             data = handle.read()
-            self.assertTrue(ssh_file("known_hosts") in data)
-            self.assertTrue(ssh_file("id_rsa") in data)
-            self.assertTrue(settings.DATA_DIR in data)
+            self.assertIn(ssh_file("known_hosts"), data)
+            self.assertIn(ssh_file("id_rsa"), data)
+            self.assertIn(settings.DATA_DIR, data)
         self.assertTrue(os.access(filename, os.X_OK))
         # Second run should not touch the file
         timestamp = os.stat(filename).st_mtime

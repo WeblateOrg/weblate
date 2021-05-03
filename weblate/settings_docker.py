@@ -70,6 +70,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # Data directory
 DATA_DIR = os.environ.get("WEBLATE_DATA_DIR", "/app/data")
+CACHE_DIR = os.environ.get("WEBLATE_CACHE_DIR", "/app/cache")
 
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
@@ -114,11 +115,13 @@ LANGUAGES = (
     ("pl", "Polski"),
     ("pt", "Português"),
     ("pt-br", "Português brasileiro"),
+    ("ro", "Română"),
     ("ru", "Русский"),
     ("sk", "Slovenčina"),
     ("sl", "Slovenščina"),
     ("sq", "Shqip"),
     ("sr", "Српски"),
+    ("sr-latn", "Srpski"),
     ("sv", "Svenska"),
     ("tr", "Türkçe"),
     ("uk", "Українська"),
@@ -139,6 +142,9 @@ USE_L10N = True
 # If you set this to False, Django will not use timezone-aware datetimes.
 USE_TZ = True
 
+# Type of automatic primary key, introduced in Django 3.2
+DEFAULT_AUTO_FIELD = "django.db.models.AutoField"
+
 # URL prefix to use, please see documentation for more details
 URL_PREFIX = os.environ.get("WEBLATE_URL_PREFIX", "")
 
@@ -152,7 +158,7 @@ MEDIA_URL = f"{URL_PREFIX}/media/"
 # Absolute path to the directory static files should be collected to.
 # Don't put anything in this directory yourself; store your static files
 # in apps' "static/" subdirectories and in STATICFILES_DIRS.
-STATIC_ROOT = os.path.join(DATA_DIR, "static")
+STATIC_ROOT = os.path.join(CACHE_DIR, "static")
 
 # URL prefix for static files.
 STATIC_URL = f"{URL_PREFIX}/static/"
@@ -494,6 +500,14 @@ AUTH_PASSWORD_VALIDATORS = [
     # },
 ]
 
+# Password hashing (prefer Argon)
+PASSWORD_HASHERS = [
+    "django.contrib.auth.hashers.Argon2PasswordHasher",
+    "django.contrib.auth.hashers.PBKDF2PasswordHasher",
+    "django.contrib.auth.hashers.PBKDF2SHA1PasswordHasher",
+    "django.contrib.auth.hashers.BCryptSHA256PasswordHasher",
+]
+
 # Content-Security-Policy
 CSP_SCRIPT_SRC = get_env_list("WEBLATE_CSP_SCRIPT_SRC")
 CSP_IMG_SRC = get_env_list("WEBLATE_CSP_IMG_SRC")
@@ -534,7 +548,7 @@ if "ROLLBAR_KEY" in os.environ:
     ROLLBAR = {
         "access_token": os.environ["ROLLBAR_KEY"],
         "environment": os.environ.get("ROLLBAR_ENVIRONMENT", "production"),
-        "branch": "master",
+        "branch": "main",
         "root": "/usr/local/lib/python3.7/dist-packages/weblate/",
         "exception_level_filters": [
             (PermissionDenied, "ignored"),
@@ -684,6 +698,8 @@ LOGGING = {
         "social": {"handlers": [DEFAULT_LOG], "level": DEFAULT_LOGLEVEL},
         # Django Authentication Using LDAP
         "django_auth_ldap": {"handlers": [DEFAULT_LOG], "level": DEFAULT_LOGLEVEL},
+        # SAML IdP
+        "djangosaml2idp": {"handlers": [DEFAULT_LOG], "level": DEFAULT_LOGLEVEL},
     },
 }
 
@@ -821,6 +837,7 @@ SECURE_REDIRECT_EXEMPT = (r"healthz/$",)  # Allowing HTTP access to health check
 # Session cookie age (in seconds)
 SESSION_COOKIE_AGE = 1000
 SESSION_COOKIE_AGE_AUTHENTICATED = 1209600
+SESSION_COOKIE_SAMESITE = "Lax"
 # Increase allowed upload size
 DATA_UPLOAD_MAX_MEMORY_SIZE = 50000000
 
@@ -828,6 +845,7 @@ DATA_UPLOAD_MAX_MEMORY_SIZE = 50000000
 LANGUAGE_COOKIE_SECURE = SESSION_COOKIE_SECURE
 LANGUAGE_COOKIE_HTTPONLY = SESSION_COOKIE_HTTPONLY
 LANGUAGE_COOKIE_AGE = SESSION_COOKIE_AGE_AUTHENTICATED * 10
+LANGUAGE_COOKIE_SAMESITE = SESSION_COOKIE_SAMESITE
 
 # Some security headers
 SECURE_BROWSER_XSS_FILTER = True
@@ -878,6 +896,9 @@ if "WEBLATE_LICENSE_FILTER" in os.environ:
     LICENSE_FILTER = set(get_env_list("WEBLATE_LICENSE_FILTER"))
     LICENSE_FILTER.discard("")
 
+LICENSE_REQUIRED = get_env_bool("WEBLATE_LICENSE_REQUIRED", False)
+WEBSITE_REQUIRED = get_env_bool("WEBLATE_WEBSITE_REQUIRED", True)
+
 # Language filter
 if "WEBLATE_BASIC_LANGUAGES" in os.environ:
     BASIC_LANGUAGES = set(get_env_list("WEBLATE_BASIC_LANGUAGES"))
@@ -917,6 +938,7 @@ CHECK_LIST = [
     "weblate.checks.format.PerlFormatCheck",
     "weblate.checks.format.JavaScriptFormatCheck",
     "weblate.checks.format.LuaFormatCheck",
+    "weblate.checks.format.ObjectPascalFormatCheck",
     "weblate.checks.format.SchemeFormatCheck",
     "weblate.checks.format.CSharpFormatCheck",
     "weblate.checks.format.JavaFormatCheck",
@@ -1026,6 +1048,7 @@ CACHES = {
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
             "PARSER_CLASS": "redis.connection.HiredisParser",
+            # If you set password here, adjust CELERY_BROKER_URL as well
             "PASSWORD": REDIS_PASSWORD if REDIS_PASSWORD else None,
             "CONNECTION_POOL_KWARGS": {},
         },
@@ -1129,6 +1152,10 @@ SILENCED_SYSTEM_CHECKS = [
 ]
 SILENCED_SYSTEM_CHECKS.extend(get_env_list("WEBLATE_SILENCED_SYSTEM_CHECKS"))
 
+# Celery worker configuration for testing
+# CELERY_TASK_ALWAYS_EAGER = True
+# CELERY_BROKER_URL = "memory://"
+# CELERY_TASK_EAGER_PROPAGATES = True
 # Celery worker configuration for production
 CELERY_TASK_ALWAYS_EAGER = get_env_bool("WEBLATE_CELERY_EAGER", False)
 CELERY_BROKER_URL = "{}://{}{}:{}/{}".format(
@@ -1149,7 +1176,7 @@ CELERY_RESULT_BACKEND = CELERY_BROKER_URL
 CELERY_WORKER_MAX_MEMORY_PER_CHILD = 200000
 CELERY_BEAT_SCHEDULE_FILENAME = os.path.join(DATA_DIR, "celery", "beat-schedule")
 CELERY_TASK_ROUTES = {
-    "weblate.trans.tasks.auto_translate": {"queue": "translate"},
+    "weblate.trans.tasks.auto_translate*": {"queue": "translate"},
     "weblate.accounts.tasks.notify_*": {"queue": "notify"},
     "weblate.accounts.tasks.send_mails": {"queue": "notify"},
     "weblate.utils.tasks.settings_backup": {"queue": "backup"},
@@ -1167,6 +1194,9 @@ AUTO_UPDATE = get_env_bool("WEBLATE_AUTO_UPDATE", False)
 
 # Update languages on migration
 UPDATE_LANGUAGES = get_env_bool("WEBLATE_UPDATE_LANGUAGES", True)
+
+# Avatars
+ENABLE_AVATARS = get_env_bool("WEBLATE_ENABLE_AVATARS", True)
 
 # Default access control
 DEFAULT_ACCESS_CONTROL = get_env_int("WEBLATE_DEFAULT_ACCESS_CONTROL", 0)
@@ -1189,6 +1219,15 @@ DEFAULT_COMMITER_NAME = os.environ.get("WEBLATE_DEFAULT_COMMITER_NAME", "Weblate
 DEFAULT_AUTO_WATCH = get_env_bool("WEBLATE_DEFAULT_AUTO_WATCH", True)
 
 DEFAULT_SHARED_TM = get_env_bool("WEBLATE_DEFAULT_SHARED_TM", True)
+
+CONTACT_FORM = os.environ.get("WEBLATE_CONTACT_FORM", "reply-to")
+
+# Wildcard loading
+for name in os.environ:
+    if name.startswith("WEBLATE_RATELIMIT_") and name.endswith(
+        ("_ATTEMPTS", "_WINDOW", "_LOCKOUT")
+    ):
+        locals()[name[8:]] = get_env_int(name)
 
 # PGP commits signing
 WEBLATE_GPG_IDENTITY = os.environ.get("WEBLATE_GPG_IDENTITY", None)

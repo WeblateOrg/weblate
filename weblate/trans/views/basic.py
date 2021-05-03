@@ -52,7 +52,7 @@ from weblate.trans.models.project import prefetch_project_flags
 from weblate.trans.models.translation import GhostTranslation
 from weblate.trans.util import render, sort_unicode
 from weblate.utils import messages
-from weblate.utils.ratelimit import session_ratelimit_post
+from weblate.utils.ratelimit import reset_rate_limit, session_ratelimit_post
 from weblate.utils.stats import GhostProjectLanguageStats, prefetch_stats
 from weblate.utils.views import (
     get_component,
@@ -163,7 +163,7 @@ def show_project(request, project):
 
     language_stats = sort_unicode(
         language_stats,
-        lambda x: "{}-{}".format(user.profile.get_translation_order(x), x.language),
+        lambda x: f"{user.profile.get_translation_order(x)}-{x.language}",
     )
 
     components = prefetch_tasks(all_components)
@@ -230,7 +230,7 @@ def show_component(request, project, component):
 
     translations = sort_unicode(
         translations,
-        lambda x: "{}-{}".format(user.profile.get_translation_order(x), x.language),
+        lambda x: f"{user.profile.get_translation_order(x)}-{x.language}",
     )
 
     return render(
@@ -381,9 +381,10 @@ def data_project(request, project):
 @session_ratelimit_post("language")
 def new_language(request, project, component):
     obj = get_component(request, project, component)
+    user = request.user
 
     form_class = get_new_language_form(request, obj)
-    can_add = obj.can_add_new_language(request.user)
+    can_add = obj.can_add_new_language(user)
 
     if request.method == "POST":
         form = form_class(obj, request.POST)
@@ -391,8 +392,8 @@ def new_language(request, project, component):
         if form.is_valid():
             langs = form.cleaned_data["lang"]
             kwargs = {
-                "user": request.user,
-                "author": request.user,
+                "user": user,
+                "author": user,
                 "component": obj,
                 "details": {},
             }
@@ -418,6 +419,8 @@ def new_language(request, project, component):
                             "sent to the project's maintainers."
                         ),
                     )
+            if user.has_perm("component.edit", obj):
+                reset_rate_limit("language", request)
             return redirect(obj)
         messages.error(request, _("Please fix errors in the form."))
     else:
@@ -439,11 +442,19 @@ def healthz(request):
 @never_cache
 def show_component_list(request, name):
     obj = get_object_or_404(ComponentList, slug__iexact=name)
+    components = obj.components.filter_access(request.user)
 
     return render(
         request,
         "component-list.html",
-        {"object": obj, "components": obj.components.filter_access(request.user)},
+        {
+            "object": obj,
+            "components": components,
+            "licenses": sorted(
+                (component for component in components if component.license),
+                key=lambda component: component.license,
+            ),
+        },
     )
 
 

@@ -33,13 +33,13 @@ Usage
 The module automatically hooks into Weblate and sets the exported repository URL in
 the :ref:`component`.
 The repositories are accessible under the ``/git/`` part of the Weblate URL, for example
-``https://example.org/git/weblate/master/``.
+``https://example.org/git/weblate/main/``.
 
 Repositories for publicly available projects can be cloned without authentication:
 
 .. code-block:: sh
 
-    git clone 'https://example.org/git/weblate/master/'
+    git clone 'https://example.org/git/weblate/main/'
 
 Access to browse the repositories with restricted access (with `Private`
 :ref:`access control <acl>` or when :setting:`REQUIRE_LOGIN` is enabled)
@@ -48,7 +48,7 @@ requires an API token which can be obtained in your
 
 .. code-block:: sh
 
-    git clone 'https://user:KEY@example.org/git/weblate/master/'
+    git clone 'https://user:KEY@example.org/git/weblate/main/'
 
 .. hint::
 
@@ -125,7 +125,7 @@ following templates in the documents:
 .. note::
 
     Legal documents for the Hosted Weblate service are available in this Git repository
-    <https://github.com/WeblateOrg/wllegal/tree/master/wllegal/templates/legal/documents>.
+    <https://github.com/WeblateOrg/wllegal/tree/main/wllegal/templates/legal/documents>.
 
     Most likely these will not be directly usable to you, but might come in handy
     as a starting point if adjusted to meet your needs.
@@ -247,6 +247,10 @@ Rate limiting
 
       The rate limiting now accepts more fine-grained configuration.
 
+.. versionchanged:: 4.6
+
+      The rate limiting no longer applies to superusers.
+
 Several operations in Weblate are rate limited. At most
 :setting:`RATELIMIT_ATTEMPTS` attempts are allowed within :setting:`RATELIMIT_WINDOW` seconds.
 The user is then blocked for :setting:`RATELIMIT_LOCKOUT`. There are also settings specific to scopes, for example ``RATELIMIT_CONTACT_ATTEMPTS`` or ``RATELIMIT_TRANSLATE_ATTEMPTS``. The table below is a full list of available scopes.
@@ -273,6 +277,8 @@ The following operations are subject to rate limiting:
 +-----------------------------------+--------------------+------------------+------------------+----------------+
 
 If a user fails to log in :setting:`AUTH_LOCK_ATTEMPTS` times, password authentication will be turned off on the account until having gone through the process of having its password reset.
+
+The settings can be also applied in the Docker container by adding ``WEBLATE_`` prefix to the setting name, for example :setting:`RATELIMIT_ATTEMPTS` becomes :envvar:`WEBLATE_RATELIMIT_ATTEMPTS`.
 
 The API has separate rate limiting settings, see :ref:`api-rate`.
 

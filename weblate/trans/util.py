@@ -77,6 +77,8 @@ def get_string(text):
         return ""
     if isinstance(text, multistring):
         return join_plural(get_string(str(item)) for item in text.strings)
+    if isinstance(text, list):
+        return join_plural(get_string(str(item)) for item in text)
     if isinstance(text, str):
         # Remove possible surrogates in the string. There doesn't seem to be
         # a cheap way to detect this, so do the conversion in both cases. In
@@ -294,37 +296,7 @@ def rich_to_xliff_string(string_elements):
     string_xml = etree.tostring(xml, encoding="unicode")
 
     # Strip dummy root element
-    return string_xml[3:][:-4]
-
-
-def get_state_css(unit):
-    """Return state flags."""
-    flags = []
-
-    if unit.fuzzy:
-        flags.append("state-need-edit")
-    elif not unit.translated:
-        flags.append("state-empty")
-    elif unit.readonly:
-        flags.append("state-readonly")
-    elif unit.approved:
-        flags.append("state-approved")
-    elif unit.translated:
-        flags.append("state-translated")
-
-    if unit.has_failing_check:
-        flags.append("state-check")
-    if unit.dismissed_checks:
-        flags.append("state-dismissed-check")
-    if unit.has_comment:
-        flags.append("state-comment")
-    if unit.has_suggestion:
-        flags.append("state-suggest")
-
-    if "forbidden" in unit.all_flags:
-        flags.append("state-forbidden")
-
-    return flags
+    return get_string(string_xml[3:][:-4])
 
 
 def check_upload_method_permissions(user, translation, method: str):

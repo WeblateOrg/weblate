@@ -326,6 +326,10 @@ class GlossaryTest(ViewTestCase):
         content = json.loads(response.content.decode())
         self.assertEqual(content["responseCode"], 200)
 
+    def test_add_duplicate(self):
+        self.test_add()
+        self.test_add()
+
     def test_terminology(self):
         start = Unit.objects.count()
 

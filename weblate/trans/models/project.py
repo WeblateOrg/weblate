@@ -91,6 +91,7 @@ class Project(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKeyM
     )
     web = models.URLField(
         verbose_name=gettext_lazy("Project website"),
+        blank=not settings.WEBSITE_REQUIRED,
         help_text=gettext_lazy("Main website of translated project."),
     )
     instructions = models.TextField(

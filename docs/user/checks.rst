@@ -109,24 +109,7 @@ Checks that double space is present in translation to avoid false positives on o
 Check is false when double space is found in source meaning double space is intentional.
 
 
-.. _check-angularjs-format:
-.. _check-c-format:
-.. _check-c-sharp-format:
-.. _check-es-format:
-.. _check-i18next-interpolation:
-.. _check-java-format:
-.. _check-java-messageformat:
-.. _check-javascript-format:
-.. _check-lua-format:
-.. _check-percent-placeholders:
-.. _check-perl-format:
-.. _check-php-format:
-.. _check-python-brace-format:
-.. _check-python-format:
-.. _check-qt-format:
-.. _check-qt-plural-format:
-.. _check-ruby-format:
-.. _check-vue-format:
+.. _check-formats:
 
 Formatted strings
 ~~~~~~~~~~~~~~~~~
@@ -156,6 +139,8 @@ insert them into translated strings:
 
 .. image:: /images/format-highlight.png
 
+.. _check-angularjs-format:
+
 AngularJS interpolation string
 ******************************
 
@@ -169,7 +154,10 @@ AngularJS interpolation string
 
 .. seealso::
 
+   :ref:`check-formats`,
    `AngularJS text interpolation <https://angular.io/guide/interpolation>`_
+
+.. _check-c-format:
 
 C format
 ********
@@ -186,8 +174,11 @@ C format
 
 .. seealso::
 
+   :ref:`check-formats`,
     `C format strings <https://www.gnu.org/software/gettext/manual/html_node/c_002dformat.html>`_,
     `C printf format <https://en.wikipedia.org/wiki/Printf_format_string>`_
+
+.. _check-c-sharp-format:
 
 C# format
 *********
@@ -202,7 +193,10 @@ C# format
 
 .. seealso::
 
-    `C# String Format <https://docs.microsoft.com/en-us/dotnet/api/system.string.format?view=netframework-4.7.2>`_
+   :ref:`check-formats`,
+   `C# String Format <https://docs.microsoft.com/en-us/dotnet/api/system.string.format?view=netframework-4.7.2>`_
+
+.. _check-es-format:
 
 ECMAScript template literals
 ****************************
@@ -217,7 +211,10 @@ ECMAScript template literals
 
 .. seealso::
 
-    `Template literals <https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals>`_
+   :ref:`check-formats`,
+   `Template literals <https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals>`_
+
+.. _check-i18next-interpolation:
 
 i18next interpolation
 *********************
@@ -236,7 +233,10 @@ i18next interpolation
 
 .. seealso::
 
-    `i18next interpolation <https://www.i18next.com/translation-function/interpolation>`_
+   :ref:`check-formats`,
+   `i18next interpolation <https://www.i18next.com/translation-function/interpolation>`_
+
+.. _check-java-format:
 
 
 Java format
@@ -254,8 +254,11 @@ Java format
 
 .. seealso::
 
-    `Java Format Strings <https://docs.oracle.com/javase/7/docs/api/java/util/Formatter.html>`_
+   :ref:`check-formats`,
+   `Java Format Strings <https://docs.oracle.com/javase/7/docs/api/java/util/Formatter.html>`_
 
+
+.. _check-java-messageformat:
 
 Java MessageFormat
 ******************
@@ -273,7 +276,10 @@ Java MessageFormat
 
 .. seealso::
 
+   :ref:`check-formats`,
    `Java MessageFormat <https://docs.oracle.com/javase/7/docs/api/java/text/MessageFormat.html>`_
+
+.. _check-javascript-format:
 
 JavaScript format
 *****************
@@ -288,7 +294,10 @@ JavaScript format
 
 .. seealso::
 
-    `JavaScript formatting strings <https://www.gnu.org/software/gettext/manual/html_node/javascript_002dformat.html>`_
+   :ref:`check-formats`,
+   `JavaScript formatting strings <https://www.gnu.org/software/gettext/manual/html_node/javascript_002dformat.html>`_
+
+.. _check-lua-format:
 
 Lua format
 **********
@@ -303,7 +312,30 @@ Lua format
 
 .. seealso::
 
-    `Lua formatting strings <https://www.gnu.org/software/gettext/manual/html_node/lua_002dformat.html#lua_002dformat>`_
+   :ref:`check-formats`,
+   `Lua formatting strings <https://www.gnu.org/software/gettext/manual/html_node/lua_002dformat.html#lua_002dformat>`_
+
+.. _check-object-pascal-format:
+
+Object Pascal format
+********************
+
+*Object Pascal format string does not match source*
+
++------------------------+------------------------------------------------------------+
+| Simple format string   | ``There are %d apples``                                    |
++------------------------+------------------------------------------------------------+
+| Flag to enable         | `object-pascal-format`                                     |
++------------------------+------------------------------------------------------------+
+
+.. seealso::
+
+   :ref:`check-formats`,
+   `Object Pascal formatting strings <https://www.gnu.org/software/gettext/manual/html_node/object_002dpascal_002dformat.html#object_002dpascal_002dformat>`_
+   `Free Pascal formatting strings <https://www.freepascal.org/docs-html/rtl/sysutils/format.html>`_
+   `Delphi formatting strings <http://docwiki.embarcadero.com/Libraries/Sydney/en/System.SysUtils.Format>`_
+
+.. _check-percent-placeholders:
 
 Percent placeholders
 ********************
@@ -317,6 +349,12 @@ Percent placeholders
 +------------------------+------------------------------------------------------------+
 | Flag to enable         | `percent-placeholders`                                     |
 +------------------------+------------------------------------------------------------+
+
+.. seealso::
+
+   :ref:`check-formats`,
+
+.. _check-perl-format:
 
 
 Perl format
@@ -334,8 +372,11 @@ Perl format
 
 .. seealso::
 
-    `Perl sprintf <https://perldoc.perl.org/functions/sprintf>`_,
-    `Perl Format Strings <https://www.gnu.org/software/gettext/manual/html_node/perl_002dformat.html>`_
+   :ref:`check-formats`,
+   `Perl sprintf <https://perldoc.perl.org/functions/sprintf>`_,
+   `Perl Format Strings <https://www.gnu.org/software/gettext/manual/html_node/perl_002dformat.html>`_
+
+.. _check-php-format:
 
 PHP format
 **********
@@ -352,8 +393,11 @@ PHP format
 
 .. seealso::
 
-    `PHP sprintf documentation <https://www.php.net/manual/en/function.sprintf.php>`_,
-    `PHP Format Strings <https://www.gnu.org/software/gettext/manual/html_node/php_002dformat.html>`_
+   :ref:`check-formats`,
+   `PHP sprintf documentation <https://www.php.net/manual/en/function.sprintf.php>`_,
+   `PHP Format Strings <https://www.gnu.org/software/gettext/manual/html_node/php_002dformat.html>`_
+
+.. _check-python-brace-format:
 
 
 Python brace format
@@ -371,8 +415,11 @@ Python brace format
 
 .. seealso::
 
-    :ref:`Python brace format <python:formatstrings>`,
-    `Python Format Strings <https://www.gnu.org/software/gettext/manual/html_node/python_002dformat.html>`_
+   :ref:`check-formats`,
+   :ref:`Python brace format <python:formatstrings>`,
+   `Python Format Strings <https://www.gnu.org/software/gettext/manual/html_node/python_002dformat.html>`_
+
+.. _check-python-format:
 
 Python format
 *************
@@ -389,8 +436,11 @@ Python format
 
 .. seealso::
 
-    :ref:`Python string formatting <python:old-string-formatting>`,
-    `Python Format Strings <https://www.gnu.org/software/gettext/manual/html_node/python_002dformat.html>`_
+   :ref:`check-formats`,
+   :ref:`Python string formatting <python:old-string-formatting>`,
+   `Python Format Strings <https://www.gnu.org/software/gettext/manual/html_node/python_002dformat.html>`_
+
+.. _check-qt-format:
 
 Qt format
 *********
@@ -405,7 +455,10 @@ Qt format
 
 .. seealso::
 
-    `Qt QString::arg() <https://doc.qt.io/qt-5/qstring.html#arg>`_
+   :ref:`check-formats`,
+   `Qt QString::arg() <https://doc.qt.io/qt-5/qstring.html#arg>`_
+
+.. _check-qt-plural-format:
 
 Qt plural format
 ****************
@@ -420,7 +473,10 @@ Qt plural format
 
 .. seealso::
 
-    `Qt i18n guide <https://doc.qt.io/qt-5/i18n-source-translation.html#handling-plurals>`_
+   :ref:`check-formats`,
+   `Qt i18n guide <https://doc.qt.io/qt-5/i18n-source-translation.html#handling-plurals>`_
+
+.. _check-ruby-format:
 
 Ruby format
 ***********
@@ -441,7 +497,10 @@ Ruby format
 
 .. seealso::
 
-    `Ruby Kernel#sprintf <https://ruby-doc.org/core/Kernel.html#method-i-sprintf>`_
+   :ref:`check-formats`,
+   `Ruby Kernel#sprintf <https://ruby-doc.org/core/Kernel.html#method-i-sprintf>`_
+
+.. _check-scheme-format:
 
 Scheme format
 *************
@@ -456,9 +515,12 @@ Scheme format
 
 .. seealso::
 
-    `Srfi 28 <https://srfi.schemers.org/srfi-28/srfi-28.html>`_,
-    `Chicken Scheme format <https://wiki.call-cc.org/eggref/5/format>`_,
-    `Guile Scheme formatted output <https://www.gnu.org/software/guile/manual/html_node/Formatted-Output.html>`_
+   :ref:`check-formats`,
+   `Srfi 28 <https://srfi.schemers.org/srfi-28/srfi-28.html>`_,
+   `Chicken Scheme format <https://wiki.call-cc.org/eggref/5/format>`_,
+   `Guile Scheme formatted output <https://www.gnu.org/software/guile/manual/html_node/Formatted-Output.html>`_
+
+.. _check-vue-format:
 
 Vue I18n formatting
 *******************
@@ -477,8 +539,9 @@ Vue I18n formatting
 
 .. seealso::
 
-    `Vue I18n Formatting <https://kazupon.github.io/vue-i18n/guide/formatting.html>`_,
-    `Vue I18n Linked locale messages <https://kazupon.github.io/vue-i18n/guide/messages.html#linked-locale-messages>`_
+   :ref:`check-formats`,
+   `Vue I18n Formatting <https://kazupon.github.io/vue-i18n/guide/formatting.html>`_,
+   `Vue I18n Linked locale messages <https://kazupon.github.io/vue-i18n/guide/messages.html#linked-locale-messages>`_
 
 .. _check-translated:
 

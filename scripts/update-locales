@@ -28,7 +28,7 @@ do_wlc push
 git remote update weblate
 
 # Pull changes from GitHub
-git rebase --onto weblate/master
+git rebase --onto weblate/main
 
 # Cleanup locale dirs
 find weblate/locale -name '*.mo' -o -name '*~' -delete

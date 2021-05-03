@@ -66,20 +66,6 @@ BASICS = {
 BASIC_KEYS = frozenset(
     [f"{x}_words" for x in BASICS if x != "languages"]
     + [f"{x}_chars" for x in BASICS if x != "languages"]
-    + [
-        "translated_percent",
-        "approved_percent",
-        "fuzzy_percent",
-        "readonly_percent",
-        "allchecks_percent",
-        "translated_checks_percent",
-        "translated_words_percent",
-        "approved_words_percent",
-        "fuzzy_words_percent",
-        "readonly_words_percent",
-        "allchecks_words_percent",
-        "translated_checks_words_percent",
-    ]
     + list(BASICS)
     + ["last_changed", "last_author"]
 )
@@ -172,7 +158,25 @@ class BaseStats:
         self._data = data
 
     def get_data(self):
-        return copy(self._data)
+        percents = [
+            "translated_percent",
+            "approved_percent",
+            "fuzzy_percent",
+            "readonly_percent",
+            "allchecks_percent",
+            "translated_checks_percent",
+            "translated_words_percent",
+            "approved_words_percent",
+            "fuzzy_words_percent",
+            "readonly_words_percent",
+            "allchecks_words_percent",
+            "translated_checks_words_percent",
+        ]
+        self.ensure_basic()
+        data = copy(self._data)
+        for percent in percents:
+            data[percent] = self.calculate_percents(percent)
+        return data
 
     @staticmethod
     def prefetch_many(stats):
@@ -196,13 +200,13 @@ class BaseStats:
     def __getattr__(self, name):
         if self._data is None:
             self._data = self.load()
+        if name.endswith("_percent"):
+            return self.calculate_percents(name)
         if name not in self._data:
             was_pending = self._pending_save
             self._pending_save = True
             if name in self.basic_keys:
                 self.prefetch_basic()
-            elif name.endswith("_percent"):
-                self.store_percents(name)
             else:
                 self.calculate_item(name)
             if not was_pending:
@@ -282,26 +286,6 @@ class BaseStats:
         else:
             completed = {"translated", "translated_words", "translated_chars"}
         return translation_percent(getattr(self, base), total, base in completed)
-
-    def store_percents(self, item, total=None):
-        """Calculate percent value for given item."""
-        self.store(item, self.calculate_percents(item))
-
-    def calculate_basic_percents(self):
-        """Calculate basic percents."""
-        self.store_percents("translated_percent")
-        self.store_percents("approved_percent")
-        self.store_percents("fuzzy_percent")
-        self.store_percents("readonly_percent")
-        self.store_percents("allchecks_percent")
-        self.store_percents("translated_checks_percent")
-
-        self.store_percents("translated_words_percent")
-        self.store_percents("approved_words_percent")
-        self.store_percents("fuzzy_words_percent")
-        self.store_percents("readonly_words_percent")
-        self.store_percents("allchecks_words_percent")
-        self.store_percents("translated_checks_words_percent")
 
 
 class DummyTranslationStats(BaseStats):
@@ -459,9 +443,6 @@ class TranslationStats(BaseStats):
 
         # Calculate some values
         self.store("languages", 1)
-
-        # Calculate percents
-        self.calculate_basic_percents()
 
         # Last change timestamp
         self.fetch_last_change()
@@ -625,9 +606,6 @@ class LanguageStats(BaseStats):
 
         with sentry_sdk.start_span(op="stats", description=f"SOURCE {self.cache_key}"):
             self.prefetch_source()
-
-        # Calculate percents
-        self.calculate_basic_percents()
 
     def calculate_item(self, item):
         """Calculate stats for translation."""
@@ -903,9 +881,6 @@ class ProjectStats(BaseStats):
 
         self.store("languages", self._object.languages.count())
 
-        # Calculate percents
-        self.calculate_basic_percents()
-
     def calculate_item(self, item):
         """Calculate stats for translation."""
         result = 0
@@ -931,9 +906,6 @@ class ComponentListStats(BaseStats):
 
         for key, value in stats.items():
             self.store(key, value)
-
-        # Calculate percents
-        self.calculate_basic_percents()
 
     def calculate_item(self, item):
         """Calculate stats for translation."""
@@ -969,9 +941,6 @@ class GlobalStats(BaseStats):
 
         self.store("languages", Language.objects.have_translation().count())
 
-        # Calculate percents
-        self.calculate_basic_percents()
-
     def calculate_item(self, item):
         """Calculate stats for translation."""
         result = 0
@@ -1006,7 +975,6 @@ class GhostStats(BaseStats):
             stats["todo_chars"] = stats["all_chars"]
         for key, value in stats.items():
             self.store(key, value)
-        self.calculate_basic_percents()
 
     def calculate_item(self, item):
         """Calculate stats for translation."""

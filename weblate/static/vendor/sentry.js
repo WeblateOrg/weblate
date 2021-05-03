@@ -1,4 +1,4 @@
-/*! @sentry/browser 6.2.3 (dbb243c) | https://github.com/getsentry/sentry-javascript */
+/*! @sentry/browser 6.3.5 (3f7be6d) | https://github.com/getsentry/sentry-javascript */
 var Sentry = (function (exports) {
     /*! *****************************************************************************
     Copyright (c) Microsoft Corporation. All rights reserved.
@@ -1676,7 +1676,15 @@ var Sentry = (function (exports) {
                 to: to,
             });
             if (oldOnPopState) {
-                return oldOnPopState.apply(this, args);
+                // Apparently this can throw in Firefox when incorrectly implemented plugin is installed.
+                // https://github.com/getsentry/sentry-javascript/issues/3344
+                // https://github.com/bugsnag/bugsnag-js/issues/469
+                try {
+                    return oldOnPopState.apply(this, args);
+                }
+                catch (_oO) {
+                    // no-empty
+                }
             }
         };
         /** @hidden */
@@ -2286,20 +2294,42 @@ var Sentry = (function (exports) {
      * performance API is available.
      */
     var browserPerformanceTimeOrigin = (function () {
+        // Unfortunately browsers may report an inaccurate time origin data, through either performance.timeOrigin or
+        // performance.timing.navigationStart, which results in poor results in performance data. We only treat time origin
+        // data as reliable if they are within a reasonable threshold of the current time.
         var performance = getGlobalObject().performance;
         if (!performance) {
             return undefined;
         }
-        if (performance.timeOrigin) {
-            return performance.timeOrigin;
-        }
+        var threshold = 3600 * 1000;
+        var performanceNow = performance.now();
+        var dateNow = Date.now();
+        // if timeOrigin isn't available set delta to threshold so it isn't used
+        var timeOriginDelta = performance.timeOrigin
+            ? Math.abs(performance.timeOrigin + performanceNow - dateNow)
+            : threshold;
+        var timeOriginIsReliable = timeOriginDelta < threshold;
         // While performance.timing.navigationStart is deprecated in favor of performance.timeOrigin, performance.timeOrigin
         // is not as widely supported. Namely, performance.timeOrigin is undefined in Safari as of writing.
         // Also as of writing, performance.timing is not available in Web Workers in mainstream browsers, so it is not always
         // a valid fallback. In the absence of an initial time provided by the browser, fallback to the current time from the
         // Date API.
         // eslint-disable-next-line deprecation/deprecation
-        return (performance.timing && performance.timing.navigationStart) || Date.now();
+        var navigationStart = performance.timing && performance.timing.navigationStart;
+        var hasNavigationStart = typeof navigationStart === 'number';
+        // if navigationStart isn't available set delta to threshold so it isn't used
+        var navigationStartDelta = hasNavigationStart ? Math.abs(navigationStart + performanceNow - dateNow) : threshold;
+        var navigationStartIsReliable = navigationStartDelta < threshold;
+        if (timeOriginIsReliable || navigationStartIsReliable) {
+            // Use the more reliable time origin
+            if (timeOriginDelta <= navigationStartDelta) {
+                return performance.timeOrigin;
+            }
+            else {
+                return navigationStart;
+            }
+        }
+        return dateNow;
     })();
 
     /**
@@ -3761,12 +3791,12 @@ var Sentry = (function (exports) {
          * @inheritDoc
          */
         BaseClient.prototype.captureSession = function (session) {
-            if (!session.release) {
-                logger.warn('Discarded session because of missing release');
+            if (!(typeof session.release === 'string')) {
+                logger.warn('Discarded session because of missing or non-string release');
             }
             else {
                 this._sendSession(session);
-                // After sending, we set init false to inidcate it's not the first occurence
+                // After sending, we set init false to indicate it's not the first occurrence
                 session.update({ init: false });
             }
         };
@@ -4012,10 +4042,10 @@ var Sentry = (function (exports) {
          * @param event The event that will be filled with all integrations.
          */
         BaseClient.prototype._applyIntegrationsMetadata = function (event) {
-            var sdkInfo = event.sdk;
             var integrationsArray = Object.keys(this._integrations);
-            if (sdkInfo && integrationsArray.length > 0) {
-                sdkInfo.integrations = integrationsArray;
+            if (integrationsArray.length > 0) {
+                event.sdk = event.sdk || {};
+                event.sdk.integrations = __spread((event.sdk.integrations || []), integrationsArray);
             }
         };
         /**
@@ -4226,17 +4256,14 @@ var Sentry = (function (exports) {
         if (!sdkInfo) {
             return event;
         }
-        event.sdk = event.sdk || {
-            name: sdkInfo.name,
-            version: sdkInfo.version,
-        };
+        event.sdk = event.sdk || {};
         event.sdk.name = event.sdk.name || sdkInfo.name;
         event.sdk.version = event.sdk.version || sdkInfo.version;
         event.sdk.integrations = __spread((event.sdk.integrations || []), (sdkInfo.integrations || []));
         event.sdk.packages = __spread((event.sdk.packages || []), (sdkInfo.packages || []));
         return event;
     }
-    /** Creates a SentryRequest from an event. */
+    /** Creates a SentryRequest from a Session. */
     function sessionToSentryRequest(session, api) {
         var sdkInfo = getSdkMetadataForEnvelopeHeader(api);
         var envelopeHeaders = JSON.stringify(__assign({ sent_at: new Date().toISOString() }, (sdkInfo && { sdk: sdkInfo })));
@@ -4306,7 +4333,7 @@ var Sentry = (function (exports) {
         hub.bindClient(client);
     }
 
-    var SDK_VERSION = '6.2.3';
+    var SDK_VERSION = '6.3.5';
 
     var originalFunctionToString;
     /** Patch toString calls to return proper name for wrapped functions */
@@ -4366,10 +4393,16 @@ var Sentry = (function (exports) {
                 if (self) {
                     var client = hub.getClient();
                     var clientOptions = client ? client.getOptions() : {};
-                    var options = self._mergeOptions(clientOptions);
-                    if (self._shouldDropEvent(event, options)) {
-                        return null;
+                    // This checks prevents most of the occurrences of the bug linked below:
+                    // https://github.com/getsentry/sentry-javascript/issues/2622
+                    // The bug is caused by multiple SDK instances, where one is minified and one is using non-mangled code.
+                    // Unfortunatelly we cannot fix it reliably (thus reserved property in rollup's terser config),
+                    // as we cannot force people using multiple instances in their apps to sync SDK versions.
+                    var options = typeof self._mergeOptions === 'function' ? self._mergeOptions(clientOptions) : {};
+                    if (typeof self._shouldDropEvent !== 'function') {
+                        return event;
                     }
+                    return self._shouldDropEvent(event, options) ? null : event;
                 }
                 return event;
             });
@@ -4579,11 +4612,21 @@ var Sentry = (function (exports) {
                     parts[3] = submatch[2]; // line
                     parts[4] = submatch[3]; // column
                 }
+                // Arpad: Working with the regexp above is super painful. it is quite a hack, but just stripping the `address at `
+                // prefix here seems like the quickest solution for now.
+                var url = parts[2] && parts[2].indexOf('address at ') === 0 ? parts[2].substr('address at '.length) : parts[2];
+                // Kamil: One more hack won't hurt us right? Understanding and adding more rules on top of these regexps right now
+                // would be way too time consuming. (TODO: Rewrite whole RegExp to be more readable)
+                var func = parts[1] || UNKNOWN_FUNCTION;
+                var isSafariExtension = func.indexOf('safari-extension') !== -1;
+                var isSafariWebExtension = func.indexOf('safari-web-extension') !== -1;
+                if (isSafariExtension || isSafariWebExtension) {
+                    func = func.indexOf('@') !== -1 ? func.split('@')[0] : UNKNOWN_FUNCTION;
+                    url = isSafariExtension ? "safari-extension:" + url : "safari-web-extension:" + url;
+                }
                 element = {
-                    // working with the regexp above is super painful. it is quite a hack, but just stripping the `address at `
-                    // prefix here seems like the quickest solution for now.
-                    url: parts[2] && parts[2].indexOf('address at ') === 0 ? parts[2].substr('address at '.length) : parts[2],
-                    func: parts[1] || UNKNOWN_FUNCTION,
+                    url: url,
+                    func: func,
                     args: isNative ? [parts[2]] : [],
                     line: parts[3] ? +parts[3] : null,
                     column: parts[4] ? +parts[4] : null,
@@ -4918,6 +4961,11 @@ var Sentry = (function (exports) {
         return event;
     }
 
+    var CATEGORY_MAPPING = {
+        event: 'error',
+        transaction: 'transaction',
+        session: 'session',
+    };
     /** Base Transport class implementation */
     var BaseTransport = /** @class */ (function () {
         function BaseTransport(options) {
@@ -4964,14 +5012,15 @@ var Sentry = (function (exports) {
         /**
          * Gets the time that given category is disabled until for rate limiting
          */
-        BaseTransport.prototype._disabledUntil = function (category) {
+        BaseTransport.prototype._disabledUntil = function (requestType) {
+            var category = CATEGORY_MAPPING[requestType];
             return this._rateLimits[category] || this._rateLimits.all;
         };
         /**
          * Checks if a category is rate limited
          */
-        BaseTransport.prototype._isRateLimited = function (category) {
-            return this._disabledUntil(category) > new Date(Date.now());
+        BaseTransport.prototype._isRateLimited = function (requestType) {
+            return this._disabledUntil(requestType) > new Date(Date.now());
         };
         /**
          * Sets internal _rateLimits from incoming headers. Returns true if headers contains a non-empty rate limiting header.
@@ -5070,10 +5119,15 @@ var Sentry = (function (exports) {
      * Safari:  resource blocked by content blocker
      */
     function getNativeFetchImplementation() {
+        /* eslint-disable @typescript-eslint/unbound-method */
         var _a, _b;
-        // Make sure that the fetch we use is always the native one.
+        // Fast path to avoid DOM I/O
         var global = getGlobalObject();
+        if (isNativeFetch(global.fetch)) {
+            return global.fetch.bind(global);
+        }
         var document = global.document;
+        var fetchImpl = global.fetch;
         // eslint-disable-next-line deprecation/deprecation
         if (typeof ((_a = document) === null || _a === void 0 ? void 0 : _a.createElement) === "function") {
             try {
@@ -5081,7 +5135,7 @@ var Sentry = (function (exports) {
                 sandbox.hidden = true;
                 document.head.appendChild(sandbox);
                 if ((_b = sandbox.contentWindow) === null || _b === void 0 ? void 0 : _b.fetch) {
-                    return sandbox.contentWindow.fetch.bind(global);
+                    fetchImpl = sandbox.contentWindow.fetch;
                 }
                 document.head.removeChild(sandbox);
             }
@@ -5089,7 +5143,8 @@ var Sentry = (function (exports) {
                 logger.warn('Could not create sandbox iframe for pure fetch check, bailing to window.fetch: ', e);
             }
         }
-        return global.fetch.bind(global);
+        return fetchImpl.bind(global);
+        /* eslint-enable @typescript-eslint/unbound-method */
     }
     /** `fetch` based transport */
     var FetchTransport = /** @class */ (function (_super) {
@@ -6447,23 +6502,25 @@ var Sentry = (function (exports) {
             return;
         }
         var hub = getCurrentHub();
-        if ('startSession' in hub) {
-            // The only way for this to be false is for there to be a version mismatch between @sentry/browser (>= 6.0.0) and
-            // @sentry/hub (< 5.27.0). In the simple case, there won't ever be such a mismatch, because the two packages are
-            // pinned at the same version in package.json, but there are edge cases where it's possible'. See
-            // https://github.com/getsentry/sentry-javascript/issues/3234 and
-            // https://github.com/getsentry/sentry-javascript/issues/3207.
-            hub.startSession();
-            hub.captureSession();
-            // We want to create a session for every navigation as well
-            addInstrumentationHandler({
-                callback: function () {
-                    hub.startSession();
-                    hub.captureSession();
-                },
-                type: 'history',
-            });
+        // The only way for this to be false is for there to be a version mismatch between @sentry/browser (>= 6.0.0) and
+        // @sentry/hub (< 5.27.0). In the simple case, there won't ever be such a mismatch, because the two packages are
+        // pinned at the same version in package.json, but there are edge cases where it's possible. See
+        // https://github.com/getsentry/sentry-javascript/issues/3207 and
+        // https://github.com/getsentry/sentry-javascript/issues/3234 and
+        // https://github.com/getsentry/sentry-javascript/issues/3278.
+        if (typeof hub.startSession !== 'function' || typeof hub.captureSession !== 'function') {
+            return;
         }
+        hub.startSession();
+        hub.captureSession();
+        // We want to create a session for every navigation as well
+        addInstrumentationHandler({
+            callback: function () {
+                hub.startSession();
+                hub.captureSession();
+            },
+            type: 'history',
+        });
     }
 
     // TODO: Remove in the next major release and rely only on @sentry/core SDK_VERSION and SdkInfo metadata

@@ -44,9 +44,9 @@ def remove_user(user, request):
     user.username = f"deleted-{user.pk}"
     user.email = f"noreply+{user.pk}@weblate.org"
     while User.objects.filter(username=user.username).exists():
-        user.username = "deleted-{}-{}".format(user.pk, os.urandom(5).hex())
+        user.username = f"deleted-{user.pk}-{os.urandom(5).hex()}"
     while User.objects.filter(email=user.email).exists():
-        user.email = "noreply+{}-{}@weblate.org".format(user.pk, os.urandom(5).hex())
+        user.email = f"noreply+{user.pk}-{os.urandom(5).hex()}@weblate.org"
 
     # Remove user information
     user.full_name = "Deleted User"
@@ -90,6 +90,8 @@ def get_all_user_mails(user, entries=None):
         kwargs["social__in"] = entries
     emails = set(VerifiedEmail.objects.filter(**kwargs).values_list("email", flat=True))
     emails.add(user.email)
+    emails.discard(None)
+    emails.discard("")
     return emails
 
 

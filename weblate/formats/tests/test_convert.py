@@ -22,6 +22,7 @@ from weblate.formats.convert import (
     HTMLFormat,
     IDMLFormat,
     OpenDocumentFormat,
+    PlainTextFormat,
     WindowsRCFormat,
 )
 from weblate.formats.helpers import BytesIOMode
@@ -32,6 +33,7 @@ IDML_FILE = get_test_file("en.idml")
 HTML_FILE = get_test_file("cs.html")
 OPENDOCUMENT_FILE = get_test_file("cs.odt")
 TEST_RC = get_test_file("cs-CZ.rc")
+TEST_TXT = get_test_file("cs.txt")
 
 
 class ConvertFormatTest(AutoFormatTest):
@@ -134,4 +136,19 @@ class WindowsRCFormatTest(ConvertFormatTest):
     MATCH = "STRINGTABLE"
     FIND_CONTEXT = "STRINGTABLE.IDS_MSG1"
     FIND_MATCH = "Hello, world!\n"
+    EDIT_OFFSET = 1
+
+
+class PlainTextFormatTest(ConvertFormatTest):
+    FORMAT = PlainTextFormat
+    FILE = TEST_TXT
+    BASE = TEST_TXT
+    MIME = "text/plain"
+    EXT = "txt"
+    COUNT = 5
+    MASK = "txt/*.txt"
+    EXPECTED_PATH = "txt/cs_CZ.txt"
+    MATCH = "Hello"
+    FIND_CONTEXT = "cs.txt:2"
+    FIND_MATCH = "Hello, world!"
     EDIT_OFFSET = 1

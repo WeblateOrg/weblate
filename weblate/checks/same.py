@@ -22,11 +22,11 @@ import re
 
 from django.utils.html import strip_tags
 from django.utils.translation import gettext_lazy as _
+from weblate_language_data.check_languages import LANGUAGES
 
 from weblate.checks.base import TargetCheck
 from weblate.checks.data import IGNORE_WORDS
 from weblate.checks.format import FLAG_RULES, PERCENT_MATCH
-from weblate.checks.languages import LANGUAGES
 from weblate.checks.qt import QT_FORMAT_MATCH, QT_PLURAL_MATCH
 from weblate.checks.ruby import RUBY_FORMAT_MATCH
 

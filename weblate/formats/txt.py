@@ -167,12 +167,8 @@ class TextUnit(TranslationUnit):
         self._invalidate_target()
         self.unit.text = target
 
-    def mark_fuzzy(self, fuzzy):
-        """Set fuzzy flag on translated unit."""
-        return
-
-    def mark_approved(self, value):
-        """Set approved flag on translated unit."""
+    def set_state(self, state):
+        """Set fuzzy /approved flag on translated unit."""
         return
 
 

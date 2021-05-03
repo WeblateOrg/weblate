@@ -87,10 +87,10 @@ class GitNoVersionRepository(GitRepository):
 class RepositoryTest(TestCase):
     def test_not_supported(self):
         self.assertFalse(NonExistingRepository.is_supported())
-        with self.assertRaises(Exception):
+        with self.assertRaises(FileNotFoundError):
             NonExistingRepository.get_version()
         # Test exception caching
-        with self.assertRaises(Exception):
+        with self.assertRaises(FileNotFoundError):
             NonExistingRepository.get_version()
 
     def test_not_supported_version(self):
@@ -111,8 +111,8 @@ class VCSGitTest(TestCase, RepoTestMixin, TempDirMixin):
     _class = GitRepository
     _vcs = "git"
     _sets_push = True
-    _remote_branches = ["master", "translations"]
-    _remote_branch = "master"
+    _remote_branches = ["main", "translations"]
+    _remote_branch = "main"
 
     def setUp(self):
         super().setUp()
@@ -291,7 +291,7 @@ class VCSGitTest(TestCase, RepoTestMixin, TempDirMixin):
     def test_status(self):
         status = self.repo.status()
         # Older git print up-to-date, newer up to date
-        self.assertIn("date with 'origin/master'.", status)
+        self.assertIn("date with 'origin/main'.", status)
 
     def test_needs_commit(self):
         self.assertFalse(self.repo.needs_commit())
@@ -302,19 +302,19 @@ class VCSGitTest(TestCase, RepoTestMixin, TempDirMixin):
         self.assertFalse(self.repo.needs_commit(["dummy"]))
 
     def check_valid_info(self, info):
-        self.assertTrue("summary" in info)
+        self.assertIn("summary", info)
         self.assertNotEqual(info["summary"], "")
-        self.assertTrue("author" in info)
+        self.assertIn("author", info)
         self.assertNotEqual(info["author"], "")
-        self.assertTrue("authordate" in info)
+        self.assertIn("authordate", info)
         self.assertNotEqual(info["authordate"], "")
-        self.assertTrue("commit" in info)
+        self.assertIn("commit", info)
         self.assertNotEqual(info["commit"], "")
-        self.assertTrue("commitdate" in info)
+        self.assertIn("commitdate", info)
         self.assertNotEqual(info["commitdate"], "")
-        self.assertTrue("revision" in info)
+        self.assertIn("revision", info)
         self.assertNotEqual(info["revision"], "")
-        self.assertTrue("shortrevision" in info)
+        self.assertIn("shortrevision", info)
         self.assertNotEqual(info["shortrevision"], "")
 
     def test_revision_info(self):
@@ -455,7 +455,7 @@ class VCSGitTest(TestCase, RepoTestMixin, TempDirMixin):
     def test_configure_branch(self):
         # Existing branch
         with self.repo.lock:
-            self.repo.configure_branch(self._class.default_branch)
+            self.repo.configure_branch(self.repo.get_remote_branch(self.tempdir))
 
             with self.assertRaises(RepositoryException):
                 self.repo.configure_branch("branch")
@@ -916,7 +916,7 @@ class VCSPagureTest(VCSGitUpstreamTest):
         )
         responses.add(
             responses.GET,
-            "https://pagure.io/api/0/testrepo/pull-request",
+            "https://pagure.io/api/0/testrepo/pull-requests",
             json=existing_response,
             status=200,
         )
@@ -1025,6 +1025,7 @@ class VCSSubversionTest(VCSGitTest):
     _class = SubversionRepository
     _vcs = "subversion"
     _remote_branches = []
+    _remote_branch = "master"
 
     def test_clone(self):
         self.assertTrue(os.path.exists(os.path.join(self.tempdir, ".git", "svn")))
@@ -1049,7 +1050,7 @@ class VCSSubversionTest(VCSGitTest):
             self.repo.configure_remote(
                 self.format_local_path(self.subversion_repo_path),
                 self.format_local_path(self.subversion_repo_path),
-                "master",
+                "main",
             )
             with self.assertRaises(RepositoryException):
                 self.repo.configure_remote("pullurl", "", "branch")

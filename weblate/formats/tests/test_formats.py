@@ -60,6 +60,7 @@ from weblate.formats.ttkit import (
 from weblate.lang.models import Language
 from weblate.trans.tests.test_views import FixtureTestCase
 from weblate.trans.tests.utils import TempDirMixin, get_test_file
+from weblate.utils.state import STATE_FUZZY, STATE_TRANSLATED
 
 TEST_PO = get_test_file("cs.po")
 TEST_CSV = get_test_file("cs-mono.csv")
@@ -251,7 +252,7 @@ class AutoFormatTest(FixtureTestCase, TempDirMixin):
         unit, add = storage.find_unit(self.FIND_CONTEXT, self.FIND)
         self.assertFalse(add)
         if self.COUNT == 0:
-            self.assertTrue(unit is None)
+            self.assertIn(unit, None)
         else:
             self.assertIsNotNone(unit)
             self.assertEqual(unit.target, self.FIND_MATCH)
@@ -269,7 +270,7 @@ class AutoFormatTest(FixtureTestCase, TempDirMixin):
                 mode = "r"
             with open(out, mode) as handle:
                 data = handle.read()
-            self.assertTrue(self.MATCH in data)
+            self.assertIn(self.MATCH, data)
 
     def test_get_language_filename(self):
         self.assertEqual(
@@ -333,7 +334,7 @@ class PoFormatTest(AutoFormatTest):
         self.FORMAT.add_language(out, Language.objects.get(code="cs"), TEST_POT_UNICODE)
         with open(out) as handle:
             data = handle.read()
-        self.assertTrue("Michal Čihař" in data)
+        self.assertIn("Michal Čihař", data)
 
     def load_plural(self, filename):
         with open(filename, "rb") as handle:
@@ -410,10 +411,13 @@ class GWTFormatTest(AutoFormatTest):
     EXPECTED_PATH = "gwt/gwt_cs-CZ.properties"
     FIND = "cartItems"
     FIND_CONTEXT = "cartItems"
-    FIND_MATCH = "There are {0,number} items in your cart."
+    FIND_MATCH = (
+        "There is {0,number} item in your cart.\x1e\x1e"
+        "There are {0,number} items in your cart."
+    )
     EDIT_TARGET = [
-        "There are {0,number} goods in your cart.",
         "There is {0,number} good in your cart.",
+        "There are {0,number} goods in your cart.",
     ]
     MATCH = "\n"
     NEW_UNIT_MATCH = b"\nkey=Source string\n"
@@ -554,7 +558,7 @@ class XliffFormatTest(XMLMixin, AutoFormatTest):
         b"<source>Source string</source>",
     )
 
-    def test_mark_fuzzy(self):
+    def test_set_state(self):
         # Read test content
         with open(self.FILE, "rb") as handle:
             testdata = handle.read()
@@ -570,7 +574,7 @@ class XliffFormatTest(XMLMixin, AutoFormatTest):
         storage = self.parse_file(testfile)
         unit = storage.all_units[0]
         unit.set_target("test")
-        unit.mark_fuzzy(False)
+        unit.set_state(STATE_TRANSLATED)
         storage.save()
 
         # Verify the state is set
@@ -581,7 +585,7 @@ class XliffFormatTest(XMLMixin, AutoFormatTest):
         storage = self.parse_file(testfile)
         unit = storage.all_units[0]
         unit.set_target("test")
-        unit.mark_fuzzy(True)
+        unit.set_state(STATE_FUZZY)
         storage.save()
 
         # Verify the state is set

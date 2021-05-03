@@ -208,7 +208,9 @@ class SecurityMiddleware:
 
         # Support form
         if request.resolver_match and request.resolver_match.view_name == "manage":
-            script.add("'care.weblate.org'")
+            script.add("care.weblate.org")
+            connect.add("care.weblate.org")
+            style.add("care.weblate.org")
 
         # Rollbar client errors reporting
         if (
@@ -282,5 +284,8 @@ class SecurityMiddleware:
             response["Expect-CT"] = 'max-age=86400, enforce, report-uri="{}"'.format(
                 settings.SENTRY_SECURITY
             )
+
+        # Opt-out from Google FLoC
+        response["Permissions-Policy"] = "interest-cohort=()"
 
         return response

@@ -10,7 +10,7 @@
 <th>{% trans "Source code repository" %}</th>
 <td class="full-cell">
     <code class="git-repo ui-corner-all">{{ object.get_repo_url }}</code>
-    <button type="button" class="btn btn-link btn-xs" data-clipboard-text="{{ object.get_repo_url }}" title="{% trans "Copy to clipboard" %}">{% icon "copy.svg" %}</button>
+    <button type="button" class="btn btn-link btn-xs" data-clipboard-text="{{ object.get_repo_url }}" data-clipboard-message="{% trans "Repository URL copied to clipboard." %}" title="{% trans "Copy to clipboard" %}">{% icon "copy.svg" %}</button>
 </td>
 </tr>
 
@@ -43,7 +43,7 @@
 <th>{% trans "Weblate repository" %}</th>
 <td class="full-cell">
     <code class="git-repo ui-corner-all">{{ export_url }}</code>
-    <button type="button" class="btn btn-link btn-xs" data-clipboard-text="{{ export_url }}" title="{% trans "Copy to clipboard" %}">{% icon "copy.svg" %}</button>
+    <button type="button" class="btn btn-link btn-xs" data-clipboard-text="{{ export_url }}" data-clipboard-message="{% trans "Repository URL copied to clipboard." %}" title="{% trans "Copy to clipboard" %}">{% icon "copy.svg" %}</button>
 </td>
 </tr>
 {% endif %}

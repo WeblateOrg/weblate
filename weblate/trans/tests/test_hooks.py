@@ -68,7 +68,7 @@ GITHUB_PAYLOAD = """
 }
 ],
 "after": "de8251ff97ee194a289832576287d6f8ad74e3d0",
-"ref": "refs/heads/master"
+"ref": "refs/heads/main"
 }
 """
 
@@ -115,7 +115,7 @@ GITHUB_NEW_PAYLOAD = """
 }
 ],
 "after": "de8251ff97ee194a289832576287d6f8ad74e3d0",
-"ref": "refs/heads/master"
+"ref": "refs/heads/main"
 }
 """
 
@@ -123,7 +123,7 @@ GITLAB_PAYLOAD = """
 {
   "before": "95790bf891e76fee5e1747ab589903a6a1f80f22",
   "after": "da1560886d4f094c3e6c9ef40349f7d38b5d27d7",
-  "ref": "refs/heads/master",
+  "ref": "refs/heads/main",
   "user_id": 4,
   "user_name": "John Smith",
   "project_id": 15,
@@ -167,7 +167,7 @@ BITBUCKET_PAYLOAD_GIT = """
     "commits": [
         {
             "author": "marcus",
-            "branch": "master",
+            "branch": "main",
             "files": [
                 {
                     "file": "somefile.py",
@@ -604,11 +604,11 @@ BITBUCKET_PAYLOAD_SERVER = r"""
     "changes": [
         {
             "ref": {
-                "id": "refs/heads/master",
-                "displayId": "master",
+                "id": "refs/heads/main",
+                "displayId": "main",
                 "type": "BRANCH"
             },
-            "refId": "refs/heads/master",
+            "refId": "refs/heads/main",
             "fromHash": "fdff3f418a8e3d25d6c8cb80776d6ac142bef800",
             "toHash": "7cb42185f7d8eab95f5fac3de2648a16361ecf34",
             "type": "UPDATE"
@@ -692,7 +692,7 @@ PAGURE_PAYLOAD = r"""
                 "name": "nijel"
             }
         ],
-        "branch": "master",
+        "branch": "main",
         "end_commit": "4d0f02a0282c5fcd10a396624d3f6b950dc16296",
         "forced": false,
         "pagure_instance": "https://pagure.io/",
@@ -763,7 +763,7 @@ AZURE_PAYLOAD_FALLBACK = """
         "name": "p",
         "url": "https://dev.azure.com/f/_apis/projects/be9b3917-87e6-42a4"
       },
-      "defaultBranch": "refs/heads/master",
+      "defaultBranch": "refs/heads/main",
       "remoteUrl": "https://devops.azure.com/f/p/_git/ATEST"
     },
     "pushId": 1,
@@ -794,12 +794,12 @@ AZURE_PAYLOAD_NEW = """
   "eventType": "git.push",
   "publisherId": "tfs",
   "message": {
-    "text": "Jamal Hartnett pushed updates to ATEST:master.",
-    "html": "Jamal Hartnett pushed updates to ATEST:master.",
-    "markdown": "Jamal Hartnett pushed updates to `ATEST`:`master`."
+    "text": "Jamal Hartnett pushed updates to ATEST:main.",
+    "html": "Jamal Hartnett pushed updates to ATEST:main.",
+    "markdown": "Jamal Hartnett pushed updates to `ATEST`:`main`."
   },
   "detailedMessage": {
-    "text": "Jamal Hartnett pushed a commit to ATEST:master.",
+    "text": "Jamal Hartnett pushed a commit to ATEST:main.",
     "html": "Jamal Hartnett pushed a commit to ",
     "markdown": "Jamal Hartnett pushed a commit to [ATEST])"
   },
@@ -840,7 +840,7 @@ AZURE_PAYLOAD_NEW = """
         "visibility": "unchanged",
         "lastUpdateTime": "0001-01-01T00:00:00"
       },
-      "defaultBranch": "refs/heads/master",
+      "defaultBranch": "refs/heads/main",
       "remoteUrl": "https://dev.azure.com/f/p/_git/ATEST"
     },
     "pushedBy": {
@@ -876,12 +876,12 @@ AZURE_PAYLOAD_OLD = """
   "eventType": "git.push",
   "publisherId": "tfs",
   "message": {
-    "text": "Jamal Hartnett pushed updates to ATEST:master.",
-    "html": "Jamal Hartnett pushed updates to ATEST:master.",
-    "markdown": "Jamal Hartnett pushed updates to `ATEST`:`master`."
+    "text": "Jamal Hartnett pushed updates to ATEST:main.",
+    "html": "Jamal Hartnett pushed updates to ATEST:main.",
+    "markdown": "Jamal Hartnett pushed updates to `ATEST`:`main`."
   },
   "detailedMessage": {
-    "text": "Jamal Hartnett pushed a commit to ATEST:master.",
+    "text": "Jamal Hartnett pushed a commit to ATEST:main.",
     "html": "Jamal Hartnett pushed a commit to ",
     "markdown": "Jamal Hartnett pushed a commit to [ATEST])"
   },
@@ -905,7 +905,7 @@ AZURE_PAYLOAD_OLD = """
     ],
     "refUpdates": [
       {
-        "name": "refs/heads/master",
+        "name": "refs/heads/main",
         "oldObjectId": "aad331d8d3b131fa9ae03cf5e53965b51942618a",
         "newObjectId": "33b55f7cb7e7e245323987634f960cf4a6e6bc74"
       }
@@ -922,7 +922,7 @@ AZURE_PAYLOAD_OLD = """
         "visibility": "unchanged",
         "lastUpdateTime": "0001-01-01T00:00:00"
       },
-      "defaultBranch": "refs/heads/master",
+      "defaultBranch": "refs/heads/main",
       "remoteUrl": "https://f.visualstudio.com/c/_git/ATEST"
     },
     "pushedBy": {
@@ -953,7 +953,7 @@ AZURE_PAYLOAD_OLD = """
 GITEA_PAYLOAD = """
 {
   "secret": "3gEsCfjlV2ugRwgpU#w1*WaW*wa4NXgGmpCfkbG3",
-  "ref": "refs/heads/master",
+  "ref": "refs/heads/main",
   "before": "28e1879d029cb852e4844d9c718537df08844e03",
   "after": "bffeb74224043ba2feb48d137756c8a9331c449a",
   "compare_url": "http://localhost:3000/gitea/webhooks/compare/28e187...bffeb7422",
@@ -998,7 +998,7 @@ GITEA_PAYLOAD = """
     "forks_count": 1,
     "watchers_count": 1,
     "open_issues_count": 7,
-    "default_branch": "master",
+    "default_branch": "main",
     "created_at": "2017-02-26T04:29:06-05:00",
     "updated_at": "2017-03-13T13:51:58-04:00"
   },
@@ -1026,7 +1026,7 @@ GITEE_PAYLOAD = """
 {
   "hook_name": "push_hooks",
   "password": "pwd",
-  "ref": "refs/heads/master",
+  "ref": "refs/heads/main",
   "before": "0000000000000000000000000000000000000000",
   "after": "1cdcd819599cbb4099289dbbec762452f006cb40",
   "created": true,
@@ -1135,7 +1135,7 @@ GITEE_PAYLOAD = """
     "has_pages": false,
     "license": null,
     "open_issues_count": 0,
-    "default_branch": "master",
+    "default_branch": "main",
     "namespace": "oschina",
     "name_with_namespace": "开源中国/Gitee",
     "path_with_namespace": "oschina/gitee"
@@ -1480,7 +1480,7 @@ class BitbucketBackendTest(HookBackendTestCase):
         self.assert_hook(
             BITBUCKET_PAYLOAD_GIT,
             {
-                "branch": "master",
+                "branch": "main",
                 "full_name": "marcus/project-x.git",
                 "repo_url": "https://bitbucket.org/marcus/project-x/",
                 "repos": [
@@ -1680,7 +1680,7 @@ class BitbucketBackendTest(HookBackendTestCase):
         self.assert_hook(
             BITBUCKET_PAYLOAD_SERVER,
             {
-                "branch": "master",
+                "branch": "main",
                 "full_name": "SANDPIT/my-repo.git",
                 "repo_url": "https://example.com/projects/SANDPIT/repos/my-repo/browse",
                 "repos": [
@@ -1703,7 +1703,7 @@ class AzureBackendTest(HookBackendTestCase):
         self.assert_hook(
             AZURE_PAYLOAD_OLD,
             {
-                "branch": "master",
+                "branch": "main",
                 "full_name": "ATEST",
                 "repo_url": url,
                 "repos": [

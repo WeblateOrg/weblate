@@ -104,7 +104,7 @@ class ProjectTest(RepoTestCase):
     def test_create(self):
         project = self.create_project()
         self.assertTrue(os.path.exists(project.full_path))
-        self.assertTrue(project.slug in project.full_path)
+        self.assertIn(project.slug, project.full_path)
 
     def test_rename(self):
         component = self.create_link()

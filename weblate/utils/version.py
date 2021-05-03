@@ -35,7 +35,7 @@ def get_root_dir():
 
 
 # Weblate version
-VERSION = "4.5.2-dev"
+VERSION = "4.7-dev"
 
 # Version string without suffix
 VERSION_BASE = VERSION.replace("-dev", "")
@@ -54,7 +54,19 @@ try:
     GIT_REVISION = GIT_REPO.last_revision
     del GIT_REPO
 except (RepositoryException, OSError):
-    # Import failed or git has troubles reading
-    # repo (for example swallow clone)
-    GIT_VERSION = VERSION
-    GIT_REVISION = None
+    # Special case for Docker bleeding builds
+    if "WEBLATE_DOCKER_GIT_REVISION" in os.environ:
+        GIT_REVISION = os.environ["WEBLATE_DOCKER_GIT_REVISION"]
+        GIT_VERSION = f"{VERSION_BASE}-{GIT_REVISION[:10]}"
+    else:
+        # Import failed or git has troubles reading
+        # repo (for example swallow clone)
+        GIT_VERSION = VERSION
+        GIT_REVISION = None
+
+if GIT_REVISION:
+    GIT_LINK = f"https://github.com/WeblateOrg/weblate/commits/{GIT_REVISION}"
+elif "-dev" not in VERSION:
+    GIT_LINK = f"https://github.com/WeblateOrg/weblate/releases/tag/weblate-{VERSION}"
+else:
+    GIT_LINK = None

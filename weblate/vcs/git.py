@@ -35,6 +35,7 @@ from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy
 from git.config import GitConfigParser
 
+from weblate.utils.errors import report_error
 from weblate.utils.files import is_excluded, remove_tree
 from weblate.utils.render import render_template
 from weblate.utils.xml import parse_xml
@@ -71,11 +72,15 @@ class GitRepository(Repository):
     def get_remote_branch(cls, repo: str):
         if not repo:
             return super().get_remote_branch(repo)
-        result = cls._popen(["ls-remote", "--symref", repo, "HEAD"])
+        try:
+            result = cls._popen(["ls-remote", "--symref", repo, "HEAD"])
+        except RepositoryException:
+            report_error(cause="Listing remote branch")
+            return super().get_remote_branch(repo)
         for line in result.splitlines():
             if not line.startswith("ref: "):
                 continue
-            # Parses 'ref: refs/heads/master\tHEAD'
+            # Parses 'ref: refs/heads/main\tHEAD'
             return line.split("\t")[0].split("refs/heads/")[1]
 
         raise RepositoryException(0, "Failed to figure out remote branch")
@@ -463,6 +468,7 @@ class SubversionRepository(GitRepository):
 
     name = "Subversion"
     req_version = "2.12"
+    default_branch = "master"
 
     _version = None
 
@@ -577,7 +583,7 @@ class SubversionRepository(GitRepository):
 
         trunk if local branch is master, local branch otherwise.
         """
-        if self.branch == "master":
+        if self.branch == self.default_branch:
             fetch = self.get_config("svn-remote.svn.fetch")
             if "origin/trunk" in fetch:
                 return "origin/trunk"
@@ -793,7 +799,7 @@ class GithubRepository(GitMergeRequestBase):
         # exists in the remote side.
         response, error = self.request("post", credentials, fork_url, {})
         if "ssh_url" not in response:
-            raise RepositoryException(0, error or "Fork creation failed")
+            raise RepositoryException(0, f"Fork creation failed: {error}")
         self.configure_fork_remote(response["ssh_url"], credentials["username"])
 
     def create_pull_request(
@@ -829,7 +835,18 @@ class GithubRepository(GitMergeRequestBase):
             ):
                 return
 
-            raise RepositoryException(0, error_message or "Pull request failed")
+            if "Validation Failed" in error_message:
+                for error in response["errors"]:
+                    if error.get("field") == "head":
+                        # This most likely indicates that Weblate repository has moved
+                        # and we should createa a fresh fork.
+                        self.create_fork(credentials)
+                        self.create_pull_request(
+                            credentials, origin_branch, fork_remote, fork_branch
+                        )
+                        return
+
+            raise RepositoryException(0, f"Pull request failed: {error_message}")
 
 
 class LocalRepository(GitRepository):
@@ -978,7 +995,7 @@ class GitLabRepository(GitMergeRequestBase):
     def get_target_project_id(self, credentials: Dict):
         response, error = self.request("get", credentials, credentials["url"])
         if "id" not in response:
-            raise RepositoryException(0, error or "Failed to get project")
+            raise RepositoryException(0, f"Failed to get project: {error}")
         return response["id"]
 
     def configure_fork_features(self, credentials: Dict, forked_url: str):
@@ -1001,7 +1018,7 @@ class GitLabRepository(GitMergeRequestBase):
             "put", credentials, forked_url, access_level_dict
         )
         if "web_url" not in response:
-            raise RepositoryException(0, error or "Failed to modify fork")
+            raise RepositoryException(0, f"Failed to modify fork {error}")
 
     def create_fork(self, credentials: Dict):
         get_fork_url = "{}/forks?owned=True".format(credentials["url"])
@@ -1035,7 +1052,7 @@ class GitLabRepository(GitMergeRequestBase):
                 )
 
             if "ssh_url_to_repo" not in forked_repo:
-                raise RepositoryException(0, error or "Failed to create fork")
+                raise RepositoryException(0, f"Failed to create fork: {error}")
 
         self.configure_fork_features(credentials, forked_repo["_links"]["self"])
         self.configure_fork_remote(
@@ -1056,7 +1073,7 @@ class GitLabRepository(GitMergeRequestBase):
             # to be sent with the fork's API URL along with a parameter mentioning
             # the target project id
             target_project_id = self.get_target_project_id(credentials)
-            pr_url = "{}/merge_requests".format(self.get_forked_url(credentials))
+            pr_url = f"{self.get_forked_url(credentials)}/merge_requests"
 
         title, description = self.get_merge_message()
         request = {
@@ -1072,7 +1089,7 @@ class GitLabRepository(GitMergeRequestBase):
             "web_url" not in response
             and "open merge request already exists" not in error
         ):
-            raise RepositoryException(-1, error or "Failed to create pull request")
+            raise RepositoryException(-1, f"Failed to create pull request: {error}")
 
 
 class PagureRepository(GitMergeRequestBase):
@@ -1139,7 +1156,7 @@ class PagureRepository(GitMergeRequestBase):
                 break
 
         if '" cloned to "' not in error and "already exists" not in error:
-            raise RepositoryException(0, error or "Failed to create fork")
+            raise RepositoryException(0, f"Failed to create fork: {error}")
 
         url = "ssh://git@{hostname}/forks/{username}/{slug}.git".format(**credentials)
         self.configure_fork_remote(url, credentials["username"])
@@ -1152,16 +1169,22 @@ class PagureRepository(GitMergeRequestBase):
         Use to merge branch in forked repository into branch of remote repository.
         """
         if credentials["owner"]:
-            pr_base_url = "{url}/{owner}/{slug}/pull-request".format(**credentials)
+            pr_list_url = "{url}/{owner}/{slug}/pull-requests".format(**credentials)
+            pr_create_url = "{url}/{owner}/{slug}/pull-request/new".format(
+                **credentials
+            )
         else:
-            pr_base_url = "{url}/{slug}/pull-request".format(**credentials)
+            pr_list_url = "{url}/{slug}/pull-requests".format(**credentials)
+            pr_create_url = "{url}/{slug}/pull-request/new".format(**credentials)
 
         # List existing pull requests
         response, error_message = self.request(
-            "get", credentials, pr_base_url, params={"author": credentials["username"]}
+            "get", credentials, pr_list_url, params={"author": credentials["username"]}
         )
         if error_message:
-            raise RepositoryException(0, error_message or "Pull request listing failed")
+            raise RepositoryException(
+                0, f"Pull request listing failed: {error_message}"
+            )
 
         if response["total_requests"] > 0:
             # Open pull request from us is already there
@@ -1179,8 +1202,8 @@ class PagureRepository(GitMergeRequestBase):
             request["repo_from_username"] = credentials["username"]
 
         response, error_message = self.request(
-            "post", credentials, f"{pr_base_url}/new", data=request
+            "post", credentials, pr_create_url, data=request
         )
 
         if "id" not in response:
-            raise RepositoryException(0, error_message or "Pull request failed")
+            raise RepositoryException(0, f"Pull request failed: {error_message}")

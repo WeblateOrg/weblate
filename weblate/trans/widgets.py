@@ -25,13 +25,13 @@ import gi
 from django.conf import settings
 from django.template.loader import render_to_string
 from django.urls import reverse
-from django.utils.formats import number_format
 from django.utils.html import escape
 from django.utils.translation import get_language
 from django.utils.translation import gettext as _
 from django.utils.translation import gettext_lazy, npgettext, pgettext, pgettext_lazy
 
 from weblate.fonts.utils import configure_fontconfig, render_size
+from weblate.trans.templatetags.translations import number_format
 from weblate.trans.util import sort_unicode
 from weblate.utils.site import get_site_url
 from weblate.utils.stats import GlobalStats
@@ -155,7 +155,7 @@ class BitmapWidget(ContentWidget):
 
     def get_column_fonts(self):
         return [
-            Pango.FontDescription("Source Sans Pro {}".format(self.font_size * 1.5)),
+            Pango.FontDescription(f"Source Sans Pro {self.font_size * 1.5}"),
             Pango.FontDescription(f"Source Sans Pro {self.font_size}"),
         ]
 
@@ -246,17 +246,10 @@ class NormalWidget(BitmapWidget):
     offset = 10
     verbose = gettext_lazy("Big status badge")
 
-    def number_format(self, total):
-        total_format = "%s"
-        if total > 99999:
-            total = (total // 100) / 10
-            total_format = "%sk"
-        return total_format % number_format(total, force_grouping=True)
-
     def get_columns(self):
         return [
             [
-                self.head_template.format(self.number_format(self.total)),
+                self.head_template.format(number_format(self.total)),
                 self.foot_template.format(
                     npgettext(
                         "Label on enage page", "String", "Strings", self.total
@@ -264,7 +257,7 @@ class NormalWidget(BitmapWidget):
                 ),
             ],
             [
-                self.head_template.format(self.number_format(self.languages)),
+                self.head_template.format(number_format(self.languages)),
                 self.foot_template.format(
                     npgettext(
                         "Label on enage page", "Language", "Languages", self.languages
@@ -314,20 +307,18 @@ class OpenGraphWidget(NormalWidget):
 
     def get_column_fonts(self):
         return [
-            Pango.FontDescription("Source Sans Pro {}".format(42)),
-            Pango.FontDescription("Source Sans Pro {}".format(18)),
+            Pango.FontDescription(f"Source Sans Pro {42}"),
+            Pango.FontDescription(f"Source Sans Pro {18}"),
         ]
 
     def get_title(self):
         # Translators: Text on OpenGraph image
-        return _("Project %s") % "<b>{}</b>".format(escape(self.obj.name))
+        return _("Project %s") % f"<b>{escape(self.obj.name)}</b>"
 
     def render_additional(self, ctx):
         ctx.move_to(280, 170)
         layout = PangoCairo.create_layout(ctx)
-        layout.set_font_description(
-            Pango.FontDescription("Source Sans Pro {}".format(52))
-        )
+        layout.set_font_description(Pango.FontDescription(f"Source Sans Pro {52}"))
         layout.set_markup(self.get_title())
         PangoCairo.show_layout(ctx, layout)
 
@@ -337,7 +328,7 @@ class SiteOpenGraphWidget(OpenGraphWidget):
         super().__init__(GlobalStats())
 
     def get_title(self):
-        return "<b>{}</b>".format(escape(settings.SITE_TITLE))
+        return f"<b>{escape(settings.SITE_TITLE)}</b>"
 
     def get_text_params(self):
         return {}

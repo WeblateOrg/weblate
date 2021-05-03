@@ -125,7 +125,7 @@ class GitExportTest(ViewTestCase):
 
     def test_git_receive(self):
         response = self.git_receive()
-        self.assertContains(response, "refs/heads/master")
+        self.assertContains(response, "refs/heads/main")
 
     def enable_acl(self):
         self.project.access_control = Project.ACCESS_PRIVATE
@@ -142,7 +142,7 @@ class GitExportTest(ViewTestCase):
         response = self.git_receive(
             HTTP_AUTHORIZATION=self.get_auth_string(self.user.auth_token.key)
         )
-        self.assertContains(response, "refs/heads/master")
+        self.assertContains(response, "refs/heads/main")
 
     def test_git_receive_acl_auth_denied(self):
         self.enable_acl()

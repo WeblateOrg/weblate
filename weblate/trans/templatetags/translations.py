@@ -28,6 +28,7 @@ from django.contrib.humanize.templatetags.humanize import intcomma
 from django.template.loader import render_to_string
 from django.urls import reverse
 from django.utils import timezone
+from django.utils.formats import number_format as django_number_format
 from django.utils.html import escape
 from django.utils.safestring import mark_safe
 from django.utils.translation import gettext, gettext_lazy, ngettext, pgettext
@@ -47,7 +48,7 @@ from weblate.trans.models import (
     Translation,
 )
 from weblate.trans.models.translation import GhostTranslation
-from weblate.trans.util import get_state_css, split_plural
+from weblate.trans.util import split_plural, translation_percent
 from weblate.utils.docs import get_doc_url
 from weblate.utils.hash import hash_to_checksum
 from weblate.utils.markdown import render_markdown
@@ -74,7 +75,6 @@ NAME_MAPPING = {
 }
 
 FLAG_TEMPLATE = '<span title="{0}" class="{1}">{2}</span>'
-BADGE_TEMPLATE = '<span class="badge pull-right flip {1}">{0}</span>'
 
 PERM_TEMPLATE = """
 <td>
@@ -181,12 +181,12 @@ class Formatter:
         """Highlights glossary entries."""
         for htext, entries in self.terms.items():
             for match in re.finditer(
-                r"\b{}\b".format(re.escape(htext)), self.value, re.IGNORECASE
+                fr"(\W|^)({re.escape(htext)})(\W|$)", self.value, re.IGNORECASE
             ):
-                self.tags[match.start()].append(
+                self.tags[match.start(2)].append(
                     GLOSSARY_TEMPLATE.format(self.format_terms(entries))
                 )
-                self.tags[match.end()].insert(0, "</span>")
+                self.tags[match.end(2)].insert(0, "</span>")
 
     def parse_search(self):
         """Highlights search matches."""
@@ -512,69 +512,79 @@ def get_stats(obj):
     return obj.stats
 
 
-def translation_progress_data(readonly, approved, translated, fuzzy, checks):
+def translation_progress_data(
+    total: int, readonly: int, approved: int, translated: int
+):
+    translated -= approved
+    if approved:
+        approved += readonly
+        translated -= readonly
+    bad = total - approved - translated
     return {
-        "readonly": f"{readonly:.1f}",
-        "approved": f"{approved:.1f}",
-        "good": "{:.1f}".format(max(translated - checks - approved - readonly, 0)),
-        "checks": f"{checks:.1f}",
-        "fuzzy": f"{fuzzy:.1f}",
-        "percent": f"{translated:.1f}",
+        "approved": f"{translation_percent(approved, total, False):.1f}",
+        "good": f"{translation_percent(translated, total):.1f}",
+        "bad": f"{translation_percent(bad, total, False):.1f}",
     }
 
 
-@register.inclusion_tag("progress.html")
+@register.inclusion_tag("snippets/progress.html")
 def translation_progress(obj):
     stats = get_stats(obj)
     return translation_progress_data(
-        stats.readonly_percent,
-        stats.approved_percent,
-        stats.translated_percent,
-        stats.fuzzy_percent,
-        stats.translated_checks_percent,
+        stats.all,
+        stats.readonly,
+        stats.approved,
+        stats.translated - stats.translated_checks,
     )
 
 
-@register.inclusion_tag("progress.html")
+@register.inclusion_tag("snippets/progress.html")
 def words_progress(obj):
     stats = get_stats(obj)
     return translation_progress_data(
-        stats.readonly_words_percent,
-        stats.approved_words_percent,
-        stats.translated_words_percent,
-        stats.fuzzy_words_percent,
-        stats.translated_checks_words_percent,
+        stats.all_words,
+        stats.readonly_words,
+        stats.approved_words,
+        stats.translated_words - stats.translated_checks_words,
     )
 
 
 @register.simple_tag
-def get_state_badge(unit):
-    """Return state badge."""
-    flag = None
-
-    if unit.fuzzy:
-        flag = (pgettext("String state", "Needs editing"), "text-danger")
-    elif not unit.translated:
-        flag = (pgettext("String state", "Not translated"), "text-danger")
-    elif unit.approved:
-        flag = (pgettext("String state", "Approved"), "text-success")
-    elif unit.translated:
-        flag = (pgettext("String state", "Translated"), "text-primary")
-
-    if flag is None:
-        return ""
-
-    return mark_safe(BADGE_TEMPLATE.format(*flag))
-
-
-@register.inclusion_tag("snippets/unit-state.html")
-def get_state_flags(unit, detail=False):
+def unit_state_class(unit) -> str:
     """Return state flags."""
-    return {
-        "state": " ".join(get_state_css(unit)),
-        "unit": unit,
-        "detail": detail,
-    }
+    if unit.has_failing_check or not unit.translated:
+        return "unit-state-todo"
+    if unit.approved or (unit.readonly and unit.translation.enable_review):
+        return "unit-state-approved"
+    return "unit-state-translated"
+
+
+@register.simple_tag
+def unit_state_title(unit) -> str:
+    state = [unit.get_state_display()]
+    checks = unit.active_checks
+    if checks:
+        state.append(
+            "{} {}".format(
+                pgettext("String state", "Failed checks:"),
+                ", ".join(str(check) for check in checks),
+            )
+        )
+    checks = unit.dismissed_checks
+    if checks:
+        state.append(
+            "{} {}".format(
+                pgettext("String state", "Dismissed checks:"),
+                ", ".join(str(check) for check in checks),
+            )
+        )
+    if unit.has_comment:
+        state.append(pgettext("String state", "Commented"))
+    if unit.has_suggestion:
+        state.append(pgettext("String state", "Suggested"))
+    if "forbidden" in unit.all_flags:
+        state.append(gettext("This translation is forbidden."))
+    return "; ".join(state)
 
 
 @register.simple_tag
@@ -596,14 +606,16 @@ def get_location_links(profile, unit):
 
     # Go through all locations separated by comma
     for location, filename, line in unit.get_locations():
-        link = unit.translation.component.get_repoweb_link(
-            filename, line, profile.editor_link
-        )
+        link = None
+        if profile:
+            link = unit.translation.component.get_repoweb_link(
+                filename, line, profile.editor_link
+            )
         if link is None:
             ret.append(escape(location))
         else:
             ret.append(SOURCE_LINK.format(escape(link), escape(location)))
-    return mark_safe("\n".join(ret))
+    return mark_safe('\n<span class="divisor">•</span>\n'.join(ret))
 
 
 @register.simple_tag(takes_context=True)
@@ -845,7 +857,7 @@ def indicate_alerts(context, obj):
 
 @register.filter
 def markdown(text):
-    return mark_safe('<div class="markdown">{}</div>'.format(render_markdown(text)))
+    return mark_safe(f'<div class="markdown">{render_markdown(text)}</div>')
 
 
 @register.filter
@@ -879,9 +891,49 @@ def format_commit_author(commit):
 
 @register.filter
 def percent_format(number):
+    if number < 0.1:
+        percent = 0
+    elif number < 1:
+        percent = 1
+    elif number >= 99.999999:
+        percent = 100
+    elif number > 99:
+        percent = 99
+    else:
+        percent = int(number)
     return pgettext("Translated percents", "%(percent)s%%") % {
-        "percent": intcomma(int(number))
+        "percent": intcomma(percent)
     }
+
+
+@register.filter
+def number_format(number):
+    format_string = "%s"
+    if number > 99999999:
+        number = number // 1000000
+        format_string = "%s M"
+    elif number > 99999:
+        number = number // 1000
+        format_string = "%s k"
+    return format_string % django_number_format(number, force_grouping=True)
+
+
+@register.filter
+def trend_format(number):
+    if number < 0:
+        prefix = "-"
+        trend = "trend-down"
+    else:
+        prefix = "+"
+        trend = "trend-up"
+    number = abs(number)
+    if number < 0.1:
+        return "—"
+    return mark_safe(
+        '{}{} <span class="{}"></span>'.format(
+            prefix, escape(percent_format(number)), trend
+        )
+    )
 
 
 @register.filter
@@ -903,3 +955,8 @@ def render_alert(context, alert):
 @register.simple_tag
 def get_message_kind(tags):
     return get_message_kind_impl(tags)
+
+
+@register.simple_tag
+def any_unit_has_context(units):
+    return any(unit.context for unit in units)

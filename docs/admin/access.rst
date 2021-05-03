@@ -338,7 +338,7 @@ Roles in the groups are made from the following rules:
   to the projects they are in. :guilabel:`Projects` are ignored.
 
 - Otherwise, adding any :guilabel:`Projects` to a group (either by directly
-  listing them or by having :guilabel:`Selected projects` set to `All
+  listing them or by having :guilabel:`Selected projects` set to :guilabel:`All
   public`) grants the group permissions for the projects. (Effectively
   the same permissions as being granted access to :ref:`unrestricted components <component-restricted>`
   in such projects.)

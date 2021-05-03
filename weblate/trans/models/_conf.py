@@ -182,6 +182,7 @@ Current translation status:
     LICENSE_EXTRA = []
     LICENSE_FILTER = None
     LICENSE_REQUIRED = False
+    WEBSITE_REQUIRED = True
     FONTS_CDN_URL = None
 
     class Meta:

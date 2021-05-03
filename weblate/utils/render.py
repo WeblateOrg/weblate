@@ -130,7 +130,7 @@ def validate_render_component(value, translation=None, **kwargs):
         project=Project(name="project", slug="project", id=-1),
         name="component",
         slug="component",
-        branch="master",
+        branch="main",
         vcs="git",
         id=-1,
     )
@@ -166,7 +166,7 @@ def validate_repoweb(val):
                 "please use the template language instead."
             )
         )
-    validate_render(val, filename="file.po", line=9, branch="master")
+    validate_render(val, filename="file.po", line=9, branch="main")
 
 
 def validate_editor(val):

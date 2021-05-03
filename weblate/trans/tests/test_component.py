@@ -433,8 +433,8 @@ class ComponentTest(RepoTestCase):
         component.clean()
         component.save()
         self.verify_component(component, 4, "cs", 4)
-        # Switch back to master branch
-        component.branch = "master"
+        # Switch back to main branch
+        component.branch = "main"
         component.filemask = "po/*.po"
         component.clean()
         component.save()
@@ -449,7 +449,7 @@ class ComponentTest(RepoTestCase):
         component.clean()
         component.save()
         self.verify_component(component, 4, "cs", 4)
-        # Switch back to master branch
+        # Switch back to default branch
         component.branch = "default"
         component.filemask = "po/*.po"
         component.clean()
@@ -492,6 +492,19 @@ class ComponentTest(RepoTestCase):
             set(component.addon_set.values_list("name", flat=True)),
             {"weblate.flags.same_edit", "weblate.autotranslate.autotranslate"},
         )
+
+    @override_settings(
+        DEFAULT_ADDONS={
+            "weblate.gettext.msgmerge": {},
+        }
+    )
+    def test_create_autoaddon_msgmerge(self):
+        component = self.create_po(new_base="po/project.pot")
+        self.assertEqual(
+            set(component.addon_set.values_list("name", flat=True)),
+            {"weblate.gettext.msgmerge"},
+        )
+        self.assertEqual(component.count_repo_outgoing, 1)
 
 
 class ComponentDeleteTest(RepoTestCase):

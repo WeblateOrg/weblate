@@ -54,11 +54,7 @@ from weblate.trans.models.unit import (
 from weblate.trans.signals import store_post_load, vcs_pre_commit
 from weblate.trans.util import join_plural, split_plural
 from weblate.trans.validators import validate_check_flags
-from weblate.utils.db import (
-    FastDeleteModelMixin,
-    FastDeleteQuerySetMixin,
-    get_nokey_args,
-)
+from weblate.utils.db import FastDeleteModelMixin, FastDeleteQuerySetMixin
 from weblate.utils.errors import report_error
 from weblate.utils.hash import calculate_hash
 from weblate.utils.render import render_template
@@ -375,7 +371,7 @@ class Translation(
             # Select all current units for update
             dbunits = {
                 unit.id_hash: unit
-                for unit in self.unit_set.select_for_update(**get_nokey_args())
+                for unit in self.unit_set.prefetch_bulk().select_for_update()
             }
 
             # Process based on intermediate store if available
@@ -470,18 +466,21 @@ class Translation(
 
     def get_git_blob_hash(self):
         """Return current VCS blob hash for file."""
-        get_object_hash = self.component.repository.get_object_hash
+        component = self.component
+        get_object_hash = component.repository.get_object_hash
 
         # Include language file
         hashes = [get_object_hash(self.get_filename())]
 
-        if self.component.has_template():
+        if component.has_template():
             # Include template
-            hashes.append(get_object_hash(self.component.template))
+            hashes.append(get_object_hash(component.template))
 
-            if self.component.intermediate:
+            if component.intermediate and os.path.exists(
+                component.get_intermediate_filename()
+            ):
                 # Include intermediate language as it might add new strings
-                hashes.append(get_object_hash(self.component.intermediate))
+                hashes.append(get_object_hash(component.intermediate))
 
         return ",".join(hashes)
 
@@ -501,9 +500,6 @@ class Translation(
     @transaction.atomic
     def commit_pending(self, reason, user, skip_push=False, force=False, signals=True):
         """Commit any pending changes."""
-        if not force and not self.needs_commit():
-            return False
-
         # Commit template first
         if (
             not self.is_source
@@ -513,6 +509,9 @@ class Translation(
             self.component.source_translation.commit_pending(
                 reason, user, skip_push=skip_push, force=force, signals=signals
             )
+
+        if not force and not self.needs_commit():
+            return False
 
         self.log_info("committing pending changes (%s)", reason)
 
@@ -667,8 +666,7 @@ class Translation(
                     pounit.set_target(unit.target)
 
             # Update fuzzy/approved flag
-            pounit.mark_fuzzy(unit.state == STATE_FUZZY)
-            pounit.mark_approved(unit.state == STATE_APPROVED)
+            pounit.set_state(unit.state)
 
             # Update comments as they might have been changed by state changes
             state = unit.get_unit_state(pounit, "")
@@ -734,7 +732,7 @@ class Translation(
         # All strings
         result.add(self.stats, "all", "")
 
-        result.add_if(self.stats, "readonly", "default")
+        result.add_if(self.stats, "readonly", "success")
 
         if not self.is_readonly:
             if self.enable_review:
@@ -745,7 +743,7 @@ class Translation(
 
             # To approve
             if self.enable_review:
-                result.add_if(self.stats, "unapproved", "dark")
+                result.add_if(self.stats, "unapproved", "success")
 
                 # Approved with suggestions
                 result.add_if(self.stats, "approved_suggestions", "info")
@@ -760,26 +758,26 @@ class Translation(
             result.add_if(self.stats, "fuzzy", "danger")
 
             # Translations with suggestions
-            result.add_if(self.stats, "suggestions", "dark")
-            result.add_if(self.stats, "nosuggestions", "dark")
+            result.add_if(self.stats, "suggestions", "danger")
+            result.add_if(self.stats, "nosuggestions", "danger")
 
         # All checks
-        result.add_if(self.stats, "allchecks", "warning")
+        result.add_if(self.stats, "allchecks", "danger")
 
         # Translated strings with checks
         if not self.is_source:
-            result.add_if(self.stats, "translated_checks", "warning")
+            result.add_if(self.stats, "translated_checks", "danger")
 
         # Dismissed checks
-        result.add_if(self.stats, "dismissed_checks", "warning")
+        result.add_if(self.stats, "dismissed_checks", "danger")
 
         # Process specific checks
         for check in CHECKS:
             check_obj = CHECKS[check]
-            result.add_if(self.stats, check_obj.url_id, "warning")
+            result.add_if(self.stats, check_obj.url_id, "danger")
 
         # Grab comments
-        result.add_if(self.stats, "comments", "dark")
+        result.add_if(self.stats, "comments", "")
 
         # Include labels
         labels = self.component.project.label_set.order_by("name")
@@ -1002,11 +1000,17 @@ class Translation(
         return (0, 0, self.unit_set.count(), len(list(store2.content_units)))
 
     def handle_add_upload(self, request, store, fuzzy: str = ""):
+        has_template = self.component.has_template()
         skipped = 0
         accepted = 0
-        existing = set(self.unit_set.values_list("context", "source"))
+        if has_template:
+            existing = set(self.unit_set.values_list("context", flat=True))
+        else:
+            existing = set(self.unit_set.values_list("context", "source"))
         for _set_fuzzy, unit in store.iterate_merge(fuzzy):
-            if (unit.context, unit.source) in existing:
+            if (has_template and unit.context in existing) or (
+                not has_template and (unit.context, unit.source) in existing
+            ):
                 skipped += 1
                 continue
             self.add_unit(
@@ -1073,11 +1077,20 @@ class Translation(
                 filecopy = filecopy[3:]
 
             # Load backend file
+            if method == "add" and self.is_template:
+                template_store = try_load(
+                    fileobj.name,
+                    filecopy,
+                    self.component.file_format_cls,
+                    None,
+                )
+            else:
+                template_store = self.component.template_store
             store = try_load(
                 fileobj.name,
                 filecopy,
                 self.component.file_format_cls,
-                self.component.template_store,
+                template_store,
             )
 
             # Check valid plural forms
@@ -1093,12 +1106,13 @@ class Translation(
 
             if method in ("translate", "fuzzy", "approve"):
                 # Merge on units level
-                with self.component.repository.lock:
+                with self.component.lock:
                     return self.merge_translations(
                         request, store, conflicts, method, fuzzy
                     )
             elif method == "add":
-                return self.handle_add_upload(request, store, fuzzy=fuzzy)
+                with self.component.lock:
+                    return self.handle_add_upload(request, store, fuzzy=fuzzy)
 
             # Add as sugestions
             return self.merge_suggestions(request, store, fuzzy)
@@ -1176,6 +1190,9 @@ class Translation(
         context: str,
         source: Union[str, List[str]],
         target: Optional[Union[str, List[str]]] = None,
+        extra_flags: str = "",
+        explanation: str = "",
+        auto_context: bool = False,
         is_batch_update: bool = False,
     ):
         user = request.user if request else None
@@ -1189,6 +1206,13 @@ class Translation(
         source_unit = None
         result = None
 
+        # Automatic context
+        suffix = 0
+        base = context
+        while self.unit_set.filter(context=context, source=source).exists():
+            suffix += 1
+            context = f"{base}{suffix}"
+
         for translation in translations:
             is_source = translation.is_source
             kwargs = {}
@@ -1200,6 +1224,8 @@ class Translation(
                 kwargs["details"] = {"add_unit": True}
             if is_source:
                 current_target = source
+                kwargs["extra_flags"] = extra_flags
+                kwargs["explanation"] = explanation
             else:
                 current_target = target
             if current_target is None:
@@ -1217,6 +1243,16 @@ class Translation(
             if not self.is_source and is_source:
                 try:
                     unit = translation.unit_set.get(id_hash=id_hash)
+                    flags = Flags(unit.extra_flags)
+                    flags.merge(extra_flags)
+                    new_flags = flags.format()
+                    if unit.extra_flags != new_flags or unit.explanation != explanation:
+                        unit.extra_flags = new_flags
+                        unit.explanation = explanation
+                        unit.save(
+                            update_fields=["extra_flags", "explanation"],
+                            same_content=True,
+                        )
                 except Unit.DoesNotExist:
                     pass
             if unit is None:
@@ -1236,7 +1272,7 @@ class Translation(
                 Change.objects.create(
                     unit=unit,
                     action=Change.ACTION_NEW_UNIT,
-                    target=source,
+                    target=current_target,
                     user=user,
                     author=user,
                 )
@@ -1246,8 +1282,6 @@ class Translation(
             if translation == self:
                 result = unit
 
-        if self.is_source:
-            component.sync_terminology()
         if not is_batch_update:
             component.update_variants()
             component.sync_terminology()
@@ -1289,16 +1323,23 @@ class Translation(
             # Unit is already present
             self.add_unit(None, source.context, source.get_source_plurals(), "")
 
-    def validate_new_unit_data(
+    def validate_new_unit_data(  # noqa: C901
         self,
-        key: str,
+        context: str,
         source: Union[str, List[str]],
         target: Optional[Union[str, List[str]]] = None,
+        auto_context: bool = False,
+        extra_flags: Optional[str] = None,
+        explanation: str = "",
     ):
         extra = {}
+        if isinstance(source, str):
+            source = [source]
+        if isinstance(target, str):
+            target = [target]
         if not self.component.has_template():
             extra["source"] = join_plural(source)
-        if self.unit_set.filter(context=key, **extra).exists():
+        if not auto_context and self.unit_set.filter(context=context, **extra).exists():
             raise ValidationError(_("This string seems to already exist."))
         # Avoid using source translations without a filename
         if not self.filename:
@@ -1308,13 +1349,20 @@ class Translation(
                 raise ValidationError(
                     _("Failed adding string: %s") % _("No translation found.")
                 )
-            translation.validate_new_unit_data(key, source, target)
+            translation.validate_new_unit_data(
+                context,
+                source,
+                target,
+                auto_context=auto_context,
+                extra_flags=extra_flags,
+                explanation=explanation,
+            )
             return
         # Always load a new copy of store
         store = self.load_store()
         old_units = len(store.all_units)
         # Add new unit
-        store.new_unit(key, source, target, skip_build=True)
+        store.new_unit(context, source, target, skip_build=True)
         # Serialize the content
         handle = BytesIOMode("", b"")
         # Catch serialization error
@@ -1349,7 +1397,7 @@ class Translation(
                 _("Failed adding string: %s") % _("Failed to parse new string")
             )
         created_source = split_plural(unit.source)
-        if unit.context != key and (
+        if unit.context != context and (
             self.component.has_template()
             or self.component.file_format_cls.set_context_bilingual
         ):

@@ -101,11 +101,15 @@
         <td><code>added:&gt;={{ month_ago|date:"Y-m-d" }} AND state:&lt;=needs-editing</code>
         <td><a href="#" class="btn btn-default search-insert">{% trans "Add" %}</a></td>
     </tr>
+    {% if not language %}
+    {% with languages=user.profile.languages.all %}
     <tr>
         <th>{% trans "Translated strings in a certain language" %}</th>
-        <td><code>is:translated AND language:{% if language %}{{ language.code }}{% else %}cs{% endif %}</code></td>
+        <td><code>is:translated AND language:{% if languages %}{{ languages.0.code }}{% else %}en{% endif %}</code></td>
         <td><a href="#" class="btn btn-default search-insert">{% trans "Add" %}</a></td>
     </tr>
+    {% endwith %}
+    {% endif %}
     </table>
 </div>
 {% endif %}

@@ -33,6 +33,7 @@ from django.core.management.commands import diffsettings
 
 import weblate.utils.version
 from weblate.formats.models import FILE_FORMATS
+from weblate.machinery import MACHINE_TRANSLATION_SERVICES
 from weblate.trans.util import get_clean_env
 from weblate.utils.celery import app
 from weblate.utils.data import data_dir
@@ -47,7 +48,9 @@ def ping():
         "version": weblate.utils.version.GIT_VERSION,
         "vcs": sorted(VCS_REGISTRY.keys()),
         "formats": sorted(FILE_FORMATS.keys()),
+        "mt_services": sorted(MACHINE_TRANSLATION_SERVICES.keys()),
         "encoding": [sys.getfilesystemencoding(), sys.getdefaultencoding()],
+        "uid": os.getuid(),
     }
 
 

@@ -155,12 +155,8 @@ def weblate_context(request):
         "version": weblate.utils.version.VERSION,
         "bread_image": get_bread_image(request.path),
         "description": description,
-        "weblate_link": mark_safe(
-            '<a href="{}">weblate.org</a>'.format(escape(WEBLATE_URL))
-        ),
-        "weblate_name_link": mark_safe(
-            '<a href="{}">Weblate</a>'.format(escape(WEBLATE_URL))
-        ),
+        "weblate_link": mark_safe(f'<a href="{escape(WEBLATE_URL)}">weblate.org</a>'),
+        "weblate_name_link": mark_safe(f'<a href="{escape(WEBLATE_URL)}">Weblate</a>'),
         "weblate_version_link": mark_safe(
             '<a href="{}">Weblate {}</a>'.format(
                 escape(WEBLATE_URL),

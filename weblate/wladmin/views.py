@@ -39,6 +39,7 @@ from weblate.utils import messages
 from weblate.utils.celery import get_queue_stats
 from weblate.utils.errors import report_error
 from weblate.utils.tasks import database_backup, settings_backup
+from weblate.utils.version import GIT_LINK, GIT_REVISION
 from weblate.utils.views import show_form_errors
 from weblate.vcs.ssh import (
     RSA_KEY,
@@ -58,11 +59,7 @@ from weblate.wladmin.forms import (
     UserSearchForm,
 )
 from weblate.wladmin.models import BackupService, ConfigurationError, SupportStatus
-from weblate.wladmin.tasks import (
-    backup_service,
-    configuration_health_check,
-    support_status_update,
-)
+from weblate.wladmin.tasks import backup_service, support_status_update
 
 MENU = (
     ("index", "manage", gettext_lazy("Weblate status")),
@@ -95,6 +92,8 @@ def manage(request):
             "menu_page": "index",
             "support": support,
             "activate_form": ActivateForm(initial=initial),
+            "git_revision_link": GIT_LINK,
+            "git_revision": GIT_REVISION,
         },
     )
 
@@ -254,7 +253,6 @@ def performance(request):
     if request.method == "POST":
         return handle_dismiss(request)
     checks = run_checks(include_deployment_checks=True)
-    configuration_health_check.delay()
 
     context = {
         "checks": [check for check in checks if not check.is_silenced()],

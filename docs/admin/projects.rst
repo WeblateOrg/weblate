@@ -139,6 +139,8 @@ Project website
 
 URL where translators can find more info about the project.
 
+This is a required parameter unless turned off by :setting:`WEBSITE_REQUIRED`.
+
 .. _project-instructions:
 
 Translation instructions
@@ -458,6 +460,7 @@ Base file used to generate new translations, e.g. ``.pot`` file with gettext.
 
 .. seealso::
 
+   :ref:`adding-translation`,
    :ref:`new-translations`,
    :ref:`component-new_lang`,
    :ref:`bimono`,
@@ -569,9 +572,16 @@ Create new language file
 Disable adding new translations
     There will be no option for user to start new translation.
 
+.. hint::
+
+   The project admins can add new translations even if it is disabled here when
+   it is possible (either :ref:`component-new_base` or the file format supports
+   starting from an empty file).
+
 .. seealso::
 
-   :ref:`adding-translation`.
+   :ref:`adding-translation`,
+   :ref:`new-translations`
 
 .. _component-manage_units:
 

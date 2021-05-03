@@ -56,7 +56,7 @@
       return false;
     });
     Mousetrap.bindGlobal("mod+o", function (e) {
-      $(".translation-item .copy-text").click();
+      $(".source-language-group [data-clone-text]").click();
       return false;
     });
     Mousetrap.bindGlobal("mod+y", function (e) {
@@ -148,6 +148,7 @@
       Cookies.set("translate-tab", $(this).attr("href"), {
         path: "/",
         expires: 365,
+        sameSite: "Lax",
       });
     });
 
@@ -302,9 +303,16 @@
     /* Check ignoring */
     this.$editor.on("click", ".check-dismiss", (e) => {
       var $el = $(e.currentTarget);
+      var url = $el.attr("href");
+      var $check = $el.closest(".check");
+      var dismiss_all = $check.find("input").prop("checked");
+      if (dismiss_all) {
+        url = $el.data("dismiss-all");
+      }
+
       $.ajax({
         type: "POST",
-        url: $el.attr("href"),
+        url: url,
         data: {
           csrfmiddlewaretoken: this.csrfToken,
         },
@@ -312,10 +320,10 @@
           addAlert(errorThrown);
         },
       });
-      if ($el.hasClass("check-dismiss-all")) {
-        $el.closest(".check").remove();
+      if (dismiss_all) {
+        $check.remove();
       } else {
-        $el.closest(".check").toggleClass("check-dismissed");
+        $check.toggleClass("check-dismissed");
       }
       return false;
     });
@@ -420,8 +428,10 @@
           if (data.responseCode === 200) {
             $("#glossary-terms").html(data.results);
             $form.find("[name=terms]").attr("value", data.terms);
+            $form.trigger("reset");
+          } else {
+            addAlert(data.responseDetails);
           }
-          $form.trigger("reset");
         },
         error: function (xhr, textStatus, errorThrown) {
           addAlert(errorThrown);
@@ -463,27 +473,7 @@
 
       /* Quality score as bar with the text */
       row.append(
-        $(
-          "<td>" +
-            '<div class="progress" title="' +
-            el.quality +
-            ' / 100">' +
-            '<div class="progress-bar ' +
-            (el.quality >= 70
-              ? "progress-bar-success"
-              : el.quality >= 50
-              ? "progress-bar-warning"
-              : "progress-bar-danger") +
-            '"' +
-            ' role="progressbar" aria-valuenow="' +
-            el.quality +
-            '"' +
-            ' aria-valuemin="0" aria-valuemax="100" style="width: ' +
-            el.quality +
-            '%;"></div>' +
-            "</div>" +
-            "</td>"
-        )
+        $("<td class='number'><strong>" + el.quality + "</strong> %</td>")
       );
       /* Translators: Verb for copy operation */
       row.append(
@@ -540,6 +530,12 @@
           ) {
             // Add origin to current ones
             var current = $this.children("td:nth-child(3)");
+            if (base.quality < translation.quality) {
+              service.append("<br/>");
+              service.append(current.html());
+              $this.remove();
+              return false;
+            }
             current.append($("<br/>"));
             current.append(service.html());
             done = true;

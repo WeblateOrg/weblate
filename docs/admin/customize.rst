@@ -131,7 +131,7 @@ To install your code for :ref:`custom-autofix`, :ref:`own-checks` or
     # Autofixes
     AUTOFIX_LIST += ("weblate_customization.autofix.FooFixer",)
 
-    # Addons
+    # Add-ons
     WEBLATE_ADDONS += ("weblate_customization.addons.ExamplePreAddon",)
 
 .. seealso::

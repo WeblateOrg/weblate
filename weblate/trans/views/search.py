@@ -38,7 +38,6 @@ from weblate.trans.forms import (
 from weblate.trans.models import Change, Unit
 from weblate.trans.util import render
 from weblate.utils import messages
-from weblate.utils.db import get_nokey_args
 from weblate.utils.ratelimit import check_rate_limit
 from weblate.utils.views import (
     get_component,
@@ -121,7 +120,7 @@ def search_replace(request, project, component=None, lang=None):
         matching = confirm.cleaned_data["units"]
 
         with transaction.atomic():
-            for unit in matching.select_for_update(**get_nokey_args()):
+            for unit in matching.select_for_update():
                 if not request.user.has_perm("unit.edit", unit):
                     continue
                 unit.translate(
@@ -204,18 +203,21 @@ def search(request, project=None, component=None, lang=None):
             request, units.order_by_request(search_form.cleaned_data, obj)
         )
         # Rebuild context from scratch here to get new form
-        context = {
-            "search_form": search_form,
-            "show_results": True,
-            "page_obj": units,
-            "title": _("Search for %s") % (search_form.cleaned_data["q"]),
-            "query_string": search_form.urlencode(),
-            "search_query": search_form.cleaned_data["q"],
-            "search_items": search_form.items(),
-            "filter_name": search_form.get_name(),
-            "sort_name": sort["name"],
-            "sort_query": sort["query"],
-        }
+        context.update(
+            {
+                "search_form": search_form,
+                "show_results": True,
+                "page_obj": units,
+                "title": _("Search for %s") % (search_form.cleaned_data["q"]),
+                "query_string": search_form.urlencode(),
+                "search_url": search_form.urlencode(),
+                "search_query": search_form.cleaned_data["q"],
+                "search_items": search_form.items(),
+                "filter_name": search_form.get_name(),
+                "sort_name": sort["name"],
+                "sort_query": sort["query"],
+            }
+        )
     elif is_ratelimited:
         messages.error(request, _("Too many search queries, please try again later."))
     elif request.GET:

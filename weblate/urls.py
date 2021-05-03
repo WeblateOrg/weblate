@@ -71,6 +71,7 @@ from weblate.trans.feeds import (
     TranslationChangesFeed,
 )
 from weblate.trans.views.changes import ChangesCSVView, ChangesView, show_change
+from weblate.utils.version import VERSION
 
 handler400 = weblate.trans.views.error.bad_request
 handler403 = weblate.trans.views.error.denied
@@ -367,83 +368,11 @@ real_patterns = [
         weblate.trans.views.acl.set_groups,
         name="set-groups",
     ),
-    # Monthly activity
-    path(
-        "activity/month/",
-        weblate.trans.views.charts.monthly_activity,
-        name="monthly_activity",
-    ),
     # Used by weblate.org to reder own activity chart on homepage
     path(
         "activity/month.json",
         weblate.trans.views.charts.monthly_activity_json,
         name="monthly_activity_json",
-    ),
-    path(
-        "activity/month/<name:project>/",
-        weblate.trans.views.charts.monthly_activity,
-        name="monthly_activity",
-    ),
-    path(
-        "activity/month/<name:project>/<name:component>/",
-        weblate.trans.views.charts.monthly_activity,
-        name="monthly_activity",
-    ),
-    path(
-        "activity/month/<name:project>/<name:component>/<name:lang>/",
-        weblate.trans.views.charts.monthly_activity,
-        name="monthly_activity",
-    ),
-    path(
-        "activity/language/month/<name:lang>/",
-        weblate.trans.views.charts.monthly_activity,
-        name="monthly_activity",
-    ),
-    path(
-        "activity/language/month/<name:lang>/<name:project>/",
-        weblate.trans.views.charts.monthly_activity,
-        name="monthly_activity",
-    ),
-    path(
-        "activity/user/month/<name:user>/",
-        weblate.trans.views.charts.monthly_activity,
-        name="monthly_activity",
-    ),
-    # Yearly activity
-    path(
-        "activity/year/",
-        weblate.trans.views.charts.yearly_activity,
-        name="yearly_activity",
-    ),
-    path(
-        "activity/year/<name:project>/",
-        weblate.trans.views.charts.yearly_activity,
-        name="yearly_activity",
-    ),
-    path(
-        "activity/year/<name:project>/<name:component>/",
-        weblate.trans.views.charts.yearly_activity,
-        name="yearly_activity",
-    ),
-    path(
-        "activity/year/<name:project>/<name:component>/<name:lang>/",
-        weblate.trans.views.charts.yearly_activity,
-        name="yearly_activity",
-    ),
-    path(
-        "activity/language/year/<name:lang>/",
-        weblate.trans.views.charts.yearly_activity,
-        name="yearly_activity",
-    ),
-    path(
-        "activity/language/year/<name:lang>/<name:project>/",
-        weblate.trans.views.charts.yearly_activity,
-        name="yearly_activity",
-    ),
-    path(
-        "activity/user/year/<name:user>/",
-        weblate.trans.views.charts.yearly_activity,
-        name="yearly_activity",
     ),
     # Comments
     path("comment/<int:pk>/", weblate.trans.views.edit.comment, name="comment"),
@@ -887,7 +816,7 @@ real_patterns = [
     ),
     path(
         "js/i18n/",
-        cache_page(3600)(
+        cache_page(3600, key_prefix=VERSION)(
             vary_on_cookie(
                 django.views.i18n.JavaScriptCatalog.as_view(packages=["weblate"])
             )
@@ -1005,13 +934,13 @@ real_patterns = [
     # Sitemap
     path(
         "sitemap.xml",
-        cache_page(3600)(django.contrib.sitemaps.views.index),
+        cache_page(3600, key_prefix=VERSION)(django.contrib.sitemaps.views.index),
         {"sitemaps": SITEMAPS, "sitemap_url_name": "sitemap"},
         name="sitemap-index",
     ),
     path(
         "sitemap-<slug:section>.xml",
-        cache_page(3600)(django.contrib.sitemaps.views.sitemap),
+        cache_page(3600, key_prefix=VERSION)(django.contrib.sitemaps.views.sitemap),
         {"sitemaps": SITEMAPS},
         name="sitemap",
     ),
@@ -1020,6 +949,11 @@ real_patterns = [
     path("search/<name:project>/", weblate.trans.views.search.search, name="search"),
     path(
         "search/<name:project>/<name:component>/",
+        weblate.trans.views.search.search,
+        name="search",
+    ),
+    path(
+        "languages/<name:lang>/-/search/",
         weblate.trans.views.search.search,
         name="search",
     ),

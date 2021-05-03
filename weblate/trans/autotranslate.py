@@ -17,18 +17,26 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
+from typing import List, Optional
+
 from celery import current_task
 from django.core.exceptions import PermissionDenied
 from django.db import transaction
 
 from weblate.machinery import MACHINE_TRANSLATION_SERVICES
 from weblate.trans.models import Change, Component, Suggestion, Unit
-from weblate.utils.db import get_nokey_args
 from weblate.utils.state import STATE_FUZZY, STATE_TRANSLATED
 
 
 class AutoTranslate:
-    def __init__(self, user, translation, filter_type, mode):
+    def __init__(
+        self,
+        user,
+        translation,
+        filter_type: str,
+        mode: str,
+        component_wide: bool = False,
+    ):
         self.user = user
         self.translation = translation
         translation.component.batch_checks = True
@@ -37,6 +45,7 @@ class AutoTranslate:
         self.updated = 0
         self.progress_steps = 0
         self.target_state = STATE_FUZZY if mode == "fuzzy" else STATE_TRANSLATED
+        self.component_wide = component_wide
 
     def get_units(self, filter_mode=True):
         units = self.translation.unit_set.all()
@@ -66,14 +75,15 @@ class AutoTranslate:
 
     def post_process(self):
         if self.updated > 0:
-            self.translation.component.update_source_checks()
-            self.translation.component.run_batched_checks()
+            if not self.component_wide:
+                self.translation.component.update_source_checks()
+                self.translation.component.run_batched_checks()
             self.translation.invalidate_cache()
             if self.user:
                 self.user.profile.increase_count("translated", self.updated)
 
     @transaction.atomic
-    def process_others(self, source):
+    def process_others(self, source: Optional[int]):
         """Perform automatic translation based on other components."""
         kwargs = {
             "translation__language": self.translation.language,
@@ -112,7 +122,8 @@ class AutoTranslate:
         units = (
             self.get_units(False)
             .filter(source__in=translations.keys())
-            .select_for_update(**get_nokey_args())
+            .prefetch_bulk()
+            .select_for_update()
         )
         self.progress_steps = len(units)
 
@@ -161,7 +172,7 @@ class AutoTranslate:
             if unit.machinery["best"] >= threshold
         }
 
-    def process_mt(self, engines, threshold):
+    def process_mt(self, engines: List[str], threshold: int):
         """Perform automatic translation based on machine translation."""
         translations = self.fetch_mt(engines, int(threshold))
 
@@ -172,9 +183,9 @@ class AutoTranslate:
         with transaction.atomic():
             # Perform the translation
             for pos, unit in enumerate(
-                Unit.objects.filter(id__in=translations.keys())
-                .prefetch()
-                .select_for_update(**get_nokey_args())
+                self.translation.unit_set.filter(id__in=translations.keys())
+                .prefetch_bulk()
+                .select_for_update()
             ):
                 # Copy translation
                 self.update(unit, self.target_state, translations[unit.pk])

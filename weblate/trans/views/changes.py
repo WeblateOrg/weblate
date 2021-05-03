@@ -54,6 +54,8 @@ class ChangesView(ListView):
         self.language = None
         self.user = None
         self.actions = set()
+        self.start_date = None
+        self.end_date = None
 
     def get_context_data(self, **kwargs):
         """Create context for rendering page."""
@@ -112,6 +114,12 @@ class ChangesView(ListView):
         for action in self.actions:
             url.append(("action", action))
 
+        if self.start_date:
+            url.append(("start_date", self.start_date.date()))
+
+        if self.end_date:
+            url.append(("end_date", self.end_date.date()))
+
         if not url:
             context["changes_rss"] = reverse("rss")
 
@@ -153,10 +161,15 @@ class ChangesView(ListView):
             except User.DoesNotExist:
                 messages.error(self.request, _("Failed to find matching user!"))
 
-    def _get_request_actions(self):
+    def _get_request_params(self):
         form = ChangesForm(self.request, data=self.request.GET)
-        if form.is_valid() and "action" in form.cleaned_data:
-            self.actions.update(form.cleaned_data["action"])
+        if form.is_valid():
+            if "action" in form.cleaned_data:
+                self.actions.update(form.cleaned_data["action"])
+            if "start_date" in form.cleaned_data:
+                self.start_date = form.cleaned_data["start_date"]
+            if "end_date" in form.cleaned_data:
+                self.end_date = form.cleaned_data["end_date"]
 
     def get_queryset(self):
         """Return list of changes to browse."""
@@ -168,7 +181,7 @@ class ChangesView(ListView):
 
             self._get_queryset_user(form)
 
-            self._get_request_actions()
+            self._get_request_params()
         else:
             show_form_errors(self.request, form)
 
@@ -186,6 +199,12 @@ class ChangesView(ListView):
 
         if self.actions:
             result = result.filter(action__in=self.actions)
+
+        if self.start_date:
+            result = result.filter(timestamp__date__gte=self.start_date)
+
+        if self.end_date:
+            result = result.filter(timestamp__date__lte=self.end_date)
 
         if self.user is not None:
             result = result.filter(user=self.user)

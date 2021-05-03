@@ -248,6 +248,7 @@ class Notification:
             result["changes"] = changes
         if subscription is not None:
             result["unsubscribe_nonce"] = TimestampSigner().sign(subscription.pk)
+            result["user"] = subscription.user
         if extracontext:
             result.update(extracontext)
         if change:

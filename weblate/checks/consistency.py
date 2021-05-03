@@ -132,7 +132,7 @@ class ConsistencyCheck(TargetCheck):
                 )
             )
             .prefetch()
-            .prefetch_full()
+            .prefetch_bulk()
         )
 
 
@@ -209,7 +209,7 @@ class TranslatedCheck(TargetCheck):
                 )
             )
             .prefetch()
-            .prefetch_full()
+            .prefetch_bulk()
         )
 
         for unit in units:

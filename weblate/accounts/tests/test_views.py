@@ -205,7 +205,7 @@ class ViewTest(RepoTestCase):
 
         # Get public profile
         response = self.client.get(user.get_absolute_url())
-        self.assertContains(response, '="/activity/')
+        self.assertContains(response, "table-activity")
 
     def test_suggestions(self):
         """Test user pages."""

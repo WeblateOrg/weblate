@@ -1061,7 +1061,7 @@ class TranslationViewSet(MultipleFieldMixin, WeblateViewSet, DestroyModelMixin):
             )
             serializer.is_valid(raise_exception=True)
 
-            obj.add_unit(request, *serializer.as_tuple())
+            obj.add_unit(request, **serializer.as_kwargs())
             serializer = self.serializer_class(obj, context={"request": request})
             return Response(serializer.data, status=HTTP_200_OK)
 

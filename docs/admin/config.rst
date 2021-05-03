@@ -235,7 +235,7 @@ BASIC_LANGUAGES
 .. versionadded:: 4.4
 
 List of languages to offer users for starting new translation. When not
-specified built in list is used which includes all commonly used languages, but
+specified built-in list is used which includes all commonly used languages, but
 without country specific variants.
 
 This only limits non privileged users to add unwanted languages. The project
@@ -353,6 +353,23 @@ Number of hours between committing pending changes by way of the background task
    :ref:`production-cron`,
    :djadmin:`commit_pending`
 
+
+.. setting:: CONTACT_FORM
+
+CONTACT_FORM
+------------
+
+.. versionadded:: 4.6
+
+Configures how e-mail from the contact form is being sent. Choose a
+configuration that matches your mail server configuration.
+
+``"reply-to"``
+   The sender is used in as :mailheader:`Reply-To`, this is the default behaviour.
+``"from"``
+   The sender is used in as :mailheader:`From`. Your mail server needs to allow
+   sending such e-mails.
+
 .. setting:: DATA_DIR
 
 DATA_DIR
@@ -369,8 +386,10 @@ The following subdirectories usually exist:
     SSH keys and configuration.
 :file:`static`
     Default location for static Django files, specified by :setting:`django:STATIC_ROOT`. See :ref:`static-files`.
+
+    The Docker container uses a separate volume for this, see :ref:`docker-volume`.
 :file:`media`
-    Default location for Django media files, specified by :setting:`django:MEDIA_ROOT`. Contains uploaded screenshots.
+    Default location for Django media files, specified by :setting:`django:MEDIA_ROOT`. Contains uploaded screenshots, see :ref:`screenshots`.
 :file:`vcs`
     Version control repositories for translations.
 :file:`backups`
@@ -506,9 +525,9 @@ Example:
 .. code-block:: python
 
    DEFAULT_ADDONS = {
-       # Addon with no parameters
+       # Add-on with no parameters
        "weblate.flags.target_edit": {},
-       # Addon with parameters
+       # Add-on with parameters
        "weblate.autotranslate.autotranslate": {
            "mode": "suggest",
            "filter_type": "todo",
@@ -522,6 +541,7 @@ Example:
 .. seealso::
 
    :djadmin:`install_addon`,
+   :doc:`addons`,
    :setting:`WEBLATE_ADDONS`
 
 .. setting:: DEFAULT_COMMITER_EMAIL
@@ -2028,7 +2048,7 @@ example:
         "weblate.addons.autotranslate.AutoTranslateAddon",
         "weblate.addons.yaml.YAMLCustomizeAddon",
         "weblate.addons.cdn.CDNJSAddon",
-        # Addon you want to include
+        # Add-on you want to include
         "weblate.addons.example.ExampleAddon",
     )
 
@@ -2094,3 +2114,11 @@ The Weblate GPG keyring is searched for a matching key (:file:`home/.gnupg` unde
 .. seealso::
 
     :ref:`gpg-sign`
+
+.. setting:: WEBSITE_REQUIRED
+
+WEBSITE_REQUIRED
+----------------
+
+Defines whether :ref:`project-web` has to be specified when creating a project.
+Turned on by default as that suits public server setups.

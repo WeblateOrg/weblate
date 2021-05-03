@@ -341,7 +341,7 @@ It is usually a good idea to run Weblate in a separate database, and separate us
     sudo -u postgres createuser --superuser --pwprompt weblate
 
     # Create the database "weblate" owned by "weblate"
-    sudo -u postgres createdb -O weblate weblate
+    sudo -u postgres createdb -E UTF8 -O weblate weblate
 
 .. hint::
 
@@ -1492,7 +1492,13 @@ Monitoring Weblate
 ------------------
 
 Weblate provides the ``/healthz/`` URL to be used in simple health checks, for example
-using Kubernetes.
+using Kubernetes. The Docker container has built-in health check using this URL.
+
+For monitoring metrics of Weblate you can use :http:get:`/api/metrics/` API endpoint.
+
+.. seealso::
+
+   `Weblate plugin for Munin <https://github.com/WeblateOrg/munin>`_
 
 .. _collecting-errors:
 
@@ -1536,7 +1542,7 @@ In short, you need to adjust :file:`settings.py`:
         "access_token": "POST_SERVER_ITEM_ACCESS_TOKEN",
         "client_token": "POST_CLIENT_ITEM_ACCESS_TOKEN",
         "environment": "development" if DEBUG else "production",
-        "branch": "master",
+        "branch": "main",
         "root": "/absolute/path/to/code/root",
     }
 

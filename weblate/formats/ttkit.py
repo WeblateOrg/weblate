@@ -54,11 +54,11 @@ from weblate.formats.base import (
 from weblate.trans.util import (
     get_clean_env,
     get_string,
-    join_plural,
     rich_to_xliff_string,
     xliff_string_to_rich,
 )
 from weblate.utils.errors import report_error
+from weblate.utils.state import STATE_APPROVED, STATE_FUZZY, STATE_TRANSLATED
 
 LOCATIONS_RE = re.compile(r"^([+-]|.*, [+-]|.*:[+-])")
 PO_DOCSTRING_LOCATION = re.compile(r":docstring of [a-zA-Z0-9._]+:[0-9]+")
@@ -144,18 +144,13 @@ class TTKitUnit(TranslationUnit):
             target = multistring(target)
         self.unit.target = target
 
-    def mark_fuzzy(self, fuzzy):
-        """Set fuzzy flag on translated unit."""
+    def set_state(self, state):
+        """Set fuzzy /approved flag on translated unit."""
         if "flags" in self.__dict__:
             del self.__dict__["flags"]
-        self.unit.markfuzzy(fuzzy)
-
-    def mark_approved(self, value):
-        """Set approved flag on translated unit."""
-        if "flags" in self.__dict__:
-            del self.__dict__["flags"]
+        self.unit.markfuzzy(state == STATE_FUZZY)
         if hasattr(self.unit, "markapproved"):
-            self.unit.markapproved(value)
+            self.unit.markapproved(state == STATE_APPROVED)
 
     @cached_property
     def flags(self):
@@ -176,7 +171,7 @@ class KeyValueUnit(TTKitUnit):
     def source(self):
         """Return source string from a Translate Toolkit unit."""
         if self.template is not None:
-            return get_string(self.template.value)
+            return get_string(self.template.source)
         return get_string(self.unit.name)
 
     @cached_property
@@ -184,7 +179,7 @@ class KeyValueUnit(TTKitUnit):
         """Return target string from a Translate Toolkit unit."""
         if self.unit is None:
             return ""
-        return get_string(self.unit.value)
+        return get_string(self.unit.source)
 
     @cached_property
     def context(self):
@@ -210,8 +205,6 @@ class KeyValueUnit(TTKitUnit):
     def set_target(self, target):
         """Set translation unit target."""
         super().set_target(target)
-        # Propagate to value so that is_translated works correctly
-        self.unit.value = self.unit.target
 
 
 class TTKitFormat(TranslationFormat):
@@ -490,30 +483,27 @@ class PropertiesUnit(KeyValueUnit):
 
     @cached_property
     def source(self):
+        """Return source string from a Translate Toolkit unit."""
+        if self.template is not None:
+            return get_string(self.template.source)
         # Need to decode property encoded string
-        return quote.propertiesdecode(super().source)
+        return get_string(quote.propertiesdecode(self.unit.name))
 
     @cached_property
     def target(self):
         """Return target string from a Translate Toolkit unit."""
         if self.unit is None:
             return ""
-        # Need to decode property encoded string
-        # This is basically stolen from
-        # translate.storage.properties.propunit.gettarget
-        # which for some reason does not return translation
-        value = quote.propertiesdecode(self.unit.value)
-        value = re.sub("\\\\ ", " ", value)
-        return value
+        return get_string(self.unit.target or self.unit.source)
 
 
 class PoUnit(TTKitUnit):
     """Wrapper for gettext PO unit."""
 
-    def mark_fuzzy(self, fuzzy):
-        """Set fuzzy flag on translated unit."""
-        super().mark_fuzzy(fuzzy)
-        if not fuzzy:
+    def set_state(self, state):
+        """Set fuzzy /approved flag on translated unit."""
+        super().set_state(state)
+        if state != STATE_FUZZY:
             self.unit.prev_msgid = []
             self.unit.prev_msgid_plural = []
             self.unit.prev_msgctxt = []
@@ -682,15 +672,20 @@ class XliffUnit(TTKitUnit):
         """
         return self.target and self.xliff_state in XLIFF_FUZZY_STATES
 
-    def mark_fuzzy(self, fuzzy):
-        """Set fuzzy flag on translated unit.
-
-        We handle this on our own.
-        """
-        if fuzzy:
+    def set_state(self, state):
+        """Set fuzzy /approved flag on translated unit."""
+        self.unit.markapproved(state == STATE_APPROVED)
+        if state == STATE_FUZZY:
+            # Always set state for fuzzy
             self.xliff_node.set("state", "needs-translation")
         elif self.xliff_state:
-            self.xliff_node.set("state", "translated")
+            # Only update state if it exists
+            if state == STATE_APPROVED:
+                self.xliff_node.set("state", "final")
+            elif state == STATE_TRANSLATED:
+                self.xliff_node.set("state", "translated")
+            else:
+                self.xliff_node.set("state", "new")
 
     def is_approved(self, fallback=False):
         """Check whether unit is appoved."""
@@ -699,11 +694,6 @@ class XliffUnit(TTKitUnit):
         if hasattr(self.unit, "isapproved"):
             return self.unit.isapproved()
         return fallback
-
-    def mark_approved(self, value):
-        super().mark_approved(value)
-        if self.xliff_state:
-            self.xliff_node.set("state", "final" if value else "translated")
 
     def has_content(self):
         """Check whether unit has content.
@@ -727,7 +717,7 @@ class FlatXMLUnit(TTKitUnit):
 
     @cached_property
     def source(self):
-        return self.mainunit.target
+        return get_string(self.mainunit.target)
 
 
 class MonolingualIDUnit(TTKitUnit):
@@ -745,7 +735,7 @@ class TSUnit(MonolingualIDUnit):
             # Need to apply special magic for plurals here
             # as there is no singlular/plural in the source string
             source = self.unit.source
-            return join_plural([source.replace("(s)", ""), source.replace("(s)", "s")])
+            return get_string([source.replace("(s)", ""), source.replace("(s)", "s")])
         return super().source
 
     @cached_property
@@ -845,8 +835,8 @@ class CSVUnit(MonolingualSimpleUnit):
             and string[-1] == "'"
             and string[1] in ("=", "+", "-", "@", "\\", "%")
         ):
-            return string[1:-1].replace("\\|", "|")
-        return string
+            return get_string(string[1:-1].replace("\\|", "|"))
+        return get_string(string)
 
     @cached_property
     def context(self):
@@ -904,7 +894,7 @@ class PHPUnit(KeyValueUnit):
     def source(self):
         if self.template is not None:
             return get_string(self.template.source)
-        return self.unit.getid()
+        return get_string(self.unit.getid())
 
     @cached_property
     def target(self):
@@ -1608,7 +1598,7 @@ class XWikiUnit(PropertiesUnit):
     @cached_property
     def source(self):
         # Need to decode property encoded string
-        return quote.xwiki_properties_decode(super().source)
+        return get_string(quote.xwiki_properties_decode(super().source))
 
     @cached_property
     def target(self):
@@ -1621,7 +1611,7 @@ class XWikiUnit(PropertiesUnit):
         # which for some reason does not return translation
         value = quote.xwiki_properties_decode(self.unit.value)
         value = re.sub("\\\\ ", " ", value)
-        return value
+        return get_string(value)
 
 
 class XWikiPropertiesFormat(PropertiesBaseFormat):

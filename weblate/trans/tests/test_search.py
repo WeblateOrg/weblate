@@ -288,7 +288,7 @@ class BulkEditTest(ViewTestCase):
         )
         self.assertContains(response, "Bulk edit completed, 1 string was updated.")
         unit = self.get_unit()
-        self.assertTrue("python-format" in unit.all_flags)
+        self.assertIn("python-format", unit.all_flags)
         response = self.client.post(
             reverse("bulk-edit", kwargs=self.kw_project),
             {"q": "state:needs-editing", "state": -1, "remove_flags": "python-format"},
@@ -306,7 +306,7 @@ class BulkEditTest(ViewTestCase):
         )
         self.assertContains(response, "Bulk edit completed, 4 strings were updated.")
         unit = self.get_unit()
-        self.assertTrue("read-only" in unit.all_flags)
+        self.assertIn("read-only", unit.all_flags)
         response = self.client.post(
             reverse("bulk-edit", kwargs=self.kw_project),
             {"q": "language:en", "state": -1, "remove_flags": "read-only"},
@@ -325,7 +325,7 @@ class BulkEditTest(ViewTestCase):
         )
         self.assertContains(response, "Bulk edit completed, 1 string was updated.")
         unit = self.get_unit()
-        self.assertTrue(label in unit.all_labels)
+        self.assertIn(label, unit.all_labels)
         self.assertEqual(getattr(unit.translation.stats, f"label:{label.name}"), 1)
         # Clear local outdated cache
         unit.source_unit.translation.stats.clear()

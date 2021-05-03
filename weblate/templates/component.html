@@ -3,6 +3,7 @@
 {% load permissions %}
 {% load translations %}
 {% load crispy_forms_tags %}
+{% load metrics %}
 
 {% block breadcrumbs %}
 <li><a href="{{ object.project.get_absolute_url }}">{{ object.project }}</a></li>
@@ -41,7 +42,6 @@
     </a>
     <ul class="dropdown-menu">
       <li><a href="#history" data-toggle="tab">{% trans "History" %}</a></li>
-      <li><a href="#activity" data-toggle="tab">{% trans "Activity" %}</a></li>
       <li><a href="{% url 'export_stats' project=object.project.slug component=object.slug %}?format=csv">{% trans "Download statistics (CSV)" %}</a></li>
       <li><a href="{% url 'export_stats' project=object.project.slug component=object.slug %}?format=json">{% trans "Download statistics (JSON)" %}</a></li>
       {% if user.is_authenticated %}
@@ -99,7 +99,7 @@
       {% endif %}
       {% if user_can_edit_component %}
       <li><a href="{% url 'guide' project=object.project.slug component=object.slug %}">{% trans "Community localization checklist" %}</a></li>
-      <li><a href="{% url 'addons' project=object.project.slug component=object.slug %}">{% trans "Addons" %}</a></li>
+      <li><a href="{% url 'addons' project=object.project.slug component=object.slug %}">{% trans "Add-ons" %}</a></li>
       <li><a href="{% url 'settings' project=object.project.slug component=object.slug %}">{% trans "Settings" %}</a></li>
       {% endif %}
       {% if delete_form or rename_form %}
@@ -173,12 +173,7 @@
 </div>
 
 <div class="tab-pane" id="information">
-
-<table class="table table-striped table-autowidth">
-{% include "component_info.html" %}
-{% include "snippets/stats.html" with stats=object.stats %}
-</table>
-
+  {% include "snippets/info.html" with project=object.project component=object stats=object.stats metrics=object|metrics show_source=True %}
 </div>
 
 
@@ -229,10 +224,6 @@
 {% include "last-changes-content.html" %}
 <a class="btn btn-primary" href="{% url 'changes' %}?{{ last_changes_url }}">{% trans "Browse all component changes" %}</a>
 </div>
-
-{% url 'yearly_activity' project=object.project.slug component=object.slug as yearly_activity %}
-{% url 'monthly_activity' project=object.project.slug component=object.slug as monthly_activity %}
-{% include "activity-tab.html" %}
 
 {% if announcement_form %}
 <div class="tab-pane" id="announcement">

@@ -37,7 +37,6 @@ from django.forms.utils import from_current_timezone
 from django.template.loader import render_to_string
 from django.urls import reverse
 from django.utils import timezone
-from django.utils.html import escape
 from django.utils.http import urlencode
 from django.utils.safestring import mark_safe
 from django.utils.translation import gettext
@@ -45,9 +44,11 @@ from django.utils.translation import gettext_lazy as _
 from translation_finder import DiscoveryResult, discover
 
 from weblate.auth.models import User
+from weblate.checks.flags import Flags
 from weblate.checks.models import CHECKS
 from weblate.checks.utils import highlight_string
 from weblate.formats.models import EXPORTERS, FILE_FORMATS
+from weblate.glossary.forms import GlossaryAddMixin
 from weblate.lang.data import BASIC_LANGUAGES
 from weblate.lang.models import Language
 from weblate.machinery import MACHINE_TRANSLATION_SERVICES
@@ -77,7 +78,6 @@ from weblate.utils.state import (
     STATE_READONLY,
     STATE_TRANSLATED,
 )
-from weblate.utils.templatetags.icons import icon
 from weblate.utils.validators import validate_file_extension
 from weblate.vcs.models import VCS_REGISTRY
 
@@ -246,19 +246,6 @@ class PluralTextarea(forms.Textarea):
         """Return toolbar HTML code."""
         profile = self.profile
         groups = []
-        # Copy button
-        if source:
-            groups.append(
-                GROUP_TEMPLATE.format(
-                    "",
-                    BUTTON_TEMPLATE.format(
-                        "copy-text",
-                        gettext("Fill in with source string"),
-                        COPY_TEMPLATE.format(unit.checksum, escape(json.dumps(source))),
-                        "{} {}".format(icon("clone.svg"), gettext("Clone source")),
-                    ),
-                )
-            )
 
         # Special chars
         chars = [
@@ -325,7 +312,7 @@ class PluralTextarea(forms.Textarea):
             # Label for plural
             label = str(unit.translation.language)
             if len(values) != 1:
-                label = "{}, {}".format(label, plural.get_plural_label(idx))
+                label = f"{label}, {plural.get_plural_label(idx)}"
             ret.append(
                 render_to_string(
                     "snippets/editor.html",
@@ -465,6 +452,15 @@ class TranslationForm(UnitForm):
         required=False,
         widget=forms.RadioSelect,
     )
+    explanation = forms.CharField(
+        widget=MarkdownTextarea,
+        label=_("Explanation"),
+        help_text=_(
+            "Additional explanation to clarify meaning or usage of the string."
+        ),
+        max_length=1000,
+        required=False,
+    )
 
     def __init__(self, user, unit: Unit, *args, **kwargs):
         if unit is not None:
@@ -475,6 +471,7 @@ class TranslationForm(UnitForm):
                 "target": unit,
                 "fuzzy": unit.fuzzy,
                 "review": unit.state,
+                "explanation": unit.explanation,
             }
             kwargs["auto_id"] = f"id_{unit.checksum}_%s"
         tabindex = kwargs.pop("tabindex", 100)
@@ -496,11 +493,14 @@ class TranslationForm(UnitForm):
             Field("contentsum"),
             Field("translationsum"),
             InlineRadios("review"),
+            Field("explanation"),
         )
         if unit and user.has_perm("unit.review", unit.translation):
             self.fields["fuzzy"].widget = forms.HiddenInput()
         else:
             self.fields["review"].widget = forms.HiddenInput()
+        if not unit.translation.component.is_glossary:
+            self.fields["explanation"].widget = forms.HiddenInput()
 
     def clean(self):
         super().clean()
@@ -553,18 +553,6 @@ class ZenTranslationForm(TranslationForm):
         self.helper.form_tag = True
         self.helper.disable_csrf = False
         self.helper.layout.append(Field("checksum"))
-
-
-class AntispamForm(forms.Form):
-    """Honeypot based spam protection form."""
-
-    content = forms.CharField(required=False)
-
-    def clean_content(self):
-        """Check if content is empty."""
-        if self.cleaned_data["content"] != "":
-            raise ValidationError("Invalid value")
-        return ""
 
 
 class DownloadForm(forms.Form):
@@ -642,7 +630,7 @@ class UploadForm(SimpleUploadForm):
             "already translated."
         ),
         choices=(
-            ("", _("Update only non translated strings")),
+            ("", _("Update only untranslated strings")),
             ("replace-translated", _("Update translated strings")),
             ("replace-approved", _("Update translated and approved strings")),
         ),
@@ -1673,15 +1661,11 @@ class ComponentInitCreateForm(CleanRepoMixin, ComponentProjectForm):
         self.instance = instance
 
         # Create linked repos automatically
-        if not self.instance.is_repo_link and self.instance.vcs != "local":
-            same_repo = instance.project.component_set.filter(
-                repo=instance.repo, vcs=instance.vcs, branch=instance.branch
-            )
-            if same_repo.exists():
-                component = same_repo[0]
-                data["repo"] = component.get_repo_link_url()
-                data["branch"] = ""
-                self.clean_instance(data)
+        repo = instance.suggest_repo_link()
+        if repo:
+            data["repo"] = repo
+            data["branch"] = ""
+            self.clean_instance(data)
 
     def clean(self):
         self.clean_instance(self.cleaned_data)
@@ -1985,11 +1969,29 @@ class NewUnitBaseForm(forms.Form):
 
     def clean(self):
         try:
-            data = self.as_tuple()
+            data = self.as_kwargs()
         except KeyError:
             # Probably some fields validation has failed
             return
-        self.translation.validate_new_unit_data(*data)
+        self.translation.validate_new_unit_data(**data)
+
+    def get_glossary_flags(self):
+        return ""
+
+    def as_kwargs(self):
+        flags = Flags()
+        flags.merge(self.get_glossary_flags())
+        variant = self.cleaned_data.get("variant")
+        if variant:
+            flags.set_value("variant", variant)
+        return {
+            "context": self.cleaned_data.get("context", ""),
+            "source": self.cleaned_data["source"],
+            "target": self.cleaned_data.get("target"),
+            "extra_flags": flags.format(),
+            "explanation": self.cleaned_data.get("explanation", ""),
+            "auto_context": self.cleaned_data.get("auto_context", False),
+        }
 
 
 class NewMonolingualUnitForm(NewUnitBaseForm):
@@ -2017,15 +2019,17 @@ class NewMonolingualUnitForm(NewUnitBaseForm):
         self.fields["source"].widget.profile = user.profile
         self.fields["source"].initial = Unit(translation=translation, id_hash=0)
 
-    def as_tuple(self):
-        return (self.cleaned_data["context"], self.cleaned_data["source"], None)
-
 
 class NewBilingualSourceUnitForm(NewUnitBaseForm):
     context = forms.CharField(
-        label=_("Translation key"),
+        label=_("Context"),
         help_text=_("Optional context to clarify the source strings."),
         required=False,
+    )
+    auto_context = forms.BooleanField(
+        required=False,
+        initial=True,
+        label=_("Automatically adjust context when same string already exists."),
     )
     source = PluralField(
         label=_("Source string"),
@@ -2041,19 +2045,12 @@ class NewBilingualSourceUnitForm(NewUnitBaseForm):
             translation=translation.component.source_translation, id_hash=0
         )
 
-    def as_tuple(self):
-        return (
-            self.cleaned_data.get("context", ""),
-            self.cleaned_data["source"],
-            self.cleaned_data.get("target"),
-        )
-
 
 class NewBilingualUnitForm(NewBilingualSourceUnitForm):
     target = PluralField(
         label=_("Translated string"),
         help_text=_(
-            "You can edit this later, as with any other string in " "the translation."
+            "You can edit this later, as with any other string in the translation."
         ),
         required=True,
     )
@@ -2065,9 +2062,29 @@ class NewBilingualUnitForm(NewBilingualSourceUnitForm):
         self.fields["target"].initial = Unit(translation=translation, id_hash=0)
 
 
+class NewBilingualGlossarySourceUnitForm(GlossaryAddMixin, NewBilingualSourceUnitForm):
+    def __init__(self, translation, user, *args, **kwargs):
+        if kwargs["initial"] is None:
+            kwargs["initial"] = {}
+        kwargs["initial"]["terminology"] = True
+        super().__init__(translation, user, *args, **kwargs)
+
+
+class NewBilingualGlossaryUnitForm(GlossaryAddMixin, NewBilingualUnitForm):
+    pass
+
+
 def get_new_unit_form(translation, user, data=None, initial=None):
     if translation.component.has_template():
         return NewMonolingualUnitForm(translation, user, data=data, initial=initial)
+    if translation.component.is_glossary:
+        if translation.is_source:
+            return NewBilingualGlossarySourceUnitForm(
+                translation, user, data=data, initial=initial
+            )
+        return NewBilingualGlossaryUnitForm(
+            translation, user, data=data, initial=initial
+        )
     if translation.is_source:
         return NewBilingualSourceUnitForm(translation, user, data=data, initial=initial)
     return NewBilingualUnitForm(translation, user, data=data, initial=initial)
@@ -2243,6 +2260,12 @@ class ChangesForm(forms.Form):
         choices=Change.ACTION_CHOICES,
     )
     user = UsernameField(label=_("Author username"), required=False, help_text=None)
+    start_date = WeblateDateField(
+        label=_("Starting date"), required=False, datepicker=False
+    )
+    end_date = WeblateDateField(
+        label=_("Ending date"), required=False, datepicker=False
+    )
 
     def __init__(self, request, *args, **kwargs):
         super().__init__(*args, **kwargs)

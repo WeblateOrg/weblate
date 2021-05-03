@@ -28,7 +28,7 @@ Install it, or use the Hosted Weblate service at `weblate.org`_.
 
 .. image:: https://img.shields.io/github/license/WeblateOrg/weblate.svg
     :alt: License
-    :target: https://github.com/WeblateOrg/weblate/blob/master/COPYING
+    :target: https://github.com/WeblateOrg/weblate/blob/main/COPYING
 
 Support
 -------

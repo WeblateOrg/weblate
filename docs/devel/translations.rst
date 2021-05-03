@@ -22,6 +22,11 @@ This can be done using :ref:`component-new_lang` in :ref:`component`.
 
     More info on the repository update settings can be found on the :ref:`update-vcs`.
 
+.. seealso::
+
+   :ref:`component-new_lang`,
+   :ref:`new-translations`
+
 .. _removing-translation:
 
 Removing existing translations
@@ -71,7 +76,7 @@ Automated key based variants
 .. versionadded:: 3.11
 
 You can define regular expression to group the strings based on the key of
-monolignual translations in the :ref:`component`:
+monolingual translations in the :ref:`component`:
 
 .. image:: /images/variants-settings.png
 

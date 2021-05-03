@@ -921,6 +921,10 @@ Projects
 
        The ``zipfile`` and ``docfile`` parameters are now accepted for VCS-less components, see :ref:`vcs-local`.
 
+    .. versionchanged:: 4.6
+
+       The cloned repositories are now automatically shared within a project using :ref:`internal-urls`. Use ``disable_autoshare`` to turn off this.
+
     Creates translation components in the given project.
 
     .. hint::
@@ -937,6 +941,7 @@ Projects
     :type project: string
     :form file zipfile: ZIP file to upload into Weblate for translations initialization
     :form file docfile: Document to translate
+    :form boolean disable_autoshare: Disables automatic repository sharing via :ref:`internal-urls`.
     :>json object result: Created component object; see :http:get:`/api/components/(string:project)/(string:component)/`
 
     JSON can not be used when uploading the files using the ``zipfile`` and
@@ -962,7 +967,7 @@ Projects
 
         curl \
             --data-binary '{
-                "branch": "master",
+                "branch": "main",
                 "file_format": "po",
                 "filemask": "po/*.po",
                 "git_export": "",
@@ -991,7 +996,7 @@ Projects
         Content-Length: 20
 
         {
-            "branch": "master",
+            "branch": "main",
             "file_format": "po",
             "filemask": "po/*.po",
             "git_export": "",
@@ -1019,7 +1024,7 @@ Projects
         Allow: GET, POST, HEAD, OPTIONS
 
         {
-            "branch": "master",
+            "branch": "main",
             "file_format": "po",
             "filemask": "po/*.po",
             "git_export": "",
@@ -1153,7 +1158,7 @@ Components
     .. code-block:: json
 
         {
-            "branch": "master",
+            "branch": "main",
             "file_format": "po",
             "filemask": "po/*.po",
             "git_export": "",
@@ -1243,7 +1248,7 @@ Components
         Allow: GET, POST, HEAD, OPTIONS
 
         {
-            "branch": "master",
+            "branch": "main",
             "file_format": "po",
             "filemask": "po/*.po",
             "git_export": "",
@@ -1672,7 +1677,7 @@ Translations
 
         {
             "component": {
-                "branch": "master",
+                "branch": "main",
                 "file_format": "po",
                 "filemask": "po/*.po",
                 "git_export": "",
@@ -2155,8 +2160,10 @@ Screenshots
     :param id: Screenshot ID
     :type id: int
 
-Addons
-++++++
+.. _addons-api:
+
+Add-ons
++++++++
 
 .. versionadded:: 4.4.1
 
@@ -2166,17 +2173,21 @@ Addons
 
     .. seealso::
 
-        Addon object attributes are documented at :http:get:`/api/addons/(int:id)/`.
+        Add-on object attributes are documented at :http:get:`/api/addons/(int:id)/`.
 
 .. http:get:: /api/addons/(int:id)/
 
     Returns information about addon information.
 
-    :param id: Addon ID
+    :param id: Add-on ID
     :type id: int
     :>json string name: name of an addon
     :>json string component: URL of a related component object
     :>json object configuration: Optional addon configuration
+
+    .. seealso::
+
+       :doc:`/admin/addons`
 
 .. http:post:: /api/components/(string:project)/(string:component)/addons/
 
@@ -2191,7 +2202,7 @@ Addons
 
     Edit partial information about addon.
 
-    :param id: Addon ID
+    :param id: Add-on ID
     :type id: int
     :>json object configuration: Optional addon configuration
 
@@ -2199,7 +2210,7 @@ Addons
 
     Edit full information about addon.
 
-    :param id: Addon ID
+    :param id: Add-on ID
     :type id: int
     :>json object configuration: Optional addon configuration
 
@@ -2207,7 +2218,7 @@ Addons
 
     Delete addon.
 
-    :param id: Addon ID
+    :param id: Add-on ID
     :type id: int
 
 
@@ -2309,6 +2320,27 @@ Tasks
     :>json int progress: Task progress in percent
     :>json object result: Task result or progress details
     :>json string log: Task log
+
+Metrics
++++++++
+
+.. http:get:: /api/metrics/
+
+    Returns server metrics.
+
+    :>json int units: Number of units
+    :>json int units_translated: Number of translated units
+    :>json int users: Number of users
+    :>json int changes: Number of changes
+    :>json int projects: Number of projects
+    :>json int components":  Number of components
+    :>json int translations":  Number of translations
+    :>json int languages":  Number of used languages
+    :>json int checks":  Number of triggered quality checks
+    :>json int configuration_errors":  Number of configuration errors
+    :>json int suggestions":  Number of pending suggestions
+    :>json object celery_queues: Lengths of Celery queues, see :ref:`celery`
+    :>json string name: Configured server name
 
 .. _hooks:
 
@@ -2477,7 +2509,7 @@ Weblate provides various exports to allow you to further process the data.
 
     .. sourcecode:: http
 
-        GET /exports/stats/weblate/master/ HTTP/1.1
+        GET /exports/stats/weblate/main/ HTTP/1.1
         Host: example.com
         Accept: application/json, text/javascript
 
@@ -2505,7 +2537,7 @@ Weblate provides various exports to allow you to further process the data.
                 "translated_percent": 100.0,
                 "translated_words": 3201,
                 "url": "http://hosted.weblate.org/engage/weblate/cs/",
-                "url_translate": "http://hosted.weblate.org/projects/weblate/master/cs/"
+                "url_translate": "http://hosted.weblate.org/projects/weblate/main/cs/"
             },
             {
                 "code": "nl",
@@ -2522,7 +2554,7 @@ Weblate provides various exports to allow you to further process the data.
                 "translated_percent": 73.2,
                 "translated_words": 3201,
                 "url": "http://hosted.weblate.org/engage/weblate/nl/",
-                "url_translate": "http://hosted.weblate.org/projects/weblate/master/nl/"
+                "url_translate": "http://hosted.weblate.org/projects/weblate/main/nl/"
             },
             {
                 "code": "el",
@@ -2539,7 +2571,7 @@ Weblate provides various exports to allow you to further process the data.
                 "translated_percent": 71.6,
                 "translated_words": 3201,
                 "url": "http://hosted.weblate.org/engage/weblate/el/",
-                "url_translate": "http://hosted.weblate.org/projects/weblate/master/el/"
+                "url_translate": "http://hosted.weblate.org/projects/weblate/main/el/"
             }
         ]
 

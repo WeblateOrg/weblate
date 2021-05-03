@@ -31,10 +31,9 @@ from sentry_sdk import add_breadcrumb
 from weblate_language_data.countries import DEFAULT_LANGS
 
 from weblate.utils.hash import calculate_hash
+from weblate.utils.state import STATE_TRANSLATED
 
-EXPAND_LANGS = {
-    code[:2]: "{}_{}".format(code[:2], code[3:].upper()) for code in DEFAULT_LANGS
-}
+EXPAND_LANGS = {code[:2]: f"{code[:2]}_{code[3:].upper()}" for code in DEFAULT_LANGS}
 
 
 class UnitNotFound(Exception):
@@ -145,12 +144,8 @@ class TranslationUnit:
         """Set translation unit target."""
         raise NotImplementedError()
 
-    def mark_fuzzy(self, fuzzy):
-        """Set fuzzy flag on translated unit."""
-        raise NotImplementedError()
-
-    def mark_approved(self, value):
-        """Set approved flag on translated unit."""
+    def set_state(self, state):
+        """Set fuzzy /approved flag on translated unit."""
         raise NotImplementedError()
 
 
@@ -467,7 +462,7 @@ class TranslationFormat:
             # Unmark unit as fuzzy (to allow merge)
             set_fuzzy = False
             if fuzzy and unit.is_fuzzy():
-                unit.mark_fuzzy(False)
+                unit.set_state(STATE_TRANSLATED)
                 if fuzzy != "approve":
                     set_fuzzy = True
 
@@ -515,7 +510,7 @@ class TranslationFormat:
         if "mono_units" in self.__dict__:
             self.mono_units.append(mono_unit)
         if "_source_index" in self.__dict__:
-            self._source_index[(unit.context, unit.source)] = unit
+            self._source_index[(result.context, result.source)] = result
         if "_context_index" in self.__dict__:
             self._context_index[mono_unit.context] = mono_unit
 
@@ -535,6 +530,8 @@ class TranslationFormat:
 
     def cleanup_unused(self) -> List[str]:
         """Removes unused strings, returning list of additional changed files."""
+        if not self.template_store:
+            return []
         existing = {unit.context for unit in self.template_store.mono_units}
         changed = False
 
