@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+from crispy_forms.helper import FormHelper
+from crispy_forms.layout import Field, Layout
 from django import forms
 from django.utils.translation import gettext_lazy as _
 
@@ -18,11 +20,19 @@ class ApplyTranslationsFromHistoryForm(forms.Form):
         ),
     )
 
+    def __init__(self, *args, **kwargs):
+        """Generate choices for other component in same project."""
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper(self)
+        self.helper.layout = Layout(
+            Field("user"),
+        )
+
 
 class ApplyTranslationsFromHistoryAddonForm(ApplyTranslationsFromHistoryForm, AddonFormMixin):
     def __init__(self, addon, instance=None, *args, **kwargs):
         self._addon = addon
-        super().__init__(obj=addon.instance.component, *args, **kwargs)
+        super().__init__(*args, **kwargs)
 
 
 class ApplyTranslationsFromHistory(BaseAddon):
