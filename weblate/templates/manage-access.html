@@ -101,7 +101,8 @@
         {% csrf_token %}
         <div class="panel panel-default">
           <div class="panel-heading"><h4 class="panel-title">
-          {% trans "Add a user" %}
+            {% documentation_icon 'admin/access' 'invite-user' right=True %}
+            {% trans "Add a user" %}
           </h4></div>
           <div class="panel-body">
             {{ add_user_form|crispy }}
@@ -117,7 +118,8 @@
         {% csrf_token %}
         <div class="panel panel-default">
           <div class="panel-heading"><h4 class="panel-title">
-          {% trans "Invite new user" %}
+            {% documentation_icon 'admin/access' 'invite-user' right=True %}
+            {% trans "Invite new user" %}
           </h4></div>
           <div class="panel-body">
             {{ invite_user_form|crispy }}

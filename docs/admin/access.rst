@@ -136,6 +136,8 @@ to all users.
 These features are available on the :guilabel:`Access control` page, which can be
 accessed from the project’s menu :guilabel:`Manage` ↓ :guilabel:`Users`.
 
+.. _invite-user:
+
 New user invitation
 ^^^^^^^^^^^^^^^^^^^
 
