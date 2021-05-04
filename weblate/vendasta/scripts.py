@@ -2,12 +2,14 @@
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Field, Layout
 from django import forms
+from django.db.models import Q
 from django.utils.translation import gettext_lazy as _
 
 from weblate.addons.base import BaseAddon
 from weblate.addons.forms import AddonFormMixin
-from weblate.logger import LOGGER
+from weblate.auth.models import User
 from weblate.trans.forms import UserField
+from weblate.trans.models.change import Change
 
 
 class ApplyTranslationsFromHistoryForm(forms.Form):
@@ -53,7 +55,15 @@ class ApplyTranslationsFromHistory(BaseAddon):
 
     def apply_translations_from_history(self):
         """Apply translations from history."""
-        LOGGER.debug("Component from instance: %s", self.instance.component.name)
-        LOGGER.debug(
-            "User saved to config: %s", self.instance.configuration.get_value("user")
-        )
+        user_form_value = self.instance.configuration.get_value("user")
+        user = User.objects.get(Q(username=user_form_value) | Q(email=user_form_value))
+
+        for change in Change.objects.prefetch().filter(
+            Q(project_id__in=user.allowed_project_ids)
+            & Q(component=self.instance.component)
+            & (
+                Q(component__restricted=False)
+                | Q(component_id__in=user.component_permissions)
+            )
+        ).order_by("timestamp"):
+            change.save()
