@@ -17,6 +17,8 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
+from urllib.parse import quote
+
 from django.conf import settings
 from django.core.checks import run_checks
 from django.core.mail import send_mail
@@ -37,6 +39,7 @@ from weblate.configuration.models import Setting
 from weblate.configuration.views import CustomCSSView
 from weblate.trans.forms import AnnouncementForm
 from weblate.trans.models import Alert, Announcement, Component, Project
+from weblate.trans.util import redirect_param
 from weblate.utils import messages
 from weblate.utils.celery import get_queue_stats
 from weblate.utils.errors import report_error
@@ -370,17 +373,12 @@ def users_check(request):
             | Q(social_auth__verifiedemail__email__iexact=email)
             | Q(username=email)
         ).distinct()
-
-    return render(
-        request,
-        "manage/users_check.html",
-        {
-            "menu_items": MENU,
-            "menu_page": "users",
-            "form": form,
-            "users": user_list,
-        },
-    )
+        if user_list.count() != 1:
+            return redirect_param(
+                "manage-users", "?q={}".format(quote(form.cleaned_data["email"]))
+            )
+        return redirect(user_list[0])
+    return redirect("manage-users")
 
 
 @management_access
