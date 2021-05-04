@@ -7,6 +7,8 @@ Not yet released.
 * Fixed adding new strings to empty properties files.
 * Fixed copy icon alignment in RTL languages.
 
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/66?closed=1>`__.
+
 Weblate 4.6.1
 -------------
 
