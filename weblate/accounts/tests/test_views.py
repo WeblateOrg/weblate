@@ -553,3 +553,37 @@ class ProfileTest(FixtureTestCase):
         self.assertContains(response, "Notification settings adjusted")
         subscription.refresh_from_db()
         self.assertEqual(subscription.frequency, FREQ_NONE)
+
+
+class EditUserTest(FixtureTestCase):
+    def setUp(self):
+        super().setUp()
+        self.user.is_superuser = True
+        self.user.save()
+
+    def test_edit(self):
+        # Change user as superuser
+        response = self.client.post(
+            self.user.get_absolute_url(),
+            {
+                "username": "us",
+                "full_name": "Full name",
+                "email": "noreply@example.com",
+                "is_active": "1",
+            },
+        )
+        user = User.objects.get(pk=self.user.pk)
+        self.assertRedirects(response, user.get_absolute_url())
+        self.assertTrue(user.is_active)
+        self.assertFalse(user.is_superuser)
+        # No permissions now
+        response = self.client.post(
+            self.user.get_absolute_url(),
+            {
+                "username": "us",
+                "full_name": "Full name",
+                "email": "noreply@example.com",
+                "is_active": "1",
+            },
+        )
+        self.assertEqual(response.status_code, 403)
