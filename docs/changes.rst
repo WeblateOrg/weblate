@@ -14,6 +14,7 @@ Not yet released.
 
 * Fixed crash after moving shared component between projects.
 * Fixed adding new strings to empty properties files.
+* Fixed copy icon alignment in RTL languages.
 
 Weblate 4.6.1
 -------------
