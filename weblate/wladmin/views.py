@@ -24,10 +24,12 @@ from django.db.models import Count, Q
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
 from django.utils import timezone
+from django.utils.decorators import method_decorator
 from django.utils.translation import gettext as _
 from django.utils.translation import gettext_lazy
 from django.views.decorators.http import require_POST
 
+from weblate.accounts.views import UserList
 from weblate.auth.decorators import management_access
 from weblate.auth.forms import AdminInviteUserForm
 from weblate.auth.models import User
@@ -327,28 +329,33 @@ def alerts(request):
     return render(request, "manage/alerts.html", context)
 
 
-@management_access
-def users(request):
-    invite_form = AdminInviteUserForm()
+@method_decorator(management_access, name="dispatch")
+class AdminUserList(UserList):
+    template_name = "manage/users.html"
 
-    if request.method == "POST":
+    def post(self, request, **kwargs):
         if "email" in request.POST:
             invite_form = AdminInviteUserForm(request.POST)
             if invite_form.is_valid():
                 invite_form.save(request)
                 messages.success(request, _("User has been invited to this project."))
                 return redirect("manage-users")
+        return super().post(request, **kwargs)
 
-    return render(
-        request,
-        "manage/users.html",
-        {
-            "menu_items": MENU,
-            "menu_page": "users",
-            "invite_form": invite_form,
-            "search_form": UserSearchForm,
-        },
-    )
+    def get_context_data(self, **kwargs):
+        result = super().get_context_data(**kwargs)
+
+        if self.request.method == "POST":
+            invite_form = AdminInviteUserForm(self.request.POST)
+            invite_form.is_valid()
+        else:
+            invite_form = AdminInviteUserForm()
+
+        result["menu_items"] = MENU
+        result["menu_page"] = "users"
+        result["invite_form"] = invite_form
+        result["search_form"] = UserSearchForm()
+        return result
 
 
 @management_access

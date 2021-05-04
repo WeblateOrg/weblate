@@ -885,7 +885,11 @@ real_patterns = [
     # Weblate management interface
     path("manage/", weblate.wladmin.views.manage, name="manage"),
     path("manage/tools/", weblate.wladmin.views.tools, name="manage-tools"),
-    path("manage/users/", weblate.wladmin.views.users, name="manage-users"),
+    path(
+        "manage/users/",
+        weblate.wladmin.views.AdminUserList.as_view(),
+        name="manage-users",
+    ),
     path(
         "manage/users/check/",
         weblate.wladmin.views.users_check,
