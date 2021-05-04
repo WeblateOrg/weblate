@@ -1736,7 +1736,7 @@ class ComponentDiscoverForm(ComponentInitCreateForm):
             self.cleaned_data.update(self.discovered[int(discovery)])
 
 
-class ComponentRenameForm(SettingsBaseForm):
+class ComponentRenameForm(SettingsBaseForm, ComponentDocsMixin):
     """Component rename form."""
 
     class Meta:
@@ -1744,7 +1744,7 @@ class ComponentRenameForm(SettingsBaseForm):
         fields = ["slug"]
 
 
-class ComponentMoveForm(SettingsBaseForm):
+class ComponentMoveForm(SettingsBaseForm, ComponentDocsMixin):
     """Component rename form."""
 
     class Meta:
@@ -1897,7 +1897,7 @@ class ProjectSettingsForm(SettingsBaseForm, ProjectDocsMixin, ProjectAntispamMix
             ]
 
 
-class ProjectRenameForm(SettingsBaseForm):
+class ProjectRenameForm(SettingsBaseForm, ProjectDocsMixin):
     """Project rename form."""
 
     class Meta:
