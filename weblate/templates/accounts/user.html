@@ -137,6 +137,7 @@
     <li><a data-toggle="tab" href="#billing">{% trans "Billing" %}</a></li>
   {% endif %}
   <li><a data-toggle="tab" href="#audit">{% trans "Audit log" %}</a></li>
+  <li><a data-toggle="tab" href="#groups">{% trans "Groups" %}</a></li>
   <li><a data-toggle="tab" href="{% url "admin:weblate_auth_user_change" object_id=page_user.id %}">{% trans "Edit" %}</a></li>
 {% endif %}
 </ul>
@@ -216,9 +217,28 @@
         {% for log in page_user.auditlog_set.order %}
           <tr>
             <td>{{ log.timestamp|date:"DATETIME_FORMAT" }}</td>
-            <td>{{ log.get_message }}</td>
+            <th>{{ log.get_message }}</th>
             <td>{{ log.address }}</td>
             <td>{{ log.user_agent }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <div class="tab-pane" id="groups">
+    <table class="table table-listing">
+      <thead>
+        <tr>
+          <th>{% trans "Group" %}</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for group in page_user.groups.all %}
+          <tr>
+            <th>{{ group.name }}</th>
+            <td></td>
           </tr>
         {% endfor %}
       </tbody>
