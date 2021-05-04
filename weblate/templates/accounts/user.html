@@ -6,6 +6,7 @@
 {% load metrics %}
 {% load permissions %}
 {% load authnames %}
+{% load crispy_forms_tags %}
 
 {% block breadcrumbs %}
 <li><a href="{% url "user_list" %}">{% trans "Users" %}</a></li>
@@ -138,7 +139,7 @@
   {% endif %}
   <li><a data-toggle="tab" href="#audit">{% trans "Audit log" %}</a></li>
   <li><a data-toggle="tab" href="#groups">{% trans "Groups" %}</a></li>
-  <li><a data-toggle="tab" href="{% url "admin:weblate_auth_user_change" object_id=page_user.id %}">{% trans "Edit" %}</a></li>
+  <li><a data-toggle="tab" href="#edit">{% trans "Edit" %}</a></li>
 {% endif %}
 </ul>
 
@@ -245,6 +246,13 @@
     </table>
   </div>
 
+  <div class="tab-pane" id="edit">
+    <form method="post">
+      {% csrf_token %}
+      {{ form|crispy }}
+      <input type="submit" value="{% trans "Save" %}" class="btn btn-primary" />
+    </form>
+  </div>
 {% endif %}
 
 </div>

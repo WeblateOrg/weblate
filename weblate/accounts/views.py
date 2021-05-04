@@ -609,7 +609,7 @@ class UserPage(UpdateView):
     fields = ["username", "full_name", "email", "is_superuser", "is_active"]
 
     def post(self, request, **kwargs):
-        if not request.user.has_perm("user.add"):
+        if not request.user.has_perm("user.edit"):
             raise PermissionDenied()
         return super().post(request, **kwargs)
 
