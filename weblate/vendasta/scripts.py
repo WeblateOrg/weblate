@@ -2,12 +2,26 @@
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Field, Layout
 from django import forms
+from django.core.exceptions import ValidationError
+from django.db.models import Q
 from django.utils.translation import gettext_lazy as _
 
 from weblate.addons.base import BaseAddon
 from weblate.addons.forms import AddonFormMixin
+from weblate.auth.models import User
 from weblate.logger import LOGGER
-from weblate.trans.forms import UserField
+
+
+class UserField(forms.CharField):
+    def clean(self, value):
+        if not value:
+            return None
+        try:
+            return User.objects.get(Q(username=value) | Q(email=value)).username
+        except User.DoesNotExist:
+            raise ValidationError(_("No matching user found."))
+        except User.MultipleObjectsReturned:
+            raise ValidationError(_("More users matched."))
 
 
 class ApplyTranslationsFromHistoryForm(forms.Form):
@@ -53,7 +67,16 @@ class ApplyTranslationsFromHistory(BaseAddon):
 
     def apply_translations_from_history(self):
         """Apply translations from history."""
-        LOGGER.debug("Component from instance: %s", self.instance.component.name)
-        LOGGER.debug(
-            "User saved to config: %s", self.instance.configuration.get_value("user")
-        )
+        user_form_value = self.instance.configuration.get_value("user")
+        LOGGER.debug("user from form: %s", user_form_value)
+        # user = User.objects.get(Q(username=user_form_value) | Q(email=user_form_value))
+        #
+        # for change in Change.objects.prefetch().filter(
+        #     Q(project_id__in=user.allowed_project_ids)
+        #     & Q(component=self.instance.component)
+        #     & (
+        #         Q(component__restricted=False)
+        #         | Q(component_id__in=user.component_permissions)
+        #     )
+        # ).order_by("timestamp"):
+        #     change.save()
