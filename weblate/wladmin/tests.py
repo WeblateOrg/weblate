@@ -209,7 +209,7 @@ class AdminTest(ViewTestCase):
             reverse("manage-users-check"), {"email": self.user.email}, follow=True
         )
         self.assertRedirects(response, self.user.get_absolute_url())
-        self.assertContains(response, "Last sign-in")
+        self.assertContains(response, "Never signed-in")
         response = self.client.get(
             reverse("manage-users-check"), {"email": "nonexisting"}, follow=True
         )
