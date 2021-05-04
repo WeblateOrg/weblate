@@ -923,7 +923,9 @@ real_patterns = [
     path("stats/", weblate.trans.views.about.StatsView.as_view(), name="stats"),
     # User pages
     path("user/", weblate.accounts.views.UserList.as_view(), name="user_list"),
-    path("user/<name:user>/", weblate.accounts.views.user_page, name="user_page"),
+    path(
+        "user/<name:user>/", weblate.accounts.views.UserPage.as_view(), name="user_page"
+    ),
     path(
         "user/<name:user>/suggestions/",
         weblate.accounts.views.SuggestionView.as_view(),

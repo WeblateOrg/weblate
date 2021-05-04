@@ -29,7 +29,7 @@ from django.conf import settings
 from django.contrib.auth import REDIRECT_FIELD_NAME, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import LoginView, LogoutView
-from django.core.exceptions import ObjectDoesNotExist, ValidationError
+from django.core.exceptions import ObjectDoesNotExist, PermissionDenied, ValidationError
 from django.core.mail.message import EmailMultiAlternatives
 from django.core.signing import (
     BadSignature,
@@ -56,7 +56,7 @@ from django.utils.translation import gettext as _
 from django.views.decorators.cache import never_cache
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
-from django.views.generic import ListView, TemplateView
+from django.views.generic import ListView, TemplateView, UpdateView
 from rest_framework.authtoken.models import Token
 from social_core.actions import do_auth
 from social_core.backends.open_id import OpenIdAuth
@@ -600,47 +600,57 @@ def trial(request):
     return render(request, "accounts/trial.html", {"title": _("Gratis trial")})
 
 
-def user_page(request, user):
-    """User details page."""
-    user = get_object_or_404(User, username=user)
-    allowed_project_ids = request.user.allowed_project_ids
+class UserPage(UpdateView):
+    model = User
+    template_name = "accounts/user.html"
+    slug_field = "username"
+    slug_url_kwarg = "user"
+    context_object_name = "page_user"
+    fields = ["username", "full_name", "email", "is_superuser", "is_active"]
 
-    # Filter all user activity
-    all_changes = Change.objects.last_changes(request.user).filter(user=user)
+    def post(self, request, **kwargs):
+        if not request.user.has_perm("user.add"):
+            raise PermissionDenied()
+        return super().post(request, **kwargs)
 
-    # Last user activity
-    last_changes = all_changes[:10]
+    def get_context_data(self, **kwargs):
+        """Create context for rendering page."""
+        context = super().get_context_data(**kwargs)
+        user = self.object
+        request = self.request
 
-    # Filter where project is active
-    user_projects_ids = set(
-        all_changes.values_list("translation__component__project", flat=True)
-    )
-    user_projects = Project.objects.filter(
-        id__in=user_projects_ids & allowed_project_ids
-    ).order()
+        allowed_project_ids = request.user.allowed_project_ids
 
-    return render(
-        request,
-        "accounts/user.html",
-        {
-            "page_profile": user.profile,
-            "page_user": user,
-            "last_changes": last_changes,
-            "last_changes_url": urlencode({"user": user.username}),
-            "user_projects": prefetch_project_flags(prefetch_stats(user_projects)),
-            "owned_projects": prefetch_project_flags(
-                prefetch_stats(
-                    user.owned_projects.filter(id__in=allowed_project_ids).order()
-                )
-            ),
-            "watched_projects": prefetch_project_flags(
-                prefetch_stats(
-                    user.watched_projects.filter(id__in=allowed_project_ids).order()
-                )
-            ),
-            "user_languages": user.profile.languages.all()[:7],
-        },
-    )
+        # Filter all user activity
+        all_changes = Change.objects.last_changes(request.user).filter(user=user)
+
+        # Last user activity
+        last_changes = all_changes[:10]
+
+        # Filter where project is active
+        user_projects_ids = set(
+            all_changes.values_list("translation__component__project", flat=True)
+        )
+        user_projects = Project.objects.filter(
+            id__in=user_projects_ids & allowed_project_ids
+        ).order()
+
+        context["page_profile"] = user.profile
+        context["last_changes"] = last_changes
+        context["last_changes_url"] = urlencode({"user": user.username})
+        context["user_projects"] = prefetch_project_flags(prefetch_stats(user_projects))
+        context["owned_projects"] = prefetch_project_flags(
+            prefetch_stats(
+                user.owned_projects.filter(id__in=allowed_project_ids).order()
+            )
+        )
+        context["watched_projects"] = prefetch_project_flags(
+            prefetch_stats(
+                user.watched_projects.filter(id__in=allowed_project_ids).order()
+            )
+        )
+        context["user_languages"] = user.profile.languages.all()[:7]
+        return context
 
 
 def user_avatar(request, user: str, size: int):
