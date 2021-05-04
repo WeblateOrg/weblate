@@ -8,7 +8,7 @@ from weblate.logger import LOGGER
 from weblate.trans.forms import UserField
 
 
-class ApplyTranslationsFromHistoryAddonForm(forms.Form, AddonFormMixin):
+class ApplyTranslationsFromHistoryForm(forms.Form):
     """Select a user for historical translations."""
 
     user = UserField(
@@ -17,6 +17,12 @@ class ApplyTranslationsFromHistoryAddonForm(forms.Form, AddonFormMixin):
             "Please type in an existing Weblate account name or e-mail address."
         ),
     )
+
+
+class ApplyTranslationsFromHistoryAddonForm(ApplyTranslationsFromHistoryForm, AddonFormMixin):
+    def __init__(self, addon, instance=None, *args, **kwargs):
+        self._addon = addon
+        super().__init__(obj=addon.instance.component, *args, **kwargs)
 
 
 class ApplyTranslationsFromHistory(BaseAddon):
