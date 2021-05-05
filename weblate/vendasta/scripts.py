@@ -75,7 +75,8 @@ class ApplyTranslationsFromHistory(BaseAddon):
         for change in (
             Change.objects.prefetch()
             .filter(
-                Q(project_id__in=user.allowed_project_ids)
+                Q(user=user)
+                & Q(project_id__in=user.allowed_project_ids)
                 & Q(component=self.instance.component)
                 & (
                     Q(component__restricted=False)
