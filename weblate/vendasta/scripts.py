@@ -9,7 +9,9 @@ from django.utils.translation import gettext_lazy as _
 from weblate.addons.base import BaseAddon
 from weblate.addons.forms import AddonFormMixin
 from weblate.auth.models import User
+from weblate.logger import LOGGER
 from weblate.trans.models.change import Change
+from weblate.utils.state import STATE_TRANSLATED
 
 
 class UserField(forms.CharField):
@@ -38,12 +40,12 @@ class ApplyTranslationsFromHistoryForm(forms.Form):
         """Generate choices for other component in same project."""
         super().__init__(*args, **kwargs)
         self.helper = FormHelper(self)
-        self.helper.layout = Layout(
-            Field("user"),
-        )
+        self.helper.layout = Layout(Field("user"),)
 
 
-class ApplyTranslationsFromHistoryAddonForm(ApplyTranslationsFromHistoryForm, AddonFormMixin):
+class ApplyTranslationsFromHistoryAddonForm(
+    ApplyTranslationsFromHistoryForm, AddonFormMixin
+):
     def __init__(self, addon, instance=None, *args, **kwargs):
         self._addon = addon
         super().__init__(*args, **kwargs)
@@ -70,12 +72,23 @@ class ApplyTranslationsFromHistory(BaseAddon):
         user_form_value = self.instance.configuration.get("user")
         user = User.objects.get(Q(username=user_form_value) | Q(email=user_form_value))
 
-        for change in Change.objects.prefetch().filter(
-            Q(project_id__in=user.allowed_project_ids)
-            & Q(component=self.instance.component)
-            & (
-                Q(component__restricted=False)
-                | Q(component_id__in=user.component_permissions)
+        for change in (
+            Change.objects.prefetch()
+            .filter(
+                Q(project_id__in=user.allowed_project_ids)
+                & Q(component=self.instance.component)
+                & (
+                    Q(component__restricted=False)
+                    | Q(component_id__in=user.component_permissions)
+                )
             )
-        ).order_by("timestamp"):
-            change.save()
+            .order_by("timestamp")
+        ):
+            LOGGER.info("change unit from %s to %s", change.old, change.target)
+            change.unit.translate(
+                user,
+                change.target,
+                STATE_TRANSLATED,
+                action=Change.ACTION_AUTO,
+                propagate=False,
+            )
