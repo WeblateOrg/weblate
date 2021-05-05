@@ -90,7 +90,7 @@ class ApplyTranslationsFromHistory(BaseAddon):
                     user,
                     change.target,
                     STATE_TRANSLATED,
-                    action=Change.ACTION_AUTO,
+                    change_action=Change.ACTION_AUTO,
                     propagate=False,
                 )
             elif change.target:
