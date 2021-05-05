@@ -9,7 +9,7 @@ from django.utils.translation import gettext_lazy as _
 from weblate.addons.base import BaseAddon
 from weblate.addons.forms import AddonFormMixin
 from weblate.auth.models import User
-from weblate.logger import LOGGER
+from weblate.trans.models.change import Change
 
 
 class UserField(forms.CharField):
@@ -67,16 +67,15 @@ class ApplyTranslationsFromHistory(BaseAddon):
 
     def apply_translations_from_history(self):
         """Apply translations from history."""
-        user_form_value = self.instance.configuration.get("user")
-        LOGGER.debug("user from form: %s", user_form_value)
-        # user = User.objects.get(Q(username=user_form_value) | Q(email=user_form_value))
-        #
-        # for change in Change.objects.prefetch().filter(
-        #     Q(project_id__in=user.allowed_project_ids)
-        #     & Q(component=self.instance.component)
-        #     & (
-        #         Q(component__restricted=False)
-        #         | Q(component_id__in=user.component_permissions)
-        #     )
-        # ).order_by("timestamp"):
-        #     change.save()
+        user_form_value = self.instance.configuration("user")
+        user = User.objects.get(Q(username=user_form_value) | Q(email=user_form_value))
+
+        for change in Change.objects.prefetch().filter(
+            Q(project_id__in=user.allowed_project_ids)
+            & Q(component=self.instance.component)
+            & (
+                Q(component__restricted=False)
+                | Q(component_id__in=user.component_permissions)
+            )
+        ).order_by("timestamp"):
+            change.save()
