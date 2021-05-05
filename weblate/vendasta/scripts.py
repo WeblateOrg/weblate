@@ -85,10 +85,15 @@ class ApplyTranslationsFromHistory(BaseAddon):
             .order_by("timestamp")
         ):
             LOGGER.info("change unit from %s to %s", change.old, change.target)
-            change.unit.translate(
-                user,
-                change.target,
-                STATE_TRANSLATED,
-                action=Change.ACTION_AUTO,
-                propagate=False,
-            )
+            if change.unit and change.target:
+                change.unit.translate(
+                    user,
+                    change.target,
+                    STATE_TRANSLATED,
+                    action=Change.ACTION_AUTO,
+                    propagate=False,
+                )
+            elif change.target:
+                LOGGER.error("Change is missing unit")
+            elif change.unit:
+                LOGGER.error("Change is missing target")
