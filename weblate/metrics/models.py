@@ -424,7 +424,7 @@ class Metric(models.Model):
     scope = models.SmallIntegerField()
     relation = models.IntegerField()
     secondary = models.IntegerField(default=0)
-    name = models.CharField(max_length=100)
+    name = models.CharField(max_length=25)
     value = models.IntegerField()
 
     objects = MetricsManager.from_queryset(MetricQuerySet)()
