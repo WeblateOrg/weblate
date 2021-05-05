@@ -67,7 +67,7 @@ class ApplyTranslationsFromHistory(BaseAddon):
 
     def apply_translations_from_history(self):
         """Apply translations from history."""
-        user_form_value = self.instance.configuration.get_value("user")
+        user_form_value = self.instance.configuration.get("user")
         LOGGER.debug("user from form: %s", user_form_value)
         # user = User.objects.get(Q(username=user_form_value) | Q(email=user_form_value))
         #
