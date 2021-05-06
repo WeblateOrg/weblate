@@ -202,13 +202,13 @@
 
         <tr>
         <th>{% trans "Filemask" %}</th>
-        <td><code>{{ component.filemask }}</code></td>
+        <td><code class="wrap-text">{{ component.filemask }}</code></td>
         </tr>
 
         {% if component.template %}
         <tr>
         <th>{% trans "Monolingual base language file" %}</th>
-        <td><code>{{ component.template }}</code></td>
+        <td><code class="wrap-text">{{ component.template }}</code></td>
         </tr>
         {% endif %}
       {% endif %}
@@ -219,7 +219,7 @@
         <td>
         {% if translation.filename %}
         <a class="btn btn-primary btn-xs pull-right flip" href="{% url 'download_translation' project=translation.component.project.slug component=translation.component.slug lang=translation.language.code %}">{% trans "Download" %}</a>
-        <code>{{ translation.filename }}</code>
+        <code class="wrap-text">{{ translation.filename }}</code>
         {% else %}
         {% trans "Not available" %}
         {% endif %}
