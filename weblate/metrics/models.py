@@ -58,16 +58,26 @@ SOURCE_KEYS = BASIC_KEYS | {
 
 
 class MetricQuerySet(models.QuerySet):
+    def get_kwargs(
+        self, kwargs: Dict, scope: int, relation: int, secondary: int = 0
+    ) -> Dict:
+        """Build the query params."""
+        kwargs["scope"] = scope
+        kwargs["relation"] = relation
+        if secondary:
+            # If secondary is 0 it is not used for this metric
+            kwargs["secondary"] = secondary
+        return kwargs
+
     def get_current(self, obj, scope: int, relation: int, secondary: int = 0, **kwargs):
         today = datetime.date.today()
         yesterday = today - datetime.timedelta(days=1)
 
+        kwargs = self.get_kwargs(kwargs, scope, relation, secondary)
+
         # Get todays stats
         data = dict(
             self.filter(
-                scope=scope,
-                relation=relation,
-                secondary=secondary,
                 date=today,
                 **kwargs,
             ).values_list("name", "value")
@@ -76,9 +86,6 @@ class MetricQuerySet(models.QuerySet):
             # Fallback to yesterday in case they are not yet calculated
             data = dict(
                 self.filter(
-                    scope=scope,
-                    relation=relation,
-                    secondary=secondary,
                     date=yesterday,
                     **kwargs,
                 ).values_list("name", "value")
@@ -94,12 +101,10 @@ class MetricQuerySet(models.QuerySet):
     def get_past(
         self, scope: int, relation: int, secondary: int = 0, delta: int = 30, **kwargs
     ):
+        kwargs = self.get_kwargs(kwargs, scope, relation, secondary)
         return defaultdict(
             int,
             self.filter(
-                scope=scope,
-                relation=relation,
-                secondary=secondary,
                 date=datetime.date.today() - datetime.timedelta(days=delta),
                 **kwargs,
             ).values_list("name", "value"),
