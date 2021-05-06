@@ -8,6 +8,7 @@ Not yet released.
 * Fixed copy icon alignment in RTL languages.
 * Extended string statistics on the Info tab.
 * Fixed handling of translation files ignored in Git.
+* Improved metrics performance.
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/66?closed=1>`__.
 
