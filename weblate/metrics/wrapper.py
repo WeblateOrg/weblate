@@ -201,8 +201,7 @@ class MetricsWrapper:
             kwargs["secondary"] = self.secondary
         result = dict(
             Metric.objects.filter(
-                date__gte=start - timedelta(days=days),
-                date__lte=start,
+                date__in=[start - timedelta(days=i) for i in range(days + 1)],
                 name="changes",
                 **kwargs,
             ).values_list("date", "value")
