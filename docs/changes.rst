@@ -6,6 +6,7 @@ Not yet released.
 * Fixed crash after moving shared component between projects.
 * Fixed adding new strings to empty properties files.
 * Fixed copy icon alignment in RTL languages.
+* Extended string statistics on the Info tab.
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/66?closed=1>`__.
 

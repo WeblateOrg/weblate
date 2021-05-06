@@ -337,6 +337,24 @@
       <td class="number">{{ stats.allchecks_chars_percent|percent_format }}</td>
       <td class="number">{{ stats.allchecks_chars|intcomma }}</td>
       </tr>
+      <tr>
+      <th>{% trans "Strings with suggestions" %}</th>
+      <td class="number">{{ stats.suggestions_percent|percent_format }}</td>
+      <td class="number">{{ stats.suggestions|intcomma }}</td>
+      <td class="number">{{ stats.suggestions_words_percent|percent_format }}</td>
+      <td class="number">{{ stats.suggestions_words|intcomma }}</td>
+      <td class="number">{{ stats.suggestions_chars_percent|percent_format }}</td>
+      <td class="number">{{ stats.suggestions_chars|intcomma }}</td>
+      </tr>
+      <tr>
+      <th>{% trans "Not translated strings" %}</th>
+      <td class="number">{{ stats.nottranslated_percent|percent_format }}</td>
+      <td class="number">{{ stats.nottranslated|intcomma }}</td>
+      <td class="number">{{ stats.nottranslated_words_percent|percent_format }}</td>
+      <td class="number">{{ stats.nottranslated_words|intcomma }}</td>
+      <td class="number">{{ stats.nottranslated_chars_percent|percent_format }}</td>
+      <td class="number">{{ stats.nottranslated_chars|intcomma }}</td>
+      </tr>
       </tbody>
       </table>
     </div>
