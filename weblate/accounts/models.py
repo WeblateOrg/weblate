@@ -495,6 +495,7 @@ class Profile(models.Model):
             "Liberapay is a platform to donate money to teams, "
             "organizations and individuals."
         ),
+        db_index=False,
     )
     fediverse = models.URLField(
         verbose_name=_("Fediverse URL"),
@@ -512,15 +513,18 @@ class Profile(models.Model):
     github = models.SlugField(
         verbose_name=_("GitHub username"),
         blank=True,
+        db_index=False,
     )
     twitter = models.SlugField(
         verbose_name=_("Twitter username"),
         blank=True,
+        db_index=False,
     )
     linkedin = models.SlugField(
         verbose_name=_("LinkedIn profile name"),
         help_text=_("Your LinkedIn profile name from linkedin.com/in/profilename"),
         blank=True,
+        db_index=False,
     )
     location = models.CharField(
         verbose_name=_("Location"),
