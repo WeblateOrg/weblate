@@ -49,7 +49,7 @@ token, which you can get in your profile. Use it in the ``Authorization`` header
     :>json string web_url: URL to access this resource using web browser
     :status 200: when request was correctly handled
     :status 201: when a new object was created successfully
-    :status 204: when an object was created successfully
+    :status 204: when an object was deleted successfully
     :status 400: when form parameters are missing
     :status 403: when access is denied
     :status 429: when throttling is in place
