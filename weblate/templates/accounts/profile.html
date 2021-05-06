@@ -302,7 +302,7 @@ wlc \
   <div class="panel-body">
     <p>{% blocktrans %}The API key is also used to authenticate to automatically exported Git repositories.{% endblocktrans %}</p>
     <pre dir="ltr">
-git clone 'https://{{ user.username }}:{{ user.auth_token.key }}@{{ site_domain }}/git/PROJECT/COMPONENT/'</pre>
+git clone 'https://{{ user.username|urlencode }}:{{ user.auth_token.key }}@{{ site_domain }}/git/PROJECT/COMPONENT/'</pre>
   </div>
 </div>
 {% endif %}
