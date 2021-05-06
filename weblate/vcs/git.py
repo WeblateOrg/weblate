@@ -427,7 +427,15 @@ class GitRepository(Repository):
             self.execute(["fetch", "origin"])
         else:
             # Doing initial fetch
-            self.execute(["fetch", "origin"] + self.get_depth())
+            try:
+                self.execute(["fetch", "origin"] + self.get_depth())
+            except RepositoryException as error:
+                if error.retcode == 1 and error.args[0] == "":
+                    # Fetch with --depth fails on blank repo
+                    self.execute(["fetch", "origin"])
+                else:
+                    raise
+
         self.clean_revision_cache()
 
     def push(self, branch):
