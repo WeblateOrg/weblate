@@ -238,8 +238,8 @@ class Memory(models.Model):
         blank=True,
         default=None,
     )
-    from_file = models.BooleanField(db_index=True, default=False)
-    shared = models.BooleanField(db_index=True, default=False)
+    from_file = models.BooleanField(default=False)
+    shared = models.BooleanField(default=False)
 
     objects = MemoryManager.from_queryset(MemoryQuerySet)()
 
