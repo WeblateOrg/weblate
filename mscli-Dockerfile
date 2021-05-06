@@ -27,6 +27,7 @@ ENV LANG=C.UTF-8 LC_ALL=C.UTF-8 DJANGO_SETTINGS_MODULE=weblate.settings_docker
 COPY setup-ci.py /usr/src/setup.py
 COPY requirements.txt /usr/src/
 COPY weblate /usr/src/weblate/
+COPY .gitignore_prod /home/weblate/.gitignore
 
 # Suppress Rust compilation
 # Fixes an error that appears while installing cryptography
