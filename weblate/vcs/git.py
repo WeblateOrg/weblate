@@ -195,8 +195,9 @@ class GitRepository(Repository):
 
     def needs_commit(self, filenames: Optional[List[str]] = None):
         """Check whether repository needs commit."""
-        cmd = ["status", "--porcelain", "--"]
+        cmd = ["status", "--porcelain"]
         if filenames:
+            cmd.extend(["--ignored=matching", "--"])
             cmd.extend(filenames)
         with self.lock:
             status = self.execute(cmd, merge_err=False)
