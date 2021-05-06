@@ -137,6 +137,8 @@ echo "Initializing github config for user ${WEBLATE_GITHUB_USERNAME}"
 git config --global hub.protocol https
 mkdir -p ~/.config
 echo -n "$WEBLATE_GITHUB_OAUTH_TOKEN" > ~/.config/hub
+echo "package-lock.json" > ~/.gitignore
+git config --global core.excludesFile '~/.gitignore'
 
 ssh -vT ${WEBLATE_GITHUB_USERNAME} || true
 echo "Done initializing github"
