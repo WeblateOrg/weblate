@@ -1089,6 +1089,15 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
             return None
         return self.repository.get_revision_info(revision)
 
+    def get_last_commit(self):
+        """Return latest locally known remote commit."""
+        try:
+            revision = self.repository.last_revision
+        except RepositoryException:
+            report_error(cause="Could not get local revision")
+            return None
+        return self.repository.get_revision_info(revision)
+
     @perform_on_link
     def get_repo_url(self):
         """Return link to repository."""

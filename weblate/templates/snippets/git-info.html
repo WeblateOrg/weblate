@@ -37,6 +37,22 @@
 {% endif %}
 {% endwith %}
 
+{% with object.get_last_commit as commit %}
+{% if commit %}
+<tr>
+<th>{% trans "Last commit in Weblate" %}</th>
+<td class="full-cell">
+    {{ commit.summary }}
+    <code title="{{ commit.revision }}">{{ commit.shortrevision }}</code>
+    <button type="button" class="btn btn-link btn-xs" data-clipboard-text="{{ commit.revision }}" title="{% trans "Copy to clipboard" %}">{% icon "copy.svg" %}</button>
+    <br />
+{% comment %}Translators: For example: "nijel authored five days ago"{% endcomment %}
+{% blocktrans with author=commit|format_commit_author date=commit.authordate|naturaltime %}{{ author }} authored {{ date }}{% endblocktrans %}<br />
+</td>
+</tr>
+{% endif %}
+{% endwith %}
+
 {% with object.get_export_url as export_url %}
 {% if export_url %}
 <tr>
