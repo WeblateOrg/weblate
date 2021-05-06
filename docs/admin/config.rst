@@ -1250,14 +1250,18 @@ Client secret for the Baidu Zhiyun API, you can register at https://api.fanyi.ba
 
    :ref:`baidu-translate`, :ref:`machine-translation-setup`, :ref:`machine-translation`
 
-.. setting:: MT_DEEPL_API_VERSION
+.. setting:: MT_DEEPL_API_URL
 
-MT_DEEPL_API_VERSION
---------------------
+MT_DEEPL_API_URL
+----------------
 
-.. versionadded:: 4.1.1
+.. versionadded:: 4.x.x
 
-API version to use with DeepL service. The version limits scope of usage:
+API URL to use with the DeepL service. At the time of writing there is a free and a
+paid version as well as a v1 and a v2 version of the API, which results in four
+possible combinations. 
+
+The URL limits scope of usage:
 
 v1
     Is meant for CAT tools and is usable with user-based subscription.
@@ -1268,6 +1272,21 @@ Previously Weblate was classified as a CAT tool by DeepL, so it was supposed to
 use the v1 API, but now is supposed to use the v2 API.
 Therefore it defaults to v2, and you can change it to v1 in case you have
 an existing CAT subscription and want Weblate to use that.
+
+The four combinations are:
+
+https://api.deepl.com/v1/
+https://api.deepl.com/v2/ (default in Weblate)
+https://api-free.deepl.com/v1/
+https://api-free.deepl.com/v2/
+
+The easiest way to find out which one to use, is to open an URL like the 
+following in your browser:
+
+https://api.deepl.com/v2/translate?text=Hello&target_lang=FR&auth_key=XXX
+
+Replace the XXX with your auth_key. If you receive a JSON object which contains
+"Bonjour", you have the correct URL, if not, try the other three.
 
 .. seealso::
 

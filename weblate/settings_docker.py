@@ -729,7 +729,7 @@ if MT_AWS_ACCESS_KEY_ID:
 
 # DeepL API key
 MT_DEEPL_KEY = os.environ.get("WEBLATE_MT_DEEPL_KEY", None)
-MT_DEEPL_API_VERSION = os.environ.get("WEBLATE_MT_DEEPL_API_VERSION", "v2")
+MT_DEEPL_API_URL = os.environ.get("MT_DEEPL_API_URL", "https://api.deepl.com/v2/")
 if MT_DEEPL_KEY:
     MT_SERVICES += ("weblate.machinery.deepl.DeepLTranslation",)
 
