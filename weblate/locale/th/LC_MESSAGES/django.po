@@ -10,8 +10,8 @@ msgstr ""
 "Project-Id-Version: Weblate 4.7\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-04-30 11:30+0000\n"
-"PO-Revision-Date: 2021-04-17 23:26+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2021-05-07 15:34+0000\n"
+"Last-Translator: AefghThreenine <aefgh39622@gmail.com>\n"
 "Language-Team: Thai <https://hosted.weblate.org/projects/weblate/application/"
 "th/>\n"
 "Language: th\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 4.6-dev\n"
+"X-Generator: Weblate 4.7-dev\n"
 
 #: weblate/accounts/avatar.py:103
 msgctxt "No known user"
@@ -52,10 +52,9 @@ msgid "Public e-mail"
 msgstr "อีเมลสาธารณะ"
 
 #: weblate/accounts/forms.py:287
-#, fuzzy, python-format
-#| msgid "Component lists"
+#, python-format
 msgid "Component list: %s"
-msgstr "รายชื่อคอมโพเนนต์"
+msgstr "รายชื่อคอมโพเนนต์: %s"
 
 #: weblate/accounts/forms.py:313 weblate/accounts/forms.py:381
 #: weblate/accounts/templatetags/authnames.py:42 weblate/auth/models.py:322
@@ -169,10 +168,8 @@ msgid "Use default setting"
 msgstr "ใช้การตั้งค่าเริ่มต้น"
 
 #: weblate/accounts/forms.py:682
-#, fuzzy
-#| msgid "Watched projects"
 msgid "Other projects"
-msgstr "โครงการที่เฝ้าดู"
+msgstr "โครงการอื่น ๆ"
 
 #: weblate/accounts/forms.py:684 weblate/accounts/models.py:478
 #: weblate/templates/accounts/profile.html:67
@@ -193,13 +190,11 @@ msgid "Component: {}"
 msgstr "คอมโพเนนต์: {}"
 
 #: weblate/accounts/forms.py:695
-#, fuzzy
-#| msgid ""
-#| "You will receive a notification for every such event in your watched "
-#| "projects."
 msgid ""
 "You will receive a notification for every such event in non-watched projects."
-msgstr "คุณจะได้รับการแจ้งเตือนเกี่ยวกับทุกเหตุการณ์ที่เกิดขึ้นในโครงการที่เฝ้าดูของคุณ"
+msgstr ""
+"คุณจะได้รับการแจ้งเตือนเกี่ยวกับทุกเหตุการณ์ที่เกิดขึ้นในโครงการที่ไม่ได้เฝ้า"
+"ดู"
 
 #: weblate/accounts/forms.py:700
 msgid ""
@@ -224,14 +219,12 @@ msgid "You will receive a notification for every such event in %(component)s."
 msgstr "คุณจะได้รับการแจ้งเตือนเกี่ยวกับทุกเหตุการณ์ที่เกิดขึ้นใน %(component)s"
 
 #: weblate/accounts/forms.py:720
-#, fuzzy
-#| msgid ""
-#| "You will only receive these notifications for your translated languages "
-#| "in your watched projects."
 msgid ""
 "You will only receive these notifications for your translated languages in "
 "non-watched projects."
-msgstr "คุณจะได้รับการแจ้งเตือนเหล่านี้สำหรับภาษาที่แปลของคุณในโครงการที่เฝ้าดูของคุณเท่านั้น"
+msgstr ""
+"คุณจะได้รับการแจ้งเตือนเหล่านี้สำหรับภาษาที่แปลของคุณในโครงการทไม่ได้เฝ้าดูเท"
+"่านั้น"
 
 #: weblate/accounts/forms.py:725
 msgid ""
@@ -286,10 +279,8 @@ msgid "Screenshots uploaded"
 msgstr "ภาพหน้าจอที่อัปโหลด"
 
 #: weblate/accounts/forms.py:808
-#, fuzzy
-#| msgid "Commit signing is not configured."
 msgid "Chosen sorting is not supported."
-msgstr "ไม่ได้กำหนดค่าการลงลายเซ็นคอมมิต"
+msgstr "ไม่รองรับการเรียงลำดับที่เลือกไว้"
 
 #: weblate/accounts/models.py:144
 msgid "Password changed."
@@ -339,14 +330,10 @@ msgid "Signed in using {method} ({name}) from a new device."
 msgstr "ลงชื่อเข้าโดยใช้ {method} ({name}) จากอุปกรณ์ใหม่แล้ว"
 
 #: weblate/accounts/models.py:154
-#, fuzzy
-#| msgid "Somebody has attempted to register with your e-mail."
 msgid "Somebody attempted to register with your e-mail."
 msgstr "มีใครบางคนได้พยายามที่จะลงทะเบียนด้วยอีเมลของคุณ"
 
 #: weblate/accounts/models.py:155
-#, fuzzy
-#| msgid "Somebody has attempted to register using your e-mail address."
 msgid "Somebody attempted to register using your e-mail address."
 msgstr "มีใครบางคนได้พยายามที่จะลงทะเบียนโดยใช้ที่อยู่อีเมลของคุณ"
 
@@ -380,7 +367,7 @@ msgstr "เริ่มช่วงเวลาทดลองใช้แล้
 #: weblate/accounts/models.py:162
 #, python-brace-format
 msgid "Sent confirmation mail to {email}."
-msgstr ""
+msgstr "ส่งอีเมลยืนยันไปยัง {email}"
 
 #: weblate/accounts/models.py:164
 msgid ""
@@ -1005,6 +992,8 @@ msgid ""
 "Publishes translations into content delivery network for use in JavaScript "
 "or HTML localization."
 msgstr ""
+"เผยแพร่คำแปลลงในเครือข่ายการส่งเนื้อหาสำหรับใช้งานในการแปลเป็นภาษาท้องถิ่นสำห"
+"รับ JavaScript หรือ HTML"
 
 #: weblate/addons/cleanup.py:37
 msgid "Cleanup translation files"
@@ -1179,14 +1168,12 @@ msgid "Keep previous msgids of translated strings"
 msgstr "คง msgid ของสตริงที่แปลแล้วไว้"
 
 #: weblate/addons/forms.py:132
-#, fuzzy
-#| msgid "Search"
 msgid "Remove locations of translated strings"
-msgstr "ค้นหา"
+msgstr "เอาตำแหน่งของสตริงที่แปลแล้วออก"
 
 #: weblate/addons/forms.py:137
 msgid "Use fuzzy matching"
-msgstr ""
+msgstr "ใช้การเทียบตรงแบบคลุมเครือ"
 
 #: weblate/addons/forms.py:143
 msgid "Commit squashing"
@@ -1271,15 +1258,15 @@ msgstr "MAC (\\r)"
 
 #: weblate/addons/forms.py:221
 msgid "Days to keep"
-msgstr ""
+msgstr "จำนวนวันที่จะเก็บ"
 
 #: weblate/addons/forms.py:227
 msgid "Voting threshold"
-msgstr ""
+msgstr "ค่าเกณฑ์การลงคะแนน"
 
 #: weblate/addons/forms.py:231
 msgid "Threshold for removal. This field has no effect with voting turned off."
-msgstr ""
+msgstr "ค่าเกณฑ์สำหรับการเอาออก เขตข้อมูลนี้จะไม่มีผลเมื่อการลงคะแนนปิดอยู่"
 
 #: weblate/addons/forms.py:238
 msgid "Regular expression to match translation files against"
@@ -1328,11 +1315,11 @@ msgstr "การดูแลระบบ"
 
 #: weblate/addons/forms.py:277
 msgid "Clone addons from the main component to the newly created ones"
-msgstr ""
+msgstr "โคลนส่วนเสริมจากคอมโพเนนต์หลักไปยังคอมโพเนนต์ที่สร้างขึ้นใหม่"
 
 #: weblate/addons/forms.py:282
 msgid "Remove components for inexistant files"
-msgstr ""
+msgstr "เอาคอมโพเนนต์สำหรับไฟล์ที่ไม่มีอยู่ออก"
 
 #: weblate/addons/forms.py:285
 msgid "I confirm the above matches look correct"
@@ -1344,47 +1331,43 @@ msgstr "โปรดตรวจทานและยืนยันคอมโ
 
 #: weblate/addons/forms.py:362
 msgid "Please include component markup in the template."
-msgstr ""
+msgstr "โปรดรวมมาร์กอัปของคอมโพเนนต์ในแม่แบบ"
 
 #: weblate/addons/forms.py:404
-#, fuzzy
-#| msgid "Administration"
 msgid "Translation threshold"
-msgstr "การดูแลระบบ"
+msgstr "ค่าเกณฑ์คำแปล"
 
 #: weblate/addons/forms.py:409
-#, fuzzy
-#| msgid "Administration"
 msgid "Threshold for inclusion of translations."
-msgstr "การดูแลระบบ"
+msgstr "ค่าเกณฑ์สำหรับการรวมคำแปล"
 
 #: weblate/addons/forms.py:412
 msgid "CSS selector"
-msgstr ""
+msgstr "ตัวช่วยเลือก CSS"
 
 #: weblate/addons/forms.py:415
 msgid "CSS selector to detect localizable elements."
-msgstr ""
+msgstr "ตัวช่วยเลือก CSS ที่ใช้ตรวจหาองค์ประกอบที่สามารถแปลได้"
 
 #: weblate/addons/forms.py:418
-#, fuzzy
-#| msgid "Language name"
 msgid "Language cookie name"
-msgstr "ชื่อภาษา"
+msgstr "ชื่อคุกกี้ภาษา"
 
 #: weblate/addons/forms.py:421
 msgid "Name of cookie which stores language preference."
-msgstr ""
+msgstr "ชื่อคุกกี้ที่จัดเก็บค่ากำหนดภาษา"
 
 #: weblate/addons/forms.py:425
 msgid "Extract strings from HTML files"
-msgstr ""
+msgstr "แยกสตริงจากไฟล์ HTML"
 
 #: weblate/addons/forms.py:428
 msgid ""
 "List of filenames in current repository or remote URLs to parse for "
 "translatable strings."
 msgstr ""
+"รายการชื่อไฟล์ในคลังเก็บปัจจุบันหรือ URL "
+"ระยะไกลที่จะแยกวิเคราะห์สำหรับสตริงที่สามารถแปลได้"
 
 #: weblate/addons/forms.py:453 weblate/billing/models.py:291
 #: weblate/templates/snippets/query-builder.html:13
@@ -1394,36 +1377,28 @@ msgid "Source strings"
 msgstr "สตริงต้นฉบับ"
 
 #: weblate/addons/forms.py:454
-#, fuzzy
-#| msgid "Administration"
 msgid "Target translation"
-msgstr "การดูแลระบบ"
+msgstr "คำแปลเป้าหมาย"
 
 #: weblate/addons/forms.py:456
-#, fuzzy
-#| msgid "Status"
 msgid "String prefix"
-msgstr "สถานะ"
+msgstr "คำนำหน้าสตริง"
 
 #: weblate/addons/forms.py:461
-#, fuzzy
-#| msgid "Strings"
 msgid "String suffix"
-msgstr "สตริง"
+msgstr "คำลงท้ายสตริง"
 
 #: weblate/addons/forms.py:478
 msgid "The source and target have to be different languages."
-msgstr ""
+msgstr "ต้นฉบับและเป้าหมายจะต้องเป็นคนละภาษากัน"
 
 #: weblate/addons/generate.py:34
 msgid "Statistics generator"
 msgstr "ตัวสร้างสถิติ"
 
 #: weblate/addons/generate.py:36
-#, fuzzy
-#| msgid "Administration"
 msgid "Generates a file containing detailed info about the translation status."
-msgstr "การดูแลระบบ"
+msgstr "สร้างไฟล์ที่ประกอบด้วยข้อมูลแบบละเอียดเกี่ยวกับสถานะการแปล"
 
 #: weblate/addons/generate.py:65
 msgid "Pseudolocale generation"
@@ -1453,13 +1428,15 @@ msgstr "อัปเดตไฟล์ LINGUAS เมื่อมีคำแป
 
 #: weblate/addons/gettext.py:157
 msgid "Update ALL_LINGUAS variable in the \"configure\" file"
-msgstr ""
+msgstr "อัปเดตตัวแปร ALL_LINGUAS ในไฟล์ \"configure\""
 
 #: weblate/addons/gettext.py:159
 msgid ""
 "Updates the ALL_LINGUAS variable in \"configure\", \"configure.in\" or "
 "\"configure.ac\" files, when a new translation is added."
 msgstr ""
+"อัปเดตตัวแปร ALL_LINGUAS ในไฟล์ \"configure\", \"configure.in\" หรือ "
+"\"configure.ac\" เมื่อเพิ่มคำแปลใหม่"
 
 #: weblate/addons/gettext.py:228
 msgid "Update PO files to match POT (msgmerge)"
@@ -1518,17 +1495,15 @@ msgstr "เรียงลำดับไฟล์คุณสมบัติ Ja
 
 #: weblate/addons/removal.py:51
 msgid "Stale comment removal"
-msgstr ""
+msgstr "เอาข้อคิดเห็นเก่าออก"
 
 #: weblate/addons/removal.py:52
 msgid "Set a timeframe for removal of comments."
 msgstr ""
 
 #: weblate/addons/removal.py:65
-#, fuzzy
-#| msgid "Versions"
 msgid "Stale suggestion removal"
-msgstr "รุ่น"
+msgstr "เอาข้อเสนอแนะเก่าออก"
 
 #: weblate/addons/removal.py:66
 msgid "Set a timeframe for removal of suggestions."
@@ -1887,7 +1862,7 @@ msgstr "การดูแลระบบ"
 #: weblate/auth/data.py:174
 msgctxt "Access-control role"
 msgid "Edit source"
-msgstr ""
+msgstr "แก้ไขต้นฉบับ"
 
 #: weblate/auth/data.py:177
 msgctxt "Access-control role"
@@ -1895,21 +1870,19 @@ msgid "Add suggestion"
 msgstr "เพิ่มข้อเสนอแนะ"
 
 #: weblate/auth/data.py:178
-#, fuzzy
-#| msgid "Versions"
 msgctxt "Access-control role"
 msgid "Access repository"
-msgstr "รุ่น"
+msgstr "เข้าถึงคลังเก็บ"
 
 #: weblate/auth/data.py:179
 msgctxt "Access-control role"
 msgid "Manage glossary"
-msgstr ""
+msgstr "จัดการอภิธานศัพท์"
 
 #: weblate/auth/data.py:181
 msgctxt "Access-control role"
 msgid "Power user"
-msgstr ""
+msgstr "ผู้ใช้สิทธิ์ขั้นสูง"
 
 #: weblate/auth/data.py:193
 msgctxt "Access-control role"
@@ -1922,28 +1895,24 @@ msgid "Translate"
 msgstr "แปล"
 
 #: weblate/auth/data.py:197
-#, fuzzy
-#| msgid "Language"
 msgctxt "Access-control role"
 msgid "Manage languages"
-msgstr "ภาษา"
+msgstr "จัดการภาษา"
 
 #: weblate/auth/data.py:199
-#, fuzzy
-#| msgid "Administration"
 msgctxt "Access-control role"
 msgid "Manage translation memory"
-msgstr "การดูแลระบบ"
+msgstr "จัดการหน่วยความจำคำแปล"
 
 #: weblate/auth/data.py:203
 msgctxt "Access-control role"
 msgid "Manage screenshots"
-msgstr ""
+msgstr "จัดการภาพถ่ายหน้าจอ"
 
 #: weblate/auth/data.py:206
 msgctxt "Access-control role"
 msgid "Manage repository"
-msgstr ""
+msgstr "จัดการคลังเก็บ"
 
 #: weblate/auth/data.py:207
 msgctxt "Access-control role"
@@ -2000,7 +1969,7 @@ msgstr "อภิธานศัพท์"
 #: weblate/auth/data.py:229
 msgctxt "Per-project access-control group"
 msgid "Memory"
-msgstr ""
+msgstr "หน่วยความจำ"
 
 #: weblate/auth/data.py:230
 msgctxt "Per-project access-control group"
@@ -2008,16 +1977,14 @@ msgid "Screenshots"
 msgstr "ภาพหน้าจอ"
 
 #: weblate/auth/data.py:231
-#, fuzzy
-#| msgid "Overview"
 msgctxt "Per-project access-control group"
 msgid "Review"
-msgstr "ภาพรวม"
+msgstr "ตรวจทาน"
 
 #: weblate/auth/data.py:232
 msgctxt "Per-project access-control group"
 msgid "VCS"
-msgstr ""
+msgstr "VCS"
 
 #: weblate/auth/data.py:233
 msgctxt "Per-project access-control group"
@@ -2034,10 +2001,9 @@ msgid "Permission"
 msgstr "สิทธิ์"
 
 #: weblate/auth/models.py:80
-#, fuzzy, python-format
-#| msgid "Versions"
+#, python-format
 msgid "%s (site-wide permission)"
-msgstr "รุ่น"
+msgstr "%s (สิทธิ์แบบทั้งไซต์)"
 
 #: weblate/auth/models.py:85 weblate/auth/models.py:110
 #: weblate/templates/fonts/fontgroup_detail.html:18
@@ -2149,10 +2115,8 @@ msgid "Superuser status"
 msgstr "สถานะ"
 
 #: weblate/auth/models.py:332
-#, fuzzy
-#| msgid "Versions"
 msgid "User has all possible permissions."
-msgstr "รุ่น"
+msgstr "ผู้ใช้มีสิทธิ์ที่เป็นไปได้ทั้งหมด"
 
 #: weblate/auth/models.py:335 weblate/billing/models.py:164
 #: weblate/templates/check.html:22 weblate/templates/check_component.html:24
@@ -2205,11 +2169,10 @@ msgid "Additional message"
 msgstr "ข้อความเพิ่มเติม"
 
 #: weblate/billing/forms.py:33
-#, fuzzy
-#| msgid "Please describe the project and your relation to it."
 msgid ""
 "Please describe the project and your relation to it, preferably in English."
-msgstr "โปรดอธิบายเกี่ยวกับโครงการและความเกี่ยวข้องของคุณ"
+msgstr ""
+"โปรดอธิบายเกี่ยวกับโครงการและความเกี่ยวข้องของคุณ โดยควรอธิบายเป็นภาษาอังกฤษ"
 
 #: weblate/billing/models.py:156 weblate/templates/billing/detail.html:21
 msgid "Billing plan"
@@ -2473,14 +2436,12 @@ msgid "The decorative kashida letters should not be used"
 msgstr ""
 
 #: weblate/checks/chars.py:396
-#, fuzzy
-#| msgid "Action"
 msgid "Punctuation spacing"
-msgstr "กระทำการ"
+msgstr "ระยะห่างเครื่องหมายวรรคตอน"
 
 #: weblate/checks/chars.py:397
 msgid "Missing non breakable space before double punctuation sign"
-msgstr ""
+msgstr "ไม่มีช่องว่างแบบแบ่งบรรทัดไม่ได้ก่อนเครื่องหมายวรรคตอนสองตัว"
 
 #: weblate/checks/consistency.py:33
 msgid "Missing plurals"
@@ -2562,7 +2523,7 @@ msgstr "ตรวจหา Java MessageFormat โดยอัตโนมัต�
 #: weblate/templates/snippets/unit-readonly-badge.html:12
 #: weblate/templates/translate.html:209 weblate/templates/translate.html:226
 msgid "Read only"
-msgstr ""
+msgstr "อ่านอย่างเดียว"
 
 #: weblate/checks/flags.py:54
 #, fuzzy
@@ -2584,19 +2545,19 @@ msgstr ""
 #: weblate/templates/fonts/font_detail.html:18
 #: weblate/templates/fonts/font_list.html:73
 msgid "Font family"
-msgstr ""
+msgstr "ตระกูลแบบอักษร"
 
 #: weblate/checks/flags.py:60
 msgid "Font size"
-msgstr ""
+msgstr "ขนาดแบบอักษร"
 
 #: weblate/checks/flags.py:62
 msgid "Font weight"
-msgstr ""
+msgstr "ความกว้างของแบบอักษร"
 
 #: weblate/checks/flags.py:64
 msgid "Font spacing"
-msgstr ""
+msgstr "ระยะห่างแบบอักษร"
 
 #: weblate/checks/flags.py:66 weblate/trans/models/component.py:597
 #: weblate/utils/views.py:132
@@ -2763,7 +2724,7 @@ msgstr "สตริง Java MessageFormat ไม่ตรงกับต้น�
 
 #: weblate/checks/format.py:592
 msgid "You need to pair up an apostrophe with another one."
-msgstr ""
+msgstr "คุณจำเป็นต้องจับคู่อัญประกาศเดี่ยวตัวหนึ่งกับอีกตัวหนึ่ง"
 
 #: weblate/checks/format.py:598
 msgid "i18next interpolation"
@@ -3348,7 +3309,7 @@ msgstr "อภิธานศัพท์"
 
 #: weblate/glossary/forms.py:36
 msgid "Invalid integer list!"
-msgstr ""
+msgstr "รายการจำนวนเต็มไม่ถูกต้อง!"
 
 #: weblate/glossary/forms.py:47
 #, fuzzy
@@ -3371,7 +3332,7 @@ msgstr "อภิธานศัพท์"
 #: weblate/glossary/views.py:74 weblate/utils/views.py:359
 #, python-format
 msgid "Error in parameter %(field)s: %(error)s"
-msgstr ""
+msgstr "ข้อผิดพลาดในพารามิเตอร์ %(field)s: %(error)s"
 
 #: weblate/lang/apps.py:28
 msgid "Weblate languages"
@@ -3596,10 +3557,8 @@ msgid "Plural form %d"
 msgstr "รูปแบบพหูพจน์ %d"
 
 #: weblate/lang/views.py:76
-#, fuzzy
-#| msgid "Administration"
 msgid "Remove all translations using this language first."
-msgstr "การดูแลระบบ"
+msgstr "เอาคำแปลทั้งหมดออกโดยใช้ภาษานี้ก่อน"
 
 #: weblate/lang/views.py:80
 #, python-format
