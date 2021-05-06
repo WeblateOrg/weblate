@@ -290,9 +290,7 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
     source = models.TextField()
     previous_source = models.TextField(default="", blank=True)
     target = models.TextField(default="", blank=True)
-    state = models.IntegerField(
-        default=STATE_EMPTY, db_index=True, choices=STATE_CHOICES
-    )
+    state = models.IntegerField(default=STATE_EMPTY, choices=STATE_CHOICES)
     original_state = models.IntegerField(default=STATE_EMPTY, choices=STATE_CHOICES)
     details = models.JSONField(default=dict)
 
