@@ -1255,16 +1255,19 @@ Client secret for the Baidu Zhiyun API, you can register at https://api.fanyi.ba
 MT_DEEPL_API_URL
 ----------------
 
-.. versionadded:: 4.7.1
+.. versionchanged:: 4.7
+
+   The full API URL is now configured to allow using the free plan. Before it was only possible to
+   configure the API version using ``MT_DEEPL_API_VERSION``.
 
 API URL to use with the DeepL service. At the time of writing there is the v1 API
 as well as a free and a paid version of the v2 API.
 
-https://api.deepl.com/v2/ (default in Weblate)
+``https://api.deepl.com/v2/`` (default in Weblate)
     Is meant for API usage on the paid plan and the subscription is usage based.
-https://api-free.deepl.com/v2/
+``https://api-free.deepl.com/v2/``
     Is meant for API usage on the free plan and the subscription is usage based.
-https://api.deepl.com/v1/
+``https://api.deepl.com/v1/``
     Is meant for CAT tools and is usable with user-based subscription.
 
 Previously Weblate was classified as a CAT tool by DeepL, so it was supposed to

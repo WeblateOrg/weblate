@@ -230,7 +230,7 @@ Notable configuration or dependencies changes:
 
 * There are several changes in :file:`settings_example.py`, most notable middleware changes (:setting:`django:MIDDLEWARE`), please adjust your settings accordingly.
 * The :ref:`deepl` machine translation now has a generic :setting:`MT_DEEPL_API_URL` setting to adapt more flexible to different subscription models.
-  The :setting:`MT_DEEPL_API_VERSION` setting is now obsolete.
+  The ``MT_DEEPL_API_VERSION`` setting is no longer used.
 
 .. seealso:: :ref:`generic-upgrade-instructions`
 

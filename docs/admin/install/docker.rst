@@ -734,7 +734,7 @@ Machine translation settings
 
 .. envvar:: WEBLATE_MT_DEEPL_API_URL
 
-   Configures :ref:`deepl` API version to use, see :setting:`WEBLATE_MT_DEEPL_API_URL`.
+   Configures :ref:`deepl` API version to use, see :setting:`MT_DEEPL_API_URL`.
 
 .. envvar:: WEBLATE_MT_GOOGLE_KEY
 
