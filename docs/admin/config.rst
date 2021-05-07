@@ -1258,7 +1258,7 @@ MT_DEEPL_API_URL
 .. versionadded:: 4.7.1
 
 API URL to use with the DeepL service. At the time of writing there is the v1 API
-as well as a free and a paid version of the v2 API. 
+as well as a free and a paid version of the v2 API.
 
 https://api.deepl.com/v2/ (default in Weblate)
     Is meant for API usage on the paid plan and the subscription is usage based.
@@ -1272,7 +1272,7 @@ use the v1 API, but now is supposed to use the v2 API.
 Therefore it defaults to v2, and you can change it to v1 in case you have
 an existing CAT subscription and want Weblate to use that.
 
-The easiest way to find out which one to use, is to open an URL like the 
+The easiest way to find out which one to use, is to open an URL like the
 following in your browser:
 
 https://api.deepl.com/v2/translate?text=Hello&target_lang=FR&auth_key=XXX
