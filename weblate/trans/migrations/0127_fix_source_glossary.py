@@ -36,7 +36,7 @@ def migrate_glossaries(apps, schema_editor):
 
         print(f"Removing stale {file_path}")
 
-        repo = LocalRepository(repo_path, {})
+        repo = LocalRepository(repo_path)
         with repo.lock:
             try:
                 repo.remove([file_path], "Removing stale glossary file")
