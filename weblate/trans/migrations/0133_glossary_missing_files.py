@@ -47,7 +47,10 @@ def migrate_glossaries(apps, schema_editor):
             store.save()
             changed = True
             # Mark all strings a pending to be committed later
-            translation.unit_set.update(pending=True)
+            translation.unit_set.update(
+                pending=True,
+                details={"add_unit": True},
+            )
 
         if changed:
             repo = LocalRepository(repo_path)
