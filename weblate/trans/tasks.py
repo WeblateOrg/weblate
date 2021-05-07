@@ -294,11 +294,22 @@ def component_alerts(component_ids=None):
 
 @app.task(trail=False, autoretry_for=(Component.DoesNotExist,), retry_backoff=60)
 def component_after_save(
-    pk, changed_git, changed_setup, changed_template, changed_variant, skip_push, create
+    pk: int,
+    changed_git: bool,
+    changed_setup: bool,
+    changed_template: bool,
+    changed_variant: bool,
+    skip_push: bool,
+    create: bool,
 ):
     component = Component.objects.get(pk=pk)
     component.after_save(
-        changed_git, changed_setup, changed_template, changed_variant, skip_push, create
+        changed_git=changed_git,
+        changed_setup=changed_setup,
+        changed_template=changed_template,
+        changed_variant=changed_variant,
+        skip_push=skip_push,
+        create=create,
     )
     return {"component": pk}
 
