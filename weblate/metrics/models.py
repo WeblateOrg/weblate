@@ -466,3 +466,10 @@ def create_metrics_translation(sender, instance, created=False, **kwargs):
         Metric.objects.initialize_metrics(
             scope=Metric.SCOPE_TRANSLATION, relation=instance.pk
         )
+
+
+@receiver(post_save, sender=User)
+@disable_for_loaddata
+def create_metrics_user(sender, instance, created=False, **kwargs):
+    if created:
+        Metric.objects.initialize_metrics(scope=Metric.SCOPE_USER, relation=instance.pk)
