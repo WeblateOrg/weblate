@@ -17,6 +17,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
+from django.core.cache import cache
 from django.template.loader import render_to_string
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
@@ -212,9 +213,15 @@ class SafeHTMLGuideline(Guideline):
     anchor = "translation"
 
     def is_relevant(self):
-        return self.component.source_translation.unit_set.filter(
+        cache_key = f"guide:safe-html:{self.component.id}"
+        result = cache.get(cache_key)
+        if result is not None:
+            return result
+        result = self.component.source_translation.unit_set.filter(
             source__contains="<a "
         ).exists()
+        cache.set(cache_key, result, 86400)
+        return result
 
     def is_passing(self):
         return (

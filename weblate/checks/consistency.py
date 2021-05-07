@@ -111,7 +111,7 @@ class ConsistencyCheck(TargetCheck):
 
         # List strings with different targets
         matches = (
-            units.values("id_hash", "translation__language")
+            units.values("id_hash", "translation__language", "translation__plural")
             .annotate(Count("target", distinct=True))
             .filter(target__count__gt=1)
         )
@@ -126,6 +126,7 @@ class ConsistencyCheck(TargetCheck):
                     | (
                         Q(id_hash=y["id_hash"])
                         & Q(translation__language=y["translation__language"])
+                        & Q(translation__plural=y["translation__plural"])
                     ),
                     matches,
                     Q(),
