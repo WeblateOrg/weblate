@@ -2556,6 +2556,7 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
                     if addon.id in processed:
                         continue
                     processed.add(addon.id)
+                    self.log_debug("configuring add-on: %s", addon.name)
                     addon.addon.post_configure()
 
     def update_variants(self):
