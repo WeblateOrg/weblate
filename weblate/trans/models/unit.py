@@ -1301,7 +1301,10 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
         return (
             Unit.objects.same(self)
             .prefetch_full()
-            .filter(translation__component__allow_translation_propagation=True)
+            .filter(
+                translation__component__allow_translation_propagation=True,
+                translation__plural_id=self.translation.plural_id,
+            )
         )
 
     def get_max_length(self):
