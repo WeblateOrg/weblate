@@ -195,8 +195,9 @@ class GitRepository(Repository):
 
     def needs_commit(self, filenames: Optional[List[str]] = None):
         """Check whether repository needs commit."""
-        cmd = ["status", "--porcelain", "--"]
+        cmd = ["status", "--porcelain"]
         if filenames:
+            cmd.extend(["--ignored=matching", "--"])
             cmd.extend(filenames)
         with self.lock:
             status = self.execute(cmd, merge_err=False)
@@ -426,7 +427,15 @@ class GitRepository(Repository):
             self.execute(["fetch", "origin"])
         else:
             # Doing initial fetch
-            self.execute(["fetch", "origin"] + self.get_depth())
+            try:
+                self.execute(["fetch", "origin"] + self.get_depth())
+            except RepositoryException as error:
+                if error.retcode == 1 and error.args[0] == "":
+                    # Fetch with --depth fails on blank repo
+                    self.execute(["fetch", "origin"])
+                else:
+                    raise
+
         self.clean_revision_cache()
 
     def push(self, branch):

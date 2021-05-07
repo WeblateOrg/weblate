@@ -202,13 +202,13 @@
 
         <tr>
         <th>{% trans "Filemask" %}</th>
-        <td><code>{{ component.filemask }}</code></td>
+        <td><code class="wrap-text">{{ component.filemask }}</code></td>
         </tr>
 
         {% if component.template %}
         <tr>
         <th>{% trans "Monolingual base language file" %}</th>
-        <td><code>{{ component.template }}</code></td>
+        <td><code class="wrap-text">{{ component.template }}</code></td>
         </tr>
         {% endif %}
       {% endif %}
@@ -219,7 +219,7 @@
         <td>
         {% if translation.filename %}
         <a class="btn btn-primary btn-xs pull-right flip" href="{% url 'download_translation' project=translation.component.project.slug component=translation.component.slug lang=translation.language.code %}">{% trans "Download" %}</a>
-        <code>{{ translation.filename }}</code>
+        <code class="wrap-text">{{ translation.filename }}</code>
         {% else %}
         {% trans "Not available" %}
         {% endif %}
@@ -336,6 +336,24 @@
       <td class="number">{{ stats.allchecks_words|intcomma }}</td>
       <td class="number">{{ stats.allchecks_chars_percent|percent_format }}</td>
       <td class="number">{{ stats.allchecks_chars|intcomma }}</td>
+      </tr>
+      <tr>
+      <th>{% trans "Strings with suggestions" %}</th>
+      <td class="number">{{ stats.suggestions_percent|percent_format }}</td>
+      <td class="number">{{ stats.suggestions|intcomma }}</td>
+      <td class="number">{{ stats.suggestions_words_percent|percent_format }}</td>
+      <td class="number">{{ stats.suggestions_words|intcomma }}</td>
+      <td class="number">{{ stats.suggestions_chars_percent|percent_format }}</td>
+      <td class="number">{{ stats.suggestions_chars|intcomma }}</td>
+      </tr>
+      <tr>
+      <th>{% trans "Not translated strings" %}</th>
+      <td class="number">{{ stats.nottranslated_percent|percent_format }}</td>
+      <td class="number">{{ stats.nottranslated|intcomma }}</td>
+      <td class="number">{{ stats.nottranslated_words_percent|percent_format }}</td>
+      <td class="number">{{ stats.nottranslated_words|intcomma }}</td>
+      <td class="number">{{ stats.nottranslated_chars_percent|percent_format }}</td>
+      <td class="number">{{ stats.nottranslated_chars|intcomma }}</td>
       </tr>
       </tbody>
       </table>

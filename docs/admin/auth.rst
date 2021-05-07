@@ -418,6 +418,10 @@ can install it via usual means:
     # Using apt-get
     apt-get install python-django-auth-ldap
 
+.. hint::
+
+   This package is included in the Docker container, see :doc:`/admin/install/docker`.
+
 .. warning::
 
     With django-auth-ldap older than 1.3.0 the :ref:`autogroup` will not work
