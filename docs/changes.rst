@@ -18,6 +18,7 @@ Not yet released.
 * Extended string statistics on the Info tab.
 * Fixed handling of translation files ignored in Git.
 * Improved metrics performance.
+* Fixed possible bug in saving glossaries.
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/66?closed=1>`__.
 
