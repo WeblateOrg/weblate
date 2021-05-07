@@ -272,6 +272,7 @@ class WeblateViewSet(DownloadViewSet):
                 )
 
             data["remote_commit"] = component.get_last_remote_commit()
+            data["weblate_commit"] = component.get_last_commit()
             data["status"] = component.repository.status()
             changes = component.change_set.filter(
                 action__in=Change.ACTIONS_REPOSITORY
