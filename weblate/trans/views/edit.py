@@ -157,6 +157,7 @@ def get_other_units(unit):
         item.is_propagated = (
             propagation
             and item.translation.component.allow_translation_propagation
+            and item.translation.plural_id == translation.plural_id
             and item.source == unit.source
             and item.context == unit.context
         )

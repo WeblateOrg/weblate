@@ -19,6 +19,7 @@ Not yet released.
 * Fixed handling of translation files ignored in Git.
 * Improved metrics performance.
 * Fixed possible bug in saving glossaries.
+* Fixed consistency check behavior on languages with different plural rules.
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/66?closed=1>`__.
 
