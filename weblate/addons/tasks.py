@@ -93,6 +93,7 @@ def daily_addons():
         "component"
     ):
         with transaction.atomic():
+            addon.component.log_debug("running daily addon: %s", addon.name)
             addon.addon.daily(addon.component)
 
 

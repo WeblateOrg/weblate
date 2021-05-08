@@ -153,19 +153,24 @@ class BaseAddon:
             components = [self.instance.component]
         if EVENT_POST_COMMIT in self.events:
             for component in components:
+                component.log_debug("running post_commit addon: %s", self.name)
                 self.post_commit(component)
         if EVENT_POST_UPDATE in self.events:
             for component in components:
+                component.log_debug("running post_update addon: %s", self.name)
                 component.commit_pending("add-on", None)
                 self.post_update(component, "", False)
         if EVENT_COMPONENT_UPDATE in self.events:
             for component in components:
+                component.log_debug("running component_update addon: %s", self.name)
                 self.component_update(component)
         if EVENT_POST_PUSH in self.events:
             for component in components:
+                component.log_debug("running post_push addon: %s", self.name)
                 self.post_push(component)
         if EVENT_DAILY in self.events:
             for component in components:
+                component.log_debug("running daily addon: %s", self.name)
                 self.daily(component)
 
     def save_state(self):
