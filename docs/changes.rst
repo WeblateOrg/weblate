@@ -1,7 +1,7 @@
 Weblate 4.6.2
 -------------
 
-Not yet released.
+Released on May 8th 2021.
 
 * Fixed crash after moving shared component between projects.
 * Fixed adding new strings to empty properties files.
