@@ -168,17 +168,17 @@ class AddonsConf(AppConf):
 
 
 def handle_addon_error(addon, component):
-    report_error(cause="addon error")
+    report_error(cause="add-on error")
     # Uninstall no longer compatible addons
     if not addon.addon.can_install(component, None):
-        component.log_warning("disabling no longer compatible addon: %s", addon.name)
+        component.log_warning("disabling no longer compatible add-on: %s", addon.name)
         addon.delete()
 
 
 @receiver(vcs_pre_push)
 def pre_push(sender, component, **kwargs):
     for addon in Addon.objects.filter_event(component, EVENT_PRE_PUSH):
-        component.log_debug("running pre_push addon: %s", addon.name)
+        component.log_debug("running pre_push add-on: %s", addon.name)
         try:
             addon.addon.pre_push(component)
         except DjangoDatabaseError:
@@ -190,7 +190,7 @@ def pre_push(sender, component, **kwargs):
 @receiver(vcs_post_push)
 def post_push(sender, component, **kwargs):
     for addon in Addon.objects.filter_event(component, EVENT_POST_PUSH):
-        component.log_debug("running post_push addon: %s", addon.name)
+        component.log_debug("running post_push add-on: %s", addon.name)
         try:
             addon.addon.post_push(component)
         except DjangoDatabaseError:
@@ -211,7 +211,7 @@ def post_update(
     for addon in Addon.objects.filter_event(component, EVENT_POST_UPDATE):
         if child and addon.repo_scope:
             continue
-        component.log_debug("running post_update addon: %s", addon.name)
+        component.log_debug("running post_update add-on: %s", addon.name)
         try:
             addon.addon.post_update(component, previous_head, skip_push)
         except DjangoDatabaseError:
@@ -223,7 +223,7 @@ def post_update(
 @receiver(component_post_update)
 def component_update(sender, component, **kwargs):
     for addon in Addon.objects.filter_event(component, EVENT_COMPONENT_UPDATE):
-        component.log_debug("running component_update addon: %s", addon.name)
+        component.log_debug("running component_update add-on: %s", addon.name)
         try:
             addon.addon.component_update(component)
         except DjangoDatabaseError:
@@ -235,7 +235,7 @@ def component_update(sender, component, **kwargs):
 @receiver(vcs_pre_update)
 def pre_update(sender, component, **kwargs):
     for addon in Addon.objects.filter_event(component, EVENT_PRE_UPDATE):
-        component.log_debug("running pre_update addon: %s", addon.name)
+        component.log_debug("running pre_update add-on: %s", addon.name)
         try:
             addon.addon.pre_update(component)
         except DjangoDatabaseError:
@@ -248,7 +248,7 @@ def pre_update(sender, component, **kwargs):
 def pre_commit(sender, translation, author, **kwargs):
     addons = Addon.objects.filter_event(translation.component, EVENT_PRE_COMMIT)
     for addon in addons:
-        translation.log_debug("running pre_commit addon: %s", addon.name)
+        translation.log_debug("running pre_commit add-on: %s", addon.name)
         try:
             addon.addon.pre_commit(translation, author)
         except DjangoDatabaseError:
@@ -261,7 +261,7 @@ def pre_commit(sender, translation, author, **kwargs):
 def post_commit(sender, component, **kwargs):
     addons = Addon.objects.filter_event(component, EVENT_POST_COMMIT)
     for addon in addons:
-        component.log_debug("running post_commit addon: %s", addon.name)
+        component.log_debug("running post_commit add-on: %s", addon.name)
         try:
             addon.addon.post_commit(component)
         except DjangoDatabaseError:
@@ -274,7 +274,7 @@ def post_commit(sender, component, **kwargs):
 def post_add(sender, translation, **kwargs):
     addons = Addon.objects.filter_event(translation.component, EVENT_POST_ADD)
     for addon in addons:
-        translation.log_debug("running post_add addon: %s", addon.name)
+        translation.log_debug("running post_add add-on: %s", addon.name)
         try:
             addon.addon.post_add(translation)
         except DjangoDatabaseError:
@@ -289,7 +289,7 @@ def unit_pre_create_handler(sender, unit, **kwargs):
         unit.translation.component, EVENT_UNIT_PRE_CREATE
     )
     for addon in addons:
-        unit.translation.log_debug("running unit_pre_create addon: %s", addon.name)
+        unit.translation.log_debug("running unit_pre_create add-on: %s", addon.name)
         try:
             addon.addon.unit_pre_create(unit)
         except DjangoDatabaseError:
@@ -305,7 +305,7 @@ def unit_post_save_handler(sender, instance, created, **kwargs):
         instance.translation.component, EVENT_UNIT_POST_SAVE
     )
     for addon in addons:
-        instance.translation.log_debug("running unit_post_save addon: %s", addon.name)
+        instance.translation.log_debug("running unit_post_save add-on: %s", addon.name)
         try:
             addon.addon.unit_post_save(instance, created)
         except DjangoDatabaseError:
@@ -318,7 +318,7 @@ def unit_post_save_handler(sender, instance, created, **kwargs):
 def store_post_load_handler(sender, translation, store, **kwargs):
     addons = Addon.objects.filter_event(translation.component, EVENT_STORE_POST_LOAD)
     for addon in addons:
-        translation.log_debug("running store_post_load addon: %s", addon.name)
+        translation.log_debug("running store_post_load add-on: %s", addon.name)
         try:
             addon.addon.store_post_load(translation, store)
         except DjangoDatabaseError:
