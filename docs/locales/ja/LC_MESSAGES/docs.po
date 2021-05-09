@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-04-30 13:31+0200\n"
-"PO-Revision-Date: 2021-05-05 19:02+0000\n"
-"Last-Translator: 日陰のコスモス <baffclan@yahoo.co.jp>\n"
+"PO-Revision-Date: 2021-05-09 04:21+0000\n"
+"Last-Translator: amano <amano.hajime@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "documentation/ja/>\n"
 "Language: ja\n"
@@ -15974,12 +15974,11 @@ msgstr ":ref:`faq-vcs`、:ref:`alerts`"
 
 #: ../../admin/projects.rst:760
 msgid "Priority"
-msgstr "優先順位"
+msgstr "優先度"
 
 #: ../../admin/projects.rst:762
 msgid "Components with higher priority are offered first to translators."
-msgstr ""
-"翻訳者に対しては、高い優先順位を設定したコンポーネントを先に提示します。"
+msgstr "翻訳者に対しては、高い優先度を設定したコンポーネントを先に提示します。"
 
 #: ../../admin/projects.rst:767
 msgid "Restricted access"
@@ -19778,7 +19777,7 @@ msgstr ""
 
 #: ../../changes.rst:31
 msgid "Added support for :ref:`txt`."
-msgstr ":ref:`txt`に対応しました。"
+msgstr ":ref:`txt` に対応しました。"
 
 #: ../../changes.rst:32
 msgid "Added trends and metrics for all objects."
@@ -20138,7 +20137,7 @@ msgstr ""
 
 #: ../../changes.rst:145
 msgid "Fixed reverting plural changes."
-msgstr "複数形の変更を元に戻す。"
+msgstr "複数形の差し戻しを修正。"
 
 #: ../../changes.rst:146
 msgid "Fixed displaying help for project settings."
@@ -26504,12 +26503,12 @@ msgid ""
 "Weblate uses `JSON Schema <https://json-schema.org/>`_ to define layout of "
 "external JSON files."
 msgstr ""
-"Weblate は `JSON Schema <https://json-schema.org/>`_ to を使用して外部 JSON "
+"Weblate は `JSON Schema <https://json-schema.org/>`_ を使用して外部 JSON "
 "ファイルのレイアウトを定義します。"
 
 #: ../../contributing/schemas.rst:None
 msgid "Weblate Translation Memory Schema"
-msgstr "Weblate 翻訳メモリ概要"
+msgstr "Weblate 翻訳メモリスキーマ"
 
 #: ../../contributing/schemas.rst:9
 msgid "https://weblate.org/schemas/weblate-memory.schema.json"
@@ -33729,6 +33728,8 @@ msgid ""
 "Each project can include one or more glossaries as a shorthand for storing "
 "terminology. Glossary easify maintaining consistency of the translation."
 msgstr ""
+"各プロジェクトには、専門用語を保存するための簡単な方法として、1つまたは複数の用語集を含めることができます。用語集があれば、翻訳の一貫性を保ちやすくなりま"
+"す。"
 
 #: ../../user/glossary.rst:9
 msgid ""
@@ -33738,10 +33739,8 @@ msgid ""
 "the glossary containing words from the currently translated string are "
 "displayed in the sidebar of the translation editor."
 msgstr ""
-"各言語の用語集は単独で管理できますが、プロジェクト管理者と多言語翻訳者が言語"
-"間の一貫性を維持するのに役立つ単一のコンポーネントとしてまとめて保存されま"
-"す。翻訳エディタのサイドバーに、現在翻訳済みの文字列の単語を含む用語集の用語"
-"が表示されます。"
+"各言語の用語集は単独で管理できますが、プロジェクト管理者と多言語翻訳者が言語間の一貫性を維持しやすいように単一のコンポーネントとしてまとめて保存されます。"
+"翻訳エディタのサイドバーに、翻訳中の文字列の単語を含む用語集の用語が表示されます。"
 
 #: ../../user/glossary.rst:16
 msgid "Managing glossaries"
@@ -33753,8 +33752,8 @@ msgid ""
 "Weblate features on them — commenting, storing in a remote repository, or "
 "adding explanations."
 msgstr ""
-"用語集は、通常の翻訳コンポーネントになり、すべての Weblate 機能を使用できるよ"
-"うになりました（コメント、リモート リポジトリへの格納、説明の追加など）。"
+"用語集は、通常の翻訳コンポーネントになり、Weblate のすべての機能を使用できるようになりました（コメント、リモート "
+"リポジトリへの保存、説明の追加など）。"
 
 #: ../../user/glossary.rst:24
 msgid ""
@@ -33780,7 +33779,7 @@ msgstr ""
 msgid ""
 "The glossary component looks like any other component in Weblate with added "
 "colored label:"
-msgstr ""
+msgstr "用語集コンポーネントは、Weblate の他のコンポーネントと同じように見えますが、カラーラベルが追加されています:"
 
 #: ../../user/glossary.rst:37
 msgid "You can browse all glossary terms:"
@@ -33814,13 +33813,13 @@ msgid ""
 "terms that should not be changed in other languages. Such terms are visually "
 "highlighted in the glossary sidebar."
 msgstr ""
-"一括編集、フラグの入力、または :guilabel:`ツール` ↓ :guilabel:`編集不可に設定` を使用して、特定の用語用語の翻訳に「読み取り専"
-"用」というフラグを立てると、翻訳できません。他の言語で変更してはならないブランド名やその他の用語に使用します。このような用語は、用語集のサイドバーで視覚的"
-"に強調表示されます。"
+"一括編集、フラグの入力、または :guilabel:`ツール` ↓ :guilabel:`読み取り専用に設定` を使用して、特定の用語の翻訳に "
+"``read-only`` というフラグを立てると、翻訳できません。他の言語で変更してはならないブランド名やその他の用語に使用します。このような用語は、用"
+"語集のサイドバーで視覚的に強調表示されます。"
 
 #: ../../user/glossary.rst:68
 msgid "Forbidden translations"
-msgstr "翻訳禁止"
+msgstr "禁止する訳語"
 
 #: ../../user/glossary.rst:72
 msgid ""
@@ -33830,9 +33829,9 @@ msgid ""
 "clarify translation when some words are ambiguous or could have unexpected "
 "meanings."
 msgstr ""
-"一括編集、フラグの入力、または :guilabel:`ツール` ↓ :guilabel:`翻訳禁止に設定` を使用して、特定の用語用語の翻訳に "
-"``禁止`` としてフラグを立てると、使用しては **いけない** "
-"を意味します。一部の単語があいまいであったり、予期しない意味を持つ可能性がある場合に、翻訳を明確にするために使用します。"
+"一括編集、フラグの入力、または :guilabel:`ツール` ↓ :guilabel:`禁止する訳語に設定` を使用して、特定の用語の翻訳に ``"
+"forbidden `` フラグを立てると、使用しては **いけない** "
+"を意味します。単語があいまいであったり、意図しない意味を持つ可能性がある場合に、翻訳を明確にするために使用します。"
 
 #: ../../user/glossary.rst:84
 msgid "Terminology"
@@ -33846,7 +33845,8 @@ msgid ""
 "this for important terms that should be well thought out, and retain a "
 "consistent meaning across all languages."
 msgstr ""
-"一括編集、フラグの入力、または :guilabel:`ツール` ↓ :guilabel:`専門用語に設定` を使用して、特定の用語集の用語に 「用語」 "
+"一括編集、フラグの入力、または :guilabel:`ツール` ↓ :guilabel:`専門用語に設定` を使用して、特定の用語集の用語に "
+"``terminology`` "
 "のフラグを付けると、用語集のすべての言語にその用語のエントリが追加されます。これは、すべての言語で一貫した意味があり、重要で考慮すべき用語で使用します。"
 
 #: ../../user/glossary.rst:100 ../../user/translating.rst:81
