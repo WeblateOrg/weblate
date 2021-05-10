@@ -21,8 +21,8 @@ from django.conf import settings
 
 from weblate.machinery.base import MachineTranslation, MissingConfiguration
 
-DEEPL_TRANSLATE = "https://api.deepl.com/{}/translate"
-DEEPL_LANGUAGES = "https://api.deepl.com/{}/languages"
+DEEPL_TRANSLATE = "{}translate"
+DEEPL_LANGUAGES = "{}languages"
 
 
 class DeepLTranslation(MachineTranslation):
@@ -49,7 +49,7 @@ class DeepLTranslation(MachineTranslation):
     def download_languages(self):
         response = self.request(
             "post",
-            DEEPL_LANGUAGES.format(settings.MT_DEEPL_API_VERSION),
+            DEEPL_LANGUAGES.format(settings.MT_DEEPL_API_URL),
             data={"auth_key": settings.MT_DEEPL_KEY},
         )
         return [x["language"] for x in response.json()]
@@ -67,7 +67,7 @@ class DeepLTranslation(MachineTranslation):
         """Download list of possible translations from a service."""
         response = self.request(
             "post",
-            DEEPL_TRANSLATE.format(settings.MT_DEEPL_API_VERSION),
+            DEEPL_TRANSLATE.format(settings.MT_DEEPL_API_URL),
             data={
                 "auth_key": settings.MT_DEEPL_KEY,
                 "text": text,
