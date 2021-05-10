@@ -31,7 +31,7 @@
     var slug = string.normalize().split('')
       // replace characters based on charMap
       .reduce(function (result, ch) {
-        return result + (locale[ch] || charMap[ch] || ch)
+        return result + (locale[ch] || charMap[ch] ||  (ch === replacement ? ' ' : ch))
           // remove not allowed characters
           .replace(options.remove || /[^\w\s$*_+~.()'"!\-:@]+/g, '')
       }, '')
@@ -39,7 +39,7 @@
       .trim()
       // convert spaces to replacement character
       // also remove duplicates of the replacement character
-      .replace(new RegExp('[\\s' + replacement + ']+', 'g'), replacement)
+      .replace(/\s+/g, replacement)
 
     if (options.lower) {
       slug = slug.toLowerCase()
