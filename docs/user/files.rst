@@ -32,12 +32,12 @@ are available via the :guilabel:`Files` ↓ :guilabel:`Customize download` menu:
 * XLIFF 1.1
 * TermBase eXchange
 * Translation Memory eXchange
-* gettext MO
+* gettext MO (only available when translation is using gettext PO)
 * CSV
 * Excel Open XML
-* JSON
-* Android String Resource
-* iOS strings
+* JSON (only available for monolingual translations)
+* Android String Resource (only available for monolingual translations)
+* iOS strings (only available for monolingual translations)
 
 .. image:: /images/file-download.png
 
