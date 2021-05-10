@@ -238,14 +238,14 @@
       <thead>
         <tr>
           <th>{% trans "Group" %}</th>
-          <th></th>
+          <th class="number">{% trans "Members" %}</th>
         </tr>
       </thead>
       <tbody>
         {% for group in page_user.groups.all %}
           <tr>
             <th>{{ group.name }}</th>
-            <td></td>
+            <td class="number">{{ group.user_set.count }}</td>
           </tr>
         {% endfor %}
       </tbody>
