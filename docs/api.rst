@@ -1810,9 +1810,9 @@ Translations
     :type language: string
     :<json string mode: Automatic translation mode
     :<json string filter_type: Automatic translation filter type
-    :<json string auto_source: Automatic translation source
+    :<json string auto_source: Automatic translation source - ``mt`` or ``others``
     :<json string component: Turn on contribution to shared translation memory for the project to get access to additional components.
-    :<json string engines: Machine translation engines
+    :<json array engines: Machine translation engines
     :<json string threshold: Score threshold
 
 .. http:get:: /api/translations/(string:project)/(string:component)/(string:language)/file/

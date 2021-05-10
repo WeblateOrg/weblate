@@ -2351,6 +2351,22 @@ class TranslationAPITest(APIBaseTest):
             code=200,
         )
         self.assertContains(response, "Automatic translation completed")
+        response = self.do_request(
+            "api:translation-autotranslate",
+            self.translation_kwargs,
+            superuser=True,
+            method="post",
+            request={
+                "mode": "suggest",
+                "filter_type": "todo",
+                "auto_source": "mt",
+                "threshold": "90",
+                "engines": ["weblate"],
+            },
+            format=format,
+            code=200,
+        )
+        self.assertContains(response, "Automatic translation completed")
 
     def test_autotranslate_json(self):
         self.test_autotranslate("json")
