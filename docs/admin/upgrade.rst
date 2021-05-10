@@ -127,7 +127,7 @@ Notable configuration or dependencies changes:
 * There is change in ``DEFAULT_THROTTLE_CLASSES`` setting to allow reporting of rate limiting in the API.
 * There are some new and updated requirements.
 * There is a change in :setting:`django:INSTALLED_APPS`.
-* The :ref:`deepl` machine translation now defaults to v2 API. The ``MT_DEEPL_API_VERSION`` setting has been removed in Version 4.7. You might need to adjust the new :setting:`MT_DEEPL_API_URL` in case your current DeepL subscription does not support that.
+* The ``MT_DEEPL_API_VERSION`` setting has been removed in Version 4.7. The :ref:`deepl` machine translation now uses the new :setting:`MT_DEEPL_API_URL` instead. You might need to adjust :setting:`MT_DEEPL_API_URL` to match your subsciption.
 
 .. seealso:: :ref:`generic-upgrade-instructions`
 
@@ -229,7 +229,7 @@ Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 Notable configuration or dependencies changes:
 
 * There are several changes in :file:`settings_example.py`, most notable middleware changes (:setting:`django:MIDDLEWARE`), please adjust your settings accordingly.
-* The :ref:`deepl` machine translation now has a generic :setting:`MT_DEEPL_API_URL` setting to adapt more flexible to different subscription models.
+* The :ref:`deepl` machine translation now has a generic :setting:`MT_DEEPL_API_URL` setting to adapt to different subscription models more flexibly.
   The ``MT_DEEPL_API_VERSION`` setting is no longer used.
 
 .. seealso:: :ref:`generic-upgrade-instructions`

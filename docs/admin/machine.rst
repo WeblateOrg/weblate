@@ -102,7 +102,7 @@ Turn on this service by adding ``weblate.machinery.deepl.DeepLTranslation`` to
    In case you have subscription for CAT tools, you are supposed to use "v1
    API" instead of default "v2" used by Weblate (it is not really an API
    version in this case).
-   In case you are on a free instead of a paid plan you have to use
+   In case you are on a free instead of a paid plan, you have to use
    ``https://api-free.deepl.com/`` instead of ``https://api.deepl.com/``
    You can adjust both parameters by :setting:`MT_DEEPL_API_URL`.
 
