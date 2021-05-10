@@ -1257,16 +1257,16 @@ MT_DEEPL_API_URL
 
 .. versionchanged:: 4.7
 
-   The full API URL is now configured to allow using the free plan. Before it was only possible to
+   The full API URL is now configured to allow using the free plan. Before, it was only possible to
    configure the API version using ``MT_DEEPL_API_VERSION``.
 
-API URL to use with the DeepL service. At the time of writing there is the v1 API
+API URL to use with the DeepL service. At the time of writing, there is the v1 API
 as well as a free and a paid version of the v2 API.
 
 ``https://api.deepl.com/v2/`` (default in Weblate)
-    Is meant for API usage on the paid plan and the subscription is usage based.
+    Is meant for API usage on the paid plan, and the subscription is usage-based.
 ``https://api-free.deepl.com/v2/``
-    Is meant for API usage on the free plan and the subscription is usage based.
+    Is meant for API usage on the free plan, and the subscription is usage-based.
 ``https://api.deepl.com/v1/``
     Is meant for CAT tools and is usable with user-based subscription.
 
