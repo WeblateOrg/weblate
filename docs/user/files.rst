@@ -39,6 +39,11 @@ are available via the :guilabel:`Files` ↓ :guilabel:`Customize download` menu:
 * Android String Resource (only available for monolingual translations)
 * iOS strings (only available for monolingual translations)
 
+.. hint::
+
+   The content available in the converted files differs based on file format
+   features, you can find overview in :ref:`fmt_capabs`.
+
 .. image:: /images/file-download.png
 
 .. seealso::
