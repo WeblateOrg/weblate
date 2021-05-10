@@ -42,7 +42,7 @@ from weblate.machinery.base import (
     MachineTranslationError,
     MissingConfiguration,
 )
-from weblate.machinery.deepl import DEEPL_LANGUAGES, DEEPL_TRANSLATE, DeepLTranslation
+from weblate.machinery.deepl import DeepLTranslation
 from weblate.machinery.dummy import DummyTranslation
 from weblate.machinery.glosbe import GlosbeTranslation
 from weblate.machinery.google import GOOGLE_API_ROOT, GoogleTranslation
@@ -982,22 +982,28 @@ class DeepLTranslationTest(BaseMachineTranslationTest):
     def mock_error(self):
         responses.add(
             responses.POST,
-            DEEPL_LANGUAGES.format(DEEPL_API_URL),
+            "https://api.deepl.com/v2/languages",
             json=DEEPL_LANG_RESPONSE,
             status=500,
         )
         responses.add(
             responses.POST,
-            DEEPL_TRANSLATE.format(DEEPL_API_URL),
+            "https://api.deepl.com/v2/translate",
             json=DEEPL_RESPONSE,
             status=500,
         )
 
     def mock_response(self):
         responses.add(
-            responses.POST, DEEPL_LANGUAGES.format(DEEPL_API_URL), json=DEEPL_LANG_RESPONSE
+            responses.POST,
+            "https://api.deepl.com/v2/languages",
+            json=DEEPL_LANG_RESPONSE,
         )
-        responses.add(responses.POST, DEEPL_TRANSLATE.format(DEEPL_API_URL), json=DEEPL_RESPONSE)
+        responses.add(
+            responses.POST,
+            "https://api.deepl.com/v2/translate",
+            json=DEEPL_RESPONSE,
+        )
 
     @responses.activate
     def test_cache(self):

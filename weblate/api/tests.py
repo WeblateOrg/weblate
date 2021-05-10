@@ -1707,7 +1707,7 @@ class ComponentAPITest(APIBaseTest):
                 "needs_commit": False,
                 "merge_failure": None,
             },
-            skip=("remote_commit", "status", "url"),
+            skip=("remote_commit", "weblate_commit", "status", "url"),
         )
 
     def test_statistics(self):
@@ -2274,7 +2274,7 @@ class TranslationAPITest(APIBaseTest):
                 "needs_commit": False,
                 "merge_failure": None,
             },
-            skip=("remote_commit", "status", "url"),
+            skip=("remote_commit", "weblate_commit", "status", "url"),
         )
 
     def test_statistics(self):
