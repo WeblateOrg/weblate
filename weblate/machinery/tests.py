@@ -262,7 +262,6 @@ TERMINOLOGY_WDSL = get_test_file("microsoftterminology.wsdl")
 
 GOOGLEV3_KEY = get_test_file("googlev3.json")
 
-DEEPL_API_URL = "https://api.deepl.com/v2/"
 DEEPL_RESPONSE = {"translations": [{"detected_source_language": "EN", "text": "Hallo"}]}
 DEEPL_LANG_RESPONSE = [
     {"language": "EN", "name": "English"},
