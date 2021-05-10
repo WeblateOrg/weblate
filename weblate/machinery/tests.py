@@ -262,6 +262,7 @@ TERMINOLOGY_WDSL = get_test_file("microsoftterminology.wsdl")
 
 GOOGLEV3_KEY = get_test_file("googlev3.json")
 
+DEEPL_API_URL = "https://api.deepl.com/v2/"
 DEEPL_RESPONSE = {"translations": [{"detected_source_language": "EN", "text": "Hallo"}]}
 DEEPL_LANG_RESPONSE = [
     {"language": "EN", "name": "English"},
@@ -981,22 +982,22 @@ class DeepLTranslationTest(BaseMachineTranslationTest):
     def mock_error(self):
         responses.add(
             responses.POST,
-            DEEPL_LANGUAGES.format("v2"),
+            DEEPL_LANGUAGES.format(DEEPL_API_URL),
             json=DEEPL_LANG_RESPONSE,
             status=500,
         )
         responses.add(
             responses.POST,
-            DEEPL_TRANSLATE.format("v2"),
+            DEEPL_TRANSLATE.format(DEEPL_API_URL),
             json=DEEPL_RESPONSE,
             status=500,
         )
 
     def mock_response(self):
         responses.add(
-            responses.POST, DEEPL_LANGUAGES.format("v2"), json=DEEPL_LANG_RESPONSE
+            responses.POST, DEEPL_LANGUAGES.format(DEEPL_API_URL), json=DEEPL_LANG_RESPONSE
         )
-        responses.add(responses.POST, DEEPL_TRANSLATE.format("v2"), json=DEEPL_RESPONSE)
+        responses.add(responses.POST, DEEPL_TRANSLATE.format(DEEPL_API_URL), json=DEEPL_RESPONSE)
 
     @responses.activate
     def test_cache(self):
