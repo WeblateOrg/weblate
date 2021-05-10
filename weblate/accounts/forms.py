@@ -18,7 +18,7 @@
 #
 
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import HTML, Div, Field, Fieldset, Layout
+from crispy_forms.layout import HTML, Div, Field, Fieldset, Layout, Submit
 from django import forms
 from django.contrib.auth import authenticate, password_validation
 from django.contrib.auth.forms import SetPasswordForm as DjangoSetPasswordForm
@@ -48,7 +48,7 @@ from weblate.accounts.utils import (
     get_all_user_mails,
     invalidate_reset_codes,
 )
-from weblate.auth.models import User
+from weblate.auth.models import Group, User
 from weblate.lang.models import Language
 from weblate.logger import LOGGER
 from weblate.trans.defines import EMAIL_LENGTH, FULLNAME_LENGTH
@@ -808,3 +808,23 @@ class UserSearchForm(forms.Form):
                 raise forms.ValidationError(_("Chosen sorting is not supported."))
             return sort_by
         return None
+
+
+class GroupAddForm(forms.Form):
+    add_group = forms.ModelChoiceField(
+        label=_("Add user to a group"), queryset=Group.objects.all(), required=True
+    )
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper(self)
+        self.helper.form_class = "form-inline"
+        self.helper.field_template = "bootstrap3/layout/inline_field.html"
+        self.helper.layout = Layout(
+            "add_group",
+            Submit("add_group_button", _("Add group")),
+        )
+
+
+class GroupRemoveForm(forms.Form):
+    remove_group = forms.ModelChoiceField(queryset=Group.objects.all(), required=True)

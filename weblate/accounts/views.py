@@ -82,6 +82,8 @@ from weblate.accounts.forms import (
     DashboardSettingsForm,
     EmailForm,
     EmptyConfirmForm,
+    GroupAddForm,
+    GroupRemoveForm,
     LanguagesForm,
     LoginForm,
     NotificationForm,
@@ -608,9 +610,23 @@ class UserPage(UpdateView):
     context_object_name = "page_user"
     fields = ["username", "full_name", "email", "is_superuser", "is_active"]
 
+    group_form = None
+
     def post(self, request, **kwargs):
         if not request.user.has_perm("user.edit"):
             raise PermissionDenied()
+        self.object = self.get_object()
+        if "add_group" in request.POST:
+            self.group_form = GroupAddForm(request.POST)
+            if self.group_form.is_valid():
+                self.object.groups.add(self.group_form.cleaned_data["add_group"])
+                return HttpResponseRedirect(self.get_success_url() + "#groups")
+        if "remove_group" in request.POST:
+            form = GroupRemoveForm(request.POST)
+            if form.is_valid():
+                self.object.groups.remove(form.cleaned_data["remove_group"])
+                return HttpResponseRedirect(self.get_success_url() + "#groups")
+
         return super().post(request, **kwargs)
 
     def get_context_data(self, **kwargs):
@@ -650,6 +666,7 @@ class UserPage(UpdateView):
             )
         )
         context["user_languages"] = user.profile.languages.all()[:7]
+        context["group_form"] = self.group_form or GroupAddForm()
         return context
 
 

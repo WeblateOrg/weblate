@@ -244,6 +244,7 @@
         <tr>
           <th>{% trans "Group" %}</th>
           <th class="number">{% trans "Members" %}</th>
+          <th></th>
         </tr>
       </thead>
       <tbody>
@@ -251,10 +252,16 @@
           <tr>
             <th>{{ group.name }}</th>
             <td class="number">{{ group.user_set.count }}</td>
+            <td>
+              <a href="{{ page_user.get_absolute_url }}" class="btn btn-link btn-xs red link-post" data-params='{"remove_group": {{ group.pk }}}' title="{% trans "Remove user from this group" %}">
+                {% icon 'delete.svg' %}
+              </a>
+            </td>
           </tr>
         {% endfor %}
       </tbody>
     </table>
+    {% crispy group_form %}
   </div>
 
   <div class="tab-pane" id="edit">
