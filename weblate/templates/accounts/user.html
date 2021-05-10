@@ -77,7 +77,7 @@
         {% endif %}
     </p>
     {% endif %}
-    {% if page_profile.website or page_profile.public_email or page_profile.github or page_profile.twitter or page_profile.linkedin or page_profile.liberapay or page_profile.fediverse or page_profile.codesite %}
+    {% if can_edit_user or page_profile.website or page_profile.public_email or page_profile.github or page_profile.twitter or page_profile.linkedin or page_profile.liberapay or page_profile.fediverse or page_profile.codesite %}
       <p>
         {% if page_profile.website %}
           <span class="middle-dot-divider">
@@ -87,6 +87,11 @@
         {% if page_profile.public_email %}
           <span class="middle-dot-divider">
             <span class="profile-icon">{% icon "email.svg" %}</span> <a href="mailto:{{ page_profile.public_email }}" rel="ugc">{{ page_profile.public_email }}</a>
+          </span>
+        {% endif %}
+        {% if can_edit_user and page_user.email != page_profile.public_email %}
+          <span class="middle-dot-divider">
+            <span class="profile-icon">{% icon "email.svg" %}</span> <a href="mailto:{{ page_user.email }}" rel="ugc">{{ page_user.email }}</a>
           </span>
         {% endif %}
         {% if page_profile.liberapay %}
