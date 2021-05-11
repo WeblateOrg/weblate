@@ -719,6 +719,15 @@ class FlatXMLUnit(TTKitUnit):
     def source(self):
         return get_string(self.mainunit.target)
 
+    def has_content(self):
+        """Check whether unit has content.
+
+        The attribute-less units will have context None.
+        """
+        if self.context is None:
+            return False
+        return super().has_content()
+
 
 class MonolingualIDUnit(TTKitUnit):
     @cached_property
