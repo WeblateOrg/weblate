@@ -1761,3 +1761,12 @@ class TBXFormat(TTKitFormat):
         )
         # Add language header if not present
         self.store.addheader()
+
+
+class PropertiesMi18nFormat(PropertiesUtf8Format):
+    name = _("mi18n lang file")
+    format_id = "mi18n-lang"
+    new_translation = "\n"
+    language_format = "java"
+    check_flags = ("es-format",)
+    monolingual = True

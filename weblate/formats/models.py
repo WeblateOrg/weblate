@@ -125,6 +125,7 @@ class FormatsConf(AppConf):
         "weblate.formats.ttkit.FlatXMLFormat",
         "weblate.formats.ttkit.INIFormat",
         "weblate.formats.ttkit.InnoSetupINIFormat",
+        "weblate.formats.ttkit.PropertiesMi18nFormat",
         "weblate.formats.external.XlsxFormat",
         "weblate.formats.txt.AppStoreFormat",
         "weblate.formats.convert.HTMLFormat",
