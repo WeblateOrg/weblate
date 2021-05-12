@@ -17,6 +17,8 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
+import os
+
 from django.conf import settings
 from django.core.cache import cache
 from django.template.loader import render_to_string
@@ -303,3 +305,24 @@ class ConfigureGuideline(AddonGuideline):
 @register
 class CleanupGuideline(AddonGuideline):
     addon = "weblate.cleanup.generic"
+
+
+@register
+class GenerateMoGuideline(AddonGuideline):
+    addon = "weblate.gettext.mo"
+
+    def is_relevant(self):
+        if not super().is_relevant():
+            return False
+        component = self.component
+        translations = component.translation_set.exclude(
+            pk=component.source_translation.id
+        )
+        try:
+            translation = translations[0]
+        except IndexError:
+            return False
+        if not translation.filename.endswith(".po"):
+            return False
+        mofilename = translation.get_filename()[:-3] + ".mo"
+        return os.path.exists(mofilename)
