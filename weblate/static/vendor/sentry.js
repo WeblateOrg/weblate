@@ -1,4 +1,4 @@
-/*! @sentry/browser 6.3.5 (3f7be6d) | https://github.com/getsentry/sentry-javascript */
+/*! @sentry/browser 6.3.6 (3c95533) | https://github.com/getsentry/sentry-javascript */
 var Sentry = (function (exports) {
     /*! *****************************************************************************
     Copyright (c) Microsoft Corporation. All rights reserved.
@@ -962,12 +962,14 @@ var Sentry = (function (exports) {
     }
 
     /**
-     * Wrap a given object method with a higher-order function
+     * Replace a method in an object with a wrapped version of itself.
      *
      * @param source An object that contains a method to be wrapped.
-     * @param name A name of method to be wrapped.
-     * @param replacementFactory A function that should be used to wrap a given method, returning the wrapped method which
-     * will be substituted in for `source[name]`.
+     * @param name The name of the method to be wrapped.
+     * @param replacementFactory A higher-order function that takes the original version of the given method and returns a
+     * wrapped verstion. Note: The function returned by `replacementFactory` needs to be a non-arrow function, in order to
+     * preserve the correct value of `this`, and the original method must be called using `origMethod.call(this, <other
+     * args>)` or `origMethod.apply(this, [<other args>])` (rather than being called directly), again to preserve `this`.
      * @returns void
      */
     function fill(source, name, replacementFactory) {
@@ -4333,7 +4335,7 @@ var Sentry = (function (exports) {
         hub.bindClient(client);
     }
 
-    var SDK_VERSION = '6.3.5';
+    var SDK_VERSION = '6.3.6';
 
     var originalFunctionToString;
     /** Patch toString calls to return proper name for wrapped functions */
