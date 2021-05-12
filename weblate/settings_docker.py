@@ -765,7 +765,7 @@ if MT_MODERNMT_KEY:
 
 # MyMemory identification email, see
 # http://mymemory.translated.net/doc/spec.php
-MT_MYMEMORY_EMAIL = os.environ["WEBLATE_ADMIN_EMAIL"]
+MT_MYMEMORY_EMAIL = ADMINS[0][1]
 
 # Optional MyMemory credentials to access private translation memory
 MT_MYMEMORY_USER = None
