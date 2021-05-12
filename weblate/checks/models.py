@@ -132,6 +132,8 @@ class Check(models.Model):
 
     class Meta:
         unique_together = ("unit", "check")
+        verbose_name = "Quality check"
+        verbose_name_plural = "Quality checks"
 
     def __str__(self):
         return str(self.get_name())

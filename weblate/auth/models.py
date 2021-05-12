@@ -90,6 +90,10 @@ class Role(models.Model):
         help_text=_("Choose permissions granted to this role."),
     )
 
+    class Meta:
+        verbose_name = "Role"
+        verbose_name_plural = "Roles"
+
     def __str__(self):
         return pgettext("Access-control role", self.name)
 
@@ -155,6 +159,10 @@ class Group(models.Model):
     )
 
     objects = GroupManager()
+
+    class Meta:
+        verbose_name = "Group"
+        verbose_name_plural = "Groups"
 
     def __str__(self):
         return pgettext("Access-control group", self.name)
@@ -353,6 +361,10 @@ class User(AbstractBaseUser):
     USERNAME_FIELD = "username"
     REQUIRED_FIELDS = ["email", "full_name"]
     DUMMY_FIELDS = ("first_name", "last_name", "is_staff")
+
+    class Meta:
+        verbose_name = "User"
+        verbose_name_plural = "Users"
 
     def __str__(self):
         return self.full_name

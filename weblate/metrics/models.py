@@ -436,6 +436,8 @@ class Metric(models.Model):
 
     class Meta:
         unique_together = (("date", "scope", "relation", "secondary", "name"),)
+        verbose_name = "Metric"
+        verbose_name_plural = "Metrics"
 
     def __str__(self):
         return f"<{self.scope}.{self.relation}>:{self.date}:{self.name}={self.value}"
