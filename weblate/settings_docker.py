@@ -32,6 +32,15 @@ from weblate.utils.environment import (
     modify_env_list,
 )
 
+# Title of site to use
+SITE_TITLE = os.environ.get("WEBLATE_SITE_TITLE", "Weblate")
+
+# Site domain
+SITE_DOMAIN = os.environ["WEBLATE_SITE_DOMAIN"]
+
+# Whether site uses https
+ENABLE_HTTPS = get_env_bool("WEBLATE_ENABLE_HTTPS", False)
+
 #
 # Django settings for Weblate project.
 #
@@ -805,15 +814,6 @@ MT_SAP_PASSWORD = os.environ.get("WEBLATE_MT_SAP_PASSWORD", None)
 MT_SAP_USE_MT = get_env_bool("WEBLATE_MT_SAP_USE_MT", True)
 if MT_SAP_BASE_URL:
     MT_SERVICES += ("weblate.machinery.saptranslationhub.SAPTranslationHub",)
-
-# Title of site to use
-SITE_TITLE = os.environ.get("WEBLATE_SITE_TITLE", "Weblate")
-
-# Site domain
-SITE_DOMAIN = os.environ["WEBLATE_SITE_DOMAIN"]
-
-# Whether site uses https
-ENABLE_HTTPS = get_env_bool("WEBLATE_ENABLE_HTTPS", False)
 
 # Use HTTPS when creating redirect URLs for social authentication, see
 # documentation for more details:
