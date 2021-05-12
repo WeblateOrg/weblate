@@ -294,3 +294,8 @@ class LinguasGuideline(AddonGuideline):
 @register
 class ConfigureGuideline(AddonGuideline):
     addon = "weblate.gettext.configure"
+
+
+@register
+class CleanupGuideline(AddonGuideline):
+    addon = "weblate.cleanup.generic"
