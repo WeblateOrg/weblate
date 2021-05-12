@@ -405,7 +405,7 @@ def handle_merge(unit, request, next_unit_url):
         return None
 
     # Store unit
-    unit.translate(request.user, merged.target, merged.state)
+    unit.translate(request.user, merged.get_target_plurals(), merged.state)
     # Redirect to next entry
     return HttpResponseRedirect(next_unit_url)
 
