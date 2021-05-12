@@ -397,6 +397,11 @@ Example configuration:
         }
     }
 
+.. hint::
+
+   The example above and the Docker image define an IDP labelled ``weblate``.
+   You might need to configure this string as :guilabel:`Relay` in your IDP.
+
 .. seealso::
 
    :ref:`Configuring SAML in Docker <docker-saml>`,
