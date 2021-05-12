@@ -325,6 +325,17 @@ if "WEBLATE_SAML_IDP_URL" in os.environ:
             "attr_email": "email",
         }
     }
+    SOCIAL_AUTH_SAML_SUPPORT_CONTACT = SOCIAL_AUTH_SAML_TECHNICAL_CONTACT = {
+        "givenName": ADMINS[0][0],
+        "emailAddress": ADMINS[0][1],
+    }
+    SOCIAL_AUTH_SAML_ORG_INFO = {
+        "en-US": {
+            "name": "weblate",
+            "displayname": SITE_TITLE,
+            "url": "{}://{}".format("https" if ENABLE_HTTPS else "http", SITE_DOMAIN),
+        }
+    }
 
 # Azure
 if "WEBLATE_SOCIAL_AUTH_AZUREAD_OAUTH2_KEY" in os.environ:
