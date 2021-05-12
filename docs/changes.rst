@@ -4,7 +4,7 @@ Weblate 4.7
 Not yet released.
 
 * Improved configuration health check.
-* Added support for ``object-pascal-format`` used in gettext PO.
+* Added support for ``object-pascal-format`` used in gettext PO, see :ref:`check-object-pascal-format`.
 * Renamed :guilabel:`Nearby keys` to :guilabel:`Similar keys` to better describe the purpose.
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/64?closed=1>`__.
