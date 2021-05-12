@@ -396,6 +396,21 @@ Example configuration:
             "attr_email": "email",
         }
     }
+    SOCIAL_AUTH_SAML_ORG_INFO = {
+        "en-US": {
+            "name": "example",
+            "displayname": "Example Inc.",
+            "url": "http://example.com"
+        }
+    }
+    SOCIAL_AUTH_SAML_TECHNICAL_CONTACT = {
+        "givenName": "Tech Gal",
+        "emailAddress": "technical@example.com"
+    }
+    SOCIAL_AUTH_SAML_SUPPORT_CONTACT = {
+        "givenName": "Support Guy",
+        "emailAddress": "support@example.com"
+    }
 
 .. hint::
 
