@@ -17,6 +17,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
+from django.conf import settings
 from django.core.cache import cache
 from django.template.loader import render_to_string
 from django.urls import reverse
@@ -145,6 +146,9 @@ class LicenseGuideline(Guideline):
     description = _("Make your translations available under a libre license.")
     url = "settings"
     anchor = "basic"
+
+    def is_relevant(self):
+        return settings.LICENSE_REQUIRED
 
     def is_passing(self):
         return self.component.libre_license
