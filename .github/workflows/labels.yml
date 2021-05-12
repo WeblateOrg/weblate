@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - name: Add backlog comment
-        uses: peter-evans/create-or-update-comment@v1
+        uses: peter-evans/create-or-update-comment@v1.4.5
         if: github.event.label.name == 'backlog'
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
@@ -18,7 +18,7 @@ jobs:
           body: |
             This issue has been added to the backlog. It is not scheduled on the Weblate roadmap, but it eventually might be implemented. In case you need this feature soon, please consider helping or push it by [funding the development](https://weblate.org/support/).
       - name: Add undecided comment
-        uses: peter-evans/create-or-update-comment@v1
+        uses: peter-evans/create-or-update-comment@v1.4.5
         if: github.event.label.name == 'undecided'
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
@@ -26,7 +26,7 @@ jobs:
           body: |
             This issue has been put aside. It is currently unclear if it will ever be implemented as it seems to cover too narrow of a use case or doesn't seem to fit into Weblate. Please try to clarify the use case or consider proposing something more generic to make it useful to more users.
       - name: Add question comment
-        uses: peter-evans/create-or-update-comment@v1
+        uses: peter-evans/create-or-update-comment@v1.4.5
         if: github.event.label.name == 'question'
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
@@ -34,7 +34,7 @@ jobs:
           body: |
             This issue looks more like a support question than an issue. We strive to answer these reasonably fast, but [purchasing the support subscription](https://weblate.org/support/) is not only more responsible and faster for your business but also makes Weblate stronger. In case your question is already answered, [making a donation](https://weblate.org/donate/) is the right way to say thank you!
       - name: Add translate-toolkit comment
-        uses: peter-evans/create-or-update-comment@v1
+        uses: peter-evans/create-or-update-comment@v1.4.5
         if: github.event.label.name == 'translate-toolkit'
         with:
           token: ${{ secrets.GITHUB_TOKEN }}

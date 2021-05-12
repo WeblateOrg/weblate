@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - name: Add closed question comment
-        uses: peter-evans/create-or-update-comment@v1
+        uses: peter-evans/create-or-update-comment@v1.4.5
         if: (contains(github.event.issue.labels.*.name, 'question') && ! contains(github.event.issue.labels.*.name, 'wontfix')) || join(github.event.issue.labels.*.name) == ''
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
@@ -21,7 +21,7 @@ jobs:
             * In case you see a similar problem, please open a separate issue.
             * If you are happy with the outcome, don’t hesitate to support Weblate by making a [donation](https://weblate.org/donate/).
       - name: Add closed issue comment
-        uses: peter-evans/create-or-update-comment@v1
+        uses: peter-evans/create-or-update-comment@v1.4.5
         if: "! contains(github.event.issue.labels.*.name, 'invalid') && ! contains(github.event.issue.labels.*.name, 'question') && ! contains(github.event.issue.labels.*.name, 'wontfix') && ! contains(github.event.issue.labels.*.name, 'duplicate') && ! contains(github.event.issue.labels.*.name, 'undecided') && ! contains(github.event.issue.labels.*.name, 'needinfo') && join(github.event.issue.labels.*.name) != ''"
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
