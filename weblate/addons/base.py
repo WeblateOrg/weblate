@@ -138,6 +138,7 @@ class BaseAddon:
 
     def post_configure(self):
         # Configure events to current status
+        self.instance.component.log_debug("configuring events %s add-on", self.name)
         self.instance.configure_events(self.events)
 
         # Trigger post events to ensure direct processing
