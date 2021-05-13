@@ -442,11 +442,6 @@ can install it via usual means:
 
    This package is included in the Docker container, see :doc:`/admin/install/docker`.
 
-.. warning::
-
-    With django-auth-ldap older than 1.3.0 the :ref:`autogroup` will not work
-    properly for newly created users.
-
 .. note::
 
    There are some incompatibilities in the Python LDAP 3.1.0 module, which might
