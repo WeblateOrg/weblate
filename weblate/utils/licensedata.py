@@ -1626,7 +1626,7 @@ LICENSES = (
     (
         "NCGL-UK-2.0",
         "Non-Commercial Government Licence",
-        "https://github.com/spdx/license-list-XML/blob/master/src/Apache-2.0.xml",
+        "http://www.nationalarchives.gov.uk/doc/non-commercial-government-licence/version/2/",
         False,
     ),
     (
