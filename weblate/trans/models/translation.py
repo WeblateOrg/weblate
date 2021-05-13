@@ -954,7 +954,6 @@ class Translation(
                 author=request.user.get_author_name(),
                 extra_context={"addon_name": "Source update"},
             ):
-                self.drop_store_cache()
                 self.handle_store_change(
                     request,
                     request.user,
@@ -989,7 +988,6 @@ class Translation(
             ):
 
                 # Drop store cache
-                self.drop_store_cache()
                 self.handle_store_change(
                     request,
                     request.user,
@@ -1169,6 +1167,7 @@ class Translation(
         )
 
     def handle_store_change(self, request, user, previous_revision: str, change=None):
+        self.drop_store_cache()
         if self.is_source:
             self.component.create_translations(request=request)
         else:
