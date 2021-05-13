@@ -1707,6 +1707,7 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
                 self.trigger_post_update(previous_head, skip_push)
         return True
 
+    @perform_on_link
     def trigger_post_update(self, previous_head: str, skip_push: bool):
         vcs_post_update.send(
             sender=self.__class__,
