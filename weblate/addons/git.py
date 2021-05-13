@@ -226,10 +226,11 @@ class GitSquashAddon(BaseAddon):
         with repository.lock:
             # Ensure repository is rebased on current remote prior to squash, otherwise
             # we might be squashing upstream changes as well due to reset.
-            if component.repo_needs_merge() and not component.update_branch(
-                method="rebase", skip_push=True
-            ):
-                return
+            if component.repo_needs_merge():
+                try:
+                    component.update_branch(method="rebase", skip_push=True)
+                except RepositoryException:
+                    return
             if not repository.needs_push():
                 return
             method = getattr(

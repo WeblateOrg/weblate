@@ -1325,24 +1325,28 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
                 )
 
             # update local branch
-            ret = self.update_branch(request, method=method, skip_push=True)
+            try:
+                result = self.update_branch(request, method=method, skip_push=True)
+            except RepositoryException:
+                result = False
 
-        # create translation objects for all files
-        try:
-            self.create_translations(request=request)
-        except FileParseError:
-            ret = False
+        if result:
+            # create translation objects for all files
+            try:
+                self.create_translations(request=request)
+            except FileParseError:
+                result = False
 
-        # Push after possible merge
-        if ret:
+            # Push after possible merge
             self.push_if_needed(do_update=False)
+
         if not self.repo_needs_push():
             self.delete_alert("RepositoryChanges")
 
         self.progress_step(100)
         self.translations_count = None
 
-        return ret
+        return result
 
     @perform_on_link
     def push_if_needed(self, do_update=True):
@@ -1682,7 +1686,7 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
                 # Tell user (if there is any)
                 messages.error(request, error_msg % self)
 
-                return False
+                raise
 
             if self.id:
                 Change.objects.create(
