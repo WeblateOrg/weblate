@@ -1564,6 +1564,7 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
 
         return True
 
+    @perform_on_link
     def commit_files(
         self,
         template: str,
