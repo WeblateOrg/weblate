@@ -1653,11 +1653,9 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
                 previous_head = self.repository.last_revision
                 # Try to merge it
                 method_func(**kwargs)
+                new_head = (self.repository.last_revision,)
                 self.log_info(
-                    "%s remote into repo %s..%s",
-                    method,
-                    previous_head,
-                    self.repository.last_revision,
+                    "%s remote into repo %s..%s", method, previous_head, new_head
                 )
             except RepositoryException as error:
                 # Report error
@@ -1705,7 +1703,8 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
 
                 # Run post update hook, this should be done with repo lock held
                 # to avoid posssible race with another update
-                self.trigger_post_update(previous_head, skip_push)
+                if previous_head != new_head:
+                    self.trigger_post_update(previous_head, skip_push)
         return True
 
     @perform_on_link
