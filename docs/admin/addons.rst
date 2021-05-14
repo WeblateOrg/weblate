@@ -9,10 +9,16 @@ Add-ons provide ways to customize and automate the translation workflow.
 Admins can add and manage add-ons from the :guilabel:`Manage` ↓ :guilabel:`Add-ons` menu of each respective
 translation component.
 
+.. hint::
+
+   You can also configure add-ons using :ref:`API <addons-api>`,
+   :setting:`DEFAULT_ADDONS`, or :djadmin:`install_addon`.
+
 .. image:: /images/addons.png
 
 Built-in add-ons
 ++++++++++++++++
+
 
 .. _addon-weblate.autotranslate.autotranslate:
 
@@ -21,12 +27,20 @@ Automatic translation
 
 .. versionadded:: 3.9
 
-.. list-table:: Parameters to use in :ref:`API <addons-api>`, :setting:`DEFAULT_ADDONS`, or :djadmin:`install_addon`
-
-   * - Add-on ID
-     - ``weblate.autotranslate.autotranslate``
-   * - Configuration
-     - ``mode``, ``filter_type``, ``auto_source``, ``component``, ``engines``, ``threshold``
+:Add-on ID: ``weblate.autotranslate.autotranslate``
+:Configuration: +-----------------+------------------------------+-----------------------------------------------------------------------------------------------------------+
+                | ``mode``        | Automatic translation mode   |                                                                                                           |
+                +-----------------+------------------------------+-----------------------------------------------------------------------------------------------------------+
+                | ``filter_type`` | Search filter                |                                                                                                           |
+                +-----------------+------------------------------+-----------------------------------------------------------------------------------------------------------+
+                | ``auto_source`` | Automatic translation source |                                                                                                           |
+                +-----------------+------------------------------+-----------------------------------------------------------------------------------------------------------+
+                | ``component``   | Components                   | Turn on contribution to shared translation memory for the project to get access to additional components. |
+                +-----------------+------------------------------+-----------------------------------------------------------------------------------------------------------+
+                | ``engines``     | Machine translation engines  |                                                                                                           |
+                +-----------------+------------------------------+-----------------------------------------------------------------------------------------------------------+
+                | ``threshold``   | Score threshold              |                                                                                                           |
+                +-----------------+------------------------------+-----------------------------------------------------------------------------------------------------------+
 
 Automatically translates strings using machine translation or other components.
 
@@ -47,12 +61,16 @@ JavaScript localization CDN
 
 .. versionadded:: 4.2
 
-.. list-table:: Parameters to use in :ref:`API <addons-api>`, :setting:`DEFAULT_ADDONS`, or :djadmin:`install_addon`
-
-   * - Add-on ID
-     - ``weblate.cdn.cdnjs``
-   * - Configuration
-     - ``threshold``, ``css_selector``, ``cookie_name``, ``files``
+:Add-on ID: ``weblate.cdn.cdnjs``
+:Configuration: +------------------+---------------------------------+-------------------------------------------------------------------------------------------+
+                | ``threshold``    | Translation threshold           | Threshold for inclusion of translations.                                                  |
+                +------------------+---------------------------------+-------------------------------------------------------------------------------------------+
+                | ``css_selector`` | CSS selector                    | CSS selector to detect localizable elements.                                              |
+                +------------------+---------------------------------+-------------------------------------------------------------------------------------------+
+                | ``cookie_name``  | Language cookie name            | Name of cookie which stores language preference.                                          |
+                +------------------+---------------------------------+-------------------------------------------------------------------------------------------+
+                | ``files``        | Extract strings from HTML files | List of filenames in current repository or remote URLs to parse for translatable strings. |
+                +------------------+---------------------------------+-------------------------------------------------------------------------------------------+
 
 Publishes translations into content delivery network for use in JavaScript or
 HTML localization.
@@ -77,12 +95,8 @@ Remove blank strings
 
 .. versionadded:: 4.4
 
-.. list-table:: Parameters to use in :ref:`API <addons-api>`, :setting:`DEFAULT_ADDONS`, or :djadmin:`install_addon`
-
-   * - Add-on ID
-     - ``weblate.cleanup.blank``
-   * - Configuration
-     - `This add-on has no configuration.`
+:Add-on ID: ``weblate.cleanup.blank``
+:Configuration: `This add-on has no configuration.`
 
 Removes strings without a translation from translation files.
 
@@ -99,12 +113,8 @@ of falling back to the source string).
 Cleanup translation files
 -------------------------
 
-.. list-table:: Parameters to use in :ref:`API <addons-api>`, :setting:`DEFAULT_ADDONS`, or :djadmin:`install_addon`
-
-   * - Add-on ID
-     - ``weblate.cleanup.generic``
-   * - Configuration
-     - `This add-on has no configuration.`
+:Add-on ID: ``weblate.cleanup.generic``
+:Configuration: `This add-on has no configuration.`
 
 Update all translation files to match the monolingual base file. For most file
 formats, this means removing stale translation keys no longer present in the
@@ -119,12 +129,8 @@ base file.
 Add missing languages
 ---------------------
 
-.. list-table:: Parameters to use in :ref:`API <addons-api>`, :setting:`DEFAULT_ADDONS`, or :djadmin:`install_addon`
-
-   * - Add-on ID
-     - ``weblate.consistency.languages``
-   * - Configuration
-     - `This add-on has no configuration.`
+:Add-on ID: ``weblate.consistency.languages``
+:Configuration: `This add-on has no configuration.`
 
 Ensures a consistent set of languages is used for all components within a
 project.
@@ -144,12 +150,26 @@ Unlike most others, this add-on affects the whole project.
 Component discovery
 -------------------
 
-.. list-table:: Parameters to use in :ref:`API <addons-api>`, :setting:`DEFAULT_ADDONS`, or :djadmin:`install_addon`
-
-   * - Add-on ID
-     - ``weblate.discovery.discovery``
-   * - Configuration
-     - ``match``, ``file_format``, ``name_template``, ``base_file_template``, ``new_base_template``, ``language_regex``, ``copy_addons``, ``remove``, ``confirm``
+:Add-on ID: ``weblate.discovery.discovery``
+:Configuration: +------------------------+----------------------------------------------------------------+------------------------------------------------------------------------------------+
+                | ``match``              | Regular expression to match translation files against          |                                                                                    |
+                +------------------------+----------------------------------------------------------------+------------------------------------------------------------------------------------+
+                | ``file_format``        | File format                                                    |                                                                                    |
+                +------------------------+----------------------------------------------------------------+------------------------------------------------------------------------------------+
+                | ``name_template``      | Customize the component name                                   |                                                                                    |
+                +------------------------+----------------------------------------------------------------+------------------------------------------------------------------------------------+
+                | ``base_file_template`` | Define the monolingual base filename                           | Leave empty for bilingual translation files.                                       |
+                +------------------------+----------------------------------------------------------------+------------------------------------------------------------------------------------+
+                | ``new_base_template``  | Define the base file for new translations                      | Filename of file used for creating new translations. For gettext choose .pot file. |
+                +------------------------+----------------------------------------------------------------+------------------------------------------------------------------------------------+
+                | ``language_regex``     | Language filter                                                | Regular expression to filter translation files against when scanning for filemask. |
+                +------------------------+----------------------------------------------------------------+------------------------------------------------------------------------------------+
+                | ``copy_addons``        | Clone addons from the main component to the newly created ones |                                                                                    |
+                +------------------------+----------------------------------------------------------------+------------------------------------------------------------------------------------+
+                | ``remove``             | Remove components for inexistant files                         |                                                                                    |
+                +------------------------+----------------------------------------------------------------+------------------------------------------------------------------------------------+
+                | ``confirm``            | I confirm the above matches look correct                       |                                                                                    |
+                +------------------------+----------------------------------------------------------------+------------------------------------------------------------------------------------+
 
 Automatically adds or removes project components based on file changes in the
 version control system.
@@ -188,12 +208,20 @@ Bulk edit
 
 .. versionadded:: 3.11
 
-.. list-table:: Parameters to use in :ref:`API <addons-api>`, :setting:`DEFAULT_ADDONS`, or :djadmin:`install_addon`
-
-   * - Add-on ID
-     - ``weblate.flags.bulk``
-   * - Configuration
-     - ``q``, ``state``, ``add_flags``, ``remove_flags``, ``add_labels``, ``remove_labels``
+:Add-on ID: ``weblate.flags.bulk``
+:Configuration: +-------------------+-----------------------------+--+
+                | ``q``             | Query                       |  |
+                +-------------------+-----------------------------+--+
+                | ``state``         | State to set                |  |
+                +-------------------+-----------------------------+--+
+                | ``add_flags``     | Translation flags to add    |  |
+                +-------------------+-----------------------------+--+
+                | ``remove_flags``  | Translation flags to remove |  |
+                +-------------------+-----------------------------+--+
+                | ``add_labels``    | Labels to add               |  |
+                +-------------------+-----------------------------+--+
+                | ``remove_labels`` | Labels to remove            |  |
+                +-------------------+-----------------------------+--+
 
 Bulk edit flags, labels, or states of strings.
 
@@ -234,12 +262,8 @@ Flag unchanged translations as "Needs editing"
 
 .. versionadded:: 3.1
 
-.. list-table:: Parameters to use in :ref:`API <addons-api>`, :setting:`DEFAULT_ADDONS`, or :djadmin:`install_addon`
-
-   * - Add-on ID
-     - ``weblate.flags.same_edit``
-   * - Configuration
-     - `This add-on has no configuration.`
+:Add-on ID: ``weblate.flags.same_edit``
+:Configuration: `This add-on has no configuration.`
 
 Whenever a new translatable string is imported from the VCS and it matches a
 source string, it is flagged as needing editing in Weblate. Especially useful
@@ -259,12 +283,8 @@ for file formats that include source strings for untranslated strings.
 Flag new source strings as "Needs editing"
 ------------------------------------------
 
-.. list-table:: Parameters to use in :ref:`API <addons-api>`, :setting:`DEFAULT_ADDONS`, or :djadmin:`install_addon`
-
-   * - Add-on ID
-     - ``weblate.flags.source_edit``
-   * - Configuration
-     - `This add-on has no configuration.`
+:Add-on ID: ``weblate.flags.source_edit``
+:Configuration: `This add-on has no configuration.`
 
 Whenever a new source string is imported from the VCS, it is flagged as needing
 editing in Weblate. This way you can easily filter and edit source strings
@@ -279,12 +299,8 @@ written by the developers.
 Flag new translations as "Needs editing"
 ----------------------------------------
 
-.. list-table:: Parameters to use in :ref:`API <addons-api>`, :setting:`DEFAULT_ADDONS`, or :djadmin:`install_addon`
-
-   * - Add-on ID
-     - ``weblate.flags.target_edit``
-   * - Configuration
-     - `This add-on has no configuration.`
+:Add-on ID: ``weblate.flags.target_edit``
+:Configuration: `This add-on has no configuration.`
 
 Whenever a new translatable string is imported from the VCS, it is flagged as
 needing editing in Weblate. This way you can easily filter and edit
@@ -299,12 +315,12 @@ translations created by the developers.
 Statistics generator
 --------------------
 
-.. list-table:: Parameters to use in :ref:`API <addons-api>`, :setting:`DEFAULT_ADDONS`, or :djadmin:`install_addon`
-
-   * - Add-on ID
-     - ``weblate.generate.generate``
-   * - Configuration
-     - ``filename``, ``template``
+:Add-on ID: ``weblate.generate.generate``
+:Configuration: +--------------+---------------------------+--+
+                | ``filename`` | Name of generated file    |  |
+                +--------------+---------------------------+--+
+                | ``template`` | Content of generated file |  |
+                +--------------+---------------------------+--+
 
 Generates a file containing detailed info about the translation status.
 
@@ -336,12 +352,16 @@ Content
 Pseudolocale generation
 -----------------------
 
-.. list-table:: Parameters to use in :ref:`API <addons-api>`, :setting:`DEFAULT_ADDONS`, or :djadmin:`install_addon`
-
-   * - Add-on ID
-     - ``weblate.generate.pseudolocale``
-   * - Configuration
-     - ``source``, ``target``, ``prefix``, ``suffix``
+:Add-on ID: ``weblate.generate.pseudolocale``
+:Configuration: +------------+--------------------+--+
+                | ``source`` | Source strings     |  |
+                +------------+--------------------+--+
+                | ``target`` | Target translation |  |
+                +------------+--------------------+--+
+                | ``prefix`` | String prefix      |  |
+                +------------+--------------------+--+
+                | ``suffix`` | String suffix      |  |
+                +------------+--------------------+--+
 
 Generates a translation by adding prefix and suffix to source strings
 automatically.
@@ -364,12 +384,8 @@ is also possible.
 Contributors in comment
 -----------------------
 
-.. list-table:: Parameters to use in :ref:`API <addons-api>`, :setting:`DEFAULT_ADDONS`, or :djadmin:`install_addon`
-
-   * - Add-on ID
-     - ``weblate.gettext.authors``
-   * - Configuration
-     - `This add-on has no configuration.`
+:Add-on ID: ``weblate.gettext.authors``
+:Configuration: `This add-on has no configuration.`
 
 Updates the comment part of the PO file header to include contributor names and
 years of contributions.
@@ -388,12 +404,8 @@ The PO file header will look like this:
 Update ALL_LINGUAS variable in the "configure" file
 ---------------------------------------------------
 
-.. list-table:: Parameters to use in :ref:`API <addons-api>`, :setting:`DEFAULT_ADDONS`, or :djadmin:`install_addon`
-
-   * - Add-on ID
-     - ``weblate.gettext.configure``
-   * - Configuration
-     - `This add-on has no configuration.`
+:Add-on ID: ``weblate.gettext.configure``
+:Configuration: `This add-on has no configuration.`
 
 Updates the ALL_LINGUAS variable in :file:`configure`, :file:`configure.in` or any
 :file:`configure.ac` files, when a new translation is added.
@@ -403,12 +415,10 @@ Updates the ALL_LINGUAS variable in :file:`configure`, :file:`configure.in` or a
 Customize gettext output
 ------------------------
 
-.. list-table:: Parameters to use in :ref:`API <addons-api>`, :setting:`DEFAULT_ADDONS`, or :djadmin:`install_addon`
-
-   * - Add-on ID
-     - ``weblate.gettext.customize``
-   * - Configuration
-     - ``width``
+:Add-on ID: ``weblate.gettext.customize``
+:Configuration: +-----------+---------------------+-----------------------------------------------------------------------------------------------------------------------------------+
+                | ``width`` | Long lines wrapping | By default gettext wraps lines at 77 characters and at newlines. With the --no-wrap parameter, wrapping is only done at newlines. |
+                +-----------+---------------------+-----------------------------------------------------------------------------------------------------------------------------------+
 
 Allows customization of gettext output behavior, for example line wrapping.
 
@@ -429,12 +439,8 @@ It offers the following options:
 Update LINGUAS file
 -------------------
 
-.. list-table:: Parameters to use in :ref:`API <addons-api>`, :setting:`DEFAULT_ADDONS`, or :djadmin:`install_addon`
-
-   * - Add-on ID
-     - ``weblate.gettext.linguas``
-   * - Configuration
-     - `This add-on has no configuration.`
+:Add-on ID: ``weblate.gettext.linguas``
+:Configuration: `This add-on has no configuration.`
 
 Updates the LINGUAS file when a new translation is added.
 
@@ -443,12 +449,10 @@ Updates the LINGUAS file when a new translation is added.
 Generate MO files
 -----------------
 
-.. list-table:: Parameters to use in :ref:`API <addons-api>`, :setting:`DEFAULT_ADDONS`, or :djadmin:`install_addon`
-
-   * - Add-on ID
-     - ``weblate.gettext.mo``
-   * - Configuration
-     - ``path``
+:Add-on ID: ``weblate.gettext.mo``
+:Configuration: +----------+---------------------------+-------------------------------------------------------------+
+                | ``path`` | Path of generated MO file | If not specified, the location of the PO file will be used. |
+                +----------+---------------------------+-------------------------------------------------------------+
 
 Automatically generates a MO file for every changed PO file.
 
@@ -459,12 +463,21 @@ The location of the generated MO file can be customized and the field for it use
 Update PO files to match POT (msgmerge)
 ---------------------------------------
 
-.. list-table:: Parameters to use in :ref:`API <addons-api>`, :setting:`DEFAULT_ADDONS`, or :djadmin:`install_addon`
+:Add-on ID: ``weblate.gettext.msgmerge``
+:Configuration: +-----------------+--------------------------------------------+--+
+                | ``previous``    | Keep previous msgids of translated strings |  |
+                +-----------------+--------------------------------------------+--+
+                | ``no_location`` | Remove locations of translated strings     |  |
+                +-----------------+--------------------------------------------+--+
+                | ``fuzzy``       | Use fuzzy matching                         |  |
+                +-----------------+--------------------------------------------+--+
 
-   * - Add-on ID
-     - ``weblate.gettext.msgmerge``
-   * - Configuration
-     - ``previous``, ``no_location``, ``fuzzy``
+Updates all PO files (as configured by :ref:`component-filemask`) to match the
+POT file (as configured by :ref:`component-new_base`) using :program:`msgmerge`.
+
+Triggered whenever new changes are pulled from the upstream repository.
+Most msgmerge command-line options can be set up through the add-on
+configuration.
 
 .. seealso::
 
@@ -475,12 +488,14 @@ Update PO files to match POT (msgmerge)
 Squash Git commits
 ------------------
 
-.. list-table:: Parameters to use in :ref:`API <addons-api>`, :setting:`DEFAULT_ADDONS`, or :djadmin:`install_addon`
-
-   * - Add-on ID
-     - ``weblate.git.squash``
-   * - Configuration
-     - ``squash``, ``append_trailers``, ``commit_message``
+:Add-on ID: ``weblate.git.squash``
+:Configuration: +---------------------+--------------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+                | ``squash``          | Commit squashing                           |                                                                                                                                                                   |
+                +---------------------+--------------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+                | ``append_trailers`` | Append trailers to squashed commit message | Trailer lines are lines that look similar to RFC 822 e-mail headers, at the end of the otherwise free-form part of a commit message, such as 'Co-authored-by: …'. |
+                +---------------------+--------------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+                | ``commit_message``  | None                                       | This commit message will be used instead of the combined commit messages from the squashed commits.                                                               |
+                +---------------------+--------------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 
 Squash Git commits prior to pushing changes.
 
@@ -514,12 +529,12 @@ translator.
 Customize JSON output
 ---------------------
 
-.. list-table:: Parameters to use in :ref:`API <addons-api>`, :setting:`DEFAULT_ADDONS`, or :djadmin:`install_addon`
-
-   * - Add-on ID
-     - ``weblate.json.customize``
-   * - Configuration
-     - ``sort_keys``, ``indent``
+:Add-on ID: ``weblate.json.customize``
+:Configuration: +---------------+------------------+--+
+                | ``sort_keys`` | Sort JSON keys   |  |
+                +---------------+------------------+--+
+                | ``indent``    | JSON indentation |  |
+                +---------------+------------------+--+
 
 Allows adjusting JSON output behavior, for example indentation or sorting.
 
@@ -528,12 +543,8 @@ Allows adjusting JSON output behavior, for example indentation or sorting.
 Formats the Java properties file
 --------------------------------
 
-.. list-table:: Parameters to use in :ref:`API <addons-api>`, :setting:`DEFAULT_ADDONS`, or :djadmin:`install_addon`
-
-   * - Add-on ID
-     - ``weblate.properties.sort``
-   * - Configuration
-     - `This add-on has no configuration.`
+:Add-on ID: ``weblate.properties.sort``
+:Configuration: `This add-on has no configuration.`
 
 Sorts the Java properties file.
 
@@ -544,12 +555,10 @@ Stale comment removal
 
 .. versionadded:: 3.7
 
-.. list-table:: Parameters to use in :ref:`API <addons-api>`, :setting:`DEFAULT_ADDONS`, or :djadmin:`install_addon`
-
-   * - Add-on ID
-     - ``weblate.removal.comments``
-   * - Configuration
-     - ``age``
+:Add-on ID: ``weblate.removal.comments``
+:Configuration: +---------+--------------+--+
+                | ``age`` | Days to keep |  |
+                +---------+--------------+--+
 
 Set a timeframe for removal of comments.
 
@@ -564,12 +573,12 @@ Stale suggestion removal
 
 .. versionadded:: 3.7
 
-.. list-table:: Parameters to use in :ref:`API <addons-api>`, :setting:`DEFAULT_ADDONS`, or :djadmin:`install_addon`
-
-   * - Add-on ID
-     - ``weblate.removal.suggestions``
-   * - Configuration
-     - ``age``, ``votes``
+:Add-on ID: ``weblate.removal.suggestions``
+:Configuration: +-----------+------------------+-------------------------------------------------------------------------+
+                | ``age``   | Days to keep     |                                                                         |
+                +-----------+------------------+-------------------------------------------------------------------------+
+                | ``votes`` | Voting threshold | Threshold for removal. This field has no effect with voting turned off. |
+                +-----------+------------------+-------------------------------------------------------------------------+
 
 Set a timeframe for removal of suggestions.
 
@@ -584,12 +593,8 @@ Update RESX files
 
 .. versionadded:: 3.9
 
-.. list-table:: Parameters to use in :ref:`API <addons-api>`, :setting:`DEFAULT_ADDONS`, or :djadmin:`install_addon`
-
-   * - Add-on ID
-     - ``weblate.resx.update``
-   * - Configuration
-     - `This add-on has no configuration.`
+:Add-on ID: ``weblate.resx.update``
+:Configuration: `This add-on has no configuration.`
 
 Update all translation files to match the monolingual upstream base file.
 Unused strings are removed, and new ones added as copies of the source string.
@@ -610,12 +615,14 @@ Customize YAML output
 
 .. versionadded:: 3.10.2
 
-.. list-table:: Parameters to use in :ref:`API <addons-api>`, :setting:`DEFAULT_ADDONS`, or :djadmin:`install_addon`
-
-   * - Add-on ID
-     - ``weblate.yaml.customize``
-   * - Configuration
-     - ``indent``, ``width``, ``line_break``
+:Add-on ID: ``weblate.yaml.customize``
+:Configuration: +----------------+---------------------+--+
+                | ``indent``     | YAML indentation    |  |
+                +----------------+---------------------+--+
+                | ``width``      | Long lines wrapping |  |
+                +----------------+---------------------+--+
+                | ``line_break`` | Line breaks         |  |
+                +----------------+---------------------+--+
 
 Allows adjusting YAML output behavior, for example line-length or newlines.
 

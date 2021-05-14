@@ -23,14 +23,6 @@ from weblate.addons.models import ADDONS, Addon
 from weblate.trans.models import Component, Project
 from weblate.utils.management.base import BaseCommand
 
-PARAMS_TABLE = """.. list-table:: Parameters to use in :ref:`API <addons-api>`, :setting:`DEFAULT_ADDONS`, or :djadmin:`install_addon`
-
-   * - Add-on ID
-     - ``{}``
-   * - Configuration
-     - {}
-"""
-
 
 class Command(BaseCommand):
     help = "List installed add-ons"
@@ -44,12 +36,34 @@ class Command(BaseCommand):
             self.stdout.write(obj.verbose)
             self.stdout.write("-" * len(obj.verbose))
             self.stdout.write("\n")
+            self.stdout.write(f":Add-on ID: ``{obj.name}``")
             if obj.settings_form:
                 form = obj(fake_addon).get_settings_form(None)
-                params = ", ".join(f"``{key}``" for key in form.fields.keys())
+                table = [
+                    (f"``{name}``", str(field.label), str(field.help_text))
+                    for name, field in form.fields.items()
+                ]
+                prefix = ":Configuration: "
+                name_width = max(len(row[0]) for row in table)
+                label_width = max(len(row[1]) for row in table)
+                help_text_width = max(len(row[2]) for row in table)
+                name_row = "-" * (name_width + 2)
+                label_row = "-" * (label_width + 2)
+                help_text_row = "-" * (help_text_width + 2)
+                for name, label, help_text in table:
+                    if not prefix.isspace():
+                        self.stdout.write(
+                            f"{prefix}+{name_row}+{label_row}+{help_text_row}+"
+                        )
+                        prefix = "                "
+                    self.stdout.write(
+                        f"{prefix}| {name:<{name_width}s} | {label:<{label_width}s} | {help_text:<{help_text_width}s} |"
+                    )
+                    self.stdout.write(
+                        f"{prefix}+{name_row}+{label_row}+{help_text_row}+"
+                    )
             else:
-                params = "`This add-on has no configuration.`"
-            self.stdout.write(PARAMS_TABLE.format(obj.name, params))
+                self.stdout.write(":Configuration: `This add-on has no configuration.`")
             self.stdout.write("\n")
             self.stdout.write("\n".join(wrap(obj.description, 79)))
             self.stdout.write("\n")
