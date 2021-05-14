@@ -2892,7 +2892,13 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
         return self.is_valid_base_for_new(fast=fast)
 
     @transaction.atomic
-    def add_new_language(self, language, request, send_signal=True):
+    def add_new_language(
+        self,
+        language,
+        request,
+        send_signal: bool = True,
+        create_translations: bool = True,
+    ):
         """Create new language file."""
         if not self.can_add_new_language(request.user if request else None):
             messages.error(request, _("Could not add new translation file."))
@@ -2953,7 +2959,7 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
                 )
 
         # Trigger parsing of the newly added file
-        if not self.create_translations(request=request):
+        if create_translations and not self.create_translations(request=request):
             messages.warning(
                 request, _("The translation will be updated in the background.")
             )
