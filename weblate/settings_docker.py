@@ -41,6 +41,8 @@ SITE_DOMAIN = os.environ["WEBLATE_SITE_DOMAIN"]
 # Whether site uses https
 ENABLE_HTTPS = get_env_bool("WEBLATE_ENABLE_HTTPS", False)
 
+SITE_URL = "{}://{}".format("https" if ENABLE_HTTPS else "http", SITE_DOMAIN)
+
 #
 # Django settings for Weblate project.
 #
@@ -314,6 +316,7 @@ if "WEBLATE_SAML_IDP_URL" in os.environ:
         SOCIAL_AUTH_SAML_SP_PUBLIC_CERT = handle.read()
     with open("/app/data/ssl/saml.key") as handle:
         SOCIAL_AUTH_SAML_SP_PRIVATE_KEY = handle.read()
+    SOCIAL_AUTH_SAML_SP_ENTITY_ID = f"{SITE_URL}/accounts/metadata/saml/"
     # Identity Provider
     SOCIAL_AUTH_SAML_ENABLED_IDPS = {
         "weblate": {
@@ -333,7 +336,7 @@ if "WEBLATE_SAML_IDP_URL" in os.environ:
         "en-US": {
             "name": "weblate",
             "displayname": SITE_TITLE,
-            "url": "{}://{}".format("https" if ENABLE_HTTPS else "http", SITE_DOMAIN),
+            "url": SITE_URL,
         }
     }
 

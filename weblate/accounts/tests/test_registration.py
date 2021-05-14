@@ -671,6 +671,22 @@ class RegistrationTest(BaseRegistrationTest):
         AUTHENTICATION_BACKENDS=SAML_BACKENDS,
         SOCIAL_AUTH_SAML_SP_PUBLIC_CERT=SAML_CERT,
         SOCIAL_AUTH_SAML_SP_PRIVATE_KEY=SAML_KEY,
+        SOCIAL_AUTH_SAML_SP_ENTITY_ID="https://localhost/accounts/metadata/saml/",
+        SOCIAL_AUTH_SAML_ORG_INFO={
+            "en-US": {
+                "name": "example",
+                "displayname": "Example Inc.",
+                "url": "http://example.com",
+            }
+        },
+        SOCIAL_AUTH_SAML_TECHNICAL_CONTACT={
+            "givenName": "Tech Gal",
+            "emailAddress": "technical@example.com",
+        },
+        SOCIAL_AUTH_SAML_SUPPORT_CONTACT={
+            "givenName": "Support Guy",
+            "emailAddress": "support@example.com",
+        },
     )
     def test_saml(self):
         try:

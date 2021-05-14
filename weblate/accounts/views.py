@@ -122,7 +122,6 @@ from weblate.utils.ratelimit import (
     session_ratelimit_post,
 )
 from weblate.utils.request import get_ip_address, get_user_agent
-from weblate.utils.site import get_site_url
 from weblate.utils.stats import prefetch_stats
 from weblate.utils.views import get_component, get_project
 
@@ -1325,24 +1324,6 @@ def unsubscribe(request):
 def saml_metadata(request):
     if "social_core.backends.saml.SAMLAuth" not in settings.AUTHENTICATION_BACKENDS:
         raise Http404
-
-    # Generate configuration
-    settings.SOCIAL_AUTH_SAML_SP_ENTITY_ID = get_site_url(
-        reverse("social:saml-metadata")
-    )
-    settings.SOCIAL_AUTH_SAML_ORG_INFO = {
-        "en-US": {
-            "name": "weblate",
-            "displayname": settings.SITE_TITLE,
-            "url": get_site_url("/"),
-        }
-    }
-    admin_contact = {
-        "givenName": settings.ADMINS[0][0],
-        "emailAddress": settings.ADMINS[0][1],
-    }
-    settings.SOCIAL_AUTH_SAML_TECHNICAL_CONTACT = admin_contact
-    settings.SOCIAL_AUTH_SAML_SUPPORT_CONTACT = admin_contact
 
     # Generate metadata
     complete_url = reverse("social:complete", args=("saml",))

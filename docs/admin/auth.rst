@@ -384,6 +384,7 @@ Example configuration:
     )
 
     # Social auth backends setup
+    SOCIAL_AUTH_SAML_SP_ENTITY_ID = f"https://{SITE_DOMAIN}/accounts/metadata/saml/"
     SOCIAL_AUTH_SAML_SP_PUBLIC_CERT = "-----BEGIN CERTIFICATE-----"
     SOCIAL_AUTH_SAML_SP_PRIVATE_KEY = "-----BEGIN PRIVATE KEY-----"
     SOCIAL_AUTH_SAML_ENABLED_IDPS = {
