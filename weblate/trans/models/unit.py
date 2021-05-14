@@ -29,6 +29,7 @@ from django.db.models import Count, Max, Q
 from django.utils import timezone
 from django.utils.functional import cached_property
 from django.utils.translation import gettext, gettext_lazy
+from pyparsing import ParseException
 
 from weblate.checks.flags import Flags
 from weblate.checks.models import CHECKS, Check
@@ -1241,12 +1242,18 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
 
     def get_all_flags(self, override=None):
         """Return union of own and component flags."""
+        # Validate flags from the unit to avoid crash
+        try:
+            unit_flags = Flags(override or self.flags)
+        except ParseException:
+            unit_flags = None
+
         return Flags(
             self.translation.all_flags,
             self.extra_flags,
             # The source_unit is None before saving the object for the first time
             getattr(self.source_unit, "extra_flags", ""),
-            override or self.flags,
+            unit_flags,
         )
 
     @cached_property

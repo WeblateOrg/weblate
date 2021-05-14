@@ -85,6 +85,8 @@ class Flags:
             self.merge(flags)
 
     def get_items(self, flags):
+        if flags is None:
+            return []
         if isinstance(flags, str):
             return self.parse(flags)
         if hasattr(flags, "tag"):
