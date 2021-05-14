@@ -2563,6 +2563,9 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
             processed = set()
             for addons in self.addons_cache.values():
                 for addon in addons:
+                    # Skip addons installed elsewhere (repo/project wide)
+                    if addon.component_id != self.id:
+                        continue
                     if addon.id in processed:
                         continue
                     processed.add(addon.id)
