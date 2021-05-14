@@ -1688,6 +1688,9 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
 
                 raise
 
+            if previous_head == new_head:
+                return False
+
             if self.id:
                 Change.objects.create(
                     component=self,
@@ -1707,8 +1710,7 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
 
                 # Run post update hook, this should be done with repo lock held
                 # to avoid posssible race with another update
-                if previous_head != new_head:
-                    self.trigger_post_update(previous_head, skip_push)
+                self.trigger_post_update(previous_head, skip_push)
         return True
 
     @perform_on_link
