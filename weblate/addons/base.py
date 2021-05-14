@@ -137,42 +137,32 @@ class BaseAddon:
         self.post_configure()
 
     def post_configure(self):
+        component = self.instance.component
+
         # Configure events to current status
-        self.instance.component.log_debug("configuring events for %s add-on", self.name)
+        component.log_debug("configuring events for %s add-on", self.name)
         self.instance.configure_events(self.events)
 
         # Trigger post events to ensure direct processing
-        if self.project_scope:
-            components = self.instance.component.project.component_set.all()
-        elif self.repo_scope:
-            if self.instance.component.linked_component:
-                root = self.instance.component.linked_component
-            else:
-                root = self.instance.component
-            components = [root] + list(root.linked_childs)
-        else:
-            components = [self.instance.component]
+        if self.repo_scope and component.linked_component:
+            component = component.linked_component
+
         if EVENT_POST_COMMIT in self.events:
-            for component in components:
-                component.log_debug("running post_commit add-on: %s", self.name)
-                self.post_commit(component)
+            component.log_debug("running post_commit add-on: %s", self.name)
+            self.post_commit(component)
         if EVENT_POST_UPDATE in self.events:
-            for component in components:
-                component.log_debug("running post_update add-on: %s", self.name)
-                component.commit_pending("add-on", None)
-                self.post_update(component, "", False)
+            component.log_debug("running post_update add-on: %s", self.name)
+            component.commit_pending("add-on", None)
+            self.post_update(component, "", False)
         if EVENT_COMPONENT_UPDATE in self.events:
-            for component in components:
-                component.log_debug("running component_update add-on: %s", self.name)
-                self.component_update(component)
+            component.log_debug("running component_update add-on: %s", self.name)
+            self.component_update(component)
         if EVENT_POST_PUSH in self.events:
-            for component in components:
-                component.log_debug("running post_push add-on: %s", self.name)
-                self.post_push(component)
+            component.log_debug("running post_push add-on: %s", self.name)
+            self.post_push(component)
         if EVENT_DAILY in self.events:
-            for component in components:
-                component.log_debug("running daily add-on: %s", self.name)
-                self.daily(component)
+            component.log_debug("running daily add-on: %s", self.name)
+            self.daily(component)
 
     def save_state(self):
         """Save add-on state information."""
