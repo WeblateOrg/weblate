@@ -1207,7 +1207,10 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
                 self.repository.update_remote()
                 timediff = time.time() - start
                 self.log_info("update took %.2f seconds", timediff)
-                if previous:
+                current = self.repository.last_remote_revision
+                if previous and previous == current:
+                    self.log_info("repository up to date at %s", previous)
+                elif previous:
                     self.log_info(
                         "repository updated from %s to %s",
                         previous,
