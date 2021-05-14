@@ -233,7 +233,7 @@ Turn this service on by adding ``weblate.machinery.modernmt.ModernMTTranslation`
 
 .. seealso::
 
-    `ModernMT API <https://www.modernmt.com/api/translate/>`_,
+    `ModernMT API <https://www.modernmt.com/api/#translation>`_,
     :setting:`MT_MODERNMT_KEY`,
     :setting:`MT_MODERNMT_URL`
 
