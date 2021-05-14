@@ -413,6 +413,23 @@ Example configuration:
         "emailAddress": "support@example.com"
     }
 
+The default configuration extracts user details from following attributes,
+configure your IDP to provide them:
+
++--------------+-----------------------------------------+
+| Attribute    | SAML URI reference                      |
++==============+=========================================+
+| Full name    | ``urn:oid:2.5.4.3``                     |
++--------------+-----------------------------------------+
+| First name   | ``urn:oid:2.5.4.42``                    |
++--------------+-----------------------------------------+
+| Last name    | ``urn:oid:2.5.4.4``                     |
++--------------+-----------------------------------------+
+| E-mail       | ``urn:oid:0.9.2342.19200300.100.1.3``   |
++--------------+-----------------------------------------+
+| Username     | ``urn:oid:0.9.2342.19200300.100.1.1``   |
++--------------+-----------------------------------------+
+
 .. hint::
 
    The example above and the Docker image define an IDP labelled ``weblate``.
