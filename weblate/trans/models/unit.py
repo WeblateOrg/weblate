@@ -478,7 +478,11 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
                 self.translation.component.invalidate_cache()
 
     def sync_terminology(self):
-        new_flags = Flags(self.extra_flags, self.flags)
+        try:
+            unit_flags = Flags(self.flags)
+        except ParseException:
+            unit_flags = None
+        new_flags = Flags(self.extra_flags, unit_flags)
 
         if "terminology" in new_flags:
             self.translation.component.sync_terminology()
