@@ -107,8 +107,9 @@ Code identifying the language. Weblate prefers two letter codes as defined by
 `ISO 639-1 <https://en.wikipedia.org/wiki/ISO_639-1>`_, but uses `ISO 639-2
 <https://en.wikipedia.org/wiki/ISO_639-2>`_ or `ISO 639-3
 <https://en.wikipedia.org/wiki/ISO_639-3>`_ codes for languages that do not
-have two letter code. It can also support extended codes as defined by `BCP 47
-<https://tools.ietf.org/html/bcp47>`_.
+have two letter code. It can also support extended codes as defined by `BCP 47`_.
+
+.. _BCP 47: https://www.rfc-editor.org/info/bcp47
 
 .. seealso::
 
