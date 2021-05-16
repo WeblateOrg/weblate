@@ -1571,26 +1571,28 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
     @perform_on_link
     def commit_files(
         self,
-        template: str,
+        template: Optional[str] = None,
         author: Optional[str] = None,
         timestamp: Optional[datetime] = None,
         files: Optional[List[str]] = None,
         signals: bool = True,
         skip_push: bool = False,
         extra_context: Optional[Dict[str, Any]] = None,
+        message: Optional[str] = None,
     ):
         """Commits files to the repository."""
         # Is there something to commit?
         if not self.repository.needs_commit(files):
             return False
 
-        # Handle context
-        context = {"component": self, "author": author}
-        if extra_context:
-            context.update(extra_context)
+        if message is None:
+            # Handle context
+            context = {"component": self, "author": author}
+            if extra_context:
+                context.update(extra_context)
 
-        # Generate commit message
-        message = render_template(template, **context)
+            # Generate commit message
+            message = render_template(template, **context)
 
         # Actual commit
         self.repository.commit(message, author, timestamp, files)
