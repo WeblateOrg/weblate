@@ -633,6 +633,7 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
         default="silver",
     )
     remote_revision = models.CharField(max_length=200, default="", blank=True)
+    local_revision = models.CharField(max_length=200, default="", blank=True)
 
     objects = ComponentQuerySet.as_manager()
 
@@ -1089,12 +1090,9 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
 
     def get_last_commit(self):
         """Return latest locally known remote commit."""
-        try:
-            revision = self.repository.last_revision
-        except RepositoryException:
-            report_error(cause="Could not get local revision")
+        if self.vcs == "local" or not self.local_revision:
             return None
-        return self.repository.get_revision_info(revision)
+        return self.repository.get_revision_info(self.local_revision)
 
     @perform_on_link
     def get_repo_url(self):
@@ -1217,6 +1215,12 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
                         )
                 if self.id:
                     self.delete_alert("UpdateFailure")
+                    try:
+                        Component.objects.filter(pk=self.pk).update(
+                            remote_revision=self.repository.last_remote_revision
+                        )
+                    except RepositoryException:
+                        pass
             return True
         except RepositoryException as error:
             report_error(cause="Could not update the repository")
@@ -1690,15 +1694,15 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
 
                 raise
 
-            if self.remote_revision == new_head:
+            if self.local_revision == new_head:
                 return False
 
             if self.id:
                 # Store current revision in the database
-                self.remote_revision = new_head
+                self.local_revision = new_head
                 # Avoid using using save as that does complex things and we
                 # just want to update the database
-                Component.objects.filter(pk=self.pk).update(remote_revision=new_head)
+                Component.objects.filter(pk=self.pk).update(local_revision=new_head)
 
                 # Record change
                 Change.objects.create(
