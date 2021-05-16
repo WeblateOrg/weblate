@@ -1657,7 +1657,7 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
                 previous_head = self.repository.last_revision
                 # Try to merge it
                 method_func(**kwargs)
-                new_head = (self.repository.last_revision,)
+                new_head = self.repository.last_revision
                 self.log_info(
                     "%s remote into repo %s..%s", method, previous_head, new_head
                 )
