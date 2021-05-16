@@ -138,6 +138,7 @@ class GitRepository(Repository):
                 self.execute(["reset", "--hard"])
         else:
             self.execute(["rebase", self.get_remote_branch_name()])
+        self.clean_revision_cache()
 
     def has_git_file(self, name):
         return os.path.exists(os.path.join(self.path, ".git", name))
@@ -188,6 +189,7 @@ class GitRepository(Repository):
 
         # Delete temporary branch
         self.delete_branch(tmp)
+        self.clean_revision_cache()
 
     def delete_branch(self, name):
         if self.has_branch(name):
@@ -567,6 +569,7 @@ class SubversionRepository(GitRepository):
         Git-svn does not support merge.
         """
         self.rebase(abort)
+        self.clean_revision_cache()
 
     def rebase(self, abort=False):
         """Rebase remote branch or reverts the rebase.
@@ -577,6 +580,7 @@ class SubversionRepository(GitRepository):
             self.execute(["rebase", "--abort"])
         else:
             self.execute(["svn", "rebase"])
+        self.clean_revision_cache()
 
     @cached_property
     def last_remote_revision(self):
@@ -630,6 +634,7 @@ class GitMergeRequestBase(GitForcePushRepository):
             self.execute(["checkout", self.branch])
         else:
             self.execute(["merge", f"origin/{self.branch}"])
+        self.clean_revision_cache()
 
     def get_api_url(self) -> Tuple[str, str, str]:
         repo = self.component.repo

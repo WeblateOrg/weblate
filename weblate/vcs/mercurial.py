@@ -140,8 +140,10 @@ class HgRepository(Repository):
                         and "nothing to rebase" in error.args[0]
                     ):
                         self.execute(["update", "--clean", "remote(.)"])
+                        self.clean_revision_cache()
                         return
                     raise
+        self.clean_revision_cache()
 
     def merge(self, abort=False, message=None):
         """Merge remote branch or reverts the merge."""
@@ -158,9 +160,11 @@ class HgRepository(Repository):
                 except RepositoryException as error:
                     if error.retcode == 255:
                         # Nothing to merge
+                        self.clean_revision_cache()
                         return
                     raise
                 self.execute(["commit", "--message", "Merge"])
+        self.clean_revision_cache()
 
     def needs_commit(self, filenames: Optional[List[str]] = None):
         """Check whether repository needs commit."""
