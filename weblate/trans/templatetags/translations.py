@@ -209,6 +209,10 @@ class Formatter:
             self.tags[match.start()].append(
                 '<span class="hlspace"><span class="space-space"><span class="sr-only">'
             )
+            for i in range(match.start() + 1, match.end()):
+                self.tags[i].insert(
+                    0, '</span></span><span class="space-space"><span class="sr-only">'
+                )
             self.tags[match.end()].insert(0, "</span></span></span>")
 
         for match in re.finditer("\t", self.value):
