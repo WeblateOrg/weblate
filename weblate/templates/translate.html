@@ -618,7 +618,7 @@
     <h5>
     {% trans "Source string comment" %}
     </h5>
-    {{ unit.note }}
+    {{ unit.note|urlize }}
     </div>
     {% endif %}
     {% if unit.all_labels or user_can_edit_source %}
