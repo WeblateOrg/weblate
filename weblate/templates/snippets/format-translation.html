@@ -10,12 +10,12 @@
     {% if item.title %}
     <h5 class="list-group-item-heading"><strong>{{ item.title }}</strong></h5>
     {% endif %}
-    <div class="list-group-item-text {% if wrap %}wrap-text{% endif %}" lang="{{ language.code }}" dir="{{ language.direction }}">
+    <div class="list-group-item-text" lang="{{ language.code }}" dir="{{ language.direction }}">
       {% if unit %}
       <button type="button" class="btn btn-link btn-xs pull-right flip" data-clipboard-text="{{ item.copy }}" title="{% trans "Copy to clipboard" %}">{% icon "copy.svg" %}</button>
       <button type="button" class="btn btn-link btn-xs btn-sidebar pull-right flip" data-clone-text="{{ item.copy }}" title="{% trans "Clone to translation" %}">{% icon "clone.svg" %}</button>
       {% endif %}
-      {{ item.content }}</div>
+      <span class="{% if wrap %}wrap-text{% endif %}">{{ item.content }}</span></div>
   </div>
   {% endfor %}
 </div>
