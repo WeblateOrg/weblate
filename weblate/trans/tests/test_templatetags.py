@@ -257,8 +257,14 @@ class TranslationFormatTestCase(FixtureTestCase):
             )["items"][0]["content"],
             """
             text
-            <span class="hlspace"><span class="space-space"><span class="sr-only">
-            </span></span></span>
+            <span class="hlspace">
+                <span class="space-space">
+                    <span class="sr-only"> </span>
+                </span>
+                <span class="space-space">
+                    <span class="sr-only"> </span>
+                </span>
+            </span>
             <span class="glossary-term"
                 title="Glossary translation: ahoj">Hello</span>
             world
@@ -336,9 +342,27 @@ class TranslationFormatTestCase(FixtureTestCase):
                 "items"
             ][0]["content"],
             """
-            <span class="hlspace"><span class="space-space"><span class="sr-only">
+            <span class="hlspace">
+                <span class="space-space">
+                    <span class="sr-only"> </span>
+                </span>
             </span>
-            </span>
+            Hello
+            world
+            """,
+        )
+        self.assertHTMLEqual(
+            format_translation("  Hello world", self.component.source_language,)[
+                "items"
+            ][0]["content"],
+            """
+            <span class="hlspace">
+                <span class="space-space">
+                    <span class="sr-only"> </span>
+                </span>
+                <span class="space-space">
+                    <span class="sr-only"> </span>
+                </span>
             </span>
             Hello
             world
@@ -350,9 +374,16 @@ class TranslationFormatTestCase(FixtureTestCase):
             ][0]["content"],
             """
             Hello
-            <span class="hlspace"><span class="space-space"><span class="sr-only">
-            </span>
-            </span>
+            <span class="hlspace">
+                <span class="space-space">
+                    <span class="sr-only"> </span>
+                </span>
+                <span class="space-space">
+                    <span class="sr-only"> </span>
+                </span>
+                <span class="space-space">
+                    <span class="sr-only"> </span>
+                </span>
             </span>
             world
             """,
