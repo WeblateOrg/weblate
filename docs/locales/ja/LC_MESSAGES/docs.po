@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-05-10 16:24+0200\n"
-"PO-Revision-Date: 2021-05-19 10:09+0000\n"
-"Last-Translator: Jacque Fresco <aidter@use.startmail.com>\n"
+"PO-Revision-Date: 2021-05-19 23:33+0000\n"
+"Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "documentation/ja/>\n"
 "Language: ja\n"
@@ -1362,6 +1362,8 @@ msgid ""
 "``mode``, ``filter_type``, ``auto_source``, ``component``, ``engines``, "
 "``threshold``"
 msgstr ""
+"``mode``, ``filter_type``, ``auto_source``, ``component``, ``engines``, "
+"``threshold``"
 
 #: ../../admin/addons.rst:31
 msgid ""
@@ -1381,7 +1383,7 @@ msgstr "コンポーネントに新しい文字列が追加されたとき。"
 msgid ""
 "Once in a month for every component, this can be configured using :setting:"
 "`BACKGROUND_TASKS`."
-msgstr "コンポーネントごとに毎月。:setting:`BACKGROUND_TASKS` で変更できます。"
+msgstr "コンポーネントごとに毎月 1 回。:setting:`BACKGROUND_TASKS` から設定します。"
 
 #: ../../admin/addons.rst:40
 msgid ":ref:`auto-translation`, :ref:`translation-consistency`"
@@ -9445,9 +9447,8 @@ msgid ""
 "security.SecurityMiddleware` sets the :ref:`django:http-strict-transport-"
 "security` header on all responses that do not already have it."
 msgstr ""
-"ゼロ以外の整数値に設定すると、:class:`django:django.middleware.security."
-"SecurityMiddleware` は、:ref:`django:http-strict-transport-security` ヘッダー"
-"をまだ持たないすべての応答に設定します。"
+"ゼロ以外の整数値に設定すると、:class:`django:django.middleware.security.SecurityMiddleware` "
+"は、:ref:`django:http-strict-transport-security` ヘッダーをまだ持たないすべてのレスポンスに設定します。"
 
 #: ../../admin/install.rst:846
 msgid ""
@@ -18116,8 +18117,7 @@ msgid ""
 "Returns a list of project changes. This is essentially a project scoped :"
 "http:get:`/api/changes/` accepting same params."
 msgstr ""
-"帰り値は、変更があったプロジェクトのリストです。これは基本的には、同じパラ"
-"メータを受け入れる :http:get:`/api/changes/` にスコープしたプロジェクトです。"
+"返り値は、変更されたプロジェクトの一覧です。基本的には、プロジェクトに対して同じ引数で :http:get:`/api/changes/` を実行します。"
 
 #: ../../api.rst:835 ../../api.rst:1319 ../../api.rst:1766
 msgid "array of component objects; see :http:get:`/api/changes/(int:id)/`"
@@ -18518,88 +18518,93 @@ msgstr "リポジトリ内の翻訳ファイルのマスク"
 
 #: ../../api.rst:1295
 msgid "base file for monolingual translations"
-msgstr ""
+msgstr "単一言語翻訳用の基本ファイル"
 
 #: ../../api.rst:1296
 msgid "base file for adding new translations"
-msgstr ""
+msgstr "新しい翻訳を追加するための基本ファイル"
 
 #: ../../api.rst:1297
 msgid "version control system"
-msgstr ""
+msgstr "バージョン管理システム"
 
 #: ../../api.rst:1303
 msgid "Deletes a component."
-msgstr ""
+msgstr "コンポーネントを削除します。"
 
 #: ../../api.rst:1312
 msgid ""
 "Returns a list of component changes. This is essentially a component scoped :"
 "http:get:`/api/changes/` accepting same params."
 msgstr ""
+"返り値は、変更されたコンポーネントの一覧です。基本的には、コンポーネントに対して同じ引数で :http:get:`/api/changes/` "
+"を実行します。"
 
 #: ../../api.rst:1323
 msgid "Returns a list of component screenshots."
-msgstr ""
+msgstr "返り値は、コンポーネントのスクリーンショットの一覧です。"
 
 #: ../../api.rst:1329
 msgid ""
 "array of component screenshots; see :http:get:`/api/screenshots/(int:id)/`"
-msgstr ""
+msgstr "コンポーネントのスクリーンショットの配列。参照: :http:get:`/api/screenshots/(int:id)/`"
 
 #: ../../api.rst:1334
 msgid "Returns component lock status."
-msgstr ""
+msgstr "返り値は、コンポーネントのロック状態です。"
 
 #: ../../api.rst:1340
 msgid "whether component is locked for updates"
-msgstr ""
+msgstr "コンポーネントが更新のためにロックされているかどうか"
 
 #: ../../api.rst:1353
 msgid "Sets component lock status."
-msgstr ""
+msgstr "コンポーネントのロック状態を設定します。"
 
 #: ../../api.rst:1355
 msgid ""
 "Response is same as :http:get:`/api/components/(string:project)/(string:"
 "component)/lock/`."
 msgstr ""
+"レスポンスは :http:get:`/api/components/(string:project)/(string:component)/lock/` "
+"と同じです。"
 
 #: ../../api.rst:1361
 msgid "Boolean whether to lock or not."
-msgstr ""
+msgstr "ロックするかどうかのブール値。"
 
 #: ../../api.rst:1402 ../../api.rst:1867
 msgid "Returns information about VCS repository status."
-msgstr ""
+msgstr "返り値は、VCS リポジトリの状態の情報です。"
 
 #: ../../api.rst:1404
 msgid ""
 "The response is same as for :http:get:`/api/projects/(string:project)/"
 "repository/`."
-msgstr ""
+msgstr "レスポンスは :http:get:`/api/projects/(string:project)/repository/` の場合と同じです。"
 
 #: ../../api.rst:1413
 msgid "Remote commit information"
-msgstr ""
+msgstr "リモート コミット情報"
 
 #: ../../api.rst:1414
 msgid "VCS repository status as reported by VCS"
-msgstr ""
+msgstr "VCS が報告した VCS リポジトリの状況"
 
 #: ../../api.rst:1415
 msgid "Text describing merge failure or null if there is none"
-msgstr ""
+msgstr "マージの失敗を説明するテキストまたは null（存在しない場合）"
 
 #: ../../api.rst:1419
 msgid "Performs the given operation on a VCS repository."
-msgstr ""
+msgstr "VCS リポジトリで指定された操作を実行します。"
 
 #: ../../api.rst:1421 ../../api.rst:1882
 msgid ""
 "See :http:post:`/api/projects/(string:project)/repository/` for "
 "documentation."
 msgstr ""
+"ドキュメントは、:http:post:`/api/projects/(string:project)/repository/` を確認してください。"
 
 #: ../../api.rst:1427 ../../api.rst:1890
 msgid ""
@@ -18611,44 +18616,48 @@ msgstr ""
 
 #: ../../api.rst:1469
 msgid "Downloads base file for monolingual translations."
-msgstr ""
+msgstr "単一言語翻訳用の基本ファイルをダウンロードします。"
 
 #: ../../api.rst:1478
 msgid "Downloads template file for new translations."
-msgstr ""
+msgstr "新しい翻訳用のテンプレート ファイルをダウンロードします。"
 
 #: ../../api.rst:1487
 msgid "Returns a list of translation objects in the given component."
-msgstr ""
+msgstr "返り値は、指定してコンポーネント内の翻訳オブジェクト一覧です。"
 
 #: ../../api.rst:1493
 msgid ""
 "array of translation objects; see :http:get:`/api/translations/(string:"
 "project)/(string:component)/(string:language)/`"
 msgstr ""
+"翻訳オブジェクトの配列。参照: :http:get:`/api/translations/"
+"(string:project)/(string:component)/(string:language)/`"
 
 #: ../../api.rst:1497
 msgid "Creates new translation in the given component."
-msgstr ""
+msgstr "指定したコンポーネントに新しい翻訳を作成します。"
 
 #: ../../api.rst:1503
 msgid ""
 "translation language code; see :http:get:`/api/languages/(string:language)/`"
-msgstr ""
+msgstr "翻訳言語コード。参照: :http:get:`/api/languages/(string:language)/`"
 
 #: ../../api.rst:1504
 msgid "new translation object created"
-msgstr ""
+msgstr "新しい翻訳オブジェクトが作成される"
 
 #: ../../api.rst:1577
 msgid "Returns paginated statistics for all translations within component."
-msgstr ""
+msgstr "コンポーネント内のすべての翻訳について、ページ化して統計情報を返します。"
 
 #: ../../api.rst:1585
 msgid ""
 "array of translation statistics objects; see :http:get:`/api/translations/"
 "(string:project)/(string:component)/(string:language)/statistics/`"
 msgstr ""
+"翻訳統計オブジェクトの配列です。参照: :http:get:`/api/translations/"
+"(string:project)/(string:component)/(string:language)/statistics/`"
 
 #: ../../api.rst:1589
 msgid "Returns projects linked with a component."
@@ -18656,8 +18665,7 @@ msgstr "コンポーネントにリンクしたプロジェクトを返します
 
 #: ../../api.rst:1597
 msgid "associated projects; see :http:get:`/api/projects/(string:project)/`"
-msgstr ""
-"関連するプロジェクト; 参照: :http:get:`/api/projects/(string:project)/`"
+msgstr "関連するプロジェクト。参照: :http:get:`/api/projects/(string:project)/`"
 
 #: ../../api.rst:1601
 msgid "Associate project with a component."
@@ -18673,29 +18681,33 @@ msgstr "プロジェクトを削除するスラッグ"
 
 #: ../../api.rst:1630
 msgid "Returns a list of translations."
-msgstr ""
+msgstr "返り値は、翻訳の一覧です。"
 
 #: ../../api.rst:1634
 msgid ""
 "Translation object attributes are documented at :http:get:`/api/translations/"
 "(string:project)/(string:component)/(string:language)/`."
 msgstr ""
+"翻訳オブジェクトの属性は、:http:get:`/api/translations/"
+"(string:project)/(string:component)/(string:language)/` に記載されています。"
 
 #: ../../api.rst:1638
 msgid "Returns information about a translation."
-msgstr ""
+msgstr "返り値は、翻訳に関する情報です。"
 
 #: ../../api.rst:1644 ../../api.rst:1752 ../../api.rst:1764 ../../api.rst:1777
 #: ../../api.rst:1791 ../../api.rst:1809 ../../api.rst:1836 ../../api.rst:1847
 #: ../../api.rst:1875 ../../api.rst:1888 ../../api.rst:1903
 msgid "Translation language code"
-msgstr ""
+msgstr "翻訳言語コード"
 
 #: ../../api.rst:1646
 msgid ""
 "component object; see :http:get:`/api/components/(string:project)/(string:"
 "component)/`"
 msgstr ""
+"コンポーネント オブジェクト。参照: :http:get:`/api/components/"
+"(string:project)/(string:component)/`"
 
 #: ../../api.rst:1647
 msgid "number of strings failing checks"
@@ -18711,19 +18723,19 @@ msgstr "検査不合格の単語の数"
 
 #: ../../api.rst:1650
 msgid "translation filename"
-msgstr ""
+msgstr "翻訳ファイル名"
 
 #: ../../api.rst:1653
 msgid "number of words in fuzzy (marked for edit) strings"
-msgstr ""
+msgstr "あいまいな（要編集付き）文字列の単語数"
 
 #: ../../api.rst:1654
 msgid "number of strings with comment"
-msgstr ""
+msgstr "コメント付き文字列の数"
 
 #: ../../api.rst:1655
 msgid "number of strings with suggestion"
-msgstr ""
+msgstr "提案のある文字列の数"
 
 #: ../../api.rst:1656
 msgid "whether the translation has a monolingual base"
@@ -18733,85 +18745,93 @@ msgstr "翻訳が単一言語ベースかどうか"
 msgid ""
 "language code used in the repository; this can be different from language "
 "code in the language object"
-msgstr ""
+msgstr "リポジトリで使用する言語コード。これは、言語オブジェクトの言語コードとは異なる場合があります"
 
 #: ../../api.rst:1659 ../../api.rst:1912
 msgid "name of last author"
-msgstr ""
+msgstr "最終著者名"
 
 #: ../../api.rst:1660
 msgid "last change timestamp"
-msgstr ""
+msgstr "最終変更タイムスタンプ"
 
 #: ../../api.rst:1661
 msgid "revision hash for the file"
-msgstr ""
+msgstr "ファイルのリビジョン ハッシュ"
 
 #: ../../api.rst:1662
 msgid "URL for sharing leading to engagement page"
-msgstr ""
+msgstr "エンゲージメント ページにつながる共有の URL"
 
 #: ../../api.rst:1665
 msgid "URL for translating"
-msgstr ""
+msgstr "翻訳用 URL"
 
 #: ../../api.rst:1669
 msgid ""
 "URL to repository status; see :http:get:`/api/translations/(string:project)/"
 "(string:component)/(string:language)/repository/`"
 msgstr ""
+"リポジトリ状況への URL。参照: :http:get:`/api/translations/"
+"(string:project)/(string:component)/(string:language)/repository/`"
 
 #: ../../api.rst:1670
 msgid ""
 "URL to file object; see :http:get:`/api/translations/(string:project)/"
 "(string:component)/(string:language)/file/`"
 msgstr ""
+"ファイル オブジェクトへの URL。参照: :http:get:`/api/translations/"
+"(string:project)/(string:component)/(string:language)/file/`"
 
 #: ../../api.rst:1671
 msgid ""
 "URL to changes list; see :http:get:`/api/translations/(string:project)/"
 "(string:component)/(string:language)/changes/`"
 msgstr ""
+"変更リストへの URL。参照: :http:get:`/api/translations/"
+"(string:project)/(string:component)/(string:language)/changes/`"
 
 #: ../../api.rst:1672
 msgid ""
 "URL to strings list; see :http:get:`/api/translations/(string:project)/"
 "(string:component)/(string:language)/units/`"
 msgstr ""
+"文字列リストへの URL。参照: :http:get:`/api/translations/"
+"(string:project)/(string:component)/(string:language)/units/`"
 
 #: ../../api.rst:1746
 msgid "Deletes a translation."
-msgstr ""
+msgstr "翻訳を削除します。"
 
 #: ../../api.rst:1757
 msgid ""
 "Returns a list of translation changes. This is essentially a translations-"
 "scoped :http:get:`/api/changes/` accepting the same parameters."
-msgstr ""
+msgstr "返り値は、変更された翻訳の一覧です。基本的には、翻訳に対して同じ引数で :http:get:`/api/changes/` を実行します。"
 
 #: ../../api.rst:1771
 msgid "Returns a list of translation units."
-msgstr ""
+msgstr "返り値は、翻訳単位の一覧です。"
 
 #: ../../api.rst:1779
 msgid "Search query string :ref:`Searching` (optional)"
-msgstr ""
+msgstr "検索クエリ文字列 :ref:`Searching` （オプション）"
 
 #: ../../api.rst:1781
 msgid "array of component objects; see :http:get:`/api/units/(int:id)/`"
-msgstr ""
+msgstr "コンポーネント オブジェクトの配列。参照: see :http:get:`/api/units/(int:id)/`"
 
 #: ../../api.rst:1785
 msgid "Add new monolingual unit."
-msgstr ""
+msgstr "新しい単一言語ユニットを追加します。"
 
 #: ../../api.rst:1793
 msgid "Name of translation unit"
-msgstr ""
+msgstr "翻訳ユニットの名称"
 
 #: ../../api.rst:1794
 msgid "The translation unit value"
-msgstr ""
+msgstr "翻訳単位の値"
 
 #: ../../api.rst:1798
 msgid ":ref:`component-manage_units`, :ref:`adding-new-strings`"
@@ -18819,7 +18839,7 @@ msgstr ":ref:`component-manage_units`、:ref:`adding-new-strings`"
 
 #: ../../api.rst:1803
 msgid "Trigger automatic translation."
-msgstr ""
+msgstr "自動翻訳を起動します。"
 
 #: ../../api.rst:1811
 msgid "Automatic translation mode"
@@ -18827,7 +18847,7 @@ msgstr "自動翻訳モード"
 
 #: ../../api.rst:1812
 msgid "Automatic translation filter type"
-msgstr ""
+msgstr "自動翻訳フィルターの種類"
 
 #: ../../api.rst:1813
 msgid "Automatic translation source - ``mt`` or ``others``"
@@ -18872,17 +18892,17 @@ msgstr ""
 
 #: ../../api.rst:1841
 msgid "Upload new file with translations."
-msgstr ""
+msgstr "翻訳を含む新しいファイルをアップロードします。"
 
 #: ../../api.rst:1849
 msgid ""
 "How to deal with conflicts (``ignore``, ``replace-translated`` or ``replace-"
 "approved``)"
-msgstr ""
+msgstr "競合への対処方法（``ignore``、``replace-translated``、``replace-approved``）"
 
 #: ../../api.rst:1850 ../../api.rst:2088 ../../api.rst:2124
 msgid "Uploaded file"
-msgstr ""
+msgstr "アップロードしたファイル"
 
 #: ../../api.rst:1851
 msgid "Author e-mail"
@@ -18904,41 +18924,43 @@ msgstr ""
 msgid ""
 "Fuzzy (marked for edit) strings processing (*empty*, ``process``, "
 "``approve``)"
-msgstr ""
+msgstr "あいまい（要編集付き）文字列処理（*空*、`` process``、`` approve``）"
 
 #: ../../api.rst:1869
 msgid ""
 "The response is same as for :http:get:`/api/components/(string:project)/"
 "(string:component)/repository/`."
 msgstr ""
+"レスポンスは :http:get:`/api/components/(string:project)/(string:component)/"
+"repository/` の場合と同じです。"
 
 #: ../../api.rst:1895
 msgid "Returns detailed translation statistics."
-msgstr ""
+msgstr "返り値は、翻訳の詳細な統計情報です。"
 
 #: ../../api.rst:1906
 msgid "number of failing checks"
-msgstr ""
+msgstr "検査不合格数"
 
 #: ../../api.rst:1907
 msgid "percentage of failing checks"
-msgstr ""
+msgstr "検査不合格の割合"
 
 #: ../../api.rst:1913
 msgid "date of last change"
-msgstr ""
+msgstr "最終変更日"
 
 #: ../../api.rst:1918
 msgid "URL to access the translation (engagement URL)"
-msgstr ""
+msgstr "翻訳に接続するための URL（愛着のもてる URL）"
 
 #: ../../api.rst:1919
 msgid "URL to access the translation (real translation URL)"
-msgstr ""
+msgstr "翻訳に接続するための URL（実際の翻訳 URL）"
 
 #: ../../api.rst:1922
 msgid "Units"
-msgstr ""
+msgstr "ユニット"
 
 #: ../../api.rst:1924
 msgid ""
@@ -18948,34 +18970,37 @@ msgid ""
 "org/projects/translate-toolkit/en/latest/api/storage.html#translate.storage."
 "base.TranslationUnit>`_ and XLIFF."
 msgstr ""
+"`unit` とは、原文と対応する翻訳文をペアにして、関連する情報も含む翻訳データの 1 つの部分です。この用語は `Translate Toolkit "
+"<http://docs.translatehouse.org/projects/translate-toolkit/en/latest/api/"
+"storage.html#translate.storage.base.TranslationUnit>`_ と XLIFF から派生したものです。"
 
 #: ../../api.rst:1934
 msgid "Returns list of translation units."
-msgstr ""
+msgstr "返り値は、翻訳ユニットの一覧です。"
 
 #: ../../api.rst:1938
 msgid ""
 "Unit object attributes are documented at :http:get:`/api/units/(int:id)/`."
-msgstr ""
+msgstr "ユニット オブジェクトの属性は、:http:get:`/api/units/(int:id)/` で説明されています。"
 
 #: ../../api.rst:1944
 msgid ""
 "The ``target`` and ``source`` are now arrays to properly handle plural "
 "strings."
-msgstr ""
+msgstr "``target`` と ``source`` は、複数の文字列を適切に処理するための配列になりました。"
 
 #: ../../api.rst:1947
 msgid "Returns information about translation unit."
-msgstr ""
+msgstr "返り値は、翻訳ユニットの情報です。"
 
 #: ../../api.rst:1949 ../../api.rst:1983 ../../api.rst:1996 ../../api.rst:2009
 #: ../../api.rst:2105
 msgid "Unit ID"
-msgstr ""
+msgstr "ユニット ID"
 
 #: ../../api.rst:1951 ../../api.rst:2041 ../../api.rst:2107
 msgid "URL of a related translation object"
-msgstr ""
+msgstr "関連する翻訳オブジェクトの URL"
 
 #: ../../api.rst:1952
 msgid "source string"
@@ -18983,41 +19008,41 @@ msgstr "原文"
 
 #: ../../api.rst:1953
 msgid "previous source string used for fuzzy matching"
-msgstr ""
+msgstr "あいまい一致に使用される前の原文"
 
 #: ../../api.rst:1954 ../../api.rst:1986 ../../api.rst:1999
 msgid "target string"
-msgstr ""
+msgstr "対象文字列"
 
 #: ../../api.rst:1955
 msgid "unique identifier of the unit"
-msgstr ""
+msgstr "ユニットの固有識別子"
 
 #: ../../api.rst:1956
 msgid "unique identifier of the source string"
-msgstr ""
+msgstr "原文の固有識別子"
 
 #: ../../api.rst:1957
 msgid "location of the unit in source code"
-msgstr ""
+msgstr "ソース コード内のユニットの場所"
 
 #: ../../api.rst:1958
 msgid "translation unit context"
-msgstr ""
+msgstr "翻訳ユニットのコンテキスト"
 
 #: ../../api.rst:1959
 msgid "translation unit note"
-msgstr ""
+msgstr "翻訳ユニットの注記"
 
 #: ../../api.rst:1960
 msgid "translation unit flags"
-msgstr ""
+msgstr "翻訳ユニットのフラグ"
 
 #: ../../api.rst:1961
 msgid ""
 "unit state, 0 - not translated, 10 - needs editing, 20 - translated, 30 - "
 "approved, 100 - read only"
-msgstr ""
+msgstr "ユニットの状態、0 - 未翻訳、10 - 要編集、20 - 翻訳済、30 - 承認済、100 - 編集不可"
 
 #: ../../api.rst:1962
 msgid "whether the unit is fuzzy or marked for review"
@@ -19025,7 +19050,7 @@ msgstr "ユニットが \"fuzzy\" もしは査読用にマークされている�
 
 #: ../../api.rst:1963
 msgid "whether the unit is translated"
-msgstr "単位が翻訳されているかどうか"
+msgstr "ユニットが翻訳されているかどうか"
 
 #: ../../api.rst:1964
 msgid "whether the translation is approved"
@@ -19033,35 +19058,35 @@ msgstr "翻訳が承認されているかどうか"
 
 #: ../../api.rst:1965
 msgid "unit position in translation file"
-msgstr ""
+msgstr "翻訳ファイル内のユニットの位置"
 
 #: ../../api.rst:1966
 msgid "whether the unit has suggestions"
-msgstr "ユニットに提案があるかどうか"
+msgstr "ユニットに提案が含まれるかどうか"
 
 #: ../../api.rst:1967
 msgid "whether the unit has comments"
-msgstr "ユニットにコメントがあるかどうか"
+msgstr "ユニットにコメントが含まれるかどうか"
 
 #: ../../api.rst:1968
 msgid "whether the unit has failing checks"
-msgstr "ユニットに検査で不合格となったものがあるか"
+msgstr "ユニットに検査で不合格が含まれるかどうか"
 
 #: ../../api.rst:1969
 msgid "number of source words"
-msgstr ""
+msgstr "原文の単語の数"
 
 #: ../../api.rst:1970
 msgid "translation priority; 100 is default"
-msgstr ""
+msgstr "翻訳優先順位。100 はデフォルトです"
 
 #: ../../api.rst:1971
 msgid "unit identifier"
-msgstr ""
+msgstr "ユニット識別子"
 
 #: ../../api.rst:1972 ../../api.rst:1987 ../../api.rst:2000
 msgid "String explanation, available on source units, see :ref:`additional`"
-msgstr ""
+msgstr "文字列の説明、原文ユニットで利用可能、参照: :ref:`additional`"
 
 #: ../../api.rst:1973 ../../api.rst:1988 ../../api.rst:2001
 msgid ""
@@ -19070,11 +19095,11 @@ msgstr "原文ユニットで使用可能な追加の文字列フラグ、参照
 
 #: ../../api.rst:1974
 msgid "URL where the unit can be edited"
-msgstr ""
+msgstr "ユニットを編集する URL"
 
 #: ../../api.rst:1975
 msgid "Source unit link; see :http:get:`/api/units/(int:id)/`"
-msgstr ""
+msgstr "原文ユニットのリンク。参照: :http:get:`/api/units/(int:id)/`"
 
 #: ../../api.rst:1981
 msgid "Performs partial update on translation unit."
@@ -19085,6 +19110,8 @@ msgid ""
 "unit state, 0 - not translated, 10 - needs editing, 20 - translated, 30 - "
 "approved (need review workflow enabled, see :ref:`reviews`)"
 msgstr ""
+"ユニットの状態、0 - 未翻訳、10 - 要編集、20 - 翻訳済、30 - 承認済（査読ワークフローを有効にすることが必要。参照: "
+":ref:`reviews`）"
 
 #: ../../api.rst:1994
 msgid "Performs full update on translation unit."
@@ -19100,122 +19127,122 @@ msgstr "変更のフィルター処理は 4.1 リリースで導入しました�
 
 #: ../../api.rst:2023
 msgid "Returns a list of translation changes."
-msgstr ""
+msgstr "返り値は、変更された翻訳の一覧です。"
 
 #: ../../api.rst:2027
 msgid ""
 "Change object attributes are documented at :http:get:`/api/changes/(int:id)/"
 "`."
-msgstr ""
+msgstr "変更オブジェクト属性は、:http:get:`/api/changes/(int:id)/` で説明されています。"
 
 #: ../../api.rst:2029
 msgid "Username of user to filters"
-msgstr ""
+msgstr "フィルタするユーザーのユーザー名"
 
 #: ../../api.rst:2030
 msgid "Action to filter, can be used several times"
-msgstr ""
+msgstr "フィルタするアクション、複数回使用可能"
 
 #: ../../api.rst:2031
 msgid "ISO 8601 formatted timestamp to list changes after"
-msgstr ""
+msgstr "変更後のリストを ISO 8601 形式のタイムスタンプで表示"
 
 #: ../../api.rst:2032
 msgid "ISO 8601 formatted timestamp to list changes before"
-msgstr ""
+msgstr "変更前のリストを ISO 8601 形式のタイムスタンプで表示"
 
 #: ../../api.rst:2036
 msgid "Returns information about translation change."
-msgstr ""
+msgstr "返り値は、翻訳の変更情報です。"
 
 #: ../../api.rst:2038
 msgid "Change ID"
-msgstr ""
+msgstr "変更 ID"
 
 #: ../../api.rst:2040
 msgid "URL of a related unit object"
-msgstr ""
+msgstr "関連するユニット オブジェクトの URL"
 
 #: ../../api.rst:2042 ../../api.rst:2071 ../../api.rst:2130 ../../api.rst:2141
 #: ../../api.rst:2152 ../../api.rst:2185
 msgid "URL of a related component object"
-msgstr ""
+msgstr "関連コンポーネント オブジェクトの URL"
 
 #: ../../api.rst:2043
 msgid "URL of a related user object"
-msgstr ""
+msgstr "関連するユーザー オブジェクトの URL"
 
 #: ../../api.rst:2044
 msgid "URL of a related author object"
-msgstr ""
+msgstr "関連する著作者オブジェクトの URL"
 
 #: ../../api.rst:2045
 msgid "event timestamp"
-msgstr ""
+msgstr "イベントのタイムスタンプ"
 
 #: ../../api.rst:2046
 msgid "numeric identification of action"
-msgstr ""
+msgstr "アクションの数値識別子"
 
 #: ../../api.rst:2047
 msgid "text description of action"
-msgstr ""
+msgstr "アクションのテキスト説明"
 
 #: ../../api.rst:2048
 msgid "event changed text or detail"
-msgstr ""
+msgstr "イベントで変更されたテキストや詳細"
 
 #: ../../api.rst:2049
 msgid "change identifier"
-msgstr ""
+msgstr "識別子の変更"
 
 #: ../../api.rst:2058
 msgid "Returns a list of screenshot string information."
-msgstr ""
+msgstr "返り値は、スクリーンショットの文字列情報の一覧です。"
 
 #: ../../api.rst:2062
 msgid ""
 "Screenshot object attributes are documented at :http:get:`/api/screenshots/"
 "(int:id)/`."
-msgstr ""
+msgstr "スクリーンショット オブジェクトの属性は、:http:get:`/api/screenshots/(int:id)/` で説明されています。"
 
 #: ../../api.rst:2066
 msgid "Returns information about screenshot information."
-msgstr ""
+msgstr "返り値は、スクリーンショットの情報です。"
 
 #: ../../api.rst:2068 ../../api.rst:2079 ../../api.rst:2086 ../../api.rst:2103
 #: ../../api.rst:2115 ../../api.rst:2138 ../../api.rst:2149 ../../api.rst:2160
 msgid "Screenshot ID"
-msgstr ""
+msgstr "スクリーンショット ID"
 
 #: ../../api.rst:2070 ../../api.rst:2106 ../../api.rst:2129 ../../api.rst:2140
 #: ../../api.rst:2151
 msgid "name of a screenshot"
-msgstr ""
+msgstr "スクリーンショット名"
 
 #: ../../api.rst:2072 ../../api.rst:2108 ../../api.rst:2131 ../../api.rst:2142
 #: ../../api.rst:2153
 msgid "URL to download a file; see :http:get:`/api/screenshots/(int:id)/file/`"
-msgstr ""
+msgstr "ファイルをダウンロードするための URL。参照: :http:get:`/api/screenshots/(int:id)/file/`"
 
 #: ../../api.rst:2073 ../../api.rst:2109 ../../api.rst:2132 ../../api.rst:2143
 #: ../../api.rst:2154
 msgid ""
 "link to associated source string information; see :http:get:`/api/units/(int:"
 "id)/`"
-msgstr ""
+msgstr "関連する原文情報へのリンク。参照: :http:get:`/api/units/(int:id)/`"
 
 #: ../../api.rst:2077
 msgid "Download the screenshot image."
-msgstr ""
+msgstr "スクリーンショット画像をダウンロードします。"
 
 #: ../../api.rst:2084
 msgid "Replace screenshot image."
-msgstr ""
+msgstr "スクリーンショット画像を置き換えます。"
 
 #: ../../api.rst:2101
 msgid "Associate source string with screenshot."
-msgstr ""
+msgstr "原文をスクリーンショットに関連付けます。"
 
 #: ../../api.rst:2113
 msgid "Remove source string association with screenshot."
@@ -19227,7 +19254,7 @@ msgstr "原文ユニット ID"
 
 #: ../../api.rst:2122
 msgid "Creates a new screenshot."
-msgstr ""
+msgstr "新しいスクリーンショットを作成します。"
 
 #: ../../api.rst:2125
 msgid "Screenshot name"
@@ -19477,7 +19504,7 @@ msgstr ""
 msgid ""
 "Triggers update of a component (pulling from VCS and scanning for "
 "translation changes)."
-msgstr ""
+msgstr "コンポーネントの更新を起動します（VCS からプルし、変更された翻訳をスキャンします）。"
 
 #: ../../api.rst:2371
 msgid ""
@@ -19489,7 +19516,7 @@ msgstr ""
 msgid ""
 "Triggers update of all components in a project (pulling from VCS and "
 "scanning for translation changes)."
-msgstr ""
+msgstr "プロジェクト内のすべてのコンポーネントの更新を起動します（VCS からプルし、変更された翻訳をスキャンします）。"
 
 #: ../../api.rst:2379
 msgid ""
@@ -21117,7 +21144,7 @@ msgstr ""
 
 #: ../../changes.rst:431
 msgid "Fixed displaying of translation changes in some corner cases."
-msgstr ""
+msgstr "一部のコーナーでの翻訳変更の表示修正。"
 
 #: ../../changes.rst:432
 msgid "Improved warning about too long celery queue."
@@ -21946,7 +21973,7 @@ msgstr ""
 
 #: ../../changes.rst:691
 msgid "Improve performance of repository scoped add-ons."
-msgstr "リポジトリにスコープされたアドオンのパフォーマンスの改善。"
+msgstr "アドオンに特定したリポジトリのパフォーマンスの改善。"
 
 #: ../../changes.rst:693
 msgid "Fixed password reset behavior."
@@ -22481,7 +22508,7 @@ msgstr "変更をプッシュする前に、コミットをスカッシュする
 
 #: ../../changes.rst:854
 msgid "Improved displaying of translation changes."
-msgstr ""
+msgstr "変更された翻訳の表示の改善。"
 
 #: ../../changes.rst:855
 msgid "Changed default merge style to rebase and made that configurable."
@@ -29262,10 +29289,9 @@ msgid ""
 "quite a lot, and it is not possible to simply merge translation changes "
 "between them."
 msgstr ""
-"Weblateは、1 つの :ref:`project` 内での翻訳変更のプッシュに対応しています。"
-"every :ref:`component` が有効な場合（デフォルトの動作）、行われた変更は自動的"
-"に他に反映されます。このようにすると、分岐自体がすでにかなり分岐している場合"
-"でも翻訳の同期が維持されます。分岐間の翻訳の変更は単純にマージできません。"
+"Weblateは、1 つの :ref:`project` 内での変更された翻訳のプッシュに対応しています。every :ref:`component` が"
+"有効な場合（デフォルトの動作）、行われた変更は自動的に他に反映されます。このようにすると、分岐自体がすでにかなり分岐している場合でも翻訳の同期が維持されま"
+"す。分岐間の翻訳の変更は単純にマージできません。"
 
 #: ../../faq.rst:158
 msgid ""
@@ -33576,8 +33602,8 @@ msgid ""
 "translation are getting committed and the up-to-date file is yield without "
 "any conversions."
 msgstr ""
-"1つ目の方法は、リポジトリに保存されているオリジナルの形式でファイルをダウンロードすることです。この場合、翻訳の保留中の変更はすべてコミットされ、最新の状"
-"態のファイルが変換なしで得られます。"
+"1 つ目の方法は、リポジトリに格納されているファイルを元の形式でダウンロードすることです。この場合、翻訳の保留中の変更はコミットされ、変換されずに最新のフ"
+"ァイルが生成されます。"
 
 #: ../../user/files.rst:25
 msgid ""
@@ -33636,7 +33662,8 @@ msgstr "iOS 文字列（単一言語翻訳でのみ使用可能）"
 msgid ""
 "The content available in the converted files differs based on file format "
 "features, you can find overview in :ref:`fmt_capabs`."
-msgstr "変換後のファイルに含まれる情報は、ファイル形式の機能によって異なり、その概要は :ref:`fmt_capabs` で確認できます。"
+msgstr ""
+"変換後のファイルで使用可能な情報は、ファイル形式の機能によって異なります。概要については :ref:`fmt_capabs` を確認してください。"
 
 #: ../../user/files.rst:51
 msgid ""
@@ -33700,7 +33727,7 @@ msgstr ""
 #: ../../user/files.rst:90 ../../user/files.rst:95 ../../user/files.rst:100
 msgid ""
 "Only translations are used from the uploaded file and no additional content."
-msgstr "アップロードされたファイルからは翻訳のみが使用され、追加コンテンツは使用されません。"
+msgstr "アップロードしたファイルは翻訳のみを使用し、追加の情報は使用しません。"
 
 #: ../../user/files.rst:94
 msgid "Add as suggestion (``suggest``)"
@@ -33757,7 +33784,7 @@ msgstr "新しい文字列の追加 (``add``)"
 #: ../../user/files.rst:110
 msgid ""
 "Adds new strings to the translation. It skips the one which already exist."
-msgstr "翻訳に新しい文字列を追加します。既に存在する文字列は無視します。"
+msgstr "翻訳に新しい文字列を追加します。既に存在する文字列は除外します。"
 
 #: ../../user/files.rst:112
 msgid ""
@@ -35976,9 +36003,8 @@ msgid ""
 "pushing translation changes as pull requests, instead of pushing directly to "
 "the repository."
 msgstr ""
-"これにより、リポジトリに直接プッシュするのではなく、`GithHub API`_ を使用し"
-"て 、薄いレイヤーを :ref:`vcs-git` に追加して、翻訳の変更をプル リクエストと"
-"してプッシュできるようになります。"
+"これにより、リポジトリに直接プッシュするのではなく、`GithHub API`_ を使用して 、薄いレイヤーを :ref:`vcs-git` に追加して、"
+"変更された翻訳をプル リクエストとしてプッシュできるようになります。"
 
 #: ../../vcs.rst:267
 msgid ""
@@ -36020,9 +36046,8 @@ msgid ""
 "allow pushing translation changes as merge requests instead of pushing "
 "directly to the repository."
 msgstr ""
-"これにより、リポジトリに直接プッシュするのではなく、`GitLab API`_ を使用し"
-"て 、薄いレイヤーを :ref:`vcs-git` に追加して、翻訳の変更をプル リクエストと"
-"してプッシュできるようになります。"
+"これにより、リポジトリに直接プッシュするのではなく、`GitLab API`_ を使用して 、薄いレイヤーを :ref:`vcs-git` に追加して、"
+"変更された翻訳をプル リクエストとしてプッシュできるようになります。"
 
 #: ../../vcs.rst:305
 msgid ""
@@ -36066,9 +36091,8 @@ msgid ""
 "allow pushing translation changes as merge requests instead of pushing "
 "directly to the repository."
 msgstr ""
-"これにより、リポジトリに直接プッシュするのではなく、`Pagure API`_ を使用し"
-"て 、薄いレイヤーを :ref:`vcs-git` に追加するだけで、翻訳の変更をプル リクエ"
-"ストとしてプッシュできます。"
+"これにより、リポジトリに直接プッシュするのではなく、`Pagure API`_ を使用して 、薄いレイヤーを :ref:`vcs-git` "
+"に追加するだけで、変更された翻訳をプル リクエストとしてプッシュできます。"
 
 #: ../../vcs.rst:343
 msgid ""
@@ -36112,9 +36136,8 @@ msgid ""
 "pushing translation changes as Gerrit review requests, instead of pushing "
 "them directly to the repository."
 msgstr ""
-"`git-review`_ ツールを使用して、リポジトリに直接プッシュするのではなく、"
-"Gerrit レビュー リクエストとして翻訳変更をプッシュするために、:ref:`vcs-git` "
-"の上に薄いレイヤを追加します。"
+"`git-review`_ ツールを使用して、リポジトリに直接プッシュするのではなく、Gerrit レビュー "
+"リクエストとして変更された翻訳をプッシュするために、:ref:`vcs-git` の上に薄いレイヤを追加します。"
 
 #: ../../vcs.rst:381
 msgid ""
