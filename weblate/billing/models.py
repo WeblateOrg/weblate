@@ -199,7 +199,7 @@ class Billing(models.Model):
 
     class Meta:
         verbose_name = "Customer billing"
-        verbose_name_plural = "Customer billingss"
+        verbose_name_plural = "Customer billings"
 
     def __str__(self):
         projects = self.projects_display
