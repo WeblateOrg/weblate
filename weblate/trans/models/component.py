@@ -737,7 +737,7 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
             self.store_background_task(task)
 
         if self.old_component.check_flags != self.check_flags:
-            update_checks.delay(self.pk)
+            update_checks.delay(self.pk, update_state=True)
 
     def __init__(self, *args, **kwargs):
         """Constructor to initialize some cache properties."""

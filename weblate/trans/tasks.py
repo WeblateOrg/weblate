@@ -467,15 +467,19 @@ def create_component(addons_from=None, in_task=False, **kwargs):
 
 
 @app.task(trail=False)
-def update_checks(pk):
+def update_checks(pk: int, update_state: bool = False):
     component = Component.objects.get(pk=pk)
     component.batch_checks = True
     for translation in component.translation_set.exclude(
         pk=component.source_translation.pk
     ).prefetch():
         for unit in translation.unit_set.prefetch():
+            if update_state:
+                unit.update_state()
             unit.run_checks()
     for unit in component.source_translation.unit_set.prefetch():
+        if update_state:
+            unit.update_state()
         unit.run_checks()
     component.run_batched_checks()
     component.invalidate_cache()
