@@ -1010,8 +1010,16 @@ class BasePoFormat(TTKitFormat, BilingualUpdateMixin):
             )
             # The warnings can cause corruption (for example in case
             # PO file header is missing ASCII encoding is assumed)
-            if "warning:" in result.stderr:
-                raise UpdateError(" ".join(cmd), result.stderr)
+            errors = []
+            for line in result.stderr.splitlines():
+                if line.startswith(
+                    "warning: internationalized messages should not contain the"
+                ):
+                    continue
+                if line.startswith("warning: "):
+                    errors.append(line)
+            if errors:
+                raise UpdateError(" ".join(cmd), "\n".join(errors))
         except OSError as error:
             report_error(cause="Failed msgmerge")
             raise UpdateError(" ".join(cmd), error)
