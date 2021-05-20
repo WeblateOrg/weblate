@@ -477,8 +477,8 @@ def update_checks(pk):
             unit.run_checks()
     for unit in component.source_translation.unit_set.prefetch():
         unit.run_checks()
-    component.invalidate_cache()
     component.run_batched_checks()
+    component.invalidate_cache()
 
 
 @app.task(trail=False)
