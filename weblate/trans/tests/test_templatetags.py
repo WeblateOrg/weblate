@@ -402,6 +402,27 @@ class TranslationFormatTestCase(FixtureTestCase):
             """,
         )
 
+    def test_whitespace_newline(self):
+        self.assertHTMLEqual(
+            format_translation("Hello\n world", self.component.source_language,)[
+                "items"
+            ][0]["content"],
+            """
+            Hello
+            <span class="hlspace">
+                <span class="space-nl">
+                    <span class="sr-only"> </span>
+                </span>
+            </span><br>
+            <span class="hlspace">
+                <span class="space-space">
+                    <span class="sr-only"> </span>
+                </span>
+            </span>
+            world
+            """,
+        )
+
 
 class DiffTestCase(SimpleTestCase):
     """Testing of HTML diff function."""

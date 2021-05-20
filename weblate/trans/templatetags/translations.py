@@ -65,7 +65,7 @@ SPACE_NL = HIGHLIGTH_SPACE.format(SPACE_TEMPLATE.format("space-nl", ""), "<br />
 
 GLOSSARY_TEMPLATE = """<span class="glossary-term" title="{}">"""
 
-WHITESPACE_RE = re.compile(r"(  +| $|^ )")
+WHITESPACE_RE = re.compile(r"(  +| $|^ )", re.MULTILINE)
 TYPE_MAPPING = {True: "yes", False: "no", None: "unknown"}
 # Mapping of status report flags to names
 NAME_MAPPING = {
