@@ -43,7 +43,7 @@ def get_mention_users(text):
 class WeblateHtmlRenderer(misaka.SaferHtmlRenderer):
     def link(self, content, raw_url, title=""):
         result = super().link(content, raw_url, title)
-        return result.replace(' href="', ' rel="ugc" href="')
+        return result.replace(' href="', ' rel="ugc" target="_blank" href="')
 
     def check_url(self, url, is_image_src=False):
         if url.startswith("/user/"):
