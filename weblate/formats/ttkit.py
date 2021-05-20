@@ -1012,12 +1012,9 @@ class BasePoFormat(TTKitFormat, BilingualUpdateMixin):
             # PO file header is missing ASCII encoding is assumed)
             errors = []
             for line in result.stderr.splitlines():
-                if line.startswith(
-                    "warning: internationalized messages should not contain the"
-                ):
+                if "warning: internationalized messages should not contain the" in line:
                     continue
-                if line.startswith("warning: "):
-                    errors.append(line)
+                errors.append(line)
             if errors:
                 raise UpdateError(" ".join(cmd), "\n".join(errors))
         except OSError as error:
