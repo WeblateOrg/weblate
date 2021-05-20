@@ -17,9 +17,11 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
+import sys
 from urllib.parse import quote
 
 from django.conf import settings
+from django.core.cache import cache
 from django.core.checks import run_checks
 from django.core.mail import send_mail
 from django.db.models import Count, Q
@@ -265,6 +267,8 @@ def performance(request):
         "queues": get_queue_stats().items(),
         "menu_items": MENU,
         "menu_page": "performance",
+        "web_encoding": [sys.getfilesystemencoding(), sys.getdefaultencoding()],
+        "celery_encoding": cache.get("celery_encoding"),
     }
 
     return render(request, "manage/performance.html", context)

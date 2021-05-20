@@ -60,6 +60,9 @@ def ping():
 def heartbeat():
     cache.set("celery_loaded", time.time())
     cache.set("celery_heartbeat", time.time())
+    cache.set(
+        "celery_encoding", [sys.getfilesystemencoding(), sys.getdefaultencoding()]
+    )
 
 
 @app.task(trail=False, autoretry_for=(WeblateLockTimeout,))
