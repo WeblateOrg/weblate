@@ -14,7 +14,7 @@ class Migration(migrations.Migration):
             name="billing",
             options={
                 "verbose_name": "Customer billing",
-                "verbose_name_plural": "Customer billingss",
+                "verbose_name_plural": "Customer billings",
             },
         ),
         migrations.AlterModelOptions(
