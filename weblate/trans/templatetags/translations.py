@@ -486,7 +486,7 @@ def naturaltime_future(value, now):
     }
 
 
-@register.filter
+@register.filter(is_safe=True)
 def naturaltime(value, now=None):
     """Heavily based on Django's django.contrib.humanize implementation of naturaltime.
 
@@ -859,7 +859,7 @@ def indicate_alerts(context, obj):
     return {"icons": result, "component": component, "project": project}
 
 
-@register.filter
+@register.filter(is_safe=True)
 def markdown(text):
     return mark_safe(f'<div class="markdown">{render_markdown(text)}</div>')
 
