@@ -25,8 +25,8 @@ and lists all contributors to a given language:
 
     * Czech
 
-        * Michal Čihař <michal@cihar.com> (10)
         * John Doe <john@example.com> (5)
+        * Jane Doe <jane@example.com> (1)
 
     * Dutch
 
