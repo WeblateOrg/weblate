@@ -58,7 +58,7 @@ class Command(BaseCommand):
                 self.stdout.write(PERM_NAMES[base])
                 last = base
             roles = "`, `".join(
-                [name for name, permissions in ROLES if key in permissions]
+                name for name, permissions in ROLES if key in permissions
             )
             self.stdout.write(f"    {name} [`{roles}`]")
             self.stdout.write("\n")
