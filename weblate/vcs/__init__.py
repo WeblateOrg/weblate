@@ -16,4 +16,8 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
-default_app_config = "weblate.vcs.apps.VCSConfig"
+
+import django
+
+if django.VERSION < (3, 2):
+    default_app_config = "weblate.vcs.apps.VCSConfig"

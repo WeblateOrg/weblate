@@ -19,4 +19,7 @@
 """File format specific behavior."""
 
 
-default_app_config = "weblate.formats.apps.FormatsConfig"
+import django
+
+if django.VERSION < (3, 2):
+    default_app_config = "weblate.formats.apps.FormatsConfig"

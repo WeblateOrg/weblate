@@ -17,4 +17,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-default_app_config = "weblate.accounts.apps.AccountsConfig"
+import django
+
+if django.VERSION < (3, 2):
+    default_app_config = "weblate.accounts.apps.AccountsConfig"
