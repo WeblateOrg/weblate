@@ -51,6 +51,7 @@ class GitRepository(Repository):
     _cmd_last_remote_revision = ["log", "-n", "1", "--format=format:%H", "@{upstream}"]
     _cmd_list_changed_files = ["diff", "--name-status"]
     _cmd_push = ["push"]
+    _cmd_status = ["--no-optional-locks", "status"]
 
     name = "Git"
     req_version = "2.12"
@@ -197,7 +198,7 @@ class GitRepository(Repository):
 
     def needs_commit(self, filenames: Optional[List[str]] = None):
         """Check whether repository needs commit."""
-        cmd = ["status", "--porcelain"]
+        cmd = ["--no-optional-locks", "status", "--porcelain"]
         if filenames:
             cmd.extend(["--ignored=matching", "--"])
             cmd.extend(filenames)
