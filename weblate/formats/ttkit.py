@@ -1014,7 +1014,7 @@ class BasePoFormat(TTKitFormat, BilingualUpdateMixin):
             for line in result.stderr.splitlines():
                 if (
                     "warning: internationalized messages should not contain the" in line
-                    or ".. done." in line
+                    or ". done." in line
                 ):
                     continue
                 errors.append(line)
