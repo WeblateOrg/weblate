@@ -474,7 +474,7 @@ def check_diskspace(app_configs=None, **kwargs):
 
 
 # Python Package Index URL
-PYPI = "https://pypi.org/pypi/Weblate/json"
+PYPI = "https://pypi.org/pypi/weblate/json"
 
 # Cache to store fetched PyPI version
 CACHE_KEY = "version-check"
