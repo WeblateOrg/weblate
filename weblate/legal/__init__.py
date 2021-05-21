@@ -16,8 +16,4 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
-
-import django
-
-if django.VERSION < (3, 2):
-    default_app_config = "weblate.legal.apps.LegalConfig"
+default_app_config = "weblate.legal.apps.LegalConfig"
