@@ -812,7 +812,9 @@ translation updates.
 
    :setting:`GITHUB_CREDENTIALS`,
    :ref:`vcs-github`,
-   `Creating a personal access token <https://docs.github.com/en/github/authenticating-to-github/creating-a-personal-access-token>`_
+   `Creating a GitHub personal access token`_
+
+.. _Creating a GitHub personal access token: https://docs.github.com/en/github/authenticating-to-github/keeping-your-account-and-data-secure/creating-a-personal-access-token
 
 .. setting:: GOOGLE_ANALYTICS_ID
 
