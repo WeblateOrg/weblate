@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-05-24 06:11+0200\n"
-"PO-Revision-Date: 2021-05-24 05:48+0000\n"
+"PO-Revision-Date: 2021-05-24 23:45+0000\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/"
 "documentation/uk/>\n"
@@ -1499,7 +1499,7 @@ msgid ""
 "`DEFAULT_ADDONS`, or :djadmin:`install_addon`."
 msgstr ""
 "Ви також можете налаштувати додатки за допомогою настанов з розділів :ref:`"
-"API <addons-api>`, :setting:`DEFAULT_ADDONS` або :djadmin:`install_addon`"
+"API <addons-api>`, :setting:`DEFAULT_ADDONS` або :djadmin:`install_addon`."
 
 #: ../../admin/addons.rst:20
 msgid "Built-in add-ons"
@@ -3629,18 +3629,16 @@ msgid ""
 "The default configuration extracts user details from following attributes, "
 "configure your IDP to provide them:"
 msgstr ""
+"За типових налаштувати параметри запису користувача видобувають із вказаних "
+"нижче атрибутів. Налаштуйте ваш IDP на надання таких параметрів:"
 
 #: ../../admin/auth.rst:420
-#, fuzzy
-#| msgid "String attributes"
 msgid "Attribute"
-msgstr "Атрибути рядка"
+msgstr "Атрибут"
 
 #: ../../admin/auth.rst:420
-#, fuzzy
-#| msgid "Preferences"
 msgid "SAML URI reference"
-msgstr "Установки"
+msgstr "Довідник щодо адрес SAML"
 
 #: ../../admin/auth.rst:422
 msgid "Full name"
@@ -3648,27 +3646,23 @@ msgstr "Повне ім’я"
 
 #: ../../admin/auth.rst:422
 msgid "``urn:oid:2.5.4.3``"
-msgstr ""
+msgstr "``urn:oid:2.5.4.3``"
 
 #: ../../admin/auth.rst:424
-#, fuzzy
-#| msgid "First"
 msgid "First name"
-msgstr "Перший"
+msgstr "Ім'я"
 
 #: ../../admin/auth.rst:424
 msgid "``urn:oid:2.5.4.42``"
-msgstr ""
+msgstr "``urn:oid:2.5.4.42``"
 
 #: ../../admin/auth.rst:426
-#, fuzzy
-#| msgid "Label name"
 msgid "Last name"
-msgstr "Назва мітки"
+msgstr "Прізвище"
 
 #: ../../admin/auth.rst:426
 msgid "``urn:oid:2.5.4.4``"
-msgstr ""
+msgstr "``urn:oid:2.5.4.4``"
 
 #: ../../admin/auth.rst:428
 msgid "E-mail"
@@ -3676,7 +3670,7 @@ msgstr "Електронна пошта"
 
 #: ../../admin/auth.rst:428
 msgid "``urn:oid:0.9.2342.19200300.100.1.3``"
-msgstr ""
+msgstr "``urn:oid:0.9.2342.19200300.100.1.3``"
 
 #: ../../admin/auth.rst:430 ../../api.rst:236
 msgid "Username"
@@ -3684,13 +3678,15 @@ msgstr "Ім'я користувача"
 
 #: ../../admin/auth.rst:430
 msgid "``urn:oid:0.9.2342.19200300.100.1.1``"
-msgstr ""
+msgstr "``urn:oid:0.9.2342.19200300.100.1.1``"
 
 #: ../../admin/auth.rst:435
 msgid ""
 "The example above and the Docker image define an IDP labelled ``weblate``. "
 "You might need to configure this string as :guilabel:`Relay` in your IDP."
 msgstr ""
+"Наведений вище приклад і образ Docker визначають IDP із міткою ``weblate``. "
+"Можливо, вам слід налаштувати цей рядок як :guilabel:`Relay` у вашому IDP."
 
 #: ../../admin/auth.rst:440
 msgid ""
@@ -6696,12 +6692,12 @@ msgstr ""
 "перекладу."
 
 #: ../../admin/config.rst:813
-#, fuzzy
-#| msgid ":setting:`GITHUB_CREDENTIALS`, :ref:`vcs-github`"
 msgid ""
 ":setting:`GITHUB_CREDENTIALS`, :ref:`vcs-github`, `Creating a GitHub "
 "personal access token`_"
-msgstr ":setting:`GITHUB_CREDENTIALS`, :ref:`vcs-github`"
+msgstr ""
+":setting:`GITHUB_CREDENTIALS`, :ref:`vcs-github`, `створення особистого "
+"жетона доступу GitHub`_"
 
 #: ../../admin/config.rst:822
 msgid "GOOGLE_ANALYTICS_ID"
@@ -7201,10 +7197,8 @@ msgstr ""
 "зареєструватися на https://api.fanyi.baidu.com/api/trans/product/index"
 
 #: ../../admin/config.rst:1258
-#, fuzzy
-#| msgid "MT_DEEPL_API_VERSION"
 msgid "MT_DEEPL_API_URL"
-msgstr "MT_DEEPL_API_VERSION"
+msgstr "MT_DEEPL_API_URL"
 
 #: ../../admin/config.rst:1262
 msgid ""
@@ -7212,50 +7206,51 @@ msgid ""
 "was only possible to configure the API version using "
 "``MT_DEEPL_API_VERSION``."
 msgstr ""
+"У нових версіях можна налаштувати адресу програмного інтерфейсу для "
+"використання безкоштовного плану. Раніше можна було налаштувати лише версію "
+"програмного інтерфейсу ``MT_DEEPL_API_VERSION``."
 
 #: ../../admin/config.rst:1265
 msgid ""
 "API URL to use with the DeepL service. At the time of writing, there is the "
 "v1 API as well as a free and a paid version of the v2 API."
 msgstr ""
+"Адреса програмного інтерфейсу API, яку слід використовувати для служби "
+"DeepL. На час написання цього підручника використовувався програмний "
+"інтерфейсу версії 1, а також безкоштовна та оплачувана версія 2 програмного "
+"інтерфейсу."
 
 #: ../../admin/config.rst:1268
 msgid "``https://api.deepl.com/v2/`` (default in Weblate)"
-msgstr ""
+msgstr "``https://api.deepl.com/v2/`` (типова у Weblate)"
 
 #: ../../admin/config.rst:1269
-#, fuzzy
-#| msgid "Is meant for API usage and the subscription is usage based."
 msgid ""
 "Is meant for API usage on the paid plan, and the subscription is usage-based."
 msgstr ""
-"Призначено для використання програмного інтерфейсу. Передплата є заснованою "
-"на використанні."
+"Призначено для використання програмного інтерфейсу у межах оплачуваного "
+"плану. Передплата є заснованою на використанні."
 
 #: ../../admin/config.rst:1270
 msgid "``https://api-free.deepl.com/v2/``"
-msgstr ""
+msgstr "``https://api-free.deepl.com/v2/``"
 
 #: ../../admin/config.rst:1271
-#, fuzzy
-#| msgid "Is meant for API usage and the subscription is usage based."
 msgid ""
 "Is meant for API usage on the free plan, and the subscription is usage-based."
 msgstr ""
-"Призначено для використання програмного інтерфейсу. Передплата є заснованою "
-"на використанні."
+"Призначено для використання програмного інтерфейсу у межах безкоштовного "
+"плану. Передплата є заснованою на використанні."
 
 #: ../../admin/config.rst:1273
 msgid "``https://api.deepl.com/v1/``"
-msgstr ""
+msgstr "``https://api.deepl.com/v1/``"
 
 #: ../../admin/config.rst:1273
-#, fuzzy
-#| msgid "Is meant for CAT tools and is usable with user-based subscription."
 msgid "Is meant for CAT tools and is usable with a per-user subscription."
 msgstr ""
 "Призначено для інструментів комп'ютерного перекладу. Придатна до "
-"використання із передплатою на основі користувачів."
+"використання із передплатою для окремих користувачів."
 
 #: ../../admin/config.rst:1275
 msgid ""
@@ -7275,17 +7270,23 @@ msgid ""
 "The easiest way to find out which one to use is to open an URL like the "
 "following in your browser:"
 msgstr ""
+"Найпростішим способом визначення версії є відкриття адреси, подібної до "
+"вказаної нижче, у вашому браузері:"
 
 #: ../../admin/config.rst:1283
 msgid ""
 "https://api.deepl.com/v2/translate?text=Hello&target_lang=FR&auth_key=XXX"
 msgstr ""
+"https://api.deepl.com/v2/translate?text=Hello&target_lang=FR&auth_key=XXX"
 
 #: ../../admin/config.rst:1285
 msgid ""
 "Replace the XXX with your auth_key. If you receive a JSON object which "
 "contains \"Bonjour\", you have the correct URL; if not, try the other three."
 msgstr ""
+"Замініть XXX на ваше значення ключа розпізнавання (auth_key). Якщо ви "
+"отримуєте об'єкт JSON, який містить «Bonjour», адресу вказано правильно. "
+"Якщо отримано щось інше, спробуйте інші три варіанти."
 
 #: ../../admin/config.rst:1290 ../../admin/config.rst:1301
 msgid ""
@@ -11088,29 +11089,26 @@ msgstr ""
 "встановленням ``LANG=\"C.UTF-8\"``."
 
 #: ../../admin/install.rst:1115
-#, fuzzy
-#| msgid ""
-#| "In some cases the individual services have separate configuration for "
-#| "locales. For example when using Apache you might want to set it in :file:"
-#| "`/etc/apache2/envvars`:"
 msgid ""
 "In some cases the individual services have separate configuration for "
 "locales. This varies between distribution and web servers, so check "
 "documentation of your web server packages for that."
 msgstr ""
-"У деяких випадках окремі служби мають окремі налаштування для локалей. "
-"Наприклад, при використанні Apache вам, можливо, слід встановити їх у файлі :"
-"file:`/etc/apache2/envvars`:"
+"У деяких випадках окремі служби мають окремі налаштування для локалей. Це "
+"залежить від дистрибутива та вебсерверів, тому для вирішення цього завдання "
+"ознайомтеся із документацією до пакунків вашого сервера."
 
 #: ../../admin/install.rst:1119
 msgid "Apache on Ubuntu uses :file:`/etc/apache2/envvars`:"
-msgstr ""
+msgstr "У Apache на Ubuntu використовують :file:`/etc/apache2/envvars`:"
 
 #: ../../admin/install.rst:1126
 msgid ""
 "Apache on CentOS uses :file:`/etc/sysconfig/httpd` (or :file:`/opt/rh/"
 "httpd24/root/etc/sysconfig/httpd`):"
 msgstr ""
+"У Apache на CentOS використовують :file:`/etc/sysconfig/httpd` (або :file:`/"
+"opt/rh/httpd24/root/etc/sysconfig/httpd`):"
 
 #: ../../admin/install.rst:1136
 msgid "Using custom certificate authority"
@@ -12787,15 +12785,11 @@ msgstr ""
 "`MT_DEEPL_KEY`"
 
 #: ../../admin/install/docker.rst:737
-#, fuzzy
-#| msgid ""
-#| "Configures :ref:`deepl` API version to use, see :setting:"
-#| "`MT_DEEPL_API_VERSION`."
 msgid ""
 "Configures :ref:`deepl` API version to use, see :setting:`MT_DEEPL_API_URL`."
 msgstr ""
 "Налаштовує версію програмного інтерфейсу :ref:`deepl`, якою слід "
-"скористатися, див. :setting:`MT_DEEPL_API_VERSION`."
+"скористатися, див. :setting:`MT_DEEPL_API_URL`."
 
 #: ../../admin/install/docker.rst:741
 msgid "Enables :ref:`google-translate` and sets :setting:`MT_GOOGLE_KEY`"
@@ -14382,14 +14376,6 @@ msgid "Language code"
 msgstr "Код мови"
 
 #: ../../admin/languages.rst:106
-#, fuzzy
-#| msgid ""
-#| "Code identifying the language. Weblate prefers two letter codes as "
-#| "defined by `ISO 639-1 <https://en.wikipedia.org/wiki/ISO_639-1>`_, but "
-#| "uses `ISO 639-2 <https://en.wikipedia.org/wiki/ISO_639-2>`_ or `ISO 639-3 "
-#| "<https://en.wikipedia.org/wiki/ISO_639-3>`_ codes for languages that do "
-#| "not have two letter code. It can also support extended codes as defined "
-#| "by `BCP 47 <https://tools.ietf.org/html/bcp47>`_."
 msgid ""
 "Code identifying the language. Weblate prefers two letter codes as defined "
 "by `ISO 639-1 <https://en.wikipedia.org/wiki/ISO_639-1>`_, but uses `ISO "
@@ -14398,12 +14384,11 @@ msgid ""
 "letter code. It can also support extended codes as defined by `BCP 47`_."
 msgstr ""
 "Код ідентифікації мови. Weblate надає перевагу дволітерним кодам, які "
-"визначаються стандартом `ISO 639-1 <https://en.wikipedia.org/wiki/"
-"ISO_639-1>`_, але використовує коди `ISO 639-2 <https://en.wikipedia.org/"
-"wiki/ISO_639-2>`_ або `ISO 639-3 <https://en.wikipedia.org/wiki/ISO_639-3>`_ "
-"для мов, які не мають дволітерного коду. Крім того, передбачено підтримку "
-"розширених кодів, які визначено стандартом `BCP 47 <https://tools.ietf.org/"
-"html/bcp47>`_."
+"визначаються стандартом `ISO 639-1 <https://en.wikipedia.org/wiki/ISO_639-1>`"
+"_, але використовує коди `ISO 639-2 <https://en.wikipedia.org/wiki/"
+"ISO_639-2>`_ або `ISO 639-3 <https://en.wikipedia.org/wiki/ISO_639-3>`_ для "
+"мов, які не мають дволітерного коду. Крім того, передбачено підтримку "
+"розширених кодів, які визначено стандартом `BCP 47`_."
 
 #: ../../admin/languages.rst:116
 msgid ":ref:`language-parsing-codes`, :ref:`new-translations`"
@@ -14880,12 +14865,6 @@ msgstr ""
 "до :setting:`MT_SERVICES` і встановіть :setting:`MT_DEEPL_KEY`."
 
 #: ../../admin/machine.rst:102
-#, fuzzy
-#| msgid ""
-#| "In case you have subscription for CAT tools, you are supposed to use \"v1 "
-#| "API\" instead of default \"v2\" used by Weblate (it is not really an API "
-#| "version in this case). You can toggle this by :setting:"
-#| "`MT_DEEPL_API_VERSION`."
 msgid ""
 "In case you have subscription for CAT tools, you are supposed to use \"v1 API"
 "\" instead of default \"v2\" used by Weblate (it is not really an API "
@@ -14896,23 +14875,20 @@ msgstr ""
 "Якщо у вас є передплата на інструменти комп'ютерного перекладу, буде "
 "зроблено припущення, що ви користуєтеся «v1 API», а не типовим «v2» у "
 "Weblate (це, насправді, не версія програмного інтерфейсу у цьому випадку). "
-"Ви можете перемкнути версію програмного інтерфейсу за допомогою параметра :"
-"setting:`MT_DEEPL_API_VERSION`."
+"Якщо ви користуєтеся безкоштовним, а не оплачуваним тарифним планом, вам "
+"слід використовувати ``https://api-free.deepl.com/``, а не ``https://api."
+"deepl.com/``. Скоригувати значення обох параметрів можна за допомогою "
+":setting:`MT_DEEPL_API_URL`."
 
 #: ../../admin/machine.rst:111
-#, fuzzy
-#| msgid ""
-#| ":setting:`MT_DEEPL_KEY`, :setting:`MT_DEEPL_API_VERSION`, `DeepL website "
-#| "<https://www.deepl.com/>`_, `DeepL pricing <https://www.deepl.com/pro>`_, "
-#| "`DeepL API documentation <https://www.deepl.com/api.html>`_"
 msgid ""
 ":setting:`MT_DEEPL_KEY`, :setting:`MT_DEEPL_API_URL`, `DeepL website "
 "<https://www.deepl.com/>`_, `DeepL pricing <https://www.deepl.com/pro>`_, "
 "`DeepL API documentation <https://www.deepl.com/api.html>`_"
 msgstr ""
-":setting:`MT_DEEPL_KEY`, :setting:`MT_DEEPL_API_VERSION`, `DeepL website "
-"<https://www.deepl.com/>`_, `Ціни DeepL <https://www.deepl.com/pro>`_, "
-"`Документація з програмного інтерфейсу DeepL <https://www.deepl.com/api."
+":setting:`MT_DEEPL_KEY`, :setting:`MT_DEEPL_API_URL`, `DeepL website "
+"<https://www.deepl.com/>`_, `Ціни DeepL <https://www.deepl.com/pro>`_, `"
+"Документація з програмного інтерфейсу DeepL <https://www.deepl.com/api."
 "html>`_"
 
 #: ../../admin/machine.rst:121
@@ -15134,16 +15110,12 @@ msgstr ""
 "`MT_MODERNMT_KEY`."
 
 #: ../../admin/machine.rst:236
-#, fuzzy
-#| msgid ""
-#| "`ModernMT API <https://www.modernmt.com/api/translate/>`_, :setting:"
-#| "`MT_MODERNMT_KEY`, :setting:`MT_MODERNMT_URL`"
 msgid ""
 "`ModernMT API <https://www.modernmt.com/api/#translation>`_, :setting:"
 "`MT_MODERNMT_KEY`, :setting:`MT_MODERNMT_URL`"
 msgstr ""
-"`Програмний інтерфейс ModernMT <https://www.modernmt.com/api/translate/>`_, :"
-"setting:`MT_MODERNMT_KEY`, :setting:`MT_MODERNMT_URL`"
+"`Програмний інтерфейс ModernMT <https://www.modernmt.com/api/#translation>`"
+"_, :setting:`MT_MODERNMT_KEY`, :setting:`MT_MODERNMT_URL`"
 
 #: ../../admin/machine.rst:243 ../../changes.rst:1757
 msgid "MyMemory"
@@ -19549,6 +19521,10 @@ msgid ""
 "instead. You might need to adjust :setting:`MT_DEEPL_API_URL` to match your "
 "subsciption."
 msgstr ""
+"Параметр ``MT_DEEPL_API_VERSION`` було вилучено у версії 4.7. Замість нього "
+"для рушія комп'ютерного перекладу :ref:`deepl` використано новий параметр "
+":setting:`MT_DEEPL_API_URL`. Можливо, вам доведеться скоригувати "
+":setting:`MT_DEEPL_API_URL` відповідно до параметрів вашої передплати."
 
 #: ../../admin/upgrade.rst:132 ../../admin/upgrade.rst:149
 #: ../../admin/upgrade.rst:173 ../../admin/upgrade.rst:191
@@ -19806,6 +19782,10 @@ msgid ""
 "`MT_DEEPL_API_URL` setting to adapt to different subscription models more "
 "flexibly. The ``MT_DEEPL_API_VERSION`` setting is no longer used."
 msgstr ""
+"Для рушія комп'ютерного перекладу :ref:`deepl` тепер використовують "
+"загальний параметр :setting:`MT_DEEPL_API_URL` з метою гнучкішої адаптації "
+"до різних моделей передплати. Використання параметра ``MT_DEEPL_API_VERSION``"
+" припинено."
 
 #: ../../admin/upgrade.rst:240
 msgid "Upgrading from Python 2 to Python 3"
@@ -22522,13 +22502,12 @@ msgid "Improved configuration health check."
 msgstr "Удосконалено перевірку коректності налаштувань."
 
 #: ../../changes.rst:7
-#, fuzzy
-#| msgid "Added support for ``object-pascal-format`` used in gettext PO."
 msgid ""
 "Added support for ``object-pascal-format`` used in gettext PO, see :ref:"
 "`check-object-pascal-format`."
 msgstr ""
-"Додано підтримку ``object-pascal-format``, що використовується у PO gettext."
+"Додано підтримку ``object-pascal-format``, що використовується у PO gettext, "
+"див. :ref:`check-object-pascal-format`."
 
 #: ../../changes.rst:8
 msgid ""
@@ -22539,16 +22518,12 @@ msgstr ""
 "ключі` з метою краще описати його призначення."
 
 #: ../../changes.rst:9
-#, fuzzy
-#| msgid "Added support for :ref:`labels`."
 msgid "Added support for :ref:`mi18n-lang`."
-msgstr "Додано підтримку :ref:`міток<labels>`."
+msgstr "Додано підтримку :ref:`міток mi18n <mi18n-lang>`."
 
 #: ../../changes.rst:10
-#, fuzzy
-#| msgid "Improved Matomo integration."
 msgid "Improved SAML authentication integration."
-msgstr "Удосконалено інтеграцію із Matomo."
+msgstr "Удосконалено інтеграцію розпізнавання SAML."
 
 #: ../../changes.rst:12
 msgid ""
@@ -28728,11 +28703,6 @@ msgstr ""
 "«translate» («перекладати»)."
 
 #: ../../contributing/about.rst:18
-#, fuzzy
-#| msgid ""
-#| "The landing page is https://weblate.org and a cloud hosted service at "
-#| "https://hosted.weblate.org. This documentation can be found on https://"
-#| "docs.weblate.org."
 msgid ""
 "The landing page is https://weblate.org and there is a cloud-hosted service "
 "at https://hosted.weblate.org. The documentation can be read at https://docs."
@@ -28747,47 +28717,36 @@ msgid "Project logos"
 msgstr "Логотипи проєкту"
 
 #: ../../contributing/about.rst:25
-#, fuzzy
-#| msgid ""
-#| "The project logos and other graphics is available in <https://github.com/"
-#| "WeblateOrg/graphics/> repository."
 msgid ""
 "The project logos and other graphics is available in https://github.com/"
 "WeblateOrg/graphics."
 msgstr ""
-"Логотипи проєкту та інші графічні роботи можна знайти у сховищі <https://"
-"github.com/WeblateOrg/graphics/>."
+"Логотипи проєкту та інші графічні роботи можна знайти у сховищі "
+"https://github.com/WeblateOrg/graphics."
 
 #: ../../contributing/about.rst:29
 msgid "Leadership"
 msgstr "Лідерство"
 
 #: ../../contributing/about.rst:31
-#, fuzzy
-#| msgid "This project is maintained by Michal Čihař <michal@cihar.com>."
 msgid ""
 "This project is maintained by Michal Čihař, who can be reached at "
 "michal@cihar.com."
 msgstr ""
 "Супровід цього проєкту виконується Міхалом Чихаржем (Michal Čihař) "
-"<michal@cihar.com>."
+"michal@cihar.com."
 
 #: ../../contributing/about.rst:34
 msgid "Authors"
 msgstr "Автори"
 
 #: ../../contributing/about.rst:36
-#, fuzzy
-#| msgid ""
-#| "Weblate was started by Michal Čihař <michal@cihar.com>. Since its "
-#| "inception in 2012, thousands of people have contributed."
 msgid ""
 "Weblate was started by Michal Čihař. Since its inception in 2012, thousands "
 "of people have contributed."
 msgstr ""
-"Розробку Weblate було розпочато Міхалом Чихаржем (Michal Čihař) "
-"<michal@cihar.com>. З часу появи програми у 2012 внесок до неї зробили "
-"тисячі людей."
+"Розробку Weblate було розпочато Міхалом Чихаржем (Michal Čihař). З часу "
+"появи програми у 2012 внесок до неї зробили тисячі людей."
 
 #: ../../contributing/addons.rst:2
 msgid "Developing addons"
@@ -34455,64 +34414,49 @@ msgid "`Java Properties (ISO-8859-1)`"
 msgstr "`властивості Java (ISO-8859-1)`"
 
 #: ../../formats.rst:437
-#, fuzzy
-#| msgid ""
-#| "`Java properties on Wikipedia <https://en.wikipedia.org/wiki/."
-#| "properties>`_, :doc:`tt:formats/properties`, :ref:`updating-target-"
-#| "files`, :ref:`addon-weblate.properties.sort`, :ref:`addon-weblate.cleanup."
-#| "generic`"
 msgid ""
 "`Java properties on Wikipedia <https://en.wikipedia.org/wiki/."
 "properties>`_, :doc:`tt:formats/properties`, :ref:`mi18n-lang`, :ref:`gwt`, :"
 "ref:`updating-target-files`, :ref:`addon-weblate.properties.sort`, :ref:"
 "`addon-weblate.cleanup.generic`"
 msgstr ""
-"`Властивості Java у Вікіпедії <https://en.wikipedia.org/wiki/."
-"properties>`_, :doc:`tt:formats/properties`, :ref:`updating-target-files`, :"
-"ref:`addon-weblate.properties.sort`, :ref:`addon-weblate.cleanup.generic`"
+"`Властивості Java у Вікіпедії <https://en.wikipedia.org/wiki/.properties>`_, "
+":doc:`tt:formats/properties`, :ref:`mi18n-lang`, :ref:`updating-target-files`"
+", :ref:`addon-weblate.properties.sort`, :ref:`addon-weblate.cleanup.generic`"
 
 #: ../../formats.rst:449
-#, fuzzy
-#| msgid "Failing file"
 msgid "mi18n lang files"
-msgstr "Збій файлу"
+msgstr "Мовні файли mi18n"
 
 #: ../../formats.rst:456
 msgid ""
 "File format used for JavaScript localization by `mi18n`_. Syntactically it "
 "matches :ref:`javaprop`."
 msgstr ""
+"Формат файлів, який використовують для локалізації коду JavaScript за "
+"допомогою `mi18n`_. Синтаксично збігається із :ref:`javaprop`."
 
 #: ../../formats.rst:461
-#, fuzzy
-#| msgid "``lang``"
 msgid "``*.lang``"
-msgstr "``lang``"
+msgstr "``*.lang``"
 
 #: ../../formats.rst:463
-#, fuzzy
-#| msgid "``lang``"
 msgid "``en-US.lang``"
-msgstr "``lang``"
+msgstr "``en-US.lang``"
 
 #: ../../formats.rst:467
-#, fuzzy
-#| msgid "Failing file"
 msgid "`mi18n lang file`"
-msgstr "Збій файлу"
+msgstr "`мовний файл mi18n`"
 
 #: ../../formats.rst:472
-#, fuzzy
-#| msgid ""
-#| ":doc:`tt:formats/json`, :ref:`updating-target-files`, :ref:`addon-weblate."
-#| "json.customize`, :ref:`addon-weblate.cleanup.generic`,"
 msgid ""
 "`mi18n`_ :doc:`tt:formats/properties`, :ref:`javaprop`, :ref:`updating-"
 "target-files`, :ref:`addon-weblate.properties.sort`, :ref:`addon-weblate."
 "cleanup.generic`"
 msgstr ""
-":doc:`tt:formats/json`, :ref:`updating-target-files`, :ref:`addon-weblate."
-"json.customize`, :ref:`addon-weblate.cleanup.generic`,"
+"`mi18n`_ :doc:`tt:formats/properties`, :ref:`javaprop`, :ref:`updating-"
+"target-files`, :ref:`addon-weblate.properties.sort`, :ref:`addon-weblate."
+"cleanup.generic`"
 
 #: ../../formats.rst:484
 msgid "GWT properties"
