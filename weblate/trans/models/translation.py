@@ -120,6 +120,11 @@ class TranslationQuerySet(FastDeleteQuerySetMixin, models.QuerySet):
             )
         )
 
+    def order(self):
+        return self.order_by(
+            "component__priority", "component__project__name", "component__name"
+        )
+
 
 class Translation(
     FastDeleteModelMixin, models.Model, URLMixin, LoggerMixin, CacheKeyMixin

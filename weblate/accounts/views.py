@@ -112,7 +112,7 @@ from weblate.accounts.pipeline import EmailAlreadyAssociated, UsernameAlreadyAss
 from weblate.accounts.utils import remove_user
 from weblate.auth.models import User
 from weblate.logger import LOGGER
-from weblate.trans.models import Change, Component, Project, Suggestion
+from weblate.trans.models import Change, Component, Suggestion, Translation
 from weblate.trans.models.project import prefetch_project_flags
 from weblate.utils import messages
 from weblate.utils.errors import report_error
@@ -643,17 +643,22 @@ class UserPage(UpdateView):
         last_changes = all_changes[:10]
 
         # Filter where project is active
-        user_projects_ids = set(
+        user_translation_ids = set(
             all_changes.values_list("translation__component__project", flat=True)
         )
-        user_projects = Project.objects.filter(
-            id__in=user_projects_ids & allowed_project_ids
-        ).order()
+        user_translations = (
+            Translation.objects.prefetch()
+            .filter(
+                id__in=user_translation_ids,
+                component__project_id__in=allowed_project_ids,
+            )
+            .order()
+        )
 
         context["page_profile"] = user.profile
         context["last_changes"] = last_changes
         context["last_changes_url"] = urlencode({"user": user.username})
-        context["user_projects"] = prefetch_project_flags(prefetch_stats(user_projects))
+        context["user_translations"] = prefetch_stats(user_translations)
         context["owned_projects"] = prefetch_project_flags(
             prefetch_stats(
                 user.owned_projects.filter(id__in=allowed_project_ids).order()
