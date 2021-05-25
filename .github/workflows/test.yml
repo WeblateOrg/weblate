@@ -92,7 +92,7 @@ jobs:
         run: |
           coverage combine
           coverage xml
-      - uses: codecov/codecov-action@v1
+      - uses: codecov/codecov-action@v1.5.0
         with:
           token: ${{secrets.CODECOV_TOKEN}}
           flags: unittests

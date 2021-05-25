@@ -9,7 +9,7 @@
 <tr>
 <th>{% trans "Source code repository" %}</th>
 <td class="full-cell">
-    <code class="git-repo ui-corner-all">{{ object.get_repo_url }}</code>
+    <code class="wrap-text">{{ object.get_repo_url }}</code>
     <button type="button" class="btn btn-link btn-xs" data-clipboard-text="{{ object.get_repo_url }}" data-clipboard-message="{% trans "Repository URL copied to clipboard." %}" title="{% trans "Copy to clipboard" %}">{% icon "copy.svg" %}</button>
 </td>
 </tr>
@@ -37,12 +37,28 @@
 {% endif %}
 {% endwith %}
 
+{% with object.get_last_commit as commit %}
+{% if commit %}
+<tr>
+<th>{% trans "Last commit in Weblate" %}</th>
+<td class="full-cell">
+    {{ commit.summary }}
+    <code title="{{ commit.revision }}">{{ commit.shortrevision }}</code>
+    <button type="button" class="btn btn-link btn-xs" data-clipboard-text="{{ commit.revision }}" title="{% trans "Copy to clipboard" %}">{% icon "copy.svg" %}</button>
+    <br />
+{% comment %}Translators: For example: "nijel authored five days ago"{% endcomment %}
+{% blocktrans with author=commit|format_commit_author date=commit.authordate|naturaltime %}{{ author }} authored {{ date }}{% endblocktrans %}<br />
+</td>
+</tr>
+{% endif %}
+{% endwith %}
+
 {% with object.get_export_url as export_url %}
 {% if export_url %}
 <tr>
 <th>{% trans "Weblate repository" %}</th>
 <td class="full-cell">
-    <code class="git-repo ui-corner-all">{{ export_url }}</code>
+    <code class="wrap-text">{{ export_url }}</code>
     <button type="button" class="btn btn-link btn-xs" data-clipboard-text="{{ export_url }}" data-clipboard-message="{% trans "Repository URL copied to clipboard." %}" title="{% trans "Copy to clipboard" %}">{% icon "copy.svg" %}</button>
 </td>
 </tr>

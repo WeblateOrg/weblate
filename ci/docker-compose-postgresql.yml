@@ -2,7 +2,7 @@ version: "3"
 
 services:
   database:
-    image: postgres:12
+    image: postgres:13.3
     ports:
       - 60000:5432
     volumes:
@@ -12,7 +12,7 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: weblate
   cache:
-    image: redis:5-alpine
+    image: redis:6.2.3-alpine
     restart: always
     ports:
       - 60001:6379

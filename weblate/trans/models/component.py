@@ -632,6 +632,8 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
         blank=False,
         default="silver",
     )
+    remote_revision = models.CharField(max_length=200, default="", blank=True)
+    local_revision = models.CharField(max_length=200, default="", blank=True)
 
     objects = ComponentQuerySet.as_manager()
 
@@ -735,7 +737,7 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
             self.store_background_task(task)
 
         if self.old_component.check_flags != self.check_flags:
-            update_checks.delay(self.pk)
+            update_checks.delay(self.pk, update_state=True)
 
     def __init__(self, *args, **kwargs):
         """Constructor to initialize some cache properties."""
@@ -1082,12 +1084,15 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
 
     def get_last_remote_commit(self):
         """Return latest locally known remote commit."""
-        try:
-            revision = self.repository.last_remote_revision
-        except RepositoryException:
-            report_error(cause="Could not get remote revision")
+        if self.vcs == "local" or not self.remote_revision:
             return None
-        return self.repository.get_revision_info(revision)
+        return self.repository.get_revision_info(self.remote_revision)
+
+    def get_last_commit(self):
+        """Return latest locally known remote commit."""
+        if self.vcs == "local" or not self.local_revision:
+            return None
+        return self.repository.get_revision_info(self.local_revision)
 
     @perform_on_link
     def get_repo_url(self):
@@ -1196,16 +1201,26 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
                 self.repository.update_remote()
                 timediff = time.time() - start
                 self.log_info("update took %.2f seconds", timediff)
-                if previous:
-                    self.log_info(
-                        "repository updated from %s to %s",
-                        previous,
-                        self.repository.last_remote_revision,
-                    )
                 for line in self.repository.last_output.splitlines():
                     self.log_debug("update: %s", line)
+                if previous:
+                    current = self.repository.last_remote_revision
+                    if previous == current:
+                        self.log_info("repository up to date at %s", previous)
+                    else:
+                        self.log_info(
+                            "repository updated from %s to %s",
+                            previous,
+                            current,
+                        )
                 if self.id:
                     self.delete_alert("UpdateFailure")
+                    try:
+                        Component.objects.filter(pk=self.pk).update(
+                            remote_revision=self.repository.last_remote_revision
+                        )
+                    except RepositoryException:
+                        pass
             return True
         except RepositoryException as error:
             report_error(cause="Could not update the repository")
@@ -1314,24 +1329,28 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
                 )
 
             # update local branch
-            ret = self.update_branch(request, method=method, skip_push=True)
+            try:
+                result = self.update_branch(request, method=method, skip_push=True)
+            except RepositoryException:
+                result = False
 
-        # create translation objects for all files
-        try:
-            self.create_translations(request=request)
-        except FileParseError:
-            ret = False
+        if result:
+            # create translation objects for all files
+            try:
+                self.create_translations(request=request)
+            except FileParseError:
+                result = False
 
-        # Push after possible merge
-        if ret:
+            # Push after possible merge
             self.push_if_needed(do_update=False)
+
         if not self.repo_needs_push():
             self.delete_alert("RepositoryChanges")
 
         self.progress_step(100)
         self.translations_count = None
 
-        return ret
+        return result
 
     @perform_on_link
     def push_if_needed(self, do_update=True):
@@ -1553,28 +1572,31 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
 
         return True
 
+    @perform_on_link
     def commit_files(
         self,
-        template: str,
+        template: Optional[str] = None,
         author: Optional[str] = None,
         timestamp: Optional[datetime] = None,
         files: Optional[List[str]] = None,
         signals: bool = True,
         skip_push: bool = False,
         extra_context: Optional[Dict[str, Any]] = None,
+        message: Optional[str] = None,
     ):
         """Commits files to the repository."""
         # Is there something to commit?
         if not self.repository.needs_commit(files):
             return False
 
-        # Handle context
-        context = {"component": self, "author": author}
-        if extra_context:
-            context.update(extra_context)
+        if message is None:
+            # Handle context
+            context = {"component": self, "author": author}
+            if extra_context:
+                context.update(extra_context)
 
-        # Generate commit message
-        message = render_template(template, **context)
+            # Generate commit message
+            message = render_template(template, **context)
 
         # Actual commit
         self.repository.commit(message, author, timestamp, files)
@@ -1641,11 +1663,9 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
                 previous_head = self.repository.last_revision
                 # Try to merge it
                 method_func(**kwargs)
+                new_head = self.repository.last_revision
                 self.log_info(
-                    "%s remote into repo %s..%s",
-                    method,
-                    previous_head,
-                    self.repository.last_revision,
+                    "%s remote into repo %s..%s", method, previous_head, new_head
                 )
             except RepositoryException as error:
                 # Report error
@@ -1672,9 +1692,19 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
                 # Tell user (if there is any)
                 messages.error(request, error_msg % self)
 
+                raise
+
+            if self.local_revision == new_head:
                 return False
 
             if self.id:
+                # Store current revision in the database
+                self.local_revision = new_head
+                # Avoid using using save as that does complex things and we
+                # just want to update the database
+                Component.objects.filter(pk=self.pk).update(local_revision=new_head)
+
+                # Record change
                 Change.objects.create(
                     component=self,
                     action=action,
@@ -1696,6 +1726,7 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
                 self.trigger_post_update(previous_head, skip_push)
         return True
 
+    @perform_on_link
     def trigger_post_update(self, previous_head: str, skip_push: bool):
         vcs_post_update.send(
             sender=self.__class__,
@@ -2542,9 +2573,13 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
             processed = set()
             for addons in self.addons_cache.values():
                 for addon in addons:
+                    # Skip addons installed elsewhere (repo/project wide)
+                    if addon.component_id != self.id:
+                        continue
                     if addon.id in processed:
                         continue
                     processed.add(addon.id)
+                    self.log_debug("configuring add-on: %s", addon.name)
                     addon.addon.post_configure()
 
     def update_variants(self):
@@ -2870,7 +2905,13 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
         return self.is_valid_base_for_new(fast=fast)
 
     @transaction.atomic
-    def add_new_language(self, language, request, send_signal=True):
+    def add_new_language(
+        self,
+        language,
+        request,
+        send_signal: bool = True,
+        create_translations: bool = True,
+    ):
         """Create new language file."""
         if not self.can_add_new_language(request.user if request else None):
             messages.error(request, _("Could not add new translation file."))
@@ -2931,7 +2972,7 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
                 )
 
         # Trigger parsing of the newly added file
-        if not self.create_translations(request=request):
+        if create_translations and not self.create_translations(request=request):
             messages.warning(
                 request, _("The translation will be updated in the background.")
             )

@@ -21,6 +21,7 @@
 from celery.schedules import crontab
 
 from weblate.utils.celery import app
+from weblate.utils.lock import WeblateLockTimeout
 from weblate.wladmin.models import BackupService, SupportStatus
 
 
@@ -38,7 +39,7 @@ def backup():
         backup_service.delay(service.pk)
 
 
-@app.task(trail=False)
+@app.task(trail=False, autoretry_for=(WeblateLockTimeout,))
 def backup_service(pk):
     service = BackupService.objects.get(pk=pk)
     service.ensure_init()

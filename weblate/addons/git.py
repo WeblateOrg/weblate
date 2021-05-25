@@ -54,8 +54,9 @@ class GitSquashAddon(BaseAddon):
         message = self.get_squash_commit_message(repository, "%B", remote)
         repository.execute(["reset", "--mixed", remote])
         # Can happen for added and removed translation
-        if repository.needs_commit():
-            repository.commit(message, author)
+        component.commit_files(
+            author=author, message=message, signals=False, skip_push=True
+        )
 
     def get_filenames(self, component):
         languages = defaultdict(list)
@@ -143,7 +144,9 @@ class GitSquashAddon(BaseAddon):
         for code, message in messages.items():
             if not message:
                 continue
-            repository.commit(message, files=languages[code])
+            component.commit_files(
+                message=message, files=languages[code], signals=False, skip_push=True
+            )
 
     def squash_file(self, component, repository):
         remote = repository.get_remote_branch_name()
@@ -161,7 +164,9 @@ class GitSquashAddon(BaseAddon):
         for filename, message in messages.items():
             if not message:
                 continue
-            repository.commit(message, files=[filename])
+            component.commit_files(
+                message=message, files=[filename], signals=False, skip_push=True
+            )
 
     def squash_author(self, component, repository):
         remote = repository.get_remote_branch_name()
@@ -226,10 +231,11 @@ class GitSquashAddon(BaseAddon):
         with repository.lock:
             # Ensure repository is rebased on current remote prior to squash, otherwise
             # we might be squashing upstream changes as well due to reset.
-            if component.repo_needs_merge() and not component.update_branch(
-                method="rebase", skip_push=True
-            ):
-                return
+            if component.repo_needs_merge():
+                try:
+                    component.update_branch(method="rebase", skip_push=True)
+                except RepositoryException:
+                    return
             if not repository.needs_push():
                 return
             method = getattr(

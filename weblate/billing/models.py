@@ -83,6 +83,10 @@ class Plan(models.Model):
 
     objects = PlanQuerySet.as_manager()
 
+    class Meta:
+        verbose_name = "Billing plan"
+        verbose_name_plural = "Billing plans"
+
     def __str__(self):
         return self.name
 
@@ -192,6 +196,10 @@ class Billing(models.Model):
     payment = JSONField(editable=False, default={})
 
     objects = BillingManager.from_queryset(BillingQuerySet)()
+
+    class Meta:
+        verbose_name = "Customer billing"
+        verbose_name_plural = "Customer billings"
 
     def __str__(self):
         projects = self.projects_display
@@ -508,6 +516,10 @@ class Invoice(models.Model):
     payment = JSONField(editable=False, default={})
 
     objects = InvoiceQuerySet.as_manager()
+
+    class Meta:
+        verbose_name = "Invoice"
+        verbose_name_plural = "Invoices"
 
     def __str__(self):
         return "{} - {}: {}".format(

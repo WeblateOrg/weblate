@@ -55,7 +55,7 @@ class WeblateLock:
             self._lock = Lock(
                 default_cache.client.get_client(),
                 name=self._format_template(cache_template),
-                expire=5,
+                expire=6,
                 auto_renewal=True,
             )
         else:

@@ -359,14 +359,13 @@ class Project(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKeyM
     def all_repo_components(self):
         """Return list of all unique VCS components."""
         result = list(self.component_set.with_repo())
-        included = {component.get_repo_link_url().lower() for component in result}
+        included = {component.id for component in result}
 
         linked = self.component_set.filter(repo__startswith="weblate:")
         for other in linked:
-            repo_url = other.repo.lower()
-            if repo_url in included:
+            if other.linked_component_id in included:
                 continue
-            included.add(repo_url)
+            included.add(other.linked_component_id)
             result.append(other)
 
         return result

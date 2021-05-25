@@ -262,6 +262,7 @@ class MsgmergeAddon(GettextBaseAddon, UpdateBaseAddon):
                 }
             )
             self.trigger_alerts(component)
+            component.log_info("%s addon skipped, new base was not found", self.name)
             return
         args = []
         if not self.instance.configuration.get("fuzzy", True):
@@ -295,6 +296,7 @@ class MsgmergeAddon(GettextBaseAddon, UpdateBaseAddon):
                         "error": str(error),
                     }
                 )
+                component.log_info("%s addon failed: %s", self.name, error)
         self.trigger_alerts(component)
 
 

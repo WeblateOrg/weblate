@@ -206,9 +206,14 @@ class AdminTest(ViewTestCase):
 
     def test_check_user(self):
         response = self.client.get(
-            reverse("manage-users-check"), {"email": self.user.email}
+            reverse("manage-users-check"), {"email": self.user.email}, follow=True
         )
-        self.assertContains(response, "Last login")
+        self.assertRedirects(response, self.user.get_absolute_url())
+        self.assertContains(response, "Never signed-in")
+        response = self.client.get(
+            reverse("manage-users-check"), {"email": "nonexisting"}, follow=True
+        )
+        self.assertRedirects(response, reverse("manage-users") + "?q=nonexisting")
 
     @override_settings(
         EMAIL_HOST="nonexisting.weblate.org",

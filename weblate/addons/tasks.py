@@ -83,8 +83,13 @@ def language_consistency(project_id: int, language_ids: List[int]):
 
     for component in project.component_set.iterator():
         missing = languages.exclude(translation__component=component)
+        if not missing:
+            continue
         for language in missing:
-            component.add_new_language(language, None, send_signal=False)
+            component.add_new_language(
+                language, None, send_signal=False, create_translations=True
+            )
+        component.create_translations()
 
 
 @app.task(trail=False)
@@ -93,6 +98,7 @@ def daily_addons():
         "component"
     ):
         with transaction.atomic():
+            addon.component.log_debug("running daily add-on: %s", addon.name)
             addon.addon.daily(addon.component)
 
 

@@ -31,6 +31,7 @@ from weblate.lang.models import Language, Plural
 from weblate.trans.forms import ProjectLanguageDeleteForm, SearchForm
 from weblate.trans.models import Change
 from weblate.trans.models.project import prefetch_project_flags
+from weblate.trans.models.translation import GhostTranslation
 from weblate.trans.util import sort_objects
 from weblate.utils import messages
 from weblate.utils.stats import (
@@ -120,6 +121,17 @@ def show_project(request, lang, project):
         language=language_object, project=project_object
     )[:10]
 
+    translations = list(obj.translation_set)
+
+    # Add ghost translations
+    if user.is_authenticated:
+        existing = {translation.component.slug for translation in translations}
+        for component in project_object.child_components:
+            if component.slug in existing:
+                continue
+            if component.can_add_new_language(user, fast=True):
+                translations.append(GhostTranslation(component, language_object))
+
     return render(
         request,
         "language-project.html",
@@ -132,7 +144,7 @@ def show_project(request, lang, project):
             "last_changes_url": urlencode(
                 {"lang": language_object.code, "project": project_object.slug}
             ),
-            "translations": obj.translation_set,
+            "translations": translations,
             "title": f"{project_object} - {language_object}",
             "search_form": SearchForm(user, language=language_object),
             "licenses": project_object.component_set.exclude(license="").order_by(

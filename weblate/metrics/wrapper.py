@@ -193,14 +193,17 @@ class MetricsWrapper:
         return self.calculate_trend("users", self.past_30, self.past_60)
 
     def get_daily_activity(self, start, days):
+        kwargs = {
+            "scope": self.scope,
+            "relation": self.relation,
+        }
+        if self.secondary:
+            kwargs["secondary"] = self.secondary
         result = dict(
             Metric.objects.filter(
-                scope=self.scope,
-                relation=self.relation,
-                secondary=self.secondary,
-                date__gte=start - timedelta(days=days),
-                date__lte=start,
+                date__in=[start - timedelta(days=i) for i in range(days + 1)],
                 name="changes",
+                **kwargs,
             ).values_list("date", "value")
         )
         for offset in range(days):
@@ -209,9 +212,7 @@ class MetricsWrapper:
                 result[current] = Metric.objects.calculate_changes(
                     date=current,
                     obj=self.obj,
-                    scope=self.scope,
-                    relation=self.relation,
-                    secondary=self.secondary,
+                    **kwargs,
                 )
         return result
 

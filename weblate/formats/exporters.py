@@ -326,8 +326,12 @@ class MoExporter(PoExporter):
         if translation:
             self.monolingual = translation.component.has_template()
             if self.monolingual:
-                unit = next(translation.store.content_units, None)
-                self.use_context = unit is not None and not unit.template.source
+                try:
+                    self.use_context = translation.store.content_units[
+                        0
+                    ].template.source
+                except IndexError:
+                    pass
 
     def store_flags(self, output, flags):
         return

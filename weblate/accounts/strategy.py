@@ -18,9 +18,11 @@
 #
 
 from importlib import import_module
+from urllib.parse import urlparse
 
 from django.conf import settings
 from django.urls import reverse
+from django.utils.functional import cached_property
 from django.utils.http import url_has_allowed_host_and_scheme
 from social_django.strategy import DjangoStrategy
 
@@ -38,6 +40,10 @@ class WeblateStrategy(DjangoStrategy):
         super().__init__(storage, request, tpl)
         if request and "verification_code" in request.GET and "id" in request.GET:
             self.session = create_session(request.GET["id"])
+
+    @cached_property
+    def _site_url(self):
+        return urlparse(get_site_url())
 
     def request_data(self, merge=True):
         if not self.request:
@@ -71,3 +77,12 @@ class WeblateStrategy(DjangoStrategy):
 
     def really_clean_partial_pipeline(self, token):
         super().clean_partial_pipeline(token)
+
+    def request_is_secure(self):
+        return settings.ENABLE_HTTPS
+
+    def request_port(self):
+        return self._site_url.port
+
+    def request_host(self):
+        return self._site_url.hostname

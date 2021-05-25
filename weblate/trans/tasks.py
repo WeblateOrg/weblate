@@ -294,11 +294,22 @@ def component_alerts(component_ids=None):
 
 @app.task(trail=False, autoretry_for=(Component.DoesNotExist,), retry_backoff=60)
 def component_after_save(
-    pk, changed_git, changed_setup, changed_template, changed_variant, skip_push, create
+    pk: int,
+    changed_git: bool,
+    changed_setup: bool,
+    changed_template: bool,
+    changed_variant: bool,
+    skip_push: bool,
+    create: bool,
 ):
     component = Component.objects.get(pk=pk)
     component.after_save(
-        changed_git, changed_setup, changed_template, changed_variant, skip_push, create
+        changed_git=changed_git,
+        changed_setup=changed_setup,
+        changed_template=changed_template,
+        changed_variant=changed_variant,
+        skip_push=skip_push,
+        create=create,
     )
     return {"component": pk}
 
@@ -456,18 +467,22 @@ def create_component(addons_from=None, in_task=False, **kwargs):
 
 
 @app.task(trail=False)
-def update_checks(pk):
+def update_checks(pk: int, update_state: bool = False):
     component = Component.objects.get(pk=pk)
     component.batch_checks = True
     for translation in component.translation_set.exclude(
         pk=component.source_translation.pk
     ).prefetch():
         for unit in translation.unit_set.prefetch():
+            if update_state:
+                unit.update_state()
             unit.run_checks()
     for unit in component.source_translation.unit_set.prefetch():
+        if update_state:
+            unit.update_state()
         unit.run_checks()
-    component.invalidate_cache()
     component.run_batched_checks()
+    component.invalidate_cache()
 
 
 @app.task(trail=False)

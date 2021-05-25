@@ -25,24 +25,13 @@ and lists all contributors to a given language:
 
     * Czech
 
-        * Michal Čihař <michal@cihar.com> (10)
         * John Doe <john@example.com> (5)
+        * Jane Doe <jane@example.com> (1)
 
     * Dutch
 
         * Jane Doe <jane@example.com> (42)
 
-
-It will render as:
-
-    * Czech
-
-        * Michal Čihař <michal@cihar.com> (10)
-        * John Doe <john@example.com> (5)
-
-    * Dutch
-
-        * Jane Doe <jane@example.com> (42)
 
 .. hint::
 
@@ -58,10 +47,6 @@ Generates the number of translated words and strings by translator name:
 
 .. literalinclude:: reporting-example.rst
     :language: rst
-
-And it will get rendered as:
-
-.. include:: reporting-example.rst
 
 It can be useful if you pay your translators based on amount of work, it gives
 you various stats on translators work.

@@ -22,6 +22,15 @@ import os
 import platform
 from logging.handlers import SysLogHandler
 
+# Title of site to use
+SITE_TITLE = "Weblate"
+
+# Site domain
+SITE_DOMAIN = ""
+
+# Whether site uses https
+ENABLE_HTTPS = False
+
 #
 # Django settings for Weblate project.
 #
@@ -587,15 +596,6 @@ MT_SAP_USERNAME = None
 MT_SAP_PASSWORD = None
 MT_SAP_USE_MT = True
 
-# Title of site to use
-SITE_TITLE = "Weblate"
-
-# Site domain
-SITE_DOMAIN = ""
-
-# Whether site uses https
-ENABLE_HTTPS = False
-
 # Use HTTPS when creating redirect URLs for social authentication, see
 # documentation for more details:
 # https://python-social-auth-docs.readthedocs.io/en/latest/configuration/settings.html#processing-redirects-and-urlopen
@@ -920,5 +920,5 @@ MATOMO_SITE_ID = None
 MATOMO_URL = None
 GOOGLE_ANALYTICS_ID = None
 SENTRY_DSN = None
-SENTRY_ENVIRONMENT = None
+SENTRY_ENVIRONMENT = SITE_DOMAIN
 AKISMET_API_KEY = None

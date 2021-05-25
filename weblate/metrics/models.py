@@ -58,16 +58,26 @@ SOURCE_KEYS = BASIC_KEYS | {
 
 
 class MetricQuerySet(models.QuerySet):
+    def get_kwargs(
+        self, kwargs: Dict, scope: int, relation: int, secondary: int = 0
+    ) -> Dict:
+        """Build the query params."""
+        kwargs["scope"] = scope
+        kwargs["relation"] = relation
+        if secondary:
+            # If secondary is 0 it is not used for this metric
+            kwargs["secondary"] = secondary
+        return kwargs
+
     def get_current(self, obj, scope: int, relation: int, secondary: int = 0, **kwargs):
         today = datetime.date.today()
         yesterday = today - datetime.timedelta(days=1)
 
+        kwargs = self.get_kwargs(kwargs, scope, relation, secondary)
+
         # Get todays stats
         data = dict(
             self.filter(
-                scope=scope,
-                relation=relation,
-                secondary=secondary,
                 date=today,
                 **kwargs,
             ).values_list("name", "value")
@@ -76,9 +86,6 @@ class MetricQuerySet(models.QuerySet):
             # Fallback to yesterday in case they are not yet calculated
             data = dict(
                 self.filter(
-                    scope=scope,
-                    relation=relation,
-                    secondary=secondary,
                     date=yesterday,
                     **kwargs,
                 ).values_list("name", "value")
@@ -94,12 +101,10 @@ class MetricQuerySet(models.QuerySet):
     def get_past(
         self, scope: int, relation: int, secondary: int = 0, delta: int = 30, **kwargs
     ):
+        kwargs = self.get_kwargs(kwargs, scope, relation, secondary)
         return defaultdict(
             int,
             self.filter(
-                scope=scope,
-                relation=relation,
-                secondary=secondary,
                 date=datetime.date.today() - datetime.timedelta(days=delta),
                 **kwargs,
             ).values_list("name", "value"),
@@ -424,13 +429,15 @@ class Metric(models.Model):
     scope = models.SmallIntegerField()
     relation = models.IntegerField()
     secondary = models.IntegerField(default=0)
-    name = models.CharField(max_length=100)
-    value = models.IntegerField(db_index=True)
+    name = models.CharField(max_length=25)
+    value = models.IntegerField()
 
     objects = MetricsManager.from_queryset(MetricQuerySet)()
 
     class Meta:
         unique_together = (("date", "scope", "relation", "secondary", "name"),)
+        verbose_name = "Metric"
+        verbose_name_plural = "Metrics"
 
     def __str__(self):
         return f"<{self.scope}.{self.relation}>:{self.date}:{self.name}={self.value}"
@@ -461,3 +468,10 @@ def create_metrics_translation(sender, instance, created=False, **kwargs):
         Metric.objects.initialize_metrics(
             scope=Metric.SCOPE_TRANSLATION, relation=instance.pk
         )
+
+
+@receiver(post_save, sender=User)
+@disable_for_loaddata
+def create_metrics_user(sender, instance, created=False, **kwargs):
+    if created:
+        Metric.objects.initialize_metrics(scope=Metric.SCOPE_USER, relation=instance.pk)

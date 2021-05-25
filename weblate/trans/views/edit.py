@@ -157,6 +157,7 @@ def get_other_units(unit):
         item.is_propagated = (
             propagation
             and item.translation.component.allow_translation_propagation
+            and item.translation.plural_id == translation.plural_id
             and item.source == unit.source
             and item.context == unit.context
         )
@@ -404,7 +405,7 @@ def handle_merge(unit, request, next_unit_url):
         return None
 
     # Store unit
-    unit.translate(request.user, merged.target, merged.state)
+    unit.translate(request.user, merged.get_target_plurals(), merged.state)
     # Redirect to next entry
     return HttpResponseRedirect(next_unit_url)
 

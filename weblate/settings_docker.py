@@ -32,6 +32,17 @@ from weblate.utils.environment import (
     modify_env_list,
 )
 
+# Title of site to use
+SITE_TITLE = os.environ.get("WEBLATE_SITE_TITLE", "Weblate")
+
+# Site domain
+SITE_DOMAIN = os.environ["WEBLATE_SITE_DOMAIN"]
+
+# Whether site uses https
+ENABLE_HTTPS = get_env_bool("WEBLATE_ENABLE_HTTPS", False)
+
+SITE_URL = "{}://{}".format("https" if ENABLE_HTTPS else "http", SITE_DOMAIN)
+
 #
 # Django settings for Weblate project.
 #
@@ -305,6 +316,7 @@ if "WEBLATE_SAML_IDP_URL" in os.environ:
         SOCIAL_AUTH_SAML_SP_PUBLIC_CERT = handle.read()
     with open("/app/data/ssl/saml.key") as handle:
         SOCIAL_AUTH_SAML_SP_PRIVATE_KEY = handle.read()
+    SOCIAL_AUTH_SAML_SP_ENTITY_ID = f"{SITE_URL}/accounts/metadata/saml/"
     # Identity Provider
     SOCIAL_AUTH_SAML_ENABLED_IDPS = {
         "weblate": {
@@ -314,6 +326,17 @@ if "WEBLATE_SAML_IDP_URL" in os.environ:
             "attr_name": "full_name",
             "attr_username": "username",
             "attr_email": "email",
+        }
+    }
+    SOCIAL_AUTH_SAML_SUPPORT_CONTACT = SOCIAL_AUTH_SAML_TECHNICAL_CONTACT = {
+        "givenName": ADMINS[0][0],
+        "emailAddress": ADMINS[0][1],
+    }
+    SOCIAL_AUTH_SAML_ORG_INFO = {
+        "en-US": {
+            "name": "weblate",
+            "displayname": SITE_TITLE,
+            "url": SITE_URL,
         }
     }
 
@@ -729,7 +752,9 @@ if MT_AWS_ACCESS_KEY_ID:
 
 # DeepL API key
 MT_DEEPL_KEY = os.environ.get("WEBLATE_MT_DEEPL_KEY", None)
-MT_DEEPL_API_VERSION = os.environ.get("WEBLATE_MT_DEEPL_API_VERSION", "v2")
+MT_DEEPL_API_URL = os.environ.get(
+    "WEBLATE_MT_DEEPL_API_URL", "https://api.deepl.com/v2/"
+)
 if MT_DEEPL_KEY:
     MT_SERVICES += ("weblate.machinery.deepl.DeepLTranslation",)
 
@@ -754,7 +779,7 @@ if MT_MODERNMT_KEY:
 
 # MyMemory identification email, see
 # http://mymemory.translated.net/doc/spec.php
-MT_MYMEMORY_EMAIL = os.environ["WEBLATE_ADMIN_EMAIL"]
+MT_MYMEMORY_EMAIL = ADMINS[0][1]
 
 # Optional MyMemory credentials to access private translation memory
 MT_MYMEMORY_USER = None
@@ -803,15 +828,6 @@ MT_SAP_PASSWORD = os.environ.get("WEBLATE_MT_SAP_PASSWORD", None)
 MT_SAP_USE_MT = get_env_bool("WEBLATE_MT_SAP_USE_MT", True)
 if MT_SAP_BASE_URL:
     MT_SERVICES += ("weblate.machinery.saptranslationhub.SAPTranslationHub",)
-
-# Title of site to use
-SITE_TITLE = os.environ.get("WEBLATE_SITE_TITLE", "Weblate")
-
-# Site domain
-SITE_DOMAIN = os.environ["WEBLATE_SITE_DOMAIN"]
-
-# Whether site uses https
-ENABLE_HTTPS = get_env_bool("WEBLATE_ENABLE_HTTPS", False)
 
 # Use HTTPS when creating redirect URLs for social authentication, see
 # documentation for more details:

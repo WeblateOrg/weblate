@@ -32,12 +32,17 @@ are available via the :guilabel:`Files` ↓ :guilabel:`Customize download` menu:
 * XLIFF 1.1
 * TermBase eXchange
 * Translation Memory eXchange
-* gettext MO
+* gettext MO (only available when translation is using gettext PO)
 * CSV
 * Excel Open XML
-* JSON
-* Android String Resource
-* iOS strings
+* JSON (only available for monolingual translations)
+* Android String Resource (only available for monolingual translations)
+* iOS strings (only available for monolingual translations)
+
+.. hint::
+
+   The content available in the converted files differs based on file format
+   features, you can find overview in :ref:`fmt_capabs`.
 
 .. image:: /images/file-download.png
 
@@ -81,12 +86,18 @@ These are the choices presented when uploading translation files:
 Add as translation (``translate``)
     Imported translations are added as translations. This is the most common usecase, and
     the default behavior.
+
+    Only translations are used from the uploaded file and no additional content.
 Add as suggestion (``suggest``)
     Imported translations are added as suggestions, do this when you want to have your
     uploaded strings reviewed.
+
+    Only translations are used from the uploaded file and no additional content.
 Add as translation needing edit (``fuzzy``)
     Imported translations are added as translations needing edit. This can be useful
     when you want translations to be used, but also reviewed.
+
+    Only translations are used from the uploaded file and no additional content.
 Replace existing translation file (``replace``)
     Existing file is replaced with new content. This can lead to loss of existing
     translations, use with caution.
@@ -102,6 +113,8 @@ Add new strings (``add``)
     upload the file second time with :guilabel:`Add as translation`.
 
     This option is available only with :ref:`component-manage_units` turned on.
+
+    Only source, translation and key (context) are used from the uploaded file.
 
 .. seealso::
 

@@ -238,10 +238,14 @@ class Memory(models.Model):
         blank=True,
         default=None,
     )
-    from_file = models.BooleanField(db_index=True, default=False)
-    shared = models.BooleanField(db_index=True, default=False)
+    from_file = models.BooleanField(default=False)
+    shared = models.BooleanField(default=False)
 
     objects = MemoryManager.from_queryset(MemoryQuerySet)()
+
+    class Meta:
+        verbose_name = "Translation memory entry"
+        verbose_name_plural = "Translation memory entries"
 
     def __str__(self):
         return f"Memory: {self.source_language}:{self.target_language}"

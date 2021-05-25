@@ -30,6 +30,7 @@ from django.urls import reverse
 from django.utils import timezone
 from django.utils.formats import number_format as django_number_format
 from django.utils.html import escape
+from django.utils.html import urlize as django_urlize
 from django.utils.safestring import mark_safe
 from django.utils.translation import gettext, gettext_lazy, ngettext, pgettext
 from siphashc import siphash
@@ -65,7 +66,7 @@ SPACE_NL = HIGHLIGTH_SPACE.format(SPACE_TEMPLATE.format("space-nl", ""), "<br />
 
 GLOSSARY_TEMPLATE = """<span class="glossary-term" title="{}">"""
 
-WHITESPACE_RE = re.compile(r"(  +| $|^ )")
+WHITESPACE_RE = re.compile(r"(  +| $|^ )", re.MULTILINE)
 TYPE_MAPPING = {True: "yes", False: "no", None: "unknown"}
 # Mapping of status report flags to names
 NAME_MAPPING = {
@@ -209,6 +210,10 @@ class Formatter:
             self.tags[match.start()].append(
                 '<span class="hlspace"><span class="space-space"><span class="sr-only">'
             )
+            for i in range(match.start() + 1, match.end()):
+                self.tags[i].insert(
+                    0, '</span></span><span class="space-space"><span class="sr-only">'
+                )
             self.tags[match.end()].insert(0, "</span></span></span>")
 
         for match in re.finditer("\t", self.value):
@@ -482,7 +487,7 @@ def naturaltime_future(value, now):
     }
 
 
-@register.filter
+@register.filter(is_safe=True)
 def naturaltime(value, now=None):
     """Heavily based on Django's django.contrib.humanize implementation of naturaltime.
 
@@ -855,7 +860,7 @@ def indicate_alerts(context, obj):
     return {"icons": result, "component": component, "project": project}
 
 
-@register.filter
+@register.filter(is_safe=True)
 def markdown(text):
     return mark_safe(f'<div class="markdown">{render_markdown(text)}</div>')
 
@@ -960,3 +965,10 @@ def get_message_kind(tags):
 @register.simple_tag
 def any_unit_has_context(units):
     return any(unit.context for unit in units)
+
+
+@register.filter(is_safe=True, needs_autoescape=True)
+def urlize(value, autoescape=True):
+    """Convert URLs in plain text into clickable links."""
+    html = django_urlize(value, nofollow=True, autoescape=autoescape)
+    return mark_safe(html.replace('rel="nofollow"', 'rel="ugc" target="_blank"'))

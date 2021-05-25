@@ -732,9 +732,9 @@ Machine translation settings
 
     Enables :ref:`deepl` machine translation and sets :setting:`MT_DEEPL_KEY`
 
-.. envvar:: WEBLATE_MT_DEEPL_API_VERSION
+.. envvar:: WEBLATE_MT_DEEPL_API_URL
 
-   Configures :ref:`deepl` API version to use, see :setting:`MT_DEEPL_API_VERSION`.
+   Configures :ref:`deepl` API version to use, see :setting:`MT_DEEPL_API_URL`.
 
 .. envvar:: WEBLATE_MT_GOOGLE_KEY
 
@@ -1382,8 +1382,9 @@ repositories or to customize Weblate installation.
 
 The placement of the Docker volume on host system depends on your Docker
 configuration, but usually it is stored in
-:file:`/var/lib/docker/volumes/weblate-docker_weblate-data/_data/`. In the
-container it is mounted as :file:`/app/data`.
+:file:`/var/lib/docker/volumes/weblate-docker_weblate-data/_data/` (the path
+consist of name of your docker-compose directory, container, and volume names).
+In the container it is mounted as :file:`/app/data`.
 
 The cache volume is mounted as :file:`/app/cache` and is used to store static
 files. Its content is recreated on container startup and the volume can be

@@ -29,6 +29,7 @@ from django.db.models import Count, Max, Q
 from django.utils import timezone
 from django.utils.functional import cached_property
 from django.utils.translation import gettext, gettext_lazy
+from pyparsing import ParseException
 
 from weblate.checks.flags import Flags
 from weblate.checks.models import CHECKS, Check
@@ -290,9 +291,7 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
     source = models.TextField()
     previous_source = models.TextField(default="", blank=True)
     target = models.TextField(default="", blank=True)
-    state = models.IntegerField(
-        default=STATE_EMPTY, db_index=True, choices=STATE_CHOICES
-    )
+    state = models.IntegerField(default=STATE_EMPTY, choices=STATE_CHOICES)
     original_state = models.IntegerField(default=STATE_EMPTY, choices=STATE_CHOICES)
     details = models.JSONField(default=dict)
 
@@ -343,7 +342,6 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
     class Meta:
         app_label = "trans"
         unique_together = ("translation", "id_hash")
-        index_together = [("translation", "pending"), ("priority", "position")]
         verbose_name = "string"
         verbose_name_plural = "strings"
 
@@ -480,7 +478,11 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
                 self.translation.component.invalidate_cache()
 
     def sync_terminology(self):
-        new_flags = Flags(self.extra_flags, self.flags)
+        try:
+            unit_flags = Flags(self.flags)
+        except ParseException:
+            unit_flags = None
+        new_flags = Flags(self.extra_flags, unit_flags)
 
         if "terminology" in new_flags:
             self.translation.component.sync_terminology()
@@ -1244,12 +1246,18 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
 
     def get_all_flags(self, override=None):
         """Return union of own and component flags."""
+        # Validate flags from the unit to avoid crash
+        try:
+            unit_flags = Flags(override or self.flags)
+        except ParseException:
+            unit_flags = None
+
         return Flags(
             self.translation.all_flags,
             self.extra_flags,
             # The source_unit is None before saving the object for the first time
             getattr(self.source_unit, "extra_flags", ""),
-            override or self.flags,
+            unit_flags,
         )
 
     @cached_property
@@ -1308,7 +1316,10 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
         return (
             Unit.objects.same(self)
             .prefetch_full()
-            .filter(translation__component__allow_translation_propagation=True)
+            .filter(
+                translation__component__allow_translation_propagation=True,
+                translation__plural_id=self.translation.plural_id,
+            )
         )
 
     def get_max_length(self):

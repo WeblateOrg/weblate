@@ -56,6 +56,7 @@ COPY_ATTRIBUTES = (
     "push_on_commit",
     "commit_pending_age",
     "edit_template",
+    "manage_units",
     "variant_regex",
 )
 

@@ -120,6 +120,11 @@ class TranslationQuerySet(FastDeleteQuerySetMixin, models.QuerySet):
             )
         )
 
+    def order(self):
+        return self.order_by(
+            "component__priority", "component__project__name", "component__name"
+        )
+
 
 class Translation(
     FastDeleteModelMixin, models.Model, URLMixin, LoggerMixin, CacheKeyMixin
@@ -850,7 +855,7 @@ class Translation(
             self.invalidate_cache()
             request.user.profile.increase_count("translated", accepted)
 
-        return (not_found, skipped, accepted, len(list(store2.content_units)))
+        return (not_found, skipped, accepted, len(store2.content_units))
 
     def merge_suggestions(self, request, store, fuzzy):
         """Merge content of translate-toolkit store as a suggestions."""
@@ -881,7 +886,7 @@ class Translation(
         if accepted > 0:
             self.invalidate_cache()
 
-        return (not_found, skipped, accepted, len(list(store.content_units)))
+        return (not_found, skipped, accepted, len(store.content_units))
 
     def drop_store_cache(self):
         if "store" in self.__dict__:
@@ -954,7 +959,6 @@ class Translation(
                 author=request.user.get_author_name(),
                 extra_context={"addon_name": "Source update"},
             ):
-                self.drop_store_cache()
                 self.handle_store_change(
                     request,
                     request.user,
@@ -989,7 +993,6 @@ class Translation(
             ):
 
                 # Drop store cache
-                self.drop_store_cache()
                 self.handle_store_change(
                     request,
                     request.user,
@@ -997,7 +1000,7 @@ class Translation(
                     change=Change.ACTION_REPLACE_UPLOAD,
                 )
 
-        return (0, 0, self.unit_set.count(), len(list(store2.content_units)))
+        return (0, 0, self.unit_set.count(), len(store2.content_units))
 
     def handle_add_upload(self, request, store, fuzzy: str = ""):
         has_template = self.component.has_template()
@@ -1026,7 +1029,7 @@ class Translation(
         self.component.sync_terminology()
         self.component.update_source_checks()
         self.component.run_batched_checks()
-        return (0, skipped, accepted, len(list(store.content_units)))
+        return (0, skipped, accepted, len(store.content_units))
 
     @transaction.atomic
     def merge_upload(
@@ -1169,6 +1172,7 @@ class Translation(
         )
 
     def handle_store_change(self, request, user, previous_revision: str, change=None):
+        self.drop_store_cache()
         if self.is_source:
             self.component.create_translations(request=request)
         else:
@@ -1360,7 +1364,7 @@ class Translation(
             return
         # Always load a new copy of store
         store = self.load_store()
-        old_units = len(store.all_units)
+        old_units = len(store.content_units)
         # Add new unit
         store.new_unit(context, source, target, skip_build=True)
         # Serialize the content
@@ -1377,17 +1381,17 @@ class Translation(
         except Exception as error:
             raise ValidationError(_("Failed adding string: %s") % error)
         # Verify there is a single unit added
-        if len(newstore.all_units) != old_units + 1:
+        if len(newstore.content_units) != old_units + 1:
             raise ValidationError(
                 _("Failed adding string: %s") % _("Failed to parse new string")
             )
         # Find newly added unit (it can be on any position), but we assume
         # the storage has consistent ordering
         unit = None
-        for pos, current in enumerate(newstore.all_units):
+        for pos, current in enumerate(newstore.content_units):
             if pos >= old_units or (
-                current.source != store.all_units[pos].source
-                and current.context != store.all_units[pos].context
+                current.source != store.content_units[pos].source
+                and current.context != store.content_units[pos].context
             ):
                 unit = current
                 break

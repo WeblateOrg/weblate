@@ -4,6 +4,9 @@
 {% load icons %}
 {% load urlformat %}
 {% load metrics %}
+{% load permissions %}
+{% load authnames %}
+{% load crispy_forms_tags %}
 
 {% block breadcrumbs %}
 <li><a href="{% url "user_list" %}">{% trans "Users" %}</a></li>
@@ -11,6 +14,9 @@
 {% endblock %}
 
 {% block content %}
+{% with billings=page_user.billing_set.all %}
+
+{% perm 'user.edit' as can_edit_user %}
 
 <div class="user-page text-center">
     <img class="avatar w128" src="{% url 'user_avatar' user=page_user.username size=128 %}" alt="{% trans "User avatar" %}" />
@@ -18,6 +24,15 @@
     <p>
         <span class="middle-dot-divider">@{{ page_user.username }}</span>
         <span class="middle-dot-divider">{% blocktrans with date=page_user.date_joined|date:"DATE_FORMAT" %}Joined on {{ date }}{% endblocktrans %}</span>
+        {% if can_edit_user %}
+          <span class="middle-dot-divider">
+            {% if page_user.last_login %}
+              {% blocktrans with date=page_user.last_login|date:"DATE_FORMAT" %}Last sign-in on {{ date }}{% endblocktrans %}
+            {% else %}
+              <em>{% trans "Never signed-in" %}</em>
+            {% endif %}
+          </span>
+        {% endif %}
         {% if page_profile.company %}
           <span class="middle-dot-divider">
             <span class="profile-icon">{% icon "domain.svg" %}</span> {{ page_profile.company }}
@@ -62,7 +77,7 @@
         {% endif %}
     </p>
     {% endif %}
-    {% if page_profile.website or page_profile.public_email or page_profile.github or page_profile.twitter or page_profile.linkedin or page_profile.liberapay or page_profile.fediverse or page_profile.codesite %}
+    {% if can_edit_user or page_profile.website or page_profile.public_email or page_profile.github or page_profile.twitter or page_profile.linkedin or page_profile.liberapay or page_profile.fediverse or page_profile.codesite %}
       <p>
         {% if page_profile.website %}
           <span class="middle-dot-divider">
@@ -72,6 +87,11 @@
         {% if page_profile.public_email %}
           <span class="middle-dot-divider">
             <span class="profile-icon">{% icon "email.svg" %}</span> <a href="mailto:{{ page_profile.public_email }}" rel="ugc">{{ page_profile.public_email }}</a>
+          </span>
+        {% endif %}
+        {% if can_edit_user and page_user.email != page_profile.public_email %}
+          <span class="middle-dot-divider">
+            <span class="profile-icon">{% icon "email.svg" %}</span> <a href="mailto:{{ page_user.email }}" rel="ugc">{{ page_user.email }}</a>
           </span>
         {% endif %}
         {% if page_profile.liberapay %}
@@ -118,18 +138,27 @@
 </div>
 
 <ul class="nav nav-pills nav-center">
-<li class="active"><a data-toggle="tab" href="#contributed">{% trans "Projects with contribution" %}</a></li>
+<li class="active"><a data-toggle="tab" href="#contributed">{% trans "Translations with contribution" %}</a></li>
 <li><a data-toggle="tab" href="#managed">{% trans "Managed projects" %}</a></li>
 <li><a data-toggle="tab" href="#watched">{% trans "Watched projects" %}</a></li>
 <li><a data-toggle="tab" href="#activity">{% trans "Activity" %}</a></li>
 <li><a data-toggle="tab" href="#changes">{% trans "Recent changes" %}</a></li>
+{% if can_edit_user %}
+  <li><a data-toggle="tab" href="#identities">{% trans "User identities" %}</a></li>
+  {% if billings %}
+    <li><a data-toggle="tab" href="#billing">{% trans "Billing" %}</a></li>
+  {% endif %}
+  <li><a data-toggle="tab" href="#audit">{% trans "Audit log" %}</a></li>
+  <li><a data-toggle="tab" href="#groups">{% trans "Groups" %}</a></li>
+  <li><a data-toggle="tab" href="#edit">{% trans "Edit" %}</a></li>
+{% endif %}
 </ul>
 
 <div class="tab-content">
 
 <div class="tab-pane active" id="contributed">
 <div class="list-group">
-{% include "list-projects.html" with projects=user_projects %}
+{% include "list-projects.html" with projects=user_translations name_source="translation" %}
 </div>
 </div>
 
@@ -155,6 +184,95 @@
     {% include "last-changes-content.html" %}
     <a class="btn btn-link" href="{% url 'changes' %}?{{ last_changes_url }}">{% trans "Browse all changes for user" %}</a>
 </div>
-</div>
 
+
+{% if can_edit_user %}
+  <div class="tab-pane" id="identities">
+    <table class="table table-listing">
+      <thead>
+        <tr>
+          <th>{% trans "Identity" %}</th>
+          <th>{% trans "User ID" %}</th>
+          <th>{% trans "E-mail" %}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for social in page_user.social_auth.all %}
+          <tr>
+            <th>{% auth_name social.provider ' ' %}</th>
+            <td>{{ social.uid }}</td>
+            <td>{% for verified in social.verifiedemail_set.all %}{{ verified.email }}{% endfor %}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  {% if billings %}
+    <div class="tab-pane" id="billing">
+      {% include "billing/list.html" with objects=billings show_expiry=1 show_removal=1 %}
+    </div>
+  {% endif %}
+    </tr>
+
+  <div class="tab-pane" id="audit">
+    <table class="table table-listing">
+      <thead>
+        <tr>
+          <th>{% trans "When" %}</th>
+          <th>{% trans "Account activity" %}</th>
+          <th>{% trans "IP address" %}</th>
+          <th>{% trans "User agent" %}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for log in page_user.auditlog_set.order %}
+          <tr>
+            <td>{{ log.timestamp|date:"DATETIME_FORMAT" }}</td>
+            <th>{{ log.get_message }}</th>
+            <td>{{ log.address }}</td>
+            <td>{{ log.user_agent }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <div class="tab-pane" id="groups">
+    <table class="table table-listing">
+      <thead>
+        <tr>
+          <th>{% trans "Group" %}</th>
+          <th class="number">{% trans "Members" %}</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for group in page_user.groups.all %}
+          <tr>
+            <th>{{ group.name }}</th>
+            <td class="number">{{ group.user_set.count }}</td>
+            <td>
+              <a href="{{ page_user.get_absolute_url }}" class="btn btn-link btn-xs red link-post" data-params='{"remove_group": {{ group.pk }}}' title="{% trans "Remove user from this group" %}">
+                {% icon 'delete.svg' %}
+              </a>
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% crispy group_form %}
+  </div>
+
+  <div class="tab-pane" id="edit">
+    <form method="post">
+      {% csrf_token %}
+      {{ form|crispy }}
+      <input type="submit" value="{% trans "Save" %}" class="btn btn-primary" />
+    </form>
+  </div>
+{% endif %}
+
+</div>
+{% endwith %}
 {% endblock %}

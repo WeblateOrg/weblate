@@ -126,7 +126,7 @@ class IntegrationTest(ViewTestCase):
         TestAddon.create(self.component)
         self.assertNotEqual(rev, self.component.repository.last_revision)
         rev = self.component.repository.last_revision
-        self.component.update_branch()
+        self.component.trigger_post_update("x", False)
         self.assertEqual(rev, self.component.repository.last_revision)
         commit = self.component.repository.show(self.component.repository.last_revision)
         self.assertIn("po/cs.po", commit)
@@ -151,7 +151,7 @@ class IntegrationTest(ViewTestCase):
             addon.post_update(self.component, "head", False)
 
         # The crash should be handled here and addon uninstalled
-        self.component.update_branch()
+        self.component.trigger_post_update("x", False)
 
         self.assertFalse(Addon.objects.filter(name=TestCrashAddon.name).exists())
 

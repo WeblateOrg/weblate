@@ -301,6 +301,12 @@ LICENSES = (
         False,
     ),
     (
+        "BSD-3-Clause-No-Military-License",
+        "BSD 3-Clause No Military License",
+        "https://gitlab.syncad.com/hive/dhive/-/blob/master/LICENSE",
+        False,
+    ),
+    (
         "BSD-3-Clause-No-Nuclear-License",
         "BSD 3-Clause No Nuclear License",
         "http://download.oracle.com/otn-pub/java/licenses/bsd.txt?AuthParam=1467140197_43d516ce1776bd08a58235a7785be1cc",
@@ -493,6 +499,12 @@ LICENSES = (
         "CDDL-1.1",
         "Common Development and Distribution License 1.1",
         "http://glassfish.java.net/public/CDDL+GPL_1_1.html",
+        False,
+    ),
+    (
+        "CDL-1.0",
+        "Common Documentation License 1.0",
+        "http://www.opensource.apple.com/cdl/",
         False,
     ),
     (
@@ -748,6 +760,12 @@ LICENSES = (
         False,
     ),
     (
+        "CC-BY-SA-3.0-AT",
+        "Creative Commons Attribution Share Alike 3.0 Austria",
+        "https://creativecommons.org/licenses/by-sa/3.0/at/legalcode",
+        False,
+    ),
+    (
         "CC-BY-SA-3.0",
         "Creative Commons Attribution Share Alike 3.0 Unported",
         "https://creativecommons.org/licenses/by-sa/3.0/legalcode",
@@ -758,12 +776,6 @@ LICENSES = (
         "Creative Commons Attribution Share Alike 4.0 International",
         "https://creativecommons.org/licenses/by-sa/4.0/legalcode",
         True,
-    ),
-    (
-        "CC-BY-SA-3.0-AT",
-        "Creative Commons Attribution-Share Alike 3.0 Austria",
-        "https://creativecommons.org/licenses/by-sa/3.0/at/legalcode",
-        False,
     ),
     (
         "CC-PDDC",
@@ -1626,7 +1638,7 @@ LICENSES = (
     (
         "NCGL-UK-2.0",
         "Non-Commercial Government Licence",
-        "https://github.com/spdx/license-list-XML/blob/master/src/Apache-2.0.xml",
+        "http://www.nationalarchives.gov.uk/doc/non-commercial-government-licence/version/2/",
         False,
     ),
     (

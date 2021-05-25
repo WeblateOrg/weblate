@@ -33,7 +33,7 @@ from django.utils.safestring import mark_safe
 from django_filters import rest_framework as filters
 from rest_framework import parsers, viewsets
 from rest_framework.decorators import action
-from rest_framework.exceptions import ParseError
+from rest_framework.exceptions import ParseError, ValidationError
 from rest_framework.mixins import CreateModelMixin, DestroyModelMixin, UpdateModelMixin
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
@@ -272,6 +272,7 @@ class WeblateViewSet(DownloadViewSet):
                 )
 
             data["remote_commit"] = component.get_last_remote_commit()
+            data["weblate_commit"] = component.get_last_commit()
             data["status"] = component.repository.status()
             changes = component.change_set.filter(
                 action__in=Change.ACTIONS_REPOSITORY
@@ -1079,21 +1080,33 @@ class TranslationViewSet(MultipleFieldMixin, WeblateViewSet, DestroyModelMixin):
         translation = self.get_object()
         if not request.user.has_perm("translation.auto", translation):
             self.permission_denied(request, "Can not auto translate")
+        if translation.component.locked:
+            self.permission_denied(request, "Component is locked")
+
         autoform = AutoForm(translation.component, request.data)
-        if translation.component.locked or not autoform.is_valid():
-            raise ParseError("Failed to process autotranslation data!", "invalid")
-        args = (
-            request.user.id,
-            translation.id,
-            autoform.cleaned_data["mode"],
-            autoform.cleaned_data["filter_type"],
-            autoform.cleaned_data["auto_source"],
-            autoform.cleaned_data["component"],
-            autoform.cleaned_data["engines"],
-            autoform.cleaned_data["threshold"],
-        )
+        if not autoform.is_valid():
+            errors = {}
+            for field in autoform:
+                for error in field.errors:
+                    if field.name in errors:
+                        errors[field.name] += f", {error}"
+                    else:
+                        errors[field.name] = error
+            raise ValidationError(errors)
+
         return Response(
-            data={"details": auto_translate(*args)},
+            data={
+                "details": auto_translate(
+                    request.user.id,
+                    translation.id,
+                    autoform.cleaned_data["mode"],
+                    autoform.cleaned_data["filter_type"],
+                    autoform.cleaned_data["auto_source"],
+                    autoform.cleaned_data["component"],
+                    autoform.cleaned_data["engines"],
+                    autoform.cleaned_data["threshold"],
+                )
+            },
             status=HTTP_200_OK,
         )
 

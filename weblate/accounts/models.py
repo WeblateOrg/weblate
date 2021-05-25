@@ -129,6 +129,8 @@ class Subscription(models.Model):
 
     class Meta:
         unique_together = [("notification", "scope", "project", "component", "user")]
+        verbose_name = "Notification subscription"
+        verbose_name_plural = "Notification subscriptions"
 
     def __str__(self):
         return "{}:{},{} ({},{})".format(
@@ -264,6 +266,10 @@ class AuditLog(models.Model):
 
     objects = AuditLogManager.from_queryset(AuditLogQuerySet)()
 
+    class Meta:
+        verbose_name = "Audit log entry"
+        verbose_name_plural = "Audit log entries"
+
     def __str__(self):
         return f"{self.activity} for {self.user.username} from {self.address}"
 
@@ -329,6 +335,10 @@ class VerifiedEmail(models.Model):
 
     social = models.ForeignKey(UserSocialAuth, on_delete=models.deletion.CASCADE)
     email = models.EmailField(max_length=EMAIL_LENGTH)
+
+    class Meta:
+        verbose_name = "Verified e-mail"
+        verbose_name_plural = "Verified e-mails"
 
     def __str__(self):
         return f"{self.social.user.username} - {self.email}"
@@ -495,6 +505,7 @@ class Profile(models.Model):
             "Liberapay is a platform to donate money to teams, "
             "organizations and individuals."
         ),
+        db_index=False,
     )
     fediverse = models.URLField(
         verbose_name=_("Fediverse URL"),
@@ -512,15 +523,18 @@ class Profile(models.Model):
     github = models.SlugField(
         verbose_name=_("GitHub username"),
         blank=True,
+        db_index=False,
     )
     twitter = models.SlugField(
         verbose_name=_("Twitter username"),
         blank=True,
+        db_index=False,
     )
     linkedin = models.SlugField(
         verbose_name=_("LinkedIn profile name"),
         help_text=_("Your LinkedIn profile name from linkedin.com/in/profilename"),
         blank=True,
+        db_index=False,
     )
     location = models.CharField(
         verbose_name=_("Location"),
@@ -537,6 +551,10 @@ class Profile(models.Model):
         blank=True,
         max_length=EMAIL_LENGTH,
     )
+
+    class Meta:
+        verbose_name = "User profile"
+        verbose_name_plural = "User profiles"
 
     def __str__(self):
         return self.user.username

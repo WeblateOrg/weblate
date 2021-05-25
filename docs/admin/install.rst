@@ -1113,12 +1113,22 @@ For example by editing :file:`/etc/default/locale` and setting there
 ``LANG="C.UTF-8"``.
 
 In some cases the individual services have separate configuration for locales.
-For example when using Apache you might want to set it in :file:`/etc/apache2/envvars`:
+This varies between distribution and web servers, so check documentation of
+your web server packages for that.
+
+Apache on Ubuntu uses :file:`/etc/apache2/envvars`:
 
 .. code-block:: sh
 
     export LANG='en_US.UTF-8'
     export LC_ALL='en_US.UTF-8'
+
+Apache on CentOS uses :file:`/etc/sysconfig/httpd` (or
+:file:`/opt/rh/httpd24/root/etc/sysconfig/httpd`):
+
+.. code-block:: sh
+
+    LANG='en_US.UTF-8'
 
 .. _production-certs:
 

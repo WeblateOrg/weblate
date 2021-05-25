@@ -66,6 +66,8 @@ Capabilities of all supported formats:
 +---------------------+------------------+---------------+----------------+---------------+----------------+----------------+-------------------------+
 | :ref:`javaprop`     | both             | no            | yes            | no            | no             | no             |                         |
 +---------------------+------------------+---------------+----------------+---------------+----------------+----------------+-------------------------+
+| :ref:`mi18n-lang`   | mono             | no            | yes            | no            | no             | no             |                         |
++---------------------+------------------+---------------+----------------+---------------+----------------+----------------+-------------------------+
 | :ref:`gwt`          | mono             | yes           | yes            | no            | no             | no             |                         |
 +---------------------+------------------+---------------+----------------+---------------+----------------+----------------+-------------------------+
 | :ref:`joomla`       | mono             | no            | yes            | no            | yes            | no             |                         |
@@ -434,8 +436,47 @@ all others encode characters directly either in UTF-8 or UTF-16.
 
     `Java properties on Wikipedia <https://en.wikipedia.org/wiki/.properties>`_,
     :doc:`tt:formats/properties`,
+    :ref:`mi18n-lang`,
+    :ref:`gwt`,
+    :ref:`updating-target-files`,
     :ref:`addon-weblate.properties.sort`,
     :ref:`addon-weblate.cleanup.generic`
+
+
+.. _mi18n-lang:
+
+mi18n lang files
+----------------
+
+.. index::
+    pair: mi18n lang; file format
+
+.. versionadded:: 4.7
+
+File format used for JavaScript localization by `mi18n`_. Syntactically it matches :ref:`javaprop`.
+
++-------------------------------------------------------------------+
+| Typical Weblate :ref:`component`                                  |
++================================+==================================+
+| Filemask                       | ``*.lang``                       |
++--------------------------------+----------------------------------+
+| Monolingual base language file | ``en-US.lang``                   |
++--------------------------------+----------------------------------+
+| Template for new translations  | `Empty`                          |
++--------------------------------+----------------------------------+
+| File format                    | `mi18n lang file`                |
++--------------------------------+----------------------------------+
+
+.. seealso::
+
+    `mi18n`_
+    :doc:`tt:formats/properties`,
+    :ref:`javaprop`,
+    :ref:`updating-target-files`,
+    :ref:`addon-weblate.properties.sort`,
+    :ref:`addon-weblate.cleanup.generic`
+
+.. _mi18n: https://github.com/Draggable/mi18n
 
 .. _gwt:
 
@@ -466,6 +507,7 @@ GWT properties are usually used as monolingual translations.
     `GWT localization guide <http://www.gwtproject.org/doc/latest/DevGuideI18n.html>`_,
     `GWT Internationalization Tutorial <http://www.gwtproject.org/doc/latest/tutorial/i18n.html>`_,
     :doc:`tt:formats/properties`,
+    :ref:`updating-target-files`,
     :ref:`addon-weblate.properties.sort`,
     :ref:`addon-weblate.cleanup.generic`
 
@@ -842,6 +884,7 @@ Nested files are supported as well (see above for requirements), such a file can
 .. seealso::
 
     :doc:`tt:formats/json`,
+    :ref:`updating-target-files`,
     :ref:`addon-weblate.json.customize`,
     :ref:`addon-weblate.cleanup.generic`,
 
@@ -891,6 +934,7 @@ Example file:
 
     :doc:`tt:formats/json`,
     `i18next JSON Format <https://www.i18next.com/misc/json-format>`_,
+    :ref:`updating-target-files`,
     :ref:`addon-weblate.json.customize`,
     :ref:`addon-weblate.cleanup.generic`
 
@@ -928,6 +972,7 @@ with (what is most often the) English strings.
 
     :doc:`tt:formats/json`,
     `go-i18n <https://github.com/nicksnyder/go-i18n>`_,
+    :ref:`updating-target-files`,
     :ref:`addon-weblate.json.customize`,
     :ref:`addon-weblate.cleanup.generic`,
 
@@ -961,6 +1006,7 @@ with (what is most often the) English strings.
     :doc:`tt:formats/json`,
     `Application Resource Bundle Specification <https://github.com/google/app-resource-bundle/wiki/ApplicationResourceBundleSpecification>`_,
     `Internationalizing Flutter apps <https://flutter.dev/docs/development/accessibility-and-localization/internationalization>`_,
+    :ref:`updating-target-files`,
     :ref:`addon-weblate.json.customize`,
     :ref:`addon-weblate.cleanup.generic`
 
@@ -1034,6 +1080,7 @@ syntax to .resx <https://lingohub.com/developers/resource-files/resw-resx-locali
 .. seealso::
 
     :doc:`tt:formats/resx`,
+    :ref:`updating-target-files`,
     :ref:`addon-weblate.cleanup.generic`
 
 .. _csv:

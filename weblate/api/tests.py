@@ -109,7 +109,7 @@ class APIBaseTest(APITestCase, RepoTestMixin):
         method="get",
         request=None,
         skip=(),
-        format="multipart",
+        format: str = "multipart",
     ):
         self.authenticate(superuser)
         url = reverse(name, kwargs=kwargs)
@@ -1707,7 +1707,7 @@ class ComponentAPITest(APIBaseTest):
                 "needs_commit": False,
                 "merge_failure": None,
             },
-            skip=("remote_commit", "status", "url"),
+            skip=("remote_commit", "weblate_commit", "status", "url"),
         )
 
     def test_statistics(self):
@@ -2274,7 +2274,7 @@ class TranslationAPITest(APIBaseTest):
                 "needs_commit": False,
                 "merge_failure": None,
             },
-            skip=("remote_commit", "status", "url"),
+            skip=("remote_commit", "weblate_commit", "status", "url"),
         )
 
     def test_statistics(self):
@@ -2318,12 +2318,13 @@ class TranslationAPITest(APIBaseTest):
         request = self.do_request("api:translation-units", self.translation_kwargs)
         self.assertEqual(request.data["count"], 4)
 
-    def test_autotranslate(self):
+    def test_autotranslate(self, format: str = "multipart"):
         self.do_request(
             "api:translation-autotranslate",
             self.translation_kwargs,
             method="post",
             request={"mode": "invalid"},
+            format=format,
             code=403,
         )
         self.do_request(
@@ -2332,6 +2333,7 @@ class TranslationAPITest(APIBaseTest):
             superuser=True,
             method="post",
             request={"mode": "invalid"},
+            format=format,
             code=400,
         )
         response = self.do_request(
@@ -2345,9 +2347,29 @@ class TranslationAPITest(APIBaseTest):
                 "auto_source": "others",
                 "threshold": "100",
             },
+            format=format,
             code=200,
         )
         self.assertContains(response, "Automatic translation completed")
+        response = self.do_request(
+            "api:translation-autotranslate",
+            self.translation_kwargs,
+            superuser=True,
+            method="post",
+            request={
+                "mode": "suggest",
+                "filter_type": "todo",
+                "auto_source": "mt",
+                "threshold": "90",
+                "engines": ["weblate"],
+            },
+            format=format,
+            code=200,
+        )
+        self.assertContains(response, "Automatic translation completed")
+
+    def test_autotranslate_json(self):
+        self.test_autotranslate("json")
 
     def test_add_monolingual(self):
         self.create_acl()

@@ -136,7 +136,9 @@ Make your own groups to grant specific permissions to users.
 These features are available on the :guilabel:`Access control` page in
 the project’s menu :guilabel:`Manage` ↓ :guilabel:`Users`.
 
-New user-invitation
+.. _invite-user:
+
+New user invitation
 ^^^^^^^^^^^^^^^^^^^
 
 Besides adding existing users to a project, new ones can be invited to it.

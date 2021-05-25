@@ -51,6 +51,7 @@ class GitRepository(Repository):
     _cmd_last_remote_revision = ["log", "-n", "1", "--format=format:%H", "@{upstream}"]
     _cmd_list_changed_files = ["diff", "--name-status"]
     _cmd_push = ["push"]
+    _cmd_status = ["--no-optional-locks", "status"]
 
     name = "Git"
     req_version = "2.12"
@@ -138,6 +139,7 @@ class GitRepository(Repository):
                 self.execute(["reset", "--hard"])
         else:
             self.execute(["rebase", self.get_remote_branch_name()])
+        self.clean_revision_cache()
 
     def has_git_file(self, name):
         return os.path.exists(os.path.join(self.path, ".git", name))
@@ -188,6 +190,7 @@ class GitRepository(Repository):
 
         # Delete temporary branch
         self.delete_branch(tmp)
+        self.clean_revision_cache()
 
     def delete_branch(self, name):
         if self.has_branch(name):
@@ -195,8 +198,9 @@ class GitRepository(Repository):
 
     def needs_commit(self, filenames: Optional[List[str]] = None):
         """Check whether repository needs commit."""
-        cmd = ["status", "--porcelain", "--"]
+        cmd = ["--no-optional-locks", "status", "--porcelain"]
         if filenames:
+            cmd.extend(["--ignored=matching", "--"])
             cmd.extend(filenames)
         with self.lock:
             status = self.execute(cmd, merge_err=False)
@@ -426,7 +430,15 @@ class GitRepository(Repository):
             self.execute(["fetch", "origin"])
         else:
             # Doing initial fetch
-            self.execute(["fetch", "origin"] + self.get_depth())
+            try:
+                self.execute(["fetch", "origin"] + self.get_depth())
+            except RepositoryException as error:
+                if error.retcode == 1 and error.args[0] == "":
+                    # Fetch with --depth fails on blank repo
+                    self.execute(["fetch", "origin"])
+                else:
+                    raise
+
         self.clean_revision_cache()
 
     def push(self, branch):
@@ -558,6 +570,7 @@ class SubversionRepository(GitRepository):
         Git-svn does not support merge.
         """
         self.rebase(abort)
+        self.clean_revision_cache()
 
     def rebase(self, abort=False):
         """Rebase remote branch or reverts the rebase.
@@ -568,6 +581,7 @@ class SubversionRepository(GitRepository):
             self.execute(["rebase", "--abort"])
         else:
             self.execute(["svn", "rebase"])
+        self.clean_revision_cache()
 
     @cached_property
     def last_remote_revision(self):
@@ -621,6 +635,7 @@ class GitMergeRequestBase(GitForcePushRepository):
             self.execute(["checkout", self.branch])
         else:
             self.execute(["merge", f"origin/{self.branch}"])
+        self.clean_revision_cache()
 
     def get_api_url(self) -> Tuple[str, str, str]:
         repo = self.component.repo
