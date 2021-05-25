@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.7\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-05-24 04:10+0000\n"
-"PO-Revision-Date: 2021-05-25 03:04+0000\n"
+"PO-Revision-Date: 2021-05-27 22:39+0000\n"
 "Last-Translator: Allan Nordhøy <epost@anotheragency.no>\n"
 "Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/weblate/"
 "application/nb_NO/>\n"
@@ -1075,8 +1075,6 @@ msgid "Removes strings without a translation from translation files."
 msgstr "Fjerner strenger uten oversettelse fra oversettelsesfiler."
 
 #: weblate/addons/consistency.py:32
-#, fuzzy
-#| msgid "Adding new languages"
 msgid "Add missing languages"
 msgstr "Legg til manglende språk"
 
@@ -1435,8 +1433,6 @@ msgid "Target translation"
 msgstr "Måloversettelse"
 
 #: weblate/addons/forms.py:456
-#, fuzzy
-#| msgid "String age"
 msgid "String prefix"
 msgstr "Strengprefiks"
 
@@ -1523,16 +1519,12 @@ msgid "Contributors in comment"
 msgstr "Bidragsytere i kommentar"
 
 #: weblate/addons/gettext.py:320
-#, fuzzy
-#| msgid ""
-#| "Update the comment in the PO file header to include contributor names and "
-#| "years of contributions."
 msgid ""
 "Updates the comment part of the PO file header to include contributor names "
 "and years of contributions."
 msgstr ""
-"Oppdater kommentar i PO-filers topptekst med bidragsyternavn og antall år "
-"med bidrag."
+"Oppdaterer kommentardelen i PO-filers topptekst med bidragsyternavn og "
+"antall år med bidrag."
 
 #: weblate/addons/git.py:34
 msgid "Squash Git commits"
@@ -2183,8 +2175,6 @@ msgid "Regular expression for e-mail address"
 msgstr "Regulært uttrykk brukt for e-postadresse."
 
 #: weblate/auth/models.py:634
-#, fuzzy
-#| msgid "Users with matching e-mail address will be added to this group."
 msgid "Users with e-mail addresses found to match will be added to this group."
 msgstr ""
 "Brukere med samsvarende e-postadresser vil bli lagt til i denne gruppen."
@@ -2613,10 +2603,9 @@ msgid "Missing parameters for translation flag: \"%s\""
 msgstr "Manglende parametre for oversettelsesflagg: \"%s\""
 
 #: weblate/checks/format.py:392
-#, fuzzy, python-format
-#| msgid "Following format strings are extra: %s"
+#, python-format
 msgid "Following format strings are wrongly ordered: %s"
-msgstr "Følgende formatstrenger er ekstra: %s"
+msgstr "Følgende formatstrenger er i feil rekkefølge: %s"
 
 #: weblate/checks/format.py:396 weblate/checks/placeholders.py:93
 #, python-format
@@ -2693,10 +2682,8 @@ msgid "Scheme format"
 msgstr "Scheme-filformat"
 
 #: weblate/checks/format.py:509
-#, fuzzy
-#| msgid "C format string does not match source"
 msgid "Scheme format string does not match source"
-msgstr "C-formatstreng samsvarer ikke med kilde"
+msgstr "Scheme-formatstreng samsvarer ikke med kilde"
 
 #: weblate/checks/format.py:522
 msgid "Python brace format"
@@ -2779,8 +2766,6 @@ msgstr ""
 "oversettere å stokke om på dem"
 
 #: weblate/checks/glossary.py:33
-#, fuzzy
-#| msgid "Added to glossary"
 msgid "Does not follow glossary"
 msgstr "Følger ikke ordlisten"
 
@@ -3268,16 +3253,12 @@ msgid "Invalid integer list!"
 msgstr "Ugyldig heltallsliste!"
 
 #: weblate/glossary/forms.py:47
-#, fuzzy
-#| msgid "String target language"
 msgid "String will be propagated to all languages"
-msgstr "Målspråk for streng"
+msgstr "Strengen vil spres til alle språk"
 
 #: weblate/glossary/forms.py:55
-#, fuzzy
-#| msgid "Not-translatable: %s"
 msgid "Not translatable term"
-msgstr "Ikke oversettbar: %s"
+msgstr "Ikke-oversettbar ordlisteoppføring"
 
 #: weblate/glossary/forms.py:100
 #: weblate/templates/snippets/component-glossary-badge.html:4
@@ -3820,11 +3801,6 @@ msgid "CSRF verification failed. Request aborted."
 msgstr "CSRF-verifisering feilet. Forespørsel avbrutt."
 
 #: weblate/templates/403_csrf.html:12
-#, fuzzy
-#| msgid ""
-#| "This HTTPS site requires a 'Referer header' to be sent by your web "
-#| "browser, but none was sent. This header is required for security reasons, "
-#| "to ensure that your browser is not being hijacked by third-parties."
 msgid ""
 "This HTTPS site requires a 'Referer' header to be sent by your web browser, "
 "but none was sent. This header is required for security reasons, to ensure "
@@ -3832,22 +3808,17 @@ msgid ""
 msgstr ""
 "Dette HTTPS-nettstedet krever at et «referent»-hode sendes av din nettleser, "
 "men det skjedde ikke. Dette hodet kreves av sikkerhetsmessige årsaker, for å "
-"sikre at nettleseren din ikke blir kapret av tredjeparter."
+"sikre at nettleseren din ikke kapres av tredjeparter."
 
 #: weblate/templates/403_csrf.html:13
-#, fuzzy
-#| msgid ""
-#| "If you have set up your browser to not send 'Referer' headers, please "
-#| "turn that on, at-least for this site, for HTTPS connections, or for 'same-"
-#| "origin' requests."
 msgid ""
 "If you have set up your web browser to not send 'Referer' headers, please "
 "turn that on (at-least for this site, for HTTPS connections, or for 'same-"
 "origin' requests)."
 msgstr ""
-"Hvis du har satt opp nettleseren din til å ikke sende 'referent'-hoder, kan "
+"Hvis du har satt opp nettleseren din til å ikke sende «referent»-hoder, kan "
 "du skru det på, i hvert fall for dette nettstedet, eller for HTTPS-"
-"tilkoblinger, eller for forespørsler av 'samme opphav'."
+"tilkoblinger, eller for forespørsler av «samme opphav»."
 
 #: weblate/templates/403_csrf.html:16
 msgid ""
@@ -3860,17 +3831,13 @@ msgstr ""
 "nettleseren din ikke blir kapret av tredjeparter."
 
 #: weblate/templates/403_csrf.html:17
-#, fuzzy
-#| msgid ""
-#| "If you have set up your browser to not save cookies, please turn them on "
-#| "again, at-least for this site, or for 'same-origin' requests."
 msgid ""
 "If you have set up your browser to not save cookies, please turn them on "
 "again (at-least for this site, or for 'same-origin' requests)."
 msgstr ""
 "Hvis du har satt opp nettleseren din til å ikke lagre kaker, kan du skru det "
-"på, i hvert fall for dette nettstedet, eller for forespørsler av «samme "
-"opphav»."
+"på, (i hvert fall for dette nettstedet, eller for forespørsler av «samme "
+"opphav»)."
 
 #: weblate/templates/404.html:5 weblate/trans/views/error.py:43
 msgid "Page Not Found"
@@ -4036,7 +4003,7 @@ msgstr ""
 #, fuzzy, python-format
 #| msgid "You can contact maintainers of this server here."
 msgid "You can only contact administrators of %(site_title)s here."
-msgstr "Du kan kontakte de som vedlikeholder denne tjeneren her."
+msgstr "Du kan kontakte de som vedlikeholder denne %(site_title)s her."
 
 #: weblate/templates/accounts/contact.html:20
 #, fuzzy
@@ -4111,16 +4078,12 @@ msgstr ""
 "ny."
 
 #: weblate/templates/accounts/email-sent.html:33
-#, fuzzy
-#| msgid ""
-#| "Shortly you should receive an e-mail containing a confirmation link. "
-#| "Click it to remove your account."
 msgid ""
 "Shortly, you should receive an e-mail with a confirmation link. Click it to "
 "remove your account."
 msgstr ""
-"Du vil snart motta en e-post inneholdende bekreftelseslenken. Følg denne for "
-"å fjerne kontoen din."
+"Snart vil du motta en e-post med bekreftelseslenken. Følg denne for å fjerne "
+"kontoen din."
 
 #: weblate/templates/accounts/email-sent.html:36
 msgid ""
@@ -4131,13 +4094,10 @@ msgstr ""
 "post for å fullføre registreringen."
 
 #: weblate/templates/accounts/email-sent.html:37
-#, fuzzy
-#| msgid ""
-#| "If the confirmation link expires before you get to use it, register again."
 msgid "If the confirmation link expires before you use it, register again."
 msgstr ""
-"Hvis bekreftelseslenken utløper før du rekker å bruke den, registrer deg "
-"igjen."
+"Registrer deg igjen hvis bekreftelseslenken utløper før du rekker å bruke "
+"den."
 
 #: weblate/templates/accounts/email-sent.html:42
 #, python-format
@@ -4727,10 +4687,8 @@ msgstr[0] "%(count)s kommentar"
 msgstr[1] "%(count)s kommentarer"
 
 #: weblate/templates/accounts/user.html:141
-#, fuzzy
-#| msgid "Translation instructions"
 msgid "Translations with contribution"
-msgstr "Oversettelsesinstruksjoner"
+msgstr "Oversettelsesbidrag"
 
 #: weblate/templates/accounts/user.html:144
 msgid "Activity"
@@ -4787,8 +4745,6 @@ msgid "Add-ons"
 msgstr "Tillegg"
 
 #: weblate/templates/addons/addon_detail.html:26
-#, fuzzy
-#| msgid "Configure addon"
 msgid "Configure add-on"
 msgstr "Sett opp tillegget"
 
@@ -4846,10 +4802,6 @@ msgid "Install"
 msgstr "Installer"
 
 #: weblate/templates/addons/addon_list.html:69
-#, fuzzy
-#| msgid ""
-#| "Could not find any additional addons compatible with this translation "
-#| "component."
 msgid ""
 "Could not find any additional add-ons compatible with this translation "
 "component."
@@ -4857,9 +4809,6 @@ msgstr ""
 "Fant ikke flere tillegg som er kompatible med denne oversettelseskomponenten."
 
 #: weblate/templates/addons/addon_list.html:71
-#, fuzzy
-#| msgid ""
-#| "Some addons will ask for additional configuration during installation."
 msgid "Some add-ons will ask for additional configuration during installation."
 msgstr "Noen tillegg vil spørre om ytterligere oppsett under installasjon."
 
@@ -5107,8 +5056,6 @@ msgid "Help"
 msgstr "Hjelp"
 
 #: weblate/templates/base.html:266
-#, fuzzy
-#| msgid "Support"
 msgid "Get support"
 msgstr "Støtte"
 
@@ -5241,13 +5188,10 @@ msgid "Plan"
 msgstr "Plan"
 
 #: weblate/templates/billing/list.html:11
-#, fuzzy
 msgid "Hosted words"
 msgstr "Vertstjente ord"
 
 #: weblate/templates/billing/list.html:28
-#, fuzzy
-#| msgid "No projects currently assigned!"
 msgid "No users currently assigned!"
 msgstr "Ingen tilknyttede brukere!"
 
@@ -5909,26 +5853,19 @@ msgstr ""
 "oversettere og dirigere tilbakemeldinger til dem."
 
 #: weblate/templates/data.html:13
-#, fuzzy
-#| msgid ""
-#| "You can retrieve various data from Weblate in machine readable format."
 msgid "Various data from Weblate is available in machine-readable format."
-msgstr "Du kan hente ulike data fra Weblate i maskinlesbart format."
+msgstr "Ulike data fra Weblate er tilgjengelige i maskinlesbart format."
 
 #: weblate/templates/data.html:17
 msgid "RSS feeds"
 msgstr "RSS-oppdateringer"
 
 #: weblate/templates/data.html:22
-#, fuzzy
-#| msgid ""
-#| "To follow translation progress you can use RSS feeds, detailing all "
-#| "important translation changes."
 msgid ""
 "Follow the translation progress and all important changes from RSS feeds."
 msgstr ""
-"For å følge fremdriften i oversettelsesarbeidet kan du bruke RSS-"
-"oppdateringer, som har med alle viktige endringer i oversettelsene."
+"Følg fremdriften i oversettelsesarbeidet og alle viktige endringer ved bruk "
+"av RSS-oppdateringer."
 
 #: weblate/templates/data.html:30 weblate/templates/data.html:64
 #: weblate/templates/data.html:105
@@ -5940,55 +5877,37 @@ msgid "RSS"
 msgstr "RSS"
 
 #: weblate/templates/data.html:48
-#, fuzzy
-#| msgid ""
-#| "Per language RSS feeds are also available, you can construct them by "
-#| "appending a language code to the above URLs."
 msgid ""
 "Per language RSS feeds are also available. Construct them by appending a "
 "language code to the URLs above."
 msgstr ""
-"RSS-kilder per språk finnes også, du kan lage dem ved å føye til en "
-"språkkode til nettadressene ovenfor."
+"RSS-kilder per språk finnes også. Skap dem ved å føye til en språkkode til i "
+"nettadressene ovenfor."
 
 #: weblate/templates/data.html:56
-#, fuzzy
-#| msgid ""
-#| "Translation statistics for every component in the JSON format allows you "
-#| "to use the data in other websites or tools."
 msgid ""
 "Translation statistics for every component in JSON format lets you use the "
 "data in other websites or tools."
 msgstr ""
-"Statistikk for oversettelsene av hver komponent i JSON-formatet tillater at "
-"du kan benytte disse dataen i andre nettsteder eller verktøy."
+"Statistikk for oversettelsene av hver komponent i JSON-format lar deg "
+"benytte disse dataene i andre nettsteder eller verktøy."
 
 #: weblate/templates/data.html:79
-#, fuzzy
-#| msgid ""
-#| "As an example, fetching stats for all translations in one component can "
-#| "be done thusly:"
 msgid ""
 "You can fetch statistics for all translations in one component like this:"
-msgstr ""
-"Eksempelvis, innhenting av statistikk for alle oversettelser i en komponent "
-"kan gjøres slik:"
+msgstr "Du kan hente statistikk for alle oversettelser i en komponent slik:"
 
 #: weblate/templates/data.html:91
 msgid "Notification hooks"
 msgstr "Notifikasjonshaker"
 
 #: weblate/templates/data.html:96
-#, fuzzy
-#| msgid ""
-#| "With notification hooks, Weblate will automatically import changes made "
-#| "by your developers, and allows continuous localization."
 msgid ""
 "With notification hooks, Weblate automatically imports changes made by your "
 "developers, allowing continuous localization."
 msgstr ""
-"Med notifikasjonshaker vil Weblate automatisk importere endringer utviklere "
-"har gjort, og tillate kontinuerlig oversettelse."
+"Med merknadshaker vil importerer Weblate automatisk endringer utviklere har "
+"gjort, og tillater med det kontinuerlig oversettelse."
 
 #: weblate/templates/data.html:111 weblate/templates/data.html:117
 msgid "Hook"
@@ -6015,10 +5934,8 @@ msgstr "Merknad"
 #: weblate/templates/data.html:146 weblate/templates/data.html:151
 #: weblate/templates/data.html:156 weblate/templates/data.html:161
 #: weblate/templates/data.html:166 weblate/templates/data.html:171
-#, fuzzy
-#| msgid "Browse the documentation for detailed instructions"
 msgid "The documentation has detailed instructions"
-msgstr "Henvend dem til dokumentasjonen for detaljerte instruksjoner"
+msgstr "Dokumentasjonen har detaljerte instruksjoner"
 
 #: weblate/templates/engage.html:14
 #, python-format
@@ -6477,16 +6394,12 @@ msgid "Cleanup"
 msgstr "Opprydding"
 
 #: weblate/templates/js/git-status.html:115
-#, fuzzy
-#| msgid "Reset all changes in the Weblate repository"
 msgid "Force writing all translations to the Weblate repository"
-msgstr "Tilbakestill alle endringer i Weblate-depotet"
+msgstr "Bruk tvang for å skrive alle endringer til Weblate-kodelageret"
 
 #: weblate/templates/js/git-status.html:115
-#, fuzzy
-#| msgid "Source information"
 msgid "Force synchronization"
-msgstr "Kildeinformasjon"
+msgstr "Tvangsmessig synkronisering"
 
 #: weblate/templates/js/git-status.html:129
 #, python-format
@@ -6591,8 +6504,6 @@ msgstr ""
 "%(link_start)sWeblate%(link_end)s."
 
 #: weblate/templates/mail/account_activity.html:38
-#, fuzzy
-#| msgid "Reports"
 msgid "Report"
 msgstr "Rapporter"
 
@@ -7208,10 +7119,8 @@ msgid "Weblate support status"
 msgstr "Status for Weblate-støtte"
 
 #: weblate/templates/manage/index.html:28
-#, fuzzy
-#| msgid "Weblate translations"
 msgid "Weblate version"
-msgstr "Weblate-oversettelser"
+msgstr "Weblate-versjon"
 
 #: weblate/templates/manage/index.html:40
 msgid "Support status"
@@ -7230,36 +7139,28 @@ msgid "Discover Weblate"
 msgstr "Oppdag Weblate"
 
 #: weblate/templates/manage/index.html:60
-#, fuzzy
-#| msgid "Component discovery"
 msgid "Browse discovery"
-msgstr "Komponentoppdagelse"
+msgstr "Utforsk oppdagelsessiden"
 
 #: weblate/templates/manage/index.html:62
 msgid "Your Weblate is listed on weblate.org"
 msgstr "Din Weblate er opplistet på weblate.org"
 
 #: weblate/templates/manage/index.html:64
-#, fuzzy
-#| msgid "disabled"
 msgid "Disable discovery"
-msgstr "avskrudd"
+msgstr "Skru av oppdagelse"
 
 #: weblate/templates/manage/index.html:65
-#, fuzzy
-#| msgid "Manage your languages"
 msgid "Manage your listing"
-msgstr "Administrer språkene dine"
+msgstr "Håndter din opplisting"
 
 #: weblate/templates/manage/index.html:67
 msgid "Your Weblate is not listed on weblate.org"
 msgstr "Din Weblate er ikke opplistet på weblate.org"
 
 #: weblate/templates/manage/index.html:69
-#, fuzzy
-#| msgid "Component discovery"
 msgid "Enable discovery"
-msgstr "Komponentoppdagelse"
+msgstr "Skru på oppdagelse"
 
 #: weblate/templates/manage/index.html:77
 msgid "Manage support package"
@@ -7304,7 +7205,7 @@ msgstr "Celery køer"
 #, fuzzy
 #| msgid "System checks"
 msgid "System encoding"
-msgstr "Systemkontroller"
+msgstr "Systemkoding"
 
 #: weblate/templates/manage/performance.html:128
 msgid "Web server"
@@ -7318,7 +7219,7 @@ msgstr "Celery-arbeider"
 #, fuzzy
 #| msgid "Filename"
 msgid "Filenames encoding"
-msgstr "Filnavn"
+msgstr "Filnavnskoding"
 
 #: weblate/templates/manage/performance.html:134
 #: weblate/templates/manage/performance.html:139
@@ -7326,13 +7227,13 @@ msgstr "Filnavn"
 #| msgctxt "Plural type"
 #| msgid "Unknown"
 msgid "Unknown encoding"
-msgstr "Ukjent"
+msgstr "Ukjent koding"
 
 #: weblate/templates/manage/performance.html:137
 #, fuzzy
 #| msgid "Component locking"
 msgid "Content encoding"
-msgstr "Komponentlåsing"
+msgstr "Innholdskoding"
 
 #: weblate/templates/manage/repos.html:6
 #: weblate/wladmin/templates/admin/weblate-index.html:20
@@ -7757,7 +7658,7 @@ msgstr "Det er ingen tildelte strenger."
 #, fuzzy
 #| msgid "Add screenshot"
 msgid "Add to screenshot"
-msgstr "Legg til skjermbilde"
+msgstr "Legg til i skjermbilde"
 
 #: weblate/templates/search.html:31
 #: weblate/templates/snippets/embed-units.html:114
@@ -7796,10 +7697,8 @@ msgid "Previous"
 msgstr "Forrige"
 
 #: weblate/templates/snippets/activity.html:16
-#, fuzzy
-#| msgid "Activity in last 30 days"
 msgid "Activity in last 12 months"
-msgstr "Aktivitet siste 30 dager"
+msgstr "Aktivitet siste 12 måneder"
 
 #: weblate/templates/snippets/activity.html:24
 #: weblate/templates/snippets/activity.html:29
@@ -7856,10 +7755,8 @@ msgid ""
 msgstr "Maksimal trenglengde angis av kildestrengen eller flagg."
 
 #: weblate/templates/snippets/editor.html:14
-#, fuzzy
-#| msgid "Source string comment"
 msgid "Source string length"
-msgstr "Kildestrengkommentar"
+msgstr "Kildestrengslengde"
 
 #: weblate/templates/snippets/embed-units.html:67
 msgid "Assigned screenshots"
@@ -7884,10 +7781,8 @@ msgstr "Kildekodearkiv"
 
 #: weblate/templates/snippets/git-info.html:13
 #: weblate/templates/snippets/git-info.html:62
-#, fuzzy
-#| msgid "Repository operation"
 msgid "Repository URL copied to clipboard."
-msgstr "Kodelageroperasjon"
+msgstr "Kodelagernettadresse kopiert til utklippstavle."
 
 #: weblate/templates/snippets/git-info.html:18 weblate/trans/forms.py:1502
 #: weblate/trans/forms.py:1646 weblate/trans/models/component.py:314
@@ -7909,7 +7804,7 @@ msgstr "%(author)s forfattet %(date)s"
 #, fuzzy
 #| msgid "Thanks for using Weblate!"
 msgid "Last commit in Weblate"
-msgstr "Takk for at du bruker Weblate."
+msgstr "Siste innsendelse i Weblate."
 
 #: weblate/templates/snippets/git-info.html:59
 msgid "Weblate repository"
@@ -7917,10 +7812,8 @@ msgstr "Weblate oppbevaringssted"
 
 #: weblate/templates/snippets/glossary.html:7
 #: weblate/trans/templatetags/translations.py:591
-#, fuzzy
-#| msgid "This translation is locked."
 msgid "This translation is forbidden."
-msgstr "Oversettelsen er låst."
+msgstr "Denne oversettelsen er forbudt."
 
 #: weblate/templates/snippets/glossary.html:9
 msgid "This term should not be translated."
@@ -8068,7 +7961,7 @@ msgstr "Strengstatistikk"
 #, fuzzy
 #| msgid "String has comment"
 msgid "Strings percent"
-msgstr "Strengen er kommentert"
+msgstr "Strengprosent"
 
 #: weblate/templates/snippets/info.html:274
 #: weblate/templates/snippets/info.html:449
@@ -8082,7 +7975,7 @@ msgstr "Vertstjente strenger"
 #, fuzzy
 #| msgid "Word count"
 msgid "Words percent"
-msgstr "Antall ord"
+msgstr "Ordprosent"
 
 #: weblate/templates/snippets/info.html:276
 #: weblate/templates/snippets/info.html:443
@@ -8133,14 +8026,14 @@ msgstr "Globale numre"
 #, fuzzy
 #| msgid "Last 30 days"
 msgid "and previous 30 days"
-msgstr "Siste 30 dager"
+msgstr "og foregående 30 dager"
 
 #: weblate/templates/snippets/info.html:399
 #: weblate/templates/snippets/info.html:470
 #, fuzzy
 #| msgid "Last 30 days"
 msgid "Trends of last 30 days"
-msgstr "Siste 30 dager"
+msgstr "Trender siste 30 dager"
 
 #: weblate/templates/snippets/info.html:437
 msgid "Quick numbers"
@@ -8242,9 +8135,8 @@ msgid "Untranslated words"
 msgstr "Uoversatte ord"
 
 #: weblate/templates/snippets/list-objects.html:63
-#, fuzzy
 msgid "Untranslated characters"
-msgstr "Vertstjente tegn"
+msgstr "Uoversatte tegn"
 
 #: weblate/templates/snippets/list-objects.html:83
 #: weblate/templates/trans/suggestion_list.html:8
@@ -8335,10 +8227,8 @@ msgid "Translated without any problems"
 msgstr "Oversatt uten noen problemer"
 
 #: weblate/templates/snippets/progress.html:11
-#, fuzzy
-#| msgid "Needs editing"
 msgid "Needs attention"
-msgstr "Trenger redigering"
+msgstr "Trenger oppmerksomhet"
 
 #: weblate/templates/snippets/project-component-settings.html:5
 msgid ""
@@ -8497,10 +8387,8 @@ msgid "Sort By"
 msgstr "Sorter etter"
 
 #: weblate/templates/snippets/ssh-key.html:5
-#, fuzzy
-#| msgid "Copy to clipboard"
 msgid "Public key copied to clipboard."
-msgstr "Kopier til utklippstavle"
+msgstr "Offentlig nøkkel kopiert til utklippstavle."
 
 #: weblate/templates/snippets/ssh-key.html:6
 msgid ""
@@ -8560,7 +8448,7 @@ msgstr "Kilde under gjennomgang"
 #, fuzzy
 #| msgid "Source strings in %s"
 msgid "Source string editing is disabled."
-msgstr "Kildestrengsrediger er avskrudd."
+msgstr "Kildestrengsredigering er avskrudd."
 
 #: weblate/templates/snippets/unit-readonly-badge.html:8
 msgid "Source strings can’t be edited. You can delete them and add new ones."
@@ -8570,7 +8458,7 @@ msgstr "Kildestrenger kan ikke redigeres. Du kan slette dem og legge til nye."
 #, fuzzy
 #| msgid "Source string changed"
 msgid "The source string cannot be edited."
-msgstr "Kildestreng endret"
+msgstr "Kildestrengen kan ikke endres."
 
 #: weblate/templates/snippets/user-list.html:19 weblate/trans/forms.py:161
 msgid "No matching user found."
@@ -8839,7 +8727,7 @@ msgstr ""
 #, fuzzy
 #| msgid "There are some alerts on this component"
 msgid "There are no translations in this component."
-msgstr "Denne komponenten har noen advarsler"
+msgstr "Det er ingen oversettelser i denne komponenten."
 
 #: weblate/templates/trans/alert/nomaskmatches.html:7
 #, fuzzy, python-format
@@ -8851,16 +8739,12 @@ msgstr ""
 "ditt kodelager."
 
 #: weblate/templates/trans/alert/nomaskmatches.html:8
-#, fuzzy
-#| msgid ""
-#| "You can add a new translation string here, it will automatically appear "
-#| "in all translations."
 msgid ""
 "You can also start new translations directly in Weblate, it will create "
 "files based on the file mask."
 msgstr ""
-"Du kan legge til en ny oversettelsesstreng her, den vil automatisk opptre i "
-"alle oversettelser."
+"Du kan starte nye oversettelser direkte i Weblate. Det vil automatisk lage "
+"filer basert på filmasken."
 
 #. Translators: This is shown when an alert contains too many occurences, the count will be always at least 100
 #: weblate/templates/trans/alert/occurrences-limit.html:5
@@ -9231,10 +9115,8 @@ msgid "Configure editor"
 msgstr "Sett opp tekstbehandler"
 
 #: weblate/templates/translate.html:78
-#, fuzzy
-#| msgid "Copy to clipboard"
 msgid "Permalink copied to clipboard."
-msgstr "Kopier til utklippstavle"
+msgstr "Permanent lenke kopiert til utklippstavle."
 
 #: weblate/templates/translate.html:78
 msgid "Copy permalink"
@@ -9346,7 +9228,7 @@ msgstr "Strenger med lignende nøkler"
 #, fuzzy
 #| msgid "Similarity"
 msgid "Similar keys"
-msgstr "Sammenlignbarhet"
+msgstr "Lignende oversettelsesnøkler"
 
 #: weblate/templates/translate.html:241
 msgid "Variants of the string"
@@ -9456,10 +9338,8 @@ msgid "Fix string"
 msgstr "Fiks streng"
 
 #: weblate/templates/translate.html:467
-#, fuzzy
-#| msgid "Browse all languages"
 msgid "For all languages"
-msgstr "Utforsk alle språk"
+msgstr "For alle språk"
 
 #: weblate/templates/translate.html:496
 #, python-format
@@ -9489,7 +9369,7 @@ msgstr "Legg til oppføring i ordlisten"
 #, fuzzy
 #| msgid "Source information"
 msgid "String information"
-msgstr "Kildeinformasjon"
+msgstr "Strenginfo"
 
 #: weblate/templates/translate.html:590
 msgid "No screenshot currently associated."
@@ -9505,7 +9385,7 @@ msgstr "Ingen forklaring er gitt."
 #, fuzzy
 #| msgid "No flags currently set!"
 msgid "No labels currently set."
-msgstr "Ingen etiketter satt."
+msgstr "Mangler etiketter."
 
 #: weblate/templates/translate.html:642
 msgid "Flags"
@@ -11558,10 +11438,8 @@ msgid "Key"
 msgstr "Nøkkel"
 
 #: weblate/trans/models/component.py:3083
-#, fuzzy
-#| msgid "Forbidden glossary term"
 msgid "Add new glossary term"
-msgstr "Forbudt ordlisteoppføring"
+msgstr "Legg til ny ordlisteoppføring"
 
 #: weblate/trans/models/component.py:3084
 msgid "Add new translation string"
@@ -11765,14 +11643,12 @@ msgid "Source would be created as %s"
 msgstr "Kilde ville blitt opprettet som %s"
 
 #: weblate/trans/models/unit.py:1403
-#, fuzzy
 msgid "Unmark as read-only"
-msgstr "Opphev terminologimerking"
+msgstr "Opphev skrivebeskyttelsesmerking"
 
 #: weblate/trans/models/unit.py:1406
-#, fuzzy
 msgid "Mark as read-only"
-msgstr "Marker som terminologi"
+msgstr "Marker som skrivebeskyttet"
 
 #: weblate/trans/models/unit.py:1413
 msgid "Unmark as forbidden translation"
