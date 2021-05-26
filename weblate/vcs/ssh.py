@@ -237,7 +237,7 @@ class SSHWrapper:
             filename = os.path.join(self.path, command)
 
             if os.path.exists(filename):
-                return
+                continue
 
             with open(filename, "w") as handle:
                 handle.write(
