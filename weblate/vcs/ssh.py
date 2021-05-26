@@ -213,17 +213,25 @@ class SSHWrapper:
         return calculate_checksum(self.SSH_WRAPPER_TEMPLATE, data_dir("ssh"))
 
     @property
-    def filename(self):
-        """Calculates unique wrapper filename.
+    def path(self):
+        """Calculates unique wrapper path.
 
         It is based on template and DATA_DIR settings.
         """
-        return ssh_file(f"ssh-weblate-wrapper-{self.digest}")
+        return ssh_file(f"bin-{self.digest}")
+
+    @property
+    def filename(self):
+        """Calculates unique wrapper filename."""
+        return os.path.join(self.path, "ssh")
 
     def create(self):
         """Create wrapper for SSH to pass custom known hosts and key."""
         if os.path.exists(self.filename):
             return
+
+        if not os.path.exists(self.path):
+            os.makedirs(self.path)
 
         with open(self.filename, "w") as handle:
             handle.write(

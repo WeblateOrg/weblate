@@ -162,7 +162,8 @@ class Repository:
                 "GIT_SSH": SSH_WRAPPER.filename,
                 "GIT_TERMINAL_PROMPT": "0",
                 "SVN_SSH": SSH_WRAPPER.filename,
-            }
+            },
+            extra_path=SSH_WRAPPER.path,
         )
 
     @classmethod
