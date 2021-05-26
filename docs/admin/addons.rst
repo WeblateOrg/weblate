@@ -530,11 +530,13 @@ Customize JSON output
 ---------------------
 
 :Add-on ID: ``weblate.json.customize``
-:Configuration: +---------------+------------------+--+
-                | ``sort_keys`` | Sort JSON keys   |  |
-                +---------------+------------------+--+
-                | ``indent``    | JSON indentation |  |
-                +---------------+------------------+--+
+:Configuration: +-------------------+---------------------------+--+
+                | ``sort_keys``     | Sort JSON keys            |  |
+                +-------------------+---------------------------+--+
+                | ``indent_type``   | JSON indentation Type     |  |
+                +-------------------+---------------------------+--+
+                | ``indent``        | JSON indentation          |  |
+                +-------------------+---------------------------+--+
 
 Allows adjusting JSON output behavior, for example indentation or sorting.
 

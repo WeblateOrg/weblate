@@ -484,7 +484,7 @@ class JsonAddonTest(ViewTestCase):
 
     def test_customize(self):
         JSONCustomizeAddon.create(
-            self.component, configuration={"indent": 8, "sort": 1}
+            self.component, configuration={"indent_type": 'integer', "indent": 8, "sort": 1}
         )
         rev = self.component.repository.last_revision
         self.edit_unit("Hello, world!\n", "Nazdar svete!\n")
