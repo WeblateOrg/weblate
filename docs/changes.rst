@@ -8,6 +8,7 @@ Not yet released.
 * Renamed :guilabel:`Nearby keys` to :guilabel:`Similar keys` to better describe the purpose.
 * Added support for :ref:`mi18n-lang`.
 * Improved SAML authentication integration.
+* Fixed :ref:`vcs-gerrit` integration to better handle corner cases.
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/64?closed=1>`__.
 
