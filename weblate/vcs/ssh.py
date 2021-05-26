@@ -213,7 +213,7 @@ class SSHWrapper:
 
     @cached_property
     def digest(self):
-        return calculate_checksum(self.SSH_WRAPPER_TEMPLATE, data_dir("ssh"))
+        return calculate_checksum(SSH_WRAPPER_TEMPLATE, data_dir("ssh"))
 
     @property
     def path(self):
@@ -241,7 +241,7 @@ class SSHWrapper:
 
             with open(filename, "w") as handle:
                 handle.write(
-                    self.SSH_WRAPPER_TEMPLATE.format(
+                    SSH_WRAPPER_TEMPLATE.format(
                         command=command,
                         known_hosts=ssh_file(KNOWN_HOSTS),
                         identity=ssh_file(RSA_KEY),
