@@ -1144,6 +1144,7 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
         """
 
         def add(repo):
+            self.log_debug("checking for key to add for %s", repo)
             parsed = urlparse(repo)
             if not parsed.hostname:
                 parsed = urlparse(f"ssh://{repo}")
@@ -1152,6 +1153,7 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
                     port = parsed.port
                 except ValueError:
                     port = ""
+                self.log_debug("adding SSH key for %s:%s", parsed.hostname, port)
                 add_host_key(None, parsed.hostname, port)
 
         add(self.repo)
