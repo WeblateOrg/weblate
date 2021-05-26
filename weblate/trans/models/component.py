@@ -1392,8 +1392,8 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
                 self.delete_alert("PushFailure")
                 return True
             except RepositoryException as error:
-                report_error(cause="Could not push the repo")
                 error_text = self.error_text(error)
+                report_error(cause="Could not push the repo")
                 Change.objects.create(
                     action=Change.ACTION_FAILED_PUSH,
                     component=self,
