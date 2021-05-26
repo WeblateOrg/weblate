@@ -1573,6 +1573,15 @@ NEARBY_MESSAGES
 
 How many strings to show around the currently translated string. This is just a default value, users can adjust this in :ref:`user-profile`.
 
+.. setting:: DEFAULT_PAGE_LIMIT
+
+DEFAULT_PAGE_LIMIT
+------------------
+
+.. versionadded:: 4.7.1
+
+Default number of elements to display when pagination is active.
+
 .. setting:: PAGURE_CREDENTIALS
 
 PAGURE_CREDENTIALS

@@ -927,6 +927,9 @@ LIMIT_TRANSLATION_LENGTH_BY_SOURCE_LENGTH = True
 # Use simple language codes for default language/country combinations
 SIMPLIFY_LANGUAGES = get_env_bool("WEBLATE_SIMPLIFY_LANGUAGES", True)
 
+# Default number of elements to display when pagination is active
+DEFAULT_PAGE_LIMIT = get_env_int("WEBLATE_DEFAULT_PAGE_LIMIT", 100)
+
 # Render forms using bootstrap
 CRISPY_TEMPLATE_PACK = "bootstrap3"
 
