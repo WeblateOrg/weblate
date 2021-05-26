@@ -204,6 +204,7 @@ class SSHWrapper:
         -o "IdentityFile={identity}" \
         -o StrictHostKeyChecking=yes \
         -o HashKnownHosts=no \
+        -o UpdateHostKeys=yes \
         -F /dev/null \
         "$@"
     """
