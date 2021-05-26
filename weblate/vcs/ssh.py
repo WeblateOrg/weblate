@@ -209,13 +209,16 @@ class SSHWrapper:
     """
 
     @cached_property
+    def digest(self):
+        return calculate_checksum(self.SSH_WRAPPER_TEMPLATE, data_dir("ssh"))
+
+    @property
     def filename(self):
         """Calculates unique wrapper filename.
 
         It is based on template and DATA_DIR settings.
         """
-        digest = calculate_checksum(self.SSH_WRAPPER_TEMPLATE, data_dir("ssh"))
-        return ssh_file(f"ssh-weblate-wrapper-{digest}")
+        return ssh_file(f"ssh-weblate-wrapper-{self.digest}")
 
     def create(self):
         """Create wrapper for SSH to pass custom known hosts and key."""
