@@ -24,6 +24,7 @@ import subprocess
 from base64 import b64decode, b64encode
 from distutils.spawn import find_executable
 
+from django.core.management.utils import find_command
 from django.utils.functional import cached_property
 from django.utils.translation import gettext as _
 
@@ -242,7 +243,7 @@ class SSHWrapper:
             with open(filename, "w") as handle:
                 handle.write(
                     SSH_WRAPPER_TEMPLATE.format(
-                        command=command,
+                        command=find_command(command),
                         known_hosts=ssh_file(KNOWN_HOSTS),
                         identity=ssh_file(RSA_KEY),
                     )
