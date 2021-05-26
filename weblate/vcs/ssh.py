@@ -226,7 +226,7 @@ class SSHWrapper:
     @property
     def filename(self):
         """Calculates unique wrapper filename."""
-        return os.path.join(self.path, "scp")
+        return os.path.join(self.path, "ssh")
 
     def create(self):
         """Create wrapper for SSH to pass custom known hosts and key."""
