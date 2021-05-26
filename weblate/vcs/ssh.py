@@ -192,22 +192,24 @@ def can_generate_key():
     return find_executable("ssh-keygen") is not None
 
 
+SSH_WRAPPER_TEMPLATE = r"""#!/bin/sh
+exec {command} \
+    -o "UserKnownHostsFile={known_hosts}" \
+    -o "IdentityFile={identity}" \
+    -o StrictHostKeyChecking=yes \
+    -o HashKnownHosts=no \
+    -o UpdateHostKeys=yes \
+    -F /dev/null \
+    "$@"
+"""
+
+
 class SSHWrapper:
     # Custom ssh wrapper
     # - use custom location for known hosts and key
     # - do not hash it
     # - strict hosk key checking
     # - force not using system configuration (to avoid evil things as SendEnv)
-    SSH_WRAPPER_TEMPLATE = r"""#!/bin/sh
-    exec ssh \
-        -o "UserKnownHostsFile={known_hosts}" \
-        -o "IdentityFile={identity}" \
-        -o StrictHostKeyChecking=yes \
-        -o HashKnownHosts=no \
-        -o UpdateHostKeys=yes \
-        -F /dev/null \
-        "$@"
-    """
 
     @cached_property
     def digest(self):
@@ -224,24 +226,29 @@ class SSHWrapper:
     @property
     def filename(self):
         """Calculates unique wrapper filename."""
-        return os.path.join(self.path, "ssh")
+        return os.path.join(self.path, "scp")
 
     def create(self):
         """Create wrapper for SSH to pass custom known hosts and key."""
-        if os.path.exists(self.filename):
-            return
-
         if not os.path.exists(self.path):
             os.makedirs(self.path)
 
-        with open(self.filename, "w") as handle:
-            handle.write(
-                self.SSH_WRAPPER_TEMPLATE.format(
-                    known_hosts=ssh_file(KNOWN_HOSTS), identity=ssh_file(RSA_KEY)
-                )
-            )
+        for command in ("ssh", "scp"):
+            filename = os.path.join(self.path, command)
 
-        os.chmod(self.filename, 0o755)  # nosec
+            if os.path.exists(filename):
+                return
+
+            with open(filename, "w") as handle:
+                handle.write(
+                    self.SSH_WRAPPER_TEMPLATE.format(
+                        command=command,
+                        known_hosts=ssh_file(KNOWN_HOSTS),
+                        identity=ssh_file(RSA_KEY),
+                    )
+                )
+
+            os.chmod(self.filename, 0o755)  # nosec
 
 
 SSH_WRAPPER = SSHWrapper()
