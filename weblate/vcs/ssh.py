@@ -248,7 +248,7 @@ class SSHWrapper:
                     )
                 )
 
-            os.chmod(self.filename, 0o755)  # nosec
+            os.chmod(filename, 0o755)  # nosec
 
 
 SSH_WRAPPER = SSHWrapper()
