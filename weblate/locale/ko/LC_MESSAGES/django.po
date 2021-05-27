@@ -14,13 +14,14 @@
 # Kurosawa <bgsc27vsex@tutanota.com>, 2020.
 # Anonymous <noreply@weblate.org>, 2020.
 # SC <skchoi97@gmail.com>, 2021.
+# Lumies <lost.blue.3210@gmail.com>, 2021.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.7\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-05-24 04:10+0000\n"
-"PO-Revision-Date: 2021-04-17 23:27+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2021-05-27 22:39+0000\n"
+"Last-Translator: Lumies <lost.blue.3210@gmail.com>\n"
 "Language-Team: Korean <https://hosted.weblate.org/projects/weblate/"
 "application/ko/>\n"
 "Language: ko\n"
@@ -28,7 +29,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 4.6-dev\n"
+"X-Generator: Weblate 4.7-dev\n"
 
 #: weblate/accounts/avatar.py:103
 msgctxt "No known user"
@@ -62,10 +63,9 @@ msgid "Public e-mail"
 msgstr "공개 전자우편"
 
 #: weblate/accounts/forms.py:287
-#, fuzzy, python-format
-#| msgid "Component lists"
+#, python-format
 msgid "Component list: %s"
-msgstr "구성 요소 목록들"
+msgstr "구성 요소 목록들: %s"
 
 #: weblate/accounts/forms.py:313 weblate/accounts/forms.py:381
 #: weblate/accounts/templatetags/authnames.py:42 weblate/auth/models.py:330
@@ -294,16 +294,12 @@ msgid "Chosen sorting is not supported."
 msgstr "선택한 정렬은 지원되지 않습니다."
 
 #: weblate/accounts/forms.py:815
-#, fuzzy
-#| msgid "Add font group"
 msgid "Add user to a group"
-msgstr "폰트 그룹 추가하기"
+msgstr "그룹에 유저 추가하기"
 
 #: weblate/accounts/forms.py:825
-#, fuzzy
-#| msgid "Add font group"
 msgid "Add group"
-msgstr "폰트 그룹 추가하기"
+msgstr "그룹 추가하기"
 
 #: weblate/accounts/models.py:146
 msgid "Password changed."
@@ -353,14 +349,10 @@ msgid "Signed in using {method} ({name}) from a new device."
 msgstr "새 장치에서 {method} ({name}) 이용하여 로그인했습니다."
 
 #: weblate/accounts/models.py:156
-#, fuzzy
-#| msgid "Somebody has attempted to register with your e-mail."
 msgid "Somebody attempted to register with your e-mail."
-msgstr "누군가 당신의 전자우편으로 가입을 하려고 시도했습니다."
+msgstr "당신의 전자우편으로 누군가가 가입시도를 하였습니다."
 
 #: weblate/accounts/models.py:157
-#, fuzzy
-#| msgid "Somebody has attempted to register using your e-mail address."
 msgid "Somebody attempted to register using your e-mail address."
 msgstr "누군가 당신의 전자우편을 이용하여 가입을 시도했습니다."
 
@@ -397,16 +389,10 @@ msgid "Sent confirmation mail to {email}."
 msgstr "확인용 전자우편을 {email}로 보냈습니다."
 
 #: weblate/accounts/models.py:166
-#, fuzzy
-#| msgid ""
-#| "System created user to track authorship of translations uploaded by other "
-#| "user."
 msgid ""
 "The system created a user to track authorship of translations uploaded by "
 "other user."
-msgstr ""
-"다른 사용자가 업로드한 번역의 저자를 추적하기 위해 시스템이 사용자를 생성했습"
-"니다."
+msgstr "다른 사용자가 업로드한 번역의 저자를 추적하기 위해 시스템이 새 사용자를 생성했습니다."
 
 #: weblate/accounts/models.py:173
 msgid "Configured password to sign in."
@@ -1055,10 +1041,8 @@ msgid "Removes strings without a translation from translation files."
 msgstr "번역 파일에서 번역이 없는 문자열을 제거합니다."
 
 #: weblate/addons/consistency.py:32
-#, fuzzy
-#| msgid "Adding new languages"
 msgid "Add missing languages"
-msgstr "새로운 언어 추가"
+msgstr "부족한 언어 추가"
 
 #: weblate/addons/consistency.py:34
 msgid ""
@@ -2174,10 +2158,8 @@ msgid ""
 msgstr "사용자는 이 그룹의 회원에 포함된 모든 권한이 부여됩니다."
 
 #: weblate/auth/models.py:630
-#, fuzzy
-#| msgid "Regular expression used to match user e-mail."
 msgid "Regular expression for e-mail address"
-msgstr "사용자 전자우편을 일치하기 위해 사용되는 정규표현식입니다."
+msgstr "이메일 주소에 사용되는 정규표현식입니다."
 
 #: weblate/auth/models.py:634
 msgid "Users with e-mail addresses found to match will be added to this group."
@@ -2935,10 +2917,8 @@ msgid "The translations in several languages have failing checks"
 msgstr "이 번역은 몇몇 언어에서 검사 실패했습니다"
 
 #: weblate/checks/source.py:92
-#, fuzzy
-#| msgid "Failing checks found"
 msgid "Following checks are failing:"
-msgstr "검사를 통과하지 못한 번역 발견됨"
+msgstr "검사를 통과하지 못한 번역 :"
 
 #: weblate/checks/source.py:109
 msgid "Long untranslated"
@@ -4041,10 +4021,9 @@ msgid ""
 msgstr ""
 
 #: weblate/templates/accounts/contact.html:18
-#, fuzzy, python-format
-#| msgid "You can contact maintainers of this server here."
+#, python-format
 msgid "You can only contact administrators of %(site_title)s here."
-msgstr "여기서 이 서버의 관리자에게 연락할 수 있습니다."
+msgstr "여기서는  %(site_title)s 의 관리자에게만 연락이 가능합니다."
 
 #: weblate/templates/accounts/contact.html:20
 #, fuzzy
@@ -4490,10 +4469,8 @@ msgstr "당신의 개인 API 키:"
 
 #: weblate/templates/accounts/profile.html:263
 #: weblate/templates/manage-access.html:161
-#, fuzzy
-#| msgid "Copy to clipboard"
 msgid "API key copied to clipboard."
-msgstr "클립보드에 복사"
+msgstr "API 키가 클립보드에 복사되었습니다."
 
 #: weblate/templates/accounts/profile.html:263
 #: weblate/templates/addons/cdnjs.html:9
@@ -5042,10 +5019,9 @@ msgid "Failed checks in %(project)s"
 msgstr "%(project)s에서 검사가 실패했습니다"
 
 #: weblate/templates/base.html:180
-#, fuzzy, python-format
-#| msgid "Failed checks in %(project)s — %(language)s"
+#, python-format
 msgid "Failed checks in %(language)s"
-msgstr "%(project)s—%(language)s에서 검사가 실패했습니다"
+msgstr "언어 : %(language)s에서 검사가 실패했습니다."
 
 #: weblate/templates/base.html:184
 msgid "Checks overview"
@@ -5988,10 +5964,8 @@ msgid "Hook"
 msgstr "걸기"
 
 #: weblate/templates/data.html:123
-#, fuzzy
-#| msgid "Pull changes from the remote repository"
 msgid "You pull changes from a remote repository to Weblate like this:"
-msgstr "원격 저장소에서 변경사항을 가져오기"
+msgstr "다음 예시처럼 원격 저장소에서 웨블레이트로 변경사항을 가져올 수 있습니다."
 
 #: weblate/templates/data.html:132
 msgid ""
@@ -7185,10 +7159,8 @@ msgid "Support expiry"
 msgstr "지원 만기"
 
 #: weblate/templates/manage/index.html:58
-#, fuzzy
-#| msgid "Return to Weblate"
 msgid "Discover Weblate"
-msgstr "웨블레이트로 돌아가기"
+msgstr "웨블레이트 탐색하기"
 
 #: weblate/templates/manage/index.html:60
 #, fuzzy
@@ -7848,7 +7820,7 @@ msgstr "소스 코드 저장소"
 #, fuzzy
 #| msgid "Repository operation"
 msgid "Repository URL copied to clipboard."
-msgstr "저장소 작업"
+msgstr "Repository URL이 클립보드에 복사되었습니다."
 
 #: weblate/templates/snippets/git-info.html:18 weblate/trans/forms.py:1502
 #: weblate/trans/forms.py:1646 weblate/trans/models/component.py:314
@@ -7884,10 +7856,8 @@ msgid "This translation is forbidden."
 msgstr "이 번역은 잠겨있습니다."
 
 #: weblate/templates/snippets/glossary.html:9
-#, fuzzy
-#| msgid "Message is not translated"
 msgid "This term should not be translated."
-msgstr "미번역된 메시지"
+msgstr "번역하면 안 되는 용어입니다."
 
 #: weblate/templates/snippets/glossary.html:11
 msgid "Copy word into translation"
@@ -8172,11 +8142,10 @@ msgid "%(value)s of %(all)s"
 msgstr "%(all)s의 %(value)s"
 
 #: weblate/templates/snippets/list-objects-percent.html:7
-#, fuzzy, python-format
-#| msgid "Apply selected translation to current string"
+#, python-format
 msgid "Completed translation with %(count)s string"
 msgid_plural "Completed translation with %(count)s strings"
-msgstr[0] "선택한 번역을 현재 문자열에 적용"
+msgstr[0] "번역 완료된 줄 : %(count)s 줄"
 
 #: weblate/templates/snippets/list-objects.html:19
 #: weblate/templates/snippets/list-objects.html:29
@@ -8450,10 +8419,8 @@ msgid "Sort By"
 msgstr "정렬 기준"
 
 #: weblate/templates/snippets/ssh-key.html:5
-#, fuzzy
-#| msgid "Copy to clipboard"
 msgid "Public key copied to clipboard."
-msgstr "클립보드에 복사"
+msgstr "공개키가 클립보드에 복사되었습니다."
 
 #: weblate/templates/snippets/ssh-key.html:6
 msgid ""
@@ -8511,17 +8478,15 @@ msgstr "검토 원본"
 #, fuzzy
 #| msgid "Source strings in %s"
 msgid "Source string editing is disabled."
-msgstr "%s에 원본 문자열"
+msgstr "소스 문자열 편집이 비활성화되었습니다."
 
 #: weblate/templates/snippets/unit-readonly-badge.html:8
 msgid "Source strings can’t be edited. You can delete them and add new ones."
 msgstr ""
 
 #: weblate/templates/snippets/unit-readonly-badge.html:10
-#, fuzzy
-#| msgid "Source string changed"
 msgid "The source string cannot be edited."
-msgstr "원본 문자열이 변경됨"
+msgstr "소스 문자열은 편집할 수 없습니다."
 
 #: weblate/templates/snippets/user-list.html:19 weblate/trans/forms.py:161
 msgid "No matching user found."
@@ -8774,10 +8739,8 @@ msgid "This project does no longer fit into libre hosting conditions."
 msgstr "이 프로젝트는 더 이상 리브르 호스팅 조건에 맞지 않습니다."
 
 #: weblate/templates/trans/alert/nomaskmatches.html:4
-#, fuzzy
-#| msgid "There are some alerts on this component"
 msgid "There are no translations in this component."
-msgstr "이 구성요소에 경고가 있습니다"
+msgstr "이 구성 요소는 번역되지 않았습니다."
 
 #: weblate/templates/trans/alert/nomaskmatches.html:7
 #, python-format
@@ -9152,10 +9115,8 @@ msgid "Configure editor"
 msgstr "편집기 설정"
 
 #: weblate/templates/translate.html:78
-#, fuzzy
-#| msgid "Copy to clipboard"
 msgid "Permalink copied to clipboard."
-msgstr "클립보드에 복사"
+msgstr "퍼머링크가 클립보드에 복사되었습니다."
 
 #: weblate/templates/translate.html:78
 msgid "Copy permalink"
@@ -9389,10 +9350,9 @@ msgid_plural "There are %(count)s variants of this string."
 msgstr[0] "이 문자열에 대한 %(count)s 개의 변형이 있습니다."
 
 #: weblate/templates/translate.html:527
-#, fuzzy, python-format
-#| msgid "Browse all glossary changes"
+#, python-format
 msgid "Browse glossary %(name)s"
-msgstr "모든 용어집 변경 사항 찾아보기"
+msgstr "%(name)s 용어집을 탐색합니다."
 
 #: weblate/templates/translate.html:549 weblate/templates/translate.html:559
 msgid "Add term to glossary"
@@ -9468,7 +9428,7 @@ msgstr ""
 #, fuzzy, python-format
 #| msgid "Variants of the string"
 msgid "Add a new variant for \"%(existing)s\""
-msgstr "문자열 변형"
+msgstr "\"%(existing)s\"에 대한 새 변수를 추가합니다."
 
 #: weblate/templates/translation.html:55
 #, fuzzy
@@ -10500,10 +10460,8 @@ msgid "Does not meet libre hosting conditions."
 msgstr "리브르 호스팅 조건을 충족하지 않습니다."
 
 #: weblate/trans/models/alert.py:353
-#, fuzzy
-#| msgid "Enforced checks"
 msgid "Unused enforced checks."
-msgstr "강제 검사"
+msgstr "사용하지 않은 강제 검사 항목."
 
 #: weblate/trans/models/alert.py:360
 #, fuzzy
@@ -11594,26 +11552,21 @@ msgid "Failed to parse file %(file)s: %(error)s"
 msgstr "파일 %(file)s: %(error)s 의 구문 분석 실패"
 
 #: weblate/trans/models/translation.py:1347
-#, fuzzy
-#| msgid "Translation with this key seem to already exist!"
 msgid "This string seems to already exist."
-msgstr "이 키로 번역이 이미 존재하는 것 같습니다!"
+msgstr "문자열이 이미 존재합니다."
 
 #: weblate/trans/models/translation.py:1354
 #: weblate/trans/models/translation.py:1376
 #: weblate/trans/models/translation.py:1382
 #: weblate/trans/models/translation.py:1386
 #: weblate/trans/models/translation.py:1401
-#, fuzzy, python-format
-#| msgid "Pending string"
+#, python-format
 msgid "Failed adding string: %s"
-msgstr "대기 중인 문자열"
+msgstr "추가 실패한 문자열 : %s"
 
 #: weblate/trans/models/translation.py:1354
-#, fuzzy
-#| msgid "No matching translations found!"
 msgid "No translation found."
-msgstr "일치하는 번역이 없습니다!"
+msgstr "번역을 찾을 수 없습니다."
 
 #: weblate/trans/models/translation.py:1386
 #: weblate/trans/models/translation.py:1401
@@ -11738,23 +11691,19 @@ msgid "Possible configuration"
 msgstr "가능한 설정"
 
 #: weblate/trans/templatetags/translations.py:174
-#, fuzzy, python-format
-#| msgid "Good translations"
+#, python-format
 msgid "Forbidden translation: %s"
-msgstr "평판이 좋은 번역"
+msgstr "금지된 번역문 : %s"
 
 #: weblate/trans/templatetags/translations.py:176
-#, fuzzy, python-format
-#| msgctxt "String state"
-#| msgid "Not translated"
+#, python-format
 msgid "Not-translatable: %s"
-msgstr "번역되지 않았음"
+msgstr "번역할 수 없는 문자열  : %s"
 
 #: weblate/trans/templatetags/translations.py:178
-#, fuzzy, python-format
-#| msgid "Upload translations"
+#, python-format
 msgid "Glossary translation: %s"
-msgstr "번역 업로드"
+msgstr "용어집 번역: %s"
 
 #: weblate/trans/templatetags/translations.py:228
 msgid "New line"
@@ -11966,10 +11915,9 @@ msgid_plural "%(count)s strings are not being translated here."
 msgstr[0] "%(count)s개의 문자열이 번역되지 않았습니다."
 
 #: weblate/trans/templatetags/translations.py:855
-#, fuzzy, python-format
-#| msgid "Watched projects"
+#, python-format
 msgid "Shared from the %s project."
-msgstr "참여 중인 프로젝트"
+msgstr "%s 프로젝트에서 불러옴."
 
 #: weblate/trans/templatetags/translations.py:878
 msgid "enabled"
