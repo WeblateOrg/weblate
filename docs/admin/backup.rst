@@ -110,9 +110,14 @@ Remote backups
 ~~~~~~~~~~~~~~
 
 In order to create the remote backups, you will have to install `BorgBackup`_
-onto another server that’s accessible via SSH. Make sure
-that it accepts the Weblate's client SSH key, i.e. the one it uses to connect
-to other servers.
+onto another server that’s accessible via SSH using Weblate SSH key:
+
+1. Prepare a server where your backups will be stored.
+2. Install the SSH server (you will get it by default on most Linux distributions).
+3. Install `BorgBackup`_ on that server, most Linux distributions have packages available (see :doc:`borg:installation`).
+4. Choose an existing user or create a new user which will be used for backing up.
+5. Add Weblate SSH key to the user so that Weblate can SSH to the server without a password (see :ref:`weblate-ssh-key`).
+6. Configure the backup location in Weblate as ``user@host:/path/to/backups``.
 
 .. hint::
 
