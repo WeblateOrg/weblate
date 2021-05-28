@@ -265,7 +265,7 @@ NetEase Sight API machine translation
 
 .. versionadded:: 3.3
 
-Machine translation service provided by Netease.
+Machine translation service provided by NetEase.
 
 This service uses an API, and you need to obtain key and secret from NetEase.
 
@@ -277,7 +277,7 @@ Turn on this service by adding ``weblate.machinery.youdao.NeteaseSightTranslatio
 
     :setting:`MT_NETEASE_KEY`,
     :setting:`MT_NETEASE_SECRET`
-    `Netease Sight Translation Platform <https://sight.youdao.com/>`_
+    `NetEase Sight Translation Platform <https://sight.youdao.com/>`_
 
 .. _tmserver:
 
@@ -389,11 +389,11 @@ SAP Translation Hub
 
 Machine translation service provided by SAP.
 
-You need to have a SAP account (and enabled the SAP Translation Hub in the SAP Cloud
+You need to have a SAP account (and the SAP Translation Hub enabled in the SAP Cloud
 Platform) to use this service.
 
 Turn on this service by adding ``weblate.machinery.saptranslationhub.SAPTranslationHub`` to
-:setting:`MT_SERVICES` and set the appropriate access to either
+:setting:`MT_SERVICES` and set the appropriate access to either the
 sandbox or the productive API.
 
 .. note::
@@ -423,5 +423,5 @@ languages using ``dictionary`` Python module:
 .. literalinclude:: ../../weblate/examples/mt_service.py
     :language: python
 
-You can list own class in :setting:`MT_SERVICES` and Weblate
+You can list your own class in :setting:`MT_SERVICES` and Weblate
 will start using that.
