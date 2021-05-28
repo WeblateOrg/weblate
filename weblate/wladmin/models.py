@@ -173,10 +173,13 @@ class BackupService(models.Model):
 
     def ensure_init(self):
         if not self.paperkey:
-            log = initialize(self.repository, self.passphrase)
-            self.backuplog_set.create(event="init", log=log)
-            self.paperkey = get_paper_key(self.repository)
-            self.save()
+            try:
+                log = initialize(self.repository, self.passphrase)
+                self.backuplog_set.create(event="init", log=log)
+                self.paperkey = get_paper_key(self.repository)
+                self.save()
+            except BackupError as error:
+                self.backuplog_set.create(event="error", log=str(error))
 
     def backup(self):
         try:
