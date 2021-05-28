@@ -31,6 +31,8 @@ from weblate.utils.celery import app
 from weblate.utils.hash import calculate_checksum
 from weblate.utils.requests import request
 
+IGNORED_TAGS = {"script", "style"}
+
 
 @app.task(trail=False)
 def cdn_parse_html(files: str, selector: str, component_id: int):
@@ -59,7 +61,9 @@ def cdn_parse_html(files: str, selector: str, component_id: int):
             text = element.text
             if (
                 element.getchildren()
+                or element.tag in IGNORED_TAGS
                 or not text
+                or not text.strip()
                 or text in source_units
                 or text in units
             ):
