@@ -612,7 +612,7 @@ class RoleViewSet(viewsets.ModelViewSet):
         return (
             Role.objects.filter(group__in=self.request.user.groups.all())
             .order_by("id")
-            .all()
+            .distinct()
         )
 
     def perm_check(self, request):
