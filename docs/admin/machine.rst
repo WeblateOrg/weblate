@@ -394,7 +394,7 @@ Platform) to use this service.
 
 Turn on this service by adding ``weblate.machinery.saptranslationhub.SAPTranslationHub`` to
 :setting:`MT_SERVICES` and set the appropriate access to either the
-sandbox or the productive API.
+sandbox or the production API.
 
 .. note::
 
