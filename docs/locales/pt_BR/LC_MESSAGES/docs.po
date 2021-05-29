@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-05-24 06:11+0200\n"
-"PO-Revision-Date: 2021-05-27 22:40+0000\n"
+"PO-Revision-Date: 2021-05-29 16:04+0000\n"
 "Last-Translator: Rafael Fontenelle <rafaelff@gnome.org>\n"
 "Language-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/"
 "weblate/documentation/pt_BR/>\n"
@@ -3624,6 +3624,8 @@ msgid ""
 "The default configuration extracts user details from following attributes, "
 "configure your IDP to provide them:"
 msgstr ""
+"A configuração padrão extrai detalhes do usuário dos seguintes atributos, "
+"configure seu IDP para fornecê-los:"
 
 #: ../../admin/auth.rst:420
 msgid "Attribute"
@@ -3639,7 +3641,7 @@ msgstr "Nome completo"
 
 #: ../../admin/auth.rst:422
 msgid "``urn:oid:2.5.4.3``"
-msgstr ""
+msgstr "``urn:oid:2.5.4.3``"
 
 #: ../../admin/auth.rst:424
 msgid "First name"
@@ -3647,7 +3649,7 @@ msgstr "Primeiro nome"
 
 #: ../../admin/auth.rst:424
 msgid "``urn:oid:2.5.4.42``"
-msgstr ""
+msgstr "``urn:oid:2.5.4.42``"
 
 #: ../../admin/auth.rst:426
 msgid "Last name"
@@ -3655,7 +3657,7 @@ msgstr "Sobrenome"
 
 #: ../../admin/auth.rst:426
 msgid "``urn:oid:2.5.4.4``"
-msgstr ""
+msgstr "``urn:oid:2.5.4.4``"
 
 #: ../../admin/auth.rst:428
 msgid "E-mail"
@@ -3663,7 +3665,7 @@ msgstr "E-mail"
 
 #: ../../admin/auth.rst:428
 msgid "``urn:oid:0.9.2342.19200300.100.1.3``"
-msgstr ""
+msgstr "``urn:oid:0.9.2342.19200300.100.1.3``"
 
 #: ../../admin/auth.rst:430 ../../api.rst:236
 msgid "Username"
@@ -3671,13 +3673,15 @@ msgstr "Nome de usuário"
 
 #: ../../admin/auth.rst:430
 msgid "``urn:oid:0.9.2342.19200300.100.1.1``"
-msgstr ""
+msgstr "``urn:oid:0.9.2342.19200300.100.1.1``"
 
 #: ../../admin/auth.rst:435
 msgid ""
 "The example above and the Docker image define an IDP labelled ``weblate``. "
 "You might need to configure this string as :guilabel:`Relay` in your IDP."
 msgstr ""
+"O exemplo acima e a imagem do Docker definem um IDP rotulado como ``weblate``"
+". Você pode precisar configurar este texto como :guilabel:`Relay` em seu IDP."
 
 #: ../../admin/auth.rst:440
 msgid ""
@@ -7197,16 +7201,22 @@ msgid ""
 "was only possible to configure the API version using "
 "``MT_DEEPL_API_VERSION``."
 msgstr ""
+"A URL completa da API agora está configurada para permitir o uso do plano "
+"gratuito. Antes, só era possível configurar a versão da API usando "
+"``MT_DEEPL_API_VERSION``."
 
 #: ../../admin/config.rst:1265
 msgid ""
 "API URL to use with the DeepL service. At the time of writing, there is the "
 "v1 API as well as a free and a paid version of the v2 API."
 msgstr ""
+"A URL da API para usar com o serviço DeepL. No momento em que este artigo "
+"foi escrito, existe a API v1, bem como uma versão gratuita e uma versão paga "
+"da API v2."
 
 #: ../../admin/config.rst:1268
 msgid "``https://api.deepl.com/v2/`` (default in Weblate)"
-msgstr ""
+msgstr "``https://api.deepl.com/v2/`` (padrão no Weblate)"
 
 #: ../../admin/config.rst:1269
 msgid ""
@@ -7215,7 +7225,7 @@ msgstr "Destina-se ao uso da API no plano pago e a assinatura é baseada em uso.
 
 #: ../../admin/config.rst:1270
 msgid "``https://api-free.deepl.com/v2/``"
-msgstr ""
+msgstr "``https://api-free.deepl.com/v2/``"
 
 #: ../../admin/config.rst:1271
 msgid ""
@@ -7225,7 +7235,7 @@ msgstr ""
 
 #: ../../admin/config.rst:1273
 msgid "``https://api.deepl.com/v1/``"
-msgstr ""
+msgstr "``https://api.deepl.com/v1/``"
 
 #: ../../admin/config.rst:1273
 msgid "Is meant for CAT tools and is usable with a per-user subscription."
@@ -7248,17 +7258,22 @@ msgid ""
 "The easiest way to find out which one to use is to open an URL like the "
 "following in your browser:"
 msgstr ""
+"A maneira mais fácil de descobrir qual usar é abrir uma URL como a seguinte "
+"em seu navegador:"
 
 #: ../../admin/config.rst:1283
 msgid ""
 "https://api.deepl.com/v2/translate?text=Hello&target_lang=FR&auth_key=XXX"
 msgstr ""
+"https://api.deepl.com/v2/translate?text=Hello&target_lang=FR&auth_key=XXX"
 
 #: ../../admin/config.rst:1285
 msgid ""
 "Replace the XXX with your auth_key. If you receive a JSON object which "
 "contains \"Bonjour\", you have the correct URL; if not, try the other three."
 msgstr ""
+"Substitua o XXX pela sua auth_key. Se receber um objeto JSON que contém "
+"\"Bonjour\", você tem a URL correta; se não, tente os outros três."
 
 #: ../../admin/config.rst:1290 ../../admin/config.rst:1301
 msgid ""
@@ -11020,13 +11035,15 @@ msgstr ""
 
 #: ../../admin/install.rst:1119
 msgid "Apache on Ubuntu uses :file:`/etc/apache2/envvars`:"
-msgstr ""
+msgstr "Apache no Ubuntu usa :file:`/etc/apache2/envvars`:"
 
 #: ../../admin/install.rst:1126
 msgid ""
 "Apache on CentOS uses :file:`/etc/sysconfig/httpd` (or :file:`/opt/rh/"
 "httpd24/root/etc/sysconfig/httpd`):"
 msgstr ""
+"Apache no CentOS usa :file:`/etc/sysconfig/httpd` (ou :file:`/opt/rh/httpd24/"
+"root/etc/sysconfig/httpd`):"
 
 #: ../../admin/install.rst:1136
 msgid "Using custom certificate authority"
@@ -13705,7 +13722,7 @@ msgid ""
 msgstr ""
 "Ao processar o modelo, um respectivo ``ConfigMap`` será criado e poderá ser "
 "usado para personalizar a imagem Weblate. O ``ConfigMap`` é montado "
-"diretamente como variáveis de ambiente e dispara uma nova implantação toda "
+"diretamente como variáveis de ambiente e aciona uma nova implantação toda "
 "vez que é alterado. Para mais opções de configuração, consulte :ref:`docker-"
 "environment` para uma lista completa de variáveis de ambiente."
 
@@ -15021,16 +15038,18 @@ msgstr ""
 
 #: ../../admin/machine.rst:264
 msgid "NetEase Sight API machine translation"
-msgstr ""
+msgstr "Tradução de máquina do NetEase Sight API"
 
 #: ../../admin/machine.rst:268
 msgid "Machine translation service provided by Netease."
-msgstr ""
+msgstr "Serviço de tradução de máquina fornecido por NetEase."
 
 #: ../../admin/machine.rst:270
 msgid ""
 "This service uses an API, and you need to obtain key and secret from NetEase."
 msgstr ""
+"Este serviço usa uma API e você precisa obter uma chave e um segredo de "
+"NetEase."
 
 #: ../../admin/machine.rst:272
 msgid ""
@@ -15038,16 +15057,21 @@ msgid ""
 "NeteaseSightTranslation`` to :setting:`MT_SERVICES` and set :setting:"
 "`MT_NETEASE_KEY` and :setting:`MT_NETEASE_SECRET`."
 msgstr ""
+"Ative este serviço adicionando ``weblate.machinery.youdao."
+"NeteaseSightTranslation`` em :setting:`MT_SERVICES` e defina "
+":setting:`MT_NETEASE_KEY` e :setting:`MT_NETEASE_SECRET`."
 
 #: ../../admin/machine.rst:278
 msgid ""
 ":setting:`MT_NETEASE_KEY`, :setting:`MT_NETEASE_SECRET` `Netease Sight "
 "Translation Platform <https://sight.youdao.com/>`_"
 msgstr ""
+":setting:`MT_NETEASE_KEY`, :setting:`MT_NETEASE_SECRET` `Plataforma de "
+"Tradução Netease Sight <https://sight.youdao.com/>`_"
 
 #: ../../admin/machine.rst:285
 msgid "tmserver"
-msgstr ""
+msgstr "tmserver"
 
 #: ../../admin/machine.rst:287
 msgid ""
@@ -15055,24 +15079,31 @@ msgid ""
 "Translate-toolkit and let Weblate talk to it. You can also use it with an "
 "amaGama server, which is an enhanced version of tmserver."
 msgstr ""
+"Você pode executar seu próprio servidor de memória de tradução usando aquele "
+"que vem com o Translate-toolkit e deixar que o Weblate converse com ele. "
+"Você também pode usá-lo com um servidor amaGama, que é uma versão aprimorada "
+"do tmserver."
 
 #: ../../admin/machine.rst:291
 msgid "First you will want to import some data to the translation memory:"
 msgstr ""
+"Primeiro, você vai querer importar alguns dados para a memória de tradução:"
 
 #: ../../admin/machine.rst:293
 msgid ""
 "2. Turn on this service by adding ``weblate.machinery.tmserver."
 "TMServerTranslation`` to :setting:`MT_SERVICES`."
 msgstr ""
+"2. Ative este serviço adicionando ``weblate.machinery.tmserver."
+"TMServerTranslation`` a :setting:`MT_SERVICES`."
 
 #: ../../admin/machine.rst:302
 msgid "Start tmserver to listen to your requests:"
-msgstr ""
+msgstr "Inicie o tmserver para ouvir suas solicitações:"
 
 #: ../../admin/machine.rst:308
 msgid "Configure Weblate to talk to it:"
-msgstr ""
+msgstr "Configure o Weblate para falar com ele:"
 
 #: ../../admin/machine.rst:316
 msgid ""
@@ -15080,20 +15111,25 @@ msgid ""
 "installation`, :doc:`virtaal:amagama`, `Amagama Translation Memory <https://"
 "amagama.translatehouse.org/>`_"
 msgstr ""
+":setting:`MT_TMSERVER`, :doc:`tt:commands/tmserver` "
+":ref:`amagama:installation`, :doc:`virtaal:amagama`, `Amagama Translation "
+"Memory <https://amagama.translatehouse.org/>`_"
 
 #: ../../admin/machine.rst:326
 msgid "Yandex Translate"
-msgstr ""
+msgstr "Yandex Translate"
 
 #: ../../admin/machine.rst:328
 msgid "Machine translation service provided by Yandex."
-msgstr ""
+msgstr "Serviço de memória de tradução fornecido pela Yandex."
 
 #: ../../admin/machine.rst:330
 msgid ""
 "This service uses a Translation API, and you need to obtain an API key from "
 "Yandex."
 msgstr ""
+"Este serviço usa uma API de tradução, e você precisa obter uma chave de API "
+"da Yandex."
 
 #: ../../admin/machine.rst:332
 msgid ""
@@ -15101,26 +15137,32 @@ msgid ""
 "YandexTranslation`` to :setting:`MT_SERVICES`, and set :setting:"
 "`MT_YANDEX_KEY`."
 msgstr ""
+"Ative este serviço adicionando ``weblate.machinery.yandex.YandexTranslation``"
+" a :setting:`MT_SERVICES` e defina :setting:`MT_YANDEX_KEY`."
 
 #: ../../admin/machine.rst:337
 msgid ""
 ":setting:`MT_YANDEX_KEY`, `Yandex Translate API <https://yandex.com/dev/"
 "translate/>`_, `Powered by Yandex.Translate <https://translate.yandex.com/>`_"
 msgstr ""
+":setting:`MT_YANDEX_KEY`, `API do Yandex Translate <https://yandex.com/dev/"
+"translate/>`_, `Powered by Yandex.Translate <https://translate.yandex.com/>`_"
 
 #: ../../admin/machine.rst:344
 msgid "Youdao Zhiyun API machine translation"
-msgstr ""
+msgstr "Tradução de máquina do Youdao Zhiyun API"
 
 #: ../../admin/machine.rst:348
 msgid "Machine translation service provided by Youdao."
-msgstr ""
+msgstr "Serviço de tradução de máquina fornecido pelo Youdao."
 
 #: ../../admin/machine.rst:350
 msgid ""
 "This service uses an API, and you need to obtain an ID and an API key from "
 "Youdao."
 msgstr ""
+"Este serviço usa uma API e você precisa obter um ID e uma chave de API do "
+"Youdao."
 
 #: ../../admin/machine.rst:352
 msgid ""
@@ -15128,58 +15170,74 @@ msgid ""
 "YoudaoTranslation`` to :setting:`MT_SERVICES` and set :setting:"
 "`MT_YOUDAO_ID` and :setting:`MT_YOUDAO_SECRET`."
 msgstr ""
+"Ative este serviço adicionando ``weblate.machinery.youdao.YoudaoTranslation``"
+" a :setting:`MT_SERVICES` e defina :setting:`MT_YOUDAO_ID` e "
+":setting:`MT_YOUDAO_SECRET`."
 
 #: ../../admin/machine.rst:358
 msgid ""
 ":setting:`MT_YOUDAO_ID`, :setting:`MT_YOUDAO_SECRET` `Youdao Zhiyun Natural "
 "Language Translation Service <https://ai.youdao.com/product-fanyi-text.s>`_"
 msgstr ""
+":setting:`MT_YOUDAO_ID`, :setting:`MT_YOUDAO_SECRET` `Youdao Zhiyun Natural "
+"Language Translation Service <https://ai.youdao.com/product-fanyi-text.s>`_"
 
 #: ../../admin/machine.rst:363
 msgid "Weblate"
-msgstr ""
+msgstr "Weblate"
 
 #: ../../admin/machine.rst:365
 msgid ""
 "Weblate can be the source of machine translations as well. It is based on "
 "the Woosh fulltext engine, and provides both exact and inexact matches."
 msgstr ""
+"O Weblate também pode ser a fonte de traduções de máquina. Ele é baseado no "
+"mecanismo de texto completo Woosh e fornece correspondências exatas e "
+"inexatas."
 
 #: ../../admin/machine.rst:368
 msgid ""
 "Turn on these services by adding ``weblate.machinery.weblatetm."
 "WeblateTranslation`` to :setting:`MT_SERVICES`."
 msgstr ""
+"Ative esses serviços adicionando ``weblate.machinery.weblatetm."
+"WeblateTranslation`` a :setting:`MT_SERVICES`."
 
 #: ../../admin/machine.rst:374
 msgid "Weblate Translation Memory"
-msgstr ""
+msgstr "Weblate Translation Memory"
 
 #: ../../admin/machine.rst:378
 msgid ""
 "The :ref:`translation-memory` can be used as a source for machine "
 "translation suggestions as well."
 msgstr ""
+"A :ref:`translation-memory` também pode ser usada como fonte para sugestões "
+"de tradução de máquina."
 
 #: ../../admin/machine.rst:381
 msgid ""
 "Turn on these services by adding ``weblate.memory.machine.WeblateMemory`` to "
 "the :setting:`MT_SERVICES`. This service is turned on by default."
 msgstr ""
+"Ative esses serviços adicionando ``weblate.memory.machine.WeblateMemory`` a "
+":setting:`MT_SERVICES`. Este serviço está ativado por padrão."
 
 #: ../../admin/machine.rst:388
 msgid "SAP Translation Hub"
-msgstr ""
+msgstr "SAP Translation Hub"
 
 #: ../../admin/machine.rst:390
 msgid "Machine translation service provided by SAP."
-msgstr ""
+msgstr "Serviço de tradução de máquina fornecido por SAP."
 
 #: ../../admin/machine.rst:392
 msgid ""
 "You need to have a SAP account (and enabled the SAP Translation Hub in the "
 "SAP Cloud Platform) to use this service."
 msgstr ""
+"Você precisa ter uma conta SAP (e ativar o SAP Translation Hub na SAP Cloud "
+"Platform) para usar este serviço."
 
 #: ../../admin/machine.rst:395
 msgid ""
@@ -15187,18 +15245,26 @@ msgid ""
 "SAPTranslationHub`` to :setting:`MT_SERVICES` and set the appropriate access "
 "to either sandbox or the productive API."
 msgstr ""
+"Ative este serviço adicionando ``weblate.machinery.saptranslationhub."
+"SAPTranslationHub`` a :setting:`MT_SERVICES` e defina o acesso apropriado "
+"para o sandbox ou a API de produção."
 
 #: ../../admin/machine.rst:401
 msgid ""
 "To access the Sandbox API, you need to set :setting:`MT_SAP_BASE_URL` and :"
 "setting:`MT_SAP_SANDBOX_APIKEY`."
 msgstr ""
+"Para acessar a API Sandbox, você precisa definir :setting:`MT_SAP_BASE_URL` "
+"e :setting:`MT_SAP_SANDBOX_APIKEY`."
 
 #: ../../admin/machine.rst:404
 msgid ""
 "To access the productive API, you need to set :setting:`MT_SAP_BASE_URL`, :"
 "setting:`MT_SAP_USERNAME` and :setting:`MT_SAP_PASSWORD`."
 msgstr ""
+"Para acessar a API de produção, você precisa definir "
+":setting:`MT_SAP_BASE_URL`, :setting:`MT_SAP_USERNAME` e "
+":setting:`MT_SAP_PASSWORD`."
 
 #: ../../admin/machine.rst:409
 msgid ""
@@ -15207,10 +15273,14 @@ msgid ""
 "Translation Hub API <https://api.sap.com/shell/discover/contentpackage/"
 "SAPTranslationHub/api/translationhub>`_"
 msgstr ""
+":setting:`MT_SAP_BASE_URL`, :setting:`MT_SAP_SANDBOX_APIKEY`, "
+":setting:`MT_SAP_USERNAME`, :setting:`MT_SAP_PASSWORD`, "
+":setting:`MT_SAP_USE_MT` `SAP Translation Hub API <https://api.sap.com/shell/"
+"discover/contentpackage/SAPTranslationHub/api/translationhub>`_"
 
 #: ../../admin/machine.rst:417
 msgid "Custom machine translation"
-msgstr ""
+msgstr "Tradução da máquina personalizada"
 
 #: ../../admin/machine.rst:419
 msgid ""
@@ -15218,12 +15288,18 @@ msgid ""
 "lines of Python code. This example implements machine translation in a fixed "
 "list of languages using ``dictionary`` Python module:"
 msgstr ""
+"Você também pode implementar seus próprios serviços de tradução automática "
+"usando algumas linhas de código Python. Este exemplo implementa a tradução "
+"automática em uma lista fixa de idiomas usando o módulo Python "
+"``dictionary``:"
 
 #: ../../admin/machine.rst:426
 msgid ""
 "You can list own class in :setting:`MT_SERVICES` and Weblate will start "
 "using that."
 msgstr ""
+"Você pode listar sua própria classe em :setting:`MT_SERVICES` e o Weblate "
+"vai começar a usar isso."
 
 #: ../../admin/management.rst:4
 msgid "Management commands"
@@ -15235,6 +15311,9 @@ msgid ""
 "webserver can result in files getting wrong permissions, please check :ref:"
 "`file-permissions` for more details."
 msgstr ""
+"Executar comandos de gerenciamento sob um usuário diferente daquele que "
+"executa seu servidor web pode resultar em arquivos recebendo permissões "
+"erradas, por favor, confira :ref:`file-permissions` para mais detalhes."
 
 #: ../../admin/management.rst:12
 msgid ""
@@ -15242,6 +15321,9 @@ msgid ""
 "the Django sources, or as an extended set in a script called :command:"
 "`weblate` installable atop Weblate)."
 msgstr ""
+"Você encontrará comandos básicos de gerenciamento (disponíveis como "
+":file:`./manage.py` nas fontes do Django ou como um conjunto estendido em um "
+"script chamado :command:`weblate` instalável em cima do Weblate)."
 
 #: ../../admin/management.rst:18
 msgid "Invoking management commands"
@@ -15250,12 +15332,16 @@ msgstr "Invocando comandos de gerenciamento"
 #: ../../admin/management.rst:20
 msgid "As mentioned before, invocation depends on how you installed Weblate."
 msgstr ""
+"Como mencionado anteriormente, sua invocação depende de como você instalou o "
+"Weblate."
 
 #: ../../admin/management.rst:22
 msgid ""
 "If using virtualenv for Weblate, you can either specify the full path to :"
 "command:`weblate`, or activate the virtualenv prior to invoking it:"
 msgstr ""
+"Se estiver usando o virtualenv para Weblate, você pode especificar o caminho "
+"completo para :command:`weblate` ou ativar o virtualenv antes de invocá-lo:"
 
 #: ../../admin/management.rst:34
 msgid ""
@@ -15263,6 +15349,9 @@ msgid ""
 "checkout), the management script is :file:`./manage.py` available in the "
 "Weblate sources. To run it:"
 msgstr ""
+"Se você estiver usando o código-fonte diretamente (de um tarball ou checkout "
+"Git), o script de gerenciamento é :file:`. /manage.py` disponível nos fontes "
+"do Weblate. Para executá-lo:"
 
 #: ../../admin/management.rst:42
 msgid ""
@@ -15270,48 +15359,64 @@ msgid ""
 "the :file:`./setup.py` script, the :command:`weblate` is installed to your "
 "path (or virtualenv path), from where you can use it to control Weblate:"
 msgstr ""
+"Se você instalou o Weblate usando o instalador pip ou pip3, ou usando o "
+"script :file:`. /setup.py`, o :command:`weblate` é instalado em seu caminho ("
+"ou caminho virtualenv), de onde você pode usá-lo para controlar o Weblate:"
 
 #: ../../admin/management.rst:50
 msgid ""
 "For the Docker image, the script is installed like above, and you can run it "
 "using :command:`docker exec`:"
 msgstr ""
+"Para a imagem Docker, o script é instalado como acima e você pode executá-lo "
+"usando :command:`docker exec`:"
 
 #: ../../admin/management.rst:57
 msgid ""
 "For :program:`docker-compose` the process is similar, you just have to use :"
 "command:`docker-compose exec`:"
 msgstr ""
+"Para :program:`docker-compose` o processo é semelhante, você apenas tem que "
+"usar :command:`docker-compose exec`:"
 
 #: ../../admin/management.rst:64
 msgid "In case you need to pass it a file, you can temporary add a volume:"
 msgstr ""
+"Caso precise passar um arquivo para ele, você pode adicionar temporariamente "
+"um volume:"
 
 #: ../../admin/management.rst:72
 msgid ""
 ":doc:`install/docker`, :doc:`install/venv-debian`, :doc:`install/venv-"
 "suse`, :doc:`install/venv-redhat`, :doc:`install/source`"
 msgstr ""
+":doc:`install/docker`, :doc:`install/venv-debian`, :doc:`install/venv-suse`, "
+":doc:`install/venv-redhat`, :doc:`install/source`"
 
 #: ../../admin/management.rst:80
 msgid "add_suggestions"
-msgstr ""
+msgstr "add_suggestions"
 
 #: ../../admin/management.rst:86
 msgid ""
 "Imports a translation from the file to use as a suggestion for the given "
 "translation. It skips duplicated translations; only different ones are added."
 msgstr ""
+"Importa uma tradução do arquivo para usar como sugestão para a tradução "
+"fornecida. Ele pula traduções duplicadas; apenas os diferentes são "
+"adicionados."
 
 #: ../../admin/management.rst:91
 msgid ""
 "E-mail of author for the suggestions. This user has to exist prior to "
 "importing (you can create one in the admin interface if needed)."
 msgstr ""
+"E-mail do autor para sugestões. Este usuário deve existir antes da "
+"importação (você pode criar um na interface administrativa, se necessário)."
 
 #: ../../admin/management.rst:102
 msgid "auto_translate"
-msgstr ""
+msgstr "auto_translate"
 
 #: ../../admin/management.rst:110
 msgid "Added parameter for translation mode."
@@ -15320,47 +15425,59 @@ msgstr "Adicionado parâmetro para o modo de tradução."
 #: ../../admin/management.rst:112
 msgid "Performs automatic translation based on other component translations."
 msgstr ""
+"Executa tradução automática com base em outras traduções de componentes."
 
 #: ../../admin/management.rst:116
 msgid ""
 "Specifies the component to use as source available for translation. If not "
 "specified all components in the project are used."
 msgstr ""
+"Especifica o componente a ser usado como fonte disponível para tradução. Se "
+"não for especificado, todos os componentes do projeto serão usados."
 
 #: ../../admin/management.rst:121
 msgid ""
 "Specify username listed as author of the translations. \"Anonymous user\" is "
 "used if not specified."
 msgstr ""
+"Especifica o nome de usuário listado como autor das traduções. \"Usuário "
+"anônimo\" é usado se não for especificado."
 
 #: ../../admin/management.rst:126
 msgid "Whether to overwrite existing translations."
-msgstr ""
+msgstr "Se deve sobrescrever as traduções existentes."
 
 #: ../../admin/management.rst:130
 msgid ""
 "Whether to overwrite existing translations that are inconsistent (see :ref:"
 "`check-inconsistent`)."
 msgstr ""
+"Se deve substituir as traduções existentes que são inconsistentes (veja :ref"
+":`check-inconsistent`)."
 
 #: ../../admin/management.rst:135
 msgid "Automatically add language if a given translation does not exist."
 msgstr ""
+"Adiciona automaticamente o idioma se uma determinada tradução não existir."
 
 #: ../../admin/management.rst:139
 msgid ""
 "Use machine translation instead of other components as machine translations."
 msgstr ""
+"Use a tradução automática em vez de outros componentes como traduções de "
+"máquina."
 
 #: ../../admin/management.rst:143
 msgid "Similarity threshold for machine translation, defaults to 80."
-msgstr ""
+msgstr "Limite de similaridade para tradução de máquina, o padrão é 80."
 
 #: ../../admin/management.rst:147
 msgid ""
 "Specify translation mode, default is \"translate\" but \"fuzzy\" or \"suggest"
 "\" can be used."
 msgstr ""
+"Especifica o modo de tradução tendo como o padrão \"translate\", mas \"fuzzy"
+"\" pode ser usado."
 
 #: ../../admin/management.rst:158
 msgid ":ref:`auto-translation`"
@@ -15368,19 +15485,19 @@ msgstr ""
 
 #: ../../admin/management.rst:161
 msgid "celery_queues"
-msgstr ""
+msgstr "celery_queues"
 
 #: ../../admin/management.rst:167
 msgid "Displays length of Celery task queues."
-msgstr ""
+msgstr "Exibe o tamanho das filas de tarefas do Celery."
 
 #: ../../admin/management.rst:170
 msgid "checkgit"
-msgstr ""
+msgstr "checkgit"
 
 #: ../../admin/management.rst:174
 msgid "Prints current state of the back-end Git repository."
-msgstr ""
+msgstr "Imprime o estado atual do repositório Git de backend."
 
 #: ../../admin/management.rst:176 ../../admin/management.rst:186
 #: ../../admin/management.rst:196 ../../admin/management.rst:634
@@ -15391,28 +15508,35 @@ msgid ""
 "You can either define which project or component to update (for example "
 "``weblate/application``), or use ``--all`` to update all existing components."
 msgstr ""
+"Você pode definir qual projeto ou componente atualizar (por exemplo, ``"
+"weblate/application``) ou usar ``--all`` para atualizar todos os componentes "
+"existentes."
 
 #: ../../admin/management.rst:180
 msgid "commitgit"
-msgstr ""
+msgstr "commitgit"
 
 #: ../../admin/management.rst:184
 msgid "Commits any possible pending changes to the back-end Git repository."
 msgstr ""
+"Faz commit de todas as alterações pendentes possíveis para o repositório Git "
+"de backend."
 
 #: ../../admin/management.rst:190
 msgid "commit_pending"
-msgstr ""
+msgstr "commit_pending"
 
 #: ../../admin/management.rst:194
 msgid "Commits pending changes older than a given age."
-msgstr ""
+msgstr "Faz commit de alterações pendentes anteriores a uma determinada idade."
 
 #: ../../admin/management.rst:201
 msgid ""
 "Age in hours for committing. If not specified the value configured in :ref:"
 "`component` is used."
 msgstr ""
+"Idade em horas para fazer commit. Se não for especificado, o valor "
+"configurado em :ref:`component` é usado."
 
 #: ../../admin/management.rst:206
 msgid ""
@@ -15420,14 +15544,17 @@ msgid ""
 "real need to invoke this manually, besides forcing an earlier commit than "
 "specified by :ref:`component`."
 msgstr ""
+"Isso é realizado automaticamente em segundo plano pelo Weblate, de modo que "
+"não há necessidade real de invocar isso manualmente, além de forçar um "
+"commit anterior do que o especificado por :ref:`component`."
 
 #: ../../admin/management.rst:212
 msgid ":ref:`production-cron`, :setting:`COMMIT_PENDING_HOURS`"
-msgstr ""
+msgstr ":ref:`production-cron`, :setting:`COMMIT_PENDING_HOURS`"
 
 #: ../../admin/management.rst:216
 msgid "cleanuptrans"
-msgstr ""
+msgstr "cleanuptrans"
 
 #: ../../admin/management.rst:220
 msgid ""
@@ -15435,6 +15562,9 @@ msgid ""
 "need to run this manually, as the cleanups happen automatically in the "
 "background."
 msgstr ""
+"Limpa verificações e sugestões de tradução órfãs. Normalmente, não há "
+"necessidade de executá-lo manualmente, pois as limpezas acontecem "
+"automaticamente em segundo plano."
 
 #: ../../admin/management.rst:225
 msgid ":ref:`production-cron`"
@@ -15442,87 +15572,98 @@ msgstr ""
 
 #: ../../admin/management.rst:228
 msgid "createadmin"
-msgstr ""
+msgstr "createadmin"
 
 #: ../../admin/management.rst:232
 msgid ""
 "Creates an ``admin`` account with a random password, unless it is specified."
 msgstr ""
+"Cria uma conta ``admin`` com uma senha aleatória, a menos que seja "
+"especificada."
 
 #: ../../admin/management.rst:236
 msgid "Provides a password on the command-line, to not generate a random one."
 msgstr ""
+"Fornece uma senha na linha de comando, para não gerar uma senha aleatória."
 
 #: ../../admin/management.rst:240
 msgid "Do not set password, this can be useful with `--update`."
-msgstr ""
+msgstr "Não define a senha, isso pode ser útil com `--update`."
 
 #: ../../admin/management.rst:244
 msgid "Use the given name instead of ``admin``."
-msgstr ""
+msgstr "Use o nome dado em vez de ``admin``."
 
 #: ../../admin/management.rst:248
 msgid "Specify the admin e-mail address."
-msgstr ""
+msgstr "Especifica o endereço de e-mail do administrador."
 
 #: ../../admin/management.rst:252
 msgid "Specify the admin name (visible)."
-msgstr ""
+msgstr "Especifica o nome (visível) do administrador."
 
 #: ../../admin/management.rst:256
 msgid "Update the existing user (you can use this to change passwords)."
 msgstr ""
+"Atualiza o usuário existente (você pode usar isso para alterar as senhas)."
 
 #: ../../admin/management.rst:260
 msgid ""
 "Added parameters ``--username``, ``--email``, ``--name`` and ``--update``."
 msgstr ""
+"Adicionados os parâmetros ``--username``, ``--email``, ``--name`` e "
+"``--update``."
 
 #: ../../admin/management.rst:263
 msgid "dump_memory"
-msgstr ""
+msgstr "dump_memory"
 
 #: ../../admin/management.rst:269
 msgid "Export a JSON file containing Weblate Translation Memory content."
 msgstr ""
+"Exporta um arquivo JSON contendo conteúdo de memória de tradução do Weblate."
 
 #: ../../admin/management.rst:273 ../../admin/management.rst:364
 msgid ":ref:`translation-memory`, :ref:`schema-memory`"
-msgstr ""
+msgstr ":ref:`translation-memory`, :ref:`schema-memory`"
 
 #: ../../admin/management.rst:277
 msgid "dumpuserdata"
-msgstr ""
+msgstr "dumpuserdata"
 
 #: ../../admin/management.rst:281
 msgid "Dumps userdata to a file for later use by :djadmin:`importuserdata`"
 msgstr ""
+"Despeja dados de usuário em um arquivo para uso posterior por "
+":djadmin:`importuserdata`"
 
 #: ../../admin/management.rst:285
 msgid "This comes in handy when migrating or merging Weblate instances."
-msgstr ""
+msgstr "Isso é útil ao migrar ou mesclar instâncias do Weblate."
 
 #: ../../admin/management.rst:288
 msgid "import_demo"
-msgstr ""
+msgstr "import_demo"
 
 #: ../../admin/management.rst:294
 msgid ""
 "Creates a demo project with components based on <https://github.com/"
 "WeblateOrg/demo>."
 msgstr ""
+"Cria um projeto de demonstração com componentes baseados em <https://github."
+"com/WeblateOrg/demo>."
 
 #: ../../admin/management.rst:296
 msgid "This can be useful when developing Weblate."
-msgstr ""
+msgstr "Isso pode ser útil ao desenvolver Weblate."
 
 #: ../../admin/management.rst:300
 msgid "import_json"
-msgstr ""
+msgstr "import_json"
 
 #: ../../admin/management.rst:306
 msgid "Batch import of components based on JSON data."
-msgstr ""
+msgstr "Importação em lote de componentes com base em dados JSON."
 
 #: ../../admin/management.rst:308
 msgid ""
@@ -15530,32 +15671,38 @@ msgid ""
 "object (see :http:get:`/api/components/(string:project)/(string:component)/"
 "`). You have to include the ``name`` and ``filemask`` fields."
 msgstr ""
+"A estrutura do arquivo JSON importado corresponde basicamente ao objeto do "
+"componente (consulte :http:get:`/api/components/"
+"(string:project)/(string:component)/`). Você deve incluir os campos ``name`` "
+"e ``filemask``."
 
 #: ../../admin/management.rst:314
 msgid "Specifies where the components will be imported from."
-msgstr ""
+msgstr "Especifica de onde os componentes serão importados."
 
 #: ../../admin/management.rst:318
 msgid "Use the given VCS repository from this component for all of them."
-msgstr ""
+msgstr "Usa o repositório VCS fornecido deste componente para todos eles."
 
 #: ../../admin/management.rst:322
 msgid "Skip (already) imported components."
-msgstr ""
+msgstr "Pula os componentes (já) importados."
 
 #: ../../admin/management.rst:326
 msgid "Update (already) imported components."
-msgstr ""
+msgstr "Atualiza os componentes (já) importados."
 
 #: ../../admin/management.rst:330
 msgid ""
 "The parameters ``--ignore`` and ``--update`` are there to deal with already "
 "imported components."
 msgstr ""
+"Os parâmetros ``--ignore`` e ``--update`` existem para lidar com componentes "
+"já importados."
 
 #: ../../admin/management.rst:333
 msgid "Example of JSON file:"
-msgstr ""
+msgstr "Exemplo de arquivo JSON:"
 
 #: ../../admin/management.rst:340 ../../admin/memory.rst:102
 msgid ":djadmin:`import_memory`"
@@ -15563,33 +15710,40 @@ msgstr ""
 
 #: ../../admin/management.rst:343
 msgid "import_memory"
-msgstr ""
+msgstr "import_memory"
 
 #: ../../admin/management.rst:349
 msgid "Imports a TMX or JSON file into the Weblate translation memory."
-msgstr ""
+msgstr "Importa um arquivo TMX ou JSON para a memória de tradução do Weblate."
 
 #: ../../admin/management.rst:353
 msgid ""
 "Allows mapping languages in the TMX to the Weblate translation memory. The "
 "language codes are mapped after normalization usually done by Weblate."
 msgstr ""
+"Permite mapear idiomas no TMX para a memória de tradução do Weblate. Os "
+"códigos de idioma são mapeados após a normalização geralmente feita pelo "
+"Weblate."
 
 #: ../../admin/management.rst:356
 msgid ""
 "``--language-map en_US:en`` will for example import all ``en_US`` strings as "
 "``en`` ones."
 msgstr ""
+"``--language-map en_US:en`` vai, por exemplo, importar todos os textos "
+"``en_US`` como ``en``."
 
 #: ../../admin/management.rst:359
 msgid ""
 "This can be useful in case your TMX file locales happen not to match what "
 "you use in Weblate."
 msgstr ""
+"Isso pode ser útil caso as localidades do seu arquivo TMX não correspondam "
+"ao que você usa no Weblate."
 
 #: ../../admin/management.rst:368
 msgid "import_project"
-msgstr ""
+msgstr "import_project"
 
 #: ../../admin/management.rst:374
 msgid ""
@@ -15597,16 +15751,23 @@ msgid ""
 "discovery` add-on, leading to some changes in behavior and what parameters "
 "are accepted."
 msgstr ""
+"O comando import_project agora é baseado na extensão :ref:`addon-weblate."
+"discovery.discovery`, levando a algumas mudanças no comportamento e quais "
+"parâmetros são aceitos."
 
 #: ../../admin/management.rst:378
 msgid "Batch imports components into project based on filemask."
 msgstr ""
+"Executa importação em lote de componentes para o projeto com base na máscara "
+"de arquivo."
 
 #: ../../admin/management.rst:380
 msgid ""
 "`<project>` names an existing project, into which the components are to be "
 "imported."
 msgstr ""
+"`<project>` é o nome de um projeto existente, para o qual os componentes "
+"devem ser importados."
 
 #: ../../admin/management.rst:383
 msgid ""
@@ -15615,6 +15776,10 @@ msgid ""
 "an existing Weblate component, use a `weblate://<project>/<component>` URL "
 "for the `<gitrepo>`."
 msgstr ""
+"O `<gitrepo>` define a URL do repositório Git a ser usada, e `<branch>` "
+"significa o ramo Git. Para importar componentes de tradução adicionais de um "
+"componente Weblate existente, use uma URL `weblate://<project>/<component>` "
+"para o `<gitrepo>`."
 
 #: ../../admin/management.rst:388
 msgid ""
@@ -15622,90 +15787,109 @@ msgid ""
 "be made simple using wildcards, or it can use the full power of regular "
 "expressions."
 msgstr ""
+"O `<filemask>` define a descoberta de arquivos para o repositório. Pode ser "
+"simplificado usando curingas ou pode usar todo o poder das expressões "
+"regulares."
 
 #: ../../admin/management.rst:391
 msgid ""
 "The simple matching uses ``**`` for component name and ``*`` for language, "
 "for example: ``**/*.po``"
 msgstr ""
+"A correspondência simples usa ``**`` para o nome do componente e ``*`` para "
+"o idioma, por exemplo: ``**/*.po``"
 
 #: ../../admin/management.rst:394
 msgid ""
 "The regular expression has to contain groups named `component` and "
 "`language`. For example: ``(?P<language>[^/]*)/(?P<component>[^-/]*)\\.po``"
 msgstr ""
+"A expressão regular deve conter grupos chamados `component` e `language`. "
+"Por exemplo: ``(?P<language>[^/]*)/(?P<component>[^-/]*)\\.po``"
 
 #: ../../admin/management.rst:397
 msgid ""
 "The import matches existing components based on files and adds the ones that "
 "do not exist. It does not change already existing ones."
 msgstr ""
+"A importação corresponde aos componentes existentes com base em arquivos e "
+"adiciona aqueles que não existem. Isso não altera os já existentes."
 
 #: ../../admin/management.rst:402
 msgid "Customize the name of a component using Django template syntax."
-msgstr ""
+msgstr "Personaliza o nome de um componente usando a sintaxe do modelo Django."
 
 #: ../../admin/management.rst:404
 msgid "For example: ``Documentation: {{ component }}``"
-msgstr ""
+msgstr "Por exemplo: ``Documentation: {{ component }}``"
 
 #: ../../admin/management.rst:408
 msgid "Customize the base file for monolingual translations."
-msgstr ""
+msgstr "Personaliza o arquivo base para traduções monolíngues."
 
 #: ../../admin/management.rst:410
 msgid "For example: ``{{ component }}/res/values/string.xml``"
-msgstr ""
+msgstr "Por exemplo: ``{{ component }}/res/values/string.xml``"
 
 #: ../../admin/management.rst:414
 msgid "Customize the base file for addition of new translations."
-msgstr ""
+msgstr "Personaliza o arquivo base para adicionar novas traduções."
 
 #: ../../admin/management.rst:416
 msgid "For example: ``{{ component }}/ts/en.ts``"
-msgstr ""
+msgstr "Por exemplo: ``{{ component }}/ts/en.ts``"
 
 #: ../../admin/management.rst:420
 msgid ""
 "You can also specify the file format to use (see :ref:`formats`), the "
 "default is auto-detection."
 msgstr ""
+"Você também pode especificar o formato de arquivo a ser usado (veja "
+":ref:`formats`), o padrão é a detecção automática."
 
 #: ../../admin/management.rst:425
 msgid ""
 "You can specify language filtering (see :ref:`component`) with this "
 "parameter. It has to be a valid regular expression."
 msgstr ""
+"Você pode especificar a filtragem de idioma (veja :ref:`component`) com este "
+"parâmetro. Tem que ser uma expressão regular válida."
 
 #: ../../admin/management.rst:430
 msgid ""
 "You can specify which component will be chosen as the main one—the one "
 "actually containing the VCS repository."
 msgstr ""
+"Você pode especificar qual componente será escolhido como o principal -- "
+"aquele que realmente contém o repositório VCS."
 
 #: ../../admin/management.rst:435
 msgid "Specify the overall, project or component translation license."
-msgstr ""
+msgstr "Especifica a licença de tradução geral, projeto ou componente."
 
 #: ../../admin/management.rst:439
 msgid "Specify the URL where the translation license is to be found."
-msgstr ""
+msgstr "Especifica a URL onde a licença de tradução pode ser encontrada."
 
 #: ../../admin/management.rst:443
 msgid ""
 "In case you need to specify which version control system to use, you can do "
 "it here. The default version control is Git."
 msgstr ""
+"Caso você precise especificar qual sistema de controle de versão usar, você "
+"pode fazê-lo aqui. O controle de versão padrão é Git."
 
 #: ../../admin/management.rst:446
 msgid "To give you some examples, let's try importing two projects."
-msgstr ""
+msgstr "Para dar alguns exemplos, vamos tentar importar dois projetos."
 
 #: ../../admin/management.rst:448
 msgid ""
 "First The Debian Handbook translations, where each language has separate a "
 "folder with the translations of each chapter:"
 msgstr ""
+"Primeiro as traduções do Manual do Debian, onde cada idioma separou uma "
+"pasta com as traduções de cada capítulo:"
 
 #: ../../admin/management.rst:459
 msgid ""
@@ -15713,6 +15897,9 @@ msgid ""
 "the base file template, and how all components and translations are located "
 "in single folder:"
 msgstr ""
+"Em seguida, a ferramenta Tanaguru, onde o formato do arquivo precisa ser "
+"especificado, junto com o modelo de arquivo base, e como todos os "
+"componentes e traduções estão localizados em uma única pasta:"
 
 #: ../../admin/management.rst:473
 msgid ""
@@ -15720,54 +15907,67 @@ msgid ""
 "and language out of a filename like ``src/security/"
 "Numerous_security_holes_in_0.10.1.de.po``:"
 msgstr ""
+"Um exemplo mais complexo de análise de nomes de arquivo para obter o "
+"componente correto e o idioma de um nome de arquivo como ``src/security/"
+"Numerous_security_holes_in_0.10.1.de.po``:"
 
 #: ../../admin/management.rst:484
 msgid "Filtering only translations in a chosen language:"
-msgstr ""
+msgstr "Filtrando apenas traduções em um idioma escolhido:"
 
 #: ../../admin/management.rst:494
 msgid "Importing Sphinx documentation split to multiple files:"
-msgstr ""
+msgstr "Importando a documentação do Sphinx dividida em vários arquivos:"
 
 #: ../../admin/management.rst:503
 msgid "Importing Sphinx documentation split to multiple files and directories:"
 msgstr ""
+"A documentação de importação do Sphinx dividida em vários arquivos e "
+"diretórios:"
 
 #: ../../admin/management.rst:518
 msgid ""
 "More detailed examples can be found in the :ref:`starting` chapter, "
 "alternatively you might want to use :djadmin:`import_json`."
 msgstr ""
+"Exemplos mais detalhados podem ser encontrados no capítulo :ref:`starting`, "
+"alternativamente você pode querer usar :djadmin:`import_json`."
 
 #: ../../admin/management.rst:522
 msgid "importuserdata"
-msgstr ""
+msgstr "importuserdata"
 
 #: ../../admin/management.rst:526
 msgid "Imports user data from a file created by :djadmin:`dumpuserdata`"
 msgstr ""
+"Importa dados do usuário de um arquivo criado por :djadmin:`dumpuserdata`"
 
 #: ../../admin/management.rst:529
 msgid "importusers"
-msgstr ""
+msgstr "importusers"
 
 #: ../../admin/management.rst:533
 msgid "Imports users from JSON dump of the Django auth_users database."
 msgstr ""
+"Importa usuários do despejo JSON do banco de dados auth_users do Django."
 
 #: ../../admin/management.rst:538
 msgid ""
 "With this option it will just check whether a given file can be imported and "
 "report possible conflicts arising from usernames or e-mails."
 msgstr ""
+"Com esta opção irá apenas verificar se determinado arquivo pode ser "
+"importado e reportar possíveis conflitos decorrentes de nomes de usuários ou "
+"e-mails."
 
 #: ../../admin/management.rst:541
 msgid "You can dump users from the existing Django installation using:"
 msgstr ""
+"Você pode descartar os usuários da instalação existente do Django usando:"
 
 #: ../../admin/management.rst:548
 msgid "install_addon"
-msgstr ""
+msgstr "install_addon"
 
 #: ../../admin/management.rst:554
 msgid "Installs an add-on to a set of components."
@@ -15777,6 +15977,8 @@ msgstr "Instala uma extensão para um conjunto de componentes."
 msgid ""
 "Name of the add-on to install. For example ``weblate.gettext.customize``."
 msgstr ""
+"Nome do complemento a ser instalado. Por exemplo, ``weblate.gettext."
+"customize``."
 
 #: ../../admin/management.rst:562
 msgid "JSON encoded configuration of an add-on."
@@ -15792,10 +15994,15 @@ msgid ""
 "(for example ``weblate/application``), or use ``--all`` to include all "
 "existing components."
 msgstr ""
+"Você pode definir em qual projeto ou componente instalar a extensão (por "
+"exemplo, ``weblate/application``) ou usar ``--all`` para incluir todos os "
+"componentes existentes."
 
 #: ../../admin/management.rst:571
 msgid "To install :ref:`addon-weblate.gettext.customize` for all components:"
 msgstr ""
+"Para instalar :ref:`addon-weblate.gettext.customize` para todos os "
+"componentes:"
 
 #: ../../admin/management.rst:579
 #, fuzzy
@@ -15805,31 +16012,35 @@ msgstr ":ref:`addons`"
 
 #: ../../admin/management.rst:582
 msgid "list_languages"
-msgstr ""
+msgstr "list_languages"
 
 #: ../../admin/management.rst:586
 msgid ""
 "Lists supported languages in MediaWiki markup - language codes, English "
 "names and localized names."
 msgstr ""
+"Lista os idiomas suportados na marcação MediaWiki -- códigos de idioma, "
+"nomes em inglês e nomes localizados."
 
 #: ../../admin/management.rst:589
 msgid ""
 "This is used to generate <https://wiki.l10n.cz/Slovn%C3%ADk_s_n"
 "%C3%A1zvy_jazyk%C5%AF>."
 msgstr ""
+"Isso é usado para gerar <https://wiki.l10n.cz/Slovn%C3%ADk_s_n"
+"%C3%A1zvy_jazyk%C5%AF>."
 
 #: ../../admin/management.rst:592
 msgid "list_translators"
-msgstr ""
+msgstr "list_translators"
 
 #: ../../admin/management.rst:596
 msgid "Lists translators by contributed language for the given project::"
-msgstr ""
+msgstr "Lista tradutores por idioma contribuído para o projeto em questão::"
 
 #: ../../admin/management.rst:605
 msgid "List names by language code instead of language name."
-msgstr ""
+msgstr "Lista os nomes pelo código do idioma em vez do nome do idioma."
 
 #: ../../admin/management.rst:607
 msgid ""
@@ -15837,32 +16048,37 @@ msgid ""
 "``weblate/application``), or use ``--all`` to list translators from all "
 "existing components."
 msgstr ""
+"Você pode definir qual projeto ou componente usar (por exemplo, ``weblate/"
+"application``) ou usar ``--all`` para listar os tradutores de todos os "
+"componentes existentes."
 
 #: ../../admin/management.rst:612
 msgid "list_versions"
-msgstr ""
+msgstr "list_versions"
 
 #: ../../admin/management.rst:616
 msgid "Lists all Weblate dependencies and their versions."
-msgstr ""
+msgstr "Lista todas as dependências do Weblate e suas versões."
 
 #: ../../admin/management.rst:619
 msgid "loadpo"
-msgstr ""
+msgstr "loadpo"
 
 #: ../../admin/management.rst:623
 msgid ""
 "Reloads translations from disk (for example in case you have done some "
 "updates in the VCS repository)."
 msgstr ""
+"Recarrega traduções de disco (por exemplo, caso você tenha feito algumas "
+"atualizações no repositório VCS)."
 
 #: ../../admin/management.rst:628
 msgid "Force update, even if the files should be up-to-date."
-msgstr ""
+msgstr "Força a atualização, mesmo que os arquivos devam estar atualizados."
 
 #: ../../admin/management.rst:632
 msgid "Limit processing to a single language."
-msgstr ""
+msgstr "Limita o processamento a um único idioma."
 
 #: ../../admin/management.rst:639
 msgid ""
@@ -15871,19 +16087,24 @@ msgid ""
 "underlying Weblate VCS repository or in some special cases following an "
 "upgrade."
 msgstr ""
+"Você raramente precisa invocar isso, o Weblate carregará automaticamente os "
+"arquivos alterados para cada atualização do VCS. Isso é necessário no caso "
+"de você alterar manualmente um repositório Weblate VCS subjacente ou em "
+"alguns casos especiais após uma atualização."
 
 #: ../../admin/management.rst:644
 msgid "lock_translation"
-msgstr ""
+msgstr "lock_translation"
 
 #: ../../admin/management.rst:648
 msgid "Prevents further translation of a component."
-msgstr ""
+msgstr "Impede outras traduções de um componente."
 
 #: ../../admin/management.rst:652 ../../admin/management.rst:711
 msgid ""
 "Useful in case you want to do some maintenance on the underlying repository."
 msgstr ""
+"Útil caso você queira fazer alguma manutenção no repositório subjacente."
 
 #: ../../admin/management.rst:659
 msgid ":djadmin:`unlock_translation`"
@@ -15891,7 +16112,7 @@ msgstr ""
 
 #: ../../admin/management.rst:662
 msgid "move_language"
-msgstr ""
+msgstr "move_language"
 
 #: ../../admin/management.rst:668
 msgid ""
@@ -15900,6 +16121,10 @@ msgid ""
 "been created with the `(generated)` suffix. It moves all content from the "
 "`source` language to the `target` one."
 msgstr ""
+"Permite mesclar o conteúdo do idioma. Isso é útil ao atualizar para uma nova "
+"versão que contém apelidos para idiomas anteriormente desconhecidos que "
+"foram criados com o sufixo `(generated)`. Ele move todo o conteúdo do idioma "
+"fonte `source` para o de destino`target`."
 
 #: ../../admin/management.rst:679
 msgid ""
@@ -15907,32 +16132,39 @@ msgid ""
 "(this is subject to race conditions when somebody updates the repository "
 "meanwhile) and remove the `(generated)` language."
 msgstr ""
+"Depois de mover o conteúdo, você deve verificar se sobrou algo (isto está "
+"sujeito a condições de corrida quando alguém atualiza o repositório enquanto "
+"isso) e remover o idioma `(generated)`."
 
 #: ../../admin/management.rst:684
 msgid "pushgit"
-msgstr ""
+msgstr "pushgit"
 
 #: ../../admin/management.rst:688
 msgid "Pushes committed changes to the upstream VCS repository."
 msgstr ""
+"Faz um push das alterações com commit feito para o repositório VCS upstream."
 
 #: ../../admin/management.rst:692
 msgid "Force commits any pending changes, prior to pushing."
-msgstr ""
+msgstr "Força o commit de todas as alterações pendentes, antes de fazer o push."
 
 #: ../../admin/management.rst:699
 msgid ""
 "Weblate pushes changes automatically if :ref:`component-push_on_commit` in :"
 "ref:`component` is turned on, which is the default."
 msgstr ""
+"O Weblate faz o push das mudanças automaticamente se :ref:`component-"
+"push_on_commit` na :ref:`component` está ativada, que é o padrão."
 
 #: ../../admin/management.rst:703
 msgid "unlock_translation"
-msgstr ""
+msgstr "unlock_translation"
 
 #: ../../admin/management.rst:707
 msgid "Unlocks a given component, making it available for translation."
 msgstr ""
+"Desbloqueia um determinado componente, disponibilizando-o para tradução."
 
 #: ../../admin/management.rst:718
 msgid ":djadmin:`lock_translation`"
@@ -15940,23 +16172,30 @@ msgstr ""
 
 #: ../../admin/management.rst:721
 msgid "setupgroups"
-msgstr ""
+msgstr "setupgroups"
 
 #: ../../admin/management.rst:725
 msgid ""
 "Configures default groups and optionally assigns all users to that default "
 "group."
 msgstr ""
+"Configura grupos padrão e, opcionalmente, atribui todos os usuários a esse "
+"grupo padrão."
 
 #: ../../admin/management.rst:729
 msgid "Turns off automatic updating of existing groups (only adds new ones)."
 msgstr ""
+"Desativa a atualização automática de grupos existentes (apenas adiciona "
+"novos)."
 
 #: ../../admin/management.rst:733
 msgid ""
 "Prevents automatic updates of groups for existing projects. This allows "
 "adding newly added groups to existing projects, see :ref:`acl`."
 msgstr ""
+"Impede atualizações automáticas de grupos para projetos existentes. Isso "
+"permite adicionar grupos recém-adicionados a projetos existentes, consulte "
+":ref:`acl`."
 
 #: ../../admin/management.rst:738
 msgid ":ref:`privileges`"
@@ -15964,41 +16203,45 @@ msgstr ":ref:`privileges`"
 
 #: ../../admin/management.rst:741
 msgid "setuplang"
-msgstr ""
+msgstr "setuplang"
 
 #: ../../admin/management.rst:745
 msgid "Updates list of defined languages in Weblate."
-msgstr ""
+msgstr "Atualiza a lista de idiomas definidos no Weblate."
 
 #: ../../admin/management.rst:749
 msgid "Turns off automatic updates of existing languages (only adds new ones)."
 msgstr ""
+"Desativa as atualizações automáticas de idiomas existentes (apenas adiciona "
+"novos)."
 
 #: ../../admin/management.rst:752
 msgid "updatechecks"
-msgstr ""
+msgstr "updatechecks"
 
 #: ../../admin/management.rst:756
 msgid "Updates all checks for all strings."
-msgstr ""
+msgstr "Atualiza todas as verificações para todos os textos."
 
 #: ../../admin/management.rst:760
 msgid "Useful for upgrades which do major changes to checks."
-msgstr ""
+msgstr "Útil para atualizações que fazem grandes mudanças nas verificações."
 
 #: ../../admin/management.rst:766
 msgid "updategit"
-msgstr ""
+msgstr "updategit"
 
 #: ../../admin/management.rst:770
 msgid "Fetches remote VCS repositories and updates the internal cache."
-msgstr ""
+msgstr "Busca repositórios VCS remotos e atualiza o cache interno."
 
 #: ../../admin/management.rst:777
 msgid ""
 "Usually it is better to configure hooks in the repository to trigger :ref:"
 "`hooks`, instead of regular polling by :djadmin:`updategit`."
 msgstr ""
+"Normalmente é melhor configurar os ganchos no repositório para acionar "
+":ref:`hooks`, ao invés da pesquisa regular por :djadmin:`updategit`."
 
 #: ../../admin/memory.rst:5
 msgid "Translation Memory"
@@ -16008,60 +16251,71 @@ msgstr "Memória de tradução"
 msgid ""
 "Weblate comes with a built-in translation memory consisting of the following:"
 msgstr ""
+"O Weblate vem com uma memória de tradução integrada que consiste no seguinte:"
 
 #: ../../admin/memory.rst:11
 msgid "Manually imported translation memory (see :ref:`memory-user`)."
-msgstr ""
+msgstr "Memória de tradução importada manualmente (veja :ref:`memory-user`)."
 
 #: ../../admin/memory.rst:12
 msgid ""
 "Automatically stored translations performed in Weblate (depending on :ref:"
 "`memory-scopes`)."
 msgstr ""
+"Traduções armazenadas automaticamente realizadas em Weblate (dependendo dos "
+":ref:`memory-scopes`)."
 
 #: ../../admin/memory.rst:13
 msgid "Automatically imported past translations."
-msgstr ""
+msgstr "Traduções anteriores importadas automaticamente."
 
 #: ../../admin/memory.rst:15
 msgid "Content in the translation memory can be applied one of two ways:"
-msgstr ""
+msgstr "O conteúdo da memória de tradução pode ser aplicado de duas maneiras:"
 
 #: ../../admin/memory.rst:17
 msgid "Manually, :ref:`machine-translation` view while translating."
-msgstr ""
+msgstr "Manualmente, a visão de :ref:`tradução automática` durante a tradução."
 
 #: ../../admin/memory.rst:18
 msgid ""
 "Automatically, by translating strings using :ref:`auto-translation`, or :ref:"
 "`addon-weblate.autotranslate.autotranslate` addon."
 msgstr ""
+"Automaticamente, traduzindo textos usando a extensão :ref:`auto-translation` "
+"ou :ref:`addon-weblate.autotranslate.autotranslate`."
 
 #: ../../admin/memory.rst:21
 msgid ""
 "For installation tips, see :ref:`weblate-translation-memory`, which is "
 "turned on by default."
 msgstr ""
+"Para dicas de instalação, veja :ref:`weblate-translation-memory`, que está "
+"ativado por padrão."
 
 #: ../../admin/memory.rst:28
 msgid "Translation memory scopes"
-msgstr ""
+msgstr "Escopos de memória de tradução"
 
 #: ../../admin/memory.rst:32
 msgid ""
 "In earlier versions translation memory could be only loaded from a file "
 "corresponding to the current imported translation memory scope."
 msgstr ""
+"Em versões anteriores, a memória de tradução só podia ser carregada de um "
+"arquivo correspondente ao atual escopo da memória de tradução importada."
 
 #: ../../admin/memory.rst:35
 msgid ""
 "The translation memory scopes are there to allow both privacy and sharing of "
 "translations, to suit the desired behavior."
 msgstr ""
+"Os escopos de memória de tradução existem para permitir privacidade e "
+"compartilhamento de traduções, de acordo com o comportamento desejado."
 
 #: ../../admin/memory.rst:39
 msgid "Imported translation memory"
-msgstr ""
+msgstr "Memória de tradução importada"
 
 #: ../../admin/memory.rst:41
 msgid ""
@@ -16069,26 +16323,33 @@ msgid ""
 "`import_memory` command makes memory content available to all users and "
 "projects."
 msgstr ""
+"Importar dados de memória de tradução arbitrários usando o comando "
+":djadmin:`import_memory` torna o conteúdo da memória disponível para todos "
+"os usuários e projetos."
 
 #: ../../admin/memory.rst:45
 msgid "Per user translation memory"
-msgstr ""
+msgstr "Memória de tradução por usuário"
 
 #: ../../admin/memory.rst:47
 msgid ""
 "Stores all user translations automatically in the personal translation "
 "memory of each respective user."
 msgstr ""
+"Armazena todas as traduções do usuário automaticamente na memória de "
+"tradução pessoal de cada respectivo usuário."
 
 #: ../../admin/memory.rst:50
 msgid "Per project translation memory"
-msgstr ""
+msgstr "Memória de tradução por projeto"
 
 #: ../../admin/memory.rst:52
 msgid ""
 "All translations within a project are automatically stored in a project "
 "translation memory only available for this project."
 msgstr ""
+"Todas as traduções dentro de um projeto são automaticamente armazenadas em "
+"uma memória de tradução de projeto disponível apenas para este projeto."
 
 #: ../../admin/memory.rst:58
 msgid "Shared translation memory"
@@ -16099,28 +16360,33 @@ msgid ""
 "All translation within projects with shared translation memory turned on are "
 "stored in a shared translation memory available to all projects."
 msgstr ""
+"Todas as traduções dentro de projetos com memória de tradução compartilhada "
+"ativada são armazenadas em uma memória de tradução compartilhada disponível "
+"para todos os projetos."
 
 #: ../../admin/memory.rst:63
 msgid ""
 "Please consider carefully whether to turn this feature on for shared Weblate "
 "installations, as it can have severe implications:"
 msgstr ""
+"Considere cuidadosamente se deve ativar esse recurso para instalações "
+"compartilhadas do Weblate, pois pode ter implicações graves:"
 
 #: ../../admin/memory.rst:66
 msgid "The translations can be used by anybody else."
-msgstr ""
+msgstr "As traduções podem ser usadas por qualquer outra pessoa."
 
 #: ../../admin/memory.rst:67
 msgid "This might lead to disclosing secret information."
-msgstr ""
+msgstr "Isso pode levar à divulgação de informações secretas."
 
 #: ../../admin/memory.rst:70
 msgid "Managing translation memory"
-msgstr ""
+msgstr "Gerenciando memória de tradução"
 
 #: ../../admin/memory.rst:75
 msgid "User interface"
-msgstr ""
+msgstr "Interface de usuário"
 
 #: ../../admin/memory.rst:79
 msgid ""
@@ -16128,12 +16394,17 @@ msgid ""
 "translation memories. It can be used to download, wipe or import translation "
 "memory."
 msgstr ""
+"Na interface de usuário básica, você pode gerenciar memórias de tradução por "
+"usuário e por projeto. Ela pode ser usada para baixar, limpar ou importar "
+"memória de tradução."
 
 #: ../../admin/memory.rst:84
 msgid ""
 "Translation memory in JSON can be imported into Weblate, TMX is provided for "
 "interoperability with other tools."
 msgstr ""
+"A memória de tradução em JSON pode ser importada para o Weblate, o TMX é "
+"fornecido para interoperabilidade com outras ferramentas."
 
 #: ../../admin/memory.rst:89
 msgid ":ref:`schema-memory`"
@@ -16145,6 +16416,9 @@ msgid ""
 "content. These operate on the translation memory as whole, unfiltered by "
 "scopes (unless requested by parameters):"
 msgstr ""
+"Existem vários comandos de gerenciamento para manipular o conteúdo da "
+"memória de tradução. Eles operam na memória de tradução como um todo, não "
+"filtrados por escopos (a menos que solicitados por parâmetros):"
 
 #: ../../admin/memory.rst:100
 msgid ":djadmin:`dump_memory`"
@@ -16152,7 +16426,7 @@ msgstr ""
 
 #: ../../admin/memory.rst:101
 msgid "Exports the memory into JSON"
-msgstr ""
+msgstr "Exporta a memória para JSON"
 
 #: ../../admin/memory.rst:103
 msgid "Imports TMX or JSON files into the translation memory"
@@ -16164,7 +16438,7 @@ msgstr "Módulos opcionais do Weblate"
 
 #: ../../admin/optionals.rst:4
 msgid "Several optional modules are available for your setup."
-msgstr ""
+msgstr "Vários módulos opcionais estão disponíveis para sua configuração."
 
 #: ../../admin/optionals.rst:9
 msgid "Git exporter"
@@ -35017,15 +35291,12 @@ msgid "`angularjs-format`"
 msgstr "`angularjs-format`"
 
 #: ../../user/checks.rst:157
-#, fuzzy
-#| msgid ""
-#| "`AngularJS text interpolation <https://angular.io/guide/interpolation>`_"
 msgid ""
 ":ref:`check-formats`, `AngularJS text interpolation <https://angular.io/"
 "guide/interpolation>`_"
 msgstr ""
-"`Interpolação de texto do AngularJS <https://angular.io/guide/"
-"interpolation>`_"
+":ref:`check-formats`, `Interpolação de texto do AngularJS <https://angular."
+"io/guide/interpolation>`_"
 
 #: ../../user/checks.rst:163
 msgid "C format"
@@ -35069,10 +35340,8 @@ msgid "`c-format`"
 msgstr "`c-format`"
 
 #: ../../user/checks.rst:178 ../../user/checks.rst:355
-#, fuzzy
-#| msgid ":ref:`formats`"
 msgid ":ref:`check-formats`,"
-msgstr ":ref:`formats`"
+msgstr ":ref:`check-formats`,"
 
 #: ../../user/checks.rst:178
 msgid ""
@@ -35101,16 +35370,12 @@ msgid "`c-sharp-format`"
 msgstr "`c-sharp-format`"
 
 #: ../../user/checks.rst:196
-#, fuzzy
-#| msgid ""
-#| "`C# String Format <https://docs.microsoft.com/en-us/dotnet/api/system."
-#| "string.format?view=netframework-4.7.2>`_"
 msgid ""
 ":ref:`check-formats`, `C# String Format <https://docs.microsoft.com/en-us/"
 "dotnet/api/system.string.format?view=netframework-4.7.2>`_"
 msgstr ""
-"`Formato de string do C# <https://docs.microsoft.com/pt_BR/dotnet/api/system."
-"string.format?view=netframework-4.7.2>`_"
+":ref:`check-formats`, `Formato de string do C# <https://docs.microsoft.com/"
+"pt_BR/dotnet/api/system.string.format?view=netframework-4.7.2>`_"
 
 #: ../../user/checks.rst:202
 msgid "ECMAScript template literals"
@@ -35225,16 +35490,12 @@ msgstr ""
 "formato na fonte"
 
 #: ../../user/checks.rst:279
-#, fuzzy
-#| msgid ""
-#| "`Java MessageFormat <https://docs.oracle.com/javase/7/docs/api/java/text/"
-#| "MessageFormat.html>`_"
 msgid ""
 ":ref:`check-formats`, `Java MessageFormat <https://docs.oracle.com/javase/7/"
 "docs/api/java/text/MessageFormat.html>`_"
 msgstr ""
-"`Java MessageFormat <https://docs.oracle.com/javase/7/docs/api/java/text/"
-"MessageFormat.html>`_"
+":ref:`check-formats`, `Java MessageFormat <https://docs.oracle.com/javase/7/"
+"docs/api/java/text/MessageFormat.html>`_"
 
 #: ../../user/checks.rst:285
 msgid "JavaScript format"
@@ -35273,32 +35534,24 @@ msgid "`lua-format`"
 msgstr "`lua-format`"
 
 #: ../../user/checks.rst:315
-#, fuzzy
-#| msgid ""
-#| "`Lua formatting strings <https://www.gnu.org/software/gettext/manual/"
-#| "html_node/lua_002dformat.html#lua_002dformat>`_"
 msgid ""
 ":ref:`check-formats`, `Lua formatting strings <https://www.gnu.org/software/"
 "gettext/manual/html_node/lua_002dformat.html#lua_002dformat>`_"
 msgstr ""
-"`Lua formatting strings <https://www.gnu.org/software/gettext/manual/"
-"html_node/lua_002dformat.html#lua_002dformat>`_"
+":ref:`check-formats`, `Lua formatting strings <https://www.gnu.org/software/"
+"gettext/manual/html_node/lua_002dformat.html#lua_002dformat>`_"
 
 #: ../../user/checks.rst:321
 msgid "Object Pascal format"
 msgstr "Formato de Object Pascal"
 
 #: ../../user/checks.rst:323
-#, fuzzy
-#| msgid "Perl format string does not match source"
 msgid "*Object Pascal format string does not match source*"
-msgstr "O formato do texto Perl não corresponde com a fonte"
+msgstr "*O formato do texto Object Pascal não corresponde com a fonte*"
 
 #: ../../user/checks.rst:328
-#, fuzzy
-#| msgid "Qt plural format"
 msgid "`object-pascal-format`"
-msgstr "Formato de plural Qt"
+msgstr "`object-pascal-format`"
 
 #: ../../user/checks.rst:333
 msgid ""
@@ -35309,6 +35562,12 @@ msgid ""
 "formatting strings <http://docwiki.embarcadero.com/Libraries/Sydney/en/"
 "System.SysUtils.Format>`_"
 msgstr ""
+":ref:`check-formats`, `Object Pascal formatting strings <https://www.gnu.org/"
+"software/gettext/manual/html_node/object_002dpascal_002dformat."
+"html#object_002dpascal_002dformat>`_ `Free Pascal formatting strings "
+"<https://www.freepascal.org/docs-html/rtl/sysutils/format.html>`_ `Delphi "
+"formatting strings <http://docwiki.embarcadero.com/Libraries/Sydney/en/System"
+".SysUtils.Format>`_"
 
 #: ../../user/checks.rst:341
 msgid "Percent placeholders"
@@ -35339,19 +35598,14 @@ msgid "`perl-format`"
 msgstr "`perl-format`"
 
 #: ../../user/checks.rst:375
-#, fuzzy
-#| msgid ""
-#| "`Perl sprintf <https://perldoc.perl.org/functions/sprintf>`_, `Perl "
-#| "Format Strings <https://www.gnu.org/software/gettext/manual/html_node/"
-#| "perl_002dformat.html>`_"
 msgid ""
 ":ref:`check-formats`, `Perl sprintf <https://perldoc.perl.org/functions/"
 "sprintf>`_, `Perl Format Strings <https://www.gnu.org/software/gettext/"
 "manual/html_node/perl_002dformat.html>`_"
 msgstr ""
-"`Perl sprintf <https://perldoc.perl.org/functions/sprintf>`_, `Perl Format "
-"Strings <https://www.gnu.org/software/gettext/manual/html_node/"
-"perl_002dformat.html>`_"
+":ref:`check-formats`, `Perl sprintf <https://perldoc.perl.org/functions/"
+"sprintf>`_, `Perl Format Strings <https://www.gnu.org/software/gettext/"
+"manual/html_node/perl_002dformat.html>`_"
 
 #: ../../user/checks.rst:382
 msgid "PHP format"
@@ -35366,19 +35620,14 @@ msgid "`php-format`"
 msgstr "`php-format`"
 
 #: ../../user/checks.rst:396
-#, fuzzy
-#| msgid ""
-#| "`PHP sprintf documentation <https://www.php.net/manual/en/function."
-#| "sprintf.php>`_, `PHP Format Strings <https://www.gnu.org/software/gettext/"
-#| "manual/html_node/php_002dformat.html>`_"
 msgid ""
 ":ref:`check-formats`, `PHP sprintf documentation <https://www.php.net/manual/"
 "en/function.sprintf.php>`_, `PHP Format Strings <https://www.gnu.org/"
 "software/gettext/manual/html_node/php_002dformat.html>`_"
 msgstr ""
-"`Documentação de PHP sprintf <https://www.php.net/manual/en/function.sprintf."
-"php>`_, `PHP Format Strings <https://www.gnu.org/software/gettext/manual/"
-"html_node/php_002dformat.html>`_"
+":ref:`check-formats`, `Documentação de PHP sprintf <https://www.php.net/"
+"manual/en/function.sprintf.php>`_, `PHP Format Strings <https://www.gnu.org/"
+"software/gettext/manual/html_node/php_002dformat.html>`_"
 
 #: ../../user/checks.rst:404
 msgid "Python brace format"
@@ -35401,19 +35650,14 @@ msgid "`python-brace-format`"
 msgstr "`python-brace-format`"
 
 #: ../../user/checks.rst:418
-#, fuzzy
-#| msgid ""
-#| ":ref:`Python brace format <python:formatstrings>`, `Python Format Strings "
-#| "<https://www.gnu.org/software/gettext/manual/html_node/python_002dformat."
-#| "html>`_"
 msgid ""
 ":ref:`check-formats`, :ref:`Python brace format <python:formatstrings>`, "
 "`Python Format Strings <https://www.gnu.org/software/gettext/manual/"
 "html_node/python_002dformat.html>`_"
 msgstr ""
-":ref:`Formato de chaves Python <python:formatstrings>`, `Python Format "
-"Strings <https://www.gnu.org/software/gettext/manual/html_node/"
-"python_002dformat.html>`_"
+":ref:`check-formats`, :ref:`Formato de chaves Python <python:formatstrings>`"
+", `Python Format Strings <https://www.gnu.org/software/gettext/manual/"
+"html_node/python_002dformat.html>`_"
 
 #: ../../user/checks.rst:425
 msgid "Python format"
@@ -35432,19 +35676,14 @@ msgid "`python-format`"
 msgstr "`python-format`"
 
 #: ../../user/checks.rst:439
-#, fuzzy
-#| msgid ""
-#| ":ref:`Python string formatting <python:old-string-formatting>`, `Python "
-#| "Format Strings <https://www.gnu.org/software/gettext/manual/html_node/"
-#| "python_002dformat.html>`_"
 msgid ""
 ":ref:`check-formats`, :ref:`Python string formatting <python:old-string-"
 "formatting>`, `Python Format Strings <https://www.gnu.org/software/gettext/"
 "manual/html_node/python_002dformat.html>`_"
 msgstr ""
-":ref:`Formatação de texto Python <python:old-string-formatting>`, `Python "
-"Format Strings <https://www.gnu.org/software/gettext/manual/html_node/"
-"python_002dformat.html>`_"
+":ref:`check-formats`, :ref:`Formatação de texto Python <python:old-string-"
+"formatting>`, `Python Format Strings <https://www.gnu.org/software/gettext/"
+"manual/html_node/python_002dformat.html>`_"
 
 #: ../../user/checks.rst:446
 msgid "Qt format"
@@ -35463,12 +35702,12 @@ msgid "`qt-format`"
 msgstr "`qt-format`"
 
 #: ../../user/checks.rst:458
-#, fuzzy
-#| msgid "`Qt QString::arg() <https://doc.qt.io/qt-5/qstring.html#arg>`_"
 msgid ""
 ":ref:`check-formats`, `Qt QString::arg() <https://doc.qt.io/qt-5/qstring."
 "html#arg>`_"
-msgstr "`Qt QString::arg() <https://doc.qt.io/qt-5/qstring.html#arg>`_"
+msgstr ""
+":ref:`check-formats`, `Qt QString::arg() <https://doc.qt.io/qt-5/qstring."
+"html#arg>`_"
 
 #: ../../user/checks.rst:464
 msgid "Qt plural format"
@@ -35491,16 +35730,12 @@ msgid "`qt-plural-format`"
 msgstr "`qt-plural-format`"
 
 #: ../../user/checks.rst:476
-#, fuzzy
-#| msgid ""
-#| "`Qt i18n guide <https://doc.qt.io/qt-5/i18n-source-translation."
-#| "html#handling-plurals>`_"
 msgid ""
 ":ref:`check-formats`, `Qt i18n guide <https://doc.qt.io/qt-5/i18n-source-"
 "translation.html#handling-plurals>`_"
 msgstr ""
-"`Guia de i18n do Qt <https://doc.qt.io/qt-5/i18n-source-translation."
-"html#handling-plurals>`_"
+":ref:`check-formats`, `Guia de i18n do Qt <https://doc.qt.io/qt-5/i18n-"
+"source-translation.html#handling-plurals>`_"
 
 #: ../../user/checks.rst:482
 msgid "Ruby format"
@@ -35531,16 +35766,12 @@ msgid "`ruby-format`"
 msgstr "`ruby-format`"
 
 #: ../../user/checks.rst:500
-#, fuzzy
-#| msgid ""
-#| "`Ruby Kernel#sprintf <https://ruby-doc.org/core/Kernel.html#method-i-"
-#| "sprintf>`_"
 msgid ""
 ":ref:`check-formats`, `Ruby Kernel#sprintf <https://ruby-doc.org/core/Kernel."
 "html#method-i-sprintf>`_"
 msgstr ""
-"`Ruby Kernel#sprintf <https://ruby-doc.org/core/Kernel.html#method-i-"
-"sprintf>`_"
+":ref:`check-formats`, `Ruby Kernel#sprintf <https://ruby-doc.org/core/Kernel."
+"html#method-i-sprintf>`_"
 
 #: ../../user/checks.rst:506
 msgid "Scheme format"
@@ -35559,22 +35790,16 @@ msgid "`scheme-format`"
 msgstr "`scheme-format`"
 
 #: ../../user/checks.rst:518
-#, fuzzy
-#| msgid ""
-#| "`Srfi 28 <https://srfi.schemers.org/srfi-28/srfi-28.html>`_, `Chicken "
-#| "Scheme format <https://wiki.call-cc.org/eggref/5/format>`_, `Guile Scheme "
-#| "formatted output <https://www.gnu.org/software/guile/manual/html_node/"
-#| "Formatted-Output.html>`_"
 msgid ""
 ":ref:`check-formats`, `Srfi 28 <https://srfi.schemers.org/srfi-28/srfi-28."
 "html>`_, `Chicken Scheme format <https://wiki.call-cc.org/eggref/5/"
 "format>`_, `Guile Scheme formatted output <https://www.gnu.org/software/"
 "guile/manual/html_node/Formatted-Output.html>`_"
 msgstr ""
-"`Srfi 28 <https://srfi.schemers.org/srfi-28/srfi-28.html>`_, `formato de "
-"Scheme Chicken <https://wiki.call-cc.org/eggref/5/format>`_, `Saída "
-"formatada de Guile Scheme <https://www.gnu.org/software/guile/manual/"
-"html_node/Formatted-Output.html>`_"
+":ref:`check-formats`, `Srfi 28 <https://srfi.schemers.org/srfi-28/srfi-28."
+"html>`_, `formato de Scheme Chicken <https://wiki.call-cc.org/eggref/5/"
+"format>`_, `Saída formatada de Guile Scheme <https://www.gnu.org/software/"
+"guile/manual/html_node/Formatted-Output.html>`_"
 
 #: ../../user/checks.rst:526
 msgid "Vue I18n formatting"
@@ -35613,19 +35838,15 @@ msgid "`vue-format`"
 msgstr "`vue-format`"
 
 #: ../../user/checks.rst:542
-#, fuzzy
-#| msgid ""
-#| "`Vue I18n Formatting <https://kazupon.github.io/vue-i18n/guide/formatting."
-#| "html>`_, `Vue I18n Linked locale messages <https://kazupon.github.io/vue-"
-#| "i18n/guide/messages.html#linked-locale-messages>`_"
 msgid ""
 ":ref:`check-formats`, `Vue I18n Formatting <https://kazupon.github.io/vue-"
 "i18n/guide/formatting.html>`_, `Vue I18n Linked locale messages <https://"
 "kazupon.github.io/vue-i18n/guide/messages.html#linked-locale-messages>`_"
 msgstr ""
-"`Formatação Vue I18n <https://kazupon.github.io/vue-i18n/guide/formatting."
-"html>`_, `Mensagens de localidade Vue I18n <https://kazupon.github.io/vue-"
-"i18n/guide/messages.html#linked-locale-messages>`_"
+":ref:`check-formats`, `Formatação Vue I18n <https://kazupon.github.io/"
+"vue-i18n/guide/formatting.html>`_, `Mensagens de localidade Vue I18n "
+"<https://kazupon.github.io/vue-i18n/guide/messages.html#linked-locale-"
+"messages>`_"
 
 #: ../../user/checks.rst:549
 msgid "Has been translated"
@@ -36623,17 +36844,15 @@ msgstr "Translation Memory eXchange"
 
 #: ../../user/files.rst:35
 msgid "gettext MO (only available when translation is using gettext PO)"
-msgstr ""
+msgstr "gettext MO (disponível apenas quando a tradução está usando gettext PO)"
 
 #: ../../user/files.rst:36
 msgid "CSV"
 msgstr "CSV"
 
 #: ../../user/files.rst:38
-#, fuzzy
-#| msgid "base file for monolingual translations"
 msgid "JSON (only available for monolingual translations)"
-msgstr "arquivo base para traduções monolíngues"
+msgstr "JSON (disponível apenas para traduções monolíngues)"
 
 #: ../../user/files.rst:39
 msgid "Android String Resource (only available for monolingual translations)"
@@ -36641,16 +36860,17 @@ msgstr ""
 "Recurso de textos de Android (disponível apenas para traduções monolíngues)"
 
 #: ../../user/files.rst:40
-#, fuzzy
-#| msgid "base file for monolingual translations"
 msgid "iOS strings (only available for monolingual translations)"
-msgstr "arquivo base para traduções monolíngues"
+msgstr "Textos do iOS (disponível apenas para traduções monolíngues)"
 
 #: ../../user/files.rst:44
 msgid ""
 "The content available in the converted files differs based on file format "
 "features, you can find overview in :ref:`fmt_capabs`."
 msgstr ""
+"O conteúdo disponível nos arquivos convertidos difere com base nos recursos "
+"de formato de arquivo, você pode encontrar uma visão geral em "
+":ref:`fmt_capabs`."
 
 #: ../../user/files.rst:51
 msgid ""
@@ -36716,6 +36936,7 @@ msgstr ""
 msgid ""
 "Only translations are used from the uploaded file and no additional content."
 msgstr ""
+"Apenas traduções são usadas do arquivo carregado e nenhum conteúdo adicional."
 
 #: ../../user/files.rst:94
 msgid "Add as suggestion (``suggest``)"
@@ -36794,11 +37015,10 @@ msgstr ""
 "Esta opção está disponível apenas com :ref:`component-manage_units` ativado."
 
 #: ../../user/files.rst:117
-#, fuzzy
-#| msgid "No strings were imported from the uploaded file."
 msgid ""
 "Only source, translation and key (context) are used from the uploaded file."
-msgstr "Nenhum texto foi importado do arquivo enviado."
+msgstr ""
+"Apenas fonte, tradução e chave (contexto) são usados do arquivo enviado."
 
 #: ../../user/files.rst:121
 msgid ""
@@ -36939,13 +37159,6 @@ msgid "Not translatable terms"
 msgstr "Termos não traduzíveis"
 
 #: ../../user/glossary.rst:56
-#, fuzzy
-#| msgid ""
-#| "Flagging certain glossary term translations ``read-only`` by bulk-"
-#| "editing, typing in the flag, or by using :guilabel:`Tools` ↓:guilabel:"
-#| "`Mark as read-only` means they can not be translated. Use this for brand "
-#| "names or other terms that should not be changed in other languages. Such "
-#| "terms are visually highlighted in the glossary sidebar."
 msgid ""
 "Flagging certain glossary term translations ``read-only`` by bulk-editing, "
 "typing in the flag, or by using :guilabel:`Tools` ↓ :guilabel:`Mark as read-"
@@ -36954,8 +37167,8 @@ msgid ""
 "highlighted in the glossary sidebar."
 msgstr ""
 "Sinalizar certas traduções de termos do glossário como ``read-only`` "
-"editando em massa, digitando o marcador ou usando :guilabel:`Ferramentas` ↓ :"
-"guilabel:`Marcar como somente leitura` significa que não podem ser "
+"editando em massa, digitando o marcador ou usando :guilabel:`Ferramentas` ↓ "
+":guilabel:`Marcar como somente leitura` significa que não podem ser "
 "traduzidas. Use-o para nomes de marcas ou outros termos que não devem ser "
 "alterados em outros idiomas. Esses termos são destacados visualmente na "
 "barra lateral do glossário."
@@ -36965,13 +37178,6 @@ msgid "Forbidden translations"
 msgstr "Traduções proibidas"
 
 #: ../../user/glossary.rst:72
-#, fuzzy
-#| msgid ""
-#| "Flagging certain glossary term translations as ``forbidden``,  by bulk-"
-#| "editing, typing in the flag, or by using :guilabel:`Tools` ↓:guilabel:"
-#| "`Mark as forbidden translation` means they are **not** to be used. Use "
-#| "this to clarify translation when some words are ambiguous or could have "
-#| "unexpected meanings."
 msgid ""
 "Flagging certain glossary term translations as ``forbidden``,  by bulk-"
 "editing, typing in the flag, or by using :guilabel:`Tools` ↓ :guilabel:`Mark "
@@ -36980,8 +37186,8 @@ msgid ""
 "meanings."
 msgstr ""
 "Marcar certas traduções de termos do glossário como ``forbidden``, editando "
-"em massa, digitando o marcador, ou usando :guilabel:`Ferramentas` ↓ :"
-"guilabel:`Marcar como tradução proibida` significa que **não** devem ser "
+"em massa, digitando o marcador, ou usando :guilabel:`Ferramentas` ↓ "
+":guilabel:`Marcar como tradução proibida` significa que **não** devem ser "
 "usado. Use isto para esclarecer a tradução quando algumas palavras são "
 "ambíguas ou podem ter significados inesperados."
 
@@ -36990,13 +37196,6 @@ msgid "Terminology"
 msgstr "Terminologia"
 
 #: ../../user/glossary.rst:88
-#, fuzzy
-#| msgid ""
-#| "Flagging certain glossary terms as ``terminology``  by bulk-editing, "
-#| "typing in the flag, or or by using :guilabel:`Tools` ↓:guilabel:`Mark as "
-#| "terminology` adds entries for them to all languages in the glossary. Use "
-#| "this for important terms that should be well thought out, and retain a "
-#| "consistent meaning across all languages."
 msgid ""
 "Flagging certain glossary terms as ``terminology``  by bulk-editing, typing "
 "in the flag, or or by using :guilabel:`Tools` ↓ :guilabel:`Mark as "
@@ -37005,10 +37204,10 @@ msgid ""
 "consistent meaning across all languages."
 msgstr ""
 "Marcar certos termos do glossário como ``terminology`` editando em massa, "
-"digitando o marcador ou ou usando :guilabel:`Ferramentas` ↓ :guilabel:"
-"`Marcar como terminologia` adiciona entradas para eles em todos os idiomas "
-"no glossário. Use-o para termos importantes que devem ser bem pensados e "
-"manter um significado consistente em todos os idiomas."
+"digitando o marcador ou ou usando :guilabel:`Ferramentas` ↓ :guilabel:`"
+"Marcar como terminologia` adiciona entradas para eles em todos os idiomas no "
+"glossário. Use-o para termos importantes que devem ser bem pensados e manter "
+"um significado consistente em todos os idiomas."
 
 #: ../../user/glossary.rst:100 ../../user/translating.rst:81
 msgid "Variants"
@@ -37548,12 +37747,6 @@ msgid "``has:TEXT``"
 msgstr "``has:TEXTO``"
 
 #: ../../user/search.rst:48
-#, fuzzy
-#| msgid ""
-#| "Search for string having attributes - ``plural``, ``context``, "
-#| "``suggestion``, ``comment``, ``check``, ``dismissed-check``, "
-#| "``translation``, ``variant``, ``screenshot``, ``flags``, ``explanation``, "
-#| "``glossary``."
 msgid ""
 "Search for string having attributes - ``plural``, ``context``, "
 "``suggestion``, ``comment``, ``check``, ``dismissed-check``, "
@@ -37562,7 +37755,7 @@ msgid ""
 msgstr ""
 "Pesquisa por texto com atributos - ``plural``, ``context``, ``suggestion``, "
 "``comment``, ``check``, ``dismissed-check``, ``translation``, ``variant``, "
-"``screenshot``, ``flags``, ``explanation``, ``glossary``."
+"``screenshot``, ``flags``, ``explanation``, ``glossary``, ``note``."
 
 #: ../../user/search.rst:49
 msgid "``is:TEXT``"
