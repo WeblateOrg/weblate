@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.7\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-05-24 04:10+0000\n"
-"PO-Revision-Date: 2021-04-27 18:32+0000\n"
+"PO-Revision-Date: 2021-05-31 03:28+0000\n"
 "Last-Translator: Priit Jõerüüt <hwlate@joeruut.com>\n"
 "Language-Team: Estonian <https://hosted.weblate.org/projects/weblate/"
 "application/et/>\n"
@@ -174,10 +174,8 @@ msgid "Use default setting"
 msgstr "Kasuta vaikimisi seadistusi"
 
 #: weblate/accounts/forms.py:682
-#, fuzzy
-#| msgid "Watched projects"
 msgid "Other projects"
-msgstr "Jälgitavad projektid"
+msgstr "Muud projektid"
 
 #: weblate/accounts/forms.py:684 weblate/accounts/models.py:488
 #: weblate/templates/accounts/profile.html:67
@@ -198,13 +196,9 @@ msgid "Component: {}"
 msgstr "Komponent: {}"
 
 #: weblate/accounts/forms.py:695
-#, fuzzy
-#| msgid ""
-#| "You will receive a notification for every such event in your watched "
-#| "projects."
 msgid ""
 "You will receive a notification for every such event in non-watched projects."
-msgstr "Saad jälgitavates projektides teatise iga sellise sündmuse kohta."
+msgstr "Saad muude projektide puhul teatise iga sellise sündmuse kohta."
 
 #: weblate/accounts/forms.py:700
 msgid ""
@@ -231,16 +225,11 @@ msgid "You will receive a notification for every such event in %(component)s."
 msgstr "Saate teatise iga sellise sündmuse kohta %(component)s projektiosises."
 
 #: weblate/accounts/forms.py:720
-#, fuzzy
-#| msgid ""
-#| "You will only receive these notifications for your translated languages "
-#| "in your watched projects."
 msgid ""
 "You will only receive these notifications for your translated languages in "
 "non-watched projects."
 msgstr ""
-"Saad neid teatiseid ainult oma tõlgitud keelte puhul oma jälgitavates "
-"projektides."
+"Saad muudes projektides neid teatiseid ainult oma tõlgitud keelte kohta."
 
 #: weblate/accounts/forms.py:725
 msgid ""
@@ -306,11 +295,11 @@ msgstr "Valitud sortimisviis ei ole toetatud."
 
 #: weblate/accounts/forms.py:815
 msgid "Add user to a group"
-msgstr ""
+msgstr "Lisa kasutaja gruppi"
 
 #: weblate/accounts/forms.py:825
 msgid "Add group"
-msgstr ""
+msgstr "Lisa grupp"
 
 #: weblate/accounts/models.py:146
 msgid "Password changed."
@@ -364,16 +353,12 @@ msgstr ""
 "kasutajanime."
 
 #: weblate/accounts/models.py:156
-#, fuzzy
-#| msgid "Somebody has attempted to register with your e-mail."
 msgid "Somebody attempted to register with your e-mail."
-msgstr "Keegi on juba katsetanud sinu e-kirjaga registreeruda."
+msgstr "Keegi on juba proovinud sinu e-posti aadressi abil registreeruda."
 
 #: weblate/accounts/models.py:157
-#, fuzzy
-#| msgid "Somebody has attempted to register using your e-mail address."
 msgid "Somebody attempted to register using your e-mail address."
-msgstr "Keegi on üritanud registreeruda, kasutades sinu e-kirja aadressi."
+msgstr "Keegi on juba proovinud sinu e-posti aadressi abil registreeruda."
 
 #: weblate/accounts/models.py:158
 #, python-brace-format
@@ -409,7 +394,7 @@ msgstr "Alustasime prooviperioodi."
 #: weblate/accounts/models.py:164
 #, python-brace-format
 msgid "Sent confirmation mail to {email}."
-msgstr ""
+msgstr "Saatsime kinnituse {email} e-posti aadressile."
 
 #: weblate/accounts/models.py:166
 msgid ""
@@ -540,10 +525,8 @@ msgid "Number of nearby strings to show in each direction in the full editor."
 msgstr ""
 
 #: weblate/accounts/models.py:446
-#, fuzzy
-#| msgid "Project website"
 msgid "Automatically watch projects on contribution"
-msgstr "Projekti veebisait"
+msgstr "Jälgi automaatselt kaastöid projektides"
 
 #: weblate/accounts/models.py:449
 msgid ""
@@ -558,7 +541,7 @@ msgstr ""
 #: weblate/templates/dashboard/user.html:23
 #: weblate/trans/models/componentlist.py:70
 msgid "Component lists"
-msgstr ""
+msgstr "Osiste loendid"
 
 #: weblate/accounts/models.py:461 weblate/templates/dashboard/user.html:65
 #: weblate/trans/models/componentlist.py:69
@@ -587,7 +570,7 @@ msgstr ""
 
 #: weblate/accounts/models.py:498
 msgid "Website URL"
-msgstr ""
+msgstr "Veebisaidi aadress"
 
 #: weblate/accounts/models.py:502
 msgid "Liberapay username"
@@ -632,11 +615,11 @@ msgstr "Kasutajanimi Twitter'is"
 
 #: weblate/accounts/models.py:534
 msgid "LinkedIn profile name"
-msgstr ""
+msgstr "LinkedIn profiili nimi"
 
 #: weblate/accounts/models.py:535
 msgid "Your LinkedIn profile name from linkedin.com/in/profilename"
-msgstr ""
+msgstr "Sinu LinkedIn'i profiili nimi siit URL'ist linkedin.com/in/profiilinimi"
 
 #: weblate/accounts/models.py:540
 #: weblate/templates/snippets/embed-units.html:64
@@ -666,7 +649,7 @@ msgstr ""
 
 #: weblate/accounts/notifications.py:53
 msgid "Do not notify"
-msgstr ""
+msgstr "Ära teavita"
 
 #: weblate/accounts/notifications.py:54
 msgid "Instant notification"
@@ -674,15 +657,15 @@ msgstr "Kiirteated"
 
 #: weblate/accounts/notifications.py:55
 msgid "Daily digest"
-msgstr ""
+msgstr "Igapäevane kokkuvõte"
 
 #: weblate/accounts/notifications.py:56
 msgid "Weekly digest"
-msgstr ""
+msgstr "Iganädalane kokkuvõte"
 
 #: weblate/accounts/notifications.py:57
 msgid "Monthly digest"
-msgstr ""
+msgstr "Igakuine kokkuvõte"
 
 #. Translators: Notification name
 #: weblate/accounts/notifications.py:407
@@ -708,7 +691,7 @@ msgstr "Muudetud litsents"
 #. Translators: Name of event in the history
 #: weblate/accounts/notifications.py:462 weblate/trans/models/change.py:270
 msgid "Parse error"
-msgstr ""
+msgstr "Töötlemise viga"
 
 #. Translators: Notification name
 #: weblate/accounts/notifications.py:470
@@ -719,12 +702,12 @@ msgstr "Uus lausend"
 #. Translators: Name of event in the history
 #: weblate/accounts/notifications.py:479 weblate/trans/models/change.py:310
 msgid "New contributor"
-msgstr ""
+msgstr "Uus kaasautor"
 
 #. Translators: Notification name
 #: weblate/accounts/notifications.py:488
 msgid "New suggestion"
-msgstr ""
+msgstr "Uus ettepanek"
 
 #. Translators: Notification name
 #: weblate/accounts/notifications.py:498
@@ -740,7 +723,7 @@ msgstr "Sind on kommentaaris mainitud"
 #: weblate/accounts/notifications.py:580 weblate/templates/translate.html:396
 #: weblate/trans/forms.py:921
 msgid "New comment"
-msgstr ""
+msgstr "Uus kommentaar"
 
 #. Translators: Notification name
 #: weblate/accounts/notifications.py:601
@@ -784,7 +767,7 @@ msgstr "Uus hoiatus"
 #. Translators: Notification name
 #: weblate/accounts/notifications.py:735
 msgid "Pending suggestions"
-msgstr ""
+msgstr "Ootel kommentaarid"
 
 #. Translators: Notification name
 #: weblate/accounts/notifications.py:746
@@ -795,15 +778,17 @@ msgstr ""
 
 #: weblate/accounts/password_validation.py:37
 msgid "This password consists of only whitespace."
-msgstr ""
+msgstr "Selle salasõnas leidub vaid tühja ruumi märke (näiteks tühikud)."
 
 #: weblate/accounts/password_validation.py:42
 msgid "This password is only a single character."
-msgstr ""
+msgstr "Selle salasõna pikkus on vaid üks tähemärk."
 
 #: weblate/accounts/password_validation.py:48
 msgid "Your password can't consist of a single character or only whitespace."
 msgstr ""
+"Sinu salasõna ei tohi koosneda vaid tühja ruumi märkidest ja ühes muust "
+"tähest."
 
 #: weblate/accounts/password_validation.py:68
 msgid "Can not reuse previously used password."
@@ -811,15 +796,15 @@ msgstr "Sa ei saa kasutada varasemat salasõna."
 
 #: weblate/accounts/password_validation.py:73
 msgid "Your password can't match a password you have used in the past."
-msgstr ""
+msgstr "Sa ei tohi sisestada varem kasutusel olnud salasõna."
 
 #: weblate/accounts/pipeline.py:314
 msgid "You can not complete password reset while signed in."
-msgstr ""
+msgstr "Sa ei saa salasõna lähtestamist teha sisselogituna."
 
 #: weblate/accounts/pipeline.py:317 weblate/accounts/pipeline.py:340
 msgid "The registration link has been invalidated."
-msgstr ""
+msgstr "Registreerimislink on kehtetu."
 
 #: weblate/accounts/pipeline.py:332
 msgid "You can not complete registration while signed in."
@@ -845,7 +830,7 @@ msgstr "Salasõna lähtestamine"
 
 #: weblate/accounts/views.py:175
 msgid "Remove account"
-msgstr ""
+msgstr "Kustuta kasutajakonto"
 
 #: weblate/accounts/views.py:178 weblate/accounts/views.py:807
 msgid "User registration"
@@ -911,7 +896,7 @@ msgstr "Logi sisse"
 
 #: weblate/accounts/views.py:752 weblate/wladmin/sites.py:187
 msgid "Thank you for using Weblate."
-msgstr ""
+msgstr "Täname, et kasutad tõlkerakendust Weblate."
 
 #: weblate/accounts/views.py:841 weblate/templates/accounts/email.html:17
 msgid "Register e-mail"
@@ -945,7 +930,7 @@ msgstr "Registreerimist ei õnnestunud lõpetada."
 
 #: weblate/accounts/views.py:1162
 msgid "Please check if you have already registered an account."
-msgstr ""
+msgstr "Palun kontrolli, kas sa oled juba kasutajakonto registreerinud."
 
 #: weblate/accounts/views.py:1164
 msgid "You can also request a new password, if you have lost your credentials."
@@ -971,7 +956,7 @@ msgstr "Palun registreeru hoopis e-kirja abil."
 
 #: weblate/accounts/views.py:1197
 msgid "New registrations are turned off."
-msgstr ""
+msgstr "Uued registreerimised pole hetkel lubatud."
 
 #: weblate/accounts/views.py:1255
 msgid ""
@@ -1027,7 +1012,7 @@ msgstr ""
 #: weblate/addons/autotranslate.py:35 weblate/templates/translation.html:75
 #: weblate/templates/translation.html:234 weblate/trans/models/change.py:238
 msgid "Automatic translation"
-msgstr ""
+msgstr "Automaatne tõlge"
 
 #: weblate/addons/autotranslate.py:37
 msgid ""
@@ -1157,23 +1142,23 @@ msgstr ""
 
 #: weblate/addons/forms.py:53
 msgid "Path of generated MO file"
-msgstr ""
+msgstr "Loodava .mo faili asukoht"
 
 #: weblate/addons/forms.py:56
 msgid "If not specified, the location of the PO file will be used."
-msgstr ""
+msgstr "Kui on määramata, siis fail lisatakse olemasoleva .po faili asukohta."
 
 #: weblate/addons/forms.py:79
 msgid "Name of generated file"
-msgstr ""
+msgstr "Loodava faili nimi"
 
 #: weblate/addons/forms.py:81
 msgid "Content of generated file"
-msgstr ""
+msgstr "Loodava faili sisu"
 
 #: weblate/addons/forms.py:110 weblate/addons/forms.py:196
 msgid "Long lines wrapping"
-msgstr ""
+msgstr "Pikkade ridade murdmine"
 
 #: weblate/addons/forms.py:112
 #, fuzzy
@@ -1183,17 +1168,19 @@ msgstr "Voldi read 80 tähemärgi juures"
 
 #: weblate/addons/forms.py:113
 msgid "Only wrap lines at newlines"
-msgstr ""
+msgstr "Murra ridu vaid reavahemärgi kohalt"
 
 #: weblate/addons/forms.py:114 weblate/addons/forms.py:202
 msgid "No line wrapping"
-msgstr ""
+msgstr "Ära murra ridu"
 
 #: weblate/addons/forms.py:119
 msgid ""
 "By default gettext wraps lines at 77 characters and at newlines. With the --"
 "no-wrap parameter, wrapping is only done at newlines."
 msgstr ""
+"Vaikimisi gettext murrab ridu vaid 77. tähemärgi ja reavahemärgi juurest. "
+"Kasutades --no-wrap võtit murtakse ridu vaid reavahemärgi juurest."
 
 #: weblate/addons/forms.py:127
 msgid "Keep previous msgids of translated strings"
@@ -1337,7 +1324,7 @@ msgstr ""
 
 #: weblate/addons/forms.py:267 weblate/trans/models/component.py:575
 msgid "Language filter"
-msgstr ""
+msgstr "Keelte filter"
 
 #: weblate/addons/forms.py:272
 #, fuzzy
@@ -1464,21 +1451,23 @@ msgstr ""
 
 #: weblate/addons/gettext.py:65
 msgid "Update LINGUAS file"
-msgstr ""
+msgstr "Uuenda LINGUAS-fail"
 
 #: weblate/addons/gettext.py:66
 msgid "Updates the LINGUAS file when a new translation is added."
-msgstr ""
+msgstr "Uue tõlke lisandumisel uuenda LINGUAS-fail."
 
 #: weblate/addons/gettext.py:157
 msgid "Update ALL_LINGUAS variable in the \"configure\" file"
-msgstr ""
+msgstr "Uuenda „configure“ failis ALL_LINGUAS muutujat"
 
 #: weblate/addons/gettext.py:159
 msgid ""
 "Updates the ALL_LINGUAS variable in \"configure\", \"configure.in\" or "
 "\"configure.ac\" files, when a new translation is added."
 msgstr ""
+"Uue tõlke lisandumisel uuenda ALL_LINGUAS muutujat „configure“, „configure."
+"in“ ja „configure.ac“ failides."
 
 #: weblate/addons/gettext.py:228
 msgid "Update PO files to match POT (msgmerge)"
@@ -1492,7 +1481,7 @@ msgstr ""
 
 #: weblate/addons/gettext.py:305
 msgid "Customize gettext output"
-msgstr ""
+msgstr "Kohanda gettext väljundit"
 
 #: weblate/addons/gettext.py:307
 msgid ""
@@ -1501,13 +1490,14 @@ msgstr ""
 
 #: weblate/addons/gettext.py:318
 msgid "Contributors in comment"
-msgstr ""
+msgstr "Kaasautorid kommentaarides"
 
 #: weblate/addons/gettext.py:320
 msgid ""
 "Updates the comment part of the PO file header to include contributor names "
 "and years of contributions."
 msgstr ""
+"Uuendab .po faili päises kaasautorite nimede ja osalemisaastate loendit."
 
 #: weblate/addons/git.py:34
 msgid "Squash Git commits"
