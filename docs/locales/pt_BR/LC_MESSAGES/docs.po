@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-05-24 06:11+0200\n"
-"PO-Revision-Date: 2021-05-30 13:46+0000\n"
-"Last-Translator: Fred Maranhão <fred.maranhao@gmail.com>\n"
+"PO-Revision-Date: 2021-05-31 03:28+0000\n"
+"Last-Translator: Rafael Fontenelle <rafaelff@gnome.org>\n"
 "Language-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/"
 "weblate/documentation/pt_BR/>\n"
 "Language: pt_BR\n"
@@ -16274,7 +16274,6 @@ msgid "Content in the translation memory can be applied one of two ways:"
 msgstr "O conteúdo da memória de tradução pode ser aplicado de duas maneiras:"
 
 #: ../../admin/memory.rst:17
-#, fuzzy
 msgid "Manually, :ref:`machine-translation` view while translating."
 msgstr "Manualmente, a visão de :ref:`machine-translation` durante a tradução."
 
@@ -16449,15 +16448,20 @@ msgstr "Exportador git"
 msgid ""
 "Provides you read-only access to the underlying Git repository using HTTP(S)."
 msgstr ""
+"Fornece acesso somente leitura ao repositório Git subjacente usando HTTP(S)."
 
 #: ../../admin/optionals.rst:18
 msgid "Add ``weblate.gitexport`` to installed apps in :file:`settings.py`:"
 msgstr ""
+"Adicione ``weblate.gitexport`` aos aplicativos instalados em :file:`settings."
+"py`:"
 
 #: ../../admin/optionals.rst:24
 msgid ""
 "Export existing repositories by migrating your database after installation:"
 msgstr ""
+"Exporte repositórios existentes migrando seu banco de dados após a "
+"instalação:"
 
 #: ../../admin/optionals.rst:31 ../../admin/optionals.rst:87
 #: ../../admin/optionals.rst:162 ../../faq.rst:263
@@ -16471,12 +16475,18 @@ msgid ""
 "git/`` part of the Weblate URL, for example ``https://example.org/git/"
 "weblate/main/``."
 msgstr ""
+"O módulo conecta-se automaticamente ao Weblate e define a URL do repositório "
+"exportado na :ref:`component`. Os repositórios são acessíveis na parte ``/"
+"git/`` da URL do Weblate, por exemplo, ``https://example.org/git/weblate/"
+"main/``."
 
 #: ../../admin/optionals.rst:38
 msgid ""
 "Repositories for publicly available projects can be cloned without "
 "authentication:"
 msgstr ""
+"Repositórios para projetos disponíveis publicamente podem ser clonados sem "
+"autenticação:"
 
 #: ../../admin/optionals.rst:44
 msgid ""
@@ -16485,6 +16495,10 @@ msgid ""
 "requires an API token which can be obtained in your :ref:`user profile <user-"
 "profile>`:"
 msgstr ""
+"O acesso para navegar nos repositórios com acesso restrito (com :ref:`"
+"controle de acesso <acl>` `Privado` ou quando :setting:`REQUIRE_LOGIN` está "
+"habilitado) requer um token de API que pode ser obtido em seu :ref:`perfil "
+"de usuário <user-profile>`:"
 
 #: ../../admin/optionals.rst:55
 msgid ""
@@ -16492,22 +16506,31 @@ msgid ""
 "to the repositories for public projects via :guilabel:`Access repository` "
 "and :guilabel:`Power user` roles."
 msgstr ""
+"Por padrão, os membros ou o grupo :guilabel:`Usuários` e usuário anônimo têm "
+"acesso aos repositórios para projetos públicos via :guilabel:`Acessar "
+"repositório` e funções de :guilabel:`Usuário avançado`."
 
 #: ../../admin/optionals.rst:67
 msgid ""
 "This is used on `Hosted Weblate <https://weblate.org/hosting/>`_ to define "
 "billing plans, track invoices and usage limits."
 msgstr ""
+"Isso é usado no `Hosted Weblate <https://weblate.org/hosting/>`_ para "
+"definir planos de cobrança, rastrear faturas e limites de uso."
 
 #: ../../admin/optionals.rst:73
 msgid "1. Add ``weblate.billing`` to installed apps in :file:`settings.py`:"
 msgstr ""
+"1. Adicione ``weblate.billing`` aos aplicativos instalados em :file:`settings"
+".py`:"
 
 #: ../../admin/optionals.rst:80 ../../admin/optionals.rst:153
 msgid ""
 "Run the database migration to optionally install additional database "
 "structures for the module:"
 msgstr ""
+"Execute a migração do banco de dados para instalar opcionalmente estruturas "
+"de banco de dados adicionais para o módulo:"
 
 #: ../../admin/optionals.rst:89
 msgid ""
@@ -16515,6 +16538,9 @@ msgid ""
 "with billing enabled will get new :guilabel:`Billing` tab in their :ref:"
 "`user-profile`."
 msgstr ""
+"Após a instalação, você pode controlar a cobrança na interface de "
+"administração. Os usuários com cobrança habilitada obterão a nova aba "
+":guilabel:`Cobrança` em seu :ref:`user-profile`."
 
 #: ../../admin/optionals.rst:93
 msgid ""
@@ -16522,12 +16548,18 @@ msgid ""
 "and components without being superusers (see :ref:`adding-projects`). This "
 "is possible when following conditions are met:"
 msgstr ""
+"O módulo de cobrança também permite que os administradores do projeto criem "
+"novos projetos e componentes sem serem superusuários (veja :ref:`add-"
+"projects`). Isso é possível quando as seguintes condições são atendidas:"
 
 #: ../../admin/optionals.rst:97
 msgid ""
 "The billing is in its configured limits (any overusage results in blocking "
 "of project/component creation) and paid (if its price is non zero)"
 msgstr ""
+"A cobrança está em seus limites configurados (qualquer uso excessivo resulta "
+"no bloqueio da criação do projeto/componente) e pago (se seu preço for "
+"diferente de zero)"
 
 #: ../../admin/optionals.rst:99
 msgid ""
@@ -16535,12 +16567,17 @@ msgid ""
 "billing (the latter is necessary when creating new billing for users to be "
 "able to import new projects)."
 msgstr ""
+"O usuário é administrador do projeto existente com cobrança ou o usuário é "
+"proprietário da cobrança (este último é necessário ao criar uma nova "
+"cobrança para que os usuários possam importar novos projetos)."
 
 #: ../../admin/optionals.rst:103
 msgid ""
 "Upon project creation user is able to choose which billing should be charged "
 "for the project in case he has access to more of them."
 msgstr ""
+"Após a criação do projeto, o usuário pode escolher qual faturamento deve ser "
+"cobrado pelo projeto, caso tenha acesso a mais deles."
 
 #: ../../admin/optionals.rst:110
 msgid "Legal"
