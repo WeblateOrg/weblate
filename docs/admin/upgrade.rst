@@ -251,10 +251,10 @@ Migrating from other databases to PostgreSQL
 --------------------------------------------
 
 If you are running Weblate on other dabatase than PostgreSQL, you should
-migrate to PostgreSQL as that will be the only supported database backend in
-the 4.0 release. The following steps will guide you in migrating your data
-between the databases. Please remember to stop both web and Celery servers
-prior to the migration, otherwise you might end up with inconsistent data.
+consider migrating to PostgreSQL as Weblate performs best with it. The following
+steps will guide you in migrating your data between the databases. Please
+remember to stop both web and Celery servers prior to the migration, otherwise
+you might end up with inconsistent data.
 
 Creating a database in PostgreSQL
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
