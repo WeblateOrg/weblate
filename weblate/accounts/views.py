@@ -643,9 +643,7 @@ class UserPage(UpdateView):
         last_changes = all_changes[:10]
 
         # Filter where project is active
-        user_translation_ids = set(
-            all_changes.values_list("translation__component__project", flat=True)
-        )
+        user_translation_ids = set(all_changes.values_list("translation", flat=True))
         user_translations = (
             Translation.objects.prefetch()
             .filter(
