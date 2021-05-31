@@ -1325,7 +1325,13 @@ class Translation(
             if self.unit_set.filter(id_hash=source.id_hash).exists():
                 continue
             # Unit is already present
-            self.add_unit(None, source.context, source.get_source_plurals(), "")
+            self.add_unit(
+                None,
+                source.context,
+                source.get_source_plurals(),
+                "",
+                is_batch_update=True,
+            )
 
     def validate_new_unit_data(  # noqa: C901
         self,
