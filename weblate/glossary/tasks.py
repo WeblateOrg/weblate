@@ -35,7 +35,7 @@ def sync_terminology(pk: int, component: Optional[Component] = None):
     project = component.project
 
     # Add missing languages
-    language_ids = set(component.translation_set.values_list("id", flat=True))
+    language_ids = set(component.translation_set.values_list("language_id", flat=True))
     missing = (
         Language.objects.filter(translation__component__project=project)
         .exclude(pk__in=language_ids)
