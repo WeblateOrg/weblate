@@ -1,4 +1,4 @@
-/*! @sentry/browser 6.4.1 (f9434ed) | https://github.com/getsentry/sentry-javascript */
+/*! @sentry/browser 6.5.0 (b098076) | https://github.com/getsentry/sentry-javascript */
 var Sentry = (function (exports) {
     /*! *****************************************************************************
     Copyright (c) Microsoft Corporation. All rights reserved.
@@ -4370,7 +4370,7 @@ var Sentry = (function (exports) {
         hub.bindClient(client);
     }
 
-    var SDK_VERSION = '6.4.1';
+    var SDK_VERSION = '6.5.0';
 
     var originalFunctionToString;
     /** Patch toString calls to return proper name for wrapped functions */
@@ -6553,7 +6553,12 @@ var Sentry = (function (exports) {
         hub.captureSession();
         // We want to create a session for every navigation as well
         addInstrumentationHandler({
-            callback: function () {
+            callback: function (_a) {
+                var from = _a.from, to = _a.to;
+                // Don't create an additional session for the initial route or if the location did not change
+                if (from === undefined || from === to) {
+                    return;
+                }
                 hub.startSession();
                 hub.captureSession();
             },
