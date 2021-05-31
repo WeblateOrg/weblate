@@ -1284,6 +1284,7 @@ class Translation(
             # The source language is always first in the translations array
             if source_unit is None:
                 source_unit = unit
+                component._sources[id_hash] = unit
             if translation == self:
                 result = unit
 
