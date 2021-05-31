@@ -25,7 +25,7 @@ from typing import BinaryIO, List, Optional, Union
 
 from django.core.cache import cache
 from django.core.exceptions import ObjectDoesNotExist, ValidationError
-from django.db import models, transaction
+from django.db import IntegrityError, models, transaction
 from django.db.models import Q
 from django.urls import reverse
 from django.utils import timezone
@@ -1198,6 +1198,7 @@ class Translation(
         explanation: str = "",
         auto_context: bool = False,
         is_batch_update: bool = False,
+        skip_existing: bool = False,
     ):
         user = request.user if request else None
         component = self.component
@@ -1245,7 +1246,7 @@ class Translation(
                 id_hash = calculate_hash(source, context)
             # When adding to a target the source string can already exist
             unit = None
-            if not self.is_source and is_source:
+            if (skip_existing or not self.is_source) and is_source:
                 try:
                     unit = component.get_source(id_hash)
                     flags = Flags(unit.extra_flags)
@@ -1273,14 +1274,20 @@ class Translation(
                     **kwargs,
                 )
                 unit.is_batch_update = is_batch_update
-                unit.save(force_insert=True)
-                Change.objects.create(
-                    unit=unit,
-                    action=Change.ACTION_NEW_UNIT,
-                    target=current_target,
-                    user=user,
-                    author=user,
-                )
+                try:
+                    with transaction.atomic():
+                        unit.save(force_insert=True)
+                        Change.objects.create(
+                            unit=unit,
+                            action=Change.ACTION_NEW_UNIT,
+                            target=current_target,
+                            user=user,
+                            author=user,
+                        )
+                except IntegrityError:
+                    if not skip_existing:
+                        raise
+                    unit = translation.unit_set.get(id_hash=id_hash)
             # The source language is always first in the translations array
             if source_unit is None:
                 source_unit = unit
@@ -1317,22 +1324,20 @@ class Translation(
 
     @transaction.atomic
     def sync_terminology(self):
-        if self.is_source:
+        if not self.is_source:
             return
         for source in self.component.get_all_sources():
             # Is the string a terminology
             if "terminology" not in source.all_flags:
                 continue
-            # Does it already exist
-            if self.unit_set.filter(id_hash=source.id_hash).exists():
-                continue
-            # Unit is already present
+            # Add unit
             self.add_unit(
                 None,
                 source.context,
                 source.get_source_plurals(),
                 "",
                 is_batch_update=True,
+                skip_existing=True,
             )
 
     def validate_new_unit_data(  # noqa: C901
