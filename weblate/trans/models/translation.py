@@ -1211,11 +1211,12 @@ class Translation(
         result = None
 
         # Automatic context
-        suffix = 0
-        base = context
-        while self.unit_set.filter(context=context, source=source).exists():
-            suffix += 1
-            context = f"{base}{suffix}"
+        if auto_context:
+            suffix = 0
+            base = context
+            while self.unit_set.filter(context=context, source=source).exists():
+                suffix += 1
+                context = f"{base}{suffix}"
 
         for translation in translations:
             is_source = translation.is_source
