@@ -1200,6 +1200,8 @@ class Translation(
         is_batch_update: bool = False,
         skip_existing: bool = False,
     ):
+        if isinstance(source, list):
+            source = join_plural(source)
         user = request.user if request else None
         component = self.component
         if self.is_source:
@@ -1238,8 +1240,6 @@ class Translation(
                 current_target = ""
             if isinstance(current_target, list):
                 current_target = join_plural(current_target)
-            if isinstance(source, list):
-                source = join_plural(source)
             if has_template:
                 id_hash = calculate_hash(context)
             else:
