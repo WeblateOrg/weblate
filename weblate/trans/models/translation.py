@@ -1247,7 +1247,7 @@ class Translation(
             unit = None
             if not self.is_source and is_source:
                 try:
-                    unit = translation.unit_set.get(id_hash=id_hash)
+                    unit = component.get_source(id_hash)
                     flags = Flags(unit.extra_flags)
                     flags.merge(extra_flags)
                     new_flags = flags.format()
