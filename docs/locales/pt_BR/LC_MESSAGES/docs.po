@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-05-31 18:42+0200\n"
-"PO-Revision-Date: 2021-05-31 03:28+0000\n"
+"PO-Revision-Date: 2021-06-01 02:00+0000\n"
 "Last-Translator: Rafael Fontenelle <rafaelff@gnome.org>\n"
 "Language-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/"
 "weblate/documentation/pt_BR/>\n"
@@ -4069,61 +4069,63 @@ msgid "Remote backups"
 msgstr "Backups remotos"
 
 #: ../../admin/backup.rst:112
-#, fuzzy
-#| msgid ""
-#| "In order to create the remote backups, you will have to install "
-#| "`BorgBackup`_ onto another server that’s accessible via SSH. Make sure "
-#| "that it accepts the Weblate's client SSH key, i.e. the one it uses to "
-#| "connect to other servers."
 msgid ""
 "For creating remote backups, you will have to install `BorgBackup`_ onto "
 "another server that’s accessible for your Weblate deployment via SSH using "
 "the Weblate SSH key:"
 msgstr ""
 "Para criar os backups remotos, você terá que instalar o `BorgBackup`_ em "
-"outro servidor que seja acessível via SSH. Certifique-se de que ele aceita a "
-"chave SSH do cliente do Weblate, ou seja, aquela que ele usa para se "
-"conectar a outros servidores."
+"outro servidor que seja acessível para sua implantação de Weblate via SSH "
+"usando a chave SSH do Weblate:"
 
 #: ../../admin/backup.rst:116
 msgid "Prepare a server where your backups will be stored."
-msgstr ""
+msgstr "Prepare um servidor onde seus backups serão armazenados."
 
 #: ../../admin/backup.rst:117
 msgid ""
 "Install the SSH server on it (you will get it by default with most Linux "
 "distributions)."
 msgstr ""
+"Instale o servidor SSH nele (você o receberá por padrão com a maioria das "
+"distribuições Linux)."
 
 #: ../../admin/backup.rst:118
 msgid ""
 "Install `BorgBackup`_ on that server; most Linux distributions have packages "
 "available (see :doc:`borg:installation`)."
 msgstr ""
+"Instale o `BorgBackup`_ nesse servidor; a maioria das distribuições Linux "
+"tem pacotes disponíveis (veja :doc:`borg:installation`)."
 
 #: ../../admin/backup.rst:119
 msgid ""
 "Choose an existing user or create a new user that will be used for backing "
 "up."
 msgstr ""
+"Escolha um usuário existente ou crie um novo que será usado para backup."
 
 #: ../../admin/backup.rst:120
 msgid ""
 "Add Weblate SSH key to the user so that Weblate can SSH to the server "
 "without a password (see :ref:`weblate-ssh-key`)."
 msgstr ""
+"Adicione a chave SSH do Weblate ao usuário para que o Weblate possa usar o "
+"SSH para o servidor sem uma senha (veja :ref:`weblate-ssh-key`)."
 
 #: ../../admin/backup.rst:121
 msgid ""
 "Configure the backup location in Weblate as ``user@host:/path/to/backups``."
 msgstr ""
+"Configure o local de backup no Weblate como ``user@host:/caminho/para/"
+"backups``."
 
 #: ../../admin/backup.rst:125
-#, fuzzy
-#| msgid ":ref:`cloudbackup` provides you automated remote backups."
 msgid ""
 ":ref:`cloudbackup` provides you automated remote backups without any effort."
-msgstr ":ref:`cloudbackup` fornece backups remotos automatizados."
+msgstr ""
+":ref:`cloudbackup` fornece backups remotos automatizados sem qualquer "
+"esforço."
 
 #: ../../admin/backup.rst:129
 #, fuzzy
@@ -13621,17 +13623,12 @@ msgstr ""
 "ser exibido em <https://artifacthub.io/packages/helm/weblate/weblate>."
 
 #: ../../admin/install/kubernetes.rst:28
-#, fuzzy
-#| msgid ""
-#| "Create a :file:`docker-compose.override.yml` file with your settings. "
-#| "See :ref:`docker-environment` for full list of environment variables."
 msgid ""
 "For further configuration options, see :ref:`docker-environment` for full "
 "list of environment variables."
 msgstr ""
-"Crie um arquivo :file:`docker-compose.override.yml` com suas configurações. "
-"Veja :ref:`docker-environment` para uma lista completa das variáveis de "
-"ambiente."
+"Para mais opções de configuração, consulte :ref:`docker-environment` para "
+"uma lista completa de variáveis de ambiente."
 
 #: ../../admin/install/openshift.rst:2
 msgid "Installing on OpenShift"
@@ -15099,8 +15096,6 @@ msgid "NetEase Sight API machine translation"
 msgstr "Tradução de máquina do NetEase Sight API"
 
 #: ../../admin/machine.rst:268
-#, fuzzy
-#| msgid "Machine translation service provided by Netease."
 msgid "Machine translation service provided by NetEase."
 msgstr "Serviço de tradução de máquina fornecido por NetEase."
 
@@ -15122,16 +15117,12 @@ msgstr ""
 "`MT_NETEASE_KEY` e :setting:`MT_NETEASE_SECRET`."
 
 #: ../../admin/machine.rst:278
-#, fuzzy
-#| msgid ""
-#| ":setting:`MT_NETEASE_KEY`, :setting:`MT_NETEASE_SECRET` `Netease Sight "
-#| "Translation Platform <https://sight.youdao.com/>`_"
 msgid ""
 ":setting:`MT_NETEASE_KEY`, :setting:`MT_NETEASE_SECRET` `NetEase Sight "
 "Translation Platform <https://sight.youdao.com/>`_"
 msgstr ""
 ":setting:`MT_NETEASE_KEY`, :setting:`MT_NETEASE_SECRET` `Plataforma de "
-"Tradução Netease Sight <https://sight.youdao.com/>`_"
+"Tradução NetEase Sight <https://sight.youdao.com/>`_"
 
 #: ../../admin/machine.rst:285
 msgid "tmserver"
@@ -15297,23 +15288,14 @@ msgid "Machine translation service provided by SAP."
 msgstr "Serviço de tradução de máquina fornecido por SAP."
 
 #: ../../admin/machine.rst:392
-#, fuzzy
-#| msgid ""
-#| "You need to have a SAP account (and enabled the SAP Translation Hub in "
-#| "the SAP Cloud Platform) to use this service."
 msgid ""
 "You need to have a SAP account (and the SAP Translation Hub enabled in the "
 "SAP Cloud Platform) to use this service."
 msgstr ""
-"Você precisa ter uma conta SAP (e ativar o SAP Translation Hub na SAP Cloud "
-"Platform) para usar este serviço."
+"Você precisa ter uma conta SAP (e o SAP Translation Hub habilitado na SAP "
+"Cloud Platform) para usar este serviço."
 
 #: ../../admin/machine.rst:395
-#, fuzzy
-#| msgid ""
-#| "Turn on this service by adding ``weblate.machinery.saptranslationhub."
-#| "SAPTranslationHub`` to :setting:`MT_SERVICES` and set the appropriate "
-#| "access to either sandbox or the productive API."
 msgid ""
 "Turn on this service by adding ``weblate.machinery.saptranslationhub."
 "SAPTranslationHub`` to :setting:`MT_SERVICES` and set the appropriate access "
@@ -15367,10 +15349,6 @@ msgstr ""
 "``dictionary``:"
 
 #: ../../admin/machine.rst:426
-#, fuzzy
-#| msgid ""
-#| "You can list own class in :setting:`MT_SERVICES` and Weblate will start "
-#| "using that."
 msgid ""
 "You can list your own class in :setting:`MT_SERVICES` and Weblate will start "
 "using that."
@@ -15549,16 +15527,12 @@ msgid "Similarity threshold for machine translation, defaults to 80."
 msgstr "Limite de similaridade para tradução de máquina, o padrão é 80."
 
 #: ../../admin/management.rst:147
-#, fuzzy
-#| msgid ""
-#| "Specify translation mode, default is \"translate\" but \"fuzzy\" or "
-#| "\"suggest\" can be used."
 msgid ""
 "Specify translation mode, default is ``translate`` but ``fuzzy`` or "
 "``suggest`` can be used."
 msgstr ""
-"Especifica o modo de tradução tendo como o padrão \"translate\", mas \"fuzzy"
-"\" pode ser usado."
+"Especifica o modo de tradução tendo como o padrão ``translate``, mas "
+"``fuzzy`` ou ``suggest`` pode ser usado."
 
 #: ../../admin/management.rst:158
 msgid ":ref:`auto-translation`"
@@ -16670,26 +16644,29 @@ msgid ""
 "required legal documents. It comes provided with blank documents, and you "
 "are expected to fill out the following templates in the documents:"
 msgstr ""
+"Isso é usado em `Weblate hospedado <https://weblate.org/hosting/>`_ para "
+"fornecer documentos legais necessários. Ele vem fornecido com documentos em "
+"branco, e espera-se que você preencha os seguintes modelos nos documentos:"
 
 #: ../../admin/optionals.rst:118
 msgid ":file:`legal/documents/tos.html`"
-msgstr ""
+msgstr ":file:`legal/documents/tos.html`"
 
 #: ../../admin/optionals.rst:119
 msgid "Terms of service document"
-msgstr ""
+msgstr "Documento de termos de serviço"
 
 #: ../../admin/optionals.rst:120
 msgid ":file:`legal/documents/privacy.html`"
-msgstr ""
+msgstr ":file:`legal/documents/privacy.html`"
 
 #: ../../admin/optionals.rst:121
 msgid "Privacy policy document"
-msgstr ""
+msgstr "Documento de política de privacidade"
 
 #: ../../admin/optionals.rst:123
 msgid ":file:`legal/documents/summary.html`"
-msgstr ""
+msgstr ":file:`legal/documents/summary.html`"
 
 #: ../../admin/optionals.rst:123
 msgid "Short overview of the terms of service and privacy policy"
