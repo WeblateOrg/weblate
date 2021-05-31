@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-05-31 18:42+0200\n"
-"PO-Revision-Date: 2021-05-25 03:04+0000\n"
-"Last-Translator: Ihor Hordiichuk <igor_ck@outlook.com>\n"
+"PO-Revision-Date: 2021-05-31 22:21+0000\n"
+"Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/"
 "documentation/uk/>\n"
 "Language: uk\n"
@@ -4084,63 +4084,65 @@ msgid "Remote backups"
 msgstr "Віддалені резервні копії"
 
 #: ../../admin/backup.rst:112
-#, fuzzy
-#| msgid ""
-#| "In order to create the remote backups, you will have to install "
-#| "`BorgBackup`_ onto another server that’s accessible via SSH. Make sure "
-#| "that it accepts the Weblate's client SSH key, i.e. the one it uses to "
-#| "connect to other servers."
 msgid ""
 "For creating remote backups, you will have to install `BorgBackup`_ onto "
 "another server that’s accessible for your Weblate deployment via SSH using "
 "the Weblate SSH key:"
 msgstr ""
 "Для створення віддалених резервних копій вам слід встановити на іншому "
-"доступному за допомогою SSH сервері `BorgBackup`_. Переконайтеся, що він "
-"приймає клієнтський ключ Weblate, тобто ключ, який використовується для "
-"з'єднання з іншими серверами."
+"доступному з вашого екземпляра Weblate за допомогою SSH сервері `BorgBackup`"
+"_ з використанням ключа SSH Weblate:"
 
 #: ../../admin/backup.rst:116
 msgid "Prepare a server where your backups will be stored."
-msgstr ""
+msgstr "Приготуйте сервер, на якому зберігатимуться ваші резервні копії."
 
 #: ../../admin/backup.rst:117
 msgid ""
 "Install the SSH server on it (you will get it by default with most Linux "
 "distributions)."
 msgstr ""
+"Встановіть на ньому сервер SSH (такий сервер типово встановлено у більшості "
+"дистрибутивів Linux)."
 
 #: ../../admin/backup.rst:118
 msgid ""
 "Install `BorgBackup`_ on that server; most Linux distributions have packages "
 "available (see :doc:`borg:installation`)."
 msgstr ""
+"Встановіть на цьому сервері `BorgBackup`_; у більшості дистрибутивів Linux є "
+"відповідні пакунки (див. :doc:`borg:installation`)."
 
 #: ../../admin/backup.rst:119
 msgid ""
 "Choose an existing user or create a new user that will be used for backing "
 "up."
 msgstr ""
+"Виберіть наявний запис користувача або створіть запис користувача, який "
+"використовуватиметься для резервного копіювання."
 
 #: ../../admin/backup.rst:120
 msgid ""
 "Add Weblate SSH key to the user so that Weblate can SSH to the server "
 "without a password (see :ref:`weblate-ssh-key`)."
 msgstr ""
+"Додайте ключ SSH Weblate до запису користувача, щоб Weblate міг "
+"встановлювати з'єднання SSH із сервером без пароля (див. :ref:`weblate-ssh-"
+"key`)."
 
 #: ../../admin/backup.rst:121
 msgid ""
 "Configure the backup location in Weblate as ``user@host:/path/to/backups``."
 msgstr ""
+"Налаштуйте місце для резервних копій у Weblate у форматі "
+"``користувач@вузол:/шлях/до/резервних/копій``."
 
 #: ../../admin/backup.rst:125
-#, fuzzy
-#| msgid ":ref:`cloudbackup` provides you automated remote backups."
 msgid ""
 ":ref:`cloudbackup` provides you automated remote backups without any effort."
 msgstr ""
 ":ref:`cloudbackup` надає вам доступ до автоматичного створення резервних "
-"копій на віддалених серверах."
+"копій на віддалених серверах без жодних зайвих зусиль."
 
 #: ../../admin/backup.rst:129
 msgid ":ref:`weblate-ssh-key`"
@@ -13716,17 +13718,12 @@ msgstr ""
 "можна на <https://artifacthub.io/packages/helm/weblate/weblate>."
 
 #: ../../admin/install/kubernetes.rst:28
-#, fuzzy
-#| msgid ""
-#| "Create a :file:`docker-compose.override.yml` file with your settings. "
-#| "See :ref:`docker-environment` for full list of environment variables."
 msgid ""
 "For further configuration options, see :ref:`docker-environment` for full "
 "list of environment variables."
 msgstr ""
-"Створіть файл :file:`docker-compose.override.yml` з вашими параметрами. Із "
-"повним списком змінних середовища можна ознайомитися у розділі :ref:`docker-"
-"environment`."
+"Із повним списком змінних середовища можна ознайомитися у розділі :ref"
+":`docker-environment`."
 
 #: ../../admin/install/openshift.rst:2
 msgid "Installing on OpenShift"
@@ -15214,8 +15211,6 @@ msgid "NetEase Sight API machine translation"
 msgstr "Програмний інтерфейс комп'ютерного перекладу NetEase Sight"
 
 #: ../../admin/machine.rst:268
-#, fuzzy
-#| msgid "Machine translation service provided by Netease."
 msgid "Machine translation service provided by NetEase."
 msgstr "Служба комп'ютерного перекладу, яка надається NetEase."
 
@@ -15237,16 +15232,12 @@ msgstr ""
 "`MT_NETEASE_KEY` і :setting:`MT_NETEASE_SECRET`."
 
 #: ../../admin/machine.rst:278
-#, fuzzy
-#| msgid ""
-#| ":setting:`MT_NETEASE_KEY`, :setting:`MT_NETEASE_SECRET` `Netease Sight "
-#| "Translation Platform <https://sight.youdao.com/>`_"
 msgid ""
 ":setting:`MT_NETEASE_KEY`, :setting:`MT_NETEASE_SECRET` `NetEase Sight "
 "Translation Platform <https://sight.youdao.com/>`_"
 msgstr ""
 ":setting:`MT_NETEASE_KEY`, :setting:`MT_NETEASE_SECRET` `Платформа перекладу "
-"Netease Sight <https://sight.youdao.com/>`_"
+"NetEase Sight <https://sight.youdao.com/>`_"
 
 #: ../../admin/machine.rst:285
 msgid "tmserver"
@@ -15413,10 +15404,6 @@ msgid "Machine translation service provided by SAP."
 msgstr "Служба комп'ютерного перекладу, яка надається SAP."
 
 #: ../../admin/machine.rst:392
-#, fuzzy
-#| msgid ""
-#| "You need to have a SAP account (and enabled the SAP Translation Hub in "
-#| "the SAP Cloud Platform) to use this service."
 msgid ""
 "You need to have a SAP account (and the SAP Translation Hub enabled in the "
 "SAP Cloud Platform) to use this service."
@@ -15425,11 +15412,6 @@ msgstr ""
 "SAP на «хмарній» платформі SAP), щоб скористатися цією службою."
 
 #: ../../admin/machine.rst:395
-#, fuzzy
-#| msgid ""
-#| "Turn on this service by adding ``weblate.machinery.saptranslationhub."
-#| "SAPTranslationHub`` to :setting:`MT_SERVICES` and set the appropriate "
-#| "access to either sandbox or the productive API."
 msgid ""
 "Turn on this service by adding ``weblate.machinery.saptranslationhub."
 "SAPTranslationHub`` to :setting:`MT_SERVICES` and set the appropriate access "
@@ -15484,10 +15466,6 @@ msgstr ""
 "``dictionary`` Python:"
 
 #: ../../admin/machine.rst:426
-#, fuzzy
-#| msgid ""
-#| "You can list own class in :setting:`MT_SERVICES` and Weblate will start "
-#| "using that."
 msgid ""
 "You can list your own class in :setting:`MT_SERVICES` and Weblate will start "
 "using that."
@@ -15666,16 +15644,12 @@ msgid "Similarity threshold for machine translation, defaults to 80."
 msgstr "Поріг подібності для комп'ютерного перекладу. Типовим значенням є 80."
 
 #: ../../admin/management.rst:147
-#, fuzzy
-#| msgid ""
-#| "Specify translation mode, default is \"translate\" but \"fuzzy\" or "
-#| "\"suggest\" can be used."
 msgid ""
 "Specify translation mode, default is ``translate`` but ``fuzzy`` or "
 "``suggest`` can be used."
 msgstr ""
-"Вказати режим перекладу. Типовим є «translate», але можна скористатися "
-"«fuzzy» або «suggest»."
+"Вказати режим перекладу. Типовим є ``translate``, але можна скористатися "
+"``fuzzy`` або ``suggest``."
 
 #: ../../admin/management.rst:158
 msgid ":ref:`auto-translation`"
@@ -19889,14 +19863,6 @@ msgid "Migrating from other databases to PostgreSQL"
 msgstr "Перенесення даних з інших баз даних до PostgreSQL"
 
 #: ../../admin/upgrade.rst:253
-#, fuzzy
-#| msgid ""
-#| "If you are running Weblate on other dabatase than PostgreSQL, you should "
-#| "migrate to PostgreSQL as that will be the only supported database backend "
-#| "in the 4.0 release. The following steps will guide you in migrating your "
-#| "data between the databases. Please remember to stop both web and Celery "
-#| "servers prior to the migration, otherwise you might end up with "
-#| "inconsistent data."
 msgid ""
 "If you are running Weblate on other dabatase than PostgreSQL, you should "
 "consider migrating to PostgreSQL as Weblate performs best with it. The "
@@ -19905,11 +19871,11 @@ msgid ""
 "otherwise you might end up with inconsistent data."
 msgstr ""
 "Якщо ви працюєте з Weblate на основі бази даних, відмінної від PostgreSQL, "
-"вам слід перенести базу даних до PostgreSQL, оскільки це єдина підтримувана "
-"база даних, починаючи з випуску 4.0. Нижче наведено список кроків, які слід "
-"виконати для перенесення ваших даних з однієї бази даних до іншої. Будь "
-"ласка, не забудьте зупинити вебсервер та сервер Celery перед перенесенням "
-"даних, інакше дані може бути пошкоджено."
+"вам слід перенести базу даних до PostgreSQL, оскільки із ним Weblate працює "
+"оптимально. Нижче наведено список кроків, які слід виконати для перенесення "
+"ваших даних з однієї бази даних до іншої. Будь ласка, не забудьте зупинити "
+"вебсервер та сервер Celery перед перенесенням даних, інакше дані може бути "
+"пошкоджено."
 
 #: ../../admin/upgrade.rst:276
 msgid "Migrating using Django JSON dumps"
@@ -22614,6 +22580,8 @@ msgstr "Удосконалено інтеграцію розпізнавання
 #: ../../changes.rst:11
 msgid "Fixed :ref:`vcs-gerrit` integration to better handle corner cases."
 msgstr ""
+"Виправлення у інтеграції із :ref:`vcs-gerrit` для кращої обробки нетипових "
+"випадків."
 
 #: ../../changes.rst:13
 msgid ""
@@ -38317,13 +38285,6 @@ msgid "Terminology"
 msgstr "Термінологія"
 
 #: ../../user/glossary.rst:88
-#, fuzzy
-#| msgid ""
-#| "Flagging certain glossary terms as ``terminology``  by bulk-editing, "
-#| "typing in the flag, or or by using :guilabel:`Tools` ↓ :guilabel:`Mark as "
-#| "terminology` adds entries for them to all languages in the glossary. Use "
-#| "this for important terms that should be well thought out, and retain a "
-#| "consistent meaning across all languages."
 msgid ""
 "Flagging certain glossary terms as ``terminology``  by bulk-editing, typing "
 "in the flag, or by using :guilabel:`Tools` ↓ :guilabel:`Mark as terminology` "
@@ -38332,10 +38293,10 @@ msgid ""
 "meaning across all languages."
 msgstr ""
 "Позначення певних перекладів термінів глосарія як ``термінології`` пакетним "
-"редагуванням, введенням прапорця або за допомогою пункту меню :guilabel:"
-"`Знаряддя` ↓ :guilabel:`Позначити як термінологію`, додає записи термінів до "
-"усіх мов у глосарії. Скористайтеся цим для важливих термінів, переклад яких "
-"слід обміркувати і зберігати значення яких слід в усіх мовах."
+"редагуванням, введенням прапорця або за допомогою пункту меню "
+":guilabel:`Знаряддя` ↓ :guilabel:`Позначити як термінологію`, додає записи "
+"термінів до усіх мов у глосарії. Скористайтеся цим для важливих термінів, "
+"переклад яких слід обміркувати і зберігати значення яких слід в усіх мовах."
 
 #: ../../user/glossary.rst:100 ../../user/translating.rst:81
 msgid "Variants"
