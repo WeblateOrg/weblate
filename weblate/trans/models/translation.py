@@ -1026,7 +1026,7 @@ class Translation(
             accepted += 1
         self.invalidate_cache()
         self.component.update_variants()
-        self.component.sync_terminology()
+        self.component.schedule_sync_terminology()
         self.component.update_source_checks()
         self.component.run_batched_checks()
         return (0, skipped, accepted, len(store.content_units))
@@ -1290,7 +1290,7 @@ class Translation(
 
         if not is_batch_update:
             component.update_variants()
-            component.sync_terminology()
+            component.schedule_sync_terminology()
         return result
 
     @transaction.atomic

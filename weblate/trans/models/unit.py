@@ -485,7 +485,7 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
         new_flags = Flags(self.extra_flags, unit_flags)
 
         if "terminology" in new_flags:
-            self.translation.component.sync_terminology()
+            self.translation.component.schedule_sync_terminology()
 
     def update_variants(self):
         variants = self.defined_variants.all()

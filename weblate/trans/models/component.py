@@ -2037,7 +2037,7 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
         if was_change:
             self.update_variants()
             component_post_update.send(sender=self.__class__, component=self)
-            self.sync_terminology()
+            self.schedule_sync_terminology()
 
         self.unload_sources()
         self.run_batched_checks()
@@ -2568,7 +2568,7 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
             self.create_glossary()
 
             # Make sure all languages are present
-            self.sync_terminology()
+            self.schedule_sync_terminology()
 
             # Run automatically installed addons. They are run upon installation,
             # but there are no translations created at that point.
@@ -3039,7 +3039,7 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
                 result[installed.event].append(addon)
         return result
 
-    def sync_terminology(self):
+    def schedule_sync_terminology(self):
         """Trigger terminology sync in the background."""
         from weblate.glossary.tasks import sync_terminology
 
