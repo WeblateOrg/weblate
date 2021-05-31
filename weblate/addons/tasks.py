@@ -91,7 +91,10 @@ def language_consistency(project_id: int, language_ids: List[int]):
             continue
         for language in missing:
             component.add_new_language(
-                language, None, send_signal=False, create_translations=True
+                language,
+                None,
+                send_signal=False,
+                create_translations=False,
             )
         component.create_translations()
 
