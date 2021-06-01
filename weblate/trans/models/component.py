@@ -62,6 +62,7 @@ from weblate.trans.models.translation import Translation
 from weblate.trans.models.variant import Variant
 from weblate.trans.signals import (
     component_post_update,
+    store_post_load,
     translation_post_add,
     vcs_post_commit,
     vcs_post_push,
@@ -2959,7 +2960,16 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
             messages.error(request, _("Translation file already exists!"))
         else:
             with self.repository.lock:
-                file_format.add_language(fullname, language, base_filename)
+                file_format.add_language(
+                    fullname,
+                    language,
+                    base_filename,
+                    callback=lambda store: store_post_load.send(
+                        sender=translation.__class__,
+                        translation=translation,
+                        store=store,
+                    ),
+                )
                 if send_signal:
                     translation_post_add.send(
                         sender=self.__class__, translation=translation

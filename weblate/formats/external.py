@@ -21,6 +21,7 @@
 import os
 import re
 from io import BytesIO, StringIO
+from typing import Callable, Optional
 from zipfile import BadZipFile
 
 from django.utils.translation import gettext_lazy as _
@@ -107,12 +108,20 @@ class XlsxFormat(CSVFormat):
         return "xlsx"
 
     @classmethod
-    def create_new_file(cls, filename, language, base):
+    def create_new_file(
+        cls,
+        filename: str,
+        language: str,
+        base: str,
+        callback: Optional[Callable] = None,
+    ):
         """Handle creation of new translation file."""
         if not base:
             raise ValueError("Not supported")
         # Parse file
         store = cls.parse_store(base)
+        if callback:
+            callback(store)
         cls.untranslate_store(store, language)
         with open(filename, "wb") as handle:
             XlsxFormat(store).save_content(handle)
