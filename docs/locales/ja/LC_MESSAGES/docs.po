@@ -9,7 +9,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-05-31 18:42+0200\n"
 "PO-Revision-Date: 2021-06-01 01:04+0000\n"
-"Last-Translator: amano <amano.hajime@gmail.com>\n"
+"Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "documentation/ja/>\n"
 "Language: ja\n"
@@ -3782,21 +3782,13 @@ msgid "Remote backups"
 msgstr "リモート バックアップ"
 
 #: ../../admin/backup.rst:112
-#, fuzzy
-#| msgid ""
-#| "In order to create the remote backups, you will have to install "
-#| "`BorgBackup`_ onto another server that’s accessible via SSH. Make sure "
-#| "that it accepts the Weblate's client SSH key, i.e. the one it uses to "
-#| "connect to other servers."
 msgid ""
 "For creating remote backups, you will have to install `BorgBackup`_ onto "
 "another server that’s accessible for your Weblate deployment via SSH using "
 "the Weblate SSH key:"
 msgstr ""
-"リモートバックアップを作成するには、SSH 経由で接続可能な別のサーバーに "
-"`BorgBackup`_ をインストールすることが必要です。Weblate のクライアント SSH "
-"キー、つまり他のサーバーへの接続に使用するクライアント SSH キーを受け付けるこ"
-"とを確認してください。"
+"リモート バックアップを作成ためには、Weblate の SSH キーを使用して SSH でアクセス可能な展開した Weblate のとは別のサーバーに "
+"`BorgBackup`_ をインストールすることが必要であり、その方法:"
 
 #: ../../admin/backup.rst:116
 msgid "Prepare a server where your backups will be stored."
@@ -3832,11 +3824,9 @@ msgid ""
 msgstr ""
 
 #: ../../admin/backup.rst:125
-#, fuzzy
-#| msgid ":ref:`cloudbackup` provides you automated remote backups."
 msgid ""
 ":ref:`cloudbackup` provides you automated remote backups without any effort."
-msgstr ":ref:`cloudbackup` は自動リモート バックアップを提供します。"
+msgstr ":ref:`cloudbackup` を使用すると、リモート バックアップを簡単に自動化できます。"
 
 #: ../../admin/backup.rst:129
 msgid ":ref:`weblate-ssh-key`"
@@ -4366,9 +4356,7 @@ msgstr "``variants:SOURCE``"
 msgid ""
 "Mark this string as a variant of string with matching source. See :ref:"
 "`variants`."
-msgstr ""
-"この文字列を、原文と一致する文字列の異なる表記としてマークします。参照: :ref:"
-"`variants`。"
+msgstr "この文字列を、原文と一致する文字列の別表記としてマークします。参照: :ref:`variants`。"
 
 #: ../../admin/checks.rst:80
 msgid "``regex:REGEX``"
@@ -5580,9 +5568,8 @@ msgid ""
 "specified built-in list is used which includes all commonly used languages, "
 "but without country specific variants."
 msgstr ""
-"新しい翻訳を開始するためにユーザーに提供する言語の一覧。指定しない場合は、一"
-"般的に使用されているすべての言語を含む組み込みリストを使用するが、国別の固有"
-"の異なる表記は含みません。"
+"新しい翻訳を開始するためにユーザーに提供する言語の一覧。指定しない場合は、一般的に使用されているすべての言語を含む組み込みリストを使用するが、国別の固有の"
+"別表記は含みません。"
 
 #: ../../admin/config.rst:241
 msgid ""
@@ -13889,10 +13876,8 @@ msgid "NetEase Sight API machine translation"
 msgstr ""
 
 #: ../../admin/machine.rst:268
-#, fuzzy
-#| msgid "Machine translation service provided by Netease."
 msgid "Machine translation service provided by NetEase."
-msgstr "Netease が提供する機械翻訳サービス。"
+msgstr "NetEase が提供する機械翻訳サービス。"
 
 #: ../../admin/machine.rst:270
 msgid ""
@@ -13907,15 +13892,11 @@ msgid ""
 msgstr ""
 
 #: ../../admin/machine.rst:278
-#, fuzzy
-#| msgid ""
-#| ":setting:`MT_NETEASE_KEY`, :setting:`MT_NETEASE_SECRET` `Netease Sight "
-#| "Translation Platform <https://sight.youdao.com/>`_"
 msgid ""
 ":setting:`MT_NETEASE_KEY`, :setting:`MT_NETEASE_SECRET` `NetEase Sight "
 "Translation Platform <https://sight.youdao.com/>`_"
 msgstr ""
-":setting:`MT_NETEASE_KEY`、:setting:`MT_NETEASE_SECRET` `Netease Sight "
+":setting:`MT_NETEASE_KEY`、:setting:`MT_NETEASE_SECRET` `NetEase Sight "
 "Translation Platform <https://sight.youdao.com/>`_"
 
 #: ../../admin/machine.rst:285
@@ -14063,19 +14044,14 @@ msgid ""
 msgstr ""
 
 #: ../../admin/machine.rst:395
-#, fuzzy
-#| msgid ""
-#| "Turn on this service by adding ``weblate.machinery.apertium."
-#| "ApertiumAPYTranslation`` to :setting:`MT_SERVICES` and set :setting:"
-#| "`MT_APERTIUM_APY`."
 msgid ""
 "Turn on this service by adding ``weblate.machinery.saptranslationhub."
 "SAPTranslationHub`` to :setting:`MT_SERVICES` and set the appropriate access "
 "to either the sandbox or the production API."
 msgstr ""
-"このサービスを有効にするには、:setting:`MT_SERVICES` に ``weblate.machinery."
-"apertium.ApertiumAPYTranslation`` を追加し、:setting:`MT_APERTIUM_APY` を設定"
-"します。"
+"``weblate.machinery.saptranslationhub.SAPTranslationHub`` を "
+":setting:`MT_SERVICES` に追加してこのサービスを有効にし、サンドボックスまたはプロダクション API "
+"に適切なアクセス権を設定します。"
 
 #: ../../admin/machine.rst:401
 msgid ""
@@ -16573,14 +16549,13 @@ msgstr "``^[^.]+$``"
 
 #: ../../admin/projects.rst:743
 msgid "Variants regular expression"
-msgstr "異なる表記を特定する正規表現"
+msgstr "別表記を特定する正規表現"
 
 #: ../../admin/projects.rst:745
 msgid ""
 "Regular expression used to determine the variants of a string, see :ref:"
 "`variants`."
-msgstr ""
-"文字列の異なる表記を特定するために使用する正規表現。参照: :ref:`variants`。"
+msgstr "文字列の別表記を特定するために使用する正規表現。参照: :ref:`variants`。"
 
 #: ../../admin/projects.rst:750
 msgid ""
@@ -20789,7 +20764,7 @@ msgstr "TermBase eXchange ファイルに対応。"
 
 #: ../../changes.rst:134
 msgid "Added support for manually defining string variants using a flag."
-msgstr "フラグを使用して文字列の異なる表記を手動で設定する機能の追加。"
+msgstr "フラグを使用して文字列の別表記を手動で設定する機能の追加。"
 
 #: ../../changes.rst:135
 msgid "Improved performance of consistency checks."
@@ -21923,9 +21898,7 @@ msgstr ""
 
 #: ../../changes.rst:476
 msgid "Improved LINGUAS update add-on to handle more syntax variants."
-msgstr ""
-"LINGUAS 更新アドオンを改良し、より多くの構文の異なる表記を処理できるようにし"
-"た。"
+msgstr "LINGUAS 更新アドオンを改良し、より多くの構文の別表記を処理できるようにした。"
 
 #: ../../changes.rst:477
 msgid "Fixed editing monolingual XLIFF source file."
@@ -29487,15 +29460,13 @@ msgstr ""
 
 #: ../../devel/translations.rst:64
 msgid "String variants"
-msgstr "文字列の異なる表記"
+msgstr "文字列の別表記"
 
 #: ../../devel/translations.rst:66
 msgid ""
 "Variants are useful to group several strings together so that translators "
 "can see all variants of the string at one place."
-msgstr ""
-"文字列の異なる表記は、複数の文字列をグループ化して、翻訳者が文字列のすべての"
-"異なる表記を 1 つの場所で確認できて便利です。"
+msgstr "文字列の別表記は、複数の文字列をグループ化して、翻訳者が文字列のすべての別表記を 1 つの場所で確認できて便利です。"
 
 #: ../../devel/translations.rst:71
 msgid ""
@@ -29504,7 +29475,7 @@ msgstr ""
 
 #: ../../devel/translations.rst:74
 msgid "Automated key based variants"
-msgstr "自動化されたキーを元にした異なる表記"
+msgstr "自動化されたキーを元にした別表記"
 
 #: ../../devel/translations.rst:78
 msgid ""
@@ -29562,7 +29533,7 @@ msgstr "``dial#S.key``, ``dial#M.key``, ``dial.key``"
 
 #: ../../devel/translations.rst:99
 msgid "Manual variants"
-msgstr "異なる表記の手動設定"
+msgstr "別表記の手動設定"
 
 #: ../../devel/translations.rst:103
 msgid ""
@@ -29590,7 +29561,7 @@ msgstr ":ref:`custom-checks`、:ref:`glossary-variants`"
 
 #: ../../devel/translations.rst:124
 msgid "Variants while translating"
-msgstr "翻訳中の異なる表記"
+msgstr "翻訳中の別表記"
 
 #: ../../devel/translations.rst:126
 msgid "The variant is later grouped when translating:"
@@ -32532,9 +32503,7 @@ msgstr ""
 msgid ""
 "It does exact string matching, the glossary is expected to contain terms in "
 "all variants."
-msgstr ""
-"完全な文字列の一致を行います。用語集には、用語の異なる表記はすべて含まれてい"
-"ることが前提です。"
+msgstr "完全な文字列の一致を行います。用語集には、用語の別表記はすべて含まれていることが前提です。"
 
 #: ../../user/checks.rst:92
 msgid ""
@@ -34498,13 +34467,6 @@ msgid "Terminology"
 msgstr "専門用語"
 
 #: ../../user/glossary.rst:88
-#, fuzzy
-#| msgid ""
-#| "Flagging certain glossary terms as ``terminology``  by bulk-editing, "
-#| "typing in the flag, or or by using :guilabel:`Tools` ↓ :guilabel:`Mark as "
-#| "terminology` adds entries for them to all languages in the glossary. Use "
-#| "this for important terms that should be well thought out, and retain a "
-#| "consistent meaning across all languages."
 msgid ""
 "Flagging certain glossary terms as ``terminology``  by bulk-editing, typing "
 "in the flag, or by using :guilabel:`Tools` ↓ :guilabel:`Mark as terminology` "
@@ -34512,14 +34474,13 @@ msgid ""
 "important terms that should be well thought out, and retain a consistent "
 "meaning across all languages."
 msgstr ""
-"一括編集、フラグの入力、または :guilabel:`ツール` ↓ :guilabel:`専門用語に設定"
-"` を使用して、特定の用語集の用語に ``terminology`` のフラグを付けると、用語集"
-"のすべての言語にその用語のエントリが追加されます。これは、すべての言語で一貫"
-"した意味があり、重要で考慮すべき用語で使用します。"
+"一括編集、フラグの入力、または :guilabel:`ツール` ↓ :guilabel:`専門用語に設定` を使用して、特定の用語集の用語に "
+"``terminology`` "
+"のフラグを付けると、用語集のすべての言語にその用語のエントリが追加されます。これは、すべての言語で一貫した意味があり、重要で考慮すべき用語で使用します。"
 
 #: ../../user/glossary.rst:100 ../../user/translating.rst:81
 msgid "Variants"
-msgstr "異なる表記"
+msgstr "別表記"
 
 #: ../../user/glossary.rst:102
 msgid ""
@@ -35437,9 +35398,8 @@ msgid ""
 "frontend of your project can then use different strings depending on the "
 "screen or window size."
 msgstr ""
-"異なる表記は、同じ意味の単語ではあるが短縮したりしなかったりする、文字列の長"
-"さが異なる表記をグループ化するために使用します。フロントエンドでは、画面また"
-"はウィンドウのサイズに応じて異なる文字列を使用できます。"
+"別表記は、同じ意味の単語ではあるが短縮したりしなかったりする、文字列の長さが異なる表記をグループ化するために使用します。フロントエンドでは、画面またはウィ"
+"ンドウのサイズに応じて異なる文字列を使用できます。"
 
 #: ../../user/translating.rst:89
 msgid ":ref:`variants`, :ref:`glossary-variants`"
