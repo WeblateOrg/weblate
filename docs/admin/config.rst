@@ -1578,7 +1578,7 @@ How many strings to show around the currently translated string. This is just a 
 DEFAULT_PAGE_LIMIT
 ------------------
 
-.. versionadded:: 4.7.1
+.. versionadded:: 4.7
 
 Default number of elements to display when pagination is active.
 
