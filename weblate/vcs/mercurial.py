@@ -23,7 +23,7 @@ import os.path
 import re
 from configparser import RawConfigParser
 from datetime import datetime
-from typing import List, Optional
+from typing import Iterator, List, Optional
 
 from weblate.vcs.base import Repository, RepositoryException
 from weblate.vcs.ssh import SSH_WRAPPER
@@ -358,12 +358,12 @@ class HgRepository(Repository):
         self.execute(["pull", "--branch", self.branch])
         self.clean_revision_cache()
 
-    def parse_changed_files(self, lines):
+    def parse_changed_files(self, lines: List[str]) -> Iterator[str]:
         """Parses output with chanaged files."""
         # Strip action prefix we do not use
         yield from (line[2:] for line in lines)
 
-    def list_changed_files(self, refspec):
+    def list_changed_files(self, refspec: str) -> List:
         try:
             return super().list_changed_files(refspec)
         except RepositoryException as error:

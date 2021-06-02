@@ -26,7 +26,7 @@ import urllib.parse
 from configparser import NoOptionError, NoSectionError
 from datetime import datetime
 from json import JSONDecodeError, dumps
-from typing import Dict, List, Optional, Tuple
+from typing import Dict, Iterator, List, Optional, Tuple
 from zipfile import ZipFile
 
 import requests
@@ -452,7 +452,7 @@ class GitRepository(Repository):
     def unshallow(self):
         self.execute(["fetch", "--unshallow"])
 
-    def parse_changed_files(self, lines):
+    def parse_changed_files(self, lines: List[str]) -> Iterator[str]:
         """Parses output with chanaged files."""
         # Strip action prefix we do not use
         for line in lines:
