@@ -196,8 +196,8 @@ class BaseAddon:
                                   be blank on initial clone.
         :param bool skip_push: Whether the add-on operation should skip pushing
                                changes upstream. Usually you can pass this to
-                               underlying methods as commit_and_push or
-                               commit_pending.
+                               underlying methods as ``commit_and_push`` or
+                               ``commit_pending``.
         """
         return
 
