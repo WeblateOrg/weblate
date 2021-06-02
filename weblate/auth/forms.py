@@ -91,7 +91,7 @@ class InviteUserForm(forms.ModelForm, UniqueEmailMixin):
             activity="invited",
             username=request.user.username,
         )
-        if self.cleaned_data.get("send_email"):
+        if self.cleaned_data.get("send_email", True):
             try:
                 send_invitation(
                     request, project.name if project else settings.SITE_TITLE, user
