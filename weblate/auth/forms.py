@@ -51,6 +51,7 @@ def send_invitation(request: HttpRequest, project_name: str, user: User):
     email_auth = "social_core.backends.email.EmailAuth"
     has_email = email_auth in settings.AUTHENTICATION_BACKENDS
     backup_backends = settings.AUTHENTICATION_BACKENDS
+    backup_cache = social_core.backends.utils.BACKENDSCACHE
     if not has_email:
         social_core.backends.utils.BACKENDSCACHE["email"] = EmailAuth
         settings.AUTHENTICATION_BACKENDS += (email_auth,)
@@ -60,7 +61,7 @@ def send_invitation(request: HttpRequest, project_name: str, user: User):
 
     # Revert temporary settings override
     if not has_email:
-        del social_core.backends.utils.BACKENDSCACHE["email"]
+        social_core.backends.utils.BACKENDSCACHE = backup_cache
         settings.AUTHENTICATION_BACKENDS = backup_backends
 
 
