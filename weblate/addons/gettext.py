@@ -242,13 +242,17 @@ class MsgmergeAddon(GettextBaseAddon, UpdateBaseAddon):
     def update_translations(self, component, previous_head):
         # Run always when there is an alerts, there is a chance that
         # the update clears it.
+        repository = component.repository
         if previous_head and not component.alert_set.filter(name=self.alert).exists():
-            changes = component.repository.list_changed_files(
-                component.repository.ref_to_remote.format(previous_head)
+            changes = repository.list_changed_files(
+                repository.ref_to_remote.format(previous_head)
             )
             if component.new_base not in changes:
                 component.log_info(
-                    "%s addon skipped, new base was not updated", self.name
+                    "%s addon skipped, new base was not updated in %s..%s",
+                    self.name,
+                    previous_head,
+                    repository.last_revision,
                 )
                 return
         template = component.get_new_base_filename()
