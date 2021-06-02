@@ -41,3 +41,15 @@ jobs:
           issue-number: ${{ github.event.issue.number }}
           body: |
             The issue you've reported needs to be addressed in the [translate-toolkit](https://github.com/translate/translate/). Please file the issue there, and include links to any relevant specifications about the formats (if applicable).
+      - name: Add good first issue comment
+        uses: peter-evans/create-or-update-comment@v1.4.5
+        if: github.event.label.name == 'good first issue'
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          issue-number: ${{ github.event.issue.number }}
+          body: |
+            This issue seems to be a good fit for newbie contributors.
+            You are welcome to contribute to Weblate! Don't hesitate to
+            ask any questions you would have while implementing this.
+
+            You can learn about how to get started in our [contributors documentation](https://docs.weblate.org/en/latest/contributing/index.html).
