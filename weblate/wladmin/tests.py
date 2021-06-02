@@ -201,11 +201,27 @@ class AdminTest(ViewTestCase):
                 "email": "noreply@example.com",
                 "username": "username",
                 "full_name": "name",
+                "send_email": 1,
             },
             follow=True,
         )
-        self.assertContains(response, "User has been invited")
+        self.assertContains(response, "User has been created")
         self.assertEqual(len(mail.outbox), 1)
+
+    def test_invite_user_nosend(self):
+        response = self.client.get(reverse("manage-users"))
+        self.assertContains(response, "E-mail")
+        response = self.client.post(
+            reverse("manage-users"),
+            {
+                "email": "noreply@example.com",
+                "username": "username",
+                "full_name": "name",
+            },
+            follow=True,
+        )
+        self.assertContains(response, "User has been created")
+        self.assertEqual(len(mail.outbox), 0)
 
     @override_settings(AUTHENTICATION_BACKENDS=TEST_BACKENDS)
     def test_invite_user_nomail(self):
@@ -222,10 +238,11 @@ class AdminTest(ViewTestCase):
                     "email": "noreply@example.com",
                     "username": "username",
                     "full_name": "name",
+                    "send_email": 1,
                 },
                 follow=True,
             )
-            self.assertContains(response, "User has been invited")
+            self.assertContains(response, "User has been created")
             self.assertEqual(len(mail.outbox), 1)
         finally:
             social_django.utils.BACKENDS = orig_backends

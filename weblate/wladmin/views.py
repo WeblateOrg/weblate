@@ -345,7 +345,7 @@ class AdminUserList(UserList):
             invite_form = AdminInviteUserForm(request.POST)
             if invite_form.is_valid():
                 invite_form.save(request)
-                messages.success(request, _("User has been invited to this project."))
+                messages.success(request, _("User has been created."))
                 return redirect("manage-users")
         return super().post(request, **kwargs)
 

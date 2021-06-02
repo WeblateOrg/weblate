@@ -22,6 +22,7 @@ import social_django.utils
 from django import forms
 from django.conf import settings
 from django.http import HttpRequest
+from django.utils.translation import gettext_lazy as _
 from social_core.backends.email import EmailAuth
 from social_django.views import complete
 
@@ -90,16 +91,23 @@ class InviteUserForm(forms.ModelForm, UniqueEmailMixin):
             activity="invited",
             username=request.user.username,
         )
-        try:
-            send_invitation(
-                request, project.name if project else settings.SITE_TITLE, user
-            )
-        except Exception:
-            report_error(cause="Failed to send an invitation")
-            raise
+        if self.cleaned_data.get("send_email"):
+            try:
+                send_invitation(
+                    request, project.name if project else settings.SITE_TITLE, user
+                )
+            except Exception:
+                report_error(cause="Failed to send an invitation")
+                raise
 
 
 class AdminInviteUserForm(InviteUserForm):
+    send_email = forms.BooleanField(
+        label=_("Send e-mail invitation to the user"),
+        initial=True,
+        required=False,
+    )
+
     class Meta:
         model = User
         fields = ["email", "username", "full_name", "is_superuser"]
