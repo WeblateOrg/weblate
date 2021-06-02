@@ -36,7 +36,8 @@ token, which you can get in your profile. Use it in the ``Authorization`` header
                    latter provides web browser interface for API.
     :reqheader Accept: the response content type depends on
                        :http:header:`Accept` header
-    :reqheader Authorization: optional token to authenticate
+    :reqheader Authorization: optional token to authenticate as
+                              ``Authorization: Token YOUR-TOKEN``
     :resheader Content-Type: this depends on :http:header:`Accept`
                              header of request
     :resheader Allow: list of allowed HTTP methods on object
