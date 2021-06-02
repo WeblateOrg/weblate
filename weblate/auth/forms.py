@@ -99,6 +99,7 @@ class InviteUserForm(forms.ModelForm, UniqueEmailMixin):
             except Exception:
                 report_error(cause="Failed to send an invitation")
                 raise
+        return user
 
 
 class AdminInviteUserForm(InviteUserForm):

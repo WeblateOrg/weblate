@@ -205,7 +205,7 @@ class AdminTest(ViewTestCase):
             },
             follow=True,
         )
-        self.assertContains(response, "User has been created")
+        self.assertContains(response, "Created user account")
         self.assertEqual(len(mail.outbox), 1)
 
     def test_invite_user_nosend(self):
@@ -220,7 +220,7 @@ class AdminTest(ViewTestCase):
             },
             follow=True,
         )
-        self.assertContains(response, "User has been created")
+        self.assertContains(response, "Created user account")
         self.assertEqual(len(mail.outbox), 0)
 
     @override_settings(AUTHENTICATION_BACKENDS=TEST_BACKENDS)
@@ -242,7 +242,7 @@ class AdminTest(ViewTestCase):
                 },
                 follow=True,
             )
-            self.assertContains(response, "User has been created")
+            self.assertContains(response, "Created user account")
             self.assertEqual(len(mail.outbox), 1)
         finally:
             social_django.utils.BACKENDS = orig_backends
