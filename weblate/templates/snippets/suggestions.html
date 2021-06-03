@@ -40,6 +40,12 @@
             {% endif %}
             <button type="submit" class="btn btn-link red" name="delete" value="{{ suggestion.id }}" title="{% trans "Delete" %}">{% icon "delete.svg" %}</button>
             {% endif %}
+            {% if suggestion.user and not suggestion.user.is_anonymous %}
+              {% perm 'project.permissions' suggestion.unit.translation as user_can_edit_permissions %}
+              {% if user_can_edit_permissions %}
+                <a class="btn btn-link red" href="{% url 'manage-access' project=suggestion.unit.translation.component.project.slug %}?block_user={{ suggestion.user.username }}#block-user" title="{% trans "Block user" %}">{% icon "account-cancel.svg" %}</a>
+              {% endif %}
+            {% endif %}
         </div>
         {% endif %}
         {% endif %}

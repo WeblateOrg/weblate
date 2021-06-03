@@ -349,6 +349,16 @@ real_patterns = [
         name="add-user",
     ),
     path(
+        "access/<name:project>/block/",
+        weblate.trans.views.acl.block_user,
+        name="block-user",
+    ),
+    path(
+        "access/<name:project>/unblock/",
+        weblate.trans.views.acl.unblock_user,
+        name="unblock-user",
+    ),
+    path(
         "access/<name:project>/invite/",
         weblate.trans.views.acl.invite_user,
         name="invite-user",

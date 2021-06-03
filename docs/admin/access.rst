@@ -162,6 +162,17 @@ group) would be sufficient.
 The same kind of invitations are available site-wide from the
 :ref:`management interface <management-interface>` on the :guilabel:`Users` tab.
 
+.. _block-user:
+
+Blocking users
+^^^^^^^^^^^^^^
+
+.. versionadded:: 4.7
+
+In case some users behave badly in your project, you have an option to block
+them from contributing. The blocked user still will be able to see the project
+if he has permissions for that, but he won't be able to contribute.
+
 Per-project permission management
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 

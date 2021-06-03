@@ -17,16 +17,20 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
+from datetime import timedelta
+
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 from django.http import JsonResponse
 from django.shortcuts import redirect
+from django.utils import timezone
 from django.utils.translation import gettext as _
 from django.views.decorators.http import require_POST
 
+from weblate.accounts.models import AuditLog
 from weblate.auth.forms import InviteUserForm, send_invitation
 from weblate.auth.models import Group, User
-from weblate.trans.forms import UserManageForm
+from weblate.trans.forms import UserBlockForm, UserManageForm
 from weblate.trans.models import Change
 from weblate.trans.util import render
 from weblate.utils import messages
@@ -135,6 +139,50 @@ def add_user(request, project):
 
 @require_POST
 @login_required
+def block_user(request, project):
+    """Block user from a project."""
+    obj, form = check_user_form(request, project, True, form_class=UserBlockForm)
+
+    if form is not None:
+        user = form.cleaned_data["user"]
+        if form.cleaned_data.get("expiry"):
+            expiry = timezone.now() + timedelta(days=int(form.cleaned_data["expiry"]))
+        else:
+            expiry = None
+        _userblock, created = user.userblock_set.get_or_create(
+            project=obj, defaults={"expiry": expiry}
+        )
+        if created:
+            AuditLog.objects.create(
+                user,
+                None,
+                "blocked",
+                project=obj.name,
+                username=request.user.username,
+                expiry=expiry.isoformat() if expiry else None,
+            )
+            messages.success(request, _("User has been blocked on this project."))
+        else:
+            messages.error(request, _("User is already blocked on this project."))
+
+    return redirect("manage-access", project=obj.slug)
+
+
+@require_POST
+@login_required
+def unblock_user(request, project):
+    """Block user from a project."""
+    obj, form = check_user_form(request, project, True)
+
+    if form is not None:
+        user = form.cleaned_data["user"]
+        user.userblock_set.filter(project=obj).delete()
+
+    return redirect("manage-access", project=obj.slug)
+
+
+@require_POST
+@login_required
 def invite_user(request, project):
     """Invite user to a project."""
     obj, form = check_user_form(request, project, True, form_class=InviteUserForm)
@@ -203,7 +251,11 @@ def manage_access(request, project):
             "project": obj,
             "groups": Group.objects.for_project(obj),
             "all_users": User.objects.for_project(obj),
+            "blocked_users": obj.userblock_set.select_related("user"),
             "add_user_form": UserManageForm(),
+            "block_user_form": UserBlockForm(
+                initial={"user": request.GET.get("block_user")}
+            ),
             "invite_user_form": InviteUserForm(),
             "ssh_key": get_key_data(),
         },

@@ -259,6 +259,23 @@
             </td>
           </tr>
         {% endfor %}
+        {% for userblock in page_user.userblock_set.all %}
+          <tr>
+            <th>{{ userblock.project.name }}</th>
+            <td>
+              {% if userblock.expiry %}
+                {% blocktrans with expiry=userblock.expiry|date:"DATE_FORMAT" %}Blocked until {{ expiry }}{% endblocktrans %}
+              {% else %}
+                {% trans "Blocked permanently" %}
+              {% endif %}
+            </td>
+            <td>
+              <a href="{% url 'unblock-user' project=userblock.project.slug %}" class="btn btn-link btn-xs link-post" data-params='{"user": "{{ userblock.user.username|escapejs }}"}' title="{% trans "Unblock user" %}">
+                {% icon 'close.svg' %}
+              </a>
+            </td>
+          </tr>
+        {% endfor %}
       </tbody>
     </table>
     {% crispy group_form %}

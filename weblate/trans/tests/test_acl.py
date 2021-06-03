@@ -329,3 +329,30 @@ class ACLTest(FixtureTestCase):
         # It is no longer shown on the dashboard and not accessible
         self.assertEqual(self.client.get(url).status_code, 404)
         self.assertNotContains(self.client.get(reverse("home")), url)
+
+    def test_block_user(self):
+        self.project.add_user(self.user, "@Administration")
+
+        # Block user
+        response = self.client.post(
+            reverse("block-user", kwargs=self.kw_project),
+            {"user": self.second_user.username},
+        )
+        self.assertRedirects(response, self.access_url)
+        self.assertEqual(self.project.userblock_set.count(), 1)
+
+        # Block user, for second time
+        response = self.client.post(
+            reverse("block-user", kwargs=self.kw_project),
+            {"user": self.second_user.username},
+        )
+        self.assertRedirects(response, self.access_url)
+        self.assertEqual(self.project.userblock_set.count(), 1)
+
+        # Unblock user
+        response = self.client.post(
+            reverse("unblock-user", kwargs=self.kw_project),
+            {"user": self.second_user.username},
+        )
+        self.assertRedirects(response, self.access_url)
+        self.assertEqual(self.project.userblock_set.count(), 0)

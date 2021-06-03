@@ -166,6 +166,7 @@ ACCOUNT_ACTIVITY = {
         "The system created a user to track authorship of "
         "translations uploaded by other user."
     ),
+    "blocked": _("Access to project {project} was blocked"),
 }
 # Override activty messages based on method
 ACCOUNT_ACTIVITY_METHOD = {
@@ -178,7 +179,10 @@ ACCOUNT_ACTIVITY_METHOD = {
 }
 
 EXTRA_MESSAGES = {
-    "locked": _("To restore access to your account, please reset your password.")
+    "locked": _("To restore access to your account, please reset your password."),
+    "blocked": _(
+        "Please contact project maintainers if you feel this is inappropriate."
+    ),
 }
 
 NOTIFY_ACTIVITY = {
@@ -194,6 +198,7 @@ NOTIFY_ACTIVITY = {
     "email",
     "username",
     "full_name",
+    "blocked",
 }
 
 
