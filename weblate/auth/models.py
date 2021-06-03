@@ -670,6 +670,7 @@ class UserBlock(models.Model):
     class Meta:
         verbose_name = _("Blocked user")
         verbose_name_plural = _("Blocked users")
+        unique_together = ("user", "project")
 
     def __str__(self):
         return f"{self.user} blocked for {self.project}"
