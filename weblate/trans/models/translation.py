@@ -25,7 +25,7 @@ from typing import BinaryIO, List, Optional, Union
 
 from django.core.cache import cache
 from django.core.exceptions import ObjectDoesNotExist, ValidationError
-from django.db import models, transaction
+from django.db import IntegrityError, models, transaction
 from django.db.models import Q
 from django.urls import reverse
 from django.utils import timezone
@@ -1026,7 +1026,7 @@ class Translation(
             accepted += 1
         self.invalidate_cache()
         self.component.update_variants()
-        self.component.sync_terminology()
+        self.component.schedule_sync_terminology()
         self.component.update_source_checks()
         self.component.run_batched_checks()
         return (0, skipped, accepted, len(store.content_units))
@@ -1198,7 +1198,10 @@ class Translation(
         explanation: str = "",
         auto_context: bool = False,
         is_batch_update: bool = False,
+        skip_existing: bool = False,
     ):
+        if isinstance(source, list):
+            source = join_plural(source)
         user = request.user if request else None
         component = self.component
         if self.is_source:
@@ -1211,11 +1214,12 @@ class Translation(
         result = None
 
         # Automatic context
-        suffix = 0
-        base = context
-        while self.unit_set.filter(context=context, source=source).exists():
-            suffix += 1
-            context = f"{base}{suffix}"
+        if auto_context:
+            suffix = 0
+            base = context
+            while self.unit_set.filter(context=context, source=source).exists():
+                suffix += 1
+                context = f"{base}{suffix}"
 
         for translation in translations:
             is_source = translation.is_source
@@ -1236,17 +1240,15 @@ class Translation(
                 current_target = ""
             if isinstance(current_target, list):
                 current_target = join_plural(current_target)
-            if isinstance(source, list):
-                source = join_plural(source)
             if has_template:
                 id_hash = calculate_hash(context)
             else:
                 id_hash = calculate_hash(source, context)
             # When adding to a target the source string can already exist
             unit = None
-            if not self.is_source and is_source:
+            if (skip_existing or not self.is_source) and is_source:
                 try:
-                    unit = translation.unit_set.get(id_hash=id_hash)
+                    unit = component.get_source(id_hash)
                     flags = Flags(unit.extra_flags)
                     flags.merge(extra_flags)
                     new_flags = flags.format()
@@ -1272,23 +1274,30 @@ class Translation(
                     **kwargs,
                 )
                 unit.is_batch_update = is_batch_update
-                unit.save(force_insert=True)
-                Change.objects.create(
-                    unit=unit,
-                    action=Change.ACTION_NEW_UNIT,
-                    target=current_target,
-                    user=user,
-                    author=user,
-                )
+                try:
+                    with transaction.atomic():
+                        unit.save(force_insert=True)
+                        Change.objects.create(
+                            unit=unit,
+                            action=Change.ACTION_NEW_UNIT,
+                            target=current_target,
+                            user=user,
+                            author=user,
+                        )
+                except IntegrityError:
+                    if not skip_existing:
+                        raise
+                    unit = translation.unit_set.get(id_hash=id_hash)
             # The source language is always first in the translations array
             if source_unit is None:
                 source_unit = unit
+                component._sources[id_hash] = unit
             if translation == self:
                 result = unit
 
         if not is_batch_update:
             component.update_variants()
-            component.sync_terminology()
+            component.schedule_sync_terminology()
         return result
 
     @transaction.atomic
@@ -1315,17 +1324,21 @@ class Translation(
 
     @transaction.atomic
     def sync_terminology(self):
-        if self.is_source:
+        if not self.is_source:
             return
         for source in self.component.get_all_sources():
             # Is the string a terminology
             if "terminology" not in source.all_flags:
                 continue
-            # Does it already exist
-            if self.unit_set.filter(id_hash=source.id_hash).exists():
-                continue
-            # Unit is already present
-            self.add_unit(None, source.context, source.get_source_plurals(), "")
+            # Add unit
+            self.add_unit(
+                None,
+                source.context,
+                source.get_source_plurals(),
+                "",
+                is_batch_update=True,
+                skip_existing=True,
+            )
 
     def validate_new_unit_data(  # noqa: C901
         self,

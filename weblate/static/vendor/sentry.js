@@ -1,4 +1,4 @@
-/*! @sentry/browser 6.4.1 (f9434ed) | https://github.com/getsentry/sentry-javascript */
+/*! @sentry/browser 6.5.1 (66b41d4) | https://github.com/getsentry/sentry-javascript */
 var Sentry = (function (exports) {
     /*! *****************************************************************************
     Copyright (c) Microsoft Corporation. All rights reserved.
@@ -1973,7 +1973,7 @@ var Sentry = (function (exports) {
                     return;
                 }
                 if (isThenable(value)) {
-                    value.then(_this._resolve, _this._reject);
+                    void value.then(_this._resolve, _this._reject);
                     return;
                 }
                 _this._state = state;
@@ -2044,7 +2044,7 @@ var Sentry = (function (exports) {
                 var counter = collection.length;
                 var resolvedCollection = [];
                 collection.forEach(function (item, index) {
-                    SyncPromise.resolve(item)
+                    void SyncPromise.resolve(item)
                         .then(function (value) {
                         resolvedCollection[index] = value;
                         counter -= 1;
@@ -2161,7 +2161,7 @@ var Sentry = (function (exports) {
             if (this._buffer.indexOf(task) === -1) {
                 this._buffer.push(task);
             }
-            task
+            void task
                 .then(function () { return _this.remove(task); })
                 .then(null, function () {
                 return _this.remove(task).then(null, function () {
@@ -2201,7 +2201,7 @@ var Sentry = (function (exports) {
                         resolve(false);
                     }
                 }, timeout);
-                SyncPromise.all(_this._buffer)
+                void SyncPromise.all(_this._buffer)
                     .then(function () {
                     clearTimeout(capturedSetTimeout);
                     resolve(true);
@@ -3279,11 +3279,14 @@ var Sentry = (function (exports) {
         function Session(context) {
             this.errors = 0;
             this.sid = uuid4();
-            this.timestamp = Date.now();
-            this.started = Date.now();
             this.duration = 0;
             this.status = SessionStatus.Ok;
             this.init = true;
+            this.ignoreDuration = false;
+            // Both timestamp and started are in seconds since the UNIX epoch.
+            var startingTime = timestampInSeconds();
+            this.timestamp = startingTime;
+            this.started = startingTime;
             if (context) {
                 this.update(context);
             }
@@ -3300,7 +3303,10 @@ var Sentry = (function (exports) {
                     this.did = context.user.id || context.user.email || context.user.username;
                 }
             }
-            this.timestamp = context.timestamp || Date.now();
+            this.timestamp = context.timestamp || timestampInSeconds();
+            if (context.ignoreDuration) {
+                this.ignoreDuration = context.ignoreDuration;
+            }
             if (context.sid) {
                 // Good enough uuid validation. — Kamil
                 this.sid = context.sid.length === 32 ? context.sid : uuid4();
@@ -3314,11 +3320,15 @@ var Sentry = (function (exports) {
             if (typeof context.started === 'number') {
                 this.started = context.started;
             }
-            if (typeof context.duration === 'number') {
+            if (this.ignoreDuration) {
+                this.duration = undefined;
+            }
+            else if (typeof context.duration === 'number') {
                 this.duration = context.duration;
             }
             else {
-                this.duration = this.timestamp - this.started;
+                var duration = this.timestamp - this.started;
+                this.duration = duration >= 0 ? duration : 0;
             }
             if (context.release) {
                 this.release = context.release;
@@ -3356,8 +3366,9 @@ var Sentry = (function (exports) {
             return dropUndefinedKeys({
                 sid: "" + this.sid,
                 init: this.init,
-                started: new Date(this.started).toISOString(),
-                timestamp: new Date(this.timestamp).toISOString(),
+                // Make sure that sec is converted to ms for date constructor
+                started: new Date(this.started * 1000).toISOString(),
+                timestamp: new Date(this.timestamp * 1000).toISOString(),
                 status: this.status,
                 errors: this.errors,
                 did: typeof this.did === 'number' || typeof this.did === 'string' ? "" + this.did : undefined,
@@ -4179,7 +4190,7 @@ var Sentry = (function (exports) {
         BaseClient.prototype._process = function (promise) {
             var _this = this;
             this._processing += 1;
-            promise.then(function (value) {
+            void promise.then(function (value) {
                 _this._processing -= 1;
                 return value;
             }, function (reason) {
@@ -4242,7 +4253,7 @@ var Sentry = (function (exports) {
          * @inheritDoc
          */
         BaseBackend.prototype.sendEvent = function (event) {
-            this._transport.sendEvent(event).then(null, function (reason) {
+            void this._transport.sendEvent(event).then(null, function (reason) {
                 logger.error("Error while sending event: " + reason);
             });
         };
@@ -4254,7 +4265,7 @@ var Sentry = (function (exports) {
                 logger.warn("Dropping session because custom transport doesn't implement sendSession");
                 return;
             }
-            this._transport.sendSession(session).then(null, function (reason) {
+            void this._transport.sendSession(session).then(null, function (reason) {
                 logger.error("Error while sending session: " + reason);
             });
         };
@@ -4370,7 +4381,7 @@ var Sentry = (function (exports) {
         hub.bindClient(client);
     }
 
-    var SDK_VERSION = '6.4.1';
+    var SDK_VERSION = '6.5.1';
 
     var originalFunctionToString;
     /** Patch toString calls to return proper name for wrapped functions */
@@ -5235,7 +5246,7 @@ var Sentry = (function (exports) {
                 options.headers = this.options.headers;
             }
             return this._buffer.add(new SyncPromise(function (resolve, reject) {
-                _this._fetch(sentryRequest.url, options)
+                void _this._fetch(sentryRequest.url, options)
                     .then(function (response) {
                     var headers = {
                         'x-sentry-rate-limits': response.headers.get('X-Sentry-Rate-Limits'),
@@ -6549,12 +6560,21 @@ var Sentry = (function (exports) {
         if (typeof hub.startSession !== 'function' || typeof hub.captureSession !== 'function') {
             return;
         }
-        hub.startSession();
+        // The session duration for browser sessions does not track a meaningful
+        // concept that can be used as a metric.
+        // Automatically captured sessions are akin to page views, and thus we
+        // discard their duration.
+        hub.startSession({ ignoreDuration: true });
         hub.captureSession();
         // We want to create a session for every navigation as well
         addInstrumentationHandler({
-            callback: function () {
-                hub.startSession();
+            callback: function (_a) {
+                var from = _a.from, to = _a.to;
+                // Don't create an additional session for the initial route or if the location did not change
+                if (from === undefined || from === to) {
+                    return;
+                }
+                hub.startSession({ ignoreDuration: true });
                 hub.captureSession();
             },
             type: 'history',

@@ -23,7 +23,7 @@ import inspect
 import os
 import re
 import subprocess
-from typing import List, Optional, Tuple, Union
+from typing import Callable, List, Optional, Tuple, Union
 
 from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy as _
@@ -428,11 +428,19 @@ class TTKitFormat(TranslationFormat):
         return result
 
     @classmethod
-    def create_new_file(cls, filename, language, base):
+    def create_new_file(
+        cls,
+        filename: str,
+        language: str,
+        base: str,
+        callback: Optional[Callable] = None,
+    ):
         """Handle creation of new translation file."""
         if base:
             # Parse file
             store = cls.parse_store(base)
+            if callback:
+                callback(store)
             cls.untranslate_store(store, language)
             store.savefile(filename)
         elif cls.new_translation is None:

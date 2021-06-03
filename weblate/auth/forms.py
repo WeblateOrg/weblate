@@ -17,9 +17,13 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
+import social_core.backends.utils
+import social_django.utils
 from django import forms
 from django.conf import settings
 from django.http import HttpRequest
+from django.utils.translation import gettext_lazy as _
+from social_core.backends.email import EmailAuth
 from social_django.views import complete
 
 from weblate.accounts.forms import UniqueEmailMixin
@@ -28,6 +32,7 @@ from weblate.accounts.strategy import create_session
 from weblate.accounts.views import store_userid
 from weblate.auth.models import User, get_anonymous
 from weblate.trans.models import Change
+from weblate.utils.errors import report_error
 
 
 def send_invitation(request: HttpRequest, project_name: str, user: User):
@@ -43,7 +48,25 @@ def send_invitation(request: HttpRequest, project_name: str, user: User):
     fake.POST["email"] = user.email
     fake.META = request.META
     store_userid(fake, invite=True)
+
+    # Make sure the email backend is there for the invitation
+    email_auth = "social_core.backends.email.EmailAuth"
+    has_email = email_auth in settings.AUTHENTICATION_BACKENDS
+    backup_backends = settings.AUTHENTICATION_BACKENDS
+    backup_cache = social_core.backends.utils.BACKENDSCACHE
+    backup_social = social_django.utils.BACKENDS
+    if not has_email:
+        social_core.backends.utils.BACKENDSCACHE["email"] = EmailAuth
+        settings.AUTHENTICATION_BACKENDS += (email_auth,)
+
+    # Send invitation
     complete(fake, "email")
+
+    # Revert temporary settings override
+    if not has_email:
+        social_core.backends.utils.BACKENDSCACHE = backup_cache
+        settings.AUTHENTICATION_BACKENDS = backup_backends
+        social_django.utils.BACKENDS = backup_social
 
 
 class InviteUserForm(forms.ModelForm, UniqueEmailMixin):
@@ -68,10 +91,24 @@ class InviteUserForm(forms.ModelForm, UniqueEmailMixin):
             activity="invited",
             username=request.user.username,
         )
-        send_invitation(request, project.name if project else settings.SITE_TITLE, user)
+        if self.cleaned_data.get("send_email", True):
+            try:
+                send_invitation(
+                    request, project.name if project else settings.SITE_TITLE, user
+                )
+            except Exception:
+                report_error(cause="Failed to send an invitation")
+                raise
+        return user
 
 
 class AdminInviteUserForm(InviteUserForm):
+    send_email = forms.BooleanField(
+        label=_("Send e-mail invitation to the user"),
+        initial=True,
+        required=False,
+    )
+
     class Meta:
         model = User
         fields = ["email", "username", "full_name", "is_superuser"]

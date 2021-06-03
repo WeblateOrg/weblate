@@ -22,7 +22,7 @@ import os
 from collections import OrderedDict
 from glob import glob
 from itertools import chain
-from typing import List, Optional, Tuple, Union
+from typing import Callable, List, Optional, Tuple, Union
 
 from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy as _
@@ -189,7 +189,13 @@ class AppStoreFormat(TranslationFormat):
         raise ValueError("Create not supported")
 
     @classmethod
-    def create_new_file(cls, filename, language, base):
+    def create_new_file(
+        cls,
+        filename: str,
+        language: str,
+        base: str,
+        callback: Optional[Callable] = None,
+    ):
         """Handle creation of new translation file."""
         os.makedirs(filename)
 

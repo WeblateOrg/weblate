@@ -246,7 +246,9 @@ class QueryParserTest(TestCase, SearchMixin):
 
     def test_component(self):
         self.assert_query(
-            "component:hello", Q(translation__component__slug__iexact="hello")
+            "component:hello",
+            Q(translation__component__slug__iexact="hello")
+            | Q(translation__component__name__icontains="hello"),
         )
 
     def test_project(self):

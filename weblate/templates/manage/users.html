@@ -25,12 +25,12 @@
 <form  method="POST">
 {% csrf_token %}
 <div class="panel panel-default">
-<div class="panel-heading"><h4 class="panel-title">{% trans "Invite new user" %}</h4></div>
+<div class="panel-heading"><h4 class="panel-title">{% trans "Add new user" %}</h4></div>
   <div class="panel-body">
   {{ invite_form|crispy }}
   </div>
   <div class="panel-footer">
-  <input type="submit" class="btn btn-primary" value="{% trans "Invite" %}" />
+  <input type="submit" class="btn btn-primary" value="{% trans "Add" %}" />
   </div>
 </div>
 </form>

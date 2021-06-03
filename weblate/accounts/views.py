@@ -614,17 +614,20 @@ class UserPage(UpdateView):
     def post(self, request, **kwargs):
         if not request.user.has_perm("user.edit"):
             raise PermissionDenied()
-        self.object = self.get_object()
+        user = self.object = self.get_object()
         if "add_group" in request.POST:
             self.group_form = GroupAddForm(request.POST)
             if self.group_form.is_valid():
-                self.object.groups.add(self.group_form.cleaned_data["add_group"])
+                user.groups.add(self.group_form.cleaned_data["add_group"])
                 return HttpResponseRedirect(self.get_success_url() + "#groups")
         if "remove_group" in request.POST:
             form = GroupRemoveForm(request.POST)
             if form.is_valid():
-                self.object.groups.remove(form.cleaned_data["remove_group"])
+                user.groups.remove(form.cleaned_data["remove_group"])
                 return HttpResponseRedirect(self.get_success_url() + "#groups")
+        if "remove_user" in request.POST:
+            remove_user(user, request)
+            return HttpResponseRedirect(self.get_success_url() + "#groups")
 
         return super().post(request, **kwargs)
 
@@ -643,9 +646,7 @@ class UserPage(UpdateView):
         last_changes = all_changes[:10]
 
         # Filter where project is active
-        user_translation_ids = set(
-            all_changes.values_list("translation__component__project", flat=True)
-        )
+        user_translation_ids = set(all_changes.values_list("translation", flat=True))
         user_translations = (
             Translation.objects.prefetch()
             .filter(

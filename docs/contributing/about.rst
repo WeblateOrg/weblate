@@ -22,7 +22,7 @@ The documentation can be read at https://docs.weblate.org.
 Project logos
 -------------
 
-The project logos and other graphics is available in
+The project logos and other graphics are available in
 https://github.com/WeblateOrg/graphics.
 
 Leadership

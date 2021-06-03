@@ -47,6 +47,9 @@ class WeblateConf(AppConf):
     # Enable sharing
     ENABLE_SHARING = True
 
+    # Default number of elements to display when pagination is active
+    DEFAULT_PAGE_LIMIT = 100
+
     # Number of nearby messages to show in each direction
     NEARBY_MESSAGES = 15
 

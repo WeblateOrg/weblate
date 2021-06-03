@@ -231,6 +231,7 @@ Notable configuration or dependencies changes:
 * There are several changes in :file:`settings_example.py`, most notable middleware changes (:setting:`django:MIDDLEWARE`), please adjust your settings accordingly.
 * The :ref:`deepl` machine translation now has a generic :setting:`MT_DEEPL_API_URL` setting to adapt to different subscription models more flexibly.
   The ``MT_DEEPL_API_VERSION`` setting is no longer used.
+* Django 3.2 is now required.
 
 .. seealso:: :ref:`generic-upgrade-instructions`
 
@@ -251,10 +252,10 @@ Migrating from other databases to PostgreSQL
 --------------------------------------------
 
 If you are running Weblate on other dabatase than PostgreSQL, you should
-migrate to PostgreSQL as that will be the only supported database backend in
-the 4.0 release. The following steps will guide you in migrating your data
-between the databases. Please remember to stop both web and Celery servers
-prior to the migration, otherwise you might end up with inconsistent data.
+consider migrating to PostgreSQL as Weblate performs best with it. The following
+steps will guide you in migrating your data between the databases. Please
+remember to stop both web and Celery servers prior to the migration, otherwise
+you might end up with inconsistent data.
 
 Creating a database in PostgreSQL
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

@@ -20,6 +20,7 @@
 import locale
 import os
 import sys
+from typing import Dict
 from urllib.parse import urlparse
 
 from django.core.cache import cache
@@ -126,7 +127,7 @@ def translation_percent(translated, total, zero_complete=True):
     return perc
 
 
-def get_clean_env(extra=None):
+def get_clean_env(extra: Dict = None, extra_path: str = None):
     """Return cleaned up environment for subprocess execution."""
     environ = {
         "LANG": "C.UTF-8",
@@ -166,6 +167,8 @@ def get_clean_env(extra=None):
     venv_path = os.path.join(sys.exec_prefix, "bin")
     if venv_path not in environ["PATH"]:
         environ["PATH"] = "{}:{}".format(venv_path, environ["PATH"])
+    if extra_path and extra_path not in environ["PATH"]:
+        environ["PATH"] = "{}:{}".format(extra_path, environ["PATH"])
     return environ
 
 

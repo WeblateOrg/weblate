@@ -25,7 +25,7 @@ import os.path
 import subprocess
 from datetime import datetime
 from distutils.version import LooseVersion
-from typing import List, Optional
+from typing import Iterator, List, Optional
 
 from dateutil import parser
 from django.conf import settings
@@ -162,7 +162,8 @@ class Repository:
                 "GIT_SSH": SSH_WRAPPER.filename,
                 "GIT_TERMINAL_PROMPT": "0",
                 "SVN_SSH": SSH_WRAPPER.filename,
-            }
+            },
+            extra_path=SSH_WRAPPER.path,
         )
 
     @classmethod
@@ -498,7 +499,7 @@ class Repository:
         """
         raise NotImplementedError()
 
-    def list_changed_files(self, refspec):
+    def list_changed_files(self, refspec: str) -> List:
         """List changed files for given refspec.
 
         This is not universal as refspec is different per vcs.
@@ -506,18 +507,16 @@ class Repository:
         lines = self.execute(
             self._cmd_list_changed_files + [refspec], needs_lock=False, merge_err=False
         ).splitlines()
-        return self.parse_changed_files(lines)
+        return list(self.parse_changed_files(lines))
 
-    def parse_changed_files(self, lines):
+    def parse_changed_files(self, lines: List[str]) -> Iterator[str]:
         """Parses output with chanaged files."""
         raise NotImplementedError()
 
     def list_upstream_changed_files(self):
         """List files missing upstream."""
-        return list(
-            self.list_changed_files(
-                self.ref_to_remote.format(self.get_remote_branch_name())
-            )
+        return self.list_changed_files(
+            self.ref_to_remote.format(self.get_remote_branch_name())
         )
 
     def get_remote_branch_name(self):

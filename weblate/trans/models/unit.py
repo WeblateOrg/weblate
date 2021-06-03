@@ -52,7 +52,7 @@ from weblate.trans.validators import validate_check_flags
 from weblate.utils.db import (
     FastDeleteModelMixin,
     FastDeleteQuerySetMixin,
-    get_nokey_args,
+    using_postgresql,
 )
 from weblate.utils.errors import report_error
 from weblate.utils.hash import calculate_hash, hash_to_checksum
@@ -277,7 +277,7 @@ class UnitQuerySet(FastDeleteQuerySetMixin, models.QuerySet):
         return sorted(self.filter(id__in=ids), key=lambda unit: ids.index(unit.id))
 
     def select_for_update(self):
-        return super().select_for_update(**get_nokey_args())
+        return super().select_for_update(no_key=using_postgresql())
 
 
 class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
@@ -485,7 +485,7 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
         new_flags = Flags(self.extra_flags, unit_flags)
 
         if "terminology" in new_flags:
-            self.translation.component.sync_terminology()
+            self.translation.component.schedule_sync_terminology()
 
     def update_variants(self):
         variants = self.defined_variants.all()

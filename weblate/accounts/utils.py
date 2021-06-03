@@ -80,7 +80,7 @@ def remove_user(user, request):
     profile.save()
 
     # Delete API tokens
-    Token.objects.filter(user=request.user).delete()
+    Token.objects.filter(user=user).delete()
 
 
 def get_all_user_mails(user, entries=None):

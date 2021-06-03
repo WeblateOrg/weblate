@@ -22,7 +22,7 @@ import codecs
 import os
 import shutil
 from io import BytesIO
-from typing import List, Optional, Union
+from typing import Callable, List, Optional, Union
 from zipfile import ZipFile
 
 from django.utils.functional import cached_property
@@ -135,7 +135,13 @@ class ConvertFormat(TranslationFormat):
         return store
 
     @classmethod
-    def create_new_file(cls, filename, language, base):
+    def create_new_file(
+        cls,
+        filename: str,
+        language: str,
+        base: str,
+        callback: Optional[Callable] = None,
+    ):
         """Handle creation of new translation file."""
         if not base:
             raise ValueError("Not supported")

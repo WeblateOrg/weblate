@@ -96,8 +96,15 @@ class RedirectMiddleware:
 
     def should_redirect_with_slash(self, request):
         path = request.path_info
-        # Avoid redirecting non GET requests, these would fail anyway
-        if path.endswith("/") or request.method != "GET":
+        # Avoid redirecting non GET requests, these would fail anyway due to
+        # missing parameters.
+        # Redirecting on API removes authentication headers in many cases,
+        # so avoid that as well.
+        if (
+            path.endswith("/")
+            or request.method != "GET"
+            or path.startswith(f"{settings.URL_PREFIX}/api")
+        ):
             return False
         urlconf = getattr(request, "urlconf", None)
         slash_path = f"{path}/"

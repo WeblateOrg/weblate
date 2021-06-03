@@ -51,7 +51,7 @@ Fields
 ``language:TEXT``
    String target language.
 ``component:TEXT``
-   Component slug, see :ref:`component-slug`.
+   Component slug or name case insensitive search, see :ref:`component-slug` and :ref:`component-name`.
 ``project:TEXT``
    Project slug, see :ref:`project-slug`.
 ``changed_by:TEXT``
