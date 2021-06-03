@@ -42,7 +42,7 @@ class Migration(migrations.Migration):
                     models.ForeignKey(
                         on_delete=django.db.models.deletion.CASCADE,
                         to=settings.AUTH_USER_MODEL,
-                        verbose_name="Blocked user",
+                        verbose_name="User to block",
                     ),
                 ),
             ],

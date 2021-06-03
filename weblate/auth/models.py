@@ -660,7 +660,7 @@ class AutoGroup(models.Model):
 
 class UserBlock(models.Model):
     user = models.ForeignKey(
-        User, verbose_name=_("Blocked user"), on_delete=models.deletion.CASCADE
+        User, verbose_name=_("User to block"), on_delete=models.deletion.CASCADE
     )
     project = models.ForeignKey(
         Project, verbose_name=_("Project"), on_delete=models.deletion.CASCADE
