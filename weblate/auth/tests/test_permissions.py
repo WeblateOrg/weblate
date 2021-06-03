@@ -17,7 +17,10 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
+from datetime import timedelta
+
 from django.test.utils import modify_settings, override_settings
+from django.utils import timezone
 
 from weblate.auth.models import Group, Permission, Role, User
 from weblate.trans.models import Comment, Project
@@ -159,3 +162,28 @@ class PermissionsTest(FixtureTestCase):
         )
         self.assertFalse(self.admin.has_perm("billing:project.permissions", project))
         self.assertFalse(self.user.has_perm("billing:project.permissions", project))
+
+    def test_user_block(self):
+        self.assertTrue(self.user.has_perm("unit.edit", self.component))
+
+        # Block user
+        self.user.clear_cache()
+        self.user.userblock_set.create(project=self.project)
+        self.assertFalse(self.user.has_perm("unit.edit", self.component))
+        self.user.userblock_set.all().delete()
+
+        # Block user with past expiry
+        self.user.clear_cache()
+        self.user.userblock_set.create(
+            project=self.project, expiry=timezone.now() - timedelta(days=1)
+        )
+        self.assertTrue(self.user.has_perm("unit.edit", self.component))
+        self.user.userblock_set.all().delete()
+
+        # Block user with future expiry
+        self.user.clear_cache()
+        self.user.userblock_set.create(
+            project=self.project, expiry=timezone.now() + timedelta(days=1)
+        )
+        self.assertFalse(self.user.has_perm("unit.edit", self.component))
+        self.user.userblock_set.all().delete()

@@ -585,6 +585,18 @@ class User(AbstractBaseUser):
                 group=group
             ).values_list("project_id", flat=True):
                 projects[project].append((permissions, languages))
+        # Apply blocking
+        now = timezone.now()
+        for block in self.userblock_set.iterator():
+            if block.expiry is not None and block.expiry <= now:
+                # Delete expired blocks
+                block.delete()
+            else:
+                # Remove all permissions for blocked user
+                projects[block.project_id] = [
+                    ((), languages)
+                    for permissions, languages in projects[block.project_id]
+                ]
         self._permissions = {"projects": projects, "components": components}
 
     @cached_property
@@ -644,6 +656,23 @@ class AutoGroup(models.Model):
 
     def __str__(self):
         return f"Automatic rule for {self.group}"
+
+
+class UserBlock(models.Model):
+    user = models.ForeignKey(
+        User, verbose_name=_("Blocked user"), on_delete=models.deletion.CASCADE
+    )
+    project = models.ForeignKey(
+        Project, verbose_name=_("Project"), on_delete=models.deletion.CASCADE
+    )
+    expiry = models.DateTimeField(_("Block expiry"), null=True)
+
+    class Meta:
+        verbose_name = _("Blocked user")
+        verbose_name_plural = _("Blocked users")
+
+    def __str__(self):
+        return f"{self.user} blocked for {self.project}"
 
 
 def create_groups(update):
