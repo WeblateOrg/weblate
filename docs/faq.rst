@@ -44,7 +44,7 @@ translations (you can do it in :guilabel:`Repository maintenance` in the
 on).
 
 If you've already ran into a merge conflict, the easiest way is to solve all
-conflicts locally at your workstation - is to simply add Weblate as a remote
+conflicts locally at your workstation : simply add Weblate as a remote
 repository, merge it into upstream and fix any conflicts. Once you push changes
 back, Weblate will be able to use the merged version without any other special
 actions.
