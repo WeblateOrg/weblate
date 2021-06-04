@@ -22,8 +22,8 @@ msgstr ""
 "Project-Id-Version: Weblate 4.7\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-05-31 16:41+0000\n"
-"PO-Revision-Date: 2021-04-17 23:26+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2021-06-05 10:21+0000\n"
+"Last-Translator: Tuomas Hietala <tuomas.hietala@iki.fi>\n"
 "Language-Team: Finnish <https://hosted.weblate.org/projects/weblate/"
 "application/fi/>\n"
 "Language: fi\n"
@@ -31,7 +31,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.6-dev\n"
+"X-Generator: Weblate 4.7-dev\n"
 
 #: weblate/accounts/avatar.py:103
 msgctxt "No known user"
@@ -66,10 +66,9 @@ msgid "Public e-mail"
 msgstr "Julkinen sähköposti"
 
 #: weblate/accounts/forms.py:287
-#, fuzzy, python-format
-#| msgid "Component lists"
+#, python-format
 msgid "Component list: %s"
-msgstr "Komponenttilistat"
+msgstr "Komponenttiluettelo: %s"
 
 #: weblate/accounts/forms.py:313 weblate/accounts/forms.py:381
 #: weblate/accounts/templatetags/authnames.py:42 weblate/auth/models.py:330
@@ -313,16 +312,12 @@ msgid "Chosen sorting is not supported."
 msgstr "Valittua lajittelua ei tueta."
 
 #: weblate/accounts/forms.py:815
-#, fuzzy
-#| msgid "Add font group"
 msgid "Add user to a group"
-msgstr "Lisää fonttiryhmä"
+msgstr "Lisää käyttäjä ryhmään"
 
 #: weblate/accounts/forms.py:825
-#, fuzzy
-#| msgid "Add font group"
 msgid "Add group"
-msgstr "Lisää fonttiryhmä"
+msgstr "Lisää ryhmä"
 
 #: weblate/accounts/models.py:146
 msgid "Password changed."
@@ -1091,10 +1086,8 @@ msgid "Removes strings without a translation from translation files."
 msgstr "Poistaa käännöstiedostoista tekstit, joilla ei ole käännöstä."
 
 #: weblate/addons/consistency.py:32
-#, fuzzy
-#| msgid "Adding new languages"
 msgid "Add missing languages"
-msgstr "Uusien kielien lisääminen"
+msgstr "Lisää puuttuvia kieliä"
 
 #: weblate/addons/consistency.py:34
 msgid ""
@@ -1115,14 +1108,10 @@ msgstr ""
 "versionhallinnan tiedostomuutoksiin."
 
 #: weblate/addons/example.py:36
-#, fuzzy
-#| msgid "Example addon"
 msgid "Example add-on"
 msgstr "Esimerkkilisäosa"
 
 #: weblate/addons/example.py:38
-#, fuzzy
-#| msgid "This addon does nothing it is just an example."
 msgid "This add-on does nothing it is just an example."
 msgstr "Tämä lisäosa ei tee mitään, se on vain esimerkki."
 
@@ -1607,14 +1596,10 @@ msgstr ""
 "lähdetekstin kopioina."
 
 #: weblate/addons/views.py:84
-#, fuzzy
-#| msgid "Invalid addon name specified!"
 msgid "Invalid add-on name specified!"
 msgstr "Virheellinen lisäosan nimi!"
 
 #: weblate/addons/views.py:97
-#, fuzzy
-#| msgid "Addon installed, please review integration instructions."
 msgid "Add-on installed, please review integration instructions."
 msgstr "Lisäosa asennettu, lue integraatio-ohjeet."
 
@@ -2700,10 +2685,8 @@ msgid "Lua format string does not match source"
 msgstr "Lua-muotoinen muotoilumerkkijono ei vastaa lähdettä"
 
 #: weblate/checks/format.py:499
-#, fuzzy
-#| msgid "Qt plural format"
 msgid "Object Pascal format"
-msgstr "Qt-monikkomuoto"
+msgstr "Object Pascal -muoto"
 
 #: weblate/checks/format.py:500
 #, fuzzy
@@ -3303,10 +3286,8 @@ msgid "Invalid integer list!"
 msgstr "Virheellinen kokonaislukulista!"
 
 #: weblate/glossary/forms.py:47
-#, fuzzy
-#| msgid "String target language"
 msgid "String will be propagated to all languages"
-msgstr "Tekstin kohdekieli"
+msgstr "Teksti kertautuu kaikkiin kieliin"
 
 #: weblate/glossary/forms.py:55
 msgid "Not translatable term"
@@ -4054,10 +4035,6 @@ msgstr ""
 "%(backend_verbose)s (%(uid)s)."
 
 #: weblate/templates/accounts/contact.html:15
-#, fuzzy
-#| msgid ""
-#| "For questions about specific translation project, contact its maintainers "
-#| "directly, not by this form."
 msgid ""
 "For questions about a specific translation project, contact its maintainers "
 "directly, not by this form."
@@ -4072,8 +4049,6 @@ msgid "You can only contact administrators of %(site_title)s here."
 msgstr "Voit ottaa tässä yhteyttä vain koko palvelimen ylläpitäjiin."
 
 #: weblate/templates/accounts/contact.html:20
-#, fuzzy
-#| msgid "You can only contact maintainers of the whole server here."
 msgid "You can only contact administrators of the whole server here."
 msgstr "Voit ottaa tässä yhteyttä vain koko palvelimen ylläpitäjiin."
 
@@ -4090,10 +4065,8 @@ msgstr ""
 "lisätietoja sivustolta %(weblate_link)s."
 
 #: weblate/templates/accounts/contact.html:28
-#, fuzzy
-#| msgid "Site administrator"
 msgid "Contact server administrators"
-msgstr "Sivuston ylläpitäjä"
+msgstr "Ota yhteyttä palvelimen ylläpitäjiin"
 
 #: weblate/templates/accounts/contact.html:37
 #: weblate/templates/manage/tools.html:26
@@ -4139,10 +4112,6 @@ msgstr ""
 "Jos vahvistuslinkki ehtii raueta ennen kuin ehdit käyttää sitä, pyydä uutta."
 
 #: weblate/templates/accounts/email-sent.html:33
-#, fuzzy
-#| msgid ""
-#| "Shortly you should receive an e-mail containing a confirmation link. "
-#| "Click it to remove your account."
 msgid ""
 "Shortly, you should receive an e-mail with a confirmation link. Click it to "
 "remove your account."
@@ -4159,13 +4128,9 @@ msgstr ""
 "Klikkaa vahvistuslinkkiä vahvistaaksesi rekisteröitymisesi."
 
 #: weblate/templates/accounts/email-sent.html:37
-#, fuzzy
-#| msgid ""
-#| "If the confirmation link expires before you get to use it, register again."
 msgid "If the confirmation link expires before you use it, register again."
 msgstr ""
-"Jos vahvistuslinkki ehtii vanhentua ennen kuin ehdit käyttää sitä, "
-"rekisteröidy uudelleen."
+"Jos vahvistuslinkki ehtii vanhentua ennen käyttöä, rekisteröidy uudelleen."
 
 #: weblate/templates/accounts/email-sent.html:42
 #, python-format
@@ -4711,10 +4676,9 @@ msgid "Joined on %(date)s"
 msgstr "Liittynyt %(date)s"
 
 #: weblate/templates/accounts/user.html:30
-#, fuzzy, python-format
-#| msgid "Joined on %(date)s"
+#, python-format
 msgid "Last sign-in on %(date)s"
-msgstr "Liittynyt %(date)s"
+msgstr "Viimeisin kirjautuminen %(date)s"
 
 #: weblate/templates/accounts/user.html:32
 #, fuzzy
@@ -4804,24 +4768,22 @@ msgid "Browse all changes for user"
 msgstr "Selaa kaikkia käyttäjän muutoksia"
 
 #: weblate/templates/accounts/user.html:245
-#, fuzzy
-#| msgid "Groups"
 msgid "Group"
-msgstr "Ryhmät"
+msgstr "Ryhmä"
 
 #: weblate/templates/accounts/user.html:246
 msgid "Members"
-msgstr ""
+msgstr "Jäsenet"
 
 #: weblate/templates/accounts/user.html:256
 msgid "Remove user from this group"
-msgstr ""
+msgstr "Poista käyttäjä tästä ryhmästä"
 
 #: weblate/templates/addons/addon_detail.html:10
 #: weblate/templates/addons/addon_list.html:10
 #: weblate/templates/component.html:102
 msgid "Add-ons"
-msgstr ""
+msgstr "Lisäosat"
 
 #: weblate/templates/addons/addon_detail.html:26
 #, fuzzy
@@ -4852,8 +4814,6 @@ msgid "repository wide"
 msgstr "Arkistonlaajuinen"
 
 #: weblate/templates/addons/addon_list.html:18
-#, fuzzy
-#| msgid "Installed addons"
 msgid "Installed add-ons"
 msgstr "Asennetut lisäosat"
 
@@ -4882,8 +4842,6 @@ msgstr[0] "%(count)s lisäosa asennettu."
 msgstr[1] "%(count)s lisäosaa asennettu."
 
 #: weblate/templates/addons/addon_list.html:51
-#, fuzzy
-#| msgid "Available addons"
 msgid "Available add-ons"
 msgstr "Saatavilla olevat lisäosat"
 
@@ -4892,10 +4850,6 @@ msgid "Install"
 msgstr "Asenna"
 
 #: weblate/templates/addons/addon_list.html:69
-#, fuzzy
-#| msgid ""
-#| "Could not find any additional addons compatible with this translation "
-#| "component."
 msgid ""
 "Could not find any additional add-ons compatible with this translation "
 "component."
@@ -6611,13 +6565,12 @@ msgstr ""
 "Käyttäjätililläsi sivustolla %(site_title)s on tapahtunut seuraava muutos:"
 
 #: weblate/templates/mail/account_activity.html:32
-#, fuzzy
-#| msgid ""
-#| "If you did not request this change, please report it as soon as possible."
 msgid ""
 "If you don’t recognize this change, you can report it by clicking the button "
 "below."
-msgstr "Jos et itse pyytänyt tätä muutosta, raportoi se mahdollisimman pian."
+msgstr ""
+"Jos et tunnista tätä muutosta, voit raportoida sen napsauttamalla alla "
+"olevaa painiketta."
 
 #: weblate/templates/mail/account_activity.html:33
 msgid ""
@@ -7050,6 +7003,8 @@ msgid ""
 "In case the confirmation URL is expired, you can use password reset feature "
 "to gain access to your account."
 msgstr ""
+"Jos vahvistuksen URL-osoite on vanhentunut, pääset takaisin käyttäjätiliisi "
+"salasanan palautustoiminnolla."
 
 #: weblate/templates/mail/shared-registration.html:19
 msgid "Confirm password reset"
@@ -7368,24 +7323,17 @@ msgid "Celery worker"
 msgstr "Selleri jonot"
 
 #: weblate/templates/manage/performance.html:132
-#, fuzzy
-#| msgid "Filename"
 msgid "Filenames encoding"
-msgstr "Tiedostonimi"
+msgstr "Tiedostonimien koodaus"
 
 #: weblate/templates/manage/performance.html:134
 #: weblate/templates/manage/performance.html:139
-#, fuzzy
-#| msgctxt "Plural type"
-#| msgid "Unknown"
 msgid "Unknown encoding"
-msgstr "Tuntematon"
+msgstr "Tuntematon koodaus"
 
 #: weblate/templates/manage/performance.html:137
-#, fuzzy
-#| msgid "Component locking"
 msgid "Content encoding"
-msgstr "Komponentin lukitus"
+msgstr "Sisällön koodaus"
 
 #: weblate/templates/manage/repos.html:6
 #: weblate/wladmin/templates/admin/weblate-index.html:20
@@ -8192,7 +8140,7 @@ msgstr "Viimeisen 30 päivän trendit"
 
 #: weblate/templates/snippets/info.html:437
 msgid "Quick numbers"
-msgstr ""
+msgstr "Nopeat luvut"
 
 #: weblate/templates/snippets/info.html:461
 #: weblate/templates/snippets/info.html:498
@@ -8284,10 +8232,8 @@ msgid "Untranslated words"
 msgstr "Kääntämättömiä sanoja"
 
 #: weblate/templates/snippets/list-objects.html:63
-#, fuzzy
-#| msgid "Control characters"
 msgid "Untranslated characters"
-msgstr "Ohjausmerkit"
+msgstr "Kääntämättömiä merkkejä"
 
 #: weblate/templates/snippets/list-objects.html:83
 #: weblate/templates/trans/suggestion_list.html:8
@@ -8535,10 +8481,8 @@ msgid "Sort By"
 msgstr "Lajitteluperuste"
 
 #: weblate/templates/snippets/ssh-key.html:5
-#, fuzzy
-#| msgid "Copy to clipboard"
 msgid "Public key copied to clipboard."
-msgstr "Kopioi leikepöydälle"
+msgstr "Julkinen avain kopioitu leikepöydälle."
 
 #: weblate/templates/snippets/ssh-key.html:6
 msgid ""
@@ -9245,10 +9189,8 @@ msgid "Configure editor"
 msgstr "Muuta muokkaimen asetuksia"
 
 #: weblate/templates/translate.html:78
-#, fuzzy
-#| msgid "Copy to clipboard"
 msgid "Permalink copied to clipboard."
-msgstr "Kopioi leikepöydälle"
+msgstr "Ikilinkki kopioitu leikepöydälle."
 
 #: weblate/templates/translate.html:78
 msgid "Copy permalink"
@@ -10030,8 +9972,6 @@ msgstr ""
 "käännetty."
 
 #: weblate/trans/forms.py:633
-#, fuzzy
-#| msgid "Update only non translated strings"
 msgid "Update only untranslated strings"
 msgstr "Päivitä vain kääntämättömät tekstit"
 
