@@ -747,11 +747,18 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         with self.wait_for_page_load():
             self.click(htmlid="engage-project")
 
-        # Add-ons
         self.click("Components")
         with self.wait_for_page_load():
             self.click("Language names")
+
+        # Repository
         self.click("Manage")
+        self.click("Repository maintenance")
+        time.sleep(0.2)
+        self.click("Manage")
+        self.screenshot("component-repository.png")
+
+        # Add-ons
         with self.wait_for_page_load():
             self.click("Add-ons")
         self.screenshot("addons.png")
