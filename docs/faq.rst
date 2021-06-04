@@ -43,7 +43,7 @@ translations (you can do it in :guilabel:`Repository maintenance` in the
 :guilabel:`Manage` menu) and merge the repository (if automatic push is not
 on).
 
-If you've already ran into a merge conflict, the easiest way is to solve all
+If you've already encountered a merge conflict, the easiest way to solve all
 conflicts locally on your machine, is to add Weblate as a remote
 repository, merge it into upstream and fix any conflicts. Once you push changes
 back, Weblate will be able to use the merged version without any other special
