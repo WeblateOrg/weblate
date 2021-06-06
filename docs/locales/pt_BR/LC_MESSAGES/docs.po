@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-05-31 18:42+0200\n"
-"PO-Revision-Date: 2021-06-03 15:03+0000\n"
+"PO-Revision-Date: 2021-06-09 02:33+0000\n"
 "Last-Translator: Rafael Fontenelle <rafaelff@gnome.org>\n"
 "Language-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/"
 "weblate/documentation/pt_BR/>\n"
@@ -16783,7 +16783,7 @@ msgstr ""
 
 #: ../../admin/optionals.rst:198
 msgid "Following content is sent to Akismet for checking:"
-msgstr ""
+msgstr "O seguinte conteúdo é enviado ao Akismet para verificação:"
 
 #: ../../admin/optionals.rst:200
 msgid "Suggestions from unauthenticated users"
@@ -16798,46 +16798,57 @@ msgid ""
 "This (among other things) relies on IP address of the client, please see :"
 "ref:`reverse-proxy` for properly configuring that."
 msgstr ""
+"Este (entre outras coisas) depende do endereço IP do cliente, veja :ref"
+":`reverse-proxy` para configurá-lo apropriadamente."
 
 #: ../../admin/optionals.rst:210
 msgid ""
 ":ref:`reverse-proxy`, :setting:`AKISMET_API_KEY`, :envvar:"
 "`WEBLATE_AKISMET_API_KEY`"
 msgstr ""
+":ref:`reverse-proxy`, :setting:`AKISMET_API_KEY`, "
+":envvar:`WEBLATE_AKISMET_API_KEY`"
 
 #: ../../admin/optionals.rst:218
 msgid "Signing Git commits with GnuPG"
-msgstr ""
+msgstr "Assinando commits do Git com GnuPG"
 
 #: ../../admin/optionals.rst:222
 msgid "All commits can be signed by the GnuPG key of the Weblate instance."
 msgstr ""
+"Todos os commits podem ser assinados pela chave GnuPG da instância Weblate."
 
 #: ../../admin/optionals.rst:224
 msgid ""
 "1. Turn on :setting:`WEBLATE_GPG_IDENTITY`. (Weblate will generate a GnuPG "
 "key when needed and will use it to sign all translation commits.)"
 msgstr ""
+"1. Ative :setting:`WEBLATE_GPG_IDENTITY`. (Weblate irá gerar uma chave GnuPG "
+"quando necessário e irá usá-la para assinar todos os commits de tradução.)"
 
 #: ../../admin/optionals.rst:227
 msgid "This feature needs GnuPG 2.1 or newer installed."
-msgstr ""
+msgstr "Este recurso precisa do GnuPG 2.1 ou mais recente instalado."
 
 #: ../../admin/optionals.rst:229
 msgid ""
 "You can find the key in the :setting:`DATA_DIR` and the public key is shown "
 "on the \"About\" page:"
 msgstr ""
+"Você pode encontrar a chave em :setting:`DATA_DIR` e a chave pública é "
+"mostrada na página \"Sobre\":"
 
 #: ../../admin/optionals.rst:234
 msgid ""
 "2. Alternatively you can also import existing keys into Weblate, just set "
 "``HOME=$DATA_DIR/home`` when invoking gpg."
 msgstr ""
+"2. Alternativamente, você também pode importar as chaves existentes para o "
+"Weblate, apenas defina ``HOME=$DATA_DIR/home`` ao invocar gpg."
 
 #: ../../admin/optionals.rst:239
 msgid ":setting:`WEBLATE_GPG_IDENTITY`"
-msgstr ""
+msgstr ":setting:`WEBLATE_GPG_IDENTITY`"
 
 #: ../../admin/optionals.rst:244 ../../user/translating.rst:352
 msgid "Rate limiting"
@@ -16845,11 +16856,11 @@ msgstr "Limitação de taxa"
 
 #: ../../admin/optionals.rst:248
 msgid "The rate limiting now accepts more fine-grained configuration."
-msgstr ""
+msgstr "A limitação de taxa agora aceita uma configuração mais refinada."
 
 #: ../../admin/optionals.rst:252 ../../changes.rst:60
 msgid "The rate limiting no longer applies to superusers."
-msgstr ""
+msgstr "A limitação de taxa não se aplica mais a superusuários."
 
 #: ../../admin/optionals.rst:254
 msgid ""
@@ -16860,10 +16871,17 @@ msgid ""
 "``RATELIMIT_CONTACT_ATTEMPTS`` or ``RATELIMIT_TRANSLATE_ATTEMPTS``. The "
 "table below is a full list of available scopes."
 msgstr ""
+"Várias operações no Weblate são limitadas por taxas. No máximo "
+":setting:`RATELIMIT_ATTEMPTS` tentativas são permitidas dentro de "
+":setting:`RATELIMIT_WINDOW` segundos. O usuário é bloqueado por "
+":setting:`RATELIMIT_LOCKOUT`. Há também configurações específicas para "
+"escopos como, por exemplo, ``RATELIMIT_CONTACT_ATTEMPTS`` ou "
+"``RATELIMIT_TRANSLATE_ATTEMPTS``. A tabela abaixo é uma lista completa de "
+"escopos disponíveis."
 
 #: ../../admin/optionals.rst:258
 msgid "The following operations are subject to rate limiting:"
-msgstr ""
+msgstr "As seguintes operações estão sujeitas a limitação de taxa:"
 
 #: ../../admin/optionals.rst:261
 msgid "Name"
@@ -16875,15 +16893,15 @@ msgstr "Escopo"
 
 #: ../../admin/optionals.rst:261
 msgid "Allowed attempts"
-msgstr ""
+msgstr "Tentativas permitidas"
 
 #: ../../admin/optionals.rst:261
 msgid "Ratelimit window"
-msgstr ""
+msgstr "Janela de limite de tempo"
 
 #: ../../admin/optionals.rst:261
 msgid "Lockout period"
-msgstr ""
+msgstr "Período de bloqueio"
 
 #: ../../admin/optionals.rst:263 ../../user/profile.rst:5
 msgid "Registration"
@@ -16901,17 +16919,17 @@ msgstr "5"
 #: ../../admin/optionals.rst:263 ../../admin/optionals.rst:265
 #: ../../admin/optionals.rst:267 ../../admin/optionals.rst:275
 msgid "300"
-msgstr ""
+msgstr "300"
 
 #: ../../admin/optionals.rst:263 ../../admin/optionals.rst:265
 #: ../../admin/optionals.rst:267 ../../admin/optionals.rst:271
 #: ../../admin/optionals.rst:273 ../../admin/optionals.rst:275
 msgid "600"
-msgstr ""
+msgstr "600"
 
 #: ../../admin/optionals.rst:265
 msgid "Sending message to admins"
-msgstr ""
+msgstr "Enviando mensagem para administradores"
 
 #: ../../admin/optionals.rst:265
 msgid "``MESSAGE``"
@@ -16927,7 +16945,7 @@ msgstr ""
 
 #: ../../admin/optionals.rst:269
 msgid "Sitewide search"
-msgstr ""
+msgstr "Pesquisa em todo o site"
 
 #: ../../admin/optionals.rst:269
 msgid "``SEARCH``"
@@ -16935,12 +16953,12 @@ msgstr ""
 
 #: ../../admin/optionals.rst:269
 msgid "6"
-msgstr ""
+msgstr "6"
 
 #: ../../admin/optionals.rst:269 ../../admin/optionals.rst:271
 #: ../../admin/optionals.rst:273
 msgid "60"
-msgstr ""
+msgstr "60"
 
 #: ../../admin/optionals.rst:271 ../../user/translating.rst:103
 msgid "Translating"
@@ -16952,11 +16970,11 @@ msgstr ""
 
 #: ../../admin/optionals.rst:271 ../../admin/optionals.rst:273
 msgid "30"
-msgstr ""
+msgstr "30"
 
 #: ../../admin/optionals.rst:273
 msgid "Adding to glossary"
-msgstr ""
+msgstr "Adicionando ao glossário"
 
 #: ../../admin/optionals.rst:273
 msgid "``GLOSSARY``"
@@ -16980,6 +16998,9 @@ msgid ""
 "authentication will be turned off on the account until having gone through "
 "the process of having its password reset."
 msgstr ""
+"Se um usuário falhar ao fazer o login :setting:`AUTH_LOCK_ATTEMPTS` vezes, a "
+"autenticação da senha será desativada na conta até ter passado pelo processo "
+"de redefinição da senha."
 
 #: ../../admin/optionals.rst:281
 msgid ""
@@ -16987,10 +17008,15 @@ msgid ""
 "``WEBLATE_`` prefix to the setting name, for example :setting:"
 "`RATELIMIT_ATTEMPTS` becomes :envvar:`WEBLATE_RATELIMIT_ATTEMPTS`."
 msgstr ""
+"As configurações também podem ser aplicadas no contêiner do Docker "
+"adicionando o prefixo ``WEBLATE_`` ao nome da configuração, por exemplo "
+":setting:`RATELIMIT_ATTEMPTS` torna-se :envvar:`WEBLATE_RATELIMIT_ATTEMPTS`."
 
 #: ../../admin/optionals.rst:283
 msgid "The API has separate rate limiting settings, see :ref:`api-rate`."
 msgstr ""
+"A API possui configurações separadas de limitação de taxa, consulte :ref"
+":`api-rate`."
 
 #: ../../admin/optionals.rst:287
 msgid ":ref:`user-rate`, :ref:`reverse-proxy`, :ref:`api-rate`"
@@ -17006,6 +17032,9 @@ msgid ""
 "Weblate. You can hook additional services on changes happening in Weblate "
 "using this."
 msgstr ""
+"Fedora Messaging é um editor baseado em AMQP para todas as mudanças que "
+"acontecem no Weblate. Você pode conectar serviços adicionais nas mudanças "
+"que acontecem no Weblate usando isso."
 
 #: ../../admin/optionals.rst:297
 msgid ""
@@ -17013,6 +17042,9 @@ msgid ""
 "``weblate-fedora-messaging``. Please see <https://github.com/WeblateOrg/"
 "fedora_messaging/> for setup instructions."
 msgstr ""
+"A integração com Fedora Messaging está disponível como um módulo Python "
+"separado ``weblate-fedora-messaging``. Consulte <https://github.com/"
+"WeblateOrg/fedora_messaging/> para obter instruções de configuração."
 
 #: ../../admin/projects.rst:2 ../../user/translating.rst:26
 msgid "Translation projects"
@@ -17996,6 +18028,9 @@ msgid ""
 "it is possible (either :ref:`component-new_base` or the file format supports "
 "starting from an empty file)."
 msgstr ""
+"Os administradores do projeto podem adicionar novas traduções mesmo se "
+"estiver desabilitado aqui quando for possível (tanto :ref:`component-"
+"new_base` ou o formato de arquivo tem suporte a partir de um arquivo vazio)."
 
 #: ../../admin/projects.rst:583
 msgid ":ref:`adding-translation`, :ref:`new-translations`"
@@ -30081,26 +30116,20 @@ msgid "Duplicated languages within translations"
 msgstr "Idiomas duplicados nas traduções"
 
 #: ../../devel/alerts.rst:13
-#, fuzzy
-#| msgid "Merge or update failures in the source repository"
 msgid "Merge, update, or push failures in the repository"
-msgstr "Falhas de mesclagem ou atualização no repositório de fontes"
+msgstr "Falhas de mesclagem, atualização ou envio no repositório"
 
 #: ../../devel/alerts.rst:14
 msgid "Parse errors in the translation files"
 msgstr "Erros de análise nos arquivos de tradução"
 
 #: ../../devel/alerts.rst:15
-#, fuzzy
-#| msgid "Billing (see :ref:`billing`)"
 msgid "Billing limits (see :ref:`billing`)"
-msgstr "Cobrança (consulte :ref:`billing`)"
+msgstr "Limites de cobrança (consulte :ref:`billing`)"
 
 #: ../../devel/alerts.rst:16
-#, fuzzy
-#| msgid "Repository containing Weblate translations"
 msgid "Repository containing too many outgoing or missing commits"
-msgstr "Repositório contendo as traduções do Weblate"
+msgstr "Repositório contendo muitos commits para serem enviados ou em falta"
 
 #: ../../devel/alerts.rst:17
 msgid "Missing licenses"
@@ -30115,20 +30144,16 @@ msgid "Misconfigured monolingual translation."
 msgstr "Tradução monolingual mal configurado."
 
 #: ../../devel/alerts.rst:20
-#, fuzzy
-#| msgid ":ref:`component`"
 msgid "Broken :ref:`component`"
-msgstr ":ref:`component`"
+msgstr ":ref:`component` quebrada"
 
 #: ../../devel/alerts.rst:21
 msgid "Broken URLs"
 msgstr "URLs quebradas"
 
 #: ../../devel/alerts.rst:22
-#, fuzzy
-#| msgid "Unused screenshot"
 msgid "Unused screenshots"
-msgstr "Captura de tela não usada"
+msgstr "Capturas de tela não usadas"
 
 #: ../../devel/alerts.rst:23
 msgid "Ambiguous language code"
@@ -31888,18 +31913,14 @@ msgstr ""
 "o Weblate faça o push das alterações para o seu repositório."
 
 #: ../../faq.rst:20
-#, fuzzy
-#| msgid ""
-#| "Turn on push-on-commit on your :ref:`project` in Weblate, this will make "
-#| "Weblate push changes to your repository whenever they happen at Weblate."
 msgid ""
 "Turn on :ref:`component-push_on_commit` on your :ref:`component` in Weblate, "
 "this will make Weblate push changes to your repository whenever they happen "
 "at Weblate."
 msgstr ""
-"Ative o \"push ao fazer commit\" na sua :ref:`project` no Weblate, isto fará "
-"com que o Weblate faça push das alterações no seu repositório sempre que "
-"elas acontecerem no Weblate."
+"Ative o :ref:`component-push_on_commit` na sua :ref:`component` no Weblate, "
+"isto fará com que o Weblate faça push das alterações no seu repositório "
+"sempre que elas acontecerem no Weblate."
 
 #: ../../faq.rst:26
 msgid ":ref:`continuous-translation`, :ref:`avoid-merge-conflicts`"
@@ -31954,11 +31975,6 @@ msgstr ""
 "outra ação especial."
 
 #: ../../faq.rst:54
-#, fuzzy
-#| msgid ""
-#| "Depending on your setup, access to the Weblate repository might require "
-#| "authentication. When using the built in :ref:`git-exporter` in Weblate, "
-#| "you authenticate with your username and the API key."
 msgid ""
 "Depending on your setup, access to the Weblate repository might require "
 "authentication. When using the built-in :ref:`git-exporter` in Weblate, you "
@@ -31996,16 +32012,12 @@ msgstr ""
 "cópia de trabalho):"
 
 #: ../../faq.rst:144
-#, fuzzy
-#| msgid ""
-#| ":ref:`git-export`, :ref:`continuous-translation`, :ref:`avoid-merge-"
-#| "conflicts`"
 msgid ""
 ":ref:`git-export`, :ref:`continuous-translation`, :ref:`avoid-merge-"
 "conflicts`, :ref:`wlc`"
 msgstr ""
 ":ref:`git-export`, :ref:`continuous-translation`, :ref:`avoid-merge-"
-"conflicts`"
+"conflicts`, :ref:`wlc`"
 
 #: ../../faq.rst:150
 msgid "How do I translate several branches at once?"
@@ -32579,8 +32591,6 @@ msgstr ""
 "Você também pode usar :ref:`vcs-git-helpers` no Git para acessar outros VCSs."
 
 #: ../../faq.rst:465
-#, fuzzy
-#| msgid "Weblate also supports VCS less operation, see :ref:`vcs-local`."
 msgid "Weblate also supports VCS-less operation, see :ref:`vcs-local`."
 msgstr "Weblate também tem suporte à operação sem VCS, veja :ref:`vcs-local`."
 
@@ -33219,8 +33229,6 @@ msgid "Translation states"
 msgstr "Estados de tradução"
 
 #: ../../formats.rst:286
-#, fuzzy
-#| msgid "Weblate ignored the state attribute prior to the 3.3 release."
 msgid "Weblate ignored the ``state`` attribute prior to the 3.3 release."
 msgstr "Weblate ignorava o atributo ``state`` antes da versão 3.3."
 
@@ -33454,26 +33462,20 @@ msgid "`Java Properties (ISO-8859-1)`"
 msgstr "`Propriedades Java (ISO-8859-1)`"
 
 #: ../../formats.rst:437
-#, fuzzy
-#| msgid ""
-#| "`Java properties on Wikipedia <https://en.wikipedia.org/wiki/."
-#| "properties>`_, :doc:`tt:formats/properties`, :ref:`addon-weblate."
-#| "properties.sort`, :ref:`addon-weblate.cleanup.generic`"
 msgid ""
 "`Java properties on Wikipedia <https://en.wikipedia.org/wiki/."
 "properties>`_, :doc:`tt:formats/properties`, :ref:`mi18n-lang`, :ref:`gwt`, :"
 "ref:`updating-target-files`, :ref:`addon-weblate.properties.sort`, :ref:"
 "`addon-weblate.cleanup.generic`"
 msgstr ""
-"`Java properties na Wikipédia <https://pt.wikipedia.org/wiki/Properties>`_, :"
-"doc:`tt:formats/properties`, :ref:`addon-weblate.properties.sort`, :ref:"
-"`addon-weblate.cleanup.generic`"
+"`Java properties na Wikipédia <https://pt.wikipedia.org/wiki/Properties>`_, "
+":doc:`tt:formats/properties`, :ref:`mi18n-lang`, :ref:`gwt`, :ref:`updating-"
+"target-files`, :ref:`addon-weblate.properties.sort`, :ref:`addon-weblate."
+"cleanup.generic`"
 
 #: ../../formats.rst:449
-#, fuzzy
-#| msgid "Failing file"
 msgid "mi18n lang files"
-msgstr "Arquivo com falha"
+msgstr "Arquivos lang mi18n"
 
 #: ../../formats.rst:456
 msgid ""
@@ -33482,35 +33484,26 @@ msgid ""
 msgstr ""
 
 #: ../../formats.rst:461
-#, fuzzy
-#| msgid "``lang/*.rc``"
 msgid "``*.lang``"
-msgstr "``lang/*.rc``"
+msgstr "``*.lang``"
 
 #: ../../formats.rst:463
-#, fuzzy
-#| msgid "``lang/en-US.rc``"
 msgid "``en-US.lang``"
-msgstr "``lang/en-US.rc``"
+msgstr "``en-US.lang``"
 
 #: ../../formats.rst:467
-#, fuzzy
-#| msgid "Failing file"
 msgid "`mi18n lang file`"
-msgstr "Arquivo com falha"
+msgstr "`Arquivo lang mi18n`"
 
 #: ../../formats.rst:472
-#, fuzzy
-#| msgid ""
-#| ":doc:`tt:formats/json`, :ref:`addon-weblate.json.customize`, :ref:`addon-"
-#| "weblate.cleanup.generic`,"
 msgid ""
 "`mi18n`_ :doc:`tt:formats/properties`, :ref:`javaprop`, :ref:`updating-"
 "target-files`, :ref:`addon-weblate.properties.sort`, :ref:`addon-weblate."
 "cleanup.generic`"
 msgstr ""
-":doc:`tt:formats/json`, :ref:`addon-weblate.json.customize`, :ref:`addon-"
-"weblate.cleanup.generic`,"
+"`mi18n`_ :doc:`tt:formats/properties`, :ref:`javaprop`, :ref:`updating-"
+"target-files`, :ref:`addon-weblate.properties.sort`, :ref:`addon-weblate."
+"cleanup.generic`"
 
 #: ../../formats.rst:484
 msgid "GWT properties"
@@ -33529,13 +33522,6 @@ msgid "`GWT Properties`"
 msgstr "`Propriedades GWT`"
 
 #: ../../formats.rst:507
-#, fuzzy
-#| msgid ""
-#| "`GWT localization guide <http://www.gwtproject.org/doc/latest/"
-#| "DevGuideI18n.html>`_, `GWT Internationalization Tutorial <http://www."
-#| "gwtproject.org/doc/latest/tutorial/i18n.html>`_, :doc:`tt:formats/"
-#| "properties`, :ref:`addon-weblate.properties.sort`, :ref:`addon-weblate."
-#| "cleanup.generic`"
 msgid ""
 "`GWT localization guide <http://www.gwtproject.org/doc/latest/DevGuideI18n."
 "html>`_, `GWT Internationalization Tutorial <http://www.gwtproject.org/doc/"
@@ -33545,8 +33531,9 @@ msgid ""
 msgstr ""
 "`Guia de localização GWT <http://www.gwtproject.org/doc/latest/DevGuideI18n."
 "html>`_, `Tutorial de internacionalização GWT <http://www.gwtproject.org/doc/"
-"latest/tutorial/i18n.html>`_, :doc:`tt:formats/properties`, :ref:`addon-"
-"weblate.properties.sort`, :ref:`addon-weblate.cleanup.generic`"
+"latest/tutorial/i18n.html>`_, :doc:`tt:formats/properties`, :ref:`updating-"
+"target-files`, :ref:`addon-weblate.properties.sort`, :ref:`addon-weblate."
+"cleanup.generic`"
 
 #: ../../formats.rst:517
 msgid "INI translations"
@@ -33964,16 +33951,12 @@ msgid "`JSON nested structure file`"
 msgstr "`Arquivo de estrutura JSON aninhada`"
 
 #: ../../formats.rst:886
-#, fuzzy
-#| msgid ""
-#| ":doc:`tt:formats/json`, :ref:`addon-weblate.json.customize`, :ref:`addon-"
-#| "weblate.cleanup.generic`,"
 msgid ""
 ":doc:`tt:formats/json`, :ref:`updating-target-files`, :ref:`addon-weblate."
 "json.customize`, :ref:`addon-weblate.cleanup.generic`,"
 msgstr ""
-":doc:`tt:formats/json`, :ref:`addon-weblate.json.customize`, :ref:`addon-"
-"weblate.cleanup.generic`,"
+":doc:`tt:formats/json`, :ref:`updating-target-files`, :ref:`addon-weblate."
+"json.customize`, :ref:`addon-weblate.cleanup.generic`,"
 
 #: ../../formats.rst:894
 msgid "JSON i18next files"
@@ -34026,19 +34009,14 @@ msgid "`i18next JSON file`"
 msgstr "`Arquivo JSON i18next`"
 
 #: ../../formats.rst:935
-#, fuzzy
-#| msgid ""
-#| ":doc:`tt:formats/json`, `i18next JSON Format <https://www.i18next.com/"
-#| "misc/json-format>`_, :ref:`addon-weblate.json.customize`, :ref:`addon-"
-#| "weblate.cleanup.generic`"
 msgid ""
 ":doc:`tt:formats/json`, `i18next JSON Format <https://www.i18next.com/misc/"
 "json-format>`_, :ref:`updating-target-files`, :ref:`addon-weblate.json."
 "customize`, :ref:`addon-weblate.cleanup.generic`"
 msgstr ""
 ":doc:`tt:formats/json`, `JSON Format de i18next <https://www.i18next.com/"
-"misc/json-format>`_, :ref:`addon-weblate.json.customize`, :ref:`addon-"
-"weblate.cleanup.generic`"
+"misc/json-format>`_, :ref:`updating-target-files`, :ref:`addon-weblate.json."
+"customize`, :ref:`addon-weblate.cleanup.generic`"
 
 #: ../../formats.rst:944
 msgid "go-i18n JSON files"
@@ -34065,18 +34043,14 @@ msgid "`go-i18n JSON file`"
 msgstr "`Arquivo JSON go-i18n`"
 
 #: ../../formats.rst:973
-#, fuzzy
-#| msgid ""
-#| ":doc:`tt:formats/json`, `go-i18n <https://github.com/nicksnyder/go-"
-#| "i18n>`_, :ref:`addon-weblate.json.customize`, :ref:`addon-weblate.cleanup."
-#| "generic`,"
 msgid ""
 ":doc:`tt:formats/json`, `go-i18n <https://github.com/nicksnyder/go-i18n>`_, :"
 "ref:`updating-target-files`, :ref:`addon-weblate.json.customize`, :ref:"
 "`addon-weblate.cleanup.generic`,"
 msgstr ""
-":doc:`tt:formats/json`, `go-i18n <https://github.com/nicksnyder/go-i18n>`_, :"
-"ref:`addon-weblate.json.customize`, :ref:`addon-weblate.cleanup.generic`,"
+":doc:`tt:formats/json`, `go-i18n <https://github.com/nicksnyder/go-i18n>`_, "
+":ref:`updating-target-files`, :ref:`addon-weblate.json.customize`, :ref"
+":`addon-weblate.cleanup.generic`,"
 
 #: ../../formats.rst:982
 msgid "ARB File"
@@ -34103,14 +34077,6 @@ msgid "`ARB file`"
 msgstr "`Arquivo ARB`"
 
 #: ../../formats.rst:1006
-#, fuzzy
-#| msgid ""
-#| ":doc:`tt:formats/json`, `Application Resource Bundle Specification "
-#| "<https://github.com/google/app-resource-bundle/wiki/"
-#| "ApplicationResourceBundleSpecification>`_, `Internationalizing Flutter "
-#| "apps <https://flutter.dev/docs/development/accessibility-and-localization/"
-#| "internationalization>`_, :ref:`addon-weblate.json.customize`, :ref:`addon-"
-#| "weblate.cleanup.generic`"
 msgid ""
 ":doc:`tt:formats/json`, `Application Resource Bundle Specification <https://"
 "github.com/google/app-resource-bundle/wiki/"
@@ -34119,12 +34085,12 @@ msgid ""
 "internationalization>`_, :ref:`updating-target-files`, :ref:`addon-weblate."
 "json.customize`, :ref:`addon-weblate.cleanup.generic`"
 msgstr ""
-":doc:`tt:formats/json`, `Application Resource Bundle Specification <https://"
-"github.com/google/app-resource-bundle/wiki/"
+":doc:`tt:formats/json`, `Application Resource Bundle Specification "
+"<https://github.com/google/app-resource-bundle/wiki/"
 "ApplicationResourceBundleSpecification>`_, `Internationalizing Flutter apps "
 "<https://flutter.dev/docs/development/accessibility-and-localization/"
-"internationalization>`_, :ref:`addon-weblate.json.customize`, :ref:`addon-"
-"weblate.cleanup.generic`"
+"internationalization>`_, :ref:`updating-target-files`, :ref:`addon-weblate."
+"json.customize`, :ref:`addon-weblate.cleanup.generic`"
 
 #: ../../formats.rst:1016
 msgid "WebExtension JSON"
@@ -34209,12 +34175,12 @@ msgid "`.NET resource file`"
 msgstr "`Arquivo de recurso .NET`"
 
 #: ../../formats.rst:1082
-#, fuzzy
-#| msgid ":doc:`tt:formats/resx`, :ref:`addon-weblate.cleanup.generic`,"
 msgid ""
 ":doc:`tt:formats/resx`, :ref:`updating-target-files`, :ref:`addon-weblate."
 "cleanup.generic`"
-msgstr ":doc:`tt:formats/resx`, :ref:`addon-weblate.cleanup.generic`,"
+msgstr ""
+":doc:`tt:formats/resx`, :ref:`updating-target-files`, :ref:`addon-weblate."
+"cleanup.generic`"
 
 #: ../../formats.rst:1089
 msgid "CSV files"
@@ -34249,12 +34215,6 @@ msgstr ""
 "`Arquivo CSV simples` como um formato de arquivo."
 
 #: ../../formats.rst:1106
-#, fuzzy
-#| msgid ""
-#| "Headerless files with fields in order defined by the `translate-"
-#| "toolkit`_: ``location``, ``source``, ``target``, ``ID``, ``fuzzy``, "
-#| "``context``, ``translator_comments``, ``developer_comments`` Choose :"
-#| "guilabel:`CSV file` as a file format."
 msgid ""
 "Headerless files with fields in order defined by the `translate-toolkit`_: "
 "``location``, ``source``, ``target``, ``ID``, ``fuzzy``, ``context``, "
@@ -34263,8 +34223,8 @@ msgid ""
 msgstr ""
 "Arquivos sem cabeçalhos com campos na ordem definida pelo `translate-"
 "toolkit`_: ``location``, ``source``, ``target``, ``ID``, ``fuzzy``, "
-"``context``, ``translator_comments``, ``developer_comments``. Escolha :"
-"guilabel:`Arquivo CSV` como formato de arquivo."
+"``context``, ``translator_comments``, ``developer_comments``. Escolha "
+":guilabel:`Arquivo CSV` como formato de arquivo."
 
 #: ../../formats.rst:1109
 msgid ""
@@ -34604,16 +34564,12 @@ msgid "Text files"
 msgstr "Arquivos texto"
 
 #: ../../formats.rst:1418
-#, fuzzy
-#| msgid ""
-#| "The translatable content is extracted from the OpenDocument files and "
-#| "offered for the translation."
 msgid ""
 "The translatable content is extracted from the plain text files and offered "
 "for the translation. Each paragraph is translated as a separate string."
 msgstr ""
-"O conteúdo traduzível é extraído dos arquivos OpenDocument e oferecido para "
-"a tradução."
+"O conteúdo traduzível é extraído dos arquivos texto simples e oferecido para "
+"a tradução. Cada parágrafo é traduzido como um texto separado."
 
 #: ../../formats.rst:1421
 msgid "There are three flavors of this format:"
@@ -34632,10 +34588,8 @@ msgid "MediaWiki text file"
 msgstr "Arquivo texto MediaWiki"
 
 #: ../../formats.rst:1429
-#, fuzzy
-#| msgid ":doc:`tt:formats/index`"
 msgid ":doc:`tt:formats/text`"
-msgstr ":doc:`tt:formats/index`"
+msgstr ":doc:`tt:formats/text`"
 
 #: ../../formats.rst:1434
 msgid "OpenDocument Format"
@@ -34690,10 +34644,8 @@ msgstr ""
 "`tt:formats/tbx`, :ref:`glossary`"
 
 #: ../../formats.rst:1490
-#, fuzzy
-#| msgid "Supported file formats"
 msgid "Supporting other formats"
-msgstr "Formatos de arquivos suportados"
+msgstr "Suportando outros formatos"
 
 #: ../../formats.rst:1492
 msgid ""
@@ -34933,10 +34885,8 @@ msgid "`Git <https://git-scm.com/>`_"
 msgstr "`Git <https://git-scm.com/>`_"
 
 #: ../../legal.rst:44
-#, fuzzy
-#| msgid "`curl <https://curl.haxx.se/>`_"
 msgid "`curl <https://curl.se/>`_"
-msgstr "`curl <https://curl.haxx.se/>`_"
+msgstr "`curl <https://curl.se/>`_"
 
 #: ../../legal.rst:45
 msgid "Used by Git"
@@ -35526,16 +35476,12 @@ msgid "`es-format`"
 msgstr "`es-format`"
 
 #: ../../user/checks.rst:214
-#, fuzzy
-#| msgid ""
-#| "`Template literals <https://developer.mozilla.org/en-US/docs/Web/"
-#| "JavaScript/Reference/Template_literals>`_"
 msgid ""
 ":ref:`check-formats`, `Template literals <https://developer.mozilla.org/en-"
 "US/docs/Web/JavaScript/Reference/Template_literals>`_"
 msgstr ""
-"`Template strings <https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/"
-"Reference/Template_literals>`_"
+":ref:`check-formats`, `Template strings <https://developer.mozilla.org/pt-BR/"
+"docs/Web/JavaScript/Reference/Template_literals>`_"
 
 #: ../../user/checks.rst:220
 msgid "i18next interpolation"
@@ -35562,16 +35508,12 @@ msgid "`i18next-interpolation`"
 msgstr "`i18next-interpolation`"
 
 #: ../../user/checks.rst:236
-#, fuzzy
-#| msgid ""
-#| "`i18next interpolation <https://www.i18next.com/translation-function/"
-#| "interpolation>`_"
 msgid ""
 ":ref:`check-formats`, `i18next interpolation <https://www.i18next.com/"
 "translation-function/interpolation>`_"
 msgstr ""
-"`Interpolação i18next <https://www.i18next.com/translation-function/"
-"interpolation>`_"
+":ref:`check-formats`, `Interpolação i18next <https://www.i18next.com/"
+"translation-function/interpolation>`_"
 
 #: ../../user/checks.rst:243
 msgid "Java format"
@@ -35586,16 +35528,12 @@ msgid "`java-format`"
 msgstr "`java-format`"
 
 #: ../../user/checks.rst:257
-#, fuzzy
-#| msgid ""
-#| "`Java Format Strings <https://docs.oracle.com/javase/7/docs/api/java/util/"
-#| "Formatter.html>`_"
 msgid ""
 ":ref:`check-formats`, `Java Format Strings <https://docs.oracle.com/javase/7/"
 "docs/api/java/util/Formatter.html>`_"
 msgstr ""
-"`Java Format Strings <https://docs.oracle.com/javase/7/docs/api/java/util/"
-"Formatter.html>`_"
+":ref:`check-formats`, `Java Format Strings <https://docs.oracle.com/javase/7/"
+"docs/api/java/util/Formatter.html>`_"
 
 #: ../../user/checks.rst:264
 msgid "Java MessageFormat"
@@ -35638,16 +35576,12 @@ msgid "`javascript-format`"
 msgstr "`javascript-format`"
 
 #: ../../user/checks.rst:297
-#, fuzzy
-#| msgid ""
-#| "`JavaScript formatting strings <https://www.gnu.org/software/gettext/"
-#| "manual/html_node/javascript_002dformat.html>`_"
 msgid ""
 ":ref:`check-formats`, `JavaScript formatting strings <https://www.gnu.org/"
 "software/gettext/manual/html_node/javascript_002dformat.html>`_"
 msgstr ""
-"`JavaScript formatting strings <https://www.gnu.org/software/gettext/manual/"
-"html_node/javascript_002dformat.html>`_"
+":ref:`check-formats`, `JavaScript formatting strings <https://www.gnu.org/"
+"software/gettext/manual/html_node/javascript_002dformat.html>`_"
 
 #: ../../user/checks.rst:303
 msgid "Lua format"
@@ -37324,13 +37258,6 @@ msgid "Terminology"
 msgstr "Terminologia"
 
 #: ../../user/glossary.rst:88
-#, fuzzy
-#| msgid ""
-#| "Flagging certain glossary terms as ``terminology``  by bulk-editing, "
-#| "typing in the flag, or or by using :guilabel:`Tools` ↓ :guilabel:`Mark as "
-#| "terminology` adds entries for them to all languages in the glossary. Use "
-#| "this for important terms that should be well thought out, and retain a "
-#| "consistent meaning across all languages."
 msgid ""
 "Flagging certain glossary terms as ``terminology``  by bulk-editing, typing "
 "in the flag, or by using :guilabel:`Tools` ↓ :guilabel:`Mark as terminology` "
@@ -40173,21 +40100,16 @@ msgid "Translation access"
 msgstr "Acesso à tradução"
 
 #: ../../workflows.rst:16
-#, fuzzy
-#| msgid ""
-#| "The :ref:`privileges` is not much discussed in the workflows as each "
-#| "access control option can be applied to any workflow. Please consult that "
-#| "documentation for information on how to manage access to translations."
 msgid ""
 "The :ref:`access control <access-control>` is not discussed in detail as a "
 "whole in the workflows, as most of its options can be applied to any "
 "workflow. Please consult the respective documentation on how to manage "
 "access to translations."
 msgstr ""
-"O :ref:`privileges` não é muito discutido nos fluxos de trabalho, pois cada "
-"opção de controle de acesso pode ser aplicada a qualquer fluxo de trabalho. "
-"Consulte essa documentação para obter informações sobre como gerenciar o "
-"acesso às traduções."
+"O :ref:`controle de acesso <access-control>` não é discutido em detalhe como "
+"um todo nos fluxos de trabalho, pois a maioria de suas opções pode ser "
+"aplicada a qualquer fluxo de trabalho. Consulte a respectiva documentação "
+"sobre como gerenciar o acesso às traduções."
 
 #: ../../workflows.rst:21
 msgid ""
@@ -40277,10 +40199,8 @@ msgid ""
 msgstr ""
 
 #: ../../workflows.rst:59
-#, fuzzy
-#| msgid ":ref:`privileges`, :ref:`workflows`"
 msgid ":ref:`fmt_capabs`, :ref:`workflows`"
-msgstr ":ref:`privileges`, :ref:`workflows`"
+msgstr ":ref:`fmt_capabs`, :ref:`workflows`"
 
 #: ../../workflows.rst:64
 msgid "Direct translation"
@@ -40337,10 +40257,8 @@ msgid "Translators group"
 msgstr "Grupo de tradutores"
 
 #: ../../workflows.rst:84 ../../workflows.rst:116 ../../workflows.rst:153
-#, fuzzy
-#| msgid "Or `Translate` with :ref:`privileges`."
 msgid "Or `Translate` with :ref:`per-project access control <manage-acl>`."
-msgstr "Ou `Traduzir` com :ref:`privileges`."
+msgstr "Ou `Traduzir` com :ref:`controle de acesso por projeto <manage-acl>`."
 
 #: ../../workflows.rst:88 ../../workflows.rst:120 ../../workflows.rst:157
 msgid "Reviewers group"
@@ -40428,10 +40346,8 @@ msgstr ""
 "aprovados."
 
 #: ../../workflows.rst:157
-#, fuzzy
-#| msgid "Or Review with access control."
 msgid "Or `Review` with :ref:`per-project access control <manage-acl>`."
-msgstr "Ou Revisar com controle de acesso."
+msgstr "Ou `Revisar` com :ref:`controle de acesso por projeto <manage-acl>`."
 
 #: ../../workflows.rst:163
 msgid "Turning on reviews"
