@@ -44,7 +44,7 @@ class GlossaryModelChoiceField(forms.ModelChoiceField):
 class GlossaryAddMixin(forms.Form):
     terminology = forms.BooleanField(
         label=gettext_lazy("Terminology"),
-        help_text=gettext_lazy("String will be propagated to all languages"),
+        help_text=gettext_lazy("String will be part of the glossary in all languages"),
         required=False,
     )
     forbidden = forms.BooleanField(
