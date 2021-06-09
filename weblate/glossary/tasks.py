@@ -29,22 +29,33 @@ from weblate.utils.lock import WeblateLockTimeout
     autoretry_for=(Component.DoesNotExist, WeblateLockTimeout),
     retry_backoff=60,
 )
-def sync_terminology(pk: int, component: Optional[Component] = None):
+def sync_glossary_languages(pk: int, component: Optional[Component] = None):
+    """Add missing glossary languages."""
     if component is None:
         component = Component.objects.get(pk=pk)
-    project = component.project
 
-    # Add missing languages
     language_ids = set(component.translation_set.values_list("language_id", flat=True))
     missing = (
-        Language.objects.filter(translation__component__project=project)
+        Language.objects.filter(translation__component__project=component.project)
         .exclude(pk__in=language_ids)
         .distinct()
     )
     for language in missing:
         component.add_new_language(language, None)
 
-    # Sync terminology
+
+@app.task(
+    trail=False,
+    autoretry_for=(Component.DoesNotExist, WeblateLockTimeout),
+    retry_backoff=60,
+)
+def sync_terminology(pk: int, component: Optional[Component] = None):
+    """Sync terminology and add missing glossary languages."""
+    if component is None:
+        component = Component.objects.get(pk=pk)
+
+    sync_glossary_languages(pk, component)
+
     component.source_translation.sync_terminology()
 
     return {"component": pk}

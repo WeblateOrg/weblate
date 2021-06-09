@@ -13,6 +13,7 @@ Not yet released.
 * Fixed inviting users when e-mail authentication is disabled.
 * Improved language definitions.
 * Added support for blocking users from contributing to a project.
+* Fixed automatic creation of glossary languages.
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/64?closed=1>`__.
 
