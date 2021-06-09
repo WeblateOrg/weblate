@@ -144,7 +144,7 @@ Restoring from BorgBackup
 
    When using Docker container, the settings file is already included in the
    container and you should restore the original environment variables. The
-   :file:`settings-expanded.py` file might help you with this.
+   :file:`environment.yml` file might help you with this (see :ref:`backup-dumps`).
 
 6. Copy the whole restored data dir to the location configured by
    :setting:`DATA_DIR`.
@@ -244,6 +244,11 @@ can skip in detail.
 Dumped data for backups
 +++++++++++++++++++++++
 
+.. versionchanged:: 4.7
+
+   The environment dump was added as :file:`environment.yml` to help in
+   restoring in the Docker environments.
+
 Stored in :setting:`DATA_DIR` ``/backups``.
 
 Weblate dumps various data here, and you can include these files for more complete
@@ -252,6 +257,7 @@ backups. The files are updated daily (requires a running Celery beats server, se
 
 * Weblate settings as :file:`settings.py` (there is also expanded version in :file:`settings-expanded.py`).
 * PostgreSQL database backup as :file:`database.sql`.
+* Environment dump as :file:`environment.yml`.
 
 The database backups are saved as plain text by default, but they can also be compressed
 or entirely skipped using :setting:`DATABASE_BACKUP`.

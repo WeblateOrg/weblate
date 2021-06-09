@@ -30,6 +30,7 @@ from celery.schedules import crontab
 from django.conf import settings
 from django.core.cache import cache
 from django.core.management.commands import diffsettings
+from ruamel.yaml import YAML
 
 import weblate.utils.version
 from weblate.formats.models import FILE_FORMATS
@@ -78,6 +79,11 @@ def settings_backup():
         if settings.SETTINGS_MODULE:
             settings_mod = import_module(settings.SETTINGS_MODULE)
             copyfile(settings_mod.__file__, data_dir("backups", "settings.py"))
+
+        # Backup environment (to make restoring Docker easier)
+        with open(data_dir("backups", "environment.yml"), "w") as handle:
+            yaml = YAML()
+            yaml.dump(dict(os.environ), handle)
 
 
 @app.task(trail=False, autoretry_for=(WeblateLockTimeout,))
