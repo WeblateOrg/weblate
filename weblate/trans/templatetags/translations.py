@@ -29,8 +29,7 @@ from django.template.loader import render_to_string
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.formats import number_format as django_number_format
-from django.utils.html import escape
-from django.utils.html import urlize as django_urlize
+from django.utils.html import escape, urlize
 from django.utils.safestring import mark_safe
 from django.utils.translation import gettext, gettext_lazy, ngettext, pgettext
 from siphashc import siphash
@@ -968,7 +967,7 @@ def any_unit_has_context(units):
 
 
 @register.filter(is_safe=True, needs_autoescape=True)
-def urlize(value, autoescape=True):
+def urlize_ugc(value, autoescape=True):
     """Convert URLs in plain text into clickable links."""
-    html = django_urlize(value, nofollow=True, autoescape=autoescape)
+    html = urlize(value, nofollow=True, autoescape=autoescape)
     return mark_safe(html.replace('rel="nofollow"', 'rel="ugc" target="_blank"'))
