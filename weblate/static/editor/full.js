@@ -395,9 +395,13 @@
       if ($(e.target).parents("a").length > 0) {
         return;
       }
-      console.log(e.target);
-      console.log(e.currentTarget);
-      var text = $(e.currentTarget).find(".target").text();
+
+      var target = $(e.currentTarget);
+      var text = target.find(".target").text();
+      console.log(target);
+      if (target.hasClass("warning")) {
+        text = target.find(".source").text();
+      }
 
       this.insertIntoTranslation(text);
       e.preventDefault();
