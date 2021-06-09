@@ -200,7 +200,7 @@ class GitRepository(Repository):
         """Check whether repository needs commit."""
         cmd = ["--no-optional-locks", "status", "--porcelain"]
         if filenames:
-            cmd.extend(["--ignored=matching", "--"])
+            cmd.extend(["--untracked-files=all", "--ignored=traditional", "--"])
             cmd.extend(filenames)
         with self.lock:
             status = self.execute(cmd, merge_err=False)
