@@ -411,6 +411,22 @@
     var $glossaryDialog = null;
     this.$editor.on("show.bs.modal", "#add-glossary-form", (e) => {
       $glossaryDialog = $(e.currentTarget);
+
+      /* Prefill adding to glossary with current string */
+      if (e.target.hasAttribute("data-shown")) {
+        return;
+      }
+      /* Relies on clone source implementation */
+      let source = document
+        .querySelector("[data-clone-text]")
+        .getAttribute("data-clone-text");
+      if (source.length < 200) {
+        document.getElementById("id_source").value = source;
+        document.getElementById("id_target").value = document.querySelector(
+          ".translation-editor"
+        ).value;
+      }
+      e.target.setAttribute("data-shown", true);
     });
     this.$editor.on("hidden.bs.modal", "#add-glossary-form", () => {
       this.$translationArea.first().focus();

@@ -1122,24 +1122,6 @@ $(function () {
     }
   );
 
-  /* Prefill adding to glossary with current string */
-  $("#add-glossary-form").on("shown.bs.modal", (e) => {
-    if (e.target.hasAttribute("data-shown")) {
-      return;
-    }
-    /* Relies on clone source implementation */
-    let source = JSON.parse(
-      document.querySelector("[data-content]").getAttribute("data-content")
-    );
-    if (source.length < 200) {
-      document.getElementById("id_source").value = source;
-      document.getElementById("id_target").value = document.querySelector(
-        ".translation-editor"
-      ).value;
-    }
-    e.target.setAttribute("data-shown", true);
-  });
-
   /* Username autocompletion */
   var tribute = new Tribute({
     trigger: "@",
