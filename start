@@ -137,10 +137,10 @@ echo "Initializing github config for user ${WEBLATE_GITHUB_USERNAME}"
 git config --global hub.protocol https
 mkdir -p ~/.config
 echo -n "$WEBLATE_GITHUB_OAUTH_TOKEN" > ~/.config/hub
-if [ -f /app/data/vcs/common/galaxy/package-lock.json ]; then
-  echo "Fixing package-lock conflicts in galaxy"
-  (cd /app/data/vcs/common/galaxy && git update-index --assume-unchanged package-lock.json)
-fi
+# if [ -f /app/data/vcs/common/galaxy/package-lock.json ]; then
+  # echo "Fixing package-lock conflicts in galaxy"
+  # (cd /app/data/vcs/common/galaxy && git update-index --assume-unchanged package-lock.json)
+# fi
 
 ssh -vT ${WEBLATE_GITHUB_USERNAME} || true
 echo "Done initializing github"
