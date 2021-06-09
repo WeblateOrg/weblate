@@ -139,9 +139,18 @@ Restoring from BorgBackup
 
 4. Restore the database from the SQL dump placed in the ``backup`` directory in the Weblate data dir (see :ref:`backup-dumps`).
 
-5. Copy the Weblate configuration (:file:`backups/settings.py`, see :ref:`backup-dumps`) to the correct location, see :ref:`configuration`.
+5. Copy the Weblate configuration (:file:`backups/settings.py`, see
+   :ref:`backup-dumps`) to the correct location, see :ref:`configuration`.
 
-6. Copy the whole restored data dir to the location configured by :setting:`DATA_DIR`.
+   When using Docker container, the settings file is already included in the
+   container and you should restore the original environment variables. The
+   :file:`settings-expanded.py` file might help you with this.
+
+6. Copy the whole restored data dir to the location configured by
+   :setting:`DATA_DIR`.
+
+   When using Docker container place the data into the data volume, see
+   :ref:`docker-volume`.
 
 The Borg session might look like this:
 
