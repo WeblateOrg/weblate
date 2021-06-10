@@ -32,6 +32,7 @@ from django.conf import settings
 from django.core.cache import cache
 from django.core.checks import Critical, Error, Info
 from django.core.mail import get_connection
+from django.db import DatabaseError
 
 from weblate.utils.celery import get_queue_stats
 from weblate.utils.data import data_dir
@@ -102,6 +103,8 @@ DOC_LINKS = {
     "weblate.E034": ("admin/install", "celery"),
     "weblate.C035": ("vcs",),
     "weblate.C036": ("admin/optionals", "gpg-sign"),
+    "weblate.C037": ("admin/install", "production-database"),
+    "weblate.C038": ("admin/install", "production-database"),
 }
 
 
@@ -273,6 +276,28 @@ def check_database(app_configs, **kwargs):
                 Info,
             )
         )
+    from weblate.trans.models import Project
+
+    try:
+        start = time.time()
+        Project.objects.count()
+        delta = round(1000 * (time.time() - start))
+        if delta > 100:
+            errors.append(
+                weblate_check(
+                    "weblate.C038",
+                    f"The database seems slow, the query took {delta} miliseconds",
+                )
+            )
+
+    except DatabaseError as error:
+        errors.append(
+            weblate_check(
+                "weblate.C037",
+                f"Failed to connect to the database: {error}",
+            )
+        )
+
     return errors
 
 
