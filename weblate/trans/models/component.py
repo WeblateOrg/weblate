@@ -2644,6 +2644,7 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
     def update_alerts(self):  # noqa: C901
         if (
             self.project.access_control == self.project.ACCESS_PUBLIC
+            and settings.LICENSE_REQUIRED
             and not self.license
             and not settings.LOGIN_REQUIRED_URLS
             and (settings.LICENSE_FILTER is None or settings.LICENSE_FILTER)
