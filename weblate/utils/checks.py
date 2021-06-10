@@ -264,15 +264,16 @@ def check_celery(app_configs, **kwargs):
 
 
 def check_database(app_configs, **kwargs):
-    if using_postgresql():
-        return []
-    return [
-        weblate_check(
-            "weblate.E006",
-            "Weblate performs best with PostgreSQL, consider migrating to it.",
-            Info,
+    errors = []
+    if not using_postgresql():
+        errors.append(
+            weblate_check(
+                "weblate.E006",
+                "Weblate performs best with PostgreSQL, consider migrating to it.",
+                Info,
+            )
         )
-    ]
+    return errors
 
 
 def check_cache(app_configs, **kwargs):
