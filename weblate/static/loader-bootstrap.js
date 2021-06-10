@@ -313,6 +313,9 @@ function adjustColspan() {
   $("table.autocolspan").each(function () {
     var $this = $(this);
     var numOfVisibleCols = $this.find("thead th:visible").length;
+    if (numOfVisibleCols === 0) {
+      numOfVisibleCols = 3;
+    }
     $this.find("td.autocolspan").attr("colspan", numOfVisibleCols - 1);
   });
 }
