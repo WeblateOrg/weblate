@@ -27,14 +27,8 @@ from django.utils.translation import gettext_lazy
 register = template.Library()
 
 SOCIALS = {
-    "auth0": {
-        "name": settings.SOCIAL_AUTH_AUTH0_TITLE,
-        "image": settings.SOCIAL_AUTH_AUTH0_IMAGE,
-    },
-    "saml": {
-        "name": settings.SOCIAL_AUTH_SAML_TITLE,
-        "image": settings.SOCIAL_AUTH_SAML_IMAGE,
-    },
+    "auth0": {"name": "Auth0", "image": "auth0.svg"},
+    "saml": {"name": "SAML", "image": "saml.svg"},
     "google": {"name": "Google", "image": "google.svg"},
     "google-oauth2": {"name": "Google", "image": "google.svg"},
     "google-plus": {"name": "Google+", "image": "google.svg"},
@@ -67,23 +61,40 @@ SOCIAL_TEMPLATE = """
 """
 
 
-@register.simple_tag
-def auth_name(auth, separator="<br />"):
-    """Create HTML markup for social authentication method."""
-    params = {"name": auth, "separator": separator, "image": "password.svg"}
+def get_auth_params(auth: str):
+    """Returns authentication parameters."""
+    # Fallback values
+    params = {"name": auth, "image": "password.svg"}
 
+    # Hardcoded names
     if auth in SOCIALS:
         params.update(SOCIALS[auth])
 
+    # Settings override
+    settings_params = {
+        "name": f"SOCIAL_AUTH_{auth.upper()}_TITLE",
+        "image": f"SOCIAL_AUTH_{auth.upper()}_IMAGE",
+    }
+    for target, source in settings_params.items():
+        value = getattr(settings, source, None)
+        if value:
+            params[target] = value
+
+    return params
+
+
+@register.simple_tag
+def auth_name(auth: str, separator: str = "<br />"):
+    """Create HTML markup for social authentication method."""
+    params = get_auth_params(auth)
+
     if not params["image"].startswith("http"):
         params["image"] = staticfiles_storage.url("auth/" + params["image"])
-    params["icon"] = IMAGE_SOCIAL_TEMPLATE.format(**params)
+    params["icon"] = IMAGE_SOCIAL_TEMPLATE.format(separator=separator, **params)
 
-    return mark_safe(SOCIAL_TEMPLATE.format(**params))
+    return mark_safe(SOCIAL_TEMPLATE.format(separator=separator, **params))
 
 
-def get_auth_name(auth):
+def get_auth_name(auth: str):
     """Get nice name for authentication backend."""
-    if auth in SOCIALS:
-        return SOCIALS[auth]["name"]
-    return auth
+    return get_auth_params(auth)["name"]
