@@ -21,7 +21,7 @@ import codecs
 import os
 import tempfile
 from datetime import datetime
-from typing import BinaryIO, List, Optional, Union
+from typing import BinaryIO, Dict, List, Optional, Union
 
 from django.core.cache import cache
 from django.core.exceptions import ObjectDoesNotExist, ValidationError
@@ -308,7 +308,14 @@ class Translation(
             report_error(cause="Translation parse error")
             self.component.handle_parse_error(exc, self)
 
-    def sync_unit(self, dbunits, updated, id_hash, unit, pos):
+    def sync_unit(
+        self,
+        dbunits: Dict[int, Unit],
+        updated: Dict[int, Unit],
+        id_hash: int,
+        unit,
+        pos: int,
+    ):
         try:
             newunit = dbunits[id_hash]
             is_new = False
