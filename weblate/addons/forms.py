@@ -162,6 +162,7 @@ class GitSquashForm(BaseAddonForm):
         ),
     )
     commit_message = forms.CharField(
+        label=_("Commit message"),
         widget=forms.Textarea(),
         required=False,
         help_text=_(
