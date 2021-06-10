@@ -14,6 +14,8 @@ Not yet released.
 * Improved language definitions.
 * Added support for blocking users from contributing to a project.
 * Fixed automatic creation of glossary languages.
+* Extended documentation about add-ons.
+* Performance improvements for components with linked repositories.
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/64?closed=1>`__.
 
