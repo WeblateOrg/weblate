@@ -271,7 +271,6 @@ def dashboard_user(request):
                 component__project__in=user.watched_projects
             )
         )
-        usersubscriptions = get_paginator(request, usersubscriptions)
 
         if user.profile.hide_completed:
             usersubscriptions = get_untranslated(usersubscriptions)
@@ -279,6 +278,8 @@ def dashboard_user(request):
                 componentlist.translations = get_untranslated(
                     prefetch_stats(componentlist.translations)
                 )
+
+        usersubscriptions = get_paginator(request, usersubscriptions)
         usersubscriptions = translation_prefetch_tasks(usersubscriptions)
 
     return render(
