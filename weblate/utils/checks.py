@@ -280,7 +280,7 @@ def check_database(app_configs, **kwargs):
 
     try:
         start = time.time()
-        Project.objects.count()
+        Project.objects.exists()
         delta = round(1000 * (time.time() - start))
         if delta > 100:
             errors.append(
