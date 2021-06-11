@@ -10,6 +10,7 @@ class VendastaOpenIdConnect(OpenIdConnectAuth):
 
     name = "Single-sign-on"
     ACCESS_TOKEN_METHOD = "POST"
+    DEFAULT_SCOPE = ['openid', 'profile']
     EXTRA_DATA = [("sub", "id"), "namespace", "roles"]
     USERNAME_KEY = "sub"
 
