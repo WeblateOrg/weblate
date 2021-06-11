@@ -140,6 +140,27 @@
           </tr>
         </tbody>
       </table>
+
+    </div>
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h4 class="panel-title">
+          {% documentation_icon 'admin/install' 'production-database' right=True %}
+          {% trans "Connectivity" %}
+        </h4>
+      </div>
+      <table class="table table-striped">
+        <tbody>
+          <tr>
+            <td>{% trans "Database latency" %}</td>
+            <td class="number">{{ database_latency }} ms</td>
+          </tr>
+          <tr>
+            <td>{% trans "Cache latency" %}</td>
+            <td class="number">{{ cache_latency }} ms</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
 
   </div>

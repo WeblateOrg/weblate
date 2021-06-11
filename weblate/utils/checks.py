@@ -274,6 +274,12 @@ def measure_database_latency():
     return round(1000 * (time.time() - start))
 
 
+def measure_cache_latency():
+    start = time.time()
+    cache.get("celery_loaded")
+    return round(1000 * (time.time() - start))
+
+
 def check_database(app_configs, **kwargs):
     errors = []
     if not using_postgresql():

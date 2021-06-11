@@ -46,6 +46,7 @@ from weblate.trans.models import Alert, Announcement, Component, Project
 from weblate.trans.util import redirect_param
 from weblate.utils import messages
 from weblate.utils.celery import get_queue_stats
+from weblate.utils.checks import measure_cache_latency, measure_database_latency
 from weblate.utils.errors import report_error
 from weblate.utils.tasks import database_backup, settings_backup
 from weblate.utils.version import GIT_LINK, GIT_REVISION
@@ -271,6 +272,8 @@ def performance(request):
         "menu_page": "performance",
         "web_encoding": [sys.getfilesystemencoding(), sys.getdefaultencoding()],
         "celery_encoding": cache.get("celery_encoding"),
+        "database_latency": measure_database_latency(),
+        "cache_latency": measure_cache_latency(),
     }
 
     return render(request, "manage/performance.html", context)
