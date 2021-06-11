@@ -1,4 +1,4 @@
-/*! @sentry/browser 6.5.1 (66b41d4) | https://github.com/getsentry/sentry-javascript */
+/*! @sentry/browser 6.6.0 (9a13c8b) | https://github.com/getsentry/sentry-javascript */
 var Sentry = (function (exports) {
     /*! *****************************************************************************
     Copyright (c) Microsoft Corporation. All rights reserved.
@@ -370,7 +370,7 @@ var Sentry = (function (exports) {
      * e.g. [HTMLElement] => body > div > input#foo.btn[name=baz]
      * @returns generated DOM path
      */
-    function htmlTreeAsString(elem) {
+    function htmlTreeAsString(elem, keyAttr) {
         // try/catch both:
         // - accessing event.target (see getsentry/raven-js#838, #768)
         // - `htmlTreeAsString` because it's complex, and just accessing the DOM incorrectly
@@ -387,7 +387,7 @@ var Sentry = (function (exports) {
             var nextStr = void 0;
             // eslint-disable-next-line no-plusplus
             while (currentElem && height++ < MAX_TRAVERSE_HEIGHT) {
-                nextStr = _htmlElementAsString(currentElem);
+                nextStr = _htmlElementAsString(currentElem, keyAttr);
                 // bail out if
                 // - nextStr is the 'html' element
                 // - the length of the string that would be created exceeds MAX_OUTPUT_LEN
@@ -410,7 +410,7 @@ var Sentry = (function (exports) {
      * e.g. [HTMLElement] => input#foo.btn[name=baz]
      * @returns generated DOM path
      */
-    function _htmlElementAsString(el) {
+    function _htmlElementAsString(el, keyAttr) {
         var elem = el;
         var out = [];
         var className;
@@ -422,15 +422,21 @@ var Sentry = (function (exports) {
             return '';
         }
         out.push(elem.tagName.toLowerCase());
-        if (elem.id) {
-            out.push("#" + elem.id);
+        var keyAttrValue = keyAttr ? elem.getAttribute(keyAttr) : null;
+        if (keyAttrValue) {
+            out.push("[" + keyAttr + "=\"" + keyAttrValue + "\"]");
         }
-        // eslint-disable-next-line prefer-const
-        className = elem.className;
-        if (className && isString(className)) {
-            classes = className.split(/\s+/);
-            for (i = 0; i < classes.length; i++) {
-                out.push("." + classes[i]);
+        else {
+            if (elem.id) {
+                out.push("#" + elem.id);
+            }
+            // eslint-disable-next-line prefer-const
+            className = elem.className;
+            if (className && isString(className)) {
+                classes = className.split(/\s+/);
+                for (i = 0; i < classes.length; i++) {
+                    out.push("." + classes[i]);
+                }
             }
         }
         var allowedAttrs = ['type', 'name', 'title', 'alt'];
@@ -2309,7 +2315,7 @@ var Sentry = (function (exports) {
         // performance.timing.navigationStart, which results in poor results in performance data. We only treat time origin
         // data as reliable if they are within a reasonable threshold of the current time.
         var performance = getGlobalObject().performance;
-        if (!performance) {
+        if (!performance || !performance.now) {
             return undefined;
         }
         var threshold = 3600 * 1000;
@@ -2707,12 +2713,12 @@ var Sentry = (function (exports) {
                 else {
                     var result = processor(__assign({}, event), hint);
                     if (isThenable(result)) {
-                        result
+                        void result
                             .then(function (final) { return _this._notifyEventProcessors(processors, final, hint, index + 1).then(resolve); })
                             .then(null, reject);
                     }
                     else {
-                        _this._notifyEventProcessors(processors, result, hint, index + 1)
+                        void _this._notifyEventProcessors(processors, result, hint, index + 1)
                             .then(resolve)
                             .then(null, reject);
                     }
@@ -2775,6 +2781,118 @@ var Sentry = (function (exports) {
     function addGlobalEventProcessor(callback) {
         getGlobalEventProcessors().push(callback);
     }
+
+    /**
+     * @inheritdoc
+     */
+    var Session = /** @class */ (function () {
+        function Session(context) {
+            this.errors = 0;
+            this.sid = uuid4();
+            this.duration = 0;
+            this.status = SessionStatus.Ok;
+            this.init = true;
+            this.ignoreDuration = false;
+            // Both timestamp and started are in seconds since the UNIX epoch.
+            var startingTime = timestampInSeconds();
+            this.timestamp = startingTime;
+            this.started = startingTime;
+            if (context) {
+                this.update(context);
+            }
+        }
+        /** JSDoc */
+        // eslint-disable-next-line complexity
+        Session.prototype.update = function (context) {
+            if (context === void 0) { context = {}; }
+            if (context.user) {
+                if (context.user.ip_address) {
+                    this.ipAddress = context.user.ip_address;
+                }
+                if (!context.did) {
+                    this.did = context.user.id || context.user.email || context.user.username;
+                }
+            }
+            this.timestamp = context.timestamp || timestampInSeconds();
+            if (context.ignoreDuration) {
+                this.ignoreDuration = context.ignoreDuration;
+            }
+            if (context.sid) {
+                // Good enough uuid validation. — Kamil
+                this.sid = context.sid.length === 32 ? context.sid : uuid4();
+            }
+            if (context.init !== undefined) {
+                this.init = context.init;
+            }
+            if (context.did) {
+                this.did = "" + context.did;
+            }
+            if (typeof context.started === 'number') {
+                this.started = context.started;
+            }
+            if (this.ignoreDuration) {
+                this.duration = undefined;
+            }
+            else if (typeof context.duration === 'number') {
+                this.duration = context.duration;
+            }
+            else {
+                var duration = this.timestamp - this.started;
+                this.duration = duration >= 0 ? duration : 0;
+            }
+            if (context.release) {
+                this.release = context.release;
+            }
+            if (context.environment) {
+                this.environment = context.environment;
+            }
+            if (context.ipAddress) {
+                this.ipAddress = context.ipAddress;
+            }
+            if (context.userAgent) {
+                this.userAgent = context.userAgent;
+            }
+            if (typeof context.errors === 'number') {
+                this.errors = context.errors;
+            }
+            if (context.status) {
+                this.status = context.status;
+            }
+        };
+        /** JSDoc */
+        Session.prototype.close = function (status) {
+            if (status) {
+                this.update({ status: status });
+            }
+            else if (this.status === SessionStatus.Ok) {
+                this.update({ status: SessionStatus.Exited });
+            }
+            else {
+                this.update();
+            }
+        };
+        /** JSDoc */
+        Session.prototype.toJSON = function () {
+            return dropUndefinedKeys({
+                sid: "" + this.sid,
+                init: this.init,
+                // Make sure that sec is converted to ms for date constructor
+                started: new Date(this.started * 1000).toISOString(),
+                timestamp: new Date(this.timestamp * 1000).toISOString(),
+                status: this.status,
+                errors: this.errors,
+                did: typeof this.did === 'number' || typeof this.did === 'string' ? "" + this.did : undefined,
+                duration: this.duration,
+                attrs: dropUndefinedKeys({
+                    release: this.release,
+                    environment: this.environment,
+                    ip_address: this.ipAddress,
+                    user_agent: this.userAgent,
+                }),
+            });
+        };
+        return Session;
+    }());
 
     /**
      * API compatibility version of this hub.
@@ -3271,118 +3389,6 @@ var Sentry = (function (exports) {
         carrier.__SENTRY__.hub = hub;
         return true;
     }
-
-    /**
-     * @inheritdoc
-     */
-    var Session = /** @class */ (function () {
-        function Session(context) {
-            this.errors = 0;
-            this.sid = uuid4();
-            this.duration = 0;
-            this.status = SessionStatus.Ok;
-            this.init = true;
-            this.ignoreDuration = false;
-            // Both timestamp and started are in seconds since the UNIX epoch.
-            var startingTime = timestampInSeconds();
-            this.timestamp = startingTime;
-            this.started = startingTime;
-            if (context) {
-                this.update(context);
-            }
-        }
-        /** JSDoc */
-        // eslint-disable-next-line complexity
-        Session.prototype.update = function (context) {
-            if (context === void 0) { context = {}; }
-            if (context.user) {
-                if (context.user.ip_address) {
-                    this.ipAddress = context.user.ip_address;
-                }
-                if (!context.did) {
-                    this.did = context.user.id || context.user.email || context.user.username;
-                }
-            }
-            this.timestamp = context.timestamp || timestampInSeconds();
-            if (context.ignoreDuration) {
-                this.ignoreDuration = context.ignoreDuration;
-            }
-            if (context.sid) {
-                // Good enough uuid validation. — Kamil
-                this.sid = context.sid.length === 32 ? context.sid : uuid4();
-            }
-            if (context.init !== undefined) {
-                this.init = context.init;
-            }
-            if (context.did) {
-                this.did = "" + context.did;
-            }
-            if (typeof context.started === 'number') {
-                this.started = context.started;
-            }
-            if (this.ignoreDuration) {
-                this.duration = undefined;
-            }
-            else if (typeof context.duration === 'number') {
-                this.duration = context.duration;
-            }
-            else {
-                var duration = this.timestamp - this.started;
-                this.duration = duration >= 0 ? duration : 0;
-            }
-            if (context.release) {
-                this.release = context.release;
-            }
-            if (context.environment) {
-                this.environment = context.environment;
-            }
-            if (context.ipAddress) {
-                this.ipAddress = context.ipAddress;
-            }
-            if (context.userAgent) {
-                this.userAgent = context.userAgent;
-            }
-            if (typeof context.errors === 'number') {
-                this.errors = context.errors;
-            }
-            if (context.status) {
-                this.status = context.status;
-            }
-        };
-        /** JSDoc */
-        Session.prototype.close = function (status) {
-            if (status) {
-                this.update({ status: status });
-            }
-            else if (this.status === SessionStatus.Ok) {
-                this.update({ status: SessionStatus.Exited });
-            }
-            else {
-                this.update();
-            }
-        };
-        /** JSDoc */
-        Session.prototype.toJSON = function () {
-            return dropUndefinedKeys({
-                sid: "" + this.sid,
-                init: this.init,
-                // Make sure that sec is converted to ms for date constructor
-                started: new Date(this.started * 1000).toISOString(),
-                timestamp: new Date(this.timestamp * 1000).toISOString(),
-                status: this.status,
-                errors: this.errors,
-                did: typeof this.did === 'number' || typeof this.did === 'string' ? "" + this.did : undefined,
-                duration: this.duration,
-                attrs: dropUndefinedKeys({
-                    release: this.release,
-                    environment: this.environment,
-                    ip_address: this.ipAddress,
-                    user_agent: this.userAgent,
-                }),
-            });
-        };
-        return Session;
-    }());
 
     /**
      * This calls a function on the current hub.
@@ -4381,7 +4387,7 @@ var Sentry = (function (exports) {
         hub.bindClient(client);
     }
 
-    var SDK_VERSION = '6.5.1';
+    var SDK_VERSION = '6.6.0';
 
     var originalFunctionToString;
     /** Patch toString calls to return proper name for wrapped functions */
@@ -6085,11 +6091,12 @@ var Sentry = (function (exports) {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         Breadcrumbs.prototype._domBreadcrumb = function (handlerData) {
             var target;
+            var keyAttr = typeof this._options.dom === 'object' ? this._options.dom.serializeAttribute : undefined;
             // Accessing event.target can throw (see getsentry/raven-js#838, #768)
             try {
                 target = handlerData.event.target
-                    ? htmlTreeAsString(handlerData.event.target)
-                    : htmlTreeAsString(handlerData.event);
+                    ? htmlTreeAsString(handlerData.event.target, keyAttr)
+                    : htmlTreeAsString(handlerData.event, keyAttr);
             }
             catch (e) {
                 target = '<unknown>';
