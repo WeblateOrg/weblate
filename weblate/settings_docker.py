@@ -26,6 +26,7 @@ from django.http import Http404
 
 from weblate.utils.environment import (
     get_env_bool,
+    get_env_float,
     get_env_int,
     get_env_list,
     get_env_map,
@@ -1266,6 +1267,7 @@ MATOMO_URL = os.environ.get("WEBLATE_MATOMO_URL", None)
 GOOGLE_ANALYTICS_ID = os.environ.get("WEBLATE_GOOGLE_ANALYTICS_ID", None)
 SENTRY_DSN = os.environ.get("SENTRY_DSN", None)
 SENTRY_ENVIRONMENT = os.environ.get("SENTRY_ENVIRONMENT", None)
+SENTRY_TRACES_SAMPLE_RATE = get_env_float("SENTRY_TRACES_SAMPLE_RATE", 0.0)
 AKISMET_API_KEY = os.environ.get("WEBLATE_AKISMET_API_KEY", None)
 
 ADDITIONAL_CONFIG = "/app/data/settings-override.py"

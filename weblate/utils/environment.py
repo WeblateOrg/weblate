@@ -46,6 +46,13 @@ def get_env_int(name: str, default: int = 0) -> int:
     return int(os.environ[name])
 
 
+def get_env_float(name: str, default: float = 0) -> float:
+    """Helper to get float value from environment."""
+    if name not in os.environ:
+        return default
+    return float(os.environ[name])
+
+
 def get_env_bool(name: str, default: bool = False) -> bool:
     """Helper to get boolean value from environment."""
     if name not in os.environ:
