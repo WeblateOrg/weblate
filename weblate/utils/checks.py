@@ -266,6 +266,14 @@ def check_celery(app_configs, **kwargs):
     return errors
 
 
+def measure_database_latency():
+    from weblate.trans.models import Project
+
+    start = time.time()
+    Project.objects.exists()
+    return round(1000 * (time.time() - start))
+
+
 def check_database(app_configs, **kwargs):
     errors = []
     if not using_postgresql():
@@ -276,12 +284,9 @@ def check_database(app_configs, **kwargs):
                 Info,
             )
         )
-    from weblate.trans.models import Project
 
     try:
-        start = time.time()
-        Project.objects.exists()
-        delta = round(1000 * (time.time() - start))
+        delta = measure_database_latency()
         if delta > 100:
             errors.append(
                 weblate_check(
