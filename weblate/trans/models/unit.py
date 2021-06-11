@@ -308,8 +308,7 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
         verbose_name=gettext_lazy("Translation flags"),
         default="",
         help_text=gettext_lazy(
-            "Additional comma-separated flags to influence quality checks. "
-            "Possible values can be found in the documentation."
+            "Additional comma-separated flags to influence Weblate behavior."
         ),
         validators=[validate_check_flags],
         blank=True,

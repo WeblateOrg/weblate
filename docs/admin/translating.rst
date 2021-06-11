@@ -67,6 +67,8 @@ using the ``priority`` flag.
 
 .. seealso:: :ref:`checks`
 
+.. _additional-flags:
+
 Translation flags
 +++++++++++++++++
 
@@ -81,7 +83,12 @@ The default set of translation flags is determined by the translation
 :ref:`component` and the translation file. However, you might want to use it
 to customize this per source string.
 
-.. seealso:: :ref:`checks`
+.. seealso::
+
+   :ref:`checks`,
+   :ref:`custom-checks`
+
+.. _additional-explanation:
 
 Explanation
 +++++++++++

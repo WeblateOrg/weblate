@@ -1008,9 +1008,9 @@ class ContextForm(forms.ModelForm):
         }
 
     doc_links = {
-        "explanation": ("admin/translating", "additional"),
+        "explanation": ("admin/translating", "additional-explanation"),
         "labels": ("devel/translations", "labels"),
-        "extra_flags": ("admin/translating", "additional"),
+        "extra_flags": ("admin/translating", "additional-flags"),
     }
 
     def get_field_doc(self, field):
