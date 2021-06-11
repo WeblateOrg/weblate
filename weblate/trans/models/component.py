@@ -1523,6 +1523,7 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
             return True
 
     @perform_on_link
+    @transaction.atomic
     def do_file_sync(self, request=None):
         from weblate.trans.models import Unit
 
