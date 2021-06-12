@@ -1390,6 +1390,9 @@ The cache volume is mounted as :file:`/app/cache` and is used to store static
 files. Its content is recreated on container startup and the volume can be
 mounted using ephemeral filesystem such as `tmpfs`.
 
+When creating the volumes manually, the directories should be owned by UID 1000
+as that is user used inside the container.
+
 .. seealso::
 
    `Docker volumes documentation <https://docs.docker.com/storage/volumes/>`_
