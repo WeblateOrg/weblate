@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-05-31 18:42+0200\n"
-"PO-Revision-Date: 2021-06-09 02:33+0000\n"
+"PO-Revision-Date: 2021-06-13 11:33+0000\n"
 "Last-Translator: amano <amano.hajime@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "documentation/ja/>\n"
@@ -2688,7 +2688,7 @@ msgstr "以下のコードを使用した、Gulp の例:"
 
 #: ../../admin/addons.rst:772
 msgid "Pre-commit processing of translations"
-msgstr "翻訳の事前コミット処理"
+msgstr "翻訳のコミット前処理"
 
 #: ../../admin/addons.rst:774
 msgid ""
@@ -3948,7 +3948,7 @@ msgstr ""
 
 #: ../../admin/backup.rst:203
 msgid "Django database backup"
-msgstr "Django バックアップ データベース"
+msgstr "Django データベースバックアップ"
 
 #: ../../admin/backup.rst:205
 msgid ""
@@ -5513,7 +5513,7 @@ msgstr "可能な選択肢:"
 
 #: ../../admin/config.rst:208
 msgid "``monthly`` (this is the default)"
-msgstr "``毎月``（これがデフォルト）"
+msgstr "``monthly `` （これがデフォルト）"
 
 #: ../../admin/config.rst:209
 msgid "``weekly``"
@@ -5776,8 +5776,8 @@ msgid ""
 "Default location for static Django files, specified by :setting:`django:"
 "STATIC_ROOT`. See :ref:`static-files`."
 msgstr ""
-"``STATIC_ROOT`` で指定する、静的 Django ファイルのデフォルトの場所。参照: :"
-"ref:`static-files`。"
+":setting:`django:STATIC_ROOT` で指定する、静的 Django ファイルのデフォルトの場所。参照: :ref:`static-"
+"files`。"
 
 #: ../../admin/config.rst:390
 msgid ""
@@ -5794,8 +5794,8 @@ msgid ""
 "Default location for Django media files, specified by :setting:`django:"
 "MEDIA_ROOT`. Contains uploaded screenshots, see :ref:`screenshots`."
 msgstr ""
-"``MEDIA_ROOT`` で指定する、Django メディア ファイルのデフォルトの場所。アップ"
-"ロードされたスクリーンショットが含まれています。参照: :ref:`screenshots`。"
+":setting:`django:MEDIA_ROOT` で指定する、Django メディア "
+"ファイルのデフォルトの場所。アップロードされたスクリーンショットが含まれています。参照: :ref:`screenshots`。"
 
 #: ../../admin/config.rst:393
 msgid ":file:`vcs`"
@@ -10439,9 +10439,9 @@ msgid ""
 "settings.COMPRESS_OFFLINE_CONTEXT` (the latter is already included in the "
 "example configuration):"
 msgstr ""
-"設定の切り替えは簡単で、:attr:`compressor:django.conf.settings."
-"COMPRESS_OFFLINE` を有効にして、:attr:`compressor:django.conf.settings."
-"COMPRESS_OFFLINE_CONTEXT`` を設定（後者はすでに制定例に含む）設定例:"
+"設定の切り替えは簡単で、:attr:`compressor:django.conf.settings.COMPRESS_OFFLINE` "
+"を有効にして、:attr:`compressor:django.conf.settings.COMPRESS_OFFLINE_CONTEXT` "
+"を設定します（後者は設定例にすでに含まれています）:"
 
 #: ../../admin/install.rst:1182
 msgid "On each deploy you need to compress the files to match current version:"
@@ -13085,9 +13085,7 @@ msgid ""
 "While editing, make sure all fields are correct (especially plurals and text "
 "direction), otherwise translators will be unable to properly edit those "
 "translations."
-msgstr ""
-"編集中は、すべてのフィールドが正しいことを確認してください（特に複数形とテキ"
-"スト順）)。正しくないと、翻訳者は翻訳文を適切に編集できません。"
+msgstr "編集中は、すべてのフィールドが正しいことを確認してください（特に複数形とテキスト順）。正しくないと、翻訳者は翻訳文を適切に編集できません。"
 
 #: ../../admin/languages.rst:63
 msgid "Built-in language definitions"
@@ -13165,11 +13163,10 @@ msgid ""
 "wikipedia.org/wiki/ISO_639-3>`_ codes for languages that do not have two "
 "letter code. It can also support extended codes as defined by `BCP 47`_."
 msgstr ""
-"言語を識別するコード。Weblate は、`ISO 639-1 <https://en.wikipedia.org/wiki/"
-"ISO_639-1>`_ で定義された 2 つの文字コードを優先しますが、2 つの文字コードを"
-"持たない言語には `ISO 639-2 <https://en.wikipedia.org/wiki/ISO_639-2>`_ また"
-"は `ISO 639-3 <https://en.wikipedia.org/wiki/ISO_639-3>`_ コードを使用しま"
-"す。`BCP 47`_ で定義された拡張コードにも対応できます。"
+"言語を識別するコード。Weblate は、`ISO 639-1 <https://en.wikipedia.org/wiki/ISO_639-1>`_ "
+"で定義された2文字のコードを優先しますが、2文字のコードを持たない言語には `ISO 639-2 <https://en.wikipedia.org/"
+"wiki/ISO_639-2>`_ または `ISO 639-3 <https://en.wikipedia.org/wiki/ISO_639-3>`_ "
+"コードを使用します。`BCP 47`_ で定義された拡張コードにも対応しています。"
 
 #: ../../admin/languages.rst:116
 msgid ":ref:`language-parsing-codes`, :ref:`new-translations`"
@@ -19604,7 +19601,7 @@ msgstr "原文の固有識別子"
 
 #: ../../api.rst:1957
 msgid "location of the unit in source code"
-msgstr "ソース コード内のユニットの場所"
+msgstr "ソースコード内のユニットの場所"
 
 #: ../../api.rst:1958
 msgid "translation unit context"
@@ -26164,7 +26161,7 @@ msgstr "アドオンの例:"
 
 #: ../../contributing/code.rst:2
 msgid "Weblate source code"
-msgstr "Weblate のソース コード"
+msgstr "Weblate のソースコード"
 
 #: ../../contributing/code.rst:4
 msgid ""
@@ -26742,9 +26739,7 @@ msgstr "``docs``"
 msgid ""
 "Source code for this documentation, which can be built using `Sphinx "
 "<https://www.sphinx-doc.org/>`_."
-msgstr ""
-"このドキュメントのソース コードは、`Sphinx <https://www.sphinx-doc.org/>`_ を"
-"使用して作成しています。"
+msgstr "このドキュメントのソースコードは、`Sphinx <https://www.sphinx-doc.org/>`_ を使用して作成しています。"
 
 #: ../../contributing/internals.rst:19
 msgid "``dev-docker``"
@@ -26763,8 +26758,8 @@ msgid ""
 "Source code of Weblate as a `Django <https://www.djangoproject.com/>`_ "
 "application, see :ref:`internals`."
 msgstr ""
-"`Django<https://www.djangoproject.com/>`_ アプリケーションとしての Weblate の"
-"ソース コード。参照: :ref:`internals`。"
+"`Django<https://www.djangoproject.com/>`_ アプリケーションとしての Weblate のソースコード。参照: "
+":ref:`internals`。"
 
 #: ../../contributing/internals.rst:24
 msgid "``weblate/static``"
@@ -27794,8 +27789,8 @@ msgid ""
 "Understand the Weblate source code by going through :doc:`code`, :doc:"
 "`frontend` and :doc:`internals`."
 msgstr ""
-"Weblate のソース コードを理解するには、まず :doc:`code`、:doc:`frontend`、:"
-"doc:`internals` を確認してください。"
+"Weblate のソースコードを理解するには、まず :doc:`code`、:doc:`frontend`、:doc:`internals` "
+"を確認してください。"
 
 #: ../../contributing/start.rst:8
 msgid "Starting with the codebase"
@@ -28245,7 +28240,7 @@ msgstr ""
 
 #: ../../devel/gettext.rst:2
 msgid "Translating software using GNU gettext"
-msgstr "GNU gettext を使用するソフトウェアによる翻訳"
+msgstr "GNU gettext を使用したソフトウェアの翻訳"
 
 #: ../../devel/gettext.rst:4
 msgid ""
@@ -34447,10 +34442,9 @@ msgid ""
 "clarify translation when some words are ambiguous or could have unexpected "
 "meanings."
 msgstr ""
-"一括編集、フラグの入力、または :guilabel:`ツール` ↓ :guilabel:`禁止する訳語に"
-"設定` を使用して、特定の用語の翻訳に ``forbidden `` フラグを立てると、使用し"
-"ては **いけない** を意味します。単語があいまいであったり、意図しない意味を持"
-"つ可能性がある場合に、翻訳を明確にするために使用します。"
+"一括編集、フラグの入力、または :guilabel:`ツール` ↓ :guilabel:`禁止する訳語に設定` を使用して、特定の用語の翻訳に "
+"``forbidden`` フラグを立てると、使用しては **いけない** "
+"ことを意味します。単語があいまいであったり、意図しない意味を持つ可能性がある場合に、翻訳を明確にするために使用します。"
 
 #: ../../user/glossary.rst:84
 msgid "Terminology"
@@ -34662,9 +34656,7 @@ msgid ""
 "You can define which secondary languages are shown to you as a guide while "
 "translating. An example can be seen in the following image, where the Hebrew "
 "language is shown as secondarily:"
-msgstr ""
-"翻訳時に参考として表示する参考言語を設定できます。次の画像は、ヘブライ語が参"
-"考言語として表示される例:"
+msgstr "翻訳時に参考として表示する言語を設定できます。次の画像は、ヘブライ語が参考言語として表示される例:"
 
 #: ../../user/profile.rst:106
 msgid "Preferences"
@@ -34698,18 +34690,15 @@ msgstr "エディタ リンク"
 msgid ""
 "A source code link is shown in the web-browser configured in the :ref:"
 "`component` by default."
-msgstr ""
-"ソース コードのリンクは、デフォルトでは :ref:`component` で設定した Web ブラ"
-"ウザに表示します。"
+msgstr "ソースコードのリンクは、デフォルトでは :ref:`component` で設定した Web ブラウザに表示します。"
 
 #: ../../user/profile.rst:128
 msgid ""
 "By setting the :guilabel:`Editor link`, you use your local editor to open "
 "the VCS source code file of translated strings. You can use :ref:`markup`."
 msgstr ""
-":guilabel:`エディタ リンク` を設定すると、ローカル エディターを使用して、翻訳"
-"した文字列の VCS ソース コードのファイルを表示します。:ref:`markup` を使用で"
-"きます。"
+":guilabel:`エディタ リンク` を設定すると、ローカル エディターを使用して、翻訳した文字列の VCS "
+"ソースコードのファイルを表示します。:ref:`markup` を使用できます。"
 
 #: ../../user/profile.rst:131
 msgid ""
@@ -36914,9 +36903,7 @@ msgstr ""
 #: ../../wlc.rst:172
 msgid ""
 "Commits changes made in a Weblate object (translation, component or project)."
-msgstr ""
-"Weblate オブジェクト（翻訳、コンポーネントまたはプロジェクト）で行われた変更"
-"をコミットする)。"
+msgstr "Weblate オブジェクト（翻訳、コンポーネントまたはプロジェクト）で行われた変更をコミットする。"
 
 #: ../../wlc.rst:176
 msgid ""
@@ -37496,10 +37483,8 @@ msgid ""
 "translators. You should review such strings and either edit them in the "
 "source or remove the label."
 msgstr ""
-"バイリンガル形式では、原文を直接編集できません（通常はソース コードから直接抽"
-"出します)。この場合、 翻訳者から報告された文字列には :guilabel:`査読が必要な"
-"原文` というラベルが付きます。この文字列を確認して、ソースで編集するか、ラベ"
-"ルを削除するかの処理が必要です。"
+"バイリンガル形式では、原文を直接編集できません（通常はソースコードから直接抽出します）。この場合、 翻訳者から報告された文字列には "
+":guilabel:`査読が必要な原文` というラベルが付きます。この文字列を確認して、ソースコード内で編集するか、ラベルを削除するかの処理が必要です。"
 
 #: ../../workflows.rst:259
 msgid ":ref:`bimono`, :ref:`reviews`, :ref:`labels`, :ref:`user-comments`"
