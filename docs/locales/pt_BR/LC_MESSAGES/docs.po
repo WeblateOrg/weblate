@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-05-31 18:42+0200\n"
-"PO-Revision-Date: 2021-06-09 02:33+0000\n"
+"PO-Revision-Date: 2021-06-13 11:33+0000\n"
 "Last-Translator: Rafael Fontenelle <rafaelff@gnome.org>\n"
 "Language-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/"
 "weblate/documentation/pt_BR/>\n"
@@ -18046,6 +18046,9 @@ msgid ""
 "remove existing ones. Adjust this to match your localization workflow - how "
 "the new strings are supposed to be introduced."
 msgstr ""
+"Configura se os usuários no Weblate terão permissão para adicionar novos "
+"textos e remover os existentes. Ajuste isso para corresponder ao seu fluxo "
+"de trabalho de localização -- como os novos textos devem ser introduzidos."
 
 #: ../../admin/projects.rst:597
 msgid ""
@@ -18055,6 +18058,12 @@ msgid ""
 "translation files). In Weblate you can manage strings for every translation "
 "and it does not enforce the strings in all translations to be consistent."
 msgstr ""
+"Para formatos bilíngues, os textos são normalmente extraídos do código-fonte "
+"(por exemplo, usando :program:`xgettext`) e adicionar novas strings no "
+"Weblate deve ser desabilitado (elas seriam descartadas na próxima vez que "
+"você atualizasse os arquivos de tradução). No Weblate, você pode gerenciar "
+"textos para cada tradução e não exige que os textos em todas as traduções "
+"sejam consistentes."
 
 #: ../../admin/projects.rst:603
 msgid ""
@@ -18102,10 +18111,13 @@ msgid ""
 "might not be supported for some VCSs. See :ref:`merge-rebase` for more "
 "details."
 msgstr ""
+"Você pode configurar como as atualizações do repositório upstream são "
+"tratadas. Isso pode não ser compatível com alguns VCSs. Veja :ref:`merge-"
+"rebase` para mais detalhes."
 
 #: ../../admin/projects.rst:636
 msgid "Default value can be changed by :setting:`DEFAULT_MERGE_STYLE`."
-msgstr ""
+msgstr "Valor padrão pode ser alterado por :setting:`DEFAULT_MERGE_STYLE`."
 
 #: ../../admin/projects.rst:645
 msgid "Commit, add, delete, merge and addon messages"
@@ -18113,7 +18125,7 @@ msgstr "Mensagens de commit, add, merge e extensão"
 
 #: ../../admin/projects.rst:647
 msgid "Message used when committing a translation, see :ref:`markup`."
-msgstr ""
+msgstr "Mensagem usada ao fazer commit uma tradução, veja :ref:`markup`."
 
 #: ../../admin/projects.rst:649
 msgid ""
@@ -18121,6 +18133,9 @@ msgid ""
 "`DEFAULT_ADDON_MESSAGE`, :setting:`DEFAULT_COMMIT_MESSAGE`, :setting:"
 "`DEFAULT_DELETE_MESSAGE`, :setting:`DEFAULT_MERGE_MESSAGE`."
 msgstr ""
+"O valor padrão pode ser alterado por :setting:`DEFAULT_ADD_MESSAGE`, "
+":setting:`DEFAULT_ADDON_MESSAGE`, :setting:`DEFAULT_COMMIT_MESSAGE`, "
+":setting:`DEFAULT_DELETE_MESSAGE`, :setting:`DEFAULT_MERGE_MESSAGE`."
 
 #: ../../admin/projects.rst:656
 msgid "Push on commit"
@@ -18133,6 +18148,11 @@ msgid ""
 "to its underlying repository (see :ref:`lazy-commit`). To actually enable "
 "pushing :guilabel:`Repository push URL` has to be configured as well."
 msgstr ""
+"Se as alterações confirmadas devem ser enviadas automaticamente para o "
+"repositório upstream. Quando habilitado, o push é iniciado assim que o "
+"Weblate confirma as alterações em seu repositório subjacente (veja :ref"
+":`lazy-commit`). Para habilitar o push :guilabel:`URL de push do repositório`"
+" também deve ser configurado."
 
 #: ../../admin/projects.rst:667
 msgid "Age of changes to commit"
@@ -18145,16 +18165,22 @@ msgid ""
 "changes in a component are committed once there is at least one change older "
 "than this period."
 msgstr ""
+"Define a idade (em horas) das alterações antes de ser feito commit pela "
+"tarefa em segundo plano ou pelo comando de gerenciamento "
+":djadmin:`commit_pending`. Todas as alterações em um componente tem commit "
+"feito quando houver pelo menos uma alteração anterior a esse período."
 
 #: ../../admin/projects.rst:674
 msgid "Default value can be changed by :setting:`COMMIT_PENDING_HOURS`."
-msgstr ""
+msgstr "O valor padrão pode ser alterado por :setting:`COMMIT_PENDING_HOURS`."
 
 #: ../../admin/projects.rst:678
 msgid ""
 "There are other situations where pending changes might be committed, see :"
 "ref:`lazy-commit`."
 msgstr ""
+"Existem outras situações onde mudanças pendentes podem ter seu commit feito, "
+"veja :ref:`lazy-commit`."
 
 #: ../../admin/projects.rst:684
 msgid "Lock on error"
@@ -18167,12 +18193,18 @@ msgid ""
 "it. This avoids adding another conflicts, which would have to be resolved "
 "manually."
 msgstr ""
+"Bloqueia o componente (e os componentes vinculados, consulte :ref:`internal-"
+"urls`) no primeiro push ou mesclagem com falha em seu repositório upstream, "
+"ou extraia dele. Isso evita adicionar outros conflitos, que teriam que ser "
+"resolvidos manualmente."
 
 #: ../../admin/projects.rst:690
 msgid ""
 "The component will be automatically unlocked once there are no repository "
 "errors left."
 msgstr ""
+"O componente será desbloqueado automaticamente quando não houver mais erros "
+"de repositório."
 
 #: ../../admin/projects.rst:696
 msgid "Source language"
@@ -18183,6 +18215,8 @@ msgid ""
 "Language used for source strings. Change this if you are translating from "
 "something else than English."
 msgstr ""
+"Linguagem usada para textos fonte. Altere isso se você estiver traduzindo de "
+"algo diferente do inglês."
 
 #: ../../admin/projects.rst:703
 msgid ""
@@ -18191,12 +18225,18 @@ msgid ""
 "`English (Developer)` as a source language to avoid conflict between the "
 "name of the source language and the existing translation."
 msgstr ""
+"Caso você esteja traduzindo arquivos bilíngues do inglês, mas também queira "
+"fazer correções na tradução para o inglês, escolha :guilabel:`Inglês "
+"(Desenvolvedor)` como idioma fonte para evitar conflito entre o nome do "
+"idioma fonte e a tradução existente."
 
 #: ../../admin/projects.rst:708
 msgid ""
 "For monolingual translations, you can use intermediate translation in this "
 "case, see :ref:`component-intermediate`."
 msgstr ""
+"Para traduções monolíngues, você pode usar tradução intermediária neste "
+"caso, veja :ref:`component-intermediate`."
 
 #: ../../admin/projects.rst:717
 msgid ""
@@ -18210,14 +18250,16 @@ msgstr ""
 #: ../../admin/projects.rst:722
 msgid "You need to list language codes as they appear in the filename."
 msgstr ""
+"Você precisa listar os códigos de idioma conforme aparecem no nome do "
+"arquivo."
 
 #: ../../admin/projects.rst:724
 msgid "Some examples of filtering:"
-msgstr ""
+msgstr "Alguns exemplos de filtragem:"
 
 #: ../../admin/projects.rst:727
 msgid "Filter description"
-msgstr ""
+msgstr "Descrição do filtro"
 
 #: ../../admin/projects.rst:727 ../../user/checks.rst:890
 msgid "Regular expression"
@@ -18225,43 +18267,43 @@ msgstr "Expressão regular"
 
 #: ../../admin/projects.rst:729
 msgid "Selected languages only"
-msgstr ""
+msgstr "Apenas idiomas selecionados"
 
 #: ../../admin/projects.rst:729
 msgid "``^(cs|de|es)$``"
-msgstr ""
+msgstr "``^(cs|de|es)$``"
 
 #: ../../admin/projects.rst:731
 msgid "Exclude languages"
-msgstr ""
+msgstr "Exclui idiomas"
 
 #: ../../admin/projects.rst:731
 msgid "``^(?!(it|fr)$).+$``"
-msgstr ""
+msgstr "``^(?!(it|fr)$).+$``"
 
 #: ../../admin/projects.rst:733
 msgid "Filter two letter codes only"
-msgstr ""
+msgstr "Filtra apenas códigos de duas letras"
 
 #: ../../admin/projects.rst:733
 msgid "``^..$``"
-msgstr ""
+msgstr "``^..$``"
 
 #: ../../admin/projects.rst:735
 msgid "Exclude non language files"
-msgstr ""
+msgstr "Exclui arquivos que não são idiomas"
 
 #: ../../admin/projects.rst:735
 msgid "``^(?!(blank)$).+$``"
-msgstr ""
+msgstr "``^(?!(blank)$).+$``"
 
 #: ../../admin/projects.rst:737
 msgid "Include all files (default)"
-msgstr ""
+msgstr "Inclui todos os arquivos (padrão)"
 
 #: ../../admin/projects.rst:737
 msgid "``^[^.]+$``"
-msgstr ""
+msgstr "``^[^.]+$``"
 
 #: ../../admin/projects.rst:743
 msgid "Variants regular expression"
@@ -18272,16 +18314,20 @@ msgid ""
 "Regular expression used to determine the variants of a string, see :ref:"
 "`variants`."
 msgstr ""
+"Expressão regular usada para determinar as variantes de um texto, veja "
+":ref:`variants`."
 
 #: ../../admin/projects.rst:750
 msgid ""
 "Most of the fields can be edited by project owners or managers, in the "
 "Weblate interface."
 msgstr ""
+"A maioria dos campos pode ser editada por proprietários ou gerentes de "
+"projetos, na interface do Weblate."
 
 #: ../../admin/projects.rst:755
 msgid ":ref:`faq-vcs`, :ref:`alerts`"
-msgstr ""
+msgstr ":ref:`faq-vcs`, :ref:`alerts`"
 
 #: ../../admin/projects.rst:760
 msgid "Priority"
@@ -18303,6 +18349,10 @@ msgid ""
 "project, even if the person can not perform any changes in the component. "
 "This makes it easier to keep translation consistency within the project."
 msgstr ""
+"Por padrão, o componente é visível para qualquer pessoa que tenha acesso ao "
+"projeto, mesmo se a pessoa não puder realizar nenhuma alteração no "
+"componente. Isso torna mais fácil manter a consistência da tradução dentro "
+"do projeto."
 
 #: ../../admin/projects.rst:773
 msgid ""
@@ -18312,17 +18362,26 @@ msgid ""
 "access to a new user group and putting users in it, or using the default "
 "`custom` or `private` access control groups."
 msgstr ""
+"Restringir o acesso em um componente ou nível de lista de componentes assume "
+"a permissão de acesso a um componente, independentemente das permissões de "
+"nível de projeto. Você terá que conceder acesso a ele explicitamente. Isso "
+"pode ser feito concedendo acesso a um novo grupo de usuários e colocando "
+"usuários nele, ou usando os grupos de controle de acesso padrão "
+"`personalizado` ou `privado`."
 
 #: ../../admin/projects.rst:779
 msgid ""
 "The default value can be changed in :setting:`DEFAULT_RESTRICTED_COMPONENT`."
 msgstr ""
+"O valor padrão pode ser alterado em :setting:`DEFAULT_RESTRICTED_COMPONENT`."
 
 #: ../../admin/projects.rst:783
 msgid ""
 "This applies to project admins as well — please make sure you will not loose "
 "access to the component after toggling the status."
 msgstr ""
+"Isso se aplica aos administradores do projeto também – certifique-se de não "
+"perder o acesso ao componente após alternar o status."
 
 #: ../../admin/projects.rst:789
 msgid "Share in projects"
@@ -18333,6 +18392,8 @@ msgid ""
 "You can choose additional projects where the component will be visible. "
 "Useful for shared libraries which you use in several projects."
 msgstr ""
+"Você pode escolher projetos adicionais onde o componente ficará visível. "
+"Útil para bibliotecas compartilhadas que você usa em vários projetos."
 
 #: ../../admin/projects.rst:796
 msgid ""
@@ -18340,6 +18401,9 @@ msgid ""
 "visible when browsing other projects. Users still need access to the actual "
 "component to browse or translate it."
 msgstr ""
+"Compartilhar um componente não altera seu controle de acesso. Só o torna "
+"visível ao navegar em outros projetos. Os usuários ainda precisam acessar o "
+"componente real para navegar ou traduzi-lo."
 
 #: ../../admin/projects.rst:804
 msgid "Use as a glossary"
@@ -18358,12 +18422,16 @@ msgid ""
 "The glossary will be accessible in all projects defined by :ref:`component-"
 "links`."
 msgstr ""
+"O glossário estará acessível em todos os projetos definidos por :ref"
+":`component-links`."
 
 #: ../../admin/projects.rst:813
 msgid ""
 "It is recommended to enable :ref:`component-manage_units` on glossaries in "
 "order to allow adding new words to them."
 msgstr ""
+"É recomendado habilitar :ref:`component-manage_units` em glossários para "
+"permitir adicionar novas palavras a eles."
 
 #: ../../admin/projects.rst:818
 #, fuzzy
@@ -18378,10 +18446,12 @@ msgstr "Cor do glossário"
 #: ../../admin/projects.rst:825
 msgid "Display color for a glossary used when showing word matches."
 msgstr ""
+"Cor de exibição para um glossário usado ao mostrar correspondências de "
+"palavras."
 
 #: ../../admin/projects.rst:830
 msgid "Template markup"
-msgstr ""
+msgstr "Marcação de modelo"
 
 #: ../../admin/projects.rst:832
 msgid ""
@@ -18389,26 +18459,29 @@ msgid ""
 "is needed. It is based on :doc:`django:ref/templates/language`, so it can be "
 "quite powerful."
 msgstr ""
+"O Weblate usa uma linguagem de marcação simples em vários lugares onde a "
+"renderização de texto é necessária. É baseado em :doc:`django:ref/templates/"
+"language`, então pode ser bastante poderoso."
 
 #: ../../admin/projects.rst:836
 msgid "Currently it is used in:"
-msgstr ""
+msgstr "Atualmente isso é usado em:"
 
 #: ../../admin/projects.rst:838
 msgid "Commit message formatting, see :ref:`component`"
-msgstr ""
+msgstr "Formatação de mensagens de commit, veja :ref:`component`"
 
 #: ../../admin/projects.rst:842
 msgid "Several addons"
-msgstr ""
+msgstr "Várias extensões"
 
 #: ../../admin/projects.rst:840
 msgid ":ref:`addon-weblate.discovery.discovery`"
-msgstr ""
+msgstr ":ref:`addon-weblate.discovery.discovery`"
 
 #: ../../admin/projects.rst:841
 msgid ":ref:`addon-weblate.generate.generate`"
-msgstr ""
+msgstr ":ref:`addon-weblate.generate.generate`"
 
 #: ../../admin/projects.rst:842
 msgid ":ref:`addon-script`"
@@ -18416,31 +18489,31 @@ msgstr ""
 
 #: ../../admin/projects.rst:844
 msgid "There following variables are available in the component templates:"
-msgstr ""
+msgstr "As seguintes variáveis estão disponíveis nos modelos de componentes:"
 
 #: ../../admin/projects.rst:846
 msgid "``{{ language_code }}``"
-msgstr ""
+msgstr "``{{ language_code }}``"
 
 #: ../../admin/projects.rst:848
 msgid "``{{ language_name }}``"
-msgstr ""
+msgstr "``{{ language_name }}``"
 
 #: ../../admin/projects.rst:850
 msgid "``{{ component_name }}``"
-msgstr ""
+msgstr "``{{ component_name }}``"
 
 #: ../../admin/projects.rst:852
 msgid "``{{ component_slug }}``"
-msgstr ""
+msgstr "``{{ component_slug }}``"
 
 #: ../../admin/projects.rst:854
 msgid "``{{ project_name }}``"
-msgstr ""
+msgstr "``{{ project_name }}``"
 
 #: ../../admin/projects.rst:856
 msgid "``{{ project_slug }}``"
-msgstr ""
+msgstr "``{{ project_slug }}``"
 
 #: ../../admin/projects.rst:857 ../../api.rst:763 ../../api.rst:1609
 #: ../../api.rst:2126 ../../api.rst:2196
@@ -18449,15 +18522,15 @@ msgstr "URL amigável do projeto"
 
 #: ../../admin/projects.rst:858
 msgid "``{{ url }}``"
-msgstr ""
+msgstr "``{{ url }}``"
 
 #: ../../admin/projects.rst:859
 msgid "Translation URL"
-msgstr ""
+msgstr "URL de tradução"
 
 #: ../../admin/projects.rst:860
 msgid "``{{ filename }}``"
-msgstr ""
+msgstr "``{{ filename }}``"
 
 #: ../../admin/projects.rst:861
 msgid "Translation filename"
@@ -18465,154 +18538,163 @@ msgstr "Nome do arquivo de tradução"
 
 #: ../../admin/projects.rst:862
 msgid "``{{ stats }}``"
-msgstr ""
+msgstr "``{{ stats }}``"
 
 #: ../../admin/projects.rst:863
 msgid "Translation stats, this has further attributes, examples below."
-msgstr ""
+msgstr "Estatísticas de tradução, isso tem outros atributos, exemplos abaixo."
 
 #: ../../admin/projects.rst:864
 msgid "``{{ stats.all }}``"
-msgstr ""
+msgstr "``{{ stats.all }}``"
 
 #: ../../admin/projects.rst:865
 msgid "Total strings count"
-msgstr ""
+msgstr "Contagem total de textos"
 
 #: ../../admin/projects.rst:866
 msgid "``{{ stats.fuzzy }}``"
-msgstr ""
+msgstr "``{{ stats.fuzzy }}``"
 
 #: ../../admin/projects.rst:867
 msgid "Count of strings needing review"
-msgstr ""
+msgstr "Contagem de textos que precisam de revisão"
 
 #: ../../admin/projects.rst:868
 msgid "``{{ stats.fuzzy_percent }}``"
-msgstr ""
+msgstr "``{{ stats.fuzzy_percent }}``"
 
 #: ../../admin/projects.rst:869
 msgid "Percent of strings needing review"
-msgstr ""
+msgstr "Porcentagem de textos que precisam de revisão"
 
 #: ../../admin/projects.rst:870
 msgid "``{{ stats.translated }}``"
-msgstr ""
+msgstr "``{{ stats.translated }}``"
 
 #: ../../admin/projects.rst:871
 msgid "Translated strings count"
-msgstr ""
+msgstr "Contagem de textos traduzidos"
 
 #: ../../admin/projects.rst:872
 msgid "``{{ stats.translated_percent }}``"
-msgstr ""
+msgstr "``{{ stats.translated_percent }}``"
 
 #: ../../admin/projects.rst:873
 msgid "Translated strings percent"
-msgstr ""
+msgstr "Porcentagem de textos traduzidos"
 
 #: ../../admin/projects.rst:874
 msgid "``{{ stats.allchecks }}``"
-msgstr ""
+msgstr "``{{ stats.allchecks }}``"
 
 #: ../../admin/projects.rst:875
 msgid "Number of strings with failing checks"
-msgstr ""
+msgstr "Número de textos com falhas nas verificações"
 
 #: ../../admin/projects.rst:876
 msgid "``{{ stats.allchecks_percent }}``"
-msgstr ""
+msgstr "``{{ stats.allchecks_percent }}``"
 
 #: ../../admin/projects.rst:877
 msgid "Percent of strings with failing checks"
-msgstr ""
+msgstr "Porcentagem de textos com falhas nas verificações"
 
 #: ../../admin/projects.rst:878
 msgid "``{{ author }}``"
-msgstr ""
+msgstr "``{{ author }}``"
 
 #: ../../admin/projects.rst:879
 msgid "Author of current commit, available only in the commit scope."
-msgstr ""
+msgstr "Autor do commit atual, disponível apenas no escopo do commit."
 
 #: ../../admin/projects.rst:881
 msgid "``{{ addon_name }}``"
-msgstr ""
+msgstr "``{{ addon_name }}``"
 
 #: ../../admin/projects.rst:881
 msgid ""
 "Name of currently executed addon, available only in the addon commit message."
 msgstr ""
+"Nome da extensão atualmente em execução, disponível apenas na mensagem de "
+"commit da extensão."
 
 #: ../../admin/projects.rst:883
 msgid ""
 "The following variables are available in the repository browser or editor "
 "templates:"
 msgstr ""
+"As seguintes variáveis estão disponíveis nos modelos de navegador ou editor "
+"de repositório:"
 
 #: ../../admin/projects.rst:885
 msgid "``{{branch}}``"
-msgstr ""
+msgstr "``{{branch}}``"
 
 #: ../../admin/projects.rst:886
 msgid "current branch"
-msgstr ""
+msgstr "ramo atual"
 
 #: ../../admin/projects.rst:887
 msgid "``{{line}}``"
-msgstr ""
+msgstr "``{{line}}``"
 
 #: ../../admin/projects.rst:888
 msgid "line in file"
-msgstr ""
+msgstr "linha no arquivo"
 
 #: ../../admin/projects.rst:890
 msgid "``{{filename}}``"
-msgstr ""
+msgstr "``{{filename}}``"
 
 #: ../../admin/projects.rst:890
 msgid ""
 "filename, you can also strip leading parts using the ``parentdir`` filter, "
 "for example ``{{filename|parentdir}}``"
 msgstr ""
+"nome do arquivo, você também pode remover as partes principais usando o "
+"filtro ``parentdir``, por exemplo ``{{filename|parentdir}}``"
 
 #: ../../admin/projects.rst:892
 msgid "You can combine them with filters:"
-msgstr ""
+msgstr "Você pode combiná-los com filtros:"
 
 #: ../../admin/projects.rst:898
 msgid "You can use conditions:"
-msgstr ""
+msgstr "Você pode usar as condições:"
 
 #: ../../admin/projects.rst:904
 msgid "There is additional tag available for replacing characters:"
-msgstr ""
+msgstr "Há uma tag adicional disponível para substituir caracteres:"
 
 #: ../../admin/projects.rst:910
 msgid "You can combine it with filters:"
-msgstr ""
+msgstr "Você pode combiná-lo com filtros:"
 
 #: ../../admin/projects.rst:916
 msgid "There are also additional filter to manipulate with filenames:"
-msgstr ""
+msgstr "Existem também filtros adicionais para manipular com nomes de arquivos:"
 
 #: ../../admin/projects.rst:925
 msgid "...and other Django template features."
-msgstr ""
+msgstr "...e outros recursos de modelos do Django."
 
 #: ../../admin/projects.rst:930
 msgid "Importing speed"
-msgstr ""
+msgstr "Velocidade de importação"
 
 #: ../../admin/projects.rst:932
 msgid ""
 "Fetching VCS repository and importing translations to Weblate can be a "
 "lengthy process, depending on size of your translations. Here are some tips:"
 msgstr ""
+"Obter o repositório VCS e importar traduções para o Weblate pode ser um "
+"processo demorado, dependendo do tamanho de suas traduções. Aqui estão "
+"algumas dicas:"
 
 #: ../../admin/projects.rst:936
 msgid "Optimize configuration"
-msgstr ""
+msgstr "Otimizar a configuração"
 
 #: ../../admin/projects.rst:938
 msgid ""
@@ -18621,10 +18703,16 @@ msgid ""
 "quite a big impact on performance. Please check :ref:`production` for more "
 "details, especially:"
 msgstr ""
+"A configuração padrão é útil para testar e depurar o Weblate, enquanto para "
+"uma configuração de produção, você deve fazer alguns ajustes. Muitas delas "
+"têm um grande impacto no desempenho. Por favor, confira :ref:`production` "
+"para mais detalhes, especialmente:"
 
 #: ../../admin/projects.rst:943
 msgid "Configure Celery for executing background tasks (see :ref:`celery`)"
 msgstr ""
+"Configure o Celery para executar tarefas em segundo plano (veja "
+":ref:`celery`)"
 
 #: ../../admin/projects.rst:945
 msgid ":ref:`production-database`"
@@ -18632,35 +18720,43 @@ msgstr ""
 
 #: ../../admin/projects.rst:949
 msgid "Check resource limits"
-msgstr ""
+msgstr "Verificar limites de recursos"
 
 #: ../../admin/projects.rst:951
 msgid ""
 "If you are importing huge translations or repositories, you might be hit by "
 "resource limitations of your server."
 msgstr ""
+"Se você estiver importando grandes traduções ou repositórios, pode ser "
+"atingido por limitações de recursos do seu servidor."
 
 #: ../../admin/projects.rst:954
 msgid ""
 "Check the amount of free memory, having translation files cached by the "
 "operating system will greatly improve performance."
 msgstr ""
+"Verifique a quantidade de memória livre, pois os arquivos de tradução "
+"armazenados em cache pelo sistema operacional melhorará muito o desempenho."
 
 #: ../../admin/projects.rst:955
 msgid ""
 "Disk operations might be bottleneck if there is a lot of strings to process—"
 "the disk is pushed by both Weblate and the database."
 msgstr ""
+"As operações de disco podem ser um gargalo se houver muitos textos a serem "
+"processadas – o disco é enviado pelo Weblate e pelo banco de dados."
 
 #: ../../admin/projects.rst:956
 msgid ""
 "Additional CPU cores might help improve performance of background tasks "
 "(see :ref:`celery`)."
 msgstr ""
+"Núcleos de CPU adicionais podem ajudar a melhorar o desempenho de tarefas em "
+"segundo plano (veja :ref:`celery`)."
 
 #: ../../admin/projects.rst:959
 msgid "Disable unneeded checks"
-msgstr ""
+msgstr "Desabilitar verificações desnecessárias"
 
 #: ../../admin/projects.rst:961
 msgid ""
@@ -18668,10 +18764,13 @@ msgid ""
 "some time during import if omitted. See :setting:`CHECK_LIST` for info on "
 "configuration."
 msgstr ""
+"Algumas verificações de qualidade podem ser bastante custosas e, se não "
+"forem necessárias, podem economizar algum tempo durante a importação, se "
+"omitidas. Veja :setting:`CHECK_LIST` para informações sobre configuração."
 
 #: ../../admin/projects.rst:968
 msgid "Automatic creation of components"
-msgstr ""
+msgstr "Criação automática de componentes"
 
 #: ../../admin/projects.rst:970
 msgid ""
@@ -18681,6 +18780,11 @@ msgid ""
 "djadmin:`import_project` or :djadmin:`import_json`, or by installing the :"
 "ref:`addon-weblate.discovery.discovery` addon."
 msgstr ""
+"Caso seu projeto tenha dezenas de arquivos de tradução (por exemplo, para "
+"diferentes domínios gettext ou partes de aplicativos Android), você pode "
+"querer importá-los automaticamente. Isso pode ser feito na linha de comando "
+"usando :djadmin:`import_project` ou :djadmin:`import_json`, ou instalando a "
+"extensão :ref:`addon-weblate.discovery.discovery`."
 
 #: ../../admin/projects.rst:976
 msgid ""
@@ -18688,6 +18792,9 @@ msgid ""
 "file (choose the one that is the least likely to be renamed or removed in "
 "future), and install the addon on this component."
 msgstr ""
+"Para usar o complemento, primeiro você precisa criar um componente para um "
+"arquivo de tradução (escolha aquele que tem menos probabilidade de ser "
+"renomeado ou removido no futuro) e instalar o complemento neste componente."
 
 #: ../../admin/projects.rst:980
 msgid ""
@@ -18695,10 +18802,13 @@ msgid ""
 "all components and then run :djadmin:`import_project` or :djadmin:"
 "`import_json`."
 msgstr ""
+"Para os comandos de gerenciamento, você precisa criar um projeto que conterá "
+"todos os componentes e então executar :djadmin:`import_project` ou "
+":djadmin:`import_json`."
 
 #: ../../admin/projects.rst:986
 msgid ":ref:`manage`, :ref:`addon-weblate.discovery.discovery`"
-msgstr ""
+msgstr ":ref:`manage`, :ref:`addon-weblate.discovery.discovery`"
 
 #: ../../admin/sample.rst:4
 msgid "Sample configuration"
@@ -18709,6 +18819,8 @@ msgid ""
 "The following example is shipped as :file:`weblate/settings_example.py` with "
 "Weblate:"
 msgstr ""
+"O exemplo a seguir é enviado como :file:`weblate/settings_example.py` com "
+"Weblate:"
 
 #: ../../admin/support.rst:2
 msgid "Getting support for Weblate"
@@ -18773,11 +18885,11 @@ msgstr "A chave pública SSH da sua instância"
 
 #: ../../admin/support.rst:35
 msgid "Additionally, when :ref:`discover-weblate` is turned on:"
-msgstr ""
+msgstr "Além disso, quando :ref:`discover-weblate` está ativado:"
 
 #: ../../admin/support.rst:37
 msgid "List of public projects (name, URL and website)"
-msgstr ""
+msgstr "Lista de projetos públicos (nome, URL e site)"
 
 #: ../../admin/support.rst:39
 msgid "No other data is submitted."
@@ -18836,6 +18948,8 @@ msgid ""
 "Participating in Discover Weblate makes Weblate submit some information "
 "about your server, please see :ref:`support-data`."
 msgstr ""
+"Participar do Descubra Weblate faz com que o Weblate envie algumas "
+"informações sobre o seu servidor, veja :ref:`support-data`."
 
 #: ../../admin/support.rst:76
 msgid ""
@@ -18843,10 +18957,14 @@ msgid ""
 "support`) in Discover Weblate all you need to do is turn this on in the "
 "management panel:"
 msgstr ""
+"Para listar o seu servidor com uma assinatura de suporte ativa (veja :ref"
+":`activate-support`) no Descubra Weblate tudo que você precisa fazer é "
+"ativar isso no painel de gerenciamento:"
 
 #: ../../admin/support.rst:82
 msgid "Listing your server without a support subsription in Discover Weblate:"
 msgstr ""
+"Listando seu servidor sem uma assinatura de suporte no Descubra Weblate:"
 
 #: ../../admin/support.rst:84
 msgid "Register yourself at <https://weblate.org/user/>"
@@ -18866,6 +18984,9 @@ msgid ""
 "listing in your Weblate management page using :guilabel:`Enable discovery` "
 "button:"
 msgstr ""
+"Confirme a ativação do serviço em seu Weblate e ative a lista de descoberta "
+"em sua página de gerenciamento do Weblate usando o botão :guilabel:`"
+"Habilitar descoberta`:"
 
 #: ../../admin/support.rst:93
 msgid "Customizing listing"
@@ -18876,6 +18997,8 @@ msgid ""
 "You can customize the listing by providing a text and image (570 x 260 "
 "pixels) at <https://weblate.org/user/>."
 msgstr ""
+"Você pode personalizar a lista fornecendo um texto e uma imagem (570 x 260 "
+"pixels) em <https://weblate.org/user/>."
 
 #: ../../admin/translating.rst:2
 msgid "Translation process"
