@@ -634,7 +634,10 @@ class GitMergeRequestBase(GitForcePushRepository):
             # Needed for compatibility with original merge code
             self.execute(["checkout", self.branch])
         else:
-            self.execute(["merge", f"origin/{self.branch}"])
+            cmd = ["merge"]
+            cmd.extend(self.get_gpg_sign_args())
+            cmd.append(f"origin/{self.branch}")
+            self.execute(cmd)
         self.clean_revision_cache()
 
     def get_api_url(self) -> Tuple[str, str, str]:
