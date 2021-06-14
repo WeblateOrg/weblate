@@ -1,4 +1,4 @@
-/*! @sentry/browser 6.6.0 (9a13c8b) | https://github.com/getsentry/sentry-javascript */
+/*! @sentry/browser 6.7.0 (e7a9014) | https://github.com/getsentry/sentry-javascript */
 var Sentry = (function (exports) {
     /*! *****************************************************************************
     Copyright (c) Microsoft Corporation. All rights reserved.
@@ -3572,19 +3572,24 @@ var Sentry = (function (exports) {
      **/
     var API = /** @class */ (function () {
         /** Create a new instance of API */
-        function API(dsn, metadata) {
+        function API(dsn, metadata, tunnel) {
             if (metadata === void 0) { metadata = {}; }
             this.dsn = dsn;
             this._dsnObject = new Dsn(dsn);
             this.metadata = metadata;
+            this._tunnel = tunnel;
         }
         /** Returns the Dsn object. */
         API.prototype.getDsn = function () {
             return this._dsnObject;
         };
+        /** Does this transport force envelopes? */
+        API.prototype.forceEnvelope = function () {
+            return !!this._tunnel;
+        };
         /** Returns the prefix to construct Sentry ingestion API endpoints. */
         API.prototype.getBaseApiEndpoint = function () {
-            var dsn = this._dsnObject;
+            var dsn = this.getDsn();
             var protocol = dsn.protocol ? dsn.protocol + ":" : '';
             var port = dsn.port ? ":" + dsn.port : '';
             return protocol + "//" + dsn.host + port + (dsn.path ? "/" + dsn.path : '') + "/api/";
@@ -3607,11 +3612,14 @@ var Sentry = (function (exports) {
          * Sending auth as part of the query string and not as custom HTTP headers avoids CORS preflight requests.
          */
         API.prototype.getEnvelopeEndpointWithUrlEncodedAuth = function () {
+            if (this.forceEnvelope()) {
+                return this._tunnel;
+            }
             return this._getEnvelopeEndpoint() + "?" + this._encodedAuth();
         };
         /** Returns only the path component for the store endpoint. */
         API.prototype.getStoreEndpointPath = function () {
-            var dsn = this._dsnObject;
+            var dsn = this.getDsn();
             return (dsn.path ? "/" + dsn.path : '') + "/api/" + dsn.projectId + "/store/";
         };
         /**
@@ -3620,7 +3628,7 @@ var Sentry = (function (exports) {
          */
         API.prototype.getRequestHeaders = function (clientName, clientVersion) {
             // CHANGE THIS to use metadata but keep clientName and clientVersion compatible
-            var dsn = this._dsnObject;
+            var dsn = this.getDsn();
             var header = ["Sentry sentry_version=" + SENTRY_API_VERSION];
             header.push("sentry_client=" + clientName + "/" + clientVersion);
             header.push("sentry_key=" + dsn.publicKey);
@@ -3635,7 +3643,7 @@ var Sentry = (function (exports) {
         /** Returns the url to the report dialog endpoint. */
         API.prototype.getReportDialogEndpoint = function (dialogOptions) {
             if (dialogOptions === void 0) { dialogOptions = {}; }
-            var dsn = this._dsnObject;
+            var dsn = this.getDsn();
             var endpoint = this.getBaseApiEndpoint() + "embed/error-page/";
             var encodedOptions = [];
             encodedOptions.push("dsn=" + dsn.toString());
@@ -3669,13 +3677,16 @@ var Sentry = (function (exports) {
         };
         /** Returns the ingest API endpoint for target. */
         API.prototype._getIngestEndpoint = function (target) {
+            if (this._tunnel) {
+                return this._tunnel;
+            }
             var base = this.getBaseApiEndpoint();
-            var dsn = this._dsnObject;
+            var dsn = this.getDsn();
             return "" + base + dsn.projectId + "/" + target + "/";
         };
         /** Returns a URL-encoded string with auth config suitable for a query string. */
         API.prototype._encodedAuth = function () {
-            var dsn = this._dsnObject;
+            var dsn = this.getDsn();
             var auth = {
                 // We send only the minimum set of required information. See
                 // https://github.com/getsentry/sentry-javascript/issues/2572.
@@ -4332,7 +4343,7 @@ var Sentry = (function (exports) {
     function eventToSentryRequest(event, api) {
         var sdkInfo = getSdkMetadataForEnvelopeHeader(api);
         var eventType = event.type || 'event';
-        var useEnvelope = eventType === 'transaction';
+        var useEnvelope = eventType === 'transaction' || api.forceEnvelope();
         var _a = event.debug_meta || {}, transactionSampling = _a.transactionSampling, metadata = __rest(_a, ["transactionSampling"]);
         var _b = transactionSampling || {}, samplingMethod = _b.method, sampleRate = _b.rate;
         if (Object.keys(metadata).length === 0) {
@@ -4352,7 +4363,7 @@ var Sentry = (function (exports) {
         // deserialization. Instead, we only implement a minimal subset of the spec to
         // serialize events inline here.
         if (useEnvelope) {
-            var envelopeHeaders = JSON.stringify(__assign({ event_id: event.event_id, sent_at: new Date().toISOString() }, (sdkInfo && { sdk: sdkInfo })));
+            var envelopeHeaders = JSON.stringify(__assign(__assign({ event_id: event.event_id, sent_at: new Date().toISOString() }, (sdkInfo && { sdk: sdkInfo })), (api.forceEnvelope() && { dsn: api.getDsn().toString() })));
             var itemHeaders = JSON.stringify({
                 type: event.type,
                 // TODO: Right now, sampleRate may or may not be defined (it won't be in the cases of inheritance and
@@ -4387,7 +4398,7 @@ var Sentry = (function (exports) {
         hub.bindClient(client);
     }
 
-    var SDK_VERSION = '6.6.0';
+    var SDK_VERSION = '6.7.0';
 
     var originalFunctionToString;
     /** Patch toString calls to return proper name for wrapped functions */
@@ -5029,7 +5040,7 @@ var Sentry = (function (exports) {
             this._buffer = new PromiseBuffer(30);
             /** Locks transport after receiving rate limits in a response */
             this._rateLimits = {};
-            this._api = new API(options.dsn, options._metadata);
+            this._api = new API(options.dsn, options._metadata, options.tunnel);
             // eslint-disable-next-line deprecation/deprecation
             this.url = this._api.getStoreEndpointWithUrlEncodedAuth();
         }
@@ -5366,7 +5377,7 @@ var Sentry = (function (exports) {
                 // We return the noop transport here in case there is no Dsn.
                 return _super.prototype._setupTransport.call(this);
             }
-            var transportOptions = __assign(__assign({}, this._options.transportOptions), { dsn: this._options.dsn, _metadata: this._options._metadata });
+            var transportOptions = __assign(__assign({}, this._options.transportOptions), { dsn: this._options.dsn, tunnel: this._options.tunnel, _metadata: this._options._metadata });
             if (this._options.transport) {
                 return new this._options.transport(transportOptions);
             }
