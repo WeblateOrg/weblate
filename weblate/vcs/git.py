@@ -138,7 +138,10 @@ class GitRepository(Repository):
             if self.needs_commit():
                 self.execute(["reset", "--hard"])
         else:
-            self.execute(["rebase", self.get_remote_branch_name()])
+            cmd = ["rebase"]
+            cmd.extend(self.get_gpg_sign_args())
+            cmd.append(self.get_remote_branch_name())
+            self.execute(cmd)
         self.clean_revision_cache()
 
     def has_git_file(self, name):
@@ -636,7 +639,7 @@ class GitMergeRequestBase(GitForcePushRepository):
         else:
             cmd = ["merge"]
             cmd.extend(self.get_gpg_sign_args())
-            cmd.append(f"origin/{self.branch}")
+            cmd.append(self.get_remote_branch_name())
             self.execute(cmd)
         self.clean_revision_cache()
 
