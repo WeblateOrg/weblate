@@ -248,7 +248,6 @@ class TTKitFormat(TranslationFormat):
     @classmethod
     def load(cls, storefile, template_store):
         """Load file using defined loader."""
-        # Add missing mode attribute to Django file wrapper
         if isinstance(storefile, TranslationStore):
             # Used by XLSX writer
             return storefile
