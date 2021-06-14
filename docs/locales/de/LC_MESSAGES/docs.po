@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-05-31 18:42+0200\n"
-"PO-Revision-Date: 2021-06-09 02:33+0000\n"
+"PO-Revision-Date: 2021-06-14 18:36+0000\n"
 "Last-Translator: VfBFan <drop0815@posteo.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "documentation/de/>\n"
@@ -502,6 +502,9 @@ msgid ""
 "groups. For example, you may want to give a permission to manage screenshots "
 "to all the `Users`."
 msgstr ""
+"Sie können den Standardgruppen auch einige zusätzliche Berechtigungen Ihrer "
+"Wahl erteilen. So können Sie z. B. allen \"Benutzern\" die Berechtigung zum "
+"Verwalten von Bildschirmfotos erteilen."
 
 #: ../../admin/access.rst:231
 msgid ""
@@ -992,7 +995,7 @@ msgstr "Berichte herunterladen [`Administration`]"
 
 #: ../../admin/access.rst:488
 msgid "Add screenshot [`Administration`, `Manage screenshots`]"
-msgstr "Bildschirmfoto hinzufügen [`Administration`, `Manage screenshots`]"
+msgstr "Bildschirmfoto hinzufügen [`Verwaltung`, `Bildschirmfotos verwalten`]"
 
 #: ../../admin/access.rst:490
 msgid "Edit screenshot [`Administration`, `Manage screenshots`]"
@@ -1000,7 +1003,7 @@ msgstr "Bildschirmfoto bearbeiten [`Verwaltung`, `Bildschirmfotos verwalten`]"
 
 #: ../../admin/access.rst:492
 msgid "Delete screenshot [`Administration`, `Manage screenshots`]"
-msgstr "Bildschirmfoto löschen [`Administration`, `Bildschirmfotos verwalten`]"
+msgstr "Bildschirmfoto löschen [`Verwaltung`, `Bildschirmfotos verwalten`]"
 
 #: ../../admin/access.rst:495 ../../admin/addons.rst:357
 msgid "Source strings"
@@ -1327,10 +1330,8 @@ msgid ""
 msgstr ""
 
 #: ../../admin/access.rst:630
-#, fuzzy
-#| msgid "Additional projects"
 msgid "Additional access restrictions"
-msgstr "Zusätzliche Projekte"
+msgstr "Zusätzliche Zugriffsbeschränkungen"
 
 #: ../../admin/access.rst:632
 msgid ""
@@ -1357,6 +1358,10 @@ msgid ""
 "Admins can add and manage add-ons from the :guilabel:`Manage` ↓ :guilabel:"
 "`Add-ons` menu of each respective translation component."
 msgstr ""
+"Erweiterungen bieten Möglichkeiten, den Ablauf der Übersetzung anzupassen "
+"und zu automatisieren. Administratoren können Erweiterungen über das Menü "
+":guilabel:`Verwaltung` ↓ :guilabel:`Erweiterungen` der jeweiligen "
+"Übersetzungskomponente hinzufügen und verwalten."
 
 #: ../../admin/addons.rst:14
 msgid ""
@@ -1367,10 +1372,8 @@ msgstr ""
 ":setting:`DEFAULT_ADDONS`, oder :djadmin:`install_addon` konfigurieren."
 
 #: ../../admin/addons.rst:20
-#, fuzzy
-#| msgid "Add language definitions"
 msgid "Built-in add-ons"
-msgstr "Sprachdefinitionen hinzufügen"
+msgstr "Integrierte Erweiterungen"
 
 #: ../../admin/addons.rst:26 ../../admin/continuous.rst:433
 #: ../../user/translating.rst:319
@@ -1379,14 +1382,12 @@ msgstr "Automatische Übersetzung"
 
 #: ../../admin/addons.rst:0 ../../api.rst:2182 ../../api.rst:2205
 #: ../../api.rst:2213 ../../api.rst:2221
-#, fuzzy
-#| msgid "Addons"
 msgid "Add-on ID"
-msgstr "Erweiterungen"
+msgstr "Erweiterungs-ID"
 
 #: ../../admin/addons.rst:30
 msgid "``weblate.autotranslate.autotranslate``"
-msgstr ""
+msgstr "``weblate.autotranslate.autotranslate``"
 
 #: ../../admin/addons.rst:0 ../../admin/config.rst:4
 #: ../../admin/install/kubernetes.rst:26 ../../admin/install/openshift.rst:102
@@ -1482,7 +1483,7 @@ msgstr "JavaScript-Lokalisierung CDN"
 
 #: ../../admin/addons.rst:64
 msgid "``weblate.cdn.cdnjs``"
-msgstr ""
+msgstr "``weblate.cdn.cdnjs``"
 
 #: ../../admin/addons.rst:66 ../../devel/html.rst:49
 msgid "Translation threshold"
@@ -1564,7 +1565,7 @@ msgstr "Entferne leere Zeichenketten"
 
 #: ../../admin/addons.rst:98
 msgid "``weblate.cleanup.blank``"
-msgstr ""
+msgstr "``weblate.cleanup.blank``"
 
 #: ../../admin/addons.rst:99 ../../admin/addons.rst:117
 #: ../../admin/addons.rst:133 ../../admin/addons.rst:266
@@ -1572,10 +1573,8 @@ msgstr ""
 #: ../../admin/addons.rst:388 ../../admin/addons.rst:408
 #: ../../admin/addons.rst:443 ../../admin/addons.rst:547
 #: ../../admin/addons.rst:597
-#, fuzzy
-#| msgid "Bad configuration"
 msgid "`This add-on has no configuration.`"
-msgstr "Fehlkonfiguration"
+msgstr "`Diese Erweiterung hat keine Konfiguration.`"
 
 #: ../../admin/addons.rst:101
 msgid "Removes strings without a translation from translation files."
@@ -1601,7 +1600,7 @@ msgstr "Übersetzungsdateien bereinigen"
 
 #: ../../admin/addons.rst:116
 msgid "``weblate.cleanup.generic``"
-msgstr ""
+msgstr "``weblate.cleanup.generic``"
 
 #: ../../admin/addons.rst:119
 msgid ""
@@ -1619,10 +1618,8 @@ msgid "Add missing languages"
 msgstr "Fehlende Sprachen hinzufügen"
 
 #: ../../admin/addons.rst:132
-#, fuzzy
-#| msgid "Weblate languages"
 msgid "``weblate.consistency.languages``"
-msgstr "Weblate-Sprachen"
+msgstr "``weblate.consistency.languages``"
 
 #: ../../admin/addons.rst:135
 msgid ""
@@ -1641,6 +1638,8 @@ msgstr ""
 #: ../../admin/addons.rst:141
 msgid "Unlike most others, this add-on affects the whole project."
 msgstr ""
+"Im Gegensatz zu den meisten anderen wirkt sich diese Erweiterung auf das "
+"gesamte Projekt aus."
 
 #: ../../admin/addons.rst:145
 msgid ""
@@ -1653,10 +1652,8 @@ msgid "Component discovery"
 msgstr "Komponentenerkennung"
 
 #: ../../admin/addons.rst:153
-#, fuzzy
-#| msgid "Weblate keys"
 msgid "``weblate.discovery.discovery``"
-msgstr "Weblate-Schlüssel"
+msgstr "``weblate.discovery.discovery``"
 
 #: ../../admin/addons.rst:155
 msgid "``match``"
@@ -1786,6 +1783,10 @@ msgid ""
 "configuration, but some knowledge is required to do so. Some examples for "
 "common use cases can be found in the add-on help section."
 msgstr ""
+"Der Abgleich erfolgt über reguläre Ausdrücke, die eine komplexe "
+"Konfiguration ermöglichen, für die jedoch einige Kenntnisse erforderlich "
+"sind. Einige Beispiele für häufige Anwendungsfälle finden Sie im "
+"Hilfebereich der Erweiterung."
 
 #: ../../admin/addons.rst:186
 msgid ""
@@ -1815,7 +1816,7 @@ msgstr "Massenbearbeitung"
 
 #: ../../admin/addons.rst:211
 msgid "``weblate.flags.bulk``"
-msgstr ""
+msgstr "``weblate.flags.bulk``"
 
 #: ../../admin/addons.rst:213
 msgid "``q``"
@@ -1890,10 +1891,8 @@ msgid "Label new strings automatically"
 msgstr ""
 
 #: ../../admin/addons.rst:237 ../../admin/addons.rst:245
-#, fuzzy
-#| msgid "Search filter"
 msgid "Search query"
-msgstr "Suchfilter"
+msgstr "Suchanfrage"
 
 #: ../../admin/addons.rst:238
 msgid "``NOT has:label``"
@@ -1929,7 +1928,7 @@ msgstr "Unveränderte Übersetzungen als „bearbeitungsbedürftig“ markieren"
 
 #: ../../admin/addons.rst:265
 msgid "``weblate.flags.same_edit``"
-msgstr ""
+msgstr "``weblate.flags.same_edit``"
 
 #: ../../admin/addons.rst:268
 msgid ""
@@ -1961,7 +1960,7 @@ msgstr "Neue Ausgangszeichenketten als „bearbeitungsbedürftig“ markieren"
 
 #: ../../admin/addons.rst:286
 msgid "``weblate.flags.source_edit``"
-msgstr ""
+msgstr "``weblate.flags.source_edit``"
 
 #: ../../admin/addons.rst:289
 msgid ""
@@ -1980,7 +1979,7 @@ msgstr "Neue Übersetzungen als „bearbeitungsbedürftig“ markieren"
 
 #: ../../admin/addons.rst:302
 msgid "``weblate.flags.target_edit``"
-msgstr ""
+msgstr "``weblate.flags.target_edit``"
 
 #: ../../admin/addons.rst:305
 msgid ""
@@ -1999,7 +1998,7 @@ msgstr "Statistikgenerator"
 
 #: ../../admin/addons.rst:318
 msgid "``weblate.generate.generate``"
-msgstr ""
+msgstr "``weblate.generate.generate``"
 
 #: ../../admin/addons.rst:320
 #, fuzzy
@@ -2059,7 +2058,7 @@ msgstr "Erzeugung von Pseudolokalen"
 
 #: ../../admin/addons.rst:355
 msgid "``weblate.generate.pseudolocale``"
-msgstr ""
+msgstr "``weblate.generate.pseudolocale``"
 
 #: ../../admin/addons.rst:357
 msgid "``source``"
@@ -2123,7 +2122,7 @@ msgstr "Mitwirkende im Kommentar"
 
 #: ../../admin/addons.rst:387
 msgid "``weblate.gettext.authors``"
-msgstr ""
+msgstr "``weblate.gettext.authors``"
 
 #: ../../admin/addons.rst:390
 msgid ""
@@ -2143,7 +2142,7 @@ msgstr "Aktualisieren Sie die Variable ALL_LINGUAS in der „configure“-Datei"
 
 #: ../../admin/addons.rst:407
 msgid "``weblate.gettext.configure``"
-msgstr ""
+msgstr "``weblate.gettext.configure``"
 
 #: ../../admin/addons.rst:410
 msgid ""
@@ -2157,7 +2156,7 @@ msgstr "Ausgabe von Gettext anpassen"
 
 #: ../../admin/addons.rst:418
 msgid "``weblate.gettext.customize``"
-msgstr ""
+msgstr "``weblate.gettext.customize``"
 
 #: ../../admin/addons.rst:420 ../../admin/addons.rst:622
 msgid "``width``"
@@ -2217,7 +2216,7 @@ msgstr "LINGUAS-Datei aktualisieren"
 
 #: ../../admin/addons.rst:442
 msgid "``weblate.gettext.linguas``"
-msgstr ""
+msgstr "``weblate.gettext.linguas``"
 
 #: ../../admin/addons.rst:445
 msgid "Updates the LINGUAS file when a new translation is added."
@@ -2230,7 +2229,7 @@ msgstr "MO-Dateien erzeugen"
 
 #: ../../admin/addons.rst:452
 msgid "``weblate.gettext.mo``"
-msgstr ""
+msgstr "``weblate.gettext.mo``"
 
 #: ../../admin/addons.rst:454
 msgid "``path``"
@@ -2260,7 +2259,7 @@ msgstr "PO-Dateien auf POT aktualisieren (msgmerge)"
 
 #: ../../admin/addons.rst:466
 msgid "``weblate.gettext.msgmerge``"
-msgstr ""
+msgstr "``weblate.gettext.msgmerge``"
 
 #: ../../admin/addons.rst:468
 #, fuzzy
@@ -2316,7 +2315,7 @@ msgstr "Git-Commits konsolidieren"
 
 #: ../../admin/addons.rst:491
 msgid "``weblate.git.squash``"
-msgstr ""
+msgstr "``weblate.git.squash``"
 
 #: ../../admin/addons.rst:493
 msgid "``squash``"
@@ -2420,7 +2419,7 @@ msgstr "Ausgabe von JSON anpassen"
 
 #: ../../admin/addons.rst:532
 msgid "``weblate.json.customize``"
-msgstr ""
+msgstr "``weblate.json.customize``"
 
 #: ../../admin/addons.rst:534
 msgid "``sort_keys``"
@@ -2451,7 +2450,7 @@ msgstr "Formatiert die Übersetzung der Java-Eigenschaften-Datei"
 
 #: ../../admin/addons.rst:546
 msgid "``weblate.properties.sort``"
-msgstr ""
+msgstr "``weblate.properties.sort``"
 
 #: ../../admin/addons.rst:549
 msgid "Sorts the Java properties file."
@@ -2463,7 +2462,7 @@ msgstr "Veralteten Kommentar entfernen"
 
 #: ../../admin/addons.rst:558
 msgid "``weblate.removal.comments``"
-msgstr ""
+msgstr "``weblate.removal.comments``"
 
 #: ../../admin/addons.rst:560 ../../admin/addons.rst:578
 msgid "``age``"
@@ -2489,10 +2488,8 @@ msgid "Stale suggestion removal"
 msgstr "Entfernen von veraltetem Vorschlag"
 
 #: ../../admin/addons.rst:576
-#, fuzzy
-#| msgid "Vote suggestion"
 msgid "``weblate.removal.suggestions``"
-msgstr "Für Vorschlag stimmen"
+msgstr "``weblate.removal.suggestions``"
 
 #: ../../admin/addons.rst:580
 msgid "``votes``"
@@ -2525,7 +2522,7 @@ msgstr "RESX-Dateien aktualisieren"
 
 #: ../../admin/addons.rst:596
 msgid "``weblate.resx.update``"
-msgstr ""
+msgstr "``weblate.resx.update``"
 
 #: ../../admin/addons.rst:599
 msgid ""
@@ -2549,7 +2546,7 @@ msgstr "YAML-Ausgabe anpassen"
 
 #: ../../admin/addons.rst:618
 msgid "``weblate.yaml.customize``"
-msgstr ""
+msgstr "``weblate.yaml.customize``"
 
 #: ../../admin/addons.rst:620
 msgid "YAML indentation"
@@ -2573,22 +2570,21 @@ msgstr ""
 "Zeilenumbruch."
 
 #: ../../admin/addons.rst:631
-#, fuzzy
-#| msgid "Checks listing"
 msgid "Customizing list of add-ons"
-msgstr "Auflistung der Qualitätsprüfungen"
+msgstr "Liste der Erweiterungen anpassen"
 
 #: ../../admin/addons.rst:633
 msgid ""
 "The list of add-ons is configured by :setting:`WEBLATE_ADDONS`. To add "
 "another add-on, simply include the absolute class name in this setting."
 msgstr ""
+"Die Liste der Erweiterungen wird über die :Einstellung:`WEBLATE_ADDONS` "
+"konfiguriert. Um eine weitere Erweiterung hinzuzufügen, geben Sie einfach "
+"den absoluten Klassennamen in dieser Einstellung an."
 
 #: ../../admin/addons.rst:640
-#, fuzzy
-#| msgid "Configure addon"
 msgid "Writing add-on"
-msgstr "Erweiterung konfigurieren"
+msgstr "Schreiben einer Erweiterung"
 
 #: ../../admin/addons.rst:642
 msgid ""
@@ -2596,16 +2592,18 @@ msgid ""
 "addons.base.BaseAddon` to define the addon metadata, and then implement a "
 "callback to do the processing."
 msgstr ""
+"Sie können auch Ihre eigenen Erweiterungen schreiben, eine Unterklasse von "
+":class:`weblate.addons.base.BaseAddon` erstellen, um die Metadaten der "
+"Erweiterung zu definieren, und dann einen Callback implementieren, um die "
+"Verarbeitung durchzuführen."
 
 #: ../../admin/addons.rst:648
 msgid ":doc:`../contributing/addons`"
 msgstr ""
 
 #: ../../admin/addons.rst:653
-#, fuzzy
-#| msgid "Execute script before commit"
 msgid "Executing scripts from add-on"
-msgstr "Skript vor dem Commit ausführen"
+msgstr "Ausführen von Skripten der Erweiterung"
 
 #: ../../admin/addons.rst:655
 msgid ""
@@ -2613,6 +2611,9 @@ msgid ""
 "integrated in Weblate, but now you have to write some code to wrap your "
 "script with an add-on."
 msgstr ""
+"Erweiterungen können auch verwendet werden, um externe Skripte auszuführen. "
+"Früher war dies in Weblate integriert, aber jetzt müssen Sie etwas Code "
+"schreiben, um Ihr Skript mit einer Erweiterung zu umschließen."
 
 #: ../../admin/addons.rst:662
 msgid "For installation instructions see :ref:`custom-addon-modules`."
@@ -3908,6 +3909,12 @@ msgid ""
 "Weblate side as they can be cloned again from the upstream location(s) with "
 "no data loss."
 msgstr ""
+"Die Versionsverwaltung enthält eine Kopie Ihrer Upstream-Repositories mit "
+"Weblate-Änderungen. Wenn Sie :ref:`component-push_on_commit` für alle Ihre "
+"Übersetzungskomponenten aktiviert haben, werden alle Weblate-Änderungen "
+"Upstream aufgenommen. Es ist nicht notwendig, die Repositories auf der "
+"Weblate-Seite zu sichern, da sie ohne Datenverlust von den Upstream-"
+"Speicherorten erneut geklont werden können."
 
 #: ../../admin/backup.rst:262
 msgid "SSH and GPG keys"
@@ -3936,6 +3943,8 @@ msgstr ""
 #: ../../admin/backup.rst:275
 msgid "You should back up all user uploaded files (e.g. :ref:`screenshots`)."
 msgstr ""
+"Sie sollten alle vom Benutzer hochgeladenen Dateien sichern (z. B. "
+":ref:`Bildschirmfotos`)."
 
 #: ../../admin/backup.rst:278
 msgid "Celery tasks"
@@ -4227,6 +4236,11 @@ msgid ""
 "messageformat``, ``qt-format``, ``qt-plural-format``, ``ruby-format``, "
 "``scheme-format``, ``vue-format``"
 msgstr ""
+"``python-format``, ``c-format``, ``object-pascal-format``, ``php-format``, "
+"``python-brace-format``, ``javascript-format``, ``c-sharp-format``, ``java-"
+"format``, ``java-messageformat``, ``lua-format``, ``auto-java-messageformat``"
+", ``qt-format``, ``qt-plural-format``, ``ruby-format``, ``scheme-format``, "
+"``vue-format``"
 
 #: ../../admin/checks.rst:85
 msgid ""
@@ -4238,6 +4252,13 @@ msgid ""
 "format`, :ref:`check-java-messageformat`, :ref:`check-lua-format`, :ref:"
 "`check-scheme-format`, :ref:`check-same`."
 msgstr ""
+"Behandelt alle Zeichenketten wie Formatzeichenketten, betrifft :ref:`check-"
+"python-format`, :ref:`check-c-format`, :ref:`check-object-pascal-format`, "
+":ref:`check-php-format`, :ref:`check-qt-format`, :ref:`check-qt-plural-"
+"format`, :ref:`check-ruby-format`, :ref:`check-vue-format`, :ref:`check-"
+"python-brace-format`, :ref:`check-javascript-format`, :ref:`check-c-sharp-"
+"format`, :ref:`check-java-format`, :ref:`check-java-messageformat`, :ref"
+":`check-lua-format`, :ref:`check-scheme-format`, :ref:`check-same`."
 
 #: ../../admin/checks.rst:91
 msgid "``strict-same``"
@@ -5333,6 +5354,10 @@ msgid ""
 "specified built-in list is used which includes all commonly used languages, "
 "but without country specific variants."
 msgstr ""
+"Liste der Sprachen, die dem Benutzer zum Starten einer neuen Übersetzung "
+"angeboten wird. Wenn nicht angegeben, wird die integrierte Liste mit allen "
+"häufig verwendeten Sprachen verwendet, jedoch ohne länderspezifische "
+"Varianten."
 
 #: ../../admin/config.rst:241
 msgid ""
@@ -5448,33 +5473,39 @@ msgstr ""
 
 #: ../../admin/config.rst:360
 msgid "CONTACT_FORM"
-msgstr ""
+msgstr "CONTACT_FORM"
 
 #: ../../admin/config.rst:364
 msgid ""
 "Configures how e-mail from the contact form is being sent. Choose a "
 "configuration that matches your mail server configuration."
 msgstr ""
+"Legt fest, wie E-Mails aus dem Kontaktformular gesendet werden. Wählen Sie "
+"eine Konfiguration, die Ihrer Mail-Server-Konfiguration entspricht."
 
 #: ../../admin/config.rst:367
 msgid "``\"reply-to\"``"
-msgstr ""
+msgstr "``\"reply-to\"``"
 
 #: ../../admin/config.rst:368
 msgid ""
 "The sender is used in as :mailheader:`Reply-To`, this is the default "
 "behaviour."
 msgstr ""
+"Der Absender wird in :mailheader:`Reply-To` verwendet, dies ist das "
+"Standardverhalten."
 
 #: ../../admin/config.rst:371
 msgid "``\"from\"``"
-msgstr ""
+msgstr "``\"from\"``"
 
 #: ../../admin/config.rst:370
 msgid ""
 "The sender is used in as :mailheader:`From`. Your mail server needs to allow "
 "sending such e-mails."
 msgstr ""
+"Der Absender wird in :mailheader:`From` verwendet. Ihr Mail-Server muss den "
+"Versand solcher E-Mails erlauben."
 
 #: ../../admin/config.rst:376
 msgid "DATA_DIR"
@@ -5522,6 +5553,8 @@ msgid ""
 "The Docker container uses a separate volume for this, see :ref:`docker-"
 "volume`."
 msgstr ""
+"Der Docker-Container verwendet dafür ein eigenes Volume, siehe :ref:`docker-"
+"volume`."
 
 #: ../../admin/config.rst:391
 msgid ":file:`media`"
@@ -5532,6 +5565,9 @@ msgid ""
 "Default location for Django media files, specified by :setting:`django:"
 "MEDIA_ROOT`. Contains uploaded screenshots, see :ref:`screenshots`."
 msgstr ""
+"Standardspeicherort für Django-Mediendateien, angegeben durch "
+":setting:`django:MEDIA_ROOT`. Enthält hochgeladene Bildschirmfotos, siehe "
+":ref:`Bildschirmfotos`."
 
 #: ../../admin/config.rst:393
 msgid ":file:`vcs`"
@@ -9735,6 +9771,7 @@ msgstr ""
 #: ../../admin/install.rst:1280
 msgid "Used for user media uploads (e.g. screenshots)."
 msgstr ""
+"Wird für Medien-Uploads durch Benutzer (z. B. Bildschirmfotos) verwendet."
 
 #: ../../admin/install.rst:1282
 msgid ":file:`/favicon.ico`"
@@ -9988,10 +10025,12 @@ msgid ""
 "For monitoring metrics of Weblate you can use :http:get:`/api/metrics/` API "
 "endpoint."
 msgstr ""
+"Zur Überwachung der Metriken von Weblate können Sie den :http:get:`/api/"
+"metrics/` API-Endpunkt verwenden."
 
 #: ../../admin/install.rst:1511
 msgid "`Weblate plugin for Munin <https://github.com/WeblateOrg/munin>`_"
-msgstr ""
+msgstr "`Weblate-Plugin für Munin <https://github.com/WeblateOrg/munin>`_"
 
 #: ../../admin/install.rst:1516
 msgid "Collecting error reports"
@@ -10356,7 +10395,7 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:213
 msgid "Number of processes and memory consumption"
-msgstr ""
+msgstr "Anzahl der Prozesse und Speicherverbrauch"
 
 #: ../../admin/install/docker.rst:215
 msgid ""
@@ -10385,13 +10424,11 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:251
 msgid "Scaling horizontally"
-msgstr ""
+msgstr "Horizontale Skalierung"
 
 #: ../../admin/install/docker.rst:257
-#, fuzzy
-#| msgid "Service is currently not available."
 msgid "This feature is a technology preview."
-msgstr "Der Dienst ist derzeit nicht verfügbar."
+msgstr "Bei dieser Funktion handelt es sich um eine Technologievorschau."
 
 #: ../../admin/install/docker.rst:259
 msgid ""
@@ -10400,6 +10437,11 @@ msgid ""
 "recommended to use cluster filesystem such as GlusterFS for this. The :file:"
 "`/app/cache` volume should be separate for each container."
 msgstr ""
+"Sie können mehrere Weblate-Container ausführen, um den Dienst horizontal zu "
+"skalieren. Das Volume :file:`/app/data` muss von allen Containern gemeinsam "
+"genutzt werden, es wird empfohlen, dafür ein Cluster-Dateisystem wie z. B. "
+"GlusterFS zu verwenden. Das Volume :file:`/app/cache` sollte für jeden "
+"Container separat sein."
 
 #: ../../admin/install/docker.rst:264
 msgid ""
@@ -10408,6 +10450,10 @@ msgid ""
 "the services should be running just once in the cluster and the ordering of "
 "the services matters as well."
 msgstr ""
+"Jeder Weblate-Container hat eine definierte Rolle mit der Umgebungsvariablen "
+":envvar:`WEBLATE_SERVICE`. Bitte folgen Sie sorgfältig der Dokumentation, da "
+"einige der Dienste nur einmal im Cluster laufen sollen und auch die "
+"Reihenfolge der Dienste wichtig ist."
 
 #: ../../admin/install/docker.rst:269
 msgid ""
@@ -10415,6 +10461,9 @@ msgid ""
 "split.yml <https://github.com/WeblateOrg/docker-compose/blob/main/docker-"
 "compose-split.yml>`__."
 msgstr ""
+"Ein Beispiel-Setup finden Sie im ``docker-compose``-Repo als `docker-compose-"
+"split.yml <https://github.com/WeblateOrg/docker-compose/blob/main/docker-"
+"compose-split.yml>`__."
 
 #: ../../admin/install/docker.rst:276
 msgid "Docker environment variables"
@@ -10506,6 +10555,8 @@ msgstr ""
 #: ../../admin/install/docker.rst:365
 msgid "Sets the path to a file containing the password for the `admin` user."
 msgstr ""
+"Legt den Pfad zu einer Datei fest, die das Passwort für den Benutzer "
+"`Administrator` enthält."
 
 #: ../../admin/install/docker.rst:369
 msgid ":envvar:`WEBLATE_ADMIN_PASSWORD`"
@@ -26452,10 +26503,8 @@ msgid "**uploaded**"
 msgstr "Hochgeladen von"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Number of uploaded shared entries"
 msgid "*Number of uploaded screenshots*"
-msgstr "Anzahl der hochgeladenen freigegebenen Einträge"
+msgstr "*Anzahl der hochgeladenen Bildschirmfotos*"
 
 #: ../../contributing/schemas.rst:19
 msgid "**hide\\_completed**"
@@ -27168,10 +27217,8 @@ msgid "Broken URLs"
 msgstr ""
 
 #: ../../devel/alerts.rst:22
-#, fuzzy
-#| msgid "Unused screenshot"
 msgid "Unused screenshots"
-msgstr "Unbenutztes Bildschirmfoto"
+msgstr "Unbenutzte Bildschirmfotos"
 
 #: ../../devel/alerts.rst:23
 #, fuzzy
@@ -34416,6 +34463,9 @@ msgid ""
 "Screenshots can be uploaded to Weblate to better inform translators of where "
 "and how the string is used, see :ref:`screenshots`."
 msgstr ""
+"Bildschirmfotos können auf Weblate hochgeladen werden, um Übersetzer besser "
+"darüber zu informieren, wo und wie die Zeichenkette verwendet wird, siehe "
+":ref:`Bildschirmfotos`."
 
 #: ../../user/translating.rst:262
 msgid "Nearby strings"
