@@ -401,13 +401,12 @@ class TTKitFormat(TranslationFormat):
 
         return unit
 
-    @classmethod
-    def untranslate_store(cls, store, language, fuzzy=False):
+    def untranslate_store(self, language, fuzzy: bool = False):
         """Remove translations from Translate Toolkit store."""
-        store.settargetlanguage(cls.get_language_code(language.code))
+        self.store.settargetlanguage(self.get_language_code(language.code))
         plural = language.plural
 
-        for unit in store.units:
+        for unit in self.store.units:
             if unit.istranslatable():
                 if hasattr(unit, "markapproved"):
                     # Xliff only
@@ -437,11 +436,11 @@ class TTKitFormat(TranslationFormat):
         """Handle creation of new translation file."""
         if base:
             # Parse file
-            store = cls.parse_store(base)
+            store = cls(base)
             if callback:
                 callback(store)
-            cls.untranslate_store(store, language)
-            store.savefile(filename)
+            store.untranslate_store(language)
+            store.store.savefile(filename)
         elif cls.new_translation is None:
             raise ValueError("Not supported")
         else:
@@ -963,13 +962,12 @@ class BasePoFormat(TTKitFormat, BilingualUpdateMixin):
             formula=formula,
         )
 
-    @classmethod
-    def untranslate_store(cls, store, language, fuzzy=False):
+    def untranslate_store(self, language, fuzzy=False):
         """Remove translations from Translate Toolkit store."""
-        super().untranslate_store(store, language, fuzzy)
+        super().untranslate_store(language, fuzzy)
         plural = language.plural
 
-        store.updateheader(
+        self.store.updateheader(
             last_translator="Automatically generated",
             plural_forms=plural.plural_form,
             language_team="none",
@@ -1080,13 +1078,12 @@ class TSFormat(TTKitFormat):
     unit_class = TSUnit
     set_context_bilingual = False
 
-    @classmethod
-    def untranslate_store(cls, store, language, fuzzy=False):
+    def untranslate_store(self, language, fuzzy: bool = False):
         """Remove translations from Translate Toolkit store."""
         # We need to mark all units as fuzzy to get
         # type="unfinished" on empty strings, which are otherwise
         # treated as translated same as source
-        super().untranslate_store(store, language, True)
+        super().untranslate_store(language, True)
 
 
 class XliffFormat(TTKitFormat):

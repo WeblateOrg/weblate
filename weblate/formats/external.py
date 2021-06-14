@@ -119,9 +119,9 @@ class XlsxFormat(CSVFormat):
         if not base:
             raise ValueError("Not supported")
         # Parse file
-        store = cls.parse_store(base)
+        store = cls(base)
         if callback:
             callback(store)
-        cls.untranslate_store(store, language)
+        store.untranslate_store(language)
         with open(filename, "wb") as handle:
-            XlsxFormat(store).save_content(handle)
+            XlsxFormat(store.store).save_content(handle)
