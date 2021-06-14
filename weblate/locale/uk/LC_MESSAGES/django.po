@@ -22,8 +22,8 @@ msgstr ""
 "Project-Id-Version: Weblate 4.7\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-06-14 18:37+0000\n"
-"PO-Revision-Date: 2021-05-25 03:04+0000\n"
-"Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
+"PO-Revision-Date: 2021-06-15 04:45+0000\n"
+"Last-Translator: Ihor Hordiichuk <igor_ck@outlook.com>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/"
 "application/uk/>\n"
 "Language: uk\n"
@@ -416,7 +416,7 @@ msgstr ""
 #: weblate/accounts/models.py:169
 #, python-brace-format
 msgid "Access to project {project} was blocked"
-msgstr ""
+msgstr "Доступ до проєкту {project} було заблоковано"
 
 #: weblate/accounts/models.py:174
 msgid "Configured password to sign in."
@@ -441,6 +441,8 @@ msgstr "Для відновлення доступу до вашого проф�
 #: weblate/accounts/models.py:184
 msgid "Please contact project maintainers if you feel this is inappropriate."
 msgstr ""
+"Будь ласка, зв'яжіться з супроводжувачами проєкту, якщо ви вважаєте, що це "
+"недоречно."
 
 #: weblate/accounts/models.py:306 weblate/templates/accounts/profile.html:227
 #: weblate/templates/accounts/user.html:223
@@ -1282,8 +1284,6 @@ msgstr ""
 "наприклад, «Co-authored-by: …»."
 
 #: weblate/addons/forms.py:165
-#, fuzzy
-#| msgid "Commit messages"
 msgid "Commit message"
 msgstr "Повідомлення щодо подання"
 
@@ -2067,7 +2067,7 @@ msgstr "Оплата"
 
 #: weblate/auth/forms.py:107
 msgid "Send e-mail invitation to the user"
-msgstr ""
+msgstr "Надсилання запрошення користувачу електронною поштою"
 
 #: weblate/auth/models.py:74
 msgid "Permission"
@@ -2231,10 +2231,8 @@ msgid "Automatic group assignments"
 msgstr "Автоматичні призначення груп"
 
 #: weblate/auth/models.py:663 weblate/trans/forms.py:1055
-#, fuzzy
-#| msgid "User to add"
 msgid "User to block"
-msgstr "Додати користувача"
+msgstr "Користувач, якого потрібно заблокувати"
 
 #: weblate/auth/models.py:666 weblate/templates/check.html:19
 #: weblate/templates/data.html:28 weblate/templates/data.html:62
@@ -2249,22 +2247,16 @@ msgid "Project"
 msgstr "Проєкт"
 
 #: weblate/auth/models.py:668
-#, fuzzy
-#| msgid "Support expiry"
 msgid "Block expiry"
-msgstr "Строк служби підтримки"
+msgstr "Термін дії блокування"
 
 #: weblate/auth/models.py:671
-#, fuzzy
-#| msgid "Removed user"
 msgid "Blocked user"
-msgstr "Вилучено користувача"
+msgstr "Заблокований користувач"
 
 #: weblate/auth/models.py:672
-#, fuzzy
-#| msgid "Removed user"
 msgid "Blocked users"
-msgstr "Вилучено користувача"
+msgstr "Заблоковані користувачі"
 
 #: weblate/billing/admin.py:82 weblate/templates/billing/list.html:8
 #: weblate/templates/billing/status.html:112
@@ -3330,10 +3322,8 @@ msgid "Invalid integer list!"
 msgstr "Неправильний цілий список!"
 
 #: weblate/glossary/forms.py:47
-#, fuzzy
-#| msgid "String will be propagated to all languages"
 msgid "String will be part of the glossary in all languages"
-msgstr "Рядок буде розповсюджено на всі мови"
+msgstr "Рядок стане частиною глосарію всіх мов"
 
 #: weblate/glossary/forms.py:55
 msgid "Not translatable term"
@@ -3949,28 +3939,21 @@ msgid "Server Error"
 msgstr "Помилка сервера"
 
 #: weblate/templates/500.html:16
-#, fuzzy, python-format
-#| msgid ""
-#| "The server had serious problems serving your request. Trained monkeys are "
-#| "en-route fixing the issue."
+#, python-format
 msgid ""
 "The server had serious problems serving your request, and this error has "
 "been recorded as %(error_id)s."
 msgstr ""
-"Сервер мав серйозні проблеми під час обслуговування вашого запиту. Наші "
-"фахівці працюють над усуненням цих неполадок."
+"Сервер мав серйозні проблеми під час обслуговування вашого запиту, і цю "
+"помилку було записано як %(error_id)s."
 
 #: weblate/templates/500.html:36
-#, fuzzy
-#| msgid ""
-#| "The server had serious problems serving your request. Trained monkeys are "
-#| "en-route fixing the issue."
 msgid ""
 "The server had serious problems serving your request. You might want to "
 "contact server admins in case the error persists."
 msgstr ""
-"Сервер мав серйозні проблеми під час обслуговування вашого запиту. Наші "
-"фахівці працюють над усуненням цих неполадок."
+"Сервер мав серйозні проблеми під час обслуговування вашого запиту. Можливо, "
+"ви захочете звернутися до адміністраторів сервера, якщо помилка не зникне."
 
 #: weblate/templates/about/index.html:5 weblate/templates/about/index.html:11
 #: weblate/templates/about/keys.html:6 weblate/templates/about/stats.html:7
@@ -4844,21 +4827,17 @@ msgstr "Вилучити користувача з цієї групи"
 #: weblate/templates/manage-access.html:96
 #, python-format
 msgid "Blocked until %(expiry)s"
-msgstr ""
+msgstr "Заблоковано до %(expiry)s"
 
 #: weblate/templates/accounts/user.html:269
 #: weblate/templates/manage-access.html:98
-#, fuzzy
-#| msgid "Ignore permanently"
 msgid "Blocked permanently"
-msgstr "Нехтувати постійно"
+msgstr "Заблоковано назавжди"
 
 #: weblate/templates/accounts/user.html:273
 #: weblate/templates/manage-access.html:106
-#, fuzzy
-#| msgid "Unlock"
 msgid "Unblock user"
-msgstr "Розблокувати"
+msgstr "Розблокувати користувача"
 
 #: weblate/templates/accounts/user.html:289
 #: weblate/templates/fonts/font_detail.html:31
@@ -6578,7 +6557,7 @@ msgstr "Повернутися"
 #: weblate/templates/manage-access.html:146
 #: weblate/templates/snippets/suggestions.html:46
 msgid "Block user"
-msgstr ""
+msgstr "Заблокувати користувача"
 
 #. Translators: Number of edits on a change in Damerau–Levenshtein distance
 #: weblate/templates/last-changes-content.html:55
@@ -7159,10 +7138,8 @@ msgid "Add a user"
 msgstr "Додати користувача"
 
 #: weblate/templates/manage-access.html:152
-#, fuzzy
-#| msgid "Unlock"
 msgid "Block"
-msgstr "Розблокувати"
+msgstr "Блокувати"
 
 #: weblate/templates/manage-access.html:163
 msgid "Invite new user"
@@ -7385,18 +7362,16 @@ msgid "Content encoding"
 msgstr "Кодування вмісту"
 
 #: weblate/templates/manage/performance.html:149
-#, fuzzy
-#| msgid "Activity"
 msgid "Connectivity"
-msgstr "Діяльність"
+msgstr "Зв’язність"
 
 #: weblate/templates/manage/performance.html:155
 msgid "Database latency"
-msgstr ""
+msgstr "Затримка бази даних"
 
 #: weblate/templates/manage/performance.html:159
 msgid "Cache latency"
-msgstr ""
+msgstr "Затримка кешу"
 
 #: weblate/templates/manage/repos.html:6
 #: weblate/wladmin/templates/admin/weblate-index.html:20
@@ -7527,10 +7502,8 @@ msgid "Generate a test event to test Sentry integration."
 msgstr "Утворити тестову подію для перевірки інтеграції Sentry."
 
 #: weblate/templates/manage/users.html:28
-#, fuzzy
-#| msgid "Add a user"
 msgid "Add new user"
-msgstr "Додати користувача"
+msgstr "Додати нового користувача"
 
 #: weblate/templates/matrix.html:9
 msgid "Matrix"
@@ -8871,22 +8844,16 @@ msgid "This project does no longer fit into libre hosting conditions."
 msgstr "Цей проєкт більше не задовольняє умовам вільного розміщення."
 
 #: weblate/templates/trans/alert/nomaskmatches.html:2
-#, fuzzy
-#| msgid "This component is set up incorrectly."
 msgid "This component set up is incomplete as it lacks translations."
-msgstr "Цей складник налаштований неправильно."
+msgstr "Цей компонент не завершено, оскільки у ньому бракує перекладів."
 
 #: weblate/templates/trans/alert/nomaskmatches.html:6
-#, fuzzy
-#| msgid ""
-#| "You can also start new translations directly in Weblate, it will create "
-#| "files based on the file mask."
 msgid ""
 "Create new translations directly in Weblate, it will create files based on "
 "the file mask."
 msgstr ""
-"Ви можете розпочати нові переклади безпосередньо на Weblate. Програма "
-"створить файли на основі маски файлів."
+"Створити нові переклади безпосередньо на Weblate. Програма створить файли на "
+"основі маски файлів."
 
 #: weblate/templates/trans/alert/nomaskmatches.html:8
 #, python-format
@@ -10146,26 +10113,24 @@ msgstr ""
 "запису Weblate."
 
 #: weblate/trans/forms.py:1061
-#, fuzzy
-#| msgid "Location"
 msgid "Block duration"
-msgstr "Розташування"
+msgstr "Тривалість блокування"
 
 #: weblate/trans/forms.py:1063
 msgid "Block user until I unblock them"
-msgstr ""
+msgstr "Блокувати користувача, доки я його не розблокую"
 
 #: weblate/trans/forms.py:1064
 msgid "Block user for one day"
-msgstr ""
+msgstr "Заблокувати користувача на один день"
 
 #: weblate/trans/forms.py:1065
 msgid "Block user for one week"
-msgstr ""
+msgstr "Заблокувати користувача на один тиждень"
 
 #: weblate/trans/forms.py:1066
 msgid "Block user for one month"
-msgstr ""
+msgstr "Заблокувати користувача на один місяць"
 
 #: weblate/trans/forms.py:1074
 msgid "Report format"
@@ -11172,14 +11137,8 @@ msgid "Translation flags"
 msgstr "Прапорці перекладу"
 
 #: weblate/trans/models/component.py:429 weblate/trans/models/unit.py:311
-#, fuzzy
-#| msgid ""
-#| "Additional comma-separated flags to influence quality checks. Possible "
-#| "values can be found in the documentation."
 msgid "Additional comma-separated flags to influence Weblate behavior."
-msgstr ""
-"Додаткові прапорці, розділені комами, впливають на перевірку якості. Можливі "
-"значення можна знайти в документації."
+msgstr "Додаткові прапорці, розділені комами, впливають на поведінку Weblate."
 
 #: weblate/trans/models/component.py:435
 msgid "Enforced checks"
@@ -12204,16 +12163,12 @@ msgid "Failed to find group to add a user!"
 msgstr "Не вдалося знайти групу, щоб додати користувача!"
 
 #: weblate/trans/views/acl.py:164
-#, fuzzy
-#| msgid "User has been added to this project."
 msgid "User has been blocked on this project."
-msgstr "Користувача додано до поточного проєкту."
+msgstr "Користувача заблоковано в цьому проєкті."
 
 #: weblate/trans/views/acl.py:166
-#, fuzzy
-#| msgid "User has been added to this project."
 msgid "User is already blocked on this project."
-msgstr "Користувача додано до поточного проєкту."
+msgstr "Користувача вже заблоковано в цьому проєкті."
 
 #: weblate/trans/views/acl.py:193 weblate/trans/views/acl.py:208
 msgid "User has been invited to this project."
@@ -13085,10 +13040,9 @@ msgid "Could not dismiss the configuration error!"
 msgstr "Не вдалося відхилити помилку конфігурації!"
 
 #: weblate/wladmin/views.py:356
-#, fuzzy, python-format
-#| msgid "Create an account using:"
+#, python-format
 msgid "Created user account %s."
-msgstr "Створити обліковий запис за допомогою:"
+msgstr "Створити обліковий запис користувача %s."
 
 #, python-format
 #~ msgid ""
