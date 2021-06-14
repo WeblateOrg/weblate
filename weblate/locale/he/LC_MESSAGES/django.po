@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.7\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-06-14 18:37+0000\n"
-"PO-Revision-Date: 2021-05-25 03:04+0000\n"
+"PO-Revision-Date: 2021-06-15 04:45+0000\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: Hebrew <https://hosted.weblate.org/projects/weblate/"
 "application/he/>\n"
@@ -394,7 +394,7 @@ msgstr ""
 #: weblate/accounts/models.py:169
 #, python-brace-format
 msgid "Access to project {project} was blocked"
-msgstr ""
+msgstr "הגישה למיזם {project} נחסמה"
 
 #: weblate/accounts/models.py:174
 msgid "Configured password to sign in."
@@ -418,7 +418,7 @@ msgstr "כדי לשחזר את גישתך לחשבונך, נא לאפס את ה�
 
 #: weblate/accounts/models.py:184
 msgid "Please contact project maintainers if you feel this is inappropriate."
-msgstr ""
+msgstr "נא ליצור קשר עם הנהלת המיזם אם לדעתך זה בלתי הולם."
 
 #: weblate/accounts/models.py:306 weblate/templates/accounts/profile.html:227
 #: weblate/templates/accounts/user.html:223
@@ -1215,10 +1215,8 @@ msgstr ""
 "שאמור היה להיות החלק הפתוח בהודעת ההגשה, כגון ‚Co-authored-by: …‎’."
 
 #: weblate/addons/forms.py:165
-#, fuzzy
-#| msgid "Commit messages"
 msgid "Commit message"
-msgstr "הודעות הגשה"
+msgstr "הודעת הגשה"
 
 #: weblate/addons/forms.py:169
 msgid ""
@@ -1987,7 +1985,7 @@ msgstr "חיוב"
 
 #: weblate/auth/forms.py:107
 msgid "Send e-mail invitation to the user"
-msgstr ""
+msgstr "שליחת הזמנה למשתמש בדוא״ל"
 
 #: weblate/auth/models.py:74
 msgid "Permission"
@@ -2147,10 +2145,8 @@ msgid "Automatic group assignments"
 msgstr "הקצאת קבוצות אוטומטיות"
 
 #: weblate/auth/models.py:663 weblate/trans/forms.py:1055
-#, fuzzy
-#| msgid "User to add"
 msgid "User to block"
-msgstr "משתמש להוספה"
+msgstr "משתמש לחסימה"
 
 #: weblate/auth/models.py:666 weblate/templates/check.html:19
 #: weblate/templates/data.html:28 weblate/templates/data.html:62
@@ -2165,22 +2161,16 @@ msgid "Project"
 msgstr "מיזם"
 
 #: weblate/auth/models.py:668
-#, fuzzy
-#| msgid "Lock expires:"
 msgid "Block expiry"
-msgstr "הנעילה תפוג:"
+msgstr "תפוגת החסימה"
 
 #: weblate/auth/models.py:671
-#, fuzzy
-#| msgid "Removed user"
 msgid "Blocked user"
-msgstr "משתמש הוסר"
+msgstr "משתמש חסום"
 
 #: weblate/auth/models.py:672
-#, fuzzy
-#| msgid "Removed user"
 msgid "Blocked users"
-msgstr "משתמש הוסר"
+msgstr "משתמשים חסומים"
 
 #: weblate/billing/admin.py:82 weblate/templates/billing/list.html:8
 #: weblate/templates/billing/status.html:112
@@ -3237,10 +3227,8 @@ msgid "Invalid integer list!"
 msgstr "רשימת המספרים השלמים שגויה!"
 
 #: weblate/glossary/forms.py:47
-#, fuzzy
-#| msgid "String will be propagated to all languages"
 msgid "String will be part of the glossary in all languages"
-msgstr "המחרוזת תופץ לכל השפות"
+msgstr "המחרוזת תהיה חלק מהמונחונים בכל השפות"
 
 #: weblate/glossary/forms.py:55
 msgid "Not translatable term"
@@ -3842,28 +3830,20 @@ msgid "Server Error"
 msgstr "שגיאת שרת"
 
 #: weblate/templates/500.html:16
-#, fuzzy, python-format
-#| msgid ""
-#| "The server had serious problems serving your request. Trained monkeys are "
-#| "en-route fixing the issue."
+#, python-format
 msgid ""
 "The server had serious problems serving your request, and this error has "
 "been recorded as %(error_id)s."
 msgstr ""
-"השרת חווה תקלות רציניות בעת עיבוד בקשתך. צוות קופים מאולפים נשלח לתקן את "
-"הבעיה."
+"השרת חווה תקלות רציניות בעת עיבוד בקשתך והתקלה הזו תועדה בתור %(error_id)s."
 
 #: weblate/templates/500.html:36
-#, fuzzy
-#| msgid ""
-#| "The server had serious problems serving your request. Trained monkeys are "
-#| "en-route fixing the issue."
 msgid ""
 "The server had serious problems serving your request. You might want to "
 "contact server admins in case the error persists."
 msgstr ""
-"השרת חווה תקלות רציניות בעת עיבוד בקשתך. צוות קופים מאולפים נשלח לתקן את "
-"הבעיה."
+"השרת חווה תקלות רציניות בעת עיבוד בקשתך. אולי מוטב לפנות למנהלי השרת אם "
+"השגיאה הזאת נמשכת."
 
 #: weblate/templates/about/index.html:5 weblate/templates/about/index.html:11
 #: weblate/templates/about/keys.html:6 weblate/templates/about/stats.html:7
@@ -4697,21 +4677,17 @@ msgstr "הסרת משתמש מהקבוצה הזו"
 #: weblate/templates/manage-access.html:96
 #, python-format
 msgid "Blocked until %(expiry)s"
-msgstr ""
+msgstr "חסום עד %(expiry)s"
 
 #: weblate/templates/accounts/user.html:269
 #: weblate/templates/manage-access.html:98
-#, fuzzy
-#| msgid "Ignore permanently"
 msgid "Blocked permanently"
-msgstr "התעלמות לצמיתות"
+msgstr "חסום לצמיתות"
 
 #: weblate/templates/accounts/user.html:273
 #: weblate/templates/manage-access.html:106
-#, fuzzy
-#| msgid "Unlock"
 msgid "Unblock user"
-msgstr "שחרור"
+msgstr "שחרור משתמש"
 
 #: weblate/templates/accounts/user.html:289
 #: weblate/templates/fonts/font_detail.html:31
@@ -6392,7 +6368,7 @@ msgstr "שחזור"
 #: weblate/templates/manage-access.html:146
 #: weblate/templates/snippets/suggestions.html:46
 msgid "Block user"
-msgstr ""
+msgstr "חסימת משתמש"
 
 #. Translators: Number of edits on a change in Damerau–Levenshtein distance
 #: weblate/templates/last-changes-content.html:55
@@ -6960,10 +6936,8 @@ msgid "Add a user"
 msgstr "הוספת משתמש"
 
 #: weblate/templates/manage-access.html:152
-#, fuzzy
-#| msgid "Unlock"
 msgid "Block"
-msgstr "שחרור"
+msgstr "חסימה"
 
 #: weblate/templates/manage-access.html:163
 msgid "Invite new user"
@@ -7182,20 +7156,16 @@ msgid "Content encoding"
 msgstr "קידוד תוכן"
 
 #: weblate/templates/manage/performance.html:149
-#, fuzzy
-#| msgid "Activity"
 msgid "Connectivity"
-msgstr "פעילות"
+msgstr "קישוריות"
 
 #: weblate/templates/manage/performance.html:155
-#, fuzzy
-#| msgid "Database backend"
 msgid "Database latency"
-msgstr "מנגנון מסד הנתונים"
+msgstr "השהיה מול מסד הנתונים"
 
 #: weblate/templates/manage/performance.html:159
 msgid "Cache latency"
-msgstr ""
+msgstr "השהיה מול המטמון"
 
 #: weblate/templates/manage/repos.html:6
 #: weblate/wladmin/templates/admin/weblate-index.html:20
@@ -7319,10 +7289,8 @@ msgid "Generate a test event to test Sentry integration."
 msgstr "יצירת אירוע בדיקה כדי לבדוק את השילוב עם Sentry."
 
 #: weblate/templates/manage/users.html:28
-#, fuzzy
-#| msgid "Add a user"
 msgid "Add new user"
-msgstr "הוספת משתמש"
+msgstr "הוספת משתמש חדש"
 
 #: weblate/templates/matrix.html:9
 msgid "Matrix"
