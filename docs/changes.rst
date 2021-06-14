@@ -1,7 +1,7 @@
 Weblate 4.7
 -----------
 
-Not yet released.
+Released on June 16th 2021.
 
 * Improved configuration health check.
 * Added support for ``object-pascal-format`` used in gettext PO, see :ref:`check-object-pascal-format`.
@@ -16,6 +16,8 @@ Not yet released.
 * Fixed automatic creation of glossary languages.
 * Extended documentation about add-ons.
 * Performance improvements for components with linked repositories.
+* Added support for free DeepL API.
+* The user management no longer needs Django admin inteface.
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/64?closed=1>`__.
 
