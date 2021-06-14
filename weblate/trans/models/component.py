@@ -1092,7 +1092,11 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
         """Return latest locally known remote commit."""
         if self.vcs == "local" or not self.local_revision:
             return None
-        return self.repository.get_revision_info(self.local_revision)
+        try:
+            return self.repository.get_revision_info(self.local_revision)
+        except RepositoryException:
+            self.store_local_revision()
+            return self.repository.get_revision_info(self.local_revision)
 
     @perform_on_link
     def get_repo_url(self):
@@ -1569,6 +1573,8 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
         # Fire postponed post commit signals
         for component in components.values():
             vcs_post_commit.send(sender=self.__class__, component=component)
+            component.store_local_revision()
+
         # Push if enabled
         if not skip_push:
             self.push_if_needed()
@@ -1608,6 +1614,8 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
         if signals:
             vcs_post_commit.send(sender=self.__class__, component=self)
 
+        self.store_local_revision()
+
         # Push if we should
         if not skip_push:
             self.push_if_needed()
@@ -1633,6 +1641,15 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
                 user=self.acting_user,
             )
         raise FileParseError(error_message)
+
+    def store_local_revision(self):
+        """Store current revision in the database."""
+        self.local_revision = self.repository.last_revision
+        # Avoid using using save as that does complex things and we
+        # just want to update the database
+        Component.objects.filter(pk=self.pk).update(
+            local_revision=self.repository.last_revision
+        )
 
     @perform_on_link
     def update_branch(
@@ -1701,11 +1718,7 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
                 return False
 
             if self.id:
-                # Store current revision in the database
-                self.local_revision = new_head
-                # Avoid using using save as that does complex things and we
-                # just want to update the database
-                Component.objects.filter(pk=self.pk).update(local_revision=new_head)
+                self.store_local_revision()
 
                 # Record change
                 Change.objects.create(
