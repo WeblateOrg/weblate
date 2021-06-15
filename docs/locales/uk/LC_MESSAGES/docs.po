@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-06-14 20:37+0200\n"
-"PO-Revision-Date: 2021-06-01 02:00+0000\n"
+"PO-Revision-Date: 2021-06-15 04:45+0000\n"
 "Last-Translator: Ihor Hordiichuk <igor_ck@outlook.com>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/"
 "documentation/uk/>\n"
@@ -387,10 +387,8 @@ msgstr ""
 "керування <management-interface>` на вкладці :guilabel:`Користувачі`."
 
 #: ../../admin/access.rst:168
-#, fuzzy
-#| msgid "Removed user"
 msgid "Blocking users"
-msgstr "Вилучено користувача"
+msgstr "Блокування користувачів"
 
 #: ../../admin/access.rst:172
 msgid ""
@@ -398,6 +396,10 @@ msgid ""
 "them from contributing. The blocked user still will be able to see the "
 "project if he has permissions for that, but he won't be able to contribute."
 msgstr ""
+"Якщо якісь користувачі поводяться недостойно у вашому проєкті, у вас є "
+"можливість заблокувати їхню участь. Заблоковані користувачі все одно зможуть "
+"бачити проєкт, якщо у них є для цього дозволи, але вони не зможуть робити "
+"свій внесок."
 
 #: ../../admin/access.rst:177
 msgid "Per-project permission management"
@@ -2554,8 +2556,6 @@ msgid "``commit_message``"
 msgstr "Повідомлення щодо подання"
 
 #: ../../admin/addons.rst:497
-#, fuzzy
-#| msgid "Commit messages"
 msgid "Commit message"
 msgstr "Повідомлення щодо подання"
 
@@ -3327,6 +3327,10 @@ msgid ""
 "setting:`ENABLE_HTTPS`, or by :envvar:`WEBLATE_ENABLE_HTTPS` in the Docker "
 "container."
 msgstr ""
+"Більшість серверів автентифікації вимагається протокол HTTPS. Після "
+"увімкнення HTTPS на вашому вебсервері налаштуйте Weblate, щоб повідомити про "
+"це належним чином, застосувавши :setting:`ENABLE_HTTPS`, або за допомогою "
+":envvar:`WEBLATE_ENABLE_HTTPS` у контейнері Docker."
 
 #: ../../admin/auth.rst:68
 msgid ":doc:`Python Social Auth backend <psa:backends/index>`"
@@ -3524,10 +3528,8 @@ msgid ":doc:`psa:backends/slack`"
 msgstr ":doc:`psa:backends/slack`"
 
 #: ../../admin/auth.rst:322
-#, fuzzy
-#| msgid "Other authentication settings"
 msgid "Overriding authentication method names and icons"
-msgstr "Інші параметри розпізнавання"
+msgstr "Перевизначення імен методів автентифікації та піктограм"
 
 #: ../../admin/auth.rst:324
 msgid ""
@@ -3535,6 +3537,10 @@ msgid ""
 "settings as ``SOCIAL_AUTH_<NAME>_IMAGE`` and ``SOCIAL_AUTH_<NAME>_TITLE``. "
 "For example overriding naming for Auth0 would look like:"
 msgstr ""
+"Коротке видиме ім'я та піктограму методу автентифікації можна змінити за "
+"допомогою параметрів ``SOCIAL_AUTH_<NAME>_IMAGE`` і "
+"``SOCIAL_AUTH_<NAME>_TITLE``. Наприклад, перевизначення імені для Auth0 має "
+"такий вигляд:"
 
 #: ../../admin/auth.rst:334
 msgid "Turning off password authentication"
@@ -4232,6 +4238,10 @@ msgid ""
 "file:`environment.yml` file might help you with this (see :ref:`backup-"
 "dumps`)."
 msgstr ""
+"Якщо застосовується контейнер Docker, файл налаштувань вже включено у "
+"контейнер і ви повинні відновити початкові змінні середовища. Файл "
+":file:`environment.yml` може допомогти вам у цьому (див. :ref:`backup-"
+"dumps`)."
 
 #: ../../admin/backup.rst:149
 msgid ""
@@ -4242,16 +4252,12 @@ msgstr ""
 "setting:`DATA_DIR`."
 
 #: ../../admin/backup.rst:152
-#, fuzzy
-#| msgid ""
-#| "The Docker container uses a separate volume for this, see :ref:`docker-"
-#| "volume`."
 msgid ""
 "When using Docker container place the data into the data volume, see :ref:"
 "`docker-volume`."
 msgstr ""
-"Контейнер Docker використовує для цього окремий том, див. :ref:`docker-"
-"volume`."
+"Якщо застосовується контейнер Docker, помістіть дані до тому даних, див. :ref"
+":`docker-volume`."
 
 #: ../../admin/backup.rst:155
 msgid "The Borg session might look like this:"
@@ -4399,6 +4405,8 @@ msgid ""
 "The environment dump was added as :file:`environment.yml` to help in "
 "restoring in the Docker environments."
 msgstr ""
+"Склад середовища було додано як :file:`environment.yml`, щоб допомогти у "
+"відновленні середовищ Docker."
 
 #: ../../admin/backup.rst:252
 msgid "Stored in :setting:`DATA_DIR` ``/backups``."
@@ -4429,7 +4437,7 @@ msgstr "Резервна копія бази даних PostgreSQL у файлі
 
 #: ../../admin/backup.rst:260
 msgid "Environment dump as :file:`environment.yml`."
-msgstr ""
+msgstr "Склад середовища як :file:`environment.yml`."
 
 #: ../../admin/backup.rst:262
 msgid ""
@@ -4443,6 +4451,8 @@ msgstr ""
 #: ../../admin/backup.rst:265
 msgid "To restore the database backup load it using dabase tools, for example:"
 msgstr ""
+"Щоб відновити бази даних з резервної копії, завантажте її за допомогою "
+"інструментів бази даних, наприклад:"
 
 #: ../../admin/backup.rst:272
 msgid "Version control repositories"
@@ -7838,14 +7848,13 @@ msgstr ""
 "допомогою :ref:`user-profile`."
 
 #: ../../admin/config.rst:1579
-#, fuzzy
-#| msgid "DEFAULT_SHARED_TM"
 msgid "DEFAULT_PAGE_LIMIT"
-msgstr "DEFAULT_SHARED_TM"
+msgstr "DEFAULT_PAGE_LIMIT"
 
 #: ../../admin/config.rst:1583
 msgid "Default number of elements to display when pagination is active."
 msgstr ""
+"Типова кількість показуваних елементів, коли увімкнено розбиття на сторінки."
 
 #: ../../admin/config.rst:1588
 msgid "PAGURE_CREDENTIALS"
@@ -10906,12 +10915,16 @@ msgid ""
 "Use adjacent location for running the database server, otherwise the "
 "networking performance or reliability might ruin your Weblate experience."
 msgstr ""
+"Застосовуйте суміжне розташування для запуску сервера бази даних, інакше "
+"швидкодія або надійність мережі можуть зіпсувати роботу Weblate."
 
 #: ../../admin/install.rst:859
 msgid ""
 "Check the database server performance or tweak its configuration, for "
 "example using `PGTune <https://pgtune.leopard.in.ua/>`_."
 msgstr ""
+"Перевірте швидкодію сервера бази даних або налаштуйте його конфігурацію, "
+"наприклад, застосувавши `PGTune <https://pgtune.leopard.in.ua/>`_."
 
 #: ../../admin/install.rst:864
 msgid ""
@@ -13682,6 +13695,8 @@ msgid ""
 "When creating the volumes manually, the directories should be owned by UID "
 "1000 as that is user used inside the container."
 msgstr ""
+"Під час створення томів власноруч, каталоги повинні належати UID 1000, як "
+"користувачеві, що використовується всередині контейнера."
 
 #: ../../admin/install/docker.rst:1398
 msgid ""
@@ -19938,10 +19953,8 @@ msgstr ""
 "``MT_DEEPL_API_VERSION`` припинено."
 
 #: ../../admin/upgrade.rst:234
-#, fuzzy
-#| msgid "Django 3.1 is now required."
 msgid "Django 3.2 is now required."
-msgstr "Тепер потрібен Django 3.1."
+msgstr "Тепер потрібен Django 3.2."
 
 #: ../../admin/upgrade.rst:241
 msgid "Upgrading from Python 2 to Python 3"
@@ -20142,10 +20155,10 @@ msgid "the response content type depends on :http:header:`Accept` header"
 msgstr "тип вмісту відповіді залежить від заголовка :http:header:`Accept`"
 
 #: ../../api.rst:39
-#, fuzzy
-#| msgid "optional token to authenticate"
 msgid "optional token to authenticate as ``Authorization: Token YOUR-TOKEN``"
-msgstr "необов'язковий ключ для розпізнавання"
+msgstr ""
+"необов'язковий ключ для розпізнавання як-от ``Authorization: Token YOUR-"
+"TOKEN``"
 
 #: ../../api.rst:0
 msgid "Response Headers"
@@ -22652,10 +22665,8 @@ msgid "Weblate 4.7"
 msgstr "Weblate 4.7"
 
 #: ../../changes.rst:4
-#, fuzzy
-#| msgid "Released on June 19th 2020."
 msgid "Released on June 16th 2021."
-msgstr "Випущено 19 червня 2020 року."
+msgstr "Випущено 16 червня 2021 року."
 
 #: ../../changes.rst:6
 msgid "Improved configuration health check."
@@ -22692,64 +22703,43 @@ msgstr ""
 "випадків."
 
 #: ../../changes.rst:12
-#, fuzzy
-#| msgid "Weblate now requires Django 3.1."
 msgid "Weblate now requires Django 3.2."
-msgstr "Тепер Weblate вимагає Django 3.1."
+msgstr "Тепер Weblate вимагає Django 3.2."
 
 #: ../../changes.rst:13
-#, fuzzy
-#| msgid "Path to the file containing the e-mail authentication password."
 msgid "Fixed inviting users when e-mail authentication is disabled."
 msgstr ""
-"Шлях до файла, у якому міститься пароль для розпізнавання для доступу до "
-"електронної пошти."
+"Виправлено запрошення користувачів, коли автентифікацію електронної пошти "
+"вимкнуто."
 
 #: ../../changes.rst:14
-#, fuzzy
-#| msgid "Updated language definitions."
 msgid "Improved language definitions."
-msgstr "Оновлено визначення мов."
+msgstr "Вдосконалено визначення мов."
 
 #: ../../changes.rst:15
-#, fuzzy
-#| msgid "Add support for searching by component and project."
 msgid "Added support for blocking users from contributing to a project."
-msgstr "Додано підтримку пошуку за складником і проєктом."
+msgstr "Додано підтримку блокування участі користувачів у проєкті."
 
 #: ../../changes.rst:16
-#, fuzzy
-#| msgid "Fixed automatic suggestions for languages with a longer code."
 msgid "Fixed automatic creation of glossary languages."
-msgstr "Виправлено автоматичні пропозиції для мов із довгим кодом."
+msgstr "Виправлено автоматичне створення мов глосарія."
 
 #: ../../changes.rst:17
-#, fuzzy
-#| msgid "Fixed documentation links for add-ons."
 msgid "Extended documentation about add-ons."
-msgstr "Виправлено посилання на додатки у документації."
+msgstr "Розширено документацію про додатки."
 
 #: ../../changes.rst:18
-#, fuzzy
-#| msgid "Performance improvements for import."
 msgid "Performance improvements for components with linked repositories."
-msgstr "Удосконалення швидкодії для імпортування."
+msgstr "Удосконалення швидкодії складників із пов’язаними сховищами."
 
 #: ../../changes.rst:19
-#, fuzzy
-#| msgid "Added support for Yandex Translate API."
 msgid "Added support for free DeepL API."
-msgstr "Додано підтримку програмного інтерфейсу перекладача Yandex."
+msgstr "Додано підтримку безплатного програмного інтерфейсу DeepL."
 
 #: ../../changes.rst:20
-#, fuzzy
-#| msgid ""
-#| "Weblate user management is turned off, you can change permissions in the "
-#| "Django admin interface."
 msgid "The user management no longer needs Django admin inteface."
 msgstr ""
-"Керування користувачами вимкнено у Weblate. Ви можете змінити права доступу "
-"через інтерфейс управління Django."
+"Керування користувачами більше не потребує інтерфейсу адміністратора Django."
 
 #: ../../changes.rst:22
 msgid ""
@@ -28943,16 +28933,12 @@ msgid "Project logos"
 msgstr "Логотипи проєкту"
 
 #: ../../contributing/about.rst:25
-#, fuzzy
-#| msgid ""
-#| "The project logos and other graphics is available in https://github.com/"
-#| "WeblateOrg/graphics."
 msgid ""
 "The project logos and other graphics are available in https://github.com/"
 "WeblateOrg/graphics."
 msgstr ""
-"Логотипи проєкту та інші графічні роботи можна знайти у сховищі https://"
-"github.com/WeblateOrg/graphics."
+"Логотипи проєкту та інші графічні роботи можна знайти у сховищі "
+"https://github.com/WeblateOrg/graphics."
 
 #: ../../contributing/about.rst:29
 msgid "Leadership"
@@ -29043,11 +29029,6 @@ msgstr "HEAD сховища до оновлення, може бути поро�
 
 #: ../../../weblate/addons/base.py:docstring of
 #: weblate.addons.base.BaseAddon.post_update:5
-#, fuzzy
-#| msgid ""
-#| "Whether the add-on operation should skip pushing changes upstream. "
-#| "Usually you can pass this to underlying methods as commit_and_push or "
-#| "commit_pending."
 msgid ""
 "Whether the add-on operation should skip pushing changes upstream. Usually "
 "you can pass this to underlying methods as ``commit_and_push`` or "
@@ -29055,7 +29036,7 @@ msgid ""
 msgstr ""
 "Визначає, чи слід пропускати при обробці додатком запис до основного сховища "
 "коду. Зазвичай, ви можете передати цей параметр підлеглим методам як "
-"commit_and_push або commit_pending."
+"``commit_and_push`` або ``commit_pending``."
 
 #: ../../../weblate/addons/base.py:docstring of
 #: weblate.addons.base.BaseAddon.pre_commit:1
@@ -32151,10 +32132,8 @@ msgstr ""
 "gettext.msgmerge`"
 
 #: ../../devel/integration.rst:112
-#, fuzzy
-#| msgid "Version control repositories"
 msgid "Managing version control repository"
-msgstr "Сховища систем керування версіями"
+msgstr "Керування сховищем керування версіями"
 
 #: ../../devel/integration.rst:114
 msgid ""
@@ -32162,6 +32141,9 @@ msgid ""
 "either connected to upstream one, or it can be only internal. The :guilabel:"
 "`Repository maintenance` lets you manipulate with the repository."
 msgstr ""
+"Weblate зберігає весь переклад сховища керування версіями. Він може бути або "
+"під'єднаний до основного віддаленого, або може бути тільки внутрішнім. За "
+"допомогою поля :guilabel:`Супровід сховища` ви можете керувати сховищем."
 
 #: ../../devel/integration.rst:120
 msgid ""
@@ -32169,46 +32151,41 @@ msgid ""
 "whenever there are changes and there is usually no need to manually "
 "manipupate with it."
 msgstr ""
+"За допомогою :doc:`/admin/continuous` до сховища автоматично надсилаються "
+"зміни щоразу, коли вони з'являються, і, як правило, нема потреби виконувати "
+"з ними дії власноруч."
 
 #: ../../devel/integration.rst:126
-#, fuzzy
-#| msgid "The following commands are available:"
 msgid "Following operations are available:"
-msgstr "Можна скористатися такими командами:"
+msgstr "Доступні такі операції:"
 
 #: ../../devel/integration.rst:128
-#, fuzzy
-#| msgid ":guilabel:`Custom`"
 msgid ":guilabel:`Commit`"
-msgstr ":guilabel:`Нетиповий`"
+msgstr ":guilabel:`Подання`"
 
 #: ../../devel/integration.rst:130
-#, fuzzy
-#| msgid ""
-#| "Commit all pending changes in Weblate and lock the translation component."
 msgid ""
 "Commits any pending changes present in Weblate database and not in the "
 "repository, see :ref:`lazy-commit`."
 msgstr ""
-"Надіслати усі зміни з черги на Weblate і заблокувати складник перекладу."
+"Надсилає будь-які зміни з черги, присутні в базі даних Weblate, а не у "
+"сховищі, див . :ref:`lazy-commit`."
 
 #: ../../devel/integration.rst:133
-#, fuzzy
-#| msgid ":guilabel:`Public`"
 msgid ":guilabel:`Push`"
-msgstr ":guilabel:`Відкритий`"
+msgstr ":guilabel:`Записати`"
 
 #: ../../devel/integration.rst:135
-#, fuzzy
-#| msgid "Pushes committed changes to the upstream VCS repository."
 msgid ""
 "Pushes changes to the upstream repository, if configured by :ref:`component-"
 "push`."
-msgstr "Записує внесені зміни до основного сховища системи керування версіями."
+msgstr ""
+"Записує зміни до основного сховища системи якщо його налаштовано за "
+"допомогою :ref:`component-push`."
 
 #: ../../devel/integration.rst:137
 msgid ":guilabel:`Update`, :guilabel:`Pull`, :guilabel:`Rebase`"
-msgstr ""
+msgstr ":guilabel:`Оновити`, :guilabel:`Витягнути`, :guilabel:`Перенести`"
 
 #: ../../devel/integration.rst:139
 msgid ""
@@ -32216,12 +32193,13 @@ msgid ""
 "merge_style` when choosing :guilabel:`Update` or you can choose different "
 "one from the dropdown menu."
 msgstr ""
+"Оновляє сховище Weblate з попередніми змінами. Він використовує :ref"
+":`component-merge_style`, якщо вибрано :guilabel:`Update`, або ви можете "
+"вибрати інше зі спадного меню."
 
 #: ../../devel/integration.rst:143
-#, fuzzy
-#| msgid ":guilabel:`Public`"
 msgid ":guilabel:`Lock`"
-msgstr ":guilabel:`Відкритий`"
+msgstr ":guilabel:`Заблокувати`"
 
 #: ../../devel/integration.rst:145
 msgid "Locking prevents translators from doing changes"
@@ -32229,7 +32207,7 @@ msgstr "Блокування не дозволить перекладачам в
 
 #: ../../devel/integration.rst:147
 msgid ":guilabel:`Reset` from :guilabel:`Maintenance`"
-msgstr ""
+msgstr ":guilabel:`Скинути` у :guilabel:`Супровід`"
 
 #: ../../devel/integration.rst:149
 msgid ""
@@ -32237,32 +32215,37 @@ msgid ""
 "discard all translations done in Weblate and not present in the upstream "
 "repository."
 msgstr ""
+"Скидає будь-які зміни, внесені у Weblate, відповідно до основного сховища. "
+"Це призведе до відхилення всіх перекладів, зроблених у Weblate та відсутніх "
+"в основному сховищі."
 
 #: ../../devel/integration.rst:153
 msgid ":guilabel:`Cleanup` from :guilabel:`Maintenance`"
-msgstr ""
+msgstr ":guilabel:`Очистити` у :guilabel:`Супровід`"
 
 #: ../../devel/integration.rst:155
 msgid ""
 "Removes untracked files from the repository. These could be result of "
 "misbehaving add-ons or bugs."
 msgstr ""
+"Вилучає не відстежувані файли зі сховища. Це може бути спричинено "
+"неправильною поведінкою додатків або помилками."
 
 #: ../../devel/integration.rst:158
 msgid ":guilabel:`Force synchronization` from :guilabel:`Maintenance`"
-msgstr ""
+msgstr ":guilabel:`Примусова синхронізація` у :guilabel:`Супровід`"
 
 #: ../../devel/integration.rst:160
 msgid ""
 "Forces writing all strings to the translation files. Use this when "
 "repository files became out of sync with Weblate for some reason."
 msgstr ""
+"Примусово записує всі рядки до файлів перекладу. Застосовуйте це, коли файли "
+"сховища з якихось причин не синхронізуються з Weblate."
 
 #: ../../devel/integration.rst:165
-#, fuzzy
-#| msgid ":doc:`/admin/addons`"
 msgid ":doc:`/admin/continuous` :doc:`/vcs`"
-msgstr ":doc:`/admin/addons`"
+msgstr ":doc:`/admin/continuous` :doc:`/vcs`"
 
 #: ../../devel/reporting.rst:2
 msgid "Translation progress reporting"
@@ -39169,6 +39152,8 @@ msgid ""
 "Component slug or name case insensitive search, see :ref:`component-slug` "
 "and :ref:`component-name`."
 msgstr ""
+"Пошук ідентифікатора або назви складника незалежно від регістру, див. :ref"
+":`component-slug` і :ref:`component-name`."
 
 #: ../../user/search.rst:55
 msgid "``project:TEXT``"
