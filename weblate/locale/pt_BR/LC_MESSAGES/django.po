@@ -25,7 +25,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.7\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-06-14 18:37+0000\n"
-"PO-Revision-Date: 2021-05-27 22:39+0000\n"
+"PO-Revision-Date: 2021-06-15 04:45+0000\n"
 "Last-Translator: Rafael Fontenelle <rafaelff@gnome.org>\n"
 "Language-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/"
 "weblate/application/pt_BR/>\n"
@@ -416,7 +416,7 @@ msgstr ""
 #: weblate/accounts/models.py:169
 #, python-brace-format
 msgid "Access to project {project} was blocked"
-msgstr ""
+msgstr "Acesso ao projeto {project} foi bloqueado"
 
 #: weblate/accounts/models.py:174
 msgid "Configured password to sign in."
@@ -441,6 +441,8 @@ msgstr "Redefina a sua senha para restaurar o acesso à sua conta, ."
 #: weblate/accounts/models.py:184
 msgid "Please contact project maintainers if you feel this is inappropriate."
 msgstr ""
+"Entre em contato com os mantenedores do projeto se achar que isso é "
+"inapropriado."
 
 #: weblate/accounts/models.py:306 weblate/templates/accounts/profile.html:227
 #: weblate/templates/accounts/user.html:223
@@ -1276,10 +1278,8 @@ msgstr ""
 "by: …'."
 
 #: weblate/addons/forms.py:165
-#, fuzzy
-#| msgid "Commit messages"
 msgid "Commit message"
-msgstr "Mensagens de commit"
+msgstr "Mensagem de commit"
 
 #: weblate/addons/forms.py:169
 msgid ""
@@ -2065,7 +2065,7 @@ msgstr "Cobrança"
 
 #: weblate/auth/forms.py:107
 msgid "Send e-mail invitation to the user"
-msgstr ""
+msgstr "Enviar convite por e-mail para o usuário"
 
 #: weblate/auth/models.py:74
 msgid "Permission"
@@ -2231,10 +2231,8 @@ msgid "Automatic group assignments"
 msgstr "Associações automáticas de grupo"
 
 #: weblate/auth/models.py:663 weblate/trans/forms.py:1055
-#, fuzzy
-#| msgid "User to add"
 msgid "User to block"
-msgstr "Usuário a adicionar"
+msgstr "Usuário a bloquear"
 
 #: weblate/auth/models.py:666 weblate/templates/check.html:19
 #: weblate/templates/data.html:28 weblate/templates/data.html:62
@@ -2249,22 +2247,16 @@ msgid "Project"
 msgstr "Projeto"
 
 #: weblate/auth/models.py:668
-#, fuzzy
-#| msgid "Lock expires:"
 msgid "Block expiry"
-msgstr "O bloqueio expira em:"
+msgstr "Expiração de bloqueio"
 
 #: weblate/auth/models.py:671
-#, fuzzy
-#| msgid "Removed user"
 msgid "Blocked user"
-msgstr "Usuário removido"
+msgstr "Usuário bloqueado"
 
 #: weblate/auth/models.py:672
-#, fuzzy
-#| msgid "Removed user"
 msgid "Blocked users"
-msgstr "Usuário removido"
+msgstr "Usuários bloqueados"
 
 #: weblate/billing/admin.py:82 weblate/templates/billing/list.html:8
 #: weblate/templates/billing/status.html:112
@@ -3327,10 +3319,8 @@ msgid "Invalid integer list!"
 msgstr "Lista de inteiros inválida!"
 
 #: weblate/glossary/forms.py:47
-#, fuzzy
-#| msgid "String will be propagated to all languages"
 msgid "String will be part of the glossary in all languages"
-msgstr "O texto será propagado para todos os idiomas"
+msgstr "O texto será parte do glossário para todos os idiomas"
 
 #: weblate/glossary/forms.py:55
 msgid "Not translatable term"
@@ -3945,28 +3935,21 @@ msgid "Server Error"
 msgstr "Erro do servidor"
 
 #: weblate/templates/500.html:16
-#, fuzzy, python-format
-#| msgid ""
-#| "The server had serious problems serving your request. Trained monkeys are "
-#| "en-route fixing the issue."
+#, python-format
 msgid ""
 "The server had serious problems serving your request, and this error has "
 "been recorded as %(error_id)s."
 msgstr ""
-"O servidor teve sérios problemas com sua requisição. Macaquinhos amestrados "
-"foram enviados para consertar este problema."
+"O servidor teve sérios problemas com sua requisição e este erro foi "
+"registrado como %(error_id)s."
 
 #: weblate/templates/500.html:36
-#, fuzzy
-#| msgid ""
-#| "The server had serious problems serving your request. Trained monkeys are "
-#| "en-route fixing the issue."
 msgid ""
 "The server had serious problems serving your request. You might want to "
 "contact server admins in case the error persists."
 msgstr ""
-"O servidor teve sérios problemas com sua requisição. Macaquinhos amestrados "
-"foram enviados para consertar este problema."
+"O servidor teve sérios problemas com sua requisição. Você pode querer entrar "
+"em contato com os administradores do servidor em caso do erro persistir."
 
 #: weblate/templates/about/index.html:5 weblate/templates/about/index.html:11
 #: weblate/templates/about/keys.html:6 weblate/templates/about/stats.html:7
@@ -4824,21 +4807,17 @@ msgstr "Remover usuário deste grupo"
 #: weblate/templates/manage-access.html:96
 #, python-format
 msgid "Blocked until %(expiry)s"
-msgstr ""
+msgstr "Bloqueado até %(expiry)s"
 
 #: weblate/templates/accounts/user.html:269
 #: weblate/templates/manage-access.html:98
-#, fuzzy
-#| msgid "Ignore permanently"
 msgid "Blocked permanently"
-msgstr "Ignorar permanentemente"
+msgstr "Bloqueado permanentemente"
 
 #: weblate/templates/accounts/user.html:273
 #: weblate/templates/manage-access.html:106
-#, fuzzy
-#| msgid "Unlock"
 msgid "Unblock user"
-msgstr "Desbloquear"
+msgstr "Desbloquear usuário"
 
 #: weblate/templates/accounts/user.html:289
 #: weblate/templates/fonts/font_detail.html:31
@@ -6546,7 +6525,7 @@ msgstr "Reverter"
 #: weblate/templates/manage-access.html:146
 #: weblate/templates/snippets/suggestions.html:46
 msgid "Block user"
-msgstr ""
+msgstr "Bloquear usuário"
 
 #. Translators: Number of edits on a change in Damerau–Levenshtein distance
 #: weblate/templates/last-changes-content.html:55
@@ -7118,10 +7097,8 @@ msgid "Add a user"
 msgstr "Adicionar um usuário"
 
 #: weblate/templates/manage-access.html:152
-#, fuzzy
-#| msgid "Unlock"
 msgid "Block"
-msgstr "Desbloquear"
+msgstr "Bloquear"
 
 #: weblate/templates/manage-access.html:163
 msgid "Invite new user"
@@ -7344,20 +7321,16 @@ msgid "Content encoding"
 msgstr "Codificação do conteúdo"
 
 #: weblate/templates/manage/performance.html:149
-#, fuzzy
-#| msgid "Activity"
 msgid "Connectivity"
-msgstr "Atividade"
+msgstr "Conectividade"
 
 #: weblate/templates/manage/performance.html:155
-#, fuzzy
-#| msgid "Database backend"
 msgid "Database latency"
-msgstr "Servidor de banco de dados"
+msgstr "Latência do banco de dados"
 
 #: weblate/templates/manage/performance.html:159
 msgid "Cache latency"
-msgstr ""
+msgstr "Latência do cache"
 
 #: weblate/templates/manage/repos.html:6
 #: weblate/wladmin/templates/admin/weblate-index.html:20
@@ -7487,10 +7460,8 @@ msgid "Generate a test event to test Sentry integration."
 msgstr "Gera um evento de teste para testar a integração com Sentry."
 
 #: weblate/templates/manage/users.html:28
-#, fuzzy
-#| msgid "Add a user"
 msgid "Add new user"
-msgstr "Adicionar um usuário"
+msgstr "Adicionar novo usuário"
 
 #: weblate/templates/matrix.html:9
 msgid "Matrix"
@@ -8820,22 +8791,17 @@ msgid "This project does no longer fit into libre hosting conditions."
 msgstr "Este projeto já não se enquadra nas condições de hospedagem da libre."
 
 #: weblate/templates/trans/alert/nomaskmatches.html:2
-#, fuzzy
-#| msgid "This component is set up incorrectly."
 msgid "This component set up is incomplete as it lacks translations."
-msgstr "Esse componente está configurado incorretamente."
+msgstr ""
+"A configuração deste componente está incompleta, pois carece de traduções."
 
 #: weblate/templates/trans/alert/nomaskmatches.html:6
-#, fuzzy
-#| msgid ""
-#| "You can also start new translations directly in Weblate, it will create "
-#| "files based on the file mask."
 msgid ""
 "Create new translations directly in Weblate, it will create files based on "
 "the file mask."
 msgstr ""
-"Você também pode iniciar novas traduções diretamente no Weblate, ele criará "
-"arquivos com base na máscara de arquivo."
+"Crie novas traduções diretamente no Weblate, ele criará arquivos com base na "
+"máscara de arquivo."
 
 #: weblate/templates/trans/alert/nomaskmatches.html:8
 #, python-format
@@ -10093,26 +10059,24 @@ msgid "Please type in an existing Weblate account name or e-mail address."
 msgstr "Digite um nome ou endereço de e-mail de uma conta Weblate existente."
 
 #: weblate/trans/forms.py:1061
-#, fuzzy
-#| msgid "Location"
 msgid "Block duration"
-msgstr "Localização"
+msgstr "Duração do bloqueio"
 
 #: weblate/trans/forms.py:1063
 msgid "Block user until I unblock them"
-msgstr ""
+msgstr "Bloquear usuário até eu desbloqueá-lo"
 
 #: weblate/trans/forms.py:1064
 msgid "Block user for one day"
-msgstr ""
+msgstr "Bloquear usuário por um dia"
 
 #: weblate/trans/forms.py:1065
 msgid "Block user for one week"
-msgstr ""
+msgstr "Bloquear usuário por uma semana"
 
 #: weblate/trans/forms.py:1066
 msgid "Block user for one month"
-msgstr ""
+msgstr "Bloquear usuário por um mês"
 
 #: weblate/trans/forms.py:1074
 msgid "Report format"
@@ -11121,14 +11085,10 @@ msgid "Translation flags"
 msgstr "Marcadores de tradução"
 
 #: weblate/trans/models/component.py:429 weblate/trans/models/unit.py:311
-#, fuzzy
-#| msgid ""
-#| "Additional comma-separated flags to influence quality checks. Possible "
-#| "values can be found in the documentation."
 msgid "Additional comma-separated flags to influence Weblate behavior."
 msgstr ""
-"Marcações adicionais separadas por vírgulas para influenciar as verificações "
-"de qualidade. Os valores possíveis podem ser encontrados na documentação."
+"Marcações adicionais separadas por vírgulas para influenciar o comportamento "
+"do Weblate."
 
 #: weblate/trans/models/component.py:435
 msgid "Enforced checks"
@@ -12123,16 +12083,12 @@ msgid "Failed to find group to add a user!"
 msgstr "Falha ao encontrar o grupo para adicionar o usuário!"
 
 #: weblate/trans/views/acl.py:164
-#, fuzzy
-#| msgid "User has been added to this project."
 msgid "User has been blocked on this project."
-msgstr "Usuário foi adicionado a este projeto."
+msgstr "Usuário foi bloqueado neste projeto."
 
 #: weblate/trans/views/acl.py:166
-#, fuzzy
-#| msgid "User has been added to this project."
 msgid "User is already blocked on this project."
-msgstr "Usuário foi adicionado a este projeto."
+msgstr "Usuário já foi bloqueado neste projeto."
 
 #: weblate/trans/views/acl.py:193 weblate/trans/views/acl.py:208
 msgid "User has been invited to this project."
@@ -12992,10 +12948,9 @@ msgid "Could not dismiss the configuration error!"
 msgstr "Não foi possível descartar o erro de configuração!"
 
 #: weblate/wladmin/views.py:356
-#, fuzzy, python-format
-#| msgid "Create an account using:"
+#, python-format
 msgid "Created user account %s."
-msgstr "Criar uma conta usando:"
+msgstr "Criada a conta de usuário %s."
 
 #, python-format
 #~ msgid ""
