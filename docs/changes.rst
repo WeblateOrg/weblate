@@ -17,7 +17,7 @@ Released on June 16th 2021.
 * Extended documentation about add-ons.
 * Performance improvements for components with linked repositories.
 * Added support for free DeepL API.
-* The user management no longer needs Django admin inteface.
+* The user management no longer needs Django admin interface.
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/64?closed=1>`__.
 

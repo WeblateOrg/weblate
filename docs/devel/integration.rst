@@ -162,5 +162,5 @@ Following operations are available:
 
 .. seealso::
 
-   :doc:`/admin/continuous`
+   :doc:`/admin/continuous`,
    :doc:`/vcs`
