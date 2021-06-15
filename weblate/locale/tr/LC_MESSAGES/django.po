@@ -20,7 +20,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.7\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
-"POT-Creation-Date: 2021-06-14 18:37+0000\n"
+"POT-Creation-Date: 2021-06-15 04:46+0000\n"
 "PO-Revision-Date: 2021-06-15 04:45+0000\n"
 "Last-Translator: Burak Yavuz <hitowerdigit@hotmail.com>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/weblate/"
@@ -558,12 +558,10 @@ msgstr "İzlenen çeviriler"
 
 #: weblate/accounts/models.py:465 weblate/auth/models.py:141
 #: weblate/templates/dashboard/user.html:23
-#: weblate/trans/models/componentlist.py:70
 msgid "Component lists"
 msgstr "Bileşen listeleri"
 
 #: weblate/accounts/models.py:466 weblate/templates/dashboard/user.html:65
-#: weblate/trans/models/componentlist.py:69
 msgid "Component list"
 msgstr "Bileşen listesi"
 
@@ -1626,8 +1624,7 @@ msgstr "Kişisel bilgi"
 msgid "Authentication"
 msgstr "Kimlik doğrulama"
 
-#: weblate/auth/admin.py:146 weblate/auth/models.py:75
-#: weblate/auth/models.py:88
+#: weblate/auth/admin.py:146 weblate/auth/models.py:88
 msgid "Permissions"
 msgstr "İzinler"
 
@@ -2051,10 +2048,6 @@ msgstr "Faturalandırma"
 msgid "Send e-mail invitation to the user"
 msgstr "Kullanıcıya e-posta davetiyesi gönder"
 
-#: weblate/auth/models.py:74
-msgid "Permission"
-msgstr "İzin"
-
 #: weblate/auth/models.py:80
 #, python-format
 msgid "%s (site-wide permission)"
@@ -2108,8 +2101,7 @@ msgstr "Bileşen listesinden"
 #: weblate/templates/billing/list.html:9
 #: weblate/templates/billing/status.html:101 weblate/templates/language.html:19
 #: weblate/templates/projects.html:5 weblate/templates/snippets/info.html:372
-#: weblate/templates/snippets/info.html:406 weblate/trans/models/project.py:172
-#: weblate/trans/views/basic.py:78
+#: weblate/templates/snippets/info.html:406 weblate/trans/views/basic.py:78
 msgid "Projects"
 msgstr "Projeler"
 
@@ -2118,7 +2110,7 @@ msgstr "Projeler"
 #: weblate/templates/mail/base.html:76 weblate/templates/project.html:31
 #: weblate/templates/snippets/info.html:384
 #: weblate/templates/snippets/info.html:420 weblate/trans/forms.py:837
-#: weblate/trans/forms.py:1895 weblate/trans/models/component.py:647
+#: weblate/trans/forms.py:1895
 msgid "Components"
 msgstr "Bileşenler"
 
@@ -2131,8 +2123,7 @@ msgid "All languages"
 msgstr "Tüm diller"
 
 #: weblate/auth/models.py:154 weblate/billing/models.py:323
-#: weblate/lang/models.py:475 weblate/lang/views.py:57
-#: weblate/templates/accounts/profile.html:24
+#: weblate/lang/views.py:57 weblate/templates/accounts/profile.html:24
 #: weblate/templates/accounts/profile.html:38 weblate/templates/base.html:141
 #: weblate/templates/lang/create.html:6
 #: weblate/templates/lang/language_form.html:6
@@ -2203,14 +2194,6 @@ msgstr ""
 msgid "Group to assign"
 msgstr "Atamak için grup"
 
-#: weblate/auth/models.py:654
-msgid "Automatic group assignment"
-msgstr "Kendiliğinden grup ataması"
-
-#: weblate/auth/models.py:655
-msgid "Automatic group assignments"
-msgstr "Kendiliğinden grup atamaları"
-
 #: weblate/auth/models.py:663 weblate/trans/forms.py:1055
 msgid "User to block"
 msgstr "Engellenecek kullanıcı"
@@ -2223,21 +2206,12 @@ msgstr "Engellenecek kullanıcı"
 #: weblate/trans/forms.py:1645 weblate/trans/forms.py:2274
 #: weblate/trans/models/announcement.py:90
 #: weblate/trans/models/component.py:250 weblate/trans/models/component.py:275
-#: weblate/trans/models/project.py:171
 msgid "Project"
 msgstr "Proje"
 
 #: weblate/auth/models.py:668
 msgid "Block expiry"
 msgstr "Engelleme süresinin dolması"
-
-#: weblate/auth/models.py:671
-msgid "Blocked user"
-msgstr "Engellenmiş kullanıcı"
-
-#: weblate/auth/models.py:672
-msgid "Blocked users"
-msgstr "Engellenmiş kullanıcılar"
 
 #: weblate/billing/admin.py:82 weblate/templates/billing/list.html:8
 #: weblate/templates/billing/status.html:112
@@ -3027,9 +3001,8 @@ msgstr ""
 msgid "Font"
 msgstr "Yazı tipi"
 
-#: weblate/fonts/models.py:141 weblate/lang/models.py:474
-#: weblate/templates/component.html:134 weblate/templates/languages.html:11
-#: weblate/templates/project.html:164
+#: weblate/fonts/models.py:141 weblate/templates/component.html:134
+#: weblate/templates/languages.html:11 weblate/templates/project.html:164
 #: weblate/templates/screenshots/screenshot_detail.html:87
 #: weblate/templates/snippets/embed-units.html:15
 #: weblate/templates/trans/alert/duplicatelanguage.html:41
@@ -3510,14 +3483,6 @@ msgstr "Çoğul formülü"
 #: weblate/lang/models.py:611 weblate/templates/snippets/info.html:53
 msgid "Plural type"
 msgstr "Çoğul türü"
-
-#: weblate/lang/models.py:619
-msgid "Plural form"
-msgstr "Çoğul biçimi"
-
-#: weblate/lang/models.py:620
-msgid "Plural forms"
-msgstr "Çoğul biçimleri"
 
 #. Translators: Label for plurals with example counts
 #: weblate/lang/models.py:702
@@ -4955,7 +4920,6 @@ msgstr "Büyük ilk harf ile bileşen dosya adı"
 #: weblate/templates/project.html:138 weblate/templates/translate.html:299
 #: weblate/templates/translation.html:207 weblate/trans/forms.py:1508
 #: weblate/trans/models/announcement.py:97
-#: weblate/trans/models/component.py:646
 msgid "Component"
 msgstr "Bileşen"
 
@@ -6784,7 +6748,6 @@ msgid "New alert on %(component)s"
 msgstr "%(component)s'de yeni uyarı"
 
 #: weblate/templates/mail/new_announcement.html:7
-#: weblate/trans/models/announcement.py:142
 msgid "Announcement"
 msgstr "Duyuru"
 
@@ -7591,7 +7554,7 @@ msgstr "Renk"
 msgid "Add label"
 msgstr "Etiket ekle"
 
-#: weblate/templates/project.html:42 weblate/trans/models/announcement.py:143
+#: weblate/templates/project.html:42
 msgid "Announcements"
 msgstr "Duyurular"
 
@@ -7930,7 +7893,6 @@ msgid "Translation license"
 msgstr "Çeviri lisansı"
 
 #: weblate/templates/snippets/info.html:137
-#: weblate/trans/models/componentlist.py:106
 msgid "Automatic component list assignment"
 msgstr "Kendiliğinden bileşen listesi ataması"
 
@@ -11455,10 +11417,6 @@ msgstr "Bileşen kısaltmasını eşleştirmek için kullanılan düzenli ifade.
 msgid "Component list to assign"
 msgstr "Atanacak bileşen listesi"
 
-#: weblate/trans/models/componentlist.py:107
-msgid "Automatic component list assignments"
-msgstr "Kendiliğinden bileşen listesi atamaları"
-
 #: weblate/trans/models/project.py:73
 msgid "Public"
 msgstr "Açık"
@@ -12877,6 +12835,30 @@ msgstr "Yapılandırma hatası yoksayılamadı!"
 #, python-format
 msgid "Created user account %s."
 msgstr "Oluşturulan kullanıcı hesabı %s."
+
+#~ msgid "Permission"
+#~ msgstr "İzin"
+
+#~ msgid "Automatic group assignment"
+#~ msgstr "Kendiliğinden grup ataması"
+
+#~ msgid "Automatic group assignments"
+#~ msgstr "Kendiliğinden grup atamaları"
+
+#~ msgid "Blocked user"
+#~ msgstr "Engellenmiş kullanıcı"
+
+#~ msgid "Blocked users"
+#~ msgstr "Engellenmiş kullanıcılar"
+
+#~ msgid "Plural form"
+#~ msgstr "Çoğul biçimi"
+
+#~ msgid "Plural forms"
+#~ msgstr "Çoğul biçimleri"
+
+#~ msgid "Automatic component list assignments"
+#~ msgstr "Kendiliğinden bileşen listesi atamaları"
 
 #, python-format
 #~ msgid ""

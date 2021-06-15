@@ -24,7 +24,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.7\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
-"POT-Creation-Date: 2021-06-14 18:37+0000\n"
+"POT-Creation-Date: 2021-06-15 04:46+0000\n"
 "PO-Revision-Date: 2021-06-13 11:33+0000\n"
 "Last-Translator: amano <amano.hajime@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
@@ -562,12 +562,10 @@ msgstr "監視中の翻訳"
 
 #: weblate/accounts/models.py:465 weblate/auth/models.py:141
 #: weblate/templates/dashboard/user.html:23
-#: weblate/trans/models/componentlist.py:70
 msgid "Component lists"
 msgstr "複数のコンポーネント リスト"
 
 #: weblate/accounts/models.py:466 weblate/templates/dashboard/user.html:65
-#: weblate/trans/models/componentlist.py:69
 msgid "Component list"
 msgstr "コンポーネント リスト"
 
@@ -1607,8 +1605,7 @@ msgstr "個人情報"
 msgid "Authentication"
 msgstr "認証"
 
-#: weblate/auth/admin.py:146 weblate/auth/models.py:75
-#: weblate/auth/models.py:88
+#: weblate/auth/admin.py:146 weblate/auth/models.py:88
 msgid "Permissions"
 msgstr "パーミッション"
 
@@ -2032,10 +2029,6 @@ msgstr "請求"
 msgid "Send e-mail invitation to the user"
 msgstr ""
 
-#: weblate/auth/models.py:74
-msgid "Permission"
-msgstr "パーミッション"
-
 #: weblate/auth/models.py:80
 #, python-format
 msgid "%s (site-wide permission)"
@@ -2089,8 +2082,7 @@ msgstr "コンポーネント リストから"
 #: weblate/templates/billing/list.html:9
 #: weblate/templates/billing/status.html:101 weblate/templates/language.html:19
 #: weblate/templates/projects.html:5 weblate/templates/snippets/info.html:372
-#: weblate/templates/snippets/info.html:406 weblate/trans/models/project.py:172
-#: weblate/trans/views/basic.py:78
+#: weblate/templates/snippets/info.html:406 weblate/trans/views/basic.py:78
 msgid "Projects"
 msgstr "プロジェクト"
 
@@ -2099,7 +2091,7 @@ msgstr "プロジェクト"
 #: weblate/templates/mail/base.html:76 weblate/templates/project.html:31
 #: weblate/templates/snippets/info.html:384
 #: weblate/templates/snippets/info.html:420 weblate/trans/forms.py:837
-#: weblate/trans/forms.py:1895 weblate/trans/models/component.py:647
+#: weblate/trans/forms.py:1895
 msgid "Components"
 msgstr "コンポーネント"
 
@@ -2112,8 +2104,7 @@ msgid "All languages"
 msgstr "すべての言語"
 
 #: weblate/auth/models.py:154 weblate/billing/models.py:323
-#: weblate/lang/models.py:475 weblate/lang/views.py:57
-#: weblate/templates/accounts/profile.html:24
+#: weblate/lang/views.py:57 weblate/templates/accounts/profile.html:24
 #: weblate/templates/accounts/profile.html:38 weblate/templates/base.html:141
 #: weblate/templates/lang/create.html:6
 #: weblate/templates/lang/language_form.html:6
@@ -2185,14 +2176,6 @@ msgstr "メールアドレスが一致するユーザーは、このグループ
 msgid "Group to assign"
 msgstr "割り当てるグループ"
 
-#: weblate/auth/models.py:654
-msgid "Automatic group assignment"
-msgstr "自動的なグループの割り当て"
-
-#: weblate/auth/models.py:655
-msgid "Automatic group assignments"
-msgstr "自動的なグループの割り当て"
-
 #: weblate/auth/models.py:663 weblate/trans/forms.py:1055
 #, fuzzy
 #| msgid "User to add"
@@ -2207,7 +2190,6 @@ msgstr "追加するユーザー"
 #: weblate/trans/forms.py:1645 weblate/trans/forms.py:2274
 #: weblate/trans/models/announcement.py:90
 #: weblate/trans/models/component.py:250 weblate/trans/models/component.py:275
-#: weblate/trans/models/project.py:171
 msgid "Project"
 msgstr "プロジェクト"
 
@@ -2216,18 +2198,6 @@ msgstr "プロジェクト"
 #| msgid "Lock expires:"
 msgid "Block expiry"
 msgstr "ロック有効期限:"
-
-#: weblate/auth/models.py:671
-#, fuzzy
-#| msgid "Removed user"
-msgid "Blocked user"
-msgstr "ユーザーの削除"
-
-#: weblate/auth/models.py:672
-#, fuzzy
-#| msgid "Removed user"
-msgid "Blocked users"
-msgstr "ユーザーの削除"
 
 #: weblate/billing/admin.py:82 weblate/templates/billing/list.html:8
 #: weblate/templates/billing/status.html:112
@@ -3014,9 +2984,8 @@ msgstr ""
 msgid "Font"
 msgstr "フォント"
 
-#: weblate/fonts/models.py:141 weblate/lang/models.py:474
-#: weblate/templates/component.html:134 weblate/templates/languages.html:11
-#: weblate/templates/project.html:164
+#: weblate/fonts/models.py:141 weblate/templates/component.html:134
+#: weblate/templates/languages.html:11 weblate/templates/project.html:164
 #: weblate/templates/screenshots/screenshot_detail.html:87
 #: weblate/templates/snippets/embed-units.html:15
 #: weblate/templates/trans/alert/duplicatelanguage.html:41
@@ -3498,14 +3467,6 @@ msgstr "複数形判別式"
 #: weblate/lang/models.py:611 weblate/templates/snippets/info.html:53
 msgid "Plural type"
 msgstr "複数形タイプ"
-
-#: weblate/lang/models.py:619
-msgid "Plural form"
-msgstr "複数形"
-
-#: weblate/lang/models.py:620
-msgid "Plural forms"
-msgstr "複数形"
 
 #. Translators: Label for plurals with example counts
 #: weblate/lang/models.py:702
@@ -4946,7 +4907,6 @@ msgstr "先頭が大文字になっているコンポーネントファイル名
 #: weblate/templates/project.html:138 weblate/templates/translate.html:299
 #: weblate/templates/translation.html:207 weblate/trans/forms.py:1508
 #: weblate/trans/models/announcement.py:97
-#: weblate/trans/models/component.py:646
 msgid "Component"
 msgstr "コンポーネント"
 
@@ -6758,7 +6718,6 @@ msgid "New alert on %(component)s"
 msgstr "%(component)s で新しい警告"
 
 #: weblate/templates/mail/new_announcement.html:7
-#: weblate/trans/models/announcement.py:142
 msgid "Announcement"
 msgstr "お知らせ"
 
@@ -7567,7 +7526,7 @@ msgstr "色"
 msgid "Add label"
 msgstr "ラベルの追加"
 
-#: weblate/templates/project.html:42 weblate/trans/models/announcement.py:143
+#: weblate/templates/project.html:42
 msgid "Announcements"
 msgstr "お知らせ"
 
@@ -7897,7 +7856,6 @@ msgid "Translation license"
 msgstr "翻訳のライセンス"
 
 #: weblate/templates/snippets/info.html:137
-#: weblate/trans/models/componentlist.py:106
 msgid "Automatic component list assignment"
 msgstr "コンポーネント リストの自動割り当て"
 
@@ -11381,10 +11339,6 @@ msgstr "スラッグ コンポーネントの部分マッチングに使用す�
 msgid "Component list to assign"
 msgstr "割り当てるコンポーネント リスト"
 
-#: weblate/trans/models/componentlist.py:107
-msgid "Automatic component list assignments"
-msgstr "コンポーネント リストの自動割り当て"
-
 #: weblate/trans/models/project.py:73
 msgid "Public"
 msgstr "公開"
@@ -12785,6 +12739,34 @@ msgstr "設定エラーは無視できません！"
 #| msgid "Create an account using:"
 msgid "Created user account %s."
 msgstr "登録に使用するアカウント:"
+
+#~ msgid "Permission"
+#~ msgstr "パーミッション"
+
+#~ msgid "Automatic group assignment"
+#~ msgstr "自動的なグループの割り当て"
+
+#~ msgid "Automatic group assignments"
+#~ msgstr "自動的なグループの割り当て"
+
+#, fuzzy
+#~| msgid "Removed user"
+#~ msgid "Blocked user"
+#~ msgstr "ユーザーの削除"
+
+#, fuzzy
+#~| msgid "Removed user"
+#~ msgid "Blocked users"
+#~ msgstr "ユーザーの削除"
+
+#~ msgid "Plural form"
+#~ msgstr "複数形"
+
+#~ msgid "Plural forms"
+#~ msgstr "複数形"
+
+#~ msgid "Automatic component list assignments"
+#~ msgstr "コンポーネント リストの自動割り当て"
 
 #, python-format
 #~ msgid ""

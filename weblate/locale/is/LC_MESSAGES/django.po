@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.7\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
-"POT-Creation-Date: 2021-06-14 18:37+0000\n"
+"POT-Creation-Date: 2021-06-15 04:46+0000\n"
 "PO-Revision-Date: 2021-06-14 05:12+0000\n"
 "Last-Translator: Þórhalla Guðmundsdóttir Beck <plergux@outlook.com>\n"
 "Language-Team: Icelandic <https://hosted.weblate.org/projects/weblate/"
@@ -553,12 +553,10 @@ msgstr "Vaktaðar þýðingar"
 
 #: weblate/accounts/models.py:465 weblate/auth/models.py:141
 #: weblate/templates/dashboard/user.html:23
-#: weblate/trans/models/componentlist.py:70
 msgid "Component lists"
 msgstr "Þýðingahlutalistar"
 
 #: weblate/accounts/models.py:466 weblate/templates/dashboard/user.html:65
-#: weblate/trans/models/componentlist.py:69
 msgid "Component list"
 msgstr "Þýðingarhlutalisti"
 
@@ -1586,8 +1584,7 @@ msgstr "Persónulegar upplýsingar"
 msgid "Authentication"
 msgstr "Auðkenning"
 
-#: weblate/auth/admin.py:146 weblate/auth/models.py:75
-#: weblate/auth/models.py:88
+#: weblate/auth/admin.py:146 weblate/auth/models.py:88
 msgid "Permissions"
 msgstr "Heimildir"
 
@@ -2011,10 +2008,6 @@ msgstr "Greiðslur"
 msgid "Send e-mail invitation to the user"
 msgstr ""
 
-#: weblate/auth/models.py:74
-msgid "Permission"
-msgstr "Heimild"
-
 #: weblate/auth/models.py:80
 #, python-format
 msgid "%s (site-wide permission)"
@@ -2068,8 +2061,7 @@ msgstr "Úr þýðingarhlutalista"
 #: weblate/templates/billing/list.html:9
 #: weblate/templates/billing/status.html:101 weblate/templates/language.html:19
 #: weblate/templates/projects.html:5 weblate/templates/snippets/info.html:372
-#: weblate/templates/snippets/info.html:406 weblate/trans/models/project.py:172
-#: weblate/trans/views/basic.py:78
+#: weblate/templates/snippets/info.html:406 weblate/trans/views/basic.py:78
 msgid "Projects"
 msgstr "Verkefni"
 
@@ -2078,7 +2070,7 @@ msgstr "Verkefni"
 #: weblate/templates/mail/base.html:76 weblate/templates/project.html:31
 #: weblate/templates/snippets/info.html:384
 #: weblate/templates/snippets/info.html:420 weblate/trans/forms.py:837
-#: weblate/trans/forms.py:1895 weblate/trans/models/component.py:647
+#: weblate/trans/forms.py:1895
 msgid "Components"
 msgstr "Þýðingarhlutar"
 
@@ -2091,8 +2083,7 @@ msgid "All languages"
 msgstr "Öll tungumál"
 
 #: weblate/auth/models.py:154 weblate/billing/models.py:323
-#: weblate/lang/models.py:475 weblate/lang/views.py:57
-#: weblate/templates/accounts/profile.html:24
+#: weblate/lang/views.py:57 weblate/templates/accounts/profile.html:24
 #: weblate/templates/accounts/profile.html:38 weblate/templates/base.html:141
 #: weblate/templates/lang/create.html:6
 #: weblate/templates/lang/language_form.html:6
@@ -2162,14 +2153,6 @@ msgstr ""
 msgid "Group to assign"
 msgstr "Hópur til að úthluta"
 
-#: weblate/auth/models.py:654
-msgid "Automatic group assignment"
-msgstr "Sjálfvirk úthlutun hóps"
-
-#: weblate/auth/models.py:655
-msgid "Automatic group assignments"
-msgstr "Sjálfvirk úthlutun hópa"
-
 #: weblate/auth/models.py:663 weblate/trans/forms.py:1055
 #, fuzzy
 #| msgid "User to add"
@@ -2184,25 +2167,12 @@ msgstr "Notandi til að bæta við"
 #: weblate/trans/forms.py:1645 weblate/trans/forms.py:2274
 #: weblate/trans/models/announcement.py:90
 #: weblate/trans/models/component.py:250 weblate/trans/models/component.py:275
-#: weblate/trans/models/project.py:171
 msgid "Project"
 msgstr "Verkefni"
 
 #: weblate/auth/models.py:668
 msgid "Block expiry"
 msgstr ""
-
-#: weblate/auth/models.py:671
-#, fuzzy
-#| msgid "Removed user"
-msgid "Blocked user"
-msgstr "Notandi fjarlægður"
-
-#: weblate/auth/models.py:672
-#, fuzzy
-#| msgid "Removed user"
-msgid "Blocked users"
-msgstr "Notandi fjarlægður"
 
 #: weblate/billing/admin.py:82 weblate/templates/billing/list.html:8
 #: weblate/templates/billing/status.html:112
@@ -2987,9 +2957,8 @@ msgstr ""
 msgid "Font"
 msgstr "Letur"
 
-#: weblate/fonts/models.py:141 weblate/lang/models.py:474
-#: weblate/templates/component.html:134 weblate/templates/languages.html:11
-#: weblate/templates/project.html:164
+#: weblate/fonts/models.py:141 weblate/templates/component.html:134
+#: weblate/templates/languages.html:11 weblate/templates/project.html:164
 #: weblate/templates/screenshots/screenshot_detail.html:87
 #: weblate/templates/snippets/embed-units.html:15
 #: weblate/templates/trans/alert/duplicatelanguage.html:41
@@ -3475,14 +3444,6 @@ msgstr "Formúla fyrir fleirtölu"
 #: weblate/lang/models.py:611 weblate/templates/snippets/info.html:53
 msgid "Plural type"
 msgstr "Gerð fleirtölu"
-
-#: weblate/lang/models.py:619
-msgid "Plural form"
-msgstr "Fleirtöluform"
-
-#: weblate/lang/models.py:620
-msgid "Plural forms"
-msgstr "Fleirtöluform"
 
 #. Translators: Label for plurals with example counts
 #: weblate/lang/models.py:702
@@ -4904,7 +4865,6 @@ msgstr ""
 #: weblate/templates/project.html:138 weblate/templates/translate.html:299
 #: weblate/templates/translation.html:207 weblate/trans/forms.py:1508
 #: weblate/trans/models/announcement.py:97
-#: weblate/trans/models/component.py:646
 msgid "Component"
 msgstr "Þýðingarhluti"
 
@@ -6655,7 +6615,6 @@ msgid "New alert on %(component)s"
 msgstr "Ný aðvörun í %(component)s"
 
 #: weblate/templates/mail/new_announcement.html:7
-#: weblate/trans/models/announcement.py:142
 msgid "Announcement"
 msgstr "Tilkynning"
 
@@ -7454,7 +7413,7 @@ msgstr "Litur"
 msgid "Add label"
 msgstr "Bæta við merkingu"
 
-#: weblate/templates/project.html:42 weblate/trans/models/announcement.py:143
+#: weblate/templates/project.html:42
 msgid "Announcements"
 msgstr "Tilkynningar"
 
@@ -7784,7 +7743,6 @@ msgid "Translation license"
 msgstr "Notkunarleyfi þýðingar"
 
 #: weblate/templates/snippets/info.html:137
-#: weblate/trans/models/componentlist.py:106
 msgid "Automatic component list assignment"
 msgstr ""
 
@@ -11177,10 +11135,6 @@ msgstr ""
 msgid "Component list to assign"
 msgstr ""
 
-#: weblate/trans/models/componentlist.py:107
-msgid "Automatic component list assignments"
-msgstr ""
-
 #: weblate/trans/models/project.py:73
 msgid "Public"
 msgstr "Opinbert"
@@ -12580,6 +12534,31 @@ msgstr ""
 #| msgid "Create an account using:"
 msgid "Created user account %s."
 msgstr "Stofnaðu aðgang með:"
+
+#~ msgid "Permission"
+#~ msgstr "Heimild"
+
+#~ msgid "Automatic group assignment"
+#~ msgstr "Sjálfvirk úthlutun hóps"
+
+#~ msgid "Automatic group assignments"
+#~ msgstr "Sjálfvirk úthlutun hópa"
+
+#, fuzzy
+#~| msgid "Removed user"
+#~ msgid "Blocked user"
+#~ msgstr "Notandi fjarlægður"
+
+#, fuzzy
+#~| msgid "Removed user"
+#~ msgid "Blocked users"
+#~ msgstr "Notandi fjarlægður"
+
+#~ msgid "Plural form"
+#~ msgstr "Fleirtöluform"
+
+#~ msgid "Plural forms"
+#~ msgstr "Fleirtöluform"
 
 #, python-format
 #~ msgid ""

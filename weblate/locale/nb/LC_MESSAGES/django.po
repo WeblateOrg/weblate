@@ -17,7 +17,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.7\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
-"POT-Creation-Date: 2021-06-14 18:37+0000\n"
+"POT-Creation-Date: 2021-06-15 04:46+0000\n"
 "PO-Revision-Date: 2021-06-03 15:03+0000\n"
 "Last-Translator: Allan Nordhøy <epost@anotheragency.no>\n"
 "Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/weblate/"
@@ -559,12 +559,10 @@ msgstr "Fulgte oversettelser"
 
 #: weblate/accounts/models.py:465 weblate/auth/models.py:141
 #: weblate/templates/dashboard/user.html:23
-#: weblate/trans/models/componentlist.py:70
 msgid "Component lists"
 msgstr "Komponentlister"
 
 #: weblate/accounts/models.py:466 weblate/templates/dashboard/user.html:65
-#: weblate/trans/models/componentlist.py:69
 msgid "Component list"
 msgstr "Komponentliste"
 
@@ -1625,8 +1623,7 @@ msgstr "Personlig info"
 msgid "Authentication"
 msgstr "Identitetsbekreftelse"
 
-#: weblate/auth/admin.py:146 weblate/auth/models.py:75
-#: weblate/auth/models.py:88
+#: weblate/auth/admin.py:146 weblate/auth/models.py:88
 msgid "Permissions"
 msgstr "Tillatelser"
 
@@ -2050,10 +2047,6 @@ msgstr "Fakturering"
 msgid "Send e-mail invitation to the user"
 msgstr ""
 
-#: weblate/auth/models.py:74
-msgid "Permission"
-msgstr "Tillatelse"
-
 #: weblate/auth/models.py:80
 #, python-format
 msgid "%s (site-wide permission)"
@@ -2107,8 +2100,7 @@ msgstr "Fra komponentliste"
 #: weblate/templates/billing/list.html:9
 #: weblate/templates/billing/status.html:101 weblate/templates/language.html:19
 #: weblate/templates/projects.html:5 weblate/templates/snippets/info.html:372
-#: weblate/templates/snippets/info.html:406 weblate/trans/models/project.py:172
-#: weblate/trans/views/basic.py:78
+#: weblate/templates/snippets/info.html:406 weblate/trans/views/basic.py:78
 msgid "Projects"
 msgstr "Prosjekter"
 
@@ -2117,7 +2109,7 @@ msgstr "Prosjekter"
 #: weblate/templates/mail/base.html:76 weblate/templates/project.html:31
 #: weblate/templates/snippets/info.html:384
 #: weblate/templates/snippets/info.html:420 weblate/trans/forms.py:837
-#: weblate/trans/forms.py:1895 weblate/trans/models/component.py:647
+#: weblate/trans/forms.py:1895
 msgid "Components"
 msgstr "Komponenter"
 
@@ -2130,8 +2122,7 @@ msgid "All languages"
 msgstr "Alle språk"
 
 #: weblate/auth/models.py:154 weblate/billing/models.py:323
-#: weblate/lang/models.py:475 weblate/lang/views.py:57
-#: weblate/templates/accounts/profile.html:24
+#: weblate/lang/views.py:57 weblate/templates/accounts/profile.html:24
 #: weblate/templates/accounts/profile.html:38 weblate/templates/base.html:141
 #: weblate/templates/lang/create.html:6
 #: weblate/templates/lang/language_form.html:6
@@ -2202,14 +2193,6 @@ msgstr ""
 msgid "Group to assign"
 msgstr "Gruppe å delta i"
 
-#: weblate/auth/models.py:654
-msgid "Automatic group assignment"
-msgstr "Automatisk gruppetilknytning"
-
-#: weblate/auth/models.py:655
-msgid "Automatic group assignments"
-msgstr "Automatiske gruppetilknytninger"
-
 #: weblate/auth/models.py:663 weblate/trans/forms.py:1055
 #, fuzzy
 #| msgid "User to add"
@@ -2224,7 +2207,6 @@ msgstr "Bruker å legge til"
 #: weblate/trans/forms.py:1645 weblate/trans/forms.py:2274
 #: weblate/trans/models/announcement.py:90
 #: weblate/trans/models/component.py:250 weblate/trans/models/component.py:275
-#: weblate/trans/models/project.py:171
 msgid "Project"
 msgstr "Prosjekt"
 
@@ -2233,18 +2215,6 @@ msgstr "Prosjekt"
 #| msgid "Lock expires:"
 msgid "Block expiry"
 msgstr "Låsing utløper:"
-
-#: weblate/auth/models.py:671
-#, fuzzy
-#| msgid "Removed user"
-msgid "Blocked user"
-msgstr "Fjernet bruker"
-
-#: weblate/auth/models.py:672
-#, fuzzy
-#| msgid "Removed user"
-msgid "Blocked users"
-msgstr "Fjernet bruker"
 
 #: weblate/billing/admin.py:82 weblate/templates/billing/list.html:8
 #: weblate/templates/billing/status.html:112
@@ -3036,9 +3006,8 @@ msgstr "Forvalgt skrift brukes, med mindre overstyring per språk slår inn."
 msgid "Font"
 msgstr "Skrift"
 
-#: weblate/fonts/models.py:141 weblate/lang/models.py:474
-#: weblate/templates/component.html:134 weblate/templates/languages.html:11
-#: weblate/templates/project.html:164
+#: weblate/fonts/models.py:141 weblate/templates/component.html:134
+#: weblate/templates/languages.html:11 weblate/templates/project.html:164
 #: weblate/templates/screenshots/screenshot_detail.html:87
 #: weblate/templates/snippets/embed-units.html:15
 #: weblate/templates/trans/alert/duplicatelanguage.html:41
@@ -3520,14 +3489,6 @@ msgstr "Flertallsformel"
 #: weblate/lang/models.py:611 weblate/templates/snippets/info.html:53
 msgid "Plural type"
 msgstr "Type flertallsform"
-
-#: weblate/lang/models.py:619
-msgid "Plural form"
-msgstr "Flertallsform"
-
-#: weblate/lang/models.py:620
-msgid "Plural forms"
-msgstr "Flertallsformer"
 
 #. Translators: Label for plurals with example counts
 #: weblate/lang/models.py:702
@@ -4986,7 +4947,6 @@ msgstr "Komponentfilnavn med stor forbokstav"
 #: weblate/templates/project.html:138 weblate/templates/translate.html:299
 #: weblate/templates/translation.html:207 weblate/trans/forms.py:1508
 #: weblate/trans/models/announcement.py:97
-#: weblate/trans/models/component.py:646
 msgid "Component"
 msgstr "Komponent"
 
@@ -6810,7 +6770,6 @@ msgid "New alert on %(component)s"
 msgstr "Nytt varsel i %(component)s"
 
 #: weblate/templates/mail/new_announcement.html:7
-#: weblate/trans/models/announcement.py:142
 msgid "Announcement"
 msgstr "Kunngjøring"
 
@@ -7641,7 +7600,7 @@ msgstr "Farge"
 msgid "Add label"
 msgstr "Legg til etikett"
 
-#: weblate/templates/project.html:42 weblate/trans/models/announcement.py:143
+#: weblate/templates/project.html:42
 msgid "Announcements"
 msgstr "Kunngjøringer"
 
@@ -7983,7 +7942,6 @@ msgid "Translation license"
 msgstr "Oversettelseslisens"
 
 #: weblate/templates/snippets/info.html:137
-#: weblate/trans/models/componentlist.py:106
 msgid "Automatic component list assignment"
 msgstr "Automatisk komponentlistetildeling"
 
@@ -11623,10 +11581,6 @@ msgstr "Regulært uttrykk som jamføres mot komponentbetegnelsen."
 msgid "Component list to assign"
 msgstr "Komponentliste for tilordning"
 
-#: weblate/trans/models/componentlist.py:107
-msgid "Automatic component list assignments"
-msgstr "Automatiske komponentlistetilknytninger"
-
 #: weblate/trans/models/project.py:73
 msgid "Public"
 msgstr "Offentlig"
@@ -13084,6 +13038,34 @@ msgstr "Klarte ikke å avvise oppsettfeil!"
 #| msgid "Create an account using:"
 msgid "Created user account %s."
 msgstr "Opprett konto ved bruk av:"
+
+#~ msgid "Permission"
+#~ msgstr "Tillatelse"
+
+#~ msgid "Automatic group assignment"
+#~ msgstr "Automatisk gruppetilknytning"
+
+#~ msgid "Automatic group assignments"
+#~ msgstr "Automatiske gruppetilknytninger"
+
+#, fuzzy
+#~| msgid "Removed user"
+#~ msgid "Blocked user"
+#~ msgstr "Fjernet bruker"
+
+#, fuzzy
+#~| msgid "Removed user"
+#~ msgid "Blocked users"
+#~ msgstr "Fjernet bruker"
+
+#~ msgid "Plural form"
+#~ msgstr "Flertallsform"
+
+#~ msgid "Plural forms"
+#~ msgstr "Flertallsformer"
+
+#~ msgid "Automatic component list assignments"
+#~ msgstr "Automatiske komponentlistetilknytninger"
 
 #, python-format
 #~ msgid ""

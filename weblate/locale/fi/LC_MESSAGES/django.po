@@ -21,7 +21,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.7\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
-"POT-Creation-Date: 2021-06-14 18:37+0000\n"
+"POT-Creation-Date: 2021-06-15 04:46+0000\n"
 "PO-Revision-Date: 2021-06-05 10:21+0000\n"
 "Last-Translator: Tuomas Hietala <tuomas.hietala@iki.fi>\n"
 "Language-Team: Finnish <https://hosted.weblate.org/projects/weblate/"
@@ -567,12 +567,10 @@ msgstr "Seuratut käännökset"
 
 #: weblate/accounts/models.py:465 weblate/auth/models.py:141
 #: weblate/templates/dashboard/user.html:23
-#: weblate/trans/models/componentlist.py:70
 msgid "Component lists"
 msgstr "Komponenttilistat"
 
 #: weblate/accounts/models.py:466 weblate/templates/dashboard/user.html:65
-#: weblate/trans/models/componentlist.py:69
 msgid "Component list"
 msgstr "Komponenttilista"
 
@@ -1637,8 +1635,7 @@ msgstr "Henkilökohtaiset tiedot"
 msgid "Authentication"
 msgstr "Tunnistautuminen"
 
-#: weblate/auth/admin.py:146 weblate/auth/models.py:75
-#: weblate/auth/models.py:88
+#: weblate/auth/admin.py:146 weblate/auth/models.py:88
 msgid "Permissions"
 msgstr "Käyttöoikeudet"
 
@@ -2062,10 +2059,6 @@ msgstr "Laskutus"
 msgid "Send e-mail invitation to the user"
 msgstr ""
 
-#: weblate/auth/models.py:74
-msgid "Permission"
-msgstr "Käyttöoikeus"
-
 #: weblate/auth/models.py:80
 #, python-format
 msgid "%s (site-wide permission)"
@@ -2119,8 +2112,7 @@ msgstr "Komponenttilistasta"
 #: weblate/templates/billing/list.html:9
 #: weblate/templates/billing/status.html:101 weblate/templates/language.html:19
 #: weblate/templates/projects.html:5 weblate/templates/snippets/info.html:372
-#: weblate/templates/snippets/info.html:406 weblate/trans/models/project.py:172
-#: weblate/trans/views/basic.py:78
+#: weblate/templates/snippets/info.html:406 weblate/trans/views/basic.py:78
 msgid "Projects"
 msgstr "Projektit"
 
@@ -2129,7 +2121,7 @@ msgstr "Projektit"
 #: weblate/templates/mail/base.html:76 weblate/templates/project.html:31
 #: weblate/templates/snippets/info.html:384
 #: weblate/templates/snippets/info.html:420 weblate/trans/forms.py:837
-#: weblate/trans/forms.py:1895 weblate/trans/models/component.py:647
+#: weblate/trans/forms.py:1895
 msgid "Components"
 msgstr "Komponentit"
 
@@ -2142,8 +2134,7 @@ msgid "All languages"
 msgstr "Kaikki kielet"
 
 #: weblate/auth/models.py:154 weblate/billing/models.py:323
-#: weblate/lang/models.py:475 weblate/lang/views.py:57
-#: weblate/templates/accounts/profile.html:24
+#: weblate/lang/views.py:57 weblate/templates/accounts/profile.html:24
 #: weblate/templates/accounts/profile.html:38 weblate/templates/base.html:141
 #: weblate/templates/lang/create.html:6
 #: weblate/templates/lang/language_form.html:6
@@ -2214,14 +2205,6 @@ msgstr ""
 msgid "Group to assign"
 msgstr "Liitettävä ryhmä"
 
-#: weblate/auth/models.py:654
-msgid "Automatic group assignment"
-msgstr "Automaattinen liittäminen ryhmään"
-
-#: weblate/auth/models.py:655
-msgid "Automatic group assignments"
-msgstr "Automaattinen liittäminen ryhmään"
-
 #: weblate/auth/models.py:663 weblate/trans/forms.py:1055
 #, fuzzy
 #| msgid "User to add"
@@ -2236,7 +2219,6 @@ msgstr "Lisättävä käyttäjä"
 #: weblate/trans/forms.py:1645 weblate/trans/forms.py:2274
 #: weblate/trans/models/announcement.py:90
 #: weblate/trans/models/component.py:250 weblate/trans/models/component.py:275
-#: weblate/trans/models/project.py:171
 msgid "Project"
 msgstr "Projekti"
 
@@ -2245,18 +2227,6 @@ msgstr "Projekti"
 #| msgid "Lock expires:"
 msgid "Block expiry"
 msgstr "Lukitus vanhenee:"
-
-#: weblate/auth/models.py:671
-#, fuzzy
-#| msgid "Removed user"
-msgid "Blocked user"
-msgstr "Poistettu käyttäjä"
-
-#: weblate/auth/models.py:672
-#, fuzzy
-#| msgid "Removed user"
-msgid "Blocked users"
-msgstr "Poistettu käyttäjä"
 
 #: weblate/billing/admin.py:82 weblate/templates/billing/list.html:8
 #: weblate/templates/billing/status.html:112
@@ -3064,9 +3034,8 @@ msgstr ""
 msgid "Font"
 msgstr "Fontti"
 
-#: weblate/fonts/models.py:141 weblate/lang/models.py:474
-#: weblate/templates/component.html:134 weblate/templates/languages.html:11
-#: weblate/templates/project.html:164
+#: weblate/fonts/models.py:141 weblate/templates/component.html:134
+#: weblate/templates/languages.html:11 weblate/templates/project.html:164
 #: weblate/templates/screenshots/screenshot_detail.html:87
 #: weblate/templates/snippets/embed-units.html:15
 #: weblate/templates/trans/alert/duplicatelanguage.html:41
@@ -3553,14 +3522,6 @@ msgstr "Monikkokaava"
 #: weblate/lang/models.py:611 weblate/templates/snippets/info.html:53
 msgid "Plural type"
 msgstr "Monikon tyyppi"
-
-#: weblate/lang/models.py:619
-msgid "Plural form"
-msgstr "Monikkomuoto"
-
-#: weblate/lang/models.py:620
-msgid "Plural forms"
-msgstr "Monikkomuodot"
 
 #. Translators: Label for plurals with example counts
 #: weblate/lang/models.py:702
@@ -5039,7 +5000,6 @@ msgstr "Komponentin tiedostonimessä iso ensimmäinen kirjain"
 #: weblate/templates/project.html:138 weblate/templates/translate.html:299
 #: weblate/templates/translation.html:207 weblate/trans/forms.py:1508
 #: weblate/trans/models/announcement.py:97
-#: weblate/trans/models/component.py:646
 msgid "Component"
 msgstr "Komponentti"
 
@@ -6905,7 +6865,6 @@ msgid "New alert on %(component)s"
 msgstr "Uusi hälytys käännöskomponentissa %(component)s"
 
 #: weblate/templates/mail/new_announcement.html:7
-#: weblate/trans/models/announcement.py:142
 msgid "Announcement"
 msgstr "Tiedotus"
 
@@ -7738,7 +7697,7 @@ msgstr "Väri"
 msgid "Add label"
 msgstr "Lisää otsikko"
 
-#: weblate/templates/project.html:42 weblate/trans/models/announcement.py:143
+#: weblate/templates/project.html:42
 msgid "Announcements"
 msgstr "Tiedotukset"
 
@@ -8085,7 +8044,6 @@ msgid "Translation license"
 msgstr "Käännöksen lisenssi"
 
 #: weblate/templates/snippets/info.html:137
-#: weblate/trans/models/componentlist.py:106
 msgid "Automatic component list assignment"
 msgstr "Automaattinen komponenttilistan liittäminen"
 
@@ -11690,10 +11648,6 @@ msgstr "Säännöllinen lauseke jolla etsitään komponentin nimeä."
 msgid "Component list to assign"
 msgstr "Liitettävä komponenttilista"
 
-#: weblate/trans/models/componentlist.py:107
-msgid "Automatic component list assignments"
-msgstr "Automaattiset komponenttilistojen liittämiset"
-
 #: weblate/trans/models/project.py:73
 msgid "Public"
 msgstr "Julkinen"
@@ -13134,6 +13088,34 @@ msgstr "Asetusvirheen sivuuttaminen epäonnistui!"
 #| msgid "Create an account using:"
 msgid "Created user account %s."
 msgstr "Luo käyttäjätili käyttäen palvelua:"
+
+#~ msgid "Permission"
+#~ msgstr "Käyttöoikeus"
+
+#~ msgid "Automatic group assignment"
+#~ msgstr "Automaattinen liittäminen ryhmään"
+
+#~ msgid "Automatic group assignments"
+#~ msgstr "Automaattinen liittäminen ryhmään"
+
+#, fuzzy
+#~| msgid "Removed user"
+#~ msgid "Blocked user"
+#~ msgstr "Poistettu käyttäjä"
+
+#, fuzzy
+#~| msgid "Removed user"
+#~ msgid "Blocked users"
+#~ msgstr "Poistettu käyttäjä"
+
+#~ msgid "Plural form"
+#~ msgstr "Monikkomuoto"
+
+#~ msgid "Plural forms"
+#~ msgstr "Monikkomuodot"
+
+#~ msgid "Automatic component list assignments"
+#~ msgstr "Automaattiset komponenttilistojen liittämiset"
 
 #, python-format
 #~ msgid ""

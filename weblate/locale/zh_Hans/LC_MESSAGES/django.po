@@ -33,7 +33,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.7\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
-"POT-Creation-Date: 2021-06-14 18:37+0000\n"
+"POT-Creation-Date: 2021-06-15 04:46+0000\n"
 "PO-Revision-Date: 2021-06-15 04:45+0000\n"
 "Last-Translator: Eric <spice2wolf@gmail.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
@@ -547,12 +547,10 @@ msgstr "已关注翻译"
 
 #: weblate/accounts/models.py:465 weblate/auth/models.py:141
 #: weblate/templates/dashboard/user.html:23
-#: weblate/trans/models/componentlist.py:70
 msgid "Component lists"
 msgstr "组件列表"
 
 #: weblate/accounts/models.py:466 weblate/templates/dashboard/user.html:65
-#: weblate/trans/models/componentlist.py:69
 msgid "Component list"
 msgstr "组件列表"
 
@@ -1556,8 +1554,7 @@ msgstr "个人信息"
 msgid "Authentication"
 msgstr "身份验证"
 
-#: weblate/auth/admin.py:146 weblate/auth/models.py:75
-#: weblate/auth/models.py:88
+#: weblate/auth/admin.py:146 weblate/auth/models.py:88
 msgid "Permissions"
 msgstr "权限"
 
@@ -1981,10 +1978,6 @@ msgstr "账单"
 msgid "Send e-mail invitation to the user"
 msgstr "给用户发送电子邮件"
 
-#: weblate/auth/models.py:74
-msgid "Permission"
-msgstr "权限"
-
 #: weblate/auth/models.py:80
 #, python-format
 msgid "%s (site-wide permission)"
@@ -2038,8 +2031,7 @@ msgstr "取自组件列表"
 #: weblate/templates/billing/list.html:9
 #: weblate/templates/billing/status.html:101 weblate/templates/language.html:19
 #: weblate/templates/projects.html:5 weblate/templates/snippets/info.html:372
-#: weblate/templates/snippets/info.html:406 weblate/trans/models/project.py:172
-#: weblate/trans/views/basic.py:78
+#: weblate/templates/snippets/info.html:406 weblate/trans/views/basic.py:78
 msgid "Projects"
 msgstr "项目"
 
@@ -2048,7 +2040,7 @@ msgstr "项目"
 #: weblate/templates/mail/base.html:76 weblate/templates/project.html:31
 #: weblate/templates/snippets/info.html:384
 #: weblate/templates/snippets/info.html:420 weblate/trans/forms.py:837
-#: weblate/trans/forms.py:1895 weblate/trans/models/component.py:647
+#: weblate/trans/forms.py:1895
 msgid "Components"
 msgstr "组件"
 
@@ -2061,8 +2053,7 @@ msgid "All languages"
 msgstr "所有语言"
 
 #: weblate/auth/models.py:154 weblate/billing/models.py:323
-#: weblate/lang/models.py:475 weblate/lang/views.py:57
-#: weblate/templates/accounts/profile.html:24
+#: weblate/lang/views.py:57 weblate/templates/accounts/profile.html:24
 #: weblate/templates/accounts/profile.html:38 weblate/templates/base.html:141
 #: weblate/templates/lang/create.html:6
 #: weblate/templates/lang/language_form.html:6
@@ -2130,14 +2121,6 @@ msgstr "有匹配电子邮件地址的用户将被添加到此组。"
 msgid "Group to assign"
 msgstr "分配到组"
 
-#: weblate/auth/models.py:654
-msgid "Automatic group assignment"
-msgstr "自动分配组"
-
-#: weblate/auth/models.py:655
-msgid "Automatic group assignments"
-msgstr "自动分配组"
-
 #: weblate/auth/models.py:663 weblate/trans/forms.py:1055
 msgid "User to block"
 msgstr "要阻止的用户"
@@ -2150,21 +2133,12 @@ msgstr "要阻止的用户"
 #: weblate/trans/forms.py:1645 weblate/trans/forms.py:2274
 #: weblate/trans/models/announcement.py:90
 #: weblate/trans/models/component.py:250 weblate/trans/models/component.py:275
-#: weblate/trans/models/project.py:171
 msgid "Project"
 msgstr "项目"
 
 #: weblate/auth/models.py:668
 msgid "Block expiry"
 msgstr "阻止过期"
-
-#: weblate/auth/models.py:671
-msgid "Blocked user"
-msgstr "阻止的用户"
-
-#: weblate/auth/models.py:672
-msgid "Blocked users"
-msgstr "阻止的用户"
 
 #: weblate/billing/admin.py:82 weblate/templates/billing/list.html:8
 #: weblate/templates/billing/status.html:112
@@ -2940,9 +2914,8 @@ msgstr "使用默认字体，除非每个语言重写匹配。"
 msgid "Font"
 msgstr "字体"
 
-#: weblate/fonts/models.py:141 weblate/lang/models.py:474
-#: weblate/templates/component.html:134 weblate/templates/languages.html:11
-#: weblate/templates/project.html:164
+#: weblate/fonts/models.py:141 weblate/templates/component.html:134
+#: weblate/templates/languages.html:11 weblate/templates/project.html:164
 #: weblate/templates/screenshots/screenshot_detail.html:87
 #: weblate/templates/snippets/embed-units.html:15
 #: weblate/templates/trans/alert/duplicatelanguage.html:41
@@ -3423,14 +3396,6 @@ msgstr "复数式"
 msgid "Plural type"
 msgstr "复数类型"
 
-#: weblate/lang/models.py:619
-msgid "Plural form"
-msgstr "复数形式"
-
-#: weblate/lang/models.py:620
-msgid "Plural forms"
-msgstr "复数形式"
-
 #. Translators: Label for plurals with example counts
 #: weblate/lang/models.py:702
 #, python-brace-format
@@ -3813,13 +3778,16 @@ msgstr "服务器错误"
 msgid ""
 "The server had serious problems serving your request, and this error has "
 "been recorded as %(error_id)s."
-msgstr "服务器在处理您的请求时出现了严重的问题，并且这个错误已被记录为 %(error_id)s。"
+msgstr ""
+"服务器在处理您的请求时出现了严重的问题，并且这个错误已被记录为 %(error_id)s。"
 
 #: weblate/templates/500.html:36
 msgid ""
 "The server had serious problems serving your request. You might want to "
 "contact server admins in case the error persists."
-msgstr "服务器在处理您的请求时遇到严重问题。如果错误持续，你可能想要联系服务器管理员。"
+msgstr ""
+"服务器在处理您的请求时遇到严重问题。如果错误持续，你可能想要联系服务器管理"
+"员。"
 
 #: weblate/templates/about/index.html:5 weblate/templates/about/index.html:11
 #: weblate/templates/about/keys.html:6 weblate/templates/about/stats.html:7
@@ -4786,7 +4754,6 @@ msgstr "带有首字母大写的组件文件名"
 #: weblate/templates/project.html:138 weblate/templates/translate.html:299
 #: weblate/templates/translation.html:207 weblate/trans/forms.py:1508
 #: weblate/trans/models/announcement.py:97
-#: weblate/trans/models/component.py:646
 msgid "Component"
 msgstr "组件"
 
@@ -6530,7 +6497,6 @@ msgid "New alert on %(component)s"
 msgstr "%(component)s 中有新提醒"
 
 #: weblate/templates/mail/new_announcement.html:7
-#: weblate/trans/models/announcement.py:142
 msgid "Announcement"
 msgstr "公告"
 
@@ -7300,7 +7266,7 @@ msgstr "颜色"
 msgid "Add label"
 msgstr "添加标签"
 
-#: weblate/templates/project.html:42 weblate/trans/models/announcement.py:143
+#: weblate/templates/project.html:42
 msgid "Announcements"
 msgstr "公告"
 
@@ -7614,7 +7580,6 @@ msgid "Translation license"
 msgstr "翻译许可证"
 
 #: weblate/templates/snippets/info.html:137
-#: weblate/trans/models/componentlist.py:106
 msgid "Automatic component list assignment"
 msgstr "自动分配组件列表"
 
@@ -10951,10 +10916,6 @@ msgstr "用于匹配组件 slug 的正则表达式。"
 msgid "Component list to assign"
 msgstr "要分配的组件列表"
 
-#: weblate/trans/models/componentlist.py:107
-msgid "Automatic component list assignments"
-msgstr "自动分配组件列表"
-
 #: weblate/trans/models/project.py:73
 msgid "Public"
 msgstr "公开的"
@@ -12325,6 +12286,30 @@ msgstr "无法排除配置错误！"
 #, python-format
 msgid "Created user account %s."
 msgstr "创建用户帐户 %s。"
+
+#~ msgid "Permission"
+#~ msgstr "权限"
+
+#~ msgid "Automatic group assignment"
+#~ msgstr "自动分配组"
+
+#~ msgid "Automatic group assignments"
+#~ msgstr "自动分配组"
+
+#~ msgid "Blocked user"
+#~ msgstr "阻止的用户"
+
+#~ msgid "Blocked users"
+#~ msgstr "阻止的用户"
+
+#~ msgid "Plural form"
+#~ msgstr "复数形式"
+
+#~ msgid "Plural forms"
+#~ msgstr "复数形式"
+
+#~ msgid "Automatic component list assignments"
+#~ msgstr "自动分配组件列表"
 
 #, python-format
 #~ msgid ""

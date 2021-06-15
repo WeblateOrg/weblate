@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.7\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
-"POT-Creation-Date: 2021-06-14 18:37+0000\n"
+"POT-Creation-Date: 2021-06-15 04:46+0000\n"
 "PO-Revision-Date: 2021-05-07 15:34+0000\n"
 "Last-Translator: ssantos <ssantos@web.de>\n"
 "Language-Team: Portuguese (Portugal) <https://hosted.weblate.org/projects/"
@@ -560,12 +560,10 @@ msgstr "Traduções vigiadas"
 
 #: weblate/accounts/models.py:465 weblate/auth/models.py:141
 #: weblate/templates/dashboard/user.html:23
-#: weblate/trans/models/componentlist.py:70
 msgid "Component lists"
 msgstr "Listas de componentes"
 
 #: weblate/accounts/models.py:466 weblate/templates/dashboard/user.html:65
-#: weblate/trans/models/componentlist.py:69
 msgid "Component list"
 msgstr "Lista de componentes"
 
@@ -1642,8 +1640,7 @@ msgstr "Informação pessoal"
 msgid "Authentication"
 msgstr "Autenticação"
 
-#: weblate/auth/admin.py:146 weblate/auth/models.py:75
-#: weblate/auth/models.py:88
+#: weblate/auth/admin.py:146 weblate/auth/models.py:88
 msgid "Permissions"
 msgstr "Permissões"
 
@@ -2067,10 +2064,6 @@ msgstr "Faturação"
 msgid "Send e-mail invitation to the user"
 msgstr ""
 
-#: weblate/auth/models.py:74
-msgid "Permission"
-msgstr "Permissão"
-
 #: weblate/auth/models.py:80
 #, python-format
 msgid "%s (site-wide permission)"
@@ -2124,8 +2117,7 @@ msgstr "Da lista de componentes"
 #: weblate/templates/billing/list.html:9
 #: weblate/templates/billing/status.html:101 weblate/templates/language.html:19
 #: weblate/templates/projects.html:5 weblate/templates/snippets/info.html:372
-#: weblate/templates/snippets/info.html:406 weblate/trans/models/project.py:172
-#: weblate/trans/views/basic.py:78
+#: weblate/templates/snippets/info.html:406 weblate/trans/views/basic.py:78
 msgid "Projects"
 msgstr "Projetos"
 
@@ -2134,7 +2126,7 @@ msgstr "Projetos"
 #: weblate/templates/mail/base.html:76 weblate/templates/project.html:31
 #: weblate/templates/snippets/info.html:384
 #: weblate/templates/snippets/info.html:420 weblate/trans/forms.py:837
-#: weblate/trans/forms.py:1895 weblate/trans/models/component.py:647
+#: weblate/trans/forms.py:1895
 msgid "Components"
 msgstr "Componentes"
 
@@ -2147,8 +2139,7 @@ msgid "All languages"
 msgstr "Todos os idiomas"
 
 #: weblate/auth/models.py:154 weblate/billing/models.py:323
-#: weblate/lang/models.py:475 weblate/lang/views.py:57
-#: weblate/templates/accounts/profile.html:24
+#: weblate/lang/views.py:57 weblate/templates/accounts/profile.html:24
 #: weblate/templates/accounts/profile.html:38 weblate/templates/base.html:141
 #: weblate/templates/lang/create.html:6
 #: weblate/templates/lang/language_form.html:6
@@ -2221,14 +2212,6 @@ msgstr ""
 msgid "Group to assign"
 msgstr "Grupo a atribuir"
 
-#: weblate/auth/models.py:654
-msgid "Automatic group assignment"
-msgstr "Atribuir grupo automaticamente"
-
-#: weblate/auth/models.py:655
-msgid "Automatic group assignments"
-msgstr "Atribuições de grupo automáticas"
-
 #: weblate/auth/models.py:663 weblate/trans/forms.py:1055
 #, fuzzy
 #| msgid "User to add"
@@ -2243,7 +2226,6 @@ msgstr "Utilizador a adicionar"
 #: weblate/trans/forms.py:1645 weblate/trans/forms.py:2274
 #: weblate/trans/models/announcement.py:90
 #: weblate/trans/models/component.py:250 weblate/trans/models/component.py:275
-#: weblate/trans/models/project.py:171
 msgid "Project"
 msgstr "Projeto"
 
@@ -2252,18 +2234,6 @@ msgstr "Projeto"
 #| msgid "Support expiry"
 msgid "Block expiry"
 msgstr "Expiração do suporte"
-
-#: weblate/auth/models.py:671
-#, fuzzy
-#| msgid "Removed user"
-msgid "Blocked user"
-msgstr "Utilizador removido"
-
-#: weblate/auth/models.py:672
-#, fuzzy
-#| msgid "Removed user"
-msgid "Blocked users"
-msgstr "Utilizador removido"
 
 #: weblate/billing/admin.py:82 weblate/templates/billing/list.html:8
 #: weblate/templates/billing/status.html:112
@@ -3055,9 +3025,8 @@ msgstr "É utilizada a letra predefinida a menos que o idioma se sobreponha."
 msgid "Font"
 msgstr "Letra"
 
-#: weblate/fonts/models.py:141 weblate/lang/models.py:474
-#: weblate/templates/component.html:134 weblate/templates/languages.html:11
-#: weblate/templates/project.html:164
+#: weblate/fonts/models.py:141 weblate/templates/component.html:134
+#: weblate/templates/languages.html:11 weblate/templates/project.html:164
 #: weblate/templates/screenshots/screenshot_detail.html:87
 #: weblate/templates/snippets/embed-units.html:15
 #: weblate/templates/trans/alert/duplicatelanguage.html:41
@@ -3545,14 +3514,6 @@ msgstr "Fórmula de plural"
 #: weblate/lang/models.py:611 weblate/templates/snippets/info.html:53
 msgid "Plural type"
 msgstr "Tipo de plural"
-
-#: weblate/lang/models.py:619
-msgid "Plural form"
-msgstr "Forma plural"
-
-#: weblate/lang/models.py:620
-msgid "Plural forms"
-msgstr "Formas plurais"
 
 #. Translators: Label for plurals with example counts
 #: weblate/lang/models.py:702
@@ -5017,7 +4978,6 @@ msgstr "Nome do componente com a 1ª letra maiúscula"
 #: weblate/templates/project.html:138 weblate/templates/translate.html:299
 #: weblate/templates/translation.html:207 weblate/trans/forms.py:1508
 #: weblate/trans/models/announcement.py:97
-#: weblate/trans/models/component.py:646
 msgid "Component"
 msgstr "Componente"
 
@@ -6846,7 +6806,6 @@ msgid "New alert on %(component)s"
 msgstr "Novo alerta em %(component)s"
 
 #: weblate/templates/mail/new_announcement.html:7
-#: weblate/trans/models/announcement.py:142
 msgid "Announcement"
 msgstr "Anúncio"
 
@@ -7678,7 +7637,7 @@ msgstr "Cor"
 msgid "Add label"
 msgstr "Adicionar etiqueta"
 
-#: weblate/templates/project.html:42 weblate/trans/models/announcement.py:143
+#: weblate/templates/project.html:42
 msgid "Announcements"
 msgstr "Anúncios"
 
@@ -8022,7 +7981,6 @@ msgid "Translation license"
 msgstr "Licença da tradução"
 
 #: weblate/templates/snippets/info.html:137
-#: weblate/trans/models/componentlist.py:106
 msgid "Automatic component list assignment"
 msgstr "Atribuição de lista de componentes automática"
 
@@ -11608,10 +11566,6 @@ msgstr "Expressão regular usada para comparar o nome do componente."
 msgid "Component list to assign"
 msgstr "Lista de componentes a atribuir"
 
-#: weblate/trans/models/componentlist.py:107
-msgid "Automatic component list assignments"
-msgstr "Atribuições de lista de componentes automáticas"
-
 #: weblate/trans/models/project.py:73
 msgid "Public"
 msgstr "Pública"
@@ -13038,6 +12992,34 @@ msgstr "Não foi possível ignorar o erro de configuração!"
 #| msgid "Create an account using:"
 msgid "Created user account %s."
 msgstr "Criar uma conta, utilizando:"
+
+#~ msgid "Permission"
+#~ msgstr "Permissão"
+
+#~ msgid "Automatic group assignment"
+#~ msgstr "Atribuir grupo automaticamente"
+
+#~ msgid "Automatic group assignments"
+#~ msgstr "Atribuições de grupo automáticas"
+
+#, fuzzy
+#~| msgid "Removed user"
+#~ msgid "Blocked user"
+#~ msgstr "Utilizador removido"
+
+#, fuzzy
+#~| msgid "Removed user"
+#~ msgid "Blocked users"
+#~ msgstr "Utilizador removido"
+
+#~ msgid "Plural form"
+#~ msgstr "Forma plural"
+
+#~ msgid "Plural forms"
+#~ msgstr "Formas plurais"
+
+#~ msgid "Automatic component list assignments"
+#~ msgstr "Atribuições de lista de componentes automáticas"
 
 #, python-format
 #~ msgid ""

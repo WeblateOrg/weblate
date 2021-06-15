@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.7\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
-"POT-Creation-Date: 2021-06-14 18:37+0000\n"
+"POT-Creation-Date: 2021-06-15 04:46+0000\n"
 "PO-Revision-Date: 2021-06-13 11:33+0000\n"
 "Last-Translator: Milo Ivir <mail@milotype.de>\n"
 "Language-Team: Croatian <https://hosted.weblate.org/projects/weblate/"
@@ -547,12 +547,10 @@ msgstr "Prijevodi koje pratiš"
 
 #: weblate/accounts/models.py:465 weblate/auth/models.py:141
 #: weblate/templates/dashboard/user.html:23
-#: weblate/trans/models/componentlist.py:70
 msgid "Component lists"
 msgstr "Popisi komponenti"
 
 #: weblate/accounts/models.py:466 weblate/templates/dashboard/user.html:65
-#: weblate/trans/models/componentlist.py:69
 msgid "Component list"
 msgstr "Popis komponenti"
 
@@ -1606,8 +1604,7 @@ msgstr "Osobni podaci"
 msgid "Authentication"
 msgstr "Autentifikacija"
 
-#: weblate/auth/admin.py:146 weblate/auth/models.py:75
-#: weblate/auth/models.py:88
+#: weblate/auth/admin.py:146 weblate/auth/models.py:88
 msgid "Permissions"
 msgstr "Dozvole"
 
@@ -2031,10 +2028,6 @@ msgstr "Naplata"
 msgid "Send e-mail invitation to the user"
 msgstr ""
 
-#: weblate/auth/models.py:74
-msgid "Permission"
-msgstr "Dozvola"
-
 #: weblate/auth/models.py:80
 #, python-format
 msgid "%s (site-wide permission)"
@@ -2088,8 +2081,7 @@ msgstr "Iz popisa komoponenti"
 #: weblate/templates/billing/list.html:9
 #: weblate/templates/billing/status.html:101 weblate/templates/language.html:19
 #: weblate/templates/projects.html:5 weblate/templates/snippets/info.html:372
-#: weblate/templates/snippets/info.html:406 weblate/trans/models/project.py:172
-#: weblate/trans/views/basic.py:78
+#: weblate/templates/snippets/info.html:406 weblate/trans/views/basic.py:78
 msgid "Projects"
 msgstr "Projekti"
 
@@ -2098,7 +2090,7 @@ msgstr "Projekti"
 #: weblate/templates/mail/base.html:76 weblate/templates/project.html:31
 #: weblate/templates/snippets/info.html:384
 #: weblate/templates/snippets/info.html:420 weblate/trans/forms.py:837
-#: weblate/trans/forms.py:1895 weblate/trans/models/component.py:647
+#: weblate/trans/forms.py:1895
 msgid "Components"
 msgstr "Komponente"
 
@@ -2111,8 +2103,7 @@ msgid "All languages"
 msgstr "Svi jezici"
 
 #: weblate/auth/models.py:154 weblate/billing/models.py:323
-#: weblate/lang/models.py:475 weblate/lang/views.py:57
-#: weblate/templates/accounts/profile.html:24
+#: weblate/lang/views.py:57 weblate/templates/accounts/profile.html:24
 #: weblate/templates/accounts/profile.html:38 weblate/templates/base.html:141
 #: weblate/templates/lang/create.html:6
 #: weblate/templates/lang/language_form.html:6
@@ -2182,14 +2173,6 @@ msgstr "Korisnici s poklapajućom e-adresom dodat će se ovoj grupi."
 msgid "Group to assign"
 msgstr "Grupa kojoj se dodijeljuje"
 
-#: weblate/auth/models.py:654
-msgid "Automatic group assignment"
-msgstr "Automatsko dodjeljivanje grupi"
-
-#: weblate/auth/models.py:655
-msgid "Automatic group assignments"
-msgstr "Automatska dodjeljivanja grupi"
-
 #: weblate/auth/models.py:663 weblate/trans/forms.py:1055
 #, fuzzy
 #| msgid "User to add"
@@ -2204,7 +2187,6 @@ msgstr "Korisnik koji se dodaje"
 #: weblate/trans/forms.py:1645 weblate/trans/forms.py:2274
 #: weblate/trans/models/announcement.py:90
 #: weblate/trans/models/component.py:250 weblate/trans/models/component.py:275
-#: weblate/trans/models/project.py:171
 msgid "Project"
 msgstr "Projekt"
 
@@ -2213,18 +2195,6 @@ msgstr "Projekt"
 #| msgid "Support expiry"
 msgid "Block expiry"
 msgstr "Istek podrške"
-
-#: weblate/auth/models.py:671
-#, fuzzy
-#| msgid "Removed user"
-msgid "Blocked user"
-msgstr "Uklonjeni korisnik"
-
-#: weblate/auth/models.py:672
-#, fuzzy
-#| msgid "Removed user"
-msgid "Blocked users"
-msgstr "Uklonjeni korisnik"
 
 #: weblate/billing/admin.py:82 weblate/templates/billing/list.html:8
 #: weblate/templates/billing/status.html:112
@@ -3016,9 +2986,8 @@ msgstr ""
 msgid "Font"
 msgstr "Font"
 
-#: weblate/fonts/models.py:141 weblate/lang/models.py:474
-#: weblate/templates/component.html:134 weblate/templates/languages.html:11
-#: weblate/templates/project.html:164
+#: weblate/fonts/models.py:141 weblate/templates/component.html:134
+#: weblate/templates/languages.html:11 weblate/templates/project.html:164
 #: weblate/templates/screenshots/screenshot_detail.html:87
 #: weblate/templates/snippets/embed-units.html:15
 #: weblate/templates/trans/alert/duplicatelanguage.html:41
@@ -3500,14 +3469,6 @@ msgstr "Formula za množinu"
 #: weblate/lang/models.py:611 weblate/templates/snippets/info.html:53
 msgid "Plural type"
 msgstr "Vrsta množine"
-
-#: weblate/lang/models.py:619
-msgid "Plural form"
-msgstr "Oblik množine"
-
-#: weblate/lang/models.py:620
-msgid "Plural forms"
-msgstr "Oblici množine"
 
 #. Translators: Label for plurals with example counts
 #: weblate/lang/models.py:702
@@ -4952,7 +4913,6 @@ msgstr "Ime datoteke komponente s početnim velikim slovom"
 #: weblate/templates/project.html:138 weblate/templates/translate.html:299
 #: weblate/templates/translation.html:207 weblate/trans/forms.py:1508
 #: weblate/trans/models/announcement.py:97
-#: weblate/trans/models/component.py:646
 msgid "Component"
 msgstr "Komponenta"
 
@@ -6776,7 +6736,6 @@ msgid "New alert on %(component)s"
 msgstr "Novo upozorenje u %(component)s"
 
 #: weblate/templates/mail/new_announcement.html:7
-#: weblate/trans/models/announcement.py:142
 msgid "Announcement"
 msgstr "Objava"
 
@@ -7596,7 +7555,7 @@ msgstr "Boja"
 msgid "Add label"
 msgstr "Dodaj etiketu"
 
-#: weblate/templates/project.html:42 weblate/trans/models/announcement.py:143
+#: weblate/templates/project.html:42
 msgid "Announcements"
 msgstr "Objave"
 
@@ -7932,7 +7891,6 @@ msgid "Translation license"
 msgstr "Licenca prijevoda"
 
 #: weblate/templates/snippets/info.html:137
-#: weblate/trans/models/componentlist.py:106
 msgid "Automatic component list assignment"
 msgstr "Automatsko dodjeljivanje popisa komponeti"
 
@@ -11488,10 +11446,6 @@ msgstr "Regularni izraz koji se koristi za poklapanje s URL imenom komponente."
 msgid "Component list to assign"
 msgstr "Popis komponenti za dodijeljivanje"
 
-#: weblate/trans/models/componentlist.py:107
-msgid "Automatic component list assignments"
-msgstr "Automatsko dodijeljivanje popisa komponenti"
-
 #: weblate/trans/models/project.py:73
 msgid "Public"
 msgstr "Javno"
@@ -12939,6 +12893,34 @@ msgstr "Nije moguće zanemariti grešku konfiguracije!"
 #| msgid "Create an account using:"
 msgid "Created user account %s."
 msgstr "Otvori račun putem:"
+
+#~ msgid "Permission"
+#~ msgstr "Dozvola"
+
+#~ msgid "Automatic group assignment"
+#~ msgstr "Automatsko dodjeljivanje grupi"
+
+#~ msgid "Automatic group assignments"
+#~ msgstr "Automatska dodjeljivanja grupi"
+
+#, fuzzy
+#~| msgid "Removed user"
+#~ msgid "Blocked user"
+#~ msgstr "Uklonjeni korisnik"
+
+#, fuzzy
+#~| msgid "Removed user"
+#~ msgid "Blocked users"
+#~ msgstr "Uklonjeni korisnik"
+
+#~ msgid "Plural form"
+#~ msgstr "Oblik množine"
+
+#~ msgid "Plural forms"
+#~ msgstr "Oblici množine"
+
+#~ msgid "Automatic component list assignments"
+#~ msgstr "Automatsko dodijeljivanje popisa komponenti"
 
 #, python-format
 #~ msgid ""

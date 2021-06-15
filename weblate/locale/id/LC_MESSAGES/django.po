@@ -23,7 +23,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.7\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
-"POT-Creation-Date: 2021-06-14 18:37+0000\n"
+"POT-Creation-Date: 2021-06-15 04:46+0000\n"
 "PO-Revision-Date: 2021-06-09 02:33+0000\n"
 "Last-Translator: Reza Almanda <rezaalmanda27@gmail.com>\n"
 "Language-Team: Indonesian <https://hosted.weblate.org/projects/weblate/"
@@ -572,12 +572,10 @@ msgstr "Terjemahan yang dipantau"
 
 #: weblate/accounts/models.py:465 weblate/auth/models.py:141
 #: weblate/templates/dashboard/user.html:23
-#: weblate/trans/models/componentlist.py:70
 msgid "Component lists"
 msgstr "Daftar komponen"
 
 #: weblate/accounts/models.py:466 weblate/templates/dashboard/user.html:65
-#: weblate/trans/models/componentlist.py:69
 msgid "Component list"
 msgstr "Daftar komponen"
 
@@ -1691,8 +1689,7 @@ msgstr "Info pribadi"
 msgid "Authentication"
 msgstr "Autentikasi"
 
-#: weblate/auth/admin.py:146 weblate/auth/models.py:75
-#: weblate/auth/models.py:88
+#: weblate/auth/admin.py:146 weblate/auth/models.py:88
 msgid "Permissions"
 msgstr "Izin"
 
@@ -2120,10 +2117,6 @@ msgstr "Penagihan"
 msgid "Send e-mail invitation to the user"
 msgstr ""
 
-#: weblate/auth/models.py:74
-msgid "Permission"
-msgstr "Izin"
-
 #: weblate/auth/models.py:80
 #, python-format
 msgid "%s (site-wide permission)"
@@ -2177,8 +2170,7 @@ msgstr "Dari daftar komponen"
 #: weblate/templates/billing/list.html:9
 #: weblate/templates/billing/status.html:101 weblate/templates/language.html:19
 #: weblate/templates/projects.html:5 weblate/templates/snippets/info.html:372
-#: weblate/templates/snippets/info.html:406 weblate/trans/models/project.py:172
-#: weblate/trans/views/basic.py:78
+#: weblate/templates/snippets/info.html:406 weblate/trans/views/basic.py:78
 msgid "Projects"
 msgstr "Proyek"
 
@@ -2187,7 +2179,7 @@ msgstr "Proyek"
 #: weblate/templates/mail/base.html:76 weblate/templates/project.html:31
 #: weblate/templates/snippets/info.html:384
 #: weblate/templates/snippets/info.html:420 weblate/trans/forms.py:837
-#: weblate/trans/forms.py:1895 weblate/trans/models/component.py:647
+#: weblate/trans/forms.py:1895
 msgid "Components"
 msgstr "Komponen"
 
@@ -2200,8 +2192,7 @@ msgid "All languages"
 msgstr "Semua bahasa"
 
 #: weblate/auth/models.py:154 weblate/billing/models.py:323
-#: weblate/lang/models.py:475 weblate/lang/views.py:57
-#: weblate/templates/accounts/profile.html:24
+#: weblate/lang/views.py:57 weblate/templates/accounts/profile.html:24
 #: weblate/templates/accounts/profile.html:38 weblate/templates/base.html:141
 #: weblate/templates/lang/create.html:6
 #: weblate/templates/lang/language_form.html:6
@@ -2272,14 +2263,6 @@ msgstr "Pengguna dengan alamat surel yang cocok akan ditambahkan ke grup."
 msgid "Group to assign"
 msgstr "Menetapkan grup"
 
-#: weblate/auth/models.py:654
-msgid "Automatic group assignment"
-msgstr "Penetapan Grup Otomatis"
-
-#: weblate/auth/models.py:655
-msgid "Automatic group assignments"
-msgstr "Penetapan Grup Otomatis"
-
 #: weblate/auth/models.py:663 weblate/trans/forms.py:1055
 #, fuzzy
 #| msgid "User to add"
@@ -2294,7 +2277,6 @@ msgstr "Tambah pengguna"
 #: weblate/trans/forms.py:1645 weblate/trans/forms.py:2274
 #: weblate/trans/models/announcement.py:90
 #: weblate/trans/models/component.py:250 weblate/trans/models/component.py:275
-#: weblate/trans/models/project.py:171
 msgid "Project"
 msgstr "Proyek"
 
@@ -2303,18 +2285,6 @@ msgstr "Proyek"
 #| msgid "Lock expires:"
 msgid "Block expiry"
 msgstr "Penguncian berakhir:"
-
-#: weblate/auth/models.py:671
-#, fuzzy
-#| msgid "Removed user"
-msgid "Blocked user"
-msgstr "Pengguna yang dihapus"
-
-#: weblate/auth/models.py:672
-#, fuzzy
-#| msgid "Removed user"
-msgid "Blocked users"
-msgstr "Pengguna yang dihapus"
 
 #: weblate/billing/admin.py:82 weblate/templates/billing/list.html:8
 #: weblate/templates/billing/status.html:112
@@ -3161,9 +3131,8 @@ msgstr ""
 msgid "Font"
 msgstr "Fonta"
 
-#: weblate/fonts/models.py:141 weblate/lang/models.py:474
-#: weblate/templates/component.html:134 weblate/templates/languages.html:11
-#: weblate/templates/project.html:164
+#: weblate/fonts/models.py:141 weblate/templates/component.html:134
+#: weblate/templates/languages.html:11 weblate/templates/project.html:164
 #: weblate/templates/screenshots/screenshot_detail.html:87
 #: weblate/templates/snippets/embed-units.html:15
 #: weblate/templates/trans/alert/duplicatelanguage.html:41
@@ -3691,14 +3660,6 @@ msgstr "Bentuk jamak"
 #: weblate/lang/models.py:611 weblate/templates/snippets/info.html:53
 msgid "Plural type"
 msgstr "Tipe Jamak"
-
-#: weblate/lang/models.py:619
-msgid "Plural form"
-msgstr "Bentuk jamak"
-
-#: weblate/lang/models.py:620
-msgid "Plural forms"
-msgstr "Bentuk jamak"
 
 #. Translators: Label for plurals with example counts
 #: weblate/lang/models.py:702
@@ -5264,7 +5225,6 @@ msgstr "Nama berkas komponen dengan huruf pertama huruf besar"
 #: weblate/templates/project.html:138 weblate/templates/translate.html:299
 #: weblate/templates/translation.html:207 weblate/trans/forms.py:1508
 #: weblate/trans/models/announcement.py:97
-#: weblate/trans/models/component.py:646
 msgid "Component"
 msgstr "Komponen"
 
@@ -7220,7 +7180,6 @@ msgid "New alert on %(component)s"
 msgstr "Komentar baru di %(component)s"
 
 #: weblate/templates/mail/new_announcement.html:7
-#: weblate/trans/models/announcement.py:142
 msgid "Announcement"
 msgstr "Pengumuman"
 
@@ -8103,7 +8062,7 @@ msgstr "Warna"
 msgid "Add label"
 msgstr "Tambah label"
 
-#: weblate/templates/project.html:42 weblate/trans/models/announcement.py:143
+#: weblate/templates/project.html:42
 msgid "Announcements"
 msgstr "Pengumuman"
 
@@ -8484,7 +8443,6 @@ msgid "Translation license"
 msgstr "Lisensi penerjemahan"
 
 #: weblate/templates/snippets/info.html:137
-#: weblate/trans/models/componentlist.py:106
 msgid "Automatic component list assignment"
 msgstr "Penetapan daftar komponen secara otomatis"
 
@@ -12374,10 +12332,6 @@ msgstr "Ekspresi reguler yang digunakan untuk mencocokan slug komponen."
 msgid "Component list to assign"
 msgstr "Daftar komponen untuk ditetapkan"
 
-#: weblate/trans/models/componentlist.py:107
-msgid "Automatic component list assignments"
-msgstr "Penetapan daftar komponen secara otomatis"
-
 #: weblate/trans/models/project.py:73
 msgid "Public"
 msgstr "Publik"
@@ -13909,6 +13863,34 @@ msgstr "Gagal menghilangkan kesalahan konfigurasi!"
 #| msgid "Create an account using:"
 msgid "Created user account %s."
 msgstr "Bikin akun menggunakan:"
+
+#~ msgid "Permission"
+#~ msgstr "Izin"
+
+#~ msgid "Automatic group assignment"
+#~ msgstr "Penetapan Grup Otomatis"
+
+#~ msgid "Automatic group assignments"
+#~ msgstr "Penetapan Grup Otomatis"
+
+#, fuzzy
+#~| msgid "Removed user"
+#~ msgid "Blocked user"
+#~ msgstr "Pengguna yang dihapus"
+
+#, fuzzy
+#~| msgid "Removed user"
+#~ msgid "Blocked users"
+#~ msgstr "Pengguna yang dihapus"
+
+#~ msgid "Plural form"
+#~ msgstr "Bentuk jamak"
+
+#~ msgid "Plural forms"
+#~ msgstr "Bentuk jamak"
+
+#~ msgid "Automatic component list assignments"
+#~ msgstr "Penetapan daftar komponen secara otomatis"
 
 #, python-format
 #~ msgid ""

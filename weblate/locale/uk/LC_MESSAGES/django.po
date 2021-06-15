@@ -21,7 +21,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.7\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
-"POT-Creation-Date: 2021-06-14 18:37+0000\n"
+"POT-Creation-Date: 2021-06-15 04:46+0000\n"
 "PO-Revision-Date: 2021-06-15 04:45+0000\n"
 "Last-Translator: Ihor Hordiichuk <igor_ck@outlook.com>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/"
@@ -568,12 +568,10 @@ msgstr "Відстежувані переклади"
 
 #: weblate/accounts/models.py:465 weblate/auth/models.py:141
 #: weblate/templates/dashboard/user.html:23
-#: weblate/trans/models/componentlist.py:70
 msgid "Component lists"
 msgstr "Списки складників"
 
 #: weblate/accounts/models.py:466 weblate/templates/dashboard/user.html:65
-#: weblate/trans/models/componentlist.py:69
 msgid "Component list"
 msgstr "Список складників"
 
@@ -1644,8 +1642,7 @@ msgstr "Особисті відомості"
 msgid "Authentication"
 msgstr "Розпізнавання"
 
-#: weblate/auth/admin.py:146 weblate/auth/models.py:75
-#: weblate/auth/models.py:88
+#: weblate/auth/admin.py:146 weblate/auth/models.py:88
 msgid "Permissions"
 msgstr "Дозволи"
 
@@ -2069,10 +2066,6 @@ msgstr "Оплата"
 msgid "Send e-mail invitation to the user"
 msgstr "Надсилання запрошення користувачу електронною поштою"
 
-#: weblate/auth/models.py:74
-msgid "Permission"
-msgstr "Дозвіл"
-
 #: weblate/auth/models.py:80
 #, python-format
 msgid "%s (site-wide permission)"
@@ -2126,8 +2119,7 @@ msgstr "Зі списку складників"
 #: weblate/templates/billing/list.html:9
 #: weblate/templates/billing/status.html:101 weblate/templates/language.html:19
 #: weblate/templates/projects.html:5 weblate/templates/snippets/info.html:372
-#: weblate/templates/snippets/info.html:406 weblate/trans/models/project.py:172
-#: weblate/trans/views/basic.py:78
+#: weblate/templates/snippets/info.html:406 weblate/trans/views/basic.py:78
 msgid "Projects"
 msgstr "Проєкти"
 
@@ -2136,7 +2128,7 @@ msgstr "Проєкти"
 #: weblate/templates/mail/base.html:76 weblate/templates/project.html:31
 #: weblate/templates/snippets/info.html:384
 #: weblate/templates/snippets/info.html:420 weblate/trans/forms.py:837
-#: weblate/trans/forms.py:1895 weblate/trans/models/component.py:647
+#: weblate/trans/forms.py:1895
 msgid "Components"
 msgstr "Складники"
 
@@ -2149,8 +2141,7 @@ msgid "All languages"
 msgstr "Всі мови"
 
 #: weblate/auth/models.py:154 weblate/billing/models.py:323
-#: weblate/lang/models.py:475 weblate/lang/views.py:57
-#: weblate/templates/accounts/profile.html:24
+#: weblate/lang/views.py:57 weblate/templates/accounts/profile.html:24
 #: weblate/templates/accounts/profile.html:38 weblate/templates/base.html:141
 #: weblate/templates/lang/create.html:6
 #: weblate/templates/lang/language_form.html:6
@@ -2222,14 +2213,6 @@ msgstr ""
 msgid "Group to assign"
 msgstr "Група для призначення"
 
-#: weblate/auth/models.py:654
-msgid "Automatic group assignment"
-msgstr "Автоматичне призначення групи"
-
-#: weblate/auth/models.py:655
-msgid "Automatic group assignments"
-msgstr "Автоматичні призначення груп"
-
 #: weblate/auth/models.py:663 weblate/trans/forms.py:1055
 msgid "User to block"
 msgstr "Користувач, якого потрібно заблокувати"
@@ -2242,21 +2225,12 @@ msgstr "Користувач, якого потрібно заблокувати
 #: weblate/trans/forms.py:1645 weblate/trans/forms.py:2274
 #: weblate/trans/models/announcement.py:90
 #: weblate/trans/models/component.py:250 weblate/trans/models/component.py:275
-#: weblate/trans/models/project.py:171
 msgid "Project"
 msgstr "Проєкт"
 
 #: weblate/auth/models.py:668
 msgid "Block expiry"
 msgstr "Термін дії блокування"
-
-#: weblate/auth/models.py:671
-msgid "Blocked user"
-msgstr "Заблокований користувач"
-
-#: weblate/auth/models.py:672
-msgid "Blocked users"
-msgstr "Заблоковані користувачі"
 
 #: weblate/billing/admin.py:82 weblate/templates/billing/list.html:8
 #: weblate/templates/billing/status.html:112
@@ -3050,9 +3024,8 @@ msgstr ""
 msgid "Font"
 msgstr "Шрифт"
 
-#: weblate/fonts/models.py:141 weblate/lang/models.py:474
-#: weblate/templates/component.html:134 weblate/templates/languages.html:11
-#: weblate/templates/project.html:164
+#: weblate/fonts/models.py:141 weblate/templates/component.html:134
+#: weblate/templates/languages.html:11 weblate/templates/project.html:164
 #: weblate/templates/screenshots/screenshot_detail.html:87
 #: weblate/templates/snippets/embed-units.html:15
 #: weblate/templates/trans/alert/duplicatelanguage.html:41
@@ -3532,14 +3505,6 @@ msgstr "Форма множини"
 #: weblate/lang/models.py:611 weblate/templates/snippets/info.html:53
 msgid "Plural type"
 msgstr "Вид множини"
-
-#: weblate/lang/models.py:619
-msgid "Plural form"
-msgstr "Форма множини"
-
-#: weblate/lang/models.py:620
-msgid "Plural forms"
-msgstr "Форми множини"
 
 #. Translators: Label for plurals with example counts
 #: weblate/lang/models.py:702
@@ -5006,7 +4971,6 @@ msgstr "Назва файлу складника з великою першою 
 #: weblate/templates/project.html:138 weblate/templates/translate.html:299
 #: weblate/templates/translation.html:207 weblate/trans/forms.py:1508
 #: weblate/trans/models/announcement.py:97
-#: weblate/trans/models/component.py:646
 msgid "Component"
 msgstr "Складник"
 
@@ -6849,7 +6813,6 @@ msgid "New alert on %(component)s"
 msgstr "Нове попередження у %(component)s"
 
 #: weblate/templates/mail/new_announcement.html:7
-#: weblate/trans/models/announcement.py:142
 msgid "Announcement"
 msgstr "Оголошення"
 
@@ -7675,7 +7638,7 @@ msgstr "Колір"
 msgid "Add label"
 msgstr "Додати мітку"
 
-#: weblate/templates/project.html:42 weblate/trans/models/announcement.py:143
+#: weblate/templates/project.html:42
 msgid "Announcements"
 msgstr "Оголошення"
 
@@ -8014,7 +7977,6 @@ msgid "Translation license"
 msgstr "Ліцензія перекладу"
 
 #: weblate/templates/snippets/info.html:137
-#: weblate/trans/models/componentlist.py:106
 msgid "Automatic component list assignment"
 msgstr "Автоматичне призначення списку складників"
 
@@ -11576,10 +11538,6 @@ msgstr ""
 msgid "Component list to assign"
 msgstr "Списки складників для призначення"
 
-#: weblate/trans/models/componentlist.py:107
-msgid "Automatic component list assignments"
-msgstr "Автоматичні призначення списку складників"
-
 #: weblate/trans/models/project.py:73
 msgid "Public"
 msgstr "Відкритий"
@@ -13043,6 +13001,30 @@ msgstr "Не вдалося відхилити помилку конфігура
 #, python-format
 msgid "Created user account %s."
 msgstr "Створити обліковий запис користувача %s."
+
+#~ msgid "Permission"
+#~ msgstr "Дозвіл"
+
+#~ msgid "Automatic group assignment"
+#~ msgstr "Автоматичне призначення групи"
+
+#~ msgid "Automatic group assignments"
+#~ msgstr "Автоматичні призначення груп"
+
+#~ msgid "Blocked user"
+#~ msgstr "Заблокований користувач"
+
+#~ msgid "Blocked users"
+#~ msgstr "Заблоковані користувачі"
+
+#~ msgid "Plural form"
+#~ msgstr "Форма множини"
+
+#~ msgid "Plural forms"
+#~ msgstr "Форми множини"
+
+#~ msgid "Automatic component list assignments"
+#~ msgstr "Автоматичні призначення списку складників"
 
 #, python-format
 #~ msgid ""
