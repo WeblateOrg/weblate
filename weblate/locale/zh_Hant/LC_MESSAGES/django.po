@@ -15,13 +15,14 @@
 # 菘菘 <rrt467778@gmail.com>, 2021.
 # 曹恩逢 <nelson22768384@gmail.com>, 2021.
 # 峡州仙士 <c@cjh0613.com>, 2021.
+# Supaplex <bejokeup@gmail.com>, 2021.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.7\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-06-15 04:46+0000\n"
-"PO-Revision-Date: 2021-05-27 22:39+0000\n"
-"Last-Translator: pan93412 <pan93412@gmail.com>\n"
+"PO-Revision-Date: 2021-06-16 07:02+0000\n"
+"Last-Translator: Supaplex <bejokeup@gmail.com>\n"
 "Language-Team: Chinese (Traditional) <https://hosted.weblate.org/projects/"
 "weblate/application/zh_Hant/>\n"
 "Language: zh_Hant\n"
@@ -391,7 +392,7 @@ msgstr "系統建立了一個使用者，用來追蹤其他使用者上傳之翻
 #: weblate/accounts/models.py:169
 #, python-brace-format
 msgid "Access to project {project} was blocked"
-msgstr ""
+msgstr "連線到 {project} 專案已經被封鎖"
 
 #: weblate/accounts/models.py:174
 msgid "Configured password to sign in."
@@ -415,7 +416,7 @@ msgstr "若要還原您的帳號存取權，請重設您的密碼。"
 
 #: weblate/accounts/models.py:184
 msgid "Please contact project maintainers if you feel this is inappropriate."
-msgstr ""
+msgstr "如果你覺得不適當請聯繫專案維護者。"
 
 #: weblate/accounts/models.py:306 weblate/templates/accounts/profile.html:227
 #: weblate/templates/accounts/user.html:223
@@ -1197,8 +1198,6 @@ msgstr ""
 "的末尾，例如「Co-authored-by: …」。"
 
 #: weblate/addons/forms.py:165
-#, fuzzy
-#| msgid "Commit messages"
 msgid "Commit message"
 msgstr "提交訊息"
 
@@ -1962,7 +1961,7 @@ msgstr "帳單"
 
 #: weblate/auth/forms.py:107
 msgid "Send e-mail invitation to the user"
-msgstr ""
+msgstr "寄邀請信給使用者"
 
 #: weblate/auth/models.py:80
 #, python-format
@@ -2108,10 +2107,8 @@ msgid "Group to assign"
 msgstr "要分派的群組"
 
 #: weblate/auth/models.py:663 weblate/trans/forms.py:1055
-#, fuzzy
-#| msgid "User to add"
 msgid "User to block"
-msgstr "要加入的使用者"
+msgstr "要封鎖的使用者"
 
 #: weblate/auth/models.py:666 weblate/templates/check.html:19
 #: weblate/templates/data.html:28 weblate/templates/data.html:62
@@ -2125,10 +2122,8 @@ msgid "Project"
 msgstr "專案"
 
 #: weblate/auth/models.py:668
-#, fuzzy
-#| msgid "Lock expires:"
 msgid "Block expiry"
-msgstr "鎖定時限："
+msgstr "封鎖時限"
 
 #: weblate/billing/admin.py:82 weblate/templates/billing/list.html:8
 #: weblate/templates/billing/status.html:112
@@ -3175,10 +3170,8 @@ msgid "Invalid integer list!"
 msgstr "無效的整數列表！"
 
 #: weblate/glossary/forms.py:47
-#, fuzzy
-#| msgid "String will be propagated to all languages"
 msgid "String will be part of the glossary in all languages"
-msgstr "字串會延伸到所有語言"
+msgstr "字串會是所有語言的一部分"
 
 #: weblate/glossary/forms.py:55
 msgid "Not translatable term"
@@ -3770,28 +3763,17 @@ msgid "Server Error"
 msgstr "伺服器錯誤"
 
 #: weblate/templates/500.html:16
-#, fuzzy, python-format
-#| msgid ""
-#| "The server had serious problems serving your request. Trained monkeys are "
-#| "en-route fixing the issue."
+#, python-format
 msgid ""
 "The server had serious problems serving your request, and this error has "
 "been recorded as %(error_id)s."
-msgstr ""
-"伺服器在處理您的請求時發生重大問題。訓練有素的程式猿正在修正問題的路上"
-"（笑）。"
+msgstr "伺服器在處理您的請求時發生重大問題，而這問題被記錄下來為 %(error_id)s。"
 
 #: weblate/templates/500.html:36
-#, fuzzy
-#| msgid ""
-#| "The server had serious problems serving your request. Trained monkeys are "
-#| "en-route fixing the issue."
 msgid ""
 "The server had serious problems serving your request. You might want to "
 "contact server admins in case the error persists."
-msgstr ""
-"伺服器在處理您的請求時發生重大問題。訓練有素的程式猿正在修正問題的路上"
-"（笑）。"
+msgstr "伺服器在處理您的請求時發生重大問題，你也許想要聯繫伺服器管理員來反應問題。"
 
 #: weblate/templates/about/index.html:5 weblate/templates/about/index.html:11
 #: weblate/templates/about/keys.html:6 weblate/templates/about/stats.html:7
@@ -4598,21 +4580,17 @@ msgstr "從本群組移除使用者"
 #: weblate/templates/manage-access.html:96
 #, python-format
 msgid "Blocked until %(expiry)s"
-msgstr ""
+msgstr "封鎖至 %(expiry)s"
 
 #: weblate/templates/accounts/user.html:269
 #: weblate/templates/manage-access.html:98
-#, fuzzy
-#| msgid "Ignore permanently"
 msgid "Blocked permanently"
-msgstr "永遠忽略"
+msgstr "永遠封鎖"
 
 #: weblate/templates/accounts/user.html:273
 #: weblate/templates/manage-access.html:106
-#, fuzzy
-#| msgid "Unlock"
 msgid "Unblock user"
-msgstr "解除鎖定"
+msgstr "解除封鎖使用者"
 
 #: weblate/templates/accounts/user.html:289
 #: weblate/templates/fonts/font_detail.html:31
@@ -6242,7 +6220,7 @@ msgstr "還原"
 #: weblate/templates/manage-access.html:146
 #: weblate/templates/snippets/suggestions.html:46
 msgid "Block user"
-msgstr ""
+msgstr "封鎖使用者"
 
 #. Translators: Number of edits on a change in Damerau–Levenshtein distance
 #: weblate/templates/last-changes-content.html:55
@@ -6778,10 +6756,8 @@ msgid "Add a user"
 msgstr "加入使用者"
 
 #: weblate/templates/manage-access.html:152
-#, fuzzy
-#| msgid "Unlock"
 msgid "Block"
-msgstr "解除鎖定"
+msgstr "封鎖"
 
 #: weblate/templates/manage-access.html:163
 msgid "Invite new user"
@@ -6997,20 +6973,16 @@ msgid "Content encoding"
 msgstr "內容編碼方式"
 
 #: weblate/templates/manage/performance.html:149
-#, fuzzy
-#| msgid "Activity"
 msgid "Connectivity"
 msgstr "活動"
 
 #: weblate/templates/manage/performance.html:155
-#, fuzzy
-#| msgid "Database backend"
 msgid "Database latency"
-msgstr "資料庫後端"
+msgstr "資料庫延遲"
 
 #: weblate/templates/manage/performance.html:159
 msgid "Cache latency"
-msgstr ""
+msgstr "快取延遲"
 
 #: weblate/templates/manage/repos.html:6
 #: weblate/wladmin/templates/admin/weblate-index.html:20
@@ -7130,10 +7102,8 @@ msgid "Generate a test event to test Sentry integration."
 msgstr "產生測試事件以測試 Sentry 整合。"
 
 #: weblate/templates/manage/users.html:28
-#, fuzzy
-#| msgid "Add a user"
 msgid "Add new user"
-msgstr "加入使用者"
+msgstr "加入新使用者"
 
 #: weblate/templates/matrix.html:9
 msgid "Matrix"
@@ -8380,20 +8350,14 @@ msgid "This project does no longer fit into libre hosting conditions."
 msgstr "本專案不再符合自由軟體託管條件。"
 
 #: weblate/templates/trans/alert/nomaskmatches.html:2
-#, fuzzy
-#| msgid "This component is set up incorrectly."
 msgid "This component set up is incomplete as it lacks translations."
-msgstr "此組件的設置不正確。"
+msgstr "此組件的設置因為缺少翻譯而不完整。"
 
 #: weblate/templates/trans/alert/nomaskmatches.html:6
-#, fuzzy
-#| msgid ""
-#| "You can also start new translations directly in Weblate, it will create "
-#| "files based on the file mask."
 msgid ""
 "Create new translations directly in Weblate, it will create files based on "
 "the file mask."
-msgstr "您亦可在 Weblate 直接開始新翻譯。Weblate 會根據檔案遮罩建立檔案。"
+msgstr "直接新增 Weblate 翻譯，Weblate 會根據檔案遮罩建立檔案。"
 
 #: weblate/templates/trans/alert/nomaskmatches.html:8
 #, python-format
@@ -9562,26 +9526,24 @@ msgid "Please type in an existing Weblate account name or e-mail address."
 msgstr "請輸入既有的 Weblate 帳號名稱或電子郵件位址。"
 
 #: weblate/trans/forms.py:1061
-#, fuzzy
-#| msgid "Location"
 msgid "Block duration"
-msgstr "位置"
+msgstr "封鎖時間"
 
 #: weblate/trans/forms.py:1063
 msgid "Block user until I unblock them"
-msgstr ""
+msgstr "封鎖至解除封鎖為止"
 
 #: weblate/trans/forms.py:1064
 msgid "Block user for one day"
-msgstr ""
+msgstr "封鎖使用者一天時 間"
 
 #: weblate/trans/forms.py:1065
 msgid "Block user for one week"
-msgstr ""
+msgstr "封鎖使用者一週時間"
 
 #: weblate/trans/forms.py:1066
 msgid "Block user for one month"
-msgstr ""
+msgstr "封鎖使用者一個月時間"
 
 #: weblate/trans/forms.py:1074
 msgid "Report format"
@@ -10549,12 +10511,8 @@ msgid "Translation flags"
 msgstr "翻譯旗標"
 
 #: weblate/trans/models/component.py:429 weblate/trans/models/unit.py:311
-#, fuzzy
-#| msgid ""
-#| "Additional comma-separated flags to influence quality checks. Possible "
-#| "values can be found in the documentation."
 msgid "Additional comma-separated flags to influence Weblate behavior."
-msgstr "額外以逗號分隔的旗標影響品質查核。可用值可在文件中找到。"
+msgstr "額外以逗號分隔的旗標影響 Weblate 行為。"
 
 #: weblate/trans/models/component.py:435
 msgid "Enforced checks"
@@ -11475,16 +11433,12 @@ msgid "Failed to find group to add a user!"
 msgstr "未能找到要加入使用者的群組！"
 
 #: weblate/trans/views/acl.py:164
-#, fuzzy
-#| msgid "User has been added to this project."
 msgid "User has been blocked on this project."
-msgstr "使用者此專案。"
+msgstr "在這專案當中使用者被封鎖。"
 
 #: weblate/trans/views/acl.py:166
-#, fuzzy
-#| msgid "User has been added to this project."
 msgid "User is already blocked on this project."
-msgstr "使用者此專案。"
+msgstr "在這專案當中使用者已經被封鎖了。"
 
 #: weblate/trans/views/acl.py:193 weblate/trans/views/acl.py:208
 msgid "User has been invited to this project."
@@ -12317,10 +12271,9 @@ msgid "Could not dismiss the configuration error!"
 msgstr "無法略過組態設定錯誤！"
 
 #: weblate/wladmin/views.py:356
-#, fuzzy, python-format
-#| msgid "Create an account using:"
+#, python-format
 msgid "Created user account %s."
-msgstr "以下列方式建立帳號："
+msgstr "建立使用者帳號 %s。"
 
 #~ msgid "Permission"
 #~ msgstr "權限"
