@@ -1,4 +1,4 @@
-/*! @sentry/browser 6.7.0 (e7a9014) | https://github.com/getsentry/sentry-javascript */
+/*! @sentry/browser 6.7.1 (e2a2a2e) | https://github.com/getsentry/sentry-javascript */
 var Sentry = (function (exports) {
     /*! *****************************************************************************
     Copyright (c) Microsoft Corporation. All rights reserved.
@@ -2350,6 +2350,11 @@ var Sentry = (function (exports) {
     })();
 
     /**
+     * Absolute maximum number of breadcrumbs added to an event.
+     * The `maxBreadcrumbs` option cannot be higher than this value.
+     */
+    var MAX_BREADCRUMBS = 100;
+    /**
      * Holds additional event information. {@link Scope.applyToEvent} will be
      * called by the client before an event will be sent.
      */
@@ -2640,11 +2645,13 @@ var Sentry = (function (exports) {
          * @inheritDoc
          */
         Scope.prototype.addBreadcrumb = function (breadcrumb, maxBreadcrumbs) {
+            var maxCrumbs = typeof maxBreadcrumbs === 'number' ? Math.min(maxBreadcrumbs, MAX_BREADCRUMBS) : MAX_BREADCRUMBS;
+            // No data has been changed, so don't notify scope listeners
+            if (maxCrumbs <= 0) {
+                return this;
+            }
             var mergedBreadcrumb = __assign({ timestamp: dateTimestampInSeconds() }, breadcrumb);
-            this._breadcrumbs =
-                maxBreadcrumbs !== undefined && maxBreadcrumbs >= 0
-                    ? __spread(this._breadcrumbs, [mergedBreadcrumb]).slice(-maxBreadcrumbs)
-                    : __spread(this._breadcrumbs, [mergedBreadcrumb]);
+            this._breadcrumbs = __spread(this._breadcrumbs, [mergedBreadcrumb]).slice(-maxCrumbs);
             this._notifyScopeListeners();
             return this;
         };
@@ -2909,11 +2916,6 @@ var Sentry = (function (exports) {
      */
     var DEFAULT_BREADCRUMBS = 100;
     /**
-     * Absolute maximum number of breadcrumbs added to an event. The
-     * `maxBreadcrumbs` option cannot be higher than this value.
-     */
-    var MAX_BREADCRUMBS = 100;
-    /**
      * @inheritDoc
      */
     var Hub = /** @class */ (function () {
@@ -3085,7 +3087,7 @@ var Sentry = (function (exports) {
                 : mergedBreadcrumb;
             if (finalBreadcrumb === null)
                 return;
-            scope.addBreadcrumb(finalBreadcrumb, Math.min(maxBreadcrumbs, MAX_BREADCRUMBS));
+            scope.addBreadcrumb(finalBreadcrumb, maxBreadcrumbs);
         };
         /**
          * @inheritDoc
@@ -4327,7 +4329,7 @@ var Sentry = (function (exports) {
     /** Creates a SentryRequest from a Session. */
     function sessionToSentryRequest(session, api) {
         var sdkInfo = getSdkMetadataForEnvelopeHeader(api);
-        var envelopeHeaders = JSON.stringify(__assign({ sent_at: new Date().toISOString() }, (sdkInfo && { sdk: sdkInfo })));
+        var envelopeHeaders = JSON.stringify(__assign(__assign({ sent_at: new Date().toISOString() }, (sdkInfo && { sdk: sdkInfo })), (api.forceEnvelope() && { dsn: api.getDsn().toString() })));
         // I know this is hacky but we don't want to add `session` to request type since it's never rate limited
         var type = 'aggregates' in session ? 'sessions' : 'session';
         var itemHeaders = JSON.stringify({
@@ -4365,7 +4367,7 @@ var Sentry = (function (exports) {
         if (useEnvelope) {
             var envelopeHeaders = JSON.stringify(__assign(__assign({ event_id: event.event_id, sent_at: new Date().toISOString() }, (sdkInfo && { sdk: sdkInfo })), (api.forceEnvelope() && { dsn: api.getDsn().toString() })));
             var itemHeaders = JSON.stringify({
-                type: event.type,
+                type: eventType,
                 // TODO: Right now, sampleRate may or may not be defined (it won't be in the cases of inheritance and
                 // explicitly-set sampling decisions). Are we good with that?
                 sample_rates: [{ id: samplingMethod, rate: sampleRate }],
@@ -4398,7 +4400,7 @@ var Sentry = (function (exports) {
         hub.bindClient(client);
     }
 
-    var SDK_VERSION = '6.7.0';
+    var SDK_VERSION = '6.7.1';
 
     var originalFunctionToString;
     /** Patch toString calls to return proper name for wrapped functions */
