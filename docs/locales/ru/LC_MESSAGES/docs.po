@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-06-15 06:46+0200\n"
-"PO-Revision-Date: 2021-06-03 15:03+0000\n"
+"PO-Revision-Date: 2021-06-16 07:03+0000\n"
 "Last-Translator: Blueberry <igory.ygr200@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/"
 "documentation/ru/>\n"
@@ -383,10 +383,8 @@ msgstr ""
 "<management-interface>` на вкладке :guilabel:`Пользователи`."
 
 #: ../../admin/access.rst:168
-#, fuzzy
-#| msgid "Removed user"
 msgid "Blocking users"
-msgstr "Пользователь удалён"
+msgstr "Блокирование пользователей"
 
 #: ../../admin/access.rst:172
 msgid ""
@@ -394,6 +392,10 @@ msgid ""
 "them from contributing. The blocked user still will be able to see the "
 "project if he has permissions for that, but he won't be able to contribute."
 msgstr ""
+"Если некоторые пользователи плохо ведут себя в вашем проекте, у вас есть "
+"возможность заблокировать их вклад. Заблокированный пользователь по-прежнему "
+"сможет видеть проект, если у него есть соответствующие разрешения, но он не "
+"сможет вносить свой вклад."
 
 #: ../../admin/access.rst:177
 msgid "Per-project permission management"
@@ -2571,10 +2573,8 @@ msgid "``commit_message``"
 msgstr "Сообщения коммита"
 
 #: ../../admin/addons.rst:497
-#, fuzzy
-#| msgid "Commit messages"
 msgid "Commit message"
-msgstr "Сообщения коммита"
+msgstr "Сообщение коммита"
 
 #: ../../admin/addons.rst:497
 msgid ""
@@ -3345,6 +3345,10 @@ msgid ""
 "setting:`ENABLE_HTTPS`, or by :envvar:`WEBLATE_ENABLE_HTTPS` in the Docker "
 "container."
 msgstr ""
+"Большинство бэкендов аутентификации требуют HTTPS. Как только HTTPS включен "
+"на вашем веб-сервере, пожалуйста, настройте Weblate, чтобы он сообщал об "
+"этом должным образом, используя :setting:`ENABLE_HTTPS`, или "
+":envvar:`WEBLATE_ENABLE_HTTPS` в контейнере Docker."
 
 #: ../../admin/auth.rst:68
 msgid ":doc:`Python Social Auth backend <psa:backends/index>`"
@@ -3541,10 +3545,8 @@ msgid ":doc:`psa:backends/slack`"
 msgstr ":doc:`Slack <psa:backends/slack>`"
 
 #: ../../admin/auth.rst:322
-#, fuzzy
-#| msgid "Other authentication settings"
 msgid "Overriding authentication method names and icons"
-msgstr "Другие параметры аутентификации"
+msgstr "Переопределение имён и значков методов аутентификации"
 
 #: ../../admin/auth.rst:324
 msgid ""
@@ -3552,6 +3554,10 @@ msgid ""
 "settings as ``SOCIAL_AUTH_<NAME>_IMAGE`` and ``SOCIAL_AUTH_<NAME>_TITLE``. "
 "For example overriding naming for Auth0 would look like:"
 msgstr ""
+"Вы можете переопределить отображаемое имя метода аутентификации и иконку, "
+"используя параметры ``SOCIAL_AUTH_<NAME>_IMAGE`` и "
+"``SOCIAL_AUTH_<NAME>_TITLE``. Например, переопределение именования для Auth0 "
+"будет выглядеть следующим образом:"
 
 #: ../../admin/auth.rst:334
 msgid "Turning off password authentication"
@@ -4251,6 +4257,9 @@ msgid ""
 "file:`environment.yml` file might help you with this (see :ref:`backup-"
 "dumps`)."
 msgstr ""
+"При использовании контейнера Docker файл настроек уже включен в контейнер, и "
+"вам следует восстановить исходные переменные окружения. В этом вам может "
+"помочь файл :file:`environment.yml` (смотреть раздел :ref:`backup-dumps`)."
 
 #: ../../admin/backup.rst:149
 msgid ""
@@ -4261,16 +4270,12 @@ msgstr ""
 "setting:`DATA_DIR`."
 
 #: ../../admin/backup.rst:152
-#, fuzzy
-#| msgid ""
-#| "The Docker container uses a separate volume for this, see :ref:`docker-"
-#| "volume`."
 msgid ""
 "When using Docker container place the data into the data volume, see :ref:"
 "`docker-volume`."
 msgstr ""
-"Docker-контейнер использует для этого отдельный том, смотреть раздел :ref:"
-"`docker-volume`."
+"При использовании контейнера Docker поместите данные в том данных, смотреть "
+"раздел :ref:`docker-volume`."
 
 #: ../../admin/backup.rst:155
 msgid "The Borg session might look like this:"
@@ -4418,6 +4423,8 @@ msgid ""
 "The environment dump was added as :file:`environment.yml` to help in "
 "restoring in the Docker environments."
 msgstr ""
+"Дамп окружения был добавлен как :file:`environment.yml` для помощи в "
+"восстановлении в окружениях Docker."
 
 #: ../../admin/backup.rst:252
 msgid "Stored in :setting:`DATA_DIR` ``/backups``."
@@ -4449,7 +4456,7 @@ msgstr ""
 
 #: ../../admin/backup.rst:260
 msgid "Environment dump as :file:`environment.yml`."
-msgstr ""
+msgstr "Дамп окружения как :file:`environment.yml`."
 
 #: ../../admin/backup.rst:262
 msgid ""
@@ -4463,6 +4470,8 @@ msgstr ""
 #: ../../admin/backup.rst:265
 msgid "To restore the database backup load it using dabase tools, for example:"
 msgstr ""
+"Для восстановления резервной копии базы данных загрузите её с помощью "
+"инструментов dabase, например:"
 
 #: ../../admin/backup.rst:272
 msgid "Version control repositories"
@@ -7900,10 +7909,8 @@ msgstr ""
 "профиле <user-profile>`."
 
 #: ../../admin/config.rst:1579
-#, fuzzy
-#| msgid "DEFAULT_SHARED_TM"
 msgid "DEFAULT_PAGE_LIMIT"
-msgstr "DEFAULT_SHARED_TM"
+msgstr "DEFAULT_PAGE_LIMIT"
 
 #: ../../admin/config.rst:1583
 msgid "Default number of elements to display when pagination is active."
