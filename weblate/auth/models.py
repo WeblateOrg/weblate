@@ -71,8 +71,8 @@ class Permission(models.Model):
     name = models.CharField(max_length=200)
 
     class Meta:
-        verbose_name = _("Permission")
-        verbose_name_plural = _("Permissions")
+        verbose_name = "Permission"
+        verbose_name_plural = "Permissions"
 
     def __str__(self):
         name = gettext(self.name)
@@ -651,8 +651,8 @@ class AutoGroup(models.Model):
     )
 
     class Meta:
-        verbose_name = _("Automatic group assignment")
-        verbose_name_plural = _("Automatic group assignments")
+        verbose_name = "Automatic group assignment"
+        verbose_name_plural = "Automatic group assignments"
 
     def __str__(self):
         return f"Automatic rule for {self.group}"
@@ -668,8 +668,8 @@ class UserBlock(models.Model):
     expiry = models.DateTimeField(_("Block expiry"), null=True)
 
     class Meta:
-        verbose_name = _("Blocked user")
-        verbose_name_plural = _("Blocked users")
+        verbose_name = "Blocked user"
+        verbose_name_plural = "Blocked users"
         unique_together = ("user", "project")
 
     def __str__(self):

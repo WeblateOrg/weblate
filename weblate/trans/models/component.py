@@ -643,8 +643,8 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
     class Meta:
         unique_together = (("project", "name"), ("project", "slug"))
         app_label = "trans"
-        verbose_name = gettext_lazy("Component")
-        verbose_name_plural = gettext_lazy("Components")
+        verbose_name = "Component"
+        verbose_name_plural = "Components"
 
     def __str__(self):
         return "/".join((str(self.project), self.name))

@@ -139,8 +139,8 @@ class Announcement(models.Model):
 
     class Meta:
         app_label = "trans"
-        verbose_name = gettext_lazy("Announcement")
-        verbose_name_plural = gettext_lazy("Announcements")
+        verbose_name = "Announcement"
+        verbose_name_plural = "Announcements"
 
     def __str__(self):
         return self.message

@@ -471,8 +471,8 @@ class Language(models.Model, CacheKeyMixin):
     objects = LanguageManager()
 
     class Meta:
-        verbose_name = gettext_lazy("Language")
-        verbose_name_plural = gettext_lazy("Languages")
+        verbose_name = "Language"
+        verbose_name_plural = "Languages"
         # Use own manager to utilize caching of English
         base_manager_name = "objects"
 
@@ -616,8 +616,8 @@ class Plural(models.Model):
     objects = PluralQuerySet.as_manager()
 
     class Meta:
-        verbose_name = gettext_lazy("Plural form")
-        verbose_name_plural = gettext_lazy("Plural forms")
+        verbose_name = "Plural form"
+        verbose_name_plural = "Plural forms"
 
     def __str__(self):
         return self.get_type_display()

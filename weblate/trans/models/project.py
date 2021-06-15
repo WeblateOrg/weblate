@@ -168,8 +168,8 @@ class Project(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKeyM
 
     class Meta:
         app_label = "trans"
-        verbose_name = gettext_lazy("Project")
-        verbose_name_plural = gettext_lazy("Projects")
+        verbose_name = "Project"
+        verbose_name_plural = "Projects"
 
     def __str__(self):
         return self.name
