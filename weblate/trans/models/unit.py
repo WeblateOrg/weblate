@@ -821,7 +821,7 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
         """Propagate current translation to all others."""
         result = False
         for unit in self.same_source_units:
-            if not user.has_perm("unit.edit", unit):
+            if user is not None and not user.has_perm("unit.edit", unit):
                 continue
             if unit.target == self.target and unit.state == self.state:
                 continue
