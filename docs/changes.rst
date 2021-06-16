@@ -1,7 +1,7 @@
 Weblate 4.7
 -----------
 
-Released on June 16th 2021.
+Released on June 17th 2021.
 
 * Improved configuration health check.
 * Added support for ``object-pascal-format`` used in gettext PO, see :ref:`check-object-pascal-format`.
