@@ -378,7 +378,7 @@ is also possible.
 
    You can use real languages for testing, but there are dedicated
    pseudolocales available in Weblate - `en_XA` and `ar_XB`.
-   
+
 .. hint::
 
    You can use this add-on to start translation to a new locale of an
@@ -386,7 +386,7 @@ is also possible.
    Once you add the translation to the component, follow to the add-on.
    *Example:* If you have `fr` and want to start `fr_CA` translation, simply set
    `fr` as the source, `fr_CA` as the target, and leave the prefix and suffix blank.
-   
+
    Uninstall the add-on once you have the new translation filled to prevent Weblate
    from changing the translations made after the copying.
 
