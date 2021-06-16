@@ -143,8 +143,11 @@ def block_user(request, project):
     """Block user from a project."""
     obj, form = check_user_form(request, project, True, form_class=UserBlockForm)
 
-    if form is not None:
+    if form is not None and form.cleaned_data["user"].id == request.user.id:
+        messages.error(request, _("You can not block yourself on this project."))
+    elif form is not None:
         user = form.cleaned_data["user"]
+
         if form.cleaned_data.get("expiry"):
             expiry = timezone.now() + timedelta(days=int(form.cleaned_data["expiry"]))
         else:
