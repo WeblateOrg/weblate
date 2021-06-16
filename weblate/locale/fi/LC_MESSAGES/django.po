@@ -17,13 +17,14 @@
 # Jussi Timperi <bane@iki.fi>, 2020.
 # Michal Čihař <michal@weblate.org>, 2021.
 # Ricky Tigg <ricky.tigg@gmail.com>, 2021.
+# Demian Wright <wright.demian+weblate@gmail.com>, 2021.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.7\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-06-15 04:46+0000\n"
-"PO-Revision-Date: 2021-06-05 10:21+0000\n"
-"Last-Translator: Tuomas Hietala <tuomas.hietala@iki.fi>\n"
+"PO-Revision-Date: 2021-06-16 18:39+0000\n"
+"Last-Translator: Demian Wright <wright.demian+weblate@gmail.com>\n"
 "Language-Team: Finnish <https://hosted.weblate.org/projects/weblate/"
 "application/fi/>\n"
 "Language: fi\n"
@@ -1437,7 +1438,7 @@ msgstr "Kieliasetuksen säilyttävän evästeen nimi."
 
 #: weblate/addons/forms.py:426
 msgid "Extract strings from HTML files"
-msgstr "Tuo merkkijonot HTML-tiedostoista"
+msgstr "Tuo tekstit HTML-tiedostoista"
 
 #: weblate/addons/forms.py:429
 msgid ""
@@ -2223,10 +2224,8 @@ msgid "Project"
 msgstr "Projekti"
 
 #: weblate/auth/models.py:668
-#, fuzzy
-#| msgid "Lock expires:"
 msgid "Block expiry"
-msgstr "Lukitus vanhenee:"
+msgstr "Lukituksen vanheneminen"
 
 #: weblate/billing/admin.py:82 weblate/templates/billing/list.html:8
 #: weblate/templates/billing/status.html:112
@@ -2620,10 +2619,8 @@ msgid "Replacements while rendering"
 msgstr "Korvaava teksti"
 
 #: weblate/checks/flags.py:72
-#, fuzzy
-#| msgid "Strings with shapings"
 msgid "String variant"
-msgstr "Muotoillut merkkijonot"
+msgstr "Tekstivariantti"
 
 #: weblate/checks/flags.py:251
 #, python-format
@@ -2646,20 +2643,19 @@ msgid "Missing parameters for translation flag: \"%s\""
 msgstr "Parametrit puuttuvat käännösehdolle: \"%s\""
 
 #: weblate/checks/format.py:392
-#, fuzzy, python-format
-#| msgid "Following format strings are extra: %s"
+#, python-format
 msgid "Following format strings are wrongly ordered: %s"
-msgstr "Seuraavat muotoilumerkkijonot ovat ylimääräisiä: %s"
+msgstr "Seuraavat muotoilutekstit on järjestetty väärin: %s"
 
 #: weblate/checks/format.py:396 weblate/checks/placeholders.py:93
 #, python-format
 msgid "Following format strings are missing: %s"
-msgstr "Seuraavat muotoilumerkkijonot puutuvat: %s"
+msgstr "Seuraavat muotoilutekstit puuttuvat: %s"
 
 #: weblate/checks/format.py:400 weblate/checks/placeholders.py:98
 #, python-format
 msgid "Following format strings are extra: %s"
-msgstr "Seuraavat muotoilumerkkijonot ovat ylimääräisiä: %s"
+msgstr "Seuraavat muotoilutekstit ovat ylimääräisiä: %s"
 
 #: weblate/checks/format.py:451
 msgid "Python format"
@@ -2707,7 +2703,7 @@ msgstr "Lua-muoto"
 
 #: weblate/checks/format.py:492
 msgid "Lua format string does not match source"
-msgstr "Lua-muotoinen muotoilumerkkijono ei vastaa lähdettä"
+msgstr "Lua-muotoinen muotoiluteksti ei vastaa lähdettä"
 
 #: weblate/checks/format.py:499
 msgid "Object Pascal format"
@@ -3754,7 +3750,7 @@ msgstr "huhti"
 #: weblate/metrics/wrapper.py:35
 msgctxt "Short name of month"
 msgid "May"
-msgstr "toukokuu"
+msgstr "touko"
 
 #: weblate/metrics/wrapper.py:36
 msgctxt "Short name of month"
@@ -3924,16 +3920,13 @@ msgid "Server Error"
 msgstr "Palvelinvirhe"
 
 #: weblate/templates/500.html:16
-#, fuzzy, python-format
-#| msgid ""
-#| "The server had serious problems serving your request. Trained monkeys are "
-#| "en-route fixing the issue."
+#, python-format
 msgid ""
 "The server had serious problems serving your request, and this error has "
 "been recorded as %(error_id)s."
 msgstr ""
-"Palvelin kohtasi vakavia ongelmia toteuttaessaan pyyntöäsi. Koulutetut "
-"apinamme ovat matkalla korjaamaan ongelmaa."
+"Palvelimella oli vakavia ongelmia pyyntösi palvelemisessa ja tämä virhe on "
+"kirjattu koodilla %(error_id)s."
 
 #: weblate/templates/500.html:36
 #, fuzzy
@@ -4071,10 +4064,10 @@ msgstr ""
 "älä tällä lomakkeella."
 
 #: weblate/templates/accounts/contact.html:18
-#, fuzzy, python-format
-#| msgid "You can only contact maintainers of the whole server here."
+#, python-format
 msgid "You can only contact administrators of %(site_title)s here."
-msgstr "Voit ottaa tässä yhteyttä vain koko palvelimen ylläpitäjiin."
+msgstr ""
+"Täällä voit ottaa yhteyttä vain sivun %(site_title)s järjestelmänvalvojiin."
 
 #: weblate/templates/accounts/contact.html:20
 msgid "You can only contact administrators of the whole server here."
@@ -4517,10 +4510,8 @@ msgstr "Henkilökohtainen rajapinta-avaimesi:"
 
 #: weblate/templates/accounts/profile.html:263
 #: weblate/templates/manage-access.html:202
-#, fuzzy
-#| msgid "Copy to clipboard"
 msgid "API key copied to clipboard."
-msgstr "Kopioi leikepöydälle"
+msgstr "API-avain kopioitu leikepöydälle."
 
 #: weblate/templates/accounts/profile.html:263
 #: weblate/templates/addons/cdnjs.html:9
@@ -6109,12 +6100,10 @@ msgid_plural ""
 "strong>."
 msgstr[0] ""
 "Kielen %(project)s käännösprojekti sisältää tällä hetkellä <strong>%(count)s "
-"merkkijono </strong> käännökselle ja on <strong>%(percent)s %% valmis</"
-"strong>."
+"tekstin</strong> käännettäväksi ja on <strong>%(percent)s %% valmis</strong>."
 msgstr[1] ""
 "Kielen %(project)s käännösprojekti sisältää tällä hetkellä <strong>%(count)s "
-"merkkijono </strong> käännökselle ja on <strong>%(percent)s %% valmis</"
-"strong>."
+"tekstiä</strong> käännettäväksi ja on <strong>%(percent)s %% valmis</strong>."
 
 #: weblate/templates/engage.html:44
 #, python-format
@@ -7818,7 +7807,7 @@ msgstr "Tekstit"
 
 #: weblate/templates/screenshots/screenshot_list.html:54
 msgid "There are no assigned strings."
-msgstr "Määritettyjä merkkijonoja ei ole."
+msgstr "Määritettyjä tekstejä ei ole."
 
 #: weblate/templates/screenshots/screenshot_sources_search_actions.html:2
 #, fuzzy
@@ -7956,10 +7945,8 @@ msgstr "Tämä käännöskomponentti on linkitetty %(target)s-etäarkistoon."
 
 #: weblate/templates/snippets/git-info.html:16
 #: weblate/templates/snippets/git-info.html:65
-#, fuzzy
-#| msgid "Repository operation"
 msgid "Repository URL copied to clipboard."
-msgstr "Arkistotoimenpide"
+msgstr "Arkiston URL-osoite kopioitu leikepöydälle."
 
 #: weblate/templates/snippets/git-info.html:21 weblate/trans/forms.py:1521
 #: weblate/trans/forms.py:1665 weblate/trans/models/component.py:315
@@ -7978,10 +7965,8 @@ msgid "%(author)s authored %(date)s"
 msgstr "Tehnyt %(author)s %(date)s"
 
 #: weblate/templates/snippets/git-info.html:46
-#, fuzzy
-#| msgid "Thanks for using Weblate!"
 msgid "Last commit in Weblate"
-msgstr "Kiitos Weblaten käyttämisestä!"
+msgstr "Viimeisin sitoutus Weblatessa"
 
 #: weblate/templates/snippets/git-info.html:62
 #, fuzzy
@@ -9303,10 +9288,8 @@ msgid "Delete string"
 msgstr "Poista teksti"
 
 #: weblate/templates/translate.html:189
-#, fuzzy
-#| msgid "Shapings of the string"
 msgid "Add variant of this string"
-msgstr "Muotoilut merkkijonot"
+msgstr "Lisää tämän tekstin variantti"
 
 #: weblate/templates/translate.html:199 weblate/templates/translate.html:224
 msgid "This translation is currently locked."
@@ -9371,7 +9354,7 @@ msgstr "Lähellä olevat tekstit"
 
 #: weblate/templates/translate.html:238
 msgid "Strings with similar keys"
-msgstr "Merkkijonot samankaltaisilla avaimilla"
+msgstr "Tekstit samankaltaisilla avaimilla"
 
 #: weblate/templates/translate.html:238
 #, fuzzy
@@ -9380,10 +9363,8 @@ msgid "Similar keys"
 msgstr "Samankaltaisuus"
 
 #: weblate/templates/translate.html:241
-#, fuzzy
-#| msgid "Shapings of the string"
 msgid "Variants of the string"
-msgstr "Muotoilut merkkijonot"
+msgstr "Tekstin variantit"
 
 #: weblate/templates/translate.html:241 weblate/templates/translate.html:508
 msgid "Variants"
@@ -9494,13 +9475,11 @@ msgstr[0] "Tekstille on %(count)s kommentti."
 msgstr[1] "Tekstille on %(count)s kommenttia."
 
 #: weblate/templates/translate.html:510
-#, fuzzy, python-format
-#| msgid "There is %(count)s shaping for this string."
-#| msgid_plural "There are %(count)s shapings for this string."
+#, python-format
 msgid "There is %(count)s variant of this string."
 msgid_plural "There are %(count)s variants of this string."
-msgstr[0] "Tälle merkkijonolle on %(count)s muotoilu ehdotus."
-msgstr[1] "Tälle merkkijonolle on %(count)s muotoilu ehdotusta."
+msgstr[0] "Tälle tekstille on %(count)s variantti."
+msgstr[1] "Tälle tekstille on %(count)s varianttia."
 
 #: weblate/templates/translate.html:527
 #, python-format
@@ -9576,10 +9555,9 @@ msgid "<code>%(flags)s</code> is inherited from %(object)s."
 msgstr ""
 
 #: weblate/templates/translate.html:762
-#, fuzzy, python-format
-#| msgid "Shapings of the string"
+#, python-format
 msgid "Add a new variant for \"%(existing)s\""
-msgstr "Muotoilut merkkijonot"
+msgstr "Lisää uusi variantti tekstille \"%(existing)s\""
 
 #: weblate/templates/translation.html:55
 msgid "Download translation"
@@ -9861,21 +9839,19 @@ msgstr "Kaikki Weblatella tehdyt tuoreet muutokset sivustolla %s."
 
 #: weblate/trans/filter.py:34
 msgid "Read only strings"
-msgstr "Vain-luku-merkkijonot"
+msgstr "Vain-luku-tekstit"
 
 #: weblate/trans/filter.py:38 weblate/trans/filter.py:125
 msgid "Strings marked for edit"
 msgstr "Muokkaamista vaativiksi merkityt tekstit"
 
 #: weblate/trans/filter.py:40
-#, fuzzy
-#| msgid "Strings with shapings"
 msgid "Strings with variants"
-msgstr "Muotoillut merkkijonot"
+msgstr "Tekstit, joissa on variantteja"
 
 #: weblate/trans/filter.py:41
 msgid "Strings with labels"
-msgstr "Merkkijonot nimiöillä"
+msgstr "Tekstit, joissa on merkintöjä"
 
 #: weblate/trans/filter.py:42
 msgid "Strings with context"
@@ -9887,11 +9863,11 @@ msgstr "Toimenpiteitä vaativat tekstit, joille ei ole ehdotuksia"
 
 #: weblate/trans/filter.py:52
 msgid "Translated strings with any failing checks"
-msgstr "Käännetyt merkkijonot epäonnistuneilla tarkastuksilla"
+msgstr "Käännetyt tekstit epäonnistuneilla tarkastuksilla"
 
 #: weblate/trans/filter.py:57
 msgid "Translated strings with dismissed checks"
-msgstr "Käännetyt merkkijonot hylätyillä tarkastuksilla"
+msgstr "Käännetyt tekstit hylätyillä tarkastuksilla"
 
 #: weblate/trans/filter.py:60 weblate/trans/filter.py:130
 msgid "Approved strings"
@@ -9903,7 +9879,7 @@ msgstr "Tarkistusta odottavat tekstit"
 
 #: weblate/trans/filter.py:67
 msgid "Strings without a label"
-msgstr "Merkkijonot ilman nimiötä"
+msgstr "Tekstit ilman merkintöjä"
 
 #: weblate/trans/filter.py:68
 msgid "Pluralized string"
@@ -10069,7 +10045,7 @@ msgstr "Tekijän sähköposti"
 
 #: weblate/trans/forms.py:791 weblate/trans/forms.py:793
 msgid "Could not find merged string."
-msgstr "Yhdistettyä merkkijonoa ei löydy."
+msgstr "Yhdistettyä tekstiä ei löydy."
 
 #: weblate/trans/forms.py:811
 msgid "Could not find reverted change."
@@ -11777,10 +11753,9 @@ msgstr "Tämä teksti näyttää jo olevan olemassa."
 #: weblate/trans/models/translation.py:1402
 #: weblate/trans/models/translation.py:1406
 #: weblate/trans/models/translation.py:1421
-#, fuzzy, python-format
-#| msgid "Pending string"
+#, python-format
 msgid "Failed adding string: %s"
-msgstr "Odottava teksti"
+msgstr "Tekstin lisääminen epäonnistui: %s"
 
 #: weblate/trans/models/translation.py:1374
 msgid "No translation found."
@@ -11792,16 +11767,14 @@ msgid "Failed to parse new string"
 msgstr "Uuden tekstin jäsentäminen epäonnistui"
 
 #: weblate/trans/models/translation.py:1429
-#, fuzzy, python-format
-#| msgid "Following components would be created"
+#, python-format
 msgid "Context would be created as \"%s\""
-msgstr "Seuraavat komponentit voitaisiin luoda"
+msgstr "Asiayhteys luotaisiin nimellä \"%s\""
 
 #: weblate/trans/models/translation.py:1433
-#, fuzzy, python-format
-#| msgid "Following components would be created"
+#, python-format
 msgid "Source would be created as %s"
-msgstr "Seuraavat komponentit voitaisiin luoda"
+msgstr "Lähde luotaisiin nimellä %s"
 
 #: weblate/trans/models/unit.py:1402
 #, fuzzy
@@ -12575,7 +12548,7 @@ msgstr "Projektin kieli poistettiin."
 
 #: weblate/trans/views/source.py:75
 msgid "Failed to change additional string info!"
-msgstr "Merkkijonon lisätietojen muuttaminen epäonnistui!"
+msgstr "Tekstin lisätietojen muuttaminen epäonnistui!"
 
 #: weblate/trans/widgets.py:247
 msgid "Big status badge"
@@ -12711,7 +12684,7 @@ msgstr "Mallin tekeminen epäonnistui: {}"
 msgid ""
 "The format strings are no longer supported, please use the template language "
 "instead."
-msgstr "Muotoilumerkkijonoja ei enää tueta, ole hyvä ja käytä mallinekieltä."
+msgstr "Muotoilutekstejä ei enää tueta, ole hyvä ja käytä mallinekieltä."
 
 #: weblate/utils/render.py:183
 msgid "The editor link lacks URL scheme!"
@@ -12845,7 +12818,7 @@ msgstr "Sijainti"
 
 #: weblate/utils/views.py:136
 msgid "Age of string"
-msgstr "Merkkijonon ikä"
+msgstr "Tekstin ikä"
 
 #: weblate/utils/views.py:137
 msgid "Number of words"
@@ -13084,10 +13057,9 @@ msgid "Could not dismiss the configuration error!"
 msgstr "Asetusvirheen sivuuttaminen epäonnistui!"
 
 #: weblate/wladmin/views.py:356
-#, fuzzy, python-format
-#| msgid "Create an account using:"
+#, python-format
 msgid "Created user account %s."
-msgstr "Luo käyttäjätili käyttäen palvelua:"
+msgstr "Käyttäjätili %s luotu."
 
 #~ msgid "Permission"
 #~ msgstr "Käyttöoikeus"
