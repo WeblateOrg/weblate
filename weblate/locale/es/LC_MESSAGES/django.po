@@ -22,7 +22,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.7\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
-"POT-Creation-Date: 2021-06-15 04:46+0000\n"
+"POT-Creation-Date: 2021-06-16 18:40+0000\n"
 "PO-Revision-Date: 2021-06-03 15:03+0000\n"
 "Last-Translator: Jorge Maldonado Ventura <jorgesumle@freakspot.net>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/weblate/"
@@ -12116,17 +12116,23 @@ msgstr ""
 "{0} se traduce en {1} idiomas mediante Weblate. Únase a la traducción o "
 "empiece a traducir su propio proyecto."
 
-#: weblate/trans/validators.py:29
+#: weblate/trans/validators.py:30
 msgid "Filemask does not contain * as a language placeholder!"
 msgstr "La máscara de archivos no contiene «*» como sustitutorio del idioma."
 
-#: weblate/trans/validators.py:38
+#: weblate/trans/validators.py:39
 msgid ""
 "A value of 1 is not allowed for autoaccept as it would permit users to vote "
 "on their own suggestions."
 msgstr ""
 "No se permite un valor de 1 para la aceptación automática, ya que permitiría "
 "a los usuarios votar sus propias sugerencias."
+
+#: weblate/trans/validators.py:50
+#, fuzzy, python-format
+#| msgid "Failed to update git: %s"
+msgid "Failed to parse flags: %s"
+msgstr "No se pudo actualizar git: %s"
 
 #: weblate/trans/views/about.py:34
 msgid "Keys"
@@ -12140,7 +12146,7 @@ msgstr "Estadísticas de Weblate"
 msgid "Invalid parameters!"
 msgstr "Los parámetros no son válidos."
 
-#: weblate/trans/views/acl.py:88 weblate/trans/views/acl.py:224
+#: weblate/trans/views/acl.py:88 weblate/trans/views/acl.py:227
 msgid "You can not remove last owner!"
 msgstr "No se puede quitar al último propietario."
 
@@ -12148,27 +12154,33 @@ msgstr "No se puede quitar al último propietario."
 msgid "User has been added to this project."
 msgstr "Se ha añadido al usuario a este proyecto."
 
-#: weblate/trans/views/acl.py:135 weblate/trans/views/acl.py:195
+#: weblate/trans/views/acl.py:135 weblate/trans/views/acl.py:198
 msgid "Failed to find group to add a user!"
 msgstr "No se pudo encontrar el grupo para añadir al usuario."
 
-#: weblate/trans/views/acl.py:164
+#: weblate/trans/views/acl.py:147
+#, fuzzy
+#| msgid "User has been added to this project."
+msgid "You can not block yourself on this project."
+msgstr "Se ha añadido al usuario a este proyecto."
+
+#: weblate/trans/views/acl.py:167
 #, fuzzy
 #| msgid "User has been added to this project."
 msgid "User has been blocked on this project."
 msgstr "Se ha añadido al usuario a este proyecto."
 
-#: weblate/trans/views/acl.py:166
+#: weblate/trans/views/acl.py:169
 #, fuzzy
 #| msgid "User has been added to this project."
 msgid "User is already blocked on this project."
 msgstr "Se ha añadido al usuario a este proyecto."
 
-#: weblate/trans/views/acl.py:193 weblate/trans/views/acl.py:208
+#: weblate/trans/views/acl.py:196 weblate/trans/views/acl.py:211
 msgid "User has been invited to this project."
 msgstr "Se ha invitado al usuario a este proyecto."
 
-#: weblate/trans/views/acl.py:233
+#: weblate/trans/views/acl.py:236
 msgid "User has been removed from this project."
 msgstr "Se ha eliminado al usuario de este proyecto."
 
@@ -16942,9 +16954,6 @@ msgstr "Crear una cuenta a través de:"
 #~ msgid "Can not write to home directory, please check documentation."
 #~ msgstr ""
 #~ "No se pudo escribir al directorio del usuario, revise la documentación."
-
-#~ msgid "Failed to update git: %s"
-#~ msgstr "No se pudo actualizar git: %s"
 
 #~ msgid ""
 #~ "By registering you agree to use your name and email in Git commits and "

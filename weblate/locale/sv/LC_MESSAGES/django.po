@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.7\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
-"POT-Creation-Date: 2021-06-15 04:46+0000\n"
+"POT-Creation-Date: 2021-06-16 18:40+0000\n"
 "PO-Revision-Date: 2021-05-31 03:28+0000\n"
 "Last-Translator: Johan Jacobsson <johan.jacobsson@telia.com>\n"
 "Language-Team: Swedish <https://hosted.weblate.org/projects/weblate/"
@@ -11953,17 +11953,23 @@ msgstr ""
 "{0} är översatt till {1} språk med hjälp av Weblate. Bidra till "
 "översättningen eller börja översätta ditt eget projekt."
 
-#: weblate/trans/validators.py:29
+#: weblate/trans/validators.py:30
 msgid "Filemask does not contain * as a language placeholder!"
 msgstr "Filmasken innehåller inte * som en språkplatshållare!"
 
-#: weblate/trans/validators.py:38
+#: weblate/trans/validators.py:39
 msgid ""
 "A value of 1 is not allowed for autoaccept as it would permit users to vote "
 "on their own suggestions."
 msgstr ""
 "Värdet 1 är inte tillåtet för automatiskt godkännande eftersom det gör det "
 "möjligt att rösta på sina egna förslag."
+
+#: weblate/trans/validators.py:50
+#, fuzzy, python-format
+#| msgid "Failed to update git: %s"
+msgid "Failed to parse flags: %s"
+msgstr "Misslyckades med att uppdatera git: %s"
 
 #: weblate/trans/views/about.py:34
 msgid "Keys"
@@ -11977,7 +11983,7 @@ msgstr "Weblate statistik"
 msgid "Invalid parameters!"
 msgstr "Ogiltiga parametrar!"
 
-#: weblate/trans/views/acl.py:88 weblate/trans/views/acl.py:224
+#: weblate/trans/views/acl.py:88 weblate/trans/views/acl.py:227
 msgid "You can not remove last owner!"
 msgstr "Du kan inte ta bort sista ägaren!"
 
@@ -11985,27 +11991,33 @@ msgstr "Du kan inte ta bort sista ägaren!"
 msgid "User has been added to this project."
 msgstr "Användaren har lagts till i detta projekt."
 
-#: weblate/trans/views/acl.py:135 weblate/trans/views/acl.py:195
+#: weblate/trans/views/acl.py:135 weblate/trans/views/acl.py:198
 msgid "Failed to find group to add a user!"
 msgstr "Gruppen som användaren skulle läggas till kunde inte hittas!"
 
-#: weblate/trans/views/acl.py:164
+#: weblate/trans/views/acl.py:147
+#, fuzzy
+#| msgid "User has been added to this project."
+msgid "You can not block yourself on this project."
+msgstr "Användaren har lagts till i detta projekt."
+
+#: weblate/trans/views/acl.py:167
 #, fuzzy
 #| msgid "User has been added to this project."
 msgid "User has been blocked on this project."
 msgstr "Användaren har lagts till i detta projekt."
 
-#: weblate/trans/views/acl.py:166
+#: weblate/trans/views/acl.py:169
 #, fuzzy
 #| msgid "User has been added to this project."
 msgid "User is already blocked on this project."
 msgstr "Användaren har lagts till i detta projekt."
 
-#: weblate/trans/views/acl.py:193 weblate/trans/views/acl.py:208
+#: weblate/trans/views/acl.py:196 weblate/trans/views/acl.py:211
 msgid "User has been invited to this project."
 msgstr "Användaren har blivit inbjuden till detta projekt."
 
-#: weblate/trans/views/acl.py:233
+#: weblate/trans/views/acl.py:236
 msgid "User has been removed from this project."
 msgstr "Användaren har tagits bort från detta projekt."
 
@@ -16551,9 +16563,6 @@ msgstr "Skapa ett konto med:"
 
 #~ msgid "Home directory"
 #~ msgstr "Hemkatalog"
-
-#~ msgid "Failed to update git: %s"
-#~ msgstr "Misslyckades med att uppdatera git: %s"
 
 #~ msgid ""
 #~ "By registering you agree to use your name and email in Git commits and "

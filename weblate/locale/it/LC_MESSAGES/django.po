@@ -30,7 +30,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.7\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
-"POT-Creation-Date: 2021-06-15 04:46+0000\n"
+"POT-Creation-Date: 2021-06-16 18:40+0000\n"
 "PO-Revision-Date: 2021-05-13 13:44+0000\n"
 "Last-Translator: bovirus <roberto.boriotti@canon-europe.com>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/weblate/"
@@ -12106,17 +12106,23 @@ msgstr ""
 "{0} è tradotta in {1} lingue usando Weblate. Unisciti al progetto o inizia a "
 "tradurre il tuo progetto."
 
-#: weblate/trans/validators.py:29
+#: weblate/trans/validators.py:30
 msgid "Filemask does not contain * as a language placeholder!"
 msgstr "La maschera file non contiene * come identificatore lingua!"
 
-#: weblate/trans/validators.py:38
+#: weblate/trans/validators.py:39
 msgid ""
 "A value of 1 is not allowed for autoaccept as it would permit users to vote "
 "on their own suggestions."
 msgstr ""
 "Il valore 1 per l'accettazione automatica non è consentito poiché "
 "permetterebbe agli utenti di votare i propri suggerimenti."
+
+#: weblate/trans/validators.py:50
+#, fuzzy, python-format
+#| msgid "Failed to parse JSON file: {!s}"
+msgid "Failed to parse flags: %s"
+msgstr "Analisi file JSON non riuscita: {!s}"
 
 #: weblate/trans/views/about.py:34
 msgid "Keys"
@@ -12130,7 +12136,7 @@ msgstr "Statistiche Weblate"
 msgid "Invalid parameters!"
 msgstr "Parametri non validi!"
 
-#: weblate/trans/views/acl.py:88 weblate/trans/views/acl.py:224
+#: weblate/trans/views/acl.py:88 weblate/trans/views/acl.py:227
 msgid "You can not remove last owner!"
 msgstr "Impossibile rimuovere l'ultimo proprietario!"
 
@@ -12138,27 +12144,33 @@ msgstr "Impossibile rimuovere l'ultimo proprietario!"
 msgid "User has been added to this project."
 msgstr "L'utente è stato aggiunto a questo progetto."
 
-#: weblate/trans/views/acl.py:135 weblate/trans/views/acl.py:195
+#: weblate/trans/views/acl.py:135 weblate/trans/views/acl.py:198
 msgid "Failed to find group to add a user!"
 msgstr "Impossibile trovare il gruppo a cui aggiungere l'utente!"
 
-#: weblate/trans/views/acl.py:164
+#: weblate/trans/views/acl.py:147
+#, fuzzy
+#| msgid "User has been added to this project."
+msgid "You can not block yourself on this project."
+msgstr "L'utente è stato aggiunto a questo progetto."
+
+#: weblate/trans/views/acl.py:167
 #, fuzzy
 #| msgid "User has been added to this project."
 msgid "User has been blocked on this project."
 msgstr "L'utente è stato aggiunto a questo progetto."
 
-#: weblate/trans/views/acl.py:166
+#: weblate/trans/views/acl.py:169
 #, fuzzy
 #| msgid "User has been added to this project."
 msgid "User is already blocked on this project."
 msgstr "L'utente è stato aggiunto a questo progetto."
 
-#: weblate/trans/views/acl.py:193 weblate/trans/views/acl.py:208
+#: weblate/trans/views/acl.py:196 weblate/trans/views/acl.py:211
 msgid "User has been invited to this project."
 msgstr "L'utente è stato invitato a questo progetto."
 
-#: weblate/trans/views/acl.py:233
+#: weblate/trans/views/acl.py:236
 msgid "User has been removed from this project."
 msgstr "L'utente è stato rimosso da questo progetto."
 

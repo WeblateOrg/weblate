@@ -28,7 +28,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.7\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
-"POT-Creation-Date: 2021-06-15 04:46+0000\n"
+"POT-Creation-Date: 2021-06-16 18:40+0000\n"
 "PO-Revision-Date: 2021-06-16 07:02+0000\n"
 "Last-Translator: Ldm Public <ldmpub@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/weblate/"
@@ -3986,8 +3986,8 @@ msgid ""
 "contact server admins in case the error persists."
 msgstr ""
 "Le serveur a rencontré de sérieuses difficultés lors du traitement de votre "
-"requête. Vous pouvez contacter les administrateurs du serveur au cas où l’"
-"erreur persiste."
+"requête. Vous pouvez contacter les administrateurs du serveur au cas où "
+"l’erreur persiste."
 
 #: weblate/templates/about/index.html:5 weblate/templates/about/index.html:11
 #: weblate/templates/about/keys.html:6 weblate/templates/about/stats.html:7
@@ -12181,18 +12181,24 @@ msgstr ""
 "{0} est traduit en {1} langues grâce à Weblate. Participez à ces traductions "
 "ou démarrez votre propre projet de traduction."
 
-#: weblate/trans/validators.py:29
+#: weblate/trans/validators.py:30
 msgid "Filemask does not contain * as a language placeholder!"
 msgstr ""
 "Le motif de fichier ne contient pas le symbole * à remplacer par la langue !"
 
-#: weblate/trans/validators.py:38
+#: weblate/trans/validators.py:39
 msgid ""
 "A value of 1 is not allowed for autoaccept as it would permit users to vote "
 "on their own suggestions."
 msgstr ""
 "La valeur 1 est interdite pour l’auto-acceptation puisqu’elle permettrait à "
 "un utilisateur de voter pour ses propres suggestions."
+
+#: weblate/trans/validators.py:50
+#, fuzzy, python-format
+#| msgid "Failed to update git: %s"
+msgid "Failed to parse flags: %s"
+msgstr "Échec de mise à jour git : %s"
 
 #: weblate/trans/views/about.py:34
 msgid "Keys"
@@ -12206,7 +12212,7 @@ msgstr "Statistiques Weblate"
 msgid "Invalid parameters!"
 msgstr "Paramètres non valides !"
 
-#: weblate/trans/views/acl.py:88 weblate/trans/views/acl.py:224
+#: weblate/trans/views/acl.py:88 weblate/trans/views/acl.py:227
 msgid "You can not remove last owner!"
 msgstr "Vous ne pouvez pas retirer l’unique propriétaire !"
 
@@ -12214,23 +12220,29 @@ msgstr "Vous ne pouvez pas retirer l’unique propriétaire !"
 msgid "User has been added to this project."
 msgstr "L’utilisateur a été ajouté à ce projet."
 
-#: weblate/trans/views/acl.py:135 weblate/trans/views/acl.py:195
+#: weblate/trans/views/acl.py:135 weblate/trans/views/acl.py:198
 msgid "Failed to find group to add a user!"
 msgstr "Échec de recherche de groupe dans lequel ajouter l’utilisateur !"
 
-#: weblate/trans/views/acl.py:164
+#: weblate/trans/views/acl.py:147
+#, fuzzy
+#| msgid "User has been blocked on this project."
+msgid "You can not block yourself on this project."
+msgstr "L’utilisateur a été bloqué sur ce projet."
+
+#: weblate/trans/views/acl.py:167
 msgid "User has been blocked on this project."
 msgstr "L’utilisateur a été bloqué sur ce projet."
 
-#: weblate/trans/views/acl.py:166
+#: weblate/trans/views/acl.py:169
 msgid "User is already blocked on this project."
 msgstr "L’utilisateur est déjà bloqué sur ce projet."
 
-#: weblate/trans/views/acl.py:193 weblate/trans/views/acl.py:208
+#: weblate/trans/views/acl.py:196 weblate/trans/views/acl.py:211
 msgid "User has been invited to this project."
 msgstr "L’utilisateur a été invité à ce projet."
 
-#: weblate/trans/views/acl.py:233
+#: weblate/trans/views/acl.py:236
 msgid "User has been removed from this project."
 msgstr "L’utilisateur a été retiré du projet."
 
@@ -17043,9 +17055,6 @@ msgstr "Compte utilisateur %s créé."
 #~ msgstr ""
 #~ "Impossible d'écrire dans le dossier racine, veuillez consulter la "
 #~ "documentation."
-
-#~ msgid "Failed to update git: %s"
-#~ msgstr "Échec de mise à jour git : %s"
 
 #~ msgid ""
 #~ "By registering you agree to use your name and email in Git commits and "

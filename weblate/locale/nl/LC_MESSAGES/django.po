@@ -18,7 +18,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.7\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
-"POT-Creation-Date: 2021-06-15 04:46+0000\n"
+"POT-Creation-Date: 2021-06-16 18:40+0000\n"
 "PO-Revision-Date: 2021-06-16 07:02+0000\n"
 "Last-Translator: Heimen Stoffels <vistausss@fastmail.com>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/weblate/"
@@ -12026,17 +12026,23 @@ msgstr ""
 "{0} is vertaald in {1} talen met behulp van Weblate. Vertaal mee of begin "
 "met het vertalen van uw eigen project."
 
-#: weblate/trans/validators.py:29
+#: weblate/trans/validators.py:30
 msgid "Filemask does not contain * as a language placeholder!"
 msgstr "Bestandsmasker bevat geen * als een tijdelijke aanduiding van de taal!"
 
-#: weblate/trans/validators.py:38
+#: weblate/trans/validators.py:39
 msgid ""
 "A value of 1 is not allowed for autoaccept as it would permit users to vote "
 "on their own suggestions."
 msgstr ""
 "Een waarde van 1 is niet toegestaan voor automatisch aanvaarden omdat het "
 "gebruikers zou toelaten om te stemmen op hun eigen suggesties."
+
+#: weblate/trans/validators.py:50
+#, fuzzy, python-format
+#| msgid "Failed to update git: %s"
+msgid "Failed to parse flags: %s"
+msgstr "Bijwerken van Git is mislukt: %s"
 
 #: weblate/trans/views/about.py:34
 msgid "Keys"
@@ -12050,7 +12056,7 @@ msgstr "Weblate-statistieken"
 msgid "Invalid parameters!"
 msgstr "Ongeldige aanvullende opties!"
 
-#: weblate/trans/views/acl.py:88 weblate/trans/views/acl.py:224
+#: weblate/trans/views/acl.py:88 weblate/trans/views/acl.py:227
 msgid "You can not remove last owner!"
 msgstr "De laatste eigenaar kan niet worden verwijderd!"
 
@@ -12058,23 +12064,29 @@ msgstr "De laatste eigenaar kan niet worden verwijderd!"
 msgid "User has been added to this project."
 msgstr "De gebruiker is toegevoegd aan dit project."
 
-#: weblate/trans/views/acl.py:135 weblate/trans/views/acl.py:195
+#: weblate/trans/views/acl.py:135 weblate/trans/views/acl.py:198
 msgid "Failed to find group to add a user!"
 msgstr "Geen groep gevonden om een gebruiker aan toe te voegen!"
 
-#: weblate/trans/views/acl.py:164
+#: weblate/trans/views/acl.py:147
+#, fuzzy
+#| msgid "User has been blocked on this project."
+msgid "You can not block yourself on this project."
+msgstr "De gebruiker heeft geen toegang meer tot dit project."
+
+#: weblate/trans/views/acl.py:167
 msgid "User has been blocked on this project."
 msgstr "De gebruiker heeft geen toegang meer tot dit project."
 
-#: weblate/trans/views/acl.py:166
+#: weblate/trans/views/acl.py:169
 msgid "User is already blocked on this project."
 msgstr "De gebruiker heeft al geen toegang meer tot dit project."
 
-#: weblate/trans/views/acl.py:193 weblate/trans/views/acl.py:208
+#: weblate/trans/views/acl.py:196 weblate/trans/views/acl.py:211
 msgid "User has been invited to this project."
 msgstr "De gebruiker is uitgenodigd voor dit project."
 
-#: weblate/trans/views/acl.py:233
+#: weblate/trans/views/acl.py:236
 msgid "User has been removed from this project."
 msgstr "De gebruiker is verwijderd uit dit project."
 
@@ -16807,9 +16819,6 @@ msgstr "‘%s’ is aangemaakt."
 #~ msgstr ""
 #~ "Schrijven naar persoonlijk map niet mogelijk, gelieve de documentatie te "
 #~ "bekijken."
-
-#~ msgid "Failed to update git: %s"
-#~ msgstr "Bijwerken van Git is mislukt: %s"
 
 #~ msgid ""
 #~ "By registering you agree to use your name and email in Git commits and "

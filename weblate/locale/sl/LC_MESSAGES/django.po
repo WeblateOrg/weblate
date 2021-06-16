@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.7\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
-"POT-Creation-Date: 2021-06-15 04:46+0000\n"
+"POT-Creation-Date: 2021-06-16 18:40+0000\n"
 "PO-Revision-Date: 2021-04-23 10:32+0000\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <https://hosted.weblate.org/projects/weblate/"
@@ -13571,13 +13571,13 @@ msgstr ""
 "{0} je preveden v {1} jezikov z uporabo Weblate. Pridružite se prevajanju "
 "ali pričnite prevajati svoj projekt."
 
-#: weblate/trans/validators.py:29
+#: weblate/trans/validators.py:30
 #, fuzzy
 #| msgid "File mask does not contain * as a language placeholder!"
 msgid "Filemask does not contain * as a language placeholder!"
 msgstr "Maska datoteke ne vsebuje * kot označbe mesta jezika!"
 
-#: weblate/trans/validators.py:38
+#: weblate/trans/validators.py:39
 #, fuzzy
 #| msgid ""
 #| "Value of 1 is not allowed for autoaccept as every user gives vote to his "
@@ -13588,6 +13588,12 @@ msgid ""
 msgstr ""
 "Vrednost 1 ni dovoljena za samodejno sprejemanje, saj vsak uporabnik glasuje "
 "za svoj predlog."
+
+#: weblate/trans/validators.py:50
+#, fuzzy, python-format
+#| msgid "Failed to update git: %s"
+msgid "Failed to parse flags: %s"
+msgstr "Nisem uspel posodobiti skladišča git: %s"
 
 #: weblate/trans/views/about.py:34
 msgid "Keys"
@@ -13601,7 +13607,7 @@ msgstr "Statistika Weblate"
 msgid "Invalid parameters!"
 msgstr "Neveljavni parametri!"
 
-#: weblate/trans/views/acl.py:88 weblate/trans/views/acl.py:224
+#: weblate/trans/views/acl.py:88 weblate/trans/views/acl.py:227
 msgid "You can not remove last owner!"
 msgstr "Ne morete odstraniti zadnjega lastnika!"
 
@@ -13609,29 +13615,35 @@ msgstr "Ne morete odstraniti zadnjega lastnika!"
 msgid "User has been added to this project."
 msgstr "Uporabnika smo dodali k projektu."
 
-#: weblate/trans/views/acl.py:135 weblate/trans/views/acl.py:195
+#: weblate/trans/views/acl.py:135 weblate/trans/views/acl.py:198
 msgid "Failed to find group to add a user!"
 msgstr "Nismo uspeli najti skupine, da bi jo dodali uporabniku!"
 
-#: weblate/trans/views/acl.py:164
+#: weblate/trans/views/acl.py:147
+#, fuzzy
+#| msgid "User has been added to this project."
+msgid "You can not block yourself on this project."
+msgstr "Uporabnika smo dodali k projektu."
+
+#: weblate/trans/views/acl.py:167
 #, fuzzy
 #| msgid "User has been added to this project."
 msgid "User has been blocked on this project."
 msgstr "Uporabnika smo dodali k projektu."
 
-#: weblate/trans/views/acl.py:166
+#: weblate/trans/views/acl.py:169
 #, fuzzy
 #| msgid "User has been added to this project."
 msgid "User is already blocked on this project."
 msgstr "Uporabnika smo dodali k projektu."
 
-#: weblate/trans/views/acl.py:193 weblate/trans/views/acl.py:208
+#: weblate/trans/views/acl.py:196 weblate/trans/views/acl.py:211
 #, fuzzy
 #| msgid "User has been added to this project."
 msgid "User has been invited to this project."
 msgstr "Uporabnika smo dodali k projektu."
 
-#: weblate/trans/views/acl.py:233
+#: weblate/trans/views/acl.py:236
 msgid "User has been removed from this project."
 msgstr "Uporabnika smo odstranili od projekta."
 
@@ -18414,9 +18426,6 @@ msgstr "Izbriši račun"
 
 #~ msgid "Can not write to home directory, please check documentation."
 #~ msgstr "Ne morem pisati v domačo mapo; prosimo, oglejte si dokumentacijo."
-
-#~ msgid "Failed to update git: %s"
-#~ msgstr "Nisem uspel posodobiti skladišča git: %s"
 
 #~ msgid ""
 #~ "By registering you agree to use your name and email in Git commits and "

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-06-15 06:46+0200\n"
+"POT-Creation-Date: 2021-06-16 20:41+0200\n"
 "PO-Revision-Date: 2021-06-16 18:39+0000\n"
 "Last-Translator: amano <amano.hajime@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
@@ -1521,9 +1521,9 @@ msgstr "``weblate.cleanup.blank``"
 #: ../../admin/addons.rst:99 ../../admin/addons.rst:117
 #: ../../admin/addons.rst:133 ../../admin/addons.rst:266
 #: ../../admin/addons.rst:287 ../../admin/addons.rst:303
-#: ../../admin/addons.rst:388 ../../admin/addons.rst:408
-#: ../../admin/addons.rst:443 ../../admin/addons.rst:547
-#: ../../admin/addons.rst:597
+#: ../../admin/addons.rst:400 ../../admin/addons.rst:420
+#: ../../admin/addons.rst:455 ../../admin/addons.rst:559
+#: ../../admin/addons.rst:609
 msgid "`This add-on has no configuration.`"
 msgstr "`このアドオンには設定はありません。`"
 
@@ -1541,7 +1541,7 @@ msgstr ""
 "おいて原文に戻すのではなく、空の文字列が不足していると表示させる場合）。"
 
 #: ../../admin/addons.rst:109 ../../admin/addons.rst:125
-#: ../../admin/addons.rst:484 ../../admin/addons.rst:609
+#: ../../admin/addons.rst:496 ../../admin/addons.rst:621
 msgid ":ref:`faq-cleanup`"
 msgstr ":ref:`faq-cleanup`"
 
@@ -2083,34 +2083,49 @@ msgstr ""
 "テストには実際の言語を使用できますが、 Weblate には専用の疑似言語（ `en_XA` "
 "と `ar_XB` ）があります。"
 
-#: ../../admin/addons.rst:385
+#: ../../admin/addons.rst:384
+msgid ""
+"You can use this add-on to start translation to a new locale of an existing "
+"language or similar language. Once you add the translation to the component, "
+"follow to the add-on. *Example:* If you have `fr` and want to start `fr_CA` "
+"translation, simply set `fr` as the source, `fr_CA` as the target, and leave "
+"the prefix and suffix blank."
+msgstr ""
+
+#: ../../admin/addons.rst:390
+msgid ""
+"Uninstall the add-on once you have the new translation filled to prevent "
+"Weblate from changing the translations made after the copying."
+msgstr ""
+
+#: ../../admin/addons.rst:397
 msgid "Contributors in comment"
 msgstr "コメント内の貢献者情報"
 
-#: ../../admin/addons.rst:387
+#: ../../admin/addons.rst:399
 msgid "``weblate.gettext.authors``"
 msgstr "``weblate.gettext.authors``"
 
-#: ../../admin/addons.rst:390
+#: ../../admin/addons.rst:402
 msgid ""
 "Updates the comment part of the PO file header to include contributor names "
 "and years of contributions."
 msgstr ""
 "PO ファイルヘッダのコメントを更新し、貢献者名と貢献した西暦を追加します。"
 
-#: ../../admin/addons.rst:393
+#: ../../admin/addons.rst:405
 msgid "The PO file header will look like this:"
 msgstr ""
 
-#: ../../admin/addons.rst:405
+#: ../../admin/addons.rst:417
 msgid "Update ALL_LINGUAS variable in the \"configure\" file"
 msgstr "configure ファイルの ALL_LINGUAS 変数の更新"
 
-#: ../../admin/addons.rst:407
+#: ../../admin/addons.rst:419
 msgid "``weblate.gettext.configure``"
 msgstr "``weblate.gettext.configure``"
 
-#: ../../admin/addons.rst:410
+#: ../../admin/addons.rst:422
 msgid ""
 "Updates the ALL_LINGUAS variable in :file:`configure`, :file:`configure.in` "
 "or any :file:`configure.ac` files, when a new translation is added."
@@ -2118,25 +2133,25 @@ msgstr ""
 "新しい翻訳を追加すると、:file:`configure`、:file:`configure.in`、または任意"
 "の :file:`configure.ac` ファイルの ALL_LINGUAS 変数を更新します。"
 
-#: ../../admin/addons.rst:416
+#: ../../admin/addons.rst:428
 msgid "Customize gettext output"
 msgstr "gettext 出力のカスタマイズ"
 
-#: ../../admin/addons.rst:418
+#: ../../admin/addons.rst:430
 msgid "``weblate.gettext.customize``"
 msgstr "``weblate.gettext.customize``"
 
-#: ../../admin/addons.rst:420 ../../admin/addons.rst:622
+#: ../../admin/addons.rst:432 ../../admin/addons.rst:634
 #, fuzzy
 #| msgid "``auth``"
 msgid "``width``"
 msgstr "``auth``"
 
-#: ../../admin/addons.rst:420 ../../admin/addons.rst:622
+#: ../../admin/addons.rst:432 ../../admin/addons.rst:634
 msgid "Long lines wrapping"
 msgstr "長い行を折り返す"
 
-#: ../../admin/addons.rst:420
+#: ../../admin/addons.rst:432
 msgid ""
 "By default gettext wraps lines at 77 characters and at newlines. With the --"
 "no-wrap parameter, wrapping is only done at newlines."
@@ -2144,28 +2159,28 @@ msgstr ""
 "デフォルトでは、gettext は 77 文字または改行で行を折り返します。--no-wrap パ"
 "ラメータを指定すると、改行でのみ折り返されます。"
 
-#: ../../admin/addons.rst:423
+#: ../../admin/addons.rst:435
 msgid ""
 "Allows customization of gettext output behavior, for example line wrapping."
 msgstr "改行処理など、 gettext の出力動作をカスタマイズできます。"
 
-#: ../../admin/addons.rst:425
+#: ../../admin/addons.rst:437
 msgid "It offers the following options:"
 msgstr "使用できるオプション:"
 
-#: ../../admin/addons.rst:427
+#: ../../admin/addons.rst:439
 msgid "Wrap lines at 77 characters and at newlines"
 msgstr "77 文字または改行で行を折り返す"
 
-#: ../../admin/addons.rst:428
+#: ../../admin/addons.rst:440
 msgid "Only wrap lines at newlines"
 msgstr "改行でのみ行を折り返す"
 
-#: ../../admin/addons.rst:429
+#: ../../admin/addons.rst:441
 msgid "No line wrapping"
 msgstr "行を折り返さない"
 
-#: ../../admin/addons.rst:433
+#: ../../admin/addons.rst:445
 msgid ""
 "By default gettext wraps lines at 77 characters and at newlines. With the "
 "``--no-wrap`` parameter, wrapping is only done at newlines."
@@ -2173,45 +2188,45 @@ msgstr ""
 "デフォルトでは、gettext は 77 文字または改行で行を折り返します。``--no-"
 "wrap`` パラメータを指定すると、改行でのみ折り返されます。"
 
-#: ../../admin/addons.rst:440
+#: ../../admin/addons.rst:452
 msgid "Update LINGUAS file"
 msgstr "LINGUAS ファイルの更新"
 
-#: ../../admin/addons.rst:442
+#: ../../admin/addons.rst:454
 msgid "``weblate.gettext.linguas``"
 msgstr "``weblate.gettext.linguas``"
 
-#: ../../admin/addons.rst:445
+#: ../../admin/addons.rst:457
 msgid "Updates the LINGUAS file when a new translation is added."
 msgstr "新しい翻訳が追加されたときに LINGUAS ファイルを更新します。"
 
-#: ../../admin/addons.rst:450
+#: ../../admin/addons.rst:462
 msgid "Generate MO files"
 msgstr "MO ファイルの生成"
 
-#: ../../admin/addons.rst:452
+#: ../../admin/addons.rst:464
 msgid "``weblate.gettext.mo``"
 msgstr "``weblate.gettext.mo``"
 
-#: ../../admin/addons.rst:454
+#: ../../admin/addons.rst:466
 #, fuzzy
 #| msgid "``auth``"
 msgid "``path``"
 msgstr "``auth``"
 
-#: ../../admin/addons.rst:454
+#: ../../admin/addons.rst:466
 msgid "Path of generated MO file"
 msgstr "生成された MO ファイルのパス"
 
-#: ../../admin/addons.rst:454
+#: ../../admin/addons.rst:466
 msgid "If not specified, the location of the PO file will be used."
 msgstr "指定しない場合は、PO ファイルの場所を使用します。"
 
-#: ../../admin/addons.rst:457
+#: ../../admin/addons.rst:469
 msgid "Automatically generates a MO file for every changed PO file."
 msgstr "変更された PO ファイルごとに自動的に MO ファイルを生成します。"
 
-#: ../../admin/addons.rst:459
+#: ../../admin/addons.rst:471
 msgid ""
 "The location of the generated MO file can be customized and the field for it "
 "uses :ref:`markup`."
@@ -2219,45 +2234,45 @@ msgstr ""
 "MO ファイルが生成される場所はカスタマイズでき、フィールドは :ref:`markup` を"
 "使用します。"
 
-#: ../../admin/addons.rst:464
+#: ../../admin/addons.rst:476
 msgid "Update PO files to match POT (msgmerge)"
 msgstr "POT に合わせて PO ファイルを更新 (msgmerge)"
 
-#: ../../admin/addons.rst:466
+#: ../../admin/addons.rst:478
 msgid "``weblate.gettext.msgmerge``"
 msgstr "``weblate.gettext.msgmerge``"
 
-#: ../../admin/addons.rst:468
+#: ../../admin/addons.rst:480
 #, fuzzy
 #| msgid "Previous"
 msgid "``previous``"
 msgstr "前へ"
 
-#: ../../admin/addons.rst:468
+#: ../../admin/addons.rst:480
 msgid "Keep previous msgids of translated strings"
 msgstr "翻訳済み文字列の以前の msgid を保持する"
 
-#: ../../admin/addons.rst:470
+#: ../../admin/addons.rst:482
 #, fuzzy
 #| msgid "``location:TEXT``"
 msgid "``no_location``"
 msgstr "``location:TEXT``"
 
-#: ../../admin/addons.rst:470
+#: ../../admin/addons.rst:482
 msgid "Remove locations of translated strings"
 msgstr "翻訳済みの文字列の場所を削除する"
 
-#: ../../admin/addons.rst:472
+#: ../../admin/addons.rst:484
 #, fuzzy
 #| msgid "``{{ stats.fuzzy }}``"
 msgid "``fuzzy``"
 msgstr "``{{ stats.fuzzy }}``"
 
-#: ../../admin/addons.rst:472
+#: ../../admin/addons.rst:484
 msgid "Use fuzzy matching"
 msgstr "あいまい検索を使用する"
 
-#: ../../admin/addons.rst:475
+#: ../../admin/addons.rst:487
 msgid ""
 "Updates all PO files (as configured by :ref:`component-filemask`) to match "
 "the POT file (as configured by :ref:`component-new_base`) using :program:"
@@ -2267,7 +2282,7 @@ msgstr ""
 "定）に一致するように、すべての PO ファイル（ :ref:`component-new_base` で設"
 "定）を更新します。"
 
-#: ../../admin/addons.rst:478
+#: ../../admin/addons.rst:490
 msgid ""
 "Triggered whenever new changes are pulled from the upstream repository. Most "
 "msgmerge command-line options can be set up through the add-on configuration."
@@ -2276,33 +2291,33 @@ msgstr ""
 "部分の msgmerge のコマンド ライン オプションはアドオンの設定から設定できま"
 "す。"
 
-#: ../../admin/addons.rst:489
+#: ../../admin/addons.rst:501
 msgid "Squash Git commits"
 msgstr "Git コミットの簡略化"
 
-#: ../../admin/addons.rst:491
+#: ../../admin/addons.rst:503
 msgid "``weblate.git.squash``"
 msgstr "``weblate.git.squash``"
 
-#: ../../admin/addons.rst:493
+#: ../../admin/addons.rst:505
 #, fuzzy
 #| msgid "``weblate.git.squash``"
 msgid "``squash``"
 msgstr "``weblate.git.squash``"
 
-#: ../../admin/addons.rst:493
+#: ../../admin/addons.rst:505
 msgid "Commit squashing"
 msgstr "スカッシュ コミット"
 
-#: ../../admin/addons.rst:495
+#: ../../admin/addons.rst:507
 msgid "``append_trailers``"
 msgstr ""
 
-#: ../../admin/addons.rst:495
+#: ../../admin/addons.rst:507
 msgid "Append trailers to squashed commit message"
 msgstr "簡略化したコミット メッセージに翻訳者情報を追加する"
 
-#: ../../admin/addons.rst:495
+#: ../../admin/addons.rst:507
 msgid ""
 "Trailer lines are lines that look similar to RFC 822 e-mail headers, at the "
 "end of the otherwise free-form part of a commit message, such as 'Co-"
@@ -2311,17 +2326,17 @@ msgstr ""
 "トレーラ行とは、RFC 822 のメール ヘッダに似た \"Co-authored-by: …\" のような"
 "行のことで、コミットメッセージの自由形式部分の末尾につきます。"
 
-#: ../../admin/addons.rst:497
+#: ../../admin/addons.rst:509
 #, fuzzy
 #| msgid "Commit messages"
 msgid "``commit_message``"
 msgstr "コミットメッセージ"
 
-#: ../../admin/addons.rst:497
+#: ../../admin/addons.rst:509
 msgid "Commit message"
 msgstr "コミットメッセージ"
 
-#: ../../admin/addons.rst:497
+#: ../../admin/addons.rst:509
 msgid ""
 "This commit message will be used instead of the combined commit messages "
 "from the squashed commits."
@@ -2329,33 +2344,33 @@ msgstr ""
 "このコミットメッセージは、スカッシュしたコミットのコミットメッセージを結合す"
 "る代わりに使用されます。"
 
-#: ../../admin/addons.rst:500
+#: ../../admin/addons.rst:512
 msgid "Squash Git commits prior to pushing changes."
 msgstr "変更をプッシュする前に、Git コミットをスカッシュします。"
 
-#: ../../admin/addons.rst:502
+#: ../../admin/addons.rst:514
 msgid ""
 "Git commits can be squashed prior to pushing changes in one of the following "
 "modes:"
 msgstr "変更をプッシュする前に Git コミットの内容を簡略化するモードの種類:"
 
-#: ../../admin/addons.rst:507
+#: ../../admin/addons.rst:519
 msgid "All commits into one"
 msgstr "すべてのコミットを 1 つにまとめる"
 
-#: ../../admin/addons.rst:508
+#: ../../admin/addons.rst:520
 msgid "Per language"
 msgstr "言語別"
 
-#: ../../admin/addons.rst:509
+#: ../../admin/addons.rst:521
 msgid "Per file"
 msgstr "ファイル別"
 
-#: ../../admin/addons.rst:513
+#: ../../admin/addons.rst:525
 msgid "Per author"
 msgstr "翻訳者別"
 
-#: ../../admin/addons.rst:515
+#: ../../admin/addons.rst:527
 msgid ""
 "Original commit messages are kept, but authorship is lost unless :guilabel:"
 "`Per author` is selected, or the commit message is customized to include it."
@@ -2364,7 +2379,7 @@ msgstr ""
 "か、コミット メッセージに含めるようカスタマイズしない限り、翻訳者情報は失われ"
 "ます。"
 
-#: ../../admin/addons.rst:520
+#: ../../admin/addons.rst:532
 msgid ""
 "The original commit messages can optionally be overridden with a custom "
 "commit message."
@@ -2372,7 +2387,7 @@ msgstr ""
 "元々のコミット メッセージは、オプションで独自のコミット メッセージに上書きで"
 "きます。"
 
-#: ../../admin/addons.rst:522
+#: ../../admin/addons.rst:534
 msgid ""
 "Trailers (commit lines like ``Co-authored-by: …``) can optionally be removed "
 "from the original commit messages and appended to the end of the squashed "
@@ -2384,70 +2399,70 @@ msgstr ""
 "す。これにより、すべての翻訳者に適切な ``Co-authored-by:`` の署名が生成されま"
 "す。"
 
-#: ../../admin/addons.rst:530
+#: ../../admin/addons.rst:542
 msgid "Customize JSON output"
 msgstr "JSON 出力形式のカスタマイズ"
 
-#: ../../admin/addons.rst:532
+#: ../../admin/addons.rst:544
 msgid "``weblate.json.customize``"
 msgstr "``weblate.json.customize``"
 
-#: ../../admin/addons.rst:534
+#: ../../admin/addons.rst:546
 #, fuzzy
 #| msgid "``sort_keys``, ``indent``"
 msgid "``sort_keys``"
 msgstr "``sort_keys``, ``indent``"
 
-#: ../../admin/addons.rst:534
+#: ../../admin/addons.rst:546
 msgid "Sort JSON keys"
 msgstr "JSON キーの並べ替え"
 
-#: ../../admin/addons.rst:536 ../../admin/addons.rst:620
+#: ../../admin/addons.rst:548 ../../admin/addons.rst:632
 msgid "``indent``"
 msgstr ""
 
-#: ../../admin/addons.rst:536
+#: ../../admin/addons.rst:548
 msgid "JSON indentation"
 msgstr "JSON 形式のインデント"
 
-#: ../../admin/addons.rst:539
+#: ../../admin/addons.rst:551
 msgid ""
 "Allows adjusting JSON output behavior, for example indentation or sorting."
 msgstr "インデント処理や並べ替えなど、JSON 出力形式の変更ができます。"
 
-#: ../../admin/addons.rst:544
+#: ../../admin/addons.rst:556
 msgid "Formats the Java properties file"
 msgstr "Java プロパティ ファイルの整形"
 
-#: ../../admin/addons.rst:546
+#: ../../admin/addons.rst:558
 msgid "``weblate.properties.sort``"
 msgstr "``weblate.properties.sort``"
 
-#: ../../admin/addons.rst:549
+#: ../../admin/addons.rst:561
 msgid "Sorts the Java properties file."
 msgstr "Java プロパティ ファイルをソートします。"
 
-#: ../../admin/addons.rst:554
+#: ../../admin/addons.rst:566
 msgid "Stale comment removal"
 msgstr "古いコメントの削除"
 
-#: ../../admin/addons.rst:558
+#: ../../admin/addons.rst:570
 msgid "``weblate.removal.comments``"
 msgstr "``weblate.removal.comments``"
 
-#: ../../admin/addons.rst:560 ../../admin/addons.rst:578
+#: ../../admin/addons.rst:572 ../../admin/addons.rst:590
 msgid "``age``"
 msgstr ""
 
-#: ../../admin/addons.rst:560 ../../admin/addons.rst:578
+#: ../../admin/addons.rst:572 ../../admin/addons.rst:590
 msgid "Days to keep"
 msgstr "保存日数"
 
-#: ../../admin/addons.rst:563
+#: ../../admin/addons.rst:575
 msgid "Set a timeframe for removal of comments."
 msgstr "コメントを削除するまでの期間を設定します。"
 
-#: ../../admin/addons.rst:565
+#: ../../admin/addons.rst:577
 msgid ""
 "This can be useful to remove old comments which might have become outdated. "
 "Use with care as comments getting old does not mean they have lost their "
@@ -2457,35 +2472,35 @@ msgstr ""
 "が古いからといって、その重要性が失われたわけではないので、注意して使用してく"
 "ださい。"
 
-#: ../../admin/addons.rst:572
+#: ../../admin/addons.rst:584
 msgid "Stale suggestion removal"
 msgstr "古い提案の削除"
 
-#: ../../admin/addons.rst:576
+#: ../../admin/addons.rst:588
 msgid "``weblate.removal.suggestions``"
 msgstr "``weblate.removal.suggestions``"
 
-#: ../../admin/addons.rst:580
+#: ../../admin/addons.rst:592
 #, fuzzy
 #| msgid "``age``, ``votes``"
 msgid "``votes``"
 msgstr "``age``, ``votes``"
 
-#: ../../admin/addons.rst:580
+#: ../../admin/addons.rst:592
 msgid "Voting threshold"
 msgstr "投票数のしきい値"
 
-#: ../../admin/addons.rst:580
+#: ../../admin/addons.rst:592
 msgid "Threshold for removal. This field has no effect with voting turned off."
 msgstr ""
 "削除のしきい値を指定します。このフィールドは、投票ができない設定の場合は無効"
 "です。"
 
-#: ../../admin/addons.rst:583
+#: ../../admin/addons.rst:595
 msgid "Set a timeframe for removal of suggestions."
 msgstr "提案を削除するまでの期間を設定します。"
 
-#: ../../admin/addons.rst:585
+#: ../../admin/addons.rst:597
 msgid ""
 "Can be very useful in connection with suggestion voting (see :ref:`peer-"
 "review`) to remove suggestions which don't receive enough positive votes in "
@@ -2494,15 +2509,15 @@ msgstr ""
 "与えられた時間枠内に必要な賛成票を獲得できなかった提案を、削除する提案投票"
 "（参照: :ref:`peer-review`）に関連して大変便利です。"
 
-#: ../../admin/addons.rst:592
+#: ../../admin/addons.rst:604
 msgid "Update RESX files"
 msgstr "RESX ファイルの更新"
 
-#: ../../admin/addons.rst:596
+#: ../../admin/addons.rst:608
 msgid "``weblate.resx.update``"
 msgstr "``weblate.resx.update``"
 
-#: ../../admin/addons.rst:599
+#: ../../admin/addons.rst:611
 msgid ""
 "Update all translation files to match the monolingual upstream base file. "
 "Unused strings are removed, and new ones added as copies of the source "
@@ -2512,7 +2527,7 @@ msgstr ""
 "使われなくなった文字列は削除され、新しい文字列は原文のコピーとして追加されま"
 "す。"
 
-#: ../../admin/addons.rst:604
+#: ../../admin/addons.rst:616
 msgid ""
 "Use :ref:`addon-weblate.cleanup.generic` if you only want to remove stale "
 "translation keys."
@@ -2520,38 +2535,38 @@ msgstr ""
 "古い翻訳キーのみを削除する場合は、:ref:`addon-weblate.cleanup.generic` を使用"
 "します。"
 
-#: ../../admin/addons.rst:614
+#: ../../admin/addons.rst:626
 msgid "Customize YAML output"
 msgstr "YAML 出力形式のカスタマイズ"
 
-#: ../../admin/addons.rst:618
+#: ../../admin/addons.rst:630
 msgid "``weblate.yaml.customize``"
 msgstr "``weblate.yaml.customize``"
 
-#: ../../admin/addons.rst:620
+#: ../../admin/addons.rst:632
 msgid "YAML indentation"
 msgstr "YAML 形式のインデント"
 
-#: ../../admin/addons.rst:624
+#: ../../admin/addons.rst:636
 #, fuzzy
 #| msgid "Line breaks"
 msgid "``line_break``"
 msgstr "改行コード"
 
-#: ../../admin/addons.rst:624
+#: ../../admin/addons.rst:636
 msgid "Line breaks"
 msgstr "改行コード"
 
-#: ../../admin/addons.rst:627
+#: ../../admin/addons.rst:639
 msgid ""
 "Allows adjusting YAML output behavior, for example line-length or newlines."
 msgstr "行の長さや改行など、YAML 出力形式の変更ができます。"
 
-#: ../../admin/addons.rst:631
+#: ../../admin/addons.rst:643
 msgid "Customizing list of add-ons"
 msgstr "アドオン一覧のカスタマイズ"
 
-#: ../../admin/addons.rst:633
+#: ../../admin/addons.rst:645
 msgid ""
 "The list of add-ons is configured by :setting:`WEBLATE_ADDONS`. To add "
 "another add-on, simply include the absolute class name in this setting."
@@ -2559,11 +2574,11 @@ msgstr ""
 "アドオンの一覧は :setting:`WEBLATE_ADDONS` で設定します。アドオンを追加するに"
 "は、設定に絶対クラス名を含めるだけです。"
 
-#: ../../admin/addons.rst:640
+#: ../../admin/addons.rst:652
 msgid "Writing add-on"
 msgstr "アドオンの作成"
 
-#: ../../admin/addons.rst:642
+#: ../../admin/addons.rst:654
 msgid ""
 "You can write your own add-ons too, create a subclass of :class:`weblate."
 "addons.base.BaseAddon` to define the addon metadata, and then implement a "
@@ -2573,15 +2588,15 @@ msgstr ""
 "BaseAddon` を作成してアドオンのメタデータを定義し、処理を行うコールバックを実"
 "装します。"
 
-#: ../../admin/addons.rst:648
+#: ../../admin/addons.rst:660
 msgid ":doc:`../contributing/addons`"
 msgstr ":doc:`../contributing/addons`"
 
-#: ../../admin/addons.rst:653
+#: ../../admin/addons.rst:665
 msgid "Executing scripts from add-on"
 msgstr "アドオンから実行するスクリプト"
 
-#: ../../admin/addons.rst:655
+#: ../../admin/addons.rst:667
 msgid ""
 "Add-ons can also be used to execute external scripts. This used to be "
 "integrated in Weblate, but now you have to write some code to wrap your "
@@ -2591,11 +2606,11 @@ msgstr ""
 "合されていましたが、現在はスクリプトをアドオンでラップするコードの記述が必要"
 "です。"
 
-#: ../../admin/addons.rst:662
+#: ../../admin/addons.rst:674
 msgid "For installation instructions see :ref:`custom-addon-modules`."
 msgstr "インストールの方法は :ref:`custom-addon-modules` を確認してください。"
 
-#: ../../admin/addons.rst:664
+#: ../../admin/addons.rst:676
 msgid ""
 "The script is executed with the current directory set to the root of the VCS "
 "repository for any given component."
@@ -2603,88 +2618,88 @@ msgstr ""
 "スクリプトは、指定したコンポーネントの VCS リポジトリのルートを、カレント "
 "ディレクトリとして実行されます。"
 
-#: ../../admin/addons.rst:667
+#: ../../admin/addons.rst:679
 msgid "Additionally, the following environment variables are available:"
 msgstr "さらに利用可能な環境変数:"
 
-#: ../../admin/addons.rst:671
+#: ../../admin/addons.rst:683
 msgid "Version control system used."
 msgstr "使用中のバージョン管理システム。"
 
-#: ../../admin/addons.rst:675
+#: ../../admin/addons.rst:687
 msgid "Upstream repository URL."
 msgstr "Upstream リポジトリの URL。"
 
-#: ../../admin/addons.rst:679
+#: ../../admin/addons.rst:691
 msgid "Absolute path to VCS repository."
 msgstr "VCS リポジトリへの絶対パス。"
 
-#: ../../admin/addons.rst:685
+#: ../../admin/addons.rst:697
 msgid "Repository branch configured in the current component."
 msgstr "現在のコンポーネントに設定したリポジトリのブランチ。"
 
-#: ../../admin/addons.rst:689
+#: ../../admin/addons.rst:701
 msgid "Filemask for current component."
 msgstr "現在のコンポーネントのファイルマスク。"
 
-#: ../../admin/addons.rst:693
+#: ../../admin/addons.rst:705
 msgid "Filename of template for monolingual translations (can be empty)."
 msgstr "単一言語翻訳用のテンプレートのファイル名（空欄でも可）。"
 
-#: ../../admin/addons.rst:699
+#: ../../admin/addons.rst:711
 msgid "Filename of the file used for creating new translations (can be empty)."
 msgstr "新しい翻訳の作成用のファイル名（空欄でも可）。"
 
-#: ../../admin/addons.rst:704
+#: ../../admin/addons.rst:716
 msgid "File format used in current component."
 msgstr "現在のコンポーネントで使用するファイル形式。"
 
-#: ../../admin/addons.rst:708
+#: ../../admin/addons.rst:720
 msgid ""
 "Language of currently processed translation (not available for component-"
 "level hooks)."
 msgstr ""
 "現在実行中の翻訳言語（コンポーネント レベルのフックでは使用できません）。"
 
-#: ../../admin/addons.rst:713
+#: ../../admin/addons.rst:725
 msgid ""
 "Previous HEAD after update (only available after running the post-update "
 "hook)."
 msgstr "更新前の HEAD（更新後のフックを実行した後にのみ利用可能）。"
 
-#: ../../admin/addons.rst:719
+#: ../../admin/addons.rst:731
 msgid "Component slug used to construct URL."
 msgstr "コンポーネント URL の設定時に使用するスラッグ。"
 
-#: ../../admin/addons.rst:725
+#: ../../admin/addons.rst:737
 msgid "Project slug used to construct URL."
 msgstr "プロジェクト URL の設定時に使用するスラッグ。"
 
-#: ../../admin/addons.rst:731
+#: ../../admin/addons.rst:743
 msgid "Component name."
 msgstr "コンポーネント名。"
 
-#: ../../admin/addons.rst:737
+#: ../../admin/addons.rst:749
 msgid "Project name."
 msgstr "プロジェクト名。"
 
-#: ../../admin/addons.rst:743
+#: ../../admin/addons.rst:755
 msgid "Component URL."
 msgstr "コンポーネント URL。"
 
-#: ../../admin/addons.rst:749
+#: ../../admin/addons.rst:761
 msgid "Project engage URL."
 msgstr "プロジェクト参加 URL。"
 
-#: ../../admin/addons.rst:753 ../../faq.rst:260
+#: ../../admin/addons.rst:765 ../../faq.rst:260
 msgid ":ref:`component`"
 msgstr ":ref:`component`"
 
-#: ../../admin/addons.rst:756
+#: ../../admin/addons.rst:768
 msgid "Post-update repository processing"
 msgstr "更新後のリポジトリ処理"
 
-#: ../../admin/addons.rst:758
+#: ../../admin/addons.rst:770
 msgid ""
 "Can be used to update translation files when the VCS upstream source "
 "changes. To achieve this, please remember Weblate only sees files committed "
@@ -2695,15 +2710,15 @@ msgstr ""
 "するので、スクリプトの一部として変更をコミットする必要があることに注意してく"
 "ださい。"
 
-#: ../../admin/addons.rst:762
+#: ../../admin/addons.rst:774
 msgid "For example with Gulp you can do it using following code:"
 msgstr "以下のコードを使用した、Gulp の例:"
 
-#: ../../admin/addons.rst:772
+#: ../../admin/addons.rst:784
 msgid "Pre-commit processing of translations"
 msgstr "翻訳のコミット前処理"
 
-#: ../../admin/addons.rst:774
+#: ../../admin/addons.rst:786
 msgid ""
 "Use the commit script to automatically change a translation before it is "
 "committed to the repository."
@@ -2711,7 +2726,7 @@ msgstr ""
 "コミット スクリプトを使用して、翻訳文をリポジトリにコミットする前に、翻訳文を"
 "自動的に変更します。"
 
-#: ../../admin/addons.rst:777
+#: ../../admin/addons.rst:789
 msgid ""
 "It is passed as a single parameter consisting of the filename of a current "
 "translation."
@@ -2899,6 +2914,12 @@ msgstr ""
 "各レベルへのお知らせを、:guilabel:`Manage` メニューの :guilabel:`Post "
 "announcement` を使用して投稿する方法:"
 
+#: ../../admin/announcements.rst:None
+msgid ""
+"Image showing a message that reads: \"Translations will be used only if they "
+"reach 60%\" atop the dashboard view."
+msgstr ""
+
 #: ../../admin/announcements.rst:24
 msgid "It can be also added using the admin interface:"
 msgstr "同じことを、管理画面を使用して追加する方法:"
@@ -2943,6 +2964,12 @@ msgstr "言語の概要と、その言語のすべての翻訳に表示。"
 #: ../../admin/announcements.rst:47
 msgid "This is how it looks on the language overview page:"
 msgstr "言語の概要ページに表示される内容:"
+
+#: ../../admin/announcements.rst:None
+msgid ""
+"Image showing a message that reads: \"Czech translators rock!\" atop the "
+"Czech language overview."
+msgstr ""
 
 #: ../../admin/auth.rst:2
 msgid "Authentication"
@@ -5237,6 +5264,12 @@ msgstr ""
 "1. 次の画像は、プロジェクトとコンポーネントの両方の入力欄に、正規表現 ``^.*"
 "$`` を使用して、:guilabel:`コンポーネント リストの自動割り当て` を設定する方"
 "法:"
+
+#: ../../admin/componentlists.rst:None
+msgid ""
+"Image showing the Weblate administration panel with the above configuration "
+"filled in."
+msgstr ""
 
 #: ../../admin/config.rst:6
 msgid ""
@@ -7993,8 +8026,9 @@ msgid ""
 "development. This way translators can work on translations the entire time, "
 "instead of working through huge amount of new text just prior to release."
 msgstr ""
-"開発と翻訳を密接に行えるように、インフラを整備しています。これにより、翻訳者は常に翻訳作業を続けることができ、リリース直前に膨大な量の新しいテキストを扱わ"
-"ずにすみます。"
+"開発と翻訳を密接に行えるように、インフラを整備しています。これにより、翻訳者"
+"は常に翻訳作業を続けることができ、リリース直前に膨大な量の新しいテキストを扱"
+"わずにすみます。"
 
 #: ../../admin/continuous.rst:12
 msgid ""
@@ -8894,6 +8928,12 @@ msgstr ""
 "最新の状態に保たれます。このパッケージは Cloudron チームの `Weblate package "
 "repo <https://git.cloudron.io/cloudron/weblate-app>`_ で管理されています。"
 
+#: ../../admin/deployments.rst:None
+#, fuzzy
+#| msgid "Installing Weblate"
+msgid "Install Weblate with Cloudron"
+msgstr "Weblate のインストール"
+
 #: ../../admin/deployments.rst:40
 msgid "Weblate in YunoHost"
 msgstr "YunoHost の Weblate"
@@ -8917,6 +8957,12 @@ msgid ""
 "You may use your administration interface, or this button (it will bring you "
 "to your server):"
 msgstr "管理画面を使用するか、このボタンの使用（サーバーに移動）:"
+
+#: ../../admin/deployments.rst:None
+#, fuzzy
+#| msgid "Weblate in YunoHost"
+msgid "Install Weblate with YunoHost"
+msgstr "YunoHost の Weblate"
 
 #: ../../admin/deployments.rst:54
 msgid "It also is possible to use the commandline interface:"
@@ -14097,7 +14143,7 @@ msgstr ""
 ":setting:`MT_YOUDAO_ID`、:setting:`MT_YOUDAO_SECRET` `Youdao Zhiyun Natural "
 "Language Translation Service <https://ai.youdao.com/product-fanyi-text.s>`_"
 
-#: ../../admin/machine.rst:363
+#: ../../admin/machine.rst:363 ../../../README.rst:None
 msgid "Weblate"
 msgstr "Weblate"
 
@@ -20452,7 +20498,7 @@ msgid "Weblate 4.7"
 msgstr "Weblate 4.7"
 
 #: ../../changes.rst:4
-msgid "Released on June 16th 2021."
+msgid "Released on June 17th 2021."
 msgstr ""
 
 #: ../../changes.rst:6
@@ -27202,7 +27248,8 @@ msgstr ""
 msgid "`Python Social Auth <https://github.com/python-social-auth>`_"
 msgstr ""
 
-#: ../../contributing/license.rst:2 ../../../README.rst:60
+#: ../../contributing/license.rst:2 ../../../README.rst:None
+#: ../../../README.rst:60
 msgid "License"
 msgstr "ライセンス"
 
@@ -32312,6 +32359,20 @@ msgid "Install it, or use the Hosted Weblate service at `weblate.org`_."
 msgstr ""
 "インストールするか、Weblate のホストサービス `weblate.org`_ を利用してくださ"
 "い。"
+
+#: ../../../README.rst:None
+#, fuzzy
+#| msgid "Website URL"
+msgid "Website"
+msgstr "Web サイトの URL"
+
+#: ../../../README.rst:None
+msgid "Translation status"
+msgstr "翻訳状況"
+
+#: ../../../README.rst:None
+msgid "CII Best Practices"
+msgstr ""
 
 #: ../../../README.rst:34
 msgid "Support"

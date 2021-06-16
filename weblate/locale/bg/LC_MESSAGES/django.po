@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.7\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
-"POT-Creation-Date: 2021-06-15 04:46+0000\n"
+"POT-Creation-Date: 2021-06-16 18:40+0000\n"
 "PO-Revision-Date: 2021-05-11 21:14+0000\n"
 "Last-Translator: Georgi Georgiev <g.georgiev.shumen@gmail.com>\n"
 "Language-Team: Bulgarian <https://hosted.weblate.org/projects/weblate/"
@@ -13889,7 +13889,7 @@ msgstr ""
 "{0} се превежда на {1} езика чрез Weblate. Присъединете се към превода, или "
 "пък започнете превод на свой собствен проект."
 
-#: weblate/trans/validators.py:29
+#: weblate/trans/validators.py:30
 #, fuzzy
 #| msgid "File mask does not contain * as a language placeholder!"
 msgid "Filemask does not contain * as a language placeholder!"
@@ -13897,7 +13897,7 @@ msgstr ""
 "Файловата маска не съдържа знака * като показател на мястото за заместване "
 "на езика!"
 
-#: weblate/trans/validators.py:38
+#: weblate/trans/validators.py:39
 #, fuzzy
 #| msgid ""
 #| "Value of 1 is not allowed for autoaccept as every user gives vote to his "
@@ -13909,6 +13909,12 @@ msgstr ""
 "Стойността 1 не може да се използва за автоматичното приемане на "
 "предложения, тъй като всеки потребител автоматично дава положителен глас за "
 "предложението си."
+
+#: weblate/trans/validators.py:50
+#, fuzzy, python-format
+#| msgid "Failed to parse %d matched files!"
+msgid "Failed to parse flags: %s"
+msgstr "Неуспешен анализ на %d отговарящи файла!"
 
 #: weblate/trans/views/about.py:34
 msgid "Keys"
@@ -13922,7 +13928,7 @@ msgstr "Статистика на Weblate"
 msgid "Invalid parameters!"
 msgstr "Неправилни параметри!"
 
-#: weblate/trans/views/acl.py:88 weblate/trans/views/acl.py:224
+#: weblate/trans/views/acl.py:88 weblate/trans/views/acl.py:227
 msgid "You can not remove last owner!"
 msgstr "Не можете да премахнете последния собственик!"
 
@@ -13930,29 +13936,35 @@ msgstr "Не можете да премахнете последния собс�
 msgid "User has been added to this project."
 msgstr "Потребителят беше добавен към този проект."
 
-#: weblate/trans/views/acl.py:135 weblate/trans/views/acl.py:195
+#: weblate/trans/views/acl.py:135 weblate/trans/views/acl.py:198
 msgid "Failed to find group to add a user!"
 msgstr "Не беше намерена група, в която да бъде добавен потребител!"
 
-#: weblate/trans/views/acl.py:164
+#: weblate/trans/views/acl.py:147
+#, fuzzy
+#| msgid "User has been added to this project."
+msgid "You can not block yourself on this project."
+msgstr "Потребителят беше добавен към този проект."
+
+#: weblate/trans/views/acl.py:167
 #, fuzzy
 #| msgid "User has been added to this project."
 msgid "User has been blocked on this project."
 msgstr "Потребителят беше добавен към този проект."
 
-#: weblate/trans/views/acl.py:166
+#: weblate/trans/views/acl.py:169
 #, fuzzy
 #| msgid "User has been added to this project."
 msgid "User is already blocked on this project."
 msgstr "Потребителят беше добавен към този проект."
 
-#: weblate/trans/views/acl.py:193 weblate/trans/views/acl.py:208
+#: weblate/trans/views/acl.py:196 weblate/trans/views/acl.py:211
 #, fuzzy
 #| msgid "User has been added to this project."
 msgid "User has been invited to this project."
 msgstr "Потребителят беше добавен към този проект."
 
-#: weblate/trans/views/acl.py:233
+#: weblate/trans/views/acl.py:236
 msgid "User has been removed from this project."
 msgstr "Потребителят беше премахнат от този проект."
 

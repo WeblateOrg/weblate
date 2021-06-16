@@ -24,7 +24,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.7\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
-"POT-Creation-Date: 2021-06-15 04:46+0000\n"
+"POT-Creation-Date: 2021-06-16 18:40+0000\n"
 "PO-Revision-Date: 2021-06-16 18:39+0000\n"
 "Last-Translator: amano <amano.hajime@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
@@ -11836,17 +11836,23 @@ msgstr ""
 "{0} は Weblate を利用して {1} 種類の言語に翻訳されています。翻訳に参加する"
 "か、独自のプロジェクトで翻訳を始めましょう。"
 
-#: weblate/trans/validators.py:29
+#: weblate/trans/validators.py:30
 msgid "Filemask does not contain * as a language placeholder!"
 msgstr "ファイルマスクに言語プレースホルダーとして * が含まれていません！"
 
-#: weblate/trans/validators.py:38
+#: weblate/trans/validators.py:39
 msgid ""
 "A value of 1 is not allowed for autoaccept as it would permit users to vote "
 "on their own suggestions."
 msgstr ""
 "自動採用の条件となる値に 1を設定することはできません。提案者自身の投票で採用"
 "できてしまうからです。"
+
+#: weblate/trans/validators.py:50
+#, fuzzy, python-format
+#| msgid "Failed to parse JSON file: {!s}"
+msgid "Failed to parse flags: %s"
+msgstr "解析に失敗した JSON ファイル: {!s}"
 
 #: weblate/trans/views/about.py:34
 msgid "Keys"
@@ -11860,7 +11866,7 @@ msgstr "Weblate 統計データ"
 msgid "Invalid parameters!"
 msgstr "パラメータが正しくありません！"
 
-#: weblate/trans/views/acl.py:88 weblate/trans/views/acl.py:224
+#: weblate/trans/views/acl.py:88 weblate/trans/views/acl.py:227
 msgid "You can not remove last owner!"
 msgstr "最後の所有者は削除できません！"
 
@@ -11868,27 +11874,33 @@ msgstr "最後の所有者は削除できません！"
 msgid "User has been added to this project."
 msgstr "このプロジェクトにユーザーを追加しました。"
 
-#: weblate/trans/views/acl.py:135 weblate/trans/views/acl.py:195
+#: weblate/trans/views/acl.py:135 weblate/trans/views/acl.py:198
 msgid "Failed to find group to add a user!"
 msgstr "ユーザーを追加するグループが見つかりません！"
 
-#: weblate/trans/views/acl.py:164
+#: weblate/trans/views/acl.py:147
+#, fuzzy
+#| msgid "User has been added to this project."
+msgid "You can not block yourself on this project."
+msgstr "このプロジェクトにユーザーを追加しました。"
+
+#: weblate/trans/views/acl.py:167
 #, fuzzy
 #| msgid "User has been added to this project."
 msgid "User has been blocked on this project."
 msgstr "このプロジェクトにユーザーを追加しました。"
 
-#: weblate/trans/views/acl.py:166
+#: weblate/trans/views/acl.py:169
 #, fuzzy
 #| msgid "User has been added to this project."
 msgid "User is already blocked on this project."
 msgstr "このプロジェクトにユーザーを追加しました。"
 
-#: weblate/trans/views/acl.py:193 weblate/trans/views/acl.py:208
+#: weblate/trans/views/acl.py:196 weblate/trans/views/acl.py:211
 msgid "User has been invited to this project."
 msgstr "このプロジェクトにユーザーを招待しました。"
 
-#: weblate/trans/views/acl.py:233
+#: weblate/trans/views/acl.py:236
 msgid "User has been removed from this project."
 msgstr "このプロジェクトからユーザーを削除しました。"
 

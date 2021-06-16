@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.7\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
-"POT-Creation-Date: 2021-06-15 04:46+0000\n"
+"POT-Creation-Date: 2021-06-16 18:40+0000\n"
 "PO-Revision-Date: 2021-04-08 15:12+0000\n"
 "Last-Translator: Christian Eichert <c@zp1.net>\n"
 "Language-Team: Romanian <https://hosted.weblate.org/projects/weblate/"
@@ -12299,17 +12299,23 @@ msgstr ""
 "{0} este tradusă în {1} limbi cu ajutorul Weblate. Alăturați-vă traducerii "
 "sau începeți să vă traduceți propriul proiect."
 
-#: weblate/trans/validators.py:29
+#: weblate/trans/validators.py:30
 msgid "Filemask does not contain * as a language placeholder!"
 msgstr "Filemask nu conține * ca simbol de limbă!"
 
-#: weblate/trans/validators.py:38
+#: weblate/trans/validators.py:39
 msgid ""
 "A value of 1 is not allowed for autoaccept as it would permit users to vote "
 "on their own suggestions."
 msgstr ""
 "O valoare de 1 nu este permisă pentru autoaccept, deoarece ar permite "
 "utilizatorilor să voteze propriile sugestii."
+
+#: weblate/trans/validators.py:50
+#, fuzzy, python-format
+#| msgid "Failed to parse JSON file: {!s}"
+msgid "Failed to parse flags: %s"
+msgstr "Nu a reușit să analizeze fișierul JSON: {!s}"
 
 #: weblate/trans/views/about.py:34
 msgid "Keys"
@@ -12323,7 +12329,7 @@ msgstr "Statistici Weblate"
 msgid "Invalid parameters!"
 msgstr "Parametrii nevalabili!"
 
-#: weblate/trans/views/acl.py:88 weblate/trans/views/acl.py:224
+#: weblate/trans/views/acl.py:88 weblate/trans/views/acl.py:227
 msgid "You can not remove last owner!"
 msgstr "Nu puteți elimina ultimul proprietar!"
 
@@ -12331,27 +12337,33 @@ msgstr "Nu puteți elimina ultimul proprietar!"
 msgid "User has been added to this project."
 msgstr "Utilizatorul a fost adăugat la acest proiect."
 
-#: weblate/trans/views/acl.py:135 weblate/trans/views/acl.py:195
+#: weblate/trans/views/acl.py:135 weblate/trans/views/acl.py:198
 msgid "Failed to find group to add a user!"
 msgstr "Nu a reușit să găsească grupul pentru a adăuga un utilizator!"
 
-#: weblate/trans/views/acl.py:164
+#: weblate/trans/views/acl.py:147
+#, fuzzy
+#| msgid "User has been added to this project."
+msgid "You can not block yourself on this project."
+msgstr "Utilizatorul a fost adăugat la acest proiect."
+
+#: weblate/trans/views/acl.py:167
 #, fuzzy
 #| msgid "User has been added to this project."
 msgid "User has been blocked on this project."
 msgstr "Utilizatorul a fost adăugat la acest proiect."
 
-#: weblate/trans/views/acl.py:166
+#: weblate/trans/views/acl.py:169
 #, fuzzy
 #| msgid "User has been added to this project."
 msgid "User is already blocked on this project."
 msgstr "Utilizatorul a fost adăugat la acest proiect."
 
-#: weblate/trans/views/acl.py:193 weblate/trans/views/acl.py:208
+#: weblate/trans/views/acl.py:196 weblate/trans/views/acl.py:211
 msgid "User has been invited to this project."
 msgstr "Utilizatorul a fost invitat la acest proiect."
 
-#: weblate/trans/views/acl.py:233
+#: weblate/trans/views/acl.py:236
 msgid "User has been removed from this project."
 msgstr "Utilizatorul a fost eliminat din acest proiect."
 

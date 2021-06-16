@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-06-15 06:46+0200\n"
+"POT-Creation-Date: 2021-06-16 20:41+0200\n"
 "PO-Revision-Date: 2021-06-16 07:03+0000\n"
 "Last-Translator: Eric <spice2wolf@gmail.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
@@ -1494,9 +1494,9 @@ msgstr "``weblate.cleanup.blank``"
 #: ../../admin/addons.rst:99 ../../admin/addons.rst:117
 #: ../../admin/addons.rst:133 ../../admin/addons.rst:266
 #: ../../admin/addons.rst:287 ../../admin/addons.rst:303
-#: ../../admin/addons.rst:388 ../../admin/addons.rst:408
-#: ../../admin/addons.rst:443 ../../admin/addons.rst:547
-#: ../../admin/addons.rst:597
+#: ../../admin/addons.rst:400 ../../admin/addons.rst:420
+#: ../../admin/addons.rst:455 ../../admin/addons.rst:559
+#: ../../admin/addons.rst:609
 msgid "`This add-on has no configuration.`"
 msgstr "`此附加组件无配置.`"
 
@@ -1514,7 +1514,7 @@ msgstr ""
 "为缺失，而不是退回到源字符串)。"
 
 #: ../../admin/addons.rst:109 ../../admin/addons.rst:125
-#: ../../admin/addons.rst:484 ../../admin/addons.rst:609
+#: ../../admin/addons.rst:496 ../../admin/addons.rst:621
 msgid ":ref:`faq-cleanup`"
 msgstr ":ref:`faq-cleanup`"
 
@@ -2034,33 +2034,48 @@ msgstr ""
 "可以使用真正的语言进行检测，但在 Weblate 中有专用的假语言环境——`en_XA` 和 "
 "`ar_XB`。"
 
-#: ../../admin/addons.rst:385
+#: ../../admin/addons.rst:384
+msgid ""
+"You can use this add-on to start translation to a new locale of an existing "
+"language or similar language. Once you add the translation to the component, "
+"follow to the add-on. *Example:* If you have `fr` and want to start `fr_CA` "
+"translation, simply set `fr` as the source, `fr_CA` as the target, and leave "
+"the prefix and suffix blank."
+msgstr ""
+
+#: ../../admin/addons.rst:390
+msgid ""
+"Uninstall the add-on once you have the new translation filled to prevent "
+"Weblate from changing the translations made after the copying."
+msgstr ""
+
+#: ../../admin/addons.rst:397
 msgid "Contributors in comment"
 msgstr "在注释中添加贡献信息"
 
-#: ../../admin/addons.rst:387
+#: ../../admin/addons.rst:399
 msgid "``weblate.gettext.authors``"
 msgstr "``weblate.gettext.authors``"
 
-#: ../../admin/addons.rst:390
+#: ../../admin/addons.rst:402
 msgid ""
 "Updates the comment part of the PO file header to include contributor names "
 "and years of contributions."
 msgstr "更新 PO 文件头的注释部分，以包含贡献者姓名和贡献年份。"
 
-#: ../../admin/addons.rst:393
+#: ../../admin/addons.rst:405
 msgid "The PO file header will look like this:"
 msgstr "PO 文件头看上去是这样的："
 
-#: ../../admin/addons.rst:405
+#: ../../admin/addons.rst:417
 msgid "Update ALL_LINGUAS variable in the \"configure\" file"
 msgstr "更新“配置文件”中的 ALL_LINGUAS 变量"
 
-#: ../../admin/addons.rst:407
+#: ../../admin/addons.rst:419
 msgid "``weblate.gettext.configure``"
 msgstr "``weblate.gettext.configure``"
 
-#: ../../admin/addons.rst:410
+#: ../../admin/addons.rst:422
 msgid ""
 "Updates the ALL_LINGUAS variable in :file:`configure`, :file:`configure.in` "
 "or any :file:`configure.ac` files, when a new translation is added."
@@ -2068,25 +2083,25 @@ msgstr ""
 "当新的翻译添加时，更新 :file:`configure` 、 :file:`configure.in` 或任何 :"
 "file:`configure.ac` 文件中的 ALL_LINGUAS 变量。"
 
-#: ../../admin/addons.rst:416
+#: ../../admin/addons.rst:428
 msgid "Customize gettext output"
 msgstr "自定义 gettext 输出"
 
-#: ../../admin/addons.rst:418
+#: ../../admin/addons.rst:430
 msgid "``weblate.gettext.customize``"
 msgstr "``weblate.gettext.customize``"
 
-#: ../../admin/addons.rst:420 ../../admin/addons.rst:622
+#: ../../admin/addons.rst:432 ../../admin/addons.rst:634
 #, fuzzy
 #| msgid "``auth``"
 msgid "``width``"
 msgstr "``auth``"
 
-#: ../../admin/addons.rst:420 ../../admin/addons.rst:622
+#: ../../admin/addons.rst:432 ../../admin/addons.rst:634
 msgid "Long lines wrapping"
 msgstr "自动换行"
 
-#: ../../admin/addons.rst:420
+#: ../../admin/addons.rst:432
 msgid ""
 "By default gettext wraps lines at 77 characters and at newlines. With the --"
 "no-wrap parameter, wrapping is only done at newlines."
@@ -2094,28 +2109,28 @@ msgstr ""
 "默认情况下 gettext 会在每行第 77 个字符处与换行符处换行。添加 --no-wrap 参数"
 "后，换行只在换行符处发生。"
 
-#: ../../admin/addons.rst:423
+#: ../../admin/addons.rst:435
 msgid ""
 "Allows customization of gettext output behavior, for example line wrapping."
 msgstr "允许自定义 gettext 的输出行为，例如是否启用自动换行。"
 
-#: ../../admin/addons.rst:425
+#: ../../admin/addons.rst:437
 msgid "It offers the following options:"
 msgstr "提供了后面的选项："
 
-#: ../../admin/addons.rst:427
+#: ../../admin/addons.rst:439
 msgid "Wrap lines at 77 characters and at newlines"
 msgstr "在 77 个字符处和新一行时来换行"
 
-#: ../../admin/addons.rst:428
+#: ../../admin/addons.rst:440
 msgid "Only wrap lines at newlines"
 msgstr "仅在换行符处折行"
 
-#: ../../admin/addons.rst:429
+#: ../../admin/addons.rst:441
 msgid "No line wrapping"
 msgstr "不换行"
 
-#: ../../admin/addons.rst:433
+#: ../../admin/addons.rst:445
 msgid ""
 "By default gettext wraps lines at 77 characters and at newlines. With the "
 "``--no-wrap`` parameter, wrapping is only done at newlines."
@@ -2123,89 +2138,89 @@ msgstr ""
 "默认情况下 gettext 会在每行第 77 个字符处与换行符处换行。添加 ``--no-wrap`` "
 "参数后，换行只会在换行符处发生。"
 
-#: ../../admin/addons.rst:440
+#: ../../admin/addons.rst:452
 msgid "Update LINGUAS file"
 msgstr "更新 LINGUAS 文件"
 
-#: ../../admin/addons.rst:442
+#: ../../admin/addons.rst:454
 msgid "``weblate.gettext.linguas``"
 msgstr "``weblate.gettext.linguas``"
 
-#: ../../admin/addons.rst:445
+#: ../../admin/addons.rst:457
 msgid "Updates the LINGUAS file when a new translation is added."
 msgstr "添加新的翻译时更新 LINGUAS 文件。"
 
-#: ../../admin/addons.rst:450
+#: ../../admin/addons.rst:462
 msgid "Generate MO files"
 msgstr "生成 MO 文件"
 
-#: ../../admin/addons.rst:452
+#: ../../admin/addons.rst:464
 msgid "``weblate.gettext.mo``"
 msgstr "``weblate.gettext.mo``"
 
-#: ../../admin/addons.rst:454
+#: ../../admin/addons.rst:466
 #, fuzzy
 #| msgid "``auth``"
 msgid "``path``"
 msgstr "``auth``"
 
-#: ../../admin/addons.rst:454
+#: ../../admin/addons.rst:466
 msgid "Path of generated MO file"
 msgstr "生成的 MO 文件的路径"
 
-#: ../../admin/addons.rst:454
+#: ../../admin/addons.rst:466
 msgid "If not specified, the location of the PO file will be used."
 msgstr "如未指定，将使用 PO 文件对应的位置。"
 
-#: ../../admin/addons.rst:457
+#: ../../admin/addons.rst:469
 msgid "Automatically generates a MO file for every changed PO file."
 msgstr "为每个变更的 PO 文件自动生成 MO 文件。"
 
-#: ../../admin/addons.rst:459
+#: ../../admin/addons.rst:471
 msgid ""
 "The location of the generated MO file can be customized and the field for it "
 "uses :ref:`markup`."
 msgstr "生成的 MO 文件的位置可以定制化，并且其字段使用 :ref:`markup`。"
 
-#: ../../admin/addons.rst:464
+#: ../../admin/addons.rst:476
 msgid "Update PO files to match POT (msgmerge)"
 msgstr "更新 PO 文件以匹配 POT 文件 (msgmerge)"
 
-#: ../../admin/addons.rst:466
+#: ../../admin/addons.rst:478
 msgid "``weblate.gettext.msgmerge``"
 msgstr "``weblate.gettext.msgmerge``"
 
-#: ../../admin/addons.rst:468
+#: ../../admin/addons.rst:480
 #, fuzzy
 #| msgid "Previous"
 msgid "``previous``"
 msgstr "上一条"
 
-#: ../../admin/addons.rst:468
+#: ../../admin/addons.rst:480
 msgid "Keep previous msgids of translated strings"
 msgstr "保持已翻译字符串先前的 msgids"
 
-#: ../../admin/addons.rst:470
+#: ../../admin/addons.rst:482
 #, fuzzy
 #| msgid "``Documentation``"
 msgid "``no_location``"
 msgstr "``文档``"
 
-#: ../../admin/addons.rst:470
+#: ../../admin/addons.rst:482
 msgid "Remove locations of translated strings"
 msgstr "删除翻译字符串的位置"
 
-#: ../../admin/addons.rst:472
+#: ../../admin/addons.rst:484
 #, fuzzy
 #| msgid "``{{ stats.fuzzy }}``"
 msgid "``fuzzy``"
 msgstr "``{{ stats.fuzzy }}``"
 
-#: ../../admin/addons.rst:472
+#: ../../admin/addons.rst:484
 msgid "Use fuzzy matching"
 msgstr "使用模糊匹配"
 
-#: ../../admin/addons.rst:475
+#: ../../admin/addons.rst:487
 msgid ""
 "Updates all PO files (as configured by :ref:`component-filemask`) to match "
 "the POT file (as configured by :ref:`component-new_base`) using :program:"
@@ -2214,7 +2229,7 @@ msgstr ""
 "使用 :program:`msgmerge` 来更新所有的 PO 文件（如 :ref:`component-filemask` "
 "所配置），而与 POT 文件（如 :ref:`component-new_base` 所配置）匹配。"
 
-#: ../../admin/addons.rst:478
+#: ../../admin/addons.rst:490
 msgid ""
 "Triggered whenever new changes are pulled from the upstream repository. Most "
 "msgmerge command-line options can be set up through the add-on configuration."
@@ -2222,33 +2237,33 @@ msgstr ""
 "每当从上游存储库中提取新的更改时都会被触发。多数 msgmerge 命令行选项可通过附"
 "加组件配置进行设置。"
 
-#: ../../admin/addons.rst:489
+#: ../../admin/addons.rst:501
 msgid "Squash Git commits"
 msgstr "压缩(Squash) Git 提交"
 
-#: ../../admin/addons.rst:491
+#: ../../admin/addons.rst:503
 msgid "``weblate.git.squash``"
 msgstr "``weblate.git.squash``"
 
-#: ../../admin/addons.rst:493
+#: ../../admin/addons.rst:505
 #, fuzzy
 #| msgid "``weblate.git.squash``"
 msgid "``squash``"
 msgstr "``weblate.git.squash``"
 
-#: ../../admin/addons.rst:493
+#: ../../admin/addons.rst:505
 msgid "Commit squashing"
 msgstr "提交汇并"
 
-#: ../../admin/addons.rst:495
+#: ../../admin/addons.rst:507
 msgid "``append_trailers``"
 msgstr ""
 
-#: ../../admin/addons.rst:495
+#: ../../admin/addons.rst:507
 msgid "Append trailers to squashed commit message"
 msgstr "为压缩提交增加额外信息"
 
-#: ../../admin/addons.rst:495
+#: ../../admin/addons.rst:507
 msgid ""
 "Trailer lines are lines that look similar to RFC 822 e-mail headers, at the "
 "end of the otherwise free-form part of a commit message, such as 'Co-"
@@ -2257,49 +2272,49 @@ msgstr ""
 "额外信息是看起来类似于 RFC 822 电子邮件标头，位于提交消息的其他自由格式部分的"
 "末尾，例如 “Co-authored-by…'.。"
 
-#: ../../admin/addons.rst:497
+#: ../../admin/addons.rst:509
 #, fuzzy
 #| msgid "Commit messages"
 msgid "``commit_message``"
 msgstr "提交信息"
 
-#: ../../admin/addons.rst:497
+#: ../../admin/addons.rst:509
 msgid "Commit message"
 msgstr "提交信息"
 
-#: ../../admin/addons.rst:497
+#: ../../admin/addons.rst:509
 msgid ""
 "This commit message will be used instead of the combined commit messages "
 "from the squashed commits."
 msgstr "将使用此提交消息代替来自压缩提交的组合提交消息。"
 
-#: ../../admin/addons.rst:500
+#: ../../admin/addons.rst:512
 msgid "Squash Git commits prior to pushing changes."
 msgstr "推送变更之前压缩(Squash) Git 提交。"
 
-#: ../../admin/addons.rst:502
+#: ../../admin/addons.rst:514
 msgid ""
 "Git commits can be squashed prior to pushing changes in one of the following "
 "modes:"
 msgstr "以下模式之一中，Git提交可以在推送更改之前被压缩："
 
-#: ../../admin/addons.rst:507
+#: ../../admin/addons.rst:519
 msgid "All commits into one"
 msgstr "所有提交成一个"
 
-#: ../../admin/addons.rst:508
+#: ../../admin/addons.rst:520
 msgid "Per language"
 msgstr "每种语言"
 
-#: ../../admin/addons.rst:509
+#: ../../admin/addons.rst:521
 msgid "Per file"
 msgstr "每个文件"
 
-#: ../../admin/addons.rst:513
+#: ../../admin/addons.rst:525
 msgid "Per author"
 msgstr "每位作者"
 
-#: ../../admin/addons.rst:515
+#: ../../admin/addons.rst:527
 msgid ""
 "Original commit messages are kept, but authorship is lost unless :guilabel:"
 "`Per author` is selected, or the commit message is customized to include it."
@@ -2307,13 +2322,13 @@ msgstr ""
 "原始提交信息保留，但其作者信息丢失，除非选择 :guilabel:`Per author` ，或者定"
 "制提交信息来包括它。"
 
-#: ../../admin/addons.rst:520
+#: ../../admin/addons.rst:532
 msgid ""
 "The original commit messages can optionally be overridden with a custom "
 "commit message."
 msgstr "原始提交信息可选地由定制的提交信息覆盖。"
 
-#: ../../admin/addons.rst:522
+#: ../../admin/addons.rst:534
 msgid ""
 "Trailers (commit lines like ``Co-authored-by: …``) can optionally be removed "
 "from the original commit messages and appended to the end of the squashed "
@@ -2324,68 +2339,68 @@ msgstr ""
 "去掉的提交信息后面。这还可以为每一位翻译者产生适当的 ``Co-authored-by:`` 信"
 "誉。"
 
-#: ../../admin/addons.rst:530
+#: ../../admin/addons.rst:542
 msgid "Customize JSON output"
 msgstr "自定义 JSON 输出"
 
-#: ../../admin/addons.rst:532
+#: ../../admin/addons.rst:544
 msgid "``weblate.json.customize``"
 msgstr "``weblate.json.customize``"
 
-#: ../../admin/addons.rst:534
+#: ../../admin/addons.rst:546
 msgid "``sort_keys``"
 msgstr ""
 
-#: ../../admin/addons.rst:534
+#: ../../admin/addons.rst:546
 msgid "Sort JSON keys"
 msgstr "对 JSON 键值排序"
 
-#: ../../admin/addons.rst:536 ../../admin/addons.rst:620
+#: ../../admin/addons.rst:548 ../../admin/addons.rst:632
 msgid "``indent``"
 msgstr ""
 
-#: ../../admin/addons.rst:536
+#: ../../admin/addons.rst:548
 msgid "JSON indentation"
 msgstr "JSON 缩进"
 
-#: ../../admin/addons.rst:539
+#: ../../admin/addons.rst:551
 msgid ""
 "Allows adjusting JSON output behavior, for example indentation or sorting."
 msgstr "允许调整 JSON 的输出行为，例如缩进或排序。"
 
-#: ../../admin/addons.rst:544
+#: ../../admin/addons.rst:556
 msgid "Formats the Java properties file"
 msgstr "格式化 Java 属性文件"
 
-#: ../../admin/addons.rst:546
+#: ../../admin/addons.rst:558
 msgid "``weblate.properties.sort``"
 msgstr "``weblate.properties.sort``"
 
-#: ../../admin/addons.rst:549
+#: ../../admin/addons.rst:561
 msgid "Sorts the Java properties file."
 msgstr "排序 Java 属性文件。"
 
-#: ../../admin/addons.rst:554
+#: ../../admin/addons.rst:566
 msgid "Stale comment removal"
 msgstr "陈旧注释删除"
 
-#: ../../admin/addons.rst:558
+#: ../../admin/addons.rst:570
 msgid "``weblate.removal.comments``"
 msgstr "``weblate.removal.comments``"
 
-#: ../../admin/addons.rst:560 ../../admin/addons.rst:578
+#: ../../admin/addons.rst:572 ../../admin/addons.rst:590
 msgid "``age``"
 msgstr ""
 
-#: ../../admin/addons.rst:560 ../../admin/addons.rst:578
+#: ../../admin/addons.rst:572 ../../admin/addons.rst:590
 msgid "Days to keep"
 msgstr "要保持的天数"
 
-#: ../../admin/addons.rst:563
+#: ../../admin/addons.rst:575
 msgid "Set a timeframe for removal of comments."
 msgstr "设置删除注释的时间。"
 
-#: ../../admin/addons.rst:565
+#: ../../admin/addons.rst:577
 msgid ""
 "This can be useful to remove old comments which might have become outdated. "
 "Use with care as comments getting old does not mean they have lost their "
@@ -2394,31 +2409,31 @@ msgstr ""
 "这可以用于删除可能变得过时的陈旧注释。小心使用，因为陈旧的注释不意味着失去了"
 "重要性。"
 
-#: ../../admin/addons.rst:572
+#: ../../admin/addons.rst:584
 msgid "Stale suggestion removal"
 msgstr "陈旧建议删除"
 
-#: ../../admin/addons.rst:576
+#: ../../admin/addons.rst:588
 msgid "``weblate.removal.suggestions``"
 msgstr "``weblate.removal.suggestions``"
 
-#: ../../admin/addons.rst:580
+#: ../../admin/addons.rst:592
 msgid "``votes``"
 msgstr ""
 
-#: ../../admin/addons.rst:580
+#: ../../admin/addons.rst:592
 msgid "Voting threshold"
 msgstr "投票阈值"
 
-#: ../../admin/addons.rst:580
+#: ../../admin/addons.rst:592
 msgid "Threshold for removal. This field has no effect with voting turned off."
 msgstr "移除阈值。当投票被禁用时该项无效果。"
 
-#: ../../admin/addons.rst:583
+#: ../../admin/addons.rst:595
 msgid "Set a timeframe for removal of suggestions."
 msgstr "设置删除建议的时间。"
 
-#: ../../admin/addons.rst:585
+#: ../../admin/addons.rst:597
 msgid ""
 "Can be very useful in connection with suggestion voting (see :ref:`peer-"
 "review`) to remove suggestions which don't receive enough positive votes in "
@@ -2427,15 +2442,15 @@ msgstr ""
 "此附加组件在与建议投票一道用来删除在给定的时间内没有得到足够的正面投票的建议"
 "方面非常有用。"
 
-#: ../../admin/addons.rst:592
+#: ../../admin/addons.rst:604
 msgid "Update RESX files"
 msgstr "更新 RESX 文件"
 
-#: ../../admin/addons.rst:596
+#: ../../admin/addons.rst:608
 msgid "``weblate.resx.update``"
 msgstr "``weblate.resx.update``"
 
-#: ../../admin/addons.rst:599
+#: ../../admin/addons.rst:611
 msgid ""
 "Update all translation files to match the monolingual upstream base file. "
 "Unused strings are removed, and new ones added as copies of the source "
@@ -2444,45 +2459,45 @@ msgstr ""
 "更新所有翻译文件以匹配上游单语言译文模版文件。未使用的字符串将被删除，新字符"
 "串将复制源字符串添加。"
 
-#: ../../admin/addons.rst:604
+#: ../../admin/addons.rst:616
 msgid ""
 "Use :ref:`addon-weblate.cleanup.generic` if you only want to remove stale "
 "translation keys."
 msgstr ""
 "如果只想删除陈旧的翻译键，那么使用 :ref:`addon-weblate.cleanup.generic`。"
 
-#: ../../admin/addons.rst:614
+#: ../../admin/addons.rst:626
 msgid "Customize YAML output"
 msgstr "自定义 YAML 输出"
 
-#: ../../admin/addons.rst:618
+#: ../../admin/addons.rst:630
 msgid "``weblate.yaml.customize``"
 msgstr "``weblate.yaml.customize``"
 
-#: ../../admin/addons.rst:620
+#: ../../admin/addons.rst:632
 msgid "YAML indentation"
 msgstr "YAML 缩进"
 
-#: ../../admin/addons.rst:624
+#: ../../admin/addons.rst:636
 #, fuzzy
 #| msgid "Line breaks"
 msgid "``line_break``"
 msgstr "换行符"
 
-#: ../../admin/addons.rst:624
+#: ../../admin/addons.rst:636
 msgid "Line breaks"
 msgstr "换行符"
 
-#: ../../admin/addons.rst:627
+#: ../../admin/addons.rst:639
 msgid ""
 "Allows adjusting YAML output behavior, for example line-length or newlines."
 msgstr "允许调整 YAML 的输出，例如自定义缩进或自定义换行。"
 
-#: ../../admin/addons.rst:631
+#: ../../admin/addons.rst:643
 msgid "Customizing list of add-ons"
 msgstr "定制附加组件列表"
 
-#: ../../admin/addons.rst:633
+#: ../../admin/addons.rst:645
 msgid ""
 "The list of add-ons is configured by :setting:`WEBLATE_ADDONS`. To add "
 "another add-on, simply include the absolute class name in this setting."
@@ -2490,11 +2505,11 @@ msgstr ""
 "附加组件列表由 :setting:`WEBLATE_ADDONS` 配置。要添加其他附加组件，只需在这个"
 "设置中包含绝对类名称即可。"
 
-#: ../../admin/addons.rst:640
+#: ../../admin/addons.rst:652
 msgid "Writing add-on"
 msgstr "编写附加组件"
 
-#: ../../admin/addons.rst:642
+#: ../../admin/addons.rst:654
 msgid ""
 "You can write your own add-ons too, create a subclass of :class:`weblate."
 "addons.base.BaseAddon` to define the addon metadata, and then implement a "
@@ -2503,15 +2518,15 @@ msgstr ""
 "你也可以编写自己的附加组件，创建子类 :class:`weblate.addons.base.BaseAddon`来"
 "定义附加组件元数据，接着实施回调来进行处理。"
 
-#: ../../admin/addons.rst:648
+#: ../../admin/addons.rst:660
 msgid ":doc:`../contributing/addons`"
 msgstr ":doc:`../contributing/addons`"
 
-#: ../../admin/addons.rst:653
+#: ../../admin/addons.rst:665
 msgid "Executing scripts from add-on"
 msgstr "从附加组件执行脚本"
 
-#: ../../admin/addons.rst:655
+#: ../../admin/addons.rst:667
 msgid ""
 "Add-ons can also be used to execute external scripts. This used to be "
 "integrated in Weblate, but now you have to write some code to wrap your "
@@ -2520,11 +2535,11 @@ msgstr ""
 "附加逐渐还可以用于执行外部脚本。这曾经集成在 Weblate 中，但现在必须写一些代"
 "码，将脚本包裹在附加组件中。"
 
-#: ../../admin/addons.rst:662
+#: ../../admin/addons.rst:674
 msgid "For installation instructions see :ref:`custom-addon-modules`."
 msgstr "安装方法请参见 :ref:`custom-addon-modules` 。"
 
-#: ../../admin/addons.rst:664
+#: ../../admin/addons.rst:676
 msgid ""
 "The script is executed with the current directory set to the root of the VCS "
 "repository for any given component."
@@ -2532,87 +2547,87 @@ msgstr ""
 "对于任何给定的组件，当前路径设置为版本控制系统（ VCS ）仓库的根目录时，执行脚"
 "本。"
 
-#: ../../admin/addons.rst:667
+#: ../../admin/addons.rst:679
 msgid "Additionally, the following environment variables are available:"
 msgstr "此外，可以访问后面的环境参数："
 
-#: ../../admin/addons.rst:671
+#: ../../admin/addons.rst:683
 msgid "Version control system used."
 msgstr "使用的版本控制系统。"
 
-#: ../../admin/addons.rst:675
+#: ../../admin/addons.rst:687
 msgid "Upstream repository URL."
 msgstr "上游仓库 URL 。"
 
-#: ../../admin/addons.rst:679
+#: ../../admin/addons.rst:691
 msgid "Absolute path to VCS repository."
 msgstr "版本控制系统（ VCS ）仓库的绝对路径。"
 
-#: ../../admin/addons.rst:685
+#: ../../admin/addons.rst:697
 msgid "Repository branch configured in the current component."
 msgstr "当前组件配置的仓库分支。"
 
-#: ../../admin/addons.rst:689
+#: ../../admin/addons.rst:701
 msgid "Filemask for current component."
 msgstr "当前组件的Filemask。"
 
-#: ../../admin/addons.rst:693
+#: ../../admin/addons.rst:705
 msgid "Filename of template for monolingual translations (can be empty)."
 msgstr "单语言翻译模板的文件名（可以为空）。"
 
-#: ../../admin/addons.rst:699
+#: ../../admin/addons.rst:711
 msgid "Filename of the file used for creating new translations (can be empty)."
 msgstr "建立新的翻译所使用文件的文件名（可以为空）。"
 
-#: ../../admin/addons.rst:704
+#: ../../admin/addons.rst:716
 msgid "File format used in current component."
 msgstr "用于当前组件的文件格式。"
 
-#: ../../admin/addons.rst:708
+#: ../../admin/addons.rst:720
 msgid ""
 "Language of currently processed translation (not available for component-"
 "level hooks)."
 msgstr "当前处理的翻译的语言（对于组件级别的钩子不可用）。"
 
-#: ../../admin/addons.rst:713
+#: ../../admin/addons.rst:725
 msgid ""
 "Previous HEAD after update (only available after running the post-update "
 "hook)."
 msgstr "更新后的上个 HEAD (仅在运行更新后钩子后可用)。"
 
-#: ../../admin/addons.rst:719
+#: ../../admin/addons.rst:731
 msgid "Component slug used to construct URL."
 msgstr "组件标识串用于构建 URL 。"
 
-#: ../../admin/addons.rst:725
+#: ../../admin/addons.rst:737
 msgid "Project slug used to construct URL."
 msgstr "项目标识串用于构建 URL 。"
 
-#: ../../admin/addons.rst:731
+#: ../../admin/addons.rst:743
 msgid "Component name."
 msgstr "组件名称。"
 
-#: ../../admin/addons.rst:737
+#: ../../admin/addons.rst:749
 msgid "Project name."
 msgstr "项目名称。"
 
-#: ../../admin/addons.rst:743
+#: ../../admin/addons.rst:755
 msgid "Component URL."
 msgstr "组件 URL 。"
 
-#: ../../admin/addons.rst:749
+#: ../../admin/addons.rst:761
 msgid "Project engage URL."
 msgstr "项目参与 URL 。"
 
-#: ../../admin/addons.rst:753 ../../faq.rst:260
+#: ../../admin/addons.rst:765 ../../faq.rst:260
 msgid ":ref:`component`"
 msgstr ":ref:`component`"
 
-#: ../../admin/addons.rst:756
+#: ../../admin/addons.rst:768
 msgid "Post-update repository processing"
 msgstr "更新后存储库处理"
 
-#: ../../admin/addons.rst:758
+#: ../../admin/addons.rst:770
 msgid ""
 "Can be used to update translation files when the VCS upstream source "
 "changes. To achieve this, please remember Weblate only sees files committed "
@@ -2622,21 +2637,21 @@ msgstr ""
 "Weblate 只看到提交给版本控制系统（ VCS ）的文件，所以需要同意更改作为脚本的一"
 "部分。"
 
-#: ../../admin/addons.rst:762
+#: ../../admin/addons.rst:774
 msgid "For example with Gulp you can do it using following code:"
 msgstr "例如 Gulp ，可以使用后面的代码来执行："
 
-#: ../../admin/addons.rst:772
+#: ../../admin/addons.rst:784
 msgid "Pre-commit processing of translations"
 msgstr "翻译的预提交处理"
 
-#: ../../admin/addons.rst:774
+#: ../../admin/addons.rst:786
 msgid ""
 "Use the commit script to automatically change a translation before it is "
 "committed to the repository."
 msgstr "在将翻译提交到存储库之前，使用 commit 脚本自动更改翻译。"
 
-#: ../../admin/addons.rst:777
+#: ../../admin/addons.rst:789
 msgid ""
 "It is passed as a single parameter consisting of the filename of a current "
 "translation."
@@ -2811,6 +2826,12 @@ msgstr ""
 "可以使用 :guilabel:`Post announcement` ，在 :guilabel:`Manage` 菜单的每一届张"
 "贴公告："
 
+#: ../../admin/announcements.rst:None
+msgid ""
+"Image showing a message that reads: \"Translations will be used only if they "
+"reach 60%\" atop the dashboard view."
+msgstr ""
+
 #: ../../admin/announcements.rst:24
 msgid "It can be also added using the admin interface:"
 msgstr "还可以使用管理界面添加："
@@ -2855,6 +2876,12 @@ msgstr "显示语言的全景和该语言的全部翻译。"
 #: ../../admin/announcements.rst:47
 msgid "This is how it looks on the language overview page:"
 msgstr "这就是语言全景页面上的样子："
+
+#: ../../admin/announcements.rst:None
+msgid ""
+"Image showing a message that reads: \"Czech translators rock!\" atop the "
+"Czech language overview."
+msgstr ""
 
 #: ../../admin/auth.rst:2
 msgid "Authentication"
@@ -5081,6 +5108,12 @@ msgid ""
 msgstr ""
 "1. 在项目和组件字段用 ``^.*$`` 作为正则表达式，指定 :guilabel:`Automatic "
 "component list assignment` ，如这张图所示："
+
+#: ../../admin/componentlists.rst:None
+msgid ""
+"Image showing the Weblate administration panel with the above configuration "
+"filled in."
+msgstr ""
 
 #: ../../admin/config.rst:6
 msgid ""
@@ -8684,6 +8717,12 @@ msgstr ""
 "的 Weblate 会自动更新。软件包由 Cloudron 团队在它们的 `Weblate package repo "
 "<https://git.cloudron.io/cloudron/weblate-app>`_ 上维护。"
 
+#: ../../admin/deployments.rst:None
+#, fuzzy
+#| msgid "Installing Weblate"
+msgid "Install Weblate with Cloudron"
+msgstr "安装 Weblate"
+
 #: ../../admin/deployments.rst:40
 msgid "Weblate in YunoHost"
 msgstr "YunoHost 中的 Weblate"
@@ -8705,6 +8744,12 @@ msgid ""
 "You may use your administration interface, or this button (it will bring you "
 "to your server):"
 msgstr "可以使用管理界面，或这个按钮（它将带你到你的服务器）："
+
+#: ../../admin/deployments.rst:None
+#, fuzzy
+#| msgid "Weblate in YunoHost"
+msgid "Install Weblate with YunoHost"
+msgstr "YunoHost 中的 Weblate"
 
 #: ../../admin/deployments.rst:54
 msgid "It also is possible to use the commandline interface:"
@@ -13975,7 +14020,7 @@ msgstr ""
 ":setting:`MT_YOUDAO_ID`, :setting:`MT_YOUDAO_SECRET` `有道智云自然语言翻译服"
 "务 <https://ai.youdao.com/product-fanyi-text.s>`_"
 
-#: ../../admin/machine.rst:363
+#: ../../admin/machine.rst:363 ../../../README.rst:None
 msgid "Weblate"
 msgstr "Weblate"
 
@@ -20582,7 +20627,9 @@ msgid "Weblate 4.7"
 msgstr "Weblate 4.7"
 
 #: ../../changes.rst:4
-msgid "Released on June 16th 2021."
+#, fuzzy
+#| msgid "Released on June 16th 2021."
+msgid "Released on June 17th 2021."
 msgstr "发布于 2020 年 06 月16 日。"
 
 #: ../../changes.rst:6
@@ -27301,7 +27348,8 @@ msgstr "`Django REST 框架 <https://www.django-rest-framework.org/#security>`_"
 msgid "`Python Social Auth <https://github.com/python-social-auth>`_"
 msgstr "`Python Social Auth <https://github.com/python-social-auth>`_"
 
-#: ../../contributing/license.rst:2 ../../../README.rst:60
+#: ../../contributing/license.rst:2 ../../../README.rst:None
+#: ../../../README.rst:60
 msgid "License"
 msgstr "许可协议"
 
@@ -32689,6 +32737,20 @@ msgstr ""
 #: ../../../README.rst:9
 msgid "Install it, or use the Hosted Weblate service at `weblate.org`_."
 msgstr "安装它，或使用 `weblate.org`_ 上的 Hosted Weblate 服务。"
+
+#: ../../../README.rst:None
+#, fuzzy
+#| msgid "Website URL"
+msgid "Website"
+msgstr "网站地址"
+
+#: ../../../README.rst:None
+msgid "Translation status"
+msgstr "翻译状态"
+
+#: ../../../README.rst:None
+msgid "CII Best Practices"
+msgstr ""
 
 #: ../../../README.rst:34
 msgid "Support"

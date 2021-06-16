@@ -20,7 +20,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.7\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
-"POT-Creation-Date: 2021-06-15 04:46+0000\n"
+"POT-Creation-Date: 2021-06-16 18:40+0000\n"
 "PO-Revision-Date: 2021-06-16 07:02+0000\n"
 "Last-Translator: Supaplex <bejokeup@gmail.com>\n"
 "Language-Team: Chinese (Traditional) <https://hosted.weblate.org/projects/"
@@ -3767,13 +3767,15 @@ msgstr "伺服器錯誤"
 msgid ""
 "The server had serious problems serving your request, and this error has "
 "been recorded as %(error_id)s."
-msgstr "伺服器在處理您的請求時發生重大問題，而這問題被記錄下來為 %(error_id)s。"
+msgstr ""
+"伺服器在處理您的請求時發生重大問題，而這問題被記錄下來為 %(error_id)s。"
 
 #: weblate/templates/500.html:36
 msgid ""
 "The server had serious problems serving your request. You might want to "
 "contact server admins in case the error persists."
-msgstr "伺服器在處理您的請求時發生重大問題，你也許想要聯繫伺服器管理員來反應問題。"
+msgstr ""
+"伺服器在處理您的請求時發生重大問題，你也許想要聯繫伺服器管理員來反應問題。"
 
 #: weblate/templates/about/index.html:5 weblate/templates/about/index.html:11
 #: weblate/templates/about/keys.html:6 weblate/templates/about/stats.html:7
@@ -11398,15 +11400,21 @@ msgstr ""
 "{0} 正透過 Weblate 翻譯成 {1} 種語言。請加入翻譯的行列，或是開始翻譯您的專案"
 "吧。"
 
-#: weblate/trans/validators.py:29
+#: weblate/trans/validators.py:30
 msgid "Filemask does not contain * as a language placeholder!"
 msgstr "檔案遮罩不包含作語言碼預留位置用的 * 號！"
 
-#: weblate/trans/validators.py:38
+#: weblate/trans/validators.py:39
 msgid ""
 "A value of 1 is not allowed for autoaccept as it would permit users to vote "
 "on their own suggestions."
 msgstr "將值設成 1 即不允許自動接受，若開啟此功能則允許使用者投給自己的建議。"
+
+#: weblate/trans/validators.py:50
+#, fuzzy, python-format
+#| msgid "Failed to update git: %s"
+msgid "Failed to parse flags: %s"
+msgstr "更新 git 失敗：%s"
 
 #: weblate/trans/views/about.py:34
 msgid "Keys"
@@ -11420,7 +11428,7 @@ msgstr "Weblate 統計數據"
 msgid "Invalid parameters!"
 msgstr "無效的參數！"
 
-#: weblate/trans/views/acl.py:88 weblate/trans/views/acl.py:224
+#: weblate/trans/views/acl.py:88 weblate/trans/views/acl.py:227
 msgid "You can not remove last owner!"
 msgstr "您不能移除最後一位擁有者！"
 
@@ -11428,23 +11436,29 @@ msgstr "您不能移除最後一位擁有者！"
 msgid "User has been added to this project."
 msgstr "使用者此專案。"
 
-#: weblate/trans/views/acl.py:135 weblate/trans/views/acl.py:195
+#: weblate/trans/views/acl.py:135 weblate/trans/views/acl.py:198
 msgid "Failed to find group to add a user!"
 msgstr "未能找到要加入使用者的群組！"
 
-#: weblate/trans/views/acl.py:164
+#: weblate/trans/views/acl.py:147
+#, fuzzy
+#| msgid "User has been blocked on this project."
+msgid "You can not block yourself on this project."
+msgstr "在這專案當中使用者被封鎖。"
+
+#: weblate/trans/views/acl.py:167
 msgid "User has been blocked on this project."
 msgstr "在這專案當中使用者被封鎖。"
 
-#: weblate/trans/views/acl.py:166
+#: weblate/trans/views/acl.py:169
 msgid "User is already blocked on this project."
 msgstr "在這專案當中使用者已經被封鎖了。"
 
-#: weblate/trans/views/acl.py:193 weblate/trans/views/acl.py:208
+#: weblate/trans/views/acl.py:196 weblate/trans/views/acl.py:211
 msgid "User has been invited to this project."
 msgstr "使用者已邀進此專案。"
 
-#: weblate/trans/views/acl.py:233
+#: weblate/trans/views/acl.py:236
 msgid "User has been removed from this project."
 msgstr "使用者已從這個專案中移除。"
 
@@ -15912,9 +15926,6 @@ msgstr "建立使用者帳號 %s。"
 
 #~ msgid "Can not write to home directory, please check documentation."
 #~ msgstr "不能寫入主目錄，請檢查文件檔。"
-
-#~ msgid "Failed to update git: %s"
-#~ msgstr "更新 git 失敗：%s"
 
 #~ msgid ""
 #~ "By registering you agree to use your name and email in Git commits and "

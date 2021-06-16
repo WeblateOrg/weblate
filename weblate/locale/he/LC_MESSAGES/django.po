@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.7\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
-"POT-Creation-Date: 2021-06-15 04:46+0000\n"
+"POT-Creation-Date: 2021-06-16 18:40+0000\n"
 "PO-Revision-Date: 2021-06-16 07:02+0000\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: Hebrew <https://hosted.weblate.org/projects/weblate/"
@@ -11700,17 +11700,23 @@ msgstr ""
 "המיזם {0} מתורגם ל־{1} שפות באמצעות Weblate. ניתן להצטרף למאמץ התרגום או "
 "להתחיל לתרגם מיזם משלך."
 
-#: weblate/trans/validators.py:29
+#: weblate/trans/validators.py:30
 msgid "Filemask does not contain * as a language placeholder!"
 msgstr "מסכת קבצים לא כוללת * בתור ממלא מקום לשפה!"
 
-#: weblate/trans/validators.py:38
+#: weblate/trans/validators.py:39
 msgid ""
 "A value of 1 is not allowed for autoaccept as it would permit users to vote "
 "on their own suggestions."
 msgstr ""
 "אסור להשתמש ב־1 כערך להצבעה אוטומטית כי במצב כזה כל משתמש יוכל להצביע להצעות "
 "של עצמו."
+
+#: weblate/trans/validators.py:50
+#, fuzzy, python-format
+#| msgid "Failed to generate key: %s"
+msgid "Failed to parse flags: %s"
+msgstr "יצירת המפתח נכשלה: %s"
 
 #: weblate/trans/views/about.py:34
 msgid "Keys"
@@ -11724,7 +11730,7 @@ msgstr "הסטטיסטיקה של Weblate"
 msgid "Invalid parameters!"
 msgstr "משתנים שגויים!"
 
-#: weblate/trans/views/acl.py:88 weblate/trans/views/acl.py:224
+#: weblate/trans/views/acl.py:88 weblate/trans/views/acl.py:227
 msgid "You can not remove last owner!"
 msgstr "אין אפשרות להסיר את הבעלים האחרונים!"
 
@@ -11732,23 +11738,29 @@ msgstr "אין אפשרות להסיר את הבעלים האחרונים!"
 msgid "User has been added to this project."
 msgstr "המשתמש נוסף למיזם הזה."
 
-#: weblate/trans/views/acl.py:135 weblate/trans/views/acl.py:195
+#: weblate/trans/views/acl.py:135 weblate/trans/views/acl.py:198
 msgid "Failed to find group to add a user!"
 msgstr "חיפוש הקבוצה להוספת המשתמש נכשל!"
 
-#: weblate/trans/views/acl.py:164
+#: weblate/trans/views/acl.py:147
+#, fuzzy
+#| msgid "User has been blocked on this project."
+msgid "You can not block yourself on this project."
+msgstr "המשתמש נחסם במיזם הזה."
+
+#: weblate/trans/views/acl.py:167
 msgid "User has been blocked on this project."
 msgstr "המשתמש נחסם במיזם הזה."
 
-#: weblate/trans/views/acl.py:166
+#: weblate/trans/views/acl.py:169
 msgid "User is already blocked on this project."
 msgstr "המשתמש כבר נחסם במיזם הזה."
 
-#: weblate/trans/views/acl.py:193 weblate/trans/views/acl.py:208
+#: weblate/trans/views/acl.py:196 weblate/trans/views/acl.py:211
 msgid "User has been invited to this project."
 msgstr "המשתמש הוזמן למיזם הזה."
 
-#: weblate/trans/views/acl.py:233
+#: weblate/trans/views/acl.py:236
 msgid "User has been removed from this project."
 msgstr "המשתמש הוסר מהמיזם הזה."
 
@@ -16345,11 +16357,6 @@ msgstr "נוצר חשבון המשתמש %s."
 
 #~ msgid "Home directory"
 #~ msgstr "תיקיית בית"
-
-#, fuzzy
-#~| msgid "Failed to generate key: %s"
-#~ msgid "Failed to update git: %s"
-#~ msgstr "יצירת המפתח נכשלה: %s"
 
 #, fuzzy
 #~| msgid "Resource update"

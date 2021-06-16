@@ -17,7 +17,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.7\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
-"POT-Creation-Date: 2021-06-15 04:46+0000\n"
+"POT-Creation-Date: 2021-06-16 18:40+0000\n"
 "PO-Revision-Date: 2021-04-17 23:26+0000\n"
 "Last-Translator: Anonymous <noreply@weblate.org>\n"
 "Language-Team: Slovak <https://hosted.weblate.org/projects/weblate/"
@@ -13918,13 +13918,13 @@ msgid ""
 "start translating your own project."
 msgstr ""
 
-#: weblate/trans/validators.py:29
+#: weblate/trans/validators.py:30
 #, fuzzy
 #| msgid "File mask does not contain * as a language placeholder!"
 msgid "Filemask does not contain * as a language placeholder!"
 msgstr "Maska súborov neobsahuje * na mieste jazyka!"
 
-#: weblate/trans/validators.py:38
+#: weblate/trans/validators.py:39
 #, fuzzy
 #| msgid ""
 #| "Value of 1 is not allowed for autoaccept as every user gives vote to his "
@@ -13935,6 +13935,12 @@ msgid ""
 msgstr ""
 "Hodnota 1 nie je povolená pre automatický príjem, pretože každý užívateľ dá "
 "svojmu návrhu jeden hlas."
+
+#: weblate/trans/validators.py:50
+#, fuzzy, python-format
+#| msgid "Failed to update git: %s"
+msgid "Failed to parse flags: %s"
+msgstr "Nepodarilo sa aktualizovať git: %s"
 
 #: weblate/trans/views/about.py:34
 msgid "Keys"
@@ -13950,7 +13956,7 @@ msgstr "Štatistiky Weblate"
 msgid "Invalid parameters!"
 msgstr "Chybná požiadavka na zlúčenie!"
 
-#: weblate/trans/views/acl.py:88 weblate/trans/views/acl.py:224
+#: weblate/trans/views/acl.py:88 weblate/trans/views/acl.py:227
 msgid "You can not remove last owner!"
 msgstr "Nemôžete odobrať posledného vlastníka!"
 
@@ -13958,31 +13964,37 @@ msgstr "Nemôžete odobrať posledného vlastníka!"
 msgid "User has been added to this project."
 msgstr "Užívateľ bol pridaný do tohto projektu."
 
-#: weblate/trans/views/acl.py:135 weblate/trans/views/acl.py:195
+#: weblate/trans/views/acl.py:135 weblate/trans/views/acl.py:198
 #, fuzzy
 #| msgid "Failed to find matching user!"
 msgid "Failed to find group to add a user!"
 msgstr "Nepodarilo sa nájsť zodpovedajúceho užívateľa!"
 
-#: weblate/trans/views/acl.py:164
+#: weblate/trans/views/acl.py:147
+#, fuzzy
+#| msgid "User has been added to this project."
+msgid "You can not block yourself on this project."
+msgstr "Užívateľ bol pridaný do tohto projektu."
+
+#: weblate/trans/views/acl.py:167
 #, fuzzy
 #| msgid "User has been added to this project."
 msgid "User has been blocked on this project."
 msgstr "Užívateľ bol pridaný do tohto projektu."
 
-#: weblate/trans/views/acl.py:166
+#: weblate/trans/views/acl.py:169
 #, fuzzy
 #| msgid "User has been added to this project."
 msgid "User is already blocked on this project."
 msgstr "Užívateľ bol pridaný do tohto projektu."
 
-#: weblate/trans/views/acl.py:193 weblate/trans/views/acl.py:208
+#: weblate/trans/views/acl.py:196 weblate/trans/views/acl.py:211
 #, fuzzy
 #| msgid "User has been added to this project."
 msgid "User has been invited to this project."
 msgstr "Užívateľ bol pridaný do tohto projektu."
 
-#: weblate/trans/views/acl.py:233
+#: weblate/trans/views/acl.py:236
 msgid "User has been removed from this project."
 msgstr "Užívateľ bol odobraný z tohto projektu."
 
@@ -18832,9 +18844,6 @@ msgstr "Vytvoriť účet pomocou:"
 
 #~ msgid "Home directory"
 #~ msgstr "Domovský adresár"
-
-#~ msgid "Failed to update git: %s"
-#~ msgstr "Nepodarilo sa aktualizovať git: %s"
 
 #~ msgid ""
 #~ "By registering you agree to use your name and email in Git commits and "

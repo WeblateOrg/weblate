@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.7\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
-"POT-Creation-Date: 2021-06-15 04:46+0000\n"
+"POT-Creation-Date: 2021-06-16 18:40+0000\n"
 "PO-Revision-Date: 2021-04-17 23:27+0000\n"
 "Last-Translator: Anonymous <noreply@weblate.org>\n"
 "Language-Team: Azerbaijani <https://hosted.weblate.org/projects/weblate/"
@@ -13955,13 +13955,13 @@ msgid ""
 "start translating your own project."
 msgstr ""
 
-#: weblate/trans/validators.py:29
+#: weblate/trans/validators.py:30
 #, fuzzy
 #| msgid "File mask does not contain * as a language placeholder!"
 msgid "Filemask does not contain * as a language placeholder!"
 msgstr "Fayl maskasında dil yer tutucusu olaraq * ola bilməz!"
 
-#: weblate/trans/validators.py:38
+#: weblate/trans/validators.py:39
 #, fuzzy
 #| msgid ""
 #| "Value of 1 is not allowed for autoaccept as every user gives vote to his "
@@ -13972,6 +13972,12 @@ msgid ""
 msgstr ""
 "Hər istifadəçinin təklifinə verdiyi səs kimi 1 qiymətinə avtomatik qəbul "
 "üçün icazə verilmir."
+
+#: weblate/trans/validators.py:50
+#, fuzzy, python-format
+#| msgid "Failed to update git: %s"
+msgid "Failed to parse flags: %s"
+msgstr "Git yenilənməsi uğursuz oldu: %s"
 
 #: weblate/trans/views/about.py:34
 msgid "Keys"
@@ -13989,7 +13995,7 @@ msgstr "Tərcümələriniz"
 msgid "Invalid parameters!"
 msgstr "Uğursuz birləşdirmə sorğusu!"
 
-#: weblate/trans/views/acl.py:88 weblate/trans/views/acl.py:224
+#: weblate/trans/views/acl.py:88 weblate/trans/views/acl.py:227
 msgid "You can not remove last owner!"
 msgstr ""
 
@@ -13997,31 +14003,37 @@ msgstr ""
 msgid "User has been added to this project."
 msgstr ""
 
-#: weblate/trans/views/acl.py:135 weblate/trans/views/acl.py:195
+#: weblate/trans/views/acl.py:135 weblate/trans/views/acl.py:198
 #, fuzzy
 #| msgid "Failed to find matching user!"
 msgid "Failed to find group to add a user!"
 msgstr "Uyğun gələn istifadəçi adı tapma uğursuz oldu!"
 
-#: weblate/trans/views/acl.py:164
+#: weblate/trans/views/acl.py:147
+#, fuzzy
+#| msgid "All subprojects"
+msgid "You can not block yourself on this project."
+msgstr "Bütün alt layihələr"
+
+#: weblate/trans/views/acl.py:167
 #, fuzzy
 #| msgid "All subprojects"
 msgid "User has been blocked on this project."
 msgstr "Bütün alt layihələr"
 
-#: weblate/trans/views/acl.py:166
+#: weblate/trans/views/acl.py:169
 #, fuzzy
 #| msgid "All subprojects"
 msgid "User is already blocked on this project."
 msgstr "Bütün alt layihələr"
 
-#: weblate/trans/views/acl.py:193 weblate/trans/views/acl.py:208
+#: weblate/trans/views/acl.py:196 weblate/trans/views/acl.py:211
 #, fuzzy
 #| msgid "All subprojects"
 msgid "User has been invited to this project."
 msgstr "Bütün alt layihələr"
 
-#: weblate/trans/views/acl.py:233
+#: weblate/trans/views/acl.py:236
 msgid "User has been removed from this project."
 msgstr ""
 
@@ -18668,9 +18680,6 @@ msgstr "Bu hesabı sil"
 
 #~ msgid "Home directory"
 #~ msgstr "Ana kataloq"
-
-#~ msgid "Failed to update git: %s"
-#~ msgstr "Git yenilənməsi uğursuz oldu: %s"
 
 #~ msgid ""
 #~ "By registering you agree to use your name and email in Git commits and "

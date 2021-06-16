@@ -22,7 +22,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.7\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
-"POT-Creation-Date: 2021-06-15 04:46+0000\n"
+"POT-Creation-Date: 2021-06-16 18:40+0000\n"
 "PO-Revision-Date: 2021-06-16 18:39+0000\n"
 "Last-Translator: Demian Wright <wright.demian+weblate@gmail.com>\n"
 "Language-Team: Finnish <https://hosted.weblate.org/projects/weblate/"
@@ -12147,17 +12147,23 @@ msgstr ""
 "{0} on käännetty {1} kielelle Weblatea käyttämällä. Liity kääntäjien "
 "joukkoon tai aloita oma käännösprojektisi."
 
-#: weblate/trans/validators.py:29
+#: weblate/trans/validators.py:30
 msgid "Filemask does not contain * as a language placeholder!"
 msgstr "Tiedostomaski ei sisällä * kielen paikkamerkkinä!"
 
-#: weblate/trans/validators.py:38
+#: weblate/trans/validators.py:39
 msgid ""
 "A value of 1 is not allowed for autoaccept as it would permit users to vote "
 "on their own suggestions."
 msgstr ""
 "Arvo 1 ei ole sallittu automaattiseen hyväksymiseen, koska se mahdollistaisi "
 "käyttäjän oman ehdotuksen hyväksymisen hänen omalla äänellään."
+
+#: weblate/trans/validators.py:50
+#, fuzzy, python-format
+#| msgid "Failed to update git: %s"
+msgid "Failed to parse flags: %s"
+msgstr "Git päivittäminen epäonnistui: %s"
 
 #: weblate/trans/views/about.py:34
 msgid "Keys"
@@ -12171,7 +12177,7 @@ msgstr "Weblaten tilastot"
 msgid "Invalid parameters!"
 msgstr "Virheellisiä parametrejä!"
 
-#: weblate/trans/views/acl.py:88 weblate/trans/views/acl.py:224
+#: weblate/trans/views/acl.py:88 weblate/trans/views/acl.py:227
 msgid "You can not remove last owner!"
 msgstr "Et voi poistaa viimeistä omistajaa!"
 
@@ -12179,27 +12185,33 @@ msgstr "Et voi poistaa viimeistä omistajaa!"
 msgid "User has been added to this project."
 msgstr "Käyttäjä on lisätty tähän projektiin."
 
-#: weblate/trans/views/acl.py:135 weblate/trans/views/acl.py:195
+#: weblate/trans/views/acl.py:135 weblate/trans/views/acl.py:198
 msgid "Failed to find group to add a user!"
 msgstr "Etsimääsi ryhmää käyttäjän lisäämiseksi ei löytynyt!"
 
-#: weblate/trans/views/acl.py:164
+#: weblate/trans/views/acl.py:147
+#, fuzzy
+#| msgid "User has been added to this project."
+msgid "You can not block yourself on this project."
+msgstr "Käyttäjä on lisätty tähän projektiin."
+
+#: weblate/trans/views/acl.py:167
 #, fuzzy
 #| msgid "User has been added to this project."
 msgid "User has been blocked on this project."
 msgstr "Käyttäjä on lisätty tähän projektiin."
 
-#: weblate/trans/views/acl.py:166
+#: weblate/trans/views/acl.py:169
 #, fuzzy
 #| msgid "User has been added to this project."
 msgid "User is already blocked on this project."
 msgstr "Käyttäjä on lisätty tähän projektiin."
 
-#: weblate/trans/views/acl.py:193 weblate/trans/views/acl.py:208
+#: weblate/trans/views/acl.py:196 weblate/trans/views/acl.py:211
 msgid "User has been invited to this project."
 msgstr "Käyttäjä on kutsuttu tähän projektiin."
 
-#: weblate/trans/views/acl.py:233
+#: weblate/trans/views/acl.py:236
 msgid "User has been removed from this project."
 msgstr "Käyttäjä on poistettu tästä projektista."
 
@@ -16964,9 +16976,6 @@ msgstr "Käyttäjätili %s luotu."
 
 #~ msgid "Can not write to home directory, please check documentation."
 #~ msgstr "Ei voida kirjoittaa kotikansioon, ole hyvä ja tarkista ohjeet."
-
-#~ msgid "Failed to update git: %s"
-#~ msgstr "Git päivittäminen epäonnistui: %s"
 
 #~ msgid ""
 #~ "By registering you agree to use your name and email in Git commits and "

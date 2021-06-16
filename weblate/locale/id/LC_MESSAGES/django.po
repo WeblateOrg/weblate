@@ -23,7 +23,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.7\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
-"POT-Creation-Date: 2021-06-15 04:46+0000\n"
+"POT-Creation-Date: 2021-06-16 18:40+0000\n"
 "PO-Revision-Date: 2021-06-09 02:33+0000\n"
 "Last-Translator: Reza Almanda <rezaalmanda27@gmail.com>\n"
 "Language-Team: Indonesian <https://hosted.weblate.org/projects/weblate/"
@@ -12873,13 +12873,13 @@ msgstr ""
 "{0} diterjemahkan kedalam bahasa {1} menggunakan Weblate. Bergabung ke "
 "penerjamahan atau mulai menerjemahkan proyek Anda sendiri."
 
-#: weblate/trans/validators.py:29
+#: weblate/trans/validators.py:30
 #, fuzzy
 #| msgid "File mask does not contain * as a language placeholder!"
 msgid "Filemask does not contain * as a language placeholder!"
 msgstr "Berkas mask tidak mengandung * sebagai pengganti bahasa!"
 
-#: weblate/trans/validators.py:38
+#: weblate/trans/validators.py:39
 #, fuzzy
 #| msgid ""
 #| "Value of 1 is not allowed for autoaccept as every user gives vote to his "
@@ -12890,6 +12890,12 @@ msgid ""
 msgstr ""
 "Nilai 1 tidak diperbolehkan untuk autoaccept karena setiap pengguna "
 "memberikan satu suara untuk sarannya."
+
+#: weblate/trans/validators.py:50
+#, fuzzy, python-format
+#| msgid "Failed to update git: %s"
+msgid "Failed to parse flags: %s"
+msgstr "Gagal memutakhirkan git: %s"
 
 #: weblate/trans/views/about.py:34
 msgid "Keys"
@@ -12903,7 +12909,7 @@ msgstr "Statistik Weblate"
 msgid "Invalid parameters!"
 msgstr "Parameter tidak valid!"
 
-#: weblate/trans/views/acl.py:88 weblate/trans/views/acl.py:224
+#: weblate/trans/views/acl.py:88 weblate/trans/views/acl.py:227
 msgid "You can not remove last owner!"
 msgstr "Anda tidak dapat menghapus pemilik terakhir!"
 
@@ -12911,29 +12917,35 @@ msgstr "Anda tidak dapat menghapus pemilik terakhir!"
 msgid "User has been added to this project."
 msgstr "Pengguna telah ditambahkan pada proyek ini."
 
-#: weblate/trans/views/acl.py:135 weblate/trans/views/acl.py:195
+#: weblate/trans/views/acl.py:135 weblate/trans/views/acl.py:198
 msgid "Failed to find group to add a user!"
 msgstr "Gagal menemukan grup untuk menambahkan pengguna!"
 
-#: weblate/trans/views/acl.py:164
+#: weblate/trans/views/acl.py:147
+#, fuzzy
+#| msgid "User has been added to this project."
+msgid "You can not block yourself on this project."
+msgstr "Pengguna telah ditambahkan pada proyek ini."
+
+#: weblate/trans/views/acl.py:167
 #, fuzzy
 #| msgid "User has been added to this project."
 msgid "User has been blocked on this project."
 msgstr "Pengguna telah ditambahkan pada proyek ini."
 
-#: weblate/trans/views/acl.py:166
+#: weblate/trans/views/acl.py:169
 #, fuzzy
 #| msgid "User has been added to this project."
 msgid "User is already blocked on this project."
 msgstr "Pengguna telah ditambahkan pada proyek ini."
 
-#: weblate/trans/views/acl.py:193 weblate/trans/views/acl.py:208
+#: weblate/trans/views/acl.py:196 weblate/trans/views/acl.py:211
 #, fuzzy
 #| msgid "User has been added to this project."
 msgid "User has been invited to this project."
 msgstr "Pengguna telah ditambahkan pada proyek ini."
 
-#: weblate/trans/views/acl.py:233
+#: weblate/trans/views/acl.py:236
 msgid "User has been removed from this project."
 msgstr "Pengguna telah dihapus dari proyek ini."
 
@@ -17830,9 +17842,6 @@ msgstr "Bikin akun menggunakan:"
 
 #~ msgid "Home directory"
 #~ msgstr "Direktori rumah"
-
-#~ msgid "Failed to update git: %s"
-#~ msgstr "Gagal memutakhirkan git: %s"
 
 #~ msgid ""
 #~ "By registering you agree to use your name and email in Git commits and "

@@ -21,7 +21,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.7\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
-"POT-Creation-Date: 2021-06-15 04:46+0000\n"
+"POT-Creation-Date: 2021-06-16 18:40+0000\n"
 "PO-Revision-Date: 2021-06-09 02:33+0000\n"
 "Last-Translator: simmon <simmon@nplob.com>\n"
 "Language-Team: Korean <https://hosted.weblate.org/projects/weblate/"
@@ -12027,17 +12027,23 @@ msgstr ""
 "웨블레이트를 사용하여 {0}를 {1} 언어로 번역합니다. 번역에 참여하거나 당신의 "
 "프로젝트 번역을 시작하십시오."
 
-#: weblate/trans/validators.py:29
+#: weblate/trans/validators.py:30
 msgid "Filemask does not contain * as a language placeholder!"
 msgstr "파일마스크에는 언어 자리 표시자로 *가 포함되어 있지 않습니다!"
 
-#: weblate/trans/validators.py:38
+#: weblate/trans/validators.py:39
 msgid ""
 "A value of 1 is not allowed for autoaccept as it would permit users to vote "
 "on their own suggestions."
 msgstr ""
 "사용자가 자신의 제안에 대해 투표하도록 허용하기 때문에 값 1은 자동 승인에 허"
 "용되지 않습니다."
+
+#: weblate/trans/validators.py:50
+#, fuzzy, python-format
+#| msgid "Failed to update git: %s"
+msgid "Failed to parse flags: %s"
+msgstr "git 업데이트 실패: %s"
 
 #: weblate/trans/views/about.py:34
 msgid "Keys"
@@ -12051,7 +12057,7 @@ msgstr "웨블레이트 통계"
 msgid "Invalid parameters!"
 msgstr "잘못된 매개변수!"
 
-#: weblate/trans/views/acl.py:88 weblate/trans/views/acl.py:224
+#: weblate/trans/views/acl.py:88 weblate/trans/views/acl.py:227
 msgid "You can not remove last owner!"
 msgstr "마지막 소유자를 삭제할 수 없습니다!"
 
@@ -12059,27 +12065,33 @@ msgstr "마지막 소유자를 삭제할 수 없습니다!"
 msgid "User has been added to this project."
 msgstr "사용자가 이 프로젝트에 추가되었습니다."
 
-#: weblate/trans/views/acl.py:135 weblate/trans/views/acl.py:195
+#: weblate/trans/views/acl.py:135 weblate/trans/views/acl.py:198
 msgid "Failed to find group to add a user!"
 msgstr "사용자를 추가할 그룹을 찾지 못했습니다!"
 
-#: weblate/trans/views/acl.py:164
+#: weblate/trans/views/acl.py:147
+#, fuzzy
+#| msgid "User has been added to this project."
+msgid "You can not block yourself on this project."
+msgstr "사용자가 이 프로젝트에 추가되었습니다."
+
+#: weblate/trans/views/acl.py:167
 #, fuzzy
 #| msgid "User has been added to this project."
 msgid "User has been blocked on this project."
 msgstr "사용자가 이 프로젝트에 추가되었습니다."
 
-#: weblate/trans/views/acl.py:166
+#: weblate/trans/views/acl.py:169
 #, fuzzy
 #| msgid "User has been added to this project."
 msgid "User is already blocked on this project."
 msgstr "사용자가 이 프로젝트에 추가되었습니다."
 
-#: weblate/trans/views/acl.py:193 weblate/trans/views/acl.py:208
+#: weblate/trans/views/acl.py:196 weblate/trans/views/acl.py:211
 msgid "User has been invited to this project."
 msgstr "사용자가 이 프로젝트에 초대되었습니다."
 
-#: weblate/trans/views/acl.py:233
+#: weblate/trans/views/acl.py:236
 msgid "User has been removed from this project."
 msgstr "사용자가 이 프로젝트에서 제거되었습니다."
 
@@ -16707,9 +16719,6 @@ msgstr "타사 서비스로 새 계정 등록:"
 
 #~ msgid "Can not write to home directory, please check documentation."
 #~ msgstr "홈 디렉터리에 쓸 수 없습니다. 문서를 확인해 주세요."
-
-#~ msgid "Failed to update git: %s"
-#~ msgstr "git 업데이트 실패: %s"
 
 #~ msgid ""
 #~ "By registering you agree to use your name and email in Git commits and "

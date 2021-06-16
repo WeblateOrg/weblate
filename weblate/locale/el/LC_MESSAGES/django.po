@@ -16,7 +16,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.7\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
-"POT-Creation-Date: 2021-06-15 04:46+0000\n"
+"POT-Creation-Date: 2021-06-16 18:40+0000\n"
 "PO-Revision-Date: 2021-06-16 18:39+0000\n"
 "Last-Translator: Eugenia Russell <eugenia.russell2019@gmail.com>\n"
 "Language-Team: Greek <https://hosted.weblate.org/projects/weblate/"
@@ -12265,17 +12265,23 @@ msgstr ""
 "Το {0} έχει μεταφραστεί σε {1} γλώσσες με τη χρήση του Weblate. Συμμετέχετε "
 "στη μετάφραση ή ξεκινήστε να μεταφράζετε το δικό σας έργο."
 
-#: weblate/trans/validators.py:29
+#: weblate/trans/validators.py:30
 msgid "Filemask does not contain * as a language placeholder!"
 msgstr "Η μάσκα αρχείου δεν περιέχει * ως σύμβολο κράτησης θέσης γλώσσας!"
 
-#: weblate/trans/validators.py:38
+#: weblate/trans/validators.py:39
 msgid ""
 "A value of 1 is not allowed for autoaccept as it would permit users to vote "
 "on their own suggestions."
 msgstr ""
 "Δεν επιτρέπεται η τιμή 1 για την αυτόματη αποδοχή, καθώς θα επέτρεπε στους "
 "χρήστες να ψηφίζουν τις δικές τους προτάσεις."
+
+#: weblate/trans/validators.py:50
+#, fuzzy, python-format
+#| msgid "Failed to update git: %s"
+msgid "Failed to parse flags: %s"
+msgstr "Απέτυχε η ενημέρωση του git: %s"
 
 #: weblate/trans/views/about.py:34
 msgid "Keys"
@@ -12289,7 +12295,7 @@ msgstr "Στατιστικά Weblate"
 msgid "Invalid parameters!"
 msgstr "Μη έγκυρες παράμετροι!"
 
-#: weblate/trans/views/acl.py:88 weblate/trans/views/acl.py:224
+#: weblate/trans/views/acl.py:88 weblate/trans/views/acl.py:227
 msgid "You can not remove last owner!"
 msgstr "Δεν μπορείτε να απομακρύνετε τον τελευταίο ιδιοκτήτη!"
 
@@ -12297,27 +12303,33 @@ msgstr "Δεν μπορείτε να απομακρύνετε τον τελευ�
 msgid "User has been added to this project."
 msgstr "Ο χρήστης έχει προστεθεί σε αυτό το έργο."
 
-#: weblate/trans/views/acl.py:135 weblate/trans/views/acl.py:195
+#: weblate/trans/views/acl.py:135 weblate/trans/views/acl.py:198
 msgid "Failed to find group to add a user!"
 msgstr "Απέτυχε η εύρεση ομάδας για την προσθήκη χρήστη!"
 
-#: weblate/trans/views/acl.py:164
+#: weblate/trans/views/acl.py:147
+#, fuzzy
+#| msgid "User has been added to this project."
+msgid "You can not block yourself on this project."
+msgstr "Ο χρήστης έχει προστεθεί σε αυτό το έργο."
+
+#: weblate/trans/views/acl.py:167
 #, fuzzy
 #| msgid "User has been added to this project."
 msgid "User has been blocked on this project."
 msgstr "Ο χρήστης έχει προστεθεί σε αυτό το έργο."
 
-#: weblate/trans/views/acl.py:166
+#: weblate/trans/views/acl.py:169
 #, fuzzy
 #| msgid "User has been added to this project."
 msgid "User is already blocked on this project."
 msgstr "Ο χρήστης έχει προστεθεί σε αυτό το έργο."
 
-#: weblate/trans/views/acl.py:193 weblate/trans/views/acl.py:208
+#: weblate/trans/views/acl.py:196 weblate/trans/views/acl.py:211
 msgid "User has been invited to this project."
 msgstr "Ο χρήστης έχει προσκληθεί σε αυτό το έργο."
 
-#: weblate/trans/views/acl.py:233
+#: weblate/trans/views/acl.py:236
 msgid "User has been removed from this project."
 msgstr "Ο χρήστης έχει απομακρυνθεί από αυτό το έργο."
 
@@ -17070,9 +17082,6 @@ msgstr "Δημιουργείστε ένα λογαριασμό χρησιμοπ�
 
 #~ msgid "Can not write to home directory, please check documentation."
 #~ msgstr "Αδύνατη η εγγραφή στο ριζικό φάκελο, δείτε την τεκμηρίωση."
-
-#~ msgid "Failed to update git: %s"
-#~ msgstr "Απέτυχε η ενημέρωση του git: %s"
 
 #~ msgid ""
 #~ "By registering you agree to use your name and email in Git commits and "

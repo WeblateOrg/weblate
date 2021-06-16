@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.7\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
-"POT-Creation-Date: 2021-06-15 04:46+0000\n"
+"POT-Creation-Date: 2021-06-16 18:40+0000\n"
 "PO-Revision-Date: 2021-04-17 23:27+0000\n"
 "Last-Translator: Anonymous <noreply@weblate.org>\n"
 "Language-Team: Belarusian <https://hosted.weblate.org/projects/weblate/"
@@ -12458,17 +12458,23 @@ msgstr ""
 "{0} перакладзены на {1} моў з дапамогай Weblate. Далучайцеся да перакладу "
 "альбо пачніце пераклад уласнага праекта."
 
-#: weblate/trans/validators.py:29
+#: weblate/trans/validators.py:30
 msgid "Filemask does not contain * as a language placeholder!"
 msgstr "Маска файла не змяшчае * у якасці запаўняльніка для мовы!"
 
-#: weblate/trans/validators.py:38
+#: weblate/trans/validators.py:39
 msgid ""
 "A value of 1 is not allowed for autoaccept as it would permit users to vote "
 "on their own suggestions."
 msgstr ""
 "Значэнне 1 не дазваляецца для аўтаматычнага ўхвалення, бо кожны карыстальнік "
 "зможа галасаваць за сваю прапанову."
+
+#: weblate/trans/validators.py:50
+#, fuzzy, python-format
+#| msgid "Failed to update git: %s"
+msgid "Failed to parse flags: %s"
+msgstr "Не ўдалося абнавіць Git: %s"
 
 #: weblate/trans/views/about.py:34
 msgid "Keys"
@@ -12482,7 +12488,7 @@ msgstr "Статыстыка Weblate"
 msgid "Invalid parameters!"
 msgstr "Хібныя параметры!"
 
-#: weblate/trans/views/acl.py:88 weblate/trans/views/acl.py:224
+#: weblate/trans/views/acl.py:88 weblate/trans/views/acl.py:227
 msgid "You can not remove last owner!"
 msgstr "Вы не можаце выдаліць апошняга ўладальніка!"
 
@@ -12490,27 +12496,33 @@ msgstr "Вы не можаце выдаліць апошняга ўладаль�
 msgid "User has been added to this project."
 msgstr "Карыстальнік быў дададзены да гэтага праекта."
 
-#: weblate/trans/views/acl.py:135 weblate/trans/views/acl.py:195
+#: weblate/trans/views/acl.py:135 weblate/trans/views/acl.py:198
 msgid "Failed to find group to add a user!"
 msgstr "Не атрымалася знайсці групу, каб дадаць карыстальніка!"
 
-#: weblate/trans/views/acl.py:164
+#: weblate/trans/views/acl.py:147
+#, fuzzy
+#| msgid "User has been added to this project."
+msgid "You can not block yourself on this project."
+msgstr "Карыстальнік быў дададзены да гэтага праекта."
+
+#: weblate/trans/views/acl.py:167
 #, fuzzy
 #| msgid "User has been added to this project."
 msgid "User has been blocked on this project."
 msgstr "Карыстальнік быў дададзены да гэтага праекта."
 
-#: weblate/trans/views/acl.py:166
+#: weblate/trans/views/acl.py:169
 #, fuzzy
 #| msgid "User has been added to this project."
 msgid "User is already blocked on this project."
 msgstr "Карыстальнік быў дададзены да гэтага праекта."
 
-#: weblate/trans/views/acl.py:193 weblate/trans/views/acl.py:208
+#: weblate/trans/views/acl.py:196 weblate/trans/views/acl.py:211
 msgid "User has been invited to this project."
 msgstr "Карыстальнік быў запрошаны ў гэты праект."
 
-#: weblate/trans/views/acl.py:233
+#: weblate/trans/views/acl.py:236
 msgid "User has been removed from this project."
 msgstr "Карыстальнік быў выдалены з гэтага праекта."
 
@@ -17221,9 +17233,6 @@ msgstr "Стварыць акаўнт пры дапамозе:"
 
 #~ msgid "Home directory"
 #~ msgstr "Дамашняя дырэкторыя"
-
-#~ msgid "Failed to update git: %s"
-#~ msgstr "Не ўдалося абнавіць Git: %s"
 
 #~ msgid ""
 #~ "By registering you agree to use your name and email in Git commits and "
