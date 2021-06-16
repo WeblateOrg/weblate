@@ -488,9 +488,14 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
                 self.click("Dashboard")
 
         def wait_search():
+            time.sleep(0.1)
             WebDriverWait(self.driver, 15).until(
                 presence_of_element_located(
-                    (By.XPATH, '//div[@id="search-results"]//tr')
+                    (
+                        By.XPATH,
+                        '//div[@id="search-results"]'
+                        '//tbody[@class="unit-listing-body"]//tr',
+                    )
                 )
             )
 
