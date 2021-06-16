@@ -57,7 +57,7 @@ connect to the host should it be changed later (see :ref:`verify-ssh`).
 
 In case adjustment is needed, do so from the Weblate admin interface:
 
-.. image:: images/ssh-keys.png
+.. image:: /screenshots/ssh-keys.png
 
 
 .. _weblate-ssh-key:
@@ -95,7 +95,7 @@ the hostname you are going to access (e.g. ``gitlab.com``), and press
 
 The added keys with fingerprints are shown in the confirmation message:
 
-.. image:: images/ssh-keys-added.png
+.. image:: /screenshots/ssh-keys-added.png
 
 .. _vcs-repos-github:
 

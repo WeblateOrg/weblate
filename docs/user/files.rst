@@ -44,7 +44,7 @@ are available via the :guilabel:`Files` ↓ :guilabel:`Customize download` menu:
    The content available in the converted files differs based on file format
    features, you can find overview in :ref:`fmt_capabs`.
 
-.. image:: /images/file-download.png
+.. image:: /screenshots/file-download.png
 
 .. seealso::
 
@@ -58,7 +58,7 @@ Uploading translations
 When you have made your changes, use :guilabel:`Upload translation`
 in the :guilabel:`Files` menu.
 
-.. image:: /images/file-upload.png
+.. image:: /screenshots/file-upload.png
 
 .. _upload-file:
 

@@ -50,16 +50,16 @@ based on your plans allowance from the user account that manages billing.
 
 You can view your current billing plan on a separate page:
 
-.. image:: /images/user-billing.png
+.. image:: /screenshots/user-billing.png
 
 The project creation can be initiated from there, or using the menu in the navigation
 bar, filling in basic info about the translation project to complete addition of it:
 
-.. image:: /images/user-add-project.png
+.. image:: /screenshots/user-add-project.png
 
 After creating the project, you are taken directly to the project page:
 
-.. image:: /images/user-add-project-done.png
+.. image:: /screenshots/user-add-project-done.png
 
 Creating a new translation component can be initiated via a single click there.
 The process of creating a component is multi-staged and automatically detects most
@@ -85,15 +85,15 @@ for additional files or branches using same repository.
 
 First you need to fill in name and repository location:
 
-.. image:: /images/user-add-component-init.png
+.. image:: /screenshots/user-add-component-init.png
 
 On the next page, you are presented with a list of discovered translatable resources:
 
-.. image:: /images/user-add-component-discovery.png
+.. image:: /screenshots/user-add-component-discovery.png
 
 As a last step, you review the translation component info and fill in optional details:
 
-.. image:: /images/user-add-component.png
+.. image:: /screenshots/user-add-component.png
 
 .. seealso::
 

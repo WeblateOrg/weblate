@@ -14,7 +14,7 @@ translation component.
    You can also configure add-ons using :ref:`API <addons-api>`,
    :setting:`DEFAULT_ADDONS`, or :djadmin:`install_addon`.
 
-.. image:: /images/addons.png
+.. image:: /screenshots/addons.png
 
 Built-in add-ons
 ++++++++++++++++
@@ -186,7 +186,7 @@ the add-on help section.
 Once you hit :guilabel:`Save`, a preview of matching components will be presented,
 from where you can check whether the configuration actually matches your needs:
 
-.. image:: /images/addon-discovery.png
+.. image:: /screenshots/addon-discovery.png
 
 .. hint::
 

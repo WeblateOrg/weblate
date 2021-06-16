@@ -166,7 +166,7 @@ Reviews can be turned on in the project configuration, from the
 :guilabel:`Workflow` subpage of project settings (to be found in the
 :guilabel:`Manage` → :guilabel:`Settings` menu):
 
-.. image:: images/project-workflow.png
+.. image:: /screenshots/project-workflow.png
 
 .. note::
 

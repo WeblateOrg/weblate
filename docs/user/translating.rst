@@ -27,7 +27,7 @@ Translation projects
 
 Translation projects hold related components; resources for the same software, book, or project.
 
-.. image:: /images/project-overview.png
+.. image:: /screenshots/project-overview.png
 
 .. _strings-to-check:
 
@@ -40,7 +40,7 @@ The translation is further divided into individual checks, like
 is translated, without error, :guilabel:`All strings` is still available.
 Alternatively you can use the search field to find a specific string or term.
 
-.. image:: /images/strings-to-check.png
+.. image:: /screenshots/strings-to-check.png
 
 Suggestions
 -----------
@@ -143,7 +143,7 @@ by the Unicode Consortium is a more detailed description.
 
    :ref:`plural-formula`
 
-.. image:: /images/plurals.png
+.. image:: /screenshots/plurals.png
 
 Keyboard shortcuts
 ++++++++++++++++++
@@ -244,7 +244,7 @@ The shown symbols factor into three categories:
 * Per-language characters provided by Weblate (e.g. quotes or RTL specific characters)
 * Characters configured using :setting:`SPECIAL_CHARS`
 
-.. image:: /images/visual-keyboard.png
+.. image:: /screenshots/visual-keyboard.png
 
 .. _source-context:
 
@@ -322,7 +322,7 @@ You can use automatic translation to bootstrap translation based on external
 sources. This tool is called :guilabel:`Automatic translation` accessible in
 the :guilabel:`Tools` menu, once you have selected a component and a language:
 
-.. image:: /images/automatic-translation.png
+.. image:: /screenshots/automatic-translation.png
 
 Two modes of operation are possible:
 

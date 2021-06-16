@@ -11,7 +11,7 @@ find the strings you want.
 When no field is defined, the lookup happens on :guilabel:`Source`,
 :guilabel:`Translate` and :guilabel:`Context` fields.
 
-.. image:: /images/search.png
+.. image:: /screenshots/search.png
 
 Simple search
 -------------
@@ -138,11 +138,11 @@ Predefined queries
 
 You can select out of predefined queries on the search page, this allows you to quickly access the most frequent searches:
 
-.. image:: /images/query-dropdown.png
+.. image:: /screenshots/query-dropdown.png
 
 Ordering the results
 --------------------
 
 There are many options to order the strings according to your needs:
 
-.. image:: /images/query-sort.png
+.. image:: /screenshots/query-sort.png

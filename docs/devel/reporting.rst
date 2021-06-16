@@ -6,7 +6,7 @@ period. A summary of contributions to any given component over time is
 provided. The reporting tool is found in the :guilabel:`Insights` menu of any
 translation component, project or on the dashboard:
 
-.. image:: /images/reporting.png
+.. image:: /screenshots/reporting.png
 
 Several reporting tools are available on this page and all can produce output
 in HTML, reStructuredText or JSON. The first two formats are suitable for

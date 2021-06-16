@@ -121,7 +121,7 @@ maintenance` lets you manipulate with the repository.
    whenever there are changes and there is usually no need to manually
    manipupate with it.
 
-.. image:: /images/component-repository.png
+.. image:: /screenshots/component-repository.png
 
 Following operations are available:
 

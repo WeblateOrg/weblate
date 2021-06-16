@@ -47,7 +47,7 @@ Custom
 configuration (:guilabel:`Manage` ↓ :guilabel:`Settings`) of each respective
 project.
 
-.. image:: /images/project-access.png
+.. image:: /screenshots/project-access.png
 
 The default value can be changed by :setting:`DEFAULT_ACCESS_CONTROL`.
 
@@ -131,7 +131,7 @@ to all users.
     ``Project@Group``, also displayed in the Django admin interface this way.
     Although they can’t be edited from Weblate user-interface.
 
-.. image:: /images/manage-users.png
+.. image:: /screenshots/manage-users.png
 
 These features are available on the :guilabel:`Access control` page, which can be
 accessed from the project’s menu :guilabel:`Manage` ↓ :guilabel:`Users`.

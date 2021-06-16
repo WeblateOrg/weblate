@@ -256,20 +256,20 @@ the check.
 The font-groups allow you to define different fonts for different languages,
 which is typically needed for non-latin languages:
 
-.. image:: /images/font-group-edit.png
+.. image:: /screenshots/font-group-edit.png
 
 The font-groups are identified by name, which can not contain whitespace or
 special characters, so that it can be easily used in the check definition:
 
-.. image:: /images/font-group-list.png
+.. image:: /screenshots/font-group-list.png
 
 Font-family and style is automatically recognized after uploading them:
 
-.. image:: /images/font-edit.png
+.. image:: /screenshots/font-edit.png
 
 You can have a number of fonts loaded into Weblate:
 
-.. image:: /images/font-list.png
+.. image:: /screenshots/font-list.png
 
 To use the fonts for checking the string length, pass it the appropriate
 flags (see :ref:`custom-checks`). You will probably need the following ones:

@@ -31,7 +31,7 @@ cross-referenced with your preferred languages.
 
     You can switch to different views using the navigation tabs.
 
-.. image:: /images/dashboard-dropdown.png
+.. image:: /screenshots/dashboard-dropdown.png
 
 The menu has these options:
 
@@ -89,7 +89,7 @@ Choose which languages you prefer to translate, and they will be offered on the
 main page of watched projects, so that you have easier access to these all translations
 in each of those languages.
 
-.. image:: /images/your-translations.png
+.. image:: /screenshots/your-translations.png
 
 .. _secondary-languages:
 
@@ -100,7 +100,7 @@ You can define which secondary languages are shown to you as a guide while trans
 An example can be seen in the following image, where
 the Hebrew language is shown as secondarily:
 
-.. image:: /images/secondary-language.png
+.. image:: /screenshots/secondary-language.png
 
 Preferences
 -----------
@@ -161,7 +161,7 @@ default value depends on :setting:`DEFAULT_AUTO_WATCH`.
 
     You will not receive notifications for your own actions.
 
-.. image:: /images/profile-subscriptions.png
+.. image:: /screenshots/profile-subscriptions.png
 
 Account
 -------
@@ -176,7 +176,7 @@ remove your account, or download your user data (see :ref:`schema-userdata`).
    include popular sites such as GitLab, GitHub, Google, Facebook, or Bitbucket or other
    OAuth 2.0 providers.
 
-.. image:: /images/authentication.png
+.. image:: /screenshots/authentication.png
 
 Profile
 -------
