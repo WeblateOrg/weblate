@@ -18,6 +18,7 @@
 #
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext as _
+from pyparsing import ParseException
 
 from weblate.checks.flags import Flags
 
@@ -43,5 +44,8 @@ def validate_autoaccept(val):
 
 def validate_check_flags(val):
     """Validate check influencing flags."""
-    flags = Flags(val)
+    try:
+        flags = Flags(val)
+    except ParseException as error:
+        raise ValidationError(_("Failed to parse flags: %s") % error)
     flags.validate()
