@@ -85,9 +85,11 @@ class TermForm(GlossaryAddMixin, forms.ModelForm):
         }
 
     def __init__(self, unit, data=None, instance=None, initial=None, **kwargs):
+        translation = unit.translation
+        component = translation.component
         glossaries = Translation.objects.filter(
-            language=unit.translation.language,
-            component__in=unit.translation.component.project.glossaries,
+            language=translation.language,
+            component__in=component.project.glossaries,
         )
         if not instance and not initial:
             initial = {}
@@ -98,7 +100,11 @@ class TermForm(GlossaryAddMixin, forms.ModelForm):
         super().__init__(data=data, instance=instance, initial=initial, **kwargs)
         self.fields["translation"].queryset = glossaries
         self.fields["translation"].label = _("Glossary")
+        self.fields["source"].label = str(component.source_language)
         self.fields["source"].required = True
+        self.fields["target"].label = str(translation.language)
+        if translation.is_source:
+            self.fields["target"].widget = forms.HiddenInput()
 
     def clean(self):
         translation = self.cleaned_data.get("translation")

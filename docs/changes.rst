@@ -3,6 +3,8 @@ Weblate 4.7.1
 
 Not yet released.
 
+* Improved popup for adding terms to glossary.
+
 Weblate 4.7
 -----------
 
