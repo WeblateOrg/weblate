@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.7\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-06-16 18:40+0000\n"
-"PO-Revision-Date: 2021-06-03 15:03+0000\n"
+"PO-Revision-Date: 2021-06-19 08:33+0000\n"
 "Last-Translator: Allan Nordhøy <epost@anotheragency.no>\n"
 "Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/weblate/"
 "application/nb_NO/>\n"
@@ -27,7 +27,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.7-dev\n"
+"X-Generator: Weblate 4.7\n"
 
 #: weblate/accounts/avatar.py:103
 msgctxt "No known user"
@@ -405,9 +405,9 @@ msgstr ""
 "lastet opp av en annen bruker."
 
 #: weblate/accounts/models.py:169
-#, python-brace-format
+#, fuzzy, python-brace-format
 msgid "Access to project {project} was blocked"
-msgstr ""
+msgstr "Tilgang til prosjektet {project} ble blokkert"
 
 #: weblate/accounts/models.py:174
 msgid "Configured password to sign in."
@@ -431,8 +431,9 @@ msgstr ""
 "For å gjenopprette tilgang til kontoen din, tilbakestill passordet ditt."
 
 #: weblate/accounts/models.py:184
+#, fuzzy
 msgid "Please contact project maintainers if you feel this is inappropriate."
-msgstr ""
+msgstr "Kontakt vedlikeholderne hvis du synes dette er upassende."
 
 #: weblate/accounts/models.py:306 weblate/templates/accounts/profile.html:227
 #: weblate/templates/accounts/user.html:223
@@ -1261,10 +1262,8 @@ msgstr ""
 "authored-by: …'."
 
 #: weblate/addons/forms.py:165
-#, fuzzy
-#| msgid "Commit messages"
 msgid "Commit message"
-msgstr "Innsjekksmeldinger"
+msgstr "Innsjekksmelding"
 
 #: weblate/addons/forms.py:169
 msgid ""
@@ -2045,7 +2044,7 @@ msgstr "Fakturering"
 
 #: weblate/auth/forms.py:107
 msgid "Send e-mail invitation to the user"
-msgstr ""
+msgstr "Send e-postinvitasjon til brukeren"
 
 #: weblate/auth/models.py:80
 #, python-format
@@ -2194,10 +2193,8 @@ msgid "Group to assign"
 msgstr "Gruppe å delta i"
 
 #: weblate/auth/models.py:663 weblate/trans/forms.py:1055
-#, fuzzy
-#| msgid "User to add"
 msgid "User to block"
-msgstr "Bruker å legge til"
+msgstr "Bruker å blokkere"
 
 #: weblate/auth/models.py:666 weblate/templates/check.html:19
 #: weblate/templates/data.html:28 weblate/templates/data.html:62
@@ -2211,10 +2208,8 @@ msgid "Project"
 msgstr "Prosjekt"
 
 #: weblate/auth/models.py:668
-#, fuzzy
-#| msgid "Lock expires:"
 msgid "Block expiry"
-msgstr "Låsing utløper:"
+msgstr "Blokkering utløper"
 
 #: weblate/billing/admin.py:82 weblate/templates/billing/list.html:8
 #: weblate/templates/billing/status.html:112
@@ -3277,10 +3272,8 @@ msgid "Invalid integer list!"
 msgstr "Ugyldig heltallsliste!"
 
 #: weblate/glossary/forms.py:47
-#, fuzzy
-#| msgid "String will be propagated to all languages"
 msgid "String will be part of the glossary in all languages"
-msgstr "Strengen vil spres til alle språk"
+msgstr "Strengen vil bli en del av ordlisten i alle språk"
 
 #: weblate/glossary/forms.py:55
 msgid "Not translatable term"
@@ -4770,21 +4763,17 @@ msgstr "Fjern bruker fra denne gruppen"
 #: weblate/templates/manage-access.html:96
 #, python-format
 msgid "Blocked until %(expiry)s"
-msgstr ""
+msgstr "Blokkert til %(expiry)s"
 
 #: weblate/templates/accounts/user.html:269
 #: weblate/templates/manage-access.html:98
-#, fuzzy
-#| msgid "Ignore permanently"
 msgid "Blocked permanently"
-msgstr "Overse permanent"
+msgstr "Blokkert permanent"
 
 #: weblate/templates/accounts/user.html:273
 #: weblate/templates/manage-access.html:106
-#, fuzzy
-#| msgid "Unlock"
 msgid "Unblock user"
-msgstr "Åpne"
+msgstr "Avblokker bruker"
 
 #: weblate/templates/accounts/user.html:289
 #: weblate/templates/fonts/font_detail.html:31
@@ -6479,7 +6468,7 @@ msgstr "Tilbakefør"
 #: weblate/templates/manage-access.html:146
 #: weblate/templates/snippets/suggestions.html:46
 msgid "Block user"
-msgstr ""
+msgstr "Blokker bruker"
 
 #. Translators: Number of edits on a change in Damerau–Levenshtein distance
 #: weblate/templates/last-changes-content.html:55
@@ -7050,10 +7039,8 @@ msgid "Add a user"
 msgstr "Legg til bruker"
 
 #: weblate/templates/manage-access.html:152
-#, fuzzy
-#| msgid "Unlock"
 msgid "Block"
-msgstr "Åpne"
+msgstr "Blokker"
 
 #: weblate/templates/manage-access.html:163
 msgid "Invite new user"
@@ -7291,14 +7278,12 @@ msgid "Connectivity"
 msgstr "Aktivitet"
 
 #: weblate/templates/manage/performance.html:155
-#, fuzzy
-#| msgid "Database backend"
 msgid "Database latency"
-msgstr "Database-bakstykke"
+msgstr "Database-forsinkelse"
 
 #: weblate/templates/manage/performance.html:159
 msgid "Cache latency"
-msgstr ""
+msgstr "Hurtiglager-forsinkelse"
 
 #: weblate/templates/manage/repos.html:6
 #: weblate/wladmin/templates/admin/weblate-index.html:20
@@ -7429,10 +7414,8 @@ msgid "Generate a test event to test Sentry integration."
 msgstr "Opprett en testhendelse for å teste Sentry-integrasjon."
 
 #: weblate/templates/manage/users.html:28
-#, fuzzy
-#| msgid "Add a user"
 msgid "Add new user"
-msgstr "Legg til bruker"
+msgstr "Legg til ny bruker"
 
 #: weblate/templates/matrix.html:9
 msgid "Matrix"
@@ -7912,7 +7895,7 @@ msgstr "Ingen relaterte strenger ble funnet i ordlisten."
 #, fuzzy
 #| msgid "Language codes"
 msgid "Aliased language codes"
-msgstr "Språkkoder"
+msgstr "Språkkoder med alias"
 
 #: weblate/templates/snippets/info.html:44
 #, python-format
@@ -9495,13 +9478,11 @@ msgstr "streng %(position)s"
 #, fuzzy
 #| msgid "Browse pending"
 msgid "pending"
-msgstr "Bla igjennom ventende"
+msgstr "utestående"
 
 #: weblate/templates/translate.html:720
-#, fuzzy
-#| msgid "Check flags"
 msgid "Inherited flags"
-msgstr "Kontrollflagg"
+msgstr "Arvede flagg"
 
 #: weblate/templates/translate.html:726
 #, python-format
@@ -9607,16 +9588,12 @@ msgstr ""
 "alle oversettelser."
 
 #: weblate/templates/translation.html:311
-#, fuzzy
-#| msgid "Customize download"
 msgid "Quick downloads"
-msgstr "Tilpass nedlasting"
+msgstr "Hurtignedlastinger"
 
 #: weblate/templates/translation.html:318
-#, fuzzy
-#| msgid "Some plural forms are translated in the same way"
 msgid "File in original format as translated in the repository"
-msgstr "Noen flertallsformer er oversatt på samme måte"
+msgstr "Fil i opprinnelig format, som oversatt i kodelageret"
 
 #: weblate/templates/translation.html:327
 #, fuzzy
@@ -9835,7 +9812,7 @@ msgstr "Oversatte strenger med kontroller som feiler"
 #, fuzzy
 #| msgid "Translated strings with any failing checks"
 msgid "Translated strings with dismissed checks"
-msgstr "Oversatte strenger med kontroller som feiler"
+msgstr "Oversatte strenger med avviste kontroller"
 
 #: weblate/trans/filter.py:60 weblate/trans/filter.py:130
 msgid "Approved strings"
@@ -10106,26 +10083,24 @@ msgid "Please type in an existing Weblate account name or e-mail address."
 msgstr "Skriv inn eksisterende Weblate-kontonavn eller e-postadresse."
 
 #: weblate/trans/forms.py:1061
-#, fuzzy
-#| msgid "Location"
 msgid "Block duration"
-msgstr "Plassering"
+msgstr "Blokkeringsvarighet"
 
 #: weblate/trans/forms.py:1063
 msgid "Block user until I unblock them"
-msgstr ""
+msgstr "Blokker bruker til avblokkering"
 
 #: weblate/trans/forms.py:1064
 msgid "Block user for one day"
-msgstr ""
+msgstr "Blokker bruker én dag"
 
 #: weblate/trans/forms.py:1065
 msgid "Block user for one week"
-msgstr ""
+msgstr "Blokker bruker én uke"
 
 #: weblate/trans/forms.py:1066
 msgid "Block user for one month"
-msgstr ""
+msgstr "Blokker bruker én måned"
 
 #: weblate/trans/forms.py:1074
 msgid "Report format"
@@ -10192,7 +10167,7 @@ msgstr "Du har ikke tilgangsrettigheter til denne komponenten!"
 #, fuzzy
 #| msgid "Your suggestion has been identified as spam!"
 msgid "This field has been identified as spam!"
-msgstr "Forslaget ditt har blitt identifisert som spam!"
+msgstr "Dette feltet har blitt identifisert som spam!"
 
 #: weblate/trans/forms.py:1320 weblate/trans/forms.py:1868
 msgid "Basic"
@@ -10259,10 +10234,8 @@ msgid "Name used in URLs and filenames."
 msgstr "Navn som brukes i nettadresser og filnavn."
 
 #: weblate/trans/forms.py:1494 weblate/trans/models/component.py:624
-#, fuzzy
-#| msgid "Manage glossary"
 msgid "Use as a glossary"
-msgstr "Administrer ordbøker"
+msgstr "Bruk som ordliste"
 
 #: weblate/trans/forms.py:1509
 msgid "Select existing component to copy configuration from."
@@ -10595,7 +10568,7 @@ msgstr "Ubrukte påtvungne kontroller."
 #, fuzzy
 #| msgid "More users matched."
 msgid "No mask matches."
-msgstr "Flere brukere samsvarer."
+msgstr "Flere maske samsvarer."
 
 #: weblate/trans/models/announcement.py:111
 msgid "Category"
@@ -10873,17 +10846,13 @@ msgstr "Bidragsyteravtale endret"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:334
-#, fuzzy
-#| msgid "Screenshot name"
 msgid "Screnshot added"
-msgstr "Skjermavbildningsnavn"
+msgstr "Skjermavbildning lagt til"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:336
-#, fuzzy
-#| msgid "Screenshots uploaded"
 msgid "Screnshot uploaded"
-msgstr "Skjermavbildninger lastet opp"
+msgstr "Skjermavbildning lastet opp"
 
 #: weblate/trans/models/change.py:404
 msgid "New string to translate"
@@ -11136,14 +11105,8 @@ msgid "Translation flags"
 msgstr "Oversettelsflagg"
 
 #: weblate/trans/models/component.py:429 weblate/trans/models/unit.py:311
-#, fuzzy
-#| msgid ""
-#| "Additional comma-separated flags to influence quality checks. Possible "
-#| "values can be found in the documentation."
 msgid "Additional comma-separated flags to influence Weblate behavior."
-msgstr ""
-"Ytterligere kommainndelte flagg til påvirking av kvalitetskontroller, se "
-"dokumentasjonen for mulige verdier."
+msgstr "Ytterligere kommainndelte flagg til påvirking av Weblate-oppførsel."
 
 #: weblate/trans/models/component.py:435
 msgid "Enforced checks"
@@ -11301,10 +11264,8 @@ msgid "Share in projects"
 msgstr "Del i prosjekter"
 
 #: weblate/trans/models/component.py:618
-#, fuzzy
-#| msgid "Choose additional projects where this glossary can be used."
 msgid "Choose additional projects where this component will be listed."
-msgstr "Velg ytterligere prosjekter der denne ordlisten brukes."
+msgstr "Velg ytterligere prosjekter der denne komponenten vil bli opplistet."
 
 #: weblate/trans/models/component.py:629
 msgid "Glossary color"
@@ -11469,11 +11430,9 @@ msgid "Could not parse translation base file: %s"
 msgstr "Kunne ikke tolke oversettelsesbasefil: %s"
 
 #: weblate/trans/models/component.py:2360
-#, fuzzy, python-brace-format
-#| msgid ""
-#| "Template language ({0}) does not match project source language ({1})!"
+#, python-brace-format
 msgid "Template language ({0}) does not match source language ({1})!"
-msgstr "Mal-språket ({0}) stemmer ikke med kilde-språk ({1})!"
+msgstr "Mal-språket ({0}) stemmer ikke overens med kilde-språk ({1})!"
 
 #: weblate/trans/models/component.py:2365
 msgid "You can not use a monolingual translation without a base file."
@@ -11528,10 +11487,8 @@ msgid "Translation file already exists!"
 msgstr "Oversettelsesfil finnes allerede!"
 
 #: weblate/trans/models/component.py:3003
-#, fuzzy
-#| msgid "The translation has come to an end."
 msgid "The translation will be updated in the background."
-msgstr "Oversettelsen er kommet til slutten."
+msgstr "Oversettelsen vil bli oppdatert i bakgrunnen."
 
 #. Translators: Translation key for monolingual translations
 #: weblate/trans/models/component.py:3048 weblate/utils/views.py:140
@@ -11717,17 +11674,15 @@ msgid "Failed adding string: %s"
 msgstr "Klarte ikke å legge til streng: %s"
 
 #: weblate/trans/models/translation.py:1374
-#, fuzzy
-#| msgid "No matching translations found!"
 msgid "No translation found."
-msgstr "Ingen sammenfallende strenger funnet!"
+msgstr "Fant ingen oversettelse."
 
 #: weblate/trans/models/translation.py:1406
 #: weblate/trans/models/translation.py:1421
 #, fuzzy
 #| msgid "Failed to parse query string: {}"
 msgid "Failed to parse new string"
-msgstr "Klarte ikke å tolke spørringsstreng: {}"
+msgstr "Klarte ikke å tolke ny streng"
 
 #: weblate/trans/models/translation.py:1429
 #, python-format
@@ -12022,12 +11977,9 @@ msgid "Failed checks:"
 msgstr "Feilende kontroll:"
 
 #: weblate/trans/templatetags/translations.py:581
-#, fuzzy
-#| msgctxt "String state"
-#| msgid "Dismissed checks"
 msgctxt "String state"
 msgid "Dismissed checks:"
-msgstr "Avviste sjekker"
+msgstr "Avviste sjekker:"
 
 #: weblate/trans/templatetags/translations.py:586
 msgctxt "String state"
@@ -12073,10 +12025,9 @@ msgstr[0] "%(count)s streng blir ikke oversatt her."
 msgstr[1] "%(count)s strenger blir ikke oversatt her."
 
 #: weblate/trans/templatetags/translations.py:854
-#, fuzzy, python-format
-#| msgid "Other projects"
+#, python-format
 msgid "Shared from the %s project."
-msgstr "Delt fra prosjekt %s."
+msgstr "Delt fra %s-prosjektet."
 
 #: weblate/trans/templatetags/translations.py:877
 msgid "enabled"
@@ -12127,7 +12078,7 @@ msgstr ""
 #, fuzzy, python-format
 #| msgid "Failed to parse JSON file: {!s}"
 msgid "Failed to parse flags: %s"
-msgstr "Klarte ikke å tolke JSON-fil: {!s}"
+msgstr "Klarte ikke å tolke flagg. %s"
 
 #: weblate/trans/views/about.py:34
 msgid "Keys"
@@ -12157,19 +12108,19 @@ msgstr "Klarte ikke finne gruppen som brukeren skulle legges inn i!"
 #, fuzzy
 #| msgid "User has been added to this project."
 msgid "You can not block yourself on this project."
-msgstr "Bruker er lagt til dette prosjektet."
+msgstr "Du kan ikke blokkere deg selv i dette prosjektet."
 
 #: weblate/trans/views/acl.py:167
 #, fuzzy
 #| msgid "User has been added to this project."
 msgid "User has been blocked on this project."
-msgstr "Bruker er lagt til dette prosjektet."
+msgstr "Bruker har blitt blokkert i dette prosjektet."
 
 #: weblate/trans/views/acl.py:169
 #, fuzzy
 #| msgid "User has been added to this project."
 msgid "User is already blocked on this project."
-msgstr "Bruker er lagt til dette prosjektet."
+msgstr "Brukeren er allerede blokkert i dette prosjektet."
 
 #: weblate/trans/views/acl.py:196 weblate/trans/views/acl.py:211
 msgid "User has been invited to this project."
@@ -12448,7 +12399,7 @@ msgstr "Alle kodelagre har blitt tømt."
 #, fuzzy
 #| msgid "Translation has been removed."
 msgid "Translation files have been synchronized."
-msgstr "Oversettelsen er fjernet."
+msgstr "Oversettelsesfilene har blitt synkronisert."
 
 #: weblate/trans/views/js.py:56
 msgid "Service is currently not available."
@@ -13049,7 +13000,7 @@ msgstr "Klarte ikke å avvise oppsettfeil!"
 #, fuzzy, python-format
 #| msgid "Create an account using:"
 msgid "Created user account %s."
-msgstr "Opprett konto ved bruk av:"
+msgstr "Opprettet brukerkonto %s."
 
 #~ msgid "Permission"
 #~ msgstr "Tillatelse"
