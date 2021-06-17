@@ -418,7 +418,7 @@
       }
       /* Relies on clone source implementation */
       let source = document
-        .querySelector("[data-clone-text]")
+        .querySelector(".source-language-group [data-clone-text]")
         .getAttribute("data-clone-text");
       if (source.length < 200) {
         document.getElementById("id_source").value = source;
