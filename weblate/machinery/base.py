@@ -155,8 +155,8 @@ class MachineTranslation:
 
     def map_language_code(self, code):
         """Map language code to service specific."""
-        if code == "en_devel":
-            code = "en"
+        if code.endswith("_devel"):
+            code = code[:-6]
         if code in self.language_map:
             return self.language_map[code]
         return code
