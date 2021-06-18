@@ -123,7 +123,7 @@ LibreTranslate
 
 LibreTranslate is a free and open-source service for machine translations. The
 public instance requires an API key, but LibreTranslate can be self-hosted
-freely and there are several mirrors available to use the API freely.
+and there are several mirrors available to use the API for free.
 
 Turn on this service by adding ``weblate.machinery.libretranslate.LibreTranslateTranslation``
 to :setting:`MT_SERVICES` and set :setting:`MT_LIBRETRANSLATE_API_URL`. If your

@@ -1308,13 +1308,13 @@ MT_LIBRETRANSLATE_API_URL
 
 .. versionadded:: 4.7.1
 
-API URL to the LibreTranslate instance to use.
+API URL for the LibreTranslate instance to use.
 
 ``https://libretranslate.com/`` (official public instance)
     Requires an API key to use outside of the website.
 
-Mirrors are documented on LibreTranslate GitHub repository, some of which can
-be used without without authentication:
+Mirrors are documented on the LibreTranslate GitHub repository, some of which
+can be used without authentication:
 
 https://github.com/LibreTranslate/LibreTranslate#user-content-mirrors
 
