@@ -1306,7 +1306,7 @@ API key for the DeepL API, you can register at https://www.deepl.com/pro.html
 MT_LIBRETRANSLATE_API_URL
 -------------------------
 
-.. versionadded:: 4.8
+.. versionadded:: 4.7.1
 
 API URL to the LibreTranslate instance to use.
 

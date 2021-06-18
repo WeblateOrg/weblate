@@ -119,7 +119,7 @@ Turn on this service by adding ``weblate.machinery.deepl.DeepLTranslation`` to
 LibreTranslate
 --------------
 
-.. versionadded:: 4.8
+.. versionadded:: 4.7.1
 
 LibreTranslate is a free and open-source service for machine translations. The
 public instance requires an API key, but LibreTranslate can be self-hosted
