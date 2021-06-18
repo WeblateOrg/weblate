@@ -1327,6 +1327,8 @@ https://github.com/LibreTranslate/LibreTranslate#user-content-mirrors
 MT_LIBRETRANSLATE_KEY
 ---------------------
 
+.. versionadded:: 4.7.1
+
 API key for the LibreTranslate instance specified in `MT_LIBRETRANSLATE_API_URL`.
 
 .. seealso::

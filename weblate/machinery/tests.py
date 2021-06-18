@@ -1042,13 +1042,13 @@ class DeepLTranslationTest(BaseMachineTranslationTest):
         self.assertEqual(len(responses.calls), 0)
 
 
-@override_settings(MT_LIBRETRANSLATE_API_URL="URL")
+@override_settings(MT_LIBRETRANSLATE_API_URL="https://libretranslate.com/")
 class LibreTranslateTranslationTest(BaseMachineTranslationTest):
     MACHINE_CLS = LibreTranslateTranslation
     EXPECTED_LEN = 1
-    ENGLISH = "EN"
-    SUPPORTED = "ES"
-    NOTSUPPORTED = "CS"
+    ENGLISH = "en"
+    SUPPORTED = "es"
+    NOTSUPPORTED = "cs"
 
     def mock_empty(self):
         raise SkipTest("Not tested")
@@ -1062,7 +1062,7 @@ class LibreTranslateTranslationTest(BaseMachineTranslationTest):
         )
         responses.add(
             responses.POST,
-            "https://libretranslate.de/translate",
+            "https://libretranslate.com/translate",
             json=LIBRETRANSLATE_RESPONSE,
             status=500,
         )
@@ -1075,7 +1075,7 @@ class LibreTranslateTranslationTest(BaseMachineTranslationTest):
         )
         responses.add(
             responses.POST,
-            "https://libretranslate.de/translate",
+            "https://libretranslate.com/translate",
             json=LIBRETRANSLATE_RESPONSE,
         )
 
