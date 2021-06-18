@@ -72,7 +72,7 @@ class LibreTranslateTranslation(MachineTranslation):
         payload = response.json()
 
         yield {
-            "text": payload['translatedText'],
+            "text": payload["translatedText"],
             "quality": self.max_score,
             "service": self.name,
             "source": text,

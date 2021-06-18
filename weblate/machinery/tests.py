@@ -43,11 +43,11 @@ from weblate.machinery.base import (
     MissingConfiguration,
 )
 from weblate.machinery.deepl import DeepLTranslation
-from weblate.machinery.libretranslate import LibreTranslateTranslation
 from weblate.machinery.dummy import DummyTranslation
 from weblate.machinery.glosbe import GlosbeTranslation
 from weblate.machinery.google import GOOGLE_API_ROOT, GoogleTranslation
 from weblate.machinery.googlev3 import GoogleV3Translation
+from weblate.machinery.libretranslate import LibreTranslateTranslation
 from weblate.machinery.microsoft import MicrosoftCognitiveTranslation
 from weblate.machinery.microsoftterminology import (
     MST_API_URL,
@@ -271,58 +271,19 @@ DEEPL_LANG_RESPONSE = [
 
 LIBRETRANSLATE_RESPONSE = {"translatedText": "¡Hola, Mundo!"}
 LIBRETRANSLATE_LANG_RESPONSE = [
-    {
-        "code": "en",
-        "name": "English"
-    },
-    {
-        "code": "ar",
-        "name": "Arabic"
-    },
-    {
-        "code": "zh",
-        "name": "Chinese"
-    },
-    {
-        "code": "fr",
-        "name": "French"
-    },
-    {
-        "code": "de",
-        "name": "German"
-    },
-    {
-        "code": "hi",
-        "name": "Hindi"
-    },
-    {
-        "code": "ga",
-        "name": "Irish"
-    },
-    {
-        "code": "it",
-        "name": "Italian"
-    },
-    {
-        "code": "ja",
-        "name": "Japanese"
-    },
-    {
-        "code": "ko",
-        "name": "Korean"
-    },
-    {
-        "code": "pt",
-        "name": "Portuguese"
-    },
-    {
-        "code": "ru",
-        "name": "Russian"
-    },
-    {
-        "code": "es",
-        "name": "Spanish"
-    }
+    {"code": "en", "name": "English"},
+    {"code": "ar", "name": "Arabic"},
+    {"code": "zh", "name": "Chinese"},
+    {"code": "fr", "name": "French"},
+    {"code": "de", "name": "German"},
+    {"code": "hi", "name": "Hindi"},
+    {"code": "ga", "name": "Irish"},
+    {"code": "it", "name": "Italian"},
+    {"code": "ja", "name": "Japanese"},
+    {"code": "ko", "name": "Korean"},
+    {"code": "pt", "name": "Portuguese"},
+    {"code": "ru", "name": "Russian"},
+    {"code": "es", "name": "Spanish"},
 ]
 
 MICROSOFT_RESPONSE = [{"translations": [{"text": "Svět.", "to": "cs"}]}]
@@ -1080,6 +1041,7 @@ class DeepLTranslationTest(BaseMachineTranslationTest):
         )
         self.assertEqual(len(responses.calls), 0)
 
+
 @override_settings(MT_LIBRETRANSLATE_API_URL="URL")
 class LibreTranslateTranslationTest(BaseMachineTranslationTest):
     MACHINE_CLS = LibreTranslateTranslation
@@ -1134,6 +1096,7 @@ class LibreTranslateTranslationTest(BaseMachineTranslationTest):
             self.SUPPORTED, self.SOURCE_TRANSLATED, self.EXPECTED_LEN, machine=machine
         )
         self.assertEqual(len(responses.calls), 0)
+
 
 @override_settings(MT_AWS_REGION="us-west-2")
 class AWSTranslationTest(BaseMachineTranslationTest):

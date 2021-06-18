@@ -762,9 +762,7 @@ if MT_DEEPL_KEY:
 
 # LibreTranslate
 MT_LIBRETRANSLATE_KEY = os.environ.get("WEBLATE_MT_LIBRETRANSLATE_KEY", None)
-MT_LIBRETRANSLATE_API_URL = os.environ.get(
-    "WEBLATE_MT_LIBRETRANSLATE_API_URL", None
-)
+MT_LIBRETRANSLATE_API_URL = os.environ.get("WEBLATE_MT_LIBRETRANSLATE_API_URL", None)
 if MT_LIBRETRANSLATE_API_URL:
     MT_SERVICES += ("weblate.machinery.libretranslate.LibreTranslateTranslation",)
 
