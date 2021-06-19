@@ -25,7 +25,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.7\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-06-16 18:40+0000\n"
-"PO-Revision-Date: 2021-06-16 18:39+0000\n"
+"PO-Revision-Date: 2021-06-19 16:19+0000\n"
 "Last-Translator: amano <amano.hajime@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "application/ja/>\n"
@@ -34,7 +34,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 4.7-dev\n"
+"X-Generator: Weblate 4.7\n"
 
 #: weblate/accounts/avatar.py:103
 msgctxt "No known user"
@@ -415,7 +415,7 @@ msgstr ""
 #: weblate/accounts/models.py:169
 #, python-brace-format
 msgid "Access to project {project} was blocked"
-msgstr ""
+msgstr "{project} プロジェクトへのアクセスがブロックされました"
 
 #: weblate/accounts/models.py:174
 msgid "Configured password to sign in."
@@ -441,7 +441,7 @@ msgstr ""
 
 #: weblate/accounts/models.py:184
 msgid "Please contact project maintainers if you feel this is inappropriate."
-msgstr ""
+msgstr "不適切だと思う場合は、プロジェクトの管理者に連絡してください。"
 
 #: weblate/accounts/models.py:306 weblate/templates/accounts/profile.html:227
 #: weblate/templates/accounts/user.html:223
@@ -2025,7 +2025,7 @@ msgstr "請求"
 
 #: weblate/auth/forms.py:107
 msgid "Send e-mail invitation to the user"
-msgstr ""
+msgstr "ユーザーに招待メールを送信する"
 
 #: weblate/auth/models.py:80
 #, python-format
@@ -2175,10 +2175,8 @@ msgid "Group to assign"
 msgstr "割り当てるグループ"
 
 #: weblate/auth/models.py:663 weblate/trans/forms.py:1055
-#, fuzzy
-#| msgid "User to add"
 msgid "User to block"
-msgstr "追加するユーザー"
+msgstr "ブロックするユーザー"
 
 #: weblate/auth/models.py:666 weblate/templates/check.html:19
 #: weblate/templates/data.html:28 weblate/templates/data.html:62
@@ -2192,10 +2190,8 @@ msgid "Project"
 msgstr "プロジェクト"
 
 #: weblate/auth/models.py:668
-#, fuzzy
-#| msgid "Lock expires:"
 msgid "Block expiry"
-msgstr "ロック有効期限:"
+msgstr "ブロック期間"
 
 #: weblate/billing/admin.py:82 weblate/templates/billing/list.html:8
 #: weblate/templates/billing/status.html:112
@@ -3253,10 +3249,8 @@ msgid "Invalid integer list!"
 msgstr "整数リストが正しくありません！"
 
 #: weblate/glossary/forms.py:47
-#, fuzzy
-#| msgid "String will be propagated to all languages"
 msgid "String will be part of the glossary in all languages"
-msgstr "文字列はすべての言語に反映されます"
+msgstr "文字列はすべての言語の用語集に追加されます"
 
 #: weblate/glossary/forms.py:55
 msgid "Not translatable term"
@@ -4724,14 +4718,12 @@ msgstr "このグループからユーザーを削除する"
 #: weblate/templates/manage-access.html:96
 #, python-format
 msgid "Blocked until %(expiry)s"
-msgstr ""
+msgstr "%(expiry)s までブロック"
 
 #: weblate/templates/accounts/user.html:269
 #: weblate/templates/manage-access.html:98
-#, fuzzy
-#| msgid "Ignore permanently"
 msgid "Blocked permanently"
-msgstr "永久に無視する"
+msgstr "永久にブロック"
 
 #: weblate/templates/accounts/user.html:273
 #: weblate/templates/manage-access.html:106
@@ -6427,7 +6419,7 @@ msgstr "前に戻す"
 #: weblate/templates/manage-access.html:146
 #: weblate/templates/snippets/suggestions.html:46
 msgid "Block user"
-msgstr ""
+msgstr "ユーザーのブロック"
 
 #. Translators: Number of edits on a change in Damerau–Levenshtein distance
 #: weblate/templates/last-changes-content.html:55
@@ -6992,10 +6984,8 @@ msgid "Add a user"
 msgstr "ユーザーの追加"
 
 #: weblate/templates/manage-access.html:152
-#, fuzzy
-#| msgid "Unlock"
 msgid "Block"
-msgstr "ロック解除"
+msgstr "ブロックする"
 
 #: weblate/templates/manage-access.html:163
 msgid "Invite new user"
@@ -8657,22 +8647,14 @@ msgid "This project does no longer fit into libre hosting conditions."
 msgstr "このプロジェクトは、Libre ホスティング条件に合わなくなりました。"
 
 #: weblate/templates/trans/alert/nomaskmatches.html:2
-#, fuzzy
-#| msgid "This component is set up incorrectly."
 msgid "This component set up is incomplete as it lacks translations."
-msgstr "このコンポーネントは正しく設定されていません。"
+msgstr "翻訳がないため、このコンポーネントの設定は不完全です。"
 
 #: weblate/templates/trans/alert/nomaskmatches.html:6
-#, fuzzy
-#| msgid ""
-#| "You can also start new translations directly in Weblate, it will create "
-#| "files based on the file mask."
 msgid ""
 "Create new translations directly in Weblate, it will create files based on "
 "the file mask."
-msgstr ""
-"また、Weblate から直接新しく翻訳を開始できます。そのときは、ファイル マスクに"
-"基づいてファイルが作成されます。"
+msgstr "Weblate から直接新しく翻訳を開始できます。そのときは、ファイル マスクに基づいてファイルが作成されます。"
 
 #: weblate/templates/trans/alert/nomaskmatches.html:8
 #, python-format
@@ -9903,18 +9885,16 @@ msgid "Please type in an existing Weblate account name or e-mail address."
 msgstr "既存の Weblate アカウント名またはメールアドレスを入力してください。"
 
 #: weblate/trans/forms.py:1061
-#, fuzzy
-#| msgid "Location"
 msgid "Block duration"
-msgstr "場所"
+msgstr "ブロック期間"
 
 #: weblate/trans/forms.py:1063
 msgid "Block user until I unblock them"
-msgstr ""
+msgstr "手動で解除するまでブロックする"
 
 #: weblate/trans/forms.py:1064
 msgid "Block user for one day"
-msgstr ""
+msgstr "1日ブロックする"
 
 #: weblate/trans/forms.py:1065
 msgid "Block user for one week"
