@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.7\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-06-16 18:40+0000\n"
-"PO-Revision-Date: 2021-06-19 08:33+0000\n"
+"PO-Revision-Date: 2021-06-19 18:16+0000\n"
 "Last-Translator: Milo Ivir <mail@milotype.de>\n"
 "Language-Team: Croatian <https://hosted.weblate.org/projects/weblate/"
 "application/hr/>\n"
@@ -2024,7 +2024,7 @@ msgstr "Naplata"
 
 #: weblate/auth/forms.py:107
 msgid "Send e-mail invitation to the user"
-msgstr ""
+msgstr "Pošalji e-mail pozivnicu korisniku"
 
 #: weblate/auth/models.py:80
 #, python-format
@@ -2169,13 +2169,11 @@ msgstr "Korisnici s poklapajućom e-adresom dodat će se ovoj grupi."
 
 #: weblate/auth/models.py:650
 msgid "Group to assign"
-msgstr "Grupa kojoj se dodijeljuje"
+msgstr "Grupa kojoj se dodjeljuje"
 
 #: weblate/auth/models.py:663 weblate/trans/forms.py:1055
-#, fuzzy
-#| msgid "User to add"
 msgid "User to block"
-msgstr "Korisnik koji se dodaje"
+msgstr "Korisnik koji se blokira"
 
 #: weblate/auth/models.py:666 weblate/templates/check.html:19
 #: weblate/templates/data.html:28 weblate/templates/data.html:62
@@ -2189,10 +2187,8 @@ msgid "Project"
 msgstr "Projekt"
 
 #: weblate/auth/models.py:668
-#, fuzzy
-#| msgid "Support expiry"
 msgid "Block expiry"
-msgstr "Istek podrške"
+msgstr "Istek blokiranja"
 
 #: weblate/billing/admin.py:82 weblate/templates/billing/list.html:8
 #: weblate/templates/billing/status.html:112
@@ -3255,10 +3251,8 @@ msgid "Invalid integer list!"
 msgstr "Neispravan popis cijelih brojeva!"
 
 #: weblate/glossary/forms.py:47
-#, fuzzy
-#| msgid "String will be propagated to all languages"
 msgid "String will be part of the glossary in all languages"
-msgstr "Izraz će se dijeliti u svim jezicima"
+msgstr "Izraz će biti dio glosara na svim jezicima"
 
 #: weblate/glossary/forms.py:55
 msgid "Not translatable term"
@@ -3859,28 +3853,21 @@ msgid "Server Error"
 msgstr "Greška poslužitelja"
 
 #: weblate/templates/500.html:16
-#, fuzzy, python-format
-#| msgid ""
-#| "The server had serious problems serving your request. Trained monkeys are "
-#| "en-route fixing the issue."
+#, python-format
 msgid ""
 "The server had serious problems serving your request, and this error has "
 "been recorded as %(error_id)s."
 msgstr ""
-"Poslužitelj je imao ozbiljnih problema tijekom obrađivanja tvog zahtjeva. "
-"Upravo smo pokrenuli proces za rješavanje problema."
+"Poslužitelj je imao ozbiljnih problema tijekom obrade tvog zahtjeva. Problem "
+"je zabilježen kao %(error_id)s."
 
 #: weblate/templates/500.html:36
-#, fuzzy
-#| msgid ""
-#| "The server had serious problems serving your request. Trained monkeys are "
-#| "en-route fixing the issue."
 msgid ""
 "The server had serious problems serving your request. You might want to "
 "contact server admins in case the error persists."
 msgstr ""
-"Poslužitelj je imao ozbiljnih problema tijekom obrađivanja tvog zahtjeva. "
-"Upravo smo pokrenuli proces za rješavanje problema."
+"Poslužitelj je imao ozbiljnih problema tijekom obrade tvog zahtjeva. Ako "
+"problem ustraje, kontaktiraj administratora poslužitelja."
 
 #: weblate/templates/about/index.html:5 weblate/templates/about/index.html:11
 #: weblate/templates/about/keys.html:6 weblate/templates/about/stats.html:7
@@ -4730,21 +4717,17 @@ msgstr "Ukloni korisnika iz ove grupe"
 #: weblate/templates/manage-access.html:96
 #, python-format
 msgid "Blocked until %(expiry)s"
-msgstr ""
+msgstr "Blokiran do %(expiry)s"
 
 #: weblate/templates/accounts/user.html:269
 #: weblate/templates/manage-access.html:98
-#, fuzzy
-#| msgid "Ignore permanently"
 msgid "Blocked permanently"
-msgstr "Trajno zanemari"
+msgstr "Trajno blokiran"
 
 #: weblate/templates/accounts/user.html:273
 #: weblate/templates/manage-access.html:106
-#, fuzzy
-#| msgid "Unlock"
 msgid "Unblock user"
-msgstr "Otključaj"
+msgstr "Deblokiraj korisnika"
 
 #: weblate/templates/accounts/user.html:289
 #: weblate/templates/fonts/font_detail.html:31
@@ -6445,13 +6428,13 @@ msgstr "Pogledaj obavijest"
 
 #: weblate/templates/last-changes-content.html:34
 msgid "Revert"
-msgstr "Vrati natrag"
+msgstr "Vrati"
 
 #: weblate/templates/last-changes-content.html:40
 #: weblate/templates/manage-access.html:146
 #: weblate/templates/snippets/suggestions.html:46
 msgid "Block user"
-msgstr ""
+msgstr "Blokiraj korisnika"
 
 #. Translators: Number of edits on a change in Damerau–Levenshtein distance
 #: weblate/templates/last-changes-content.html:55
@@ -7017,10 +7000,8 @@ msgid "Add a user"
 msgstr "Dodaj korisnika"
 
 #: weblate/templates/manage-access.html:152
-#, fuzzy
-#| msgid "Unlock"
 msgid "Block"
-msgstr "Otključaj"
+msgstr "Blokiraj"
 
 #: weblate/templates/manage-access.html:163
 msgid "Invite new user"
@@ -7242,18 +7223,16 @@ msgid "Content encoding"
 msgstr "Kodiranje sadržaja"
 
 #: weblate/templates/manage/performance.html:149
-#, fuzzy
-#| msgid "Activity"
 msgid "Connectivity"
-msgstr "Aktivnost"
+msgstr "Veza"
 
 #: weblate/templates/manage/performance.html:155
 msgid "Database latency"
-msgstr ""
+msgstr "Latencija baze podataka"
 
 #: weblate/templates/manage/performance.html:159
 msgid "Cache latency"
-msgstr ""
+msgstr "Latencija predmemorije"
 
 #: weblate/templates/manage/repos.html:6
 #: weblate/wladmin/templates/admin/weblate-index.html:20
@@ -7380,10 +7359,8 @@ msgid "Generate a test event to test Sentry integration."
 msgstr "Izradi testni događaj za testiranje Sentry integracije."
 
 #: weblate/templates/manage/users.html:28
-#, fuzzy
-#| msgid "Add a user"
 msgid "Add new user"
-msgstr "Dodaj korisnika"
+msgstr "Dodaj novog korisnika"
 
 #: weblate/templates/matrix.html:9
 msgid "Matrix"
@@ -8712,21 +8689,15 @@ msgid "This project does no longer fit into libre hosting conditions."
 msgstr "Ovaj projekt više ne ispunjava uvjete za hosting slobodnih projekata."
 
 #: weblate/templates/trans/alert/nomaskmatches.html:2
-#, fuzzy
-#| msgid "This component is set up incorrectly."
 msgid "This component set up is incomplete as it lacks translations."
-msgstr "Ova je komponenta neispravno postavljena."
+msgstr "Ova je komponenta nepotpuna jer joj nedostaju prijevodi."
 
 #: weblate/templates/trans/alert/nomaskmatches.html:6
-#, fuzzy
-#| msgid ""
-#| "You can also start new translations directly in Weblate, it will create "
-#| "files based on the file mask."
 msgid ""
 "Create new translations directly in Weblate, it will create files based on "
 "the file mask."
 msgstr ""
-"Nove prijevode možeš započeti i izravno u Weblateu. Stvorit će datoteke na "
+"Stvori nove prijevode izravno u Weblateu. Weblate će stvoriti datoteke na "
 "osnovi maske datoteke."
 
 #: weblate/templates/trans/alert/nomaskmatches.html:8
@@ -9121,7 +9092,7 @@ msgstr "Kopiraj stalnu poveznicu"
 
 #: weblate/templates/translate.html:82
 msgid "Forbidden glossary term"
-msgstr "Zabranjen zapis u glosaru"
+msgstr "Zabranjen pojam u glosaru"
 
 #: weblate/templates/translate.html:84
 msgid "Glossary term"
@@ -9986,26 +9957,24 @@ msgid "Please type in an existing Weblate account name or e-mail address."
 msgstr "Upiši postojeći Weblate račun ili e-adresu."
 
 #: weblate/trans/forms.py:1061
-#, fuzzy
-#| msgid "Location"
 msgid "Block duration"
-msgstr "Mjesto"
+msgstr "Trajanje blokade"
 
 #: weblate/trans/forms.py:1063
 msgid "Block user until I unblock them"
-msgstr ""
+msgstr "Blokiraj korisnika dok ga ne deblokiram"
 
 #: weblate/trans/forms.py:1064
 msgid "Block user for one day"
-msgstr ""
+msgstr "Blokiraj korisnika jedan dan"
 
 #: weblate/trans/forms.py:1065
 msgid "Block user for one week"
-msgstr ""
+msgstr "Blokiraj korisnika tjedan dana"
 
 #: weblate/trans/forms.py:1066
 msgid "Block user for one month"
-msgstr ""
+msgstr "Blokiraj korisnika mjesec dana"
 
 #: weblate/trans/forms.py:1074
 msgid "Report format"
@@ -11004,14 +10973,8 @@ msgid "Translation flags"
 msgstr "Prevodilačke oznake"
 
 #: weblate/trans/models/component.py:429 weblate/trans/models/unit.py:311
-#, fuzzy
-#| msgid ""
-#| "Additional comma-separated flags to influence quality checks. Possible "
-#| "values can be found in the documentation."
 msgid "Additional comma-separated flags to influence Weblate behavior."
-msgstr ""
-"Dodatne oznake odvojene zarezima, kako bi se utjecalo na provjeru kvalitete. "
-"Moguće vrijednosti nalaze se u dokumentaciji."
+msgstr "Dodatne oznake odvojene zarezima za utjecanje na rad Weblatea."
 
 #: weblate/trans/models/component.py:435
 msgid "Enforced checks"
@@ -11990,10 +11953,9 @@ msgstr ""
 "korisnicima glasati za vlastite prijedloge."
 
 #: weblate/trans/validators.py:50
-#, fuzzy, python-format
-#| msgid "Failed to parse JSON file: {!s}"
+#, python-format
 msgid "Failed to parse flags: %s"
-msgstr "Neuspjela obrada JSON datoteke: {!s}"
+msgstr "Neuspjela obrada oznaka: %s"
 
 #: weblate/trans/views/about.py:34
 msgid "Keys"
@@ -12020,26 +11982,20 @@ msgid "Failed to find group to add a user!"
 msgstr "Neuspjelo pornalaženje grupe za dodavanje korinsnika!"
 
 #: weblate/trans/views/acl.py:147
-#, fuzzy
-#| msgid "User has been added to this project."
 msgid "You can not block yourself on this project."
-msgstr "Korisnik je dodan ovom projektu."
+msgstr "Ne možeš sebe blokirati za ovaj projekt."
 
 #: weblate/trans/views/acl.py:167
-#, fuzzy
-#| msgid "User has been added to this project."
 msgid "User has been blocked on this project."
-msgstr "Korisnik je dodan ovom projektu."
+msgstr "Korisnik je blokiran za ovaj projekt."
 
 #: weblate/trans/views/acl.py:169
-#, fuzzy
-#| msgid "User has been added to this project."
 msgid "User is already blocked on this project."
-msgstr "Korisnik je dodan ovom projektu."
+msgstr "Korisnik je već blokiran za ovaj projekt."
 
 #: weblate/trans/views/acl.py:196 weblate/trans/views/acl.py:211
 msgid "User has been invited to this project."
-msgstr "Korisnik je pozvan pridružiti se ovom projektu."
+msgstr "Korisnik je pozvan u ovaj projekt."
 
 #: weblate/trans/views/acl.py:236
 msgid "User has been removed from this project."
@@ -12899,10 +12855,9 @@ msgid "Could not dismiss the configuration error!"
 msgstr "Nije moguće zanemariti grešku konfiguracije!"
 
 #: weblate/wladmin/views.py:356
-#, fuzzy, python-format
-#| msgid "Create an account using:"
+#, python-format
 msgid "Created user account %s."
-msgstr "Otvori račun putem:"
+msgstr "Stvoren je korisnički račun %s."
 
 #~ msgid "Permission"
 #~ msgstr "Dozvola"
