@@ -50,7 +50,13 @@ def handle_unit_translation_change(unit_id, user_id=None):
     from weblate.trans.models import Unit
 
     user = None if user_id is None else User.objects.get(pk=user_id)
-    unit = Unit.objects.get(pk=unit_id)
+    unit = Unit.objects.select_related(
+        "translation",
+        "translation__language",
+        "translation__component",
+        "translation__component__source_language",
+        "translation__component__project",
+    ).get(pk=unit_id)
     update_memory(user, unit)
 
 
