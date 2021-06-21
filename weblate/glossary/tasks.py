@@ -42,7 +42,8 @@ def sync_glossary_languages(pk: int, component: Optional[Component] = None):
     )
     for language in missing:
         component.add_new_language(language, None, create_translations=False)
-    component.create_translations(request=None)
+    if missing:
+        component.create_translations(request=None)
 
 
 @app.task(
