@@ -1594,10 +1594,6 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
         message: Optional[str] = None,
     ):
         """Commits files to the repository."""
-        # Is there something to commit?
-        if not self.repository.needs_commit(files):
-            return False
-
         if message is None:
             # Handle context
             context = {"component": self, "author": author}

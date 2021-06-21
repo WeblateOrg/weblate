@@ -586,9 +586,6 @@ class Translation(
             return [self.get_filename()]
         return self.store.get_filenames()
 
-    def repo_needs_commit(self):
-        return self.component.repository.needs_commit(self.filenames)
-
     def git_commit(
         self,
         user,
