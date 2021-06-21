@@ -521,16 +521,22 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
 
     def get_unit_state(self, unit, flags):
         """Calculate translated and fuzzy status."""
-        if (
-            unit.is_readonly()
-            or (flags is not None and "read-only" in self.get_all_flags(flags))
-            or (
-                flags is not None
-                and not self.is_source
-                and self.source_unit.state < STATE_TRANSLATED
-            )
-        ):
+        # Read-only from the file format
+        if unit.is_readonly():
             return STATE_READONLY
+
+        if flags is not None:
+            # Read only from the source
+            if not self.is_source and self.source_unit.state < STATE_TRANSLATED:
+                return STATE_READONLY
+
+            # Read only from flags
+            if flags:
+                current_flags = self.get_all_flags(flags)
+            else:
+                current_flags = self.all_flags
+            if "read-only" in current_flags:
+                return STATE_READONLY
 
         # We need to keep approved/fuzzy state for formats which do not
         # support saving it
@@ -626,7 +632,7 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
             )
 
         # Calculate state
-        state = self.get_unit_state(unit, flags)
+        state = self.get_unit_state(unit, flags.strip())
         original_state = self.get_unit_state(unit, None)
 
         # Has source changed
