@@ -329,9 +329,9 @@ class Translation(
         # - newly fuzzy
         # - source string changed
         if newunit.state < STATE_TRANSLATED and (
-            newunit.state != newunit.old_unit.state
+            newunit.state != newunit.old_unit["state"]
             or is_new
-            or newunit.source != newunit.old_unit.source
+            or newunit.source != newunit.old_unit["source"]
         ):
             self.was_new += 1
 

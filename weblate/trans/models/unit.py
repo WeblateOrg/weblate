@@ -18,7 +18,6 @@
 #
 
 import re
-from copy import copy
 from typing import List, Optional
 
 from django.conf import settings
@@ -409,7 +408,6 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
     def __init__(self, *args, **kwargs):
         """Constructor to initialize some cache properties."""
         super().__init__(*args, **kwargs)
-        self.old_unit = copy(self)
         self.is_batch_update = False
         self.source_updated = False
         self.check_cache = {}
@@ -418,6 +416,19 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
         self.machinery = {"best": -1}
         # Data for glossary integration
         self.glossary_terms = None
+        # Store original attributes for change tracking
+        self.old_unit = None
+        if "state" in self.__dict__:
+            self.store_old_unit(self)
+
+    def store_old_unit(self, unit):
+        self.old_unit = {
+            "state": self.state,
+            "source": self.source,
+            "target": self.target,
+            "extra_flags": self.extra_flags,
+            "explanation": self.explanation,
+        }
 
     @property
     def approved(self):
@@ -464,8 +475,8 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
         # Run checks, update state and priority if flags changed
         # or running bulk edit
         if (
-            self.old_unit.extra_flags != self.extra_flags
-            or self.state != self.old_unit.state
+            self.old_unit["extra_flags"] != self.extra_flags
+            or self.state != self.old_unit["state"]
         ):
             # We can not exclude current unit here as we need to trigger
             # the updates below
@@ -878,9 +889,9 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
             was_propagated = self.propagate(user, change_action, author=author)
 
         changed = (
-            self.old_unit.state == self.state
-            and self.old_unit.target == self.target
-            and self.old_unit.explanation == self.explanation
+            self.old_unit["state"] == self.state
+            and self.old_unit["target"] == self.target
+            and self.old_unit["explanation"] == self.explanation
         )
         # Return if there was no change
         # We have to explicitly check for fuzzy flag change on monolingual
@@ -925,8 +936,8 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
             author.profile.increase_count("translated")
 
         # Update related source strings if working on a template
-        if self.translation.is_template and self.old_unit.target != self.target:
-            self.update_source_units(self.old_unit.target, user or author, author)
+        if self.translation.is_template and self.old_unit["target"] != self.target:
+            self.update_source_units(self.old_unit["target"], user or author, author)
 
         return True
 
@@ -988,7 +999,7 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
             action = change_action
         elif self.state == STATE_FUZZY:
             action = Change.ACTION_MARKED_EDIT
-        elif self.old_unit.state >= STATE_FUZZY:
+        elif self.old_unit["state"] >= STATE_FUZZY:
             if self.state == STATE_APPROVED:
                 action = Change.ACTION_APPROVE
             else:
@@ -1006,7 +1017,7 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
             user=user,
             author=author,
             target=self.target,
-            old=self.old_unit.target,
+            old=self.old_unit["target"],
         )
 
     @cached_property
@@ -1204,7 +1215,8 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
         Propagation is currently disabled on import.
         """
         # Fetch current copy from database and lock it for update
-        self.old_unit = Unit.objects.select_for_update().get(pk=self.pk)
+        old_unit = Unit.objects.select_for_update().get(pk=self.pk)
+        self.store_old_unit(old_unit)
 
         # Handle simple string units
         if isinstance(new_target, str):
@@ -1243,7 +1255,7 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
         if (
             propagate
             and user
-            and self.target != self.old_unit.target
+            and self.target != self.old_unit["target"]
             and self.state >= STATE_TRANSLATED
             and not self.translation.component.is_glossary
         ):
