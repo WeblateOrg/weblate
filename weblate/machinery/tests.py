@@ -269,7 +269,10 @@ DEEPL_LANG_RESPONSE = [
     {"language": "DE", "name": "Deutsch"},
 ]
 
-LIBRETRANSLATE_RESPONSE = {"translatedText": "¡Hola, Mundo!"}
+LIBRETRANSLATE_TRANS_RESPONSE = {"translatedText": "¡Hola, Mundo!"}
+LIBRETRANSLATE_TRANS_ERROR_RESPONSE = {
+    "error": "Please contact the server operator to obtain an API key"
+}
 LIBRETRANSLATE_LANG_RESPONSE = [
     {"code": "en", "name": "English"},
     {"code": "ar", "name": "Arabic"},
@@ -1055,16 +1058,10 @@ class LibreTranslateTranslationTest(BaseMachineTranslationTest):
 
     def mock_error(self):
         responses.add(
-            responses.GET,
-            "https://libretranslate.com/languages",
-            json=LIBRETRANSLATE_LANG_RESPONSE,
-            status=500,
-        )
-        responses.add(
             responses.POST,
             "https://libretranslate.com/translate",
-            json=LIBRETRANSLATE_RESPONSE,
-            status=500,
+            json=LIBRETRANSLATE_TRANS_ERROR_RESPONSE,
+            status=403,
         )
 
     def mock_response(self):
@@ -1076,7 +1073,7 @@ class LibreTranslateTranslationTest(BaseMachineTranslationTest):
         responses.add(
             responses.POST,
             "https://libretranslate.com/translate",
-            json=LIBRETRANSLATE_RESPONSE,
+            json=LIBRETRANSLATE_TRANS_RESPONSE,
         )
 
     @responses.activate
