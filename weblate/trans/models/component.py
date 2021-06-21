@@ -1604,7 +1604,8 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
             message = render_template(template, **context)
 
         # Actual commit
-        self.repository.commit(message, author, timestamp, files)
+        if not self.repository.commit(message, author, timestamp, files):
+            return False
 
         # Send post commit signal
         if signals:

@@ -250,7 +250,7 @@ class HgRepository(Repository):
         author: Optional[str] = None,
         timestamp: Optional[datetime] = None,
         files: Optional[List[str]] = None,
-    ):
+    ) -> bool:
         """Create new revision."""
         # Build the commit command
         cmd = ["commit", "--message", message]
@@ -275,12 +275,14 @@ class HgRepository(Repository):
         # Bail out if there is nothing to commit.
         # This can easily happen with squashing and reverting changes.
         if not self.needs_commit(files):
-            return
+            return False
 
         # Execute it
         self.execute(cmd)
         # Clean cache
         self.clean_revision_cache()
+
+        return True
 
     def remove(self, files: List[str], message: str, author: Optional[str] = None):
         """Remove files and creates new revision."""

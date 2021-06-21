@@ -407,7 +407,7 @@ class Repository:
         author: Optional[str] = None,
         timestamp: Optional[datetime] = None,
         files: Optional[List[str]] = None,
-    ):
+    ) -> bool:
         """Create new revision."""
         raise NotImplementedError()
 

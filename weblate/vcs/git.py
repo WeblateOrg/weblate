@@ -279,7 +279,7 @@ class GitRepository(Repository):
         author: Optional[str] = None,
         timestamp: Optional[datetime] = None,
         files: Optional[List[str]] = None,
-    ):
+    ) -> bool:
         """Create new revision."""
         # Add files one by one, this has to deal with
         # removed, untracked and non existing files
@@ -295,7 +295,7 @@ class GitRepository(Repository):
         # Bail out if there is nothing to commit.
         # This can easily happen with squashing and reverting changes.
         if not self.needs_commit(files):
-            return
+            return False
 
         # Build the commit command
         cmd = ["commit", "--file", "-"]
@@ -309,6 +309,8 @@ class GitRepository(Repository):
         self.execute(cmd, stdin=message)
         # Clean cache
         self.clean_revision_cache()
+
+        return True
 
     def remove(self, files: List[str], message: str, author: Optional[str] = None):
         """Remove files and creates new revision."""
