@@ -92,15 +92,19 @@ def update_memory(user, unit, component=None, project=None):
         ):
             add_user = False
 
+    to_create = []
+
     if add_project:
-        Memory.objects.create(
-            user=None, project=project, from_file=False, shared=False, **params
+        to_create.append(
+            Memory(user=None, project=project, from_file=False, shared=False, **params)
         )
     if add_shared:
-        Memory.objects.create(
-            user=None, project=None, from_file=False, shared=True, **params
+        to_create.append(
+            Memory(user=None, project=None, from_file=False, shared=True, **params)
         )
     if add_user:
-        Memory.objects.create(
-            user=user, project=None, from_file=False, shared=False, **params
+        to_create.append(
+            Memory(user=user, project=None, from_file=False, shared=False, **params)
         )
+    if to_create:
+        Memory.objects.bulk_create(to_create)
