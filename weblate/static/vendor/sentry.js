@@ -1,4 +1,4 @@
-/*! @sentry/browser 6.7.1 (e2a2a2e) | https://github.com/getsentry/sentry-javascript */
+/*! @sentry/browser 6.7.2 (35498a6) | https://github.com/getsentry/sentry-javascript */
 var Sentry = (function (exports) {
     /*! *****************************************************************************
     Copyright (c) Microsoft Corporation. All rights reserved.
@@ -2813,10 +2813,10 @@ var Sentry = (function (exports) {
         Session.prototype.update = function (context) {
             if (context === void 0) { context = {}; }
             if (context.user) {
-                if (context.user.ip_address) {
+                if (!this.ipAddress && context.user.ip_address) {
                     this.ipAddress = context.user.ip_address;
                 }
-                if (!context.did) {
+                if (!this.did && !context.did) {
                     this.did = context.user.id || context.user.email || context.user.username;
                 }
             }
@@ -2831,7 +2831,7 @@ var Sentry = (function (exports) {
             if (context.init !== undefined) {
                 this.init = context.init;
             }
-            if (context.did) {
+            if (!this.did && context.did) {
                 this.did = "" + context.did;
             }
             if (typeof context.started === 'number') {
@@ -2853,10 +2853,10 @@ var Sentry = (function (exports) {
             if (context.environment) {
                 this.environment = context.environment;
             }
-            if (context.ipAddress) {
+            if (!this.ipAddress && context.ipAddress) {
                 this.ipAddress = context.ipAddress;
             }
-            if (context.userAgent) {
+            if (!this.userAgent && context.userAgent) {
                 this.userAgent = context.userAgent;
             }
             if (typeof context.errors === 'number') {
@@ -3220,8 +3220,11 @@ var Sentry = (function (exports) {
         Hub.prototype.startSession = function (context) {
             var _a = this.getStackTop(), scope = _a.scope, client = _a.client;
             var _b = (client && client.getOptions()) || {}, release = _b.release, environment = _b.environment;
-            var session = new Session(__assign(__assign({ release: release,
-                environment: environment }, (scope && { user: scope.getUser() })), context));
+            // Will fetch userAgent if called from browser sdk
+            var global = getGlobalObject();
+            var userAgent = (global.navigator || {}).userAgent;
+            var session = new Session(__assign(__assign(__assign({ release: release,
+                environment: environment }, (scope && { user: scope.getUser() })), (userAgent && { userAgent: userAgent })), context));
             if (scope) {
                 // End existing session if there's one
                 var currentSession = scope.getSession && scope.getSession();
@@ -3854,6 +3857,10 @@ var Sentry = (function (exports) {
          * @inheritDoc
          */
         BaseClient.prototype.captureSession = function (session) {
+            if (!this._isEnabled()) {
+                logger.warn('SDK not enabled, will not capture session.');
+                return;
+            }
             if (!(typeof session.release === 'string')) {
                 logger.warn('Discarded session because of missing or non-string release');
             }
@@ -3922,7 +3929,6 @@ var Sentry = (function (exports) {
             var e_1, _a;
             var crashed = false;
             var errored = false;
-            var userAgent;
             var exceptions = event.exception && event.exception.values;
             if (exceptions) {
                 errored = true;
@@ -3944,19 +3950,15 @@ var Sentry = (function (exports) {
                     finally { if (e_1) throw e_1.error; }
                 }
             }
-            var user = event.user;
-            if (!session.userAgent) {
-                var headers = event.request ? event.request.headers : {};
-                for (var key in headers) {
-                    if (key.toLowerCase() === 'user-agent') {
-                        userAgent = headers[key];
-                        break;
-                    }
-                }
+            // A session is updated and that session update is sent in only one of the two following scenarios:
+            // 1. Session with non terminal status and 0 errors + an error occurred -> Will set error count to 1 and send update
+            // 2. Session with non terminal status and 1 error + a crash occurred -> Will set status crashed and send update
+            var sessionNonTerminal = session.status === SessionStatus.Ok;
+            var shouldUpdateAndSend = (sessionNonTerminal && session.errors === 0) || (sessionNonTerminal && crashed);
+            if (shouldUpdateAndSend) {
+                session.update(__assign(__assign({}, (crashed && { status: SessionStatus.Crashed })), { errors: session.errors || Number(errored || crashed) }));
+                this.captureSession(session);
             }
-            session.update(__assign(__assign({}, (crashed && { status: SessionStatus.Crashed })), { user: user,
-                userAgent: userAgent, errors: session.errors + Number(errored || crashed) }));
-            this.captureSession(session);
         };
         /** Deliver captured session to Sentry */
         BaseClient.prototype._sendSession = function (session) {
@@ -4150,7 +4152,7 @@ var Sentry = (function (exports) {
             // eslint-disable-next-line @typescript-eslint/unbound-method
             var _a = this.getOptions(), beforeSend = _a.beforeSend, sampleRate = _a.sampleRate;
             if (!this._isEnabled()) {
-                return SyncPromise.reject(new SentryError('SDK not enabled, will not send event.'));
+                return SyncPromise.reject(new SentryError('SDK not enabled, will not capture event.'));
             }
             var isTransaction = event.type === 'transaction';
             // 1.0 === 100% events are sent
@@ -4169,15 +4171,7 @@ var Sentry = (function (exports) {
                     return prepared;
                 }
                 var beforeSendResult = beforeSend(prepared, hint);
-                if (typeof beforeSendResult === 'undefined') {
-                    throw new SentryError('`beforeSend` method has to return `null` or a valid event.');
-                }
-                else if (isThenable(beforeSendResult)) {
-                    return beforeSendResult.then(function (event) { return event; }, function (e) {
-                        throw new SentryError("beforeSend rejected with " + e);
-                    });
-                }
-                return beforeSendResult;
+                return _this._ensureBeforeSendRv(beforeSendResult);
             })
                 .then(function (processedEvent) {
                 if (processedEvent === null) {
@@ -4216,6 +4210,26 @@ var Sentry = (function (exports) {
                 _this._processing -= 1;
                 return reason;
             });
+        };
+        /**
+         * Verifies that return value of configured `beforeSend` is of expected type.
+         */
+        BaseClient.prototype._ensureBeforeSendRv = function (rv) {
+            var nullErr = '`beforeSend` method has to return `null` or a valid event.';
+            if (isThenable(rv)) {
+                return rv.then(function (event) {
+                    if (!(isPlainObject(event) || event === null)) {
+                        throw new SentryError(nullErr);
+                    }
+                    return event;
+                }, function (e) {
+                    throw new SentryError("beforeSend rejected with " + e);
+                });
+            }
+            else if (!(isPlainObject(rv) || rv === null)) {
+                throw new SentryError(nullErr);
+            }
+            return rv;
         };
         return BaseClient;
     }());
@@ -4400,7 +4414,7 @@ var Sentry = (function (exports) {
         hub.bindClient(client);
     }
 
-    var SDK_VERSION = '6.7.1';
+    var SDK_VERSION = '6.7.2';
 
     var originalFunctionToString;
     /** Patch toString calls to return proper name for wrapped functions */
@@ -5070,7 +5084,7 @@ var Sentry = (function (exports) {
              */
             var limited = this._handleRateLimit(headers);
             if (limited)
-                logger.warn("Too many requests, backing off until: " + this._disabledUntil(requestType));
+                logger.warn("Too many " + requestType + " requests, backing off until: " + this._disabledUntil(requestType));
             if (status === exports.Status.Success) {
                 resolve({ status: status });
                 return;
@@ -5245,7 +5259,7 @@ var Sentry = (function (exports) {
                 return Promise.reject({
                     event: originalPayload,
                     type: sentryRequest.type,
-                    reason: "Transport locked till " + this._disabledUntil(sentryRequest.type) + " due to too many requests.",
+                    reason: "Transport for " + sentryRequest.type + " requests locked till " + this._disabledUntil(sentryRequest.type) + " due to too many requests.",
                     status: 429,
                 });
             }
@@ -5313,7 +5327,7 @@ var Sentry = (function (exports) {
                 return Promise.reject({
                     event: originalPayload,
                     type: sentryRequest.type,
-                    reason: "Transport locked till " + this._disabledUntil(sentryRequest.type) + " due to too many requests.",
+                    reason: "Transport for " + sentryRequest.type + " requests locked till " + this._disabledUntil(sentryRequest.type) + " due to too many requests.",
                     status: 429,
                 });
             }
