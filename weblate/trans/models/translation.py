@@ -65,14 +65,10 @@ from weblate.utils.stats import GhostStats, TranslationStats
 class TranslationManager(models.Manager):
     def check_sync(self, component, lang, code, path, force=False, request=None):
         """Parse translation meta info and updates translation object."""
-        translation = self.get_or_create(
+        translation = component.translation_set.get_or_create(
             language=lang,
-            component=component,
             defaults={"filename": path, "language_code": code, "plural": lang.plural},
         )[0]
-        # Share component instance to improve performance
-        # and to properly process updated data.
-        translation.component = component
         if translation.filename != path or translation.language_code != code:
             force = True
             translation.filename = path
