@@ -549,8 +549,8 @@ class PoMonoUnit(PoUnit):
         """
         # Monolingual PO files
         if self.template is not None:
-            context = self.template.getcontext().strip()
-            source = self.template.source.strip()
+            context = self.template.getcontext()
+            source = self.template.source
             if source and context:
                 return f"{context}.{source}"
             return source or context
