@@ -49,6 +49,7 @@ from weblate.trans.util import get_clean_env
 from weblate.utils import messages
 from weblate.utils.errors import report_error
 from weblate.utils.licenses import LICENSE_URLS
+from weblate.utils.ratelimit import session_ratelimit_post
 from weblate.utils.views import create_component_from_doc, create_component_from_zip
 from weblate.vcs.models import VCS_REGISTRY
 
@@ -65,6 +66,7 @@ class BaseCreateView(CreateView):
 
 
 @method_decorator(login_required, name="dispatch")
+@method_decorator(session_ratelimit_post("project"), name="dispatch")
 class CreateProject(BaseCreateView):
     model = Project
     form_class = ProjectCreateForm

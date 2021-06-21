@@ -275,6 +275,8 @@ The following operations are subject to rate limiting:
 | Starting translation into a new   | ``LANGUAGE``       |                2 |              300 |            600 |
 | language                          |                    |                  |                  |                |
 +-----------------------------------+--------------------+------------------+------------------+----------------+
+| Creating new project              | ``PROJECT``        |                5 |              600 |            600 |
++-----------------------------------+--------------------+------------------+------------------+----------------+
 
 If a user fails to log in :setting:`AUTH_LOCK_ATTEMPTS` times, password authentication will be turned off on the account until having gone through the process of having its password reset.
 
