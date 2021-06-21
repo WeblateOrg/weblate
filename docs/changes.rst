@@ -5,6 +5,7 @@ Not yet released.
 
 * Improved popup for adding terms to glossary.
 * Added rate limiting on creating new projects.
+* Improved performance of file updates.
 
 Weblate 4.7
 -----------
