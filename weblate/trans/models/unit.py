@@ -1235,7 +1235,7 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
             and user
             and self.target != self.old_unit.target
             and self.state >= STATE_TRANSLATED
-            and self.translation.component.is_glossary
+            and not self.translation.component.is_glossary
         ):
             transaction.on_commit(
                 lambda: handle_unit_translation_change.delay(self.id, user.id)
