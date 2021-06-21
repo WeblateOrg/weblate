@@ -698,7 +698,11 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
         # Metadata update only, these do not trigger any actions in Weblate and
         # are display only
         if same_data and not same_metadata:
-            self.save(same_content=True, only_save=True)
+            self.save(
+                same_content=True,
+                only_save=True,
+                update_fields=["location", "note", "position"],
+            )
             return
 
         # Sanitize number of plurals
