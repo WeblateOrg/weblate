@@ -159,8 +159,6 @@ class RedirectMiddleware:
         except AttributeError:
             return None
 
-        resolver_match = request.resolver_match
-
         kwargs = dict(resolver_match.kwargs)
 
         if "lang" in kwargs:
