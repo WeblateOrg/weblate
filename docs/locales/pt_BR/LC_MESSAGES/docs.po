@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-06-16 20:41+0200\n"
-"PO-Revision-Date: 2021-06-15 04:45+0000\n"
+"PO-Revision-Date: 2021-06-21 11:33+0000\n"
 "Last-Translator: Rafael Fontenelle <rafaelff@gnome.org>\n"
 "Language-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/"
 "weblate/documentation/pt_BR/>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 4.7-dev\n"
+"X-Generator: Weblate 4.7\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:180
@@ -2319,12 +2319,19 @@ msgid ""
 "translation, simply set `fr` as the source, `fr_CA` as the target, and leave "
 "the prefix and suffix blank."
 msgstr ""
+"Você pode usar esta extensão para iniciar a tradução para uma nova "
+"localidade de um idioma existente ou idioma semelhante. Depois de adicionar "
+"a tradução ao componente, siga para a extensão. *Exemplo:* Se você tem `fr` "
+"e deseja iniciar a tradução `fr_CA`, simplesmente defina `fr` como fonte,` "
+"fr_CA` como o destino e deixe o prefixo e o sufixo em branco."
 
 #: ../../admin/addons.rst:390
 msgid ""
 "Uninstall the add-on once you have the new translation filled to prevent "
 "Weblate from changing the translations made after the copying."
 msgstr ""
+"Desinstale a extensão depois de preencher a nova tradução para evitar que o "
+"Weblate altere as traduções feitas após a cópia."
 
 #: ../../admin/addons.rst:397
 msgid "Contributors in comment"
@@ -3172,6 +3179,9 @@ msgid ""
 "Image showing a message that reads: \"Translations will be used only if they "
 "reach 60%\" atop the dashboard view."
 msgstr ""
+"Imagem mostrando uma mensagem que diz: \"Translations will be used only if "
+"they reach 60%\" (em português, \"As traduções serão usadas apenas se "
+"atingirem 60%\") no topo da visão do painel."
 
 #: ../../admin/announcements.rst:24
 msgid "It can be also added using the admin interface:"
@@ -3224,6 +3234,9 @@ msgid ""
 "Image showing a message that reads: \"Czech translators rock!\" atop the "
 "Czech language overview."
 msgstr ""
+"Imagem mostrando uma mensagem que diz: \"Czech translators rock!\" (em "
+"português, \"Tradutores tchecos são demais!\") no topo da visão geral do "
+"idioma tcheco."
 
 #: ../../admin/auth.rst:2
 msgid "Authentication"
@@ -3347,6 +3360,10 @@ msgid ""
 "setting:`ENABLE_HTTPS`, or by :envvar:`WEBLATE_ENABLE_HTTPS` in the Docker "
 "container."
 msgstr ""
+"A maioria dos backends de autenticação exige HTTPS. Assim que o HTTPS "
+"estiver habilitado em seu servidor web, configure o Weblate para relatá-lo "
+"corretamente usando :setting:`ENABLE_HTTPS` ou, no contêiner Docker, "
+":envvar:`WEBLATE_ENABLE_HTTPS`."
 
 #: ../../admin/auth.rst:68
 msgid ":doc:`Python Social Auth backend <psa:backends/index>`"
@@ -3552,6 +3569,10 @@ msgid ""
 "settings as ``SOCIAL_AUTH_<NAME>_IMAGE`` and ``SOCIAL_AUTH_<NAME>_TITLE``. "
 "For example overriding naming for Auth0 would look like:"
 msgstr ""
+"Você pode substituir o nome de exibição do método de autenticação e o ícone "
+"usando configurações como ``SOCIAL_AUTH_<NOME>_IMAGE`` e "
+"``SOCIAL_AUTH_<NOME>_TITLE``. Por exemplo, substituir a nomenclatura para "
+"Auth0 ficaria assim:"
 
 #: ../../admin/auth.rst:334
 msgid "Turning off password authentication"
@@ -4238,6 +4259,10 @@ msgid ""
 "file:`environment.yml` file might help you with this (see :ref:`backup-"
 "dumps`)."
 msgstr ""
+"Ao usar o contêiner Docker, o arquivo de configurações já está incluído no "
+"contêiner e você deve restaurar as variáveis de ambiente originais. O "
+"arquivo :file:`environment.yml` pode ajudá-lo com isso (veja :ref:`backup-"
+"dumps`)."
 
 #: ../../admin/backup.rst:149
 msgid ""
@@ -9585,13 +9610,11 @@ msgstr ""
 "`Cloudron <https://cloudron.io/>`_ é uma plataforma para auto-hospedagem de "
 "aplicativos da web. Weblate instalado com Cloudron será automaticamente "
 "atualizado. O pacote é mantido pela equipe Cloudron em seu `repositório de "
-"pacotes Weblate <https://git.cloudron.io/cloudron/weblate-app>` _."
+"pacotes Weblate <https://git.cloudron.io/cloudron/weblate-app>`_."
 
 #: ../../admin/deployments.rst:None
-#, fuzzy
-#| msgid "Installing Weblate"
 msgid "Install Weblate with Cloudron"
-msgstr "Instalando o Weblate"
+msgstr "Instalar Weblate com Cloudron"
 
 #: ../../admin/deployments.rst:40
 msgid "Weblate in YunoHost"
@@ -9620,10 +9643,8 @@ msgstr ""
 "ao seu servidor):"
 
 #: ../../admin/deployments.rst:None
-#, fuzzy
-#| msgid "Weblate in YunoHost"
 msgid "Install Weblate with YunoHost"
-msgstr "Weblate no YunoHost"
+msgstr "Instalar Weblate com YunoHost"
 
 #: ../../admin/deployments.rst:54
 msgid "It also is possible to use the commandline interface:"
@@ -22416,8 +22437,6 @@ msgid "Added support for free DeepL API."
 msgstr "Adicionado suporte para DeepL API grátis."
 
 #: ../../changes.rst:20
-#, fuzzy
-#| msgid "The user management no longer needs Django admin inteface."
 msgid "The user management no longer needs Django admin interface."
 msgstr ""
 "O usuário de gerência não precisa mais da interface administrativa do Django."
@@ -30444,7 +30463,7 @@ msgstr "Licenças faltantes"
 
 #: ../../devel/alerts.rst:18
 msgid "Errors when running add-on (see :doc:`/admin/addons`)"
-msgstr ""
+msgstr "Erros ao executar extensão (veja :doc:`/admin/addons`)"
 
 #: ../../devel/alerts.rst:19
 msgid "Misconfigured monolingual translation."
@@ -30479,6 +30498,9 @@ msgid ""
 "The alerts are updated daily, or on related change (for example when :ref:"
 "`component` is changed or when repository is updated)."
 msgstr ""
+"Os alertas são atualizados diariamente, ou sobre mudanças relacionadas (por "
+"exemplo, quando :ref:`component` é alterada ou quando o repositório é "
+"atualizado)."
 
 #: ../../devel/alerts.rst:30
 msgid ""
@@ -31279,6 +31301,9 @@ msgid ""
 "either connected to upstream one, or it can be only internal. The :guilabel:"
 "`Repository maintenance` lets you manipulate with the repository."
 msgstr ""
+"O Weblate armazena todas as traduções no repositório de controle de versão. "
+"Ele pode ser conectado a um upstream ou apenas interno. O :guilabel:`"
+"Manutenção do repositório` permite que você manipule com o repositório."
 
 #: ../../devel/integration.rst:120
 msgid ""
@@ -31286,6 +31311,9 @@ msgid ""
 "whenever there are changes and there is usually no need to manually "
 "manipupate with it."
 msgstr ""
+"Com :doc:`/admin/continuous` o repositório é automaticamente empurrado "
+"sempre que houver mudanças e normalmente não há necessidade de manipulá-lo "
+"manualmente."
 
 #: ../../devel/integration.rst:126
 msgid "Following operations are available:"
@@ -31317,7 +31345,7 @@ msgstr ""
 
 #: ../../devel/integration.rst:137
 msgid ":guilabel:`Update`, :guilabel:`Pull`, :guilabel:`Rebase`"
-msgstr ""
+msgstr ":guilabel:`Atualizar`, :guilabel:`Pull`, :guilabel:`Rebase`"
 
 #: ../../devel/integration.rst:139
 msgid ""
@@ -31325,6 +31353,9 @@ msgid ""
 "merge_style` when choosing :guilabel:`Update` or you can choose different "
 "one from the dropdown menu."
 msgstr ""
+"Atualiza o repositório Weblate com mudanças upstream. Ele usa :ref"
+":`component-merge_style` ao escolher :guilabel:`Atualizar` ou você pode "
+"escolher um diferente no menu suspenso."
 
 #: ../../devel/integration.rst:143
 msgid ":guilabel:`Lock`"
@@ -31336,7 +31367,7 @@ msgstr "O bloqueio impede que os tradutores façam alterações"
 
 #: ../../devel/integration.rst:147
 msgid ":guilabel:`Reset` from :guilabel:`Maintenance`"
-msgstr ""
+msgstr ":guilabel:`Redefinir` de :guilabel:`Manutenção`"
 
 #: ../../devel/integration.rst:149
 msgid ""
@@ -31344,32 +31375,38 @@ msgid ""
 "discard all translations done in Weblate and not present in the upstream "
 "repository."
 msgstr ""
+"Redefine todas as alterações feitas no Weblate para corresponder ao "
+"repositório upstream. Isso descartará todas as traduções feitas no Weblate e "
+"não presentes no repositório upstream."
 
 #: ../../devel/integration.rst:153
 msgid ":guilabel:`Cleanup` from :guilabel:`Maintenance`"
-msgstr ""
+msgstr ":guilabel:`Limpar` de :guilabel:`Manutenção`"
 
 #: ../../devel/integration.rst:155
 msgid ""
 "Removes untracked files from the repository. These could be result of "
 "misbehaving add-ons or bugs."
 msgstr ""
+"Remove arquivos não rastreados do repositório. Isso pode ser resultado de "
+"bugs ou extensões com comportamento incorreto."
 
 #: ../../devel/integration.rst:158
 msgid ":guilabel:`Force synchronization` from :guilabel:`Maintenance`"
-msgstr ""
+msgstr ":guilabel:`Forçar sincronização` de :guilabel:`Manutenção`"
 
 #: ../../devel/integration.rst:160
 msgid ""
 "Forces writing all strings to the translation files. Use this when "
 "repository files became out of sync with Weblate for some reason."
 msgstr ""
+"Força a escrita de todos os textos nos arquivos de tradução. Use-o quando os "
+"arquivos do repositório ficarem fora de sincronia com o Weblate por algum "
+"motivo."
 
 #: ../../devel/integration.rst:165
-#, fuzzy
-#| msgid ":doc:`/admin/continuous` :doc:`/vcs`"
 msgid ":doc:`/admin/continuous`, :doc:`/vcs`"
-msgstr ":doc:`/admin/continuous` :doc:`/vcs`"
+msgstr ":doc:`/admin/continuous`, :doc:`/vcs`"
 
 #: ../../devel/reporting.rst:2
 msgid "Translation progress reporting"
@@ -31450,7 +31487,7 @@ msgstr "Número geral de textos editados."
 
 #: ../../devel/reporting.rst:58
 msgid "`New`"
-msgstr ""
+msgstr "`New`"
 
 #: ../../devel/reporting.rst:59
 msgid "Newly translated strings which didn't have translation before."
@@ -31458,7 +31495,7 @@ msgstr "Textos recentemente traduzidos que não tinham tradução antes."
 
 #: ../../devel/reporting.rst:60
 msgid "`Approved`"
-msgstr ""
+msgstr "`Approved`"
 
 #: ../../devel/reporting.rst:61
 msgid "Count for string approvals in review workflow (see :ref:`reviews`)."
@@ -31468,7 +31505,7 @@ msgstr ""
 
 #: ../../devel/reporting.rst:63
 msgid "`Edited`"
-msgstr ""
+msgstr "`Edited`"
 
 #: ../../devel/reporting.rst:63
 msgid "Edited strings which had translation before."
@@ -31480,7 +31517,7 @@ msgstr "As seguintes métricas estão disponíveis para cada um:"
 
 #: ../../devel/reporting.rst:67
 msgid "`Count`"
-msgstr ""
+msgstr "`Count`"
 
 #: ../../devel/reporting.rst:68
 msgid "Number of strings."
@@ -31488,7 +31525,7 @@ msgstr "Número de textos."
 
 #: ../../devel/reporting.rst:69
 msgid "`Edits`"
-msgstr ""
+msgstr "`Edits`"
 
 #: ../../devel/reporting.rst:70
 msgid ""
@@ -31497,7 +31534,7 @@ msgstr "Número de edições no texto, medido na distância Damerau–Levenshtei
 
 #: ../../devel/reporting.rst:71
 msgid "`Source words`"
-msgstr ""
+msgstr "`Source words`"
 
 #: ../../devel/reporting.rst:72
 msgid "Number of words in the source string."
@@ -31505,7 +31542,7 @@ msgstr "Número de palavras na texto fonte."
 
 #: ../../devel/reporting.rst:73
 msgid "`Source characters`"
-msgstr ""
+msgstr "`Source characters`"
 
 #: ../../devel/reporting.rst:74
 msgid "Number of characters in the source string."
@@ -31513,7 +31550,7 @@ msgstr "Número de caracteres no texto fonte."
 
 #: ../../devel/reporting.rst:75
 msgid "`Target words`"
-msgstr ""
+msgstr "`Target words`"
 
 #: ../../devel/reporting.rst:76
 msgid "Number of words in the translated string."
@@ -31521,7 +31558,7 @@ msgstr "Número de palavras no texto traduzido."
 
 #: ../../devel/reporting.rst:77
 msgid "`Target characters`"
-msgstr ""
+msgstr "`Target characters`"
 
 #: ../../devel/reporting.rst:78
 msgid "Number of characters in the translated string."
@@ -31548,6 +31585,8 @@ msgid ""
 "The activity reports for a project or component is accessible from its "
 "dashboard, on the :guilabel:`Info` tab."
 msgstr ""
+"Os relatórios de atividades de um projeto ou componente podem ser acessados "
+"em seu painel, na aba :guilabel:`Info`."
 
 #: ../../devel/review.rst:18
 msgid ""
@@ -35110,10 +35149,8 @@ msgid "Install it, or use the Hosted Weblate service at `weblate.org`_."
 msgstr "Instale-o ou use o serviço Hosted Weblate em `weblate.org`_."
 
 #: ../../../README.rst:None
-#, fuzzy
-#| msgid "Website URL"
 msgid "Website"
-msgstr "URL do site"
+msgstr "Site"
 
 #: ../../../README.rst:None
 msgid "Translation status"
@@ -38270,6 +38307,8 @@ msgid ""
 "Component slug or name case insensitive search, see :ref:`component-slug` "
 "and :ref:`component-name`."
 msgstr ""
+"URL amigável de componente ou pesquisa que não diferencia maiúsculas de "
+"minúsculas, veja :ref:`component-slug` e :ref:`component-name`."
 
 #: ../../user/search.rst:55
 msgid "``project:TEXT``"
