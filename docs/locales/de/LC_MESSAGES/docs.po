@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-06-16 20:41+0200\n"
-"PO-Revision-Date: 2021-06-16 07:02+0000\n"
-"Last-Translator: nautilusx <translate@disroot.org>\n"
+"PO-Revision-Date: 2021-06-21 11:33+0000\n"
+"Last-Translator: VfBFan <drop0815@posteo.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "documentation/de/>\n"
 "Language: de\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.7-dev\n"
+"X-Generator: Weblate 4.7\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:180
@@ -377,10 +377,8 @@ msgstr ""
 "verfügbar."
 
 #: ../../admin/access.rst:168
-#, fuzzy
-#| msgid "Removed user"
 msgid "Blocking users"
-msgstr "Benutzer gelöscht"
+msgstr "Benutzer sperren"
 
 #: ../../admin/access.rst:172
 msgid ""
@@ -388,6 +386,10 @@ msgid ""
 "them from contributing. The blocked user still will be able to see the "
 "project if he has permissions for that, but he won't be able to contribute."
 msgstr ""
+"Für den Fall, dass sich einige Benutzer in Ihrem Projekt schlecht benehmen, "
+"haben Sie die Möglichkeit, sie für Beiträge zu sperren. Der gesperrte "
+"Benutzer kann das Projekt immer noch sehen, wenn er die entsprechenden "
+"Berechtigungen hat, aber er kann nichts dazu beitragen."
 
 #: ../../admin/access.rst:177
 msgid "Per-project permission management"
@@ -2137,12 +2139,21 @@ msgid ""
 "translation, simply set `fr` as the source, `fr_CA` as the target, and leave "
 "the prefix and suffix blank."
 msgstr ""
+"Sie können diese Erweiterung verwenden, um die Übersetzung in ein neues "
+"Gebietsschema einer bestehenden oder ähnlichen Sprache zu starten. Sobald "
+"Sie die Übersetzung zur Komponente hinzugefügt haben, folgen Sie der "
+"Erweiterung. *Beispiel:* Wenn Sie `fr` haben und die Übersetzung `fr_CA` "
+"starten wollen, setzen Sie einfach `fr` als Quelle, `fr_CA` als Ziel und "
+"lassen Sie das Präfix und Suffix leer."
 
 #: ../../admin/addons.rst:390
 msgid ""
 "Uninstall the add-on once you have the new translation filled to prevent "
 "Weblate from changing the translations made after the copying."
 msgstr ""
+"Deinstallieren Sie die Erweiterung, sobald Sie die neue Übersetzung "
+"ausgefüllt haben, um zu verhindern, dass Weblate die nach dem Kopieren "
+"erstellten Übersetzungen verändert."
 
 #: ../../admin/addons.rst:397
 msgid "Contributors in comment"
@@ -2923,6 +2934,8 @@ msgid ""
 "Image showing a message that reads: \"Translations will be used only if they "
 "reach 60%\" atop the dashboard view."
 msgstr ""
+"Das Bild zeigt eine Nachricht, die lautet: \"Übersetzungen werden nur "
+"verwendet, wenn sie 60 % erreichen\" oberhalb der Übersichtsseite."
 
 #: ../../admin/announcements.rst:24
 msgid "It can be also added using the admin interface:"
@@ -2974,6 +2987,8 @@ msgid ""
 "Image showing a message that reads: \"Czech translators rock!\" atop the "
 "Czech language overview."
 msgstr ""
+"Das Bild zeigt eine Nachricht, die lautet: \"Tschechische Übersetzer rocken!"
+"\" oberhalb der tschechischen Sprachübersicht."
 
 #: ../../admin/auth.rst:2
 msgid "Authentication"
@@ -3068,6 +3083,10 @@ msgid ""
 "setting:`ENABLE_HTTPS`, or by :envvar:`WEBLATE_ENABLE_HTTPS` in the Docker "
 "container."
 msgstr ""
+"Die meisten der Legitimierungs-Backends erfordern HTTPS. Sobald HTTPS in "
+"Ihrem Webserver aktiviert ist, konfigurieren Sie Weblate bitte mit "
+":setting:`ENABLE_HTTPS` oder durch :envvar:`WEBLATE_ENABLE_HTTPS` im Docker-"
+"Container so, dass es korrekt gemeldet wird."
 
 #: ../../admin/auth.rst:68
 msgid ":doc:`Python Social Auth backend <psa:backends/index>`"
@@ -3230,7 +3249,7 @@ msgstr ""
 
 #: ../../admin/auth.rst:322
 msgid "Overriding authentication method names and icons"
-msgstr ""
+msgstr "Überschreiben von Namen und Symbolen für Legitimierungsmethoden"
 
 #: ../../admin/auth.rst:324
 msgid ""
@@ -3829,16 +3848,12 @@ msgid ""
 msgstr ""
 
 #: ../../admin/backup.rst:152
-#, fuzzy
-#| msgid ""
-#| "The Docker container uses a separate volume for this, see :ref:`docker-"
-#| "volume`."
 msgid ""
 "When using Docker container place the data into the data volume, see :ref:"
 "`docker-volume`."
 msgstr ""
-"Der Docker-Container verwendet dafür ein eigenes Volume, siehe :ref:`docker-"
-"volume`."
+"Bei der Verwendung von Docker-Containern legen Sie die Daten in das "
+"Datenvolumen, siehe :ref:`docker-volume`."
 
 #: ../../admin/backup.rst:155
 msgid "The Borg session might look like this:"
@@ -8393,10 +8408,8 @@ msgid ""
 msgstr ""
 
 #: ../../admin/deployments.rst:None
-#, fuzzy
-#| msgid "Internal Weblate group"
 msgid "Install Weblate with Cloudron"
-msgstr "Interne Weblate-Gruppe"
+msgstr "Weblate mit Cloudron installieren"
 
 #: ../../admin/deployments.rst:40
 msgid "Weblate in YunoHost"
@@ -8419,7 +8432,7 @@ msgstr ""
 
 #: ../../admin/deployments.rst:None
 msgid "Install Weblate with YunoHost"
-msgstr ""
+msgstr "Weblate mit YunoHost installieren"
 
 #: ../../admin/deployments.rst:54
 msgid "It also is possible to use the commandline interface:"
@@ -11333,10 +11346,8 @@ msgid ":setting:`django:EMAIL_PORT`"
 msgstr ""
 
 #: ../../admin/install/docker.rst:1134
-#, fuzzy
-#| msgid "Authentication"
 msgid "E-mail authentication user."
-msgstr "Legitimierung"
+msgstr "E-Mail-Authentifizierung Benutzer."
 
 #: ../../admin/install/docker.rst:1136
 msgid ":setting:`django:EMAIL_HOST_USER`"
@@ -14479,7 +14490,7 @@ msgstr ""
 
 #: ../../admin/optionals.rst:269
 msgid "Sitewide search"
-msgstr ""
+msgstr "Plattformweite Suche"
 
 #: ../../admin/optionals.rst:269
 msgid "``SEARCH``"
@@ -16745,7 +16756,7 @@ msgstr ""
 
 #: ../../admin/upgrade.rst:234
 msgid "Django 3.2 is now required."
-msgstr ""
+msgstr "Django 3.2 ist jetzt erforderlich."
 
 #: ../../admin/upgrade.rst:241
 msgid "Upgrading from Python 2 to Python 3"
@@ -19323,41 +19334,40 @@ msgstr "RSS-Feeds"
 
 #: ../../api.rst:2584
 msgid "Changes in translations are exported in RSS feeds."
-msgstr ""
+msgstr "Änderungen an Übersetzungen werden in RSS-Feeds exportiert."
 
 #: ../../api.rst:2588
 msgid "Retrieves RSS feed with recent changes for a translation."
-msgstr ""
+msgstr "Ruft den RSS-Feed mit den letzten Änderungen für eine Übersetzung ab."
 
 #: ../../api.rst:2592
 msgid "Retrieves RSS feed with recent changes for a component."
-msgstr ""
+msgstr "Ruft den RSS-Feed mit den letzten Änderungen für eine Komponente ab."
 
 #: ../../api.rst:2596
 msgid "Retrieves RSS feed with recent changes for a project."
-msgstr ""
+msgstr "Ruft den RSS-Feed mit den letzten Änderungen für ein Projekt ab."
 
 #: ../../api.rst:2600
 msgid "Retrieves RSS feed with recent changes for a language."
-msgstr ""
+msgstr "Ruft den RSS-Feed mit den letzten Änderungen für eine Sprache ab."
 
 #: ../../api.rst:2604
 msgid "Retrieves RSS feed with recent changes for Weblate instance."
 msgstr ""
+"Ruft den RSS-Feed mit den letzten Änderungen für die Weblate-Instanz ab."
 
 #: ../../api.rst:2608
 msgid "`RSS on wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
-msgstr ""
+msgstr "`RSS auf Wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 
 #: ../../changes.rst:2
 msgid "Weblate 4.7"
 msgstr "Weblate 4.7"
 
 #: ../../changes.rst:4
-#, fuzzy
-#| msgid "Released on June 19th 2020."
 msgid "Released on June 17th 2021."
-msgstr "Veröffentlicht am 19. Juni 2020."
+msgstr "Veröffentlicht am 17. Juni 2021."
 
 #: ../../changes.rst:6
 msgid "Improved configuration health check."
@@ -19395,59 +19405,43 @@ msgstr ""
 
 #: ../../changes.rst:12
 msgid "Weblate now requires Django 3.2."
-msgstr ""
+msgstr "Weblate benötigt jetzt Django 3.2."
 
 #: ../../changes.rst:13
-#, fuzzy
-#| msgid "Authentication cancelled."
 msgid "Fixed inviting users when e-mail authentication is disabled."
-msgstr "Authentifizierung abgebrochen."
+msgstr ""
+"Das Einladen von Benutzern, wenn die E-Mail-Authentifizierung deaktiviert "
+"ist, wurde behoben."
 
 #: ../../changes.rst:14
-#, fuzzy
-#| msgid "Add language definitions"
 msgid "Improved language definitions."
-msgstr "Sprachdefinitionen hinzufügen"
+msgstr "Verbesserte Sprachdefinitionen."
 
 #: ../../changes.rst:15
-#, fuzzy
-#| msgid "Add support for searching by component and project."
 msgid "Added support for blocking users from contributing to a project."
-msgstr "Unterstützung für die Suche nach Komponente und Projekt hinzufügen."
+msgstr ""
+"Unterstützung für das Sperren von Benutzern für Beiträge zu einem Projekt "
+"wurde hinzugefügt."
 
 #: ../../changes.rst:16
 msgid "Fixed automatic creation of glossary languages."
-msgstr ""
+msgstr "Die automatische Erstellung von Glossarsprachen wurde korrigiert."
 
 #: ../../changes.rst:17
-#, fuzzy
-#| msgid "Documentation for plurals."
 msgid "Extended documentation about add-ons."
-msgstr "Dokumentation für Plural."
+msgstr "Erweiterte Dokumentation zu Erweiterungen."
 
 #: ../../changes.rst:18
-#, fuzzy
-#| msgid ""
-#| "Weblate commits from components within this repository will be squashed."
 msgid "Performance improvements for components with linked repositories."
-msgstr ""
-"Weblate-Commits aus Komponenten in diesem Repository werden zusammengeführt."
+msgstr "Leistungsverbesserungen für Komponenten mit verknüpften Repositorys."
 
 #: ../../changes.rst:19
-#, fuzzy
-#| msgid "Added support for reordering committed changes."
 msgid "Added support for free DeepL API."
-msgstr "Unterstützung für's umordnen von bestätigten Änderungen hinzugefügt."
+msgstr "Unterstützung für kostenlose DeepL-API hinzugefügt."
 
 #: ../../changes.rst:20
-#, fuzzy
-#| msgid ""
-#| "Weblate user management is turned off, you can change permissions in the "
-#| "Django admin interface."
 msgid "The user management no longer needs Django admin interface."
-msgstr ""
-"Weblate-Benutzerverwaltung ist deaktiviert, Sie können die Berechtigungen in "
-"der Django-Administrationsoberfläche ändern."
+msgstr "Die Benutzerverwaltung benötigt keine Django-Adminoberfläche mehr."
 
 #: ../../changes.rst:22
 msgid ""
@@ -19906,20 +19900,22 @@ msgid "Added simplified interface to toggle some of the flags."
 msgstr ""
 
 #: ../../changes.rst:155
-#, fuzzy
-#| msgid "Added support for reordering committed changes."
 msgid "Added support for non-translatable or forbidden terms in the glossary."
-msgstr "Unterstützung für's umordnen von bestätigten Änderungen hinzugefügt."
+msgstr ""
+"Unterstützung für nicht übersetzbare oder unzulässige Begriffe im Glossar "
+"hinzugefügt."
 
 #: ../../changes.rst:156
-#, fuzzy
-#| msgid "Added support for reordering committed changes."
 msgid "Added support for defining terminology in a glossary."
-msgstr "Unterstützung für's umordnen von bestätigten Änderungen hinzugefügt."
+msgstr ""
+"Unterstützung für die Definition von Terminologie in einem Glossar wurde "
+"hinzugefügt."
 
 #: ../../changes.rst:157
 msgid "Moved text direction toggle to get more space for the visual keyboard."
 msgstr ""
+"Der Umschalter für die Leserichtung wurde verschoben, um mehr Platz für die "
+"visuelle Tastatur zu erhalten."
 
 #: ../../changes.rst:158
 msgid "Added option to automatically watch projects user-contributed to."
@@ -19969,7 +19965,7 @@ msgstr ""
 
 #: ../../changes.rst:177
 msgid "Fixed displaying help for project settings."
-msgstr ""
+msgstr "Die Anzeige der Hilfe für Projekteinstellungen wurde korrigiert."
 
 #: ../../changes.rst:178
 msgid "Improved administration of users."
@@ -20026,13 +20022,15 @@ msgstr "Genehmigte Übersetzung in %(translation)s"
 
 #: ../../changes.rst:189
 msgid "Added API for add-ons."
-msgstr ""
+msgstr "API für Erweiterungen hinzugefügt."
 
 #: ../../changes.rst:191
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/60?"
 "closed=1>`__."
 msgstr ""
+"`Alle Änderungen im Detail <https://github.com/WeblateOrg/weblate/milestone/"
+"60?closed=1>`__."
 
 #: ../../changes.rst:194
 msgid "Weblate 4.4"
@@ -20048,13 +20046,13 @@ msgstr "Verbesserte Validierung beim Erstellen einer Komponente."
 
 #: ../../changes.rst:199
 msgid "Weblate now requires Django 3.1."
-msgstr ""
+msgstr "Weblate benötigt jetzt Django 3.1."
 
 #: ../../changes.rst:200
-#, fuzzy
-#| msgid "Added support for reordering committed changes."
 msgid "Added support for appearance customization in the management interface."
-msgstr "Unterstützung für's umordnen von bestätigten Änderungen hinzugefügt."
+msgstr ""
+"Unterstützung für die Anpassung des Erscheinungsbilds in der "
+"Verwaltungsoberfläche wurde hinzugefügt."
 
 #: ../../changes.rst:201
 msgid "Fixed read-only state handling in bulk edit."
@@ -20081,6 +20079,8 @@ msgid ""
 "Syntax highlighting in translation editor for XML, HTML, Markdown and "
 "reStructuredText."
 msgstr ""
+"Syntaxhervorhebung im Übersetzungseditor für XML, HTML, Markdown und "
+"reStructuredText."
 
 #: ../../changes.rst:206
 msgid "Highlight placeables in translation editor."
@@ -20088,23 +20088,23 @@ msgstr "Platzhalter im Übersetzungseditor hervorheben."
 
 #: ../../changes.rst:207
 msgid "Improved support for non-standard language codes."
-msgstr ""
+msgstr "Verbesserte Unterstützung für nicht standardisierte Sprachcodes."
 
 #: ../../changes.rst:208
-#, fuzzy
-#| msgid "The component contains translation file for the source language."
 msgid "Added alert when using ambiguous language codes."
-msgstr "Die Komponente enthält eine Übersetzungsdatei für die Ausgangssprache."
+msgstr "Warnung bei Verwendung mehrdeutiger Sprachcodes hinzugefügt."
 
 #: ../../changes.rst:209
 msgid ""
 "The user is now presented with a filtered list of languages when adding a "
 "new translation."
 msgstr ""
+"Dem Benutzer wird nun eine gefilterte Liste von Sprachen angezeigt, wenn er "
+"eine neue Übersetzung hinzufügt."
 
 #: ../../changes.rst:210
 msgid "Extended search capabilities for changes in history."
-msgstr ""
+msgstr "Erweiterte Suchmöglichkeiten für Änderungen in der Historie."
 
 #: ../../changes.rst:211
 msgid "Improved billing detail pages and libre hosting workflow."
@@ -22735,10 +22735,8 @@ msgid ""
 msgstr ""
 
 #: ../../changes.rst:1018
-#, fuzzy
-#| msgid "Edit translation memory"
 msgid "Added built-in translation memory."
-msgstr "Übersetzungsspeicher bearbeiten"
+msgstr "Integrierter Übersetzungsspeicher hinzugefügt."
 
 #: ../../changes.rst:1019
 msgid ""
@@ -22824,10 +22822,8 @@ msgid "Improved compatibility with some Subversion setups."
 msgstr ""
 
 #: ../../changes.rst:1047
-#, fuzzy
-#| msgid "Use machine translation services"
 msgid "Improved built-in machine translation service."
-msgstr "Maschinelle Übersetzung verwenden"
+msgstr "Verbesserte integrierte automatische Übersetzung."
 
 #: ../../changes.rst:1048
 msgid "Added support for SAP Translation Hub service."
@@ -22854,11 +22850,8 @@ msgid "Added support for Subversion repositories not using stdlayout."
 msgstr ""
 
 #: ../../changes.rst:1054
-#, fuzzy
-#| msgid "New string to translate in %(translation)s"
-#| msgid_plural "New strings to translate in %(translation)s"
 msgid "Added add-ons to customize translation workflows."
-msgstr "Neue Zeichenkette zum Übersetzen in %(translation)s"
+msgstr "Erweiterungen zum Anpassen von Übersetzungs-Workflows hinzugefügt."
 
 #: ../../changes.rst:1057
 msgid "Weblate 2.18"
@@ -23024,6 +23017,8 @@ msgstr ""
 #: ../../changes.rst:1113
 msgid "Fixed component/project/site wide search for translations."
 msgstr ""
+"Die Komponenten-, Projekt- und plattformweite Suche nach Übersetzungen wurde "
+"korrigiert."
 
 #: ../../changes.rst:1116
 msgid "Weblate 2.15"
@@ -23284,7 +23279,7 @@ msgstr ""
 
 #: ../../changes.rst:1202
 msgid "Improved speed of site wide search."
-msgstr ""
+msgstr "Verbesserte Geschwindigkeit der plattformweiten Suche."
 
 #: ../../changes.rst:1203
 msgid "Added project and component wide search."
@@ -23714,7 +23709,7 @@ msgstr ""
 
 #: ../../changes.rst:1341
 msgid "Site wide search can search only in one language."
-msgstr ""
+msgstr "Die plattformweite Suche kann nur in einer Sprache suchen."
 
 #: ../../changes.rst:1342
 msgid "Improve quality checks for Armenian."
@@ -23738,10 +23733,10 @@ msgid "Performance improvements for quality checks."
 msgstr ""
 
 #: ../../changes.rst:1347
-#, fuzzy
-#| msgid "Strings with any failing checks"
 msgid "Fixed site wide search for failing checks."
-msgstr "Zeichenketten mit fehlgeschlagenen Qualitätsprüfungen"
+msgstr ""
+"Die plattformweite Suche nach fehlgeschlagenen Qualitätsprüfungen wurde "
+"korrigiert."
 
 #: ../../changes.rst:1348
 msgid "Added option to specify source language."
@@ -24161,7 +24156,7 @@ msgstr ""
 
 #: ../../changes.rst:1475
 msgid "Added whiteboard for site wide messages."
-msgstr ""
+msgstr "Whiteboard für plattformweite Meldungen hinzugefügt."
 
 #: ../../changes.rst:1476
 msgid "Configurable strings priority."
@@ -24774,10 +24769,10 @@ msgid "Supports (and requires) django-registration 0.8."
 msgstr ""
 
 #: ../../changes.rst:1665
-#, fuzzy
-#| msgid "Number of failing checks"
 msgid "Caching counts of strings with failing checks."
-msgstr "Anzahl fehlgeschlagener Qualitätsprüfungen"
+msgstr ""
+"Zwischenspeichern der Anzahl von Zeichenketten mit fehlgeschlagenen "
+"Qualitätsprüfungen."
 
 #: ../../changes.rst:1666
 msgid "Checking of requirements during setup."
@@ -25181,16 +25176,12 @@ msgid "Project logos"
 msgstr ""
 
 #: ../../contributing/about.rst:25
-#, fuzzy
-#| msgid ""
-#| "The project logos and other graphics is available in https://github.com/"
-#| "WeblateOrg/graphics."
 msgid ""
 "The project logos and other graphics are available in https://github.com/"
 "WeblateOrg/graphics."
 msgstr ""
-"Die Projektlogos und andere Grafiken finden Sie unter https://github.com/"
-"WeblateOrg/graphics."
+"Die Projektlogos und andere Grafiken sind unter https://github.com/"
+"WeblateOrg/graphics verfügbar."
 
 #: ../../contributing/about.rst:29
 msgid "Leadership"
@@ -25237,10 +25228,8 @@ msgstr ""
 
 #: ../../../weblate/addons/base.py:docstring of
 #: weblate.addons.base.BaseAddon.configure:1
-#, fuzzy
-#| msgid "Bad configuration"
 msgid "Save configuration."
-msgstr "Fehlkonfiguration"
+msgstr "Konfiguration speichern."
 
 #: ../../../weblate/addons/base.py:docstring of
 #: weblate.addons.base.BaseAddon.daily:1
@@ -25482,10 +25471,8 @@ msgid ""
 msgstr ""
 
 #: ../../contributing/debugging.rst:48
-#, fuzzy
-#| msgid "Things to check"
 msgid "Things to check in that case:"
-msgstr "Folgendes prüfen"
+msgstr "Dinge, die in diesem Fall zu überprüfen sind:"
 
 #: ../../contributing/debugging.rst:50
 msgid "Check Celery process is running, see :ref:`celery`"
@@ -26036,10 +26023,8 @@ msgid "``memory``"
 msgstr ""
 
 #: ../../contributing/internals.rst:82
-#, fuzzy
-#| msgid "Shared translation memory"
 msgid "Built-in translation memory, see :ref:`translation-memory`."
-msgstr "Geteilter Übersetzungspeicher"
+msgstr "Integrierter Übersetzungsspeicher, siehe :ref:'translation-memory'."
 
 #: ../../contributing/internals.rst:84
 msgid "``screenshots``"
@@ -27082,10 +27067,8 @@ msgid ""
 msgstr ""
 
 #: ../../contributing/start.rst:20
-#, fuzzy
-#| msgid "Clone source"
 msgid "Clone the Weblate source code:"
-msgstr "Quelle kopieren"
+msgstr "Klonen des Weblate-Quellcodes:"
 
 #: ../../contributing/start.rst:27
 #, fuzzy
@@ -27428,10 +27411,8 @@ msgid "Unused screenshots"
 msgstr "Unbenutzte Bildschirmfotos"
 
 #: ../../devel/alerts.rst:23
-#, fuzzy
-#| msgid "Ambiguous language code."
 msgid "Ambiguous language code"
-msgstr "Mehrdeutiger Sprachcode."
+msgstr "Mehrdeutiger Sprachcode"
 
 #: ../../devel/alerts.rst:24
 msgid "Unused new base in component settings"
@@ -28073,10 +28054,8 @@ msgid ""
 msgstr ""
 
 #: ../../devel/integration.rst:112
-#, fuzzy
-#| msgid "Changing version control system is not supported!"
 msgid "Managing version control repository"
-msgstr "Ändern der Versionsverwaltung wird nicht unterstützt!"
+msgstr "Verwalten des Repository der Versionsverwaltung"
 
 #: ../../devel/integration.rst:114
 msgid ""
@@ -28093,14 +28072,12 @@ msgid ""
 msgstr ""
 
 #: ../../devel/integration.rst:126
-#, fuzzy
-#| msgid "Following checks are failing:"
 msgid "Following operations are available:"
-msgstr "Folgenden Prüfungen sind fehlgeschlagen:"
+msgstr "Die folgenden Operationen sind verfügbar:"
 
 #: ../../devel/integration.rst:128
 msgid ":guilabel:`Commit`"
-msgstr ""
+msgstr ":guilabel:`Commit`"
 
 #: ../../devel/integration.rst:130
 #, fuzzy
@@ -28115,7 +28092,7 @@ msgstr ""
 
 #: ../../devel/integration.rst:133
 msgid ":guilabel:`Push`"
-msgstr ""
+msgstr ":guilabel:`Push`"
 
 #: ../../devel/integration.rst:135
 #, fuzzy
@@ -28127,7 +28104,7 @@ msgstr "Änderungen in das Upstream-Repository pushen."
 
 #: ../../devel/integration.rst:137
 msgid ":guilabel:`Update`, :guilabel:`Pull`, :guilabel:`Rebase`"
-msgstr ""
+msgstr ":guilabel:`Update`, :guilabel:`Pull`, :guilabel:`Rebase`"
 
 #: ../../devel/integration.rst:139
 msgid ""
@@ -28138,7 +28115,7 @@ msgstr ""
 
 #: ../../devel/integration.rst:143
 msgid ":guilabel:`Lock`"
-msgstr ""
+msgstr ":guilabel:`Lock`"
 
 #: ../../devel/integration.rst:145
 msgid "Locking prevents translators from doing changes"
@@ -28154,6 +28131,9 @@ msgid ""
 "discard all translations done in Weblate and not present in the upstream "
 "repository."
 msgstr ""
+"Setzt alle in Weblate vorgenommenen Änderungen auf das Upstream-Repository "
+"zurück. Dadurch werden alle in Weblate vorgenommenen Übersetzungen "
+"verworfen, die nicht im Upstream-Repository vorhanden sind."
 
 #: ../../devel/integration.rst:153
 msgid ":guilabel:`Cleanup` from :guilabel:`Maintenance`"
@@ -28164,6 +28144,8 @@ msgid ""
 "Removes untracked files from the repository. These could be result of "
 "misbehaving add-ons or bugs."
 msgstr ""
+"Entfernt nicht nachverfolgte Dateien aus dem Repository. Diese könnten das "
+"Ergebnis von fehlerhaften Erweiterungen oder Fehlern sein."
 
 #: ../../devel/integration.rst:158
 msgid ":guilabel:`Force synchronization` from :guilabel:`Maintenance`"
@@ -28174,6 +28156,9 @@ msgid ""
 "Forces writing all strings to the translation files. Use this when "
 "repository files became out of sync with Weblate for some reason."
 msgstr ""
+"Erzwingt das Schreiben aller Zeichenketten in die Übersetzungsdateien. "
+"Verwenden Sie dies, wenn die Repository-Dateien aus irgendeinem Grund nicht "
+"mehr mit Weblate synchronisiert sind."
 
 #: ../../devel/integration.rst:165
 msgid ":doc:`/admin/continuous`, :doc:`/vcs`"
@@ -28886,10 +28871,8 @@ msgid "``dial#S.key``, ``dial#M.key``, ``dial.key``"
 msgstr ""
 
 #: ../../devel/translations.rst:99
-#, fuzzy
-#| msgid "Color variants:"
 msgid "Manual variants"
-msgstr "Farbvarianten:"
+msgstr "Manuelle Varianten"
 
 #: ../../devel/translations.rst:103
 msgid ""
@@ -29264,10 +29247,9 @@ msgid ""
 msgstr "Zu einem gemeinsamen Übersetzungsspeicher beitragen"
 
 #: ../../faq.rst:293
-#, fuzzy
-#| msgid "Confirm deleting all translation memory entries"
 msgid "You can import existing translation memory files into Weblate."
-msgstr "Bestätigen Sie das Löschen aller Übersetzungsspeichereintrage"
+msgstr ""
+"Sie können vorhandene Übersetzungsspeicherdateien in Weblate importieren."
 
 #: ../../faq.rst:294
 msgid ""
@@ -29542,12 +29524,12 @@ msgid ""
 msgstr ""
 
 #: ../../faq.rst:499
-#, fuzzy
-#| msgid "Allow translation propagation"
 msgid ""
 "Translators can translate all the components of a project into a specific "
 "language as a whole."
-msgstr "Verbreitung von Übersetzungen erlauben"
+msgstr ""
+"Übersetzer können alle Komponenten eines Projekts als Ganzes in eine "
+"bestimmte Sprache übersetzen."
 
 #: ../../faq.rst:505
 msgid "Why does Weblate use language codes such sr_Latn or zh_Hant?"
@@ -31222,10 +31204,8 @@ msgid ""
 msgstr ""
 
 #: ../../formats.rst:1421
-#, fuzzy
-#| msgid "There are no translations in this component."
 msgid "There are three flavors of this format:"
-msgstr "Diese Komponente enthält keine Übersetzungen."
+msgstr "Dieses Format gibt es in drei Varianten:"
 
 #: ../../formats.rst:1423
 msgid "Plain text file"
@@ -31294,10 +31274,8 @@ msgid ""
 msgstr ""
 
 #: ../../formats.rst:1490
-#, fuzzy
-#| msgid "Unsupported file format."
 msgid "Supporting other formats"
-msgstr "Nicht unterstütztes Dateiformat."
+msgstr "Unterstützung anderer Formate"
 
 #: ../../formats.rst:1492
 msgid ""
@@ -31345,10 +31323,8 @@ msgid "Install it, or use the Hosted Weblate service at `weblate.org`_."
 msgstr ""
 
 #: ../../../README.rst:None
-#, fuzzy
-#| msgid "Website URL"
 msgid "Website"
-msgstr "URL der Webseite"
+msgstr "Website"
 
 #: ../../../README.rst:None
 msgid "Translation status"
@@ -32826,10 +32802,8 @@ msgid "*Translation is missing some placeholders:*"
 msgstr ""
 
 #: ../../user/checks.rst:848
-#, fuzzy
-#| msgid "Variants regular expression"
 msgid "You can use regular expression as placeholder."
-msgstr "Varianten regulärer Ausdruck"
+msgstr "Sie können einen regulären Ausdruck als Platzhalter verwenden."
 
 #: ../../user/checks.rst:850
 msgid ""
@@ -33530,16 +33504,12 @@ msgid ""
 msgstr "Die Glossarkomponente sieht aus wie jede andere Komponente in Weblate:"
 
 #: ../../user/glossary.rst:37
-#, fuzzy
-#| msgid "Browse all glossary changes"
 msgid "You can browse all glossary terms:"
-msgstr "Alle durchgeführten Glossar-Änderungen anzeigen"
+msgstr "Sie können alle Begriffe des Glossars durchsuchen:"
 
 #: ../../user/glossary.rst:41
-#, fuzzy
-#| msgid "Good translations"
 msgid "or edit them as any translations."
-msgstr "Gute Übersetzungen"
+msgstr "oder sie als beliebige Übersetzungen bearbeiten."
 
 #: ../../user/glossary.rst:44
 #, fuzzy
@@ -34179,10 +34149,8 @@ msgid "``explanation:TEXT``"
 msgstr "Erläuterung"
 
 #: ../../user/search.rst:83
-#, fuzzy
-#| msgid "Search in location strings"
 msgid "Search in explanations."
-msgstr "In den Dateinamen der Zeichenketten suchen"
+msgstr "Suche in Erklärungen."
 
 #: ../../user/search.rst:86
 msgid "Boolean operators"
@@ -34508,10 +34476,8 @@ msgid "The following keyboard shortcuts can be utilized during translation:"
 msgstr ""
 
 #: ../../user/translating.rst:159
-#, fuzzy
-#| msgid "Keyboard shortcuts available:"
 msgid "Keyboard shortcut"
-msgstr "Verfügbare Tastenkürzel:"
+msgstr "Tastaturkürzel"
 
 #: ../../user/translating.rst:159 ../../wlc.rst:103
 msgid "Description"
@@ -34594,10 +34560,8 @@ msgid ":kbd:`Cmd+Enter`"
 msgstr ""
 
 #: ../../user/translating.rst:181
-#, fuzzy
-#| msgid "Machine translation"
 msgid "Save current translation."
-msgstr "Automatische Übersetzung"
+msgstr "Aktuelle Übersetzung speichern."
 
 #: ../../user/translating.rst:187
 msgid ":kbd:`Ctrl+Shift+Enter` or"
@@ -34683,10 +34647,10 @@ msgid ":kbd:`Cmd+I`\\+\\ :kbd:`1` to :kbd:`9`"
 msgstr ""
 
 #: ../../user/translating.rst:211
-#, fuzzy
-#| msgid "Ignore failing check"
 msgid "Ignore one item in the list of failing checks."
-msgstr "Fehlerhafte Prüfung ignorieren"
+msgstr ""
+"Ignorieren Sie ein Element in der Liste der fehlgeschlagenen "
+"Qualitätsprüfungen."
 
 #: ../../user/translating.rst:215
 msgid ":kbd:`Ctrl+J` or"
@@ -34697,10 +34661,8 @@ msgid ":kbd:`Cmd+J`"
 msgstr ""
 
 #: ../../user/translating.rst:215
-#, fuzzy
-#| msgid "Shows nearby strings tab"
 msgid "Shows the :guilabel:`Nearby strings` tab."
-msgstr "Alt+N – Benachbarte Übersetzungen anzeigen"
+msgstr "Zeigt die Registerkarte :guilabel:`Benachbarte Zeichenketten` an."
 
 #: ../../user/translating.rst:219
 msgid ":kbd:`Ctrl+S` or"
@@ -34723,10 +34685,8 @@ msgid ":kbd:`Cmd+O`"
 msgstr ""
 
 #: ../../user/translating.rst:223
-#, fuzzy
-#| msgid "Copies source string"
 msgid "Copy source string."
-msgstr "Alt+V: Ausgangszeichenkette kopieren"
+msgstr "Ausgangszeichenkette kopieren."
 
 #: ../../user/translating.rst:227
 msgid ":kbd:`Ctrl+Y` or"
@@ -34737,10 +34697,8 @@ msgid ":kbd:`Cmd+Y`"
 msgstr ""
 
 #: ../../user/translating.rst:227
-#, fuzzy
-#| msgid "Shows nearby strings tab"
 msgid "Toggle the :guilabel:`Needs editing` flag."
-msgstr "Alt+N – Benachbarte Übersetzungen anzeigen"
+msgstr "Markierung :guilabel:`Bearbeitung erforderlich` umschalten."
 
 #: ../../user/translating.rst:235
 msgid "Visual keyboard"
@@ -35578,10 +35536,8 @@ msgid ""
 msgstr ""
 
 #: ../../wlc.rst:36
-#, fuzzy
-#| msgid "Install"
 msgid "Installing:"
-msgstr "Installieren"
+msgstr "Installieren:"
 
 #: ../../wlc.rst:42
 msgid ""
