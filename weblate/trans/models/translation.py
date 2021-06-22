@@ -1373,8 +1373,6 @@ class Translation(
         extra = {}
         if isinstance(source, str):
             source = [source]
-        if isinstance(target, str):
-            target = [target]
         if not self.component.has_template():
             extra["source"] = join_plural(source)
         if not auto_context and self.unit_set.filter(context=context, **extra).exists():
@@ -1396,29 +1394,6 @@ class Translation(
                 explanation=explanation,
             )
             return
-        # Always load a new copy of store
-        store = self.load_store()
-        old_units = len(store.content_units)
-        # Add new unit
-        store.new_unit(context, source, target, skip_build=True)
-        # Serialize the content
-        handle = BytesIOMode("", b"")
-        # Catch serialization error
-        try:
-            store.save_content(handle)
-        except Exception as error:
-            raise ValidationError(_("Failed adding string: %s") % error)
-        handle.seek(0)
-        # Parse new file (check that it is valid)
-        try:
-            newstore = self.load_store(handle)
-        except Exception as error:
-            raise ValidationError(_("Failed adding string: %s") % error)
-        # Verify there is a single unit added
-        if len(newstore.content_units) != old_units + 1:
-            raise ValidationError(
-                _("Failed adding string: %s") % _("Failed to parse new string")
-            )
 
 
 class GhostTranslation:
