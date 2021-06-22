@@ -26,7 +26,7 @@ from typing import BinaryIO, Dict, List, Optional, Union
 from django.core.cache import cache
 from django.core.exceptions import ObjectDoesNotExist, ValidationError
 from django.db import IntegrityError, models, transaction
-from django.db.models import Q
+from django.db.models import F, Q
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.functional import cached_property
@@ -1316,15 +1316,29 @@ class Translation(
             previous_revision = self.component.repository.last_revision
             for translation in self.get_store_change_translations():
                 try:
+                    translation_unit = translation.unit_set.get(id_hash=unit.id_hash)
+                except ObjectDoesNotExist:
+                    continue
+                try:
                     pounit, add = translation.store.find_unit(unit.context, unit.source)
                 except UnitNotFound:
-                    return
+                    continue
                 if add:
-                    return
+                    continue
                 extra_files = translation.store.remove_unit(pounit.unit)
                 translation.addon_commit_files.extend(extra_files)
                 translation.drop_store_cache()
                 translation.git_commit(user, user.get_author_name(), store_hash=False)
+                # Adjust position as it will happen in most formats
+                translation.unit_set.filter(
+                    position__gt=translation_unit.position
+                ).update(position=F("position") - 1)
+            if self.is_source and not component.has_template():
+                # Adjust position is source language
+                self.unit_set.filter(position__gt=unit.position).update(
+                    position=F("position") - 1
+                )
+
             self.handle_store_change(request, user, previous_revision)
 
     @transaction.atomic
