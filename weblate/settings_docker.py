@@ -760,6 +760,12 @@ MT_DEEPL_API_URL = os.environ.get(
 if MT_DEEPL_KEY:
     MT_SERVICES += ("weblate.machinery.deepl.DeepLTranslation",)
 
+# LibreTranslate
+MT_LIBRETRANSLATE_KEY = os.environ.get("WEBLATE_MT_LIBRETRANSLATE_KEY", None)
+MT_LIBRETRANSLATE_API_URL = os.environ.get("WEBLATE_MT_LIBRETRANSLATE_API_URL", None)
+if MT_LIBRETRANSLATE_API_URL:
+    MT_SERVICES += ("weblate.machinery.libretranslate.LibreTranslateTranslation",)
+
 # Microsoft Cognitive Services Translator API, register at
 # https://portal.azure.com/
 MT_MICROSOFT_COGNITIVE_KEY = os.environ.get("WEBLATE_MT_MICROSOFT_COGNITIVE_KEY", None)

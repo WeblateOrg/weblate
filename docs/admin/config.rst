@@ -1170,6 +1170,7 @@ List of enabled machine translation services to use.
         "weblate.machinery.deepl.DeepLTranslation",
         "weblate.machinery.glosbe.GlosbeTranslation",
         "weblate.machinery.google.GoogleTranslation",
+        "weblate.machinery.libretranslate.LibreTranslateTranslation",
         "weblate.machinery.microsoft.MicrosoftCognitiveTranslation",
         "weblate.machinery.microsoftterminology.MicrosoftTerminologyService",
         "weblate.machinery.mymemory.MyMemoryTranslation",
@@ -1299,6 +1300,40 @@ API key for the DeepL API, you can register at https://www.deepl.com/pro.html
 .. seealso::
 
    :ref:`deepl`, :ref:`machine-translation-setup`, :ref:`machine-translation`
+
+.. setting:: MT_LIBRETRANSLATE_API_URL
+
+MT_LIBRETRANSLATE_API_URL
+-------------------------
+
+.. versionadded:: 4.7.1
+
+API URL for the LibreTranslate instance to use.
+
+``https://libretranslate.com/`` (official public instance)
+    Requires an API key to use outside of the website.
+
+Mirrors are documented on the LibreTranslate GitHub repository, some of which
+can be used without authentication:
+
+https://github.com/LibreTranslate/LibreTranslate#user-content-mirrors
+
+.. seealso::
+
+   :ref:`libretranslate`, :ref:`machine-translation-setup`, :ref:`machine-translation`
+
+.. setting:: MT_LIBRETRANSLATE_KEY
+
+MT_LIBRETRANSLATE_KEY
+---------------------
+
+.. versionadded:: 4.7.1
+
+API key for the LibreTranslate instance specified in `MT_LIBRETRANSLATE_API_URL`.
+
+.. seealso::
+
+   :ref:`libretranslate`, :ref:`machine-translation-setup`, :ref:`machine-translation`
 
 .. setting:: MT_GOOGLE_KEY
 

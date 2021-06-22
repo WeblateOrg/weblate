@@ -4,6 +4,7 @@ Weblate 4.7.1
 Not yet released.
 
 * Improved popup for adding terms to glossary.
+* Added support for LibreTranslate machine translation service.
 * Added rate limiting on creating new projects.
 * Improved performance of file updates.
 

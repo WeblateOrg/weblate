@@ -47,6 +47,7 @@ from weblate.machinery.dummy import DummyTranslation
 from weblate.machinery.glosbe import GlosbeTranslation
 from weblate.machinery.google import GOOGLE_API_ROOT, GoogleTranslation
 from weblate.machinery.googlev3 import GoogleV3Translation
+from weblate.machinery.libretranslate import LibreTranslateTranslation
 from weblate.machinery.microsoft import MicrosoftCognitiveTranslation
 from weblate.machinery.microsoftterminology import (
     MST_API_URL,
@@ -267,6 +268,27 @@ DEEPL_LANG_RESPONSE = [
     {"language": "EN", "name": "English"},
     {"language": "DE", "name": "Deutsch"},
 ]
+
+LIBRETRANSLATE_TRANS_RESPONSE = {"translatedText": "¡Hola, Mundo!"}
+LIBRETRANSLATE_TRANS_ERROR_RESPONSE = {
+    "error": "Please contact the server operator to obtain an API key"
+}
+LIBRETRANSLATE_LANG_RESPONSE = [
+    {"code": "en", "name": "English"},
+    {"code": "ar", "name": "Arabic"},
+    {"code": "zh", "name": "Chinese"},
+    {"code": "fr", "name": "French"},
+    {"code": "de", "name": "German"},
+    {"code": "hi", "name": "Hindi"},
+    {"code": "ga", "name": "Irish"},
+    {"code": "it", "name": "Italian"},
+    {"code": "ja", "name": "Japanese"},
+    {"code": "ko", "name": "Korean"},
+    {"code": "pt", "name": "Portuguese"},
+    {"code": "ru", "name": "Russian"},
+    {"code": "es", "name": "Spanish"},
+]
+
 MICROSOFT_RESPONSE = [{"translations": [{"text": "Svět.", "to": "cs"}]}]
 
 MS_SUPPORTED_LANG_RESP = {"translation": {"cs": "data", "en": "data", "es": "data"}}
@@ -1002,6 +1024,56 @@ class DeepLTranslationTest(BaseMachineTranslationTest):
             responses.POST,
             "https://api.deepl.com/v2/translate",
             json=DEEPL_RESPONSE,
+        )
+
+    @responses.activate
+    def test_cache(self):
+        machine = self.MACHINE_CLS()
+        machine.delete_cache()
+        self.mock_response()
+        # Fetch from service
+        self.assert_translate(
+            self.SUPPORTED, self.SOURCE_TRANSLATED, self.EXPECTED_LEN, machine=machine
+        )
+        self.assertEqual(len(responses.calls), 2)
+        responses.reset()
+        # Fetch from cache
+        machine = self.MACHINE_CLS()
+        self.assert_translate(
+            self.SUPPORTED, self.SOURCE_TRANSLATED, self.EXPECTED_LEN, machine=machine
+        )
+        self.assertEqual(len(responses.calls), 0)
+
+
+@override_settings(MT_LIBRETRANSLATE_API_URL="https://libretranslate.com/")
+class LibreTranslateTranslationTest(BaseMachineTranslationTest):
+    MACHINE_CLS = LibreTranslateTranslation
+    EXPECTED_LEN = 1
+    ENGLISH = "en"
+    SUPPORTED = "es"
+    NOTSUPPORTED = "cs"
+
+    def mock_empty(self):
+        raise SkipTest("Not tested")
+
+    def mock_error(self):
+        responses.add(
+            responses.POST,
+            "https://libretranslate.com/translate",
+            json=LIBRETRANSLATE_TRANS_ERROR_RESPONSE,
+            status=403,
+        )
+
+    def mock_response(self):
+        responses.add(
+            responses.GET,
+            "https://libretranslate.com/languages",
+            json=LIBRETRANSLATE_LANG_RESPONSE,
+        )
+        responses.add(
+            responses.POST,
+            "https://libretranslate.com/translate",
+            json=LIBRETRANSLATE_TRANS_RESPONSE,
         )
 
     @responses.activate

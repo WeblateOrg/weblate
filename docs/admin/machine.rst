@@ -114,6 +114,28 @@ Turn on this service by adding ``weblate.machinery.deepl.DeepLTranslation`` to
     `DeepL pricing <https://www.deepl.com/pro>`_,
     `DeepL API documentation <https://www.deepl.com/api.html>`_
 
+.. _libretranslate:
+
+LibreTranslate
+--------------
+
+.. versionadded:: 4.7.1
+
+LibreTranslate is a free and open-source service for machine translations. The
+public instance requires an API key, but LibreTranslate can be self-hosted
+and there are several mirrors available to use the API for free.
+
+Turn on this service by adding ``weblate.machinery.libretranslate.LibreTranslateTranslation``
+to :setting:`MT_SERVICES` and set :setting:`MT_LIBRETRANSLATE_API_URL`. If your
+instance requires an API key, you must also set :setting:`MT_LIBRETRANSLATE_KEY`.
+
+.. seealso::
+
+    :setting:`MT_LIBRETRANSLATE_KEY`,
+    :setting:`MT_LIBRETRANSLATE_API_URL`,
+    `LibreTranslate website <https://libretranslate.com/>`_,
+    `LibreTranslate repository <https://github.com/LibreTranslate/LibreTranslate>`_,
+    `LibreTranslate mirrors <https://github.com/LibreTranslate/LibreTranslate#user-content-mirrors>`_
 
 .. _glosbe:
 
