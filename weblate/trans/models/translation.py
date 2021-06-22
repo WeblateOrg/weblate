@@ -1417,33 +1417,6 @@ class Translation(
             raise ValidationError(
                 _("Failed adding string: %s") % _("Failed to parse new string")
             )
-        # Find newly added unit (it can be on any position), but we assume
-        # the storage has consistent ordering
-        unit = None
-        for pos, current in enumerate(newstore.content_units):
-            if pos >= old_units or (
-                current.source != store.content_units[pos].source
-                and current.context != store.content_units[pos].context
-            ):
-                unit = current
-                break
-        # Verify unit matches data
-        if unit is None:
-            raise ValidationError(
-                _("Failed adding string: %s") % _("Failed to parse new string")
-            )
-        created_source = split_plural(unit.source)
-        if unit.context != context and (
-            self.component.has_template()
-            or self.component.file_format_cls.set_context_bilingual
-        ):
-            raise ValidationError(
-                {"context": _('Context would be created as "%s"') % unit.context}
-            )
-        if created_source != source:
-            raise ValidationError(
-                {"source": _("Source would be created as %s") % created_source}
-            )
 
 
 class GhostTranslation:
