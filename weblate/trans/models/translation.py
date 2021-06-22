@@ -51,6 +51,7 @@ from weblate.trans.models.unit import (
     STATE_TRANSLATED,
     Unit,
 )
+from weblate.trans.models.variant import Variant
 from weblate.trans.signals import store_post_load, vcs_pre_commit
 from weblate.trans.util import join_plural, split_plural
 from weblate.trans.validators import validate_check_flags
@@ -319,6 +320,10 @@ class Translation(
             newunit = Unit(translation=self, id_hash=id_hash, state=-1)
             # Avoid fetching empty list of checks from the database
             newunit.all_checks = []
+            # Avoid fetching empty list of variants
+            newunit._prefetched_objects_cache = {
+                "defined_variants": Variant.objects.none()
+            }
             is_new = True
 
         newunit.update_from_unit(unit, pos, is_new)
