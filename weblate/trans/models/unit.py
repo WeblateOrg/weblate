@@ -579,13 +579,14 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
                 "flags": flags,
             },
         )
+        same_flags = flags == source_unit.flags
         if (
             not source_unit.source_updated
             and not component.has_template()
             and (
                 pos != source_unit.position
                 or location != source_unit.location
-                or flags != source_unit.flags
+                or not same_flags
                 or note != source_unit.note
             )
         ):
@@ -598,6 +599,7 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
                 update_fields=["position", "location", "flags", "note"],
                 same_content=True,
                 run_checks=False,
+                only_save=same_flags,
             )
         self.source_unit = source_unit
 
