@@ -515,29 +515,29 @@ class Translation(
         self, reason: str, user, skip_push: bool = False, signals: bool = True
     ):
         """Commit any pending changes."""
-        # Commit template first
-        if (
-            not self.is_source
-            and self.component.has_template()
-            and self.component.source_translation.needs_commit()
-        ):
-            self.component.source_translation.commit_pending(
-                reason, user, skip_push=skip_push, signals=signals
-            )
-
-        if not self.needs_commit():
-            return False
-
-        self.log_info("committing pending changes (%s)", reason)
-
-        try:
-            store = self.store
-        except FileParseError as error:
-            report_error(cause="Failed to parse file on commit")
-            self.log_error("skipping commit due to error: %s", error)
-            return False
-
         with self.component.repository.lock:
+            # Commit template first
+            if (
+                not self.is_source
+                and self.component.has_template()
+                and self.component.source_translation.needs_commit()
+            ):
+                self.component.source_translation.commit_pending(
+                    reason, user, skip_push=skip_push, signals=signals
+                )
+
+            if not self.needs_commit():
+                return False
+
+            self.log_info("committing pending changes (%s)", reason)
+
+            try:
+                store = self.store
+            except FileParseError as error:
+                report_error(cause="Failed to parse file on commit")
+                self.log_error("skipping commit due to error: %s", error)
+                return False
+
             units = (
                 self.unit_set.filter(pending=True)
                 .prefetch_recent_content_changes()

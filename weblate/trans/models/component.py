@@ -1560,13 +1560,14 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
         components = {}
 
         # Commit pending changes
-        for translation in translations:
-            if translation.component_id == self.id:
-                translation.component = self
-            if translation.component.linked_component_id == self.id:
-                translation.component.linked_component = self
-            translation.commit_pending(reason, user, skip_push=True, signals=False)
-            components[translation.component.pk] = translation.component
+        with self.repository.lock:
+            for translation in translations:
+                if translation.component_id == self.id:
+                    translation.component = self
+                if translation.component.linked_component_id == self.id:
+                    translation.component.linked_component = self
+                translation.commit_pending(reason, user, skip_push=True, signals=False)
+                components[translation.component.pk] = translation.component
 
         # Fire postponed post commit signals
         for component in components.values():
