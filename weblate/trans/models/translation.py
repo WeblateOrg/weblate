@@ -1277,7 +1277,7 @@ class Translation(
                     state=STATE_TRANSLATED if bool(current_target) else STATE_EMPTY,
                     source_unit=source_unit,
                     id_hash=id_hash,
-                    position=0,
+                    position=translation.stats.all + 1,
                     **kwargs,
                 )
                 unit.is_batch_update = is_batch_update
