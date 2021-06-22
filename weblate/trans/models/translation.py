@@ -511,7 +511,9 @@ class Translation(
         return User.objects.get(pk=self.stats.last_author).get_author_name(email)
 
     @transaction.atomic
-    def commit_pending(self, reason, user, skip_push=False, force=False, signals=True):
+    def commit_pending(
+        self, reason: str, user, skip_push: bool = False, signals: bool = True
+    ):
         """Commit any pending changes."""
         # Commit template first
         if (
@@ -520,10 +522,10 @@ class Translation(
             and self.component.source_translation.needs_commit()
         ):
             self.component.source_translation.commit_pending(
-                reason, user, skip_push=skip_push, force=force, signals=signals
+                reason, user, skip_push=skip_push, signals=signals
             )
 
-        if not force and not self.needs_commit():
+        if not self.needs_commit():
             return False
 
         self.log_info("committing pending changes (%s)", reason)

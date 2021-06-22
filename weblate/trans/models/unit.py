@@ -878,7 +878,7 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
         if self.pending:
             change_author = self.get_last_content_change()[0]
             if change_author != author:
-                self.translation.commit_pending("pending unit", user, force=True)
+                self.translation.commit_pending("pending unit", user)
 
         # Propagate to other projects
         # This has to be done before changing source for template

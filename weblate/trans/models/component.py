@@ -1565,9 +1565,7 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
                 translation.component = self
             if translation.component.linked_component_id == self.id:
                 translation.component.linked_component = self
-            translation.commit_pending(
-                reason, user, skip_push=True, force=True, signals=False
-            )
+            translation.commit_pending(reason, user, skip_push=True, signals=False)
             components[translation.component.pk] = translation.component
 
         # Fire postponed post commit signals
