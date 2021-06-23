@@ -411,6 +411,7 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
         self.is_batch_update = False
         self.source_updated = False
         self.check_cache = {}
+        self.trigger_update_variants = True
         self.fixups = []
         # Data for machinery integration
         self.machinery = {"best": -1}
@@ -499,6 +500,7 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
 
     def update_variants(self):
         variants = self.defined_variants.all()
+        component = self.translation.component
         flags = self.all_flags
         new_variant = None
         remove = False
@@ -522,13 +524,23 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
         # Add new variant
         if new_variant:
             variant = Variant.objects.get_or_create(
-                key=new_variant, component=self.translation.component
+                key=new_variant, component=component
             )[0]
             variant.defining_units.add(self)
 
         # Update variant links
-        if remove or new_variant:
-            self.translation.component.update_variants()
+        if (
+            remove
+            or new_variant
+            or (
+                component.variant_regex
+                and re.findall(component.variant_regex, self.context)
+            )
+        ):
+            if self.trigger_update_variants:
+                component.update_variants()
+            else:
+                component.needs_variants_update = True
 
     def get_unit_state(self, unit, flags):
         """Calculate translated and fuzzy status."""
@@ -608,6 +620,7 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
         translation = self.translation
         component = translation.component
         self.is_batch_update = True
+        self.trigger_update_variants = False
         self.source_updated = True
         # Get unit attributes
         try:

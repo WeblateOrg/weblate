@@ -1032,7 +1032,8 @@ class Translation(
             )
             accepted += 1
         self.invalidate_cache()
-        self.component.update_variants()
+        if self.component.needs_variants_update:
+            self.component.update_variants()
         self.component.schedule_sync_terminology()
         self.component.update_source_checks()
         self.component.run_batched_checks()
@@ -1281,6 +1282,7 @@ class Translation(
                     **kwargs,
                 )
                 unit.is_batch_update = is_batch_update
+                unit.trigger_update_variants = False
                 try:
                     with transaction.atomic():
                         unit.save(force_insert=True)
@@ -1303,7 +1305,8 @@ class Translation(
                 result = unit
 
         if not is_batch_update:
-            component.update_variants()
+            if self.component.needs_variants_update:
+                component.update_variants()
             component.schedule_sync_terminology()
         return result
 

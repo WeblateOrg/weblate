@@ -756,6 +756,7 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
         self.acting_user = None
         self.batch_checks = False
         self.batched_checks = set()
+        self.needs_variants_update = False
 
     def generate_changes(self, old):
         def getvalue(base, attribute):
@@ -2045,7 +2046,8 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
             translation.notify_new(request)
 
         if was_change:
-            self.update_variants()
+            if self.needs_variants_update:
+                self.update_variants()
             component_post_update.send(sender=self.__class__, component=self)
             self.schedule_sync_terminology()
 
