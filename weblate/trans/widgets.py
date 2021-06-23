@@ -311,15 +311,34 @@ class OpenGraphWidget(NormalWidget):
             Pango.FontDescription(f"Source Sans Pro {18}"),
         ]
 
-    def get_title(self):
+    def get_name(self) -> str:
+        return self.obj.name
+
+    def get_title(self, name: str, suffix: str = "") -> str:
         # Translators: Text on OpenGraph image
-        return _("Project %s") % f"<b>{escape(self.obj.name)}</b>"
+        return _("Project %s") % f"<b>{escape(name)}</b>{suffix}"
 
     def render_additional(self, ctx):
         ctx.move_to(280, 170)
         layout = PangoCairo.create_layout(ctx)
         layout.set_font_description(Pango.FontDescription(f"Source Sans Pro {52}"))
-        layout.set_markup(self.get_title())
+        name = self.get_name()
+        layout.set_markup(self.get_title(name))
+
+        max_width = 1200 - 280
+        while layout.get_size().width / Pango.SCALE > max_width:
+            if " " in name:
+                name = name.rsplit(" ", 1)[0]
+            elif "-" in name:
+                name = name.rsplit("-", 1)[0]
+            elif "_" in name:
+                name = name.rsplit("_", 1)[0]
+            else:
+                name = name[:-1]
+            layout.set_markup(self.get_title(f"{name}", "…"))
+            if not name:
+                break
+
         PangoCairo.show_layout(ctx, layout)
 
 
@@ -327,8 +346,11 @@ class SiteOpenGraphWidget(OpenGraphWidget):
     def __init__(self, obj=None, color=None, lang=None):
         super().__init__(GlobalStats())
 
-    def get_title(self):
-        return f"<b>{escape(settings.SITE_TITLE)}</b>"
+    def get_name(self) -> str:
+        return settings.SITE_TITLE
+
+    def get_title(self, name: str, suffix: str = "") -> str:
+        return f"<b>{escape(name)}</b>{suffix}"
 
     def get_text_params(self):
         return {}
