@@ -666,7 +666,7 @@ class Translation(
                 updated = True
 
                 # Optionally add unit to translation file.
-                # This has be done prior setting tatget as some formats
+                # This has be done prior setting target as some formats
                 # generate content based on target language.
                 if add:
                     store.add_unit(pounit.unit)
