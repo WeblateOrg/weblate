@@ -2003,10 +2003,9 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
                         "removing stale translations: %s",
                         ",".join(trans.language.code for trans in todelete),
                     )
-                    # Invalidate stats (most importantly to invalidate parent stats)
-                    for translation in todelete:
-                        translation.invalidate_cache()
                     todelete.delete()
+                    # Indicate a change to invalidate stats
+                    was_change = True
 
         self.update_import_alerts()
 
