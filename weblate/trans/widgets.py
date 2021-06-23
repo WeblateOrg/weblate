@@ -252,7 +252,7 @@ class NormalWidget(BitmapWidget):
                 self.head_template.format(number_format(self.total)),
                 self.foot_template.format(
                     npgettext(
-                        "Label on enage page", "String", "Strings", self.total
+                        "Label on engage page", "String", "Strings", self.total
                     ).upper()
                 ),
             ],
@@ -260,7 +260,7 @@ class NormalWidget(BitmapWidget):
                 self.head_template.format(number_format(self.languages)),
                 self.foot_template.format(
                     npgettext(
-                        "Label on enage page", "Language", "Languages", self.languages
+                        "Label on engage page", "Language", "Languages", self.languages
                     ).upper()
                 ),
             ],
