@@ -594,7 +594,7 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
         same_flags = flags == source_unit.flags
         if (
             not source_unit.source_updated
-            and not component.has_template()
+            and not source_unit.translation.filename
             and (
                 pos != source_unit.position
                 or location != source_unit.location
