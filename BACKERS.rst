@@ -13,6 +13,6 @@ List of Weblate supporters:
 * GNU Solidario (GNU Health)
 * `BallotReady <https://www.ballotready.org>`_
 * Richard Nespithal
-* Michael Totschnig
+* MyExpenses.Mobi
 
 Do you want to be in the list? Please see options on the `Donate to Weblate <https://weblate.org/donate/>`_.
