@@ -19,13 +19,14 @@
 # ovari <ovari123@zoho.com>, 2020.
 # Újvári Marcell <mmarci72@gmail.com>, 2021.
 # WALKTHROUGH RAYMAND LEGENDS <mestermc594@gmail.com>, 2021.
+# Varga Zsombor <vargazsombor9@gmail.com>, 2021.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.7\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-06-16 18:40+0000\n"
-"PO-Revision-Date: 2021-04-17 23:27+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2021-06-25 16:52+0000\n"
+"Last-Translator: Varga Zsombor <vargazsombor9@gmail.com>\n"
 "Language-Team: Hungarian <https://hosted.weblate.org/projects/weblate/"
 "application/hu/>\n"
 "Language: hu\n"
@@ -33,7 +34,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.6-dev\n"
+"X-Generator: Weblate 4.7.1-dev\n"
 
 #: weblate/accounts/avatar.py:103
 msgctxt "No known user"
@@ -67,10 +68,9 @@ msgid "Public e-mail"
 msgstr "Nyilvános e-mail"
 
 #: weblate/accounts/forms.py:287
-#, fuzzy, python-format
-#| msgid "Component lists"
+#, python-format
 msgid "Component list: %s"
-msgstr "Összetevőlisták"
+msgstr "Összetevőlisták: %s"
 
 #: weblate/accounts/forms.py:313 weblate/accounts/forms.py:381
 #: weblate/accounts/templatetags/authnames.py:36 weblate/auth/models.py:330
@@ -309,22 +309,16 @@ msgid "Screenshots uploaded"
 msgstr "Feltöltött képernyőképek"
 
 #: weblate/accounts/forms.py:808
-#, fuzzy
-#| msgid "The detected file format is not supported."
 msgid "Chosen sorting is not supported."
-msgstr "Az észlelt fájlformátum nem támogatott."
+msgstr "A választott osztályozás nem támogatott."
 
 #: weblate/accounts/forms.py:815
-#, fuzzy
-#| msgid "Add font group"
 msgid "Add user to a group"
-msgstr "Betűkészletcsoport hozzáadása"
+msgstr "Felhasználó hozzáadása"
 
 #: weblate/accounts/forms.py:825
-#, fuzzy
-#| msgid "Add font group"
 msgid "Add group"
-msgstr "Betűkészletcsoport hozzáadása"
+msgstr "Csoport hozzáadása"
 
 #: weblate/accounts/models.py:146
 msgid "Password changed."
@@ -374,14 +368,10 @@ msgid "Signed in using {method} ({name}) from a new device."
 msgstr "Bejelentkezett {method} használatával ({name}) egy új eszközről."
 
 #: weblate/accounts/models.py:156
-#, fuzzy
-#| msgid "Somebody has attempted to register with your e-mail."
 msgid "Somebody attempted to register with your e-mail."
 msgstr "Valaki megpróbált az Ön e-mail-címével regisztrálni."
 
 #: weblate/accounts/models.py:157
-#, fuzzy
-#| msgid "Somebody has attempted to register using your e-mail address."
 msgid "Somebody attempted to register using your e-mail address."
 msgstr "Valaki megpróbált az Ön e-mail-címe használatával regisztrálni."
 
@@ -426,7 +416,7 @@ msgstr ""
 #: weblate/accounts/models.py:169
 #, python-brace-format
 msgid "Access to project {project} was blocked"
-msgstr ""
+msgstr "Hozzáférés a projekthez {project} megtagadva"
 
 #: weblate/accounts/models.py:174
 msgid "Configured password to sign in."
@@ -452,6 +442,7 @@ msgstr ""
 #: weblate/accounts/models.py:184
 msgid "Please contact project maintainers if you feel this is inappropriate."
 msgstr ""
+"Kérem vedd fel a kapcsolatot, a projekt fenntartóival, ha pontatlannak érzed."
 
 #: weblate/accounts/models.py:306 weblate/templates/accounts/profile.html:227
 #: weblate/templates/accounts/user.html:223
@@ -568,9 +559,12 @@ msgid "Automatically watch projects on contribution"
 msgstr "Projektek közreműködésekkel"
 
 #: weblate/accounts/models.py:454
+#, fuzzy
 msgid ""
 "Whenever you translate a string in a project, you will start watching it."
 msgstr ""
+"Bármikor amikor lefordítasz egy változót egy projektben, akkor elkezded "
+"követni azt."
 
 #: weblate/accounts/models.py:464 weblate/templates/dashboard/user.html:20
 msgid "Watched translations"
@@ -1112,10 +1106,8 @@ msgid "Removes strings without a translation from translation files."
 msgstr "Eltávolítja a fordítás nélküli szövegeket a fordítási fájlokból."
 
 #: weblate/addons/consistency.py:32
-#, fuzzy
-#| msgid "Adding new languages"
 msgid "Add missing languages"
-msgstr "Új nyelvek hozzáadása"
+msgstr "Hiányzó nyelvek hozzáadása"
 
 #: weblate/addons/consistency.py:34
 msgid ""
@@ -1142,8 +1134,6 @@ msgid "Example add-on"
 msgstr "Példa kiegészítő"
 
 #: weblate/addons/example.py:38
-#, fuzzy
-#| msgid "This addon does nothing it is just an example."
 msgid "This add-on does nothing it is just an example."
 msgstr "Ez a kiegészítő nem csinál semmit, csak egy példa."
 
@@ -1214,8 +1204,6 @@ msgid "Bulk edit"
 msgstr "Tömeges szerkesztés"
 
 #: weblate/addons/flags.py:106
-#, fuzzy
-#| msgid "Bulk edit flags, labels or state for strings."
 msgid "Bulk edit flags, labels, or states of strings."
 msgstr "Szövegek jelzőinek, címkéinek vagy állapotának tömeges szerkesztése."
 
@@ -1240,10 +1228,8 @@ msgid "Long lines wrapping"
 msgstr "Hosszú sorok tördelése"
 
 #: weblate/addons/forms.py:112
-#, fuzzy
-#| msgid "Wrap lines at 77 chars and at newlines"
 msgid "Wrap lines at 77 characters and at newlines"
-msgstr "Sorok tördelése a 77. karakternél és a soremeléseknél"
+msgstr "Sorok tördelése a 77. karakternél és az új soroknál"
 
 #: weblate/addons/forms.py:113
 msgid "Only wrap lines at newlines"
