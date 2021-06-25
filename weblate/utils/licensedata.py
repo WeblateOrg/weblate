@@ -574,6 +574,12 @@ LICENSES = (
         False,
     ),
     (
+        "CC-BY-2.5-AU",
+        "Creative Commons Attribution 2.5 Australia",
+        "https://creativecommons.org/licenses/by/2.5/au/legalcode",
+        False,
+    ),
+    (
         "CC-BY-2.5",
         "Creative Commons Attribution 2.5 Generic",
         "https://creativecommons.org/licenses/by/2.5/legalcode",
