@@ -41,7 +41,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.7\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-06-16 18:40+0000\n"
-"PO-Revision-Date: 2021-06-19 08:33+0000\n"
+"PO-Revision-Date: 2021-06-25 16:52+0000\n"
 "Last-Translator: Blueberry <igory.ygr200@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/"
 "application/ru/>\n"
@@ -51,7 +51,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 4.7\n"
+"X-Generator: Weblate 4.7.1-dev\n"
 
 #: weblate/accounts/avatar.py:103
 msgctxt "No known user"
@@ -68,7 +68,7 @@ msgstr "Аватар пользователя"
 msgid ""
 "This e-mail address is already in use. Please supply a different e-mail "
 "address."
-msgstr "Этот адрес e-mail уже используется. Укажите другой."
+msgstr "Этот адрес эл. почты уже используется. Укажите другой."
 
 #: weblate/accounts/forms.py:118
 msgid "This username is already taken. Please choose another."
@@ -109,7 +109,7 @@ msgstr "Ваше имя"
 
 #: weblate/accounts/forms.py:360
 msgid "Your e-mail"
-msgstr "Ваш e-mail"
+msgstr "Ваша эл. почта"
 
 #: weblate/accounts/forms.py:362 weblate/templates/manage/performance.html:27
 #: weblate/templates/manage/performance.html:73
@@ -169,7 +169,7 @@ msgstr "Вы ввели недопустимый пароль."
 
 #: weblate/accounts/forms.py:525
 msgid "Username or e-mail"
-msgstr "Имя пользователя или e-mail"
+msgstr "Имя пользователя или эл. почта"
 
 #: weblate/accounts/forms.py:526 weblate/accounts/templatetags/authnames.py:35
 msgid "Password"
@@ -384,11 +384,11 @@ msgstr "Вошёл в систему, используя {method} ({name}) с н
 
 #: weblate/accounts/models.py:156
 msgid "Somebody attempted to register with your e-mail."
-msgstr "Кто-то пытался зарегистрироваться с вашим email-адресом."
+msgstr "Кто-то пытался зарегистрироваться с вашим адресом эл. почты."
 
 #: weblate/accounts/models.py:157
 msgid "Somebody attempted to register using your e-mail address."
-msgstr "Кто-то пытался зарегистрироваться с вашим email-адресом."
+msgstr "Кто-то пытался зарегистрироваться с вашим адресом эл. почты."
 
 #: weblate/accounts/models.py:158
 #, python-brace-format
@@ -516,9 +516,9 @@ msgid ""
 "{{branch}} for branch, {{filename}} and {{line}} as filename and line "
 "placeholders."
 msgstr ""
-"Укажите адрес, который будет использоваться в качестве ссылки на исходный "
-"код. Для подстановки значений можно использовать {{branch}} для ветки, "
-"{{filename}} для имени файла и {{line}} для строки в оном."
+"Укажите URL-адрес, который будет использоваться в качестве ссылки на "
+"исходный код. Для подстановки значений можно использовать {{branch}} для "
+"ветки, {{filename}} для имени файла и {{line}} для строки в заполнителе."
 
 #: weblate/accounts/models.py:417
 msgid "Translation editor mode"
@@ -865,8 +865,8 @@ msgid ""
 "Your e-mail no longer belongs to verified account, it has been changed to "
 "{0}."
 msgstr ""
-"Ваш e-mail больше не принадлежит подтверждённому аккаунту, он был изменён на "
-"{0}."
+"Ваша эл. почта больше не принадлежит подтверждённому аккаунту, он был "
+"изменён на {0}."
 
 #: weblate/accounts/views.py:172 weblate/accounts/views.py:912
 #: weblate/accounts/views.py:958 weblate/templates/accounts/reset.html:7
@@ -950,7 +950,7 @@ msgstr "Благодарим за использование Weblate."
 
 #: weblate/accounts/views.py:842 weblate/templates/accounts/email.html:17
 msgid "Register e-mail"
-msgstr "Регистрация e-mail"
+msgstr "Регистрация эл. почты"
 
 #: weblate/accounts/views.py:857 weblate/accounts/views.py:927
 msgid "Cannot reset password, e-mail authentication is turned off."
@@ -4374,7 +4374,7 @@ msgstr "Параметры уведомлений"
 #: weblate/templates/accounts/profile.html:111
 msgid "Your name and e-mail will appear as commit authorship."
 msgstr ""
-"Ваши имя и e-mail будут использованы как информация об авторстве коммита."
+"Ваши имя и эл. почта будут использованы как информация об авторстве коммита."
 
 #: weblate/templates/accounts/profile.html:119
 msgid "Current user identities"
@@ -5703,7 +5703,7 @@ msgstr "Перевести %(object)s, используя %%23Weblate на %(sha
 
 #: weblate/templates/component.html:121 weblate/templates/translation.html:115
 msgid "Tweet this translation!"
-msgstr "Отправить в Twitter этот перевод!"
+msgstr "Отправить в Твиттер этот перевод!"
 
 #: weblate/templates/component.html:122 weblate/templates/project.html:127
 #: weblate/templates/translation.html:116
@@ -7461,7 +7461,7 @@ msgstr ""
 
 #: weblate/templates/manage/tools.html:49
 msgid "Send test e-mail"
-msgstr "Отправить тестовый e-mail"
+msgstr "Отправить тестовое письмо"
 
 #: weblate/templates/manage/tools.html:63
 msgid "Test Sentry integration"
@@ -7646,7 +7646,7 @@ msgstr "Объявления"
 
 #: weblate/templates/project.html:126
 msgid "Tweet this translation"
-msgstr "Отправить в Twitter этот перевод"
+msgstr "Отправить в Твиттер этот перевод"
 
 #: weblate/templates/project.html:170 weblate/templates/project.html:176
 msgid "Browse all project changes"
@@ -9988,7 +9988,7 @@ msgstr "Имя автора"
 
 #: weblate/trans/forms.py:646
 msgid "Author e-mail"
-msgstr "E-mail автора"
+msgstr "Эл. почта автора"
 
 #: weblate/trans/forms.py:791 weblate/trans/forms.py:793
 msgid "Could not find merged string."
@@ -10077,7 +10077,7 @@ msgstr "Добавляемый пользователь"
 
 #: weblate/trans/forms.py:1048 weblate/trans/forms.py:1057
 msgid "Please type in an existing Weblate account name or e-mail address."
-msgstr "Введите имя или e-mail существующей учётной записи Weblate."
+msgstr "Введите имя или эл. почту существующей учётной записи Weblate."
 
 #: weblate/trans/forms.py:1061
 msgid "Block duration"
@@ -10992,7 +10992,7 @@ msgid ""
 "E-mail address for reports on errors in source strings. Leave empty for no e-"
 "mails."
 msgstr ""
-"Адрес e-mail для отчётов об ошибках в исходных строках. Оставьте пустым, "
+"Адрес эл. почты для отчётов об ошибках в исходных строках. Оставьте пустым, "
 "чтобы не было писем."
 
 #: weblate/trans/models/component.py:322
@@ -12223,7 +12223,7 @@ msgstr ""
 
 #: weblate/trans/views/dashboard.py:191
 msgid "Please set your full name and e-mail in your profile."
-msgstr "Укажите в профиле ваше полное имя и e-mail."
+msgstr "Укажите в профиле ваше полное имя и эл. почту."
 
 #: weblate/trans/views/edit.py:246 weblate/trans/views/edit.py:528
 msgid "No string matched your search!"
@@ -12720,11 +12720,11 @@ msgstr "Имя пользователя не может начинаться с 
 
 #: weblate/utils/validators.py:183 weblate/utils/validators.py:186
 msgid "Enter a valid e-mail address."
-msgstr "Введите действительный адрес e-mail."
+msgstr "Введите действительный адрес эл. почты."
 
 #: weblate/utils/validators.py:188
 msgid "This e-mail address is disallowed."
-msgstr "Такой адрес e-mail недопустим."
+msgstr "Такой адрес эл. почты недопустим."
 
 #: weblate/utils/validators.py:195
 msgid "Could not evaluate plural formula: {}"
@@ -12841,7 +12841,7 @@ msgstr "Тестовое письмо будет отправлено по эт�
 
 #: weblate/wladmin/forms.py:68
 msgid "Username or registered e-mail"
-msgstr "Имя пользователя или e-mail"
+msgstr "Имя пользователя или эл. почта"
 
 #: weblate/wladmin/forms.py:74
 msgid "Please provide font family suitable for CSS."
@@ -12976,7 +12976,7 @@ msgstr "Репозитории"
 
 #: weblate/wladmin/views.py:131
 msgid "Test e-mail sent."
-msgstr "Проверка отправки e-mail."
+msgstr "Проверка отправки эл. почты."
 
 #: weblate/wladmin/views.py:134
 #, python-format
