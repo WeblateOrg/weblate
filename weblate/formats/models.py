@@ -59,6 +59,13 @@ class FileFormatLoader(ClassLoader):
                 result.append((autoload, fileformat))
         return result
 
+    def get_settings(self):
+        result = list(super().get_settings())
+        # TBX is required for glossaries
+        if "weblate.formats.ttkit.TBXFormat" not in result:
+            result.append("weblate.formats.ttkit.TBXFormat")
+        return result
+
     def load_data(self):
         result = super().load_data()
         for fileformat in list(result.values()):
