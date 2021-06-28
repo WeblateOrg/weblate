@@ -1,4 +1,4 @@
-/*! @sentry/browser 6.7.2 (35498a6) | https://github.com/getsentry/sentry-javascript */
+/*! @sentry/browser 6.8.0 (e93d96f) | https://github.com/getsentry/sentry-javascript */
 var Sentry = (function (exports) {
     /*! *****************************************************************************
     Copyright (c) Microsoft Corporation. All rights reserved.
@@ -370,7 +370,7 @@ var Sentry = (function (exports) {
      * e.g. [HTMLElement] => body > div > input#foo.btn[name=baz]
      * @returns generated DOM path
      */
-    function htmlTreeAsString(elem, keyAttr) {
+    function htmlTreeAsString(elem, keyAttrs) {
         // try/catch both:
         // - accessing event.target (see getsentry/raven-js#838, #768)
         // - `htmlTreeAsString` because it's complex, and just accessing the DOM incorrectly
@@ -387,7 +387,7 @@ var Sentry = (function (exports) {
             var nextStr = void 0;
             // eslint-disable-next-line no-plusplus
             while (currentElem && height++ < MAX_TRAVERSE_HEIGHT) {
-                nextStr = _htmlElementAsString(currentElem, keyAttr);
+                nextStr = _htmlElementAsString(currentElem, keyAttrs);
                 // bail out if
                 // - nextStr is the 'html' element
                 // - the length of the string that would be created exceeds MAX_OUTPUT_LEN
@@ -410,7 +410,8 @@ var Sentry = (function (exports) {
      * e.g. [HTMLElement] => input#foo.btn[name=baz]
      * @returns generated DOM path
      */
-    function _htmlElementAsString(el, keyAttr) {
+    function _htmlElementAsString(el, keyAttrs) {
+        var _a, _b;
         var elem = el;
         var out = [];
         var className;
@@ -422,9 +423,13 @@ var Sentry = (function (exports) {
             return '';
         }
         out.push(elem.tagName.toLowerCase());
-        var keyAttrValue = keyAttr ? elem.getAttribute(keyAttr) : null;
-        if (keyAttrValue) {
-            out.push("[" + keyAttr + "=\"" + keyAttrValue + "\"]");
+        // Pairs of attribute keys defined in `serializeAttribute` and their values on element.
+        var keyAttrPairs = ((_a = keyAttrs) === null || _a === void 0 ? void 0 : _a.length) ? keyAttrs.filter(function (keyAttr) { return elem.getAttribute(keyAttr); }).map(function (keyAttr) { return [keyAttr, elem.getAttribute(keyAttr)]; })
+            : null;
+        if ((_b = keyAttrPairs) === null || _b === void 0 ? void 0 : _b.length) {
+            keyAttrPairs.forEach(function (keyAttrPair) {
+                out.push("[" + keyAttrPair[0] + "=\"" + keyAttrPair[1] + "\"]");
+            });
         }
         else {
             if (elem.id) {
@@ -2156,14 +2161,16 @@ var Sentry = (function (exports) {
         /**
          * Add a promise to the queue.
          *
-         * @param task Can be any PromiseLike<T>
+         * @param taskProducer A function producing any PromiseLike<T>; In previous versions this used to be `task: PromiseLike<T>`,
+         *        however, Promises were instantly created on the call-site, making them fall through the buffer limit.
          * @returns The original promise.
          */
-        PromiseBuffer.prototype.add = function (task) {
+        PromiseBuffer.prototype.add = function (taskProducer) {
             var _this = this;
             if (!this.isReady()) {
                 return SyncPromise.reject(new SentryError('Not adding Promise due to buffer limit reached.'));
             }
+            var task = taskProducer();
             if (this._buffer.indexOf(task) === -1) {
                 this._buffer.push(task);
             }
@@ -4414,7 +4421,7 @@ var Sentry = (function (exports) {
         hub.bindClient(client);
     }
 
-    var SDK_VERSION = '6.7.2';
+    var SDK_VERSION = '6.8.0';
 
     var originalFunctionToString;
     /** Patch toString calls to return proper name for wrapped functions */
@@ -5278,23 +5285,25 @@ var Sentry = (function (exports) {
             if (this.options.headers !== undefined) {
                 options.headers = this.options.headers;
             }
-            return this._buffer.add(new SyncPromise(function (resolve, reject) {
-                void _this._fetch(sentryRequest.url, options)
-                    .then(function (response) {
-                    var headers = {
-                        'x-sentry-rate-limits': response.headers.get('X-Sentry-Rate-Limits'),
-                        'retry-after': response.headers.get('Retry-After'),
-                    };
-                    _this._handleResponse({
-                        requestType: sentryRequest.type,
-                        response: response,
-                        headers: headers,
-                        resolve: resolve,
-                        reject: reject,
-                    });
-                })
-                    .catch(reject);
-            }));
+            return this._buffer.add(function () {
+                return new SyncPromise(function (resolve, reject) {
+                    void _this._fetch(sentryRequest.url, options)
+                        .then(function (response) {
+                        var headers = {
+                            'x-sentry-rate-limits': response.headers.get('X-Sentry-Rate-Limits'),
+                            'retry-after': response.headers.get('Retry-After'),
+                        };
+                        _this._handleResponse({
+                            requestType: sentryRequest.type,
+                            response: response,
+                            headers: headers,
+                            resolve: resolve,
+                            reject: reject,
+                        });
+                    })
+                        .catch(reject);
+                });
+            });
         };
         return FetchTransport;
     }(BaseTransport));
@@ -5331,25 +5340,27 @@ var Sentry = (function (exports) {
                     status: 429,
                 });
             }
-            return this._buffer.add(new SyncPromise(function (resolve, reject) {
-                var request = new XMLHttpRequest();
-                request.onreadystatechange = function () {
-                    if (request.readyState === 4) {
-                        var headers = {
-                            'x-sentry-rate-limits': request.getResponseHeader('X-Sentry-Rate-Limits'),
-                            'retry-after': request.getResponseHeader('Retry-After'),
-                        };
-                        _this._handleResponse({ requestType: sentryRequest.type, response: request, headers: headers, resolve: resolve, reject: reject });
+            return this._buffer.add(function () {
+                return new SyncPromise(function (resolve, reject) {
+                    var request = new XMLHttpRequest();
+                    request.onreadystatechange = function () {
+                        if (request.readyState === 4) {
+                            var headers = {
+                                'x-sentry-rate-limits': request.getResponseHeader('X-Sentry-Rate-Limits'),
+                                'retry-after': request.getResponseHeader('Retry-After'),
+                            };
+                            _this._handleResponse({ requestType: sentryRequest.type, response: request, headers: headers, resolve: resolve, reject: reject });
+                        }
+                    };
+                    request.open('POST', sentryRequest.url);
+                    for (var header in _this.options.headers) {
+                        if (_this.options.headers.hasOwnProperty(header)) {
+                            request.setRequestHeader(header, _this.options.headers[header]);
+                        }
                     }
-                };
-                request.open('POST', sentryRequest.url);
-                for (var header in _this.options.headers) {
-                    if (_this.options.headers.hasOwnProperty(header)) {
-                        request.setRequestHeader(header, _this.options.headers[header]);
-                    }
-                }
-                request.send(sentryRequest.body);
-            }));
+                    request.send(sentryRequest.body);
+                });
+            });
         };
         return XHRTransport;
     }(BaseTransport));
@@ -5605,9 +5616,9 @@ var Sentry = (function (exports) {
                         return;
                     }
                     var client = currentHub.getClient();
-                    var event = isPrimitive(error)
+                    var event = error === undefined && isString(data.msg)
                         ? _this._eventFromIncompleteOnError(data.msg, data.url, data.line, data.column)
-                        : _this._enhanceEventWithInitialFrame(eventFromUnknownInput(error, undefined, {
+                        : _this._enhanceEventWithInitialFrame(eventFromUnknownInput(error || data.msg, undefined, {
                             attachStacktrace: client && client.getOptions().attachStacktrace,
                             rejection: false,
                         }), data.url, data.line, data.column);
@@ -5688,12 +5699,10 @@ var Sentry = (function (exports) {
             // If 'message' is ErrorEvent, get real message from inside
             var message = isErrorEvent(msg) ? msg.message : msg;
             var name;
-            if (isString(message)) {
-                var groups = message.match(ERROR_TYPES_RE);
-                if (groups) {
-                    name = groups[1];
-                    message = groups[2];
-                }
+            var groups = message.match(ERROR_TYPES_RE);
+            if (groups) {
+                name = groups[1];
+                message = groups[2];
             }
             var event = {
                 exception: {
@@ -6118,12 +6127,15 @@ var Sentry = (function (exports) {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         Breadcrumbs.prototype._domBreadcrumb = function (handlerData) {
             var target;
-            var keyAttr = typeof this._options.dom === 'object' ? this._options.dom.serializeAttribute : undefined;
+            var keyAttrs = typeof this._options.dom === 'object' ? this._options.dom.serializeAttribute : undefined;
+            if (typeof keyAttrs === 'string') {
+                keyAttrs = [keyAttrs];
+            }
             // Accessing event.target can throw (see getsentry/raven-js#838, #768)
             try {
                 target = handlerData.event.target
-                    ? htmlTreeAsString(handlerData.event.target, keyAttr)
-                    : htmlTreeAsString(handlerData.event, keyAttr);
+                    ? htmlTreeAsString(handlerData.event.target, keyAttrs)
+                    : htmlTreeAsString(handlerData.event, keyAttrs);
             }
             catch (e) {
                 target = '<unknown>';
@@ -6335,6 +6347,170 @@ var Sentry = (function (exports) {
         return UserAgent;
     }());
 
+    /** Deduplication filter */
+    var Dedupe = /** @class */ (function () {
+        function Dedupe() {
+            /**
+             * @inheritDoc
+             */
+            this.name = Dedupe.id;
+        }
+        /**
+         * @inheritDoc
+         */
+        Dedupe.prototype.setupOnce = function (addGlobalEventProcessor, getCurrentHub) {
+            addGlobalEventProcessor(function (currentEvent) {
+                var self = getCurrentHub().getIntegration(Dedupe);
+                if (self) {
+                    // Juuust in case something goes wrong
+                    try {
+                        if (self._shouldDropEvent(currentEvent, self._previousEvent)) {
+                            return null;
+                        }
+                    }
+                    catch (_oO) {
+                        return (self._previousEvent = currentEvent);
+                    }
+                    return (self._previousEvent = currentEvent);
+                }
+                return currentEvent;
+            });
+        };
+        /** JSDoc */
+        Dedupe.prototype._shouldDropEvent = function (currentEvent, previousEvent) {
+            if (!previousEvent) {
+                return false;
+            }
+            if (this._isSameMessageEvent(currentEvent, previousEvent)) {
+                return true;
+            }
+            if (this._isSameExceptionEvent(currentEvent, previousEvent)) {
+                return true;
+            }
+            return false;
+        };
+        /** JSDoc */
+        Dedupe.prototype._isSameMessageEvent = function (currentEvent, previousEvent) {
+            var currentMessage = currentEvent.message;
+            var previousMessage = previousEvent.message;
+            // If neither event has a message property, they were both exceptions, so bail out
+            if (!currentMessage && !previousMessage) {
+                return false;
+            }
+            // If only one event has a stacktrace, but not the other one, they are not the same
+            if ((currentMessage && !previousMessage) || (!currentMessage && previousMessage)) {
+                return false;
+            }
+            if (currentMessage !== previousMessage) {
+                return false;
+            }
+            if (!this._isSameFingerprint(currentEvent, previousEvent)) {
+                return false;
+            }
+            if (!this._isSameStacktrace(currentEvent, previousEvent)) {
+                return false;
+            }
+            return true;
+        };
+        /** JSDoc */
+        Dedupe.prototype._getFramesFromEvent = function (event) {
+            var exception = event.exception;
+            if (exception) {
+                try {
+                    // @ts-ignore Object could be undefined
+                    return exception.values[0].stacktrace.frames;
+                }
+                catch (_oO) {
+                    return undefined;
+                }
+            }
+            else if (event.stacktrace) {
+                return event.stacktrace.frames;
+            }
+            return undefined;
+        };
+        /** JSDoc */
+        Dedupe.prototype._isSameStacktrace = function (currentEvent, previousEvent) {
+            var currentFrames = this._getFramesFromEvent(currentEvent);
+            var previousFrames = this._getFramesFromEvent(previousEvent);
+            // If neither event has a stacktrace, they are assumed to be the same
+            if (!currentFrames && !previousFrames) {
+                return true;
+            }
+            // If only one event has a stacktrace, but not the other one, they are not the same
+            if ((currentFrames && !previousFrames) || (!currentFrames && previousFrames)) {
+                return false;
+            }
+            currentFrames = currentFrames;
+            previousFrames = previousFrames;
+            // If number of frames differ, they are not the same
+            if (previousFrames.length !== currentFrames.length) {
+                return false;
+            }
+            // Otherwise, compare the two
+            for (var i = 0; i < previousFrames.length; i++) {
+                var frameA = previousFrames[i];
+                var frameB = currentFrames[i];
+                if (frameA.filename !== frameB.filename ||
+                    frameA.lineno !== frameB.lineno ||
+                    frameA.colno !== frameB.colno ||
+                    frameA.function !== frameB.function) {
+                    return false;
+                }
+            }
+            return true;
+        };
+        /** JSDoc */
+        Dedupe.prototype._getExceptionFromEvent = function (event) {
+            return event.exception && event.exception.values && event.exception.values[0];
+        };
+        /** JSDoc */
+        Dedupe.prototype._isSameExceptionEvent = function (currentEvent, previousEvent) {
+            var previousException = this._getExceptionFromEvent(previousEvent);
+            var currentException = this._getExceptionFromEvent(currentEvent);
+            if (!previousException || !currentException) {
+                return false;
+            }
+            if (previousException.type !== currentException.type || previousException.value !== currentException.value) {
+                return false;
+            }
+            if (!this._isSameFingerprint(currentEvent, previousEvent)) {
+                return false;
+            }
+            if (!this._isSameStacktrace(currentEvent, previousEvent)) {
+                return false;
+            }
+            return true;
+        };
+        /** JSDoc */
+        Dedupe.prototype._isSameFingerprint = function (currentEvent, previousEvent) {
+            var currentFingerprint = currentEvent.fingerprint;
+            var previousFingerprint = previousEvent.fingerprint;
+            // If neither event has a fingerprint, they are assumed to be the same
+            if (!currentFingerprint && !previousFingerprint) {
+                return true;
+            }
+            // If only one event has a fingerprint, but not the other one, they are not the same
+            if ((currentFingerprint && !previousFingerprint) || (!currentFingerprint && previousFingerprint)) {
+                return false;
+            }
+            currentFingerprint = currentFingerprint;
+            previousFingerprint = previousFingerprint;
+            // Otherwise, compare the two
+            try {
+                return !!(currentFingerprint.join('') === previousFingerprint.join(''));
+            }
+            catch (_oO) {
+                return false;
+            }
+        };
+        /**
+         * @inheritDoc
+         */
+        Dedupe.id = 'Dedupe';
+        return Dedupe;
+    }());
+
 
 
     var BrowserIntegrations = /*#__PURE__*/Object.freeze({
@@ -6343,7 +6519,8 @@ var Sentry = (function (exports) {
         TryCatch: TryCatch,
         Breadcrumbs: Breadcrumbs,
         LinkedErrors: LinkedErrors,
-        UserAgent: UserAgent
+        UserAgent: UserAgent,
+        Dedupe: Dedupe
     });
 
     /**
@@ -6421,6 +6598,7 @@ var Sentry = (function (exports) {
         new Breadcrumbs(),
         new GlobalHandlers(),
         new LinkedErrors(),
+        new Dedupe(),
         new UserAgent(),
     ];
     /**
