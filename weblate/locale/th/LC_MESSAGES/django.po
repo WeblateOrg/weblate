@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.7\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-06-16 18:40+0000\n"
-"PO-Revision-Date: 2021-06-09 02:33+0000\n"
+"PO-Revision-Date: 2021-06-30 10:33+0000\n"
 "Last-Translator: AefghThreenine <aefgh39622@gmail.com>\n"
 "Language-Team: Thai <https://hosted.weblate.org/projects/weblate/application/"
 "th/>\n"
@@ -20,7 +20,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 4.7-dev\n"
+"X-Generator: Weblate 4.7.1-dev\n"
 
 #: weblate/accounts/avatar.py:103
 msgctxt "No known user"
@@ -1315,12 +1315,10 @@ msgid "Language filter"
 msgstr "ตัวกรองภาษา"
 
 #: weblate/addons/forms.py:273
-#, fuzzy
-#| msgid "Administration"
 msgid ""
 "Regular expression to filter translation files against when scanning for "
 "filemask."
-msgstr "การดูแลระบบ"
+msgstr "นิพจน์ปกติที่ใช้กรองไฟล์คำแปลเมื่อสแกนหาไฟล์มาสก์"
 
 #: weblate/addons/forms.py:278
 msgid "Clone addons from the main component to the newly created ones"
@@ -1482,7 +1480,7 @@ msgstr "ยุบรวมคอมมิต Git"
 
 #: weblate/addons/git.py:35
 msgid "Squash Git commits prior to pushing changes."
-msgstr ""
+msgstr "ยุบรวมคอมมิต Git ก่อนทำการ push การเปลี่ยนแปลง"
 
 #: weblate/addons/json.py:29
 msgid "Customize JSON output"
@@ -1492,6 +1490,7 @@ msgstr "กำหนดการเอาต์พุตของ JSON เอง
 msgid ""
 "Allows adjusting JSON output behavior, for example indentation or sorting."
 msgstr ""
+"อนุญาตการปรับลักษณะการทำงานของเอาต์พุต JSON เช่น การเยื้อง หรือการเรียงลำดับ"
 
 #: weblate/addons/properties.py:143
 msgid "Formats the Java properties file"
@@ -9255,10 +9254,8 @@ msgid "Messages placed around this one"
 msgstr "ข้อความที่อยู่รอบข้อความนี้"
 
 #: weblate/templates/translate.html:236
-#, fuzzy
-#| msgid "Search"
 msgid "Nearby strings"
-msgstr "ค้นหา"
+msgstr "สตริงที่อยู่ใกล้เคียง"
 
 #: weblate/templates/translate.html:238
 #, fuzzy
@@ -9676,71 +9673,67 @@ msgstr "แบบสี:"
 
 #: weblate/templates/widgets.html:57
 msgid "HTML code"
-msgstr ""
+msgstr "รหัส HTML"
 
 #: weblate/templates/widgets.html:58
 msgid "BB code"
-msgstr ""
+msgstr "รหัส BB"
 
 #: weblate/templates/widgets.html:59
 msgid "Markdown code"
-msgstr ""
+msgstr "รหัส Markdown"
 
 #: weblate/templates/widgets.html:60
 msgid "RST code"
-msgstr ""
+msgstr "รหัส RST"
 
 #: weblate/templates/widgets.html:61
 msgid "Textile code"
-msgstr ""
+msgstr "รหัส Textile"
 
 #: weblate/templates/widgets.html:62
 msgid "Image URL"
-msgstr ""
+msgstr "URL ภาพ"
 
 #: weblate/templates/zen-units.html:18
 msgid "Open in full editor"
-msgstr ""
+msgstr "เปิดในตัวแก้ไขแบบเต็ม"
 
 #: weblate/templates/zen-units.html:99 weblate/trans/views/edit.py:533
-#, fuzzy
-#| msgid "Administration"
 msgid "The translation has come to an end."
-msgstr "การดูแลระบบ"
+msgstr "การแปลมาถึงจุดสิ้นสุดแล้ว"
 
 #: weblate/templates/zen.html:46
 msgid "Edit in single string mode"
-msgstr ""
+msgstr "แก้ไขในโหมดสตริงเดียว"
 
 #: weblate/templates/zen.html:46
 msgid "Exit Zen"
-msgstr ""
+msgstr "ออกจาก Zen"
 
 #: weblate/trans/admin.py:38
 msgid "Commit pending changes"
-msgstr ""
+msgstr "ส่งการเปลี่ยนแปลงที่รอค้างอยู่"
 
 #: weblate/trans/admin.py:46
 msgid "Update VCS repository"
-msgstr ""
+msgstr "อัปเดตคลังเก็บ VCS"
 
 #: weblate/trans/admin.py:65
 msgid "Update quality checks"
-msgstr ""
+msgstr "อัปเดตการตรวจสอบคุณภาพ"
 
 #: weblate/trans/admin.py:90
-#, fuzzy
-#| msgid "Administration"
 msgid "Administrators"
-msgstr "การดูแลระบบ"
+msgstr "ผู้ดูแลระบบ"
 
 #: weblate/trans/admin.py:111
 msgid "VCS repositories"
-msgstr ""
+msgstr "คลังเก็บ VCS"
 
 #: weblate/trans/apps.py:27
 msgid "Weblate translations"
-msgstr ""
+msgstr "การแปล Weblate"
 
 #: weblate/trans/autofixes/chars.py:31
 msgid "Trailing ellipsis"
@@ -9748,7 +9741,7 @@ msgstr "เครื่องหมายจุดไข่ปลาต่อท
 
 #: weblate/trans/autofixes/chars.py:57
 msgid "Control characters"
-msgstr ""
+msgstr "อักขระควบคุม"
 
 #: weblate/trans/autofixes/custom.py:45
 msgid "Apostrophes in Java MessageFormat"
