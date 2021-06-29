@@ -504,7 +504,7 @@ actually translating.
 Why does Weblate use language codes such sr_Latn or zh_Hant?
 ------------------------------------------------------------
 
-These are language codes defined by :rfc:`4646` to better indicate that they
+These are language codes defined by :rfc:`5646` to better indicate that they
 are really different languages instead previously wrongly used modifiers (for
 ``@latin`` variants) or country codes (for Chinese).
 
@@ -512,6 +512,13 @@ Weblate still understands legacy language codes and will map them to
 current one - for example ``sr@latin`` will be handled as ``sr_Latn`` or
 ``zh@CN`` as ``zh_Hans``.
 
+.. note::
+
+   Weblate defaults to POSIX style language codes with underscore, see
+   :ref:`languages` for more details.
+
 .. seealso::
 
-   :ref:`languages`
+   :ref:`languages`,
+   :ref:`component-language_code_style`,
+   :ref:`new-translations`
