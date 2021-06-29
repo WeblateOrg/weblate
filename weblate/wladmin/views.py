@@ -361,7 +361,9 @@ class AdminUserList(UserList):
                     ),
                 )
                 return redirect("manage-users")
-        return super().post(request, **kwargs)
+            else:
+                show_form_errors(request, invite_form)
+        return redirect("manage-users")
 
     def get_context_data(self, **kwargs):
         result = super().get_context_data(**kwargs)
