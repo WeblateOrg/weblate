@@ -375,8 +375,8 @@ class WindowsRCFormat(ConvertFormat):
 
     @staticmethod
     def convertfile(storefile, template_store):
-
-        input_store = rcfile(storefile)
+        input_store = rcfile()
+        input_store.parse(storefile.read())
         convertor = rc2po()
         store = convertor.convert_store(input_store)
         store.rcfile = input_store
