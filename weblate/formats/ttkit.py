@@ -1257,6 +1257,7 @@ class RESXFormat(TTKitFormat):
     unit_class = RESXUnit
     new_translation = RESXFile.XMLskeleton
     autoload = ("*.resx",)
+    language_format = "bcp"
 
 
 class AndroidFormat(TTKitFormat):
