@@ -335,8 +335,11 @@ class TTKitFormat(TranslationFormat):
             # Setting source on LISAunit will make it use default language
             unit = self.store.UnitClass(None)
             unit.setsource(source, self.source_language)
-            return unit
-        return self.store.UnitClass(source)
+        else:
+            unit = self.store.UnitClass(source)
+        # Needed by some formats (Android) to set target
+        unit._store = self.store
+        return unit
 
     def create_unit_key(
         self, key: str, source: Union[str, List[str], multistring]
