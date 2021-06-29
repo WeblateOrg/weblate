@@ -692,7 +692,7 @@ class RESXFormatTest(XMLMixin, AutoFormatTest):
     EXT = "resx"
     COUNT = 4
     MASK = "resx/*.resx"
-    EXPECTED_PATH = "resx/cs_CZ.resx"
+    EXPECTED_PATH = "resx/cs-CZ.resx"
     FIND = "Hello"
     FIND_CONTEXT = "Hello"
     FIND_MATCH = ""
