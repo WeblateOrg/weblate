@@ -1843,6 +1843,12 @@ LICENSES = (
         False,
     ),
     (
+        "OPUBL-1.0",
+        "Open Publication License v1.0",
+        "http://opencontent.org/openpub/",
+        False,
+    ),
+    (
         "OSL-1.0",
         "Open Software License 1.0",
         "https://opensource.org/licenses/OSL-1.0",
