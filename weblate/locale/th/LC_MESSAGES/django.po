@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.7\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-06-16 18:40+0000\n"
-"PO-Revision-Date: 2021-06-30 10:33+0000\n"
+"PO-Revision-Date: 2021-06-30 14:51+0000\n"
 "Last-Translator: AefghThreenine <aefgh39622@gmail.com>\n"
 "Language-Team: Thai <https://hosted.weblate.org/projects/weblate/application/"
 "th/>\n"
@@ -1028,16 +1028,16 @@ msgid "Removes strings without a translation from translation files."
 msgstr "เอาสตริงที่ไม่มีคำแปลออกจากไฟล์คำแปล"
 
 #: weblate/addons/consistency.py:32
-#, fuzzy
-#| msgid "Language"
 msgid "Add missing languages"
-msgstr "ภาษา"
+msgstr "เพิ่มภาษาที่หายไป"
 
 #: weblate/addons/consistency.py:34
 msgid ""
 "Ensures a consistent set of languages is used for all components within a "
 "project."
 msgstr ""
+"ตรวจสอบให้แน่ใจว่ามีการใช้ภาษาในจำนวนที่สม่ำเสมอสำหรับคอมโพเนนต์ทั้งหมดภายในโ"
+"ครงการ"
 
 #: weblate/addons/discovery.py:33
 msgid "Component discovery"
@@ -1050,14 +1050,10 @@ msgid ""
 msgstr "เพิ่มหรือเอาคอมโพเนนต์โครงการออกตามการเปลี่ยนแปลงไฟล์ในระบบควบคุมรุ่นโดยอัตโนมัติ"
 
 #: weblate/addons/example.py:36
-#, fuzzy
-#| msgid "Example addon"
 msgid "Example add-on"
 msgstr "ส่วนเสริมตัวอย่าง"
 
 #: weblate/addons/example.py:38
-#, fuzzy
-#| msgid "This addon does nothing it is just an example."
 msgid "This add-on does nothing it is just an example."
 msgstr "ส่วนเสริมนี้ไม่ทำงานใด ๆ ทั้งสิ้นและเป็นเพียงแค่ตัวอย่างเท่านั้น"
 
@@ -1141,8 +1137,6 @@ msgid "Long lines wrapping"
 msgstr "การแบ่งบรรทัดยาว"
 
 #: weblate/addons/forms.py:112
-#, fuzzy
-#| msgid "Wrap lines at 77 chars and at newlines"
 msgid "Wrap lines at 77 characters and at newlines"
 msgstr "แบ่งบรรทัดเมื่อมีอักขระถึง 77 ตัวและเมื่อมีอักขระขึ้นบรรทัดใหม่"
 
@@ -1155,16 +1149,13 @@ msgid "No line wrapping"
 msgstr "ไม่แบ่งบรรทัด"
 
 #: weblate/addons/forms.py:119
-#, fuzzy
-#| msgid ""
-#| "By default gettext wraps lines at 77 chars and newlines. With --no-wrap "
-#| "parameter, it wraps only at newlines."
 msgid ""
 "By default gettext wraps lines at 77 characters and at newlines. With the --"
 "no-wrap parameter, wrapping is only done at newlines."
 msgstr ""
-"ตามค่าเริ่มต้น gettext จะแบ่งบรรทัดเมื่อมีอักขระถึง 77 ตัวและเมื่อมีอักขระขึ้นบรรทัดใหม่ "
-"หากระบุพารามิเตอร์ --no-wrap ไว้ ระบบจะแบ่งบรรทัดเมื่อมีอักขระขึ้นบรรทัดใหม่เท่านั้น"
+"ตามค่าเริ่มต้น gettext จะแบ่งบรรทัดเมื่อมีอักขระถึง 77 "
+"ตัวและเมื่อมีอักขระขึ้นบรรทัดใหม่ หากระบุพารามิเตอร์ --no-wrap ไว้ "
+"ระบบจะแบ่งบรรทัดเมื่อมีอักขระขึ้นบรรทัดใหม่เท่านั้น"
 
 #: weblate/addons/forms.py:127
 msgid "Keep previous msgids of translated strings"
@@ -8545,46 +8536,42 @@ msgstr ""
 
 #: weblate/templates/snippets/watch-dropdown.html:9
 msgid "Watching"
-msgstr ""
+msgstr "กำลังเฝ้าดู"
 
 #: weblate/templates/snippets/watch-dropdown.html:13
 #, python-format
 msgid "Unwatch project %(project)s"
-msgstr ""
+msgstr "เลิกเฝ้าดูโครงการ %(project)s"
 
 #: weblate/templates/snippets/watch-dropdown.html:15
 #: weblate/templates/snippets/watch-dropdown.html:18
-#, fuzzy, python-format
-#| msgid "Language"
+#, python-format
 msgid "Customize notifications for %(object)s"
-msgstr "ภาษา"
+msgstr "ปรับแต่งการแจ้งเตือนสำหรับ %(object)s"
 
 #: weblate/templates/snippets/watch-dropdown.html:16
 #: weblate/templates/snippets/watch-dropdown.html:19
-#, fuzzy, python-format
-#| msgid "Language"
+#, python-format
 msgid "Mute notifications for %(object)s"
-msgstr "ภาษา"
+msgstr "ปิดการแจ้งเตือนสำหรับ %(object)s"
 
 #: weblate/templates/snippets/watch-dropdown.html:24
 msgid "Not watching"
-msgstr ""
+msgstr "ไม่ได้เฝ้าดู"
 
 #: weblate/templates/snippets/watch-dropdown.html:28
-#, fuzzy, python-format
-#| msgid "Watched projects"
+#, python-format
 msgid "Watch project %(project)s"
-msgstr "โครงการที่เฝ้าดู"
+msgstr "เฝ้าดูโครงการ %(project)s"
 
 #: weblate/templates/snippets/watch-dropdown.html:30
-#, fuzzy, python-format
-#| msgid "Administration"
+#, python-format
 msgid "Watch component %(component)s"
-msgstr "การดูแลระบบ"
+msgstr "เฝ้าดูคอมโพเนนต์ %(component)s"
 
 #: weblate/templates/trans/alert/addonscripterror.html:4
 msgid "Weblate could not execute script addon."
-msgstr ""
+msgstr "Weblate ไม่สามารถเรียกใช้ส่วนเสริมสคริปต์ได้"
 
 #: weblate/templates/trans/alert/addonscripterror.html:6
 #: weblate/templates/trans/alert/ambiguouslanguage.html:9
@@ -8594,19 +8581,17 @@ msgstr ""
 #: weblate/templates/trans/alert/parseerror.html:6
 #: weblate/templates/trans/alert/unsupportedconfiguration.html:4
 msgid "The following occurrences were found:"
-msgstr ""
+msgstr "มีตำแหน่งที่พบต่อไปนี้:"
 
 #: weblate/templates/trans/alert/addonscripterror.html:10
-#, fuzzy
-#| msgid "Comment"
 msgid "Command"
-msgstr "หมายเหตุ"
+msgstr "คำสั่ง"
 
 #: weblate/templates/trans/alert/addonscripterror.html:10
 #: weblate/templates/trans/alert/cdnaddonerror.html:10
 #: weblate/templates/trans/alert/parseerror.html:10
 msgid "Error"
-msgstr ""
+msgstr "ข้อผิดพลาด"
 
 #: weblate/templates/trans/alert/ambiguouslanguage.html:5
 #, fuzzy
@@ -9505,18 +9490,16 @@ msgid "Add a new variant for \"%(existing)s\""
 msgstr "ค้นหา"
 
 #: weblate/templates/translation.html:55
-#, fuzzy
-#| msgid "Upload translation"
 msgid "Download translation"
-msgstr "อัปโหลดคำแปล"
+msgstr "ดาวน์โหลดการแปล"
 
 #: weblate/templates/translation.html:57 weblate/templates/translation.html:356
 msgid "Customize download"
-msgstr ""
+msgstr "ปรับแต่งการดาวน์โหลด"
 
 #: weblate/templates/translation.html:59
 msgid "Upload translation"
-msgstr "อัปโหลดคำแปล"
+msgstr "อัปโหลดการแปล"
 
 #: weblate/templates/translation.html:134 weblate/templates/widgets.html:70
 #: weblate/templates/widgets.html:78 weblate/templates/widgets.html:85
@@ -9533,10 +9516,8 @@ msgid "This translation is being used as source strings within this component."
 msgstr "คำแปลนี้กำลังถูกใช้เป็นสตริงต้นฉบับที่อยู่ภายในคอมโพเนนต์นี้"
 
 #: weblate/templates/translation.html:175
-#, fuzzy
-#| msgid "Status"
 msgid "Strings status"
-msgstr "สถานะ"
+msgstr "สถานะสตริง"
 
 #: weblate/templates/translation.html:191
 #, python-format
@@ -9549,10 +9530,8 @@ msgid "Other components"
 msgstr "คอมโพเนนต์อื่นๆ"
 
 #: weblate/templates/translation.html:209
-#, fuzzy
-#| msgid "Browse all component changes"
 msgid "Browse all components"
-msgstr "เรียกดูการเปลี่ยนแปลงคอมโพเนนต์ทั้งหมด"
+msgstr "เรียกดูคอมโพเนนต์ทั้งหมด"
 
 #: weblate/templates/translation.html:223
 msgid "Browse all translation changes"
@@ -9575,6 +9554,8 @@ msgid ""
 "translation engines to get the best possible translations and applies them "
 "in this project."
 msgstr ""
+"การแปลแบบอัตโนมัติผ่านการแปลด้วยเครื่องจะใข้เครื่องมือการแปลด้วยเครื่องแบบแอ็"
+"กทีฟเพื่อให้ได้คำแปลที่ดีที่สุดเท่าที่จะเป็นไปได้และนำไปใช้ในโครงการนี้"
 
 #: weblate/templates/translation.html:257
 msgid ""
