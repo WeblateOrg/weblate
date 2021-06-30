@@ -1,7 +1,7 @@
 Weblate 4.7.1
 -------------
 
-Not yet released.
+Released on June 30th 2021.
 
 * Improved popup for adding terms to glossary.
 * Added support for LibreTranslate machine translation service.
