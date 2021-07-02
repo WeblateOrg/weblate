@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-06-16 20:41+0200\n"
-"PO-Revision-Date: 2021-06-21 11:33+0000\n"
-"Last-Translator: JY3 <GeeyunJY3@gmail.com>\n"
+"PO-Revision-Date: 2021-07-02 03:13+0000\n"
+"Last-Translator: Silence Zhou <silence_zhou@126.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "weblate/documentation/zh_Hans/>\n"
 "Language: zh_Hans\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 4.7\n"
+"X-Generator: Weblate 4.8-dev\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:180
@@ -347,11 +347,11 @@ msgid ""
 "In case some users behave badly in your project, you have an option to block "
 "them from contributing. The blocked user still will be able to see the "
 "project if he has permissions for that, but he won't be able to contribute."
-msgstr ""
+msgstr "如果有些用户在您的项目中行为不佳，您可以选择阻止他们进行贡献。 如果被阻止的用户有权限，那他仍然可以看到项目，但他将不能贡献。"
 
 #: ../../admin/access.rst:177
 msgid "Per-project permission management"
-msgstr "每项目的权限管理"
+msgstr "基于权限管理"
 
 #: ../../admin/access.rst:179
 msgid ""
@@ -378,19 +378,19 @@ msgid ""
 "superuser privilege. In order to do so, add them to the `Administration` "
 "group of the project."
 msgstr ""
+"通过Weblate用户界面管理权限的一个主要好处是，您可以将其委托给其他用户，而无需授予他们超级用户权限。 "
+"为此，将它们添加到项目的“Administration”组中。"
 
 #: ../../admin/access.rst:196
 msgid "Custom access control"
-msgstr "客户访问控制"
+msgstr "自定义访问控制"
 
 #: ../../admin/access.rst:200
 msgid ""
 "The permission system is based on groups and roles, where roles define a set "
 "of permissions, and groups link them to users and translations, see :ref:"
 "`auth-model` for more details."
-msgstr ""
-"权限系统基于组和角色，其中角色定义了一组权限，组将它们链接到用户和翻译，请参"
-"阅 :ref:`auth-model` 以获取更多详细信息。"
+msgstr "权限系统基于组和角色，其中角色定义了一组权限，组将它们链接到用户和翻译，请参阅:ref: ' auth-model '获取更多详细信息。"
 
 #: ../../admin/access.rst:204
 msgid ""
@@ -400,6 +400,9 @@ msgid ""
 "necessarily have to switch it to `Custom` :ref:`access control <acl>` to "
 "utilize it. However you must have superuser privileges in order to use it."
 msgstr ""
+"Weblate访问控制系统最强大的功能目前只能通过:ref: ' Django admin interface <admin-interface> "
+"'来实现。 您可以使用它来管理任何项目的权限。 你不一定要切换到' Custom ':ref: ' access control <acl> '来使用它。"
+" 但是你必须有超级用户权限才能使用它。"
 
 #: ../../admin/access.rst:210
 msgid ""
@@ -418,11 +421,11 @@ msgstr "通用设置"
 msgid ""
 "This section contains an overview of some common configurations you may be "
 "interested in."
-msgstr "此部分包含了一些您可能感兴趣的常用配置选项的概览。"
+msgstr "本节包含一些您可能感兴趣的常见配置的概述。"
 
 #: ../../admin/access.rst:222
 msgid "Site-wide permission management"
-msgstr "站点范围的权限管理"
+msgstr "站点范围内的权限管理"
 
 #: ../../admin/access.rst:224
 msgid ""
@@ -454,13 +457,15 @@ msgid ""
 "otherwise the site-wide permissions provided by membership in the `Users` "
 "and `Reviewers` groups won’t have any effect."
 msgstr ""
+"您应该将所有项目配置为' Public '(参见:ref: ' acl ')，否则' Users '和' reviewer "
+"'组成员提供的站点范围权限将不起任何作用。"
 
 #: ../../admin/access.rst:238
 msgid ""
 "You may also grant some additional permissions of your choice to the default "
 "groups. For example, you may want to give a permission to manage screenshots "
 "to all the `Users`."
-msgstr ""
+msgstr "您还可以将您所选择的一些额外权限授予默认组。 例如，你可能想给所有的“用户”一个管理截图的权限。"
 
 #: ../../admin/access.rst:242
 msgid ""
@@ -472,7 +477,7 @@ msgstr ""
 
 #: ../../admin/access.rst:248
 msgid "Custom permissions for languages, components or projects"
-msgstr "自定义语言、组件或项目权限"
+msgstr "语言、组件或项目的自定义权限"
 
 #: ../../admin/access.rst:250
 msgid ""
@@ -499,7 +504,7 @@ msgid ""
 "If you want (for whatever reason) to allow translation to a specific "
 "language (lets say `Czech`) only to a closed set of reliable translators "
 "while keeping translations to other languages public, you will have to:"
-msgstr ""
+msgstr "如果你想要(不管出于什么原因)只允许翻译到特定语言(比如“捷克语”)，而将其他语言的翻译保持公开，你必须:"
 
 #: ../../admin/access.rst:261
 msgid ""
@@ -507,6 +512,8 @@ msgid ""
 "default configuration this can be done by altering the `Users` :ref:`default "
 "group <default-groups>`."
 msgstr ""
+"删除所有用户翻译“捷克语”的权限。 在默认配置中，这可以通过修改' Users ':ref: ' default group <default-"
+"groups> '来实现。"
 
 #: ../../admin/access.rst:265
 msgid "Group `Users`"
@@ -518,19 +525,19 @@ msgstr "语言选择"
 
 #: ../../admin/access.rst:269 ../../admin/access.rst:285
 msgid "`As defined`"
-msgstr "`按所指定`"
+msgstr "`定义`"
 
 #: ../../admin/access.rst:271
 msgid "All but `Czech`"
-msgstr ""
+msgstr "除了“捷克”"
 
 #: ../../admin/access.rst:275
 msgid "Add a dedicated group for `Czech` translators."
-msgstr ""
+msgstr "为“捷克语”翻译添加一个专门的小组。"
 
 #: ../../admin/access.rst:277
 msgid "Group `Czech translators`"
-msgstr "小组 `Czech translators`"
+msgstr "小组 `捷克翻译`"
 
 #: ../../admin/access.rst:280 ../../admin/access.rst:393 ../../api.rst:565
 msgid "Roles"
@@ -546,7 +553,7 @@ msgstr "项目选择"
 
 #: ../../admin/access.rst:283
 msgid "`All public projects`"
-msgstr "`所有公开项目`"
+msgstr "`所有公共项目`"
 
 #: ../../admin/access.rst:287
 msgid "`Czech`"
@@ -554,14 +561,14 @@ msgstr "`捷克语`"
 
 #: ../../admin/access.rst:291
 msgid "Add users you wish to give the permissions to into this group."
-msgstr ""
+msgstr "将您希望授予此权限的用户添加到此组中。"
 
 #: ../../admin/access.rst:293
 msgid ""
 "As you can see, permissions management this way is powerful, but can be "
 "quite a tedious job. You can’t delegate it to another user, unless granting "
 "superuser permissions."
-msgstr ""
+msgstr "如您所见，这种方式的权限管理功能强大，但可能是一项相当乏味的工作。 您不能将其委托给其他用户，除非授予超级用户权限。"
 
 #: ../../admin/access.rst:300
 msgid "Users, roles, groups, and permissions"
@@ -569,7 +576,7 @@ msgstr "用户、角色、用户组和权限"
 
 #: ../../admin/access.rst:302
 msgid "The authentication models consist of several objects:"
-msgstr "身份验证模型包括几个对象："
+msgstr "身份验证模型由几个对象组成:"
 
 #: ../../admin/access.rst:305
 msgid "`Permission`"
@@ -579,25 +586,25 @@ msgstr "`权限`"
 msgid ""
 "Individual permission defined by Weblate. Permissions cannot be assigned to "
 "users. This can only be done through assignment of roles."
-msgstr "Weblate 定义的个人权限。权限不能分配给用户。这只能通过分配角色来完成。"
+msgstr "由Weblate定义的个人权限。 权限不能分配给用户。 这只能通过分配角色来完成。"
 
 #: ../../admin/access.rst:308
 msgid "`Role`"
-msgstr "`Role`"
+msgstr "`角色`"
 
 #: ../../admin/access.rst:308
 msgid ""
 "A role defines a set of permissions. This allows reuse of these sets in "
 "several places, making the administration easier."
-msgstr "角色定义为一组权限。这允许在几个地方重复使用这些组，使管理更容易。"
+msgstr "角色定义了一组权限。 这允许在多个地方重用这些集，使管理更加容易。"
 
 #: ../../admin/access.rst:310
 msgid "`User`"
-msgstr "`User`"
+msgstr "`user`"
 
 #: ../../admin/access.rst:311
 msgid "User can belong to several groups."
-msgstr "用户可归属于几个用户组。"
+msgstr "用户可以属于多个组。"
 
 #: ../../admin/access.rst:314
 msgid "`Group`"
@@ -607,7 +614,7 @@ msgstr "`群组`"
 msgid ""
 "Group connect roles, users, and authentication objects (projects, languages, "
 "and component lists)."
-msgstr "用户组连接角色、用户和身份验证对象（项目、语言和组件列表）。"
+msgstr "分组连接角色、用户和身份验证对象(项目、语言和组件列表)。"
 
 #: ../../admin/access.rst:331
 msgid ""
