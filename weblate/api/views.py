@@ -94,6 +94,7 @@ from weblate.trans.tasks import auto_translate, component_removal, project_remov
 from weblate.utils.celery import get_queue_stats, get_task_progress, is_task_ready
 from weblate.utils.docs import get_doc_url
 from weblate.utils.errors import report_error
+from weblate.utils.search import parse_query
 from weblate.utils.state import (
     STATE_APPROVED,
     STATE_EMPTY,
@@ -1066,9 +1067,14 @@ class TranslationViewSet(MultipleFieldMixin, WeblateViewSet, DestroyModelMixin):
             serializer = self.serializer_class(obj, context={"request": request})
             return Response(serializer.data, status=HTTP_200_OK)
 
-        queryset = (
-            obj.unit_set.search(request.GET.get("q", "")).order_by("id").prefetch()
-        )
+        query_string = request.GET.get("q", "")
+        try:
+            parse_query(query_string)
+        except Exception as error:
+            report_error()
+            raise ValidationError(f"Failed to parse query string: {error}")
+
+        queryset = obj.unit_set.search(query_string).order_by("id").prefetch()
         page = self.paginate_queryset(queryset)
 
         serializer = UnitSerializer(page, many=True, context={"request": request})
