@@ -1786,3 +1786,13 @@ class PropertiesMi18nFormat(PropertiesUtf8Format):
     language_format = "java"
     check_flags = ("es-format",)
     monolingual = True
+
+
+class FluentFormat(TTKitFormat):
+    name = _("Fluent file")
+    format_id = "fluent"
+    monolingual = True
+    unit_class = MonolingualIDUnit
+    autoload = ("*.flt",)
+    new_translation = "\n"
+    loader = ("fluent", "FluentFile")

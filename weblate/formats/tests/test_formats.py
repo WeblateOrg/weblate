@@ -35,6 +35,7 @@ from weblate.formats.ttkit import (
     CSVSimpleFormat,
     DTDFormat,
     FlatXMLFormat,
+    FluentFormat,
     GWTFormat,
     INIFormat,
     InnoSetupINIFormat,
@@ -66,6 +67,7 @@ TEST_PO = get_test_file("cs.po")
 TEST_CSV = get_test_file("cs-mono.csv")
 TEST_CSV_NOHEAD = get_test_file("cs.csv")
 TEST_FLATXML = get_test_file("cs-flat.xml")
+TEST_FLUENT = get_test_file("en.flt")
 TEST_JSON = get_test_file("cs.json")
 TEST_NESTED_JSON = get_test_file("cs-nested.json")
 TEST_WEBEXT_JSON = get_test_file("cs-webext.json")
@@ -1133,3 +1135,20 @@ class TBXFormatTest(AutoFormatTest):
     FIND_MATCH = "adresní řádek"
     NEW_UNIT_MATCH = b"<term>Source string</term>"
     EXPECTED_FLAGS = ""
+
+
+class FluentFormatTest(AutoFormatTest):
+    FORMAT = FluentFormat
+    FILE = TEST_FLUENT
+    BASE = ""
+    MIME = ""
+    EXT = "flt"
+    COUNT = 2
+    MATCH = "\n"
+    MASK = "flt/*/component.flt"
+    EXPECTED_PATH = "flt/en-US/component.flt"
+    FIND = "hello-user"
+    FIND_MATCH = "Hello, {$userName}!"
+    NEW_UNIT_MATCH = b"\nnew-unit = Source string\n"
+    EXPECTED_FLAGS = ""
+    MONOLINGUAL = True

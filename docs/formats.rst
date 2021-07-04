@@ -124,6 +124,8 @@ Capabilities of all supported formats:
 +---------------------+------------------+---------------+----------------+---------------+----------------+----------------+-------------------------+
 | :ref:`txt`          | mono             | no            | no             | no            | no             | no             |                         |
 +---------------------+------------------+---------------+----------------+---------------+----------------+----------------+-------------------------+
+| :ref:`fluent`       | mono             | yes           | yes            | no            | no             | no             |                         |
++---------------------+------------------+---------------+----------------+---------------+----------------+----------------+-------------------------+
 
 .. [#m] See :ref:`bimono`
 .. [#p] Plurals are necessary to properly localize strings with variable count.
@@ -1483,6 +1485,39 @@ TBX is an XML format for the exchange of terminology data.
 
     `TBX on Wikipedia <https://en.wikipedia.org/wiki/TermBase_eXchange>`_,
     :doc:`tt:formats/tbx`,
+    :ref:`glossary`
+
+.. _fluent:
+
+Fluent format
+------------------------
+
+.. versionadded:: 4.8
+
+.. note::
+
+   Support for this format is currently in beta, feedback from testing is welcome.
+
+Fluent is a monolingual text format that focuses on asymmetric localization: a
+simple string in one language can map to a complex multi-variant translation in
+another language.
+
++-------------------------------------------------------------------+
+| Typical Weblate :ref:`component`                                  |
++================================+==================================+
+| Filemask                       | ``i18n/*/component-name.flt``    |
++--------------------------------+----------------------------------+
+| Monolingual base language file | `Empty`                          |
++--------------------------------+----------------------------------+
+| Template for new translations  | `Empty`                          |
++--------------------------------+----------------------------------+
+| File format                    | `Fluent file`                    |
++--------------------------------+----------------------------------+
+
+.. seealso::
+
+    `Project Fluent <https://www.projectfluent.org/>`_,
+    :doc:`tt:formats/fluent`,
     :ref:`glossary`
 
 

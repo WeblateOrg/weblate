@@ -3,6 +3,8 @@ Weblate 4.8
 
 Not yet released.
 
+* Added support for Fluent files.
+
 Weblate 4.7.1
 -------------
 

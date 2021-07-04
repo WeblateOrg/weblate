@@ -387,6 +387,10 @@ class ComponentTest(RepoTestCase):
         component = self.create_tbx()
         self.verify_component(component, 2, "cs", 4, unit="address bar")
 
+    def test_create_fluent(self):
+        component = self.create_fluent()
+        self.verify_component(component, 2, "en", 4)
+
     def test_link(self):
         component = self.create_link()
         self.verify_component(component, 4, "cs", 4)

@@ -392,6 +392,9 @@ class RepoTestMixin:
     def create_tbx(self):
         return self._create_component("tbx", "tbx/*.tbx")
 
+    def create_fluent(self):
+        return self._create_component("fluent", "i18n/*/component.flt")
+
     def create_link(self, **kwargs):
         parent = self.create_iphone(*kwargs)
         return Component.objects.create(
