@@ -10,7 +10,7 @@ List of Weblate supporters:
 * Loic Dachary
 * Marozed
 * https://freedombox.org/
-* GNU Solidario (GNU Health)
+* `GNU Solidario (GNU Health) <https://www.gnuhealth.org/>`_
 * `BallotReady <https://www.ballotready.org>`_
 * Richard Nespithal
 * MyExpenses.Mobi
