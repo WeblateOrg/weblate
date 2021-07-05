@@ -9,7 +9,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-06-16 20:41+0200\n"
 "PO-Revision-Date: 2021-07-07 05:33+0000\n"
-"Last-Translator: Burak Yavuz <hitowerdigit@hotmail.com>\n"
+"Last-Translator: Serkan ÖNDER <serkanonder@outlook.com>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/weblate/"
 "documentation/tr/>\n"
 "Language: tr\n"
@@ -73,6 +73,8 @@ msgid ""
 "You can limit user’s access to individual projects by selecting a different :"
 "guilabel:`Access control` setting. Available options are:"
 msgstr ""
+"Farklı bir :guilabel:`Erişim kontrolü` ayarı seçerek kullanıcının bireysel "
+"projelere erişimini sınırlayabilirsiniz. Mevcut seçenekler şunlardır:"
 
 #: ../../admin/access.rst:35
 msgid "Public"
@@ -108,6 +110,10 @@ msgid ""
 "all users are forbidden to performed any actions on the project. You will "
 "have to set up all the permissions using :ref:`custom-acl`."
 msgstr ""
+":ref:`Kullanıcı yönetimi <manage-acl>` özellikleri devre dışı bırakılacak; "
+"varsayılan olarak tüm kullanıcıların proje üzerinde herhangi bir işlem "
+"yapması yasaktır. Tüm izinleri :ref:`custom-acl` kullanarak ayarlamanız "
+"gerekecek."
 
 #: ../../admin/access.rst:46
 msgid ""
@@ -115,10 +121,14 @@ msgid ""
 "the configuration (:guilabel:`Manage` ↓ :guilabel:`Settings`) of each "
 "respective project."
 msgstr ""
+":guilabel:`Erişim denetimi`, ilgili her projenin yapılandırmasının "
+"(:guilabel:`Yönet` ↓ :guilabel:`Ayarlar`) :guilabel:`Erişim` sekmesinde "
+"değiştirilebilir."
 
 #: ../../admin/access.rst:52
 msgid "The default value can be changed by :setting:`DEFAULT_ACCESS_CONTROL`."
 msgstr ""
+"Varsayılan değer :ayarlar:`VARSAYILAN_ERİŞİM_KONTROLÜ` ile değiştirilebilir."
 
 #: ../../admin/access.rst:56
 msgid ""
@@ -127,6 +137,10 @@ msgid ""
 "for all projects despite the access control setting. Your project name and "
 "other information can’t be revealed through this."
 msgstr ""
+"'Özel' projeler için bile, projenizle ilgili bazı bilgiler açığa çıkacaktır: "
+"tüm örnek için istatistikler ve dil özeti, erişim kontrolü ayarına rağmen "
+"tüm projelerin sayılarını içerecektir. Proje adınız ve diğer bilgileriniz bu "
+"şekilde ifşa edilemez."
 
 #: ../../admin/access.rst:63
 msgid ""
@@ -134,6 +148,10 @@ msgid ""
 "`Protected`, and `Private` projects can be redefined by Weblate instance "
 "administrator using :ref:`custom settings <custom-acl>`."
 msgstr ""
+"\"Genel\", \"Korumalı\" ve \"Özel\" projelerde kullanıcılar için varsayılan "
+"olarak mevcut olan gerçek izinler kümesi, Weblate örneği yöneticisi "
+"tarafından :ref:`özel ayarlar <özel-acl>` kullanılarak yeniden "
+"tanımlanabilir."
 
 #: ../../admin/access.rst:69
 msgid ""
@@ -142,6 +160,10 @@ msgid ""
 "this without admin permission for the whole Weblate instance, you will "
 "instantly lose your access to manage the project."
 msgstr ""
+"'Özel' erişim kontrolünü açarak, Weblate seçilen bir proje için oluşturduğu "
+"tüm :ref:`özel <manage-acl> gruplarını kaldıracaktır. Bunu tüm Weblate "
+"örneği için yönetici izni olmadan yapıyorsanız, projeyi yönetme erişiminizi "
+"anında kaybedersiniz."
 
 #: ../../admin/access.rst:76
 #, fuzzy
@@ -159,10 +181,14 @@ msgid ""
 "`privileges`) can manage users in projects with non-`Custom` access control. "
 "They can assign users to one of the following groups."
 msgstr ""
+":guilabel:`Proje erişimini yönet` ayrıcalığına sahip kullanıcılar (bkz. "
+":ref:`ayrıcalıklar`), projelerdeki kullanıcıları `Özel` olmayan erişim "
+"kontrolü ile yönetebilir. Kullanıcıları aşağıdaki gruplardan birine "
+"atayabilirler."
 
 #: ../../admin/access.rst:87
 msgid "For `Public`, `Protected` and `Private` projects:"
-msgstr ""
+msgstr "\"Genel\", \"Korumalı\" ve \"Özel\" projeler için:"
 
 #: ../../admin/access.rst:90
 msgid "Administration"
@@ -174,7 +200,7 @@ msgstr "Proje için kullanılabilen tüm izinleri içerir."
 
 #: ../../admin/access.rst:93
 msgid "Review (only if :ref:`review workflow <reviews>` is turned on)"
-msgstr ""
+msgstr "Gözden geçir (yalnızca :ref:`inceleme iş akışı <incelemeler>` açıksa)"
 
 #: ../../admin/access.rst:93
 msgid "Can approve translations during review."
@@ -182,7 +208,7 @@ msgstr "Gözden geçirme sırasında çevirileri onaylayabilir."
 
 #: ../../admin/access.rst:95
 msgid "For `Protected` and `Private` projects only:"
-msgstr ""
+msgstr "Yalnızca \"Korumalı\" ve \"Özel\" projeler için:"
 
 #: ../../admin/access.rst:98
 msgid "Translate"
@@ -269,6 +295,9 @@ msgid ""
 "now. Also this way it’s not possible to give just some additional "
 "permissions to all users."
 msgstr ""
+"Ne yazık ki, bu önceden tanımlanmış grup setini değiştirmek şu an için "
+"mümkün değil. Ayrıca bu şekilde tüm kullanıcılara sadece bazı ek izinler "
+"vermek mümkün değildir."
 
 #: ../../admin/access.rst:129
 msgid ""
