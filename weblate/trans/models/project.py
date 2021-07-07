@@ -149,8 +149,7 @@ class Project(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKeyM
             "Whether to allow updating this repository by remote hooks."
         ),
     )
-    language_aliases = models.CharField(
-        max_length=200,
+    language_aliases = models.TextField(
         verbose_name=gettext_lazy("Language aliases"),
         default="",
         blank=True,
