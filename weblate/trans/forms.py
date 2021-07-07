@@ -1796,6 +1796,7 @@ class ProjectSettingsForm(SettingsBaseForm, ProjectDocsMixin, ProjectAntispamMix
         widgets = {
             "access_control": forms.RadioSelect,
             "instructions": MarkdownTextarea,
+            "language_aliases": forms.TextInput,
         }
 
     def clean(self):

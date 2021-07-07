@@ -3,6 +3,8 @@ Weblate 4.7.2
 
 Not yet released.
 
+* Support more language aliases to be configured on a project.
+
 Weblate 4.7.1
 -------------
 
