@@ -84,7 +84,7 @@ work, but is not as well tested as single version upgrades.
 
         weblate check --deploy
 
-#. Restart celery worker (see :ref:`celery`).
+#. Restart Celery worker (see :ref:`celery`).
 
 
 .. _version-specific-instructions:
