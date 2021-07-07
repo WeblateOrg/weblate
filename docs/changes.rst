@@ -3,7 +3,14 @@ Weblate 4.8
 
 Not yet released.
 
+Weblate 4.7.2
+-------------
+
+Not yet released.
+
 * Support more language aliases to be configured on a project.
+* Fixed search string validation in API.
+* Fixed Git exporter URLs after a domain change.
 
 Weblate 4.7.1
 -------------
