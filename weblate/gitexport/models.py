@@ -67,3 +67,16 @@ def save_project(sender, instance, **kwargs):
             if component.git_export != new_url:
                 component.git_export = new_url
                 component.save(update_fields=["git_export"])
+
+
+def update_all_components():
+    """Update git export URL for all components."""
+    matching = (
+        Component.objects.filter(vcs__in=SUPPORTED_VCS)
+        .exclude(repo__startswith="weblate:/")
+        .prefetch_related("project")
+    )
+    for component in matching:
+        new_url = get_export_url(component)
+        if component.git_export != new_url:
+            Component.objects.filter(pk=component.pk).update(git_export=new_url)
