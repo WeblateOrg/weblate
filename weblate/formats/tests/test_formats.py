@@ -1058,7 +1058,7 @@ class XWikiFullPageFormatTest(AutoFormatTest):
             newdata,
         )
         self.assertIn(
-            "* 02110-1301 USA, or see the FSF site: http://www.fsf.org.\n" "-->",
+            "* 02110-1301 USA, or see the FSF site: http://www.fsf.org.\n-->",
             newdata,
         )
         # Remove XML declaration so that etree doesn't complain for parsing

@@ -45,7 +45,7 @@ class CharsPasswordValidator:
 
     def get_help_text(self):
         return _(
-            "Your password can't consist of a " "single character or only whitespace."
+            "Your password can't consist of a single character or only whitespace."
         )
 
 
@@ -70,4 +70,4 @@ class PastPasswordsValidator:
                     )
 
     def get_help_text(self):
-        return _("Your password can't match a password " "you have used in the past.")
+        return _("Your password can't match a password you have used in the past.")

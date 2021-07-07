@@ -35,7 +35,7 @@ class Command(BaseCommand):
             default=2,
             dest="indent",
             type=int,
-            help=("Specifies the indent level to use when " "pretty-printing output."),
+            help=("Specifies the indent level to use when pretty-printing output."),
         )
         parser.add_argument(
             "--backup",

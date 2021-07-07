@@ -229,7 +229,7 @@ class RemoveSuggestionForm(RemoveForm):
         initial=0,
         required=True,
         help_text=_(
-            "Threshold for removal. This field has no effect with " "voting turned off."
+            "Threshold for removal. This field has no effect with voting turned off."
         ),
     )
 

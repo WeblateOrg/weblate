@@ -28,7 +28,7 @@ class JSONCustomizeAddon(StoreBaseAddon):
     name = "weblate.json.customize"
     verbose = _("Customize JSON output")
     description = _(
-        "Allows adjusting JSON output behavior, for example " "indentation or sorting."
+        "Allows adjusting JSON output behavior, for example indentation or sorting."
     )
     settings_form = JSONCustomizeForm
     compat = {
