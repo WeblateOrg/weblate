@@ -30,7 +30,7 @@ from celery.exceptions import TimeoutError
 from dateutil.parser import parse
 from django.conf import settings
 from django.core.cache import cache
-from django.core.checks import Critical, Error, Info
+from django.core.checks import Critical, Error, Info, Warning
 from django.core.mail import get_connection
 from django.db import DatabaseError
 
@@ -105,6 +105,7 @@ DOC_LINKS = {
     "weblate.C036": ("admin/optionals", "gpg-sign"),
     "weblate.C037": ("admin/install", "production-database"),
     "weblate.C038": ("admin/install", "production-database"),
+    "weblate.W039": ("admin/install", "file-permissions"),
 }
 
 
@@ -443,6 +444,7 @@ def check_site(app_configs, **kwargs):
 
 def check_perms(app_configs=None, **kwargs):
     """Check that the data dir can be written to."""
+    start = time.time()
     errors = []
     uid = os.getuid()
     message = "The path {} is owned by a different user, check your DATA_DIR settings."
@@ -468,6 +470,16 @@ def check_perms(app_configs=None, **kwargs):
                 raise
             if stat.st_uid != uid:
                 errors.append(weblate_check("weblate.E027", message.format(path)))
+        if time.time() - start > 60:
+            errors.append(
+                weblate_check(
+                    "weblate.W039",
+                    "The permission check took was running for too long and was "
+                    "terminated before it has completed",
+                    Warning,
+                )
+            )
+            break
 
     return errors
 
