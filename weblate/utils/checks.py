@@ -30,7 +30,7 @@ from celery.exceptions import TimeoutError
 from dateutil.parser import parse
 from django.conf import settings
 from django.core.cache import cache
-from django.core.checks import Critical, Error, Info, Warning
+from django.core.checks import Critical, Error, Info
 from django.core.mail import get_connection
 from django.db import DatabaseError
 
@@ -471,14 +471,6 @@ def check_perms(app_configs=None, **kwargs):
             if stat.st_uid != uid:
                 errors.append(weblate_check("weblate.E027", message.format(path)))
         if time.time() - start > 60:
-            errors.append(
-                weblate_check(
-                    "weblate.W039",
-                    "The permission check took was running for too long and was "
-                    "terminated before it has completed",
-                    Warning,
-                )
-            )
             break
 
     return errors
