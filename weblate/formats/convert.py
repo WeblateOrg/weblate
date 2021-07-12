@@ -362,6 +362,7 @@ class WindowsRCFormat(ConvertFormat):
     format_id = "rc"
     autoload = ("*.rc",)
     language_format = "bcp"
+    needs_target_sync = False
 
     @staticmethod
     def mimetype():
@@ -378,7 +379,10 @@ class WindowsRCFormat(ConvertFormat):
         input_store = rcfile()
         input_store.parse(storefile.read())
         convertor = rc2po()
-        store = convertor.convert_store(input_store)
+        if template_store:
+            store = convertor.merge_store(template_store.store.rcfile, input_store)
+        else:
+            store = convertor.convert_store(input_store)
         store.rcfile = input_store
         return store
 
