@@ -87,8 +87,6 @@ RUN set -x \
     g++ \
     tesseract-ocr \
     patch \
-    nodejs \
-    npm \
   && pip3 install /usr/src \
   && pip install supervisor-stdout \
   && python3 -c 'from phply.phpparse import make_parser; make_parser()' \
@@ -124,6 +122,10 @@ RUN curl -L https://github.com/github/hub/releases/download/v2.13.0/hub-linux-am
 RUN curl -sL "https://github.com/zaquestion/lab/releases/download/v0.17.2/lab_0.17.2_linux_amd64.tar.gz" | tar -C /tmp/ -xzf - \
   && mv /tmp/lab /usr/bin \
   && chmod u+x /usr/bin/lab
+
+# Install nodejs and npm
+RUN curl -sL https://deb.nodesource.com/setup_14.x | sh - \
+  && apt-get install nodejs
 
 # Configuration for Weblate, nginx, uwsgi and supervisor
 COPY etc /etc/
