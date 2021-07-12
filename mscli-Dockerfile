@@ -87,6 +87,7 @@ RUN set -x \
     g++ \
     tesseract-ocr \
     patch \
+    nodejs \
   && pip3 install /usr/src \
   && pip install supervisor-stdout \
   && python3 -c 'from phply.phpparse import make_parser; make_parser()' \
