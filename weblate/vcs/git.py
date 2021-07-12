@@ -88,7 +88,7 @@ class GitRepository(Repository):
         raise RepositoryException(0, "Failed to figure out remote branch")
 
     @staticmethod
-    def git_config_update(filename: str, *updates):
+    def git_config_update(filename: str, *updates: Tuple[str, str, str]):
         with GitConfigParser(file_or_files=filename, read_only=False) as config:
             for section, key, value in updates:
                 try:
@@ -103,7 +103,7 @@ class GitRepository(Repository):
                 if value is not None:
                     config.set_value(section, key, value)
 
-    def config_update(self, *updates):
+    def config_update(self, *updates: Tuple[str, str, str]):
         filename = os.path.join(self.path, ".git", "config")
         self.git_config_update(filename, *updates)
 
