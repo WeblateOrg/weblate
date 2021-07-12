@@ -105,7 +105,6 @@ DOC_LINKS = {
     "weblate.C036": ("admin/optionals", "gpg-sign"),
     "weblate.C037": ("admin/install", "production-database"),
     "weblate.C038": ("admin/install", "production-database"),
-    "weblate.W039": ("admin/install", "file-permissions"),
 }
 
 
