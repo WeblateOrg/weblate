@@ -470,7 +470,7 @@ def check_perms(app_configs=None, **kwargs):
                 raise
             if stat.st_uid != uid:
                 errors.append(weblate_check("weblate.E027", message.format(path)))
-        if time.time() - start > 60:
+        if time.time() - start > 30:
             break
 
     return errors
