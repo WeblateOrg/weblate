@@ -32,7 +32,7 @@ from weblate.checks.base import SourceCheck, TargetCheck
 PYTHON_PRINTF_MATCH = re.compile(
     r"""
     %(                          # initial %
-          (?:\((?P<key>[^)]+)\))?    # Python style variables, like %(var)s
+          (?:\((?P<key>[^)]+)\))?    # Python-style variables, like %(var)s
     (?P<fullvar>
         [ +#-]*                 # flags
         (?:\d+)?                # width
@@ -263,7 +263,7 @@ FLAG_RULES = {
 
 
 class BaseFormatCheck(TargetCheck):
-    """Base class for format string checks."""
+    """Base class for format-string checks."""
 
     regexp: Optional[Pattern[str]] = None
     default_disabled = True
@@ -370,7 +370,7 @@ class BaseFormatCheck(TargetCheck):
         return False
 
     def check_single(self, source, target, unit):
-        """We don't check target strings here."""
+        """Target strings are not checked at this stage."""
         return False
 
     def check_highlight(self, source, unit):
@@ -389,15 +389,15 @@ class BaseFormatCheck(TargetCheck):
             and set(result["missing"]) == set(result["extra"])
         ):
             yield gettext(
-                "Following format strings are wrongly ordered: %s"
+                "The following format strings in the wrong order: %s"
             ) % ", ".join(self.format_string(x) for x in sorted(set(result["missing"])))
         else:
             if result["missing"]:
-                yield gettext("Following format strings are missing: %s") % ", ".join(
+                yield gettext("The following format strings are missing: %s") % ", ".join(
                     self.format_string(x) for x in sorted(set(result["missing"]))
                 )
             if result["extra"]:
-                yield gettext("Following format strings are extra: %s") % ", ".join(
+                yield gettext("The following format strings are superfluous: %s") % ", ".join(
                     self.format_string(x) for x in sorted(set(result["extra"]))
                 )
 
@@ -422,7 +422,7 @@ class BaseFormatCheck(TargetCheck):
 
 
 class BasePrintfCheck(BaseFormatCheck):
-    """Base class for printf based format checks."""
+    """Base class for printf-based format checks."""
 
     def __init__(self):
         super().__init__()
@@ -438,7 +438,7 @@ class BasePrintfCheck(BaseFormatCheck):
         return f"%{string}"
 
     def cleanup_string(self, text):
-        """Remove locale specific code from format string."""
+        """Remove locale-specific code from format string."""
         if "'" in text:
             return text.replace("'", "")
         return text
@@ -449,7 +449,7 @@ class PythonFormatCheck(BasePrintfCheck):
 
     check_id = "python_format"
     name = _("Python format")
-    description = _("Python format string does not match source")
+    description = _("Python-format string does not match source")
 
 
 class PHPFormatCheck(BasePrintfCheck):
@@ -457,7 +457,7 @@ class PHPFormatCheck(BasePrintfCheck):
 
     check_id = "php_format"
     name = _("PHP format")
-    description = _("PHP format string does not match source")
+    description = _("PHP-format string does not match source")
 
 
 class CFormatCheck(BasePrintfCheck):
@@ -465,7 +465,7 @@ class CFormatCheck(BasePrintfCheck):
 
     check_id = "c_format"
     name = _("C format")
-    description = _("C format string does not match source")
+    description = _("C-format string does not match source")
 
 
 class PerlFormatCheck(CFormatCheck):
@@ -473,7 +473,7 @@ class PerlFormatCheck(CFormatCheck):
 
     check_id = "perl_format"
     name = _("Perl format")
-    description = _("Perl format string does not match source")
+    description = _("Perl-format string does not match source")
 
 
 class JavaScriptFormatCheck(CFormatCheck):
@@ -481,7 +481,7 @@ class JavaScriptFormatCheck(CFormatCheck):
 
     check_id = "javascript_format"
     name = _("JavaScript format")
-    description = _("JavaScript format string does not match source")
+    description = _("JavaScript-format string does not match source")
 
 
 class LuaFormatCheck(BasePrintfCheck):
@@ -489,7 +489,7 @@ class LuaFormatCheck(BasePrintfCheck):
 
     check_id = "lua_format"
     name = _("Lua format")
-    description = _("Lua format string does not match source")
+    description = _("Lua-format string does not match source")
 
 
 class ObjectPascalFormatCheck(BasePrintfCheck):
@@ -497,16 +497,16 @@ class ObjectPascalFormatCheck(BasePrintfCheck):
 
     check_id = "object_pascal_format"
     name = _("Object Pascal format")
-    description = _("Object Pascal format string does not match source")
+    description = _("Object Pascal-format string does not match source")
     regexp = PASCAL_FORMAT_MATCH
 
 
 class SchemeFormatCheck(BasePrintfCheck):
-    """Check for Scheme format string."""
+    """Check for Scheme-format string."""
 
     check_id = "scheme_format"
     name = _("Scheme format")
-    description = _("Scheme format string does not match source")
+    description = _("Scheme-format string does not match source")
 
     def normalize(self, matches):
         return [m for m in matches if m != "~"]
@@ -520,7 +520,7 @@ class PythonBraceFormatCheck(BaseFormatCheck):
 
     check_id = "python_brace_format"
     name = _("Python brace format")
-    description = _("Python brace format string does not match source")
+    description = _("Python brace-format string does not match source")
     regexp = PYTHON_BRACE_MATCH
 
     def is_position_based(self, string):
@@ -531,7 +531,7 @@ class PythonBraceFormatCheck(BaseFormatCheck):
 
 
 class CSharpFormatCheck(BaseFormatCheck):
-    """Check for C# format string."""
+    """Check for C#-format string."""
 
     check_id = "c_sharp_format"
     name = _("C# format")
@@ -550,7 +550,7 @@ class JavaFormatCheck(BasePrintfCheck):
 
     check_id = "java_format"
     name = _("Java format")
-    description = _("Java format string does not match source")
+    description = _("Java-format string does not match source")
 
 
 class JavaMessageFormatCheck(BaseFormatCheck):
@@ -558,7 +558,7 @@ class JavaMessageFormatCheck(BaseFormatCheck):
 
     check_id = "java_messageformat"
     name = _("Java MessageFormat")
-    description = _("Java MessageFormat string does not match source")
+    description = _("Java MessageFormat-string does not match source")
     regexp = JAVA_MESSAGE_MATCH
 
     def format_string(self, string):
@@ -608,7 +608,7 @@ class ESTemplateLiteralsCheck(BaseFormatCheck):
 
     check_id = "es_format"
     name = _("ECMAScript template literals")
-    description = _("ECMAScript template literals do not match source")
+    description = _("ECMAScript-template literals do not match source")
     regexp = ES_TEMPLATE_MATCH
 
     def cleanup_string(self, text):
