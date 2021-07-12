@@ -393,11 +393,15 @@ class BaseFormatCheck(TargetCheck):
             ) % ", ".join(self.format_string(x) for x in sorted(set(result["missing"])))
         else:
             if result["missing"]:
-                yield gettext("The following format strings are missing: %s") % ", ".join(
+                yield gettext(
+                    "The following format strings are missing: %s"
+                ) % ", ".join(
                     self.format_string(x) for x in sorted(set(result["missing"]))
                 )
             if result["extra"]:
-                yield gettext("The following format strings are superfluous: %s") % ", ".join(
+                yield gettext(
+                    "The following format strings are superfluous: %s"
+                ) % ", ".join(
                     self.format_string(x) for x in sorted(set(result["extra"]))
                 )
 
