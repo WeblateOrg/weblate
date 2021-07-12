@@ -125,11 +125,11 @@ class ConvertFormat(TranslationFormat):
             storefile = open(storefile, "rb")
         # Adjust store to have translations
         store = cls.convertfile(storefile, template_store)
-        for unit in store.units:
-            if unit.isheader():
-                continue
-            # HTML does this properly on loading, others need it
-            if cls.needs_target_sync:
+        if cls.needs_target_sync:
+            for unit in store.units:
+                if unit.isheader():
+                    continue
+                # HTML does this properly on loading, others need it
                 unit.target = unit.source
                 unit.rich_target = unit.rich_source
         return store
