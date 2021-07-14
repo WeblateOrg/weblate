@@ -389,7 +389,7 @@ class BaseFormatCheck(TargetCheck):
             and set(result["missing"]) == set(result["extra"])
         ):
             yield gettext(
-                "The following format strings in the wrong order: %s"
+                "The following format strings are in the wrong order: %s"
             ) % ", ".join(self.format_string(x) for x in sorted(set(result["missing"])))
         else:
             if result["missing"]:
