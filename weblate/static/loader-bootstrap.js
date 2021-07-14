@@ -502,6 +502,8 @@ $(function () {
     if (activeTab.length) {
       activeTab.tab("show");
       window.scrollTo(0, 0);
+    } else {
+      document.getElementById(location.hash.substr(1)).scrollIntoView();
     }
   } else if (
     $(".translation-tabs").length > 0 &&
