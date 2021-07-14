@@ -202,10 +202,6 @@ class KeyValueUnit(TTKitUnit):
             return not self.unit.isfuzzy() and self.unit.value != ""
         return self.unit.istranslated()
 
-    def set_target(self, target):
-        """Set translation unit target."""
-        super().set_target(target)
-
 
 class TTKitFormat(TranslationFormat):
     unit_class = TTKitUnit
