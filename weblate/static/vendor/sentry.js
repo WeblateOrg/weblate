@@ -1,4 +1,4 @@
-/*! @sentry/browser 6.8.0 (e93d96f) | https://github.com/getsentry/sentry-javascript */
+/*! @sentry/browser 6.9.0 (7a46d42) | https://github.com/getsentry/sentry-javascript */
 var Sentry = (function (exports) {
     /*! *****************************************************************************
     Copyright (c) Microsoft Corporation. All rights reserved.
@@ -2159,10 +2159,13 @@ var Sentry = (function (exports) {
             return this._limit === undefined || this.length() < this._limit;
         };
         /**
-         * Add a promise to the queue.
+         * Add a promise (representing an in-flight action) to the queue, and set it to remove itself on fulfillment.
          *
-         * @param taskProducer A function producing any PromiseLike<T>; In previous versions this used to be `task: PromiseLike<T>`,
-         *        however, Promises were instantly created on the call-site, making them fall through the buffer limit.
+         * @param taskProducer A function producing any PromiseLike<T>; In previous versions this used to be `task:
+         *        PromiseLike<T>`, but under that model, Promises were instantly created on the call-site and their executor
+         *        functions therefore ran immediately. Thus, even if the buffer was full, the action still happened. By
+         *        requiring the promise to be wrapped in a function, we can defer promise creation until after the buffer
+         *        limit check.
          * @returns The original promise.
          */
         PromiseBuffer.prototype.add = function (taskProducer) {
@@ -2170,22 +2173,25 @@ var Sentry = (function (exports) {
             if (!this.isReady()) {
                 return SyncPromise.reject(new SentryError('Not adding Promise due to buffer limit reached.'));
             }
+            // start the task and add its promise to the queue
             var task = taskProducer();
             if (this._buffer.indexOf(task) === -1) {
                 this._buffer.push(task);
             }
             void task
                 .then(function () { return _this.remove(task); })
+                // Use `then(null, rejectionHandler)` rather than `catch(rejectionHandler)` so that we can use `PromiseLike`
+                // rather than `Promise`. `PromiseLike` doesn't have a `.catch` method, making its polyfill smaller. (ES5 didn't
+                // have promises, so TS has to polyfill when down-compiling.)
                 .then(null, function () {
                 return _this.remove(task).then(null, function () {
-                    // We have to add this catch here otherwise we have an unhandledPromiseRejection
-                    // because it's a new Promise chain.
+                    // We have to add another catch here because `this.remove()` starts a new promise chain.
                 });
             });
             return task;
         };
         /**
-         * Remove a promise to the queue.
+         * Remove a promise from the queue.
          *
          * @param task Can be any PromiseLike<T>
          * @returns Removed promise.
@@ -2201,19 +2207,24 @@ var Sentry = (function (exports) {
             return this._buffer.length;
         };
         /**
-         * This will drain the whole queue, returns true if queue is empty or drained.
-         * If timeout is provided and the queue takes longer to drain, the promise still resolves but with false.
+         * Wait for all promises in the queue to resolve or for timeout to expire, whichever comes first.
          *
-         * @param timeout Number in ms to wait until it resolves with false.
+         * @param timeout The time, in ms, after which to resolve to `false` if the queue is still non-empty. Passing `0` (or
+         * not passing anything) will make the promise wait as long as it takes for the queue to drain before resolving to
+         * `true`.
+         * @returns A promise which will resolve to `true` if the queue is already empty or drains before the timeout, and
+         * `false` otherwise
          */
         PromiseBuffer.prototype.drain = function (timeout) {
             var _this = this;
             return new SyncPromise(function (resolve) {
+                // wait for `timeout` ms and then resolve to `false` (if not cancelled first)
                 var capturedSetTimeout = setTimeout(function () {
                     if (timeout && timeout > 0) {
                         resolve(false);
                     }
                 }, timeout);
+                // if all promises resolve in time, cancel the timer and resolve to `true`
                 void SyncPromise.all(_this._buffer)
                     .then(function () {
                     clearTimeout(capturedSetTimeout);
@@ -3811,8 +3822,8 @@ var Sentry = (function (exports) {
         function BaseClient(backendClass, options) {
             /** Array of used integrations. */
             this._integrations = {};
-            /** Number of call being processed */
-            this._processing = 0;
+            /** Number of calls being processed */
+            this._numProcessing = 0;
             this._backend = new backendClass(options);
             this._options = options;
             if (options.dsn) {
@@ -3894,11 +3905,11 @@ var Sentry = (function (exports) {
          */
         BaseClient.prototype.flush = function (timeout) {
             var _this = this;
-            return this._isClientProcessing(timeout).then(function (ready) {
+            return this._isClientDoneProcessing(timeout).then(function (clientFinished) {
                 return _this._getBackend()
                     .getTransport()
                     .close(timeout)
-                    .then(function (transportFlushed) { return ready && transportFlushed; });
+                    .then(function (transportFlushed) { return clientFinished && transportFlushed; });
             });
         };
         /**
@@ -3971,14 +3982,23 @@ var Sentry = (function (exports) {
         BaseClient.prototype._sendSession = function (session) {
             this._getBackend().sendSession(session);
         };
-        /** Waits for the client to be done with processing. */
-        BaseClient.prototype._isClientProcessing = function (timeout) {
+        /**
+         * Determine if the client is finished processing. Returns a promise because it will wait `timeout` ms before saying
+         * "no" (resolving to `false`) in order to give the client a chance to potentially finish first.
+         *
+         * @param timeout The time, in ms, after which to resolve to `false` if the client is still busy. Passing `0` (or not
+         * passing anything) will make the promise wait as long as it takes for processing to finish before resolving to
+         * `true`.
+         * @returns A promise which will resolve to `true` if processing is already done or finishes before the timeout, and
+         * `false` otherwise
+         */
+        BaseClient.prototype._isClientDoneProcessing = function (timeout) {
             var _this = this;
             return new SyncPromise(function (resolve) {
                 var ticked = 0;
                 var tick = 1;
                 var interval = setInterval(function () {
-                    if (_this._processing == 0) {
+                    if (_this._numProcessing == 0) {
                         clearInterval(interval);
                         resolve(true);
                     }
@@ -4076,6 +4096,10 @@ var Sentry = (function (exports) {
             if (event.contexts && event.contexts.trace) {
                 // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
                 normalized.contexts.trace = event.contexts.trace;
+            }
+            var _a = this.getOptions()._experiments, _experiments = _a === void 0 ? {} : _a;
+            if (_experiments.ensureNoCircularStructures) {
+                return normalize(normalized);
             }
             return normalized;
         };
@@ -4209,12 +4233,12 @@ var Sentry = (function (exports) {
          */
         BaseClient.prototype._process = function (promise) {
             var _this = this;
-            this._processing += 1;
+            this._numProcessing += 1;
             void promise.then(function (value) {
-                _this._processing -= 1;
+                _this._numProcessing -= 1;
                 return value;
             }, function (reason) {
-                _this._processing -= 1;
+                _this._numProcessing -= 1;
                 return reason;
             });
         };
@@ -4421,7 +4445,7 @@ var Sentry = (function (exports) {
         hub.bindClient(client);
     }
 
-    var SDK_VERSION = '6.8.0';
+    var SDK_VERSION = '6.9.0';
 
     var originalFunctionToString;
     /** Patch toString calls to return proper name for wrapped functions */
@@ -6685,10 +6709,15 @@ var Sentry = (function (exports) {
      */
     function showReportDialog(options) {
         if (options === void 0) { options = {}; }
-        if (!options.eventId) {
-            options.eventId = getCurrentHub().lastEventId();
+        var hub = getCurrentHub();
+        var scope = hub.getScope();
+        if (scope) {
+            options.user = __assign(__assign({}, scope.getUser()), options.user);
         }
-        var client = getCurrentHub().getClient();
+        if (!options.eventId) {
+            options.eventId = hub.lastEventId();
+        }
+        var client = hub.getClient();
         if (client) {
             client.showReportDialog(options);
         }
