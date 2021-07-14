@@ -601,6 +601,12 @@ class XliffUnit(TTKitUnit):
 
         return rich_to_xliff_string(self.unit.rich_target)
 
+    def _invalidate_target(self):
+        """Invalidate target cache."""
+        super()._invalidate_target()
+        if "xliff_node" in self.__dict__:
+            del self.__dict__["xliff_node"]
+
     def set_target(self, target):
         """Set translation unit target."""
         self._invalidate_target()

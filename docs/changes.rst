@@ -7,6 +7,7 @@ Not yet released.
 * Fixed search string validation in API.
 * Fixed Git exporter URLs after a domain change.
 * Fixed cleanup addon for Windows RC files.
+* Fixed possible crash on Xliff updating.
 
 Weblate 4.7.1
 -------------
