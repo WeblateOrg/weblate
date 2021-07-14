@@ -102,7 +102,6 @@ class ConvertFormat(TranslationFormat):
 
     monolingual = True
     can_add_unit = False
-    needs_target_sync = True
     unit_class = ConvertUnit
     autoaddon = {"weblate.flags.same_edit": {}}
 
@@ -118,6 +117,10 @@ class ConvertFormat(TranslationFormat):
     def convertfile(storefile, template_store):
         raise NotImplementedError()
 
+    @staticmethod
+    def needs_target_sync(template_store):
+        return True
+
     @classmethod
     def load(cls, storefile, template_store):
         # Did we get file or filename?
@@ -125,7 +128,7 @@ class ConvertFormat(TranslationFormat):
             storefile = open(storefile, "rb")
         # Adjust store to have translations
         store = cls.convertfile(storefile, template_store)
-        if cls.needs_target_sync:
+        if cls.needs_target_sync(template_store):
             for unit in store.units:
                 if unit.isheader():
                     continue
@@ -193,7 +196,10 @@ class HTMLFormat(ConvertFormat):
     autoload = ("*.htm", "*.html")
     format_id = "html"
     check_flags = ("safe-html", "strict-same")
-    needs_target_sync = False
+
+    @staticmethod
+    def needs_target_sync(template_store):
+        return False
 
     @staticmethod
     def convertfile(storefile, template_store):
@@ -362,7 +368,10 @@ class WindowsRCFormat(ConvertFormat):
     format_id = "rc"
     autoload = ("*.rc",)
     language_format = "bcp"
-    needs_target_sync = False
+
+    @staticmethod
+    def needs_target_sync(template_store):
+        return template_store is None
 
     @staticmethod
     def mimetype():
