@@ -9,6 +9,8 @@ Released on July 15th 2021.
 * Fixed cleanup addon for Windows RC files.
 * Fixed possible crash on Xliff updating.
 
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/69?closed=1>`__.
+
 Weblate 4.7.1
 -------------
 
@@ -18,6 +20,8 @@ Released on June 30th 2021.
 * Added support for LibreTranslate machine translation service.
 * Added rate limiting on creating new projects.
 * Improved performance of file updates.
+
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/68?closed=1>`__.
 
 Weblate 4.7
 -----------
