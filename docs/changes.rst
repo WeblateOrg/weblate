@@ -1,7 +1,7 @@
 Weblate 4.7.2
 -------------
 
-Not yet released.
+Released on July 15th 2021.
 
 * Support more language aliases to be configured on a project.
 * Fixed search string validation in API.
