@@ -6,7 +6,7 @@
 {% include "snippets/about.html" %}
 
 {% if has_legal %}
-<p>{% trans "By registering and signing in to this service you accept our:" %}</p>
+<p>{% trans "By registering and signing in to this service you accept:" %}</p>
 <ul>
 <li>
     <a href="{% url 'legal:terms' %}">{% blocktrans %}Terms of Service{% endblocktrans %}</a>
@@ -17,7 +17,7 @@
 <ul>
 {% else %}
 <p>
-{% trans "By registering you agree to use your name and e-mail in version control system commits and provide your contribution under license defined by each translated project." %}
+{% trans "By registering you agree to use your name and e-mail in version control system commits and provide your contribution under the license defined by each translated project." %}
 </p>
 {% endif %}
 
