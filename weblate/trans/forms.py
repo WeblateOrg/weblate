@@ -158,9 +158,9 @@ class UserField(forms.CharField):
         try:
             return User.objects.get(Q(username=value) | Q(email=value))
         except User.DoesNotExist:
-            raise ValidationError(_("No matching user found."))
+            raise ValidationError(_("Could not find any such user."))
         except User.MultipleObjectsReturned:
-            raise ValidationError(_("More users matched."))
+            raise ValidationError(_("More possible users were found."))
 
 
 class QueryField(forms.CharField):
@@ -181,7 +181,7 @@ class QueryField(forms.CharField):
             return value
         except Exception as error:
             report_error()
-            raise ValidationError(_("Failed to parse query string: {}").format(error))
+            raise ValidationError(_("Could not parse query string: {}").format(error))
 
 
 class FlagField(forms.CharField):
@@ -189,7 +189,7 @@ class FlagField(forms.CharField):
 
 
 class PluralTextarea(forms.Textarea):
-    """Text area extension which possibly handles plurals."""
+    """Text-area extension which possibly handles plurals."""
 
     def __init__(self, *args, **kwargs):
         self.profile = None
