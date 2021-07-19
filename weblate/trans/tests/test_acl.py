@@ -122,7 +122,7 @@ class ACLTest(FixtureTestCase):
             follow=True,
         )
         # This error comes from Django validation
-        self.assertContains(response, "Enter a valid email addres")
+        self.assertContains(response, "Enter a valid e-mail address")
 
     def test_invite_existing(self):
         """Test inviting existing user."""
@@ -136,7 +136,7 @@ class ACLTest(FixtureTestCase):
             },
             follow=True,
         )
-        self.assertContains(response, "User with this E-mail already exists")
+        self.assertContains(response, "A user with this e-mail already exists")
 
     def test_invite_user(self):
         """Test inviting user."""
@@ -179,12 +179,12 @@ class ACLTest(FixtureTestCase):
         self.assertNotContains(response, self.second_user.email)
 
     def test_add_acl(self):
-        """Adding and removing user from the ACL project."""
+        """Adding and removing users from the ACL project."""
         self.add_user()
         self.remove_user()
 
     def test_add_owner(self):
-        """Adding and removing owner from the ACL project."""
+        """Adding and removing owners from the ACL project."""
         self.add_user()
         self.client.post(
             reverse("set-groups", kwargs=self.kw_project),
@@ -215,7 +215,7 @@ class ACLTest(FixtureTestCase):
         self.remove_user()
 
     def test_delete_owner(self):
-        """Adding and deleting owner from the ACL project."""
+        """Adding and deleting owners from the ACL project."""
         self.add_user()
         self.client.post(
             reverse("set-groups", kwargs=self.kw_project),
@@ -233,7 +233,7 @@ class ACLTest(FixtureTestCase):
         )
 
     def test_denied_owner_delete(self):
-        """Test that deleting last owner does not work."""
+        """Test that deleting the last owner does not work."""
         self.project.add_user(self.user, "@Administration")
         self.client.post(
             reverse("set-groups", kwargs=self.kw_project),
@@ -263,17 +263,17 @@ class ACLTest(FixtureTestCase):
         )
 
     def test_nonexisting_user(self):
-        """Test adding non existing user."""
+        """Test adding non-existing user."""
         self.project.add_user(self.user, "@Administration")
         response = self.client.post(
             reverse("add-user", kwargs=self.kw_project),
             {"user": "nonexisting"},
             follow=True,
         )
-        self.assertContains(response, "No matching user found.")
+        self.assertContains(response, "Could not find any such user")
 
     def test_acl_groups(self):
-        """Test handling of ACL groups."""
+        """Test handling ACL groups."""
         if "weblate.billing" in settings.INSTALLED_APPS:
             billing_group = 1
         else:
