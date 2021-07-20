@@ -42,7 +42,7 @@ def new_namespaced_language(request, project, component):
             for language in Language.objects.filter(code__in=langs):
                 namespaced_language_code = language.code + NAMESPACE_SEPARATOR + namespace
                 try:
-                    namespaced_language = Language.objects.get_by_code(namespaced_language_code)
+                    namespaced_language = Language.objects.get_by_code(namespaced_language_code, {})
                 except Language.DoesNotExist:
                     namespaced_language = Language.objects.create(
                         code=namespaced_language_code,
