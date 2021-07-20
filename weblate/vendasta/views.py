@@ -49,7 +49,7 @@ def new_namespaced_language(request, project, component):
                 namespaced_language.plural_set.create(
                     source=Plural.SOURCE_DEFAULT,
                     number=baseplural.number,
-                    equation=baseplural.equation,
+                    formula=baseplural.formula,
                 )
 
                 namespace_group = Group.objects.get(name=namespace)
