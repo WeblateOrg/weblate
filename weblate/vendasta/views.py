@@ -40,17 +40,20 @@ def new_namespaced_language(request, project, component):
                 "details": {},
             }
             for language in Language.objects.filter(code__in=langs):
-                namespaced_language = Language.objects.create(
-                    code=language.code + NAMESPACE_SEPARATOR + namespace,
-                    name="{} ({})".format(language.name, namespace),
-                    direction=language.direction,
-                )
-                baseplural = language.plural
-                namespaced_language.plural_set.create(
-                    source=Plural.SOURCE_DEFAULT,
-                    number=baseplural.number,
-                    formula=baseplural.formula,
-                )
+                namespaced_language_code = language.code + NAMESPACE_SEPARATOR + namespace
+                try:
+                    namespaced_language = Language.objects.get_by_code(namespaced_language_code)
+                except Language.DoesNotExist:
+                    namespaced_language = Language.objects.create(
+                        code=namespaced_language_code,
+                        name="{} ({})".format(language.name, namespace),
+                        direction=language.direction,
+                    )
+                    namespaced_language.plural_set.create(
+                        source=Plural.SOURCE_DEFAULT,
+                        number=language.plural.number,
+                        formula=language.plural.formula,
+                    )
 
                 namespace_group = Group.objects.get(name=namespace)
                 namespace_group.languages.add(namespaced_language)
