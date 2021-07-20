@@ -30,7 +30,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.7\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-06-16 18:40+0000\n"
-"PO-Revision-Date: 2021-07-19 20:09+0000\n"
+"PO-Revision-Date: 2021-07-21 22:27+0000\n"
 "Last-Translator: Agnieszka C <aga_04@o2.pl>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/weblate/"
 "application/pl/>\n"
@@ -217,7 +217,7 @@ msgstr "Komponent: {}"
 msgid ""
 "You will receive a notification for every such event in non-watched projects."
 msgstr ""
-"Otrzymasz powiadomienie o każdym takim wydarzeniu w nie obserwowanych "
+"Otrzymasz powiadomienie o każdym takim zdarzeniu w nieobserwowanych "
 "projektach."
 
 #: weblate/accounts/forms.py:700
@@ -225,7 +225,7 @@ msgid ""
 "You will receive a notification for every such event in your watched "
 "projects."
 msgstr ""
-"Otrzymasz powiadomienie o każdym takim wydarzeniu w oglądanych projektach."
+"Otrzymasz powiadomienie o każdym takim zdarzeniu w obserwowanych projektach."
 
 #: weblate/accounts/forms.py:705
 msgid ""
@@ -239,13 +239,13 @@ msgstr ""
 #, python-format
 msgid "You will receive a notification for every such event in %(project)s."
 msgstr ""
-"Otrzymasz powiadomienie o każdym takim wydarzeniu w %(project)s projektach."
+"Otrzymasz powiadomienie o każdym takim zdarzeniu w %(project)s projektach."
 
 #: weblate/accounts/forms.py:713
 #, python-format
 msgid "You will receive a notification for every such event in %(component)s."
 msgstr ""
-"Otrzymasz powiadomienie o każdym takim wydarzeniu w %(component)s "
+"Otrzymasz powiadomienie o każdym takim zdarzeniu w %(component)s "
 "komponentach."
 
 #: weblate/accounts/forms.py:720
@@ -261,8 +261,8 @@ msgid ""
 "You will only receive these notifications for your translated languages in "
 "your watched projects."
 msgstr ""
-"Otrzymasz te powiadomienia tylko w przypadku tłumaczonych języków w "
-"oglądanych projektach."
+"Otrzymasz te powiadomienia tylko dla tłumaczonych przez Ciebie języków w "
+"obserwowanych projektach."
 
 #: weblate/accounts/forms.py:730
 msgid ""
@@ -472,7 +472,7 @@ msgid ""
 "Choose the languages you can translate to. These will be offered to you on "
 "the dashboard for easier access to your chosen translations."
 msgstr ""
-"Wybierz języki, na które możesz tłumaczyć. Będą one oferowane na tablicy, w "
+"Wybierz języki, na które możesz tłumaczyć. Będą one oferowane na kokpicie w "
 "celu łatwiejszego dostępu do wybranych tłumaczeń."
 
 #: weblate/accounts/models.py:380
@@ -604,7 +604,7 @@ msgid ""
 "dashboard by default."
 msgstr ""
 "Możesz otrzymywać powiadomienia o obserwowanych projektach i są one "
-"domyślnie wyświetlane na pulpicie nawigacyjnym."
+"domyślnie wyświetlane na kokpicie."
 
 #: weblate/accounts/models.py:503
 msgid "Website URL"
@@ -671,14 +671,13 @@ msgstr "Firma"
 #: weblate/accounts/models.py:601
 msgid ""
 "Please choose which component list you want to display on the dashboard."
-msgstr ""
-"Wybierz listę komponentów, które chcesz wyświetlić na pulpicie nawigacyjnym."
+msgstr "Wybierz listę komponentów, które chcesz wyświetlić na kokpicie."
 
 #: weblate/accounts/models.py:612
 msgid "Selecting component list has no effect when not shown on the dashboard."
 msgstr ""
 "Wybór listy komponentów nie ma żadnego efektu, jeśli nie jest wyświetlany na "
-"pulpicie nawigacyjnym."
+"kokpicie."
 
 #: weblate/accounts/models.py:750
 msgid ""
@@ -2254,7 +2253,7 @@ msgstr "Opisz projekt i swój związek z nim, najlepiej w języku angielskim."
 
 #: weblate/billing/models.py:160 weblate/templates/billing/detail.html:21
 msgid "Billing plan"
-msgstr "Plan bilingu"
+msgstr "Plan rozliczeniowy"
 
 #: weblate/billing/models.py:163
 msgid "Billed projects"
@@ -4347,7 +4346,7 @@ msgid ""
 "the dashboard."
 msgstr ""
 "Dodaj wszystkie projekty, które chcesz przetłumaczyć, aby zobaczyć je jako "
-"oglądane projekty na pulpicie nawigacyjnym."
+"obserwowane projekty na kokpicie."
 
 #: weblate/templates/accounts/profile.html:78
 #: weblate/templates/mail/base.html:98
@@ -4753,7 +4752,7 @@ msgstr "Tożsamości użytkowników"
 #: weblate/templates/snippets/info.html:97 weblate/trans/forms.py:1933
 #: weblate/wladmin/views.py:87
 msgid "Billing"
-msgstr "Biling"
+msgstr "Rozliczenia"
 
 #: weblate/templates/accounts/user.html:153 weblate/templates/base.html:329
 #: weblate/templates/fonts/font_list.html:40
@@ -5886,12 +5885,12 @@ msgstr ""
 msgid "Browse %(count)s project"
 msgid_plural "Browse all %(count)s projects"
 msgstr[0] "Przeglądaj %(count)s projekt"
-msgstr[1] "Przeglądaj %(count)s projekty"
-msgstr[2] "Przeglądanie %(count)s projektów"
+msgstr[1] "Przeglądaj wszystkie %(count)s projekty"
+msgstr[2] "Przeglądaj wszystkie %(count)s projektów"
 
 #: weblate/templates/dashboard/user.html:13
 msgid "Configure dashboard"
-msgstr "Konfiguracja pulpitu nawigacyjnego"
+msgstr "Konfiguruj kokpit"
 
 #: weblate/templates/dashboard/user.html:35
 msgid "Recent additions"
@@ -11486,14 +11485,13 @@ msgstr "Nazwa listy komponentów"
 
 #: weblate/trans/models/componentlist.py:55
 msgid "Show on dashboard"
-msgstr "Pokaż na pulpicie nawigacyjnym"
+msgstr "Pokaż na kokpicie"
 
 #: weblate/trans/models/componentlist.py:59
 msgid ""
 "When enabled this component list will be shown as a tab on the dashboard"
 msgstr ""
-"Po włączeniu ta lista komponentów będzie wyświetlana jako karta na pulpicie "
-"nawigacyjnym"
+"Po włączeniu ta lista komponentów będzie wyświetlana jako karta na kokpicie"
 
 #: weblate/trans/models/componentlist.py:88
 msgid "Project regular expression"
