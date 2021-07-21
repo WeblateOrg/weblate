@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.7\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-06-16 18:40+0000\n"
-"PO-Revision-Date: 2021-07-19 20:09+0000\n"
+"PO-Revision-Date: 2021-07-21 22:27+0000\n"
 "Last-Translator: 109247019824 <stoyan@gmx.com>\n"
 "Language-Team: Bulgarian <https://hosted.weblate.org/projects/weblate/"
 "application/bg/>\n"
@@ -1690,7 +1690,7 @@ msgstr ""
 #: weblate/templates/snippets/query-builder.html:15
 #: weblate/templates/translation.html:132 weblate/trans/admin.py:95
 msgid "Source strings"
-msgstr "Оригинални текстове"
+msgstr "Изходни низове"
 
 #: weblate/addons/forms.py:455
 #, fuzzy
@@ -2916,6 +2916,7 @@ msgid "Mismatched ellipsis"
 msgstr "Несъответстващо многоточие"
 
 #: weblate/checks/chars.py:300
+#, fuzzy
 msgid "Source and translation do not both end with an ellipsis"
 msgstr ""
 "Един от текстовете — оригиналният или преводът — не завършва с многоточие"
@@ -2960,6 +2961,7 @@ msgid "Mismatched semicolon"
 msgstr "Несъответстваща точка и запетая"
 
 #: weblate/checks/chars.py:371
+#, fuzzy
 msgid "Source and translation do not both end with a semicolon"
 msgstr ""
 "Един от текстовете — оригиналният или преводът — не завършва с точка и "
@@ -4493,9 +4495,7 @@ msgstr ""
 
 #: weblate/screenshots/views.py:105
 msgid "Screenshot has been uploaded, you can now assign it to source strings."
-msgstr ""
-"Екранната снимка беше качена. Вече можете да свържете оригинални текстове с "
-"нея."
+msgstr "Екранната снимка е качена. Можете да свържете изходни низове с нея."
 
 #: weblate/screenshots/views.py:111
 msgid "Failed to upload screenshot, please fix errors below."
@@ -5249,10 +5249,6 @@ msgid "Report suspicious activity"
 msgstr "Докладване на подозрителна дейност"
 
 #: weblate/templates/accounts/profile.html:257
-#, fuzzy
-#| msgid ""
-#| "You can control Weblate using HTTP REST API and API key is used to "
-#| "authenticate to it."
 msgid ""
 "You can control Weblate using the HTTP REST API and your API key is used to "
 "authenticate to it."
@@ -5290,11 +5286,11 @@ msgstr ""
 
 #: weblate/templates/accounts/profile.html:264
 msgid "Regenerate API key"
-msgstr "Пресъздаване на ключа за ППИ"
+msgstr "Регенериране на ключ за ППИ"
 
 #: weblate/templates/accounts/profile.html:268
 msgid "API root URL:"
-msgstr "Главен адрес на ППИ:"
+msgstr "Основен адрес на ППИ:"
 
 #: weblate/templates/accounts/profile.html:272
 msgid "API usage example:"
@@ -6364,6 +6360,7 @@ msgstr ""
 "преводите."
 
 #: weblate/templates/checks.html:45
+#, fuzzy
 msgid ""
 "The checks can help you identify problematic translations or source strings "
 "which are hard to translate."
@@ -6423,7 +6420,7 @@ msgstr "Преводи"
 #: weblate/templates/language-project.html:18 weblate/templates/project.html:33
 #: weblate/templates/translation.html:39
 msgid "Info"
-msgstr ""
+msgstr "Информация"
 
 #: weblate/templates/component.html:36 weblate/wladmin/views.py:80
 msgid "Alerts"
@@ -8875,9 +8872,10 @@ msgstr ""
 
 #: weblate/templates/screenshots/screenshot_detail.html:22
 msgid "Assigned source strings"
-msgstr "Свързани оригинални текстове"
+msgstr "Свързани изходни низове"
 
 #: weblate/templates/screenshots/screenshot_detail.html:25
+#, fuzzy
 msgid ""
 "Screenshot is shown to add visual context for all listed source strings."
 msgstr ""
@@ -8886,7 +8884,7 @@ msgstr ""
 
 #: weblate/templates/screenshots/screenshot_detail.html:35
 msgid "Assign source strings"
-msgstr "Свързване на оригинални текстове"
+msgstr "Свързване на изходни низове"
 
 #: weblate/templates/screenshots/screenshot_detail.html:44
 msgid "Automatically recognize"
@@ -8894,7 +8892,7 @@ msgstr "Автоматично разпознаване"
 
 #: weblate/templates/screenshots/screenshot_detail.html:50
 msgid "Source string search"
-msgstr "Търсене в оригиналните текстове"
+msgstr "Търсене в изходни низове"
 
 #: weblate/templates/screenshots/screenshot_detail.html:82
 #, fuzzy
@@ -9459,24 +9457,16 @@ msgid "Sort this column"
 msgstr "Сортиране на тази колона"
 
 #: weblate/templates/snippets/list-objects.html:43
-#, fuzzy
-#| msgctxt "Number of untranslated strings"
-#| msgid "Untranslated"
 msgid "Untranslated"
 msgstr "Непреведено"
 
 #: weblate/templates/snippets/list-objects.html:53
-#, fuzzy
-#| msgctxt "Number of untranslated strings"
-#| msgid "Untranslated"
 msgid "Untranslated words"
-msgstr "Непреведено"
+msgstr "Непреведени думи"
 
 #: weblate/templates/snippets/list-objects.html:63
-#, fuzzy
-#| msgid "Control chars"
 msgid "Untranslated characters"
-msgstr "Контролни символи"
+msgstr "Непреведени знаци"
 
 #: weblate/templates/snippets/list-objects.html:83
 #: weblate/templates/trans/suggestion_list.html:8
@@ -9616,13 +9606,11 @@ msgstr ""
 
 #: weblate/templates/snippets/query-builder.html:6
 msgid "Advanced query builder"
-msgstr ""
+msgstr "Разширен конструктор на заявки"
 
 #: weblate/templates/snippets/query-builder.html:16
-#, fuzzy
-#| msgid "Source strings"
 msgid "Target strings"
-msgstr "Оригинални текстове"
+msgstr "Целеви низове"
 
 #: weblate/templates/snippets/query-builder.html:17
 #, fuzzy
@@ -9691,20 +9679,16 @@ msgid "String changed after"
 msgstr "Оригиналният текст е променен"
 
 #: weblate/templates/snippets/query-builder.html:54
-#, fuzzy
-#| msgid "Strings marked for edit"
 msgid "String changed before"
-msgstr "Текстове, отбелязани за редактиране"
+msgstr "Текстове, променени преди"
 
 #: weblate/templates/snippets/query-builder.html:57
 msgid "Date"
-msgstr ""
+msgstr "Дата"
 
 #: weblate/templates/snippets/query-builder.html:67
-#, fuzzy
-#| msgid "API usage example:"
 msgid "Query examples"
-msgstr "Пример за използване на ППИ:"
+msgstr "Примери за заявки"
 
 #: weblate/templates/snippets/query-builder.html:70
 #, fuzzy
@@ -9770,7 +9754,7 @@ msgstr "Заявка"
 #: weblate/templates/snippets/user-sort-field.html:9
 #: weblate/templates/snippets/user-sort-field.html:13
 msgid "Sort By"
-msgstr ""
+msgstr "Сортиране по"
 
 #: weblate/templates/snippets/ssh-key.html:5
 msgid "Public key copied to clipboard."
@@ -10915,13 +10899,11 @@ msgstr "Думи"
 
 #: weblate/templates/translation.html:165
 msgid "This translation is being used as source strings within this component."
-msgstr "Този превод се използва като оригинални текстове за този компонент."
+msgstr "Този превод се използва като изходни низове в този компонент."
 
 #: weblate/templates/translation.html:175
-#, fuzzy
-#| msgid "Service status"
 msgid "Strings status"
-msgstr "Състояние на услугата"
+msgstr "Състояние на низовете"
 
 #: weblate/templates/translation.html:191
 #, python-format
@@ -11110,7 +11092,7 @@ msgstr "Отваряне в пълния редактор"
 
 #: weblate/templates/zen-units.html:99 weblate/trans/views/edit.py:533
 msgid "The translation has come to an end."
-msgstr "Преводът беше приключен."
+msgstr "Преводът е приключен."
 
 #: weblate/templates/zen.html:46
 msgid "Edit in single string mode"
@@ -11776,10 +11758,8 @@ msgid ""
 msgstr ""
 
 #: weblate/trans/forms.py:1875
-#, fuzzy
-#| msgid "API access"
 msgid "Access"
-msgstr "Достъп чрез ППИ"
+msgstr "Достъп"
 
 #: weblate/trans/forms.py:1884
 msgid "Workflow"
@@ -13439,11 +13419,8 @@ msgstr "оригинален текст"
 
 #: weblate/trans/models/translation.py:171
 #: weblate/trans/templatetags/translations.py:741
-#, fuzzy
-#| msgid ""
-#| "This translation is being used as source strings within this component."
 msgid "This translation is used for source strings."
-msgstr "Този превод се използва като оригинални текстове за този компонент."
+msgstr "Този превод се използва като изходни низове."
 
 #: weblate/trans/models/translation.py:212
 #, python-format
