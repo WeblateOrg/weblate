@@ -526,6 +526,12 @@ LICENSES = (
         False,
     ),
     (
+        "CDLA-Permissive-2.0",
+        "Community Data License Agreement Permissive 2.0",
+        "https://cdla.dev/permissive-2-0",
+        False,
+    ),
+    (
         "CDLA-Sharing-1.0",
         "Community Data License Agreement Sharing 1.0",
         "https://cdla.io/sharing-1-0",
