@@ -23,7 +23,6 @@ from django import forms
 from django.contrib.auth import authenticate, password_validation
 from django.contrib.auth.forms import SetPasswordForm as DjangoSetPasswordForm
 from django.db.models import Q
-from django.forms.widgets import EmailInput
 from django.middleware.csrf import rotate_token
 from django.utils.functional import cached_property
 from django.utils.html import escape
@@ -51,12 +50,17 @@ from weblate.accounts.utils import (
 from weblate.auth.models import Group, User
 from weblate.lang.models import Language
 from weblate.logger import LOGGER
-from weblate.trans.defines import EMAIL_LENGTH, FULLNAME_LENGTH
+from weblate.trans.defines import FULLNAME_LENGTH
 from weblate.trans.models import Component, Project
 from weblate.utils import messages
-from weblate.utils.forms import SortedSelect, SortedSelectMultiple, UsernameField
+from weblate.utils.forms import (
+    EmailField,
+    SortedSelect,
+    SortedSelectMultiple,
+    UsernameField,
+)
 from weblate.utils.ratelimit import check_rate_limit, reset_rate_limit
-from weblate.utils.validators import validate_email, validate_fullname
+from weblate.utils.validators import validate_fullname
 
 
 class UniqueEmailMixin:
@@ -89,20 +93,6 @@ class PasswordField(forms.CharField):
         kwargs["widget"] = forms.PasswordInput(render_value=False)
         kwargs["max_length"] = 256
         kwargs["strip"] = False
-        super().__init__(*args, **kwargs)
-
-
-class EmailField(forms.CharField):
-    """Slightly restricted EmailField.
-
-    We blacklist some additional local parts.
-    """
-
-    widget = EmailInput
-    default_validators = [validate_email]
-
-    def __init__(self, *args, **kwargs):
-        kwargs["max_length"] = EMAIL_LENGTH
         super().__init__(*args, **kwargs)
 
 
@@ -377,7 +367,6 @@ class EmailForm(forms.Form, UniqueEmailMixin):
     error_css_class = "error"
 
     email = EmailField(
-        strip=False,
         label=_("E-mail"),
         help_text=_("Activation e-mail will be sent here."),
     )

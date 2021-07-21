@@ -121,8 +121,7 @@ class ACLTest(FixtureTestCase):
             {"email": "invalid", "username": "valid", "full_name": "name"},
             follow=True,
         )
-        # This error comes from Django validation
-        self.assertContains(response, "Enter a valid email addres")
+        self.assertContains(response, "Enter a valid e-mail addres")
 
     def test_invite_existing(self):
         """Test inviting existing user."""
@@ -136,7 +135,7 @@ class ACLTest(FixtureTestCase):
             },
             follow=True,
         )
-        self.assertContains(response, "User with this E-mail already exists")
+        self.assertContains(response, "A user with this e-mail already exists")
 
     def test_invite_user(self):
         """Test inviting user."""

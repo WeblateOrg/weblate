@@ -54,16 +54,12 @@ from weblate.auth.utils import (
     migrate_roles,
 )
 from weblate.lang.models import Language
-from weblate.trans.defines import EMAIL_LENGTH, FULLNAME_LENGTH, USERNAME_LENGTH
+from weblate.trans.defines import FULLNAME_LENGTH, USERNAME_LENGTH
 from weblate.trans.fields import RegexField
 from weblate.trans.models import ComponentList, Project
 from weblate.utils.decorators import disable_for_loaddata
 from weblate.utils.fields import EmailField, UsernameField
-from weblate.utils.validators import (
-    validate_email,
-    validate_fullname,
-    validate_username,
-)
+from weblate.utils.validators import validate_fullname, validate_username
 
 
 class Permission(models.Model):
@@ -330,9 +326,7 @@ class User(AbstractBaseUser):
         _("E-mail"),
         blank=False,
         null=True,
-        max_length=EMAIL_LENGTH,
         unique=True,
-        validators=[validate_email],
     )
     is_superuser = models.BooleanField(
         _("Superuser status"),
