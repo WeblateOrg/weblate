@@ -510,7 +510,7 @@ Strings
 
     Remove a string [`Administration`]
 
-    Ignore failing check [`Administration`, `Edit source`, `Power user`, `Review strings`, `Translate`]
+    Dismiss failing check [`Administration`, `Edit source`, `Power user`, `Review strings`, `Translate`]
 
     Edit strings [`Administration`, `Edit source`, `Power user`, `Review strings`, `Translate`]
 
