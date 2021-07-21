@@ -64,7 +64,7 @@ SOCIAL_TEMPLATE = """
 def get_auth_params(auth: str):
     """Returns authentication parameters."""
     # Fallback values
-    params = {"name": auth, "image": "password.svg"}
+    params = {"name": auth.title(), "image": "password.svg"}
 
     # Hardcoded names
     if auth in SOCIALS:

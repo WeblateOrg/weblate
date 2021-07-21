@@ -63,6 +63,7 @@ from weblate.utils.errors import report_error
 from weblate.utils.forms import (
     ColorWidget,
     ContextDiv,
+    EmailField,
     SearchField,
     SortedSelect,
     SortedSelectMultiple,
@@ -643,7 +644,7 @@ class ExtraUploadForm(UploadForm):
     """Advanced upload form for users who can override authorship."""
 
     author_name = forms.CharField(label=_("Author name"))
-    author_email = forms.EmailField(label=_("Author e-mail"))
+    author_email = EmailField(label=_("Author e-mail"))
 
 
 def get_upload_form(user, translation, *args, **kwargs):

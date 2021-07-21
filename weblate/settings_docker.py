@@ -392,12 +392,12 @@ if "WEBLATE_SOCIAL_AUTH_KEYCLOAK_KEY" in os.environ:
 
 # Linux distros
 if "WEBLATE_SOCIAL_AUTH_FEDORA" in os.environ:
-    AUTHENTICATION_BACKENDS += "social_core.backends.fedora.FedoraOpenId"
+    AUTHENTICATION_BACKENDS += ("social_core.backends.fedora.FedoraOpenId",)
 if "WEBLATE_SOCIAL_AUTH_OPENSUSE" in os.environ:
-    AUTHENTICATION_BACKENDS += "social_core.backends.suse.OpenSUSEOpenId"
+    AUTHENTICATION_BACKENDS += ("social_core.backends.suse.OpenSUSEOpenId",)
     SOCIAL_AUTH_OPENSUSE_FORCE_EMAIL_VALIDATION = True
 if "WEBLATE_SOCIAL_AUTH_UBUNTU" in os.environ:
-    AUTHENTICATION_BACKENDS += "social_core.backends.ubuntu.UbuntuOpenId"
+    AUTHENTICATION_BACKENDS += ("social_core.backends.ubuntu.UbuntuOpenId",)
 
 # Slack
 if "WEBLATE_SOCIAL_AUTH_SLACK_KEY" in os.environ:

@@ -87,7 +87,7 @@ from weblate.utils.celery import get_task_progress, is_task_ready
 from weblate.utils.colors import COLOR_CHOICES
 from weblate.utils.db import FastDeleteModelMixin, FastDeleteQuerySetMixin
 from weblate.utils.errors import report_error
-from weblate.utils.fields import JSONField
+from weblate.utils.fields import EmailField, JSONField
 from weblate.utils.licenses import get_license_choices, get_license_url, is_libre
 from weblate.utils.lock import WeblateLock, WeblateLockTimeout
 from weblate.utils.render import (
@@ -302,13 +302,12 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
         ),
         blank=True,
     )
-    report_source_bugs = models.EmailField(
+    report_source_bugs = EmailField(
         verbose_name=gettext_lazy("Source string bug reporting address"),
         help_text=gettext_lazy(
             "E-mail address for reports on errors in source strings. "
             "Leave empty for no e-mails."
         ),
-        max_length=254,
         blank=True,
     )
     branch = models.CharField(

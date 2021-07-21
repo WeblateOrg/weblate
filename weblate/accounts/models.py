@@ -339,7 +339,7 @@ class VerifiedEmail(models.Model):
     """Storage for verified e-mails from auth backends."""
 
     social = models.ForeignKey(UserSocialAuth, on_delete=models.deletion.CASCADE)
-    email = models.EmailField(max_length=EMAIL_LENGTH)
+    email = EmailField()
 
     class Meta:
         verbose_name = "Verified e-mail"
