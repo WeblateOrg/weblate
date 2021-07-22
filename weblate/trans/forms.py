@@ -54,7 +54,7 @@ from weblate.lang.models import Language
 from weblate.machinery import MACHINE_TRANSLATION_SERVICES
 from weblate.trans.defines import COMPONENT_NAME_LENGTH, REPO_LENGTH
 from weblate.trans.filter import FILTERS, get_filter_choice
-from weblate.trans.models import Announcement, Change, Component, Label, Project, Unit
+from weblate.trans.models import Announcement, Change, Component, Label, Project, ProjectToken, Unit
 from weblate.trans.specialchars import RTL_CHARS_DATA, get_special_chars
 from weblate.trans.util import check_upload_method_permissions, is_repo_link
 from weblate.trans.validators import validate_check_flags
@@ -2380,3 +2380,21 @@ class LabelForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper(self)
         self.helper.form_tag = False
+
+class ProjectTokenDeleteForm(forms.Form):
+    token = forms.IntegerField(label=_("Token"), required=True)
+
+class ProjectTokenCreateForm(forms.ModelForm):
+    class Meta:
+        model = ProjectToken
+        fields = ["name", "expires"]
+        widgets = {
+            "expires": WeblateDateInput(),
+        }
+
+    def clean_expires(self):
+        expires = self.cleaned_data["expires"]
+        expires = expires.replace(hour=23, minute=59, second=59, microsecond=999999)
+        if expires < timezone.now():
+            raise forms.ValidationError(gettext("Expires cannot be in the past!"))
+        return expires

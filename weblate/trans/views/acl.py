@@ -17,12 +17,14 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
+from secrets import token_hex
 from datetime import timedelta
+from weblate.trans.models.projecttoken import ProjectToken
 
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 from django.http import JsonResponse
-from django.shortcuts import redirect
+from django.shortcuts import redirect, resolve_url
 from django.utils import timezone
 from django.utils.translation import gettext as _
 from django.views.decorators.http import require_POST
@@ -30,7 +32,7 @@ from django.views.decorators.http import require_POST
 from weblate.accounts.models import AuditLog
 from weblate.auth.forms import InviteUserForm, send_invitation
 from weblate.auth.models import Group, User
-from weblate.trans.forms import UserBlockForm, UserManageForm
+from weblate.trans.forms import ProjectTokenCreateForm, ProjectTokenDeleteForm, UserBlockForm, UserManageForm
 from weblate.trans.models import Change
 from weblate.trans.util import render
 from weblate.utils import messages
@@ -252,10 +254,12 @@ def manage_access(request, project):
         {
             "object": obj,
             "project": obj,
+            "project_tokens": ProjectToken.objects.filter(project=obj),
             "groups": Group.objects.for_project(obj),
             "all_users": User.objects.for_project(obj),
             "blocked_users": obj.userblock_set.select_related("user"),
             "add_user_form": UserManageForm(),
+            "create_project_token_form": ProjectTokenCreateForm(),
             "block_user_form": UserBlockForm(
                 initial={"user": request.GET.get("block_user")}
             ),
@@ -263,3 +267,35 @@ def manage_access(request, project):
             "ssh_key": get_key_data(),
         },
     )
+
+
+@require_POST
+@login_required
+def delete_token(request, project):
+    """Delete project token."""
+    obj = get_project(request, project)
+
+    form = ProjectTokenDeleteForm(request.POST)
+
+    if form.is_valid():
+        ProjectToken.objects.get(pk=form.cleaned_data["token"]).delete()
+
+    return redirect("{}#api".format(resolve_url("manage-access", project=obj.slug)))
+
+
+@require_POST
+@login_required
+def create_token(request, project):
+    """Create project token."""
+
+    obj = get_project(request, project)
+    form = ProjectTokenCreateForm(request.POST)
+
+    if form.is_valid():
+        token_value = token_hex()
+        ProjectToken.objects.create(project=obj, token=token_value, **form.cleaned_data)
+        messages.info(request, _("Token has been created: %s") % token_value)
+    else:
+        show_form_errors(request, form)
+
+    return redirect("{}#api".format(resolve_url("manage-access", project=obj.slug)))
