@@ -75,7 +75,7 @@ SOURCE_FONT = os.path.join(
     "vendor",
     "font-source",
     "TTF",
-    "SourceSansPro-Bold.ttf",
+    "SourceSans3-Bold.ttf",
 )
 
 
@@ -1052,7 +1052,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
 
         # Create group
         Select(self.driver.find_element(By.ID, "id_group_font")).select_by_visible_text(
-            "Source Sans Pro Bold"
+            "Source Sans 3 Bold"
         )
         element = self.driver.find_element(By.ID, "id_group_name")
         element.send_keys("default-font")
