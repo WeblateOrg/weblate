@@ -49,7 +49,7 @@ from weblate.utils.data import data_dir
 from weblate.utils.errors import report_error
 from weblate.utils.files import remove_tree
 from weblate.utils.lock import WeblateLockTimeout
-from weblate.utils.stats import prefetch_stats
+from weblate.utils.stats import ProjectLanguage, prefetch_stats
 from weblate.vcs.base import RepositoryException
 
 
@@ -120,6 +120,9 @@ def perform_push(pk, *args, **kwargs):
 def update_component_stats(pk):
     component = Component.objects.get(pk=pk)
     component.stats.ensure_basic()
+    # Update language stats
+    for translation in component.translation_set.select_related("language").iterator():
+        ProjectLanguage(component.project, translation.language).stats.ensure_basic()
 
 
 @app.task(
