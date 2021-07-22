@@ -1,4 +1,4 @@
-/*! @sentry/browser 6.9.0 (7a46d42) | https://github.com/getsentry/sentry-javascript */
+/*! @sentry/browser 6.10.0 (1713dd9) | https://github.com/getsentry/sentry-javascript */
 var Sentry = (function (exports) {
     /*! *****************************************************************************
     Copyright (c) Microsoft Corporation. All rights reserved.
@@ -4445,7 +4445,7 @@ var Sentry = (function (exports) {
         hub.bindClient(client);
     }
 
-    var SDK_VERSION = '6.9.0';
+    var SDK_VERSION = '6.10.0';
 
     var originalFunctionToString;
     /** Patch toString calls to return proper name for wrapped functions */
