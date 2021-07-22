@@ -155,8 +155,8 @@ class BitmapWidget(ContentWidget):
 
     def get_column_fonts(self):
         return [
-            Pango.FontDescription(f"Source Sans Pro {self.font_size * 1.5}"),
-            Pango.FontDescription(f"Source Sans Pro {self.font_size}"),
+            Pango.FontDescription(f"Source Sans 3 {self.font_size * 1.5}"),
+            Pango.FontDescription(f"Source Sans 3 {self.font_size}"),
         ]
 
     def render_additional(self, ctx):
@@ -307,8 +307,8 @@ class OpenGraphWidget(NormalWidget):
 
     def get_column_fonts(self):
         return [
-            Pango.FontDescription(f"Source Sans Pro {42}"),
-            Pango.FontDescription(f"Source Sans Pro {18}"),
+            Pango.FontDescription(f"Source Sans 3 {42}"),
+            Pango.FontDescription(f"Source Sans 3 {18}"),
         ]
 
     def get_name(self) -> str:
@@ -321,7 +321,7 @@ class OpenGraphWidget(NormalWidget):
     def render_additional(self, ctx):
         ctx.move_to(280, 170)
         layout = PangoCairo.create_layout(ctx)
-        layout.set_font_description(Pango.FontDescription(f"Source Sans Pro {52}"))
+        layout.set_font_description(Pango.FontDescription(f"Source Sans 3 {52}"))
         name = self.get_name()
         layout.set_markup(self.get_title(name))
 
