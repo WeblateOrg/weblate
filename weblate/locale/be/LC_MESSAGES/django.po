@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.7\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-06-16 18:40+0000\n"
-"PO-Revision-Date: 2021-07-21 22:27+0000\n"
+"PO-Revision-Date: 2021-07-23 12:33+0000\n"
 "Last-Translator: Zmicer Turok <nashtlumach@gmail.com>\n"
 "Language-Team: Belarusian <https://hosted.weblate.org/projects/weblate/"
 "application/be/>\n"
@@ -59,10 +59,9 @@ msgid "Public e-mail"
 msgstr "Публічны адрас электроннай пошты"
 
 #: weblate/accounts/forms.py:287
-#, fuzzy, python-format
-#| msgid "Component lists"
+#, python-format
 msgid "Component list: %s"
-msgstr "Спісы кампанентаў"
+msgstr "Спіс кампанентаў: %s"
 
 #: weblate/accounts/forms.py:313 weblate/accounts/forms.py:381
 #: weblate/accounts/templatetags/authnames.py:36 weblate/auth/models.py:330
@@ -482,7 +481,7 @@ msgstr "Прыбіраць скончаныя пераклады з панэлі
 
 #: weblate/accounts/models.py:397
 msgid "Show secondary translations in the Zen mode"
-msgstr "Выводзіць дапаможныя пераклады ў дзэн-рэжыме"
+msgstr "Выводзіць дапаможныя пераклады ў рэжыме дзэн"
 
 #: weblate/accounts/models.py:400
 msgid "Hide source if a secondary translation exists"
@@ -512,11 +511,11 @@ msgstr "Поўны рэдактар"
 
 #: weblate/accounts/models.py:418
 msgid "Zen mode"
-msgstr "Дзэн-рэжым"
+msgstr "Рэжым дзэн"
 
 #: weblate/accounts/models.py:424
 msgid "Zen editor mode"
-msgstr "Рэжым Zen-рэдактара"
+msgstr "Рэжым рэдактара дзэн"
 
 #: weblate/accounts/models.py:426
 msgid "Top to bottom"
@@ -2264,10 +2263,8 @@ msgid "Project"
 msgstr "Праект"
 
 #: weblate/auth/models.py:668
-#, fuzzy
-#| msgid "Lock expires:"
 msgid "Block expiry"
-msgstr "Блакаванне канчаецца:"
+msgstr "Тэрмін блакавання"
 
 #: weblate/billing/admin.py:82 weblate/templates/billing/list.html:8
 #: weblate/templates/billing/status.html:112
@@ -3987,16 +3984,13 @@ msgid "Server Error"
 msgstr "Серверная памылка"
 
 #: weblate/templates/500.html:16
-#, fuzzy, python-format
-#| msgid ""
-#| "The server had serious problems serving your request. Trained monkeys are "
-#| "en-route fixing the issue."
+#, python-format
 msgid ""
 "The server had serious problems serving your request, and this error has "
 "been recorded as %(error_id)s."
 msgstr ""
 "Падчас апрацоўкі вашага запыту на серверы ўзніклі сур’ёзныя праблемы. "
-"Дрэсіраваныя малпы працуюць над выпраўленнем."
+"Памылка запісаная як %(error_id)s."
 
 #: weblate/templates/500.html:36
 #, fuzzy
@@ -4136,10 +4130,9 @@ msgid ""
 msgstr ""
 
 #: weblate/templates/accounts/contact.html:18
-#, fuzzy, python-format
-#| msgid "You can contact maintainers of this server here."
+#, python-format
 msgid "You can only contact administrators of %(site_title)s here."
-msgstr "Тут можна звязацца з суправаджальнікам сервера."
+msgstr "Тут можна звязацца толькі з адмінстратарамі %(site_title)s."
 
 #: weblate/templates/accounts/contact.html:20
 #, fuzzy
@@ -4612,10 +4605,8 @@ msgstr "Ваш асабісты ключ API:"
 
 #: weblate/templates/accounts/profile.html:263
 #: weblate/templates/manage-access.html:202
-#, fuzzy
-#| msgid "Copy to clipboard"
 msgid "API key copied to clipboard."
-msgstr "Скапіявана у буфер абмену"
+msgstr "Ключ API скапіяваны ў буфер абмену."
 
 #: weblate/templates/accounts/profile.html:263
 #: weblate/templates/addons/cdnjs.html:9
@@ -4897,7 +4888,7 @@ msgstr "Аплата"
 #: weblate/templates/snippets/info.html:42
 #: weblate/templates/translation.html:196
 msgid "Edit"
-msgstr "Рэдагаваць"
+msgstr "Рэдагаванне"
 
 #: weblate/templates/accounts/user.html:185
 msgid "Browse all changes for user"
@@ -5225,10 +5216,9 @@ msgid "Failed checks in %(project)s"
 msgstr "Няўдалыя праверкі ў %(project)s"
 
 #: weblate/templates/base.html:180
-#, fuzzy, python-format
-#| msgid "Failed checks in %(project)s — %(language)s"
+#, python-format
 msgid "Failed checks in %(language)s"
-msgstr "Няўдалыя праверкі ў %(project)s - %(language)s"
+msgstr "Няўдалыя праверкі, мова: %(language)s"
 
 #: weblate/templates/base.html:184
 msgid "Checks overview"
@@ -5296,7 +5286,7 @@ msgstr "Дапамога"
 
 #: weblate/templates/base.html:269 weblate/templates/manage/index.html:83
 msgid "Get help"
-msgstr "Атрымаць дапамогу"
+msgstr "Атрыманне дапамогі"
 
 #: weblate/templates/base.html:274 weblate/templates/check.html:50
 #: weblate/templates/check_component.html:72
@@ -5334,7 +5324,7 @@ msgstr "Рэгулярная аплата"
 
 #: weblate/templates/billing/detail.html:26
 msgid "Expired"
-msgstr "Сыйшоўшы"
+msgstr "Пратэрмінавана"
 
 #: weblate/templates/billing/detail.html:28
 msgid "Past due date"
@@ -5475,7 +5465,7 @@ msgstr "Бягучы план"
 
 #: weblate/templates/billing/status.html:17
 msgid "Change plan"
-msgstr "Змяніць план"
+msgstr "Змяніць тарыфны план"
 
 #: weblate/templates/billing/status.html:28
 #: weblate/templates/billing/status.html:39
@@ -5583,7 +5573,7 @@ msgstr "Праверце статус тарыфнага плана"
 #: weblate/templates/translation.html:149
 #: weblate/templates/translation.html:195
 msgid "Browse"
-msgstr "Праглядзець"
+msgstr "Прагляд"
 
 #: weblate/templates/browse.html:49
 #, fuzzy
@@ -6678,7 +6668,7 @@ msgstr "Дадаць мову"
 #: weblate/templates/language-project.html:63
 #: weblate/templates/language.html:54
 msgid "Browse all language changes"
-msgstr "Праглядзець змены для ўсіх моў"
+msgstr "Праглядзець змены для ўсіх моваў"
 
 #: weblate/templates/last-changes-content.html:27
 #: weblate/templates/snippets/suggestions.html:23
@@ -7335,7 +7325,7 @@ msgstr "Наладка працоўнага працэсу"
 
 #: weblate/templates/manage/backups.html:8 weblate/wladmin/views.py:76
 msgid "Backups"
-msgstr "Рэзервовыя копіі"
+msgstr "Рэзервовае капіяванне"
 
 #: weblate/templates/manage/backups.html:20
 #, python-format
@@ -8118,10 +8108,8 @@ msgstr "Гэты кампанент звязаны з рэпазіторыям %
 
 #: weblate/templates/snippets/git-info.html:16
 #: weblate/templates/snippets/git-info.html:65
-#, fuzzy
-#| msgid "Repository operation"
 msgid "Repository URL copied to clipboard."
-msgstr "Праца з рэпазіторыям"
+msgstr "URL-адрас рэпазіторыя скапіяваны ў буфер абмену."
 
 #: weblate/templates/snippets/git-info.html:21 weblate/trans/forms.py:1521
 #: weblate/trans/forms.py:1665 weblate/trans/models/component.py:315
@@ -8140,10 +8128,8 @@ msgid "%(author)s authored %(date)s"
 msgstr "%(author)s стварыў %(date)s"
 
 #: weblate/templates/snippets/git-info.html:46
-#, fuzzy
-#| msgid "Thanks for using Weblate!"
 msgid "Last commit in Weblate"
-msgstr "Дзякуем за выкарыстанне сістэмы Weblate!"
+msgstr "Апошні ўнёсак на Weblate"
 
 #: weblate/templates/snippets/git-info.html:62
 msgid "Weblate repository"
@@ -8746,10 +8732,8 @@ msgid "Sort By"
 msgstr "Сартаваць па"
 
 #: weblate/templates/snippets/ssh-key.html:5
-#, fuzzy
-#| msgid "Copy to clipboard"
 msgid "Public key copied to clipboard."
-msgstr "Скапіявана у буфер абмену"
+msgstr "Публічны ключ скапіяваны ў буфер абмену."
 
 #: weblate/templates/snippets/ssh-key.html:6
 msgid ""
@@ -8807,20 +8791,16 @@ msgid "Source in review"
 msgstr "Зыходны радок пераглядаецца"
 
 #: weblate/templates/snippets/unit-readonly-badge.html:6
-#, fuzzy
-#| msgid "Source strings in %s"
 msgid "Source string editing is disabled."
-msgstr "Зыходныя радкі ў %s"
+msgstr "Рэдагаванне зыходнага радка адключана."
 
 #: weblate/templates/snippets/unit-readonly-badge.html:8
 msgid "Source strings can’t be edited. You can delete them and add new ones."
 msgstr ""
 
 #: weblate/templates/snippets/unit-readonly-badge.html:10
-#, fuzzy
-#| msgid "Source string changed"
 msgid "The source string cannot be edited."
-msgstr "Зыходны радок зменены"
+msgstr "Зыходны радок нельга рэдагаваць."
 
 #: weblate/templates/snippets/user-list.html:19 weblate/trans/forms.py:161
 msgid "No matching user found."
@@ -9453,22 +9433,20 @@ msgstr ""
 
 #: weblate/templates/translate.html:57
 msgid "Edit in Zen mode"
-msgstr "Рэдагаваць у дзэн-рэжыме"
+msgstr "Рэдагаваць у рэжыме дзэн"
 
 #: weblate/templates/translate.html:57 weblate/templates/translation.html:197
 #: weblate/templates/zen.html:26
 msgid "Zen"
-msgstr "Zen"
+msgstr "Дзэн"
 
 #: weblate/templates/translate.html:60 weblate/templates/zen.html:48
 msgid "Configure editor"
 msgstr "Наладзіць рэдактар"
 
 #: weblate/templates/translate.html:78
-#, fuzzy
-#| msgid "Copy to clipboard"
 msgid "Permalink copied to clipboard."
-msgstr "Скапіявана у буфер абмену"
+msgstr "Сталая спасылка скапіяваная ў буфер абмену."
 
 #: weblate/templates/translate.html:78
 msgid "Copy permalink"
@@ -9724,10 +9702,9 @@ msgstr[1] "Даступна %(count)s варыянты для гэтага ра�
 msgstr[2] "Даступна %(count)s варыянтаў для гэтага радка."
 
 #: weblate/templates/translate.html:527
-#, fuzzy, python-format
-#| msgid "Browse all glossary changes"
+#, python-format
 msgid "Browse glossary %(name)s"
-msgstr "Праглядзець усе змены гласарыя"
+msgstr "Праглядзець гласарый %(name)s"
 
 #: weblate/templates/translate.html:549 weblate/templates/translate.html:559
 msgid "Add term to glossary"
@@ -9800,10 +9777,9 @@ msgid "<code>%(flags)s</code> is inherited from %(object)s."
 msgstr ""
 
 #: weblate/templates/translate.html:762
-#, fuzzy, python-format
-#| msgid "Variants of the string"
+#, python-format
 msgid "Add a new variant for \"%(existing)s\""
-msgstr "Варыянты радка"
+msgstr "Дадаць новы варыянт для \"%(existing)s\""
 
 #: weblate/templates/translation.html:55
 #, fuzzy
@@ -10020,7 +9996,7 @@ msgstr "Рэдагаванне ў рэжыме аднаго радка"
 
 #: weblate/templates/zen.html:46
 msgid "Exit Zen"
-msgstr "Выйсці з Zen"
+msgstr "Выйсці з рэжыму дзэн"
 
 #: weblate/trans/admin.py:38
 msgid "Commit pending changes"
@@ -11738,10 +11714,9 @@ msgstr ""
 "асноўнага файла."
 
 #: weblate/trans/models/component.py:2290
-#, fuzzy, python-format
-#| msgid "Define the base file for new translations"
+#, python-format
 msgid "Failed to parse base file for new translations: %s"
-msgstr "Вызначыць базавы файл для новых перакладаў"
+msgstr "Не атрымалася разабраць базавы файл для новага перакладу: %s"
 
 #: weblate/trans/models/component.py:2294
 msgid "Unrecognized base file for new translations."
@@ -12017,16 +11992,13 @@ msgstr "Такі радок ужо існуе."
 #: weblate/trans/models/translation.py:1402
 #: weblate/trans/models/translation.py:1406
 #: weblate/trans/models/translation.py:1421
-#, fuzzy, python-format
-#| msgid "Pending string"
+#, python-format
 msgid "Failed adding string: %s"
-msgstr "Чаканы радок"
+msgstr "Не атрымалася дадаць радок: %s"
 
 #: weblate/trans/models/translation.py:1374
-#, fuzzy
-#| msgid "No matching translations found!"
 msgid "No translation found."
-msgstr "Не знойдзена адпаведных перакладаў!"
+msgstr "Адпаведных перакладаў не знойдзена."
 
 #: weblate/trans/models/translation.py:1406
 #: weblate/trans/models/translation.py:1421
@@ -12036,16 +12008,14 @@ msgid "Failed to parse new string"
 msgstr "Не атрымалася разабраць радок запыту: {}"
 
 #: weblate/trans/models/translation.py:1429
-#, fuzzy, python-format
-#| msgid "Following components would be created"
+#, python-format
 msgid "Context would be created as \"%s\""
-msgstr "Наступныя кампаненты будуць створаныя"
+msgstr "Кантэкст будзе створаны як \"%s\""
 
 #: weblate/trans/models/translation.py:1433
-#, fuzzy, python-format
-#| msgid "Following components would be created"
+#, python-format
 msgid "Source would be created as %s"
-msgstr "Наступныя кампаненты будуць створаныя"
+msgstr "Крыніца будзе створаная як %s"
 
 #: weblate/trans/models/unit.py:1402
 #, fuzzy
@@ -12153,23 +12123,19 @@ msgid "Possible configuration"
 msgstr "Магчымая канфігурацыя"
 
 #: weblate/trans/templatetags/translations.py:173
-#, fuzzy, python-format
-#| msgid "Good translations"
+#, python-format
 msgid "Forbidden translation: %s"
-msgstr "Добрыя пераклады"
+msgstr "Забаронены пераклад: %s"
 
 #: weblate/trans/templatetags/translations.py:175
-#, fuzzy, python-format
-#| msgctxt "String state"
-#| msgid "Not translated"
+#, python-format
 msgid "Not-translatable: %s"
-msgstr "Не перакладзена"
+msgstr "Неперакладны тэрмін: %s"
 
 #: weblate/trans/templatetags/translations.py:177
-#, fuzzy, python-format
-#| msgid "Upload translations"
+#, python-format
 msgid "Glossary translation: %s"
-msgstr "Запампаваць пераклад"
+msgstr "Пераклад у гласарыі: %s"
 
 #: weblate/trans/templatetags/translations.py:227
 msgid "New line"
@@ -12354,12 +12320,9 @@ msgid "Failed checks:"
 msgstr "Няпройдзеная праверкі:"
 
 #: weblate/trans/templatetags/translations.py:581
-#, fuzzy
-#| msgctxt "String state"
-#| msgid "Dismissed checks"
 msgctxt "String state"
 msgid "Dismissed checks:"
-msgstr "Мінутыя праверкі"
+msgstr "Прапушчаныя праверкі:"
 
 #: weblate/trans/templatetags/translations.py:586
 msgctxt "String state"
@@ -12398,20 +12361,17 @@ msgid "This translation does not yet exist."
 msgstr "Такога перакладу не існуе."
 
 #: weblate/trans/templatetags/translations.py:841
-#, fuzzy, python-format
-#| msgid "%(count)s string needing action"
-#| msgid_plural "%(count)s strings needing action"
+#, python-format
 msgid "%(count)s string is not being translated here."
 msgid_plural "%(count)s strings are not being translated here."
-msgstr[0] "%(count)s радок, над якім патрабуецца дзеянне"
-msgstr[1] "%(count)s радкі, над якімі патрабуюцца дзеянні"
-msgstr[2] "%(count)s радкоў, над якімі патрабуюцца дзеянні"
+msgstr[0] "%(count)s радок тут не перакладаецца."
+msgstr[1] "%(count)s радкі тут не перакладаюцца."
+msgstr[2] "%(count)s радкоў тут не перакладаецца."
 
 #: weblate/trans/templatetags/translations.py:854
-#, fuzzy, python-format
-#| msgid "Other projects"
+#, python-format
 msgid "Shared from the %s project."
-msgstr "Іншыя праекты"
+msgstr "Агульнае з праектам %s."
 
 #: weblate/trans/templatetags/translations.py:877
 msgid "enabled"
@@ -13375,10 +13335,9 @@ msgid "Could not dismiss the configuration error!"
 msgstr "Не атрымалася адхіліць памылку канфігурацыі!"
 
 #: weblate/wladmin/views.py:356
-#, fuzzy, python-format
-#| msgid "Create an account using:"
+#, python-format
 msgid "Created user account %s."
-msgstr "Стварыць акаўнт пры дапамозе:"
+msgstr "Акаўнт %s створаны."
 
 #~ msgid "Permission"
 #~ msgstr "Дазвол"
