@@ -158,7 +158,7 @@ LICENSES = (
     (
         "Apache-2.0",
         "Apache License 2.0",
-        "http://www.apache.org/licenses/LICENSE-2.0",
+        "https://www.apache.org/licenses/LICENSE-2.0",
         True,
     ),
     (
@@ -1540,7 +1540,7 @@ LICENSES = (
         "http://www.mozilla.org/MPL/MPL-1.1.html",
         True,
     ),
-    ("MPL-2.0", "Mozilla Public License 2.0", "http://www.mozilla.org/MPL/2.0/", True),
+    ("MPL-2.0", "Mozilla Public License 2.0", "https://www.mozilla.org/MPL/2.0/", True),
     (
         "MPL-2.0-no-copyleft-exception",
         "Mozilla Public License 2.0 (no copyleft exception)",
@@ -1661,8 +1661,14 @@ LICENSES = (
     ),
     (
         "NLOD-1.0",
-        "Norwegian Licence for Open Government Data",
+        "Norwegian Licence for Open Government Data (NLOD) 1.0",
         "http://data.norge.no/nlod/en/1.0",
+        False,
+    ),
+    (
+        "NLOD-2.0",
+        "Norwegian Licence for Open Government Data (NLOD) 2.0",
+        "http://data.norge.no/nlod/en/2.0",
         False,
     ),
     ("Noweb", "Noweb License", "https://fedoraproject.org/wiki/Licensing/Noweb", False),
