@@ -350,7 +350,7 @@ Migrating to PostgreSQL using pgloader
 
 The `pgloader`_ is a generic migration tool to migrate data to PostgreSQL. You can use it to migrate Weblate database.
 
-1. Adjust your :file:`settings.py` to use PostgreSQL as a database.
+1. Adjust your :file:`settings.py` to use PostgreSQL as your database.
 
 2. Migrate the schema in the PostgreSQL database:
 
