@@ -148,7 +148,7 @@ Notable configuration or dependency changes:
 .. seealso:: :ref:`generic-upgrade-instructions`
 
 Upgrading from 4.2 to 4.3
-~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Please follow :ref:`generic-upgrade-instructions` to upgrade.
 
