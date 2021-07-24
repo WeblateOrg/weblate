@@ -19,7 +19,7 @@ have changed. Once all requirements are installed or upgraded, ensure your
 
 Always check :ref:`version-specific-instructions` before upgrading.
 Either follow the instructions for each new version, or go with the less
-tested option of upgrading accross multiple releases by following all the
+tested option of upgrading across multiple releases by following all the
 instructions for them at once.
 
 .. note::
