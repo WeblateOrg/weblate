@@ -19,7 +19,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.7\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-06-16 18:40+0000\n"
-"PO-Revision-Date: 2021-06-17 05:23+0000\n"
+"PO-Revision-Date: 2021-07-27 13:34+0000\n"
 "Last-Translator: Heimen Stoffels <vistausss@fastmail.com>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/weblate/"
 "application/nl/>\n"
@@ -28,7 +28,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.7-dev\n"
+"X-Generator: Weblate 4.7.2-dev\n"
 
 #: weblate/accounts/avatar.py:103
 msgctxt "No known user"
@@ -1131,7 +1131,7 @@ msgstr "Deze uitbreiding voert een script uit."
 
 #: weblate/addons/flags.py:45
 msgid "Flag new source strings as \"Needs editing\""
-msgstr "Nieuwe brontekenreeksen aanmerken met 'Aanpassing nodig'"
+msgstr "Nieuwe brontekenreeksen aanduiden met ‘Aanpassing nodig’"
 
 #: weblate/addons/flags.py:47
 msgid ""
@@ -1140,13 +1140,13 @@ msgid ""
 "strings written by the developers."
 msgstr ""
 "Bij het importeren van een nieuwe brontekenreeks geïmporteerd uit het "
-"versiecontrolesysteem, wordt deze aangemerkt als 'Aanpassing nodig'. Op deze "
+"versiecontrolesysteem, wordt deze aangeduidt als ‘Aanpassing nodig’. Op deze "
 "manier kunt u eenvoudig de door de ontwikkelaars geschreven brontekenreeksen "
 "geschreven filteren en bewerken."
 
 #: weblate/addons/flags.py:66
 msgid "Flag new translations as \"Needs editing\""
-msgstr "Nieuwe vertalingen aanmerken met 'Aanpassing nodig'"
+msgstr "Nieuwe vertalingen aanduiden met ‘Aanpassing nodig’"
 
 #: weblate/addons/flags.py:68
 msgid ""
@@ -1155,13 +1155,13 @@ msgid ""
 "translations created by the developers."
 msgstr ""
 "Als er een nieuwe vertaalbare tekenreeks geïmporteerd wordt uit het "
-"versiecontrolesysteem, wordt deze door Weblate aangemerkt als 'Aanpassing "
-"nodig'. Op deze manier kunt u eenvoudig vertalingen gemaakt door "
+"versiecontrolesysteem, wordt deze door Weblate aangeduidt als ‘Aanpassing "
+"nodig’. Op deze manier kunt u eenvoudig vertalingen gemaakt door "
 "ontwikkelaars filteren en bewerken."
 
 #: weblate/addons/flags.py:84
 msgid "Flag unchanged translations as \"Needs editing\""
-msgstr "Ongewijzigde vertalingen aanmerken als 'Aanpassing nodig'"
+msgstr "Ongewijzigde vertalingen aanduiden met ‘Aanpassing nodig’"
 
 #: weblate/addons/flags.py:86
 msgid ""
@@ -1170,8 +1170,8 @@ msgid ""
 "useful for file formats that include source strings for untranslated strings."
 msgstr ""
 "Als een nieuwe vertaalbare tekenreeks geïmporteerd wordt uit het "
-"versiecontrolesysteem en ze overeenkomt met brontekenreeksen, wordt deze "
-"door Weblate aangemerkt als 'Aanpassing nodig'. Dit is vooral handig voor "
+"versiecontrolesysteem en deze overeenkomt met brontekenreeksen, wordt deze "
+"door Weblate aangduidt als ‘Aanpassing nodig’. Dit is vooral handig voor "
 "bestandsformaten die alle brontekenreeksen bevatten van onvertaalde "
 "tekenreeksen."
 
@@ -1270,7 +1270,7 @@ msgid ""
 msgstr ""
 "Een achtervoegsel is een regel die er ongeveer uitziet als RFC 822-e-"
 "mailkoppen, aan het einde van de anderzijds vrije vorm van een "
-"commitbericht, zoals 'Mede-auteur: …'."
+"commitbericht, zoals ‘Mede-auteur: …’."
 
 #: weblate/addons/forms.py:165
 msgid "Commit message"
@@ -1508,7 +1508,7 @@ msgstr ""
 
 #: weblate/addons/gettext.py:157
 msgid "Update ALL_LINGUAS variable in the \"configure\" file"
-msgstr "ALL_LINGUAS-paramater in het configuratiebestand bijwerken"
+msgstr "ALL_LINGUAS-optie in het configuratiebestand bijwerken"
 
 #: weblate/addons/gettext.py:159
 msgid ""
@@ -1527,9 +1527,9 @@ msgid ""
 "Updates all PO files (as configured by \"Filemask\") to match the POT file "
 "(as configured by \"Template for new translations\") using msgmerge."
 msgstr ""
-"Werkt alle po-bestanden bij (zoals ingesteld door 'Bestandsmasker') om "
-"overeen te komen met het pot-bestand (zoals ingesteld door 'Sjabloon voor "
-"nieuwe vertalingen') middels msgmerge."
+"Werkt alle po-bestanden bij (zoals ingesteld door ‘Bestandsmasker’) om "
+"overeen te komen met het pot-bestand (zoals ingesteld door ‘Sjabloon voor "
+"nieuwe vertalingen’) middels msgmerge."
 
 #: weblate/addons/gettext.py:313
 msgid "Customize gettext output"
@@ -2533,7 +2533,7 @@ msgstr "Deze tekenreeks is in het verleden reeds vertaald"
 #: weblate/checks/consistency.py:153
 #, python-format
 msgid "Previous translation was \"%s\"."
-msgstr "De vorige vertaling was \"%s\"."
+msgstr "Vorige vertaling: “%s”."
 
 #: weblate/checks/duplicate.py:46
 msgid "Consecutive duplicated words"
@@ -2621,7 +2621,7 @@ msgstr "Tekenreeksvariant"
 #: weblate/checks/flags.py:251
 #, python-format
 msgid "Invalid translation flag: \"%s\""
-msgstr "Ongeldige aanmerking: \"%s\""
+msgstr "Ongeldige aanmerking: “%s”"
 
 #: weblate/checks/flags.py:255
 #, python-format
@@ -2631,12 +2631,12 @@ msgstr "De aanmerking bevat geen aanvullende opties: “%s”"
 #: weblate/checks/flags.py:261
 #, python-format
 msgid "Wrong parameters for translation flag: \"%s\""
-msgstr "De aanmerking bevat onjuiste aanvullende opties: \"%s\""
+msgstr "De aanmerking bevat onjuiste aanvullende opties: “%s”"
 
 #: weblate/checks/flags.py:265
 #, python-format
 msgid "Missing parameters for translation flag: \"%s\""
-msgstr "Ontbrekende aanvullende opties bij aanmerking: \"%s\""
+msgstr "Ontbrekende aanvullende opties bij aanmerking: “%s”"
 
 #: weblate/checks/format.py:392
 #, python-format
@@ -2861,7 +2861,7 @@ msgstr "Markdown-syntax komt niet overeen met de bron"
 
 #: weblate/checks/markup.py:327
 msgid "The translation does not contain an URL"
-msgstr "De vertaling bevat geen URL"
+msgstr "De vertaling bevat geen url"
 
 #: weblate/checks/markup.py:346 weblate/trans/autofixes/html.py:32
 msgid "Unsafe HTML"
@@ -3631,7 +3631,7 @@ msgid ""
 "\" settings in your browser."
 msgstr ""
 "Deze site gebruikt Matomo om websiteverkeer te analyseren. Matomo houdt zich "
-"aan de 'Volg me niet'-instellingen van uw browser."
+"aan de ‘Volg me niet’-instellingen van uw browser."
 
 #: weblate/legal/templates/legal/cookies.html:37
 msgid "This site uses Google Analytics to analyze website traffic."
@@ -3797,7 +3797,7 @@ msgstr "De schermfoto kan niet worden geüpload. Los onderstaande fouten op."
 #: weblate/screenshots/views.py:168
 #, python-format
 msgid "Screenshot %s has been deleted."
-msgstr "Schermfoto '%s' is verwijderd."
+msgstr "‘%s’ is verwijderd."
 
 #: weblate/screenshots/views.py:187
 msgid "Source has been removed."
@@ -3841,7 +3841,7 @@ msgid ""
 "but none was sent. This header is required for security reasons, to ensure "
 "your browser is not hijacked by third-parties."
 msgstr ""
-"Deze https-website vereist dat uw webbrowser een 'doorverwijskop' meestuurt, "
+"Deze https-website vereist dat uw webbrowser een ‘doorverwijskop’ meestuurt, "
 "maar deze ontbreekt. Deze kop is om veiligheidsredenen vereist om er zeker "
 "van te zijn dat uw browser niet door derden wordt gekaapt."
 
@@ -3851,9 +3851,9 @@ msgid ""
 "turn that on (at-least for this site, for HTTPS connections, or for 'same-"
 "origin' requests)."
 msgstr ""
-"Als u uw webbrowser hebt ingesteld om geen 'doorverwijskoppen' mee te "
+"Als u uw webbrowser hebt ingesteld om geen ‘doorverwijskoppen’ mee te "
 "sturen, schakel deze dan weer in, op zijn minst voor deze website, of voor "
-"https-verbindingen, of voor 'same-origin'-aanvragen."
+"https-verbindingen, of voor ‘same-origin’-aanvragen."
 
 #: weblate/templates/403_csrf.html:16
 msgid ""
@@ -3871,7 +3871,7 @@ msgid ""
 "again (at-least for this site, or for 'same-origin' requests)."
 msgstr ""
 "Als u cookies in uw webbrowser hebt uitgeschakeld, schakel deze dan weer in, "
-"op zijn minst voor deze website, of voor 'same-origin'-aanvragen."
+"op zijn minst voor deze website, of voor ‘same-origin’-aanvragen."
 
 #: weblate/templates/404.html:5 weblate/trans/views/error.py:43
 msgid "Page Not Found"
@@ -5001,7 +5001,7 @@ msgstr "Naam van onderdeel"
 
 #: weblate/templates/addons/generate_help.html:24
 msgid "Component URL slug"
-msgstr "Onderdeel-URL-slug"
+msgstr "Onderdeel-url-slug"
 
 #: weblate/templates/addons/generate_help.html:26
 #: weblate/trans/models/project.py:80
@@ -5010,7 +5010,7 @@ msgstr "Projectnaam"
 
 #: weblate/templates/addons/generate_help.html:28
 msgid "Project URL slug"
-msgstr "Project-URL-slug"
+msgstr "Project-url-slug"
 
 #: weblate/templates/addons/squash_help.html:4
 msgid ""
@@ -5024,9 +5024,9 @@ msgid ""
 "Original commit messages are kept, but authorship is lost unless \"Per author"
 "\" is selected or the commit message is customized to include it."
 msgstr ""
-"De resulterende commits zullen alle originele commit-berichten bevatten maar "
-"het commit-auteurschap verliezen tenzij \"per auteur\" geselecteerd is of u "
-"het commit-bericht aanpast om het op te nemen."
+"De oorspronkelijke commitberichten worden bewaard, maar het auteurschap gaat "
+"verloren, tenzij ‘per auteur’ geselecteerd is of u het commitbericht aanpast "
+"om het op te nemen."
 
 #: weblate/templates/base.html:111
 msgid "Toggle navigation"
@@ -5132,7 +5132,7 @@ msgstr "Ondersteuning verkrijgen"
 
 #: weblate/templates/base.html:269 weblate/templates/manage/index.html:83
 msgid "Get help"
-msgstr "Hulp verkrijgen"
+msgstr "Ondersteuning"
 
 #: weblate/templates/base.html:274 weblate/templates/check.html:50
 #: weblate/templates/check_component.html:72
@@ -5416,7 +5416,7 @@ msgstr "Bladeren"
 
 #: weblate/templates/browse.html:49
 msgid "No strings found!"
-msgstr "Geen tekenreeksen gevonden!"
+msgstr "Er zijn geen tekenreeksen gevonden!"
 
 #: weblate/templates/check.html:20 weblate/templates/check_component.html:22
 #: weblate/templates/check_project.html:21 weblate/templates/checks.html:19
@@ -5665,7 +5665,7 @@ msgstr "Delen op Facebook"
 #: weblate/templates/translation.html:115
 #, python-format
 msgid "Translate %(object)s using %%23Weblate at %(share_url)s!"
-msgstr "%(object)s vertalen met %%23Weblate op %(share_url)s!"
+msgstr "Vertaal %(object)s met %%23Weblate op %(share_url)s!"
 
 #: weblate/templates/component.html:121 weblate/templates/translation.html:115
 msgid "Tweet this translation!"
@@ -6251,13 +6251,13 @@ msgstr "Gebruik een langer toetsenbordpatroon met meer draaien."
 
 #: weblate/templates/i18n.html:29
 msgid "Repeats like \"aaa\" are easy to guess."
-msgstr "Herhalingen als ‘aaa’ zijn eenvoudig te raden."
+msgstr "Herhalingen, zoals ‘aaa’, zijn makkelijk te raden."
 
 #: weblate/templates/i18n.html:30
 msgid ""
 "Repeats like \"abcabcabc\" are only slightly harder to guess than \"abc\"."
 msgstr ""
-"Herhalingen als ‘abcabcabc’ zijn slechts een fractie minder eenvoudig te "
+"Herhalingen, zoals ‘abcabcabc’, zijn slechts een fractie minder makkelijk te "
 "raden dan ‘abc’."
 
 #: weblate/templates/i18n.html:31
@@ -6266,7 +6266,7 @@ msgstr "Vermijd herhalende woorden en tekens."
 
 #: weblate/templates/i18n.html:32
 msgid "Sequences like \"abc\" or \"6543\" are easy to guess."
-msgstr "Opeenvolgingen als ‘abc’ of ‘6543’ zijn eenvoudig te raden."
+msgstr "Opeenvolgingen, zoals ‘abc’ of ‘6543’, zijn makkelijk te raden."
 
 #: weblate/templates/i18n.html:33
 msgid "Avoid sequences."
@@ -6425,7 +6425,7 @@ msgid ""
 "Resetting removes all changes in Weblate so that the repository matches "
 "upstream. Use with caution."
 msgstr ""
-"Met de optie 'Herstellen' worden alle wijzigingen in Weblate ongedaan "
+"Met de optie ‘Herstellen’ worden alle wijzigingen in Weblate ongedaan "
 "gemaakt om overeen te komen met de bovenstroomse opslagruimte. Wees "
 "voorzichtig."
 
@@ -6723,7 +6723,7 @@ msgstr "Nieuwe vertaling in %(translation)s"
 #: weblate/templates/mail/component_license.html:12
 #, python-format
 msgid "Contributor agreement for component %(component)s was changed."
-msgstr "De medewerkersovereenkomst van '%(component)s' is gewijzigd."
+msgstr "De medewerkersovereenkomst van ‘%(component)s’ is gewijzigd."
 
 #: weblate/templates/mail/component_license.html:15
 msgid "Old agreement:"
@@ -6749,17 +6749,17 @@ msgstr "%(component)s is opnieuw uitgebracht onder de %(target)s-licentie"
 #: weblate/templates/mail/component_license_subject.txt:6
 #, python-format
 msgid "Contributor agreement for %(component)s was changed"
-msgstr "De medewerkersovereenkomst van '%(component)s' is gewijzigd"
+msgstr "De medewerkersovereenkomst van ‘%(component)s’ is gewijzigd"
 
 #: weblate/templates/mail/component_lock_subject.txt:4
 #, python-format
 msgid "Component %(component)s was locked"
-msgstr "Het onderdeel '%(component)s' is vergrendeld"
+msgstr "Het onderdeel ‘%(component)s’ is vergrendeld"
 
 #: weblate/templates/mail/component_lock_subject.txt:6
 #, python-format
 msgid "Component %(component)s was unlocked"
-msgstr "Het onderdeel '%(component)s' is ontgrendeld"
+msgstr "Het onderdeel ‘%(component)s’ is ontgrendeld"
 
 #: weblate/templates/mail/digest_subject.txt:3
 #, python-format
@@ -6824,7 +6824,7 @@ msgstr "Gefeliciteerd"
 #: weblate/templates/mail/new_contributor.html:8
 #, python-format
 msgid "The user %(username)s has just made a first contribution."
-msgstr "'%(username)s' heeft een eerste bijdrage geleverd."
+msgstr "‘%(username)s’ heeft een eerste bijdrage geleverd."
 
 #: weblate/templates/mail/new_contributor_subject.txt:3
 #, python-format
@@ -6841,8 +6841,8 @@ msgid ""
 "There has been a request for new language on %(component)s at %(site_title)s "
 "by %(user)s."
 msgstr ""
-"Er is een aanvraag ingediend voor een nieuwe taal van '%(component)s' op "
-"%(site_title)s door %(user)s."
+"%(user)s heeft een aanvraag ingediend voor het toevoegen van een taal aan "
+"‘%(component)s’ op %(site_title)s."
 
 #: weblate/templates/mail/new_language.html:16
 msgid ""
@@ -7539,7 +7539,7 @@ msgstr ""
 
 #: weblate/templates/new-language.html:34
 msgid "Can't find your language in the list above?"
-msgstr "Kunt u uw taal niet vinden op bovenstaande lijst?"
+msgstr "Staat uw taal niet op bovenstaande lijst?"
 
 #: weblate/templates/new-language.html:36
 msgid ""
@@ -7736,7 +7736,7 @@ msgstr "Toevoegen aan schermfoto"
 #: weblate/templates/search.html:31
 #: weblate/templates/snippets/embed-units.html:114
 msgid "No matching strings found."
-msgstr "Geen overeenkomstige tekenreeksen gevonden."
+msgstr "Er zijn geen overeenkomstige tekenreeksen gevonden."
 
 #: weblate/templates/snippets/about.html:3
 msgid ""
@@ -8224,7 +8224,7 @@ msgstr "Er valt hier niks te zien."
 
 #: weblate/templates/snippets/login-info.html:4
 msgid "Web-based <strong>continuous</strong> localization"
-msgstr "Webgebaseerde <strong>doorlopende</strong> lokalisatie"
+msgstr "Webgebaseerde <strong>continue</strong> vertaling"
 
 #: weblate/templates/snippets/login-info.html:9
 msgid "By registering and signing in to this service you accept our:"
@@ -8528,7 +8528,7 @@ msgstr "Volgend"
 #: weblate/templates/snippets/watch-dropdown.html:13
 #, python-format
 msgid "Unwatch project %(project)s"
-msgstr "'%(project)s' niet meer volgen"
+msgstr "‘%(project)s’ niet meer volgen"
 
 #: weblate/templates/snippets/watch-dropdown.html:15
 #: weblate/templates/snippets/watch-dropdown.html:18
@@ -8549,12 +8549,12 @@ msgstr "Niet volgend"
 #: weblate/templates/snippets/watch-dropdown.html:28
 #, python-format
 msgid "Watch project %(project)s"
-msgstr "'%(project)s' volgen"
+msgstr "‘%(project)s’ volgen"
 
 #: weblate/templates/snippets/watch-dropdown.html:30
 #, python-format
 msgid "Watch component %(component)s"
-msgstr "Onderdeel '%(component)s' volgen"
+msgstr "Onderdeel ‘%(component)s’ volgen"
 
 #: weblate/templates/trans/alert/addonscripterror.html:4
 msgid "Weblate could not execute script addon."
@@ -8818,7 +8818,7 @@ msgid ""
 "the changes manually or set up push to automate this."
 msgstr ""
 "De vcs-opslagruimte bevat vele wijzigingen ten opzichte van de "
-"stroomopwaartse. Voeg de wijzigingen handmatig samen of stel 'push' in om "
+"stroomopwaartse. Voeg de wijzigingen handmatig samen of stel ‘push’ in om "
 "dit te automatiseren."
 
 #: weblate/templates/trans/alert/repositoryoutdated.html:4
@@ -8997,7 +8997,7 @@ msgid ""
 "This action cannot be undone. This will permanently delete the %(object)s "
 "component and all related content."
 msgstr ""
-"Deze handeling kan niet ongedaan worden gemaakt. Het onderdeel '%(object)s' "
+"Deze handeling kan niet ongedaan worden gemaakt. Het onderdeel ‘%(object)s’ "
 "en alle bijbehorende inhoud wordt permanent verwijderd."
 
 #: weblate/templates/trans/delete-component.html:8
@@ -9019,7 +9019,7 @@ msgid ""
 "This action cannot be undone. This will permanently delete %(object)s "
 "translations and all related content."
 msgstr ""
-"Deze handeling kan niet ongedaan worden gemaakt. De vertalingen '%(object)s' "
+"Deze handeling kan niet ongedaan worden gemaakt. De vertalingen ‘%(object)s’ "
 "en alle bijbehorende inhoud worden permanent verwijderd."
 
 #: weblate/templates/trans/delete-project-language.html:6
@@ -9036,7 +9036,7 @@ msgid ""
 "This action cannot be undone. This will permanently delete the %(object)s "
 "project and all related content."
 msgstr ""
-"Deze handeling kan niet ongedaan worden gemaakt. Het project '%(object)s' en "
+"Deze handeling kan niet ongedaan worden gemaakt. Het project ‘%(object)s’ en "
 "alle bijbehorende inhoud wordt permanent verwijderd."
 
 #: weblate/templates/trans/delete-project.html:6
@@ -9057,7 +9057,7 @@ msgid ""
 "This action cannot be undone. This will permanently delete the %(object)s "
 "translation and all related content."
 msgstr ""
-"Deze handeling kan niet ongedaan worden gemaakt. De vertaling '%(object)s' "
+"Deze handeling kan niet ongedaan worden gemaakt. De vertaling ‘%(object)s’ "
 "en alle bijbehorende inhoud wordt permanent verwijderd."
 
 #: weblate/templates/trans/delete-translation.html:9
@@ -9461,7 +9461,7 @@ msgstr "<code>%(flags)s</code> is overgenomen van %(object)s."
 #: weblate/templates/translate.html:762
 #, python-format
 msgid "Add a new variant for \"%(existing)s\""
-msgstr "Tekenreeksvariant toevoegen voor '%(existing)s'"
+msgstr "Tekenreeksvariant toevoegen voor ‘%(existing)s’"
 
 #: weblate/templates/translation.html:55
 msgid "Download translation"
@@ -9964,7 +9964,7 @@ msgstr "Automatische vertaalmodus"
 
 #: weblate/trans/forms.py:823
 msgid "Add as needing edit"
-msgstr "Aanduiden met 'Aanpassing nodig'"
+msgstr "Aanduiden met ‘Aanpassing nodig’"
 
 #: weblate/trans/forms.py:829
 msgid "Automatic translation source"
@@ -10184,7 +10184,7 @@ msgstr "URL-slug"
 #: weblate/trans/forms.py:1491 weblate/trans/models/component.py:245
 #: weblate/trans/models/componentlist.py:52 weblate/trans/models/project.py:89
 msgid "Name used in URLs and filenames."
-msgstr "Naam gebruikt in url's en bestandsnamen."
+msgstr "De naam die wordt gebruikt in url's en bestandsnamen."
 
 #: weblate/trans/forms.py:1494 weblate/trans/models/component.py:624
 msgid "Use as a glossary"
@@ -10843,7 +10843,7 @@ msgstr "N.v.t."
 msgid ""
 "License for component %(component)s was changed from %(old)s to %(target)s."
 msgstr ""
-"De licentie van het onderdeel '%(component)s' is gewijzigd. Oude licentie: "
+"De licentie van het onderdeel ‘%(component)s’ is gewijzigd. Oude licentie: "
 "%(old)s - Nieuwe licentie: %(target)s."
 
 #. Translators: Action when adding new translation
@@ -10854,7 +10854,7 @@ msgstr "Contact opnemen met beheerders"
 #. Translators: Action when adding new translation
 #: weblate/trans/models/component.py:118
 msgid "Point to translation instructions URL"
-msgstr "Verwijzen naar URL met vertaalinstructies"
+msgstr "Verwijzen naar url met vertaalinstructies"
 
 #. Translators: Action when adding new translation
 #: weblate/trans/models/component.py:120
@@ -10914,16 +10914,16 @@ msgid ""
 "URL of a repository, use weblate://project/component to share it with other "
 "component."
 msgstr ""
-"URL van een opslagruimte, gebruik weblate://project/onderdeel om te delen "
+"De url van een opslagruimte. Gebruik weblate://project/onderdeel om te delen "
 "met een ander onderdeel."
 
 #: weblate/trans/models/component.py:281
 msgid "Repository push URL"
-msgstr "Push-URL van de opslagruimte"
+msgstr "Push-url van de opslagruimte"
 
 #: weblate/trans/models/component.py:284
 msgid "URL of a push repository, pushing is turned off if empty."
-msgstr "URL van een push-opslagruimte, push is uitgeschakeld indien leeg."
+msgstr "De url van een push-opslagruimte. Laat leeg om push uit te schakelen."
 
 #: weblate/trans/models/component.py:289
 msgid "Repository browser"
@@ -10939,12 +10939,13 @@ msgstr ""
 
 #: weblate/trans/models/component.py:298
 msgid "Exported repository URL"
-msgstr "Geëxporteerde opslagruimte-URL"
+msgstr "Geëxporteerde opslagruimte-url"
 
 #: weblate/trans/models/component.py:301
 msgid "URL of repository where users can fetch changes from Weblate"
 msgstr ""
-"URL van opslagruimte waar gebruikers wijzigingen kunnen afhalen van Weblate"
+"De url van de opslagruimte waar gebruikers wijzigingen kunnen ophalen van "
+"Weblate"
 
 #: weblate/trans/models/component.py:306
 msgid "Source string bug reporting address"
@@ -11330,7 +11331,7 @@ msgstr "De taalcode van %s is blanco. Controleer het bestandsmasker."
 #: weblate/trans/models/component.py:2211
 #, python-format
 msgid "The language code \"%s\" is too long, please check the filemask."
-msgstr "Taalcode \"%s\" is te lang. Kijk het bestandsmasker na."
+msgstr "De taalcode ‘%s’ is te lang - controleer het bestandsmasker."
 
 #: weblate/trans/models/component.py:2218
 #, python-format
@@ -11538,12 +11539,11 @@ msgstr "Vertaalrichtlijnen"
 
 #: weblate/trans/models/project.py:104
 msgid "Set \"Language-Team\" header"
-msgstr "\"Language-Team\"-header instellen"
+msgstr "‘Language-Team’-kop instellen"
 
 #: weblate/trans/models/project.py:107
 msgid "Lets Weblate update the \"Language-Team\" file header of your project."
-msgstr ""
-"Laat Weblate de \"Language-Team\"-bestandsheader bijwerken van uw project."
+msgstr "Laat Weblate de ‘Language-Team’-bestandskop bijwerken van uw project."
 
 #: weblate/trans/models/project.py:111
 msgid "Use shared translation memory"
@@ -11653,7 +11653,7 @@ msgstr "De nieuwe tekenreeks kan niet worden verwerkt"
 #: weblate/trans/models/translation.py:1429
 #, python-format
 msgid "Context would be created as \"%s\""
-msgstr "De context wordt samengesteld als '%s'"
+msgstr "De context wordt samengesteld als ‘%s’"
 
 #: weblate/trans/models/translation.py:1433
 #, python-format
@@ -11674,7 +11674,7 @@ msgstr "Demarkeren als verboden vertaling"
 
 #: weblate/trans/models/unit.py:1420
 msgid "Mark as forbidden translation"
-msgstr "Aanmerken als verboden vertaling"
+msgstr "Aanduiden als verboden vertaling"
 
 #: weblate/trans/models/unit.py:1428
 msgid "Unmark as terminology"
@@ -11736,7 +11736,7 @@ msgstr "Door gebruiker geconfigureerd teken: {}"
 #: weblate/trans/tasks.py:395
 msgid "Automatic translation completed, no strings were updated."
 msgstr ""
-"Automatische vertaling is klaar, er werden geen tekenreeksen bijgewerkt."
+"De automatische vertaling is afgerond: er zijn geen tekenreeksen bijgewerkt."
 
 #: weblate/trans/tasks.py:399
 #, python-format
@@ -11991,7 +11991,7 @@ msgstr[1] "%(count)s tekenreeksen worden elders vertaald."
 #: weblate/trans/templatetags/translations.py:854
 #, python-format
 msgid "Shared from the %s project."
-msgstr "Gedeeld uit het project '%s'."
+msgstr "Gedeeld uit het project ‘%s’."
 
 #: weblate/trans/templatetags/translations.py:877
 msgid "enabled"
@@ -12095,8 +12095,7 @@ msgstr "Word actief bij {0}!"
 #: weblate/trans/views/basic.py:418
 msgid ""
 "A request for a new translation has been sent to the project's maintainers."
-msgstr ""
-"De aanvraag voor een nieuwe vertaling is verstuurd naar de projectbeheerders."
+msgstr "De taalaanvraag is verstuurd naar de projectbeheerders."
 
 #: weblate/trans/views/changes.py:76
 #, python-format
@@ -12171,7 +12170,7 @@ msgstr "Stel uw volledige naam en e-mailadres in in uw profiel."
 
 #: weblate/trans/views/edit.py:246 weblate/trans/views/edit.py:528
 msgid "No string matched your search!"
-msgstr "Geen enkele tekenreeks kwam overeen met uw zoekterm!"
+msgstr "Geen enkele tekenreeks komt overeen met uw zoekterm!"
 
 #: weblate/trans/views/edit.py:270
 msgid "Your suggestion is empty!"
@@ -12362,7 +12361,7 @@ msgstr "Het onderdeel is nu geblokkeerd voor vertaalaanpassingen!"
 
 #: weblate/trans/views/lock.py:57
 msgid "Component is now open for translation updates."
-msgstr "Het onderdeel is nu open voor vertalingen."
+msgstr "Het onderdeel accepteert nu vertalingen."
 
 #: weblate/trans/views/lock.py:75
 msgid "All components are now locked for translation updates!"
@@ -12370,18 +12369,21 @@ msgstr "Alle onderdelen zijn nu geblokkeerd voor vertaalaanpassingen!"
 
 #: weblate/trans/views/lock.py:92
 msgid "Project is now open for translation updates."
-msgstr "Het project is nu open voor vertalingen."
+msgstr "Het project accepteert nu vertalingen."
 
 #: weblate/trans/views/search.py:137
 msgid "Search and replace completed, no strings were updated."
-msgstr "Zoeken en vervangen voltooid - geen reeksen bijgewerkt."
+msgstr ""
+"Het zoeken en vervangen is voltooid, maar er zijn geen tekenreeksen "
+"bijgewerkt."
 
 #: weblate/trans/views/search.py:139
 #, python-format
 msgid "Search and replace completed, %d string was updated."
 msgid_plural "Search and replace completed, %d strings were updated."
-msgstr[0] "Zoeken en vervangen voltooid - %d tekenreeks bijgewerkt."
-msgstr[1] "Zoeken en vervangen voltooid - %d tekenreeksen bijgewerkt."
+msgstr[0] "Het zoeken en vervangen is voltooid en er is %d tekenreeks bijgewerkt."
+msgstr[1] ""
+"Het zoeken en vervangen is voltooid en er zijn %d tekenreeksen bijgewerkt."
 
 #: weblate/trans/views/search.py:211
 #, python-format
@@ -12390,7 +12392,7 @@ msgstr "Zoeken naar %s"
 
 #: weblate/trans/views/search.py:222
 msgid "Too many search queries, please try again later."
-msgstr "Te veel zoekopdrachten. Probeer het later opnieuw."
+msgstr "Teveel zoekopdrachten - probeer het later opnieuw."
 
 #: weblate/trans/views/search.py:224
 msgid "Invalid search query!"
@@ -12398,22 +12400,26 @@ msgstr "Ongeldige zoekopdracht!"
 
 #: weblate/trans/views/search.py:262
 msgid "Bulk edit completed, no strings were updated."
-msgstr "Meerdere bewerkingen voltooid - geen tekenreeksen bijgewerkt."
+msgstr ""
+"Er zijn meerdere bewerkingen voltooid, maar geen tekenreeksen bijgewerkt."
 
 #: weblate/trans/views/search.py:264
 #, python-format
 msgid "Bulk edit completed, %d string was updated."
 msgid_plural "Bulk edit completed, %d strings were updated."
-msgstr[0] "Meerdere bewerkingen voltooid - %d tekenreeks bijgewerkt."
-msgstr[1] "Meerdere bewerkingen voltooid - %d tekenreeksen bijgewerkt."
+msgstr[0] ""
+"Er zijn meerdere bewerkingen voltooid en er is %d tekenreeks bijgewerkt."
+msgstr[1] ""
+"Er zijn meerdere bewerkingen voltooid en er zijn %d tekenreeksen bijgewerkt."
 
 #: weblate/trans/views/settings.py:66 weblate/trans/views/settings.py:94
 msgid "Settings saved"
-msgstr "Instellingen opgeslagen"
+msgstr "De instellingen zijn opgeslagen."
 
 #: weblate/trans/views/settings.py:70 weblate/trans/views/settings.py:98
 msgid "Invalid settings, please check the form for errors!"
-msgstr "Ongeldige instellingen, controleer het formulier op fouten!"
+msgstr ""
+"Er zijn ongeldige instellingen - controleer het formulier op foutmeldingen!"
 
 #: weblate/trans/views/settings.py:153
 msgid "Translation has been removed."
@@ -12421,11 +12427,11 @@ msgstr "De vertaling is verwijderd."
 
 #: weblate/trans/views/settings.py:172
 msgid "Translation component was scheduled for removal."
-msgstr "Het vertaalonderdeel werd gepland voor verwijdering."
+msgstr "Het vertaalonderdeel staat gepland voor verwijdering."
 
 #: weblate/trans/views/settings.py:191
 msgid "Project was scheduled for removal."
-msgstr "Het project werd gepland voor verwijdering."
+msgstr "Het project staat gepland voor verwijdering."
 
 #: weblate/trans/views/settings.py:213
 msgid "Language of the project was removed."
@@ -12555,18 +12561,18 @@ msgstr "Zilver"
 #: weblate/utils/render.py:44
 #, python-format
 msgid "Undefined variable: \"%s\""
-msgstr "Onbepaalde variabele: \"%s\""
+msgstr "Onbepaalde variabele: ‘%s’"
 
 #: weblate/utils/render.py:122
 msgid "Failed to render template: {}"
-msgstr "Renderen van sjabloon is mislukt: {0}"
+msgstr "Het sjabloon kan niet worden geladen: {}"
 
 #: weblate/utils/render.py:165
 msgid ""
 "The format strings are no longer supported, please use the template language "
 "instead."
 msgstr ""
-"De formaattekenreeksen worden niet langer ondersteund. Gebruik in plaats "
+"De formaattekenreeksen worden niet langer ondersteund - gebruik in plaats "
 "daarvan de sjabloontaal."
 
 #: weblate/utils/render.py:183
@@ -12575,7 +12581,7 @@ msgstr "De bewerklink bevat geen url-schema!"
 
 #: weblate/utils/render.py:189
 msgid "Forbidden URL scheme!"
-msgstr "Verboden URL-schema!"
+msgstr "Verboden url-schema!"
 
 #: weblate/utils/search.py:294
 msgid "Unsupported state: {}"
@@ -12630,8 +12636,8 @@ msgid ""
 "Regular expression is missing named group \"{0}\", the simplest way to "
 "define it is {1}."
 msgstr ""
-"Reguliere uitdrukking mist genaamde groep “{0}”. De eenvoudigste manier om "
-"deze te definiëren is {1}."
+"De reguliere uitdrukking mist een groep genaamd ‘{0}’. De eenvoudigste "
+"manier om deze te definiëren is {1}."
 
 #: weblate/utils/validators.py:117
 msgid "Invalid image!"
@@ -12644,7 +12650,7 @@ msgstr "Niet-ondersteund afbeeldingstype: %s"
 
 #: weblate/utils/validators.py:132
 msgid "The image is too big, please crop or scale it down."
-msgstr "De afbeelding is te groot. Snijd hem bij of verklein hem."
+msgstr "De afbeelding is te groot - snijd hem bij of verklein hem."
 
 #: weblate/utils/validators.py:150
 msgid "Please avoid using special characters in the full name."
