@@ -1847,7 +1847,7 @@ Translations
     :type component: string
     :param language: Translation language code
     :type language: string
-    :form string conflicts: How to deal with conflicts (``ignore``, ``replace-translated`` or ``replace-approved``)
+    :form string conflict: How to deal with conflicts (``ignore``, ``replace-translated`` or ``replace-approved``)
     :form file file: Uploaded file
     :form string email: Author e-mail
     :form string author: Author name
