@@ -1788,3 +1788,28 @@ class PropertiesMi18nFormat(PropertiesUtf8Format):
     language_format = "java"
     check_flags = ("es-format",)
     monolingual = True
+
+
+class StringsdictFormat(TTKitFormat):
+    name = _("Stringsdict file")
+    format_id = "stringsdict"
+    loader = ("stringsdict", "StringsDictFile")
+    unit_class = MonolingualSimpleUnit
+    autoload: Tuple[str, ...] = ("*.stringsdict",)
+    new_translation = """<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+    <dict>
+    </dict>
+</plist>
+"""  # noqa: E501
+
+    @staticmethod
+    def mimetype():
+        """Return most common media type for format."""
+        return "application/xml"
+
+    @staticmethod
+    def extension():
+        """Return most common file extension for format."""
+        return "stringsdict"

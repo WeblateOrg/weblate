@@ -48,6 +48,7 @@ from weblate.formats.ttkit import (
     PropertiesFormat,
     RESXFormat,
     RubyYAMLFormat,
+    StringsdictFormat,
     TBXFormat,
     TSFormat,
     WebExtensionJSONFormat,
@@ -97,6 +98,7 @@ TEST_XWIKI_PAGE_PROPERTIES = get_test_file("XWikiPageProperties.xml")
 TEST_XWIKI_PAGE_PROPERTIES_SOURCE = get_test_file("XWikiPagePropertiesSource.xml")
 TEST_XWIKI_FULL_PAGE = get_test_file("XWikiFullPage.xml")
 TEST_XWIKI_FULL_PAGE_SOURCE = get_test_file("XWikiFullPageSource.xml")
+TEST_STRINGSDICT = get_test_file("cs.stringsdict")
 
 
 class AutoLoadTest(TestCase):
@@ -1132,4 +1134,22 @@ class TBXFormatTest(AutoFormatTest):
     FIND = "address bar"
     FIND_MATCH = "adresní řádek"
     NEW_UNIT_MATCH = b"<term>Source string</term>"
+    EXPECTED_FLAGS = ""
+
+
+class StringsdictFormatTest(XMLMixin, AutoFormatTest):
+    FORMAT = StringsdictFormat
+    FILE = TEST_STRINGSDICT
+    MIME = "application/xml"
+    EXT = "stringsdict"
+    COUNT = 1
+    MATCH = '<plist version="1.0">'
+    MASK = "Resources/*.lproj/Localizable.stringsdict"
+    EXPECTED_PATH = "Resources/cs_CZ.lproj/Localizable.stringsdict"
+    FIND = "Hello, world!\n"
+    FIND_CONTEXT = "hello"
+    FIND_MATCH = "Hello, world!\n"
+    BASE = ""
+    NEW_UNIT_MATCH = b"<string>Source string</string>"
+    MONOLINGUAL = True
     EXPECTED_FLAGS = ""

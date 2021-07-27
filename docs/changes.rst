@@ -3,6 +3,8 @@ Weblate 4.8
 
 Not yet released.
 
+* Added support for Apple stringsdict format.
+
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/67?closed=1>`__.
 
 Weblate 4.7.2
