@@ -1352,6 +1352,10 @@ class UserList(ListView):
     paginate_by = 50
     model = User
 
+    @method_decorator(login_required)
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
+
     def get_queryset(self):
         users = User.objects.filter(is_active=True)
         form = self.form
