@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
+import os
 import requests
-from django.conf import settings
 
 from weblate.logger import LOGGER
 from weblate.utils.requests import request
 
-WEBLATE_AA_HOST = getattr(settings, "WEBLATE_AA_HOST")
-WEBLATE_AA_API_USER = getattr(settings, "WEBLATE_AA_API_USER")
-WEBLATE_AA_API_KEY = getattr(settings, "WEBLATE_AA_API_KEY")
+WEBLATE_AA_HOST = os.environ.get("WEBLATE_AA_HOST")
+WEBLATE_AA_API_USER = os.environ.get("WEBLATE_AA_API_USER")
+WEBLATE_AA_API_KEY = os.environ.get("WEBLATE_AA_API_KEY")
 
 SUBSCRIPTION_TIERS_WITH_CUSTOMIZE_RESTRICTIONS = [
     "FREE",
