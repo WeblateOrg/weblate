@@ -1618,15 +1618,16 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
 
         return True
 
-    def handle_parse_error(self, error, translation=None):
+    def handle_parse_error(self, error, translation=None, filename=None):
         """Handler for parse errors."""
         error_message = getattr(error, "strerror", "")
         if not error_message:
             error_message = str(error).replace(self.full_path, "")
-        if translation is None:
-            filename = self.template
-        else:
-            filename = translation.filename
+        if filename is None:
+            if translation is None:
+                filename = self.template
+            else:
+                filename = translation.filename
         self.trigger_alert("ParseError", error=error_message, filename=filename)
         if self.id:
             Change.objects.create(
@@ -2864,7 +2865,7 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
         try:
             return self.load_intermediate_store()
         except Exception as exc:
-            self.handle_parse_error(exc)
+            self.handle_parse_error(exc, filename=self.intermediate)
 
     def load_template_store(self, fileobj=None):
         """Load translate-toolkit store for template."""
@@ -2884,7 +2885,7 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
             return self.load_template_store()
         except Exception as error:
             report_error(cause="Template parse error")
-            self.handle_parse_error(error)
+            self.handle_parse_error(error, filename=self.template)
 
     @cached_property
     def all_flags(self):
