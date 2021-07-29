@@ -63,7 +63,7 @@ from weblate.utils.views import (
     get_translation,
     try_set_language,
 )
-from weblate.vendasta.auth import user_can_customize_text
+from weblate.vendasta.aa_sdk import partner_has_customize_permissions
 from weblate.vendasta.constants import ACCESS_NAMESPACE, NAMESPACE_SEPARATOR
 
 
@@ -221,17 +221,17 @@ def show_component(request, project, component):
     obj = get_component(request, project, component)
     obj.stats.ensure_basic()
     user = request.user
+    user_can_access_namespace = False
+    namespace_has_customization_access = False
     user_namespace_query = user.groups.filter(roles__name=ACCESS_NAMESPACE).order_by(
         "name"
     )
-    user_can_access_namespace = bool(user_namespace_query.count())
-    namespace_has_customization_access = False
-    if user_can_access_namespace:
-        try:
-            namespace_has_customization_access = user_can_customize_text(user)
-        except Exception as e:
-            LOGGER.error("ERROR checking subscription tier: %s", e)
-            pass
+    if user_namespace_query.count():
+        user_can_access_namespace = True
+        namespace = user_namespace_query[0].name
+        namespace_has_customization_access = partner_has_customize_permissions(
+            namespace
+        )
 
     last_changes = Change.objects.prefetch().order().filter(component=obj)[:10]
 
