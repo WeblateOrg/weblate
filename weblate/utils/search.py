@@ -98,7 +98,7 @@ EXACT_FIELD_MAP = {
 }
 OPERATOR_MAP = {
     ":": "substring",
-    ":=": "iexact",
+    ":=": "exact",
     ":<": "lt",
     ":<=": "lte",
     ":>": "gt",

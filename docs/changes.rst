@@ -4,6 +4,7 @@ Weblate 4.8
 Not yet released.
 
 * Added support for Apple stringsdict format.
+* The exact search opearator is now case-sensitive on PostgreSQL.
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/67?closed=1>`__.
 
