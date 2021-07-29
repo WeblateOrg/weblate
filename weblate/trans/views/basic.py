@@ -30,6 +30,7 @@ from django.views.decorators.cache import never_cache
 
 from weblate.formats.models import EXPORTERS
 from weblate.lang.models import Language
+from weblate.logger import LOGGER
 from weblate.trans.forms import (
     AnnouncementForm,
     AutoForm,
@@ -62,6 +63,7 @@ from weblate.utils.views import (
     get_translation,
     try_set_language,
 )
+from weblate.vendasta.auth import user_can_customize_text
 from weblate.vendasta.constants import ACCESS_NAMESPACE, NAMESPACE_SEPARATOR
 
 
@@ -223,6 +225,13 @@ def show_component(request, project, component):
         "name"
     )
     user_can_access_namespace = bool(user_namespace_query.count())
+    namespace_has_customization_access = False
+    if user_can_access_namespace:
+        try:
+            namespace_has_customization_access = user_can_customize_text(user)
+        except Exception as e:
+            LOGGER.error("ERROR checking subscription tier: ", e)
+            pass
 
     last_changes = Change.objects.prefetch().order().filter(component=obj)[:10]
 
@@ -287,7 +296,8 @@ def show_component(request, project, component):
             ),
             "search_form": SearchForm(request.user),
             "alerts": obj.all_alerts,
-            "user_can_add_namespaced_translation": user_can_access_namespace,
+            "user_can_access_namespace": user_can_access_namespace,
+            "user_can_customize_text": namespace_has_customization_access,
         },
     )
 
