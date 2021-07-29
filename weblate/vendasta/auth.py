@@ -33,16 +33,16 @@ class VendastaOpenIdConnect(OpenIdConnectAuth):
 def user_can_customize_text(user):
     if not user:
         return False
-    social = user.social_auth.get(provider='Single-sign-on')
+    social = user.social_auth.get(provider="Single-sign-on")
     LOGGER.info("SOCIAL: ", social.name)
     url = social.setting("OIDC_ENDPOINT")
     LOGGER.info("URL: ", url)
-    access_token = social.extra_data['access_token']
+    access_token = social.extra_data["access_token"]
     LOGGER.info("T: ", access_token[:5])
     if user:
         return True
-    response = request('POST', url, headers={
-        "Authentication": "Bearer %s".format(access_token)
-    })
+    response = request(
+        "POST", url, headers={"Authentication": "Bearer %s".format(access_token)}
+    )
     if response.status_code != requests.codes.ok:
         pass
