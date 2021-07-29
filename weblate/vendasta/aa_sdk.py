@@ -41,4 +41,4 @@ def get_partner_subscription_tier(partner_id):
     if response.status_code != requests.codes.ok:
         return False
     LOGGER.info("AA RESPONSE: %s", str(response.json()))
-    return response.json().get('data', {}).get("subscription_tier")
+    return response.json().get("data", {}).get("subscription_tier")
