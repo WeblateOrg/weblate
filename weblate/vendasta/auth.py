@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import requests
+from django.conf import settings
 from social_core.backends.open_id_connect import OpenIdConnectAuth
 from social_core.utils import cache
 
@@ -34,10 +35,10 @@ def user_can_customize_text(user):
     if not user:
         return False
     social = user.social_auth
-    url = social.setting("OIDC_ENDPOINT")
-    LOGGER.info("URL: ", url)
     access_token = social.extra_data["access_token"]
     LOGGER.info("T: ", access_token[:5])
+    url = getattr(settings, "OIDC_ENDPOINT")
+    LOGGER.info("URL: ", url)
     if user:
         return True
     response = request(
