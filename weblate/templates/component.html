@@ -147,8 +147,10 @@
 {% else %}
 <button disabled="disabled" class="btn btn-primary" title="{% if user.is_authenticated %}{% trans "You don't have permission to start a new translation" %}{% else %}{% trans "Please sign in to start new translation"%}{% endif %}">{% trans "Start new translation" %}</button>
 {% endif %}
-{% if user_can_add_namespaced_translation %}
-<a class="btn btn-primary" href="{% url "new-namespaced-language" project=object.project.slug component=object.slug %}">{% trans "Customize existing translation" %}</a>
+{% if user_can_access_namespace and user_can_customize_text %}
+<a class="btn btn-primary" href="{% url "new-namespaced-language" project=object.project.slug component=object.slug %}">{% trans "Create whitelabeled translation" %}</a>
+{% elif user_can_access_namespace %}
+<button disabled="disabled" class="btn btn-primary" title="{% trans "Upgrade your subscription tier to customize text" %}" >{% trans "Create whitelabeled translation" %}</button>
 {% endif %}
 {% endif %}
 

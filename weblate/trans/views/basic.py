@@ -232,6 +232,10 @@ def show_component(request, project, component):
         namespace_has_customization_access = partner_has_customize_permissions(
             namespace
         )
+        LOGGER.info(
+            "NAMESPACE HAS CUSTOMIZATION ACCESS: %s",
+            str(namespace_has_customization_access),
+        )
 
     last_changes = Change.objects.prefetch().order().filter(component=obj)[:10]
 
