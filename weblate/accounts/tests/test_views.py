@@ -187,6 +187,9 @@ class ViewTest(RepoTestCase):
     def test_user_list(self):
         """Test user pages."""
         user = self.get_user()
+        response = self.client.get(reverse("user_list"), {"q": user.username})
+        self.assertEqual(response.status_code, 302)
+        self.client.login(username=user.username, password="testpassword")
         user_url = user.get_absolute_url()
         response = self.client.get(reverse("user_list"), {"q": user.username})
         self.assertContains(response, user_url)
