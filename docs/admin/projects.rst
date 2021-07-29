@@ -495,6 +495,10 @@ you are using the same IDs across the whole project.
 
 Default value can be changed by :setting:`DEFAULT_TRANSLATION_PROPAGATION`.
 
+.. seealso::
+
+   :ref:`translation-consistency`
+
 .. _component-enable_suggestions:
 
 Enable suggestions
