@@ -434,6 +434,7 @@ class Translation(
                 self.sync_unit(dbunits, updated, id_hash, unit, pos + 1)
 
         except FileParseError as error:
+            report_error(cause="Failed to parse file on update")
             self.log_warning("skipping update due to parse error: %s", error)
             return
 
