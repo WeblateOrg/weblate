@@ -150,7 +150,7 @@
 {% if user_can_access_namespace and user_can_customize_text %}
 <a class="btn btn-primary" href="{% url "new-namespaced-language" project=object.project.slug component=object.slug %}">{% trans "Create whitelabeled translation" %}</a>
 {% elif user_can_access_namespace %}
-<button disabled="disabled" class="btn btn-primary" title="{% trans "Upgrade your subscription tier to customize text" %}" >{% trans "Create whitelabeled translation" %}</button>
+<button disabled="disabled" class="btn btn-primary" title="{% trans "Upgrade your subscription tier to customize text" %}">{% trans "Create whitelabeled translation" %}</button>
 {% endif %}
 {% endif %}
 

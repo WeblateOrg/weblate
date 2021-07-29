@@ -124,7 +124,7 @@ RUN curl -sL "https://github.com/zaquestion/lab/releases/download/v0.17.2/lab_0.
   && chmod u+x /usr/bin/lab
 
 # Install nodejs and npm
-RUN curl -sL https://deb.nodesource.com/setup_14.x | sh - \
+RUN curl -sL https://deb.nodesource.com/setup_14.x | bash - \
   && apt-get install nodejs
 
 # Configuration for Weblate, nginx, uwsgi and supervisor
