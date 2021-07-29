@@ -230,7 +230,7 @@ def show_component(request, project, component):
         try:
             namespace_has_customization_access = user_can_customize_text(user)
         except Exception as e:
-            LOGGER.error("ERROR checking subscription tier: ", e)
+            LOGGER.error("ERROR checking subscription tier: %s", e)
             pass
 
     last_changes = Change.objects.prefetch().order().filter(component=obj)[:10]

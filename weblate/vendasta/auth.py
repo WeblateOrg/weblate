@@ -33,7 +33,7 @@ class VendastaOpenIdConnect(OpenIdConnectAuth):
 def user_can_customize_text(user):
     if not user:
         return False
-    social = user.social_auth.get(provider="Single-sign-on")
+    social = user.social_auth.get(name="Single-sign-on")
     LOGGER.info("SOCIAL: ", social.name)
     url = social.setting("OIDC_ENDPOINT")
     LOGGER.info("URL: ", url)
