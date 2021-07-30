@@ -74,8 +74,7 @@ enforce updating the database to match Weblate built-in data using
 
 .. seealso::
 
-   The language definitions are in the `weblate-language-data repository
-   <https://github.com/WeblateOrg/language-data/>`_.
+   :ref:`extending-lanugages`
 
 .. _ambiguous-languages:
 
