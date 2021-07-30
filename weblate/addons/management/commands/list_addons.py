@@ -19,6 +19,7 @@
 
 from textwrap import wrap
 
+from weblate.addons.events import EVENT_NAMES
 from weblate.addons.models import ADDONS, Addon
 from weblate.trans.models import Component, Project
 from weblate.utils.management.base import BaseCommand
@@ -64,6 +65,8 @@ class Command(BaseCommand):
                     )
             else:
                 self.stdout.write(":Configuration: `This add-on has no configuration.`")
+            events = ", ".join(EVENT_NAMES[event] for event in obj.events)
+            self.stdout.write(f":Events triggering add-on: {events}")
             self.stdout.write("\n")
             self.stdout.write("\n".join(wrap(obj.description, 79)))
             self.stdout.write("\n")

@@ -41,6 +41,7 @@ Automatic translation
                 +-----------------+------------------------------+-----------------------------------------------------------------------------------------------------------+
                 | ``threshold``   | Score threshold              |                                                                                                           |
                 +-----------------+------------------------------+-----------------------------------------------------------------------------------------------------------+
+:Events triggering add-on: component update, daily
 
 Automatically translates strings using machine translation or other components.
 
@@ -71,6 +72,7 @@ JavaScript localization CDN
                 +------------------+---------------------------------+-------------------------------------------------------------------------------------------+
                 | ``files``        | Extract strings from HTML files | List of filenames in current repository or remote URLs to parse for translatable strings. |
                 +------------------+---------------------------------+-------------------------------------------------------------------------------------------+
+:Events triggering add-on: daily, repository post-commit, repository post-update
 
 Publishes translations into content delivery network for use in JavaScript or
 HTML localization.
@@ -97,6 +99,7 @@ Remove blank strings
 
 :Add-on ID: ``weblate.cleanup.blank``
 :Configuration: `This add-on has no configuration.`
+:Events triggering add-on: repository post-commit, repository post-update
 
 Removes strings without a translation from translation files.
 
@@ -115,6 +118,7 @@ Cleanup translation files
 
 :Add-on ID: ``weblate.cleanup.generic``
 :Configuration: `This add-on has no configuration.`
+:Events triggering add-on: repository pre-commit, repository post-update
 
 Update all translation files to match the monolingual base file. For most file
 formats, this means removing stale translation keys no longer present in the
@@ -131,6 +135,7 @@ Add missing languages
 
 :Add-on ID: ``weblate.consistency.languages``
 :Configuration: `This add-on has no configuration.`
+:Events triggering add-on: daily, repository post-add
 
 Ensures a consistent set of languages is used for all components within a
 project.
@@ -170,6 +175,7 @@ Component discovery
                 +------------------------+----------------------------------------------------------------+------------------------------------------------------------------------------------+
                 | ``confirm``            | I confirm the above matches look correct                       |                                                                                    |
                 +------------------------+----------------------------------------------------------------+------------------------------------------------------------------------------------+
+:Events triggering add-on: repository post-update
 
 Automatically adds or removes project components based on file changes in the
 version control system.
@@ -222,6 +228,7 @@ Bulk edit
                 +-------------------+-----------------------------+--+
                 | ``remove_labels`` | Labels to remove            |  |
                 +-------------------+-----------------------------+--+
+:Events triggering add-on: component update
 
 Bulk edit flags, labels, or states of strings.
 
@@ -264,6 +271,7 @@ Flag unchanged translations as "Needs editing"
 
 :Add-on ID: ``weblate.flags.same_edit``
 :Configuration: `This add-on has no configuration.`
+:Events triggering add-on: unit post-create
 
 Whenever a new translatable string is imported from the VCS and it matches a
 source string, it is flagged as needing editing in Weblate. Especially useful
@@ -285,6 +293,7 @@ Flag new source strings as "Needs editing"
 
 :Add-on ID: ``weblate.flags.source_edit``
 :Configuration: `This add-on has no configuration.`
+:Events triggering add-on: unit post-create
 
 Whenever a new source string is imported from the VCS, it is flagged as needing
 editing in Weblate. This way you can easily filter and edit source strings
@@ -301,6 +310,7 @@ Flag new translations as "Needs editing"
 
 :Add-on ID: ``weblate.flags.target_edit``
 :Configuration: `This add-on has no configuration.`
+:Events triggering add-on: unit post-create
 
 Whenever a new translatable string is imported from the VCS, it is flagged as
 needing editing in Weblate. This way you can easily filter and edit
@@ -321,6 +331,7 @@ Statistics generator
                 +--------------+---------------------------+--+
                 | ``template`` | Content of generated file |  |
                 +--------------+---------------------------+--+
+:Events triggering add-on: repository pre-commit
 
 Generates a file containing detailed info about the translation status.
 
@@ -362,6 +373,7 @@ Pseudolocale generation
                 +------------+--------------------+--+
                 | ``suffix`` | String suffix      |  |
                 +------------+--------------------+--+
+:Events triggering add-on: component update, daily
 
 Generates a translation by adding prefix and suffix to source strings
 automatically.
@@ -398,6 +410,7 @@ Contributors in comment
 
 :Add-on ID: ``weblate.gettext.authors``
 :Configuration: `This add-on has no configuration.`
+:Events triggering add-on: repository pre-commit
 
 Updates the comment part of the PO file header to include contributor names and
 years of contributions.
@@ -418,6 +431,7 @@ Update ALL_LINGUAS variable in the "configure" file
 
 :Add-on ID: ``weblate.gettext.configure``
 :Configuration: `This add-on has no configuration.`
+:Events triggering add-on: repository post-add, daily
 
 Updates the ALL_LINGUAS variable in :file:`configure`, :file:`configure.in` or any
 :file:`configure.ac` files, when a new translation is added.
@@ -431,6 +445,7 @@ Customize gettext output
 :Configuration: +-----------+---------------------+-----------------------------------------------------------------------------------------------------------------------------------+
                 | ``width`` | Long lines wrapping | By default gettext wraps lines at 77 characters and at newlines. With the --no-wrap parameter, wrapping is only done at newlines. |
                 +-----------+---------------------+-----------------------------------------------------------------------------------------------------------------------------------+
+:Events triggering add-on: store post-load
 
 Allows customization of gettext output behavior, for example line wrapping.
 
@@ -453,6 +468,7 @@ Update LINGUAS file
 
 :Add-on ID: ``weblate.gettext.linguas``
 :Configuration: `This add-on has no configuration.`
+:Events triggering add-on: repository post-add, daily
 
 Updates the LINGUAS file when a new translation is added.
 
@@ -465,6 +481,7 @@ Generate MO files
 :Configuration: +----------+---------------------------+-------------------------------------------------------------+
                 | ``path`` | Path of generated MO file | If not specified, the location of the PO file will be used. |
                 +----------+---------------------------+-------------------------------------------------------------+
+:Events triggering add-on: repository pre-commit
 
 Automatically generates a MO file for every changed PO file.
 
@@ -483,6 +500,7 @@ Update PO files to match POT (msgmerge)
                 +-----------------+--------------------------------------------+--+
                 | ``fuzzy``       | Use fuzzy matching                         |  |
                 +-----------------+--------------------------------------------+--+
+:Events triggering add-on: repository post-update
 
 Updates all PO files (as configured by :ref:`component-filemask`) to match the
 POT file (as configured by :ref:`component-new_base`) using :program:`msgmerge`.
@@ -508,6 +526,7 @@ Squash Git commits
                 +---------------------+--------------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------+
                 | ``commit_message``  | Commit message                             | This commit message will be used instead of the combined commit messages from the squashed commits.                                                               |
                 +---------------------+--------------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+:Events triggering add-on: repository post-commit
 
 Squash Git commits prior to pushing changes.
 
@@ -547,6 +566,7 @@ Customize JSON output
                 +---------------+------------------+--+
                 | ``indent``    | JSON indentation |  |
                 +---------------+------------------+--+
+:Events triggering add-on: store post-load
 
 Allows adjusting JSON output behavior, for example indentation or sorting.
 
@@ -557,6 +577,7 @@ Formats the Java properties file
 
 :Add-on ID: ``weblate.properties.sort``
 :Configuration: `This add-on has no configuration.`
+:Events triggering add-on: repository pre-commit
 
 Sorts the Java properties file.
 
@@ -571,6 +592,7 @@ Stale comment removal
 :Configuration: +---------+--------------+--+
                 | ``age`` | Days to keep |  |
                 +---------+--------------+--+
+:Events triggering add-on: daily
 
 Set a timeframe for removal of comments.
 
@@ -591,6 +613,7 @@ Stale suggestion removal
                 +-----------+------------------+-------------------------------------------------------------------------+
                 | ``votes`` | Voting threshold | Threshold for removal. This field has no effect with voting turned off. |
                 +-----------+------------------+-------------------------------------------------------------------------+
+:Events triggering add-on: daily
 
 Set a timeframe for removal of suggestions.
 
@@ -607,6 +630,7 @@ Update RESX files
 
 :Add-on ID: ``weblate.resx.update``
 :Configuration: `This add-on has no configuration.`
+:Events triggering add-on: repository post-update
 
 Update all translation files to match the monolingual upstream base file.
 Unused strings are removed, and new ones added as copies of the source string.
@@ -635,6 +659,7 @@ Customize YAML output
                 +----------------+---------------------+--+
                 | ``line_break`` | Line breaks         |  |
                 +----------------+---------------------+--+
+:Events triggering add-on: store post-load
 
 Allows adjusting YAML output behavior, for example line-length or newlines.
 
