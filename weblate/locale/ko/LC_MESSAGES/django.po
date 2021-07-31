@@ -22,8 +22,8 @@ msgstr ""
 "Project-Id-Version: Weblate 4.7\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-06-16 18:40+0000\n"
-"PO-Revision-Date: 2021-06-22 17:34+0000\n"
-"Last-Translator: k ks <kmshts@naver.com>\n"
+"PO-Revision-Date: 2021-08-01 16:33+0000\n"
+"Last-Translator: simmon <simmon@nplob.com>\n"
 "Language-Team: Korean <https://hosted.weblate.org/projects/weblate/"
 "application/ko/>\n"
 "Language: ko\n"
@@ -31,7 +31,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 4.7.1-dev\n"
+"X-Generator: Weblate 4.8-dev\n"
 
 #: weblate/accounts/avatar.py:103
 msgctxt "No known user"
@@ -425,7 +425,7 @@ msgstr "계정에 대한 접근을 복원하려면 비밀번호를 다시 설정
 
 #: weblate/accounts/models.py:184
 msgid "Please contact project maintainers if you feel this is inappropriate."
-msgstr ""
+msgstr "만약 이 것이 부적합하다고 느끼면, 프로젝트 유지관리자에게 연락하세요."
 
 #: weblate/accounts/models.py:306 weblate/templates/accounts/profile.html:227
 #: weblate/templates/accounts/user.html:223
@@ -2193,10 +2193,8 @@ msgid "Project"
 msgstr "프로젝트"
 
 #: weblate/auth/models.py:668
-#, fuzzy
-#| msgid "Lock expires:"
 msgid "Block expiry"
-msgstr "잠금 만료:"
+msgstr "블록 만료"
 
 #: weblate/billing/admin.py:82 weblate/templates/billing/list.html:8
 #: weblate/templates/billing/status.html:112
@@ -3891,16 +3889,11 @@ msgid "Server Error"
 msgstr "서버 오류"
 
 #: weblate/templates/500.html:16
-#, fuzzy, python-format
-#| msgid ""
-#| "The server had serious problems serving your request. Trained monkeys are "
-#| "en-route fixing the issue."
+#, python-format
 msgid ""
 "The server had serious problems serving your request, and this error has "
 "been recorded as %(error_id)s."
-msgstr ""
-"요청을 처리하는 서버에 심각한 문제가 있었습니다. 숙련된 원숭이가 문제를 해결"
-"하고 있습니다."
+msgstr "요청을 처리하는 서버에 심각한 문제가 있으며, 그리고 이 오류는 %(error_id)s로서 기록되어 있습니다."
 
 #: weblate/templates/500.html:36
 #, fuzzy
@@ -4042,7 +4035,7 @@ msgstr ""
 #: weblate/templates/accounts/contact.html:18
 #, python-format
 msgid "You can only contact administrators of %(site_title)s here."
-msgstr "여기서는  %(site_title)s 의 관리자에게만 연락이 가능합니다."
+msgstr "여기서는 %(site_title)s 의 관리자에게만 연락이 가능합니다."
 
 #: weblate/templates/accounts/contact.html:20
 #, fuzzy
@@ -5076,7 +5069,7 @@ msgstr "%(project)s에서 검사가 실패했습니다"
 #: weblate/templates/base.html:180
 #, python-format
 msgid "Failed checks in %(language)s"
-msgstr "언어 : %(language)s에서 검사가 실패했습니다."
+msgstr "%(language)s에서 점검이 실패하였습니다"
 
 #: weblate/templates/base.html:184
 msgid "Checks overview"
@@ -6008,8 +6001,7 @@ msgstr "걸기"
 
 #: weblate/templates/data.html:123
 msgid "You pull changes from a remote repository to Weblate like this:"
-msgstr ""
-"다음 예시처럼 원격 저장소에서 웨블레이트로 변경사항을 가져올 수 있습니다."
+msgstr "이와 같이 원격 저장소에서 웹레이트로 변경사항을 가져올 수 있습니다:"
 
 #: weblate/templates/data.html:132
 msgid ""
@@ -7879,10 +7871,8 @@ msgstr "이 구성 요소는 %(target)s 저장소에 연결됩니다."
 
 #: weblate/templates/snippets/git-info.html:16
 #: weblate/templates/snippets/git-info.html:65
-#, fuzzy
-#| msgid "Repository operation"
 msgid "Repository URL copied to clipboard."
-msgstr "Repository URL이 클립보드에 복사되었습니다."
+msgstr "저장소(Repository URL)가 클립보드에 복사되었습니다."
 
 #: weblate/templates/snippets/git-info.html:21 weblate/trans/forms.py:1521
 #: weblate/trans/forms.py:1665 weblate/trans/models/component.py:315
@@ -7901,10 +7891,8 @@ msgid "%(author)s authored %(date)s"
 msgstr "%(date)s %(author)s가 작성함"
 
 #: weblate/templates/snippets/git-info.html:46
-#, fuzzy
-#| msgid "Thanks for using Weblate!"
 msgid "Last commit in Weblate"
-msgstr "Weblate를 사용하여 주셔서 감사합니다!"
+msgstr "웹레이트에서 마지막 커밋"
 
 #: weblate/templates/snippets/git-info.html:62
 msgid "Weblate repository"
@@ -8138,7 +8126,7 @@ msgstr ""
 #: weblate/templates/snippets/info.html:461
 #: weblate/templates/snippets/info.html:498
 msgid "Contributors"
-msgstr "컨트리뷰터"
+msgstr "공헌자(컨트리뷰터)"
 
 #: weblate/templates/snippets/labels_description.html:7
 #, python-format
@@ -8534,10 +8522,8 @@ msgid "Source in review"
 msgstr "검토 원본"
 
 #: weblate/templates/snippets/unit-readonly-badge.html:6
-#, fuzzy
-#| msgid "Source strings in %s"
 msgid "Source string editing is disabled."
-msgstr "소스 문자열 편집이 비활성화되었습니다."
+msgstr "원천 문자열 편집이 비활성화 되었습니다."
 
 #: weblate/templates/snippets/unit-readonly-badge.html:8
 msgid "Source strings can’t be edited. You can delete them and add new ones."
@@ -8876,10 +8862,8 @@ msgstr ""
 "이러한 기능에 대한 지원을 끈 후 또는 종속성이 없는 경우에 발생할 수 있습니다."
 
 #: weblate/templates/trans/alert/unusedenforcedcheck.html:4
-#, fuzzy
-#| msgid "Failing checks found"
 msgid "Following enforced checks are not used anywhere:"
-msgstr "검사를 통과하지 못한 번역 발견됨"
+msgstr "다음과 같은 강제 검사는 어디에도 사용되지 않습니다:"
 
 #: weblate/templates/trans/alert/unusedenforcedcheck.html:8
 #, python-format
@@ -9412,7 +9396,7 @@ msgstr[0] "이 문자열에 대한 %(count)s 개의 변형이 있습니다."
 #: weblate/templates/translate.html:527
 #, python-format
 msgid "Browse glossary %(name)s"
-msgstr "%(name)s 용어집을 탐색합니다."
+msgstr "용어집 %(name)s을 찾아보기"
 
 #: weblate/templates/translate.html:549 weblate/templates/translate.html:559
 msgid "Add term to glossary"
@@ -9485,10 +9469,9 @@ msgid "<code>%(flags)s</code> is inherited from %(object)s."
 msgstr ""
 
 #: weblate/templates/translate.html:762
-#, fuzzy, python-format
-#| msgid "Variants of the string"
+#, python-format
 msgid "Add a new variant for \"%(existing)s\""
-msgstr "\"%(existing)s\"에 대한 새 변수를 추가합니다."
+msgstr "\"%(existing)s\"를 위한 신규 변수를 추가"
 
 #: weblate/templates/translation.html:55
 #, fuzzy
@@ -11656,16 +11639,14 @@ msgid "Failed to parse new string"
 msgstr "쿼리 문자열을 구문 분석하지 못했습니다 : {}"
 
 #: weblate/trans/models/translation.py:1429
-#, fuzzy, python-format
-#| msgid "Following components would be created"
+#, python-format
 msgid "Context would be created as \"%s\""
-msgstr "다음 구성 요소가 생성됩니다"
+msgstr "문맥이 \"%s\"로 생성됩니다"
 
 #: weblate/trans/models/translation.py:1433
-#, fuzzy, python-format
-#| msgid "Following components would be created"
+#, python-format
 msgid "Source would be created as %s"
-msgstr "다음 구성 요소가 생성됩니다"
+msgstr "원천이 %s로 생성됩니다"
 
 #: weblate/trans/models/unit.py:1402
 #, fuzzy
@@ -11778,7 +11759,7 @@ msgstr "금지된 번역문 : %s"
 #: weblate/trans/templatetags/translations.py:175
 #, python-format
 msgid "Not-translatable: %s"
-msgstr "번역할 수 없는 문자열  : %s"
+msgstr "번역 할 수 없는 문자열: %s"
 
 #: weblate/trans/templatetags/translations.py:177
 #, python-format
@@ -11940,12 +11921,9 @@ msgid "Failed checks:"
 msgstr "검사 실패:"
 
 #: weblate/trans/templatetags/translations.py:581
-#, fuzzy
-#| msgctxt "String state"
-#| msgid "Dismissed checks"
 msgctxt "String state"
 msgid "Dismissed checks:"
-msgstr "처리된 검사"
+msgstr "부적당한 검사:"
 
 #: weblate/trans/templatetags/translations.py:586
 msgctxt "String state"
@@ -12428,10 +12406,8 @@ msgid "Language of the project was removed."
 msgstr "프로젝트 언어 %s가 제거됐습니다."
 
 #: weblate/trans/views/source.py:75
-#, fuzzy
-#| msgid "Edit additional string info"
 msgid "Failed to change additional string info!"
-msgstr "추가 문자열 정보 편집"
+msgstr "추가 문자열 정보 변경에 실패하였습니다!"
 
 #: weblate/trans/widgets.py:247
 msgid "Big status badge"
@@ -12932,10 +12908,9 @@ msgid "Could not dismiss the configuration error!"
 msgstr "구성 오류를 해제할 수 없습니다!"
 
 #: weblate/wladmin/views.py:356
-#, fuzzy, python-format
-#| msgid "Create an account using:"
+#, python-format
 msgid "Created user account %s."
-msgstr "타사 서비스로 새 계정 등록:"
+msgstr "사용자 계정 %s로 생성되었습니다."
 
 #~ msgid "Permission"
 #~ msgstr "권한"
