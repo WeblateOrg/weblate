@@ -586,12 +586,14 @@ class Plural(models.Model):
     SOURCE_DEFAULT = 0
     SOURCE_GETTEXT = 1
     SOURCE_MANUAL = 2
+    SOURCE_STRINGSDICT = 3
     source = models.SmallIntegerField(
         default=SOURCE_DEFAULT,
         verbose_name=gettext_lazy("Plural definition source"),
         choices=(
             (SOURCE_DEFAULT, gettext_lazy("Default plural")),
-            (SOURCE_GETTEXT, gettext_lazy("Plural gettext formula")),
+            (SOURCE_GETTEXT, gettext_lazy("gettext plural formula")),
+            (SOURCE_STRINGSDICT, gettext_lazy("stringsdict plural")),
             (SOURCE_MANUAL, gettext_lazy("Manually entered formula")),
         ),
     )

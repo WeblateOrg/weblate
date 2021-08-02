@@ -58,7 +58,8 @@ from weblate.formats.ttkit import (
     XWikiPropertiesFormat,
     YAMLFormat,
 )
-from weblate.lang.models import Language
+from weblate.lang.data import PLURAL_UNKNOWN
+from weblate.lang.models import Language, Plural
 from weblate.trans.tests.test_views import FixtureTestCase
 from weblate.trans.tests.utils import TempDirMixin, get_test_file
 from weblate.utils.state import STATE_FUZZY, STATE_TRANSLATED
@@ -1153,3 +1154,26 @@ class StringsdictFormatTest(XMLMixin, AutoFormatTest):
     NEW_UNIT_MATCH = b"<string>Source string</string>"
     MONOLINGUAL = True
     EXPECTED_FLAGS = ""
+
+    def test_get_plural(self):
+        # Use up-to-date languages database and not the one from fixture
+        Language.objects.all().delete()
+        Language.objects.setup(update=False)
+
+        # Create a storage class
+        storage = self.parse_file(self.FILE)
+
+        # Try getting plural with zero for all languages
+        for language in Language.objects.iterator():
+            plural = storage.get_plural(language)
+            self.assertIsInstance(plural, Plural)
+            self.assertNotEqual(
+                plural.type,
+                PLURAL_UNKNOWN,
+                f"Invalid plural type for {language.code}: {plural.formula}",
+            )
+            self.assertEqual(
+                plural.get_plural_name(0),
+                "Zero",
+                f"Invalid plural name for {language.code}: {plural.formula}",
+            )

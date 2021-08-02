@@ -51,6 +51,7 @@ from weblate.formats.base import (
     TranslationUnit,
     UpdateError,
 )
+from weblate.lang.data import FORMULA_WITH_ZERO, ZERO_PLURAL_TYPES
 from weblate.trans.util import (
     get_clean_env,
     get_string,
@@ -1813,3 +1814,16 @@ class StringsdictFormat(TTKitFormat):
     def extension():
         """Return most common file extension for format."""
         return "stringsdict"
+
+    def get_plural(self, language):
+        """Return matching plural object."""
+        plural = super().get_plural(language)
+        if plural.type in ZERO_PLURAL_TYPES:
+            return plural
+
+        from weblate.lang.models import Plural
+
+        return language.plural_set.get_or_create(
+            source=Plural.SOURCE_STRINGSDICT,
+            defaults={"formula": FORMULA_WITH_ZERO[plural.formula]},
+        )[0]
