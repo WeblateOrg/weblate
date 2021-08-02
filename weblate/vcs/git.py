@@ -89,6 +89,26 @@ class GitRepository(Repository):
 
     @staticmethod
     def git_config_update(filename: str, *updates: Tuple[str, str, str]):
+        # First, open file read-only to check current settings
+        modify = False
+        with GitConfigParser(file_or_files=filename, read_only=True) as config:
+            for section, key, value in updates:
+                try:
+                    old = config.get(section, key)
+                    if value is None:
+                        modify = True
+                        break
+                    if old == value:
+                        continue
+                except (NoSectionError, NoOptionError):
+                    pass
+                if value is not None:
+                    modify = True
+                    break
+        if not modify:
+            return
+        # In case changes are needed, open it for writing as that creates a lock
+        # file
         with GitConfigParser(file_or_files=filename, read_only=False) as config:
             for section, key, value in updates:
                 try:
