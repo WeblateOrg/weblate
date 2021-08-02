@@ -1349,12 +1349,7 @@ LICENSES = (
         False,
     ),
     ("IPA", "IPA Font License", "https://opensource.org/licenses/IPA", True),
-    (
-        "ISC",
-        "ISC License",
-        "https://www.isc.org/downloads/software-support-policy/isc-license/",
-        True,
-    ),
+    ("ISC", "ISC License", "https://www.isc.org/licenses/", True),
     (
         "JPNIC",
         "Japan Network Information Center License",
