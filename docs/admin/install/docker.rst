@@ -71,6 +71,29 @@ Enjoy your Weblate deployment, it's accessible on port 80 of the ``weblate`` con
 
 .. seealso:: :ref:`invoke-manage`
 
+Choosing Docker hub tag
+-----------------------
+
+You can use following tags on Docker hub, see https://hub.docker.com/r/weblate/weblate/tags/ for full list of available ones.
+
++-------------------------+------------------------------------------------------------------------------------------------------------+------------------------------------------------------+
+| Tag name                | Description                                                                                                | Use case                                             |
++=========================+============================================================================================================+======================================================+
+|``latest``               | Weblate stable release, matches latest tagged release                                                      | Rolling updates in a production environment          |
++-------------------------+------------------------------------------------------------------------------------------------------------+------------------------------------------------------+
+|``<VERSION>-<PATCH>``    | Weblate stable release                                                                                     | Well defined deploy in a production environment      |
++-------------------------+------------------------------------------------------------------------------------------------------------+------------------------------------------------------+
+|``edge``                 | Weblate stable release with development changes in the Docker container (for example updated dependencies) | Rolling updates in a staging environment             |
++-------------------------+------------------------------------------------------------------------------------------------------------+------------------------------------------------------+
+|``edge-<DATE>-<SHA>``    | Weblate stable release with development changes in the Docker container (for example updated dependencies) | Well defined deploy in a staging environment         |
++-------------------------+------------------------------------------------------------------------------------------------------------+------------------------------------------------------+
+|``bleeding``             | Development version Weblate from Git                                                                       | Rollling updates to test upcoming Weblate features   |
++-------------------------+------------------------------------------------------------------------------------------------------------+------------------------------------------------------+
+|``bleeding-<DATE>-<SHA>``| Development version Weblate from Git                                                                       | Well defined deploy to test upcoming Weblate features|
++-------------------------+------------------------------------------------------------------------------------------------------------+------------------------------------------------------+
+
+Every image is tested by our CI before it gets published, so even the `bleeding` version should be quite safe to use.
+
 .. _docker-ssl:
 
 Docker container with HTTPS support
@@ -1460,11 +1483,3 @@ using :ref:`docker-custom-config`.
 .. seealso::
 
    :doc:`../customize`
-
-
-Select your machine - local or cloud providers
-----------------------------------------------
-
-With Docker Machine you can create your Weblate deployment either on your local
-machine, or on any large number of cloud-based deployments on e.g. Amazon AWS,
-Greenhost, and many other providers.
