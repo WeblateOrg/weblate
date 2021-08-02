@@ -732,13 +732,21 @@ class VCSGitLabTest(VCSGitUpstreamTest):
         )
         self.repo.component.repo = "git@gitlab.example.com:WeblateOrg/test.git"
         self.assertEqual(
-            self.repo.get_api_url()[0],
-            "https://gitlab.example.com/api/v4/projects/WeblateOrg%2Ftest",
+            self.repo.get_api_url(),
+            (
+                "https://gitlab.example.com/api/v4/projects/WeblateOrg%2Ftest",
+                "WeblateOrg",
+                "test",
+            ),
         )
         self.repo.component.repo = "git@gitlab.example.com:foo/bar/test.git"
         self.assertEqual(
-            self.repo.get_api_url()[0],
-            "https://gitlab.example.com/api/v4/projects/foo%2Fbar%2Ftest",
+            self.repo.get_api_url(),
+            (
+                "https://gitlab.example.com/api/v4/projects/foo%2Fbar%2Ftest",
+                "foo",
+                "bar/test",
+            ),
         )
 
     @responses.activate

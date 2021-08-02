@@ -662,8 +662,16 @@ class GitMergeRequestBase(GitForcePushRepository):
         else:
             path = parsed.path
         parts = path.split(":")[-1].rstrip("/").split("/")
-        slug = parts[-1].replace(".git", "")
-        owner = "/".join(part for part in parts[:-1] if part)
+        slug_parts = [parts[-1].replace(".git", "")]
+        owner = ""
+        for part in parts[:-1]:
+            if not part:
+                continue
+            if not owner:
+                owner = part
+                continue
+            slug_parts.insert(-1, part)
+        slug = "/".join(slug_parts)
         return (
             self.API_TEMPLATE.format(
                 host=self.format_api_host(host),
