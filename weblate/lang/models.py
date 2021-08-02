@@ -542,7 +542,10 @@ class PluralQuerySet(models.QuerySet):
 
 class Plural(models.Model):
     PLURAL_CHOICES = (
-        (data.PLURAL_NONE, pgettext_lazy("Plural type", "None")),
+        (
+            data.PLURAL_NONE,
+            pgettext_lazy("Plural type", "None"),
+        ),
         (
             data.PLURAL_ONE_OTHER,
             pgettext_lazy("Plural type", "One/other (classic plural)"),
@@ -551,10 +554,22 @@ class Plural(models.Model):
             data.PLURAL_ONE_FEW_OTHER,
             pgettext_lazy("Plural type", "One/few/other (Slavic languages)"),
         ),
-        (data.PLURAL_ARABIC, pgettext_lazy("Plural type", "Arabic languages")),
-        (data.PLURAL_ZERO_ONE_OTHER, pgettext_lazy("Plural type", "Zero/one/other")),
-        (data.PLURAL_ONE_TWO_OTHER, pgettext_lazy("Plural type", "One/two/other")),
-        (data.PLURAL_ONE_OTHER_TWO, pgettext_lazy("Plural type", "One/other/two")),
+        (
+            data.PLURAL_ARABIC,
+            pgettext_lazy("Plural type", "Arabic languages"),
+        ),
+        (
+            data.PLURAL_ZERO_ONE_OTHER,
+            pgettext_lazy("Plural type", "Zero/one/other"),
+        ),
+        (
+            data.PLURAL_ONE_TWO_OTHER,
+            pgettext_lazy("Plural type", "One/two/other"),
+        ),
+        (
+            data.PLURAL_ONE_OTHER_TWO,
+            pgettext_lazy("Plural type", "One/other/two"),
+        ),
         (
             data.PLURAL_ONE_TWO_FEW_OTHER,
             pgettext_lazy("Plural type", "One/two/few/other"),
@@ -567,12 +582,18 @@ class Plural(models.Model):
             data.PLURAL_ONE_TWO_THREE_OTHER,
             pgettext_lazy("Plural type", "One/two/three/other"),
         ),
-        (data.PLURAL_ONE_OTHER_ZERO, pgettext_lazy("Plural type", "One/other/zero")),
+        (
+            data.PLURAL_ONE_OTHER_ZERO,
+            pgettext_lazy("Plural type", "One/other/zero"),
+        ),
         (
             data.PLURAL_ONE_FEW_MANY_OTHER,
             pgettext_lazy("Plural type", "One/few/many/other"),
         ),
-        (data.PLURAL_TWO_OTHER, pgettext_lazy("Plural type", "Two/other")),
+        (
+            data.PLURAL_TWO_OTHER,
+            pgettext_lazy("Plural type", "Two/other"),
+        ),
         (
             data.PLURAL_ONE_TWO_FEW_MANY_OTHER,
             pgettext_lazy("Plural type", "One/two/few/many/other"),
@@ -581,7 +602,30 @@ class Plural(models.Model):
             data.PLURAL_ZERO_ONE_TWO_FEW_MANY_OTHER,
             pgettext_lazy("Plural type", "Zero/one/two/few/many/other"),
         ),
-        (data.PLURAL_UNKNOWN, pgettext_lazy("Plural type", "Unknown")),
+        (
+            data.PLURAL_ZERO_OTHER,
+            pgettext_lazy("Plural type", "Zero/other"),
+        ),
+        (
+            data.PLURAL_ZERO_ONE_FEW_OTHER,
+            pgettext_lazy("Plural type", "Zero/one/few/other"),
+        ),
+        (
+            data.PLURAL_ZERO_ONE_TWO_FEW_OTHER,
+            pgettext_lazy("Plural type", "Zero/one/two/few/other"),
+        ),
+        (
+            data.PLURAL_ZERO_ONE_TWO_OTHER,
+            pgettext_lazy("Plural type", "Zero/one/two/other"),
+        ),
+        (
+            data.PLURAL_ZERO_ONE_FEW_MANY_OTHER,
+            pgettext_lazy("Plural type", "Zero/one/few/many/other"),
+        ),
+        (
+            data.PLURAL_UNKNOWN,
+            pgettext_lazy("Plural type", "Unknown"),
+        ),
     )
     SOURCE_DEFAULT = 0
     SOURCE_GETTEXT = 1
