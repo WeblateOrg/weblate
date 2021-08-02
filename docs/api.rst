@@ -34,6 +34,7 @@ token, which you can get in your profile. Use it in the ``Authorization`` header
                    Possible values depends on REST framework setup,
                    by default ``json`` and ``api`` are supported. The
                    latter provides web browser interface for API.
+    :query page: Returns given page of paginated results (use `next` and `previous` fields in response to automate the navigation).
     :reqheader Accept: the response content type depends on
                        :http:header:`Accept` header
     :reqheader Authorization: optional token to authenticate as
