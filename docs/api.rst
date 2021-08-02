@@ -1793,7 +1793,7 @@ Translations
     :param language: Translation language code
     :type language: string
     :<json string key: Name of translation unit
-    :<json string value: The translation unit value
+    :<json array value: The translation unit value
 
     .. seealso::
 
