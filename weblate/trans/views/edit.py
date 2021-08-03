@@ -293,6 +293,11 @@ def perform_suggestion(unit, form, request):
     return result
 
 
+def update_explanation(unit, form):
+    unit.explanation = form.cleaned_data["explanation"]
+    unit.save(update_fields=["explanation"], only_save=True)
+
+
 def perform_translation(unit, form, request):
     """Handle translation and stores it to a backend."""
     user = request.user
@@ -314,9 +319,7 @@ def perform_translation(unit, form, request):
     )
     # Make sure explanation is saved
     if not saved and change_explanation:
-        Unit.objects.filter(pk=unit.pk).update(
-            explanation=form.cleaned_data["explanation"]
-        )
+        update_explanation(unit, form)
 
     # Warn about applied fixups
     if unit.fixups:
@@ -390,7 +393,12 @@ def handle_translate(request, unit, this_unit_url, next_unit_url):
     if "suggest" in request.POST:
         go_next = perform_suggestion(unit, form, request)
     elif not request.user.has_perm("unit.edit", unit):
-        messages.error(request, _("Insufficient privileges for saving translations."))
+        if request.user.has_perm("unit.flag", unit):
+            update_explanation(unit, form)
+        else:
+            messages.error(
+                request, _("Insufficient privileges for saving translations.")
+            )
     else:
         go_next = perform_translation(unit, form, request)
 
@@ -886,7 +894,12 @@ def save_zen(request, project, component, lang):
     if not form.is_valid():
         show_form_errors(request, form)
     elif not request.user.has_perm("unit.edit", unit):
-        messages.error(request, _("Insufficient privileges for saving translations."))
+        if request.user.has_perm("unit.flag", unit):
+            update_explanation(unit, form)
+        else:
+            messages.error(
+                request, _("Insufficient privileges for saving translations.")
+            )
     else:
         perform_translation(unit, form, request)
 

@@ -480,6 +480,9 @@ class TranslationForm(UnitForm):
         if unit.readonly:
             for field in ["target", "fuzzy", "review"]:
                 self.fields[field].widget.attrs["readonly"] = 1
+            self.fields["review"].choices = [
+                (STATE_READONLY, _("Read only")),
+            ]
         self.user = user
         self.fields["target"].widget.attrs["tabindex"] = tabindex
         self.fields["target"].widget.profile = user.profile
