@@ -17,8 +17,6 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-from textwrap import wrap
-
 from weblate.checks.format import BaseFormatCheck
 from weblate.checks.models import CHECKS
 from weblate.utils.management.base import BaseCommand
@@ -34,6 +32,10 @@ def sorter(check):
     return (check.source, pos, check.name.lower())
 
 
+def escape(text):
+    return text.replace("\\", "\\\\")
+
+
 class Command(BaseCommand):
     help = "List installed checks"
 
@@ -47,18 +49,33 @@ class Command(BaseCommand):
         enables = []
         lines = []
         for check in sorted(CHECKS.values(), key=sorter):
+            check_class = check.__class__
             is_format = isinstance(check, BaseFormatCheck)
             # Output immediately
             self.stdout.write(f".. _{check.doc_id}:\n")
             if not lines:
                 lines.append("\n")
-            lines.append(str(check.name))
+            name = escape(check.name)
+            lines.append(name)
             if is_format:
-                lines.append("*" * len(check.name))
+                lines.append("*" * len(name))
             else:
-                lines.append("~" * len(check.name))
+                lines.append("~" * len(name))
             lines.append("\n")
-            lines.append("\n".join(wrap(f"*{check.description}*", 79)))
+            lines.append(f":Summary: {escape(check.description)}")
+            if check.target:
+                if check.ignore_untranslated:
+                    lines.append(":Scope: translated strings")
+                else:
+                    lines.append(":Scope: all strings")
+            if check.source:
+                lines.append(":Scope: source strings")
+            lines.append(
+                f":Check class: ``{check_class.__module__}.{check_class.__qualname__}``"
+            )
+            if check.default_disabled:
+                lines.append(f":Flag to enable: ``{check.enable_string}``")
+            lines.append(f":Flag to ignore: ``{check.ignore_string}``")
             lines.append("\n")
 
             self.flush_lines(lines)
