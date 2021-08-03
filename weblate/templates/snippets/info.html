@@ -78,7 +78,7 @@
         {% if project.web %}
         <tr>
         <th>{% trans "Project website" %}</th>
-        <td class="full-cell"><a href="{{ project.web }}">{{ project.web | urlformat }}</a></td>
+        <td class="full-cell"><a rel="ugc" href="{{ project.web }}">{{ project.web | urlformat }}</a></td>
         </tr>
         {% endif %}
 
