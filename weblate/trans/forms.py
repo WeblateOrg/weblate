@@ -477,6 +477,9 @@ class TranslationForm(UnitForm):
             kwargs["auto_id"] = f"id_{unit.checksum}_%s"
         tabindex = kwargs.pop("tabindex", 100)
         super().__init__(unit, *args, **kwargs)
+        if unit.readonly:
+            for field in ["target", "fuzzy", "review"]:
+                self.fields[field].widget.attrs["readonly"] = 1
         self.user = user
         self.fields["target"].widget.attrs["tabindex"] = tabindex
         self.fields["target"].widget.profile = user.profile
