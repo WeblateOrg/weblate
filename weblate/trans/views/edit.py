@@ -302,12 +302,21 @@ def perform_translation(unit, form, request):
     oldchecks = unit.all_checks_names
 
     # Update explanation for glossary
-    if unit.translation.component.is_glossary:
+    change_explanation = (
+        unit.translation.component.is_glossary
+        and unit.explanation != form.cleaned_data["explanation"]
+    )
+    if change_explanation:
         unit.explanation = form.cleaned_data["explanation"]
     # Save
     saved = unit.translate(
         user, form.cleaned_data["target"], form.cleaned_data["state"]
     )
+    # Make sure explanation is saved
+    if not saved and change_explanation:
+        Unit.objects.filter(pk=unit.pk).update(
+            explanation=form.cleaned_data["explanation"]
+        )
 
     # Warn about applied fixups
     if unit.fixups:
