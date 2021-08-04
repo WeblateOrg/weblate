@@ -393,7 +393,6 @@ class Notification:
         self.notify_digest(FREQ_MONTHLY, self.filter_changes(months=1))
 
 
-@register_notification
 class MergeFailureNotification(Notification):
     actions = (
         Change.ACTION_FAILED_MERGE,
