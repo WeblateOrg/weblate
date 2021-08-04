@@ -76,7 +76,7 @@ Upload translations files
     or do not want to integrate it with Weblate. You can later update the
     content using the web interface or :ref:`api`.
 Translate document
-    Upload single document and translate that.
+    Upload single document or translation file and translate that.
 Start from scratch
     Create blank translation project and add strings manually.
 
