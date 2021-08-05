@@ -26,6 +26,7 @@ import urllib.parse
 from configparser import NoOptionError, NoSectionError
 from datetime import datetime
 from json import JSONDecodeError, dumps
+from time import sleep
 from typing import Dict, Iterator, List, Optional, Tuple
 from zipfile import ZipFile
 
@@ -424,7 +425,14 @@ class GitRepository(Repository):
             )
 
         filename = os.path.join(data_dir("home"), ".gitconfig")
-        cls.git_config_update(filename, *updates)
+        attempts = 0
+        while attempts < 5:
+            try:
+                cls.git_config_update(filename, *updates)
+                break
+            except OSError:
+                attempts += 1
+                sleep(attempts * 0.1)
 
     def get_file(self, path, revision):
         """Return content of file at given revision."""
