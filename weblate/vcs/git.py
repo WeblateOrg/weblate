@@ -104,7 +104,6 @@ class GitRepository(Repository):
                     pass
                 if value is not None:
                     modify = True
-                    break
         if not modify:
             return
         # In case changes are needed, open it for writing as that creates a lock
