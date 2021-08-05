@@ -35,8 +35,8 @@ msgstr ""
 "Project-Id-Version: Weblate 4.8\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-08-05 21:21+0000\n"
-"PO-Revision-Date: 2021-07-25 15:45+0000\n"
-"Last-Translator: JY3 <GeeyunJY3@gmail.com>\n"
+"PO-Revision-Date: 2021-08-06 06:48+0000\n"
+"Last-Translator: Eric <spice2wolf@gmail.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "weblate/application/zh_Hans/>\n"
 "Language: zh_Hans\n"
@@ -44,7 +44,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 4.7.2-dev\n"
+"X-Generator: Weblate 4.8-dev\n"
 
 #: weblate/accounts/avatar.py:103
 msgctxt "No known user"
@@ -1678,10 +1678,8 @@ msgstr "移除一个字符串"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:78
-#, fuzzy
-#| msgid "Message has failing checks"
 msgid "Dismiss failing check"
-msgstr "未通过检查的消息"
+msgstr "不理睬失败的检查"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:80
@@ -3178,10 +3176,8 @@ msgid "mi18n lang file"
 msgstr "mi18n 语言文件"
 
 #: weblate/formats/ttkit.py:1795
-#, fuzzy
-#| msgid "Strings with labels"
 msgid "Stringsdict file"
-msgstr "带标签的字符串"
+msgstr "Stringsdict 文件"
 
 #: weblate/formats/txt.py:176
 msgid "App store metadata files"
@@ -3380,44 +3376,29 @@ msgid "Zero/one/two/few/many/other"
 msgstr "零/一/二/少/多/其他"
 
 #: weblate/lang/models.py:607
-#, fuzzy
-#| msgctxt "Plural type"
-#| msgid "Zero/one/other"
 msgctxt "Plural type"
 msgid "Zero/other"
-msgstr "零/一/其他"
+msgstr "零/其他"
 
 #: weblate/lang/models.py:611
-#, fuzzy
-#| msgctxt "Plural type"
-#| msgid "Zero/one/other"
 msgctxt "Plural type"
 msgid "Zero/one/few/other"
-msgstr "零/一/其他"
+msgstr "零/一/少数/其他"
 
 #: weblate/lang/models.py:615
-#, fuzzy
-#| msgctxt "Plural type"
-#| msgid "Zero/one/two/few/many/other"
 msgctxt "Plural type"
 msgid "Zero/one/two/few/other"
-msgstr "零/一/二/少/多/其他"
+msgstr "零/一/二/少/其他"
 
 #: weblate/lang/models.py:619
-#, fuzzy
-#| msgctxt "Plural type"
-#| msgid "Zero/one/other"
 msgctxt "Plural type"
 msgid "Zero/one/two/other"
-msgstr "零/一/其他"
+msgstr "零/一/二/其他"
 
 #: weblate/lang/models.py:623
-#, fuzzy
-#| msgctxt "Plural type"
-#| msgid "Zero/one/two/few/many/other"
 msgctxt "Plural type"
 msgid "Zero/one/few/many/other"
-msgstr "零/一/二/少/多/其他"
+msgstr "零/一/少/多/其他"
 
 #: weblate/lang/models.py:627
 msgctxt "Plural type"
@@ -3433,16 +3414,12 @@ msgid "Default plural"
 msgstr "默认复数"
 
 #: weblate/lang/models.py:639
-#, fuzzy
-#| msgid "Gettext plural formula"
 msgid "gettext plural formula"
-msgstr "Gettext 复数形式"
+msgstr "gettext 复数形式"
 
 #: weblate/lang/models.py:640
-#, fuzzy
-#| msgid "String has plural"
 msgid "stringsdict plural"
-msgstr "有复数形式的字符串"
+msgstr "stringsdict 复数"
 
 #: weblate/lang/models.py:641
 msgid "Manually entered formula"
@@ -4827,28 +4804,20 @@ msgid "Matched files"
 msgstr "匹配文件"
 
 #: weblate/templates/addons/discovery_preview.html:9
-#, fuzzy
-#| msgid "Following components would be deleted"
 msgid "The following components would be deleted"
 msgstr "以下组件将被删除"
 
 #: weblate/templates/addons/discovery_preview.html:15
-#, fuzzy
-#| msgid "Following components would be created"
 msgid "The following components would be created"
 msgstr "以下组件将被创建"
 
 #: weblate/templates/addons/discovery_preview.html:28
-#, fuzzy
-#| msgid "Following components matched existing ones"
 msgid "The following components matched existing ones"
 msgstr "以下组件与现有组件匹配"
 
 #: weblate/templates/addons/discovery_preview.html:41
-#, fuzzy
-#| msgid "No matching checks found!"
 msgid "No matching components were found!"
-msgstr "未找到匹配的检查！"
+msgstr "未找到匹配的组件！"
 
 #: weblate/templates/addons/generate_help.html:6
 msgid ""
@@ -8209,10 +8178,8 @@ msgid "The source string cannot be edited."
 msgstr "源字符串无法被编辑。"
 
 #: weblate/templates/snippets/user-list.html:19 weblate/trans/forms.py:162
-#, fuzzy
-#| msgid "Could not find reverted change."
 msgid "Could not find any such user."
-msgstr "找不到已还原更改。"
+msgstr "找不到任何这样的用户。"
 
 #: weblate/templates/snippets/watch-dropdown.html:9
 msgid "Watching"
@@ -9384,15 +9351,13 @@ msgstr "指定的校验和无效！"
 
 #: weblate/trans/forms.py:164
 msgid "More possible users were found."
-msgstr ""
+msgstr "发现了更多可能的用户。"
 
 #: weblate/trans/forms.py:178
 msgid "Missing query string."
 msgstr "缺少查询字符串。"
 
 #: weblate/trans/forms.py:185
-#, fuzzy
-#| msgid "Failed to parse query string: {}"
 msgid "Could not parse query string: {}"
 msgstr "无法解析查询字符串：{}"
 
@@ -10308,9 +10273,6 @@ msgid "Moved component"
 msgstr "组件已移动"
 
 #: weblate/trans/models/change.py:316
-#, fuzzy
-#| msgid "New string to translate"
-#| msgid_plural "New strings to translate"
 msgctxt "Name of event in the history"
 msgid "New string to translate"
 msgstr "要翻译的新字符串"
@@ -11982,10 +11944,8 @@ msgid "Silver"
 msgstr "银色"
 
 #: weblate/utils/fields.py:92
-#, fuzzy
-#| msgid "A user with that username already exists."
 msgid "A user with this e-mail already exists."
-msgstr "具有该用户名的用户已存在。"
+msgstr "具有该电子邮箱的用户已存在。"
 
 #: weblate/utils/render.py:44
 #, python-format
