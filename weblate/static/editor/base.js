@@ -72,7 +72,7 @@ WLT.Editor = (function () {
     /* Copy source text */
     this.$editor.on("click", "[data-clone-text]", function (e) {
       var $this = $(this);
-      var cloneText = $this.data("clone-text");
+      var cloneText = this.getAttribute("data-clone-text");
 
       var row = $this.closest(".zen-unit");
       if (row.length === 0) {
