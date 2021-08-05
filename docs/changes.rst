@@ -5,6 +5,8 @@ Not yet released.
 
 * Added support for Apple stringsdict format.
 * The exact search opearator is now case-sensitive on PostgreSQL.
+* Fixed saving glossary explanations in some cases.
+* Documentation improvements.
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/67?closed=1>`__.
 
