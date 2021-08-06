@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.8\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-08-05 21:21+0000\n"
-"PO-Revision-Date: 2021-06-19 08:33+0000\n"
+"PO-Revision-Date: 2021-08-06 11:21+0000\n"
 "Last-Translator: Johan Jacobsson <johan.jacobsson@telia.com>\n"
 "Language-Team: Swedish <https://hosted.weblate.org/projects/weblate/"
 "application/sv/>\n"
@@ -22,7 +22,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.7\n"
+"X-Generator: Weblate 4.8-dev\n"
 
 #: weblate/accounts/avatar.py:103
 msgctxt "No known user"
@@ -1739,10 +1739,8 @@ msgstr "Ta bort en sträng"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:78
-#, fuzzy
-#| msgid "Message has failing checks"
 msgid "Dismiss failing check"
-msgstr "Meddelandet har misslyckade kontroller"
+msgstr "Avvisa misslyckad kontroll"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:80
@@ -3256,10 +3254,8 @@ msgid "mi18n lang file"
 msgstr "mi18n språkfil"
 
 #: weblate/formats/ttkit.py:1795
-#, fuzzy
-#| msgid "Strings with labels"
 msgid "Stringsdict file"
-msgstr "Strängar med etiketter"
+msgstr "Stringsdict -fil"
 
 #: weblate/formats/txt.py:176
 msgid "App store metadata files"
@@ -3458,44 +3454,29 @@ msgid "Zero/one/two/few/many/other"
 msgstr "Inga/en/två/fåtal/många/övriga"
 
 #: weblate/lang/models.py:607
-#, fuzzy
-#| msgctxt "Plural type"
-#| msgid "Zero/one/other"
 msgctxt "Plural type"
 msgid "Zero/other"
-msgstr "Inga/en/övriga"
+msgstr "Inga/övriga"
 
 #: weblate/lang/models.py:611
-#, fuzzy
-#| msgctxt "Plural type"
-#| msgid "Zero/one/other"
 msgctxt "Plural type"
 msgid "Zero/one/few/other"
-msgstr "Inga/en/övriga"
+msgstr "Inga/en/fåtal/övriga"
 
 #: weblate/lang/models.py:615
-#, fuzzy
-#| msgctxt "Plural type"
-#| msgid "Zero/one/two/few/many/other"
 msgctxt "Plural type"
 msgid "Zero/one/two/few/other"
-msgstr "Inga/en/två/fåtal/många/övriga"
+msgstr "Inga/en/två/fåtal/övriga"
 
 #: weblate/lang/models.py:619
-#, fuzzy
-#| msgctxt "Plural type"
-#| msgid "Zero/one/other"
 msgctxt "Plural type"
 msgid "Zero/one/two/other"
-msgstr "Inga/en/övriga"
+msgstr "Inga/en/två/övriga"
 
 #: weblate/lang/models.py:623
-#, fuzzy
-#| msgctxt "Plural type"
-#| msgid "Zero/one/two/few/many/other"
 msgctxt "Plural type"
 msgid "Zero/one/few/many/other"
-msgstr "Inga/en/två/fåtal/många/övriga"
+msgstr "Inga/en/fåtal/många/övriga"
 
 #: weblate/lang/models.py:627
 msgctxt "Plural type"
@@ -3511,16 +3492,12 @@ msgid "Default plural"
 msgstr "Standard pluralform"
 
 #: weblate/lang/models.py:639
-#, fuzzy
-#| msgid "Gettext plural formula"
 msgid "gettext plural formula"
-msgstr "Gettext-pluralform"
+msgstr "gettext-pluralformel"
 
 #: weblate/lang/models.py:640
-#, fuzzy
-#| msgid "String has plural"
 msgid "stringsdict plural"
-msgstr "Sträng har plural"
+msgstr "stringsdict plural"
 
 #: weblate/lang/models.py:641
 msgid "Manually entered formula"
@@ -4985,28 +4962,20 @@ msgid "Matched files"
 msgstr "Matchade filer"
 
 #: weblate/templates/addons/discovery_preview.html:9
-#, fuzzy
-#| msgid "Following components would be deleted"
 msgid "The following components would be deleted"
 msgstr "Följande komponenter kommer tas bort"
 
 #: weblate/templates/addons/discovery_preview.html:15
-#, fuzzy
-#| msgid "Following components would be created"
 msgid "The following components would be created"
 msgstr "Följande komponenter skulle läggas till"
 
 #: weblate/templates/addons/discovery_preview.html:28
-#, fuzzy
-#| msgid "Following components matched existing ones"
 msgid "The following components matched existing ones"
-msgstr "Följande komponenter matchade redan existerande"
+msgstr "Följande komponenter matchade befintliga komponenter"
 
 #: weblate/templates/addons/discovery_preview.html:41
-#, fuzzy
-#| msgid "No matching checks found!"
 msgid "No matching components were found!"
-msgstr "Inga matchande kontroller hittades!"
+msgstr "Inga matchande komponenter hittades!"
 
 #: weblate/templates/addons/generate_help.html:6
 msgid ""
@@ -8529,10 +8498,8 @@ msgid "The source string cannot be edited."
 msgstr "Källsträngen kan inte redigeras."
 
 #: weblate/templates/snippets/user-list.html:19 weblate/trans/forms.py:162
-#, fuzzy
-#| msgid "Could not find reverted change."
 msgid "Could not find any such user."
-msgstr "Kunde inte hitta återställd ändring."
+msgstr "Kunde inte hitta någon sådan användare."
 
 #: weblate/templates/snippets/watch-dropdown.html:9
 msgid "Watching"
@@ -9795,15 +9762,13 @@ msgstr "Ogiltig kontrollsumma angiven!"
 
 #: weblate/trans/forms.py:164
 msgid "More possible users were found."
-msgstr ""
+msgstr "Fler möjliga användare hittades."
 
 #: weblate/trans/forms.py:178
 msgid "Missing query string."
 msgstr "Frågesträng saknas."
 
 #: weblate/trans/forms.py:185
-#, fuzzy
-#| msgid "Failed to parse query string: {}"
 msgid "Could not parse query string: {}"
 msgstr "Kunde inte tolka frågesträngen: {}"
 
@@ -10743,9 +10708,6 @@ msgid "Moved component"
 msgstr "Komponent flyttad"
 
 #: weblate/trans/models/change.py:316
-#, fuzzy
-#| msgid "New string to translate"
-#| msgid_plural "New strings to translate"
 msgctxt "Name of event in the history"
 msgid "New string to translate"
 msgstr "Ny sträng att översätta"
@@ -12506,10 +12468,8 @@ msgid "Silver"
 msgstr "Silver"
 
 #: weblate/utils/fields.py:92
-#, fuzzy
-#| msgid "A user with that username already exists."
 msgid "A user with this e-mail already exists."
-msgstr "Det finns redan en användare med det namnet."
+msgstr "Det finns redan en användare med denna mejladress."
 
 #: weblate/utils/render.py:44
 #, python-format
