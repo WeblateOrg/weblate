@@ -46,7 +46,7 @@ def get_or_create_namespace_group(namespace):
     if isinstance(namespace_group, tuple):
         namespace_group = namespace_group[0]
 
-    namespace_group.roles.add(Role.objects.get(name='Translate'))
+    namespace_group.roles.add(Role.objects.get(name="Translate"))
     access_namespace_role = Role.objects.get_or_create(name=ACCESS_NAMESPACE)
     if isinstance(access_namespace_role, tuple):
         access_namespace_role = access_namespace_role[0]
