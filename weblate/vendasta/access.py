@@ -43,7 +43,7 @@ def get_or_create_namespace_group(namespace):
     get_or_create returns a Group if successful, or a tuple of type (Group, bool)
     if it must create a new Group.
     """
-    namespace_group = Group.objects.get_or_create(name=namespace.upper())
+    namespace_group = Group.objects.get_or_create(name=namespace.upper(), project_selection=SELECTION_ALL)
     if isinstance(namespace_group, tuple):
         namespace_group = namespace_group[0]
 
@@ -52,7 +52,5 @@ def get_or_create_namespace_group(namespace):
     if isinstance(access_namespace_role, tuple):
         access_namespace_role = access_namespace_role[0]
     namespace_group.roles.add(access_namespace_role)
-
-    namespace_group.project_selection = SELECTION_ALL
 
     return namespace_group
