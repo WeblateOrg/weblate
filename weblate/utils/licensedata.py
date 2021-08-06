@@ -598,6 +598,18 @@ LICENSES = (
         False,
     ),
     (
+        "CC-BY-3.0-DE",
+        "Creative Commons Attribution 3.0 Germany",
+        "https://creativecommons.org/licenses/by/3.0/de/legalcode",
+        False,
+    ),
+    (
+        "CC-BY-3.0-NL",
+        "Creative Commons Attribution 3.0 Netherlands",
+        "https://creativecommons.org/licenses/by/3.0/nl/legalcode",
+        False,
+    ),
+    (
         "CC-BY-3.0-US",
         "Creative Commons Attribution 3.0 United States",
         "https://creativecommons.org/licenses/by/3.0/us/legalcode",
@@ -634,6 +646,12 @@ LICENSES = (
         False,
     ),
     (
+        "CC-BY-ND-3.0-DE",
+        "Creative Commons Attribution No Derivatives 3.0 Germany",
+        "https://creativecommons.org/licenses/by-nd/3.0/de/legalcode",
+        False,
+    ),
+    (
         "CC-BY-ND-3.0",
         "Creative Commons Attribution No Derivatives 3.0 Unported",
         "https://creativecommons.org/licenses/by-nd/3.0/legalcode",
@@ -661,6 +679,12 @@ LICENSES = (
         "CC-BY-NC-2.5",
         "Creative Commons Attribution Non Commercial 2.5 Generic",
         "https://creativecommons.org/licenses/by-nc/2.5/legalcode",
+        False,
+    ),
+    (
+        "CC-BY-NC-3.0-DE",
+        "Creative Commons Attribution Non Commercial 3.0 Germany",
+        "https://creativecommons.org/licenses/by-nc/3.0/de/legalcode",
         False,
     ),
     (
@@ -694,6 +718,12 @@ LICENSES = (
         False,
     ),
     (
+        "CC-BY-NC-ND-3.0-DE",
+        "Creative Commons Attribution Non Commercial No Derivatives 3.0 Germany",
+        "https://creativecommons.org/licenses/by-nc-nd/3.0/de/legalcode",
+        False,
+    ),
+    (
         "CC-BY-NC-ND-3.0-IGO",
         "Creative Commons Attribution Non Commercial No Derivatives 3.0 IGO",
         "https://creativecommons.org/licenses/by-nc-nd/3.0/igo/legalcode",
@@ -718,6 +748,12 @@ LICENSES = (
         False,
     ),
     (
+        "CC-BY-NC-SA-2.0-UK",
+        "Creative Commons Attribution Non Commercial Share Alike 2.0 England and Wales",
+        "https://creativecommons.org/licenses/by-nc-sa/2.0/uk/legalcode",
+        False,
+    ),
+    (
         "CC-BY-NC-SA-2.0",
         "Creative Commons Attribution Non Commercial Share Alike 2.0 Generic",
         "https://creativecommons.org/licenses/by-nc-sa/2.0/legalcode",
@@ -727,6 +763,12 @@ LICENSES = (
         "CC-BY-NC-SA-2.5",
         "Creative Commons Attribution Non Commercial Share Alike 2.5 Generic",
         "https://creativecommons.org/licenses/by-nc-sa/2.5/legalcode",
+        False,
+    ),
+    (
+        "CC-BY-NC-SA-3.0-DE",
+        "Creative Commons Attribution Non Commercial Share Alike 3.0 Germany",
+        "https://creativecommons.org/licenses/by-nc-sa/3.0/de/legalcode",
         False,
     ),
     (
@@ -778,6 +820,12 @@ LICENSES = (
         False,
     ),
     (
+        "CC-BY-SA-3.0-DE",
+        "Creative Commons Attribution Share Alike 3.0 Germany",
+        "https://creativecommons.org/licenses/by-sa/3.0/de/legalcode",
+        False,
+    ),
+    (
         "CC-BY-SA-3.0",
         "Creative Commons Attribution Share Alike 3.0 Unported",
         "https://creativecommons.org/licenses/by-sa/3.0/legalcode",
@@ -788,6 +836,12 @@ LICENSES = (
         "Creative Commons Attribution Share Alike 4.0 International",
         "https://creativecommons.org/licenses/by-sa/4.0/legalcode",
         True,
+    ),
+    (
+        "CC-BY-NC-SA-2.0-FR",
+        "Creative Commons Attribution-NonCommercial-ShareAlike 2.0 France",
+        "https://creativecommons.org/licenses/by-nc-sa/2.0/fr/legalcode",
+        False,
     ),
     (
         "CC-PDDC",
