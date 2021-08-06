@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-08-05 22:59+0200\n"
-"PO-Revision-Date: 2021-08-01 16:33+0000\n"
-"Last-Translator: Tymofii Lytvynenko <till.svit@gmail.com>\n"
+"PO-Revision-Date: 2021-08-06 11:21+0000\n"
+"Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/"
 "documentation/uk/>\n"
 "Language: uk\n"
@@ -1603,10 +1603,8 @@ msgid "Score threshold"
 msgstr "Поріг оцінки"
 
 #: ../../admin/addons.rst:0
-#, fuzzy
-#| msgid "Writing add-on"
 msgid "Events triggering add-on"
-msgstr "Написання додатка"
+msgstr "Події, які вмикають додаток"
 
 #: ../../admin/addons.rst:44 ../../admin/addons.rst:376
 #, fuzzy
@@ -1705,6 +1703,8 @@ msgstr ""
 #: ../../admin/addons.rst:75
 msgid "daily, repository post-commit, repository post-update"
 msgstr ""
+"щоденна обробка, обробка сховища після внеску, обробка сховища після "
+"оновлення"
 
 #: ../../admin/addons.rst:77
 msgid ""
@@ -1758,7 +1758,7 @@ msgstr "`Цей додаток не має налаштувань.`"
 
 #: ../../admin/addons.rst:102
 msgid "repository post-commit, repository post-update"
-msgstr ""
+msgstr "обробка сховища після внеску, обробка сховища після оновлення"
 
 #: ../../admin/addons.rst:104
 msgid "Removes strings without a translation from translation files."
@@ -1789,7 +1789,7 @@ msgstr "``weblate.cleanup.generic``"
 
 #: ../../admin/addons.rst:121
 msgid "repository pre-commit, repository post-update"
-msgstr ""
+msgstr "обробка сховища до оновлення, обробка сховища після оновлення"
 
 #: ../../admin/addons.rst:123
 msgid ""
@@ -1810,10 +1810,8 @@ msgid "``weblate.consistency.languages``"
 msgstr "``weblate.consistency.languages``"
 
 #: ../../admin/addons.rst:138
-#, fuzzy
-#| msgid "More detailed repository status view."
 msgid "daily, repository post-add"
-msgstr "Реалізовано докладнішу панель перегляду стану сховища."
+msgstr "щоденна обробка, обробка сховища після додавання"
 
 #: ../../admin/addons.rst:140
 msgid ""
@@ -1971,10 +1969,8 @@ msgstr "Я підтверджую, що всі вище наведені збі�
 
 #: ../../admin/addons.rst:178 ../../admin/addons.rst:503
 #: ../../admin/addons.rst:633
-#, fuzzy
-#| msgid "Repository outdated."
 msgid "repository post-update"
-msgstr "Сховище застаріло."
+msgstr "обробка сховища після оновлення"
 
 #: ../../admin/addons.rst:180
 msgid ""
@@ -2176,7 +2172,7 @@ msgstr "``weblate.flags.same_edit``"
 #: ../../admin/addons.rst:274 ../../admin/addons.rst:296
 #: ../../admin/addons.rst:313
 msgid "unit post-create"
-msgstr ""
+msgstr "обробка модуля після створення"
 
 #: ../../admin/addons.rst:276
 msgid ""
@@ -2269,10 +2265,8 @@ msgstr "Вміст створеного файлу"
 
 #: ../../admin/addons.rst:334 ../../admin/addons.rst:413
 #: ../../admin/addons.rst:484 ../../admin/addons.rst:580
-#, fuzzy
-#| msgid "repository wide"
 msgid "repository pre-commit"
-msgstr "сховище повністю"
+msgstr "обробка сховища до внеску"
 
 #: ../../admin/addons.rst:336
 msgid "Generates a file containing detailed info about the translation status."
@@ -2425,10 +2419,8 @@ msgid "``weblate.gettext.configure``"
 msgstr "``weblate.gettext.configure``"
 
 #: ../../admin/addons.rst:434 ../../admin/addons.rst:471
-#, fuzzy
-#| msgid "Repository status"
 msgid "repository post-add, daily"
-msgstr "Стан сховища"
+msgstr "обробка сховища після додавання, щоденна обробка"
 
 #: ../../admin/addons.rst:436
 msgid ""
@@ -2468,7 +2460,7 @@ msgstr ""
 #: ../../admin/addons.rst:448 ../../admin/addons.rst:569
 #: ../../admin/addons.rst:662
 msgid "store post-load"
-msgstr ""
+msgstr "обробка після завантаження збережених даних"
 
 #: ../../admin/addons.rst:450
 msgid ""
@@ -2660,10 +2652,8 @@ msgstr ""
 "про внески із об'єднаних внесків."
 
 #: ../../admin/addons.rst:529
-#, fuzzy
-#| msgid "repository wide"
 msgid "repository post-commit"
-msgstr "сховище повністю"
+msgstr "обробка сховища після внеску"
 
 #: ../../admin/addons.rst:531
 msgid "Squash Git commits prior to pushing changes."
@@ -4383,6 +4373,8 @@ msgid ""
 "Please make sure the files have correct ownership and permissions, see :ref:"
 "`file-permissions`."
 msgstr ""
+"Будь ласка, переконайтеся у тому, що визначено належних власників і права "
+"доступу до файлів, див. :ref:`file-permissions`."
 
 #: ../../admin/backup.rst:157
 msgid "The Borg session might look like this:"
@@ -5215,16 +5207,12 @@ msgid "``md-text``"
 msgstr "``md-text``"
 
 #: ../../admin/checks.rst:123
-#, fuzzy
-#| msgid ""
-#| "Treat text as XML document, affects :ref:`check-xml-invalid` and :ref:"
-#| "`check-xml-tags`."
 msgid ""
 "Treat text as a Markdown document. Enable :ref:`check-md-link`, :ref:`check-"
 "md-reflink`, and :ref:`check-md-syntax` quality checks."
 msgstr ""
-"Вважати текст документом XML, впливає на :ref:`check-xml-invalid` і :ref:"
-"`check-xml-tags`."
+"Вважати текст документом Markdown. Увімкнути перевірки якості :ref:`check-md-"
+"link`, :ref:`check-md-reflink` та :ref:`check-md-syntax`."
 
 #: ../../admin/checks.rst:125 ../../user/checks.rst:1064
 msgid "``safe-html``"
@@ -7936,12 +7924,15 @@ msgstr ""
 #: ../../admin/config.rst:1314
 msgid "Requires an API key to use outside of the website."
 msgstr ""
+"Потребує ключа до програмного інтерфейсу для використання поза межами сайта."
 
 #: ../../admin/config.rst:1316
 msgid ""
 "Mirrors are documented on the LibreTranslate GitHub repository, some of "
 "which can be used without authentication:"
 msgstr ""
+"Документацію щодо дзеркал можна знайти у сховищі GitHub LibreTranslate. "
+"Деякими з дзеркал можна користуватися без потреби у розпізнаванні:"
 
 #: ../../admin/config.rst:1319
 #, fuzzy
@@ -7972,6 +7963,8 @@ msgid ""
 "API key for the LibreTranslate instance specified in "
 "`MT_LIBRETRANSLATE_API_URL`."
 msgstr ""
+"Ключ до програмного інтерфейсу екземпляра LibreTranslate, який задано "
+"`MT_LIBRETRANSLATE_API_URL`."
 
 #: ../../admin/config.rst:1341
 msgid "MT_GOOGLE_KEY"
@@ -12717,19 +12710,20 @@ msgstr ":ref:`invoke-manage`"
 
 #: ../../admin/install/docker.rst:75
 msgid "Choosing Docker hub tag"
-msgstr ""
+msgstr "Вибір теґу концентратора Docker"
 
 #: ../../admin/install/docker.rst:77
 msgid ""
 "You can use following tags on Docker hub, see https://hub.docker.com/r/"
 "weblate/weblate/tags/ for full list of available ones."
 msgstr ""
+"На концентраторі Docker ви можете користуватися вказаними нижче теґами. Із "
+"повним списком можна ознайомитися тут: https://hub.docker.com/r/weblate/"
+"weblate/tags/"
 
 #: ../../admin/install/docker.rst:80
-#, fuzzy
-#| msgid "Last name"
 msgid "Tag name"
-msgstr "Прізвище"
+msgstr "Назва теґу"
 
 #: ../../admin/install/docker.rst:80 ../../user/translating.rst:159
 #: ../../wlc.rst:103
@@ -12748,11 +12742,11 @@ msgstr "``weblate``"
 
 #: ../../admin/install/docker.rst:82
 msgid "Weblate stable release, matches latest tagged release"
-msgstr ""
+msgstr "Стабільний випуск Weblate, відповідає найновішому випуску"
 
 #: ../../admin/install/docker.rst:82
 msgid "Rolling updates in a production environment"
-msgstr ""
+msgstr "Оновлення-накладки у промисловому середовищі"
 
 #: ../../admin/install/docker.rst:84
 msgid "``<VERSION>-<PATCH>``"
@@ -12765,13 +12759,8 @@ msgid "Weblate stable release"
 msgstr "Нутрощі Weblate"
 
 #: ../../admin/install/docker.rst:84
-#, fuzzy
-#| msgid ""
-#| "Changed example settings to be better fit for production environment."
 msgid "Well defined deploy in a production environment"
-msgstr ""
-"Змінено параметри прикладу так, щоб вони краще відповідали промисловому "
-"середовищу."
+msgstr "Надійний розгорнутий екземпляр у промисловому середовищі"
 
 #: ../../admin/install/docker.rst:86
 msgid "``edge``"
