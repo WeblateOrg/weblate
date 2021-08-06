@@ -18,7 +18,6 @@
 #
 
 import social_core.backends.utils
-import social_django.utils
 from django import forms
 from django.conf import settings
 from django.http import HttpRequest
@@ -54,7 +53,6 @@ def send_invitation(request: HttpRequest, project_name: str, user: User):
     has_email = email_auth in settings.AUTHENTICATION_BACKENDS
     backup_backends = settings.AUTHENTICATION_BACKENDS
     backup_cache = social_core.backends.utils.BACKENDSCACHE
-    backup_social = social_django.utils.BACKENDS
     if not has_email:
         social_core.backends.utils.BACKENDSCACHE["email"] = EmailAuth
         settings.AUTHENTICATION_BACKENDS += (email_auth,)
@@ -66,7 +64,6 @@ def send_invitation(request: HttpRequest, project_name: str, user: User):
     if not has_email:
         social_core.backends.utils.BACKENDSCACHE = backup_cache
         settings.AUTHENTICATION_BACKENDS = backup_backends
-        social_django.utils.BACKENDS = backup_social
 
 
 class InviteUserForm(forms.ModelForm, UniqueEmailMixin):

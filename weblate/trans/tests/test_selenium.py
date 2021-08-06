@@ -25,7 +25,6 @@ from contextlib import contextmanager
 from datetime import timedelta
 from unittest import SkipTest
 
-import social_django.utils
 from django.conf import settings
 from django.core import mail
 from django.test.utils import modify_settings, override_settings
@@ -444,21 +443,15 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
 
     @override_settings(AUTHENTICATION_BACKENDS=TEST_BACKENDS)
     def test_auth_backends(self):
-        try:
-            # psa creates copy of settings...
-            orig_backends = social_django.utils.BACKENDS
-            social_django.utils.BACKENDS = TEST_BACKENDS
-            user = self.do_login()
-            user.social_auth.create(provider="google-oauth2", uid=user.email)
-            user.social_auth.create(provider="github", uid="123456")
-            user.social_auth.create(provider="bitbucket", uid="weblate")
-            self.click(htmlid="user-dropdown")
-            with self.wait_for_page_load():
-                self.click(htmlid="settings-button")
-            self.click("Account")
-            self.screenshot("authentication.png")
-        finally:
-            social_django.utils.BACKENDS = orig_backends
+        user = self.do_login()
+        user.social_auth.create(provider="google-oauth2", uid=user.email)
+        user.social_auth.create(provider="github", uid="123456")
+        user.social_auth.create(provider="bitbucket", uid="weblate")
+        self.click(htmlid="user-dropdown")
+        with self.wait_for_page_load():
+            self.click(htmlid="settings-button")
+        self.click("Account")
+        self.screenshot("authentication.png")
 
     def test_screenshots(self):
         """Screenshot tests."""

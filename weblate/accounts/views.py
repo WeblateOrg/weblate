@@ -153,7 +153,7 @@ NOTIFICATION_PREFIX_TEMPLATE = "notifications__{}"
 
 
 def get_auth_keys():
-    return set(load_backends(social_django.utils.BACKENDS).keys())
+    return set(load_backends(settings.AUTHENTICATION_BACKENDS).keys())
 
 
 class EmailSentView(TemplateView):

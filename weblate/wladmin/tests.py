@@ -21,7 +21,6 @@ import json
 import os
 
 import responses
-import social_django.utils
 from django.conf import settings
 from django.core import mail
 from django.core.checks import Critical
@@ -225,27 +224,20 @@ class AdminTest(ViewTestCase):
 
     @override_settings(AUTHENTICATION_BACKENDS=TEST_BACKENDS)
     def test_invite_user_nomail(self):
-        try:
-            # psa creates copy of settings...
-            orig_backends = social_django.utils.BACKENDS
-            social_django.utils.BACKENDS = TEST_BACKENDS
-
-            response = self.client.get(reverse("manage-users"))
-            self.assertContains(response, "E-mail")
-            response = self.client.post(
-                reverse("manage-users"),
-                {
-                    "email": "noreply@example.com",
-                    "username": "username",
-                    "full_name": "name",
-                    "send_email": 1,
-                },
-                follow=True,
-            )
-            self.assertContains(response, "Created user account")
-            self.assertEqual(len(mail.outbox), 1)
-        finally:
-            social_django.utils.BACKENDS = orig_backends
+        response = self.client.get(reverse("manage-users"))
+        self.assertContains(response, "E-mail")
+        response = self.client.post(
+            reverse("manage-users"),
+            {
+                "email": "noreply@example.com",
+                "username": "username",
+                "full_name": "name",
+                "send_email": 1,
+            },
+            follow=True,
+        )
+        self.assertContains(response, "Created user account")
+        self.assertEqual(len(mail.outbox), 1)
 
     def test_check_user(self):
         response = self.client.get(
