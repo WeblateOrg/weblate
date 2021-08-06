@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from weblate.auth.data import SELECTION_ALL
 from weblate.auth.models import Group, Role
 from weblate.logger import LOGGER
 from weblate.vendasta.constants import (
@@ -51,5 +52,7 @@ def get_or_create_namespace_group(namespace):
     if isinstance(access_namespace_role, tuple):
         access_namespace_role = access_namespace_role[0]
     namespace_group.roles.add(access_namespace_role)
+
+    namespace_group.project_selection = SELECTION_ALL
 
     return namespace_group
