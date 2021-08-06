@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-08-05 22:59+0200\n"
-"PO-Revision-Date: 2021-08-04 08:34+0000\n"
+"PO-Revision-Date: 2021-08-06 11:21+0000\n"
 "Last-Translator: VfBFan <drop0815@posteo.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "documentation/de/>\n"
@@ -1159,8 +1159,8 @@ msgid ""
 "Access the internal repository [`Administration`, `Access repository`, "
 "`Power user`, `Manage repository`]"
 msgstr ""
-"Zugriff auf das interne Repositoriy [`Administration`, `Access repository`, "
-"`Power user`, `Manage repository`]"
+"Zugriff auf das interne Repository [`Administration`, `Access repository`, `"
+"Power user`, `Manage repository`]"
 
 #: ../../admin/access.rst:551
 msgid ""
@@ -1187,12 +1187,12 @@ msgstr ""
 "repository`]"
 
 #: ../../admin/access.rst:557
-#, fuzzy
-#| msgid "Update the internal repository"
 msgid ""
 "View upstream repository location [`Administration`, `Access repository`, "
 "`Power user`, `Manage repository`]"
-msgstr "Aktualisierung des internen Repositories"
+msgstr ""
+"Speicherort des Upstream-Repositorys anzeigen [`Administration`, `Access "
+"Repository`, `Power User`, `Manage Repository`]"
 
 #: ../../admin/access.rst:559
 msgid "Update the internal repository [`Administration`, `Manage repository`]"
@@ -1479,10 +1479,8 @@ msgid "Events triggering add-on"
 msgstr "Schreiben einer Erweiterung"
 
 #: ../../admin/addons.rst:44 ../../admin/addons.rst:376
-#, fuzzy
-#| msgid "Component is being updated…"
 msgid "component update, daily"
-msgstr "Komponente wird aktualisiert…"
+msgstr "Komponenten-Update, täglich"
 
 #: ../../admin/addons.rst:46
 msgid ""
@@ -2101,10 +2099,6 @@ msgstr ""
 "Erzeugt eine Datei mit detaillierten Informationen zum Übersetzungsstatus."
 
 #: ../../admin/addons.rst:338
-#, fuzzy
-#| msgid ""
-#| "You can use Django templates markup in both filename and content, for "
-#| "example:"
 msgid ""
 "You can use a Django template in both filename and content, see :ref:"
 "`markup` for a detailed markup description."
@@ -4103,10 +4097,10 @@ msgid ""
 "Weblate side as they can be cloned again from the upstream location(s) with "
 "no data loss."
 msgstr ""
-"Die Versionsverwaltung enthält eine Kopie Ihrer Upstream-Repositories mit "
+"Die Versionsverwaltung enthält eine Kopie Ihrer Upstream-Repositorys mit "
 "Weblate-Änderungen. Wenn Sie :ref:`component-push_on_commit` für alle Ihre "
 "Übersetzungskomponenten aktiviert haben, werden alle Weblate-Änderungen "
-"Upstream aufgenommen. Es ist nicht notwendig, die Repositories auf der "
+"Upstream aufgenommen. Es ist nicht notwendig, die Repositorys auf der "
 "Weblate-Seite zu sichern, da sie ohne Datenverlust von den Upstream-"
 "Speicherorten erneut geklont werden können."
 
@@ -12227,30 +12221,24 @@ msgid "``celery-memory``"
 msgstr ""
 
 #: ../../admin/install/docker.rst:1393
-#, fuzzy
-#| msgid "Translation memory"
 msgid "Translation memory Celery worker."
-msgstr "Übersetzungsspeicher Celery."
+msgstr "Übersetzungsspeicher Celery-Worker."
 
 #: ../../admin/install/docker.rst:1394
 msgid "``celery-notify``"
 msgstr ""
 
 #: ../../admin/install/docker.rst:1395
-#, fuzzy
-#| msgid "Notification hooks"
 msgid "Notifications Celery worker."
-msgstr "Benachrichtigungen Celery worker."
+msgstr "Benachrichtigungen Celery-Worker."
 
 #: ../../admin/install/docker.rst:1396
 msgid "``celery-translate``"
 msgstr ""
 
 #: ../../admin/install/docker.rst:1397
-#, fuzzy
-#| msgid "Automatic translation source"
 msgid "Automatic translation Celery worker."
-msgstr "Automatische Übersetzung Celery worker."
+msgstr "Automatische Übersetzung Celery-Worker."
 
 #: ../../admin/install/docker.rst:1398
 msgid "``web``"
@@ -12841,8 +12829,6 @@ msgid "Looking up built-in language aliases."
 msgstr "Syntaxfehler in Sprachaliasnamen."
 
 #: ../../admin/languages.rst:25
-#, fuzzy
-#| msgid "Monolingual base language file"
 msgid "Looking up by language name."
 msgstr "Nach Sprachnamen suchen."
 
@@ -14831,8 +14817,9 @@ msgid ""
 "and :guilabel:`Power user` roles."
 msgstr ""
 "Standardmäßig haben Mitglieder der Gruppe :guilabel:`Benutzer` und anonyme "
-"Benutzer über die Rollen :guilabel:`Auf Repository zugreifen` und :guilabel:"
-"`Hauptbenutzer` Zugriff auf die Repositories für öffentliche Projekte."
+"Benutzer über die Rollen :guilabel:`Auf Repository zugreifen` und "
+":guilabel:`Hauptbenutzer` Zugriff auf die Repositorys für öffentliche "
+"Projekte."
 
 #: ../../admin/optionals.rst:67
 msgid ""
@@ -18956,8 +18943,6 @@ msgid ""
 msgstr ""
 
 #: ../../api.rst:1591
-#, fuzzy
-#| msgid "Return to the component"
 msgid "Returns projects linked with a component."
 msgstr "Gibt Projekte zurück, die mit einer Komponente verknüpft sind."
 
@@ -19565,8 +19550,6 @@ msgid ""
 msgstr ""
 
 #: ../../api.rst:2182
-#, fuzzy
-#| msgid "More information about Weblate"
 msgid "Returns information about addon information."
 msgstr "Gibt Informationen über Erweiterungen zurück."
 
@@ -26106,11 +26089,8 @@ msgstr ""
 
 #: ../../../weblate/addons/base.py:docstring of
 #: weblate.addons.base.BaseAddon.post_push:1
-#, fuzzy
-#| msgid "Whether the repository should be pushed upstream on every commit."
 msgid "Hook triggered after repository is pushed upstream."
-msgstr ""
-"Ob nach jedem Commit ein Upstream-Push des Repositories stattfinden soll."
+msgstr "Hook wird ausgelöst, nachdem das Repository Upstream gepusht wurde."
 
 #: ../../../weblate/addons/base.py:docstring of
 #: weblate.addons.base.BaseAddon.post_update:1
@@ -30082,12 +30062,12 @@ msgid "How can I use existing translations while translating?"
 msgstr ""
 
 #: ../../faq.rst:292
-#, fuzzy
-#| msgid "Contribute to shared translation memory"
 msgid ""
 "All translations within Weblate can be used thanks to shared translation "
 "memory."
-msgstr "Zu einem gemeinsamen Übersetzungsspeicher beitragen"
+msgstr ""
+"Dank des gemeinsamen Übersetzungsspeichers können alle Übersetzungen "
+"innerhalb von Weblate verwendet werden."
 
 #: ../../faq.rst:293
 msgid "You can import existing translation memory files into Weblate."
@@ -35787,10 +35767,8 @@ msgid ":kbd:`Cmd+Shift+Enter`"
 msgstr ""
 
 #: ../../user/translating.rst:187
-#, fuzzy
-#| msgid "Add as translation needing edit"
 msgid "Unmark translation as needing edit and submit it."
-msgstr "Als bearbeitungsbedürftige Übersetzung hinzufügen"
+msgstr "Bearbeitungsmarkierung der Übersetzung aufheben und absenden."
 
 #: ../../user/translating.rst:191
 msgid ":kbd:`Ctrl+E` or"
@@ -36616,10 +36594,8 @@ msgid ""
 msgstr ""
 
 #: ../../vcs.rst:355
-#, fuzzy
-#| msgid "Push changes into upstream repository."
 msgid "Pushing changes to Pagure as merge requests"
-msgstr "Änderungen in das Upstream-Repository pushen."
+msgstr "Änderungen als Zusammenführungsanfragen an Pagure weitergeben"
 
 #: ../../vcs.rst:357
 msgid ""
@@ -37257,10 +37233,8 @@ msgid "Translators group"
 msgstr "Übersetzergruppe"
 
 #: ../../workflows.rst:84 ../../workflows.rst:116 ../../workflows.rst:153
-#, fuzzy
-#| msgid "Managing per project access control"
 msgid "Or `Translate` with :ref:`per-project access control <manage-acl>`."
-msgstr "Verwaltung der Zugriffssteuerung nach Projekt"
+msgstr "Oder `Übersetzen` mit :ref:`Projekt-Zugriffssteuerung <manage-acl>`."
 
 #: ../../workflows.rst:88 ../../workflows.rst:120 ../../workflows.rst:157
 msgid "Reviewers group"
