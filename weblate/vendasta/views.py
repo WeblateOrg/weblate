@@ -69,6 +69,7 @@ def new_namespaced_language(request, project, component):
 
                 namespace_group = Group.objects.get(name=namespace)
                 namespace_group.languages.add(namespaced_language)
+                namespace_group.projects.add(project)
 
                 kwargs["details"]["language"] = namespaced_language.code
                 translation = obj.add_new_language(namespaced_language, request)
