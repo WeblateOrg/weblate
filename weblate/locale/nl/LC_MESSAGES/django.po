@@ -19,7 +19,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.8\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-08-05 21:21+0000\n"
-"PO-Revision-Date: 2021-07-27 13:34+0000\n"
+"PO-Revision-Date: 2021-08-06 11:21+0000\n"
 "Last-Translator: Heimen Stoffels <vistausss@fastmail.com>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/weblate/"
 "application/nl/>\n"
@@ -28,7 +28,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.7.2-dev\n"
+"X-Generator: Weblate 4.8-dev\n"
 
 #: weblate/accounts/avatar.py:103
 msgctxt "No known user"
@@ -1758,10 +1758,8 @@ msgstr "Tekenreeksen verwijderen"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:78
-#, fuzzy
-#| msgid "Message has failing checks"
 msgid "Dismiss failing check"
-msgstr "Bericht heeft mislukte controles"
+msgstr "Mislukte controle negeren"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:80
@@ -3285,10 +3283,8 @@ msgid "mi18n lang file"
 msgstr "mi18n-taalbestand"
 
 #: weblate/formats/ttkit.py:1795
-#, fuzzy
-#| msgid "Strings with labels"
 msgid "Stringsdict file"
-msgstr "Tekenreeksen met labels"
+msgstr "Stringsdict-bestand"
 
 #: weblate/formats/txt.py:176
 msgid "App store metadata files"
@@ -3487,44 +3483,29 @@ msgid "Zero/one/two/few/many/other"
 msgstr "Nul/één/twee/enkele/vele/andere"
 
 #: weblate/lang/models.py:607
-#, fuzzy
-#| msgctxt "Plural type"
-#| msgid "Zero/one/other"
 msgctxt "Plural type"
 msgid "Zero/other"
-msgstr "Nul/een/andere"
+msgstr "Nul/Andere"
 
 #: weblate/lang/models.py:611
-#, fuzzy
-#| msgctxt "Plural type"
-#| msgid "Zero/one/other"
 msgctxt "Plural type"
 msgid "Zero/one/few/other"
-msgstr "Nul/een/andere"
+msgstr "Nul/Eén/Enkele/Andere"
 
 #: weblate/lang/models.py:615
-#, fuzzy
-#| msgctxt "Plural type"
-#| msgid "Zero/one/two/few/many/other"
 msgctxt "Plural type"
 msgid "Zero/one/two/few/other"
-msgstr "Nul/één/twee/enkele/vele/andere"
+msgstr "Nul/Eén/Twee/Enkele/Vele/Andere"
 
 #: weblate/lang/models.py:619
-#, fuzzy
-#| msgctxt "Plural type"
-#| msgid "Zero/one/other"
 msgctxt "Plural type"
 msgid "Zero/one/two/other"
-msgstr "Nul/een/andere"
+msgstr "Nul/Eén/Twee/Andere"
 
 #: weblate/lang/models.py:623
-#, fuzzy
-#| msgctxt "Plural type"
-#| msgid "Zero/one/two/few/many/other"
 msgctxt "Plural type"
 msgid "Zero/one/few/many/other"
-msgstr "Nul/één/twee/enkele/vele/andere"
+msgstr "Nul/Eén/Enkele/Vele/Andere"
 
 #: weblate/lang/models.py:627
 msgctxt "Plural type"
@@ -3540,16 +3521,12 @@ msgid "Default plural"
 msgstr "Standaard meervoud"
 
 #: weblate/lang/models.py:639
-#, fuzzy
-#| msgid "Gettext plural formula"
 msgid "gettext plural formula"
-msgstr "Gettext-meervoudsformule"
+msgstr "gettext-meervoudsformule"
 
 #: weblate/lang/models.py:640
-#, fuzzy
-#| msgid "String has plural"
 msgid "stringsdict plural"
-msgstr "Tekenreeks met meervoud"
+msgstr "stringsdict-meervoud"
 
 #: weblate/lang/models.py:641
 msgid "Manually entered formula"
@@ -5023,28 +5000,20 @@ msgid "Matched files"
 msgstr "Overeenkomende bestanden"
 
 #: weblate/templates/addons/discovery_preview.html:9
-#, fuzzy
-#| msgid "Following components would be deleted"
 msgid "The following components would be deleted"
 msgstr "De volgende onderdelen zouden verwijderd worden"
 
 #: weblate/templates/addons/discovery_preview.html:15
-#, fuzzy
-#| msgid "Following components would be created"
 msgid "The following components would be created"
 msgstr "De volgende onderdelen zouden aangemaakt worden"
 
 #: weblate/templates/addons/discovery_preview.html:28
-#, fuzzy
-#| msgid "Following components matched existing ones"
 msgid "The following components matched existing ones"
 msgstr "De volgende onderdelen komen overeen met bestaande"
 
 #: weblate/templates/addons/discovery_preview.html:41
-#, fuzzy
-#| msgid "No matching checks found!"
 msgid "No matching components were found!"
-msgstr "Geen overeenkomende controles gevonden!"
+msgstr "Er zijn geen overeenkomende onderdelen gevonden."
 
 #: weblate/templates/addons/generate_help.html:6
 msgid ""
@@ -5771,7 +5740,7 @@ msgstr "%(first)s verschenen - %(last)s voor het laatst gezien"
 #: weblate/templates/manage/performance.html:42
 #: weblate/templates/translate.html:466
 msgid "Dismiss"
-msgstr "Verwerpen"
+msgstr "Negeren"
 
 #: weblate/templates/component.html:170
 msgid "Please sign in to see the alerts."
@@ -8590,10 +8559,8 @@ msgid "The source string cannot be edited."
 msgstr "De brontekenreeks kan niet worden aangepast."
 
 #: weblate/templates/snippets/user-list.html:19 weblate/trans/forms.py:162
-#, fuzzy
-#| msgid "Could not find reverted change."
 msgid "Could not find any such user."
-msgstr "De teruggedraaide wijziging is niet teruggevonden."
+msgstr "De gebruiker is niet gevonden."
 
 #: weblate/templates/snippets/watch-dropdown.html:9
 msgid "Watching"
@@ -9877,15 +9844,13 @@ msgstr "Ongeldige controletekst opgegeven!"
 
 #: weblate/trans/forms.py:164
 msgid "More possible users were found."
-msgstr ""
+msgstr "Er zijn meer potentiële gebruikers gevonden."
 
 #: weblate/trans/forms.py:178
 msgid "Missing query string."
 msgstr "Geen zoekopdracht ingevoerd."
 
 #: weblate/trans/forms.py:185
-#, fuzzy
-#| msgid "Failed to parse query string: {}"
 msgid "Could not parse query string: {}"
 msgstr "De zoekopdracht kan niet worden verwerkt: {}"
 
@@ -10834,9 +10799,6 @@ msgid "Moved component"
 msgstr "Onderdeel verplaatst"
 
 #: weblate/trans/models/change.py:316
-#, fuzzy
-#| msgid "New string to translate"
-#| msgid_plural "New strings to translate"
 msgctxt "Name of event in the history"
 msgid "New string to translate"
 msgstr "Nieuwe tekenreeks om te vertalen"
@@ -12625,10 +12587,8 @@ msgid "Silver"
 msgstr "Zilver"
 
 #: weblate/utils/fields.py:92
-#, fuzzy
-#| msgid "A user with that username already exists."
 msgid "A user with this e-mail already exists."
-msgstr "Er is al een gebruiker met deze gebruikersnaam."
+msgstr "Er is al een gebruiker met dit e-mailadres."
 
 #: weblate/utils/render.py:44
 #, python-format
