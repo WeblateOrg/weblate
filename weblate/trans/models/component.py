@@ -2617,7 +2617,7 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
                     unit.variant = Variant.objects.get_or_create(
                         key=key, component=self, variant_regex=self.variant_regex
                     )[0]
-                    unit.save(update_fields=["variant"])
+                    unit.save(update_fields=["variant"], only_save=True)
 
         # Update variant links
         for variant in Variant.objects.filter(component=self).iterator():
