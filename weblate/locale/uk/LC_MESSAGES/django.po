@@ -24,7 +24,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.8\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-08-05 21:21+0000\n"
-"PO-Revision-Date: 2021-07-19 20:09+0000\n"
+"PO-Revision-Date: 2021-08-06 11:21+0000\n"
 "Last-Translator: Ihor Hordiichuk <igor_ck@outlook.com>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/"
 "application/uk/>\n"
@@ -34,7 +34,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=n==1 ? 3 : n%10==1 && n%100!=11 ? 0 : n"
 "%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 4.7.2-dev\n"
+"X-Generator: Weblate 4.8-dev\n"
 
 #: weblate/accounts/avatar.py:103
 msgctxt "No known user"
@@ -1767,10 +1767,8 @@ msgstr "Вилучити рядок"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:78
-#, fuzzy
-#| msgid "Dismissed checks"
 msgid "Dismiss failing check"
-msgstr "Пропущені перевірки"
+msgstr "Відхилити невдалу перевірку"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:80
@@ -3289,10 +3287,8 @@ msgid "mi18n lang file"
 msgstr "мовний файл mi18n"
 
 #: weblate/formats/ttkit.py:1795
-#, fuzzy
-#| msgid "Strings with labels"
 msgid "Stringsdict file"
-msgstr "Рядки з мітками"
+msgstr "Файл Stringsdict"
 
 #: weblate/formats/txt.py:176
 msgid "App store metadata files"
@@ -3491,44 +3487,29 @@ msgid "Zero/one/two/few/many/other"
 msgstr "Нуль/один/два/декілька/багато/інше"
 
 #: weblate/lang/models.py:607
-#, fuzzy
-#| msgctxt "Plural type"
-#| msgid "Zero/one/other"
 msgctxt "Plural type"
 msgid "Zero/other"
-msgstr "Нуль/один/інше"
+msgstr "Нуль/інше"
 
 #: weblate/lang/models.py:611
-#, fuzzy
-#| msgctxt "Plural type"
-#| msgid "Zero/one/other"
 msgctxt "Plural type"
 msgid "Zero/one/few/other"
-msgstr "Нуль/один/інше"
+msgstr "Нуль/один/кілька/інше"
 
 #: weblate/lang/models.py:615
-#, fuzzy
-#| msgctxt "Plural type"
-#| msgid "Zero/one/two/few/many/other"
 msgctxt "Plural type"
 msgid "Zero/one/two/few/other"
-msgstr "Нуль/один/два/декілька/багато/інше"
+msgstr "Нуль/один/два/кілька/інше"
 
 #: weblate/lang/models.py:619
-#, fuzzy
-#| msgctxt "Plural type"
-#| msgid "Zero/one/other"
 msgctxt "Plural type"
 msgid "Zero/one/two/other"
-msgstr "Нуль/один/інше"
+msgstr "Нуль/один/два/інше"
 
 #: weblate/lang/models.py:623
-#, fuzzy
-#| msgctxt "Plural type"
-#| msgid "Zero/one/two/few/many/other"
 msgctxt "Plural type"
 msgid "Zero/one/few/many/other"
-msgstr "Нуль/один/два/декілька/багато/інше"
+msgstr "Нуль/один/кілька/багато/інше"
 
 #: weblate/lang/models.py:627
 msgctxt "Plural type"
@@ -3544,16 +3525,12 @@ msgid "Default plural"
 msgstr "Типова форма множини"
 
 #: weblate/lang/models.py:639
-#, fuzzy
-#| msgid "Qt plural format"
 msgid "gettext plural formula"
-msgstr "Формат Qt у множині"
+msgstr "формула множини gettext"
 
 #: weblate/lang/models.py:640
-#, fuzzy
-#| msgid "Missing plurals"
 msgid "stringsdict plural"
-msgstr "Бракує множини"
+msgstr "множина stringsdict"
 
 #: weblate/lang/models.py:641
 msgid "Manually entered formula"
@@ -5048,28 +5025,20 @@ msgid "Matched files"
 msgstr "Порівняні файли"
 
 #: weblate/templates/addons/discovery_preview.html:9
-#, fuzzy
-#| msgid "Following components would be deleted"
 msgid "The following components would be deleted"
-msgstr "Наступні складники будуть видалені"
+msgstr "Буде видалено такі складники"
 
 #: weblate/templates/addons/discovery_preview.html:15
-#, fuzzy
-#| msgid "Following components would be created"
 msgid "The following components would be created"
-msgstr "Наступні складники будуть створені"
+msgstr "Буде створено такі складники"
 
 #: weblate/templates/addons/discovery_preview.html:28
-#, fuzzy
-#| msgid "Following components matched existing ones"
 msgid "The following components matched existing ones"
-msgstr "Наступні складники збігаються з наявними"
+msgstr "Такі складники збігаються з наявними"
 
 #: weblate/templates/addons/discovery_preview.html:41
-#, fuzzy
-#| msgid "No matching user found."
 msgid "No matching components were found!"
-msgstr "Жодного збігу серед користувачів не виявлено."
+msgstr "Жодного збігу серед складників не виявлено!"
 
 #: weblate/templates/addons/generate_help.html:6
 msgid ""
@@ -8648,10 +8617,8 @@ msgid "The source string cannot be edited."
 msgstr "Початковий рядок не можна редагувати."
 
 #: weblate/templates/snippets/user-list.html:19 weblate/trans/forms.py:162
-#, fuzzy
-#| msgid "Could not find reverted change."
 msgid "Could not find any such user."
-msgstr "Не вдалося знайти скасовану зміну."
+msgstr "Не вдалося знайти такого користувача."
 
 #: weblate/templates/snippets/watch-dropdown.html:9
 msgid "Watching"
@@ -9924,15 +9891,13 @@ msgstr "Вказано хибну контрольну суму!"
 
 #: weblate/trans/forms.py:164
 msgid "More possible users were found."
-msgstr ""
+msgstr "Знайдено більше можливих користувачів."
 
 #: weblate/trans/forms.py:178
 msgid "Missing query string."
 msgstr "Відсутній рядок запиту."
 
 #: weblate/trans/forms.py:185
-#, fuzzy
-#| msgid "Failed to parse query string: {}"
 msgid "Could not parse query string: {}"
 msgstr "Не вдалося розібрати рядок запиту: {}"
 
@@ -10872,9 +10837,6 @@ msgid "Moved component"
 msgstr "Пересунуто складник"
 
 #: weblate/trans/models/change.py:316
-#, fuzzy
-#| msgid "New string to translate"
-#| msgid_plural "New strings to translate"
 msgctxt "Name of event in the history"
 msgid "New string to translate"
 msgstr "Нові рядки для перекладу"
@@ -12691,10 +12653,8 @@ msgid "Silver"
 msgstr "Срібний"
 
 #: weblate/utils/fields.py:92
-#, fuzzy
-#| msgid "A user with that username already exists."
 msgid "A user with this e-mail already exists."
-msgstr "Користувач з таким ім'я вже існує."
+msgstr "Користувач з такою е-поштою вже існує."
 
 #: weblate/utils/render.py:44
 #, python-format
