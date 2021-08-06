@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-08-05 22:59+0200\n"
-"PO-Revision-Date: 2021-08-06 11:32+0000\n"
+"PO-Revision-Date: 2021-08-06 11:48+0000\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/"
 "documentation/uk/>\n"
@@ -12583,7 +12583,7 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:86
 msgid "Rolling updates in a staging environment"
-msgstr ""
+msgstr "Оновлення-накладки у проміжному тестовому середовищі"
 
 #: ../../admin/install/docker.rst:88
 msgid "``edge-<DATE>-<SHA>``"
@@ -12591,7 +12591,7 @@ msgstr "``edge-<DATE>-<SHA>``"
 
 #: ../../admin/install/docker.rst:88
 msgid "Well defined deploy in a staging environment"
-msgstr ""
+msgstr "Надійний розгорнутий екземпляр у тестовому середовищі"
 
 #: ../../admin/install/docker.rst:90
 #, fuzzy
@@ -12601,11 +12601,11 @@ msgstr "``billing``"
 
 #: ../../admin/install/docker.rst:90 ../../admin/install/docker.rst:92
 msgid "Development version Weblate from Git"
-msgstr ""
+msgstr "Версії Weblate у розробці з Git"
 
 #: ../../admin/install/docker.rst:90
 msgid "Rollling updates to test upcoming Weblate features"
-msgstr ""
+msgstr "Оновлення-накладки для тестування новітніх можливостей Weblate"
 
 #: ../../admin/install/docker.rst:92
 msgid "``bleeding-<DATE>-<SHA>``"
@@ -12614,12 +12614,16 @@ msgstr "``bleeding-<DATE>-<SHA>``"
 #: ../../admin/install/docker.rst:92
 msgid "Well defined deploy to test upcoming Weblate features"
 msgstr ""
+"Надійний розгорнутий екземпляр для тестування новітніх можливостей Weblate"
 
 #: ../../admin/install/docker.rst:95
 msgid ""
 "Every image is tested by our CI before it gets published, so even the "
 "`bleeding` version should be quite safe to use."
 msgstr ""
+"Тестування усіх образів виконується перед оприлюдненням у нашій системі "
+"неперервної інтеграції, тому навіть версія `bleeding` має бути безпечною для "
+"користування."
 
 #: ../../admin/install/docker.rst:100
 msgid "Docker container with HTTPS support"
@@ -14511,11 +14515,6 @@ msgstr ""
 "Скопіюйте :file:`weblate/settings_example.py` до :file:`weblate/settings.py`."
 
 #: ../../admin/install/steps/adjust-config.rst:1
-#, fuzzy
-#| msgid ""
-#| "Adjust the values in the new :file:`settings.py` file to your liking. You "
-#| "can stick with shipped example for testing purposes, but you will want "
-#| "changes for production setup, see :ref:`configuration`."
 msgid ""
 "Adjust the values in the new :file:`settings.py` file to your liking. You "
 "will need to provide at least the database credentials and Django secret "
@@ -14523,9 +14522,9 @@ msgid ""
 "`configuration`."
 msgstr ""
 "Скоригуйте значення у новому файлі :file:`settings.py` відповідно до ваших "
-"уподобань. Ви можете скористатися типовим прикладом для тестування, але вам "
-"варто внести зміни для вашої промислової конфігурації, див. :ref:"
-"`configuration`."
+"уподобань. Вам доведеться надати принаймні реєстраційні дані для доступу до "
+"бази даних та закритий ключ Django, а також вам варто внести додаткові зміни "
+"для вашої промислової конфігурації, див. :ref:`configuration`."
 
 #: ../../admin/install/source.rst:33
 msgid "Create the database used by Weblate, see :ref:`database-setup`."
@@ -15536,22 +15535,24 @@ msgid ""
 "The public instance requires an API key, but LibreTranslate can be self-"
 "hosted and there are several mirrors available to use the API for free."
 msgstr ""
+"LibreTranslate — безкоштовна служба комп'ютерного перекладу із відкритим "
+"кодом. Для доступу до відкритого екземпляра потрібен ключ до програмного "
+"інтерфейсу. Втім, LibreTranslate можна розгорнути на власному сервері. Існує "
+"також декілька дзеркал, програмним інтерфейсом яких можна користуватися "
+"безкоштовно."
 
 #: ../../admin/machine.rst:126
-#, fuzzy
-#| msgid ""
-#| "Turn on this service by adding ``weblate.machinery.youdao."
-#| "NeteaseSightTranslation`` to :setting:`MT_SERVICES` and set :setting:"
-#| "`MT_NETEASE_KEY` and :setting:`MT_NETEASE_SECRET`."
 msgid ""
 "Turn on this service by adding ``weblate.machinery.libretranslate."
 "LibreTranslateTranslation`` to :setting:`MT_SERVICES` and set :setting:"
 "`MT_LIBRETRANSLATE_API_URL`. If your instance requires an API key, you must "
 "also set :setting:`MT_LIBRETRANSLATE_KEY`."
 msgstr ""
-"Увімкніть цю службу додаванням ``weblate.machinery.youdao."
-"NeteaseSightTranslation`` до :setting:`MT_SERVICES` і встановіть :setting:"
-"`MT_NETEASE_KEY` і :setting:`MT_NETEASE_SECRET`."
+"Увімкніть цю службу додаванням ``weblate.machinery.libretranslate."
+"LibreTranslateTranslation`` до :setting:`MT_SERVICES` і встановіть "
+":setting:`MT__LIBRETRANSLATE_API_URL`. Якщо для доступу до вашого екземпляра "
+"потрібен ключ до програмного інтерфейсу, вам також слід встановити "
+":setting:`MT_LIBRETRANSLATE_KEY`."
 
 #: ../../admin/machine.rst:132
 msgid ""
