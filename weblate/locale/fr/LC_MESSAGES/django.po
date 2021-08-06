@@ -31,7 +31,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.8\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-08-05 21:21+0000\n"
-"PO-Revision-Date: 2021-07-27 13:34+0000\n"
+"PO-Revision-Date: 2021-08-06 11:21+0000\n"
 "Last-Translator: Ldm Public <ldmpub@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/weblate/"
 "application/fr/>\n"
@@ -40,7 +40,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 4.7.2-dev\n"
+"X-Generator: Weblate 4.8-dev\n"
 
 #: weblate/accounts/avatar.py:103
 msgctxt "No known user"
@@ -1805,10 +1805,8 @@ msgstr "Supprimer une chaîne"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:78
-#, fuzzy
-#| msgid "Message has failing checks"
 msgid "Dismiss failing check"
-msgstr "La chaîne a des vérifications en échec"
+msgstr "Ignorer les vérifications en échec"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:80
@@ -3353,10 +3351,8 @@ msgid "mi18n lang file"
 msgstr "Fichier de langue mi18n"
 
 #: weblate/formats/ttkit.py:1795
-#, fuzzy
-#| msgid "Strings with labels"
 msgid "Stringsdict file"
-msgstr "Chaînes avec des libellés"
+msgstr "Fichier Stringsdict"
 
 #: weblate/formats/txt.py:176
 msgid "App store metadata files"
@@ -3555,44 +3551,29 @@ msgid "Zero/one/two/few/many/other"
 msgstr "Zéro / un / deux / peu / beaucoup / autre"
 
 #: weblate/lang/models.py:607
-#, fuzzy
-#| msgctxt "Plural type"
-#| msgid "Zero/one/other"
 msgctxt "Plural type"
 msgid "Zero/other"
-msgstr "Aucun / un / autre"
+msgstr "Zéro / autre"
 
 #: weblate/lang/models.py:611
-#, fuzzy
-#| msgctxt "Plural type"
-#| msgid "Zero/one/other"
 msgctxt "Plural type"
 msgid "Zero/one/few/other"
-msgstr "Aucun / un / autre"
+msgstr "Zéro / un / quelques / autre"
 
 #: weblate/lang/models.py:615
-#, fuzzy
-#| msgctxt "Plural type"
-#| msgid "Zero/one/two/few/many/other"
 msgctxt "Plural type"
 msgid "Zero/one/two/few/other"
-msgstr "Zéro / un / deux / peu / beaucoup / autre"
+msgstr "Zéro / un / deux / quelques / autre"
 
 #: weblate/lang/models.py:619
-#, fuzzy
-#| msgctxt "Plural type"
-#| msgid "Zero/one/other"
 msgctxt "Plural type"
 msgid "Zero/one/two/other"
-msgstr "Aucun / un / autre"
+msgstr "Zéro / un / deux / autre"
 
 #: weblate/lang/models.py:623
-#, fuzzy
-#| msgctxt "Plural type"
-#| msgid "Zero/one/two/few/many/other"
 msgctxt "Plural type"
 msgid "Zero/one/few/many/other"
-msgstr "Zéro / un / deux / peu / beaucoup / autre"
+msgstr "Zéro / un / quelques / beaucoup / autre"
 
 #: weblate/lang/models.py:627
 msgctxt "Plural type"
@@ -3608,16 +3589,12 @@ msgid "Default plural"
 msgstr "Pluriel par défaut"
 
 #: weblate/lang/models.py:639
-#, fuzzy
-#| msgid "Gettext plural formula"
 msgid "gettext plural formula"
 msgstr "Formule de pluriel gettext"
 
 #: weblate/lang/models.py:640
-#, fuzzy
-#| msgid "String has plural"
 msgid "stringsdict plural"
-msgstr "La chaîne possède un pluriel"
+msgstr "Pluriel stringsdict"
 
 #: weblate/lang/models.py:641
 msgid "Manually entered formula"
@@ -5115,28 +5092,20 @@ msgid "Matched files"
 msgstr "Fichiers correspondants"
 
 #: weblate/templates/addons/discovery_preview.html:9
-#, fuzzy
-#| msgid "Following components would be deleted"
 msgid "The following components would be deleted"
 msgstr "Les composants suivants vont être supprimés"
 
 #: weblate/templates/addons/discovery_preview.html:15
-#, fuzzy
-#| msgid "Following components would be created"
 msgid "The following components would be created"
 msgstr "Les composants suivants vont être créés"
 
 #: weblate/templates/addons/discovery_preview.html:28
-#, fuzzy
-#| msgid "Following components matched existing ones"
 msgid "The following components matched existing ones"
-msgstr "Suivre les composants qui correspondent à ceux existants"
+msgstr "Les composants suivants correspondent à des existants"
 
 #: weblate/templates/addons/discovery_preview.html:41
-#, fuzzy
-#| msgid "No matching checks found!"
 msgid "No matching components were found!"
-msgstr "Aucune vérification correspondante n’a été trouvée !"
+msgstr "Aucun composant correspondant n’a été trouvé !"
 
 #: weblate/templates/addons/generate_help.html:6
 msgid ""
@@ -8707,10 +8676,8 @@ msgid "The source string cannot be edited."
 msgstr "La chaîne source ne peut pas être modifiée."
 
 #: weblate/templates/snippets/user-list.html:19 weblate/trans/forms.py:162
-#, fuzzy
-#| msgid "Could not find reverted change."
 msgid "Could not find any such user."
-msgstr "Impossible de trouver la modification restaurée."
+msgstr "Impossible de trouver cet utilisateur."
 
 #: weblate/templates/snippets/watch-dropdown.html:9
 msgid "Watching"
@@ -10000,15 +9967,13 @@ msgstr "Somme de contrôle non valide !"
 
 #: weblate/trans/forms.py:164
 msgid "More possible users were found."
-msgstr ""
+msgstr "D'autres utilisateurs potentiels ont été trouvés."
 
 #: weblate/trans/forms.py:178
 msgid "Missing query string."
 msgstr "Critère de recherche manquant."
 
 #: weblate/trans/forms.py:185
-#, fuzzy
-#| msgid "Failed to parse query string: {}"
 msgid "Could not parse query string: {}"
 msgstr "Impossible d’analyser la requête : {}"
 
@@ -10969,9 +10934,6 @@ msgid "Moved component"
 msgstr "Composant déplacé"
 
 #: weblate/trans/models/change.py:316
-#, fuzzy
-#| msgid "New string to translate"
-#| msgid_plural "New strings to translate"
 msgctxt "Name of event in the history"
 msgid "New string to translate"
 msgstr "Nouvelle chaîne à traduire"
@@ -12781,10 +12743,8 @@ msgid "Silver"
 msgstr "Argent"
 
 #: weblate/utils/fields.py:92
-#, fuzzy
-#| msgid "A user with that username already exists."
 msgid "A user with this e-mail already exists."
-msgstr "Un utilisateur portant ce nom d’utilisateur existe déjà."
+msgstr "Un utilisateur avec ce courriel existe déjà."
 
 #: weblate/utils/render.py:44
 #, python-format
