@@ -11,7 +11,7 @@ jobs:
     steps:
       - name: Add backlog comment
         uses: peter-evans/create-or-update-comment@v1.4.5
-        if: github.event.label.name == 'backlog'
+        if: ${{ github.event.label.name == 'backlog' }}
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           issue-number: ${{ github.event.issue.number }}
@@ -24,7 +24,7 @@ jobs:
             or push it by [funding the development](https://weblate.org/support/).
       - name: Add undecided comment
         uses: peter-evans/create-or-update-comment@v1.4.5
-        if: github.event.label.name == 'undecided'
+        if: ${{ github.event.label.name == 'undecided' }}
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           issue-number: ${{ github.event.issue.number }}
@@ -37,7 +37,7 @@ jobs:
             Please try to clarify the use case or consider proposing something more generic to make it useful to more users.
       - name: Add question comment
         uses: peter-evans/create-or-update-comment@v1.4.5
-        if: github.event.label.name == 'question'
+        if: ${{ github.event.label.name == 'question' }}
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           issue-number: ${{ github.event.issue.number }}
@@ -51,7 +51,7 @@ jobs:
             In case your question is already answered, [making a donation](https://weblate.org/donate/) is the right way to say thank you!
       - name: Add translate-toolkit comment
         uses: peter-evans/create-or-update-comment@v1.4.5
-        if: github.event.label.name == 'translate-toolkit'
+        if: ${{ github.event.label.name == 'translate-toolkit' }}
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           issue-number: ${{ github.event.issue.number }}
@@ -60,7 +60,7 @@ jobs:
             Please file the issue there, and include links to any relevant specifications about the formats (if applicable).
       - name: Add good first issue comment
         uses: peter-evans/create-or-update-comment@v1.4.5
-        if: github.event.label.name == 'good first issue'
+        if: ${{ github.event.label.name == 'good first issue' }}
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           issue-number: ${{ github.event.issue.number }}
