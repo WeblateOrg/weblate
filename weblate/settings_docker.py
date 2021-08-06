@@ -1056,7 +1056,7 @@ REST_FRAMEWORK = {
     ),
     "DEFAULT_THROTTLE_RATES": {"anon": "100/day", "user": "20000/hour"},
     "DEFAULT_PAGINATION_CLASS": ("rest_framework.pagination.PageNumberPagination"),
-    "PAGE_SIZE": 50,
+    "PAGE_SIZE": 100,
     "VIEW_DESCRIPTION_FUNCTION": "weblate.api.views.get_view_description",
     "UNAUTHENTICATED_USER": "weblate.auth.models.get_anonymous",
 }
