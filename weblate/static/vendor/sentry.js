@@ -1,4 +1,4 @@
-/*! @sentry/browser 6.10.0 (1713dd9) | https://github.com/getsentry/sentry-javascript */
+/*! @sentry/browser 6.11.0 (948b9ad) | https://github.com/getsentry/sentry-javascript */
 var Sentry = (function (exports) {
     /*! *****************************************************************************
     Copyright (c) Microsoft Corporation. All rights reserved.
@@ -1052,8 +1052,10 @@ var Sentry = (function (exports) {
         if (isEvent(value)) {
             var event_1 = value;
             var source = {};
+            // Accessing event attributes can throw (see https://github.com/getsentry/sentry-javascript/issues/768 and
+            // https://github.com/getsentry/sentry-javascript/issues/838), but accessing `type` hasn't been wrapped in a
+            // try-catch in at least two years and no one's complained, so that's likely not an issue anymore
             source.type = event_1.type;
-            // Accessing event.target can throw (see getsentry/raven-js#838, #768)
             try {
                 source.target = isElement(event_1.target)
                     ? htmlTreeAsString(event_1.target)
@@ -1073,9 +1075,9 @@ var Sentry = (function (exports) {
             if (typeof CustomEvent !== 'undefined' && isInstanceOf(value, CustomEvent)) {
                 source.detail = event_1.detail;
             }
-            for (var i in event_1) {
-                if (Object.prototype.hasOwnProperty.call(event_1, i)) {
-                    source[i] = event_1;
+            for (var attr in event_1) {
+                if (Object.prototype.hasOwnProperty.call(event_1, attr)) {
+                    source[attr] = event_1[attr];
                 }
             }
             return source;
@@ -2378,7 +2380,7 @@ var Sentry = (function (exports) {
      */
     var Scope = /** @class */ (function () {
         function Scope() {
-            /** Flag if notifiying is happening. */
+            /** Flag if notifying is happening. */
             this._notifyingListeners = false;
             /** Callback for client to receive scope changes. */
             this._scopeListeners = [];
@@ -2686,7 +2688,7 @@ var Sentry = (function (exports) {
          * Note that breadcrumbs will be added by the client.
          * Also if the event has already breadcrumbs on it, we do not merge them.
          * @param event Event
-         * @param hint May contain additional informartion about the original exception.
+         * @param hint May contain additional information about the original exception.
          * @hidden
          */
         Scope.prototype.applyToEvent = function (event, hint) {
@@ -2711,7 +2713,7 @@ var Sentry = (function (exports) {
             }
             // We want to set the trace context for normal events only if there isn't already
             // a trace context on the event. There is a product feature in place where we link
-            // errors with transaction and it relys on that.
+            // errors with transaction and it relies on that.
             if (this._span) {
                 event.contexts = __assign({ trace: this._span.getTraceContext() }, event.contexts);
                 var transactionName = (_a = this._span.transaction) === null || _a === void 0 ? void 0 : _a.name;
@@ -2789,7 +2791,7 @@ var Sentry = (function (exports) {
         return Scope;
     }());
     /**
-     * Retruns the global event processors.
+     * Returns the global event processors.
      */
     function getGlobalEventProcessors() {
         /* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-member-access  */
@@ -2952,7 +2954,9 @@ var Sentry = (function (exports) {
             /** Is a {@link Layer}[] containing the client and scope */
             this._stack = [{}];
             this.getStackTop().scope = scope;
-            this.bindClient(client);
+            if (client) {
+                this.bindClient(client);
+            }
         }
         /**
          * @inheritDoc
@@ -3027,7 +3031,7 @@ var Sentry = (function (exports) {
         Hub.prototype.captureException = function (exception, hint) {
             var eventId = (this._lastEventId = uuid4());
             var finalHint = hint;
-            // If there's no explicit hint provided, mimick the same thing that would happen
+            // If there's no explicit hint provided, mimic the same thing that would happen
             // in the minimal itself to create a consistent behavior.
             // We don't do this in the client, as it's the lowest level API, and doing this,
             // would prevent user from having full control over direct calls.
@@ -3053,7 +3057,7 @@ var Sentry = (function (exports) {
         Hub.prototype.captureMessage = function (message, level, hint) {
             var eventId = (this._lastEventId = uuid4());
             var finalHint = hint;
-            // If there's no explicit hint provided, mimick the same thing that would happen
+            // If there's no explicit hint provided, mimic the same thing that would happen
             // in the minimal itself to create a consistent behavior.
             // We don't do this in the client, as it's the lowest level API, and doing this,
             // would prevent user from having full control over direct calls.
@@ -3777,6 +3781,10 @@ var Sentry = (function (exports) {
             integrations[integration.name] = integration;
             setupIntegration(integration);
         });
+        // set the `initialized` flag so we don't run through the process again unecessarily; use `Object.defineProperty`
+        // because by default it creates a property which is nonenumerable, which we want since `initialized` shouldn't be
+        // considered a member of the index the way the actual integrations are
+        Object.defineProperty(integrations, 'initialized', { value: true });
         return integrations;
     }
 
@@ -3926,7 +3934,7 @@ var Sentry = (function (exports) {
          * Sets up the integrations
          */
         BaseClient.prototype.setupIntegrations = function () {
-            if (this._isEnabled()) {
+            if (this._isEnabled() && !this._integrations.initialized) {
                 this._integrations = setupIntegrations(this._options);
             }
         };
@@ -4445,7 +4453,7 @@ var Sentry = (function (exports) {
         hub.bindClient(client);
     }
 
-    var SDK_VERSION = '6.10.0';
+    var SDK_VERSION = '6.11.0';
 
     var originalFunctionToString;
     /** Patch toString calls to return proper name for wrapped functions */
@@ -4612,15 +4620,27 @@ var Sentry = (function (exports) {
             return [];
         };
         /** JSDoc */
+        InboundFilters.prototype._getLastValidUrl = function (frames) {
+            if (frames === void 0) { frames = []; }
+            var _a;
+            for (var i = frames.length - 1; i >= 0; i--) {
+                var frame = frames[i];
+                if (((_a = frame) === null || _a === void 0 ? void 0 : _a.filename) !== '<anonymous>') {
+                    return frame.filename || null;
+                }
+            }
+            return null;
+        };
+        /** JSDoc */
         InboundFilters.prototype._getEventFilterUrl = function (event) {
             try {
                 if (event.stacktrace) {
                     var frames_1 = event.stacktrace.frames;
-                    return (frames_1 && frames_1[frames_1.length - 1].filename) || null;
+                    return this._getLastValidUrl(frames_1);
                 }
                 if (event.exception) {
                     var frames_2 = event.exception.values && event.exception.values[0].stacktrace && event.exception.values[0].stacktrace.frames;
-                    return (frames_2 && frames_2[frames_2.length - 1].filename) || null;
+                    return this._getLastValidUrl(frames_2);
                 }
                 return null;
             }
@@ -6298,7 +6318,8 @@ var Sentry = (function (exports) {
             addGlobalEventProcessor(function (event, hint) {
                 var self = getCurrentHub().getIntegration(LinkedErrors);
                 if (self) {
-                    return self._handler(event, hint);
+                    var handler = self._handler && self._handler.bind(self);
+                    return typeof handler === 'function' ? handler(event, hint) : event;
                 }
                 return event;
             });
@@ -6745,30 +6766,36 @@ var Sentry = (function (exports) {
         callback();
     }
     /**
-     * A promise that resolves when all current events have been sent.
-     * If you provide a timeout and the queue takes longer to drain the promise returns false.
+     * Call `flush()` on the current client, if there is one. See {@link Client.flush}.
      *
-     * @param timeout Maximum time in ms the client should wait.
+     * @param timeout Maximum time in ms the client should wait to flush its event queue. Omitting this parameter will cause
+     * the client to wait until all events are sent before resolving the promise.
+     * @returns A promise which resolves to `true` if the queue successfully drains before the timeout, or `false` if it
+     * doesn't (or if there's no client defined).
      */
     function flush(timeout) {
         var client = getCurrentHub().getClient();
         if (client) {
             return client.flush(timeout);
         }
-        return SyncPromise.reject(false);
+        logger.warn('Cannot flush events. No client defined.');
+        return SyncPromise.resolve(false);
     }
     /**
-     * A promise that resolves when all current events have been sent.
-     * If you provide a timeout and the queue takes longer to drain the promise returns false.
+     * Call `close()` on the current client, if there is one. See {@link Client.close}.
      *
-     * @param timeout Maximum time in ms the client should wait.
+     * @param timeout Maximum time in ms the client should wait to flush its event queue before shutting down. Omitting this
+     * parameter will cause the client to wait until all events are sent before disabling itself.
+     * @returns A promise which resolves to `true` if the queue successfully drains before the timeout, or `false` if it
+     * doesn't (or if there's no client defined).
      */
     function close(timeout) {
         var client = getCurrentHub().getClient();
         if (client) {
             return client.close(timeout);
         }
-        return SyncPromise.reject(false);
+        logger.warn('Cannot flush events and disable SDK. No client defined.');
+        return SyncPromise.resolve(false);
     }
     /**
      * Wrap code within a try/catch block so the SDK is able to capture errors.
