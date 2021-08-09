@@ -772,6 +772,12 @@ LICENSES = (
         False,
     ),
     (
+        "CC-BY-NC-SA-3.0-IGO",
+        "Creative Commons Attribution Non Commercial Share Alike 3.0 IGO",
+        "https://creativecommons.org/licenses/by-nc-sa/3.0/igo/legalcode",
+        False,
+    ),
+    (
         "CC-BY-NC-SA-3.0",
         "Creative Commons Attribution Non Commercial Share Alike 3.0 Unported",
         "https://creativecommons.org/licenses/by-nc-sa/3.0/legalcode",
