@@ -736,6 +736,10 @@ Generic settings
 Machine translation settings
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+.. hint::
+
+   Configuring API key for a service automatically configures it in :setting:`MT_SERVICES`.
+
 .. envvar:: WEBLATE_MT_APERTIUM_APY
 
     Enables :ref:`apertium` machine translation and sets :setting:`MT_APERTIUM_APY`
