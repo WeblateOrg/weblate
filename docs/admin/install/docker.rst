@@ -731,6 +731,8 @@ Generic settings
    Configures :setting:`ENABLE_AVATARS`.
 
 
+.. _docker-machine:
+
 Machine translation settings
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
