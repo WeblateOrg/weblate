@@ -30,7 +30,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.8\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-08-05 21:21+0000\n"
-"PO-Revision-Date: 2021-08-10 13:33+0000\n"
+"PO-Revision-Date: 2021-08-10 21:22+0000\n"
 "Last-Translator: Agnieszka C <aga_04@o2.pl>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/weblate/"
 "application/pl/>\n"
@@ -1140,7 +1140,7 @@ msgstr "Ten dodatek nic nie robi. Jest po prostu przykładem."
 
 #: weblate/addons/example_pre.py:34
 msgid "Execute script before commit"
-msgstr "Wykonaj skrypt przed zatwierdzeniem"
+msgstr "Wykonaj skrypt przed scommitowaniem"
 
 #: weblate/addons/example_pre.py:35
 msgid "This addon executes a script."
@@ -1254,11 +1254,11 @@ msgstr "Użyj dopasowania rozmytego"
 
 #: weblate/addons/forms.py:145
 msgid "Commit squashing"
-msgstr "Wykonaj squashing"
+msgstr "Squashowanie commitów"
 
 #: weblate/addons/forms.py:148
 msgid "All commits into one"
-msgstr "Wszystkie w jednym"
+msgstr "Wszystkie commity w jeden"
 
 #: weblate/addons/forms.py:149
 msgid "Per language"
@@ -1270,11 +1270,11 @@ msgstr "Według pliku"
 
 #: weblate/addons/forms.py:151
 msgid "Per author"
-msgstr "Dla autora"
+msgstr "Na autora"
 
 #: weblate/addons/forms.py:157
 msgid "Append trailers to squashed commit message"
-msgstr "Dołącz zwiastun do komunikatu o zatwierdzenia"
+msgstr "Dołącz zakończenia do opisu zesquashowanego commita"
 
 #: weblate/addons/forms.py:161
 msgid ""
@@ -1282,21 +1282,21 @@ msgid ""
 "end of the otherwise free-form part of a commit message, such as 'Co-"
 "authored-by: …'."
 msgstr ""
-"Linie zwiastuna to linie, które wyglądają podobnie do nagłówków wiadomości e-"
-"mail RFC 822, na końcu wolnej formy wiadomości zatwierdzenia, takiej jak "
-"'Współautor: …'."
+"Linie końcowe to linie, które wyglądają podobnie do nagłówków wiadomości e-"
+"mail RFC 822, na końcu części opisu commita, takie jak „Współtworzone przez: "
+"…”."
 
 #: weblate/addons/forms.py:167
 msgid "Commit message"
-msgstr "Komentarze do zatwierdzanych zmian"
+msgstr "Opis commita"
 
 #: weblate/addons/forms.py:171
 msgid ""
 "This commit message will be used instead of the combined commit messages "
 "from the squashed commits."
 msgstr ""
-"Ten komunikat zatwierdzenia jest używany zamiast połączonych komunikatów "
-"zatwierdzania."
+"Ten opis commita będzie użyty zamiast połączonych opisów commitów z "
+"zesquashowanych commitów."
 
 #: weblate/addons/forms.py:188
 msgid "Sort JSON keys"
@@ -1490,7 +1490,7 @@ msgstr "Generuje plik zawierający szczegółowe informacje o stanie tłumaczeni
 
 #: weblate/addons/generate.py:65
 msgid "Pseudolocale generation"
-msgstr "Generowanie pseudo lokalizacji"
+msgstr "Generowanie pseudolokalizacji"
 
 #: weblate/addons/generate.py:67
 msgid ""
@@ -1566,11 +1566,11 @@ msgstr ""
 
 #: weblate/addons/git.py:34
 msgid "Squash Git commits"
-msgstr "Zatwierdzenie Squash Git"
+msgstr "Zesquashowane commity na Git"
 
 #: weblate/addons/git.py:35
 msgid "Squash Git commits prior to pushing changes."
-msgstr "Zatwierdzenie Squash Git przed wprowadzeniem zmian."
+msgstr "Zesquashuj commity na Git przed wysłaniem zmian."
 
 #: weblate/addons/json.py:29
 msgid "Customize JSON output"
@@ -1856,7 +1856,7 @@ msgstr "Uzyskaj dostęp do wewnętrznego repozytorium"
 #. Translators: Permission name
 #: weblate/auth/data.py:112
 msgid "Commit changes to the internal repository"
-msgstr "Zatwierdź zmiany w wewnętrznym repozytorium"
+msgstr "Scommituj zmiany na wewnętrzne repozytorium"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:114
@@ -4042,7 +4042,7 @@ msgid ""
 "All commits made with Weblate are signed with the GPG key %(gpg_key_id)s, "
 "for which the corresponding public key is found below."
 msgstr ""
-"Wszystkie zatwierdzenia dokonane za pomocą Weblate są podpisane kluczem GPG "
+"Wszystkie commity zrobione za pomocą Weblate są podpisane kluczem GPG "
 "%(gpg_key_id)s, dla którego odpowiedni klucz publiczny znajduje się poniżej."
 
 #: weblate/templates/about/keys.html:40
@@ -4196,9 +4196,9 @@ msgid ""
 "By registering you agree to use your name and e-mail in the commits and "
 "provide your contribution under license defined by each translated project."
 msgstr ""
-"Poprzez rejestrację zgadzasz się na używanie twojego imienia i nazwiska oraz "
-"adresu e-mail w zatwierdzeniach zmian oraz na licencjonowanie twojej pracy "
-"na warunkach określonych przez każdy z tłumaczonych projektów."
+"Przez rejestrację zgadzasz się na używanie Twojego imienia i nazwiska oraz "
+"adresu e-mail w commitach, oraz na licencjonowanie swojej pracy na warunkach "
+"określonych przez każdy z tłumaczonych projektów."
 
 #: weblate/templates/accounts/email.html:30
 #: weblate/templates/accounts/register.html:46 weblate/templates/base.html:212
@@ -4395,7 +4395,7 @@ msgstr "Ustawienia powiadomień"
 
 #: weblate/templates/accounts/profile.html:111
 msgid "Your name and e-mail will appear as commit authorship."
-msgstr "Twoje imię i adres e-mail pojawią się jako dane autorskie."
+msgstr "Twoje imię i adres e-mail pojawią się jako dane autorskie w commicie."
 
 #: weblate/templates/accounts/profile.html:119
 msgid "Current user identities"
@@ -4592,9 +4592,9 @@ msgid ""
 "provide your contribution under the license defined by each localization "
 "project."
 msgstr ""
-"Rejestrując się, wyrażasz zgodę na wykorzystanie swojego imienia i nazwiska "
-"oraz adresu e-mail w zatwierdzeniach i przekazanie swojego wkładu na "
-"podstawie licencji określonej przez każdy projekt lokalizacyjny."
+"Przez rejestrację zgadzasz się na używanie Twojego imienia i nazwiska oraz "
+"adresu e-mail w commitach, oraz na licencjonowanie swojej pracy na warunkach "
+"określonych przez każdy z tłumaczonych projektów."
 
 #: weblate/templates/accounts/profile.html:323
 msgid "You have agreed to the following as a contributor:"
@@ -5073,9 +5073,9 @@ msgid ""
 "Original commit messages are kept, but authorship is lost unless \"Per author"
 "\" is selected or the commit message is customized to include it."
 msgstr ""
-"Oryginalne komunikaty zatwierdzenia są zachowywane, ale autorstwo zostaje "
-"utracone, chyba że wybrano opcję „Na autora” lub dostosowano komunikat "
-"zatwierdzenia, aby go uwzględnić."
+"Oryginalne opisy commitów są zachowywane, ale autorstwo zostaje utracone, "
+"chyba że wybrano opcję „Na autora” lub dostosowano opis commita, aby go "
+"uwzględnić."
 
 #: weblate/templates/base.html:111
 msgid "Toggle navigation"
@@ -6011,7 +6011,7 @@ msgstr ""
 
 #: weblate/templates/data.html:91
 msgid "Notification hooks"
-msgstr "„Zaczepy” powiadomień"
+msgstr "Hooki powiadomień"
 
 #: weblate/templates/data.html:96
 msgid ""
@@ -6023,7 +6023,7 @@ msgstr ""
 
 #: weblate/templates/data.html:111 weblate/templates/data.html:117
 msgid "Hook"
-msgstr "Hak"
+msgstr "Hook"
 
 #: weblate/templates/data.html:123
 msgid "You pull changes from a remote repository to Weblate like this:"
@@ -6401,16 +6401,16 @@ msgstr "Stan repozytorium"
 #: weblate/templates/js/git-status.html:29 weblate/templates/translate.html:692
 msgid "Pending changes not yet committed to the Weblate repository"
 msgstr ""
-"Oczekujące zmiany, które nie zostały jeszcze zatwierdzone w repozytorium "
+"Oczekujące zmiany, które nie zostały jeszcze scommitowane do repozytorium "
 "Weblate"
 
 #: weblate/templates/js/git-status.html:34
 msgid "Commit pending changes to the Weblate repository"
-msgstr "Zatwierdź oczekujące zmiany w repozytorium Weblate"
+msgstr "Scommituj oczekujące zmiany do repozytorium Weblate"
 
 #: weblate/templates/js/git-status.html:43
 msgid "Outgoing commits in the Weblate repository"
-msgstr "Wychodzące zatwierdzenia w repozytorium Weblate"
+msgstr "Wychodzące commity w repozytorium Weblate"
 
 #: weblate/templates/js/git-status.html:47
 msgid "Push changes to the remote repository"
@@ -6422,7 +6422,7 @@ msgstr "Push"
 
 #: weblate/templates/js/git-status.html:56
 msgid "Missing commits in the Weblate repository"
-msgstr "Brak zatwierdzeń w repozytorium Weblate"
+msgstr "Brakujące commity w repozytorium Weblate"
 
 #: weblate/templates/js/git-status.html:61
 msgid "Update with changes from the remote repository"
@@ -7924,7 +7924,7 @@ msgstr "Gałąź repozytorium"
 
 #: weblate/templates/snippets/git-info.html:30
 msgid "Last remote commit"
-msgstr "Ostatnie zdalne zatwierdzanie"
+msgstr "Ostatni zdalny commit"
 
 #. Translators: For example: "nijel authored five days ago"
 #: weblate/templates/snippets/git-info.html:37
@@ -7935,7 +7935,7 @@ msgstr "%(author)s autor %(date)s"
 
 #: weblate/templates/snippets/git-info.html:46
 msgid "Last commit in Weblate"
-msgstr "Ostatnie zatwierdzenie w Weblate"
+msgstr "Ostatni commit w Weblate"
 
 #: weblate/templates/snippets/git-info.html:62
 msgid "Weblate repository"
@@ -8292,9 +8292,9 @@ msgid ""
 "system commits and provide your contribution under license defined by each "
 "translated project."
 msgstr ""
-"Poprzez rejestrację zgadzasz się na używanie Twojego imienia, nazwiska i e-"
-"maila w zatwierdzeniach zmian systemu kontroli wersji oraz na "
-"licencjonowanie Twojego wkładu na warunkach określonych przez każdy z "
+"Przez rejestrację zgadzasz się na używanie Twojego imienia i nazwiska oraz "
+"adresu e-mail w commitach na systemach kontroli wersji, oraz na "
+"licencjonowanie swojej pracy na warunkach określonych przez każdy z "
 "tłumaczonych projektów."
 
 #: weblate/templates/snippets/plural-formula.html:4
@@ -9136,7 +9136,7 @@ msgstr "Typowy przepływ pracy w celu naprawienia konfliktów scalania"
 msgid ""
 "Commit all pending changes in Weblate and lock the translation component."
 msgstr ""
-"Zatwierdź wszystkie oczekujące zmiany w Weblate i zablokuj komponent "
+"Scommituj wszystkie oczekujące zmiany w Weblate i zablokuj komponent "
 "tłumaczenia."
 
 #: weblate/templates/trans/merge_instructions.html:14
@@ -9165,7 +9165,7 @@ msgstr ""
 
 #: weblate/templates/trans/messages_help.html:4
 msgid "You can use Django templates markup in the commit messages."
-msgstr "Znaczników szablonów Django można używać w komunikatach zatwierdzania."
+msgstr "Można używać znaczników szablonów Django w opisach commitów."
 
 #: weblate/templates/trans/other-row.html:12
 msgid "This translation"
@@ -10206,7 +10206,7 @@ msgstr "Ustawienia kontroli wersji"
 
 #: weblate/trans/forms.py:1384 weblate/trans/forms.py:1386
 msgid "Commit messages"
-msgstr "Komentarze do zatwierdzanych zmian"
+msgstr "Opisy commitów"
 
 #: weblate/trans/forms.py:1402
 msgid "Translation files"
@@ -10421,8 +10421,8 @@ msgstr "Integracja kontroli wersji"
 #: weblate/trans/guide.py:89
 msgid "Configure repository hooks for automated flow of updates to Weblate."
 msgstr ""
-"Skonfiguruj zaczepy repozytorium w celu automatycznego przepływu "
-"aktualizacji do Weblate."
+"Skonfiguruj hooki repozytorium w celu automatycznego przepływu aktualizacji "
+"do Weblate."
 
 #: weblate/trans/guide.py:110
 msgid "Configure push URL for automated flow of translations from Weblate."
@@ -10678,7 +10678,7 @@ msgstr "Znaleziono zduplikowany ciąg"
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:259
 msgid "Committed changes"
-msgstr "Zatwierdzono zmiany"
+msgstr "Scommitowane zmiany"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:261
@@ -11185,7 +11185,7 @@ msgstr ""
 
 #: weblate/trans/models/component.py:499
 msgid "Commit message when translating"
-msgstr "Komentarz do zatwierdzanych zmian tłumaczenia"
+msgstr "Opis commita przy tłumaczeniu"
 
 #: weblate/trans/models/component.py:501 weblate/trans/models/component.py:510
 #: weblate/trans/models/component.py:519 weblate/trans/models/component.py:528
@@ -11199,40 +11199,40 @@ msgstr ""
 
 #: weblate/trans/models/component.py:508
 msgid "Commit message when adding translation"
-msgstr "Komentarz używany podczas dodawania tłumaczenia"
+msgstr "Opis commita przy dodawaniu tłumaczenia"
 
 #: weblate/trans/models/component.py:517
 msgid "Commit message when removing translation"
-msgstr "Komentarz używany podczas usuwania tłumaczenia"
+msgstr "Opis commita przy usuwaniu tłumaczenia"
 
 #: weblate/trans/models/component.py:526
 msgid "Commit message when merging translation"
-msgstr "Komunikat przy łączeniu tłumaczenia"
+msgstr "Opis commita przy łączeniu tłumaczenia"
 
 #: weblate/trans/models/component.py:535
 msgid "Commit message when addon makes a change"
-msgstr "Komunikat, gdy dodatek wprowadza zmiany"
+msgstr "Opis commita przy wprowadzaniu zmian przez dodatek"
 
 #: weblate/trans/models/component.py:544
 msgid "Push on commit"
-msgstr "Prześlij po zatwierdzeniu zmian"
+msgstr "Przesyłaj przy commitowaniu"
 
 #: weblate/trans/models/component.py:547
 msgid "Whether the repository should be pushed upstream on every commit."
 msgstr ""
 "Czy zmiany powinny być przesyłane do repozytorium źródłowego po każdym "
-"zatwierdzeniu zmian."
+"commicie."
 
 #: weblate/trans/models/component.py:551
 msgid "Age of changes to commit"
-msgstr "Wiek zmian do zatwierdzenia"
+msgstr "Wiek zmian do scommitowania"
 
 #: weblate/trans/models/component.py:554
 msgid ""
 "Time in hours after which any pending changes will be committed to the VCS."
 msgstr ""
-"Czas w godzinach, po którym wszystkie oczekujące zmiany zostaną zatwierdzone "
-"w systemie kontroli wersji."
+"Czas w godzinach, po którym wszystkie oczekujące zmiany zostaną scommitowane "
+"do VCS."
 
 #: weblate/trans/models/component.py:559
 msgid "Lock on error"
@@ -11639,8 +11639,7 @@ msgstr "Włącz hooki"
 #: weblate/trans/models/project.py:149
 msgid "Whether to allow updating this repository by remote hooks."
 msgstr ""
-"Czy pozwolić na aktualizację tego repozytorium za pomocą zdalnych podpięć "
-"(ang. remote hooks)."
+"Czy pozwolić na aktualizację tego repozytorium za pomocą zdalnych hooków."
 
 #: weblate/trans/models/project.py:153
 msgid "Language aliases"
@@ -12379,7 +12378,7 @@ msgstr "Nie można zablokować repozytorium, trwa kolejna operacja."
 
 #: weblate/trans/views/git.py:57
 msgid "All pending translations were committed."
-msgstr "Zatwierdzono zmiany wszystkich oczekujących tłumaczeń."
+msgstr "Wszystkie oczekujące tłumaczenia zostały scommitowane."
 
 #: weblate/trans/views/git.py:72
 msgid "All repositories were updated."
