@@ -21,6 +21,7 @@ import time
 from random import randint
 from threading import Thread
 
+from django.conf import settings
 from django.core.cache import cache
 from django.core.checks import run_checks
 
@@ -87,6 +88,8 @@ class ManageMiddleware:
             ConfigurationError.objects.filter(name__in=removals).delete()
 
     def trigger_check(self):
+        if not settings.BACKGROUND_ADMIN_CHECKS:
+            return
         # Update last execution timestamp
         cache.set(CHECK_CACHE_KEY, time.time())
         thread = Thread(target=self.configuration_health_check)
