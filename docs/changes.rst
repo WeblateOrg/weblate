@@ -8,6 +8,7 @@ Not yet released.
 * Fixed saving glossary explanations in some cases.
 * Documentation improvements.
 * Performance improvements.
+* Improved squash add-on compatibility with Gerrit.
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/67?closed=1>`__.
 
