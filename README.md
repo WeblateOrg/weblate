@@ -6,7 +6,7 @@ used by over 1150 libre projects and companies in more than 115 countries.**
 This repository has been forked from https://github.com/WeblateOrg/Weblate.
 It is a **public** repository, so take special care not to commit keys.
 
-- [Administration] (#administration)
+- [Administration](#administration)
     -  [Emails](#emails)
 - [Development](#development)
     - [Branching](#branching)
