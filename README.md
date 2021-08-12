@@ -86,7 +86,7 @@ Weblate is deployed using kubernetes configurations located in the [Gitops](http
 1. Push changes to `vendasta` branch, as described in [Branching](#branching) above.
 2. Go to [Mission Control](https://mission-control-prod.vendasta-internal.com/applications/weblate) and wait for your changes to build successfully.
 3. Go to the Build Log and copy the destination image from Execution Details: ![Destination Image](https://user-images.githubusercontent.com/12201403/129250174-083f6d5e-89e2-4dac-847a-d28a02487dd9.png)
-4. Go to [Gitops](https://github.com/vendasta/gitops). Open the deployment.yaml file for weblate/demo or weblate/prod, and update the `image` value in for the demo or prod to the value copied in step 4. Commit this to master.
+4. Go to [Gitops](https://github.com/vendasta/gitops). Find `weblate/demo/deployment.yaml` or `weblate/prod/deployment.yaml`, and update the `image` key to the value copied in step 4. Commit this to master.
 5. Go to [ArgoCD](https://argocd.vendasta-internal.com). Find weblate-demo or weblate-prod, then click Sync > Synchronize.
 
 ## Using Weblate
