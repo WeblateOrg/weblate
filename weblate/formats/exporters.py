@@ -245,7 +245,7 @@ class PoXliffExporter(XMLExporter):
     content_type = "application/x-xliff+xml"
     extension = "xlf"
     set_id = True
-    verbose = _("XLIFF with gettext extensions")
+    verbose = _("XLIFF 1.1 with gettext extensions")
     storage_class = PoXliffFile
 
     def store_flags(self, output, flags):
