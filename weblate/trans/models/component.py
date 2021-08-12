@@ -466,7 +466,7 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin, CacheKeyMixi
         verbose_name=gettext_lazy("Adding new translation"),
         max_length=10,
         choices=NEW_LANG_CHOICES,
-        default="add",
+        default="contact",
         help_text=gettext_lazy("How to handle requests for creating new translations."),
     )
     language_code_style = models.CharField(
@@ -556,7 +556,7 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin, CacheKeyMixi
     )
     commit_pending_age = models.IntegerField(
         verbose_name=gettext_lazy("Age of changes to commit"),
-        default=settings.COMMIT_PENDING_HOURS,
+        default=12,
         help_text=gettext_lazy(
             "Time in hours after which any pending changes will be "
             "committed to the VCS."
