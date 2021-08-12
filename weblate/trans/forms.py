@@ -945,7 +945,7 @@ class NewLanguageOwnerForm(forms.Form):
     def get_lang_filter(self):
         return Q(translation__component=self.component) | Q(
             project=self.component.project
-        )
+        ) | Q(code__contains=NAMESPACE_SEPARATOR)
 
     def __init__(self, component, *args, **kwargs):
         super().__init__(*args, **kwargs)
