@@ -6,6 +6,8 @@ used by over 1150 libre projects and companies in more than 115 countries.**
 This repository has been forked from https://github.com/WeblateOrg/Weblate.
 It is a **public** repository, so take special care not to commit keys.
 
+- [Administration] (#administration)
+    -  [Emails](#emails)
 - [Development](#development)
     - [Branching](#branching)
     - [Local development](#local-development)
@@ -17,6 +19,14 @@ It is a **public** repository, so take special care not to commit keys.
     - [Lexicon](#lexicon)
     - [Creating a new component with automation](#creating-a-new-component-with-automation)
  - [License](#license)
+
+## Administration
+
+The Google Group `weblate@vendasta.com` is configured as the administrator account for Weblate. The password for this group is stored in a kubernetes secret.
+
+### Emails
+
+To receive admin notifications (for requests, error logs, and repository alerts), add yourself to the `weblate@vendasta.com` Google Group.
 
 ## Development
 
