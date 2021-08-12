@@ -417,14 +417,17 @@
         return;
       }
       /* Relies on clone source implementation */
-      let source = document
-        .querySelector(".source-language-group [data-clone-text]")
-        .getAttribute("data-clone-text");
-      if (source.length < 200) {
-        document.getElementById("id_source").value = source;
-        document.getElementById("id_target").value = document.querySelector(
-          ".translation-editor"
-        ).value;
+      let cloneElement = document.querySelector(
+        ".source-language-group [data-clone-text]"
+      );
+      if (cloneElement !== null) {
+        let source = cloneEelement.getAttribute("data-clone-text");
+        if (source.length < 200) {
+          document.getElementById("id_source").value = source;
+          document.getElementById("id_target").value = document.querySelector(
+            ".translation-editor"
+          ).value;
+        }
       }
       e.target.setAttribute("data-shown", true);
     });
