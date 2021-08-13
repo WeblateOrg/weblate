@@ -395,7 +395,12 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
             self.source_unit_save()
 
         # Update manual variants
-        self.update_variants()
+        if (
+            self.old_unit["extra_flags"] != self.extra_flags
+            or self.context != self.old_unit["context"]
+            or force_insert
+        ):
+            self.update_variants()
 
         # Update terminology
         self.sync_terminology()
@@ -424,11 +429,12 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
 
     def store_old_unit(self, unit):
         self.old_unit = {
-            "state": self.state,
-            "source": self.source,
-            "target": self.target,
-            "extra_flags": self.extra_flags,
-            "explanation": self.explanation,
+            "state": unit.state,
+            "source": unit.source,
+            "target": unit.target,
+            "context": unit.context,
+            "extra_flags": unit.extra_flags,
+            "explanation": unit.explanation,
         }
 
     @property

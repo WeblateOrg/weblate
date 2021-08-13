@@ -2614,10 +2614,10 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
             for unit in units.iterator():
                 if variant_re.findall(unit.context):
                     key = variant_re.sub("", unit.context)
-                    unit.variant = Variant.objects.get_or_create(
+                    variant = Variant.objects.get_or_create(
                         key=key, component=self, variant_regex=self.variant_regex
                     )[0]
-                    unit.save(update_fields=["variant"], only_save=True)
+                    Unit.objects.filter(pk=unit.pk).update(variant=variant)
 
         # Update variant links
         for variant in Variant.objects.filter(component=self).iterator():
