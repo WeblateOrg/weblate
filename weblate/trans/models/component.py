@@ -2599,8 +2599,8 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
         from weblate.trans.models import Unit
 
         # Delete stale regex variants
-        Variant.objects.filter(component=self).exclude(variant_regex="").exclude(
-            variant_regex=self.variant_regex
+        Variant.objects.filter(component=self).exclude(
+            variant_regex__in=("", self.variant_regex)
         ).delete()
 
         # Handle regex based variants

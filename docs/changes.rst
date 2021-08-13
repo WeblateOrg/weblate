@@ -10,6 +10,7 @@ Not yet released.
 * Performance improvements.
 * Improved squash add-on compatibility with Gerrit.
 * Fixed adding strings to a monolingual glossary components.
+* Improved performance in hadling variants.
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/67?closed=1>`__.
 
