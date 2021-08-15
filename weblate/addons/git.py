@@ -260,3 +260,5 @@ class GitSquashAddon(BaseAddon):
                 signals=False,
                 skip_push=True,
             )
+            # Parse translation files to process any updates fetched by update_branch
+            component.create_translations()
