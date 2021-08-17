@@ -124,6 +124,8 @@ Capabilities of all supported formats:
 +---------------------+------------------+---------------+----------------+---------------+----------------+----------------+-------------------------+
 | :ref:`txt`          | mono             | no            | no             | no            | no             | no             |                         |
 +---------------------+------------------+---------------+----------------+---------------+----------------+----------------+-------------------------+
+| :ref:`stringsdict`  | mono             | yes           | yes            | no            | no             | no             |                         |
++---------------------+------------------+---------------+----------------+---------------+----------------+----------------+-------------------------+
 
 .. [#m] See :ref:`bimono`
 .. [#p] Plurals are necessary to properly localize strings with variable count.
@@ -755,6 +757,7 @@ Apple iOS strings are usually used as bilingual translations.
 
 .. seealso::
 
+    :ref:`stringsdict`,
     `Apple "strings files" documentation <https://developer.apple.com/library/archive/documentation/MacOSX/Conceptual/BPInternational/MaintaingYourOwnStringsFiles/MaintaingYourOwnStringsFiles.html>`_,
     :doc:`tt:formats/strings`
 
@@ -1484,6 +1487,38 @@ TBX is an XML format for the exchange of terminology data.
     `TBX on Wikipedia <https://en.wikipedia.org/wiki/TermBase_eXchange>`_,
     :doc:`tt:formats/tbx`,
     :ref:`glossary`
+
+.. _stringsdict:
+
+Stringsdict format
+------------------
+
+.. versionadded:: 4.8
+
+.. note::
+
+   Support for this format is currently in beta, feedback from testing is welcome.
+
+XML based format used by Apple which is able to store plural forms of a string.
+
++-----------------------------------------------------------------------------------+
+| Typical Weblate :ref:`component`                                                  |
++================================+==================================================+
+| Filemask                       |``Resources/*.lproj/Localizable.stringsdict``     |
++--------------------------------+--------------------------------------------------+
+| Monolingual base language file |``Resources/en.lproj/Localizable.stringsdict`` or |
+|                                |``Resources/Base.lproj/Localizable.stringsdict``  |
++--------------------------------+--------------------------------------------------+
+| Template for new translations  | `Empty`                                          |
++--------------------------------+--------------------------------------------------+
+| File format                    | `Stringsdict file`                               |
++--------------------------------+--------------------------------------------------+
+
+
+.. seealso::
+
+   :ref:`apple`,
+   `Stringsdict File Format <https://developer.apple.com/library/archive/documentation/MacOSX/Conceptual/BPInternational/StringsdictFileFormat/StringsdictFileFormat.html>`_,
 
 
 Supporting other formats

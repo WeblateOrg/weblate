@@ -14,7 +14,12 @@
 
 
 <div class="panel panel-default">
-<div class="panel-heading"><h4 class="panel-title">{% trans "Repository status" %}</h4></div>
+<div class="panel-heading">
+  <h4 class="panel-title">
+    {% documentation_icon 'devel/integration' 'manage-vcs' right=True %}
+    {% trans "Repository status" %}
+  </h4>
+</div>
 <table class="table table-autowidth">
   <tr>
     <th class="number">

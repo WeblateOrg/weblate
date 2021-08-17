@@ -703,7 +703,7 @@ class ComponentValidationTest(RepoTestCase):
         self.component.push = ""
         self.assertRaisesMessage(
             ValidationError,
-            "Invalid link to a Weblate project, " "use weblate://project/component.",
+            "Invalid link to a Weblate project, use weblate://project/component.",
             self.component.full_clean,
         )
 
@@ -713,7 +713,7 @@ class ComponentValidationTest(RepoTestCase):
         self.component.push = ""
         self.assertRaisesMessage(
             ValidationError,
-            "Invalid link to a Weblate project, " "use weblate://project/component.",
+            "Invalid link to a Weblate project, use weblate://project/component.",
             self.component.full_clean,
         )
 

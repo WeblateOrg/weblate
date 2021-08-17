@@ -17,6 +17,8 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
+import re
+
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Field, Layout
 from django import forms
@@ -162,6 +164,7 @@ class GitSquashForm(BaseAddonForm):
         ),
     )
     commit_message = forms.CharField(
+        label=_("Commit message"),
         widget=forms.Textarea(),
         required=False,
         help_text=_(
@@ -228,7 +231,7 @@ class RemoveSuggestionForm(RemoveForm):
         initial=0,
         required=True,
         help_text=_(
-            "Threshold for removal. This field has no effect with " "voting turned off."
+            "Threshold for removal. This field has no effect with voting turned off."
         ),
     )
 
@@ -351,9 +354,21 @@ class DiscoveryForm(BaseAddonForm):
         validate_re(match, ("component", "language"))
         return match
 
-    @staticmethod
-    def test_render(value):
-        return validate_render(value, component="test")
+    @cached_property
+    def cleaned_match_re(self):
+        if "match" not in self.cleaned_data:
+            return None
+        try:
+            return re.compile(self.cleaned_data["match"])
+        except re.error:
+            return None
+
+    def test_render(self, value):
+        if self.cleaned_match_re is None:
+            matches = {"component": "test"}
+        else:
+            matches = {key: "test" for key in self.cleaned_match_re.groupindex.keys()}
+        return validate_render(value, **matches)
 
     def template_clean(self, name):
         result = self.test_render(self.cleaned_data[name])

@@ -12,22 +12,30 @@ BUILDDIR      = _build
 help:
 	@$(SPHINXBUILD) -M help "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
 
-.PHONY: help Makefile update-po
+.PHONY: help Makefile update-po update-screenshots run-selenium
 
-update-screenshots:
+run-selenium:
 	@rm -rf ../data-test ../test-images
 	@cd .. && \
-		export DJANGO_SETTINGS_MODULE=weblate.settings_test && \
+		. scripts/test-database && \
 		./manage.py collectstatic --noinput && \
-		./manage.py test weblate.trans.tests.test_selenium.SeleniumTests
-	@set -e ;for file in ../test-images/*.png ; do \
-		echo Processing `basename $$file` ; \
-		cp $$file tmp.png ; \
-		pngnq -s 1 -f -n 255 tmp.png ; \
-		rm -f images/`basename $$file` ; \
-		zopflipng -m tmp-nq8.png images/`basename $$file` ; \
-	done
-	@rm -f tmp.png tmp-nq8.png
+		./manage.py test --failfast weblate.trans.tests.test_selenium.SeleniumTests
+
+SCREENSHOTS = $(wildcard screenshots/*.png)
+
+../test-images/%.png: run-selenium
+	@true
+
+screenshots/%.png: ../test-images/%.png run-selenium
+	@echo "Processing $@"
+	@cp $< $<.tmp
+	@pngnq -s 1 -f -n 255 $<.tmp
+	@rm -f $@
+	@zopflipng -m $<.tmp $@
+	@rm -f $<.tmp
+
+update-screenshots: $(SCREENSHOTS)
+	@echo $(SCREENSHOTS)
 
 update-schemas:
 	@cp ../.venv/lib/python*/site-packages/weblate_schemas/schemas/* schemas/

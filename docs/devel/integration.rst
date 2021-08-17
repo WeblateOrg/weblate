@@ -105,3 +105,62 @@ using :guilabel:`Update source strings` :ref:`upload-method` or using
    :ref:`addon-weblate.cleanup.blank`,
    :ref:`addon-weblate.resx.update`,
    :ref:`addon-weblate.gettext.msgmerge`
+
+.. _manage-vcs:
+
+Managing version control repository
++++++++++++++++++++++++++++++++++++
+
+Weblate stores all translation the version control repository. It can be either
+connected to upstream one, or it can be only internal. The :guilabel:`Repository
+maintenance` lets you manipulate with the repository.
+
+.. hint::
+
+   With :doc:`/admin/continuous` the repository is automatically pushed
+   whenever there are changes and there is usually no need to manually
+   manipupate with it.
+
+.. image:: /screenshots/component-repository.png
+
+Following operations are available:
+
+:guilabel:`Commit`
+
+   Commits any pending changes present in Weblate database and not in the
+   repository, see :ref:`lazy-commit`.
+
+:guilabel:`Push`
+
+   Pushes changes to the upstream repository, if configured by :ref:`component-push`.
+
+:guilabel:`Update`, :guilabel:`Pull`, :guilabel:`Rebase`
+
+   Updates Weblate repository with upstream changes. It uses
+   :ref:`component-merge_style` when choosing :guilabel:`Update` or you can
+   choose different one from the dropdown menu.
+
+:guilabel:`Lock`
+
+   Locking prevents translators from doing changes
+
+:guilabel:`Reset` from :guilabel:`Maintenance`
+
+   Resets any changes done in Weblate to match upstream repository. This will
+   discard all translations done in Weblate and not present in the upstream
+   repository.
+
+:guilabel:`Cleanup` from :guilabel:`Maintenance`
+
+   Removes untracked files from the repository. These could be result of
+   misbehaving add-ons or bugs.
+
+:guilabel:`Force synchronization` from :guilabel:`Maintenance`
+
+   Forces writing all strings to the translation files. Use this when
+   repository files became out of sync with Weblate for some reason.
+
+.. seealso::
+
+   :doc:`/admin/continuous`,
+   :doc:`/vcs`

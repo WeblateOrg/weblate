@@ -34,9 +34,11 @@ token, which you can get in your profile. Use it in the ``Authorization`` header
                    Possible values depends on REST framework setup,
                    by default ``json`` and ``api`` are supported. The
                    latter provides web browser interface for API.
+    :query page: Returns given page of paginated results (use `next` and `previous` fields in response to automate the navigation).
     :reqheader Accept: the response content type depends on
                        :http:header:`Accept` header
-    :reqheader Authorization: optional token to authenticate
+    :reqheader Authorization: optional token to authenticate as
+                              ``Authorization: Token YOUR-TOKEN``
     :resheader Content-Type: this depends on :http:header:`Accept`
                              header of request
     :resheader Allow: list of allowed HTTP methods on object
@@ -1791,7 +1793,7 @@ Translations
     :param language: Translation language code
     :type language: string
     :<json string key: Name of translation unit
-    :<json string value: The translation unit value
+    :<json array value: The translation unit value
 
     .. seealso::
 
@@ -1846,7 +1848,7 @@ Translations
     :type component: string
     :param language: Translation language code
     :type language: string
-    :form string conflicts: How to deal with conflicts (``ignore``, ``replace-translated`` or ``replace-approved``)
+    :form string conflict: How to deal with conflicts (``ignore``, ``replace-translated`` or ``replace-approved``)
     :form file file: Uploaded file
     :form string email: Author e-mail
     :form string author: Author name

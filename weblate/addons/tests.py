@@ -780,7 +780,7 @@ class DiscoveryTest(ViewTestCase):
             follow=True,
         )
         self.assertContains(response, "Please include component markup")
-        # Correct params for confirmation
+        # Missing variable
         response = self.client.post(
             reverse("addons", kwargs=self.kw_component),
             {
@@ -788,7 +788,23 @@ class DiscoveryTest(ViewTestCase):
                 "form": "1",
                 "file_format": "po",
                 "match": r"(?P<component>[^/]*)/(?P<language>[^/]*)\.po",
-                "name_template": "{{ component|title }}",
+                "name_template": "{{ component|title }}.{{ ext }}",
+                "language_regex": "^(?!xx).*$",
+                "base_file_template": "",
+                "remove": True,
+            },
+            follow=True,
+        )
+        self.assertContains(response, "Undefined variable: &quot;ext&quot;")
+        # Correct params for confirmation
+        response = self.client.post(
+            reverse("addons", kwargs=self.kw_component),
+            {
+                "name": "weblate.discovery.discovery",
+                "form": "1",
+                "file_format": "po",
+                "match": r"(?P<component>[^/]*)/(?P<language>[^/]*)\.(?P<ext>po)",
+                "name_template": "{{ component|title }}.{{ ext }}",
                 "language_regex": "^(?!xx).*$",
                 "base_file_template": "",
                 "remove": True,
@@ -802,9 +818,9 @@ class DiscoveryTest(ViewTestCase):
             {
                 "name": "weblate.discovery.discovery",
                 "form": "1",
-                "match": r"(?P<component>[^/]*)/(?P<language>[^/]*)\.po",
+                "match": r"(?P<component>[^/]*)/(?P<language>[^/]*)\.(?P<ext>po)",
                 "file_format": "po",
-                "name_template": "{{ component|title }}",
+                "name_template": "{{ component|title }}.{{ ext }}",
                 "language_regex": "^(?!xx).*$",
                 "base_file_template": "",
                 "remove": True,

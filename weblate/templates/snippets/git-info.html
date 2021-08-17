@@ -10,6 +10,9 @@
 <th>{% trans "Source code repository" %}</th>
 <td class="full-cell">
     <code class="wrap-text">{{ object.get_repo_url }}</code>
+    {% if object.linked_component %}
+      <a href="{{ object.linked_component.get_absolute_url }}#information" title="{% blocktrans with target=object.linked_component %}This component is linked to the {{target}} repository.{% endblocktrans %}">{% icon "link.svg" %}</a>
+    {% endif %}
     <button type="button" class="btn btn-link btn-xs" data-clipboard-text="{{ object.get_repo_url }}" data-clipboard-message="{% trans "Repository URL copied to clipboard." %}" title="{% trans "Copy to clipboard" %}">{% icon "copy.svg" %}</button>
 </td>
 </tr>

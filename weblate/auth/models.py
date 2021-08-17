@@ -54,16 +54,12 @@ from weblate.auth.utils import (
     migrate_roles,
 )
 from weblate.lang.models import Language
-from weblate.trans.defines import EMAIL_LENGTH, FULLNAME_LENGTH, USERNAME_LENGTH
+from weblate.trans.defines import FULLNAME_LENGTH, USERNAME_LENGTH
 from weblate.trans.fields import RegexField
 from weblate.trans.models import ComponentList, Project
 from weblate.utils.decorators import disable_for_loaddata
 from weblate.utils.fields import EmailField, UsernameField
-from weblate.utils.validators import (
-    validate_email,
-    validate_fullname,
-    validate_username,
-)
+from weblate.utils.validators import validate_fullname, validate_username
 
 
 class Permission(models.Model):
@@ -71,8 +67,8 @@ class Permission(models.Model):
     name = models.CharField(max_length=200)
 
     class Meta:
-        verbose_name = _("Permission")
-        verbose_name_plural = _("Permissions")
+        verbose_name = "Permission"
+        verbose_name_plural = "Permissions"
 
     def __str__(self):
         name = gettext(self.name)
@@ -330,9 +326,7 @@ class User(AbstractBaseUser):
         _("E-mail"),
         blank=False,
         null=True,
-        max_length=EMAIL_LENGTH,
         unique=True,
-        validators=[validate_email],
     )
     is_superuser = models.BooleanField(
         _("Superuser status"),
@@ -585,6 +579,18 @@ class User(AbstractBaseUser):
                 group=group
             ).values_list("project_id", flat=True):
                 projects[project].append((permissions, languages))
+        # Apply blocking
+        now = timezone.now()
+        for block in self.userblock_set.iterator():
+            if block.expiry is not None and block.expiry <= now:
+                # Delete expired blocks
+                block.delete()
+            else:
+                # Remove all permissions for blocked user
+                projects[block.project_id] = [
+                    ((), languages)
+                    for permissions, languages in projects[block.project_id]
+                ]
         self._permissions = {"projects": projects, "components": components}
 
     @cached_property
@@ -639,11 +645,29 @@ class AutoGroup(models.Model):
     )
 
     class Meta:
-        verbose_name = _("Automatic group assignment")
-        verbose_name_plural = _("Automatic group assignments")
+        verbose_name = "Automatic group assignment"
+        verbose_name_plural = "Automatic group assignments"
 
     def __str__(self):
         return f"Automatic rule for {self.group}"
+
+
+class UserBlock(models.Model):
+    user = models.ForeignKey(
+        User, verbose_name=_("User to block"), on_delete=models.deletion.CASCADE
+    )
+    project = models.ForeignKey(
+        Project, verbose_name=_("Project"), on_delete=models.deletion.CASCADE
+    )
+    expiry = models.DateTimeField(_("Block expiry"), null=True)
+
+    class Meta:
+        verbose_name = "Blocked user"
+        verbose_name_plural = "Blocked users"
+        unique_together = ("user", "project")
+
+    def __str__(self):
+        return f"{self.user} blocked for {self.project}"
 
 
 def create_groups(update):

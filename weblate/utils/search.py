@@ -98,7 +98,7 @@ EXACT_FIELD_MAP = {
 }
 OPERATOR_MAP = {
     ":": "substring",
-    ":=": "iexact",
+    ":=": "exact",
     ":<": "lt",
     ":<=": "lte",
     ":>": "gt",
@@ -278,6 +278,8 @@ class TermExpr:
             return query & Q(check__dismissed=False)
         if field == "dismissed_check":
             return query & Q(check__dismissed=True)
+        if field == "component":
+            return query | Q(translation__component__name__icontains=match)
 
         return query
 

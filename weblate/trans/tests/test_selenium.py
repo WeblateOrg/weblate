@@ -25,7 +25,6 @@ from contextlib import contextmanager
 from datetime import timedelta
 from unittest import SkipTest
 
-import social_django.utils
 from django.conf import settings
 from django.core import mail
 from django.test.utils import modify_settings, override_settings
@@ -75,7 +74,7 @@ SOURCE_FONT = os.path.join(
     "vendor",
     "font-source",
     "TTF",
-    "SourceSansPro-Bold.ttf",
+    "SourceSans3-Bold.ttf",
 )
 
 
@@ -444,21 +443,15 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
 
     @override_settings(AUTHENTICATION_BACKENDS=TEST_BACKENDS)
     def test_auth_backends(self):
-        try:
-            # psa creates copy of settings...
-            orig_backends = social_django.utils.BACKENDS
-            social_django.utils.BACKENDS = TEST_BACKENDS
-            user = self.do_login()
-            user.social_auth.create(provider="google-oauth2", uid=user.email)
-            user.social_auth.create(provider="github", uid="123456")
-            user.social_auth.create(provider="bitbucket", uid="weblate")
-            self.click(htmlid="user-dropdown")
-            with self.wait_for_page_load():
-                self.click(htmlid="settings-button")
-            self.click("Account")
-            self.screenshot("authentication.png")
-        finally:
-            social_django.utils.BACKENDS = orig_backends
+        user = self.do_login()
+        user.social_auth.create(provider="google-oauth2", uid=user.email)
+        user.social_auth.create(provider="github", uid="123456")
+        user.social_auth.create(provider="bitbucket", uid="weblate")
+        self.click(htmlid="user-dropdown")
+        with self.wait_for_page_load():
+            self.click(htmlid="settings-button")
+        self.click("Account")
+        self.screenshot("authentication.png")
 
     def test_screenshots(self):
         """Screenshot tests."""
@@ -488,9 +481,14 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
                 self.click("Dashboard")
 
         def wait_search():
+            time.sleep(0.1)
             WebDriverWait(self.driver, 15).until(
                 presence_of_element_located(
-                    (By.XPATH, '//div[@id="search-results"]//tr')
+                    (
+                        By.XPATH,
+                        '//div[@id="search-results"]'
+                        '//tbody[@class="unit-listing-body"]//tr',
+                    )
                 )
             )
 
@@ -747,11 +745,18 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         with self.wait_for_page_load():
             self.click(htmlid="engage-project")
 
-        # Add-ons
         self.click("Components")
         with self.wait_for_page_load():
             self.click("Language names")
+
+        # Repository
         self.click("Manage")
+        self.click("Repository maintenance")
+        time.sleep(0.2)
+        self.click("Manage")
+        self.screenshot("component-repository.png")
+
+        # Add-ons
         with self.wait_for_page_load():
             self.click("Add-ons")
         self.screenshot("addons.png")
@@ -1040,7 +1045,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
 
         # Create group
         Select(self.driver.find_element(By.ID, "id_group_font")).select_by_visible_text(
-            "Source Sans Pro Bold"
+            "Source Sans 3 Bold"
         )
         element = self.driver.find_element(By.ID, "id_group_name")
         element.send_keys("default-font")

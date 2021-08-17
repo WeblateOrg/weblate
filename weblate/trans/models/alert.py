@@ -360,3 +360,8 @@ class NoMaskMatches(BaseAlert):
     verbose = _("No mask matches.")
     doc_page = "admin/projects"
     doc_anchor = "component-filemask"
+
+    def get_analysis(self):
+        return {
+            "can_add": self.instance.component.can_add_new_language(None, fast=True),
+        }

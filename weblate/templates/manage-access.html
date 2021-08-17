@@ -42,7 +42,7 @@
       <tbody>
         {% for user in all_users %}
           <tr>
-            <td>{{ user.username }}</td>
+            <td><a href="{{ user.get_absolute_url }}">{{ user.username }}</a></td>
             <td>{{ user.full_name }}</td>
             <td>{{ user.email }}</td>
             <td>{% if user.last_login %}{{ user.last_login|naturaltime }}{% else %}{% trans "Not yet signed in" %}{% endif %}</td>
@@ -84,6 +84,32 @@
             </td>
           </tr>
         {% endfor %}
+        {% for userblock in blocked_users %}
+          <tr>
+            <td><a href="{{ userblock.user.get_absolute_url }}">{{ userblock.user.username }}</a></td>
+            <td>{{ userblock.user.full_name }}</td>
+            <td>{{ userblock.user.email }}</td>
+            <td>{% if userblock.user.last_login %}{{ userblock.user.last_login|naturaltime }}{% else %}{% trans "Not yet signed in" %}{% endif %}</td>
+            <td colspan="{{groups|length}}">
+              <strong>
+                {% if userblock.expiry %}
+                  {% blocktrans with expiry=userblock.expiry|date:"DATE_FORMAT" %}Blocked until {{ expiry }}{% endblocktrans %}
+                {% else %}
+                  {% trans "Blocked permanently" %}
+                {% endif %}
+              <strong>
+            </td>
+            <td>
+              <form action="{% url "unblock-user" project=object.slug %}" method="post" class="inlineform">
+                {% csrf_token %}
+                <input type="hidden" name="user" value="{{ userblock.user.username }}" />
+                <button type="submit" class="btn btn-link btn-xs" title="{% trans "Unblock user" %}">
+                {% icon 'close.svg' %}
+                </button>
+              </form>
+            </td>
+          </tr>
+        {% endfor %}
       </tbody>
     </table>
     <div class="panel-body">
@@ -109,6 +135,21 @@
           </div>
           <div class="panel-footer">
           <input type="submit" class="btn btn-primary" value="{% trans "Add" %}" />
+          </div>
+        </div>
+      </form>
+      <form action="{% url "block-user" project=object.slug %}" method="post" id="block-user">
+        {% csrf_token %}
+        <div class="panel panel-default">
+          <div class="panel-heading"><h4 class="panel-title">
+            {% documentation_icon 'admin/access' 'block-user' right=True %}
+            {% trans "Block user" %}
+          </h4></div>
+          <div class="panel-body">
+            {{ block_user_form|crispy }}
+          </div>
+          <div class="panel-footer">
+          <input type="submit" class="btn btn-danger" value="{% trans "Block" %}" />
           </div>
         </div>
       </form>

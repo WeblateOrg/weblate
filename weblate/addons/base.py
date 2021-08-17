@@ -196,8 +196,8 @@ class BaseAddon:
                                   be blank on initial clone.
         :param bool skip_push: Whether the add-on operation should skip pushing
                                changes upstream. Usually you can pass this to
-                               underlying methods as commit_and_push or
-                               commit_pending.
+                               underlying methods as ``commit_and_push`` or
+                               ``commit_pending``.
         """
         return
 
@@ -356,11 +356,9 @@ class UpdateBaseAddon(BaseAddon):
 
     @staticmethod
     def iterate_translations(component):
-        yield from (
-            translation
-            for translation in component.translation_set.iterator()
-            if not translation.is_source or component.intermediate
-        )
+        for translation in component.translation_set.iterator():
+            if not translation.is_source or component.intermediate:
+                yield translation
 
     def update_translations(self, component, previous_head):
         raise NotImplementedError()

@@ -36,7 +36,6 @@ class AlertTest(ViewTestCase):
             {
                 "DuplicateLanguage",
                 "DuplicateString",
-                "MissingLicense",
                 "BrokenBrowserURL",
                 "BrokenProjectURL",
             },
@@ -54,7 +53,6 @@ class AlertTest(ViewTestCase):
             {
                 "DuplicateLanguage",
                 "DuplicateString",
-                "MissingLicense",
                 "BrokenBrowserURL",
                 "BrokenProjectURL",
             },
@@ -66,7 +64,6 @@ class AlertTest(ViewTestCase):
             {
                 "DuplicateLanguage",
                 "DuplicateString",
-                "MissingLicense",
                 "BrokenBrowserURL",
                 "BrokenProjectURL",
                 "UnusedEnforcedCheck",
@@ -87,6 +84,7 @@ class AlertTest(ViewTestCase):
         response = self.client.get(self.component.get_absolute_url())
         self.assertContains(response, "Duplicated translation")
 
+    @override_settings(LICENSE_REQUIRED=True)
     def test_license(self):
         def has_license_alert(component):
             return component.alert_set.filter(name="MissingLicense").exists()

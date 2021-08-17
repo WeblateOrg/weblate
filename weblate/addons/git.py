@@ -91,11 +91,21 @@ class GitSquashAddon(BaseAddon):
             if filenames:
                 command += ["--"] + filenames
 
-            trailer_lines = {
-                trailer
-                for trailer in repository.execute(command).split("\n")
-                if trailer.strip()
-            }
+            trailer_lines = set()
+            seen_change_id = False
+            for trailer in repository.execute(command).split("\n"):
+                # Skip blank lines
+                if not trailer.strip():
+                    continue
+
+                # Pick only first Change-Id, there suppose to be only one in the
+                # commit (used by Gerrit)
+                if trailer.startswith("Change-Id:"):
+                    if seen_change_id:
+                        continue
+                    seen_change_id = True
+
+                trailer_lines.add(trailer)
 
             if commit_message:
                 # Predefined commit message
@@ -250,3 +260,5 @@ class GitSquashAddon(BaseAddon):
                 signals=False,
                 skip_push=True,
             )
+            # Parse translation files to process any updates fetched by update_branch
+            component.create_translations()

@@ -144,7 +144,7 @@ Performs automatic translation based on other component translations.
 
 .. django-admin-option:: --mode MODE
 
-    Specify translation mode, default is "translate" but "fuzzy" or "suggest"
+    Specify translation mode, default is ``translate`` but ``fuzzy`` or ``suggest``
     can be used.
 
 Example:

@@ -22,7 +22,6 @@
 from urllib.parse import parse_qs, urlparse
 
 import responses
-import social_django.utils
 from django.conf import settings
 from django.core import mail
 from django.test import Client, TestCase
@@ -565,70 +564,61 @@ class RegistrationTest(BaseRegistrationTest):
     @override_settings(AUTHENTICATION_BACKENDS=GH_BACKENDS)
     def test_github(self, confirm=None, fail=False):
         """Test GitHub integration."""
-        try:
-            # psa creates copy of settings...
-            orig_backends = social_django.utils.BACKENDS
-            social_django.utils.BACKENDS = GH_BACKENDS
-
-            responses.add(
-                responses.POST,
-                "https://github.com/login/oauth/access_token",
-                json={"access_token": "123", "token_type": "bearer"},
-            )
-            responses.add(
-                responses.GET,
-                "https://api.github.com/user",
-                json={
-                    "email": "foo@example.net",
-                    "login": "weblate",
-                    "id": 1,
-                    "name": "Test Weblate Name",
+        responses.add(
+            responses.POST,
+            "https://github.com/login/oauth/access_token",
+            json={"access_token": "123", "token_type": "bearer"},
+        )
+        responses.add(
+            responses.GET,
+            "https://api.github.com/user",
+            json={
+                "email": "foo@example.net",
+                "login": "weblate",
+                "id": 1,
+                "name": "Test Weblate Name",
+            },
+        )
+        responses.add(
+            responses.GET,
+            "https://api.github.com/user/emails",
+            json=[
+                {
+                    "email": "noreply2@example.org",
+                    "verified": False,
+                    "primary": False,
                 },
+                {
+                    "email": "noreply-weblate@example.org",
+                    "verified": True,
+                    "primary": True,
+                },
+            ],
+        )
+        response = self.client.post(reverse("social:begin", args=("github",)))
+        self.assertEqual(response.status_code, 302)
+        self.assertTrue(
+            response["Location"].startswith("https://github.com/login/oauth/authorize")
+        )
+        query = parse_qs(urlparse(response["Location"]).query)
+        return_query = parse_qs(urlparse(query["redirect_uri"][0]).query)
+        response = self.client.get(
+            reverse("social:complete", args=("github",)),
+            {"state": query["state"][0] or return_query["state"][0], "code": "XXX"},
+            follow=True,
+        )
+        if fail:
+            self.assertContains(response, "is already in use for another account")
+            return
+        if confirm:
+            self.assertContains(response, "Confirm new association")
+            response = self.client.post(
+                reverse("confirm"), {"password": confirm}, follow=True
             )
-            responses.add(
-                responses.GET,
-                "https://api.github.com/user/emails",
-                json=[
-                    {
-                        "email": "noreply2@example.org",
-                        "verified": False,
-                        "primary": False,
-                    },
-                    {
-                        "email": "noreply-weblate@example.org",
-                        "verified": True,
-                        "primary": True,
-                    },
-                ],
-            )
-            response = self.client.post(reverse("social:begin", args=("github",)))
-            self.assertEqual(response.status_code, 302)
-            self.assertTrue(
-                response["Location"].startswith(
-                    "https://github.com/login/oauth/authorize"
-                )
-            )
-            query = parse_qs(urlparse(response["Location"]).query)
-            return_query = parse_qs(urlparse(query["redirect_uri"][0]).query)
-            response = self.client.get(
-                reverse("social:complete", args=("github",)),
-                {"state": query["state"][0] or return_query["state"][0], "code": "XXX"},
-                follow=True,
-            )
-            if fail:
-                self.assertContains(response, "is already in use for another account")
-                return
-            if confirm:
-                self.assertContains(response, "Confirm new association")
-                response = self.client.post(
-                    reverse("confirm"), {"password": confirm}, follow=True
-                )
-            self.assertContains(response, "Test Weblate Name")
-            user = User.objects.get(username="weblate")
-            self.assertEqual(user.full_name, "Test Weblate Name")
-            self.assertEqual(user.email, "noreply-weblate@example.org")
-        finally:
-            social_django.utils.BACKENDS = orig_backends
+        self.assertContains(response, "Test Weblate Name")
+        user = User.objects.get(username="weblate")
+        self.assertEqual(user.full_name, "Test Weblate Name")
+        self.assertEqual(user.email, "noreply-weblate@example.org")
 
     def test_github_existing(self):
         """Adding GitHub association to existing account."""
@@ -689,16 +679,9 @@ class RegistrationTest(BaseRegistrationTest):
         },
     )
     def test_saml(self):
-        try:
-            # psa creates copy of settings...
-            orig_backends = social_django.utils.BACKENDS
-            social_django.utils.BACKENDS = SAML_BACKENDS
-
-            url = reverse("social:saml-metadata")
-            response = self.client.get(url)
-            self.assertContains(response, url)
-        finally:
-            social_django.utils.BACKENDS = orig_backends
+        url = reverse("social:saml-metadata")
+        response = self.client.get(url)
+        self.assertContains(response, url)
 
 
 class CookieRegistrationTest(BaseRegistrationTest):
@@ -788,15 +771,6 @@ class RegistrationLimitTest(TestCase):
         else:
             self.assertContains(response, "New registrations are turned off.")
             self.assertFalse(User.objects.filter(username=self.USERNAME).exists())
-
-    def setUp(self):
-        super().setUp()
-        self.orig_backends = social_django.utils.BACKENDS
-        social_django.utils.BACKENDS = settings.AUTHENTICATION_BACKENDS
-
-    def tearDown(self):
-        super().tearDown()
-        social_django.utils.BACKENDS = self.orig_backends
 
     @override_settings(REGISTRATION_OPEN=True, REGISTRATION_CAPTCHA=False)
     def test_open(self):

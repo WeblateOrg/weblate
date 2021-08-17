@@ -22,7 +22,7 @@ cp node_modules/mousetrap/mousetrap.js ../../weblate/static/vendor/
 cp node_modules/mousetrap-global-bind/mousetrap-global-bind.js ../../weblate/static/vendor/
 
 # js.cookie
-cp node_modules/js-cookie/src/js.cookie.js ../../weblate/static/vendor/
+cp node_modules/js-cookie/dist/js.cookie.js ../../weblate/static/vendor/
 
 # jQuery
 cp node_modules/jquery/dist/jquery.js ../../weblate/static/vendor/
@@ -53,10 +53,10 @@ cp node_modules/slugify/slugify.js ../../weblate/static/vendor/slugify.js
 cp node_modules/@sentry/browser/build/bundle.js ../../weblate/static/vendor/sentry.js
 
 # Source Sans/Code Pro fonts
-sed '/font-family/ a font-display: swap;' < node_modules/source-sans-pro/source-sans-pro.css > ../../weblate/static/vendor/font-source/source-sans-pro.css
+sed '/font-family/ a font-display: swap;' < node_modules/source-sans/source-sans-3.css > ../../weblate/static/vendor/font-source/source-sans-3.css
 sed '/font-family/ a font-display: swap;' < node_modules/source-code-pro/source-code-pro.css > ../../weblate/static/vendor/font-source/source-code-pro.css
-find node_modules/source-sans-pro/ node_modules/source-code-pro/ -name SourceSansPro-ExtraLight.* -o  -name SourceSansPro-Light.* -o  -name SourceSansPro-Semibold.* -o -name SourceSansPro-Black.* -o -name SourceSansPro-Bold.* -o -name SourceSansPro-Regular.* -o -name SourceSansPro-It.* -o -name SourceSansPro-BoldIt.* -o -name SourceCodePro-Medium.* -o -name SourceCodePro-Regular.* -o -name SourceCodePro-Bold.* -o -name SourceCodePro-Semibold.* | while read name ; do
-    target=`echo $name | sed 's@node_modules/source-\(sans\|code\)-pro/@../../weblate/static/vendor/font-source/@'`
+find node_modules/source-sans/WOFF node_modules/source-sans/WOFF2 node_modules/source-sans/TTF node_modules/source-code-pro/ -name SourceSans3-ExtraLight.* -o  -name SourceSans3-Light.* -o  -name SourceSans3-Semibold.* -o -name SourceSans3-Black.* -o -name SourceSans3-Bold.* -o -name SourceSans3-Regular.* -o -name SourceSans3-It.* -o -name SourceSans3-BoldIt.* -o -name SourceCodePro-Medium.* -o -name SourceCodePro-Regular.* -o -name SourceCodePro-Bold.* -o -name SourceCodePro-Semibold.* | while read name ; do
+    target=`echo $name | sed 's@node_modules/source-\(sans\|code-pro\)/@../../weblate/static/vendor/font-source/@'`
     dir=`dirname $target`
     if [ ! -d $dir ] ; then
         mkdir -p $dir

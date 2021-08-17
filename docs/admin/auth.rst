@@ -57,6 +57,12 @@ authentication method. Please note that some backends do not provide user e-mail
 default, you have to request it explicitly, otherwise Weblate will not be able
 to properly credit contributions users make.
 
+.. hint::
+
+   Most of the authentication backends require HTTPS. Once HTTPS is enabled in your web server
+   please configure Weblate to report it properly using :setting:`ENABLE_HTTPS`, or by
+   :envvar:`WEBLATE_ENABLE_HTTPS` in the Docker container.
+
 .. seealso::
 
     :doc:`Python Social Auth backend <psa:backends/index>`
@@ -310,6 +316,19 @@ The redirect URL is ``https://WEBLATE SERVER/accounts/complete/slack/``.
 .. seealso::
 
    :doc:`psa:backends/slack`
+
+
+Overriding authentication method names and icons
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can override the authentication method display name and icon using using settings as
+``SOCIAL_AUTH_<NAME>_IMAGE`` and ``SOCIAL_AUTH_<NAME>_TITLE``. For example
+overriding naming for Auth0 would look like:
+
+.. code-block:: python
+
+   SOCIAL_AUTH_AUTH0_IMAGE = "custom.svg"
+   SOCIAL_AUTH_AUTH0_TITLE = "Custom auth"
 
 Turning off password authentication
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

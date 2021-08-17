@@ -19,7 +19,6 @@
 
 """Test for user handling."""
 
-import social_django.utils
 from django.conf import settings
 from django.core import mail
 from django.core.signing import TimestampSigner
@@ -187,6 +186,9 @@ class ViewTest(RepoTestCase):
     def test_user_list(self):
         """Test user pages."""
         user = self.get_user()
+        response = self.client.get(reverse("user_list"), {"q": user.username})
+        self.assertEqual(response.status_code, 302)
+        self.client.login(username=user.username, password="testpassword")
         user_url = user.get_absolute_url()
         response = self.client.get(reverse("user_list"), {"q": user.username})
         self.assertContains(response, user_url)
@@ -242,22 +244,17 @@ class ViewTest(RepoTestCase):
         response = self.client.post(reverse("logout"))
         self.assertRedirects(response, reverse("home"))
 
+    @override_settings(
+        AUTHENTICATION_BACKENDS=(
+            "social_core.backends.github.GithubOAuth2",
+            "weblate.accounts.auth.WeblateUserBackend",
+        )
+    )
     def test_login_redirect(self):
-        try:
-            # psa creates copy of settings...
-            orig_backends = social_django.utils.BACKENDS
-            social_django.utils.BACKENDS = (
-                "social_core.backends.github.GithubOAuth2",
-                "weblate.accounts.auth.WeblateUserBackend",
-            )
-            load_backends(social_django.utils.BACKENDS, force_load=True)
+        load_backends(settings.AUTHENTICATION_BACKENDS, force_load=True)
 
-            response = self.client.get(reverse("login"))
-            self.assertContains(
-                response, "Redirecting you to the authentication provider."
-            )
-        finally:
-            social_django.utils.BACKENDS = orig_backends
+        response = self.client.get(reverse("login"))
+        self.assertContains(response, "Redirecting you to the authentication provider.")
 
     def test_login_email(self):
         user = self.get_user()

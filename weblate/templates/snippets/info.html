@@ -78,7 +78,7 @@
         {% if project.web %}
         <tr>
         <th>{% trans "Project website" %}</th>
-        <td class="full-cell"><a href="{{ project.web }}">{{ project.web | urlformat }}</a></td>
+        <td class="full-cell"><a rel="ugc" href="{{ project.web }}">{{ project.web | urlformat }}</a></td>
         </tr>
         {% endif %}
 
@@ -191,7 +191,7 @@
         {% if component.agreement %}
         <tr>
         <th>{% trans "Contributor agreement" %}</th>
-        <td>
+        <td class="full-cell">
           <a class="btn btn-primary pull-right flip" href="{% url 'contributor-agreement' project=component.project.slug component=component.slug %}">{% trans "View" %}</a>
           {{ component.agreement|markdown }}
         </td>

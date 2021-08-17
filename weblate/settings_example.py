@@ -131,6 +131,7 @@ LANGUAGES = (
     ("sr", "Српски"),
     ("sr-latn", "Srpski"),
     ("sv", "Svenska"),
+    ("th", "ไทย"),
     ("tr", "Türkçe"),
     ("uk", "Українська"),
     ("zh-hans", "简体字"),
@@ -526,6 +527,7 @@ MT_SERVICES = (
     #     "weblate.machinery.glosbe.GlosbeTranslation",
     #     "weblate.machinery.google.GoogleTranslation",
     #     "weblate.machinery.googlev3.GoogleV3Translation",
+    #     "weblate.machinery.libretranslate.LibreTranslateTranslation",
     #     "weblate.machinery.microsoft.MicrosoftCognitiveTranslation",
     #     "weblate.machinery.microsoftterminology.MicrosoftTerminologyService",
     #     "weblate.machinery.modernmt.ModernMTTranslation",
@@ -547,6 +549,10 @@ MT_APERTIUM_APY = None
 
 # DeepL API key
 MT_DEEPL_KEY = None
+
+# LibreTranslate
+MT_LIBRETRANSLATE_API_URL = None
+MT_LIBRETRANSLATE_KEY = None
 
 # Microsoft Cognitive Services Translator API, register at
 # https://portal.azure.com/

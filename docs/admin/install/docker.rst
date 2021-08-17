@@ -71,6 +71,29 @@ Enjoy your Weblate deployment, it's accessible on port 80 of the ``weblate`` con
 
 .. seealso:: :ref:`invoke-manage`
 
+Choosing Docker hub tag
+-----------------------
+
+You can use following tags on Docker hub, see https://hub.docker.com/r/weblate/weblate/tags/ for full list of available ones.
+
++-------------------------+------------------------------------------------------------------------------------------------------------+------------------------------------------------------+
+| Tag name                | Description                                                                                                | Use case                                             |
++=========================+============================================================================================================+======================================================+
+|``latest``               | Weblate stable release, matches latest tagged release                                                      | Rolling updates in a production environment          |
++-------------------------+------------------------------------------------------------------------------------------------------------+------------------------------------------------------+
+|``<VERSION>-<PATCH>``    | Weblate stable release                                                                                     | Well defined deploy in a production environment      |
++-------------------------+------------------------------------------------------------------------------------------------------------+------------------------------------------------------+
+|``edge``                 | Weblate stable release with development changes in the Docker container (for example updated dependencies) | Rolling updates in a staging environment             |
++-------------------------+------------------------------------------------------------------------------------------------------------+------------------------------------------------------+
+|``edge-<DATE>-<SHA>``    | Weblate stable release with development changes in the Docker container (for example updated dependencies) | Well defined deploy in a staging environment         |
++-------------------------+------------------------------------------------------------------------------------------------------------+------------------------------------------------------+
+|``bleeding``             | Development version Weblate from Git                                                                       | Rollling updates to test upcoming Weblate features   |
++-------------------------+------------------------------------------------------------------------------------------------------------+------------------------------------------------------+
+|``bleeding-<DATE>-<SHA>``| Development version Weblate from Git                                                                       | Well defined deploy to test upcoming Weblate features|
++-------------------------+------------------------------------------------------------------------------------------------------------+------------------------------------------------------+
+
+Every image is tested by our CI before it gets published, so even the `bleeding` version should be quite safe to use.
+
 .. _docker-ssl:
 
 Docker container with HTTPS support
@@ -708,8 +731,14 @@ Generic settings
    Configures :setting:`ENABLE_AVATARS`.
 
 
+.. _docker-machine:
+
 Machine translation settings
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. hint::
+
+   Configuring API key for a service automatically configures it in :setting:`MT_SERVICES`.
 
 .. envvar:: WEBLATE_MT_APERTIUM_APY
 
@@ -735,6 +764,14 @@ Machine translation settings
 .. envvar:: WEBLATE_MT_DEEPL_API_URL
 
    Configures :ref:`deepl` API version to use, see :setting:`MT_DEEPL_API_URL`.
+
+.. envvar:: WEBLATE_MT_LIBRETRANSLATE_KEY
+
+    Enables :ref:`libretranslate` machine translation and sets :setting:`MT_LIBRETRANSLATE_KEY`
+
+.. envvar:: WEBLATE_MT_LIBRETRANSLATE_API_URL
+
+   Configures :ref:`libretranslate` API instance to use, see :setting:`MT_LIBRETRANSLATE_API_URL`.
 
 .. envvar:: WEBLATE_MT_GOOGLE_KEY
 
@@ -1390,6 +1427,9 @@ The cache volume is mounted as :file:`/app/cache` and is used to store static
 files. Its content is recreated on container startup and the volume can be
 mounted using ephemeral filesystem such as `tmpfs`.
 
+When creating the volumes manually, the directories should be owned by UID 1000
+as that is user used inside the container.
+
 .. seealso::
 
    `Docker volumes documentation <https://docs.docker.com/storage/volumes/>`_
@@ -1449,11 +1489,3 @@ using :ref:`docker-custom-config`.
 .. seealso::
 
    :doc:`../customize`
-
-
-Select your machine - local or cloud providers
-----------------------------------------------
-
-With Docker Machine you can create your Weblate deployment either on your local
-machine, or on any large number of cloud-based deployments on e.g. Amazon AWS,
-Greenhost, and many other providers.

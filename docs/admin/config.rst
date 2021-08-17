@@ -1163,6 +1163,11 @@ List of enabled machine translation services to use.
     Many of the services need additional configuration like API keys, please check
     their documentation :ref:`machine-translation-setup` for more details.
 
+.. hint::
+
+    When using Docker container, this configuration is automatically generated
+    based on provided API keys, see :ref:`docker-machine`.
+
 .. code-block:: python
 
     MT_SERVICES = (
@@ -1170,6 +1175,7 @@ List of enabled machine translation services to use.
         "weblate.machinery.deepl.DeepLTranslation",
         "weblate.machinery.glosbe.GlosbeTranslation",
         "weblate.machinery.google.GoogleTranslation",
+        "weblate.machinery.libretranslate.LibreTranslateTranslation",
         "weblate.machinery.microsoft.MicrosoftCognitiveTranslation",
         "weblate.machinery.microsoftterminology.MicrosoftTerminologyService",
         "weblate.machinery.mymemory.MyMemoryTranslation",
@@ -1299,6 +1305,40 @@ API key for the DeepL API, you can register at https://www.deepl.com/pro.html
 .. seealso::
 
    :ref:`deepl`, :ref:`machine-translation-setup`, :ref:`machine-translation`
+
+.. setting:: MT_LIBRETRANSLATE_API_URL
+
+MT_LIBRETRANSLATE_API_URL
+-------------------------
+
+.. versionadded:: 4.7.1
+
+API URL for the LibreTranslate instance to use.
+
+``https://libretranslate.com/`` (official public instance)
+    Requires an API key to use outside of the website.
+
+Mirrors are documented on the LibreTranslate GitHub repository, some of which
+can be used without authentication:
+
+https://github.com/LibreTranslate/LibreTranslate#user-content-mirrors
+
+.. seealso::
+
+   :ref:`libretranslate`, :ref:`machine-translation-setup`, :ref:`machine-translation`
+
+.. setting:: MT_LIBRETRANSLATE_KEY
+
+MT_LIBRETRANSLATE_KEY
+---------------------
+
+.. versionadded:: 4.7.1
+
+API key for the LibreTranslate instance specified in `MT_LIBRETRANSLATE_API_URL`.
+
+.. seealso::
+
+   :ref:`libretranslate`, :ref:`machine-translation-setup`, :ref:`machine-translation`
 
 .. setting:: MT_GOOGLE_KEY
 
@@ -1572,6 +1612,15 @@ NEARBY_MESSAGES
 ---------------
 
 How many strings to show around the currently translated string. This is just a default value, users can adjust this in :ref:`user-profile`.
+
+.. setting:: DEFAULT_PAGE_LIMIT
+
+DEFAULT_PAGE_LIMIT
+------------------
+
+.. versionadded:: 4.7
+
+Default number of elements to display when pagination is active.
 
 .. setting:: PAGURE_CREDENTIALS
 
@@ -1893,7 +1942,7 @@ The default value is:
 
 .. code-block:: python
 
-    SPECIAL_CHARS = ("\t", "\n", "…")
+    SPECIAL_CHARS = ("\t", "\n", "\u00a0", "…")
 
 .. setting:: SINGLE_PROJECT
 

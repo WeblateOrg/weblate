@@ -20,6 +20,7 @@
 import json
 
 import dateutil.parser
+from appconf import AppConf
 from django.conf import settings
 from django.contrib.admin import ModelAdmin
 from django.db import models
@@ -40,6 +41,13 @@ from weblate.utils.requests import request
 from weblate.utils.site import get_site_url
 from weblate.utils.stats import GlobalStats
 from weblate.vcs.ssh import generate_ssh_key, get_key_data
+
+
+class WeblateConf(AppConf):
+    BACKGROUND_ADMIN_CHECKS = True
+
+    class Meta:
+        prefix = ""
 
 
 class WeblateModelAdmin(ModelAdmin):
@@ -173,10 +181,13 @@ class BackupService(models.Model):
 
     def ensure_init(self):
         if not self.paperkey:
-            log = initialize(self.repository, self.passphrase)
-            self.backuplog_set.create(event="init", log=log)
-            self.paperkey = get_paper_key(self.repository)
-            self.save()
+            try:
+                log = initialize(self.repository, self.passphrase)
+                self.backuplog_set.create(event="init", log=log)
+                self.paperkey = get_paper_key(self.repository)
+                self.save()
+            except BackupError as error:
+                self.backuplog_set.create(event="error", log=str(error))
 
     def backup(self):
         try:

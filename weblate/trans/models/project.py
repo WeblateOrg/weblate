@@ -149,8 +149,7 @@ class Project(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKeyM
             "Whether to allow updating this repository by remote hooks."
         ),
     )
-    language_aliases = models.CharField(
-        max_length=200,
+    language_aliases = models.TextField(
         verbose_name=gettext_lazy("Language aliases"),
         default="",
         blank=True,
@@ -168,8 +167,8 @@ class Project(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKeyM
 
     class Meta:
         app_label = "trans"
-        verbose_name = gettext_lazy("Project")
-        verbose_name_plural = gettext_lazy("Projects")
+        verbose_name = "Project"
+        verbose_name_plural = "Projects"
 
     def __str__(self):
         return self.name

@@ -395,9 +395,13 @@
       if ($(e.target).parents("a").length > 0) {
         return;
       }
-      console.log(e.target);
-      console.log(e.currentTarget);
-      var text = $(e.currentTarget).find(".target").text();
+
+      var target = $(e.currentTarget);
+      var text = target.find(".target").text();
+      console.log(target);
+      if (target.hasClass("warning")) {
+        text = target.find(".source").text();
+      }
 
       this.insertIntoTranslation(text);
       e.preventDefault();
@@ -407,6 +411,25 @@
     var $glossaryDialog = null;
     this.$editor.on("show.bs.modal", "#add-glossary-form", (e) => {
       $glossaryDialog = $(e.currentTarget);
+
+      /* Prefill adding to glossary with current string */
+      if (e.target.hasAttribute("data-shown")) {
+        return;
+      }
+      /* Relies on clone source implementation */
+      let cloneElement = document.querySelector(
+        ".source-language-group [data-clone-text]"
+      );
+      if (cloneElement !== null) {
+        let source = cloneEelement.getAttribute("data-clone-text");
+        if (source.length < 200) {
+          document.getElementById("id_source").value = source;
+          document.getElementById("id_target").value = document.querySelector(
+            ".translation-editor"
+          ).value;
+        }
+      }
+      e.target.setAttribute("data-shown", true);
     });
     this.$editor.on("hidden.bs.modal", "#add-glossary-form", () => {
       this.$translationArea.first().focus();

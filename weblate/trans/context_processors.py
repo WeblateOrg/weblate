@@ -71,11 +71,6 @@ def add_error_logging_context(context):
         context["rollbar_token"] = None
         context["rollbar_environment"] = None
 
-    if hasattr(settings, "RAVEN_CONFIG") and "public_dsn" in settings.RAVEN_CONFIG:
-        context["sentry_dsn"] = settings.RAVEN_CONFIG["public_dsn"]
-    else:
-        context["sentry_dsn"] = None
-
 
 def add_settings_context(context):
     for name in CONTEXT_SETTINGS:

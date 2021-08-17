@@ -313,6 +313,9 @@ function adjustColspan() {
   $("table.autocolspan").each(function () {
     var $this = $(this);
     var numOfVisibleCols = $this.find("thead th:visible").length;
+    if (numOfVisibleCols === 0) {
+      numOfVisibleCols = 3;
+    }
     $this.find("td.autocolspan").attr("colspan", numOfVisibleCols - 1);
   });
 }
@@ -499,6 +502,8 @@ $(function () {
     if (activeTab.length) {
       activeTab.tab("show");
       window.scrollTo(0, 0);
+    } else {
+      document.getElementById(location.hash.substr(1)).scrollIntoView();
     }
   } else if (
     $(".translation-tabs").length > 0 &&
@@ -1121,24 +1126,6 @@ $(function () {
       );
     }
   );
-
-  /* Prefill adding to glossary with current string */
-  $("#add-glossary-form").on("shown.bs.modal", (e) => {
-    if (e.target.hasAttribute("data-shown")) {
-      return;
-    }
-    /* Relies on clone source implementation */
-    let source = JSON.parse(
-      document.querySelector("[data-content]").getAttribute("data-content")
-    );
-    if (source.length < 200) {
-      document.getElementById("id_source").value = source;
-      document.getElementById("id_target").value = document.querySelector(
-        ".translation-editor"
-      ).value;
-    }
-    e.target.setAttribute("data-shown", true);
-  });
 
   /* Username autocompletion */
   var tribute = new Tribute({

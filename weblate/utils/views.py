@@ -94,9 +94,9 @@ def sort_objects(object_list, sort_by: str):
     return sorted(object_list, key=key, reverse=reverse), sort_by
 
 
-def get_paginator(request, object_list, default_page_limit=100):
+def get_paginator(request, object_list, page_limit=None):
     """Return paginator and current page."""
-    page, limit = get_page_limit(request, default_page_limit)
+    page, limit = get_page_limit(request, page_limit or settings.DEFAULT_PAGE_LIMIT)
     sort_by = request.GET.get("sort_by")
     if sort_by:
         object_list, sort_by = sort_objects(object_list, sort_by)

@@ -1,13 +1,65 @@
+Weblate 4.8
+-------------
+
+Not yet released.
+
+* Added support for Apple stringsdict format.
+* The exact search opearator is now case-sensitive on PostgreSQL.
+* Fixed saving glossary explanations in some cases.
+* Documentation improvements.
+* Performance improvements.
+* Improved squash add-on compatibility with Gerrit.
+* Fixed adding strings to a monolingual glossary components.
+* Improved performance in hadling variants.
+* Fixed squash add-on sometimes skipping parsing upstream changes.
+
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/67?closed=1>`__.
+
+Weblate 4.7.2
+-------------
+
+Released on July 15th 2021.
+
+* Support more language aliases to be configured on a project.
+* Fixed search string validation in API.
+* Fixed Git exporter URLs after a domain change.
+* Fixed cleanup addon for Windows RC files.
+* Fixed possible crash on Xliff updating.
+
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/69?closed=1>`__.
+
+Weblate 4.7.1
+-------------
+
+Released on June 30th 2021.
+
+* Improved popup for adding terms to glossary.
+* Added support for LibreTranslate machine translation service.
+* Added rate limiting on creating new projects.
+* Improved performance of file updates.
+
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/68?closed=1>`__.
+
 Weblate 4.7
 -----------
 
-Not yet released.
+Released on June 17th 2021.
 
 * Improved configuration health check.
 * Added support for ``object-pascal-format`` used in gettext PO, see :ref:`check-object-pascal-format`.
 * Renamed :guilabel:`Nearby keys` to :guilabel:`Similar keys` to better describe the purpose.
 * Added support for :ref:`mi18n-lang`.
 * Improved SAML authentication integration.
+* Fixed :ref:`vcs-gerrit` integration to better handle corner cases.
+* Weblate now requires Django 3.2.
+* Fixed inviting users when e-mail authentication is disabled.
+* Improved language definitions.
+* Added support for blocking users from contributing to a project.
+* Fixed automatic creation of glossary languages.
+* Extended documentation about add-ons.
+* Performance improvements for components with linked repositories.
+* Added support for free DeepL API.
+* The user management no longer needs Django admin interface.
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/64?closed=1>`__.
 

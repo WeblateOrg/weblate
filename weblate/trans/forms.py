@@ -63,6 +63,7 @@ from weblate.utils.errors import report_error
 from weblate.utils.forms import (
     ColorWidget,
     ContextDiv,
+    EmailField,
     SearchField,
     SortedSelect,
     SortedSelectMultiple,
@@ -158,9 +159,9 @@ class UserField(forms.CharField):
         try:
             return User.objects.get(Q(username=value) | Q(email=value))
         except User.DoesNotExist:
-            raise ValidationError(_("No matching user found."))
+            raise ValidationError(_("Could not find any such user."))
         except User.MultipleObjectsReturned:
-            raise ValidationError(_("More users matched."))
+            raise ValidationError(_("More possible users were found."))
 
 
 class QueryField(forms.CharField):
@@ -181,7 +182,7 @@ class QueryField(forms.CharField):
             return value
         except Exception as error:
             report_error()
-            raise ValidationError(_("Failed to parse query string: {}").format(error))
+            raise ValidationError(_("Could not parse query string: {}").format(error))
 
 
 class FlagField(forms.CharField):
@@ -189,7 +190,7 @@ class FlagField(forms.CharField):
 
 
 class PluralTextarea(forms.Textarea):
-    """Text area extension which possibly handles plurals."""
+    """Text-area extension which possibly handles plurals."""
 
     def __init__(self, *args, **kwargs):
         self.profile = None
@@ -476,6 +477,12 @@ class TranslationForm(UnitForm):
             kwargs["auto_id"] = f"id_{unit.checksum}_%s"
         tabindex = kwargs.pop("tabindex", 100)
         super().__init__(unit, *args, **kwargs)
+        if unit.readonly:
+            for field in ["target", "fuzzy", "review"]:
+                self.fields[field].widget.attrs["readonly"] = 1
+            self.fields["review"].choices = [
+                (STATE_READONLY, _("Read only")),
+            ]
         self.user = user
         self.fields["target"].widget.attrs["tabindex"] = tabindex
         self.fields["target"].widget.profile = user.profile
@@ -643,7 +650,7 @@ class ExtraUploadForm(UploadForm):
     """Advanced upload form for users who can override authorship."""
 
     author_name = forms.CharField(label=_("Author name"))
-    author_email = forms.EmailField(label=_("Author e-mail"))
+    author_email = EmailField(label=_("Author e-mail"))
 
 
 def get_upload_form(user, translation, *args, **kwargs):
@@ -1008,9 +1015,9 @@ class ContextForm(forms.ModelForm):
         }
 
     doc_links = {
-        "explanation": ("admin/translating", "additional"),
+        "explanation": ("admin/translating", "additional-explanation"),
         "labels": ("devel/translations", "labels"),
-        "extra_flags": ("admin/translating", "additional"),
+        "extra_flags": ("admin/translating", "additional-flags"),
     }
 
     def get_field_doc(self, field):
@@ -1047,6 +1054,25 @@ class UserManageForm(forms.Form):
         help_text=_(
             "Please type in an existing Weblate account name or e-mail address."
         ),
+    )
+
+
+class UserBlockForm(forms.Form):
+    user = UserField(
+        label=_("User to block"),
+        help_text=_(
+            "Please type in an existing Weblate account name or e-mail address."
+        ),
+    )
+    expiry = forms.ChoiceField(
+        label=_("Block duration"),
+        choices=(
+            ("", _("Block user until I unblock them")),
+            ("1", _("Block user for one day")),
+            ("7", _("Block user for one week")),
+            ("30", _("Block user for one month")),
+        ),
+        required=False,
     )
 
 
@@ -1777,6 +1803,7 @@ class ProjectSettingsForm(SettingsBaseForm, ProjectDocsMixin, ProjectAntispamMix
         widgets = {
             "access_control": forms.RadioSelect,
             "instructions": MarkdownTextarea,
+            "language_aliases": forms.TextInput,
         }
 
     def clean(self):
@@ -2039,6 +2066,7 @@ class NewBilingualSourceUnitForm(NewUnitBaseForm):
     def __init__(self, translation, user, *args, **kwargs):
         super().__init__(translation, user, *args, **kwargs)
         self.fields["context"].widget.attrs["tabindex"] = 99
+        self.fields["context"].label = translation.component.context_label
         self.fields["source"].widget.attrs["tabindex"] = 100
         self.fields["source"].widget.profile = user.profile
         self.fields["source"].initial = Unit(

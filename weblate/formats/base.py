@@ -18,11 +18,10 @@
 #
 """Base classses for file formats."""
 
-
 import os
 import tempfile
 from copy import deepcopy
-from typing import Any, Dict, List, Optional, Tuple, Type, Union
+from typing import Any, Callable, Dict, List, Optional, Tuple, Type, Union
 
 from django.conf import settings
 from django.utils.functional import cached_property
@@ -432,17 +431,29 @@ class TranslationFormat:
         return mask.replace("*", code)
 
     @classmethod
-    def add_language(cls, filename, language, base):
+    def add_language(
+        cls,
+        filename: str,
+        language: str,
+        base: str,
+        callback: Optional[Callable] = None,
+    ):
         """Add new language file."""
         # Create directory for a translation
         dirname = os.path.dirname(filename)
         if not os.path.exists(dirname):
             os.makedirs(dirname)
 
-        cls.create_new_file(filename, language, base)
+        cls.create_new_file(filename, language, base, callback)
 
     @classmethod
-    def create_new_file(cls, filename, language, base):
+    def create_new_file(
+        cls,
+        filename: str,
+        language: str,
+        base: str,
+        callback: Optional[Callable] = None,
+    ):
         """Handle creation of new translation file."""
         raise NotImplementedError()
 

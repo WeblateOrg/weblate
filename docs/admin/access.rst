@@ -47,7 +47,7 @@ Custom
 configuration (:guilabel:`Manage` ↓ :guilabel:`Settings`) of each respective
 project.
 
-.. image:: /images/project-access.png
+.. image:: /screenshots/project-access.png
 
 Access mode can also be changed by setting :setting:`DEFAULT_ACCESS_CONTROL`.
 
@@ -131,7 +131,7 @@ Make your own groups to grant specific permissions to users.
     The actual name of those groups (as shown in the Django admin interface) is
     ``Project@Group``. They can't be edited from the Weblate user-interface.
 
-.. image:: /images/manage-users.png
+.. image:: /screenshots/manage-users.png
 
 These features are available on the :guilabel:`Access control` page in
 the project’s menu :guilabel:`Manage` ↓ :guilabel:`Users`.
@@ -158,6 +158,17 @@ access to manage the project’s scope (e.g. membership in the `Administration` 
 
 The same kind of invitations are available site-wide from the
 :ref:`management interface <management-interface>` on the :guilabel:`Users` tab.
+
+.. _block-user:
+
+Blocking users
+^^^^^^^^^^^^^^
+
+.. versionadded:: 4.7
+
+In case some users behave badly in your project, you have an option to block
+them from contributing. The blocked user still will be able to see the project
+if he has permissions for that, but he won't be able to contribute.
 
 Per-project permission management
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

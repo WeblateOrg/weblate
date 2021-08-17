@@ -8,7 +8,7 @@ Suggestion voting
 
 Everyone can add suggestions by default, to be accepted by signed in users.
 Suggestion voting can be used to make use of a string when more than one signed-in
-user agrees, by setting up the :ref:`component` configuration with
+user agrees, by setting up the :ref:`component` with
 :guilabel:`Suggestion voting` to turn on voting, and :guilabel:`Autoaccept suggestions`
 to set a threshold for accepted suggestions (this includes a vote from the user
 making the suggestion if it is cast).
@@ -46,12 +46,12 @@ including explanations, string priorities, check flags and visual context. Some
 of that info may be extracted from the translation files and some may be added
 by editing the additional string info:
 
-.. image:: /images/source-review-edit.png
+.. image:: /screenshots/source-review-edit.png
 
 Access this directly from the translation interface by clicking the
 "Edit" icon next to :guilabel:`Screenshot context` or :guilabel:`Flags`.
 
-.. image:: /images/source-information.png
+.. image:: /screenshots/source-information.png
 
 Strings prioritization
 ++++++++++++++++++++++
@@ -67,6 +67,8 @@ using the ``priority`` flag.
 
 .. seealso:: :ref:`checks`
 
+.. _additional-flags:
+
 Translation flags
 +++++++++++++++++
 
@@ -81,7 +83,12 @@ The default set of translation flags is determined by the translation
 :ref:`component` and the translation file. However, you might want to use it
 to customize this per source string.
 
-.. seealso:: :ref:`checks`
+.. seealso::
+
+   :ref:`checks`,
+   :ref:`custom-checks`
+
+.. _additional-explanation:
 
 Explanation
 +++++++++++
@@ -106,7 +113,7 @@ be translated.
 
 The uploaded screenshot is shown in the translation context sidebar:
 
-.. image:: /images/screenshot-context.png
+.. image:: /screenshots/screenshot-context.png
 
 In addition to :ref:`additional`, screenshots have a separate management
 interface under the :guilabel:`Tools` menu.
@@ -116,4 +123,4 @@ optical character recognition to do so.
 Once a screenshot is uploaded, this interface handles
 management and source string association:
 
-.. image:: /images/screenshot-ocr.png
+.. image:: /screenshots/screenshot-ocr.png

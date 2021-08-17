@@ -50,7 +50,13 @@ def handle_unit_translation_change(unit_id, user_id=None):
     from weblate.trans.models import Unit
 
     user = None if user_id is None else User.objects.get(pk=user_id)
-    unit = Unit.objects.get(pk=unit_id)
+    unit = Unit.objects.select_related(
+        "translation",
+        "translation__language",
+        "translation__component",
+        "translation__component__source_language",
+        "translation__component__project",
+    ).get(pk=unit_id)
     update_memory(user, unit)
 
 
@@ -92,15 +98,19 @@ def update_memory(user, unit, component=None, project=None):
         ):
             add_user = False
 
+    to_create = []
+
     if add_project:
-        Memory.objects.create(
-            user=None, project=project, from_file=False, shared=False, **params
+        to_create.append(
+            Memory(user=None, project=project, from_file=False, shared=False, **params)
         )
     if add_shared:
-        Memory.objects.create(
-            user=None, project=None, from_file=False, shared=True, **params
+        to_create.append(
+            Memory(user=None, project=None, from_file=False, shared=True, **params)
         )
     if add_user:
-        Memory.objects.create(
-            user=user, project=None, from_file=False, shared=False, **params
+        to_create.append(
+            Memory(user=user, project=None, from_file=False, shared=False, **params)
         )
+    if to_create:
+        Memory.objects.bulk_create(to_create)

@@ -75,7 +75,7 @@ PERMISSIONS = (
     # Translators: Permission name
     ("unit.delete", _("Remove a string")),
     # Translators: Permission name
-    ("unit.check", _("Ignore failing check")),
+    ("unit.check", _("Dismiss failing check")),
     # Translators: Permission name
     ("unit.edit", _("Edit strings")),
     # Translators: Permission name

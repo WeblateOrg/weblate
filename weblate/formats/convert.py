@@ -22,7 +22,7 @@ import codecs
 import os
 import shutil
 from io import BytesIO
-from typing import List, Optional, Union
+from typing import Callable, List, Optional, Union
 from zipfile import ZipFile
 
 from django.utils.functional import cached_property
@@ -102,7 +102,6 @@ class ConvertFormat(TranslationFormat):
 
     monolingual = True
     can_add_unit = False
-    needs_target_sync = True
     unit_class = ConvertUnit
     autoaddon = {"weblate.flags.same_edit": {}}
 
@@ -118,6 +117,10 @@ class ConvertFormat(TranslationFormat):
     def convertfile(storefile, template_store):
         raise NotImplementedError()
 
+    @staticmethod
+    def needs_target_sync(template_store):
+        return True
+
     @classmethod
     def load(cls, storefile, template_store):
         # Did we get file or filename?
@@ -125,17 +128,23 @@ class ConvertFormat(TranslationFormat):
             storefile = open(storefile, "rb")
         # Adjust store to have translations
         store = cls.convertfile(storefile, template_store)
-        for unit in store.units:
-            if unit.isheader():
-                continue
-            # HTML does this properly on loading, others need it
-            if cls.needs_target_sync:
+        if cls.needs_target_sync(template_store):
+            for unit in store.units:
+                if unit.isheader():
+                    continue
+                # HTML does this properly on loading, others need it
                 unit.target = unit.source
                 unit.rich_target = unit.rich_source
         return store
 
     @classmethod
-    def create_new_file(cls, filename, language, base):
+    def create_new_file(
+        cls,
+        filename: str,
+        language: str,
+        base: str,
+        callback: Optional[Callable] = None,
+    ):
         """Handle creation of new translation file."""
         if not base:
             raise ValueError("Not supported")
@@ -187,7 +196,10 @@ class HTMLFormat(ConvertFormat):
     autoload = ("*.htm", "*.html")
     format_id = "html"
     check_flags = ("safe-html", "strict-same")
-    needs_target_sync = False
+
+    @staticmethod
+    def needs_target_sync(template_store):
+        return False
 
     @staticmethod
     def convertfile(storefile, template_store):
@@ -358,6 +370,10 @@ class WindowsRCFormat(ConvertFormat):
     language_format = "bcp"
 
     @staticmethod
+    def needs_target_sync(template_store):
+        return template_store is None
+
+    @staticmethod
     def mimetype():
         """Return most common media type for format."""
         return "text/plain"
@@ -369,10 +385,13 @@ class WindowsRCFormat(ConvertFormat):
 
     @staticmethod
     def convertfile(storefile, template_store):
-
-        input_store = rcfile(storefile)
+        input_store = rcfile()
+        input_store.parse(storefile.read())
         convertor = rc2po()
-        store = convertor.convert_store(input_store)
+        if template_store:
+            store = convertor.merge_store(template_store.store.rcfile, input_store)
+        else:
+            store = convertor.convert_store(input_store)
         store.rcfile = input_store
         return store
 

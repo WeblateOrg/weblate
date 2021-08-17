@@ -732,7 +732,7 @@ For a production setup you should carry out adjustments described in the followi
 The most critical settings will trigger a warning, which is indicated by an
 exclamation mark in the top bar if signed in as a superuser:
 
-.. image:: /images/admin-wrench.png
+.. image:: /screenshots/admin-wrench.png
 
 It is also recommended to inspect checks triggered by Django (though you might not
 need to fix all of them):
@@ -852,8 +852,12 @@ sets the :ref:`django:http-strict-transport-security` header on all responses th
 Use a powerful database engine
 ++++++++++++++++++++++++++++++
 
-Please use PostgreSQL for a production environment, see :ref:`database-setup`
-for more info.
+* Please use PostgreSQL for a production environment, see :ref:`database-setup`
+  for more info.
+* Use adjacent location for running the database server, otherwise the networking
+  performance or reliability might ruin your Weblate experience.
+* Check the database server performance or tweak its configuration, for example
+  using `PGTune <https://pgtune.leopard.in.ua/>`_.
 
 .. seealso::
 

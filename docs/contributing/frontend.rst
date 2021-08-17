@@ -84,4 +84,4 @@ as most of the icons are embedded inside the HTML to allow styling of the
 paths.
 
 .. _Material Design Icons: https://materialdesignicons.com/
-.. _Material Design Resources: https://material.io/resources/icons/
+.. _Material Design Resources: https://fonts.google.com/icons?selected=Material+Icons

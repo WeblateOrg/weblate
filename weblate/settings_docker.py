@@ -26,6 +26,7 @@ from django.http import Http404
 
 from weblate.utils.environment import (
     get_env_bool,
+    get_env_float,
     get_env_int,
     get_env_list,
     get_env_map,
@@ -134,6 +135,7 @@ LANGUAGES = (
     ("sr", "Српски"),
     ("sr-latn", "Srpski"),
     ("sv", "Svenska"),
+    ("th", "ไทย"),
     ("tr", "Türkçe"),
     ("uk", "Українська"),
     ("zh-hans", "简体字"),
@@ -390,12 +392,12 @@ if "WEBLATE_SOCIAL_AUTH_KEYCLOAK_KEY" in os.environ:
 
 # Linux distros
 if "WEBLATE_SOCIAL_AUTH_FEDORA" in os.environ:
-    AUTHENTICATION_BACKENDS += "social_core.backends.fedora.FedoraOpenId"
+    AUTHENTICATION_BACKENDS += ("social_core.backends.fedora.FedoraOpenId",)
 if "WEBLATE_SOCIAL_AUTH_OPENSUSE" in os.environ:
-    AUTHENTICATION_BACKENDS += "social_core.backends.suse.OpenSUSEOpenId"
+    AUTHENTICATION_BACKENDS += ("social_core.backends.suse.OpenSUSEOpenId",)
     SOCIAL_AUTH_OPENSUSE_FORCE_EMAIL_VALIDATION = True
 if "WEBLATE_SOCIAL_AUTH_UBUNTU" in os.environ:
-    AUTHENTICATION_BACKENDS += "social_core.backends.ubuntu.UbuntuOpenId"
+    AUTHENTICATION_BACKENDS += ("social_core.backends.ubuntu.UbuntuOpenId",)
 
 # Slack
 if "WEBLATE_SOCIAL_AUTH_SLACK_KEY" in os.environ:
@@ -758,6 +760,12 @@ MT_DEEPL_API_URL = os.environ.get(
 if MT_DEEPL_KEY:
     MT_SERVICES += ("weblate.machinery.deepl.DeepLTranslation",)
 
+# LibreTranslate
+MT_LIBRETRANSLATE_KEY = os.environ.get("WEBLATE_MT_LIBRETRANSLATE_KEY", None)
+MT_LIBRETRANSLATE_API_URL = os.environ.get("WEBLATE_MT_LIBRETRANSLATE_API_URL", None)
+if MT_LIBRETRANSLATE_API_URL:
+    MT_SERVICES += ("weblate.machinery.libretranslate.LibreTranslateTranslation",)
+
 # Microsoft Cognitive Services Translator API, register at
 # https://portal.azure.com/
 MT_MICROSOFT_COGNITIVE_KEY = os.environ.get("WEBLATE_MT_MICROSOFT_COGNITIVE_KEY", None)
@@ -926,6 +934,9 @@ LIMIT_TRANSLATION_LENGTH_BY_SOURCE_LENGTH = True
 
 # Use simple language codes for default language/country combinations
 SIMPLIFY_LANGUAGES = get_env_bool("WEBLATE_SIMPLIFY_LANGUAGES", True)
+
+# Default number of elements to display when pagination is active
+DEFAULT_PAGE_LIMIT = get_env_int("WEBLATE_DEFAULT_PAGE_LIMIT", 100)
 
 # Render forms using bootstrap
 CRISPY_TEMPLATE_PACK = "bootstrap3"
@@ -1263,6 +1274,7 @@ MATOMO_URL = os.environ.get("WEBLATE_MATOMO_URL", None)
 GOOGLE_ANALYTICS_ID = os.environ.get("WEBLATE_GOOGLE_ANALYTICS_ID", None)
 SENTRY_DSN = os.environ.get("SENTRY_DSN", None)
 SENTRY_ENVIRONMENT = os.environ.get("SENTRY_ENVIRONMENT", None)
+SENTRY_TRACES_SAMPLE_RATE = get_env_float("SENTRY_TRACES_SAMPLE_RATE", 0.0)
 AKISMET_API_KEY = os.environ.get("WEBLATE_AKISMET_API_KEY", None)
 
 ADDITIONAL_CONFIG = "/app/data/settings-override.py"

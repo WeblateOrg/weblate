@@ -37,26 +37,24 @@ class Command(BaseCommand):
     def add_arguments(self, parser):
         super().add_arguments(parser)
         parser.add_argument(
-            "--project", default=None, required=True, help=("Project where to operate")
+            "--project", default=None, required=True, help="Project where to operate"
         )
         parser.add_argument(
             "--ignore",
             default=False,
             action="store_true",
-            help=("Ignore already existing entries"),
+            help="Ignore already existing entries",
         )
         parser.add_argument(
             "--update",
             default=False,
             action="store_true",
-            help=("Update already existing entries"),
+            help="Update already existing entries",
         )
         parser.add_argument(
             "--main-component",
             default=None,
-            help=(
-                "Define which component will be used as main for the" " VCS repository"
-            ),
+            help="Define which component will be used as main for the VCS repository",
         )
         parser.add_argument(
             "json-file",

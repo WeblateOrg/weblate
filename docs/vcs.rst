@@ -57,7 +57,7 @@ connect to the host should it be changed later (see :ref:`verify-ssh`).
 
 In case adjustment is needed, do so from the Weblate admin interface:
 
-.. image:: images/ssh-keys.png
+.. image:: /screenshots/ssh-keys.png
 
 
 .. _weblate-ssh-key:
@@ -95,7 +95,7 @@ the hostname you are going to access (e.g. ``gitlab.com``), and press
 
 The added keys with fingerprints are shown in the confirmation message:
 
-.. image:: images/ssh-keys-added.png
+.. image:: /screenshots/ssh-keys-added.png
 
 .. _vcs-repos-github:
 
@@ -113,7 +113,7 @@ upstream repository and chosen branch.
 For smaller deployments, use HTTPS authentication with a personal access
 token and your GitHub account, see `Creating an access token for command-line use`_.
 
-.. _Creating an access token for command-line use: https://docs.github.com/en/github/authenticating-to-github/creating-a-personal-access-token
+.. _Creating an access token for command-line use: https://docs.github.com/en/github/authenticating-to-github/keeping-your-account-and-data-secure/creating-a-personal-access-token
 
 For bigger setups, it is usually better to create a dedicated user for Weblate,
 assign it the public SSH key generated in Weblate (see :ref:`weblate-ssh-key`)

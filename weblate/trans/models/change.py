@@ -22,7 +22,12 @@ from django.db import models, transaction
 from django.db.models import Count, Q
 from django.utils import timezone
 from django.utils.translation import gettext as _
-from django.utils.translation import gettext_lazy, ngettext_lazy, pgettext
+from django.utils.translation import (
+    gettext_lazy,
+    ngettext_lazy,
+    pgettext,
+    pgettext_lazy,
+)
 from jellyfish import damerau_levenshtein_distance
 
 from weblate.lang.models import Language
@@ -304,8 +309,12 @@ class Change(models.Model, UserDisplayMixin):
         (ACTION_RENAME_COMPONENT, gettext_lazy("Renamed component")),
         # Translators: Name of event in the history
         (ACTION_MOVE_COMPONENT, gettext_lazy("Moved component")),
-        # Not translated, used plural instead
-        (ACTION_NEW_STRING, "New string to translate"),
+        # Using pgettext to differentiate from the plural
+        # Translators: Name of event in the history
+        (
+            ACTION_NEW_STRING,
+            pgettext_lazy("Name of event in the history", "New string to translate"),
+        ),
         # Translators: Name of event in the history
         (ACTION_NEW_CONTRIBUTOR, gettext_lazy("New contributor")),
         # Translators: Name of event in the history
