@@ -315,22 +315,21 @@ The authentication models consist of several objects:
 
 .. note::
 
-  A group can have no roles assigned to it. In this case public access to
-  browse the project is assumed (see below).
+  A group can have no roles assigned to it.
+  In this case public access to browse the project is assumed (see below).
 
 Project browsing access
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 A user has to be a member of a group linked to the project, or any component
-inside that project. Having membership is enough, no specific permissions are
-needed to browse the project (this is used in the default `Viewers` group, see
-:ref:`default-groups`).
+inside it. Membership is enough to browse projects, no specific permissions are
+needed (as per the default `Viewers` group, see :ref:`default-groups`).
 
-Component browsing access
+Component-browsing access
 ^^^^^^^^^^^^^^^^^^^^^^^^^
 
-A user can access all components with the same permissions of
-projects the user is granted access to.
+Granting browsing access to a user in one project gives it access to
+any component with derived browsing permissions.
 With :ref:`component-restricted` on, access to components
 or component lists are granted explicitly.
 
@@ -342,18 +341,18 @@ Group permissions
 Roles in the groups are made from the following rules:
 
 - Specifying any :guilabel:`Component list` for a group grants members in it
-  permission for all included components, along with browsing access
+  all group permission for the components in the list, along with browsing access
   to the projects they are in. :guilabel:`Components`
   and :guilabel:`Projects` are ignored.
 
 - Specifying any :guilabel:`Components` for the group grants members of it
-  permission for all included components, along with browsing access
+  permission for components in the list, along with browsing access
   to the projects they are in. :guilabel:`Projects` are ignored.
 
 - Otherwise, adding any :guilabel:`Projects` to a group (either by directly
   listing them or by having :guilabel:`Selected projects` set to :guilabel:`All
-  public`) grants the group permissions for the projects. (Effectively
-  the same permissions as being granted access to :ref:`unrestricted components <component-restricted>`
+  public`) grants the group all the project permissions it has. (Effectively
+  the same permissions as being given access to :ref:`unrestricted components <component-restricted>`
   in such projects.)
 
 - Restrictions imposed by a group’s :guilabel:`Languages` only affect
@@ -403,7 +402,7 @@ At the bottom of the :guilabel:`Group` editing page in the
 .. note::
 
    This is a list of regular expressions
-   used to automatically assign newly created users to a group based on their
+   used to put newly created users in a group based on their
    e-mail addresses.
 
 .. hint::
@@ -412,10 +411,16 @@ At the bottom of the :guilabel:`Group` editing page in the
 This is often used to put new users in a default group.
 To do so, you will probably want to keep the default
 value (``^.*$``) in the regular expression field.
-Another use-case is granting some additional privileges to employees
+It can be used to grant additional privileges to employees
 of your company by default.
 Assuming they all have corporate e-mail addresses on your domain,
 it can be done with an expression like ``^.*@mycompany.com``.
+
+.. note::
+
+Make sure you are not giving out e-mail addresses with open
+replies for issue tracking if you grant priviliges based on
+e-mail addresss.
 
 .. note::
 
@@ -435,10 +440,11 @@ Default groups and roles
 
 After installation, a default set of groups is created (see :ref:`default-groups`).
 
-These roles and groups are created upon installation. The built-in roles are
-always kept up to date by the database migration when upgrading.
-Define your own set of permissions by
-creating a new role. Editing the built-in roles is not possible from the UI and any changes are lost when upgrading.
+These roles and groups are created upon installation.
+The built-in roles are always kept up to date by the database migration when upgrading.
+Define your own set of permissions by creating a new role.
+Editing the built-in roles is not possible from the UI and any changes are
+lost when upgrading.
 
 .. _privileges:
 
@@ -642,7 +648,7 @@ Locking down Weblate
 If you experience problems with malice on your Weblate installation,
 set :setting:`REQUIRE_LOGIN` to ``False`, which requires users to sign in
 and :setting:`REGISTRATION_OPEN` to ``/.*``, which prevents new registrations.
-Use built-in :ref:`invitations <manage-acl>` to add new users.
+Use the built-in :ref:`invitations <manage-acl>` to add new users.
 
 .. hint::
 
