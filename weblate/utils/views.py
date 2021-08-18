@@ -316,7 +316,7 @@ def download_translation_file(request, translation, fmt=None, units=None):
         if len(filenames) == 1:
             extension = (
                 os.path.splitext(translation.filename)[1]
-                or translation.component.file_format_cls.extension()
+                or f".{translation.component.file_format_cls.extension()}"
             )
             # Create response
             response = FileResponse(
@@ -324,7 +324,7 @@ def download_translation_file(request, translation, fmt=None, units=None):
                 content_type=translation.component.file_format_cls.mimetype(),
             )
         else:
-            extension = "zip"
+            extension = ".zip"
             response = zip_download(
                 translation.get_filename(),
                 filenames,
@@ -333,12 +333,10 @@ def download_translation_file(request, translation, fmt=None, units=None):
 
         # Construct filename (do not use real filename as it is usually not
         # that useful)
-        filename = "{}-{}-{}.{}".format(
-            translation.component.project.slug,
-            translation.component.slug,
-            translation.language.code,
-            extension,
-        )
+        project_slug = translation.component.project.slug
+        component_slug = translation.component.slug
+        language_code = translation.language.code
+        filename = f"{project_slug}-{component_slug}-{language_code}{extension}"
 
         # Fill in response headers
         response["Content-Disposition"] = f"attachment; filename={filename}"
