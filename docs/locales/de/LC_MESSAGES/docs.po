@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-08-05 22:59+0200\n"
-"PO-Revision-Date: 2021-08-11 11:39+0000\n"
+"PO-Revision-Date: 2021-08-19 07:57+0000\n"
 "Last-Translator: VfBFan <drop0815@posteo.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "documentation/de/>\n"
@@ -10662,13 +10662,16 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:75
 msgid "Choosing Docker hub tag"
-msgstr ""
+msgstr "Auswählen des Docker-Hub-Tags"
 
 #: ../../admin/install/docker.rst:77
 msgid ""
 "You can use following tags on Docker hub, see https://hub.docker.com/r/"
 "weblate/weblate/tags/ for full list of available ones."
 msgstr ""
+"Sie können die folgenden Tags auf Docker Hub verwenden. Eine vollständige "
+"Liste der verfügbaren Tags finden Sie unter https://hub.docker.com/r/weblate/"
+"weblate/tags/."
 
 #: ../../admin/install/docker.rst:80
 msgid "Tag name"
@@ -10692,15 +10695,15 @@ msgstr "Vorlage"
 
 #: ../../admin/install/docker.rst:82
 msgid "Weblate stable release, matches latest tagged release"
-msgstr ""
+msgstr "Stabile Version von Weblate, entspricht der neuesten getaggten Version"
 
 #: ../../admin/install/docker.rst:82
 msgid "Rolling updates in a production environment"
-msgstr ""
+msgstr "Fortlaufende Updates in einer Produktionsumgebung"
 
 #: ../../admin/install/docker.rst:84
 msgid "``<VERSION>-<PATCH>``"
-msgstr ""
+msgstr "``<VERSION>-<PATCH>``"
 
 #: ../../admin/install/docker.rst:84
 msgid "Weblate stable release"
@@ -10708,7 +10711,7 @@ msgstr "Weblate stabile Version"
 
 #: ../../admin/install/docker.rst:84
 msgid "Well defined deploy in a production environment"
-msgstr ""
+msgstr "Gut definierter Einsatz in einer Produktionsumgebung"
 
 #: ../../admin/install/docker.rst:86
 msgid "``edge``"
@@ -10719,18 +10722,20 @@ msgid ""
 "Weblate stable release with development changes in the Docker container (for "
 "example updated dependencies)"
 msgstr ""
+"Stabiles Weblate-Release mit Entwicklungsänderungen im Docker-Container (z. "
+"B. aktualisierte Abhängigkeiten)"
 
 #: ../../admin/install/docker.rst:86
 msgid "Rolling updates in a staging environment"
-msgstr ""
+msgstr "Fortlaufende Updates in einer Staging-Umgebung"
 
 #: ../../admin/install/docker.rst:88
 msgid "``edge-<DATE>-<SHA>``"
-msgstr ""
+msgstr "``edge-<DATE>-<SHA>``"
 
 #: ../../admin/install/docker.rst:88
 msgid "Well defined deploy in a staging environment"
-msgstr ""
+msgstr "Gut definierter Einsatz in einer Staging-Umgebung"
 
 #: ../../admin/install/docker.rst:90
 #, fuzzy
@@ -10740,19 +10745,19 @@ msgstr "``*.lang``"
 
 #: ../../admin/install/docker.rst:90 ../../admin/install/docker.rst:92
 msgid "Development version Weblate from Git"
-msgstr ""
+msgstr "Weblate-Entwicklungsversion von Git"
 
 #: ../../admin/install/docker.rst:90
 msgid "Rollling updates to test upcoming Weblate features"
-msgstr ""
+msgstr "Fortlaufende Updates zum Testen kommender Weblate-Funktionen"
 
 #: ../../admin/install/docker.rst:92
 msgid "``bleeding-<DATE>-<SHA>``"
-msgstr ""
+msgstr "``bleeding-<DATE>-<SHA>``"
 
 #: ../../admin/install/docker.rst:92
 msgid "Well defined deploy to test upcoming Weblate features"
-msgstr ""
+msgstr "Gut definierter Einsatz zum Testen kommender Weblate-Funktionen"
 
 #: ../../admin/install/docker.rst:95
 msgid ""
@@ -10762,7 +10767,7 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:100
 msgid "Docker container with HTTPS support"
-msgstr ""
+msgstr "Docker-Container mit HTTPS-Unterstützung"
 
 #: ../../admin/install/docker.rst:102
 msgid ""
@@ -10772,13 +10777,16 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:106
 msgid "Using own SSL certificates"
-msgstr ""
+msgstr "Verwendung eigener SSL-Zertifikate"
 
 #: ../../admin/install/docker.rst:110
 msgid ""
 "In case you have own SSL certificate you want to use, simply place the files "
 "into the Weblate data volume (see :ref:`docker-volume`):"
 msgstr ""
+"Wenn Sie ein eigenes SSL-Zertifikat haben, das Sie verwenden möchten, legen "
+"Sie die Dateien einfach in das Weblate-Datenvolumen (siehe :ref:`docker-"
+"volume`):"
 
 #: ../../admin/install/docker.rst:113
 msgid ""
@@ -10820,7 +10828,7 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:155
 msgid "Automatic SSL certificates using Let’s Encrypt"
-msgstr ""
+msgstr "Automatische SSL-Zertifikate mit Let’s Encrypt"
 
 #: ../../admin/install/docker.rst:157
 msgid ""
@@ -10840,7 +10848,7 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:188
 msgid "Upgrading the Docker container"
-msgstr ""
+msgstr "Aktualisieren des Docker-Containers"
 
 #: ../../admin/install/docker.rst:190
 msgid ""
@@ -10848,18 +10856,26 @@ msgid ""
 "PostgreSQL container at the version you have, as upgrading PostgreSQL is "
 "quite painful and in most cases does not bring many benefits."
 msgstr ""
+"Normalerweise ist es eine gute Idee, nur den Weblate-Container zu "
+"aktualisieren und den PostgreSQL-Container auf der vorhandenen Version zu "
+"belassen, da ein Upgrade von PostgreSQL ziemlich mühsam ist und in den "
+"meisten Fällen nicht viel bringt."
 
 #: ../../admin/install/docker.rst:194
 msgid ""
 "You can do this by sticking with the existing docker-compose and just pull "
 "the latest images and then restart:"
 msgstr ""
+"Sie können dies tun, indem Sie das bestehende Docker-Compose beibehalten und "
+"einfach die neuesten Images ziehen und dann neu starten:"
 
 #: ../../admin/install/docker.rst:203
 msgid ""
 "The Weblate database should be automatically migrated on first startup, and "
 "there should be no need for additional manual actions."
 msgstr ""
+"Die Weblate-Datenbank sollte beim ersten Start automatisch migriert werden, "
+"und es sollten keine weiteren manuellen Maßnahmen erforderlich sein."
 
 #: ../../admin/install/docker.rst:208
 msgid ""
@@ -10868,6 +10884,11 @@ msgid ""
 "writing this it is the ``3.0.1-7``) image, which will do the migration and "
 "then continue upgrading to newer versions."
 msgstr ""
+"Upgrades auf 3.0 werden von Weblate nicht unterstützt. Wenn Sie mit der 2.x-"
+"Serie arbeiten und auf 3.x aktualisieren möchten, aktualisieren Sie zunächst "
+"auf das neueste Image 3.0.1-x (zum Zeitpunkt der Erstellung dieses Artikels "
+"ist es das Image ``3.0.1-7``), das die Migration durchführt, und fahren Sie "
+"dann mit dem Upgrade auf neuere Versionen fort."
 
 #: ../../admin/install/docker.rst:213
 msgid ""
@@ -10974,7 +10995,7 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:299
 msgid "Docker environment variables"
-msgstr ""
+msgstr "Docker-Umgebungsvariablen"
 
 #: ../../admin/install/docker.rst:301
 msgid ""
@@ -10984,7 +11005,7 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:304
 msgid "Generic settings"
-msgstr ""
+msgstr "Allgemeine Einstellungen"
 
 #: ../../admin/install/docker.rst:308
 msgid "Configures Django debug mode using :setting:`DEBUG`."
@@ -11069,7 +11090,7 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:397
 msgid "Configures the address for outgoing e-mails."
-msgstr ""
+msgstr "Legt die Adresse für ausgehende E-Mails fest."
 
 #: ../../admin/install/docker.rst:401
 msgid ":ref:`production-email`"
@@ -11441,15 +11462,15 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:844
 msgid "Authentication settings"
-msgstr ""
+msgstr "Authentifizierungseinstellungen"
 
 #: ../../admin/install/docker.rst:847
 msgid "LDAP"
-msgstr ""
+msgstr "LDAP"
 
 #: ../../admin/install/docker.rst:860
 msgid "LDAP authentication configuration."
-msgstr ""
+msgstr "Konfiguration der LDAP-Authentifizierung."
 
 #: ../../admin/install/docker.rst:862
 msgid "**Example for direct bind:**"
@@ -11489,7 +11510,7 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:931
 msgid "Facebook"
-msgstr ""
+msgstr "Facebook"
 
 #: ../../admin/install/docker.rst:936
 msgid "Enables :ref:`facebook_auth`."
@@ -11497,7 +11518,7 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:939
 msgid "Google"
-msgstr ""
+msgstr "Google"
 
 #: ../../admin/install/docker.rst:946
 msgid "Enables :ref:`google_auth`."
@@ -11505,7 +11526,7 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:949 ../../vcs.rst:297
 msgid "GitLab"
-msgstr ""
+msgstr "GitLab"
 
 #: ../../admin/install/docker.rst:955
 msgid "Enables :ref:`gitlab_auth`."
@@ -11513,7 +11534,7 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:958
 msgid "Azure Active Directory"
-msgstr ""
+msgstr "Azure Active Directory"
 
 #: ../../admin/install/docker.rst:963
 msgid "Enables Azure Active Directory authentication, see :ref:`azure-auth`."
@@ -11593,7 +11614,7 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:1040
 msgid "PostgreSQL password."
-msgstr ""
+msgstr "PostgreSQL-Passwort."
 
 #: ../../admin/install/docker.rst:1044
 msgid ""
@@ -11603,11 +11624,11 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:1048
 msgid "PostgreSQL username."
-msgstr ""
+msgstr "PostgreSQL-Benutzername."
 
 #: ../../admin/install/docker.rst:1052
 msgid "PostgreSQL database name."
-msgstr ""
+msgstr "PostgreSQL-Datenbankname."
 
 #: ../../admin/install/docker.rst:1056
 msgid "PostgreSQL server hostname or IP address. Defaults to ``database``."
@@ -11685,11 +11706,13 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:1118
 msgid "Email server setup"
-msgstr ""
+msgstr "Einrichtung eines E-Mail-Servers"
 
 #: ../../admin/install/docker.rst:1120
 msgid "To make outgoing e-mail work, you need to provide a mail server."
 msgstr ""
+"Damit ausgehende E-Mails funktionieren, müssen Sie einen Mailserver "
+"bereitstellen."
 
 #: ../../admin/install/docker.rst:1122
 msgid "Example TLS configuration:"
@@ -11730,20 +11753,17 @@ msgid ":setting:`django:EMAIL_HOST_USER`"
 msgstr ""
 
 #: ../../admin/install/docker.rst:1171
-#, fuzzy
-#| msgid "Authentication cancelled."
 msgid "E-mail authentication password."
-msgstr "Authentifizierung abgebrochen."
+msgstr "Passwort für die E-Mail-Authentifizierung."
 
 #: ../../admin/install/docker.rst:1173
 msgid ":setting:`django:EMAIL_HOST_PASSWORD`"
 msgstr ""
 
 #: ../../admin/install/docker.rst:1177
-#, fuzzy
-#| msgid "Authentication cancelled."
 msgid "Path to the file containing the e-mail authentication password."
-msgstr "Authentifizierung abgebrochen."
+msgstr ""
+"Pfad zu der Datei, die das Kennwort für die E-Mail-Authentifizierung enthält."
 
 #: ../../admin/install/docker.rst:1179
 msgid ":envvar:`WEBLATE_EMAIL_HOST_PASSWORD`"
@@ -11806,13 +11826,15 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:1233
 msgid "Error reporting"
-msgstr ""
+msgstr "Fehlerbericht"
 
 #: ../../admin/install/docker.rst:1235
 msgid ""
 "It is recommended to collect errors from the installation systematically, "
 "see :ref:`collecting-errors`."
 msgstr ""
+"Es wird empfohlen, Fehler bei der Installation systematisch zu sammeln, "
+"siehe :ref:`collecting-errors`."
 
 #: ../../admin/install/docker.rst:1238
 msgid "To enable support for Rollbar, set the following:"
@@ -11942,10 +11964,8 @@ msgid ""
 msgstr ""
 
 #: ../../admin/install/docker.rst:1382
-#, fuzzy
-#| msgid "Following checks are failing:"
 msgid "Following services are defined:"
-msgstr "Folgenden Prüfungen sind fehlgeschlagen:"
+msgstr "Folgende Dienste sind definiert:"
 
 #: ../../admin/install/docker.rst:1386
 msgid "``celery-beat``"
@@ -12052,31 +12072,41 @@ msgid ""
 "static files. Its content is recreated on container startup and the volume "
 "can be mounted using ephemeral filesystem such as `tmpfs`."
 msgstr ""
+"Das Cache-Volume wird als :file:`/app/cache` gemountet und dient der "
+"Speicherung statischer Dateien. Sein Inhalt wird beim Start des Containers "
+"neu erstellt und das Volume kann mit einem ephemeren Dateisystem wie `tmpfs` "
+"eingebunden werden."
 
 #: ../../admin/install/docker.rst:1424
 msgid ""
 "When creating the volumes manually, the directories should be owned by UID "
 "1000 as that is user used inside the container."
 msgstr ""
+"Wenn Sie die Volumes manuell erstellen, sollten die Verzeichnisse der UID "
+"1000 gehören, da dies der im Container verwendete Benutzer ist."
 
 #: ../../admin/install/docker.rst:1429
 msgid ""
 "`Docker volumes documentation <https://docs.docker.com/storage/volumes/>`_"
 msgstr ""
+"`Dokumentation der Docker-Volumes <https://docs.docker.com/storage/volumes/"
+">`_"
 
 #: ../../admin/install/docker.rst:1432
 msgid "Further configuration customization"
-msgstr ""
+msgstr "Weitere Anpassungen der Konfiguration"
 
 #: ../../admin/install/docker.rst:1434
 msgid ""
 "You can further customize Weblate installation in the data volume, see :ref:"
 "`docker-volume`."
 msgstr ""
+"Sie können die Installation von Weblate im Datenvolumen weiter anpassen, "
+"siehe :ref:`docker-volume`."
 
 #: ../../admin/install/docker.rst:1440
 msgid "Custom configuration files"
-msgstr ""
+msgstr "Benutzerdefinierte Konfigurationsdateien"
 
 #: ../../admin/install/docker.rst:1442
 msgid ""
@@ -12085,10 +12115,14 @@ msgid ""
 "built-in settings, after all environment settings are loaded, and you can "
 "adjust or override them."
 msgstr ""
+"Sie können die Konfiguration zusätzlich in :file:`/app/data/settings-override"
+".py` überschreiben (siehe :ref:`docker-volume`). Dies wird am Ende der "
+"integrierten Einstellungen ausgeführt, nachdem alle Umgebungseinstellungen "
+"geladen wurden, und Sie können sie anpassen oder überschreiben."
 
 #: ../../admin/install/docker.rst:1448
 msgid "Replacing logo and other static files"
-msgstr ""
+msgstr "Ersetzen des Logos und anderer statischer Dateien"
 
 #: ../../admin/install/docker.rst:1452
 msgid ""
@@ -12097,22 +12131,32 @@ msgid ""
 "creating :file:`/app/data/python/customize/static/favicon.ico` will replace "
 "the favicon."
 msgstr ""
+"Die mit Weblate gelieferten statischen Dateien können überschrieben werden, "
+"indem sie in :file:`/app/data/python/customize/static` abgelegt werden ("
+"siehe :ref:`docker-volume`). Zum Beispiel wird durch die Erstellung von "
+":file:`/app/data/python/customize/static/favicon.ico` das Favicon ersetzt."
 
 #: ../../admin/install/docker.rst:1459
 msgid ""
 "The files are copied to the corresponding location upon container startup, "
 "so a restart of Weblate is needed after changing the content of the volume."
 msgstr ""
+"Die Dateien werden beim Start des Containers an den entsprechenden Ort "
+"kopiert, so dass ein Neustart von Weblate erforderlich ist, wenn der Inhalt "
+"des Volumes geändert wurde."
 
 #: ../../admin/install/docker.rst:1462
 msgid ""
 "Alternatively you can also include own module (see :doc:`../customize`) and "
 "add it as separate volume to the Docker container, for example:"
 msgstr ""
+"Alternativ können Sie auch ein eigenes Modul einbinden (siehe "
+":doc:`../customize`) und es z.B. als separates Volume dem Docker-Container "
+"hinzufügen:"
 
 #: ../../admin/install/docker.rst:1475
 msgid "Adding own Python modules"
-msgstr ""
+msgstr "Hinzufügen eigener Python-Module"
 
 #: ../../admin/install/docker.rst:1479
 msgid ""
@@ -12190,7 +12234,7 @@ msgstr ""
 
 #: ../../admin/install/openshift.rst:23
 msgid "Web Console"
-msgstr "Web-Konsole"
+msgstr "Webkonsole"
 
 #: ../../admin/install/openshift.rst:25
 msgid ""
@@ -12203,18 +12247,22 @@ msgstr ""
 
 #: ../../admin/install/openshift.rst:32
 msgid "CLI"
-msgstr ""
+msgstr "CLI"
 
 #: ../../admin/install/openshift.rst:34
 msgid ""
 "To upload the Weblate template to your current project’s template library, "
 "pass the :file:`template.yml` file with the following command:"
 msgstr ""
+"Um die Weblate-Vorlage in die Vorlagenbibliothek Ihres aktuellen Projekts "
+"hochzuladen, übergeben Sie die Datei :file:`template.yml` mit dem folgenden "
+"Befehl:"
 
 #: ../../admin/install/openshift.rst:42
 msgid ""
 "The template is now available for selection using the web console or the CLI."
 msgstr ""
+"Die Vorlage kann nun über die Webkonsole oder das CLI ausgewählt werden."
 
 #: ../../admin/install/openshift.rst:46 ../../api.rst:0
 #: ../../../weblate/addons/base.py:docstring of
@@ -12641,10 +12689,8 @@ msgid ""
 msgstr ""
 
 #: ../../admin/languages.rst:63
-#, fuzzy
-#| msgid "Add language definitions"
 msgid "Built-in language definitions"
-msgstr "Sprachdefinitionen hinzufügen"
+msgstr "Integrierte Sprachdefinitionen"
 
 #: ../../admin/languages.rst:65
 msgid ""
@@ -12669,10 +12715,8 @@ msgid ":ref:`extending-lanugages`"
 msgstr "Name der Komponente"
 
 #: ../../admin/languages.rst:82
-#, fuzzy
-#| msgid "Language code"
 msgid "Ambiguous language codes and macrolanguages"
-msgstr "Sprachkürzel"
+msgstr "Mehrdeutige Sprachcodes und Makrosprachen"
 
 #: ../../admin/languages.rst:84
 msgid ""
@@ -32342,10 +32386,8 @@ msgid "BBcode markup"
 msgstr "BBcode-Markup"
 
 #: ../../user/checks.rst:0
-#, fuzzy
-#| msgid "Summaries"
 msgid "Summary"
-msgstr "Zusammenfassungen"
+msgstr "Zusammenfassung"
 
 #: ../../user/checks.rst:50
 msgid "BBcode in translation does not match source"
@@ -32377,26 +32419,20 @@ msgstr "BBcode in der Übersetzung passt nicht zur Ausgangszeichenkette"
 #: ../../user/checks.rst:1032 ../../user/checks.rst:1062
 #: ../../user/checks.rst:1086 ../../user/checks.rst:1101
 #: ../../user/checks.rst:1120 ../../user/checks.rst:1132
-#, fuzzy
-#| msgid "Translated strings"
 msgid "translated strings"
 msgstr "Übersetzte Zeichenketten"
 
 #: ../../user/checks.rst:0
-#, fuzzy
-#| msgid "Checks"
 msgid "Check class"
-msgstr "Qualitätsprüfungen"
+msgstr "Klasse prüfen"
 
 #: ../../user/checks.rst:52
-#, fuzzy
-#| msgid "``weblate.cleanup.generic``"
 msgid "``weblate.checks.markup.BBCodeCheck``"
-msgstr "``weblate.cleanup.generic``"
+msgstr "``weblate.checks.markup.BBCodeCheck``"
 
 #: ../../user/checks.rst:0
 msgid "Flag to ignore"
-msgstr ""
+msgstr "Zu ignorierende Markierung"
 
 #: ../../user/checks.rst:55
 msgid ""
@@ -32423,10 +32459,8 @@ msgid "Text contains the same word twice in a row:"
 msgstr "Text enthält zweimal hintereinander dasselbe Wort:"
 
 #: ../../user/checks.rst:74
-#, fuzzy
-#| msgid "``weblate.resx.update``"
 msgid "``weblate.checks.duplicate.DuplicateCheck``"
-msgstr "``weblate.resx.update``"
+msgstr "``weblate.checks.duplicate.DuplicateCheck``"
 
 #: ../../user/checks.rst:77
 msgid ""
@@ -32450,7 +32484,7 @@ msgstr "Die Übersetzung folgt nicht den definierten Begriffen im Glossar."
 
 #: ../../user/checks.rst:94
 msgid "``weblate.checks.glossary.GlossaryCheck``"
-msgstr ""
+msgstr "``weblate.checks.glossary.GlossaryCheck``"
 
 #: ../../user/checks.rst:0
 msgid "Flag to enable"
@@ -32490,10 +32524,8 @@ msgid "Translation contains double space"
 msgstr "Übersetzung enthält doppelte Leerzeichen"
 
 #: ../../user/checks.rst:117
-#, fuzzy
-#| msgid "``weblate.cleanup.blank``"
 msgid "``weblate.checks.chars.DoubleSpaceCheck``"
-msgstr "``weblate.cleanup.blank``"
+msgstr "``weblate.checks.chars.DoubleSpaceCheck``"
 
 #: ../../user/checks.rst:120
 msgid ""
@@ -32559,7 +32591,7 @@ msgstr ""
 
 #: ../../user/checks.rst:162
 msgid "``weblate.checks.angularjs.AngularJSInterpolationCheck``"
-msgstr ""
+msgstr "``weblate.checks.angularjs.AngularJSInterpolationCheck``"
 
 #: ../../user/checks.rst:0
 #, fuzzy
@@ -32586,10 +32618,8 @@ msgid "C format string does not match source"
 msgstr "C-Format-Zeichenkette passt nicht zur Ausgangszeichenkette"
 
 #: ../../user/checks.rst:179
-#, fuzzy
-#| msgid "``weblate.generate.generate``"
 msgid "``weblate.checks.format.CFormatCheck``"
-msgstr "``weblate.generate.generate``"
+msgstr "``weblate.checks.format.CFormatCheck``"
 
 #: ../../user/checks.rst:0
 #, fuzzy
@@ -32639,7 +32669,7 @@ msgstr "C#-Format-Zeichenkette passt nicht zur Ausgangszeichenkette"
 
 #: ../../user/checks.rst:198
 msgid "``weblate.checks.format.CSharpFormatCheck``"
-msgstr ""
+msgstr "``weblate.checks.format.CSharpFormatCheck``"
 
 #: ../../user/checks.rst:201 ../../user/checks.rst:276
 msgid "``There are {0} apples``"
@@ -32661,7 +32691,7 @@ msgstr "ECMAScript-Buchstabenvorlagen passen nicht zur Ausgangszeichenkette"
 
 #: ../../user/checks.rst:215
 msgid "``weblate.checks.format.ESTemplateLiteralsCheck``"
-msgstr ""
+msgstr "``weblate.checks.format.ESTemplateLiteralsCheck``"
 
 #: ../../user/checks.rst:0
 msgid "Interpolation example"
@@ -32720,10 +32750,8 @@ msgid "Java format string does not match source"
 msgstr "Java-Format-Zeichenkette passt nicht zur Ausgangszeichenkette"
 
 #: ../../user/checks.rst:253
-#, fuzzy
-#| msgid "``weblate.generate.generate``"
 msgid "``weblate.checks.format.JavaFormatCheck``"
-msgstr "``weblate.generate.generate``"
+msgstr "``weblate.checks.format.JavaFormatCheck``"
 
 #: ../../user/checks.rst:261
 msgid ""
@@ -32773,7 +32801,7 @@ msgstr "JavaScript-Format-Zeichenkette passt nicht zur Ausgangszeichenkette"
 
 #: ../../user/checks.rst:290
 msgid "``weblate.checks.format.JavaScriptFormatCheck``"
-msgstr ""
+msgstr "``weblate.checks.format.JavaScriptFormatCheck``"
 
 #: ../../user/checks.rst:297
 msgid ""
@@ -32790,10 +32818,8 @@ msgid "Lua format string does not match source"
 msgstr "Lua-Format-Zeichenkette passt nicht zur Ausgangszeichenkette"
 
 #: ../../user/checks.rst:307
-#, fuzzy
-#| msgid "``weblate.generate.generate``"
 msgid "``weblate.checks.format.LuaFormatCheck``"
-msgstr "``weblate.generate.generate``"
+msgstr "``weblate.checks.format.LuaFormatCheck``"
 
 #: ../../user/checks.rst:314
 msgid ""
@@ -32811,7 +32837,7 @@ msgstr "Object Pascal-Format-Zeichenkette passt nicht zur Ausgangszeichenkette"
 
 #: ../../user/checks.rst:324
 msgid "``weblate.checks.format.ObjectPascalFormatCheck``"
-msgstr ""
+msgstr "``weblate.checks.format.ObjectPascalFormatCheck``"
 
 #: ../../user/checks.rst:331
 msgid ""
@@ -32833,7 +32859,7 @@ msgstr "Die prozentualen Platzhalter stimmen nicht mit der Quelle überein"
 
 #: ../../user/checks.rst:345
 msgid "``weblate.checks.format.PercentPlaceholdersCheck``"
-msgstr ""
+msgstr "``weblate.checks.format.PercentPlaceholdersCheck``"
 
 #: ../../user/checks.rst:348
 msgid "``There are %number% apples``"
@@ -32848,10 +32874,8 @@ msgid "Perl format string does not match source"
 msgstr "Perl-Format-Zeichenkette passt nicht zur Ausgangszeichenkette"
 
 #: ../../user/checks.rst:362
-#, fuzzy
-#| msgid "``weblate.generate.generate``"
 msgid "``weblate.checks.format.PerlFormatCheck``"
-msgstr "``weblate.generate.generate``"
+msgstr "``weblate.checks.format.PerlFormatCheck``"
 
 #: ../../user/checks.rst:370
 msgid ""
@@ -32869,10 +32893,8 @@ msgid "PHP format string does not match source"
 msgstr "PHP-Format-Zeichenkette passt nicht zur Ausgangszeichenkette"
 
 #: ../../user/checks.rst:381
-#, fuzzy
-#| msgid "``weblate.generate.generate``"
 msgid "``weblate.checks.format.PHPFormatCheck``"
-msgstr "``weblate.generate.generate``"
+msgstr "``weblate.checks.format.PHPFormatCheck``"
 
 #: ../../user/checks.rst:389
 msgid ""
@@ -32893,7 +32915,7 @@ msgstr ""
 
 #: ../../user/checks.rst:401
 msgid "``weblate.checks.format.PythonBraceFormatCheck``"
-msgstr ""
+msgstr "``weblate.checks.format.PythonBraceFormatCheck``"
 
 #: ../../user/checks.rst:0
 msgid "Simple format string"
@@ -32923,10 +32945,8 @@ msgid "Python format string does not match source"
 msgstr "Python-Format-Zeichenkette passt nicht zur Ausgangszeichenkette"
 
 #: ../../user/checks.rst:420
-#, fuzzy
-#| msgid "``weblate.generate.generate``"
 msgid "``weblate.checks.format.PythonFormatCheck``"
-msgstr "``weblate.generate.generate``"
+msgstr "``weblate.checks.format.PythonFormatCheck``"
 
 #: ../../user/checks.rst:424
 msgid "``Your balance is %(amount) %(currency)``"
@@ -32972,10 +32992,8 @@ msgid "Qt plural format string does not match source"
 msgstr "Qt-Plural-Format-Zeichenkette passt nicht zur Ausgangszeichenkette"
 
 #: ../../user/checks.rst:456
-#, fuzzy
-#| msgid "``weblate.resx.update``"
 msgid "``weblate.checks.qt.QtPluralCheck``"
-msgstr "``weblate.resx.update``"
+msgstr "``weblate.checks.qt.QtPluralCheck``"
 
 #: ../../user/checks.rst:0
 #, fuzzy
@@ -33002,10 +33020,8 @@ msgid "Ruby format string does not match source"
 msgstr "Ruby-Format-Zeichenkette passt nicht zur Ausgangszeichenkette"
 
 #: ../../user/checks.rst:473
-#, fuzzy
-#| msgid "``weblate.resx.update``"
 msgid "``weblate.checks.ruby.RubyFormatCheck``"
-msgstr "``weblate.resx.update``"
+msgstr "``weblate.checks.ruby.RubyFormatCheck``"
 
 #: ../../user/checks.rst:477
 msgid "``Your balance is %1$f %2$s``"
@@ -33038,10 +33054,8 @@ msgid "Scheme format string does not match source"
 msgstr "Schema-Formatzeichenkette stimmt nicht mit Quelle überein"
 
 #: ../../user/checks.rst:493
-#, fuzzy
-#| msgid "``weblate.generate.generate``"
 msgid "``weblate.checks.format.SchemeFormatCheck``"
-msgstr "``weblate.generate.generate``"
+msgstr "``weblate.checks.format.SchemeFormatCheck``"
 
 #: ../../user/checks.rst:496
 msgid "``There are ~d apples``"
@@ -33064,10 +33078,8 @@ msgid "The Vue I18n formatting does not match source"
 msgstr "Die Vue I18n-Formatierung passt nicht zur Ausgangszeichenkette"
 
 #: ../../user/checks.rst:512
-#, fuzzy
-#| msgid "``weblate.generate.generate``"
 msgid "``weblate.checks.format.VueFormattingCheck``"
-msgstr "``weblate.generate.generate``"
+msgstr "``weblate.checks.format.VueFormattingCheck``"
 
 #: ../../user/checks.rst:0
 #, fuzzy
@@ -33115,16 +33127,12 @@ msgid "This string has been translated in the past"
 msgstr "Diese Zeichenkette wurde in der Vergangenheit übersetzt"
 
 #: ../../user/checks.rst:531 ../../user/checks.rst:544
-#, fuzzy
-#| msgid "All strings"
 msgid "all strings"
 msgstr "Alle Zeichenketten"
 
 #: ../../user/checks.rst:532
-#, fuzzy
-#| msgid "``weblate.consistency.languages``"
 msgid "``weblate.checks.consistency.TranslatedCheck``"
-msgstr "``weblate.consistency.languages``"
+msgstr "``weblate.checks.consistency.TranslatedCheck``"
 
 #: ../../user/checks.rst:535
 msgid ""
@@ -33145,16 +33153,17 @@ msgstr ""
 "in einigen Komponenten nicht übersetzt."
 
 #: ../../user/checks.rst:545
-#, fuzzy
-#| msgid "``weblate.consistency.languages``"
 msgid "``weblate.checks.consistency.ConsistencyCheck``"
-msgstr "``weblate.consistency.languages``"
+msgstr "``weblate.checks.consistency.ConsistencyCheck``"
 
 #: ../../user/checks.rst:548
 msgid ""
 "Weblate checks translations of the same string across all translation within "
 "a project to help you keep consistent translations."
 msgstr ""
+"Weblate prüft Übersetzungen derselben Zeichenkette für alle Übersetzungen "
+"innerhalb eines Projekts, um Ihnen zu helfen, konsistente Übersetzungen zu "
+"erhalten."
 
 #: ../../user/checks.rst:551
 msgid ""
@@ -33188,20 +33197,20 @@ msgid "The decorative kashida letters should not be used"
 msgstr "Dekorative Kashida-Schriftzüge sollten nicht verwendet werden"
 
 #: ../../user/checks.rst:581
-#, fuzzy
-#| msgid "``weblate.resx.update``"
 msgid "``weblate.checks.chars.KashidaCheck``"
-msgstr "``weblate.resx.update``"
+msgstr "``weblate.checks.chars.KashidaCheck``"
 
 #: ../../user/checks.rst:585
 msgid ""
 "The decorative Kashida letters should not be used in translation. These are "
 "also known as Tatweel."
 msgstr ""
+"Die dekorativen Kashida-Buchstaben sollten in der Übersetzung nicht "
+"verwendet werden. Diese sind auch als Tatweel bekannt."
 
 #: ../../user/checks.rst:590
 msgid "`Kashida on Wikipedia <https://en.wikipedia.org/wiki/Kashida>`_"
-msgstr ""
+msgstr "Kashida auf Wikipedia <https://en.wikipedia.org/wiki/Kashida>`_"
 
 #: ../../user/checks.rst:595
 msgid "Markdown links"
@@ -33213,10 +33222,8 @@ msgstr ""
 "Markdown-Links in der Übersetzung passen nicht zur Ausgangszeichenkette"
 
 #: ../../user/checks.rst:601
-#, fuzzy
-#| msgid "``weblate.cleanup.blank``"
 msgid "``weblate.checks.markup.MarkdownLinkCheck``"
-msgstr "``weblate.cleanup.blank``"
+msgstr "``weblate.checks.markup.MarkdownLinkCheck``"
 
 #: ../../user/checks.rst:605
 msgid "Markdown links do not match source."
@@ -33258,10 +33265,8 @@ msgid "Markdown syntax does not match source"
 msgstr "Markdown-Syntax passt nicht zur Ausgangszeichenkette"
 
 #: ../../user/checks.rst:640
-#, fuzzy
-#| msgid "``weblate.cleanup.blank``"
 msgid "``weblate.checks.markup.MarkdownSyntaxCheck``"
-msgstr "``weblate.cleanup.blank``"
+msgstr "``weblate.checks.markup.MarkdownSyntaxCheck``"
 
 #: ../../user/checks.rst:648
 msgid ""
@@ -33278,10 +33283,8 @@ msgid "Translation should not exceed given length"
 msgstr "Die Übersetzung sollte die angegebene Länge nicht überschreiten"
 
 #: ../../user/checks.rst:657
-#, fuzzy
-#| msgid "``weblate.cleanup.generic``"
 msgid "``weblate.checks.chars.MaxLengthCheck``"
-msgstr "``weblate.cleanup.generic``"
+msgstr "``weblate.checks.chars.MaxLengthCheck``"
 
 #: ../../user/checks.rst:658
 msgid "``max-length``"
@@ -33323,10 +33326,8 @@ msgstr ""
 "überschreiten"
 
 #: ../../user/checks.rst:683
-#, fuzzy
-#| msgid "``weblate.cleanup.generic``"
 msgid "``weblate.checks.render.MaxSizeCheck``"
-msgstr "``weblate.cleanup.generic``"
+msgstr "``weblate.checks.render.MaxSizeCheck``"
 
 #: ../../user/checks.rst:684
 msgid "``max-size``"
@@ -33378,7 +33379,7 @@ msgstr ""
 
 #: ../../user/checks.rst:725
 msgid "``weblate.checks.chars.EscapedNewlineCountingCheck``"
-msgstr ""
+msgstr "``weblate.checks.chars.EscapedNewlineCountingCheck``"
 
 #: ../../user/checks.rst:728
 msgid ""
@@ -33397,10 +33398,8 @@ msgstr ""
 "Ausgangs- und übersetzte Zeichenkette enden nicht beide mit einem Doppelpunkt"
 
 #: ../../user/checks.rst:738
-#, fuzzy
-#| msgid "``weblate.cleanup.blank``"
 msgid "``weblate.checks.chars.EndColonCheck``"
-msgstr "``weblate.cleanup.blank``"
+msgstr "``weblate.checks.chars.EndColonCheck``"
 
 #: ../../user/checks.rst:741
 msgid ""
@@ -33426,7 +33425,7 @@ msgstr ""
 
 #: ../../user/checks.rst:756
 msgid "``weblate.checks.chars.EndEllipsisCheck``"
-msgstr ""
+msgstr "``weblate.checks.chars.EndEllipsisCheck``"
 
 #: ../../user/checks.rst:759
 msgid ""
@@ -33457,7 +33456,7 @@ msgstr ""
 
 #: ../../user/checks.rst:776
 msgid "``weblate.checks.chars.EndExclamationCheck``"
-msgstr ""
+msgstr "``weblate.checks.chars.EndExclamationCheck``"
 
 #: ../../user/checks.rst:779
 msgid ""
@@ -33483,10 +33482,8 @@ msgstr ""
 "Ausgangs- und übersetzte Zeichenkette enden nicht beide mit einem Punkt"
 
 #: ../../user/checks.rst:795
-#, fuzzy
-#| msgid "``weblate.json.customize``"
 msgid "``weblate.checks.chars.EndStopCheck``"
-msgstr "``weblate.json.customize``"
+msgstr "``weblate.checks.chars.EndStopCheck``"
 
 #: ../../user/checks.rst:798
 msgid ""
@@ -33510,10 +33507,8 @@ msgstr ""
 "Fragezeichen"
 
 #: ../../user/checks.rst:813
-#, fuzzy
-#| msgid "``weblate.cleanup.generic``"
 msgid "``weblate.checks.chars.EndQuestionCheck``"
-msgstr "``weblate.cleanup.generic``"
+msgstr "``weblate.checks.chars.EndQuestionCheck``"
 
 #: ../../user/checks.rst:816
 msgid ""
@@ -33539,7 +33534,7 @@ msgstr ""
 
 #: ../../user/checks.rst:832
 msgid "``weblate.checks.chars.EndSemicolonCheck``"
-msgstr ""
+msgstr "``weblate.checks.chars.EndSemicolonCheck``"
 
 #: ../../user/checks.rst:835
 msgid ""
@@ -33564,7 +33559,7 @@ msgstr ""
 
 #: ../../user/checks.rst:849
 msgid "``weblate.checks.chars.NewLineCountCheck``"
-msgstr ""
+msgstr "``weblate.checks.chars.NewLineCountCheck``"
 
 #: ../../user/checks.rst:852
 msgid ""
@@ -33581,10 +33576,8 @@ msgid "Some plural forms are not translated"
 msgstr "Einige Pluralformen sind nicht übersetzt"
 
 #: ../../user/checks.rst:863
-#, fuzzy
-#| msgid "``weblate.consistency.languages``"
 msgid "``weblate.checks.consistency.PluralsCheck``"
-msgstr "``weblate.consistency.languages``"
+msgstr "``weblate.checks.consistency.PluralsCheck``"
 
 #: ../../user/checks.rst:866
 msgid ""
@@ -33609,7 +33602,7 @@ msgstr "Der Übersetzung fehlen einige Platzhalter"
 
 #: ../../user/checks.rst:881
 msgid "``weblate.checks.placeholders.PlaceholderCheck``"
-msgstr ""
+msgstr "``weblate.checks.placeholders.PlaceholderCheck``"
 
 #: ../../user/checks.rst:882
 #, fuzzy
@@ -33649,7 +33642,7 @@ msgstr "Es fehlt ein untrennbares Leerzeichen vor doppelten Satzzeichen"
 
 #: ../../user/checks.rst:916
 msgid "``weblate.checks.chars.PunctuationSpacingCheck``"
-msgstr ""
+msgstr "``weblate.checks.chars.PunctuationSpacingCheck``"
 
 #: ../../user/checks.rst:919
 msgid ""
@@ -33671,7 +33664,7 @@ msgstr "Übersetzung stimmt nicht mit regulärem Ausdruck überein:"
 
 #: ../../user/checks.rst:938
 msgid "``weblate.checks.placeholders.RegexCheck``"
-msgstr ""
+msgstr "``weblate.checks.placeholders.RegexCheck``"
 
 #: ../../user/checks.rst:939
 #, fuzzy
@@ -33694,10 +33687,8 @@ msgid "Some plural forms are translated in the same way"
 msgstr "Einige Pluralformen sind identisch übersetzt"
 
 #: ../../user/checks.rst:958
-#, fuzzy
-#| msgid "``weblate.consistency.languages``"
 msgid "``weblate.checks.consistency.SamePluralsCheck``"
-msgstr "``weblate.consistency.languages``"
+msgstr "``weblate.checks.consistency.SamePluralsCheck``"
 
 #: ../../user/checks.rst:961
 msgid ""
@@ -33716,10 +33707,8 @@ msgstr ""
 "Zeilenumbruch"
 
 #: ../../user/checks.rst:971
-#, fuzzy
-#| msgid "``weblate.cleanup.generic``"
 msgid "``weblate.checks.chars.BeginNewlineCheck``"
-msgstr "``weblate.cleanup.generic``"
+msgstr "``weblate.checks.chars.BeginNewlineCheck``"
 
 #: ../../user/checks.rst:974 ../../user/checks.rst:1004
 msgid ""
@@ -33744,7 +33733,7 @@ msgstr ""
 
 #: ../../user/checks.rst:988
 msgid "``weblate.checks.chars.BeginSpaceCheck``"
-msgstr ""
+msgstr "``weblate.checks.chars.BeginSpaceCheck``"
 
 #: ../../user/checks.rst:991
 msgid ""
@@ -33762,7 +33751,7 @@ msgstr "Quelle und Übersetzung enden nicht beide mit einem Zeilenumbruch"
 
 #: ../../user/checks.rst:1001
 msgid "``weblate.checks.chars.EndNewlineCheck``"
-msgstr ""
+msgstr "``weblate.checks.chars.EndNewlineCheck``"
 
 #: ../../user/checks.rst:1009
 msgid ":ref:`check-begin-newline`"
@@ -33778,10 +33767,8 @@ msgstr ""
 "Ausgangs- und übersetzte Zeichenkette enden nicht beide mit einem Leerzeichen"
 
 #: ../../user/checks.rst:1018
-#, fuzzy
-#| msgid "``weblate.cleanup.generic``"
 msgid "``weblate.checks.chars.EndSpaceCheck``"
-msgstr "``weblate.cleanup.generic``"
+msgstr "``weblate.checks.chars.EndSpaceCheck``"
 
 #: ../../user/checks.rst:1021
 msgid ""
@@ -33804,10 +33791,8 @@ msgid "Source and translation are identical"
 msgstr "Ausgangs- und übersetzte Zeichenkette sind identisch"
 
 #: ../../user/checks.rst:1033
-#, fuzzy
-#| msgid "``weblate.flags.same_edit``"
 msgid "``weblate.checks.same.SameCheck``"
-msgstr "``weblate.flags.same_edit``"
+msgstr "``weblate.checks.same.SameCheck``"
 
 #: ../../user/checks.rst:1036
 msgid ""
@@ -33844,10 +33829,8 @@ msgid "The translation uses unsafe HTML markup"
 msgstr "Die Übersetzung verwendet unsichere HTML-Markierungen"
 
 #: ../../user/checks.rst:1063
-#, fuzzy
-#| msgid "``weblate.cleanup.generic``"
 msgid "``weblate.checks.markup.SafeHTMLCheck``"
-msgstr "``weblate.cleanup.generic``"
+msgstr "``weblate.checks.markup.SafeHTMLCheck``"
 
 #: ../../user/checks.rst:1067
 msgid ""
@@ -33871,10 +33854,8 @@ msgid "The translation does not contain an URL"
 msgstr "Die Übersetzung enthält keine URL"
 
 #: ../../user/checks.rst:1087
-#, fuzzy
-#| msgid "``weblate.cleanup.generic``"
 msgid "``weblate.checks.markup.URLCheck``"
-msgstr "``weblate.cleanup.generic``"
+msgstr "``weblate.checks.markup.URLCheck``"
 
 #: ../../user/checks.rst:1091
 msgid ""
@@ -33892,10 +33873,8 @@ msgid "XML tags in translation do not match source"
 msgstr "XML Tags in der Übersetzung passen nicht zur Ausgangszeichenkette"
 
 #: ../../user/checks.rst:1102
-#, fuzzy
-#| msgid "``weblate.cleanup.generic``"
 msgid "``weblate.checks.markup.XMLTagsCheck``"
-msgstr "``weblate.cleanup.generic``"
+msgstr "``weblate.checks.markup.XMLTagsCheck``"
 
 #: ../../user/checks.rst:1105
 msgid ""
@@ -33918,10 +33897,8 @@ msgid "The translation is not valid XML"
 msgstr "Die Übersetzung ist kein gültiges XML"
 
 #: ../../user/checks.rst:1121
-#, fuzzy
-#| msgid "``weblate.resx.update``"
 msgid "``weblate.checks.markup.XMLValidityCheck``"
-msgstr "``weblate.resx.update``"
+msgstr "``weblate.checks.markup.XMLValidityCheck``"
 
 #: ../../user/checks.rst:1124
 msgid "The XML markup is not valid."
@@ -33937,7 +33914,7 @@ msgstr "Übersetzung enthält zusätzliche Leerzeichen ohne Breite"
 
 #: ../../user/checks.rst:1133
 msgid "``weblate.checks.chars.ZeroWidthSpaceCheck``"
-msgstr ""
+msgstr "``weblate.checks.chars.ZeroWidthSpaceCheck``"
 
 #: ../../user/checks.rst:1136
 msgid ""
@@ -33984,10 +33961,8 @@ msgid "source strings"
 msgstr "Ausgangszeichenketten"
 
 #: ../../user/checks.rst:1159
-#, fuzzy
-#| msgid "``weblate.flags.source_edit``"
 msgid "``weblate.checks.source.EllipsisCheck``"
-msgstr "``weblate.flags.source_edit``"
+msgstr "``weblate.checks.source.EllipsisCheck``"
 
 #: ../../user/checks.rst:1162
 msgid ""
@@ -34010,10 +33985,8 @@ msgid "The string has not been translated for a long time"
 msgstr "Die Zeichenkette wurde lange Zeit nicht übersetzt"
 
 #: ../../user/checks.rst:1181
-#, fuzzy
-#| msgid "``weblate.autotranslate.autotranslate``"
 msgid "``weblate.checks.source.LongUntranslatedCheck``"
-msgstr "``weblate.autotranslate.autotranslate``"
+msgstr "``weblate.checks.source.LongUntranslatedCheck``"
 
 #: ../../user/checks.rst:1184
 msgid ""
@@ -34033,7 +34006,7 @@ msgstr ""
 
 #: ../../user/checks.rst:1195
 msgid "``weblate.checks.source.MultipleFailingCheck``"
-msgstr ""
+msgstr "``weblate.checks.source.MultipleFailingCheck``"
 
 #: ../../user/checks.rst:1198
 msgid ""
@@ -34063,7 +34036,7 @@ msgstr ""
 
 #: ../../user/checks.rst:1215
 msgid "``weblate.checks.format.MultipleUnnamedFormatsCheck``"
-msgstr ""
+msgstr "``weblate.checks.format.MultipleUnnamedFormatsCheck``"
 
 #: ../../user/checks.rst:1218
 msgid ""
@@ -34086,7 +34059,7 @@ msgstr "Die Zeichenkette wird im Plural verwendet, hat aber keine Pluralformen"
 
 #: ../../user/checks.rst:1230
 msgid "``weblate.checks.source.OptionalPluralCheck``"
-msgstr ""
+msgstr "``weblate.checks.source.OptionalPluralCheck``"
 
 #: ../../user/checks.rst:1233
 msgid ""
