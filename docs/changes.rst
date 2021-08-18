@@ -12,6 +12,7 @@ Not yet released.
 * Fixed adding strings to a monolingual glossary components.
 * Improved performance in hadling variants.
 * Fixed squash add-on sometimes skipping parsing upstream changes.
+* Preserve file extension on download.
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/67?closed=1>`__.
 

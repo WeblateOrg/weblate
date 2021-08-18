@@ -314,7 +314,10 @@ def download_translation_file(request, translation, fmt=None, units=None):
         filenames = translation.filenames
 
         if len(filenames) == 1:
-            extension = translation.component.file_format_cls.extension()
+            extension = (
+                os.path.splitext(translation.filename)[1]
+                or translation.component.file_format_cls.extension()
+            )
             # Create response
             response = FileResponse(
                 open(filenames[0], "rb"),
