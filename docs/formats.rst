@@ -1516,7 +1516,7 @@ another language.
 
 .. seealso::
 
-    `Project Fluent <https://www.projectfluent.org/>`_,
+    `Project Fluent <https://projectfluent.org/>`_,
     :doc:`tt:formats/fluent`,
     :ref:`glossary`
 
