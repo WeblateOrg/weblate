@@ -116,7 +116,7 @@ languages translators select in the preferences will be shown
 (see :ref:`secondary-languages`) above the source string.
 
 Below the translation, translators will find suggestion made by others, to be
-accepted (✓), accepted with changes (🖉), or deleted (🗑).
+accepted (✓), accepted with changes (✏️), or deleted (🗑).
 
 .. _plurals:
 
