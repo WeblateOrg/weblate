@@ -1507,7 +1507,7 @@ another language.
 +================================+==================================+
 | Filemask                       | ``i18n/*/component-name.flt``    |
 +--------------------------------+----------------------------------+
-| Monolingual base language file | `Empty`                          |
+| Monolingual base language file | ``i18n/en/component-name.flt``   |
 +--------------------------------+----------------------------------+
 | Template for new translations  | `Empty`                          |
 +--------------------------------+----------------------------------+
