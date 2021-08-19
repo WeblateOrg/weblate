@@ -21,7 +21,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.8\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-08-19 07:57+0000\n"
-"PO-Revision-Date: 2021-08-06 06:48+0000\n"
+"PO-Revision-Date: 2021-08-19 13:20+0000\n"
 "Last-Translator: Burak Yavuz <hitowerdigit@hotmail.com>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/weblate/"
 "application/tr/>\n"
@@ -3079,10 +3079,8 @@ msgid "gettext PO"
 msgstr "gettext (PO)"
 
 #: weblate/formats/exporters.py:248
-#, fuzzy
-#| msgid "XLIFF with gettext extensions"
 msgid "XLIFF 1.1 with gettext extensions"
-msgstr "Gettext uzantılı XLIFF"
+msgstr "Gettext uzantılı XLIFF 1.1"
 
 #: weblate/formats/exporters.py:279
 msgid "XLIFF 1.1"
@@ -3273,10 +3271,8 @@ msgid "Stringsdict file"
 msgstr "Stringsdict dosyası"
 
 #: weblate/formats/ttkit.py:1842
-#, fuzzy
-#| msgid "Font file"
 msgid "Fluent file"
-msgstr "Yazı tipi dosyası"
+msgstr "Fluent dosyası"
 
 #: weblate/formats/txt.py:176
 msgid "App store metadata files"
@@ -3295,10 +3291,8 @@ msgid "String will be part of the glossary in all languages"
 msgstr "Dizgi, tüm dillerde sözlüğün bir parçası olacaktır"
 
 #: weblate/glossary/forms.py:55
-#, fuzzy
-#| msgid "Not translatable term"
 msgid "Untranslatable term"
-msgstr "Çevrilebilir terim değil"
+msgstr "Çevrilemez terim"
 
 #: weblate/glossary/forms.py:102
 #: weblate/templates/snippets/component-glossary-badge.html:4
@@ -8762,34 +8756,25 @@ msgid "This project does no longer fit into libre hosting conditions."
 msgstr "Bu proje artık özgür barındırma koşullarına uymuyor."
 
 #: weblate/templates/trans/alert/nomaskmatches.html:2
-#, fuzzy
-#| msgid "This component set up is incomplete as it lacks translations."
 msgid "This component set up is incomplete, as it lacks any translations."
-msgstr "Bu bileşenin ayarlanması, çevirileri olmadığı için tamamlanmadı."
+msgstr "Bu bileşenin ayarlanması, hiçbir çeviri olmadığı için tamamlanmadı."
 
 #: weblate/templates/trans/alert/nomaskmatches.html:6
-#, fuzzy
-#| msgid ""
-#| "Create new translations directly in Weblate, it will create files based "
-#| "on the file mask."
 msgid ""
 "Starting new translations directly in Weblate is possible, and creates files "
 "based on the filemask."
 msgstr ""
-"Doğrudan Weblate’de yeni çeviriler oluşturun, dosya maskesine dayalı "
-"dosyalar oluşturacaktır."
+"Doğrudan Weblate’de yeni çeviriler başlatmak mümkündür ve dosya maskesine "
+"dayalı dosyalar oluşturur."
 
 #: weblate/templates/trans/alert/nomaskmatches.html:8
-#, fuzzy, python-format
-#| msgid ""
-#| "Check whether file mask <code>%(filemask)s</code> matches files in your "
-#| "repository."
+#, python-format
 msgid ""
 "Check whether the filemask <code>%(filemask)s</code> matches files in your "
 "version control system repository."
 msgstr ""
-"<code> %(filemask)s </code> dosya maskesinin deponuzdaki dosyalarla eşleşip "
-"eşleşmediğini denetleyin."
+"<code> %(filemask)s </code> dosya maskesinin sürüm denetim sistemi "
+"deponuzdaki dosyalarla eşleşip eşleşmediğini denetleyin."
 
 #. Translators: This is shown when an alert contains too many occurences, the count will be always at least 100
 #: weblate/templates/trans/alert/occurrences-limit.html:5
@@ -8970,7 +8955,7 @@ msgstr ""
 
 #: weblate/templates/trans/component_create.html:92
 msgid "The filenames within the archive need to have locale codes in them."
-msgstr ""
+msgstr "Arşivdeki dosya adlarının içinde yerel kodların olması gerekir."
 
 #: weblate/templates/trans/component_create.html:105
 msgid ""
@@ -10928,17 +10913,14 @@ msgid "Repository browser"
 msgstr "Depo tarayıcısı"
 
 #: weblate/trans/models/component.py:291
-#, fuzzy
-#| msgid ""
-#| "Link to repository browser, use {{branch}} for branch, {{filename}} and "
-#| "{{line}} as filename and line placeholders."
 msgid ""
 "Link to repository browser, use {{branch}} for branch, {{filename}} and "
 "{{line}} as filename and line placeholders. You might want to strip leading "
 "directory by using {{filename|parentdir}}."
 msgstr ""
 "Depo tarayıcısına bağlantı, dal için {{branch}}, dosya adı ve satır yer "
-"tutucuları olarak {{filename}} ve {{line}} kullanın."
+"tutucuları olarak {{filename}} ve {{line}} kullanın. {{filename|parentdir}} "
+"kullanarak baştaki dizini çıkarmak isteyebilirsiniz."
 
 #: weblate/trans/models/component.py:299
 msgid "Exported repository URL"
