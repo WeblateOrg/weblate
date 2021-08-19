@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-08-19 09:58+0200\n"
-"PO-Revision-Date: 2021-08-10 13:33+0000\n"
-"Last-Translator: Ihor Hordiichuk <igor_ck@outlook.com>\n"
+"PO-Revision-Date: 2021-08-19 12:33+0000\n"
+"Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/"
 "documentation/uk/>\n"
 "Language: uk\n"
@@ -7541,16 +7541,13 @@ msgstr ""
 "документацією до :ref:`machine-translation-setup`, щоб дізнатися більше."
 
 #: ../../admin/config.rst:1168
-#, fuzzy
-#| msgid ""
-#| "When using Docker container place the data into the data volume, see :ref:"
-#| "`docker-volume`."
 msgid ""
 "When using Docker container, this configuration is automatically generated "
 "based on provided API keys, see :ref:`docker-machine`."
 msgstr ""
-"Якщо застосовується контейнер Docker, помістіть дані до тому даних, див. :"
-"ref:`docker-volume`."
+"Якщо застосовано контейнер Docker, ці налаштування буде створено автоматично "
+"на основі наданих ключів до програмного інтерфейсу, див. :ref:`docker-"
+"volume`."
 
 #: ../../admin/config.rst:1192
 msgid ":ref:`machine-translation-setup`, :ref:`machine-translation`"
@@ -13401,6 +13398,8 @@ msgid ""
 "Configuring API key for a service automatically configures it in :setting:"
 "`MT_SERVICES`."
 msgstr ""
+"Налаштовування ключа до програмного інтерфейсу для служби автоматично "
+"налаштовує його у :setting:`MT_SERVICES`."
 
 #: ../../admin/install/docker.rst:745
 msgid ""
@@ -18438,22 +18437,16 @@ msgstr ""
 "WeblateOrg/hello/blob/{{branch}}/{{filename}}#L{{line}}``"
 
 #: ../../admin/projects.rst:351
-#, fuzzy
-#| msgid ""
-#| "In case your paths are relative to different folder, you might want to "
-#| "strip leading directory by ``parentdir`` filter (see :ref:`markup`): "
-#| "``https://github.com/WeblateOrg/hello/blob/{{branch}}/{{filename|"
-#| "parentdir}}#L{{line}}``"
 msgid ""
 "In case your paths are relative to different folder (path contains ``..``), "
 "you might want to strip leading directory by ``parentdir`` filter (see :ref:"
 "`markup`): ``https://github.com/WeblateOrg/hello/blob/{{branch}}/{{filename|"
 "parentdir}}#L{{line}}``"
 msgstr ""
-"Якщо ваші шляхи є відносними щодо іншої теки, вам варто вилучити початковий "
-"каталог за допомогою фільтра ``parentdir`` (див. :ref:`markup`): ``https://"
-"github.com/WeblateOrg/hello/blob/{{branch}}/{{filename|parentdir}}#L{{line}}"
-"``"
+"Якщо ваші шляхи є відносними щодо іншої теки (шлях містить ``..``), вам "
+"варто вилучити початковий каталог за допомогою фільтра ``parentdir`` (див. "
+":ref:`markup`): ``https://github.com/WeblateOrg/hello/blob/"
+"{{branch}}/{{filename|parentdir}}#L{{line}}``"
 
 #: ../../admin/projects.rst:359
 msgid "Exported repository URL"
@@ -23226,10 +23219,8 @@ msgid "Weblate 4.8"
 msgstr "Weblate 4.8"
 
 #: ../../changes.rst:4
-#, fuzzy
-#| msgid "Released on August 21st 2020."
 msgid "Released on August 21th 2021."
-msgstr "Випущено 21 серпня 2020 року."
+msgstr "Випущено 21 серпня 2021 року."
 
 #: ../../changes.rst:6
 msgid "Added support for Apple stringsdict format."
@@ -23254,38 +23245,30 @@ msgid "Performance improvements."
 msgstr "Поліпшення у швидкодії."
 
 #: ../../changes.rst:11
-#, fuzzy
-#| msgid "Improve hooks compatibility with Bitbucket Server."
 msgid "Improved squash add-on compatibility with Gerrit."
-msgstr "Вдосконалено сумісність сценаріїв спостереження із сервером Bitbucket."
+msgstr "Вдосконалено сумісність додатка squash із Gerrit."
 
 #: ../../changes.rst:12
-#, fuzzy
-#| msgid "Fixed adding new units to monolingual translations using upload."
 msgid "Fixed adding strings to a monolingual glossary components."
-msgstr ""
-"Виправлено додавання нових модулів до одномовних перекладів за допомогою "
-"вивантаження даних."
+msgstr "Виправлено додавання рядків до одномовних складників глосарія."
 
 #: ../../changes.rst:13
-#, fuzzy
-#| msgid "Improved performance when adding new strings."
 msgid "Improved performance in hadling variants."
-msgstr "Удосконалено швидкодію при додаванні нових рядків."
+msgstr "Удосконалено швидкодію при обробці варіантів."
 
 #: ../../changes.rst:14
 msgid "Fixed squash add-on sometimes skipping parsing upstream changes."
 msgstr ""
+"Усунено помилку, яка призводила до того, що додаток squash іноді пропускав "
+"обробку змін у основній гілці."
 
 #: ../../changes.rst:15
 msgid "Preserve file extension on download."
-msgstr ""
+msgstr "Реалізовано збереження суфікса назви файла при отриманні."
 
 #: ../../changes.rst:16
-#, fuzzy
-#| msgid "Added support for DTD file format."
 msgid "Added support for the Fluent format."
-msgstr "Додано підтримку формату файлів DTD."
+msgstr "Додано підтримку формату файлів Fluent."
 
 #: ../../changes.rst:18
 msgid ""
@@ -35024,10 +35007,8 @@ msgid ":ref:`fluent`"
 msgstr ":ref:`alerts`"
 
 #: ../../formats.rst:129
-#, fuzzy
-#| msgid "no [#lp]_"
 msgid "no [#fp]_"
-msgstr "ні [#lp]_"
+msgstr "ні [#fp]_"
 
 #: ../../formats.rst:132
 msgid "See :ref:`bimono`"
@@ -35115,6 +35096,8 @@ msgid ""
 "Plurals are handled in the syntax of the strings and not exposed as plurals "
 "in Weblate."
 msgstr ""
+"Форми множини обробляються у синтаксисі рядків і не показуються як форми "
+"множини на Weblate."
 
 #: ../../formats.rst:148
 msgid "Read only strings"
@@ -36731,10 +36714,8 @@ msgstr ""
 "StringsdictFileFormat/StringsdictFileFormat.html>`_,"
 
 #: ../../formats.rst:1530
-#, fuzzy
-#| msgid "File format"
 msgid "Fluent format"
-msgstr "Формат файлу"
+msgstr "Формат Fluent"
 
 #: ../../formats.rst:1538
 msgid ""
@@ -36742,30 +36723,25 @@ msgid ""
 "a simple string in one language can map to a complex multi-variant "
 "translation in another language."
 msgstr ""
+"Fluent — одномовний текстовий формат, увагу у якому зосереджено на "
+"асиметричній локалізації: простий рядок однією мовою може відповідати "
+"складному багатоваріантному перекладу іншою мовою."
 
 #: ../../formats.rst:1545
-#, fuzzy
-#| msgid "``_locales/*/messages.json``"
 msgid "``locales/*/messages.ftl``"
-msgstr "``_locales/*/messages.json``"
+msgstr "``locales/*/messages.ftl``"
 
 #: ../../formats.rst:1547
-#, fuzzy
-#| msgid "``_locales/en/messages.json``"
 msgid "``locales/en/messages.ftl``"
-msgstr "``_locales/en/messages.json``"
+msgstr "``locales/en/messages.ftl``"
 
 #: ../../formats.rst:1551
-#, fuzzy
-#| msgid "Font file"
 msgid "`Fluent file`"
-msgstr "Файл шрифту"
+msgstr "`Файл Fluent`"
 
 #: ../../formats.rst:1558
-#, fuzzy
-#| msgid "`Glosbe website <https://glosbe.com/>`_"
 msgid "`Project Fluent website <https://projectfluent.org/>`_"
-msgstr "`Сайт Glosbe <https://glosbe.com/>`_"
+msgstr "`Сайт проєкту Fluent <https://projectfluent.org/>`_"
 
 #: ../../formats.rst:1562
 msgid "Supporting other formats"
@@ -39587,10 +39563,8 @@ msgstr ""
 "`Знаряддя` для усіх термінів."
 
 #: ../../user/glossary.rst:52
-#, fuzzy
-#| msgid "Not translatable term"
 msgid "Untranslatable terms"
-msgstr "Термін, який не слід перекладати"
+msgstr "Терміни, які не слід перекладати"
 
 #: ../../user/glossary.rst:56
 msgid ""
