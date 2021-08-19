@@ -35,8 +35,8 @@ msgstr ""
 "Project-Id-Version: Weblate 4.8\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-08-19 07:57+0000\n"
-"PO-Revision-Date: 2021-08-13 04:51+0000\n"
-"Last-Translator: JY3 <GeeyunJY3@gmail.com>\n"
+"PO-Revision-Date: 2021-08-19 13:21+0000\n"
+"Last-Translator: Eric <spice2wolf@gmail.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "weblate/application/zh_Hans/>\n"
 "Language: zh_Hans\n"
@@ -2992,10 +2992,8 @@ msgid "gettext PO"
 msgstr "gettext PO"
 
 #: weblate/formats/exporters.py:248
-#, fuzzy
-#| msgid "XLIFF with gettext extensions"
 msgid "XLIFF 1.1 with gettext extensions"
-msgstr "带有 gettext 扩展的 XLIFF"
+msgstr "带有 gettext 扩展的 XLIFF 1.1"
 
 #: weblate/formats/exporters.py:279
 msgid "XLIFF 1.1"
@@ -3186,10 +3184,8 @@ msgid "Stringsdict file"
 msgstr "Stringsdict 文件"
 
 #: weblate/formats/ttkit.py:1842
-#, fuzzy
-#| msgid "Font file"
 msgid "Fluent file"
-msgstr "字体文件"
+msgstr "Fluent 文件"
 
 #: weblate/formats/txt.py:176
 msgid "App store metadata files"
@@ -3208,8 +3204,6 @@ msgid "String will be part of the glossary in all languages"
 msgstr "字符串将是所有语言的语汇表的一部分"
 
 #: weblate/glossary/forms.py:55
-#, fuzzy
-#| msgid "Not translatable term"
 msgid "Untranslatable term"
 msgstr "不可翻译的术语"
 
@@ -8410,30 +8404,21 @@ msgid "This project does no longer fit into libre hosting conditions."
 msgstr "这个项目不再符合自由软件项目托管条件。"
 
 #: weblate/templates/trans/alert/nomaskmatches.html:2
-#, fuzzy
-#| msgid "This component set up is incomplete as it lacks translations."
 msgid "This component set up is incomplete, as it lacks any translations."
-msgstr "这个组件设置是不完整的，因为它缺少翻译。"
+msgstr "这个组件设置不完整，因为它没有翻译。"
 
 #: weblate/templates/trans/alert/nomaskmatches.html:6
-#, fuzzy
-#| msgid ""
-#| "Create new translations directly in Weblate, it will create files based "
-#| "on the file mask."
 msgid ""
 "Starting new translations directly in Weblate is possible, and creates files "
 "based on the filemask."
-msgstr "直接在 Weblate 中创建新的翻译，它将基于文件掩码创建文件。"
+msgstr "可以直接在 Weblate 中开始新的翻译，并基于文件掩码创建文件。"
 
 #: weblate/templates/trans/alert/nomaskmatches.html:8
-#, fuzzy, python-format
-#| msgid ""
-#| "Check whether file mask <code>%(filemask)s</code> matches files in your "
-#| "repository."
+#, python-format
 msgid ""
 "Check whether the filemask <code>%(filemask)s</code> matches files in your "
 "version control system repository."
-msgstr "检查文件掩码<code>%(filemask)s</code>是否匹配你代码库里的文件。"
+msgstr "检查文件掩码<code>%(filemask)s</code>是否匹配你版本控制系统代码库里的文件。"
 
 #. Translators: This is shown when an alert contains too many occurences, the count will be always at least 100
 #: weblate/templates/trans/alert/occurrences-limit.html:5
@@ -8599,7 +8584,7 @@ msgstr "从上传的包含翻译字符串的ZIP文件创建新的翻译组件。
 
 #: weblate/templates/trans/component_create.html:92
 msgid "The filenames within the archive need to have locale codes in them."
-msgstr ""
+msgstr "归档文件中的文件名需要包含区域设置代码。"
 
 #: weblate/templates/trans/component_create.html:105
 msgid ""
@@ -10469,17 +10454,13 @@ msgid "Repository browser"
 msgstr "代码库浏览器"
 
 #: weblate/trans/models/component.py:291
-#, fuzzy
-#| msgid ""
-#| "Link to repository browser, use {{branch}} for branch, {{filename}} and "
-#| "{{line}} as filename and line placeholders."
 msgid ""
 "Link to repository browser, use {{branch}} for branch, {{filename}} and "
 "{{line}} as filename and line placeholders. You might want to strip leading "
 "directory by using {{filename|parentdir}}."
 msgstr ""
-"代码库浏览器的链接，用 {{branch}} 表示分支、{{filename}} 和 {{line}} 表示文件"
-"名和行号。"
+"代码库浏览器的链接，用 {{branch}} 表示分支、{{filename}} 和 {{line}} 表示文件名和行号。您可能想要删除前导目录，"
+"方法是使用 {{filename|parentdir}}。"
 
 #: weblate/trans/models/component.py:299
 msgid "Exported repository URL"
