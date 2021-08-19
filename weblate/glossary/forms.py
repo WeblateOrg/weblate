@@ -52,7 +52,7 @@ class GlossaryAddMixin(forms.Form):
         required=False,
     )
     read_only = forms.BooleanField(
-        label=gettext_lazy("Not translatable term"),
+        label=gettext_lazy("Untranslatable term"),
         required=False,
     )
 
