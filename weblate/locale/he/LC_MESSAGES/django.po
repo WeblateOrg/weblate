@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.8\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-08-19 07:57+0000\n"
-"PO-Revision-Date: 2021-08-19 13:20+0000\n"
+"PO-Revision-Date: 2021-08-20 06:43+0000\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: Hebrew <https://hosted.weblate.org/projects/weblate/"
 "application/he/>\n"
@@ -3218,8 +3218,6 @@ msgid "String will be part of the glossary in all languages"
 msgstr "המחרוזת תהיה חלק מהמונחונים בכל השפות"
 
 #: weblate/glossary/forms.py:55
-#, fuzzy
-#| msgid "Not translatable term"
 msgid "Untranslatable term"
 msgstr "מונח שלא לתרגום"
 
@@ -8586,10 +8584,8 @@ msgid "This project does no longer fit into libre hosting conditions."
 msgstr "מיזם זה אינו עומד עוד בתנאי האירוח החופשי."
 
 #: weblate/templates/trans/alert/nomaskmatches.html:2
-#, fuzzy
-#| msgid "This component set up is incomplete as it lacks translations."
 msgid "This component set up is incomplete, as it lacks any translations."
-msgstr "רכיב זה מוגדר חלקית כיוון שחסרים בו תרגומים."
+msgstr "רכיב זה מוגדר חלקית כיוון שחסרים בו תרגומים כלשהם."
 
 #: weblate/templates/trans/alert/nomaskmatches.html:6
 #, fuzzy
@@ -8604,14 +8600,13 @@ msgstr ""
 "הקבצים."
 
 #: weblate/templates/trans/alert/nomaskmatches.html:8
-#, fuzzy, python-format
-#| msgid ""
-#| "Check whether file mask <code>%(filemask)s</code> matches files in your "
-#| "repository."
+#, python-format
 msgid ""
 "Check whether the filemask <code>%(filemask)s</code> matches files in your "
 "version control system repository."
-msgstr "לבדוק האם המסכה <code>%(filemask)s</code> תואמת קבצים במאגר שלך."
+msgstr ""
+"לבדוק האם המסכה <code>%(filemask)s</code> תואמת קבצים במאגר בקרת גרסאות הקוד "
+"שלך."
 
 #. Translators: This is shown when an alert contains too many occurences, the count will be always at least 100
 #: weblate/templates/trans/alert/occurrences-limit.html:5
@@ -8780,7 +8775,7 @@ msgstr "יצירת רכיב תרגום חדש מקובץ ZIP שנשלח ומכי
 
 #: weblate/templates/trans/component_create.html:92
 msgid "The filenames within the archive need to have locale codes in them."
-msgstr ""
+msgstr "לשמות הקבצים בארכיון חייב להיות קוד שפה."
 
 #: weblate/templates/trans/component_create.html:105
 msgid ""
@@ -10695,17 +10690,14 @@ msgid "Repository browser"
 msgstr "סייר מאגרים"
 
 #: weblate/trans/models/component.py:291
-#, fuzzy
-#| msgid ""
-#| "Link to repository browser, use {{branch}} for branch, {{filename}} and "
-#| "{{line}} as filename and line placeholders."
 msgid ""
 "Link to repository browser, use {{branch}} for branch, {{filename}} and "
 "{{line}} as filename and line placeholders. You might want to strip leading "
 "directory by using {{filename|parentdir}}."
 msgstr ""
-"קישור לסייר המאגרים, ניתן להשתמש ב־{{branch}} לציון ענף, {{filename}} ו־"
-"{{line}} לציון שם קובץ ושורה."
+"קישור לסייר המאגרים, ניתן להשתמש ב־{{branch}} לציון ענף, {{filename}} "
+"ו־{{line}} לציון שם קובץ ושורה. אולי עדיף לך להסיר את התיקייה בהתחלה עם "
+"{{filename|parentdir}}."
 
 #: weblate/trans/models/component.py:299
 msgid "Exported repository URL"
