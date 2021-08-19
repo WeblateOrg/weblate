@@ -24,8 +24,8 @@ msgstr ""
 "Project-Id-Version: Weblate 4.8\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-08-19 07:57+0000\n"
-"PO-Revision-Date: 2021-08-10 13:33+0000\n"
-"Last-Translator: Ihor Hordiichuk <igor_ck@outlook.com>\n"
+"PO-Revision-Date: 2021-08-19 13:20+0000\n"
+"Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/"
 "application/uk/>\n"
 "Language: uk\n"
@@ -3103,10 +3103,8 @@ msgid "gettext PO"
 msgstr "gettext PO"
 
 #: weblate/formats/exporters.py:248
-#, fuzzy
-#| msgid "XLIFF with gettext extensions"
 msgid "XLIFF 1.1 with gettext extensions"
-msgstr "XLIFF із розширеннями gettext"
+msgstr "XLIFF 1.1 із розширеннями gettext"
 
 #: weblate/formats/exporters.py:279
 msgid "XLIFF 1.1"
@@ -3297,10 +3295,8 @@ msgid "Stringsdict file"
 msgstr "Файл Stringsdict"
 
 #: weblate/formats/ttkit.py:1842
-#, fuzzy
-#| msgid "Font file"
 msgid "Fluent file"
-msgstr "Файл шрифту"
+msgstr "Файл Fluent"
 
 #: weblate/formats/txt.py:176
 msgid "App store metadata files"
@@ -3319,8 +3315,6 @@ msgid "String will be part of the glossary in all languages"
 msgstr "Рядок стане частиною глосарію всіх мов"
 
 #: weblate/glossary/forms.py:55
-#, fuzzy
-#| msgid "Not translatable term"
 msgid "Untranslatable term"
 msgstr "Термін, який не слід перекладати"
 
@@ -8868,34 +8862,25 @@ msgid "This project does no longer fit into libre hosting conditions."
 msgstr "Цей проєкт більше не задовольняє умовам вільного розміщення."
 
 #: weblate/templates/trans/alert/nomaskmatches.html:2
-#, fuzzy
-#| msgid "This component set up is incomplete as it lacks translations."
 msgid "This component set up is incomplete, as it lacks any translations."
-msgstr "Цей компонент не завершено, оскільки у ньому бракує перекладів."
+msgstr "Цей складник не завершено, оскільки у ньому немає ніяких перекладів."
 
 #: weblate/templates/trans/alert/nomaskmatches.html:6
-#, fuzzy
-#| msgid ""
-#| "Create new translations directly in Weblate, it will create files based "
-#| "on the file mask."
 msgid ""
 "Starting new translations directly in Weblate is possible, and creates files "
 "based on the filemask."
 msgstr ""
-"Створити нові переклади безпосередньо на Weblate. Програма створить файли на "
-"основі маски файлів."
+"Переклад можна розпочати безпосередньо на Weblate. Програма створить файли "
+"на основі маски файлів."
 
 #: weblate/templates/trans/alert/nomaskmatches.html:8
-#, fuzzy, python-format
-#| msgid ""
-#| "Check whether file mask <code>%(filemask)s</code> matches files in your "
-#| "repository."
+#, python-format
 msgid ""
 "Check whether the filemask <code>%(filemask)s</code> matches files in your "
 "version control system repository."
 msgstr ""
 "Перевірте, чи відповідає маска файлів <code>%(filemask)s</code> файлам у "
-"вашому сховищі."
+"вашому сховищі системи керування версіями."
 
 #. Translators: This is shown when an alert contains too many occurences, the count will be always at least 100
 #: weblate/templates/trans/alert/occurrences-limit.html:5
@@ -9079,7 +9064,7 @@ msgstr ""
 
 #: weblate/templates/trans/component_create.html:92
 msgid "The filenames within the archive need to have locale codes in them."
-msgstr ""
+msgstr "У назвах файлів архіву мають бути коди локалей."
 
 #: weblate/templates/trans/component_create.html:105
 msgid ""
@@ -11043,17 +11028,15 @@ msgid "Repository browser"
 msgstr "Переглядач сховища"
 
 #: weblate/trans/models/component.py:291
-#, fuzzy
-#| msgid ""
-#| "Link to repository browser, use {{branch}} for branch, {{filename}} and "
-#| "{{line}} as filename and line placeholders."
 msgid ""
 "Link to repository browser, use {{branch}} for branch, {{filename}} and "
 "{{line}} as filename and line placeholders. You might want to strip leading "
 "directory by using {{filename|parentdir}}."
 msgstr ""
 "Посилання на браузер сховища, використовуйте {{branch}} для гілки, "
-"{{filename}} та {{line}} як заповнювачі для імені файлу і рядка."
+"{{filename}} та {{line}} як заповнювачі для імені файлу і рядка. Можливо, "
+"вам варто усунути початковий каталог за допомогою використання "
+"{{filename|parentdir}}."
 
 #: weblate/trans/models/component.py:299
 msgid "Exported repository URL"
