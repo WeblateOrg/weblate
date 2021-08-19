@@ -30,7 +30,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.8\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-08-19 07:57+0000\n"
-"PO-Revision-Date: 2021-08-19 07:57+0000\n"
+"PO-Revision-Date: 2021-08-19 13:20+0000\n"
 "Last-Translator: Agnieszka C <aga_04@o2.pl>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/weblate/"
 "application/pl/>\n"
@@ -3106,10 +3106,8 @@ msgid "gettext PO"
 msgstr "gettext PO"
 
 #: weblate/formats/exporters.py:248
-#, fuzzy
-#| msgid "XLIFF with gettext extensions"
 msgid "XLIFF 1.1 with gettext extensions"
-msgstr "XLIFF z rozszerzeniami gettext"
+msgstr "XLIFF 1.1 z rozszerzeniami gettext"
 
 #: weblate/formats/exporters.py:279
 msgid "XLIFF 1.1"
@@ -3300,10 +3298,8 @@ msgid "Stringsdict file"
 msgstr "Plik Stringsdict"
 
 #: weblate/formats/ttkit.py:1842
-#, fuzzy
-#| msgid "Font file"
 msgid "Fluent file"
-msgstr "Plik czcionki"
+msgstr "Plik Fluent"
 
 #: weblate/formats/txt.py:176
 msgid "App store metadata files"
@@ -3322,8 +3318,6 @@ msgid "String will be part of the glossary in all languages"
 msgstr "Ciąg będzie częścią słownika we wszystkich językach"
 
 #: weblate/glossary/forms.py:55
-#, fuzzy
-#| msgid "Not translatable term"
 msgid "Untranslatable term"
 msgstr "Termin nieprzetłumaczalny"
 
@@ -8830,36 +8824,27 @@ msgid "This project does no longer fit into libre hosting conditions."
 msgstr "Ten projekt nie spełnia już warunków wolnego hostingu."
 
 #: weblate/templates/trans/alert/nomaskmatches.html:2
-#, fuzzy
-#| msgid "This component set up is incomplete as it lacks translations."
 msgid "This component set up is incomplete, as it lacks any translations."
 msgstr ""
-"Konfiguracja tego komponentu jest niekompletna, ponieważ brakuje w nim "
-"tłumaczeń."
+"Konfiguracja tego komponentu jest niekompletna, ponieważ brakuje w niej "
+"jakichkolwiek tłumaczeń."
 
 #: weblate/templates/trans/alert/nomaskmatches.html:6
-#, fuzzy
-#| msgid ""
-#| "Create new translations directly in Weblate, it will create files based "
-#| "on the file mask."
 msgid ""
 "Starting new translations directly in Weblate is possible, and creates files "
 "based on the filemask."
 msgstr ""
-"Tworzenie nowych tłumaczeń bezpośrednio w Weblate, będzie tworzyć pliki na "
-"podstawie maski pliku."
+"Możliwe jest rozpoczynanie nowych tłumaczeń bezpośrednio w Weblate i tworzy "
+"pliki na podstawie maski pliku."
 
 #: weblate/templates/trans/alert/nomaskmatches.html:8
-#, fuzzy, python-format
-#| msgid ""
-#| "Check whether file mask <code>%(filemask)s</code> matches files in your "
-#| "repository."
+#, python-format
 msgid ""
 "Check whether the filemask <code>%(filemask)s</code> matches files in your "
 "version control system repository."
 msgstr ""
-"Sprawdź, czy maska pliku <code>%(filemask)s</code> dopasowuje pliki w "
-"repozytorium."
+"Sprawdź, czy maska pliku <code>%(filemask)s</code> pasuje do plików w "
+"repozytorium systemu kontroli wersji."
 
 #. Translators: This is shown when an alert contains too many occurences, the count will be always at least 100
 #: weblate/templates/trans/alert/occurrences-limit.html:5
@@ -9044,7 +9029,7 @@ msgstr ""
 
 #: weblate/templates/trans/component_create.html:92
 msgid "The filenames within the archive need to have locale codes in them."
-msgstr ""
+msgstr "Nazwy plików w archiwum muszą zawierać kody regionalne."
 
 #: weblate/templates/trans/component_create.html:105
 msgid ""
@@ -11007,17 +10992,14 @@ msgid "Repository browser"
 msgstr "Przeglądarka repozytorium"
 
 #: weblate/trans/models/component.py:291
-#, fuzzy
-#| msgid ""
-#| "Link to repository browser, use {{branch}} for branch, {{filename}} and "
-#| "{{line}} as filename and line placeholders."
 msgid ""
 "Link to repository browser, use {{branch}} for branch, {{filename}} and "
 "{{line}} as filename and line placeholders. You might want to strip leading "
 "directory by using {{filename|parentdir}}."
 msgstr ""
-"Link do przeglądarki repozytorium, użyj {{branch}} dla oddziału, "
-"{{filename}} i {{line}} jako nazwy plików i symbole zastępcze linii."
+"Link do przeglądarki repozytorium, użyj {{branch}} dla gałęzi, {{filename}} "
+"i {{line}} jako nazwy pliku i symboli zastępczych linii. Możesz usunąć "
+"katalog wiodący, używając {{filename|parentdir}}."
 
 #: weblate/trans/models/component.py:299
 msgid "Exported repository URL"
