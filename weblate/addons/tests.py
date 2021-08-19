@@ -484,7 +484,7 @@ class JsonAddonTest(ViewTestCase):
 
     def test_customize(self):
         JSONCustomizeAddon.create(
-            self.component, configuration={"indent": 8, "sort": 1}
+            self.component, configuration={"indent": 8, "sort": 1, "style": "spaces"}
         )
         rev = self.component.repository.last_revision
         self.edit_unit("Hello, world!\n", "Nazdar svete!\n")
@@ -492,6 +492,17 @@ class JsonAddonTest(ViewTestCase):
         self.assertNotEqual(rev, self.component.repository.last_revision)
         commit = self.component.repository.show(self.component.repository.last_revision)
         self.assertIn('        "try"', commit)
+
+    def test_customize_tabs(self):
+        JSONCustomizeAddon.create(
+            self.component, configuration={"indent": 8, "sort": 1, "style": "tabs"}
+        )
+        rev = self.component.repository.last_revision
+        self.edit_unit("Hello, world!\n", "Nazdar svete!\n")
+        self.get_translation().commit_pending("test", None)
+        self.assertNotEqual(rev, self.component.repository.last_revision)
+        commit = self.component.repository.show(self.component.repository.last_revision)
+        self.assertIn('\t\t\t\t\t\t\t\t"try"', commit)
 
 
 class YAMLAddonTest(ViewTestCase):

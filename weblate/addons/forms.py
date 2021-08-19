@@ -189,6 +189,15 @@ class JSONCustomizeForm(BaseAddonForm):
     indent = forms.IntegerField(
         label=_("JSON indentation"), min_value=0, initial=4, required=True
     )
+    style = forms.ChoiceField(
+        label=_("JSON indentation style"),
+        choices=[
+            ("spaces", _("Spaces")),
+            ("tabs", _("Tabs")),
+        ],
+        required=True,
+        initial="space",
+    )
 
 
 class YAMLCustomizeForm(BaseAddonForm):

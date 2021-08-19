@@ -44,5 +44,10 @@ class JSONCustomizeAddon(StoreBaseAddon):
 
     def store_post_load(self, translation, store):
         config = self.instance.configuration
-        store.store.dump_args["indent"] = int(config.get("indent", 4))
+        style = config.get("style", "spaces")
+        indent = int(config.get("indent", 4))
+        if style == "spaces":
+            store.store.dump_args["indent"] = indent
+        else:
+            store.store.dump_args["indent"] = "\t" * indent
         store.store.dump_args["sort_keys"] = bool(int(config.get("sort_keys", 0)))

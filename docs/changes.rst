@@ -14,6 +14,7 @@ Released on August 21th 2021.
 * Fixed squash add-on sometimes skipping parsing upstream changes.
 * Preserve file extension on download.
 * Added support for the Fluent format.
+* Add support for using tabs to indent JSON formats.
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/67?closed=1>`__.
 
