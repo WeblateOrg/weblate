@@ -35,6 +35,7 @@ from weblate.formats.ttkit import (
     CSVSimpleFormat,
     DTDFormat,
     FlatXMLFormat,
+    FluentFormat,
     GWTFormat,
     INIFormat,
     InnoSetupINIFormat,
@@ -100,6 +101,7 @@ TEST_XWIKI_PAGE_PROPERTIES_SOURCE = get_test_file("XWikiPagePropertiesSource.xml
 TEST_XWIKI_FULL_PAGE = get_test_file("XWikiFullPage.xml")
 TEST_XWIKI_FULL_PAGE_SOURCE = get_test_file("XWikiFullPageSource.xml")
 TEST_STRINGSDICT = get_test_file("cs.stringsdict")
+TEST_FLUENT = get_test_file("cs.ftl")
 
 
 class AutoLoadTest(TestCase):
@@ -1177,3 +1179,21 @@ class StringsdictFormatTest(XMLMixin, AutoFormatTest):
                 "Zero",
                 f"Invalid plural name for {language.code}: {plural.formula}",
             )
+
+
+class FluentFormatTest(AutoFormatTest):
+    FORMAT = FluentFormat
+    FILE = TEST_FLUENT
+    MIME = "text/x-fluent"
+    EXT = "ftl"
+    COUNT = 4
+    MATCH = ""
+    MASK = "locales/*/messages.ftl"
+    EXPECTED_PATH = "locales/cs_CZ/messages.ftl"
+    BASE = ""
+    FIND = 'Ahoj "světe"!\\n'
+    FIND_CONTEXT = "hello"
+    FIND_MATCH = 'Ahoj "světe"!\\n'
+    NEW_UNIT_MATCH = b"\nkey = Source string"
+    MONOLINGUAL = True
+    EXPECTED_FLAGS = ""

@@ -1830,3 +1830,38 @@ class StringsdictFormat(TTKitFormat):
                 "number": plural.number + 1,
             },
         )[0]
+
+
+class FluentUnit(MonolingualSimpleUnit):
+    def set_target(self, target):
+        super().set_target(target)
+        self.unit.source = target
+
+
+class FluentFormat(TTKitFormat):
+    name = _("Fluent file")
+    format_id = "fluent"
+    loader = ("fluent", "FluentFile")
+    unit_class = FluentUnit
+    autoload: Tuple[str, ...] = ("*.ftl",)
+    new_translation = ""
+
+    @staticmethod
+    def mimetype():
+        """Return most common media type for format."""
+        return "text/x-fluent"
+
+    @staticmethod
+    def extension():
+        """Return most common file extension for format."""
+        return "ftl"
+
+    def create_unit(
+        self,
+        key: str,
+        source: Union[str, List[str]],
+        target: Optional[Union[str, List[str]]] = None,
+    ):
+        unit = super().create_unit(key, source, target)
+        unit.source = unit.target
+        return unit

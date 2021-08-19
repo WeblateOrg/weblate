@@ -126,6 +126,8 @@ Capabilities of all supported formats:
 +---------------------+------------------+---------------+----------------+---------------+----------------+----------------+-------------------------+
 | :ref:`stringsdict`  | mono             | yes           | yes            | no            | no             | no             |                         |
 +---------------------+------------------+---------------+----------------+---------------+----------------+----------------+-------------------------+
+| :ref:`fluent`       | mono             | no [#fp]_     | yes            | no            | no             | no             |                         |
++---------------------+------------------+---------------+----------------+---------------+----------------+----------------+-------------------------+
 
 .. [#m] See :ref:`bimono`
 .. [#p] Plurals are necessary to properly localize strings with variable count.
@@ -138,6 +140,7 @@ Capabilities of all supported formats:
 .. [#po] The gettext type comments are used as flags.
 .. [#xl] The flags are extracted from the non-standard attribute ``weblate-flags`` for all XML based formats. Additionally ``max-length:N`` is supported through the ``maxwidth`` `attribute <http://docs.oasis-open.org/xliff/v1.2/os/xliff-core.html#maxwidth>`_ as defined in the XLIFF standard, see :ref:`xliff-flags`.
 .. [#lp] The plurals are supported only for Laravel which uses in string syntax to define them, see `Localization in Laravel`_.
+.. [#fp] Plurals are handled in the syntax of the strings and not exposed as plurals in Weblate.
 
 .. _read-only-strings:
 
@@ -1519,6 +1522,40 @@ XML based format used by Apple which is able to store plural forms of a string.
 
    :ref:`apple`,
    `Stringsdict File Format <https://developer.apple.com/library/archive/documentation/MacOSX/Conceptual/BPInternational/StringsdictFileFormat/StringsdictFileFormat.html>`_,
+
+
+.. _fluent:
+
+Fluent format
+-------------
+
+.. versionadded:: 4.8
+
+.. note::
+
+   Support for this format is currently in beta, feedback from testing is welcome.
+
+Fluent is a monolingual text format that focuses on asymmetric localization: a
+simple string in one language can map to a complex multi-variant translation in
+another language.
+
++-----------------------------------------------------------------------------------+
+| Typical Weblate :ref:`component`                                                  |
++================================+==================================================+
+| Filemask                       |``locales/*/messages.ftl``                        |
++--------------------------------+--------------------------------------------------+
+| Monolingual base language file |``locales/en/messages.ftl``                       |
++--------------------------------+--------------------------------------------------+
+| Template for new translations  | `Empty`                                          |
++--------------------------------+--------------------------------------------------+
+| File format                    | `Fluent file`                                    |
++--------------------------------+--------------------------------------------------+
+
+
+.. seealso::
+
+
+   `Project Fluent website <https://projectfluent.org/>`_
 
 
 Supporting other formats

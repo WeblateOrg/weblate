@@ -13,6 +13,7 @@ Not yet released.
 * Improved performance in hadling variants.
 * Fixed squash add-on sometimes skipping parsing upstream changes.
 * Preserve file extension on download.
+* Added support for the Fluent format.
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/67?closed=1>`__.
 
