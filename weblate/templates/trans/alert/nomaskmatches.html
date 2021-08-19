@@ -1,9 +1,9 @@
 {% load i18n %}
-<p>{% trans "This component set up is incomplete as it lacks translations." %}</p>
+<p>{% trans "This component set up is incomplete, as it lacks any translations." %}</p>
 
 <ul>
   {% if analysis.can_add %}
-    <li>{% trans "Create new translations directly in Weblate, it will create files based on the file mask." %}</li>
+    <li>{% trans "Starting new translations directly in Weblate is possible, and creates files based on the filemask." %}</li>
   {% endif %}
-  <li>{% blocktrans with filemask=component.filemask %}Check whether file mask <code>{{ filemask }}</code> matches files in your repository.{% endblocktrans %}</li>
+  <li>{% blocktrans with filemask=component.filemask %}Check whether the filemask <code>{{ filemask }}</code> matches files in your version control system repository.{% endblocktrans %}</li>
 </ul>
