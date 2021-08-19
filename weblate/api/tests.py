@@ -89,7 +89,7 @@ class APIBaseTest(APITestCase, RepoTestMixin):
         project = Project.objects.create(
             name="ACL", slug="acl", access_control=Project.ACCESS_PRIVATE
         )
-        self._create_component(
+        return self._create_component(
             "po-mono", "po-mono/*.po", "po-mono/en.po", project=project
         )
 
@@ -2372,7 +2372,8 @@ class TranslationAPITest(APIBaseTest):
         self.test_autotranslate("json")
 
     def test_add_monolingual(self):
-        self.create_acl()
+        component = self.create_acl()
+        self.assertEqual(component.source_translation.unit_set.count(), 4)
         self.do_request(
             "api:translation-units",
             {
@@ -2385,6 +2386,7 @@ class TranslationAPITest(APIBaseTest):
             request={"key": "key", "value": "Source Language"},
             code=403,
         )
+        self.assertEqual(component.source_translation.unit_set.count(), 4)
         self.do_request(
             "api:translation-units",
             {
@@ -2397,6 +2399,14 @@ class TranslationAPITest(APIBaseTest):
             request={"key": "key", "value": "Source Language"},
             code=200,
         )
+        self.assertEqual(component.source_translation.unit_set.count(), 5)
+        unit = Unit.objects.get(
+            translation__component=component,
+            translation__language_code="cs",
+            context="key",
+        )
+        self.assertEqual(unit.source, "Source Language")
+        self.assertEqual(unit.target, "")
         self.do_request(
             "api:translation-units",
             {
@@ -2409,6 +2419,7 @@ class TranslationAPITest(APIBaseTest):
             request={"key": "key", "value": "Source Language"},
             code=400,
         )
+        self.assertEqual(component.source_translation.unit_set.count(), 5)
         self.do_request(
             "api:translation-units",
             {
@@ -2422,6 +2433,7 @@ class TranslationAPITest(APIBaseTest):
             request={"key": "plural", "value": ["Source Language", "Source Lanugages"]},
             code=200,
         )
+        self.assertEqual(component.source_translation.unit_set.count(), 6)
 
     def test_add_bilingual(self):
         self.do_request(
