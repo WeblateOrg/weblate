@@ -348,8 +348,9 @@ When empty, no such links will be generated. You can use :ref:`markup`.
 For example on GitHub, use something like:
 ``https://github.com/WeblateOrg/hello/blob/{{branch}}/{{filename}}#L{{line}}``
 
-In case your paths are relative to different folder, you might want to strip leading
-directory by ``parentdir`` filter (see :ref:`markup`):
+In case your paths are relative to different folder (path contains ``..``), you
+might want to strip leading directory by ``parentdir`` filter (see
+:ref:`markup`):
 ``https://github.com/WeblateOrg/hello/blob/{{branch}}/{{filename|parentdir}}#L{{line}}``
 
 .. _component-git_export:

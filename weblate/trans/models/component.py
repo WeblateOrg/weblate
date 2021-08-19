@@ -289,7 +289,8 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
         verbose_name=gettext_lazy("Repository browser"),
         help_text=gettext_lazy(
             "Link to repository browser, use {{branch}} for branch, "
-            "{{filename}} and {{line}} as filename and line placeholders."
+            "{{filename}} and {{line}} as filename and line placeholders. "
+            "You might want to strip leading directory by using {{filename|parentdir}}."
         ),
         validators=[validate_repoweb],
         blank=True,
