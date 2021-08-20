@@ -119,7 +119,7 @@ maintenance` lets you manipulate with the repository.
 
    With :doc:`/admin/continuous` the repository is automatically pushed
    whenever there are changes and there is usually no need to manually
-   manipupate with it.
+   manipulate with it.
 
 .. image:: /screenshots/component-repository.png
 
