@@ -63,6 +63,7 @@ class AcceleratorKeyCheckTest(CheckTestCase):
         self.do_test(True, ("String", "Str_ing", ""))
         self.do_test(True, ("S_tring", "S_tr_ing", ""))
 
+        self.do_test(True, ("S&tr&ing", "S&tr&ing", ""))
         self.do_test(True, ("S&tring", "S_tring", ""))
 
 class BeginNewlineCheckTest(CheckTestCase):
