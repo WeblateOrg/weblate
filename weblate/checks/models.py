@@ -45,6 +45,7 @@ class WeblateChecksConf(AppConf):
     # List of quality checks
     CHECK_LIST = (
         "weblate.checks.same.SameCheck",
+        "weblate.checks.chars.AcceleratorKeyCheck",
         "weblate.checks.chars.BeginNewlineCheck",
         "weblate.checks.chars.EndNewlineCheck",
         "weblate.checks.chars.BeginSpaceCheck",

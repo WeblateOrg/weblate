@@ -23,6 +23,7 @@
 from unittest import TestCase
 
 from weblate.checks.chars import (
+    AcceleratorKeyCheck,
     BeginNewlineCheck,
     BeginSpaceCheck,
     DoubleSpaceCheck,
@@ -43,6 +44,26 @@ from weblate.checks.chars import (
 )
 from weblate.checks.tests.test_checks import CheckTestCase, MockUnit
 
+class AcceleratorKeyCheckTest(CheckTestCase):
+    check = AcceleratorKeyCheck()
+
+    def setUp(self):
+        super().setUp()
+
+        self.do_test(False, ("String", "String", ""))
+        self.do_test(False, ("Walter & Sons", "Walter & Sons", ""))
+
+        self.do_test(False, ("S&tring", "Str&ing", ""))
+        self.do_test(True, ("S&tring", "String", ""))
+        self.do_test(True, ("String", "Str&ing", ""))
+        self.do_test(True, ("S&tring", "S&tr&ing", ""))
+
+        self.do_test(False, ("S_tring", "Str_ing", ""))
+        self.do_test(True, ("S_tring", "String", ""))
+        self.do_test(True, ("String", "Str_ing", ""))
+        self.do_test(True, ("S_tring", "S_tr_ing", ""))
+
+        self.do_test(True, ("S&tring", "S_tring", ""))
 
 class BeginNewlineCheckTest(CheckTestCase):
     check = BeginNewlineCheck()
