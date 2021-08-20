@@ -79,7 +79,7 @@ in the management panel:
 
 .. image:: /screenshots/support-discovery.png
 
-Listing your server without a support subsription in Discover Weblate:
+Listing your server without a support subscription in Discover Weblate:
 
 1. Register yourself at <https://weblate.org/user/>
 2. Register your Weblate server in the discovery database at <https://weblate.org/subscription/discovery/>
