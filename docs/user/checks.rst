@@ -60,7 +60,7 @@ Checks that source and translation both contain zero or one accelerator key.
 
 .. note::
 
-    A string like 'Walter & Sons' may be translated without the ampersand and 
+    A string like 'Walter & Sons' may be translated without the ampersand and
     may trigger a false positive.
 
 .. _check-bbcode:

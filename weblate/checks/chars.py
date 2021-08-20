@@ -38,18 +38,22 @@ KASHIDA_CHARS = (
 )
 FRENCH_PUNCTUATION = {";", ":", "?", "!"}
 
+
 class AcceleratorKeyCheck(TargetCheck):
     """Check for inconsistent accelerator keys."""
 
     check_id = "accelerators"
     name = _("Accelerator key")
     description = _("Source and translation do not both contain an accelerator key")
-    
+
     def _check_accelerator(self, source, target, key):
         return (target.count(key) > 1) or (source.count(key) != target.count(key))
 
     def check_single(self, source, target, unit):
-        return self._check_accelerator(source, target, "&") or self._check_accelerator(source, target, "_")
+        return self._check_accelerator(source, target, "&") or self._check_accelerator(
+            source, target, "_"
+        )
+
 
 class BeginNewlineCheck(TargetCheck):
     """Check for newlines at beginning."""

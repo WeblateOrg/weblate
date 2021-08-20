@@ -44,6 +44,7 @@ from weblate.checks.chars import (
 )
 from weblate.checks.tests.test_checks import CheckTestCase, MockUnit
 
+
 class AcceleratorKeyCheckTest(CheckTestCase):
     check = AcceleratorKeyCheck()
 
@@ -65,6 +66,7 @@ class AcceleratorKeyCheckTest(CheckTestCase):
 
         self.do_test(True, ("S&tr&ing", "S&tr&ing", ""))
         self.do_test(True, ("S&tring", "S_tring", ""))
+
 
 class BeginNewlineCheckTest(CheckTestCase):
     check = BeginNewlineCheck()
