@@ -25,7 +25,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.8\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-08-19 07:57+0000\n"
-"PO-Revision-Date: 2021-08-20 12:47+0000\n"
+"PO-Revision-Date: 2021-08-20 18:14+0000\n"
 "Last-Translator: Tetsuro Shimazaki <shimazaki@shima-office.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "application/ja/>\n"
@@ -3911,7 +3911,7 @@ msgstr "リクエストの処理中に、サーバ上で深刻な問題があり
 msgid ""
 "The server had serious problems serving your request. You might want to "
 "contact server admins in case the error persists."
-msgstr "リクエストの処理中に、サーバ上で深刻な発生しました。エラーが継続する場合は、サーバー管理者に連絡してください。"
+msgstr "リクエストの処理中に、サーバ上で深刻な問題が発生しました。エラーが続く場合は、サーバー管理者に連絡してください。"
 
 #: weblate/templates/about/index.html:5 weblate/templates/about/index.html:11
 #: weblate/templates/about/keys.html:6 weblate/templates/about/stats.html:7
@@ -4765,10 +4765,8 @@ msgstr "永久にブロック"
 
 #: weblate/templates/accounts/user.html:273
 #: weblate/templates/manage-access.html:106
-#, fuzzy
-#| msgid "Unlock"
 msgid "Unblock user"
-msgstr "ロック解除"
+msgstr "ブロック解除"
 
 #: weblate/templates/accounts/user.html:289
 #: weblate/templates/fonts/font_detail.html:31
@@ -7243,16 +7241,12 @@ msgid "Content encoding"
 msgstr "内容のエンコーディング"
 
 #: weblate/templates/manage/performance.html:149
-#, fuzzy
-#| msgid "Activity"
 msgid "Connectivity"
 msgstr "作業履歴のグラフ"
 
 #: weblate/templates/manage/performance.html:155
-#, fuzzy
-#| msgid "Database backend"
 msgid "Database latency"
-msgstr "データベースのバックエンド"
+msgstr "データベースの遅延時間"
 
 #: weblate/templates/manage/performance.html:159
 msgid "Cache latency"
@@ -7383,8 +7377,6 @@ msgid "Generate a test event to test Sentry integration."
 msgstr "Sentry の統合を試験するためにテスト イベントを生成します。"
 
 #: weblate/templates/manage/users.html:28
-#, fuzzy
-#| msgid "Add a user"
 msgid "Add new user"
 msgstr "ユーザーの追加"
 
@@ -8446,10 +8438,8 @@ msgid "The source string cannot be edited."
 msgstr "原文の編集はできません。"
 
 #: weblate/templates/snippets/user-list.html:19 weblate/trans/forms.py:162
-#, fuzzy
-#| msgid "Could not find reverted change."
 msgid "Could not find any such user."
-msgstr "巻き戻した変更が見つかりません。"
+msgstr "該当ユーザーはありません。"
 
 #: weblate/templates/snippets/watch-dropdown.html:9
 msgid "Watching"
@@ -8686,8 +8676,6 @@ msgid "This project does no longer fit into libre hosting conditions."
 msgstr "このプロジェクトは、Libre ホスティング条件に合わなくなりました。"
 
 #: weblate/templates/trans/alert/nomaskmatches.html:2
-#, fuzzy
-#| msgid "This component set up is incomplete as it lacks translations."
 msgid "This component set up is incomplete, as it lacks any translations."
 msgstr "翻訳がないため、このコンポーネントの設定は不完全です。"
 
@@ -8704,16 +8692,12 @@ msgstr ""
 "てファイルが作成されます。"
 
 #: weblate/templates/trans/alert/nomaskmatches.html:8
-#, fuzzy, python-format
-#| msgid ""
-#| "Check whether file mask <code>%(filemask)s</code> matches files in your "
-#| "repository."
+#, python-format
 msgid ""
 "Check whether the filemask <code>%(filemask)s</code> matches files in your "
 "version control system repository."
 msgstr ""
-"ファイル マスク <code>%(filemask)s</code> がリポジトリ内のファイルと一致する"
-"かどうかを確認します。"
+"ファイル マスク <code>%(filemask)s</code> がバージョン管理システム リポジトリ内のファイルと一致するかどうかを確認します。"
 
 #. Translators: This is shown when an alert contains too many occurences, the count will be always at least 100
 #: weblate/templates/trans/alert/occurrences-limit.html:5
@@ -9716,10 +9700,8 @@ msgid "Missing query string."
 msgstr "クエリ文字列がありません。"
 
 #: weblate/trans/forms.py:185
-#, fuzzy
-#| msgid "Failed to parse query string: {}"
 msgid "Could not parse query string: {}"
-msgstr "解析に失敗したクエリ文字列: {}"
+msgstr "解析できないクエリ文字列: {}"
 
 #: weblate/trans/forms.py:228 weblate/trans/forms.py:236
 msgid "Toggle text direction"
@@ -10955,14 +10937,8 @@ msgid "Translation flags"
 msgstr "翻訳フラグ"
 
 #: weblate/trans/models/component.py:429 weblate/trans/models/unit.py:310
-#, fuzzy
-#| msgid ""
-#| "Additional comma-separated flags to influence quality checks. Possible "
-#| "values can be found in the documentation."
 msgid "Additional comma-separated flags to influence Weblate behavior."
-msgstr ""
-"翻訳検査に影響する、カンマで区切られた追加のフラグ。使用可能な値については、"
-"ドキュメントを参照してください。"
+msgstr "Weblate の動作に影響を与える追加のコンマ区切りフラグ。"
 
 #: weblate/trans/models/component.py:435
 msgid "Enforced checks"
@@ -12379,10 +12355,8 @@ msgid "Silver"
 msgstr "銀"
 
 #: weblate/utils/fields.py:92
-#, fuzzy
-#| msgid "A user with that username already exists."
 msgid "A user with this e-mail already exists."
-msgstr "指定したユーザー名はすでに存在しています。"
+msgstr "指定したメールアドレスはすでに存在しています。"
 
 #: weblate/utils/render.py:44
 #, python-format
