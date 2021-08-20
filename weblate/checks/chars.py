@@ -41,7 +41,7 @@ FRENCH_PUNCTUATION = {";", ":", "?", "!"}
 class AcceleratorKeyCheck(TargetCheck):
     """Check for inconsistent accelerator keys."""
 
-    check_id = "accelerator key"
+    check_id = "accelerators"
     name = _("Accelerator key")
     description = _("Source and translation do not both contain an accelerator key")
     
