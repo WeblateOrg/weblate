@@ -2,7 +2,7 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # Domen <mitenem@outlook.com>, 2018, 2019, 2020.
-# Štefan Baebler <stefan.baebler@gmail.com>, 2019, 2020.
+# Štefan Baebler <stefan.baebler@gmail.com>, 2019, 2020, 2021.
 # Allan Nordhøy <epost@anotheragency.no>, 2019.
 # anonymous <noreply@weblate.org>, 2019.
 # Alexander Danilov <git@modos189.ru>, 2020.
@@ -13,8 +13,8 @@ msgstr ""
 "Project-Id-Version: Weblate 4.8\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-08-19 07:57+0000\n"
-"PO-Revision-Date: 2021-06-27 15:42+0000\n"
-"Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
+"PO-Revision-Date: 2021-08-20 18:14+0000\n"
+"Last-Translator: Štefan Baebler <stefan.baebler@gmail.com>\n"
 "Language-Team: Slovenian <https://hosted.weblate.org/projects/weblate/"
 "application/sl/>\n"
 "Language: sl\n"
@@ -23,7 +23,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n"
 "%100==4 ? 2 : 3;\n"
-"X-Generator: Weblate 4.7.1-dev\n"
+"X-Generator: Weblate 4.8-dev\n"
 
 #: weblate/accounts/avatar.py:103
 msgctxt "No known user"
@@ -403,11 +403,13 @@ msgid ""
 "The system created a user to track authorship of translations uploaded by "
 "other user."
 msgstr ""
+"Sistem je ustvaril uporabnika za sledenje avtorstvu prevodov, ki jih je "
+"naložil drug uporabnik."
 
 #: weblate/accounts/models.py:169
 #, python-brace-format
 msgid "Access to project {project} was blocked"
-msgstr ""
+msgstr "Dostop do projekta {project} je bil onemogočen"
 
 #: weblate/accounts/models.py:174
 msgid "Configured password to sign in."
@@ -431,7 +433,7 @@ msgstr "Da obnovite dostop do svojega računa, ponastavite svoje geslo."
 
 #: weblate/accounts/models.py:184
 msgid "Please contact project maintainers if you feel this is inappropriate."
-msgstr ""
+msgstr "Če menite, da to ni primerno, se obrnite na vzdrževalce projektov."
 
 #: weblate/accounts/models.py:306 weblate/templates/accounts/profile.html:227
 #: weblate/templates/accounts/user.html:223
@@ -2361,10 +2363,8 @@ msgid "Project"
 msgstr "Projekt"
 
 #: weblate/auth/models.py:662
-#, fuzzy
-#| msgid "Lock expires:"
 msgid "Block expiry"
-msgstr "Zaklep poteče:"
+msgstr "Potek zaklepa"
 
 #: weblate/billing/admin.py:82 weblate/templates/billing/list.html:8
 #: weblate/templates/billing/status.html:112
@@ -3239,10 +3239,8 @@ msgid "The translations in several languages have failing checks"
 msgstr "Prevodi v več jezikih imajo spodletela preverjanja"
 
 #: weblate/checks/source.py:92
-#, fuzzy
-#| msgid "Failing checks found"
 msgid "Following checks are failing:"
-msgstr "Nekatera preverjanja niso uspela"
+msgstr "Spodletela preverjanja:"
 
 #: weblate/checks/source.py:109
 msgid "Long untranslated"
@@ -5386,10 +5384,8 @@ msgid "repository wide"
 msgstr "Podrobnosti shrambe"
 
 #: weblate/templates/addons/addon_list.html:18
-#, fuzzy
-#| msgid "Enable addon:"
 msgid "Installed add-ons"
-msgstr "Omogoči dodatek:"
+msgstr "Nameščeni dodatki"
 
 #: weblate/templates/addons/addon_list.html:28
 msgid "Uninstall"
@@ -5420,10 +5416,8 @@ msgstr[2] "Tukaj so %(count)s prevedeni nizi."
 msgstr[3] "Tukaj je %(count)s prevedenih nizov."
 
 #: weblate/templates/addons/addon_list.html:51
-#, fuzzy
-#| msgid "Enable addon:"
 msgid "Available add-ons"
-msgstr "Omogoči dodatek:"
+msgstr "Razpoložljivi dodatki"
 
 #: weblate/templates/addons/addon_list.html:61
 msgid "Install"
@@ -5521,22 +5515,16 @@ msgid "Matched files"
 msgstr "Spremljani projekti"
 
 #: weblate/templates/addons/discovery_preview.html:9
-#, fuzzy
-#| msgid "The following translation components will be removed:"
 msgid "The following components would be deleted"
-msgstr "Naslednje prevajane komponente bodo odstranjene:"
+msgstr "Naslednje komponente bodo odstranjene"
 
 #: weblate/templates/addons/discovery_preview.html:15
-#, fuzzy
-#| msgid "The following translation components will be removed:"
 msgid "The following components would be created"
-msgstr "Naslednje prevajane komponente bodo odstranjene:"
+msgstr "Naslednje komponente bodo ustvarjene"
 
 #: weblate/templates/addons/discovery_preview.html:28
-#, fuzzy
-#| msgid "The following translation components will be removed:"
 msgid "The following components matched existing ones"
-msgstr "Naslednje prevajane komponente bodo odstranjene:"
+msgstr "Naslednje komponente se ujemajo z obstoječimi"
 
 #: weblate/templates/addons/discovery_preview.html:41
 #, fuzzy
@@ -6666,10 +6654,8 @@ msgid "Hook"
 msgstr "Zanka"
 
 #: weblate/templates/data.html:123
-#, fuzzy
-#| msgid "Pull changes from the remote repository"
 msgid "You pull changes from a remote repository to Weblate like this:"
-msgstr "Povleci spremembe iz oddaljenih shramb"
+msgstr "Spremembe iz oddaljenih shramb povlecite v Weblate takole:"
 
 #: weblate/templates/data.html:132
 #, fuzzy
@@ -9175,14 +9161,13 @@ msgid "%(value)s of %(all)s"
 msgstr "Uporabljeno %(used)s od %(total)s"
 
 #: weblate/templates/snippets/list-objects-percent.html:7
-#, fuzzy, python-format
-#| msgid "Upload translation"
+#, python-format
 msgid "Completed translation with %(count)s string"
 msgid_plural "Completed translation with %(count)s strings"
-msgstr[0] "Naloži prevod"
-msgstr[1] "Naloži prevod"
-msgstr[2] "Naloži prevod"
-msgstr[3] "Naloži prevod"
+msgstr[0] "Prevod zaključen z  %(count)s nizom"
+msgstr[1] "Prevod zaključen z  %(count)s nizoma"
+msgstr[2] "Prevod zaključen s  %(count)s nizi"
+msgstr[3] "Prevod zaključen s  %(count)s nizi"
 
 #: weblate/templates/snippets/list-objects.html:19
 #: weblate/templates/snippets/list-objects.html:29
@@ -9589,10 +9574,8 @@ msgid "Could not find any such user."
 msgstr "Razčlenjevanje temeljne datoteke prevoda je spodletelo: %s"
 
 #: weblate/templates/snippets/watch-dropdown.html:9
-#, fuzzy
-#| msgid "Watch"
 msgid "Watching"
-msgstr "Spremljaj"
+msgstr "Spremljam"
 
 #: weblate/templates/snippets/watch-dropdown.html:13
 #, fuzzy, python-format
@@ -9615,10 +9598,8 @@ msgid "Mute notifications for %(object)s"
 msgstr "Slovar jezika %(language)s za %(project)s"
 
 #: weblate/templates/snippets/watch-dropdown.html:24
-#, fuzzy
-#| msgid "Watch"
 msgid "Not watching"
-msgstr "Spremljaj"
+msgstr "Ne spremljam"
 
 #: weblate/templates/snippets/watch-dropdown.html:28
 #, fuzzy, python-format
@@ -9730,10 +9711,8 @@ msgid "Please fix this by removing one of them."
 msgstr "Prosimo, odpravite napake na obrazcu."
 
 #: weblate/templates/trans/alert/duplicatefilemask.html:7
-#, fuzzy
-#| msgid "Failing checks found"
 msgid "The following filemasks were found multiple times:"
-msgstr "Nekatera preverjanja niso uspela"
+msgstr "Naslednje maske datotek so bile najdene večkrat:"
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:6
 #, fuzzy
@@ -9809,10 +9788,8 @@ msgid ""
 msgstr ""
 
 #: weblate/templates/trans/alert/mergefailure.html:3
-#, fuzzy
-#| msgid "There has been a merge failure on the repository:"
 msgid "Weblate could not merge upstream changes while updating the repository."
-msgstr "V shrambi je združevanje spodletelo:"
+msgstr "Med posodabljanjem shrambe Weblate ni mogel pridružiti sprememb vira."
 
 #: weblate/templates/trans/alert/missinglicense.html:2
 msgid ""
@@ -9873,10 +9850,8 @@ msgid ""
 msgstr "Zaklep prevoda bo drugim onemogočil sodelovanje pri prevajanju."
 
 #: weblate/templates/trans/alert/pushfailure.html:4
-#, fuzzy
-#| msgid "There has been a merge failure on the repository:"
 msgid "Weblate could not push changes to the upstream repository."
-msgstr "V shrambi je združevanje spodletelo:"
+msgstr "Weblate ni mogel potisniti sprememb v izvorno shrambo."
 
 #: weblate/templates/trans/alert/pushfailure.html:9
 #: weblate/trans/models/component.py:2384
@@ -9909,10 +9884,8 @@ msgid ""
 msgstr ""
 
 #: weblate/templates/trans/alert/unusedenforcedcheck.html:4
-#, fuzzy
-#| msgid "Failing checks found"
 msgid "Following enforced checks are not used anywhere:"
-msgstr "Nekatera preverjanja niso uspela"
+msgstr "Naslednje obvezna preverjanja niso nikjer v uporabi:"
 
 #: weblate/templates/trans/alert/unusedenforcedcheck.html:8
 #, python-format
