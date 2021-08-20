@@ -42,6 +42,27 @@ Translation checks
 Executed upon every translation change, helping translators maintain
 good quality translations.
 
+.. _check-accelerators:
+
+Accelerator keys
+~~~~~~~~~~~~~~~~
+
+.. versionadded:: 4.8
+
+:Summary: Source and translation do not both contain an accelerator key
+:Scope: translated strings
+:Check class: ``weblate.checks.duplicate.AcceleratorKeyCheck``
+:Flag to ignore: ``ignore-accelerators``
+
+Accelerator keys are used to speed up UI interactions. The standard keys are
+'&' (Windows) and '_' (Linux).
+Checks that source and translation both contain zero or one accelerator key.
+
+.. note::
+
+    A string like 'Walter & Sons' may be translated without the ampersand and 
+    may trigger a false positive.
+
 .. _check-bbcode:
 
 BBcode markup

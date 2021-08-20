@@ -127,6 +127,8 @@ Here is a list of flags currently accepted:
 ``url``
     The string should consist of only a URL.
     Enable the :ref:`check-url` quality check.
+``ignore-accelerators``
+    Skip the :ref:`check-accelerators` quality check.
 ``ignore-bbcode``
     Skip the :ref:`check-bbcode` quality check.
 ``ignore-duplicate``
