@@ -65,7 +65,11 @@ SPACE_NL = HIGHLIGTH_SPACE.format(SPACE_TEMPLATE.format("space-nl", ""), "<br />
 
 GLOSSARY_TEMPLATE = """<span class="glossary-term" title="{}">"""
 
-WHITESPACE_RE = re.compile(r"(  +| $|^ )", re.MULTILINE)
+
+WHITESPACE_REGEX = r"(  +| $|^ |\u00A0|\u1680|\u2000|\u2001|\u2002|\u2003|" +\
+                   r"\u2004|\u2005|\u2006|\u2007|\u2008|\u2009|\u200A|" +\
+                   r"\u202F|\u205F|\u3000)"
+WHITESPACE_RE = re.compile(WHITESPACE_REGEX, re.MULTILINE)
 TYPE_MAPPING = {True: "yes", False: "no", None: "unknown"}
 # Mapping of status report flags to names
 NAME_MAPPING = {
