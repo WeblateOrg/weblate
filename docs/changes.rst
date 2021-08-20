@@ -4,7 +4,7 @@ Weblate 4.8
 Released on August 21th 2021.
 
 * Added support for Apple stringsdict format.
-* The exact search opearator is now case-sensitive on PostgreSQL.
+* The exact search operator is now case-sensitive on PostgreSQL.
 * Fixed saving glossary explanations in some cases.
 * Documentation improvements.
 * Performance improvements.
