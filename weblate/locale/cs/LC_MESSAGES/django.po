@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.8\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-08-19 07:57+0000\n"
-"PO-Revision-Date: 2021-06-17 05:23+0000\n"
+"PO-Revision-Date: 2021-08-21 08:09+0000\n"
 "Last-Translator: Michal Čihař <michal@weblate.org>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/weblate/"
 "application/cs/>\n"
@@ -21,7 +21,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-"X-Generator: Weblate 4.7-dev\n"
+"X-Generator: Weblate 4.8-dev\n"
 
 #: weblate/accounts/avatar.py:103
 msgctxt "No known user"
@@ -1731,10 +1731,8 @@ msgstr "Odstranit řetězec"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:78
-#, fuzzy
-#| msgid "Message has failing checks"
 msgid "Dismiss failing check"
-msgstr "Kontroly řetězce nedopadly v pořádku"
+msgstr "Zahodit selhavší kontrolu"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:80
@@ -2139,7 +2137,7 @@ msgstr ""
 
 #: weblate/auth/models.py:317
 msgid "A user with that username already exists."
-msgstr "Uživatel s takovým uživatelským jménem už existuje."
+msgstr "Uživatel s takovým uživatelským jménem již existuje."
 
 #: weblate/auth/models.py:332
 msgid "Superuser status"
@@ -3063,10 +3061,8 @@ msgid "gettext PO"
 msgstr "gettext PO"
 
 #: weblate/formats/exporters.py:248
-#, fuzzy
-#| msgid "XLIFF with gettext extensions"
 msgid "XLIFF 1.1 with gettext extensions"
-msgstr "XLIFF s gettext rozšířeními"
+msgstr "XLIFF 1.1 s gettext rozšířeními"
 
 #: weblate/formats/exporters.py:279
 msgid "XLIFF 1.1"
@@ -3253,16 +3249,12 @@ msgid "mi18n lang file"
 msgstr "mi18n lang soubor"
 
 #: weblate/formats/ttkit.py:1795
-#, fuzzy
-#| msgid "Strings with labels"
 msgid "Stringsdict file"
-msgstr "Řetězce se štítky"
+msgstr "Soubor Stringsdict"
 
 #: weblate/formats/ttkit.py:1842
-#, fuzzy
-#| msgid "Font file"
 msgid "Fluent file"
-msgstr "Soubor s písmem"
+msgstr "Soubor Fluent"
 
 #: weblate/formats/txt.py:176
 msgid "App store metadata files"
@@ -3281,8 +3273,6 @@ msgid "String will be part of the glossary in all languages"
 msgstr "Řetězec bude součástí glosáře ve všech jazycích"
 
 #: weblate/glossary/forms.py:55
-#, fuzzy
-#| msgid "Not translatable term"
 msgid "Untranslatable term"
 msgstr "Nepřeložitelný termín"
 
@@ -3463,44 +3453,29 @@ msgid "Zero/one/two/few/many/other"
 msgstr "Nula/jeden/dva/několik/mnoho/ostatní"
 
 #: weblate/lang/models.py:607
-#, fuzzy
-#| msgctxt "Plural type"
-#| msgid "Zero/one/other"
 msgctxt "Plural type"
 msgid "Zero/other"
-msgstr "Žádný/jeden/ostatní"
+msgstr "Žádný/ostatní"
 
 #: weblate/lang/models.py:611
-#, fuzzy
-#| msgctxt "Plural type"
-#| msgid "Zero/one/other"
 msgctxt "Plural type"
 msgid "Zero/one/few/other"
-msgstr "Žádný/jeden/ostatní"
+msgstr "Žádný/jeden/málo/ostatní"
 
 #: weblate/lang/models.py:615
-#, fuzzy
-#| msgctxt "Plural type"
-#| msgid "Zero/one/two/few/many/other"
 msgctxt "Plural type"
 msgid "Zero/one/two/few/other"
-msgstr "Nula/jeden/dva/několik/mnoho/ostatní"
+msgstr "Nula/jeden/dva/několik/ostatní"
 
 #: weblate/lang/models.py:619
-#, fuzzy
-#| msgctxt "Plural type"
-#| msgid "Zero/one/other"
 msgctxt "Plural type"
 msgid "Zero/one/two/other"
-msgstr "Žádný/jeden/ostatní"
+msgstr "Žádný/jeden/dva/ostatní"
 
 #: weblate/lang/models.py:623
-#, fuzzy
-#| msgctxt "Plural type"
-#| msgid "Zero/one/two/few/many/other"
 msgctxt "Plural type"
 msgid "Zero/one/few/many/other"
-msgstr "Nula/jeden/dva/několik/mnoho/ostatní"
+msgstr "Nula/jeden/několik/mnoho/ostatní"
 
 #: weblate/lang/models.py:627
 msgctxt "Plural type"
@@ -3516,16 +3491,12 @@ msgid "Default plural"
 msgstr "Výchozí tvar množného čísla"
 
 #: weblate/lang/models.py:639
-#, fuzzy
-#| msgid "Gettext plural formula"
 msgid "gettext plural formula"
 msgstr "Vzorec gettext tvaru množného čísla"
 
 #: weblate/lang/models.py:640
-#, fuzzy
-#| msgid "String has plural"
 msgid "stringsdict plural"
-msgstr "Řetězec má množné číslo"
+msgstr "Množné číslo stringsdict"
 
 #: weblate/lang/models.py:641
 msgid "Manually entered formula"
@@ -4988,28 +4959,20 @@ msgid "Matched files"
 msgstr "Soubory u kterých je hledána shoda"
 
 #: weblate/templates/addons/discovery_preview.html:9
-#, fuzzy
-#| msgid "Following components would be deleted"
 msgid "The following components would be deleted"
 msgstr "Následující součásti by byly smazány"
 
 #: weblate/templates/addons/discovery_preview.html:15
-#, fuzzy
-#| msgid "Following components would be created"
 msgid "The following components would be created"
 msgstr "Následující součásti by byly vytvořeny"
 
 #: weblate/templates/addons/discovery_preview.html:28
-#, fuzzy
-#| msgid "Following components matched existing ones"
 msgid "The following components matched existing ones"
 msgstr "Následující součásti, které se shodují s těmi stávajícími"
 
 #: weblate/templates/addons/discovery_preview.html:41
-#, fuzzy
-#| msgid "No matching checks found!"
 msgid "No matching components were found!"
-msgstr "Nebyly nalezeny žádné odpovídající kontroly!"
+msgstr "Nebyly nalezeny žádné odpovídající součásti!"
 
 #: weblate/templates/addons/generate_help.html:6
 msgid ""
@@ -8535,10 +8498,8 @@ msgid "The source string cannot be edited."
 msgstr "Zdrojový řetězec nelze upravovat."
 
 #: weblate/templates/snippets/user-list.html:19 weblate/trans/forms.py:162
-#, fuzzy
-#| msgid "Could not find reverted change."
 msgid "Could not find any such user."
-msgstr "Vrácenou změnu se nedaří najít."
+msgstr "Žádného takového uživatele se nepodařilo najít."
 
 #: weblate/templates/snippets/watch-dropdown.html:9
 msgid "Watching"
@@ -8776,16 +8737,11 @@ msgstr ""
 "Tento projekt už neodpovídá podmínkám pro hostování svobodných projektů."
 
 #: weblate/templates/trans/alert/nomaskmatches.html:2
-#, fuzzy
-#| msgid "This component set up is incomplete as it lacks translations."
 msgid "This component set up is incomplete, as it lacks any translations."
-msgstr "Tato součást nemá dokončené nastavení, protože jí chybí překlady."
+msgstr ""
+"Tato součást nemá dokončené nastavení, protože jí chybí jakékoliv překlady."
 
 #: weblate/templates/trans/alert/nomaskmatches.html:6
-#, fuzzy
-#| msgid ""
-#| "Create new translations directly in Weblate, it will create files based "
-#| "on the file mask."
 msgid ""
 "Starting new translations directly in Weblate is possible, and creates files "
 "based on the filemask."
@@ -8794,10 +8750,7 @@ msgstr ""
 "základě masky souborů."
 
 #: weblate/templates/trans/alert/nomaskmatches.html:8
-#, fuzzy, python-format
-#| msgid ""
-#| "Check whether file mask <code>%(filemask)s</code> matches files in your "
-#| "repository."
+#, python-format
 msgid ""
 "Check whether the filemask <code>%(filemask)s</code> matches files in your "
 "version control system repository."
@@ -8982,7 +8935,7 @@ msgstr "Vytvořit novou součást překladu z nahraného ZIP souboru s překlady
 
 #: weblate/templates/trans/component_create.html:92
 msgid "The filenames within the archive need to have locale codes in them."
-msgstr ""
+msgstr "Názvy souborů v archivu musí obsahovat kódy jazyků."
 
 #: weblate/templates/trans/component_create.html:105
 msgid ""
@@ -9809,15 +9762,13 @@ msgstr "Zadán chybný kontrolní součet!"
 
 #: weblate/trans/forms.py:164
 msgid "More possible users were found."
-msgstr ""
+msgstr "Bylo nalezeno více možných uživatelů."
 
 #: weblate/trans/forms.py:178
 msgid "Missing query string."
 msgstr "Chybí vyhledávací řetězec."
 
 #: weblate/trans/forms.py:185
-#, fuzzy
-#| msgid "Failed to parse query string: {}"
 msgid "Could not parse query string: {}"
 msgstr "Nepodařilo se zpracovat dotaz: {}"
 
@@ -10749,9 +10700,6 @@ msgid "Moved component"
 msgstr "Přesunuta součást"
 
 #: weblate/trans/models/change.py:316
-#, fuzzy
-#| msgid "New string to translate"
-#| msgid_plural "New strings to translate"
 msgctxt "Name of event in the history"
 msgid "New string to translate"
 msgstr "Nový řetězec k překladu"
@@ -10930,17 +10878,14 @@ msgid "Repository browser"
 msgstr "Prohlížení repozitáře"
 
 #: weblate/trans/models/component.py:291
-#, fuzzy
-#| msgid ""
-#| "Link to repository browser, use {{branch}} for branch, {{filename}} and "
-#| "{{line}} as filename and line placeholders."
 msgid ""
 "Link to repository browser, use {{branch}} for branch, {{filename}} and "
 "{{line}} as filename and line placeholders. You might want to strip leading "
 "directory by using {{filename|parentdir}}."
 msgstr ""
 "Odkaz na prohlížení Gitu, použijte {{branch}} místo větve, {{filename}} a "
-"{{line}} místo jména souboru a řádky."
+"{{line}} místo jména souboru a řádky. Možná budete potřebovat odstranit "
+"úvodní adresář pomocí {{filename|parentdir}}."
 
 #: weblate/trans/models/component.py:299
 msgid "Exported repository URL"
@@ -11439,7 +11384,7 @@ msgstr "Daný jazyk neprošel filtrem jazyků."
 
 #: weblate/trans/models/component.py:2972
 msgid "Translation file already exists!"
-msgstr "Soubor s překladem už existuje!"
+msgstr "Soubor s překladem již existuje!"
 
 #: weblate/trans/models/component.py:3001
 msgid "The translation will be updated in the background."
@@ -11613,7 +11558,7 @@ msgstr "Nepodařilo ze zpracovat soubor %(file)s: %(error)s"
 
 #: weblate/trans/models/translation.py:1386
 msgid "This string seems to already exist."
-msgstr "Vypadá to, že tento řetězec už existuje."
+msgstr "Vypadá to, že tento řetězec již existuje."
 
 #: weblate/trans/models/translation.py:1393
 #, python-format
@@ -12536,10 +12481,8 @@ msgid "Silver"
 msgstr "Stříbrná"
 
 #: weblate/utils/fields.py:92
-#, fuzzy
-#| msgid "A user with that username already exists."
 msgid "A user with this e-mail already exists."
-msgstr "Uživatel s takovým uživatelským jménem už existuje."
+msgstr "Uživatel s takovým e-mailem už existuje."
 
 #: weblate/utils/render.py:44
 #, python-format
