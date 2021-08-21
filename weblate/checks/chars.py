@@ -45,6 +45,7 @@ class AcceleratorKeyCheck(TargetCheck):
     check_id = "accelerators"
     name = _("Accelerator key")
     description = _("Source and translation do not both contain an accelerator key")
+    default_disabled = True
 
     def _check_accelerator(self, source, target, key):
         return (target.count(key) > 1) or (source.count(key) != target.count(key))
