@@ -1,3 +1,10 @@
+Weblate 4.8.1
+-------------
+
+Not yet released.
+
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/70?closed=1>`__.
+
 Weblate 4.8
 -----------
 
