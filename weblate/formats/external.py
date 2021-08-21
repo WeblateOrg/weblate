@@ -68,8 +68,7 @@ class XlsxFormat(CSVFormat):
         XlsxFormat(store).save_content(output)
         return output.getvalue()
 
-    @classmethod
-    def parse_store(cls, storefile):
+    def parse_store(self, storefile):
         # try to load the given file via openpyxl
         # catch at least the BadZipFile exception if an unsupported
         # file has been given

@@ -237,19 +237,17 @@ class TTKitFormat(TranslationFormat):
         """Serialize given Translate Toolkit store."""
         return bytes(store)
 
-    @classmethod
-    def fixup(cls, store):
+    def fixup(self, store):
         """Perform optional fixups on store."""
         return
 
-    @classmethod
-    def load(cls, storefile, template_store):
+    def load(self, storefile, template_store):
         """Load file using defined loader."""
         if isinstance(storefile, TranslationStore):
             # Used by XLSX writer
             return storefile
 
-        return cls.parse_store(storefile)
+        return self.parse_store(storefile)
 
     @classmethod
     def get_class(cls):
@@ -270,13 +268,12 @@ class TTKitFormat(TranslationFormat):
     def get_class_kwargs():
         return {}
 
-    @classmethod
-    def parse_store(cls, storefile):
+    def parse_store(self, storefile):
         """Parse the store."""
-        store = cls.get_class()(**cls.get_class_kwargs())
+        store = self.get_class()(**self.get_class_kwargs())
 
         # Apply possible fixups
-        cls.fixup(store)
+        self.fixup(store)
 
         # Read the content
         if isinstance(storefile, str):
@@ -462,7 +459,7 @@ class TTKitFormat(TranslationFormat):
             return monolingual and cls.new_translation is not None
         try:
             if not fast:
-                cls.parse_store(base)
+                cls(base)
             return True
         except Exception as exception:
             if errors is not None:
@@ -1183,8 +1180,7 @@ class PropertiesUtf16Format(PropertiesBaseFormat):
     language_format = "java"
     new_translation = "\n"
 
-    @classmethod
-    def fixup(cls, store):
+    def fixup(self, store):
         """Force encoding.
 
         Translate Toolkit autodetection might fail in some cases.
@@ -1200,8 +1196,7 @@ class PropertiesFormat(PropertiesBaseFormat):
     new_translation = "\n"
     autoload = ("*.properties",)
 
-    @classmethod
-    def fixup(cls, store):
+    def fixup(self, store):
         """Force encoding.
 
         Java properties need to be ISO 8859-1, but Translate Toolkit converts them to
@@ -1374,10 +1369,9 @@ class CSVFormat(TTKitFormat):
         """Return most common file extension for format."""
         return "csv"
 
-    @classmethod
-    def parse_store(cls, storefile):
+    def parse_store(self, storefile):
         """Parse the store."""
-        storeclass = cls.get_class()
+        storeclass = self.get_class()
 
         # Did we get file or filename?
         if not hasattr(storefile, "read"):
@@ -1407,12 +1401,11 @@ class CSVFormat(TTKitFormat):
         if len(header) != 2:
             return store
 
-        return cls.parse_simple_csv(content, storefile)
+        return self.parse_simple_csv(content, storefile)
 
-    @classmethod
-    def parse_simple_csv(cls, content, storefile):
-        storeclass = cls.get_class()
-        result = storeclass(fieldnames=["source", "target"], encoding=cls.encoding)
+    def parse_simple_csv(self, content, storefile):
+        storeclass = self.get_class()
+        result = storeclass(fieldnames=["source", "target"], encoding=self.encoding)
         result.parse(content, sample_length=None)
         result.fileobj = storefile
         filename = getattr(storefile, "name", getattr(storefile, "filename", None))
@@ -1432,14 +1425,13 @@ class CSVSimpleFormat(CSVFormat):
         """Return most common file extension for format."""
         return "csv"
 
-    @classmethod
-    def parse_store(cls, storefile):
+    def parse_store(self, storefile):
         """Parse the store."""
         # Did we get file or filename?
         if not hasattr(storefile, "read"):
             storefile = open(storefile, "rb")
 
-        return cls.parse_simple_csv(storefile.read(), storefile)
+        return self.parse_simple_csv(storefile.read(), storefile)
 
 
 class CSVSimpleFormatISO(CSVSimpleFormat):
@@ -1580,8 +1572,7 @@ class INIFormat(TTKitFormat):
         # INI files do not expose extension
         return "ini"
 
-    @classmethod
-    def load(cls, storefile, template_store):
+    def load(self, storefile, template_store):
         store = super().load(storefile, template_store)
         # Adjust store to have translations
         for unit in store.units:
@@ -1709,8 +1700,7 @@ class XWikiPagePropertiesFormat(XWikiPropertiesFormat):
     loader = ("properties", "XWikiPageProperties")
     language_format = "java"
 
-    @classmethod
-    def fixup(cls, store):
+    def fixup(self, store):
         """Fix encoding.
 
         Force encoding to UTF-8 since we inherit from XWikiProperties which force
