@@ -1821,6 +1821,12 @@ class StringsdictFormat(TTKitFormat):
             },
         )[0]
 
+    def fixup(self, store):
+        if self.language_code:
+            store.settargetlanguage(self.language_code)
+        elif self.source_language:
+            store.settargetlanguage(self.source_language)
+
 
 class FluentUnit(MonolingualSimpleUnit):
     def set_target(self, target):
