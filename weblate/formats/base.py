@@ -233,8 +233,7 @@ class TranslationFormat:
             return [self.storefile]
         return [self.storefile.name]
 
-    @classmethod
-    def load(cls, storefile, template_store):
+    def load(self, storefile, template_store):
         raise NotImplementedError()
 
     def get_plural(self, language):

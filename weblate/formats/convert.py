@@ -121,14 +121,13 @@ class ConvertFormat(TranslationFormat):
     def needs_target_sync(template_store):
         return True
 
-    @classmethod
-    def load(cls, storefile, template_store):
+    def load(self, storefile, template_store):
         # Did we get file or filename?
         if not hasattr(storefile, "read"):
             storefile = open(storefile, "rb")
         # Adjust store to have translations
-        store = cls.convertfile(storefile, template_store)
-        if cls.needs_target_sync(template_store):
+        store = self.convertfile(storefile, template_store)
+        if self.needs_target_sync(template_store):
             for unit in store.units:
                 if unit.isheader():
                     continue
@@ -164,7 +163,7 @@ class ConvertFormat(TranslationFormat):
             return False
         try:
             if not fast:
-                cls.load(base, None)
+                cls(base, None)
             return True
         except Exception:
             report_error(cause="File parse error")
