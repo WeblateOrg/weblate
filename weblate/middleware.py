@@ -116,6 +116,8 @@ class RedirectMiddleware:
     def fixup_project(self, slug, request):
         try:
             project = Project.objects.get(slug__iexact=slug)
+        except Project.MultipleObjectsReturned:
+            return None
         except Project.DoesNotExist:
             try:
                 project = (
