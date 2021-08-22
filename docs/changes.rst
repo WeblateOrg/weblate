@@ -16,12 +16,12 @@ Released on August 21th 2021.
 * Documentation improvements.
 * Performance improvements.
 * Improved squash add-on compatibility with Gerrit.
-* Fixed adding strings to a monolingual glossary components.
-* Improved performance in hadling variants.
+* Fixed adding strings to monolingual glossary components.
+* Improved performance in handling variants.
 * Fixed squash add-on sometimes skipping parsing upstream changes.
-* Preserve file extension on download.
+* Preserve file extension for downloads.
 * Added support for the Fluent format.
-* Add support for using tabs to indent JSON formats.
+* Added support for using tabs to indent JSON formats.
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/67?closed=1>`__.
 
@@ -33,8 +33,8 @@ Released on July 15th 2021.
 * Support more language aliases to be configured on a project.
 * Fixed search string validation in API.
 * Fixed Git exporter URLs after a domain change.
-* Fixed cleanup addon for Windows RC files.
-* Fixed possible crash on Xliff updating.
+* Fixed cleanup add-on for Windows RC files.
+* Fixed possible crash in XLIFF updating.
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/69?closed=1>`__.
 
