@@ -781,6 +781,7 @@ IGNORE_WORDS = {
     "squid",
     "ssh",
     "ssl",
+    "sso",
     "stack",
     "standard",
     "start",
