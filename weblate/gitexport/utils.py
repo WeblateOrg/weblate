@@ -49,7 +49,7 @@ def find_git_http_backend():
     for path in GIT_PATHS:
         names = ("git-http-backend", "git-http-backend.exe")
         for name in names:
-            name = os.path.join(path, "git-http-backend")
+            name = os.path.join(path, name)
             if os.path.exists(name):
                 find_git_http_backend.result = name
                 return name
