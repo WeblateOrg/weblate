@@ -17,8 +17,9 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-import os.path
 import subprocess
+
+from django.core.management.utils import find_command
 
 GIT_PATHS = [
     "/usr/lib/git",
@@ -46,11 +47,7 @@ def find_git_http_backend():
     except OSError:
         pass
 
-    for path in GIT_PATHS:
-        names = ("git-http-backend", "git-http-backend.exe")
-        for name in names:
-            name = os.path.join(path, name)
-            if os.path.exists(name):
-                find_git_http_backend.result = name
-                return name
-    return None
+    find_git_http_backend.result = result = find_command(
+        "git-http-backend", path=GIT_PATHS
+    )
+    return result
