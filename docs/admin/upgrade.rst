@@ -235,6 +235,15 @@ Notable configuration or dependencies changes:
 
 .. seealso:: :ref:`generic-upgrade-instructions`
 
+Upgrade from 4.7 to 4.8
+~~~~~~~~~~~~~~~~~~~~~~~
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+There are no additional upgrade steps needed in this release.
+
+.. seealso:: :ref:`generic-upgrade-instructions`
+
 .. _py3:
 
 Upgrading from Python 2 to Python 3
