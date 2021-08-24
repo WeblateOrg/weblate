@@ -22,7 +22,6 @@ import os
 import stat
 import subprocess
 from base64 import b64decode, b64encode
-from distutils.spawn import find_executable
 
 from django.core.management.utils import find_command
 from django.utils.functional import cached_property
@@ -190,7 +189,7 @@ def add_host_key(request, host, port=""):
 
 def can_generate_key():
     """Check whether we can generate key."""
-    return find_executable("ssh-keygen") is not None
+    return find_command("ssh-keygen") is not None
 
 
 SSH_WRAPPER_TEMPLATE = r"""#!/bin/sh
