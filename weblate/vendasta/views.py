@@ -7,6 +7,7 @@ from django.views.decorators.cache import never_cache
 
 from weblate.auth.models import Group
 from weblate.lang.models import Language, Plural
+from weblate.logger import LOGGER
 from weblate.trans.forms import NewNamespacedLanguageForm
 from weblate.trans.models import Change
 from weblate.trans.util import render
@@ -44,30 +45,51 @@ def new_namespaced_language(request, project, component):
                     language.code + NAMESPACE_SEPARATOR + namespace
                 )
                 try:
+                    LOGGER.info(
+                        "Fetching language for code %s.", namespaced_language_code
+                    )
                     namespaced_language = Language.objects.get(
                         code=namespaced_language_code
                     )
+                    LOGGER.info("Got language for code %s.", namespaced_language_code)
                 except Language.DoesNotExist:
+                    LOGGER.info(
+                        "Not found. Creating language for code %s.",
+                        namespaced_language_code,
+                    )
                     namespaced_language = Language.objects.create(
                         code=namespaced_language_code,
                         name="{} ({})".format(language.name, namespace),
                         direction=language.direction,
+                    )
+                    LOGGER.info(
+                        "Creating plural set for code %s.", namespaced_language_code
                     )
                     namespaced_language.plural_set.create(
                         source=Plural.SOURCE_DEFAULT,
                         number=language.plural.number,
                         formula=language.plural.formula,
                     )
+                except Exception as e:
+                    LOGGER.error(
+                        "Unexpected error fetching namespaced language %s: %s",
+                        namespaced_language_code,
+                        str(e),
+                    )
 
+                LOGGER.info("Fetching group for namespace %s.", namespace)
                 namespace_group = Group.objects.get(name=namespace)
+                LOGGER.info("Got group. Adding namespaced language to group.")
                 namespace_group.languages.add(namespaced_language)
 
                 kwargs["details"]["language"] = namespaced_language.code
+                LOGGER.info("Adding namespaced language to component %s.", obj.name)
                 translation = obj.add_new_language(namespaced_language, request)
                 if translation:
                     kwargs["translation"] = translation
                     if len(langs) == 1:
                         obj = translation
+                    LOGGER.info("Creating change log.")
                     Change.objects.create(action=Change.ACTION_ADDED_LANGUAGE, **kwargs)
             return redirect(obj)
         messages.error(request, _("Please fix errors in the form."))
