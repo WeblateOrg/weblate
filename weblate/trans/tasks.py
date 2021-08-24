@@ -121,8 +121,10 @@ def update_component_stats(pk):
     component = Component.objects.get(pk=pk)
     component.stats.ensure_basic()
     # Update language stats
-    for translation in component.translation_set.select_related("language").iterator():
-        ProjectLanguage(component.project, translation.language).stats.ensure_basic()
+    for language in Language.objects.filter(
+        translation__component=component
+    ).iterator():
+        ProjectLanguage(component.project, language).stats.ensure_basic()
 
 
 @app.task(
