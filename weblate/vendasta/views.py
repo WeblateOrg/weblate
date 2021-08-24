@@ -7,7 +7,6 @@ from django.views.decorators.cache import never_cache
 
 from weblate.auth.models import Group
 from weblate.lang.models import Language, Plural
-from weblate.logger import LOGGER
 from weblate.trans.forms import NewNamespacedLanguageForm
 from weblate.trans.models import Change
 from weblate.trans.util import render
@@ -41,15 +40,8 @@ def new_namespaced_language(request, project, component):
                 "details": {},
             }
             for language in Language.objects.filter(code__in=langs):
-                LOGGER.info(
-                    "###### NEW NAMESPACED LANGUAGE FORM: language: ", language.code
-                )
                 namespaced_language_code = (
                     language.code + NAMESPACE_SEPARATOR + namespace
-                )
-                LOGGER.info(
-                    "###### NEW NAMESPACED LANGUAGE FORM: new language code: ",
-                    namespaced_language_code,
                 )
                 try:
                     namespaced_language = Language.objects.get(
