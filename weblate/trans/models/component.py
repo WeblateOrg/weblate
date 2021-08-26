@@ -112,6 +112,7 @@ from weblate.vcs.base import RepositoryException
 from weblate.vcs.git import LocalRepository
 from weblate.vcs.models import VCS_REGISTRY
 from weblate.vcs.ssh import add_host_key
+from weblate.vendasta.constants import NAMESPACE_SEPARATOR
 
 NEW_LANG_CHOICES = (
     # Translators: Action when adding new translation
@@ -2472,7 +2473,9 @@ class Component(FastDeleteMixin, models.Model, URLMixin, PathMixin, CacheKeyMixi
 
     def add_new_language(self, language, request, send_signal=True):
         """Create new language file."""
-        if not self.can_add_new_language(request.user if request else None):
+        if NAMESPACE_SEPARATOR not in language.code and not self.can_add_new_language(
+            request.user if request else None
+        ):
             messages.error(request, _("Could not add new translation file."))
             return None
 
