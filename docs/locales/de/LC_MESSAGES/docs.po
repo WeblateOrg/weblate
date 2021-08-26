@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-08-19 09:58+0200\n"
-"PO-Revision-Date: 2021-08-20 06:43+0000\n"
+"PO-Revision-Date: 2021-08-27 17:47+0000\n"
 "Last-Translator: VfBFan <drop0815@posteo.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "documentation/de/>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.8-dev\n"
+"X-Generator: Weblate 4.8.1-dev\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:180
@@ -1473,10 +1473,8 @@ msgid "Score threshold"
 msgstr "Scoreschwellwert"
 
 #: ../../admin/addons.rst:0
-#, fuzzy
-#| msgid "Writing add-on"
 msgid "Events triggering add-on"
-msgstr "Schreiben einer Erweiterung"
+msgstr "Ereignisse auslösende Erweiterung"
 
 #: ../../admin/addons.rst:44 ../../admin/addons.rst:376
 msgid "component update, daily"
@@ -4623,6 +4621,8 @@ msgid ""
 "The string should consist of only a URL. Enable the :ref:`check-url` quality "
 "check."
 msgstr ""
+"Die Zeichenkette sollte nur aus einer URL bestehen. Aktivieren Sie die "
+"Qualitätsprüfung :ref:`check-url`."
 
 #: ../../admin/checks.rst:130 ../../user/checks.rst:53
 msgid "``ignore-bbcode``"
@@ -6711,16 +6711,13 @@ msgid ""
 msgstr ""
 
 #: ../../admin/config.rst:1168
-#, fuzzy
-#| msgid ""
-#| "When using Docker container place the data into the data volume, see :ref:"
-#| "`docker-volume`."
 msgid ""
 "When using Docker container, this configuration is automatically generated "
 "based on provided API keys, see :ref:`docker-machine`."
 msgstr ""
-"Bei der Verwendung von Docker-Containern legen Sie die Daten in das "
-"Datenvolumen, siehe :ref:`docker-volume`."
+"Bei Verwendung von Docker-Containern wird diese Konfiguration automatisch "
+"auf der Grundlage der bereitgestellten API-Schlüssel generiert, siehe :ref"
+":`docker-machine`."
 
 #: ../../admin/config.rst:1192
 msgid ":ref:`machine-translation-setup`, :ref:`machine-translation`"
@@ -8418,6 +8415,11 @@ msgid ""
 "in all components with matching strings. Such translations are properly "
 "credited to currently translating user in all components."
 msgstr ""
+"Wenn :ref:`component-allow_translation_propagation` aktiviert ist (was die "
+"Voreinstellung ist, siehe :ref:`component`), werden alle neuen Übersetzungen "
+"automatisch in allen Komponenten mit übereinstimmenden Zeichenketten "
+"durchgeführt. Solche Übersetzungen werden dem aktuell übersetzenden Benutzer "
+"in allen Komponenten korrekt gutgeschrieben."
 
 #: ../../admin/continuous.rst:422
 msgid ""
@@ -11394,6 +11396,8 @@ msgid ""
 "Configuring API key for a service automatically configures it in :setting:"
 "`MT_SERVICES`."
 msgstr ""
+"Wenn Sie den API-Schlüssel für einen Dienst konfigurieren, wird dieser "
+"automatisch in :setting:`MT_SERVICES` konfiguriert."
 
 #: ../../admin/install/docker.rst:745
 msgid ""
@@ -11422,6 +11426,8 @@ msgid ""
 "Enables :ref:`libretranslate` machine translation and sets :setting:"
 "`MT_LIBRETRANSLATE_KEY`"
 msgstr ""
+"Aktiviert :ref:`libretranslate` maschinelle Übersetzung und setzt "
+":setting:`MT_LIBRETRANSLATE_KEY`"
 
 #: ../../admin/install/docker.rst:774
 msgid ""
@@ -12386,6 +12392,10 @@ msgid ""
 "key, but you will want more changes for production setup, see :ref:"
 "`configuration`."
 msgstr ""
+"Passen Sie die Werte in der neuen Datei :file:`settings.py` nach Ihren "
+"Wünschen an. Sie müssen zumindest die Datenbank-Zugangsdaten und den "
+"geheimen Django-Schlüssel angeben, aber Sie werden mehr Änderungen für die "
+"Produktionseinrichtung benötigen, siehe :ref:`configuration`."
 
 #: ../../admin/install/source.rst:33
 msgid "Create the database used by Weblate, see :ref:`database-setup`."
@@ -13094,10 +13104,8 @@ msgid ""
 "Turn on this service by adding ``weblate.machinery.aws.AWSTranslation`` to :"
 "setting:`MT_SERVICES`."
 msgstr ""
-"Schalten Sie diesen Dienst ein, indem Sie ``weblate.machinery."
-"saptranslationhub.SAPTranslationHub`` zu :setting:`MT_SERVICES` hinzufügen "
-"und den entsprechenden Zugriff entweder auf die Sandbox- oder die "
-"Produktions-API einstellen."
+"Aktivieren Sie diesen Dienst, indem Sie ``weblate.machinery.aws."
+"AWSTranslation`` zu :setting:`MT_SERVICES` hinzufügen."
 
 #: ../../admin/machine.rst:55
 msgid "Install the `boto3` module."
@@ -15563,6 +15571,10 @@ msgid ""
 "`markup`): ``https://github.com/WeblateOrg/hello/blob/{{branch}}/{{filename|"
 "parentdir}}#L{{line}}``"
 msgstr ""
+"Falls Ihre Pfade relativ zu verschiedenen Verzeichnissen sind (Pfad enthält "
+"``..``), sollten Sie das führende Verzeichnis durch den Filter ``parentdir`` "
+"entfernen (siehe :ref:`markup`): ``https://github.com/WeblateOrg/hello/blob/"
+"{{branch}}/{{filename|parentdir}}#L{{line}}``"
 
 #: ../../admin/projects.rst:359
 msgid "Exported repository URL"
@@ -16682,6 +16694,7 @@ msgstr ""
 #: ../../admin/support.rst:82
 msgid "Listing your server without a support subscription in Discover Weblate:"
 msgstr ""
+"Auflistung Ihres Servers ohne ein Support-Abonnement in Discover Weblate:"
 
 #: ../../admin/support.rst:84
 #, fuzzy
@@ -16729,6 +16742,14 @@ msgid ""
 "suggestions` to set a threshold for accepted suggestions (this includes a "
 "vote from the user making the suggestion if it is cast)."
 msgstr ""
+"Jeder kann standardmäßig Vorschläge hinzufügen, die von angemeldeten "
+"Benutzern akzeptiert werden. Die Vorschlagsabstimmung kann verwendet werden, "
+"um einen String zu verwenden, wenn mehr als ein angemeldeter Benutzer "
+"zustimmt, indem die :ref:`Komponente` mit :guilabel:`Vorschlagsabstimmung` "
+"eingerichtet wird, um die Abstimmung einzuschalten, und :guilabel:`"
+"Vorschläge automatisch annehmen`, um einen Schwellenwert für akzeptierte "
+"Vorschläge festzulegen (dies schließt eine Stimme des vorschlagenden "
+"Benutzers ein, wenn sie abgegeben wird)."
 
 #: ../../admin/translating.rst:18
 msgid ""
@@ -19891,20 +19912,17 @@ msgstr "Leistungsverbesserungen."
 
 #: ../../changes.rst:11
 msgid "Improved squash add-on compatibility with Gerrit."
-msgstr ""
+msgstr "Die Kompatibilität der Squash-Erweiterung mit Gerrit wurde verbessert."
 
 #: ../../changes.rst:12
-#, fuzzy
-#| msgid "You can not use a monolingual translation without a base file."
 msgid "Fixed adding strings to a monolingual glossary components."
 msgstr ""
-"Sie können eine einsprachige Übersetzung nicht ohne Basisdatei verwenden."
+"Das Hinzufügen von Zeichenketten zu einsprachigen Glossarkomponenten wurde "
+"korrigiert."
 
 #: ../../changes.rst:13
-#, fuzzy
-#| msgid "Improved performance when adding new strings."
 msgid "Improved performance in hadling variants."
-msgstr "Verbesserte Leistung beim Hinzufügen neuer Zeichenketten."
+msgstr "Verbesserte Leistung bei der Handhabung von Varianten."
 
 #: ../../changes.rst:14
 msgid "Fixed squash add-on sometimes skipping parsing upstream changes."
@@ -19912,7 +19930,7 @@ msgstr ""
 
 #: ../../changes.rst:15
 msgid "Preserve file extension on download."
-msgstr ""
+msgstr "Dateierweiterung beim Herunterladen beibehalten."
 
 #: ../../changes.rst:16
 msgid "Added support for the Fluent format."
@@ -26411,10 +26429,8 @@ msgid ""
 msgstr ""
 
 #: ../../contributing/index.rst:61
-#, fuzzy
-#| msgid "Add language definitions"
 msgid "Extending built-in language definitions"
-msgstr "Sprachdefinitionen hinzufügen"
+msgstr "Erweiterung der integrierten Sprachdefinitionen"
 
 #: ../../contributing/index.rst:63
 msgid ""
