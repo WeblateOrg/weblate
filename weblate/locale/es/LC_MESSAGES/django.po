@@ -21,9 +21,9 @@
 # Javier Llorente <javier@opensuse.org>, 2021.
 msgid ""
 msgstr ""
-"Project-Id-Version: Weblate 4.8\n"
+"Project-Id-Version: Weblate 4.8.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
-"POT-Creation-Date: 2021-08-19 07:57+0000\n"
+"POT-Creation-Date: 2021-08-27 17:48+0000\n"
 "PO-Revision-Date: 2021-08-23 03:34+0000\n"
 "Last-Translator: Javier Llorente <javier@opensuse.org>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/weblate/"
@@ -1218,7 +1218,7 @@ msgstr "Nombre del archivo generado"
 msgid "Content of generated file"
 msgstr "Contenido del archivo generado"
 
-#: weblate/addons/forms.py:112 weblate/addons/forms.py:199
+#: weblate/addons/forms.py:112 weblate/addons/forms.py:208
 msgid "Long lines wrapping"
 msgstr "Ajuste de renglones largos"
 
@@ -1230,7 +1230,7 @@ msgstr "Ajustar renglones a los 77 caracteres y en saltos de renglón"
 msgid "Only wrap lines at newlines"
 msgstr "Ajustar renglones únicamente en los saltos"
 
-#: weblate/addons/forms.py:116 weblate/addons/forms.py:205
+#: weblate/addons/forms.py:116 weblate/addons/forms.py:214
 msgid "No line wrapping"
 msgstr "No ajustar renglones"
 
@@ -1309,85 +1309,99 @@ msgstr "Ordenar claves de JSON"
 msgid "JSON indentation"
 msgstr "Sangría JSON"
 
+#: weblate/addons/forms.py:193
+#, fuzzy
+#| msgid "JSON indentation"
+msgid "JSON indentation style"
+msgstr "Sangría JSON"
+
+#: weblate/addons/forms.py:195
+msgid "Spaces"
+msgstr ""
+
 #: weblate/addons/forms.py:196
+msgid "Tabs"
+msgstr ""
+
+#: weblate/addons/forms.py:205
 msgid "YAML indentation"
 msgstr "Sangría YAML"
 
-#: weblate/addons/forms.py:201
+#: weblate/addons/forms.py:210
 msgid "Wrap lines at 80 chars"
 msgstr "Ajustar renglones a 80 caracteres"
 
-#: weblate/addons/forms.py:202
+#: weblate/addons/forms.py:211
 msgid "Wrap lines at 100 chars"
 msgstr "Ajustar renglones a 100 caracteres"
 
-#: weblate/addons/forms.py:203
+#: weblate/addons/forms.py:212
 msgid "Wrap lines at 120 chars"
 msgstr "Ajustar renglones a 120 caracteres"
 
-#: weblate/addons/forms.py:204
+#: weblate/addons/forms.py:213
 msgid "Wrap lines at 180 chars"
 msgstr "Ajustar renglones a 180 caracteres"
 
-#: weblate/addons/forms.py:211
+#: weblate/addons/forms.py:220
 msgid "Line breaks"
 msgstr "Saltos de renglón"
 
-#: weblate/addons/forms.py:213
+#: weblate/addons/forms.py:222
 msgid "DOS (\\r\\n)"
 msgstr "DOS (\\r\\n)"
 
-#: weblate/addons/forms.py:214
+#: weblate/addons/forms.py:223
 msgid "UNIX (\\n)"
 msgstr "UNIX (\\n)"
 
-#: weblate/addons/forms.py:215
+#: weblate/addons/forms.py:224
 msgid "MAC (\\r)"
 msgstr "Mac (\\r)"
 
-#: weblate/addons/forms.py:224
+#: weblate/addons/forms.py:233
 msgid "Days to keep"
 msgstr "Días para guardar"
 
-#: weblate/addons/forms.py:230
+#: weblate/addons/forms.py:239
 msgid "Voting threshold"
 msgstr "Umbral de votos"
 
-#: weblate/addons/forms.py:234
+#: weblate/addons/forms.py:243
 msgid "Threshold for removal. This field has no effect with voting turned off."
 msgstr ""
 "Umbral para eliminación. Este campo no surte ningún efecto si se desactivan "
 "los votos."
 
-#: weblate/addons/forms.py:241
+#: weblate/addons/forms.py:250
 msgid "Regular expression to match translation files against"
 msgstr ""
 "Expresión regular utilizada para relacionar con los archivos de traducción"
 
-#: weblate/addons/forms.py:244
+#: weblate/addons/forms.py:253
 #: weblate/templates/trans/alert/unsupportedconfiguration.html:15
 #: weblate/templates/trans/discover-choice.html:5 weblate/trans/forms.py:568
 #: weblate/trans/forms.py:1605 weblate/trans/models/component.py:382
 msgid "File format"
 msgstr "Formato de archivo"
 
-#: weblate/addons/forms.py:250
+#: weblate/addons/forms.py:259
 msgid "Customize the component name"
 msgstr "Personalizar el nombre del componente"
 
-#: weblate/addons/forms.py:255
+#: weblate/addons/forms.py:264
 msgid "Define the monolingual base filename"
 msgstr "Definir el nombre del archivo de base monolingüe"
 
-#: weblate/addons/forms.py:258
+#: weblate/addons/forms.py:267
 msgid "Leave empty for bilingual translation files."
 msgstr "Dejar vacío para archivos de traducción bilingües."
 
-#: weblate/addons/forms.py:261
+#: weblate/addons/forms.py:270
 msgid "Define the base file for new translations"
 msgstr "Definir el archivo de base para traducciones nuevas"
 
-#: weblate/addons/forms.py:265 weblate/trans/models/component.py:376
+#: weblate/addons/forms.py:274 weblate/trans/models/component.py:376
 msgid ""
 "Filename of file used for creating new translations. For gettext choose .pot "
 "file."
@@ -1395,11 +1409,11 @@ msgstr ""
 "Nombre del archivo utilizado para traducciones nuevas. Para gettext "
 "seleccione un archivo .pot."
 
-#: weblate/addons/forms.py:270 weblate/trans/models/component.py:575
+#: weblate/addons/forms.py:279 weblate/trans/models/component.py:575
 msgid "Language filter"
 msgstr "Filtro de idioma"
 
-#: weblate/addons/forms.py:275
+#: weblate/addons/forms.py:284
 msgid ""
 "Regular expression to filter translation files against when scanning for "
 "filemask."
@@ -1407,55 +1421,55 @@ msgstr ""
 "Expresión regular para filtrar archivos de traducción durante el análisis de "
 "nombres de archivo."
 
-#: weblate/addons/forms.py:280
+#: weblate/addons/forms.py:289
 msgid "Clone addons from the main component to the newly created ones"
 msgstr "Clonar complementos del componente principal a los nuevos"
 
-#: weblate/addons/forms.py:285
+#: weblate/addons/forms.py:294
 msgid "Remove components for inexistant files"
 msgstr "Quitar componentes de archivos inexistentes"
 
-#: weblate/addons/forms.py:288
+#: weblate/addons/forms.py:297
 msgid "I confirm the above matches look correct"
 msgstr "Confirmo que las coincidencias anteriores parecen correctas"
 
-#: weblate/addons/forms.py:349
+#: weblate/addons/forms.py:358
 msgid "Please review and confirm the matched components."
 msgstr "Revise y confirme los componentes coincidentes."
 
-#: weblate/addons/forms.py:377
+#: weblate/addons/forms.py:386
 msgid "Please include component markup in the template."
 msgstr "Incluya la sintaxis del componente en la plantilla."
 
-#: weblate/addons/forms.py:419
+#: weblate/addons/forms.py:428
 msgid "Translation threshold"
 msgstr "Umbral de traducción"
 
-#: weblate/addons/forms.py:424
+#: weblate/addons/forms.py:433
 msgid "Threshold for inclusion of translations."
 msgstr "Umbral para la inclusión de traducciones."
 
-#: weblate/addons/forms.py:427
+#: weblate/addons/forms.py:436
 msgid "CSS selector"
 msgstr "Selector de CSS"
 
-#: weblate/addons/forms.py:430
+#: weblate/addons/forms.py:439
 msgid "CSS selector to detect localizable elements."
 msgstr "Selector de CSS para detectar elementos regionalizables."
 
-#: weblate/addons/forms.py:433
+#: weblate/addons/forms.py:442
 msgid "Language cookie name"
 msgstr "Nombre de la «cookie» de idioma"
 
-#: weblate/addons/forms.py:436
+#: weblate/addons/forms.py:445
 msgid "Name of cookie which stores language preference."
 msgstr "Nombre de la «cookie» que almacena la preferencia de idioma."
 
-#: weblate/addons/forms.py:440
+#: weblate/addons/forms.py:449
 msgid "Extract strings from HTML files"
 msgstr "Extraer cadenas desde archivos HTML"
 
-#: weblate/addons/forms.py:443
+#: weblate/addons/forms.py:452
 msgid ""
 "List of filenames in current repository or remote URLs to parse for "
 "translatable strings."
@@ -1463,26 +1477,26 @@ msgstr ""
 "Lista de nombres de archivo en el repositorio actual o URL remotos que "
 "analizar en busca de cadenas traducibles."
 
-#: weblate/addons/forms.py:468 weblate/billing/models.py:299
+#: weblate/addons/forms.py:477 weblate/billing/models.py:299
 #: weblate/templates/snippets/query-builder.html:13
 #: weblate/templates/snippets/query-builder.html:15
 #: weblate/templates/translation.html:128 weblate/trans/admin.py:95
 msgid "Source strings"
 msgstr "Cadenas de origen"
 
-#: weblate/addons/forms.py:469
+#: weblate/addons/forms.py:478
 msgid "Target translation"
 msgstr "Traducción de destino"
 
-#: weblate/addons/forms.py:471
+#: weblate/addons/forms.py:480
 msgid "String prefix"
 msgstr "Prefijo de cadena"
 
-#: weblate/addons/forms.py:476
+#: weblate/addons/forms.py:485
 msgid "String suffix"
 msgstr "Sufijo de cadena"
 
-#: weblate/addons/forms.py:493
+#: weblate/addons/forms.py:502
 msgid "The source and target have to be different languages."
 msgstr "El origen y el destino deben ser de idiomas diferentes."
 
@@ -1647,19 +1661,19 @@ msgstr ""
 "Permite ajustar el comportamiento de salida de YAML, como la longitud de los "
 "renglones y los saltos."
 
-#: weblate/auth/admin.py:140 weblate/auth/admin.py:145
+#: weblate/auth/admin.py:144 weblate/auth/admin.py:149
 msgid "Personal info"
 msgstr "Información personal"
 
-#: weblate/auth/admin.py:141
+#: weblate/auth/admin.py:145
 msgid "Authentication"
 msgstr "Autenticación"
 
-#: weblate/auth/admin.py:146 weblate/auth/models.py:84
+#: weblate/auth/admin.py:150 weblate/auth/models.py:84
 msgid "Permissions"
 msgstr "Permisos"
 
-#: weblate/auth/admin.py:147
+#: weblate/auth/admin.py:151
 msgid "Important dates"
 msgstr "Fechas importantes"
 
@@ -3091,31 +3105,31 @@ msgid "Failed to load strings from the file, try choosing other format."
 msgstr ""
 "No se pudieron cargar las cadenas del archivo. Intente con otro formato."
 
-#: weblate/formats/convert.py:195
+#: weblate/formats/convert.py:194
 msgid "HTML file"
 msgstr "Archivo HTML"
 
-#: weblate/formats/convert.py:253
+#: weblate/formats/convert.py:252
 msgid "OpenDocument file"
 msgstr "Archivo OpenDocument"
 
-#: weblate/formats/convert.py:313
+#: weblate/formats/convert.py:312
 msgid "IDML file"
 msgstr "Archivo IDML"
 
-#: weblate/formats/convert.py:367
+#: weblate/formats/convert.py:366
 msgid "RC file"
 msgstr "Archivo RC"
 
-#: weblate/formats/convert.py:435
+#: weblate/formats/convert.py:434
 msgid "Plain text file"
 msgstr "Archivo de texto sin formato"
 
-#: weblate/formats/convert.py:478
+#: weblate/formats/convert.py:477
 msgid "DokuWiki text file"
 msgstr "Archivo de texto DokuWiki"
 
-#: weblate/formats/convert.py:485
+#: weblate/formats/convert.py:484
 msgid "MediaWiki text file"
 msgstr "Archivo de texto MediaWiki"
 
@@ -3155,7 +3169,7 @@ msgstr "XLSX"
 msgid "JSON"
 msgstr "JSON"
 
-#: weblate/formats/exporters.py:434 weblate/formats/ttkit.py:1267
+#: weblate/formats/exporters.py:434 weblate/formats/ttkit.py:1262
 msgid "Android String Resource"
 msgstr "Recurso de cadenas de Android"
 
@@ -3167,155 +3181,155 @@ msgstr "Cadenas de iOS"
 msgid "Excel Open XML"
 msgstr "Open XML de Excel"
 
-#: weblate/formats/ttkit.py:1043
+#: weblate/formats/ttkit.py:1040
 msgid "gettext PO file"
 msgstr "Archivo PO de gettext"
 
-#: weblate/formats/ttkit.py:1056
+#: weblate/formats/ttkit.py:1053
 msgid "gettext PO file (monolingual)"
 msgstr "Archivo PO de gettext (monolingüe)"
 
-#: weblate/formats/ttkit.py:1080
+#: weblate/formats/ttkit.py:1077
 msgid "Qt Linguist translation file"
 msgstr "Archivo de traducción de Qt Linguist"
 
-#: weblate/formats/ttkit.py:1096
+#: weblate/formats/ttkit.py:1093
 msgid "XLIFF translation file"
 msgstr "Archivo de traducción XLIFF"
 
-#: weblate/formats/ttkit.py:1125
+#: weblate/formats/ttkit.py:1122
 msgid "XLIFF with gettext extensions"
 msgstr "XLIFF con extensiones gettext"
 
-#: weblate/formats/ttkit.py:1155
+#: weblate/formats/ttkit.py:1152
 msgid "iOS strings (UTF-16)"
 msgstr "Cadenas de iOS (UTF-16)"
 
-#: weblate/formats/ttkit.py:1164
+#: weblate/formats/ttkit.py:1161
 msgid "iOS strings (UTF-8)"
 msgstr "Cadenas de iOS (UTF-8)"
 
-#: weblate/formats/ttkit.py:1171
+#: weblate/formats/ttkit.py:1168
 msgid "Java Properties (UTF-8)"
 msgstr "Propiedades de Java (UTF-8)"
 
-#: weblate/formats/ttkit.py:1180
+#: weblate/formats/ttkit.py:1177
 msgid "Java Properties (UTF-16)"
 msgstr "Propiedades de Java (UTF-16)"
 
-#: weblate/formats/ttkit.py:1196
+#: weblate/formats/ttkit.py:1192
 msgid "Java Properties (ISO 8859-1)"
 msgstr "Propiedades de Java (ISO 8859-1)"
 
-#: weblate/formats/ttkit.py:1214
+#: weblate/formats/ttkit.py:1209
 msgid "Joomla language file"
 msgstr "Archivo de idioma de Joomla"
 
-#: weblate/formats/ttkit.py:1223
+#: weblate/formats/ttkit.py:1218
 msgid "GWT properties"
 msgstr "Propiedades GWT"
 
-#: weblate/formats/ttkit.py:1231
+#: weblate/formats/ttkit.py:1226
 msgid "PHP strings"
 msgstr "Cadenas de PHP"
 
-#: weblate/formats/ttkit.py:1250
+#: weblate/formats/ttkit.py:1245
 msgid "Laravel PHP strings"
 msgstr "Cadenas PHP de Laravel"
 
-#: weblate/formats/ttkit.py:1256
+#: weblate/formats/ttkit.py:1251
 msgid ".NET resource file"
 msgstr "Archivo de recursos de .NET"
 
-#: weblate/formats/ttkit.py:1279
+#: weblate/formats/ttkit.py:1274
 msgid "JSON file"
 msgstr "Archivo JSON"
 
-#: weblate/formats/ttkit.py:1299
+#: weblate/formats/ttkit.py:1294
 msgid "JSON nested structure file"
 msgstr "Archivo JSON de estructura anidada"
 
-#: weblate/formats/ttkit.py:1306
+#: weblate/formats/ttkit.py:1301
 msgid "WebExtension JSON file"
 msgstr "Archivo JSON de WebExtension"
 
-#: weblate/formats/ttkit.py:1315
+#: weblate/formats/ttkit.py:1310
 msgid "i18next JSON file"
 msgstr "Archivo JSON de i18next"
 
-#: weblate/formats/ttkit.py:1323
+#: weblate/formats/ttkit.py:1318
 msgid "go-i18n JSON file"
 msgstr "Archivo JSON de go-i18n"
 
-#: weblate/formats/ttkit.py:1330
+#: weblate/formats/ttkit.py:1325
 msgid "ARB file"
 msgstr "Archivo ARB"
 
-#: weblate/formats/ttkit.py:1338
+#: weblate/formats/ttkit.py:1333
 msgid "CSV file"
 msgstr "Archivo CSV"
 
-#: weblate/formats/ttkit.py:1425
+#: weblate/formats/ttkit.py:1418
 msgid "Simple CSV file"
 msgstr "Archivo CSV sencillo"
 
-#: weblate/formats/ttkit.py:1446
+#: weblate/formats/ttkit.py:1438
 msgid "Simple CSV file (ISO-8859-1)"
 msgstr "Archivo CSV sencillo (ISO 8859-1)"
 
-#: weblate/formats/ttkit.py:1453
+#: weblate/formats/ttkit.py:1445
 msgid "YAML file"
 msgstr "Archivo YAML"
 
-#: weblate/formats/ttkit.py:1472
+#: weblate/formats/ttkit.py:1464
 msgid "Ruby YAML file"
 msgstr "Archivo YAML de Ruby"
 
-#: weblate/formats/ttkit.py:1479
+#: weblate/formats/ttkit.py:1471
 msgid "DTD file"
 msgstr "Archivo DTD"
 
-#: weblate/formats/ttkit.py:1520
+#: weblate/formats/ttkit.py:1512
 msgid "SubRip subtitle file"
 msgstr "Archivo de subtítulos SubRip"
 
-#: weblate/formats/ttkit.py:1534
+#: weblate/formats/ttkit.py:1526
 msgid "MicroDVD subtitle file"
 msgstr "Archivo de subtítulos MicroDVD"
 
-#: weblate/formats/ttkit.py:1541
+#: weblate/formats/ttkit.py:1533
 msgid "Advanced SubStation Alpha subtitle file"
 msgstr "Archivo de subtítulos Advanced SubStation Alpha"
 
-#: weblate/formats/ttkit.py:1548
+#: weblate/formats/ttkit.py:1540
 msgid "SubStation Alpha subtitle file"
 msgstr "Archivo de subtítulos SubStation Alpha"
 
-#: weblate/formats/ttkit.py:1555
+#: weblate/formats/ttkit.py:1547
 msgid "Flat XML file"
 msgstr "Archivo XML plano"
 
-#: weblate/formats/ttkit.py:1564
+#: weblate/formats/ttkit.py:1556
 msgid "INI file"
 msgstr "Archivo INI"
 
-#: weblate/formats/ttkit.py:1604
+#: weblate/formats/ttkit.py:1595
 msgid "Inno Setup INI file"
 msgstr "Archivo INI de Inno Setup"
 
-#: weblate/formats/ttkit.py:1757
+#: weblate/formats/ttkit.py:1747
 msgid "TermBase eXchange file"
 msgstr "Archivo TermBase eXchange"
 
-#: weblate/formats/ttkit.py:1786
+#: weblate/formats/ttkit.py:1776
 msgid "mi18n lang file"
 msgstr "Archivo .lang de mi18n"
 
-#: weblate/formats/ttkit.py:1795
+#: weblate/formats/ttkit.py:1785
 msgid "Stringsdict file"
 msgstr "Archivo Stringsdict"
 
-#: weblate/formats/ttkit.py:1842
+#: weblate/formats/ttkit.py:1838
 msgid "Fluent file"
 msgstr "Archivo Fluent"
 
@@ -11855,11 +11869,11 @@ msgstr "Raya"
 msgid "User configured character: {}"
 msgstr "Carácter configurado por el usuario: {}"
 
-#: weblate/trans/tasks.py:398
+#: weblate/trans/tasks.py:402
 msgid "Automatic translation completed, no strings were updated."
 msgstr "Traducción automática completada; no se actualizó ninguna cadena."
 
-#: weblate/trans/tasks.py:402
+#: weblate/trans/tasks.py:406
 #, python-format
 msgid "Automatic translation completed, %d string was updated."
 msgid_plural "Automatic translation completed, %d strings were updated."
@@ -12856,24 +12870,24 @@ msgid "No remote repository"
 msgstr "No hay ningún repositorio remoto"
 
 #. Translators: placeholder SSH hashed hostname
-#: weblate/vcs/ssh.py:69
+#: weblate/vcs/ssh.py:68
 msgid "[hostname hashed]"
 msgstr "[nombre de servidor cifrado]"
 
-#: weblate/vcs/ssh.py:133
+#: weblate/vcs/ssh.py:132
 #, python-format
 msgid "Failed to generate key: %s"
 msgstr "No se pudo generar la clave: %s"
 
-#: weblate/vcs/ssh.py:141
+#: weblate/vcs/ssh.py:140
 msgid "Created new SSH key."
 msgstr "Se creó una clave SSH nueva."
 
-#: weblate/vcs/ssh.py:147
+#: weblate/vcs/ssh.py:146
 msgid "Invalid host name given!"
 msgstr "El nombre de servidor proporcionado no es válido."
 
-#: weblate/vcs/ssh.py:172
+#: weblate/vcs/ssh.py:171
 #, python-format
 msgid ""
 "Added host key for %(host)s with fingerprint %(fingerprint)s (%(keytype)s), "
@@ -12882,11 +12896,11 @@ msgstr ""
 "Se añadió la clave del servidor %(host)s con la huella %(fingerprint)s "
 "(%(keytype)s). Compruebe que sea correcta."
 
-#: weblate/vcs/ssh.py:179
+#: weblate/vcs/ssh.py:178
 msgid "Failed to fetch public key for a host!"
 msgstr "No se pudo recuperar la clave pública de un anfitrión."
 
-#: weblate/vcs/ssh.py:185 weblate/vcs/ssh.py:188
+#: weblate/vcs/ssh.py:184 weblate/vcs/ssh.py:187
 #, python-format
 msgid "Failed to get host key: %s"
 msgstr "No se pudo generar la clave del servidor: %s"

@@ -13,9 +13,9 @@
 # Danial Behzadi <dani.behzi@ubuntu.com>, 2021.
 msgid ""
 msgstr ""
-"Project-Id-Version: Weblate 4.8\n"
+"Project-Id-Version: Weblate 4.8.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
-"POT-Creation-Date: 2021-08-19 07:57+0000\n"
+"POT-Creation-Date: 2021-08-27 17:48+0000\n"
 "PO-Revision-Date: 2021-05-19 23:32+0000\n"
 "Last-Translator: Danial Behzadi <dani.behzi@ubuntu.com>\n"
 "Language-Team: Persian <https://hosted.weblate.org/projects/weblate/"
@@ -1198,7 +1198,7 @@ msgstr ""
 msgid "Content of generated file"
 msgstr ""
 
-#: weblate/addons/forms.py:112 weblate/addons/forms.py:199
+#: weblate/addons/forms.py:112 weblate/addons/forms.py:208
 msgid "Long lines wrapping"
 msgstr ""
 
@@ -1210,7 +1210,7 @@ msgstr ""
 msgid "Only wrap lines at newlines"
 msgstr ""
 
-#: weblate/addons/forms.py:116 weblate/addons/forms.py:205
+#: weblate/addons/forms.py:116 weblate/addons/forms.py:214
 msgid "No line wrapping"
 msgstr ""
 
@@ -1293,98 +1293,112 @@ msgstr ""
 msgid "JSON indentation"
 msgstr "ترجمه"
 
+#: weblate/addons/forms.py:193
+#, fuzzy
+#| msgid "Translate"
+msgid "JSON indentation style"
+msgstr "ترجمه"
+
+#: weblate/addons/forms.py:195
+msgid "Spaces"
+msgstr ""
+
 #: weblate/addons/forms.py:196
+msgid "Tabs"
+msgstr ""
+
+#: weblate/addons/forms.py:205
 #, fuzzy
 #| msgid "Translate"
 msgid "YAML indentation"
 msgstr "ترجمه"
 
-#: weblate/addons/forms.py:201
+#: weblate/addons/forms.py:210
 msgid "Wrap lines at 80 chars"
 msgstr ""
 
-#: weblate/addons/forms.py:202
+#: weblate/addons/forms.py:211
 msgid "Wrap lines at 100 chars"
 msgstr ""
 
-#: weblate/addons/forms.py:203
+#: weblate/addons/forms.py:212
 msgid "Wrap lines at 120 chars"
 msgstr ""
 
-#: weblate/addons/forms.py:204
+#: weblate/addons/forms.py:213
 msgid "Wrap lines at 180 chars"
 msgstr ""
 
-#: weblate/addons/forms.py:211
+#: weblate/addons/forms.py:220
 msgid "Line breaks"
 msgstr ""
 
-#: weblate/addons/forms.py:213
+#: weblate/addons/forms.py:222
 msgid "DOS (\\r\\n)"
 msgstr ""
 
-#: weblate/addons/forms.py:214
+#: weblate/addons/forms.py:223
 msgid "UNIX (\\n)"
 msgstr ""
 
-#: weblate/addons/forms.py:215
+#: weblate/addons/forms.py:224
 msgid "MAC (\\r)"
 msgstr ""
 
-#: weblate/addons/forms.py:224
+#: weblate/addons/forms.py:233
 msgid "Days to keep"
 msgstr ""
 
-#: weblate/addons/forms.py:230
+#: weblate/addons/forms.py:239
 msgid "Voting threshold"
 msgstr ""
 
-#: weblate/addons/forms.py:234
+#: weblate/addons/forms.py:243
 msgid "Threshold for removal. This field has no effect with voting turned off."
 msgstr ""
 
-#: weblate/addons/forms.py:241
+#: weblate/addons/forms.py:250
 #, fuzzy
 #| msgid "Translate"
 msgid "Regular expression to match translation files against"
 msgstr "ترجمه"
 
-#: weblate/addons/forms.py:244
+#: weblate/addons/forms.py:253
 #: weblate/templates/trans/alert/unsupportedconfiguration.html:15
 #: weblate/templates/trans/discover-choice.html:5 weblate/trans/forms.py:568
 #: weblate/trans/forms.py:1605 weblate/trans/models/component.py:382
 msgid "File format"
 msgstr ""
 
-#: weblate/addons/forms.py:250
+#: weblate/addons/forms.py:259
 msgid "Customize the component name"
 msgstr ""
 
-#: weblate/addons/forms.py:255
+#: weblate/addons/forms.py:264
 msgid "Define the monolingual base filename"
 msgstr ""
 
-#: weblate/addons/forms.py:258
+#: weblate/addons/forms.py:267
 #, fuzzy
 #| msgid "Translate"
 msgid "Leave empty for bilingual translation files."
 msgstr "ترجمه"
 
-#: weblate/addons/forms.py:261
+#: weblate/addons/forms.py:270
 msgid "Define the base file for new translations"
 msgstr ""
 
-#: weblate/addons/forms.py:265 weblate/trans/models/component.py:376
+#: weblate/addons/forms.py:274 weblate/trans/models/component.py:376
 msgid ""
 "Filename of file used for creating new translations. For gettext choose .pot "
 "file."
 msgstr ""
 
-#: weblate/addons/forms.py:270 weblate/trans/models/component.py:575
+#: weblate/addons/forms.py:279 weblate/trans/models/component.py:575
 msgid "Language filter"
 msgstr ""
 
-#: weblate/addons/forms.py:275
+#: weblate/addons/forms.py:284
 #, fuzzy
 #| msgid "Translate"
 msgid ""
@@ -1392,92 +1406,92 @@ msgid ""
 "filemask."
 msgstr "ترجمه"
 
-#: weblate/addons/forms.py:280
+#: weblate/addons/forms.py:289
 msgid "Clone addons from the main component to the newly created ones"
 msgstr ""
 
-#: weblate/addons/forms.py:285
+#: weblate/addons/forms.py:294
 msgid "Remove components for inexistant files"
 msgstr ""
 
-#: weblate/addons/forms.py:288
+#: weblate/addons/forms.py:297
 msgid "I confirm the above matches look correct"
 msgstr ""
 
-#: weblate/addons/forms.py:349
+#: weblate/addons/forms.py:358
 msgid "Please review and confirm the matched components."
 msgstr ""
 
-#: weblate/addons/forms.py:377
+#: weblate/addons/forms.py:386
 msgid "Please include component markup in the template."
 msgstr ""
 
-#: weblate/addons/forms.py:419
+#: weblate/addons/forms.py:428
 #, fuzzy
 #| msgid "Translate"
 msgid "Translation threshold"
 msgstr "ترجمه"
 
-#: weblate/addons/forms.py:424
+#: weblate/addons/forms.py:433
 #, fuzzy
 #| msgid "Translate"
 msgid "Threshold for inclusion of translations."
 msgstr "ترجمه"
 
-#: weblate/addons/forms.py:427
+#: weblate/addons/forms.py:436
 msgid "CSS selector"
 msgstr ""
 
-#: weblate/addons/forms.py:430
+#: weblate/addons/forms.py:439
 msgid "CSS selector to detect localizable elements."
 msgstr ""
 
-#: weblate/addons/forms.py:433
+#: weblate/addons/forms.py:442
 #, fuzzy
 #| msgid "Languages limit"
 msgid "Language cookie name"
 msgstr "زبان های محدود"
 
-#: weblate/addons/forms.py:436
+#: weblate/addons/forms.py:445
 msgid "Name of cookie which stores language preference."
 msgstr ""
 
-#: weblate/addons/forms.py:440
+#: weblate/addons/forms.py:449
 msgid "Extract strings from HTML files"
 msgstr ""
 
-#: weblate/addons/forms.py:443
+#: weblate/addons/forms.py:452
 msgid ""
 "List of filenames in current repository or remote URLs to parse for "
 "translatable strings."
 msgstr ""
 
-#: weblate/addons/forms.py:468 weblate/billing/models.py:299
+#: weblate/addons/forms.py:477 weblate/billing/models.py:299
 #: weblate/templates/snippets/query-builder.html:13
 #: weblate/templates/snippets/query-builder.html:15
 #: weblate/templates/translation.html:128 weblate/trans/admin.py:95
 msgid "Source strings"
 msgstr "رشته های منبع"
 
-#: weblate/addons/forms.py:469
+#: weblate/addons/forms.py:478
 #, fuzzy
 #| msgid "Translate"
 msgid "Target translation"
 msgstr "ترجمه"
 
-#: weblate/addons/forms.py:471
+#: weblate/addons/forms.py:480
 #, fuzzy
 #| msgid "Translate"
 msgid "String prefix"
 msgstr "ترجمه"
 
-#: weblate/addons/forms.py:476
+#: weblate/addons/forms.py:485
 #, fuzzy
 #| msgid "Translate"
 msgid "String suffix"
 msgstr "ترجمه"
 
-#: weblate/addons/forms.py:493
+#: weblate/addons/forms.py:502
 msgid "The source and target have to be different languages."
 msgstr ""
 
@@ -1625,19 +1639,19 @@ msgid ""
 "Allows adjusting YAML output behavior, for example line-length or newlines."
 msgstr ""
 
-#: weblate/auth/admin.py:140 weblate/auth/admin.py:145
+#: weblate/auth/admin.py:144 weblate/auth/admin.py:149
 msgid "Personal info"
 msgstr ""
 
-#: weblate/auth/admin.py:141
+#: weblate/auth/admin.py:145
 msgid "Authentication"
 msgstr ""
 
-#: weblate/auth/admin.py:146 weblate/auth/models.py:84
+#: weblate/auth/admin.py:150 weblate/auth/models.py:84
 msgid "Permissions"
 msgstr ""
 
-#: weblate/auth/admin.py:147
+#: weblate/auth/admin.py:151
 msgid "Important dates"
 msgstr ""
 
@@ -3181,31 +3195,31 @@ msgstr ""
 msgid "Failed to load strings from the file, try choosing other format."
 msgstr ""
 
-#: weblate/formats/convert.py:195
+#: weblate/formats/convert.py:194
 msgid "HTML file"
 msgstr ""
 
-#: weblate/formats/convert.py:253
+#: weblate/formats/convert.py:252
 msgid "OpenDocument file"
 msgstr ""
 
-#: weblate/formats/convert.py:313
+#: weblate/formats/convert.py:312
 msgid "IDML file"
 msgstr ""
 
-#: weblate/formats/convert.py:367
+#: weblate/formats/convert.py:366
 msgid "RC file"
 msgstr ""
 
-#: weblate/formats/convert.py:435
+#: weblate/formats/convert.py:434
 msgid "Plain text file"
 msgstr ""
 
-#: weblate/formats/convert.py:478
+#: weblate/formats/convert.py:477
 msgid "DokuWiki text file"
 msgstr ""
 
-#: weblate/formats/convert.py:485
+#: weblate/formats/convert.py:484
 msgid "MediaWiki text file"
 msgstr ""
 
@@ -3247,7 +3261,7 @@ msgstr ""
 msgid "JSON"
 msgstr ""
 
-#: weblate/formats/exporters.py:434 weblate/formats/ttkit.py:1267
+#: weblate/formats/exporters.py:434 weblate/formats/ttkit.py:1262
 msgid "Android String Resource"
 msgstr ""
 
@@ -3261,171 +3275,171 @@ msgstr "رشته های منبع"
 msgid "Excel Open XML"
 msgstr ""
 
-#: weblate/formats/ttkit.py:1043
+#: weblate/formats/ttkit.py:1040
 msgid "gettext PO file"
 msgstr ""
 
-#: weblate/formats/ttkit.py:1056
+#: weblate/formats/ttkit.py:1053
 msgid "gettext PO file (monolingual)"
 msgstr ""
 
-#: weblate/formats/ttkit.py:1080
+#: weblate/formats/ttkit.py:1077
 #, fuzzy
 #| msgid "Translate"
 msgid "Qt Linguist translation file"
 msgstr "ترجمه"
 
-#: weblate/formats/ttkit.py:1096
+#: weblate/formats/ttkit.py:1093
 #, fuzzy
 #| msgid "Translate"
 msgid "XLIFF translation file"
 msgstr "ترجمه"
 
-#: weblate/formats/ttkit.py:1125
+#: weblate/formats/ttkit.py:1122
 msgid "XLIFF with gettext extensions"
 msgstr ""
 
-#: weblate/formats/ttkit.py:1155
+#: weblate/formats/ttkit.py:1152
 #, fuzzy
 #| msgid "Source strings"
 msgid "iOS strings (UTF-16)"
 msgstr "رشته های منبع"
 
-#: weblate/formats/ttkit.py:1164
+#: weblate/formats/ttkit.py:1161
 msgid "iOS strings (UTF-8)"
 msgstr ""
 
-#: weblate/formats/ttkit.py:1171
+#: weblate/formats/ttkit.py:1168
 msgid "Java Properties (UTF-8)"
 msgstr ""
 
-#: weblate/formats/ttkit.py:1180
+#: weblate/formats/ttkit.py:1177
 msgid "Java Properties (UTF-16)"
 msgstr ""
 
-#: weblate/formats/ttkit.py:1196
+#: weblate/formats/ttkit.py:1192
 msgid "Java Properties (ISO 8859-1)"
 msgstr ""
 
-#: weblate/formats/ttkit.py:1214
+#: weblate/formats/ttkit.py:1209
 #, fuzzy
 #| msgid "Interlingua"
 msgid "Joomla language file"
 msgstr "میان‌زبان"
 
-#: weblate/formats/ttkit.py:1223
+#: weblate/formats/ttkit.py:1218
 msgid "GWT properties"
 msgstr ""
 
-#: weblate/formats/ttkit.py:1231
+#: weblate/formats/ttkit.py:1226
 msgid "PHP strings"
 msgstr ""
 
-#: weblate/formats/ttkit.py:1250
+#: weblate/formats/ttkit.py:1245
 #, fuzzy
 #| msgid "Source strings"
 msgid "Laravel PHP strings"
 msgstr "رشته های منبع"
 
-#: weblate/formats/ttkit.py:1256
+#: weblate/formats/ttkit.py:1251
 msgid ".NET resource file"
 msgstr ""
 
-#: weblate/formats/ttkit.py:1279
+#: weblate/formats/ttkit.py:1274
 msgid "JSON file"
 msgstr ""
 
-#: weblate/formats/ttkit.py:1299
+#: weblate/formats/ttkit.py:1294
 msgid "JSON nested structure file"
 msgstr ""
 
-#: weblate/formats/ttkit.py:1306
+#: weblate/formats/ttkit.py:1301
 msgid "WebExtension JSON file"
 msgstr ""
 
-#: weblate/formats/ttkit.py:1315
+#: weblate/formats/ttkit.py:1310
 msgid "i18next JSON file"
 msgstr ""
 
-#: weblate/formats/ttkit.py:1323
+#: weblate/formats/ttkit.py:1318
 msgid "go-i18n JSON file"
 msgstr ""
 
-#: weblate/formats/ttkit.py:1330
+#: weblate/formats/ttkit.py:1325
 msgid "ARB file"
 msgstr ""
 
-#: weblate/formats/ttkit.py:1338
+#: weblate/formats/ttkit.py:1333
 msgid "CSV file"
 msgstr ""
 
-#: weblate/formats/ttkit.py:1425
+#: weblate/formats/ttkit.py:1418
 msgid "Simple CSV file"
 msgstr ""
 
-#: weblate/formats/ttkit.py:1446
+#: weblate/formats/ttkit.py:1438
 msgid "Simple CSV file (ISO-8859-1)"
 msgstr ""
 
-#: weblate/formats/ttkit.py:1453
+#: weblate/formats/ttkit.py:1445
 msgid "YAML file"
 msgstr ""
 
-#: weblate/formats/ttkit.py:1472
+#: weblate/formats/ttkit.py:1464
 msgid "Ruby YAML file"
 msgstr ""
 
-#: weblate/formats/ttkit.py:1479
+#: weblate/formats/ttkit.py:1471
 msgid "DTD file"
 msgstr ""
 
-#: weblate/formats/ttkit.py:1520
+#: weblate/formats/ttkit.py:1512
 msgid "SubRip subtitle file"
 msgstr ""
 
-#: weblate/formats/ttkit.py:1534
+#: weblate/formats/ttkit.py:1526
 msgid "MicroDVD subtitle file"
 msgstr ""
 
-#: weblate/formats/ttkit.py:1541
+#: weblate/formats/ttkit.py:1533
 msgid "Advanced SubStation Alpha subtitle file"
 msgstr ""
 
-#: weblate/formats/ttkit.py:1548
+#: weblate/formats/ttkit.py:1540
 msgid "SubStation Alpha subtitle file"
 msgstr ""
 
-#: weblate/formats/ttkit.py:1555
+#: weblate/formats/ttkit.py:1547
 msgid "Flat XML file"
 msgstr ""
 
-#: weblate/formats/ttkit.py:1564
+#: weblate/formats/ttkit.py:1556
 msgid "INI file"
 msgstr ""
 
-#: weblate/formats/ttkit.py:1604
+#: weblate/formats/ttkit.py:1595
 msgid "Inno Setup INI file"
 msgstr ""
 
-#: weblate/formats/ttkit.py:1757
+#: weblate/formats/ttkit.py:1747
 #, fuzzy
 #| msgid "Interlingua"
 msgid "TermBase eXchange file"
 msgstr "میان‌زبان"
 
-#: weblate/formats/ttkit.py:1786
+#: weblate/formats/ttkit.py:1776
 #, fuzzy
 #| msgid "Interlingua"
 msgid "mi18n lang file"
 msgstr "میان‌زبان"
 
-#: weblate/formats/ttkit.py:1795
+#: weblate/formats/ttkit.py:1785
 #, fuzzy
 #| msgid "Source strings"
 msgid "Stringsdict file"
 msgstr "رشته های منبع"
 
-#: weblate/formats/ttkit.py:1842
+#: weblate/formats/ttkit.py:1838
 msgid "Fluent file"
 msgstr ""
 
@@ -12061,11 +12075,11 @@ msgstr ""
 msgid "User configured character: {}"
 msgstr ""
 
-#: weblate/trans/tasks.py:398
+#: weblate/trans/tasks.py:402
 msgid "Automatic translation completed, no strings were updated."
 msgstr ""
 
-#: weblate/trans/tasks.py:402
+#: weblate/trans/tasks.py:406
 #, python-format
 msgid "Automatic translation completed, %d string was updated."
 msgid_plural "Automatic translation completed, %d strings were updated."
@@ -13097,35 +13111,35 @@ msgid "No remote repository"
 msgstr "ترجمه"
 
 #. Translators: placeholder SSH hashed hostname
-#: weblate/vcs/ssh.py:69
+#: weblate/vcs/ssh.py:68
 msgid "[hostname hashed]"
 msgstr ""
 
-#: weblate/vcs/ssh.py:133
+#: weblate/vcs/ssh.py:132
 #, python-format
 msgid "Failed to generate key: %s"
 msgstr ""
 
-#: weblate/vcs/ssh.py:141
+#: weblate/vcs/ssh.py:140
 msgid "Created new SSH key."
 msgstr ""
 
-#: weblate/vcs/ssh.py:147
+#: weblate/vcs/ssh.py:146
 msgid "Invalid host name given!"
 msgstr ""
 
-#: weblate/vcs/ssh.py:172
+#: weblate/vcs/ssh.py:171
 #, python-format
 msgid ""
 "Added host key for %(host)s with fingerprint %(fingerprint)s (%(keytype)s), "
 "please verify that it is correct."
 msgstr ""
 
-#: weblate/vcs/ssh.py:179
+#: weblate/vcs/ssh.py:178
 msgid "Failed to fetch public key for a host!"
 msgstr ""
 
-#: weblate/vcs/ssh.py:185 weblate/vcs/ssh.py:188
+#: weblate/vcs/ssh.py:184 weblate/vcs/ssh.py:187
 #, python-format
 msgid "Failed to get host key: %s"
 msgstr ""

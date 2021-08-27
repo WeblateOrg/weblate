@@ -15,9 +15,9 @@
 # Allan Nordhøy <epost@anotheragency.no>, 2021.
 msgid ""
 msgstr ""
-"Project-Id-Version: Weblate 4.8\n"
+"Project-Id-Version: Weblate 4.8.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
-"POT-Creation-Date: 2021-08-19 07:57+0000\n"
+"POT-Creation-Date: 2021-08-27 17:48+0000\n"
 "PO-Revision-Date: 2021-04-17 23:26+0000\n"
 "Last-Translator: Anonymous <noreply@weblate.org>\n"
 "Language-Team: Slovak <https://hosted.weblate.org/projects/weblate/"
@@ -1403,7 +1403,7 @@ msgstr "Názov vygenerovaného súboru"
 msgid "Content of generated file"
 msgstr "Obsah vygenerovaného súboru"
 
-#: weblate/addons/forms.py:112 weblate/addons/forms.py:199
+#: weblate/addons/forms.py:112 weblate/addons/forms.py:208
 msgid "Long lines wrapping"
 msgstr "Zalamovanie dlhých riadkov"
 
@@ -1417,7 +1417,7 @@ msgstr "Zalamovať riadky po 77. znakoch a na nových riadkoch"
 msgid "Only wrap lines at newlines"
 msgstr "Zalamovať riadky len na znakoch nových riadkov"
 
-#: weblate/addons/forms.py:116 weblate/addons/forms.py:205
+#: weblate/addons/forms.py:116 weblate/addons/forms.py:214
 msgid "No line wrapping"
 msgstr "Nezalamovať riadky"
 
@@ -1498,63 +1498,77 @@ msgstr "Zotriediť JSON kľúče"
 msgid "JSON indentation"
 msgstr "Odsadenie JSON"
 
+#: weblate/addons/forms.py:193
+#, fuzzy
+#| msgid "JSON indentation"
+msgid "JSON indentation style"
+msgstr "Odsadenie JSON"
+
+#: weblate/addons/forms.py:195
+msgid "Spaces"
+msgstr ""
+
 #: weblate/addons/forms.py:196
+msgid "Tabs"
+msgstr ""
+
+#: weblate/addons/forms.py:205
 #, fuzzy
 #| msgid "JSON indentation"
 msgid "YAML indentation"
 msgstr "Odsadenie JSON"
 
-#: weblate/addons/forms.py:201
+#: weblate/addons/forms.py:210
 #, fuzzy
 #| msgid "Wrap lines at 77 chars and at newlines"
 msgid "Wrap lines at 80 chars"
 msgstr "Zalamovať riadky po 77. znakoch a na nových riadkoch"
 
-#: weblate/addons/forms.py:202
+#: weblate/addons/forms.py:211
 #, fuzzy
 #| msgid "Wrap lines at 77 chars and at newlines"
 msgid "Wrap lines at 100 chars"
 msgstr "Zalamovať riadky po 77. znakoch a na nových riadkoch"
 
-#: weblate/addons/forms.py:203
+#: weblate/addons/forms.py:212
 #, fuzzy
 #| msgid "Wrap lines at 77 chars and at newlines"
 msgid "Wrap lines at 120 chars"
 msgstr "Zalamovať riadky po 77. znakoch a na nových riadkoch"
 
-#: weblate/addons/forms.py:204
+#: weblate/addons/forms.py:213
 #, fuzzy
 #| msgid "Wrap lines at 77 chars and at newlines"
 msgid "Wrap lines at 180 chars"
 msgstr "Zalamovať riadky po 77. znakoch a na nových riadkoch"
 
-#: weblate/addons/forms.py:211
+#: weblate/addons/forms.py:220
 msgid "Line breaks"
 msgstr "Zlomy riadkov"
 
-#: weblate/addons/forms.py:213
+#: weblate/addons/forms.py:222
 msgid "DOS (\\r\\n)"
 msgstr "DOS (\\r\\n)"
 
-#: weblate/addons/forms.py:214
+#: weblate/addons/forms.py:223
 msgid "UNIX (\\n)"
 msgstr "UNIX (\\n)"
 
-#: weblate/addons/forms.py:215
+#: weblate/addons/forms.py:224
 msgid "MAC (\\r)"
 msgstr "MAC (\\r)"
 
-#: weblate/addons/forms.py:224
+#: weblate/addons/forms.py:233
 msgid "Days to keep"
 msgstr "Koľko dní ponechať"
 
-#: weblate/addons/forms.py:230
+#: weblate/addons/forms.py:239
 #, fuzzy
 #| msgid "Votes threshold"
 msgid "Voting threshold"
 msgstr "Prah hlasovania"
 
-#: weblate/addons/forms.py:234
+#: weblate/addons/forms.py:243
 #, fuzzy
 #| msgid ""
 #| "Votes threshold for removal. This field has no effect with voting "
@@ -1564,36 +1578,36 @@ msgstr ""
 "Prah hlasovania pre odstránenie. Toto pole nemá žiaden vplyv, ak je "
 "hlasovanie vypnuté."
 
-#: weblate/addons/forms.py:241
+#: weblate/addons/forms.py:250
 #, fuzzy
 #| msgid "Regular expression to match translation files"
 msgid "Regular expression to match translation files against"
 msgstr "Regulárny výraz pre párovanie súborov prekladov"
 
-#: weblate/addons/forms.py:244
+#: weblate/addons/forms.py:253
 #: weblate/templates/trans/alert/unsupportedconfiguration.html:15
 #: weblate/templates/trans/discover-choice.html:5 weblate/trans/forms.py:568
 #: weblate/trans/forms.py:1605 weblate/trans/models/component.py:382
 msgid "File format"
 msgstr "Formát súboru"
 
-#: weblate/addons/forms.py:250
+#: weblate/addons/forms.py:259
 msgid "Customize the component name"
 msgstr "Prispôsobiť názov komponentu"
 
-#: weblate/addons/forms.py:255
+#: weblate/addons/forms.py:264
 msgid "Define the monolingual base filename"
 msgstr "Určiť názov pre základný súbor jednojazyčných prekladov"
 
-#: weblate/addons/forms.py:258
+#: weblate/addons/forms.py:267
 msgid "Leave empty for bilingual translation files."
 msgstr "Nechajte prázdne pre dvojjazyčné súbory prekladov."
 
-#: weblate/addons/forms.py:261
+#: weblate/addons/forms.py:270
 msgid "Define the base file for new translations"
 msgstr "Určiť základný súbor pre nové preklady"
 
-#: weblate/addons/forms.py:265 weblate/trans/models/component.py:376
+#: weblate/addons/forms.py:274 weblate/trans/models/component.py:376
 msgid ""
 "Filename of file used for creating new translations. For gettext choose .pot "
 "file."
@@ -1601,11 +1615,11 @@ msgstr ""
 "Názov súboru použitého pre vytváranie nových prekladov. Ak používate "
 "gettext, vyberte .pot súbor."
 
-#: weblate/addons/forms.py:270 weblate/trans/models/component.py:575
+#: weblate/addons/forms.py:279 weblate/trans/models/component.py:575
 msgid "Language filter"
 msgstr "Filter jazykov"
 
-#: weblate/addons/forms.py:275
+#: weblate/addons/forms.py:284
 #, fuzzy
 #| msgid ""
 #| "Regular expression to filter translation against when scanning for "
@@ -1615,94 +1629,94 @@ msgid ""
 "filemask."
 msgstr "Regulárny výraz pre filtrovanie prekladu počas vyhľadávania filemasky."
 
-#: weblate/addons/forms.py:280
+#: weblate/addons/forms.py:289
 msgid "Clone addons from the main component to the newly created ones"
 msgstr "Klonovať doplnky z hlavnej súčasti do novovytvorených súčástí"
 
-#: weblate/addons/forms.py:285
+#: weblate/addons/forms.py:294
 msgid "Remove components for inexistant files"
 msgstr "Odobrať komponenty pre neexistujúce súbory"
 
-#: weblate/addons/forms.py:288
+#: weblate/addons/forms.py:297
 msgid "I confirm the above matches look correct"
 msgstr "Potvrdzujem, že vyššie uvedené zhody sa zdajú byť správne"
 
-#: weblate/addons/forms.py:349
+#: weblate/addons/forms.py:358
 #, fuzzy
 #| msgid "Please review and confirm matched components."
 msgid "Please review and confirm the matched components."
 msgstr "Prosím skontrolujte a potvrďte zhodujúce sa komponenty."
 
-#: weblate/addons/forms.py:377
+#: weblate/addons/forms.py:386
 msgid "Please include component markup in the template."
 msgstr "Do šablóny zahrňte označenie komponentov."
 
-#: weblate/addons/forms.py:419
+#: weblate/addons/forms.py:428
 #, fuzzy
 #| msgid "Translation has been removed."
 msgid "Translation threshold"
 msgstr "Preklad bol odstránený."
 
-#: weblate/addons/forms.py:424
+#: weblate/addons/forms.py:433
 #, fuzzy
 #| msgid "Base file for new translations"
 msgid "Threshold for inclusion of translations."
 msgstr "Základný súbor pre nové preklady"
 
-#: weblate/addons/forms.py:427
+#: weblate/addons/forms.py:436
 msgid "CSS selector"
 msgstr ""
 
-#: weblate/addons/forms.py:430
+#: weblate/addons/forms.py:439
 msgid "CSS selector to detect localizable elements."
 msgstr ""
 
-#: weblate/addons/forms.py:433
+#: weblate/addons/forms.py:442
 #, fuzzy
 #| msgid "Language name"
 msgid "Language cookie name"
 msgstr "Meno jazyka"
 
-#: weblate/addons/forms.py:436
+#: weblate/addons/forms.py:445
 msgid "Name of cookie which stores language preference."
 msgstr ""
 
-#: weblate/addons/forms.py:440
+#: weblate/addons/forms.py:449
 msgid "Extract strings from HTML files"
 msgstr ""
 
-#: weblate/addons/forms.py:443
+#: weblate/addons/forms.py:452
 msgid ""
 "List of filenames in current repository or remote URLs to parse for "
 "translatable strings."
 msgstr ""
 
-#: weblate/addons/forms.py:468 weblate/billing/models.py:299
+#: weblate/addons/forms.py:477 weblate/billing/models.py:299
 #: weblate/templates/snippets/query-builder.html:13
 #: weblate/templates/snippets/query-builder.html:15
 #: weblate/templates/translation.html:128 weblate/trans/admin.py:95
 msgid "Source strings"
 msgstr "Zdrojové reťazce"
 
-#: weblate/addons/forms.py:469
+#: weblate/addons/forms.py:478
 #, fuzzy
 #| msgid "Weblate translations"
 msgid "Target translation"
 msgstr "Weblate preklady"
 
-#: weblate/addons/forms.py:471
+#: weblate/addons/forms.py:480
 #, fuzzy
 #| msgid "Service"
 msgid "String prefix"
 msgstr "Služba"
 
-#: weblate/addons/forms.py:476
+#: weblate/addons/forms.py:485
 #, fuzzy
 #| msgid "Strings"
 msgid "String suffix"
 msgstr "Reťazcov"
 
-#: weblate/addons/forms.py:493
+#: weblate/addons/forms.py:502
 #, fuzzy
 #| msgid "You need to log in to be able to save translations!"
 msgid "The source and target have to be different languages."
@@ -1905,19 +1919,19 @@ msgstr ""
 "Umožňuje prispôsobenie správania JSON výstupu, napríklad odsadenie alebo "
 "zotriedenie."
 
-#: weblate/auth/admin.py:140 weblate/auth/admin.py:145
+#: weblate/auth/admin.py:144 weblate/auth/admin.py:149
 msgid "Personal info"
 msgstr "Osobné údaje"
 
-#: weblate/auth/admin.py:141
+#: weblate/auth/admin.py:145
 msgid "Authentication"
 msgstr "Prihlasovanie"
 
-#: weblate/auth/admin.py:146 weblate/auth/models.py:84
+#: weblate/auth/admin.py:150 weblate/auth/models.py:84
 msgid "Permissions"
 msgstr "Oprávnenie"
 
-#: weblate/auth/admin.py:147
+#: weblate/auth/admin.py:151
 msgid "Important dates"
 msgstr "Dôležité dátumy"
 
@@ -3541,39 +3555,39 @@ msgstr "Skupina písem bola zmazaná."
 msgid "Failed to load strings from the file, try choosing other format."
 msgstr "Nepodarilo sa načítať reťazce zo súbory, skúste vybrať iný formát."
 
-#: weblate/formats/convert.py:195
+#: weblate/formats/convert.py:194
 #, fuzzy
 #| msgid "YAML file"
 msgid "HTML file"
 msgstr "YAML súbor"
 
-#: weblate/formats/convert.py:253
+#: weblate/formats/convert.py:252
 #, fuzzy
 #| msgid "Font file"
 msgid "OpenDocument file"
 msgstr "Súbor písma"
 
-#: weblate/formats/convert.py:313
+#: weblate/formats/convert.py:312
 #, fuzzy
 #| msgid "YAML file"
 msgid "IDML file"
 msgstr "YAML súbor"
 
-#: weblate/formats/convert.py:367
+#: weblate/formats/convert.py:366
 msgid "RC file"
 msgstr "RC súbor"
 
-#: weblate/formats/convert.py:435
+#: weblate/formats/convert.py:434
 #, fuzzy
 #| msgid "i18next JSON file"
 msgid "Plain text file"
 msgstr "i18next JSON súbor"
 
-#: weblate/formats/convert.py:478
+#: weblate/formats/convert.py:477
 msgid "DokuWiki text file"
 msgstr ""
 
-#: weblate/formats/convert.py:485
+#: weblate/formats/convert.py:484
 msgid "MediaWiki text file"
 msgstr ""
 
@@ -3615,7 +3629,7 @@ msgstr ""
 msgid "JSON"
 msgstr "JSON"
 
-#: weblate/formats/exporters.py:434 weblate/formats/ttkit.py:1267
+#: weblate/formats/exporters.py:434 weblate/formats/ttkit.py:1262
 msgid "Android String Resource"
 msgstr "Android String zdroj (resource)"
 
@@ -3629,197 +3643,197 @@ msgstr "iOS reťazce"
 msgid "Excel Open XML"
 msgstr "Excel Open XML"
 
-#: weblate/formats/ttkit.py:1043
+#: weblate/formats/ttkit.py:1040
 #, fuzzy
 #| msgid "Gettext PO file"
 msgid "gettext PO file"
 msgstr "Gettext PO súbor"
 
-#: weblate/formats/ttkit.py:1056
+#: weblate/formats/ttkit.py:1053
 #, fuzzy
 #| msgid "Gettext PO file (monolingual)"
 msgid "gettext PO file (monolingual)"
 msgstr "Gettext PO súbor (jednojazyčný)"
 
-#: weblate/formats/ttkit.py:1080
+#: weblate/formats/ttkit.py:1077
 #, fuzzy
 #| msgid "Qt Linguist Translation File"
 msgid "Qt Linguist translation file"
 msgstr "Qt Linguist prekladový súbor"
 
-#: weblate/formats/ttkit.py:1096
+#: weblate/formats/ttkit.py:1093
 #, fuzzy
 #| msgid "XLIFF Translation File"
 msgid "XLIFF translation file"
 msgstr "XLIFF prekladový súbor"
 
-#: weblate/formats/ttkit.py:1125
+#: weblate/formats/ttkit.py:1122
 msgid "XLIFF with gettext extensions"
 msgstr "XLIFF s rozšíreniami gettext"
 
-#: weblate/formats/ttkit.py:1155
+#: weblate/formats/ttkit.py:1152
 #, fuzzy
 #| msgid "iOS Strings (UTF-8)"
 msgid "iOS strings (UTF-16)"
 msgstr "iOS reťazce (UTF-8)"
 
-#: weblate/formats/ttkit.py:1164
+#: weblate/formats/ttkit.py:1161
 #, fuzzy
 #| msgid "iOS Strings (UTF-8)"
 msgid "iOS strings (UTF-8)"
 msgstr "iOS reťazce (UTF-8)"
 
-#: weblate/formats/ttkit.py:1171
+#: weblate/formats/ttkit.py:1168
 msgid "Java Properties (UTF-8)"
 msgstr "Java Properties (UTF-8)"
 
-#: weblate/formats/ttkit.py:1180
+#: weblate/formats/ttkit.py:1177
 msgid "Java Properties (UTF-16)"
 msgstr "Java Properties (UTF-16)"
 
-#: weblate/formats/ttkit.py:1196
+#: weblate/formats/ttkit.py:1192
 #, fuzzy
 #| msgid "Java Properties (ISO-8859-1)"
 msgid "Java Properties (ISO 8859-1)"
 msgstr "Java Properties (ISO-8859-1)"
 
-#: weblate/formats/ttkit.py:1214
+#: weblate/formats/ttkit.py:1209
 #, fuzzy
 #| msgid "Joomla Language File"
 msgid "Joomla language file"
 msgstr "Joomla prekladový súbor"
 
-#: weblate/formats/ttkit.py:1223
+#: weblate/formats/ttkit.py:1218
 #, fuzzy
 #| msgid "Java Properties"
 msgid "GWT properties"
 msgstr "Vlastnosti Javy"
 
-#: weblate/formats/ttkit.py:1231
+#: weblate/formats/ttkit.py:1226
 msgid "PHP strings"
 msgstr "PHP reťazce"
 
-#: weblate/formats/ttkit.py:1250
+#: weblate/formats/ttkit.py:1245
 #, fuzzy
 #| msgid "PHP strings"
 msgid "Laravel PHP strings"
 msgstr "PHP reťazce"
 
-#: weblate/formats/ttkit.py:1256
+#: weblate/formats/ttkit.py:1251
 #, fuzzy
 #| msgid ".Net resource file"
 msgid ".NET resource file"
 msgstr ".Net zdrojový (resource) súbor"
 
-#: weblate/formats/ttkit.py:1279
+#: weblate/formats/ttkit.py:1274
 msgid "JSON file"
 msgstr "JSON súbor"
 
-#: weblate/formats/ttkit.py:1299
+#: weblate/formats/ttkit.py:1294
 msgid "JSON nested structure file"
 msgstr "JSON súbor s vnorenou štruktúrou"
 
-#: weblate/formats/ttkit.py:1306
+#: weblate/formats/ttkit.py:1301
 msgid "WebExtension JSON file"
 msgstr "WebExtension JSON súbor"
 
-#: weblate/formats/ttkit.py:1315
+#: weblate/formats/ttkit.py:1310
 msgid "i18next JSON file"
 msgstr "i18next JSON súbor"
 
-#: weblate/formats/ttkit.py:1323
+#: weblate/formats/ttkit.py:1318
 #, fuzzy
 #| msgid "i18next JSON file"
 msgid "go-i18n JSON file"
 msgstr "i18next JSON súbor"
 
-#: weblate/formats/ttkit.py:1330
+#: weblate/formats/ttkit.py:1325
 #, fuzzy
 #| msgid "RC file"
 msgid "ARB file"
 msgstr "RC súbor"
 
-#: weblate/formats/ttkit.py:1338
+#: weblate/formats/ttkit.py:1333
 msgid "CSV file"
 msgstr "CSV súbor"
 
-#: weblate/formats/ttkit.py:1425
+#: weblate/formats/ttkit.py:1418
 msgid "Simple CSV file"
 msgstr "Jednoduchý CSV súbor"
 
-#: weblate/formats/ttkit.py:1446
+#: weblate/formats/ttkit.py:1438
 msgid "Simple CSV file (ISO-8859-1)"
 msgstr "Jednoduchý CSV súbor (ISO-8859-1)"
 
-#: weblate/formats/ttkit.py:1453
+#: weblate/formats/ttkit.py:1445
 msgid "YAML file"
 msgstr "YAML súbor"
 
-#: weblate/formats/ttkit.py:1472
+#: weblate/formats/ttkit.py:1464
 msgid "Ruby YAML file"
 msgstr "Ruby YAML súbor"
 
-#: weblate/formats/ttkit.py:1479
+#: weblate/formats/ttkit.py:1471
 msgid "DTD file"
 msgstr "DTD súbor"
 
-#: weblate/formats/ttkit.py:1520
+#: weblate/formats/ttkit.py:1512
 msgid "SubRip subtitle file"
 msgstr "SubRip súbor s titulkami"
 
-#: weblate/formats/ttkit.py:1534
+#: weblate/formats/ttkit.py:1526
 #, fuzzy
 #| msgid "MicroDVD subtitles file"
 msgid "MicroDVD subtitle file"
 msgstr "MicroDVD súbor s titulkami"
 
-#: weblate/formats/ttkit.py:1541
+#: weblate/formats/ttkit.py:1533
 #, fuzzy
 #| msgid "Advanced Substation Alpha subtitles file"
 msgid "Advanced SubStation Alpha subtitle file"
 msgstr "Advanced Substation Alpha súbor s titulkami"
 
-#: weblate/formats/ttkit.py:1548
+#: weblate/formats/ttkit.py:1540
 #, fuzzy
 #| msgid "Substation Alpha subtitles file"
 msgid "SubStation Alpha subtitle file"
 msgstr "Substation Alpha súbor s titulkami"
 
-#: weblate/formats/ttkit.py:1555
+#: weblate/formats/ttkit.py:1547
 #, fuzzy
 #| msgid "YAML file"
 msgid "Flat XML file"
 msgstr "YAML súbor"
 
-#: weblate/formats/ttkit.py:1564
+#: weblate/formats/ttkit.py:1556
 #, fuzzy
 #| msgid "YAML file"
 msgid "INI file"
 msgstr "YAML súbor"
 
-#: weblate/formats/ttkit.py:1604
+#: weblate/formats/ttkit.py:1595
 msgid "Inno Setup INI file"
 msgstr ""
 
-#: weblate/formats/ttkit.py:1757
+#: weblate/formats/ttkit.py:1747
 #, fuzzy
 #| msgid "TermBase eXchange (TBX)"
 msgid "TermBase eXchange file"
 msgstr "TermBase eXchange (TBX)"
 
-#: weblate/formats/ttkit.py:1786
+#: weblate/formats/ttkit.py:1776
 #, fuzzy
 #| msgid "Failing file"
 msgid "mi18n lang file"
 msgstr "Zlyhávajúci súbor"
 
-#: weblate/formats/ttkit.py:1795
+#: weblate/formats/ttkit.py:1785
 #, fuzzy
 #| msgid "Strings with comments"
 msgid "Stringsdict file"
 msgstr "Reťazce s komentármi"
 
-#: weblate/formats/ttkit.py:1842
+#: weblate/formats/ttkit.py:1838
 #, fuzzy
 #| msgid "Font file"
 msgid "Fluent file"
@@ -13662,11 +13676,11 @@ msgstr "Dlhá pomlčka"
 msgid "User configured character: {}"
 msgstr "Vložiť znak {0}"
 
-#: weblate/trans/tasks.py:398
+#: weblate/trans/tasks.py:402
 msgid "Automatic translation completed, no strings were updated."
 msgstr "Automatický preklad bol dokončený, neboli zmenené žiadne reťazce."
 
-#: weblate/trans/tasks.py:402
+#: weblate/trans/tasks.py:406
 #, python-format
 msgid "Automatic translation completed, %d string was updated."
 msgid_plural "Automatic translation completed, %d strings were updated."
@@ -14799,24 +14813,24 @@ msgid "No remote repository"
 msgstr "Zdrojový repozitár"
 
 #. Translators: placeholder SSH hashed hostname
-#: weblate/vcs/ssh.py:69
+#: weblate/vcs/ssh.py:68
 msgid "[hostname hashed]"
 msgstr "[meno hostiteľa je skryté]"
 
-#: weblate/vcs/ssh.py:133
+#: weblate/vcs/ssh.py:132
 #, python-format
 msgid "Failed to generate key: %s"
 msgstr "Nepodarilo sa vytvoriť kľúč: %s"
 
-#: weblate/vcs/ssh.py:141
+#: weblate/vcs/ssh.py:140
 msgid "Created new SSH key."
 msgstr "Bol vytvorený nový SSH kľúč."
 
-#: weblate/vcs/ssh.py:147
+#: weblate/vcs/ssh.py:146
 msgid "Invalid host name given!"
 msgstr "Zadané chybné meno hostiteľa!"
 
-#: weblate/vcs/ssh.py:172
+#: weblate/vcs/ssh.py:171
 #, python-format
 msgid ""
 "Added host key for %(host)s with fingerprint %(fingerprint)s (%(keytype)s), "
@@ -14825,11 +14839,11 @@ msgstr ""
 "Pridaný kľúč pre hostiteľa %(host)s s odtlačkom %(fingerprint)s "
 "(%(keytype)s), overte prosím, že je tento odtlačok správny."
 
-#: weblate/vcs/ssh.py:179
+#: weblate/vcs/ssh.py:178
 msgid "Failed to fetch public key for a host!"
 msgstr "Nepodarilo sa stiahnuť verejný kľúč!"
 
-#: weblate/vcs/ssh.py:185 weblate/vcs/ssh.py:188
+#: weblate/vcs/ssh.py:184 weblate/vcs/ssh.py:187
 #, python-format
 msgid "Failed to get host key: %s"
 msgstr "Nepodarilo sa načítať kľúč: %s"

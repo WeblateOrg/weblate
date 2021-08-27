@@ -20,9 +20,9 @@
 # Jiwoon Kim <budaestew@gmail.com>, 2021.
 msgid ""
 msgstr ""
-"Project-Id-Version: Weblate 4.8\n"
+"Project-Id-Version: Weblate 4.8.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
-"POT-Creation-Date: 2021-08-19 07:57+0000\n"
+"POT-Creation-Date: 2021-08-27 17:48+0000\n"
 "PO-Revision-Date: 2021-08-24 11:56+0000\n"
 "Last-Translator: Jiwoon Kim <budaestew@gmail.com>\n"
 "Language-Team: Korean <https://hosted.weblate.org/projects/weblate/"
@@ -1163,7 +1163,7 @@ msgstr "생성된 파일의 이름"
 msgid "Content of generated file"
 msgstr "생성된 파일의 내용"
 
-#: weblate/addons/forms.py:112 weblate/addons/forms.py:199
+#: weblate/addons/forms.py:112 weblate/addons/forms.py:208
 msgid "Long lines wrapping"
 msgstr "긴 줄 자동 줄바꿈"
 
@@ -1175,7 +1175,7 @@ msgstr "77 글자에서 줄 바꿈"
 msgid "Only wrap lines at newlines"
 msgstr "줄 바꿈에서만 줄바꾸기"
 
-#: weblate/addons/forms.py:116 weblate/addons/forms.py:205
+#: weblate/addons/forms.py:116 weblate/addons/forms.py:214
 msgid "No line wrapping"
 msgstr "줄 바꿈 없음"
 
@@ -1261,84 +1261,98 @@ msgstr "JSON 키 분류하기"
 msgid "JSON indentation"
 msgstr "JSON 들여쓰기"
 
+#: weblate/addons/forms.py:193
+#, fuzzy
+#| msgid "JSON indentation"
+msgid "JSON indentation style"
+msgstr "JSON 들여쓰기"
+
+#: weblate/addons/forms.py:195
+msgid "Spaces"
+msgstr ""
+
 #: weblate/addons/forms.py:196
+msgid "Tabs"
+msgstr ""
+
+#: weblate/addons/forms.py:205
 msgid "YAML indentation"
 msgstr "YAML 들여쓰기"
 
-#: weblate/addons/forms.py:201
+#: weblate/addons/forms.py:210
 msgid "Wrap lines at 80 chars"
 msgstr "80자에서 줄바꿈"
 
-#: weblate/addons/forms.py:202
+#: weblate/addons/forms.py:211
 msgid "Wrap lines at 100 chars"
 msgstr "100자에서 줄바꿈"
 
-#: weblate/addons/forms.py:203
+#: weblate/addons/forms.py:212
 msgid "Wrap lines at 120 chars"
 msgstr "120자에서 줄바꿈"
 
-#: weblate/addons/forms.py:204
+#: weblate/addons/forms.py:213
 msgid "Wrap lines at 180 chars"
 msgstr "180자에서 줄바꿈"
 
-#: weblate/addons/forms.py:211
+#: weblate/addons/forms.py:220
 msgid "Line breaks"
 msgstr "줄바꿈"
 
-#: weblate/addons/forms.py:213
+#: weblate/addons/forms.py:222
 msgid "DOS (\\r\\n)"
 msgstr "도스 (\\r\\n)"
 
-#: weblate/addons/forms.py:214
+#: weblate/addons/forms.py:223
 msgid "UNIX (\\n)"
 msgstr "유닉스 (\\n)"
 
-#: weblate/addons/forms.py:215
+#: weblate/addons/forms.py:224
 msgid "MAC (\\r)"
 msgstr "맥 (\\r)"
 
-#: weblate/addons/forms.py:224
+#: weblate/addons/forms.py:233
 msgid "Days to keep"
 msgstr "보관할 일수"
 
-#: weblate/addons/forms.py:230
+#: weblate/addons/forms.py:239
 msgid "Voting threshold"
 msgstr "투표 한계값"
 
-#: weblate/addons/forms.py:234
+#: weblate/addons/forms.py:243
 msgid "Threshold for removal. This field has no effect with voting turned off."
 msgstr ""
 "삭제하기 쉬운 값을 지정합니다. 이 영역은 투표 기능이 해제된 상태에서는 효과"
 "가 없습니다."
 
-#: weblate/addons/forms.py:241
+#: weblate/addons/forms.py:250
 msgid "Regular expression to match translation files against"
 msgstr "번역 파일과 일치하는 정규 표현식"
 
-#: weblate/addons/forms.py:244
+#: weblate/addons/forms.py:253
 #: weblate/templates/trans/alert/unsupportedconfiguration.html:15
 #: weblate/templates/trans/discover-choice.html:5 weblate/trans/forms.py:568
 #: weblate/trans/forms.py:1605 weblate/trans/models/component.py:382
 msgid "File format"
 msgstr "파일 유형"
 
-#: weblate/addons/forms.py:250
+#: weblate/addons/forms.py:259
 msgid "Customize the component name"
 msgstr "구성 요소 이름을 커스터마이즈하기"
 
-#: weblate/addons/forms.py:255
+#: weblate/addons/forms.py:264
 msgid "Define the monolingual base filename"
 msgstr "단일 언어 기반 파일을 정의하기"
 
-#: weblate/addons/forms.py:258
+#: weblate/addons/forms.py:267
 msgid "Leave empty for bilingual translation files."
 msgstr "2개 국어로 번역되는 파일의 경우 비워 두십시오."
 
-#: weblate/addons/forms.py:261
+#: weblate/addons/forms.py:270
 msgid "Define the base file for new translations"
 msgstr "새 번역을 위한 기본 파일 정의하기"
 
-#: weblate/addons/forms.py:265 weblate/trans/models/component.py:376
+#: weblate/addons/forms.py:274 weblate/trans/models/component.py:376
 msgid ""
 "Filename of file used for creating new translations. For gettext choose .pot "
 "file."
@@ -1346,65 +1360,65 @@ msgstr ""
 "새로운 번역을 만들기 위해 사용되는 파일의 파일 명. Gettext에서는 .pot파일을 "
 "선택하십시오."
 
-#: weblate/addons/forms.py:270 weblate/trans/models/component.py:575
+#: weblate/addons/forms.py:279 weblate/trans/models/component.py:575
 msgid "Language filter"
 msgstr "언어 필터"
 
-#: weblate/addons/forms.py:275
+#: weblate/addons/forms.py:284
 msgid ""
 "Regular expression to filter translation files against when scanning for "
 "filemask."
 msgstr "파일 마스크를 검사할 때 번역 파일을 골라내는데 사용되는 정규식."
 
-#: weblate/addons/forms.py:280
+#: weblate/addons/forms.py:289
 msgid "Clone addons from the main component to the newly created ones"
 msgstr "기본 구성 요소에서 새로 작성된 구성 요소로 애드온을 복제"
 
-#: weblate/addons/forms.py:285
+#: weblate/addons/forms.py:294
 msgid "Remove components for inexistant files"
 msgstr "존재하지 않는 파일에 대한 구성 요소 제거"
 
-#: weblate/addons/forms.py:288
+#: weblate/addons/forms.py:297
 msgid "I confirm the above matches look correct"
 msgstr "나는 위의 일치 항목이 올바른지 확인합니다"
 
-#: weblate/addons/forms.py:349
+#: weblate/addons/forms.py:358
 msgid "Please review and confirm the matched components."
 msgstr "일치하는 구성 요소를 검토하고 확인하십시오."
 
-#: weblate/addons/forms.py:377
+#: weblate/addons/forms.py:386
 msgid "Please include component markup in the template."
 msgstr "서식에 구성 요소 마크 업을 포함시키십시오."
 
-#: weblate/addons/forms.py:419
+#: weblate/addons/forms.py:428
 msgid "Translation threshold"
 msgstr "번역 임곗값"
 
-#: weblate/addons/forms.py:424
+#: weblate/addons/forms.py:433
 msgid "Threshold for inclusion of translations."
 msgstr "번역에 포함하기 위한 임곗값입니다."
 
-#: weblate/addons/forms.py:427
+#: weblate/addons/forms.py:436
 msgid "CSS selector"
 msgstr "CSS 선택기"
 
-#: weblate/addons/forms.py:430
+#: weblate/addons/forms.py:439
 msgid "CSS selector to detect localizable elements."
 msgstr "현지화 가능한 요소를 감지하는 CSS 선택기입니다."
 
-#: weblate/addons/forms.py:433
+#: weblate/addons/forms.py:442
 msgid "Language cookie name"
 msgstr "언어 쿠키 이름"
 
-#: weblate/addons/forms.py:436
+#: weblate/addons/forms.py:445
 msgid "Name of cookie which stores language preference."
 msgstr "언어 설정을 저장하는 쿠키의 이름입니다."
 
-#: weblate/addons/forms.py:440
+#: weblate/addons/forms.py:449
 msgid "Extract strings from HTML files"
 msgstr "HTML 파일에서 문자열 추출"
 
-#: weblate/addons/forms.py:443
+#: weblate/addons/forms.py:452
 msgid ""
 "List of filenames in current repository or remote URLs to parse for "
 "translatable strings."
@@ -1412,28 +1426,28 @@ msgstr ""
 "번역 가능한 문자열의 구문을 분석할 현재 저장소 또는 원격 URL의 파일 이름들입"
 "니다."
 
-#: weblate/addons/forms.py:468 weblate/billing/models.py:299
+#: weblate/addons/forms.py:477 weblate/billing/models.py:299
 #: weblate/templates/snippets/query-builder.html:13
 #: weblate/templates/snippets/query-builder.html:15
 #: weblate/templates/translation.html:128 weblate/trans/admin.py:95
 msgid "Source strings"
 msgstr "원본 문자열"
 
-#: weblate/addons/forms.py:469
+#: weblate/addons/forms.py:478
 #, fuzzy
 #| msgid "Create translation"
 msgid "Target translation"
 msgstr "번역 생성"
 
-#: weblate/addons/forms.py:471
+#: weblate/addons/forms.py:480
 msgid "String prefix"
 msgstr "문자열 접두사"
 
-#: weblate/addons/forms.py:476
+#: weblate/addons/forms.py:485
 msgid "String suffix"
 msgstr "문자열 접미사"
 
-#: weblate/addons/forms.py:493
+#: weblate/addons/forms.py:502
 msgid "The source and target have to be different languages."
 msgstr "원본과 대상은 다른 언어여야 합니다."
 
@@ -1594,19 +1608,19 @@ msgid ""
 "Allows adjusting YAML output behavior, for example line-length or newlines."
 msgstr "길이나 줄바꿈같은 YAML 출력 방식을 조정하도록 합니다."
 
-#: weblate/auth/admin.py:140 weblate/auth/admin.py:145
+#: weblate/auth/admin.py:144 weblate/auth/admin.py:149
 msgid "Personal info"
 msgstr "개인 정보"
 
-#: weblate/auth/admin.py:141
+#: weblate/auth/admin.py:145
 msgid "Authentication"
 msgstr "인증"
 
-#: weblate/auth/admin.py:146 weblate/auth/models.py:84
+#: weblate/auth/admin.py:150 weblate/auth/models.py:84
 msgid "Permissions"
 msgstr "권한"
 
-#: weblate/auth/admin.py:147
+#: weblate/auth/admin.py:151
 msgid "Important dates"
 msgstr "중요 날짜"
 
@@ -3032,33 +3046,33 @@ msgstr "글꼴 목록 삭제됨."
 msgid "Failed to load strings from the file, try choosing other format."
 msgstr "파일에서 문자열을 불러오지 못했습니다. 다른 형식을 선택하십시오."
 
-#: weblate/formats/convert.py:195
+#: weblate/formats/convert.py:194
 msgid "HTML file"
 msgstr "HTML 파일"
 
-#: weblate/formats/convert.py:253
+#: weblate/formats/convert.py:252
 msgid "OpenDocument file"
 msgstr "오픈도큐먼트 파일"
 
-#: weblate/formats/convert.py:313
+#: weblate/formats/convert.py:312
 msgid "IDML file"
 msgstr "IDML 파일"
 
-#: weblate/formats/convert.py:367
+#: weblate/formats/convert.py:366
 msgid "RC file"
 msgstr "RC 파일"
 
-#: weblate/formats/convert.py:435
+#: weblate/formats/convert.py:434
 #, fuzzy
 #| msgid "i18next JSON file"
 msgid "Plain text file"
 msgstr "i18next JSON 파일"
 
-#: weblate/formats/convert.py:478
+#: weblate/formats/convert.py:477
 msgid "DokuWiki text file"
 msgstr ""
 
-#: weblate/formats/convert.py:485
+#: weblate/formats/convert.py:484
 msgid "MediaWiki text file"
 msgstr ""
 
@@ -3100,7 +3114,7 @@ msgstr ""
 msgid "JSON"
 msgstr "JSON"
 
-#: weblate/formats/exporters.py:434 weblate/formats/ttkit.py:1267
+#: weblate/formats/exporters.py:434 weblate/formats/ttkit.py:1262
 msgid "Android String Resource"
 msgstr "안드로이드 문자열 리소스"
 
@@ -3112,165 +3126,165 @@ msgstr "iOS 문자열"
 msgid "Excel Open XML"
 msgstr "Excel 오픈 XML"
 
-#: weblate/formats/ttkit.py:1043
+#: weblate/formats/ttkit.py:1040
 msgid "gettext PO file"
 msgstr "gettext PO 파일"
 
-#: weblate/formats/ttkit.py:1056
+#: weblate/formats/ttkit.py:1053
 msgid "gettext PO file (monolingual)"
 msgstr "gettext PO 파일 (단일 단어)"
 
-#: weblate/formats/ttkit.py:1080
+#: weblate/formats/ttkit.py:1077
 msgid "Qt Linguist translation file"
 msgstr "큐트 언어학자(Qt Linguist) 번역 파일"
 
-#: weblate/formats/ttkit.py:1096
+#: weblate/formats/ttkit.py:1093
 msgid "XLIFF translation file"
 msgstr "XLIFF 번역 파일"
 
-#: weblate/formats/ttkit.py:1125
+#: weblate/formats/ttkit.py:1122
 msgid "XLIFF with gettext extensions"
 msgstr "gettext 확장이 있는 XLIFF"
 
-#: weblate/formats/ttkit.py:1155
+#: weblate/formats/ttkit.py:1152
 msgid "iOS strings (UTF-16)"
 msgstr "iOS 문자열 (UTF-16)"
 
-#: weblate/formats/ttkit.py:1164
+#: weblate/formats/ttkit.py:1161
 msgid "iOS strings (UTF-8)"
 msgstr "iOS 문자열 (UTF-8)"
 
-#: weblate/formats/ttkit.py:1171
+#: weblate/formats/ttkit.py:1168
 msgid "Java Properties (UTF-8)"
 msgstr "자바 속성 (UTF-8)"
 
-#: weblate/formats/ttkit.py:1180
+#: weblate/formats/ttkit.py:1177
 msgid "Java Properties (UTF-16)"
 msgstr "자바 속성 (UTF-16)"
 
-#: weblate/formats/ttkit.py:1196
+#: weblate/formats/ttkit.py:1192
 msgid "Java Properties (ISO 8859-1)"
 msgstr "자바 속성 (ISO-8859-1)"
 
-#: weblate/formats/ttkit.py:1214
+#: weblate/formats/ttkit.py:1209
 #, fuzzy
 #| msgid "Joomla Language File"
 msgid "Joomla language file"
 msgstr "줌라(Joomla) 언어 파일"
 
-#: weblate/formats/ttkit.py:1223
+#: weblate/formats/ttkit.py:1218
 #, fuzzy
 #| msgid "GWT Properties"
 msgid "GWT properties"
 msgstr "GWT 환경 설정"
 
-#: weblate/formats/ttkit.py:1231
+#: weblate/formats/ttkit.py:1226
 msgid "PHP strings"
 msgstr "PHP 문자열"
 
-#: weblate/formats/ttkit.py:1250
+#: weblate/formats/ttkit.py:1245
 msgid "Laravel PHP strings"
 msgstr "라라벨 PHP 문자열"
 
-#: weblate/formats/ttkit.py:1256
+#: weblate/formats/ttkit.py:1251
 msgid ".NET resource file"
 msgstr "닷넷(.NET) 리소스 파일"
 
-#: weblate/formats/ttkit.py:1279
+#: weblate/formats/ttkit.py:1274
 msgid "JSON file"
 msgstr "JSON 파일"
 
-#: weblate/formats/ttkit.py:1299
+#: weblate/formats/ttkit.py:1294
 msgid "JSON nested structure file"
 msgstr "JSON 중첩 구조 파일"
 
-#: weblate/formats/ttkit.py:1306
+#: weblate/formats/ttkit.py:1301
 msgid "WebExtension JSON file"
 msgstr "웹확장 JSON 파일"
 
-#: weblate/formats/ttkit.py:1315
+#: weblate/formats/ttkit.py:1310
 msgid "i18next JSON file"
 msgstr "i18next JSON 파일"
 
-#: weblate/formats/ttkit.py:1323
+#: weblate/formats/ttkit.py:1318
 msgid "go-i18n JSON file"
 msgstr "go-i18n JSON 파일"
 
-#: weblate/formats/ttkit.py:1330
+#: weblate/formats/ttkit.py:1325
 msgid "ARB file"
 msgstr "ARB 파일"
 
-#: weblate/formats/ttkit.py:1338
+#: weblate/formats/ttkit.py:1333
 msgid "CSV file"
 msgstr "CSV 파일"
 
-#: weblate/formats/ttkit.py:1425
+#: weblate/formats/ttkit.py:1418
 msgid "Simple CSV file"
 msgstr "Simple CSV 파일"
 
-#: weblate/formats/ttkit.py:1446
+#: weblate/formats/ttkit.py:1438
 msgid "Simple CSV file (ISO-8859-1)"
 msgstr "Simple CSV 파일 (ISO-8859-1)"
 
-#: weblate/formats/ttkit.py:1453
+#: weblate/formats/ttkit.py:1445
 msgid "YAML file"
 msgstr "YAML 파일"
 
-#: weblate/formats/ttkit.py:1472
+#: weblate/formats/ttkit.py:1464
 msgid "Ruby YAML file"
 msgstr "Ruby YAML 파일"
 
-#: weblate/formats/ttkit.py:1479
+#: weblate/formats/ttkit.py:1471
 msgid "DTD file"
 msgstr "DTD 파일"
 
-#: weblate/formats/ttkit.py:1520
+#: weblate/formats/ttkit.py:1512
 msgid "SubRip subtitle file"
 msgstr "SubRip 자막 파일"
 
-#: weblate/formats/ttkit.py:1534
+#: weblate/formats/ttkit.py:1526
 msgid "MicroDVD subtitle file"
 msgstr "마이크로DVD 자막 파일"
 
-#: weblate/formats/ttkit.py:1541
+#: weblate/formats/ttkit.py:1533
 msgid "Advanced SubStation Alpha subtitle file"
 msgstr "고급 변전소 알파 자막 파일"
 
-#: weblate/formats/ttkit.py:1548
+#: weblate/formats/ttkit.py:1540
 msgid "SubStation Alpha subtitle file"
 msgstr "변전소 알파 자막 파일"
 
-#: weblate/formats/ttkit.py:1555
+#: weblate/formats/ttkit.py:1547
 msgid "Flat XML file"
 msgstr "플렛 XML 파일"
 
-#: weblate/formats/ttkit.py:1564
+#: weblate/formats/ttkit.py:1556
 msgid "INI file"
 msgstr "INI 파일"
 
-#: weblate/formats/ttkit.py:1604
+#: weblate/formats/ttkit.py:1595
 msgid "Inno Setup INI file"
 msgstr "이노셋업(InnoSetup) INI 파일"
 
-#: weblate/formats/ttkit.py:1757
+#: weblate/formats/ttkit.py:1747
 #, fuzzy
 #| msgid "TermBase eXchange (TBX)"
 msgid "TermBase eXchange file"
 msgstr "텀베이스 익스체인지 형식 (TBX)"
 
-#: weblate/formats/ttkit.py:1786
+#: weblate/formats/ttkit.py:1776
 #, fuzzy
 #| msgid "Failing file"
 msgid "mi18n lang file"
 msgstr "실패한 파일"
 
-#: weblate/formats/ttkit.py:1795
+#: weblate/formats/ttkit.py:1785
 #, fuzzy
 #| msgid "Strings with labels"
 msgid "Stringsdict file"
 msgstr "레이블이 있는 문자열"
 
-#: weblate/formats/ttkit.py:1842
+#: weblate/formats/ttkit.py:1838
 #, fuzzy
 #| msgid "Font file"
 msgid "Fluent file"
@@ -9660,7 +9674,8 @@ msgstr "모든 문자열, 주석을 포함하여 변환된 파일; 오프라인 
 msgid ""
 "Strings needing action, converted files enriched with comments; suitable for "
 "offline translation"
-msgstr "작업이 필요한 문자열, 주석을 포함하여 변환된 파일; 오프라인 번역에 적합"
+msgstr ""
+"작업이 필요한 문자열, 주석을 포함하여 변환된 파일; 오프라인 번역에 적합"
 
 #: weblate/templates/translation.html:377
 msgid ""
@@ -11803,11 +11818,11 @@ msgstr "엠 대쉬"
 msgid "User configured character: {}"
 msgstr "사용자 구성 문자: {}"
 
-#: weblate/trans/tasks.py:398
+#: weblate/trans/tasks.py:402
 msgid "Automatic translation completed, no strings were updated."
 msgstr "자동 번역이 완료되었습니다. 아무 문자열도 변경되지 않았습니다."
 
-#: weblate/trans/tasks.py:402
+#: weblate/trans/tasks.py:406
 #, python-format
 msgid "Automatic translation completed, %d string was updated."
 msgid_plural "Automatic translation completed, %d strings were updated."
@@ -12774,24 +12789,24 @@ msgid "No remote repository"
 msgstr "원력 저장소 없음"
 
 #. Translators: placeholder SSH hashed hostname
-#: weblate/vcs/ssh.py:69
+#: weblate/vcs/ssh.py:68
 msgid "[hostname hashed]"
 msgstr "[호스트이름 해쉬됨]"
 
-#: weblate/vcs/ssh.py:133
+#: weblate/vcs/ssh.py:132
 #, python-format
 msgid "Failed to generate key: %s"
 msgstr "키 생성에 실패하였습니다: %s"
 
-#: weblate/vcs/ssh.py:141
+#: weblate/vcs/ssh.py:140
 msgid "Created new SSH key."
 msgstr "새로운 SSH 키가 생성되었습니다."
 
-#: weblate/vcs/ssh.py:147
+#: weblate/vcs/ssh.py:146
 msgid "Invalid host name given!"
 msgstr "호스트 이름이 잘못되었습니다!"
 
-#: weblate/vcs/ssh.py:172
+#: weblate/vcs/ssh.py:171
 #, python-format
 msgid ""
 "Added host key for %(host)s with fingerprint %(fingerprint)s (%(keytype)s), "
@@ -12800,11 +12815,11 @@ msgstr ""
 "지문 %(fingerprint)s (%(keytype)s),와 %(host)s에 대한 호스트 키가 추가되었습"
 "니다. 올바른지 확인하시기 바랍니다."
 
-#: weblate/vcs/ssh.py:179
+#: weblate/vcs/ssh.py:178
 msgid "Failed to fetch public key for a host!"
 msgstr "호스트를 위한 공개 키를 가져오는데 실패했습니다!"
 
-#: weblate/vcs/ssh.py:185 weblate/vcs/ssh.py:188
+#: weblate/vcs/ssh.py:184 weblate/vcs/ssh.py:187
 #, python-format
 msgid "Failed to get host key: %s"
 msgstr "키 가져오기에 실패하였습니다: %s"

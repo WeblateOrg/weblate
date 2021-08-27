@@ -11,9 +11,9 @@
 # KAHINA <messaoudikahina02@gmail.com>, 2021.
 msgid ""
 msgstr ""
-"Project-Id-Version: Weblate 4.8\n"
+"Project-Id-Version: Weblate 4.8.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
-"POT-Creation-Date: 2021-08-19 07:57+0000\n"
+"POT-Creation-Date: 2021-08-27 17:48+0000\n"
 "PO-Revision-Date: 2021-08-10 21:22+0000\n"
 "Last-Translator: KAHINA <messaoudikahina02@gmail.com>\n"
 "Language-Team: Kabyle <https://hosted.weblate.org/projects/weblate/"
@@ -1197,7 +1197,7 @@ msgstr "Isem n ufaylu yettwarnan"
 msgid "Content of generated file"
 msgstr "Agbur n ufaylu yettwarnan"
 
-#: weblate/addons/forms.py:112 weblate/addons/forms.py:199
+#: weblate/addons/forms.py:112 weblate/addons/forms.py:208
 msgid "Long lines wrapping"
 msgstr "Aseggem n yizirigenɣezzifen"
 
@@ -1213,7 +1213,7 @@ msgstr ""
 msgid "Only wrap lines at newlines"
 msgstr "Tuɣalin tawurmant ala i yizirigen imaynuten"
 
-#: weblate/addons/forms.py:116 weblate/addons/forms.py:205
+#: weblate/addons/forms.py:116 weblate/addons/forms.py:214
 msgid "No line wrapping"
 msgstr "Ulac tuɣalin tawurmant ɣer yizirig"
 
@@ -1303,82 +1303,96 @@ msgstr "Smizwer tisura JSON"
 msgid "JSON indentation"
 msgstr "Tarigla JSON"
 
+#: weblate/addons/forms.py:193
+#, fuzzy
+#| msgid "JSON indentation"
+msgid "JSON indentation style"
+msgstr "Tarigla JSON"
+
+#: weblate/addons/forms.py:195
+msgid "Spaces"
+msgstr ""
+
 #: weblate/addons/forms.py:196
+msgid "Tabs"
+msgstr ""
+
+#: weblate/addons/forms.py:205
 msgid "YAML indentation"
 msgstr "Tarigla YAML"
 
-#: weblate/addons/forms.py:201
+#: weblate/addons/forms.py:210
 msgid "Wrap lines at 80 chars"
 msgstr "Saẓ ɣer 80 n yusekkilen"
 
-#: weblate/addons/forms.py:202
+#: weblate/addons/forms.py:211
 msgid "Wrap lines at 100 chars"
 msgstr "Saẓ ɣer 100 n yusekkilen"
 
-#: weblate/addons/forms.py:203
+#: weblate/addons/forms.py:212
 msgid "Wrap lines at 120 chars"
 msgstr "Saẓ ɣer 120 n yusekkilen"
 
-#: weblate/addons/forms.py:204
+#: weblate/addons/forms.py:213
 msgid "Wrap lines at 180 chars"
 msgstr "Saẓ ɣer 180 n yusekkilen"
 
-#: weblate/addons/forms.py:211
+#: weblate/addons/forms.py:220
 msgid "Line breaks"
 msgstr "Angaz n yizirig"
 
-#: weblate/addons/forms.py:213
+#: weblate/addons/forms.py:222
 msgid "DOS (\\r\\n)"
 msgstr "DOS (\\r\\n)"
 
-#: weblate/addons/forms.py:214
+#: weblate/addons/forms.py:223
 msgid "UNIX (\\n)"
 msgstr "UNIX (\\n)"
 
-#: weblate/addons/forms.py:215
+#: weblate/addons/forms.py:224
 msgid "MAC (\\r)"
 msgstr "MAC (\\r)"
 
-#: weblate/addons/forms.py:224
+#: weblate/addons/forms.py:233
 msgid "Days to keep"
 msgstr "Amḍan n wussan i uḥraz"
 
-#: weblate/addons/forms.py:230
+#: weblate/addons/forms.py:239
 msgid "Voting threshold"
 msgstr "Afellay n tefranin"
 
-#: weblate/addons/forms.py:234
+#: weblate/addons/forms.py:243
 msgid "Threshold for removal. This field has no effect with voting turned off."
 msgstr "Afella akken ad yettwakkes usumer. Urti-a ad yeddu ticki afran yensa."
 
-#: weblate/addons/forms.py:241
+#: weblate/addons/forms.py:250
 msgid "Regular expression to match translation files against"
 msgstr "Tanfalit talugant iɣef ad tgeḍ anmeɣru n yifuyla n tsuqilt"
 
-#: weblate/addons/forms.py:244
+#: weblate/addons/forms.py:253
 #: weblate/templates/trans/alert/unsupportedconfiguration.html:15
 #: weblate/templates/trans/discover-choice.html:5 weblate/trans/forms.py:568
 #: weblate/trans/forms.py:1605 weblate/trans/models/component.py:382
 msgid "File format"
 msgstr "Amasal n ufaylu"
 
-#: weblate/addons/forms.py:250
+#: weblate/addons/forms.py:259
 msgid "Customize the component name"
 msgstr "Mudd isem i usuddis"
 
-#: weblate/addons/forms.py:255
+#: weblate/addons/forms.py:264
 msgid "Define the monolingual base filename"
 msgstr "Sbadu isem n ufaylu n yiwet n tutlayt amezwaru"
 
-#: weblate/addons/forms.py:258
+#: weblate/addons/forms.py:267
 msgid "Leave empty for bilingual translation files."
 msgstr "Eǧǧ-it d ilem i yifuyla n tsuqilt n snat n tutlayin."
 
-#: weblate/addons/forms.py:261
+#: weblate/addons/forms.py:270
 msgid "Define the base file for new translations"
 msgstr "Sbadu afaylu amezwaru i tsuqilin timaynutin"
 
-#: weblate/addons/forms.py:265 weblate/trans/models/component.py:376
+#: weblate/addons/forms.py:274 weblate/trans/models/component.py:376
 msgid ""
 "Filename of file used for creating new translations. For gettext choose .pot "
 "file."
@@ -1386,11 +1400,11 @@ msgstr ""
 "Isem n ufaylu yettwaseqdec i tmerna n tsuqilin timaynutin. I gettext, fren "
 "afaylu .pot."
 
-#: weblate/addons/forms.py:270 weblate/trans/models/component.py:575
+#: weblate/addons/forms.py:279 weblate/trans/models/component.py:575
 msgid "Language filter"
 msgstr "Sizdeg tutlayt"
 
-#: weblate/addons/forms.py:275
+#: weblate/addons/forms.py:284
 msgid ""
 "Regular expression to filter translation files against when scanning for "
 "filemask."
@@ -1398,55 +1412,55 @@ msgstr ""
 "Tanfalit talugant i usizdeg n yifuyla n tsuqilt deg unadi n tgelmust n "
 "ufaylu."
 
-#: weblate/addons/forms.py:280
+#: weblate/addons/forms.py:289
 msgid "Clone addons from the main component to the newly created ones"
 msgstr "Sleg izegrar n usuddis agejdan ɣer yiferdisen yettwarnan melmi kan"
 
-#: weblate/addons/forms.py:285
+#: weblate/addons/forms.py:294
 msgid "Remove components for inexistant files"
 msgstr "Kkes isuddisen n yifuyla yellan"
 
-#: weblate/addons/forms.py:288
+#: weblate/addons/forms.py:297
 msgid "I confirm the above matches look correct"
 msgstr "Ad d-wekkdeɣ d akken anmeɣru ddaw-a yettban d ameɣtu"
 
-#: weblate/addons/forms.py:349
+#: weblate/addons/forms.py:358
 msgid "Please review and confirm the matched components."
 msgstr "Ttxil-k sleḍ daɣen sentem isuddisen icudden."
 
-#: weblate/addons/forms.py:377
+#: weblate/addons/forms.py:386
 msgid "Please include component markup in the template."
 msgstr "Ttxil-k seddu tiṛekkizin n yisuddisen deg tneɣruft."
 
-#: weblate/addons/forms.py:419
+#: weblate/addons/forms.py:428
 msgid "Translation threshold"
 msgstr "Talast n tsuqilt"
 
-#: weblate/addons/forms.py:424
+#: weblate/addons/forms.py:433
 msgid "Threshold for inclusion of translations."
 msgstr "Talast n usttekki n tsuqilin"
 
-#: weblate/addons/forms.py:427
+#: weblate/addons/forms.py:436
 msgid "CSS selector"
 msgstr "Amsefran CSS"
 
-#: weblate/addons/forms.py:430
+#: weblate/addons/forms.py:439
 msgid "CSS selector to detect localizable elements."
 msgstr "Amsefran CSS i tuṭṭfa n yiferdisen yettwassuqulen."
 
-#: weblate/addons/forms.py:433
+#: weblate/addons/forms.py:442
 msgid "Language cookie name"
 msgstr "Isem n unagi n tuqqna n tutlayt"
 
-#: weblate/addons/forms.py:436
+#: weblate/addons/forms.py:445
 msgid "Name of cookie which stores language preference."
 msgstr "Isem n unagi n tuqqna i igebren tutlayt tamenyaft."
 
-#: weblate/addons/forms.py:440
+#: weblate/addons/forms.py:449
 msgid "Extract strings from HTML files"
 msgstr "Suffeɣ-d izriren seg yifuyla HTML"
 
-#: weblate/addons/forms.py:443
+#: weblate/addons/forms.py:452
 msgid ""
 "List of filenames in current repository or remote URLs to parse for "
 "translatable strings."
@@ -1454,32 +1468,32 @@ msgstr ""
 "Tabdert n yismawen n yifuyla deg ukufi amiran neɣ tansa URL inmeggagen i "
 "tesleḍt n yizriren yettwasuqalen."
 
-#: weblate/addons/forms.py:468 weblate/billing/models.py:299
+#: weblate/addons/forms.py:477 weblate/billing/models.py:299
 #: weblate/templates/snippets/query-builder.html:13
 #: weblate/templates/snippets/query-builder.html:15
 #: weblate/templates/translation.html:128 weblate/trans/admin.py:95
 msgid "Source strings"
 msgstr "Izriren iɣbula"
 
-#: weblate/addons/forms.py:469
+#: weblate/addons/forms.py:478
 #, fuzzy
 #| msgid "Weblate translations"
 msgid "Target translation"
 msgstr "Tisuqilin Weblate"
 
-#: weblate/addons/forms.py:471
+#: weblate/addons/forms.py:480
 #, fuzzy
 #| msgid "String age"
 msgid "String prefix"
 msgstr "Awtay n uzrir"
 
-#: weblate/addons/forms.py:476
+#: weblate/addons/forms.py:485
 #, fuzzy
 #| msgid "Strings"
 msgid "String suffix"
 msgstr "Izriren"
 
-#: weblate/addons/forms.py:493
+#: weblate/addons/forms.py:502
 msgid "The source and target have to be different languages."
 msgstr ""
 
@@ -1645,19 +1659,19 @@ msgstr ""
 "Ad isireg tawila n tiddidn n tuffɣa YAML, amedya teɣzi n yizirigen neɣ "
 "izirigen imaynuten."
 
-#: weblate/auth/admin.py:140 weblate/auth/admin.py:145
+#: weblate/auth/admin.py:144 weblate/auth/admin.py:149
 msgid "Personal info"
 msgstr "Talɣut tudmawant"
 
-#: weblate/auth/admin.py:141
+#: weblate/auth/admin.py:145
 msgid "Authentication"
 msgstr "Asesteb"
 
-#: weblate/auth/admin.py:146 weblate/auth/models.py:84
+#: weblate/auth/admin.py:150 weblate/auth/models.py:84
 msgid "Permissions"
 msgstr "Tisirag"
 
-#: weblate/auth/admin.py:147
+#: weblate/auth/admin.py:151
 msgid "Important dates"
 msgstr "Izemzen ixataren"
 
@@ -3106,33 +3120,33 @@ msgstr "Agraw n tsefsit yettwakkes."
 msgid "Failed to load strings from the file, try choosing other format."
 msgstr "Ur izmir ara ad d-iɣer iziriren n ufaylu, ttxil-k ɛreḍ amasal-nniḍen."
 
-#: weblate/formats/convert.py:195
+#: weblate/formats/convert.py:194
 msgid "HTML file"
 msgstr "Afaylu HTML"
 
-#: weblate/formats/convert.py:253
+#: weblate/formats/convert.py:252
 msgid "OpenDocument file"
 msgstr "Afaylu n OpenDocument"
 
-#: weblate/formats/convert.py:313
+#: weblate/formats/convert.py:312
 msgid "IDML file"
 msgstr "Afaylu IDML"
 
-#: weblate/formats/convert.py:367
+#: weblate/formats/convert.py:366
 msgid "RC file"
 msgstr "Afaylu RC"
 
-#: weblate/formats/convert.py:435
+#: weblate/formats/convert.py:434
 #, fuzzy
 #| msgid "i18next JSON file"
 msgid "Plain text file"
 msgstr "Afaylu i18next JSON"
 
-#: weblate/formats/convert.py:478
+#: weblate/formats/convert.py:477
 msgid "DokuWiki text file"
 msgstr "Afaylu aḍris DokuWiki"
 
-#: weblate/formats/convert.py:485
+#: weblate/formats/convert.py:484
 msgid "MediaWiki text file"
 msgstr "Afaylu aḍris MediaWiki"
 
@@ -3174,7 +3188,7 @@ msgstr "XLSX"
 msgid "JSON"
 msgstr "Afaylu JSON"
 
-#: weblate/formats/exporters.py:434 weblate/formats/ttkit.py:1267
+#: weblate/formats/exporters.py:434 weblate/formats/ttkit.py:1262
 msgid "Android String Resource"
 msgstr "Taɣbalut n yizriren Android"
 
@@ -3186,165 +3200,165 @@ msgstr "Izriren"
 msgid "Excel Open XML"
 msgstr "Excel Open XML"
 
-#: weblate/formats/ttkit.py:1043
+#: weblate/formats/ttkit.py:1040
 msgid "gettext PO file"
 msgstr "Afaylu Gettext PO"
 
-#: weblate/formats/ttkit.py:1056
+#: weblate/formats/ttkit.py:1053
 msgid "gettext PO file (monolingual)"
 msgstr "Afaylu gettext PO (yiwet n tutlayt)"
 
-#: weblate/formats/ttkit.py:1080
+#: weblate/formats/ttkit.py:1077
 msgid "Qt Linguist translation file"
 msgstr "Afaylu n tsuqilt n tutlayt QT"
 
-#: weblate/formats/ttkit.py:1096
+#: weblate/formats/ttkit.py:1093
 msgid "XLIFF translation file"
 msgstr "Afaylu n tsuqilt XLIFF"
 
-#: weblate/formats/ttkit.py:1125
+#: weblate/formats/ttkit.py:1122
 msgid "XLIFF with gettext extensions"
 msgstr "XLIFF s usiɣzef gettext"
 
-#: weblate/formats/ttkit.py:1155
+#: weblate/formats/ttkit.py:1152
 msgid "iOS strings (UTF-16)"
 msgstr "Izriren n yisekkilen iOS (UTF-16)"
 
-#: weblate/formats/ttkit.py:1164
+#: weblate/formats/ttkit.py:1161
 msgid "iOS strings (UTF-8)"
 msgstr "Izriren n yisekkilen iOS (UTF-8)"
 
-#: weblate/formats/ttkit.py:1171
+#: weblate/formats/ttkit.py:1168
 msgid "Java Properties (UTF-8)"
 msgstr "Timeẓliyin Java (UTF-8)"
 
-#: weblate/formats/ttkit.py:1180
+#: weblate/formats/ttkit.py:1177
 msgid "Java Properties (UTF-16)"
 msgstr "Timeẓliyin Java (UTF-16)"
 
-#: weblate/formats/ttkit.py:1196
+#: weblate/formats/ttkit.py:1192
 msgid "Java Properties (ISO 8859-1)"
 msgstr "Timeẓilyin Java (ISO-8859-1)"
 
-#: weblate/formats/ttkit.py:1214
+#: weblate/formats/ttkit.py:1209
 #, fuzzy
 #| msgid "Joomla Language File"
 msgid "Joomla language file"
 msgstr "Afaylu n tutlayt Joomla"
 
-#: weblate/formats/ttkit.py:1223
+#: weblate/formats/ttkit.py:1218
 #, fuzzy
 #| msgid "GWT Properties"
 msgid "GWT properties"
 msgstr "Timeẓliyin GWT"
 
-#: weblate/formats/ttkit.py:1231
+#: weblate/formats/ttkit.py:1226
 msgid "PHP strings"
 msgstr "Izriren"
 
-#: weblate/formats/ttkit.py:1250
+#: weblate/formats/ttkit.py:1245
 msgid "Laravel PHP strings"
 msgstr "Izriren n yisekkilen PHP Laravel"
 
-#: weblate/formats/ttkit.py:1256
+#: weblate/formats/ttkit.py:1251
 msgid ".NET resource file"
 msgstr "Afaylu aɣbalu .Net"
 
-#: weblate/formats/ttkit.py:1279
+#: weblate/formats/ttkit.py:1274
 msgid "JSON file"
 msgstr "Afaylu JSON"
 
-#: weblate/formats/ttkit.py:1299
+#: weblate/formats/ttkit.py:1294
 msgid "JSON nested structure file"
 msgstr "Afaylu JSON s tɣessa s udabder"
 
-#: weblate/formats/ttkit.py:1306
+#: weblate/formats/ttkit.py:1301
 msgid "WebExtension JSON file"
 msgstr "Afaylu WebExtension JSON"
 
-#: weblate/formats/ttkit.py:1315
+#: weblate/formats/ttkit.py:1310
 msgid "i18next JSON file"
 msgstr "Afaylu i18next JSON"
 
-#: weblate/formats/ttkit.py:1323
+#: weblate/formats/ttkit.py:1318
 msgid "go-i18n JSON file"
 msgstr "Afaylu JSON go-i18n"
 
-#: weblate/formats/ttkit.py:1330
+#: weblate/formats/ttkit.py:1325
 msgid "ARB file"
 msgstr "Afaylu ARB"
 
-#: weblate/formats/ttkit.py:1338
+#: weblate/formats/ttkit.py:1333
 msgid "CSV file"
 msgstr "Afaylu CSV"
 
-#: weblate/formats/ttkit.py:1425
+#: weblate/formats/ttkit.py:1418
 msgid "Simple CSV file"
 msgstr "Afaylu CSV aḥerfi"
 
-#: weblate/formats/ttkit.py:1446
+#: weblate/formats/ttkit.py:1438
 msgid "Simple CSV file (ISO-8859-1)"
 msgstr "Afaylu CSV aḥerfi (ISO-8859-1)"
 
-#: weblate/formats/ttkit.py:1453
+#: weblate/formats/ttkit.py:1445
 msgid "YAML file"
 msgstr "Afaylu YAML"
 
-#: weblate/formats/ttkit.py:1472
+#: weblate/formats/ttkit.py:1464
 msgid "Ruby YAML file"
 msgstr "Afaylu YAML"
 
-#: weblate/formats/ttkit.py:1479
+#: weblate/formats/ttkit.py:1471
 msgid "DTD file"
 msgstr "Afaylu DTD"
 
-#: weblate/formats/ttkit.py:1520
+#: weblate/formats/ttkit.py:1512
 msgid "SubRip subtitle file"
 msgstr "Afaylu s yizwan usnawanen SubRip"
 
-#: weblate/formats/ttkit.py:1534
+#: weblate/formats/ttkit.py:1526
 msgid "MicroDVD subtitle file"
 msgstr "Afaylu s yizwal isnawanen MicroDVD"
 
-#: weblate/formats/ttkit.py:1541
+#: weblate/formats/ttkit.py:1533
 msgid "Advanced SubStation Alpha subtitle file"
 msgstr "Afaylu n yizwal isnawanen leqqayen SubStation Alpha"
 
-#: weblate/formats/ttkit.py:1548
+#: weblate/formats/ttkit.py:1540
 msgid "SubStation Alpha subtitle file"
 msgstr "Afaylu n yizwal isnawanen leqqayen SubStation Alpha"
 
-#: weblate/formats/ttkit.py:1555
+#: weblate/formats/ttkit.py:1547
 msgid "Flat XML file"
 msgstr "Afaylu XML alebbaḍ"
 
-#: weblate/formats/ttkit.py:1564
+#: weblate/formats/ttkit.py:1556
 msgid "INI file"
 msgstr "Afaylu INI"
 
-#: weblate/formats/ttkit.py:1604
+#: weblate/formats/ttkit.py:1595
 msgid "Inno Setup INI file"
 msgstr "Afaylu Inno Setup INI"
 
-#: weblate/formats/ttkit.py:1757
+#: weblate/formats/ttkit.py:1747
 #, fuzzy
 #| msgid "TermBase eXchange (TBX)"
 msgid "TermBase eXchange file"
 msgstr "TermBase eXchange (TBX)"
 
-#: weblate/formats/ttkit.py:1786
+#: weblate/formats/ttkit.py:1776
 #, fuzzy
 #| msgid "Failing file"
 msgid "mi18n lang file"
 msgstr "Tuccḍa deg ufaylu"
 
-#: weblate/formats/ttkit.py:1795
+#: weblate/formats/ttkit.py:1785
 #, fuzzy
 #| msgid "Strings with labels"
 msgid "Stringsdict file"
 msgstr "Izriren s tebzimin"
 
-#: weblate/formats/ttkit.py:1842
+#: weblate/formats/ttkit.py:1838
 #, fuzzy
 #| msgid "Font file"
 msgid "Fluent file"
@@ -12240,11 +12254,11 @@ msgstr ""
 msgid "User configured character: {}"
 msgstr ""
 
-#: weblate/trans/tasks.py:398
+#: weblate/trans/tasks.py:402
 msgid "Automatic translation completed, no strings were updated."
 msgstr "Tasuqilt tawurmant temmed, ulac izriren yettwaleqmen."
 
-#: weblate/trans/tasks.py:402
+#: weblate/trans/tasks.py:406
 #, python-format
 msgid "Automatic translation completed, %d string was updated."
 msgid_plural "Automatic translation completed, %d strings were updated."
@@ -13252,24 +13266,24 @@ msgid "No remote repository"
 msgstr "Ulac akufi anmeggag"
 
 #. Translators: placeholder SSH hashed hostname
-#: weblate/vcs/ssh.py:69
+#: weblate/vcs/ssh.py:68
 msgid "[hostname hashed]"
 msgstr "[asenneftaɣ s udsil umḍin]"
 
-#: weblate/vcs/ssh.py:133
+#: weblate/vcs/ssh.py:132
 #, python-format
 msgid "Failed to generate key: %s"
 msgstr ""
 
-#: weblate/vcs/ssh.py:141
+#: weblate/vcs/ssh.py:140
 msgid "Created new SSH key."
 msgstr ""
 
-#: weblate/vcs/ssh.py:147
+#: weblate/vcs/ssh.py:146
 msgid "Invalid host name given!"
 msgstr "Isem n usenneftaɣ mačči d amɣetu!"
 
-#: weblate/vcs/ssh.py:172
+#: weblate/vcs/ssh.py:171
 #, python-format
 msgid ""
 "Added host key for %(host)s with fingerprint %(fingerprint)s (%(keytype)s), "
@@ -13278,11 +13292,11 @@ msgstr ""
 "Tasarut n usenneftaɣ yettwarnan i %(host)s s udsil umdin %(fingerprint)s "
 "(%(keytype)s), ttwil-k senqed ma d ameɣtu."
 
-#: weblate/vcs/ssh.py:179
+#: weblate/vcs/ssh.py:178
 msgid "Failed to fetch public key for a host!"
 msgstr ""
 
-#: weblate/vcs/ssh.py:185 weblate/vcs/ssh.py:188
+#: weblate/vcs/ssh.py:184 weblate/vcs/ssh.py:187
 #, python-format
 msgid "Failed to get host key: %s"
 msgstr ""
