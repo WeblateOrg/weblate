@@ -445,7 +445,7 @@ Customize gettext output
 :Configuration: +-----------+---------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
                 | ``width`` | Long lines wrapping | By default gettext wraps lines at 77 characters and at newlines. With the --no-wrap parameter, wrapping is only done at newlines., Available choices: ``77`` (Wrap lines at 77 characters and at newlines), ``65535`` (Only wrap lines at newlines), ``-1`` (No line wrapping) |
                 +-----------+---------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-:Events triggering add-on: store post-load
+:Events triggering add-on: storage post-load
 
 Allows customization of gettext output behavior, for example line wrapping.
 
@@ -568,7 +568,7 @@ Customize JSON output
                 +---------------+------------------------+---------------------------------------------------------+
                 | ``style``     | JSON indentation style | Available choices: ``spaces`` (Spaces), ``tabs`` (Tabs) |
                 +---------------+------------------------+---------------------------------------------------------+
-:Events triggering add-on: store post-load
+:Events triggering add-on: storage post-load
 
 Allows adjusting JSON output behavior, for example indentation or sorting.
 
@@ -661,7 +661,7 @@ Customize YAML output
                 +----------------+---------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
                 | ``line_break`` | Line breaks         | Available choices: ``dos`` (DOS (\r\n)), ``unix`` (UNIX (\n)), ``mac`` (MAC (\r))                                                                                                         |
                 +----------------+---------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-:Events triggering add-on: store post-load
+:Events triggering add-on: storage post-load
 
 Allows adjusting YAML output behavior, for example line-length or newlines.
 

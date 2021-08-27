@@ -24,7 +24,7 @@ class Migration(migrations.Migration):
                     (5, "repository post-add"),
                     (6, "unit post-create"),
                     (8, "unit post-save"),
-                    (7, "store post-load"),
+                    (7, "storage post-load"),
                     (11, "daily"),
                     (12, "component update"),
                 ]
