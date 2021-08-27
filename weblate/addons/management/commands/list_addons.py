@@ -28,6 +28,20 @@ from weblate.utils.management.base import BaseCommand
 class Command(BaseCommand):
     help = "List installed add-ons"
 
+    @staticmethod
+    def get_help_text(field, name):
+        result = []
+        if field.help_text:
+            result.append(str(field.help_text))
+        choices = getattr(field, "choices", None)
+        if choices and name not in ("component", "engines", "file_format"):
+            result.append(
+                "Available choices: {}".format(
+                    ", ".join(f"``{value}`` ({name})" for value, name in choices)
+                )
+            )
+        return ", ".join(result)
+
     def handle(self, *args, **options):
         """List installed add-ons."""
         fake_addon = Addon(component=Component(project=Project()))
@@ -41,7 +55,7 @@ class Command(BaseCommand):
             if obj.settings_form:
                 form = obj(fake_addon).get_settings_form(None)
                 table = [
-                    (f"``{name}``", str(field.label), str(field.help_text))
+                    (f"``{name}``", str(field.label), self.get_help_text(field, name))
                     for name, field in form.fields.items()
                 ]
                 prefix = ":Configuration: "

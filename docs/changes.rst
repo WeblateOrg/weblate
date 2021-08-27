@@ -4,6 +4,7 @@ Weblate 4.8.1
 Not yet released.
 
 * Fixed user removal in Django admin interface.
+* Document add-on parameters in more detail.
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/70?closed=1>`__.
 
