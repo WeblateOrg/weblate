@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-08-27 19:49+0200\n"
-"PO-Revision-Date: 2021-08-27 17:47+0000\n"
-"Last-Translator: Tymofii Lytvynenko <till.svit@gmail.com>\n"
+"PO-Revision-Date: 2021-08-27 21:17+0000\n"
+"Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/"
 "documentation/uk/>\n"
 "Language: uk\n"
@@ -2340,10 +2340,6 @@ msgid "Long lines wrapping"
 msgstr "Обтікання довгих рядків"
 
 #: ../../admin/addons.rst:446
-#, fuzzy
-#| msgid ""
-#| "By default gettext wraps lines at 77 characters and at newlines. With the "
-#| "--no-wrap parameter, wrapping is only done at newlines."
 msgid ""
 "By default gettext wraps lines at 77 characters and at newlines. With the --"
 "no-wrap parameter, wrapping is only done at newlines., Available choices: "
@@ -2352,12 +2348,12 @@ msgid ""
 msgstr ""
 "Типово gettext переносить рядки на 77-у символі та на символах перенесення "
 "рядків, з параметром --no-wrap перенесення виконується лише на символах "
-"перенесення рядків."
+"перенесення рядків. Можливі варіанти: ``77`` (переносити рядки на 77 "
+"символах і на символах розриву рядків), ``65535`` (переносити рядки лише на "
+"символах розриву рядків), ``-1`` (не переносити рядки)"
 
 #: ../../admin/addons.rst:448 ../../admin/addons.rst:571
 #: ../../admin/addons.rst:664
-#, fuzzy
-#| msgid "store post-load"
 msgid "storage post-load"
 msgstr "обробка після завантаження збережених даних"
 
@@ -2519,6 +2515,8 @@ msgid ""
 "Available choices: ``all`` (All commits into one), ``language`` (Per "
 "language), ``file`` (Per file), ``author`` (Per author)"
 msgstr ""
+"Можливі варіанти: ``all`` (усі внески в один), ``language`` (за мовою), "
+"``file`` (за файлом), ``author`` (за автором)"
 
 #: ../../admin/addons.rst:525
 msgid "``append_trailers``"
@@ -20383,16 +20381,13 @@ msgid "Django 3.2 is now required."
 msgstr "Тепер потрібен Django 3.2."
 
 #: ../../admin/upgrade.rst:239
-#, fuzzy
-#| msgid "Upgrade from 4.6 to 4.7"
 msgid "Upgrade from 4.7 to 4.8"
-msgstr "Оновлення з 4.6 до 4.7"
+msgstr "Оновлення з 4.7 до 4.8"
 
 #: ../../admin/upgrade.rst:243
-#, fuzzy
-#| msgid "There are also additional filter to manipulate with filenames:"
 msgid "There are no additional upgrade steps needed in this release."
-msgstr "Також передбачено додатковий фільтр для обробки назв файлів:"
+msgstr ""
+"У цьому випуску ніяких додаткових кроків із оновлення виконувати не потрібно."
 
 #: ../../admin/upgrade.rst:250
 msgid "Upgrading from Python 2 to Python 3"
@@ -23126,45 +23121,34 @@ msgid "`RSS on wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 msgstr "`RSS у Вікіпедії <https://en.wikipedia.org/wiki/RSS>`_"
 
 #: ../../changes.rst:2
-#, fuzzy
-#| msgid "Weblate 4.7.1"
 msgid "Weblate 4.8.1"
-msgstr "Weblate 4.7.1"
+msgstr "Weblate 4.8.1"
 
 #: ../../changes.rst:4
 msgid "Not yet released."
 msgstr "Ще не випущено."
 
 #: ../../changes.rst:6
-#, fuzzy
-#| msgid "The user management no longer needs Django admin interface."
 msgid "Fixed user removal in Django admin interface."
 msgstr ""
-"Керування користувачами більше не потребує інтерфейсу адміністратора Django."
+"Виправлено вилучення запису користувача в адміністративному інтерфейсі "
+"Django."
 
 #: ../../changes.rst:7
-#, fuzzy
-#| msgid "Display add-on parameters on overview."
 msgid "Document add-on parameters in more detail."
-msgstr "Реалізовано показ параметрів додатка в огляді."
+msgstr "Докладніше документування параметрів додатків."
 
 #: ../../changes.rst:8
-#, fuzzy
-#| msgid "Fixed adding words to glossary."
 msgid "Fixed JavaScript error on glossary."
-msgstr "Виправлено додавання слів до глосарія."
+msgstr "Виправлено помилку JavaScript при роботі з глосарієм."
 
 #: ../../changes.rst:10
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
-#| "milestone/60?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/70?"
 "closed=1>`__."
 msgstr ""
-"`Докладний опис усіх змін <https://github.com/WeblateOrg/weblate/"
-"milestone/60?closed=1>`__."
+"`Докладний опис усіх змін <https://github.com/WeblateOrg/weblate/milestone/"
+"70?closed=1>`__."
 
 #: ../../changes.rst:13
 msgid "Weblate 4.8"
@@ -23201,14 +23185,10 @@ msgid "Improved squash add-on compatibility with Gerrit."
 msgstr "Вдосконалено сумісність додатка squash із Gerrit."
 
 #: ../../changes.rst:23
-#, fuzzy
-#| msgid "Fixed adding strings to a monolingual glossary components."
 msgid "Fixed adding strings to monolingual glossary components."
 msgstr "Виправлено додавання рядків до одномовних складників глосарія."
 
 #: ../../changes.rst:24
-#, fuzzy
-#| msgid "Improved performance in hadling variants."
 msgid "Improved performance in handling variants."
 msgstr "Удосконалено швидкодію при обробці варіантів."
 
@@ -23219,8 +23199,6 @@ msgstr ""
 "обробку змін у основній гілці."
 
 #: ../../changes.rst:26
-#, fuzzy
-#| msgid "Preserve file extension on download."
 msgid "Preserve file extension for downloads."
 msgstr "Реалізовано збереження суфікса назви файла при отриманні."
 
@@ -23229,10 +23207,8 @@ msgid "Added support for the Fluent format."
 msgstr "Додано підтримку формату файлів Fluent."
 
 #: ../../changes.rst:28
-#, fuzzy
-#| msgid "Added support for nested JSON format."
 msgid "Added support for using tabs to indent JSON formats."
-msgstr "Додано підтримку для вкладеного формату JSON."
+msgstr "Додано підтримку використання табуляцій для форматування коду JSON."
 
 #: ../../changes.rst:30
 msgid ""
@@ -23265,14 +23241,10 @@ msgid "Fixed Git exporter URLs after a domain change."
 msgstr "Виправлено адреси засобів експортування Git після зміни домену."
 
 #: ../../changes.rst:40
-#, fuzzy
-#| msgid "Fixed cleanup addon for Windows RC files."
 msgid "Fixed cleanup add-on for Windows RC files."
 msgstr "Виправлено додаток чищення для файлів RC Windows."
 
 #: ../../changes.rst:41
-#, fuzzy
-#| msgid "Fixed possible crash on Xliff updating."
 msgid "Fixed possible crash in XLIFF updating."
 msgstr "Усунено можливе аварійне завершення роботи при оновленні XLIFF."
 
@@ -23732,8 +23704,6 @@ msgid "Better handling for uploads of monolingual PO using API."
 msgstr "Краща обробка завантаження одномовного PO за допомогою API."
 
 #: ../../changes.rst:177
-#, fuzzy
-#| msgid "Improved alerts behavior glossaries."
 msgid "Improved alerts behavior on glossary components."
 msgstr "Вдосконалено роботу застережень глосаріїв."
 
@@ -40618,16 +40588,12 @@ msgstr ""
 "налаштуваннях (див. :ref:`secondary-languages`)."
 
 #: ../../user/translating.rst:118
-#, fuzzy
-#| msgid ""
-#| "Below the translation, translators will find suggestion made by others, "
-#| "to be accepted (✓), accepted with changes (🖉), or deleted (🗑)."
 msgid ""
 "Below the translation, translators will find suggestion made by others, to "
 "be accepted (✓), accepted with changes (✏️), or deleted (🗑)."
 msgstr ""
 "Під перекладом буде показано усі пропозиції інших перекладачів. Ви можете "
-"прийняти їх (✓), прийняти зі змінами (🖉) або вилучити пропозиції (🗑)."
+"прийняти їх (✓), прийняти зі змінами (✏️) або вилучити пропозиції (🗑)."
 
 #: ../../user/translating.rst:124
 msgid "Plurals"
