@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-08-27 19:49+0200\n"
-"PO-Revision-Date: 2021-08-19 13:21+0000\n"
+"PO-Revision-Date: 2021-08-27 21:17+0000\n"
 "Last-Translator: Oğuz Ersen <oguzersen@protonmail.com>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/weblate/"
 "documentation/tr/>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.8-dev\n"
+"X-Generator: Weblate 4.8.1-dev\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:180
@@ -2076,10 +2076,6 @@ msgid "Long lines wrapping"
 msgstr "Uzun satırları kaydır"
 
 #: ../../admin/addons.rst:446
-#, fuzzy
-#| msgid ""
-#| "By default gettext wraps lines at 77 characters and at newlines. With the "
-#| "--no-wrap parameter, wrapping is only done at newlines."
 msgid ""
 "By default gettext wraps lines at 77 characters and at newlines. With the --"
 "no-wrap parameter, wrapping is only done at newlines., Available choices: "
@@ -2088,7 +2084,9 @@ msgid ""
 msgstr ""
 "Varsayılan olarak gettext satırları 77 karakterde ve yeni satırlarda "
 "kaydırır, --no-wrap parametresi ile kaydırma yalnızca yeni satırlarda "
-"yapılır."
+"yapılır. Kullanılabilir seçenekler: ``77`` (Satırları 77 karakterde ve yeni "
+"satırlarda kaydır), ``65535`` (Satırları yalnızca yeni satırlarda kaydır), "
+"``-1`` (Satır kaydırma yok)"
 
 #: ../../admin/addons.rst:448 ../../admin/addons.rst:571
 #: ../../admin/addons.rst:664
@@ -16174,18 +16172,22 @@ msgid ""
 "Weblate servers and communities. Users can browse registered services on "
 "<https://weblate.org/discover/>, and find there projects to contribute."
 msgstr ""
+"Weblate'i Keşfet, kullanıcıların Weblate sunucularını ve topluluklarını "
+"bulmasını kolaylaştıran bir katılım hizmetidir. Kullanıcılar <https://weblate"
+".org/discover/> adresinde kayıtlı hizmetlere göz atabilir ve orada katkıda "
+"bulunacak projeleri bulabilir."
 
 #: ../../admin/support.rst:68
-#, fuzzy
-#| msgid "Settings saved"
 msgid "Getting listed"
-msgstr "Ayarlar kaydedildi"
+msgstr "Listelenme"
 
 #: ../../admin/support.rst:72
 msgid ""
 "Participating in Discover Weblate makes Weblate submit some information "
 "about your server, please see :ref:`support-data`."
 msgstr ""
+"Weblate'i Keşfet'e katılmak, Weblate'in sunucunuz hakkında bazı bilgiler "
+"göndermesini sağlar, lütfen bkz: :ref:`support-data`."
 
 #: ../../admin/support.rst:76
 msgid ""
@@ -16193,24 +16195,25 @@ msgid ""
 "support`) in Discover Weblate all you need to do is turn this on in the "
 "management panel:"
 msgstr ""
+"Weblate'i Keşfet'te sunucunuzu etkin bir destek aboneliği ile listelemek "
+"için (bkz: :ref:`activate-support`) yönetim panelinden bunu açmanız "
+"yeterlidir:"
 
 #: ../../admin/support.rst:82
 msgid "Listing your server without a support subscription in Discover Weblate:"
-msgstr ""
+msgstr "Weblate'i Keşfet'te sunucunuzu destek aboneliği olmadan listeleme:"
 
 #: ../../admin/support.rst:84
-#, fuzzy
-#| msgid "Register in Weblate"
 msgid "Register yourself at <https://weblate.org/user/>"
-msgstr "Weblate'e kaydolun"
+msgstr "<https://weblate.org/user/> adresinde kaydolun"
 
 #: ../../admin/support.rst:85
-#, fuzzy
-#| msgid "Register in Weblate"
 msgid ""
 "Register your Weblate server in the discovery database at <https://weblate."
 "org/subscription/discovery/>"
-msgstr "Weblate'e kaydolun"
+msgstr ""
+"Weblate sunucunuzu <https://weblate.org/subscription/discovery/> adresindeki "
+"keşif veri tabanına kaydedin"
 
 #: ../../admin/support.rst:86
 msgid ""
@@ -16218,18 +16221,21 @@ msgid ""
 "listing in your Weblate management page using :guilabel:`Enable discovery` "
 "button:"
 msgstr ""
+"Weblate'inizde hizmet etkinleştirmesini onaylayın ve :guilabel:`Keşfi "
+"etkinleştir` düğmesini kullanarak Weblate yönetim sayfanızda keşif listesini "
+"açın:"
 
 #: ../../admin/support.rst:93
-#, fuzzy
-#| msgid "Checks listing"
 msgid "Customizing listing"
-msgstr "Denetimler listesi"
+msgstr "Listelemeyi özelleştirme"
 
 #: ../../admin/support.rst:95
 msgid ""
 "You can customize the listing by providing a text and image (570 x 260 "
 "pixels) at <https://weblate.org/user/>."
 msgstr ""
+"<https://weblate.org/user/> adresinde bir metin ve resim (570 x 260 piksel) "
+"sağlayarak listelemeyi özelleştirebilirsiniz."
 
 #: ../../admin/translating.rst:2
 msgid "Translation process"
@@ -19244,40 +19250,32 @@ msgid "`RSS on wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 msgstr "`Wikipedia'da RSS <https://tr.wikipedia.org/wiki/RSS>`_"
 
 #: ../../changes.rst:2
-#, fuzzy
-#| msgid "Weblate 4.7.1"
 msgid "Weblate 4.8.1"
-msgstr "Weblate 4.7.1"
+msgstr "Weblate 4.8.1"
 
 #: ../../changes.rst:4
 msgid "Not yet released."
 msgstr "Henüz yayınlanmadı."
 
 #: ../../changes.rst:6
-#, fuzzy
-#| msgid "The user management no longer needs Django admin interface."
 msgid "Fixed user removal in Django admin interface."
-msgstr "Kullanıcı yönetimi artık Django yönetici arayüzüne ihtiyaç duymuyor."
+msgstr "Django yönetici arayüzünde kullanıcı kaldırma düzeltildi."
 
 #: ../../changes.rst:7
 msgid "Document add-on parameters in more detail."
-msgstr ""
+msgstr "Eklenti parametreleri daha ayrıntılı olarak belgelendirildi."
 
 #: ../../changes.rst:8
 msgid "Fixed JavaScript error on glossary."
-msgstr ""
+msgstr "Sözlükte JavaScript hatası düzeltildi."
 
 #: ../../changes.rst:10
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
-#| "milestone/60?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/70?"
 "closed=1>`__."
 msgstr ""
 "`Ayrıntılı tüm değişiklikler <https://github.com/WeblateOrg/weblate/"
-"milestone/60?closed=1>`__."
+"milestone/70?closed=1>`__."
 
 #: ../../changes.rst:13
 msgid "Weblate 4.8"
@@ -19314,14 +19312,10 @@ msgid "Improved squash add-on compatibility with Gerrit."
 msgstr "Gerrit ile sıkıştırma eklentisi uyumluluğu iyileştirildi."
 
 #: ../../changes.rst:23
-#, fuzzy
-#| msgid "Fixed adding strings to a monolingual glossary components."
 msgid "Fixed adding strings to monolingual glossary components."
-msgstr "Tek dilli bir sözlük bileşenlerine dizgi ekleme sorunu düzeltildi."
+msgstr "Tek dilli sözlük bileşenlerine dizgi ekleme sorunu düzeltildi."
 
 #: ../../changes.rst:24
-#, fuzzy
-#| msgid "Improved performance in hadling variants."
 msgid "Improved performance in handling variants."
 msgstr "Çeşitlerin işlenmesi performansı iyileştirildi."
 
@@ -19332,20 +19326,16 @@ msgstr ""
 "atlaması düzeltildi."
 
 #: ../../changes.rst:26
-#, fuzzy
-#| msgid "Preserve file extension on download."
 msgid "Preserve file extension for downloads."
-msgstr "İndirirken dosya uzantısını koru."
+msgstr "İndirmeler için dosya uzantısını koru."
 
 #: ../../changes.rst:27
 msgid "Added support for the Fluent format."
 msgstr "Fluent biçimi için destek eklendi."
 
 #: ../../changes.rst:28
-#, fuzzy
-#| msgid "Added support for the Fluent format."
 msgid "Added support for using tabs to indent JSON formats."
-msgstr "Fluent biçimi için destek eklendi."
+msgstr "JSON biçimlerini girintilemek için sekmeleri kullanma desteği eklendi."
 
 #: ../../changes.rst:30
 msgid ""
@@ -19377,16 +19367,12 @@ msgstr ""
 "Bir etki alanı değişikliğinden sonra Git dışa aktarıcı URL'leri düzeltildi."
 
 #: ../../changes.rst:40
-#, fuzzy
-#| msgid "Fixed cleanup addon for Windows RC files."
 msgid "Fixed cleanup add-on for Windows RC files."
 msgstr "Windows RC dosyaları için temizleme eklentisi düzeltildi."
 
 #: ../../changes.rst:41
-#, fuzzy
-#| msgid "Fixed possible crash on Xliff updating."
 msgid "Fixed possible crash in XLIFF updating."
-msgstr "Xliff güncellemesinde olası çökme düzeltildi."
+msgstr "XLIFF güncellemesinde olası çökme düzeltildi."
 
 #: ../../changes.rst:43
 msgid ""
@@ -19830,10 +19816,8 @@ msgid "Better handling for uploads of monolingual PO using API."
 msgstr "API kullanarak tek dilli PO yüklemelerini daha iyi yönet."
 
 #: ../../changes.rst:177
-#, fuzzy
-#| msgid "Improved alerts behavior glossaries."
 msgid "Improved alerts behavior on glossary components."
-msgstr "Sözlüklerle ilgili uyarı davranışı iyileştirildi."
+msgstr "Sözlük bileşenlerinde uyarı davranışı iyileştirildi."
 
 #: ../../changes.rst:178
 msgid "Improved Markdown link checks."
@@ -25198,17 +25182,20 @@ msgstr "Weblate hakkında"
 
 #: ../../contributing/about.rst:5
 msgid "Project goals"
-msgstr ""
+msgstr "Proje hedefleri"
 
 #: ../../contributing/about.rst:7
 msgid ""
 "Web-based continuous localization tool with tight :ref:`vcs` supporting a "
 "wide range of :ref:`formats`, making it easy for translators to contribute."
 msgstr ""
+"Çevirmenlerin katkıda bulunmasını kolaylaştıran, geniş bir :ref:`formats` "
+"yelpazesini destekleyen sıkı :ref:`vcs` bütünleşmesine sahip web tabanlı "
+"sürekli yerelleştirme aracı."
 
 #: ../../contributing/about.rst:13
 msgid "\"Weblate\" is a portmanteau of the words \"web\" and \"translate\"."
-msgstr ""
+msgstr "\"Weblate\", \"web\" ve \"translate\" kelimelerinin birleşimidir."
 
 #: ../../contributing/about.rst:18
 msgid ""
@@ -25216,36 +25203,45 @@ msgid ""
 "at https://hosted.weblate.org. The documentation can be read at https://docs."
 "weblate.org."
 msgstr ""
+"https://weblate.org adresi açılış sayfasıdır ve https://hosted.weblate.org "
+"adresinde bulutta barındırılan bir hizmet vardır. Belgelendirme https://"
+"docs.weblate.org adresinde okunabilir."
 
 #: ../../contributing/about.rst:23
 msgid "Project logos"
-msgstr ""
+msgstr "Proje logoları"
 
 #: ../../contributing/about.rst:25
 msgid ""
 "The project logos and other graphics are available in https://github.com/"
 "WeblateOrg/graphics."
 msgstr ""
+"Proje logoları ve diğer grafikler https://github.com/WeblateOrg/graphics "
+"adresinde bulunmaktadır."
 
 #: ../../contributing/about.rst:29
 msgid "Leadership"
-msgstr ""
+msgstr "Liderlik"
 
 #: ../../contributing/about.rst:31
 msgid ""
 "This project is maintained by Michal Čihař, who can be reached at "
 "michal@cihar.com."
 msgstr ""
+"Bu proje, michal@cihar.com adresinden ulaşılabilen Michal Čihař tarafından "
+"sürdürülmektedir."
 
 #: ../../contributing/about.rst:34
 msgid "Authors"
-msgstr ""
+msgstr "Yazarlar"
 
 #: ../../contributing/about.rst:36
 msgid ""
 "Weblate was started by Michal Čihař. Since its inception in 2012, thousands "
 "of people have contributed."
 msgstr ""
+"Weblate, Michal Čihař tarafından başlatıldı. 2012 yılında kurulduğundan bu "
+"yana binlerce kişi katkıda bulundu."
 
 #: ../../contributing/addons.rst:2
 msgid "Developing addons"
@@ -25254,11 +25250,11 @@ msgstr "Eklenti geliştirme"
 #: ../../contributing/addons.rst:4
 msgid ":ref:`addons` are way to customize localization workflow in Weblate."
 msgstr ""
+":ref:`addons` Weblate'de yerelleştirme iş akışını özelleştirmenin bir "
+"yoludur."
 
 #: ../../../weblate/addons/base.py:docstring of
 #: weblate.addons.base.BaseAddon.can_install:1
-#, fuzzy
-#| msgid "Check whether addon is compatible with given component."
 msgid "Check whether add-on is compatible with given component."
 msgstr "Eklentinin verilen bileşenle uyumlu olup olmadığını denetle."
 
@@ -25270,19 +25266,15 @@ msgstr "Yapılandırmayı kaydet."
 #: ../../../weblate/addons/base.py:docstring of
 #: weblate.addons.base.BaseAddon.daily:1
 msgid "Hook triggered daily."
-msgstr ""
+msgstr "Günlük tetiklenen kanca."
 
 #: ../../../weblate/addons/base.py:docstring of
 #: weblate.addons.base.BaseAddon.get_add_form:1
-#, fuzzy
-#| msgid "Return configuration form for this addon."
 msgid "Return configuration form for adding new add-on."
-msgstr "Bu eklenti için yapılandırma formunu döndür."
+msgstr "Yeni eklenti eklemek için yapılandırma formunu döndür."
 
 #: ../../../weblate/addons/base.py:docstring of
 #: weblate.addons.base.BaseAddon.get_settings_form:1
-#, fuzzy
-#| msgid "Return configuration form for this addon."
 msgid "Return configuration form for this add-on."
 msgstr "Bu eklenti için yapılandırma formunu döndür."
 
@@ -25304,12 +25296,12 @@ msgstr "Depo yukarı akışa yollandıktan sonra tetiklenen kanca."
 #: ../../../weblate/addons/base.py:docstring of
 #: weblate.addons.base.BaseAddon.post_update:1
 msgid "Hook triggered after repository is updated from upstream."
-msgstr ""
+msgstr "Depo yukarı akıştan güncellendikten sonra tetiklenen kanca."
 
 #: ../../../weblate/addons/base.py:docstring of
 #: weblate.addons.base.BaseAddon.post_update:3
 msgid "HEAD of the repository prior to update, can be blank on initial clone."
-msgstr ""
+msgstr "Güncellemeden önce deponun HEAD'i, ilk klonlamada boş olabilir."
 
 #: ../../../weblate/addons/base.py:docstring of
 #: weblate.addons.base.BaseAddon.post_update:5
@@ -25318,6 +25310,9 @@ msgid ""
 "you can pass this to underlying methods as ``commit_and_push`` or "
 "``commit_pending``."
 msgstr ""
+"Eklenti işleminin değişiklikleri yukarı akışa yollamayı atlayıp "
+"atlamayacağı. Genellikle bunu temeldeki yöntemlere ``commit_and_push`` veya "
+"``commit_pending`` olarak iletebilirsiniz."
 
 #: ../../../weblate/addons/base.py:docstring of
 #: weblate.addons.base.BaseAddon.pre_commit:1
@@ -25327,23 +25322,21 @@ msgstr "Değişiklikler depoya işlenmeden önce tetiklenen kanca."
 #: ../../../weblate/addons/base.py:docstring of
 #: weblate.addons.base.BaseAddon.pre_push:1
 msgid "Hook triggered before repository is pushed upstream."
-msgstr ""
+msgstr "Depo yukarı akışa yollanmadan önce tetiklenen kanca."
 
 #: ../../../weblate/addons/base.py:docstring of
 #: weblate.addons.base.BaseAddon.pre_update:1
 msgid "Hook triggered before repository is updated from upstream."
-msgstr ""
+msgstr "Depo yukarı akıştan güncellenmeden önce tetiklenen kanca."
 
 #: ../../../weblate/addons/base.py:docstring of
 #: weblate.addons.base.BaseAddon.save_state:1
-#, fuzzy
-#| msgid "Save addon state information."
 msgid "Save add-on state information."
 msgstr "Eklenti durum bilgilerini kaydet."
 
 #: ../../docstring of weblate.addons.base.BaseAddon.stay_on_create:1
 msgid "Base class for Weblate add-ons."
-msgstr ""
+msgstr "Weblate eklentileri için temel sınıf."
 
 #: ../../../weblate/addons/base.py:docstring of
 #: weblate.addons.base.BaseAddon.store_post_load:1
@@ -25353,7 +25346,7 @@ msgstr "Bir dosya ayrıştırıldıktan sonra tetiklenen kanca."
 #: ../../../weblate/addons/base.py:docstring of
 #: weblate.addons.base.BaseAddon.store_post_load:3
 msgid "It receives an instance of a file format class as a argument."
-msgstr ""
+msgstr "Argüman olarak bir dosya biçimi sınıfının bir örneğini alır."
 
 #: ../../../weblate/addons/base.py:docstring of
 #: weblate.addons.base.BaseAddon.store_post_load:5
@@ -25361,19 +25354,21 @@ msgid ""
 "This is useful to modify file format class parameters, for example adjust "
 "how the file will be saved."
 msgstr ""
+"Bu, örneğin dosyanın nasıl kaydedileceğini ayarlamak gibi dosya biçimi "
+"sınıfı parametrelerini değiştirmek için faydalıdır."
 
 #: ../../../weblate/addons/base.py:docstring of
 #: weblate.addons.base.BaseAddon.unit_pre_create:1
 msgid "Hook triggered before new unit is created."
-msgstr ""
+msgstr "Yeni birim oluşturulmadan önce tetiklenen kanca."
 
 #: ../../contributing/addons.rst:11
 msgid "Here is an example addon:"
-msgstr ""
+msgstr "İşte örnek bir eklenti:"
 
 #: ../../contributing/code.rst:2
 msgid "Weblate source code"
-msgstr ""
+msgstr "Weblate kaynak kodları"
 
 #: ../../contributing/code.rst:4
 msgid ""
@@ -25381,10 +25376,15 @@ msgid ""
 "You are welcome to fork the code and open pull requests. Patches in any "
 "other form are welcome too."
 msgstr ""
+"Weblate, `GitHub <https://github.com/WeblateOrg/weblate>`_ üzerinde "
+"geliştirilmektedir. Kodu çatallayabilir ve çekme isteklerini açabilirsiniz. "
+"Başka herhangi bir biçimdeki yamalar da kabul edilir."
 
 #: ../../contributing/code.rst:10
 msgid "Check out :ref:`internals` to see how Weblate looks from inside."
 msgstr ""
+"Weblate'in içeriden nasıl göründüğünü görmek için :ref:`internals` bölümüne "
+"bakın."
 
 #: ../../contributing/code.rst:15
 msgid "Security by Design Principles"
@@ -25669,7 +25669,7 @@ msgstr ""
 
 #: ../../contributing/index.rst:4
 msgid "Contributing to Weblate"
-msgstr ""
+msgstr "Weblate'e Katkıda Bulunma"
 
 #: ../../contributing/index.rst:7
 msgid ""
@@ -25677,6 +25677,9 @@ msgid ""
 "comfortable with, be it coding, graphics design, documentation, sponsorship, "
 "or an idea:"
 msgstr ""
+"Weblate'i iyileştirmenin düzinelerce yolu vardır. Kodlama, grafik tasarım, "
+"belgelendirme, sponsorluk veya fikir olsun, kendinizi rahat hissedeceğiniz "
+"birini seçebilirsiniz:"
 
 #: ../../contributing/index.rst:10
 msgid ":doc:`issues`"
@@ -25708,7 +25711,7 @@ msgstr ""
 
 #: ../../contributing/index.rst:20
 msgid "Translating Weblate"
-msgstr ""
+msgstr "Weblate'i çevirme"
 
 #: ../../contributing/index.rst:22
 msgid ""
@@ -25717,6 +25720,10 @@ msgid ""
 "Weblate available in as many human languages as possible. It brings Weblate "
 "closer to its users!"
 msgstr ""
+"Weblate, Weblate'in kendisi kullanılarak sürekli olarak `çevrilmektedir "
+"<https://hosted.weblate.org/>`_. Weblate'i mümkün olduğu kadar çok dilde "
+"kullanılabilir hale getirme çabasında yer almaktan çekinmeyin. Bu, Weblate'i "
+"kullanıcılarına yaklaştırmaktadır!"
 
 #: ../../contributing/index.rst:26
 msgid ""
@@ -25725,12 +25732,14 @@ msgid ""
 "If you’re certain, you can also click on the link in the :guilabel:`Source "
 "string location` section and submit a PR with your correction."
 msgstr ""
+"Kaynak dizgide olası bir hata bulursanız, bunu Weblate düzenleyicisinde bir "
+"yorumla işaretleyebilirsiniz. Bu şekilde tartışılabilir ve düzeltilebilir. "
+"Eminseniz, :guilabel:`Kaynak dizgi konumu` bölümündeki bağlantıya "
+"tıklayabilir ve düzeltmenizle birlikte bir çekme isteği gönderebilirsiniz."
 
 #: ../../contributing/index.rst:33
-#, fuzzy
-#| msgid "Contribute to Weblate"
 msgid "Contribute to Weblate documentation"
-msgstr "Weblate’e katkıda bulunun"
+msgstr "Weblate belgelendirmesine katkıda bulunun"
 
 #: ../../contributing/index.rst:35
 msgid ""
@@ -25738,20 +25747,26 @@ msgid ""
 "easily by clicking the :guilabel:`Edit on GitHub` button in the top-right "
 "corner of the page."
 msgstr ""
+"İstediğiniz belgelendirme sayfasını iyileştirebilirsiniz. Bunu, sayfanın sağ "
+"üst köşesindeki :guilabel:`GitHub'da düzenle` düğmesine tıklayarak kolayca "
+"yapın."
 
 #: ../../contributing/index.rst:38
 msgid "Please respect these guidelines while writing:"
-msgstr ""
+msgstr "Lütfen yazarken şu yönergelere uyun:"
 
 #: ../../contributing/index.rst:40
 msgid "Don’t remove part of the documentation if it’s valid."
-msgstr ""
+msgstr "Geçerliyse, belgelendirmenin bir kısmını kaldırmayın."
 
 #: ../../contributing/index.rst:41
 msgid ""
 "Use clear and easily-understandable language. You are writing tech docs, not "
 "a poem. Not all docs readers are native speakers, be thoughtful."
 msgstr ""
+"Açık ve kolay anlaşılır bir dil kullanın. Teknoloji belgeleri yazıyorsunuz, "
+"şiir değil. Tüm belgelendirme okuyucularının ana dili İngilizce değildir, "
+"düşünceli olun."
 
 #: ../../contributing/index.rst:43
 msgid ""
@@ -25759,63 +25774,77 @@ msgid ""
 "some feature while editing, don’t change its docs before you have the "
 "answer. This means: You change or ask. Don’t do both at the same time."
 msgstr ""
+"Emin değilseniz sormaktan çekinmeyin. Düzenleme sırasında bazı özellikler "
+"hakkında soru sormanız gerekiyorsa, cevabı almadan önce belgelendirmesini "
+"değiştirmeyin. Bu şu anlama gelir: Değiştirirsiniz veya sorarsınız. İkisini "
+"aynı anda yapmayın."
 
 #: ../../contributing/index.rst:46
 msgid ""
 "Verify your changes by performing described actions while following the docs."
 msgstr ""
+"Belgeleri takip ederken açıklanan eylemleri gerçekleştirerek "
+"değişikliklerinizi doğrulayın."
 
 #: ../../contributing/index.rst:47
 msgid ""
 "Send PR with changes in small chunks to make it easier and quicker to review "
 "and merge."
 msgstr ""
+"Gözden geçirmeyi ve birleştirmeyi daha kolay ve daha hızlı hale getirmek "
+"için çekme isteğini küçük parçalar halindeki değişikliklerle gönderin."
 
 #: ../../contributing/index.rst:48
 msgid ""
 "If you want to rewrite and change the structure of a big article, do it in "
 "two steps:"
 msgstr ""
+"Büyük bir makaleyi yeniden yazmak ve onun yapısını değiştirmek istiyorsanız, "
+"bunu iki adımda yapın:"
 
 #: ../../contributing/index.rst:50
 msgid "Rewrite"
-msgstr ""
+msgstr "Yeniden yazın"
 
 #: ../../contributing/index.rst:51
 msgid ""
 "Once the rewrite is reviewed, polished, and merged, change the structure of "
 "the paragraphs in another PR."
 msgstr ""
+"Yeniden yazma gözden geçirildikten, iyileştirildikten ve birleştirildikten "
+"sonra, başka bir çekme isteğinde paragrafların yapısını değiştirin."
 
 #: ../../contributing/index.rst:55
 msgid ""
 "You can `translate the docs <https://hosted.weblate.org/projects/weblate/"
 "documentation/>`_."
 msgstr ""
+"`Belgeleri çevirebilirsiniz <https://hosted.weblate.org/projects/weblate/"
+"documentation/>`_."
 
 #: ../../contributing/index.rst:61
-#, fuzzy
-#| msgid "Built-in language definitions"
 msgid "Extending built-in language definitions"
-msgstr "Yerleşik dil tanımları"
+msgstr "Yerleşik dil tanımlarını genişletme"
 
 #: ../../contributing/index.rst:63
 msgid ""
 "The language definitions are in the `weblate-language-data repository "
 "<https://github.com/WeblateOrg/language-data/>`_."
 msgstr ""
+"Dil tanımları `weblate-language-data deposunda <https://github.com/"
+"WeblateOrg/language-data/>`_ bulunmaktadır."
 
 #: ../../contributing/index.rst:66
 msgid ""
 "You are welcome to add missing language definitions to :file:`languages."
 "csv`, other files are generated from that file."
 msgstr ""
+"Eksik dil tanımlarını :file:`languages.csv` dosyasına ekleyebilirsiniz, "
+"diğer dosyalar bu dosyadan oluşturulmaktadır."
 
 #: ../../contributing/index.rst:72
-#, fuzzy
-#| msgid "Weblate discovery"
 msgid "Weblate discussions"
-msgstr "Weblate keşfi"
+msgstr "Weblate tartışmaları"
 
 #: ../../contributing/index.rst:74
 msgid ""
@@ -25823,10 +25852,13 @@ msgid ""
 "You can join the community in `GitHub discussions <https://github.com/"
 "WeblateOrg/weblate/discussions>`_."
 msgstr ""
+"Bir fikriniz varsa ve bir soruna uygun olup olmadığından emin değilseniz "
+"endişelenmeyin. Topluluğa `GitHub tartışmalarında <https://github.com/"
+"WeblateOrg/weblate/discussions>`_ katılabilirsiniz."
 
 #: ../../contributing/index.rst:81
 msgid "Funding Weblate development"
-msgstr ""
+msgstr "Weblate'in geliştirilmesine maddi destek verme"
 
 #: ../../contributing/index.rst:83
 msgid ""
@@ -25835,6 +25867,11 @@ msgid ""
 "further development of Weblate. Please check the `donate page`_ for options, "
 "such as funding goals and the rewards you get as a proud funder."
 msgstr ""
+"Weblate'in geliştirilmesini `bağış sayfasında`_ destekleyebilirsiniz. Burada "
+"toplanan fonlar, özgür yazılım projelerine için ücretsiz barındırma "
+"sağlanması ve Weblate'in daha da geliştirilmesi için kullanılmaktadır. "
+"Fonlama hedefleri ve gururlu bir fon sağlayıcı olarak alacağınız ödüller "
+"gibi seçenekler için lütfen `bağış sayfasına`_ bakın."
 
 #: ../../../BACKERS.rst:2
 msgid "Backers who have funded Weblate"
