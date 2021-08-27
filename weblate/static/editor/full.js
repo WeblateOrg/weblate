@@ -421,7 +421,7 @@
         ".source-language-group [data-clone-text]"
       );
       if (cloneElement !== null) {
-        let source = cloneEelement.getAttribute("data-clone-text");
+        let source = cloneElement.getAttribute("data-clone-text");
         if (source.length < 200) {
           document.getElementById("id_source").value = source;
           document.getElementById("id_target").value = document.querySelector(
