@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-08-27 19:49+0200\n"
-"PO-Revision-Date: 2021-08-27 17:47+0000\n"
+"PO-Revision-Date: 2021-08-27 21:17+0000\n"
 "Last-Translator: Agnieszka C <aga_04@o2.pl>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/weblate/"
 "documentation/pl/>\n"
@@ -2118,10 +2118,6 @@ msgid "Long lines wrapping"
 msgstr "Zawijanie długich linii"
 
 #: ../../admin/addons.rst:446
-#, fuzzy
-#| msgid ""
-#| "By default gettext wraps lines at 77 characters and at newlines. With the "
-#| "--no-wrap parameter, wrapping is only done at newlines."
 msgid ""
 "By default gettext wraps lines at 77 characters and at newlines. With the --"
 "no-wrap parameter, wrapping is only done at newlines., Available choices: "
@@ -2129,12 +2125,15 @@ msgid ""
 "lines at newlines), ``-1`` (No line wrapping)"
 msgstr ""
 "Domyślnie gettext zawija linie przy 77 znakach i nowych liniach. Z "
-"parametrem --no-wrap, zawija jest wykonywane tylko w nowych wierszach."
+"parametrem --no-wrap zawijanie jest wykonywane tylko przy przejściu do "
+"nowych linii. Dostępne opcje: ``77`` (Zawijaj linie przy 77 znakach i nowych "
+"liniach), ``65535`` (Zawijaj linie tylko przy przejściu do nowych liniach), "
+"``-1`` (Bez zawijania linii)"
 
 #: ../../admin/addons.rst:448 ../../admin/addons.rst:571
 #: ../../admin/addons.rst:664
 msgid "storage post-load"
-msgstr ""
+msgstr "po załadowaniu do pamięci"
 
 #: ../../admin/addons.rst:450
 msgid ""
@@ -2165,7 +2164,8 @@ msgid ""
 "``--no-wrap`` parameter, wrapping is only done at newlines."
 msgstr ""
 "Domyślnie gettext zawija linie przy 77 znakach i nowych liniach. Z "
-"parametrem ``--no-wrap`` zawijanie jest wykonywane tylko przy nowych liniach."
+"parametrem ``--no-wrap`` zawijanie jest wykonywane tylko przy przejściu do "
+"nowych linii."
 
 #: ../../admin/addons.rst:467
 msgid "Update LINGUAS file"
@@ -2306,6 +2306,8 @@ msgid ""
 "Available choices: ``all`` (All commits into one), ``language`` (Per "
 "language), ``file`` (Per file), ``author`` (Per author)"
 msgstr ""
+"Dostępne opcje: ``wszystkie`` (Wszystkie commity w jeden), ``język`` (Według "
+"języka), ``plik`` (Według pliku), ``autor`` (Według autora)"
 
 #: ../../admin/addons.rst:525
 msgid "``append_trailers``"
@@ -2363,7 +2365,7 @@ msgstr "Wszystkie commity w jeden"
 
 #: ../../admin/addons.rst:539
 msgid "Per language"
-msgstr "Dla języka"
+msgstr "Według języka"
 
 #: ../../admin/addons.rst:540
 msgid "Per file"
@@ -2371,7 +2373,7 @@ msgstr "Według pliku"
 
 #: ../../admin/addons.rst:544
 msgid "Per author"
-msgstr "Na autora"
+msgstr "Według autora"
 
 #: ../../admin/addons.rst:546
 msgid ""
@@ -2412,7 +2414,7 @@ msgstr "``weblate/static``"
 msgid ""
 "Allows adjusting JSON output behavior, for example indentation or sorting."
 msgstr ""
-"Pozwala na dostosowanie zachowania wyjścia JSON, na przykład wcięcie lub "
+"Pozwala na dostosowanie zachowania wyjścia JSON, na przykład wcięcia lub "
 "sortowanie."
 
 #: ../../admin/addons.rst:578
@@ -17106,14 +17108,12 @@ msgid "Django 3.2 is now required."
 msgstr ""
 
 #: ../../admin/upgrade.rst:239
-#, fuzzy
-#| msgid "Upgrade from 4.0 to 4.1"
 msgid "Upgrade from 4.7 to 4.8"
-msgstr "Aktualizacja z 4.0 do 4.1"
+msgstr "Uaktualnienie z 4.7 do 4.8"
 
 #: ../../admin/upgrade.rst:243
 msgid "There are no additional upgrade steps needed in this release."
-msgstr ""
+msgstr "W tej wersji nie są wymagane żadne dodatkowe kroki uaktualniania."
 
 #: ../../admin/upgrade.rst:250
 msgid "Upgrading from Python 2 to Python 3"
@@ -19627,43 +19627,32 @@ msgid "`RSS on wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 msgstr "`RSS w Wikipedii <https://en.wikipedia.org/wiki/RSS>`_"
 
 #: ../../changes.rst:2
-#, fuzzy
-#| msgid "Weblate 4.7.1"
 msgid "Weblate 4.8.1"
-msgstr "Weblate 4.7.1"
+msgstr "Weblate 4.8.1"
 
 #: ../../changes.rst:4
 msgid "Not yet released."
 msgstr "Jeszcze nie wydano."
 
 #: ../../changes.rst:6
-#, fuzzy
-#| msgid "The user management no longer needs Django admin interface."
 msgid "Fixed user removal in Django admin interface."
-msgstr ""
-"Zarządzanie użytkownikami nie wymaga już interfejsu administratora Django."
+msgstr "Naprawiono usuwanie użytkowników w interfejsie administratora Django."
 
 #: ../../changes.rst:7
 msgid "Document add-on parameters in more detail."
-msgstr ""
+msgstr "Bardziej szczegółowe dokumentowanie parametrów dodatków."
 
 #: ../../changes.rst:8
-#, fuzzy
-#| msgid "Fixed adding words to glossary."
 msgid "Fixed JavaScript error on glossary."
-msgstr "Naprawiono dodawanie słów do słownika."
+msgstr "Naprawiono błąd JavaScript w słowniku."
 
 #: ../../changes.rst:10
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
-#| "milestone/60?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/70?"
 "closed=1>`__."
 msgstr ""
 "`Wszystkie zmiany w szczegółach <https://github.com/WeblateOrg/weblate/"
-"milestone/60?closed=1>`__."
+"milestone/70?closed=1>`__."
 
 #: ../../changes.rst:13
 msgid "Weblate 4.8"
@@ -19700,14 +19689,10 @@ msgid "Improved squash add-on compatibility with Gerrit."
 msgstr ""
 
 #: ../../changes.rst:23
-#, fuzzy
-#| msgid "Fixed adding strings to a monolingual glossary components."
 msgid "Fixed adding strings to monolingual glossary components."
 msgstr "Naprawiono dodawanie ciągów do komponentów słownika jednojęzycznego."
 
 #: ../../changes.rst:24
-#, fuzzy
-#| msgid "Improved performance in hadling variants."
 msgid "Improved performance in handling variants."
 msgstr "Poprawiona wydajność obsługi wariantów."
 
@@ -19717,17 +19702,15 @@ msgstr ""
 
 #: ../../changes.rst:26
 msgid "Preserve file extension for downloads."
-msgstr ""
+msgstr "Zachowaj rozszerzenia pobieranych plików."
 
 #: ../../changes.rst:27
 msgid "Added support for the Fluent format."
 msgstr "Dodano obsługę formatu Fluent."
 
 #: ../../changes.rst:28
-#, fuzzy
-#| msgid "Added support for the Fluent format."
 msgid "Added support for using tabs to indent JSON formats."
-msgstr "Dodano obsługę formatu Fluent."
+msgstr "Dodano obsługę używania tabulatorów do wcięć w formacie JSON."
 
 #: ../../changes.rst:30
 msgid ""
@@ -19764,16 +19747,12 @@ msgid "Fixed Git exporter URLs after a domain change."
 msgstr "Poprawiono uwierzytelnianie eksportera git."
 
 #: ../../changes.rst:40
-#, fuzzy
-#| msgid "Fixed cleanup addon for Windows RC files."
 msgid "Fixed cleanup add-on for Windows RC files."
 msgstr "Naprawiono dodatek do czyszczenia plików Windows RC."
 
 #: ../../changes.rst:41
-#, fuzzy
-#| msgid "Fixed possible crash on Xliff updating."
 msgid "Fixed possible crash in XLIFF updating."
-msgstr "Naprawiono możliwą awarię podczas aktualizacji Xliff."
+msgstr "Naprawiono możliwą awarię podczas aktualizacji XLIFF."
 
 #: ../../changes.rst:43
 msgid ""
@@ -20271,10 +20250,8 @@ msgid "Better handling for uploads of monolingual PO using API."
 msgstr "Ulepszono obsługa kontekstu w jednojęzycznych plikach PO."
 
 #: ../../changes.rst:177
-#, fuzzy
-#| msgid "Improved query search parser."
 msgid "Improved alerts behavior on glossary components."
-msgstr "Ulepszony analizator wyszukiwania zapytań."
+msgstr "Ulepszone zachowanie alertów w komponentach słownika."
 
 #: ../../changes.rst:178
 msgid "Improved Markdown link checks."
@@ -35015,6 +34992,8 @@ msgid ""
 "Below the translation, translators will find suggestion made by others, to "
 "be accepted (✓), accepted with changes (✏️), or deleted (🗑)."
 msgstr ""
+"Pod tłumaczeniem tłumacze znajdą sugestie innych osób do zaakceptowania (✓), "
+"zaakceptowania ze zmianami (✏️) lub usunięcia (🗑)."
 
 #: ../../user/translating.rst:124
 msgid "Plurals"
