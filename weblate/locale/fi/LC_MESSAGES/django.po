@@ -24,8 +24,8 @@ msgstr ""
 "Project-Id-Version: Weblate 4.8.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-08-27 17:48+0000\n"
-"PO-Revision-Date: 2021-06-19 08:33+0000\n"
-"Last-Translator: Jack Jofa <jackjofa@protonmail.com>\n"
+"PO-Revision-Date: 2021-08-27 21:17+0000\n"
+"Last-Translator: Tuomas Hietala <tuomas.hietala@iki.fi>\n"
 "Language-Team: Finnish <https://hosted.weblate.org/projects/weblate/"
 "application/fi/>\n"
 "Language: fi\n"
@@ -33,7 +33,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.7\n"
+"X-Generator: Weblate 4.8.1-dev\n"
 
 #: weblate/accounts/avatar.py:103
 msgctxt "No known user"
@@ -1294,18 +1294,16 @@ msgid "JSON indentation"
 msgstr "JSON-sisennys"
 
 #: weblate/addons/forms.py:193
-#, fuzzy
-#| msgid "JSON indentation"
 msgid "JSON indentation style"
-msgstr "JSON-sisennys"
+msgstr "JSON-sisennystyyli"
 
 #: weblate/addons/forms.py:195
 msgid "Spaces"
-msgstr ""
+msgstr "Välilyönnit"
 
 #: weblate/addons/forms.py:196
 msgid "Tabs"
-msgstr ""
+msgstr "Sarkaimet"
 
 #: weblate/addons/forms.py:205
 msgid "YAML indentation"
@@ -2075,7 +2073,7 @@ msgstr "Laskutus"
 
 #: weblate/auth/forms.py:104
 msgid "Send e-mail invitation to the user"
-msgstr ""
+msgstr "Lähetä käyttäjälle kutsu sähköpostitse"
 
 #: weblate/auth/models.py:76
 #, python-format
@@ -2224,10 +2222,8 @@ msgid "Group to assign"
 msgstr "Liitettävä ryhmä"
 
 #: weblate/auth/models.py:657 weblate/trans/forms.py:1062
-#, fuzzy
-#| msgid "User to add"
 msgid "User to block"
-msgstr "Lisättävä käyttäjä"
+msgstr "Estettävä käyttäjä"
 
 #: weblate/auth/models.py:660 weblate/templates/check.html:19
 #: weblate/templates/data.html:28 weblate/templates/data.html:62
@@ -2728,10 +2724,8 @@ msgid "Object Pascal format"
 msgstr "Object Pascal -muoto"
 
 #: weblate/checks/format.py:500
-#, fuzzy
-#| msgid "Perl format string does not match source"
 msgid "Object Pascal format string does not match source"
-msgstr "Perl-muotoinen teksti ei vastaa lähdettä"
+msgstr "Object Pascal -muotoinen teksti ei vastaa lähdettä"
 
 #: weblate/checks/format.py:508
 msgid "Scheme format"
@@ -3108,10 +3102,8 @@ msgid "RC file"
 msgstr "RC-tiedosto"
 
 #: weblate/formats/convert.py:434
-#, fuzzy
-#| msgid "i18next JSON file"
 msgid "Plain text file"
-msgstr "i18next JSON-tiedosto"
+msgstr "Pelkkää tekstiä sisältävä tiedosto"
 
 #: weblate/formats/convert.py:477
 msgid "DokuWiki text file"
@@ -3126,10 +3118,8 @@ msgid "gettext PO"
 msgstr "gettext PO"
 
 #: weblate/formats/exporters.py:248
-#, fuzzy
-#| msgid "XLIFF with gettext extensions"
 msgid "XLIFF 1.1 with gettext extensions"
-msgstr "XLIFF gettext-laajennuksilla"
+msgstr "XLIFF 1.1 gettext-laajennuksilla"
 
 #: weblate/formats/exporters.py:279
 msgid "XLIFF 1.1"
@@ -3324,10 +3314,8 @@ msgid "Stringsdict file"
 msgstr "Tekstit, joissa on merkintöjä"
 
 #: weblate/formats/ttkit.py:1838
-#, fuzzy
-#| msgid "Font file"
 msgid "Fluent file"
-msgstr "Fonttitiedosto"
+msgstr "Fluent-tiedosto"
 
 #: weblate/formats/txt.py:176
 msgid "App store metadata files"
@@ -3342,14 +3330,10 @@ msgid "Invalid integer list!"
 msgstr "Virheellinen kokonaislukulista!"
 
 #: weblate/glossary/forms.py:47
-#, fuzzy
-#| msgid "String will be propagated to all languages"
 msgid "String will be part of the glossary in all languages"
-msgstr "Teksti kertautuu kaikkiin kieliin"
+msgstr "Teksti lisätään kaikkien kielten sanastoihin"
 
 #: weblate/glossary/forms.py:55
-#, fuzzy
-#| msgid "Not translatable term"
 msgid "Untranslatable term"
 msgstr "Ei-käännettävä termi"
 
@@ -3530,44 +3514,29 @@ msgid "Zero/one/two/few/many/other"
 msgstr "Nolla/yksi/kaksi/muutama/monta/muu"
 
 #: weblate/lang/models.py:607
-#, fuzzy
-#| msgctxt "Plural type"
-#| msgid "Zero/one/other"
 msgctxt "Plural type"
 msgid "Zero/other"
-msgstr "Nolla/yksi/muu"
+msgstr "Nolla/muu"
 
 #: weblate/lang/models.py:611
-#, fuzzy
-#| msgctxt "Plural type"
-#| msgid "Zero/one/other"
 msgctxt "Plural type"
 msgid "Zero/one/few/other"
-msgstr "Nolla/yksi/muu"
+msgstr "Nolla/yksi/muutama/muu"
 
 #: weblate/lang/models.py:615
-#, fuzzy
-#| msgctxt "Plural type"
-#| msgid "Zero/one/two/few/many/other"
 msgctxt "Plural type"
 msgid "Zero/one/two/few/other"
-msgstr "Nolla/yksi/kaksi/muutama/monta/muu"
+msgstr "Nolla/yksi/kaksi/muutama/muu"
 
 #: weblate/lang/models.py:619
-#, fuzzy
-#| msgctxt "Plural type"
-#| msgid "Zero/one/other"
 msgctxt "Plural type"
 msgid "Zero/one/two/other"
-msgstr "Nolla/yksi/muu"
+msgstr "Nolla/yksi/kaksi/muu"
 
 #: weblate/lang/models.py:623
-#, fuzzy
-#| msgctxt "Plural type"
-#| msgid "Zero/one/two/few/many/other"
 msgctxt "Plural type"
 msgid "Zero/one/few/many/other"
-msgstr "Nolla/yksi/kaksi/muutama/monta/muu"
+msgstr "Nolla/yksi/muutama/monta/muu"
 
 #: weblate/lang/models.py:627
 msgctxt "Plural type"
@@ -3583,8 +3552,6 @@ msgid "Default plural"
 msgstr "Oletusmonikko"
 
 #: weblate/lang/models.py:639
-#, fuzzy
-#| msgid "Gettext plural formula"
 msgid "gettext plural formula"
 msgstr "Gettext-monikkomuoto"
 
@@ -4021,16 +3988,12 @@ msgstr ""
 "kirjattu koodilla %(error_id)s."
 
 #: weblate/templates/500.html:36
-#, fuzzy
-#| msgid ""
-#| "The server had serious problems serving your request. Trained monkeys are "
-#| "en-route fixing the issue."
 msgid ""
 "The server had serious problems serving your request. You might want to "
 "contact server admins in case the error persists."
 msgstr ""
-"Palvelin kohtasi vakavia ongelmia toteuttaessaan pyyntöäsi. Koulutetut "
-"apinamme ovat matkalla korjaamaan ongelmaa."
+"Palvelin kohtasi vakavia ongelmia toteuttaessaan pyyntöäsi. Ongelman "
+"jatkuessa voi olla paikallaan ottaa yhteyttä palvelimen ylläpitäjiin."
 
 #: weblate/templates/about/index.html:5 weblate/templates/about/index.html:11
 #: weblate/templates/about/keys.html:6 weblate/templates/about/stats.html:7
@@ -4792,10 +4755,8 @@ msgid "Last sign-in on %(date)s"
 msgstr "Viimeisin kirjautuminen %(date)s"
 
 #: weblate/templates/accounts/user.html:32
-#, fuzzy
-#| msgid "Not yet signed in"
 msgid "Never signed-in"
-msgstr "Ei vielä sisäänkirjautunut"
+msgstr "Ei koskaan kirjautunut"
 
 #: weblate/templates/accounts/user.html:51
 #: weblate/templates/snippets/info.html:45
@@ -4894,21 +4855,17 @@ msgstr "Poista käyttäjä tästä ryhmästä"
 #: weblate/templates/manage-access.html:96
 #, python-format
 msgid "Blocked until %(expiry)s"
-msgstr ""
+msgstr "Estetty %(expiry)s asti"
 
 #: weblate/templates/accounts/user.html:269
 #: weblate/templates/manage-access.html:98
-#, fuzzy
-#| msgid "Ignore permanently"
 msgid "Blocked permanently"
-msgstr "Sivuuta pysyvästi"
+msgstr "Estetty pysyvästi"
 
 #: weblate/templates/accounts/user.html:273
 #: weblate/templates/manage-access.html:106
-#, fuzzy
-#| msgid "Unlock"
 msgid "Unblock user"
-msgstr "Poista lukitus"
+msgstr "Poista käyttäjän esto"
 
 #: weblate/templates/accounts/user.html:289
 #: weblate/templates/fonts/font_detail.html:31
@@ -4975,18 +4932,14 @@ msgid "Configure"
 msgstr "Määrittele"
 
 #: weblate/templates/addons/addon_list.html:41
-#, fuzzy
-#| msgid "There are no addons currently installed."
 msgid "There are no add-ons currently installed."
 msgstr "Asennettuja lisäosia ei ole."
 
 #: weblate/templates/addons/addon_list.html:43
-#, fuzzy, python-format
-#| msgid "There is currently %(count)s addon installed."
-#| msgid_plural "There are currently %(count)s addons installed."
+#, python-format
 msgid "There is currently %(count)s add-on installed."
 msgid_plural "There are currently %(count)s add-ons installed."
-msgstr[0] "%(count)s lisäosa asennettu."
+msgstr[0] "Yksi lisäosa asennettu."
 msgstr[1] "%(count)s lisäosaa asennettu."
 
 #: weblate/templates/addons/addon_list.html:51
@@ -5091,16 +5044,12 @@ msgid "Matched files"
 msgstr "Täsmäävät tiedostot"
 
 #: weblate/templates/addons/discovery_preview.html:9
-#, fuzzy
-#| msgid "Following components would be deleted"
 msgid "The following components would be deleted"
-msgstr "Seuraavat komponentit voitaisiin poistaa"
+msgstr "Seuraavat komponentit poistettaisiin"
 
 #: weblate/templates/addons/discovery_preview.html:15
-#, fuzzy
-#| msgid "Following components would be created"
 msgid "The following components would be created"
-msgstr "Seuraavat komponentit voitaisiin luoda"
+msgstr "Seuraavat komponentit luotaisiin"
 
 #: weblate/templates/addons/discovery_preview.html:28
 #, fuzzy
@@ -5109,10 +5058,8 @@ msgid "The following components matched existing ones"
 msgstr "Seuraavat komponentit täsmäävät olemassa oleviin"
 
 #: weblate/templates/addons/discovery_preview.html:41
-#, fuzzy
-#| msgid "No matching checks found!"
 msgid "No matching components were found!"
-msgstr "Vastaavia tarkistuksia ei löytynyt!"
+msgstr "Täsmääviä komponentteja ei löytynyt!"
 
 #: weblate/templates/addons/generate_help.html:6
 msgid ""
@@ -6652,7 +6599,7 @@ msgstr "Palauta"
 #: weblate/templates/manage-access.html:146
 #: weblate/templates/snippets/suggestions.html:46
 msgid "Block user"
-msgstr ""
+msgstr "Estä käyttäjä"
 
 #. Translators: Number of edits on a change in Damerau–Levenshtein distance
 #: weblate/templates/last-changes-content.html:55
@@ -7441,10 +7388,8 @@ msgid "Celery queues"
 msgstr "Selleri jonot"
 
 #: weblate/templates/manage/performance.html:123
-#, fuzzy
-#| msgid "System checks"
 msgid "System encoding"
-msgstr "Järjestelmätarkistukset"
+msgstr "Järjestelmän koodaus"
 
 #: weblate/templates/manage/performance.html:128
 #, fuzzy
@@ -7472,20 +7417,16 @@ msgid "Content encoding"
 msgstr "Sisällön koodaus"
 
 #: weblate/templates/manage/performance.html:149
-#, fuzzy
-#| msgid "Activity"
 msgid "Connectivity"
-msgstr "Aktiivisuus"
+msgstr "Yhteydet"
 
 #: weblate/templates/manage/performance.html:155
-#, fuzzy
-#| msgid "Database backend"
 msgid "Database latency"
-msgstr "Tietokannan taustajärjestelmä"
+msgstr "Tietokannan latenssi"
 
 #: weblate/templates/manage/performance.html:159
 msgid "Cache latency"
-msgstr ""
+msgstr "Välimuistin latenssi"
 
 #: weblate/templates/manage/repos.html:6
 #: weblate/wladmin/templates/admin/weblate-index.html:20
@@ -7614,10 +7555,8 @@ msgid "Generate a test event to test Sentry integration."
 msgstr "Luo testitapahtuma testataksesi Sentry-integraatiota."
 
 #: weblate/templates/manage/users.html:28
-#, fuzzy
-#| msgid "Add a user"
 msgid "Add new user"
-msgstr "Lisää käyttäjä"
+msgstr "Lisää uusi käyttäjä"
 
 #: weblate/templates/matrix.html:9
 msgid "Matrix"
@@ -7968,16 +7907,12 @@ msgid "This might be caused by missing subscription."
 msgstr "Tämä saattaa johtua puuttuvasta tilauksesta."
 
 #: weblate/templates/snippets/billing-failure.html:13
-#, fuzzy
-#| msgid ""
-#| "This might be caused by missing subscription or some of your billings are "
-#| "past due date or over limits."
 msgid ""
 "This might be caused by some of your billings are past due date or over "
 "limits."
 msgstr ""
-"Tämä saattaa johtua puuttuvasta tilauksesta, tai maksusuorituksesi ovat "
-"myöhässä, tai rajasi ovat ylittyneet."
+"Syynä voi olla, että maksusuorituksesi ovat myöhässä, tai rajasi ovat "
+"ylittyneet."
 
 #: weblate/templates/snippets/component/contributor-agreement.html:7
 msgid "View contributor agreement"
@@ -10004,7 +9939,7 @@ msgstr "Virheellinen tarkistussumma!"
 
 #: weblate/trans/forms.py:164
 msgid "More possible users were found."
-msgstr ""
+msgstr "Mahdollisia käyttäjiä löytyi lisää."
 
 #: weblate/trans/forms.py:178
 msgid "Missing query string."
@@ -10239,26 +10174,24 @@ msgid "Please type in an existing Weblate account name or e-mail address."
 msgstr "Kirjoita olemassa olevan Weblate-tilin nimi tai sähköpostiosoite."
 
 #: weblate/trans/forms.py:1068
-#, fuzzy
-#| msgid "Location"
 msgid "Block duration"
-msgstr "Sijainti"
+msgstr "Eston kesto"
 
 #: weblate/trans/forms.py:1070
 msgid "Block user until I unblock them"
-msgstr ""
+msgstr "Estä käyttäjä, kunnes poistan eston"
 
 #: weblate/trans/forms.py:1071
 msgid "Block user for one day"
-msgstr ""
+msgstr "Estä käyttäjä yhdeksi päiväksi"
 
 #: weblate/trans/forms.py:1072
 msgid "Block user for one week"
-msgstr ""
+msgstr "Estä käyttäjä yhdeksi viikoksi"
 
 #: weblate/trans/forms.py:1073
 msgid "Block user for one month"
-msgstr ""
+msgstr "Estä käyttäjä yhdeksi kuukaudeksi"
 
 #: weblate/trans/forms.py:1081
 msgid "Report format"
@@ -10967,9 +10900,6 @@ msgid "Moved component"
 msgstr "Siirretty käännöskomponentti"
 
 #: weblate/trans/models/change.py:316
-#, fuzzy
-#| msgid "New string to translate"
-#| msgid_plural "New strings to translate"
 msgctxt "Name of event in the history"
 msgid "New string to translate"
 msgstr "Uusi teksti käännettäväksi"
@@ -11890,10 +11820,8 @@ msgid "Mark as read-only"
 msgstr "Merkitse roskapostiksi"
 
 #: weblate/trans/models/unit.py:1460
-#, fuzzy
-#| msgid "Template for new translations"
 msgid "Unmark as forbidden translation"
-msgstr "Malline uusille käännöksille"
+msgstr "Poista kielletyn käännöksen merkintä"
 
 #: weblate/trans/models/unit.py:1468
 msgid "Mark as forbidden translation"
@@ -11901,7 +11829,7 @@ msgstr "Merkitse kielletyksi käännökseksi"
 
 #: weblate/trans/models/unit.py:1476
 msgid "Unmark as terminology"
-msgstr ""
+msgstr "Poista terminologiamerkintä"
 
 #: weblate/trans/models/unit.py:1484
 msgid "Mark as terminology"
@@ -12291,22 +12219,16 @@ msgid "Failed to find group to add a user!"
 msgstr "Etsimääsi ryhmää käyttäjän lisäämiseksi ei löytynyt!"
 
 #: weblate/trans/views/acl.py:147
-#, fuzzy
-#| msgid "User has been added to this project."
 msgid "You can not block yourself on this project."
-msgstr "Käyttäjä on lisätty tähän projektiin."
+msgstr "Et voi estää itseäsi tässä projektissa."
 
 #: weblate/trans/views/acl.py:167
-#, fuzzy
-#| msgid "User has been added to this project."
 msgid "User has been blocked on this project."
-msgstr "Käyttäjä on lisätty tähän projektiin."
+msgstr "Käyttäjä on estetty tässä projektissa."
 
 #: weblate/trans/views/acl.py:169
-#, fuzzy
-#| msgid "User has been added to this project."
 msgid "User is already blocked on this project."
-msgstr "Käyttäjä on lisätty tähän projektiin."
+msgstr "Käyttäjä on jo estetty tässä projektissa."
 
 #: weblate/trans/views/acl.py:196 weblate/trans/views/acl.py:211
 msgid "User has been invited to this project."
@@ -12785,10 +12707,8 @@ msgid "Silver"
 msgstr "Hopea"
 
 #: weblate/utils/fields.py:92
-#, fuzzy
-#| msgid "A user with that username already exists."
 msgid "A user with this e-mail already exists."
-msgstr "Käyttäjänimi on jo toisen käyttäjän käytössä."
+msgstr "Sähköposti on jo toisen käyttäjän käytössä."
 
 #: weblate/utils/render.py:44
 #, python-format
