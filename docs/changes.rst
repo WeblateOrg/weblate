@@ -174,7 +174,7 @@ Released on March 5th 2021.
 * Extend metrics usage to improve performance of several pages.
 * Store correct source language in TMX files.
 * Better handling for uploads of monolingual PO using API.
-* Improved alerts behavior glossaries.
+* Improved alerts behavior on glossary components.
 * Improved Markdown link checks.
 * Indicate glossary and source language in breadcrumbs.
 * Paginated component listing of huge projects.
