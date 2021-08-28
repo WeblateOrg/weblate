@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.8.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-08-27 17:48+0000\n"
-"PO-Revision-Date: 2021-08-28 11:42+0000\n"
+"PO-Revision-Date: 2021-08-28 12:06+0000\n"
 "Last-Translator: Besnik Bleta <besnik@programeshqip.org>\n"
 "Language-Team: Albanian <https://hosted.weblate.org/projects/weblate/"
 "application/sq/>\n"
@@ -436,6 +436,8 @@ msgstr ""
 #: weblate/accounts/models.py:184
 msgid "Please contact project maintainers if you feel this is inappropriate."
 msgstr ""
+"Ju lutemi, lidhuni me mirëmbajtësit e projektit, nëse mendoni se kjo është e "
+"papërshtatshme."
 
 #: weblate/accounts/models.py:306 weblate/templates/accounts/profile.html:227
 #: weblate/templates/accounts/user.html:223
@@ -1272,8 +1274,6 @@ msgstr ""
 "mesazh depozitimi, bie fjala, “Me bashkëautorësinë e: …”."
 
 #: weblate/addons/forms.py:167
-#, fuzzy
-#| msgid "Commit messages"
 msgid "Commit message"
 msgstr "Mesazh depozitimi"
 
@@ -1292,18 +1292,16 @@ msgid "JSON indentation"
 msgstr "Hapësirë kryeradhe JSON"
 
 #: weblate/addons/forms.py:193
-#, fuzzy
-#| msgid "JSON indentation"
 msgid "JSON indentation style"
-msgstr "Hapësirë kryeradhe JSON"
+msgstr "Stil hapësirash kryeradhe JSON"
 
 #: weblate/addons/forms.py:195
 msgid "Spaces"
-msgstr ""
+msgstr "Hapësira"
 
 #: weblate/addons/forms.py:196
 msgid "Tabs"
-msgstr ""
+msgstr "Skeda"
 
 #: weblate/addons/forms.py:205
 msgid "YAML indentation"
@@ -2229,10 +2227,8 @@ msgid "Group to assign"
 msgstr "Grup për t’u caktuar"
 
 #: weblate/auth/models.py:657 weblate/trans/forms.py:1062
-#, fuzzy
-#| msgid "User to add"
 msgid "User to block"
-msgstr "Përdorues për t’u shtuar"
+msgstr "Përdorues për t’u bllokuar."
 
 #: weblate/auth/models.py:660 weblate/templates/check.html:19
 #: weblate/templates/data.html:28 weblate/templates/data.html:62
@@ -2246,10 +2242,8 @@ msgid "Project"
 msgstr "Projekt"
 
 #: weblate/auth/models.py:662
-#, fuzzy
-#| msgid "Support expiry"
 msgid "Block expiry"
-msgstr "Skadim Asistence"
+msgstr "Skadim bllokimi"
 
 #: weblate/billing/admin.py:82 weblate/templates/billing/list.html:8
 #: weblate/templates/billing/status.html:112
@@ -3123,10 +3117,8 @@ msgid "gettext PO"
 msgstr "PO gettext"
 
 #: weblate/formats/exporters.py:248
-#, fuzzy
-#| msgid "XLIFF with gettext extensions"
 msgid "XLIFF 1.1 with gettext extensions"
-msgstr "XLIFF me zgjerime gettext"
+msgstr "XLIFF 1.1 me zgjerime gettext"
 
 #: weblate/formats/exporters.py:279
 msgid "XLIFF 1.1"
@@ -3309,22 +3301,16 @@ msgid "TermBase eXchange file"
 msgstr "Kartelë TermBase eXchange"
 
 #: weblate/formats/ttkit.py:1776
-#, fuzzy
-#| msgid "Failing file"
 msgid "mi18n lang file"
-msgstr "Kartelë me dështim"
+msgstr "kartelë gjuhësore mi18n"
 
 #: weblate/formats/ttkit.py:1785
-#, fuzzy
-#| msgid "Strings with labels"
 msgid "Stringsdict file"
-msgstr "Vargje me etiketa"
+msgstr "Kartelë Stringsdict"
 
 #: weblate/formats/ttkit.py:1838
-#, fuzzy
-#| msgid "Font file"
 msgid "Fluent file"
-msgstr "Kartelë shkronjash"
+msgstr "Kartelë Fluent"
 
 #: weblate/formats/txt.py:176
 msgid "App store metadata files"
@@ -3339,14 +3325,10 @@ msgid "Invalid integer list!"
 msgstr "Listë e pavlefshme numrash!"
 
 #: weblate/glossary/forms.py:47
-#, fuzzy
-#| msgid "String will be propagated to all languages"
 msgid "String will be part of the glossary in all languages"
-msgstr "Vargu do të përhapet në krejt gjuhët"
+msgstr "Vargu do të jetë pjesë e fjalorthit në krejt gjuhët"
 
 #: weblate/glossary/forms.py:55
-#, fuzzy
-#| msgid "Not translatable term"
 msgid "Untranslatable term"
 msgstr "Term i papërkthyeshëm"
 
@@ -3527,44 +3509,29 @@ msgid "Zero/one/two/few/many/other"
 msgstr "Zero/një/dy/ndoca/shumë/tjetër"
 
 #: weblate/lang/models.py:607
-#, fuzzy
-#| msgctxt "Plural type"
-#| msgid "Zero/one/other"
 msgctxt "Plural type"
 msgid "Zero/other"
-msgstr "Zero/një/tjetër"
+msgstr "Zero/tjetër"
 
 #: weblate/lang/models.py:611
-#, fuzzy
-#| msgctxt "Plural type"
-#| msgid "Zero/one/other"
 msgctxt "Plural type"
 msgid "Zero/one/few/other"
-msgstr "Zero/një/tjetër"
+msgstr "Zero/një/ndoca/tjetër"
 
 #: weblate/lang/models.py:615
-#, fuzzy
-#| msgctxt "Plural type"
-#| msgid "Zero/one/two/few/many/other"
 msgctxt "Plural type"
 msgid "Zero/one/two/few/other"
-msgstr "Zero/një/dy/ndoca/shumë/tjetër"
+msgstr "Zero/një/dy/ndoca/tjetër"
 
 #: weblate/lang/models.py:619
-#, fuzzy
-#| msgctxt "Plural type"
-#| msgid "Zero/one/other"
 msgctxt "Plural type"
 msgid "Zero/one/two/other"
-msgstr "Zero/një/tjetër"
+msgstr "Zero/një/dy/tjetër"
 
 #: weblate/lang/models.py:623
-#, fuzzy
-#| msgctxt "Plural type"
-#| msgid "Zero/one/two/few/many/other"
 msgctxt "Plural type"
 msgid "Zero/one/few/many/other"
-msgstr "Zero/një/dy/ndoca/shumë/tjetër"
+msgstr "Zero/një/ndoca/shumë/tjetër"
 
 #: weblate/lang/models.py:627
 msgctxt "Plural type"
@@ -3580,16 +3547,12 @@ msgid "Default plural"
 msgstr "Shumës parazgjedhje"
 
 #: weblate/lang/models.py:639
-#, fuzzy
-#| msgid "Qt plural format"
 msgid "gettext plural formula"
-msgstr "Format shumësi Qt"
+msgstr "formulë gettext shumësi"
 
 #: weblate/lang/models.py:640
-#, fuzzy
-#| msgid "String has plural"
 msgid "stringsdict plural"
-msgstr "Vargu ka shumës"
+msgstr "shumës stringsdict"
 
 #: weblate/lang/models.py:641
 msgid "Manually entered formula"
@@ -4003,28 +3966,21 @@ msgid "Server Error"
 msgstr "Gabim Shërbyesi"
 
 #: weblate/templates/500.html:16
-#, fuzzy, python-format
-#| msgid ""
-#| "The server had serious problems serving your request. Trained monkeys are "
-#| "en-route fixing the issue."
+#, python-format
 msgid ""
 "The server had serious problems serving your request, and this error has "
 "been recorded as %(error_id)s."
 msgstr ""
-"Shërbyesi ka probleme serioze për të shërbyen kërkesën tuaj. Majmunë të "
-"stërvitur janë në punë e sipër duke ndrequr problemin."
+"Shërbyesi ka probleme serioze për të shërbyen kërkesën tuaj dhe ky gabim "
+"është regjistruar si %(error_id)s."
 
 #: weblate/templates/500.html:36
-#, fuzzy
-#| msgid ""
-#| "The server had serious problems serving your request. Trained monkeys are "
-#| "en-route fixing the issue."
 msgid ""
 "The server had serious problems serving your request. You might want to "
 "contact server admins in case the error persists."
 msgstr ""
-"Shërbyesi ka probleme serioze për të shërbyen kërkesën tuaj. Majmunë të "
-"stërvitur janë në punë e sipër duke ndrequr problemin."
+"Shërbyesi ka probleme serioze për të shërbyen kërkesën tuaj. Mund të doni të "
+"lidheni me përgjegjësit e shërbyesit, në rast se gabimi vazhdon."
 
 #: weblate/templates/about/index.html:5 weblate/templates/about/index.html:11
 #: weblate/templates/about/keys.html:6 weblate/templates/about/stats.html:7
@@ -4832,10 +4788,8 @@ msgstr[0] "%(count)s koment"
 msgstr[1] "%(count)s komente"
 
 #: weblate/templates/accounts/user.html:141
-#, fuzzy
-#| msgid "Translation instructions"
 msgid "Translations with contribution"
-msgstr "Udhëzime përkthimi"
+msgstr "Përkthime me kontribut"
 
 #: weblate/templates/accounts/user.html:144
 msgid "Activity"
@@ -4889,21 +4843,17 @@ msgstr "Hiq përdorues prej këtij grupi"
 #: weblate/templates/manage-access.html:96
 #, python-format
 msgid "Blocked until %(expiry)s"
-msgstr ""
+msgstr "Bllokuar deri më %(expiry)s"
 
 #: weblate/templates/accounts/user.html:269
 #: weblate/templates/manage-access.html:98
-#, fuzzy
-#| msgid "Ignore permanently"
 msgid "Blocked permanently"
-msgstr "Shpërfille përfundimisht"
+msgstr "Bllokuar përgjithmonë"
 
 #: weblate/templates/accounts/user.html:273
 #: weblate/templates/manage-access.html:106
-#, fuzzy
-#| msgid "Unlock"
 msgid "Unblock user"
-msgstr "Shkyçe"
+msgstr "Zhblloko përdoruesin"
 
 #: weblate/templates/accounts/user.html:289
 #: weblate/templates/fonts/font_detail.html:31
@@ -5077,28 +5027,20 @@ msgid "Matched files"
 msgstr "Kartela me përputhje"
 
 #: weblate/templates/addons/discovery_preview.html:9
-#, fuzzy
-#| msgid "Following components would be deleted"
 msgid "The following components would be deleted"
 msgstr "Përbërësit vijues do të fshihen"
 
 #: weblate/templates/addons/discovery_preview.html:15
-#, fuzzy
-#| msgid "Following components would be created"
 msgid "The following components would be created"
 msgstr "Përbërësit vijues do të krijohen"
 
 #: weblate/templates/addons/discovery_preview.html:28
-#, fuzzy
-#| msgid "Following components matched existing ones"
 msgid "The following components matched existing ones"
 msgstr "Përbërësit vijues kanë përputhje me përbërës ekzistues"
 
 #: weblate/templates/addons/discovery_preview.html:41
-#, fuzzy
-#| msgid "No matching checks found!"
 msgid "No matching components were found!"
-msgstr "S’u gjetën kontrolle me përputhje!"
+msgstr "S’u gjetën përbërës me përputhjen!"
 
 #: weblate/templates/addons/generate_help.html:6
 msgid ""
@@ -6622,7 +6564,7 @@ msgstr "Riktheje"
 #: weblate/templates/manage-access.html:146
 #: weblate/templates/snippets/suggestions.html:46
 msgid "Block user"
-msgstr ""
+msgstr "Bllokoje përdoruesin"
 
 #. Translators: Number of edits on a change in Damerau–Levenshtein distance
 #: weblate/templates/last-changes-content.html:55
@@ -7193,10 +7135,8 @@ msgid "Add a user"
 msgstr "Shtoni një përdorues"
 
 #: weblate/templates/manage-access.html:152
-#, fuzzy
-#| msgid "Unlock"
 msgid "Block"
-msgstr "Shkyçe"
+msgstr "Bllokoje"
 
 #: weblate/templates/manage-access.html:163
 msgid "Invite new user"
@@ -7394,14 +7334,12 @@ msgid "Celery queues"
 msgstr "Radhë Celery"
 
 #: weblate/templates/manage/performance.html:123
-#, fuzzy
-#| msgid "System checks"
 msgid "System encoding"
-msgstr "Kontrolle sistemi"
+msgstr "Kodim sistemi"
 
 #: weblate/templates/manage/performance.html:128
 msgid "Web server"
-msgstr ""
+msgstr "Shërbyes"
 
 #: weblate/templates/manage/performance.html:128
 #, fuzzy
@@ -7410,38 +7348,29 @@ msgid "Celery worker"
 msgstr "Radhë Celery"
 
 #: weblate/templates/manage/performance.html:132
-#, fuzzy
-#| msgid "Filename"
 msgid "Filenames encoding"
-msgstr "Emër kartele"
+msgstr "Kodim emrash kartelash"
 
 #: weblate/templates/manage/performance.html:134
 #: weblate/templates/manage/performance.html:139
-#, fuzzy
-#| msgctxt "Plural type"
-#| msgid "Unknown"
 msgid "Unknown encoding"
-msgstr "I panjohur"
+msgstr "Kodim i panjohur"
 
 #: weblate/templates/manage/performance.html:137
-#, fuzzy
-#| msgid "Component locking"
 msgid "Content encoding"
-msgstr "Kyçje përbërësi"
+msgstr "Kodim lënde"
 
 #: weblate/templates/manage/performance.html:149
-#, fuzzy
-#| msgid "Activity"
 msgid "Connectivity"
-msgstr "Veprimtari"
+msgstr "Aftësi lidhjeje"
 
 #: weblate/templates/manage/performance.html:155
 msgid "Database latency"
-msgstr ""
+msgstr "Vonesë baze të dhënash"
 
 #: weblate/templates/manage/performance.html:159
 msgid "Cache latency"
-msgstr ""
+msgstr "Vonesë fshehtine"
 
 #: weblate/templates/manage/repos.html:6
 #: weblate/wladmin/templates/admin/weblate-index.html:20
@@ -7572,10 +7501,8 @@ msgid "Generate a test event to test Sentry integration."
 msgstr "Prodhoni një akt testimi që të testohet integrimi me Sentry."
 
 #: weblate/templates/manage/users.html:28
-#, fuzzy
-#| msgid "Add a user"
 msgid "Add new user"
-msgstr "Shtoni një përdorues"
+msgstr "Shtoni përdorues të ri"
 
 #: weblate/templates/matrix.html:9
 msgid "Matrix"
@@ -8136,7 +8063,7 @@ msgstr "Përkthimi përdor kartela dygjuhëshe."
 #: weblate/templates/trans/discover-choice.html:5
 #: weblate/trans/models/component.py:331
 msgid "Filemask"
-msgstr ""
+msgstr "Maskë kartele"
 
 #: weblate/templates/snippets/info.html:210
 #: weblate/trans/models/component.py:341
@@ -8659,10 +8586,8 @@ msgid "The source string cannot be edited."
 msgstr "Vargu burim s’mund të përpunohet."
 
 #: weblate/templates/snippets/user-list.html:19 weblate/trans/forms.py:162
-#, fuzzy
-#| msgid "Could not find reverted change."
 msgid "Could not find any such user."
-msgstr "S’u gjet dot ndryshim i prapësuar."
+msgstr "S’u gjet ndonjë përdorues i tillë."
 
 #: weblate/templates/snippets/watch-dropdown.html:9
 msgid "Watching"
@@ -8903,34 +8828,25 @@ msgid "This project does no longer fit into libre hosting conditions."
 msgstr "Ky projekt nuk hyn më te kushtet për strehim projektesh të lirë."
 
 #: weblate/templates/trans/alert/nomaskmatches.html:2
-#, fuzzy
-#| msgid "This component is set up incorrectly."
 msgid "This component set up is incomplete, as it lacks any translations."
-msgstr "Ky përbërës është ujdisur pasaktësisht."
+msgstr "Ujdisja e këtij përbërësi është e paplotë, ngaqë s’ka ndonjë përkthim."
 
 #: weblate/templates/trans/alert/nomaskmatches.html:6
-#, fuzzy
-#| msgid ""
-#| "You can also start new translations directly in Weblate, it will create "
-#| "files based on the file mask."
 msgid ""
 "Starting new translations directly in Weblate is possible, and creates files "
 "based on the filemask."
 msgstr ""
-"Mundeni gjithashtu të nisni përkthime të reja drejt e në Weblate, kartelat "
-"do të krijohen bazuar te maska e kartelës."
+"Mundet gjithashtu të nisni përkthime të reja drejt e në Weblate, dhe "
+"kartelat do të krijohen bazuar te maska e kartelës."
 
 #: weblate/templates/trans/alert/nomaskmatches.html:8
-#, fuzzy, python-format
-#| msgid ""
-#| "Check whether file mask <code>%(filemask)s</code> matches files in your "
-#| "repository."
+#, python-format
 msgid ""
 "Check whether the filemask <code>%(filemask)s</code> matches files in your "
 "version control system repository."
 msgstr ""
 "Kontrolloni nëse maska e kartelave <code>%(filemask)s</code> përputhet me "
-"kartelat në depon tuaj."
+"kartelat në depon tuaj nën sistem kontrolli versionesh."
 
 #. Translators: This is shown when an alert contains too many occurences, the count will be always at least 100
 #: weblate/templates/trans/alert/occurrences-limit.html:5
@@ -9115,7 +9031,7 @@ msgstr ""
 
 #: weblate/templates/trans/component_create.html:92
 msgid "The filenames within the archive need to have locale codes in them."
-msgstr ""
+msgstr "Emrat e kartelave brenda arkivit lypset të kenë kode vendoresh në ta."
 
 #: weblate/templates/trans/component_create.html:105
 msgid ""
@@ -9942,15 +9858,13 @@ msgstr "U tregua “checksum” i pavlefshëm!"
 
 #: weblate/trans/forms.py:164
 msgid "More possible users were found."
-msgstr ""
+msgstr "U gjetën më tepër përdorues të mundshëm."
 
 #: weblate/trans/forms.py:178
 msgid "Missing query string."
 msgstr "Mungon varg kërkimi."
 
 #: weblate/trans/forms.py:185
-#, fuzzy
-#| msgid "Failed to parse query string: {}"
 msgid "Could not parse query string: {}"
 msgstr "S’u arrit të përtypet varg kërkese: {}"
 
@@ -10184,26 +10098,24 @@ msgstr ""
 "Ju lutemi, shtypni një emër ose adresë email llogarie ekzistuese Weblate."
 
 #: weblate/trans/forms.py:1068
-#, fuzzy
-#| msgid "Location"
 msgid "Block duration"
-msgstr "Vend"
+msgstr "Kohëzgjatje bllokimi"
 
 #: weblate/trans/forms.py:1070
 msgid "Block user until I unblock them"
-msgstr ""
+msgstr "Bllokoje përdoruesin deri sa ta zhbllokoj unë"
 
 #: weblate/trans/forms.py:1071
 msgid "Block user for one day"
-msgstr ""
+msgstr "Bllokoje përdoruesin për një ditë"
 
 #: weblate/trans/forms.py:1072
 msgid "Block user for one week"
-msgstr ""
+msgstr "Bllokoje përdoruesin për një javë"
 
 #: weblate/trans/forms.py:1073
 msgid "Block user for one month"
-msgstr ""
+msgstr "Bllokoje përdoruesin për një muaj"
 
 #: weblate/trans/forms.py:1081
 msgid "Report format"
@@ -10900,9 +10812,6 @@ msgid "Moved component"
 msgstr "U lëviz përbërës"
 
 #: weblate/trans/models/change.py:316
-#, fuzzy
-#| msgid "New string to translate"
-#| msgid_plural "New strings to translate"
 msgctxt "Name of event in the history"
 msgid "New string to translate"
 msgstr "Varg i ri për përkthim"
@@ -11080,17 +10989,14 @@ msgid "Repository browser"
 msgstr "Shfletues depoje"
 
 #: weblate/trans/models/component.py:291
-#, fuzzy
-#| msgid ""
-#| "Link to repository browser, use {{branch}} for branch, {{filename}} and "
-#| "{{line}} as filename and line placeholders."
 msgid ""
 "Link to repository browser, use {{branch}} for branch, {{filename}} and "
 "{{line}} as filename and line placeholders. You might want to strip leading "
 "directory by using {{filename|parentdir}}."
 msgstr ""
 "Lidhje për shfletuesi i depos, si vendmbajtëse përdorni {{branch}} për degë, "
-"{{filename}} dhe {{line}} për emër kartele dhe rresht."
+"{{filename}} dhe {{line}} për emër kartele dhe rresht. Mund të doni të lini "
+"jashtë drejtorinë kryesuese, duke përdorur {{filename|parentdir}}."
 
 #: weblate/trans/models/component.py:299
 msgid "Exported repository URL"
@@ -11222,14 +11128,8 @@ msgid "Translation flags"
 msgstr "Flamuj përkthimi"
 
 #: weblate/trans/models/component.py:429 weblate/trans/models/unit.py:310
-#, fuzzy
-#| msgid ""
-#| "Additional comma-separated flags to influence quality checks. Possible "
-#| "values can be found in the documentation."
 msgid "Additional comma-separated flags to influence Weblate behavior."
-msgstr ""
-"Flamurka shtesë, ndarë me presje, për të ndikuar kontrolle cilësie. Vlerat e "
-"mundshme mund të gjenden te dokumentimi."
+msgstr "Flamurka shtesë, ndarë me presje, për të ndikuar sjelljen e Weblate."
 
 #: weblate/trans/models/component.py:435
 msgid "Enforced checks"
@@ -12175,10 +12075,9 @@ msgstr ""
 "votonin sugjerimet e veta."
 
 #: weblate/trans/validators.py:52
-#, fuzzy, python-format
-#| msgid "Failed to parse JSON file: {!s}"
+#, python-format
 msgid "Failed to parse flags: %s"
-msgstr "S’u arrit të përtypej kartelë JSON: {!s}"
+msgstr "S’u arrit të përtypeshin flamurka: %s."
 
 #: weblate/trans/views/about.py:34
 msgid "Keys"
@@ -12205,22 +12104,16 @@ msgid "Failed to find group to add a user!"
 msgstr "S’u arrit të gjendej grup për të shtuar përdoruesis!"
 
 #: weblate/trans/views/acl.py:147
-#, fuzzy
-#| msgid "User has been added to this project."
 msgid "You can not block yourself on this project."
-msgstr "Përdoruesi u shtua te ky projekt."
+msgstr "S’mund të bllokoni veten në këtë projekt."
 
 #: weblate/trans/views/acl.py:167
-#, fuzzy
-#| msgid "User has been added to this project."
 msgid "User has been blocked on this project."
-msgstr "Përdoruesi u shtua te ky projekt."
+msgstr "Përdoruesi është bllokuar te ky projekt."
 
 #: weblate/trans/views/acl.py:169
-#, fuzzy
-#| msgid "User has been added to this project."
 msgid "User is already blocked on this project."
-msgstr "Përdoruesi u shtua te ky projekt."
+msgstr "Përdorues i bllokuar tashmë te ky projekt."
 
 #: weblate/trans/views/acl.py:196 weblate/trans/views/acl.py:211
 msgid "User has been invited to this project."
@@ -12696,10 +12589,8 @@ msgid "Silver"
 msgstr "E argjendtë"
 
 #: weblate/utils/fields.py:92
-#, fuzzy
-#| msgid "A user with that username already exists."
 msgid "A user with this e-mail already exists."
-msgstr "Ka tashmë një përdorues me atë emër përdoruesi."
+msgstr "Ka tashmë një përdorues me këtë email."
 
 #: weblate/utils/render.py:44
 #, python-format
@@ -13092,10 +12983,9 @@ msgid "Could not dismiss the configuration error!"
 msgstr "S’u hodh dot tej gabimi i formësimit!"
 
 #: weblate/wladmin/views.py:356
-#, fuzzy, python-format
-#| msgid "Create an account using:"
+#, python-format
 msgid "Created user account %s."
-msgstr "Krijoni një llogari duke përdorur:"
+msgstr "U krijua llogaria e përdoruesit %s."
 
 #~ msgid "Ignore failing check"
 #~ msgstr "Të shpërfillë kontroll të dështuar"
