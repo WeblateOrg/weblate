@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.8.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-08-27 17:48+0000\n"
-"PO-Revision-Date: 2021-08-06 21:40+0000\n"
+"PO-Revision-Date: 2021-08-30 18:34+0000\n"
 "Last-Translator: ssantos <ssantos@web.de>\n"
 "Language-Team: Portuguese (Portugal) <https://hosted.weblate.org/projects/"
 "weblate/application/pt_PT/>\n"
@@ -24,7 +24,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 4.8-dev\n"
+"X-Generator: Weblate 4.8.1-dev\n"
 
 #: weblate/accounts/avatar.py:103
 msgctxt "No known user"
@@ -1292,18 +1292,16 @@ msgid "JSON indentation"
 msgstr "Indentação JSON"
 
 #: weblate/addons/forms.py:193
-#, fuzzy
-#| msgid "JSON indentation"
 msgid "JSON indentation style"
-msgstr "Indentação JSON"
+msgstr "Estilo de indentação JSON"
 
 #: weblate/addons/forms.py:195
 msgid "Spaces"
-msgstr ""
+msgstr "Espaços"
 
 #: weblate/addons/forms.py:196
 msgid "Tabs"
-msgstr ""
+msgstr "Guias"
 
 #: weblate/addons/forms.py:205
 msgid "YAML indentation"
@@ -3109,10 +3107,8 @@ msgid "gettext PO"
 msgstr "gettext PO"
 
 #: weblate/formats/exporters.py:248
-#, fuzzy
-#| msgid "XLIFF with gettext extensions"
 msgid "XLIFF 1.1 with gettext extensions"
-msgstr "XLIFF com extensões gettext"
+msgstr "XLIFF 1.1 com extensões gettext"
 
 #: weblate/formats/exporters.py:279
 msgid "XLIFF 1.1"
@@ -3303,10 +3299,8 @@ msgid "Stringsdict file"
 msgstr "Ficheiro de stringsdict"
 
 #: weblate/formats/ttkit.py:1838
-#, fuzzy
-#| msgid "Font file"
 msgid "Fluent file"
-msgstr "Ficheiro de letra"
+msgstr "Ficheiro fluente"
 
 #: weblate/formats/txt.py:176
 msgid "App store metadata files"
@@ -3325,10 +3319,8 @@ msgid "String will be part of the glossary in all languages"
 msgstr "A cadeia fará parte do glossário em todos os idiomas"
 
 #: weblate/glossary/forms.py:55
-#, fuzzy
-#| msgid "Not translatable term"
 msgid "Untranslatable term"
-msgstr "Termo não traduzível"
+msgstr "Termo intraduzível"
 
 #: weblate/glossary/forms.py:102
 #: weblate/templates/snippets/component-glossary-badge.html:4
@@ -8817,35 +8809,27 @@ msgid "This project does no longer fit into libre hosting conditions."
 msgstr "Este projeto já não se enquadra nas condições de hospedagem libre."
 
 #: weblate/templates/trans/alert/nomaskmatches.html:2
-#, fuzzy
-#| msgid "This component set up is incomplete as it lacks translations."
 msgid "This component set up is incomplete, as it lacks any translations."
 msgstr ""
-"A configuração deste componente está incompleta porque faltam traduções."
+"A configuração deste componente está incompleta porque faltam todas as "
+"traduções."
 
 #: weblate/templates/trans/alert/nomaskmatches.html:6
-#, fuzzy
-#| msgid ""
-#| "Create new translations directly in Weblate, it will create files based "
-#| "on the file mask."
 msgid ""
 "Starting new translations directly in Weblate is possible, and creates files "
 "based on the filemask."
 msgstr ""
-"Crie novas traduções diretamente no Weblate, ele criará ficheiros com base "
-"na máscara do ficheiro."
+"É possível iniciar novas traduções diretamente na Weblate, que criará "
+"ficheiros com base na máscara de ficheiros."
 
 #: weblate/templates/trans/alert/nomaskmatches.html:8
-#, fuzzy, python-format
-#| msgid ""
-#| "Check whether file mask <code>%(filemask)s</code> matches files in your "
-#| "repository."
+#, python-format
 msgid ""
 "Check whether the filemask <code>%(filemask)s</code> matches files in your "
 "version control system repository."
 msgstr ""
-"Verifique se a máscara do ficheiro <code>%(filemask)s</code> coincide com os "
-"ficheiros no seu repositório."
+"Verifique se a máscara de ficheiros <code>%(filemask)s</code> coincide com "
+"os ficheiros do seu sistema de controlo de versão."
 
 #. Translators: This is shown when an alert contains too many occurences, the count will be always at least 100
 #: weblate/templates/trans/alert/occurrences-limit.html:5
@@ -9030,7 +9014,7 @@ msgstr ""
 
 #: weblate/templates/trans/component_create.html:92
 msgid "The filenames within the archive need to have locale codes in them."
-msgstr ""
+msgstr "Os nomes dos ficheiros precisam de ter códigos locais."
 
 #: weblate/templates/trans/component_create.html:105
 msgid ""
@@ -10993,18 +10977,14 @@ msgid "Repository browser"
 msgstr "Navegador do repositório"
 
 #: weblate/trans/models/component.py:291
-#, fuzzy
-#| msgid ""
-#| "Link to repository browser, use {{branch}} for branch, {{filename}} and "
-#| "{{line}} as filename and line placeholders."
 msgid ""
 "Link to repository browser, use {{branch}} for branch, {{filename}} and "
 "{{line}} as filename and line placeholders. You might want to strip leading "
 "directory by using {{filename|parentdir}}."
 msgstr ""
-"Hiperligação para o navegador do repositório, utilize {{branch}} para "
-"\"branch\", {{filename}} e {{line}} como nome de ficheiro e marcadores de "
-"posição de linha."
+"Hiperligação para o navegador de repositório, use {{{filename}} e {{{line}} "
+"como nomes de arquivos e espaços de linha. Pode tirar o diretório principal "
+"a usar {{filename|parentdir}}}."
 
 #: weblate/trans/models/component.py:299
 msgid "Exported repository URL"
