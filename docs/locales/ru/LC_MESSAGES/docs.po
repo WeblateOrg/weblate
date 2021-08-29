@@ -9,7 +9,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-08-27 19:49+0200\n"
 "PO-Revision-Date: 2021-08-30 18:34+0000\n"
-"Last-Translator: Mingun <Alexander_Sergey@mail.ru>\n"
+"Last-Translator: Blueberry <igory.ygr200@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/"
 "documentation/ru/>\n"
 "Language: ru\n"
@@ -1927,7 +1927,7 @@ msgstr "Я подтверждаю, что сопоставления выше в
 #: ../../admin/addons.rst:178 ../../admin/addons.rst:503
 #: ../../admin/addons.rst:635
 msgid "repository post-update"
-msgstr "repository post-update"
+msgstr "репозиторий после обновления"
 
 #: ../../admin/addons.rst:180
 msgid ""
@@ -2357,10 +2357,6 @@ msgid "Long lines wrapping"
 msgstr "Перенос длинных строк"
 
 #: ../../admin/addons.rst:446
-#, fuzzy
-#| msgid ""
-#| "By default gettext wraps lines at 77 characters and at newlines. With the "
-#| "--no-wrap parameter, wrapping is only done at newlines."
 msgid ""
 "By default gettext wraps lines at 77 characters and at newlines. With the --"
 "no-wrap parameter, wrapping is only done at newlines., Available choices: "
@@ -2369,7 +2365,9 @@ msgid ""
 msgstr ""
 "По умолчанию gettext переносит строки на 77-м символе и на символе переноса "
 "строки; с параметром --no-wrap, они будут переносится только на символе "
-"переноса строки."
+"переноса строки., Доступные варианты: ``77`` (переносить строки на 77 "
+"символов и на новые строки), ``65535`` (переносить строки только на новые "
+"строки), ``-1`` (без переноса строк)"
 
 #: ../../admin/addons.rst:448 ../../admin/addons.rst:571
 #: ../../admin/addons.rst:664
@@ -2533,6 +2531,8 @@ msgid ""
 "Available choices: ``all`` (All commits into one), ``language`` (Per "
 "language), ``file`` (Per file), ``author`` (Per author)"
 msgstr ""
+"Доступные варианты: ``all`` (Все коммиты в один), ``language`` (На язык), "
+"``file`` (На файл), ``author`` (На автора)"
 
 #: ../../admin/addons.rst:525
 msgid "``append_trailers``"
@@ -20579,16 +20579,13 @@ msgid "Django 3.2 is now required."
 msgstr "Теперь требуется Django 3.2."
 
 #: ../../admin/upgrade.rst:239
-#, fuzzy
-#| msgid "Upgrade from 4.6 to 4.7"
 msgid "Upgrade from 4.7 to 4.8"
-msgstr "Обновление с версии 4.6 до версии 4.7"
+msgstr "Обновление с версии 4.7 до 4.8"
 
 #: ../../admin/upgrade.rst:243
-#, fuzzy
-#| msgid "There are also additional filter to manipulate with filenames:"
 msgid "There are no additional upgrade steps needed in this release."
-msgstr "Также есть дополнительный фильтр для работы с именами файлов:"
+msgstr ""
+"В этом выпуске не требуется никаких дополнительных действий по обновлению."
 
 #: ../../admin/upgrade.rst:250
 msgid "Upgrading from Python 2 to Python 3"
@@ -23350,46 +23347,32 @@ msgid "`RSS on wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 msgstr "`RSS в Википедии <https://ru.wikipedia.org/wiki/RSS>`_"
 
 #: ../../changes.rst:2
-#, fuzzy
-#| msgid "Weblate 4.7.1"
 msgid "Weblate 4.8.1"
-msgstr "Weblate 4.7.1"
+msgstr "Weblate 4.8.1"
 
 #: ../../changes.rst:4
 msgid "Not yet released."
 msgstr "Ещё не выпущен."
 
 #: ../../changes.rst:6
-#, fuzzy
-#| msgid "The user management no longer needs Django admin interface."
 msgid "Fixed user removal in Django admin interface."
-msgstr ""
-"Для управления пользователями больше не нужен интерфейс администратора "
-"Django."
+msgstr "Исправлено удаление пользователей в интерфейсе администратора Django."
 
 #: ../../changes.rst:7
-#, fuzzy
-#| msgid "Display add-on parameters on overview."
 msgid "Document add-on parameters in more detail."
-msgstr "Отображение в обзоре параметров надстройки."
+msgstr "Более подробная документация параметров надстроек."
 
 #: ../../changes.rst:8
-#, fuzzy
-#| msgid "Fixed adding words to glossary."
 msgid "Fixed JavaScript error on glossary."
-msgstr "Исправлено добавление слов в глоссарий."
+msgstr "Исправлена ошибка JavaScript в глоссарии."
 
 #: ../../changes.rst:10
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
-#| "milestone/60?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/70?"
 "closed=1>`__."
 msgstr ""
-"`Все изменения в деталях <https://github.com/WeblateOrg/weblate/milestone/60?"
-"closed=1>`__."
+"`Все изменения в деталях <https://github.com/WeblateOrg/weblate/milestone/"
+"70?closed=1>`__."
 
 #: ../../changes.rst:13
 msgid "Weblate 4.8"
@@ -23426,16 +23409,12 @@ msgid "Improved squash add-on compatibility with Gerrit."
 msgstr "Улучшена совместимость надстройки уплотнения с Gerrit."
 
 #: ../../changes.rst:23
-#, fuzzy
-#| msgid "Fixed adding strings to a monolingual glossary components."
 msgid "Fixed adding strings to monolingual glossary components."
 msgstr "Исправлено добавление строк в компоненты моноязычного глоссария."
 
 #: ../../changes.rst:24
-#, fuzzy
-#| msgid "Improved performance in hadling variants."
 msgid "Improved performance in handling variants."
-msgstr "Улучшена производительность в вариантах хэдлинга."
+msgstr "Улучшенная производительность в вариантах обработки."
 
 #: ../../changes.rst:25
 msgid "Fixed squash add-on sometimes skipping parsing upstream changes."
@@ -23444,20 +23423,17 @@ msgstr ""
 "в вышестоящий репозиторий."
 
 #: ../../changes.rst:26
-#, fuzzy
-#| msgid "Preserve file extension on download."
 msgid "Preserve file extension for downloads."
-msgstr "Теперь расширение файла сохраняется при загрузке."
+msgstr "Сохранение расширения файла при загрузке."
 
 #: ../../changes.rst:27
 msgid "Added support for the Fluent format."
 msgstr "Добавлена поддержка формата Fluent."
 
 #: ../../changes.rst:28
-#, fuzzy
-#| msgid "Added support for nested JSON format."
 msgid "Added support for using tabs to indent JSON formats."
-msgstr "Добавлена поддержка вложенного формата JSON."
+msgstr ""
+"Добавлена поддержка использования табуляции для отступов в форматах JSON."
 
 #: ../../changes.rst:30
 msgid ""
@@ -23489,16 +23465,12 @@ msgid "Fixed Git exporter URLs after a domain change."
 msgstr "Исправлены URL-адреса экспортера Git после смены домена."
 
 #: ../../changes.rst:40
-#, fuzzy
-#| msgid "Fixed cleanup addon for Windows RC files."
 msgid "Fixed cleanup add-on for Windows RC files."
 msgstr "Исправлена надстройка очистки для файлов Windows RC."
 
 #: ../../changes.rst:41
-#, fuzzy
-#| msgid "Fixed possible crash on Xliff updating."
 msgid "Fixed possible crash in XLIFF updating."
-msgstr "Исправлен возможный сбой при обновлении Xliff."
+msgstr "Исправлен возможный сбой при обновлении XLIFF."
 
 #: ../../changes.rst:43
 msgid ""
@@ -23948,10 +23920,8 @@ msgid "Better handling for uploads of monolingual PO using API."
 msgstr "Улучшена обработка загрузки одноязычных PO с помощью API."
 
 #: ../../changes.rst:177
-#, fuzzy
-#| msgid "Improved alerts behavior glossaries."
 msgid "Improved alerts behavior on glossary components."
-msgstr "Улучшены глоссарии поведения предупреждений."
+msgstr "Улучшено поведение предупреждений для компонентов глоссария."
 
 #: ../../changes.rst:178
 msgid "Improved Markdown link checks."
@@ -40958,16 +40928,12 @@ msgstr ""
 "каждый из этих языков (смотрите раздел :ref:`secondary-languages`)."
 
 #: ../../user/translating.rst:118
-#, fuzzy
-#| msgid ""
-#| "Below the translation, translators will find suggestion made by others, "
-#| "to be accepted (✓), accepted with changes (🖉), or deleted (🗑)."
 msgid ""
 "Below the translation, translators will find suggestion made by others, to "
 "be accepted (✓), accepted with changes (✏️), or deleted (🗑)."
 msgstr ""
 "Под переводом будут показаны предложения, внесённые другими пользователями, "
-"которые вы, в свою очередь, можете принять(✓), принять с изменениями(🖉) или "
+"которые вы, в свою очередь, можете принять(✓), принять с изменениями(✏️) или "
 "удалить(🗑)."
 
 #: ../../user/translating.rst:124
