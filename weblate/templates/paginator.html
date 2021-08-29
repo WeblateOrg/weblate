@@ -9,13 +9,13 @@
 
      var home_page=document.createElementById("home_page");
      shortcut.add("alt+home", function() {
-         
+
        var a=document.createElement("a");
        a.href="?page=1&amp;limit={{ page_obj.paginator.per_page }}{% if page_obj.paginator.sort_by %}&amp;sort_by={{ page_obj.paginator.sort_by }}{% endif %}{% if query_string %}&amp;{{ query_string }}{% endif %}{% if anchor %}#{{ anchor }}{% endif %}" ;
 
        document.body.appendChild(a);
-      
-    });   
+
+    });
   </script>
 
 <script>
@@ -23,7 +23,7 @@
  shortcut.add("alt+left", function() {
   var a=document.createElement("a");
   a.href="?page={{ page_obj.previous_page_number }}&amp;limit={{ page_obj.paginator.per_page }}{% if page_obj.paginator.sort_by %}&amp;sort_by={{ page_obj.paginator.sort_by }}{% endif %}{% if query_string %}&amp;{{ query_string }}{% endif %}{% if anchor %}#{{ anchor }}{% endif %}";
- 
+
   document.body.appendChild(a);
 })
   </script>
@@ -33,7 +33,7 @@
  shortcut.add("alt+right", function() {
   var a=document.createElement("a");
   a.href="?page={{ page_obj.next_page_number }}&amp;limit={{ page_obj.paginator.per_page }}{% if page_obj.paginator.sort_by %}&amp;sort_by={{ page_obj.paginator.sort_by }}{% endif %}{% if query_string %}&amp;{{ query_string }}{% endif %}{% if anchor %}#{{ anchor }}{% endif %}";
- 
+
   document.body.appendChild(a);
 })
   </script>
@@ -69,10 +69,10 @@ a.href="?page={{ page_obj.paginator.num_pages }}&amp;limit={{ page_obj.paginator
 document.body.appendChild(a);
 })
 </script>
-  
 
 
-    
+
+
 
 
 <ul class="pagination">
