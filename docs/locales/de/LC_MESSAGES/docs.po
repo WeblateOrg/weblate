@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-08-27 19:49+0200\n"
-"PO-Revision-Date: 2021-08-27 17:47+0000\n"
+"PO-Revision-Date: 2021-08-30 18:34+0000\n"
 "Last-Translator: VfBFan <drop0815@posteo.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "documentation/de/>\n"
@@ -327,6 +327,9 @@ msgid ""
 "can be accessed from the project’s menu :guilabel:`Manage` ↓ :guilabel:"
 "`Users`."
 msgstr ""
+"Diese Funktionen sind auf der Seite :guilabel:`Zugriffssteuerung` verfügbar, "
+"die über das Projektmenü :guilabel:`Verwaltung` ↓ :guilabel:`Benutzer` "
+"aufgerufen werden kann."
 
 #: ../../admin/access.rst:142
 msgid "New user invitation"
@@ -412,13 +415,13 @@ msgid ""
 "creating additional custom settings for individual component as described "
 "in :ref:`custom-acl` below."
 msgstr ""
-"Standardmäßig verhindert dies, dass Weblate den Zugriff von `Users` und "
-"`Viewers` :ref:`default groups <default-groups>` aufgrund der eigenen "
+"Standardmäßig verhindert dies, dass Weblate den Zugriff von `Benutzer` und "
+"`Betrachter` :ref:`default groups <default-groups>` aufgrund der eigenen "
 "Konfiguration dieser Gruppen gewährt. Dies hindert Sie jedoch nicht daran, "
 "die Berechtigungen für diese Projekte plattformweit zu gewähren, indem Sie "
 "die Standardgruppen ändern, eine neue Gruppe erstellen oder zusätzliche "
-"benutzerdefinierte Einstellungen für einzelne Komponenten vornehmen, wie in :"
-"ref:`custom-acl` unten beschrieben."
+"benutzerdefinierte Einstellungen für einzelne Komponenten vornehmen, wie in "
+":ref:`custom-acl` unten beschrieben."
 
 #: ../../admin/access.rst:188
 msgid ""
@@ -427,6 +430,10 @@ msgid ""
 "superuser privilege. In order to do so, add them to the `Administration` "
 "group of the project."
 msgstr ""
+"Einer der Hauptvorteile der Verwaltung von Berechtigungen über die Weblate-"
+"Benutzeroberfläche ist, dass Sie sie an andere Benutzer delegieren können, "
+"ohne ihnen das Superuser-Recht zu geben. Dazu fügen Sie sie der Gruppe "
+"`Administration` des Projekts hinzu."
 
 #: ../../admin/access.rst:196
 msgid "Custom access control"
@@ -465,6 +472,11 @@ msgid ""
 "<https://hosted.weblate.org/>`_), please refer to the :ref:`access-simple` "
 "section."
 msgstr ""
+"Wenn Sie nicht an den Details der Implementierung interessiert sind und nur "
+"eine einfache Konfiguration auf der Grundlage der Standardeinstellungen "
+"erstellen möchten oder keinen plattformweiten Zugriff auf die gesamte "
+"Weblate-Installation haben (wie bei `Hosted Weblate <https://hosted.weblate."
+"org/>`_), lesen Sie bitte den Abschnitt :ref:`access-simple`."
 
 #: ../../admin/access.rst:216
 msgid "Common setups"
@@ -475,6 +487,8 @@ msgid ""
 "This section contains an overview of some common configurations you may be "
 "interested in."
 msgstr ""
+"Dieser Abschnitt enthält einen Überblick über einige gängige "
+"Konfigurationen, die Sie interessieren könnten."
 
 #: ../../admin/access.rst:222
 msgid "Site-wide permission management"
@@ -485,24 +499,32 @@ msgid ""
 "To manage permissions for a whole instance at once, add users to "
 "appropriate :ref:`default groups <default-groups>`:"
 msgstr ""
+"Um Berechtigungen für eine ganze Instanz auf einmal zu verwalten, fügen Sie "
+"Benutzer zu den entsprechenden :ref:`Standardgruppen <default-groups>` hinzu:"
 
 #: ../../admin/access.rst:227
 msgid ""
 "`Users` (this is done by default by the :ref:`automatic group assignment "
 "<autogroup>`)."
 msgstr ""
+"`Benutzer` (dies geschieht standardmäßig durch :ref:`automatic group "
+"assignment <autogroup>`)."
 
 #: ../../admin/access.rst:229
 msgid ""
 "`Reviewers` (if you are using :ref:`review workflow <reviews>` with "
 "dedicated reviewers)."
 msgstr ""
+"`Prüfer` (wenn Sie :ref:`review workflow <reviews>` mit eigenen Prüfern "
+"verwenden)."
 
 #: ../../admin/access.rst:231
 msgid ""
 "`Managers` (if you want to delegate most of the management operations to "
 "somebody else)."
 msgstr ""
+"`Manager` (wenn Sie die meisten Verwaltungsaufgaben an jemand anderen "
+"delegieren wollen)."
 
 #: ../../admin/access.rst:234
 msgid ""
@@ -510,6 +532,9 @@ msgid ""
 "otherwise the site-wide permissions provided by membership in the `Users` "
 "and `Reviewers` groups won’t have any effect."
 msgstr ""
+"Sie sollten alle Projekte als `Public` konfigurieren (siehe :ref:`acl`), da "
+"sonst die plattformweiten Berechtigungen, die durch die Mitgliedschaft in "
+"den Gruppen `Benutzer` und `Prüfer` gegeben sind, keine Wirkung haben."
 
 #: ../../admin/access.rst:238
 msgid ""
@@ -528,6 +553,10 @@ msgid ""
 "the :guilabel:`Project selection` (e.g. :guilabel:`All projects` or :"
 "guilabel:`All public projects`)."
 msgstr ""
+"Sie können auch einige neue benutzerdefinierte Gruppen definieren. Wenn Sie "
+"Ihre Berechtigungen für diese Gruppen weiterhin plattformweit verwalten "
+"möchten, wählen Sie einen geeigneten Wert für :guilabel:`Projektauswahl` ("
+"z.B. :guilabel:`Alle Projekte` oder :guilabel:`Alle öffentlichen Projekte`)."
 
 #: ../../admin/access.rst:248
 msgid "Custom permissions for languages, components or projects"
@@ -540,6 +569,12 @@ msgid ""
 "can only grant additional privileges, you can’t revoke any permission "
 "granted by site-wide or per-project groups by adding another custom group."
 msgstr ""
+"Sie können Ihre eigenen Gruppen erstellen, um die Berechtigungen für "
+"bestimmte Objekte wie Sprachen, Komponenten und Projekte zu verwalten. "
+"Obwohl diese Gruppen nur zusätzliche Berechtigungen gewähren können, können "
+"Sie keine Berechtigung, die von plattformweiten oder projektspezifischen "
+"Gruppen gewährt wurde, durch Hinzufügen einer anderen benutzerdefinierten "
+"Gruppe aufheben."
 
 #: ../../admin/access.rst:255 ../../admin/access.rst:385
 #: ../../admin/config.rst:249 ../../admin/config.rst:274
@@ -551,7 +586,7 @@ msgstr ""
 #: ../../admin/install/docker.rst:805 ../../admin/install/docker.rst:1314
 #: ../../admin/install/docker.rst:1359 ../../admin/install/docker.rst:1377
 msgid "**Example:**"
-msgstr ""
+msgstr "**Beispiel:**"
 
 #: ../../admin/access.rst:257
 msgid ""
@@ -570,10 +605,13 @@ msgid ""
 "default configuration this can be done by altering the `Users` :ref:`default "
 "group <default-groups>`."
 msgstr ""
+"Entziehen Sie allen Benutzern die Erlaubnis, `Tschechisch` zu übersetzen. In "
+"der Standardkonfiguration kann dies durch Ändern der `Benutzer` :ref:`"
+"default group <default-groups>` erfolgen."
 
 #: ../../admin/access.rst:265
 msgid "Group `Users`"
-msgstr "Gruppe `Users`"
+msgstr "Gruppe `Benutzer`"
 
 #: ../../admin/access.rst:268 ../../admin/access.rst:284
 msgid "Language selection"
@@ -585,7 +623,7 @@ msgstr "`Wie vorgegeben`"
 
 #: ../../admin/access.rst:271
 msgid "All but `Czech`"
-msgstr ""
+msgstr "Alle außer `Tschechisch`"
 
 #: ../../admin/access.rst:275
 msgid "Add a dedicated group for `Czech` translators."
@@ -618,6 +656,8 @@ msgstr "`Tschechisch`"
 #: ../../admin/access.rst:291
 msgid "Add users you wish to give the permissions to into this group."
 msgstr ""
+"Fügen Sie die Benutzer, denen Sie die Berechtigungen erteilen möchten, zu "
+"dieser Gruppe hinzu."
 
 #: ../../admin/access.rst:293
 msgid ""
@@ -625,6 +665,10 @@ msgid ""
 "quite a tedious job. You can’t delegate it to another user, unless granting "
 "superuser permissions."
 msgstr ""
+"Wie Sie sehen, ist die Verwaltung von Berechtigungen auf diese Weise zwar "
+"sehr leistungsfähig, kann aber auch ziemlich mühsam sein. Sie können sie "
+"nicht an einen anderen Benutzer delegieren, es sei denn, Sie erteilen "
+"Superuser-Berechtigungen."
 
 #: ../../admin/access.rst:300
 msgid "Users, roles, groups, and permissions"
@@ -636,19 +680,15 @@ msgstr "Die Legitimierungsmodelle bestehen aus verschiedenen Objekten:"
 
 #: ../../admin/access.rst:305
 msgid "`Permission`"
-msgstr "`Genehmigung`"
+msgstr "`Berechtigung`"
 
 #: ../../admin/access.rst:305
-#, fuzzy
-#| msgid ""
-#| "Individual permissions defined by Weblate. You can not assign individual "
-#| "permissions, this can only be done through assignment of roles."
 msgid ""
 "Individual permission defined by Weblate. Permissions cannot be assigned to "
 "users. This can only be done through assignment of roles."
 msgstr ""
-"Durch Weblate bestimmte individuelle Genehmigungen. Sie können keine "
-"individuellen Genehmigungen zuteilen, dies kann nur durch Rollenzuordnungen "
+"Durch Weblate bestimmte individuelle Berechtigung. Sie können keine "
+"individuellen Berechtigungen zuteilen, dies kann nur durch Rollenzuordnungen "
 "geschehen."
 
 #: ../../admin/access.rst:308
@@ -689,6 +729,8 @@ msgid ""
 "A group can have no roles assigned to it, in that case access to browse the "
 "project by anyone is assumed (see below)."
 msgstr ""
+"Einer Gruppe können auch keine Rollen zugewiesen werden. In diesem Fall wird "
+"davon ausgegangen, dass jeder das Projekt durchsuchen kann (siehe unten)."
 
 #: ../../admin/access.rst:335
 msgid "Access for browse to a project"
@@ -704,20 +746,14 @@ msgstr ""
 "Ein Benutzer muss Mitglied einer Gruppe sein, die mit dem Projekt oder einer "
 "Komponente in diesem Projekt verknüpft ist. Eine Mitgliedschaft allein "
 "genügt, es sind keine speziellen Genehmigungen erforderlich, um ein Projekt "
-"zu durchsuchen (dies wird in der Standardgruppe `Viewers` angewendet, siehe :"
-"ref:`default-groups`)."
+"zu durchsuchen (dies wird in der Standardgruppe `Betrachter` angewendet, "
+"siehe :ref:`default-groups`)."
 
 #: ../../admin/access.rst:343
 msgid "Access for browse to a component"
 msgstr "Kontrolle des Zugriffs auf eine Komponente"
 
 #: ../../admin/access.rst:345
-#, fuzzy
-#| msgid ""
-#| "A user can access the unrestricted component once he can access the "
-#| "containing project. With enabled :ref:`component-restricted` the access "
-#| "to the component requires explicit permission to the component (or "
-#| "containing component list)."
 msgid ""
 "A user can access unrestricted components once able to access the "
 "components’ project (and will have all the permissions the user was granted "
@@ -725,10 +761,12 @@ msgid ""
 "component requires explicit permissions for the component (or a component "
 "list the component is in)."
 msgstr ""
-"Ein Benutzer kann auf Komponenten ohne Einschränkungen zugreifen, sobald er "
-"auf das Projekt, das sie enthält, zugreifen kann. Ist :ref:`component-"
-"restricted` aktiviert, erfordert der Zugriff die ausdrückliche Genehmigung "
-"für die Komponente (oder die sie beinhaltende Komponentenliste)."
+"Ein Benutzer kann auf nicht eingeschränkte Komponenten zugreifen, sobald er "
+"auf das Projekt der Komponente zugreifen kann (und über alle Rechte verfügt, "
+"die dem Benutzer für das Projekt gewährt wurden). Wenn :ref:`component-"
+"restricted` eingeschaltet ist, erfordert der Zugriff auf die Komponente "
+"explizite Berechtigungen für die Komponente (oder eine Komponentenliste, in "
+"der die Komponente enthalten ist)."
 
 #: ../../admin/access.rst:353
 msgid "Scope of groups"
@@ -739,6 +777,8 @@ msgid ""
 "The scope of the permission assigned by the roles in the groups are applied "
 "by the following rules:"
 msgstr ""
+"Der Umfang der von den Rollen in den Gruppen zugewiesenen Berechtigungen "
+"wird nach den folgenden Regeln angewendet:"
 
 #: ../../admin/access.rst:358
 msgid ""
@@ -748,6 +788,12 @@ msgid ""
 "permissions is granted for all the projects these components are in. :"
 "guilabel:`Components` and :guilabel:`Projects` are ignored."
 msgstr ""
+"Wenn die Gruppe eine :guilabel:`Komponentenliste` angibt, werden alle "
+"Berechtigungen, die Mitgliedern dieser Gruppe gewährt werden, für alle "
+"Komponenten in den Komponentenlisten, die der Gruppe zugeordnet sind, "
+"gewährt, und ein Zugriff ohne zusätzliche Berechtigungen wird für alle "
+"Projekte gewährt, in denen sich diese Komponenten befinden. "
+":guilabel:`Komponenten` und :guilabel:`Projekte` werden ignoriert."
 
 #: ../../admin/access.rst:364
 msgid ""
@@ -756,8 +802,14 @@ msgid ""
 "the group, and an access with no additional permissions is granted for all "
 "the projects these components are in. :guilabel:`Projects` are ignored."
 msgstr ""
+"Wenn die Gruppe einen :guilabel:`Komponenten` angibt, werden alle "
+"Berechtigungen, die den Mitgliedern dieser Gruppe erteilt wurden, für alle "
+"Komponenten gewährt, die der Gruppe zugeordnet sind, und ein Zugriff ohne "
+"zusätzliche Berechtigungen wird für alle Projekte gewährt, in denen diese "
+"Komponenten enthalten sind. :guilabel:`Projekte` werden ignoriert."
 
 #: ../../admin/access.rst:369
+#, fuzzy
 msgid ""
 "Otherwise, if the group specifies any :guilabel:`Projects`, either by "
 "directly listing them or by having :guilabel:`Projects selection` set to a "
@@ -765,6 +817,12 @@ msgid ""
 "applied to all the projects, which effectively grants the same permissions "
 "to access all projects :ref:`unrestricted components <component-restricted>`."
 msgstr ""
+"Andernfalls, wenn die Gruppe irgendwelche :guilabel:`Projekte` angibt, "
+"entweder durch direkte Auflistung oder indem :guilabel:`Projektauswahl` auf "
+"einen Wert wie :guilabel:`Alle öffentlichen Projekte` gesetzt wird, werden "
+"alle diese Berechtigungen auf alle Projekte angewandt, was effektiv die "
+"gleichen Berechtigungen für den Zugriff auf alle Projekte :ref:`unrestricted "
+"components <component-restricted>` gewährt."
 
 #: ../../admin/access.rst:375
 msgid ""
@@ -798,7 +856,7 @@ msgstr ""
 #| msgctxt "Access-control role"
 #| msgid "Manage repository"
 msgid "`Review Strings`, `Manage repository`"
-msgstr "Repository verwalten"
+msgstr "`Review Strings`, `Manage repository`"
 
 #: ../../admin/access.rst:395 ../../api.rst:1093
 msgid "Components"
@@ -1264,7 +1322,7 @@ msgstr ""
 
 #: ../../admin/access.rst:605
 msgid "`Guests`"
-msgstr ""
+msgstr "`Gäste`"
 
 #: ../../admin/access.rst:598
 msgid "Defines permissions for non-authenticated users."
@@ -2164,19 +2222,17 @@ msgid "Long lines wrapping"
 msgstr "Umbruch langer Zeilen"
 
 #: ../../admin/addons.rst:446
-#, fuzzy
-#| msgid ""
-#| "By default gettext wraps lines at 77 characters and at newlines. With the "
-#| "--no-wrap parameter, wrapping is only done at newlines."
 msgid ""
 "By default gettext wraps lines at 77 characters and at newlines. With the --"
 "no-wrap parameter, wrapping is only done at newlines., Available choices: "
 "``77`` (Wrap lines at 77 characters and at newlines), ``65535`` (Only wrap "
 "lines at newlines), ``-1`` (No line wrapping)"
 msgstr ""
-"Standardmäßig bricht gettext Zeilen mit 77 Zeichen und bei Zeilenumbrüchen "
+"Standardmäßig bricht gettext Zeilen bei 77 Zeichen und bei Zeilenumbrüchen "
 "um. Mit dem Parameter --no-wrap wird der Umbruch nur bei Zeilenumbrüchen "
-"durchgeführt."
+"durchgeführt. Verfügbare Auswahlmöglichkeiten: ``77`` (Zeilenumbruch bei 77 "
+"Zeichen und bei Zeilenumbruch), ``65535`` (Zeilenumbruch nur bei "
+"Zeilenumbruch), ``-1`` (kein Zeilenumbruch)"
 
 #: ../../admin/addons.rst:448 ../../admin/addons.rst:571
 #: ../../admin/addons.rst:664
@@ -2424,6 +2480,8 @@ msgid ""
 "The original commit messages can optionally be overridden with a custom "
 "commit message."
 msgstr ""
+"Die ursprünglichen Commit-Nachrichten können optional mit einer eigenen "
+"Commit-Nachricht überschrieben werden."
 
 #: ../../admin/addons.rst:553
 msgid ""
@@ -2490,6 +2548,9 @@ msgid ""
 "Use with care as comments getting old does not mean they have lost their "
 "importance."
 msgstr ""
+"Dies kann nützlich sein, um alte Kommentare zu entfernen, die möglicherweise "
+"nicht mehr aktuell sind. Seien Sie vorsichtig, denn wenn Kommentare alt "
+"werden, bedeutet das nicht, dass sie ihre Bedeutung verloren haben."
 
 #: ../../admin/addons.rst:608
 msgid "Stale suggestion removal"
@@ -2547,6 +2608,8 @@ msgid ""
 "Use :ref:`addon-weblate.cleanup.generic` if you only want to remove stale "
 "translation keys."
 msgstr ""
+"Verwenden Sie :ref:`addon-weblate.cleanup.generic`, wenn Sie nur veraltete "
+"Übersetzungsschlüssel entfernen wollen."
 
 #: ../../admin/addons.rst:652
 msgid "Customize YAML output"
@@ -2593,7 +2656,7 @@ msgstr ""
 
 #: ../../admin/addons.rst:687
 msgid ":doc:`../contributing/addons`"
-msgstr ""
+msgstr ":doc:`../contributing/addons`"
 
 #: ../../admin/addons.rst:692
 msgid "Executing scripts from add-on"
@@ -2611,45 +2674,50 @@ msgstr ""
 
 #: ../../admin/addons.rst:701
 msgid "For installation instructions see :ref:`custom-addon-modules`."
-msgstr ""
+msgstr "Für Installationsanweisungen siehe :ref:`custom-addon-modules`."
 
 #: ../../admin/addons.rst:703
 msgid ""
 "The script is executed with the current directory set to the root of the VCS "
 "repository for any given component."
 msgstr ""
+"Das Skript wird ausgeführt, wobei das aktuelle Verzeichnis auf das "
+"Stammverzeichnis des VCS-Repositorys für eine beliebige Komponente gesetzt "
+"wird."
 
 #: ../../admin/addons.rst:706
 msgid "Additionally, the following environment variables are available:"
-msgstr ""
+msgstr "Zusätzlich sind die folgenden Umgebungsvariablen verfügbar:"
 
 #: ../../admin/addons.rst:710
 msgid "Version control system used."
-msgstr ""
+msgstr "Versionsverwaltung verwendet."
 
 #: ../../admin/addons.rst:714
 msgid "Upstream repository URL."
-msgstr ""
+msgstr "URL des Upstream-Repositorys."
 
 #: ../../admin/addons.rst:718
 msgid "Absolute path to VCS repository."
-msgstr ""
+msgstr "Absoluter Pfad zum VCS-Repository."
 
 #: ../../admin/addons.rst:724
 msgid "Repository branch configured in the current component."
-msgstr ""
+msgstr "In der aktuellen Komponente konfigurierter Repository-Branch."
 
 #: ../../admin/addons.rst:728
 msgid "Filemask for current component."
-msgstr ""
+msgstr "Dateimaske für die aktuelle Komponente."
 
 #: ../../admin/addons.rst:732
 msgid "Filename of template for monolingual translations (can be empty)."
-msgstr ""
+msgstr "Dateiname der Vorlage für einsprachige Übersetzungen (kann leer sein)."
 
 #: ../../admin/addons.rst:738
 msgid "Filename of the file used for creating new translations (can be empty)."
 msgstr ""
+"Dateiname der Datei, die für die Erstellung neuer Übersetzungen verwendet "
+"wird (kann leer sein)."
 
 #: ../../admin/addons.rst:743
 msgid "File format used in current component."
@@ -2660,12 +2728,16 @@ msgid ""
 "Language of currently processed translation (not available for component-"
 "level hooks)."
 msgstr ""
+"Sprache der aktuell bearbeiteten Übersetzung (nicht verfügbar für Hooks auf "
+"Komponentenebene)."
 
 #: ../../admin/addons.rst:752
 msgid ""
 "Previous HEAD after update (only available after running the post-update "
 "hook)."
 msgstr ""
+"Vorheriger HEAD nach der Aktualisierung (nur verfügbar nach Ausführung des "
+"Post-Update-Hooks)."
 
 #: ../../admin/addons.rst:758
 msgid "Component slug used to construct URL."
@@ -2677,19 +2749,19 @@ msgstr ""
 
 #: ../../admin/addons.rst:770
 msgid "Component name."
-msgstr ""
+msgstr "Name der Komponente."
 
 #: ../../admin/addons.rst:776
 msgid "Project name."
-msgstr ""
+msgstr "Projektname."
 
 #: ../../admin/addons.rst:782
 msgid "Component URL."
-msgstr ""
+msgstr "URL der Komponente."
 
 #: ../../admin/addons.rst:788
 msgid "Project engage URL."
-msgstr ""
+msgstr "URL des beteiligten Projekts."
 
 #: ../../admin/addons.rst:792 ../../faq.rst:260
 msgid ":ref:`component`"
@@ -2805,7 +2877,7 @@ msgstr ""
 
 #: ../../admin/admin.rst:47
 msgid "Adding a project"
-msgstr ""
+msgstr "Hinzufügen eines Projekts"
 
 #: ../../admin/admin.rst:49
 msgid ""
@@ -2813,6 +2885,9 @@ msgid ""
 "one project for one piece of software, or book (See :ref:`project` for info "
 "on individual parameters):"
 msgstr ""
+"Das Hinzufügen eines Projekts dient als Container für alle Komponenten. "
+"Normalerweise erstellen Sie ein Projekt für ein Stück Software oder ein Buch "
+"(siehe :ref:`project` für Informationen zu den einzelnen Parametern):"
 
 #: ../../admin/admin.rst:57
 msgid ":ref:`project`"
@@ -2820,7 +2895,7 @@ msgstr ""
 
 #: ../../admin/admin.rst:62
 msgid "Bilingual components"
-msgstr ""
+msgstr "Zweisprachige Komponenten"
 
 #: ../../admin/admin.rst:64
 msgid ""
@@ -2834,7 +2909,7 @@ msgstr ""
 
 #: ../../admin/admin.rst:77
 msgid "Monolingual components"
-msgstr ""
+msgstr "Einsprachige Komponenten"
 
 #: ../../admin/admin.rst:79
 msgid ""
@@ -2850,6 +2925,7 @@ msgstr "Ankündigungen"
 #: ../../admin/announcements.rst:6
 msgid "In prior releases this feature was called whiteboard messages."
 msgstr ""
+"In früheren Versionen wurde diese Funktion Whiteboard-Nachrichten genannt."
 
 #: ../../admin/announcements.rst:8
 msgid ""
@@ -2890,48 +2966,53 @@ msgstr ""
 
 #: ../../admin/announcements.rst:24
 msgid "It can be also added using the admin interface:"
-msgstr ""
+msgstr "Sie kann auch über die Adminoberfläche hinzugefügt werden:"
 
 #: ../../admin/announcements.rst:28
 msgid "The announcements are then shown based on their specified context:"
-msgstr ""
+msgstr "Die Ankündigungen werden dann in dem angegebenen Kontext angezeigt:"
 
 #: ../../admin/announcements.rst:30
 msgid "No context specified"
-msgstr ""
+msgstr "Kein Kontext angegeben"
 
 #: ../../admin/announcements.rst:32
 msgid "Shown on dashboard (landing page)."
-msgstr ""
+msgstr "Wird auf der Übersicht (Einstiegsseite) angezeigt."
 
 #: ../../admin/announcements.rst:34
 msgid "Project specified"
-msgstr ""
+msgstr "Projekt spezifiziert"
 
 #: ../../admin/announcements.rst:36
 msgid ""
 "Shown within the project, including all its components and translations."
 msgstr ""
+"Wird im Projekt angezeigt, einschließlich aller Komponenten und "
+"Übersetzungen."
 
 #: ../../admin/announcements.rst:38
 msgid "Component specified"
-msgstr ""
+msgstr "Komponente spezifiziert"
 
 #: ../../admin/announcements.rst:40
 msgid "Shown for a given component and all its translations."
 msgstr ""
+"Wird für eine bestimmte Komponente und alle ihre Übersetzungen angezeigt."
 
 #: ../../admin/announcements.rst:42
 msgid "Language specified"
-msgstr ""
+msgstr "Sprache spezifiziert"
 
 #: ../../admin/announcements.rst:44
 msgid "Shown on the language overview and all translations in that language."
 msgstr ""
+"Wird in der Sprachübersicht und allen Übersetzungen in dieser Sprache "
+"angezeigt."
 
 #: ../../admin/announcements.rst:47
 msgid "This is how it looks on the language overview page:"
-msgstr ""
+msgstr "So sieht es auf der Übersichtsseite der Sprachen aus:"
 
 #: ../../admin/announcements.rst:None
 msgid ""
@@ -12983,11 +13064,6 @@ msgid ""
 msgstr ""
 
 #: ../../admin/machine.rst:54
-#, fuzzy
-#| msgid ""
-#| "Turn on this service by adding ``weblate.machinery.saptranslationhub."
-#| "SAPTranslationHub`` to :setting:`MT_SERVICES` and set the appropriate "
-#| "access to either the sandbox or the production API."
 msgid ""
 "Turn on this service by adding ``weblate.machinery.aws.AWSTranslation`` to :"
 "setting:`MT_SERVICES`."
@@ -20655,10 +20731,10 @@ msgid "Reimplemented translation editor to use native browser textarea."
 msgstr ""
 
 #: ../../changes.rst:244
-#, fuzzy
-#| msgid "Approved translation in %(translation)s"
 msgid "Fixed cleanup add-on breaking adding new strings."
-msgstr "Genehmigte Übersetzung in %(translation)s"
+msgstr ""
+"Es wurde behoben, dass die Erweiterung für den Bereinigungsvorgang beim "
+"Hinzufügen von neuen Zeichenketten nicht mehr funktioniert."
 
 #: ../../changes.rst:245
 msgid "Added API for add-ons."
