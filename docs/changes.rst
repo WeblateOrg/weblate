@@ -6,6 +6,8 @@ Not yet released.
 * Fixed user removal in Django admin interface.
 * Document add-on parameters in more detail.
 * Fixed JavaScript error on glossary.
+* Add limit to number of matches in consistency check.
+* Improve placeholders handling in machine translations.
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/70?closed=1>`__.
 
