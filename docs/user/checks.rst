@@ -552,6 +552,11 @@ The check fails on differing translations of one string within a project. This
 can also lead to inconsistencies in displayed checks. You can find other
 translations of this string on the :guilabel:`Other occurrences` tab.
 
+.. hint::
+
+   For performance reasons, the check might not find all inconsistencies, it
+   limits number of matches.
+
 .. note::
 
    This check also fires in case the string is translated in one component and
