@@ -407,7 +407,7 @@ class MachineTranslationTest(BaseMachineTranslationTest):
         machine_translation = self.get_machine()
         unit = MockUnit(code="cs", source="Hello, %s!", flags="c-format")
         self.assertEqual(
-            machine_translation.cleanup_text(unit), ("Hello, [7]!", {"[7]": "%s"})
+            machine_translation.cleanup_text(unit), ("Hello, [X7X]!", {"[X7X]": "%s"})
         )
         self.assertEqual(
             machine_translation.translate(unit),

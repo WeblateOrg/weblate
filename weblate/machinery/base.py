@@ -244,7 +244,7 @@ class MachineTranslation:
         start = 0
         for h_start, h_end, h_text in highlights:
             parts.append(text[start:h_start])
-            placeholder = f"[{h_start}]"
+            placeholder = f"[X{h_start}X]"
             replacements[placeholder] = h_text
             parts.append(placeholder)
             start = h_end
