@@ -1,4 +1,4 @@
-/*! @sentry/browser 6.11.0 (948b9ad) | https://github.com/getsentry/sentry-javascript */
+/*! @sentry/browser 6.12.0 (5686231) | https://github.com/getsentry/sentry-javascript */
 var Sentry = (function (exports) {
     /*! *****************************************************************************
     Copyright (c) Microsoft Corporation. All rights reserved.
@@ -181,7 +181,7 @@ var Sentry = (function (exports) {
         Status["RateLimit"] = "rate_limit";
         /** The event could not be processed. */
         Status["Invalid"] = "invalid";
-        /** A server-side error ocurred during submission. */
+        /** A server-side error occurred during submission. */
         Status["Failed"] = "failed";
     })(exports.Status || (exports.Status = {}));
     // eslint-disable-next-line @typescript-eslint/no-namespace, import/export
@@ -4453,7 +4453,7 @@ var Sentry = (function (exports) {
         hub.bindClient(client);
     }
 
-    var SDK_VERSION = '6.11.0';
+    var SDK_VERSION = '6.12.0';
 
     var originalFunctionToString;
     /** Patch toString calls to return proper name for wrapped functions */
@@ -4622,10 +4622,10 @@ var Sentry = (function (exports) {
         /** JSDoc */
         InboundFilters.prototype._getLastValidUrl = function (frames) {
             if (frames === void 0) { frames = []; }
-            var _a;
+            var _a, _b;
             for (var i = frames.length - 1; i >= 0; i--) {
                 var frame = frames[i];
-                if (((_a = frame) === null || _a === void 0 ? void 0 : _a.filename) !== '<anonymous>') {
+                if (((_a = frame) === null || _a === void 0 ? void 0 : _a.filename) !== '<anonymous>' && ((_b = frame) === null || _b === void 0 ? void 0 : _b.filename) !== '[native code]') {
                     return frame.filename || null;
                 }
             }
@@ -6410,6 +6410,7 @@ var Sentry = (function (exports) {
                     // Juuust in case something goes wrong
                     try {
                         if (self._shouldDropEvent(currentEvent, self._previousEvent)) {
+                            logger.warn("Event dropped due to being a duplicate of previously captured event.");
                             return null;
                         }
                     }
