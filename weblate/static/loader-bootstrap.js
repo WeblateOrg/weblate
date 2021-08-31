@@ -380,14 +380,18 @@ function initHighlight(root) {
     var languageMode = Prism.languages[mode];
     if (editor.classList.contains("translation-editor")) {
       let placeables = editor.getAttribute("data-placeables");
-        let whitespace_regex = new RegExp(['  +|(^) +| +(?=$)| +\n|\n +|',
-            '\u00A0 |\u1680 |\u2000 |\u2001 |',
-            '\u2002 |\u2003 |\u2004 |\u2005 |',
-            '\u2006 |\u2007 |\u2008 |\u2009 |',
-            '\u200A |\u202F |\u205F |\u3000'].join(''));
+      let whitespace_regex = new RegExp(
+        [
+          "  +|(^) +| +(?=$)| +\n|\n +|",
+          "\u00A0 |\u1680 |\u2000 |\u2001 |",
+          "\u2002 |\u2003 |\u2004 |\u2005 |",
+          "\u2006 |\u2007 |\u2008 |\u2009 |",
+          "\u200A |\u202F |\u205F |\u3000",
+        ].join("")
+      );
       let extension = {
-          hlspace: {
-              pattern: whitespace_regex,
+        hlspace: {
+          pattern: whitespace_regex,
           lookbehind: true,
         },
       };
