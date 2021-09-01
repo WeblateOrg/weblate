@@ -3220,6 +3220,8 @@ class AddonAPITest(APIBaseTest):
         self.assertTrue(
             self.component.addon_set.filter(pk=response.data["id"]).exists()
         )
+        # Existing
+        response = self.create_addon(code=400)
 
     def test_delete(self):
         response = self.create_addon()
