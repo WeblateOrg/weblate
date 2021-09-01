@@ -1083,6 +1083,7 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
             return self.linked_component.repository
         return self.repository_class(self.full_path, self.branch, self)
 
+    @perform_on_link
     def get_last_remote_commit(self):
         """Return latest locally known remote commit."""
         if self.vcs == "local" or not self.remote_revision:
