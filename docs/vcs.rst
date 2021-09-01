@@ -197,6 +197,10 @@ or by enforcing it in the VCS configuration, for example:
 Git
 ---
 
+.. hint::
+
+   Weblate needs Git 2.12 or newer.
+
 .. seealso::
 
     See :ref:`vcs-repos` for info on how to access different kinds of repositories.
@@ -453,6 +457,14 @@ environment variable set to the :setting:`DATA_DIR`:
 
 Local files
 -----------
+
+Git
+---
+
+.. hint::
+
+   Underneath, this uses :ref:`vcs-git`. It requires Git installed and allows
+   you to switch to using Git natively with full history of your translations.
 
 .. versionadded:: 3.8
 
