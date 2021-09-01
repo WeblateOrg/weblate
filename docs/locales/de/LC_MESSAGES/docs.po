@@ -9,7 +9,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-08-27 19:49+0200\n"
 "PO-Revision-Date: 2021-09-04 17:26+0000\n"
-"Last-Translator: Servie <ser.vie@gmx.de>\n"
+"Last-Translator: VfBFan <drop0815@posteo.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "documentation/de/>\n"
 "Language: de\n"
@@ -350,13 +350,13 @@ msgid ""
 "do so, access management permission on the project’s scope (e.g. a "
 "membership in the `Administration` group) would be sufficient."
 msgstr ""
-"Neben dem Hinzufügen eines bestehenden Benutzers zum Projekt ist es außerdem "
+"Neben dem Hinzufügen eines bestehenden Benutzers zum Projekt ist es auch "
 "möglich, neue Benutzer einzuladen. Jeder neue Benutzer wird sofort angelegt, "
 "aber das Konto bleibt inaktiv, bis er sich über einen Link in der per E-Mail "
-"versandten Einladung anmeldet. Es ist nicht erforderlich, dafür irgendwelche "
-"Plattform-weiten Privilegien zu haben; eine Zugriffsverwaltungsberechtigung "
-"auf den Bereich des Projekts (z.B. eine Mitgliedschaft in der Gruppe "
-"`Administration`) wäre ausreichend."
+"versandten Einladung anmeldet. Es ist nicht erforderlich, dass der neue "
+"Benutzer über plattformweite Rechte verfügt. Eine Zugriffsberechtigung für "
+"den Bereich des Projekts (z. B. eine Mitgliedschaft in der Gruppe "
+"`Verwaltung`) reicht aus."
 
 #: ../../admin/access.rst:153
 msgid ""
@@ -930,6 +930,14 @@ msgid ""
 "your domain, this can be accomplished with an expression like ``^."
 "*@mycompany.com``."
 msgstr ""
+"Der häufigste Anwendungsfall für diese Funktion besteht darin, alle neuen "
+"Benutzer einer Standardgruppe zuzuordnen. Um dies zu erreichen, werden Sie "
+"wahrscheinlich den Standardwert (``^.*$``) im Feld für den regulären "
+"Ausdruck beibehalten wollen. Ein weiterer Anwendungsfall für diese Option "
+"könnte darin bestehen, den Mitarbeitern Ihres Unternehmens standardmäßig "
+"einige zusätzliche Privilegien zu gewähren. Unter der Annahme, dass alle "
+"Mitarbeiter eine Firmen-E-Mail-Adresse in Ihrer Domäne verwenden, lässt sich "
+"dies mit einem Ausdruck wie ``^.*@mycompany.com`` bewerkstelligen."
 
 #: ../../admin/access.rst:430
 msgid ""
@@ -969,7 +977,7 @@ msgstr ""
 
 #: ../../admin/access.rst:452
 msgid "List of privileges"
-msgstr ""
+msgstr "Liste der Berechtigungen"
 
 #: ../../admin/access.rst:458
 msgid "Billing (see :ref:`billing`)"
@@ -1321,6 +1329,9 @@ msgid ""
 "and quite close to superuser status. Most of them affect all projects in "
 "your Weblate installation."
 msgstr ""
+"Plattformweite Berechtigungen werden keiner Standardrolle gewährt. Diese "
+"sind sehr mächtig und kommen dem Superuser-Status recht nahe. Die meisten "
+"von ihnen betreffen alle Projekte in Ihrer Weblate-Installation."
 
 #: ../../admin/access.rst:591
 msgid "List of groups"
@@ -1420,6 +1431,9 @@ msgid ""
 "unexpected problems! If you have no use for them, you can removing all their "
 "privileges instead."
 msgstr ""
+"Entfernen Sie niemals die vordefinierten Weblate-Gruppen und -Benutzer, da "
+"dies zu unerwarteten Problemen führen kann! Wenn Sie keine Verwendung für "
+"sie haben, können Sie stattdessen alle ihre Berechtigungen entfernen."
 
 #: ../../admin/access.rst:641
 msgid "Additional access restrictions"
@@ -16951,7 +16965,7 @@ msgstr ""
 
 #: ../../admin/upgrade.rst:96
 msgid "Upgrade from 2.x"
-msgstr ""
+msgstr "Upgrade von 2.x"
 
 #: ../../admin/upgrade.rst:98
 msgid ""
@@ -16959,16 +16973,21 @@ msgid ""
 "then continue upgrading in the 3.x series. Upgrades skipping this step are "
 "not supported and will break."
 msgstr ""
+"Wenn Sie von der Version 2.x upgraden, sollten Sie immer zuerst auf 3.0.1 "
+"upgraden und dann mit der 3.x-Serie fortfahren. Upgrades, die diesen Schritt "
+"überspringen, werden nicht unterstützt und führen zu Fehlern."
 
 #: ../../admin/upgrade.rst:104
 msgid ""
 "`Upgrade from 2.20 to 3.0 in Weblate 3.0 documentation <https://docs.weblate."
 "org/en/weblate-3.0.1/admin/upgrade.html#upgrade-3>`_"
 msgstr ""
+"`Upgrade von 2.20 auf 3.0 in der Weblate-3.0-Dokumentation <https://docs."
+"weblate.org/en/weblate-3.0.1/admin/upgrade.html#upgrade-3>`_"
 
 #: ../../admin/upgrade.rst:107
 msgid "Upgrade from 3.x"
-msgstr ""
+msgstr "Upgrade von 3.x"
 
 #: ../../admin/upgrade.rst:109
 msgid ""
@@ -16976,16 +16995,22 @@ msgid ""
 "4.1.1 and then continue upgrading in the 4.x series. Upgrades skipping this "
 "step are not supported and will break."
 msgstr ""
+"Wenn Sie von der Version 3.x aktualisieren, führen Sie immer zuerst ein "
+"Upgrade auf 4.0.4 oder 4.1.1 durch und setzen Sie dann das Upgrade in der 4."
+"x-Serie fort. Upgrades, die diesen Schritt überspringen, werden nicht "
+"unterstützt und führen zu Fehlern."
 
 #: ../../admin/upgrade.rst:115
 msgid ""
 "`Upgrade from 3.11 to 4.0 in Weblate 4.0 documentation <https://docs.weblate."
 "org/en/weblate-4.0.4/admin/upgrade.html#upgrade-from-3-11-to-4-0>`_"
 msgstr ""
+"Upgrade von 3.11 auf 4.0 in der Weblate-4.0-Dokumentation <https://docs."
+"weblate.org/en/weblate-4.0.4/admin/upgrade.html#upgrade-from-3-11-to-4-0>`_"
 
 #: ../../admin/upgrade.rst:118
 msgid "Upgrade from 4.0 to 4.1"
-msgstr ""
+msgstr "Upgrade von 4.0 auf 4.1"
 
 #: ../../admin/upgrade.rst:120 ../../admin/upgrade.rst:137
 #: ../../admin/upgrade.rst:154 ../../admin/upgrade.rst:178
@@ -17028,7 +17053,7 @@ msgstr ""
 
 #: ../../admin/upgrade.rst:128 ../../admin/upgrade.rst:142
 msgid "There are some new and updated requirements."
-msgstr ""
+msgstr "Es gibt einige neue und aktualisierte Anforderungen."
 
 #: ../../admin/upgrade.rst:129 ../../admin/upgrade.rst:161
 msgid "There is a change in :setting:`django:INSTALLED_APPS`."
@@ -17055,13 +17080,15 @@ msgstr ""
 
 #: ../../admin/upgrade.rst:135
 msgid "Upgrade from 4.1 to 4.2"
-msgstr ""
+msgstr "Upgrade von 4.1 auf 4.2"
 
 #: ../../admin/upgrade.rst:141
 msgid ""
 "Upgrade from 3.x releases is not longer supported, please upgrade to 4.0 or "
 "4.1 first."
 msgstr ""
+"Upgrades von 3.x Versionen werden nicht mehr unterstützt, bitte "
+"aktualisieren Sie zuerst auf 4.0 oder 4.1."
 
 #: ../../admin/upgrade.rst:143
 msgid ""
@@ -17097,7 +17124,7 @@ msgstr ""
 
 #: ../../admin/upgrade.rst:152
 msgid "Upgrade from 4.2 to 4.3"
-msgstr ""
+msgstr "Upgrade von 4.2 auf 4.3"
 
 #: ../../admin/upgrade.rst:158
 msgid ""
@@ -17145,7 +17172,7 @@ msgstr ""
 
 #: ../../admin/upgrade.rst:176
 msgid "Upgrade from 4.3 to 4.4"
-msgstr ""
+msgstr "Upgrade von 4.3 auf 4.4"
 
 #: ../../admin/upgrade.rst:182
 msgid ""
@@ -17155,7 +17182,7 @@ msgstr ""
 
 #: ../../admin/upgrade.rst:183
 msgid "Django 3.1 is now required."
-msgstr ""
+msgstr "Django 3.1 ist jetzt erforderlich."
 
 #: ../../admin/upgrade.rst:184
 msgid ""
@@ -17181,21 +17208,24 @@ msgstr ""
 
 #: ../../admin/upgrade.rst:194
 msgid "Upgrade from 4.4 to 4.5"
-msgstr ""
+msgstr "Upgrade von 4.4 auf 4.5"
 
 #: ../../admin/upgrade.rst:200
 msgid "The migration might take considerable time if you had big glossaries."
 msgstr ""
+"Bei umfangreichen Glossaren kann die Migration viel Zeit in Anspruch nehmen."
 
 #: ../../admin/upgrade.rst:201 ../../changes.rst:208
 msgid "Glossaries are now stored as regular components."
-msgstr ""
+msgstr "Glossare werden jetzt als reguläre Komponenten gespeichert."
 
 #: ../../admin/upgrade.rst:202
 msgid ""
 "The glossary API is removed, use regular translation API to access "
 "glossaries."
 msgstr ""
+"Die Glossar-API wurde entfernt. Verwenden Sie die reguläre Übersetzungs-API "
+"für den Zugriff auf Glossare."
 
 #: ../../admin/upgrade.rst:203
 msgid ""
@@ -17205,7 +17235,7 @@ msgstr ""
 
 #: ../../admin/upgrade.rst:207
 msgid "There is a new dependency on the `pyahocorasick` module."
-msgstr ""
+msgstr "Es gibt eine neue Abhängigkeit vom Modul `pyahocorasick`."
 
 #: ../../admin/upgrade.rst:212
 msgid "Upgrade from 4.5 to 4.6"
@@ -17222,10 +17252,13 @@ msgid ""
 "There is a change in dependencies and :setting:`django:PASSWORD_HASHERS` to "
 "prefer Argon2 for passwords hashing."
 msgstr ""
+"Es gibt eine Änderung in den Abhängigkeiten und "
+":setting:`django:PASSWORD_HASHERS` um Argon2 für das Hashing von Passwörtern "
+"zu bevorzugen."
 
 #: ../../admin/upgrade.rst:225
 msgid "Upgrade from 4.6 to 4.7"
-msgstr ""
+msgstr "Upgrade von 4.6 auf 4.7"
 
 #: ../../admin/upgrade.rst:231
 msgid ""
@@ -17250,18 +17283,17 @@ msgid "Django 3.2 is now required."
 msgstr "Django 3.2 ist jetzt erforderlich."
 
 #: ../../admin/upgrade.rst:239
-#, fuzzy
-#| msgid "Upgrade from 4.5 to 4.6"
 msgid "Upgrade from 4.7 to 4.8"
-msgstr "Upgrade von 4.5 auf 4.6"
+msgstr "Upgrade von 4.7 auf 4.8"
 
 #: ../../admin/upgrade.rst:243
 msgid "There are no additional upgrade steps needed in this release."
 msgstr ""
+"In dieser Version sind keine zusätzlichen Upgrade-Schritte erforderlich."
 
 #: ../../admin/upgrade.rst:250
 msgid "Upgrading from Python 2 to Python 3"
-msgstr ""
+msgstr "Upgrade von Python 2 auf Python 3"
 
 #: ../../admin/upgrade.rst:252
 msgid ""
@@ -17271,10 +17303,16 @@ msgid ""
 "in the Weblate 3.11.1 documentation <https://docs.weblate.org/en/"
 "weblate-3.11.1/admin/upgrade.html#upgrading-from-python-2-to-python-3>`_."
 msgstr ""
+"Weblate unterstützt kein Python das älter als 3.5 ist. Falls Sie noch mit "
+"einer älteren Version arbeiten, führen Sie bitte zuerst die Migration auf "
+"Python 3 mit der bestehenden Version durch und aktualisieren Sie später. "
+"Siehe `Upgrade von Python 2 auf Python 3 in der Weblate-3.11.1-Dokumentation "
+"<https://docs.weblate.org/en/weblate-3.11.1/admin/upgrade.html#upgrading-"
+"from-python-2-to-python-3>`_."
 
 #: ../../admin/upgrade.rst:261
 msgid "Migrating from other databases to PostgreSQL"
-msgstr ""
+msgstr "Migration von anderen Datenbanken zu PostgreSQL"
 
 #: ../../admin/upgrade.rst:263
 msgid ""
@@ -17293,7 +17331,7 @@ msgstr ""
 
 #: ../../admin/upgrade.rst:286
 msgid "Migrating using Django JSON dumps"
-msgstr ""
+msgstr "Migration mit Django JSON-Dumps"
 
 #: ../../admin/upgrade.rst:288
 msgid ""
@@ -17367,7 +17405,7 @@ msgstr ""
 
 #: ../../api.rst:12
 msgid "The REST API is available since Weblate 2.6."
-msgstr ""
+msgstr "Die REST-API ist seit Weblate 2.6 verfügbar."
 
 #: ../../api.rst:14
 msgid ""
@@ -17620,57 +17658,57 @@ msgstr ""
 
 #: ../../api.rst:236
 msgid "Creates a new user."
-msgstr ""
+msgstr "Erstellt einen neuen Benutzer."
 
 #: ../../api.rst:240
 msgid "User full name"
-msgstr ""
+msgstr "Vollständiger Name des Benutzers"
 
 #: ../../api.rst:242
 msgid "User email"
-msgstr ""
+msgstr "E-Mail-Adresse des Benutzers"
 
 #: ../../api.rst:244
 msgid "Is user superuser? (optional)"
-msgstr ""
+msgstr "Ist der Benutzer Superuser? (Optional)"
 
 #: ../../api.rst:246
 msgid "Is user active? (optional)"
-msgstr ""
+msgstr "Ist der Benutzer aktiv? (Optional)"
 
 #: ../../api.rst:251
 msgid "Returns information about users."
-msgstr ""
+msgstr "Gibt Informationen über Benutzer zurück."
 
 #: ../../api.rst:253 ../../api.rst:286 ../../api.rst:299 ../../api.rst:312
 #: ../../api.rst:319 ../../api.rst:327 ../../api.rst:339 ../../api.rst:346
 #: ../../api.rst:356 ../../api.rst:365 ../../api.rst:377 ../../api.rst:389
 msgid "User's username"
-msgstr ""
+msgstr "Name des Benutzers"
 
 #: ../../api.rst:255 ../../api.rst:288 ../../api.rst:301
 msgid "username of a user"
-msgstr ""
+msgstr "Benutzernamen eines Benutzers"
 
 #: ../../api.rst:256 ../../api.rst:289 ../../api.rst:302
 msgid "full name of a user"
-msgstr ""
+msgstr "Vollständiger Name eines Benutzers"
 
 #: ../../api.rst:257 ../../api.rst:290 ../../api.rst:303
 msgid "email of a user"
-msgstr ""
+msgstr "E-Mail-Adresse eines Benutzers"
 
 #: ../../api.rst:258 ../../api.rst:291 ../../api.rst:304
 msgid "whether the user is a super user"
-msgstr ""
+msgstr "Ob der Benutzer ein Superuser ist"
 
 #: ../../api.rst:259 ../../api.rst:292 ../../api.rst:305
 msgid "whether the user is active"
-msgstr ""
+msgstr "Ob der Benutzer aktiv ist"
 
 #: ../../api.rst:260 ../../api.rst:293 ../../api.rst:306
 msgid "date the user is created"
-msgstr ""
+msgstr "Datum der Erstellung des Benutzers"
 
 #: ../../api.rst:261
 msgid "link to associated groups; see :http:get:`/api/groups/(int:id)/`"
@@ -17684,15 +17722,16 @@ msgstr ""
 
 #: ../../api.rst:284 ../../api.rst:297
 msgid "Changes the user parameters."
-msgstr ""
+msgstr "Ändert die Benutzerparameter."
 
 #: ../../api.rst:310
 msgid "Deletes all user information and marks the user inactive."
 msgstr ""
+"Löscht alle Benutzerinformationen und markiert den Benutzer als inaktiv."
 
 #: ../../api.rst:317
 msgid "Associate groups with a user."
-msgstr ""
+msgstr "Zuordnen von Gruppen zu einem Benutzer."
 
 #: ../../api.rst:0
 msgid "Form Parameters"
@@ -17700,49 +17739,39 @@ msgstr ""
 
 #: ../../api.rst:321
 msgid "The unique group ID"
-msgstr ""
+msgstr "Die eindeutige Gruppen-ID"
 
 #: ../../api.rst:325
 msgid "List statistics of a user."
-msgstr ""
+msgstr "Statistik eines Benutzers auflisten."
 
 #: ../../api.rst:329
-#, fuzzy
-#| msgid "Number of translated strings"
 msgid "Number of translations by user"
-msgstr "Anzahl übersetzter Zeichenketten"
+msgstr "Anzahl der Übersetzungen des Benutzers"
 
 #: ../../api.rst:330
-#, fuzzy
-#| msgid "Number of source strings"
 msgid "Number of suggestions by user"
-msgstr "Anzahl der Ausgangszeichenketten"
+msgstr "Anzahl der Vorschläge des Benutzers"
 
 #: ../../api.rst:331
-#, fuzzy
-#| msgid "Number of uploaded shared entries"
 msgid "Number of uploads by user"
-msgstr "Anzahl der hochgeladenen freigegebenen Einträge"
+msgstr "Anzahl der Uploads des Benutzers"
 
 #: ../../api.rst:332
-#, fuzzy
-#| msgid "Number of comments"
 msgid "Number of comments by user"
-msgstr "Anzahl der Kommentare"
+msgstr "Anzahl der Kommentare des Benutzers"
 
 #: ../../api.rst:333
-#, fuzzy
-#| msgid "Number of languages"
 msgid "Number of languages user can translate"
-msgstr "Anzahl der Sprachen"
+msgstr "Anzahl der Sprachen, die der Benutzer übersetzen kann"
 
 #: ../../api.rst:337
 msgid "List subscriptions of a user."
-msgstr ""
+msgstr "Liste der Abonnements eines Benutzers."
 
 #: ../../api.rst:344
 msgid "Associate subscriptions with a user."
-msgstr ""
+msgstr "Verknüpfen Sie Abonnements mit einem Benutzer."
 
 #: ../../api.rst:0
 msgid "Request JSON Object"
@@ -17865,15 +17894,15 @@ msgstr ""
 
 #: ../../api.rst:483
 msgid "Deletes the group."
-msgstr ""
+msgstr "Löscht die Gruppe."
 
 #: ../../api.rst:490
 msgid "Associate roles with a group."
-msgstr ""
+msgstr "Zuordnen von Rollen zu einer Gruppe."
 
 #: ../../api.rst:494
 msgid "The unique role ID"
-msgstr ""
+msgstr "Die eindeutige Rollen-ID"
 
 #: ../../api.rst:498
 msgid "Associate components with a group."
@@ -17881,11 +17910,11 @@ msgstr ""
 
 #: ../../api.rst:502 ../../api.rst:510
 msgid "The unique component ID"
-msgstr ""
+msgstr "Die eindeutige Komponenten-ID"
 
 #: ../../api.rst:506
 msgid "Delete component from a group."
-msgstr ""
+msgstr "Komponente aus einer Gruppe löschen."
 
 #: ../../api.rst:515
 msgid "Associate projects with a group."
@@ -17893,11 +17922,11 @@ msgstr ""
 
 #: ../../api.rst:519 ../../api.rst:527
 msgid "The unique project ID"
-msgstr ""
+msgstr "Die eindeutige Projekt-ID"
 
 #: ../../api.rst:523
 msgid "Delete project from a group."
-msgstr ""
+msgstr "Projekt aus einer Gruppe löschen."
 
 #: ../../api.rst:532
 msgid "Associate languages with a group."
@@ -17905,11 +17934,11 @@ msgstr ""
 
 #: ../../api.rst:536 ../../api.rst:544
 msgid "The unique language code"
-msgstr ""
+msgstr "Der eindeutige Sprachcode"
 
 #: ../../api.rst:540
 msgid "Delete language from a group."
-msgstr ""
+msgstr "Sprache aus einer Gruppe löschen."
 
 #: ../../api.rst:549
 msgid "Associate componentlists with a group."
@@ -17917,11 +17946,11 @@ msgstr ""
 
 #: ../../api.rst:553 ../../api.rst:561
 msgid "The unique componentlist ID"
-msgstr ""
+msgstr "Die eindeutige Komponentenlisten-ID"
 
 #: ../../api.rst:557
 msgid "Delete componentlist from a group."
-msgstr ""
+msgstr "Komponentenliste aus einer Gruppe löschen."
 
 #: ../../api.rst:570
 msgid ""
@@ -19885,10 +19914,8 @@ msgid "`RSS on wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 msgstr "`RSS auf Wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 
 #: ../../changes.rst:2
-#, fuzzy
-#| msgid "Weblate 4.7.1"
 msgid "Weblate 4.8.1"
-msgstr "Weblate 4.7.1"
+msgstr "Weblate 4.8.1"
 
 #: ../../changes.rst:4
 msgid "Not yet released."
@@ -19909,16 +19936,12 @@ msgid "Fixed JavaScript error on glossary."
 msgstr ""
 
 #: ../../changes.rst:10
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
-#| "milestone/60?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/70?"
 "closed=1>`__."
 msgstr ""
-"`Alle Änderungen im Detail <https://github.com/WeblateOrg/weblate/"
-"milestone/60?closed=1>`__."
+"`Alle Änderungen im Detail <https://github.com/WeblateOrg/weblate/milestone/"
+"70?closed=1>`__."
 
 #: ../../changes.rst:13
 msgid "Weblate 4.8"
@@ -19966,8 +19989,6 @@ msgstr ""
 "korrigiert."
 
 #: ../../changes.rst:24
-#, fuzzy
-#| msgid "Improved performance in hadling variants."
 msgid "Improved performance in handling variants."
 msgstr "Verbesserte Leistung bei der Handhabung von Varianten."
 
@@ -19976,20 +19997,18 @@ msgid "Fixed squash add-on sometimes skipping parsing upstream changes."
 msgstr ""
 
 #: ../../changes.rst:26
-#, fuzzy
-#| msgid "Preserve file extension on download."
 msgid "Preserve file extension for downloads."
-msgstr "Dateierweiterung beim Herunterladen beibehalten."
+msgstr "Dateierweiterung für Downloads beibehalten."
 
 #: ../../changes.rst:27
 msgid "Added support for the Fluent format."
 msgstr "Unterstützung für das Fluent-Format wurde hinzugefügt."
 
 #: ../../changes.rst:28
-#, fuzzy
-#| msgid "Added support for the Fluent format."
 msgid "Added support for using tabs to indent JSON formats."
-msgstr "Unterstützung für das Fluent-Format wurde hinzugefügt."
+msgstr ""
+"Unterstützung für die Verwendung von Tabulatoren zum Einrücken von JSON-"
+"Formaten wurde hinzugefügt."
 
 #: ../../changes.rst:30
 msgid ""
@@ -20022,16 +20041,12 @@ msgid "Fixed Git exporter URLs after a domain change."
 msgstr "Git-Exporter-URLs nach einem Domainwechsel korrigiert."
 
 #: ../../changes.rst:40
-#, fuzzy
-#| msgid "Fixed cleanup addon for Windows RC files."
 msgid "Fixed cleanup add-on for Windows RC files."
 msgstr "Bereinigungsvorgang der Erweiterung für Windows RC-Dateien korrigiert."
 
 #: ../../changes.rst:41
-#, fuzzy
-#| msgid "Fixed possible crash on Xliff updating."
 msgid "Fixed possible crash in XLIFF updating."
-msgstr "Möglicher Absturz beim Aktualisieren von Xliff behoben."
+msgstr "Möglicher Absturz bei der XLIFF-Aktualisierung behoben."
 
 #: ../../changes.rst:43
 msgid ""
@@ -20484,10 +20499,9 @@ msgid "Better handling for uploads of monolingual PO using API."
 msgstr "Die Übersetzung verwendet einsprachige Dateien."
 
 #: ../../changes.rst:177
-#, fuzzy
-#| msgid "Improved validation when creating a component."
 msgid "Improved alerts behavior on glossary components."
-msgstr "Verbesserte Validierung beim Erstellen einer Komponente."
+msgstr ""
+"Das Verhalten von Warnmeldungen bei Glossarkomponenten wurde verbessert."
 
 #: ../../changes.rst:178
 msgid "Improved Markdown link checks."
@@ -23941,6 +23955,8 @@ msgstr ""
 msgid ""
 "Return HTTP 404 when trying to access project where user lacks privileges."
 msgstr ""
+"HTTP 404 zurückgeben, wenn versucht wird, auf ein Projekt zuzugreifen, für "
+"das der Benutzer keine Berechtigungen hat."
 
 #: ../../changes.rst:1233
 msgid "Weblate 2.13"
@@ -23992,7 +24008,7 @@ msgstr ""
 
 #: ../../changes.rst:1248
 msgid "Added more fine grained privileges control."
-msgstr ""
+msgstr "Eine feinere Kontrolle der Berechtigungen wurde hinzugefügt."
 
 #: ../../changes.rst:1249
 msgid "Various minor UI improvements."
@@ -25011,7 +25027,7 @@ msgstr ""
 
 #: ../../changes.rst:1573
 msgid "More control over anonymous users privileges."
-msgstr ""
+msgstr "Mehr Kontrolle über anonyme Benutzerberechtigungen."
 
 #: ../../changes.rst:1574
 msgid ""
@@ -30278,12 +30294,12 @@ msgid ""
 msgstr ""
 
 #: ../../faq.rst:522
-#, fuzzy
-#| msgid "Component name"
 msgid ""
 ":ref:`languages`, :ref:`component-language_code_style`, :ref:`new-"
 "translations`"
-msgstr "Name der Komponente"
+msgstr ""
+":ref:`languages`, :ref:`component-language_code_style`, :ref:`new-"
+"translations`"
 
 #: ../../formats.rst:4 ../../user/files.rst:66
 msgid "Supported file formats"
@@ -30588,7 +30604,7 @@ msgstr ":ref:`acl`"
 
 #: ../../formats.rst:129
 msgid "no [#fp]_"
-msgstr ""
+msgstr "no [#fp]_"
 
 #: ../../formats.rst:132
 msgid "See :ref:`bimono`"
@@ -30656,6 +30672,8 @@ msgid ""
 "Plurals are handled in the syntax of the strings and not exposed as plurals "
 "in Weblate."
 msgstr ""
+"Plurale werden in der Syntax der Zeichenketten behandelt und nicht als "
+"Plural in Weblate angezeigt."
 
 #: ../../formats.rst:148
 msgid "Read only strings"
@@ -31453,6 +31471,8 @@ msgid ""
 "Weblate supports the i18next JSON v3 format. The v2 and v1 variants are "
 "mostly compatible, with exception of how plurals are handled."
 msgstr ""
+"Weblate unterstützt das i18next JSON-v3-Format. Die Varianten v2 und v1 sind "
+"größtenteils kompatibel, mit Ausnahme der Behandlung von Pluralformen."
 
 #: ../../formats.rst:930 ../../formats.rst:968
 msgid "``langs/*.json``"
@@ -32040,10 +32060,8 @@ msgstr ""
 "`tt:formats/tbx`, :ref:`glossary`"
 
 #: ../../formats.rst:1497
-#, fuzzy
-#| msgid "Strings with labels"
 msgid "Stringsdict format"
-msgstr "Zeichenketten mit Labels"
+msgstr "Stringsdict-Format"
 
 #: ../../formats.rst:1505
 msgid ""
@@ -32062,10 +32080,8 @@ msgid ""
 msgstr ""
 
 #: ../../formats.rst:1517
-#, fuzzy
-#| msgid "Strings with labels"
 msgid "`Stringsdict file`"
-msgstr "Zeichenketten mit Labels"
+msgstr "`Stringsdict-Datei`"
 
 #: ../../formats.rst:1523
 msgid ""
@@ -32091,11 +32107,11 @@ msgstr ""
 
 #: ../../formats.rst:1545
 msgid "``locales/*/messages.ftl``"
-msgstr ""
+msgstr "``locales/*/messages.ftl``"
 
 #: ../../formats.rst:1547
 msgid "``locales/en/messages.ftl``"
-msgstr ""
+msgstr "``locales/en/messages.ftl``"
 
 #: ../../formats.rst:1551
 msgid "`Fluent file`"
@@ -32769,10 +32785,8 @@ msgid "``weblate.checks.angularjs.AngularJSInterpolationCheck``"
 msgstr "``weblate.checks.angularjs.AngularJSInterpolationCheck``"
 
 #: ../../user/checks.rst:0
-#, fuzzy
-#| msgid "Information"
 msgid "Named format string example"
-msgstr "Information"
+msgstr "Beispiel für eine benannte Formatzeichenfolge"
 
 #: ../../user/checks.rst:165
 msgid "``Your balance is {{amount}} {{ currency }}``"
@@ -32797,10 +32811,8 @@ msgid "``weblate.checks.format.CFormatCheck``"
 msgstr "``weblate.checks.format.CFormatCheck``"
 
 #: ../../user/checks.rst:0
-#, fuzzy
-#| msgid "PHP format string"
 msgid "Simple format string example"
-msgstr "PHP-Format-Zeichenkette"
+msgstr "Einfaches Beispiel für eine formatierte Zeichenkette"
 
 #: ../../user/checks.rst:182 ../../user/checks.rst:256
 #: ../../user/checks.rst:293 ../../user/checks.rst:310
@@ -32811,10 +32823,8 @@ msgid "``There are %d apples``"
 msgstr ""
 
 #: ../../user/checks.rst:0
-#, fuzzy
-#| msgid "Python format string"
 msgid "Position format string example"
-msgstr "Python-Format-Zeichenkette"
+msgstr "Beispiel für eine Zeichenkette im Positionsformat"
 
 #: ../../user/checks.rst:183 ../../user/checks.rst:257
 #: ../../user/checks.rst:366 ../../user/checks.rst:385
@@ -32870,7 +32880,7 @@ msgstr "``weblate.checks.format.ESTemplateLiteralsCheck``"
 
 #: ../../user/checks.rst:0
 msgid "Interpolation example"
-msgstr ""
+msgstr "Beispiel für Interpolation"
 
 #: ../../user/checks.rst:218
 msgid "``There are ${number} apples``"
@@ -32891,20 +32901,16 @@ msgid "The i18next interpolation does not match source"
 msgstr "Die i18next Interpolation stimmt nicht mit der Quelle überein"
 
 #: ../../user/checks.rst:234
-#, fuzzy
-#| msgid "``weblate.generate.generate``"
 msgid "``weblate.checks.format.I18NextInterpolationCheck``"
-msgstr "``weblate.generate.generate``"
+msgstr "``weblate.checks.format.I18NextInterpolationCheck``"
 
 #: ../../user/checks.rst:237
 msgid "``There are {{number}} apples``"
 msgstr ""
 
 #: ../../user/checks.rst:0
-#, fuzzy
-#| msgid "Query examples"
 msgid "Nesting example"
-msgstr "Abfragebeispiele"
+msgstr "Beispiel für Verschachtelung"
 
 #: ../../user/checks.rst:238
 msgid "``There are $t(number) apples``"
@@ -32944,7 +32950,7 @@ msgstr "Java-MessageFormat-Zeichenkette passt nicht zur Ausgangszeichenkette"
 
 #: ../../user/checks.rst:272
 msgid "``weblate.checks.format.JavaMessageFormatCheck``"
-msgstr ""
+msgstr "``weblate.checks.format.JavaMessageFormatCheck``"
 
 #: ../../user/checks.rst:0
 msgid "Flag to enable uncodintionally"
@@ -33143,10 +33149,8 @@ msgid "Qt format string does not match source"
 msgstr "Qt-Format-Zeichenkette passt nicht zur Ausgangszeichenkette"
 
 #: ../../user/checks.rst:439
-#, fuzzy
-#| msgid "``weblate.resx.update``"
 msgid "``weblate.checks.qt.QtFormatCheck``"
-msgstr "``weblate.resx.update``"
+msgstr "``weblate.checks.qt.QtFormatCheck``"
 
 #: ../../user/checks.rst:442
 msgid "``There are %1 apples``"
@@ -33171,10 +33175,8 @@ msgid "``weblate.checks.qt.QtPluralCheck``"
 msgstr "``weblate.checks.qt.QtPluralCheck``"
 
 #: ../../user/checks.rst:0
-#, fuzzy
-#| msgid "PHP format string"
 msgid "Plural format string example"
-msgstr "PHP-Format-Zeichenkette"
+msgstr "Beispiel für eine Zeichenkette im Pluralformat"
 
 #: ../../user/checks.rst:459
 msgid "``There are %Ln apple(s)``"
@@ -33544,11 +33546,10 @@ msgid "Mismatched \\\\n"
 msgstr "Unterschiedliche Menge \\n"
 
 #: ../../user/checks.rst:723
-#, fuzzy
-#| msgid "Number of \\n in translation does not match source"
 msgid "Number of \\\\n in translation does not match source"
 msgstr ""
-"Die Menge an \\n in der Übersetzung passt nicht zur Ausgangszeichenkette"
+"Die Menge an \\\\n"
+" in der Übersetzung passt nicht zur Ausgangszeichenkette"
 
 #: ../../user/checks.rst:725
 msgid "``weblate.checks.chars.EscapedNewlineCountingCheck``"
@@ -34616,10 +34617,8 @@ msgid ""
 msgstr ""
 
 #: ../../user/glossary.rst:52
-#, fuzzy
-#| msgid "Not translatable term"
 msgid "Untranslatable terms"
-msgstr "Nicht übersetzbarer Begriff"
+msgstr "Unübersetzbare Begriffe"
 
 #: ../../user/glossary.rst:56
 msgid ""
@@ -35516,6 +35515,8 @@ msgid ""
 "Below the translation, translators will find suggestion made by others, to "
 "be accepted (✓), accepted with changes (✏️), or deleted (🗑)."
 msgstr ""
+"Unterhalb der Übersetzung finden die Übersetzer Vorschläge von anderen, die "
+"sie annehmen (✓), mit Änderungen annehmen (✏️) oder löschen (🗑) können."
 
 #: ../../user/translating.rst:124
 msgid "Plurals"
