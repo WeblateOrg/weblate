@@ -421,7 +421,7 @@ Python format
 :Flag to enable: ``python-format``
 :Flag to ignore: ``ignore-python-format``
 :Simple format string: ``There are %d apples``
-:Named format string example: ``Your balance is %(amount) %(currency)``
+:Named format string example: ``Your balance is %(amount)d %(currency)s``
 
 .. seealso::
 
