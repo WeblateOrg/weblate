@@ -8,6 +8,7 @@ Not yet released.
 * Fixed JavaScript error on glossary.
 * Add limit to number of matches in consistency check.
 * Improve placeholders handling in machine translations.
+* Fixed creating add-ons using API.
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/70?closed=1>`__.
 

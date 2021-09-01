@@ -104,7 +104,7 @@ class BaseAddon:
     def create(cls, component, **kwargs):
         storage = cls.create_object(component, **kwargs)
         storage.save(force_insert=True)
-        result = cls(storage)
+        result = storage.addon
         result.post_configure()
         return result
 

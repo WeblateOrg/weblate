@@ -1150,3 +1150,8 @@ class AddonSerializer(serializers.ModelSerializer):
                             {"configuration": f"Error in {field.name}: {error}"}
                         )
         return attrs
+
+    def save(self, **kwargs):
+        result = super().save(**kwargs)
+        self.instance.addon.post_configure()
+        return result
