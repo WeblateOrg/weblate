@@ -1136,16 +1136,17 @@ class AddonSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError({"name": f"Add-on not found: {name}"})
 
         # Don't allow duplicate add-ons
-        installed = set(
-            Addon.objects.filter_component(component).values_list("name", flat=True)
-        )
-        available = {
-            x.name for x in ADDONS.values() if x.multiple or x.name not in installed
-        }
-        if name not in available:
-            raise serializers.ValidationError(
-                {"name": f"Add-on already installed: {name}"}
+        if not instance:
+            installed = set(
+                Addon.objects.filter_component(component).values_list("name", flat=True)
             )
+            available = {
+                x.name for x in ADDONS.values() if x.multiple or x.name not in installed
+            }
+            if name not in available:
+                raise serializers.ValidationError(
+                    {"name": f"Add-on already installed: {name}"}
+                )
 
         addon = addon_class()
         if not addon.can_install(component, None):
