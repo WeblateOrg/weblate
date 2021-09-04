@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-08-27 19:49+0200\n"
-"PO-Revision-Date: 2021-09-04 17:26+0000\n"
+"PO-Revision-Date: 2021-09-06 16:34+0000\n"
 "Last-Translator: VfBFan <drop0815@posteo.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "documentation/de/>\n"
@@ -171,7 +171,7 @@ msgid ""
 "this without admin permission for the whole Weblate instance, you will "
 "instantly lose your access to manage the project."
 msgstr ""
-"Wenn Sie die Zugriffskontrolle \"Benutzerdefiniert\" aktivieren, entfernt "
+"Wenn Sie die Zugriffskontrolle `Benutzerdefiniert` aktivieren, entfernt "
 "Weblate alle :ref:`speziellen Gruppen <manage-acl>`, die es für ein "
 "ausgewähltes Projekt erstellt hat. Wenn Sie dies ohne Admin-Rechte für die "
 "gesamte Weblate-Instanz tun, verlieren Sie sofort Ihren Zugang zur "
@@ -194,9 +194,9 @@ msgid ""
 "They can assign users to one of the following groups."
 msgstr ""
 "Benutzer mit der Berechtigung :guilabel:`Projektzugriff verwalten` (siehe "
-":ref:`Privilegien`) können Benutzer in Projekten mit nicht-`Custom`-"
-"Zugriffskontrolle verwalten. Sie können Benutzer einer der folgenden Gruppen "
-"zuordnen."
+":ref:`Privilegien`) können Benutzer in Projekten mit "
+"nicht-`Benutzerdefiniert`-Zugriffskontrolle verwalten. Sie können Benutzer "
+"einer der folgenden Gruppen zuordnen."
 
 #: ../../admin/access.rst:87
 msgid "For `Public`, `Protected` and `Private` projects:"
@@ -321,11 +321,11 @@ msgid ""
 "``Project@Group``, also displayed in the Django admin interface this way. "
 "Although they can’t be edited from Weblate user-interface."
 msgstr ""
-"Für die nicht \"benutzerdefinierte\" Zugriffskontrolle wird für jedes "
-"Projekt eine Instanz der oben beschriebenen Gruppen definiert. Der "
-"tatsächliche Name dieser Gruppen lautet ``Projekt@Gruppe`` und wird auch in "
-"der Django-Admin-Oberfläche so angezeigt. Allerdings können sie nicht über "
-"die Weblate-Benutzeroberfläche bearbeitet werden."
+"Für die nicht-`Benutzerdefiniert` Zugriffskontrolle wird für jedes Projekt "
+"eine Instanz der oben beschriebenen Gruppen definiert. Der tatsächliche Name "
+"dieser Gruppen lautet ``Projekt@Gruppe`` und wird auch in der Django-Admin-"
+"Oberfläche so angezeigt. Allerdings können sie nicht über die Weblate-"
+"Benutzeroberfläche bearbeitet werden."
 
 #: ../../admin/access.rst:136
 msgid ""
@@ -837,7 +837,7 @@ msgid ""
 "translation process itself like reviewing, saving translations, adding "
 "suggestions, etc."
 msgstr ""
-"Die Einschränkungen, die durch das :guilabel:`Languages` einer Gruppe "
+"Die Einschränkungen, die durch das :guilabel:`Sprachen` einer Gruppe "
 "auferlegt werden, werden separat angewandt, wenn überprüft wird, ob ein "
 "Benutzer die Berechtigung hat, bestimmte Aktionen durchzuführen. Sie werden "
 "nämlich nur auf Aktionen angewendet, die direkt mit dem Übersetzungsprozess "
@@ -849,8 +849,8 @@ msgid ""
 "Use :guilabel:`Language selection` or :guilabel:`Project selection` to "
 "automate inclusion of all languages or projects."
 msgstr ""
-"Verwenden Sie :guilabel:`Language selection` oder :guilabel:`Project "
-"selection` um automatisch alle Sprachen oder Projekte einzuschließen."
+"Verwenden Sie :guilabel:`Sprachauswahl` oder :guilabel:`Projektauswahl` um "
+"automatisch alle Sprachen oder Projekte einzuschließen."
 
 #: ../../admin/access.rst:387
 msgid ""
@@ -865,11 +865,8 @@ msgid "Group `Spanish Admin-Reviewers`"
 msgstr ""
 
 #: ../../admin/access.rst:394
-#, fuzzy
-#| msgctxt "Access-control role"
-#| msgid "Manage repository"
 msgid "`Review Strings`, `Manage repository`"
-msgstr "`Review Strings`, `Manage repository`"
+msgstr "`Review Strings`, `Repository verwalten`"
 
 #: ../../admin/access.rst:395 ../../api.rst:1093
 msgid "Components"
@@ -877,7 +874,7 @@ msgstr "Komponenten"
 
 #: ../../admin/access.rst:396
 msgid "foo/bar"
-msgstr ""
+msgstr "foo/bar"
 
 #: ../../admin/access.rst:398
 msgid "`Spanish`"
@@ -985,7 +982,7 @@ msgstr "Abrechnung (siehe :ref:`Abrechnung`)"
 
 #: ../../admin/access.rst:458
 msgid "View billing info [`Administration`, `Billing`]"
-msgstr ""
+msgstr "Abrechnungsinformationen anzeigen [`Verwaltung`, `Rechnung`]"
 
 #: ../../admin/access.rst:461 ../../api.rst:2015
 msgid "Changes"
@@ -993,21 +990,24 @@ msgstr "Änderungen"
 
 #: ../../admin/access.rst:461
 msgid "Download changes [`Administration`]"
-msgstr ""
+msgstr "Änderungen herunterladen [`Verwaltung`]"
 
 #: ../../admin/access.rst:466 ../../user/translating.rst:62
 msgid "Comments"
 msgstr "Kommentare"
 
 #: ../../admin/access.rst:464
+#, fuzzy
 msgid ""
 "Post comment [`Administration`, `Edit source`, `Power user`, `Review "
 "strings`, `Translate`]"
 msgstr ""
+"Kommentar schreiben [`Verwaltung`, `Edit source`, `Hauptbenutzer`, `Review "
+"strings`, `Translate`]"
 
 #: ../../admin/access.rst:466
 msgid "Delete comment [`Administration`]"
-msgstr "Kommentar löschen [`Administration`]"
+msgstr "Kommentar löschen [`Verwaltung`]"
 
 #: ../../admin/access.rst:471
 msgid "Component"
@@ -1015,57 +1015,66 @@ msgstr "Komponente"
 
 #: ../../admin/access.rst:469
 msgid "Edit component settings [`Administration`]"
-msgstr "Komponenteneinstellungen bearbeiten [`Administration`]"
+msgstr "Komponenteneinstellungen bearbeiten [`Verwaltung`]"
 
 #: ../../admin/access.rst:471
 msgid "Lock component, preventing translations [`Administration`]"
-msgstr "Komponente sperren, um Übersetzungen zu verhindern [`Administration`]"
+msgstr "Komponente sperren, um Übersetzungen zu verhindern [`Verwaltung`]"
 
 #: ../../admin/access.rst:474
 msgid "Add glossary entry [`Administration`, `Manage glossary`, `Power user`]"
 msgstr ""
+"Glossareintrag hinzufügen [`Verwaltung`, `Glossar verwalten`, "
+"`Hauptbenutzer`]"
 
 #: ../../admin/access.rst:476
 msgid "Edit glossary entry [`Administration`, `Manage glossary`, `Power user`]"
 msgstr ""
+"Glossareintrag bearbeiten [`Verwaltung`, `Glossar verwalten`, "
+"`Hauptbenutzer`]"
 
 #: ../../admin/access.rst:478
 msgid ""
 "Delete glossary entry [`Administration`, `Manage glossary`, `Power user`]"
 msgstr ""
+"Glossareintrag löschen [`Verwaltung`, `Glossar verwalten`, `Hauptbenutzer`]"
 
 #: ../../admin/access.rst:480
 msgid ""
 "Upload glossary entries [`Administration`, `Manage glossary`, `Power user`]"
 msgstr ""
+"Hochladen von Glossareinträgen [`Verwaltung`, `Glossar verwalten`, "
+"`Hauptbenutzer`]"
 
 #: ../../admin/access.rst:483 ../../user/translating.rst:306
 msgid "Automatic suggestions"
 msgstr "Automatische Vorschläge"
 
 #: ../../admin/access.rst:483
+#, fuzzy
 msgid ""
 "Use automatic suggestions [`Administration`, `Edit source`, `Power user`, "
 "`Review strings`, `Translate`]"
 msgstr ""
-"Automatische Vorschläge verwenden [`Administration`, `Edit source`, `Power "
-"user`, `Review strings`, `Translate`]"
+"Automatische Vorschläge verwenden [`Verwaltung`, `Edit source`, "
+"`Hauptbenutzer`, `Review strings`, `Translate`]"
 
 #: ../../admin/access.rst:488 ../../user/translating.rst:268
 msgid "Translation memory"
 msgstr "Übersetzungsspeicher"
 
 #: ../../admin/access.rst:486
+#, fuzzy
 msgid "Edit translation memory [`Administration`, `Manage translation memory`]"
 msgstr ""
-"Übersetzungsspeicher bearbeiten [`Administration`, `Manage translation "
-"memory`]"
+"Übersetzungsspeicher bearbeiten [`Verwaltung`, `Manage translation memory`]"
 
 #: ../../admin/access.rst:488
+#, fuzzy
 msgid ""
 "Delete translation memory [`Administration`, `Manage translation memory`]"
 msgstr ""
-"Übersetzungsspeicher löschen [`Administration`, `Manage translation memory`]"
+"Übersetzungsspeicher löschen [`Verwaltung`, `Manage translation memory`]"
 
 #: ../../admin/access.rst:493 ../../api.rst:747
 msgid "Projects"
@@ -1073,11 +1082,11 @@ msgstr "Projekte"
 
 #: ../../admin/access.rst:491
 msgid "Edit project settings [`Administration`]"
-msgstr "Projekteinstellungen bearbeiten [`Administration`]"
+msgstr "Projekteinstellungen bearbeiten [`Verwaltung`]"
 
 #: ../../admin/access.rst:493
 msgid "Manage project access [`Administration`]"
-msgstr "Projektzugang verwalten [`Administration`]"
+msgstr "Projektzugang verwalten [`Verwaltung`]"
 
 #: ../../admin/access.rst:496
 msgid "Reports"
@@ -1085,7 +1094,7 @@ msgstr "Auswertungen"
 
 #: ../../admin/access.rst:496
 msgid "Download reports [`Administration`]"
-msgstr "Berichte herunterladen [`Administration`]"
+msgstr "Berichte herunterladen [`Verwaltung`]"
 
 #: ../../admin/access.rst:499
 msgid "Add screenshot [`Administration`, `Manage screenshots`]"
@@ -1104,9 +1113,10 @@ msgid "Source strings"
 msgstr "Ausgangszeichenketten"
 
 #: ../../admin/access.rst:506
+#, fuzzy
 msgid "Edit additional string info [`Administration`, `Edit source`]"
 msgstr ""
-"Zusätzliche Zeichenketteninformationen bearbeiten [`Administration`, `Edit "
+"Zusätzliche Zeichenketteninformationen bearbeiten [`Verwaltung`, `Edit "
 "source`]"
 
 #: ../../admin/access.rst:521
@@ -1115,11 +1125,11 @@ msgstr "Zeichenketten"
 
 #: ../../admin/access.rst:509
 msgid "Add new string [`Administration`]"
-msgstr "Neue Zeichenkette hinzufügen [`Administration`]"
+msgstr "Neue Zeichenkette hinzufügen [`Verwaltung`]"
 
 #: ../../admin/access.rst:511
 msgid "Remove a string [`Administration`]"
-msgstr "Zeichenkette entfernen [`Administration`]"
+msgstr "Zeichenkette entfernen [`Verwaltung`]"
 
 #: ../../admin/access.rst:513
 #, fuzzy
@@ -1130,8 +1140,8 @@ msgid ""
 "Dismiss failing check [`Administration`, `Edit source`, `Power user`, "
 "`Review strings`, `Translate`]"
 msgstr ""
-"Übersetzungen hochladen [`Administration`, `Edit source`, `Power user`, "
-"`Review strings`, `Translate`]"
+"Fehlgeschlagene Prüfung ablehnen [`Verwaltung`, `Edit source`, "
+"`Hauptbenutzer`, `Review strings`, `Translate`]"
 
 #: ../../admin/access.rst:515
 msgid ""
@@ -1144,12 +1154,13 @@ msgid "Review strings [`Administration`, `Review strings`]"
 msgstr ""
 
 #: ../../admin/access.rst:519
+#, fuzzy
 msgid ""
 "Edit string when suggestions are enforced [`Administration`, `Review "
 "strings`]"
 msgstr ""
-"Zeichenkette bearbeiten, wenn Vorschläge erzwungen werden [`Administration`, "
-"`Review strings`]"
+"Zeichenkette bearbeiten, wenn Vorschläge erzwungen werden [`Verwaltung`, `"
+"Review strings`]"
 
 #: ../../admin/access.rst:521
 msgid "Edit source strings [`Administration`, `Edit source`, `Power user`]"
@@ -1174,26 +1185,28 @@ msgstr ""
 
 #: ../../admin/access.rst:528
 msgid "Delete suggestion [`Administration`, `Power user`]"
-msgstr "Übersetzungsvorschlag löschen [`Administration`, `Power user`]"
+msgstr "Übersetzungsvorschlag löschen [`Verwaltung`, `Hauptbenutzer`]"
 
 #: ../../admin/access.rst:530
+#, fuzzy
 msgid ""
 "Vote on suggestion [`Administration`, `Edit source`, `Power user`, `Review "
 "strings`, `Translate`]"
 msgstr ""
-"Für Übersetzungsvorschlag abstimmen [`Administration`, `Edit source`, `Power "
-"user`, `Review strings`, `Translate`]"
+"Für Übersetzungsvorschlag abstimmen [`Verwaltung`, `Edit source`, "
+"`Hauptbenutzer`, `Review strings`, `Translate`]"
 
 #: ../../admin/access.rst:539 ../../api.rst:1628
 msgid "Translations"
 msgstr "Übersetzungen"
 
 #: ../../admin/access.rst:533
+#, fuzzy
 msgid ""
 "Add language for translation [`Administration`, `Power user`, `Manage "
 "languages`]"
 msgstr ""
-"Sprache für Übersetzung hinzufügen [`Administration`, `Power user`, `Manage "
+"Sprache für Übersetzung hinzufügen [`Verwaltung`, `Hauptbenutzer`, `Manage "
 "languages`]"
 
 #: ../../admin/access.rst:535
@@ -1202,13 +1215,13 @@ msgstr ""
 
 #: ../../admin/access.rst:537
 msgid "Delete existing translation [`Administration`, `Manage languages`]"
-msgstr "Vorhandene Übersetzung löschen [`Administration`, `Manage languages`]"
+msgstr "Vorhandene Übersetzung löschen [`Verwaltung`, `Manage languages`]"
 
 #: ../../admin/access.rst:539
 msgid ""
 "Add several languages for translation [`Administration`, `Manage languages`]"
 msgstr ""
-"Mehrere Sprachen zur Übersetzung hinzufügen [`Administration`, `Sprachen "
+"Mehrere Sprachen zur Übersetzung hinzufügen [`Verwaltung`, `Sprachen "
 "verwalten`]"
 
 #: ../../admin/access.rst:546
@@ -1217,7 +1230,7 @@ msgstr ""
 
 #: ../../admin/access.rst:542
 msgid "Define author of uploaded translation [`Administration`]"
-msgstr "Autor der hochgeladenen Übersetzung definieren [`Administration`]"
+msgstr "Autor der hochgeladenen Übersetzung definieren [`Verwaltung`]"
 
 #: ../../admin/access.rst:544
 msgid ""
@@ -1226,35 +1239,37 @@ msgid ""
 msgstr ""
 
 #: ../../admin/access.rst:546
+#, fuzzy
 msgid ""
 "Upload translations [`Administration`, `Edit source`, `Power user`, `Review "
 "strings`, `Translate`]"
 msgstr ""
-"Übersetzungen hochladen [`Administration`, `Edit source`, `Power user`, "
-"`Review strings`, `Translate`]"
+"Übersetzungen hochladen [`Verwaltung`, `Edit source`, `Hauptbenutzer`, `"
+"Review strings`, `Translate`]"
 
 #: ../../admin/access.rst:549
+#, fuzzy
 msgid ""
 "Access the internal repository [`Administration`, `Access repository`, "
 "`Power user`, `Manage repository`]"
 msgstr ""
-"Zugriff auf das interne Repository [`Administration`, `Access repository`, "
-"`Power user`, `Manage repository`]"
+"Zugriff auf das interne Repository [`Verwaltung`, `Access repository`, "
+"`Hauptbenutzer`, `Manage repository`]"
 
 #: ../../admin/access.rst:551
 msgid ""
 "Commit changes to the internal repository [`Administration`, `Manage "
 "repository`]"
 msgstr ""
-"Commit für Änderungen am internen Repository durchführen [`Administration`, "
-"`Manage repository`]"
+"Commit für Änderungen am internen Repository durchführen [`Verwaltung`, `"
+"Manage repository`]"
 
 #: ../../admin/access.rst:553
 msgid ""
 "Push change from the internal repository [`Administration`, `Manage "
 "repository`]"
 msgstr ""
-"Änderung aus dem internen Repository pushen [`Administration`, `Manage "
+"Änderung aus dem internen Repository pushen [`Verwaltung`, `Manage "
 "repository`]"
 
 #: ../../admin/access.rst:555
@@ -1262,22 +1277,22 @@ msgid ""
 "Reset changes in the internal repository [`Administration`, `Manage "
 "repository`]"
 msgstr ""
-"Änderungen im internen Repository zurücksetzen [`Administration`, `Manage "
+"Änderungen im internen Repository zurücksetzen [`Verwaltung`, `Manage "
 "repository`]"
 
 #: ../../admin/access.rst:557
+#, fuzzy
 msgid ""
 "View upstream repository location [`Administration`, `Access repository`, "
 "`Power user`, `Manage repository`]"
 msgstr ""
-"Speicherort des Upstream-Repositorys anzeigen [`Administration`, `Access "
-"Repository`, `Power User`, `Manage Repository`]"
+"Speicherort des Upstream-Repositorys anzeigen [`Verwaltung`, `Access "
+"Repository`, `Hauptbenutzer`, `Manage Repository`]"
 
 #: ../../admin/access.rst:559
 msgid "Update the internal repository [`Administration`, `Manage repository`]"
 msgstr ""
-"Aktualisierung des internen Repositorys [`Administration`, `Manage "
-"repository`]"
+"Aktualisierung des internen Repositorys [`Verwaltung`, `Manage repository`]"
 
 #: ../../admin/access.rst:580
 msgid "Site wide privileges"
@@ -1966,7 +1981,7 @@ msgstr ""
 #, fuzzy
 #| msgid "Component name"
 msgid ":ref:`bulk-edit`, :ref:`custom-checks`, :ref:`labels`"
-msgstr "Name der Komponente"
+msgstr ":ref:`bulk-edit`, :ref:`custom-checks`, :ref:`labels`"
 
 #: ../../admin/addons.rst:268
 msgid "Flag unchanged translations as \"Needs editing\""
@@ -2224,7 +2239,7 @@ msgstr "``weblate.gettext.configure``"
 #, fuzzy
 #| msgid "Repository status"
 msgid "repository post-add, daily"
-msgstr "Repository-Status"
+msgstr "repository post-add, daily"
 
 #: ../../admin/addons.rst:436
 msgid ""
@@ -2290,16 +2305,13 @@ msgid "No line wrapping"
 msgstr "Kein Umbruch langer Zeilen"
 
 #: ../../admin/addons.rst:460
-#, fuzzy
-#| msgid ""
-#| "By default gettext wraps lines at 77 chars and newlines. With --no-wrap "
-#| "parameter, it wraps only at newlines."
 msgid ""
 "By default gettext wraps lines at 77 characters and at newlines. With the "
 "``--no-wrap`` parameter, wrapping is only done at newlines."
 msgstr ""
-"Standardmäßig umfasst gettext Zeilen mit 77 Zeichen und Zeilenumbrüche. Mit "
-"dem Parameter --no-wrap wird nur an Zeilenumbrüchen umgebrochen."
+"Standardmäßig bricht gettext Zeilen bei 77 Zeichen und bei Zeilenumbrüchen "
+"um. Mit dem Parameter ``--no-wrap`` wird der Umbruch nur bei Zeilenumbrüchen "
+"durchgeführt."
 
 #: ../../admin/addons.rst:467
 msgid "Update LINGUAS file"
@@ -2461,7 +2473,7 @@ msgstr ""
 #, fuzzy
 #| msgid "repository wide"
 msgid "repository post-commit"
-msgstr "repository-weit"
+msgstr "repository post-commit"
 
 #: ../../admin/addons.rst:531
 msgid "Squash Git commits prior to pushing changes."
@@ -2490,17 +2502,13 @@ msgid "Per author"
 msgstr "Pro Übersetzer"
 
 #: ../../admin/addons.rst:546
-#, fuzzy
-#| msgid ""
-#| "Original commit messages are kept, but authorship is lost unless \"Per "
-#| "author\" is selected or the commit message is customized to include it."
 msgid ""
 "Original commit messages are kept, but authorship is lost unless :guilabel:"
 "`Per author` is selected, or the commit message is customized to include it."
 msgstr ""
 "Ursprüngliche Commit-Nachrichten werden erhalten, verlieren aber die "
-"Autorenschaft, es sei denn, \"Pro Autor\" ist ausgewählt oder die Commit-"
-"Nachricht wird angepasst, um sie einzubeziehen."
+"Autorenschaft, es sei denn :guilabel:`Pro Autor` wird ausgewählt oder die "
+"Commit-Nachricht wird angepasst, um sie einzubeziehen."
 
 #: ../../admin/addons.rst:551
 msgid ""
@@ -2798,7 +2806,7 @@ msgstr ""
 #, fuzzy
 #| msgid "Could not update repository: %s"
 msgid "Post-update repository processing"
-msgstr "Konnte das Repository %s nicht aktualisieren"
+msgstr "Post-update repository processing"
 
 #: ../../admin/addons.rst:797
 msgid ""
@@ -8894,7 +8902,7 @@ msgstr ""
 
 #: ../../admin/install.rst:99
 msgid "``tesserocr`` (optional for screenshots OCR)"
-msgstr ""
+msgstr "``tesserocr`` (optional für Bildschirmfotos-OCR)"
 
 #: ../../admin/install.rst:100
 msgid "https://github.com/sirfz/tesserocr"
@@ -8985,7 +8993,7 @@ msgstr ""
 
 #: ../../admin/install.rst:129
 msgid "``tesseract`` and its data (optional for screenshots OCR)"
-msgstr ""
+msgstr "``tesseract`` und seine Daten (optional für Bildschirmfotos-OCR)"
 
 #: ../../admin/install.rst:130
 msgid "https://github.com/tesseract-ocr/tesseract"
@@ -11880,10 +11888,8 @@ msgid "Your Sentry Environment (optional)."
 msgstr ""
 
 #: ../../admin/install/docker.rst:1265
-#, fuzzy
-#| msgid "Localization"
 msgid "Localization CDN"
-msgstr "Lokalisierung"
+msgstr "Lokalisierung CDN"
 
 #: ../../admin/install/docker.rst:1272
 msgid "Configuration for :ref:`addon-weblate.cdn.cdnjs`."
@@ -12658,10 +12664,8 @@ msgid "Normalizing underscores and dashes."
 msgstr ""
 
 #: ../../admin/languages.rst:24
-#, fuzzy
-#| msgid "Syntax error in language aliases."
 msgid "Looking up built-in language aliases."
-msgstr "Syntaxfehler in Sprachaliasnamen."
+msgstr "Suche nach integrierten Sprachaliasen."
 
 #: ../../admin/languages.rst:25
 msgid "Looking up by language name."
@@ -14820,16 +14824,12 @@ msgid "Following content is sent to Akismet for checking:"
 msgstr ""
 
 #: ../../admin/optionals.rst:200
-#, fuzzy
-#| msgid "Change permissions of the users"
 msgid "Suggestions from unauthenticated users"
-msgstr "Genehmigungen der Benutzer ändern"
+msgstr "Vorschläge von unautorisierten Benutzern"
 
 #: ../../admin/optionals.rst:201
-#, fuzzy
-#| msgid "Projects without components"
 msgid "Project and component descriptions and links"
-msgstr "Projekte ohne Komponenten"
+msgstr "Projekt- und Komponentenbeschreibungen und Links"
 
 #: ../../admin/optionals.rst:205
 msgid ""
@@ -15002,10 +15002,8 @@ msgid "``GLOSSARY``"
 msgstr ""
 
 #: ../../admin/optionals.rst:275
-#, fuzzy
-#| msgid "Start new translation into more languages"
 msgid "Starting translation into a new language"
-msgstr "Neue Übersetzung in weitere Sprachen starten"
+msgstr "Beginn der Übersetzung in eine neue Sprache"
 
 #: ../../admin/optionals.rst:275
 msgid "``LANGUAGE``"
@@ -15046,10 +15044,8 @@ msgid ":ref:`user-rate`, :ref:`reverse-proxy`, :ref:`api-rate`"
 msgstr ""
 
 #: ../../admin/optionals.rst:294
-#, fuzzy
-#| msgid "Test Sentry integration"
 msgid "Fedora Messaging integration"
-msgstr "Sentry-Integration testen"
+msgstr "Integration von Fedora-Messaging"
 
 #: ../../admin/optionals.rst:296
 msgid ""
@@ -15885,7 +15881,7 @@ msgstr ""
 #, fuzzy
 #| msgid "Allow translation propagation"
 msgid ":ref:`adding-translation`, :ref:`new-translations`"
-msgstr "Verbreitung von Übersetzungen erlauben"
+msgstr ":ref:`adding-translation`, :ref:`new-translations`"
 
 #: ../../admin/projects.rst:594
 msgid "Manage strings"
@@ -16044,16 +16040,13 @@ msgid ""
 msgstr ""
 
 #: ../../admin/projects.rst:722
-#, fuzzy
-#| msgid ""
-#| "Regular expression used to filter translation files when scanning for "
-#| "filemask."
 msgid ""
 "Regular expression used to filter the translation when scanning for "
 "filemask. It can be used to limit the list of languages managed by Weblate."
 msgstr ""
-"Regulärer Ausdruck, um Übersetzungsdateien beim Scannen nach Dateimaske zu "
-"filtern."
+"Regulärer Ausdruck, der zum Filtern der Übersetzung bei der Suche nach "
+"Dateimaske verwendet wird. Er kann verwendet werden, um die Liste der von "
+"Weblate verwalteten Sprachen einzuschränken."
 
 #: ../../admin/projects.rst:727
 msgid "You need to list language codes as they appear in the filename."
@@ -16198,8 +16191,8 @@ msgid ""
 "Allows using this component as a glossary. You can configure how it will be "
 "listed using :ref:`component-glossary_color`."
 msgstr ""
-"Bitte definieren Sie einen Glossarnamen, um die Komponente als Glossar zu "
-"verwenden."
+"Ermöglicht die Verwendung dieser Komponente als Glossar. Sie können mit :ref"
+":`component-glossary_color` konfigurieren, wie es aufgelistet werden soll."
 
 #: ../../admin/projects.rst:816
 msgid ""
@@ -16651,10 +16644,8 @@ msgid "Discover Weblate"
 msgstr "Entdecken Sie Weblate"
 
 #: ../../admin/support.rst:61
-#, fuzzy
-#| msgid "Service is currently not available."
 msgid "This feature is currently in early beta."
-msgstr "Der Dienst ist derzeit nicht verfügbar."
+msgstr "Diese Funktion befindet sich derzeit in einer frühen Betaphase."
 
 #: ../../admin/support.rst:63
 msgid ""
@@ -16664,10 +16655,8 @@ msgid ""
 msgstr ""
 
 #: ../../admin/support.rst:68
-#, fuzzy
-#| msgid "Settings saved"
 msgid "Getting listed"
-msgstr "Einstellungen gespeichert"
+msgstr "Aufnahme in die Liste"
 
 #: ../../admin/support.rst:72
 msgid ""
@@ -16688,18 +16677,16 @@ msgstr ""
 "Auflistung Ihres Servers ohne ein Support-Abonnement in Discover Weblate:"
 
 #: ../../admin/support.rst:84
-#, fuzzy
-#| msgid "Register in Weblate"
 msgid "Register yourself at <https://weblate.org/user/>"
-msgstr "Bei Weblate registrieren"
+msgstr "Registrieren Sie sich unter <https://weblate.org/user/>"
 
 #: ../../admin/support.rst:85
-#, fuzzy
-#| msgid "Register in Weblate"
 msgid ""
 "Register your Weblate server in the discovery database at <https://weblate."
 "org/subscription/discovery/>"
-msgstr "Bei Weblate registrieren"
+msgstr ""
+"Registrieren Sie Ihren Weblate-Server in der Discovery-Datenbank unter "
+"<https://weblate.org/subscription/discovery/>"
 
 #: ../../admin/support.rst:86
 msgid ""
@@ -16709,10 +16696,8 @@ msgid ""
 msgstr ""
 
 #: ../../admin/support.rst:93
-#, fuzzy
-#| msgid "Checks listing"
 msgid "Customizing listing"
-msgstr "Auflistung der Qualitätsprüfungen"
+msgstr "Auflistung anpassen"
 
 #: ../../admin/support.rst:95
 msgid ""
@@ -16790,10 +16775,14 @@ msgid ""
 msgstr ""
 
 #: ../../admin/translating.rst:51
+#, fuzzy
 msgid ""
 "Access this directly from the translation interface by clicking the \"Edit\" "
 "icon next to :guilabel:`Screenshot context` or :guilabel:`Flags`."
 msgstr ""
+"Sie können direkt von der Übersetzungsoberfläche aus darauf zugreifen, indem "
+"Sie auf das Symbol \"Bearbeiten\" neben :guilabel:`Screenshot context` oder "
+":guilabel:`Flags` klicken."
 
 #: ../../admin/translating.rst:57
 msgid "Strings prioritization"
@@ -16850,23 +16839,35 @@ msgid ""
 "program. This helps translators understand where it is used, and how it "
 "should be translated."
 msgstr ""
+"Sie können ein Bildschirmfoto hochladen, das die Verwendung einer bestimmten "
+"Ausgangszeichenkette in Ihrem Programm zeigt. Dies hilft den Übersetzern zu "
+"verstehen, wo sie verwendet wird und wie sie übersetzt werden sollte."
 
 #: ../../admin/translating.rst:114
 msgid "The uploaded screenshot is shown in the translation context sidebar:"
 msgstr ""
+"Das hochgeladene Bildschirmfoto wird in der Seitenleiste des "
+"Übersetzungskontexts angezeigt:"
 
 #: ../../admin/translating.rst:118
+#, fuzzy
 msgid ""
 "In addition to :ref:`additional`, screenshots have a separate management "
 "interface under the :guilabel:`Tools` menu. Upload screenshots, assign them "
 "to source strings manually, or use optical character recognition to do so."
 msgstr ""
+"Zusätzlich zu :ref:`additional` haben Bildschirmfotos eine eigene "
+"Verwaltungsoberfläche unter dem Menü :guilabel:`Tools`. Laden Sie "
+"Bildschirmfotos hoch, ordnen Sie sie manuell den Ausgangszeichenketten zu "
+"oder verwenden Sie dazu die optische Zeichenerkennung."
 
 #: ../../admin/translating.rst:123
 msgid ""
 "Once a screenshot is uploaded, this interface handles management and source "
 "string association:"
 msgstr ""
+"Sobald ein Bildschirmfoto hochgeladen ist, übernimmt diese Schnittstelle die "
+"Verwaltung und die Zuordnung der Ausgangszeichenkette:"
 
 #: ../../admin/upgrade.rst:2
 msgid "Upgrading Weblate"
@@ -18099,10 +18100,8 @@ msgid "number of total characters"
 msgstr ""
 
 #: ../../api.rst:740 ../../api.rst:1653 ../../api.rst:1910
-#, fuzzy
-#| msgid "Number of source strings"
 msgid "number of fuzzy (marked for edit) strings"
-msgstr "Anzahl der Ausgangszeichenketten"
+msgstr "Anzahl der fragwürdigen (zur Bearbeitung markierten) Zeichenfolgen"
 
 #: ../../api.rst:741 ../../api.rst:1654 ../../api.rst:1911
 msgid "percentage of fuzzy (marked for edit) strings"
@@ -18698,12 +18697,14 @@ msgstr ""
 
 #: ../../api.rst:1325
 msgid "Returns a list of component screenshots."
-msgstr ""
+msgstr "Gibt eine Liste von Komponenten-Bildschirmfotos zurück."
 
 #: ../../api.rst:1331
 msgid ""
 "array of component screenshots; see :http:get:`/api/screenshots/(int:id)/`"
 msgstr ""
+"Reihe von Komponenten-Bildschirmfotos; siehe :http:get:`/api/screenshots/"
+"(int:id)/`"
 
 #: ../../api.rst:1336
 msgid "Returns component lock status."
@@ -18819,12 +18820,8 @@ msgid "Associate project with a component."
 msgstr "Projekt mit einer Komponente verknüpfen."
 
 #: ../../api.rst:1615
-#, fuzzy
-#| msgid "Avoid years that are associated with you."
 msgid "Remove association of a project with a component."
-msgstr ""
-"Vermeiden Sie Jahreszahlen, die direkt mit Ihrer Person in Verbindung "
-"gebracht werden können."
+msgstr "Aufhebung der Zuordnung eines Projekts zu einer Komponente."
 
 #: ../../api.rst:1623
 msgid "Slug of the project to remove"
@@ -18857,22 +18854,18 @@ msgid ""
 msgstr ""
 
 #: ../../api.rst:1649
-#, fuzzy
-#| msgid "Number of failing checks"
 msgid "number of strings failing checks"
-msgstr "Anzahl fehlgeschlagener Qualitätsprüfungen"
+msgstr "Anzahl der Zeichenketten, die nicht geprüft wurden"
 
 #: ../../api.rst:1650
-#, fuzzy
-#| msgid "Translated strings with any failing checks"
 msgid "percentage of strings failing checks"
-msgstr "Übersetzte Zeichenketten mit fehlgeschlagenen Qualitätsprüfungen"
+msgstr ""
+"Prozentsatz der Zeichenketten, welche die Qualitätsprüfungen nicht bestanden "
+"haben"
 
 #: ../../api.rst:1651
-#, fuzzy
-#| msgid "Number of failing checks"
 msgid "number of words with failing checks"
-msgstr "Anzahl fehlgeschlagener Qualitätsprüfungen"
+msgstr "Anzahl der Wörter mit nicht bestandener Qualitätsprüfungen"
 
 #: ../../api.rst:1652
 msgid "translation filename"
@@ -18982,7 +18975,7 @@ msgstr ""
 #, fuzzy
 #| msgid "Component name"
 msgid ":ref:`component-manage_units`, :ref:`adding-new-strings`"
-msgstr "Name der Komponente"
+msgstr ":ref:`component-manage_units`, :ref:`adding-new-strings`"
 
 #: ../../api.rst:1805
 msgid "Trigger automatic translation."
@@ -19189,50 +19182,40 @@ msgid "whether the unit is fuzzy or marked for review"
 msgstr "ob die Einheit fragwürdig oder zur Überprüfung markiert ist"
 
 #: ../../api.rst:1965
-#, fuzzy
-#| msgid "Percents translated"
 msgid "whether the unit is translated"
-msgstr "Prozent übersetzt"
+msgstr "ob die Einheit übersetzt wird"
 
 #: ../../api.rst:1966
-#, fuzzy
-#| msgid "Translation approved"
 msgid "whether the translation is approved"
-msgstr "Übersetzung genehmigt"
+msgstr "ob die Übersetzung genehmigt wird"
 
 #: ../../api.rst:1967
 msgid "unit position in translation file"
-msgstr ""
+msgstr "Position der Einheit in der Übersetzungsdatei"
 
 #: ../../api.rst:1968
-#, fuzzy
-#| msgid "String has suggestion"
 msgid "whether the unit has suggestions"
-msgstr "Zeichenkette mit Vorschlag"
+msgstr "ob die Einheit Vorschläge hat"
 
 #: ../../api.rst:1969
-#, fuzzy
-#| msgid "String has comment"
 msgid "whether the unit has comments"
-msgstr "Zeichenkette mit Kommentar"
+msgstr "ob die Einheit Kommentare hat"
 
 #: ../../api.rst:1970
-#, fuzzy
-#| msgid "String has failing check"
 msgid "whether the unit has failing checks"
-msgstr "Zeichenkette mit fehlgeschlagener Qualitätsprüfung"
+msgstr "ob die Einheit fehlerhafte Prüfungen aufweist"
 
 #: ../../api.rst:1971
 msgid "number of source words"
-msgstr ""
+msgstr "Anzahl der Ausgangswörter"
 
 #: ../../api.rst:1972
 msgid "translation priority; 100 is default"
-msgstr ""
+msgstr "Übersetzungspriorität; 100 ist Standard"
 
 #: ../../api.rst:1973
 msgid "unit identifier"
-msgstr ""
+msgstr "Einheitenkennung"
 
 #: ../../api.rst:1974 ../../api.rst:1989 ../../api.rst:2002
 msgid "String explanation, available on source units, see :ref:`additional`"
@@ -19245,7 +19228,7 @@ msgstr ""
 
 #: ../../api.rst:1976
 msgid "URL where the unit can be edited"
-msgstr ""
+msgstr "URL, unter der die Einheit bearbeitet werden kann"
 
 #: ../../api.rst:1977
 msgid "Source unit link; see :http:get:`/api/units/(int:id)/`"
@@ -19309,24 +19292,24 @@ msgstr ""
 
 #: ../../api.rst:2042
 msgid "URL of a related unit object"
-msgstr ""
+msgstr "URL eines zugehörigen Einheitenobjekts"
 
 #: ../../api.rst:2044 ../../api.rst:2073 ../../api.rst:2132 ../../api.rst:2143
 #: ../../api.rst:2154 ../../api.rst:2187
 msgid "URL of a related component object"
-msgstr ""
+msgstr "URL eines zugehörigen Komponentenobjekts"
 
 #: ../../api.rst:2045
 msgid "URL of a related user object"
-msgstr ""
+msgstr "URL eines zugehörigen Benutzerobjekts"
 
 #: ../../api.rst:2046
 msgid "URL of a related author object"
-msgstr ""
+msgstr "URL eines zugehörigen Autorenobjekts"
 
 #: ../../api.rst:2047
 msgid "event timestamp"
-msgstr ""
+msgstr "Zeitstempel des Ereignisses"
 
 #: ../../api.rst:2048
 msgid "numeric identification of action"
@@ -19353,25 +19336,29 @@ msgid ""
 "Screenshot object attributes are documented at :http:get:`/api/screenshots/"
 "(int:id)/`."
 msgstr ""
+"Die Attribute von Bildschirmfoto-Objekten sind unter :http:get:`/api/"
+"screenshots/(int:id)/` dokumentiert."
 
 #: ../../api.rst:2068
 msgid "Returns information about screenshot information."
-msgstr ""
+msgstr "Gibt Informationen über Bildschirmfotos zurück."
 
 #: ../../api.rst:2070 ../../api.rst:2081 ../../api.rst:2088 ../../api.rst:2105
 #: ../../api.rst:2117 ../../api.rst:2140 ../../api.rst:2151 ../../api.rst:2162
 msgid "Screenshot ID"
-msgstr ""
+msgstr "Bildschirmfoto-ID"
 
 #: ../../api.rst:2072 ../../api.rst:2108 ../../api.rst:2131 ../../api.rst:2142
 #: ../../api.rst:2153
 msgid "name of a screenshot"
-msgstr ""
+msgstr "Name eines Bildschirmfotos"
 
 #: ../../api.rst:2074 ../../api.rst:2110 ../../api.rst:2133 ../../api.rst:2144
 #: ../../api.rst:2155
 msgid "URL to download a file; see :http:get:`/api/screenshots/(int:id)/file/`"
 msgstr ""
+"URL zum Herunterladen einer Datei; siehe :http:get:`/api/screenshots/"
+"(int:id)/file/`"
 
 #: ../../api.rst:2075 ../../api.rst:2111 ../../api.rst:2134 ../../api.rst:2145
 #: ../../api.rst:2156
@@ -19382,15 +19369,15 @@ msgstr ""
 
 #: ../../api.rst:2079
 msgid "Download the screenshot image."
-msgstr ""
+msgstr "Laden Sie das Bildschirmfoto herunter."
 
 #: ../../api.rst:2086
 msgid "Replace screenshot image."
-msgstr ""
+msgstr "Ersetzen Sie das Bildschirmfoto."
 
 #: ../../api.rst:2103
 msgid "Associate source string with screenshot."
-msgstr ""
+msgstr "Verknüpfen Sie die Ausgangszeichenkette mit dem Bildschirmfoto."
 
 #: ../../api.rst:2115
 msgid "Remove source string association with screenshot."
@@ -19406,7 +19393,7 @@ msgstr "Ausgangszeichenketten in %s"
 
 #: ../../api.rst:2124
 msgid "Creates a new screenshot."
-msgstr ""
+msgstr "Erzeugt ein neues Bildschirmfoto."
 
 #: ../../api.rst:2127
 msgid "Screenshot name"
@@ -19438,16 +19425,12 @@ msgid "Returns information about addon information."
 msgstr "Gibt Informationen über Erweiterungen zurück."
 
 #: ../../api.rst:2186 ../../api.rst:2200
-#, fuzzy
-#| msgid "Example addon"
 msgid "name of an addon"
-msgstr "Beispiel-Erweiterung"
+msgstr "Name einer Erweiterung"
 
 #: ../../api.rst:2188 ../../api.rst:2201 ../../api.rst:2209 ../../api.rst:2217
-#, fuzzy
-#| msgid "Bad configuration"
 msgid "Optional addon configuration"
-msgstr "Fehlkonfiguration"
+msgstr "Optionale Konfiguration einer Erweiterung"
 
 #: ../../api.rst:2192
 msgid ":doc:`/admin/addons`"
@@ -19539,26 +19522,20 @@ msgid "Tasks"
 msgstr ""
 
 #: ../../api.rst:2313
-#, fuzzy
-#| msgid "Service is currently not available."
 msgid "Listing of the tasks is currently not available."
-msgstr "Der Dienst ist derzeit nicht verfügbar."
+msgstr "Eine Auflistung der Aufgaben ist derzeit nicht verfügbar."
 
 #: ../../api.rst:2317
-#, fuzzy
-#| msgid "More information about Weblate"
 msgid "Returns information about a task"
-msgstr "Weitere Informationen über Weblate"
+msgstr "Gibt Informationen über eine Aufgabe zurück"
 
 #: ../../api.rst:2319
 msgid "Task UUID"
 msgstr ""
 
 #: ../../api.rst:2321
-#, fuzzy
-#| msgid "String has comment"
 msgid "Whether the task has completed"
-msgstr "Zeichenkette mit Kommentar"
+msgstr "ob die Aufgabe abgeschlossen ist"
 
 #: ../../api.rst:2322
 msgid "Task progress in percent"
@@ -19569,10 +19546,8 @@ msgid "Task result or progress details"
 msgstr ""
 
 #: ../../api.rst:2324
-#, fuzzy
-#| msgid "Last login"
 msgid "Task log"
-msgstr "Letzte Anmeldung"
+msgstr "Aufgabenprotokoll"
 
 #: ../../api.rst:2327
 msgid "Metrics"
@@ -19583,74 +19558,56 @@ msgid "Returns server metrics."
 msgstr ""
 
 #: ../../api.rst:2333
-#, fuzzy
-#| msgid "Number of comments"
 msgid "Number of units"
-msgstr "Anzahl der Kommentare"
+msgstr "Anzahl der Einheiten"
 
 #: ../../api.rst:2334
-#, fuzzy
-#| msgid "Number of translated strings"
 msgid "Number of translated units"
-msgstr "Anzahl übersetzter Zeichenketten"
+msgstr "Anzahl der übersetzten Einheiten"
 
 #: ../../api.rst:2335
-#, fuzzy
-#| msgid "Number of strings"
 msgid "Number of users"
-msgstr "Anzahl der Zeichenketten"
+msgstr "Anzahl der Benutzer"
 
 #: ../../api.rst:2336
 msgid "Number of changes"
 msgstr "Anzahl der Änderungen"
 
 #: ../../api.rst:2337
-#, fuzzy
-#| msgid "Number of components"
 msgid "Number of projects"
-msgstr "Gleiche Pluralformen"
+msgstr "Anzahl der Projekte"
 
 #: ../../api.rst:2338
 msgid "Number of components"
 msgstr "Gleiche Pluralformen"
 
 #: ../../api.rst:2339
-#, fuzzy
-#| msgid "Number of translated strings"
 msgid "Number of translations"
-msgstr "Anzahl übersetzter Zeichenketten"
+msgstr "Anzahl der Übersetzungen"
 
 #: ../../api.rst:2340
-#, fuzzy
-#| msgid "Number of languages"
 msgid "Number of used languages"
-msgstr "Anzahl der Sprachen"
+msgstr "Anzahl der verwendeten Sprachen"
 
 #: ../../api.rst:2341
-#, fuzzy
-#| msgid "Number of failing checks"
 msgid "Number of triggered quality checks"
-msgstr "Anzahl fehlgeschlagener Qualitätsprüfungen"
+msgstr "Anzahl der ausgelösten Qualitätsprüfungen"
 
 #: ../../api.rst:2342
 msgid "Number of configuration errors"
 msgstr "Anzahl der Konfigurationsfehler"
 
 #: ../../api.rst:2343
-#, fuzzy
-#| msgid "Pending suggestions"
 msgid "Number of pending suggestions"
-msgstr "Ausstehende Vorschläge"
+msgstr "Anzahl der ausstehenden Übersetzungsvorschläge"
 
 #: ../../api.rst:2344
 msgid "Lengths of Celery queues, see :ref:`celery`"
 msgstr ""
 
 #: ../../api.rst:2345
-#, fuzzy
-#| msgid "Configure editor"
 msgid "Configured server name"
-msgstr "Editor konfigurieren"
+msgstr "Konfigurierter Servername"
 
 #: ../../api.rst:2350
 msgid "Notification hooks"
@@ -19922,10 +19879,9 @@ msgid "Not yet released."
 msgstr "Noch nicht veröffentlicht."
 
 #: ../../changes.rst:6
-#, fuzzy
-#| msgid "The user management no longer needs Django admin interface."
 msgid "Fixed user removal in Django admin interface."
-msgstr "Die Benutzerverwaltung benötigt keine Django-Adminoberfläche mehr."
+msgstr ""
+"Das Entfernen von Benutzern in der Django-Adminoberfläche wurde behoben."
 
 #: ../../changes.rst:7
 msgid "Document add-on parameters in more detail."
@@ -19981,8 +19937,6 @@ msgid "Improved squash add-on compatibility with Gerrit."
 msgstr "Die Kompatibilität der Squash-Erweiterung mit Gerrit wurde verbessert."
 
 #: ../../changes.rst:23
-#, fuzzy
-#| msgid "Fixed adding strings to a monolingual glossary components."
 msgid "Fixed adding strings to monolingual glossary components."
 msgstr ""
 "Das Hinzufügen von Zeichenketten zu einsprachigen Glossarkomponenten wurde "
@@ -20276,11 +20230,10 @@ msgid "Fixed possible caching issues on upgrade."
 msgstr "Mögliche Caching-Probleme beim Upgrade behoben."
 
 #: ../../changes.rst:108
-#, fuzzy
-#| msgid "You can not use a monolingual translation without a base file."
 msgid "Fixed adding new units to monolingual translations using upload."
 msgstr ""
-"Sie können eine einsprachige Übersetzung nicht ohne Basisdatei verwenden."
+"Das Hinzufügen neuer Einheiten zu einsprachigen Übersetzungen mittels "
+"Hochladen wurde behoben."
 
 #: ../../changes.rst:110
 msgid ""
@@ -20434,7 +20387,7 @@ msgstr ""
 
 #: ../../changes.rst:157
 msgid "Allow uploading screenshot from a translate page."
-msgstr ""
+msgstr "Erlaubt das Hochladen von Bildschirmfotos von einer Übersetzungsseite."
 
 #: ../../changes.rst:158
 msgid "Added forced file synchronization to the repository maintenance."
@@ -20493,10 +20446,8 @@ msgid "Store correct source language in TMX files."
 msgstr ""
 
 #: ../../changes.rst:176
-#, fuzzy
-#| msgid "The translation uses monolingual files."
 msgid "Better handling for uploads of monolingual PO using API."
-msgstr "Die Übersetzung verwendet einsprachige Dateien."
+msgstr "Bessere Handhabung beim Hochladen von einsprachigen PO über die API."
 
 #: ../../changes.rst:177
 msgid "Improved alerts behavior on glossary components."
@@ -20531,10 +20482,10 @@ msgid ""
 msgstr ""
 
 #: ../../changes.rst:184
-#, fuzzy
-#| msgid "Performance overview"
 msgid "Improved interface for customizing translation-file downloads"
-msgstr "Leistungsbericht"
+msgstr ""
+"Verbesserte Benutzeroberfläche zum Anpassen der Downloads von "
+"Übersetzungsdateien"
 
 #: ../../changes.rst:186
 msgid ""
@@ -20583,10 +20534,10 @@ msgid "Added support for TermBase eXchange files."
 msgstr "Unterstützung für TermBase eXchange-Dateien hinzugefügt."
 
 #: ../../changes.rst:199
-#, fuzzy
-#| msgid "Added support for reordering committed changes."
 msgid "Added support for manually defining string variants using a flag."
-msgstr "Unterstützung für's umordnen von bestätigten Änderungen hinzugefügt."
+msgstr ""
+"Unterstützung für die manuelle Definition von Varianten einer Zeichenkette "
+"unter Verwendung einer Markierung wurde hinzugefügt."
 
 #: ../../changes.rst:200
 msgid "Improved performance of consistency checks."
@@ -20598,10 +20549,8 @@ msgstr ""
 "Verbesserte Leistung des Übersetzungsspeichers für lange Zeichenketten."
 
 #: ../../changes.rst:202
-#, fuzzy
-#| msgid "Added support for reordering committed changes."
 msgid "Added support for searching in explanations."
-msgstr "Unterstützung für's umordnen von bestätigten Änderungen hinzugefügt."
+msgstr "Unterstützung für die Suche in Erklärungen hinzugefügt."
 
 #: ../../changes.rst:203
 msgid "Strings can now be added and removed in bilingual formats as well."
@@ -20625,10 +20574,10 @@ msgstr ""
 "einer Übersetzung hinzuzufügen."
 
 #: ../../changes.rst:207
-#, fuzzy
-#| msgid "Please sign in to save translations."
 msgid "Added a simple interface to browse translation."
-msgstr "Bitte melden Sie sich an, um Übersetzungen zu speichern."
+msgstr ""
+"Es wurde eine einfache Benutzeroberfläche zum Durchsuchen von Übersetzungen "
+"hinzugefügt."
 
 #: ../../changes.rst:209
 msgid "Dropped specific API for glossaries as component API is used now."
@@ -20667,10 +20616,10 @@ msgid "Added check whether translation matches the glossary."
 msgstr ""
 
 #: ../../changes.rst:216
-#, fuzzy
-#| msgid "Added support for reordering committed changes."
 msgid "Added support for customizing navigation text color."
-msgstr "Unterstützung für's umordnen von bestätigten Änderungen hinzugefügt."
+msgstr ""
+"Unterstützung für die Anpassung der Textfarbe der Navigation wurde "
+"hinzugefügt."
 
 #: ../../changes.rst:218
 msgid ""
@@ -20713,10 +20662,8 @@ msgid "Improved administration of users."
 msgstr "Verbesserte Benutzerverwaltung."
 
 #: ../../changes.rst:235
-#, fuzzy
-#| msgid "The translation uses monolingual files."
 msgid "Improved handling of context in monolingual PO files."
-msgstr "Die Übersetzung verwendet einsprachige Dateien."
+msgstr "Verbesserte Handhabung des Kontexts in einsprachigen PO-Dateien."
 
 #: ../../changes.rst:236
 msgid ""
@@ -20726,10 +20673,8 @@ msgstr ""
 "ODF, IDML und Windows RC wurde korrigiert."
 
 #: ../../changes.rst:237
-#, fuzzy
-#| msgid "No matching source strings found."
 msgid "Fixed parsing of location from CSV files."
-msgstr "Keine passenden Ausgangszeichenketten gefunden."
+msgstr "Das Analysieren des Speicherorts aus CSV-Dateien wurde korrigiert."
 
 #: ../../changes.rst:238
 msgid "Use content compression for file downloads."
@@ -20740,10 +20685,8 @@ msgid "Improved user experience on importing from ZIP file."
 msgstr ""
 
 #: ../../changes.rst:240
-#, fuzzy
-#| msgid "The detected file format is not supported."
 msgid "Improved detection of file format for uploads."
-msgstr "Das erkannte Dateiformat wird nicht unterstützt."
+msgstr "Die Erkennung des Dateiformats beim Hochladen wurde verbessert."
 
 #: ../../changes.rst:241
 msgid "Avoid duplicate pull requests on Pagure."
@@ -20812,10 +20755,8 @@ msgstr ""
 "entfernen."
 
 #: ../../changes.rst:260
-#, fuzzy
-#| msgid "Component is now open for translation updates."
 msgid "The CodeMirror editor is now used for translations."
-msgstr "Die Komponente kann nun Übersetzungen und deren Änderungen annehmen."
+msgstr "Der CodeMirror-Editor wird jetzt für Übersetzungen verwendet."
 
 #: ../../changes.rst:261
 msgid ""
@@ -20918,10 +20859,8 @@ msgstr ""
 "verbessert."
 
 #: ../../changes.rst:287
-#, fuzzy
-#| msgid "Added support for reordering committed changes."
 msgid "Added support for Pagure pull requests."
-msgstr "Unterstützung für's umordnen von bestätigten Änderungen hinzugefügt."
+msgstr "Unterstützung für Pagure-Pull-Anfragen hinzugefügt."
 
 #: ../../changes.rst:288
 msgid "Improved error messages for failed registrations."
@@ -20984,10 +20923,8 @@ msgid "Fixed session expiry for authenticated users."
 msgstr ""
 
 #: ../../changes.rst:306
-#, fuzzy
-#| msgid "Added support for reordering committed changes."
 msgid "Add support for hiding version information."
-msgstr "Unterstützung für's umordnen von bestätigten Änderungen hinzugefügt."
+msgstr "Unterstützung für das Ausblenden von Versionsinformationen hinzufügen."
 
 #: ../../changes.rst:307
 msgid "Improve hooks compatibility with Bitbucket Server."
@@ -21007,10 +20944,9 @@ msgid "Improved performance of Matrix view."
 msgstr "Verbesserte Leistung der Matrixansicht."
 
 #: ../../changes.rst:311
-#, fuzzy
-#| msgid "User has been removed from this project."
 msgid "Added confirmation before removing a user from a project."
-msgstr "Benutzer wurde aus diesem Projekt entfernt."
+msgstr ""
+"Bestätigung vor dem Entfernen eines Benutzers aus einem Projekt hinzugefügt."
 
 #: ../../changes.rst:313
 msgid ""
@@ -21116,10 +21052,8 @@ msgid "Improved JSON, YAML and CSV formats compatibility."
 msgstr ""
 
 #: ../../changes.rst:341
-#, fuzzy
-#| msgid "Added support for reordering committed changes."
 msgid "Added support for removing strings."
-msgstr "Unterstützung für's umordnen von bestätigten Änderungen hinzugefügt."
+msgstr "Unterstützung für das Entfernen von Zeichenketten hinzugefügt."
 
 #: ../../changes.rst:342
 msgid "Improved performance of file downloads."
@@ -21134,16 +21068,12 @@ msgid "Automatically enable java-format for Android."
 msgstr ""
 
 #: ../../changes.rst:345
-#, fuzzy
-#| msgid "Added support for reordering committed changes."
 msgid "Added support for localized screenshots."
-msgstr "Unterstützung für's umordnen von bestätigten Änderungen hinzugefügt."
+msgstr "Unterstützung für lokalisierte Bildschirmfotos wurde hinzugefügt."
 
 #: ../../changes.rst:346
-#, fuzzy
-#| msgid "Added support for reordering committed changes."
 msgid "Added support for Python 3.9."
-msgstr "Unterstützung für's umordnen von bestätigten Änderungen hinzugefügt."
+msgstr "Unterstützung für Python 3.9 hinzugefügt."
 
 #: ../../changes.rst:347
 msgid "Fixed translating HTML files under certain conditions."
@@ -21166,10 +21096,10 @@ msgid "Released on September 2nd 2020."
 msgstr "Veröffentlicht am 2. September 2020."
 
 #: ../../changes.rst:356
-#, fuzzy
-#| msgid "No matching source strings found."
 msgid "Fixed matching of source strings for JSON formats."
-msgstr "Keine passenden Ausgangszeichenketten gefunden."
+msgstr ""
+"Die Übereinstimmung von Ausgangszeichenketten für JSON-Formate wurde "
+"korrigiert."
 
 #: ../../changes.rst:357
 msgid "Fixed login redirect for some authentication configurations."
@@ -21205,10 +21135,10 @@ msgid "Fixed saving plurals for some locales in Android resources."
 msgstr ""
 
 #: ../../changes.rst:369
-#, fuzzy
-#| msgid "No matching source strings found."
 msgid "Fixed crash in the cleanup add-on for some XLIFF files."
-msgstr "Keine passenden Ausgangszeichenketten gefunden."
+msgstr ""
+"Absturz in der Erweiterung für den Bereinigungsvorgang für einige XLIFF-"
+"Dateien behoben."
 
 #: ../../changes.rst:370
 msgid "Allow setting up localization CDN in Docker image."
@@ -21240,12 +21170,10 @@ msgid "Number of displayed nearby strings can be configured."
 msgstr ""
 
 #: ../../changes.rst:382
-#, fuzzy
-#| msgid "This addon is used for all components sharing this repository."
 msgid "Added support for locking components experiencing repository errors."
 msgstr ""
-"Diese Erweiterung wird auf alle Komponenten angewandt, die Teil dieses "
-"Repository sind."
+"Unterstützung für das Sperren von Komponenten, bei denen Repository-Fehler "
+"auftreten, wurde hinzugefügt."
 
 #: ../../changes.rst:383
 msgid "Simplified main navigation (replaced buttons with icons)."
@@ -21401,6 +21329,8 @@ msgstr ""
 #: ../../changes.rst:427
 msgid "Added support for searching source strings with screenshot."
 msgstr ""
+"Unterstützung für die Suche nach Ausgangszeichenketten mit Bildschirmfoto "
+"hinzugefügt."
 
 #: ../../changes.rst:428
 msgid "Extended info available in the stats insights."
@@ -21445,6 +21375,8 @@ msgstr ""
 #: ../../changes.rst:438
 msgid "Add direct link to edit screenshot from translate page."
 msgstr ""
+"Direkten Link zum Bearbeiten des Bildschirmfotos von der Übersetzungsseite "
+"hinzugefügt."
 
 #: ../../changes.rst:439
 msgid "Improved removal confirmation dialog."
@@ -21475,10 +21407,10 @@ msgid "Consistently use dismissed as state of dismissed checks."
 msgstr ""
 
 #: ../../changes.rst:445
-#, fuzzy
-#| msgid "Added support for reordering committed changes."
 msgid "Add support for configuring default add-ons to enable."
-msgstr "Unterstützung für's umordnen von bestätigten Änderungen hinzugefügt."
+msgstr ""
+"Unterstützung für die Aktivierung der Konfiguration von "
+"Standarderweiterungen wurde hinzugefügt."
 
 #: ../../changes.rst:446
 msgid "Fixed editor keyboard shortcut to dismiss checks."
@@ -21582,7 +21514,7 @@ msgstr ""
 
 #: ../../changes.rst:474
 msgid "Fixed screenshots listing."
-msgstr ""
+msgstr "Die Auflistung der Bildschirmfotos wurde korrigiert."
 
 #: ../../changes.rst:475
 msgid "Fixed monthly digest notifications."
@@ -21797,6 +21729,8 @@ msgid ""
 "Extended API to cover screenshots, users, groups, componentlists and "
 "extended creating projects."
 msgstr ""
+"Erweiterte API zur Abdeckung von Bildschirmfotos, Benutzern, Gruppen, "
+"Komponentenlisten und erweiterter Projekterstellung."
 
 #: ../../changes.rst:545
 msgid "Add support for source upload on bilingual translations."
@@ -21867,10 +21801,9 @@ msgid "Include Celery queues in performance overview."
 msgstr ""
 
 #: ../../changes.rst:568
-#, fuzzy
-#| msgid "Documentation for plurals."
 msgid "Fixed documentation links for add-ons."
-msgstr "Dokumentation für Plural."
+msgstr ""
+"Die Links zu den Dokumentationen für die Erweiterungen wurden korrigiert."
 
 #: ../../changes.rst:569
 msgid "Reduced false negatives for unchanged translation check."
@@ -21982,10 +21915,8 @@ msgstr ""
 "Anzeige von benachbarten Zeichenketten bei einsprachigen Übersetzungen."
 
 #: ../../changes.rst:608
-#, fuzzy
-#| msgid "Added support for reordering committed changes."
 msgid "Added support for grouping string shapings."
-msgstr "Unterstützung für's umordnen von bestätigten Änderungen hinzugefügt."
+msgstr "Unterstützung für die Gruppierung von Zeichenketten wurde hinzugefügt."
 
 #: ../../changes.rst:609
 msgid "Recommend upgrade to new Weblate versions in the system checks."
@@ -22495,10 +22426,10 @@ msgid "Fixed listing of languages not known to Weblate."
 msgstr ""
 
 #: ../../changes.rst:764
-#, fuzzy
-#| msgid "Added support for reordering committed changes."
 msgid "Add support for cloning add-ons to discovered components."
-msgstr "Unterstützung für's umordnen von bestätigten Änderungen hinzugefügt."
+msgstr ""
+"Unterstützung des Klonens von Erweiterungen für erkannte Komponenten wurde "
+"hinzugefügt."
 
 #: ../../changes.rst:765
 msgid "Add support for replacing file content with uploaded."
@@ -22514,7 +22445,7 @@ msgstr ""
 
 #: ../../changes.rst:768
 msgid "Added support for animated screenshots."
-msgstr ""
+msgstr "Unterstützung für animierte Bildschirmfotos hinzugefügt."
 
 #: ../../changes.rst:769 ../../changes.rst:838
 msgid "Improved handling of monolingual XLIFF files."
@@ -22664,10 +22595,10 @@ msgid "Refreshed landing page for new contributors."
 msgstr ""
 
 #: ../../changes.rst:813
-#, fuzzy
-#| msgid "Added support for reordering committed changes."
 msgid "Add support for configuring msgmerge add-on."
-msgstr "Unterstützung für's umordnen von bestätigten Änderungen hinzugefügt."
+msgstr ""
+"Unterstützung für die Konfiguration der msgmerge-Erweiterung wurde "
+"hinzugefügt."
 
 #: ../../changes.rst:814
 msgid "Delay opening SMTP connection when sending notifications."
@@ -23014,10 +22945,8 @@ msgid "Improved performance of loading translation files."
 msgstr ""
 
 #: ../../changes.rst:921
-#, fuzzy
-#| msgid "Squash Git commits prior to pushing changes."
 msgid "New add-on to squash commits prior to push."
-msgstr "Git-Commits vor dem Pushen der Änderungen konsolidieren."
+msgstr "Neue Erweiterung zu Squash-Commits vor dem Push."
 
 #: ../../changes.rst:922
 msgid "Improved displaying of translation changes."
@@ -23238,15 +23167,10 @@ msgid "Added support for creating projects and components by users."
 msgstr ""
 
 #: ../../changes.rst:992
-#, fuzzy
-#| msgid ""
-#| "Suggestions with one vote are automatically accepted as translations."
-#| msgid_plural ""
-#| "Suggestions are automatically accepted as translations once they have "
-#| "%(count)s votes."
 msgid "Built-in translation memory now automatically stores translations done."
 msgstr ""
-"Vorschläge mit einer Stimme werden automatisch als Übersetzung akzeptiert."
+"Der integrierte Übersetzungsspeicher speichert jetzt automatisch "
+"durchgeführte Übersetzungen."
 
 #: ../../changes.rst:993
 msgid "Users and projects can import their existing translation memories."
@@ -23255,6 +23179,7 @@ msgstr ""
 #: ../../changes.rst:994
 msgid "Better management of related strings for screenshots."
 msgstr ""
+"Bessere Verwaltung von zusammenhängenden Zeichenketten für Bildschirmfotos."
 
 #: ../../changes.rst:995
 msgid "Added support for checking Java MessageFormat."
@@ -23408,11 +23333,11 @@ msgid "Access control changes are now tracked in history."
 msgstr ""
 
 #: ../../changes.rst:1051
-#, fuzzy
-#| msgid "Some of the components within this project have alerts."
 msgid ""
 "New add-on to ensure all components in a project have same translations."
-msgstr "Einige Komponenten in diesem Projekt enthalten Warnungen."
+msgstr ""
+"Neue Erweiterung, um sicherzustellen, dass alle Komponenten in einem Projekt "
+"die gleichen Übersetzungen haben."
 
 #: ../../changes.rst:1052
 msgid "Support for more variables in commit message templates."
@@ -23926,6 +23851,8 @@ msgstr ""
 #: ../../changes.rst:1219
 msgid "Included source string information and screenshots in the API."
 msgstr ""
+"Aufnahme von Informationen zur Ausgangszeichenkette und Bildschirmfotos in "
+"die API."
 
 #: ../../changes.rst:1220
 msgid "Allow to overwrite translations through API upload."
@@ -24058,6 +23985,8 @@ msgstr ""
 msgid ""
 "Improved screenshot management with OCR support for matching source strings."
 msgstr ""
+"Verbesserte Bildschirmfoto-Verwaltung mit OCR-Unterstützung für "
+"übereinstimmende Ausgangszeichenketten."
 
 #: ../../changes.rst:1265
 msgid "Default commit message now includes translation information and URL."
@@ -24273,6 +24202,8 @@ msgstr ""
 msgid ""
 "Added support for uploading visual context (screenshots) for translations."
 msgstr ""
+"Unterstützung für das Hochladen von visuellem Kontext (Bildschirmfotos) für "
+"Übersetzungen wurde hinzugefügt."
 
 #: ../../changes.rst:1336
 msgid "Weblate 2.8"
@@ -25960,14 +25891,10 @@ msgstr ""
 
 #: ../../../weblate/addons/base.py:docstring of
 #: weblate.addons.base.BaseAddon.can_install:1
-#, fuzzy
-#| msgid ""
-#| "Could not find any additional addons compatible with this translation "
-#| "component."
 msgid "Check whether add-on is compatible with given component."
 msgstr ""
-"Es konnten keine zusätzlichen Erweiterungen gefunden werden, die mit dieser "
-"Übersetzung kompatibel sind."
+"Überprüfen Sie, ob die Erweiterung mit der angegebenen Komponente kompatibel "
+"ist."
 
 #: ../../../weblate/addons/base.py:docstring of
 #: weblate.addons.base.BaseAddon.configure:1
@@ -25992,11 +25919,8 @@ msgstr "Konfigurationsformular für diese Erweiterung zurückgeben."
 
 #: ../../../weblate/addons/base.py:docstring of
 #: weblate.addons.base.BaseAddon.post_add:1
-#, fuzzy
-#| msgid "Updates the LINGUAS file when a new translation is added."
 msgid "Hook triggered after new translation is added."
-msgstr ""
-"Aktualisiert die LINGUAS-Datei, wenn eine neue Übersetzung hinzugefügt wird."
+msgstr "Hook wird ausgelöst, nachdem eine neue Übersetzung hinzugefügt wurde."
 
 #: ../../../weblate/addons/base.py:docstring of
 #: weblate.addons.base.BaseAddon.post_commit:1
@@ -26054,11 +25978,8 @@ msgstr ""
 
 #: ../../../weblate/addons/base.py:docstring of
 #: weblate.addons.base.BaseAddon.store_post_load:1
-#, fuzzy
-#| msgid "Updates the LINGUAS file when a new translation is added."
 msgid "Hook triggered after a file is parsed."
-msgstr ""
-"Aktualisiert die LINGUAS-Datei, wenn eine neue Übersetzung hinzugefügt wird."
+msgstr "Hook wird ausgelöst, nachdem eine Datei analysiert wurde."
 
 #: ../../../weblate/addons/base.py:docstring of
 #: weblate.addons.base.BaseAddon.store_post_load:3
@@ -26291,10 +26212,8 @@ msgid ""
 msgstr ""
 
 #: ../../contributing/frontend.rst:7
-#, fuzzy
-#| msgid "Support status"
 msgid "Supported browsers"
-msgstr "Unterstützen Sie Weblate"
+msgstr "Unterstützte Browser"
 
 #: ../../contributing/frontend.rst:9
 msgid ""
@@ -26439,10 +26358,8 @@ msgid ""
 msgstr ""
 
 #: ../../contributing/index.rst:33
-#, fuzzy
-#| msgid "Contribute to Weblate"
 msgid "Contribute to Weblate documentation"
-msgstr "Zu Weblate beitragen"
+msgstr "Zur Weblate-Dokumentation beitragen"
 
 #: ../../contributing/index.rst:35
 msgid ""
@@ -26522,10 +26439,8 @@ msgid ""
 msgstr ""
 
 #: ../../contributing/index.rst:72
-#, fuzzy
-#| msgid "Weblate discovery"
 msgid "Weblate discussions"
-msgstr "Weblate-Entdeckung"
+msgstr "Weblate-Diskussionen"
 
 #: ../../contributing/index.rst:74
 msgid ""
@@ -26548,82 +26463,90 @@ msgstr ""
 
 #: ../../../BACKERS.rst:2
 msgid "Backers who have funded Weblate"
-msgstr ""
+msgstr "Unterstützer, die Weblate finanziert haben"
 
 #: ../../../BACKERS.rst:4
 msgid "List of Weblate supporters:"
-msgstr ""
+msgstr "Liste der Weblate-Unterstützer:"
 
 #: ../../../BACKERS.rst:6
 msgid "Yashiro Ccs"
-msgstr ""
+msgstr "Yashiro Ccs"
 
 #: ../../../BACKERS.rst:7
 msgid "Cheng-Chia Tseng"
-msgstr ""
+msgstr "Cheng-Chia Tseng"
 
 #: ../../../BACKERS.rst:8
 msgid "Timon Reinhard"
-msgstr ""
+msgstr "Timon Reinhard"
 
 #: ../../../BACKERS.rst:9
 msgid "`Cassidy James <https://cassidyjames.com/>`_"
-msgstr ""
+msgstr "`Cassidy James <https://cassidyjames.com/>`_"
 
 #: ../../../BACKERS.rst:10
 msgid "Loic Dachary"
-msgstr ""
+msgstr "Loic Dachary"
 
 #: ../../../BACKERS.rst:11
 msgid "Marozed"
-msgstr ""
+msgstr "Marozed"
 
 #: ../../../BACKERS.rst:12
 msgid "https://freedombox.org/"
-msgstr ""
+msgstr "https://freedombox.org/"
 
 #: ../../../BACKERS.rst:13
 msgid "`GNU Solidario (GNU Health) <https://www.gnuhealth.org/>`_"
-msgstr ""
+msgstr "`GNU Solidario (GNU Health) <https://www.gnuhealth.org/>`_"
 
 #: ../../../BACKERS.rst:14
 msgid "`BallotReady <https://www.ballotready.org>`_"
-msgstr ""
+msgstr "`BallotReady <https://www.ballotready.org>`_"
 
 #: ../../../BACKERS.rst:15
 msgid "Richard Nespithal"
-msgstr ""
+msgstr "Richard Nespithal"
 
 #: ../../../BACKERS.rst:16
 msgid "MyExpenses.Mobi"
-msgstr ""
+msgstr "MyExpenses.Mobi"
 
 #: ../../../BACKERS.rst:18
 msgid ""
 "Do you want to be in the list? Please see options on the `Donate to Weblate "
 "<https://weblate.org/donate/>`_."
 msgstr ""
+"Möchten Sie in die Liste aufgenommen werden? Bitte beachten Sie die Optionen "
+"auf der Seite `Spenden für Weblate <https://weblate.org/donate/>`_."
 
 #: ../../contributing/internals.rst:4
 msgid "Weblate internals"
-msgstr ""
+msgstr "Weblate-Interna"
 
 #: ../../contributing/internals.rst:8
 msgid "This chapter will give you basic overview of Weblate internals."
 msgstr ""
+"Dieses Kapitel gibt Ihnen einen grundlegenden Überblick über die Interna von "
+"Weblate."
 
 #: ../../contributing/internals.rst:10
 msgid ""
 "Weblate derives most of its code structure from, and is based on `Django`_."
 msgstr ""
+"Weblate leitet den größten Teil seiner Codestruktur von `Django`_ ab und "
+"basiert auf diesem."
 
 #: ../../contributing/internals.rst:13
 msgid "Directory structure"
-msgstr ""
+msgstr "Struktur des Verzeichnisses"
 
 #: ../../contributing/internals.rst:15
 msgid "Quick overview of directory structure of Weblate main repository:"
 msgstr ""
+"Schneller Überblick über die Verzeichnisstruktur des Weblate-"
+"Hauptrepositorys:"
 
 #: ../../contributing/internals.rst:17
 msgid "``docs``"
@@ -26634,6 +26557,8 @@ msgid ""
 "Source code for this documentation, which can be built using `Sphinx "
 "<https://www.sphinx-doc.org/>`_."
 msgstr ""
+"Quellcode für diese Dokumentation, die mit `Sphinx <https://www.sphinx-doc."
+"org/>`_ erstellt werden kann."
 
 #: ../../contributing/internals.rst:19
 msgid "``dev-docker``"
@@ -26642,6 +26567,7 @@ msgstr ""
 #: ../../contributing/internals.rst:20
 msgid "Docker code to run development server, see :ref:`dev-docker`."
 msgstr ""
+"Docker-Code zum Betrieb des Entwicklungsservers, siehe :ref:`dev-docker`."
 
 #: ../../contributing/internals.rst:21
 msgid "``weblate``"
@@ -26652,24 +26578,28 @@ msgid ""
 "Source code of Weblate as a `Django <https://www.djangoproject.com/>`_ "
 "application, see :ref:`internals`."
 msgstr ""
+"Quellcode von Weblate als `Django <https://www.djangoproject.com/>`_ "
+"Anwendung, siehe :ref:`internals`."
 
 #: ../../contributing/internals.rst:24
 msgid "``weblate/static``"
-msgstr ""
+msgstr "``weblate/static``"
 
 #: ../../contributing/internals.rst:24
 msgid "Client files (CSS, Javascript and images), see :doc:`frontend`."
-msgstr ""
+msgstr "Client-Dateien (CSS, Javascript und Bilder), siehe :doc:`frontend`."
 
 #: ../../contributing/internals.rst:27
 msgid "Modules"
-msgstr ""
+msgstr "Module"
 
 #: ../../contributing/internals.rst:29
 msgid ""
 "Weblate consists of several Django applications (some optional, see :doc:`/"
 "admin/optionals`):"
 msgstr ""
+"Weblate besteht aus mehreren Django-Anwendungen (einige sind optional, siehe "
+":doc:`/admin/optionals`):"
 
 #: ../../contributing/internals.rst:32
 msgid "``accounts``"
@@ -26677,7 +26607,7 @@ msgstr ""
 
 #: ../../contributing/internals.rst:34
 msgid "User account, profiles and notifications."
-msgstr ""
+msgstr "Benutzerkonto, Profile und Benachrichtigungen."
 
 #: ../../contributing/internals.rst:36
 msgid "``addons``"
@@ -26686,6 +26616,7 @@ msgstr ""
 #: ../../contributing/internals.rst:38
 msgid "Add-ons to tweak Weblate behavior, see :ref:`addons`."
 msgstr ""
+"Erweiterungen um das Verhalten von Weblate zu verändern, siehe :ref:`addons`."
 
 #: ../../contributing/internals.rst:40
 msgid "``api``"
@@ -26693,7 +26624,7 @@ msgstr ""
 
 #: ../../contributing/internals.rst:42
 msgid "API based on `Django REST framework`_."
-msgstr ""
+msgstr "API basierend auf `Django REST framework`_."
 
 #: ../../contributing/internals.rst:44
 msgid "``auth``"
@@ -26701,7 +26632,7 @@ msgstr ""
 
 #: ../../contributing/internals.rst:46
 msgid "Authentication and permissions."
-msgstr ""
+msgstr "Authentifizierung und Berechtigungen."
 
 #: ../../contributing/internals.rst:48
 msgid "``billing``"
@@ -26709,7 +26640,7 @@ msgstr ""
 
 #: ../../contributing/internals.rst:50
 msgid "The optional :ref:`billing` module."
-msgstr ""
+msgstr "Das optionale Modul :ref:`billing`."
 
 #: ../../contributing/internals.rst:52
 msgid "``checks``"
@@ -26741,7 +26672,7 @@ msgstr ""
 
 #: ../../contributing/internals.rst:66
 msgid "The optional :ref:`git-exporter` module."
-msgstr ""
+msgstr "Das optionale Modul :ref:`git-exporter`."
 
 #: ../../contributing/internals.rst:68
 msgid "``lang``"
@@ -26749,7 +26680,7 @@ msgstr ""
 
 #: ../../contributing/internals.rst:70
 msgid "Module defining language and plural models."
-msgstr ""
+msgstr "Modul zur Definition von Sprach- und Pluralmodellen."
 
 #: ../../contributing/internals.rst:72
 msgid "``legal``"
@@ -26757,7 +26688,7 @@ msgstr ""
 
 #: ../../contributing/internals.rst:74
 msgid "The optional :ref:`legal` module."
-msgstr ""
+msgstr "Das optionale Modul :ref:`legal`."
 
 #: ../../contributing/internals.rst:76
 msgid "``machinery``"
@@ -26765,7 +26696,7 @@ msgstr ""
 
 #: ../../contributing/internals.rst:78
 msgid "Integration of machine translation services."
-msgstr ""
+msgstr "Integration von automatischen Übersetzungsdiensten."
 
 #: ../../contributing/internals.rst:80
 msgid "``memory``"
@@ -26781,7 +26712,7 @@ msgstr ""
 
 #: ../../contributing/internals.rst:86
 msgid "Screenshots management and OCR module."
-msgstr ""
+msgstr "Verwaltung von Bildschirmfotos und OCR-Modul."
 
 #: ../../contributing/internals.rst:88
 msgid "``trans``"
@@ -26789,7 +26720,7 @@ msgstr ""
 
 #: ../../contributing/internals.rst:90
 msgid "Main module handling translations."
-msgstr ""
+msgstr "Hauptmodul für Übersetzungen."
 
 #: ../../contributing/internals.rst:92
 msgid "``utils``"
@@ -26797,7 +26728,7 @@ msgstr ""
 
 #: ../../contributing/internals.rst:94
 msgid "Various helper utilities."
-msgstr ""
+msgstr "Verschiedene Hilfsprogramme."
 
 #: ../../contributing/internals.rst:96
 msgid "``vcs``"
@@ -26805,7 +26736,7 @@ msgstr ""
 
 #: ../../contributing/internals.rst:98
 msgid "Version control system abstraction."
-msgstr ""
+msgstr "Abstraktion der Versionsverwaltung."
 
 #: ../../contributing/internals.rst:100
 msgid "``wladmin``"
@@ -26817,13 +26748,15 @@ msgstr "Anpassung der Django-Adminoberfläche."
 
 #: ../../contributing/issues.rst:4
 msgid "Reporting issues in Weblate"
-msgstr ""
+msgstr "Melden von Problemen in Weblate"
 
 #: ../../contributing/issues.rst:6
 msgid ""
 "Weblate `issue tracker <https://github.com/WeblateOrg/weblate/issues>`_ is "
 "hosted at GitHub."
 msgstr ""
+"Weblate `Issue Tracker <https://github.com/WeblateOrg/weblate/issues>`_ wird "
+"auf GitHub gehostet."
 
 #: ../../contributing/issues.rst:8
 msgid ""
@@ -26831,18 +26764,25 @@ msgid ""
 "Weblate there. There are various templates prepared to comfortably guide you "
 "through the issue report."
 msgstr ""
+"Sie können dort gerne alle Probleme melden, die Sie haben, oder "
+"Verbesserungsvorschläge für Weblate machen. Es gibt verschiedene Vorlagen, "
+"die Sie bequem durch den Problembericht führen."
 
 #: ../../contributing/issues.rst:11
 msgid ""
 "If what you have found is a security issue in Weblate, please consult the :"
 "ref:`security` section below."
 msgstr ""
+"Wenn Sie ein Sicherheitsproblem in Weblate gefunden haben, lesen Sie bitte "
+"den Abschnitt :ref:`Sicherheit` unten."
 
 #: ../../contributing/issues.rst:14
 msgid ""
 "If you are not sure about your bug report or feature request, you can try :"
 "ref:`discussions`."
 msgstr ""
+"Wenn Sie sich nicht sicher sind, ob es sich um einen Fehlerbericht oder eine "
+"Funktionsanfrage handelt, können Sie :ref:`Diskussionen` versuchen."
 
 #: ../../contributing/issues.rst:19
 msgid "Security issues"
@@ -26862,6 +26802,8 @@ msgid ""
 "Alternatively, report to security@weblate.org, which ends up on HackerOne as "
 "well."
 msgstr ""
+"Alternativ können Sie sich auch an security@weblate.org wenden, das "
+"ebenfalls auf HackerOne veröffentlicht wird."
 
 #: ../../contributing/issues.rst:29
 msgid ""
@@ -26870,6 +26812,11 @@ msgid ""
 "this PGP key `3CB 1DF1 EF12 CF2A C0EE  5A32 9C27 B313 42B7 511D`. You can "
 "also get the PGP key from `Keybase <https://keybase.io/nijel>`_."
 msgstr ""
+"Wenn Sie HackerOne, aus welchen Gründen auch immer, nicht verwenden wollen, "
+"können Sie den Bericht per E-Mail an michal@cihar.com senden. Sie können ihn "
+"mit diesem PGP-Schlüssel `3CB 1DF1 EF12 CF2A C0EE 5A32 9C27 B313 42B7 511D` "
+"verschlüsseln. Sie können den PGP-Schlüssel auch von `Keybase "
+"<https://keybase.io/nijel>`_ beziehen."
 
 #: ../../contributing/issues.rst:36
 msgid ""
@@ -26877,23 +26824,27 @@ msgid ""
 "a vulnerability affecting one of those components in general, please report "
 "it directly to the respective project."
 msgstr ""
+"Weblate ist für viele Dinge von Komponenten Dritter abhängig. Falls Sie eine "
+"Schwachstelle finden, die eine dieser Komponenten betrifft, melden Sie diese "
+"bitte direkt an das entsprechende Projekt."
 
 #: ../../contributing/issues.rst:40
 msgid "Some of these are:"
-msgstr ""
+msgstr "Einige davon sind:"
 
 #: ../../contributing/issues.rst:42
 msgid ":doc:`Django <django:internals/security>`"
-msgstr ""
+msgstr ":doc:`Django <django:internals/security>`"
 
 #: ../../contributing/issues.rst:43
 msgid ""
 "`Django REST framework <https://www.django-rest-framework.org/#security>`_"
 msgstr ""
+"`Django REST-Framework <https://www.django-rest-framework.org/#security>`_"
 
 #: ../../contributing/issues.rst:44
 msgid "`Python Social Auth <https://github.com/python-social-auth>`_"
-msgstr ""
+msgstr "`Python Social Auth <https://github.com/python-social-auth>`_"
 
 #: ../../contributing/license.rst:2 ../../../README.rst:None
 #: ../../../README.rst:60
@@ -26902,7 +26853,7 @@ msgstr "Lizenz"
 
 #: ../../contributing/license.rst:4
 msgid "Copyright (C) 2012 - 2021 Michal Čihař <michal@cihar.com>"
-msgstr ""
+msgstr "Copyright (C) 2012 - 2021 Michal Čihař <michal@cihar.com>"
 
 #: ../../contributing/license.rst:6 ../../../README.rst:64
 msgid ""
@@ -26940,6 +26891,9 @@ msgid ""
 "followed by a bunch of bugfix releases to fix issues which slip into them (x."
 "y.z)."
 msgstr ""
+"Weblate hat einen zweimonatigen Veröffentlichungszyklus für neue Versionen (x"
+".y). Darauf folgen in der Regel eine Reihe von Bugfix-Releases zur Behebung "
+"von Problemen, die sich eingeschlichen haben (x.y.z)."
 
 #: ../../contributing/release.rst:11
 msgid ""
@@ -26947,14 +26901,17 @@ msgid ""
 "skip this version - you always have to upgrade to x.0 before upgrading to "
 "higher x.y releases."
 msgstr ""
+"Die Änderung der Hauptversion zeigt an, dass der Upgrade-Prozess diese "
+"Version nicht überspringen kann - Sie müssen immer auf x.0 aktualisieren, "
+"bevor Sie auf höhere x.y-Versionen aktualisieren."
 
 #: ../../contributing/release.rst:17
 msgid ":doc:`../admin/upgrade`"
-msgstr ""
+msgstr ":doc:`../admin/upgrade`"
 
 #: ../../contributing/release.rst:20
 msgid "Release planning"
-msgstr ""
+msgstr "Release-Planung"
 
 #: ../../contributing/release.rst:22
 msgid ""
@@ -26962,30 +26919,37 @@ msgid ""
 "you can see our roadmap at <https://github.com/WeblateOrg/weblate/"
 "milestones>."
 msgstr ""
+"Die Funktionen für kommende Versionen werden mit Hilfe von GitHub-"
+"Meilensteinen gesammelt, Sie können unsere Roadmap unter <https://github.com/"
+"WeblateOrg/weblate/milestones> einsehen."
 
 #: ../../contributing/release.rst:26
 msgid "Release process"
-msgstr ""
+msgstr "Release-Prozess"
 
 #: ../../contributing/release.rst:28
 msgid "Things to check prior to release:"
-msgstr ""
+msgstr "Vor Release zu prüfende Dinge:"
 
 #: ../../contributing/release.rst:30
 msgid ""
 "Check newly translated languages by :command:`./scripts/list-translated-"
 "languages`."
 msgstr ""
+"Prüfen Sie neu übersetzte Sprachen mit :command:`./scripts/list-translated-"
+"languages`."
 
 #: ../../contributing/release.rst:31
 msgid "Set final version by :command:`./scripts/prepare-release`."
-msgstr ""
+msgstr "Endgültige Version mit :command:`./scripts/prepare-release` einstellen."
 
 #: ../../contributing/release.rst:32
 msgid ""
 "Make sure screenshots are up to date :command:`make -C docs update-"
 "screenshots`."
 msgstr ""
+"Stellen Sie sicher, dass die Bildschirmfotos auf dem neuesten Stand sind "
+":command:`make -C docs update-screenshots`."
 
 #: ../../contributing/release.rst:33
 msgid ""
@@ -27074,10 +27038,8 @@ msgid ""
 msgstr ""
 
 #: ../../contributing/schemas.rst:None
-#, fuzzy
-#| msgid "Delete translation memory"
 msgid "Weblate Translation Memory Schema"
-msgstr "Übersetzungsspeicher löschen"
+msgstr "Weblate-Übersetzungsspeicher-Schema"
 
 #: ../../contributing/schemas.rst:9
 msgid "https://weblate.org/schemas/weblate-memory.schema.json"
@@ -27345,10 +27307,8 @@ msgid "*Full name*"
 msgstr "Vollständiger Name"
 
 #: ../../contributing/schemas.rst:19
-#, fuzzy
-#| msgid "Weblate administration"
 msgid "Weblate Admin"
-msgstr "Weblate-Administration"
+msgstr "Weblate-Administrator"
 
 #: ../../contributing/schemas.rst:19
 msgid "**email**"
@@ -29020,11 +28980,11 @@ msgstr ""
 
 #: ../../devel/reporting.rst:71
 msgid "`Source words`"
-msgstr ""
+msgstr "`Ausgangswörter`"
 
 #: ../../devel/reporting.rst:72
 msgid "Number of words in the source string."
-msgstr ""
+msgstr "Anzahl der Wörter in der Ausgangszeichenkette."
 
 #: ../../devel/reporting.rst:73
 msgid "`Source characters`"
@@ -31878,6 +31838,8 @@ msgid ""
 "`F-Droid <https://f-droid.org/docs/"
 "All_About_Descriptions_Graphics_and_Screenshots/>`_"
 msgstr ""
+"`F-Droid <https://f-droid.org/docs/"
+"All_About_Descriptions_Graphics_and_Screenshots/>`_"
 
 #: ../../formats.rst:1328
 msgid ""
@@ -35104,12 +35066,17 @@ msgid "``has:TEXT``"
 msgstr ""
 
 #: ../../user/search.rst:48
+#, fuzzy
 msgid ""
 "Search for string having attributes - ``plural``, ``context``, "
 "``suggestion``, ``comment``, ``check``, ``dismissed-check``, "
 "``translation``, ``variant``, ``screenshot``, ``flags``, ``explanation``, "
 "``glossary``, ``note``."
 msgstr ""
+"Suche nach Zeichenkette mit den Attributen - ``plural``, ``context``, "
+"``suggestion``, ``comment``, ``check``, ``dismissed-check``, ``translation``"
+", ``variant``, ``screenshot``, ``flags``, ``explanation``, ``glossary``, "
+"``note``."
 
 #: ../../user/search.rst:49
 msgid "``is:TEXT``"
