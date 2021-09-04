@@ -26,7 +26,7 @@ Installing on Debian and Ubuntu
     apt install nginx uwsgi uwsgi-plugin-python3
 
     # Web server option 2: Apache with ``mod_wsgi``
-    apt install apache2 libapache2-mod-wsgi
+    apt install apache2 libapache2-mod-wsgi-py3
 
     # Caching backend: Redis
     apt install redis-server
