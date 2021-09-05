@@ -1228,6 +1228,8 @@ class Translation(
             base = context
             if not has_template:
                 kwargs = {"source": source}
+            else:
+                kwargs = {}
             while self.unit_set.filter(context=context, **kwargs).exists():
                 suffix += 1
                 context = f"{base}{suffix}"
