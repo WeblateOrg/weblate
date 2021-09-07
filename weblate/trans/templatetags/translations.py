@@ -685,7 +685,11 @@ def show_contributor_agreement(context, component):
 
     return render_to_string(
         "snippets/component/contributor-agreement.html",
-        {"object": component, "next": context["request"].get_full_path()},
+        {
+            "object": component,
+            "next": context["request"].get_full_path(),
+            "user": context["user"],
+        },
     )
 
 
