@@ -96,7 +96,7 @@ class WeblateConf(AppConf):
     DEFAULT_COMMITER_EMAIL = "noreply@weblate.org"
     DEFAULT_COMMITER_NAME = "Weblate"
 
-    DEFAULT_TRANSLATION_PROPAGATION = True
+    DEFAULT_TRANSLATION_PROPAGATION = False
     DEFAULT_MERGE_STYLE = "rebase"
 
     DEFAULT_ACCESS_CONTROL = 0
