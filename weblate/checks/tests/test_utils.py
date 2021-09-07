@@ -25,27 +25,31 @@ from weblate.checks.utils import highlight_string
 
 class HightlightTestCase(SimpleTestCase):
     def test_simple(self):
+        unit = MockUnit(
+            source="simple {format} string",
+            flags="python-brace-format",
+        )
         self.assertEqual(
-            highlight_string(
-                "simple {format} string", MockUnit(flags="python-brace-format")
-            ),
+            highlight_string(unit.source, unit),
             [(7, 15, "{format}")],
         )
 
     def test_multi(self):
+        unit = MockUnit(
+            source="simple {format} %d string",
+            flags="python-brace-format, python-format",
+        )
         self.assertEqual(
-            highlight_string(
-                "simple {format} %d string",
-                MockUnit(flags="python-brace-format, python-format"),
-            ),
+            highlight_string(unit.source, unit),
             [(7, 15, "{format}"), (16, 18, "%d")],
         )
 
     def test_overlap(self):
+        unit = MockUnit(
+            source='nested <a href="{format}">string</a>',
+            flags="python-brace-format",
+        )
         self.assertEqual(
-            highlight_string(
-                'nested <a href="{format}">string</a>',
-                MockUnit(flags="python-brace-format"),
-            ),
+            highlight_string(unit.source, unit),
             [(7, 26, '<a href="{format}">'), (32, 36, "</a>")],
         )

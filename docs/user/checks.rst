@@ -1112,7 +1112,10 @@ not a desired result from changing the translation, but occasionally it is.
 
 Checks that XML tags are replicated between both source and translation.
 
+.. note::
 
+   This check is disabled by the ``safe-html`` flag as the HTML cleanup done by
+   it can produce HTML markup which is not valid XML.
 
 .. _check-xml-invalid:
 
@@ -1127,6 +1130,11 @@ XML syntax
 :Flag to ignore: ``ignore-xml-invalid``
 
 The XML markup is not valid.
+
+.. note::
+
+   This check is disabled by the ``safe-html`` flag as the HTML cleanup done by
+   it can produce HTML markup which is not valid XML.
 
 .. _check-zero-width-space:
 

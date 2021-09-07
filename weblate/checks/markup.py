@@ -17,7 +17,6 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-
 import re
 
 import bleach
@@ -136,11 +135,24 @@ class BaseXMLCheck(TargetCheck):
 
         return parse_xml(text.encode() if "encoding" in text else text)
 
-    def is_source_xml(self, flags, source):
-        """Quick check if source looks like XML."""
-        if "xml-text" in flags:
+    def should_skip(self, unit):
+        result = super().should_skip(unit)
+        if result:
             return True
-        return "<" in source and len(XML_MATCH.findall(source))
+
+        flags = unit.all_flags
+
+        if "safe-html" in flags:
+            return True
+
+        if "xml-text" in flags:
+            return False
+
+        # Quick check if source looks like XML.
+        return not any(
+            "<" in source and len(XML_MATCH.findall(source))
+            for source in unit.get_source_plurals()
+        )
 
     def check_single(self, source, target, unit):
         """Check for single phrase, not dealing with plurals."""
@@ -155,9 +167,6 @@ class XMLValidityCheck(BaseXMLCheck):
     description = _("The translation is not valid XML")
 
     def check_single(self, source, target, unit):
-        if not self.is_source_xml(unit.all_flags, source):
-            return False
-
         # Check if source is XML
         try:
             wrap = self.parse_xml(source)[1]
@@ -183,9 +192,6 @@ class XMLTagsCheck(BaseXMLCheck):
     description = _("XML tags in translation do not match source")
 
     def check_single(self, source, target, unit):
-        if not self.is_source_xml(unit.all_flags, source):
-            return False
-
         # Check if source is XML
         try:
             source_tree, wrap = self.parse_xml(source)

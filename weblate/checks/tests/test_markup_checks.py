@@ -68,6 +68,10 @@ class XMLValidityCheckTest(CheckTestCase):
             True, ("<emphasis>2nd</emphasis>", "<emphasis>not< /emphasis>", "")
         )
 
+    def test_safe_html(self):
+        self.do_test(True, ("<br />", "<br>", ""))
+        self.do_test(False, ("<br />", "<br>", "safe-html"))
+
     def test_root(self):
         self.do_test(
             False,
