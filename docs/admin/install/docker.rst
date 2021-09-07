@@ -1087,7 +1087,7 @@ both Weblate and PostgreSQL containers.
 
    .. warning::
 
-      This is currently experimental and not widely tested.
+      This is currently experimental, not widely tested and not supported by the Weblate team.
 
    .. seealso::
 
