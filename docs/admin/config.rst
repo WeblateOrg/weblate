@@ -955,6 +955,10 @@ Example:
 
     LEGAL_URL = "https://weblate.org/terms/"
 
+.. seealso::
+
+   :setting:`PRIVACY_URL`
+
 .. setting:: LICENSE_EXTRA
 
 LICENSE_EXTRA
@@ -1678,6 +1682,30 @@ Pagure personal access token used to make API calls for translation updates.
    :ref:`vcs-pagure`,
    `Pagure API <https://pagure.io/api/0/>`_
 
+
+.. setting:: PRIVACY_URL
+
+PRIVACY_URL
+-----------
+
+.. versionadded:: 4.8.1
+
+URL where your Weblate instance shows its privacy policy.
+
+.. hint::
+
+    Useful if you host your legal documents outside Weblate for embedding them inside Weblate,
+    please check :ref:`legal` for details.
+
+Example:
+
+.. code-block:: python
+
+    PRIVACY_URL = "https://weblate.org/terms/"
+
+.. seealso::
+
+   :setting:`LEGAL_URL`
 
 .. setting:: RATELIMIT_ATTEMPTS
 

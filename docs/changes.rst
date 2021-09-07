@@ -9,6 +9,7 @@ Not yet released.
 * Add limit to number of matches in consistency check.
 * Improve placeholders handling in machine translations.
 * Fixed creating add-ons using API.
+* Added :setting:`PRIVACY_URL` setting to add privacy policy link to the footer.
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/70?closed=1>`__.
 

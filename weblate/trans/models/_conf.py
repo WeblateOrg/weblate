@@ -86,6 +86,7 @@ class WeblateConf(AppConf):
 
     # URL with legal docs
     LEGAL_URL = None
+    PRIVACY_URL = None
 
     # Disable length limitations calculated from the source string length
     LIMIT_TRANSLATION_LENGTH_BY_SOURCE_LENGTH = True

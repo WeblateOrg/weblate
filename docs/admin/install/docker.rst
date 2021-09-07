@@ -1254,6 +1254,10 @@ Site integration
 
    Configures :setting:`LEGAL_URL`.
 
+.. envvar:: WEBLATE_PRIVACY_URL
+
+   Configures :setting:`PRIVACY_URL`.
+
 Error reporting
 ~~~~~~~~~~~~~~~
 
