@@ -75,6 +75,8 @@ DATABASES = {
         "PORT": os.environ["POSTGRES_PORT"],
         # Customizations for databases.
         "OPTIONS": {"sslmode": os.environ.get("POSTGRES_SSL_MODE", "prefer")},
+        # Persistent connections
+        "CONN_MAX_AGE": get_env_int("POSTGRES_CONN_MAX_AGE", 0),
     }
 }
 

@@ -1074,6 +1074,25 @@ both Weblate and PostgreSQL containers.
 
     Configures name of role to alter during migrations, see :ref:`config-postgresql`.
 
+.. envvar:: POSTGRES_CONN_MAX_AGE
+
+   .. versionadded:: 4.8.1
+
+   The lifetime of a database connection, as an integer of seconds. Use 0 to
+   close database connections at the end of each request (this is the default
+   behavior).
+
+   Enabling connection persistence will typically, cause more open connection
+   to the database. Please adjust your database configuration prior enabling.
+
+   .. warning::
+
+      This is currently experimental and not widely tested.
+
+   .. seealso::
+
+      :setting:`django:CONN_MAX_AGE`, :ref:`django:persistent-database-connections`
+
 
 Database backup settings
 ~~~~~~~~~~~~~~~~~~~~~~~~

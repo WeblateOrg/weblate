@@ -72,6 +72,8 @@ DATABASES = {
             # Change connection timeout in case you get MySQL gone away error:
             # "connect_timeout": 28800,
         },
+        # Persistent connections
+        "CONN_MAX_AGE": 0,
     }
 }
 
