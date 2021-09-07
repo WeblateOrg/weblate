@@ -920,7 +920,7 @@ CHECK_LIST = [
     "weblate.checks.ruby.RubyFormatCheck",
     "weblate.checks.consistency.PluralsCheck",
     "weblate.checks.consistency.SamePluralsCheck",
-    "weblate.checks.consistency.ConsistencyCheck",
+    # "weblate.checks.consistency.ConsistencyCheck",
     "weblate.checks.consistency.TranslatedCheck",
     "weblate.checks.chars.EscapedNewlineCountingCheck",
     "weblate.checks.chars.NewLineCountCheck",
