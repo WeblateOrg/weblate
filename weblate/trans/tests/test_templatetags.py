@@ -309,6 +309,29 @@ class TranslationFormatTestCase(FixtureTestCase):
             """,
         )
 
+    def test_glossary_format(self):
+        unit = Unit()
+        unit.all_flags = {"php-format"}
+        self.assertHTMLEqual(
+            format_translation(
+                "%3$sHow",
+                self.component.source_language,
+                glossary=[
+                    Unit(
+                        source="show", target="zobrazit", translation=self.translation
+                    ),
+                ],
+                unit=unit,
+            )["items"][0]["content"],
+            """
+            <span class="hlcheck">
+            <span class="highlight-number"></span>
+            %3$s
+            </span>
+            How
+            """,
+        )
+
     def test_highlight(self):
         unit = self.translation.unit_set.get(id_hash=2097404709965985808)
         self.assertHTMLEqual(

@@ -98,7 +98,7 @@ class Formatter:
     def __init__(self, idx, value, unit, terms, diff, search_match, match):
         # Inputs
         self.idx = idx
-        self.value = value
+        self.cleaned_value = self.value = value
         self.unit = unit
         self.terms = terms
         self.diff = diff
@@ -147,11 +147,17 @@ class Formatter:
     def parse_highlight(self):
         """Highlights unit placeables."""
         highlights = highlight_string(self.value, self.unit)
+        cleaned_value = list(self.value)
         for start, end, _content in highlights:
             self.tags[start].append(
                 '<span class="hlcheck"><span class="highlight-number"></span>'
             )
             self.tags[end].insert(0, "</span>")
+            cleaned_value[start:end] = [" "] * (end - start)
+
+        # Prepare cleaned up value for glossary terms (we do not want to extract those
+        # from format strings)
+        self.cleaned_value = "".join(cleaned_value)
 
     @staticmethod
     def format_terms(terms):
@@ -181,7 +187,7 @@ class Formatter:
         """Highlights glossary entries."""
         for htext, entries in self.terms.items():
             for match in re.finditer(
-                fr"(\W|^)({re.escape(htext)})(\W|$)", self.value, re.IGNORECASE
+                fr"(\W|^)({re.escape(htext)})(\W|$)", self.cleaned_value, re.IGNORECASE
             ):
                 self.tags[match.start(2)].append(
                     GLOSSARY_TEMPLATE.format(self.format_terms(entries))
