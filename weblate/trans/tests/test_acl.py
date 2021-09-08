@@ -111,7 +111,6 @@ class ACLTest(FixtureTestCase):
         # Ensure user is now listed
         response = self.client.get(self.access_url)
         self.assertContains(response, self.second_user.username)
-        self.assertContains(response, self.second_user.email)
 
     def test_invite_invalid(self):
         """Test inviting invalid form."""
