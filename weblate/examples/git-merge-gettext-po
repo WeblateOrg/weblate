@@ -86,8 +86,8 @@ set -e
 on_error()
 {
     local parent_lineno="$1"
-    local message="$3"
     local code="$2"
+    local message="$3"
     if [[ -n "$message" ]] ; then
         printf "### $0: error near line %d: status %d: %s\n" "${parent_lineno}" "${code}" "${message}" 1>&2
     else
