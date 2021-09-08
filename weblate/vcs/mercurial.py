@@ -119,6 +119,10 @@ class HgRepository(Repository):
             self.set_config(
                 "merge-tools.weblate-merge-gettext-po.executable", merge_driver
             )
+            self.set_config(
+                "merge-tools.weblate-merge-gettext-po.args",
+                "$local $base $other $output",
+            )
             self.set_config("merge-patterns.**.po", "weblate-merge-gettext-po")
 
     def rebase(self, abort=False):

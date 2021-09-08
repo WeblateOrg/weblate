@@ -420,7 +420,7 @@ class GitRepository(Repository):
                 (
                     'merge "weblate-merge-gettext-po"',
                     "driver",
-                    f"{merge_driver} %O %A %B",
+                    f"{merge_driver} %O %A %B %P",
                 )
             )
 
