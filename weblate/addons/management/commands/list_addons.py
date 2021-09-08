@@ -35,15 +35,13 @@ class Command(BaseCommand):
             result.append(str(field.help_text))
         choices = getattr(field, "choices", None)
         if choices and name not in ("component", "engines", "file_format"):
-            result.append(
-                "Available choices: {}".format(
-                    ", ".join(
-                        f"``{value}`` ({name})".replace("\\", "\\\\")
-                        for value, name in choices
-                    )
-                )
-            )
-        return ", ".join(result)
+            if result:
+                result.append("")
+            result.append("Available choices:")
+            for value, name in choices:
+                result.append("")
+                result.append(f"``{value}`` -- {name}".replace("\\", "\\\\"))
+        return result
 
     def handle(self, *args, **options):
         """List installed add-ons."""
@@ -62,9 +60,12 @@ class Command(BaseCommand):
                     for name, field in form.fields.items()
                 ]
                 prefix = ":Configuration: "
-                name_width = max(len(row[0]) for row in table)
-                label_width = max(len(row[1]) for row in table)
-                help_text_width = max(len(row[2]) for row in table)
+                name_width = max(len(name) for name, _label, _help_text in table)
+                label_width = max(len(label) for _name, label, _help_text in table)
+                help_text_width = max(
+                    max(len(line) for line in help_text) if help_text else 0
+                    for _name, _label, help_text in table
+                )
                 name_row = "-" * (name_width + 2)
                 label_row = "-" * (label_width + 2)
                 help_text_row = "-" * (help_text_width + 2)
@@ -74,9 +75,17 @@ class Command(BaseCommand):
                             f"{prefix}+{name_row}+{label_row}+{help_text_row}+"
                         )
                         prefix = "                "
-                    self.stdout.write(
-                        f"{prefix}| {name:<{name_width}s} | {label:<{label_width}s} | {help_text:<{help_text_width}s} |"
-                    )
+                    if not help_text:
+                        line = ""
+                        self.stdout.write(
+                            f"{prefix}| {name:<{name_width}s} | {label:<{label_width}s} | {line:<{help_text_width}s} |"
+                        )
+                    for pos, line in enumerate(help_text):
+                        if pos > 0:
+                            name = label = ""
+                        self.stdout.write(
+                            f"{prefix}| {name:<{name_width}s} | {label:<{label_width}s} | {line:<{help_text_width}s} |"
+                        )
                     self.stdout.write(
                         f"{prefix}+{name_row}+{label_row}+{help_text_row}+"
                     )
