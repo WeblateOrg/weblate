@@ -253,6 +253,8 @@ class Project(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKeyM
         if group is None:
             if self.access_control != self.ACCESS_PUBLIC:
                 group = "@Translate"
+            elif self.source_review or self.translation_review:
+                group = "@Review"
             else:
                 group = "@Administration"
         group = self.get_group(group)
