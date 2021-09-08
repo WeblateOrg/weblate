@@ -37,7 +37,10 @@ class Command(BaseCommand):
         if choices and name not in ("component", "engines", "file_format"):
             result.append(
                 "Available choices: {}".format(
-                    ", ".join(f"``{value}`` ({name})" for value, name in choices)
+                    ", ".join(
+                        f"``{value}`` ({name})".replace("\\", "\\\\")
+                        for value, name in choices
+                    )
                 )
             )
         return ", ".join(result)
