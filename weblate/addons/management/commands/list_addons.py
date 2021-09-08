@@ -80,7 +80,7 @@ class Command(BaseCommand):
             else:
                 self.stdout.write(":Configuration: `This add-on has no configuration.`")
             events = ", ".join(EVENT_NAMES[event] for event in obj.events)
-            self.stdout.write(f":Events triggering add-on: {events}")
+            self.stdout.write(f":Triggers: {events}")
             self.stdout.write("\n")
             self.stdout.write("\n".join(wrap(obj.description, 79)))
             self.stdout.write("\n")
