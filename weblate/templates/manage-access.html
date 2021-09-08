@@ -12,6 +12,8 @@
 
 {% block content %}
 
+{% perm 'user.edit' as can_edit_user %}
+
 <ul class="nav nav-pills">
   <li class="active"><a href="#users" data-toggle="tab" id="tab_users">{% trans "Users" %}</a></li>
   <li><a href="#api" data-toggle="tab" id="tab_api">{% trans "API access" %}</a></li>
@@ -32,7 +34,9 @@
         <tr>
           <th>{% trans "Username" %}</th>
           <th>{% trans "Full name" %}</th>
-          <th>{% trans "E-mail" %}</th>
+          {% if can_edit_user %}
+            <th>{% trans "E-mail" %}</th>
+          {% endif %}
           <th>{% trans "Last login" %}</th>
           {% for group in groups %}
             <th class="vertical-text">{{ group.short_name }}</th>
@@ -44,7 +48,9 @@
           <tr>
             <td><a href="{{ user.get_absolute_url }}">{{ user.username }}</a></td>
             <td>{{ user.full_name }}</td>
-            <td>{{ user.email }}</td>
+            {% if can_edit_user %}
+              <td>{{ user.email }}</td>
+            {% endif %}
             <td>{% if user.last_login %}{{ user.last_login|naturaltime }}{% else %}{% trans "Not yet signed in" %}{% endif %}</td>
             {% user_permissions user groups %}
             <td>
