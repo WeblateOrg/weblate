@@ -145,7 +145,7 @@ class ACLTest(FixtureTestCase):
             follow=True,
         )
         # Ensure user is now listed
-        self.assertContains(response, "user@example.com")
+        self.assertContains(response, "username")
         # Check invitation mail
         self.assertEqual(len(mail.outbox), 1)
         message = mail.outbox[0]
