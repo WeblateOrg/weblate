@@ -1118,7 +1118,9 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
         """Return URL of exported VCS repository."""
         return self.git_export
 
-    def get_repoweb_link(self, filename, line, template=None):
+    def get_repoweb_link(
+        self, filename: str, line: str, template: Optional[str] = None
+    ):
         """Generate link to source code browser for given file and line.
 
         For linked repositories, it is possible to override the linked repository path

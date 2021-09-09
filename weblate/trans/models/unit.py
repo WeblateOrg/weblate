@@ -18,7 +18,7 @@
 #
 
 import re
-from typing import List, Optional
+from typing import Generator, List, Optional, Tuple
 
 from django.conf import settings
 from django.core.cache import cache
@@ -1415,7 +1415,7 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
         except IndexError:
             return get_anonymous(), timezone.now()
 
-    def get_locations(self):
+    def get_locations(self) -> Generator[Tuple[str, str, str], None, None]:
         """Returns list of location filenames."""
         for location in self.location.split(","):
             location = location.strip()
@@ -1426,7 +1426,7 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
                 filename, line = location_parts
             else:
                 filename = location_parts[0]
-                line = 0
+                line = "0"
             yield location, filename, line
 
     @cached_property
