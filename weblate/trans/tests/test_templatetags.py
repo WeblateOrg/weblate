@@ -176,6 +176,22 @@ class LocationLinksTest(TestCase):
             """,
         )
 
+    def test_filename_quote(self):
+        self.unit.translation.component.repoweb = (
+            "http://example.net/{{filename}}#L{{line}}"
+        )
+        self.unit.location = "foo+bar:321"
+        self.assertHTMLEqual(
+            get_location_links(self.profile, self.unit),
+            """
+            <a class="wrap-text"
+                href="http://example.net/foo%2Bbar#L321" target="_blank"
+                dir="ltr" rel="noopener noreferrer">
+            foo+bar:321
+            </a>
+            """,
+        )
+
 
 class TranslationFormatTestCase(FixtureTestCase):
     def setUp(self):

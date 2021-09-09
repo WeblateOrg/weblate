@@ -37,6 +37,7 @@ from django.db import models, transaction
 from django.db.models import Count, Q
 from django.urls import reverse
 from django.utils.functional import cached_property
+from django.utils.http import urlquote
 from django.utils.translation import gettext as _
 from django.utils.translation import gettext_lazy, ngettext, pgettext
 from weblate_language_data.ambiguous import AMBIGUOUS
@@ -1133,7 +1134,11 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
             return None
 
         return render_template(
-            template, filename=filename, line=line, branch=self.branch, component=self
+            template,
+            filename=urlquote(filename),
+            line=urlquote(line),
+            branch=urlquote(self.branch),
+            component=self,
         )
 
     def error_text(self, error):
