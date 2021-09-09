@@ -1235,25 +1235,28 @@ class ProjectDocsMixin:
         return ("admin/projects", f"project-{field.name}")
 
 
-class ComponentAntispamMixin:
-    def clean_agreement(self):
-        value = self.cleaned_data["agreement"]
+class SpamCheckMixin:
+    def spam_check(self, value):
         if is_spam(value, self.request):
             raise ValidationError(_("This field has been identified as spam!"))
+
+
+class ComponentAntispamMixin(SpamCheckMixin):
+    def clean_agreement(self):
+        value = self.cleaned_data["agreement"]
+        self.spam_check(value)
         return value
 
 
-class ProjectAntispamMixin:
+class ProjectAntispamMixin(SpamCheckMixin):
     def clean_web(self):
         value = self.cleaned_data["web"]
-        if is_spam(value, self.request):
-            raise ValidationError(_("This field has been identified as spam!"))
+        self.spam_check(value)
         return value
 
     def clean_instructions(self):
         value = self.cleaned_data["instructions"]
-        if is_spam(value, self.request):
-            raise ValidationError(_("This field has been identified as spam!"))
+        self.spam_check(value)
         return value
 
 
