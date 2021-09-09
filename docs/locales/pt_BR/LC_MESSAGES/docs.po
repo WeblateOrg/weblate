@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-09-08 12:00+0200\n"
-"PO-Revision-Date: 2021-09-09 11:21+0000\n"
+"PO-Revision-Date: 2021-09-09 19:09+0000\n"
 "Last-Translator: William Weber Berrutti <wwberrutti@protonmail.ch>\n"
 "Language-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/"
 "weblate/documentation/pt_BR/>\n"
@@ -13795,23 +13795,32 @@ msgid ""
 "close database connections at the end of each request (this is the default "
 "behavior)."
 msgstr ""
+"O tempo de vida de uma conexão de banco de dados, como um número inteiro de "
+"segundos. Use 0 para fechar as conexões do banco de dados no final de cada "
+"requisição (este é o comportamento padrão)."
 
 #: ../../admin/install/docker.rst:1085
 msgid ""
 "Enabling connection persistence will typically, cause more open connection "
 "to the database. Please adjust your database configuration prior enabling."
 msgstr ""
+"Habilitar a persistência da conexão normalmente causará uma conexão mais "
+"aberta com o banco de dados. Por favor, ajuste sua configuração do banco de "
+"dados antes de habilitar."
 
 #: ../../admin/install/docker.rst:1090
 msgid ""
 "This is currently experimental, not widely tested and not supported by the "
 "Weblate team."
 msgstr ""
+"No momento, isso é experimental, não foi amplamente testado e não tem "
+"suporte da equipe do Weblate."
 
 #: ../../admin/install/docker.rst:1094
 msgid ""
 ":setting:`django:CONN_MAX_AGE`, :ref:`django:persistent-database-connections`"
 msgstr ""
+":setting:`django:CONN_MAX_AGE`, :ref:`django:persistent-database-connections`"
 
 #: ../../admin/install/docker.rst:1098
 msgid "Database backup settings"
@@ -23314,6 +23323,8 @@ msgid ""
 "Added :setting:`PRIVACY_URL` setting to add privacy policy link to the "
 "footer."
 msgstr ""
+"Adicionada configuração :setting:`PRIVACY_URL` para adicionar uma política "
+"de privacidade ao rodapé."
 
 #: ../../changes.rst:14
 msgid ""
@@ -25695,11 +25706,11 @@ msgstr ""
 
 #: ../../changes.rst:697 ../../changes.rst:764
 msgid "Improved look of notification e-mails."
-msgstr ""
+msgstr "Visual melhorado de notificações de e-mails."
 
 #: ../../changes.rst:698
 msgid "Provide choice for translation license."
-msgstr ""
+msgstr "Fornecer seleção para a licença de tradução."
 
 #: ../../changes.rst:701
 msgid "Weblate 3.9.1"
@@ -25711,23 +25722,26 @@ msgstr "Lançado em 28 de outubro de 2019."
 
 #: ../../changes.rst:705
 msgid "Remove some unneeded files from backups."
-msgstr ""
+msgstr "Remover alguns arquivos desnecessários dos backups."
 
 #: ../../changes.rst:706
 msgid "Fixed potential crash in reports."
-msgstr ""
+msgstr "Corrigida possível falha nos relatórios."
 
 #: ../../changes.rst:707
+#, fuzzy
 msgid "Fixed cross database migration failure."
-msgstr ""
+msgstr "Consertada falha de migração cruzada dos bancos de dados."
 
 #: ../../changes.rst:708
+#, fuzzy
 msgid "Added support for force pushing Git repositories."
-msgstr ""
+msgstr "Adicionado suporte para forçar o push de repositórios Git."
 
 #: ../../changes.rst:709
+#, fuzzy
 msgid "Reduced risk of registration token invalidation."
-msgstr ""
+msgstr "Reduzido o risco de invalidação de token de registro."
 
 #: ../../changes.rst:710
 msgid "Fixed account removal hitting rate limiter."
@@ -25735,23 +25749,26 @@ msgstr ""
 
 #: ../../changes.rst:711
 msgid "Added search based on priority."
-msgstr ""
+msgstr "Adicionada pesquisa baseada em prioridade."
 
 #: ../../changes.rst:712
 msgid "Fixed possible crash on adding strings to JSON file."
-msgstr ""
+msgstr "Consertada possível falha ao adicionar textos para um arquivo JSON."
 
 #: ../../changes.rst:713
+#, fuzzy
 msgid "Safe HTML check and fixup now honor source string markup."
 msgstr ""
+"A verificação e correção de HTML seguro agora respeitam a marcação do texto "
+"de origem."
 
 #: ../../changes.rst:714
 msgid "Avoid sending notifications to invited and deleted users."
-msgstr ""
+msgstr "Impedir o envio de notificações para usuários convidados e deletados."
 
 #: ../../changes.rst:715
 msgid "Fix SSL connection to redis in Celery in Docker container."
-msgstr ""
+msgstr "Consertar a conexão SSL para o redis no Celery num contêiner Docker."
 
 #: ../../changes.rst:718
 msgid "Weblate 3.9"
@@ -25763,72 +25780,83 @@ msgstr "Lançado em 15 de outubro de 2019."
 
 #: ../../changes.rst:722
 msgid "Include Weblate metadata in downloaded files."
-msgstr ""
+msgstr "Incluir metadados do Weblate em arquivos baixados."
 
 #: ../../changes.rst:723
 msgid "Improved UI for failing checks."
-msgstr ""
+msgstr "Melhorada IU para verificações com falha."
 
 #: ../../changes.rst:724
 msgid "Indicate missing strings in format checks."
-msgstr ""
+msgstr "Indica textos ausentes nas verificações de formatação."
 
 #: ../../changes.rst:725
 msgid "Separate check for French punctuation spacing."
-msgstr ""
+msgstr "Verificação separada para o espaçamento de pontuação francês."
 
 #: ../../changes.rst:726
 msgid "Add support for fixing some of quality checks errors."
 msgstr ""
+"Adicionado suporte para consertar alguns erros de verificação de qualidade."
 
 #: ../../changes.rst:727
 msgid "Add separate permission to create new projects."
-msgstr ""
+msgstr "Adicionada permissão separada para criar novos projetos."
 
 #: ../../changes.rst:728
 msgid "Extend stats for char counts."
-msgstr ""
+msgstr "Estender estatísticas para a contagem de caracteres."
 
 #: ../../changes.rst:729
+#, fuzzy
 msgid "Improve support for Java style language codes."
-msgstr ""
+msgstr "Melhorar suporte aos códigos de linguagem estilo Java."
 
 #: ../../changes.rst:730
 msgid "Added new generic check for placeholders."
-msgstr ""
+msgstr "Adicionada nova verificação genérica para espaços reservados."
 
 #: ../../changes.rst:731
+#, fuzzy
 msgid "Added support for WebExtension JSON placeholders."
-msgstr ""
+msgstr "Adicionado suporte para espaços reservados de WebExtension JSON."
 
 #: ../../changes.rst:732
+#, fuzzy
 msgid "Added support for flat XML format."
-msgstr ""
+msgstr "Adicionado suporte para formato XML simples."
 
 #: ../../changes.rst:733
 msgid ""
 "Extended API with project, component and translation removal and creation."
 msgstr ""
+"API estendida com remoção e criação de tradução de projeto, componente e "
+"tradução."
 
 #: ../../changes.rst:734
+#, fuzzy
 msgid "Added support for Gitea and Gitee webhooks."
-msgstr ""
+msgstr "Adicionado suporte para webhooks do Gitea e Gitee."
 
 #: ../../changes.rst:735
 msgid "Added new custom regex based check."
-msgstr ""
+msgstr "Adicionada nova verificação de expressões regulares personalizadas."
 
 #: ../../changes.rst:736
+#, fuzzy
 msgid "Allow to configure contributing to shared translation memory."
 msgstr ""
+"Permitir a configuração de contribuições para a memória compartilhada de "
+"tradução."
 
 #: ../../changes.rst:737
 msgid "Added ZIP download for more translation files."
-msgstr ""
+msgstr "Adicionado o download ZIP para mais arquivos de tradução."
 
 #: ../../changes.rst:738
+#, fuzzy
 msgid "Make XLIFF standard compliant parsing of maxwidth and font."
-msgstr ""
+msgstr "Fazer a análise compatível com o padrão XLIFF de altura máxima e fonte."
 
 #: ../../changes.rst:739
 msgid ""
@@ -25837,8 +25865,9 @@ msgid ""
 msgstr ""
 
 #: ../../changes.rst:740
+#, fuzzy
 msgid "Add component alert on unsupported configuration."
-msgstr ""
+msgstr "Adicionar alerta de componente em configuração não suportada."
 
 #: ../../changes.rst:741
 msgid "Added automatic translation add-on to bootstrap translations."
@@ -25847,11 +25876,11 @@ msgstr ""
 
 #: ../../changes.rst:742
 msgid "Extend automatic translation to add suggestions."
-msgstr ""
+msgstr "Estender tradução automática para adicionar sugestões."
 
 #: ../../changes.rst:743
 msgid "Display add-on parameters on overview."
-msgstr ""
+msgstr "Exibir parâmetros adicionais na visão geral."
 
 #: ../../changes.rst:744
 msgid "Sentry is now supported through modern Sentry SDK instead of Raven."
