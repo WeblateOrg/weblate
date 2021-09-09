@@ -121,7 +121,7 @@ class HgRepository(Repository):
             )
             self.set_config(
                 "merge-tools.weblate-merge-gettext-po.args",
-                "$local $base $other $output",
+                "$base $local $other $output",
             )
             self.set_config("merge-patterns.**.po", "weblate-merge-gettext-po")
 
