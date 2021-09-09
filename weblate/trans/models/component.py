@@ -1587,7 +1587,6 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
 
         return True
 
-    @perform_on_link
     def commit_files(
         self,
         template: Optional[str] = None,
@@ -1598,11 +1597,26 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
         skip_push: bool = False,
         extra_context: Optional[Dict[str, Any]] = None,
         message: Optional[str] = None,
+        component: Optional[models.Model] = None,
     ):
         """Commits files to the repository."""
+        linked = self.linked_component
+        if linked:
+            return linked.commit_files(
+                template,
+                author,
+                timestamp,
+                files,
+                signals,
+                skip_push,
+                extra_context,
+                message,
+                self,
+            )
+
         if message is None:
             # Handle context
-            context = {"component": self, "author": author}
+            context = {"component": component or self, "author": author}
             if extra_context:
                 context.update(extra_context)
 

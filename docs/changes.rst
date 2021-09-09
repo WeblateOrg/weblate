@@ -14,6 +14,7 @@ Not yet released.
 * Improved gettext PO merging in case of conflicts.
 * Improved glossary highlighting.
 * Improved ``safe-html`` flag behavior with XML checks.
+* Fixed commit messages on linked components.
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/70?closed=1>`__.
 
