@@ -1,3 +1,8 @@
+Weblate 4.9
+-------------
+
+Not yet released.
+
 Weblate 4.8.1
 -------------
 
