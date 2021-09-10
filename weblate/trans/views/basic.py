@@ -142,6 +142,9 @@ def show_project(request, project):
     obj = get_project(request, project)
     obj.stats.ensure_basic()
     user = request.user
+    user_namespace_query = user.groups.filter(roles__name=ACCESS_NAMESPACE).order_by(
+        "name"
+    )
 
     last_changes = Change.objects.prefetch().order().filter(project=obj)[:10]
     last_announcements = (
@@ -151,6 +154,22 @@ def show_project(request, project):
     )
 
     language_stats = obj.stats.get_language_stats()
+    if user_namespace_query.count():
+        user_namespace = user_namespace_query[0].name
+        result = []
+        obj_languages = (
+            Language.objects.filter(translation__component__project=obj)
+            .filter(
+                ~Q(code__contains=NAMESPACE_SEPARATOR)
+                | Q(code__contains=NAMESPACE_SEPARATOR + user_namespace)
+            )
+            .distinct()
+            .order()
+        )
+        for language in obj_languages:
+            result.append(obj.stats.get_single_language_stats(language, prefetch=True))
+        language_stats = prefetch_stats(result)
+
     # Show ghost translations for user languages
     component = None
     for component in obj.component_set.filter_access(user).all():
