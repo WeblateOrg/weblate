@@ -1,7 +1,7 @@
 Weblate 4.8.1
 -------------
 
-Not yet released.
+Released on September 10th 2021.
 
 * Fixed user removal in Django admin interface.
 * Document add-on parameters in more detail.
