@@ -24,8 +24,8 @@ msgstr ""
 "Project-Id-Version: Weblate 4.8.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-09-08 10:00+0000\n"
-"PO-Revision-Date: 2021-09-08 09:59+0000\n"
-"Last-Translator: Adolfo Jayme Barrientos <fitojb@ubuntu.com>\n"
+"PO-Revision-Date: 2021-09-12 13:34+0000\n"
+"Last-Translator: Jorge Maldonado Ventura <jorgesumle@freakspot.net>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/weblate/"
 "application/es/>\n"
 "Language: es\n"
@@ -33,7 +33,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.8.1-dev\n"
+"X-Generator: Weblate 4.9-dev\n"
 
 #: weblate/accounts/avatar.py:103
 msgctxt "No known user"
@@ -2089,7 +2089,7 @@ msgstr "Facturación"
 
 #: weblate/auth/forms.py:104
 msgid "Send e-mail invitation to the user"
-msgstr ""
+msgstr "Enviar invitación de correo electrónico al usuario"
 
 #: weblate/auth/models.py:76
 #, python-format
@@ -5068,7 +5068,7 @@ msgstr "Los componentes siguientes coinciden con los ya existentes"
 
 #: weblate/templates/addons/discovery_preview.html:41
 msgid "No matching components were found!"
-msgstr "No se encontró ningún componente que coincida."
+msgstr "¡No se encontró ningún componente que coincida!"
 
 #: weblate/templates/addons/generate_help.html:6
 msgid ""
@@ -8897,16 +8897,13 @@ msgstr ""
 "creará archivos basándose en la máscara de archivos."
 
 #: weblate/templates/trans/alert/nomaskmatches.html:8
-#, fuzzy, python-format
-#| msgid ""
-#| "Check whether file mask <code>%(filemask)s</code> matches files in your "
-#| "repository."
+#, python-format
 msgid ""
 "Check whether the filemask <code>%(filemask)s</code> matches files in your "
 "version control system repository."
 msgstr ""
 "Compruebe que la máscara de archivos <code>%(filemask)s</code> encuentre "
-"archivos en el repositorio."
+"archivos en su repositorio del sistema de control de versiones."
 
 #. Translators: This is shown when an alert contains too many occurences, the count will be always at least 100
 #: weblate/templates/trans/alert/occurrences-limit.html:5
@@ -10171,19 +10168,19 @@ msgstr "Duración del bloqueo"
 
 #: weblate/trans/forms.py:1070
 msgid "Block user until I unblock them"
-msgstr ""
+msgstr "Bloquear usuario hasta que yo lo desbloquee"
 
 #: weblate/trans/forms.py:1071
 msgid "Block user for one day"
-msgstr ""
+msgstr "Bloquear usuario durante un día"
 
 #: weblate/trans/forms.py:1072
 msgid "Block user for one week"
-msgstr ""
+msgstr "Bloquear usuario durante una semana"
 
 #: weblate/trans/forms.py:1073
 msgid "Block user for one month"
-msgstr ""
+msgstr "Bloquear usuario durante un mes"
 
 #: weblate/trans/forms.py:1081
 msgid "Report format"
@@ -11065,10 +11062,6 @@ msgid "Repository browser"
 msgstr "Explorador del repositorio"
 
 #: weblate/trans/models/component.py:291
-#, fuzzy
-#| msgid ""
-#| "Link to repository browser, use {{branch}} for branch, {{filename}} and "
-#| "{{line}} as filename and line placeholders."
 msgid ""
 "Link to repository browser, use {{branch}} for branch, {{filename}} and "
 "{{line}} as filename and line placeholders. You might want to strip leading "
@@ -11076,7 +11069,8 @@ msgid ""
 msgstr ""
 "Enlace al navegador del repositorio; utilice {{branch}}, {{filename}} y "
 "{{line}} como sustitutorios para nombres de rama, nombres de archivo y "
-"números de renglón respectivamente."
+"números de renglón respectivamente. Puede que quiera quitar el directorio "
+"principal usando {{filename|parentdir}}."
 
 #: weblate/trans/models/component.py:299
 msgid "Exported repository URL"
@@ -12693,10 +12687,8 @@ msgid "Silver"
 msgstr "Plateado"
 
 #: weblate/utils/fields.py:92
-#, fuzzy
-#| msgid "A user with that username already exists."
 msgid "A user with this e-mail already exists."
-msgstr "Un usuario con ese nombre ya existe."
+msgstr "Ya existe un usuario con ese correo electrónico."
 
 #: weblate/utils/render.py:44
 #, python-format
