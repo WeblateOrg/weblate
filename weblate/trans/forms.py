@@ -54,7 +54,15 @@ from weblate.lang.models import Language
 from weblate.machinery import MACHINE_TRANSLATION_SERVICES
 from weblate.trans.defines import COMPONENT_NAME_LENGTH, REPO_LENGTH
 from weblate.trans.filter import FILTERS, get_filter_choice
-from weblate.trans.models import Announcement, Change, Component, Label, Project, ProjectToken, Unit
+from weblate.trans.models import (
+    Announcement,
+    Change,
+    Component,
+    Label,
+    Project,
+    ProjectToken,
+    Unit,
+)
 from weblate.trans.specialchars import RTL_CHARS_DATA, get_special_chars
 from weblate.trans.util import check_upload_method_permissions, is_repo_link
 from weblate.trans.validators import validate_check_flags
@@ -2381,8 +2389,12 @@ class LabelForm(forms.ModelForm):
         self.helper = FormHelper(self)
         self.helper.form_tag = False
 
+
 class ProjectTokenDeleteForm(forms.Form):
-    token = forms.IntegerField(label=_("Token"), required=True)
+    project = forms.ModelChoiceField(
+        queryset=ProjectToken.objects.none(), label=_("Token")
+    )
+
 
 class ProjectTokenCreateForm(forms.ModelForm):
     class Meta:

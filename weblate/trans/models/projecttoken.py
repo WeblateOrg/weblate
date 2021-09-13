@@ -31,4 +31,11 @@ class ProjectToken(models.Model):
     )
     expires = models.DateTimeField(verbose_name=gettext_lazy("Expires"))
 
-    objects = models.Manager()
+    class Meta:
+        unique_together = [('project', 'token')]
+        app_label = "trans"
+        verbose_name = "Project Token"
+        verbose_name_plural = "Project Tokens"
+
+    def __str__(self):
+        return self.name

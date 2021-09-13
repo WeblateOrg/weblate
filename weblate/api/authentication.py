@@ -43,8 +43,8 @@ class ProjectUser(AbstractBaseUser):
         self.groups = []
         self.is_superuser = False
         self.username = self.project.slug
-        self.allowed_project_ids = { self.project.id }
-        self.allowed_projects = Project.objects.filter(pk__in=self.allowed_project_ids)
+        self.allowed_project_ids = {self.project.id}
+        self.allowed_projects = Project.objects.filter(pk=self.project.id)
         self.component_permissions = {}
         super().__init__(*args, **kwargs)
 
@@ -57,12 +57,15 @@ class ProjectUser(AbstractBaseUser):
             return obj.pk == self.project.pk
         return False
 
+
 class ProjectTokenAuthentication(TokenAuthentication):
 
     def authenticate_credentials(self, token):
 
         try:
-            project_token = ProjectToken.objects.get(token=token, expires__gte=timezone.now())
+            project_token = ProjectToken.objects.get(
+                token=token, expires__gte=timezone.now()
+            )
             user = ProjectUser(project=project_token.project)
             return (user, token)
 
