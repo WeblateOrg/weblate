@@ -22,6 +22,7 @@ from django.utils.translation import gettext_lazy
 
 
 class ProjectToken(models.Model):
+    """Project token for API access."""
     project = models.ForeignKey("Project", on_delete=models.deletion.CASCADE)
     name = models.CharField(verbose_name=gettext_lazy("Name"), max_length=100)
     token = models.CharField(

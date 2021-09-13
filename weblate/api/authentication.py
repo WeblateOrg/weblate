@@ -59,14 +59,14 @@ class ProjectUser(AbstractBaseUser):
 
 
 class ProjectTokenAuthentication(TokenAuthentication):
-    def authenticate_credentials(self, token):
+    """Authentication with project token."""
 
+    def authenticate_credentials(self, key):
         try:
             project_token = ProjectToken.objects.get(
-                token=token, expires__gte=timezone.now()
+                token=key, expires__gte=timezone.now()
             )
             user = ProjectUser(project=project_token.project)
-            return (user, token)
-
+            return (user, key)
         except ProjectToken.DoesNotExist:
             return None

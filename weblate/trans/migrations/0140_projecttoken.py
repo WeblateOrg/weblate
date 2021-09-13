@@ -4,6 +4,7 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
+    """Project token for API access."""
 
     dependencies = [
         ("trans", "0139_alter_component_repoweb"),
