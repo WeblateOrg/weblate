@@ -12,6 +12,11 @@ class Migration(migrations.Migration):
     operations = [
         migrations.CreateModel(
             name="ProjectToken",
+            options={
+                "verbose_name": "Project Token", 
+                "verbose_name_plural": "Project Tokens",
+                "unique_together": {("project", "token")},
+            },
             fields=[
                 (
                     "id",
@@ -22,7 +27,7 @@ class Migration(migrations.Migration):
                         verbose_name="ID",
                     ),
                 ),
-                ("name", models.CharField(max_length=100, verbose_name="Token name")),
+                ("name", models.CharField(max_length=100, verbose_name="Name")),
                 (
                     "token",
                     models.CharField(
