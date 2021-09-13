@@ -59,7 +59,6 @@ class ProjectUser(AbstractBaseUser):
 
 
 class ProjectTokenAuthentication(TokenAuthentication):
-
     def authenticate_credentials(self, token):
 
         try:

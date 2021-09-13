@@ -17,9 +17,8 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-from secrets import token_hex
 from datetime import timedelta
-from weblate.trans.models.projecttoken import ProjectToken
+from secrets import token_hex
 
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
@@ -39,7 +38,8 @@ from weblate.trans.forms import (
     UserManageForm,
 )
 from weblate.trans.models import Change
-from weblate.trans.util import render, redirect_param
+from weblate.trans.models.projecttoken import ProjectToken
+from weblate.trans.util import redirect_param, render
 from weblate.utils import messages
 from weblate.utils.views import get_project, show_form_errors
 from weblate.vcs.ssh import get_key_data

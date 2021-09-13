@@ -391,7 +391,7 @@ real_patterns = [
     path(
         "token/<name:project>/create/",
         weblate.trans.views.acl.create_token,
-        name="create-project-token"
+        name="create-project-token",
     ),
     path(
         "token/<name:project>/delete/",
