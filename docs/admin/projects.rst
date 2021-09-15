@@ -146,7 +146,8 @@ This is a required parameter unless turned off by :setting:`WEBSITE_REQUIRED`.
 Translation instructions
 ++++++++++++++++++++++++
 
-URL to more site with more detailed instructions for translators.
+Text describing localization process in the project, and any other information
+useful for translators. Markdown can be used for text formatting or inserting links.
 
 .. _project-set_language_team:
 
