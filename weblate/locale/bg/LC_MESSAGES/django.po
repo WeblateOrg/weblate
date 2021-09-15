@@ -16,8 +16,8 @@ msgstr ""
 "Project-Id-Version: Weblate 4.8.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-09-08 10:00+0000\n"
-"PO-Revision-Date: 2021-09-10 10:56+0000\n"
-"Last-Translator: Любомир Василев <lyubomirv@gmx.com>\n"
+"PO-Revision-Date: 2021-09-15 14:38+0000\n"
+"Last-Translator: 109247019824 <stoyan@gmx.com>\n"
 "Language-Team: Bulgarian <https://hosted.weblate.org/projects/weblate/"
 "application/bg/>\n"
 "Language: bg\n"
@@ -25,7 +25,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.8.1-dev\n"
+"X-Generator: Weblate 4.9-dev\n"
 
 #: weblate/accounts/avatar.py:103
 msgctxt "No known user"
@@ -119,7 +119,7 @@ msgstr "Потвърждение на новата парола"
 
 #: weblate/accounts/forms.py:426
 msgid "Your password has been changed."
-msgstr "Паролата Ви беше променена."
+msgstr "Паролата е променена."
 
 #: weblate/accounts/forms.py:452
 #, python-format
@@ -335,7 +335,7 @@ msgstr "Заявено е подновяване на паролата."
 
 #: weblate/accounts/models.py:151
 msgid "Password reset confirmed, password turned off."
-msgstr "Подновяването на паролата беше потвърдено. Паролата е изключена."
+msgstr "Подновяването на паролата е потвърдено. Паролата е изключена."
 
 #: weblate/accounts/models.py:152
 #, python-brace-format
@@ -368,7 +368,7 @@ msgstr "Някой сопита да се регистрира чрез Ваша
 #: weblate/accounts/models.py:158
 #, python-brace-format
 msgid "Could not sign in using {method} ({name})."
-msgstr "Влизането чрез ({method}) ({name}) не беше успешно."
+msgstr "Влизането чрез ({method}) ({name}) не е успешно."
 
 #: weblate/accounts/models.py:159
 msgid "Account locked due to many failed sign in attempts."
@@ -424,7 +424,7 @@ msgstr "Вписали сте се чрез ({method}) ({name}) от ново у
 
 #: weblate/accounts/models.py:177
 msgid "Could not sign in using password."
-msgstr "Влизането посредством парола не беше успешно."
+msgstr "Не може да влезете с парола."
 
 #: weblate/accounts/models.py:182
 msgid "To restore access to your account, please reset your password."
@@ -840,7 +840,7 @@ msgid ""
 "Your e-mail no longer belongs to verified account, it has been changed to "
 "{0}."
 msgstr ""
-"Е-пощата Ви вече не принадлежи на потвърден акаунт. Тъй беше променен на {0}."
+"Вашият имейл вече не принадлежи на проверена сметка, той е променен на {0}."
 
 #: weblate/accounts/views.py:172 weblate/accounts/views.py:912
 #: weblate/accounts/views.py:958 weblate/templates/accounts/reset.html:7
@@ -866,7 +866,7 @@ msgstr "Заявката Ви е изпратена. Скоро ще се свъ
 
 #: weblate/accounts/views.py:380
 msgid "Your profile has been updated."
-msgstr "Профилът Ви беше обновен."
+msgstr "Профилът е обновен."
 
 #: weblate/accounts/views.py:415
 msgid "User profile"
@@ -4495,10 +4495,8 @@ msgstr "Табло"
 
 #: weblate/templates/403.html:18 weblate/templates/404.html:19
 #: weblate/templates/base.html:136
-#, fuzzy
-#| msgid "Browse all project changes"
 msgid "Browse all projects"
-msgstr "Преглед на всички промени в проекта"
+msgstr "Преглед на всички проекти"
 
 #: weblate/templates/403_csrf.html:9
 msgid "CSRF verification failed. Request aborted."
@@ -5067,6 +5065,8 @@ msgid ""
 "Add all projects you want to translate to see them as watched projects on "
 "the dashboard."
 msgstr ""
+"Добавете проектите, които смятате да превеждате, за да ги имате на "
+"разположение в таблото."
 
 #: weblate/templates/accounts/profile.html:78
 #: weblate/templates/mail/base.html:98
@@ -5524,7 +5524,7 @@ msgstr "Редактиране"
 
 #: weblate/templates/accounts/user.html:185
 msgid "Browse all changes for user"
-msgstr "Преглеждане на всички промени за потребителя"
+msgstr "Преглед на всички промени за потребителя"
 
 #: weblate/templates/accounts/user.html:245
 #, fuzzy
@@ -5841,10 +5841,8 @@ msgid "Manage translated languages"
 msgstr "Езици за превод"
 
 #: weblate/templates/base.html:153
-#, fuzzy
-#| msgid "Browse all language changes"
 msgid "Browse all languages"
-msgstr "Преглед на промените във всички езици"
+msgstr "Преглед на всички езици"
 
 #: weblate/templates/base.html:157 weblate/templates/check.html:7
 #: weblate/templates/check_component.html:7
@@ -6602,7 +6600,7 @@ msgstr ""
 
 #: weblate/templates/component.html:221 weblate/templates/translate.html:355
 msgid "Browse all component changes"
-msgstr "Преглед на промените във всички компоненти"
+msgstr "Преглед на всички промени в компоненти"
 
 #: weblate/templates/component.html:235
 msgid ""
@@ -6758,13 +6756,11 @@ msgstr ""
 "правите предложения."
 
 #: weblate/templates/dashboard/anonymous.html:17
-#, fuzzy, python-format
-#| msgid "%(count)s vote"
-#| msgid_plural "%(count)s votes"
+#, python-format
 msgid "Browse %(count)s project"
 msgid_plural "Browse all %(count)s projects"
-msgstr[0] "%(count)s глас"
-msgstr[1] "%(count)s гласа"
+msgstr[0] "Преглед на %(count)s проект"
+msgstr[1] "Преглед на %(count)s проекта"
 
 #: weblate/templates/dashboard/user.html:13
 #, fuzzy
@@ -7453,7 +7449,7 @@ msgstr "Използвани езици"
 #: weblate/templates/language-project.html:63
 #: weblate/templates/language.html:54
 msgid "Browse all language changes"
-msgstr "Преглед на промените във всички езици"
+msgstr "Преглед на всички промени в езици"
 
 #: weblate/templates/last-changes-content.html:27
 #: weblate/templates/snippets/suggestions.html:23
@@ -9213,10 +9209,8 @@ msgid "Most active translators"
 msgstr "Най-дейни преводачи"
 
 #: weblate/templates/snippets/info.html:264
-#, fuzzy
-#| msgid "Browse all language changes"
 msgid "Browse all users"
-msgstr "Преглед на промените във всички езици"
+msgstr "Преглед на всички потребители"
 
 #: weblate/templates/snippets/info.html:270
 #, fuzzy
@@ -10838,10 +10832,8 @@ msgid "Other components"
 msgstr "Други компоненти"
 
 #: weblate/templates/translation.html:205
-#, fuzzy
-#| msgid "Browse all component changes"
 msgid "Browse all components"
-msgstr "Преглед на промените във всички компоненти"
+msgstr "Преглед на всички компоненти"
 
 #: weblate/templates/translation.html:219
 msgid "Browse all translation changes"
@@ -13927,7 +13919,7 @@ msgstr "Моля, въведете пълното си име в профила 
 
 #: weblate/trans/views/edit.py:246 weblate/trans/views/edit.py:545
 msgid "No string matched your search!"
-msgstr "Не беше намерен нито един текст, отговарящ на търсенето Ви!"
+msgstr "Няма низ, който да отговаря на търсенето!"
 
 #: weblate/trans/views/edit.py:270
 msgid "Your suggestion is empty!"
