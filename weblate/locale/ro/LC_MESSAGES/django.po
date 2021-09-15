@@ -17,8 +17,8 @@ msgstr ""
 "Project-Id-Version: Weblate 4.8.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-09-08 10:00+0000\n"
-"PO-Revision-Date: 2021-09-09 19:09+0000\n"
-"Last-Translator: Licaon Kter <licaon.kter@protonmail.com>\n"
+"PO-Revision-Date: 2021-09-15 21:08+0000\n"
+"Last-Translator: Simona Iacob <s@zp1.net>\n"
 "Language-Team: Romanian <https://hosted.weblate.org/projects/weblate/"
 "application/ro/>\n"
 "Language: ro\n"
@@ -27,7 +27,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < "
 "20)) ? 1 : 2;\n"
-"X-Generator: Weblate 4.8.1-dev\n"
+"X-Generator: Weblate 4.9-dev\n"
 
 #: weblate/accounts/avatar.py:103
 msgctxt "No known user"
@@ -309,16 +309,12 @@ msgid "Chosen sorting is not supported."
 msgstr "Nu se acceptă sortarea aleasă."
 
 #: weblate/accounts/forms.py:804
-#, fuzzy
-#| msgid "Add font group"
 msgid "Add user to a group"
-msgstr "Adăugați un utilizator într-un grup"
+msgstr "Adăugarea unui utilizator la un grup"
 
 #: weblate/accounts/forms.py:814
-#, fuzzy
-#| msgid "Add font group"
 msgid "Add group"
-msgstr "Adăugați un grup"
+msgstr "Adăugați grup"
 
 #: weblate/accounts/models.py:146
 msgid "Password changed."
@@ -416,7 +412,7 @@ msgstr ""
 "încărcate de un alt utilizator."
 
 #: weblate/accounts/models.py:169
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Access to project {project} was blocked"
 msgstr "Accesul la proiectul {project} a fost blocat"
 
@@ -442,11 +438,10 @@ msgstr ""
 "Pentru a restabili accesul la contul dvs., vă rugăm să vă resetați parola."
 
 #: weblate/accounts/models.py:184
-#, fuzzy
 msgid "Please contact project maintainers if you feel this is inappropriate."
 msgstr ""
-"În cazul în care considerați că acest lucru este inadecvat, vă rugăm să "
-"contactați supervizorii de proiecte."
+"Vă rugăm să contactați administratorii proiectului dacă considerați că acest "
+"lucru este inadecvat."
 
 #: weblate/accounts/models.py:306 weblate/templates/accounts/profile.html:227
 #: weblate/templates/accounts/user.html:223
@@ -1111,19 +1106,16 @@ msgstr ""
 "Elimină șirurile de caractere fără traducere din fișierele de traducere."
 
 #: weblate/addons/consistency.py:32
-#, fuzzy
-#| msgid "Adding new languages"
 msgid "Add missing languages"
-msgstr "Adăugați limbile care lipsesc"
+msgstr "Adăugați limbile lipsă"
 
 #: weblate/addons/consistency.py:34
-#, fuzzy
 msgid ""
 "Ensures a consistent set of languages is used for all components within a "
 "project."
 msgstr ""
-"Asigură utilizarea unui set vast de limbi pentru toate componentele unui "
-"proiect."
+"Asigură utilizarea unui set coerent de limbaje pentru toate componentele "
+"unui proiect."
 
 #: weblate/addons/discovery.py:33
 msgid "Component discovery"
@@ -1138,14 +1130,10 @@ msgstr ""
 "de fișiere din sistemul de control al versiunilor."
 
 #: weblate/addons/example.py:36
-#, fuzzy
-#| msgid "Example addon"
 msgid "Example add-on"
 msgstr "Exemplu de add-on"
 
 #: weblate/addons/example.py:38
-#, fuzzy
-#| msgid "This addon does nothing it is just an example."
 msgid "This add-on does nothing it is just an example."
 msgstr "Acest add-on este inactiv, este doar un exemplu."
 
@@ -1333,9 +1321,8 @@ msgid "Spaces"
 msgstr ""
 
 #: weblate/addons/forms.py:196
-#, fuzzy
 msgid "Tabs"
-msgstr "Filă"
+msgstr "File"
 
 #: weblate/addons/forms.py:205
 msgid "YAML indentation"
@@ -4050,16 +4037,13 @@ msgid "Server Error"
 msgstr "Eroare de server"
 
 #: weblate/templates/500.html:16
-#, fuzzy, python-format
-#| msgid ""
-#| "The server had serious problems serving your request. Trained monkeys are "
-#| "en-route fixing the issue."
+#, python-format
 msgid ""
 "The server had serious problems serving your request, and this error has "
 "been recorded as %(error_id)s."
 msgstr ""
-"Serverul a avut probleme serioase în a vă servi cererea. Maimuțele antrenate "
-"sunt pe drum pentru a rezolva problema."
+"Serverul a întâmpinat probleme serioase la deservirea solicitării "
+"dumneavoastră, iar această eroare a fost înregistrată ca %(error_id)s."
 
 #: weblate/templates/500.html:36
 #, fuzzy
@@ -4202,10 +4186,9 @@ msgstr ""
 "administratorii acestuia, nu prin acest formular."
 
 #: weblate/templates/accounts/contact.html:18
-#, fuzzy, python-format
-#| msgid "You can only contact maintainers of the whole server here."
+#, python-format
 msgid "You can only contact administrators of %(site_title)s here."
-msgstr "Aici puteți contacta doar întreținătorii întregului server."
+msgstr "Puteți contacta doar administratorii de %(site_title)s aici."
 
 #: weblate/templates/accounts/contact.html:20
 #, fuzzy
@@ -4226,10 +4209,8 @@ msgstr ""
 "raport de eroare, consultați site-ul web al acestuia la %(weblate_link)s."
 
 #: weblate/templates/accounts/contact.html:28
-#, fuzzy
-#| msgid "Could not send message to administrator."
 msgid "Contact server administrators"
-msgstr "Nu s-a putut trimite un mesaj către administrator."
+msgstr "Contactați administratorii de server"
 
 #: weblate/templates/accounts/contact.html:37
 #: weblate/templates/manage/tools.html:26
@@ -4656,10 +4637,8 @@ msgstr "Cheia API personală:"
 
 #: weblate/templates/accounts/profile.html:263
 #: weblate/templates/manage-access.html:202
-#, fuzzy
-#| msgid "Copy to clipboard"
 msgid "API key copied to clipboard."
-msgstr "Copiere în clipboard"
+msgstr "Cheia API a fost copiată în clipboard."
 
 #: weblate/templates/accounts/profile.html:263
 #: weblate/templates/addons/cdnjs.html:9
@@ -5194,10 +5173,8 @@ msgid "The following components matched existing ones"
 msgstr "Următoarele componente se potrivesc cu cele existente"
 
 #: weblate/templates/addons/discovery_preview.html:41
-#, fuzzy
-#| msgid "No matching user found."
 msgid "No matching components were found!"
-msgstr "Nu s-a găsit niciun utilizator corespunzător."
+msgstr "Nu au fost găsite componente corespunzătoare!"
 
 #: weblate/templates/addons/generate_help.html:6
 msgid ""
@@ -8148,10 +8125,8 @@ msgstr "Această componentă este legată de depozitul %(target)s."
 
 #: weblate/templates/snippets/git-info.html:21
 #: weblate/templates/snippets/git-info.html:71
-#, fuzzy
-#| msgid "Repository operation"
 msgid "Repository URL copied to clipboard."
-msgstr "Operațiunea de depozitare"
+msgstr "URL-ul depozitului a fost copiat în clipboard."
 
 #: weblate/templates/snippets/git-info.html:27 weblate/trans/forms.py:1528
 #: weblate/trans/forms.py:1672 weblate/trans/models/component.py:315
@@ -8170,10 +8145,8 @@ msgid "%(author)s authored %(date)s"
 msgstr "%(author)s a scris %(date)s"
 
 #: weblate/templates/snippets/git-info.html:52
-#, fuzzy
-#| msgid "Thanks for using Weblate!"
 msgid "Last commit in Weblate"
-msgstr "Vă mulțumim că utilizați Weblate!"
+msgstr "Ultimul angajament în Weblate"
 
 #: weblate/templates/snippets/git-info.html:68
 msgid "Weblate repository"
@@ -8748,10 +8721,8 @@ msgid "Sort By"
 msgstr "Sortează după"
 
 #: weblate/templates/snippets/ssh-key.html:5
-#, fuzzy
-#| msgid "Copy to clipboard"
 msgid "Public key copied to clipboard."
-msgstr "Copiere în clipboard"
+msgstr "Cheia publică a fost copiată în clipboard."
 
 #: weblate/templates/snippets/ssh-key.html:6
 msgid ""
@@ -9484,10 +9455,8 @@ msgid "Configure editor"
 msgstr "Configurați editorul"
 
 #: weblate/templates/translate.html:78
-#, fuzzy
-#| msgid "Copy to clipboard"
 msgid "Permalink copied to clipboard."
-msgstr "Copiere în clipboard"
+msgstr "Permalink copiat în clipboard."
 
 #: weblate/templates/translate.html:78
 msgid "Copy permalink"
@@ -12337,12 +12306,9 @@ msgid "Failed checks:"
 msgstr "Verificări eșuate:"
 
 #: weblate/trans/templatetags/translations.py:587
-#, fuzzy
-#| msgctxt "String state"
-#| msgid "Dismissed checks"
 msgctxt "String state"
 msgid "Dismissed checks:"
-msgstr "Cecuri respinse"
+msgstr "Cecuri respinse:"
 
 #: weblate/trans/templatetags/translations.py:592
 msgctxt "String state"
@@ -12439,10 +12405,9 @@ msgstr ""
 "utilizatorilor să voteze propriile sugestii."
 
 #: weblate/trans/validators.py:52
-#, fuzzy, python-format
-#| msgid "Failed to parse JSON file: {!s}"
+#, python-format
 msgid "Failed to parse flags: %s"
-msgstr "Nu a reușit să analizeze fișierul JSON: {!s}"
+msgstr "Nu a reușit să analizeze indicatoarele: %s"
 
 #: weblate/trans/views/about.py:34
 msgid "Keys"
@@ -13376,10 +13341,9 @@ msgid "Could not dismiss the configuration error!"
 msgstr "Nu s-a putut respinge eroarea de configurare!"
 
 #: weblate/wladmin/views.py:356
-#, fuzzy, python-format
-#| msgid "Create an account using:"
+#, python-format
 msgid "Created user account %s."
-msgstr "Creați un cont folosind:"
+msgstr "A fost creat contul de utilizator %s."
 
 #~ msgid "Ignore failing check"
 #~ msgstr "Ignoră verificarea eșuată"
