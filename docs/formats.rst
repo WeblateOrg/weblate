@@ -625,7 +625,6 @@ Joomla translations are usually used as monolingual translations.
 
 .. seealso::
 
-    `Specification of Joomla language files <https://docs.joomla.org/Specification_of_language_files>`_,
     :doc:`tt:formats/properties`,
     :ref:`ini`,
     :ref:`islu`
