@@ -576,7 +576,7 @@ if "ROLLBAR_KEY" in os.environ:
         "access_token": os.environ["ROLLBAR_KEY"],
         "environment": os.environ.get("ROLLBAR_ENVIRONMENT", "production"),
         "branch": "main",
-        "root": "/usr/local/lib/python3.7/dist-packages/weblate/",
+        "root": "/usr/local/lib/python3.9/dist-packages/weblate/",
         "exception_level_filters": [
             (PermissionDenied, "ignored"),
             (Http404, "ignored"),
