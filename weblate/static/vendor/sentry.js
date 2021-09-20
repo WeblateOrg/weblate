@@ -1,4 +1,4 @@
-/*! @sentry/browser 6.12.0 (5686231) | https://github.com/getsentry/sentry-javascript */
+/*! @sentry/browser 6.13.0 (a241a0c) | https://github.com/getsentry/sentry-javascript */
 var Sentry = (function (exports) {
     /*! *****************************************************************************
     Copyright (c) Microsoft Corporation. All rights reserved.
@@ -217,6 +217,16 @@ var Sentry = (function (exports) {
         TransactionSamplingMethod["Rate"] = "client_rate";
         TransactionSamplingMethod["Inheritance"] = "inheritance";
     })(TransactionSamplingMethod || (TransactionSamplingMethod = {}));
+
+    var Outcome;
+    (function (Outcome) {
+        Outcome["BeforeSend"] = "before_send";
+        Outcome["EventProcessor"] = "event_processor";
+        Outcome["NetworkError"] = "network_error";
+        Outcome["QueueOverflow"] = "queue_overflow";
+        Outcome["RateLimitBackoff"] = "ratelimit_backoff";
+        Outcome["SampleRate"] = "sample_rate";
+    })(Outcome || (Outcome = {}));
 
     /* eslint-disable @typescript-eslint/no-explicit-any */
     /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
@@ -3081,7 +3091,10 @@ var Sentry = (function (exports) {
          * @inheritDoc
          */
         Hub.prototype.captureEvent = function (event, hint) {
-            var eventId = (this._lastEventId = uuid4());
+            var eventId = uuid4();
+            if (event.type !== 'transaction') {
+                this._lastEventId = eventId;
+            }
             this._invokeClient('captureEvent', event, __assign(__assign({}, hint), { event_id: eventId }));
             return eventId;
         };
@@ -3911,11 +3924,16 @@ var Sentry = (function (exports) {
         /**
          * @inheritDoc
          */
+        BaseClient.prototype.getTransport = function () {
+            return this._getBackend().getTransport();
+        };
+        /**
+         * @inheritDoc
+         */
         BaseClient.prototype.flush = function (timeout) {
             var _this = this;
             return this._isClientDoneProcessing(timeout).then(function (clientFinished) {
-                return _this._getBackend()
-                    .getTransport()
+                return _this.getTransport()
                     .close(timeout)
                     .then(function (transportFlushed) { return clientFinished && transportFlushed; });
             });
@@ -4188,8 +4206,10 @@ var Sentry = (function (exports) {
          */
         BaseClient.prototype._processEvent = function (event, hint, scope) {
             var _this = this;
+            var _a, _b;
             // eslint-disable-next-line @typescript-eslint/unbound-method
-            var _a = this.getOptions(), beforeSend = _a.beforeSend, sampleRate = _a.sampleRate;
+            var _c = this.getOptions(), beforeSend = _c.beforeSend, sampleRate = _c.sampleRate;
+            var transport = this.getTransport();
             if (!this._isEnabled()) {
                 return SyncPromise.reject(new SentryError('SDK not enabled, will not capture event.'));
             }
@@ -4198,11 +4218,14 @@ var Sentry = (function (exports) {
             // 0.0 === 0% events are sent
             // Sampling for transaction happens somewhere else
             if (!isTransaction && typeof sampleRate === 'number' && Math.random() > sampleRate) {
+                (_b = (_a = transport).recordLostEvent) === null || _b === void 0 ? void 0 : _b.call(_a, Outcome.SampleRate, 'event');
                 return SyncPromise.reject(new SentryError("Discarding event because it's not included in the random sample (sampling rate = " + sampleRate + ")"));
             }
             return this._prepareEvent(event, scope, hint)
                 .then(function (prepared) {
+                var _a, _b;
                 if (prepared === null) {
+                    (_b = (_a = transport).recordLostEvent) === null || _b === void 0 ? void 0 : _b.call(_a, Outcome.EventProcessor, event.type || 'event');
                     throw new SentryError('An event processor returned null, will not send event.');
                 }
                 var isInternalException = hint && hint.data && hint.data.__sentry__ === true;
@@ -4213,7 +4236,9 @@ var Sentry = (function (exports) {
                 return _this._ensureBeforeSendRv(beforeSendResult);
             })
                 .then(function (processedEvent) {
+                var _a, _b;
                 if (processedEvent === null) {
+                    (_b = (_a = transport).recordLostEvent) === null || _b === void 0 ? void 0 : _b.call(_a, Outcome.BeforeSend, event.type || 'event');
                     throw new SentryError('`beforeSend` returned `null`, will not send event.');
                 }
                 var session = scope && scope.getSession && scope.getSession();
@@ -4453,7 +4478,7 @@ var Sentry = (function (exports) {
         hub.bindClient(client);
     }
 
-    var SDK_VERSION = '6.12.0';
+    var SDK_VERSION = '6.13.0';
 
     var originalFunctionToString;
     /** Patch toString calls to return proper name for wrapped functions */
@@ -4725,6 +4750,7 @@ var Sentry = (function (exports) {
     /** JSDoc */
     // eslint-disable-next-line @typescript-eslint/no-explicit-any, complexity
     function computeStackTraceFromStackProp(ex) {
+        var _a, _b;
         if (!ex || !ex.stack) {
             return null;
         }
@@ -4750,12 +4776,7 @@ var Sentry = (function (exports) {
                 // Kamil: One more hack won't hurt us right? Understanding and adding more rules on top of these regexps right now
                 // would be way too time consuming. (TODO: Rewrite whole RegExp to be more readable)
                 var func = parts[1] || UNKNOWN_FUNCTION;
-                var isSafariExtension = func.indexOf('safari-extension') !== -1;
-                var isSafariWebExtension = func.indexOf('safari-web-extension') !== -1;
-                if (isSafariExtension || isSafariWebExtension) {
-                    func = func.indexOf('@') !== -1 ? func.split('@')[0] : UNKNOWN_FUNCTION;
-                    url = isSafariExtension ? "safari-extension:" + url : "safari-web-extension:" + url;
-                }
+                _a = __read(extractSafariExtensionDetails(func, url), 2), func = _a[0], url = _a[1];
                 element = {
                     url: url,
                     func: func,
@@ -4789,9 +4810,12 @@ var Sentry = (function (exports) {
                     // NOTE: this hack doesn't work if top-most frame is eval
                     stack[0].column = ex.columnNumber + 1;
                 }
+                var url = parts[3];
+                var func = parts[1] || UNKNOWN_FUNCTION;
+                _b = __read(extractSafariExtensionDetails(func, url), 2), func = _b[0], url = _b[1];
                 element = {
-                    url: parts[3],
-                    func: parts[1] || UNKNOWN_FUNCTION,
+                    url: url,
+                    func: func,
                     args: parts[2] ? parts[2].split(',') : [],
                     line: parts[4] ? +parts[4] : null,
                     column: parts[5] ? +parts[5] : null,
@@ -4865,6 +4889,36 @@ var Sentry = (function (exports) {
             stack: stack,
         };
     }
+    /**
+     * Safari web extensions, starting version unknown, can produce "frames-only" stacktraces.
+     * What it means, is that instead of format like:
+     *
+     * Error: wat
+     *   at function@url:row:col
+     *   at function@url:row:col
+     *   at function@url:row:col
+     *
+     * it produces something like:
+     *
+     *   function@url:row:col
+     *   function@url:row:col
+     *   function@url:row:col
+     *
+     * Because of that, it won't be captured by `chrome` RegExp and will fall into `Gecko` branch.
+     * This function is extracted so that we can use it in both places without duplicating the logic.
+     * Unfortunatelly "just" changing RegExp is too complicated now and making it pass all tests
+     * and fix this case seems like an impossible, or at least way too time-consuming task.
+     */
+    var extractSafariExtensionDetails = function (func, url) {
+        var isSafariExtension = func.indexOf('safari-extension') !== -1;
+        var isSafariWebExtension = func.indexOf('safari-web-extension') !== -1;
+        return isSafariExtension || isSafariWebExtension
+            ? [
+                func.indexOf('@') !== -1 ? func.split('@')[0] : UNKNOWN_FUNCTION,
+                isSafariExtension ? "safari-extension:" + url : "safari-web-extension:" + url,
+            ]
+            : [func, url];
+    };
     /** Remove N number of frames from the stack */
     function popFrames(stacktrace, popSize) {
         try {
@@ -5102,14 +5156,23 @@ var Sentry = (function (exports) {
     /** Base Transport class implementation */
     var BaseTransport = /** @class */ (function () {
         function BaseTransport(options) {
+            var _this = this;
             this.options = options;
             /** A simple buffer holding all requests. */
             this._buffer = new PromiseBuffer(30);
             /** Locks transport after receiving rate limits in a response */
             this._rateLimits = {};
+            this._outcomes = {};
             this._api = new API(options.dsn, options._metadata, options.tunnel);
             // eslint-disable-next-line deprecation/deprecation
             this.url = this._api.getStoreEndpointWithUrlEncodedAuth();
+            if (this.options.sendClientReports) {
+                document.addEventListener('visibilitychange', function () {
+                    if (document.visibilityState === 'hidden') {
+                        _this._flushOutcomes();
+                    }
+                });
+            }
         }
         /**
          * @inheritDoc
@@ -5122,6 +5185,62 @@ var Sentry = (function (exports) {
          */
         BaseTransport.prototype.close = function (timeout) {
             return this._buffer.drain(timeout);
+        };
+        /**
+         * @inheritDoc
+         */
+        BaseTransport.prototype.recordLostEvent = function (reason, category) {
+            var _a;
+            if (!this.options.sendClientReports) {
+                return;
+            }
+            // We want to track each category (event, transaction, session) separately
+            // but still keep the distinction between different type of outcomes.
+            // We could use nested maps, but it's much easier to read and type this way.
+            // A correct type for map-based implementation if we want to go that route
+            // would be `Partial<Record<SentryRequestType, Partial<Record<Outcome, number>>>>`
+            var key = CATEGORY_MAPPING[category] + ":" + reason;
+            logger.log("Adding outcome: " + key);
+            this._outcomes[key] = (_a = this._outcomes[key], (_a !== null && _a !== void 0 ? _a : 0)) + 1;
+        };
+        /**
+         * Send outcomes as an envelope
+         */
+        BaseTransport.prototype._flushOutcomes = function () {
+            if (!this.options.sendClientReports) {
+                return;
+            }
+            if (!navigator || typeof navigator.sendBeacon !== 'function') {
+                logger.warn('Beacon API not available, skipping sending outcomes.');
+                return;
+            }
+            var outcomes = this._outcomes;
+            this._outcomes = {};
+            // Nothing to send
+            if (!Object.keys(outcomes).length) {
+                logger.log('No outcomes to flush');
+                return;
+            }
+            logger.log("Flushing outcomes:\n" + JSON.stringify(outcomes, null, 2));
+            var url = this._api.getEnvelopeEndpointWithUrlEncodedAuth();
+            // Envelope header is required to be at least an empty object
+            var envelopeHeader = JSON.stringify({});
+            var itemHeaders = JSON.stringify({
+                type: 'client_report',
+            });
+            var item = JSON.stringify({
+                timestamp: dateTimestampInSeconds(),
+                discarded_events: Object.keys(outcomes).map(function (key) {
+                    var _a = __read(key.split(':'), 2), category = _a[0], reason = _a[1];
+                    return {
+                        reason: reason,
+                        category: category,
+                        quantity: outcomes[key],
+                    };
+                }),
+            });
+            var envelope = envelopeHeader + "\n" + itemHeaders + "\n" + item;
+            navigator.sendBeacon(url, envelope);
         };
         /**
          * Handle Sentry repsonse for promise-based transports.
@@ -5307,6 +5426,7 @@ var Sentry = (function (exports) {
         FetchTransport.prototype._sendRequest = function (sentryRequest, originalPayload) {
             var _this = this;
             if (this._isRateLimited(sentryRequest.type)) {
+                this.recordLostEvent(Outcome.RateLimitBackoff, sentryRequest.type);
                 return Promise.reject({
                     event: originalPayload,
                     type: sentryRequest.type,
@@ -5329,7 +5449,8 @@ var Sentry = (function (exports) {
             if (this.options.headers !== undefined) {
                 options.headers = this.options.headers;
             }
-            return this._buffer.add(function () {
+            return this._buffer
+                .add(function () {
                 return new SyncPromise(function (resolve, reject) {
                     void _this._fetch(sentryRequest.url, options)
                         .then(function (response) {
@@ -5347,6 +5468,16 @@ var Sentry = (function (exports) {
                     })
                         .catch(reject);
                 });
+            })
+                .then(undefined, function (reason) {
+                // It's either buffer rejection or any other xhr/fetch error, which are treated as NetworkError.
+                if (reason instanceof SentryError) {
+                    _this.recordLostEvent(Outcome.QueueOverflow, sentryRequest.type);
+                }
+                else {
+                    _this.recordLostEvent(Outcome.NetworkError, sentryRequest.type);
+                }
+                throw reason;
             });
         };
         return FetchTransport;
@@ -5377,6 +5508,7 @@ var Sentry = (function (exports) {
         XHRTransport.prototype._sendRequest = function (sentryRequest, originalPayload) {
             var _this = this;
             if (this._isRateLimited(sentryRequest.type)) {
+                this.recordLostEvent(Outcome.RateLimitBackoff, sentryRequest.type);
                 return Promise.reject({
                     event: originalPayload,
                     type: sentryRequest.type,
@@ -5384,7 +5516,8 @@ var Sentry = (function (exports) {
                     status: 429,
                 });
             }
-            return this._buffer.add(function () {
+            return this._buffer
+                .add(function () {
                 return new SyncPromise(function (resolve, reject) {
                     var request = new XMLHttpRequest();
                     request.onreadystatechange = function () {
@@ -5404,6 +5537,16 @@ var Sentry = (function (exports) {
                     }
                     request.send(sentryRequest.body);
                 });
+            })
+                .then(undefined, function (reason) {
+                // It's either buffer rejection or any other xhr/fetch error, which are treated as NetworkError.
+                if (reason instanceof SentryError) {
+                    _this.recordLostEvent(Outcome.QueueOverflow, sentryRequest.type);
+                }
+                else {
+                    _this.recordLostEvent(Outcome.NetworkError, sentryRequest.type);
+                }
+                throw reason;
             });
         };
         return XHRTransport;
@@ -5448,7 +5591,7 @@ var Sentry = (function (exports) {
                 // We return the noop transport here in case there is no Dsn.
                 return _super.prototype._setupTransport.call(this);
             }
-            var transportOptions = __assign(__assign({}, this._options.transportOptions), { dsn: this._options.dsn, tunnel: this._options.tunnel, _metadata: this._options._metadata });
+            var transportOptions = __assign(__assign({}, this._options.transportOptions), { dsn: this._options.dsn, tunnel: this._options.tunnel, sendClientReports: this._options.sendClientReports, _metadata: this._options._metadata });
             if (this._options.transport) {
                 return new this._options.transport(transportOptions);
             }
@@ -5612,7 +5755,10 @@ var Sentry = (function (exports) {
             // eslint-disable-next-line @typescript-eslint/unbound-method
             script.onload = options.onLoad;
         }
-        (document.head || document.body).appendChild(script);
+        var injectionPoint = document.head || document.body;
+        if (injectionPoint) {
+            injectionPoint.appendChild(script);
+        }
     }
 
     /** Global handlers */
@@ -6718,6 +6864,9 @@ var Sentry = (function (exports) {
         }
         if (options.autoSessionTracking === undefined) {
             options.autoSessionTracking = true;
+        }
+        if (options.sendClientReports === undefined) {
+            options.sendClientReports = true;
         }
         initAndBind(BrowserClient, options);
         if (options.autoSessionTracking) {
