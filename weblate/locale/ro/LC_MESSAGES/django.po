@@ -18,7 +18,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-09-08 10:00+0000\n"
 "PO-Revision-Date: 2021-09-20 09:43+0000\n"
-"Last-Translator: Simona Iacob <s@zp1.net>\n"
+"Last-Translator: Licaon Kter <licaon.kter@protonmail.com>\n"
 "Language-Team: Romanian <https://hosted.weblate.org/projects/weblate/"
 "application/ro/>\n"
 "Language: ro\n"
@@ -4948,14 +4948,12 @@ msgid "There are no add-ons currently installed."
 msgstr "În prezent nu sunt instalate suplimente."
 
 #: weblate/templates/addons/addon_list.html:43
-#, fuzzy, python-format
-#| msgid "There is currently %(count)s addon installed."
-#| msgid_plural "There are currently %(count)s addons installed."
+#, python-format
 msgid "There is currently %(count)s add-on installed."
 msgid_plural "There are currently %(count)s add-ons installed."
-msgstr[0] "În prezent este instalat addon-ul %(count)s."
-msgstr[1] "În prezent este instalat addon-ul %(count)s."
-msgstr[2] "În prezent sunt instalate addon-urile %(count)s."
+msgstr[0] "În prezent este instalată %(count)s extensie."
+msgstr[1] "În prezent sunt instalate %(count)s extensii."
+msgstr[2] "În prezent sunt instalate %(count)s de extensii."
 
 #: weblate/templates/addons/addon_list.html:51
 msgid "Available add-ons"
@@ -9976,10 +9974,8 @@ msgid "Missing query string."
 msgstr "Lipsește șirul de interogare."
 
 #: weblate/trans/forms.py:185
-#, fuzzy
-#| msgid "Failed to parse query string: {}"
 msgid "Could not parse query string: {}"
-msgstr "Nu a reușit să analizeze șirul de interogare: {}"
+msgstr "Nu s-a reușit analiza șirului de interogare: {}"
 
 #: weblate/trans/forms.py:228 weblate/trans/forms.py:236
 msgid "Toggle text direction"
@@ -10100,10 +10096,8 @@ msgstr ""
 "tradus."
 
 #: weblate/trans/forms.py:640
-#, fuzzy
-#| msgid "Update only non translated strings"
 msgid "Update only untranslated strings"
-msgstr "Actualizarea numai a șirurilor netraduse"
+msgstr "Actualizare numai șiruri netraduse"
 
 #: weblate/trans/forms.py:641
 msgid "Update translated strings"
@@ -10214,10 +10208,8 @@ msgstr ""
 "mail."
 
 #: weblate/trans/forms.py:1068
-#, fuzzy
-#| msgid "Location"
 msgid "Block duration"
-msgstr "Locație"
+msgstr "Durata blocării"
 
 #: weblate/trans/forms.py:1070
 msgid "Block user until I unblock them"
@@ -10944,9 +10936,6 @@ msgid "Moved component"
 msgstr "Componenta mutată"
 
 #: weblate/trans/models/change.py:316
-#, fuzzy
-#| msgid "New string to translate"
-#| msgid_plural "New strings to translate"
 msgctxt "Name of event in the history"
 msgid "New string to translate"
 msgstr "Șir nou de tradus"
@@ -11126,17 +11115,15 @@ msgid "Repository browser"
 msgstr "Navigator de depozite"
 
 #: weblate/trans/models/component.py:291
-#, fuzzy
-#| msgid ""
-#| "Link to repository browser, use {{branch}} for branch, {{filename}} and "
-#| "{{line}} as filename and line placeholders."
 msgid ""
 "Link to repository browser, use {{branch}} for branch, {{filename}} and "
 "{{line}} as filename and line placeholders. You might want to strip leading "
 "directory by using {{filename|parentdir}}."
 msgstr ""
 "Legătura către browserul de depozit, utilizați {{branch}} pentru ramură, "
-"{{filename}} și {{line}} ca nume de fișier și ca marcaje de linie."
+"{{filename}} și {{line}} ca nume de fișier și ca marcaje de linie. Este "
+"posibil să doriți să eliminați directorul principal utilizând "
+"{{filename|parentdir}}."
 
 #: weblate/trans/models/component.py:299
 msgid "Exported repository URL"
@@ -11270,14 +11257,10 @@ msgid "Translation flags"
 msgstr "Steaguri de traducere"
 
 #: weblate/trans/models/component.py:429 weblate/trans/models/unit.py:310
-#, fuzzy
-#| msgid ""
-#| "Additional comma-separated flags to influence quality checks. Possible "
-#| "values can be found in the documentation."
 msgid "Additional comma-separated flags to influence Weblate behavior."
 msgstr ""
 "Indicatori suplimentari separați prin virgulă pentru a influența "
-"verificările de calitate. Valorile posibile pot fi găsite în documentație."
+"comportamentul Weblate."
 
 #: weblate/trans/models/component.py:435
 msgid "Enforced checks"
@@ -12285,22 +12268,16 @@ msgid "Failed to find group to add a user!"
 msgstr "Nu a reușit să găsească grupul pentru a adăuga un utilizator!"
 
 #: weblate/trans/views/acl.py:147
-#, fuzzy
-#| msgid "User has been added to this project."
 msgid "You can not block yourself on this project."
-msgstr "Utilizatorul a fost adăugat la acest proiect."
+msgstr "Nu vă puteți bloca în acest proiect."
 
 #: weblate/trans/views/acl.py:167
-#, fuzzy
-#| msgid "User has been added to this project."
 msgid "User has been blocked on this project."
-msgstr "Utilizatorul a fost adăugat la acest proiect."
+msgstr "Utilizatorul a fost blocat pe acest proiect."
 
 #: weblate/trans/views/acl.py:169
-#, fuzzy
-#| msgid "User has been added to this project."
 msgid "User is already blocked on this project."
-msgstr "Utilizatorul a fost adăugat la acest proiect."
+msgstr "Utilizatorul este deja blocat pe acest proiect."
 
 #: weblate/trans/views/acl.py:196 weblate/trans/views/acl.py:211
 msgid "User has been invited to this project."
@@ -12795,10 +12772,8 @@ msgid "Silver"
 msgstr "Argint"
 
 #: weblate/utils/fields.py:92
-#, fuzzy
-#| msgid "A user with that username already exists."
 msgid "A user with this e-mail already exists."
-msgstr "Există deja un utilizator cu acest nume de utilizator."
+msgstr "Există deja un utilizator cu acest e-mail."
 
 #: weblate/utils/render.py:44
 #, python-format
