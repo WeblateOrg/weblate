@@ -25,7 +25,7 @@ services:
       # Local data directory
       - $PWD/data:/app/data
       # Override Weblate with local dir
-      - $PWD/../weblate:/usr/local/lib/python3.7/dist-packages/weblate
+      - $PWD/../weblate:/usr/local/lib/python3.9/dist-packages/weblate
     restart: always
     depends_on:
       - database
