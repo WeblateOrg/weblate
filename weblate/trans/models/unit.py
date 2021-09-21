@@ -1152,9 +1152,14 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
         # Delete no longer failing checks
         if old_checks:
             Check.objects.filter(unit=self, check__in=old_checks).delete()
-            propagated_old_checks = [
-                name for name in old_checks if CHECKS[name].propagates
-            ]
+            propagated_old_checks = []
+            for check_name in old_checks:
+                try:
+                    if CHECKS[check_name].propagates:
+                        propagated_old_checks.append(check_name)
+                except KeyError:
+                    # Skip disabled/removed checks
+                    continue
             if propagated_old_checks:
                 Check.objects.filter(
                     unit__in=self.same_source_units, check__in=propagated_old_checks
