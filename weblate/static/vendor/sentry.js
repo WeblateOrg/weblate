@@ -1,4 +1,4 @@
-/*! @sentry/browser 6.13.0 (a241a0c) | https://github.com/getsentry/sentry-javascript */
+/*! @sentry/browser 6.13.2 (1de7a04) | https://github.com/getsentry/sentry-javascript */
 var Sentry = (function (exports) {
     /*! *****************************************************************************
     Copyright (c) Microsoft Corporation. All rights reserved.
@@ -677,8 +677,8 @@ var Sentry = (function (exports) {
     function getGlobalObject() {
         return (isNodeEnv()
             ? global
-            : typeof window !== 'undefined'
-                ? window
+            : typeof window !== 'undefined' // eslint-disable-line no-restricted-globals
+                ? window // eslint-disable-line no-restricted-globals
                 : typeof self !== 'undefined'
                     ? self
                     : fallbackGlobalObject);
@@ -828,8 +828,9 @@ var Sentry = (function (exports) {
      * A safe form of location.href
      */
     function getLocationHref() {
+        var global = getGlobalObject();
         try {
-            return document.location.href;
+            return global.document.location.href;
         }
         catch (oO) {
             return '';
@@ -1160,9 +1161,13 @@ var Sentry = (function (exports) {
         if (typeof global !== 'undefined' && value === global) {
             return '[Global]';
         }
+        // It's safe to use `window` and `document` here in this manner, as we are asserting using `typeof` first
+        // which won't throw if they are not present.
+        // eslint-disable-next-line no-restricted-globals
         if (typeof window !== 'undefined' && value === window) {
             return '[Window]';
         }
+        // eslint-disable-next-line no-restricted-globals
         if (typeof document !== 'undefined' && value === document) {
             return '[Document]';
         }
@@ -4478,7 +4483,7 @@ var Sentry = (function (exports) {
         hub.bindClient(client);
     }
 
-    var SDK_VERSION = '6.13.0';
+    var SDK_VERSION = '6.13.2';
 
     var originalFunctionToString;
     /** Patch toString calls to return proper name for wrapped functions */
@@ -5153,6 +5158,7 @@ var Sentry = (function (exports) {
         session: 'session',
         attachment: 'attachment',
     };
+    var global$3 = getGlobalObject();
     /** Base Transport class implementation */
     var BaseTransport = /** @class */ (function () {
         function BaseTransport(options) {
@@ -5166,9 +5172,9 @@ var Sentry = (function (exports) {
             this._api = new API(options.dsn, options._metadata, options.tunnel);
             // eslint-disable-next-line deprecation/deprecation
             this.url = this._api.getStoreEndpointWithUrlEncodedAuth();
-            if (this.options.sendClientReports) {
-                document.addEventListener('visibilitychange', function () {
-                    if (document.visibilityState === 'hidden') {
+            if (this.options.sendClientReports && global$3.document) {
+                global$3.document.addEventListener('visibilitychange', function () {
+                    if (global$3.document.visibilityState === 'hidden') {
                         _this._flushOutcomes();
                     }
                 });
@@ -5210,7 +5216,7 @@ var Sentry = (function (exports) {
             if (!this.options.sendClientReports) {
                 return;
             }
-            if (!navigator || typeof navigator.sendBeacon !== 'function') {
+            if (!global$3.navigator || typeof global$3.navigator.sendBeacon !== 'function') {
                 logger.warn('Beacon API not available, skipping sending outcomes.');
                 return;
             }
@@ -5240,7 +5246,7 @@ var Sentry = (function (exports) {
                 }),
             });
             var envelope = envelopeHeader + "\n" + itemHeaders + "\n" + item;
-            navigator.sendBeacon(url, envelope);
+            global$3.navigator.sendBeacon(url, envelope);
         };
         /**
          * Handle Sentry repsonse for promise-based transports.
@@ -5603,6 +5609,7 @@ var Sentry = (function (exports) {
         return BrowserBackend;
     }(BaseBackend));
 
+    var global$4 = getGlobalObject();
     var ignoreOnError = 0;
     /**
      * @hidden
@@ -5740,6 +5747,9 @@ var Sentry = (function (exports) {
      */
     function injectReportDialog(options) {
         if (options === void 0) { options = {}; }
+        if (!global$4.document) {
+            return;
+        }
         if (!options.eventId) {
             logger.error("Missing eventId option in showReportDialog call");
             return;
@@ -5748,14 +5758,14 @@ var Sentry = (function (exports) {
             logger.error("Missing dsn option in showReportDialog call");
             return;
         }
-        var script = document.createElement('script');
+        var script = global$4.document.createElement('script');
         script.async = true;
         script.src = new API(options.dsn).getReportDialogEndpoint(options);
         if (options.onLoad) {
             // eslint-disable-next-line @typescript-eslint/unbound-method
             script.onload = options.onLoad;
         }
-        var injectionPoint = document.head || document.body;
+        var injectionPoint = global$4.document.head || global$4.document.body;
         if (injectionPoint) {
             injectionPoint.appendChild(script);
         }
@@ -6500,7 +6510,7 @@ var Sentry = (function (exports) {
         return LinkedErrors;
     }());
 
-    var global$3 = getGlobalObject();
+    var global$5 = getGlobalObject();
     /** UserAgent */
     var UserAgent = /** @class */ (function () {
         function UserAgent() {
@@ -6517,13 +6527,13 @@ var Sentry = (function (exports) {
                 var _a, _b, _c;
                 if (getCurrentHub().getIntegration(UserAgent)) {
                     // if none of the information we want exists, don't bother
-                    if (!global$3.navigator && !global$3.location && !global$3.document) {
+                    if (!global$5.navigator && !global$5.location && !global$5.document) {
                         return event;
                     }
                     // grab as much info as exists and add it to the event
-                    var url = ((_a = event.request) === null || _a === void 0 ? void 0 : _a.url) || ((_b = global$3.location) === null || _b === void 0 ? void 0 : _b.href);
-                    var referrer = (global$3.document || {}).referrer;
-                    var userAgent = (global$3.navigator || {}).userAgent;
+                    var url = ((_a = event.request) === null || _a === void 0 ? void 0 : _a.url) || ((_b = global$5.location) === null || _b === void 0 ? void 0 : _b.href);
+                    var referrer = (global$5.document || {}).referrer;
+                    var userAgent = (global$5.navigator || {}).userAgent;
                     var headers = __assign(__assign(__assign({}, (_c = event.request) === null || _c === void 0 ? void 0 : _c.headers), (referrer && { Referer: referrer })), (userAgent && { 'User-Agent': userAgent }));
                     var request = __assign(__assign({}, (url && { url: url })), { headers: headers });
                     return __assign(__assign({}, event), { request: request });
