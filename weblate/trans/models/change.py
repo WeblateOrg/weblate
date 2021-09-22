@@ -21,6 +21,8 @@ from django.conf import settings
 from django.db import models, transaction
 from django.db.models import Count, Q
 from django.utils import timezone
+from django.utils.html import escape
+from django.utils.safestring import mark_safe
 from django.utils.translation import gettext as _
 from django.utils.translation import (
     gettext_lazy,
@@ -555,6 +557,19 @@ class Change(models.Model, UserDisplayMixin):
 
         if self.action in (self.ACTION_ANNOUNCEMENT, self.ACTION_AGREEMENT_CHANGE):
             return render_markdown(self.target)
+
+        if self.action == self.ACTION_UPDATE:
+            reason = self.details.get("reason", "content changed")
+            filename = "<code>{}</code>".format(
+                escape(self.details.get("filename", self.translation.filename))
+            )
+            if reason == "content changed":
+                return mark_safe(_("File %s was changed.") % filename)
+            if reason == "check forced":
+                return mark_safe(_("Parsing of file %s was enforced") % filename)
+            if reason == "new file":
+                return mark_safe(_("File %s was added.") % filename)
+            raise ValueError(f"Unknown reason: {reason}")
 
         if self.action == self.ACTION_LICENSE_CHANGE:
             not_available = pgettext("License information not available", "N/A")

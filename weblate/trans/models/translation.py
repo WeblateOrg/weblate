@@ -352,16 +352,33 @@ class Translation(
         else:
             user = request.user
 
+        details = {
+            "filename": self.filename,
+        }
+
         # Check if we're not already up to date
+        new_revision = self.get_git_blob_hash()
         if not self.revision:
             self.reason = "new file"
-        elif self.revision != self.get_git_blob_hash():
+        elif self.revision != new_revision:
             self.reason = "content changed"
+
+            # Include changed filename in the details
+            old_parts = self.revision.split(",")
+            new_parts = new_revision.split(",")
+            if len(old_parts) == len(new_parts):
+                filenames = self.get_hash_filenames()
+                for i in range(len(old_parts)):
+                    if old_parts[i] != new_parts[i]:
+                        details["filename"] = filenames[i]
+                        break
+
         elif force:
             self.reason = "check forced"
         else:
             self.reason = ""
             return
+        details["reason"] = self.reason
 
         self.log_info("processing %s, %s", self.filename, self.reason)
 
@@ -450,7 +467,9 @@ class Translation(
         self.store_hash()
 
         # Store change entry
-        Change.objects.create(translation=self, action=change, user=user, author=user)
+        Change.objects.create(
+            translation=self, action=change, user=user, author=user, details=details
+        )
 
         # Invalidate keys cache
         transaction.on_commit(self.invalidate_keys)
@@ -478,25 +497,30 @@ class Translation(
     def can_push(self):
         return self.component.can_push()
 
-    def get_git_blob_hash(self):
-        """Return current VCS blob hash for file."""
+    def get_hash_filenames(self):
+        """Return filenames to include in the hash."""
         component = self.component
-        get_object_hash = component.repository.get_object_hash
-
-        # Include language file
-        hashes = [get_object_hash(self.get_filename())]
+        filenames = [self.get_filename()]
 
         if component.has_template():
             # Include template
-            hashes.append(get_object_hash(component.template))
+            filenames.append(component.template)
 
             if component.intermediate and os.path.exists(
                 component.get_intermediate_filename()
             ):
                 # Include intermediate language as it might add new strings
-                hashes.append(get_object_hash(component.intermediate))
+                filenames.append(component.intermediate)
 
-        return ",".join(hashes)
+        return filenames
+
+    def get_git_blob_hash(self):
+        """Return current VCS blob hash for file."""
+        get_object_hash = self.component.repository.get_object_hash
+
+        return ",".join(
+            get_object_hash(filename) for filename in self.get_hash_filenames()
+        )
 
     def store_hash(self):
         """Store current hash in database."""
