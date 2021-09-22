@@ -16,7 +16,7 @@ else
     pip install --upgrade-strategy eager -U -r requirements-optional.txt
     if [ ${1:-latest} = edge ] ; then
         # Needed for Django 4.0 compatibility, see https://github.com/django-compressor/django-compressor/issues/1009
-        pip install --upgrade https://github.com/django-compressor/django-compressor/develop.zip
+        pip install --upgrade https://github.com/django-compressor/django-compressor/archive/refs/heads/develop.zip
         pip install --upgrade https://github.com/translate/translate/archive/master.zip
         pip install --upgrade https://github.com/WeblateOrg/language-data/archive/main.zip
         pip install --upgrade https://github.com/WeblateOrg/translation-finder/archive/main.zip
