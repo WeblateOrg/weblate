@@ -595,7 +595,8 @@ options:
 
     .. seealso::
 
-        :setting:`django:ADMINS`
+        :setting:`django:ADMINS`,
+        :ref:`production-admins`
 
 .. setting:: ALLOWED_HOSTS
 
@@ -667,7 +668,8 @@ options:
 
     .. seealso::
 
-        :setting:`django:DEBUG`
+        :setting:`django:DEBUG`,
+        :ref:`production-debug`
 
 .. setting:: DEFAULT_FROM_EMAIL
 

@@ -12,9 +12,14 @@ Turning on debug mode will make the exceptions show in the browser. This is usef
 debug issues in the web interface, but not suitable for production environment
 as it has performance consequences and might leak private data.
 
+In production environment, use :setting:`ADMINS` to receive e-mails with error
+reports, or configure error collection using a third party service.
+
 .. seealso::
 
-    :ref:`production-debug`
+   :ref:`production-debug`,
+   :ref:`production-admins`,
+   :ref:`collecting-errors`
 
 .. _weblate-logs:
 
