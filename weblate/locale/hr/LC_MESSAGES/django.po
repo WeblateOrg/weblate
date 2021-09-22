@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.8.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-09-08 10:00+0000\n"
-"PO-Revision-Date: 2021-09-22 06:55+0000\n"
+"PO-Revision-Date: 2021-09-22 15:42+0000\n"
 "Last-Translator: Milo Ivir <mail@milotype.de>\n"
 "Language-Team: Croatian <https://hosted.weblate.org/projects/weblate/"
 "application/hr/>\n"
@@ -3281,8 +3281,6 @@ msgid "String will be part of the glossary in all languages"
 msgstr "Izraz će biti dio glosara na svim jezicima"
 
 #: weblate/glossary/forms.py:55
-#, fuzzy
-#| msgid "Not translatable term"
 msgid "Untranslatable term"
 msgstr "Neprevodiv pojam"
 
@@ -3463,44 +3461,29 @@ msgid "Zero/one/two/few/many/other"
 msgstr "Nula/jedan/dva/nekoliko/mnogo/ostalo"
 
 #: weblate/lang/models.py:607
-#, fuzzy
-#| msgctxt "Plural type"
-#| msgid "Zero/one/other"
 msgctxt "Plural type"
 msgid "Zero/other"
-msgstr "Nula/jedan/ostalo"
+msgstr "Nula/ostalo"
 
 #: weblate/lang/models.py:611
-#, fuzzy
-#| msgctxt "Plural type"
-#| msgid "Zero/one/other"
 msgctxt "Plural type"
 msgid "Zero/one/few/other"
-msgstr "Nula/jedan/ostalo"
+msgstr "Nula/jedan/nekoliko/ostalo"
 
 #: weblate/lang/models.py:615
-#, fuzzy
-#| msgctxt "Plural type"
-#| msgid "Zero/one/two/few/many/other"
 msgctxt "Plural type"
 msgid "Zero/one/two/few/other"
-msgstr "Nula/jedan/dva/nekoliko/mnogo/ostalo"
+msgstr "Nula/jedan/dva/nekoliko/ostalo"
 
 #: weblate/lang/models.py:619
-#, fuzzy
-#| msgctxt "Plural type"
-#| msgid "Zero/one/other"
 msgctxt "Plural type"
 msgid "Zero/one/two/other"
-msgstr "Nula/jedan/ostalo"
+msgstr "Nula/jedan/dva/ostalo"
 
 #: weblate/lang/models.py:623
-#, fuzzy
-#| msgctxt "Plural type"
-#| msgid "Zero/one/two/few/many/other"
 msgctxt "Plural type"
 msgid "Zero/one/few/many/other"
-msgstr "Nula/jedan/dva/nekoliko/mnogo/ostalo"
+msgstr "Nula/jedan/nekoliko/mnogo/ostalo"
 
 #: weblate/lang/models.py:627
 msgctxt "Plural type"
@@ -3516,16 +3499,12 @@ msgid "Default plural"
 msgstr "Standardna množina"
 
 #: weblate/lang/models.py:639
-#, fuzzy
-#| msgid "Qt plural format"
 msgid "gettext plural formula"
-msgstr "Oblici množine u Qt formatu"
+msgstr "gettext formula množine"
 
 #: weblate/lang/models.py:640
-#, fuzzy
-#| msgid "String has plural"
 msgid "stringsdict plural"
-msgstr "Izraz ima množinu"
+msgstr "stringsdict množina"
 
 #: weblate/lang/models.py:641
 msgid "Manually entered formula"
@@ -4984,28 +4963,20 @@ msgid "Matched files"
 msgstr "Podudarajuće datoteke"
 
 #: weblate/templates/addons/discovery_preview.html:9
-#, fuzzy
-#| msgid "Following components would be deleted"
 msgid "The following components would be deleted"
 msgstr "Sljedeće komponente bi se izbrisale"
 
 #: weblate/templates/addons/discovery_preview.html:15
-#, fuzzy
-#| msgid "Following components would be created"
 msgid "The following components would be created"
 msgstr "Sljedeće komponente bi se stvorile"
 
 #: weblate/templates/addons/discovery_preview.html:28
-#, fuzzy
-#| msgid "Following components matched existing ones"
 msgid "The following components matched existing ones"
 msgstr "Sljedeće komponente se poklapaju s postojećima"
 
 #: weblate/templates/addons/discovery_preview.html:41
-#, fuzzy
-#| msgid "No matching checks found!"
 msgid "No matching components were found!"
-msgstr "Nema poklapajućih provjera!"
+msgstr "Nema poklapajućih komponenata!"
 
 #: weblate/templates/addons/generate_help.html:6
 msgid ""
@@ -6243,8 +6214,6 @@ msgid "Powered by %(weblate_version_link)s"
 msgstr "Pokreće %(weblate_version_link)s"
 
 #: weblate/templates/footer.html:13
-#, fuzzy
-#| msgid "Privacy Policy"
 msgid "Privacy policy"
 msgstr "Politika privatnosti"
 
@@ -6541,10 +6510,8 @@ msgstr[1] "%(count)s znaka promijenjena"
 msgstr[2] "%(count)s znakova promijenjeno"
 
 #: weblate/templates/last-changes-content.html:57
-#, fuzzy
-#| msgid "Create translation"
 msgid "Current translation"
-msgstr "Stvori prijevodi"
+msgstr "Trenutačni prijevod"
 
 #: weblate/templates/last-changes-content.html:83
 msgid "No matching activity found."
@@ -8550,10 +8517,8 @@ msgid "The source string cannot be edited."
 msgstr "Izvorni izraz se ne može promijeniti."
 
 #: weblate/templates/snippets/user-list.html:19 weblate/trans/forms.py:162
-#, fuzzy
-#| msgid "Could not find reverted change."
 msgid "Could not find any such user."
-msgstr "Vraćena promjena nije pronađena."
+msgstr "Takav korisnik nije pronađen."
 
 #: weblate/templates/snippets/watch-dropdown.html:9
 msgid "Watching"
@@ -8792,34 +8757,25 @@ msgid "This project does no longer fit into libre hosting conditions."
 msgstr "Ovaj projekt više ne ispunjava uvjete za hosting slobodnih projekata."
 
 #: weblate/templates/trans/alert/nomaskmatches.html:2
-#, fuzzy
-#| msgid "This component set up is incomplete as it lacks translations."
 msgid "This component set up is incomplete, as it lacks any translations."
-msgstr "Ova je komponenta nepotpuna jer joj nedostaju prijevodi."
+msgstr "Postava ove komponente je nepotpuna, jer nema nijedan prijevod."
 
 #: weblate/templates/trans/alert/nomaskmatches.html:6
-#, fuzzy
-#| msgid ""
-#| "Create new translations directly in Weblate, it will create files based "
-#| "on the file mask."
 msgid ""
 "Starting new translations directly in Weblate is possible, and creates files "
 "based on the filemask."
 msgstr ""
-"Stvori nove prijevode izravno u Weblateu. Weblate će stvoriti datoteke na "
-"osnovi maske datoteke."
+"Započinjanje novih prijevoda izravno u Weblateu je moguće i stvorit će "
+"datoteke na osnovi maske datoteke."
 
 #: weblate/templates/trans/alert/nomaskmatches.html:8
-#, fuzzy, python-format
-#| msgid ""
-#| "Check whether file mask <code>%(filemask)s</code> matches files in your "
-#| "repository."
+#, python-format
 msgid ""
 "Check whether the filemask <code>%(filemask)s</code> matches files in your "
 "version control system repository."
 msgstr ""
-"Provjeri je li se maska datoteke <code>%(filemask)s%(filemask)s</code> "
-"podudara s datotekama u tvom repozitoriju."
+"Provjeri je li se maska datoteke <code>%(filemask)s</code> podudara s "
+"datotekama u tvom repozitoriju sustava za kontrolu verzija."
 
 #. Translators: This is shown when an alert contains too many occurences, the count will be always at least 100
 #: weblate/templates/trans/alert/occurrences-limit.html:5
@@ -9847,8 +9803,6 @@ msgid "Missing query string."
 msgstr "Nedostaje izraz za upit."
 
 #: weblate/trans/forms.py:185
-#, fuzzy
-#| msgid "Failed to parse query string: {}"
 msgid "Could not parse query string: {}"
 msgstr "Neuspjela obrada izraza upita: {}"
 
@@ -10783,12 +10737,9 @@ msgid "Moved component"
 msgstr "Premještena komponenta"
 
 #: weblate/trans/models/change.py:316
-#, fuzzy
-#| msgid "New string to translate"
-#| msgid_plural "New strings to translate"
 msgctxt "Name of event in the history"
 msgid "New string to translate"
-msgstr "Novi izraz za prevođenje"
+msgstr "Nov izraz za prevesti"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:325
@@ -10965,17 +10916,14 @@ msgid "Repository browser"
 msgstr "Preglednik repozitorija"
 
 #: weblate/trans/models/component.py:291
-#, fuzzy
-#| msgid ""
-#| "Link to repository browser, use {{branch}} for branch, {{filename}} and "
-#| "{{line}} as filename and line placeholders."
 msgid ""
 "Link to repository browser, use {{branch}} for branch, {{filename}} and "
 "{{line}} as filename and line placeholders. You might want to strip leading "
 "directory by using {{filename|parentdir}}."
 msgstr ""
 "Poveži na preglednik repozitorija, koristi {{branch}} za granu, {{filename}} "
-"i {{line}} kao ime datoteke i rezervirana mjesta."
+"i {{line}} kao ime datoteke i rezervirana mjesta. Možda ćeš htjeti ukloniti "
+"nadređenu mapu pomoću {{filename|parentdir}}."
 
 #: weblate/trans/models/component.py:299
 msgid "Exported repository URL"
@@ -12584,10 +12532,8 @@ msgid "Silver"
 msgstr "Srebrna"
 
 #: weblate/utils/fields.py:92
-#, fuzzy
-#| msgid "A user with that username already exists."
 msgid "A user with this e-mail already exists."
-msgstr "Korisnik s tim korisničkim imenom već postoji."
+msgstr "Korisnik s ovom e-mail adresom već postoji."
 
 #: weblate/utils/render.py:44
 #, python-format
