@@ -628,7 +628,11 @@ class ComponentChangeTest(RepoTestCase):
 
         change = component.change_set.get(action=Change.ACTION_LOCK)
         self.assertEqual(change.details, {"auto": True})
-        self.assertEqual(change.get_action_display(), "Component automatically locked")
+        self.assertEqual(change.get_action_display(), "Component locked")
+        self.assertEqual(
+            change.get_details_display(),
+            "Component was automatically locked because of an alert.",
+        )
 
         component.add_alert("UpdateFailure")
         self.assertTrue(component.locked)
