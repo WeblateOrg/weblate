@@ -932,7 +932,9 @@ if "WEBLATE_BASIC_LANGUAGES" in os.environ:
 # By default the length of a given translation is limited to the length of
 # the source string * 10 characters. Set this option to False to allow longer
 # translations (up to 10.000 characters)
-LIMIT_TRANSLATION_LENGTH_BY_SOURCE_LENGTH = True
+LIMIT_TRANSLATION_LENGTH_BY_SOURCE_LENGTH = get_env_bool(
+    "WEBLATE_LIMIT_TRANSLATION_LENGTH_BY_SOURCE_LENGTH", True
+)
 
 # Use simple language codes for default language/country combinations
 SIMPLIFY_LANGUAGES = get_env_bool("WEBLATE_SIMPLIFY_LANGUAGES", True)

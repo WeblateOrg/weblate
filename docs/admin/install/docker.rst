@@ -730,6 +730,12 @@ Generic settings
 
    Configures :setting:`ENABLE_AVATARS`.
 
+.. envvar:: WEBLATE_LIMIT_TRANSLATION_LENGTH_BY_SOURCE_LENGTH
+
+   .. versionadded:: 4.9
+
+   Configures :setting:`LIMIT_TRANSLATION_LENGTH_BY_SOURCE_LENGTH`.
+
 
 .. _docker-machine:
 
