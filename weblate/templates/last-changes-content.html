@@ -3,10 +3,10 @@
 {% load permissions %}
 {% load icons %}
 
-<div class="container-fluid">
+<table class="table table-autowidth">
 {% for change in last_changes %}
-<div class="row history-row" {% if in_email %}style="clear:both"{% endif %}>
-    <div class="col-xs-2 history-event">
+<tr class="history-row" {% if in_email %}style="clear:both"{% endif %}>
+    <td class="history-event">
         <strong>{{ change.get_user_display }}</strong>
         <p class="text-muted">{{ change.get_action_display }}</p>
         <p>
@@ -20,8 +20,8 @@
             — <a href="{{ change.translation.get_absolute_url }}">{{ change.translation.language }}</a>
             {% endif %}
         </p>
-    </div>
-    <div class="col-xs-10 history-data">
+    </td>
+    <td class="history-data full-cell">
         {% if not in_email %}
         <div class="btn-float pull-right flip">
             <a class="btn btn-link" href="{{ change.get_absolute_url }}" title="{% trans "View details" %}">{% icon "magnify-plus-outline.svg" %}</a>
@@ -77,9 +77,13 @@
         {% if in_email %}
         <a class="button" href="{{ change.get_absolute_url }}">{% trans "View" %}</a>
         {% endif %}
-    </div>
-</div>
+    </td>
+</tr>
 {% empty %}
-<p><em>{% trans "No matching activity found." %}</em></p>
+<tr>
+  <td colspan="2">
+    <em>{% trans "No matching activity found." %}</em>
+  </td>
+</tr>
 {% endfor %}
-</div>
+</table>

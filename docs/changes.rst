@@ -4,6 +4,7 @@ Weblate 4.9
 Not yet released.
 
 * Provide more details in history for file changes.
+* Improved rendering of history.
 
 Weblate 4.8.1
 -------------
