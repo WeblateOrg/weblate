@@ -242,8 +242,73 @@ i18next interpolation
    :ref:`check-formats`,
    `i18next interpolation <https://www.i18next.com/translation-function/interpolation>`_
 
-.. _check-java-format:
 
+.. _check-icu-message-format:
+
+ICU MessageFormat
+*****************
+
+.. versionadded:: 4.9
+
+:Summary: There are inconsistencies or syntax errors within ICU MessageFormat placeholders.
+:Scope: translated strings
+:Check class: ``weblate.checks.icu.ICUMessageFormatCheck``
+:Flag to enable: ``icu-message-format``
+:Flag to ignore: ``ignore-icu-message-format``
+:Interpolation example: ``There {number, plural, one {is one apple} other {are # apples}}.``
+
+This check has support for both pure ICU MessageFormat messages as well as ICU with simple
+XML tags. You can configure the behavior of this check by using ``icu-flags:*``, either by
+opting into XML support or by disabling certain sub-checks. For example, the following flag
+enables XML support while disabling validation of plural sub-messages:
+
+.. code-block::text
+
+  icu-message-format, icu-flags:xml:-plural_selectors
+
++---------------------------+------------------------------------------------------------+
+| ``xml``                   | Enable support for simple XML tags. By default, XML tags   |
+|                           | are parsed loosely. Stray ``<`` characters are ignored     |
+|                           | if they are not reasonably part of a tag.                  |
++---------------------------+------------------------------------------------------------+
+| ``strict-xml``            | Enable support for strict XML tags. All ``<`` characters   |
+|                           | must be escaped if they are not part of a tag.             |
++---------------------------+------------------------------------------------------------+
+| ``-highlight``            | Disable highlighting placeholders in the editor.           |
++---------------------------+------------------------------------------------------------+
+| ``-require_other``        | Disable requiring sub-messages to have an ``other``        |
+|                           | selector.                                                  |
++---------------------------+------------------------------------------------------------+
+| ``-submessage_selectors`` | Skip checking that sub-message selectors match the source. |
++---------------------------+------------------------------------------------------------+
+| ``-types``                | Skip checking that placeholder types match the source.     |
++---------------------------+------------------------------------------------------------+
+| ``-extra``                | Skip checking that no placeholders are present that were   |
+|                           | not present in the source string.                          |
++---------------------------+------------------------------------------------------------+
+| ``-missing``              | Skip checking that no placeholders are missing that were   |
+|                           | present in the source string.                              |
++---------------------------+------------------------------------------------------------+
+
+Additionally, when ``strict-xml`` is not enabled but ``xml`` is enabled, you can use the
+``icu-tag-prefix:PREFIX`` flag to require that all XML tags start with a specific string.
+For example, the following flag will only allow XML tags to be matched if they start with
+``<x:``:
+
+.. code-block::text
+
+  icu-message-format, icu-flags:xml, icu-tag-prefix:"x:"
+
+This would match ``<x:link>click here</x:link>`` but not ``<strong>this</strong>``.
+
+.. seealso::
+
+  :ref:`check-formats`,
+  `ICU: Formatting Messages <https://unicode-org.github.io/icu/userguide/format_parse/messages/>`_,
+  `Format.JS: Message Syntax <https://formatjs.io/docs/core-concepts/icu-syntax/>`_
+
+
+.. _check-java-format:
 
 Java format
 ***********

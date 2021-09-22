@@ -75,7 +75,9 @@ class MockTranslation:
 class MockUnit:
     """Mock unit object."""
 
-    def __init__(self, id_hash=None, flags="", code="cs", source="", note=""):
+    def __init__(
+        self, id_hash=None, flags="", code="cs", source="", note="", is_source=None
+    ):
         if id_hash is None:
             id_hash = random.randint(0, 65536)
         self.id_hash = id_hash
@@ -89,6 +91,7 @@ class MockUnit:
         self.note = note
         self.check_cache = {}
         self.machinery = {"best": -1}
+        self.is_source = is_source
 
     @property
     def all_flags(self):
