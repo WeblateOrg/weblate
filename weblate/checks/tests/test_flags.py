@@ -126,6 +126,9 @@ class FlagTest(SimpleTestCase):
                 ("font-spacing", "2"),
             },
         )
+        self.assertEqual(
+            Flags("font-family: segoeui").items(), {("font-family", "segoeui")}
+        )
 
     def test_unicode(self):
         self.assertEqual(
