@@ -417,9 +417,13 @@ class Change(models.Model, UserDisplayMixin):
     }
     AUTO_ACTIONS = {
         # Translators: Name of event in the history
-        ACTION_LOCK: gettext_lazy("Component automatically locked"),
+        ACTION_LOCK: gettext_lazy(
+            "Component was automatically locked because of an alert."
+        ),
         # Translators: Name of event in the history
-        ACTION_UNLOCK: gettext_lazy("Component automatically unlocked"),
+        ACTION_UNLOCK: gettext_lazy(
+            "Component was automatically unlocked as alert was fixed."
+        ),
     }
 
     unit = models.ForeignKey("Unit", null=True, on_delete=models.deletion.CASCADE)
@@ -527,8 +531,6 @@ class Change(models.Model, UserDisplayMixin):
     def get_action_display(self):
         if self.action in self.PLURAL_ACTIONS:
             return self.PLURAL_ACTIONS[self.action] % self.plural_count
-        if self.action in self.AUTO_ACTIONS and self.auto_status:
-            return str(self.AUTO_ACTIONS[self.action])
         return str(self.ACTIONS_DICT.get(self.action, self.action))
 
     def is_merge_failure(self):
@@ -557,6 +559,9 @@ class Change(models.Model, UserDisplayMixin):
 
         if self.action in (self.ACTION_ANNOUNCEMENT, self.ACTION_AGREEMENT_CHANGE):
             return render_markdown(self.target)
+
+        if self.action in self.AUTO_ACTIONS and self.auto_status:
+            return str(self.AUTO_ACTIONS[self.action])
 
         if self.action == self.ACTION_UPDATE:
             reason = self.details.get("reason", "content changed")
