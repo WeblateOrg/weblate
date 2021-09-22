@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-09-08 12:00+0200\n"
-"PO-Revision-Date: 2021-09-22 06:56+0000\n"
+"PO-Revision-Date: 2021-09-22 15:42+0000\n"
 "Last-Translator: Simona Iacob <s@zp1.net>\n"
 "Language-Team: Romanian <https://hosted.weblate.org/projects/weblate/"
 "documentation/ro/>\n"
@@ -17495,12 +17495,17 @@ msgid ""
 "translation memories. It can be used to download, wipe or import translation "
 "memory."
 msgstr ""
+"În interfața de bază a utilizatorului puteți gestiona memoriile de traducere "
+"pentru fiecare utilizator și pentru fiecare proiect. Aceasta poate fi "
+"utilizată pentru a descărca, șterge sau importa memorii de traducere."
 
 #: ../../admin/memory.rst:84
 msgid ""
 "Translation memory in JSON can be imported into Weblate, TMX is provided for "
 "interoperability with other tools."
 msgstr ""
+"Memoria de traducere în JSON poate fi importată în Weblate, TMX este "
+"furnizat pentru interoperabilitate cu alte instrumente."
 
 #: ../../admin/memory.rst:89
 msgid ":ref:`schema-memory`"
@@ -17512,6 +17517,10 @@ msgid ""
 "content. These operate on the translation memory as whole, unfiltered by "
 "scopes (unless requested by parameters):"
 msgstr ""
+"Există mai multe comenzi de gestionare pentru a manipula conținutul memoriei "
+"de traducere. Acestea operează asupra memoriei de traducere ca întreg, fără "
+"a fi filtrate de domenii de aplicare (cu excepția cazului în care sunt "
+"solicitate prin parametri):"
 
 #: ../../admin/memory.rst:100
 msgid ":djadmin:`dump_memory`"
@@ -17519,42 +17528,49 @@ msgstr ""
 
 #: ../../admin/memory.rst:101
 msgid "Exports the memory into JSON"
-msgstr ""
+msgstr "Exportă memoria în JSON"
 
 #: ../../admin/memory.rst:103
 msgid "Imports TMX or JSON files into the translation memory"
-msgstr ""
+msgstr "Importă fișiere TMX sau JSON în memoria de traducere"
 
 #: ../../admin/optionals.rst:2
 msgid "Optional Weblate modules"
-msgstr ""
+msgstr "Module Weblate opționale"
 
 #: ../../admin/optionals.rst:4
 msgid "Several optional modules are available for your setup."
 msgstr ""
+"Mai multe module opționale sunt disponibile pentru configurația "
+"dumneavoastră."
 
 #: ../../admin/optionals.rst:9
 msgid "Git exporter"
-msgstr ""
+msgstr "Exportator Git"
 
 #: ../../admin/optionals.rst:13
 msgid ""
 "Provides you read-only access to the underlying Git repository using HTTP(S)."
 msgstr ""
+"Vă oferă acces numai pentru citire la depozitul Git subiacent folosind "
+"HTTP(S)."
 
 #: ../../admin/optionals.rst:18
 msgid "Add ``weblate.gitexport`` to installed apps in :file:`settings.py`:"
 msgstr ""
+"Adăugați ``weblate.gitexport`` la aplicațiile instalate în :file:`settings."
+"py`:"
 
 #: ../../admin/optionals.rst:24
 msgid ""
 "Export existing repositories by migrating your database after installation:"
 msgstr ""
+"Exportați depozitele existente prin migrarea bazei de date după instalare:"
 
 #: ../../admin/optionals.rst:31 ../../admin/optionals.rst:87
 #: ../../admin/optionals.rst:162 ../../faq.rst:263
 msgid "Usage"
-msgstr ""
+msgstr "Utilizare"
 
 #: ../../admin/optionals.rst:33
 msgid ""
@@ -17563,12 +17579,17 @@ msgid ""
 "git/`` part of the Weblate URL, for example ``https://example.org/git/"
 "weblate/main/``."
 msgstr ""
+"Modulul se conectează automat la Weblate și setează URL-ul depozitului "
+"exportat în :ref:`component`. Depozitele sunt accesibile sub partea ``/git/``"
+" a URL-ului Weblate, de exemplu ``https://example.org/git/weblate/main/``."
 
 #: ../../admin/optionals.rst:38
 msgid ""
 "Repositories for publicly available projects can be cloned without "
 "authentication:"
 msgstr ""
+"Depozitele pentru proiectele disponibile public pot fi clonate fără "
+"autentificare:"
 
 #: ../../admin/optionals.rst:44
 msgid ""
@@ -17577,6 +17598,10 @@ msgid ""
 "requires an API token which can be obtained in your :ref:`user profile <user-"
 "profile>`:"
 msgstr ""
+"Accesul pentru a parcurge depozitele cu acces restricționat (cu `Private` "
+":ref:`access control <acl>`` sau când :setting:`REQUIRE_LOGIN` este activat) "
+"necesită un token API care poate fi obținut în :ref:`user profile <user-"
+"profile>`:"
 
 #: ../../admin/optionals.rst:55
 msgid ""
@@ -17584,22 +17609,32 @@ msgid ""
 "to the repositories for public projects via :guilabel:`Access repository` "
 "and :guilabel:`Power user` roles."
 msgstr ""
+"În mod implicit, membrii grupului :guilabel:`Users` și utilizatorii anonimi "
+"au acces la depozitele pentru proiectele publice prin intermediul rolurilor "
+":guilabel:`Access repository` și :guilabel:`Power user`."
 
 #: ../../admin/optionals.rst:67
 msgid ""
 "This is used on `Hosted Weblate <https://weblate.org/hosting/>`_ to define "
 "billing plans, track invoices and usage limits."
 msgstr ""
+"Aceasta este utilizată la `Hosted Weblate <https://weblate.org/hosting/>`_ "
+"pentru a defini planurile de facturare, pentru a urmări facturile și "
+"limitele de utilizare."
 
 #: ../../admin/optionals.rst:73
 msgid "1. Add ``weblate.billing`` to installed apps in :file:`settings.py`:"
 msgstr ""
+"1. Adăugați ``weblate.billing`` la aplicațiile instalate în :file:`settings."
+"py`:"
 
 #: ../../admin/optionals.rst:80 ../../admin/optionals.rst:153
 msgid ""
 "Run the database migration to optionally install additional database "
 "structures for the module:"
 msgstr ""
+"Rulați migrarea bazei de date pentru a instala opțional structuri de baze de "
+"date suplimentare pentru modul:"
 
 #: ../../admin/optionals.rst:89
 msgid ""
@@ -17607,6 +17642,9 @@ msgid ""
 "with billing enabled will get new :guilabel:`Billing` tab in their :ref:"
 "`user-profile`."
 msgstr ""
+"După instalare, puteți controla facturarea în interfața de administrare. "
+"Utilizatorii cu facturarea activată vor avea o nouă filă :guilabel:`Billing` "
+"în :ref:`user-profile`."
 
 #: ../../admin/optionals.rst:93
 msgid ""
@@ -17614,12 +17652,19 @@ msgid ""
 "and components without being superusers (see :ref:`adding-projects`). This "
 "is possible when following conditions are met:"
 msgstr ""
+"Modulul de facturare permite în plus administratorilor de proiecte să creeze "
+"noi proiecte și componente fără a fi superutilizatori (a se vedea :ref"
+":`adding-projects`). Acest lucru este posibil atunci când sunt îndeplinite "
+"următoarele condiții:"
 
 #: ../../admin/optionals.rst:97
 msgid ""
 "The billing is in its configured limits (any overusage results in blocking "
 "of project/component creation) and paid (if its price is non zero)"
 msgstr ""
+"Facturarea este în limitele configurate (orice suprautilizare duce la "
+"blocarea creării proiectului/componentei) și plătită (dacă prețul său este "
+"diferit de zero)"
 
 #: ../../admin/optionals.rst:99
 msgid ""
@@ -17627,12 +17672,19 @@ msgid ""
 "billing (the latter is necessary when creating new billing for users to be "
 "able to import new projects)."
 msgstr ""
+"Utilizatorul este administrator al unui proiect existent cu facturare sau "
+"utilizatorul este proprietar al facturării (aceasta din urmă este necesară "
+"la crearea unei noi facturări pentru ca utilizatorii să poată importa "
+"proiecte noi)."
 
 #: ../../admin/optionals.rst:103
 msgid ""
 "Upon project creation user is able to choose which billing should be charged "
 "for the project in case he has access to more of them."
 msgstr ""
+"La crearea proiectului, utilizatorul are posibilitatea de a alege ce factură "
+"trebuie să fie facturată pentru proiect, în cazul în care are acces la mai "
+"multe dintre ele."
 
 #: ../../admin/optionals.rst:110
 msgid "Legal"
@@ -17644,30 +17696,36 @@ msgid ""
 "required legal documents. It comes provided with blank documents, and you "
 "are expected to fill out the following templates in the documents:"
 msgstr ""
+"Acesta este utilizat pe `Hosted Weblate <https://weblate.org/hosting/>`_ "
+"pentru a furniza documentele legale necesare. Acesta este furnizat cu "
+"documente în alb și se așteaptă să completați următoarele modele în "
+"documente:"
 
 #: ../../admin/optionals.rst:118
 msgid ":file:`legal/documents/tos.html`"
-msgstr ""
+msgstr ":file:`legal/documents/tos.html`"
 
 #: ../../admin/optionals.rst:119
 msgid "Terms of service document"
-msgstr ""
+msgstr "Documentul privind condițiile de serviciu"
 
 #: ../../admin/optionals.rst:120
 msgid ":file:`legal/documents/privacy.html`"
-msgstr ""
+msgstr ":file:`legal/documente/privacy.html`"
 
 #: ../../admin/optionals.rst:121
 msgid "Privacy policy document"
-msgstr ""
+msgstr "Documentul privind politica de confidențialitate"
 
 #: ../../admin/optionals.rst:123
 msgid ":file:`legal/documents/summary.html`"
-msgstr ""
+msgstr ":file:`legal/documents/summary.html`"
 
 #: ../../admin/optionals.rst:123
 msgid "Short overview of the terms of service and privacy policy"
 msgstr ""
+"Scurtă prezentare generală a condițiilor de utilizare și a politicii de "
+"confidențialitate"
 
 #: ../../admin/optionals.rst:127
 msgid ""
@@ -17675,32 +17733,43 @@ msgid ""
 "repository <https://github.com/WeblateOrg/wllegal/tree/main/wllegal/"
 "templates/legal/documents>."
 msgstr ""
+"Documentele legale pentru serviciul Hosted Weblate sunt disponibile în acest "
+"depozit Git <https://github.com/WeblateOrg/wllegal/tree/main/wllegal/"
+"templates/legal/documents>."
 
 #: ../../admin/optionals.rst:130
 msgid ""
 "Most likely these will not be directly usable to you, but might come in "
 "handy as a starting point if adjusted to meet your needs."
 msgstr ""
+"Cel mai probabil, acestea nu vă vor fi direct utilizabile, dar ar putea fi "
+"utile ca punct de plecare, dacă sunt adaptate pentru a răspunde nevoilor "
+"dumneavoastră."
 
 #: ../../admin/optionals.rst:136
 msgid "1. Add ``weblate.legal`` to installed apps in :file:`settings.py`:"
 msgstr ""
+"1. Adăugați ``weblate.legal`` la aplicațiile instalate în :file:`settings."
+"py`:"
 
 #: ../../admin/optionals.rst:159
 msgid ""
 "Edit the legal documents in the :file:`weblate/legal/templates/legal/` "
 "folder to match your service."
 msgstr ""
+"Modificați documentele juridice din dosarul :file:`weblate/legal/templates/"
+"legal/` pentru a corespunde serviciului dumneavoastră."
 
 #: ../../admin/optionals.rst:164
 msgid ""
 "After installation and editing, the legal documents are shown in the Weblate "
 "UI."
 msgstr ""
+"După instalare și editare, documentele juridice sunt afișate în Weblate UI."
 
 #: ../../admin/optionals.rst:169
 msgid "Avatars"
-msgstr ""
+msgstr "Avataruri"
 
 #: ../../admin/optionals.rst:171
 msgid ""
@@ -17709,58 +17778,71 @@ msgid ""
 "from e-mails addresses configured for it can be turned off using :setting:"
 "`ENABLE_AVATARS`."
 msgstr ""
+"Avatarurile sunt descărcate și stocate în memoria cache pe server pentru a "
+"reduce scurgerile de informații către site-urile care le oferă în mod "
+"implicit. Suportul încorporat pentru preluarea avatarurilor de la adresele "
+"de e-mail configurate în acest scop poate fi dezactivat cu "
+":setting:`ENABLE_AVATARS`."
 
 #: ../../admin/optionals.rst:175
 msgid "Weblate currently supports:"
-msgstr ""
+msgstr "Weblate suportă în prezent:"
 
 #: ../../admin/optionals.rst:177
 msgid "`Gravatar <https://gravatar.com/>`_"
-msgstr ""
+msgstr "`Gravatar <https://gravatar.com/>``_"
 
 #: ../../admin/optionals.rst:178
 msgid "`Libravatar <https://www.libravatar.org/>`_"
-msgstr ""
+msgstr "`Libravatar <https://www.libravatar.org/>`_"
 
 #: ../../admin/optionals.rst:182
 msgid ""
 ":ref:`production-cache-avatar`, :setting:`AVATAR_URL_PREFIX`, :setting:"
 "`ENABLE_AVATARS`"
 msgstr ""
+":ref:`production-cache-avatar`, :setting:`AVATAR_URL_PREFIX`, "
+":setting:`ENABLE_AVATARS`"
 
 #: ../../admin/optionals.rst:189
 msgid "Spam protection"
-msgstr ""
+msgstr "Protecția împotriva spam-ului"
 
 #: ../../admin/optionals.rst:191
 msgid ""
 "You can protect against spamming by users by using the `Akismet <https://"
 "akismet.com/>`_ service."
 msgstr ""
+"Puteți să vă protejați împotriva spamming-ului din partea utilizatorilor "
+"prin utilizarea serviciului `Akismet <https://akismet.com/>`_."
 
 #: ../../admin/optionals.rst:194
 msgid ""
 "Install the `akismet` Python module (this is already included in the "
 "official Docker image)."
 msgstr ""
+"Instalați modulul Python `akismet` (acesta este deja inclus în imaginea "
+"oficială Docker)."
 
 #: ../../admin/optionals.rst:195
 msgid "Obtain the Akismet API key."
-msgstr ""
+msgstr "Obțineți cheia API Akismet."
 
 #: ../../admin/optionals.rst:196
 msgid ""
 "Store it as :setting:`AKISMET_API_KEY` or :envvar:`WEBLATE_AKISMET_API_KEY` "
 "in Docker."
 msgstr ""
+"Stocați-o ca :setting:`AKISMET_API_KEY` sau :envvar:`WEBLATE_AKISMET_API_KEY`"
+" în Docker."
 
 #: ../../admin/optionals.rst:198
 msgid "Following content is sent to Akismet for checking:"
-msgstr ""
+msgstr "Conținutul următor este trimis la Akismet pentru verificare:"
 
 #: ../../admin/optionals.rst:200
 msgid "Suggestions from unauthenticated users"
-msgstr ""
+msgstr "Sugestii de la utilizatori neautentificați"
 
 #: ../../admin/optionals.rst:201
 #, fuzzy
@@ -17773,58 +17855,69 @@ msgid ""
 "This (among other things) relies on IP address of the client, please see :"
 "ref:`reverse-proxy` for properly configuring that."
 msgstr ""
+"Acest lucru (printre altele) se bazează pe adresa IP a clientului, "
+"consultați :ref:`reverse-proxy` pentru configurarea corectă a acesteia."
 
 #: ../../admin/optionals.rst:210
 msgid ""
 ":ref:`reverse-proxy`, :setting:`AKISMET_API_KEY`, :envvar:"
 "`WEBLATE_AKISMET_API_KEY`"
 msgstr ""
+":ref:`reverse-proxy`, :setting:`AKISMET_API_KEY`, "
+":envvar:`WEBLATE_AKISMET_API_KEY`"
 
 #: ../../admin/optionals.rst:218
 msgid "Signing Git commits with GnuPG"
-msgstr ""
+msgstr "Semnarea comenzilor Git cu GnuPG"
 
 #: ../../admin/optionals.rst:222
 msgid "All commits can be signed by the GnuPG key of the Weblate instance."
-msgstr ""
+msgstr "Toate angajamentele pot fi semnate de cheia GnuPG a instanței Weblate."
 
 #: ../../admin/optionals.rst:224
 msgid ""
 "1. Turn on :setting:`WEBLATE_GPG_IDENTITY`. (Weblate will generate a GnuPG "
 "key when needed and will use it to sign all translation commits.)"
 msgstr ""
+"1. Activați :setting:`WEBLATE_GPG_IDENTITY`. (Weblate va genera o cheie "
+"GnuPG atunci când este necesar și o va folosi pentru a semna toate "
+"confirmările de traducere)"
 
 #: ../../admin/optionals.rst:227
 msgid "This feature needs GnuPG 2.1 or newer installed."
-msgstr ""
+msgstr "Această funcție necesită instalarea GnuPG 2.1 sau o versiune mai nouă."
 
 #: ../../admin/optionals.rst:229
 msgid ""
 "You can find the key in the :setting:`DATA_DIR` and the public key is shown "
 "on the \"About\" page:"
 msgstr ""
+"Cheia poate fi găsită în :setting:`DATA_DIR`, iar cheia publică este afișată "
+"pe pagina \"Despre\":"
 
 #: ../../admin/optionals.rst:234
 msgid ""
 "2. Alternatively you can also import existing keys into Weblate, just set "
 "``HOME=$DATA_DIR/home`` when invoking gpg."
 msgstr ""
+"2. Alternativ, puteți de asemenea importa cheile existente în Weblate, doar "
+"setați ``HOME=$DATA_DIR/home`` atunci când apelați gpg."
 
 #: ../../admin/optionals.rst:239
 msgid ":setting:`WEBLATE_GPG_IDENTITY`"
-msgstr ""
+msgstr ":setting:`WEBLATE_GPG_IDENTITY`"
 
 #: ../../admin/optionals.rst:244 ../../user/translating.rst:352
 msgid "Rate limiting"
-msgstr ""
+msgstr "Limitarea ratei"
 
 #: ../../admin/optionals.rst:248
 msgid "The rate limiting now accepts more fine-grained configuration."
-msgstr ""
+msgstr "Limitarea ratei acceptă acum o configurație mai fină."
 
 #: ../../admin/optionals.rst:252 ../../changes.rst:129
 msgid "The rate limiting no longer applies to superusers."
-msgstr ""
+msgstr "Limitarea tarifelor nu se mai aplică superutilizatorilor."
 
 #: ../../admin/optionals.rst:254
 msgid ""
@@ -17835,10 +17928,16 @@ msgid ""
 "``RATELIMIT_CONTACT_ATTEMPTS`` or ``RATELIMIT_TRANSLATE_ATTEMPTS``. The "
 "table below is a full list of available scopes."
 msgstr ""
+"Mai multe operații din Weblate sunt limitate de tarif. Sunt permise cel mult "
+":setting:`RATELIMIT_ATTEMPTS` încercări în :setting:`RATELIMIT_WINDOW` "
+"secunde. Utilizatorul este apoi blocat pentru :setting:`RATELIMIT_LOCKOUT`. "
+"Există, de asemenea, setări specifice domeniilor, de exemplu "
+"``RATELIMIT_CONTACT_ATTEMPTS`` sau ``RATELIMIT_TRANSLATE_ATTEMPTS``. Tabelul "
+"de mai jos este o listă completă a domeniilor disponibile."
 
 #: ../../admin/optionals.rst:258
 msgid "The following operations are subject to rate limiting:"
-msgstr ""
+msgstr "Următoarele operațiuni fac obiectul limitării ratei:"
 
 #: ../../admin/optionals.rst:261
 msgid "Name"
@@ -17850,15 +17949,15 @@ msgstr "Domeniul de aplicare"
 
 #: ../../admin/optionals.rst:261
 msgid "Allowed attempts"
-msgstr ""
+msgstr "Încercări permise"
 
 #: ../../admin/optionals.rst:261
 msgid "Ratelimit window"
-msgstr ""
+msgstr "Fereastra Ratelimit"
 
 #: ../../admin/optionals.rst:261
 msgid "Lockout period"
-msgstr ""
+msgstr "Perioada de blocare"
 
 #: ../../admin/optionals.rst:263 ../../user/profile.rst:5
 msgid "Registration"
@@ -17871,23 +17970,23 @@ msgstr ""
 #: ../../admin/optionals.rst:263 ../../admin/optionals.rst:265
 #: ../../admin/optionals.rst:267 ../../admin/optionals.rst:278
 msgid "5"
-msgstr ""
+msgstr "5"
 
 #: ../../admin/optionals.rst:263 ../../admin/optionals.rst:265
 #: ../../admin/optionals.rst:267 ../../admin/optionals.rst:275
 msgid "300"
-msgstr ""
+msgstr "300"
 
 #: ../../admin/optionals.rst:263 ../../admin/optionals.rst:265
 #: ../../admin/optionals.rst:267 ../../admin/optionals.rst:271
 #: ../../admin/optionals.rst:273 ../../admin/optionals.rst:275
 #: ../../admin/optionals.rst:278
 msgid "600"
-msgstr ""
+msgstr "600"
 
 #: ../../admin/optionals.rst:265
 msgid "Sending message to admins"
-msgstr ""
+msgstr "Trimiterea unui mesaj către administratori"
 
 #: ../../admin/optionals.rst:265
 msgid "``MESSAGE``"
@@ -17895,7 +17994,7 @@ msgstr ""
 
 #: ../../admin/optionals.rst:267
 msgid "Password authentication on sign in"
-msgstr ""
+msgstr "Autentificarea parolei la conectare"
 
 #: ../../admin/optionals.rst:267
 msgid "``LOGIN``"
@@ -17903,7 +18002,7 @@ msgstr ""
 
 #: ../../admin/optionals.rst:269
 msgid "Sitewide search"
-msgstr ""
+msgstr "Căutare la nivelul întregului site"
 
 #: ../../admin/optionals.rst:269
 msgid "``SEARCH``"
@@ -17911,16 +18010,16 @@ msgstr ""
 
 #: ../../admin/optionals.rst:269
 msgid "6"
-msgstr ""
+msgstr "6"
 
 #: ../../admin/optionals.rst:269 ../../admin/optionals.rst:271
 #: ../../admin/optionals.rst:273
 msgid "60"
-msgstr ""
+msgstr "60"
 
 #: ../../admin/optionals.rst:271 ../../user/translating.rst:103
 msgid "Translating"
-msgstr ""
+msgstr "Traducerea"
 
 #: ../../admin/optionals.rst:271
 msgid "``TRANSLATE``"
@@ -17928,11 +18027,11 @@ msgstr ""
 
 #: ../../admin/optionals.rst:271 ../../admin/optionals.rst:273
 msgid "30"
-msgstr ""
+msgstr "30"
 
 #: ../../admin/optionals.rst:273
 msgid "Adding to glossary"
-msgstr ""
+msgstr "Adăugarea la glosar"
 
 #: ../../admin/optionals.rst:273
 msgid "``GLOSSARY``"
@@ -17950,7 +18049,7 @@ msgstr ""
 
 #: ../../admin/optionals.rst:275
 msgid "2"
-msgstr ""
+msgstr "2"
 
 #: ../../admin/optionals.rst:278
 #, fuzzy
@@ -17968,6 +18067,9 @@ msgid ""
 "authentication will be turned off on the account until having gone through "
 "the process of having its password reset."
 msgstr ""
+"Dacă un utilizator nu reușește să se logheze :setting:`AUTH_LOCK_ATTEMPTS` "
+"de mai multe ori, autentificarea prin parolă va fi dezactivată pentru contul "
+"respectiv până când va fi trecut prin procesul de resetare a parolei."
 
 #: ../../admin/optionals.rst:283
 msgid ""
@@ -17975,14 +18077,18 @@ msgid ""
 "``WEBLATE_`` prefix to the setting name, for example :setting:"
 "`RATELIMIT_ATTEMPTS` becomes :envvar:`WEBLATE_RATELIMIT_ATTEMPTS`."
 msgstr ""
+"Setările pot fi, de asemenea, aplicate în containerul Docker prin adăugarea "
+"prefixului ``WEBLATE_`` la numele setării, de exemplu "
+":setting:`RATELIMIT_ATTEMPTS` devine :envvar:`WEBLATE_RATELIMIT_ATTEMPTS`."
 
 #: ../../admin/optionals.rst:285
 msgid "The API has separate rate limiting settings, see :ref:`api-rate`."
 msgstr ""
+"API are setări separate de limitare a ratei, a se vedea :ref:`api-rate`."
 
 #: ../../admin/optionals.rst:289
 msgid ":ref:`user-rate`, :ref:`reverse-proxy`, :ref:`api-rate`"
-msgstr ""
+msgstr ":ref:`user-rate`, :ref:`reverse-proxy`, :ref:`api-rate`"
 
 #: ../../admin/optionals.rst:294
 #, fuzzy
@@ -17996,6 +18102,9 @@ msgid ""
 "Weblate. You can hook additional services on changes happening in Weblate "
 "using this."
 msgstr ""
+"Fedora Messaging este un editor bazat pe AMQP pentru toate modificările care "
+"se produc în Weblate. Puteți agăța servicii suplimentare pe modificările "
+"care se produc în Weblate folosind acest lucru."
 
 #: ../../admin/optionals.rst:299
 msgid ""
@@ -18003,6 +18112,9 @@ msgid ""
 "``weblate-fedora-messaging``. Please see <https://github.com/WeblateOrg/"
 "fedora_messaging/> for setup instructions."
 msgstr ""
+"Integrarea Fedora Messaging este disponibilă ca un modul Python separat "
+"``weblate-fedora-messaging``. Vă rugăm să consultați <https://github.com/"
+"WeblateOrg/fedora_messaging/> pentru instrucțiuni de configurare."
 
 #: ../../admin/projects.rst:2 ../../user/translating.rst:26
 msgid "Translation projects"
@@ -18010,13 +18122,15 @@ msgstr "Proiecte de traducere"
 
 #: ../../admin/projects.rst:5
 msgid "Translation organization"
-msgstr ""
+msgstr "Organizarea traducerii"
 
 #: ../../admin/projects.rst:7
 msgid ""
 "Weblate organizes translatable VCS content of project/components into a tree-"
 "like structure."
 msgstr ""
+"Weblate organizează conținutul VCS traductibil al proiectului/componentelor "
+"într-o structură arborescentă."
 
 #: ../../admin/projects.rst:9
 msgid ""
@@ -18024,6 +18138,9 @@ msgid ""
 "translations belonging together (for example translation of an application "
 "in several versions and/or accompanying documentation)."
 msgstr ""
+"Obiectul de nivel inferior este :ref:`project`, care ar trebui să conțină "
+"toate traducerile care aparțin împreună (de exemplu, traducerea unei "
+"aplicații în mai multe versiuni și/sau documentația însoțitoare)."
 
 #: ../../admin/projects.rst:13
 msgid ""
@@ -18031,6 +18148,8 @@ msgid ""
 "translate, you define the VCS repository to use, and the mask of files to "
 "translate."
 msgstr ""
+"La nivelul superior, :ref:`component`, care este de fapt componenta de "
+"tradus, se definește depozitul VCS de utilizat și masca de fișiere de tradus."
 
 #: ../../admin/projects.rst:17
 msgid ""
