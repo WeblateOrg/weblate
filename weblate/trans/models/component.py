@@ -26,6 +26,7 @@ from datetime import datetime
 from glob import glob
 from itertools import chain
 from typing import Any, Dict, List, Optional
+from urllib.parse import quote as urlquote
 from urllib.parse import urlparse
 
 from celery import current_task
@@ -37,7 +38,6 @@ from django.db import models, transaction
 from django.db.models import Count, Q
 from django.urls import reverse
 from django.utils.functional import cached_property
-from django.utils.http import urlquote
 from django.utils.translation import gettext as _
 from django.utils.translation import gettext_lazy, ngettext, pgettext
 from weblate_language_data.ambiguous import AMBIGUOUS
