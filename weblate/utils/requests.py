@@ -52,4 +52,7 @@ def get_uri_error(uri):
             return None
     except requests.exceptions.RequestException as error:
         report_error(cause="URL check failed")
+        if error.response.status_code == 429:
+            # Silently ignore rate limiting issues
+            return None
         return str(error)
