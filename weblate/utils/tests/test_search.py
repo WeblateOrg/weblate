@@ -313,11 +313,11 @@ class QueryParserTest(TestCase, SearchMixin):
     def test_checks(self):
         self.assert_query(
             "check:ellipsis",
-            Q(check__check__iexact="ellipsis") & Q(check__dismissed=False),
+            Q(check__name__iexact="ellipsis") & Q(check__dismissed=False),
         )
         self.assert_query(
             "dismissed_check:ellipsis",
-            Q(check__check__iexact="ellipsis") & Q(check__dismissed=True),
+            Q(check__name__iexact="ellipsis") & Q(check__dismissed=True),
         )
 
     def test_labels(self):

@@ -461,7 +461,7 @@ class ComponentTest(RepoTestCase):
         component = self.create_component()
         self.assertEqual(Check.objects.count(), 3)
         check = Check.objects.all()[0]
-        component.check_flags = f"ignore-{check.check}"
+        component.check_flags = f"ignore-{check.name}"
         component.save()
         self.assertEqual(Check.objects.count(), 0)
 
@@ -538,7 +538,7 @@ class ComponentDeleteTest(RepoTestCase):
         unit = Unit.objects.filter(check__isnull=False).first().source_unit
         unit.source = "Test..."
         unit.save(update_fields=["source"])
-        unit.check_set.filter(check="ellipisis").delete()
+        unit.check_set.filter(name="ellipisis").delete()
         component.delete()
 
 

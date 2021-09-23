@@ -86,8 +86,8 @@ STRING_FIELD_MAP = {
     "explanation": "source_unit__explanation",
 }
 EXACT_FIELD_MAP = {
-    "check": "check__check",
-    "dismissed_check": "check__check",
+    "check": "check__name",
+    "dismissed_check": "check__name",
     "language": "translation__language__code",
     "component": "translation__component__slug",
     "project": "translation__component__project__slug",

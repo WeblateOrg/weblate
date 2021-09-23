@@ -29,7 +29,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         results = (
-            Check.objects.filter(check="same")
+            Check.objects.filter(name="same")
             .values("unit__source")
             .annotate(Count("unit__source"))
             .filter(unit__source__count__gt=1)
