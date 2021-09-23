@@ -199,7 +199,7 @@ class Check:
             if self.check_id in unit.all_checks_names:
                 continue
 
-            create.append(Check(unit=unit, dismissed=False, check=self.check_id))
+            create.append(Check(unit=unit, dismissed=False, name=self.check_id))
             components[unit.translation.component.id] = unit.translation.component
 
         Check.objects.bulk_create(create, batch_size=500, ignore_conflicts=True)
@@ -210,7 +210,7 @@ class Check:
             stale_checks = stale_checks.filter(
                 unit__translation__component__project=component.project,
                 unit__translation__component__allow_translation_propagation=True,
-                check=self.check_id,
+                name=self.check_id,
             )
             for current in Component.objects.filter(
                 pk__in=stale_checks.values_list(
@@ -222,7 +222,7 @@ class Check:
         else:
             stale_checks = stale_checks.filter(
                 unit__translation__component=component,
-                check=self.check_id,
+                name=self.check_id,
             )
             if stale_checks.delete()[0]:
                 components[component.id] = component

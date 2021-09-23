@@ -91,7 +91,7 @@ class UnitQuerySet(FastDeleteQuerySetMixin, models.QuerySet):
             check_id = rqtype[6:]
             if check_id not in CHECKS:
                 raise ValueError(f"Unknown check: {check_id}")
-            return self.filter(check__check=check_id, check__dismissed=False)
+            return self.filter(check__name=check_id, check__dismissed=False)
         if rqtype.startswith("label:"):
             return self.filter(labels__name=rqtype[6:])
         if rqtype == "all":
@@ -1058,7 +1058,7 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
 
     @property
     def all_checks_names(self):
-        return {check.check for check in self.all_checks}
+        return {check.name for check in self.all_checks}
 
     @property
     def dismissed_checks(self):
@@ -1127,7 +1127,7 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
                     # weblate.checks.models.remove_complimentary_checks
                 else:
                     # Create new check
-                    create.append(Check(unit=self, dismissed=False, check=check))
+                    create.append(Check(unit=self, dismissed=False, name=check))
                     needs_propagate |= check_obj.propagates
 
         if create:
@@ -1151,7 +1151,7 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
 
         # Delete no longer failing checks
         if old_checks:
-            Check.objects.filter(unit=self, check__in=old_checks).delete()
+            Check.objects.filter(unit=self, name__in=old_checks).delete()
             propagated_old_checks = []
             for check_name in old_checks:
                 try:
@@ -1162,7 +1162,7 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
                     continue
             if propagated_old_checks:
                 Check.objects.filter(
-                    unit__in=self.same_source_units, check__in=propagated_old_checks
+                    unit__in=self.same_source_units, name__in=propagated_old_checks
                 ).delete()
                 for other in self.same_source_units:
                     other.translation.invalidate_cache()
