@@ -1408,8 +1408,19 @@ Background tasks using Celery
 
 .. versionadded:: 3.2
 
-Weblate uses Celery to process background tasks. A typical setup using Redis as
-a backend looks like this:
+Weblate uses Celery to execute regular and background tasks. You are supposed
+to run a Celery service that will execute these. For example, it is responsible
+for handling following operations (this list is not complete):
+
+* Receiving webhooks from external services (see :ref:`hooks`).
+* Runing regular maintenance tasks such as backups, cleanups, daily add-ons, or updates
+  (see :ref:`backup`, :ref:`BACKGROUND_TASKS`, :ref:`addons`).
+* Running :ref:`auto-translation`.
+* Sending digest notifications.
+* Offloading expensive operations from wsgi process.
+* Commiting pending changes (see :ref:`lazy-commit`).
+
+A typical setup using Redis as a backend looks like this:
 
 .. code-block:: python
 
@@ -1420,15 +1431,6 @@ a backend looks like this:
 .. seealso::
 
    :ref:`Redis broker configuration in Celery <celery:broker-redis-configuration>`
-
-For development, you might want to use eager configuration, which does process
-all tasks in place, but this will have performance impact on Weblate:
-
-.. code-block:: python
-
-   CELERY_TASK_ALWAYS_EAGER = True
-   CELERY_BROKER_URL = "memory://"
-   CELERY_TASK_EAGER_PROPAGATES = True
 
 You should also start the Celery worker to process the tasks and start
 scheduled tasks, this can be done directly on the command line (which is mostly
@@ -1447,6 +1449,23 @@ useful when debugging or developing):
 
    See also :ref:`file-permissions` and :ref:`server`.
 
+Executing Celery tasks in the wsgi using eager mode
++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. note::
+
+   This will have severe performance impact on the web interface, and will
+   break features depending on regullar trigger (for example commiting pending
+   changes, digest notifications, or backups).
+
+For development, you might want to use eager configuration, which does process
+all tasks in place:
+
+.. code-block:: python
+
+   CELERY_TASK_ALWAYS_EAGER = True
+   CELERY_BROKER_URL = "memory://"
+   CELERY_TASK_EAGER_PROPAGATES = True
 
 Running Celery as system service
 ++++++++++++++++++++++++++++++++
