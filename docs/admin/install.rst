@@ -1414,7 +1414,7 @@ for handling following operations (this list is not complete):
 
 * Receiving webhooks from external services (see :ref:`hooks`).
 * Runing regular maintenance tasks such as backups, cleanups, daily add-ons, or updates
-  (see :ref:`backup`, :ref:`BACKGROUND_TASKS`, :ref:`addons`).
+  (see :ref:`backup`, :setting:`BACKGROUND_TASKS`, :ref:`addons`).
 * Running :ref:`auto-translation`.
 * Sending digest notifications.
 * Offloading expensive operations from wsgi process.
