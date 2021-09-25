@@ -1417,7 +1417,7 @@ for handling following operations (this list is not complete):
   (see :ref:`backup`, :setting:`BACKGROUND_TASKS`, :ref:`addons`).
 * Running :ref:`auto-translation`.
 * Sending digest notifications.
-* Offloading expensive operations from wsgi process.
+* Offloading expensive operations from the wsgi process.
 * Commiting pending changes (see :ref:`lazy-commit`).
 
 A typical setup using Redis as a backend looks like this:
