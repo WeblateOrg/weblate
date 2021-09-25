@@ -76,12 +76,11 @@ def get_glossary_terms(unit):
         return units.none()
 
     # Build complete source for matching
-    parts = [""]
+    parts = []
     for text in unit.get_source_plurals() + [unit.context]:
         text = text.lower().strip()
         if text:
             parts.append(text)
-    parts.append("")
     source = PLURAL_SEPARATOR.join(parts)
 
     uses_ngram = source_language.uses_ngram()
@@ -93,8 +92,8 @@ def get_glossary_terms(unit):
         # Extract terms present in the source
         for end, term in automaton.iter(source):
             if uses_ngram or (
-                NON_WORD_RE.match(source[end - len(term)])
-                and NON_WORD_RE.match(source[end + 1])
+                (end + 1 == len(term) or NON_WORD_RE.match(source[end - len(term)]))
+                and (end + 1 == len(source) or NON_WORD_RE.match(source[end + 1]))
             ):
                 matches.add(term)
 
