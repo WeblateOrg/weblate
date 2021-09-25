@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-09-08 12:00+0200\n"
-"PO-Revision-Date: 2021-09-24 14:37+0000\n"
+"PO-Revision-Date: 2021-09-25 20:49+0000\n"
 "Last-Translator: Simona Iacob <s@zp1.net>\n"
 "Language-Team: Romanian <https://hosted.weblate.org/projects/weblate/"
 "documentation/ro/>\n"
@@ -20560,12 +20560,16 @@ msgid ""
 "Upgrade from 3.x releases is not longer supported, please upgrade to 4.0 or "
 "4.1 first."
 msgstr ""
+"Actualizarea de la versiunile 3.x nu mai este suportată, vă rugăm să faceți "
+"mai întâi actualizarea la 4.0 sau 4.1."
 
 #: ../../admin/upgrade.rst:143
 msgid ""
 "There are several changes in :file:`settings_example.py`, most notable new "
 "middleware and changed application ordering."
 msgstr ""
+"Există mai multe modificări în :file:`settings_example.py`, dintre care cele "
+"mai importante sunt noul middleware și modificarea ordinii aplicațiilor."
 
 #: ../../admin/upgrade.rst:144
 msgid ""
@@ -20573,12 +20577,19 @@ msgid ""
 "are adjusted during the database migration, but external components might "
 "need adjustment in case you rely on keys in exports or API."
 msgstr ""
+"Cheile pentru formatele bazate pe JSON nu mai includ punctul din față. "
+"Șirurile de caractere sunt ajustate în timpul migrării bazei de date, dar "
+"componentele externe ar putea avea nevoie de ajustare în cazul în care vă "
+"bazați pe chei în exporturi sau API."
 
 #: ../../admin/upgrade.rst:145
 msgid ""
 "The Celery configuration was changed to no longer use ``memory`` queue. "
 "Please adjust your startup scripts and ``CELERY_TASK_ROUTES`` setting."
 msgstr ""
+"Configurația Celery a fost modificată pentru a nu mai folosi coada ``memory``"
+". Vă rugăm să vă ajustați scripturile de pornire și setarea "
+"``CELERY_TASK_ROUTES``."
 
 #: ../../admin/upgrade.rst:146
 msgid ""
@@ -20586,22 +20597,31 @@ msgid ""
 "`SITE_DOMAIN` (or :envvar:`WEBLATE_SITE_DOMAIN`). You will have to configure "
 "it before running Weblate."
 msgstr ""
+"Domeniul Weblate este acum configurat în setări, vezi :setting:`SITE_DOMAIN` "
+"(sau :envvar:`WEBLATE_SITE_DOMAIN`). Va trebui să îl configurați înainte de "
+"a rula Weblate."
 
 #: ../../admin/upgrade.rst:147
 msgid ""
 "The username and email fields on user database now should be case "
 "insensitive unique. It was mistakenly not enforced with PostgreSQL."
 msgstr ""
+"Câmpurile de nume de utilizator și de e-mail din baza de date a "
+"utilizatorilor trebuie să fie unice și insensibile la majuscule și "
+"minuscule. Din greșeală, acest lucru nu a fost aplicat cu PostgreSQL."
 
 #: ../../admin/upgrade.rst:152
 msgid "Upgrade from 4.2 to 4.3"
-msgstr ""
+msgstr "Actualizare de la 4.2 la 4.3"
 
 #: ../../admin/upgrade.rst:158
 msgid ""
 "There are some changes in quality checks, you might want to include them in "
 "case you modified the :setting:`CHECK_LIST`."
 msgstr ""
+"Există unele modificări în ceea ce privește verificările de calitate, este "
+"posibil să doriți să le includeți în cazul în care ați modificat "
+":setting:`CHECK_LIST`."
 
 #: ../../admin/upgrade.rst:159
 msgid ""
@@ -20609,6 +20629,9 @@ msgid ""
 "exposed in the API. You will need to update :ref:`wlc` in case you are using "
 "it."
 msgstr ""
+"Atributul limbii sursă a fost mutat de la proiect la o componentă care este "
+"expusă în API. Va trebui să actualizați :ref:`wlc` în cazul în care îl "
+"utilizați."
 
 #: ../../admin/upgrade.rst:160
 msgid ""
@@ -20616,12 +20639,17 @@ msgid ""
 "you are translating (expect around one hour of migration time per 100,000 "
 "source strings)."
 msgstr ""
+"Migrarea bazei de date către 4.3 poate dura mult timp, în funcție de numărul "
+"de șiruri pe care le traduceți (așteptați-vă la aproximativ o oră de migrare "
+"pentru fiecare 100.000 de șiruri sursă)."
 
 #: ../../admin/upgrade.rst:162
 msgid ""
 "There is a new setting :setting:`SESSION_COOKIE_AGE_AUTHENTICATED` which "
 "complements :setting:`django:SESSION_COOKIE_AGE`."
 msgstr ""
+"Există o nouă setare :setting:`SESSION_COOKIE_AGE_AUTHENTICATED` care "
+"completează :setting:`django:SESSION_COOKIE_AGE`."
 
 #: ../../admin/upgrade.rst:163
 msgid ""
@@ -20629,37 +20657,49 @@ msgid ""
 "GitHub or GitLab, you will need to reconfigure this, see :setting:"
 "`GITHUB_CREDENTIALS` and :setting:`GITLAB_CREDENTIALS`."
 msgstr ""
+"În cazul în care ați folosit :command:`hub` sau :command:`lab` pentru a vă "
+"integra cu GitHub sau GitLab, va trebui să reconfigurați acest lucru, "
+"consultați :setting:`GITHUB_CREDENTIALS` și :setting:`GITLAB_CREDENTIALS`."
 
 #: ../../admin/upgrade.rst:167
 msgid ""
 "The Celery configuration was changed to add ``memory`` queue. Please adjust "
 "your startup scripts and ``CELERY_TASK_ROUTES`` setting."
 msgstr ""
+"Configurația Celery a fost modificată pentru a adăuga coada ``memory``. Vă "
+"rugăm să vă ajustați scripturile de pornire și setarea "
+"``CELERY_TASK_ROUTES``."
 
 #: ../../admin/upgrade.rst:171
 msgid ""
 "The ``post_update`` method of addons now takes extra ``skip_push`` parameter."
 msgstr ""
+"Metoda ``post_update`` a addon-urilor acceptă acum un parametru suplimentar "
+"``skip_push``."
 
 #: ../../admin/upgrade.rst:176
 msgid "Upgrade from 4.3 to 4.4"
-msgstr ""
+msgstr "Actualizare de la 4.3 la 4.4"
 
 #: ../../admin/upgrade.rst:182
 msgid ""
 "There is a change in :setting:`django:INSTALLED_APPS`, ``weblate."
 "configuration`` has to be added there."
 msgstr ""
+"Există o modificare în :setting:`django:INSTALLED_APPS`, ``weblate."
+"configuration`` trebuie să fie adăugat acolo."
 
 #: ../../admin/upgrade.rst:183
 msgid "Django 3.1 is now required."
-msgstr ""
+msgstr "Django 3.1 este acum necesar."
 
 #: ../../admin/upgrade.rst:184
 msgid ""
 "In case you are using MySQL or MariaDB, the minimal required versions have "
 "increased, see :ref:`mysql`."
 msgstr ""
+"În cazul în care utilizați MySQL sau MariaDB, versiunile minime necesare au "
+"crescut, consultați :ref:`mysql`."
 
 #: ../../admin/upgrade.rst:188
 msgid ""
@@ -20670,60 +20710,77 @@ msgid ""
 "upgrading and it is recommeded to force loading of affected component using :"
 "djadmin:`loadpo`."
 msgstr ""
+":ref:`mono_gettext` utilizează acum atât ``msgid`` cât și ``msgctxt`` atunci "
+"când sunt prezente. Acest lucru va schimba identificarea șirurilor de "
+"caractere de traducere în astfel de fișiere care sparg legăturile cu date "
+"extinse Weblate, cum ar fi capturi de ecran sau stări de revizuire. Vă rugăm "
+"să vă asigurați că ați confirmat modificările în așteptare în astfel de "
+"fișiere înainte de actualizare și se recomandă să forțați încărcarea "
+"componentei afectate folosind :djadmin:`loadpo`."
 
 #: ../../admin/upgrade.rst:189
 msgid ""
 "Increased minimal required version of translate-toolkit to address several "
 "file format issues."
 msgstr ""
+"A crescut versiunea minimă necesară a translate-toolkit pentru a rezolva mai "
+"multe probleme legate de formatul fișierelor."
 
 #: ../../admin/upgrade.rst:194
 msgid "Upgrade from 4.4 to 4.5"
-msgstr ""
+msgstr "Actualizare de la 4.4 la 4.5"
 
 #: ../../admin/upgrade.rst:200
 msgid "The migration might take considerable time if you had big glossaries."
-msgstr ""
+msgstr "Migrarea ar putea dura mult timp în cazul în care aveți glosare mari."
 
 #: ../../admin/upgrade.rst:201 ../../changes.rst:212
 msgid "Glossaries are now stored as regular components."
-msgstr ""
+msgstr "Glosarele sunt acum stocate ca și componente obișnuite."
 
 #: ../../admin/upgrade.rst:202
 msgid ""
 "The glossary API is removed, use regular translation API to access "
 "glossaries."
 msgstr ""
+"API-ul pentru glosare este eliminat, utilizați API-ul de traducere obișnuit "
+"pentru a accesa glosarele."
 
 #: ../../admin/upgrade.rst:203
 msgid ""
 "There is a change in :setting:`django:INSTALLED_APPS` - ``weblate.metrics`` "
 "should be added."
 msgstr ""
+"Există o modificare în :setting:`django:INSTALLED_APPS` - ar trebui adăugat "
+"``weblate.metrics``."
 
 #: ../../admin/upgrade.rst:207
 msgid "There is a new dependency on the `pyahocorasick` module."
-msgstr ""
+msgstr "Există o nouă dependență de modulul `pyahocorasick`."
 
 #: ../../admin/upgrade.rst:212
 msgid "Upgrade from 4.5 to 4.6"
-msgstr ""
+msgstr "Actualizare de la 4.5 la 4.6"
 
 #: ../../admin/upgrade.rst:219
 msgid ""
 "API for creating components now automatically uses :ref:`internal-urls`, "
 "see :http:post:`/api/projects/(string:project)/components/`."
 msgstr ""
+"API pentru crearea de componente utilizează acum automat :ref:`internal-urls`"
+", a se vedea :http:post:`/api/projects/(string:project)/components/`."
 
 #: ../../admin/upgrade.rst:220
 msgid ""
 "There is a change in dependencies and :setting:`django:PASSWORD_HASHERS` to "
 "prefer Argon2 for passwords hashing."
 msgstr ""
+"Există o modificare în dependențe și în :setting:`django:PASSWORD_HASHERS` "
+"pentru a prefera Argon2 pentru hashing-ul parolelor."
 
 #: ../../admin/upgrade.rst:225
 msgid "Upgrade from 4.6 to 4.7"
-msgstr ""
+msgstr "Actualizare de la 4.6 la 4.7"
 
 #: ../../admin/upgrade.rst:231
 msgid ""
@@ -20731,6 +20788,9 @@ msgid ""
 "middleware changes (:setting:`django:MIDDLEWARE`), please adjust your "
 "settings accordingly."
 msgstr ""
+"Există mai multe modificări în :file:`settings_example.py`, dintre care cele "
+"mai importante sunt modificările middleware (:setting:`django:MIDDLEWARE`), "
+"vă rugăm să vă ajustați setările în consecință."
 
 #: ../../admin/upgrade.rst:232
 msgid ""
@@ -20738,22 +20798,25 @@ msgid ""
 "`MT_DEEPL_API_URL` setting to adapt to different subscription models more "
 "flexibly. The ``MT_DEEPL_API_VERSION`` setting is no longer used."
 msgstr ""
+"Traducerea automată :ref:`deepl` are acum o setare generică "
+":setting:`MT_DEEPL_API_URL` pentru a se adapta mai flexibil la diferite "
+"modele de abonament. Setarea ``MT_DEEPL_API_VERSION`` nu mai este utilizată."
 
 #: ../../admin/upgrade.rst:234
 msgid "Django 3.2 is now required."
-msgstr ""
+msgstr "Django 3.2 este acum necesar."
 
 #: ../../admin/upgrade.rst:239
 msgid "Upgrade from 4.7 to 4.8"
-msgstr ""
+msgstr "Actualizare de la 4.7 la 4.8"
 
 #: ../../admin/upgrade.rst:243
 msgid "There are no additional upgrade steps needed in this release."
-msgstr ""
+msgstr "Nu sunt necesare etape suplimentare de actualizare în această versiune."
 
 #: ../../admin/upgrade.rst:250
 msgid "Upgrading from Python 2 to Python 3"
-msgstr ""
+msgstr "Actualizarea de la Python 2 la Python 3"
 
 #: ../../admin/upgrade.rst:252
 msgid ""
@@ -20763,10 +20826,16 @@ msgid ""
 "in the Weblate 3.11.1 documentation <https://docs.weblate.org/en/"
 "weblate-3.11.1/admin/upgrade.html#upgrading-from-python-2-to-python-3>`_."
 msgstr ""
+"Weblate nu mai acceptă Python mai vechi de 3.5. În cazul în care încă mai "
+"folosiți o versiune mai veche, vă rugăm să efectuați mai întâi migrarea la "
+"Python 3 pe versiunea existentă și să faceți upgrade ulterior. Consultați `"
+"Actualizarea de la Python 2 la Python 3 în documentația Weblate 3.11.1 "
+"<https://docs.weblate.org/en/weblate-3.11.1/admin/upgrade.html#upgrading-"
+"from-python-2-to-python-3>`_."
 
 #: ../../admin/upgrade.rst:261
 msgid "Migrating from other databases to PostgreSQL"
-msgstr ""
+msgstr "Migrarea de la alte baze de date la PostgreSQL"
 
 #: ../../admin/upgrade.rst:263
 msgid ""
@@ -20776,10 +20845,16 @@ msgid ""
 "Please remember to stop both web and Celery servers prior to the migration, "
 "otherwise you might end up with inconsistent data."
 msgstr ""
+"Dacă executați Weblate pe o altă bază de date decât PostgreSQL, ar trebui să "
+"luați în considerare migrarea la PostgreSQL, deoarece Weblate funcționează "
+"cel mai bine cu acesta. Următorii pași vă vor ghida în migrarea datelor "
+"între bazele de date. Vă rugăm să nu uitați să opriți ambele servere Web și "
+"Celery înainte de migrare, altfel s-ar putea să vă treziți cu date "
+"incoerente."
 
 #: ../../admin/upgrade.rst:286
 msgid "Migrating using Django JSON dumps"
-msgstr ""
+msgstr "Migrarea cu ajutorul descărcărilor Django JSON"
 
 #: ../../admin/upgrade.rst:288
 msgid ""
@@ -20787,47 +20862,60 @@ msgid ""
 "works well for smaller installations. On bigger sites you might want to use "
 "pgloader instead, see :ref:`pgloader-migration`."
 msgstr ""
+"Cea mai simplă abordare pentru migrare este utilizarea de descărcări JSON "
+"din Django. Acest lucru funcționează bine pentru instalațiile mai mici. Pe "
+"site-urile mai mari s-ar putea să doriți să folosiți în schimb pgloader, "
+"vedeți :ref:`pgloader-migration`."
 
 #: ../../admin/upgrade.rst:290
 msgid ""
 "Add PostgreSQL as additional database connection to the :file:`settings.py`:"
 msgstr ""
+"Adăugați PostgreSQL ca conexiune suplimentară la baza de date în "
+":file:`settings.py`:"
 
 #: ../../admin/upgrade.rst:336
 msgid "Run migrations and drop any data inserted into the tables:"
-msgstr ""
+msgstr "Executați migrările și renunțați la toate datele inserate în tabele:"
 
 #: ../../admin/upgrade.rst:343
 msgid "Dump legacy database and import to PostgreSQL"
-msgstr ""
+msgstr "Aruncarea bazei de date tradiționale și importul în PostgreSQL"
 
 #: ../../admin/upgrade.rst:350
 msgid ""
 "Adjust :setting:`django:DATABASES` to use just PostgreSQL database as "
 "default, remove legacy connection."
 msgstr ""
+"Ajustați :setting:`django:DATABASES` pentru a utiliza doar baza de date "
+"PostgreSQL ca bază de date implicită, eliminați conexiunea veche."
 
 #: ../../admin/upgrade.rst:353
 msgid "Weblate should be now ready to run from the PostgreSQL database."
 msgstr ""
+"Weblate ar trebui să fie acum gata să ruleze din baza de date PostgreSQL."
 
 #: ../../admin/upgrade.rst:358
 msgid "Migrating to PostgreSQL using pgloader"
-msgstr ""
+msgstr "Migrarea la PostgreSQL folosind pgloader"
 
 #: ../../admin/upgrade.rst:360
 msgid ""
 "The `pgloader`_ is a generic migration tool to migrate data to PostgreSQL. "
 "You can use it to migrate Weblate database."
 msgstr ""
+"`pgloader`_ este un instrument generic de migrare a datelor către "
+"PostgreSQL. Îl puteți utiliza pentru a migra baza de date Weblate."
 
 #: ../../admin/upgrade.rst:362
 msgid "Adjust your :file:`settings.py` to use PostgreSQL as a database."
 msgstr ""
+"Ajustați fișierul :file:`settings.py` pentru a utiliza PostgreSQL ca bază de "
+"date."
 
 #: ../../admin/upgrade.rst:364
 msgid "Migrate the schema in the PostgreSQL database:"
-msgstr ""
+msgstr "Migrați schema din baza de date PostgreSQL:"
 
 #: ../../admin/upgrade.rst:371
 msgid ""
@@ -20835,10 +20923,14 @@ msgid ""
 "migrate the database, but you might want to learn more about `pgloader`_ to "
 "understand what it does and tweak it to match your setup:"
 msgstr ""
+"Rulați pgloader pentru a transfera datele. Următorul script poate fi folosit "
+"pentru a migra baza de date, dar poate doriți să aflați mai multe despre "
+"`pgloader`_ pentru a înțelege ce face și pentru a-l adapta la configurația "
+"dumneavoastră:"
 
 #: ../../admin/upgrade.rst:390
 msgid "Migrating from Pootle"
-msgstr ""
+msgstr "Migrarea de la Pootle"
 
 #: ../../admin/upgrade.rst:392
 msgid ""
@@ -20846,14 +20938,17 @@ msgid ""
 "supported to migrate user accounts from Pootle. You can dump the users from "
 "Pootle and import them using :djadmin:`importusers`."
 msgstr ""
+"Deoarece Weblate a fost scris inițial ca înlocuitor pentru Pootle, este "
+"posibilă migrarea conturilor de utilizator din Pootle. Puteți să descărcați "
+"utilizatorii din Pootle și să îi importați folosind :djadmin:`importusers`."
 
 #: ../../api.rst:8
 msgid "Weblate's REST API"
-msgstr ""
+msgstr "Weblate's REST API"
 
 #: ../../api.rst:12
 msgid "The REST API is available since Weblate 2.6."
-msgstr ""
+msgstr "API-ul REST este disponibil începând cu Weblate 2.6."
 
 #: ../../api.rst:14
 msgid ""
@@ -20861,10 +20956,13 @@ msgid ""
 "framework <https://www.django-rest-framework.org/>`_. You can use it "
 "directly or by :ref:`wlc`."
 msgstr ""
+"API-ul este accesibil pe URL-ul ``/api/``` și se bazează pe `Django REST "
+"framework <https://www.django-rest-framework.org/>`_. O puteți utiliza "
+"direct sau prin :ref:`wlc`."
 
 #: ../../api.rst:21
 msgid "Authentication and generic parameters"
-msgstr ""
+msgstr "Autentificare și parametri generici"
 
 #: ../../api.rst:23
 msgid ""
@@ -20874,16 +20972,23 @@ msgid ""
 "uses a token, which you can get in your profile. Use it in the "
 "``Authorization`` header:"
 msgstr ""
+"API-ul public al proiectului este disponibil fără autentificare, deși "
+"solicitările neautentificate sunt puternic limitate (implicit la 100 de "
+"solicitări pe zi), astfel încât se recomandă utilizarea autentificării. "
+"Autentificarea utilizează un token, pe care îl puteți obține în profilul "
+"vostru. Folosiți-l în antetul ``Authorization``:"
 
 #: ../../api.rst:30
 msgid ""
 "Generic request behaviour for the API, the headers, status codes and "
 "parameters here apply to all endpoints as well."
 msgstr ""
+"Comportamentul generic de solicitare pentru API, antetele, codurile de stare "
+"și parametrii de aici se aplică și la toate punctele finale."
 
 #: ../../api.rst:0
 msgid "Query Parameters"
-msgstr ""
+msgstr "Parametrii de interogare"
 
 #: ../../api.rst:33
 msgid ""
@@ -20891,120 +20996,129 @@ msgid ""
 "on REST framework setup, by default ``json`` and ``api`` are supported. The "
 "latter provides web browser interface for API."
 msgstr ""
+"Formatul de răspuns (înlocuiește :http:header:`Accept`). Valorile posibile "
+"depind de configurația cadrului REST; în mod implicit, sunt acceptate "
+"``json`` și ``api```. Acesta din urmă oferă o interfață de browser web "
+"pentru API."
 
 #: ../../api.rst:37
 msgid ""
 "Returns given page of paginated results (use `next` and `previous` fields in "
 "response to automate the navigation)."
 msgstr ""
+"Returnează pagina dată de rezultate paginate (utilizați câmpurile `next` și "
+"`previous` în răspuns pentru a automatiza navigarea)."
 
 #: ../../api.rst:0
 msgid "Request Headers"
-msgstr ""
+msgstr "Capetele de cerere"
 
 #: ../../api.rst:38
 msgid "the response content type depends on :http:header:`Accept` header"
 msgstr ""
+"tipul de conținut al răspunsului depinde de antetul :http:header:`Accept`"
 
 #: ../../api.rst:40
 msgid "optional token to authenticate as ``Authorization: Token YOUR-TOKEN``"
-msgstr ""
+msgstr "token opțional de autentificare ca ``Authorization: Token YOUR-TOKEN``"
 
 #: ../../api.rst:0
 msgid "Response Headers"
-msgstr ""
+msgstr "Antetele de răspuns"
 
 #: ../../api.rst:42
 msgid "this depends on :http:header:`Accept` header of request"
-msgstr ""
+msgstr "acest lucru depinde de antetul :http:header:`Accept` al cererii"
 
 #: ../../api.rst:44
 msgid "list of allowed HTTP methods on object"
-msgstr ""
+msgstr "lista de metode HTTP permise pentru obiect"
 
 #: ../../api.rst:0
 msgid "Response JSON Object"
-msgstr ""
+msgstr "Obiect JSON de răspuns"
 
 #: ../../api.rst:45
 msgid ""
 "verbose description of the result (for HTTP status codes other than :http:"
 "statuscode:`200`)"
 msgstr ""
+"descriere detaliată a rezultatului (pentru codurile de stare HTTP altele "
+"decât :http:statuscode:`200`)"
 
 #: ../../api.rst:46
 msgid "total item count for object lists"
-msgstr ""
+msgstr "numărul total de elemente pentru listele de obiecte"
 
 #: ../../api.rst:47
 msgid "next page URL for object lists"
-msgstr ""
+msgstr "pagina următoare URL pentru listele de obiecte"
 
 #: ../../api.rst:48
 msgid "previous page URL for object lists"
-msgstr ""
+msgstr "pagina anterioară URL pentru listele de obiecte"
 
 #: ../../api.rst:49
 msgid "results for object lists"
-msgstr ""
+msgstr "rezultate pentru listele de obiecte"
 
 #: ../../api.rst:50
 msgid "URL to access this resource using API"
-msgstr ""
+msgstr "URL pentru a accesa această resursă folosind API"
 
 #: ../../api.rst:51
 msgid "URL to access this resource using web browser"
-msgstr ""
+msgstr "URL pentru a accesa această resursă folosind un browser web"
 
 #: ../../api.rst:0
 msgid "Status Codes"
-msgstr ""
+msgstr "Coduri de stare"
 
 #: ../../api.rst:52
 msgid "when request was correctly handled"
-msgstr ""
+msgstr "atunci când cererea a fost tratată corect"
 
 #: ../../api.rst:53
 msgid "when a new object was created successfully"
-msgstr ""
+msgstr "atunci când un nou obiect a fost creat cu succes"
 
 #: ../../api.rst:54
 msgid "when an object was deleted successfully"
-msgstr ""
+msgstr "când un obiect a fost șters cu succes"
 
 #: ../../api.rst:55
 msgid "when form parameters are missing"
-msgstr ""
+msgstr "atunci când lipsesc parametrii formularului"
 
 #: ../../api.rst:56
 msgid "when access is denied"
-msgstr ""
+msgstr "atunci când accesul este refuzat"
 
 #: ../../api.rst:57
 msgid "when throttling is in place"
-msgstr ""
+msgstr "în cazul în care este în vigoare o restricție"
 
 #: ../../api.rst:60
 msgid "Authentication examples"
-msgstr ""
+msgstr "Exemple de autentificare"
 
 #: ../../api.rst:62 ../../api.rst:190
 msgid "**Example request:**"
-msgstr ""
+msgstr "**Exemplu de cerere:**"
 
 #: ../../api.rst:71 ../../api.rst:199
 msgid "**Example response:**"
-msgstr ""
+msgstr "**Exemplu de răspuns:**"
 
 #: ../../api.rst:91 ../../api.rst:131 ../../api.rst:872 ../../api.rst:1214
 #: ../../api.rst:1365 ../../api.rst:1432 ../../api.rst:1508 ../../api.rst:1858
 #: ../../api.rst:2092
 msgid "**CURL example:**"
-msgstr ""
+msgstr "**Exemplu CURL:**"
 
 #: ../../api.rst:100
 msgid "Passing Parameters Examples"
-msgstr ""
+msgstr "Exemple de trecere a parametrilor"
 
 #: ../../api.rst:102
 msgid ""
@@ -21012,23 +21126,26 @@ msgid ""
 "form submission (:mimetype:`application/x-www-form-urlencoded`) or as JSON (:"
 "mimetype:`application/json`)."
 msgstr ""
+"Pentru metoda :http:method:`POST`, parametrii pot fi specificați fie ca "
+"trimitere de formular (:mimetype:`application/x-www-form-urlencoded`), fie "
+"ca JSON (:mimetype:`application/json`)."
 
 #: ../../api.rst:106
 msgid "**Form request example:**"
-msgstr ""
+msgstr "**Exemplu de cerere de formular:**"
 
 #: ../../api.rst:118 ../../api.rst:881 ../../api.rst:989 ../../api.rst:1224
 #: ../../api.rst:1374 ../../api.rst:1441 ../../api.rst:1517
 msgid "**JSON request example:**"
-msgstr ""
+msgstr "**Exemplu de cerere JSON:**"
 
 #: ../../api.rst:140
 msgid "**CURL JSON example:**"
-msgstr ""
+msgstr "**CURL JSON exemplu:**"
 
 #: ../../api.rst:153
 msgid "API rate limiting"
-msgstr ""
+msgstr "Limitarea ratei API"
 
 #: ../../api.rst:155
 msgid ""
@@ -21036,6 +21153,9 @@ msgid ""
 "100 requests per day for anonymous users and 5000 requests per hour for "
 "authenticated users."
 msgstr ""
+"Solicitările API sunt limitate; configurația implicită le limitează la 100 "
+"de solicitări pe zi pentru utilizatorii anonimi și la 5000 de solicitări pe "
+"oră pentru utilizatorii autentificați."
 
 #: ../../api.rst:159
 msgid ""
@@ -21043,10 +21163,14 @@ msgid ""
 "Django REST framework documentation <https://www.django-rest-framework.org/"
 "api-guide/throttling/>`_ for more details how to configure it."
 msgstr ""
+"Limitarea ratei poate fi ajustată în fișierul :file:`settings.py`; "
+"consultați `Throttling in Django REST framework documentation <https://www."
+"django-rest-framework.org/api-guide/throttling/>`_ pentru mai multe detalii "
+"despre cum să o configurați."
 
 #: ../../api.rst:163
 msgid "The status of rate limiting is reported in following headers:"
-msgstr ""
+msgstr "Starea de limitare a vitezei este raportată în următoarele anteturi:"
 
 #: ../../api.rst:166
 msgid "``X-RateLimit-Limit``"
@@ -21054,7 +21178,7 @@ msgstr ""
 
 #: ../../api.rst:166
 msgid "Rate limiting limit of requests to perform"
-msgstr ""
+msgstr "Limitarea ratei de limitare a numărului de solicitări de efectuat"
 
 #: ../../api.rst:168
 msgid "``X-RateLimit-Remaining``"
@@ -21062,7 +21186,7 @@ msgstr ""
 
 #: ../../api.rst:168
 msgid "Remaining limit of requests"
-msgstr ""
+msgstr "Limita rămasă a cererilor"
 
 #: ../../api.rst:170
 msgid "``X-RateLimit-Reset``"
@@ -21070,23 +21194,23 @@ msgstr ""
 
 #: ../../api.rst:170
 msgid "Number of seconds until ratelimit window resets"
-msgstr ""
+msgstr "Numărul de secunde până la resetarea ferestrei ratelimit"
 
 #: ../../api.rst:175
 msgid "Added ratelimiting status headers."
-msgstr ""
+msgstr "Au fost adăugate antetele de stare de limitare a vitezei."
 
 #: ../../api.rst:179
 msgid ":ref:`rate-limit`, :ref:`user-rate`"
-msgstr ""
+msgstr ":ref:`rate-limit`, :ref:`user-rate`"
 
 #: ../../api.rst:184
 msgid "API Entry Point"
-msgstr ""
+msgstr "Punct de intrare API"
 
 #: ../../api.rst:188
 msgid "The API root entry point."
-msgstr ""
+msgstr "Punctul de intrare rădăcină al API."
 
 #: ../../api.rst:221
 msgid "Users"
@@ -21097,176 +21221,172 @@ msgid ""
 "Returns a list of users if you have permissions to see manage users. If not, "
 "then you get to see only your own details."
 msgstr ""
+"Returnează o listă de utilizatori dacă aveți permisiuni pentru a vedea "
+"gestionarea utilizatorilor. Dacă nu, atunci veți vedea doar propriile "
+"detalii."
 
 #: ../../api.rst:232
 msgid ""
 "Users object attributes are documented at :http:get:`/api/users/(str:"
 "username)/`."
 msgstr ""
+"Atributele obiectului Users sunt documentate la :http:get:`/api/users/"
+"(str:username)/`."
 
 #: ../../api.rst:236
 msgid "Creates a new user."
-msgstr ""
+msgstr "Creează un nou utilizator."
 
 #: ../../api.rst:240
 msgid "User full name"
-msgstr ""
+msgstr "Numele complet al utilizatorului"
 
 #: ../../api.rst:242
 msgid "User email"
-msgstr ""
+msgstr "E-mail de utilizator"
 
 #: ../../api.rst:244
 msgid "Is user superuser? (optional)"
-msgstr ""
+msgstr "Este utilizatorul superutilizator? (opțional)"
 
 #: ../../api.rst:246
 msgid "Is user active? (optional)"
-msgstr ""
+msgstr "Este utilizatorul activ? (opțional)"
 
 #: ../../api.rst:251
 msgid "Returns information about users."
-msgstr ""
+msgstr "Returnează informații despre utilizatori."
 
 #: ../../api.rst:253 ../../api.rst:286 ../../api.rst:299 ../../api.rst:312
 #: ../../api.rst:319 ../../api.rst:327 ../../api.rst:339 ../../api.rst:346
 #: ../../api.rst:356 ../../api.rst:365 ../../api.rst:377 ../../api.rst:389
 msgid "User's username"
-msgstr ""
+msgstr "Numele de utilizator"
 
 #: ../../api.rst:255 ../../api.rst:288 ../../api.rst:301
 msgid "username of a user"
-msgstr ""
+msgstr "numele de utilizator al unui utilizator"
 
 #: ../../api.rst:256 ../../api.rst:289 ../../api.rst:302
 msgid "full name of a user"
-msgstr ""
+msgstr "numele complet al unui utilizator"
 
 #: ../../api.rst:257 ../../api.rst:290 ../../api.rst:303
 msgid "email of a user"
-msgstr ""
+msgstr "adresa de e-mail a unui utilizator"
 
 #: ../../api.rst:258 ../../api.rst:291 ../../api.rst:304
 msgid "whether the user is a super user"
-msgstr ""
+msgstr "dacă utilizatorul este un super-utilizator"
 
 #: ../../api.rst:259 ../../api.rst:292 ../../api.rst:305
 msgid "whether the user is active"
-msgstr ""
+msgstr "dacă utilizatorul este activ sau nu"
 
 #: ../../api.rst:260 ../../api.rst:293 ../../api.rst:306
 msgid "date the user is created"
-msgstr ""
+msgstr "data la care a fost creat utilizatorul"
 
 #: ../../api.rst:261
 msgid "link to associated groups; see :http:get:`/api/groups/(int:id)/`"
 msgstr ""
+"link către grupurile asociate; a se vedea :http:get:`/api/groups/(int:id)/`"
 
 #: ../../api.rst:263 ../../api.rst:434 ../../api.rst:595 ../../api.rst:669
 #: ../../api.rst:789 ../../api.rst:851 ../../api.rst:1158 ../../api.rst:1344
 #: ../../api.rst:1676
 msgid "**Example JSON data:**"
-msgstr ""
+msgstr "**Exemplu de date JSON:**"
 
 #: ../../api.rst:284 ../../api.rst:297
 msgid "Changes the user parameters."
-msgstr ""
+msgstr "Modifică parametrii utilizatorului."
 
 #: ../../api.rst:310
 msgid "Deletes all user information and marks the user inactive."
 msgstr ""
+"Șterge toate informațiile despre utilizator și marchează utilizatorul ca "
+"fiind inactiv."
 
 #: ../../api.rst:317
 msgid "Associate groups with a user."
-msgstr ""
+msgstr "Asociați grupuri cu un utilizator."
 
 #: ../../api.rst:0
 msgid "Form Parameters"
-msgstr ""
+msgstr "Parametrii formularului"
 
 #: ../../api.rst:321
 msgid "The unique group ID"
-msgstr ""
+msgstr "ID-ul unic al grupului"
 
 #: ../../api.rst:325
 msgid "List statistics of a user."
-msgstr ""
+msgstr "Listează statisticile unui utilizator."
 
 #: ../../api.rst:329
-#, fuzzy
-#| msgid "Translate"
 msgid "Number of translations by user"
-msgstr "Tradu"
+msgstr "Numărul de traduceri efectuate de către utilizator"
 
 #: ../../api.rst:330
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Number of suggestions by user"
-msgstr "Notificare la orice traducere"
+msgstr "Numărul de sugestii de către utilizator"
 
 #: ../../api.rst:331
-#, fuzzy
-#| msgid "Search"
 msgid "Number of uploads by user"
-msgstr "Caută"
+msgstr "Numărul de încărcări de către utilizator"
 
 #: ../../api.rst:332
-#, fuzzy
-#| msgid "Secondary languages"
 msgid "Number of comments by user"
-msgstr "Limbi secundare"
+msgstr "Numărul de comentarii ale utilizatorului"
 
 #: ../../api.rst:333
-#, fuzzy
-#| msgid "Secondary languages"
 msgid "Number of languages user can translate"
-msgstr "Limbi secundare"
+msgstr "Numărul de limbi pe care le poate traduce utilizatorul"
 
 #: ../../api.rst:337
 msgid "List subscriptions of a user."
-msgstr ""
+msgstr "Lista abonamentelor unui utilizator."
 
 #: ../../api.rst:344
 msgid "Associate subscriptions with a user."
-msgstr ""
+msgstr "Asociați abonamente cu un utilizator."
 
 #: ../../api.rst:0
 msgid "Request JSON Object"
-msgstr ""
+msgstr "Obiect JSON de cerere"
 
 #: ../../api.rst:348 ../../api.rst:369 ../../api.rst:381 ../../api.rst:391
 msgid "Name of notification registered"
-msgstr ""
+msgstr "Denumirea notificării înregistrate"
 
 #: ../../api.rst:349 ../../api.rst:370 ../../api.rst:382
 msgid "Scope of notification from the available choices"
-msgstr ""
+msgstr "Domeniul de aplicare al notificării din opțiunile disponibile"
 
 #: ../../api.rst:350 ../../api.rst:371 ../../api.rst:383
 msgid "Frequency choices for notifications"
-msgstr ""
+msgstr "Alegerile de frecvență pentru notificări"
 
 #: ../../api.rst:354
 msgid "Get a subscription associated with a user."
-msgstr ""
+msgstr "Obține un abonament asociat cu un utilizator."
 
 #: ../../api.rst:358 ../../api.rst:367 ../../api.rst:379
-#, fuzzy
-#| msgid "Action"
 msgid "ID of notification registered"
-msgstr "Acțiune"
+msgstr "ID-ul notificării înregistrate"
 
 #: ../../api.rst:363 ../../api.rst:375
 msgid "Edit a subscription associated with a user."
-msgstr ""
+msgstr "Editați un abonament asociat unui utilizator."
 
 #: ../../api.rst:387
 msgid "Delete a subscription associated with a user."
-msgstr ""
+msgstr "Ștergeți un abonament asociat unui utilizator."
 
 #: ../../api.rst:392
 msgid "int"
-msgstr ""
+msgstr "int"
 
 #: ../../api.rst:396
 msgid "Groups"
@@ -21277,15 +21397,20 @@ msgid ""
 "Returns a list of groups if you have permissions to see manage groups. If "
 "not, then you get to see only the groups the user is a part of."
 msgstr ""
+"Returnează o listă de grupuri, dacă aveți permisiuni pentru a vedea grupuri "
+"de gestionare. Dacă nu, atunci veți vedea doar grupurile din care face parte "
+"utilizatorul."
 
 #: ../../api.rst:407
 msgid ""
 "Group object attributes are documented at :http:get:`/api/groups/(int:id)/`."
 msgstr ""
+"Atributele obiectelor de grup sunt documentate la :http:get:`/api/groups/"
+"(int:id)/`."
 
 #: ../../api.rst:411
 msgid "Creates a new group."
-msgstr ""
+msgstr "Creează un nou grup."
 
 #: ../../api.rst:413
 msgid "Group name"
@@ -21293,212 +21418,225 @@ msgstr "Numele grupului"
 
 #: ../../api.rst:415
 msgid "Group of project selection from given options"
-msgstr ""
+msgstr "Selecția grupului de proiecte din opțiunile date"
 
 #: ../../api.rst:417
 msgid "Group of languages selected from given options"
-msgstr ""
+msgstr "Selecția grupului de proiecte din opțiunile date"
 
 #: ../../api.rst:422
 msgid "Returns information about group."
-msgstr ""
+msgstr "Returnează informații despre grup."
 
 #: ../../api.rst:424 ../../api.rst:465 ../../api.rst:475 ../../api.rst:485
 #: ../../api.rst:492 ../../api.rst:500 ../../api.rst:508 ../../api.rst:517
 #: ../../api.rst:525 ../../api.rst:534 ../../api.rst:542 ../../api.rst:551
 #: ../../api.rst:559
 msgid "Group's ID"
-msgstr ""
+msgstr "ID-ul grupului"
 
 #: ../../api.rst:426 ../../api.rst:467 ../../api.rst:477
 msgid "name of a group"
-msgstr ""
+msgstr "numele unui grup"
 
 #: ../../api.rst:427 ../../api.rst:468 ../../api.rst:478
 msgid "integer corresponding to group of projects"
-msgstr ""
+msgstr "număr întreg care corespunde grupului de proiecte"
 
 #: ../../api.rst:428 ../../api.rst:479
 msgid "integer corresponding to group of languages"
-msgstr ""
+msgstr "număr întreg care corespunde grupului de limbi"
 
 #: ../../api.rst:429
 msgid "link to associated roles; see :http:get:`/api/roles/(int:id)/`"
-msgstr ""
+msgstr "link către rolurile asociate; vezi :http:get:`/api/roles/(int:id)/`"
 
 #: ../../api.rst:430
 msgid ""
 "link to associated projects; see :http:get:`/api/projects/(string:project)/`"
 msgstr ""
+"link către proiectele asociate; vezi :http:get:`/api/projects/"
+"(string:project)/`"
 
 #: ../../api.rst:431 ../../api.rst:2251
 msgid ""
 "link to associated components; see :http:get:`/api/components/(string:"
 "project)/(string:component)/`"
 msgstr ""
+"link către componentele asociate; a se vedea :http:get:`/api/components/"
+"(string:project)/(string:component)/`"
 
 #: ../../api.rst:432
 msgid ""
 "link to associated componentlist; see :http:get:`/api/component-lists/(str:"
 "slug)/`"
 msgstr ""
+"link către lista de componente asociată; vezi :http:get:`/api/"
+"component-lists/(str:slug)/`"
 
 #: ../../api.rst:463 ../../api.rst:473
 msgid "Changes the group parameters."
-msgstr ""
+msgstr "Modifică parametrii grupului."
 
 #: ../../api.rst:469
 msgid "integer corresponding to group of Languages"
-msgstr ""
+msgstr "număr întreg care corespunde grupului de limbi"
 
 #: ../../api.rst:483
 msgid "Deletes the group."
-msgstr ""
+msgstr "Șterge grupul."
 
 #: ../../api.rst:490
 msgid "Associate roles with a group."
-msgstr ""
+msgstr "Asociați rolurile cu un grup."
 
 #: ../../api.rst:494
 msgid "The unique role ID"
-msgstr ""
+msgstr "ID-ul unic de rol"
 
 #: ../../api.rst:498
 msgid "Associate components with a group."
-msgstr ""
+msgstr "Asociați componentele cu un grup."
 
 #: ../../api.rst:502 ../../api.rst:510
 msgid "The unique component ID"
-msgstr ""
+msgstr "ID-ul unic al componentei"
 
 #: ../../api.rst:506
 msgid "Delete component from a group."
-msgstr ""
+msgstr "Ștergeți componenta dintr-un grup."
 
 #: ../../api.rst:515
 msgid "Associate projects with a group."
-msgstr ""
+msgstr "Asociați proiectele cu un grup."
 
 #: ../../api.rst:519 ../../api.rst:527
 msgid "The unique project ID"
-msgstr ""
+msgstr "ID-ul unic al proiectului"
 
 #: ../../api.rst:523
 msgid "Delete project from a group."
-msgstr ""
+msgstr "Ștergeți proiectul dintr-un grup."
 
 #: ../../api.rst:532
 msgid "Associate languages with a group."
-msgstr ""
+msgstr "Asociați limbile cu un grup."
 
 #: ../../api.rst:536 ../../api.rst:544
 msgid "The unique language code"
-msgstr ""
+msgstr "Codul unic de limbă"
 
 #: ../../api.rst:540
 msgid "Delete language from a group."
-msgstr ""
+msgstr "Ștergeți limba dintr-un grup."
 
 #: ../../api.rst:549
 msgid "Associate componentlists with a group."
-msgstr ""
+msgstr "Asociază listele de componente cu un grup."
 
 #: ../../api.rst:553 ../../api.rst:561
 msgid "The unique componentlist ID"
-msgstr ""
+msgstr "ID-ul unic al listei de componente"
 
 #: ../../api.rst:557
 msgid "Delete componentlist from a group."
-msgstr ""
+msgstr "Ștergeți lista de componente dintr-un grup."
 
 #: ../../api.rst:570
 msgid ""
 "Returns a list of all roles associated with user. If user is superuser, then "
 "list of all existing roles is returned."
 msgstr ""
+"Returnează o listă cu toate rolurile asociate cu utilizatorul. Dacă "
+"utilizatorul este superutilizator, atunci se returnează lista tuturor "
+"rolurilor existente."
 
 #: ../../api.rst:575
 msgid ""
 "Roles object attributes are documented at :http:get:`/api/roles/(int:id)/`."
 msgstr ""
+"Atributele obiectului Roles sunt documentate la :http:get:`/api/roles/"
+"(int:id)/`."
 
 #: ../../api.rst:579
 msgid "Creates a new role."
-msgstr ""
+msgstr "Creează un nou rol."
 
 #: ../../api.rst:581 ../../api.rst:592 ../../api.rst:614 ../../api.rst:623
 msgid "Role name"
-msgstr ""
+msgstr "Numele rolului"
 
 #: ../../api.rst:583
 msgid "List of codenames of permissions"
-msgstr ""
+msgstr "Listă de nume de cod ale permisiunilor"
 
 #: ../../api.rst:588
 msgid "Returns information about a role."
-msgstr ""
+msgstr "Returnează informații despre un rol."
 
 #: ../../api.rst:590
 msgid "Role ID"
-msgstr ""
+msgstr "ID rol"
 
 #: ../../api.rst:593 ../../api.rst:615 ../../api.rst:624
 msgid "list of codenames of permissions"
-msgstr ""
+msgstr "lista numelor de cod ale autorizațiilor"
 
 #: ../../api.rst:610 ../../api.rst:619
 msgid "Changes the role parameters."
-msgstr ""
+msgstr "Modifică parametrii rolului."
 
 #: ../../api.rst:612 ../../api.rst:621 ../../api.rst:630
 msgid "Role's ID"
-msgstr ""
+msgstr "ID-ul rolului"
 
 #: ../../api.rst:628
 msgid "Deletes the role."
-msgstr ""
+msgstr "Șterge rolul."
 
 #: ../../api.rst:639
 msgid "Returns a list of all languages."
-msgstr ""
+msgstr "Returnează o listă cu toate limbile."
 
 #: ../../api.rst:643
 msgid ""
 "Language object attributes are documented at :http:get:`/api/languages/"
 "(string:language)/`."
 msgstr ""
+"Atributele obiectelor de limbă sunt documentate la :http:get:`/api/languages/"
+"(string:language)/`."
 
 #: ../../api.rst:647
 msgid "Creates a new language."
-msgstr ""
+msgstr "Creează o nouă limbă."
 
 #: ../../api.rst:655
 msgid "Language plural formula and number"
-msgstr ""
+msgstr "Limba formula plural și numărul"
 
 #: ../../api.rst:660
 msgid "Returns information about a language."
-msgstr ""
+msgstr "Returnează informații despre o limbă."
 
 #: ../../api.rst:666
 msgid "Object of language plural information"
-msgstr ""
+msgstr "Obiect al limbajului informație plurală"
 
 #: ../../api.rst:667
 msgid "Array of aliases for language"
-msgstr ""
+msgstr "Array de pseudonime pentru limbă"
 
 #: ../../api.rst:698 ../../api.rst:708
 msgid "Changes the language parameters."
-msgstr ""
+msgstr "Modifică parametrii de limbă."
 
 #: ../../api.rst:700 ../../api.rst:710 ../../api.rst:720
 msgid "Language's code"
-msgstr ""
+msgstr "Codul limbii"
 
 #: ../../api.rst:704 ../../api.rst:714
 msgid "Language plural details"
-msgstr ""
+msgstr "Limba plural detalii"
 
 #: ../../api.rst:718
 msgid "Deletes the language."
@@ -21506,56 +21644,56 @@ msgstr "Șterge limba."
 
 #: ../../api.rst:725
 msgid "Returns statistics for a language."
-msgstr ""
+msgstr "Returnează statisticile pentru o limbă."
 
 #: ../../api.rst:729 ../../api.rst:1070 ../../api.rst:1085 ../../api.rst:1665
 #: ../../api.rst:1917
 msgid "total number of strings"
-msgstr ""
+msgstr "numărul total de șiruri de caractere"
 
 #: ../../api.rst:730 ../../api.rst:1073 ../../api.rst:1088 ../../api.rst:1666
 #: ../../api.rst:1912
 msgid "total number of words"
-msgstr ""
+msgstr "numărul total de cuvinte"
 
 #: ../../api.rst:731
 msgid "last changes in the language"
-msgstr ""
+msgstr "ultimele modificări ale limbii"
 
 #: ../../api.rst:732
 msgid "total number of changes"
-msgstr ""
+msgstr "numărul total de modificări"
 
 #: ../../api.rst:733 ../../api.rst:1071 ../../api.rst:1086 ../../api.rst:1668
 #: ../../api.rst:1918
 msgid "number of translated strings"
-msgstr ""
+msgstr "numărul de șiruri de caractere traduse"
 
 #: ../../api.rst:734 ../../api.rst:1072 ../../api.rst:1087 ../../api.rst:1669
 #: ../../api.rst:1919
 msgid "percentage of translated strings"
-msgstr ""
+msgstr "procentul de șiruri de caractere traduse"
 
 #: ../../api.rst:735 ../../api.rst:1074 ../../api.rst:1089 ../../api.rst:1670
 #: ../../api.rst:1913
 msgid "number of translated words"
-msgstr ""
+msgstr "numărul de cuvinte traduse"
 
 #: ../../api.rst:736 ../../api.rst:1075 ../../api.rst:1090
 msgid "percentage of translated words"
-msgstr ""
+msgstr "procentul de cuvinte traduse"
 
 #: ../../api.rst:737
 msgid "number of translated characters"
-msgstr ""
+msgstr "numărul de caractere traduse"
 
 #: ../../api.rst:738
 msgid "percentage of translated characters"
-msgstr ""
+msgstr "procentul de caractere traduse"
 
 #: ../../api.rst:739
 msgid "number of total characters"
-msgstr ""
+msgstr "numărul total de caractere"
 
 #: ../../api.rst:740 ../../api.rst:1653 ../../api.rst:1910
 #, fuzzy
@@ -21565,33 +21703,35 @@ msgstr "Tradu"
 
 #: ../../api.rst:741 ../../api.rst:1654 ../../api.rst:1911
 msgid "percentage of fuzzy (marked for edit) strings"
-msgstr ""
+msgstr "procentajul de șiruri fuzzy (marcate pentru editare)"
 
 #: ../../api.rst:742
 msgid "number of failing strings"
-msgstr ""
+msgstr "numărul de șiruri eșuate"
 
 #: ../../api.rst:743
 msgid "percentage of failing strings"
-msgstr ""
+msgstr "procentul de șiruri de caractere nereușite"
 
 #: ../../api.rst:751
 msgid "Returns a list of all projects."
-msgstr ""
+msgstr "Returnează o listă cu toate proiectele."
 
 #: ../../api.rst:755
 msgid ""
 "Project object attributes are documented at :http:get:`/api/projects/(string:"
 "project)/`."
 msgstr ""
+"Atributele obiectului proiect sunt documentate la :http:get:`/api/projects/"
+"(string:project)/`."
 
 #: ../../api.rst:761
 msgid "Creates a new project."
-msgstr ""
+msgstr "Creează un nou proiect."
 
 #: ../../api.rst:772
 msgid "Returns information about a project."
-msgstr ""
+msgstr "Returnează informații despre un proiect."
 
 #: ../../api.rst:774 ../../api.rst:807 ../../api.rst:818 ../../api.rst:827
 #: ../../api.rst:835 ../../api.rst:845 ../../api.rst:867 ../../api.rst:914
@@ -21612,28 +21752,34 @@ msgstr "numele proiectului"
 
 #: ../../api.rst:777
 msgid "project slug"
-msgstr ""
+msgstr "sloganul proiectului"
 
 #: ../../api.rst:778
 msgid "project website"
-msgstr ""
+msgstr "site-ul web al proiectului"
 
 #: ../../api.rst:779
 msgid ""
 "URL to components list; see :http:get:`/api/projects/(string:project)/"
 "components/`"
 msgstr ""
+"URL către lista de componente; a se vedea :http:get:`/api/projects/"
+"(string:project)/components/`"
 
 #: ../../api.rst:780
 msgid ""
 "URL to repository status; see :http:get:`/api/projects/(string:project)/"
 "repository/`"
 msgstr ""
+"URL pentru starea depozitului; a se vedea :http:get:`/api/projects/"
+"(string:project)/repository/`"
 
 #: ../../api.rst:781
 msgid ""
 "URL to changes list; see :http:get:`/api/projects/(string:project)/changes/`"
 msgstr ""
+"URL către lista de modificări; a se vedea :http:get:`/api/projects/"
+"(string:project)/changes/`"
 
 #: ../../api.rst:782
 #, fuzzy
@@ -21673,7 +21819,7 @@ msgstr "Denumire proiect"
 
 #: ../../api.rst:805
 msgid "Edit a project by a :http:method:`PATCH` request."
-msgstr ""
+msgstr "Editarea unui proiect printr-o cerere :http:method:`PATCH`."
 
 #: ../../api.rst:809 ../../api.rst:1109 ../../api.rst:1206 ../../api.rst:1289
 #: ../../api.rst:1309 ../../api.rst:1319 ../../api.rst:1329 ../../api.rst:1340
@@ -21688,21 +21834,23 @@ msgstr "Componenta URL slug"
 
 #: ../../api.rst:816
 msgid "Edit a project by a :http:method:`PUT` request."
-msgstr ""
+msgstr "Editarea unui proiect printr-o cerere :http:method:`PUT`."
 
 #: ../../api.rst:825
 msgid "Deletes a project."
-msgstr ""
+msgstr "Șterge un proiect."
 
 #: ../../api.rst:832
 msgid ""
 "Returns a list of project changes. This is essentially a project scoped :"
 "http:get:`/api/changes/` accepting same params."
 msgstr ""
+"Returnează o listă de modificări ale proiectului. Aceasta este, în esență, o "
+"listă :http:get:`/api/changes/` care acceptă aceiași parametri."
 
 #: ../../api.rst:837 ../../api.rst:1321 ../../api.rst:1768
 msgid "array of component objects; see :http:get:`/api/changes/(int:id)/`"
-msgstr ""
+msgstr "array de obiecte componente; vezi :http:get:`/api/changes/(int:id)/`"
 
 #: ../../api.rst:841
 msgid ""
@@ -21711,79 +21859,97 @@ msgid ""
 "detailed status use :http:get:`/api/components/(string:project)/(string:"
 "component)/repository/`."
 msgstr ""
+"Returnează informații despre starea depozitului VCS. Acest endpoint conține "
+"doar un rezumat general pentru toate depozitele din proiect. Pentru a obține "
+"o stare mai detaliată, utilizați :http:get:`/api/components/"
+"(string:project)/(string:component)/repository/`."
 
 #: ../../api.rst:847 ../../api.rst:1412
 msgid "whether there are any pending changes to commit"
-msgstr ""
+msgstr "dacă există modificări în așteptare pentru a fi confirmate"
 
 #: ../../api.rst:848 ../../api.rst:1413
 msgid "whether there are any upstream changes to merge"
-msgstr ""
+msgstr "dacă există modificări în amonte de fuzionat"
 
 #: ../../api.rst:849 ../../api.rst:1414
 msgid "whether there are any local changes to push"
-msgstr ""
+msgstr "dacă există modificări locale care să fie împinse"
 
 #: ../../api.rst:864 ../../api.rst:1882
 msgid "Performs given operation on the VCS repository."
-msgstr ""
+msgstr "Efectuează operațiunea dată asupra depozitului VCS."
 
 #: ../../api.rst:869
 msgid ""
 "Operation to perform: one of ``push``, ``pull``, ``commit``, ``reset``, "
 "``cleanup``, ``file-sync``"
 msgstr ""
+"Operațiunea de efectuat: una dintre ``push``, ``pull``, ``commit``, ``reset``"
+", ``cleanup``, ``file-sync``"
 
 #: ../../api.rst:870 ../../api.rst:1430 ../../api.rst:1893
 msgid "result of the operation"
-msgstr ""
+msgstr "rezultatul operațiunii"
 
 #: ../../api.rst:894 ../../api.rst:1015 ../../api.rst:1239 ../../api.rst:1387
 #: ../../api.rst:1454 ../../api.rst:1530
 msgid "**JSON response example:**"
-msgstr ""
+msgstr "**Exemplu de răspuns JSON:**"
 
 #: ../../api.rst:912
 msgid "Returns a list of translation components in the given project."
-msgstr ""
+msgstr "Returnează o listă a componentelor de traducere din proiectul dat."
 
 #: ../../api.rst:916
 msgid ""
 "array of component objects; see :http:get:`/api/components/(string:project)/"
 "(string:component)/`"
 msgstr ""
+"matrice de obiecte de componente; a se vedea :http:get:`/api/components/"
+"(string:project)/(string:component)/`"
 
 #: ../../api.rst:924
 msgid ""
 "The ``zipfile`` and ``docfile`` parameters are now accepted for VCS-less "
 "components, see :ref:`vcs-local`."
 msgstr ""
+"Parametrii ``zipfile`` și ``docfile`` sunt acum acceptați pentru "
+"componentele fără VCS, a se vedea :ref:`vcs-local`."
 
 #: ../../api.rst:928
 msgid ""
 "The cloned repositories are now automatically shared within a project using :"
 "ref:`internal-urls`. Use ``disable_autoshare`` to turn off this."
 msgstr ""
+"Depozitele clonate sunt acum partajate automat în cadrul unui proiect "
+"folosind :ref:`internal-urls`. Utilizați ``disable_autoshare`` pentru a "
+"dezactiva acest lucru."
 
 #: ../../api.rst:930
 msgid "Creates translation components in the given project."
-msgstr ""
+msgstr "Creează componente de traducere în proiectul dat."
 
 #: ../../api.rst:934
 msgid ""
 "Use :ref:`internal-urls` when creating multiple components from a single VCS "
 "repository."
 msgstr ""
+"Utilizați :ref:`internal-urls` atunci când creați mai multe componente dintr-"
+"un singur depozit VCS."
 
 #: ../../api.rst:938
 msgid ""
 "Most of the component creation happens in the background. Check the "
 "``task_url`` attribute of created component and follow the progress there."
 msgstr ""
+"Cea mai mare parte a creării de componente are loc în fundal. Verificați "
+"atributul ``task_url`` al componentei create și urmăriți progresul acolo."
 
 #: ../../api.rst:944
 msgid "ZIP file to upload into Weblate for translations initialization"
 msgstr ""
+"Fișier ZIP pentru a încărca în Weblate pentru inițializarea traducerilor"
 
 #: ../../api.rst:945
 msgid "Document to translate"
@@ -21792,12 +21958,15 @@ msgstr "Document de tradus"
 #: ../../api.rst:946
 msgid "Disables automatic repository sharing via :ref:`internal-urls`."
 msgstr ""
+"Dezactivează partajarea automată a depozitelor prin :ref:`internal-urls`."
 
 #: ../../api.rst:947
 msgid ""
 "Created component object; see :http:get:`/api/components/(string:project)/"
 "(string:component)/`"
 msgstr ""
+"Obiect component creat; a se vedea :http:get:`/api/components/"
+"(string:project)/(string:component)/`"
 
 #: ../../api.rst:949
 msgid ""
@@ -21805,53 +21974,61 @@ msgid ""
 "``docfile`` parameters. The data has to be uploaded as :mimetype:`multipart/"
 "form-data`."
 msgstr ""
+"JSON nu poate fi utilizat la încărcarea fișierelor folosind parametrii "
+"``zipfile`` și ``docfile``. Datele trebuie să fie încărcate ca :mimetype:`"
+"multipart/form-data`."
 
 #: ../../api.rst:953
 msgid "**CURL form request example:**"
-msgstr ""
+msgstr "**Exemplu de solicitare a formularului CURL:**"
 
 #: ../../api.rst:966
 msgid "**CURL JSON request example:**"
-msgstr ""
+msgstr "**Exemplu de cerere JSONURL JSON:**"
 
 #: ../../api.rst:1061
 msgid "Returns paginated statistics for all languages within a project."
 msgstr ""
+"Returnează statistici paginate pentru toate limbile din cadrul unui proiect."
 
 #: ../../api.rst:1067
 msgid "array of translation statistics objects"
-msgstr ""
+msgstr "matrice de obiecte de statistici de traducere"
 
 #: ../../api.rst:1068 ../../api.rst:1916
 msgid "language name"
-msgstr ""
+msgstr "numele limbii"
 
 #: ../../api.rst:1069 ../../api.rst:1907
 msgid "language code"
-msgstr ""
+msgstr "codul limbii"
 
 #: ../../api.rst:1079
 msgid "Returns statistics for a project."
-msgstr ""
+msgstr "Returnează statisticile pentru un proiect."
 
 #: ../../api.rst:1097
 msgid "Returns a list of translation components."
-msgstr ""
+msgstr "Returnează o listă de componente de traducere."
 
 #: ../../api.rst:1101
 msgid ""
 "Component object attributes are documented at :http:get:`/api/components/"
 "(string:project)/(string:component)/`."
 msgstr ""
+"Atributele obiectelor componente sunt documentate la :http:get:`/api/"
+"components/(string:project)/(string:component)/`."
 
 #: ../../api.rst:1105
 msgid "Returns information about translation component."
-msgstr ""
+msgstr "Returnează informații despre componenta de traducere."
 
 #: ../../api.rst:1111
 msgid ""
 "the translation project; see :http:get:`/api/projects/(string:project)/`"
 msgstr ""
+"proiectul de traducere; a se vedea :http:get:`/api/projects/"
+"(string:project)/`"
 
 #: ../../api.rst:1112 ../../devel/sphinx.rst:32
 #, fuzzy
@@ -21941,6 +22118,8 @@ msgstr "Denumire proiect"
 msgid ""
 "source language object; see :http:get:`/api/languages/(string:language)/`"
 msgstr ""
+"obiect de limbă sursă; a se vedea :http:get:`/api/languages/"
+"(string:language)/`"
 
 #: ../../api.rst:1131 ../../devel/sphinx.rst:40
 msgid ":ref:`component-check_flags`"
@@ -22069,197 +22248,228 @@ msgid ""
 "URL to repository status; see :http:get:`/api/components/(string:project)/"
 "(string:component)/repository/`"
 msgstr ""
+"URL către starea depozitului; a se vedea :http:get:`/api/components/"
+"(string:project)/(string:component)/repository/`"
 
 #: ../../api.rst:1153
 msgid ""
 "URL to translations list; see :http:get:`/api/components/(string:project)/"
 "(string:component)/translations/`"
 msgstr ""
+"URL către lista de traduceri; vezi :http:get:`/api/components/"
+"(string:project)/(string:component)/translations/`"
 
 #: ../../api.rst:1154
 msgid ""
 "URL to lock status; see :http:get:`/api/components/(string:project)/(string:"
 "component)/lock/`"
 msgstr ""
+"URL pentru starea de blocare; vezi :http:get:`/api/components/"
+"(string:project)/(string:component)/lock/`"
 
 #: ../../api.rst:1155
 msgid ""
 "URL to changes list; see :http:get:`/api/components/(string:project)/(string:"
 "component)/changes/`"
 msgstr ""
+"URL către lista de modificări; a se vedea :http:get:`/api/components/"
+"(string:project)/(string:component)/changes/`"
 
 #: ../../api.rst:1156
 msgid ""
 "URL to a background task (if any); see :http:get:`/api/tasks/(str:uuid)/`"
 msgstr ""
+"URL către o sarcină de fundal (dacă există); a se vedea :http:get:`/api/"
+"tasks/(str:uuid)/`"
 
 #: ../../api.rst:1202
 msgid "Edit a component by a :http:method:`PATCH` request."
-msgstr ""
+msgstr "Editarea unei componente printr-o cerere :http:method:`PATCH`."
 
 #: ../../api.rst:1208
 msgid "Project source language code (optional)"
-msgstr ""
+msgstr "Codul sursă al limbajului proiectului (opțional)"
 
 #: ../../api.rst:1210 ../../api.rst:1294
 msgid "name of component"
-msgstr ""
+msgstr "denumirea componentei"
 
 #: ../../api.rst:1211 ../../api.rst:1295
 msgid "slug of component"
-msgstr ""
+msgstr "sloganul componentei"
 
 #: ../../api.rst:1212 ../../api.rst:1296
 msgid "VCS repository URL"
-msgstr ""
+msgstr "URL-ul depozitului VCS"
 
 #: ../../api.rst:1285
 msgid "Edit a component by a :http:method:`PUT` request."
-msgstr ""
+msgstr "Editarea unei componente printr-o cerere :http:method:`PUT`."
 
 #: ../../api.rst:1291
 msgid "VCS repository branch"
-msgstr ""
+msgstr "Branșa depozitului VCS"
 
 #: ../../api.rst:1292
 msgid "file format of translations"
-msgstr ""
+msgstr "formatul de fișier al traducerilor"
 
 #: ../../api.rst:1293
 msgid "mask of translation files in the repository"
-msgstr ""
+msgstr "masca de fișiere de traducere din depozit"
 
 #: ../../api.rst:1297
 msgid "base file for monolingual translations"
-msgstr ""
+msgstr "fișier de bază pentru traducerile monolingve"
 
 #: ../../api.rst:1298
 msgid "base file for adding new translations"
-msgstr ""
+msgstr "fișier de bază pentru adăugarea de noi traduceri"
 
 #: ../../api.rst:1299
 msgid "version control system"
-msgstr ""
+msgstr "sistem de control al versiunilor"
 
 #: ../../api.rst:1305
 msgid "Deletes a component."
-msgstr ""
+msgstr "Șterge o componentă."
 
 #: ../../api.rst:1314
 msgid ""
 "Returns a list of component changes. This is essentially a component scoped :"
 "http:get:`/api/changes/` accepting same params."
 msgstr ""
+"Returnează o listă de modificări ale componentelor. Aceasta este, în esență, "
+"o componentă :http:get:`/api/changes/` care acceptă aceiași parametri."
 
 #: ../../api.rst:1325
 msgid "Returns a list of component screenshots."
-msgstr ""
+msgstr "Returnează o listă de capturi de ecran ale componentelor."
 
 #: ../../api.rst:1331
 msgid ""
 "array of component screenshots; see :http:get:`/api/screenshots/(int:id)/`"
 msgstr ""
+"serie de capturi de ecran ale componentelor; a se vedea :http:get:`/api/"
+"screenshots/(int:id)/`"
 
 #: ../../api.rst:1336
 msgid "Returns component lock status."
-msgstr ""
+msgstr "Returnează starea de blocare a componentelor."
 
 #: ../../api.rst:1342
 msgid "whether component is locked for updates"
-msgstr ""
+msgstr "dacă componenta este blocată pentru actualizări"
 
 #: ../../api.rst:1355
 msgid "Sets component lock status."
-msgstr ""
+msgstr "Stabilește starea de blocare a componentelor."
 
 #: ../../api.rst:1357
 msgid ""
 "Response is same as :http:get:`/api/components/(string:project)/(string:"
 "component)/lock/`."
 msgstr ""
+"Răspunsul este același cu :http:get:`/api/components/"
+"(string:project)/(string:component)/lock/`."
 
 #: ../../api.rst:1363
 msgid "Boolean whether to lock or not."
-msgstr ""
+msgstr "Boolean dacă se blochează sau nu."
 
 #: ../../api.rst:1404 ../../api.rst:1869
 msgid "Returns information about VCS repository status."
-msgstr ""
+msgstr "Returnează informații despre starea depozitului VCS."
 
 #: ../../api.rst:1406
 msgid ""
 "The response is same as for :http:get:`/api/projects/(string:project)/"
 "repository/`."
 msgstr ""
+"Răspunsul este același ca pentru :http:get:`/api/projects/(string:project)/"
+"repository/`."
 
 #: ../../api.rst:1415
 msgid "Remote commit information"
-msgstr ""
+msgstr "Informații de comandă la distanță"
 
 #: ../../api.rst:1416
 msgid "VCS repository status as reported by VCS"
-msgstr ""
+msgstr "Starea depozitului VCS raportată de VCS"
 
 #: ../../api.rst:1417
 msgid "Text describing merge failure or null if there is none"
-msgstr ""
+msgstr "Text care descrie eșecul fuziunii sau nul dacă nu există niciunul"
 
 #: ../../api.rst:1421
 msgid "Performs the given operation on a VCS repository."
-msgstr ""
+msgstr "Efectuează operațiunea dată asupra unui depozit VCS."
 
 #: ../../api.rst:1423 ../../api.rst:1884
 msgid ""
 "See :http:post:`/api/projects/(string:project)/repository/` for "
 "documentation."
 msgstr ""
+"Consultați :http:post:`/api/projects/(string:project)/repository/` pentru "
+"documentație."
 
 #: ../../api.rst:1429 ../../api.rst:1892
 msgid ""
 "Operation to perform: one of ``push``, ``pull``, ``commit``, ``reset``, "
 "``cleanup``"
 msgstr ""
+"Operațiunea de efectuat: una dintre ``push``, ``pull``, ``commit``, ``reset``"
+", ``cleanup``"
 
 #: ../../api.rst:1471
 msgid "Downloads base file for monolingual translations."
-msgstr ""
+msgstr "Descarcă fișierul de bază pentru traducerile monolingve."
 
 #: ../../api.rst:1480
 msgid "Downloads template file for new translations."
-msgstr ""
+msgstr "Descarcă fișierul șablon pentru noile traduceri."
 
 #: ../../api.rst:1489
 msgid "Returns a list of translation objects in the given component."
-msgstr ""
+msgstr "Returnează o listă de obiecte de traducere din componenta dată."
 
 #: ../../api.rst:1495
 msgid ""
 "array of translation objects; see :http:get:`/api/translations/(string:"
 "project)/(string:component)/(string:language)/`"
 msgstr ""
+"serie de obiecte de traducere; vezi :http:get:`/api/translations/"
+"(string:project)/(string:component)/(string:language)/`"
 
 #: ../../api.rst:1499
 msgid "Creates new translation in the given component."
-msgstr ""
+msgstr "Creează o nouă traducere în componenta dată."
 
 #: ../../api.rst:1505
 msgid ""
 "translation language code; see :http:get:`/api/languages/(string:language)/`"
 msgstr ""
+"codul limbii de traducere; a se vedea :http:get:`/api/languages/"
+"(string:language)/`"
 
 #: ../../api.rst:1506
 msgid "new translation object created"
-msgstr ""
+msgstr "nou obiect de traducere creat"
 
 #: ../../api.rst:1579
 msgid "Returns paginated statistics for all translations within component."
 msgstr ""
+"Returnează statistici paginate pentru toate traducerile din cadrul "
+"componentei."
 
 #: ../../api.rst:1587
 msgid ""
 "array of translation statistics objects; see :http:get:`/api/translations/"
 "(string:project)/(string:component)/(string:language)/statistics/`"
 msgstr ""
+"matrice de obiecte de statistici de traducere; vezi :http:get:`/api/"
+"translations/(string:project)/(string:component)/(string:language)/"
+"statistics/`"
 
 #: ../../api.rst:1591
 msgid "Returns projects linked with a component."
@@ -22268,6 +22478,7 @@ msgstr "Returnează proiectele legate de o componentă."
 #: ../../api.rst:1599
 msgid "associated projects; see :http:get:`/api/projects/(string:project)/`"
 msgstr ""
+"proiecte asociate; a se vedea :http:get:`/api/projects/(string:project)/`"
 
 #: ../../api.rst:1603
 msgid "Associate project with a component."
@@ -22285,29 +22496,33 @@ msgstr "Limbă"
 
 #: ../../api.rst:1632
 msgid "Returns a list of translations."
-msgstr ""
+msgstr "Returnează o listă de traduceri."
 
 #: ../../api.rst:1636
 msgid ""
 "Translation object attributes are documented at :http:get:`/api/translations/"
 "(string:project)/(string:component)/(string:language)/`."
 msgstr ""
+"Atributele obiectelor de traducere sunt documentate la :http:get:`/api/"
+"translations/(string:project)/(string:component)/(string:language)/`."
 
 #: ../../api.rst:1640
 msgid "Returns information about a translation."
-msgstr ""
+msgstr "Returnează informații despre o traducere."
 
 #: ../../api.rst:1646 ../../api.rst:1754 ../../api.rst:1766 ../../api.rst:1779
 #: ../../api.rst:1793 ../../api.rst:1811 ../../api.rst:1838 ../../api.rst:1849
 #: ../../api.rst:1877 ../../api.rst:1890 ../../api.rst:1905
 msgid "Translation language code"
-msgstr ""
+msgstr "Codul limbii de traducere"
 
 #: ../../api.rst:1648
 msgid ""
 "component object; see :http:get:`/api/components/(string:project)/(string:"
 "component)/`"
 msgstr ""
+"obiect component; vezi :http:get:`/api/components/"
+"(string:project)/(string:component)/`"
 
 #: ../../api.rst:1649
 #, fuzzy
@@ -22329,19 +22544,19 @@ msgstr "Limbi secundare"
 
 #: ../../api.rst:1652
 msgid "translation filename"
-msgstr ""
+msgstr "numele fișierului de traducere"
 
 #: ../../api.rst:1655
 msgid "number of words in fuzzy (marked for edit) strings"
-msgstr ""
+msgstr "numărul de cuvinte din șirurile fuzzy (marcate pentru editare)"
 
 #: ../../api.rst:1656
 msgid "number of strings with comment"
-msgstr ""
+msgstr "numărul de șiruri de caractere cu comentarii"
 
 #: ../../api.rst:1657
 msgid "number of strings with suggestion"
-msgstr ""
+msgstr "numărul de șiruri cu sugestie"
 
 #: ../../api.rst:1658
 msgid "whether the translation has a monolingual base"
@@ -22352,84 +22567,96 @@ msgid ""
 "language code used in the repository; this can be different from language "
 "code in the language object"
 msgstr ""
+"codul limbii utilizat în depozit; acesta poate fi diferit de codul limbii "
+"din obiectul lingvistic"
 
 #: ../../api.rst:1661 ../../api.rst:1914
 msgid "name of last author"
-msgstr ""
+msgstr "numele ultimului autor"
 
 #: ../../api.rst:1662
 msgid "last change timestamp"
-msgstr ""
+msgstr "data și ora ultimei modificări"
 
 #: ../../api.rst:1663
 msgid "revision hash for the file"
-msgstr ""
+msgstr "hash de revizuire pentru fișier"
 
 #: ../../api.rst:1664
 msgid "URL for sharing leading to engagement page"
-msgstr ""
+msgstr "URL pentru partajare care duce la pagina de implicare"
 
 #: ../../api.rst:1667
 msgid "URL for translating"
-msgstr ""
+msgstr "URL pentru traducere"
 
 #: ../../api.rst:1671
 msgid ""
 "URL to repository status; see :http:get:`/api/translations/(string:project)/"
 "(string:component)/(string:language)/repository/`"
 msgstr ""
+"URL către starea depozitului; vezi :http:get:`/api/translations/"
+"(string:project)/(string:component)/(string:language)/repository/`"
 
 #: ../../api.rst:1672
 msgid ""
 "URL to file object; see :http:get:`/api/translations/(string:project)/"
 "(string:component)/(string:language)/file/`"
 msgstr ""
+"URL către obiectul fișier; vezi :http:get:`/api/translations/"
+"(string:project)/(string:component)/(string:language)/file/`"
 
 #: ../../api.rst:1673
 msgid ""
 "URL to changes list; see :http:get:`/api/translations/(string:project)/"
 "(string:component)/(string:language)/changes/`"
 msgstr ""
+"URL către lista de modificări; vezi :http:get:`/api/translations/"
+"(string:project)/(string:component)/(string:language)/changes/`"
 
 #: ../../api.rst:1674
 msgid ""
 "URL to strings list; see :http:get:`/api/translations/(string:project)/"
 "(string:component)/(string:language)/units/`"
 msgstr ""
+"URL către lista de șiruri de caractere; vezi :http:get:`/api/translations/"
+"(string:project)/(string:component)/(string:language)/units/`"
 
 #: ../../api.rst:1748
 msgid "Deletes a translation."
-msgstr ""
+msgstr "Șterge o traducere."
 
 #: ../../api.rst:1759
 msgid ""
 "Returns a list of translation changes. This is essentially a translations-"
 "scoped :http:get:`/api/changes/` accepting the same parameters."
 msgstr ""
+"Returnează o listă de modificări de traducere. Aceasta este, în esență, o "
+"listă :http:get:`/api/changes/` care acceptă aceiași parametri."
 
 #: ../../api.rst:1773
 msgid "Returns a list of translation units."
-msgstr ""
+msgstr "Returnează o listă de unități de traducere."
 
 #: ../../api.rst:1781
 msgid "Search query string :ref:`Searching` (optional)"
-msgstr ""
+msgstr "Șir de interogare pentru căutare :ref:`Searching` (opțional)"
 
 #: ../../api.rst:1783
 msgid "array of component objects; see :http:get:`/api/units/(int:id)/`"
-msgstr ""
+msgstr "serie de obiecte componente; vezi :http:get:`/api/units/(int:id)/`"
 
 #: ../../api.rst:1787
 msgid "Add new monolingual unit."
-msgstr ""
+msgstr "Adăugați o nouă unitate monolingvă."
 
 #: ../../api.rst:1795
 msgid "Name of translation unit"
-msgstr ""
+msgstr "Denumirea unității de traducere"
 
 #: ../../api.rst:1796
 msgid "The translation unit value"
-msgstr ""
+msgstr "Valoarea unității de traducere"
 
 #: ../../api.rst:1800
 #, fuzzy
@@ -22439,11 +22666,11 @@ msgstr "Denumire proiect"
 
 #: ../../api.rst:1805
 msgid "Trigger automatic translation."
-msgstr ""
+msgstr "Declanșarea traducerii automate."
 
 #: ../../api.rst:1814
 msgid "Automatic translation filter type"
-msgstr ""
+msgstr "Tip de filtru de traducere automată"
 
 #: ../../api.rst:1815
 #, fuzzy
@@ -22456,6 +22683,9 @@ msgid ""
 "Download current translation file as it is stored in the VCS (without the "
 "``format`` parameter) or converted to another format (see :ref:`download`)."
 msgstr ""
+"Descarcă fișierul de traducere curent așa cum este stocat în VCS (fără "
+"parametrul ``format``) sau convertit într-un alt format (a se vedea "
+":ref:`download`)."
 
 #: ../../api.rst:1827
 msgid ""
@@ -22464,6 +22694,10 @@ msgid ""
 "parameter differs and without such parameter you get translation file as "
 "stored in VCS."
 msgstr ""
+"Acest endpoint API utilizează o logică diferită pentru ieșire față de restul "
+"API-ului, deoarece operează pe întregul fișier și nu pe date. Setul de "
+"parametri ``format`` acceptați diferă și fără un astfel de parametru se "
+"obține fișierul de traducere așa cum este stocat în VCS."
 
 #: ../../api.rst:1832
 msgid ""
@@ -22471,20 +22705,26 @@ msgid ""
 "file formats: ``po``, ``mo``, ``xliff``, ``xliff11``, ``tbx``, ``csv``, "
 "``xlsx``, ``json``, ``aresource``, ``strings``"
 msgstr ""
+"Formatul de fișier care urmează să fie utilizat; dacă nu este specificat, nu "
+"are loc nicio conversie de format; formate de fișier acceptate: ``po``, "
+"``mo``, ``xliff``, ``xliff11``, ``tbx``, ``csv``, ``xlsx``, ``json``, "
+"``aresource``, ``strings``"
 
 #: ../../api.rst:1843
 msgid "Upload new file with translations."
-msgstr ""
+msgstr "Încărcați un nou fișier cu traduceri."
 
 #: ../../api.rst:1851
 msgid ""
 "How to deal with conflicts (``ignore``, ``replace-translated`` or ``replace-"
 "approved``)"
 msgstr ""
+"Cum se tratează conflictele (``ignore``, ``replace-translated`` sau "
+"``replace-approved``)"
 
 #: ../../api.rst:1852 ../../api.rst:2090 ../../api.rst:2126
 msgid "Uploaded file"
-msgstr ""
+msgstr "Fișier încărcat"
 
 #: ../../api.rst:1853
 msgid "Author e-mail"
@@ -22499,46 +22739,52 @@ msgid ""
 "Upload method (``translate``, ``approve``, ``suggest``, ``fuzzy``, "
 "``replace``, ``source``, ``add``), see :ref:`upload-method`"
 msgstr ""
+"Metoda de încărcare (``translate``, ``approve``, ``suggest``, ``fuzzy``, "
+"``replace``, ``source``, ``add``), vezi :ref:`upload-method`"
 
 #: ../../api.rst:1856
 msgid ""
 "Fuzzy (marked for edit) strings processing (*empty*, ``process``, "
 "``approve``)"
 msgstr ""
+"Procesarea șirurilor fuzzy (marcate pentru editare) (*empty*, ``process``, "
+"``approve``)"
 
 #: ../../api.rst:1871
 msgid ""
 "The response is same as for :http:get:`/api/components/(string:project)/"
 "(string:component)/repository/`."
 msgstr ""
+"Răspunsul este același ca pentru :http:get:`/api/components/"
+"(string:project)/(string:component)/repository/`."
 
 #: ../../api.rst:1897
 msgid "Returns detailed translation statistics."
-msgstr ""
+msgstr "Returnează statistici detaliate privind traducerile."
 
 #: ../../api.rst:1908
 msgid "number of failing checks"
-msgstr ""
+msgstr "numărul de controale nereușite"
 
 #: ../../api.rst:1909
 msgid "percentage of failing checks"
-msgstr ""
+msgstr "procentul de controale nereușite"
 
 #: ../../api.rst:1915
 msgid "date of last change"
-msgstr ""
+msgstr "data ultimei modificări"
 
 #: ../../api.rst:1920
 msgid "URL to access the translation (engagement URL)"
-msgstr ""
+msgstr "URL pentru a accesa traducerea (URL de angajament)"
 
 #: ../../api.rst:1921
 msgid "URL to access the translation (real translation URL)"
-msgstr ""
+msgstr "URL pentru a accesa traducerea (URL-ul real al traducerii)"
 
 #: ../../api.rst:1924
 msgid "Units"
-msgstr ""
+msgstr "Unități"
 
 #: ../../api.rst:1926
 msgid ""
@@ -22548,80 +22794,91 @@ msgid ""
 "org/projects/translate-toolkit/en/latest/api/storage.html#translate.storage."
 "base.TranslationUnit>`_ and XLIFF."
 msgstr ""
+"O `unitate` este o singură bucată dintr-o traducere care asociază un șir "
+"sursă cu un șir tradus corespunzător și conține, de asemenea, unele metadate "
+"aferente. Termenul este derivat din `Translate Toolkit <http://docs."
+"translatehouse.org/projects/translate-toolkit/en/latest/api/storage."
+"html#translate.storage.base.TranslationUnit>`_ și XLIFF."
 
 #: ../../api.rst:1936
 msgid "Returns list of translation units."
-msgstr ""
+msgstr "Returnează o listă de unități de traducere."
 
 #: ../../api.rst:1940
 msgid ""
 "Unit object attributes are documented at :http:get:`/api/units/(int:id)/`."
 msgstr ""
+"Atributele obiectului unitate sunt documentate la :http:get:`/api/units/"
+"(int:id)/`."
 
 #: ../../api.rst:1946
 msgid ""
 "The ``target`` and ``source`` are now arrays to properly handle plural "
 "strings."
 msgstr ""
+"``target`` și ``source`` sunt acum array-uri pentru a gestiona corect "
+"șirurile de caractere la plural."
 
 #: ../../api.rst:1949
 msgid "Returns information about translation unit."
-msgstr ""
+msgstr "Returnează informații despre unitatea de traducere."
 
 #: ../../api.rst:1951 ../../api.rst:1985 ../../api.rst:1998 ../../api.rst:2011
 #: ../../api.rst:2107
 msgid "Unit ID"
-msgstr ""
+msgstr "ID-ul unității"
 
 #: ../../api.rst:1953 ../../api.rst:2043 ../../api.rst:2109
 msgid "URL of a related translation object"
-msgstr ""
+msgstr "Adresa URL a unui obiect de traducere asociat"
 
 #: ../../api.rst:1954
 msgid "source string"
-msgstr ""
+msgstr "șirul sursă"
 
 #: ../../api.rst:1955
 msgid "previous source string used for fuzzy matching"
-msgstr ""
+msgstr "șirul sursă anterior utilizat pentru potrivirea fuzzy"
 
 #: ../../api.rst:1956 ../../api.rst:1988 ../../api.rst:2001
 msgid "target string"
-msgstr ""
+msgstr "șirul țintă"
 
 #: ../../api.rst:1957
 msgid "unique identifier of the unit"
-msgstr ""
+msgstr "identificatorul unic al unității"
 
 #: ../../api.rst:1958
 msgid "unique identifier of the source string"
-msgstr ""
+msgstr "identificatorul unic al șirului sursă"
 
 #: ../../api.rst:1959
 msgid "location of the unit in source code"
-msgstr ""
+msgstr "locația unității în codul sursă"
 
 #: ../../api.rst:1960
 msgid "translation unit context"
-msgstr ""
+msgstr "contextul unității de traducere"
 
 #: ../../api.rst:1961
 msgid "translation unit note"
-msgstr ""
+msgstr "nota unității de conversie"
 
 #: ../../api.rst:1962
 msgid "translation unit flags"
-msgstr ""
+msgstr "indicatori de unitate pentru traducere"
 
 #: ../../api.rst:1963
 msgid ""
 "unit state, 0 - not translated, 10 - needs editing, 20 - translated, 30 - "
 "approved, 100 - read only"
 msgstr ""
+"starea unității, 0 - netradus, 10 - necesită editare, 20 - tradus, 30 - "
+"aprobat, 100 - numai pentru citire"
 
 #: ../../api.rst:1964
 msgid "whether the unit is fuzzy or marked for review"
-msgstr ""
+msgstr "dacă unitatea este neclară sau marcată pentru revizuire"
 
 #: ../../api.rst:1965
 #, fuzzy
@@ -22637,7 +22894,7 @@ msgstr "Status traducere"
 
 #: ../../api.rst:1967
 msgid "unit position in translation file"
-msgstr ""
+msgstr "poziția unității în fișierul de traducere"
 
 #: ../../api.rst:1968
 #, fuzzy
@@ -22659,32 +22916,36 @@ msgstr "Limbi secundare"
 
 #: ../../api.rst:1971
 msgid "number of source words"
-msgstr ""
+msgstr "numărul de cuvinte sursă"
 
 #: ../../api.rst:1972
 msgid "translation priority; 100 is default"
-msgstr ""
+msgstr "prioritate de traducere; 100 este valoarea implicită"
 
 #: ../../api.rst:1973
 msgid "unit identifier"
-msgstr ""
+msgstr "identificatorul unității"
 
 #: ../../api.rst:1974 ../../api.rst:1989 ../../api.rst:2002
 msgid "String explanation, available on source units, see :ref:`additional`"
 msgstr ""
+"Explicație în șiruri, disponibilă pe unitățile sursă, a se vedea "
+":ref:`additional`"
 
 #: ../../api.rst:1975 ../../api.rst:1990 ../../api.rst:2003
 msgid ""
 "Additional string flags, available on source units, see :ref:`custom-checks`"
 msgstr ""
+"Stegulețe de șir suplimentare, disponibile pe unitățile sursă, a se vedea "
+":ref:`custom-checks`"
 
 #: ../../api.rst:1976
 msgid "URL where the unit can be edited"
-msgstr ""
+msgstr "URL-ul unde poate fi editată unitatea"
 
 #: ../../api.rst:1977
 msgid "Source unit link; see :http:get:`/api/units/(int:id)/`"
-msgstr ""
+msgstr "Legătura cu unitatea sursă; a se vedea :http:get:`/api/units/(int:id)/`"
 
 #: ../../api.rst:1983
 msgid "Performs partial update on translation unit."
@@ -22695,6 +22956,8 @@ msgid ""
 "unit state, 0 - not translated, 10 - needs editing, 20 - translated, 30 - "
 "approved (need review workflow enabled, see :ref:`reviews`)"
 msgstr ""
+"starea unității, 0 - netradusă, 10 - necesită editare, 20 - tradusă, 30 - "
+"aprobată (trebuie activat fluxul de lucru de revizuire, vezi :ref:`reviews`)"
 
 #: ../../api.rst:1996
 msgid "Performs full update on translation unit."
@@ -22706,107 +22969,115 @@ msgstr "Șterge o unitate de traducere."
 
 #: ../../api.rst:2023
 msgid "Filtering of changes was introduced in the 4.1 release."
-msgstr ""
+msgstr "Filtrarea modificărilor a fost introdusă în versiunea 4.1."
 
 #: ../../api.rst:2025
 msgid "Returns a list of translation changes."
-msgstr ""
+msgstr "Returnează o listă de modificări de traducere."
 
 #: ../../api.rst:2029
 msgid ""
 "Change object attributes are documented at :http:get:`/api/changes/(int:id)/"
 "`."
 msgstr ""
+"Atributele obiectelor de modificare sunt documentate la :http:get:`/api/"
+"changes/(int:id)/`."
 
 #: ../../api.rst:2031
 msgid "Username of user to filters"
-msgstr ""
+msgstr "Numele de utilizator al utilizatorului pentru filtre"
 
 #: ../../api.rst:2032
 msgid "Action to filter, can be used several times"
-msgstr ""
+msgstr "Acțiune de filtrare, poate fi utilizată de mai multe ori"
 
 #: ../../api.rst:2033
 msgid "ISO 8601 formatted timestamp to list changes after"
-msgstr ""
+msgstr "Ștampila de timp în format ISO 8601 pentru a enumera modificările după"
 
 #: ../../api.rst:2034
 msgid "ISO 8601 formatted timestamp to list changes before"
-msgstr ""
+msgstr "Ștampila de timp în format ISO 8601 pentru a enumera modificările după"
 
 #: ../../api.rst:2038
 msgid "Returns information about translation change."
-msgstr ""
+msgstr "Returnează informații despre modificarea traducerii."
 
 #: ../../api.rst:2040
 msgid "Change ID"
-msgstr ""
+msgstr "Schimbă ID-ul"
 
 #: ../../api.rst:2042
 msgid "URL of a related unit object"
-msgstr ""
+msgstr "Adresa URL a unui obiect unitate conex"
 
 #: ../../api.rst:2044 ../../api.rst:2073 ../../api.rst:2132 ../../api.rst:2143
 #: ../../api.rst:2154 ../../api.rst:2187
 msgid "URL of a related component object"
-msgstr ""
+msgstr "Adresa URL a unui obiect component conex"
 
 #: ../../api.rst:2045
 msgid "URL of a related user object"
-msgstr ""
+msgstr "Adresa URL a unui obiect utilizator asociat"
 
 #: ../../api.rst:2046
 msgid "URL of a related author object"
-msgstr ""
+msgstr "URL-ul unui obiect de autor asociat"
 
 #: ../../api.rst:2047
 msgid "event timestamp"
-msgstr ""
+msgstr "marca temporală a evenimentului"
 
 #: ../../api.rst:2048
 msgid "numeric identification of action"
-msgstr ""
+msgstr "identificarea numerică a acțiunii"
 
 #: ../../api.rst:2049
 msgid "text description of action"
-msgstr ""
+msgstr "descrierea textului acțiunii"
 
 #: ../../api.rst:2050
 msgid "event changed text or detail"
-msgstr ""
+msgstr "evenimentul a modificat textul sau detaliul"
 
 #: ../../api.rst:2051
 msgid "change identifier"
-msgstr ""
+msgstr "identificator de modificare"
 
 #: ../../api.rst:2060
 msgid "Returns a list of screenshot string information."
 msgstr ""
+"Returnează o listă de informații despre șirurile de caractere ale capturilor "
+"de ecran."
 
 #: ../../api.rst:2064
 msgid ""
 "Screenshot object attributes are documented at :http:get:`/api/screenshots/"
 "(int:id)/`."
 msgstr ""
+"Atributele obiectului Screenshot sunt documentate la :http:get:`/api/"
+"screenshots/(int:id)/`."
 
 #: ../../api.rst:2068
 msgid "Returns information about screenshot information."
-msgstr ""
+msgstr "Returnează informații despre informațiile de captură de ecran."
 
 #: ../../api.rst:2070 ../../api.rst:2081 ../../api.rst:2088 ../../api.rst:2105
 #: ../../api.rst:2117 ../../api.rst:2140 ../../api.rst:2151 ../../api.rst:2162
 msgid "Screenshot ID"
-msgstr ""
+msgstr "ID captură de ecran"
 
 #: ../../api.rst:2072 ../../api.rst:2108 ../../api.rst:2131 ../../api.rst:2142
 #: ../../api.rst:2153
 msgid "name of a screenshot"
-msgstr ""
+msgstr "numele unei capturi de ecran"
 
 #: ../../api.rst:2074 ../../api.rst:2110 ../../api.rst:2133 ../../api.rst:2144
 #: ../../api.rst:2155
 msgid "URL to download a file; see :http:get:`/api/screenshots/(int:id)/file/`"
 msgstr ""
+"URL pentru a descărca un fișier; a se vedea :http:get:`/api/screenshots/"
+"(int:id)/file/`"
 
 #: ../../api.rst:2075 ../../api.rst:2111 ../../api.rst:2134 ../../api.rst:2145
 #: ../../api.rst:2156
@@ -22814,22 +23085,24 @@ msgid ""
 "link to associated source string information; see :http:get:`/api/units/(int:"
 "id)/`"
 msgstr ""
+"link către informațiile asociate șirului sursă; a se vedea :http:get:`/api/"
+"units/(int:id)/`"
 
 #: ../../api.rst:2079
 msgid "Download the screenshot image."
-msgstr ""
+msgstr "Descărcați imaginea capturii de ecran."
 
 #: ../../api.rst:2086
 msgid "Replace screenshot image."
-msgstr ""
+msgstr "Înlocuiți imaginea capturii de ecran."
 
 #: ../../api.rst:2103
 msgid "Associate source string with screenshot."
-msgstr ""
+msgstr "Asociază șirul sursă cu captura de ecran."
 
 #: ../../api.rst:2115
 msgid "Remove source string association with screenshot."
-msgstr ""
+msgstr "Eliminați asocierea șirului sursă cu captura de ecran."
 
 #: ../../api.rst:2119
 #, fuzzy
@@ -22839,7 +23112,7 @@ msgstr "Caută"
 
 #: ../../api.rst:2124
 msgid "Creates a new screenshot."
-msgstr ""
+msgstr "Creează o nouă captură de ecran."
 
 #: ../../api.rst:2127
 msgid "Screenshot name"
@@ -22847,11 +23120,11 @@ msgstr "Numele capturii de ecran"
 
 #: ../../api.rst:2138
 msgid "Edit partial information about screenshot."
-msgstr ""
+msgstr "Editați informații parțiale despre captura de ecran."
 
 #: ../../api.rst:2149
 msgid "Edit full information about screenshot."
-msgstr ""
+msgstr "Editați informațiile complete despre captura de ecran."
 
 #: ../../api.rst:2160
 msgid "Delete screenshot."
@@ -22859,16 +23132,18 @@ msgstr "Ștergeți captura de ecran."
 
 #: ../../api.rst:2174
 msgid "Returns a list of addons."
-msgstr ""
+msgstr "Returnează o listă de addon-uri."
 
 #: ../../api.rst:2178
 msgid ""
 "Add-on object attributes are documented at :http:get:`/api/addons/(int:id)/`."
 msgstr ""
+"Atributele obiectelor add-on sunt documentate la :http:get:`/api/addons/"
+"(int:id)/`."
 
 #: ../../api.rst:2182
 msgid "Returns information about addon information."
-msgstr ""
+msgstr "Returnează informații despre informațiile despre addon."
 
 #: ../../api.rst:2186 ../../api.rst:2200
 #, fuzzy
@@ -22893,11 +23168,11 @@ msgstr "Creează un nou addon."
 
 #: ../../api.rst:2205
 msgid "Edit partial information about addon."
-msgstr ""
+msgstr "Editați informații parțiale despre addon."
 
 #: ../../api.rst:2213
 msgid "Edit full information about addon."
-msgstr ""
+msgstr "Editați informațiile complete despre addon."
 
 #: ../../api.rst:2221
 msgid "Delete addon."
@@ -22909,68 +23184,72 @@ msgstr "Liste de componente"
 
 #: ../../api.rst:2236
 msgid "Returns a list of component lists."
-msgstr ""
+msgstr "Returnează o listă de liste de componente."
 
 #: ../../api.rst:2240
 msgid ""
 "Component list object attributes are documented at :http:get:`/api/component-"
 "lists/(str:slug)/`."
 msgstr ""
+"Atributele obiectelor listelor de componente sunt documentate la :http:get:`/"
+"api/component-lists/(str:slug)/`."
 
 #: ../../api.rst:2244
 msgid "Returns information about component list."
-msgstr ""
+msgstr "Returnează informații despre lista de componente."
 
 #: ../../api.rst:2246 ../../api.rst:2258 ../../api.rst:2268 ../../api.rst:2278
 #: ../../api.rst:2285 ../../api.rst:2293
 msgid "Component list slug"
-msgstr ""
+msgstr "Lipsă în lista de componente"
 
 #: ../../api.rst:2248 ../../api.rst:2260 ../../api.rst:2270
 msgid "name of a component list"
-msgstr ""
+msgstr "numele unei liste de componente"
 
 #: ../../api.rst:2249 ../../api.rst:2261 ../../api.rst:2271
 msgid "slug of a component list"
-msgstr ""
+msgstr "sloganul unei liste de componente"
 
 #: ../../api.rst:2250 ../../api.rst:2262 ../../api.rst:2272
 msgid "whether to show it on a dashboard"
-msgstr ""
+msgstr "dacă se afișează pe un tablou de bord"
 
 #: ../../api.rst:2252
 msgid "automatic assignment rules"
-msgstr ""
+msgstr "reguli de atribuire automată"
 
 #: ../../api.rst:2256 ../../api.rst:2266
 msgid "Changes the component list parameters."
-msgstr ""
+msgstr "Modifică parametrii listei de componente."
 
 #: ../../api.rst:2276
 msgid "Deletes the component list."
-msgstr ""
+msgstr "Șterge lista de componente."
 
 #: ../../api.rst:2283
 msgid "Associate component with a component list."
-msgstr ""
+msgstr "Se asociază componenta cu o listă de componente."
 
 #: ../../api.rst:2287
 msgid "Component ID"
-msgstr ""
+msgstr "ID-ul componentei"
 
 #: ../../api.rst:2291
 msgid "Disassociate a component from the component list."
-msgstr ""
+msgstr "Disociază o componentă din lista de componente."
 
 #: ../../api.rst:2303
 msgid ""
 "Glossaries are now stored as regular components, translations and strings, "
 "please use respective API instead."
 msgstr ""
+"Glosarele sunt acum stocate ca și componente obișnuite, traduceri și șiruri "
+"de caractere, vă rugăm să utilizați în schimb API-ul respectiv."
 
 #: ../../api.rst:2307
 msgid "Tasks"
-msgstr ""
+msgstr "Sarcini"
 
 #: ../../api.rst:2313
 msgid "Listing of the tasks is currently not available."
@@ -22978,11 +23257,11 @@ msgstr "Lista de sarcini nu este disponibilă în prezent."
 
 #: ../../api.rst:2317
 msgid "Returns information about a task"
-msgstr ""
+msgstr "Returnează informații despre o sarcină"
 
 #: ../../api.rst:2319
 msgid "Task UUID"
-msgstr ""
+msgstr "UUID al task-ului"
 
 #: ../../api.rst:2321
 #, fuzzy
@@ -22992,23 +23271,23 @@ msgstr "Notificare la fiecare comentariu nou"
 
 #: ../../api.rst:2322
 msgid "Task progress in percent"
-msgstr ""
+msgstr "Progresul task-ului în procente"
 
 #: ../../api.rst:2323
 msgid "Task result or progress details"
-msgstr ""
+msgstr "Rezultatul sarcinii sau detalii privind progresul"
 
 #: ../../api.rst:2324
 msgid "Task log"
-msgstr ""
+msgstr "Jurnal de sarcini"
 
 #: ../../api.rst:2327
 msgid "Metrics"
-msgstr ""
+msgstr "Metrici"
 
 #: ../../api.rst:2331
 msgid "Returns server metrics."
-msgstr ""
+msgstr "Returnează parametrii serverului."
 
 #: ../../api.rst:2333
 #, fuzzy
@@ -23093,6 +23372,8 @@ msgid ""
 "Notification hooks allow external applications to notify Weblate that the "
 "VCS repository has been updated."
 msgstr ""
+"Cârligele de notificare permit aplicațiilor externe să notifice Weblate că "
+"depozitul VCS a fost actualizat."
 
 #: ../../api.rst:2355
 msgid ""
@@ -23100,6 +23381,9 @@ msgid ""
 "to update individual repositories; see :http:post:`/api/projects/(string:"
 "project)/repository/` for documentation."
 msgstr ""
+"Puteți utiliza punctele finale ale depozitelor pentru proiecte, componente "
+"și traduceri pentru a actualiza depozitele individuale; consultați "
+":http:post:`/api/projects/(string:project)/repository/` pentru documentație."
 
 #: ../../api.rst:2363
 msgid ""
@@ -23107,30 +23391,42 @@ msgid ""
 "repository/` instead which works properly with authentication for ACL "
 "limited projects."
 msgstr ""
+"Vă rugăm să folosiți în schimb :http:post:`/api/components/"
+"(string:project)/(string:component)/repository/`, care funcționează corect "
+"cu autentificare pentru proiectele limitate de ACL."
 
 #: ../../api.rst:2366
 msgid ""
 "Triggers update of a component (pulling from VCS and scanning for "
 "translation changes)."
 msgstr ""
+"Declanșează actualizarea unei componente (extragerea din VCS și scanarea "
+"pentru modificări de traducere)."
 
 #: ../../api.rst:2373
 msgid ""
 "Please use :http:post:`/api/projects/(string:project)/repository/` instead "
 "which works properly with authentication for ACL limited projects."
 msgstr ""
+"Vă rugăm să folosiți în schimb :http:post:`/api/projects/(string:project)/"
+"repository/`, care funcționează corect cu autentificare pentru proiectele "
+"limitate de ACL."
 
 #: ../../api.rst:2376
 msgid ""
 "Triggers update of all components in a project (pulling from VCS and "
 "scanning for translation changes)."
 msgstr ""
+"Declanșează actualizarea tuturor componentelor unui proiect (extragerea din "
+"VCS și scanarea pentru modificări de traducere)."
 
 #: ../../api.rst:2381
 msgid ""
 "Special hook for handling GitHub notifications and automatically updating "
 "matching components."
 msgstr ""
+"Cârlig special pentru gestionarea notificărilor GitHub și actualizarea "
+"automată a componentelor corespunzătoare."
 
 #: ../../api.rst:2386
 msgid ""
@@ -23138,14 +23434,17 @@ msgid ""
 "hook in repository settings and set the URL to the URL of your Weblate "
 "installation."
 msgstr ""
+"GitHub include suport direct pentru notificarea Weblate: activați cârligul "
+"serviciului Weblate în setările depozitului și setați URL-ul la URL-ul "
+"instalației Weblate."
 
 #: ../../api.rst:2393
 msgid "For instruction on setting up GitHub integration"
-msgstr ""
+msgstr "Pentru instrucțiuni privind configurarea integrării GitHub"
 
 #: ../../api.rst:2394
 msgid "https://docs.github.com/en/github/extending-github/about-webhooks"
-msgstr ""
+msgstr "https://docs.github.com/en/github/extending-github/about-webhooks"
 
 #: ../../api.rst:2395
 msgid "Generic information about GitHub Webhooks"
