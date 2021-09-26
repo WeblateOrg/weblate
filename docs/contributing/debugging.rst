@@ -46,9 +46,9 @@ you can look at the logs using ``docker-compose logs``.
 Not processing background tasks
 -------------------------------
 
-A lot of things happen in background with Celery workers.
-In case things like sending out e-mails or component removal does not work,
-there might be some issue.
+A lot of things are done in the background by Celery workers.
+If things like sending out e-mails or component removal does not work,
+there might a related issue.
 
 Things to check in that case:
 
