@@ -418,7 +418,7 @@ class Change(models.Model, UserDisplayMixin):
     AUTO_ACTIONS = {
         # Translators: Name of event in the history
         ACTION_LOCK: gettext_lazy(
-            "Component was automatically locked because of an alert."
+            "The component was automatically locked because of an alert."
         ),
         # Translators: Name of event in the history
         ACTION_UNLOCK: gettext_lazy(
