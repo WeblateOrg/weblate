@@ -214,7 +214,7 @@ def vcs_service_hook(request, service):
         repo_url,
         branch,
         all_components.count(),
-        enabled_components.count(),
+        len(enabled_components),
         Component.objects.filter(linked_component__in=enabled_components).count(),
     )
 
