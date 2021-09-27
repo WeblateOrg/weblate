@@ -18,6 +18,7 @@
 #
 """Database specific code to extend Django."""
 
+import django
 from django.db import connection, models, router
 from django.db.models import Case, IntegerField, Sum, When
 from django.db.models.deletion import Collector
@@ -258,7 +259,10 @@ class FastDeleteQuerySetMixin:
         # Disable non-supported fields.
         del_query.query.select_for_update = False
         del_query.query.select_related = False
-        del_query.query.clear_ordering(force_empty=True)
+        if django.VERSION < (4, 0):
+            del_query.query.clear_ordering(force_empty=True)
+        else:
+            del_query.query.clear_ordering(clear_default=True)
 
         collector = FastCollector(using=del_query.db)
         collector.collect(del_query)
