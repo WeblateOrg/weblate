@@ -78,7 +78,7 @@ class Permission(models.Model):
 
 
 class Role(models.Model):
-    name = models.CharField(verbose_name=_("Name"), max_length=200)
+    name = models.CharField(verbose_name=_("Name"), max_length=200, unique=True)
     permissions = models.ManyToManyField(
         Permission,
         verbose_name=_("Permissions"),
