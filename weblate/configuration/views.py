@@ -21,6 +21,7 @@ from typing import Optional
 from django.core.cache import cache
 from django.http import HttpResponse
 from django.template.loader import render_to_string
+from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_control
 from django.views.generic import TemplateView
 
@@ -29,6 +30,7 @@ from weblate.utils.hash import calculate_checksum
 from .models import Setting
 
 
+@method_decorator(cache_control(max_age=7200), name="get")
 class CustomCSSView(TemplateView):
     template_name = "configuration/custom.css"
     cache_key = "css:custom"
@@ -50,7 +52,6 @@ class CustomCSSView(TemplateView):
         request._weblate_custom_css = css
         return css
 
-    @cache_control(max_age=7200)
     def get(self, request, *args, **kwargs):
         return HttpResponse(content_type="text/css", content=self.get_css(request))
 
