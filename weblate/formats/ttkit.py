@@ -35,7 +35,7 @@ from translate.misc.xml_helpers import setXMLspace
 from translate.storage.base import TranslationStore
 from translate.storage.csvl10n import csv
 from translate.storage.jsonl10n import BaseJsonUnit, JsonFile
-from translate.storage.lisa import LISAfile, LISAunit
+from translate.storage.lisa import LISAfile
 from translate.storage.po import pofile, pounit
 from translate.storage.poxliff import PoXliffFile
 from translate.storage.resx import RESXFile
@@ -208,6 +208,8 @@ class TTKitFormat(TranslationFormat):
     unit_class = TTKitUnit
     loader = ("", "")
     set_context_bilingual = True
+    # Use settarget/setsource to set language as well
+    use_settarget = False
 
     def __init__(
         self,
@@ -325,7 +327,7 @@ class TTKitFormat(TranslationFormat):
         return True
 
     def construct_unit(self, source: str):
-        if issubclass(self.store.UnitClass, LISAunit) and self.source_language:
+        if self.use_settarget and self.source_language:
             # Setting source on LISAunit will make it use default language
             unit = self.store.UnitClass(None)
             unit.setsource(source, self.source_language)
@@ -386,12 +388,12 @@ class TTKitFormat(TranslationFormat):
             elif isinstance(unit, BaseJsonUnit):
                 unit.setid(context)
 
-        if isinstance(unit, LISAunit) and self.source_language:
+        if self.use_settarget and self.source_language:
             unit.setsource(source, self.source_language)
         else:
             unit.source = source
 
-        if isinstance(unit, LISAunit) and self.language_code:
+        if self.use_settarget and self.language_code:
             unit.settarget(target, self.language_code)
         else:
             unit.target = target
@@ -1096,6 +1098,7 @@ class XliffFormat(TTKitFormat):
     autoload: Tuple[str, ...] = ("*.xlf", "*.xliff", "*.sdlxliff", "*.mxliff")
     unit_class = XliffUnit
     language_format = "bcp"
+    use_settarget = True
 
     def construct_unit(self, source: str):
         unit = super().construct_unit(source)
@@ -1751,6 +1754,7 @@ class TBXFormat(TTKitFormat):
     new_translation = tbxfile.XMLskeleton
     unit_class = TBXUnit
     create_empty_bilingual: bool = True
+    use_settarget = True
     monolingual = False
 
     def __init__(
