@@ -1271,6 +1271,7 @@ LOCALIZE_CDN_PATH = os.environ.get("WEBLATE_LOCALIZE_CDN_PATH", None)
 GET_HELP_URL = os.environ.get("WEBLATE_GET_HELP_URL", None)
 STATUS_URL = os.environ.get("WEBLATE_STATUS_URL", None)
 LEGAL_URL = os.environ.get("WEBLATE_LEGAL_URL", None)
+PRIVACY_URL = os.environ.get("WEBLATE_PRIVACY_URL", None)
 
 # Third party services integration
 MATOMO_SITE_ID = os.environ.get("WEBLATE_MATOMO_SITE_ID", None)
