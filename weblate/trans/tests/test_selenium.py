@@ -955,7 +955,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             self.driver.find_element(By.ID, "id_name").submit()
 
         self.screenshot("user-add-component-discovery.png")
-        self.driver.find_element(By.ID, "id_id_discovery_0_1").click()
+        self.driver.find_element(By.ID, "id_discovery_1").click()
         with self.wait_for_page_load(timeout=1200):
             self.driver.find_element(By.ID, "id_name").submit()
 
