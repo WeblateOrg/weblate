@@ -657,7 +657,7 @@ class UserPage(UpdateView):
         )
 
         context["page_profile"] = user.profile
-        context["last_changes"] = last_changes
+        context["last_changes"] = last_changes.preload()
         context["last_changes_url"] = urlencode({"user": user.username})
         context["user_translations"] = prefetch_stats(user_translations)
         context["owned_projects"] = prefetch_project_flags(

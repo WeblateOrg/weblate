@@ -107,7 +107,11 @@ class ChangeQuerySet(models.QuerySet):
         return self.count_stats(days, step, dtstart, base)
 
     def prefetch(self):
-        """Fetch related fields in a big chungs to avoid loading them individually."""
+        """
+        Fetch related fields in a big chungs to avoid loading them individually.
+
+        Call prefetch or prefetch_list later on paginated results to complete.
+        """
         return self.prefetch_related(
             "user",
             "translation",
@@ -115,15 +119,24 @@ class ChangeQuerySet(models.QuerySet):
             "project",
             "unit",
             "translation__language",
-            "translation__component",
-            "translation__component__project",
-            "unit__translation",
-            "unit__translation__language",
-            "unit__translation__plural",
-            "unit__translation__component",
-            "unit__translation__component__project",
-            "component__project",
+            "translation__plural",
         )
+
+    @staticmethod
+    def preload_list(results, *args):
+        """Companion for prefetch to fill in nested references."""
+        for item in results:
+            if item.component and "component" not in args:
+                item.component.project = item.project
+            if item.translation and "translation" not in args:
+                item.translation.component = item.component
+            if item.unit and "unit" not in args:
+                item.unit.translation = item.translation
+        return results
+
+    def preload(self, *args):
+        """Companion for prefetch to fill in nested references."""
+        return self.preload_list(self, *args)
 
     def last_changes(self, user):
         """Return last changes for an user.
