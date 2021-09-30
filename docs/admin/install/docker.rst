@@ -1091,9 +1091,12 @@ both Weblate and PostgreSQL containers.
    Enabling connection persistence will typically, cause more open connection
    to the database. Please adjust your database configuration prior enabling.
 
-   .. warning::
+   Example configuration:
 
-      This is currently experimental, not widely tested and not supported by the Weblate team.
+   .. code-block:: yaml
+
+       environment:
+           POSTGRES_CONN_MAX_AGE: 3600
 
    .. seealso::
 
