@@ -211,6 +211,13 @@ class ChangesView(ListView):
 
         return result
 
+    def paginate_queryset(self, queryset, page_size):
+        paginator, page, queryset, is_paginated = super().paginate_queryset(
+            queryset, page_size
+        )
+        page = Change.objects.preload_list(page)
+        return paginator, page, queryset, is_paginated
+
 
 class ChangesCSVView(ChangesView):
     """CSV renderer for changes view."""

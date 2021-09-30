@@ -1386,6 +1386,10 @@ class ChangeViewSet(viewsets.ReadOnlyModelViewSet):
     def get_queryset(self):
         return Change.objects.last_changes(self.request.user).order_by("id")
 
+    def paginate_queryset(self, queryset):
+        result = super().paginate_queryset(queryset)
+        return Change.objects.preload_list(result)
+
 
 class ComponentListViewSet(viewsets.ModelViewSet):
     """Component lists API."""

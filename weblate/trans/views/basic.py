@@ -134,9 +134,12 @@ def show_project(request, project):
     obj.stats.ensure_basic()
     user = request.user
 
-    last_changes = obj.change_set.prefetch().order()[:10]
+    last_changes = obj.change_set.prefetch().order()[:10].preload()
     last_announcements = (
-        obj.change_set.prefetch().order().filter(action=Change.ACTION_ANNOUNCEMENT)[:10]
+        obj.change_set.prefetch()
+        .order()
+        .filter(action=Change.ACTION_ANNOUNCEMENT)[:10]
+        .preload()
     )
 
     all_components = prefetch_stats(
@@ -221,7 +224,7 @@ def show_component(request, project, component):
     obj.stats.ensure_basic()
     user = request.user
 
-    last_changes = obj.change_set.prefetch().order()[:10]
+    last_changes = obj.change_set.prefetch().order()[:10].preload("component")
 
     translations = prefetch_stats(list(obj.translation_set.prefetch()))
 
@@ -291,7 +294,7 @@ def show_translation(request, project, component, lang):
     component = obj.component
     project = component.project
     obj.stats.ensure_all()
-    last_changes = obj.change_set.prefetch().order()[:10]
+    last_changes = obj.change_set.prefetch().order()[:10].preload("translation")
     user = request.user
 
     # Get form

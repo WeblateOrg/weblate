@@ -654,7 +654,7 @@ def translate(request, project, component, lang):  # noqa: C901
             "locked": locked,
             "glossary": get_glossary_terms(unit),
             "addterm_form": TermForm(unit),
-            "last_changes": unit.change_set.prefetch().order()[:10],
+            "last_changes": unit.change_set.prefetch().order()[:10].preload("unit"),
             "screenshots": (
                 unit.source_unit.screenshots.all() | unit.screenshots.all()
             ).order,
