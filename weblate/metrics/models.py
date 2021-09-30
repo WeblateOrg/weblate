@@ -56,12 +56,77 @@ SOURCE_KEYS = BASIC_KEYS | {
     "source_words",
 }
 
+METRIC_ALL = 1
+METRIC_ALL_WORDS = 2
+METRIC_TRANSLATED = 3
+METRIC_TRANSLATED_WORDS = 4
+METRIC_APPROVED = 5
+METRIC_APPROVED_WORDS = 6
+METRIC_ALLCHECKS = 7
+METRIC_ALLCHECKS_WORDS = 8
+METRIC_DISMISSED_CHECKS = 9
+METRIC_DISMISSED_CHECKS_WORDS = 10
+METRIC_SUGGESTIONS = 11
+METRIC_SUGGESTIONS_WORDS = 12
+METRIC_COMMENTS = 13
+METRIC_COMMENTS_WORDS = 14
+METRIC_LANGUAGES = 15
+METRIC_SOURCE_STRINGS = 16
+METRIC_SOURCE_WORDS = 17
+METRIC_CHANGES = 18
+METRIC_MEMORY = 19
+METRIC_USERS = 20
+METRIC_CONTRIBUTORS = 21
+METRIC_PROJECTS = 22
+METRIC_SCREENSHOTS = 23
+METRIC_COMPONENTS = 24
+METRIC_TRANSLATIONS = 25
+
+METRIC_IDS = {
+    "all": METRIC_ALL,
+    "all_words": METRIC_ALL_WORDS,
+    "translated": METRIC_TRANSLATED,
+    "translated_words": METRIC_TRANSLATED_WORDS,
+    "approved": METRIC_APPROVED,
+    "approved_words": METRIC_APPROVED_WORDS,
+    "allchecks": METRIC_ALLCHECKS,
+    "allchecks_words": METRIC_ALLCHECKS_WORDS,
+    "dismissed_checks": METRIC_DISMISSED_CHECKS,
+    "dismissed_checks_words": METRIC_DISMISSED_CHECKS_WORDS,
+    "suggestions": METRIC_SUGGESTIONS,
+    "suggestions_words": METRIC_SUGGESTIONS_WORDS,
+    "comments": METRIC_COMMENTS,
+    "comments_words": METRIC_COMMENTS_WORDS,
+    "languages": METRIC_LANGUAGES,
+    "source_strings": METRIC_SOURCE_STRINGS,
+    "source_words": METRIC_SOURCE_WORDS,
+    "changes": METRIC_CHANGES,
+    "memory": METRIC_MEMORY,
+    "users": METRIC_USERS,
+    "contributors": METRIC_CONTRIBUTORS,
+    "projects": METRIC_PROJECTS,
+    "screenshots": METRIC_SCREENSHOTS,
+    "components": METRIC_COMPONENTS,
+    "translations": METRIC_TRANSLATIONS,
+}
+
+METRIC_NAMES = {value: name for name, value in METRIC_IDS.items()}
+
+
+def get_metric_names(values):
+    """Convert numeric kind to human friendly names."""
+    for kind, value in values:
+        yield METRIC_NAMES[kind], value
+
 
 class MetricQuerySet(models.QuerySet):
     def get_kwargs(
         self, kwargs: Dict, scope: int, relation: int, secondary: int = 0
     ) -> Dict:
         """Build the query params."""
+        if "name" in kwargs:
+            kwargs["kind"] = METRIC_IDS[kwargs["name"]]
+            del kwargs["name"]
         kwargs["scope"] = scope
         kwargs["relation"] = relation
         if secondary:
@@ -77,24 +142,28 @@ class MetricQuerySet(models.QuerySet):
 
         # Get todays stats
         data = dict(
-            self.filter(
-                date=today,
-                **kwargs,
-            ).values_list("name", "value")
+            get_metric_names(
+                self.filter(
+                    date=today,
+                    **kwargs,
+                ).values_list("kind", "value")
+            )
         )
         if not data:
             # Fallback to yesterday in case they are not yet calculated
             data = dict(
-                self.filter(
-                    date=yesterday,
-                    **kwargs,
-                ).values_list("name", "value")
+                get_metric_names(
+                    self.filter(
+                        date=yesterday,
+                        **kwargs,
+                    ).values_list("kind", "value")
+                )
             )
 
         # Trigger collection in case no data is present or when only
         # changes are counted - when there is a single key. The exception from
         # this is when name filtering is passed in the kwargs.
-        if not data or (len(data.keys()) <= 1 and "name" not in kwargs):
+        if not data or (len(data.keys()) <= 1 and "kind" not in kwargs):
             data.update(Metric.objects.collect_auto(obj))
         return data
 
@@ -104,10 +173,12 @@ class MetricQuerySet(models.QuerySet):
         kwargs = self.get_kwargs(kwargs, scope, relation, secondary)
         return defaultdict(
             int,
-            self.filter(
-                date=datetime.date.today() - datetime.timedelta(days=delta),
-                **kwargs,
-            ).values_list("name", "value"),
+            get_metric_names(
+                self.filter(
+                    date=datetime.date.today() - datetime.timedelta(days=delta),
+                    **kwargs,
+                ).values_list("kind", "value")
+            ),
         )
 
 
@@ -134,7 +205,7 @@ class MetricsManager(models.Manager):
                     scope=scope,
                     relation=relation,
                     secondary=secondary,
-                    name=name,
+                    kind=METRIC_IDS[name],
                     value=value,
                     date=date,
                 )
@@ -152,7 +223,7 @@ class MetricsManager(models.Manager):
                     scope=scope,
                     relation=relation,
                     secondary=secondary,
-                    name="changes",
+                    kind=METRIC_CHANGES,
                     value=0,
                     date=today - datetime.timedelta(days=day),
                 )
@@ -429,18 +500,23 @@ class Metric(models.Model):
     scope = models.SmallIntegerField()
     relation = models.IntegerField()
     secondary = models.IntegerField(default=0)
-    name = models.CharField(max_length=25)
+    kind = models.SmallIntegerField()
     value = models.IntegerField()
 
     objects = MetricsManager.from_queryset(MetricQuerySet)()
 
     class Meta:
-        unique_together = (("date", "scope", "relation", "secondary", "name"),)
+        unique_together = (("date", "scope", "relation", "secondary", "kind"),)
         verbose_name = "Metric"
         verbose_name_plural = "Metrics"
 
     def __str__(self):
-        return f"<{self.scope}.{self.relation}>:{self.date}:{self.name}={self.value}"
+        return (
+            f"<{self.scope}.{self.relation}>:{self.date}:{self.get_name()}={self.value}"
+        )
+
+    def get_name(self):
+        return METRIC_NAMES[self.kind]
 
 
 @receiver(post_save, sender=Project)
