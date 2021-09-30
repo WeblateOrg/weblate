@@ -1278,8 +1278,7 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
             self.save(run_checks=False, same_content=True, update_fields=["state"])
 
         if (
-            propagate
-            and user
+            user
             and self.target != self.old_unit["target"]
             and self.state >= STATE_TRANSLATED
             and not self.translation.component.is_glossary
