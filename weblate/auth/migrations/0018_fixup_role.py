@@ -15,17 +15,20 @@ def fixup_role(apps, schema_editor):
     )
     for duplicate in duplicates:
         roles = Role.objects.using(db_alias).filter(name=duplicate["name"])
-        toremove = None
+        toremove = []
         keep = None
-        for toremove in roles:
-            if toremove.group_set.count() == 0:
-                break
-            keep = toremove
         for role in roles:
-            if role.pk == toremove.pk:
-                keep.group_set.add(*toremove.group_set.all())
-        print(f"Removing duplicate role {role.name}")
-        toremove.delete()
+            if role.group_set.count() == 0:
+                toremove.append(role)
+            elif keep is None:
+                keep = role
+        if keep is None:
+            keep = toremove.pop()
+        for role in roles:
+            if role in toremove:
+                keep.group_set.add(*role.group_set.all())
+                print(f"Removing duplicate role {role.name}")
+                role.delete()
 
 
 class Migration(migrations.Migration):
