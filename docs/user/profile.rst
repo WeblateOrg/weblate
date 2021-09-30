@@ -102,6 +102,8 @@ the Hebrew language is shown as secondarily:
 
 .. image:: /screenshots/secondary-language.png
 
+.. _profile-preferences:
+
 Preferences
 -----------
 
