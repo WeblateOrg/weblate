@@ -25,7 +25,7 @@ from django.core.cache import cache
 from django.utils.functional import cached_property
 from django.utils.translation import pgettext_lazy
 
-from weblate.metrics.models import Metric
+from weblate.metrics.models import METRIC_CHANGES, Metric
 
 MONTH_NAMES = [
     pgettext_lazy("Short name of month", "Jan"),
@@ -202,7 +202,7 @@ class MetricsWrapper:
         result = dict(
             Metric.objects.filter(
                 date__in=[start - timedelta(days=i) for i in range(days + 1)],
-                name="changes",
+                kind=METRIC_CHANGES,
                 **kwargs,
             ).values_list("date", "value")
         )
