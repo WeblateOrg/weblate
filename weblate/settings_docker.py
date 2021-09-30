@@ -812,6 +812,14 @@ MT_GOOGLE_KEY = os.environ.get("WEBLATE_MT_GOOGLE_KEY", None)
 if MT_GOOGLE_KEY:
     MT_SERVICES += ("weblate.machinery.google.GoogleTranslation",)
 
+# Google Translate API V3 (Advanced)
+MT_GOOGLE_CREDENTIALS = os.environ.get("WEBLATE_MT_GOOGLE_CREDENTIALS", None)
+MT_GOOGLE_PROJECT = os.environ.get("WEBLATE_MT_GOOGLE_PROJECT", None)
+MT_GOOGLE_LOCATION = os.environ.get("WEBLATE_MT_GOOGLE_LOCATION", None)
+
+if MT_GOOGLE_CREDENTIALS and MT_GOOGLE_PROJECT:
+    MT_SERVICES += ("weblate.machinery.googlev3.GoogleV3Translation",)
+
 # Baidu app key and secret
 MT_BAIDU_ID = None
 MT_BAIDU_SECRET = None
