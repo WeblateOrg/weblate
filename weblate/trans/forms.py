@@ -858,8 +858,10 @@ class AutoForm(forms.Form):
 
     def __init__(self, obj, *args, **kwargs):
         """Generate choices for other component in same project."""
+        super().__init__(*args, **kwargs)
+
         # Add components from other projects with enabled shared TM
-        components = (
+        self.components = (
             obj.project.component_set.filter(source_language=obj.source_language)
             | Component.objects.filter(
                 source_language_id=obj.source_language_id,
@@ -867,16 +869,26 @@ class AutoForm(forms.Form):
             ).exclude(project=obj.project)
         )
 
-        choices = [
-            (s.id, str(s))
-            for s in components.order_project().prefetch_related("project")
-        ]
+        # Fetching is faster than doing count on possibly thousands of components
+        if len(self.components.values_list("id")[:30]) == 30:
+            # Do not show choices when too many
+            self.fields["component"] = forms.CharField(
+                required=False,
+                help_text=_(
+                    "Enter component to use as source, "
+                    "keep blank to use all components in current project."
+                ),
+            )
+        else:
+            choices = [
+                (s.id, str(s))
+                for s in self.components.order_project().prefetch_related("project")
+            ]
 
-        super().__init__(*args, **kwargs)
+            self.fields["component"].choices = [
+                ("", _("All components in current project"))
+            ] + choices
 
-        self.fields["component"].choices = [
-            ("", _("All components in current project"))
-        ] + choices
         self.fields["engines"].choices = [
             (key, mt.name) for key, mt in MACHINE_TRANSLATION_SERVICES.items()
         ]
@@ -897,6 +909,34 @@ class AutoForm(forms.Form):
             Div("component", css_id="auto_source_others"),
             Div("engines", "threshold", css_id="auto_source_mt"),
         )
+
+    def clean_component(self):
+        component = self.cleaned_data["component"]
+        if not component:
+            return None
+        if component.isdigit():
+            try:
+                result = self.components.get(pk=component)
+            except Component.DoesNotExist:
+                raise ValidationError(_("Component not found!"))
+        else:
+            slashes = component.count("/")
+            if slashes == 0:
+                try:
+                    result = self.components.get(slug=component)
+                except Component.DoesNotExist:
+                    raise ValidationError(_("Component not found!"))
+            elif slashes == 1:
+                project_slug, component_slug = component.split("/")
+                try:
+                    result = self.components.get(
+                        slug=component_slug, project__slug=project_slug
+                    )
+                except Component.DoesNotExist:
+                    raise ValidationError(_("Component not found!"))
+            else:
+                raise ValidationError(_("Please provide valid component slug!"))
+        return result.pk
 
 
 class CommentForm(forms.Form):
