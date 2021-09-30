@@ -25,17 +25,17 @@ Fields
 ------
 
 ``source:TEXT``
-   Source string case insensitive search.
+   Source string case-insensitive search.
 ``target:TEXT``
-   Target string case insensitive search.
+   Target string case-insensitive search.
 ``context:TEXT``
-   Context string case insensitive search.
+   Context string case-insensitive search.
 ``key:TEXT``
-   Key string case insensitive search.
+   Key string case-insensitive search.
 ``note:TEXT``
-   Comment string case insensitive search.
+   Comment string case-insensitive search.
 ``location:TEXT``
-   Location string case insensitive search.
+   Location string case-insensitive search.
 ``priority:NUMBER``
    String priority.
 ``added:DATETIME``
@@ -51,7 +51,7 @@ Fields
 ``language:TEXT``
    String target language.
 ``component:TEXT``
-   Component slug or name case insensitive search, see :ref:`component-slug` and :ref:`component-name`.
+   Component slug or name case-insensitive search, see :ref:`component-slug` and :ref:`component-name`.
 ``project:TEXT``
    Project slug, see :ref:`project-slug`.
 ``changed_by:TEXT``
