@@ -395,7 +395,7 @@ The following operations are supported:
    :ref:`Bulk edit addon <addon-weblate.flags.bulk>`
 
 Matrix View
-------------------
+-----------
 
 To compare different languages efficiently you can use the matrix view. It is available on every component page under the :guilabel:`Tools` menu.
 First select all languages you want to compare and confirm your selection, after that you can click on any translation to open and edit it quickly.
