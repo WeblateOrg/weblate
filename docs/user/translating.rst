@@ -403,7 +403,7 @@ First select all languages you want to compare and confirm your selection, after
 The matrix view is also a very good starting point to find missing translations in different languages and quickly add them from one view.
 
 Zen Mode
-------------------
+--------
 
 The Zen editor can be enabled by clicking the :guilabel:`Zen` button on the top right while translating a component.
 It simplifies the layout and removes additional UI elements such as :guilabel:`Nearby strings` or the :guilabel:`Glossary`.
