@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-09-08 12:00+0200\n"
-"PO-Revision-Date: 2021-10-01 12:46+0000\n"
+"PO-Revision-Date: 2021-10-01 13:36+0000\n"
 "Last-Translator: Simona Iacob <s@zp1.net>\n"
 "Language-Team: Romanian <https://hosted.weblate.org/projects/weblate/"
 "documentation/ro/>\n"
@@ -35336,10 +35336,13 @@ msgstr ""
 #: ../../faq.rst:463
 msgid "You can also use :ref:`vcs-git-helpers` in Git to access other VCSes."
 msgstr ""
+"De asemenea, puteți utiliza :ref:`vcs-git-helpers` în Git pentru a accesa "
+"alte VCS-uri."
 
 #: ../../faq.rst:465
 msgid "Weblate also supports VCS-less operation, see :ref:`vcs-local`."
 msgstr ""
+"Weblate suportă, de asemenea, funcționarea fără VCS, vezi :ref:`vcs-local`."
 
 #: ../../faq.rst:469
 msgid ""
@@ -35347,10 +35350,14 @@ msgid ""
 "and could probably be adjusted to work with anything other than Git and "
 "Mercurial, but somebody has to implement this support."
 msgstr ""
+"Pentru suportul nativ al altor VCS-uri, Weblate necesită utilizarea VCS-"
+"urilor distribuite și ar putea fi probabil ajustat pentru a funcționa cu "
+"orice altceva în afară de Git și Mercurial, dar cineva trebuie să "
+"implementeze acest suport."
 
 #: ../../faq.rst:476
 msgid "How does Weblate credit translators?"
-msgstr ""
+msgstr "Cum creditează Weblate traducătorii?"
 
 #: ../../faq.rst:478
 msgid ""
@@ -35358,20 +35365,28 @@ msgid ""
 "name. This way every single change has proper authorship, and you can track "
 "it down using the standard VCS tools you use for code."
 msgstr ""
+"Fiecare modificare făcută în Weblate este trimisă în VCS sub numele "
+"traducătorului. În acest fel, fiecare modificare are un autor corect și "
+"puteți să o urmăriți folosind instrumentele VCS standard pe care le folosiți "
+"pentru cod."
 
 #: ../../faq.rst:482
 msgid ""
 "Additionally, when the translation file format supports it, the file headers "
 "are updated to include the translator's name."
 msgstr ""
+"În plus, atunci când formatul fișierului de traducere acceptă acest lucru, "
+"anteturile fișierului sunt actualizate pentru a include numele "
+"traducătorului."
 
 #: ../../faq.rst:487
 msgid ":djadmin:`list_translators`, :doc:`../devel/reporting`"
-msgstr ""
+msgstr ":djadmin: `listă_traducatori`, :doc:`../devel/reporting`"
 
 #: ../../faq.rst:491
 msgid "Why does Weblate force showing all PO files in a single tree?"
 msgstr ""
+"De ce Weblate forțează afișarea tuturor fișierelor PO într-un singur arbore?"
 
 #: ../../faq.rst:493
 msgid ""
@@ -35379,6 +35394,9 @@ msgid ""
 "component. This is beneficial for translators, so they know what they are "
 "actually translating."
 msgstr ""
+"Weblate a fost proiectat astfel încât fiecare fișier PO să fie reprezentat "
+"ca o singură componentă. Acest lucru este benefic pentru traducători, astfel "
+"încât aceștia să știe ce traduc de fapt."
 
 #: ../../faq.rst:499
 #, fuzzy
@@ -35390,7 +35408,7 @@ msgstr "Contul dvs. a fost șters."
 
 #: ../../faq.rst:505
 msgid "Why does Weblate use language codes such sr_Latn or zh_Hant?"
-msgstr ""
+msgstr "De ce utilizează Weblate coduri de limbă precum sr_Latn sau zh_Hant?"
 
 #: ../../faq.rst:507
 msgid ""
@@ -35398,6 +35416,10 @@ msgid ""
 "are really different languages instead previously wrongly used modifiers "
 "(for ``@latin`` variants) or country codes (for Chinese)."
 msgstr ""
+"Acestea sunt coduri de limbă definite de :rfc:`5646` pentru a indica mai "
+"bine faptul că sunt într-adevăr limbi diferite în loc de modificatori "
+"utilizați anterior în mod greșit (pentru variantele ``@latin``) sau coduri "
+"de țară (pentru chineză)."
 
 #: ../../faq.rst:511
 msgid ""
@@ -35405,12 +35427,17 @@ msgid ""
 "one - for example ``sr@latin`` will be handled as ``sr_Latn`` or ``zh@CN`` "
 "as ``zh_Hans``."
 msgstr ""
+"Weblate înțelege în continuare codurile de limbă moștenite și le va mapa în "
+"cele actuale - de exemplu ``sr@latin`` va fi tratat ca ``sr_Latn`` sau "
+"``zh@CN`` ca ``zh_Hans``."
 
 #: ../../faq.rst:517
 msgid ""
 "Weblate defaults to POSIX style language codes with underscore, see :ref:"
 "`languages` for more details."
 msgstr ""
+"Weblate folosește în mod implicit codurile de limbă în stil POSIX cu "
+"subliniere, consultați :ref:`languages` pentru mai multe detalii."
 
 #: ../../faq.rst:522
 #, fuzzy
@@ -35422,7 +35449,7 @@ msgstr "Denumire proiect"
 
 #: ../../formats.rst:4 ../../user/files.rst:66
 msgid "Supported file formats"
-msgstr ""
+msgstr "Formate de fișiere acceptate"
 
 #: ../../formats.rst:6
 msgid ""
@@ -35430,10 +35457,13 @@ msgid ""
 "however each format being slightly different, some issues with formats that "
 "are not well tested can arise."
 msgstr ""
+"Weblate acceptă cele mai multe formate de traducere înțelese de `translate-"
+"toolkit`_, însă fiecare format fiind ușor diferit, pot apărea unele probleme "
+"cu formate care nu sunt bine testate."
 
 #: ../../formats.rst:12 ../../formats.rst:1574
 msgid ":doc:`tt:formats/index`"
-msgstr ""
+msgstr ":doc:`tt:formats/index`"
 
 #: ../../formats.rst:16
 msgid ""
@@ -35442,10 +35472,15 @@ msgid ""
 "translators can additionally use whatever tools they are used to, and will "
 "more likely contribute to your project."
 msgstr ""
+"Atunci când alegeți un format de fișier pentru aplicația voastră, este mai "
+"bine să folosiți un format bine stabilit în setul de instrumente/platforma "
+"pe care o utilizați. În acest fel, traducătorii voștri pot folosi în plus "
+"orice instrumente cu care sunt obișnuiți și vor contribui mai probabil la "
+"proiectul dumneavoastră."
 
 #: ../../formats.rst:25
 msgid "Bilingual and monolingual formats"
-msgstr ""
+msgstr "Formate bilingve și monolingve"
 
 #: ../../formats.rst:27
 msgid ""
@@ -35458,6 +35493,14 @@ msgid ""
 "`aresource`). Some file formats are used in both variants, see the detailed "
 "description below."
 msgstr ""
+"Sunt acceptate atât formatul :index:`monolingual <pereche: traducere; "
+"monolingv>`, cât și :index:`bilingual <pereche: traducere; bilingv>`. "
+"Formatele bilingve stochează două limbi într-un singur fișier-sursă și "
+"traducere (exemple tipice sunt :ref:`gettext`, :ref:`xliff` sau :ref:`apple`)"
+". Pe de altă parte, formatele monolingve identifică șirul de caractere prin "
+"ID, iar fiecare fișier de limbă conține doar maparea acestora într-o anumită "
+"limbă (tipic :ref:`aresource`). Unele formate de fișiere sunt utilizate în "
+"ambele variante, a se vedea descrierea detaliată de mai jos."
 
 #: ../../formats.rst:35
 msgid ""
@@ -35466,6 +35509,11 @@ msgid ""
 "is called :ref:`component-template` within Weblate, though the naming might "
 "vary in your paradigm."
 msgstr ""
+"Pentru utilizarea corectă a fișierelor monolingve, Weblate are nevoie de "
+"acces la un fișier care să conțină lista completă a șirurilor de caractere "
+"care trebuie traduse împreună cu sursa lor - acest fișier se numește :ref"
+":`component-template` în Weblate, deși denumirea poate varia în paradigma "
+"dumneavoastră."
 
 #: ../../formats.rst:40
 msgid ""
@@ -35473,10 +35521,13 @@ msgid ""
 "intermediate` to include strings provided by developers, but not to be used "
 "as is in the final strings."
 msgstr ""
+"În plus, acest flux de lucru poate fi extins prin utilizarea :ref:`component-"
+"intermediate` pentru a include șiruri de caractere furnizate de "
+"dezvoltatori, dar care să nu fie utilizate ca atare în șirurile finale."
 
 #: ../../formats.rst:45
 msgid "Automatic detection"
-msgstr ""
+msgstr "Detecție automată"
 
 #: ../../formats.rst:47
 msgid ""
@@ -35484,50 +35535,54 @@ msgid ""
 "detection can harm your performance and will limit features specific to "
 "given file format (for example automatic addition of new translations)."
 msgstr ""
+"Weblate poate detecta automat mai multe formate de fișiere larg răspândite, "
+"dar această detectare poate afecta performanța și va limita caracteristicile "
+"specifice unui anumit format de fișier (de exemplu, adăugarea automată de "
+"noi traduceri)."
 
 #: ../../formats.rst:54
 msgid "Translation types capabilities"
-msgstr ""
+msgstr "Capabilități ale tipurilor de traducere"
 
 #: ../../formats.rst:56
 msgid "Capabilities of all supported formats:"
-msgstr ""
+msgstr "Capacități ale tuturor formatelor acceptate:"
 
 #: ../../formats.rst:59
 msgid "Format"
-msgstr ""
+msgstr "Formatul"
 
 #: ../../formats.rst:59
 msgid "Linguality [#m]_"
-msgstr ""
+msgstr "Lingvistică [#m]_"
 
 #: ../../formats.rst:59
 msgid "Plurals [#p]_"
-msgstr ""
+msgstr "Pluralurile [#p]_"
 
 #: ../../formats.rst:59
 msgid "Comments [#n]_"
-msgstr ""
+msgstr "Comentarii [#n]_"
 
 #: ../../formats.rst:59
 msgid "Context [#c]_"
-msgstr ""
+msgstr "Contextul [#c]_"
 
 #: ../../formats.rst:59
 msgid "Location [#l]_"
-msgstr ""
+msgstr "Locație [#l]_"
 
 #: ../../formats.rst:59
 msgid "Flags [#f]_"
-msgstr ""
+msgstr "Indicatori [#f]_"
 
 #: ../../formats.rst:59
 msgid "Additional states [#a]_"
-msgstr ""
+msgstr "State suplimentare [#a]_"
 
 #: ../../formats.rst:61 ../../formats.rst:79 ../../formats.rst:123
 msgid "bilingual"
-msgstr ""
+msgstr "bilingv"
 
 #: ../../formats.rst:61 ../../formats.rst:63 ../../formats.rst:65
 #: ../../formats.rst:67 ../../formats.rst:69 ../../formats.rst:71
@@ -35539,16 +35594,16 @@ msgstr ""
 #: ../../formats.rst:111 ../../formats.rst:123 ../../formats.rst:127
 #: ../../formats.rst:129
 msgid "yes"
-msgstr ""
+msgstr "da"
 
 #: ../../formats.rst:61 ../../formats.rst:63
 msgid "yes [#po]_"
-msgstr ""
+msgstr "da [#po]_"
 
 #: ../../formats.rst:61 ../../formats.rst:63 ../../formats.rst:75
 #: ../../formats.rst:95 ../../formats.rst:107
 msgid "needs editing"
-msgstr ""
+msgstr "are nevoie de editare"
 
 #: ../../formats.rst:63
 msgid ":ref:`mono_gettext`"
@@ -35565,7 +35620,7 @@ msgstr ""
 #: ../../formats.rst:121 ../../formats.rst:125 ../../formats.rst:127
 #: ../../formats.rst:129
 msgid "mono"
-msgstr ""
+msgstr "mono"
 
 #: ../../formats.rst:65
 msgid ":ref:`xliff`"
@@ -35574,16 +35629,16 @@ msgstr ""
 #: ../../formats.rst:65 ../../formats.rst:67 ../../formats.rst:75
 #: ../../formats.rst:95
 msgid "both"
-msgstr ""
+msgstr "ambele"
 
 #: ../../formats.rst:65 ../../formats.rst:75 ../../formats.rst:77
 #: ../../formats.rst:93 ../../formats.rst:103 ../../formats.rst:123
 msgid "yes [#xl]_"
-msgstr ""
+msgstr "da [#xl]_"
 
 #: ../../formats.rst:65
 msgid "needs editing, approved"
-msgstr ""
+msgstr "necesită editare, aprobat"
 
 #: ../../formats.rst:67
 msgid ":ref:`javaprop`"
@@ -35601,7 +35656,7 @@ msgstr ""
 #: ../../formats.rst:121 ../../formats.rst:123 ../../formats.rst:125
 #: ../../formats.rst:127 ../../formats.rst:129
 msgid "no"
-msgstr ""
+msgstr "nu"
 
 #: ../../formats.rst:69
 #, fuzzy
@@ -35619,7 +35674,7 @@ msgstr ""
 
 #: ../../formats.rst:77
 msgid "yes [#x]_"
-msgstr ""
+msgstr "da [#x]_"
 
 #: ../../formats.rst:81
 msgid ":ref:`php`"
@@ -35627,7 +35682,7 @@ msgstr ""
 
 #: ../../formats.rst:81
 msgid "no [#lp]_"
-msgstr ""
+msgstr "nu [#lp]_"
 
 #: ../../formats.rst:83
 msgid ":ref:`json`"
@@ -35721,20 +35776,24 @@ msgstr "Denumire proiect"
 
 #: ../../formats.rst:129
 msgid "no [#fp]_"
-msgstr ""
+msgstr "nu [#fp]_"
 
 #: ../../formats.rst:132
 msgid "See :ref:`bimono`"
-msgstr ""
+msgstr "A se vedea :ref:`bimono`"
 
 #: ../../formats.rst:133
 msgid "Plurals are necessary to properly localize strings with variable count."
 msgstr ""
+"Pluralul este necesar pentru a localiza corect șirurile de caractere cu "
+"număr variabil."
 
 #: ../../formats.rst:134
 msgid ""
 "Comments can be used to pass additional info about the string to translate."
 msgstr ""
+"Comentariile pot fi utilizate pentru a transmite informații suplimentare "
+"despre șirul de tradus."
 
 #: ../../formats.rst:135
 msgid ""
@@ -35742,32 +35801,42 @@ msgid ""
 "(for example `Sun` can be used as an abbreviated name of the day \"Sunday\" "
 "or as the name of our closest star)."
 msgstr ""
+"Contextul este utilizat pentru a diferenția șiruri de caractere identice "
+"utilizate în domenii de aplicare diferite (de exemplu, `Sun` poate fi "
+"utilizat ca un nume prescurtat al zilei \"duminică\" sau ca numele celei mai "
+"apropiate stele de noi)."
 
 #: ../../formats.rst:136
 msgid ""
 "Location of a string in source code might help proficient translators figure "
 "out how the string is used."
 msgstr ""
+"Localizarea unui șir de caractere în codul sursă ar putea ajuta traducătorii "
+"pricepuți să își dea seama cum este utilizat acel șir."
 
 #: ../../formats.rst:137
 msgid ""
 "Additional states supported by the file format in addition to \"Not "
 "translated\" and \"Translated\"."
 msgstr ""
+"Stări suplimentare acceptate de formatul de fișier în plus față de \"Netradus"
+"\" și \"Tradus\"."
 
 #: ../../formats.rst:138
 msgid ""
 "XML comment placed before the ``<string>`` element, parsed as a developer "
 "comment."
 msgstr ""
+"Comentariu XML plasat înaintea elementului ``<string>``, analizat ca un "
+"comentariu de dezvoltator."
 
 #: ../../formats.rst:139
 msgid "See :ref:`custom-checks`"
-msgstr ""
+msgstr "Vezi :ref:`custom-checks`"
 
 #: ../../formats.rst:140
 msgid "The gettext type comments are used as flags."
-msgstr ""
+msgstr "Comentariile de tip gettext sunt utilizate ca indicatori."
 
 #: ../../formats.rst:141
 msgid ""
@@ -35777,18 +35846,27 @@ msgid ""
 "os/xliff-core.html#maxwidth>`_ as defined in the XLIFF standard, see :ref:"
 "`xliff-flags`."
 msgstr ""
+"Indicatorii sunt extrași din atributul non-standard ``weblate-flags`` pentru "
+"toate formatele bazate pe XML. În plus, ``max-length:N`` este suportat prin "
+"atributul ``maxwidth`` <http://docs.oasis-open.org/xliff/v1.2/os/xliff-core."
+"html#maxwidth>`_ așa cum este definit în standardul XLIFF, a se vedea :ref"
+":`xliff-flags`."
 
 #: ../../formats.rst:142
 msgid ""
 "The plurals are supported only for Laravel which uses in string syntax to "
 "define them, see `Localization in Laravel`_."
 msgstr ""
+"Pluralurile sunt acceptate doar pentru Laravel, care folosește sintaxa in "
+"string pentru a le defini, vezi `Localizarea în Laravel`_."
 
 #: ../../formats.rst:143
 msgid ""
 "Plurals are handled in the syntax of the strings and not exposed as plurals "
 "in Weblate."
 msgstr ""
+"Pluralurile sunt tratate în sintaxa șirurilor de caractere și nu sunt expuse "
+"ca pluraluri în Weblate."
 
 #: ../../formats.rst:148
 msgid "Read only strings"
@@ -35801,10 +35879,15 @@ msgid ""
 "`xliff` and :ref:`aresource`), but can be emulated in others by adding a "
 "``read-only`` flag, see :ref:`custom-checks`."
 msgstr ""
+"Șirurile de caractere numai pentru citire din fișierele de traducere vor fi "
+"incluse, dar nu pot fi editate în Weblate. Această caracteristică este "
+"susținută nativ de câteva formate (:ref:`xliff` și :ref:`aresource`), dar "
+"poate fi emulată în altele prin adăugarea unui indicator ``read-only``, a se "
+"vedea :ref:`custom-checks`."
 
 #: ../../formats.rst:160
 msgid "GNU gettext"
-msgstr ""
+msgstr "GNU gettext"
 
 #: ../../formats.rst:166
 msgid "Most widely used format for translating libre software."
@@ -35815,10 +35898,13 @@ msgid ""
 "Contextual info stored in the file is supported by adjusting its headers or "
 "linking to corresponding source files."
 msgstr ""
+"Informațiile contextuale stocate în fișier sunt susținute prin ajustarea "
+"antetelor sale sau prin crearea de legături către fișierele sursă "
+"corespunzătoare."
 
 #: ../../formats.rst:171
 msgid "The bilingual gettext PO file typically looks like this:"
-msgstr ""
+msgstr "Fișierul bilingv gettext PO arată de obicei astfel:"
 
 #: ../../formats.rst:189 ../../formats.rst:255 ../../formats.rst:429
 #: ../../formats.rst:464 ../../formats.rst:499 ../../formats.rst:534
@@ -35830,7 +35916,7 @@ msgstr ""
 #: ../../formats.rst:1301 ../../formats.rst:1332 ../../formats.rst:1364
 #: ../../formats.rst:1477 ../../formats.rst:1508 ../../formats.rst:1543
 msgid "Typical Weblate :ref:`component`"
-msgstr ""
+msgstr "Tipic Weblate :ref:`component`"
 
 #: ../../formats.rst:191 ../../formats.rst:257 ../../formats.rst:378
 #: ../../formats.rst:431 ../../formats.rst:466 ../../formats.rst:501
@@ -35856,15 +35942,15 @@ msgstr "Masca de fișier"
 #: ../../formats.rst:1272 ../../formats.rst:1481 ../../formats.rst:1483
 #: ../../formats.rst:1515 ../../formats.rst:1549
 msgid "`Empty`"
-msgstr ""
+msgstr "`Gol`"
 
 #: ../../formats.rst:195 ../../formats.rst:261
 msgid "``po/messages.pot``"
-msgstr ""
+msgstr "``po/messages.pot``"
 
 #: ../../formats.rst:197
 msgid "`Gettext PO file`"
-msgstr ""
+msgstr "`Gettext PO fișier`"
 
 #: ../../formats.rst:202
 msgid ""
@@ -35874,10 +35960,15 @@ msgid ""
 "weblate.gettext.linguas`, :ref:`addon-weblate.gettext.mo`, :ref:`addon-"
 "weblate.gettext.msgmerge`"
 msgstr ""
+":doc:`devel/gettext`, :doc:`devel/sphinx`, `Gettext pe Wikipedia <https://en."
+"wikipedia.org/wiki/Gettext>`_, :doc:`tt:formats/po`, :ref:`addon-"
+"weblate.gettext. configure`, :ref:`addon-weblate.gettext.customize`, :ref"
+":`addon-weblate.gettext.linguas`, :ref:`addon-weblate.gettext.mo`, :ref"
+":`addon-weblate.gettext.msgmerge`, :ref:`addon-weblate.gettext.msgmerge`"
 
 #: ../../formats.rst:215
 msgid "Monolingual gettext"
-msgstr ""
+msgstr "Gettext monolingv"
 
 #: ../../formats.rst:217
 msgid ""
@@ -35886,22 +35977,27 @@ msgid ""
 "all languages, including English. This is supported, though you have to "
 "choose this file format explicitly when importing components into Weblate."
 msgstr ""
+"Unele proiecte decid să utilizeze gettext ca formate monolingve - acestea "
+"codifică doar ID-urile în codul sursă, iar șirul trebuie apoi tradus în "
+"toate limbile, inclusiv în engleză. Acest lucru este acceptat, deși trebuie "
+"să alegeți acest format de fișier în mod explicit atunci când importați "
+"componente în Weblate."
 
 #: ../../formats.rst:222
 msgid "The monolingual gettext PO file typically looks like this:"
-msgstr ""
+msgstr "Fișierul monolingv gettext PO arată de obicei astfel:"
 
 #: ../../formats.rst:238
 msgid "While the base language file will be:"
-msgstr ""
+msgstr "În timp ce fișierul limbii de bază va fi:"
 
 #: ../../formats.rst:259
 msgid "``po/en.po``"
-msgstr ""
+msgstr "``po/en.po``"
 
 #: ../../formats.rst:263
 msgid "`Gettext PO file (monolingual)`"
-msgstr ""
+msgstr "`Gettext PO file (monolingv)`"
 
 #: ../../formats.rst:269
 msgid "XLIFF"
@@ -35912,24 +36008,29 @@ msgid ""
 "XML-based format created to standardize translation files, but in the end it "
 "is one of `many standards <https://xkcd.com/927/>`_, in this area."
 msgstr ""
+"Format bazat pe XML creat pentru a standardiza fișierele de traducere, dar "
+"în cele din urmă este unul dintre `multele standarde <https://xkcd.com/927/>`"
+"_, în acest domeniu."
 
 #: ../../formats.rst:277
 msgid ""
 "`XML Localization Interchange File Format (XLIFF)` is usually used as "
 "bilingual, but Weblate supports it as monolingual as well."
 msgstr ""
+"`XML Localization Interchange File Format (XLIFF)` este de obicei folosit ca "
+"bilingv, dar Weblate îl acceptă și ca monolingv."
 
 #: ../../formats.rst:281
 msgid "`XML Localization Interchange File Format (XLIFF)` specification"
-msgstr ""
+msgstr "Specificația `XML Localization Interchange File Format (XLIFF)`"
 
 #: ../../formats.rst:287 ../../workflows.rst:28
 msgid "Translation states"
-msgstr ""
+msgstr "Statele de traducere"
 
 #: ../../formats.rst:291
 msgid "Weblate ignored the ``state`` attribute prior to the 3.3 release."
-msgstr ""
+msgstr "Weblate a ignorat atributul ``state`` înainte de versiunea 3.3."
 
 #: ../../formats.rst:293
 msgid ""
@@ -35940,6 +36041,12 @@ msgid ""
 "attribute be missing, a string is considered translated as soon as a "
 "``<target>`` element exists."
 msgstr ""
+"Atributul ``state`` din fișier este parțial procesat și mapat la starea "
+"\"Needs edit\" din Weblate (următoarele stări sunt folosite pentru a marca "
+"șirul ca necesitând editare dacă există o țintă prezentă: ``new``, ``needs-"
+"translation``, ``needs-adaptation``, ``needs-l10n``). În cazul în care "
+"atributul ``state`` lipsește, un șir este considerat tradus de îndată ce "
+"există un element ``<target>``."
 
 #: ../../formats.rst:300
 msgid ""
@@ -35947,27 +36054,38 @@ msgid ""
 "into Weblate as \"Approved\", anything else will be imported as \"Waiting "
 "for review\" (which matches the XLIFF specification)."
 msgstr ""
+"Dacă șirul de traducere are ``approved=\"yes\"``, acesta va fi, de asemenea, "
+"importat în Weblate ca \"Approved\", orice altceva va fi importat ca "
+"\"Waiting for review\" (care corespunde specificației XLIFF)."
 
 #: ../../formats.rst:304
 msgid "While saving, Weblate doesn't add those attributes unless necessary:"
 msgstr ""
+"În timpul salvării, Weblate nu adaugă aceste atribute decât dacă este "
+"necesar:"
 
 #: ../../formats.rst:306
 msgid ""
 "The ``state`` attribute is only added in case string is marked as needing "
 "edit."
 msgstr ""
+"Atributul ``state`` este adăugat numai în cazul în care șirul este marcat ca "
+"necesitând editare."
 
 #: ../../formats.rst:307
 msgid ""
 "The ``approved`` attribute is only added in case string has been reviewed."
 msgstr ""
+"Atributul ``approved`` se adaugă numai în cazul în care șirul a fost "
+"revizuit."
 
 #: ../../formats.rst:308
 msgid ""
 "In other cases the attributes are not added, but they are updated in case "
 "they are present."
 msgstr ""
+"În alte cazuri, atributele nu sunt adăugate, dar sunt actualizate în cazul "
+"în care sunt prezente."
 
 #: ../../formats.rst:310
 msgid ""
@@ -35975,6 +36093,9 @@ msgid ""
 "turn on the Weblate review process, in order to see and change the approved "
 "state of strings."
 msgstr ""
+"Aceasta înseamnă că, atunci când se utilizează formatul XLIFF, se recomandă "
+"cu tărie activarea procesului de revizuire Weblate, pentru a vedea și "
+"modifica starea aprobată a șirurilor de caractere."
 
 #: ../../formats.rst:313
 msgid ""
