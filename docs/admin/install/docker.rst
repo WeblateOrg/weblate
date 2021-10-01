@@ -1248,6 +1248,16 @@ Example SSL configuration:
         :ref:`production-email`,
         :setting:`django:EMAIL_BACKEND`
 
+.. envvar:: WEBLATE_AUTO_UPDATE
+
+    Configures if and how Weblate should update repositories.
+
+    .. seealso::
+
+        :setting:`AUTO_UPDATE`
+
+    .. note:: This is a Boolean setting (use ``"true"`` or ``"false"``).
+
 Site integration
 ~~~~~~~~~~~~~~~~
 
