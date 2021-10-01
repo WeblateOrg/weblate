@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-09-08 12:00+0200\n"
-"PO-Revision-Date: 2021-10-01 13:36+0000\n"
+"PO-Revision-Date: 2021-10-02 09:54+0000\n"
 "Last-Translator: Simona Iacob <s@zp1.net>\n"
 "Language-Team: Romanian <https://hosted.weblate.org/projects/weblate/"
 "documentation/ro/>\n"
@@ -36103,6 +36103,9 @@ msgid ""
 "guilabel:`Import as translated` under :guilabel:`Processing of strings "
 "needing edit`."
 msgstr ""
+"În mod similar, atunci când importați astfel de fișiere (în formularul de "
+"încărcare), trebuie să alegeți :guilabel:`Import as translated` sub "
+":guilabel:`Procesarea șirurilor de caractere care necesită editare`."
 
 #: ../../formats.rst:319
 #, fuzzy
@@ -36112,7 +36115,7 @@ msgstr "Denumire proiect"
 
 #: ../../formats.rst:322
 msgid "Whitespace and newlines in XLIFF"
-msgstr ""
+msgstr "Spațiu alb și linii noi în XLIFF"
 
 #: ../../formats.rst:324
 msgid ""
@@ -36120,10 +36123,13 @@ msgid ""
 "XML formats. If you want to keep it, you have to add the ``xml:space="
 "\"preserve\"`` flag to the string."
 msgstr ""
+"În general, în formatele XML nu se fac diferențe între tipurile sau "
+"cantitățile de spații albe. Dacă doriți să îl păstrați, trebuie să adăugați "
+"steagul ``xml:space=\"preserve\"`` la șirul de caractere."
 
 #: ../../formats.rst:341
 msgid "Specifying translation flags"
-msgstr ""
+msgstr "Specificarea indicatoarelor de traducere"
 
 #: ../../formats.rst:343
 msgid ""
@@ -36131,6 +36137,9 @@ msgid ""
 "using the ``weblate-flags`` attribute. Weblate also understands ``maxwidth`` "
 "and ``font`` attributes from the XLIFF specification:"
 msgstr ""
+"Puteți specifica indicatori de traducere suplimentari (a se vedea :ref"
+":`custom-checks`) utilizând atributul ``weblate-flags``. Weblate înțelege, "
+"de asemenea, atributele ``maxwidth`` și ``font`` din specificația XLIFF:"
 
 #: ../../formats.rst:356
 msgid ""
@@ -36140,6 +36149,12 @@ msgid ""
 "Pro`` becomes ``Source_Sans_Pro``, please keep that in mind when naming the "
 "font group (see :ref:`fonts`)."
 msgstr ""
+"Atributul ``font`` este analizat pentru familia, dimensiunea și greutatea "
+"fontului, exemplul de mai sus arată toate acestea, deși este necesară doar "
+"familia fontului. Orice spațiu în alb din familia de fonturi este convertit "
+"în caractere de subliniere, astfel încât ``Source Sans Pro`` devine "
+"``Source_Sans_Pro``, vă rugăm să țineți cont de acest lucru atunci când "
+"numiți grupul de fonturi (a se vedea :ref:`fonts`)."
 
 #: ../../formats.rst:363
 #, fuzzy
@@ -36153,6 +36168,9 @@ msgid ""
 "case it is present and falls back to ``id`` (together with ``file`` tag if "
 "present)."
 msgstr ""
+"Weblate identifică unitățile din fișierul XLIFF prin atributul ``resname`` "
+"în cazul în care acesta este prezent și revine la ``id`` (împreună cu tag-ul "
+"``file```, dacă este prezent)."
 
 #: ../../formats.rst:368
 msgid ""
@@ -36162,26 +36180,32 @@ msgid ""
 "Weblate and is not covered by the XLIFF standard - it does not put any "
 "uniqueness restrictions on this attribute."
 msgstr ""
+"Atributul ``resname`` ar trebui să fie un identificator prietenos pentru "
+"oameni al unității, ceea ce îl face mai potrivit pentru afișarea în Weblate "
+"în loc de ``id``. Numele \"Resname\" trebuie să fie unic în întregul fișier "
+"XLIFF. Acest lucru este cerut de Weblate și nu este reglementat de "
+"standardul XLIFF - acesta nu impune nicio restricție de unicitate pentru "
+"acest atribut."
 
 #: ../../formats.rst:376
 msgid "Typical Weblate :ref:`component` for bilingual XLIFF"
-msgstr ""
+msgstr "Tipic Weblate :ref:`component` pentru XLIFF bilingv"
 
 #: ../../formats.rst:378 ../../formats.rst:390
 msgid "``localizations/*.xliff``"
-msgstr ""
+msgstr "``localizări/*.xliff``"
 
 #: ../../formats.rst:382 ../../formats.rst:392 ../../formats.rst:394
 msgid "``localizations/en-US.xliff``"
-msgstr ""
+msgstr "``localizări/en-US.xliff``"
 
 #: ../../formats.rst:384 ../../formats.rst:396
 msgid "`XLIFF Translation File`"
-msgstr ""
+msgstr "`XLIFF Fișier de traducere`"
 
 #: ../../formats.rst:388
 msgid "Typical Weblate :ref:`component` for monolingual XLIFF"
-msgstr ""
+msgstr "Tipic Weblate :ref:`component` pentru XLIFF monolingv"
 
 #: ../../formats.rst:401
 msgid ""
@@ -36190,18 +36214,22 @@ msgid ""
 "xliff/v1.2/os/xliff-core.html#font>`_, `maxwidth attribute in XLIFF 1.2 "
 "<http://docs.oasis-open.org/xliff/v1.2/os/xliff-core.html#maxwidth>`_"
 msgstr ""
+"`XLIFF pe Wikipedia <https://en.wikipedia.org/wiki/XLIFF>`_, :doc:`tt:"
+"formats/xliff`, `atributul font în XLIFF 1.2 <http://docs.oasis-open.org/"
+"xliff/v1.2/os/xliff-core.html#font>`_, `atributul maxwidth în XLIFF 1.2 "
+"<http://docs.oasis-open.org/xliff/v1.2/os/xliff-core.html#maxwidth>`_"
 
 #: ../../formats.rst:409
 msgid "Java properties"
-msgstr ""
+msgstr "Proprietăți Java"
 
 #: ../../formats.rst:414
 msgid "Native Java format for translations."
-msgstr ""
+msgstr "Format nativ Java pentru traduceri."
 
 #: ../../formats.rst:416
 msgid "Java properties are usually used as monolingual translations."
-msgstr ""
+msgstr "Proprietățile Java sunt utilizate de obicei ca traduceri monolingve."
 
 #: ../../formats.rst:418
 msgid ""
@@ -36211,24 +36239,32 @@ msgid ""
 "example ``zkou\\u0161ka``), all others encode characters directly either in "
 "UTF-8 or UTF-16."
 msgstr ""
+"Weblate acceptă variantele ISO-8859-1, UTF-8 și UTF-16 ale acestui format. "
+"Toate acestea acceptă stocarea tuturor caracterelor Unicode, doar că sunt "
+"codificate diferit. În ISO-8859-1, se folosesc secvențele de scăpare Unicode "
+"(de exemplu ``zkou\\u0161ka``), toate celelalte codifică caracterele direct, "
+"fie în UTF-8, fie în UTF-16."
 
 #: ../../formats.rst:425
 msgid ""
 "Loading escape sequences works in UTF-8 mode as well, so please be careful "
 "choosing the correct encoding set to match your application needs."
 msgstr ""
+"Încărcarea secvențelor de scăpare funcționează și în modul UTF-8, așa că vă "
+"rugăm să aveți grijă să alegeți setul de codificare corect pentru a "
+"corespunde nevoilor aplicației dumneavoastră."
 
 #: ../../formats.rst:431 ../../formats.rst:501
 msgid "``src/app/Bundle_*.properties``"
-msgstr ""
+msgstr "``src/app/Bundle_*.proprietăți``"
 
 #: ../../formats.rst:433 ../../formats.rst:503
 msgid "``src/app/Bundle.properties``"
-msgstr ""
+msgstr "``src/app/Bundle.proprietăți``"
 
 #: ../../formats.rst:437
 msgid "`Java Properties (ISO-8859-1)`"
-msgstr ""
+msgstr "Proprietăți Java (ISO-8859-1)`"
 
 #: ../../formats.rst:442
 msgid ""
@@ -36237,6 +36273,10 @@ msgid ""
 "ref:`updating-target-files`, :ref:`addon-weblate.properties.sort`, :ref:"
 "`addon-weblate.cleanup.generic`"
 msgstr ""
+"`Java properties on Wikipedia <https://en.wikipedia.org/wiki/.properties>``"
+"_, :doc:`tt:formats/properties`, :ref:`mi18n-lang`, :ref:`gwt`, :ref"
+":`updating-target-files`, :ref:`addon-weblate.properties.sort`, :ref:`addon-"
+"weblate.cleanup.generic`"
 
 #: ../../formats.rst:454
 #, fuzzy
@@ -36249,14 +36289,16 @@ msgid ""
 "File format used for JavaScript localization by `mi18n`_. Syntactically it "
 "matches :ref:`javaprop`."
 msgstr ""
+"Format de fișier utilizat pentru localizarea JavaScript de către `mi18n`_. "
+"Sintactic, se potrivește cu :ref:`javaprop`."
 
 #: ../../formats.rst:466
 msgid "``*.lang``"
-msgstr ""
+msgstr "``*.lang``"
 
 #: ../../formats.rst:468
 msgid "``en-US.lang``"
-msgstr ""
+msgstr "``en-US.lang``"
 
 #: ../../formats.rst:472
 #, fuzzy
@@ -36270,6 +36312,9 @@ msgid ""
 "target-files`, :ref:`addon-weblate.properties.sort`, :ref:`addon-weblate."
 "cleanup.generic`"
 msgstr ""
+"`mi18n`_ :doc:`tt:formats/properties`, :ref:`javaprop`, :ref:`updating-"
+"target-files`, :ref:`addon-weblate.properties.sort`, :ref:`addon-weblate."
+"cleanup.generic`"
 
 #: ../../formats.rst:489
 msgid "GWT properties"
@@ -36277,15 +36322,15 @@ msgstr "Proprietăți GWT"
 
 #: ../../formats.rst:494
 msgid "Native GWT format for translations."
-msgstr ""
+msgstr "Format nativ GWT pentru traduceri."
 
 #: ../../formats.rst:496
 msgid "GWT properties are usually used as monolingual translations."
-msgstr ""
+msgstr "Proprietățile GWT sunt utilizate de obicei ca traduceri monolingve."
 
 #: ../../formats.rst:507
 msgid "`GWT Properties`"
-msgstr ""
+msgstr "`GWT Proprietăți`"
 
 #: ../../formats.rst:512
 msgid ""
@@ -36295,30 +36340,35 @@ msgid ""
 "target-files`, :ref:`addon-weblate.properties.sort`, :ref:`addon-weblate."
 "cleanup.generic`"
 msgstr ""
+"`GWT ghid de localizare <http://www.gwtproject.org/doc/latest/DevGuideI18n."
+"html>`_, `GWT Internationalization Tutorial <http://www.gwtproject.org/doc/"
+"latest/tutorial/i18n.html>`_, :doc:`tt:formats/properties`, :ref:`updating-"
+"target-files`, :ref:`addon-weblate.properties.sort`, :ref:`addon-weblate."
+"cleanup.generic`"
 
 #: ../../formats.rst:522
 msgid "INI translations"
-msgstr ""
+msgstr "Traduceri INI"
 
 #: ../../formats.rst:529
 msgid "INI file format for translations."
-msgstr ""
+msgstr "Formatul fișierului INI pentru traduceri."
 
 #: ../../formats.rst:531
 msgid "INI translations are usually used as monolingual translations."
-msgstr ""
+msgstr "Traducerile INI sunt utilizate de obicei ca traduceri monolingve."
 
 #: ../../formats.rst:536
 msgid "``language/*.ini``"
-msgstr ""
+msgstr "``limbă/*.ini``"
 
 #: ../../formats.rst:538
 msgid "``language/en.ini``"
-msgstr ""
+msgstr "``limbă/en.ini``"
 
 #: ../../formats.rst:542
 msgid "`INI File`"
-msgstr ""
+msgstr "`FIșier INI`"
 
 #: ../../formats.rst:547
 msgid ""
@@ -36326,10 +36376,13 @@ msgid ""
 "INI file lacks sections, you might want to use :ref:`joomla` or :ref:"
 "`javaprop` instead."
 msgstr ""
+"Weblate extrage cheile numai din secțiunile dintr-un fișier INI. În cazul în "
+"care fișierul INI nu are secțiuni, este posibil să doriți să utilizați în "
+"schimb :ref:`joomla` sau :ref:`javaprop`."
 
 #: ../../formats.rst:553
 msgid ":doc:`tt:formats/ini`, :ref:`javaprop`, :ref:`joomla`, :ref:`islu`"
-msgstr ""
+msgstr ":doc:`tt:formate/ini`, :ref:`javaprop`, :ref:`joomla`, :ref:`islu`"
 
 #: ../../formats.rst:561
 #, fuzzy
@@ -36353,52 +36406,57 @@ msgid ""
 "The only notable difference to :ref:`ini` is in supporting ``%n`` and ``%t`` "
 "placeholders for line break and tab."
 msgstr ""
+"Singura diferență notabilă față de :ref:`ini` este aceea că suportă "
+"caracterele de substituție ``%n`` și ``%t``` pentru pauză de linie și "
+"tabulare."
 
 #: ../../formats.rst:580
 msgid "``language/*.islu``"
-msgstr ""
+msgstr "``limbă/*.islu``"
 
 #: ../../formats.rst:582
 msgid "``language/en.islu``"
-msgstr ""
+msgstr "``limbă/en.islu``"
 
 #: ../../formats.rst:586
 msgid "`Inno Setup INI File`"
-msgstr ""
+msgstr "`Inno Setup INI Fișier`"
 
 #: ../../formats.rst:591
 msgid ""
 "Only Unicode files (``.islu``) are currently supported, ANSI variant (``."
 "isl``) is currently not supported."
 msgstr ""
+"Doar fișierele Unicode (``.islu``) sunt acceptate în prezent, varianta ANSI "
+"(``.isl``) nu este acceptată în prezent."
 
 #: ../../formats.rst:596
 msgid ":doc:`tt:formats/ini`, :ref:`joomla`, :ref:`ini`"
-msgstr ""
+msgstr ":doc:`tt:formats/ini`, :ref:`joomla`, :ref:`ini`"
 
 #: ../../formats.rst:603
 msgid "Joomla translations"
-msgstr ""
+msgstr "Traduceri Joomla"
 
 #: ../../formats.rst:610
 msgid "Native Joomla format for translations."
-msgstr ""
+msgstr "Format nativ Joomla pentru traduceri."
 
 #: ../../formats.rst:612
 msgid "Joomla translations are usually used as monolingual translations."
-msgstr ""
+msgstr "Traducerile Joomla sunt de obicei folosite ca traduceri monolingve."
 
 #: ../../formats.rst:617
 msgid "``language/*/com_foobar.ini``"
-msgstr ""
+msgstr "``limbă/*/com_foobar.ini``"
 
 #: ../../formats.rst:619
 msgid "``language/en-GB/com_foobar.ini``"
-msgstr ""
+msgstr "``limbă/en-GB/com_foobar.ini``"
 
 #: ../../formats.rst:623
 msgid "`Joomla Language File`"
-msgstr ""
+msgstr "`Fișier de limbă Joomla`"
 
 #: ../../formats.rst:628
 msgid ""
@@ -36406,57 +36464,64 @@ msgid ""
 "Specification_of_language_files>`_, :doc:`tt:formats/properties`, :ref:"
 "`ini`, :ref:`islu`"
 msgstr ""
+"`Specificarea fișierelor de limbă Joomla <https://docs.joomla.org/"
+"Specification_of_language_files>``_, :doc:`tt:formats/properties`, :ref:`ini`"
+", :ref:`islu`"
 
 #: ../../formats.rst:636
 msgid "Qt Linguist .ts"
-msgstr ""
+msgstr "Qt Linguist .ts"
 
 #: ../../formats.rst:642
 msgid "Translation format used in Qt based applications."
-msgstr ""
+msgstr "Format de traducere utilizat în aplicațiile bazate pe Qt."
 
 #: ../../formats.rst:644
 msgid ""
 "Qt Linguist files are used as both bilingual and monolingual translations."
 msgstr ""
+"Fișierele Qt Linguist sunt utilizate atât ca traduceri bilingve, cât și "
+"monolingve."
 
 #: ../../formats.rst:647
 msgid "Typical Weblate :ref:`component` when using as bilingual"
-msgstr ""
+msgstr "Tipic Weblate :ref:`component` atunci când se utilizează ca bilingv"
 
 #: ../../formats.rst:649 ../../formats.rst:661
 msgid "``i18n/app.*.ts``"
-msgstr ""
+msgstr "``i18n/app.*.ts``"
 
 #: ../../formats.rst:653
 msgid "``i18n/app.de.ts``"
-msgstr ""
+msgstr "``i18n/app.de.ts``"
 
 #: ../../formats.rst:655 ../../formats.rst:667
 msgid "`Qt Linguist Translation File`"
-msgstr ""
+msgstr "`Qt Linguist Traducere fișier`"
 
 #: ../../formats.rst:659
 msgid "Typical Weblate :ref:`component` when using as monolingual"
-msgstr ""
+msgstr "Tipic Weblate :ref:`component` atunci când se utilizează ca monolingv"
 
 #: ../../formats.rst:663 ../../formats.rst:665
 msgid "``i18n/app.en.ts``"
-msgstr ""
+msgstr "``i18n/app.en.ts``"
 
 #: ../../formats.rst:672
 msgid ""
 "`Qt Linguist manual <https://doc.qt.io/qt-5/qtlinguist-index.html>`_, :doc:"
 "`tt:formats/ts`, :ref:`bimono`"
 msgstr ""
+"`Qt Linguist manual <https://doc.qt.io/qt-5/qtlinguist-index.html>``_, "
+":doc:`tt:formats/ts`, :ref:`bimono`"
 
 #: ../../formats.rst:679
 msgid "Android string resources"
-msgstr ""
+msgstr "Resurse de șiruri Android"
 
 #: ../../formats.rst:685
 msgid "Android specific file format for translating applications."
-msgstr ""
+msgstr "Format de fișier specific Android pentru traducerea aplicațiilor."
 
 #: ../../formats.rst:687
 msgid ""
@@ -36464,50 +36529,61 @@ msgid ""
 "stored in a different location from the others :file:`res/values/strings."
 "xml`."
 msgstr ""
+"Resursele de șiruri de caractere Android sunt monolingve, :ref:`component-"
+"template` este stocat într-o locație diferită de celelalte :file:`res/values/"
+"strings.xml`."
 
 #: ../../formats.rst:693
 msgid "``res/values-*/strings.xml``"
-msgstr ""
+msgstr "``res/values-*/strings.xml``"
 
 #: ../../formats.rst:695
 msgid "``res/values/strings.xml``"
-msgstr ""
+msgstr "``res/values/strings.xml``"
 
 #: ../../formats.rst:699
 msgid "`Android String Resource`"
-msgstr ""
+msgstr "`Resurse de șiruri Android`"
 
 #: ../../formats.rst:704
 msgid ""
 "`Android string resources documentation <https://developer.android.com/guide/"
 "topics/resources/string-resource>`_, :doc:`tt:formats/android`"
 msgstr ""
+"`Documentația resurselor de șiruri Android <https://developer.android.com/"
+"guide/topics/resources/string-resource>`_, :doc:`tt:formats/android`"
 
 #: ../../formats.rst:709
 msgid ""
 "Android `string-array` structures are not currently supported. To work "
 "around this, you can break your string arrays apart:"
 msgstr ""
+"Structurile Android `string-array` nu sunt acceptate în prezent. Pentru a "
+"rezolva această problemă, puteți despărți array-urile de șiruri de caractere:"
 
 #: ../../formats.rst:719
 msgid "become:"
-msgstr ""
+msgstr "devin:"
 
 #: ../../formats.rst:730
 msgid ""
 "The `string-array` that points to the `string` elements should be stored in "
 "a different file, and not be made available for translation."
 msgstr ""
+"Rețeaua `string-array` care indică elementele `string` ar trebui să fie "
+"stocată într-un alt fișier și să nu fie disponibilă pentru traducere."
 
 #: ../../formats.rst:733
 msgid ""
 "This script may help pre-process your existing strings.xml files and "
 "translations: https://gist.github.com/paour/11291062"
 msgstr ""
+"Acest script poate ajuta la pre-procesarea fișierelor strings.xml și a "
+"traducerilor existente: https://gist.github.com/paour/11291062"
 
 #: ../../formats.rst:738
 msgid "Apple iOS strings"
-msgstr ""
+msgstr "Șiruri Apple iOS"
 
 #: ../../formats.rst:743
 msgid ""
@@ -36515,24 +36591,31 @@ msgid ""
 "and :index:`iPhone <pair: iPhone; translation>`/:index:`iPad <pair: iPad; "
 "translation>` application translations."
 msgstr ""
+"Format de fișier specific Apple pentru traducerea aplicațiilor, utilizat "
+"atât pentru iOS, cât și pentru traducerile aplicațiilor :index:`iPhone "
+"<pereche: iPhone; traducere>``/:index:`iPad <pereche: iPad; traducere>`."
 
 #: ../../formats.rst:746
 msgid "Apple iOS strings are usually used as bilingual translations."
 msgstr ""
+"Șirurile de caractere Apple iOS sunt utilizate de obicei ca traduceri "
+"bilingve."
 
 #: ../../formats.rst:751
 msgid "``Resources/*.lproj/Localizable.strings``"
-msgstr ""
+msgstr "``Resurse/*.lproj/Localizable.strings``"
 
 #: ../../formats.rst:753
 msgid ""
 "``Resources/en.lproj/Localizable.strings`` or ``Resources/Base.lproj/"
 "Localizable.strings``"
 msgstr ""
+"``Resurse/en.lproj/Localizable.strings`` sau ``Resurse/Base.lproj/Localizable"
+".strings``"
 
 #: ../../formats.rst:758
 msgid "`iOS Strings (UTF-8)`"
-msgstr ""
+msgstr "`Șiruri de caractere pentru iOS (UTF-8)`"
 
 #: ../../formats.rst:763
 msgid ""
@@ -36541,6 +36624,10 @@ msgid ""
 "BPInternational/MaintaingYourOwnStringsFiles/MaintaingYourOwnStringsFiles."
 "html>`_, :doc:`tt:formats/strings`"
 msgstr ""
+":ref:`stringsdict`, `Documentația Apple \"strings files\" <https://developer."
+"apple.com/library/archive/documentation/MacOSX/Conceptual/BPInternational/"
+"MaintaingYourOwnStringsFiles/MaintaingYourOwnStringsFiles.html>`_, :doc:`tt:"
+"formats/strings`"
 
 #: ../../formats.rst:770
 msgid "PHP strings"
@@ -36551,23 +36638,26 @@ msgid ""
 "PHP translations are usually monolingual, so it is recommended to specify a "
 "base file with (what is most often the) English strings."
 msgstr ""
+"Traducerile PHP sunt, de obicei, monolingve, așa că se recomandă să "
+"specificați un fișier de bază cu (ceea ce este cel mai adesea) șiruri de "
+"caractere în limba engleză."
 
 #: ../../formats.rst:779 ../../formats.rst:850 ../../formats.rst:922
 #: ../../formats.rst:1036 ../../formats.rst:1125
 msgid "Example file:"
-msgstr ""
+msgstr "Exemplu de fișier:"
 
 #: ../../formats.rst:787
 msgid "``lang/*/texts.php``"
-msgstr ""
+msgstr "``lang/*/texts.php``"
 
 #: ../../formats.rst:789 ../../formats.rst:791
 msgid "``lang/en/texts.php``"
-msgstr ""
+msgstr "``lang/en/texts.php``"
 
 #: ../../formats.rst:793
 msgid "`PHP strings`"
-msgstr ""
+msgstr "`PHP șiruri de caractere`"
 
 #: ../../formats.rst:799
 msgid "Laravel PHP strings"
@@ -36575,58 +36665,71 @@ msgstr "Laravel PHP șiruri de caractere"
 
 #: ../../formats.rst:803
 msgid "The Laravel PHP localization files are supported as well with plurals:"
-msgstr ""
+msgstr "Fișierele de localizare Laravel PHP sunt acceptate și cu plural:"
 
 #: ../../formats.rst:810
 msgid ":doc:`tt:formats/php`, `Localization in Laravel`_"
-msgstr ""
+msgstr ":doc:`tt:formats/php`, `Localizarea în Laravel`__"
 
 #: ../../formats.rst:818
 msgid "JSON files"
-msgstr ""
+msgstr "Fișiere JSON"
 
 #: ../../formats.rst:827
 msgid ""
 "Since Weblate 2.16 and with `translate-toolkit`_ at-least 2.2.4, nested "
 "structure JSON files are supported as well."
 msgstr ""
+"Începând cu Weblate 2.16 și cu `translate-toolkit`_ cel puțin 2.2.4, sunt "
+"acceptate și fișierele JSON cu structuri imbricate."
 
 #: ../../formats.rst:832
 msgid ""
 "The structure of JSON file is properly preserved even for complex situations "
 "which were broken in prior releases."
 msgstr ""
+"Structura fișierului JSON este păstrată în mod corespunzător chiar și în "
+"cazul situațiilor complexe, care erau afectate în versiunile anterioare."
 
 #: ../../formats.rst:835
 msgid ""
 "JSON format is used mostly for translating applications implemented in "
 "JavaScript."
 msgstr ""
+"Formatul JSON este utilizat în principal pentru traducerea aplicațiilor "
+"implementate în JavaScript."
 
 #: ../../formats.rst:838
 msgid "Weblate currently supports several variants of JSON translations:"
-msgstr ""
+msgstr "Weblate acceptă în prezent mai multe variante de traduceri JSON:"
 
 #: ../../formats.rst:840
 msgid ""
 "Simple key / value files, used for example by `vue-i18n` or `react-intl`."
 msgstr ""
+"Fișiere simple de chei / valori, utilizate, de exemplu, de `vue-i18n` sau "
+"`react-intl`."
 
 #: ../../formats.rst:841
 msgid "Files with nested keys."
-msgstr ""
+msgstr "Fișiere cu chei imbricate."
 
 #: ../../formats.rst:847
 msgid ""
 "JSON translations are usually monolingual, so it is recommended to specify a "
 "base file with (what is most often the) English strings."
 msgstr ""
+"Traducerile JSON sunt, de obicei, monolingve, astfel încât se recomandă să "
+"specificați un fișier de bază cu (ceea ce este cel mai adesea) șiruri de "
+"caractere în limba engleză."
 
 #: ../../formats.rst:855
 msgid ""
 "Nested files are supported as well (see above for requirements), such a file "
 "can look like:"
 msgstr ""
+"Fișierele imbricate sunt, de asemenea, acceptate (a se vedea mai sus pentru "
+"cerințe), un astfel de fișier poate arăta ca:"
 
 #: ../../formats.rst:862
 msgid ""
@@ -36634,6 +36737,9 @@ msgid ""
 "both handle same type of files. Both preserve existing JSON structure when "
 "translating."
 msgstr ""
+":guilabel:`JSON file` și :guilabel:`JSON nested structure file` pot gestiona "
+"același tip de fișiere. Ambele păstrează structura JSON existentă în timpul "
+"traducerii."
 
 #: ../../formats.rst:866
 msgid ""
@@ -36642,34 +36748,42 @@ msgid ""
 "string into the matching structure. For example ``app.name`` key is inserted "
 "as:"
 msgstr ""
+"Singura diferență între ele este atunci când se adaugă șiruri noi folosind "
+"Weblate. Formatul structurii imbricate analizează cheia nou adăugată și "
+"introduce noul șir în structura corespunzătoare. De exemplu, cheia ``app."
+"name`` este inserată ca:"
 
 #: ../../formats.rst:881
 msgid "``langs/translation-*.json``"
-msgstr ""
+msgstr "``langs/translation-*.json``"
 
 #: ../../formats.rst:883
 msgid "``langs/translation-en.json``"
-msgstr ""
+msgstr "``langs/translation-en.json``"
 
 #: ../../formats.rst:887
 msgid "`JSON nested structure file`"
-msgstr ""
+msgstr "`Fisier cu structură imbricata JSON`"
 
 #: ../../formats.rst:892
 msgid ""
 ":doc:`tt:formats/json`, :ref:`updating-target-files`, :ref:`addon-weblate."
 "json.customize`, :ref:`addon-weblate.cleanup.generic`,"
 msgstr ""
+":doc:`tt:formats/json`, :ref:`updating-target-files`, :ref:`addon-weblate."
+"json.customize`, :ref:`addon-weblate.cleanup.generic`,"
 
 #: ../../formats.rst:900
 msgid "JSON i18next files"
-msgstr ""
+msgstr "Fișiere JSON i18next"
 
 #: ../../formats.rst:907
 msgid ""
 "Since Weblate 2.17 and with `translate-toolkit`_ at-least 2.2.5, i18next "
 "JSON files with plurals are supported as well."
 msgstr ""
+"Începând cu Weblate 2.17 și cu `translate-toolkit`_ cel puțin 2.2.5, sunt "
+"acceptate și fișierele JSON i18next cu plural."
 
 #: ../../formats.rst:910
 msgid ""
@@ -36677,30 +36791,38 @@ msgid ""
 "written in and for JavaScript. Weblate supports its localization files with "
 "features such as plurals."
 msgstr ""
+"`i18next <https://www.i18next.com/>`_ este un cadru de internaționalizare "
+"scris în și pentru JavaScript. Weblate sprijină fișierele sale de localizare "
+"cu caracteristici precum pluralul."
 
 #: ../../formats.rst:914
 msgid ""
 "i18next translations are monolingual, so it is recommended to specify a base "
 "file with (what is most often the) English strings."
 msgstr ""
+"Traducerile i18next sunt monolingve, așa că este recomandat să specificați "
+"un fișier de bază cu (ceea ce este cel mai adesea) șiruri de caractere în "
+"limba engleză."
 
 #: ../../formats.rst:919
 msgid ""
 "Weblate supports the i18next JSON v3 format. The v2 and v1 variants are "
 "mostly compatible, with exception of how plurals are handled."
 msgstr ""
+"Weblate acceptă formatul i18next JSON v3. Variantele v2 și v1 sunt în mare "
+"parte compatibile, cu excepția modului în care sunt tratate pluralurile."
 
 #: ../../formats.rst:930 ../../formats.rst:968
 msgid "``langs/*.json``"
-msgstr ""
+msgstr "``langs/*.json``"
 
 #: ../../formats.rst:932 ../../formats.rst:970
 msgid "``langs/en.json``"
-msgstr ""
+msgstr "``langs/en.json``"
 
 #: ../../formats.rst:936
 msgid "`i18next JSON file`"
-msgstr ""
+msgstr "`i18next fișier JSON`"
 
 #: ../../formats.rst:941
 msgid ""
@@ -36708,26 +36830,34 @@ msgid ""
 "json-format>`_, :ref:`updating-target-files`, :ref:`addon-weblate.json."
 "customize`, :ref:`addon-weblate.cleanup.generic`"
 msgstr ""
+":doc:`tt:formats/json`, `i18next JSON Formatul <https://www.i18next.com/misc/"
+"json-format>`_, :ref:`updating-target-files`, :ref:`addon-weblate.json."
+"customize`, :ref:`addon-weblate.cleanup.generic`"
 
 #: ../../formats.rst:950
 msgid "go-i18n JSON files"
-msgstr ""
+msgstr "fișiere JSON go-i18n"
 
 #: ../../formats.rst:957
 msgid ""
 "go-i18n translations are monolingual, so it is recommended to specify a base "
 "file with (what is most often the) English strings."
 msgstr ""
+"Traducerile go-i18n sunt monolingve, așa că este recomandat să specificați "
+"un fișier de bază cu (ceea ce este cel mai adesea) șiruri de caractere în "
+"limba engleză."
 
 #: ../../formats.rst:962
 msgid ""
 "Weblate supports the go-i18n JSON v1 format, for flat JSON formats please "
 "use :ref:`json`. The v2 format with hash is currently not supported."
 msgstr ""
+"Weblate acceptă formatul go-i18n JSON v1, pentru formate JSON plate vă rugăm "
+"să utilizați :ref:`json`. Formatul v2 cu hash nu este acceptat în prezent."
 
 #: ../../formats.rst:974
 msgid "`go-i18n JSON file`"
-msgstr ""
+msgstr "`go-i18n JSON fișier`"
 
 #: ../../formats.rst:979
 msgid ""
@@ -36735,28 +36865,34 @@ msgid ""
 "ref:`updating-target-files`, :ref:`addon-weblate.json.customize`, :ref:"
 "`addon-weblate.cleanup.generic`,"
 msgstr ""
+":doc:`tt:formats/json`, `go-i18n <https://github.com/nicksnyder/go-i18n>`_, "
+":ref:`updating-target-files`, :ref:`addon-weblate.json.customize`, :ref"
+":`addon-weblate.cleanup.generic`,"
 
 #: ../../formats.rst:988
 msgid "ARB File"
-msgstr ""
+msgstr "Fișier ARB"
 
 #: ../../formats.rst:995
 msgid ""
 "ARB translations are monolingual, so it is recommended to specify a base "
 "file with (what is most often the) English strings."
 msgstr ""
+"Traducerile ARB sunt monolingve, astfel încât se recomandă să specificați un "
+"fișier de bază cu (ceea ce este cel mai adesea) șiruri de caractere în limba "
+"engleză."
 
 #: ../../formats.rst:1001
 msgid "``lib/l10n/intl_*.arb``"
-msgstr ""
+msgstr "``lib/l10n/intl_*.arb``"
 
 #: ../../formats.rst:1003
 msgid "``lib/l10n/intl_en.arb``"
-msgstr ""
+msgstr "``lib/l10n/intl_en.arb``"
 
 #: ../../formats.rst:1007
 msgid "`ARB file`"
-msgstr ""
+msgstr "`ARB fișier`"
 
 #: ../../formats.rst:1012
 msgid ""
@@ -36767,22 +36903,32 @@ msgid ""
 "internationalization>`_, :ref:`updating-target-files`, :ref:`addon-weblate."
 "json.customize`, :ref:`addon-weblate.cleanup.generic`"
 msgstr ""
+":doc:`tt:formats/json`, `Application Resource Bundle Specification "
+"<https://github.com/google/app-resource-bundle/wiki/"
+"ApplicationResourceBundleSpecification>`_, `Internaționalizarea aplicațiilor "
+"Flutter <https://flutter.dev/docs/development/accessibility-and-localization/"
+"internationalization>`_, :ref:`updating-target-files`, :ref:`addon-weblate."
+"json.customize`, :ref:`addon-weblate.cleanup.generic`"
 
 #: ../../formats.rst:1022
 msgid "WebExtension JSON"
-msgstr ""
+msgstr "WebExtensiune JSON"
 
 #: ../../formats.rst:1026
 msgid ""
 "This is supported since Weblate 2.16 and with `translate-toolkit`_ at-least "
 "2.2.4."
 msgstr ""
+"Acest lucru este acceptat începând cu Weblate 2.16 și cu `translate-toolkit`"
+"_ cel puțin 2.2.4."
 
 #: ../../formats.rst:1028
 msgid ""
 "File format used when translating extensions for Mozilla Firefox or Google "
 "Chromium."
 msgstr ""
+"Format de fișier utilizat la traducerea extensiilor pentru Mozilla Firefox "
+"sau Google Chromium."
 
 #: ../../formats.rst:1032
 msgid ""
@@ -36790,18 +36936,21 @@ msgid ""
 "comments, which are not part of JSON specification. Weblate currently does "
 "not support file with comments."
 msgstr ""
+"Deși acest format se numește JSON, specificația sa permite includerea de "
+"comentarii, care nu fac parte din specificația JSON. În prezent, Weblate nu "
+"acceptă fișiere cu comentarii."
 
 #: ../../formats.rst:1044
 msgid "``_locales/*/messages.json``"
-msgstr ""
+msgstr "``_locale/*/messages.json``"
 
 #: ../../formats.rst:1046
 msgid "``_locales/en/messages.json``"
-msgstr ""
+msgstr "``_locale/en/messages.json``"
 
 #: ../../formats.rst:1050
 msgid "`WebExtension JSON file`"
-msgstr ""
+msgstr "`Fișier JSON al extensiei web`"
 
 #: ../../formats.rst:1055
 msgid ""
@@ -36810,10 +36959,14 @@ msgid ""
 "<https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/"
 "Internationalization>`_"
 msgstr ""
+":doc:`tt:formats/json`, `Google chrome.i18n <https://developer.chrome.com/"
+"docs/extensions/reference/i18n/>`_, `Mozilla Extensions Internationalization "
+"<https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/"
+"Internationalization>`_"
 
 #: ../../formats.rst:1062
 msgid ".XML resource files"
-msgstr ""
+msgstr "Fișiere de resurse .XML"
 
 #: ../../formats.rst:1070
 msgid ""
@@ -36822,34 +36975,42 @@ msgid ""
 "identical syntax to .resx <https://lingohub.com/developers/resource-files/"
 "resw-resx-localization>`_."
 msgstr ""
+"Un fișier resursă .XML (.resx) utilizează un format de fișier XML monolingv "
+"utilizat în aplicațiile Microsoft .NET. Este `interschimbabil cu .resw, "
+"atunci când folosește o sintaxă identică cu cea a fișierului .resx "
+"<https://lingohub.com/developers/resource-files/resw-resx-localization>`_."
 
 #: ../../formats.rst:1077
 msgid "``Resources/Language.*.resx``"
-msgstr ""
+msgstr "``Resurse/Limbă.*.resx``"
 
 #: ../../formats.rst:1079
 msgid "``Resources/Language.resx``"
-msgstr ""
+msgstr "``Resurse/Limbă.*.resx``"
 
 #: ../../formats.rst:1083
 msgid "`.NET resource file`"
-msgstr ""
+msgstr "`fișier de resurse .NET`"
 
 #: ../../formats.rst:1088
 msgid ""
 ":doc:`tt:formats/resx`, :ref:`updating-target-files`, :ref:`addon-weblate."
 "cleanup.generic`"
 msgstr ""
+":doc:`tt:formats/resx`, :ref:`updating-target-files`, :ref:`addon-weblate."
+"cleanup.generic`"
 
 #: ../../formats.rst:1095
 msgid "CSV files"
-msgstr ""
+msgstr "Fișiere CSV"
 
 #: ../../formats.rst:1103
 msgid ""
 "CSV files can contain a simple list of source and translation. Weblate "
 "supports the following files:"
 msgstr ""
+"Fișierele CSV pot conține o simplă listă de surse și traduceri. Weblate "
+"acceptă următoarele fișiere:"
 
 #: ../../formats.rst:1106
 msgid ""
@@ -36858,12 +37019,19 @@ msgid ""
 "``developer_comments``). This is the recommended approach, as it is the "
 "least error prone. Choose :guilabel:`CSV file` as a file format."
 msgstr ""
+"Fișiere cu câmpuri care definesc antetul (``location``, ``source``, "
+"``target``, ``ID``, ``fuzzy``, ``context``, ``translator_comments``, "
+"``developer_comments``). Aceasta este abordarea recomandată, deoarece este "
+"cea mai puțin predispusă la erori. Alegeți :guilabel:`FileCSV` ca format de "
+"fișier."
 
 #: ../../formats.rst:1110
 msgid ""
 "Files with two fields—source and translation (in this order). Choose :"
 "guilabel:`Simple CSV file` as a file format."
 msgstr ""
+"Fișiere cu două câmpuri - sursă și traducere (în această ordine). Alegeți "
+":guilabel:`Simple CSV file` ca format de fișier."
 
 #: ../../formats.rst:1112
 msgid ""
@@ -36872,12 +37040,18 @@ msgid ""
 "``translator_comments``, ``developer_comments``. Choose :guilabel:`CSV file` "
 "as a file format."
 msgstr ""
+"Fișiere fără antet cu câmpuri în ordinea definită de `translate-toolkit`_: "
+"``location``, ``source``, ``target``, ``ID``, ``fuzzy``, ``context``, "
+"``translator_comments``, ``developer_comments``. Alegeți ca format de fișier "
+":guilabel:`CSV file`."
 
 #: ../../formats.rst:1115
 msgid ""
 "Remember to define :ref:`component-template` when your files are monolingual "
 "(see :ref:`bimono`)."
 msgstr ""
+"Nu uitați să definiți :ref:`component-template` atunci când fișierele "
+"dumneavoastră sunt monolingve (a se vedea :ref:`bimono`)."
 
 #: ../../formats.rst:1120
 msgid ""
@@ -36886,140 +37060,147 @@ msgid ""
 "results. This is especially true for CSV files with newlines in the values. "
 "As a workaround it is recommended to omit quoting characters."
 msgstr ""
+"În prezent, formatul CSV detectează automat dialectul fișierului CSV. În "
+"unele cazuri, este posibil ca detectarea automată să nu reușească și să "
+"obțineți rezultate mixte. Acest lucru este valabil în special pentru "
+"fișierele CSV cu linii noi în valori. Ca soluție de rezolvare, se recomandă "
+"să omiteți caracterele de ghilimele."
 
 #: ../../formats.rst:1131
 msgid "Typical Weblate :ref:`component` for bilingual CSV"
-msgstr ""
+msgstr "Tipic Weblate :ref:`component` pentru CSV bilingv"
 
 #: ../../formats.rst:1133 ../../formats.rst:1145
 msgid "``locale/*.csv``"
-msgstr ""
+msgstr "``locale/*.csv``"
 
 #: ../../formats.rst:1137 ../../formats.rst:1147 ../../formats.rst:1149
 msgid "``locale/en.csv``"
-msgstr ""
+msgstr "``locale/en.csv``"
 
 #: ../../formats.rst:1139
 msgid "`CSV file`"
-msgstr ""
+msgstr "`File CSV`"
 
 #: ../../formats.rst:1143
 msgid "Typical Weblate :ref:`component` for monolingual CSV"
-msgstr ""
+msgstr "Tipic Weblate :ref:`component` pentru CSV monolingv"
 
 #: ../../formats.rst:1151
 msgid "`Simple CSV file`"
-msgstr ""
+msgstr "`File CSV simplu`"
 
 #: ../../formats.rst:1154
 msgid ":doc:`tt:formats/csv`"
-msgstr ""
+msgstr ":doc:`tt:formate/csv`"
 
 #: ../../formats.rst:1159
 msgid "YAML files"
-msgstr ""
+msgstr "Fișiere YAML"
 
 #: ../../formats.rst:1167
 msgid ""
 "The plain YAML files with string keys and values. Weblate also extract "
 "strings from lists or dictionaries."
 msgstr ""
+"Fișierele YAML simple cu chei și valori de tip șir de caractere. Weblate "
+"extrage, de asemenea, șiruri de caractere din liste sau dicționare."
 
 #: ../../formats.rst:1169
 msgid "Example of a YAML file:"
-msgstr ""
+msgstr "Exemplu de fișier YAML:"
 
 #: ../../formats.rst:1177 ../../formats.rst:1210
 msgid "``translations/messages.*.yml``"
-msgstr ""
+msgstr "``traduceri/messages.*.yml``"
 
 #: ../../formats.rst:1179 ../../formats.rst:1212
 msgid "``translations/messages.en.yml``"
-msgstr ""
+msgstr "``traduceri/messages.en.yml``"
 
 #: ../../formats.rst:1183
 msgid "`YAML file`"
-msgstr ""
+msgstr "`fișier YAML`"
 
 #: ../../formats.rst:1186
 msgid ":doc:`tt:formats/yaml`, :ref:`ryaml`"
-msgstr ""
+msgstr ":doc:`tt:formate/yaml`, :ref:`ryaml`"
 
 #: ../../formats.rst:1192
 msgid "Ruby YAML files"
-msgstr ""
+msgstr "Fișiere Ruby YAML"
 
 #: ../../formats.rst:1200
 msgid "Ruby i18n YAML files with language as root node."
-msgstr ""
+msgstr "Fișiere Ruby i18n YAML cu limba ca nod rădăcină."
 
 #: ../../formats.rst:1202
 msgid "Example Ruby i18n YAML file:"
-msgstr ""
+msgstr "Exemplu de fișier Ruby i18n YAML:"
 
 #: ../../formats.rst:1216
 msgid "`Ruby YAML file`"
-msgstr ""
+msgstr "`Ruby YAML fișier `"
 
 #: ../../formats.rst:1219
 msgid ":doc:`tt:formats/yaml`, :ref:`yaml`"
-msgstr ""
+msgstr ":doc:`tt:formate/yaml`, :ref:`yaml`"
 
 #: ../../formats.rst:1224
 msgid "DTD files"
-msgstr ""
+msgstr "Fișiere DTD"
 
 #: ../../formats.rst:1231
 msgid "Example DTD file:"
-msgstr ""
+msgstr "Exemplu de fișier DTD:"
 
 #: ../../formats.rst:1239
 msgid "``locale/*.dtd``"
-msgstr ""
+msgstr "``locale/*.dtd``"
 
 #: ../../formats.rst:1241
 msgid "``locale/en.dtd``"
-msgstr ""
+msgstr "``locale/en.dtd``"
 
 #: ../../formats.rst:1245
 msgid "`DTD file`"
-msgstr ""
+msgstr "`DTD fișier`"
 
 #: ../../formats.rst:1248
 msgid ":doc:`tt:formats/dtd`"
-msgstr ""
+msgstr ":doc:`tt:formate/dtd`"
 
 #: ../../formats.rst:1253
 msgid "Flat XML files"
-msgstr ""
+msgstr "Fișiere XML plane"
 
 #: ../../formats.rst:1260
 msgid "Example of a flat XML file:"
-msgstr ""
+msgstr "Exemplu de fișier XML plat:"
 
 #: ../../formats.rst:1268
 msgid "``locale/*.xml``"
-msgstr ""
+msgstr "``locale/*.xml``"
 
 #: ../../formats.rst:1270
 msgid "``locale/en.xml``"
-msgstr ""
+msgstr "``locale/en.xml``"
 
 #: ../../formats.rst:1274
 msgid "`Flat XML file`"
-msgstr ""
+msgstr "`Fișier XML plat`"
 
 #: ../../formats.rst:1277
 msgid ":doc:`tt:formats/flatxml`"
-msgstr ""
+msgstr ":doc:`tt:formate/flatxml`"
 
 #: ../../formats.rst:1282
 msgid "Windows RC files"
-msgstr ""
+msgstr "Fișiere Windows RC"
 
 #: ../../formats.rst:1286
 msgid "Support for Windows RC files has been rewritten."
-msgstr ""
+msgstr "Suportul pentru fișierele Windows RC a fost rescris."
 
 #: ../../formats.rst:1290 ../../formats.rst:1405 ../../formats.rst:1422
 #: ../../formats.rst:1446 ../../formats.rst:1463 ../../formats.rst:1503
@@ -37028,26 +37209,28 @@ msgid ""
 "Support for this format is currently in beta, feedback from testing is "
 "welcome."
 msgstr ""
+"Suportul pentru acest format este în prezent în stadiul beta, feedback-ul de "
+"la testare este binevenit."
 
 #: ../../formats.rst:1295
 msgid "Example Windows RC file:"
-msgstr ""
+msgstr "Exemplu de fișier Windows RC:"
 
 #: ../../formats.rst:1303
 msgid "``lang/*.rc``"
-msgstr ""
+msgstr "``lang/*.rc``"
 
 #: ../../formats.rst:1305 ../../formats.rst:1307
 msgid "``lang/en-US.rc``"
-msgstr ""
+msgstr "``lang/en-US.rc``"
 
 #: ../../formats.rst:1309
 msgid "`RC file`"
-msgstr ""
+msgstr "`RC fișier`"
 
 #: ../../formats.rst:1312
 msgid ":doc:`tt:formats/rc`"
-msgstr ""
+msgstr ":doc:`tt:formats/rc`"
 
 #: ../../formats.rst:1317
 msgid "App store metadata files"
@@ -37058,42 +37241,53 @@ msgid ""
 "Metadata used for publishing apps in various app stores can be translated. "
 "Currently the following tools are compatible:"
 msgstr ""
+"Metadatele utilizate pentru publicarea aplicațiilor în diverse magazine de "
+"aplicații pot fi traduse. În prezent, următoarele instrumente sunt "
+"compatibile:"
 
 #: ../../formats.rst:1324
 msgid ""
 "`Triple-T gradle-play-publisher <https://github.com/Triple-T/gradle-play-"
 "publisher>`_"
 msgstr ""
+"`Triplu-T gradle-play-publisher <https://github.com/Triple-T/gradle-play-"
+"publisher>`_"
 
 #: ../../formats.rst:1325
 msgid ""
 "`Fastlane <https://docs.fastlane.tools/getting-started/android/setup/#fetch-"
 "your-app-metadata>`_"
 msgstr ""
+"`Fastlane <https://docs.fastlane.tools/getting-started/android/setup/#fetch-"
+"your-app-metadata>``_"
 
 #: ../../formats.rst:1326
 msgid ""
 "`F-Droid <https://f-droid.org/docs/"
 "All_About_Descriptions_Graphics_and_Screenshots/>`_"
 msgstr ""
+"`F-Droid <https://f-droid.org/docs/"
+"All_About_Descriptions_Graphics_and_Screenshots/>``_"
 
 #: ../../formats.rst:1328
 msgid ""
 "The metadata consists of several textfiles, which Weblate will present as "
 "separate strings to translate."
 msgstr ""
+"Metadatele constau din mai multe fișiere text, pe care Weblate le va "
+"prezenta ca șiruri separate pentru traducere."
 
 #: ../../formats.rst:1334
 msgid "``fastlane/android/metadata/*``"
-msgstr ""
+msgstr "``fastlane/android/metadata/*```"
 
 #: ../../formats.rst:1336 ../../formats.rst:1338
 msgid "``fastlane/android/metadata/en-US``"
-msgstr ""
+msgstr "``fastlane/android/metadata/en-US``"
 
 #: ../../formats.rst:1340
 msgid "`App store metadata files`"
-msgstr ""
+msgstr "`Filele de metadate ale magazinului de aplicații`"
 
 #: ../../formats.rst:1345
 msgid ""
@@ -37101,10 +37295,14 @@ msgid ""
 "changelogs), mark them read-only (see :ref:`custom-checks`). This can be "
 "automated by the :ref:`addon-weblate.flags.bulk`."
 msgstr ""
+"În cazul în care nu doriți să traduceți anumite șiruri de caractere (de "
+"exemplu, changelogs), marcați-le ca fiind doar pentru citire (a se vedea :ref"
+":`custom-checks`). Acest lucru poate fi automatizat de către :ref:`addon-"
+"weblate.flags.bulk`."
 
 #: ../../formats.rst:1352
 msgid "Subtitle files"
-msgstr ""
+msgstr "Fișiere de subtitrare"
 
 #: ../../formats.rst:1356
 msgid "Weblate can translate various subtitle files:"
@@ -37112,35 +37310,35 @@ msgstr "Weblate poate traduce diverse fișiere de subtitrare:"
 
 #: ../../formats.rst:1358
 msgid "SubRip subtitle file (``*.srt``)"
-msgstr ""
+msgstr "Fișier subtitrat SubRip (``*.srt``)"
 
 #: ../../formats.rst:1359
 msgid "MicroDVD subtitle file (``*.sub``)"
-msgstr ""
+msgstr "Fișier de subtitrare MicroDVD (``*.sub``)"
 
 #: ../../formats.rst:1360
 msgid "Advanced Substation Alpha subtitles file (``*.ass``)"
-msgstr ""
+msgstr "Fișier de subtitrări Advanced Substation Alpha (``*.ass``)"
 
 #: ../../formats.rst:1361
 msgid "Substation Alpha subtitle file (``*.ssa``)"
-msgstr ""
+msgstr "Fișier de subtitrare Substation Alpha (``*.ssa``)"
 
 #: ../../formats.rst:1366
 msgid "``path/*.srt``"
-msgstr ""
+msgstr "``path/*.srt``"
 
 #: ../../formats.rst:1368 ../../formats.rst:1370
 msgid "``path/en.srt``"
-msgstr ""
+msgstr "``path/en.srt``"
 
 #: ../../formats.rst:1372
 msgid "`SubRip subtitle file`"
-msgstr ""
+msgstr "`SubRip fișier de subtitrare`"
 
 #: ../../formats.rst:1377
 msgid ":doc:`tt:formats/subtitles`"
-msgstr ""
+msgstr ":doc:`tt:formate/subtitluri`"
 
 #: ../../formats.rst:1382 ../../user/files.rst:37
 msgid "Excel Open XML"
@@ -37148,7 +37346,7 @@ msgstr "Excel Deschidere XML"
 
 #: ../../formats.rst:1386
 msgid "Excel Open XML (.xlsx) files can be imported and exported."
-msgstr ""
+msgstr "Fișierele Excel Open XML (.xlsx) pot fi importate și exportate."
 
 #: ../../formats.rst:1388
 msgid ""
@@ -37160,20 +37358,29 @@ msgid ""
 "string). If you use the XLSX download for exporting the translations into an "
 "Excel workbook, you already get a file with the correct file format."
 msgstr ""
+"Atunci când încărcați fișiere XLSX pentru traducere, rețineți că este luată "
+"în considerare doar foaia de lucru activă și că trebuie să existe cel puțin "
+"o coloană numită ``source`` (care conține șirul sursă) și o coloană numită "
+"``target`` (care conține traducerea). În plus, trebuie să existe coloana "
+"numită ``context`` (care conține calea de context a șirului de traducere). "
+"Dacă folosiți descărcarea XLSX pentru a exporta traducerile într-un registru "
+"de lucru Excel, obțineți deja un fișier cu formatul de fișier corect."
 
 #: ../../formats.rst:1399
 msgid "HTML files"
-msgstr ""
+msgstr "Fișiere HTML"
 
 #: ../../formats.rst:1407
 msgid ""
 "The translatable content is extracted from the HTML files and offered for "
 "the translation."
 msgstr ""
+"Conținutul traductibil este extras din fișierele HTML și oferit pentru "
+"traducere."
 
 #: ../../formats.rst:1411
 msgid ":doc:`tt:formats/html`"
-msgstr ""
+msgstr ":doc:`tt:formate/html`"
 
 #: ../../formats.rst:1416
 msgid "Text files"
@@ -37184,6 +37391,9 @@ msgid ""
 "The translatable content is extracted from the plain text files and offered "
 "for the translation. Each paragraph is translated as a separate string."
 msgstr ""
+"Conținutul care poate fi tradus este extras din fișierele de text simplu și "
+"oferit pentru traducere. Fiecare paragraf este tradus ca un șir de caractere "
+"separat."
 
 #: ../../formats.rst:1427
 msgid "There are three flavors of this format:"
@@ -37203,31 +37413,35 @@ msgstr "Fișier text MediaWiki"
 
 #: ../../formats.rst:1435
 msgid ":doc:`tt:formats/text`"
-msgstr ""
+msgstr ":doc:`tt:formate/text`"
 
 #: ../../formats.rst:1440
 msgid "OpenDocument Format"
-msgstr ""
+msgstr "Formatul OpenDocument"
 
 #: ../../formats.rst:1448
 msgid ""
 "The translatable content is extracted from the OpenDocument files and "
 "offered for the translation."
 msgstr ""
+"Conținutul traductibil este extras din fișierele OpenDocument și oferit "
+"pentru traducere."
 
 #: ../../formats.rst:1452
 msgid ":doc:`tt:formats/odf`"
-msgstr ""
+msgstr ":doc:`tt:formate/odf`"
 
 #: ../../formats.rst:1457
 msgid "IDML Format"
-msgstr ""
+msgstr "Formatul IDML"
 
 #: ../../formats.rst:1465
 msgid ""
 "The translatable content is extracted from the Adobe InDesign Markup "
 "Language files and offered for the translation."
 msgstr ""
+"Conținutul traductibil este extras din fișierele Adobe InDesign Markup "
+"Language și oferit pentru traducere."
 
 #: ../../formats.rst:1470
 #, fuzzy
@@ -37237,11 +37451,11 @@ msgstr "Limbi secundare"
 
 #: ../../formats.rst:1474
 msgid "TBX is an XML format for the exchange of terminology data."
-msgstr ""
+msgstr "TBX este un format XML pentru schimbul de date terminologice."
 
 #: ../../formats.rst:1479
 msgid "``tbx/*.tbx``"
-msgstr ""
+msgstr "``tbx/*.tbx``"
 
 #: ../../formats.rst:1485
 #, fuzzy
@@ -37254,6 +37468,8 @@ msgid ""
 "`TBX on Wikipedia <https://en.wikipedia.org/wiki/TermBase_eXchange>`_, :doc:"
 "`tt:formats/tbx`, :ref:`glossary`"
 msgstr ""
+"`TBX pe Wikipedia <https://en.wikipedia.org/wiki/TermBase_eXchange>``_, "
+":doc:`tt:formats/tbx`, :ref:`glossary`"
 
 #: ../../formats.rst:1497
 #, fuzzy
@@ -37266,16 +37482,20 @@ msgid ""
 "XML based format used by Apple which is able to store plural forms of a "
 "string."
 msgstr ""
+"Format bazat pe XML utilizat de Apple, care poate stoca mai multe forme ale "
+"unui șir de caractere."
 
 #: ../../formats.rst:1510
 msgid "``Resources/*.lproj/Localizable.stringsdict``"
-msgstr ""
+msgstr "``Resurse/*.lproj/Localizable.stringsdict``"
 
 #: ../../formats.rst:1512
 msgid ""
 "``Resources/en.lproj/Localizable.stringsdict`` or ``Resources/Base.lproj/"
 "Localizable.stringsdict``"
 msgstr ""
+"``Resurse/en.lproj/Localizable.stringsdict`` sau ``Resurse/Base.lproj/"
+"Localizable.stringsdict``"
 
 #: ../../formats.rst:1517
 #, fuzzy
@@ -37289,6 +37509,9 @@ msgid ""
 "archive/documentation/MacOSX/Conceptual/BPInternational/"
 "StringsdictFileFormat/StringsdictFileFormat.html>`_,"
 msgstr ""
+":ref:`apple`, `Stringsdict Format fișier <https://developer.apple.com/"
+"library/archive/documentation/MacOSX/Conceptual/BPInternational/"
+"StringsdictFileFormat/StringsdictFileFormat.html>``_,"
 
 #: ../../formats.rst:1530
 #, fuzzy
@@ -37302,14 +37525,17 @@ msgid ""
 "a simple string in one language can map to a complex multi-variant "
 "translation in another language."
 msgstr ""
+"Fluent este un format de text monolingv care se concentrează pe localizarea "
+"asimetrică: un simplu șir de caractere într-o limbă poate fi asociat cu o "
+"traducere complexă cu mai multe variante în altă limbă."
 
 #: ../../formats.rst:1545
 msgid "``locales/*/messages.ftl``"
-msgstr ""
+msgstr "``locale/*/messages.ftl``"
 
 #: ../../formats.rst:1547
 msgid "``locales/en/messages.ftl``"
-msgstr ""
+msgstr "``locale/en/messages.ftl``"
 
 #: ../../formats.rst:1551
 #, fuzzy
@@ -37319,7 +37545,7 @@ msgstr "Fișier de fonturi"
 
 #: ../../formats.rst:1558
 msgid "`Project Fluent website <https://projectfluent.org/>`_"
-msgstr ""
+msgstr "`Proiect Fluent website <https://projectfluent.org/>``_"
 
 #: ../../formats.rst:1562
 msgid "Supporting other formats"
@@ -37332,32 +37558,39 @@ msgid ""
 "cases some thin layer is needed in Weblate to hide differences in behavior "
 "of different `translate-toolkit`_ storages."
 msgstr ""
+"Majoritatea formatelor acceptate de `translate-toolkit`_ care acceptă "
+"serializarea pot fi acceptate cu ușurință, dar nu au fost (încă) testate. În "
+"cele mai multe cazuri este nevoie de un strat subțire în Weblate pentru a "
+"ascunde diferențele de comportament ale diferitelor stocări `translate-"
+"toolkit`_."
 
 #: ../../formats.rst:1569
 msgid ""
 "To add support for a new format, the preferred approach is to first "
 "implement support for it in the `translate-toolkit`_."
 msgstr ""
+"Pentru a adăuga suport pentru un nou format, abordarea preferată este de a "
+"implementa mai întâi suportul pentru acesta în `translate-toolkit`_."
 
 #: ../../toc-user.rst:1 ../../latexindex.rst:7
 msgid "User docs"
-msgstr ""
+msgstr "Documente de utilizator"
 
 #: ../../toc-admin.rst:1 ../../latexindex.rst:12
 msgid "Administrator docs"
-msgstr ""
+msgstr "Documente de administrator"
 
 #: ../../toc-devel.rst:1
 msgid "Application developer guide"
-msgstr ""
+msgstr "Ghidul dezvoltatorului de aplicații"
 
 #: ../../toc-contrib.rst:1 ../../latexindex.rst:17
 msgid "Contributor docs"
-msgstr ""
+msgstr "Documente pentru colaboratori"
 
 #: ../../toc-changes.rst:1
 msgid "Change history"
-msgstr ""
+msgstr "Istoricul modificărilor"
 
 #: ../../../README.rst:6
 msgid ""
@@ -37365,10 +37598,12 @@ msgid ""
 "system, used by over 2500 libre projects and companies in more than 165 "
 "countries.**"
 msgstr ""
+"**Weblate este un sistem de localizare continuă bazat pe web, utilizat de "
+"peste 2500 de proiecte libere și companii din peste 165 de țări.**"
 
 #: ../../../README.rst:9
 msgid "Install it, or use the Hosted Weblate service at `weblate.org`_."
-msgstr ""
+msgstr "Instalați-l sau utilizați serviciul Weblate găzduit la `weblate.org`_."
 
 #: ../../../README.rst:None
 #, fuzzy
@@ -37382,7 +37617,7 @@ msgstr "Status traducere"
 
 #: ../../../README.rst:None
 msgid "CII Best Practices"
-msgstr ""
+msgstr "Cele mai bune practici CII"
 
 #: ../../../README.rst:34
 #, fuzzy
@@ -37396,6 +37631,9 @@ msgid ""
 "hosting offerings. Check out https://weblate.org/hosting/ for more "
 "information."
 msgstr ""
+"Weblate este un software liber cu suport profesional opțional și oferte de "
+"găzduire în cloud. Pentru mai multe informații, consultați https://weblate."
+"org/hosting/."
 
 #: ../../../README.rst:40
 msgid "Documentation"
@@ -37406,40 +37644,44 @@ msgid ""
 "To be found in the ``docs`` directory of the source code, or viewed online "
 "on https://docs.weblate.org/"
 msgstr ""
+"Se găsește în directorul ``docs`` al codului sursă, sau poate fi vizualizat "
+"online pe https://docs.weblate.org/"
 
 #: ../../../README.rst:48
 msgid "Setup instructions:"
-msgstr ""
+msgstr "Instrucțiuni de instalare:"
 
 #: ../../../README.rst:50
 msgid "https://docs.weblate.org/en/latest/admin/install.html"
-msgstr ""
+msgstr "https://docs.weblate.org/en/latest/admin/install.html"
 
 #: ../../../README.rst:53
 msgid "Bugs"
-msgstr ""
+msgstr "Bug-uri"
 
 #: ../../../README.rst:55
 msgid "Please report feature requests and problems to:"
-msgstr ""
+msgstr "Vă rugăm să raportați cererile de caracteristici și problemele la:"
 
 #: ../../../README.rst:57
 msgid "https://github.com/WeblateOrg/weblate/issues"
-msgstr ""
+msgstr "https://github.com/WeblateOrg/weblate/issues"
 
 #: ../../../README.rst:62
 msgid "Copyright © 2012–2021 Michal Čihař michal@cihar.com"
-msgstr ""
+msgstr "Copyright © 2012–2021 Michal Čihař michal@cihar.com"
 
 #: ../../../README.rst:73
 msgid ""
 "You should have received a copy of the GNU General Public License along with "
 "this program. If not, see https://www.gnu.org/licenses/."
 msgstr ""
+"Ar fi trebuit să primiți o copie a Licenței Publice Generale GNU împreună cu "
+"acest program. În caz contrar, consultați https://www.gnu.org/licenses/."
 
 #: ../../index.rst:16
 msgid "Indices and tables"
-msgstr ""
+msgstr "Indici și tabele"
 
 #: ../../index.rst:18
 msgid ":ref:`genindex`"
@@ -37455,15 +37697,15 @@ msgstr ""
 
 #: ../../latexindex.rst:4
 msgid "The Weblate Manual"
-msgstr ""
+msgstr "Manualul Weblate"
 
 #: ../../latexindex.rst:22
 msgid "Change History"
-msgstr ""
+msgstr "Istoria modificărilor"
 
 #: ../../legal.rst:2
 msgid "Legal documents"
-msgstr ""
+msgstr "Documente juridice"
 
 #: ../../legal.rst:6
 msgid ""
@@ -37473,10 +37715,16 @@ msgid ""
 "your responsibility to ensure that your use of Weblate complies with all "
 "applicable laws and regulations."
 msgstr ""
+"În acest document veți găsi diverse informații juridice de care ați putea "
+"avea nevoie pentru a opera Weblate în anumite jurisdicții legale. Acestea "
+"sunt furnizate ca mijloc de îndrumare, fără nicio garanție de acuratețe sau "
+"corectitudine. Este în cele din urmă responsabilitatea dumneavoastră să vă "
+"asigurați că utilizarea Weblate respectă toate legile și reglementările "
+"aplicabile."
 
 #: ../../legal.rst:13
 msgid "ITAR and other export controls"
-msgstr ""
+msgstr "ITAR și alte controale la export"
 
 #: ../../legal.rst:15
 msgid ""
@@ -37484,6 +37732,10 @@ msgid ""
 "such, it can be used to store ITAR or other export-controlled information, "
 "however, end users are responsible for ensuring such compliance."
 msgstr ""
+"Weblate poate fi rulat în cadrul propriului centru de date sau al unui cloud "
+"privat virtual. Ca atare, poate fi utilizat pentru a stoca informații ITAR "
+"sau alte informații controlate la export; cu toate acestea, utilizatorii "
+"finali sunt responsabili pentru asigurarea acestei conformități."
 
 #: ../../legal.rst:19
 msgid ""
@@ -37491,10 +37743,13 @@ msgid ""
 "other export controls, and does not currently offer the ability to restrict "
 "translations access by country."
 msgstr ""
+"Serviciul Hosted Weblate nu a fost auditat în ceea ce privește conformitatea "
+"cu ITAR sau alte controale la export și nu oferă în prezent posibilitatea de "
+"a restricționa accesul la traduceri în funcție de țară."
 
 #: ../../legal.rst:24
 msgid "US encryption controls"
-msgstr ""
+msgstr "Controale de criptare în SUA"
 
 #: ../../legal.rst:26
 msgid ""
@@ -37502,6 +37757,10 @@ msgid ""
 "controls as it uses third party components utilizing cryptography for "
 "authentication, data-integrity and -confidentiality."
 msgstr ""
+"Weblate nu conține niciun cod criptografic, dar ar putea face obiectul "
+"controalelor la export, deoarece utilizează componente ale unor terțe părți "
+"care folosesc criptografia pentru autentificare, integritatea și "
+"confidențialitatea datelor."
 
 #: ../../legal.rst:30
 msgid ""
@@ -37510,50 +37769,59 @@ msgid ""
 "`Encryption items NOT Subject to the EAR <https://www.bis.doc.gov/index.php/"
 "policy-guidance/encryption/1-encryption-items-not-subject-to-the-ear>`_)."
 msgstr ""
+"Cel mai probabil, Weblate ar fi clasificat ca ECCN 5D002 sau 5D992 și, ca "
+"software liber disponibil publicului, nu ar trebui să fie supus EAR (a se "
+"vedea `Encryption items NOT Subject to the EAR <https://www.bis.doc.gov/index"
+".php/policy-guidance/encryption/1-encryption-items-not-subject-to-the-"
+"ear>`_)."
 
 #: ../../legal.rst:35
 msgid ""
 "Software components used by Weblate (listing only components related to "
 "cryptographic function):"
 msgstr ""
+"Componente software utilizate de Weblate (enumerând numai componentele "
+"legate de funcția criptografică):"
 
 #: ../../legal.rst:38
 msgid "`Python <https://www.python.org/>`_"
-msgstr ""
+msgstr "`Python <https://www.python.org/>`_"
 
 #: ../../legal.rst:39
 msgid ""
 "See https://wiki.python.org/moin/"
 "PythonSoftwareFoundationLicenseFaq#Is_Python_subject_to_export_laws.3F"
 msgstr ""
+"A se vedea https://wiki.python.org/moin/"
+"PythonSoftwareFoundationLicenseFaq#Is_Python_subject_to_export_laws.3F"
 
 #: ../../legal.rst:40
 msgid "`GnuPG <https://www.gnupg.org/>`_"
-msgstr ""
+msgstr "`GnuPG <https://www.gnupg.org/>`_"
 
 #: ../../legal.rst:41 ../../legal.rst:43
 msgid "Optionally used by Weblate"
-msgstr ""
+msgstr "Utilizat opțional de Weblate"
 
 #: ../../legal.rst:42
 msgid "`Git <https://git-scm.com/>`_"
-msgstr ""
+msgstr "`Git <https://git-scm.com/>`_"
 
 #: ../../legal.rst:44
 msgid "`curl <https://curl.se/>`_"
-msgstr ""
+msgstr "`curl <https://curl.se/>`_"
 
 #: ../../legal.rst:45
 msgid "Used by Git"
-msgstr ""
+msgstr "Folosit de Git"
 
 #: ../../legal.rst:47
 msgid "`OpenSSL <https://www.openssl.org/>`_"
-msgstr ""
+msgstr "`OpenSSL <https://www.openssl.org/>`_"
 
 #: ../../legal.rst:47
 msgid "Used by Python and cURL"
-msgstr ""
+msgstr "Folosit de Python și cURL"
 
 #: ../../legal.rst:49
 msgid ""
@@ -37561,27 +37829,36 @@ msgid ""
 "the third party components it interacts with, but in any decent setup it "
 "will include all export restricted cryptographic functions:"
 msgstr ""
+"Puterea cheilor de criptare depinde de configurația Weblate și de "
+"componentele terțe cu care interacționează, dar în orice configurație "
+"decentă va include toate funcțiile criptografice restricționate la export:"
 
 #: ../../legal.rst:53
 msgid "In excess of 56 bits for a symmetric algorithm"
-msgstr ""
+msgstr "Peste 56 de biți pentru un algoritm simetric"
 
 #: ../../legal.rst:54
 msgid ""
 "Factorisation of integers in excess of 512 bits for an asymmetric algorithm"
 msgstr ""
+"Factorizarea numerelor întregi mai mari de 512 biți pentru un algoritm "
+"asimetric"
 
 #: ../../legal.rst:55
 msgid ""
 "Computation of discrete logarithms in a multiplicative group of a finite "
 "field of size greater than 512 bits for an asymmetric algorithm"
 msgstr ""
+"Calculul logaritmilor discreți într-un grup multiplicativ al unui câmp finit "
+"de dimensiune mai mare de 512 biți pentru un algoritm asimetric"
 
 #: ../../legal.rst:56
 msgid ""
 "Discrete logarithms in a group different than above in excess of 112 bits "
 "for an asymmetric algorithm"
 msgstr ""
+"Logaritmi discreți într-o grupă diferită de cea de mai sus care depășesc 112 "
+"biți pentru un algoritm asimetric"
 
 #: ../../legal.rst:58
 msgid ""
@@ -37589,30 +37866,38 @@ msgid ""
 "configured in a way where no cryptography code would be involved. The "
 "cryptographic features include:"
 msgstr ""
+"Weblate nu are nicio funcție de activare criptografică, dar poate fi "
+"configurat astfel încât să nu fie implicat niciun cod criptografic. "
+"Caracteristicile criptografice includ:"
 
 #: ../../legal.rst:62
 msgid "Accessing remote servers using secure protocols (HTTPS)"
 msgstr ""
+"Accesarea serverelor la distanță utilizând protocoale securizate (HTTPS)"
 
 #: ../../legal.rst:63
 msgid "Generating signatures for code commits (PGP)"
-msgstr ""
+msgstr "Generarea de semnături pentru angajările de cod (PGP)"
 
 #: ../../legal.rst:67
 msgid ""
 "`Export Controls (EAR) on Open Source Software <https://www.magicsplat.com/"
 "blog/ear/>`_"
 msgstr ""
+"`Controale de export (EAR) pe software open source <https://www.magicsplat."
+"com/blog/ear/>`_"
 
 #: ../../python.rst:8
 msgid "Weblate's Python API"
-msgstr ""
+msgstr "API-ul Python al Weblate"
 
 #: ../../python.rst:13
 msgid ""
 "The Python API is shipped separately, you need to install the :ref:`wlc`: "
 "(wlc) to have it."
 msgstr ""
+"API-ul Python este livrat separat, trebuie să instalați :ref:`wlc`: (wlc) "
+"pentru a o avea."
 
 #: ../../python.rst:21
 msgid ":mod:`wlc`"
@@ -37620,19 +37905,19 @@ msgstr ""
 
 #: ../../python.rst:27
 msgid ":exc:`WeblateException`"
-msgstr ""
+msgstr ":exc:`Excepție de întârziere`"
 
 #: ../../python.rst:31
 msgid "Base class for all exceptions."
-msgstr ""
+msgstr "Clasa de bază pentru toate excepțiile."
 
 #: ../../python.rst:34
 msgid ":class:`Weblate`"
-msgstr ""
+msgstr ":class:`Weblate`"
 
 #: ../../python.rst:38
 msgid "User key"
-msgstr ""
+msgstr "Cheie de utilizator"
 
 #: ../../python.rst:40
 msgid "API server URL, if not specified default is used"
