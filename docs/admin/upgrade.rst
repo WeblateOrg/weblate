@@ -244,6 +244,15 @@ There are no additional upgrade steps needed in this release.
 
 .. seealso:: :ref:`generic-upgrade-instructions`
 
+Upgrade from 4.8 to 4.9
+~~~~~~~~~~~~~~~~~~~~~~~
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+* There is a change in storing metrics, the upgrade can take log time on larger sites.
+
+.. seealso:: :ref:`generic-upgrade-instructions`
+
 .. _py3:
 
 Upgrading from Python 2 to Python 3
