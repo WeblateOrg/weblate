@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-09-08 12:00+0200\n"
-"PO-Revision-Date: 2021-10-02 11:37+0000\n"
+"PO-Revision-Date: 2021-10-04 07:19+0000\n"
 "Last-Translator: JY3 <GeeyunJY3@gmail.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "weblate/documentation/zh_Hans/>\n"
@@ -106,7 +106,7 @@ msgid ""
 "have to set up all the permissions using :ref:`custom-acl`."
 msgstr ""
 ":ref:`用户管理<manage-acl>` 功能将被禁用；默认情况下，禁止所有用户对项目执行任何操作。您必须使用 :ref:`custom-acl` "
-"设置所有权限。"
+"来设置所有权限。"
 
 #: ../../admin/access.rst:46
 msgid ""
@@ -114,7 +114,7 @@ msgid ""
 "the configuration (:guilabel:`Manage` ↓ :guilabel:`Settings`) of each "
 "respective project."
 msgstr ""
-"可以在每个项目的配置（:guilabel:`管理` ↓:guilabel:`设置`）的 :guilabel:`Access`选项卡中更改 "
+"可以在每个项目的配置（ :guilabel:`管理` ↓ :guilabel:`设置`）的 :guilabel:`Access`选项卡中更改 "
 ":guilabel:`访问控制`。"
 
 #: ../../admin/access.rst:52
@@ -138,7 +138,7 @@ msgid ""
 "`Protected`, and `Private` projects can be redefined by Weblate instance "
 "administrator using :ref:`custom settings <custom-acl>`."
 msgstr ""
-"Weblate 实例管理员可通过 :ref:`custom settings <custom-acl>`重新定义 `公开` 、 `受保护` 和 `私有` "
+"Weblate 实例管理员可通过 :ref:`自定义设置 <custom-acl>` 重新定义 `公开` 、 `受保护` 和 `私有` "
 "项目中默认提供的用户权限组合。"
 
 #: ../../admin/access.rst:69
@@ -185,7 +185,7 @@ msgstr "包括项目可用的所有权限。"
 
 #: ../../admin/access.rst:93
 msgid "Review (only if :ref:`review workflow <reviews>` is turned on)"
-msgstr "复查（仅当 :ref:`review workflow <reviews>`开启时）"
+msgstr "复查（只有在 :ref:`review workflow <reviews>` 开启的情况下才会出现）"
 
 #: ../../admin/access.rst:93
 msgid "Can approve translations during review."
@@ -284,9 +284,8 @@ msgid ""
 "``Project@Group``, also displayed in the Django admin interface this way. "
 "Although they can’t be edited from Weblate user-interface."
 msgstr ""
-"对于非“自定义”访问控制，实际上为每个项目定义了上述每个群组的实例。 这些组的实"
-"际名称将是“Project@Group”，也以这种方式显示在 Django 管理界面中。 尽管无法从 "
-"Weblate 用户界面编辑它们。"
+"对于非 `自定义` 访问控制，每个项目实际上都定义了上述每个群组的实例。 这些组的实际名称将是``Project@Group``，也以这种方式显示在 "
+"Django 管理界面中。 尽管无法从 Weblate 用户界面编辑它们。"
 
 #: ../../admin/access.rst:136
 msgid ""
@@ -332,7 +331,9 @@ msgstr "可以重新发送用户邀请电子邮件（将使之前发送的所有
 msgid ""
 "The same kind of invitations are available site-wide from the :ref:"
 "`management interface <management-interface>` on the :guilabel:`Users` tab."
-msgstr "同样的邀请在站点范围内从以下的站点是可用的：在:guilabel:'Users'下的' 管理界面<管理界面>'。"
+msgstr ""
+"通过 :guilabel:`Users` 选项卡下的 :ref:`management interface <management-interface>`"
+" 获取可在站点范围内使用的相同类型的邀请。"
 
 #: ../../admin/access.rst:168
 msgid "Blocking users"
@@ -349,15 +350,15 @@ msgstr ""
 
 #: ../../admin/access.rst:177
 msgid "Per-project permission management"
-msgstr "基于权限管理"
+msgstr "每个项目的权限管理"
 
 #: ../../admin/access.rst:179
 msgid ""
 "You can set your projects to `Protected` or `Private`, and :ref:`manage "
 "users <manage-acl>` per-project in the Weblate user interface."
 msgstr ""
-"你可以将你的项目设置为 `Protected` 或 `Private` ，并在 Weblate 的界面上设置每"
-"个项目的 :ref:`manage users <manage-acl>` 。"
+"你可以将你的项目设置为 `Protected` 或 `Private` ，并在 Weblate 的界面上进行每个项目的 :ref:`用户管理 "
+"<manage-acl>`。"
 
 #: ../../admin/access.rst:182
 msgid ""
@@ -376,7 +377,7 @@ msgid ""
 "superuser privilege. In order to do so, add them to the `Administration` "
 "group of the project."
 msgstr ""
-"通过 Weblate 用户界面管理权限的一个主要好处是，您可以将其委托给其他用户，而无需授予他们超级用户权限。 为此，将它们添加到项目的 "
+"通过 Weblate 用户界面管理权限的一个主要好处是，您可以将其委托给其他用户，而无需授予他们超级用户权限。为此，请将 TA 们添加到项目的 "
 "`Administration`组中。"
 
 #: ../../admin/access.rst:196
@@ -437,19 +438,19 @@ msgstr "要一次性管理整个实例的权限，请将用户添加到适当的
 msgid ""
 "`Users` (this is done by default by the :ref:`automatic group assignment "
 "<autogroup>`)."
-msgstr "`Users` （控件默认执行此操作 :ref:`automatic group assignment <autogroup>`）。"
+msgstr "`Users` （默认情况下，这是由 :ref:`automatic group assignment <autogroup>` 完成的）。"
 
 #: ../../admin/access.rst:229
 msgid ""
 "`Reviewers` (if you are using :ref:`review workflow <reviews>` with "
 "dedicated reviewers)."
-msgstr "`Reviewers` （如果您使用 :ref:`review workflow <reviews>`，那么将会有专门的评审人员）。"
+msgstr "`Reviewers` （如果您有专门的评审人员和 :ref:`review workflow <reviews>`）。"
 
 #: ../../admin/access.rst:231
 msgid ""
 "`Managers` (if you want to delegate most of the management operations to "
 "somebody else)."
-msgstr "`管理者`（如果您想把大部分的管理操作委托给别人）。"
+msgstr "`管理者` （如果您想把大部分的管理操作委托给别人）。"
 
 #: ../../admin/access.rst:234
 msgid ""
@@ -473,9 +474,8 @@ msgid ""
 "the :guilabel:`Project selection` (e.g. :guilabel:`All projects` or :"
 "guilabel:`All public projects`)."
 msgstr ""
-"您还可以定义一些新的自定义组。如果希望继续在站点范围内管理这些组的权限，请为"
-"gui标签选择一个合适的值：`Project selection` (e.g. :guilabel:`All projects` "
-"or :guilabel:`All public projects`)."
+"您还可以定义一些新的自定义组。如果希望继续在站点范围内管理这些组的权限，请为 :guilabel:`Project selection` "
+"选择一个合适的值（如 :guilabel:`All projects` 或 :guilabel:`All public projects`）。"
 
 #: ../../admin/access.rst:248
 msgid "Custom permissions for languages, components or projects"
@@ -749,7 +749,7 @@ msgstr "该组的成员将具有以下权限（假设是默认的角色设置）
 msgid ""
 "General (browsing) access to the whole project ``foo`` including both "
 "components in it: ``foo/bar`` and ``foo/baz``."
-msgstr "对整个项目``foo``的一般（浏览）访问，包括其中的两个组件：``foo/bar``和``foo/baz``。"
+msgstr "对整个项目 ``foo`` 的一般（浏览）访问，包括其中的两个组件：``foo/bar`` 和 ``foo/baz``。"
 
 #: ../../admin/access.rst:406
 msgid "Review strings in ``foo/bar`` Spanish translation (not elsewhere)."
@@ -791,8 +791,8 @@ msgid ""
 "upgrading from one Weblate version to another. If you want to turn it off, "
 "set the regular expression to ``^$`` (which won’t match anything)."
 msgstr ""
-"从一个 Weblate 版本升级到另一个版本时z总是会重新创建对 `Users` 和 `Viewers` "
-"的用户组分配。如果你想关闭它，将正则表达式设置为 ``^$``（不匹配任何内容）。"
+"从一个 Weblate 版本升级到另一个版本时总是会重新创建对 `Users` 和 `Viewers` 的用户组分配。如果你想关闭它，将正则表达式设置为 "
+"``^$`` （不匹配任何内容）。"
 
 #: ../../admin/access.rst:436
 msgid ""
@@ -822,7 +822,7 @@ msgstr ""
 
 #: ../../admin/access.rst:452
 msgid "List of privileges"
-msgstr "特权列表"
+msgstr "权限列表"
 
 #: ../../admin/access.rst:458
 msgid "Billing (see :ref:`billing`)"
@@ -2550,11 +2550,11 @@ msgstr "JSON 缩进风格"
 
 #: ../../admin/addons.rst:615
 msgid "``spaces`` -- Spaces"
-msgstr ""
+msgstr "``spaces`` -- 空格"
 
 #: ../../admin/addons.rst:617
 msgid "``tabs`` -- Tabs"
-msgstr "``tabs`` -- 标签页"
+msgstr "``tabs`` -- 制表符"
 
 #: ../../admin/addons.rst:621
 msgid ""
@@ -3637,11 +3637,11 @@ msgid ""
 "sign in using a local admin account, if you have created it (e.g. by using :"
 "djadmin:`createadmin`)."
 msgstr ""
-"你应当从设置的:setting:`django:AUTHENTICATION_BACKENDS`部分移除"
-"``'social_core.backends.email.EmailAuth'``，否则用户不能够在Weblate中设置他们"
-"的密码，并使用它进行身份验证。为了生成权限和方便匿名用户，仍需保留``'weblate."
-"accounts.auth.WeblateUserBackend'``。它还允许你使用一个本地管理帐户登录，如果"
-"你已经创建了它 （如，通过使用:djadmin:`createadmin`）。"
+"你应当从设置的 :setting:`django:AUTHENTICATION_BACKENDS` 部分移除 ``'social_core."
+"backends.email.EmailAuth'`` ，否则用户不能够在 Weblate "
+"中设置他们的密码，并使用它进行身份验证。为了生成权限和方便匿名用户，仍需保留 ``'weblate.accounts.auth."
+"WeblateUserBackend'`` 。它还允许你使用一个本地管理帐户登录，如果你已经创建了它 （如通过使用 "
+":djadmin:`createadmin`）。"
 
 #: ../../admin/auth.rst:536
 msgid "Using bind password"
@@ -3847,7 +3847,7 @@ msgstr "Weblate 将连接到云服务，并获取备份的访问信息。"
 
 #: ../../admin/backup.rst:56
 msgid "Turn on the new backup configuration from the :guilabel:`Backups` tab."
-msgstr "从 :guilabel:`Backups` 标签开启新的备份配置。"
+msgstr "在 :guilabel:`Backups` 选项卡下开启新的备份配置。"
 
 #: ../../admin/backup.rst:57
 msgid ""
@@ -5440,8 +5440,8 @@ msgid ""
 "To install custom checks, provide a fully-qualified path to the Python class "
 "in the :setting:`CHECK_LIST`, see :ref:`custom-check-modules`."
 msgstr ""
-"为了安装定制的检查，在 :setting:`CHECK_LIST` 中为 Python 类提供完全合格的路"
-"径，请参见 :ref:`custom-check-modules` 。"
+"为了安装定制的检查，在 :setting:`CHECK_LIST` 中为 Python 类提供完全合格的路径，请参见 :ref:`custom-"
+"check-modules`。"
 
 #: ../../admin/checks.rst:342
 msgid "Checking translation text does not contain \"foo\""
@@ -8394,8 +8394,8 @@ msgid ""
 "to control Weblate remotely. You can also achieve this using any HTTP client "
 "instead of wlc, e.g. curl, see :ref:`api`."
 msgstr ""
-"例子使用了 :ref:`wlc` ，这需要配置 （API 密钥）来远程控制 Weblate 。可以通过"
-"使用 HTTP 客户端代替 wlc ，例如 curl 来实现，请参见 :ref:`api` 。"
+"例子使用了 :ref:`wlc`，这需要配置（API 密钥）来远程控制 Weblate。可以通过使用 HTTP 客户端代替 wlc 来实现这一点，例如 "
+"curl，请参见 :ref:`api`。"
 
 #: ../../admin/continuous.rst:134
 #, fuzzy
@@ -15895,8 +15895,8 @@ msgid ""
 "with billing enabled will get new :guilabel:`Billing` tab in their :ref:"
 "`user-profile`."
 msgstr ""
-"安装后您可以在管理界面控制账单。允许了账单的用户将在他们的 :ref:`user-"
-"profile` 中得到新的 :guilabel:`Billing` 标签。"
+"安装后您可以在管理界面控制账单。启用了账单模块的用户将在 TA 们的 :ref:`user-profile` 中看到新的 "
+":guilabel:`Billing` 选项卡。"
 
 #: ../../admin/optionals.rst:93
 msgid ""
@@ -16406,9 +16406,9 @@ msgid ""
 "hosted.weblate.org/ see :ref:`billing`), you can also create those based on "
 "your plans allowance from the user account that manages billing."
 msgstr ""
-"根据你的权限，新的翻译项目和组件可以被创建。具备 :guilabel:`Add new projects`"
-"权限的用户总是可以这么做。如果使用付费托管，你还可以从管理账单的用户账户基于"
-"套餐限额创建它们。"
+"根据你的权限，可以创建新的翻译项目和组件。具备 :guilabel:`Add new "
+"projects`权限的用户总是可以这么做。如果你的实例使用付费托管（如 https://hosted.weblate.org/，请参见 "
+":ref:`billing`），你还可以从管理账单的用户账户基于套餐限额创建它们。"
 
 #: ../../admin/projects.rst:51
 msgid "You can view your current billing plan on a separate page:"
@@ -22155,7 +22155,7 @@ msgstr "扩展了翻译统计 API。"
 
 #: ../../changes.rst:273
 msgid "Improved \"other translations\" tab while translating."
-msgstr "改进了翻译时“其他翻译”标签页。"
+msgstr "改进了翻译时“其他翻译”选项卡。"
 
 #: ../../changes.rst:274
 msgid "Added tasks API."
@@ -25464,7 +25464,7 @@ msgstr "扩展了 import_json，而能够处理现有组件。"
 
 #: ../../changes.rst:1324
 msgid "Added support for YAML files."
-msgstr "为 YAML 文件添加了支持。"
+msgstr "增加了对 YAML 文件的支持。"
 
 #: ../../changes.rst:1325
 msgid ""
@@ -25473,7 +25473,7 @@ msgstr "项目所有者现在可以配置翻译组件和项目细节。"
 
 #: ../../changes.rst:1326
 msgid "Use \"Watched\" instead of \"Subscribed\" projects."
-msgstr "使用 \"Watched\"（关注的） 而不是 \"Subscribed\" （订阅的）项目。"
+msgstr "使用\"Watched\"（已关注）而不是\"Subscribed\"（已订阅）项目。"
 
 #: ../../changes.rst:1327
 msgid "Projects can be watched directly from project page."
@@ -25501,7 +25501,7 @@ msgstr "修复了显示组件的白板信息。"
 
 #: ../../changes.rst:1333
 msgid "Keep preferences tab selected after saving."
-msgstr "存储后保持偏好标签被选择。"
+msgstr "保存后保持偏好选项卡被选中。"
 
 #: ../../changes.rst:1334
 msgid "Show source string comment more prominently."
@@ -27478,9 +27478,9 @@ msgid ""
 "for instructions on how to invoke it in different environments) or using :"
 "ref:`management-interface` under the :guilabel:`Tools` tab."
 msgstr ""
-"可以通过使用 :djadmin:`django:sendtestemail` 管理命令（关于在不同环境中如何调"
-"用它的指示说明请参见 :ref:`invoke-manage` ）或 :guilabel:`Tools` 标签下的 :"
-"ref:`management-interface` 来验证向外发送的电子邮件是否正常工作。"
+"可以通过使用 :djadmin:`django:sendtestemail` 管理命令（关于在不同环境中如何调用它的指示说明请参见 :ref"
+":`invoke-manage` ）或 :guilabel:`Tools` 选项卡下的 :ref:`management-interface` "
+"来验证向外发送的电子邮件是否正常工作。"
 
 #: ../../contributing/debugging.rst:64
 msgid ""
@@ -27564,7 +27564,7 @@ msgstr "支持的浏览器"
 msgid ""
 "Weblate supports the latest, stable releases of all major browsers and "
 "platforms."
-msgstr "Weblate 支持所有主要浏览器和平台的最新的、稳定的版本。"
+msgstr "Weblate 支持所有主流浏览器和平台最新的稳定版。"
 
 #: ../../contributing/frontend.rst:12
 msgid ""
@@ -27666,9 +27666,7 @@ msgid ""
 "There are dozens of ways to improve Weblate. You can choose the one you feel "
 "comfortable with, be it coding, graphics design, documentation, sponsorship, "
 "or an idea:"
-msgstr ""
-"有几十种方法来改进 Weblate 。你可以选择一个你觉得舒服的方式，它可以是编码、图"
-"形设计、文档、赞助，或一个想法："
+msgstr "有几十种方法来改进 Weblate。你可以选择一个你觉得舒服的方式，它可以是编程、图形设计、文档、赞助，或一个想法："
 
 #: ../../contributing/index.rst:10
 msgid ":doc:`issues`"
@@ -27812,6 +27810,8 @@ msgid ""
 "You can join the community in `GitHub discussions <https://github.com/"
 "WeblateOrg/weblate/discussions>`_."
 msgstr ""
+"如果你有一个想法，但不确定它是否适合作为一个 issue，请不用担心，你可以加入 `GitHub discussions <https://github."
+"com/WeblateOrg/weblate/discussions>`_ 中的社区对其进行讨论。"
 
 #: ../../contributing/index.rst:81
 msgid "Funding Weblate development"
@@ -30361,17 +30361,13 @@ msgstr "活动报告检查项目、组件或独立用户的翻译的更改。"
 msgid ""
 "The activity reports for a project or component is accessible from its "
 "dashboard, on the :guilabel:`Info` tab."
-msgstr ""
-"项目或组件的活动报告可以从其面板上访问，具体位置在面板的 :guilabel:`Info` 标"
-"签页。"
+msgstr "一个项目或组件的活动报告可以从其控制面板上的 :guilabel:`Info` 选项卡中获取。"
 
 #: ../../devel/review.rst:18
 msgid ""
 "More reports are accessible on the :guilabel:`Insights` tab, selecting :"
 "guilabel:`Translation reports`."
-msgstr ""
-"更多报告可以在 :guilabel:`Insights`标签上访问，选择 :guilabel:`Translation "
-"reports`。"
+msgstr "更多报告可以从 :guilabel:`Insights`选项卡中获取，选择 :guilabel:`Translation reports`。"
 
 #: ../../devel/review.rst:21
 msgid ""
@@ -30391,9 +30387,8 @@ msgid ""
 "easier to translate. All types of failing source checks are displayed on "
 "the :guilabel:`Source` tab of every component."
 msgstr ""
-"有很多 :ref:`checks`，一些聚焦在提高源字符串的质量。很多失败的检查都建议了提"
-"示，使源字符串更容易翻译。所有类型的失败的源字符串检查都显示在每个组件的 :"
-"guilabel:`Source` 标签上。"
+"有很多 :ref:`checks`，一些聚焦在提高源字符串的质量。很多失败的检查都建议了提示，使源字符串更容易翻译。"
+"所有类型的失败的源字符串检查都显示在每个组件的 :guilabel:`Source` 选项卡上。"
 
 #: ../../devel/review.rst:33
 msgid "Translation string checks"
@@ -31144,7 +31139,7 @@ msgstr ""
 
 #: ../../faq.rst:150
 msgid "How do I translate several branches at once?"
-msgstr "如何立刻翻译几个分支？"
+msgstr "如何同时翻译几个分支？"
 
 #: ../../faq.rst:152
 msgid ""
@@ -31365,9 +31360,7 @@ msgstr "如何提供源字符串的反馈？"
 msgid ""
 "On context tabs below translation, you can use the :guilabel:`Comments` tab "
 "to provide feedback on a source string, or discuss it with other translators."
-msgstr ""
-"在翻译下面的文本标签上，可以使用 :guilabel:`Comments` 标签来提供源字符串的反"
-"馈，或者与其他翻译者讨论。"
+msgstr "在翻译下方的一系列情景选项卡中，可以通过 :guilabel:`Comments` 选项卡提供源字符串的反馈，或者与其他翻译者讨论。"
 
 #: ../../faq.rst:290
 msgid "How can I use existing translations while translating?"
@@ -31377,7 +31370,7 @@ msgstr "翻译时如何使用现有的翻译？"
 msgid ""
 "All translations within Weblate can be used thanks to shared translation "
 "memory."
-msgstr "得益于共享的翻译记忆库，Webate 中的所有翻译都可以使用。"
+msgstr "得益于共享的翻译记忆库，Weblate 中的所有翻译都可以使用。"
 
 #: ../../faq.rst:293
 msgid "You can import existing translation memory files into Weblate."
@@ -34265,10 +34258,8 @@ msgid ""
 "probably have to add it manually for other file formats or if your PO files "
 "are not generated by :program:`xgettext`."
 msgstr ""
-"Weblate 支持检查几种语言的格式字符串。仅当适当地标记了字符串时（例如，C 格式"
-"为 `c-format`），才会自动启用该检查。Gettext 会自动添加它，但是对于其他文件格"
-"式，或者如果您的 PO 文件不是由 :program:`xgettext` 生成的，您可能必须手动添加"
-"它。"
+"Weblate 支持检查几种语言的格式字符串。仅当适当地标记了字符串时（例如 C 格式为 `c-format`），才会自动启用该检查。Gettext "
+"会自动添加它，但是对于其他文件格式，或者如果您的 PO 文件不是由 :program:`xgettext` 生成的，您可能必须手动添加它。"
 
 #: ../../user/checks.rst:140
 msgid ""
@@ -36892,7 +36883,7 @@ msgstr ""
 msgid ""
 "You can use Markdown syntax in all comments and mention other users using "
 "``@mention``."
-msgstr "你可以在所有评论中使用 Markdown 格式，并用 ``@mention``提及他人。"
+msgstr "你可以在所有评论中使用 Markdown 语法，并用 ``@mention`` 提及其他用户。"
 
 #: ../../user/translating.rst:76
 msgid ""
@@ -37122,8 +37113,7 @@ msgstr ""
 msgid ""
 "Shows :guilabel:`Automatic suggestions` tab, see :ref:`machine-translation`."
 msgstr ""
-"显示 :guilabel:`Automatic suggestions` 标签，请参见 :ref:`machine-"
-"translation`。"
+"显示 :guilabel:`Automatic suggestions` 选项卡，请参见 :ref:`machine-translation`。"
 
 #: ../../user/translating.rst:203
 msgid ":kbd:`Ctrl+1` to :kbd:`Ctrl+9` or"
