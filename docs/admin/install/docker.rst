@@ -785,15 +785,15 @@ Machine translation settings
 
 .. envvar:: WEBLATE_MT_GOOGLE_CREDENTIALS
 
-    Enables :ref:`google-translate-api-v3-advanced` and sets :setting:`MT_GOOGLE_CREDENTIALS`
+    Enables :ref:`google-translate-api-v3` and sets :setting:`MT_GOOGLE_CREDENTIALS`
 
 .. envvar:: WEBLATE_MT_GOOGLE_PROJECT
 
-    Enables :ref:`google-translate-api-v3-advanced` and sets :setting:`MT_GOOGLE_PROJECT`
+    Enables :ref:`google-translate-api-v3` and sets :setting:`MT_GOOGLE_PROJECT`
 
 .. envvar:: WEBLATE_MT_GOOGLE_LOCATION
 
-    Enables :ref:`google-translate-api-v3-advanced` and sets :setting:`MT_GOOGLE_LOCATION`
+    Enables :ref:`google-translate-api-v3` and sets :setting:`MT_GOOGLE_LOCATION`
 
 .. envvar:: WEBLATE_MT_MICROSOFT_COGNITIVE_KEY
 
