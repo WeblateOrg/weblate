@@ -13,7 +13,7 @@ def migrate_kind(apps, schema_editor):
         When(name=name, then=Value(kind)) for name, kind in METRIC_IDS.items()
     ]
 
-    Metric.objects.using(db_alias).update(kind=Case(**conditions))
+    Metric.objects.using(db_alias).update(kind=Case(*conditions))
 
 
 class Migration(migrations.Migration):
