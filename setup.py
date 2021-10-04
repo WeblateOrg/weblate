@@ -114,6 +114,8 @@ setup(
         "Documentation": "https://docs.weblate.org/",
         "Source Code": "https://github.com/WeblateOrg/weblate",
         "Twitter": "https://twitter.com/WeblateOrg",
+        "Release Notes": "https://docs.weblate.org/en/latest/changes.html",
+        "Funding": "https://weblate.org/donate/",
     },
     author="Michal Čihař",
     author_email="michal@cihar.com",
