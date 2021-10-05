@@ -842,6 +842,19 @@ class Translation(
         add_fuzzy = method == "fuzzy"
         add_approve = method == "approve"
 
+        # Are there any translations to propagate?
+        # This is just an optimalization to avoid doing that for every unit.
+        propagate = (
+            Translation.objects.filter(
+                language=self.language,
+                component__source_language_id=self.component.source_language_id,
+                component__project=self.component.project,
+            )
+            .filter(component__allow_translation_propagation=True)
+            .exclude(pk=self.pk)
+            .exists()
+        )
+
         unit_set = self.unit_set.all()
 
         for set_fuzzy, unit2 in store2.iterate_merge(fuzzy):
@@ -880,7 +893,7 @@ class Translation(
                 split_plural(unit2.target),
                 state,
                 change_action=Change.ACTION_UPLOAD,
-                propagate=False,
+                propagate=propagate,
             )
 
         if accepted > 0:
