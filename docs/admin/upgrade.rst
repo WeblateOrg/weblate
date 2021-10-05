@@ -39,6 +39,12 @@ work, but is not as well tested as single version upgrades.
 
       pip install -U Weblate
 
+   And make sure **translate-toolkit** is up to date:
+
+   .. code-block:: sh
+
+      pip install -U translate-toolkit[all]
+
    With Git checkout you need to fetch new source code and update your installation:
 
    .. code-block:: sh
