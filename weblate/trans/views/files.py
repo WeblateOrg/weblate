@@ -69,6 +69,8 @@ def download_multi(translations, fmt=None, name="translations"):
 
 def download_component_list(request, name):
     obj = get_object_or_404(ComponentList, slug__iexact=name)
+    if not request.user.has_perm("translation.download", obj):
+        raise PermissionDenied()
     components = obj.components.filter_access(request.user)
     for component in components:
         component.commit_pending("download", None)
@@ -81,6 +83,8 @@ def download_component_list(request, name):
 
 def download_component(request, project, component):
     obj = get_component(request, project, component)
+    if not request.user.has_perm("translation.download", obj):
+        raise PermissionDenied()
     obj.commit_pending("download", None)
     return download_multi(
         obj.translation_set.all(),
@@ -91,6 +95,8 @@ def download_component(request, project, component):
 
 def download_project(request, project):
     obj = get_project(request, project)
+    if not request.user.has_perm("translation.download", obj):
+        raise PermissionDenied()
     obj.commit_pending("download", None)
     components = obj.component_set.filter_access(request.user)
     return download_multi(
@@ -102,6 +108,8 @@ def download_project(request, project):
 
 def download_lang_project(request, lang, project):
     obj = get_project(request, project)
+    if not request.user.has_perm("translation.download", obj):
+        raise PermissionDenied()
     obj.commit_pending("download", None)
     langobj = get_object_or_404(Language, code=lang)
     components = obj.component_set.filter_access(request.user)
@@ -114,6 +122,8 @@ def download_lang_project(request, lang, project):
 
 def download_translation(request, project, component, lang):
     obj = get_translation(request, project, component, lang)
+    if not request.user.has_perm("translation.download", obj):
+        raise PermissionDenied()
 
     kwargs = {}
 

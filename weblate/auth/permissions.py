@@ -22,6 +22,7 @@ from django.conf import settings
 from weblate.machinery import MACHINE_TRANSLATION_SERVICES
 from weblate.trans.models import (
     Component,
+    ComponentList,
     ContributorAgreement,
     Project,
     Translation,
@@ -58,6 +59,11 @@ def check_permission(user, permission, obj):
         return any(
             permission in permissions
             for permissions, _langs in user.project_permissions[obj.pk]
+        )
+    if isinstance(obj, ComponentList):
+        return all(
+            check_permission(user, permission, component)
+            for component in obj.components.iterator()
         )
     if isinstance(obj, Component):
         return (

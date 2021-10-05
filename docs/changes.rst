@@ -6,6 +6,7 @@ Not yet released.
 * Provide more details for history events.
 * Improved rendering of history.
 * Improved performance of the translation pages.
+* Added support for restricting translation file download.
 
 Weblate 4.8.1
 -------------

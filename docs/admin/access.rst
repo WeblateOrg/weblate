@@ -536,6 +536,8 @@ Translations
 
     Delete existing translation [`Administration`, `Manage languages`]
 
+    Download translation file [`Administration`, `Edit source`, `Access repository`, `Power user`, `Review strings`, `Translate`, `Manage languages`]
+
     Add several languages for translation [`Administration`, `Manage languages`]
 
 Uploads
