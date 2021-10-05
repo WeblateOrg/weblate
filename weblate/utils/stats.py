@@ -757,6 +757,7 @@ class ProjectLanguage:
             .filter(
                 Q(component__project=self.project) | Q(component__links=self.project)
             )
+            .distinct()
             .order_by("component__priority", "component__name")
         )
         for item in result:
