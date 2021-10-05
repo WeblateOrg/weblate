@@ -393,3 +393,20 @@ The following operations are supported:
 .. seealso::
 
    :ref:`Bulk edit addon <addon-weblate.flags.bulk>`
+
+Matrix View
+-----------
+
+To compare different languages efficiently you can use the matrix view. It is available on every component page under the :guilabel:`Tools` menu.
+First select all languages you want to compare and confirm your selection, after that you can click on any translation to open and edit it quickly.
+
+The matrix view is also a very good starting point to find missing translations in different languages and quickly add them from one view.
+
+Zen Mode
+--------
+
+The Zen editor can be enabled by clicking the :guilabel:`Zen` button on the top right while translating a component.
+It simplifies the layout and removes additional UI elements such as :guilabel:`Nearby strings` or the :guilabel:`Glossary`.
+
+You can select the Zen editor as your default editor using the :ref:`profile-preferences` tab on your :ref:`user-profile`.
+Here you can also choose between having translations listed :guilabel:`Top to bottom` or :guilabel:`Side by side` depending on your personal preference.
