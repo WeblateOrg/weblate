@@ -825,7 +825,7 @@ class RoleAPITest(APIBaseTest):
 
     def test_patch(self):
         role = Role.objects.get(name="Access repository")
-        self.assertEqual(role.permissions.count(), 2)
+        self.assertEqual(role.permissions.count(), 3)
         self.do_request(
             "api:role-detail",
             kwargs={"id": role.pk},
@@ -850,7 +850,7 @@ class RoleAPITest(APIBaseTest):
             format="json",
             request={"permissions": ["comment.add"]},
         )
-        self.assertEqual(Role.objects.get(pk=role.pk).permissions.count(), 3)
+        self.assertEqual(Role.objects.get(pk=role.pk).permissions.count(), 4)
 
 
 class ProjectAPITest(APIBaseTest):

@@ -982,6 +982,8 @@ class TranslationViewSet(MultipleFieldMixin, WeblateViewSet, DestroyModelMixin):
         obj = self.get_object()
         user = request.user
         if request.method == "GET":
+            if not user.has_perm("translation.download", obj):
+                raise PermissionDenied()
             fmt = self.format_kwarg or request.query_params.get("format")
             return download_translation_file(request, obj, fmt)
 
