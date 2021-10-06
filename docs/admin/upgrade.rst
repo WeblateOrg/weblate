@@ -50,6 +50,9 @@ work, but is not as well tested as single version upgrades.
         # Install dependencies directly when not using virtualenv
         pip install --upgrade -r requirements.txt
 
+#. New Weblate release might have new :ref:`optional-deps`, please check if they cover
+   features you want.
+
 #. Upgrade configuration file, refer to :file:`settings_example.py` or
    :ref:`version-specific-instructions` for needed steps.
 
