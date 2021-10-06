@@ -595,6 +595,7 @@ INSTALLED_APPS = [
     "rest_framework",
     "rest_framework.authtoken",
     "django_filters",
+    "django_admin_shell"
 ]
 
 modify_env_list(INSTALLED_APPS, "APPS")

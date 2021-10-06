@@ -941,6 +941,10 @@ real_patterns = [
     ),
     # Admin interface
     path(
+        "admin/shell/",
+        include("django_admin_shell.urls")
+    ),
+    path(
         "admin/",
         include(
             (weblate.wladmin.sites.SITE.urls, "weblate.wladmin"), namespace="admin"
