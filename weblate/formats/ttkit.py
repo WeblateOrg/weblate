@@ -601,6 +601,12 @@ class XliffUnit(TTKitUnit):
 
         return rich_to_xliff_string(self.unit.rich_target)
 
+    @cached_property
+    def flags(self):
+        flags = super().flags
+        flags.merge("xml-text")
+        return flags
+
     def _invalidate_target(self):
         """Invalidate target cache."""
         super()._invalidate_target()
