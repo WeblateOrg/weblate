@@ -109,6 +109,20 @@ of them in :file:`requirements-optional.txt`.
 ``fluent.syntax`` (optional for :ref:`fluent`)
     https://projectfluent.org/
 
+.. hint::
+
+   When installing using pip, you can directly specify desired features when installing:
+
+   .. code-block:: sh
+
+      pip install "Weblate[PHP,Fluent]"
+
+   Or you can install Weblate will all optional features:
+
+   .. code-block:: sh
+
+      pip install "Weblate[all]"
+
 Database backend dependencies
 +++++++++++++++++++++++++++++
 
