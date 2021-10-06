@@ -598,6 +598,8 @@ INSTALLED_APPS = [
     "django_admin_shell"
 ]
 
+ADMIN_SHELL_ONLY_DEBUG_MODE = False
+
 modify_env_list(INSTALLED_APPS, "APPS")
 
 # Custom exception reporter to include some details
