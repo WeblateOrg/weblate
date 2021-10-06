@@ -92,13 +92,13 @@ Optional dependencies
 Following modules are necessary for some Weblate features. You can find all
 of them in :file:`requirements-optional.txt`.
 
-``Mercurial`` (optional for Mercurial repositories support)
+``Mercurial`` (optional for :ref:`vcs-mercurial` repositories support)
     https://www.mercurial-scm.org/
-``phply`` (optional for PHP support)
+``phply`` (optional for :ref:`php`)
     https://github.com/viraptor/phply
-``tesserocr`` (optional for screenshots OCR)
+``tesserocr`` (optional for OCR in :ref:`screenshots`)
     https://github.com/sirfz/tesserocr
-``akismet`` (optional for suggestion spam protection)
+``akismet`` (optional for :ref:`spam-protection`)
     https://github.com/ubernostrum/akismet
 ``ruamel.yaml`` (optional for :ref:`yaml`)
     https://pypi.org/project/ruamel.yaml/
@@ -106,6 +106,8 @@ of them in :file:`requirements-optional.txt`.
     https://docs.python-zeep.org/
 ``aeidon`` (optional for :ref:`subtitles`)
     https://pypi.org/project/aeidon/
+``fluent.syntax`` (optional for :ref:`fluent`)
+    https://projectfluent.org/
 
 Database backend dependencies
 +++++++++++++++++++++++++++++
