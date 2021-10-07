@@ -8,6 +8,7 @@ It is a **public** repository, so take special care not to commit keys.
 
 - [Administration](#administration)
     - [Emails](#emails)
+    - [Admin console](#admin-console)
 - [Development](#development)
     - [Branching](#branching)
     - [Local development](#local-development)
@@ -29,6 +30,11 @@ The Google Group `weblate@vendasta.com` is configured as the administrator accou
 To receive admin notifications (for requests, error logs, and repository alerts), add yourself to the `weblate@vendasta.com` Google Group.
 
 Outgoing emails from Weblate use `vmail@vendasta.com` as the sender. This account is configured as an SMTP relay for Weblate using kubernetes environment variables `WEBLATE_EMAIL_HOST_USER` and `WEBLATE_EMAIL_HOST_PASSWORD`. The password is generated as an [App Password](https://support.google.com/accounts/answer/185833?hl=en).
+
+### Admin console
+
+Superadmin user accounts can access the Django [Admin dashboard](https://weblate.apigateway.co/admin/) and [Admin console](https://weblate.apigateway.co/admin/shell/).
+These tools can be used to view and update domain objects from the DB, debug issues, and run scripts. 
 
 ## Development
 
