@@ -7,7 +7,7 @@ This repository has been forked from https://github.com/WeblateOrg/Weblate.
 It is a **public** repository, so take special care not to commit keys.
 
 - [Administration](#administration)
-    -  [Emails](#emails)
+    - [Emails](#emails)
 - [Development](#development)
     - [Branching](#branching)
     - [Local development](#local-development)
@@ -16,9 +16,8 @@ It is a **public** repository, so take special care not to commit keys.
 - [Using Weblate](#using-weblate)
     - [Documentation](#documentation)
     - [Project structure](#project-structure)
-    - [Version control](#version-control)
     - [Lexicon](#lexicon)
-    - [Creating a new component with automation](#creating-a-new-component-with-automation)
+    - [Creating a new component](#creating-a-new-component)
  - [License](#license)
 
 ## Administration
@@ -99,40 +98,32 @@ To be found in the [docs](./docs) directory the source code, or viewed online on
 
 The topology of Weblate is divided into *Projects* and *Components*. A Project is simply an administrative collection of Components, and each Component represents a single collection of translation units. 
 
-### Version control
-
-Weblate is configured to read translation files from VCS sources. If you move a project from one repository to another, be sure to update VCS integration settings for linked components.
-
 ### Lexicon
+
+Weblate does not have the stability necessary for serving translations to apps. Lexicon is a microservice for mirroring and serving translations as they are committed to Weblate component repos.
+The `NotifyLexicon` is responsible for triggering Lexicon mirroring workflows, and it should be enabled for any Component that serves its translations from Lexicon. 
 
 [Lexicon typescript SDK README](https://github.com/vendasta/lexicon/tree/master/sdks/typescript/src/lexicon_sdk/src)
 
-### Creating a new component with automation
+### Creating a new component
 
-Weblate works best with automation. Before starting, your github repository should have an assets directory containing a base (English) translation file.
+Before starting, your project needs a source translation file. This should typically be named `en_devel.json` and should be saved to a Vendasta github repository.
 
 1. Navigate to [Weblate](https://weblate.vendasta-internal.com) and login using Vendasta SSO.
 2. Navigate to the [Common](https://weblate.vendasta-internal.com/projects/common/) Weblate Project. Create a new component for your project by clicking `Add new translation component`.
     - If this project is not a common library, you might choose another Weblate Project, or create a new Weblate Project using the `+` in the navbar.
-3. Complete the `Create component` form and click `Continue`.
+3. Click the `Translate document` tab.  
+4. Complete the form and click `Continue`.
+    - Document to translate: Choose the `en_devel.json` source file.
+    - Project: The Weblate project this component lives under. You probably don't need to change this.
     - Component name: The name for the component. Usually the repo name or project directory name.
     - URL slug: The url and unique ID for the component. You probably don't need to change the generated value.
-    - Project: The Weblate project this component lives under. You probably don't need to change this.
-    - Version control system: `Git` is fine.
-    - Source code repository: The path to the VCS repository. The full repo will checked out and saved to Weblate's persistent storage. If one repository is being used for multiple components in Weblate (Galaxy, for example), any component after the first can link to the same checked out repo using the pattern `weblate://<project-slug>/<component-slug>` in this field.
-    - Repository branch: The name of the main branch for the VCS repo. If linking this component to another using `weblate://...`, leave  this blank.
-4. Find and select the wildcard filepath for your translation files from the list, and click `Continue`.
-5. Accept default values and click `Continue`.
-6. After the component is created, click `Manage` > `Addons`.
-7. Add the `Notify Lexicon` Addon. This step ensures that any change to the base translation file within VCS will propagate to Lexicon.
-8. Navigate to the VCS repository and go to `Settings > Webhooks`.
-9. If there is already a `weblate.vendasta-internal.com` webhook, you're done. Otherwise, click `Add webhook`.
-10. Complete the `Add webhook` form and click `Add webhook`.
-    - Payload URL: `https://weblate.vendasta-internal.com/hooks/github/`
-    - Content type: `application/json`
-    - Secret: Navigate to `https://github.com/vendasta/social-marketing-client/settings/hooks/217964978` and copy the value.
-    - SSL verification: `Enable SSL Verification`
-    - Which events would you like to trigger this webhook?: `Just the push event`
+5. Find and select the wildcard filepath for your translation files from the list, and click `Continue`.
+6. Choose an option for `File format` that matches your file. It will probably be `JSON file`, `JSON nested structure file`, or `XLIFF translation file`.
+6. Copy the value from `Monolingual base language file` to `Template for new translations`.
+7. Accept other default values and click `Continue`.
+8. After the component is created, click `Manage` > `Addons`.
+9. Add the `Notify Lexicon` Addon. This step ensures that any change to the base translation file within VCS will propagate to Lexicon.
 
 # License
 
