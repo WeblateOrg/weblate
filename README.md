@@ -9,6 +9,7 @@ It is a **public** repository, so take special care not to commit keys.
 - [Administration](#administration)
     - [Emails](#emails)
     - [Admin console](#admin-console)
+    - [API Integrations](#api-integrations)
 - [Development](#development)
     - [Branching](#branching)
     - [Local development](#local-development)
@@ -35,6 +36,16 @@ Outgoing emails from Weblate use `vmail@vendasta.com` as the sender. This accoun
 
 Superadmin user accounts can access the Django [Admin dashboard](https://weblate.apigateway.co/admin/) and [Admin console](https://weblate.apigateway.co/admin/shell/).
 These tools can be used to view and update domain objects from the DB, debug issues, and run scripts. 
+
+### API Integrations
+
+#### DeepL Translator
+
+The DeepL Translator is the preferred machine translation API when automating translations into non-English languages. We are subscribed to the Free tier, which offers 500,000 characters of translation per month. You can login to view account details and check usage [here](https://www.deepl.com/pro-account/usage) using credentials from the R&D LastPass account. 
+
+#### Google Translate
+
+Google Translate API is kind of a backup machine translation API. It's really cheap to use, but produces pretty low-quality translations. It is managed through [cloud console](https://console.cloud.google.com/apis/api/translate.googleapis.com/overview?project=repcore-prod) for the `repcore-prod` project.
 
 ## Development
 
