@@ -1,4 +1,4 @@
-/*! @sentry/browser 6.13.2 (1de7a04) | https://github.com/getsentry/sentry-javascript */
+/*! @sentry/browser 6.13.3 (cbb01ba) | https://github.com/getsentry/sentry-javascript */
 var Sentry = (function (exports) {
     /*! *****************************************************************************
     Copyright (c) Microsoft Corporation. All rights reserved.
@@ -227,6 +227,19 @@ var Sentry = (function (exports) {
         Outcome["RateLimitBackoff"] = "ratelimit_backoff";
         Outcome["SampleRate"] = "sample_rate";
     })(Outcome || (Outcome = {}));
+
+    /**
+     * Consumes the promise and logs the error when it rejects.
+     * @param promise A promise to forget.
+     */
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    function forget(promise) {
+        void promise.then(null, function (e) {
+            // TODO: Use a better logging mechanism
+            // eslint-disable-next-line no-console
+            console.error(e);
+        });
+    }
 
     /* eslint-disable @typescript-eslint/no-explicit-any */
     /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
@@ -4483,7 +4496,7 @@ var Sentry = (function (exports) {
         hub.bindClient(client);
     }
 
-    var SDK_VERSION = '6.13.2';
+    var SDK_VERSION = '6.13.3';
 
     var originalFunctionToString;
     /** Patch toString calls to return proper name for wrapped functions */
@@ -5152,13 +5165,108 @@ var Sentry = (function (exports) {
         return event;
     }
 
+    var global$3 = getGlobalObject();
+    var cachedFetchImpl;
+    /**
+     * A special usecase for incorrectly wrapped Fetch APIs in conjunction with ad-blockers.
+     * Whenever someone wraps the Fetch API and returns the wrong promise chain,
+     * this chain becomes orphaned and there is no possible way to capture it's rejections
+     * other than allowing it bubble up to this very handler. eg.
+     *
+     * const f = window.fetch;
+     * window.fetch = function () {
+     *   const p = f.apply(this, arguments);
+     *
+     *   p.then(function() {
+     *     console.log('hi.');
+     *   });
+     *
+     *   return p;
+     * }
+     *
+     * `p.then(function () { ... })` is producing a completely separate promise chain,
+     * however, what's returned is `p` - the result of original `fetch` call.
+     *
+     * This mean, that whenever we use the Fetch API to send our own requests, _and_
+     * some ad-blocker blocks it, this orphaned chain will _always_ reject,
+     * effectively causing another event to be captured.
+     * This makes a whole process become an infinite loop, which we need to somehow
+     * deal with, and break it in one way or another.
+     *
+     * To deal with this issue, we are making sure that we _always_ use the real
+     * browser Fetch API, instead of relying on what `window.fetch` exposes.
+     * The only downside to this would be missing our own requests as breadcrumbs,
+     * but because we are already not doing this, it should be just fine.
+     *
+     * Possible failed fetch error messages per-browser:
+     *
+     * Chrome:  Failed to fetch
+     * Edge:    Failed to Fetch
+     * Firefox: NetworkError when attempting to fetch resource
+     * Safari:  resource blocked by content blocker
+     */
+    function getNativeFetchImplementation() {
+        var _a, _b;
+        if (cachedFetchImpl) {
+            return cachedFetchImpl;
+        }
+        /* eslint-disable @typescript-eslint/unbound-method */
+        // Fast path to avoid DOM I/O
+        if (isNativeFetch(global$3.fetch)) {
+            return (cachedFetchImpl = global$3.fetch.bind(global$3));
+        }
+        var document = global$3.document;
+        var fetchImpl = global$3.fetch;
+        // eslint-disable-next-line deprecation/deprecation
+        if (typeof ((_a = document) === null || _a === void 0 ? void 0 : _a.createElement) === "function") {
+            try {
+                var sandbox = document.createElement('iframe');
+                sandbox.hidden = true;
+                document.head.appendChild(sandbox);
+                if ((_b = sandbox.contentWindow) === null || _b === void 0 ? void 0 : _b.fetch) {
+                    fetchImpl = sandbox.contentWindow.fetch;
+                }
+                document.head.removeChild(sandbox);
+            }
+            catch (e) {
+                logger.warn('Could not create sandbox iframe for pure fetch check, bailing to window.fetch: ', e);
+            }
+        }
+        return (cachedFetchImpl = fetchImpl.bind(global$3));
+        /* eslint-enable @typescript-eslint/unbound-method */
+    }
+    /**
+     * Sends sdk client report using sendBeacon or fetch as a fallback if available
+     *
+     * @param url report endpoint
+     * @param body report payload
+     */
+    function sendReport(url, body) {
+        var isRealNavigator = Object.prototype.toString.call(global$3 && global$3.navigator) === '[object Navigator]';
+        var hasSendBeacon = isRealNavigator && typeof global$3.navigator.sendBeacon === 'function';
+        if (hasSendBeacon) {
+            // Prevent illegal invocations - https://xgwang.me/posts/you-may-not-know-beacon/#it-may-throw-error%2C-be-sure-to-catch
+            var sendBeacon = global$3.navigator.sendBeacon.bind(global$3.navigator);
+            return sendBeacon(url, body);
+        }
+        if (supportsFetch()) {
+            var fetch_1 = getNativeFetchImplementation();
+            return forget(fetch_1(url, {
+                body: body,
+                method: 'POST',
+                credentials: 'omit',
+                keepalive: true,
+            }));
+        }
+    }
+
     var CATEGORY_MAPPING = {
         event: 'error',
         transaction: 'transaction',
         session: 'session',
         attachment: 'attachment',
     };
-    var global$3 = getGlobalObject();
+    var global$4 = getGlobalObject();
     /** Base Transport class implementation */
     var BaseTransport = /** @class */ (function () {
         function BaseTransport(options) {
@@ -5172,9 +5280,9 @@ var Sentry = (function (exports) {
             this._api = new API(options.dsn, options._metadata, options.tunnel);
             // eslint-disable-next-line deprecation/deprecation
             this.url = this._api.getStoreEndpointWithUrlEncodedAuth();
-            if (this.options.sendClientReports && global$3.document) {
-                global$3.document.addEventListener('visibilitychange', function () {
-                    if (global$3.document.visibilityState === 'hidden') {
+            if (this.options.sendClientReports && global$4.document) {
+                global$4.document.addEventListener('visibilitychange', function () {
+                    if (global$4.document.visibilityState === 'hidden') {
                         _this._flushOutcomes();
                     }
                 });
@@ -5216,10 +5324,6 @@ var Sentry = (function (exports) {
             if (!this.options.sendClientReports) {
                 return;
             }
-            if (!global$3.navigator || typeof global$3.navigator.sendBeacon !== 'function') {
-                logger.warn('Beacon API not available, skipping sending outcomes.');
-                return;
-            }
             var outcomes = this._outcomes;
             this._outcomes = {};
             // Nothing to send
@@ -5246,7 +5350,12 @@ var Sentry = (function (exports) {
                 }),
             });
             var envelope = envelopeHeader + "\n" + itemHeaders + "\n" + item;
-            global$3.navigator.sendBeacon(url, envelope);
+            try {
+                sendReport(url, envelope);
+            }
+            catch (e) {
+                logger.error(e);
+            }
         };
         /**
          * Handle Sentry repsonse for promise-based transports.
@@ -5338,72 +5447,6 @@ var Sentry = (function (exports) {
         return BaseTransport;
     }());
 
-    /**
-     * A special usecase for incorrectly wrapped Fetch APIs in conjunction with ad-blockers.
-     * Whenever someone wraps the Fetch API and returns the wrong promise chain,
-     * this chain becomes orphaned and there is no possible way to capture it's rejections
-     * other than allowing it bubble up to this very handler. eg.
-     *
-     * const f = window.fetch;
-     * window.fetch = function () {
-     *   const p = f.apply(this, arguments);
-     *
-     *   p.then(function() {
-     *     console.log('hi.');
-     *   });
-     *
-     *   return p;
-     * }
-     *
-     * `p.then(function () { ... })` is producing a completely separate promise chain,
-     * however, what's returned is `p` - the result of original `fetch` call.
-     *
-     * This mean, that whenever we use the Fetch API to send our own requests, _and_
-     * some ad-blocker blocks it, this orphaned chain will _always_ reject,
-     * effectively causing another event to be captured.
-     * This makes a whole process become an infinite loop, which we need to somehow
-     * deal with, and break it in one way or another.
-     *
-     * To deal with this issue, we are making sure that we _always_ use the real
-     * browser Fetch API, instead of relying on what `window.fetch` exposes.
-     * The only downside to this would be missing our own requests as breadcrumbs,
-     * but because we are already not doing this, it should be just fine.
-     *
-     * Possible failed fetch error messages per-browser:
-     *
-     * Chrome:  Failed to fetch
-     * Edge:    Failed to Fetch
-     * Firefox: NetworkError when attempting to fetch resource
-     * Safari:  resource blocked by content blocker
-     */
-    function getNativeFetchImplementation() {
-        /* eslint-disable @typescript-eslint/unbound-method */
-        var _a, _b;
-        // Fast path to avoid DOM I/O
-        var global = getGlobalObject();
-        if (isNativeFetch(global.fetch)) {
-            return global.fetch.bind(global);
-        }
-        var document = global.document;
-        var fetchImpl = global.fetch;
-        // eslint-disable-next-line deprecation/deprecation
-        if (typeof ((_a = document) === null || _a === void 0 ? void 0 : _a.createElement) === "function") {
-            try {
-                var sandbox = document.createElement('iframe');
-                sandbox.hidden = true;
-                document.head.appendChild(sandbox);
-                if ((_b = sandbox.contentWindow) === null || _b === void 0 ? void 0 : _b.fetch) {
-                    fetchImpl = sandbox.contentWindow.fetch;
-                }
-                document.head.removeChild(sandbox);
-            }
-            catch (e) {
-                logger.warn('Could not create sandbox iframe for pure fetch check, bailing to window.fetch: ', e);
-            }
-        }
-        return fetchImpl.bind(global);
-        /* eslint-enable @typescript-eslint/unbound-method */
-    }
     /** `fetch` based transport */
     var FetchTransport = /** @class */ (function (_super) {
         __extends(FetchTransport, _super);
@@ -5609,7 +5652,7 @@ var Sentry = (function (exports) {
         return BrowserBackend;
     }(BaseBackend));
 
-    var global$4 = getGlobalObject();
+    var global$5 = getGlobalObject();
     var ignoreOnError = 0;
     /**
      * @hidden
@@ -5747,7 +5790,7 @@ var Sentry = (function (exports) {
      */
     function injectReportDialog(options) {
         if (options === void 0) { options = {}; }
-        if (!global$4.document) {
+        if (!global$5.document) {
             return;
         }
         if (!options.eventId) {
@@ -5758,14 +5801,14 @@ var Sentry = (function (exports) {
             logger.error("Missing dsn option in showReportDialog call");
             return;
         }
-        var script = global$4.document.createElement('script');
+        var script = global$5.document.createElement('script');
         script.async = true;
         script.src = new API(options.dsn).getReportDialogEndpoint(options);
         if (options.onLoad) {
             // eslint-disable-next-line @typescript-eslint/unbound-method
             script.onload = options.onLoad;
         }
-        var injectionPoint = global$4.document.head || global$4.document.body;
+        var injectionPoint = global$5.document.head || global$5.document.body;
         if (injectionPoint) {
             injectionPoint.appendChild(script);
         }
@@ -6510,7 +6553,7 @@ var Sentry = (function (exports) {
         return LinkedErrors;
     }());
 
-    var global$5 = getGlobalObject();
+    var global$6 = getGlobalObject();
     /** UserAgent */
     var UserAgent = /** @class */ (function () {
         function UserAgent() {
@@ -6527,13 +6570,13 @@ var Sentry = (function (exports) {
                 var _a, _b, _c;
                 if (getCurrentHub().getIntegration(UserAgent)) {
                     // if none of the information we want exists, don't bother
-                    if (!global$5.navigator && !global$5.location && !global$5.document) {
+                    if (!global$6.navigator && !global$6.location && !global$6.document) {
                         return event;
                     }
                     // grab as much info as exists and add it to the event
-                    var url = ((_a = event.request) === null || _a === void 0 ? void 0 : _a.url) || ((_b = global$5.location) === null || _b === void 0 ? void 0 : _b.href);
-                    var referrer = (global$5.document || {}).referrer;
-                    var userAgent = (global$5.navigator || {}).userAgent;
+                    var url = ((_a = event.request) === null || _a === void 0 ? void 0 : _a.url) || ((_b = global$6.location) === null || _b === void 0 ? void 0 : _b.href);
+                    var referrer = (global$6.document || {}).referrer;
+                    var userAgent = (global$6.navigator || {}).userAgent;
                     var headers = __assign(__assign(__assign({}, (_c = event.request) === null || _c === void 0 ? void 0 : _c.headers), (referrer && { Referer: referrer })), (userAgent && { 'User-Agent': userAgent }));
                     var request = __assign(__assign({}, (url && { url: url })), { headers: headers });
                     return __assign(__assign({}, event), { request: request });
