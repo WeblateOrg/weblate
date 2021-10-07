@@ -603,9 +603,9 @@ class XliffUnit(TTKitUnit):
 
     @cached_property
     def flags(self):
-        flags = super().flags
+        flags = Flags(super().flags)
         flags.merge("xml-text")
-        return flags
+        return flags.format()
 
     def _invalidate_target(self):
         """Invalidate target cache."""
