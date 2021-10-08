@@ -26,6 +26,7 @@ from weblate.addons.base import BaseAddon
 from weblate.addons.events import EVENT_COMPONENT_UPDATE, EVENT_DAILY
 from weblate.addons.forms import AutoAddonForm
 from weblate.trans.tasks import auto_translate
+from weblate.vendasta.constants import NAMESPACE_SEPARATOR
 
 
 class AutoTranslateAddon(BaseAddon):
@@ -50,6 +51,8 @@ class AutoTranslateAddon(BaseAddon):
 
         for translation in component.translation_set.iterator():
             if translation.is_source:
+                continue
+            if NAMESPACE_SEPARATOR in translation.language_code:
                 continue
             transaction.on_commit(
                 lambda: auto_translate.delay(
