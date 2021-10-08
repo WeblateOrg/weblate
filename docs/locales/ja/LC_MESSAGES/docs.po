@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-09-08 12:00+0200\n"
-"PO-Revision-Date: 2021-10-05 17:40+0000\n"
+"PO-Revision-Date: 2021-10-08 16:06+0000\n"
 "Last-Translator: amano <amano.hajime@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "documentation/ja/>\n"
@@ -4566,8 +4566,7 @@ msgstr "``rst-text``"
 #: ../../admin/checks.rst:44
 msgid ""
 "Treat a text as an reStructuredText document, affects :ref:`check-same`."
-msgstr ""
-"テキストを reStructuredText 文書として扱う、関連項目 :ref:`check-same`。"
+msgstr "テキストを reStructuredText 文書として扱う。関連項目: :ref:`check-same`。"
 
 #: ../../admin/checks.rst:45
 msgid "``dos-eol``"
@@ -4584,9 +4583,7 @@ msgstr ""
 msgid ""
 "The string is read-only and should not be edited in Weblate, see :ref:`read-"
 "only-strings`."
-msgstr ""
-"文字列は読み取り専用なので Weblate で編集しないでください。参照: :ref:`read-"
-"only-strings`。"
+msgstr "文字列は読み取り専用なので Weblate で編集しない。参照: :ref:`read-only-strings`。"
 
 #: ../../admin/checks.rst:51
 msgid "``priority:N``"
@@ -4629,7 +4626,7 @@ msgstr "``font-family:NAME``"
 
 #: ../../admin/checks.rst:58
 msgid "Define font-family for rendering checks, see :ref:`fonts`."
-msgstr "検査結果を表示するフォントの定義。参照: :ref:`fonts`。"
+msgstr "レンダリングの検査に使うフォントファミリーを定義する。参照: :ref:`fonts`。"
 
 #: ../../admin/checks.rst:59
 msgid "``font-weight:WEIGHT``"
@@ -4637,7 +4634,7 @@ msgstr "``font-weight:WEIGHT``"
 
 #: ../../admin/checks.rst:60
 msgid "Define font-weight for rendering checks, see :ref:`fonts`."
-msgstr "検査結果を表示するフォントの太さの定義。参照: :ref:`fonts`。"
+msgstr "レンダリングの検査に使うフォントの太さを定義する。参照: :ref:`fonts`。"
 
 #: ../../admin/checks.rst:61
 msgid "``font-size:SIZE``"
@@ -4645,7 +4642,7 @@ msgstr "``font-size:SIZE``"
 
 #: ../../admin/checks.rst:62
 msgid "Define font-size for rendering checks, see :ref:`fonts`."
-msgstr "検査結果を表示するフォント サイズの定義。参照: :ref:`fonts`。"
+msgstr "レンダリングの検査に使うフォントサイズを定義する。参照: :ref:`fonts`。"
 
 #: ../../admin/checks.rst:63
 msgid "``font-spacing:SPACING``"
@@ -4653,7 +4650,7 @@ msgstr "``font-spacing:SPACING``"
 
 #: ../../admin/checks.rst:64
 msgid "Define letter spacing for rendering checks, see :ref:`fonts`."
-msgstr "表示確認用の文字間隔の設定。参照: :ref:`fonts`。"
+msgstr "レンダリングの検査に使う文字間隔を定義します。参照: :ref:`fonts`。"
 
 #: ../../admin/checks.rst:65
 msgid "``placeholders:NAME:NAME2:...``"
@@ -4676,10 +4673,9 @@ msgid ""
 "for this is to expand placeables to ensure that the text fits even with long "
 "values, for example: ``replacements:%s:\"John Doe\"``."
 msgstr ""
-"結果のテキスト パラメータを検査するときに実行する置換（例 :ref:`check-max-"
-"size` または :ref:`check-max-length`）。この一般的な使用例は、テキストが長い"
-"名前でも収まるように配置可能な場所を拡張すること、 例: ``replacements:%s:"
-"\"John Doe\"`` 。"
+"テキストがパラメータとなる検査（例 :ref:`check-max-size` または :ref:`check-max-"
+"length`）をするときに行う置換。一般的な使用方法は、プレースホルダに長いテキストが入ってもスペースに収まるか確認することです。例: "
+"``replacements:%s:\"John Doe\"`` 。"
 
 #: ../../admin/checks.rst:72
 msgid "``variants:SOURCE``"
@@ -4699,7 +4695,7 @@ msgstr "``regex:REGEX``"
 
 #: ../../admin/checks.rst:75
 msgid "Regular expression to match translation, see :ref:`check-regex`."
-msgstr "翻訳ファイルを照合する正規表現。参照: :ref:`check-regex`。"
+msgstr "翻訳文がマッチするべき正規表現。参照: :ref:`check-regex`。"
 
 #: ../../admin/checks.rst:76
 msgid "``forbidden``"
@@ -4708,7 +4704,7 @@ msgstr "``禁止``"
 #: ../../admin/checks.rst:77
 msgid ""
 "Indicates forbidden translation in a glossary, see :ref:`glossary-forbidden`."
-msgstr ""
+msgstr "用語集で、使ってはいけない訳語を示します。参照: :ref:`glossary-forbidden`。"
 
 #: ../../admin/checks.rst:78
 msgid "``strict-same``"
@@ -4718,19 +4714,15 @@ msgstr "``strict-same``"
 msgid ""
 "Make \"Unchanged translation\" avoid using built-in words blacklist, see :"
 "ref:`check-same`."
-msgstr ""
-"「未翻訳の翻訳」には、標準搭載されたブラックリストの単語を使用しないようにす"
-"る。参考 :ref:`check-same`。"
+msgstr "「未翻訳の翻訳」検査で、組み込みのブラックリストの単語を除外しないようにする。参考: :ref:`check-same`。"
 
 #: ../../admin/checks.rst:80 ../../user/checks.rst:95
 msgid "``check-glossary``"
 msgstr "``check-glossary``"
 
 #: ../../admin/checks.rst:81
-#, fuzzy
-#| msgid "Enable the \"Does not follow glossary\" quality check."
 msgid "Enable the :ref:`check-check-glossary` quality check."
-msgstr "「用語集に従っていない」の品質検査を有効にする。"
+msgstr ":ref:`check-check-glossary` の品質検査を有効にする。"
 
 #: ../../admin/checks.rst:82 ../../user/checks.rst:163
 #, fuzzy
@@ -4739,10 +4731,8 @@ msgid "``angularjs-format``"
 msgstr "`angularjs-format`"
 
 #: ../../admin/checks.rst:83
-#, fuzzy
-#| msgid "Skip the \"Lua format\" quality check."
 msgid "Enable the :ref:`check-angularjs-format` quality check."
-msgstr "「Lua 形式」の品質検査を無効にする。"
+msgstr ":ref:`check-angularjs-format` の品質検査を有効にする。"
 
 #: ../../admin/checks.rst:84 ../../user/checks.rst:180
 #, fuzzy
@@ -4751,10 +4741,8 @@ msgid "``c-format``"
 msgstr "`c-format`"
 
 #: ../../admin/checks.rst:85
-#, fuzzy
-#| msgid "Skip the \"Perl format\" quality check."
 msgid "Enable the :ref:`check-c-format` quality check."
-msgstr "「Perl 形式」の品質検査を無効にする。"
+msgstr ":ref:`check-c-format` の品質検査を有効にする。"
 
 #: ../../admin/checks.rst:86 ../../user/checks.rst:199
 #, fuzzy
@@ -34943,7 +34931,7 @@ msgstr "``There are %{count} apples``"
 
 #: ../../user/checks.rst:0
 msgid "Linked locale messages"
-msgstr "リンクする言語メッセージ"
+msgstr "リンクしたロケールメッセージ"
 
 #: ../../user/checks.rst:517
 msgid "``@:message.dio @:message.the_world!``"
@@ -34983,9 +34971,7 @@ msgstr "``weblate.consistency.languages``"
 msgid ""
 "Means a string has been translated already. This can happen when the "
 "translations have been reverted in VCS or lost otherwise."
-msgstr ""
-"文字列がすでに翻訳されていることを意味します。これは、VCS で翻訳が復元された"
-"場合、または VCS 以外で翻訳が失われた場合に発生します。"
+msgstr "文字列が以前に翻訳されていることを意味します。これは、VCS で翻訳が巻き戻された場合や、その他の理由で翻訳が失われた場合に発生します。"
 
 #: ../../user/checks.rst:541
 msgid "Inconsistent"
@@ -35332,8 +35318,8 @@ msgid ""
 "translation. This only checks for real ellipsis (``…``) not for three dots "
 "(``...``)."
 msgstr ""
-"原文から翻訳文に末尾の省略記号が複製されているか検査します。これは、3 つの"
-"ドット (``…``) ではなく、実際の省略記号 (``...``) のみを検査します。"
+"原文から翻訳文に末尾の省略記号が複製されているか検査します。これは、3 つのドット (``...``) ではなく、実際の省略記号 (``…``) "
+"のみを検査します。"
 
 #: ../../user/checks.rst:767
 msgid ""
@@ -35400,9 +35386,8 @@ msgid ""
 "The presence of full stops is checked for various languages where they do "
 "not belong (Chinese, Japanese, Devanagari or Urdu)."
 msgstr ""
-"原文から翻訳に終止符止が複製されているか検査します。終止符の有無は、その終止"
-"符が属していない複数の言語（中国語、日本語、デーヴァナーガリー文字またはウル"
-"ドゥー語）について検査します。"
+"原文から翻訳に終止符が複製されているか検査します。終止符の有無は、ピリオド (.) "
+"を使わない複数の言語（中国語、日本語、デーヴァナーガリー文字またはウルドゥー語）でも検査します。"
 
 #: ../../user/checks.rst:809
 msgid "`Full stop on Wikipedia <https://en.wikipedia.org/wiki/Full_stop>`_"
@@ -35636,9 +35621,7 @@ msgstr "``weblate.consistency.languages``"
 msgid ""
 "Check that fails if some plural forms are duplicated in the translation. In "
 "most languages they have to be different."
-msgstr ""
-"翻訳の中で複数形が重複している場合は、不合格となるかどうかを検査します。ほと"
-"んどの言語では、複数形が異なっていることが必要です。"
+msgstr "翻訳文の複数形のうち、一致しているものがあるかを検出します。ほとんどの言語では、複数形はそれぞれ異なっている必要があります。"
 
 #: ../../user/checks.rst:972
 msgid "Starting newline"
@@ -35754,9 +35737,8 @@ msgid ""
 "all languages are ignored, and various markup is stripped. This reduces the "
 "number of false positives."
 msgstr ""
-"原文と対応する翻訳文字列が、複数の形式の少なくとも 1 つまで同一である場合に発"
-"生します。すべての言語に共通する一部の文字列は無視され、さまざまなマークアッ"
-"プが除去されます。これにより、誤検出の数が減ります。"
+"原文と対応する翻訳文字列が、複数形のうち少なくとも 1 "
+"つまで同一である場合に発生します。すべての言語に共通する一部の文字列は無視され、さまざまなマークアップが除去されます。これにより、誤検出の数が減ります。"
 
 #: ../../user/checks.rst:1046
 msgid "This check can help find strings mistakenly untranslated."
@@ -35771,11 +35753,9 @@ msgid ""
 "blacklist can be disabled by adding ``strict-same`` flag to string or "
 "component."
 msgstr ""
-"この検査のデフォルトの動作では、標準搭載されたブラックリストから単語を検査対"
-"象から除外します。これは頻繁に翻訳されない単語です。これは、複数の言語で同じ "
-"1 つの単語だけで構成される短い文字列での誤検出を避けるために便利です。このブ"
-"ラックリストを無効にするには、文字列またはコンポーネントに ``strict-same`` フ"
-"ラグを追加します。"
+"この検査のデフォルトの動作では、標準搭載されたブラックリストにある単語を検査対象から除外します。これらはしばしば翻訳されない単語です。これは、"
+"複数の言語で同じ 1 つの単語だけで構成される短い文字列での誤検出を避けるために便利です。このブラックリストを無効にするには、"
+"文字列またはコンポーネントに ``strict-same`` フラグを追加します。"
 
 #: ../../user/checks.rst:1056
 msgid ":ref:`component`, :ref:`custom-checks`"
@@ -35811,7 +35791,7 @@ msgid ""
 ">`_ library developed by Mozilla."
 msgstr ""
 "HTML の検査は、Mozilla が開発した `Bleach <https://bleach.readthedocs.io/>`_ "
-"library によって行われます。"
+"ライブラリによって行われます。"
 
 #: ../../user/checks.rst:1086
 msgid "URL"
@@ -35907,9 +35887,7 @@ msgstr "``weblate.trans.autofixes.chars.RemoveZeroSpace``"
 msgid ""
 "Zero-width space (<U+200B>) characters are used to break messages within "
 "words (word wrapping)."
-msgstr ""
-"単語内でのメッセージの改行（ワードラッピング）には、半角スペース（<U+200B>）"
-"文字を使用します。"
+msgstr "単語の途中でのメッセージの改行（ワードラッピング）に、ゼロ幅スペース（<U+200B>）が使われています。"
 
 #: ../../user/checks.rst:1151
 msgid ""
@@ -35970,8 +35948,7 @@ msgid ""
 "Using the Unicode character is in most cases the better approach and looks "
 "better rendered, and may sound better with text-to-speech."
 msgstr ""
-"ほとんどの場合、Unicode 文字を使用する方が適切な方法であり、表示の品質も高く"
-"なります。また、音声合成を使用する方が適切な場合もあります。"
+"ほとんどの場合、Unicode 文字を使用する方が適切な方法であり、表示の品質も高くなります。また、テキスト読み上げでもより適切な音声になります。"
 
 #: ../../user/checks.rst:1188
 msgid "Long untranslated"
