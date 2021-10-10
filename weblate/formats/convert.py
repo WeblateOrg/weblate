@@ -49,6 +49,7 @@ from translate.storage.xml_extract.extract import (
     make_postore_adder,
 )
 
+from weblate.checks.flags import Flags
 from weblate.formats.base import TranslationFormat
 from weblate.formats.helpers import BytesIOMode
 from weblate.formats.ttkit import TTKitUnit, XliffUnit
@@ -91,6 +92,12 @@ class ConvertXliffUnit(XliffUnit):
     def is_translated(self):
         """Check whether unit is translated."""
         return self.unit is not None
+
+    @cached_property
+    def flags(self):
+        flags = Flags(super().flags)
+        flags.remove("xml-text")
+        return flags.format()
 
 
 class ConvertFormat(TranslationFormat):
