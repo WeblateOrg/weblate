@@ -562,6 +562,7 @@ class XliffFormatTest(XMLMixin, AutoFormatTest):
         b'<trans-unit xml:space="preserve" id="key" approved="no">',
         b"<source>Source string</source>",
     )
+    EXPECTED_FLAGS = "c-format, max-length:100, xml-text"
 
     def test_set_state(self):
         # Read test content
@@ -604,7 +605,7 @@ class XliffIdFormatTest(XliffFormatTest):
     FILE = TEST_XLIFF_ID
     BASE = TEST_XLIFF_ID
     FIND_CONTEXT = "hello"
-    EXPECTED_FLAGS = ""
+    EXPECTED_FLAGS = "xml-text"
     COUNT = 5
 
     def test_edit_xliff(self):
@@ -676,13 +677,21 @@ class PoXliffFormatTest(XMLMixin, AutoFormatTest):
         b'<trans-unit xml:space="preserve" id="key" approved="no">',
         b"<source>Source string</source>",
     )
+    EXPECTED_FLAGS = "c-format, max-length:100, xml-text"
 
 
 class PoXliffFormatTest2(PoXliffFormatTest):
     FILE = TEST_POXLIFF
     BASE = TEST_POXLIFF
-    EXPECTED_FLAGS = (
-        "c-format, font-family:ubuntu, font-size:22, font-weight:bold, max-size:100"
+    EXPECTED_FLAGS = ", ".join(
+        (
+            "c-format",
+            "font-family:ubuntu",
+            "font-size:22",
+            "font-weight:bold",
+            "max-size:100",
+            "xml-text",
+        )
     )
     FIND_CONTEXT = "cs.po///2"
     COUNT = 5
