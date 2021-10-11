@@ -205,10 +205,13 @@ class AppStoreFormat(TranslationFormat):
     def save(self):
         """Save underlaying store to disk."""
         for unit in self.store.units:
+            filename = self.store.get_filename(unit.filename)
             if not unit.text:
+                if os.path.exists(filename):
+                    os.unlink(filename)
                 continue
             self.save_atomic(
-                self.store.get_filename(unit.filename),
+                filename,
                 TextSerializer(unit.filename, self.store.units),
             )
 
