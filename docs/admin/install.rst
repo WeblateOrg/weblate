@@ -587,7 +587,7 @@ environment. The recommended approach is to define proxy settings in
 
 .. seealso::
 
-   `Proxy Environment Variables <https://ec.haxx.se/usingcurl/usingcurl-proxies#proxy-environment-variables>`_
+   `Proxy Environment Variables <https://everything.curl.dev/usingcurl/proxies#proxy-environment-variables>`_
 
 .. _configuration:
 
