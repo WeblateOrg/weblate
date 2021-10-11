@@ -37,6 +37,12 @@ work, but is not as well tested as single version upgrades.
 
    .. code-block:: sh
 
+      pip install -U "Weblate[all]"
+
+   If you don't want to install all of the optional dependencies do:
+
+   .. code-block:: sh
+
       pip install -U Weblate
 
    With Git checkout you need to fetch new source code and update your installation:
@@ -49,6 +55,8 @@ work, but is not as well tested as single version upgrades.
         . ~/weblate-env/bin/pip install -e .
         # Install dependencies directly when not using virtualenv
         pip install --upgrade -r requirements.txt
+        # Install optional dependencies directly when not using virtualenv
+        pip install --upgrade -r requirements-optional.txt
 
 #. New Weblate release might have new :ref:`optional-deps`, please check if they cover
    features you want.

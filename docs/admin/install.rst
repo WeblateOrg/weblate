@@ -123,6 +123,12 @@ of them in :file:`requirements-optional.txt`.
 
       pip install "Weblate[all]"
 
+   Or you can install Weblate without any optional features:
+
+   .. code-block:: sh
+
+      pip install Weblate
+
 Database backend dependencies
 +++++++++++++++++++++++++++++
 

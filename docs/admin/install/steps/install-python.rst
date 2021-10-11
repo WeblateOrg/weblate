@@ -19,21 +19,10 @@ Python modules
 
         . ~/weblate-env/bin/activate
 
-#. Install Weblate including all dependencies:
+#. Install Weblate including all optional dependencies:
 
    .. code-block:: sh
 
-        pip install Weblate
+        pip install "Weblate[all]"
 
-#. Install database driver:
-
-   .. code-block:: sh
-
-        pip install psycopg2-binary
-
-#. Install wanted optional dependencies depending on features you intend to use
-   (some might require additional system libraries, check :ref:`optional-deps`):
-
-   .. code-block:: sh
-
-        pip install ruamel.yaml aeidon boto3 zeep chardet tesserocr
+   Please check :ref:`optional-deps` for fine-tuning of optional dependencies.
