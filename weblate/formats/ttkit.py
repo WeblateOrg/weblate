@@ -1676,7 +1676,7 @@ class XWikiPropertiesFormat(PropertiesBaseFormat):
                     unit.unit = found_store_unit
                 # else it's a missing unit: we need to mark it as missing.
                 else:
-                    missingunit = self.find_unit(unit.context, unit.source)[0]
+                    missingunit = self.unit_class(self, unit.mainunit, unit.template)
                     unit.unit = missingunit.unit
                     unit.unit.missing = True
             # if the unit was only a comment, we take back the original source file unit
