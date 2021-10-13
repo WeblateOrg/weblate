@@ -354,4 +354,9 @@ class SafeHTMLCheck(TargetCheck):
     default_disabled = True
 
     def check_single(self, source, target, unit):
+
+        # Strip MarkDown links
+        if "md-text" in unit.all_flags:
+            target = MD_LINK.sub("", target)
+
         return bleach.clean(target, **extract_bleach(source)) != target

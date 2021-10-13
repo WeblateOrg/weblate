@@ -78,6 +78,26 @@ class AutoFixTest(TestCase):
             fix.fix_target(['<a href="#" onclick="foo()">link</a>'], unit),
             (['<a href="#">link</a>'], True),
         )
+        self.assertEqual(
+            fix.fix_target(["<https://weblate.org>"], unit),
+            (["&lt;https://weblate.org&gt;"], True),
+        )
+
+    def test_html_markdown(self):
+        fix = BleachHTML()
+        unit = MockUnit(
+            source='<a href="script:foo()">link</a>', flags="safe-html,md-text"
+        )
+        self.assertEqual(
+            fix.fix_target(
+                ['<a href="script:foo()">link</a><https://weblate.org>'], unit
+            ),
+            (["<a>link</a><https://weblate.org>"], True),
+        )
+        self.assertEqual(
+            fix.fix_target(["<https://weblate.org>"], unit),
+            (["<https://weblate.org>"], False),
+        )
 
     def test_zerospace(self):
         unit = MockUnit(source="Foo\u200b")

@@ -7,6 +7,7 @@ Not yet released.
 * Improved rendering of history.
 * Improved performance of the translation pages.
 * Added support for restricting translation file download.
+* The ``safe-html`` can now understand Markdown when used with ``md-text``.
 
 Weblate 4.8.1
 -------------
