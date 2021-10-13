@@ -343,7 +343,7 @@ def check_settings(app_configs, **kwargs):
     """Check for sane settings."""
     errors = []
 
-    if not settings.ADMINS or "noreply@weblate.org" in (x[1] for x in settings.ADMINS):
+    if not settings.ADMINS or any(x[1] in DEFAULT_MAILS for x in settings.ADMINS):
         errors.append(
             weblate_check(
                 "weblate.E011",
