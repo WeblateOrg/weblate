@@ -1258,6 +1258,9 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
                     not self.template
                     and not self.file_format_cls.create_empty_bilingual
                     and not hasattr(self.file_format_cls, "update_bilingual")
+                ) or (
+                    self.template
+                    and self.file_format_cls.get_new_file_content() is None
                 ):
                     raise ValidationError({"template": _("File does not exist.")})
                 LocalRepository.from_files(
