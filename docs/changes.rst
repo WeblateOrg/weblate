@@ -16,7 +16,7 @@ Released on September 10th 2021.
 * Document add-on parameters in greater detail.
 * Fixed JavaScript error in glossary.
 * Add limit to number of matches in consistency check.
-* Improve handling og placeholders in machine translations.
+* Improve handling of placeholders in machine translations.
 * Fixed creating add-ons using API.
 * Added :setting:`PRIVACY_URL` setting to add privacy policy link to the footer.
 * Hide member e-mail addresses from project admins.
