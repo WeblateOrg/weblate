@@ -236,7 +236,8 @@ class TranslationFormat:
     def load(self, storefile, template_store):
         raise NotImplementedError()
 
-    def get_plural(self, language):
+    @classmethod
+    def get_plural(cls, language, store=None):
         """Return matching plural object."""
         return language.plural
 

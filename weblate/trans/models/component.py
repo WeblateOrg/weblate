@@ -948,7 +948,7 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
                 language=language,
                 check_flags="read-only",
                 filename=self.template,
-                plural=language.plural,
+                plural=self.file_format_cls.get_plural(language),
                 language_code=language.code,
             )
 

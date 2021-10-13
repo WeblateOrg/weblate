@@ -950,15 +950,20 @@ class INIUnit(TTKitUnit):
 class BasePoFormat(TTKitFormat, BilingualUpdateMixin):
     loader = pofile
 
-    def get_plural(self, language):
+    @classmethod
+    def get_plural(cls, language, store=None):
         """Return matching plural object."""
         from weblate.lang.models import Plural
 
-        header = self.store.parseheader()
+        if store:
+            header = store.store.parseheader()
+        else:
+            # This will trigger KeyError later
+            header = {}
         try:
             number, formula = Plural.parse_plural_forms(header["Plural-Forms"])
         except (ValueError, KeyError):
-            return super().get_plural(language)
+            return super().get_plural(language, store)
 
         # Find matching one
         for plural in language.plural_set.iterator():
@@ -1815,9 +1820,10 @@ class StringsdictFormat(TTKitFormat):
         """Return most common file extension for format."""
         return "stringsdict"
 
-    def get_plural(self, language):
+    @classmethod
+    def get_plural(cls, language, store=None):
         """Return matching plural object."""
-        plural = super().get_plural(language)
+        plural = super().get_plural(language, store)
         if plural.type in ZERO_PLURAL_TYPES:
             return plural
 

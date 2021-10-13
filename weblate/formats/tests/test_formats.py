@@ -344,7 +344,7 @@ class PoFormatTest(AutoFormatTest):
     def load_plural(self, filename):
         with open(filename, "rb") as handle:
             store = self.parse_file(handle)
-            return store.get_plural(Language.objects.get(code="he"))
+            return store.get_plural(Language.objects.get(code="he"), store)
 
     def test_plurals(self):
         self.assertEqual(
@@ -1176,7 +1176,7 @@ class StringsdictFormatTest(XMLMixin, AutoFormatTest):
 
         # Try getting plural with zero for all languages
         for language in Language.objects.iterator():
-            plural = storage.get_plural(language)
+            plural = storage.get_plural(language, storage)
             self.assertIsInstance(plural, Plural)
             self.assertNotEqual(
                 plural.type,
