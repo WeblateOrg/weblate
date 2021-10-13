@@ -570,6 +570,8 @@ class Change(models.Model, UserDisplayMixin):
     def get_details_display(self):  # noqa: C901
         from weblate.utils.markdown import render_markdown
 
+        details = self.details
+
         if self.action in (self.ACTION_ANNOUNCEMENT, self.ACTION_AGREEMENT_CHANGE):
             return render_markdown(self.target)
 
@@ -577,9 +579,9 @@ class Change(models.Model, UserDisplayMixin):
             return str(self.AUTO_ACTIONS[self.action])
 
         if self.action == self.ACTION_UPDATE:
-            reason = self.details.get("reason", "content changed")
+            reason = details.get("reason", "content changed")
             filename = "<code>{}</code>".format(
-                escape(self.details.get("filename", self.translation.filename))
+                escape(details.get("filename", self.translation.filename))
             )
             if reason == "content changed":
                 return mark_safe(_("File %s was changed.") % filename)
@@ -601,7 +603,7 @@ class Change(models.Model, UserDisplayMixin):
             }
 
         # Following rendering relies on details present
-        if not self.details:
+        if not details:
             return ""
         user_actions = {
             self.ACTION_ADD_USER,
@@ -610,32 +612,32 @@ class Change(models.Model, UserDisplayMixin):
         }
         if self.action == self.ACTION_ACCESS_EDIT:
             for number, name in Project.ACCESS_CHOICES:
-                if number == self.details["access_control"]:
+                if number == details["access_control"]:
                     return name
-            return "Unknonwn {}".format(self.details["access_control"])
+            return "Unknonwn {}".format(details["access_control"])
         if self.action in user_actions:
-            if "group" in self.details:
-                return "{username} ({group})".format(**self.details)
-            return self.details["username"]
+            if "group" in details:
+                return "{username} ({group})".format(**details)
+            return details["username"]
         if self.action in (
             self.ACTION_ADDED_LANGUAGE,
             self.ACTION_REQUESTED_LANGUAGE,
         ):  # noqa: E501
             try:
-                return Language.objects.get(code=self.details["language"])
+                return Language.objects.get(code=details["language"])
             except Language.DoesNotExist:
-                return self.details["language"]
+                return details["language"]
         if self.action == self.ACTION_ALERT:
             try:
-                return ALERTS[self.details["alert"]].verbose
+                return ALERTS[details["alert"]].verbose
             except KeyError:
-                return self.details["alert"]
+                return details["alert"]
         if self.action == self.ACTION_PARSE_ERROR:
-            return "{filename}: {error_message}".format(**self.details)
+            return "{filename}: {error_message}".format(**details)
         if self.action == self.ACTION_HOOK:
-            return "{service_long_name}: {repo_url}, {branch}".format(**self.details)
-        if self.action == self.ACTION_COMMENT and "comment" in self.details:
-            return render_markdown(self.details["comment"])
+            return "{service_long_name}: {repo_url}, {branch}".format(**details)
+        if self.action == self.ACTION_COMMENT and "comment" in details:
+            return render_markdown(details["comment"])
 
         return ""
 
