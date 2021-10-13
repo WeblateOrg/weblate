@@ -581,7 +581,12 @@ class Change(models.Model, UserDisplayMixin):
         if self.action == self.ACTION_UPDATE:
             reason = details.get("reason", "content changed")
             filename = "<code>{}</code>".format(
-                escape(details.get("filename", self.translation.filename))
+                escape(
+                    details.get(
+                        "filename",
+                        self.translation.filename if self.translation else "",
+                    )
+                )
             )
             if reason == "content changed":
                 return mark_safe(_("File %s was changed.") % filename)
