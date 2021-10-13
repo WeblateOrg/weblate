@@ -17,9 +17,11 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
+from django import forms
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.forms import UserChangeForm, UserCreationForm
+from django.core.exceptions import ValidationError
 from django.utils.safestring import mark_safe
 from django.utils.translation import gettext_lazy as _
 
@@ -181,9 +183,40 @@ class WeblateUserAdmin(WeblateAuthAdmin, UserAdmin):
             self.delete_model(request, obj)
 
 
+class GroupChangeForm(forms.ModelForm):
+    class Meta:
+        model = Group
+        fields = "__all__"
+
+    def clean(self):
+        super().clean()
+        has_componentlist = bool(self.cleaned_data["componentlists"])
+        has_project = bool(self.cleaned_data["projects"])
+        has_component = bool(self.cleaned_data["components"])
+        if has_componentlist:
+            fields = []
+            if has_project:
+                fields.append("projects")
+            if has_component:
+                fields.append("components")
+            if fields:
+                raise ValidationError(
+                    {
+                        field: _("This is not used when component list is selected.")
+                        for field in fields
+                    }
+                )
+        elif has_component:
+            if has_project:
+                raise ValidationError(
+                    {"project": _("This is not used when component is selected.")}
+                )
+
+
 class WeblateGroupAdmin(WeblateAuthAdmin):
     save_as = True
     model = Group
+    form = GroupChangeForm
     inlines = [InlineAutoGroupAdmin]
     search_fields = ("name",)
     ordering = ("name",)
