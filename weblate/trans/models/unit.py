@@ -775,7 +775,7 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
         """
         Updates state based on flags.
 
-        Mark read only strings:
+        Mark read-only strings:
 
         * Flagged with 'read-only'
         * Where source string is not translated
