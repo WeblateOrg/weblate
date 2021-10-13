@@ -188,7 +188,13 @@ class WeblateGroupAdmin(WeblateAuthAdmin):
     search_fields = ("name",)
     ordering = ("name",)
     list_filter = ("internal", "project_selection", "language_selection")
-    filter_horizontal = ("roles", "projects", "languages")
+    filter_horizontal = (
+        "roles",
+        "projects",
+        "languages",
+        "components",
+        "componentlists",
+    )
 
     new_obj = None
 
