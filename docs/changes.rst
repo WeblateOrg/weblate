@@ -693,7 +693,7 @@ Released on December 20th 2019.
 * Added doublespace check.
 * Fixed creating new languages.
 * Avoid sending auditlog notifications to deleted e-mails.
-* Added support for read only strings.
+* Added support for read-only strings.
 * Added support for Markdown in comments.
 * Allow placing translation instruction text in project info.
 * Add copy to clipboard for secondary languages.
