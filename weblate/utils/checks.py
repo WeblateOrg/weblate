@@ -46,6 +46,7 @@ DEFAULT_MAILS = {
     "root@localhost",
     "webmaster@localhost",
     "noreply@example.com",
+    "weblate@example.com",
 }
 DEFAULT_SECRET_KEYS = {
     "jm8fqjlg+5!#xu%e-oh#7!$aa7!6avf7ud*_v=chdrb9qdco6(",
