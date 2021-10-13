@@ -50,7 +50,12 @@ SITE_URL = "{}://{}".format("https" if ENABLE_HTTPS else "http", SITE_DOMAIN)
 
 DEBUG = get_env_bool("WEBLATE_DEBUG", True)
 
-ADMINS = ((os.environ["WEBLATE_ADMIN_NAME"], os.environ["WEBLATE_ADMIN_EMAIL"]),)
+ADMINS = (
+    (
+        os.environ.get("WEBLATE_ADMIN_NAME", "Weblate Admin"),
+        os.environ.get("WEBLATE_ADMIN_EMAIL", "weblate@example.com"),
+    ),
+)
 
 MANAGERS = ADMINS
 
@@ -1058,11 +1063,11 @@ WEBLATE_ADDONS = [
 modify_env_list(WEBLATE_ADDONS, "ADDONS")
 
 # E-mail address that error messages come from.
-SERVER_EMAIL = os.environ["WEBLATE_SERVER_EMAIL"]
+SERVER_EMAIL = os.environ.get("WEBLATE_SERVER_EMAIL", "weblate@example.com")
 
 # Default email address to use for various automated correspondence from
 # the site managers. Used for registration emails.
-DEFAULT_FROM_EMAIL = os.environ["WEBLATE_DEFAULT_FROM_EMAIL"]
+DEFAULT_FROM_EMAIL = os.environ.get("WEBLATE_DEFAULT_FROM_EMAIL", SERVER_EMAIL)
 
 # List of URLs your site is supposed to serve
 ALLOWED_HOSTS = get_env_list("WEBLATE_ALLOWED_HOSTS", ["*"])
