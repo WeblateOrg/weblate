@@ -45,7 +45,6 @@ GOOD_CACHE = {"MemcachedCache", "PyLibMCCache", "DatabaseCache", "RedisCache"}
 DEFAULT_MAILS = {
     "root@localhost",
     "webmaster@localhost",
-    "noreply@weblate.org",
     "noreply@example.com",
 }
 DEFAULT_SECRET_KEYS = {
