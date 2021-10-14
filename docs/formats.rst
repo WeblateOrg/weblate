@@ -144,7 +144,7 @@ Capabilities of all supported formats:
 
 .. _read-only-strings:
 
-Read only strings
+Read-only strings
 +++++++++++++++++
 
 .. versionadded:: 3.10
