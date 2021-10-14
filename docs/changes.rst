@@ -9,6 +9,7 @@ Not yet released.
 * Added support for restricting translation file download.
 * The ``safe-html`` can now understand Markdown when used with ``md-text``.
 * The ``max-length`` tag now ignores XML markup when used with ``xml-text``.
+* Fixed dimensions of rendered texts in :ref:`check-max-size`.
 
 Weblate 4.8.1
 -------------

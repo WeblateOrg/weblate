@@ -312,11 +312,11 @@ To use the fonts for checking the string length, pass it the appropriate
 flags (see :ref:`custom-checks`). You will probably need the following ones:
 
 ``max-size:500``
-   Defines maximal width.
+   Defines maximal width in pixels.
 ``font-family:ubuntu``
    Defines font group to use by specifying its identifier.
 ``font-size:22``
-   Defines font size.
+   Defines font size in pixels.
 
 
 .. _own-checks:
