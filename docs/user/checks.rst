@@ -1077,6 +1077,10 @@ The translation uses unsafe HTML markup. This check has to be enabled using
 ``safe-html`` flag (see :ref:`custom-checks`). There is also accompanied
 autofixer which can automatically sanitize the markup.
 
+.. hint::
+
+   When ``md-text`` flag is also used, the Markdown style links are also allowed.
+
 .. seealso::
 
    The HTML check is performed by the `Bleach <https://bleach.readthedocs.io/>`_
