@@ -1133,7 +1133,7 @@ class XWikiFullPageFormatTest(AutoFormatTest):
         self.assert_same(testdata, newdata)
 
 
-class TBXFormatTest(AutoFormatTest):
+class TBXFormatTest(XMLMixin, AutoFormatTest):
     FORMAT = TBXFormat
     FILE = TEST_TBX
     BASE = ""
