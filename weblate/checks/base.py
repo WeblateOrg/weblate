@@ -18,8 +18,11 @@
 #
 
 import re
+from io import StringIO
 
 from django.http import Http404
+from lxml import etree
+from lxml.etree import XMLSyntaxError
 from siphashc import siphash
 
 from weblate.utils.docs import get_doc_url
@@ -159,9 +162,26 @@ class Check:
         )
 
     def get_replacement_function(self, unit):
+        def strip_xml(content):
+            try:
+                tree = etree.parse(StringIO(f"<x>{content}</x>"))
+            except XMLSyntaxError:
+                return content
+            return etree.tostring(tree, encoding="unicode", method="text")
+
+        def noop(content):
+            return content
+
         flags = unit.all_flags
+
+        # chain XML striping if needed
+        if "xml-text" in flags:
+            replacement = strip_xml
+        else:
+            replacement = noop
+
         if not flags.has_value("replacements"):
-            return lambda text: text
+            return replacement
 
         # Parse the flag
         replacements = flags.get_value("replacements")
@@ -173,7 +193,9 @@ class Check:
         # Build regexp matcher
         pattern = re.compile("|".join(re.escape(key) for key in replacements.keys()))
 
-        return lambda text: pattern.sub(lambda m: replacements[m.group(0)], text)
+        return lambda text: pattern.sub(
+            lambda m: replacements[m.group(0)], replacement(text)
+        )
 
     def handle_batch(self, unit, component):
         component.batched_checks.add(self.check_id)

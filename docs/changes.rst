@@ -8,6 +8,7 @@ Not yet released.
 * Improved performance of the translation pages.
 * Added support for restricting translation file download.
 * The ``safe-html`` can now understand Markdown when used with ``md-text``.
+* The ``max-length`` tag now ignores XML markup when used with ``xml-text``.
 
 Weblate 4.8.1
 -------------

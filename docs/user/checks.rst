@@ -678,6 +678,8 @@ Unlike the other checks, the flag should be set as a ``key:value`` pair like
    The ``replacements:`` flag might be also useful to expand placeables before
    checking the string.
 
+   When ``xml-text`` flag is also used, the length calculation ignores XML tags.
+
 .. _check-max-size:
 
 Maximum size of translation
@@ -715,6 +717,8 @@ pixels:
 
    The ``replacements:`` flag might be also useful to expand placeables before
    checking the string.
+
+   When ``xml-text`` flag is also used, the length calculation ignores XML tags.
 
 .. seealso::
 

@@ -17,7 +17,6 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-
 from django.utils.translation import gettext_lazy as _
 
 from weblate.checks.base import CountingCheck, TargetCheck, TargetCheckParametrized
