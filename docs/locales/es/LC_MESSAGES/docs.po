@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-09-08 12:00+0200\n"
-"PO-Revision-Date: 2021-06-27 15:42+0000\n"
-"Last-Translator: Adolfo Jayme Barrientos <fitojb@ubuntu.com>\n"
+"PO-Revision-Date: 2021-10-16 13:26+0000\n"
+"Last-Translator: eulalio <eulalio@disroot.org>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/weblate/"
 "documentation/es/>\n"
 "Language: es\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.7.1-dev\n"
+"X-Generator: Weblate 4.9-dev\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:180
@@ -158,6 +158,9 @@ msgid ""
 "`Protected`, and `Private` projects can be redefined by Weblate instance "
 "administrator using :ref:`custom settings <custom-acl>`."
 msgstr ""
+"El administrador de la instancia de Weblate puede redefinir el conjunto de "
+"permisos disponibles por defecto para los usuarios en los proyectos `Public`"
+", `Protected`, y `Private` utilizando :ref:`custom settings <custom-acl>`."
 
 #: ../../admin/access.rst:69
 msgid ""
@@ -347,6 +350,13 @@ msgid ""
 "do so, access management permission on the project’s scope (e.g. a "
 "membership in the `Administration` group) would be sufficient."
 msgstr ""
+"Además de añadir un usuario existente al proyecto, también es posible "
+"invitar a otros nuevos. Cualquier nuevo usuario se creará inmediatamente, "
+"pero la cuenta permanecerá inactiva hasta que se registre con un enlace en "
+"la invitación enviada por correo electrónico. No es necesario tener ningún "
+"privilegio en el sitio para hacerlo, bastaría con un permiso de gestión de "
+"acceso en el ámbito del proyecto (por ejemplo, una pertenencia al grupo "
+"`Administration`)."
 
 #: ../../admin/access.rst:153
 msgid ""
@@ -354,24 +364,31 @@ msgid ""
 "their password using invited e-mail address in the password reset form as "
 "the account is created already."
 msgstr ""
+"Si el usuario invitado pierde la validación de la invitación, pueden "
+"establecer su contraseña utilizando la dirección de correo electrónico "
+"invitado en el formulario de restablecimiento de contraseña, ya que la "
+"cuenta ya está creada."
 
 #: ../../admin/access.rst:159
 msgid ""
 "It is possible to resend the e-mail for user invitations (invalidating any "
 "previously sent invitation)."
 msgstr ""
+"Es posible reenviar el correo electrónico para las invitaciones de los "
+"usuarios (invalidando cualquier invitación enviada anteriormente)."
 
 #: ../../admin/access.rst:162
 msgid ""
 "The same kind of invitations are available site-wide from the :ref:"
 "`management interface <management-interface>` on the :guilabel:`Users` tab."
 msgstr ""
+"El mismo tipo de invitaciones están disponibles en todo el sitio desde la "
+":ref:`management interface <management-interface>` en la pestaña "
+"::guilabel:`Users`."
 
 #: ../../admin/access.rst:168
-#, fuzzy
-#| msgid "Removed user"
 msgid "Blocking users"
-msgstr "Usuario quitado"
+msgstr "Bloquear usuarios"
 
 #: ../../admin/access.rst:172
 msgid ""
@@ -379,6 +396,10 @@ msgid ""
 "them from contributing. The blocked user still will be able to see the "
 "project if he has permissions for that, but he won't be able to contribute."
 msgstr ""
+"En caso de que algunos usuarios se comporten mal en tu proyecto, tienes la "
+"opción de bloquearlos para que no contribuyan. El usuario bloqueado podrá "
+"seguir viendo el proyecto si tiene permisos para ello, pero no podrá "
+"contribuir."
 
 #: ../../admin/access.rst:177
 msgid "Per-project permission management"
@@ -401,6 +422,13 @@ msgid ""
 "creating additional custom settings for individual component as described "
 "in :ref:`custom-acl` below."
 msgstr ""
+"Por defecto, esto evita que Weblate conceda el acceso proporcionado por "
+"`Users` y `Viewers` :ref:`default groups <default-groups>` debido a la "
+"propia configuración de estos grupos. Esto no impide que se concedan "
+"permisos a esos proyectos en todo el sitio modificando los grupos por "
+"defecto, creando uno nuevo o creando configuraciones personalizadas "
+"adicionales para componentes individuales como se describe en :ref:`custom-"
+"acl` más abajo."
 
 #: ../../admin/access.rst:188
 msgid ""
@@ -409,6 +437,10 @@ msgid ""
 "superuser privilege. In order to do so, add them to the `Administration` "
 "group of the project."
 msgstr ""
+"Una de las principales ventajas de gestionar los permisos a través de la "
+"interfaz de usuario de Weblate es que puedes delegarlos en otros usuarios "
+"sin darles el privilegio de superusuario. Para ello, añádelos al grupo "
+"`Administration` del proyecto."
 
 #: ../../admin/access.rst:196
 msgid "Custom access control"
@@ -437,6 +469,12 @@ msgid ""
 "necessarily have to switch it to `Custom` :ref:`access control <acl>` to "
 "utilize it. However you must have superuser privileges in order to use it."
 msgstr ""
+"Las características más potentes del sistema de control de acceso de Weblate "
+"por ahora sólo están disponibles a través de la interfaz de administración "
+"de :ref:`Django admin interface <admin-interface>`. Puedes utilizarlo para "
+"gestionar los permisos de cualquier proyecto. No tienes que cambiarlo "
+"necesariamente a `Custom` :ref:`access control <acl>` para usarlo. Sin "
+"embargo, debes tener privilegios de superusuario para poder utilizarlo."
 
 #: ../../admin/access.rst:210
 msgid ""
@@ -446,6 +484,11 @@ msgid ""
 "<https://hosted.weblate.org/>`_), please refer to the :ref:`access-simple` "
 "section."
 msgstr ""
+"Si no estás interesado en los detalles de la implementación, y sólo quieres "
+"crear una configuración muy simple basada en los valores predeterminados, o "
+"no tienes un acceso a todo el sitio de la instalación de Weblate (como en `"
+"Hosted Weblate <https://hosted.weblate.org/>`_), por favor visita la sección "
+":ref:`access-simple`."
 
 #: ../../admin/access.rst:216
 msgid "Common setups"
@@ -456,36 +499,44 @@ msgid ""
 "This section contains an overview of some common configurations you may be "
 "interested in."
 msgstr ""
+"Esta sección contiene un resumen de algunas configuraciones comunes que "
+"pueden interesarte."
 
 #: ../../admin/access.rst:222
-#, fuzzy
-#| msgid "Site wide permissions"
 msgid "Site-wide permission management"
-msgstr "Permisos para todo el sitio"
+msgstr "Gestión de permisos para todo el sitio"
 
 #: ../../admin/access.rst:224
 msgid ""
 "To manage permissions for a whole instance at once, add users to "
 "appropriate :ref:`default groups <default-groups>`:"
 msgstr ""
+"Para gestionar los permisos de toda una instancia a la vez, añade usuarios a "
+"los grupos apropiados :ref:`default groups <default-groups>`:"
 
 #: ../../admin/access.rst:227
 msgid ""
 "`Users` (this is done by default by the :ref:`automatic group assignment "
 "<autogroup>`)."
 msgstr ""
+"`Users` (esto se hace por defecto mediante la :ref:`automatic group "
+"assignment <autogroup>`)."
 
 #: ../../admin/access.rst:229
 msgid ""
 "`Reviewers` (if you are using :ref:`review workflow <reviews>` with "
 "dedicated reviewers)."
 msgstr ""
+"`Reviewers` (si estás utilizando :ref:`review workflow <reviews>` con "
+"revisores dedicados)."
 
 #: ../../admin/access.rst:231
 msgid ""
 "`Managers` (if you want to delegate most of the management operations to "
 "somebody else)."
 msgstr ""
+"`Managers` (si quieres delegar la mayor parte de las operaciones de gestión "
+"a otra persona)."
 
 #: ../../admin/access.rst:234
 msgid ""
@@ -493,6 +544,10 @@ msgid ""
 "otherwise the site-wide permissions provided by membership in the `Users` "
 "and `Reviewers` groups won’t have any effect."
 msgstr ""
+"Deberías mantener todos los proyectos configurados como `Public` (ver "
+":ref:`acl`), de lo contrario los permisos de todo el sitio proporcionados "
+"por la pertenencia a los grupos `Users` y `Reviewers` no tendrán ningún "
+"efecto."
 
 #: ../../admin/access.rst:238
 msgid ""
@@ -500,6 +555,9 @@ msgid ""
 "groups. For example, you may want to give a permission to manage screenshots "
 "to all the `Users`."
 msgstr ""
+"También puedes conceder algunos permisos adicionales de tu elección a los "
+"grupos por defecto. Por ejemplo, puedes querer dar un permiso para gestionar "
+"las capturas de pantalla a todos los `Users`."
 
 #: ../../admin/access.rst:242
 msgid ""
