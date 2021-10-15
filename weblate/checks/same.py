@@ -26,6 +26,7 @@ from weblate_language_data.check_languages import LANGUAGES
 
 from weblate.checks.base import TargetCheck
 from weblate.checks.data import IGNORE_WORDS
+from weblate.checks.flags import TYPED_FLAGS
 from weblate.checks.format import FLAG_RULES, PERCENT_MATCH
 from weblate.checks.qt import QT_FORMAT_MATCH, QT_PLURAL_MATCH
 from weblate.checks.ruby import RUBY_FORMAT_MATCH
@@ -185,7 +186,7 @@ class SameCheck(TargetCheck):
         stripped = strip_string(source, unit.all_flags)
 
         # Strip placeholder strings
-        if "placeholders" in unit.all_flags:
+        if "placeholders" in TYPED_FLAGS and "placeholders" in unit.all_flags:
             stripped = strip_placeholders(stripped, unit)
 
         # Ignore strings which don't contain any string to translate
