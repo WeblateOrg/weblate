@@ -10,6 +10,7 @@ Not yet released.
 * The ``safe-html`` can now understand Markdown when used with ``md-text``.
 * The ``max-length`` tag now ignores XML markup when used with ``xml-text``.
 * Fixed dimensions of rendered texts in :ref:`check-max-size`.
+* Lowered app store title length to 30 to assist with upcoming Google policy changes.
 
 Weblate 4.8.1
 -------------
