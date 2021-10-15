@@ -55,14 +55,7 @@ def handle_task_failure(exception=None, **kwargs):
 
 @app.on_after_configure.connect
 def configure_error_handling(sender, **kargs):
-    """Rollbar and Sentry integration.
-
-    Based on
-    https://www.mattlayman.com/blog/2017/django-celery-rollbar/
-    """
-    if not bool(os.environ.get("CELERY_WORKER_RUNNING", False)):
-        return
-
+    """Rollbar and Sentry integration."""
     from weblate.utils.errors import init_error_collection
 
     init_error_collection(celery=True)
