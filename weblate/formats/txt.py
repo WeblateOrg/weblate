@@ -31,6 +31,15 @@ from weblate.formats.base import TranslationFormat, TranslationUnit
 from weblate.utils.errors import report_error
 
 
+class MultiparserError(Exception):
+    def __init__(self, filename, original):
+        self.filename = filename
+        self.original = original
+
+    def __str__(self):
+        return f"{self.filename}: {self.original}"
+
+
 class TextItem:
     """Actual text unit object."""
 
@@ -95,9 +104,12 @@ class MultiParser:
                 # Needed to allow overlapping globs, more specific first
                 if match in result:
                     continue
-                result[match] = TextParser(
-                    match, os.path.relpath(match, self.base), flags
-                )
+                try:
+                    result[match] = TextParser(
+                        match, os.path.relpath(match, self.base), flags
+                    )
+                except Exception as error:
+                    raise MultiparserError(match, error)
         return result
 
     def get_filename(self, name):
