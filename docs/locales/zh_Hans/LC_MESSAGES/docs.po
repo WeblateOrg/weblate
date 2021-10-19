@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-09-08 12:00+0200\n"
-"PO-Revision-Date: 2021-10-16 13:26+0000\n"
+"PO-Revision-Date: 2021-10-19 22:25+0000\n"
 "Last-Translator: JY3 <GeeyunJY3@gmail.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "weblate/documentation/zh_Hans/>\n"
@@ -5438,7 +5438,7 @@ msgstr ""
 
 #: ../../admin/checks.rst:342
 msgid "Checking translation text does not contain \"foo\""
-msgstr "检查翻译文本不含有 “ foo ”"
+msgstr "检查翻译文本是否包含“foo”"
 
 #: ../../admin/checks.rst:344
 msgid ""
@@ -7924,7 +7924,7 @@ msgstr "SITE_DOMAIN"
 msgid ""
 "Configures site domain. This is necessary to produce correct absolute links "
 "in many scopes (for example activation e-mails, notifications or RSS feeds)."
-msgstr "配置网站域名。这对于在很多地方获得正确的绝对链接是必要的（例如激活邮箱、通知或 RSS 源）。"
+msgstr "配置网站域名。这对于在很多地方获得正确的绝对链接是必要的（例如激活邮箱、通知或 RSS 订阅源）。"
 
 #: ../../admin/config.rst:1924
 msgid ""
@@ -11089,9 +11089,7 @@ msgstr "使用 Celery 的后台任务"
 msgid ""
 "Weblate uses Celery to process background tasks. A typical setup using Redis "
 "as a backend looks like this:"
-msgstr ""
-"Webate 使用 Celery 来处理后台任务。使用 Redis 作为后端的典型安装看起来像这"
-"样："
+msgstr "Webate 使用 Celery 来处理后台任务。使用 Redis 作为后端的典型安装如下所示："
 
 #: ../../admin/install.rst:1420
 msgid ""
@@ -14843,9 +14841,7 @@ msgstr "add_suggestions"
 msgid ""
 "Imports a translation from the file to use as a suggestion for the given "
 "translation. It skips duplicated translations; only different ones are added."
-msgstr ""
-"从文件导入翻译，来作为给定翻译的建议来使用。它跳过了复制翻译的步骤；只会添加"
-"不同的内容。"
+msgstr "从文件导入翻译，用作给定翻译的建议。它会跳过重复的翻译；只会添加不同的内容。"
 
 #: ../../admin/management.rst:91
 msgid ""
@@ -21207,31 +21203,31 @@ msgstr "**响应的示例**："
 
 #: ../../api.rst:2583
 msgid "RSS feeds"
-msgstr "RSS 源"
+msgstr "RSS 订阅源"
 
 #: ../../api.rst:2585
 msgid "Changes in translations are exported in RSS feeds."
-msgstr "翻译的变更会导出到 RSS 源中。"
+msgstr "翻译的变更会导出到 RSS 订阅源中。"
 
 #: ../../api.rst:2589
 msgid "Retrieves RSS feed with recent changes for a translation."
-msgstr "返回带有翻译近期变更的 RSS 源。"
+msgstr "返回带有翻译近期变更的 RSS 订阅源。"
 
 #: ../../api.rst:2593
 msgid "Retrieves RSS feed with recent changes for a component."
-msgstr "返回带有组件近期变更的 RSS 源。"
+msgstr "返回带有组件近期变更的 RSS 订阅源。"
 
 #: ../../api.rst:2597
 msgid "Retrieves RSS feed with recent changes for a project."
-msgstr "返回带有项目近期变更的 RSS 源。"
+msgstr "返回带有项目近期变更的 RSS 订阅源。"
 
 #: ../../api.rst:2601
 msgid "Retrieves RSS feed with recent changes for a language."
-msgstr "返回带有语言近期变更的 RSS 源。"
+msgstr "返回带有语言近期变更的 RSS 订阅源。"
 
 #: ../../api.rst:2605
 msgid "Retrieves RSS feed with recent changes for Weblate instance."
-msgstr "返回带有 Weblate 实例近期变更的 RSS 源。"
+msgstr "返回带有 Weblate 实例近期变更的 RSS 订阅源。"
 
 #: ../../api.rst:2609
 msgid "`RSS on wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
@@ -22008,7 +22004,7 @@ msgstr "改进了对上传文件格式的检测。"
 
 #: ../../changes.rst:245
 msgid "Avoid duplicate pull requests on Pagure."
-msgstr "避免在 Pagure 上复制拉取请求。"
+msgstr "避免在 Pagure 上重复拉取请求。"
 
 #: ../../changes.rst:246
 msgid "Improved performance when displaying ghost translations."
@@ -25759,7 +25755,7 @@ msgstr "改进了解析错误的通知。"
 #: ../../changes.rst:1427
 msgid ""
 "Added option to import components with duplicate name to import_project."
-msgstr "添加了选项将带有复制名称的组件导入 import_project。"
+msgstr "在 import_project 中增加了导入名称重复的组件的选项。"
 
 #: ../../changes.rst:1429
 msgid "Added XLIFF export for dictionary."
@@ -29260,11 +29256,11 @@ msgstr "当前覆盖后面的内容："
 
 #: ../../devel/alerts.rst:11
 msgid "Duplicated source strings in translation files"
-msgstr "翻译文件中复制的源字符串"
+msgstr "翻译文件中重复的源字符串"
 
 #: ../../devel/alerts.rst:12
 msgid "Duplicated languages within translations"
-msgstr "翻译中复制的语言"
+msgstr "翻译中重复的语言"
 
 #: ../../devel/alerts.rst:13
 msgid "Merge, update, or push failures in the repository"
@@ -29334,7 +29330,7 @@ msgstr ""
 
 #: ../../devel/alerts.rst:34
 msgid "A component with both duplicated strings and languages looks like this:"
-msgstr "带有复制的字符串和语言的组件看起来像这样："
+msgstr "包含重复的字符串和语言的组件如下所示："
 
 #: ../../devel/alerts.rst:40
 msgid ":ref:`production-certs`"
@@ -29452,7 +29448,7 @@ msgstr ""
 
 #: ../../devel/gettext.rst:37
 msgid "Overall the GNU gettext workflow looks like this:"
-msgstr "GNU gettext 总体工作流程看起来像这样："
+msgstr "GNU gettext 总体工作流程如下所示："
 
 #: ../../devel/gettext.rst:56
 msgid ""
@@ -31508,9 +31504,7 @@ msgstr ""
 msgid ""
 "In case the translation to the source language is desired, please change "
 "the :ref:`component-source_language` in the component settings."
-msgstr ""
-"如果需要对源语言进行翻译，请更改组件设置中的:ref:`component-"
-"source_language`。"
+msgstr "如果需要对源语言进行翻译，请更改组件设置中的 :ref:`component-source_language`。"
 
 #: ../../faq.rst:436
 msgid ""
@@ -31524,8 +31518,7 @@ msgid ""
 "be ignored by Weblate, please adjust the :ref:`component-language_regex` to "
 "exclude it."
 msgstr ""
-"如果需要源语言的翻译文件，但 Weblate 应该忽略它，请调整 :ref: `component-"
-"language_regex` 来排除它。"
+"如果需要源语言的翻译文件，但 Weblate 应该忽略它，请通过调整 :ref:`component-language_regex` 来排除它。"
 
 #: ../../faq.rst:441
 msgid ""
