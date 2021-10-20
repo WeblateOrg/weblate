@@ -674,15 +674,17 @@ class Translation(
             if change_author.id != author_id:
                 continue
 
+            details = unit.details
+
             # Remove pending flag
             unit.pending = False
 
-            if unit.details.get("add_unit"):
+            if details.get("add_unit"):
                 pounit = store.new_unit(
                     unit.context, unit.get_source_plurals(), unit.get_target_plurals()
                 )
                 updated = True
-                del unit.details["add_unit"]
+                details["add_unit"]
             else:
                 try:
                     pounit, add = store.find_unit(unit.context, unit.source)
