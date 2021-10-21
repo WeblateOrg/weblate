@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-09-08 12:00+0200\n"
-"PO-Revision-Date: 2021-10-21 09:57+0000\n"
+"PO-Revision-Date: 2021-10-23 07:26+0000\n"
 "Last-Translator: eulalio <eulalio@disroot.org>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/weblate/"
 "documentation/es/>\n"
@@ -3151,6 +3151,9 @@ msgid ""
 "integrated in Weblate, but now you have to write some code to wrap your "
 "script with an add-on."
 msgstr ""
+"Los add-ons pueden utilizarse para ejecutar scripts externos. Esto solía "
+"estar integrado en Weblate, pero ahora tienes que escribir algo de código "
+"para envolver tu script con un add-on."
 
 #: ../../admin/addons.rst:765
 msgid "For installation instructions see :ref:`custom-addon-modules`."
@@ -3162,6 +3165,8 @@ msgid ""
 "The script is executed with the current directory set to the root of the VCS "
 "repository for any given component."
 msgstr ""
+"El script se ejecuta con el directorio actual establecido en la raíz del "
+"repositorio VCS para cualquier componente dado."
 
 #: ../../admin/addons.rst:770
 msgid "Additionally, the following environment variables are available:"
@@ -3216,14 +3221,16 @@ msgid ""
 "Previous HEAD after update (only available after running the post-update "
 "hook)."
 msgstr ""
+"HEAD anterior después de la actualización (sólo disponible después de "
+"ejecutar el hook posterior a la actualización)."
 
 #: ../../admin/addons.rst:822
 msgid "Component slug used to construct URL."
-msgstr ""
+msgstr "Componente slug utilizado para construir la URL."
 
 #: ../../admin/addons.rst:828
 msgid "Project slug used to construct URL."
-msgstr ""
+msgstr "Slug del proyecto utilizado para construir la URL."
 
 #: ../../admin/addons.rst:834
 msgid "Component name."
@@ -3246,10 +3253,8 @@ msgid ":ref:`component`"
 msgstr ""
 
 #: ../../admin/addons.rst:859
-#, fuzzy
-#| msgid "Could not update repository: %s"
 msgid "Post-update repository processing"
-msgstr "No se pudo actualizar el repositorio: %s"
+msgstr "Procesando el repositorio después de la actualización"
 
 #: ../../admin/addons.rst:861
 msgid ""
@@ -3257,6 +3262,10 @@ msgid ""
 "changes. To achieve this, please remember Weblate only sees files committed "
 "to the VCS, so you need to commit changes as a part of the script."
 msgstr ""
+"Se puede utilizar para actualizar los archivos de traducción cuando el "
+"código fuente del VCS cambia. Para conseguirlo, recuerda que Weblate sólo ve "
+"los archivos confirmados en el VCS, por lo que debes commit los cambios como "
+"parte del script."
 
 #: ../../admin/addons.rst:865
 msgid "For example with Gulp you can do it using following code:"
@@ -3272,12 +3281,16 @@ msgid ""
 "Use the commit script to automatically change a translation before it is "
 "committed to the repository."
 msgstr ""
+"Utilice el script commitn para cambiar automáticamente una traducción antes "
+"de confirmarla en el repositorio."
 
 #: ../../admin/addons.rst:880
 msgid ""
 "It is passed as a single parameter consisting of the filename of a current "
 "translation."
 msgstr ""
+"Se pasa como un único parámetro que consiste en el nombre de archivo de una "
+"traducción actual."
 
 #: ../../admin/admin.rst:4 ../../admin/memory.rst:94
 msgid "Management interface"
@@ -3289,10 +3302,14 @@ msgid ""
 "manage/` URL. It is available for users signed in with admin privileges, "
 "accessible by using the wrench icon top right:"
 msgstr ""
+"La interfaz de gestión ofrece ajustes de administración bajo la URL :file:`/"
+"manage/`. Está disponible para los usuarios que hayan iniciado sesión con "
+"privilegios de administrador, accediendo a través del icono de la llave "
+"inglesa en la parte superior derecha:"
 
 #: ../../admin/admin.rst:12
 msgid "It includes basic overview of your Weblate:"
-msgstr ""
+msgstr "Incluye un resumen básico de tu Weblate:"
 
 #: ../../admin/admin.rst:14
 msgid "Support status, see :doc:`support`"
@@ -3318,7 +3335,7 @@ msgstr "Gestión de claves SSH; vea :ref:`ssh-repos`"
 
 #: ../../admin/admin.rst:19
 msgid "Alerts overview for all components, see :ref:`alerts`"
-msgstr ""
+msgstr "Resumen de alertas para todos los componentes, ver :ref:`alerts`."
 
 #: ../../admin/admin.rst:24
 msgid "The Django admin interface"
@@ -3329,6 +3346,8 @@ msgid ""
 "Will be removed in the future, as its use is discouraged—most features can "
 "be managed directly in Weblate."
 msgstr ""
+"Se eliminará en el futuro, ya que se desaconseja su uso; la mayoría de las "
+"funciones se pueden gestionar directamente en Weblate."
 
 #: ../../admin/admin.rst:31
 msgid ""
@@ -3344,6 +3363,9 @@ msgid ""
 "tweak it for :ref:`production`, or manage SSH keys used to access :ref:`vcs-"
 "repos`."
 msgstr ""
+"En la sección :guilabel:`Reports`, puedes comprobar el estado de tu sitio, "
+"ajústalo para :ref:`production`, o gestiona las claves SSH utilizadas para "
+"acceder a :ref:`vcs-repos`."
 
 #: ../../admin/admin.rst:39
 msgid ""
@@ -3351,12 +3373,18 @@ msgid ""
 "is probably :guilabel:`Weblate translations`, where you can manage "
 "translatable projects, see :ref:`project` and :ref:`component`."
 msgstr ""
+"Gestiona los objetos de la base de datos en cualquiera de las secciones. La "
+"más interesante es probablemente :guilabel:`Weblate translations`, donde "
+"puedes gestionar proyectos traducibles, ver :ref:`project` y "
+":ref:`component`."
 
 #: ../../admin/admin.rst:43
 msgid ""
 ":guilabel:`Weblate languages` holds language definitions, explained further "
 "in :ref:`languages`."
 msgstr ""
+":guilabel:`Weblate languages` contiene las definiciones de los idiomas, que "
+"se explican en :ref:`languages`."
 
 #: ../../admin/admin.rst:47
 msgid "Adding a project"
@@ -3368,6 +3396,9 @@ msgid ""
 "one project for one piece of software, or book (See :ref:`project` for info "
 "on individual parameters):"
 msgstr ""
+"Añadir un proyecto sirve de contenedor para todos los componentes. "
+"Normalmente se crea un proyecto para una pieza de software, o libro (Ver "
+":ref:`project` para información sobre los parámetros individuales):"
 
 #: ../../admin/admin.rst:57
 msgid ":ref:`project`"
@@ -3382,6 +3413,9 @@ msgid ""
 "Once you have added a project, translation components can be added to it. "
 "(See :ref:`component` for info regarding individual parameters):"
 msgstr ""
+"Una vez añadido un proyecto, se pueden añadir componentes de traducción al "
+"mismo. (Véase :ref:`component` para obtener información sobre los parámetros "
+"individuales):"
 
 #: ../../admin/admin.rst:71 ../../admin/admin.rst:87
 msgid ":ref:`component`, :ref:`bimono`"
@@ -3397,6 +3431,10 @@ msgid ""
 "mapping of message IDs to its respective source language (usually English). "
 "(See :ref:`component` for info regarding individual parameters):"
 msgstr ""
+"Para facilitar la traducción de los mismos, proporciona un archivo de "
+"plantilla que contenga la asignación de los ID de los mensajes a su "
+"respectivo idioma de origen (normalmente el inglés). (Véase :ref:`component` "
+"para obtener información sobre los parámetros individuales):"
 
 #: ../../admin/announcements.rst:2
 msgid "Announcements"
@@ -3412,6 +3450,8 @@ msgid ""
 "Provide info to your translators by posting announcements, site-wide, per "
 "project, component, or language."
 msgstr ""
+"Proporciona información a tus traductores publicando anuncios, en todo el "
+"sitio, por proyecto, componente o idioma."
 
 #: ../../admin/announcements.rst:10
 msgid ""
