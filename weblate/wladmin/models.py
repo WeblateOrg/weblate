@@ -161,7 +161,8 @@ class BackupService(models.Model):
         verbose_name=gettext_lazy("Backup repository URL"),
         help_text=gettext_lazy(
             "Use /path/to/repo for local backups "
-            "or user@host:/path/to/repo for remote SSH backups."
+            "or user@host:/path/to/repo "
+            "or ssh://user@host:port/path/to/backups for remote SSH backups."
         ),
     )
     enabled = models.BooleanField(default=True)
