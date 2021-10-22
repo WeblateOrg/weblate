@@ -23,8 +23,8 @@ msgstr ""
 "Project-Id-Version: Weblate 4.8.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-09-08 10:00+0000\n"
-"PO-Revision-Date: 2021-10-19 22:25+0000\n"
-"Last-Translator: simmon <simmon@nplob.com>\n"
+"PO-Revision-Date: 2021-10-23 07:25+0000\n"
+"Last-Translator: k ks <kmshts@naver.com>\n"
 "Language-Team: Korean <https://hosted.weblate.org/projects/weblate/"
 "application/ko/>\n"
 "Language: ko\n"
@@ -1122,19 +1122,13 @@ msgid "Flag unchanged translations as \"Needs editing\""
 msgstr "바뀌지 않은 번역을 \"수정이 필요함\"으로 설정"
 
 #: weblate/addons/flags.py:86
-#, fuzzy
-#| msgid ""
-#| "Whenever a new translatable string is imported from the VCS and it "
-#| "matches a source string, it is flagged as needing editing in Weblate. "
-#| "This is especially useful for file formats that include all strings even "
-#| "if not translated."
 msgid ""
 "Whenever a new translatable string is imported from the VCS and it matches a "
 "source string, it is flagged as needing editing in Weblate. Especially "
 "useful for file formats that include source strings for untranslated strings."
 msgstr ""
-"VCS에서 새 번역 문자열을 가져올 때마다 편집이 필요함으로 설정합니다. 이렇게 "
-"하면 개발자가 만든 번역을 쉽게 골라내 편집할 수 있습니다."
+"VCS에서 번역 가능한 새로운 문자열을 가져오고, 그것이 소스 문자열과 일치할 때마다 웹레이트에서 편집이 필요한 것으로 표시됩니다. "
+"번역안된 문자열의 소스 문자열을 포함하는 파일 형식에 특히 유용합니다."
 
 #: weblate/addons/flags.py:105 weblate/templates/component.html:68
 #: weblate/templates/component.html:206 weblate/templates/project.html:67
@@ -1180,16 +1174,12 @@ msgid "No line wrapping"
 msgstr "줄 바꿈 없음"
 
 #: weblate/addons/forms.py:121
-#, fuzzy
-#| msgid ""
-#| "By default gettext wraps lines at 77 chars and newlines. With --no-wrap "
-#| "parameter, it wraps only at newlines."
 msgid ""
 "By default gettext wraps lines at 77 characters and at newlines. With the --"
 "no-wrap parameter, wrapping is only done at newlines."
 msgstr ""
-"기본적으로 gettext는 영문자 기준 문자를 77자를 넘기거나 줄바꿈이 있는경우 줄"
-"을 바꿉니다. --no-wrap 매개변수를 이용하면 줄바꿈에서만 줄을 바꿉니다."
+"기본적으로 gettext는 영문자 기준 77자와 줄 바꿈 문자가 있으면 줄을 바꿉니다. --no-wrap 매개변수를 이용하면 줄 바꿈 "
+"문자가 있는것에서만 줄 바꿈을 합니다."
 
 #: weblate/addons/forms.py:129
 msgid "Keep previous msgids of translated strings"
@@ -1228,22 +1218,13 @@ msgid "Append trailers to squashed commit message"
 msgstr "스쿼시된 커밋 메시지에 뒷줄 추가"
 
 #: weblate/addons/forms.py:161
-#, fuzzy
-#| msgid ""
-#| "Trailer lines are lines that look similar to RFC 822 e-mail headers, at "
-#| "the end of the otherwise free-form part of a commit message, such as 'Co-"
-#| "authored-by: ...'."
 msgid ""
 "Trailer lines are lines that look similar to RFC 822 e-mail headers, at the "
 "end of the otherwise free-form part of a commit message, such as 'Co-"
 "authored-by: …'."
-msgstr ""
-"뒷줄은 RFC 822 전자 메일 헤더와 비슷한 줄로, '공저자 : ...'와 같은 커밋 메시"
-"지의 자유 형식 부분 끝에 있습니다."
+msgstr "뒷줄은 RFC 822 전자 메일 헤더와 비슷한 줄로, '공저자 : …'와 같은 커밋 메시지의 자유 형식 부분 끝에 있습니다."
 
 #: weblate/addons/forms.py:167
-#, fuzzy
-#| msgid "Commit messages"
 msgid "Commit message"
 msgstr "커밋 메시지"
 
@@ -1262,18 +1243,16 @@ msgid "JSON indentation"
 msgstr "JSON 들여쓰기"
 
 #: weblate/addons/forms.py:193
-#, fuzzy
-#| msgid "JSON indentation"
 msgid "JSON indentation style"
-msgstr "JSON 들여쓰기"
+msgstr "JSON 들여쓰기 차림새"
 
 #: weblate/addons/forms.py:195
 msgid "Spaces"
-msgstr ""
+msgstr "공백"
 
 #: weblate/addons/forms.py:196
 msgid "Tabs"
-msgstr ""
+msgstr "탭"
 
 #: weblate/addons/forms.py:205
 msgid "YAML indentation"
@@ -1434,10 +1413,8 @@ msgid "Source strings"
 msgstr "원본 문자열"
 
 #: weblate/addons/forms.py:478
-#, fuzzy
-#| msgid "Create translation"
 msgid "Target translation"
-msgstr "번역 생성"
+msgstr "대상 번역"
 
 #: weblate/addons/forms.py:480
 msgid "String prefix"
@@ -1461,7 +1438,7 @@ msgstr "번역 상태에 관한 자세한 정보를 포함한 파일을 생성�
 
 #: weblate/addons/generate.py:65
 msgid "Pseudolocale generation"
-msgstr ""
+msgstr "가짜 언어 생성"
 
 #: weblate/addons/generate.py:67
 msgid ""
@@ -2938,7 +2915,7 @@ msgstr "이 문자열들은 줄임표(…)를 대신하여 세 점(...)을 사�
 
 #: weblate/checks/source.py:68
 msgid "Multiple failing checks"
-msgstr "여러 실패 검사"
+msgstr "여러 검사 실패"
 
 #: weblate/checks/source.py:69
 msgid "The translations in several languages have failing checks"
@@ -8528,7 +8505,7 @@ msgstr "의견이 있는 문자열"
 #: weblate/templates/snippets/query-builder.html:85 weblate/trans/filter.py:49
 #: weblate/trans/filter.py:129
 msgid "Strings with any failing checks"
-msgstr "실패 검사에 걸린 문자열"
+msgstr "검사 실패에 걸린 문자열"
 
 #: weblate/templates/snippets/query-builder.html:90
 msgid "Strings with suggestions from others"
@@ -9877,13 +9854,13 @@ msgstr "제안없이 활동이 필요한 문자열"
 
 #: weblate/trans/filter.py:52
 msgid "Translated strings with any failing checks"
-msgstr "실패 검사에 걸린 번역된 문자열"
+msgstr "검사 실패에 걸린 번역된 문자열"
 
 #: weblate/trans/filter.py:57
 #, fuzzy
 #| msgid "Translated strings with any failing checks"
 msgid "Translated strings with dismissed checks"
-msgstr "실패 검사에 걸린 번역된 문자열"
+msgstr "검사 실패에 걸린 번역된 문자열"
 
 #: weblate/trans/filter.py:60 weblate/trans/filter.py:130
 msgid "Approved strings"
