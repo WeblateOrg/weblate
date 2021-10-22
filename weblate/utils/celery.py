@@ -22,8 +22,9 @@
 import os
 
 from celery import Celery
-from celery.signals import task_failure
+from celery.signals import after_setup_logger, task_failure
 from django.conf import settings
+from django.core.checks import run_checks
 
 # set the default Django settings module for the 'celery' program.
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "weblate.settings")
@@ -59,6 +60,17 @@ def configure_error_handling(sender, **kargs):
     from weblate.utils.errors import init_error_collection
 
     init_error_collection(celery=True)
+
+
+@after_setup_logger.connect
+def show_failing_system_check(sender, logger, **kwargs):
+    if settings.DEBUG:
+        for check in run_checks(include_deployment_checks=True):
+            # Skip silenced checks and Celery one
+            # (it fails when started from Celery startup)
+            if check.is_silenced() or check.id == "weblate.E019":
+                continue
+            logger.warning("%s", check)
 
 
 def get_queue_length(queue="celery"):
