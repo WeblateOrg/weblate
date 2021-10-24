@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-09-08 12:00+0200\n"
-"PO-Revision-Date: 2021-10-23 07:26+0000\n"
+"PO-Revision-Date: 2021-10-24 16:18+0000\n"
 "Last-Translator: eulalio <eulalio@disroot.org>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/weblate/"
 "documentation/es/>\n"
@@ -3457,6 +3457,8 @@ msgstr ""
 msgid ""
 "Announce the purpose, deadlines, status, or specify targets for translation."
 msgstr ""
+"Anunciar el propósito, los plazos, el estado, o especificar los objetivos de "
+"la traducción."
 
 #: ../../admin/announcements.rst:12
 msgid ""
@@ -3471,26 +3473,34 @@ msgid ""
 "This can be useful for various things from announcing the purpose of the "
 "website to specifying targets for translations."
 msgstr ""
+"Esto puede ser útil para varias cosas, desde anunciar el propósito del sitio "
+"web hasta especificar los objetivos de las traducciones."
 
 #: ../../admin/announcements.rst:18
 msgid ""
 "The announcements can posted on each level in the :guilabel:`Manage` menu, "
 "using :guilabel:`Post announcement`:"
 msgstr ""
+"Se pueden publicar los anuncios en cada nivel en el menú :guilabel:`Manage`, "
+"utilizando :guilabel:`Post announcement`:"
 
 #: ../../admin/announcements.rst:None
 msgid ""
 "Image showing a message that reads: \"Translations will be used only if they "
 "reach 60%\" atop the dashboard view."
 msgstr ""
+"Imagen que muestra un mensaje que dice: \"Las traducciones se utilizarán "
+"sólo si alcanzan el 60%\" encima de la vista del tablero."
 
 #: ../../admin/announcements.rst:24
 msgid "It can be also added using the admin interface:"
-msgstr ""
+msgstr "También se puede añadir mediante la interfaz de administración:"
 
 #: ../../admin/announcements.rst:28
 msgid "The announcements are then shown based on their specified context:"
 msgstr ""
+"A continuación, los anuncios se muestran en función de su contexto "
+"especificado:"
 
 #: ../../admin/announcements.rst:30
 msgid "No context specified"
@@ -3498,7 +3508,7 @@ msgstr "Ningún contexto especificado"
 
 #: ../../admin/announcements.rst:32
 msgid "Shown on dashboard (landing page)."
-msgstr ""
+msgstr "Se muestra en el panel de herramientas (página de destino)."
 
 #: ../../admin/announcements.rst:34
 msgid "Project specified"
@@ -3508,6 +3518,8 @@ msgstr "Proyecto especificado"
 msgid ""
 "Shown within the project, including all its components and translations."
 msgstr ""
+"Se muestra dentro del proyecto, incluyendo todos sus componentes y "
+"traducciones."
 
 #: ../../admin/announcements.rst:38
 msgid "Component specified"
@@ -3515,7 +3527,7 @@ msgstr "Componente especificado"
 
 #: ../../admin/announcements.rst:40
 msgid "Shown for a given component and all its translations."
-msgstr ""
+msgstr "Se muestra para un componente determinado y todas sus traducciones."
 
 #: ../../admin/announcements.rst:42
 msgid "Language specified"
@@ -3524,16 +3536,20 @@ msgstr "Idioma especificado"
 #: ../../admin/announcements.rst:44
 msgid "Shown on the language overview and all translations in that language."
 msgstr ""
+"Se muestra en el resumen de idiomas y en todas las traducciones en ese "
+"idioma."
 
 #: ../../admin/announcements.rst:47
 msgid "This is how it looks on the language overview page:"
-msgstr ""
+msgstr "Así es como se ve en la página de resumen de idiomas:"
 
 #: ../../admin/announcements.rst:None
 msgid ""
 "Image showing a message that reads: \"Czech translators rock!\" atop the "
 "Czech language overview."
 msgstr ""
+"Imagen que muestra un mensaje que dice: \"¡Los traductores checos son "
+"geniales!\" encima de la vista general del idioma checo."
 
 #: ../../admin/auth.rst:2
 msgid "Authentication"
@@ -3550,12 +3566,18 @@ msgid ""
 "new user can contribute or authenticate by using one of the third party "
 "services."
 msgstr ""
+"La configuración por defecto de Weblate es utilizar python-social-auth, un "
+"formulario en el sitio web para gestionar el registro de nuevos usuarios. "
+"Después de confirmar su correo electrónico, un nuevo usuario puede "
+"contribuir o autenticarse utilizando uno de los servicios de terceros."
 
 #: ../../admin/auth.rst:11
 msgid ""
 "You can also turn off registration of new users using :setting:"
 "`REGISTRATION_OPEN`."
 msgstr ""
+"También puedes desactivar el registro de nuevos usuarios mediante "
+":setting:`REGISTRATION_OPEN`."
 
 #: ../../admin/auth.rst:14
 msgid "The authentication attempts are subject to :ref:`rate-limit`."
@@ -3571,11 +3593,15 @@ msgid ""
 "various social options to do so. Using it means you can import the user "
 "database of other Django-based projects (see :ref:`pootle-migration`)."
 msgstr ""
+"La solución incorporada de Django se utiliza para la autenticación, "
+"incluyendo varias opciones sociales para hacerlo. Su uso permite importar la "
+"base de datos de usuarios de otros proyectos basados en Django (ver :ref"
+":`pootle-migration`)."
 
 #: ../../admin/auth.rst:25
 msgid ""
 "Django can additionally be set up to authenticate against other means too."
-msgstr ""
+msgstr "Django también se puede configurar para configurar otros medios."
 
 #: ../../admin/auth.rst:29
 msgid ""
@@ -3603,6 +3629,8 @@ msgid ""
 "Please check their documentation for generic configuration instructions in :"
 "doc:`psa:configuration/django`."
 msgstr ""
+"Consulta su documentación para obtener instrucciones de configuración "
+"genéricas en :doc:`psa:configuration/django`."
 
 #: ../../admin/auth.rst:43
 msgid ""
@@ -3611,6 +3639,11 @@ msgid ""
 "support this, please enforce e-mail validation on the Weblate side by "
 "configuring FORCE_EMAIL_VALIDATION for them. For example:"
 msgstr ""
+"Por defecto, Weblate confía en los servicios de autenticación de terceros "
+"para proporcionar una dirección de correo electrónico validada. Si algunos "
+"de los servicios que deseas utilizar no lo soportan, por favor, ejecuta la "
+"validación del correo electrónico en el lado de Weblate configurando "
+"FORCE_EMAIL_VALIDATION para ellos. Por ejemplo:"
 
 #: ../../admin/auth.rst:52
 msgid ":doc:`psa:pipeline`"
@@ -3625,6 +3658,13 @@ msgid ""
 "explicitly, otherwise Weblate will not be able to properly credit "
 "contributions users make."
 msgstr ""
+"Habilitar backends individuales es bastante fácil, sólo es cuestión de "
+"añadir una entrada al ajuste :setting:`django:AUTHENTICATION_BACKENDS` y "
+"posiblemente añadir las claves necesarias para un método de autenticación "
+"determinado. Ten en cuenta que algunos backends no proporcionan el correo "
+"electrónico del usuario por defecto, tienes que solicitarlo explícitamente, "
+"de lo contrario Weblate no será capaz de acreditar adecuadamente las "
+"contribuciones de los usuarios."
 
 #: ../../admin/auth.rst:62
 msgid ""
@@ -3633,6 +3673,10 @@ msgid ""
 "setting:`ENABLE_HTTPS`, or by :envvar:`WEBLATE_ENABLE_HTTPS` in the Docker "
 "container."
 msgstr ""
+"La mayoría de los backends de autenticación requieren HTTPS. Una vez que el "
+"HTTPS esté habilitado en tu servidor web, por favor configura Weblate para "
+"que lo informe correctamente usando :setting:`ENABLE_HTTPS`, o mediante "
+":envvar:`WEBLATE_ENABLE_HTTPS` en el contenedor Docker."
 
 #: ../../admin/auth.rst:68
 msgid ":doc:`Python Social Auth backend <psa:backends/index>`"
@@ -3665,12 +3709,16 @@ msgid ""
 "You need to register an OAuth application on GitHub and then tell Weblate "
 "all its secrets:"
 msgstr ""
+"Tienes que registrar una aplicación OAuth en GitHub y luego decirle a "
+"Weblate todos sus secretos:"
 
 #: ../../admin/auth.rst:112
 msgid ""
 "The GitHub should be configured to have callback URL as ``https://example."
 "com/accounts/complete/github/``."
 msgstr ""
+"GitHub debe estar configurado para tener una callback a la URL como "
+"``https://example.com/accounts/complete/github/``."
 
 #: ../../snippets/oauth-site.rst:3
 msgid ""
@@ -3678,6 +3726,10 @@ msgid ""
 "domain. In case you get errors about URL mismatch, you might want to fix "
 "this, see :ref:`production-site`."
 msgstr ""
+"La URL callback proporcionada por Weblate durante la autenticación incluye "
+"el dominio configurado. En caso de que se produzcan errores sobre la falta "
+"de coincidencia de la URL, es posible que desees arreglar esto, ver :ref"
+":`production-site`."
 
 #: ../../admin/auth.rst:119
 msgid ":doc:`psa:backends/github`"
@@ -3692,6 +3744,8 @@ msgid ""
 "You need to register an application on Bitbucket and then tell Weblate all "
 "its secrets:"
 msgstr ""
+"Tienes que registrar una aplicación en Bitbucket y luego decirle a Weblate "
+"todos sus secretos:"
 
 #: ../../admin/auth.rst:146
 msgid ":doc:`psa:backends/bitbucket`"
@@ -3714,6 +3768,8 @@ msgid ""
 "The redirect URL is ``https://WEBLATE SERVER/accounts/complete/google-oauth2/"
 "``"
 msgstr ""
+"La URL de redirección es ``https://WEBLATE SERVER/accounts/complete/"
+"google-oauth2/``"
 
 #: ../../admin/auth.rst:175
 msgid ":doc:`psa:backends/google`"
@@ -3728,11 +3784,16 @@ msgid ""
 "As per usual with OAuth 2 services, you need to register your application "
 "with Facebook. Once this is done, you can set up Weblate to use it:"
 msgstr ""
+"Como es habitual con los servicios OAuth 2, tienes que registrar tu "
+"aplicación en Facebook. Una vez hecho esto, puedes configurar Weblate para "
+"utilizarla:"
 
 #: ../../admin/auth.rst:185
 msgid ""
 "The redirect URL is ``https://WEBLATE SERVER/accounts/complete/facebook/``"
 msgstr ""
+"La URL de redirección es ``https://WEBLATE SERVER/accounts/complete/facebook/"
+"``"
 
 #: ../../admin/auth.rst:205
 msgid ":doc:`psa:backends/facebook`"
@@ -3747,12 +3808,16 @@ msgid ""
 "For using GitLab OAuth 2, you need to register an application on <https://"
 "gitlab.com/profile/applications>."
 msgstr ""
+"Para utilizar GitLab OAuth 2, es necesario registrar una aplicación en "
+"<https://gitlab.com/profile/applications>."
 
 #: ../../admin/auth.rst:216
 msgid ""
 "The redirect URL is ``https://WEBLATE SERVER/accounts/complete/gitlab/`` and "
 "ensure you mark the `read_user` scope."
 msgstr ""
+"La URL de redirección es ``https://WEBLATE SERVER/accounts/complete/gitlab/``"
+" y asegúrate de marcar el ámbito `read_user`."
 
 #: ../../admin/auth.rst:240
 msgid ":doc:`psa:backends/gitlab`"
@@ -3767,6 +3832,8 @@ msgid ""
 "Weblate can be configured to use common or specific tenants for "
 "authentication."
 msgstr ""
+"Puede configurarse Weblate para utilizar inquilinos comunes o específicos "
+"para la autenticación."
 
 #: ../../admin/auth.rst:249
 msgid ""
@@ -3774,6 +3841,10 @@ msgid ""
 "oauth2/`` for common and ``https://WEBLATE SERVER/accounts/complete/azuread-"
 "tenant-oauth2/`` for tenant-specific authentication."
 msgstr ""
+"La URL redireccionada es ``https://WEBLATE SERVER/accounts/complete/"
+"azuread-oauth2/`` para las actividades comunes y``https://WEBLATE SERVER/"
+"accounts/complete/azuread-tenant-oauth2/`` para la autenticación específica "
+"del usuario."
 
 #: ../../admin/auth.rst:289
 msgid ":doc:`psa:backends/azuread`"
@@ -3788,21 +3859,22 @@ msgid ""
 "For using Slack OAuth 2, you need to register an application on <https://api."
 "slack.com/apps>."
 msgstr ""
+"Para utilizar Slack OAuth 2, necesitas registrar una aplicación en "
+"<https://api.slack.com/apps>."
 
 #: ../../admin/auth.rst:299
 msgid ""
 "The redirect URL is ``https://WEBLATE SERVER/accounts/complete/slack/``."
 msgstr ""
+"La URL redireccionada es ``https://WEBLATE SERVER/accounts/complete/slack/``."
 
 #: ../../admin/auth.rst:318
 msgid ":doc:`psa:backends/slack`"
 msgstr ":doc:`psa:backends/slack`"
 
 #: ../../admin/auth.rst:322
-#, fuzzy
-#| msgid "Other authentication settings"
 msgid "Overriding authentication method names and icons"
-msgstr "Otras configuraciones de autenticación"
+msgstr "Anulación de los nombres e iconos de los métodos de autenticación"
 
 #: ../../admin/auth.rst:324
 msgid ""
@@ -3810,6 +3882,10 @@ msgid ""
 "settings as ``SOCIAL_AUTH_<NAME>_IMAGE`` and ``SOCIAL_AUTH_<NAME>_TITLE``. "
 "For example overriding naming for Auth0 would look like:"
 msgstr ""
+"Puedes anular el nombre y el icono del método de autenticación utilizando la "
+"configuración como ``SOCIAL_AUTH_<NAME>_IMAGE`` y "
+"``SOCIAL_AUTH_<NAME>_TITLE``. Por ejemplo, el nombre de anulación para Auth0 "
+"se vería como:"
 
 #: ../../admin/auth.rst:334
 msgid "Turning off password authentication"
@@ -3822,18 +3898,28 @@ msgid ""
 "AUTHENTICATION_BACKENDS`. Always keep ``weblate.accounts.auth."
 "WeblateUserBackend`` there, it is needed for core Weblate functionality."
 msgstr ""
+"La autenticación por correo electrónico y contraseña puede desactivarse "
+"eliminando ``social_core.backends.email.EmailAuth`` desde "
+":setting:`django:AUTHENTICATION_BACKENDS`. Mantén siempre ``weblate.accounts."
+"auth.WeblateUserBackend``, es necesaria para la funcionalidad principal de "
+"Weblate."
 
 #: ../../admin/auth.rst:344
 msgid ""
 "You can still use password authentication for the admin interface, for users "
 "you manually create there. Just navigate to ``/admin/``."
 msgstr ""
+"Puedes seguir utilizando la autenticación por contraseña para la interfaz de "
+"administración, para los usuarios que crees manualmente allí. Sólo tienes "
+"que ir a ``/admin/``."
 
 #: ../../admin/auth.rst:347
 msgid ""
 "For example authentication using only the openSUSE Open ID provider can be "
 "achieved using the following:"
 msgstr ""
+"Por ejemplo, la autenticación utilizando sólo el proveedor Open ID de "
+"openSUSE se puede lograr con lo siguiente:"
 
 #: ../../admin/auth.rst:359
 msgid "Password authentication"
@@ -3844,6 +3930,8 @@ msgid ""
 "The default :file:`settings.py` comes with a reasonable set of :setting:"
 "`django:AUTH_PASSWORD_VALIDATORS`:"
 msgstr ""
+"Por defecto :file:`settings.py` viene con un set razonable de "
+":setting:`django:AUTH_PASSWORD_VALIDATORS`:"
 
 #: ../../admin/auth.rst:364
 msgid "Passwords can't be too similar to your other personal info."
@@ -3885,6 +3973,10 @@ msgid ""
 "project/django-zxcvbn-password/>`_ which gives quite realistic estimates of "
 "password difficulty and allows rejecting passwords below a certain threshold."
 msgstr ""
+"Además, puedes instalar `django-zxcvbn-password <https://pypi.org/project/"
+"django-zxcvbn-password/>`_ que ofrece estimaciones bastante realistas de la "
+"dificultad de las contraseñas y permite rechazar las contraseñas por debajo "
+"de un determinado umbral."
 
 #: ../../admin/auth.rst:381
 msgid "SAML authentication"
