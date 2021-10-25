@@ -23,7 +23,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.8.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-09-08 10:00+0000\n"
-"PO-Revision-Date: 2021-10-25 13:28+0000\n"
+"PO-Revision-Date: 2021-10-25 17:33+0000\n"
 "Last-Translator: k ks <kmshts@naver.com>\n"
 "Language-Team: Korean <https://hosted.weblate.org/projects/weblate/"
 "application/ko/>\n"
@@ -8892,7 +8892,7 @@ msgstr "파일마스크 <code>%(filemask)s</code>이 버전 제어 시스템 저
 #, python-format
 msgid "Only some of the %(count)s occurrence is shown."
 msgid_plural "Only some of the %(count)s occurrences are shown."
-msgstr[0] ""
+msgstr[0] "%(count)s 개의 발생 중 일부만 표시됩니다."
 
 #: weblate/templates/trans/alert/parseerror.html:4
 msgid ""
@@ -8951,7 +8951,7 @@ msgstr "다음과 같은 강제 검사는 어디에도 사용되지 않습니다
 msgid ""
 "%(check)s quality check is enforced, but not turned on using <code>%(flag)s</"
 "code>."
-msgstr ""
+msgstr "%(check)s개의 품질 검사가 시행되지만, <code>%(flag)s</code>을 사용하면 켜지지 않습니다."
 
 #: weblate/templates/trans/alert/unusedscreenshot.html:2
 msgid "There is at least one screenshot which is not assigned to any strings."
@@ -9059,7 +9059,7 @@ msgstr ""
 
 #: weblate/templates/trans/component_create.html:92
 msgid "The filenames within the archive need to have locale codes in them."
-msgstr ""
+msgstr "압축파일 안에 파일 이름에는 지역 코드가 있어야 합니다."
 
 #: weblate/templates/trans/component_create.html:105
 msgid ""
@@ -9394,7 +9394,7 @@ msgstr "웨블레이트에서 최근 변경사항 목록"
 
 #: weblate/templates/translate.html:292
 msgid "Showing only subset of the strings as there were too many matches."
-msgstr ""
+msgstr "일치하는 항목이 너무 많아서 문자열의 하위 집합만 표시합니다."
 
 #: weblate/templates/translate.html:302
 msgid "Difference to current string"
@@ -9546,12 +9546,12 @@ msgstr "검사 플래그"
 #: weblate/templates/translate.html:727
 #, python-format
 msgid "<code>%(flags)s</code> was extracted from %(filename)s."
-msgstr ""
+msgstr "<code>%(flags)s</code>는 %(filename)s에서 추출되었습니다."
 
 #: weblate/templates/translate.html:732 weblate/templates/translate.html:737
 #, python-format
 msgid "<code>%(flags)s</code> is inherited from %(object)s."
-msgstr ""
+msgstr "<code>%(flags)s</code>는 %(object)s 에서 상속됩니다."
 
 #: weblate/templates/translate.html:763
 #, python-format
@@ -9888,7 +9888,7 @@ msgstr "잘못된 검사합이 지정되었습니다!"
 
 #: weblate/trans/forms.py:164
 msgid "More possible users were found."
-msgstr ""
+msgstr "더 많은 가능한 사용자를 찾았습니다."
 
 #: weblate/trans/forms.py:178
 msgid "Missing query string."
@@ -10132,19 +10132,19 @@ msgstr "위치"
 
 #: weblate/trans/forms.py:1070
 msgid "Block user until I unblock them"
-msgstr ""
+msgstr "내가 차단을 해제할 때까지 사용자를 차단"
 
 #: weblate/trans/forms.py:1071
 msgid "Block user for one day"
-msgstr ""
+msgstr "하루 동안 사용자를 차단"
 
 #: weblate/trans/forms.py:1072
 msgid "Block user for one week"
-msgstr ""
+msgstr "일주일 동안 사용자를 차단"
 
 #: weblate/trans/forms.py:1073
 msgid "Block user for one month"
-msgstr ""
+msgstr "한 달 동안 사용자를 차단"
 
 #: weblate/trans/forms.py:1081
 msgid "Report format"
@@ -10227,7 +10227,7 @@ msgstr "Upstream 링크"
 
 #: weblate/trans/forms.py:1332
 msgid "Listing and access"
-msgstr ""
+msgstr "목록 및 접근"
 
 #: weblate/trans/forms.py:1353
 msgid "Translation settings"
@@ -11143,7 +11143,7 @@ msgstr "제안사항 투표"
 
 #: weblate/trans/models/component.py:413
 msgid "Users can only vote for suggestions and can’t make direct translations."
-msgstr ""
+msgstr "사용자는 제안에 투표만 할 수 있고 직접 번역은 할 수 없습니다."
 
 #: weblate/trans/models/component.py:417
 msgid "Autoaccept suggestions"
@@ -11215,6 +11215,8 @@ msgid ""
 "are extracted from the source code or managed externally you probably want "
 "to keep it disabled."
 msgstr ""
+"웹레이트에서 바로 문자열을 추가 및 제거할 수 있습니다. 문자열이 소스 코드에서 추출되거나 외부에서 관리되는 경우 해당 문자열을 실행 "
+"중지 상태로 유지할 수 있습니다."
 
 #: weblate/trans/models/component.py:490
 msgid "Merge style"
@@ -11748,11 +11750,11 @@ msgstr "다른 번역으로서 추가"
 
 #: weblate/trans/models/unit.py:1476
 msgid "Unmark as terminology"
-msgstr ""
+msgstr "용어로 표시 해제"
 
 #: weblate/trans/models/unit.py:1484
 msgid "Mark as terminology"
-msgstr ""
+msgstr "용어로 표시"
 
 #: weblate/trans/specialchars.py:30
 msgid "Insert tab character"
@@ -12258,14 +12260,14 @@ msgstr "다음 픽스업이 번역에 적용되었습니다: %s"
 msgid ""
 "Added %(language)s to your translated languages. You can adjust them in the "
 "settings."
-msgstr ""
+msgstr "당신의 번역된 언어에 %(language)s 을(를) 추가했습니다. 설정에서 조정할 수 있습니다."
 
 #: weblate/trans/views/edit.py:354
 #, python-format
 msgid ""
 "Added %(project)s to your watched projects. You can adjust them and this "
 "behavior in the settings."
-msgstr ""
+msgstr "감시된 프로젝트에 %(project)s 을(를) 추가했습니다. 설정에서 이러한 동작을 조정할 수 있습니다."
 
 #: weblate/trans/views/edit.py:373
 #, python-brace-format
@@ -12864,7 +12866,7 @@ msgstr "햄버거 메뉴 버튼 항상 표시"
 msgid ""
 "Persistent navigational drop-down menu in the top right corner, even if "
 "there is room for a full menu."
-msgstr ""
+msgstr "전체 차림표를 저장할 공간이 있더라도 오른쪽 상단 모서리에 영구적인 탐색 내려 펼침 차림표가 있습니다."
 
 #: weblate/wladmin/models.py:76
 msgid "Community support"
