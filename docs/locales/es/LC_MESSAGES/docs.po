@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-09-08 12:00+0200\n"
-"PO-Revision-Date: 2021-10-24 16:18+0000\n"
+"PO-Revision-Date: 2021-10-25 13:28+0000\n"
 "Last-Translator: eulalio <eulalio@disroot.org>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/weblate/"
 "documentation/es/>\n"
@@ -3987,16 +3987,20 @@ msgid ""
 "Please follow the Python Social Auth instructions for configuration. Notable "
 "differences:"
 msgstr ""
+"Por favor, sigue las instrucciones de Python Social Auth para la "
+"configuración. Diferencias notables:"
 
 #: ../../admin/auth.rst:387
 msgid ""
 "Weblate supports single IDP which has to be called ``weblate`` in "
 "``SOCIAL_AUTH_SAML_ENABLED_IDPS``."
 msgstr ""
+"Weblate soporta un único IDP que se debe llamar ``weblate`` en "
+"``SOCIAL_AUTH_SAML_ENABLED_IDPS``."
 
 #: ../../admin/auth.rst:389
 msgid "The SAML XML metadata URL is ``/accounts/metadata/saml/``."
-msgstr ""
+msgstr "La URL de los metadatos XML de SAML es ``/accounts/metadata/saml/``."
 
 #: ../../admin/auth.rst:390
 msgid ""
@@ -4004,6 +4008,9 @@ msgid ""
 "``SOCIAL_AUTH_SAML_SP_ENTITY_ID``, ``SOCIAL_AUTH_SAML_TECHNICAL_CONTACT``, "
 "``SOCIAL_AUTH_SAML_SUPPORT_CONTACT``"
 msgstr ""
+"Los siguientes ajustes se rellenan automáticamente: "
+"``SOCIAL_AUTH_SAML_SP_ENTITY_ID``, ``SOCIAL_AUTH_SAML_TECHNICAL_CONTACT``, "
+"``SOCIAL_AUTH_SAML_SUPPORT_CONTACT``"
 
 #: ../../admin/auth.rst:394
 msgid "Example configuration:"
@@ -4014,6 +4021,8 @@ msgid ""
 "The default configuration extracts user details from following attributes, "
 "configure your IDP to provide them:"
 msgstr ""
+"La configuración por defecto extrae los detalles del usuario de los "
+"siguientes atributos, configura tu IDP para proporcionarlos:"
 
 #: ../../admin/auth.rst:439
 msgid "Attribute"
@@ -4028,51 +4037,61 @@ msgid "Full name"
 msgstr "Nombre completo"
 
 #: ../../admin/auth.rst:441
+#, fuzzy
 msgid "``urn:oid:2.5.4.3``"
-msgstr ""
+msgstr "``urn:oid:2.5.4.3``"
 
 #: ../../admin/auth.rst:443
 msgid "First name"
 msgstr "Nombre"
 
 #: ../../admin/auth.rst:443
+#, fuzzy
 msgid "``urn:oid:2.5.4.42``"
-msgstr ""
+msgstr "``urn:oid:2.5.4.42``"
 
 #: ../../admin/auth.rst:445
 msgid "Last name"
 msgstr "Apellidos"
 
 #: ../../admin/auth.rst:445
+#, fuzzy
 msgid "``urn:oid:2.5.4.4``"
-msgstr ""
+msgstr "``urn:oid:2.5.4.4``"
 
 #: ../../admin/auth.rst:447
 msgid "E-mail"
 msgstr "Correo electrónico"
 
 #: ../../admin/auth.rst:447
+#, fuzzy
 msgid "``urn:oid:0.9.2342.19200300.100.1.3``"
-msgstr ""
+msgstr "``urn:oid:0.9.2342.19200300.100.1.3``"
 
 #: ../../admin/auth.rst:449 ../../api.rst:238
 msgid "Username"
 msgstr "Nombre de usuario"
 
 #: ../../admin/auth.rst:449
+#, fuzzy
 msgid "``urn:oid:0.9.2342.19200300.100.1.1``"
-msgstr ""
+msgstr "``urn:oid:0.9.2342.19200300.100.1.1``"
 
 #: ../../admin/auth.rst:454
 msgid ""
 "The example above and the Docker image define an IDP labelled ``weblate``. "
 "You might need to configure this string as :guilabel:`Relay` in your IDP."
 msgstr ""
+"El ejemplo anterior y la imagen Docker definen un IDP etiquetado: ``weblate``"
+". Es posible que tengas que configurar esta cadena como :guilabel:`Relay` en "
+"tu IDP."
 
 #: ../../admin/auth.rst:459
+#, fuzzy
 msgid ""
 ":ref:`Configuring SAML in Docker <docker-saml>`, :doc:`psa:backends/saml`"
 msgstr ""
+":ref:`Configuring SAML in Docker <docker-saml>`, :doc:`psa:backends/saml`"
 
 #: ../../admin/auth.rst:465
 msgid "LDAP authentication"
@@ -4083,12 +4102,16 @@ msgid ""
 "LDAP authentication can be best achieved using the `django-auth-ldap` "
 "package. You can install it via usual means:"
 msgstr ""
+"La autenticación LDAP puede lograrse mejor utilizando el paquete `django-"
+"auth-ldap`. Puedes instalarlo por los medios habituales:"
 
 #: ../../admin/auth.rst:480
 msgid ""
 "This package is included in the Docker container, see :doc:`/admin/install/"
 "docker`."
 msgstr ""
+"Este paquete está incluido en el contenedor Docker, véase :doc:`/admin/"
+"install/docker`."
 
 #: ../../admin/auth.rst:484
 msgid ""
@@ -4097,12 +4120,19 @@ msgid ""
 "'module' object has no attribute '_trace_level' <https://github.com/python-"
 "ldap/python-ldap/issues/226>`_, downgrading python-ldap to 3.0.0 might help."
 msgstr ""
+"Hay algunas incompatibilidades en el módulo LDAP 3.1.0 de Python, que "
+"podrían impedirte utilizar esa versión. Si se produce el error "
+"`AttributeError: 'module' object has no attribute '_trace_level' "
+"<https://github.com/python-ldap/python-ldap/issues/226>`_, podría ayudar la "
+"actualización de python-ldap a la versión 3.0.0."
 
 #: ../../admin/auth.rst:490
 msgid ""
 "Once you have the package installed, you can hook it into the Django "
 "authentication:"
 msgstr ""
+"Una vez que tengas el paquete instalado, lo puedes enlazar a la "
+"autenticación de Django:"
 
 #: ../../admin/auth.rst:527
 msgid ""
@@ -4114,16 +4144,27 @@ msgid ""
 "sign in using a local admin account, if you have created it (e.g. by using :"
 "djadmin:`createadmin`)."
 msgstr ""
+"Debes eliminar ``'social_core.backends.email.EmailAuth'`` de la "
+"configuración :setting:`django:AUTHENTICATION_BACKENDS`, de lo contrario los "
+"usuarios podrán establecer su contraseña en Weblate, y autenticarse usando "
+"eso. Sigue siendo necesario mantener ``'weblate.accounts.auth."
+"WeblateUserBackend'`` para hacer los permisos y facilitar los usuarios "
+"anónimos. También te permitirá iniciar sesión con una cuenta de "
+"administrador local, si la has creado (por ejemplo, usando "
+":djadmin:`createadmin`)."
 
 #: ../../admin/auth.rst:536
 msgid "Using bind password"
-msgstr ""
+msgstr "Uso de la contraseña de enlace"
 
 #: ../../admin/auth.rst:538
 msgid ""
 "If you can not use direct bind for authentication, you will need to use "
 "search, and provide a user to bind for the search. For example:"
 msgstr ""
+"Si no puedes usar el enlace directo para la autenticación, tendrás que "
+"utilizar la búsqueda y proporcionar un usuario para el enlace de la "
+"búsqueda. Por ejemplo:"
 
 #: ../../admin/auth.rst:553
 msgid "Active Directory integration"
@@ -4197,8 +4238,9 @@ msgid "In the project's :file:`urls.py` file (when no models exist)"
 msgstr "En el archivo :file:`urls.py` del proyecto (cuando no existan modelos)"
 
 #: ../../admin/auth.rst:650
+#, fuzzy
 msgid "`Django CAS NG <https://github.com/django-cas-ng/django-cas-ng>`_"
-msgstr ""
+msgstr "`Django CAS NG <https://github.com/django-cas-ng/django-cas-ng>`_"
 
 #: ../../admin/auth.rst:653
 msgid "Configuring third party Django authentication"
