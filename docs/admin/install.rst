@@ -1526,9 +1526,10 @@ the Celery startup logs in such case to figure out root cause.
 Monitoring Celery status
 ++++++++++++++++++++++++
 
-You can use :djadmin:`celery_queues` to see current length of Celery task
-queues. In case the queue will get too long, you will also get configuration
-error in the admin interface.
+You can find current length of the Celery task queues in the
+:ref:`management-interface` or you can use :djadmin:`celery_queues` on the
+command line. In case the queue will get too long, you will also get
+configuration error in the admin interface.
 
 .. warning::
 
