@@ -1266,6 +1266,8 @@ DEFAULT_SHARED_TM = get_env_bool("WEBLATE_DEFAULT_SHARED_TM", True)
 
 CONTACT_FORM = os.environ.get("WEBLATE_CONTACT_FORM", "reply-to")
 
+SSH_EXTRA_ARGS = os.environ.get("WEBLATE_SSH_EXTRA_ARGS", "")
+
 # Wildcard loading
 for name in os.environ:
     if name.startswith("WEBLATE_RATELIMIT_") and name.endswith(

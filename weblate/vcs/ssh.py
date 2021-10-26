@@ -23,6 +23,7 @@ import stat
 import subprocess
 from base64 import b64decode, b64encode
 
+from django.conf import settings
 from django.core.management.utils import find_command
 from django.utils.functional import cached_property
 from django.utils.translation import gettext as _
@@ -200,6 +201,7 @@ exec {command} \
     -o HashKnownHosts=no \
     -o UpdateHostKeys=yes \
     -F /dev/null \
+    {extra_args} \
     "$@"
 """
 
@@ -213,7 +215,7 @@ class SSHWrapper:
 
     @cached_property
     def digest(self):
-        return calculate_checksum(SSH_WRAPPER_TEMPLATE, data_dir("ssh"))
+        return calculate_checksum(self.get_content())
 
     @property
     def path(self):
@@ -222,6 +224,14 @@ class SSHWrapper:
         It is based on template and DATA_DIR settings.
         """
         return ssh_file(f"bin-{self.digest}")
+
+    def get_content(self, command="ssh"):
+        return SSH_WRAPPER_TEMPLATE.format(
+            command=command,
+            known_hosts=ssh_file(KNOWN_HOSTS),
+            identity=ssh_file(RSA_KEY),
+            extra_args=settings.SSH_EXTRA_ARGS,
+        )
 
     @property
     def filename(self):
@@ -240,13 +250,7 @@ class SSHWrapper:
                 continue
 
             with open(filename, "w") as handle:
-                handle.write(
-                    SSH_WRAPPER_TEMPLATE.format(
-                        command=find_command(command),
-                        known_hosts=ssh_file(KNOWN_HOSTS),
-                        identity=ssh_file(RSA_KEY),
-                    )
-                )
+                handle.write(self.get_content(find_command(command)))
 
             os.chmod(filename, 0o755)  # nosec
 

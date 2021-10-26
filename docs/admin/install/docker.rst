@@ -736,6 +736,12 @@ Generic settings
 
    Configures :setting:`LIMIT_TRANSLATION_LENGTH_BY_SOURCE_LENGTH`.
 
+.. envvar:: WEBLATE_SSH_EXTRA_ARGS
+
+   .. versionadded:: 4.9
+
+   Configures :setting:`SSH_EXTRA_ARGS`.
+
 
 .. _docker-machine:
 

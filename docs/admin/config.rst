@@ -1995,6 +1995,32 @@ Example:
 
     SINGLE_PROJECT = "test"
 
+.. setting:: SSH_EXTRA_ARGS
+
+SSH_EXTRA_ARGS
+--------------
+
+.. versionadded:: 4.9
+
+Allows to add custom parameters when Weblate is invoking SSH. This is useful
+when connecting to servers using legacy encryption or other non-standard features.
+
+For example when SSH connection in Weblate fails with `Unable to negotiate with legacyhost: no matching key exchange method found.
+Their offer: diffie-hellman-group1-sha1`, you can enable that using:
+
+.. code-block:: python
+
+   SSH_EXTRA_ARGS = "-oKexAlgorithms=+diffie-hellman-group1-sha1"
+
+.. hint::
+
+   The string is evaluated by shell, so make sure to quote any whitespace and
+   special characters.
+
+.. seealso::
+
+   `OpenSSH Legacy Options <https://www.openssh.com/legacy.html>`_
+
 .. setting:: STATUS_URL
 
 STATUS_URL

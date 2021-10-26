@@ -52,6 +52,8 @@ class VCSConf(AppConf):
     PAGURE_TOKEN = None
     PAGURE_CREDENTIALS = {}
 
+    SSH_EXTRA_ARGS = ""
+
     class Meta:
         prefix = ""
 
