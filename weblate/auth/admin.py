@@ -157,7 +157,7 @@ class WeblateUserAdmin(WeblateAuthAdmin, UserAdmin):
 
     def user_groups(self, obj):
         """Display comma separated list of user groups."""
-        return ",".join(g.name for g in obj.groups.iterator())
+        return ",".join(obj.groups.values_list("name", flat=True))
 
     def action_checkbox(self, obj):
         if obj.is_anonymous:
