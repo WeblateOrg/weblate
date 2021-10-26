@@ -417,11 +417,16 @@ class Repository:
 
     @staticmethod
     def update_hash(objhash, filename, extra=None):
-        with open(filename, "rb") as handle:
-            data = handle.read()
+        if os.path.islink(filename):
+            objtype = "symlink"
+            data = os.readlink(filename)
+        else:
+            objtype = "blob"
+            with open(filename, "rb") as handle:
+                data = handle.read()
         if extra:
             objhash.update(extra.encode())
-        objhash.update(f"blob {len(data)}\0".encode("ascii"))
+        objhash.update(f"{objtype} {len(data)}\0".encode("ascii"))
         objhash.update(data)
 
     def get_object_hash(self, path):
