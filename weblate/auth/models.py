@@ -547,7 +547,7 @@ class User(AbstractBaseUser):
         """Fetch all user permissions into a dictionary."""
         projects = defaultdict(list)
         components = defaultdict(list)
-        for group in self.groups.iterator():
+        for group in self.groups.all():
             languages = set(
                 Group.languages.through.objects.filter(group=group).values_list(
                     "language_id", flat=True
