@@ -357,7 +357,11 @@ class Translation(
         }
 
         # Check if we're not already up to date
-        new_revision = self.get_git_blob_hash()
+        try:
+            new_revision = self.get_git_blob_hash()
+        except Exception as exc:
+            report_error(cause="Translation parse error")
+            self.component.handle_parse_error(exc, self)
         if not self.revision:
             self.reason = "new file"
         elif self.revision != new_revision:
