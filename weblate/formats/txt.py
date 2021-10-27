@@ -33,6 +33,7 @@ from weblate.utils.errors import report_error
 
 class MultiparserError(Exception):
     def __init__(self, filename, original):
+        super().__init__()
         self.filename = filename
         self.original = original
 
