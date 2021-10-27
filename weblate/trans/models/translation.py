@@ -1228,8 +1228,12 @@ class Translation(
 
     def handle_store_change(self, request, user, previous_revision: str, change=None):
         self.drop_store_cache()
+        # Explicit stats invalidation is needed here as the unit removal in
+        # delete_unit might do changes in the database only and not touch the files
+        # for pending new units
         if self.is_source:
             self.component.create_translations(request=request)
+            self.component.invalidate_cache()
         else:
             self.check_sync(request=request, change=change)
             self.invalidate_cache()
@@ -1372,24 +1376,30 @@ class Translation(
             component.commit_pending("delete unit", user)
             previous_revision = self.component.repository.last_revision
             for translation in self.get_store_change_translations():
+                # Does unit exist here?
                 try:
                     translation_unit = translation.unit_set.get(id_hash=unit.id_hash)
                 except ObjectDoesNotExist:
                     continue
+                # Delete the removed unit from the database
+                translation_unit.delete()
+                # Does unit exist in the file?
                 try:
                     pounit, add = translation.store.find_unit(unit.context, unit.source)
                 except UnitNotFound:
                     continue
                 if add:
                     continue
+                # Commit changed file
                 extra_files = translation.store.remove_unit(pounit.unit)
                 translation.addon_commit_files.extend(extra_files)
                 translation.drop_store_cache()
                 translation.git_commit(user, user.get_author_name(), store_hash=False)
                 # Adjust position as it will happen in most formats
-                translation.unit_set.filter(
-                    position__gt=translation_unit.position
-                ).update(position=F("position") - 1)
+                if translation_unit.position:
+                    translation.unit_set.filter(
+                        position__gt=translation_unit.position
+                    ).update(position=F("position") - 1)
             if self.is_source and unit.position and not component.has_template():
                 # Adjust position is source language
                 self.unit_set.filter(position__gt=unit.position).update(
