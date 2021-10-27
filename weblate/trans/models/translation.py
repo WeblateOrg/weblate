@@ -689,7 +689,10 @@ class Translation(
                 except UnitNotFound:
                     # Bail out if we have not found anything
                     report_error(cause="String disappeared")
-                    self.log_error("disappeared string: %s", unit)
+                    self.log_error(
+                        "string %s dissappeared from the file, removing", unit
+                    )
+                    unit.delete()
                     continue
 
                 updated = True
