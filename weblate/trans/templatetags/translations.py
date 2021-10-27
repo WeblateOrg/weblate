@@ -290,8 +290,8 @@ def format_translation(
     parts = []
     has_content = False
 
-    for idx, value in enumerate(plurals):
-        formatter = Formatter(idx, value, unit, terms, diff, search_match, match)
+    for idx, text in enumerate(plurals):
+        formatter = Formatter(idx, text, unit, terms, diff, search_match, match)
         formatter.parse()
 
         # Show label for plural (if there are any)
@@ -302,7 +302,7 @@ def format_translation(
         # Join paragraphs
         content = formatter.format()
 
-        parts.append({"title": title, "content": content, "copy": escape(value)})
+        parts.append({"title": title, "content": content, "copy": escape(text)})
         has_content |= bool(content)
 
     return {
