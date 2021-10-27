@@ -236,9 +236,8 @@ def extract_placeholders(token, variables=None):
 
             # Second, we make sure the selector is valid if we're working
             # with a plural/selectordinal type.
-            if ttype in PLURAL_TYPES:
-                if check_bad_plural_selector(selector):
-                    data.setdefault("bad_plural", set()).add(selector)
+            if ttype in PLURAL_TYPES and check_bad_plural_selector(selector):
+                data.setdefault("bad_plural", set()).add(selector)
 
             # Finally, we process the sub-ast for this option.
             extract_placeholders(subast, variables)
@@ -389,14 +388,13 @@ class ICUMessageFormatCheck(BaseFormatCheck):
         bad = set()
 
         # We also want to check individual select choices.
-        if src_data and "select" in data["types"] and "select" in src_data["types"]:
-            if "choices" in data and "choices" in src_data:
-                choices = data["choices"]
-                src_choices = src_data["choices"]
+        if src_data and "select" in data["types"] and "select" in src_data["types"] and "choices" in data and "choices" in src_data:
+            choices = data["choices"]
+            src_choices = src_data["choices"]
 
-                for selector in choices:
-                    if selector not in src_choices:
-                        bad.add(selector)
+            for selector in choices:
+                if selector not in src_choices:
+                    bad.add(selector)
 
         if bad:
             result["bad_submessage"].append([name, bad])
