@@ -1062,7 +1062,7 @@ class Translation(
             existing = set(self.unit_set.values_list("context", flat=True))
         else:
             existing = set(self.unit_set.values_list("context", "source"))
-        for _set_fuzzy, unit in store.iterate_merge(fuzzy):
+        for _set_fuzzy, unit in store.iterate_merge(fuzzy, only_translated=False):
             if (has_template and unit.context in existing) or (
                 not has_template and (unit.context, unit.source) in existing
             ):

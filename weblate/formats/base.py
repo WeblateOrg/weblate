@@ -457,7 +457,7 @@ class TranslationFormat:
         """Handle creation of new translation file."""
         raise NotImplementedError()
 
-    def iterate_merge(self, fuzzy):
+    def iterate_merge(self, fuzzy: str, only_translated: bool = True):
         """Iterate over units for merging.
 
         Note: This can change fuzzy state of units!
@@ -467,7 +467,7 @@ class TranslationFormat:
             if unit.is_fuzzy():
                 if not fuzzy:
                     continue
-            elif not unit.is_translated():
+            elif only_translated and not unit.is_translated():
                 continue
 
             # Unmark unit as fuzzy (to allow merge)
