@@ -388,7 +388,13 @@ class ICUMessageFormatCheck(BaseFormatCheck):
         bad = set()
 
         # We also want to check individual select choices.
-        if src_data and "select" in data["types"] and "select" in src_data["types"] and "choices" in data and "choices" in src_data:
+        if (
+            src_data
+            and "select" in data["types"]
+            and "select" in src_data["types"]
+            and "choices" in data
+            and "choices" in src_data
+        ):
             choices = data["choices"]
             src_choices = src_data["choices"]
 
