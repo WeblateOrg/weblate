@@ -758,6 +758,7 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
         self.batch_checks = False
         self.batched_checks = set()
         self.needs_variants_update = False
+        self._invalidate_scheduled = False
 
     def generate_changes(self, old):
         def getvalue(base, attribute):
@@ -2093,13 +2094,21 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
         self.batch_checks = False
         self.batched_checks = set()
 
-    def invalidate_cache(self):
+    def _invalidate_triger(self):
         from weblate.trans.tasks import update_component_stats
 
+        self._invalidate_scheduled = False
         self.log_info("updating stats caches")
-        transaction.on_commit(lambda: self.stats.invalidate(childs=True))
-        transaction.on_commit(lambda: update_component_stats.delay(self.pk))
-        transaction.on_commit(self.invalidate_glossary_cache)
+        self.stats.invalidate(childs=True)
+        update_component_stats.delay(self.pk)
+        self.invalidate_glossary_cache()
+
+    def invalidate_cache(self):
+        if self._invalidate_scheduled:
+            return
+
+        self._invalidate_scheduled = True
+        transaction.on_commit(self._invalidate_triger)
 
     @cached_property
     def glossary_sources_key(self):
