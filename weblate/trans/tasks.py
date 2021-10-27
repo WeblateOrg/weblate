@@ -427,7 +427,7 @@ def auto_translate_component(
     threshold: int,
     component: Optional[Component] = None,
 ):
-    if component is not None:
+    if component is None:
         component = Component.objects.get(pk=component_id)
 
     for translation in component.translation_set.iterator():
