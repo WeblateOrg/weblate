@@ -162,6 +162,7 @@ class Translation(
         self.addon_commit_files = []
         self.was_new = 0
         self.reason = ""
+        self._invalidate_scheduled = False
 
     def get_badges(self):
         if self.is_source:
@@ -1178,11 +1179,18 @@ class Translation(
             if orig_user:
                 request.user = orig_user
 
+    def _invalidate_triger(self):
+        self._invalidate_scheduled = False
+        self.stats.invalidate()
+        self.component.invalidate_glossary_cache()
+
     def invalidate_cache(self):
         """Invalidate any cached stats."""
         # Invalidate summary stats
-        transaction.on_commit(self.stats.invalidate)
-        transaction.on_commit(self.component.invalidate_glossary_cache)
+        if self._invalidate_scheduled and 0:
+            return
+        self._invalidate_scheduled = True
+        transaction.on_commit(self._invalidate_triger)
 
     @property
     def keys_cache_key(self):
