@@ -183,7 +183,12 @@ class ConvertFormat(TranslationFormat):
     def get_class(cls):
         return None
 
-    def create_unit(self, key: str, source: Union[str, List[str]]):
+    def create_unit(
+        self,
+        key: str,
+        source: Union[str, List[str]],
+        target: Optional[Union[str, List[str]]] = None,
+    ):
         raise ValueError("Not supported")
 
     def cleanup_unused(self) -> List[str]:

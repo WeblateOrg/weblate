@@ -197,7 +197,12 @@ class AppStoreFormat(TranslationFormat):
     def load(self, storefile, template_store):
         return AppStoreParser(storefile)
 
-    def create_unit(self, key: str, source: Union[str, List[str]]):
+    def create_unit(
+        self,
+        key: str,
+        source: Union[str, List[str]],
+        target: Optional[Union[str, List[str]]] = None,
+    ):
         raise ValueError("Create not supported")
 
     @classmethod
