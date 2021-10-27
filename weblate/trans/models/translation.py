@@ -372,8 +372,8 @@ class Translation(
             new_parts = new_revision.split(",")
             if len(old_parts) == len(new_parts):
                 filenames = self.get_hash_filenames()
-                for i in range(len(old_parts)):
-                    if old_parts[i] != new_parts[i]:
+                for i, old_part in enumerate(old_parts):
+                    if old_part != new_parts[i]:
                         details["filename"] = filenames[i]
                         break
 
