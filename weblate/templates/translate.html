@@ -153,7 +153,7 @@
             {% if unit.context %}
                 <div class="pull-right flip">
                 <label>{{ unit.translation.component.context_label }}</label>
-                {% format_translation unit.context unit.translation.component.source_language simple=True wrap=True %}
+                {% format_translation unit.context unit.translation.component.source_language simple=True wrap=True noformat=True %}
                 </div>
             {% endif %}
             <a class="language" href="{{ unit.source_unit.get_absolute_url }}">{{ unit.translation.component.source_language }}</a>

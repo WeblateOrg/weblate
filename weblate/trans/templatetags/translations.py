@@ -257,8 +257,9 @@ def format_translation(
     plural=None,
     diff=None,
     search_match=None,
-    simple=False,
-    wrap=False,
+    simple: bool = False,
+    wrap: bool = False,
+    noformat: bool = False,
     num_plurals=2,
     unit=None,
     match="search",
@@ -307,6 +308,7 @@ def format_translation(
 
     return {
         "simple": simple,
+        "noformat": noformat,
         "wrap": wrap,
         "items": parts,
         "language": language,
