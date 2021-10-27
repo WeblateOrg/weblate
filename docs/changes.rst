@@ -12,6 +12,7 @@ Not yet released.
 * Fixed dimensions of rendered texts in :ref:`check-max-size`.
 * Lowered app store title length to 30 to assist with upcoming Google policy changes.
 * Added support for customising ssh invocation via :setting:`SSH_EXTRA_ARGS`.
+* Added checks for ICU MessageFormat.
 
 Weblate 4.8.1
 -------------
