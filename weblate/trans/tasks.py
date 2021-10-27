@@ -425,12 +425,11 @@ def auto_translate_component(
     auto_source: str,
     engines: List[str],
     threshold: int,
-    component: Optional[Component] = None,
+    component: Optional[int],
 ):
-    if component is None:
-        component = Component.objects.get(pk=component_id)
+    component_obj = Component.objects.get(pk=component_id)
 
-    for translation in component.translation_set.iterator():
+    for translation in component_obj.translation_set.iterator():
         if translation.is_source:
             continue
 
@@ -440,15 +439,15 @@ def auto_translate_component(
             mode,
             filter_type,
             auto_source,
-            component.id,
+            component,
             engines,
             threshold,
             translation=translation,
             component_wide=True,
         )
-    component.update_source_checks()
-    component.run_batched_checks()
-    return {"component": component.id}
+    component_obj.update_source_checks()
+    component_obj.run_batched_checks()
+    return {"component": component_obj.id}
 
 
 @app.task(trail=False)
