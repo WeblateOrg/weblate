@@ -62,6 +62,10 @@ Here is a list of flags currently accepted:
     Define font-size for rendering checks, see :ref:`fonts`.
 ``font-spacing:SPACING``
     Define letter spacing for rendering checks, see :ref:`fonts`.
+``icu-flags:FLAGS``
+    Define flags for customizing the behavior of the :ref:`check-icu-message-format` quality check.
+``icu-tag-prefix:PREFIX``
+    Set a required prefix for XML tags for the :ref:`check-icu-message-format` quality check.
 ``placeholders:NAME:NAME2:...``
     Placeholder strings expected in translation, see :ref:`check-placeholders`.
 ``replacements:FROM:TO:FROM2:TO2...``
@@ -89,6 +93,8 @@ Here is a list of flags currently accepted:
     Enable the :ref:`check-es-format` quality check.
 ``i18next-interpolation``
     Enable the :ref:`check-i18next-interpolation` quality check.
+``icu-message-format``
+    Enable the :ref:`check-icu-message-format` quality check.
 ``java-format``
     Enable the :ref:`check-java-format` quality check.
 ``java-messageformat``
@@ -145,6 +151,8 @@ Here is a list of flags currently accepted:
     Skip the :ref:`check-es-format` quality check.
 ``ignore-i18next-interpolation``
     Skip the :ref:`check-i18next-interpolation` quality check.
+``ignore-icu-message-format``
+    Skip the :ref:`check-icu-message-format` quality check.
 ``ignore-java-format``
     Skip the :ref:`check-java-format` quality check.
 ``ignore-java-messageformat``

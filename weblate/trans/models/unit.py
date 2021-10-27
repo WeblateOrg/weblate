@@ -1313,6 +1313,8 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
     def edit_mode(self):
         """Returns syntax higlighting mode for Prismjs."""
         flags = self.all_flags
+        if "icu-message-format" in flags:
+            return "icu-message-format"
         if "rst-text" in flags:
             return "rest"
         if "md-text" in flags:
