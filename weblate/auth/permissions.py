@@ -377,9 +377,10 @@ def check_billing_view(user, permission, obj):
 
 @register_perm("billing:project.permissions")
 def check_billing(user, permission, obj):
-    if "weblate.billing" in settings.INSTALLED_APPS:
-        if not any(billing.plan.change_access_control for billing in obj.billings):
-            return False
+    if "weblate.billing" in settings.INSTALLED_APPS and not any(
+        billing.plan.change_access_control for billing in obj.billings
+    ):
+        return False
 
     return check_permission(user, "project.permissions", obj)
 

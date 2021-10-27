@@ -206,11 +206,10 @@ class GroupChangeForm(forms.ModelForm):
                         for field in fields
                     }
                 )
-        elif has_component:
-            if has_project:
-                raise ValidationError(
-                    {"project": _("This is not used when component is selected.")}
-                )
+        elif has_component and has_project:
+            raise ValidationError(
+                {"project": _("This is not used when component is selected.")}
+            )
 
 
 class WeblateGroupAdmin(WeblateAuthAdmin):

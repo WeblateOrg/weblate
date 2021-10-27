@@ -898,10 +898,9 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
         )
 
     def store_log(self, slug, msg, *args):
-        if self.translations_count == -1:
-            if self.linked_component:
-                self.linked_component.store_log(slug, msg, *args)
-                return
+        if self.translations_count == -1 and self.linked_component:
+            self.linked_component.store_log(slug, msg, *args)
+            return
         self.logs.append(f"{slug}: {msg % args}")
         if current_task:
             cache.set(f"task-log-{current_task.request.id}", self.logs, 2 * 3600)

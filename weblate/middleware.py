@@ -86,12 +86,11 @@ class RedirectMiddleware:
     def __call__(self, request):
         response = self.get_response(request)
         # This is based on APPEND_SLASH handling in Django
-        if response.status_code == 404:
-            if self.should_redirect_with_slash(request):
-                new_path = request.get_full_path(force_append_slash=True)
-                # Prevent construction of scheme relative urls.
-                new_path = escape_leading_slashes(new_path)
-                return HttpResponsePermanentRedirect(new_path)
+        if response.status_code == 404 and self.should_redirect_with_slash(request):
+            new_path = request.get_full_path(force_append_slash=True)
+            # Prevent construction of scheme relative urls.
+            new_path = escape_leading_slashes(new_path)
+            return HttpResponsePermanentRedirect(new_path)
         return response
 
     def should_redirect_with_slash(self, request):
