@@ -1385,7 +1385,7 @@ class Translation(
                 translation.unit_set.filter(
                     position__gt=translation_unit.position
                 ).update(position=F("position") - 1)
-            if self.is_source and not component.has_template():
+            if self.is_source and unit.position and not component.has_template():
                 # Adjust position is source language
                 self.unit_set.filter(position__gt=unit.position).update(
                     position=F("position") - 1
