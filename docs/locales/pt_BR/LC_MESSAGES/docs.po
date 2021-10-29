@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-09-08 12:00+0200\n"
-"PO-Revision-Date: 2021-10-28 11:59+0000\n"
+"PO-Revision-Date: 2021-10-29 13:40+0000\n"
 "Last-Translator: Rafael Fontenelle <rafaelff@gnome.org>\n"
 "Language-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/"
 "weblate/documentation/pt_BR/>\n"
@@ -14889,10 +14889,10 @@ msgid ""
 "more details."
 msgstr ""
 "Os campos importantes aqui são: Nome do componente, endereço do repositório "
-"VCS e máscara para localizar arquivos traduzíveis. Weblate suporta uma ampla "
-"gama de formatos, incluindo arquivos PO gettext, textos de recursos Android, "
-"propriedades de textos iOS, propriedades Java ou arquivos Qt Linguist, "
-"consulte :ref:`formats` para mais detalhes."
+"VCS e máscara para localizar arquivos traduzíveis. Weblate tem suporte a uma "
+"ampla gama de formatos, incluindo arquivos PO gettext, textos de recursos "
+"Android, propriedades de textos iOS, propriedades Java ou arquivos Qt "
+"Linguist, consulte :ref:`formats` para mais detalhes."
 
 #: ../../admin/install/steps/install-after.rst:30
 msgid ""
@@ -20694,7 +20694,7 @@ msgid ""
 msgstr ""
 "A API é acessível na URL ``/api/`` e é baseada em `framework Django REST "
 "<https://www.django-rest-framework.org/>`_. Você pode utilizá-la diretamente "
-"ou por :ref:`wlc`."
+"ou com o :ref:`wlc`."
 
 #: ../../api.rst:21
 msgid "Authentication and generic parameters"
@@ -21564,7 +21564,7 @@ msgstr "URL amigável do componente"
 
 #: ../../api.rst:816
 msgid "Edit a project by a :http:method:`PUT` request."
-msgstr "Edita um projeto por uma solicitação :http:method:PUT`."
+msgstr "Edita um projeto por uma solicitação :http:method:`PUT`."
 
 #: ../../api.rst:825
 msgid "Deletes a project."
@@ -21591,8 +21591,8 @@ msgid ""
 msgstr ""
 "Retorna informações sobre o status do repositório VCS. Este contém apenas um "
 "resumo geral de todos os repositórios para o projeto. Para obter um status "
-"mais detalhado, use http:get:`/api/components/(string:project)/(string:"
-"component)/repository/`."
+"mais detalhado, use :http:get:`/api/components/"
+"(string:project)/(string:component)/repository/`."
 
 #: ../../api.rst:847 ../../api.rst:1412
 msgid "whether there are any pending changes to commit"
@@ -24932,7 +24932,7 @@ msgstr "Sempre mostra a verificação de texto renderizado se habilitada."
 
 #: ../../changes.rst:465
 msgid "API now supports filtering of changes."
-msgstr "A API agora tem suporta a filtragem de alterações."
+msgstr "A API agora tem suporte à filtragem de alterações."
 
 #: ../../changes.rst:466
 msgid "Added support for sharing glossaries between projects."
@@ -35203,7 +35203,7 @@ msgid ""
 "bilingual, but Weblate supports it as monolingual as well."
 msgstr ""
 "`XML Localization Interchange File Format (XLIFF)` é normalmente utilizado "
-"como bilíngue, mas Weblate também o suporta como monolíngue."
+"como bilíngue, mas Weblate também tem suporte como monolíngue."
 
 #: ../../formats.rst:281
 msgid "`XML Localization Interchange File Format (XLIFF)` specification"
@@ -35420,10 +35420,10 @@ msgid ""
 "UTF-8 or UTF-16."
 msgstr ""
 "Weblate é compatível com as variantes ISO-8859-1, UTF-8 e UTF-16 deste "
-"formato. Todos eles suportam o armazenamento de todos os caracteres Unicode, "
-"mas são codificados de forma diferente. No ISO-8859-1, as sequências de "
-"escape Unicode são usadas (por exemplo, ``zkou\\u0161ka``), todas as outras "
-"codificam caracteres diretamente em UTF-8 ou UTF-16."
+"formato. Todas elas têm suporte ao armazenamento de todos os caracteres "
+"Unicode, mas são codificadas de forma diferente. No ISO-8859-1, as "
+"sequências de escape Unicode são usadas (por exemplo, ``zkou\\u0161ka``), "
+"todas as outras codificam caracteres diretamente em UTF-8 ou UTF-16."
 
 #: ../../formats.rst:425
 msgid ""
@@ -35873,14 +35873,14 @@ msgstr ""
 
 #: ../../formats.rst:838
 msgid "Weblate currently supports several variants of JSON translations:"
-msgstr "O Weblate atualmente suporta várias variantes das traduções JSON:"
+msgstr "O Weblate atualmente tem suporte a várias variantes das traduções JSON:"
 
 #: ../../formats.rst:840
 msgid ""
 "Simple key / value files, used for example by `vue-i18n` or `react-intl`."
 msgstr ""
-"Arquivos simples de chave/valor, usados por exemplo por `vue-i18n` ou `react-"
-"intl`."
+"Arquivos simples de chave/valor, usados, por exemplo, por `vue-i18n` ou "
+"`react-intl`."
 
 #: ../../formats.rst:841
 msgid "Files with nested keys."
@@ -35921,9 +35921,9 @@ msgid ""
 "as:"
 msgstr ""
 "A única diferença entre eles é ao adicionar novos textos usando Weblate. O "
-"formato de estrutura aninhada analisa a tecla recém-adicionada e insere o "
-"novo texto na estrutura de correspondência. Por exemplo, a tecla ``app."
-"name`` está inserida como:"
+"formato de estrutura aninhada analisa a chave recém-adicionada e insere o "
+"novo texto na estrutura de correspondência. Por exemplo, a chave ``app.name``"
+" é inserida como:"
 
 #: ../../formats.rst:881
 msgid "``langs/translation-*.json``"
@@ -35947,7 +35947,7 @@ msgstr ""
 
 #: ../../formats.rst:900
 msgid "JSON i18next files"
-msgstr "Arquivos i18next do JSON"
+msgstr "Arquivos i18next de JSON"
 
 #: ../../formats.rst:907
 msgid ""
@@ -35955,7 +35955,7 @@ msgid ""
 "JSON files with plurals are supported as well."
 msgstr ""
 "Desde o Weblate 2.17 e com `translate-toolkit`_ pelo menos 2.2.5, os "
-"arquivos I18next do JSON com plurais também são suportados."
+"arquivos I18next de JSON com plurais também são suportados."
 
 #: ../../formats.rst:910
 msgid ""
@@ -35964,7 +35964,7 @@ msgid ""
 "features such as plurals."
 msgstr ""
 "`i18next <https://www.i18next.com/>`_ é uma estrutura de internacionalização "
-"escrita dentro e para JavaScript. O Weblate suporta seus arquivos de "
+"escrita dentro e para JavaScript. O Weblate tem suporte a seus arquivos de "
 "localização com recursos como plurais."
 
 #: ../../formats.rst:914
@@ -35980,8 +35980,8 @@ msgid ""
 "Weblate supports the i18next JSON v3 format. The v2 and v1 variants are "
 "mostly compatible, with exception of how plurals are handled."
 msgstr ""
-"Weblate suporta o formato v3 de I18next do JSON. As variantes V2 e V1 são em "
-"sua maioria compatíveis, com exceção de como os plurais são manuseados."
+"Weblate tem suporte ao formato v3 de I18next de JSON. As variantes V2 e V1 "
+"são em sua maioria compatíveis, com exceção de como os plurais são tratados."
 
 #: ../../formats.rst:930 ../../formats.rst:968
 msgid "``langs/*.json``"
@@ -35993,7 +35993,7 @@ msgstr "``langs/en.json``"
 
 #: ../../formats.rst:936
 msgid "`i18next JSON file`"
-msgstr "`Arquivo JSON i18next`"
+msgstr "`Arquivo i18next de JSON`"
 
 #: ../../formats.rst:941
 msgid ""
@@ -36007,7 +36007,7 @@ msgstr ""
 
 #: ../../formats.rst:950
 msgid "go-i18n JSON files"
-msgstr "Arquivos JSON go-i18n"
+msgstr "Arquivos go-i18n de JSON"
 
 #: ../../formats.rst:957
 msgid ""
@@ -36022,12 +36022,12 @@ msgid ""
 "Weblate supports the go-i18n JSON v1 format, for flat JSON formats please "
 "use :ref:`json`. The v2 format with hash is currently not supported."
 msgstr ""
-"Weblate tem suporte ao formato go-i18n JSON v1, para formatos JSON simples, "
-"use :ref:`json`. O formato v2 com hash não é suportado no momento."
+"Weblate tem suporte ao formato v1 do go-i18n de JSON, para formatos JSON "
+"simples, use :ref:`json`. O formato v2 com hash não é suportado no momento."
 
 #: ../../formats.rst:974
 msgid "`go-i18n JSON file`"
-msgstr "`Arquivo JSON go-i18n`"
+msgstr "`Arquivo go-i18n de JSON`"
 
 #: ../../formats.rst:979
 msgid ""
@@ -36081,7 +36081,7 @@ msgstr ""
 
 #: ../../formats.rst:1022
 msgid "WebExtension JSON"
-msgstr "JSON WebExtension"
+msgstr "JSON para WebExtension"
 
 #: ../../formats.rst:1026
 msgid ""
@@ -36107,7 +36107,7 @@ msgid ""
 msgstr ""
 "Embora este formato se chame JSON, sua especificação permite incluir "
 "comentários, que não fazem parte da especificação JSON. O Weblate atualmente "
-"não suporta arquivo com comentários."
+"não tem suporte a arquivo com comentários."
 
 #: ../../formats.rst:1044
 msgid "``_locales/*/messages.json``"
@@ -36119,7 +36119,7 @@ msgstr "``_locales/en/messages.json``"
 
 #: ../../formats.rst:1050
 msgid "`WebExtension JSON file`"
-msgstr "`Arquivo JSON WebExtension`"
+msgstr "`Arquivo JSON para WebExtension`"
 
 #: ../../formats.rst:1055
 msgid ""
@@ -36178,8 +36178,8 @@ msgid ""
 "CSV files can contain a simple list of source and translation. Weblate "
 "supports the following files:"
 msgstr ""
-"Os arquivos CSV podem conter uma simples lista de origem e tradução. O "
-"Weblate suporta os seguintes arquivos:"
+"Os arquivos CSV podem conter uma simples lista de fonte e tradução. O "
+"Weblate tem suporte aos seguintes arquivos:"
 
 #: ../../formats.rst:1106
 msgid ""
@@ -36462,7 +36462,7 @@ msgid ""
 "automated by the :ref:`addon-weblate.flags.bulk`."
 msgstr ""
 "Caso você não queira traduzir certos textos (por exemplo, changelogs), "
-"marque-as como somente leitura (veja :ref:`custom-checks`). Isto pode ser "
+"marque-os como somente leitura (veja :ref:`custom-checks`). Isto pode ser "
 "automatizado por :ref:`addon-weblate.flags.bulk`."
 
 #: ../../formats.rst:1352
@@ -36680,7 +36680,7 @@ msgid ""
 "translation in another language."
 msgstr ""
 "Fluent é um formato de texto monolíngue que se concentra na localização "
-"assimétrica: um texto simples em um idioma pode ser mapeada para uma "
+"assimétrica: um texto simples em um idioma pode ser mapeado para uma "
 "tradução multivariante complexa em outro idioma."
 
 #: ../../formats.rst:1545
@@ -40183,8 +40183,8 @@ msgstr "``changed:DATA E HORA``"
 #: ../../user/search.rst:60
 msgid "String content was changed on date, supports :ref:`search-operators`."
 msgstr ""
-"O conteúdo do texto foi alterado na data, suporta :ref:`operadores de "
-"pesquisa`."
+"O conteúdo do texto foi alterado na data, tem suporte a :ref:`search-"
+"operators`."
 
 #: ../../user/search.rst:63
 msgid "``change_time:DATETIME``"
@@ -40196,9 +40196,10 @@ msgid ""
 "``changed`` this includes event which don't change content and you can apply "
 "custom action filtering using ``change_action``."
 msgstr ""
-"Texto foi alterado na data, suporta :ref:`search-operators`; ao contrário de "
-"``changed``, isso inclui eventos que não alteram o conteúdo e você pode "
-"aplicar uma filtragem de ação personalizada utilizando ``change_action``."
+"Texto foi alterado na data, tem suporte a :ref:`search-operators`; ao "
+"contrário de ``changed``, isso inclui eventos que não alteram o conteúdo e "
+"você pode aplicar uma filtragem de ação personalizada utilizando "
+"``change_action``."
 
 #: ../../user/search.rst:68
 msgid "``change_action:TEXT``"
@@ -41316,7 +41317,7 @@ msgid ""
 "ref:`hosted-push`."
 msgstr ""
 "No GitHub, cada chave só pode ser utilizada uma vez, veja :ref:`vcs-repos-"
-"github`e :ref:`hosted-push`."
+"github` e :ref:`hosted-push`."
 
 #: ../../vcs.rst:55
 msgid ""
@@ -41641,9 +41642,9 @@ msgid ""
 "`DATA_DIR`), therefore editing the user configuration needs to be done in "
 "``DATA_DIR/home/.git``."
 msgstr ""
-"Weblate invoca todos os comandos VCS com ``HOME=$DATA_DIR/home`` (veja :set:"
-"`DATA_DIR`), portanto a edição da configuração do usuário precisa ser feita "
-"em ``DATA_DIR/home/.git``."
+"Weblate invoca todos os comandos VCS com ``HOME=$DATA_DIR/home`` (veja "
+":setting:`DATA_DIR`), portanto a edição da configuração do usuário precisa "
+"ser feita em ``DATA_DIR/home/.git``."
 
 #: ../../vcs.rst:230
 msgid "Git remote helpers"
@@ -41668,9 +41669,9 @@ msgid ""
 msgstr ""
 "Neste momento, os auxiliares de Bazaar e Mercurial estão disponíveis em "
 "repositórios separados no GitHub: `git-remote-hg`_ e `git-remote-bzr`_. "
-"Baixe-os manualmente e coloque em algum lugar em seu caminho de pesquisa "
-"(por exemplo, :file:`~/bin `). Certifique-se de ter os sistemas de controle "
-"de versão correspondentes instalados."
+"Baixe-os manualmente e coloque em algum lugar em seu caminho de pesquisa ("
+"por exemplo, :file:`~/bin`). Certifique-se de ter os sistemas de controle de "
+"versão correspondentes instalados."
 
 #: ../../vcs.rst:241
 msgid ""
@@ -41758,10 +41759,10 @@ msgid ""
 "handled. With :ref:`vcs-git` changes are pushed directly to the repository, "
 "while :ref:`vcs-gitlab` creates merge request."
 msgstr ""
-"Não há necessidade de usá-lo para acessar repositórios de Git, o :ref:`vcs-"
-"git` comum funciona da mesma forma, sendo a única diferença como o push para "
-"um repositório é manipulado. Com :ref:`vcs-git`, o push das alterações é "
-"feito diretamente para o repositório, enquanto :ref:`vcs-gitlab` cria merge "
+"Não há necessidade de usá-lo para acessar repositórios Git, o :ref:`vcs-git` "
+"comum funciona da mesma forma, sendo a única diferença como o push para um "
+"repositório é manipulado. Com :ref:`vcs-git`, o push das alterações é feito "
+"diretamente para o repositório, enquanto :ref:`vcs-gitlab` cria merge "
 "request."
 
 #: ../../vcs.rst:321
@@ -41805,10 +41806,10 @@ msgid ""
 "handled. With :ref:`vcs-git` changes are pushed directly to the repository, "
 "while :ref:`vcs-pagure` creates merge request."
 msgstr ""
-"Não há necessidade de usá-lo para acessar repositórios de Git, o :ref:`vcs-"
-"git` comum funciona da mesma forma, sendo a única diferença como o push para "
-"um repositório é manipulado. Com :ref:`vcs-git`, o push das alterações é "
-"feito diretamente para o repositório, enquanto :ref:`vcs-pagure` cria merge "
+"Não há necessidade de usá-lo para acessar repositórios Git, o :ref:`vcs-git` "
+"comum funciona da mesma forma, sendo a única diferença como o push para um "
+"repositório é manipulado. Com :ref:`vcs-git`, o push das alterações é feito "
+"diretamente para o repositório, enquanto :ref:`vcs-pagure` cria merge "
 "request."
 
 #: ../../vcs.rst:359
@@ -41896,13 +41897,13 @@ msgid ""
 "and you encounter errors, try including the branch name in the repository "
 "URL and leaving branch empty."
 msgstr ""
-"O Weblate tenta detectar o layout do repositório Subversion automaticamente "
-"– ele tem suporta a URLs diretas para remos ou repositórios com layout "
-"padrão (branches/, tags/ e trunk/). Mais informações sobre isso podem ser "
-"encontradas na `documentação do git-svn <https://git-scm.com/docs/git-"
-"svn#Documentation/git-svn.txt---stdlayout>`_. Se o repositório não tiver um "
+"O Weblate tenta detectar o layout do repositório Subversion automaticamente –"
+" ele tem suporte a URLs diretas para remos ou repositórios com layout padrão "
+"(branches/, tags/ e trunk/). Mais informações sobre isso podem ser "
+"encontradas na `documentação do git-svn <https://git-scm.com/docs/git-svn#"
+"Documentation/git-svn.txt---stdlayout>`_. Se o repositório não tiver um "
 "layout padrão e você encontrar erros, tente incluir o nome do ramo na URL do "
-"repositório e deixar a ramo vazia."
+"repositório e deixar o ramo vazio."
 
 #: ../../vcs.rst:432
 msgid ""
@@ -41922,9 +41923,9 @@ msgid ""
 "$HOME` environment variable set to the :setting:`DATA_DIR`:"
 msgstr ""
 "Weblate espera que você tenha aceito o certificado com antecedência (e suas "
-"credenciais, se necessário). Ele procurará inseri-las no diretório :set:"
-"`DATA_DIR`. Aceite o certificado utilizando `svn` uma vez com a variável de "
-"ambiente `$HOME` definida como :setting:`DATA_DIR`:"
+"credenciais, se necessário). Ele procurará inseri-las no diretório "
+":setting:`DATA_DIR`. Aceite o certificado utilizando `svn` uma vez com a "
+"variável de ambiente `$HOME` definida como :setting:`DATA_DIR`:"
 
 #: ../../vcs.rst:459
 msgid "Local files"
@@ -41935,8 +41936,9 @@ msgid ""
 "Underneath, this uses :ref:`vcs-git`. It requires Git installed and allows "
 "you to switch to using Git natively with full history of your translations."
 msgstr ""
-"Embaixo, ele usa :ref:`vcs-git`. Ele requer Git instalado e permite que você "
-"mude para usar o Git nativamente com histórico completo de suas traduções."
+"Internamente, ele usa :ref:`vcs-git`. Ele requer Git instalado e permite que "
+"você mude para usar o Git nativamente com histórico completo de suas "
+"traduções."
 
 #: ../../vcs.rst:471
 msgid ""
@@ -41957,7 +41959,7 @@ msgid ""
 "translations, you already have a repository within Weblate can base your "
 "integration on."
 msgstr ""
-"No fundo, o Weblate cria um repositório de Git para você e todas as "
+"Em segundo plano, o Weblate cria um repositório de Git para você e todas as "
 "alterações são rastreadas. Caso você decida mais tarde usar um VCS para "
 "armazenar as traduções, você já tem um repositório dentro do Weblate pode "
 "basear sua integração."
