@@ -1520,7 +1520,7 @@ XML based format used by Apple which is able to store plural forms of a string.
 .. seealso::
 
    :ref:`apple`,
-   `Stringsdict File Format <https://developer.apple.com/library/archive/documentation/MacOSX/Conceptual/BPInternational/StringsdictFileFormat/StringsdictFileFormat.html>`_,
+   `Stringsdict File Format <https://developer.apple.com/library/archive/documentation/MacOSX/Conceptual/BPInternational/StringsdictFileFormat/StringsdictFileFormat.html>`_
 
 
 .. _fluent:
