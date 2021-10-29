@@ -196,9 +196,14 @@ the latest images and then restart:
 
 .. code-block:: sh
 
-    docker-compose stop
-    docker-compose pull
-    docker-compose up
+   # Fetch latest versions of the images
+   docker-compose pull
+   # Stop and destroy the containers
+   docker-compose down
+   # Spawn new containers in the background
+   docker-compose up -d
+   # Follow the logs during upgrade
+   docker-compose logs -f
 
 The Weblate database should be automatically migrated on first startup, and there
 should be no need for additional manual actions.
