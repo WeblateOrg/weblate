@@ -24,7 +24,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.8.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-09-08 10:00+0000\n"
-"PO-Revision-Date: 2021-08-27 21:17+0000\n"
+"PO-Revision-Date: 2021-11-01 11:20+0000\n"
 "Last-Translator: Tuomas Hietala <tuomas.hietala@iki.fi>\n"
 "Language-Team: Finnish <https://hosted.weblate.org/projects/weblate/"
 "application/fi/>\n"
@@ -33,7 +33,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.8.1-dev\n"
+"X-Generator: Weblate 4.9-dev\n"
 
 #: weblate/accounts/avatar.py:103
 msgctxt "No known user"
@@ -445,6 +445,7 @@ msgstr "Palauta salasanasi päästäksesi takaisin tilillesi."
 #: weblate/accounts/models.py:184
 msgid "Please contact project maintainers if you feel this is inappropriate."
 msgstr ""
+"Ota yhteyttä projektin ylläpitäjiin, jos tämä on mielestäsi sopimatonta."
 
 #: weblate/accounts/models.py:306 weblate/templates/accounts/profile.html:227
 #: weblate/templates/accounts/user.html:223
@@ -6297,8 +6298,6 @@ msgid "Powered by %(weblate_version_link)s"
 msgstr "Moottorina %(weblate_version_link)s"
 
 #: weblate/templates/footer.html:13
-#, fuzzy
-#| msgid "Privacy Policy"
 msgid "Privacy policy"
 msgstr "Tietosuojakäytäntö"
 
@@ -7190,10 +7189,8 @@ msgid "Add a user"
 msgstr "Lisää käyttäjä"
 
 #: weblate/templates/manage-access.html:152
-#, fuzzy
-#| msgid "Unlock"
 msgid "Block"
-msgstr "Poista lukitus"
+msgstr "Estä"
 
 #: weblate/templates/manage-access.html:163
 msgid "Invite new user"
@@ -7687,10 +7684,8 @@ msgstr "Pyydä uutta käännöstä"
 
 #: weblate/templates/paginator.html:9
 #: weblate/templates/snippets/position-field.html:15
-#, fuzzy
-#| msgid "Go to position"
 msgid "Click to edit position"
-msgstr "Siirry kohtaan"
+msgstr "Muokkaa kohtaa napsauttamalla"
 
 #: weblate/templates/paginator.html:10
 #, python-format
@@ -8568,10 +8563,8 @@ msgid "All strings"
 msgstr "Kaikki tekstit"
 
 #: weblate/templates/snippets/query-field.html:11
-#, fuzzy
-#| msgid "Custom Search"
 msgid "Custom search"
-msgstr "Oma haku"
+msgstr "Mukautettu haku"
 
 #: weblate/templates/snippets/query-field.html:21
 #: weblate/templates/snippets/user-query-field.html:5
@@ -8809,18 +8802,15 @@ msgid ""
 "You might be using a monolingual translation file as a bilingual one. If "
 "that is the case, please set the monolingual base language file location."
 msgstr ""
+"Käytät ehkä yksikielistä käännöstiedostoa kaksikielisenä. Mikäli näin on, "
+"aseta yksikielisen peruskielitiedoston sijainti."
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:14
-#, fuzzy
-#| msgid ""
-#| "Remove the translation file for the source language or change the source "
-#| "language in the project settings."
 msgid ""
 "In case translation to the source language is desired, please change the "
 "source language in the component settings."
 msgstr ""
-"Poista lähdekielen käännöstiedosto tai vaihda lähdekieltä projektin "
-"asetuksissa."
+"Jos halutaan kääntää lähdekieleen, vaihda lähdekieli komponentin asetuksista."
 
 #: weblate/templates/trans/alert/duplicatelanguage.html:15
 #, fuzzy
@@ -8909,10 +8899,10 @@ msgid "This project does no longer fit into libre hosting conditions."
 msgstr ""
 
 #: weblate/templates/trans/alert/nomaskmatches.html:2
-#, fuzzy
-#| msgid "This component is set up incorrectly."
 msgid "This component set up is incomplete, as it lacks any translations."
-msgstr "Tämän komponentin määritykset ovat virheelliset."
+msgstr ""
+"Tämän komponentin määritykset ovat virheelliset, koska siinä ei ole "
+"käännöksiä."
 
 #: weblate/templates/trans/alert/nomaskmatches.html:6
 #, fuzzy
@@ -8938,8 +8928,8 @@ msgstr ""
 #, python-format
 msgid "Only some of the %(count)s occurrence is shown."
 msgid_plural "Only some of the %(count)s occurrences are shown."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Vain osa yhdestä esiintymästä näytetään."
+msgstr[1] "Vain osa %(count)s esiintymästä näytetään."
 
 #: weblate/templates/trans/alert/parseerror.html:4
 msgid ""
@@ -9958,10 +9948,8 @@ msgid "Missing query string."
 msgstr "Kyselyteksti puuttuu."
 
 #: weblate/trans/forms.py:185
-#, fuzzy
-#| msgid "Failed to parse query string: {}"
 msgid "Could not parse query string: {}"
-msgstr "Kyselytekstin jäsentäminen epäonnistui: {}"
+msgstr "Kyselytekstiä ei voitu jäsentää: {}"
 
 #: weblate/trans/forms.py:228 weblate/trans/forms.py:236
 msgid "Toggle text direction"
@@ -10440,16 +10428,12 @@ msgid "Context"
 msgstr "Asiayhteys"
 
 #: weblate/trans/forms.py:2053
-#, fuzzy
-#| msgid "Additional explanation to clarify meaning or usage of the string."
 msgid "Optional context to clarify the source strings."
-msgstr "Lisäselitys tekstin merkityksen tai käytön selventämiseksi."
+msgstr "Valinnainen lähdetekstin asiayhteyden selvennys."
 
 #: weblate/trans/forms.py:2059
-#, fuzzy
-#| msgid "Entry by the same name already exists."
 msgid "Automatically adjust context when same string already exists."
-msgstr "Samanniminen merkintä on jo olemassa."
+msgstr "Muuta asiayhteyttä automaattisesti, kun sama teksti on jo olemassa."
 
 #: weblate/trans/forms.py:2081
 msgid "You can edit this later, as with any other string in the translation."
