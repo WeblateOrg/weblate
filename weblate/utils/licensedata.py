@@ -1527,6 +1527,12 @@ LICENSES = (
         False,
     ),
     (
+        "Linux-man-pages-copyleft",
+        "Linux man-pages Copyleft",
+        "https://www.kernel.org/doc/man-pages/licenses.html",
+        False,
+    ),
+    (
         "LPL-1.02",
         "Lucent Public License v1.02",
         "http://plan9.bell-labs.com/plan9/license.html",
@@ -2297,12 +2303,6 @@ LICENSES = (
         "TU-Berlin-2.0",
         "Technische Universitaet Berlin License 2.0",
         "https://github.com/CorsixTH/deps/blob/fd339a9f526d1d9c9f01ccf39e438a015da50035/licences/libgsm.txt",
-        False,
-    ),
-    (
-        "Verbatim-man-pages",
-        'The "Verbatim" License (man-pages)',
-        "https://www.kernel.org/doc/man-pages/licenses.html",
         False,
     ),
     ("MirOS", "The MirOS Licence", "https://opensource.org/licenses/MirOS", True),
