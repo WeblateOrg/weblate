@@ -382,13 +382,13 @@ def auto_translate(
         user = User.objects.get(pk=user_id)
     else:
         user = None
+    translation.log_info(
+        "starting automatic translation %s: %s: %s",
+        current_task.request.id,
+        auto_source,
+        ", ".join(engines) if engines else component,
+    )
     with translation.component.lock, override(user.profile.language if user else "en"):
-        translation.log_info(
-            "starting automatic translation %s: %s: %s",
-            current_task.request.id,
-            auto_source,
-            ", ".join(engines) if engines else component,
-        )
         auto = AutoTranslate(
             user, translation, filter_type, mode, component_wide=component_wide
         )
