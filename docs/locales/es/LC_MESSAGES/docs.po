@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-09-08 12:00+0200\n"
-"PO-Revision-Date: 2021-10-29 13:40+0000\n"
+"PO-Revision-Date: 2021-10-29 15:25+0000\n"
 "Last-Translator: eulalio <eulalio@disroot.org>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/weblate/"
 "documentation/es/>\n"
@@ -5869,6 +5869,9 @@ msgid ""
 "string settings and in the translation file itself (for example in GNU "
 "gettext)."
 msgstr ""
+"Estas flags se entienden tanto en la configuración de :ref:`component`, por "
+"la configuración de la cadena de origen y en el propio archivo de traducción "
+"(por ejemplo en GNU gettext)."
 
 #: ../../admin/checks.rst:262
 msgid "Enforcing checks"
@@ -5881,6 +5884,11 @@ msgid ""
 "be ignored in the user interface and any string failing this check is marked "
 "as :guilabel:`Needs editing` (see :ref:`states`)."
 msgstr ""
+"Puedes configurar una lista de comprobaciones que no se pueden ignoradar "
+"estableciendo :ref:`component-enforced_checks` en :ref:`component`. No se "
+"pueden ignorar cada una de las comprobaciones enumeradas en la interfaz de "
+"usuario y cualquier cadena que falle esta comprobación se marca "
+"como::guilabel:`Needs editing` (ver :ref:`states`)."
 
 #: ../../admin/checks.rst:274
 msgid "Managing fonts"
@@ -5891,6 +5899,8 @@ msgid ""
 "Fonts uploaded into Weblate are used purely for purposes of the :ref:`check-"
 "max-size` check, they do not have an effect in Weblate user interface."
 msgstr ""
+"Las fuentes cargadas en Weblate se usan únicamente a efectos de comprobación "
+":ref:`check-max-size`, no tienen efecto en la interfaz de usuario de Weblate."
 
 #: ../../admin/checks.rst:284
 msgid ""
@@ -5898,6 +5908,10 @@ msgid ""
 "text needs font to be loaded into Weblate and selected using a translation "
 "flag (see :ref:`custom-checks`)."
 msgstr ""
+"La comprobación :ref:`check-max-size` utilizada para calcular las "
+"dimensiones del texto renderizado necesita que la fuente se cargue en "
+"Weblate y se seleccione mediante una flag de traducción (ver :ref:`custom-"
+"checks`)."
 
 #: ../../admin/checks.rst:288
 msgid ""
@@ -5906,26 +5920,38 @@ msgid ""
 "manage fonts. TrueType or OpenType fonts can be uploaded, set up font-groups "
 "and use those in the check."
 msgstr ""
+"La herramienta de gestión de fuentes de Weblate en :guilabel:`Fonts` bajo el "
+"menú :guilabel:`Manage` de tu proyecto de traducción proporciona una "
+"interfaz para cargar y gestionar las fuentes. Se pueden cargar fuentes "
+"TrueType u OpenType, configurar grupos de fuentes y utilizarlas en la "
+"comprobación."
 
 #: ../../admin/checks.rst:293
 msgid ""
 "The font-groups allow you to define different fonts for different languages, "
 "which is typically needed for non-latin languages:"
 msgstr ""
+"Los grupos de fuentes permiten definir diferentes fuentes para distintos "
+"idiomas, lo que suele ser necesario para los idiomas no latinos:"
 
 #: ../../admin/checks.rst:298
 msgid ""
 "The font-groups are identified by name, which can not contain whitespace or "
 "special characters, so that it can be easily used in the check definition:"
 msgstr ""
+"Los grupos de fuentes se identifican por su nombre, que no puede contener "
+"espacios en blanco ni caracteres especiales, para que pueda utilizarse "
+"fácilmente en la definición de la comprobación:"
 
 #: ../../admin/checks.rst:303
 msgid "Font-family and style is automatically recognized after uploading them:"
 msgstr ""
+"El tipo de letra y el estilo se reconocen automáticamente después de "
+"cargarlos:"
 
 #: ../../admin/checks.rst:307
 msgid "You can have a number of fonts loaded into Weblate:"
-msgstr ""
+msgstr "Puedes tener varias fuentes cargadas en Weblate:"
 
 #: ../../admin/checks.rst:311
 msgid ""
