@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-09-08 12:00+0200\n"
-"PO-Revision-Date: 2021-10-29 15:25+0000\n"
+"PO-Revision-Date: 2021-11-01 11:20+0000\n"
 "Last-Translator: eulalio <eulalio@disroot.org>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/weblate/"
 "documentation/es/>\n"
@@ -5958,26 +5958,32 @@ msgid ""
 "To use the fonts for checking the string length, pass it the appropriate "
 "flags (see :ref:`custom-checks`). You will probably need the following ones:"
 msgstr ""
+"Para utilizar las fuentes que comprueban la longitud de la cadena, pásale "
+"los indicadores adecuados (ver :ref:`custom-checks`). Posiblemente "
+"necesitarás los siguientes:"
 
 #: ../../admin/checks.rst:314
+#, fuzzy
 msgid "``max-size:500``"
-msgstr ""
+msgstr "``max-size:500``"
 
 #: ../../admin/checks.rst:315
 msgid "Defines maximal width."
 msgstr "Define la anchura máxima."
 
 #: ../../admin/checks.rst:316
+#, fuzzy
 msgid "``font-family:ubuntu``"
-msgstr ""
+msgstr "``font-family:ubuntu``"
 
 #: ../../admin/checks.rst:317
 msgid "Defines font group to use by specifying its identifier."
-msgstr ""
+msgstr "Define el grupo de fuentes a utilizar especificando su identificador."
 
 #: ../../admin/checks.rst:320
+#, fuzzy
 msgid "``font-size:22``"
-msgstr ""
+msgstr "``font-size:22``"
 
 #: ../../admin/checks.rst:319
 msgid "Defines font size."
@@ -5985,7 +5991,7 @@ msgstr "Define el tamaño del texto."
 
 #: ../../admin/checks.rst:325
 msgid "Writing own checks"
-msgstr ""
+msgstr "Escribir los propios controles"
 
 #: ../../admin/checks.rst:327
 msgid ""
@@ -5994,10 +6000,14 @@ msgid ""
 "checks can be adjusted using :setting:`CHECK_LIST`, and you can also add "
 "custom checks."
 msgstr ""
+"Se han incorporado una amplia gama de controles de calidad, (ver "
+":ref:`checks`), aunque es posible que no cubran todo lo que quieres "
+"comprobar. Se puede ajustar la lista de comprobaciones realizadas mediante "
+":setting:`CHECK_LIST`, y también puedes añadir controles personalizados."
 
 #: ../../admin/checks.rst:331
 msgid "Subclass the `weblate.checks.Check`"
-msgstr ""
+msgstr "Subclase del `weblate.checks.Check`"
 
 #: ../../admin/checks.rst:332
 msgid "Set a few attributes."
@@ -6008,6 +6018,8 @@ msgid ""
 "Implement either the ``check`` (if you want to deal with plurals in your "
 "code) or the ``check_single`` method (which does it for you)."
 msgstr ""
+"Implementa el ``check``(si quieres tratar los plurales en tu código) o el "
+"método ``check_single``(que lo hace por ti)."
 
 #: ../../admin/checks.rst:336
 msgid "Some examples:"
@@ -6018,10 +6030,12 @@ msgid ""
 "To install custom checks, provide a fully-qualified path to the Python class "
 "in the :setting:`CHECK_LIST`, see :ref:`custom-check-modules`."
 msgstr ""
+"Para instalar controles personalizados, proporciona una ruta muy clara de "
+"clase Python en :setting:`CHECK_LIST`, ver :ref:`custom-check-modules`."
 
 #: ../../admin/checks.rst:342
 msgid "Checking translation text does not contain \"foo\""
-msgstr ""
+msgstr "Comprueba que el texto de la traducción no contiene \"foo\""
 
 #: ../../admin/checks.rst:344
 msgid ""
@@ -6033,7 +6047,7 @@ msgstr ""
 
 #: ../../admin/checks.rst:351
 msgid "Checking that Czech translation text plurals differ"
-msgstr ""
+msgstr "Comprueba que los plurales del texto traducido al checo son diferentes"
 
 #: ../../admin/checks.rst:353
 msgid ""
@@ -6053,12 +6067,17 @@ msgid ""
 "dashboard, from which users can pick one as their default view. See :ref:"
 "`dashboard` to learn more."
 msgstr ""
+"Especifica varias listas de componentes para que aparezcan como opciones en "
+"el panel de control del usuario, de las cuales los usuarios pueden elegir "
+"una como vista predeterminada. Para saber más, ver :ref:`dashboard`."
 
 #: ../../admin/componentlists.rst:12
 msgid ""
 "A status will be presented for each component list presented on the "
 "dashboard."
 msgstr ""
+"Se presentará un estado para cada lista de componentes presentada en el "
+"tablero."
 
 #: ../../admin/componentlists.rst:14
 msgid ""
@@ -6067,12 +6086,19 @@ msgid ""
 "have a name that is displayed to the user, and a slug representing it in the "
 "URL."
 msgstr ""
+"Los nombres y el contenido de las listas de componentes pueden especificarse "
+"en la interfaz de administración, en la sección: `Component lists`. Cada "
+"lista de componentes debe tener un nombre que se muestre al usuario, y un "
+"slug que lo represente en la URL."
 
 #: ../../admin/componentlists.rst:22
 msgid ""
 "Change dashboard settings for anonymous users from the admin interface, "
 "altering what dashboard is presented to unauthenticated users."
 msgstr ""
+"Cambia la configuración del panel de control para los usuarios anónimos "
+"desde la interfaz de administración, modificando el panel de control que se "
+"presenta a los usuarios no autentificados."
 
 #: ../../admin/componentlists.rst:26
 msgid "Automatic component lists"
@@ -6083,6 +6109,8 @@ msgid ""
 "Add components to the list automatically based on their slug by creating :"
 "guilabel:`Automatic component list assignment` rules."
 msgstr ""
+"Añadir componentes a la lista automáticamente en función de su slug creando "
+"reglas: `Automatic component list assignment`."
 
 #: ../../admin/componentlists.rst:33
 msgid ""
@@ -6090,12 +6118,17 @@ msgid ""
 "you want to have one component list with all components on your Weblate "
 "installation."
 msgstr ""
+"Es útil para mantener listas de componentes para instalaciones grandes, o en "
+"caso de que quieras tener una lista de componentes con todos los componentes "
+"de tu instalación de Weblate."
 
 #: ../../admin/componentlists.rst:38
 msgid ""
 "Make a component list containing all the components of your Weblate "
 "installation."
 msgstr ""
+"Haz una lista de componentes que contenga todos los componentes de tu "
+"instalación de Weblate."
 
 #: ../../admin/componentlists.rst:40
 msgid ""
@@ -6103,6 +6136,9 @@ msgid ""
 "regular expression in both the project and the component fields, as shown on "
 "this image:"
 msgstr ""
+"1. Define :guilabel:`Asignación automática de listas de componentes` con "
+"``^.*$`` como expresión regular tanto en el campo de proyecto como en el de "
+"componentes, como se muestra en esta imagen:"
 
 #: ../../admin/componentlists.rst:None
 msgid ""
