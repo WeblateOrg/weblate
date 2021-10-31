@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.8.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-09-08 10:00+0000\n"
-"PO-Revision-Date: 2021-09-19 18:31+0000\n"
+"PO-Revision-Date: 2021-11-01 11:20+0000\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <https://hosted.weblate.org/projects/weblate/"
 "application/sl/>\n"
@@ -610,6 +610,8 @@ msgid ""
 "Link to your Fediverse profile for federated services like Mastodon or "
 "diaspora*."
 msgstr ""
+"Povežite s svojim profilom Fediverse za federativne storitve, kot sta "
+"Mastodon in diaspora*."
 
 #: weblate/accounts/models.py:524
 msgid "Code site URL"
@@ -618,6 +620,7 @@ msgstr "URL spletišča s kodo"
 #: weblate/accounts/models.py:526
 msgid "Link to your code profile for services like Codeberg or GitLab."
 msgstr ""
+"Povežite s svojim kodni profilom za storitve, kot sta Codeberg in GitLab."
 
 #: weblate/accounts/models.py:529
 msgid "GitHub username"
@@ -890,12 +893,16 @@ msgid ""
 "Seems you've already requested a trial period recently. Please contact us "
 "with your inquiry so we can find the best solution for you."
 msgstr ""
+"Kaže, da ste že zahtevali preizkusno obdobje. Stopite v stik z nami s svojim "
+"povpraševanjem, da lahko najdemo najboljšo rešitev za vas."
 
 #: weblate/accounts/views.py:595
 msgid ""
 "Your trial period is now up and running; create your translation project and "
 "start Weblating!"
 msgstr ""
+"Vaše preizkusno obdobje zdaj teče; ustvarite svoj prevajalski projekt in "
+"pričnite z delom v Weblate!"
 
 #: weblate/accounts/views.py:601 weblate/templates/accounts/hosting.html:54
 #: weblate/templates/accounts/trial.html:7
@@ -966,10 +973,8 @@ msgid "Could not authenticate due to invalid session state."
 msgstr "Ne moremo overiti zaradi neveljavnega stanja seje."
 
 #: weblate/accounts/views.py:1189
-#, fuzzy
-#| msgid "You can add another email address on the Authentication tab."
 msgid "Got no e-mail address from third party authentication service."
-msgstr "Dodaten e-poštni naslov lahko dodate na zavihku Overitev."
+msgstr "Nobenega e-poštnega naslova ni od overitvene storitve tretje strani."
 
 #: weblate/accounts/views.py:1191
 msgid "Please register using e-mail instead."
@@ -1026,6 +1031,7 @@ msgid ""
 "Automatically translates strings using machine translation or other "
 "components."
 msgstr ""
+"Samodejno prevede nize s pomočjo strojnega prevajanja ali drugih komponent."
 
 #: weblate/addons/base.py:330 weblate/trans/views/create.py:178
 #: weblate/trans/views/settings.py:110
@@ -1033,6 +1039,8 @@ msgid ""
 "The repository is outdated, you might not get expected results until you "
 "update it."
 msgstr ""
+"Skladišče je zastarelo, morda ne boste prejeli pričakovanih rezultatov, "
+"dokler ga ne posodobite."
 
 #: weblate/addons/cdn.py:38
 msgid "JavaScript localization CDN"
@@ -1089,15 +1097,15 @@ msgstr "Primer dodatka"
 
 #: weblate/addons/example.py:38
 msgid "This add-on does nothing it is just an example."
-msgstr ""
+msgstr "Ta dodatek ne počne ničesar, gre le za primer."
 
 #: weblate/addons/example_pre.py:34
 msgid "Execute script before commit"
-msgstr ""
+msgstr "Izvedi skript pred uveljavitvijo"
 
 #: weblate/addons/example_pre.py:35
 msgid "This addon executes a script."
-msgstr ""
+msgstr "Ta dodatek izvede skript."
 
 #: weblate/addons/flags.py:45
 msgid "Flag new source strings as \"Needs editing\""
@@ -1159,27 +1167,23 @@ msgstr "Ime ustvarjene datoteke"
 
 #: weblate/addons/forms.py:83
 msgid "Content of generated file"
-msgstr ""
+msgstr "Vsebina tvorjene datoteke"
 
 #: weblate/addons/forms.py:112 weblate/addons/forms.py:208
 msgid "Long lines wrapping"
-msgstr ""
+msgstr "Prelom dolgih vrstic"
 
 #: weblate/addons/forms.py:114
-#, fuzzy
-#| msgid "Trailing newline"
 msgid "Wrap lines at 77 characters and at newlines"
-msgstr "Končna nova vrstica"
+msgstr "Prelomi vrstice pri 77 znakih in znakih za novo vrstico"
 
 #: weblate/addons/forms.py:115
-#, fuzzy
-#| msgid "Trailing newline"
 msgid "Only wrap lines at newlines"
-msgstr "Končna nova vrstica"
+msgstr "Prelomi vrstice le pri znakih za novo vrstico"
 
 #: weblate/addons/forms.py:116 weblate/addons/forms.py:214
 msgid "No line wrapping"
-msgstr ""
+msgstr "Brez preloma vrstic"
 
 #: weblate/addons/forms.py:121
 msgid ""
@@ -1257,68 +1261,64 @@ msgid ""
 msgstr ""
 
 #: weblate/addons/forms.py:188
-#, fuzzy
-#| msgid "SSH keys"
 msgid "Sort JSON keys"
-msgstr "Ključi SSH"
+msgstr "Razvrsti s ključi JSON"
 
 #: weblate/addons/forms.py:190
-#, fuzzy
-#| msgid "Documentation"
 msgid "JSON indentation"
-msgstr "Dokumentacija"
+msgstr "Zamiki JSON"
 
 #: weblate/addons/forms.py:193
-#, fuzzy
-#| msgid "Documentation"
 msgid "JSON indentation style"
-msgstr "Dokumentacija"
+msgstr "Slog zamikanja JSON"
 
 #: weblate/addons/forms.py:195
 msgid "Spaces"
-msgstr ""
+msgstr "Presledki"
 
 #: weblate/addons/forms.py:196
 msgid "Tabs"
-msgstr ""
+msgstr "Tabulatorji"
 
 #: weblate/addons/forms.py:205
-#, fuzzy
-#| msgid "Documentation"
 msgid "YAML indentation"
-msgstr "Dokumentacija"
+msgstr "Zamikanje YAML"
 
 #: weblate/addons/forms.py:210
 msgid "Wrap lines at 80 chars"
-msgstr ""
+msgstr "Prelomi vrstice pri 80 znakih"
 
 #: weblate/addons/forms.py:211
 msgid "Wrap lines at 100 chars"
-msgstr ""
+msgstr "Prelomi vrstice pri 100 znakih"
 
 #: weblate/addons/forms.py:212
 msgid "Wrap lines at 120 chars"
-msgstr ""
+msgstr "Prelomi vrstice pri 120 znakih"
 
 #: weblate/addons/forms.py:213
 msgid "Wrap lines at 180 chars"
-msgstr ""
+msgstr "Prelomi vrstice pri 180 znakih"
 
 #: weblate/addons/forms.py:220
 msgid "Line breaks"
-msgstr ""
+msgstr "Prelomi vrstic"
 
 #: weblate/addons/forms.py:222
 msgid "DOS (\\r\\n)"
 msgstr ""
+"DOS (\\r\\n"
+")"
 
 #: weblate/addons/forms.py:223
 msgid "UNIX (\\n)"
 msgstr ""
+"UNIX (\\n"
+")"
 
 #: weblate/addons/forms.py:224
 msgid "MAC (\\r)"
-msgstr ""
+msgstr "MAC (\\r)"
 
 #: weblate/addons/forms.py:233
 msgid "Days to keep"
@@ -4023,7 +4023,7 @@ msgstr "kontakt"
 
 #: weblate/legal/templates/legal/cookies.html:6 weblate/legal/views.py:33
 msgid "Cookies"
-msgstr ""
+msgstr "Piškotki"
 
 #: weblate/legal/templates/legal/cookies.html:14
 msgid "Cookies Policy"
@@ -5715,10 +5715,8 @@ msgid "Help"
 msgstr ""
 
 #: weblate/templates/base.html:266
-#, fuzzy
-#| msgid "Support Weblate at {0}"
 msgid "Get support"
-msgstr "Podprite Weblate na {0}"
+msgstr "Pridobite podporo"
 
 #: weblate/templates/base.html:269 weblate/templates/manage/index.html:83
 msgid "Get help"
@@ -14334,10 +14332,9 @@ msgid "Invalid image!"
 msgstr "Neveljavna slika!"
 
 #: weblate/utils/validators.py:127
-#, fuzzy, python-format
-#| msgid "Not supported image type: %s"
+#, python-format
 msgid "Unsupported image type: %s"
-msgstr "Nepodprta vrsta slike: %s"
+msgstr "Nepodprta vrsta slik: %s"
 
 #: weblate/utils/validators.py:133
 msgid "The image is too big, please crop or scale it down."
