@@ -23,9 +23,9 @@ body:
     id: tried
     attributes:
       label: I already tried
-      description: Describe the steps you tried to solve the problem yourself.
+      description: If you didn’t try already, try to search the documentation and existing issues what you wrote above.
       options:
-        - label: I've read and searched [the docs](https://docs.weblate.org/) and did not find the answer there. If you didn’t try already, try to search there what you wrote above.
+        - label: I've read and searched [the documentation](https://docs.weblate.org/).
           required: true
         - label: I've searched for similar issues in this repository.
           required: true
@@ -54,7 +54,7 @@ body:
       label: Exception traceback
       description: >
         In case you observed server error or crash, please see
-        <https://docs.weblate.org/en/latest/contributing/debugging.html>
+        [the debugging documentation](https://docs.weblate.org/en/latest/contributing/debugging.html)
         for information how to obtain that.
       render: pytb
   - type: dropdown
