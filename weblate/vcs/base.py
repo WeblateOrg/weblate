@@ -419,7 +419,7 @@ class Repository:
     def update_hash(objhash, filename, extra=None):
         if os.path.islink(filename):
             objtype = "symlink"
-            data = os.readlink(filename)
+            data = os.readlink(filename).encode()
         else:
             objtype = "blob"
             with open(filename, "rb") as handle:
