@@ -1829,6 +1829,16 @@ class ComponentAPITest(APIBaseTest):
             request={"language_code": "cs"},
         )
 
+    def test_download_translation_zip_ok(self):
+        response = self.do_request(
+            "api:component-download-archive",
+            self.component_kwargs,
+            method="get",
+            code=200,
+            superuser=True,
+        )
+        self.assertEqual(response.headers["content-type"], "application/zip")
+
     def test_links(self):
         self.do_request(
             "api:component-links",
