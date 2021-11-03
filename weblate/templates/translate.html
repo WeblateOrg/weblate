@@ -216,8 +216,12 @@
     {% endif %}
     > {% trans "Save" %}</button>
 
+    {% if not locked and user_can_translate %}
+      <button class="btn btn-warning btn-spaced" type="submit" name="save-stay" tabindex="151">{% trans "Save and stay" %}</button>
+    {% endif %}
+
     {% if unit.translation.component.enable_suggestions %}
-    <button class="btn btn-warning btn-spaced" type="submit" name="suggest" tabindex="151"
+    <button class="btn btn-warning btn-spaced" type="submit" name="suggest" tabindex="152"
     {% if project_locked or not user_can_suggest or unit.readonly %}disabled="disabled"{% endif %}
       {% if not user_can_suggest %}
         title="{% trans "Insufficient privileges for adding suggestions." %}"
@@ -228,7 +232,7 @@
       {% endif %}
     >{% icon "suggest.svg" %} {% trans "Suggest" %}</button>
     {% endif %}
-    <button class="btn btn-warning btn-spaced" type="submit" name="skip" tabindex="152">{% if LANGUAGE_BIDI %}{% icon "rewind.svg" %}{% else %}{% icon "fast-forward.svg" %}{% endif %} {% trans "Skip" %}</button>
+    <button class="btn btn-warning btn-spaced" type="submit" name="skip" tabindex="153">{% if LANGUAGE_BIDI %}{% icon "rewind.svg" %}{% else %}{% icon "fast-forward.svg" %}{% endif %} {% trans "Skip" %}</button>
   </div>
 </div>
 </form>

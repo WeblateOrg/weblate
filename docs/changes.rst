@@ -15,6 +15,7 @@ Not yet released.
 * Added checks for ICU MessageFormat.
 * Improved error condition hadling in machine translation backends.
 * Highlight unusual whitespace characters in the strings.
+* Added option to stay on translated string while editing.
 
 Weblate 4.8.1
 -------------

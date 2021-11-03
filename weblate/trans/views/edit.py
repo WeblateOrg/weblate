@@ -403,7 +403,7 @@ def handle_translate(request, unit, this_unit_url, next_unit_url):
         go_next = perform_translation(unit, form, request)
 
     # Redirect to next entry
-    if go_next:
+    if "save-stay" not in request.POST and go_next:
         return HttpResponseRedirect(next_unit_url)
     return HttpResponseRedirect(this_unit_url)
 
