@@ -36,6 +36,8 @@ from django.views.generic.edit import FormView
 from weblate.formats.models import EXPORTERS
 from weblate.trans.models import Component, Project, Translation
 from weblate.utils import messages
+from weblate.utils.errors import report_error
+from weblate.utils.lock import WeblateLockTimeout
 from weblate.vcs.git import LocalRepository
 
 SORT_KEYS = {
@@ -309,7 +311,10 @@ def download_translation_file(request, translation, fmt=None, units=None):
         )
     else:
         # Force flushing pending units
-        translation.commit_pending("download", None)
+        try:
+            translation.commit_pending("download", None)
+        except WeblateLockTimeout:
+            report_error(cause="Download commit")
 
         filenames = translation.filenames
 
