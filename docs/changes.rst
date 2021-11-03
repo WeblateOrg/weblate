@@ -13,6 +13,7 @@ Not yet released.
 * Lowered app store title length to 30 to assist with upcoming Google policy changes.
 * Added support for customising ssh invocation via :setting:`SSH_EXTRA_ARGS`.
 * Added checks for ICU MessageFormat.
+* Improved error condition hadling in machine translation backends.
 
 Weblate 4.8.1
 -------------

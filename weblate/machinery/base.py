@@ -115,7 +115,13 @@ class MachineTranslation:
             headers.update(self.get_authentication())
 
         # Fire request
-        return request(method, url, headers=headers, timeout=5.0, **kwargs)
+        response = request(method, url, headers=headers, timeout=5.0, **kwargs)
+
+        # Directly raise error when response is empty
+        if response.content:
+            response.raise_for_status()
+
+        return response
 
     def request_status(self, method, url, **kwargs):
         response = self.request(method, url, **kwargs)
