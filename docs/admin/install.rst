@@ -98,8 +98,8 @@ of them in :file:`requirements-optional.txt`.
     https://github.com/viraptor/phply
 ``tesserocr`` (optional for OCR in :ref:`screenshots`)
     https://github.com/sirfz/tesserocr
-``akismet`` (optional for :ref:`spam-protection`)
-    https://github.com/ubernostrum/akismet
+``python-akismet`` (optional for :ref:`spam-protection`)
+    https://github.com/Nekmo/python-akismet
 ``ruamel.yaml`` (optional for :ref:`yaml`)
     https://pypi.org/project/ruamel.yaml/
 ``Zeep`` (optional for :ref:`ms-terminology`)
