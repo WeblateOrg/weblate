@@ -19,6 +19,7 @@
 
 import logging
 import sys
+from json import JSONDecodeError
 from typing import Dict, Optional
 
 import sentry_sdk
@@ -68,6 +69,9 @@ def report_error(
     log = getattr(LOGGER, level)
 
     error = sys.exc_info()[1]
+
+    if isinstance(error, JSONDecodeError) and not extra_data:
+        extra_data = repr(error.doc)
 
     log("%s: %s: %s", cause, error.__class__.__name__, str(error))
     if extra_data:
