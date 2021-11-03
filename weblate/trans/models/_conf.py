@@ -136,9 +136,10 @@ Updated by "{{ addon_name }}" hook in Weblate.
 Translation: {{ project_name }}/{{ component_name }}
 Translate-URL: {{ url }}"""
 
-    DEFAULT_PULL_MESSAGE = """Translations update from Weblate
+    DEFAULT_PULL_MESSAGE = """Translations update from {{ site_title }}
 
-Translations update from [Weblate]({{url}}) for {{ project_name }}/{{ component_name }}.
+Translations update from [{{ site_title }}]({{url}})
+for {{ project_name }}/{{ component_name }}.
 
 {% if component.linked_childs %}
 It also includes following components:
