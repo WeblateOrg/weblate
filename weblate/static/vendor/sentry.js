@@ -1,4 +1,4 @@
-/*! @sentry/browser 6.13.3 (cbb01ba) | https://github.com/getsentry/sentry-javascript */
+/*! @sentry/browser 6.14.0 (574741b) | https://github.com/getsentry/sentry-javascript */
 var Sentry = (function (exports) {
     /*! *****************************************************************************
     Copyright (c) Microsoft Corporation. All rights reserved.
@@ -241,6 +241,49 @@ var Sentry = (function (exports) {
         });
     }
 
+    /**
+     * NOTE: In order to avoid circular dependencies, if you add a function to this module and it needs to print something,
+     * you must either a) use `console.log` rather than the logger, or b) put your function elsewhere.
+     */
+    /**
+     * Checks whether we're in the Node.js or Browser environment
+     *
+     * @returns Answer to given question
+     */
+    function isNodeEnv() {
+        return Object.prototype.toString.call(typeof process !== 'undefined' ? process : 0) === '[object process]';
+    }
+    /**
+     * Requires a module which is protected against bundler minification.
+     *
+     * @param request The module path to resolve
+     */
+    // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
+    function dynamicRequire(mod, request) {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+        return mod.require(request);
+    }
+
+    /**
+     * NOTE: In order to avoid circular dependencies, if you add a function to this module and it needs to print something,
+     * you must either a) use `console.log` rather than the logger, or b) put your function elsewhere.
+     */
+    var fallbackGlobalObject = {};
+    /**
+     * Safely get global scope object
+     *
+     * @returns Global scope object
+     */
+    function getGlobalObject() {
+        return (isNodeEnv()
+            ? global
+            : typeof window !== 'undefined' // eslint-disable-line no-restricted-globals
+                ? window // eslint-disable-line no-restricted-globals
+                : typeof self !== 'undefined'
+                    ? self
+                    : fallbackGlobalObject);
+    }
+
     /* eslint-disable @typescript-eslint/no-explicit-any */
     /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
     /**
@@ -477,6 +520,18 @@ var Sentry = (function (exports) {
         }
         return out.join('');
     }
+    /**
+     * A safe form of location.href
+     */
+    function getLocationHref() {
+        var global = getGlobalObject();
+        try {
+            return global.document.location.href;
+        }
+        catch (oO) {
+            return '';
+        }
+    }
 
     var setPrototypeOf = Object.setPrototypeOf || ({ __proto__: [] } instanceof Array ? setProtoOf : mixinProperties);
     /**
@@ -606,175 +661,17 @@ var Sentry = (function (exports) {
         return Dsn;
     }());
 
+    // TODO: Implement different loggers for different environments
+    var global$1 = getGlobalObject();
+    /** Prefix for logging strings */
+    var PREFIX = 'Sentry Logger ';
     /**
-     * Checks whether we're in the Node.js or Browser environment
+     * Temporarily unwrap `console.log` and friends in order to perform the given callback using the original methods.
+     * Restores wrapping after the callback completes.
      *
-     * @returns Answer to given question
+     * @param callback The function to run against the original `console` messages
+     * @returns The results of the callback
      */
-    function isNodeEnv() {
-        return Object.prototype.toString.call(typeof process !== 'undefined' ? process : 0) === '[object process]';
-    }
-    /**
-     * Requires a module which is protected against bundler minification.
-     *
-     * @param request The module path to resolve
-     */
-    // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
-    function dynamicRequire(mod, request) {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-        return mod.require(request);
-    }
-
-    /**
-     * Truncates given string to the maximum characters count
-     *
-     * @param str An object that contains serializable values
-     * @param max Maximum number of characters in truncated string (0 = unlimited)
-     * @returns string Encoded
-     */
-    function truncate(str, max) {
-        if (max === void 0) { max = 0; }
-        if (typeof str !== 'string' || max === 0) {
-            return str;
-        }
-        return str.length <= max ? str : str.substr(0, max) + "...";
-    }
-    /**
-     * Join values in array
-     * @param input array of values to be joined together
-     * @param delimiter string to be placed in-between values
-     * @returns Joined values
-     */
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    function safeJoin(input, delimiter) {
-        if (!Array.isArray(input)) {
-            return '';
-        }
-        var output = [];
-        // eslint-disable-next-line @typescript-eslint/prefer-for-of
-        for (var i = 0; i < input.length; i++) {
-            var value = input[i];
-            try {
-                output.push(String(value));
-            }
-            catch (e) {
-                output.push('[value cannot be serialized]');
-            }
-        }
-        return output.join(delimiter);
-    }
-    /**
-     * Checks if the value matches a regex or includes the string
-     * @param value The string value to be checked against
-     * @param pattern Either a regex or a string that must be contained in value
-     */
-    function isMatchingPattern(value, pattern) {
-        if (!isString(value)) {
-            return false;
-        }
-        if (isRegExp(pattern)) {
-            return pattern.test(value);
-        }
-        if (typeof pattern === 'string') {
-            return value.indexOf(pattern) !== -1;
-        }
-        return false;
-    }
-
-    var fallbackGlobalObject = {};
-    /**
-     * Safely get global scope object
-     *
-     * @returns Global scope object
-     */
-    function getGlobalObject() {
-        return (isNodeEnv()
-            ? global
-            : typeof window !== 'undefined' // eslint-disable-line no-restricted-globals
-                ? window // eslint-disable-line no-restricted-globals
-                : typeof self !== 'undefined'
-                    ? self
-                    : fallbackGlobalObject);
-    }
-    /**
-     * UUID4 generator
-     *
-     * @returns string Generated UUID4.
-     */
-    function uuid4() {
-        var global = getGlobalObject();
-        var crypto = global.crypto || global.msCrypto;
-        if (!(crypto === void 0) && crypto.getRandomValues) {
-            // Use window.crypto API if available
-            var arr = new Uint16Array(8);
-            crypto.getRandomValues(arr);
-            // set 4 in byte 7
-            // eslint-disable-next-line no-bitwise
-            arr[3] = (arr[3] & 0xfff) | 0x4000;
-            // set 2 most significant bits of byte 9 to '10'
-            // eslint-disable-next-line no-bitwise
-            arr[4] = (arr[4] & 0x3fff) | 0x8000;
-            var pad = function (num) {
-                var v = num.toString(16);
-                while (v.length < 4) {
-                    v = "0" + v;
-                }
-                return v;
-            };
-            return (pad(arr[0]) + pad(arr[1]) + pad(arr[2]) + pad(arr[3]) + pad(arr[4]) + pad(arr[5]) + pad(arr[6]) + pad(arr[7]));
-        }
-        // http://stackoverflow.com/questions/105034/how-to-create-a-guid-uuid-in-javascript/2117523#2117523
-        return 'xxxxxxxxxxxx4xxxyxxxxxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
-            // eslint-disable-next-line no-bitwise
-            var r = (Math.random() * 16) | 0;
-            // eslint-disable-next-line no-bitwise
-            var v = c === 'x' ? r : (r & 0x3) | 0x8;
-            return v.toString(16);
-        });
-    }
-    /**
-     * Parses string form of URL into an object
-     * // borrowed from https://tools.ietf.org/html/rfc3986#appendix-B
-     * // intentionally using regex and not <a/> href parsing trick because React Native and other
-     * // environments where DOM might not be available
-     * @returns parsed URL object
-     */
-    function parseUrl(url) {
-        if (!url) {
-            return {};
-        }
-        var match = url.match(/^(([^:/?#]+):)?(\/\/([^/?#]*))?([^?#]*)(\?([^#]*))?(#(.*))?$/);
-        if (!match) {
-            return {};
-        }
-        // coerce to undefined values to empty string so we don't get 'undefined'
-        var query = match[6] || '';
-        var fragment = match[8] || '';
-        return {
-            host: match[4],
-            path: match[5],
-            protocol: match[2],
-            relative: match[5] + query + fragment,
-        };
-    }
-    /**
-     * Extracts either message or type+value from an event that can be used for user-facing logs
-     * @returns event's description
-     */
-    function getEventDescription(event) {
-        if (event.message) {
-            return event.message;
-        }
-        if (event.exception && event.exception.values && event.exception.values[0]) {
-            var exception = event.exception.values[0];
-            if (exception.type && exception.value) {
-                return exception.type + ": " + exception.value;
-            }
-            return exception.type || exception.value || event.event_id || '<unknown>';
-        }
-        return event.event_id || '<unknown>';
-    }
-    /** JSDoc */
     function consoleSandbox(callback) {
         var global = getGlobalObject();
         var levels = ['debug', 'info', 'warn', 'error', 'log', 'assert'];
@@ -800,81 +697,6 @@ var Sentry = (function (exports) {
         });
         return result;
     }
-    /**
-     * Adds exception values, type and value to an synthetic Exception.
-     * @param event The event to modify.
-     * @param value Value of the exception.
-     * @param type Type of the exception.
-     * @hidden
-     */
-    function addExceptionTypeValue(event, value, type) {
-        event.exception = event.exception || {};
-        event.exception.values = event.exception.values || [];
-        event.exception.values[0] = event.exception.values[0] || {};
-        event.exception.values[0].value = event.exception.values[0].value || value || '';
-        event.exception.values[0].type = event.exception.values[0].type || type || 'Error';
-    }
-    /**
-     * Adds exception mechanism to a given event.
-     * @param event The event to modify.
-     * @param mechanism Mechanism of the mechanism.
-     * @hidden
-     */
-    function addExceptionMechanism(event, mechanism) {
-        if (mechanism === void 0) { mechanism = {}; }
-        // TODO: Use real type with `keyof Mechanism` thingy and maybe make it better?
-        try {
-            // @ts-ignore Type 'Mechanism | {}' is not assignable to type 'Mechanism | undefined'
-            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-            event.exception.values[0].mechanism = event.exception.values[0].mechanism || {};
-            Object.keys(mechanism).forEach(function (key) {
-                // @ts-ignore Mechanism has no index signature
-                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                event.exception.values[0].mechanism[key] = mechanism[key];
-            });
-        }
-        catch (_oO) {
-            // no-empty
-        }
-    }
-    /**
-     * A safe form of location.href
-     */
-    function getLocationHref() {
-        var global = getGlobalObject();
-        try {
-            return global.document.location.href;
-        }
-        catch (oO) {
-            return '';
-        }
-    }
-    var defaultRetryAfter = 60 * 1000; // 60 seconds
-    /**
-     * Extracts Retry-After value from the request header or returns default value
-     * @param now current unix timestamp
-     * @param header string representation of 'Retry-After' header
-     */
-    function parseRetryAfterHeader(now, header) {
-        if (!header) {
-            return defaultRetryAfter;
-        }
-        var headerDelay = parseInt("" + header, 10);
-        if (!isNaN(headerDelay)) {
-            return headerDelay * 1000;
-        }
-        var headerDate = Date.parse("" + header);
-        if (!isNaN(headerDate)) {
-            return headerDate - now;
-        }
-        return defaultRetryAfter;
-    }
-
-    /* eslint-disable @typescript-eslint/no-explicit-any */
-    // TODO: Implement different loggers for different environments
-    var global$1 = getGlobalObject();
-    /** Prefix for logging strings */
-    var PREFIX = 'Sentry Logger ';
     /** JSDoc */
     var Logger = /** @class */ (function () {
         /** JSDoc */
@@ -1003,6 +825,62 @@ var Sentry = (function (exports) {
             // can cause a "Permission denied" exception (see raven-js#495).
             return defaultFunctionName;
         }
+    }
+
+    /**
+     * Truncates given string to the maximum characters count
+     *
+     * @param str An object that contains serializable values
+     * @param max Maximum number of characters in truncated string (0 = unlimited)
+     * @returns string Encoded
+     */
+    function truncate(str, max) {
+        if (max === void 0) { max = 0; }
+        if (typeof str !== 'string' || max === 0) {
+            return str;
+        }
+        return str.length <= max ? str : str.substr(0, max) + "...";
+    }
+    /**
+     * Join values in array
+     * @param input array of values to be joined together
+     * @param delimiter string to be placed in-between values
+     * @returns Joined values
+     */
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    function safeJoin(input, delimiter) {
+        if (!Array.isArray(input)) {
+            return '';
+        }
+        var output = [];
+        // eslint-disable-next-line @typescript-eslint/prefer-for-of
+        for (var i = 0; i < input.length; i++) {
+            var value = input[i];
+            try {
+                output.push(String(value));
+            }
+            catch (e) {
+                output.push('[value cannot be serialized]');
+            }
+        }
+        return output.join(delimiter);
+    }
+    /**
+     * Checks if the value matches a regex or includes the string
+     * @param value The string value to be checked against
+     * @param pattern Either a regex or a string that must be contained in value
+     */
+    function isMatchingPattern(value, pattern) {
+        if (!isString(value)) {
+            return false;
+        }
+        if (isRegExp(pattern)) {
+            return pattern.test(value);
+        }
+        if (typeof pattern === 'string') {
+            return value.indexOf(pattern) !== -1;
+        }
+        return false;
     }
 
     /**
@@ -1978,6 +1856,179 @@ var Sentry = (function (exports) {
             }
             return true;
         };
+    }
+
+    /**
+     * UUID4 generator
+     *
+     * @returns string Generated UUID4.
+     */
+    function uuid4() {
+        var global = getGlobalObject();
+        var crypto = global.crypto || global.msCrypto;
+        if (!(crypto === void 0) && crypto.getRandomValues) {
+            // Use window.crypto API if available
+            var arr = new Uint16Array(8);
+            crypto.getRandomValues(arr);
+            // set 4 in byte 7
+            // eslint-disable-next-line no-bitwise
+            arr[3] = (arr[3] & 0xfff) | 0x4000;
+            // set 2 most significant bits of byte 9 to '10'
+            // eslint-disable-next-line no-bitwise
+            arr[4] = (arr[4] & 0x3fff) | 0x8000;
+            var pad = function (num) {
+                var v = num.toString(16);
+                while (v.length < 4) {
+                    v = "0" + v;
+                }
+                return v;
+            };
+            return (pad(arr[0]) + pad(arr[1]) + pad(arr[2]) + pad(arr[3]) + pad(arr[4]) + pad(arr[5]) + pad(arr[6]) + pad(arr[7]));
+        }
+        // http://stackoverflow.com/questions/105034/how-to-create-a-guid-uuid-in-javascript/2117523#2117523
+        return 'xxxxxxxxxxxx4xxxyxxxxxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+            // eslint-disable-next-line no-bitwise
+            var r = (Math.random() * 16) | 0;
+            // eslint-disable-next-line no-bitwise
+            var v = c === 'x' ? r : (r & 0x3) | 0x8;
+            return v.toString(16);
+        });
+    }
+    /**
+     * Parses string form of URL into an object
+     * // borrowed from https://tools.ietf.org/html/rfc3986#appendix-B
+     * // intentionally using regex and not <a/> href parsing trick because React Native and other
+     * // environments where DOM might not be available
+     * @returns parsed URL object
+     */
+    function parseUrl(url) {
+        if (!url) {
+            return {};
+        }
+        var match = url.match(/^(([^:/?#]+):)?(\/\/([^/?#]*))?([^?#]*)(\?([^#]*))?(#(.*))?$/);
+        if (!match) {
+            return {};
+        }
+        // coerce to undefined values to empty string so we don't get 'undefined'
+        var query = match[6] || '';
+        var fragment = match[8] || '';
+        return {
+            host: match[4],
+            path: match[5],
+            protocol: match[2],
+            relative: match[5] + query + fragment,
+        };
+    }
+    /**
+     * Extracts either message or type+value from an event that can be used for user-facing logs
+     * @returns event's description
+     */
+    function getEventDescription(event) {
+        if (event.message) {
+            return event.message;
+        }
+        if (event.exception && event.exception.values && event.exception.values[0]) {
+            var exception = event.exception.values[0];
+            if (exception.type && exception.value) {
+                return exception.type + ": " + exception.value;
+            }
+            return exception.type || exception.value || event.event_id || '<unknown>';
+        }
+        return event.event_id || '<unknown>';
+    }
+    /**
+     * Adds exception values, type and value to an synthetic Exception.
+     * @param event The event to modify.
+     * @param value Value of the exception.
+     * @param type Type of the exception.
+     * @hidden
+     */
+    function addExceptionTypeValue(event, value, type) {
+        event.exception = event.exception || {};
+        event.exception.values = event.exception.values || [];
+        event.exception.values[0] = event.exception.values[0] || {};
+        event.exception.values[0].value = event.exception.values[0].value || value || '';
+        event.exception.values[0].type = event.exception.values[0].type || type || 'Error';
+    }
+    /**
+     * Adds exception mechanism data to a given event. Uses defaults if the second parameter is not passed.
+     *
+     * @param event The event to modify.
+     * @param newMechanism Mechanism data to add to the event.
+     * @hidden
+     */
+    function addExceptionMechanism(event, newMechanism) {
+        var _a;
+        if (!event.exception || !event.exception.values) {
+            return;
+        }
+        var exceptionValue0 = event.exception.values[0];
+        var defaultMechanism = { type: 'generic', handled: true };
+        var currentMechanism = exceptionValue0.mechanism;
+        exceptionValue0.mechanism = __assign(__assign(__assign({}, defaultMechanism), currentMechanism), newMechanism);
+        if (newMechanism && 'data' in newMechanism) {
+            var mergedData = __assign(__assign({}, (_a = currentMechanism) === null || _a === void 0 ? void 0 : _a.data), newMechanism.data);
+            exceptionValue0.mechanism.data = mergedData;
+        }
+    }
+    var defaultRetryAfter = 60 * 1000; // 60 seconds
+    /**
+     * Extracts Retry-After value from the request header or returns default value
+     * @param now current unix timestamp
+     * @param header string representation of 'Retry-After' header
+     */
+    function parseRetryAfterHeader(now, header) {
+        if (!header) {
+            return defaultRetryAfter;
+        }
+        var headerDelay = parseInt("" + header, 10);
+        if (!isNaN(headerDelay)) {
+            return headerDelay * 1000;
+        }
+        var headerDate = Date.parse("" + header);
+        if (!isNaN(headerDate)) {
+            return headerDate - now;
+        }
+        return defaultRetryAfter;
+    }
+    /**
+     * Checks whether or not we've already captured the given exception (note: not an identical exception - the very object
+     * in question), and marks it captured if not.
+     *
+     * This is useful because it's possible for an error to get captured by more than one mechanism. After we intercept and
+     * record an error, we rethrow it (assuming we've intercepted it before it's reached the top-level global handlers), so
+     * that we don't interfere with whatever effects the error might have had were the SDK not there. At that point, because
+     * the error has been rethrown, it's possible for it to bubble up to some other code we've instrumented. If it's not
+     * caught after that, it will bubble all the way up to the global handlers (which of course we also instrument). This
+     * function helps us ensure that even if we encounter the same error more than once, we only record it the first time we
+     * see it.
+     *
+     * Note: It will ignore primitives (always return `false` and not mark them as seen), as properties can't be set on
+     * them. {@link: Object.objectify} can be used on exceptions to convert any that are primitives into their equivalent
+     * object wrapper forms so that this check will always work. However, because we need to flag the exact object which
+     * will get rethrown, and because that rethrowing happens outside of the event processing pipeline, the objectification
+     * must be done before the exception captured.
+     *
+     * @param A thrown exception to check or flag as having been seen
+     * @returns `true` if the exception has already been captured, `false` if not (with the side effect of marking it seen)
+     */
+    function checkOrSetAlreadyCaught(exception) {
+        var _a;
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+        if ((_a = exception) === null || _a === void 0 ? void 0 : _a.__sentry_captured__) {
+            return true;
+        }
+        try {
+            // set it this way rather than by assignment so that it's not ennumerable and therefore isn't recorded by the
+            // `ExtraErrorData` integration
+            Object.defineProperty(exception, '__sentry_captured__', {
+                value: true,
+            });
+        }
+        catch (err) {
+            // `exception` is a primitive, so we can't mark it seen
+        }
+        return false;
     }
 
     /* eslint-disable @typescript-eslint/explicit-function-return-type */
@@ -3819,6 +3870,7 @@ var Sentry = (function (exports) {
         return integrations;
     }
 
+    var ALREADY_SEEN_ERROR = "Not capturing exception because it's already been captured.";
     /**
      * Base implementation for all JavaScript SDK clients.
      *
@@ -3875,6 +3927,11 @@ var Sentry = (function (exports) {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/explicit-module-boundary-types
         BaseClient.prototype.captureException = function (exception, hint, scope) {
             var _this = this;
+            // ensure we haven't captured this very object before
+            if (checkOrSetAlreadyCaught(exception)) {
+                logger.log(ALREADY_SEEN_ERROR);
+                return;
+            }
             var eventId = hint && hint.event_id;
             this._process(this._getBackend()
                 .eventFromException(exception, hint)
@@ -3904,6 +3961,12 @@ var Sentry = (function (exports) {
          * @inheritDoc
          */
         BaseClient.prototype.captureEvent = function (event, hint, scope) {
+            var _a;
+            // ensure we haven't captured this very object before
+            if (((_a = hint) === null || _a === void 0 ? void 0 : _a.originalException) && checkOrSetAlreadyCaught(hint.originalException)) {
+                logger.log(ALREADY_SEEN_ERROR);
+                return;
+            }
             var eventId = hint && hint.event_id;
             this._process(this._captureEvent(event, hint, scope).then(function (result) {
                 eventId = result;
@@ -4496,7 +4559,7 @@ var Sentry = (function (exports) {
         hub.bindClient(client);
     }
 
-    var SDK_VERSION = '6.13.3';
+    var SDK_VERSION = '6.14.0';
 
     var originalFunctionToString;
     /** Patch toString calls to return proper name for wrapped functions */
@@ -5060,10 +5123,7 @@ var Sentry = (function (exports) {
         var event = eventFromUnknownInput(exception, syntheticException, {
             attachStacktrace: options.attachStacktrace,
         });
-        addExceptionMechanism(event, {
-            handled: true,
-            type: 'generic',
-        });
+        addExceptionMechanism(event); // defaults to { type: 'generic', handled: true }
         event.level = exports.Severity.Error;
         if (hint && hint.event_id) {
             event.event_id = hint.event_id;
@@ -5334,7 +5394,7 @@ var Sentry = (function (exports) {
             logger.log("Flushing outcomes:\n" + JSON.stringify(outcomes, null, 2));
             var url = this._api.getEnvelopeEndpointWithUrlEncodedAuth();
             // Envelope header is required to be at least an empty object
-            var envelopeHeader = JSON.stringify({});
+            var envelopeHeader = JSON.stringify(__assign({}, (this.options.tunnel && { dsn: this._api.getDsn().toString() })));
             var itemHeaders = JSON.stringify({
                 type: 'client_report',
             });
