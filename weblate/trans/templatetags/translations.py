@@ -48,6 +48,7 @@ from weblate.trans.models import (
     Translation,
 )
 from weblate.trans.models.translation import GhostTranslation
+from weblate.trans.specialchars import get_display_char
 from weblate.trans.util import split_plural, translation_percent
 from weblate.utils.docs import get_doc_url
 from weblate.utils.hash import hash_to_checksum
@@ -65,7 +66,14 @@ SPACE_NL = HIGHLIGTH_SPACE.format(SPACE_TEMPLATE.format("space-nl", ""), "<br />
 
 GLOSSARY_TEMPLATE = """<span class="glossary-term" title="{}">"""
 
-WHITESPACE_RE = re.compile(r"(  +| $|^ )", re.MULTILINE)
+# This should match whitespace_regex in weblate/static/loader-bootstrap.js
+WHITESPACE_REGEX = (
+    r"(\t|\u00A0|\u1680|\u2000|\u2001|\u2002|\u2003|"
+    + r"\u2004|\u2005|\u2006|\u2007|\u2008|\u2009|\u200A|"
+    + r"\u202F|\u205F|\u3000)"
+)
+WHITESPACE_RE = re.compile(WHITESPACE_REGEX, re.MULTILINE)
+MULTISPACE_RE = re.compile(r"(  +| $|^ )", re.MULTILINE)
 TYPE_MAPPING = {True: "yes", False: "no", None: "unknown"}
 # Mapping of status report flags to names
 NAME_MAPPING = {
@@ -211,7 +219,7 @@ class Formatter:
 
     def parse_whitespace(self):
         """Highlight whitespaces."""
-        for match in WHITESPACE_RE.finditer(self.value):
+        for match in MULTISPACE_RE.finditer(self.value):
             self.tags[match.start()].append(
                 '<span class="hlspace"><span class="space-space"><span class="sr-only">'
             )
@@ -221,9 +229,17 @@ class Formatter:
                 )
             self.tags[match.end()].insert(0, "</span></span></span>")
 
-        for match in re.finditer("\t", self.value):
+        for match in WHITESPACE_RE.finditer(self.value):
+            whitespace = match.group(0)
+            if whitespace == "\t":
+                cls = "space-tab"
+            else:
+                cls = "space-space"
+            title = get_display_char(whitespace)[0]
             self.tags[match.start()].append(
-                '<span class="hlspace"><span class="space-tab"><span class="sr-only">'
+                '<span class="hlspace">'
+                f'<span class="{cls}" title="{title}">'
+                '<span class="sr-only">'
             )
             self.tags[match.end()].insert(0, "</span></span></span>")
 

@@ -14,6 +14,7 @@ Not yet released.
 * Added support for customising ssh invocation via :setting:`SSH_EXTRA_ARGS`.
 * Added checks for ICU MessageFormat.
 * Improved error condition hadling in machine translation backends.
+* Highlight unusual whitespace characters in the strings.
 
 Weblate 4.8.1
 -------------

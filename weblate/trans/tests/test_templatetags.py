@@ -441,6 +441,22 @@ class TranslationFormatTestCase(FixtureTestCase):
             """,
         )
 
+    def test_whitespace_special(self):
+        self.assertHTMLEqual(
+            format_translation("Hello\u00A0world", self.component.source_language,)[
+                "items"
+            ][0]["content"],
+            """
+            Hello
+            <span class="hlspace">
+                <span class="space-space" title="NO-BREAK SPACE">
+                    <span class="sr-only">\u00A0</span>
+                </span>
+            </span>
+            world
+            """,
+        )
+
     def test_whitespace_newline(self):
         self.assertHTMLEqual(
             format_translation("Hello\n world", self.component.source_language,)[
