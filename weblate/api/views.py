@@ -965,7 +965,7 @@ class ComponentViewSet(
         requested_format = request.query_params.get("format", "zip")
         return download_multi(
             instance.translation_set.all(),
-            [ instance ],
+            [instance],
             requested_format,
             name=instance.full_slug.replace("/", "-"),
         )
