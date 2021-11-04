@@ -43,9 +43,15 @@ from weblate.utils.views import (
 )
 
 
-def download_multi(translations, fmt=None, name="translations"):
+def download_multi(translations, commit_objs, fmt=None, name="translations"):
     filenames = set()
     components = set()
+
+    for obj in commit_objs:
+        try:
+            obj.commit_pending("download", None)
+        except WeblateLockTimeout:
+            report_error(cause="Download commit")
 
     for translation in translations:
         # Add translation files
@@ -73,13 +79,9 @@ def download_component_list(request, name):
     if not request.user.has_perm("translation.download", obj):
         raise PermissionDenied()
     components = obj.components.filter_access(request.user)
-    for component in components:
-        try:
-            component.commit_pending("download", None)
-        except WeblateLockTimeout:
-            report_error(cause="Download commit")
     return download_multi(
         Translation.objects.filter(component__in=components),
+        components,
         request.GET.get("format"),
         name=obj.slug,
     )
@@ -89,12 +91,9 @@ def download_component(request, project, component):
     obj = get_component(request, project, component)
     if not request.user.has_perm("translation.download", obj):
         raise PermissionDenied()
-    try:
-        obj.commit_pending("download", None)
-    except WeblateLockTimeout:
-        report_error(cause="Download commit")
     return download_multi(
         obj.translation_set.all(),
+        [obj],
         request.GET.get("format"),
         name=obj.full_slug.replace("/", "-"),
     )
@@ -104,13 +103,10 @@ def download_project(request, project):
     obj = get_project(request, project)
     if not request.user.has_perm("translation.download", obj):
         raise PermissionDenied()
-    try:
-        obj.commit_pending("download", None)
-    except WeblateLockTimeout:
-        report_error(cause="Download commit")
     components = obj.component_set.filter_access(request.user)
     return download_multi(
         Translation.objects.filter(component__in=components),
+        [obj],
         request.GET.get("format"),
         name=obj.slug,
     )
@@ -120,14 +116,11 @@ def download_lang_project(request, lang, project):
     obj = get_project(request, project)
     if not request.user.has_perm("translation.download", obj):
         raise PermissionDenied()
-    try:
-        obj.commit_pending("download", None)
-    except WeblateLockTimeout:
-        report_error(cause="Download commit")
     langobj = get_object_or_404(Language, code=lang)
     components = obj.component_set.filter_access(request.user)
     return download_multi(
         Translation.objects.filter(component__in=components, language=langobj),
+        [obj],
         request.GET.get("format"),
         name=f"{obj.slug}-{langobj.code}",
     )
