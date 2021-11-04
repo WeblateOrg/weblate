@@ -256,6 +256,24 @@ admins are still presented with full selection of languages defined in Weblate.
 
     :ref:`languages`
 
+.. setting:: BORG_EXTRA_ARGS
+
+BORG_EXTRA_ARGS
+---------------
+
+You can pass additional arguments to :command:`borg create` when built-in backups are triggerd.
+
+**Example:**
+
+.. code-block:: python
+
+   BORG_EXTRA_ARGS = ["--exclude", "vcs/"]
+
+.. seealso::
+
+   :ref:`backup`,
+   :doc:`borg:usage/create`
+
 .. setting:: CSP_SCRIPT_SRC
 .. setting:: CSP_IMG_SRC
 .. setting:: CSP_CONNECT_SRC

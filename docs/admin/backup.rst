@@ -41,6 +41,12 @@ too, as it’s used to access your backups.
 
    :doc:`borg:usage/init`
 
+Customizing backup
+~~~~~~~~~~~~~~~~~~
+
+* The database backup can be configured via :setting:`DATABASE_BACKUP`.
+* The backup creation can be customized using :setting:`BORG_EXTRA_ARGS`.
+
 .. _cloudbackup:
 
 Weblate provisioned backup storage

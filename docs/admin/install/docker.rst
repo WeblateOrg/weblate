@@ -747,6 +747,12 @@ Generic settings
 
    Configures :setting:`SSH_EXTRA_ARGS`.
 
+.. envvar:: WEBLATE_BORG_EXTRA_ARGS
+
+   .. versionadded:: 4.9
+
+   Configures :setting:`BORG_EXTRA_ARGS`.
+
 
 .. _docker-machine:
 

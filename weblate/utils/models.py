@@ -74,6 +74,8 @@ class WeblateConf(AppConf):
 
     DATABASE_BACKUP = "plain"
 
+    BORG_EXTRA_ARGS = None
+
     HIDE_VERSION = False
 
     CSP_SCRIPT_SRC = []
