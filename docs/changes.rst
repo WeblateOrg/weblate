@@ -16,6 +16,7 @@ Not yet released.
 * Improved error condition hadling in machine translation backends.
 * Highlight unusual whitespace characters in the strings.
 * Added option to stay on translated string while editing.
+* Added support for customising borg invocation via :setting:`BORG_EXTRA_ARGS`.
 
 Weblate 4.8.1
 -------------

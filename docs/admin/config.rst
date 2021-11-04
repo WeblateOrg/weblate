@@ -261,6 +261,8 @@ admins are still presented with full selection of languages defined in Weblate.
 BORG_EXTRA_ARGS
 ---------------
 
+.. versionadded:: 4.9
+
 You can pass additional arguments to :command:`borg create` when built-in backups are triggerd.
 
 **Example:**
