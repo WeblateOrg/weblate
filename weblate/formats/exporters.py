@@ -355,8 +355,7 @@ class MoExporter(PoExporter):
         output = self.create_unit(source)
         output.target = self.handle_plurals(unit.get_target_plurals())
         if context:
-            # The setcontext doesn't work on mounit
-            output.msgctxt = [context]
+            output.setcontext(context)
         # Add unit to the storage
         self.storage.addunit(output)
 
