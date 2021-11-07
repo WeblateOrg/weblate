@@ -327,9 +327,8 @@ class MoExporter(PoExporter):
             self.monolingual = translation.component.has_template()
             if self.monolingual:
                 try:
-                    self.use_context = translation.store.content_units[
-                        0
-                    ].template.source
+                    unit = translation.store.content_units[0]
+                    self.use_context = not unit.template.source
                 except IndexError:
                     pass
 

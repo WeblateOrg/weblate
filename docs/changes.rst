@@ -17,6 +17,7 @@ Not yet released.
 * Highlight unusual whitespace characters in the strings.
 * Added option to stay on translated string while editing.
 * Added support for customising borg invocation via :setting:`BORG_EXTRA_ARGS`.
+* Fixed generating of MO files for monolingual translations.
 
 Weblate 4.8.1
 -------------
