@@ -1,4 +1,4 @@
-/*! @sentry/browser 6.14.0 (574741b) | https://github.com/getsentry/sentry-javascript */
+/*! @sentry/browser 6.14.1 (687b6c4) | https://github.com/getsentry/sentry-javascript */
 var Sentry = (function (exports) {
     /*! *****************************************************************************
     Copyright (c) Microsoft Corporation. All rights reserved.
@@ -549,8 +549,7 @@ var Sentry = (function (exports) {
     // eslint-disable-next-line @typescript-eslint/ban-types
     function mixinProperties(obj, proto) {
         for (var prop in proto) {
-            // eslint-disable-next-line no-prototype-builtins
-            if (!obj.hasOwnProperty(prop)) {
+            if (!Object.prototype.hasOwnProperty.call(obj, prop)) {
                 // @ts-ignore typescript complains about indexing so we remove
                 obj[prop] = proto[prop];
             }
@@ -4559,7 +4558,7 @@ var Sentry = (function (exports) {
         hub.bindClient(client);
     }
 
-    var SDK_VERSION = '6.14.0';
+    var SDK_VERSION = '6.14.1';
 
     var originalFunctionToString;
     /** Patch toString calls to return proper name for wrapped functions */
@@ -5640,7 +5639,7 @@ var Sentry = (function (exports) {
                     };
                     request.open('POST', sentryRequest.url);
                     for (var header in _this.options.headers) {
-                        if (_this.options.headers.hasOwnProperty(header)) {
+                        if (Object.prototype.hasOwnProperty.call(_this.options.headers, header)) {
                             request.setRequestHeader(header, _this.options.headers[header]);
                         }
                     }
@@ -6176,7 +6175,7 @@ var Sentry = (function (exports) {
             var global = getGlobalObject();
             // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
             var proto = global[target] && global[target].prototype;
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, no-prototype-builtins
             if (!proto || !proto.hasOwnProperty || !proto.hasOwnProperty('addEventListener')) {
                 return;
             }
