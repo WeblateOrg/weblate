@@ -34,6 +34,14 @@ from weblate.utils.state import STATE_TRANSLATED
 
 EXPAND_LANGS = {code[:2]: f"{code[:2]}_{code[3:].upper()}" for code in DEFAULT_LANGS}
 
+ANDROID_CODES = {
+    "zh_Hans": "zh-rCN",
+    "zh_Hant": "zh-rTW",
+    "he": "iw",
+    "id": "in",
+    "yi": "ji",
+}
+
 
 class UnitNotFound(Exception):
     def __str__(self):
@@ -399,10 +407,8 @@ class TranslationFormat:
     @staticmethod
     def get_language_android(code: str) -> str:
         # Android doesn't use Hans/Hant, but rather TW/CN variants
-        if code == "zh_Hans":
-            return "zh-rCN"
-        if code == "zh_Hant":
-            return "zh-rTW"
+        if code in ANDROID_CODES:
+            return ANDROID_CODES[code]
         sanitized = code.replace("-", "_")
         if "_" in sanitized and len(sanitized.split("_")[1]) > 2:
             return "b+{}".format(sanitized.replace("_", "+"))
