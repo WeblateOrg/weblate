@@ -566,7 +566,7 @@ class User(AbstractBaseUser):
             componentlist_values = {
                 (component.id, component.project_id)
                 for component in chain.from_iterable(
-                    clist.groups.all() for clist in group.componentlists.all()
+                    clist.components.all() for clist in group.componentlists.all()
                 )
             }
             if componentlist_values:
