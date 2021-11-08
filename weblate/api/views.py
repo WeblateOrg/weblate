@@ -91,6 +91,7 @@ from weblate.trans.models import (
 )
 from weblate.trans.stats import get_project_stats
 from weblate.trans.tasks import auto_translate, component_removal, project_removal
+from weblate.trans.views.files import download_multi
 from weblate.utils.celery import get_queue_stats, get_task_progress, is_task_ready
 from weblate.utils.docs import get_doc_url
 from weblate.utils.errors import report_error
@@ -950,6 +951,24 @@ class ComponentViewSet(
             raise Http404("Project not found")
         instance.links.remove(project)
         return Response(status=HTTP_204_NO_CONTENT)
+
+    @action(detail=True, methods=["get"], url_path="file")
+    def download_archive(self, request, **kwargs):
+        # Implementation is analogous to files#download_component, but we can't reuse
+        #  that here because the lookup for the component is different
+        instance = self.get_object()
+        if not request.user.has_perm("translation.download", instance):
+            self.permission_denied(
+                request, "Can not download all translations for the component"
+            )
+
+        requested_format = request.query_params.get("format", "zip")
+        return download_multi(
+            instance.translation_set.all(),
+            [instance],
+            requested_format,
+            name=instance.full_slug.replace("/", "-"),
+        )
 
 
 class TranslationViewSet(MultipleFieldMixin, WeblateViewSet, DestroyModelMixin):

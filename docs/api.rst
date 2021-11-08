@@ -1320,6 +1320,20 @@ Components
     :type component: string
     :>json array results: array of component objects; see :http:get:`/api/changes/(int:id)/`
 
+.. http:get:: /api/components/(string:project)/(string:component)/file/
+
+
+    .. versionadded:: 4.9
+
+    Downloads all available translations associated with the component as an archive file using the requested format.
+
+    :param project: Project URL slug
+    :type project: string
+    :param component: Component URL slug
+    :type component: string
+
+    :query string format: The archive format to use; If not specified, defaults to ``zip``; Supported formats: ``zip``
+
 .. http:get::  /api/components/(string:project)/(string:component)/screenshots/
 
     Returns a list of component screenshots.

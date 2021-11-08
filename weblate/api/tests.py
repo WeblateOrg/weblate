@@ -1829,6 +1829,27 @@ class ComponentAPITest(APIBaseTest):
             request={"language_code": "cs"},
         )
 
+    def test_download_translation_zip_ok(self):
+        response = self.do_request(
+            "api:component-download-archive",
+            self.component_kwargs,
+            method="get",
+            code=200,
+            superuser=True,
+        )
+        self.assertEqual(response.headers["content-type"], "application/zip")
+
+    def test_download_translation_zip_prohibited(self):
+        project = self.component.project
+        project.access_control = Project.ACCESS_PROTECTED
+        project.save(update_fields=["access_control"])
+        self.do_request(
+            "api:component-download-archive",
+            self.component_kwargs,
+            method="get",
+            code=403,
+        )
+
     def test_links(self):
         self.do_request(
             "api:component-links",
