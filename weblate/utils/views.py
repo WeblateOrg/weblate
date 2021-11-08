@@ -285,8 +285,11 @@ def zip_download(root, filenames, name="translations"):
     response = HttpResponse(content_type="application/zip")
     with ZipFile(response, "w") as zipfile:
         for filename in iter_files(filenames):
-            with open(filename, "rb") as handle:
-                zipfile.writestr(os.path.relpath(filename, root), handle.read())
+            try:
+                with open(filename, "rb") as handle:
+                    zipfile.writestr(os.path.relpath(filename, root), handle.read())
+            except FileNotFoundError:
+                continue
     response["Content-Disposition"] = f'attachment; filename="{name}.zip"'
     return response
 
