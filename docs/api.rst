@@ -1322,6 +1322,9 @@ Components
 
 .. http:get:: /api/components/(string:project)/(string:component)/file/
 
+
+    .. versionadded:: 4.9
+
     Downloads all available translations associated with the component as an archive file using the requested format.
 
     :param project: Project URL slug
