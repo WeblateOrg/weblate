@@ -1848,7 +1848,7 @@ class ComponentAPITest(APIBaseTest):
             self.component_kwargs,
             method="get",
             code=403,
-        )          
+        )
 
     def test_links(self):
         self.do_request(
