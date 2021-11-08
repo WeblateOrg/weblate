@@ -541,6 +541,11 @@ class VCSGitHubTest(VCSGitUpstreamTest):
         self.assertEqual(
             self.repo.get_api_url()[0], "https://api.github.com/repos/WeblateOrg/test"
         )
+        self.repo.component.repo = "github.com:WeblateOrg/test.github.io"
+        self.assertEqual(
+            self.repo.get_api_url()[0],
+            "https://api.github.com/repos/WeblateOrg/test.github.io",
+        )
 
     @responses.activate
     def test_push(self, branch=""):

@@ -689,7 +689,10 @@ class GitMergeRequestBase(GitForcePushRepository):
         else:
             path = parsed.path
         parts = path.split(":")[-1].rstrip("/").split("/")
-        slug_parts = [parts[-1].replace(".git", "")]
+        last_part = parts[-1]
+        if last_part.endswith(".git"):
+            last_part = last_part[:-4]
+        slug_parts = [last_part]
         owner = ""
         for part in parts[:-1]:
             if not part:
