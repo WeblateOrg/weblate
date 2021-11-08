@@ -136,12 +136,16 @@ def weblate_context(request):
             "This site runs Weblate for localizing various software projects."
         )
 
-    has_support_cache_key = "weblate:has:support"
-    has_support = cache.get(has_support_cache_key)
-    if has_support is None:
-        support_status = SupportStatus.objects.get_current()
-        has_support = support_status.name != "community"
-        cache.set(has_support_cache_key, has_support, 86400)
+    if hasattr(request, "_weblate_has_support"):
+        has_support = request._weblate_has_support
+    else:
+        has_support_cache_key = "weblate:has:support"
+        has_support = cache.get(has_support_cache_key)
+        if has_support is None:
+            support_status = SupportStatus.objects.get_current()
+            has_support = support_status.name != "community"
+            cache.set(has_support_cache_key, has_support, 86400)
+        request._weblate_has_support = has_support
 
     context = {
         "has_support": has_support,
