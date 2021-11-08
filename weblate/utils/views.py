@@ -326,6 +326,8 @@ def download_translation_file(request, translation, fmt=None, units=None):
                 os.path.splitext(translation.filename)[1]
                 or f".{translation.component.file_format_cls.extension()}"
             )
+            if not os.path.exists(filenames[0]):
+                raise Http404("File not found")
             # Create response
             response = FileResponse(
                 open(filenames[0], "rb"),
