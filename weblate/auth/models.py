@@ -19,6 +19,7 @@
 
 import re
 from collections import defaultdict
+from itertools import chain
 
 from appconf import AppConf
 from django.conf import settings
@@ -547,19 +548,27 @@ class User(AbstractBaseUser):
         """Fetch all user permissions into a dictionary."""
         projects = defaultdict(list)
         components = defaultdict(list)
-        for group in self.groups.all():
-            languages = set(
-                Group.languages.through.objects.filter(group=group).values_list(
-                    "language_id", flat=True
+        for group in self.groups.prefetch_related(
+            "roles__permissions",
+            "componentlists__components",
+            "components",
+            "projects",
+            "languages",
+        ):
+            languages = {language.id for language in group.languages.all()}
+            permissions = {
+                permission.codename
+                for permission in chain.from_iterable(
+                    role.permissions.all() for role in group.roles.all()
                 )
-            )
-            permissions = set(
-                group.roles.values_list("permissions__codename", flat=True)
-            )
+            }
             # Component list specific permissions
-            componentlist_values = group.componentlists.values_list(
-                "components__id", "components__project_id"
-            )
+            componentlist_values = {
+                (component.id, component.project_id)
+                for component in chain.from_iterable(
+                    clist.groups.all() for clist in group.componentlists.all()
+                )
+            }
             if componentlist_values:
                 for component, project in componentlist_values:
                     components[component].append((permissions, languages))
@@ -567,7 +576,10 @@ class User(AbstractBaseUser):
                     projects[project].append(((), languages))
                 continue
             # Component specific permissions
-            component_values = group.components.values_list("id", "project_id")
+            component_values = {
+                (component.id, component.project_id)
+                for component in group.components.all()
+            }
             if component_values:
                 for component, project in component_values:
                     components[component].append((permissions, languages))
@@ -575,13 +587,11 @@ class User(AbstractBaseUser):
                     projects[project].append(((), languages))
                 continue
             # Project specific permissions
-            for project in Group.projects.through.objects.filter(
-                group=group
-            ).values_list("project_id", flat=True):
-                projects[project].append((permissions, languages))
+            for project in group.projects.all():
+                projects[project.id].append((permissions, languages))
         # Apply blocking
         now = timezone.now()
-        for block in self.userblock_set.iterator():
+        for block in self.userblock_set.all():
             if block.expiry is not None and block.expiry <= now:
                 # Delete expired blocks
                 block.delete()
