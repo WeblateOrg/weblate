@@ -1843,7 +1843,7 @@ class ComponentAPITest(APIBaseTest):
         project = self.component.project
         project.access_control = Project.ACCESS_PROTECTED
         project.save(update_fields=["access_control"])
-        response = self.do_request(
+        self.do_request(
             "api:component-download-archive",
             self.component_kwargs,
             method="get",
