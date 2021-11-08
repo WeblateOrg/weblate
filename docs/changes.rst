@@ -18,6 +18,7 @@ Not yet released.
 * Added option to stay on translated string while editing.
 * Added support for customising borg invocation via :setting:`BORG_EXTRA_ARGS`.
 * Fixed generating of MO files for monolingual translations.
+* Added API endpoint to download all component translations in a ZIP file.
 
 Weblate 4.8.1
 -------------
