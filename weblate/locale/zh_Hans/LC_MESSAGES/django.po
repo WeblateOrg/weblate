@@ -35,7 +35,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.9\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-11-09 13:04+0000\n"
-"PO-Revision-Date: 2021-11-01 11:20+0000\n"
+"PO-Revision-Date: 2021-11-10 00:37+0000\n"
 "Last-Translator: JY3 <GeeyunJY3@gmail.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "weblate/application/zh_Hans/>\n"
@@ -385,10 +385,9 @@ msgid "Agreement with Terms of Service {date}."
 msgstr "同意服务条款 {date}。"
 
 #: weblate/accounts/models.py:162
-#, fuzzy, python-brace-format
-#| msgid "Invited to Weblate by {username}."
+#, python-brace-format
 msgid "Invited to {site_title} by {username}."
-msgstr "{username} 邀请至 Weblate。"
+msgstr "由 {username} 邀请至 {site_title}。"
 
 #: weblate/accounts/models.py:163
 msgid "Started trial period."
@@ -1015,7 +1014,7 @@ msgstr "代码库已过期，您可能无法获得预期的结果，除非对齐
 
 #: weblate/addons/cdn.py:38
 msgid "JavaScript localization CDN"
-msgstr "JavaScript本地化CDN"
+msgstr "JavaScript 本地化 CDN"
 
 #: weblate/addons/cdn.py:40
 msgid ""
@@ -1759,10 +1758,8 @@ msgstr "删除现有翻译"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:102
-#, fuzzy
-#| msgid "Download translation"
 msgid "Download translation file"
-msgstr "下载译文"
+msgstr "下载译文文件"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:104
@@ -2005,20 +2002,16 @@ msgid "Billing"
 msgstr "账单"
 
 #: weblate/auth/forms.py:103 weblate/trans/views/acl.py:211
-#, fuzzy
-#| msgid "Activation e-mail will be sent here."
 msgid "User invitation e-mail was sent."
-msgstr "激活邮件将发送到这里。"
+msgstr "激活邮件已发送。"
 
 #: weblate/auth/forms.py:112
 msgid "Send e-mail invitation to the user"
-msgstr "给用户发送电子邮件"
+msgstr "向用户发送邀请电子邮件"
 
 #: weblate/auth/forms.py:126
-#, fuzzy
-#| msgid "Send e-mail invitation to the user"
 msgid "Resend e-mail invitation to the user"
-msgstr "给用户发送电子邮件"
+msgstr "重新向用户发送邀请电子邮件"
 
 #: weblate/auth/models.py:77
 #, python-format
@@ -2557,18 +2550,18 @@ msgstr "字体间距"
 #, fuzzy
 #| msgid "Java MessageFormat"
 msgid "ICU MessageFormat Flags"
-msgstr "Java MessageFormat"
+msgstr "ICU MessageFormat Flags"
 
 #: weblate/checks/flags.py:70
 #, fuzzy
 #| msgid "Java MessageFormat"
 msgid "ICU MessageFormat Tag Prefix"
-msgstr "Java MessageFormat"
+msgstr "ICU MessageFormat Tag Prefix"
 
 #: weblate/checks/flags.py:72 weblate/trans/models/component.py:598
 #: weblate/utils/views.py:134
 msgid "Priority"
-msgstr "优先权"
+msgstr "优先级"
 
 #: weblate/checks/flags.py:76
 msgid "Replacements while rendering"
@@ -2781,10 +2774,8 @@ msgid "Syntax errors in ICU MessageFormat strings."
 msgstr "语言别名中的语法错误。"
 
 #: weblate/checks/icu.py:292
-#, fuzzy
-#| msgid "Java MessageFormat"
 msgid "ICU MessageFormat"
-msgstr "Java MessageFormat"
+msgstr "ICU MessageFormat"
 
 #: weblate/checks/icu.py:294
 msgid ""
@@ -2797,16 +2788,14 @@ msgid "Syntax error: %s"
 msgstr ""
 
 #: weblate/checks/icu.py:463
-#, fuzzy, python-format
-#| msgid "Forbidden translation: %s"
+#, python-format
 msgid "Unknown placeholder in translation: %s"
-msgstr "禁止的翻译：%s"
+msgstr "翻译中的未知占位符：%s"
 
 #: weblate/checks/icu.py:468
-#, fuzzy, python-format
-#| msgid "Please sign in to save translations."
+#, python-format
 msgid "Placeholder missing in translation: %s"
-msgstr "请登录以保存翻译。"
+msgstr "翻译中缺少占位符：%s"
 
 #: weblate/checks/icu.py:473
 #, python-format
@@ -4160,23 +4149,15 @@ msgid ""
 msgstr ""
 
 #: weblate/templates/accounts/email-sent.html:37
-#, fuzzy
-#| msgid "Please check your mailbox for the confirmation link."
 msgid "Register again if the confirmation link expires."
-msgstr "请到您的邮箱检查确认链接。"
+msgstr "如果确认链接过期，请重新注册。"
 
 #: weblate/templates/accounts/email-sent.html:42
-#, fuzzy, python-format
-#| msgid ""
-#| "If you don't receive it shortly, please check your spam folder or retry "
-#| "the registration. If the problem persist, please <a href=\"%(contact_url)s"
-#| "\">contact us</a>."
+#, python-format
 msgid ""
 "If it isn't in the spam folder either, you might have to register again. "
 "Please <a href=\"%(contact_url)s\">contact us</a> if you have problems."
-msgstr ""
-"如果你没有很快收到它，请检查你的垃圾邮件文件夹或重试注册。如果问题仍未解决，"
-"请<a href=\"%(contact_url)s\">联系我们</a>。"
+msgstr "如果它也不在垃圾邮件文件夹，您可能需要重新注册。如果问题仍未解决，请<a href=\"%(contact_url)s\">联系我们</a>。"
 
 #: weblate/templates/accounts/email.html:10
 #: weblate/templates/accounts/register.html:19
@@ -5232,7 +5213,7 @@ msgstr "请求允许自由托管"
 msgid ""
 "This subscription is not eligible to the libre plan, please fix the errors "
 "above or purchase a subscription."
-msgstr "订阅不符合开自由计划，请改正上面的错误或购买订阅。"
+msgstr "该订阅不符合自由计划的要求，请改正上面提到的错误或购买订阅。"
 
 #: weblate/templates/billing/list.html:10
 msgid "Plan"
@@ -6454,10 +6435,9 @@ msgid "Mark as spam"
 msgstr "标记为垃圾"
 
 #: weblate/templates/mail/account_activity.html:7
-#, fuzzy, python-format
-#| msgid "There has been a following change in your account at %(site_title)s:"
+#, python-format
 msgid "The following activity has occured on your account at %(site_title)s:"
-msgstr "你在 %(site_title)s 网站上的账户有下列变更："
+msgstr "您在 %(site_title)s 的账户发生了以下活动："
 
 #: weblate/templates/mail/account_activity_subject.txt:4
 #, python-format
@@ -6522,7 +6502,7 @@ msgstr ""
 msgid ""
 "If you like Weblate and you want to continue using it, just request an "
 "approval of your libre plan."
-msgstr "如果你喜欢 Weblate 并想继续使用它，需请求批准你的自由软件托管计划。"
+msgstr "如果你喜欢 Weblate 并想继续使用它，需请求批准你的自由计划。"
 
 #: weblate/templates/mail/billing_expired.html:16
 msgid "Your billing plan has expired and all its projects have been removed."
@@ -6833,12 +6813,8 @@ msgid "Password reset on %(site_title)s"
 msgstr "重置 %(site_title)s 上的密码"
 
 #: weblate/templates/mail/shared-activity.html:14
-#, fuzzy
-#| msgid ""
-#| "If you don’t recognize this change, you can report it by clicking the "
-#| "button below."
 msgid "If this was not done by you, report it by clicking the button below."
-msgstr "如果你不认可此更改，你可以单击下面的按钮进行报告。"
+msgstr "如果这不是由您完成的，请单击下面的按钮进行报告。"
 
 #: weblate/templates/mail/shared-activity.html:15
 msgid "Please request support through other means."
@@ -7661,7 +7637,7 @@ msgstr "当此项目再次解锁时通知我"
 msgid ""
 "The translation is temporarily closed for contributions due to maintenance, "
 "please come back later."
-msgstr "由于维护需要，翻译暂时关闭，请稍后再来。"
+msgstr "由于维护，该翻译暂时无法贡献，请稍后再来。"
 
 #: weblate/templates/snippets/component/lock.html:21
 msgid "The translation was automatically locked due to following alerts:"
@@ -7701,7 +7677,7 @@ msgstr "源代码库"
 #: weblate/trans/templatetags/translations.py:778
 #, python-format
 msgid "This component is linked to the %(target)s repository."
-msgstr "此组件链接到 %(target)s 的仓库。"
+msgstr "此组件链接到 %(target)s 仓库。"
 
 #: weblate/templates/snippets/git-info.html:21
 #: weblate/templates/snippets/git-info.html:71
@@ -9451,7 +9427,7 @@ msgstr "首尾空白"
 
 #: weblate/trans/context_processors.py:133
 msgid "Hosted Weblate, the place to localize your software project."
-msgstr "托管在 Weblate，本地化您的软件项目的最佳之处。"
+msgstr "Hosted Weblate，本地化您的软件项目的最佳之处。"
 
 #: weblate/trans/context_processors.py:136
 msgid "This site runs Weblate for localizing various software projects."
@@ -9729,16 +9705,12 @@ msgstr "当前项目的所有组件"
 
 #: weblate/trans/forms.py:922 weblate/trans/forms.py:929
 #: weblate/trans/forms.py:937
-#, fuzzy
-#| msgid "Component Information"
 msgid "Component not found!"
-msgstr "组件信息"
+msgstr "未找到组件！"
 
 #: weblate/trans/forms.py:939
-#, fuzzy
-#| msgid "Parse error in %(component)s"
 msgid "Please provide valid component slug!"
-msgstr "%(component)s 发生解析错误"
+msgstr "请提供有效的组件标识串！"
 
 #: weblate/trans/forms.py:947
 msgid "Scope"
@@ -10540,16 +10512,12 @@ msgid_plural "New strings to translate"
 msgstr[0] "要翻译的新字符串"
 
 #: weblate/trans/models/change.py:434
-#, fuzzy
-#| msgid "The translation was automatically locked due to following alerts:"
 msgid "The component was automatically locked because of an alert."
-msgstr "由于以下警报，该翻译被自动锁定："
+msgstr "该组件因为一个警报而被自动锁定。"
 
 #: weblate/trans/models/change.py:438
-#, fuzzy
-#| msgid "Component automatically unlocked"
 msgid "Component was automatically unlocked as alert was fixed."
-msgstr "组件自动解锁"
+msgstr "由于警报已修复，组件已自动解锁。"
 
 #: weblate/trans/models/change.py:494
 #, python-format
@@ -10557,10 +10525,9 @@ msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
 msgstr "%(user)s 于 %(time)s 对 %(translation)s %(action)s"
 
 #: weblate/trans/models/change.py:592
-#, fuzzy, python-format
-#| msgid "Bulk status change"
+#, python-format
 msgid "File %s was changed."
-msgstr "批量状态更改"
+msgstr "文件 %s 已更改。"
 
 #: weblate/trans/models/change.py:594
 #, python-format
@@ -10570,7 +10537,7 @@ msgstr ""
 #: weblate/trans/models/change.py:596
 #, python-format
 msgid "File %s was added."
-msgstr ""
+msgstr "添加了文件 %s。"
 
 #: weblate/trans/models/change.py:600
 msgctxt "License information not available"
