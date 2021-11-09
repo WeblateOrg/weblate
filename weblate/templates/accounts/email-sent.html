@@ -9,7 +9,7 @@
 
 {% block content %}
 
-{% trans "Please check your mailbox for the confirmation link." as msg %}
+{% trans "You will find the confirmation link in your e-mail inbox." as msg %}
 {% show_message "info" msg %}
 
 <div class="panel panel-default">
@@ -27,19 +27,19 @@
   <div class="panel-body">
 
     {% if is_reset %}
-      <p>{% blocktrans %}If your e-mail address exists in our database, you will receive further password recovery instructions to your inbox.{% endblocktrans %}</p>
-      <p>{% blocktrans %}If the confirmation link expires before you use it, request a new one.{% endblocktrans %}</p>
+      <p>{% blocktrans %}Follow the password recovery instructions sent to your e-mail inbox.{% endblocktrans %}</p>
+      <p>{% blocktrans %}Request a new confirmation link if it expires.{% endblocktrans %}</p>
     {% elif is_remove %}
-      <p>{% blocktrans %}Shortly, you should receive an e-mail with a confirmation link. Click it to remove your account.{% endblocktrans %}</p>
-      <p>{% blocktrans %}If the confirmation link expires before you use it, request a new one.{% endblocktrans %}</p>
+      <p>{% blocktrans %}Remove your account by clicking the confirmation link in the e-mail sent to you.{% endblocktrans %}</p>
+      <p>{% blocktrans %}Request a new confirmation link if it expires.{% endblocktrans %}</p>
     {% else %}
-      <p>{% blocktrans %}Thank you for registering. Click the confirmation link you receive by e-mail to complete the registration.{% endblocktrans %}</p>
-      <p>{% blocktrans %}If the confirmation link expires before you use it, register again.{% endblocktrans %}</p>
+      <p>{% blocktrans %}Click the confirmation link sent to your e-mail inbox and start using your account.{% endblocktrans %}</p>
+      <p>{% blocktrans %}Register again if the confirmation link expires.{% endblocktrans %}</p>
     {% endif %}
 
     <p>
       {% url 'contact' as contact_url %}
-      {% blocktrans %}If you don't receive it shortly, please check your spam folder or retry the registration. If the problem persist, please <a href="{{ contact_url }}">contact us</a>.{% endblocktrans %}
+      {% blocktrans %}If it isn't in the spam folder either, you might have to register again. Please <a href="{{ contact_url }}">contact us</a> if you have problems.{% endblocktrans %}
     </p>
   </div>
 </div>
