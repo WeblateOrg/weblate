@@ -79,6 +79,7 @@ class ModelTest(FixtureTestCase):
         self.group.componentlists.add(clist)
 
         # No permissions as component list is empty
+        self.user.clear_cache()
         self.assertFalse(self.user.can_access_project(self.project))
         self.assertFalse(self.user.has_perm("unit.edit", self.translation))
 

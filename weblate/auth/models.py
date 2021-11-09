@@ -569,7 +569,7 @@ class User(AbstractBaseUser):
                     clist.components.all() for clist in group.componentlists.all()
                 )
             }
-            if componentlist_values:
+            if group.componentlists:
                 for component, project in componentlist_values:
                     components[component].append((permissions, languages))
                     # Grant access to the project
