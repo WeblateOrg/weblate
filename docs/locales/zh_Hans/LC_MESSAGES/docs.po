@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-11-09 14:05+0100\n"
-"PO-Revision-Date: 2021-10-28 21:01+0000\n"
+"PO-Revision-Date: 2021-11-10 07:53+0000\n"
 "Last-Translator: JY3 <GeeyunJY3@gmail.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "weblate/documentation/zh_Hans/>\n"
@@ -65,7 +65,7 @@ msgstr "项目访问控制"
 msgid ""
 "This feature is unavailable for the projects running Libre plan on Hosted "
 "Weblate."
-msgstr "此功能对于运行 Weblate 上托管的自由软件计划的项目不可用。"
+msgstr "Hosted Weblate 上运行自由计划的项目无法使用此功能。"
 
 #: ../../admin/access.rst:32
 msgid ""
@@ -377,10 +377,9 @@ msgid ""
 "creating additional custom settings for individual component as described "
 "in :ref:`custom-acl` below."
 msgstr ""
-"默认情况下，这可防止 Weblate 授予由 `Users` 和 `Viewers` :ref:`default "
-"groups <default-groups>` 提供的访问权限，这是由这些组本身的配置造成的。但这并"
-"不妨碍您向这些项目授予站点范围的权限，可用的方法有改变默认组、创建一个新的"
-"组，或如下方 :ref:`custom-acl` 中所述为单个组件创建额外的自定义设置。"
+"默认情况下，这可防止 Weblate 因 `用户` 和 `查看者` :ref:`默认组<default-groups>` "
+"本身的配置而授予其提供的访问权限。但这并不妨碍您向这些项目授予站点范围的权限，可用的方法有改变默认组、创建一个新的组，或如下方 :ref:`custom-"
+"acl` 中所述为单个组件创建额外的自定义设置。"
 
 #: ../../admin/access.rst:188
 msgid ""
@@ -448,9 +447,7 @@ msgstr "站点范围内的权限管理"
 msgid ""
 "To manage permissions for a whole instance at once, add users to "
 "appropriate :ref:`default groups <default-groups>`:"
-msgstr ""
-"要一次性管理整个实例的权限，请将用户添加到适当的 :ref:`default groups "
-"<default-groups>`："
+msgstr "要一次性管理整个实例的权限，请将用户添加到适当的 :ref:`默认组<default-groups>`："
 
 #: ../../admin/access.rst:227
 msgid ""
@@ -487,9 +484,7 @@ msgid ""
 "You may also grant some additional permissions of your choice to the default "
 "groups. For example, you may want to give a permission to manage screenshots "
 "to all the `Users`."
-msgstr ""
-"您还可以将您所选择的一些额外权限授予默认组。 例如，你可能想给所有 `用户` 管理"
-"截图的权限。"
+msgstr "您还可以向默认组授予一些您选择的额外权限。例如，你可能想给所有 `用户` 管理截图的权限。"
 
 #: ../../admin/access.rst:242
 msgid ""
@@ -824,8 +819,8 @@ msgid ""
 "upgrading from one Weblate version to another. If you want to turn it off, "
 "set the regular expression to ``^$`` (which won’t match anything)."
 msgstr ""
-"从一个 Weblate 版本升级到另一个版本时总是会重新创建对 `Users` 和 `Viewers` 的"
-"用户组分配。如果你想关闭它，将正则表达式设置为 ``^$`` （不匹配任何内容）。"
+"从一个 Weblate 版本升级到另一个版本时总是会重新创建对 `用户` 和 `查看者` 的用户组分配。如果你想关闭它，将正则表达式设置为 ``^$`` "
+"（不匹配任何内容）。"
 
 #: ../../admin/access.rst:436
 msgid ""
@@ -838,7 +833,7 @@ msgstr ""
 
 #: ../../admin/access.rst:440
 msgid "Default groups and roles"
-msgstr "默认群组和角色"
+msgstr "默认组和角色"
 
 #: ../../admin/access.rst:442
 msgid ""
@@ -1416,7 +1411,7 @@ msgstr ":ref:`auto-translation`, :ref:`translation-consistency`"
 
 #: ../../admin/addons.rst:81
 msgid "JavaScript localization CDN"
-msgstr "JavaScript本地化CDN"
+msgstr "JavaScript 本地化 CDN"
 
 #: ../../admin/addons.rst:85
 msgid "``weblate.cdn.cdnjs``"
@@ -6940,7 +6935,7 @@ msgstr ""
 
 #: ../../admin/config.rst:1077
 msgid "On Hosted Weblate, this uses ``https://weblate-cdn.com/``."
-msgstr "在hosted Weblate 中，这使用 ``https://weblate-cdn.com/`` 。"
+msgstr "在 Hosted Weblate 中，这使用 ``https://weblate-cdn.com/`` 。"
 
 #: ../../admin/config.rst:1081
 msgid ":ref:`addon-weblate.cdn.cdnjs`"
@@ -15822,7 +15817,7 @@ msgstr "setupgroups"
 msgid ""
 "Configures default groups and optionally assigns all users to that default "
 "group."
-msgstr "配置默认的组，并可选地将所有用户指定到那个默认组中。"
+msgstr "配置默认组，并可选地将所有用户指定到那个默认组中。"
 
 #: ../../admin/management.rst:729
 msgid "Turns off automatic updating of existing groups (only adds new ones)."
@@ -17736,7 +17731,7 @@ msgstr ":ref:`faq-vcs`, :ref:`alerts`"
 
 #: ../../admin/projects.rst:766
 msgid "Priority"
-msgstr "优先权"
+msgstr "优先级"
 
 #: ../../admin/projects.rst:768
 msgid "Components with higher priority are offered first to translators."
@@ -25604,7 +25599,7 @@ msgstr "现在默认相对于一般缺陷来验证密码。"
 msgid ""
 "Notify users about important activity with their account such as password "
 "change."
-msgstr "向用户通知他们账户的重要动作，如密码变更。"
+msgstr "向用户通知他们账户的重要活动，如密码变更。"
 
 #: ../../changes.rst:1243
 msgid "The CSV exports now escape potential formulas."
@@ -27818,9 +27813,7 @@ msgstr "编程标准"
 msgid ""
 "The code should follow PEP-8 coding guidelines and should be formatted "
 "using :program:`black` code formatter."
-msgstr ""
-"代码应该符合 PEP-8 变成指南，并且应该使用 :program:`black` 代码格式化程序来格"
-"式化。"
+msgstr "代码应该符合 PEP-8 编码准则，并且应该使用 :program:`black` 代码格式化程序来格式化。"
 
 #: ../../contributing/code.rst:28
 msgid ""
@@ -28931,7 +28924,7 @@ msgstr "带有私钥的 GnuPG 用于为发布签名"
 
 #: ../../contributing/release.rst:52
 msgid "Push access to Weblate git repositories (it pushes tags)"
-msgstr "推送访问 Weblate git 仓库（它推送标记）"
+msgstr "推送访问 Weblate git 仓库（它推送标签）"
 
 #: ../../contributing/release.rst:53
 msgid ""
@@ -30256,8 +30249,8 @@ msgid ""
 "configuration on your installation, see :setting:`LOCALIZE_CDN_URL` and :"
 "setting:`LOCALIZE_CDN_PATH`."
 msgstr ""
-"此功能在托管的Weblate上配置。它需要在安装时进行额外的配置，见 :setting:"
-"`LOCALIZE_CDN_URL` 和 :setting:`LOCALIZE_CDN_PATH`。"
+"此功能在 Hosted Weblate 上是配置好的。它需要在安装时进行额外的配置，见 :setting:`LOCALIZE_CDN_URL` 和 "
+":setting:`LOCALIZE_CDN_PATH`。"
 
 #: ../../devel/html.rst:15
 msgid ""
