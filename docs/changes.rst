@@ -1357,7 +1357,7 @@ Released on Aug 31st 2016.
 
 * Documentation improvements.
 * Translations.
-* Updated bundled JavasSript libraries.
+* Updated bundled JavaScript libraries.
 * Added list_translators management command.
 * Django 1.8 is no longer supported.
 * Fixed compatibility with Django 1.10.
