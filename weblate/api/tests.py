@@ -223,7 +223,7 @@ class UserAPITest(APIBaseTest):
             superuser=True,
             code=200,
         )
-        self.assertEqual(response.data["count"], 8)
+        self.assertEqual(response.data["count"], 9)
 
     def test_post_notifications(self):
         self.do_request(
@@ -244,7 +244,7 @@ class UserAPITest(APIBaseTest):
                 "frequency": 1,
             },
         )
-        self.assertEqual(Subscription.objects.count(), 9)
+        self.assertEqual(Subscription.objects.count(), 10)
 
     def test_get_notifications(self):
         user = User.objects.filter(is_active=True).first()
@@ -318,7 +318,7 @@ class UserAPITest(APIBaseTest):
             superuser=True,
             code=204,
         )
-        self.assertEqual(Subscription.objects.count(), 7)
+        self.assertEqual(Subscription.objects.count(), 8)
 
     def test_statistics(self):
         user = User.objects.filter(is_active=True).first()
