@@ -1258,6 +1258,8 @@ rendered, and may sound better with text-to-speech.
 ICU MessageFormat syntax
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
+.. versionadded:: 4.9
+
 :Summary: Syntax errors in ICU MessageFormat strings.
 :Scope: source strings
 :Check class: ``weblate.checks.icu.ICUSourceCheck``
