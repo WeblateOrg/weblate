@@ -107,6 +107,7 @@ from weblate.accounts.notifications import (
     SCOPE_COMPONENT,
     SCOPE_PROJECT,
     SCOPE_WATCHED,
+    send_notification_email,
 )
 from weblate.accounts.pipeline import EmailAlreadyAssociated, UsernameAlreadyAssociated
 from weblate.accounts.utils import remove_user
@@ -951,6 +952,16 @@ def reset_password(request):
                 if not audit.check_rate_limit(request):
                     store_userid(request, True)
                     return social_complete(request, "email")
+            else:
+                send_notification_email(
+                    None,
+                    [form.cleaned_data["email"]],
+                    "reset-nonexisting",
+                    context={
+                        "address": get_ip_address(request),
+                        "user_agent:": get_user_agent(request),
+                    },
+                )
             return fake_email_sent(request, True)
     else:
         form = ResetForm()

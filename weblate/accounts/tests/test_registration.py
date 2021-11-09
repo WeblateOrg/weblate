@@ -266,7 +266,9 @@ class RegistrationTest(BaseRegistrationTest):
             reverse("password_reset"), {"email": "test@example.com"}, follow=True
         )
         self.assertContains(response, "Password reset almost complete")
-        self.assertEqual(len(mail.outbox), 0)
+        self.assertEqual(len(mail.outbox), 1)
+        sent_mail = mail.outbox.pop()
+        self.assertNotIn("verification_code=", sent_mail.body)
 
     @override_settings(REGISTRATION_CAPTCHA=False)
     def test_reset_invalid(self):
