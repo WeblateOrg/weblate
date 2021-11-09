@@ -1,7 +1,7 @@
 Weblate 4.9
 -------------
 
-Not yet released.
+Released on November 10th 2021.
 
 * Provide more details for history events.
 * Improved rendering of history.
