@@ -159,7 +159,7 @@ ACCOUNT_ACTIVITY = {
     "locked": _("Account locked due to many failed sign in attempts."),
     "removed": _("Account and all private data removed."),
     "tos": _("Agreement with Terms of Service {date}."),
-    "invited": _("Invited to Weblate by {username}."),
+    "invited": _("Invited to {site_title} by {username}."),
     "trial": _("Started trial period."),
     "sent-email": _("Sent confirmation mail to {email}."),
     "autocreated": _(
@@ -287,7 +287,9 @@ class AuditLog(models.Model):
     def get_params(self):
         from weblate.accounts.templatetags.authnames import get_auth_name
 
-        result = {}
+        result = {
+            "site_title": settings.SITE_TITLE,
+        }
         result.update(self.params)
         if "method" in result:
             # The gettext is here for legacy entries which contained method name
