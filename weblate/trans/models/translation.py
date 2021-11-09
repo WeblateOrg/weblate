@@ -685,7 +685,7 @@ class Translation(
                     unit.context, unit.get_source_plurals(), unit.get_target_plurals()
                 )
                 updated = True
-                details["add_unit"]
+                del details["add_unit"]
             else:
                 try:
                     pounit, add = store.find_unit(unit.context, unit.source)
