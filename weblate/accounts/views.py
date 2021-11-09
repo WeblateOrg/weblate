@@ -110,6 +110,7 @@ from weblate.accounts.notifications import (
 )
 from weblate.accounts.pipeline import EmailAlreadyAssociated, UsernameAlreadyAssociated
 from weblate.accounts.utils import remove_user
+from weblate.auth.forms import UserEditForm
 from weblate.auth.models import User
 from weblate.logger import LOGGER
 from weblate.trans.models import Change, Component, Suggestion, Translation
@@ -607,7 +608,7 @@ class UserPage(UpdateView):
     slug_field = "username"
     slug_url_kwarg = "user"
     context_object_name = "page_user"
-    fields = ["username", "full_name", "email", "is_superuser", "is_active"]
+    form_class = UserEditForm
 
     group_form = None
 
@@ -630,6 +631,11 @@ class UserPage(UpdateView):
             return HttpResponseRedirect(self.get_success_url() + "#groups")
 
         return super().post(request, **kwargs)
+
+    def form_valid(self, form):
+        """If the form is valid, save the associated model."""
+        self.object = form.save(self.request)
+        return HttpResponseRedirect(self.get_success_url())
 
     def get_context_data(self, **kwargs):
         """Create context for rendering page."""

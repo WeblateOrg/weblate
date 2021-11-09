@@ -208,7 +208,7 @@ def resend_invitation(request, project):
 
     if form is not None:
         send_invitation(request, obj.name, form.cleaned_data["user"])
-        messages.success(request, _("User has been invited to this project."))
+        messages.success(request, _("User invitation e-mail was sent."))
 
     return redirect("manage-access", project=obj.slug)
 

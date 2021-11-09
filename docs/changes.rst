@@ -20,6 +20,7 @@ Not yet released.
 * Fixed generating of MO files for monolingual translations.
 * Added API endpoint to download all component translations in a ZIP file.
 * Added support for Python 3.10.
+* Added support for resending e-mail invitation from the management interface.
 
 Weblate 4.8.1
 -------------
