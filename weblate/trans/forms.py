@@ -874,6 +874,7 @@ class AutoForm(forms.Form):
             # Do not show choices when too many
             self.fields["component"] = forms.CharField(
                 required=False,
+                label=_("Components"),
                 help_text=_(
                     "Enter component to use as source, "
                     "keep blank to use all components in current project."
