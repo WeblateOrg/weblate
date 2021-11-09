@@ -15,14 +15,33 @@ jobs:
   analyze:
     name: Analyze
     runs-on: ubuntu-20.04
+    matrix:
+      python-version:
+        - "3.10"
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2.4.0
+      - name: Cache pip
+        uses: actions/cache@v2.1.6
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ matrix.python-version }}-${{ hashFiles('**/requirements*.txt') }}
+      - name: Install apt dependencies
+        run: sudo ./ci/apt-install $CI_DATABASE
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v2.2.2
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Used versions
+        run: ./ci/print-versions
+      - name: Install pip dependencies
+        run: ./ci/pip-install ${{ matrix.requirements }}
 
       - name: Initialize CodeQL
         uses: github/codeql-action/init@v1
         with:
           languages: ${{ matrix.language }}
+          setup-python-dependencies: false
 
       - name: Autobuild
         uses: github/codeql-action/autobuild@v1
