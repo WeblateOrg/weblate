@@ -19,7 +19,7 @@
 
 """Tests for ICU MessageFormat checks."""
 
-from weblate.checks.icu import ICUMessageFormatCheck
+from weblate.checks.icu import ICUMessageFormatCheck, ICUSourceCheck
 from weblate.checks.tests.test_checks import CheckTestCase, MockUnit
 
 
@@ -87,15 +87,13 @@ class ICUMessageFormatCheckTest(CheckTestCase):
         self.assertTrue("Expected , or }" in syntax[0].msg)
 
     def test_source(self):
-        self.assertFalse(self.check.check_source_unit([""], self.get_mock()))
-        self.assertFalse(
-            self.check.check_source_unit(["Hello, {name}!"], self.get_mock())
-        )
+        check = ICUSourceCheck()
+        self.assertFalse(check.check_source_unit([""], self.get_mock()))
+        self.assertFalse(check.check_source_unit(["Hello, {name}!"], self.get_mock()))
 
     def test_bad_source(self):
-        self.assertTrue(
-            self.check.check_source_unit(["Hello, {name!"], self.get_mock())
-        )
+        check = ICUSourceCheck()
+        self.assertTrue(check.check_source_unit(["Hello, {name!"], self.get_mock()))
 
     def test_no_formats(self):
         self.assertFalse(

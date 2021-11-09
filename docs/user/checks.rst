@@ -250,7 +250,7 @@ ICU MessageFormat
 
 .. versionadded:: 4.9
 
-:Summary: There are inconsistencies or syntax errors within ICU MessageFormat placeholders.
+:Summary: Syntax errors and/or placeholder mismatches in ICU MessageFormat strings.
 :Scope: translated strings
 :Check class: ``weblate.checks.icu.ICUMessageFormatCheck``
 :Flag to enable: ``icu-message-format``
@@ -303,6 +303,7 @@ This would match ``<x:link>click here</x:link>`` but not ``<strong>this</strong>
 
 .. seealso::
 
+  :ref:``check-icu-message-format-syntax`,
   :ref:`check-formats`,
   `ICU: Formatting Messages <https://unicode-org.github.io/icu/userguide/format_parse/messages/>`_,
   `Format.JS: Message Syntax <https://formatjs.io/docs/core-concepts/icu-syntax/>`_
@@ -418,7 +419,6 @@ Percent placeholders
 
 .. _check-perl-format:
 
-
 Perl format
 ***********
 
@@ -456,7 +456,6 @@ PHP format
    `PHP Format Strings <https://www.gnu.org/software/gettext/manual/html_node/php_002dformat.html>`_
 
 .. _check-python-brace-format:
-
 
 Python brace format
 *******************
@@ -1254,6 +1253,17 @@ rendered, and may sound better with text-to-speech.
 
    `Ellipsis on Wikipedia <https://en.wikipedia.org/wiki/Ellipsis>`_
 
+.. _check-icu-message-format-syntax:
+
+ICU MessageFormat syntax
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+:Summary: Syntax errors in ICU MessageFormat strings.
+:Scope: source strings
+:Check class: ``weblate.checks.icu.ICUSourceCheck``
+:Flag to ignore: ``ignore-icu-message-format-syntax``
+
+.. seealso:: :ref:`check-icu-message-format`
 
 .. _check-long-untranslated:
 

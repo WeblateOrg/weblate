@@ -22,6 +22,7 @@ from collections import defaultdict
 from django.utils.translation import gettext_lazy as _
 from pyicumessageformat import Parser
 
+from weblate.checks.base import SourceCheck
 from weblate.checks.format import BaseFormatCheck
 
 # Unique value for checking tags. Since types are
@@ -249,16 +250,7 @@ def extract_placeholders(token, variables=None):
     return variables
 
 
-class ICUMessageFormatCheck(BaseFormatCheck):
-    """Check for ICU MessageFormat string."""
-
-    check_id = "icu_message_format"
-    name = _("ICU MessageFormat")
-    description = _(
-        "Syntax errors and/or placeholder mismatches in ICU MessageFormat strings."
-    )
-    source = True
-
+class ICUCheckMixin:
     def get_flags(self, unit):
         if unit and unit.all_flags.has_value("icu-flags"):
             return unit.all_flags.get_value("icu-flags")
@@ -268,6 +260,14 @@ class ICUMessageFormatCheck(BaseFormatCheck):
         if unit and unit.all_flags.has_value("icu-tag-prefix"):
             return unit.all_flags.get_value("icu-tag-prefix")
         return None
+
+
+class ICUSourceCheck(ICUCheckMixin, SourceCheck):
+    """Check for ICU MessageFormat syntax."""
+
+    check_id = "icu_message_format_syntax"
+    name = _("ICU MessageFormat syntax")
+    description = _("Syntax errors in ICU MessageFormat strings.")
 
     def check_source_unit(self, source, unit):
         """Checker for source strings. Only check for syntax issues."""
@@ -283,6 +283,16 @@ class ICUMessageFormatCheck(BaseFormatCheck):
         if src_err:
             return True
         return False
+
+
+class ICUMessageFormatCheck(ICUCheckMixin, BaseFormatCheck):
+    """Check for ICU MessageFormat string."""
+
+    check_id = "icu_message_format"
+    name = _("ICU MessageFormat")
+    description = _(
+        "Syntax errors and/or placeholder mismatches in ICU MessageFormat strings."
+    )
 
     def check_format(self, source, target, ignore_missing, unit):
         """Checker for ICU MessageFormat strings."""
