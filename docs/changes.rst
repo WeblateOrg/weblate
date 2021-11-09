@@ -28,17 +28,17 @@ Weblate 4.8.1
 Released on September 10th 2021.
 
 * Fixed user removal in Django admin interface.
-* Document add-on parameters in more detail.
-* Fixed JavaScript error on glossary.
+* Document add-on parameters in greater detail.
+* Fixed JavaScript error in glossary.
 * Add limit to number of matches in consistency check.
-* Improve placeholders handling in machine translations.
+* Improve handling of placeholders in machine translations.
 * Fixed creating add-ons using API.
 * Added :setting:`PRIVACY_URL` setting to add privacy policy link to the footer.
 * Hide member e-mail addresses from project admins.
 * Improved gettext PO merging in case of conflicts.
 * Improved glossary highlighting.
 * Improved ``safe-html`` flag behavior with XML checks.
-* Fixed commit messages on linked components.
+* Fixed commit messages for linked components.
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/70?closed=1>`__.
 
@@ -48,7 +48,7 @@ Weblate 4.8
 Released on August 21th 2021.
 
 * Added support for Apple stringsdict format.
-* The exact search operator is now case-sensitive on PostgreSQL.
+* The exact search operator is now case-sensitive with PostgreSQL.
 * Fixed saving glossary explanations in some cases.
 * Documentation improvements.
 * Performance improvements.
@@ -1372,7 +1372,7 @@ Released on Aug 31st 2016.
 
 * Documentation improvements.
 * Translations.
-* Updated bundled javascript libraries.
+* Updated bundled JavaScript libraries.
 * Added list_translators management command.
 * Django 1.8 is no longer supported.
 * Fixed compatibility with Django 1.10.
@@ -1524,7 +1524,7 @@ Released on Feb 19th 2015.
 
 * Performance improvements.
 * Fulltext search on location and comments fields.
-* New SVG/javascript based activity charts.
+* New SVG/JavaScript-based activity charts.
 * Support for Django 1.8.
 * Support for deleting comments.
 * Added own SVG badge.
