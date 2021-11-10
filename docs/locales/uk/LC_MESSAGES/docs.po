@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-11-09 14:05+0100\n"
-"PO-Revision-Date: 2021-11-10 15:48+0000\n"
-"Last-Translator: Ihor Hordiichuk <igor_ck@outlook.com>\n"
+"PO-Revision-Date: 2021-11-10 16:47+0000\n"
+"Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/"
 "documentation/uk/>\n"
 "Language: uk\n"
@@ -30505,6 +30505,9 @@ msgid ""
 "containing error reports, or configure error collection using a third-party "
 "service."
 msgstr ""
+"У промисловому середовищі скористайтеся :setting:`ADMINS` для отримання "
+"повідомлень електронної пошти із звітами щодо помилок або налаштовування "
+"збирання помилок за допомогою сторонньої служби."
 
 #: ../../contributing/debugging.rst:20
 msgid ""
@@ -38324,7 +38327,7 @@ msgstr ""
 
 #: ../../user/checks.rst:249
 msgid "ICU MessageFormat"
-msgstr "ICU MessageFormat"
+msgstr "MessageFormat ICU"
 
 #: ../../user/checks.rst:253
 msgid ""
@@ -38339,7 +38342,7 @@ msgstr "``weblate.checks.icu.ICUMessageFormatCheck``"
 
 #: ../../user/checks.rst:258
 msgid "``There {number, plural, one {is one apple} other {are # apples}}.``"
-msgstr ""
+msgstr "``There {number, plural, one {is one apple} other {are # apples}}.``"
 
 #: ../../user/checks.rst:260
 msgid ""
@@ -38349,6 +38352,11 @@ msgid ""
 "certain sub-checks. For example, the following flag enables XML support "
 "while disabling validation of plural sub-messages:"
 msgstr ""
+"У цій перевірці передбачено підтримку чистих повідомлень MessageFormat ICU, "
+"а також ICU із простими теґами XML. Ви можете налаштувати поведінку цієї "
+"перевірки за допомогою ``icu-flags:*``, або доповнивши підтримку XML, або "
+"вимкнувши певні підлеглі перевірки. Наприклад, вказаний нижче прапорець "
+"вмикає підтримку XML і вимикає перевірку підповідомлень із формами множини:"
 
 #: ../../user/checks.rst:270
 #, fuzzy
@@ -38361,6 +38369,9 @@ msgid ""
 "Enable support for simple XML tags. By default, XML tags are parsed loosely. "
 "Stray ``<`` characters are ignored if they are not reasonably part of a tag."
 msgstr ""
+"Увімкнути підтримку простих теґів XML. Типово, обробку теґів XML "
+"оптимізовано. Окремі символи ``<`` буде проігноровано, якщо вони не є "
+"природною частиною теґу."
 
 #: ../../user/checks.rst:274
 #, fuzzy
@@ -38373,6 +38384,8 @@ msgid ""
 "Enable support for strict XML tags. All ``<`` characters must be escaped if "
 "they are not part of a tag."
 msgstr ""
+"Увімкнути підтримку строгої обробки теґів XML. Усі символи ``<`` має бути "
+"екрановано, якщо вони не є частиною теґу."
 
 #: ../../user/checks.rst:277
 msgid "``-highlight``"
@@ -38389,6 +38402,8 @@ msgstr ""
 #: ../../user/checks.rst:279
 msgid "Disable requiring sub-messages to have an ``other`` selector."
 msgstr ""
+"Вимкнути вимогу щодо того, що підповідомлення повинні належати до селектора "
+"``other``."
 
 #: ../../user/checks.rst:282
 msgid "``-submessage_selectors``"
@@ -38397,6 +38412,7 @@ msgstr ""
 #: ../../user/checks.rst:282
 msgid "Skip checking that sub-message selectors match the source."
 msgstr ""
+"Пропустити перевірку того, чи селектори підповідомлень відповідають джерелу."
 
 #: ../../user/checks.rst:284
 #, fuzzy
@@ -38417,6 +38433,7 @@ msgid ""
 "Skip checking that no placeholders are present that were not present in the "
 "source string."
 msgstr ""
+"Пропустити перевірку того, чи є замінники, яких немає у початковому рядку."
 
 #: ../../user/checks.rst:289
 #, fuzzy
@@ -38429,6 +38446,8 @@ msgid ""
 "Skip checking that no placeholders are missing that were present in the "
 "source string."
 msgstr ""
+"Пропустити перевірку того, чи не пропущено замінники, які були у початковому "
+"рядку."
 
 #: ../../user/checks.rst:293
 msgid ""
@@ -38437,12 +38456,19 @@ msgid ""
 "start with a specific string. For example, the following flag will only "
 "allow XML tags to be matched if they start with ``<x:``:"
 msgstr ""
+"Крім того, якщо не увімкнено ``strict-xml``, але увімкнено ``xml``, ви "
+"можете скористатися прапорцем ``icu-tag-prefix:ПРЕФІКС``, щоб вказати, що "
+"усі теґи XML мають починатися із вказаного рядка. Наприклад, вказаний нижче "
+"прапорець призводить до того, що відповідність теґами XML встановлюється, "
+"лише якщо вони починаються з ``<x:``:"
 
 #: ../../user/checks.rst:302
 msgid ""
 "This would match ``<x:link>click here</x:link>`` but not ``<strong>this</"
 "strong>``."
 msgstr ""
+"Тобто, відповідність буде встановлено для ``<x:link>натисніть тут</x:link>``"
+", але не для ``<strong>це</strong>``."
 
 #: ../../user/checks.rst:306
 msgid ""
@@ -38451,6 +38477,10 @@ msgid ""
 "format_parse/messages/>`_, `Format.JS: Message Syntax <https://formatjs.io/"
 "docs/core-concepts/icu-syntax/>`_"
 msgstr ""
+":ref:``check-icu-message-format-syntax`, :ref:`check-formats`, `ICU: "
+"форматування повідомлень <https://unicode-org.github.io/icu/userguide/"
+"format_parse/messages/>`_, `Format.JS: синтаксис повідомлень "
+"<https://formatjs.io/docs/core-concepts/icu-syntax/>`_"
 
 #: ../../user/checks.rst:315
 msgid "Java format"
@@ -39095,6 +39125,8 @@ msgstr ""
 msgid ""
 "When ``xml-text`` flag is also used, the length calculation ignores XML tags."
 msgstr ""
+"Якщо також використано прапорець ``xml-text``, в обчисленнях довжини буде "
+"проігноровано теґи XML."
 
 #: ../../user/checks.rst:750
 msgid "Maximum size of translation"
@@ -39693,6 +39725,8 @@ msgid ""
 "When ``md-text`` flag is also used, the Markdown style links are also "
 "allowed."
 msgstr ""
+"Якщо також використано прапорець ``md-text``, буде дозволено також посилання "
+"у стилі Markdown."
 
 #: ../../user/checks.rst:1150
 msgid ""
@@ -42109,12 +42143,20 @@ msgid ""
 "select all languages you want to compare and confirm your selection, after "
 "that you can click on any translation to open and edit it quickly."
 msgstr ""
+"Для ефективного порівняння різних мов ви можете скористатися матричним "
+"переглядом. Він доступний на сторінці кожного складника у меню "
+":guilabel:`Знаряддя`. Спочатку виберіть усі мови, які ви хочете порівняти, і "
+"підтвердьте ваш вибір. Після цього, ви можете клацати на будь-якому "
+"перекладі для пришвидшення відкриття і редагування перекладу."
 
 #: ../../user/translating.rst:403
 msgid ""
 "The matrix view is also a very good starting point to find missing "
 "translations in different languages and quickly add them from one view."
 msgstr ""
+"Матричний режим перегляду також є чудовим початковим пунктом для пошуку "
+"пропущених перекладів різними мовами і швидкого додавання їх на одну панель "
+"перегляду."
 
 #: ../../user/translating.rst:406
 msgid "Zen Mode"
@@ -42127,6 +42169,10 @@ msgid ""
 "removes additional UI elements such as :guilabel:`Nearby strings` or the :"
 "guilabel:`Glossary`."
 msgstr ""
+"Дзен-редактор можна увімкнути натисканням кнопки :guilabel:`Дзен` у верхній "
+"правій частині сторінки під час перекладу складника. Редактор має спрощене "
+"компонування без додаткових елементів інтерфейсу, зокрема :guilabel:`Сусідні "
+"рядки` та :guilabel:`Глосарій`."
 
 #: ../../user/translating.rst:411
 msgid ""
@@ -42135,6 +42181,10 @@ msgid ""
 "between having translations listed :guilabel:`Top to bottom` or :guilabel:"
 "`Side by side` depending on your personal preference."
 msgstr ""
+"Ви можете вибрати дзен-редактор як типовий за допомогою вкладки :ref"
+":`profile-preferences` на вашій сторінці :ref:`user-profile`. На цій "
+"сторінці ви також можете вибрати між режимами списків перекладів :guilabel:`"
+"Згори вниз` або :guilabel:`Поруч`, залежно від ваших уподобань."
 
 #: ../../vcs.rst:4
 msgid "Version control integration"
