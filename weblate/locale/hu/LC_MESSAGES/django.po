@@ -12,7 +12,7 @@
 # anonymous <noreply@weblate.org>, 2019, 2020.
 # Ács Zoltán <acszoltan111@gmail.com>, 2019, 2020.
 # Anonymous <noreply@weblate.org>, 2020.
-# Balázs Meskó <meskobalazs@mailbox.org>, 2020.
+# Balázs Meskó <meskobalazs@mailbox.org>, 2020, 2021.
 # Athoss <athoss@citromail.hu>, 2020, 2021.
 # Michal Čihař <michal@cihar.com>, 2020.
 # Andras Timar <andras.timar@collabora.com>, 2020.
@@ -27,8 +27,8 @@ msgstr ""
 "Project-Id-Version: Weblate 4.9\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-11-09 13:04+0000\n"
-"PO-Revision-Date: 2021-10-23 07:26+0000\n"
-"Last-Translator: Stefan Braun <fischer.braun@mail.de>\n"
+"PO-Revision-Date: 2021-11-10 20:00+0000\n"
+"Last-Translator: Balázs Meskó <meskobalazs@mailbox.org>\n"
 "Language-Team: Hungarian <https://hosted.weblate.org/projects/weblate/"
 "application/hu/>\n"
 "Language: hu\n"
@@ -36,7 +36,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.9-dev\n"
+"X-Generator: Weblate 4.9.1-dev\n"
 
 #: weblate/accounts/avatar.py:103
 msgctxt "No known user"
@@ -397,10 +397,9 @@ msgid "Agreement with Terms of Service {date}."
 msgstr "Megállapodás az általános szerződési feltételekről {date}."
 
 #: weblate/accounts/models.py:162
-#, fuzzy, python-brace-format
-#| msgid "Invited to Weblate by {username}."
+#, python-brace-format
 msgid "Invited to {site_title} by {username}."
-msgstr "{username} meghívta a Weblate-re."
+msgstr "{username} meghívta ide: {site_title}."
 
 #: weblate/accounts/models.py:163
 msgid "Started trial period."
@@ -416,6 +415,8 @@ msgid ""
 "The system created a user to track authorship of translations uploaded by "
 "other user."
 msgstr ""
+"A rendszer létrehozott egy felhasználót a más felhasználó által feltöltött "
+"fordítások szerzőjének nyomon követésére."
 
 #: weblate/accounts/models.py:169
 #, python-brace-format
@@ -557,18 +558,15 @@ msgstr ""
 "szerkesztőben."
 
 #: weblate/accounts/models.py:453
-#, fuzzy
-#| msgid "Projects with contribution"
 msgid "Automatically watch projects on contribution"
-msgstr "Projektek közreműködésekkel"
+msgstr "Projektek automatikus figyelése közreműködés után"
 
 #: weblate/accounts/models.py:456
-#, fuzzy
 msgid ""
 "Whenever you translate a string in a project, you will start watching it."
 msgstr ""
-"Bármikor amikor lefordítasz egy változót egy projektben, akkor elkezded "
-"követni azt."
+"Bármikor, amikor lefordít egy szöveget egy projektben, akkor elkezdi azt "
+"követni."
 
 #: weblate/accounts/models.py:466 weblate/templates/dashboard/user.html:20
 msgid "Watched translations"
@@ -1118,6 +1116,7 @@ msgid ""
 "Ensures a consistent set of languages is used for all components within a "
 "project."
 msgstr ""
+"Konzisztens nyelvkészletet biztosít a projekt összes összetevője számára."
 
 #: weblate/addons/discovery.py:33
 msgid "Component discovery"
@@ -1181,22 +1180,16 @@ msgid "Flag unchanged translations as \"Needs editing\""
 msgstr "Változatlan fordítások megjelölése, hogy „Szerkesztést igényel”"
 
 #: weblate/addons/flags.py:86
-#, fuzzy
-#| msgid ""
-#| "Whenever a new translatable string is imported from the VCS and it "
-#| "matches a source string, it is flagged as needing editing in Weblate. "
-#| "This is especially useful for file formats that include all strings even "
-#| "if not translated."
 msgid ""
 "Whenever a new translatable string is imported from the VCS and it matches a "
 "source string, it is flagged as needing editing in Weblate. Especially "
 "useful for file formats that include source strings for untranslated strings."
 msgstr ""
-"Amikor új lefordítható szöveget importálnak a verziókövető rendszerből, és "
-"az megegyezik egy forrásszöveggel, akkor az meg lesz jelölve, hogy "
-"szerkesztést igényel a Weblate-ben. Ez különösen olyan fájlformátumoknál "
-"hasznos, amelyek az összes szöveget tartalmazzák, még akkor is ha azok "
-"nincsenek lefordítva."
+"Amikor új lefordítható szöveg került importálásra a verziókezelő "
+"rendszerből, és az megegyezik egy forrásszöveggel, akkor az szerkesztést "
+"igénylőként lesz megjelölve a Weblate-ben. Ez különösen olyan "
+"fájlformátumoknál hasznos, amelyek az összes szöveget tartalmazzák, még "
+"akkor is ha azok nincsenek lefordítva."
 
 #: weblate/addons/flags.py:105 weblate/templates/component.html:68
 #: weblate/templates/component.html:206 weblate/templates/project.html:67
@@ -1242,10 +1235,6 @@ msgid "No line wrapping"
 msgstr "Nincs sortörés"
 
 #: weblate/addons/forms.py:121
-#, fuzzy
-#| msgid ""
-#| "By default gettext wraps lines at 77 chars and newlines. With --no-wrap "
-#| "parameter, it wraps only at newlines."
 msgid ""
 "By default gettext wraps lines at 77 characters and at newlines. With the --"
 "no-wrap parameter, wrapping is only done at newlines."
@@ -1290,11 +1279,6 @@ msgid "Append trailers to squashed commit message"
 msgstr "Zárósorok hozzáfűzése az összevont véglegesítési üzenethez"
 
 #: weblate/addons/forms.py:161
-#, fuzzy
-#| msgid ""
-#| "Trailer lines are lines that look similar to RFC 822 e-mail headers, at "
-#| "the end of the otherwise free-form part of a commit message, such as 'Co-"
-#| "authored-by: ...'."
 msgid ""
 "Trailer lines are lines that look similar to RFC 822 e-mail headers, at the "
 "end of the otherwise free-form part of a commit message, such as 'Co-"
@@ -1325,18 +1309,16 @@ msgid "JSON indentation"
 msgstr "JSON behúzása"
 
 #: weblate/addons/forms.py:193
-#, fuzzy
-#| msgid "JSON indentation"
 msgid "JSON indentation style"
-msgstr "JSON behúzása"
+msgstr "JSON behúzási stílusa"
 
 #: weblate/addons/forms.py:195
 msgid "Spaces"
-msgstr ""
+msgstr "Szóközök"
 
 #: weblate/addons/forms.py:196
 msgid "Tabs"
-msgstr ""
+msgstr "Tabulátorok"
 
 #: weblate/addons/forms.py:205
 msgid "YAML indentation"
@@ -1528,16 +1510,12 @@ msgid "Pseudolocale generation"
 msgstr "Pseudolocale generáció"
 
 #: weblate/addons/generate.py:67
-#, fuzzy
-#| msgid ""
-#| "Automatically generates a pseudolocale translation by adding prefix and "
-#| "suffix to source strings."
 msgid ""
 "Generates a translation by adding prefix and suffix to source strings "
 "automatically."
 msgstr ""
-"Automatikusan létrehoz egy pszeudolokális fordítást úgy, hogy előtagot és "
-"utótagot ad hozzá a forrás karakterláncokhoz."
+"Előállít egy fordítást úgy, hogy automatikusan előtagot és utótagot ad hozzá "
+"a forrás karakterláncokhoz."
 
 #: weblate/addons/gettext.py:41
 msgid "Generate MO files"
@@ -1576,6 +1554,9 @@ msgid ""
 "Updates all PO files (as configured by \"Filemask\") to match the POT file "
 "(as configured by \"Template for new translations\") using msgmerge."
 msgstr ""
+"Az msgmerge használatával frissíti az összes PO-fájlt (ahogy a „Fájlmaszkban”"
+" be van állítva), hogy egyezzenek a POT-fájllal (ahogy az „Új fordítások "
+"sablonja” beállításban szerepel)."
 
 #: weblate/addons/gettext.py:313
 msgid "Customize gettext output"
@@ -1593,16 +1574,12 @@ msgid "Contributors in comment"
 msgstr "Közreműködők a megegyezésben"
 
 #: weblate/addons/gettext.py:328
-#, fuzzy
-#| msgid ""
-#| "Update the comment in the PO file header to include contributor names and "
-#| "years of contributions."
 msgid ""
 "Updates the comment part of the PO file header to include contributor names "
 "and years of contributions."
 msgstr ""
-"Megjegyzés frissítése a PO-fájl fejlécében a közreműködők neveinek és a "
-"közreműködések éveinek felvételéhez."
+"Frissíti a PO-fájl fejlécében lévő megjegyzés részt a közreműködők neveinek "
+"és a közreműködések éveinek felvételéhez."
 
 #: weblate/addons/git.py:34
 msgid "Squash Git commits"
@@ -1698,11 +1675,11 @@ msgstr "Fontos dátumok"
 
 #: weblate/auth/admin.py:205
 msgid "This is not used when component list is selected."
-msgstr ""
+msgstr "Ez nem lesz használva, ha összetevőlista van kiválasztva."
 
 #: weblate/auth/admin.py:211
 msgid "This is not used when component is selected."
-msgstr ""
+msgstr "Ez nem lesz használva, ha összetevő van kiválasztva."
 
 #. Translators: Permission name
 #: weblate/auth/data.py:34
@@ -1818,10 +1795,8 @@ msgstr "Szöveg eltávolítása"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:78
-#, fuzzy
-#| msgid "Message has failing checks"
 msgid "Dismiss failing check"
-msgstr "Az üzenet sikertelen ellenőrzésekkel rendelkezik"
+msgstr "Sikertelen ellenőrzés elvetése"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:80
@@ -1880,10 +1855,8 @@ msgstr "Meglévő fordítás törlése"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:102
-#, fuzzy
-#| msgid "Upload translation"
 msgid "Download translation file"
-msgstr "Fordítás feltöltése"
+msgstr "Fordítási fájl letöltése"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:104
