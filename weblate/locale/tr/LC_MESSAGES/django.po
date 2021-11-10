@@ -21,7 +21,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.9\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-11-09 13:04+0000\n"
-"PO-Revision-Date: 2021-11-10 10:20+0000\n"
+"PO-Revision-Date: 2021-11-10 17:16+0000\n"
 "Last-Translator: Burak Yavuz <hitowerdigit@hotmail.com>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/weblate/"
 "application/tr/>\n"
@@ -30,7 +30,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.9-dev\n"
+"X-Generator: Weblate 4.9.1-dev\n"
 
 #: weblate/accounts/avatar.py:103
 msgctxt "No known user"
@@ -9353,7 +9353,7 @@ msgstr "Yetkiler çevirileri kaydetmek için yetersiz."
 
 #: weblate/templates/translate.html:220
 msgid "Save and stay"
-msgstr ""
+msgstr "Kaydet ve kal"
 
 #: weblate/templates/translate.html:227
 msgid "Insufficient privileges for adding suggestions."
@@ -9853,8 +9853,6 @@ msgid "All recent changes made using Weblate in %s."
 msgstr "%s içinde Weblate kullanarak yapılmış tüm son değişiklikler."
 
 #: weblate/trans/filter.py:34
-#, fuzzy
-#| msgid "Read only strings"
 msgid "Read-only strings"
 msgstr "Salt okunur dizgiler"
 
@@ -10108,16 +10106,12 @@ msgid "Score threshold"
 msgstr "Skor eşiği"
 
 #: weblate/trans/forms.py:879
-#, fuzzy
-#| msgid ""
-#| "Ensures a consistent set of languages is used for all components within a "
-#| "project."
 msgid ""
 "Enter component to use as source, keep blank to use all components in "
 "current project."
 msgstr ""
-"Proje içindeki tüm bileşenler için tutarlı bir dil kümesinin kullanılmasını "
-"sağlar."
+"Kaynak olarak kullanılacak bileşeni girin, şu anki projedeki tüm bileşenleri "
+"kullanmak için boş bırakın."
 
 #: weblate/trans/forms.py:890
 msgid "All components in current project"
@@ -10125,16 +10119,12 @@ msgstr "Geçerli projedeki tüm bileşenler"
 
 #: weblate/trans/forms.py:922 weblate/trans/forms.py:929
 #: weblate/trans/forms.py:937
-#, fuzzy
-#| msgid "Component Information"
 msgid "Component not found!"
-msgstr "Bileşen Bilgileri"
+msgstr "Bileşen bulunamadı!"
 
 #: weblate/trans/forms.py:939
-#, fuzzy
-#| msgid "Parse error in %(component)s"
 msgid "Please provide valid component slug!"
-msgstr "%(component)s içinde ayrıştırma hatası"
+msgstr "Lütfen geçerli bileşen kısaltmasını sağlayın!"
 
 #: weblate/trans/forms.py:947
 msgid "Scope"
@@ -10957,16 +10947,12 @@ msgstr[0] "Çevrilecek yeni dizgi"
 msgstr[1] "Çevrilecek yeni dizgiler"
 
 #: weblate/trans/models/change.py:434
-#, fuzzy
-#| msgid "The translation was automatically locked due to following alerts:"
 msgid "The component was automatically locked because of an alert."
-msgstr "Aşağıdaki uyarılardan dolayı çeviri otomatik olarak kilitlendi:"
+msgstr "Bileşen, bir uyarı nedeniyle otomatik olarak kilitlendi."
 
 #: weblate/trans/models/change.py:438
-#, fuzzy
-#| msgid "Component automatically unlocked"
 msgid "Component was automatically unlocked as alert was fixed."
-msgstr "Bileşenin kilidi otomatik olarak açıldı"
+msgstr "Uyarı düzeltildiğinden bileşenin kilidi otomatik olarak açıldı."
 
 #: weblate/trans/models/change.py:494
 #, python-format
@@ -10975,20 +10961,19 @@ msgstr ""
 "%(user)s tarafından %(translation)s dilinde %(time)s tarihinde %(action)s"
 
 #: weblate/trans/models/change.py:592
-#, fuzzy, python-format
-#| msgid "Bulk status change"
+#, python-format
 msgid "File %s was changed."
-msgstr "Toplu durum değişikliği"
+msgstr "%s dosyası değiştirildi."
 
 #: weblate/trans/models/change.py:594
 #, python-format
 msgid "Parsing of file %s was enforced"
-msgstr ""
+msgstr "%s dosyasının ayrıştırılması zorunlu kılındı"
 
 #: weblate/trans/models/change.py:596
 #, python-format
 msgid "File %s was added."
-msgstr ""
+msgstr "%s dosyası eklendi."
 
 #: weblate/trans/models/change.py:600
 msgctxt "License information not available"
@@ -12962,16 +12947,13 @@ msgid "Backup repository URL"
 msgstr "Yedekleme deposu URL'si"
 
 #: weblate/wladmin/models.py:163
-#, fuzzy
-#| msgid ""
-#| "Use /path/to/repo for local backups or user@host:/path/to/repo for remote "
-#| "SSH backups."
 msgid ""
 "Use /path/to/repo for local backups or user@host:/path/to/repo or ssh://"
 "user@host:port/path/to/backups for remote SSH backups."
 msgstr ""
-"Yerel yedeklemeler için /depoya/giden/yol şeklinde veya uzak SSH "
-"yedeklemeleri için kullanıcı@anamakine:/depoya/giden/yol şeklinde kullanın."
+"Yerel yedeklemeler için /depoya/giden/yol şeklinde ya da uzak SSH "
+"yedeklemeleri için kullanıcı@anamakine:b.noktası/depoya/giden/yol veya "
+"ssh://kullanıcı@anamakine:b.noktası/yedeklere/giden/yol şeklinde kullanın."
 
 #: weblate/wladmin/models.py:214
 msgid "Backup performed"
