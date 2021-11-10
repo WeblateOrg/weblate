@@ -21,7 +21,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.9\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-11-09 13:04+0000\n"
-"PO-Revision-Date: 2021-11-10 10:05+0000\n"
+"PO-Revision-Date: 2021-11-10 10:20+0000\n"
 "Last-Translator: Burak Yavuz <hitowerdigit@hotmail.com>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/weblate/"
 "application/tr/>\n"
@@ -4266,18 +4266,14 @@ msgid "Register again if the confirmation link expires."
 msgstr "Onay bağlantısının süresi dolarsa yeniden kaydolun."
 
 #: weblate/templates/accounts/email-sent.html:42
-#, fuzzy, python-format
-#| msgid ""
-#| "If you don't receive it shortly, please check your spam folder or retry "
-#| "the registration. If the problem persist, please <a href=\"%(contact_url)s"
-#| "\">contact us</a>."
+#, python-format
 msgid ""
 "If it isn't in the spam folder either, you might have to register again. "
 "Please <a href=\"%(contact_url)s\">contact us</a> if you have problems."
 msgstr ""
-"Eğer kısa süre içinde almazsanız, lütfen gereksiz/istenmeyen iletiler "
-"klasörünüzü gözden geçirin ya da yeniden kaydolmayı deneyin. Eğer sorun "
-"devam ederse, lütfen <a href=\"%(contact_url)s\">bize ulaşın</a>."
+"Eğer istenmeyen mesaj klasöründe de yoksa, tekrar kaydolmanız gerekebilir. "
+"Sorun yaşarsanız lütfen <a href=\"%(contact_url)s\">bizimle iletişime "
+"geçin</a>."
 
 #: weblate/templates/accounts/email.html:10
 #: weblate/templates/accounts/register.html:19
@@ -6664,10 +6660,10 @@ msgid "Mark as spam"
 msgstr "İstenmeyen olarak işaretle"
 
 #: weblate/templates/mail/account_activity.html:7
-#, fuzzy, python-format
-#| msgid "There has been a following change in your account at %(site_title)s:"
+#, python-format
 msgid "The following activity has occured on your account at %(site_title)s:"
-msgstr "%(site_title)s sitesinde hesabınızda aşağıdaki değişiklik oldu:"
+msgstr ""
+"%(site_title)s sitesindeki hesabınızda aşağıdaki etkinlik meydana geldi:"
 
 #: weblate/templates/mail/account_activity_subject.txt:4
 #, python-format
@@ -7043,12 +7039,16 @@ msgid ""
 "The password can not be reset because there is no account registered for "
 "this e-mail at %(site_title)s."
 msgstr ""
+"%(site_title)s sitesinde bu e-posta için kayıtlı bir hesap olmadığından "
+"parola sıfırlanamaz."
 
 #: weblate/templates/mail/reset-nonexisting.html:8
 msgid ""
 "Please check whether this Weblate instance is the one you have used and what "
 "e-mail address you did use when registering."
 msgstr ""
+"Lütfen bu Weblate örneğinin kullandığınız örnek olup olmadığını ve kayıt "
+"olurken hangi e-posta adresini kullandığınızı gözden geçirin."
 
 #: weblate/templates/mail/reset.html:7
 #, python-format
@@ -7061,18 +7061,14 @@ msgid "Password reset on %(site_title)s"
 msgstr "%(site_title)s sitesinde parola sıfırlama"
 
 #: weblate/templates/mail/shared-activity.html:14
-#, fuzzy
-#| msgid ""
-#| "If you don’t recognize this change, you can report it by clicking the "
-#| "button below."
 msgid "If this was not done by you, report it by clicking the button below."
 msgstr ""
-"Eğer bu değişikliği tanımıyorsanız, aşağıdaki düğmeye tıklayarak "
-"bildirebilirsiniz."
+"Eğer bu sizin tarafınızdan yapılmadıysa, aşağıdaki düğmeye tıklayarak "
+"bildirin."
 
 #: weblate/templates/mail/shared-activity.html:15
 msgid "Please request support through other means."
-msgstr ""
+msgstr "Lütfen başka yollarla destek isteyin."
 
 #: weblate/templates/mail/shared-activity.html:16
 #, python-format
@@ -7080,6 +7076,8 @@ msgid ""
 "Ideas and questions can be sent to the %(link_start)sWeblate issue tracker"
 "%(link_end)s."
 msgstr ""
+"Fikirler ve sorular %(link_start)sWeblate sorun izleyicisine%(link_end)s "
+"gönderilebilir."
 
 #: weblate/templates/mail/shared-activity.html:20
 msgid "Report"
@@ -8711,16 +8709,10 @@ msgid "Error"
 msgstr "Hata"
 
 #: weblate/templates/trans/alert/ambiguouslanguage.html:5
-#, fuzzy
-#| msgid "The component translation files are using ambiguous language code."
 msgid "Files for translated languages are using ambiguous language codes."
-msgstr "Bileşen çeviri dosyaları belirsiz dil kodu kullanıyor."
+msgstr "Çevrilmiş diller için dosyalar belirsiz dil kodları kullanıyor."
 
 #: weblate/templates/trans/alert/ambiguouslanguage.html:6
-#, fuzzy
-#| msgid ""
-#| "These language codes indicate a macrolanguage and it is usually better to "
-#| "use code of individual language instead."
 msgid ""
 "These language codes indicate a macrolanguage, and it is usually better to "
 "use the code of the individual language instead."
