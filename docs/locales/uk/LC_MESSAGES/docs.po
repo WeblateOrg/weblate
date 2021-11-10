@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-11-09 14:05+0100\n"
-"PO-Revision-Date: 2021-11-10 15:02+0000\n"
+"PO-Revision-Date: 2021-11-10 15:41+0000\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/"
 "documentation/uk/>\n"
@@ -8817,6 +8817,9 @@ msgid ""
 "when connecting to servers using legacy encryption or other non-standard "
 "features."
 msgstr ""
+"Уможливлює додавання нетипових параметрів, якщо Weblate викликає SSH. Це "
+"корисно, при встановленні з'єднання із серверами з використанням застарілого "
+"шифрування або іншими нестандартними можливостями."
 
 #: ../../admin/config.rst:2028
 msgid ""
@@ -8824,12 +8827,18 @@ msgid ""
 "with legacyhost: no matching key exchange method found. Their offer: diffie-"
 "hellman-group1-sha1`, you can enable that using:"
 msgstr ""
+"Наприклад, при встановленні з'єднання SSH у Weblate з'являється повідомлення "
+"про помилку `Unable to negotiate with legacyhost: no matching key exchange "
+"method found. Their offer: diffie-hellman-group1-sha1`, ви можете увімкнути "
+"потрібні можливості за допомогою такого:"
 
 #: ../../admin/config.rst:2037
 msgid ""
 "The string is evaluated by shell, so make sure to quote any whitespace and "
 "special characters."
 msgstr ""
+"Рядок буде оброблено командною оболонкою, тому слід взяти у лапки усі "
+"пробіли і спеціальні символи."
 
 #: ../../admin/config.rst:2042
 msgid "`OpenSSH Legacy Options <https://www.openssh.com/legacy.html>`_"
@@ -10445,14 +10454,16 @@ msgid ""
 "When installing using pip, you can directly specify desired features when "
 "installing:"
 msgstr ""
+"При встановленні за допомогою pip ви можете безпосередньо вказати бажані "
+"можливості:"
 
 #: ../../admin/install.rst:120
 msgid "Or you can install Weblate will all optional features:"
-msgstr ""
+msgstr "Ви також можете встановити Weblate із усіма додатковими можливостями:"
 
 #: ../../admin/install.rst:126
 msgid "Or you can install Weblate without any optional features:"
-msgstr ""
+msgstr "Або встановити Weblate без будь-яких необов'язкових можливостей:"
 
 #: ../../admin/install.rst:133
 msgid "Database backend dependencies"
@@ -12277,16 +12288,23 @@ msgid ""
 "supposed to run a Celery service that will execute these. For example, it is "
 "responsible for handling following operations (this list is not complete):"
 msgstr ""
+"Weblate використовує Celery для виконання регулярних завдань та завдань із "
+"резервного копіювання. У вас має працювати служба Celery, яка запускатиме ці "
+"завдання. Наприклад, ця служба відповідає за обробку таких дій (цей список "
+"не є повним):"
 
 #: ../../admin/install.rst:1437
 msgid "Receiving webhooks from external services (see :ref:`hooks`)."
-msgstr ""
+msgstr "Отримання вебскриптів від зовнішніх служб (див. :ref:`hooks`)."
 
 #: ../../admin/install.rst:1438
 msgid ""
 "Runing regular maintenance tasks such as backups, cleanups, daily add-ons, "
 "or updates (see :ref:`backup`, :setting:`BACKGROUND_TASKS`, :ref:`addons`)."
 msgstr ""
+"Виконання регулярного супроводу завдань, зокрема резервного копіювання, "
+"чищення, щоденного запуску додатків або оновлень (див. :ref:`backup`, "
+":setting:`BACKGROUND_TASKS`, :ref:`addons`)."
 
 #: ../../admin/install.rst:1440
 msgid "Running :ref:`auto-translation`."
@@ -12298,7 +12316,7 @@ msgstr "Надсилання сповіщення-резюме."
 
 #: ../../admin/install.rst:1442
 msgid "Offloading expensive operations from the wsgi process."
-msgstr ""
+msgstr "Розвантаження процесу wsgi від обчислювально вартісних дій."
 
 #: ../../admin/install.rst:1443
 msgid "Commiting pending changes (see :ref:`lazy-commit`)."
@@ -12342,7 +12360,7 @@ msgstr "Див. також :ref:`file-permissions` і :ref:`server`."
 
 #: ../../admin/install.rst:1475
 msgid "Executing Celery tasks in the wsgi using eager mode"
-msgstr ""
+msgstr "Виконання завдань Celery у wsgi з використанням «жадібного» режиму"
 
 #: ../../admin/install.rst:1479
 msgid ""
@@ -12350,6 +12368,9 @@ msgid ""
 "break features depending on regullar trigger (for example commiting pending "
 "changes, digest notifications, or backups)."
 msgstr ""
+"Це значно вплине у негативному сенсі на швидкодію вебінтерфейсу і зашкодить "
+"роботі можливостей, залежно від регулярності запуску (наприклад, для "
+"внесення змін з черги, сповіщень-резюми або резервного копіювання)."
 
 #: ../../admin/install.rst:1483
 msgid ""
@@ -14212,6 +14233,7 @@ msgstr ":setting:`AUTO_UPDATE`"
 #: ../../admin/install/docker.rst:1288
 msgid "This is a Boolean setting (use ``\"true\"`` or ``\"false\"``)."
 msgstr ""
+"Це булевий параметр (скористайтеся значенням ``\"true\"`` або ``\"false\"``)."
 
 #: ../../admin/install/docker.rst:1291
 msgid "Site integration"
@@ -14957,6 +14979,8 @@ msgstr "Установіть Weblate разом із усіма необов'я�
 msgid ""
 "Please check :ref:`optional-deps` for fine-tuning of optional dependencies."
 msgstr ""
+"Будь ласка, ознайомтеся із розділом щодо :ref:`optional-deps`, щоб дізнатися "
+"про коригування необов'язкових залежностей."
 
 #: ../../admin/install/steps/install-configure.rst:2
 msgid "Configuring Weblate"
@@ -18445,6 +18469,9 @@ msgid ""
 "information useful for translators. Markdown can be used for text formatting "
 "or inserting links."
 msgstr ""
+"Текст із описом процедури локалізації у проєкті та будь-які інші відомості, "
+"які можуть бути корисними для перекладачів. Для форматування тексту та "
+"вставлення посилань можна скористатися кодом Markdown ."
 
 #: ../../admin/projects.rst:155
 msgid "Set \"Language-Team\" header"
@@ -20396,6 +20423,7 @@ msgstr "Для встановлень за допомогою pip цього м�
 #: ../../admin/upgrade.rst:42
 msgid "If you don't want to install all of the optional dependencies do:"
 msgstr ""
+"Якщо ви не хочете встановлювати усі необов'язкові залежності, зробіть так:"
 
 #: ../../admin/upgrade.rst:48
 msgid ""
@@ -20410,6 +20438,9 @@ msgid ""
 "New Weblate release might have new :ref:`optional-deps`, please check if "
 "they cover features you want."
 msgstr ""
+"У нового випуску Weblate можуть бути нові :ref:`необов'язкові залежності"
+"<optional-deps>`. Будь ласка, перевірте, чи забезпечують вони роботу "
+"потрібних вам можливостей."
 
 #: ../../admin/upgrade.rst:64
 msgid ""
@@ -20859,6 +20890,8 @@ msgid ""
 "There is a change in storing metrics, the upgrade can take log time on "
 "larger sites."
 msgstr ""
+"Метрику зберігання даних змінено. Оновлення для великих сайтів може тривати "
+"досить довго."
 
 #: ../../admin/upgrade.rst:270
 msgid "Upgrading from Python 2 to Python 3"
@@ -22315,12 +22348,16 @@ msgid ""
 "Downloads all available translations associated with the component as an "
 "archive file using the requested format."
 msgstr ""
+"Отримує усі доступні переклади, які пов'язано зі складником, як архів у "
+"вказаному форматі."
 
 #: ../../api.rst:1335
 msgid ""
 "The archive format to use; If not specified, defaults to ``zip``; Supported "
 "formats: ``zip``"
 msgstr ""
+"Формат архіву, яким слід скористатися. Якщо не вказано, типовим є ``zip``. "
+"Підтримувані формати: ``zip``"
 
 #: ../../api.rst:1339
 msgid "Returns a list of component screenshots."
@@ -23632,50 +23669,48 @@ msgstr "Додано підтримку обмеження отримання ф
 msgid ""
 "The ``safe-html`` can now understand Markdown when used with ``md-text``."
 msgstr ""
+"Нова версія ``safe-html`` може обробляти Markdown, якщо його використано з "
+"``md-text``."
 
 #: ../../changes.rst:11
 msgid ""
 "The ``max-length`` tag now ignores XML markup when used with ``xml-text``."
 msgstr ""
+"У новій версії використання теґу ``max-length`` призводить до ігнорування "
+"розмітки XML, якщо його використано з ``xml-text``."
 
 #: ../../changes.rst:12
-#, fuzzy
-#| msgid ""
-#| "Maximal rendered size in pixels defined by flags, see :ref:`check-max-"
-#| "size`."
 msgid "Fixed dimensions of rendered texts in :ref:`check-max-size`."
 msgstr ""
-"Максимальний оброблений розмір у пікселях визначається прапорцями, див. :ref:"
-"`check-max-size`."
+"Виправлено обчислення розмірностей обробленого тексту у :ref:`check-max-"
+"size`."
 
 #: ../../changes.rst:13
 msgid ""
 "Lowered app store title length to 30 to assist with upcoming Google policy "
 "changes."
 msgstr ""
+"Знижено довжину заголовка крамниці програм до 30 з метою допомогти у "
+"впровадженні майбутніх змін у правилах Google."
 
 #: ../../changes.rst:14
-#, fuzzy
-#| msgid "Added support for customizing navigation text color."
 msgid ""
 "Added support for customising ssh invocation via :setting:`SSH_EXTRA_ARGS`."
-msgstr "Додана підтримка налаштування кольору тексту навігації."
+msgstr ""
+"Додано підтримку налаштовування виклику ssh за допомогою "
+":setting:`SSH_EXTRA_ARGS`."
 
 #: ../../changes.rst:15
 msgid "Added checks for ICU MessageFormat."
 msgstr "Додано перевірки для MessageFormat ICU."
 
 #: ../../changes.rst:16
-#, fuzzy
-#| msgid "Improve placeholders handling in machine translations."
 msgid "Improved error condition hadling in machine translation backends."
-msgstr "Удосконалено обробку замінників у комп'ютерних перекладах."
+msgstr "Удосконалено обробку умов помилки у модулях комп'ютерного перекладу."
 
 #: ../../changes.rst:17
-#, fuzzy
-#| msgid "Highlights searched phrase in search results."
 msgid "Highlight unusual whitespace characters in the strings."
-msgstr "Реалізовано підсвічування пошукового рядка у результатах пошуку."
+msgstr "Реалізовано підсвічування нестандартних символів пробілів у рядках."
 
 #: ../../changes.rst:18
 msgid "Added option to stay on translated string while editing."
@@ -23690,19 +23725,15 @@ msgstr ""
 ":setting:`BORG_EXTRA_ARGS`."
 
 #: ../../changes.rst:20
-#, fuzzy
-#| msgid "Fixed generating MO file for monolingual PO files."
 msgid "Fixed generating of MO files for monolingual translations."
-msgstr "Виправлено створення файла MO для одномовних файлів PO."
+msgstr "Виправлено створення файлів MO для одномовних перекладів."
 
 #: ../../changes.rst:21
-#, fuzzy
-#| msgid "Added ZIP download for more translation files."
 msgid ""
 "Added API endpoint to download all component translations in a ZIP file."
 msgstr ""
-"Додано можливість отримання архівів ZIP для ширшого спектра файлів "
-"перекладів."
+"Додано кінцеву точку програмного інтерфейсу для отримання усіх перекладів "
+"складника у форматі файла ZIP."
 
 #: ../../changes.rst:22
 msgid "Added support for Python 3.10."
@@ -23760,10 +23791,12 @@ msgstr ""
 #: ../../changes.rst:37
 msgid "Hide member e-mail addresses from project admins."
 msgstr ""
+"Реалізовано приховування адрес електронної пошти учасників від "
+"адміністраторів проєкту."
 
 #: ../../changes.rst:38
 msgid "Improved gettext PO merging in case of conflicts."
-msgstr ""
+msgstr "Удосконалено об'єднання PO gettext, якщо виявлено конфлікти."
 
 #: ../../changes.rst:39
 msgid "Improved glossary highlighting."
@@ -23772,6 +23805,7 @@ msgstr "Удосконалено підсвічування у глосарії.
 #: ../../changes.rst:40
 msgid "Improved ``safe-html`` flag behavior with XML checks."
 msgstr ""
+"Удосконалено поведінку прапорця ``safe-html`` при використанні перевірок XML."
 
 #: ../../changes.rst:41
 msgid "Fixed commit messages for linked components."
