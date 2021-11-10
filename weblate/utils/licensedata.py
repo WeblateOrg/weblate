@@ -538,6 +538,12 @@ LICENSES = (
         False,
     ),
     (
+        "Community-Spec-1.0",
+        "Community Specification License 1.0",
+        "https://github.com/CommunitySpecification/1.0/blob/master/1._Community_Specification_License-v1.md",
+        False,
+    ),
+    (
         "C-UDA-1.0",
         "Computational Use of Data Agreement v1.0",
         "https://github.com/microsoft/Computational-Use-of-Data-Agreement/blob/master/C-UDA-1.0.md",
@@ -2140,7 +2146,7 @@ LICENSES = (
         "OFL-1.0",
         "SIL Open Font License 1.0",
         "http://scripts.sil.org/cms/scripts/page.php?item_id=OFL10_web",
-        False,
+        True,
     ),
     (
         "OFL-1.0-no-RFN",
