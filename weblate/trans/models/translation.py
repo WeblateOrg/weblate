@@ -1101,6 +1101,8 @@ class Translation(
         """Top level handler for file uploads."""
         from weblate.accounts.models import AuditLog
 
+        component = self.component
+
         # Optionally set authorship
         orig_user = None
         if author_email:
@@ -1135,20 +1137,24 @@ class Translation(
             if filecopy[:3] == codecs.BOM_UTF8:
                 filecopy = filecopy[3:]
 
+            # Commit pending changes in template
+            if component.has_template():
+                component.source_translation.commit_pending("upload", request.user)
+
             # Load backend file
             if method == "add" and self.is_template:
                 template_store = try_load(
                     fileobj.name,
                     filecopy,
-                    self.component.file_format_cls,
+                    component.file_format_cls,
                     None,
                 )
             else:
-                template_store = self.component.template_store
+                template_store = component.template_store
             store = try_load(
                 fileobj.name,
                 filecopy,
-                self.component.file_format_cls,
+                component.file_format_cls,
                 template_store,
             )
 
@@ -1165,12 +1171,12 @@ class Translation(
 
             if method in ("translate", "fuzzy", "approve"):
                 # Merge on units level
-                with self.component.lock:
+                with component.lock:
                     return self.merge_translations(
                         request, store, conflicts, method, fuzzy
                     )
             elif method == "add":
-                with self.component.lock:
+                with component.lock:
                     return self.handle_add_upload(request, store, fuzzy=fuzzy)
 
             # Add as sugestions
