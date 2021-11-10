@@ -24,7 +24,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.9\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-11-09 13:04+0000\n"
-"PO-Revision-Date: 2021-10-21 09:57+0000\n"
+"PO-Revision-Date: 2021-11-10 07:53+0000\n"
 "Last-Translator: Tymofii Lytvynenko <till.svit@gmail.com>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/"
 "application/uk/>\n"
@@ -395,10 +395,9 @@ msgid "Agreement with Terms of Service {date}."
 msgstr "Угода щодо умов надання послуг {date}."
 
 #: weblate/accounts/models.py:162
-#, fuzzy, python-brace-format
-#| msgid "Invited to Weblate by {username}."
+#, python-brace-format
 msgid "Invited to {site_title} by {username}."
-msgstr "Запрошений у Weblate користувачем {username}."
+msgstr "Запрошений у {site_title} користувачем {username}."
 
 #: weblate/accounts/models.py:163
 msgid "Started trial period."
@@ -1668,11 +1667,11 @@ msgstr "Важливі дати"
 
 #: weblate/auth/admin.py:205
 msgid "This is not used when component list is selected."
-msgstr ""
+msgstr "Це не використовується, коли вибрано список складників."
 
 #: weblate/auth/admin.py:211
 msgid "This is not used when component is selected."
-msgstr ""
+msgstr "Це не використовується, коли вибрано складник."
 
 #. Translators: Permission name
 #: weblate/auth/data.py:34
@@ -1848,10 +1847,8 @@ msgstr "Видалити наявний переклад"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:102
-#, fuzzy
-#| msgid "Download translation"
 msgid "Download translation file"
-msgstr "Завантажити переклад"
+msgstr "Завантажити файл перекладу"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:104
@@ -2094,20 +2091,16 @@ msgid "Billing"
 msgstr "Оплата"
 
 #: weblate/auth/forms.py:103 weblate/trans/views/acl.py:211
-#, fuzzy
-#| msgid "Activation e-mail will be sent here."
 msgid "User invitation e-mail was sent."
-msgstr "Тут буде надіслано повідомлення активації."
+msgstr "Електронний лист із запрошенням користувача надіслано."
 
 #: weblate/auth/forms.py:112
 msgid "Send e-mail invitation to the user"
 msgstr "Надсилання запрошення користувачу електронною поштою"
 
 #: weblate/auth/forms.py:126
-#, fuzzy
-#| msgid "Send e-mail invitation to the user"
 msgid "Resend e-mail invitation to the user"
-msgstr "Надсилання запрошення користувачу електронною поштою"
+msgstr "Перенадіслати запрошення користувачу е-поштою"
 
 #: weblate/auth/models.py:77
 #, python-format
@@ -2659,16 +2652,12 @@ msgid "Font spacing"
 msgstr "Щільність шрифта"
 
 #: weblate/checks/flags.py:68
-#, fuzzy
-#| msgid "Java MessageFormat"
 msgid "ICU MessageFormat Flags"
-msgstr "Формат Java Message"
+msgstr "Прапорці ICU MessageFormat"
 
 #: weblate/checks/flags.py:70
-#, fuzzy
-#| msgid "Java MessageFormat"
 msgid "ICU MessageFormat Tag Prefix"
-msgstr "Формат Java Message"
+msgstr "Префікс мітки ICU MessageFormat"
 
 #: weblate/checks/flags.py:72 weblate/trans/models/component.py:598
 #: weblate/utils/views.py:134
@@ -2876,85 +2865,78 @@ msgid "Following terms are not translated according to glossary: %s"
 msgstr "Ці терміни не перекладено так, як це вказано у глосарії: %s"
 
 #: weblate/checks/icu.py:269
-#, fuzzy
-#| msgid "Java MessageFormat"
 msgid "ICU MessageFormat syntax"
-msgstr "Формат Java Message"
+msgstr "Синтаксис ICU MessageFormat"
 
 #: weblate/checks/icu.py:270
-#, fuzzy
-#| msgid "Syntax error in language aliases."
 msgid "Syntax errors in ICU MessageFormat strings."
-msgstr "Синтаксична помилка у визначенні альтернативних назв мов."
+msgstr "Помилки синтаксису в рядках ICU MessageFormat."
 
 #: weblate/checks/icu.py:292
-#, fuzzy
-#| msgid "Java MessageFormat"
 msgid "ICU MessageFormat"
-msgstr "Формат Java Message"
+msgstr "ICU MessageFormat"
 
 #: weblate/checks/icu.py:294
 msgid ""
 "Syntax errors and/or placeholder mismatches in ICU MessageFormat strings."
 msgstr ""
+"Помилки синтаксису та/або невідповідності заповнювача в рядках ICU "
+"MessageFormat."
 
 #: weblate/checks/icu.py:460
 #, python-format
 msgid "Syntax error: %s"
-msgstr ""
+msgstr "Помилка синтаксису: %s"
 
 #: weblate/checks/icu.py:463
-#, fuzzy, python-format
-#| msgid "Forbidden translation: %s"
+#, python-format
 msgid "Unknown placeholder in translation: %s"
-msgstr "Заборонений переклад: %s"
+msgstr "Невідомий заповнювач у перекладі: %s"
 
 #: weblate/checks/icu.py:468
-#, fuzzy, python-format
-#| msgid "Please sign in to save translations."
+#, python-format
 msgid "Placeholder missing in translation: %s"
-msgstr "Увійдіть для збереження перекладів."
+msgstr "У перекладі відсутній заповнювач: %s"
 
 #: weblate/checks/icu.py:473
 #, python-format
 msgid "Placeholder has wrong type: %s"
-msgstr ""
+msgstr "Заповнювач має неправильний тип: %s"
 
 #: weblate/checks/icu.py:476
 #, python-format
 msgid "Missing other sub-message for: %s"
-msgstr ""
+msgstr "Відсутнє інше підповідомлення для: %s"
 
 #: weblate/checks/icu.py:479
 #, python-format
 msgid "Bad plural selectors for: %s"
-msgstr ""
+msgstr "Неправильні селектори множини для: %s"
 
 #: weblate/checks/icu.py:484
 #, python-format
 msgid "Bad sub-message selectors for: %s"
-msgstr ""
+msgstr "Неправильні селектори підповідомлення для: %s"
 
 #: weblate/checks/icu.py:489
 #, python-format
 msgid "Placeholder should be XML tag in translation: %s"
-msgstr ""
+msgstr "Заповнювач має бути міткою XML у перекладі: %s"
 
 #: weblate/checks/icu.py:494
 #, python-format
 msgid "Placeholder should not be XML tag in translation: %s"
-msgstr ""
+msgstr "Заповнювач не має бути міткою XML у перекладі: %s"
 
 #: weblate/checks/icu.py:499
 #, python-format
 msgid "XML Tag has unexpected contents in translation: %s"
-msgstr ""
+msgstr "Мітка XML має неочікуваний вміст у перекладі: %s"
 
 #: weblate/checks/icu.py:504
-#, fuzzy, python-format
-#| msgid "Missing parameters for translation flag: \"%s\""
+#, python-format
 msgid "XML Tag missing contents in translation: %s"
-msgstr "Відсутні параметри для прапорця перекладу: \"%s\""
+msgstr "У мітці XML відсутній вміст у перекладі: %s"
 
 #: weblate/checks/markup.py:94
 msgid "BBcode markup"
@@ -4264,7 +4246,7 @@ msgstr "Реєстрація"
 
 #: weblate/templates/accounts/email-sent.html:12
 msgid "You will find the confirmation link in your e-mail inbox."
-msgstr ""
+msgstr "Ви знайдете посилання для підтвердження у своїй електронній скриньці."
 
 #: weblate/templates/accounts/email-sent.html:19
 msgid "Password reset almost complete"
@@ -4281,45 +4263,45 @@ msgstr "Реєстрацію майже завершено"
 #: weblate/templates/accounts/email-sent.html:30
 msgid "Follow the password recovery instructions sent to your e-mail inbox."
 msgstr ""
+"Дотримуйтесь указівок щодо відновлення пароля, надісланих на вашу електронну "
+"скриньку."
 
 #: weblate/templates/accounts/email-sent.html:31
 #: weblate/templates/accounts/email-sent.html:34
 msgid "Request a new confirmation link if it expires."
 msgstr ""
+"Запит на нове посилання для підтвердження, якщо строк його дії закінчується."
 
 #: weblate/templates/accounts/email-sent.html:33
 msgid ""
 "Remove your account by clicking the confirmation link in the e-mail sent to "
 "you."
 msgstr ""
+"Видаліть свій обліковий запис, натиснувши на посилання для підтвердження в "
+"надісланому вам електронному листі."
 
 #: weblate/templates/accounts/email-sent.html:36
 msgid ""
 "Click the confirmation link sent to your e-mail inbox and start using your "
 "account."
 msgstr ""
+"Натисніть на посилання підтвердження, надіслане на вашу електронну скриньку, "
+"і почніть використовувати свій обліковий запис."
 
 #: weblate/templates/accounts/email-sent.html:37
-#, fuzzy
-#| msgid "Please check your mailbox for the confirmation link."
 msgid "Register again if the confirmation link expires."
 msgstr ""
-"Будь ласка, пошукайте повідомлення з посиланням для підтвердження у своїй "
-"поштовій скриньці."
+"Зареєструйтеся знову, якщо строк дії посилання для підтвердження закінчиться."
 
 #: weblate/templates/accounts/email-sent.html:42
-#, fuzzy, python-format
-#| msgid ""
-#| "If you don't receive it shortly, please check your spam folder or retry "
-#| "the registration. If the problem persist, please <a href=\"%(contact_url)s"
-#| "\">contact us</a>."
+#, python-format
 msgid ""
 "If it isn't in the spam folder either, you might have to register again. "
 "Please <a href=\"%(contact_url)s\">contact us</a> if you have problems."
 msgstr ""
-"Якщо ви не отримали його найближчим часом, то перевірте теку зі спамом або "
-"пройдіть реєстрацію заново. Якщо проблема не зникне <a href=\"%(contact_url)s"
-"\">зв'яжіться з нами</a>."
+"Якщо його також немає в папці «Спам», можливо, вам доведеться "
+"зареєструватися знову. Якщо у вас виникли проблеми, <a href=\"%(contact_url)"
+"s\">зв’яжіться з нами</a>."
 
 #: weblate/templates/accounts/email.html:10
 #: weblate/templates/accounts/register.html:19
@@ -6749,10 +6731,9 @@ msgid "Mark as spam"
 msgstr "Позначити як спам"
 
 #: weblate/templates/mail/account_activity.html:7
-#, fuzzy, python-format
-#| msgid "There has been a following change in your account at %(site_title)s:"
+#, python-format
 msgid "The following activity has occured on your account at %(site_title)s:"
-msgstr "Наявна така зміна у вашому обліковому записі на %(site_title)s:"
+msgstr "У вашому обліковому записі %(site_title)s була наступна діяльність:"
 
 #: weblate/templates/mail/account_activity_subject.txt:4
 #, python-format
@@ -7135,12 +7116,16 @@ msgid ""
 "The password can not be reset because there is no account registered for "
 "this e-mail at %(site_title)s."
 msgstr ""
+"Пароль не можна скинути, оскільки для цієї е-пошти не зареєстровано жодного "
+"облікового запису на %(site_title)s."
 
 #: weblate/templates/mail/reset-nonexisting.html:8
 msgid ""
 "Please check whether this Weblate instance is the one you have used and what "
 "e-mail address you did use when registering."
 msgstr ""
+"Будь ласка, перевірте, чи саме цей зразок Weblate ви використовували, і яку "
+"адресу е-пошти ви використовували під час реєстрації."
 
 #: weblate/templates/mail/reset.html:7
 #, python-format
@@ -7153,18 +7138,13 @@ msgid "Password reset on %(site_title)s"
 msgstr "Скидання паролю на %(site_title)s"
 
 #: weblate/templates/mail/shared-activity.html:14
-#, fuzzy
-#| msgid ""
-#| "If you don’t recognize this change, you can report it by clicking the "
-#| "button below."
 msgid "If this was not done by you, report it by clicking the button below."
 msgstr ""
-"Якщо ви не впізнаєте цієї зміни, ви можете повідомити про неї натиснувши "
-"кнопку знизу."
+"Якщо це було зроблено не вами, повідомте про це, натиснувши кнопку нижче."
 
 #: weblate/templates/mail/shared-activity.html:15
 msgid "Please request support through other means."
-msgstr ""
+msgstr "Будь ласка, попросіть підтримку іншим способом."
 
 #: weblate/templates/mail/shared-activity.html:16
 #, python-format
@@ -7172,6 +7152,8 @@ msgid ""
 "Ideas and questions can be sent to the %(link_start)sWeblate issue tracker"
 "%(link_end)s."
 msgstr ""
+"Ідеї та питання можна надсилати до %(link_start)sWeblate відстеження "
+"проблем%(link_end)s."
 
 #: weblate/templates/mail/shared-activity.html:20
 msgid "Report"
@@ -8830,17 +8812,10 @@ msgid "Error"
 msgstr "Помилка"
 
 #: weblate/templates/trans/alert/ambiguouslanguage.html:5
-#, fuzzy
-#| msgid "The component translation files are using ambiguous language code."
 msgid "Files for translated languages are using ambiguous language codes."
-msgstr ""
-"Файли перекладів цього складника використовують неоднозначний код мови."
+msgstr "Файли для мов перекладу використовують неоднозначні мовні коди."
 
 #: weblate/templates/trans/alert/ambiguouslanguage.html:6
-#, fuzzy
-#| msgid ""
-#| "These language codes indicate a macrolanguage and it is usually better to "
-#| "use code of individual language instead."
 msgid ""
 "These language codes indicate a macrolanguage, and it is usually better to "
 "use the code of the individual language instead."
@@ -9483,7 +9458,7 @@ msgstr "Недостатньо прав для збереження перекл
 
 #: weblate/templates/translate.html:220
 msgid "Save and stay"
-msgstr ""
+msgstr "Зберегти та лишити"
 
 #: weblate/templates/translate.html:227
 msgid "Insufficient privileges for adding suggestions."
@@ -9994,8 +9969,6 @@ msgid "All recent changes made using Weblate in %s."
 msgstr "Всі останні зміни, внесені за допомогою Weblate у %s."
 
 #: weblate/trans/filter.py:34
-#, fuzzy
-#| msgid "Read only strings"
 msgid "Read-only strings"
 msgstr "Рядки лише для читання"
 
@@ -10244,15 +10217,12 @@ msgid "Score threshold"
 msgstr "Поріг оцінки"
 
 #: weblate/trans/forms.py:879
-#, fuzzy
-#| msgid ""
-#| "Ensures a consistent set of languages is used for all components within a "
-#| "project."
 msgid ""
 "Enter component to use as source, keep blank to use all components in "
 "current project."
 msgstr ""
-"Забезпечує використання однорідного набору мов для усіх складників проєкту."
+"Введіть складник для використання як джерела, залиште порожнім, щоб "
+"використовувати всі складники в поточному проєкті."
 
 #: weblate/trans/forms.py:890
 msgid "All components in current project"
@@ -10260,16 +10230,12 @@ msgstr "Усі складники у поточному проєкті"
 
 #: weblate/trans/forms.py:922 weblate/trans/forms.py:929
 #: weblate/trans/forms.py:937
-#, fuzzy
-#| msgid "Component Information"
 msgid "Component not found!"
-msgstr "Відомості про складник"
+msgstr "Складник не знайдено!"
 
 #: weblate/trans/forms.py:939
-#, fuzzy
-#| msgid "Parse error in %(component)s"
 msgid "Please provide valid component slug!"
-msgstr "Помилка аналізу в %(component)s"
+msgstr "Будь ласка, надайте дійсний код складника!"
 
 #: weblate/trans/forms.py:947
 msgid "Scope"
@@ -11095,16 +11061,14 @@ msgstr[2] "Нові рядки для перекладу"
 msgstr[3] "Новий рядок для перекладу"
 
 #: weblate/trans/models/change.py:434
-#, fuzzy
-#| msgid "The translation was automatically locked due to following alerts:"
 msgid "The component was automatically locked because of an alert."
-msgstr "Переклад було автоматично заблоковано через такі попередження:"
+msgstr "Переклад було автоматично заблоковано через таке попередження."
 
 #: weblate/trans/models/change.py:438
-#, fuzzy
-#| msgid "Component automatically unlocked"
 msgid "Component was automatically unlocked as alert was fixed."
-msgstr "Складник автоматично розблоковано"
+msgstr ""
+"Складник було автоматично розблоковано, оскільки попередженяя було "
+"виправлено."
 
 #: weblate/trans/models/change.py:494
 #, python-format
@@ -11112,20 +11076,19 @@ msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
 msgstr "%(action)s о %(time)s над %(translation)s %(user)s"
 
 #: weblate/trans/models/change.py:592
-#, fuzzy, python-format
-#| msgid "Bulk status change"
+#, python-format
 msgid "File %s was changed."
-msgstr "Масова зміна стану"
+msgstr "Файл %s було зміненио."
 
 #: weblate/trans/models/change.py:594
 #, python-format
 msgid "Parsing of file %s was enforced"
-msgstr ""
+msgstr "Синтаксичний розбір файлу %s був застосований"
 
 #: weblate/trans/models/change.py:596
 #, python-format
 msgid "File %s was added."
-msgstr ""
+msgstr "Файл %s додано."
 
 #: weblate/trans/models/change.py:600
 msgctxt "License information not available"
@@ -13157,16 +13120,13 @@ msgid "Backup repository URL"
 msgstr "Адреса резервного репозиторію"
 
 #: weblate/wladmin/models.py:163
-#, fuzzy
-#| msgid ""
-#| "Use /path/to/repo for local backups or user@host:/path/to/repo for remote "
-#| "SSH backups."
 msgid ""
 "Use /path/to/repo for local backups or user@host:/path/to/repo or ssh://"
 "user@host:port/path/to/backups for remote SSH backups."
 msgstr ""
 "Скористайтеся записом /шлях/до/репозиторію для локальних резервних копій або "
-"користувач@вузол:/шлях/до/репозиторію для віддалених резервних копій SSH."
+"користувач@вузол:/шлях/до/репозиторію чи ssh://користувач@хост:порт/шлях/до/"
+"бекапів для віддалених резервних копій SSH."
 
 #: weblate/wladmin/models.py:214
 msgid "Backup performed"
