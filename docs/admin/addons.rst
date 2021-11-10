@@ -29,37 +29,37 @@ Automatic translation
 
 :Add-on ID: ``weblate.autotranslate.autotranslate``
 :Configuration: +-----------------+------------------------------+----------------------------------------------------------------------------------------+
-                | ``mode``        | Automatic translation mode   | Available choices:                                                                                        |
-                |                 |                              |                                                                                                           |
-                |                 |                              | ``suggest`` -- Add as suggestion                                                                          |
-                |                 |                              |                                                                                                           |
-                |                 |                              | ``translate`` -- Add as translation                                                                       |
-                |                 |                              |                                                                                                           |
-                |                 |                              | ``fuzzy`` -- Add as needing edit                                                                          |
+                | ``mode``        | Automatic translation mode   | Available choices:                                                                     |
+                |                 |                              |                                                                                        |
+                |                 |                              | ``suggest`` -- Add as suggestion                                                       |
+                |                 |                              |                                                                                        |
+                |                 |                              | ``translate`` -- Add as translation                                                    |
+                |                 |                              |                                                                                        |
+                |                 |                              | ``fuzzy`` -- Add as needing edit                                                       |
                 +-----------------+------------------------------+----------------------------------------------------------------------------------------+
-                | ``filter_type`` | Search filter                | Available choices:                                                                                        |
-                |                 |                              |                                                                                                           |
-                |                 |                              | ``all`` -- All strings                                                                                    |
-                |                 |                              |                                                                                                           |
-                |                 |                              | ``nottranslated`` -- Not translated strings                                                               |
-                |                 |                              |                                                                                                           |
-                |                 |                              | ``todo`` -- Strings needing action                                                                        |
-                |                 |                              |                                                                                                           |
-                |                 |                              | ``fuzzy`` -- Strings marked for edit                                                                      |
-                |                 |                              |                                                                                                           |
-                |                 |                              | ``check:inconsistent`` -- Failed check: Inconsistent                                                      |
+                | ``filter_type`` | Search filter                | Available choices:                                                                     |
+                |                 |                              |                                                                                        |
+                |                 |                              | ``all`` -- All strings                                                                 |
+                |                 |                              |                                                                                        |
+                |                 |                              | ``nottranslated`` -- Not translated strings                                            |
+                |                 |                              |                                                                                        |
+                |                 |                              | ``todo`` -- Strings needing action                                                     |
+                |                 |                              |                                                                                        |
+                |                 |                              | ``fuzzy`` -- Strings marked for edit                                                   |
+                |                 |                              |                                                                                        |
+                |                 |                              | ``check:inconsistent`` -- Failed check: Inconsistent                                   |
                 +-----------------+------------------------------+----------------------------------------------------------------------------------------+
-                | ``auto_source`` | Automatic translation source | Available choices:                                                                                        |
-                |                 |                              |                                                                                                           |
-                |                 |                              | ``others`` -- Other translation components                                                                |
-                |                 |                              |                                                                                                           |
-                |                 |                              | ``mt`` -- Machine translation                                                                             |
+                | ``auto_source`` | Automatic translation source | Available choices:                                                                     |
+                |                 |                              |                                                                                        |
+                |                 |                              | ``others`` -- Other translation components                                             |
+                |                 |                              |                                                                                        |
+                |                 |                              | ``mt`` -- Machine translation                                                          |
                 +-----------------+------------------------------+----------------------------------------------------------------------------------------+
                 | ``component``   | Components                   | Enter component to use as source, keep blank to use all components in current project. |
                 +-----------------+------------------------------+----------------------------------------------------------------------------------------+
-                | ``engines``     | Machine translation engines  |                                                                                                           |
+                | ``engines``     | Machine translation engines  |                                                                                        |
                 +-----------------+------------------------------+----------------------------------------------------------------------------------------+
-                | ``threshold``   | Score threshold              |                                                                                                           |
+                | ``threshold``   | Score threshold              |                                                                                        |
                 +-----------------+------------------------------+----------------------------------------------------------------------------------------+
 :Triggers: component update, daily
 
