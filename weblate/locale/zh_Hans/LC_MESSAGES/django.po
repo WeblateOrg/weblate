@@ -35,7 +35,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.9\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-11-09 13:04+0000\n"
-"PO-Revision-Date: 2021-11-10 00:44+0000\n"
+"PO-Revision-Date: 2021-11-10 02:15+0000\n"
 "Last-Translator: Eric <spice2wolf@gmail.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "weblate/application/zh_Hans/>\n"
@@ -1578,11 +1578,11 @@ msgstr "重要日期"
 
 #: weblate/auth/admin.py:205
 msgid "This is not used when component list is selected."
-msgstr ""
+msgstr "选择组件列表时，不使用此选项。"
 
 #: weblate/auth/admin.py:211
 msgid "This is not used when component is selected."
-msgstr ""
+msgstr "选择组件时，不使用此选项。"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:34
@@ -2772,7 +2772,7 @@ msgstr "ICU MessageFormat"
 #: weblate/checks/icu.py:294
 msgid ""
 "Syntax errors and/or placeholder mismatches in ICU MessageFormat strings."
-msgstr ""
+msgstr "ICU MessageFormat 字符串语法错误和/或占位符不匹配。"
 
 #: weblate/checks/icu.py:460
 #, python-format
@@ -2797,32 +2797,32 @@ msgstr ""
 #: weblate/checks/icu.py:476
 #, python-format
 msgid "Missing other sub-message for: %s"
-msgstr ""
+msgstr "缺少下列项的其他子消息：%s"
 
 #: weblate/checks/icu.py:479
 #, python-format
 msgid "Bad plural selectors for: %s"
-msgstr ""
+msgstr "下列项的复数选择器不正确：%s"
 
 #: weblate/checks/icu.py:484
 #, python-format
 msgid "Bad sub-message selectors for: %s"
-msgstr ""
+msgstr "下列项的子消息选择器不正确：%s"
 
 #: weblate/checks/icu.py:489
 #, python-format
 msgid "Placeholder should be XML tag in translation: %s"
-msgstr ""
+msgstr "占位符在翻译中应为 XML 标签：%s"
 
 #: weblate/checks/icu.py:494
 #, python-format
 msgid "Placeholder should not be XML tag in translation: %s"
-msgstr ""
+msgstr "下列翻译中的占位符不应为 XML 标签：%s"
 
 #: weblate/checks/icu.py:499
 #, python-format
 msgid "XML Tag has unexpected contents in translation: %s"
-msgstr ""
+msgstr "下列翻译中的 XML 标签有意想不到的内容：%s"
 
 #: weblate/checks/icu.py:504
 #, python-format
@@ -4104,7 +4104,7 @@ msgstr "注册"
 
 #: weblate/templates/accounts/email-sent.html:12
 msgid "You will find the confirmation link in your e-mail inbox."
-msgstr ""
+msgstr "你会在你的电子邮件收件箱中找到确认链接。"
 
 #: weblate/templates/accounts/email-sent.html:19
 msgid "Password reset almost complete"
@@ -4120,24 +4120,24 @@ msgstr "注册即将完成"
 
 #: weblate/templates/accounts/email-sent.html:30
 msgid "Follow the password recovery instructions sent to your e-mail inbox."
-msgstr ""
+msgstr "按照发送到你电子邮件收件箱的密码恢复说明进行操作。"
 
 #: weblate/templates/accounts/email-sent.html:31
 #: weblate/templates/accounts/email-sent.html:34
 msgid "Request a new confirmation link if it expires."
-msgstr ""
+msgstr "如果确认链接过期，请求新的确认链接。"
 
 #: weblate/templates/accounts/email-sent.html:33
 msgid ""
 "Remove your account by clicking the confirmation link in the e-mail sent to "
 "you."
-msgstr ""
+msgstr "点击发送给你的电子邮件中的确认链接，删除帐户。"
 
 #: weblate/templates/accounts/email-sent.html:36
 msgid ""
 "Click the confirmation link sent to your e-mail inbox and start using your "
 "account."
-msgstr ""
+msgstr "点击发送到你电子邮件收件箱的确认链接，开始使用你的帐户。"
 
 #: weblate/templates/accounts/email-sent.html:37
 msgid "Register again if the confirmation link expires."
@@ -6785,13 +6785,13 @@ msgstr "%(component)s 中有仓库操作"
 msgid ""
 "The password can not be reset because there is no account registered for "
 "this e-mail at %(site_title)s."
-msgstr ""
+msgstr "无法重置密码，因为在 %(site_title)s 上没有用此电子邮箱注册的账户。"
 
 #: weblate/templates/mail/reset-nonexisting.html:8
 msgid ""
 "Please check whether this Weblate instance is the one you have used and what "
 "e-mail address you did use when registering."
-msgstr ""
+msgstr "请检查此 Webblate 实例是否为你使用过的实例，以及你在注册时使用的是什么电子邮箱。"
 
 #: weblate/templates/mail/reset.html:7
 #, python-format
@@ -6809,14 +6809,14 @@ msgstr "如果这不是由您完成的，请单击下面的按钮进行报告。
 
 #: weblate/templates/mail/shared-activity.html:15
 msgid "Please request support through other means."
-msgstr ""
+msgstr "请通过其他方式请求支持。"
 
 #: weblate/templates/mail/shared-activity.html:16
 #, python-format
 msgid ""
 "Ideas and questions can be sent to the %(link_start)sWeblate issue tracker"
 "%(link_end)s."
-msgstr ""
+msgstr "可将想法和问题发送至 %(link_start)sWeblate 问题跟踪器%(link_end)s。"
 
 #: weblate/templates/mail/shared-activity.html:20
 msgid "Report"
@@ -10511,7 +10511,7 @@ msgstr "文件 %s 已更改。"
 #: weblate/trans/models/change.py:594
 #, python-format
 msgid "Parsing of file %s was enforced"
-msgstr ""
+msgstr "强制解析文件 %s"
 
 #: weblate/trans/models/change.py:596
 #, python-format
@@ -12395,16 +12395,12 @@ msgid "Backup repository URL"
 msgstr "备份存储库 URL"
 
 #: weblate/wladmin/models.py:163
-#, fuzzy
-#| msgid ""
-#| "Use /path/to/repo for local backups or user@host:/path/to/repo for remote "
-#| "SSH backups."
 msgid ""
 "Use /path/to/repo for local backups or user@host:/path/to/repo or ssh://"
 "user@host:port/path/to/backups for remote SSH backups."
 msgstr ""
-"使用 /path/to/repo 用于本地备份，或者 user@host:/path/to/repo 用于远程 SSH 备"
-"份。"
+"使用 /path/to/repo 用于本地备份，或者 user@host:/path/to/repo 或 ssh://user@host:port/"
+"path/to/backups 用于远程 SSH 备份。"
 
 #: weblate/wladmin/models.py:214
 msgid "Backup performed"
