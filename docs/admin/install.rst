@@ -117,7 +117,7 @@ of them in :file:`requirements-optional.txt`.
 
       pip install "Weblate[PHP,Fluent]"
 
-   Or you can install Weblate will all optional features:
+   Or you can install Weblate with all optional features:
 
    .. code-block:: sh
 
@@ -1435,7 +1435,7 @@ to run a Celery service that will execute these. For example, it is responsible
 for handling following operations (this list is not complete):
 
 * Receiving webhooks from external services (see :ref:`hooks`).
-* Runing regular maintenance tasks such as backups, cleanups, daily add-ons, or updates
+* Running regular maintenance tasks such as backups, cleanups, daily add-ons, or updates
   (see :ref:`backup`, :setting:`BACKGROUND_TASKS`, :ref:`addons`).
 * Running :ref:`auto-translation`.
 * Sending digest notifications.
@@ -1477,7 +1477,7 @@ Executing Celery tasks in the wsgi using eager mode
 .. note::
 
    This will have severe performance impact on the web interface, and will
-   break features depending on regullar trigger (for example commiting pending
+   break features depending on regular trigger (for example committing pending
    changes, digest notifications, or backups).
 
 For development, you might want to use eager configuration, which does process

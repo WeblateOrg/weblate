@@ -263,7 +263,7 @@ BORG_EXTRA_ARGS
 
 .. versionadded:: 4.9
 
-You can pass additional arguments to :command:`borg create` when built-in backups are triggerd.
+You can pass additional arguments to :command:`borg create` when built-in backups are triggered.
 
 **Example:**
 

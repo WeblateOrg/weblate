@@ -16,12 +16,12 @@ Released on November 10th 2021.
 * The ``max-length`` tag now ignores XML markup when used with ``xml-text``.
 * Fixed dimensions of rendered texts in :ref:`check-max-size`.
 * Lowered app store title length to 30 to assist with upcoming Google policy changes.
-* Added support for customising ssh invocation via :setting:`SSH_EXTRA_ARGS`.
+* Added support for customizing ssh invocation via :setting:`SSH_EXTRA_ARGS`.
 * Added checks for ICU MessageFormat.
-* Improved error condition hadling in machine translation backends.
+* Improved error condition handling in machine translation backends.
 * Highlight unusual whitespace characters in the strings.
 * Added option to stay on translated string while editing.
-* Added support for customising borg invocation via :setting:`BORG_EXTRA_ARGS`.
+* Added support for customizing borg invocation via :setting:`BORG_EXTRA_ARGS`.
 * Fixed generating of MO files for monolingual translations.
 * Added API endpoint to download all component translations in a ZIP file.
 * Added support for Python 3.10.
