@@ -247,6 +247,8 @@ Here is a list of flags currently accepted:
     Skip the :ref:`check-zero-width-space` quality check.
 ``ignore-ellipsis``
     Skip the :ref:`check-ellipsis` quality check.
+``ignore-icu-message-format-syntax``
+    Skip the :ref:`check-icu-message-format-syntax` quality check.
 ``ignore-long-untranslated``
     Skip the :ref:`check-long-untranslated` quality check.
 ``ignore-multiple-failures``
