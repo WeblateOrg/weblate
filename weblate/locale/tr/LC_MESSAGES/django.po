@@ -21,7 +21,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.9\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-11-09 13:04+0000\n"
-"PO-Revision-Date: 2021-09-09 19:09+0000\n"
+"PO-Revision-Date: 2021-11-10 10:05+0000\n"
 "Last-Translator: Burak Yavuz <hitowerdigit@hotmail.com>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/weblate/"
 "application/tr/>\n"
@@ -30,7 +30,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.8.1-dev\n"
+"X-Generator: Weblate 4.9-dev\n"
 
 #: weblate/accounts/avatar.py:103
 msgctxt "No known user"
@@ -386,10 +386,9 @@ msgid "Agreement with Terms of Service {date}."
 msgstr "Hizmet Şartları'nın kabulü {date}."
 
 #: weblate/accounts/models.py:162
-#, fuzzy, python-brace-format
-#| msgid "Invited to Weblate by {username}."
+#, python-brace-format
 msgid "Invited to {site_title} by {username}."
-msgstr "{username} tarafından Weblate'e davet edildi."
+msgstr "{username} tarafından {site_title}'e davet edildi."
 
 #: weblate/accounts/models.py:163
 msgid "Started trial period."
@@ -1648,11 +1647,11 @@ msgstr "Önemli tarihler"
 
 #: weblate/auth/admin.py:205
 msgid "This is not used when component list is selected."
-msgstr ""
+msgstr "Bileşen listesi seçildiğinde bu kullanılmaz."
 
 #: weblate/auth/admin.py:211
 msgid "This is not used when component is selected."
-msgstr ""
+msgstr "Bileşen seçildiğinde bu kullanılmaz."
 
 #. Translators: Permission name
 #: weblate/auth/data.py:34
@@ -1828,10 +1827,8 @@ msgstr "Varolan çeviriyi sil"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:102
-#, fuzzy
-#| msgid "Download translation"
 msgid "Download translation file"
-msgstr "Çeviriyi indir"
+msgstr "Çeviri dosyasını indir"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:104
@@ -2074,20 +2071,16 @@ msgid "Billing"
 msgstr "Faturalandırma"
 
 #: weblate/auth/forms.py:103 weblate/trans/views/acl.py:211
-#, fuzzy
-#| msgid "Activation e-mail will be sent here."
 msgid "User invitation e-mail was sent."
-msgstr "Etkinleştirme e-postası bu adrese gönderilecektir."
+msgstr "Kullanıcı davet e-postası gönderildi."
 
 #: weblate/auth/forms.py:112
 msgid "Send e-mail invitation to the user"
 msgstr "Kullanıcıya e-posta davetiyesi gönder"
 
 #: weblate/auth/forms.py:126
-#, fuzzy
-#| msgid "Send e-mail invitation to the user"
 msgid "Resend e-mail invitation to the user"
-msgstr "Kullanıcıya e-posta davetiyesi gönder"
+msgstr "Kullanıcıya e-posta davetiyesini yeniden gönder"
 
 #: weblate/auth/models.py:77
 #, python-format
@@ -2635,16 +2628,12 @@ msgid "Font spacing"
 msgstr "Yazı tipi aralığı"
 
 #: weblate/checks/flags.py:68
-#, fuzzy
-#| msgid "Java MessageFormat"
 msgid "ICU MessageFormat Flags"
-msgstr "Java MessageFormat"
+msgstr "ICU MessageFormat İşaretleri"
 
 #: weblate/checks/flags.py:70
-#, fuzzy
-#| msgid "Java MessageFormat"
 msgid "ICU MessageFormat Tag Prefix"
-msgstr "Java MessageFormat"
+msgstr "ICU MessageFormat Etiket Öneki"
 
 #: weblate/checks/flags.py:72 weblate/trans/models/component.py:598
 #: weblate/utils/views.py:134
@@ -2852,85 +2841,78 @@ msgid "Following terms are not translated according to glossary: %s"
 msgstr "Şu terimler sözlüğe göre çevrilmemiştir: %s"
 
 #: weblate/checks/icu.py:269
-#, fuzzy
-#| msgid "Java MessageFormat"
 msgid "ICU MessageFormat syntax"
-msgstr "Java MessageFormat"
+msgstr "ICU MessageFormat sözdizimi"
 
 #: weblate/checks/icu.py:270
-#, fuzzy
-#| msgid "Syntax error in language aliases."
 msgid "Syntax errors in ICU MessageFormat strings."
-msgstr "Dil kod adlarında sözdizimi hatası."
+msgstr "ICU MessageFormat dizgilerinde sözdizimi hataları."
 
 #: weblate/checks/icu.py:292
-#, fuzzy
-#| msgid "Java MessageFormat"
 msgid "ICU MessageFormat"
-msgstr "Java MessageFormat"
+msgstr "ICU MessageFormat"
 
 #: weblate/checks/icu.py:294
 msgid ""
 "Syntax errors and/or placeholder mismatches in ICU MessageFormat strings."
 msgstr ""
+"ICU MessageFormat dizgilerinde sözdizimi hataları ve/veya yer tutucu "
+"uyuşmazlıkları."
 
 #: weblate/checks/icu.py:460
 #, python-format
 msgid "Syntax error: %s"
-msgstr ""
+msgstr "Sözdizimi hatası: %s"
 
 #: weblate/checks/icu.py:463
-#, fuzzy, python-format
-#| msgid "Forbidden translation: %s"
+#, python-format
 msgid "Unknown placeholder in translation: %s"
-msgstr "Yasaklanmış çeviri: %s"
+msgstr "Çeviride bilinmeyen yer tutucu: %s"
 
 #: weblate/checks/icu.py:468
-#, fuzzy, python-format
-#| msgid "Please sign in to save translations."
+#, python-format
 msgid "Placeholder missing in translation: %s"
-msgstr "Çevirileri kaydetmek için lütfen giriş yapın."
+msgstr "Çeviride yer tutucu eksik: %s"
 
 #: weblate/checks/icu.py:473
 #, python-format
 msgid "Placeholder has wrong type: %s"
-msgstr ""
+msgstr "Yer tutucu yanlış türe sahip: %s"
 
 #: weblate/checks/icu.py:476
 #, python-format
 msgid "Missing other sub-message for: %s"
-msgstr ""
+msgstr "Diğer alt iletinin eksik olduğu: %s"
 
 #: weblate/checks/icu.py:479
 #, python-format
 msgid "Bad plural selectors for: %s"
-msgstr ""
+msgstr "Hatalı çoğul seçicilerin olduğu: %s"
 
 #: weblate/checks/icu.py:484
 #, python-format
 msgid "Bad sub-message selectors for: %s"
-msgstr ""
+msgstr "Hatalı alt ileti seçicilerinin olduğu: %s"
 
 #: weblate/checks/icu.py:489
 #, python-format
 msgid "Placeholder should be XML tag in translation: %s"
-msgstr ""
+msgstr "Yer tutucu, çeviride XML etiketi olmalıdır: %s"
 
 #: weblate/checks/icu.py:494
 #, python-format
 msgid "Placeholder should not be XML tag in translation: %s"
-msgstr ""
+msgstr "Yer tutucu, çeviride XML etiketi olmamalıdır: %s"
 
 #: weblate/checks/icu.py:499
 #, python-format
 msgid "XML Tag has unexpected contents in translation: %s"
-msgstr ""
+msgstr "XML Etiketi çeviride beklenmeyen içeriklere sahip: %s"
 
 #: weblate/checks/icu.py:504
-#, fuzzy, python-format
-#| msgid "Missing parameters for translation flag: \"%s\""
+#, python-format
 msgid "XML Tag missing contents in translation: %s"
-msgstr "Çeviri işareti için eksik parametreler: \"%s\""
+msgstr "Çeviride XML Etiketi eksik içerik: %s"
 
 #: weblate/checks/markup.py:94
 msgid "BBcode markup"
@@ -4240,7 +4222,7 @@ msgstr "Kayıt"
 
 #: weblate/templates/accounts/email-sent.html:12
 msgid "You will find the confirmation link in your e-mail inbox."
-msgstr ""
+msgstr "Onay bağlantısını e-posta gelen kutunuzda bulacaksınız."
 
 #: weblate/templates/accounts/email-sent.html:19
 msgid "Password reset almost complete"
@@ -4257,29 +4239,31 @@ msgstr "Kayıt neredeyse tamamlandı"
 #: weblate/templates/accounts/email-sent.html:30
 msgid "Follow the password recovery instructions sent to your e-mail inbox."
 msgstr ""
+"E-posta gelen kutunuza gönderilen parola kurtarma talimatlarını takip edin."
 
 #: weblate/templates/accounts/email-sent.html:31
 #: weblate/templates/accounts/email-sent.html:34
 msgid "Request a new confirmation link if it expires."
-msgstr ""
+msgstr "Süresi dolarsa yeni bir onay bağlantısı isteyin."
 
 #: weblate/templates/accounts/email-sent.html:33
 msgid ""
 "Remove your account by clicking the confirmation link in the e-mail sent to "
 "you."
 msgstr ""
+"Size gönderilen e-postadaki onay bağlantısına tıklayarak hesabınızı kaldırın."
 
 #: weblate/templates/accounts/email-sent.html:36
 msgid ""
 "Click the confirmation link sent to your e-mail inbox and start using your "
 "account."
 msgstr ""
+"E-posta gelen kutunuza gönderilen onay bağlantısına tıklayın ve hesabınızı "
+"kullanmaya başlayın."
 
 #: weblate/templates/accounts/email-sent.html:37
-#, fuzzy
-#| msgid "Please check your mailbox for the confirmation link."
 msgid "Register again if the confirmation link expires."
-msgstr "Onay bağlantısı için lütfen posta kutunuzu gözden geçirin."
+msgstr "Onay bağlantısının süresi dolarsa yeniden kaydolun."
 
 #: weblate/templates/accounts/email-sent.html:42
 #, fuzzy, python-format
