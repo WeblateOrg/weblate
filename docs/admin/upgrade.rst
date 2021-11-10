@@ -260,7 +260,7 @@ Upgrade from 4.8 to 4.9
 
 Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 
-* There is a change in storing metrics, the upgrade can take log time on larger sites.
+* There is a change in storing metrics, the upgrade can take long time on larger sites.
 
 .. seealso:: :ref:`generic-upgrade-instructions`
 

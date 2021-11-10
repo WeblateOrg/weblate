@@ -117,7 +117,7 @@ of them in :file:`requirements-optional.txt`.
 
       pip install "Weblate[PHP,Fluent]"
 
-   Or you can install Weblate will all optional features:
+   Or you can install Weblate with all optional features:
 
    .. code-block:: sh
 
