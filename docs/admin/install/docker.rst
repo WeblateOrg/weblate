@@ -1147,7 +1147,7 @@ both Weblate and PostgreSQL containers.
 
    .. seealso::
 
-      :setting:`django:DISABLE_SERVER_SIDE_CURSORS`,
+      :setting:`DISABLE_SERVER_SIDE_CURSORS <DATABASE-DISABLE_SERVER_SIDE_CURSORS>`,
       :ref:`django:transaction-pooling-server-side-cursors`
 
 
