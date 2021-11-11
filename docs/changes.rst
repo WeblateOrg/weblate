@@ -1636,7 +1636,7 @@ Released on October 7th 2013.
 * Add status badge widget.
 * Dropped invalid text direction check.
 * Changes in dictionary are now logged in history.
-* Performance improvements for translating view.
+* Performance improvements for translation view.
 
 Weblate 1.6
 ~~~~~~~~~~~

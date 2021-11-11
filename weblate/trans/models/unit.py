@@ -1410,7 +1410,7 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
     def get_last_content_change(self, silent=False):
         """Wrapper to get last content change metadata.
 
-        Used when commiting pending changes, needs to handle and report inconsistencies
+        Used when committing pending changes, needs to handle and report inconsistencies
         from past releases.
         """
         from weblate.auth.models import get_anonymous
