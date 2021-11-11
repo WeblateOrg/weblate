@@ -239,9 +239,6 @@ intersphinx_mapping = {
     "pip": ("https://pip.pypa.io/en/stable/", None),
     "compressor": ("https://django-compressor.readthedocs.io/en/stable/", None),
 }
-# Not merged feature, see https://github.com/sphinx-doc/sphinx/pull/8981
-intersphinx_strict_prefix = True
-# Sphinx 4.3 feature, see https://github.com/sphinx-doc/sphinx/pull/9459
 intersphinx_disabled_reftypes = ["*"]
 
 # Ignore missing targets for the http:obj <type>, it's how we declare the types
