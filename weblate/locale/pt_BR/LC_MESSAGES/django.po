@@ -28,7 +28,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.9\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-11-09 13:04+0000\n"
-"PO-Revision-Date: 2021-11-10 17:16+0000\n"
+"PO-Revision-Date: 2021-11-11 07:42+0000\n"
 "Last-Translator: Rafael Fontenelle <rafaelff@gnome.org>\n"
 "Language-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/"
 "weblate/application/pt_BR/>\n"
@@ -10179,10 +10179,8 @@ msgid "Component not found!"
 msgstr "Componente não encontrado!"
 
 #: weblate/trans/forms.py:939
-#, fuzzy
-#| msgid "Parse error in %(component)s"
 msgid "Please provide valid component slug!"
-msgstr "Erro de análise em %(component)s"
+msgstr "Forneça slug de componente válido!"
 
 #: weblate/trans/forms.py:947
 msgid "Scope"
@@ -11005,16 +11003,13 @@ msgstr[0] "Há um novo texto para ser traduzido"
 msgstr[1] "Há novos textos para serem traduzidos"
 
 #: weblate/trans/models/change.py:434
-#, fuzzy
-#| msgid "The translation was automatically locked due to following alerts:"
 msgid "The component was automatically locked because of an alert."
-msgstr "A tradução foi bloqueada automaticamente por causa destes alertas:"
+msgstr "O componente foi bloqueado automaticamente devido a um alerta."
 
 #: weblate/trans/models/change.py:438
-#, fuzzy
-#| msgid "Component automatically unlocked"
 msgid "Component was automatically unlocked as alert was fixed."
-msgstr "Componente desbloqueado automaticamente"
+msgstr ""
+"O componente foi desbloqueado automaticamente, pois o alerta foi corrigido."
 
 #: weblate/trans/models/change.py:494
 #, python-format
@@ -11022,20 +11017,19 @@ msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
 msgstr "%(action)s em %(time)s no %(translation)s pelo %(user)s"
 
 #: weblate/trans/models/change.py:592
-#, fuzzy, python-format
-#| msgid "Bulk status change"
+#, python-format
 msgid "File %s was changed."
-msgstr "Alteração de estado em massa"
+msgstr "O arquivo %s foi alterado."
 
 #: weblate/trans/models/change.py:594
 #, python-format
 msgid "Parsing of file %s was enforced"
-msgstr ""
+msgstr "A análise do arquivo %s foi forçada"
 
 #: weblate/trans/models/change.py:596
 #, python-format
 msgid "File %s was added."
-msgstr ""
+msgstr "O arquivo %s foi adicionado."
 
 #: weblate/trans/models/change.py:600
 msgctxt "License information not available"
@@ -13028,16 +13022,13 @@ msgid "Backup repository URL"
 msgstr "URL de repositório backup"
 
 #: weblate/wladmin/models.py:163
-#, fuzzy
-#| msgid ""
-#| "Use /path/to/repo for local backups or user@host:/path/to/repo for remote "
-#| "SSH backups."
 msgid ""
 "Use /path/to/repo for local backups or user@host:/path/to/repo or ssh://"
 "user@host:port/path/to/backups for remote SSH backups."
 msgstr ""
 "Use /caminho/para/repositório para backups locais ou usuário@host:/caminho/"
-"para/repositório para backups SSH remotos."
+"para/repositório ou ssh://usuário@host:porta/caminho/para/backups para "
+"backups SSH remotos."
 
 #: weblate/wladmin/models.py:214
 msgid "Backup performed"
