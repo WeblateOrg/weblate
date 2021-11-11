@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-11-11 08:48+0100\n"
-"PO-Revision-Date: 2021-11-11 14:49+0000\n"
+"PO-Revision-Date: 2021-11-11 23:03+0000\n"
 "Last-Translator: Rafael Fontenelle <rafaelff@gnome.org>\n"
 "Language-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/"
 "weblate/documentation/pt_BR/>\n"
@@ -38132,6 +38132,11 @@ msgid ""
 "certain sub-checks. For example, the following flag enables XML support "
 "while disabling validation of plural sub-messages:"
 msgstr ""
+"Essa verificação tem suporte para mensagens ICU MessageFormat puras, bem "
+"como ICU com tags XML simples. Você pode configurar o comportamento desta "
+"verificação usando ``icu-flags:*``, ou optando pelo suporte XML ou "
+"desabilitando certas sub-verificações. Por exemplo, a seguinte sinalização "
+"ativa o suporte a XML enquanto desativa a validação de submensagens plurais:"
 
 #: ../../user/checks.rst:270
 #, fuzzy
@@ -38144,6 +38149,9 @@ msgid ""
 "Enable support for simple XML tags. By default, XML tags are parsed loosely. "
 "Stray ``<`` characters are ignored if they are not reasonably part of a tag."
 msgstr ""
+"Habilita o suporte para tags XML simples. Por padrão, as tags XML são "
+"analisadas livremente. Caracteres ``<`` perdidos são ignorados se não forem "
+"razoavelmente parte de uma tag."
 
 #: ../../user/checks.rst:274
 #, fuzzy
@@ -38156,16 +38164,16 @@ msgid ""
 "Enable support for strict XML tags. All ``<`` characters must be escaped if "
 "they are not part of a tag."
 msgstr ""
+"Habilita o suporte para tags XML estritas. Todos os caracteres ``<`` devem "
+"ser escapados se não fizerem parte de uma tag."
 
 #: ../../user/checks.rst:277
 msgid "``-highlight``"
 msgstr ""
 
 #: ../../user/checks.rst:277
-#, fuzzy
-#| msgid "Highlight placeables in translation editor."
 msgid "Disable highlighting placeholders in the editor."
-msgstr "Realce de objetos colocáveis no editor de tradução."
+msgstr "Desabilita o realce de espaços reservados no editor."
 
 #: ../../user/checks.rst:279
 msgid "``-require_other``"
@@ -38173,7 +38181,7 @@ msgstr ""
 
 #: ../../user/checks.rst:279
 msgid "Disable requiring sub-messages to have an ``other`` selector."
-msgstr ""
+msgstr "Desabilita a exigência de submensagens ter um seletor ``other``."
 
 #: ../../user/checks.rst:282
 msgid "``-submessage_selectors``"
@@ -38182,6 +38190,7 @@ msgstr ""
 #: ../../user/checks.rst:282
 msgid "Skip checking that sub-message selectors match the source."
 msgstr ""
+"Ignora a verificação de que os seletores de submensagem correspondem à fonte."
 
 #: ../../user/checks.rst:284
 #, fuzzy
@@ -38204,6 +38213,8 @@ msgid ""
 "Skip checking that no placeholders are present that were not present in the "
 "source string."
 msgstr ""
+"Ignora a verificação de nenhum espaço reservado está presente que não esteva "
+"presente no texto fonte."
 
 #: ../../user/checks.rst:289
 #, fuzzy
@@ -38216,6 +38227,8 @@ msgid ""
 "Skip checking that no placeholders are missing that were present in the "
 "source string."
 msgstr ""
+"Ignora a verificação de que não falta nenhum espaço reservado que estava "
+"presente no texto fonte."
 
 #: ../../user/checks.rst:293
 msgid ""
@@ -38224,12 +38237,19 @@ msgid ""
 "start with a specific string. For example, the following flag will only "
 "allow XML tags to be matched if they start with ``<x:``:"
 msgstr ""
+"Além disso, quando ``strict-xml`` não está habilitado, mas ``xml`` está "
+"habilitado, você pode usar o marcador ``icu-tag-prefix: PREFIXO`` para "
+"exigir que todas as tags XML comecem com um texto específico. Por exemplo, o "
+"seguinte marcador só permitirá que as tags XML sejam correspondidas se "
+"começarem com ``<x:``:"
 
 #: ../../user/checks.rst:302
 msgid ""
 "This would match ``<x:link>click here</x:link>`` but not ``<strong>this</"
 "strong>``."
 msgstr ""
+"Isso corresponderia a ``<x:link>clique aqui</x:link>``, mas não a "
+"``<strong>isso</strong>``."
 
 #: ../../user/checks.rst:306
 msgid ""
@@ -38878,6 +38898,8 @@ msgstr ""
 msgid ""
 "When ``xml-text`` flag is also used, the length calculation ignores XML tags."
 msgstr ""
+"Quando o marcador ``xml-text`` também é usado, o cálculo do comprimento "
+"ignora as tags XML."
 
 #: ../../user/checks.rst:750
 msgid "Maximum size of translation"
@@ -39483,6 +39505,8 @@ msgid ""
 "When ``md-text`` flag is also used, the Markdown style links are also "
 "allowed."
 msgstr ""
+"Quando o marcador ``md-text`` também é usado, os links de estilo Markdown "
+"também são permitidos."
 
 #: ../../user/checks.rst:1150
 msgid ""
@@ -39658,10 +39682,8 @@ msgid "Syntax errors in ICU MessageFormat strings."
 msgstr "Erros de sintaxe em textos de MessageFormat do ICU."
 
 #: ../../user/checks.rst:1265
-#, fuzzy
-#| msgid "``weblate.checks.markup.BBCodeCheck``"
 msgid "``weblate.checks.icu.ICUSourceCheck``"
-msgstr "``weblate.checks.markup.BBCodeCheck``"
+msgstr "``weblate.checks.icu.ICUSourceCheck``"
 
 #: ../../user/checks.rst:1268
 #, fuzzy
@@ -40679,8 +40701,6 @@ msgid "``source:TEXT``"
 msgstr "``source:TEXTO``"
 
 #: ../../user/search.rst:28
-#, fuzzy
-#| msgid "Source string case insensitive search."
 msgid "Source string case-insensitive search."
 msgstr "Pesquisa em texto fonte sem diferenciar maiúscula de minúscula."
 
@@ -40689,8 +40709,6 @@ msgid "``target:TEXT``"
 msgstr "``target:TEXTO``"
 
 #: ../../user/search.rst:30
-#, fuzzy
-#| msgid "Target string case insensitive search."
 msgid "Target string case-insensitive search."
 msgstr "Pesquisa em texto destino sem diferenciar maiúscula de minúscula."
 
@@ -40699,8 +40717,6 @@ msgid "``context:TEXT``"
 msgstr "``context:TEXTO``"
 
 #: ../../user/search.rst:32
-#, fuzzy
-#| msgid "Context string case insensitive search."
 msgid "Context string case-insensitive search."
 msgstr "Pesquisa em texto de contexto sem diferenciar maiúscula de minúscula."
 
@@ -40709,8 +40725,6 @@ msgid "``key:TEXT``"
 msgstr "``key:TEXTO``"
 
 #: ../../user/search.rst:34
-#, fuzzy
-#| msgid "Key string case insensitive search."
 msgid "Key string case-insensitive search."
 msgstr "Pesquisa em texto chave sem diferenciar maiúscula de minúscula."
 
@@ -40719,19 +40733,14 @@ msgid "``note:TEXT``"
 msgstr "``note:TEXTO``"
 
 #: ../../user/search.rst:36
-#, fuzzy
-#| msgid "Comment string case insensitive search."
 msgid "Comment string case-insensitive search."
-msgstr ""
-"Pesquisa em texto de comentário sem diferenciar maiúscula de minúscula."
+msgstr "Pesquisa em texto de comentário sem diferenciar maiúscula de minúscula."
 
 #: ../../user/search.rst:37
 msgid "``location:TEXT``"
 msgstr "``location:TEXTO``"
 
 #: ../../user/search.rst:38
-#, fuzzy
-#| msgid "Location string case insensitive search."
 msgid "Location string case-insensitive search."
 msgstr "Pesquisa em texto de local sem diferenciar maiúscula de minúscula."
 
@@ -40810,10 +40819,6 @@ msgid "``component:TEXT``"
 msgstr "``component:TEXTO``"
 
 #: ../../user/search.rst:54
-#, fuzzy
-#| msgid ""
-#| "Component slug or name case insensitive search, see :ref:`component-slug` "
-#| "and :ref:`component-name`."
 msgid ""
 "Component slug or name case-insensitive search, see :ref:`component-slug` "
 "and :ref:`component-name`."
@@ -41884,8 +41889,6 @@ msgid ":ref:`Bulk edit addon <addon-weblate.flags.bulk>`"
 msgstr ":ref:`Extensão de edição em massa <addon-weblate.flags.bulk>`"
 
 #: ../../user/translating.rst:398
-#, fuzzy
-#| msgid "Matrix view"
 msgid "Matrix View"
 msgstr "Visualização em matriz"
 
@@ -41896,18 +41899,24 @@ msgid ""
 "select all languages you want to compare and confirm your selection, after "
 "that you can click on any translation to open and edit it quickly."
 msgstr ""
+"Para comparar diferentes idiomas de forma eficiente, você pode usar a "
+"visualização em matriz. Ele está disponível em todas as páginas do "
+"componente no menu :guilabel:`Ferramentas`. Primeiro selecione todos os "
+"idiomas que deseja comparar e confirme sua seleção, depois disso, você pode "
+"clicar em qualquer tradução para abri-la e editá-la rapidamente."
 
 #: ../../user/translating.rst:403
 msgid ""
 "The matrix view is also a very good starting point to find missing "
 "translations in different languages and quickly add them from one view."
 msgstr ""
+"A visualização em matriz também é um bom ponto de partida para encontrar "
+"traduções ausentes em diferentes idiomas e adicioná-las rapidamente a partir "
+"de uma visualização."
 
 #: ../../user/translating.rst:406
-#, fuzzy
-#| msgid "Zen mode"
 msgid "Zen Mode"
-msgstr "Modo Zen"
+msgstr "Modo zen"
 
 #: ../../user/translating.rst:408
 msgid ""
