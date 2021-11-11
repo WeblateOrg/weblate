@@ -1131,6 +1131,25 @@ both Weblate and PostgreSQL containers.
 
       :setting:`django:CONN_MAX_AGE`, :ref:`django:persistent-database-connections`
 
+.. envvar:: POSTGRES_DISABLE_SERVER_SIDE_CURSORS
+
+   .. versionadded:: 4.9.1
+
+   Disable server side cursors in the database. This is necessary in some
+   :command:`pgbouncer` setups.
+
+   Example configuration:
+
+   .. code-block:: yaml
+
+       environment:
+           POSTGRES_DISABLE_SERVER_SIDE_CURSORS: 1
+
+   .. seealso::
+
+      :setting:`django:DISABLE_SERVER_SIDE_CURSORS`,
+      :ref:`django:transaction-pooling-server-side-cursors`
+
 
 Database backup settings
 ~~~~~~~~~~~~~~~~~~~~~~~~

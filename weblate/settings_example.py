@@ -74,6 +74,8 @@ DATABASES = {
         },
         # Persistent connections
         "CONN_MAX_AGE": 0,
+        # Disable server-side cursors, might be needed with pgbouncer
+        "DISABLE_SERVER_SIDE_CURSORS": False,
     }
 }
 
