@@ -489,7 +489,8 @@ class ICUMessageFormatCheck(ICUCheckMixin, BaseFormatCheck):
 
         if result.get("should_be_tag"):
             yield _(
-                "One or more placeholders should have a corresponding XML tag in the translation: %s"
+                "One or more placeholders should have "
+                "a corresponding XML tag in the translation: %s"
             ) % ", ".join(result["should_be_tag"])
 
         if result.get("not_tag"):
