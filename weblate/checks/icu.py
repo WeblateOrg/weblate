@@ -471,7 +471,7 @@ class ICUMessageFormatCheck(ICUCheckMixin, BaseFormatCheck):
 
         if result.get("wrong_type"):
             yield _(
-                "One or more placeholders is not of the correct type: %s"
+                "One or more placeholder types are incorrect: %s"
             ) % ", ".join(result["wrong_type"])
 
         if result.get("no_other"):
