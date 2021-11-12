@@ -562,6 +562,12 @@ LICENSES = (
         True,
     ),
     (
+        "COIL-1.0",
+        "Copyfree Open Innovation License",
+        "https://coil.apotheon.org/plaintext/01.0.txt",
+        False,
+    ),
+    (
         "copyleft-next-0.3.0",
         "copyleft-next 0.3.0",
         "https://github.com/copyleft-next/copyleft-next/blob/master/Releases/copyleft-next-0.3.0",
@@ -1057,6 +1063,12 @@ LICENSES = (
         "Frameworx Open License 1.0",
         "https://opensource.org/licenses/Frameworx-1.0",
         True,
+    ),
+    (
+        "FDK-AAC",
+        "Fraunhofer FDK AAC Codec Library",
+        "https://fedoraproject.org/wiki/Licensing/FDK-AAC",
+        False,
     ),
     (
         "FreeBSD-DOC",
