@@ -460,17 +460,19 @@ class ICUMessageFormatCheck(ICUCheckMixin, BaseFormatCheck):
             yield _("Syntax error: %s") % ", ".join(err.msg for err in result["syntax"])
 
         if result.get("extra"):
-            yield _("One or more unknown placeholders in the translation: %s") % ", ".join(
-                result["extra"]
-            )
+            yield _(
+                "One or more unknown placeholders in the translation: %s"
+            ) % ", ".join(result["extra"])
 
         if result.get("missing"):
-            yield _("One or more placeholders missing in the translation: %s") % ", ".join(
-                result["missing"]
-            )
+            yield _(
+                "One or more placeholders missing in the translation: %s"
+            ) % ", ".join(result["missing"])
 
         if result.get("wrong_type"):
-            yield _("One or more placeholders is not of the correct type: %s") % ", ".join(result["wrong_type"])
+            yield _(
+                "One or more placeholders is not of the correct type: %s"
+            ) % ", ".join(result["wrong_type"])
 
         if result.get("no_other"):
             yield _("Missing other sub-message for: %s") % ", ".join(result["no_other"])
@@ -486,24 +488,24 @@ class ICUMessageFormatCheck(ICUCheckMixin, BaseFormatCheck):
             )
 
         if result.get("should_be_tag"):
-            yield _("One or more placeholders should have a corresponding XML tag in the translation: %s") % ", ".join(
-                result["should_be_tag"]
-            )
+            yield _(
+                "One or more placeholders should have a corresponding XML tag in the translation: %s"
+            ) % ", ".join(result["should_be_tag"])
 
         if result.get("not_tag"):
-            yield _("One or more placeholders should not be an XML tag in the translation: %s") % ", ".join(
-                result["not_tag"]
-            )
+            yield _(
+                "One or more placeholders should not be an XML tag in the translation: %s"
+            ) % ", ".join(result["not_tag"])
 
         if result.get("tag_not_empty"):
-            yield _("One or more XML tags has unexpected content in the translation: %s") % ", ".join(
-                result["tag_not_empty"]
-            )
+            yield _(
+                "One or more XML tags has unexpected content in the translation: %s"
+            ) % ", ".join(result["tag_not_empty"])
 
         if result.get("tag_empty"):
-            yield _("One or more XML tags missing content in the translation: %s") % ", ".join(
-                result["tag_empty"]
-            )
+            yield _(
+                "One or more XML tags missing content in the translation: %s"
+            ) % ", ".join(result["tag_empty"])
 
     def check_highlight(self, source, unit):
         if self.should_skip(unit):
