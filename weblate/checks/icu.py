@@ -118,16 +118,16 @@ def check_bad_plural_selector(selector):
 
 def update_maybe_value(value, old):
     """
-    Certain values on placeholders can have four values.
+    Certain placeholder values can have one of four values.
 
-    They will be one of: `None`, `True`, `False`, or `0`.
+    `None`, `True`, `False`, or `0`.
 
-    `None` represents a value that was never set.
-    `True` or `False` represents a value that was set.
-    `0` represents a value that was set with conflicting values.
+    `None` represents a value never set.
+    `True` or `False` represents a value selection.
+    `0` represents a set value with conflicting values.
 
-    This is useful in case there are multiple placeholders with
-    conflicting type information.
+    This is useful if there are multiple placeholders with
+    conflicting type info.
     """
     if old is None or old == value:
         return value
@@ -135,7 +135,7 @@ def update_maybe_value(value, old):
 
 
 def extract_highlights(token, source, out=None):
-    """Extract all placeholders from an AST that we would want to highlight."""
+    """Extract all placeholders from an AST selected for highlighting."""
     if out is None:
         out = []
 
@@ -374,7 +374,7 @@ class ICUMessageFormatCheck(ICUCheckMixin, BaseFormatCheck):
                 result["missing"].append(name)
 
     def check_for_other(self, result, name, data, flags):
-        """Ensure that types with sub-messages have other."""
+        """Ensure types with sub-messages have other."""
         if "-require_other" in flags:
             return
 
@@ -434,7 +434,7 @@ class ICUMessageFormatCheck(ICUCheckMixin, BaseFormatCheck):
                     break
 
     def check_tags(self, result, name, data, src_data, flags):
-        """Check for errors with XML tags."""
+        """Correct any erroneous XML tags."""
         if "-tags" in flags:
             return
 
@@ -460,48 +460,48 @@ class ICUMessageFormatCheck(ICUCheckMixin, BaseFormatCheck):
             yield _("Syntax error: %s") % ", ".join(err.msg for err in result["syntax"])
 
         if result.get("extra"):
-            yield _("Unknown placeholder in translation: %s") % ", ".join(
+            yield _("One or more unknown placeholders in the translation: %s") % ", ".join(
                 result["extra"]
             )
 
         if result.get("missing"):
-            yield _("Placeholder missing in translation: %s") % ", ".join(
+            yield _("One or more placeholders missing in the translation: %s") % ", ".join(
                 result["missing"]
             )
 
         if result.get("wrong_type"):
-            yield _("Placeholder has wrong type: %s") % ", ".join(result["wrong_type"])
+            yield _("One or more placeholders is not of the correct type: %s") % ", ".join(result["wrong_type"])
 
         if result.get("no_other"):
             yield _("Missing other sub-message for: %s") % ", ".join(result["no_other"])
 
         if result.get("bad_plural"):
-            yield _("Bad plural selectors for: %s") % ", ".join(
+            yield _("Incorrect plural selectors for: %s") % ", ".join(
                 f"{x[0]} ({', '.join(x[1])})" for x in result["bad_plural"]
             )
 
         if result.get("bad_submessage"):
-            yield _("Bad sub-message selectors for: %s") % ", ".join(
+            yield _("Incorrect sub-message selectors for: %s") % ", ".join(
                 f"{x[0]} ({', '.join(x[1])})" for x in result["bad_submessage"]
             )
 
         if result.get("should_be_tag"):
-            yield _("Placeholder should be XML tag in translation: %s") % ", ".join(
+            yield _("One or more placeholders should have a corresponding XML tag in the translation: %s") % ", ".join(
                 result["should_be_tag"]
             )
 
         if result.get("not_tag"):
-            yield _("Placeholder should not be XML tag in translation: %s") % ", ".join(
+            yield _("One or more placeholders should not be an XML tag in the translation: %s") % ", ".join(
                 result["not_tag"]
             )
 
         if result.get("tag_not_empty"):
-            yield _("XML Tag has unexpected contents in translation: %s") % ", ".join(
+            yield _("One or more XML tags has unexpected content in the translation: %s") % ", ".join(
                 result["tag_not_empty"]
             )
 
         if result.get("tag_empty"):
-            yield _("XML Tag missing contents in translation: %s") % ", ".join(
+            yield _("One or more XML tags missing content in the translation: %s") % ", ".join(
                 result["tag_empty"]
             )
 
