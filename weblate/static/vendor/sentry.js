@@ -1,4 +1,4 @@
-/*! @sentry/browser 6.14.2 (9a623dd) | https://github.com/getsentry/sentry-javascript */
+/*! @sentry/browser 6.14.3 (3807d99) | https://github.com/getsentry/sentry-javascript */
 var Sentry = (function (exports) {
     /*! *****************************************************************************
     Copyright (c) Microsoft Corporation. All rights reserved.
@@ -336,7 +336,7 @@ var Sentry = (function (exports) {
         return Object.prototype.toString.call(wat) === '[object DOMException]';
     }
     /**
-     * Checks whether the given value's type is string
+     * Checks whether given value's type is a string
      * {@link isString}.
      *
      * @param wat A value to be checked.
@@ -1185,9 +1185,10 @@ var Sentry = (function (exports) {
      * Given any object, return the new object with removed keys that value was `undefined`.
      * Works recursively on objects and arrays.
      */
-    function dropUndefinedKeys(obj) {
+    function dropUndefinedKeys(val) {
         var e_1, _a;
-        if (isPlainObject(obj)) {
+        if (isPlainObject(val)) {
+            var obj = val;
             var rv = {};
             try {
                 for (var _b = __values(Object.keys(obj)), _c = _b.next(); !_c.done; _c = _b.next()) {
@@ -1206,10 +1207,10 @@ var Sentry = (function (exports) {
             }
             return rv;
         }
-        if (Array.isArray(obj)) {
-            return obj.map(dropUndefinedKeys);
+        if (Array.isArray(val)) {
+            return val.map(dropUndefinedKeys);
         }
-        return obj;
+        return val;
     }
 
     /**
@@ -4557,7 +4558,7 @@ var Sentry = (function (exports) {
         hub.bindClient(client);
     }
 
-    var SDK_VERSION = '6.14.2';
+    var SDK_VERSION = '6.14.3';
 
     var originalFunctionToString;
     /** Patch toString calls to return proper name for wrapped functions */
@@ -5150,10 +5151,11 @@ var Sentry = (function (exports) {
     function eventFromUnknownInput(exception, syntheticException, options) {
         if (options === void 0) { options = {}; }
         var event;
-        if (isErrorEvent(exception)) {
+        if (isErrorEvent(exception) && exception.error) {
             // If it is an ErrorEvent with `error` property, extract it to get actual Error
+            var errorEvent = exception;
             // eslint-disable-next-line no-param-reassign
-            exception = exception.error;
+            exception = errorEvent.error;
             event = eventFromStacktrace(computeStackTrace(exception));
             return event;
         }
