@@ -470,9 +470,9 @@ class ICUMessageFormatCheck(ICUCheckMixin, BaseFormatCheck):
             ) % ", ".join(result["missing"])
 
         if result.get("wrong_type"):
-            yield _(
-                "One or more placeholder types are incorrect: %s"
-            ) % ", ".join(result["wrong_type"])
+            yield _("One or more placeholder types are incorrect: %s") % ", ".join(
+                result["wrong_type"]
+            )
 
         if result.get("no_other"):
             yield _("Missing other sub-message for: %s") % ", ".join(result["no_other"])
