@@ -127,7 +127,7 @@ class WeblateAuthAdmin(WeblateModelAdmin):
 class WeblateUserAdmin(WeblateAuthAdmin, UserAdmin):
     """Custom UserAdmin class.
 
-    Used to add listing of group membership and whether user is active.
+    Used to add listing of group membership and whether a user is active.
     """
 
     list_display = (
@@ -202,13 +202,13 @@ class GroupChangeForm(forms.ModelForm):
             if fields:
                 raise ValidationError(
                     {
-                        field: _("This is not used when component list is selected.")
+                        field: _("This is not used when a component list is selected.")
                         for field in fields
                     }
                 )
         elif has_component and has_project:
             raise ValidationError(
-                {"project": _("This is not used when component is selected.")}
+                {"project": _("This is not used when a component is selected.")}
             )
 
 
