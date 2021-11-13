@@ -4,8 +4,8 @@ Upgrading Weblate
 Docker image upgrades
 ---------------------
 
-The official Docker image (see :doc:`install/docker`) has all reqiored upgrade
-steps integrated. No manual interaction is needed besides pulling the latest version.
+The official Docker image (see :doc:`install/docker`) has all required upgrade
+steps integrated. No manual interaction is needed beyond pulling the latest version.
 
 .. _generic-upgrade-instructions:
 
