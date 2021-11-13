@@ -2,10 +2,10 @@ Getting support for Weblate
 ===========================
 
 
-Weblate is copylefted libre software with community support.
-Subscribers receive priority support at no extra charge. Prepaid help packages are
-available for everyone. You can find more info about current support
-offerings at https://weblate.org/support.
+*Weblate* is copylefted libre software with community support.
+Subscribers receive priority support at no extra charge.
+Prepaid help packages are available for everyone.
+Find info about current support offerings at https://weblate.org/support.
 
 .. _activate-support:
 
@@ -51,8 +51,8 @@ Integration services
 
 .. _discover-weblate:
 
-Discover Weblate
-----------------
+Discover
+--------
 
 .. versionadded:: 4.5.2
 
@@ -60,7 +60,7 @@ Discover Weblate
 
    This feature is currently in early beta.
 
-Discover Weblate is an opt-in service making it easier for users to find
+*Discover* is an opt-in service making it easier for users to find
 other Weblate sites and communities. Users can browse registered sites on
 https://weblate.org/discover and find
 projects to contribute to there.
@@ -70,8 +70,8 @@ Getting listed
 
 .. note::
 
-   Make sure you are OK with publishing the info about your Weblate
-   described in :ref:`support-data` for use on Discover Weblate.
+   Make sure you are OK with publishing some of the info about your
+   Weblate described in :ref:`support-data` for use on *Discover*.
 
 
 List your server directly from the management panel if you have an active
@@ -79,7 +79,7 @@ support subscription (:ref:`activate-support`):
 
 .. image:: /images/support-discovery.png
 
-Listing your server manually:
+All steps for listing a server without a support contract:
 
 1. Register yourself at https://weblate.org/user/
 2. Register your Weblate site at https://weblate.org/subscription/discovery
