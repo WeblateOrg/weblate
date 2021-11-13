@@ -11,7 +11,7 @@ find the strings you want.
 When no field is defined, the lookup happens on :guilabel:`Source`,
 :guilabel:`Translate` and :guilabel:`Context` fields.
 
-.. image:: /images/search.png
+.. image:: /screenshots/search.png
 
 Simple search
 -------------
@@ -25,17 +25,17 @@ Fields
 ------
 
 ``source:TEXT``
-   Source string case insensitive search.
+   Source string case-insensitive search.
 ``target:TEXT``
-   Target string case insensitive search.
+   Target string case-insensitive search.
 ``context:TEXT``
-   Context string case insensitive search.
+   Context string case-insensitive search.
 ``key:TEXT``
-   Key string case insensitive search.
+   Key string case-insensitive search.
 ``note:TEXT``
-   Comment string case insensitive search.
+   Comment string case-insensitive search.
 ``location:TEXT``
-   Location string case insensitive search.
+   Location string case-insensitive search.
 ``priority:NUMBER``
    String priority.
 ``added:DATETIME``
@@ -51,7 +51,7 @@ Fields
 ``language:TEXT``
    String target language.
 ``component:TEXT``
-   Component slug, see :ref:`component-slug`.
+   Component slug or name case-insensitive search, see :ref:`component-slug` and :ref:`component-name`.
 ``project:TEXT``
    Project slug, see :ref:`project-slug`.
 ``changed_by:TEXT``
@@ -138,11 +138,11 @@ Predefined queries
 
 You can select out of predefined queries on the search page, this allows you to quickly access the most frequent searches:
 
-.. image:: /images/query-dropdown.png
+.. image:: /screenshots/query-dropdown.png
 
 Ordering the results
 --------------------
 
 There are many options to order the strings according to your needs:
 
-.. image:: /images/query-sort.png
+.. image:: /screenshots/query-sort.png

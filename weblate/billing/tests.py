@@ -116,7 +116,7 @@ class BillingTest(TestCase):
         call_command("billing_check", stdout=out)
         self.assertEqual(
             out.getvalue(),
-            "Following billings are over limit:\n" " * test0, test1 (Basic plan)\n",
+            "Following billings are over limit:\n * test0, test1 (Basic plan)\n",
         )
         out = StringIO()
         call_command("billing_check", "--valid", stdout=out)

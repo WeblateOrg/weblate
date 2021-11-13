@@ -78,7 +78,7 @@ Automated key based variants
 You can define regular expression to group the strings based on the key of
 monolingual translations in the :ref:`component`:
 
-.. image:: /images/variants-settings.png
+.. image:: /screenshots/variants-settings.png
 
 In case the :guilabel:`Key` matches the expression, the matching part is
 removed to generate root key of the variant. Then all the strings with the same
@@ -108,7 +108,7 @@ should be considered together when translating.
 The additional variant for a string can also be added using the :guilabel:`Tools` while translating
 (when :ref:`component-manage_units` is turned on):
 
-.. image:: /images/glossary-tools.png
+.. image:: /screenshots/glossary-tools.png
 
 .. note::
 
@@ -125,7 +125,7 @@ Variants while translating
 
 The variant is later grouped when translating:
 
-.. image:: /images/variants-translate.png
+.. image:: /screenshots/variants-translate.png
 
 .. _labels:
 
@@ -134,7 +134,7 @@ String labels
 
 Split component translation strings into categories by text and colour in the project configuration.
 
-.. image:: /images/labels.png
+.. image:: /screenshots/labels.png
 
 .. hint::
 

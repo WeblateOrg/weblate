@@ -159,6 +159,8 @@ class SameCheck(TargetCheck):
 
     def should_ignore(self, source, unit):
         """Check whether given unit should be ignored."""
+        from weblate.checks.flags import TYPED_FLAGS
+
         if "strict-same" in unit.all_flags:
             return False
         # Ignore some docbook tags
@@ -185,7 +187,7 @@ class SameCheck(TargetCheck):
         stripped = strip_string(source, unit.all_flags)
 
         # Strip placeholder strings
-        if "placeholders" in unit.all_flags:
+        if "placeholders" in TYPED_FLAGS and "placeholders" in unit.all_flags:
             stripped = strip_placeholders(stripped, unit)
 
         # Ignore strings which don't contain any string to translate

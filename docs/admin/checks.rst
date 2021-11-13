@@ -42,14 +42,8 @@ Here is a list of flags currently accepted:
 
 ``rst-text``
     Treat a text as an reStructuredText document, affects :ref:`check-same`.
-``md-text``
-    Treat text as a Markdown document.
 ``dos-eol``
     Uses DOS end-of-line markers instead of Unix ones (``\r\n`` instead of ``\n``).
-``url``
-    The string should consist of only a URL.
-``safe-html``
-    The string should be HTML safe, see :ref:`check-safe-html`.
 ``read-only``
     The string is read-only and should not be edited in Weblate, see :ref:`read-only-strings`.
 ``priority:N``
@@ -68,6 +62,10 @@ Here is a list of flags currently accepted:
     Define font-size for rendering checks, see :ref:`fonts`.
 ``font-spacing:SPACING``
     Define letter spacing for rendering checks, see :ref:`fonts`.
+``icu-flags:FLAGS``
+    Define flags for customizing the behavior of the :ref:`check-icu-message-format` quality check.
+``icu-tag-prefix:PREFIX``
+    Set a required prefix for XML tags for the :ref:`check-icu-message-format` quality check.
 ``placeholders:NAME:NAME2:...``
     Placeholder strings expected in translation, see :ref:`check-placeholders`.
 ``replacements:FROM:TO:FROM2:TO2...``
@@ -81,135 +79,184 @@ Here is a list of flags currently accepted:
     Regular expression to match translation, see :ref:`check-regex`.
 ``forbidden``
     Indicates forbidden translation in a glossary, see :ref:`glossary-forbidden`.
-``python-format``, ``c-format``, ``object-pascal-format``, ``php-format``, ``python-brace-format``, ``javascript-format``, ``c-sharp-format``, ``java-format``, ``java-messageformat``, ``lua-format``, ``auto-java-messageformat``, ``qt-format``, ``qt-plural-format``, ``ruby-format``, ``scheme-format``, ``vue-format``
-    Treats all strings like format strings, affects :ref:`check-python-format`,
-    :ref:`check-c-format`, :ref:`check-object-pascal-format`, :ref:`check-php-format`,
-    :ref:`check-qt-format`, :ref:`check-qt-plural-format`, :ref:`check-ruby-format`, :ref:`check-vue-format`,
-    :ref:`check-python-brace-format`, :ref:`check-javascript-format`,
-    :ref:`check-c-sharp-format`, :ref:`check-java-format`,
-    :ref:`check-java-messageformat`, :ref:`check-lua-format`, :ref:`check-scheme-format`, :ref:`check-same`.
 ``strict-same``
     Make "Unchanged translation" avoid using built-in words blacklist, see :ref:`check-same`.
 ``check-glossary``
-    Enable the "Does not follow glossary" quality check.
+    Enable the :ref:`check-check-glossary` quality check.
+``angularjs-format``
+    Enable the :ref:`check-angularjs-format` quality check.
+``c-format``
+    Enable the :ref:`check-c-format` quality check.
+``c-sharp-format``
+    Enable the :ref:`check-c-sharp-format` quality check.
+``es-format``
+    Enable the :ref:`check-es-format` quality check.
+``i18next-interpolation``
+    Enable the :ref:`check-i18next-interpolation` quality check.
+``icu-message-format``
+    Enable the :ref:`check-icu-message-format` quality check.
+``java-format``
+    Enable the :ref:`check-java-format` quality check.
+``java-messageformat``
+    Enable the :ref:`check-java-messageformat` quality check.
+``javascript-format``
+    Enable the :ref:`check-javascript-format` quality check.
+``lua-format``
+    Enable the :ref:`check-lua-format` quality check.
+``object-pascal-format``
+    Enable the :ref:`check-object-pascal-format` quality check.
+``percent-placeholders``
+    Enable the :ref:`check-percent-placeholders` quality check.
+``perl-format``
+    Enable the :ref:`check-perl-format` quality check.
+``php-format``
+    Enable the :ref:`check-php-format` quality check.
+``python-brace-format``
+    Enable the :ref:`check-python-brace-format` quality check.
+``python-format``
+    Enable the :ref:`check-python-format` quality check.
+``qt-format``
+    Enable the :ref:`check-qt-format` quality check.
+``qt-plural-format``
+    Enable the :ref:`check-qt-plural-format` quality check.
+``ruby-format``
+    Enable the :ref:`check-ruby-format` quality check.
+``scheme-format``
+    Enable the :ref:`check-scheme-format` quality check.
+``vue-format``
+    Enable the :ref:`check-vue-format` quality check.
+``md-text``
+    Treat text as a Markdown document.
+    Enable :ref:`check-md-link`, :ref:`check-md-reflink`, and :ref:`check-md-syntax` quality checks.
+``safe-html``
+    Enable the :ref:`check-safe-html` quality check.
+``url``
+    The string should consist of only a URL.
+    Enable the :ref:`check-url` quality check.
 ``ignore-bbcode``
-    Skip the "BBcode markup" quality check.
+    Skip the :ref:`check-bbcode` quality check.
 ``ignore-duplicate``
-    Skip the "Consecutive duplicated words" quality check.
+    Skip the :ref:`check-duplicate` quality check.
 ``ignore-check-glossary``
-    Skip the "Does not follow glossary" quality check.
+    Skip the :ref:`check-check-glossary` quality check.
 ``ignore-double-space``
-    Skip the "Double space" quality check.
+    Skip the :ref:`check-double-space` quality check.
 ``ignore-angularjs-format``
-    Skip the "AngularJS interpolation string" quality check.
+    Skip the :ref:`check-angularjs-format` quality check.
 ``ignore-c-format``
-    Skip the "C format" quality check.
+    Skip the :ref:`check-c-format` quality check.
 ``ignore-c-sharp-format``
-    Skip the "C# format" quality check.
+    Skip the :ref:`check-c-sharp-format` quality check.
 ``ignore-es-format``
-    Skip the "ECMAScript template literals" quality check.
+    Skip the :ref:`check-es-format` quality check.
 ``ignore-i18next-interpolation``
-    Skip the "i18next interpolation" quality check.
+    Skip the :ref:`check-i18next-interpolation` quality check.
+``ignore-icu-message-format``
+    Skip the :ref:`check-icu-message-format` quality check.
 ``ignore-java-format``
-    Skip the "Java format" quality check.
+    Skip the :ref:`check-java-format` quality check.
 ``ignore-java-messageformat``
-    Skip the "Java MessageFormat" quality check.
+    Skip the :ref:`check-java-messageformat` quality check.
 ``ignore-javascript-format``
-    Skip the "JavaScript format" quality check.
+    Skip the :ref:`check-javascript-format` quality check.
 ``ignore-lua-format``
-    Skip the "Lua format" quality check.
+    Skip the :ref:`check-lua-format` quality check.
 ``ignore-object-pascal-format``
-    Skip the "Object Pascal format" quality check.
+    Skip the :ref:`check-object-pascal-format` quality check.
 ``ignore-percent-placeholders``
-    Skip the "Percent placeholders" quality check.
+    Skip the :ref:`check-percent-placeholders` quality check.
 ``ignore-perl-format``
-    Skip the "Perl format" quality check.
+    Skip the :ref:`check-perl-format` quality check.
 ``ignore-php-format``
-    Skip the "PHP format" quality check.
+    Skip the :ref:`check-php-format` quality check.
 ``ignore-python-brace-format``
-    Skip the "Python brace format" quality check.
+    Skip the :ref:`check-python-brace-format` quality check.
 ``ignore-python-format``
-    Skip the "Python format" quality check.
+    Skip the :ref:`check-python-format` quality check.
 ``ignore-qt-format``
-    Skip the "Qt format" quality check.
+    Skip the :ref:`check-qt-format` quality check.
 ``ignore-qt-plural-format``
-    Skip the "Qt plural format" quality check.
+    Skip the :ref:`check-qt-plural-format` quality check.
 ``ignore-ruby-format``
-    Skip the "Ruby format" quality check.
+    Skip the :ref:`check-ruby-format` quality check.
+``ignore-scheme-format``
+    Skip the :ref:`check-scheme-format` quality check.
 ``ignore-vue-format``
-    Skip the "Vue I18n formatting" quality check.
+    Skip the :ref:`check-vue-format` quality check.
 ``ignore-translated``
-    Skip the "Has been translated" quality check.
+    Skip the :ref:`check-translated` quality check.
 ``ignore-inconsistent``
-    Skip the "Inconsistent" quality check.
+    Skip the :ref:`check-inconsistent` quality check.
 ``ignore-kashida``
-    Skip the "Kashida letter used" quality check.
+    Skip the :ref:`check-kashida` quality check.
 ``ignore-md-link``
-    Skip the "Markdown links" quality check.
+    Skip the :ref:`check-md-link` quality check.
 ``ignore-md-reflink``
-    Skip the "Markdown references" quality check.
+    Skip the :ref:`check-md-reflink` quality check.
 ``ignore-md-syntax``
-    Skip the "Markdown syntax" quality check.
+    Skip the :ref:`check-md-syntax` quality check.
 ``ignore-max-length``
-    Skip the "Maximum length of translation" quality check.
+    Skip the :ref:`check-max-length` quality check.
 ``ignore-max-size``
-    Skip the "Maximum size of translation" quality check.
+    Skip the :ref:`check-max-size` quality check.
 ``ignore-escaped-newline``
-    Skip the "Mismatched \n" quality check.
+    Skip the :ref:`check-escaped-newline` quality check.
 ``ignore-end-colon``
-    Skip the "Mismatched colon" quality check.
+    Skip the :ref:`check-end-colon` quality check.
 ``ignore-end-ellipsis``
-    Skip the "Mismatched ellipsis" quality check.
+    Skip the :ref:`check-end-ellipsis` quality check.
 ``ignore-end-exclamation``
-    Skip the "Mismatched exclamation mark" quality check.
+    Skip the :ref:`check-end-exclamation` quality check.
 ``ignore-end-stop``
-    Skip the "Mismatched full stop" quality check.
+    Skip the :ref:`check-end-stop` quality check.
 ``ignore-end-question``
-    Skip the "Mismatched question mark" quality check.
+    Skip the :ref:`check-end-question` quality check.
 ``ignore-end-semicolon``
-    Skip the "Mismatched semicolon" quality check.
+    Skip the :ref:`check-end-semicolon` quality check.
 ``ignore-newline-count``
-    Skip the "Mismatching line breaks" quality check.
+    Skip the :ref:`check-newline-count` quality check.
 ``ignore-plurals``
-    Skip the "Missing plurals" quality check.
+    Skip the :ref:`check-plurals` quality check.
 ``ignore-placeholders``
-    Skip the "Placeholders" quality check.
+    Skip the :ref:`check-placeholders` quality check.
 ``ignore-punctuation-spacing``
-    Skip the "Punctuation spacing" quality check.
+    Skip the :ref:`check-punctuation-spacing` quality check.
 ``ignore-regex``
-    Skip the "Regular expression" quality check.
+    Skip the :ref:`check-regex` quality check.
 ``ignore-same-plurals``
-    Skip the "Same plurals" quality check.
+    Skip the :ref:`check-same-plurals` quality check.
 ``ignore-begin-newline``
-    Skip the "Starting newline" quality check.
+    Skip the :ref:`check-begin-newline` quality check.
 ``ignore-begin-space``
-    Skip the "Starting spaces" quality check.
+    Skip the :ref:`check-begin-space` quality check.
 ``ignore-end-newline``
-    Skip the "Trailing newline" quality check.
+    Skip the :ref:`check-end-newline` quality check.
 ``ignore-end-space``
-    Skip the "Trailing space" quality check.
+    Skip the :ref:`check-end-space` quality check.
 ``ignore-same``
-    Skip the "Unchanged translation" quality check.
+    Skip the :ref:`check-same` quality check.
 ``ignore-safe-html``
-    Skip the "Unsafe HTML" quality check.
+    Skip the :ref:`check-safe-html` quality check.
 ``ignore-url``
-    Skip the "URL" quality check.
+    Skip the :ref:`check-url` quality check.
 ``ignore-xml-tags``
-    Skip the "XML markup" quality check.
+    Skip the :ref:`check-xml-tags` quality check.
 ``ignore-xml-invalid``
-    Skip the "XML syntax" quality check.
+    Skip the :ref:`check-xml-invalid` quality check.
 ``ignore-zero-width-space``
-    Skip the "Zero-width space" quality check.
+    Skip the :ref:`check-zero-width-space` quality check.
 ``ignore-ellipsis``
-    Skip the "Ellipsis" quality check.
+    Skip the :ref:`check-ellipsis` quality check.
+``ignore-icu-message-format-syntax``
+    Skip the :ref:`check-icu-message-format-syntax` quality check.
 ``ignore-long-untranslated``
-    Skip the "Long untranslated" quality check.
+    Skip the :ref:`check-long-untranslated` quality check.
 ``ignore-multiple-failures``
-    Skip the "Multiple failing checks" quality check.
+    Skip the :ref:`check-multiple-failures` quality check.
 ``ignore-unnamed-format``
-    Skip the "Multiple unnamed variables" quality check.
+    Skip the :ref:`check-unnamed-format` quality check.
 ``ignore-optional-plural``
-    Skip the "Unpluralised" quality check.
+    Skip the :ref:`check-optional-plural` quality check.
 
 .. note::
 
@@ -256,30 +303,30 @@ the check.
 The font-groups allow you to define different fonts for different languages,
 which is typically needed for non-latin languages:
 
-.. image:: /images/font-group-edit.png
+.. image:: /screenshots/font-group-edit.png
 
 The font-groups are identified by name, which can not contain whitespace or
 special characters, so that it can be easily used in the check definition:
 
-.. image:: /images/font-group-list.png
+.. image:: /screenshots/font-group-list.png
 
 Font-family and style is automatically recognized after uploading them:
 
-.. image:: /images/font-edit.png
+.. image:: /screenshots/font-edit.png
 
 You can have a number of fonts loaded into Weblate:
 
-.. image:: /images/font-list.png
+.. image:: /screenshots/font-list.png
 
 To use the fonts for checking the string length, pass it the appropriate
 flags (see :ref:`custom-checks`). You will probably need the following ones:
 
 ``max-size:500``
-   Defines maximal width.
+   Defines maximal width in pixels.
 ``font-family:ubuntu``
    Defines font group to use by specifying its identifier.
 ``font-size:22``
-   Defines font size.
+   Defines font size in pixels.
 
 
 .. _own-checks:

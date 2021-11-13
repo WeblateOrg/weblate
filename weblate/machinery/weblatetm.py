@@ -20,6 +20,7 @@
 from functools import reduce
 from typing import Set
 
+from django.conf import settings
 from django.db.models import Q
 
 from weblate.machinery.base import MachineTranslation, get_machinery_language
@@ -60,10 +61,18 @@ class WeblateTranslation(MachineTranslation):
         threshold: int = 75,
     ):
         """Download list of possible translations from a service."""
+        # Filter based on user access
         if user:
             base = Unit.objects.filter_access(user)
         else:
             base = Unit.objects.all()
+
+        # Use memory_db for the query in case it exists. This is supposed
+        # to be a read-only replica for offloading expensive translation
+        # queries.
+        if "memory_db" in settings.DATABASES:
+            base = base.using("memory_db")
+
         matching_units = base.filter(
             source__search=text,
             translation__component__source_language=source,

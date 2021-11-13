@@ -21,3 +21,9 @@ Installation
 
    helm repo add weblate https://helm.weblate.org
    helm install my-release weblate/weblate
+
+Configuration
+-------------
+
+For further configuration options,
+see :ref:`docker-environment` for full list of environment variables.

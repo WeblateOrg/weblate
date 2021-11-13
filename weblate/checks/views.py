@@ -66,7 +66,7 @@ def show_checks(request):
     allchecks = (
         Check.objects.filter(**kwargs)
         .filter_access(user)
-        .values("check")
+        .values("name")
         .annotate(
             check_count=Count("id"),
             dismissed_check_count=conditional_sum(1, dismissed=True),
@@ -98,7 +98,7 @@ def show_check(request, name):
     url_params = {}
 
     kwargs = {
-        "component__translation__unit__check__check": name,
+        "component__translation__unit__check__name": name,
     }
 
     form = FilterForm(request.GET)
@@ -159,7 +159,7 @@ def show_check_project(request, name, project):
 
     kwargs = {
         "project": prj,
-        "translation__unit__check__check": name,
+        "translation__unit__check__name": name,
     }
 
     form = FilterForm(request.GET)
@@ -216,7 +216,7 @@ def show_check_component(request, name, project, component):
 
     translations = (
         Translation.objects.filter(
-            component=component, unit__check__check=name, **kwargs
+            component=component, unit__check__name=name, **kwargs
         )
         .annotate(
             check_count=Count("unit__check"),
@@ -245,10 +245,10 @@ def show_check_component(request, name, project, component):
 def render_check(request, unit_id, check_id):
     """Render endpoint for checks."""
     try:
-        obj = Check.objects.get(unit_id=unit_id, check=check_id)
+        obj = Check.objects.get(unit_id=unit_id, name=check_id)
     except Check.DoesNotExist:
         unit = get_object_or_404(Unit, pk=int(unit_id))
-        obj = Check(unit=unit, dismissed=False, check=check_id)
+        obj = Check(unit=unit, dismissed=False, name=check_id)
     request.user.check_access_component(obj.unit.translation.component)
 
     return obj.check_obj.render(request, obj.unit)

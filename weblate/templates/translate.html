@@ -153,7 +153,7 @@
             {% if unit.context %}
                 <div class="pull-right flip">
                 <label>{{ unit.translation.component.context_label }}</label>
-                {% format_translation unit.context unit.translation.component.source_language simple=True wrap=True %}
+                {% format_translation unit.context unit.translation.component.source_language simple=True wrap=True noformat=True %}
                 </div>
             {% endif %}
             <a class="language" href="{{ unit.source_unit.get_absolute_url }}">{{ unit.translation.component.source_language }}</a>
@@ -193,11 +193,12 @@
       {% endif %}
     {% endwith %}
     <button class="btn btn-primary" type="submit" name="save" tabindex="150"
-    {% if locked or not user_can_translate %}
+    {% if locked %}
         disabled="disabled"
-        {% if locked %}
-            title="{% trans "This translation is currently locked." %}"
-        {% elif not user.is_authenticated %}
+        title="{% trans "This translation is currently locked." %}"
+    {% elif not user_can_translate and not user_can_edit_flags %}
+        disabled="disabled"
+        {% if not user.is_authenticated %}
             title="{% trans "Please sign in to save translations." %}"
         {% elif unit.approved %}
             title="{% trans "Only reviewers can change approved strings, please add a suggestion if you think the string should be changed." %}"
@@ -215,8 +216,12 @@
     {% endif %}
     > {% trans "Save" %}</button>
 
+    {% if not locked and user_can_translate %}
+      <button class="btn btn-warning btn-spaced" type="submit" name="save-stay" tabindex="151">{% trans "Save and stay" %}</button>
+    {% endif %}
+
     {% if unit.translation.component.enable_suggestions %}
-    <button class="btn btn-warning btn-spaced" type="submit" name="suggest" tabindex="151"
+    <button class="btn btn-warning btn-spaced" type="submit" name="suggest" tabindex="152"
     {% if project_locked or not user_can_suggest or unit.readonly %}disabled="disabled"{% endif %}
       {% if not user_can_suggest %}
         title="{% trans "Insufficient privileges for adding suggestions." %}"
@@ -227,7 +232,7 @@
       {% endif %}
     >{% icon "suggest.svg" %} {% trans "Suggest" %}</button>
     {% endif %}
-    <button class="btn btn-warning btn-spaced" type="submit" name="skip" tabindex="152">{% if LANGUAGE_BIDI %}{% icon "rewind.svg" %}{% else %}{% icon "fast-forward.svg" %}{% endif %} {% trans "Skip" %}</button>
+    <button class="btn btn-warning btn-spaced" type="submit" name="skip" tabindex="153">{% if LANGUAGE_BIDI %}{% icon "rewind.svg" %}{% else %}{% icon "fast-forward.svg" %}{% endif %} {% trans "Skip" %}</button>
   </div>
 </div>
 </form>
@@ -462,10 +467,10 @@
         <p class="list-group-item-text list-buttons">
             {% perm 'unit.check' check as user_can_ignore_check %}
             {% if user_can_ignore_check %}
-            <a href="{% url 'js-ignore-check' check_id=check.id %}" data-check="{{ check.id }}" data-dismiss-all="{% url 'js-ignore-check-source' check_id=check.id %}" class="btn btn-warning check-dismiss check-dismiss-single">{% trans "Dismiss" %}</a>
-            {% if user_can_edit_source %}
-              <label class="dismiss-all"><input type="checkbox" name="dismiss-all-{{ check.id }}" /> {% trans "For all languages" %}</label>
-            {% endif %}
+              <a href="{% url 'js-ignore-check' check_id=check.id %}" data-check="{{ check.id }}" data-dismiss-all="{% url 'js-ignore-check-source' check_id=check.id %}" class="btn btn-warning check-dismiss check-dismiss-single">{% trans "Dismiss" %}</a>
+              {% if user_can_edit_source %}
+                <label class="dismiss-all"><input type="checkbox" name="dismiss-all-{{ check.id }}" /> {% trans "For all languages" %}</label>
+              {% endif %}
             {% endif %}
             <a href="{% url 'js-ignore-check' check_id=check.id %}?revert=1" class="btn btn-info check-dismiss check-revert">{% trans "Reset" %}</a>
         </p>
@@ -618,7 +623,7 @@
     <h5>
     {% trans "Source string comment" %}
     </h5>
-    {{ unit.note|urlize }}
+    {{ unit.note|urlize_ugc }}
     </div>
     {% endif %}
     {% if unit.all_labels or user_can_edit_source %}
@@ -628,7 +633,7 @@
     {% trans "Labels" %}
     </h5>
     {% for label in unit.all_labels %}
-    {{ label }}
+      <a href="?q=label:{{ label.name|urlencode }}"><span class="label label-{{ label.color }}">{{ label.name }}</span></a>
     {% empty %}
     <em>{% trans "No labels currently set." %}</em>
     {% endfor %}

@@ -158,7 +158,7 @@ LICENSES = (
     (
         "Apache-2.0",
         "Apache License 2.0",
-        "http://www.apache.org/licenses/LICENSE-2.0",
+        "https://www.apache.org/licenses/LICENSE-2.0",
         True,
     ),
     (
@@ -526,9 +526,21 @@ LICENSES = (
         False,
     ),
     (
+        "CDLA-Permissive-2.0",
+        "Community Data License Agreement Permissive 2.0",
+        "https://cdla.dev/permissive-2-0",
+        False,
+    ),
+    (
         "CDLA-Sharing-1.0",
         "Community Data License Agreement Sharing 1.0",
         "https://cdla.io/sharing-1-0",
+        False,
+    ),
+    (
+        "Community-Spec-1.0",
+        "Community Specification License 1.0",
+        "https://github.com/CommunitySpecification/1.0/blob/master/1._Community_Specification_License-v1.md",
         False,
     ),
     (
@@ -548,6 +560,12 @@ LICENSES = (
         "Condor Public License v1.1",
         "http://research.cs.wisc.edu/condor/license.html#condor",
         True,
+    ),
+    (
+        "COIL-1.0",
+        "Copyfree Open Innovation License",
+        "https://coil.apotheon.org/plaintext/01.0.txt",
+        False,
     ),
     (
         "copyleft-next-0.3.0",
@@ -574,6 +592,12 @@ LICENSES = (
         False,
     ),
     (
+        "CC-BY-2.5-AU",
+        "Creative Commons Attribution 2.5 Australia",
+        "https://creativecommons.org/licenses/by/2.5/au/legalcode",
+        False,
+    ),
+    (
         "CC-BY-2.5",
         "Creative Commons Attribution 2.5 Generic",
         "https://creativecommons.org/licenses/by/2.5/legalcode",
@@ -583,6 +607,18 @@ LICENSES = (
         "CC-BY-3.0-AT",
         "Creative Commons Attribution 3.0 Austria",
         "https://creativecommons.org/licenses/by/3.0/at/legalcode",
+        False,
+    ),
+    (
+        "CC-BY-3.0-DE",
+        "Creative Commons Attribution 3.0 Germany",
+        "https://creativecommons.org/licenses/by/3.0/de/legalcode",
+        False,
+    ),
+    (
+        "CC-BY-3.0-NL",
+        "Creative Commons Attribution 3.0 Netherlands",
+        "https://creativecommons.org/licenses/by/3.0/nl/legalcode",
         False,
     ),
     (
@@ -622,6 +658,12 @@ LICENSES = (
         False,
     ),
     (
+        "CC-BY-ND-3.0-DE",
+        "Creative Commons Attribution No Derivatives 3.0 Germany",
+        "https://creativecommons.org/licenses/by-nd/3.0/de/legalcode",
+        False,
+    ),
+    (
         "CC-BY-ND-3.0",
         "Creative Commons Attribution No Derivatives 3.0 Unported",
         "https://creativecommons.org/licenses/by-nd/3.0/legalcode",
@@ -649,6 +691,12 @@ LICENSES = (
         "CC-BY-NC-2.5",
         "Creative Commons Attribution Non Commercial 2.5 Generic",
         "https://creativecommons.org/licenses/by-nc/2.5/legalcode",
+        False,
+    ),
+    (
+        "CC-BY-NC-3.0-DE",
+        "Creative Commons Attribution Non Commercial 3.0 Germany",
+        "https://creativecommons.org/licenses/by-nc/3.0/de/legalcode",
         False,
     ),
     (
@@ -682,6 +730,12 @@ LICENSES = (
         False,
     ),
     (
+        "CC-BY-NC-ND-3.0-DE",
+        "Creative Commons Attribution Non Commercial No Derivatives 3.0 Germany",
+        "https://creativecommons.org/licenses/by-nc-nd/3.0/de/legalcode",
+        False,
+    ),
+    (
         "CC-BY-NC-ND-3.0-IGO",
         "Creative Commons Attribution Non Commercial No Derivatives 3.0 IGO",
         "https://creativecommons.org/licenses/by-nc-nd/3.0/igo/legalcode",
@@ -706,6 +760,12 @@ LICENSES = (
         False,
     ),
     (
+        "CC-BY-NC-SA-2.0-UK",
+        "Creative Commons Attribution Non Commercial Share Alike 2.0 England and Wales",
+        "https://creativecommons.org/licenses/by-nc-sa/2.0/uk/legalcode",
+        False,
+    ),
+    (
         "CC-BY-NC-SA-2.0",
         "Creative Commons Attribution Non Commercial Share Alike 2.0 Generic",
         "https://creativecommons.org/licenses/by-nc-sa/2.0/legalcode",
@@ -715,6 +775,18 @@ LICENSES = (
         "CC-BY-NC-SA-2.5",
         "Creative Commons Attribution Non Commercial Share Alike 2.5 Generic",
         "https://creativecommons.org/licenses/by-nc-sa/2.5/legalcode",
+        False,
+    ),
+    (
+        "CC-BY-NC-SA-3.0-DE",
+        "Creative Commons Attribution Non Commercial Share Alike 3.0 Germany",
+        "https://creativecommons.org/licenses/by-nc-sa/3.0/de/legalcode",
+        False,
+    ),
+    (
+        "CC-BY-NC-SA-3.0-IGO",
+        "Creative Commons Attribution Non Commercial Share Alike 3.0 IGO",
+        "https://creativecommons.org/licenses/by-nc-sa/3.0/igo/legalcode",
         False,
     ),
     (
@@ -766,6 +838,12 @@ LICENSES = (
         False,
     ),
     (
+        "CC-BY-SA-3.0-DE",
+        "Creative Commons Attribution Share Alike 3.0 Germany",
+        "https://creativecommons.org/licenses/by-sa/3.0/de/legalcode",
+        False,
+    ),
+    (
         "CC-BY-SA-3.0",
         "Creative Commons Attribution Share Alike 3.0 Unported",
         "https://creativecommons.org/licenses/by-sa/3.0/legalcode",
@@ -776,6 +854,12 @@ LICENSES = (
         "Creative Commons Attribution Share Alike 4.0 International",
         "https://creativecommons.org/licenses/by-sa/4.0/legalcode",
         True,
+    ),
+    (
+        "CC-BY-NC-SA-2.0-FR",
+        "Creative Commons Attribution-NonCommercial-ShareAlike 2.0 France",
+        "https://creativecommons.org/licenses/by-nc-sa/2.0/fr/legalcode",
+        False,
     ),
     (
         "CC-PDDC",
@@ -979,6 +1063,12 @@ LICENSES = (
         "Frameworx Open License 1.0",
         "https://opensource.org/licenses/Frameworx-1.0",
         True,
+    ),
+    (
+        "FDK-AAC",
+        "Fraunhofer FDK AAC Codec Library",
+        "https://fedoraproject.org/wiki/Licensing/FDK-AAC",
+        False,
     ),
     (
         "FreeBSD-DOC",
@@ -1337,12 +1427,7 @@ LICENSES = (
         False,
     ),
     ("IPA", "IPA Font License", "https://opensource.org/licenses/IPA", True),
-    (
-        "ISC",
-        "ISC License",
-        "https://www.isc.org/downloads/software-support-policy/isc-license/",
-        True,
-    ),
+    ("ISC", "ISC License", "https://www.isc.org/licenses/", True),
     (
         "JPNIC",
         "Japan Network Information Center License",
@@ -1460,6 +1545,12 @@ LICENSES = (
         False,
     ),
     (
+        "Linux-man-pages-copyleft",
+        "Linux man-pages Copyleft",
+        "https://www.kernel.org/doc/man-pages/licenses.html",
+        False,
+    ),
+    (
         "LPL-1.02",
         "Lucent Public License v1.02",
         "http://plan9.bell-labs.com/plan9/license.html",
@@ -1528,7 +1619,7 @@ LICENSES = (
         "http://www.mozilla.org/MPL/MPL-1.1.html",
         True,
     ),
-    ("MPL-2.0", "Mozilla Public License 2.0", "http://www.mozilla.org/MPL/2.0/", True),
+    ("MPL-2.0", "Mozilla Public License 2.0", "https://www.mozilla.org/MPL/2.0/", True),
     (
         "MPL-2.0-no-copyleft-exception",
         "Mozilla Public License 2.0 (no copyleft exception)",
@@ -1649,8 +1740,14 @@ LICENSES = (
     ),
     (
         "NLOD-1.0",
-        "Norwegian Licence for Open Government Data",
+        "Norwegian Licence for Open Government Data (NLOD) 1.0",
         "http://data.norge.no/nlod/en/1.0",
+        False,
+    ),
+    (
+        "NLOD-2.0",
+        "Norwegian Licence for Open Government Data (NLOD) 2.0",
+        "http://data.norge.no/nlod/en/2.0",
         False,
     ),
     ("Noweb", "Noweb License", "https://fedoraproject.org/wiki/Licensing/Noweb", False),
@@ -1834,6 +1931,12 @@ LICENSES = (
         "OPL-1.0",
         "Open Public License v1.0",
         "http://old.koalateam.com/jackaroo/OPL_1_0.TXT",
+        False,
+    ),
+    (
+        "OPUBL-1.0",
+        "Open Publication License v1.0",
+        "http://opencontent.org/openpub/",
         False,
     ),
     (
@@ -2055,7 +2158,7 @@ LICENSES = (
         "OFL-1.0",
         "SIL Open Font License 1.0",
         "http://scripts.sil.org/cms/scripts/page.php?item_id=OFL10_web",
-        False,
+        True,
     ),
     (
         "OFL-1.0-no-RFN",

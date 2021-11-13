@@ -520,13 +520,13 @@ class TranslationStats(BaseStats):
         allchecks = {check.url_id for check in CHECKS.values()}
         stats = (
             self._object.unit_set.filter(check__dismissed=False)
-            .values("check__check")
+            .values("check__name")
             .annotate(
                 strings=Count("pk"), words=Sum("num_words"), chars=Sum(Length("source"))
             )
         )
         for stat in stats:
-            check = stat["check__check"]
+            check = stat["check__name"]
             # Filtering here is way more effective than in SQL
             if check is None:
                 continue
@@ -757,6 +757,7 @@ class ProjectLanguage:
             .filter(
                 Q(component__project=self.project) | Q(component__links=self.project)
             )
+            .distinct()
             .order_by("component__priority", "component__name")
         )
         for item in result:

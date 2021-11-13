@@ -26,7 +26,8 @@ import urllib.parse
 from configparser import NoOptionError, NoSectionError
 from datetime import datetime
 from json import JSONDecodeError, dumps
-from typing import Dict, List, Optional, Tuple
+from time import sleep
+from typing import Dict, Iterator, List, Optional, Tuple
 from zipfile import ZipFile
 
 import requests
@@ -35,6 +36,7 @@ from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy
 from git.config import GitConfigParser
 
+from weblate.utils.data import data_dir
 from weblate.utils.errors import report_error
 from weblate.utils.files import is_excluded, remove_tree
 from weblate.utils.render import render_template
@@ -86,8 +88,27 @@ class GitRepository(Repository):
 
         raise RepositoryException(0, "Failed to figure out remote branch")
 
-    def config_update(self, *updates):
-        filename = os.path.join(self.path, ".git", "config")
+    @staticmethod
+    def git_config_update(filename: str, *updates: Tuple[str, str, str]):
+        # First, open file read-only to check current settings
+        modify = False
+        with GitConfigParser(file_or_files=filename, read_only=True) as config:
+            for section, key, value in updates:
+                try:
+                    old = config.get(section, key)
+                    if value is None:
+                        modify = True
+                        break
+                    if old == value:
+                        continue
+                except (NoSectionError, NoOptionError):
+                    pass
+                if value is not None:
+                    modify = True
+        if not modify:
+            return
+        # In case changes are needed, open it for writing as that creates a lock
+        # file
         with GitConfigParser(file_or_files=filename, read_only=False) as config:
             for section, key, value in updates:
                 try:
@@ -101,6 +122,10 @@ class GitRepository(Repository):
                     pass
                 if value is not None:
                     config.set_value(section, key, value)
+
+    def config_update(self, *updates: Tuple[str, str, str]):
+        filename = os.path.join(self.path, ".git", "config")
+        self.git_config_update(filename, *updates)
 
     def check_config(self):
         """Check VCS configuration."""
@@ -138,7 +163,10 @@ class GitRepository(Repository):
             if self.needs_commit():
                 self.execute(["reset", "--hard"])
         else:
-            self.execute(["rebase", self.get_remote_branch_name()])
+            cmd = ["rebase"]
+            cmd.extend(self.get_gpg_sign_args())
+            cmd.append(self.get_remote_branch_name())
+            self.execute(cmd)
         self.clean_revision_cache()
 
     def has_git_file(self, name):
@@ -200,7 +228,7 @@ class GitRepository(Repository):
         """Check whether repository needs commit."""
         cmd = ["--no-optional-locks", "status", "--porcelain"]
         if filenames:
-            cmd.extend(["--ignored=matching", "--"])
+            cmd.extend(["--untracked-files=all", "--ignored=traditional", "--"])
             cmd.extend(filenames)
         with self.lock:
             status = self.execute(cmd, merge_err=False)
@@ -276,7 +304,7 @@ class GitRepository(Repository):
         author: Optional[str] = None,
         timestamp: Optional[datetime] = None,
         files: Optional[List[str]] = None,
-    ):
+    ) -> bool:
         """Create new revision."""
         # Add files one by one, this has to deal with
         # removed, untracked and non existing files
@@ -292,7 +320,7 @@ class GitRepository(Repository):
         # Bail out if there is nothing to commit.
         # This can easily happen with squashing and reverting changes.
         if not self.needs_commit(files):
-            return
+            return False
 
         # Build the commit command
         cmd = ["commit", "--file", "-"]
@@ -306,6 +334,8 @@ class GitRepository(Repository):
         self.execute(cmd, stdin=message)
         # Clean cache
         self.clean_revision_cache()
+
+        return True
 
     def remove(self, files: List[str], message: str, author: Optional[str] = None):
         """Remove files and creates new revision."""
@@ -374,27 +404,35 @@ class GitRepository(Repository):
     def global_setup(cls):
         """Perform global settings."""
         merge_driver = cls.get_merge_driver("po")
+        updates = [
+            ("user", "email", settings.DEFAULT_COMMITER_EMAIL),
+            ("user", "name", settings.DEFAULT_COMMITER_NAME),
+        ]
         if merge_driver is not None:
-            cls._popen(
-                [
-                    "config",
-                    "--global",
-                    "merge.weblate-merge-gettext-po.name",
+            updates.append(
+                (
+                    'merge "weblate-merge-gettext-po"',
+                    "name",
                     "Weblate merge driver for Gettext PO files",
-                ]
+                )
             )
-            cls._popen(
-                [
-                    "config",
-                    "--global",
-                    "merge.weblate-merge-gettext-po.driver",
-                    f"{merge_driver} %O %A %B",
-                ]
+            updates.append(
+                (
+                    'merge "weblate-merge-gettext-po"',
+                    "driver",
+                    f"{merge_driver} %O %A %B %P",
+                )
             )
-        cls._popen(
-            ["config", "--global", "user.email", settings.DEFAULT_COMMITER_EMAIL]
-        )
-        cls._popen(["config", "--global", "user.name", settings.DEFAULT_COMMITER_NAME])
+
+        filename = os.path.join(data_dir("home"), ".gitconfig")
+        attempts = 0
+        while attempts < 5:
+            try:
+                cls.git_config_update(filename, *updates)
+                break
+            except OSError:
+                attempts += 1
+                sleep(attempts * 0.1)
 
     def get_file(self, path, revision):
         """Return content of file at given revision."""
@@ -452,7 +490,7 @@ class GitRepository(Repository):
     def unshallow(self):
         self.execute(["fetch", "--unshallow"])
 
-    def parse_changed_files(self, lines):
+    def parse_changed_files(self, lines: List[str]) -> Iterator[str]:
         """Parses output with chanaged files."""
         # Strip action prefix we do not use
         for line in lines:
@@ -634,7 +672,10 @@ class GitMergeRequestBase(GitForcePushRepository):
             # Needed for compatibility with original merge code
             self.execute(["checkout", self.branch])
         else:
-            self.execute(["merge", f"origin/{self.branch}"])
+            cmd = ["merge"]
+            cmd.extend(self.get_gpg_sign_args())
+            cmd.append(self.get_remote_branch_name())
+            self.execute(cmd)
         self.clean_revision_cache()
 
     def get_api_url(self) -> Tuple[str, str, str]:
@@ -648,8 +689,19 @@ class GitMergeRequestBase(GitForcePushRepository):
         else:
             path = parsed.path
         parts = path.split(":")[-1].rstrip("/").split("/")
-        slug = parts[-1].replace(".git", "")
-        owner = "/".join(part for part in parts[:-1] if part)
+        last_part = parts[-1]
+        if last_part.endswith(".git"):
+            last_part = last_part[:-4]
+        slug_parts = [last_part]
+        owner = ""
+        for part in parts[:-1]:
+            if not part:
+                continue
+            if not owner:
+                owner = part
+                continue
+            slug_parts.insert(-1, part)
+        slug = "/".join(slug_parts)
         return (
             self.API_TEMPLATE.format(
                 host=self.format_api_host(host),

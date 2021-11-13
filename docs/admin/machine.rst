@@ -51,9 +51,7 @@ AWS
 Amazon Translate is a neural machine translation service for translating text
 to and from English across a breadth of supported languages.
 
-1. Turn on this service by adding ``weblate.machinery.aws.AWSTranslation`` to
-:setting:`MT_SERVICES`.
-
+1. Turn on this service by adding ``weblate.machinery.aws.AWSTranslation`` to :setting:`MT_SERVICES`.
 2. Install the `boto3` module.
 3. Configure Weblate.
 
@@ -114,6 +112,28 @@ Turn on this service by adding ``weblate.machinery.deepl.DeepLTranslation`` to
     `DeepL pricing <https://www.deepl.com/pro>`_,
     `DeepL API documentation <https://www.deepl.com/api.html>`_
 
+.. _libretranslate:
+
+LibreTranslate
+--------------
+
+.. versionadded:: 4.7.1
+
+LibreTranslate is a free and open-source service for machine translations. The
+public instance requires an API key, but LibreTranslate can be self-hosted
+and there are several mirrors available to use the API for free.
+
+Turn on this service by adding ``weblate.machinery.libretranslate.LibreTranslateTranslation``
+to :setting:`MT_SERVICES` and set :setting:`MT_LIBRETRANSLATE_API_URL`. If your
+instance requires an API key, you must also set :setting:`MT_LIBRETRANSLATE_KEY`.
+
+.. seealso::
+
+    :setting:`MT_LIBRETRANSLATE_KEY`,
+    :setting:`MT_LIBRETRANSLATE_API_URL`,
+    `LibreTranslate website <https://libretranslate.com/>`_,
+    `LibreTranslate repository <https://github.com/LibreTranslate/LibreTranslate>`_,
+    `LibreTranslate mirrors <https://github.com/LibreTranslate/LibreTranslate#user-content-mirrors>`_
 
 .. _glosbe:
 
@@ -265,7 +285,7 @@ NetEase Sight API machine translation
 
 .. versionadded:: 3.3
 
-Machine translation service provided by Netease.
+Machine translation service provided by NetEase.
 
 This service uses an API, and you need to obtain key and secret from NetEase.
 
@@ -277,7 +297,7 @@ Turn on this service by adding ``weblate.machinery.youdao.NeteaseSightTranslatio
 
     :setting:`MT_NETEASE_KEY`,
     :setting:`MT_NETEASE_SECRET`
-    `Netease Sight Translation Platform <https://sight.youdao.com/>`_
+    `NetEase Sight Translation Platform <https://sight.youdao.com/>`_
 
 .. _tmserver:
 
@@ -389,12 +409,12 @@ SAP Translation Hub
 
 Machine translation service provided by SAP.
 
-You need to have a SAP account (and enabled the SAP Translation Hub in the SAP Cloud
+You need to have a SAP account (and the SAP Translation Hub enabled in the SAP Cloud
 Platform) to use this service.
 
 Turn on this service by adding ``weblate.machinery.saptranslationhub.SAPTranslationHub`` to
-:setting:`MT_SERVICES` and set the appropriate access to either
-sandbox or the productive API.
+:setting:`MT_SERVICES` and set the appropriate access to either the
+sandbox or the production API.
 
 .. note::
 
@@ -423,5 +443,5 @@ languages using ``dictionary`` Python module:
 .. literalinclude:: ../../weblate/examples/mt_service.py
     :language: python
 
-You can list own class in :setting:`MT_SERVICES` and Weblate
+You can list your own class in :setting:`MT_SERVICES` and Weblate
 will start using that.

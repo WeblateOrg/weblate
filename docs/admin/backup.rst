@@ -23,7 +23,7 @@ The backups using Borg are incremental and Weblate is configured to keep followi
 * Weekly backups for 8 weeks back
 * Monthly backups for 6 months back
 
-.. image:: /images/backups.png
+.. image:: /screenshots/backups.png
 
 .. _borg-keys:
 
@@ -40,6 +40,12 @@ too, as it’s used to access your backups.
 .. seealso::
 
    :doc:`borg:usage/init`
+
+Customizing backup
+~~~~~~~~~~~~~~~~~~
+
+* The database backup can be configured via :setting:`DATABASE_BACKUP`.
+* The backup creation can be customized using :setting:`BORG_EXTRA_ARGS`.
 
 .. _cloudbackup:
 
@@ -109,18 +115,24 @@ to create it but needs the appropriate permissions to do so.
 Remote backups
 ~~~~~~~~~~~~~~
 
-In order to create the remote backups, you will have to install `BorgBackup`_
-onto another server that’s accessible via SSH. Make sure
-that it accepts the Weblate's client SSH key, i.e. the one it uses to connect
-to other servers.
+For creating remote backups, you will have to install `BorgBackup`_
+onto another server that’s accessible for your Weblate deployment
+via SSH using the Weblate SSH key:
+
+1. Prepare a server where your backups will be stored.
+2. Install the SSH server on it (you will get it by default with most Linux distributions).
+3. Install `BorgBackup`_ on that server; most Linux distributions have packages available (see :doc:`borg:installation`).
+4. Choose an existing user or create a new user that will be used for backing up.
+5. Add Weblate SSH key to the user so that Weblate can SSH to the server without a password (see :ref:`weblate-ssh-key`).
+6. Configure the backup location in Weblate as ``user@host:/path/to/backups`` or ``ssh://user@host:port/path/to/backups``.
 
 .. hint::
 
-    :ref:`cloudbackup` provides you automated remote backups.
+    :ref:`cloudbackup` provides you automated remote backups without any effort.
 
 .. seealso::
 
-   :ref:`weblate-ssh-key`
+   :ref:`weblate-ssh-key`, :doc:`borg:usage/general`
 
 Restoring from BorgBackup
 -------------------------
@@ -133,9 +145,20 @@ Restoring from BorgBackup
 
 4. Restore the database from the SQL dump placed in the ``backup`` directory in the Weblate data dir (see :ref:`backup-dumps`).
 
-5. Copy the Weblate configuration (:file:`backups/settings.py`, see :ref:`backup-dumps`) to the correct location, see :ref:`configuration`.
+5. Copy the Weblate configuration (:file:`backups/settings.py`, see
+   :ref:`backup-dumps`) to the correct location, see :ref:`configuration`.
 
-6. Copy the whole restored data dir to the location configured by :setting:`DATA_DIR`.
+   When using Docker container, the settings file is already included in the
+   container and you should restore the original environment variables. The
+   :file:`environment.yml` file might help you with this (see :ref:`backup-dumps`).
+
+6. Copy the whole restored data dir to the location configured by
+   :setting:`DATA_DIR`.
+
+   When using Docker container place the data into the data volume, see
+   :ref:`docker-volume`.
+
+   Please make sure the files have correct ownership and permissions, see :ref:`file-permissions`.
 
 The Borg session might look like this:
 
@@ -229,6 +252,11 @@ can skip in detail.
 Dumped data for backups
 +++++++++++++++++++++++
 
+.. versionchanged:: 4.7
+
+   The environment dump was added as :file:`environment.yml` to help in
+   restoring in the Docker environments.
+
 Stored in :setting:`DATA_DIR` ``/backups``.
 
 Weblate dumps various data here, and you can include these files for more complete
@@ -237,9 +265,16 @@ backups. The files are updated daily (requires a running Celery beats server, se
 
 * Weblate settings as :file:`settings.py` (there is also expanded version in :file:`settings-expanded.py`).
 * PostgreSQL database backup as :file:`database.sql`.
+* Environment dump as :file:`environment.yml`.
 
 The database backups are saved as plain text by default, but they can also be compressed
 or entirely skipped using :setting:`DATABASE_BACKUP`.
+
+To restore the database backup load it using dabase tools, for example:
+
+.. code-block:: shell
+
+   psql --file=database.sql weblate
 
 Version control repositories
 ++++++++++++++++++++++++++++

@@ -160,7 +160,8 @@ def migrate_glossaries(apps, schema_editor):  # noqa: C901
                         id_hash=id_hash,
                         source_unit=source_units[id_hash],
                     )
-                    # Adjust history entries (langauge and project should be already set)
+                    # Adjust history entries to include unit details,
+                    # language and project should be already set
                     term.change_set.update(
                         unit=unit,
                         translation=translation,

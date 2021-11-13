@@ -68,6 +68,7 @@ class PseudolocaleAddon(BaseAddon):
         "to source strings automatically."
     )
     settings_form = PseudolocaleAddonForm
+    multiple = True
     icon = "language.svg"
 
     def fetch_strings(self, component, key: str, query):

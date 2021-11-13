@@ -11,7 +11,7 @@ Installation
 ============
 
 The Python API is shipped separately, you need to install the
-:ref:`wlc`: (wlc) to have it.
+:ref:`wlc` (wlc) to have it.
 
 .. code-block:: sh
 

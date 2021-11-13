@@ -256,6 +256,26 @@ admins are still presented with full selection of languages defined in Weblate.
 
     :ref:`languages`
 
+.. setting:: BORG_EXTRA_ARGS
+
+BORG_EXTRA_ARGS
+---------------
+
+.. versionadded:: 4.9
+
+You can pass additional arguments to :command:`borg create` when built-in backups are triggered.
+
+**Example:**
+
+.. code-block:: python
+
+   BORG_EXTRA_ARGS = ["--exclude", "vcs/"]
+
+.. seealso::
+
+   :ref:`backup`,
+   :doc:`borg:usage/create`
+
 .. setting:: CSP_SCRIPT_SRC
 .. setting:: CSP_IMG_SRC
 .. setting:: CSP_CONNECT_SRC
@@ -814,7 +834,7 @@ translation updates.
    :ref:`vcs-github`,
    `Creating a GitHub personal access token`_
 
-.. _Creating a GitHub personal access token: https://docs.github.com/en/github/authenticating-to-github/keeping-your-account-and-data-secure/creating-a-personal-access-token
+.. _Creating a GitHub personal access token: https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token
 
 .. setting:: GOOGLE_ANALYTICS_ID
 
@@ -954,6 +974,10 @@ Example:
 .. code-block:: python
 
     LEGAL_URL = "https://weblate.org/terms/"
+
+.. seealso::
+
+   :setting:`PRIVACY_URL`
 
 .. setting:: LICENSE_EXTRA
 
@@ -1163,6 +1187,11 @@ List of enabled machine translation services to use.
     Many of the services need additional configuration like API keys, please check
     their documentation :ref:`machine-translation-setup` for more details.
 
+.. hint::
+
+    When using Docker container, this configuration is automatically generated
+    based on provided API keys, see :ref:`docker-machine`.
+
 .. code-block:: python
 
     MT_SERVICES = (
@@ -1170,6 +1199,7 @@ List of enabled machine translation services to use.
         "weblate.machinery.deepl.DeepLTranslation",
         "weblate.machinery.glosbe.GlosbeTranslation",
         "weblate.machinery.google.GoogleTranslation",
+        "weblate.machinery.libretranslate.LibreTranslateTranslation",
         "weblate.machinery.microsoft.MicrosoftCognitiveTranslation",
         "weblate.machinery.microsoftterminology.MicrosoftTerminologyService",
         "weblate.machinery.mymemory.MyMemoryTranslation",
@@ -1299,6 +1329,40 @@ API key for the DeepL API, you can register at https://www.deepl.com/pro.html
 .. seealso::
 
    :ref:`deepl`, :ref:`machine-translation-setup`, :ref:`machine-translation`
+
+.. setting:: MT_LIBRETRANSLATE_API_URL
+
+MT_LIBRETRANSLATE_API_URL
+-------------------------
+
+.. versionadded:: 4.7.1
+
+API URL for the LibreTranslate instance to use.
+
+``https://libretranslate.com/`` (official public instance)
+    Requires an API key to use outside of the website.
+
+Mirrors are documented on the LibreTranslate GitHub repository, some of which
+can be used without authentication:
+
+https://github.com/LibreTranslate/LibreTranslate#user-content-mirrors
+
+.. seealso::
+
+   :ref:`libretranslate`, :ref:`machine-translation-setup`, :ref:`machine-translation`
+
+.. setting:: MT_LIBRETRANSLATE_KEY
+
+MT_LIBRETRANSLATE_KEY
+---------------------
+
+.. versionadded:: 4.7.1
+
+API key for the LibreTranslate instance specified in `MT_LIBRETRANSLATE_API_URL`.
+
+.. seealso::
+
+   :ref:`libretranslate`, :ref:`machine-translation-setup`, :ref:`machine-translation`
 
 .. setting:: MT_GOOGLE_KEY
 
@@ -1573,6 +1637,15 @@ NEARBY_MESSAGES
 
 How many strings to show around the currently translated string. This is just a default value, users can adjust this in :ref:`user-profile`.
 
+.. setting:: DEFAULT_PAGE_LIMIT
+
+DEFAULT_PAGE_LIMIT
+------------------
+
+.. versionadded:: 4.7
+
+Default number of elements to display when pagination is active.
+
 .. setting:: PAGURE_CREDENTIALS
 
 PAGURE_CREDENTIALS
@@ -1629,6 +1702,30 @@ Pagure personal access token used to make API calls for translation updates.
    :ref:`vcs-pagure`,
    `Pagure API <https://pagure.io/api/0/>`_
 
+
+.. setting:: PRIVACY_URL
+
+PRIVACY_URL
+-----------
+
+.. versionadded:: 4.8.1
+
+URL where your Weblate instance shows its privacy policy.
+
+.. hint::
+
+    Useful if you host your legal documents outside Weblate for embedding them inside Weblate,
+    please check :ref:`legal` for details.
+
+Example:
+
+.. code-block:: python
+
+    PRIVACY_URL = "https://weblate.org/terms/"
+
+.. seealso::
+
+   :setting:`LEGAL_URL`
 
 .. setting:: RATELIMIT_ATTEMPTS
 
@@ -1893,7 +1990,7 @@ The default value is:
 
 .. code-block:: python
 
-    SPECIAL_CHARS = ("\t", "\n", "…")
+    SPECIAL_CHARS = ("\t", "\n", "\u00a0", "…")
 
 .. setting:: SINGLE_PROJECT
 
@@ -1917,6 +2014,32 @@ Example:
 .. code-block:: python
 
     SINGLE_PROJECT = "test"
+
+.. setting:: SSH_EXTRA_ARGS
+
+SSH_EXTRA_ARGS
+--------------
+
+.. versionadded:: 4.9
+
+Allows to add custom parameters when Weblate is invoking SSH. This is useful
+when connecting to servers using legacy encryption or other non-standard features.
+
+For example when SSH connection in Weblate fails with `Unable to negotiate with legacyhost: no matching key exchange method found.
+Their offer: diffie-hellman-group1-sha1`, you can enable that using:
+
+.. code-block:: python
+
+   SSH_EXTRA_ARGS = "-oKexAlgorithms=+diffie-hellman-group1-sha1"
+
+.. hint::
+
+   The string is evaluated by shell, so make sure to quote any whitespace and
+   special characters.
+
+.. seealso::
+
+   `OpenSSH Legacy Options <https://www.openssh.com/legacy.html>`_
 
 .. setting:: STATUS_URL
 

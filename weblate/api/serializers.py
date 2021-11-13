@@ -1126,6 +1126,7 @@ class AddonSerializer(serializers.ModelSerializer):
         else:
             # Create
             component = self._context["component"]
+
         # This could probably work, but it safer not to allow it
         if instance and instance.name != name:
             raise serializers.ValidationError({"name": "Can not change add-on name"})
@@ -1133,6 +1134,20 @@ class AddonSerializer(serializers.ModelSerializer):
             addon_class = ADDONS[name]
         except KeyError:
             raise serializers.ValidationError({"name": f"Add-on not found: {name}"})
+
+        # Don't allow duplicate add-ons
+        if not instance:
+            installed = set(
+                Addon.objects.filter_component(component).values_list("name", flat=True)
+            )
+            available = {
+                x.name for x in ADDONS.values() if x.multiple or x.name not in installed
+            }
+            if name not in available:
+                raise serializers.ValidationError(
+                    {"name": f"Add-on already installed: {name}"}
+                )
+
         addon = addon_class()
         if not addon.can_install(component, None):
             raise serializers.ValidationError(
@@ -1150,3 +1165,8 @@ class AddonSerializer(serializers.ModelSerializer):
                             {"configuration": f"Error in {field.name}: {error}"}
                         )
         return attrs
+
+    def save(self, **kwargs):
+        result = super().save(**kwargs)
+        self.instance.addon.post_configure()
+        return result

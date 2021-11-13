@@ -22,7 +22,7 @@ import codecs
 import os
 import shutil
 from io import BytesIO
-from typing import List, Optional, Union
+from typing import Callable, List, Optional, Union
 from zipfile import ZipFile
 
 from django.utils.functional import cached_property
@@ -49,6 +49,7 @@ from translate.storage.xml_extract.extract import (
     make_postore_adder,
 )
 
+from weblate.checks.flags import Flags
 from weblate.formats.base import TranslationFormat
 from weblate.formats.helpers import BytesIOMode
 from weblate.formats.ttkit import TTKitUnit, XliffUnit
@@ -92,6 +93,12 @@ class ConvertXliffUnit(XliffUnit):
         """Check whether unit is translated."""
         return self.unit is not None
 
+    @cached_property
+    def flags(self):
+        flags = Flags(super().flags)
+        flags.remove("xml-text")
+        return flags.format()
+
 
 class ConvertFormat(TranslationFormat):
     """
@@ -102,7 +109,6 @@ class ConvertFormat(TranslationFormat):
 
     monolingual = True
     can_add_unit = False
-    needs_target_sync = True
     unit_class = ConvertUnit
     autoaddon = {"weblate.flags.same_edit": {}}
 
@@ -118,24 +124,33 @@ class ConvertFormat(TranslationFormat):
     def convertfile(storefile, template_store):
         raise NotImplementedError()
 
-    @classmethod
-    def load(cls, storefile, template_store):
+    @staticmethod
+    def needs_target_sync(template_store):
+        return True
+
+    def load(self, storefile, template_store):
         # Did we get file or filename?
         if not hasattr(storefile, "read"):
             storefile = open(storefile, "rb")
         # Adjust store to have translations
-        store = cls.convertfile(storefile, template_store)
-        for unit in store.units:
-            if unit.isheader():
-                continue
-            # HTML does this properly on loading, others need it
-            if cls.needs_target_sync:
+        store = self.convertfile(storefile, template_store)
+        if self.needs_target_sync(template_store):
+            for unit in store.units:
+                if unit.isheader():
+                    continue
+                # HTML does this properly on loading, others need it
                 unit.target = unit.source
                 unit.rich_target = unit.rich_source
         return store
 
     @classmethod
-    def create_new_file(cls, filename, language, base):
+    def create_new_file(
+        cls,
+        filename: str,
+        language: str,
+        base: str,
+        callback: Optional[Callable] = None,
+    ):
         """Handle creation of new translation file."""
         if not base:
             raise ValueError("Not supported")
@@ -155,7 +170,7 @@ class ConvertFormat(TranslationFormat):
             return False
         try:
             if not fast:
-                cls.load(base, None)
+                cls(base, None)
             return True
         except Exception:
             report_error(cause="File parse error")
@@ -168,7 +183,12 @@ class ConvertFormat(TranslationFormat):
     def get_class(cls):
         return None
 
-    def create_unit(self, key: str, source: Union[str, List[str]]):
+    def create_unit(
+        self,
+        key: str,
+        source: Union[str, List[str]],
+        target: Optional[Union[str, List[str]]] = None,
+    ):
         raise ValueError("Not supported")
 
     def cleanup_unused(self) -> List[str]:
@@ -187,7 +207,10 @@ class HTMLFormat(ConvertFormat):
     autoload = ("*.htm", "*.html")
     format_id = "html"
     check_flags = ("safe-html", "strict-same")
-    needs_target_sync = False
+
+    @staticmethod
+    def needs_target_sync(template_store):
+        return False
 
     @staticmethod
     def convertfile(storefile, template_store):
@@ -358,6 +381,10 @@ class WindowsRCFormat(ConvertFormat):
     language_format = "bcp"
 
     @staticmethod
+    def needs_target_sync(template_store):
+        return template_store is None
+
+    @staticmethod
     def mimetype():
         """Return most common media type for format."""
         return "text/plain"
@@ -369,10 +396,13 @@ class WindowsRCFormat(ConvertFormat):
 
     @staticmethod
     def convertfile(storefile, template_store):
-
-        input_store = rcfile(storefile)
+        input_store = rcfile()
+        input_store.parse(storefile.read())
         convertor = rc2po()
-        store = convertor.convert_store(input_store)
+        if template_store:
+            store = convertor.merge_store(template_store.store.rcfile, input_store)
+        else:
+            store = convertor.convert_store(input_store)
         store.rcfile = input_store
         return store
 

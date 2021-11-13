@@ -110,10 +110,12 @@ class ConsistencyCheck(TargetCheck):
         )
 
         # List strings with different targets
+        # Limit this to 100 strings, otherwise the resulting query is way too complex
         matches = (
             units.values("id_hash", "translation__language", "translation__plural")
             .annotate(Count("target", distinct=True))
             .filter(target__count__gt=1)
+            .order_by("id_hash")[:100]
         )
 
         if not matches:

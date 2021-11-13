@@ -245,7 +245,7 @@ class PoXliffExporter(XMLExporter):
     content_type = "application/x-xliff+xml"
     extension = "xlf"
     set_id = True
-    verbose = _("XLIFF with gettext extensions")
+    verbose = _("XLIFF 1.1 with gettext extensions")
     storage_class = PoXliffFile
 
     def store_flags(self, output, flags):
@@ -327,9 +327,8 @@ class MoExporter(PoExporter):
             self.monolingual = translation.component.has_template()
             if self.monolingual:
                 try:
-                    self.use_context = translation.store.content_units[
-                        0
-                    ].template.source
+                    unit = translation.store.content_units[0]
+                    self.use_context = not unit.template.source
                 except IndexError:
                     pass
 
@@ -355,8 +354,7 @@ class MoExporter(PoExporter):
         output = self.create_unit(source)
         output.target = self.handle_plurals(unit.get_target_plurals())
         if context:
-            # The setcontext doesn't work on mounit
-            output.msgctxt = [context]
+            output.setcontext(context)
         # Add unit to the storage
         self.storage.addunit(output)
 

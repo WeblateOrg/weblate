@@ -115,7 +115,13 @@ class MachineTranslation:
             headers.update(self.get_authentication())
 
         # Fire request
-        return request(method, url, headers=headers, timeout=5.0, **kwargs)
+        response = request(method, url, headers=headers, timeout=5.0, **kwargs)
+
+        # Directly raise error when response is empty
+        if response.content:
+            response.raise_for_status()
+
+        return response
 
     def request_status(self, method, url, **kwargs):
         response = self.request(method, url, **kwargs)
@@ -155,8 +161,8 @@ class MachineTranslation:
 
     def map_language_code(self, code):
         """Map language code to service specific."""
-        if code == "en_devel":
-            code = "en"
+        if code.endswith("_devel"):
+            code = code[:-6]
         if code in self.language_map:
             return self.language_map[code]
         return code
@@ -244,7 +250,7 @@ class MachineTranslation:
         start = 0
         for h_start, h_end, h_text in highlights:
             parts.append(text[start:h_start])
-            placeholder = f"[{h_start}]"
+            placeholder = f"[X{h_start}X]"
             replacements[placeholder] = h_text
             parts.append(placeholder)
             start = h_end

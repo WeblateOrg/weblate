@@ -461,7 +461,7 @@ class ComponentTest(RepoTestCase):
         component = self.create_component()
         self.assertEqual(Check.objects.count(), 3)
         check = Check.objects.all()[0]
-        component.check_flags = f"ignore-{check.check}"
+        component.check_flags = f"ignore-{check.name}"
         component.save()
         self.assertEqual(Check.objects.count(), 0)
 
@@ -538,7 +538,7 @@ class ComponentDeleteTest(RepoTestCase):
         unit = Unit.objects.filter(check__isnull=False).first().source_unit
         unit.source = "Test..."
         unit.save(update_fields=["source"])
-        unit.check_set.filter(check="ellipisis").delete()
+        unit.check_set.filter(name="ellipisis").delete()
         component.delete()
 
 
@@ -628,7 +628,11 @@ class ComponentChangeTest(RepoTestCase):
 
         change = component.change_set.get(action=Change.ACTION_LOCK)
         self.assertEqual(change.details, {"auto": True})
-        self.assertEqual(change.get_action_display(), "Component automatically locked")
+        self.assertEqual(change.get_action_display(), "Component locked")
+        self.assertEqual(
+            change.get_details_display(),
+            "The component was automatically locked because of an alert.",
+        )
 
         component.add_alert("UpdateFailure")
         self.assertTrue(component.locked)
@@ -703,7 +707,7 @@ class ComponentValidationTest(RepoTestCase):
         self.component.push = ""
         self.assertRaisesMessage(
             ValidationError,
-            "Invalid link to a Weblate project, " "use weblate://project/component.",
+            "Invalid link to a Weblate project, use weblate://project/component.",
             self.component.full_clean,
         )
 
@@ -713,7 +717,7 @@ class ComponentValidationTest(RepoTestCase):
         self.component.push = ""
         self.assertRaisesMessage(
             ValidationError,
-            "Invalid link to a Weblate project, " "use weblate://project/component.",
+            "Invalid link to a Weblate project, use weblate://project/component.",
             self.component.full_clean,
         )
 

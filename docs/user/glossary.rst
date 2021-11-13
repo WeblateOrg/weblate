@@ -32,11 +32,11 @@ component.
 The glossary component looks like any other component in Weblate with added
 colored label:
 
-.. image:: /images/glossary-component.png
+.. image:: /screenshots/glossary-component.png
 
 You can browse all glossary terms:
 
-.. image:: /images/glossary-browse.png
+.. image:: /screenshots/glossary-browse.png
 
 or edit them as any translations.
 
@@ -46,10 +46,10 @@ Glossary terms
 Glossary terms are translated the same way regular strings are. You can
 toggle additional features using the :guilabel:`Tools` menu for each term.
 
-.. image:: /images/glossary-tools.png
+.. image:: /screenshots/glossary-tools.png
 
-Not translatable terms
-++++++++++++++++++++++
+Untranslatable terms
+++++++++++++++++++++
 
 .. versionadded:: 4.5
 
@@ -86,7 +86,7 @@ Terminology
 .. versionadded:: 4.5
 
 Flagging certain glossary terms as ``terminology``  by bulk-editing, typing in the flag,
-or or by using :guilabel:`Tools` ↓ :guilabel:`Mark as terminology` adds entries for them
+or by using :guilabel:`Tools` ↓ :guilabel:`Mark as terminology` adds entries for them
 to all languages in the glossary. Use this for important terms that should
 be well thought out, and retain a consistent meaning across all languages.
 

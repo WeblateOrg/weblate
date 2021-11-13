@@ -53,14 +53,19 @@ class PlaceholderCheck(TargetCheckParametrized):
             )
         )
 
+    @staticmethod
+    def get_matches(value, text: str):
+        for match in value.finditer(text):
+            yield match.group()
+
     def check_target_params(self, sources, targets, unit, value):
-        expected = set(value.findall(unit.source_string))
+        expected = set(self.get_matches(value, unit.source_string))
 
         missing = set()
         extra = set()
 
         for target in targets:
-            found = set(value.findall(target))
+            found = set(self.get_matches(value, target))
             missing.update(expected - found)
             extra.update(found - expected)
 

@@ -17,10 +17,15 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-
-from weblate.accounts.notifications import FREQ_INSTANT, SCOPE_ADMIN, SCOPE_WATCHED
+from weblate.accounts.notifications import (
+    FREQ_INSTANT,
+    SCOPE_ADMIN,
+    SCOPE_ALL,
+    SCOPE_WATCHED,
+)
 
 DEFAULT_NOTIFICATIONS = [
+    (SCOPE_ALL, FREQ_INSTANT, "MentionCommentNotificaton"),
     (SCOPE_WATCHED, FREQ_INSTANT, "LastAuthorCommentNotificaton"),
     (SCOPE_WATCHED, FREQ_INSTANT, "MentionCommentNotificaton"),
     (SCOPE_WATCHED, FREQ_INSTANT, "NewAnnouncementNotificaton"),

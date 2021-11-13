@@ -203,3 +203,19 @@ class ComponentDiscoveryTest(RepoTestCase):
         self.assertEqual(created[0][0]["mask"], "localization/*/component.*.po")
         self.assertEqual(len(matched), 0)
         self.assertEqual(len(deleted), 0)
+
+    def test_named_group(self):
+        discovery = ComponentDiscovery(
+            self.component,
+            match=r"(?P<path>[^/]+)/(?P<language>[^/]*)/"
+            r"(?P<component>[^/]*)\.(?P=language)\.po",
+            name_template="{{ path }}: {{ component }}",
+            file_format="po",
+        )
+        created, matched, deleted = discovery.perform()
+        self.assertEqual(len(created), 1)
+        self.assertEqual(created[0][0]["mask"], "localization/*/component.*.po")
+        self.assertEqual(created[0][0]["name"], "localization: component")
+        self.assertEqual(len(matched), 0)
+        self.assertEqual(len(deleted), 0)
+        self.assertEqual(len(deleted), 0)

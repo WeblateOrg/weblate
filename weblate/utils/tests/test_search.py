@@ -109,10 +109,10 @@ class QueryParserTest(TestCase, SearchMixin):
         self.assert_query("location:hello.c", Q(location__substring="hello.c"))
 
     def test_exact(self):
-        self.assert_query("source:='hello'", Q(source__iexact="hello"))
-        self.assert_query('source:="hello world"', Q(source__iexact="hello world"))
-        self.assert_query("source:='hello world'", Q(source__iexact="hello world"))
-        self.assert_query("source:=hello", Q(source__iexact="hello"))
+        self.assert_query("source:='hello'", Q(source__exact="hello"))
+        self.assert_query('source:="hello world"', Q(source__exact="hello world"))
+        self.assert_query("source:='hello world'", Q(source__exact="hello world"))
+        self.assert_query("source:=hello", Q(source__exact="hello"))
 
     def test_regex(self):
         self.assert_query('source:r"^hello"', Q(source__regex="^hello"))
@@ -246,7 +246,9 @@ class QueryParserTest(TestCase, SearchMixin):
 
     def test_component(self):
         self.assert_query(
-            "component:hello", Q(translation__component__slug__iexact="hello")
+            "component:hello",
+            Q(translation__component__slug__iexact="hello")
+            | Q(translation__component__name__icontains="hello"),
         )
 
     def test_project(self):
@@ -311,11 +313,11 @@ class QueryParserTest(TestCase, SearchMixin):
     def test_checks(self):
         self.assert_query(
             "check:ellipsis",
-            Q(check__check__iexact="ellipsis") & Q(check__dismissed=False),
+            Q(check__name__iexact="ellipsis") & Q(check__dismissed=False),
         )
         self.assert_query(
             "dismissed_check:ellipsis",
-            Q(check__check__iexact="ellipsis") & Q(check__dismissed=True),
+            Q(check__name__iexact="ellipsis") & Q(check__dismissed=True),
         )
 
     def test_labels(self):

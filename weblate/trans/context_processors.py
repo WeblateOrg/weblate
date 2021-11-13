@@ -49,6 +49,7 @@ CONTEXT_SETTINGS = [
     "GET_HELP_URL",
     "STATUS_URL",
     "LEGAL_URL",
+    "PRIVACY_URL",
     "FONTS_CDN_URL",
     "AVATAR_URL_PREFIX",
     "HIDE_VERSION",
@@ -70,11 +71,6 @@ def add_error_logging_context(context):
     else:
         context["rollbar_token"] = None
         context["rollbar_environment"] = None
-
-    if hasattr(settings, "RAVEN_CONFIG") and "public_dsn" in settings.RAVEN_CONFIG:
-        context["sentry_dsn"] = settings.RAVEN_CONFIG["public_dsn"]
-    else:
-        context["sentry_dsn"] = None
 
 
 def add_settings_context(context):
@@ -140,12 +136,16 @@ def weblate_context(request):
             "This site runs Weblate for localizing various software projects."
         )
 
-    has_support_cache_key = "weblate:has:support"
-    has_support = cache.get(has_support_cache_key)
-    if has_support is None:
-        support_status = SupportStatus.objects.get_current()
-        has_support = support_status.name != "community"
-        cache.set(has_support_cache_key, has_support, 86400)
+    if hasattr(request, "_weblate_has_support"):
+        has_support = request._weblate_has_support
+    else:
+        has_support_cache_key = "weblate:has:support"
+        has_support = cache.get(has_support_cache_key)
+        if has_support is None:
+            support_status = SupportStatus.objects.get_current()
+            has_support = support_status.name != "community"
+            cache.set(has_support_cache_key, has_support, 86400)
+        request._weblate_has_support = has_support
 
     context = {
         "has_support": has_support,

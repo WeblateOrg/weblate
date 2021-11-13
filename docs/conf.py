@@ -23,7 +23,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
 
 def setup(app):
-    app.add_css_file("https://s.weblate.org/cdn/font-source/source-sans-pro.css")
+    app.add_css_file("https://s.weblate.org/cdn/font-source/source-sans-3.css")
     app.add_css_file("https://s.weblate.org/cdn/font-source/source-code-pro.css")
     app.add_css_file("docs.css")
     # Used in Sphinx docs, needed for intersphinx links to it
@@ -42,7 +42,7 @@ copyright = "2012 - 2021 Michal Čihař"
 author = "Michal Čihař"
 
 # The full version, including alpha/beta/rc tags
-release = "4.7"
+release = "4.9.1"
 
 
 # -- General configuration ---------------------------------------------------
@@ -239,8 +239,7 @@ intersphinx_mapping = {
     "pip": ("https://pip.pypa.io/en/stable/", None),
     "compressor": ("https://django-compressor.readthedocs.io/en/stable/", None),
 }
-# See https://github.com/sphinx-doc/sphinx/pull/8981
-intersphinx_strict_prefix = True
+intersphinx_disabled_reftypes = ["*"]
 
 # Ignore missing targets for the http:obj <type>, it's how we declare the types
 # for input/output fields in the API docs.

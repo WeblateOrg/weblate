@@ -1,13 +1,119 @@
+Weblate 4.9.1
+-------------
+
+Not yet released.
+
+* Fixed upload of monolingual files after changing template.
+
+Weblate 4.9
+-------------
+
+Released on November 10th 2021.
+
+* Provide more details for history events.
+* Improved rendering of history.
+* Improved performance of the translation pages.
+* Added support for restricting translation file download.
+* The ``safe-html`` can now understand Markdown when used with ``md-text``.
+* The ``max-length`` tag now ignores XML markup when used with ``xml-text``.
+* Fixed dimensions of rendered texts in :ref:`check-max-size`.
+* Lowered app store title length to 30 to assist with upcoming Google policy changes.
+* Added support for customizing ssh invocation via :setting:`SSH_EXTRA_ARGS`.
+* Added checks for ICU MessageFormat.
+* Improved error condition handling in machine translation backends.
+* Highlight unusual whitespace characters in the strings.
+* Added option to stay on translated string while editing.
+* Added support for customizing borg invocation via :setting:`BORG_EXTRA_ARGS`.
+* Fixed generating of MO files for monolingual translations.
+* Added API endpoint to download all component translations in a ZIP file.
+* Added support for Python 3.10.
+* Added support for resending e-mail invitation from the management interface.
+
+Weblate 4.8.1
+-------------
+
+Released on September 10th 2021.
+
+* Fixed user removal in Django admin interface.
+* Document add-on parameters in greater detail.
+* Fixed JavaScript error in glossary.
+* Add limit to number of matches in consistency check.
+* Improve handling of placeholders in machine translations.
+* Fixed creating add-ons using API.
+* Added :setting:`PRIVACY_URL` setting to add privacy policy link to the footer.
+* Hide member e-mail addresses from project admins.
+* Improved gettext PO merging in case of conflicts.
+* Improved glossary highlighting.
+* Improved ``safe-html`` flag behavior with XML checks.
+* Fixed commit messages for linked components.
+
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/70?closed=1>`__.
+
+Weblate 4.8
+-----------
+
+Released on August 21th 2021.
+
+* Added support for Apple stringsdict format.
+* The exact search operator is now case-sensitive with PostgreSQL.
+* Fixed saving glossary explanations in some cases.
+* Documentation improvements.
+* Performance improvements.
+* Improved squash add-on compatibility with Gerrit.
+* Fixed adding strings to monolingual glossary components.
+* Improved performance in handling variants.
+* Fixed squash add-on sometimes skipping parsing upstream changes.
+* Preserve file extension for downloads.
+* Added support for the Fluent format.
+* Added support for using tabs to indent JSON formats.
+
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/67?closed=1>`__.
+
+Weblate 4.7.2
+-------------
+
+Released on July 15th 2021.
+
+* Support more language aliases to be configured on a project.
+* Fixed search string validation in API.
+* Fixed Git exporter URLs after a domain change.
+* Fixed cleanup add-on for Windows RC files.
+* Fixed possible crash in XLIFF updating.
+
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/69?closed=1>`__.
+
+Weblate 4.7.1
+-------------
+
+Released on June 30th 2021.
+
+* Improved popup for adding terms to glossary.
+* Added support for LibreTranslate machine translation service.
+* Added rate limiting on creating new projects.
+* Improved performance of file updates.
+
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/68?closed=1>`__.
+
 Weblate 4.7
 -----------
 
-Not yet released.
+Released on June 17th 2021.
 
 * Improved configuration health check.
 * Added support for ``object-pascal-format`` used in gettext PO, see :ref:`check-object-pascal-format`.
 * Renamed :guilabel:`Nearby keys` to :guilabel:`Similar keys` to better describe the purpose.
 * Added support for :ref:`mi18n-lang`.
 * Improved SAML authentication integration.
+* Fixed :ref:`vcs-gerrit` integration to better handle corner cases.
+* Weblate now requires Django 3.2.
+* Fixed inviting users when e-mail authentication is disabled.
+* Improved language definitions.
+* Added support for blocking users from contributing to a project.
+* Fixed automatic creation of glossary languages.
+* Extended documentation about add-ons.
+* Performance improvements for components with linked repositories.
+* Added support for free DeepL API.
+* The user management no longer needs Django admin interface.
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/64?closed=1>`__.
 
@@ -108,7 +214,7 @@ Released on March 5th 2021.
 * Extend metrics usage to improve performance of several pages.
 * Store correct source language in TMX files.
 * Better handling for uploads of monolingual PO using API.
-* Improved alerts behavior glossaries.
+* Improved alerts behavior on glossary components.
 * Improved Markdown link checks.
 * Indicate glossary and source language in breadcrumbs.
 * Paginated component listing of huge projects.
@@ -607,7 +713,7 @@ Released on December 20th 2019.
 * Added doublespace check.
 * Fixed creating new languages.
 * Avoid sending auditlog notifications to deleted e-mails.
-* Added support for read only strings.
+* Added support for read-only strings.
 * Added support for Markdown in comments.
 * Allow placing translation instruction text in project info.
 * Add copy to clipboard for secondary languages.
@@ -1178,7 +1284,7 @@ Released on Apr 12th 2017.
 * Better error reporting when adding new translation.
 * Added per language search within project.
 * Group ACLs can now be limited to certain permissions.
-* The per project ALCs are now implemented using Group ACL.
+* The per project ACLs are now implemented using Group ACL.
 * Added more fine grained privileges control.
 * Various minor UI improvements.
 
@@ -1273,7 +1379,7 @@ Released on Aug 31st 2016.
 
 * Documentation improvements.
 * Translations.
-* Updated bundled javascript libraries.
+* Updated bundled JavaScript libraries.
 * Added list_translators management command.
 * Django 1.8 is no longer supported.
 * Fixed compatibility with Django 1.10.
@@ -1425,7 +1531,7 @@ Released on Feb 19th 2015.
 
 * Performance improvements.
 * Fulltext search on location and comments fields.
-* New SVG/javascript based activity charts.
+* New SVG/JavaScript-based activity charts.
 * Support for Django 1.8.
 * Support for deleting comments.
 * Added own SVG badge.
@@ -1530,7 +1636,7 @@ Released on October 7th 2013.
 * Add status badge widget.
 * Dropped invalid text direction check.
 * Changes in dictionary are now logged in history.
-* Performance improvements for translating view.
+* Performance improvements for translation view.
 
 Weblate 1.6
 ~~~~~~~~~~~

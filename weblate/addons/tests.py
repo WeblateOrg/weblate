@@ -484,7 +484,7 @@ class JsonAddonTest(ViewTestCase):
 
     def test_customize(self):
         JSONCustomizeAddon.create(
-            self.component, configuration={"indent": 8, "sort": 1}
+            self.component, configuration={"indent": 8, "sort": 1, "style": "spaces"}
         )
         rev = self.component.repository.last_revision
         self.edit_unit("Hello, world!\n", "Nazdar svete!\n")
@@ -492,6 +492,17 @@ class JsonAddonTest(ViewTestCase):
         self.assertNotEqual(rev, self.component.repository.last_revision)
         commit = self.component.repository.show(self.component.repository.last_revision)
         self.assertIn('        "try"', commit)
+
+    def test_customize_tabs(self):
+        JSONCustomizeAddon.create(
+            self.component, configuration={"indent": 8, "sort": 1, "style": "tabs"}
+        )
+        rev = self.component.repository.last_revision
+        self.edit_unit("Hello, world!\n", "Nazdar svete!\n")
+        self.get_translation().commit_pending("test", None)
+        self.assertNotEqual(rev, self.component.repository.last_revision)
+        commit = self.component.repository.show(self.component.repository.last_revision)
+        self.assertIn('\t\t\t\t\t\t\t\t"try"', commit)
 
 
 class YAMLAddonTest(ViewTestCase):
@@ -780,7 +791,7 @@ class DiscoveryTest(ViewTestCase):
             follow=True,
         )
         self.assertContains(response, "Please include component markup")
-        # Correct params for confirmation
+        # Missing variable
         response = self.client.post(
             reverse("addons", kwargs=self.kw_component),
             {
@@ -788,7 +799,23 @@ class DiscoveryTest(ViewTestCase):
                 "form": "1",
                 "file_format": "po",
                 "match": r"(?P<component>[^/]*)/(?P<language>[^/]*)\.po",
-                "name_template": "{{ component|title }}",
+                "name_template": "{{ component|title }}.{{ ext }}",
+                "language_regex": "^(?!xx).*$",
+                "base_file_template": "",
+                "remove": True,
+            },
+            follow=True,
+        )
+        self.assertContains(response, "Undefined variable: &quot;ext&quot;")
+        # Correct params for confirmation
+        response = self.client.post(
+            reverse("addons", kwargs=self.kw_component),
+            {
+                "name": "weblate.discovery.discovery",
+                "form": "1",
+                "file_format": "po",
+                "match": r"(?P<component>[^/]*)/(?P<language>[^/]*)\.(?P<ext>po)",
+                "name_template": "{{ component|title }}.{{ ext }}",
                 "language_regex": "^(?!xx).*$",
                 "base_file_template": "",
                 "remove": True,
@@ -802,9 +829,9 @@ class DiscoveryTest(ViewTestCase):
             {
                 "name": "weblate.discovery.discovery",
                 "form": "1",
-                "match": r"(?P<component>[^/]*)/(?P<language>[^/]*)\.po",
+                "match": r"(?P<component>[^/]*)/(?P<language>[^/]*)\.(?P<ext>po)",
                 "file_format": "po",
-                "name_template": "{{ component|title }}",
+                "name_template": "{{ component|title }}.{{ ext }}",
                 "language_regex": "^(?!xx).*$",
                 "base_file_template": "",
                 "remove": True,

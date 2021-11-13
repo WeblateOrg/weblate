@@ -17,6 +17,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
+from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.template import Context, Engine, Template, TemplateSyntaxError
 from django.urls import reverse
@@ -107,6 +108,8 @@ def render_template(template, **kwargs):
         if "url" not in kwargs:
             kwargs["url"] = get_site_url(project.get_absolute_url())
         kwargs.pop("project", None)
+
+    kwargs["site_title"] = settings.SITE_TITLE
 
     with override("en"):
         return Template(template, engine=RestrictedEngine()).render(

@@ -18,11 +18,10 @@
 #
 """Base classses for file formats."""
 
-
 import os
 import tempfile
 from copy import deepcopy
-from typing import Any, Dict, List, Optional, Tuple, Type, Union
+from typing import Any, Callable, Dict, List, Optional, Tuple, Type, Union
 
 from django.conf import settings
 from django.utils.functional import cached_property
@@ -34,6 +33,14 @@ from weblate.utils.hash import calculate_hash
 from weblate.utils.state import STATE_TRANSLATED
 
 EXPAND_LANGS = {code[:2]: f"{code[:2]}_{code[3:].upper()}" for code in DEFAULT_LANGS}
+
+ANDROID_CODES = {
+    "zh_Hans": "zh-rCN",
+    "zh_Hant": "zh-rTW",
+    "he": "iw",
+    "id": "in",
+    "yi": "ji",
+}
 
 
 class UnitNotFound(Exception):
@@ -234,11 +241,11 @@ class TranslationFormat:
             return [self.storefile]
         return [self.storefile.name]
 
-    @classmethod
-    def load(cls, storefile, template_store):
+    def load(self, storefile, template_store):
         raise NotImplementedError()
 
-    def get_plural(self, language):
+    @classmethod
+    def get_plural(cls, language, store=None):
         """Return matching plural object."""
         return language.plural
 
@@ -400,10 +407,8 @@ class TranslationFormat:
     @staticmethod
     def get_language_android(code: str) -> str:
         # Android doesn't use Hans/Hant, but rather TW/CN variants
-        if code == "zh_Hans":
-            return "zh-rCN"
-        if code == "zh_Hant":
-            return "zh-rTW"
+        if code in ANDROID_CODES:
+            return ANDROID_CODES[code]
         sanitized = code.replace("-", "_")
         if "_" in sanitized and len(sanitized.split("_")[1]) > 2:
             return "b+{}".format(sanitized.replace("_", "+"))
@@ -432,21 +437,33 @@ class TranslationFormat:
         return mask.replace("*", code)
 
     @classmethod
-    def add_language(cls, filename, language, base):
+    def add_language(
+        cls,
+        filename: str,
+        language: str,
+        base: str,
+        callback: Optional[Callable] = None,
+    ):
         """Add new language file."""
         # Create directory for a translation
         dirname = os.path.dirname(filename)
         if not os.path.exists(dirname):
             os.makedirs(dirname)
 
-        cls.create_new_file(filename, language, base)
+        cls.create_new_file(filename, language, base, callback)
 
     @classmethod
-    def create_new_file(cls, filename, language, base):
+    def create_new_file(
+        cls,
+        filename: str,
+        language: str,
+        base: str,
+        callback: Optional[Callable] = None,
+    ):
         """Handle creation of new translation file."""
         raise NotImplementedError()
 
-    def iterate_merge(self, fuzzy):
+    def iterate_merge(self, fuzzy: str, only_translated: bool = True):
         """Iterate over units for merging.
 
         Note: This can change fuzzy state of units!
@@ -456,7 +473,7 @@ class TranslationFormat:
             if unit.is_fuzzy():
                 if not fuzzy:
                     continue
-            elif not unit.is_translated():
+            elif only_translated and not unit.is_translated():
                 continue
 
             # Unmark unit as fuzzy (to allow merge)

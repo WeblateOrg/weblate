@@ -53,19 +53,23 @@ class ClassLoader:
         self.name = name
         self.construct = construct
 
+    def get_settings(self):
+        result = getattr(settings, self.name)
+        if result is None:
+            # Special case to disable all checks/...
+            result = []
+        elif not isinstance(result, (list, tuple)):
+            raise ImproperlyConfigured(f"Setting {self.name} must be list or tuple!")
+        return result
+
     def load_data(self):
         result = {}
-        value = getattr(settings, self.name)
-        if value:
-            if not isinstance(value, (list, tuple)):
-                raise ImproperlyConfigured(
-                    f"Setting {self.name} must be list or tuple!"
-                )
-            for path in value:
-                obj = load_class(path, self.name)
-                if self.construct:
-                    obj = obj()
-                result[obj.get_identifier()] = obj
+        value = self.get_settings()
+        for path in value:
+            obj = load_class(path, self.name)
+            if self.construct:
+                obj = obj()
+            result[obj.get_identifier()] = obj
         return result
 
     @cached_property

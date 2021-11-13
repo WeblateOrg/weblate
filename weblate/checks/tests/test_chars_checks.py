@@ -293,6 +293,29 @@ class MaxLengthCheckTest(TestCase):
             )
         )
 
+    def test_replace_xml_check(self):
+        self.assertTrue(
+            self.check.check_target(
+                ["hi <mrk>%s</mrk>"],
+                ["ahoj <mrk>%s</mrk>"],
+                MockUnit(flags="max-length:10"),
+            )
+        )
+        self.assertFalse(
+            self.check.check_target(
+                ["hi <mrk>%s</mrk>"],
+                ["ahoj <mrk>%s</mrk>"],
+                MockUnit(flags="max-length:10, xml-text"),
+            )
+        )
+        self.assertTrue(
+            self.check.check_target(
+                ["hi <mrk>%s</mrk>"],
+                ["ahoj <mrk>%s</mk>"],
+                MockUnit(flags="max-length:10, xml-text"),
+            )
+        )
+
 
 class EndSemicolonCheckTest(CheckTestCase):
     check = EndSemicolonCheck()

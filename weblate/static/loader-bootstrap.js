@@ -313,6 +313,9 @@ function adjustColspan() {
   $("table.autocolspan").each(function () {
     var $this = $(this);
     var numOfVisibleCols = $this.find("thead th:visible").length;
+    if (numOfVisibleCols === 0) {
+      numOfVisibleCols = 3;
+    }
     $this.find("td.autocolspan").attr("colspan", numOfVisibleCols - 1);
   });
 }
@@ -377,9 +380,19 @@ function initHighlight(root) {
     var languageMode = Prism.languages[mode];
     if (editor.classList.contains("translation-editor")) {
       let placeables = editor.getAttribute("data-placeables");
+      /* This should match WHITESPACE_REGEX in weblate/trans/templatetags/translations.py */
+      let whitespace_regex = new RegExp(
+        [
+          "  +|(^) +| +(?=$)| +\n|\n +|\t|",
+          "\u00A0|\u1680|\u2000|\u2001|",
+          "\u2002|\u2003|\u2004|\u2005|",
+          "\u2006|\u2007|\u2008|\u2009|",
+          "\u200A|\u202F|\u205F|\u3000",
+        ].join("")
+      );
       let extension = {
         hlspace: {
-          pattern: /  +|(^) +| +(?=$)| +\n|\n +/,
+          pattern: whitespace_regex,
           lookbehind: true,
         },
       };
@@ -499,6 +512,8 @@ $(function () {
     if (activeTab.length) {
       activeTab.tab("show");
       window.scrollTo(0, 0);
+    } else {
+      document.getElementById(location.hash.substr(1)).scrollIntoView();
     }
   } else if (
     $(".translation-tabs").length > 0 &&
@@ -1121,24 +1136,6 @@ $(function () {
       );
     }
   );
-
-  /* Prefill adding to glossary with current string */
-  $("#add-glossary-form").on("shown.bs.modal", (e) => {
-    if (e.target.hasAttribute("data-shown")) {
-      return;
-    }
-    /* Relies on clone source implementation */
-    let source = JSON.parse(
-      document.querySelector("[data-content]").getAttribute("data-content")
-    );
-    if (source.length < 200) {
-      document.getElementById("id_source").value = source;
-      document.getElementById("id_target").value = document.querySelector(
-        ".translation-editor"
-      ).value;
-    }
-    e.target.setAttribute("data-shown", true);
-  });
 
   /* Username autocompletion */
   var tribute = new Tribute({

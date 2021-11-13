@@ -47,7 +47,7 @@ Custom
 configuration (:guilabel:`Manage` ↓ :guilabel:`Settings`) of each respective
 project.
 
-.. image:: /images/project-access.png
+.. image:: /screenshots/project-access.png
 
 The default value can be changed by :setting:`DEFAULT_ACCESS_CONTROL`.
 
@@ -131,7 +131,7 @@ to all users.
     ``Project@Group``, also displayed in the Django admin interface this way.
     Although they can’t be edited from Weblate user-interface.
 
-.. image:: /images/manage-users.png
+.. image:: /screenshots/manage-users.png
 
 These features are available on the :guilabel:`Access control` page, which can be
 accessed from the project’s menu :guilabel:`Manage` ↓ :guilabel:`Users`.
@@ -161,6 +161,17 @@ group) would be sufficient.
 
 The same kind of invitations are available site-wide from the
 :ref:`management interface <management-interface>` on the :guilabel:`Users` tab.
+
+.. _block-user:
+
+Blocking users
+^^^^^^^^^^^^^^
+
+.. versionadded:: 4.7
+
+In case some users behave badly in your project, you have an option to block
+them from contributing. The blocked user still will be able to see the project
+if he has permissions for that, but he won't be able to contribute.
 
 Per-project permission management
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -499,7 +510,7 @@ Strings
 
     Remove a string [`Administration`]
 
-    Ignore failing check [`Administration`, `Edit source`, `Power user`, `Review strings`, `Translate`]
+    Dismiss failing check [`Administration`, `Edit source`, `Power user`, `Review strings`, `Translate`]
 
     Edit strings [`Administration`, `Edit source`, `Power user`, `Review strings`, `Translate`]
 
@@ -524,6 +535,8 @@ Translations
     Perform automatic translation [`Administration`, `Manage languages`]
 
     Delete existing translation [`Administration`, `Manage languages`]
+
+    Download translation file [`Administration`, `Edit source`, `Access repository`, `Power user`, `Review strings`, `Translate`, `Manage languages`]
 
     Add several languages for translation [`Administration`, `Manage languages`]
 

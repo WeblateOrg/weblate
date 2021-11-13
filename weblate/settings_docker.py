@@ -26,6 +26,7 @@ from django.http import Http404
 
 from weblate.utils.environment import (
     get_env_bool,
+    get_env_float,
     get_env_int,
     get_env_list,
     get_env_map,
@@ -49,7 +50,12 @@ SITE_URL = "{}://{}".format("https" if ENABLE_HTTPS else "http", SITE_DOMAIN)
 
 DEBUG = get_env_bool("WEBLATE_DEBUG", True)
 
-ADMINS = ((os.environ["WEBLATE_ADMIN_NAME"], os.environ["WEBLATE_ADMIN_EMAIL"]),)
+ADMINS = (
+    (
+        os.environ.get("WEBLATE_ADMIN_NAME", "Weblate Admin"),
+        os.environ.get("WEBLATE_ADMIN_EMAIL", "weblate@example.com"),
+    ),
+)
 
 MANAGERS = ADMINS
 
@@ -74,6 +80,12 @@ DATABASES = {
         "PORT": os.environ["POSTGRES_PORT"],
         # Customizations for databases.
         "OPTIONS": {"sslmode": os.environ.get("POSTGRES_SSL_MODE", "prefer")},
+        # Persistent connections
+        "CONN_MAX_AGE": get_env_int("POSTGRES_CONN_MAX_AGE", 0),
+        # Disable server-side cursors, might be needed with pgbouncer
+        "DISABLE_SERVER_SIDE_CURSORS": get_env_bool(
+            "POSTGRES_DISABLE_SERVER_SIDE_CURSORS", False
+        ),
     }
 }
 
@@ -134,6 +146,7 @@ LANGUAGES = (
     ("sr", "Српски"),
     ("sr-latn", "Srpski"),
     ("sv", "Svenska"),
+    ("th", "ไทย"),
     ("tr", "Türkçe"),
     ("uk", "Українська"),
     ("zh-hans", "简体字"),
@@ -390,12 +403,12 @@ if "WEBLATE_SOCIAL_AUTH_KEYCLOAK_KEY" in os.environ:
 
 # Linux distros
 if "WEBLATE_SOCIAL_AUTH_FEDORA" in os.environ:
-    AUTHENTICATION_BACKENDS += "social_core.backends.fedora.FedoraOpenId"
+    AUTHENTICATION_BACKENDS += ("social_core.backends.fedora.FedoraOpenId",)
 if "WEBLATE_SOCIAL_AUTH_OPENSUSE" in os.environ:
-    AUTHENTICATION_BACKENDS += "social_core.backends.suse.OpenSUSEOpenId"
+    AUTHENTICATION_BACKENDS += ("social_core.backends.suse.OpenSUSEOpenId",)
     SOCIAL_AUTH_OPENSUSE_FORCE_EMAIL_VALIDATION = True
 if "WEBLATE_SOCIAL_AUTH_UBUNTU" in os.environ:
-    AUTHENTICATION_BACKENDS += "social_core.backends.ubuntu.UbuntuOpenId"
+    AUTHENTICATION_BACKENDS += ("social_core.backends.ubuntu.UbuntuOpenId",)
 
 # Slack
 if "WEBLATE_SOCIAL_AUTH_SLACK_KEY" in os.environ:
@@ -572,7 +585,7 @@ if "ROLLBAR_KEY" in os.environ:
         "access_token": os.environ["ROLLBAR_KEY"],
         "environment": os.environ.get("ROLLBAR_ENVIRONMENT", "production"),
         "branch": "main",
-        "root": "/usr/local/lib/python3.7/dist-packages/weblate/",
+        "root": "/usr/local/lib/python3.9/dist-packages/weblate/",
         "exception_level_filters": [
             (PermissionDenied, "ignored"),
             (Http404, "ignored"),
@@ -758,6 +771,12 @@ MT_DEEPL_API_URL = os.environ.get(
 if MT_DEEPL_KEY:
     MT_SERVICES += ("weblate.machinery.deepl.DeepLTranslation",)
 
+# LibreTranslate
+MT_LIBRETRANSLATE_KEY = os.environ.get("WEBLATE_MT_LIBRETRANSLATE_KEY", None)
+MT_LIBRETRANSLATE_API_URL = os.environ.get("WEBLATE_MT_LIBRETRANSLATE_API_URL", None)
+if MT_LIBRETRANSLATE_API_URL:
+    MT_SERVICES += ("weblate.machinery.libretranslate.LibreTranslateTranslation",)
+
 # Microsoft Cognitive Services Translator API, register at
 # https://portal.azure.com/
 MT_MICROSOFT_COGNITIVE_KEY = os.environ.get("WEBLATE_MT_MICROSOFT_COGNITIVE_KEY", None)
@@ -801,6 +820,14 @@ MT_GOOGLE_KEY = os.environ.get("WEBLATE_MT_GOOGLE_KEY", None)
 
 if MT_GOOGLE_KEY:
     MT_SERVICES += ("weblate.machinery.google.GoogleTranslation",)
+
+# Google Translate API V3 (Advanced)
+MT_GOOGLE_CREDENTIALS = os.environ.get("WEBLATE_MT_GOOGLE_CREDENTIALS", None)
+MT_GOOGLE_PROJECT = os.environ.get("WEBLATE_MT_GOOGLE_PROJECT", None)
+MT_GOOGLE_LOCATION = os.environ.get("WEBLATE_MT_GOOGLE_LOCATION", None)
+
+if MT_GOOGLE_CREDENTIALS and MT_GOOGLE_PROJECT:
+    MT_SERVICES += ("weblate.machinery.googlev3.GoogleV3Translation",)
 
 # Baidu app key and secret
 MT_BAIDU_ID = None
@@ -922,10 +949,15 @@ if "WEBLATE_BASIC_LANGUAGES" in os.environ:
 # By default the length of a given translation is limited to the length of
 # the source string * 10 characters. Set this option to False to allow longer
 # translations (up to 10.000 characters)
-LIMIT_TRANSLATION_LENGTH_BY_SOURCE_LENGTH = True
+LIMIT_TRANSLATION_LENGTH_BY_SOURCE_LENGTH = get_env_bool(
+    "WEBLATE_LIMIT_TRANSLATION_LENGTH_BY_SOURCE_LENGTH", True
+)
 
 # Use simple language codes for default language/country combinations
 SIMPLIFY_LANGUAGES = get_env_bool("WEBLATE_SIMPLIFY_LANGUAGES", True)
+
+# Default number of elements to display when pagination is active
+DEFAULT_PAGE_LIMIT = get_env_int("WEBLATE_DEFAULT_PAGE_LIMIT", 100)
 
 # Render forms using bootstrap
 CRISPY_TEMPLATE_PACK = "bootstrap3"
@@ -964,6 +996,8 @@ CHECK_LIST = [
     "weblate.checks.format.I18NextInterpolationCheck",
     "weblate.checks.format.ESTemplateLiteralsCheck",
     "weblate.checks.angularjs.AngularJSInterpolationCheck",
+    "weblate.checks.icu.ICUMessageFormatCheck",
+    "weblate.checks.icu.ICUSourceCheck",
     "weblate.checks.qt.QtFormatCheck",
     "weblate.checks.qt.QtPluralCheck",
     "weblate.checks.ruby.RubyFormatCheck",
@@ -1035,11 +1069,11 @@ WEBLATE_ADDONS = [
 modify_env_list(WEBLATE_ADDONS, "ADDONS")
 
 # E-mail address that error messages come from.
-SERVER_EMAIL = os.environ["WEBLATE_SERVER_EMAIL"]
+SERVER_EMAIL = os.environ.get("WEBLATE_SERVER_EMAIL", "weblate@example.com")
 
 # Default email address to use for various automated correspondence from
 # the site managers. Used for registration emails.
-DEFAULT_FROM_EMAIL = os.environ["WEBLATE_DEFAULT_FROM_EMAIL"]
+DEFAULT_FROM_EMAIL = os.environ.get("WEBLATE_DEFAULT_FROM_EMAIL", SERVER_EMAIL)
 
 # List of URLs your site is supposed to serve
 ALLOWED_HOSTS = get_env_list("WEBLATE_ALLOWED_HOSTS", ["*"])
@@ -1238,6 +1272,10 @@ DEFAULT_SHARED_TM = get_env_bool("WEBLATE_DEFAULT_SHARED_TM", True)
 
 CONTACT_FORM = os.environ.get("WEBLATE_CONTACT_FORM", "reply-to")
 
+SSH_EXTRA_ARGS = os.environ.get("WEBLATE_SSH_EXTRA_ARGS", "")
+
+BORG_EXTRA_ARGS = get_env_list("WEBLATE_BORG_EXTRA_ARGS")
+
 # Wildcard loading
 for name in os.environ:
     if name.startswith("WEBLATE_RATELIMIT_") and name.endswith(
@@ -1256,6 +1294,7 @@ LOCALIZE_CDN_PATH = os.environ.get("WEBLATE_LOCALIZE_CDN_PATH", None)
 GET_HELP_URL = os.environ.get("WEBLATE_GET_HELP_URL", None)
 STATUS_URL = os.environ.get("WEBLATE_STATUS_URL", None)
 LEGAL_URL = os.environ.get("WEBLATE_LEGAL_URL", None)
+PRIVACY_URL = os.environ.get("WEBLATE_PRIVACY_URL", None)
 
 # Third party services integration
 MATOMO_SITE_ID = os.environ.get("WEBLATE_MATOMO_SITE_ID", None)
@@ -1263,6 +1302,7 @@ MATOMO_URL = os.environ.get("WEBLATE_MATOMO_URL", None)
 GOOGLE_ANALYTICS_ID = os.environ.get("WEBLATE_GOOGLE_ANALYTICS_ID", None)
 SENTRY_DSN = os.environ.get("SENTRY_DSN", None)
 SENTRY_ENVIRONMENT = os.environ.get("SENTRY_ENVIRONMENT", None)
+SENTRY_TRACES_SAMPLE_RATE = get_env_float("SENTRY_TRACES_SAMPLE_RATE", 0.0)
 AKISMET_API_KEY = os.environ.get("WEBLATE_AKISMET_API_KEY", None)
 
 ADDITIONAL_CONFIG = "/app/data/settings-override.py"

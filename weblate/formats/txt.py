@@ -22,13 +22,23 @@ import os
 from collections import OrderedDict
 from glob import glob
 from itertools import chain
-from typing import List, Optional, Tuple, Union
+from typing import Callable, List, Optional, Tuple, Union
 
 from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy as _
 
 from weblate.formats.base import TranslationFormat, TranslationUnit
 from weblate.utils.errors import report_error
+
+
+class MultiparserError(Exception):
+    def __init__(self, filename, original):
+        super().__init__()
+        self.filename = filename
+        self.original = original
+
+    def __str__(self):
+        return f"{self.filename}: {self.original}"
 
 
 class TextItem:
@@ -95,9 +105,12 @@ class MultiParser:
                 # Needed to allow overlapping globs, more specific first
                 if match in result:
                     continue
-                result[match] = TextParser(
-                    match, os.path.relpath(match, self.base), flags
-                )
+                try:
+                    result[match] = TextParser(
+                        match, os.path.relpath(match, self.base), flags
+                    )
+                except Exception as error:
+                    raise MultiparserError(match, error)
         return result
 
     def get_filename(self, name):
@@ -106,7 +119,7 @@ class MultiParser:
 
 class AppStoreParser(MultiParser):
     filenames = (
-        ("title.txt", "max-length:50"),
+        ("title.txt", "max-length:30"),
         ("short[_-]description.txt", "max-length:80"),
         ("full[_-]description.txt", "max-length:4000"),
         ("subtitle.txt", "max-length:80"),
@@ -181,15 +194,25 @@ class AppStoreFormat(TranslationFormat):
     simple_filename = False
     language_format = "java"
 
-    @classmethod
-    def load(cls, storefile, template_store):
+    def load(self, storefile, template_store):
         return AppStoreParser(storefile)
 
-    def create_unit(self, key: str, source: Union[str, List[str]]):
+    def create_unit(
+        self,
+        key: str,
+        source: Union[str, List[str]],
+        target: Optional[Union[str, List[str]]] = None,
+    ):
         raise ValueError("Create not supported")
 
     @classmethod
-    def create_new_file(cls, filename, language, base):
+    def create_new_file(
+        cls,
+        filename: str,
+        language: str,
+        base: str,
+        callback: Optional[Callable] = None,
+    ):
         """Handle creation of new translation file."""
         os.makedirs(filename)
 
@@ -200,10 +223,13 @@ class AppStoreFormat(TranslationFormat):
     def save(self):
         """Save underlaying store to disk."""
         for unit in self.store.units:
+            filename = self.store.get_filename(unit.filename)
             if not unit.text:
+                if os.path.exists(filename):
+                    os.unlink(filename)
                 continue
             self.save_atomic(
-                self.store.get_filename(unit.filename),
+                filename,
                 TextSerializer(unit.filename, self.store.units),
             )
 

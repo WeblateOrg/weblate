@@ -60,6 +60,12 @@
   margin: 0 10px 0 0;
 }
 
+.navbar-brand > img {
+  display: inline-block;
+  width: 1.5em;
+  max-height: 1.5em;
+}
+
 .dir-rtl .navbar-brand > svg {
   margin: 0 0 0 10px;
 }
@@ -500,11 +506,10 @@ form + .login-label {
   margin-left: 12px;
 }
 
-.history-row > div {
-  padding: 10px 0;
+.table .history-row td {
+  border-top: none;
 }
-
-.history-row + .history-row > div {
+.history-row + .history-row td {
   border-top: 1px solid #e9eaec;
 }
 
@@ -1485,7 +1490,7 @@ input.color_edit:checked + label {
 }
 
 .editor-footer {
-  z-index: 1000;
+  z-index: 999;
   position: relative;
 }
 

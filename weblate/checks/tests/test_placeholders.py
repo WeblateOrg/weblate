@@ -59,7 +59,7 @@ class PlaceholdersTest(CheckTestCase):
 
     def test_regexp(self):
         unit = Unit(source="string $URL$", target="string $FOO$")
-        unit.__dict__["all_flags"] = Flags(r"""placeholders:r"\$[^$]*\$" """)
+        unit.__dict__["all_flags"] = Flags(r"""placeholders:r"(\$)([^$]*)(\$)" """)
         check = Check(unit=unit)
         self.assertEqual(
             self.check.get_description(check),

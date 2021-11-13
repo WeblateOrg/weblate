@@ -3,10 +3,10 @@
 {% load permissions %}
 {% load icons %}
 
-<div class="container-fluid">
+<table class="table table-autowidth">
 {% for change in last_changes %}
-<div class="row history-row" {% if in_email %}style="clear:both"{% endif %}>
-    <div class="col-xs-2 history-event">
+<tr class="history-row" {% if in_email %}style="clear:both"{% endif %}>
+    <td class="history-event">
         <strong>{{ change.get_user_display }}</strong>
         <p class="text-muted">{{ change.get_action_display }}</p>
         <p>
@@ -20,8 +20,8 @@
             — <a href="{{ change.translation.get_absolute_url }}">{{ change.translation.language }}</a>
             {% endif %}
         </p>
-    </div>
-    <div class="col-xs-10 history-data">
+    </td>
+    <td class="history-data full-cell">
         {% if not in_email %}
         <div class="btn-float pull-right flip">
             <a class="btn btn-link" href="{{ change.get_absolute_url }}" title="{% trans "View details" %}">{% icon "magnify-plus-outline.svg" %}</a>
@@ -32,6 +32,12 @@
               {% perm 'unit.edit' change.unit as user_can_translate %}
               {% if user_can_translate %}
                 <a class="btn btn-link" href="{{ change.translation.get_translate_url}}?{% if search_url %}{{ search_url }}&amp;offset={{ offset }}&amp;{% endif %}checksum={{ change.unit.checksum }}&amp;revert={{ change.id }}" title="{% trans "Revert" %}">{% icon "undo.svg" %}</a>
+              {% endif %}
+            {% endif %}
+            {% if change.user and not change.user.is_anonymous %}
+              {% perm 'project.permissions' change.project as user_can_edit_permissions %}
+              {% if change.project and user_can_edit_permissions %}
+                <a class="btn btn-link red" href="{% url 'manage-access' project=change.project.slug %}?block_user={{ change.user.username }}#block-user" title="{% trans "Block user" %}">{% icon "account-cancel.svg" %}</a>
               {% endif %}
             {% endif %}
         </div>
@@ -47,6 +53,9 @@
                     {{ change.unit.translation.language }}
                     {% comment %}Translators: Number of edits on a change in Damerau–Levenshtein distance{% endcomment %}
                     <span class="badge">{% blocktrans count count=change.get_distance %}{{ count }} character edited{% plural %}{{ count }} characters edited{% endblocktrans %}</span>
+                    {% if change.unit.target == change.target %}
+                      <span class="badge">{% trans "Current translation" %}</span>
+                    {% endif %}
                 </label>
                 {% format_translation change.target change.unit.translation.language change.unit.translation.plural diff=change.old %}
             {% elif change.show_content and change.unit %}
@@ -68,9 +77,13 @@
         {% if in_email %}
         <a class="button" href="{{ change.get_absolute_url }}">{% trans "View" %}</a>
         {% endif %}
-    </div>
-</div>
+    </td>
+</tr>
 {% empty %}
-<p><em>{% trans "No matching activity found." %}</em></p>
+<tr>
+  <td colspan="2">
+    <em>{% trans "No matching activity found." %}</em>
+  </td>
+</tr>
 {% endfor %}
-</div>
+</table>

@@ -412,7 +412,7 @@ the same strings have same translation. This can be achieved at several levels.
 Translation propagation
 +++++++++++++++++++++++
 
-With translation propagation enabled (what is the default, see
+With :ref:`component-allow_translation_propagation` enabled (what is the default, see
 :ref:`component`), all new translations are automatically done in all
 components with matching strings. Such translations are properly credited to
 currently translating user in all components.

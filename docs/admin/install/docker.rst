@@ -71,6 +71,29 @@ Enjoy your Weblate deployment, it's accessible on port 80 of the ``weblate`` con
 
 .. seealso:: :ref:`invoke-manage`
 
+Choosing Docker hub tag
+-----------------------
+
+You can use following tags on Docker hub, see https://hub.docker.com/r/weblate/weblate/tags/ for full list of available ones.
+
++-------------------------+------------------------------------------------------------------------------------------------------------+------------------------------------------------------+
+| Tag name                | Description                                                                                                | Use case                                             |
++=========================+============================================================================================================+======================================================+
+|``latest``               | Weblate stable release, matches latest tagged release                                                      | Rolling updates in a production environment          |
++-------------------------+------------------------------------------------------------------------------------------------------------+------------------------------------------------------+
+|``<VERSION>-<PATCH>``    | Weblate stable release                                                                                     | Well defined deploy in a production environment      |
++-------------------------+------------------------------------------------------------------------------------------------------------+------------------------------------------------------+
+|``edge``                 | Weblate stable release with development changes in the Docker container (for example updated dependencies) | Rolling updates in a staging environment             |
++-------------------------+------------------------------------------------------------------------------------------------------------+------------------------------------------------------+
+|``edge-<DATE>-<SHA>``    | Weblate stable release with development changes in the Docker container (for example updated dependencies) | Well defined deploy in a staging environment         |
++-------------------------+------------------------------------------------------------------------------------------------------------+------------------------------------------------------+
+|``bleeding``             | Development version Weblate from Git                                                                       | Rollling updates to test upcoming Weblate features   |
++-------------------------+------------------------------------------------------------------------------------------------------------+------------------------------------------------------+
+|``bleeding-<DATE>-<SHA>``| Development version Weblate from Git                                                                       | Well defined deploy to test upcoming Weblate features|
++-------------------------+------------------------------------------------------------------------------------------------------------+------------------------------------------------------+
+
+Every image is tested by our CI before it gets published, so even the `bleeding` version should be quite safe to use.
+
 .. _docker-ssl:
 
 Docker container with HTTPS support
@@ -173,9 +196,14 @@ the latest images and then restart:
 
 .. code-block:: sh
 
-    docker-compose stop
-    docker-compose pull
-    docker-compose up
+   # Fetch latest versions of the images
+   docker-compose pull
+   # Stop and destroy the containers
+   docker-compose down
+   # Spawn new containers in the background
+   docker-compose up -d
+   # Follow the logs during upgrade
+   docker-compose logs -f
 
 The Weblate database should be automatically migrated on first startup, and there
 should be no need for additional manual actions.
@@ -707,9 +735,33 @@ Generic settings
 
    Configures :setting:`ENABLE_AVATARS`.
 
+.. envvar:: WEBLATE_LIMIT_TRANSLATION_LENGTH_BY_SOURCE_LENGTH
+
+   .. versionadded:: 4.9
+
+   Configures :setting:`LIMIT_TRANSLATION_LENGTH_BY_SOURCE_LENGTH`.
+
+.. envvar:: WEBLATE_SSH_EXTRA_ARGS
+
+   .. versionadded:: 4.9
+
+   Configures :setting:`SSH_EXTRA_ARGS`.
+
+.. envvar:: WEBLATE_BORG_EXTRA_ARGS
+
+   .. versionadded:: 4.9
+
+   Configures :setting:`BORG_EXTRA_ARGS`.
+
+
+.. _docker-machine:
 
 Machine translation settings
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. hint::
+
+   Configuring API key for a service automatically configures it in :setting:`MT_SERVICES`.
 
 .. envvar:: WEBLATE_MT_APERTIUM_APY
 
@@ -736,9 +788,29 @@ Machine translation settings
 
    Configures :ref:`deepl` API version to use, see :setting:`MT_DEEPL_API_URL`.
 
+.. envvar:: WEBLATE_MT_LIBRETRANSLATE_KEY
+
+    Enables :ref:`libretranslate` machine translation and sets :setting:`MT_LIBRETRANSLATE_KEY`
+
+.. envvar:: WEBLATE_MT_LIBRETRANSLATE_API_URL
+
+   Configures :ref:`libretranslate` API instance to use, see :setting:`MT_LIBRETRANSLATE_API_URL`.
+
 .. envvar:: WEBLATE_MT_GOOGLE_KEY
 
     Enables :ref:`google-translate` and sets :setting:`MT_GOOGLE_KEY`
+
+.. envvar:: WEBLATE_MT_GOOGLE_CREDENTIALS
+
+    Enables :ref:`google-translate-api3` and sets :setting:`MT_GOOGLE_CREDENTIALS`
+
+.. envvar:: WEBLATE_MT_GOOGLE_PROJECT
+
+    Enables :ref:`google-translate-api3` and sets :setting:`MT_GOOGLE_PROJECT`
+
+.. envvar:: WEBLATE_MT_GOOGLE_LOCATION
+
+    Enables :ref:`google-translate-api3` and sets :setting:`MT_GOOGLE_LOCATION`
 
 .. envvar:: WEBLATE_MT_MICROSOFT_COGNITIVE_KEY
 
@@ -1037,6 +1109,47 @@ both Weblate and PostgreSQL containers.
 
     Configures name of role to alter during migrations, see :ref:`config-postgresql`.
 
+.. envvar:: POSTGRES_CONN_MAX_AGE
+
+   .. versionadded:: 4.8.1
+
+   The lifetime of a database connection, as an integer of seconds. Use 0 to
+   close database connections at the end of each request (this is the default
+   behavior).
+
+   Enabling connection persistence will typically, cause more open connection
+   to the database. Please adjust your database configuration prior enabling.
+
+   Example configuration:
+
+   .. code-block:: yaml
+
+       environment:
+           POSTGRES_CONN_MAX_AGE: 3600
+
+   .. seealso::
+
+      :setting:`django:CONN_MAX_AGE`, :ref:`django:persistent-database-connections`
+
+.. envvar:: POSTGRES_DISABLE_SERVER_SIDE_CURSORS
+
+   .. versionadded:: 4.9.1
+
+   Disable server side cursors in the database. This is necessary in some
+   :command:`pgbouncer` setups.
+
+   Example configuration:
+
+   .. code-block:: yaml
+
+       environment:
+           POSTGRES_DISABLE_SERVER_SIDE_CURSORS: 1
+
+   .. seealso::
+
+      :setting:`DISABLE_SERVER_SIDE_CURSORS <django:DATABASE-DISABLE_SERVER_SIDE_CURSORS>`,
+      :ref:`django:transaction-pooling-server-side-cursors`
+
 
 Database backup settings
 ~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1183,6 +1296,16 @@ Example SSL configuration:
         :ref:`production-email`,
         :setting:`django:EMAIL_BACKEND`
 
+.. envvar:: WEBLATE_AUTO_UPDATE
+
+    Configures if and how Weblate should update repositories.
+
+    .. seealso::
+
+        :setting:`AUTO_UPDATE`
+
+    .. note:: This is a Boolean setting (use ``"true"`` or ``"false"``).
+
 Site integration
 ~~~~~~~~~~~~~~~~
 
@@ -1197,6 +1320,10 @@ Site integration
 .. envvar:: WEBLATE_LEGAL_URL
 
    Configures :setting:`LEGAL_URL`.
+
+.. envvar:: WEBLATE_PRIVACY_URL
+
+   Configures :setting:`PRIVACY_URL`.
 
 Error reporting
 ~~~~~~~~~~~~~~~
@@ -1390,6 +1517,9 @@ The cache volume is mounted as :file:`/app/cache` and is used to store static
 files. Its content is recreated on container startup and the volume can be
 mounted using ephemeral filesystem such as `tmpfs`.
 
+When creating the volumes manually, the directories should be owned by UID 1000
+as that is user used inside the container.
+
 .. seealso::
 
    `Docker volumes documentation <https://docs.docker.com/storage/volumes/>`_
@@ -1449,11 +1579,3 @@ using :ref:`docker-custom-config`.
 .. seealso::
 
    :doc:`../customize`
-
-
-Select your machine - local or cloud providers
-----------------------------------------------
-
-With Docker Machine you can create your Weblate deployment either on your local
-machine, or on any large number of cloud-based deployments on e.g. Amazon AWS,
-Greenhost, and many other providers.

@@ -75,7 +75,9 @@ class MockTranslation:
 class MockUnit:
     """Mock unit object."""
 
-    def __init__(self, id_hash=None, flags="", code="cs", source="", note=""):
+    def __init__(
+        self, id_hash=None, flags="", code="cs", source="", note="", is_source=None
+    ):
         if id_hash is None:
             id_hash = random.randint(0, 65536)
         self.id_hash = id_hash
@@ -89,6 +91,7 @@ class MockUnit:
         self.note = note
         self.check_cache = {}
         self.machinery = {"best": -1}
+        self.is_source = is_source
 
     @property
     def all_flags(self):
@@ -130,15 +133,24 @@ class CheckTestCase(SimpleTestCase):
             lang = self.default_lang
         if not data or self.check is None:
             return
-        result = self.check.check_single(
-            data[0], data[1], MockUnit(None, data[2], lang, source=data[0])
-        )
+        params = '"{}"/"{}" ({})'.format(*data)
+
+        unit = MockUnit(None, data[2], lang, source=data[0])
+
+        # Verify skip logic
+        should_skip = self.check.should_skip(unit)
         if expected:
-            self.assertTrue(
-                result, 'Check did not fire for "{}"/"{}" ({})'.format(*data)
-            )
+            self.assertFalse(should_skip, f"Check should not skip for {params}")
+        elif should_skip:
+            # There is nothing to test here
+            return
+
+        # Verify check logic
+        result = self.check.check_single(data[0], data[1], unit)
+        if expected:
+            self.assertTrue(result, f"Check did not fire for {params}")
         else:
-            self.assertFalse(result, 'Check did fire for "{}"/"{}" ({})'.format(*data))
+            self.assertFalse(result, f"Check did fire for {params}")
 
     def test_single_good_matching(self):
         self.do_test(False, self.test_good_matching)

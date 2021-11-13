@@ -88,11 +88,11 @@ The :file:`Dockerfile` and :file:`docker-compose.yml` for this are located in th
 
 The script also accepts some parameters, to execute tests, run it with the
 ``test`` parameter and then specify any :djadmin:`django:test` parameters,
-for example:
+for example running only tests in the ``weblate.machine`` module:
 
 .. code-block:: sh
 
-   ./rundev.sh test --failfast weblate.trans
+   ./rundev.sh test --failfast weblate.machine
 
 .. note::
 

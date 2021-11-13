@@ -17,8 +17,11 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
+import subprocess
 
 from weblate.fonts.models import FONT_STORAGE, Font
+from weblate.fonts.utils import configure_fontconfig
+from weblate.trans.util import get_clean_env
 from weblate.utils.celery import app
 
 
@@ -34,6 +37,18 @@ def cleanup_font_files():
             continue
         if not Font.objects.filter(font=name).exists():
             FONT_STORAGE.delete(name)
+
+
+@app.task(trail=False)
+def update_fonts_cache():
+    configure_fontconfig()
+    subprocess.run(
+        ["fc-cache"],
+        env=get_clean_env(),
+        check=True,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+    )
 
 
 @app.on_after_finalize.connect

@@ -44,7 +44,7 @@ class ChangesFeed(Feed):
         return reverse("home")
 
     def items(self, obj):
-        return Change.objects.last_changes(obj)[:10]
+        return Change.objects.last_changes(obj)[:10].preload()
 
     def item_title(self, item):
         return item.get_action_display()

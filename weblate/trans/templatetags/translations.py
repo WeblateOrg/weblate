@@ -29,8 +29,7 @@ from django.template.loader import render_to_string
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.formats import number_format as django_number_format
-from django.utils.html import escape
-from django.utils.html import urlize as django_urlize
+from django.utils.html import escape, urlize
 from django.utils.safestring import mark_safe
 from django.utils.translation import gettext, gettext_lazy, ngettext, pgettext
 from siphashc import siphash
@@ -49,6 +48,7 @@ from weblate.trans.models import (
     Translation,
 )
 from weblate.trans.models.translation import GhostTranslation
+from weblate.trans.specialchars import get_display_char
 from weblate.trans.util import split_plural, translation_percent
 from weblate.utils.docs import get_doc_url
 from weblate.utils.hash import hash_to_checksum
@@ -66,7 +66,14 @@ SPACE_NL = HIGHLIGTH_SPACE.format(SPACE_TEMPLATE.format("space-nl", ""), "<br />
 
 GLOSSARY_TEMPLATE = """<span class="glossary-term" title="{}">"""
 
-WHITESPACE_RE = re.compile(r"(  +| $|^ )", re.MULTILINE)
+# This should match whitespace_regex in weblate/static/loader-bootstrap.js
+WHITESPACE_REGEX = (
+    r"(\t|\u00A0|\u1680|\u2000|\u2001|\u2002|\u2003|"
+    + r"\u2004|\u2005|\u2006|\u2007|\u2008|\u2009|\u200A|"
+    + r"\u202F|\u205F|\u3000)"
+)
+WHITESPACE_RE = re.compile(WHITESPACE_REGEX, re.MULTILINE)
+MULTISPACE_RE = re.compile(r"(  +| $|^ )", re.MULTILINE)
 TYPE_MAPPING = {True: "yes", False: "no", None: "unknown"}
 # Mapping of status report flags to names
 NAME_MAPPING = {
@@ -99,7 +106,7 @@ class Formatter:
     def __init__(self, idx, value, unit, terms, diff, search_match, match):
         # Inputs
         self.idx = idx
-        self.value = value
+        self.cleaned_value = self.value = value
         self.unit = unit
         self.terms = terms
         self.diff = diff
@@ -148,11 +155,17 @@ class Formatter:
     def parse_highlight(self):
         """Highlights unit placeables."""
         highlights = highlight_string(self.value, self.unit)
+        cleaned_value = list(self.value)
         for start, end, _content in highlights:
             self.tags[start].append(
                 '<span class="hlcheck"><span class="highlight-number"></span>'
             )
             self.tags[end].insert(0, "</span>")
+            cleaned_value[start:end] = [" "] * (end - start)
+
+        # Prepare cleaned up value for glossary terms (we do not want to extract those
+        # from format strings)
+        self.cleaned_value = "".join(cleaned_value)
 
     @staticmethod
     def format_terms(terms):
@@ -182,7 +195,7 @@ class Formatter:
         """Highlights glossary entries."""
         for htext, entries in self.terms.items():
             for match in re.finditer(
-                fr"(\W|^)({re.escape(htext)})(\W|$)", self.value, re.IGNORECASE
+                fr"(\W|^)({re.escape(htext)})(\W|$)", self.cleaned_value, re.IGNORECASE
             ):
                 self.tags[match.start(2)].append(
                     GLOSSARY_TEMPLATE.format(self.format_terms(entries))
@@ -206,7 +219,7 @@ class Formatter:
 
     def parse_whitespace(self):
         """Highlight whitespaces."""
-        for match in WHITESPACE_RE.finditer(self.value):
+        for match in MULTISPACE_RE.finditer(self.value):
             self.tags[match.start()].append(
                 '<span class="hlspace"><span class="space-space"><span class="sr-only">'
             )
@@ -216,9 +229,17 @@ class Formatter:
                 )
             self.tags[match.end()].insert(0, "</span></span></span>")
 
-        for match in re.finditer("\t", self.value):
+        for match in WHITESPACE_RE.finditer(self.value):
+            whitespace = match.group(0)
+            if whitespace == "\t":
+                cls = "space-tab"
+            else:
+                cls = "space-space"
+            title = get_display_char(whitespace)[0]
             self.tags[match.start()].append(
-                '<span class="hlspace"><span class="space-tab"><span class="sr-only">'
+                '<span class="hlspace">'
+                f'<span class="{cls}" title="{title}">'
+                '<span class="sr-only">'
             )
             self.tags[match.end()].insert(0, "</span></span></span>")
 
@@ -252,8 +273,9 @@ def format_translation(
     plural=None,
     diff=None,
     search_match=None,
-    simple=False,
-    wrap=False,
+    simple: bool = False,
+    wrap: bool = False,
+    noformat: bool = False,
     num_plurals=2,
     unit=None,
     match="search",
@@ -285,8 +307,8 @@ def format_translation(
     parts = []
     has_content = False
 
-    for idx, value in enumerate(plurals):
-        formatter = Formatter(idx, value, unit, terms, diff, search_match, match)
+    for idx, text in enumerate(plurals):
+        formatter = Formatter(idx, text, unit, terms, diff, search_match, match)
         formatter.parse()
 
         # Show label for plural (if there are any)
@@ -297,11 +319,12 @@ def format_translation(
         # Join paragraphs
         content = formatter.format()
 
-        parts.append({"title": title, "content": content, "copy": escape(value)})
+        parts.append({"title": title, "content": content, "copy": escape(text)})
         has_content |= bool(content)
 
     return {
         "simple": simple,
+        "noformat": noformat,
         "wrap": wrap,
         "items": parts,
         "language": language,
@@ -686,7 +709,11 @@ def show_contributor_agreement(context, component):
 
     return render_to_string(
         "snippets/component/contributor-agreement.html",
-        {"object": component, "next": context["request"].get_full_path()},
+        {
+            "object": component,
+            "next": context["request"].get_full_path(),
+            "user": context["user"],
+        },
     )
 
 
@@ -968,7 +995,7 @@ def any_unit_has_context(units):
 
 
 @register.filter(is_safe=True, needs_autoescape=True)
-def urlize(value, autoescape=True):
+def urlize_ugc(value, autoescape=True):
     """Convert URLs in plain text into clickable links."""
-    html = django_urlize(value, nofollow=True, autoescape=autoescape)
+    html = urlize(value, nofollow=True, autoescape=autoescape)
     return mark_safe(html.replace('rel="nofollow"', 'rel="ugc" target="_blank"'))

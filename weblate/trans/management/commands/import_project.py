@@ -45,9 +45,7 @@ class Command(BaseCommand):
         parser.add_argument(
             "--name-template",
             default="{{ component }}",
-            help=(
-                "Template string, transforming the filemask " "match to a project name"
-            ),
+            help="Template string, transforming the filemask match to a project name",
         )
         parser.add_argument(
             "--base-file-template",

@@ -66,8 +66,8 @@ class ComponentList(models.Model, CacheKeyMixin):
     objects = ComponentListQuerySet.as_manager()
 
     class Meta:
-        verbose_name = _("Component list")
-        verbose_name_plural = _("Component lists")
+        verbose_name = "Component list"
+        verbose_name_plural = "Component lists"
 
     def __str__(self):
         return self.name
@@ -103,8 +103,8 @@ class AutoComponentList(models.Model):
     )
 
     class Meta:
-        verbose_name = _("Automatic component list assignment")
-        verbose_name_plural = _("Automatic component list assignments")
+        verbose_name = "Automatic component list assignment"
+        verbose_name_plural = "Automatic component list assignments"
 
     def __str__(self):
         return self.componentlist.name

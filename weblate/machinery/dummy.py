@@ -53,9 +53,9 @@ class DummyTranslation(MachineTranslation):
                 "service": "Dummy",
                 "source": text,
             }
-        if source == "en" and text.strip() == "Hello, [7]!":
+        if source == "en" and text.strip() == "Hello, [X7X]!":
             yield {
-                "text": "Nazdar [7]!",
+                "text": "Nazdar [X7X]!",
                 "quality": self.max_score,
                 "service": "Dummy",
                 "source": text,

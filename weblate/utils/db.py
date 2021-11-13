@@ -38,17 +38,6 @@ def conditional_sum(value=1, **cond):
     return Sum(Case(When(then=value, **cond), default=0, output_field=IntegerField()))
 
 
-def get_nokey_args():
-    """
-    Returns key locking disable arg for select_for_update.
-
-    This can be inlined once we support Django 3.2 only.
-    """
-    if django.VERSION < (3, 2, 0) or not using_postgresql():
-        return {}
-    return {"no_key": True}
-
-
 def using_postgresql():
     return connection.vendor == "postgresql"
 
@@ -270,7 +259,10 @@ class FastDeleteQuerySetMixin:
         # Disable non-supported fields.
         del_query.query.select_for_update = False
         del_query.query.select_related = False
-        del_query.query.clear_ordering(force_empty=True)
+        if django.VERSION < (4, 0):
+            del_query.query.clear_ordering(force_empty=True)
+        else:
+            del_query.query.clear_ordering(clear_default=True)
 
         collector = FastCollector(using=del_query.db)
         collector.collect(del_query)

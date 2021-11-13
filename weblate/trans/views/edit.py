@@ -293,6 +293,11 @@ def perform_suggestion(unit, form, request):
     return result
 
 
+def update_explanation(unit, form):
+    unit.explanation = form.cleaned_data["explanation"]
+    unit.save(update_fields=["explanation"], only_save=True)
+
+
 def perform_translation(unit, form, request):
     """Handle translation and stores it to a backend."""
     user = request.user
@@ -302,12 +307,19 @@ def perform_translation(unit, form, request):
     oldchecks = unit.all_checks_names
 
     # Update explanation for glossary
-    if unit.translation.component.is_glossary:
+    change_explanation = (
+        unit.translation.component.is_glossary
+        and unit.explanation != form.cleaned_data["explanation"]
+    )
+    if change_explanation:
         unit.explanation = form.cleaned_data["explanation"]
     # Save
     saved = unit.translate(
         user, form.cleaned_data["target"], form.cleaned_data["state"]
     )
+    # Make sure explanation is saved
+    if not saved and change_explanation:
+        update_explanation(unit, form)
 
     # Warn about applied fixups
     if unit.fixups:
@@ -381,12 +393,17 @@ def handle_translate(request, unit, this_unit_url, next_unit_url):
     if "suggest" in request.POST:
         go_next = perform_suggestion(unit, form, request)
     elif not request.user.has_perm("unit.edit", unit):
-        messages.error(request, _("Insufficient privileges for saving translations."))
+        if request.user.has_perm("unit.flag", unit):
+            update_explanation(unit, form)
+        else:
+            messages.error(
+                request, _("Insufficient privileges for saving translations.")
+            )
     else:
         go_next = perform_translation(unit, form, request)
 
     # Redirect to next entry
-    if go_next:
+    if "save-stay" not in request.POST and go_next:
         return HttpResponseRedirect(next_unit_url)
     return HttpResponseRedirect(this_unit_url)
 
@@ -637,7 +654,7 @@ def translate(request, project, component, lang):  # noqa: C901
             "locked": locked,
             "glossary": get_glossary_terms(unit),
             "addterm_form": TermForm(unit),
-            "last_changes": unit.change_set.prefetch().order()[:10],
+            "last_changes": unit.change_set.prefetch().order()[:10].preload("unit"),
             "screenshots": (
                 unit.source_unit.screenshots.all() | unit.screenshots.all()
             ).order,
@@ -877,7 +894,12 @@ def save_zen(request, project, component, lang):
     if not form.is_valid():
         show_form_errors(request, form)
     elif not request.user.has_perm("unit.edit", unit):
-        messages.error(request, _("Insufficient privileges for saving translations."))
+        if request.user.has_perm("unit.flag", unit):
+            update_explanation(unit, form)
+        else:
+            messages.error(
+                request, _("Insufficient privileges for saving translations.")
+            )
     else:
         perform_translation(unit, form, request)
 
@@ -919,9 +941,9 @@ def new_unit(request, project, component, lang):
     if not form.is_valid():
         show_form_errors(request, form)
     else:
-        new_unit = translation.add_unit(request, **form.as_kwargs())
+        created_unit = translation.add_unit(request, **form.as_kwargs())
         messages.success(request, _("New string has been added."))
-        return redirect(new_unit)
+        return redirect(created_unit)
 
     return redirect(translation)
 

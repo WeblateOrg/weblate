@@ -129,7 +129,11 @@ class AutoTranslate:
 
         for pos, unit in enumerate(units):
             # Get update
-            state, target = translations[unit.source]
+            try:
+                state, target = translations[unit.source]
+            except KeyError:
+                # Happens on MySQL due to case-insensitive lookup
+                continue
 
             self.set_progress(pos)
 

@@ -3,6 +3,7 @@
 
 <td class="number {{ class }}" data-value="{{ value }}">
     {% if value == 0 and not show_zero %}
+      <span class="sr-only">0</span>
     {% elif translate_url %}
         <a href="{{ translate_url }}?{{ query }}">
             {{ value|intcomma }}

@@ -38,6 +38,8 @@ from weblate.utils.unittest import tempdir_setting
 from weblate.wladmin.middleware import ManageMiddleware
 from weblate.wladmin.models import BackupService, ConfigurationError, SupportStatus
 
+TEST_BACKENDS = ("weblate.accounts.auth.WeblateUserBackend",)
+
 
 class AdminTest(ViewTestCase):
     """Test for customized admin interface."""
@@ -198,10 +200,43 @@ class AdminTest(ViewTestCase):
                 "email": "noreply@example.com",
                 "username": "username",
                 "full_name": "name",
+                "send_email": 1,
             },
             follow=True,
         )
-        self.assertContains(response, "User has been invited")
+        self.assertContains(response, "Created user account")
+        self.assertEqual(len(mail.outbox), 1)
+
+    def test_invite_user_nosend(self):
+        response = self.client.get(reverse("manage-users"))
+        self.assertContains(response, "E-mail")
+        response = self.client.post(
+            reverse("manage-users"),
+            {
+                "email": "noreply@example.com",
+                "username": "username",
+                "full_name": "name",
+            },
+            follow=True,
+        )
+        self.assertContains(response, "Created user account")
+        self.assertEqual(len(mail.outbox), 0)
+
+    @override_settings(AUTHENTICATION_BACKENDS=TEST_BACKENDS)
+    def test_invite_user_nomail(self):
+        response = self.client.get(reverse("manage-users"))
+        self.assertContains(response, "E-mail")
+        response = self.client.post(
+            reverse("manage-users"),
+            {
+                "email": "noreply@example.com",
+                "username": "username",
+                "full_name": "name",
+                "send_email": 1,
+            },
+            follow=True,
+        )
+        self.assertContains(response, "Created user account")
         self.assertEqual(len(mail.outbox), 1)
 
     def test_check_user(self):

@@ -89,7 +89,7 @@ class APIBaseTest(APITestCase, RepoTestMixin):
         project = Project.objects.create(
             name="ACL", slug="acl", access_control=Project.ACCESS_PRIVATE
         )
-        self._create_component(
+        return self._create_component(
             "po-mono", "po-mono/*.po", "po-mono/en.po", project=project
         )
 
@@ -223,7 +223,7 @@ class UserAPITest(APIBaseTest):
             superuser=True,
             code=200,
         )
-        self.assertEqual(response.data["count"], 8)
+        self.assertEqual(response.data["count"], 9)
 
     def test_post_notifications(self):
         self.do_request(
@@ -244,7 +244,7 @@ class UserAPITest(APIBaseTest):
                 "frequency": 1,
             },
         )
-        self.assertEqual(Subscription.objects.count(), 9)
+        self.assertEqual(Subscription.objects.count(), 10)
 
     def test_get_notifications(self):
         user = User.objects.filter(is_active=True).first()
@@ -318,7 +318,7 @@ class UserAPITest(APIBaseTest):
             superuser=True,
             code=204,
         )
-        self.assertEqual(Subscription.objects.count(), 7)
+        self.assertEqual(Subscription.objects.count(), 8)
 
     def test_statistics(self):
         user = User.objects.filter(is_active=True).first()
@@ -825,7 +825,7 @@ class RoleAPITest(APIBaseTest):
 
     def test_patch(self):
         role = Role.objects.get(name="Access repository")
-        self.assertEqual(role.permissions.count(), 2)
+        self.assertEqual(role.permissions.count(), 3)
         self.do_request(
             "api:role-detail",
             kwargs={"id": role.pk},
@@ -850,7 +850,7 @@ class RoleAPITest(APIBaseTest):
             format="json",
             request={"permissions": ["comment.add"]},
         )
-        self.assertEqual(Role.objects.get(pk=role.pk).permissions.count(), 3)
+        self.assertEqual(Role.objects.get(pk=role.pk).permissions.count(), 4)
 
 
 class ProjectAPITest(APIBaseTest):
@@ -921,7 +921,7 @@ class ProjectAPITest(APIBaseTest):
 
     def test_changes(self):
         request = self.do_request("api:project-changes", self.project_kwargs)
-        self.assertEqual(request.data["count"], 20)
+        self.assertEqual(request.data["count"], 18)
 
     def test_statistics(self):
         request = self.do_request("api:project-statistics", self.project_kwargs)
@@ -1744,7 +1744,7 @@ class ComponentAPITest(APIBaseTest):
 
     def test_changes(self):
         request = self.do_request("api:component-changes", self.component_kwargs)
-        self.assertEqual(request.data["count"], 14)
+        self.assertEqual(request.data["count"], 13)
 
     def test_screenshots(self):
         request = self.do_request("api:component-screenshots", self.component_kwargs)
@@ -1827,6 +1827,27 @@ class ComponentAPITest(APIBaseTest):
             method="post",
             code=403,
             request={"language_code": "cs"},
+        )
+
+    def test_download_translation_zip_ok(self):
+        response = self.do_request(
+            "api:component-download-archive",
+            self.component_kwargs,
+            method="get",
+            code=200,
+            superuser=True,
+        )
+        self.assertEqual(response.headers["content-type"], "application/zip")
+
+    def test_download_translation_zip_prohibited(self):
+        project = self.component.project
+        project.access_control = Project.ACCESS_PROTECTED
+        project.save(update_fields=["access_control"])
+        self.do_request(
+            "api:component-download-archive",
+            self.component_kwargs,
+            method="get",
+            code=403,
         )
 
     def test_links(self):
@@ -2372,7 +2393,8 @@ class TranslationAPITest(APIBaseTest):
         self.test_autotranslate("json")
 
     def test_add_monolingual(self):
-        self.create_acl()
+        component = self.create_acl()
+        self.assertEqual(component.source_translation.unit_set.count(), 4)
         self.do_request(
             "api:translation-units",
             {
@@ -2385,6 +2407,7 @@ class TranslationAPITest(APIBaseTest):
             request={"key": "key", "value": "Source Language"},
             code=403,
         )
+        self.assertEqual(component.source_translation.unit_set.count(), 4)
         self.do_request(
             "api:translation-units",
             {
@@ -2397,6 +2420,14 @@ class TranslationAPITest(APIBaseTest):
             request={"key": "key", "value": "Source Language"},
             code=200,
         )
+        self.assertEqual(component.source_translation.unit_set.count(), 5)
+        unit = Unit.objects.get(
+            translation__component=component,
+            translation__language_code="cs",
+            context="key",
+        )
+        self.assertEqual(unit.source, "Source Language")
+        self.assertEqual(unit.target, "")
         self.do_request(
             "api:translation-units",
             {
@@ -2409,6 +2440,7 @@ class TranslationAPITest(APIBaseTest):
             request={"key": "key", "value": "Source Language"},
             code=400,
         )
+        self.assertEqual(component.source_translation.unit_set.count(), 5)
         self.do_request(
             "api:translation-units",
             {
@@ -2422,6 +2454,7 @@ class TranslationAPITest(APIBaseTest):
             request={"key": "plural", "value": ["Source Language", "Source Lanugages"]},
             code=200,
         )
+        self.assertEqual(component.source_translation.unit_set.count(), 6)
 
     def test_add_bilingual(self):
         self.do_request(
@@ -2995,7 +3028,7 @@ class ScreenshotAPITest(APIBaseTest):
 class ChangeAPITest(APIBaseTest):
     def test_list_changes(self):
         response = self.client.get(reverse("api:change-list"))
-        self.assertEqual(response.data["count"], 20)
+        self.assertEqual(response.data["count"], 18)
 
     def test_filter_changes_after(self):
         """Filter chanages since timestamp."""
@@ -3003,7 +3036,7 @@ class ChangeAPITest(APIBaseTest):
         response = self.client.get(
             reverse("api:change-list"), {"timestamp_after": start.isoformat()}
         )
-        self.assertEqual(response.data["count"], 20)
+        self.assertEqual(response.data["count"], 18)
 
     def test_filter_changes_before(self):
         """Filter changes prior to timestamp."""
@@ -3208,6 +3241,8 @@ class AddonAPITest(APIBaseTest):
         self.assertTrue(
             self.component.addon_set.filter(pk=response.data["id"]).exists()
         )
+        # Existing
+        response = self.create_addon(code=400)
 
     def test_delete(self):
         response = self.create_addon()

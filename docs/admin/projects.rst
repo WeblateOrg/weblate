@@ -50,16 +50,16 @@ based on your plans allowance from the user account that manages billing.
 
 You can view your current billing plan on a separate page:
 
-.. image:: /images/user-billing.png
+.. image:: /screenshots/user-billing.png
 
 The project creation can be initiated from there, or using the menu in the navigation
 bar, filling in basic info about the translation project to complete addition of it:
 
-.. image:: /images/user-add-project.png
+.. image:: /screenshots/user-add-project.png
 
 After creating the project, you are taken directly to the project page:
 
-.. image:: /images/user-add-project-done.png
+.. image:: /screenshots/user-add-project-done.png
 
 Creating a new translation component can be initiated via a single click there.
 The process of creating a component is multi-staged and automatically detects most
@@ -76,7 +76,7 @@ Upload translations files
     or do not want to integrate it with Weblate. You can later update the
     content using the web interface or :ref:`api`.
 Translate document
-    Upload single document and translate that.
+    Upload single document or translation file and translate that.
 Start from scratch
     Create blank translation project and add strings manually.
 
@@ -85,15 +85,15 @@ for additional files or branches using same repository.
 
 First you need to fill in name and repository location:
 
-.. image:: /images/user-add-component-init.png
+.. image:: /screenshots/user-add-component-init.png
 
 On the next page, you are presented with a list of discovered translatable resources:
 
-.. image:: /images/user-add-component-discovery.png
+.. image:: /screenshots/user-add-component-discovery.png
 
 As a last step, you review the translation component info and fill in optional details:
 
-.. image:: /images/user-add-component.png
+.. image:: /screenshots/user-add-component.png
 
 .. seealso::
 
@@ -146,7 +146,8 @@ This is a required parameter unless turned off by :setting:`WEBSITE_REQUIRED`.
 Translation instructions
 ++++++++++++++++++++++++
 
-URL to more site with more detailed instructions for translators.
+Text describing localization process in the project, and any other information
+useful for translators. Markdown can be used for text formatting or inserting links.
 
 .. _project-set_language_team:
 
@@ -348,8 +349,9 @@ When empty, no such links will be generated. You can use :ref:`markup`.
 For example on GitHub, use something like:
 ``https://github.com/WeblateOrg/hello/blob/{{branch}}/{{filename}}#L{{line}}``
 
-In case your paths are relative to different folder, you might want to strip leading
-directory by ``parentdir`` filter (see :ref:`markup`):
+In case your paths are relative to different folder (path contains ``..``), you
+might want to strip leading directory by ``parentdir`` filter (see
+:ref:`markup`):
 ``https://github.com/WeblateOrg/hello/blob/{{branch}}/{{filename|parentdir}}#L{{line}}``
 
 .. _component-git_export:
@@ -494,6 +496,10 @@ It's usually a good idea to turn this off for monolingual translations, unless
 you are using the same IDs across the whole project.
 
 Default value can be changed by :setting:`DEFAULT_TRANSLATION_PROPAGATION`.
+
+.. seealso::
+
+   :ref:`translation-consistency`
 
 .. _component-enable_suggestions:
 

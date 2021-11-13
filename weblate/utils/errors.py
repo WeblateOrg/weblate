@@ -19,6 +19,7 @@
 
 import logging
 import sys
+from json import JSONDecodeError
 from typing import Dict, Optional
 
 import sentry_sdk
@@ -69,6 +70,9 @@ def report_error(
 
     error = sys.exc_info()[1]
 
+    if isinstance(error, JSONDecodeError) and not extra_data:
+        extra_data = repr(error.doc)
+
     log("%s: %s: %s", cause, error.__class__.__name__, str(error))
     if extra_data:
         log("%s: %s: %s", cause, error.__class__.__name__, str(extra_data))
@@ -89,13 +93,11 @@ def init_error_collection(celery=False):
             release=weblate.utils.version.GIT_REVISION
             or weblate.utils.version.TAG_NAME,
             environment=settings.SENTRY_ENVIRONMENT,
+            traces_sample_rate=settings.SENTRY_TRACES_SAMPLE_RATE,
             **settings.SENTRY_EXTRA_ARGS,
         )
         # Ignore Weblate logging, those are reported using capture_exception
         ignore_logger(ERROR_LOGGER)
-        LOGGER.info(
-            "configured Sentry error collection, extras: %s", settings.SENTRY_EXTRA_ARGS
-        )
 
     if celery and HAS_ROLLBAR and hasattr(settings, "ROLLBAR"):
         rollbar.init(**settings.ROLLBAR)

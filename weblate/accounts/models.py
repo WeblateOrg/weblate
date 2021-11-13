@@ -159,13 +159,14 @@ ACCOUNT_ACTIVITY = {
     "locked": _("Account locked due to many failed sign in attempts."),
     "removed": _("Account and all private data removed."),
     "tos": _("Agreement with Terms of Service {date}."),
-    "invited": _("Invited to Weblate by {username}."),
+    "invited": _("Invited to {site_title} by {username}."),
     "trial": _("Started trial period."),
     "sent-email": _("Sent confirmation mail to {email}."),
     "autocreated": _(
         "The system created a user to track authorship of "
         "translations uploaded by other user."
     ),
+    "blocked": _("Access to project {project} was blocked"),
 }
 # Override activty messages based on method
 ACCOUNT_ACTIVITY_METHOD = {
@@ -178,7 +179,10 @@ ACCOUNT_ACTIVITY_METHOD = {
 }
 
 EXTRA_MESSAGES = {
-    "locked": _("To restore access to your account, please reset your password.")
+    "locked": _("To restore access to your account, please reset your password."),
+    "blocked": _(
+        "Please contact project maintainers if you feel this is inappropriate."
+    ),
 }
 
 NOTIFY_ACTIVITY = {
@@ -194,6 +198,7 @@ NOTIFY_ACTIVITY = {
     "email",
     "username",
     "full_name",
+    "blocked",
 }
 
 
@@ -282,7 +287,9 @@ class AuditLog(models.Model):
     def get_params(self):
         from weblate.accounts.templatetags.authnames import get_auth_name
 
-        result = {}
+        result = {
+            "site_title": settings.SITE_TITLE,
+        }
         result.update(self.params)
         if "method" in result:
             # The gettext is here for legacy entries which contained method name
@@ -334,7 +341,7 @@ class VerifiedEmail(models.Model):
     """Storage for verified e-mails from auth backends."""
 
     social = models.ForeignKey(UserSocialAuth, on_delete=models.deletion.CASCADE)
-    email = models.EmailField(max_length=EMAIL_LENGTH)
+    email = EmailField()
 
     class Meta:
         verbose_name = "Verified e-mail"

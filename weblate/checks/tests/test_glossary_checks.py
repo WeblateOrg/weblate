@@ -60,6 +60,16 @@ class GlossaryCheckTest(ViewTestCase):
             )
         )
 
+    def test_case_insensitive(self):
+        self.add_glossary("Ahoj")
+        self.assertFalse(
+            self.check.check_target(
+                self.unit.get_source_plurals(),
+                self.unit.get_target_plurals(),
+                self.unit,
+            )
+        )
+
     def test_forbidden(self):
         self.add_glossary("ahoj")
         self.glossary.unit_set.all().update(extra_flags="forbidden")

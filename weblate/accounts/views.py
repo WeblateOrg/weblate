@@ -107,9 +107,11 @@ from weblate.accounts.notifications import (
     SCOPE_COMPONENT,
     SCOPE_PROJECT,
     SCOPE_WATCHED,
+    send_notification_email,
 )
 from weblate.accounts.pipeline import EmailAlreadyAssociated, UsernameAlreadyAssociated
 from weblate.accounts.utils import remove_user
+from weblate.auth.forms import UserEditForm
 from weblate.auth.models import User
 from weblate.logger import LOGGER
 from weblate.trans.models import Change, Component, Suggestion, Translation
@@ -153,7 +155,7 @@ NOTIFICATION_PREFIX_TEMPLATE = "notifications__{}"
 
 
 def get_auth_keys():
-    return set(load_backends(social_django.utils.BACKENDS).keys())
+    return set(load_backends(settings.AUTHENTICATION_BACKENDS).keys())
 
 
 class EmailSentView(TemplateView):
@@ -607,26 +609,34 @@ class UserPage(UpdateView):
     slug_field = "username"
     slug_url_kwarg = "user"
     context_object_name = "page_user"
-    fields = ["username", "full_name", "email", "is_superuser", "is_active"]
+    form_class = UserEditForm
 
     group_form = None
 
     def post(self, request, **kwargs):
         if not request.user.has_perm("user.edit"):
             raise PermissionDenied()
-        self.object = self.get_object()
+        user = self.object = self.get_object()
         if "add_group" in request.POST:
             self.group_form = GroupAddForm(request.POST)
             if self.group_form.is_valid():
-                self.object.groups.add(self.group_form.cleaned_data["add_group"])
+                user.groups.add(self.group_form.cleaned_data["add_group"])
                 return HttpResponseRedirect(self.get_success_url() + "#groups")
         if "remove_group" in request.POST:
             form = GroupRemoveForm(request.POST)
             if form.is_valid():
-                self.object.groups.remove(form.cleaned_data["remove_group"])
+                user.groups.remove(form.cleaned_data["remove_group"])
                 return HttpResponseRedirect(self.get_success_url() + "#groups")
+        if "remove_user" in request.POST:
+            remove_user(user, request)
+            return HttpResponseRedirect(self.get_success_url() + "#groups")
 
         return super().post(request, **kwargs)
+
+    def form_valid(self, form):
+        """If the form is valid, save the associated model."""
+        self.object = form.save(self.request)
+        return HttpResponseRedirect(self.get_success_url())
 
     def get_context_data(self, **kwargs):
         """Create context for rendering page."""
@@ -643,9 +653,7 @@ class UserPage(UpdateView):
         last_changes = all_changes[:10]
 
         # Filter where project is active
-        user_translation_ids = set(
-            all_changes.values_list("translation__component__project", flat=True)
-        )
+        user_translation_ids = set(all_changes.values_list("translation", flat=True))
         user_translations = (
             Translation.objects.prefetch()
             .filter(
@@ -656,7 +664,7 @@ class UserPage(UpdateView):
         )
 
         context["page_profile"] = user.profile
-        context["last_changes"] = last_changes
+        context["last_changes"] = last_changes.preload()
         context["last_changes_url"] = urlencode({"user": user.username})
         context["user_translations"] = prefetch_stats(user_translations)
         context["owned_projects"] = prefetch_project_flags(
@@ -944,6 +952,16 @@ def reset_password(request):
                 if not audit.check_rate_limit(request):
                     store_userid(request, True)
                     return social_complete(request, "email")
+            else:
+                send_notification_email(
+                    None,
+                    [form.cleaned_data["email"]],
+                    "reset-nonexisting",
+                    context={
+                        "address": get_ip_address(request),
+                        "user_agent:": get_user_agent(request),
+                    },
+                )
             return fake_email_sent(request, True)
     else:
         form = ResetForm()
@@ -1350,6 +1368,10 @@ def saml_metadata(request):
 class UserList(ListView):
     paginate_by = 50
     model = User
+
+    @method_decorator(login_required)
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
 
     def get_queryset(self):
         users = User.objects.filter(is_active=True)

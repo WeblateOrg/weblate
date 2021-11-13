@@ -120,6 +120,13 @@ def perform_push(pk, *args, **kwargs):
 def update_component_stats(pk):
     component = Component.objects.get(pk=pk)
     component.stats.ensure_basic()
+    project_stats = component.project.stats
+    # Update language stats
+    for language in Language.objects.filter(
+        translation__component=component
+    ).iterator():
+        stats = project_stats.get_single_language_stats(language, prefetch=True)
+        stats.ensure_basic()
 
 
 @app.task(
@@ -375,13 +382,13 @@ def auto_translate(
         user = User.objects.get(pk=user_id)
     else:
         user = None
+    translation.log_info(
+        "starting automatic translation %s: %s: %s",
+        current_task.request.id,
+        auto_source,
+        ", ".join(engines) if engines else component,
+    )
     with translation.component.lock, override(user.profile.language if user else "en"):
-        translation.log_info(
-            "starting automatic translation %s: %s: %s",
-            current_task.request.id,
-            auto_source,
-            ", ".join(engines) if engines else component,
-        )
         auto = AutoTranslate(
             user, translation, filter_type, mode, component_wide=component_wide
         )
@@ -418,12 +425,11 @@ def auto_translate_component(
     auto_source: str,
     engines: List[str],
     threshold: int,
-    component: Optional[Component] = None,
+    component: Optional[int],
 ):
-    if component is not None:
-        component = Component.objects.get(pk=component_id)
+    component_obj = Component.objects.get(pk=component_id)
 
-    for translation in component.translation_set.iterator():
+    for translation in component_obj.translation_set.iterator():
         if translation.is_source:
             continue
 
@@ -433,15 +439,15 @@ def auto_translate_component(
             mode,
             filter_type,
             auto_source,
-            component.id,
+            component,
             engines,
             threshold,
             translation=translation,
             component_wide=True,
         )
-    component.update_source_checks()
-    component.run_batched_checks()
-    return {"component": component.id}
+    component_obj.update_source_checks()
+    component_obj.run_batched_checks()
+    return {"component": component_obj.id}
 
 
 @app.task(trail=False)
