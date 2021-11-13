@@ -19,7 +19,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.9.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-11-11 07:47+0000\n"
-"PO-Revision-Date: 2021-09-09 19:09+0000\n"
+"PO-Revision-Date: 2021-11-14 00:02+0000\n"
 "Last-Translator: Heimen Stoffels <vistausss@fastmail.com>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/weblate/"
 "application/nl/>\n"
@@ -28,7 +28,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.8.1-dev\n"
+"X-Generator: Weblate 4.9.1-dev\n"
 
 #: weblate/accounts/avatar.py:103
 msgctxt "No known user"
@@ -390,10 +390,9 @@ msgid "Agreement with Terms of Service {date}."
 msgstr "Akkoord met de algemene voorwaarden {date}."
 
 #: weblate/accounts/models.py:162
-#, fuzzy, python-brace-format
-#| msgid "Invited to Weblate by {username}."
+#, python-brace-format
 msgid "Invited to {site_title} by {username}."
-msgstr "Uitgenodigd voor Weblate door {username}."
+msgstr "Uitgenodigd voor {site_title} door {username}."
 
 #: weblate/accounts/models.py:163
 msgid "Started trial period."
@@ -1659,11 +1658,11 @@ msgstr "Belangrijke datums"
 
 #: weblate/auth/admin.py:205
 msgid "This is not used when component list is selected."
-msgstr ""
+msgstr "Dit wordt niet gebruikt als de onderdeellijst is geselecteerd."
 
 #: weblate/auth/admin.py:211
 msgid "This is not used when component is selected."
-msgstr ""
+msgstr "Dit wordt niet gebruikt als er een onderdeel is geselecteerd."
 
 #. Translators: Permission name
 #: weblate/auth/data.py:34
@@ -1839,10 +1838,8 @@ msgstr "Bestaande vertaling verwijderen"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:102
-#, fuzzy
-#| msgid "Download translation"
 msgid "Download translation file"
-msgstr "Vertaling downloaden"
+msgstr "Vertaalbestand downloaden"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:104
@@ -2085,20 +2082,16 @@ msgid "Billing"
 msgstr "Facturering"
 
 #: weblate/auth/forms.py:103 weblate/trans/views/acl.py:211
-#, fuzzy
-#| msgid "Activation e-mail will be sent here."
 msgid "User invitation e-mail was sent."
-msgstr "De activeringsmail wordt hiernaar verzonden."
+msgstr "De uitnodigingsmail is verzonden."
 
 #: weblate/auth/forms.py:112
 msgid "Send e-mail invitation to the user"
 msgstr "E-mailuitnodiging versturen aan gebruiker"
 
 #: weblate/auth/forms.py:126
-#, fuzzy
-#| msgid "Send e-mail invitation to the user"
 msgid "Resend e-mail invitation to the user"
-msgstr "E-mailuitnodiging versturen aan gebruiker"
+msgstr "E-mailuitnodiging opnieuw versturen aan gebruiker"
 
 #: weblate/auth/models.py:77
 #, python-format
@@ -2637,27 +2630,23 @@ msgstr "Lettertypefamilie"
 
 #: weblate/checks/flags.py:62
 msgid "Font size"
-msgstr "Lettergrootte"
+msgstr "Tekstgrootte"
 
 #: weblate/checks/flags.py:64
 msgid "Font weight"
-msgstr "Lettergewicht"
+msgstr "Tekstdikte"
 
 #: weblate/checks/flags.py:66
 msgid "Font spacing"
 msgstr "Letterafstand"
 
 #: weblate/checks/flags.py:68
-#, fuzzy
-#| msgid "Java MessageFormat"
 msgid "ICU MessageFormat Flags"
-msgstr "Java MessageFormat"
+msgstr "ICU Java MessageFormat-opties"
 
 #: weblate/checks/flags.py:70
-#, fuzzy
-#| msgid "Java MessageFormat"
 msgid "ICU MessageFormat Tag Prefix"
-msgstr "Java MessageFormat"
+msgstr "ICU Java MessageFormat-tag - voorvoegsel"
 
 #: weblate/checks/flags.py:72 weblate/trans/models/component.py:598
 #: weblate/utils/views.py:134
@@ -2866,97 +2855,90 @@ msgstr ""
 "De volgende termen zijn niet vertaald op basis van de begrippenlijst: %s"
 
 #: weblate/checks/icu.py:269
-#, fuzzy
-#| msgid "Java MessageFormat"
 msgid "ICU MessageFormat syntax"
-msgstr "Java MessageFormat"
+msgstr "ICU Java MessageFormat-syntaxis"
 
 #: weblate/checks/icu.py:270
-#, fuzzy
-#| msgid "Syntax error in language aliases."
 msgid "Syntax errors in ICU MessageFormat strings."
-msgstr "Syntaxfout in taalaliassen."
+msgstr "Syntaxisfout in ICU MessageFormat-tekenreeksen."
 
 #: weblate/checks/icu.py:292
-#, fuzzy
-#| msgid "Java MessageFormat"
 msgid "ICU MessageFormat"
-msgstr "Java MessageFormat"
+msgstr "ICU MessageFormat"
 
 #: weblate/checks/icu.py:294
 msgid ""
 "Syntax errors and/or placeholder mismatches in ICU MessageFormat strings."
 msgstr ""
+"Syntaxisfouten en/of onjuiste plaatshouders in ICU MessageFormat-"
+"tekenreeksen."
 
 #: weblate/checks/icu.py:460
 #, python-format
 msgid "Syntax error: %s"
-msgstr ""
+msgstr "Syntaxisfout: %s"
 
 #: weblate/checks/icu.py:463
-#, fuzzy, python-format
-#| msgid "Forbidden translation: %s"
+#, python-format
 msgid "Unknown placeholder in translation: %s"
-msgstr "Verboden vertaling: %s"
+msgstr "Onbekende plaatshouder in vertaling: %s"
 
 #: weblate/checks/icu.py:468
-#, fuzzy, python-format
-#| msgid "Please sign in to save translations."
+#, python-format
 msgid "Placeholder missing in translation: %s"
-msgstr "Log in om uw vertaling op te slaan."
+msgstr "Ontbrekende plaatshouder is vertaling: %s"
 
 #: weblate/checks/icu.py:473
 #, python-format
 msgid "Placeholder has wrong type: %s"
-msgstr ""
+msgstr "Onjuiste plaatshouder: %s"
 
 #: weblate/checks/icu.py:476
 #, python-format
 msgid "Missing other sub-message for: %s"
-msgstr ""
+msgstr "Ontbrekend aanvullend bericht bij %s"
 
 #: weblate/checks/icu.py:479
 #, python-format
 msgid "Bad plural selectors for: %s"
-msgstr ""
+msgstr "Onjuiste meervoudkeuzes bij %s"
 
 #: weblate/checks/icu.py:484
 #, python-format
 msgid "Bad sub-message selectors for: %s"
-msgstr ""
+msgstr "Onjuiste aanvullende berichtkeuzes bij %s"
 
 #: weblate/checks/icu.py:489
 #, python-format
 msgid "Placeholder should be XML tag in translation: %s"
-msgstr ""
+msgstr "De plaatshouder dient een xml-tag te zijn in %s"
 
 #: weblate/checks/icu.py:494
 #, python-format
 msgid "Placeholder should not be XML tag in translation: %s"
-msgstr ""
+msgstr "De plaatshouder dient geen xml-tag te zijn in %s"
 
 #: weblate/checks/icu.py:499
 #, python-format
 msgid "XML Tag has unexpected contents in translation: %s"
-msgstr ""
+msgstr "De xml-tag bevat onverwachte inhoud in %s"
 
 #: weblate/checks/icu.py:504
-#, fuzzy, python-format
-#| msgid "Missing parameters for translation flag: \"%s\""
+#, python-format
 msgid "XML Tag missing contents in translation: %s"
-msgstr "Ontbrekende aanvullende opties bij aanmerking: “%s”"
+msgstr "Ontbrekende xml-taginhoud in vertaling: %s"
 
 #: weblate/checks/markup.py:94
 msgid "BBcode markup"
-msgstr "BBcode opmaak"
+msgstr "BBcode-opmaak"
 
 #: weblate/checks/markup.py:95
 msgid "BBcode in translation does not match source"
-msgstr "BBcode in vertaling komt niet overeen met de bron"
+msgstr "De BBcode in de vertaling komt niet overeen met de bron"
 
 #: weblate/checks/markup.py:166
 msgid "XML syntax"
-msgstr "xml-opmaak"
+msgstr "xml-syntaxis"
 
 #: weblate/checks/markup.py:167
 msgid "The translation is not valid XML"
@@ -2964,11 +2946,11 @@ msgstr "De vertaling is geen geldige XML"
 
 #: weblate/checks/markup.py:191
 msgid "XML markup"
-msgstr "XML opmaak"
+msgstr "XML-opmaak"
 
 #: weblate/checks/markup.py:192
 msgid "XML tags in translation do not match source"
-msgstr "XML-tags in de vertaling komen niet overeen met de bron"
+msgstr "De xml-tags in de vertaling komen niet overeen met de bron"
 
 #: weblate/checks/markup.py:251
 msgid "Markdown references"
@@ -2976,7 +2958,7 @@ msgstr "Markdown-verwijzingen"
 
 #: weblate/checks/markup.py:252
 msgid "Markdown link references do not match source"
-msgstr "Markdown-link referenties komen niet overeen met de bron"
+msgstr "De Markdown-linkreferenties komen niet overeen met de bron"
 
 #: weblate/checks/markup.py:268
 msgid "Markdown links"
@@ -2984,15 +2966,15 @@ msgstr "Markdown-links"
 
 #: weblate/checks/markup.py:269
 msgid "Markdown links do not match source"
-msgstr "Markdown-links komen niet overeen met de bron"
+msgstr "De Markdown-links komen niet overeen met de bron"
 
 #: weblate/checks/markup.py:297
 msgid "Markdown syntax"
-msgstr "Markdown-syntax"
+msgstr "Markdown-syntaxis"
 
 #: weblate/checks/markup.py:298
 msgid "Markdown syntax does not match source"
-msgstr "Markdown-syntax komt niet overeen met de bron"
+msgstr "De Markdown-syntaxis komt niet overeen met de bron"
 
 #: weblate/checks/markup.py:333
 msgid "The translation does not contain an URL"
@@ -4254,7 +4236,7 @@ msgstr "Registratie"
 
 #: weblate/templates/accounts/email-sent.html:12
 msgid "You will find the confirmation link in your e-mail inbox."
-msgstr ""
+msgstr "Er is een bevestigingslink is naar uw Postvak IN verstuurd."
 
 #: weblate/templates/accounts/email-sent.html:19
 msgid "Password reset almost complete"
@@ -4270,44 +4252,42 @@ msgstr "Registratie bijna afgewerkt"
 
 #: weblate/templates/accounts/email-sent.html:30
 msgid "Follow the password recovery instructions sent to your e-mail inbox."
-msgstr ""
+msgstr "Volg de herstelinstructies in de aan u gestuurde e-mail."
 
 #: weblate/templates/accounts/email-sent.html:31
 #: weblate/templates/accounts/email-sent.html:34
 msgid "Request a new confirmation link if it expires."
-msgstr ""
+msgstr "Vraag een nieuwe bevestigingslink aan als de vorige verlopen is."
 
 #: weblate/templates/accounts/email-sent.html:33
 msgid ""
 "Remove your account by clicking the confirmation link in the e-mail sent to "
 "you."
 msgstr ""
+"Verwijder uw account door op de bevestigingslink in de aan u gestuurde e-"
+"mail te klikken."
 
 #: weblate/templates/accounts/email-sent.html:36
 msgid ""
 "Click the confirmation link sent to your e-mail inbox and start using your "
 "account."
 msgstr ""
+"Activeer uw account door op de bevestigingslink in de aan u gestuurde e-mail "
+"te klikken."
 
 #: weblate/templates/accounts/email-sent.html:37
-#, fuzzy
-#| msgid "Please check your mailbox for the confirmation link."
 msgid "Register again if the confirmation link expires."
-msgstr "De bevestigingslink is verzonden naar uw e-mailadres."
+msgstr "Registreer u opnieuw als de bevestigingslink verlopen is."
 
 #: weblate/templates/accounts/email-sent.html:42
-#, fuzzy, python-format
-#| msgid ""
-#| "If you don't receive it shortly, please check your spam folder or retry "
-#| "the registration. If the problem persist, please <a href=\"%(contact_url)s"
-#| "\">contact us</a>."
+#, python-format
 msgid ""
 "If it isn't in the spam folder either, you might have to register again. "
 "Please <a href=\"%(contact_url)s\">contact us</a> if you have problems."
 msgstr ""
-"Als u deze niet onmiddellijk ontvangt, controleer dan uw spam-map of probeer "
-"opnieuw te registreren. Als het probleem zich blijft voordoen, neem dan <a "
-"href=\"%(contact_url)s\">contact met ons op</a>."
+"Als de e-mail niet de spam-map staat, dan dient u mogelijk opnieuw te "
+"registreren. Als het probleem zich blijft voordoen, neem dan <a href=\""
+"%(contact_url)s\">contact met ons op</a>."
 
 #: weblate/templates/accounts/email.html:10
 #: weblate/templates/accounts/register.html:19
@@ -5873,7 +5853,7 @@ msgstr "Negeren"
 
 #: weblate/templates/component.html:166
 msgid "Please sign in to see the alerts."
-msgstr "Log in om vertalingen om de meldingen te bekijken."
+msgstr "Log in om de meldingen te bekijken."
 
 #: weblate/templates/component.html:190 weblate/templates/project.html:190
 msgid ""
@@ -6718,10 +6698,9 @@ msgid "Mark as spam"
 msgstr "Markeren als ongewenst"
 
 #: weblate/templates/mail/account_activity.html:7
-#, fuzzy, python-format
-#| msgid "There has been a following change in your account at %(site_title)s:"
+#, python-format
 msgid "The following activity has occured on your account at %(site_title)s:"
-msgstr "Er is een aanpassing gedaan aan uw account op %(site_title)s :"
+msgstr "Er is activiteit waargenomen op uw account op %(site_title)s :"
 
 #: weblate/templates/mail/account_activity_subject.txt:4
 #, python-format
@@ -7103,12 +7082,16 @@ msgid ""
 "The password can not be reset because there is no account registered for "
 "this e-mail at %(site_title)s."
 msgstr ""
+"Het wachtwoord kan niet worden hersteld omdat er geen account gekoppeld is "
+"aan dit e-mailadres op %(site_title)s."
 
 #: weblate/templates/mail/reset-nonexisting.html:8
 msgid ""
 "Please check whether this Weblate instance is the one you have used and what "
 "e-mail address you did use when registering."
 msgstr ""
+"Controleer of deze Weblate-instantie de juiste is en welk e-mailadres u "
+"gebruikt hebt tijdens het registreren."
 
 #: weblate/templates/mail/reset.html:7
 #, python-format
@@ -7123,18 +7106,14 @@ msgid "Password reset on %(site_title)s"
 msgstr "Wachtwoordherstel op %(site_title)s"
 
 #: weblate/templates/mail/shared-activity.html:14
-#, fuzzy
-#| msgid ""
-#| "If you don’t recognize this change, you can report it by clicking the "
-#| "button below."
 msgid "If this was not done by you, report it by clicking the button below."
 msgstr ""
-"Als u deze aanpassing niet heeft gedaan, meld dit voorval dan door op "
-"onderstaande knop te klikken."
+"Als u dit niet heeft gedaan, meld dit voorval dan door op onderstaande knop "
+"te klikken."
 
 #: weblate/templates/mail/shared-activity.html:15
 msgid "Please request support through other means."
-msgstr ""
+msgstr "Vraag ondersteuning aan op een andere manier."
 
 #: weblate/templates/mail/shared-activity.html:16
 #, python-format
@@ -7142,6 +7121,8 @@ msgid ""
 "Ideas and questions can be sent to the %(link_start)sWeblate issue tracker"
 "%(link_end)s."
 msgstr ""
+"Ideeën en vragen kunnen worden geplaatst op de %(link_start)sWeblate-"
+"issuepagina%(link_end)s."
 
 #: weblate/templates/mail/shared-activity.html:20
 msgid "Report"
@@ -8774,17 +8755,10 @@ msgid "Error"
 msgstr "Fout"
 
 #: weblate/templates/trans/alert/ambiguouslanguage.html:5
-#, fuzzy
-#| msgid "The component translation files are using ambiguous language code."
 msgid "Files for translated languages are using ambiguous language codes."
-msgstr ""
-"De vertaalbestanden van het onderdeel gebruiken een dubbelzinnige taalcode."
+msgstr "De bestanden van vertaalde talen gebruiken een dubbelzinnige taalcode."
 
 #: weblate/templates/trans/alert/ambiguouslanguage.html:6
-#, fuzzy
-#| msgid ""
-#| "These language codes indicate a macrolanguage and it is usually better to "
-#| "use code of individual language instead."
 msgid ""
 "These language codes indicate a macrolanguage, and it is usually better to "
 "use the code of the individual language instead."
@@ -9441,7 +9415,7 @@ msgstr "U bent niet bevoegd om vertalingen op te slaan."
 
 #: weblate/templates/translate.html:220
 msgid "Save and stay"
-msgstr ""
+msgstr "Opslaan en blijven"
 
 #: weblate/templates/translate.html:227
 msgid "Insufficient privileges for adding suggestions."
@@ -9949,8 +9923,6 @@ msgid "All recent changes made using Weblate in %s."
 msgstr "Alle recente aanpassingen door middel van Weblate aan %s."
 
 #: weblate/trans/filter.py:34
-#, fuzzy
-#| msgid "Read only strings"
 msgid "Read-only strings"
 msgstr "Alleen-lezen-tekenreeksen"
 
@@ -10204,16 +10176,12 @@ msgid "Score threshold"
 msgstr "Drempelwaarde van score"
 
 #: weblate/trans/forms.py:879
-#, fuzzy
-#| msgid ""
-#| "Ensures a consistent set of languages is used for all components within a "
-#| "project."
 msgid ""
 "Enter component to use as source, keep blank to use all components in "
 "current project."
 msgstr ""
-"Dit zorgt dat er een consistente reeks talen wordt gebruikt bij alle "
-"onderdelen binnen een project."
+"Geef het onderdeel op dat dient te worden gebruikt als bron of laat leeg om "
+"alle onderdelen binnen een project te gebruiken."
 
 #: weblate/trans/forms.py:890
 msgid "All components in current project"
@@ -10221,16 +10189,12 @@ msgstr "Alle onderdelen in het huidige project"
 
 #: weblate/trans/forms.py:922 weblate/trans/forms.py:929
 #: weblate/trans/forms.py:937
-#, fuzzy
-#| msgid "Component Information"
 msgid "Component not found!"
-msgstr "Onderdeelinformatie"
+msgstr "Het onderdeel is niet aangetroffen!"
 
 #: weblate/trans/forms.py:939
-#, fuzzy
-#| msgid "Parse error in %(component)s"
 msgid "Please provide valid component slug!"
-msgstr "Verwerkingsfout in %(component)s"
+msgstr "Voer een geldige onderdeelslug in!"
 
 #: weblate/trans/forms.py:947
 msgid "Scope"
@@ -11057,17 +11021,13 @@ msgstr[0] "Nieuwe tekenreeks om te vertalen"
 msgstr[1] "Nieuwe tekenreeksen om te vertalen"
 
 #: weblate/trans/models/change.py:434
-#, fuzzy
-#| msgid "The translation was automatically locked due to following alerts:"
 msgid "The component was automatically locked because of an alert."
-msgstr ""
-"Deze vertaling is automatisch vergrendeld vanwege de volgende waarschuwingen:"
+msgstr "Dit onderdeel is automatisch vergrendeld vanwege een waarschuwing."
 
 #: weblate/trans/models/change.py:438
-#, fuzzy
-#| msgid "Component automatically unlocked"
 msgid "Component was automatically unlocked as alert was fixed."
-msgstr "Onderdeel automatisch ontgrendeld"
+msgstr ""
+"Dit onderdeel is automatisch ontgrendeld omdat de waarschuwing is opgevolgd."
 
 #: weblate/trans/models/change.py:494
 #, python-format
@@ -11075,20 +11035,19 @@ msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
 msgstr "%(action)s gedaan om %(time)s op %(translation)s door %(user)s"
 
 #: weblate/trans/models/change.py:592
-#, fuzzy, python-format
-#| msgid "Bulk status change"
+#, python-format
 msgid "File %s was changed."
-msgstr "Bulk-statuswijziging"
+msgstr "‘%s’ is gewijzigd."
 
 #: weblate/trans/models/change.py:594
 #, python-format
 msgid "Parsing of file %s was enforced"
-msgstr ""
+msgstr "‘%s’ is geforceerd verwerkt"
 
 #: weblate/trans/models/change.py:596
 #, python-format
 msgid "File %s was added."
-msgstr ""
+msgstr "‘%s’ is toegevoegd."
 
 #: weblate/trans/models/change.py:600
 msgctxt "License information not available"
@@ -12941,7 +12900,7 @@ msgstr "Deze naam is niet toegestaan"
 
 #: weblate/utils/validators.py:233
 msgid "Syntax error in language aliases."
-msgstr "Syntaxfout in taalaliassen."
+msgstr "Syntaxisfout in taalaliassen."
 
 #: weblate/utils/views.py:132 weblate/utils/views.py:156
 msgid "Position and priority"
@@ -13095,16 +13054,13 @@ msgid "Backup repository URL"
 msgstr "Back-upopslagruimte-url"
 
 #: weblate/wladmin/models.py:163
-#, fuzzy
-#| msgid ""
-#| "Use /path/to/repo for local backups or user@host:/path/to/repo for remote "
-#| "SSH backups."
 msgid ""
 "Use /path/to/repo for local backups or user@host:/path/to/repo or ssh://"
 "user@host:port/path/to/backups for remote SSH backups."
 msgstr ""
-"Voer /pad/naar/opslagruimte in voor lokale back-ups of user@host:/pad/naar/"
-"opslagruimte voor externe ssh-back-ups."
+"Voer /locatie/van/opslagruimte in voor lokale back-ups of user@host:/locatie/"
+"van/opslagruimte dan wel ssh://user@host:poort/locatie/van/back-ups voor "
+"externe ssh-back-ups."
 
 #: weblate/wladmin/models.py:214
 msgid "Backup performed"
