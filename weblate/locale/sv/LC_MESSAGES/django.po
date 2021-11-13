@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.9.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-11-11 07:47+0000\n"
-"PO-Revision-Date: 2021-09-30 07:25+0000\n"
+"PO-Revision-Date: 2021-11-14 00:02+0000\n"
 "Last-Translator: Johan Jacobsson <johan.jacobsson@telia.com>\n"
 "Language-Team: Swedish <https://hosted.weblate.org/projects/weblate/"
 "application/sv/>\n"
@@ -22,7 +22,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.9-dev\n"
+"X-Generator: Weblate 4.9.1-dev\n"
 
 #: weblate/accounts/avatar.py:103
 msgctxt "No known user"
@@ -378,10 +378,9 @@ msgid "Agreement with Terms of Service {date}."
 msgstr "Avtal med villkor för tjänsten {date}."
 
 #: weblate/accounts/models.py:162
-#, fuzzy, python-brace-format
-#| msgid "Invited to Weblate by {username}."
+#, python-brace-format
 msgid "Invited to {site_title} by {username}."
-msgstr "Inbjuden till Weblate av {username}."
+msgstr "Inbjuden till {site_title} av {username}."
 
 #: weblate/accounts/models.py:163
 msgid "Started trial period."
@@ -775,7 +774,7 @@ msgstr "Nytt meddelande"
 #. Translators: Name of event in the history
 #: weblate/accounts/notifications.py:665 weblate/trans/models/change.py:338
 msgid "New alert"
-msgstr "Ny avisering"
+msgstr "Ny varning"
 
 #. Translators: Notification name
 #: weblate/accounts/notifications.py:735
@@ -1640,11 +1639,11 @@ msgstr "Viktiga datum"
 
 #: weblate/auth/admin.py:205
 msgid "This is not used when component list is selected."
-msgstr ""
+msgstr "Detta används inte när komponentlistan är vald."
 
 #: weblate/auth/admin.py:211
 msgid "This is not used when component is selected."
-msgstr ""
+msgstr "Detta används inte när komponenten är vald."
 
 #. Translators: Permission name
 #: weblate/auth/data.py:34
@@ -1820,10 +1819,8 @@ msgstr "Ta bort existerande översättning"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:102
-#, fuzzy
-#| msgid "Download translation"
 msgid "Download translation file"
-msgstr "Ladda ner översättning"
+msgstr "Ladda ner översättningsfil"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:104
@@ -2066,20 +2063,16 @@ msgid "Billing"
 msgstr "Fakturering"
 
 #: weblate/auth/forms.py:103 weblate/trans/views/acl.py:211
-#, fuzzy
-#| msgid "Activation e-mail will be sent here."
 msgid "User invitation e-mail was sent."
-msgstr "Aktiveringsmeddelande skickas hit."
+msgstr "Användarinbjudan har skickats via mejl."
 
 #: weblate/auth/forms.py:112
 msgid "Send e-mail invitation to the user"
 msgstr "Skicka mejlinbjudan till användaren"
 
 #: weblate/auth/forms.py:126
-#, fuzzy
-#| msgid "Send e-mail invitation to the user"
 msgid "Resend e-mail invitation to the user"
-msgstr "Skicka mejlinbjudan till användaren"
+msgstr "Skicka mejlinbjudan till användaren på nytt"
 
 #: weblate/auth/models.py:77
 #, python-format
@@ -2626,16 +2619,12 @@ msgid "Font spacing"
 msgstr "Teckenavstånd"
 
 #: weblate/checks/flags.py:68
-#, fuzzy
-#| msgid "Java MessageFormat"
 msgid "ICU MessageFormat Flags"
-msgstr "Java Message-format"
+msgstr "ICU MessageFormat-flaggor"
 
 #: weblate/checks/flags.py:70
-#, fuzzy
-#| msgid "Java MessageFormat"
 msgid "ICU MessageFormat Tag Prefix"
-msgstr "Java Message-format"
+msgstr "ICU MessageFormat Tag Prefix"
 
 #: weblate/checks/flags.py:72 weblate/trans/models/component.py:598
 #: weblate/utils/views.py:134
@@ -2843,85 +2832,76 @@ msgid "Following terms are not translated according to glossary: %s"
 msgstr "Följande poster översätts inte enligt ordlista: %s"
 
 #: weblate/checks/icu.py:269
-#, fuzzy
-#| msgid "Java MessageFormat"
 msgid "ICU MessageFormat syntax"
-msgstr "Java Message-format"
+msgstr "ICU MessageFormat syntax"
 
 #: weblate/checks/icu.py:270
-#, fuzzy
-#| msgid "Syntax error in language aliases."
 msgid "Syntax errors in ICU MessageFormat strings."
-msgstr "Syntaxfel i språkaliasen."
+msgstr "Syntaxfel i ICU MessageFormat-strängar."
 
 #: weblate/checks/icu.py:292
-#, fuzzy
-#| msgid "Java MessageFormat"
 msgid "ICU MessageFormat"
-msgstr "Java Message-format"
+msgstr "ICU MessageFormat"
 
 #: weblate/checks/icu.py:294
 msgid ""
 "Syntax errors and/or placeholder mismatches in ICU MessageFormat strings."
-msgstr ""
+msgstr "Syntaxfel och/eller platshållarfel i ICU MessageFormat-strängar."
 
 #: weblate/checks/icu.py:460
 #, python-format
 msgid "Syntax error: %s"
-msgstr ""
+msgstr "Syntaxfel: %s"
 
 #: weblate/checks/icu.py:463
-#, fuzzy, python-format
-#| msgid "Forbidden translation: %s"
+#, python-format
 msgid "Unknown placeholder in translation: %s"
-msgstr "Förbjuden översättning: %s"
+msgstr "Okänd platshållare i översättningen: %s"
 
 #: weblate/checks/icu.py:468
-#, fuzzy, python-format
-#| msgid "Please sign in to save translations."
+#, python-format
 msgid "Placeholder missing in translation: %s"
-msgstr "Logga in för att spara översättningar."
+msgstr "Platshållare saknas i översättningen: %s"
 
 #: weblate/checks/icu.py:473
 #, python-format
 msgid "Placeholder has wrong type: %s"
-msgstr ""
+msgstr "Platshållaren har fel typ: %s"
 
 #: weblate/checks/icu.py:476
 #, python-format
 msgid "Missing other sub-message for: %s"
-msgstr ""
+msgstr "Saknar annat undermeddelande för: %s"
 
 #: weblate/checks/icu.py:479
 #, python-format
 msgid "Bad plural selectors for: %s"
-msgstr ""
+msgstr "Dåliga pluralväljare för: %s"
 
 #: weblate/checks/icu.py:484
 #, python-format
 msgid "Bad sub-message selectors for: %s"
-msgstr ""
+msgstr "Dåliga undermeddelandeväljare för: %s"
 
 #: weblate/checks/icu.py:489
 #, python-format
 msgid "Placeholder should be XML tag in translation: %s"
-msgstr ""
+msgstr "Platshållaren ska vara en XML-tagg i översättningen: %s"
 
 #: weblate/checks/icu.py:494
 #, python-format
 msgid "Placeholder should not be XML tag in translation: %s"
-msgstr ""
+msgstr "Platshållaren ska inte vara en XML-tagg i översättningen: %s"
 
 #: weblate/checks/icu.py:499
 #, python-format
 msgid "XML Tag has unexpected contents in translation: %s"
-msgstr ""
+msgstr "XML-taggen har oväntat innehåll i översättningen: %s"
 
 #: weblate/checks/icu.py:504
-#, fuzzy, python-format
-#| msgid "Missing parameters for translation flag: \"%s\""
+#, python-format
 msgid "XML Tag missing contents in translation: %s"
-msgstr "Parametrar saknas för översättningsflagga: \"%s\""
+msgstr "XML-taggen saknar innehåll i översättningen: %s"
 
 #: weblate/checks/markup.py:94
 msgid "BBcode markup"
@@ -4227,7 +4207,7 @@ msgstr "Registrering"
 
 #: weblate/templates/accounts/email-sent.html:12
 msgid "You will find the confirmation link in your e-mail inbox."
-msgstr ""
+msgstr "Du hittar bekräftelselänken i din mejlkorg."
 
 #: weblate/templates/accounts/email-sent.html:19
 msgid "Password reset almost complete"
@@ -4244,43 +4224,42 @@ msgstr "Registreringen nästan klar"
 #: weblate/templates/accounts/email-sent.html:30
 msgid "Follow the password recovery instructions sent to your e-mail inbox."
 msgstr ""
+"Följ instruktionerna för lösenordsåterställning som skickas till din "
+"mejlkorg."
 
 #: weblate/templates/accounts/email-sent.html:31
 #: weblate/templates/accounts/email-sent.html:34
 msgid "Request a new confirmation link if it expires."
-msgstr ""
+msgstr "Begär en ny bekräftelselänk om den går ut."
 
 #: weblate/templates/accounts/email-sent.html:33
 msgid ""
 "Remove your account by clicking the confirmation link in the e-mail sent to "
 "you."
 msgstr ""
+"Ta bort ditt konto genom att klicka på bekräftelselänken i det mejl som du "
+"fått."
 
 #: weblate/templates/accounts/email-sent.html:36
 msgid ""
 "Click the confirmation link sent to your e-mail inbox and start using your "
 "account."
 msgstr ""
+"Klicka på bekräftelselänken som skickas till din mejlkorg och börja använda "
+"ditt konto."
 
 #: weblate/templates/accounts/email-sent.html:37
-#, fuzzy
-#| msgid "Please check your mailbox for the confirmation link."
 msgid "Register again if the confirmation link expires."
-msgstr "Kontrollera din mejl för bekräftelselänken."
+msgstr "Registrera dig igen om bekräftelselänken går ut."
 
 #: weblate/templates/accounts/email-sent.html:42
-#, fuzzy, python-format
-#| msgid ""
-#| "If you don't receive it shortly, please check your spam folder or retry "
-#| "the registration. If the problem persist, please <a href=\"%(contact_url)s"
-#| "\">contact us</a>."
+#, python-format
 msgid ""
 "If it isn't in the spam folder either, you might have to register again. "
 "Please <a href=\"%(contact_url)s\">contact us</a> if you have problems."
 msgstr ""
-"Om du inte får den inom kort kan du kontrollera din skräppostmapp eller "
-"försöka göra om registreringen. Om problemet kvarstår, vänligen <a href="
-"\"%(contact_url)s\">kontakta oss</a>."
+"Om det inte heller finns i skräppostmappen kan du behöva registrera dig "
+"igen. <a href=\"%(contact_url)s\">Kontakta oss</a> om du har problem."
 
 #: weblate/templates/accounts/email.html:10
 #: weblate/templates/accounts/register.html:19
@@ -6663,10 +6642,9 @@ msgid "Mark as spam"
 msgstr "Markera som spam"
 
 #: weblate/templates/mail/account_activity.html:7
-#, fuzzy, python-format
-#| msgid "There has been a following change in your account at %(site_title)s:"
+#, python-format
 msgid "The following activity has occured on your account at %(site_title)s:"
-msgstr "Följande ändring har skett i ditt konto på %(site_title)s:"
+msgstr "Följande aktivitet har skett på ditt konto på %(site_title)s:"
 
 #: weblate/templates/mail/account_activity_subject.txt:4
 #, python-format
@@ -6879,7 +6857,7 @@ msgstr "Inbjudan till %(site_title)s"
 
 #: weblate/templates/mail/new_alert.html:12
 msgid "View all alerts"
-msgstr "Visa alla aviseringar"
+msgstr "Visa alla varningar"
 
 #: weblate/templates/mail/new_alert_subject.txt:3
 #, python-format
@@ -7044,12 +7022,16 @@ msgid ""
 "The password can not be reset because there is no account registered for "
 "this e-mail at %(site_title)s."
 msgstr ""
+"Lösenordet kan inte återställas eftersom det inte finns något registrerat "
+"konto för denna meljadress på %(site_title)s."
 
 #: weblate/templates/mail/reset-nonexisting.html:8
 msgid ""
 "Please check whether this Weblate instance is the one you have used and what "
 "e-mail address you did use when registering."
 msgstr ""
+"Kontrollera om det är denna Weblate-instans som du har använt och vilken "
+"mejladress du använde när du registrerade dig."
 
 #: weblate/templates/mail/reset.html:7
 #, python-format
@@ -7062,18 +7044,14 @@ msgid "Password reset on %(site_title)s"
 msgstr "Återställning av lösenord på %(site_title)s"
 
 #: weblate/templates/mail/shared-activity.html:14
-#, fuzzy
-#| msgid ""
-#| "If you don’t recognize this change, you can report it by clicking the "
-#| "button below."
 msgid "If this was not done by you, report it by clicking the button below."
 msgstr ""
-"Om du inte känner igen den här ändringen kan du rapportera den genom att "
-"klicka på knappen nedan."
+"Om detta inte gjordes av dig, rapportera det genom att klicka på knappen "
+"nedan."
 
 #: weblate/templates/mail/shared-activity.html:15
 msgid "Please request support through other means."
-msgstr ""
+msgstr "Begär support på andra sätt."
 
 #: weblate/templates/mail/shared-activity.html:16
 #, python-format
@@ -7081,6 +7059,8 @@ msgid ""
 "Ideas and questions can be sent to the %(link_start)sWeblate issue tracker"
 "%(link_end)s."
 msgstr ""
+"Idéer och frågor kan skickas till %(link_start)sWeblate issue "
+"tracker%(link_end)s."
 
 #: weblate/templates/mail/shared-activity.html:20
 msgid "Report"
@@ -8713,22 +8693,16 @@ msgid "Error"
 msgstr "Fel"
 
 #: weblate/templates/trans/alert/ambiguouslanguage.html:5
-#, fuzzy
-#| msgid "The component translation files are using ambiguous language code."
 msgid "Files for translated languages are using ambiguous language codes."
-msgstr "Komponentens översättningsfiler använder tvetydig språkkod."
+msgstr "Filer för översatta språk använder tvetydiga språkkoder."
 
 #: weblate/templates/trans/alert/ambiguouslanguage.html:6
-#, fuzzy
-#| msgid ""
-#| "These language codes indicate a macrolanguage and it is usually better to "
-#| "use code of individual language instead."
 msgid ""
 "These language codes indicate a macrolanguage, and it is usually better to "
 "use the code of the individual language instead."
 msgstr ""
-"Dessa språkkoder indikerar ett makrospråk och det är oftast bättre att "
-"använda kod för enskilt språk istället."
+"Dessa språkkoder anger ett makrospråk, och det är oftast bättre att använda "
+"koden för det enskilda språket i stället."
 
 #: weblate/templates/trans/alert/ambiguouslanguage.html:13
 msgid "Suggested individual language codes"
@@ -9369,7 +9343,7 @@ msgstr "Inte tillräcklig behörighet för att spara översättningar."
 
 #: weblate/templates/translate.html:220
 msgid "Save and stay"
-msgstr ""
+msgstr "Spara och stanna"
 
 #: weblate/templates/translate.html:227
 msgid "Insufficient privileges for adding suggestions."
@@ -9867,8 +9841,6 @@ msgid "All recent changes made using Weblate in %s."
 msgstr "Alla de senaste ändringarna gjorda med Weblate i %s."
 
 #: weblate/trans/filter.py:34
-#, fuzzy
-#| msgid "Read only strings"
 msgid "Read-only strings"
 msgstr "Skrivskyddade strängar"
 
@@ -10121,16 +10093,12 @@ msgid "Score threshold"
 msgstr "Poänggräns"
 
 #: weblate/trans/forms.py:879
-#, fuzzy
-#| msgid ""
-#| "Ensures a consistent set of languages is used for all components within a "
-#| "project."
 msgid ""
 "Enter component to use as source, keep blank to use all components in "
 "current project."
 msgstr ""
-"Säkerställer att en enhetlig uppsättning språk används för alla komponenter "
-"i ett projekt."
+"Ange komponent som ska användas som källa, lämna tom för att använda alla "
+"komponenter i det aktuella projektet."
 
 #: weblate/trans/forms.py:890
 msgid "All components in current project"
@@ -10138,16 +10106,12 @@ msgstr "Alla komponenter i nuvarande projekt"
 
 #: weblate/trans/forms.py:922 weblate/trans/forms.py:929
 #: weblate/trans/forms.py:937
-#, fuzzy
-#| msgid "Component Information"
 msgid "Component not found!"
-msgstr "Komponentinformation"
+msgstr "Komponenten hittades inte!"
 
 #: weblate/trans/forms.py:939
-#, fuzzy
-#| msgid "Parse error in %(component)s"
 msgid "Please provide valid component slug!"
-msgstr "Tolkningsfel i %(component)s"
+msgstr "Ange en giltig komponent-slug!"
 
 #: weblate/trans/forms.py:947
 msgid "Scope"
@@ -10966,16 +10930,12 @@ msgstr[0] "Ny sträng att översätta"
 msgstr[1] "Nya strängar att översätta"
 
 #: weblate/trans/models/change.py:434
-#, fuzzy
-#| msgid "The translation was automatically locked due to following alerts:"
 msgid "The component was automatically locked because of an alert."
-msgstr "Översättningen låstes automatiskt på grund av följande varningar:"
+msgstr "Komponenten låstes automatiskt på grund av en varning."
 
 #: weblate/trans/models/change.py:438
-#, fuzzy
-#| msgid "Component automatically unlocked"
 msgid "Component was automatically unlocked as alert was fixed."
-msgstr "Komponenten automatiskt upplåst"
+msgstr "Komponenten låstes upp automatiskt när varningen åtgärdades."
 
 #: weblate/trans/models/change.py:494
 #, python-format
@@ -10983,20 +10943,19 @@ msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
 msgstr "%(action)s vid %(time)s i %(translation)s av %(user)s"
 
 #: weblate/trans/models/change.py:592
-#, fuzzy, python-format
-#| msgid "Bulk status change"
+#, python-format
 msgid "File %s was changed."
-msgstr "Mass-statusändring"
+msgstr "Filen %s har ändrats."
 
 #: weblate/trans/models/change.py:594
 #, python-format
 msgid "Parsing of file %s was enforced"
-msgstr ""
+msgstr "Parsning av fil %s genomfördes"
 
 #: weblate/trans/models/change.py:596
 #, python-format
 msgid "File %s was added."
-msgstr ""
+msgstr "Fil %s har lagts till."
 
 #: weblate/trans/models/change.py:600
 msgctxt "License information not available"
@@ -12968,16 +12927,13 @@ msgid "Backup repository URL"
 msgstr "URL för säkerhetskopieringsarkiv"
 
 #: weblate/wladmin/models.py:163
-#, fuzzy
-#| msgid ""
-#| "Use /path/to/repo for local backups or user@host:/path/to/repo for remote "
-#| "SSH backups."
 msgid ""
 "Use /path/to/repo for local backups or user@host:/path/to/repo or ssh://"
 "user@host:port/path/to/backups for remote SSH backups."
 msgstr ""
-"Använd /sökväg/till/arkiv för lokala säkerhetskopior eller användare@host:/"
-"sökväg/till/arkiv för fjärr SSH-säkerhetskopior."
+"Använd /sökväg/till/arkiv för lokala säkerhetskopior eller "
+"användare@host:/sökväg/till/arkiv eller ssh://användare@host:port/sökväg/"
+"till/backup för fjärr SSH-säkerhetskopior."
 
 #: weblate/wladmin/models.py:214
 msgid "Backup performed"
