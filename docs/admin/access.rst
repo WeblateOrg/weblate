@@ -418,15 +418,15 @@ it can be done with an expression like ``^.*@mycompany.com``.
 
 .. note::
 
-Make sure you are not giving out e-mail addresses with open
-replies for issue tracking if you grant priviliges based on
-e-mail addresss.
+    Make sure you are not giving out e-mail addresses with open
+    replies for issue tracking if you grant priviliges based on
+    e-mail addresss.
 
 .. note::
 
     Automatic group assignment to `Users` and `Viewers` is always recreated
     when upgrading from one Weblate version to another.
-    Turn it off by setting the regular expression to ``^$``(which won’t
+    Turn it off by setting the regular expression to ``^$`` (which won’t
     match anything).
 
 .. note::
