@@ -6,7 +6,7 @@ period. A summary of contributions to any given component over time is
 provided. The reporting tool is found in the :guilabel:`Insights` menu of any
 translation component, project or on the dashboard:
 
-.. image:: /images/reporting.png
+.. image:: /screenshots/reporting.png
 
 Several reporting tools are available on this page and all can produce output
 in HTML, reStructuredText or JSON. The first two formats are suitable for
@@ -25,24 +25,13 @@ and lists all contributors to a given language:
 
     * Czech
 
-        * Michal Čihař <michal@cihar.com> (10)
         * John Doe <john@example.com> (5)
+        * Jane Doe <jane@example.com> (1)
 
     * Dutch
 
         * Jane Doe <jane@example.com> (42)
 
-
-It will render as:
-
-    * Czech
-
-        * Michal Čihař <michal@cihar.com> (10)
-        * John Doe <john@example.com> (5)
-
-    * Dutch
-
-        * Jane Doe <jane@example.com> (42)
 
 .. hint::
 
@@ -58,10 +47,6 @@ Generates the number of translated words and strings by translator name:
 
 .. literalinclude:: reporting-example.rst
     :language: rst
-
-And it will get rendered as:
-
-.. include:: reporting-example.rst
 
 It can be useful if you pay your translators based on amount of work, it gives
 you various stats on translators work.

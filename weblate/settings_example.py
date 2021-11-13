@@ -22,6 +22,15 @@ import os
 import platform
 from logging.handlers import SysLogHandler
 
+# Title of site to use
+SITE_TITLE = "Weblate"
+
+# Site domain
+SITE_DOMAIN = ""
+
+# Whether site uses https
+ENABLE_HTTPS = False
+
 #
 # Django settings for Weblate project.
 #
@@ -63,6 +72,10 @@ DATABASES = {
             # Change connection timeout in case you get MySQL gone away error:
             # "connect_timeout": 28800,
         },
+        # Persistent connections
+        "CONN_MAX_AGE": 0,
+        # Disable server-side cursors, might be needed with pgbouncer
+        "DISABLE_SERVER_SIDE_CURSORS": False,
     }
 }
 
@@ -114,6 +127,7 @@ LANGUAGES = (
     ("pl", "Polski"),
     ("pt", "Português"),
     ("pt-br", "Português brasileiro"),
+    ("ro", "Română"),
     ("ru", "Русский"),
     ("sk", "Slovenčina"),
     ("sl", "Slovenščina"),
@@ -121,6 +135,7 @@ LANGUAGES = (
     ("sr", "Српски"),
     ("sr-latn", "Srpski"),
     ("sv", "Svenska"),
+    ("th", "ไทย"),
     ("tr", "Türkçe"),
     ("uk", "Українська"),
     ("zh-hans", "简体字"),
@@ -205,12 +220,12 @@ TEMPLATES = [
 ]
 
 
-# GitHub username for sending pull requests.
+# GitHub username and token for sending pull requests.
 # Please see the documentation for more details.
 GITHUB_USERNAME = None
 GITHUB_TOKEN = None
 
-# GitLab username for sending merge requests.
+# GitLab username and token for sending merge requests.
 # Please see the documentation for more details.
 GITLAB_USERNAME = None
 GITLAB_TOKEN = None
@@ -323,6 +338,14 @@ AUTH_PASSWORD_VALIDATORS = [
     # },
 ]
 
+# Password hashing (prefer Argon)
+PASSWORD_HASHERS = [
+    "django.contrib.auth.hashers.Argon2PasswordHasher",
+    "django.contrib.auth.hashers.PBKDF2PasswordHasher",
+    "django.contrib.auth.hashers.PBKDF2SHA1PasswordHasher",
+    "django.contrib.auth.hashers.BCryptSHA256PasswordHasher",
+]
+
 # Allow new user registrations
 REGISTRATION_OPEN = True
 
@@ -343,6 +366,7 @@ MIDDLEWARE = [
     "weblate.accounts.middleware.RequireLoginMiddleware",
     "weblate.api.middleware.ThrottlingMiddleware",
     "weblate.middleware.SecurityMiddleware",
+    "weblate.wladmin.middleware.ManageMiddleware",
 ]
 
 ROOT_URLCONF = "weblate.urls"
@@ -507,6 +531,7 @@ MT_SERVICES = (
     #     "weblate.machinery.glosbe.GlosbeTranslation",
     #     "weblate.machinery.google.GoogleTranslation",
     #     "weblate.machinery.googlev3.GoogleV3Translation",
+    #     "weblate.machinery.libretranslate.LibreTranslateTranslation",
     #     "weblate.machinery.microsoft.MicrosoftCognitiveTranslation",
     #     "weblate.machinery.microsoftterminology.MicrosoftTerminologyService",
     #     "weblate.machinery.modernmt.ModernMTTranslation",
@@ -528,6 +553,10 @@ MT_APERTIUM_APY = None
 
 # DeepL API key
 MT_DEEPL_KEY = None
+
+# LibreTranslate
+MT_LIBRETRANSLATE_API_URL = None
+MT_LIBRETRANSLATE_KEY = None
 
 # Microsoft Cognitive Services Translator API, register at
 # https://portal.azure.com/
@@ -577,15 +606,6 @@ MT_SAP_USERNAME = None
 MT_SAP_PASSWORD = None
 MT_SAP_USE_MT = True
 
-# Title of site to use
-SITE_TITLE = "Weblate"
-
-# Site domain
-SITE_DOMAIN = ""
-
-# Whether site uses https
-ENABLE_HTTPS = False
-
 # Use HTTPS when creating redirect URLs for social authentication, see
 # documentation for more details:
 # https://python-social-auth-docs.readthedocs.io/en/latest/configuration/settings.html#processing-redirects-and-urlopen
@@ -610,6 +630,7 @@ SECURE_REDIRECT_EXEMPT = (r"healthz/$",)  # Allowing HTTP access to health check
 # Session cookie age (in seconds)
 SESSION_COOKIE_AGE = 1000
 SESSION_COOKIE_AGE_AUTHENTICATED = 1209600
+SESSION_COOKIE_SAMESITE = "Lax"
 # Increase allowed upload size
 DATA_UPLOAD_MAX_MEMORY_SIZE = 50000000
 
@@ -617,6 +638,7 @@ DATA_UPLOAD_MAX_MEMORY_SIZE = 50000000
 LANGUAGE_COOKIE_SECURE = SESSION_COOKIE_SECURE
 LANGUAGE_COOKIE_HTTPONLY = SESSION_COOKIE_HTTPONLY
 LANGUAGE_COOKIE_AGE = SESSION_COOKIE_AGE_AUTHENTICATED * 10
+LANGUAGE_COOKIE_SAMESITE = SESSION_COOKIE_SAMESITE
 
 # Some security headers
 SECURE_BROWSER_XSS_FILTER = True
@@ -692,6 +714,7 @@ CRISPY_TEMPLATE_PACK = "bootstrap3"
 #     "weblate.checks.format.PerlFormatCheck",
 #     "weblate.checks.format.JavaScriptFormatCheck",
 #     "weblate.checks.format.LuaFormatCheck",
+#     "weblate.checks.format.ObjectPascalFormatCheck",
 #     "weblate.checks.format.SchemeFormatCheck",
 #     "weblate.checks.format.CSharpFormatCheck",
 #     "weblate.checks.format.JavaFormatCheck",
@@ -701,6 +724,8 @@ CRISPY_TEMPLATE_PACK = "bootstrap3"
 #     "weblate.checks.format.I18NextInterpolationCheck",
 #     "weblate.checks.format.ESTemplateLiteralsCheck",
 #     "weblate.checks.angularjs.AngularJSInterpolationCheck",
+#     "weblate.checks.icu.ICUMessageFormatCheck",
+#     "weblate.checks.icu.ICUSourceCheck",
 #     "weblate.checks.qt.QtFormatCheck",
 #     "weblate.checks.qt.QtPluralCheck",
 #     "weblate.checks.ruby.RubyFormatCheck",
@@ -741,7 +766,6 @@ CRISPY_TEMPLATE_PACK = "bootstrap3"
 
 # List of enabled addons
 # WEBLATE_ADDONS = (
-#     "weblate.addons.autotranslate.AutoTranslateAddon",
 #     "weblate.addons.gettext.GenerateMoAddon",
 #     "weblate.addons.gettext.UpdateLinguasAddon",
 #     "weblate.addons.gettext.UpdateConfigureAddon",
@@ -884,7 +908,7 @@ CELERY_RESULT_BACKEND = CELERY_BROKER_URL
 CELERY_WORKER_MAX_MEMORY_PER_CHILD = 200000
 CELERY_BEAT_SCHEDULE_FILENAME = os.path.join(DATA_DIR, "celery", "beat-schedule")
 CELERY_TASK_ROUTES = {
-    "weblate.trans.tasks.auto_translate": {"queue": "translate"},
+    "weblate.trans.tasks.auto_translate*": {"queue": "translate"},
     "weblate.accounts.tasks.notify_*": {"queue": "notify"},
     "weblate.accounts.tasks.send_mails": {"queue": "notify"},
     "weblate.utils.tasks.settings_backup": {"queue": "backup"},
@@ -908,4 +932,5 @@ MATOMO_SITE_ID = None
 MATOMO_URL = None
 GOOGLE_ANALYTICS_ID = None
 SENTRY_DSN = None
+SENTRY_ENVIRONMENT = SITE_DOMAIN
 AKISMET_API_KEY = None

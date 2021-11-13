@@ -19,7 +19,7 @@ Purchased support packages can optionally be integrated into your Weblate
 `subscription management <https://weblate.org/user/>`_ interface, from where you will find a link to it.
 Basic instance details about your installation are also reported back to Weblate this way.
 
-.. image:: /images/support.png
+.. image:: /screenshots/support.png
 
 .. _support-data:
 
@@ -77,7 +77,7 @@ Getting listed
 List your server directly from the management panel if you have an active
 support subscription (:ref:`activate-support`):
 
-.. image:: /images/support-discovery.png
+.. image:: /screenshots/support-discovery.png
 
 All steps for listing a server without a support contract:
 
@@ -85,7 +85,7 @@ All steps for listing a server without a support contract:
 2. Register your Weblate site at https://weblate.org/subscription/discovery
 3. Confirm you you want your Weblate listed by clicking :guilabel:`Enable discovery` from its management page :
 
-.. image:: /images/support-discovery.png
+.. image:: /screenshots/support-discovery.png
 
 .. _customize-discover:
 

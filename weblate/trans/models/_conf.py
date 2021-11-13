@@ -47,6 +47,9 @@ class WeblateConf(AppConf):
     # Enable sharing
     ENABLE_SHARING = True
 
+    # Default number of elements to display when pagination is active
+    DEFAULT_PAGE_LIMIT = 100
+
     # Number of nearby messages to show in each direction
     NEARBY_MESSAGES = 15
 
@@ -83,6 +86,7 @@ class WeblateConf(AppConf):
 
     # URL with legal docs
     LEGAL_URL = None
+    PRIVACY_URL = None
 
     # Disable length limitations calculated from the source string length
     LIMIT_TRANSLATION_LENGTH_BY_SOURCE_LENGTH = True
@@ -132,9 +136,10 @@ Updated by "{{ addon_name }}" hook in Weblate.
 Translation: {{ project_name }}/{{ component_name }}
 Translate-URL: {{ url }}"""
 
-    DEFAULT_PULL_MESSAGE = """Translations update from Weblate
+    DEFAULT_PULL_MESSAGE = """Translations update from {{ site_title }}
 
-Translations update from [Weblate]({{url}}) for {{ project_name }}/{{ component_name }}.
+Translations update from [{{ site_title }}]({{url}})
+for {{ project_name }}/{{ component_name }}.
 
 {% if component.linked_childs %}
 It also includes following components:

@@ -64,7 +64,7 @@ source.
 
 * Enable :setting:`AUTO_UPDATE` to automatically update all components on your Weblate instance
 
-* Execute :djadmin:`updategit` (with selection of project or `--all` to update all)
+* Execute :djadmin:`updategit` (with selection of project or ``--all`` to update all)
 
 Whenever Weblate updates the repository, the post-update addons will be
 triggered, see :ref:`addons`.
@@ -412,7 +412,7 @@ the same strings have same translation. This can be achieved at several levels.
 Translation propagation
 +++++++++++++++++++++++
 
-With translation propagation enabled (what is the default, see
+With :ref:`component-allow_translation_propagation` enabled (what is the default, see
 :ref:`component`), all new translations are automatically done in all
 components with matching strings. Such translations are properly credited to
 currently translating user in all components.

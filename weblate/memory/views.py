@@ -124,7 +124,7 @@ class MemoryView(TemplateView):
             entries.values("origin").order_by("origin").annotate(Count("id"))
         )
         context["total_entries"] = Metric.objects.get_current(
-            Metric.SCOPE_GLOBAL, 0, name="memory"
+            None, Metric.SCOPE_GLOBAL, 0, name="memory"
         )["memory"]
         context["upload_url"] = self.get_url("memory-upload")
         context["download_url"] = self.get_url("memory-download")

@@ -67,9 +67,13 @@ class Command(BaseCommand):
         This is useful mostly for setup inside appliances, when user wants to be able to
         login remotely and change password then.
         """
+        email = options["email"]
+        if not email:
+            email = "admin@example.com"
+            self.stdout.write(f"Blank e-mail for admin, using {email} instead!")
         try:
             user = User.objects.filter(
-                Q(username=options["username"]) | Q(email=options["email"])
+                Q(username=options["username"]) | Q(email=email)
             ).get()
         except User.DoesNotExist:
             user = None
@@ -89,14 +93,12 @@ class Command(BaseCommand):
 
         if user and options["update"]:
             self.stdout.write(f"Updating user {user.username}")
-            user.email = options["email"]
+            user.email = email
             if password is not None and not user.check_password(password):
                 user.set_password(password)
         else:
             self.stdout.write("Creating user {}".format(options["username"]))
-            user = User.objects.create_user(
-                options["username"], options["email"], password
-            )
+            user = User.objects.create_user(options["username"], email, password)
         user.full_name = options["name"]
         user.is_superuser = True
         user.is_active = True

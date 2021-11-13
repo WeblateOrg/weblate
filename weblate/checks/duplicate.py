@@ -32,6 +32,7 @@ NON_WORD = re.compile("[{}\\]]+".format("".join(NON_WORD_CHARS)))
 
 # Per language ignore list
 IGNORES = {
+    "fy": {"jo", "mei"},
     "fr": {"vous", "nous"},
     "hi": {"कर"},
     "tr": {"tek"},

@@ -116,6 +116,9 @@ class BaseExporter:
 
     def build_unit(self, unit):
         output = self.create_unit(self.handle_plurals(unit.get_source_plurals()))
+        # Propagate source language
+        if hasattr(output, "setsource"):
+            output.setsource(output.source, sourcelang=self.source_language.code)
         self.add(output, self.handle_plurals(unit.get_target_plurals()))
         return output
 
@@ -124,9 +127,6 @@ class BaseExporter:
 
     def add_unit(self, unit):
         output = self.build_unit(unit)
-        # Propagate source language
-        if hasattr(output, "setsource"):
-            output.setsource(output.source, sourcelang=self.source_language.code)
         # Location needs to be set prior to ID to avoid overwrite
         # on some formats (for example xliff)
         for location in unit.location.split():
@@ -245,7 +245,7 @@ class PoXliffExporter(XMLExporter):
     content_type = "application/x-xliff+xml"
     extension = "xlf"
     set_id = True
-    verbose = _("XLIFF with gettext extensions")
+    verbose = _("XLIFF 1.1 with gettext extensions")
     storage_class = PoXliffFile
 
     def store_flags(self, output, flags):
@@ -266,7 +266,7 @@ class PoXliffExporter(XMLExporter):
             converted_target = xliff_string_to_rich(unit.get_target_plurals())
         except (XMLSyntaxError, TypeError, KeyError):
             return output
-        output.rich_source = converted_source
+        output.set_rich_source(converted_source, self.source_language.code)
         output.set_rich_target(converted_target, self.language.code)
         return output
 
@@ -326,8 +326,11 @@ class MoExporter(PoExporter):
         if translation:
             self.monolingual = translation.component.has_template()
             if self.monolingual:
-                unit = next(translation.store.content_units, None)
-                self.use_context = unit is not None and not unit.template.source
+                try:
+                    unit = translation.store.content_units[0]
+                    self.use_context = not unit.template.source
+                except IndexError:
+                    pass
 
     def store_flags(self, output, flags):
         return
@@ -351,8 +354,7 @@ class MoExporter(PoExporter):
         output = self.create_unit(source)
         output.target = self.handle_plurals(unit.get_target_plurals())
         if context:
-            # The setcontext doesn't work on mounit
-            output.msgctxt = [context]
+            output.setcontext(context)
         # Add unit to the storage
         self.storage.addunit(output)
 

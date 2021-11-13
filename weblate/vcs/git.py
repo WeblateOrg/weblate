@@ -26,7 +26,8 @@ import urllib.parse
 from configparser import NoOptionError, NoSectionError
 from datetime import datetime
 from json import JSONDecodeError, dumps
-from typing import Dict, List, Optional, Tuple
+from time import sleep
+from typing import Dict, Iterator, List, Optional, Tuple
 from zipfile import ZipFile
 
 import requests
@@ -35,6 +36,8 @@ from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy
 from git.config import GitConfigParser
 
+from weblate.utils.data import data_dir
+from weblate.utils.errors import report_error
 from weblate.utils.files import is_excluded, remove_tree
 from weblate.utils.render import render_template
 from weblate.utils.xml import parse_xml
@@ -50,6 +53,7 @@ class GitRepository(Repository):
     _cmd_last_remote_revision = ["log", "-n", "1", "--format=format:%H", "@{upstream}"]
     _cmd_list_changed_files = ["diff", "--name-status"]
     _cmd_push = ["push"]
+    _cmd_status = ["--no-optional-locks", "status"]
 
     name = "Git"
     req_version = "2.12"
@@ -71,7 +75,11 @@ class GitRepository(Repository):
     def get_remote_branch(cls, repo: str):
         if not repo:
             return super().get_remote_branch(repo)
-        result = cls._popen(["ls-remote", "--symref", repo, "HEAD"])
+        try:
+            result = cls._popen(["ls-remote", "--symref", repo, "HEAD"])
+        except RepositoryException:
+            report_error(cause="Listing remote branch")
+            return super().get_remote_branch(repo)
         for line in result.splitlines():
             if not line.startswith("ref: "):
                 continue
@@ -80,8 +88,27 @@ class GitRepository(Repository):
 
         raise RepositoryException(0, "Failed to figure out remote branch")
 
-    def config_update(self, *updates):
-        filename = os.path.join(self.path, ".git", "config")
+    @staticmethod
+    def git_config_update(filename: str, *updates: Tuple[str, str, str]):
+        # First, open file read-only to check current settings
+        modify = False
+        with GitConfigParser(file_or_files=filename, read_only=True) as config:
+            for section, key, value in updates:
+                try:
+                    old = config.get(section, key)
+                    if value is None:
+                        modify = True
+                        break
+                    if old == value:
+                        continue
+                except (NoSectionError, NoOptionError):
+                    pass
+                if value is not None:
+                    modify = True
+        if not modify:
+            return
+        # In case changes are needed, open it for writing as that creates a lock
+        # file
         with GitConfigParser(file_or_files=filename, read_only=False) as config:
             for section, key, value in updates:
                 try:
@@ -95,6 +122,10 @@ class GitRepository(Repository):
                     pass
                 if value is not None:
                     config.set_value(section, key, value)
+
+    def config_update(self, *updates: Tuple[str, str, str]):
+        filename = os.path.join(self.path, ".git", "config")
+        self.git_config_update(filename, *updates)
 
     def check_config(self):
         """Check VCS configuration."""
@@ -132,7 +163,11 @@ class GitRepository(Repository):
             if self.needs_commit():
                 self.execute(["reset", "--hard"])
         else:
-            self.execute(["rebase", self.get_remote_branch_name()])
+            cmd = ["rebase"]
+            cmd.extend(self.get_gpg_sign_args())
+            cmd.append(self.get_remote_branch_name())
+            self.execute(cmd)
+        self.clean_revision_cache()
 
     def has_git_file(self, name):
         return os.path.exists(os.path.join(self.path, ".git", name))
@@ -183,6 +218,7 @@ class GitRepository(Repository):
 
         # Delete temporary branch
         self.delete_branch(tmp)
+        self.clean_revision_cache()
 
     def delete_branch(self, name):
         if self.has_branch(name):
@@ -190,8 +226,9 @@ class GitRepository(Repository):
 
     def needs_commit(self, filenames: Optional[List[str]] = None):
         """Check whether repository needs commit."""
-        cmd = ["status", "--porcelain", "--"]
+        cmd = ["--no-optional-locks", "status", "--porcelain"]
         if filenames:
+            cmd.extend(["--untracked-files=all", "--ignored=traditional", "--"])
             cmd.extend(filenames)
         with self.lock:
             status = self.execute(cmd, merge_err=False)
@@ -267,7 +304,7 @@ class GitRepository(Repository):
         author: Optional[str] = None,
         timestamp: Optional[datetime] = None,
         files: Optional[List[str]] = None,
-    ):
+    ) -> bool:
         """Create new revision."""
         # Add files one by one, this has to deal with
         # removed, untracked and non existing files
@@ -283,7 +320,7 @@ class GitRepository(Repository):
         # Bail out if there is nothing to commit.
         # This can easily happen with squashing and reverting changes.
         if not self.needs_commit(files):
-            return
+            return False
 
         # Build the commit command
         cmd = ["commit", "--file", "-"]
@@ -297,6 +334,8 @@ class GitRepository(Repository):
         self.execute(cmd, stdin=message)
         # Clean cache
         self.clean_revision_cache()
+
+        return True
 
     def remove(self, files: List[str], message: str, author: Optional[str] = None):
         """Remove files and creates new revision."""
@@ -365,27 +404,35 @@ class GitRepository(Repository):
     def global_setup(cls):
         """Perform global settings."""
         merge_driver = cls.get_merge_driver("po")
+        updates = [
+            ("user", "email", settings.DEFAULT_COMMITER_EMAIL),
+            ("user", "name", settings.DEFAULT_COMMITER_NAME),
+        ]
         if merge_driver is not None:
-            cls._popen(
-                [
-                    "config",
-                    "--global",
-                    "merge.weblate-merge-gettext-po.name",
+            updates.append(
+                (
+                    'merge "weblate-merge-gettext-po"',
+                    "name",
                     "Weblate merge driver for Gettext PO files",
-                ]
+                )
             )
-            cls._popen(
-                [
-                    "config",
-                    "--global",
-                    "merge.weblate-merge-gettext-po.driver",
-                    f"{merge_driver} %O %A %B",
-                ]
+            updates.append(
+                (
+                    'merge "weblate-merge-gettext-po"',
+                    "driver",
+                    f"{merge_driver} %O %A %B %P",
+                )
             )
-        cls._popen(
-            ["config", "--global", "user.email", settings.DEFAULT_COMMITER_EMAIL]
-        )
-        cls._popen(["config", "--global", "user.name", settings.DEFAULT_COMMITER_NAME])
+
+        filename = os.path.join(data_dir("home"), ".gitconfig")
+        attempts = 0
+        while attempts < 5:
+            try:
+                cls.git_config_update(filename, *updates)
+                break
+            except OSError:
+                attempts += 1
+                sleep(attempts * 0.1)
 
     def get_file(self, path, revision):
         """Return content of file at given revision."""
@@ -421,7 +468,15 @@ class GitRepository(Repository):
             self.execute(["fetch", "origin"])
         else:
             # Doing initial fetch
-            self.execute(["fetch", "origin"] + self.get_depth())
+            try:
+                self.execute(["fetch", "origin"] + self.get_depth())
+            except RepositoryException as error:
+                if error.retcode == 1 and error.args[0] == "":
+                    # Fetch with --depth fails on blank repo
+                    self.execute(["fetch", "origin"])
+                else:
+                    raise
+
         self.clean_revision_cache()
 
     def push(self, branch):
@@ -435,7 +490,7 @@ class GitRepository(Repository):
     def unshallow(self):
         self.execute(["fetch", "--unshallow"])
 
-    def parse_changed_files(self, lines):
+    def parse_changed_files(self, lines: List[str]) -> Iterator[str]:
         """Parses output with chanaged files."""
         # Strip action prefix we do not use
         for line in lines:
@@ -553,6 +608,7 @@ class SubversionRepository(GitRepository):
         Git-svn does not support merge.
         """
         self.rebase(abort)
+        self.clean_revision_cache()
 
     def rebase(self, abort=False):
         """Rebase remote branch or reverts the rebase.
@@ -563,6 +619,7 @@ class SubversionRepository(GitRepository):
             self.execute(["rebase", "--abort"])
         else:
             self.execute(["svn", "rebase"])
+        self.clean_revision_cache()
 
     @cached_property
     def last_remote_revision(self):
@@ -615,7 +672,11 @@ class GitMergeRequestBase(GitForcePushRepository):
             # Needed for compatibility with original merge code
             self.execute(["checkout", self.branch])
         else:
-            self.execute(["merge", f"origin/{self.branch}"])
+            cmd = ["merge"]
+            cmd.extend(self.get_gpg_sign_args())
+            cmd.append(self.get_remote_branch_name())
+            self.execute(cmd)
+        self.clean_revision_cache()
 
     def get_api_url(self) -> Tuple[str, str, str]:
         repo = self.component.repo
@@ -628,8 +689,19 @@ class GitMergeRequestBase(GitForcePushRepository):
         else:
             path = parsed.path
         parts = path.split(":")[-1].rstrip("/").split("/")
-        slug = parts[-1].replace(".git", "")
-        owner = "/".join(part for part in parts[:-1] if part)
+        last_part = parts[-1]
+        if last_part.endswith(".git"):
+            last_part = last_part[:-4]
+        slug_parts = [last_part]
+        owner = ""
+        for part in parts[:-1]:
+            if not part:
+                continue
+            if not owner:
+                owner = part
+                continue
+            slug_parts.insert(-1, part)
+        slug = "/".join(slug_parts)
         return (
             self.API_TEMPLATE.format(
                 host=self.format_api_host(host),
@@ -794,7 +866,7 @@ class GithubRepository(GitMergeRequestBase):
         # exists in the remote side.
         response, error = self.request("post", credentials, fork_url, {})
         if "ssh_url" not in response:
-            raise RepositoryException(0, error or "Fork creation failed")
+            raise RepositoryException(0, f"Fork creation failed: {error}")
         self.configure_fork_remote(response["ssh_url"], credentials["username"])
 
     def create_pull_request(
@@ -830,7 +902,18 @@ class GithubRepository(GitMergeRequestBase):
             ):
                 return
 
-            raise RepositoryException(0, error_message or "Pull request failed")
+            if "Validation Failed" in error_message:
+                for error in response["errors"]:
+                    if error.get("field") == "head":
+                        # This most likely indicates that Weblate repository has moved
+                        # and we should createa a fresh fork.
+                        self.create_fork(credentials)
+                        self.create_pull_request(
+                            credentials, origin_branch, fork_remote, fork_branch
+                        )
+                        return
+
+            raise RepositoryException(0, f"Pull request failed: {error_message}")
 
 
 class LocalRepository(GitRepository):
@@ -979,7 +1062,7 @@ class GitLabRepository(GitMergeRequestBase):
     def get_target_project_id(self, credentials: Dict):
         response, error = self.request("get", credentials, credentials["url"])
         if "id" not in response:
-            raise RepositoryException(0, error or "Failed to get project")
+            raise RepositoryException(0, f"Failed to get project: {error}")
         return response["id"]
 
     def configure_fork_features(self, credentials: Dict, forked_url: str):
@@ -1002,7 +1085,7 @@ class GitLabRepository(GitMergeRequestBase):
             "put", credentials, forked_url, access_level_dict
         )
         if "web_url" not in response:
-            raise RepositoryException(0, error or "Failed to modify fork")
+            raise RepositoryException(0, f"Failed to modify fork {error}")
 
     def create_fork(self, credentials: Dict):
         get_fork_url = "{}/forks?owned=True".format(credentials["url"])
@@ -1036,7 +1119,7 @@ class GitLabRepository(GitMergeRequestBase):
                 )
 
             if "ssh_url_to_repo" not in forked_repo:
-                raise RepositoryException(0, error or "Failed to create fork")
+                raise RepositoryException(0, f"Failed to create fork: {error}")
 
         self.configure_fork_features(credentials, forked_repo["_links"]["self"])
         self.configure_fork_remote(
@@ -1057,7 +1140,7 @@ class GitLabRepository(GitMergeRequestBase):
             # to be sent with the fork's API URL along with a parameter mentioning
             # the target project id
             target_project_id = self.get_target_project_id(credentials)
-            pr_url = "{}/merge_requests".format(self.get_forked_url(credentials))
+            pr_url = f"{self.get_forked_url(credentials)}/merge_requests"
 
         title, description = self.get_merge_message()
         request = {
@@ -1073,7 +1156,7 @@ class GitLabRepository(GitMergeRequestBase):
             "web_url" not in response
             and "open merge request already exists" not in error
         ):
-            raise RepositoryException(-1, error or "Failed to create pull request")
+            raise RepositoryException(-1, f"Failed to create pull request: {error}")
 
 
 class PagureRepository(GitMergeRequestBase):
@@ -1140,7 +1223,7 @@ class PagureRepository(GitMergeRequestBase):
                 break
 
         if '" cloned to "' not in error and "already exists" not in error:
-            raise RepositoryException(0, error or "Failed to create fork")
+            raise RepositoryException(0, f"Failed to create fork: {error}")
 
         url = "ssh://git@{hostname}/forks/{username}/{slug}.git".format(**credentials)
         self.configure_fork_remote(url, credentials["username"])
@@ -1153,16 +1236,22 @@ class PagureRepository(GitMergeRequestBase):
         Use to merge branch in forked repository into branch of remote repository.
         """
         if credentials["owner"]:
-            pr_base_url = "{url}/{owner}/{slug}/pull-request".format(**credentials)
+            pr_list_url = "{url}/{owner}/{slug}/pull-requests".format(**credentials)
+            pr_create_url = "{url}/{owner}/{slug}/pull-request/new".format(
+                **credentials
+            )
         else:
-            pr_base_url = "{url}/{slug}/pull-request".format(**credentials)
+            pr_list_url = "{url}/{slug}/pull-requests".format(**credentials)
+            pr_create_url = "{url}/{slug}/pull-request/new".format(**credentials)
 
         # List existing pull requests
         response, error_message = self.request(
-            "get", credentials, pr_base_url, params={"author": credentials["username"]}
+            "get", credentials, pr_list_url, params={"author": credentials["username"]}
         )
         if error_message:
-            raise RepositoryException(0, error_message or "Pull request listing failed")
+            raise RepositoryException(
+                0, f"Pull request listing failed: {error_message}"
+            )
 
         if response["total_requests"] > 0:
             # Open pull request from us is already there
@@ -1180,8 +1269,8 @@ class PagureRepository(GitMergeRequestBase):
             request["repo_from_username"] = credentials["username"]
 
         response, error_message = self.request(
-            "post", credentials, f"{pr_base_url}/new", data=request
+            "post", credentials, pr_create_url, data=request
         )
 
         if "id" not in response:
-            raise RepositoryException(0, error_message or "Pull request failed")
+            raise RepositoryException(0, f"Pull request failed: {error_message}")

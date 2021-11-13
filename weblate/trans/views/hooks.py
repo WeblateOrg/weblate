@@ -191,12 +191,10 @@ def vcs_service_hook(request, service):
     for repo in repos:
         # We need to match also URLs which include username and password
         if repo.startswith("http://"):
-            spfilter |= Q(repo__startswith="http://") & Q(
-                repo__endswith="@{}".format(repo[7:])
-            )
+            spfilter |= Q(repo__startswith="http://") & Q(repo__endswith=f"@{repo[7:]}")
         elif repo.startswith("https://"):
             spfilter |= Q(repo__startswith="https://") & Q(
-                repo__endswith="@{}".format(repo[8:])
+                repo__endswith=f"@{repo[8:]}"
             )
         # Include URLs with trailing slash
         spfilter |= Q(repo=repo + "/")
@@ -206,6 +204,8 @@ def vcs_service_hook(request, service):
     if branch is not None:
         all_components = repo_components.filter(branch=branch)
 
+    all_components_count = all_components.count()
+    repo_components_count = repo_components.count()
     enabled_components = all_components.filter(project__enable_hooks=True)
 
     LOGGER.info(
@@ -215,8 +215,8 @@ def vcs_service_hook(request, service):
         full_name,
         repo_url,
         branch,
-        all_components.count(),
-        enabled_components.count(),
+        all_components_count,
+        len(enabled_components),
         Component.objects.filter(linked_component__in=enabled_components).count(),
     )
 
@@ -231,8 +231,8 @@ def vcs_service_hook(request, service):
         perform_update.delay("Component", obj.pk)
 
     match_status = {
-        "repository_matches": repo_components.count(),
-        "branch_matches": all_components.count(),
+        "repository_matches": repo_components_count,
+        "branch_matches": all_components_count,
         "enabled_hook_matches": len(enabled_components),
     }
 

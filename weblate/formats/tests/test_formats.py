@@ -35,6 +35,7 @@ from weblate.formats.ttkit import (
     CSVSimpleFormat,
     DTDFormat,
     FlatXMLFormat,
+    FluentFormat,
     GWTFormat,
     INIFormat,
     InnoSetupINIFormat,
@@ -48,6 +49,7 @@ from weblate.formats.ttkit import (
     PropertiesFormat,
     RESXFormat,
     RubyYAMLFormat,
+    StringsdictFormat,
     TBXFormat,
     TSFormat,
     WebExtensionJSONFormat,
@@ -57,9 +59,11 @@ from weblate.formats.ttkit import (
     XWikiPropertiesFormat,
     YAMLFormat,
 )
-from weblate.lang.models import Language
+from weblate.lang.data import PLURAL_UNKNOWN
+from weblate.lang.models import Language, Plural
 from weblate.trans.tests.test_views import FixtureTestCase
 from weblate.trans.tests.utils import TempDirMixin, get_test_file
+from weblate.utils.state import STATE_FUZZY, STATE_TRANSLATED
 
 TEST_PO = get_test_file("cs.po")
 TEST_CSV = get_test_file("cs-mono.csv")
@@ -96,6 +100,8 @@ TEST_XWIKI_PAGE_PROPERTIES = get_test_file("XWikiPageProperties.xml")
 TEST_XWIKI_PAGE_PROPERTIES_SOURCE = get_test_file("XWikiPagePropertiesSource.xml")
 TEST_XWIKI_FULL_PAGE = get_test_file("XWikiFullPage.xml")
 TEST_XWIKI_FULL_PAGE_SOURCE = get_test_file("XWikiFullPageSource.xml")
+TEST_STRINGSDICT = get_test_file("cs.stringsdict")
+TEST_FLUENT = get_test_file("cs.ftl")
 
 
 class AutoLoadTest(TestCase):
@@ -251,7 +257,7 @@ class AutoFormatTest(FixtureTestCase, TempDirMixin):
         unit, add = storage.find_unit(self.FIND_CONTEXT, self.FIND)
         self.assertFalse(add)
         if self.COUNT == 0:
-            self.assertTrue(unit is None)
+            self.assertIn(unit, None)
         else:
             self.assertIsNotNone(unit)
             self.assertEqual(unit.target, self.FIND_MATCH)
@@ -333,12 +339,12 @@ class PoFormatTest(AutoFormatTest):
         self.FORMAT.add_language(out, Language.objects.get(code="cs"), TEST_POT_UNICODE)
         with open(out) as handle:
             data = handle.read()
-        self.assertTrue("Michal Čihař" in data)
+        self.assertIn("Michal Čihař", data)
 
     def load_plural(self, filename):
         with open(filename, "rb") as handle:
             store = self.parse_file(handle)
-            return store.get_plural(Language.objects.get(code="he"))
+            return store.get_plural(Language.objects.get(code="he"), store)
 
     def test_plurals(self):
         self.assertEqual(
@@ -410,10 +416,13 @@ class GWTFormatTest(AutoFormatTest):
     EXPECTED_PATH = "gwt/gwt_cs-CZ.properties"
     FIND = "cartItems"
     FIND_CONTEXT = "cartItems"
-    FIND_MATCH = "There are {0,number} items in your cart."
+    FIND_MATCH = (
+        "There is {0,number} item in your cart.\x1e\x1e"
+        "There are {0,number} items in your cart."
+    )
     EDIT_TARGET = [
-        "There are {0,number} goods in your cart.",
         "There is {0,number} good in your cart.",
+        "There are {0,number} goods in your cart.",
     ]
     MATCH = "\n"
     NEW_UNIT_MATCH = b"\nkey=Source string\n"
@@ -553,8 +562,9 @@ class XliffFormatTest(XMLMixin, AutoFormatTest):
         b'<trans-unit xml:space="preserve" id="key" approved="no">',
         b"<source>Source string</source>",
     )
+    EXPECTED_FLAGS = "c-format, max-length:100, xml-text"
 
-    def test_mark_fuzzy(self):
+    def test_set_state(self):
         # Read test content
         with open(self.FILE, "rb") as handle:
             testdata = handle.read()
@@ -570,7 +580,7 @@ class XliffFormatTest(XMLMixin, AutoFormatTest):
         storage = self.parse_file(testfile)
         unit = storage.all_units[0]
         unit.set_target("test")
-        unit.mark_fuzzy(False)
+        unit.set_state(STATE_TRANSLATED)
         storage.save()
 
         # Verify the state is set
@@ -581,7 +591,7 @@ class XliffFormatTest(XMLMixin, AutoFormatTest):
         storage = self.parse_file(testfile)
         unit = storage.all_units[0]
         unit.set_target("test")
-        unit.mark_fuzzy(True)
+        unit.set_state(STATE_FUZZY)
         storage.save()
 
         # Verify the state is set
@@ -595,7 +605,7 @@ class XliffIdFormatTest(XliffFormatTest):
     FILE = TEST_XLIFF_ID
     BASE = TEST_XLIFF_ID
     FIND_CONTEXT = "hello"
-    EXPECTED_FLAGS = ""
+    EXPECTED_FLAGS = "xml-text"
     COUNT = 5
 
     def test_edit_xliff(self):
@@ -667,13 +677,21 @@ class PoXliffFormatTest(XMLMixin, AutoFormatTest):
         b'<trans-unit xml:space="preserve" id="key" approved="no">',
         b"<source>Source string</source>",
     )
+    EXPECTED_FLAGS = "c-format, max-length:100, xml-text"
 
 
 class PoXliffFormatTest2(PoXliffFormatTest):
     FILE = TEST_POXLIFF
     BASE = TEST_POXLIFF
-    EXPECTED_FLAGS = (
-        "c-format, font-family:ubuntu, font-size:22, font-weight:bold, max-size:100"
+    EXPECTED_FLAGS = ", ".join(
+        (
+            "c-format",
+            "font-family:ubuntu",
+            "font-size:22",
+            "font-weight:bold",
+            "max-size:100",
+            "xml-text",
+        )
     )
     FIND_CONTEXT = "cs.po///2"
     COUNT = 5
@@ -688,7 +706,7 @@ class RESXFormatTest(XMLMixin, AutoFormatTest):
     EXT = "resx"
     COUNT = 4
     MASK = "resx/*.resx"
-    EXPECTED_PATH = "resx/cs_CZ.resx"
+    EXPECTED_PATH = "resx/cs-CZ.resx"
     FIND = "Hello"
     FIND_CONTEXT = "Hello"
     FIND_MATCH = ""
@@ -1054,7 +1072,7 @@ class XWikiFullPageFormatTest(AutoFormatTest):
             newdata,
         )
         self.assertIn(
-            "* 02110-1301 USA, or see the FSF site: http://www.fsf.org.\n" "-->",
+            "* 02110-1301 USA, or see the FSF site: http://www.fsf.org.\n-->",
             newdata,
         )
         # Remove XML declaration so that etree doesn't complain for parsing
@@ -1115,7 +1133,7 @@ class XWikiFullPageFormatTest(AutoFormatTest):
         self.assert_same(testdata, newdata)
 
 
-class TBXFormatTest(AutoFormatTest):
+class TBXFormatTest(XMLMixin, AutoFormatTest):
     FORMAT = TBXFormat
     FILE = TEST_TBX
     BASE = ""
@@ -1128,4 +1146,63 @@ class TBXFormatTest(AutoFormatTest):
     FIND = "address bar"
     FIND_MATCH = "adresní řádek"
     NEW_UNIT_MATCH = b"<term>Source string</term>"
+    EXPECTED_FLAGS = ""
+
+
+class StringsdictFormatTest(XMLMixin, AutoFormatTest):
+    FORMAT = StringsdictFormat
+    FILE = TEST_STRINGSDICT
+    MIME = "application/xml"
+    EXT = "stringsdict"
+    COUNT = 1
+    MATCH = '<plist version="1.0">'
+    MASK = "Resources/*.lproj/Localizable.stringsdict"
+    EXPECTED_PATH = "Resources/cs_CZ.lproj/Localizable.stringsdict"
+    FIND = "Hello, world!\n"
+    FIND_CONTEXT = "hello"
+    FIND_MATCH = "Hello, world!\n"
+    BASE = ""
+    NEW_UNIT_MATCH = b"<string>Source string</string>"
+    MONOLINGUAL = True
+    EXPECTED_FLAGS = ""
+
+    def test_get_plural(self):
+        # Use up-to-date languages database and not the one from fixture
+        Language.objects.all().delete()
+        Language.objects.setup(update=False)
+
+        # Create a storage class
+        storage = self.parse_file(self.FILE)
+
+        # Try getting plural with zero for all languages
+        for language in Language.objects.iterator():
+            plural = storage.get_plural(language, storage)
+            self.assertIsInstance(plural, Plural)
+            self.assertNotEqual(
+                plural.type,
+                PLURAL_UNKNOWN,
+                f"Invalid plural type for {language.code}: {plural.formula}",
+            )
+            self.assertEqual(
+                plural.get_plural_name(0),
+                "Zero",
+                f"Invalid plural name for {language.code}: {plural.formula}",
+            )
+
+
+class FluentFormatTest(AutoFormatTest):
+    FORMAT = FluentFormat
+    FILE = TEST_FLUENT
+    MIME = "text/x-fluent"
+    EXT = "ftl"
+    COUNT = 4
+    MATCH = ""
+    MASK = "locales/*/messages.ftl"
+    EXPECTED_PATH = "locales/cs_CZ/messages.ftl"
+    BASE = ""
+    FIND = 'Ahoj "světe"!\\n'
+    FIND_CONTEXT = "hello"
+    FIND_MATCH = 'Ahoj "světe"!\\n'
+    NEW_UNIT_MATCH = b"\nkey = Source string"
+    MONOLINGUAL = True
     EXPECTED_FLAGS = ""

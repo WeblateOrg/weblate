@@ -17,7 +17,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 from weblate.metrics.models import Metric
-from weblate.metrics.tasks import collect_global, collect_metrics
+from weblate.metrics.tasks import collect_metrics
 from weblate.trans.tests.test_views import FixtureTestCase
 
 
@@ -27,5 +27,5 @@ class MetricTestCase(FixtureTestCase):
         self.assertNotEqual(Metric.objects.count(), 0)
 
     def test_collect_global(self):
-        collect_global()
+        Metric.objects.collect_global()
         self.assertNotEqual(Metric.objects.count(), 0)

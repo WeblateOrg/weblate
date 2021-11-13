@@ -23,7 +23,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
 
 def setup(app):
-    app.add_css_file("https://s.weblate.org/cdn/font-source/source-sans-pro.css")
+    app.add_css_file("https://s.weblate.org/cdn/font-source/source-sans-3.css")
     app.add_css_file("https://s.weblate.org/cdn/font-source/source-code-pro.css")
     app.add_css_file("docs.css")
     # Used in Sphinx docs, needed for intersphinx links to it
@@ -42,7 +42,7 @@ copyright = "2012 - 2021 Michal Čihař"
 author = "Michal Čihař"
 
 # The full version, including alpha/beta/rc tags
-release = "4.6"
+release = "4.9.1"
 
 
 # -- General configuration ---------------------------------------------------
@@ -66,7 +66,13 @@ templates_path = ["_templates"]
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
 # This pattern also affects html_static_path and html_extra_path.
-exclude_patterns = ["_build", "Thumbs.db", ".DS_Store", "admin/install/steps/*.rst"]
+exclude_patterns = [
+    "_build",
+    "Thumbs.db",
+    ".DS_Store",
+    "admin/install/steps/*.rst",
+    "devel/reporting-example.rst",
+]
 
 
 # -- Options for HTML output -------------------------------------------------
@@ -233,8 +239,7 @@ intersphinx_mapping = {
     "pip": ("https://pip.pypa.io/en/stable/", None),
     "compressor": ("https://django-compressor.readthedocs.io/en/stable/", None),
 }
-# See https://github.com/sphinx-doc/sphinx/pull/8981
-intersphinx_strict_prefix = True
+intersphinx_disabled_reftypes = ["*"]
 
 # Ignore missing targets for the http:obj <type>, it's how we declare the types
 # for input/output fields in the API docs.
@@ -252,7 +257,12 @@ nitpick_ignore = [
 # Number of retries and timeout for linkcheck
 linkcheck_retries = 10
 linkcheck_timeout = 10
-linkcheck_ignore = ["http://127.0.0.1:8080/"]
+linkcheck_ignore = [
+    # Local URL to Weblate
+    "http://127.0.0.1:8080/",
+    # Requires a valid token
+    "https://api.deepl.com/v2/translate",
+]
 
 # HTTP docs
 http_index_ignore_prefixes = ["/api/"]
@@ -271,6 +281,8 @@ autodoc_mock_imports = [
     "weblate.trans.tasks",
     "dateutil",
     "filelock",
+    "redis_lock",
+    "django_redis",
     "lxml",
     "translate",
     "siphashc",

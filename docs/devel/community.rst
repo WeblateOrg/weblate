@@ -10,4 +10,4 @@ The :guilabel:`Community localization checklist` which can be found in the
 menu of each component can give you guidance to make your
 localization process easy for community translators.
 
-.. image:: /images/guide.png
+.. image:: /screenshots/guide.png

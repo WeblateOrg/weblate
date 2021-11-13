@@ -66,6 +66,7 @@ class WeblateChecksConf(AppConf):
         "weblate.checks.format.PerlFormatCheck",
         "weblate.checks.format.JavaScriptFormatCheck",
         "weblate.checks.format.LuaFormatCheck",
+        "weblate.checks.format.ObjectPascalFormatCheck",
         "weblate.checks.format.SchemeFormatCheck",
         "weblate.checks.format.CSharpFormatCheck",
         "weblate.checks.format.JavaFormatCheck",
@@ -75,6 +76,8 @@ class WeblateChecksConf(AppConf):
         "weblate.checks.format.I18NextInterpolationCheck",
         "weblate.checks.format.ESTemplateLiteralsCheck",
         "weblate.checks.angularjs.AngularJSInterpolationCheck",
+        "weblate.checks.icu.ICUMessageFormatCheck",
+        "weblate.checks.icu.ICUSourceCheck",
         "weblate.checks.qt.QtFormatCheck",
         "weblate.checks.qt.QtPluralCheck",
         "weblate.checks.ruby.RubyFormatCheck",
@@ -124,13 +127,15 @@ class CheckQuerySet(models.QuerySet):
 
 class Check(models.Model):
     unit = models.ForeignKey("trans.Unit", on_delete=models.deletion.CASCADE)
-    check = models.CharField(max_length=50, choices=CHECKS.get_choices())
+    name = models.CharField(max_length=50, choices=CHECKS.get_choices())
     dismissed = models.BooleanField(db_index=True, default=False)
 
     objects = CheckQuerySet.as_manager()
 
     class Meta:
-        unique_together = ("unit", "check")
+        unique_together = ("unit", "name")
+        verbose_name = "Quality check"
+        verbose_name_plural = "Quality checks"
 
     def __str__(self):
         return str(self.get_name())
@@ -138,17 +143,17 @@ class Check(models.Model):
     @cached_property
     def check_obj(self):
         try:
-            return CHECKS[self.check]
+            return CHECKS[self.name]
         except KeyError:
             return None
 
     def is_enforced(self):
-        return self.check in self.unit.translation.component.enforced_checks
+        return self.name in self.unit.translation.component.enforced_checks
 
     def get_description(self):
         if self.check_obj:
             return self.check_obj.get_description(self)
-        return self.check
+        return self.name
 
     def get_fixup(self):
         if self.check_obj:
@@ -164,7 +169,7 @@ class Check(models.Model):
     def get_name(self):
         if self.check_obj:
             return self.check_obj.name
-        return self.check
+        return self.name
 
     def get_doc_url(self, user=None):
         if self.check_obj:
@@ -181,4 +186,4 @@ class Check(models.Model):
 def get_display_checks(unit):
     for check, check_obj in CHECKS.target.items():
         if check_obj.should_display(unit):
-            yield Check(unit=unit, dismissed=False, check=check)
+            yield Check(unit=unit, dismissed=False, name=check)

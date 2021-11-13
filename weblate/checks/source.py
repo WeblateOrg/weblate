@@ -32,7 +32,7 @@ from weblate.checks.base import SourceCheck
 from weblate.utils.state import STATE_EMPTY, STATE_FUZZY
 
 # Matches (s) not followed by alphanumeric chars or at the end
-PLURAL_MATCH = re.compile(r"\(s\)(\W|\Z)")
+PLURAL_MATCH = re.compile(r"\w\(s\)(\W|\Z)")
 
 
 class OptionalPluralCheck(SourceCheck):

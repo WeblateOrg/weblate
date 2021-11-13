@@ -229,7 +229,7 @@ This feature needs GnuPG 2.1 or newer installed.
 You can find the key in the :setting:`DATA_DIR` and the public key is shown on
 the "About" page:
 
-.. image:: /images/about-gpg.png
+.. image:: /screenshots/about-gpg.png
 
 2. Alternatively you can also import existing keys into Weblate, just set
 ``HOME=$DATA_DIR/home`` when invoking gpg.
@@ -246,6 +246,10 @@ Rate limiting
 .. versionchanged:: 3.2
 
       The rate limiting now accepts more fine-grained configuration.
+
+.. versionchanged:: 4.6
+
+      The rate limiting no longer applies to superusers.
 
 Several operations in Weblate are rate limited. At most
 :setting:`RATELIMIT_ATTEMPTS` attempts are allowed within :setting:`RATELIMIT_WINDOW` seconds.
@@ -271,8 +275,12 @@ The following operations are subject to rate limiting:
 | Starting translation into a new   | ``LANGUAGE``       |                2 |              300 |            600 |
 | language                          |                    |                  |                  |                |
 +-----------------------------------+--------------------+------------------+------------------+----------------+
+| Creating new project              | ``PROJECT``        |                5 |              600 |            600 |
++-----------------------------------+--------------------+------------------+------------------+----------------+
 
 If a user fails to log in :setting:`AUTH_LOCK_ATTEMPTS` times, password authentication will be turned off on the account until having gone through the process of having its password reset.
+
+The settings can be also applied in the Docker container by adding ``WEBLATE_`` prefix to the setting name, for example :setting:`RATELIMIT_ATTEMPTS` becomes :envvar:`WEBLATE_RATELIMIT_ATTEMPTS`.
 
 The API has separate rate limiting settings, see :ref:`api-rate`.
 

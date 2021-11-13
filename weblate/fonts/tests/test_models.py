@@ -29,16 +29,23 @@ class FontModelTest(FontTestCase):
         self.assertEqual(font.family, "Droid Sans Fallback")
         self.assertEqual(font.style, "Regular")
 
+    def assert_font_files(self, expected: int):
+        result = 0
+        excluded = {"fonts.conf", ".uuid"}
+        for name in FONT_STORAGE.listdir(".")[1]:
+            if name not in excluded:
+                result += 1
+        self.assertEqual(result, expected)
+
     def test_cleanup(self):
         configure_fontconfig()
         cleanup_font_files()
-        # There should always be fonts.conf present
-        self.assertEqual(len(FONT_STORAGE.listdir(".")[1]), 1)
+        self.assert_font_files(0)
         font = self.add_font()
-        self.assertEqual(len(FONT_STORAGE.listdir(".")[1]), 2)
+        self.assert_font_files(1)
         cleanup_font_files()
-        self.assertEqual(len(FONT_STORAGE.listdir(".")[1]), 2)
+        self.assert_font_files(1)
         font.delete()
-        self.assertEqual(len(FONT_STORAGE.listdir(".")[1]), 2)
+        self.assert_font_files(1)
         cleanup_font_files()
-        self.assertEqual(len(FONT_STORAGE.listdir(".")[1]), 1)
+        self.assert_font_files(0)

@@ -31,7 +31,6 @@ MENU = (
     ("index", "legal:index", _("Overview")),
     ("terms", "legal:terms", _("Terms of Service")),
     ("cookies", "legal:cookies", _("Cookies")),
-    ("security", "legal:security", _("Security")),
     ("privacy", "legal:privacy", _("Privacy")),
     ("contracts", "legal:contracts", _("Subcontractors")),
 )
@@ -58,10 +57,6 @@ class TermsView(LegalView):
 
 class CookiesView(LegalView):
     page = "cookies"
-
-
-class SecurityView(LegalView):
-    page = "security"
 
 
 class PrivacyView(LegalView):

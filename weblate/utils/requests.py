@@ -50,9 +50,9 @@ def get_uri_error(uri):
             cache.set(cache_key, True, 3600)
             LOGGER.debug("URL check for %s, tested success", uri)
             return None
-    except (
-        requests.exceptions.HTTPError,
-        requests.exceptions.ConnectionError,
-    ) as error:
+    except requests.exceptions.RequestException as error:
         report_error(cause="URL check failed")
+        if getattr(error.response, "status_code", 0) == 429:
+            # Silently ignore rate limiting issues
+            return None
         return str(error)

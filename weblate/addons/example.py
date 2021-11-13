@@ -28,14 +28,14 @@ class ExampleAddon(BaseAddon):
     # Filter for compatible components, every key is
     # matched against property of component
     compat = {"file_format": {"po", "po-mono"}}
-    # List of events addon should receive
+    # List of events add-on should receive
     events = (EVENT_PRE_COMMIT,)
-    # Addon unique identifier
+    # Add-on unique identifier
     name = "weblate.example.example"
     # Verbose name shown in the user interface
-    verbose = _("Example addon")
-    # Detailed addon description
-    description = _("This addon does nothing it is just an example.")
+    verbose = _("Example add-on")
+    # Detailed add-on description
+    description = _("This add-on does nothing it is just an example.")
 
     # Callback to implement custom behavior
     def pre_commit(self, translation, author):

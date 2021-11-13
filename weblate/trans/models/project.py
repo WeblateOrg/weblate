@@ -49,10 +49,15 @@ class ProjectQuerySet(FastDeleteQuerySetMixin, models.QuerySet):
 def prefetch_project_flags(projects):
     lookup = {project.id: project for project in projects}
     if lookup:
+        # Indicate alerts
         for alert in projects.values("id").annotate(Count("component__alert")):
             lookup[alert["id"]].__dict__["has_alerts"] = bool(
                 alert["component__alert__count"]
             )
+        # Fallback value for locking
+        for project in projects:
+            project.__dict__["locked"] = True
+        # Filter unlocked projects
         for locks in (
             projects.filter(component__locked=False)
             .values("id")
@@ -149,8 +154,7 @@ class Project(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKeyM
             "Whether to allow updating this repository by remote hooks."
         ),
     )
-    language_aliases = models.CharField(
-        max_length=200,
+    language_aliases = models.TextField(
         verbose_name=gettext_lazy("Language aliases"),
         default="",
         blank=True,
@@ -168,8 +172,8 @@ class Project(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKeyM
 
     class Meta:
         app_label = "trans"
-        verbose_name = gettext_lazy("Project")
-        verbose_name_plural = gettext_lazy("Projects")
+        verbose_name = "Project"
+        verbose_name_plural = "Projects"
 
     def __str__(self):
         return self.name
@@ -254,6 +258,8 @@ class Project(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKeyM
         if group is None:
             if self.access_control != self.ACCESS_PUBLIC:
                 group = "@Translate"
+            elif self.source_review or self.translation_review:
+                group = "@Review"
             else:
                 group = "@Administration"
         group = self.get_group(group)
@@ -359,14 +365,13 @@ class Project(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKeyM
     def all_repo_components(self):
         """Return list of all unique VCS components."""
         result = list(self.component_set.with_repo())
-        included = {component.get_repo_link_url().lower() for component in result}
+        included = {component.id for component in result}
 
         linked = self.component_set.filter(repo__startswith="weblate:")
         for other in linked:
-            repo_url = other.repo.lower()
-            if repo_url in included:
+            if other.linked_component_id in included:
                 continue
-            included.add(repo_url)
+            included.add(other.linked_component_id)
             result.append(other)
 
         return result

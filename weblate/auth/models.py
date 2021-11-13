@@ -19,6 +19,7 @@
 
 import re
 from collections import defaultdict
+from itertools import chain
 
 from appconf import AppConf
 from django.conf import settings
@@ -54,16 +55,12 @@ from weblate.auth.utils import (
     migrate_roles,
 )
 from weblate.lang.models import Language
-from weblate.trans.defines import EMAIL_LENGTH, FULLNAME_LENGTH, USERNAME_LENGTH
+from weblate.trans.defines import FULLNAME_LENGTH, USERNAME_LENGTH
 from weblate.trans.fields import RegexField
 from weblate.trans.models import ComponentList, Project
 from weblate.utils.decorators import disable_for_loaddata
 from weblate.utils.fields import EmailField, UsernameField
-from weblate.utils.validators import (
-    validate_email,
-    validate_fullname,
-    validate_username,
-)
+from weblate.utils.validators import validate_fullname, validate_username
 
 
 class Permission(models.Model):
@@ -71,8 +68,8 @@ class Permission(models.Model):
     name = models.CharField(max_length=200)
 
     class Meta:
-        verbose_name = _("Permission")
-        verbose_name_plural = _("Permissions")
+        verbose_name = "Permission"
+        verbose_name_plural = "Permissions"
 
     def __str__(self):
         name = gettext(self.name)
@@ -82,13 +79,17 @@ class Permission(models.Model):
 
 
 class Role(models.Model):
-    name = models.CharField(verbose_name=_("Name"), max_length=200)
+    name = models.CharField(verbose_name=_("Name"), max_length=200, unique=True)
     permissions = models.ManyToManyField(
         Permission,
         verbose_name=_("Permissions"),
         blank=True,
         help_text=_("Choose permissions granted to this role."),
     )
+
+    class Meta:
+        verbose_name = "Role"
+        verbose_name_plural = "Roles"
 
     def __str__(self):
         return pgettext("Access-control role", self.name)
@@ -155,6 +156,10 @@ class Group(models.Model):
     )
 
     objects = GroupManager()
+
+    class Meta:
+        verbose_name = "Group"
+        verbose_name_plural = "Groups"
 
     def __str__(self):
         return pgettext("Access-control group", self.name)
@@ -322,9 +327,7 @@ class User(AbstractBaseUser):
         _("E-mail"),
         blank=False,
         null=True,
-        max_length=EMAIL_LENGTH,
         unique=True,
-        validators=[validate_email],
     )
     is_superuser = models.BooleanField(
         _("Superuser status"),
@@ -353,6 +356,10 @@ class User(AbstractBaseUser):
     USERNAME_FIELD = "username"
     REQUIRED_FIELDS = ["email", "full_name"]
     DUMMY_FIELDS = ("first_name", "last_name", "is_staff")
+
+    class Meta:
+        verbose_name = "User"
+        verbose_name_plural = "Users"
 
     def __str__(self):
         return self.full_name
@@ -541,27 +548,38 @@ class User(AbstractBaseUser):
         """Fetch all user permissions into a dictionary."""
         projects = defaultdict(list)
         components = defaultdict(list)
-        for group in self.groups.iterator():
-            languages = set(
-                Group.languages.through.objects.filter(group=group).values_list(
-                    "language_id", flat=True
+        for group in self.groups.prefetch_related(
+            "roles__permissions",
+            "componentlists__components",
+            "components",
+            "projects",
+            "languages",
+        ):
+            languages = {language.id for language in group.languages.all()}
+            permissions = {
+                permission.codename
+                for permission in chain.from_iterable(
+                    role.permissions.all() for role in group.roles.all()
                 )
-            )
-            permissions = set(
-                group.roles.values_list("permissions__codename", flat=True)
-            )
+            }
             # Component list specific permissions
-            componentlist_values = group.componentlists.values_list(
-                "components__id", "components__project_id"
-            )
-            if componentlist_values:
+            componentlist_values = {
+                (component.id, component.project_id)
+                for component in chain.from_iterable(
+                    clist.components.all() for clist in group.componentlists.all()
+                )
+            }
+            if group.componentlists.exists():
                 for component, project in componentlist_values:
                     components[component].append((permissions, languages))
                     # Grant access to the project
                     projects[project].append(((), languages))
                 continue
             # Component specific permissions
-            component_values = group.components.values_list("id", "project_id")
+            component_values = {
+                (component.id, component.project_id)
+                for component in group.components.all()
+            }
             if component_values:
                 for component, project in component_values:
                     components[component].append((permissions, languages))
@@ -569,10 +587,20 @@ class User(AbstractBaseUser):
                     projects[project].append(((), languages))
                 continue
             # Project specific permissions
-            for project in Group.projects.through.objects.filter(
-                group=group
-            ).values_list("project_id", flat=True):
-                projects[project].append((permissions, languages))
+            for project in group.projects.all():
+                projects[project.id].append((permissions, languages))
+        # Apply blocking
+        now = timezone.now()
+        for block in self.userblock_set.all():
+            if block.expiry is not None and block.expiry <= now:
+                # Delete expired blocks
+                block.delete()
+            else:
+                # Remove all permissions for blocked user
+                projects[block.project_id] = [
+                    ((), languages)
+                    for permissions, languages in projects[block.project_id]
+                ]
         self._permissions = {"projects": projects, "components": components}
 
     @cached_property
@@ -627,11 +655,29 @@ class AutoGroup(models.Model):
     )
 
     class Meta:
-        verbose_name = _("Automatic group assignment")
-        verbose_name_plural = _("Automatic group assignments")
+        verbose_name = "Automatic group assignment"
+        verbose_name_plural = "Automatic group assignments"
 
     def __str__(self):
         return f"Automatic rule for {self.group}"
+
+
+class UserBlock(models.Model):
+    user = models.ForeignKey(
+        User, verbose_name=_("User to block"), on_delete=models.deletion.CASCADE
+    )
+    project = models.ForeignKey(
+        Project, verbose_name=_("Project"), on_delete=models.deletion.CASCADE
+    )
+    expiry = models.DateTimeField(_("Block expiry"), null=True)
+
+    class Meta:
+        verbose_name = "Blocked user"
+        verbose_name_plural = "Blocked users"
+        unique_together = ("user", "project")
+
+    def __str__(self):
+        return f"{self.user} blocked for {self.project}"
 
 
 def create_groups(update):

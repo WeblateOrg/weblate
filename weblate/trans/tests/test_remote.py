@@ -138,10 +138,10 @@ class MultiRepoTest(ViewTestCase):
 
         # There should be no checks on both
         self.assertEqual(
-            list(unit.check_set.values_list("check", flat=True)), ["duplicate"]
+            list(unit.check_set.values_list("name", flat=True)), ["duplicate"]
         )
         self.assertEqual(
-            list(other_unit.check_set.values_list("check", flat=True)), ["duplicate"]
+            list(other_unit.check_set.values_list("name", flat=True)), ["duplicate"]
         )
 
     def test_failed_update(self):

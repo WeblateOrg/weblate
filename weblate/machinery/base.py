@@ -19,9 +19,8 @@
 """Base code for machine translation services."""
 
 import random
-from difflib import get_close_matches
 from hashlib import md5
-from typing import Dict, Set
+from typing import Dict
 
 from django.core.cache import cache
 from django.core.exceptions import ImproperlyConfigured
@@ -70,7 +69,7 @@ class MachineTranslation:
     language_map: Dict[str, str] = {}
     same_languages = False
     do_cleanup = True
-    batch_size = 100
+    batch_size = 20
     accounting_key = "external"
 
     @classmethod
@@ -116,7 +115,13 @@ class MachineTranslation:
             headers.update(self.get_authentication())
 
         # Fire request
-        return request(method, url, headers=headers, timeout=5.0, **kwargs)
+        response = request(method, url, headers=headers, timeout=5.0, **kwargs)
+
+        # Directly raise error when response is empty
+        if response.content:
+            response.raise_for_status()
+
+        return response
 
     def request_status(self, method, url, **kwargs):
         response = self.request(method, url, **kwargs)
@@ -156,8 +161,8 @@ class MachineTranslation:
 
     def map_language_code(self, code):
         """Map language code to service specific."""
-        if code == "en_devel":
-            code = "en"
+        if code.endswith("_devel"):
+            code = code[:-6]
         if code in self.language_map:
             return self.language_map[code]
         return code
@@ -245,7 +250,7 @@ class MachineTranslation:
         start = 0
         for h_start, h_end, h_text in highlights:
             parts.append(text[start:h_start])
-            placeholder = f"[{h_start}]"
+            placeholder = f"[X{h_start}X]"
             replacements[placeholder] = h_text
             parts.append(placeholder)
             start = h_end
@@ -398,33 +403,3 @@ class MachineTranslation:
                     continue
                 result["best"] = item["quality"]
                 result["translation"] = item["text"]
-
-
-class BatchStringMachineTranslation(MachineTranslation):
-    # Cleanup is not handled in batch mode
-    do_cleanup = False
-
-    def download_batch_strings(
-        self, source, language, units, texts: Set[str], user=None, threshold: int = 75
-    ):
-        raise NotImplementedError()
-
-    def _batch_translate(self, source, language, units, user=None, threshold: int = 75):
-        # Get strings we need to translate
-        lookups = {
-            unit.source_string: unit
-            for unit in units
-            if unit.machinery["best"] < self.max_score
-        }
-        lookup_strings = set(lookups.keys())
-        cutoff = threshold / 100
-
-        for source_str, translation in self.download_batch_strings(
-            source, language, units, lookup_strings, user, threshold
-        ):
-            for match in get_close_matches(source_str, lookup_strings, cutoff=cutoff):
-                quality = self.comparer.similarity(match, source_str)
-                result = lookups[match].machinery
-                if quality > result["best"]:
-                    result["best"] = quality
-                    result["translation"] = translation

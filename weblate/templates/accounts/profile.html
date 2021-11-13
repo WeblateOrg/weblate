@@ -260,7 +260,7 @@
 <th>{% trans "Your personal API key:" %}</th>
 <td>
     {{ user.auth_token.key }}
-    <button type="button" class="btn btn-link btn-xs" data-clipboard-text="{{ user.auth_token.key }}" title="{% trans "Copy to clipboard" %}">{% icon "copy.svg" %}</button>
+    <button type="button" class="btn btn-link btn-xs" data-clipboard-text="{{ user.auth_token.key }}" data-clipboard-message="{% trans "API key copied to clipboard." %}" title="{% trans "Copy to clipboard" %}">{% icon "copy.svg" %}</button>
     <a class="pull-right flip btn btn-primary link-post" href="{% url 'reset-api-key' %}">{% trans "Regenerate API key" %}</a>
 </td>
 </tr>
@@ -302,7 +302,7 @@ wlc \
   <div class="panel-body">
     <p>{% blocktrans %}The API key is also used to authenticate to automatically exported Git repositories.{% endblocktrans %}</p>
     <pre dir="ltr">
-git clone 'https://{{ user.username }}:{{ user.auth_token.key }}@{{ site_domain }}/git/PROJECT/COMPONENT/'</pre>
+git clone 'https://{{ user.username|urlencode }}:{{ user.auth_token.key }}@{{ site_domain }}/git/PROJECT/COMPONENT/'</pre>
   </div>
 </div>
 {% endif %}

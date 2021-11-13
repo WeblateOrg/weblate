@@ -1,18 +1,24 @@
 .. _addons:
 
-Addons
-======
+Add-ons
+=======
 
 .. versionadded:: 2.19
 
-Addons provide ways to customize and automate the translation workflow.
-Admins can add and mangage addons from the :guilabel:`Manage` ↓ :guilabel:`Addons` menu of each respective
+Add-ons provide ways to customize and automate the translation workflow.
+Admins can add and manage add-ons from the :guilabel:`Manage` ↓ :guilabel:`Add-ons` menu of each respective
 translation component.
 
-.. image:: /images/addons.png
+.. hint::
 
-Built-in addons
-+++++++++++++++
+   You can also configure add-ons using :ref:`API <addons-api>`,
+   :setting:`DEFAULT_ADDONS`, or :djadmin:`install_addon`.
+
+.. image:: /screenshots/addons.png
+
+Built-in add-ons
+++++++++++++++++
+
 
 .. _addon-weblate.autotranslate.autotranslate:
 
@@ -20,6 +26,42 @@ Automatic translation
 ---------------------
 
 .. versionadded:: 3.9
+
+:Add-on ID: ``weblate.autotranslate.autotranslate``
+:Configuration: +-----------------+------------------------------+----------------------------------------------------------------------------------------+
+                | ``mode``        | Automatic translation mode   | Available choices:                                                                     |
+                |                 |                              |                                                                                        |
+                |                 |                              | ``suggest`` -- Add as suggestion                                                       |
+                |                 |                              |                                                                                        |
+                |                 |                              | ``translate`` -- Add as translation                                                    |
+                |                 |                              |                                                                                        |
+                |                 |                              | ``fuzzy`` -- Add as needing edit                                                       |
+                +-----------------+------------------------------+----------------------------------------------------------------------------------------+
+                | ``filter_type`` | Search filter                | Available choices:                                                                     |
+                |                 |                              |                                                                                        |
+                |                 |                              | ``all`` -- All strings                                                                 |
+                |                 |                              |                                                                                        |
+                |                 |                              | ``nottranslated`` -- Not translated strings                                            |
+                |                 |                              |                                                                                        |
+                |                 |                              | ``todo`` -- Strings needing action                                                     |
+                |                 |                              |                                                                                        |
+                |                 |                              | ``fuzzy`` -- Strings marked for edit                                                   |
+                |                 |                              |                                                                                        |
+                |                 |                              | ``check:inconsistent`` -- Failed check: Inconsistent                                   |
+                +-----------------+------------------------------+----------------------------------------------------------------------------------------+
+                | ``auto_source`` | Automatic translation source | Available choices:                                                                     |
+                |                 |                              |                                                                                        |
+                |                 |                              | ``others`` -- Other translation components                                             |
+                |                 |                              |                                                                                        |
+                |                 |                              | ``mt`` -- Machine translation                                                          |
+                +-----------------+------------------------------+----------------------------------------------------------------------------------------+
+                | ``component``   | Components                   | Enter component to use as source, keep blank to use all components in current project. |
+                +-----------------+------------------------------+----------------------------------------------------------------------------------------+
+                | ``engines``     | Machine translation engines  |                                                                                        |
+                +-----------------+------------------------------+----------------------------------------------------------------------------------------+
+                | ``threshold``   | Score threshold              |                                                                                        |
+                +-----------------+------------------------------+----------------------------------------------------------------------------------------+
+:Triggers: component update, daily
 
 Automatically translates strings using machine translation or other components.
 
@@ -39,6 +81,18 @@ JavaScript localization CDN
 ---------------------------
 
 .. versionadded:: 4.2
+
+:Add-on ID: ``weblate.cdn.cdnjs``
+:Configuration: +------------------+---------------------------------+-------------------------------------------------------------------------------------------+
+                | ``threshold``    | Translation threshold           | Threshold for inclusion of translations.                                                  |
+                +------------------+---------------------------------+-------------------------------------------------------------------------------------------+
+                | ``css_selector`` | CSS selector                    | CSS selector to detect localizable elements.                                              |
+                +------------------+---------------------------------+-------------------------------------------------------------------------------------------+
+                | ``cookie_name``  | Language cookie name            | Name of cookie which stores language preference.                                          |
+                +------------------+---------------------------------+-------------------------------------------------------------------------------------------+
+                | ``files``        | Extract strings from HTML files | List of filenames in current repository or remote URLs to parse for translatable strings. |
+                +------------------+---------------------------------+-------------------------------------------------------------------------------------------+
+:Triggers: daily, repository post-commit, repository post-update
 
 Publishes translations into content delivery network for use in JavaScript or
 HTML localization.
@@ -63,6 +117,10 @@ Remove blank strings
 
 .. versionadded:: 4.4
 
+:Add-on ID: ``weblate.cleanup.blank``
+:Configuration: `This add-on has no configuration.`
+:Triggers: repository post-commit, repository post-update
+
 Removes strings without a translation from translation files.
 
 Use this to not have any empty strings in translation files (for
@@ -78,6 +136,10 @@ of falling back to the source string).
 Cleanup translation files
 -------------------------
 
+:Add-on ID: ``weblate.cleanup.generic``
+:Configuration: `This add-on has no configuration.`
+:Triggers: repository pre-commit, repository post-update
+
 Update all translation files to match the monolingual base file. For most file
 formats, this means removing stale translation keys no longer present in the
 base file.
@@ -88,17 +150,20 @@ base file.
 
 .. _addon-weblate.consistency.languages:
 
-Language consistency
---------------------
+Add missing languages
+---------------------
 
-Ensures all components within a project have translations for every added
-translated language by creating empty translations in languages that have
-unadded components.
+:Add-on ID: ``weblate.consistency.languages``
+:Configuration: `This add-on has no configuration.`
+:Triggers: daily, repository post-add
+
+Ensures a consistent set of languages is used for all components within a
+project.
 
 Missing languages are checked once every 24 hours, and when new languages
 are added in Weblate.
 
-Unlike most others, this addon affects the whole project.
+Unlike most others, this add-on affects the whole project.
 
 .. hint::
 
@@ -110,6 +175,28 @@ Unlike most others, this addon affects the whole project.
 Component discovery
 -------------------
 
+:Add-on ID: ``weblate.discovery.discovery``
+:Configuration: +------------------------+----------------------------------------------------------------+------------------------------------------------------------------------------------+
+                | ``match``              | Regular expression to match translation files against          |                                                                                    |
+                +------------------------+----------------------------------------------------------------+------------------------------------------------------------------------------------+
+                | ``file_format``        | File format                                                    |                                                                                    |
+                +------------------------+----------------------------------------------------------------+------------------------------------------------------------------------------------+
+                | ``name_template``      | Customize the component name                                   |                                                                                    |
+                +------------------------+----------------------------------------------------------------+------------------------------------------------------------------------------------+
+                | ``base_file_template`` | Define the monolingual base filename                           | Leave empty for bilingual translation files.                                       |
+                +------------------------+----------------------------------------------------------------+------------------------------------------------------------------------------------+
+                | ``new_base_template``  | Define the base file for new translations                      | Filename of file used for creating new translations. For gettext choose .pot file. |
+                +------------------------+----------------------------------------------------------------+------------------------------------------------------------------------------------+
+                | ``language_regex``     | Language filter                                                | Regular expression to filter translation files against when scanning for filemask. |
+                +------------------------+----------------------------------------------------------------+------------------------------------------------------------------------------------+
+                | ``copy_addons``        | Clone addons from the main component to the newly created ones |                                                                                    |
+                +------------------------+----------------------------------------------------------------+------------------------------------------------------------------------------------+
+                | ``remove``             | Remove components for inexistant files                         |                                                                                    |
+                +------------------------+----------------------------------------------------------------+------------------------------------------------------------------------------------+
+                | ``confirm``            | I confirm the above matches look correct                       |                                                                                    |
+                +------------------------+----------------------------------------------------------------+------------------------------------------------------------------------------------+
+:Triggers: repository post-update
+
 Automatically adds or removes project components based on file changes in the
 version control system.
 
@@ -120,16 +207,16 @@ multiple translation components within one VCS.
 The matching is done using regular expressions
 enabling complex configuration, but some knowledge is required to do so.
 Some examples for common use cases can be found in
-the addon help section.
+the add-on help section.
 
 Once you hit :guilabel:`Save`, a preview of matching components will be presented,
 from where you can check whether the configuration actually matches your needs:
 
-.. image:: /images/addon-discovery.png
+.. image:: /screenshots/addon-discovery.png
 
 .. hint::
 
-   Component discovery addon uses :ref:`internal-urls`. It’s a convenient way to share
+   Component discovery add-on uses :ref:`internal-urls`. It’s a convenient way to share
    VCS setup between multiple components. Linked components use the local repository of
    the main component set up by filling ``weblate://project/main-component``
    into the :ref:`component-repo` field (in :guilabel:`Manage` ↓ :guilabel:`Settings` ↓
@@ -146,6 +233,30 @@ Bulk edit
 ---------
 
 .. versionadded:: 3.11
+
+:Add-on ID: ``weblate.flags.bulk``
+:Configuration: +-------------------+-----------------------------+-------------------------+
+                | ``q``             | Query                       |                         |
+                +-------------------+-----------------------------+-------------------------+
+                | ``state``         | State to set                | Available choices:      |
+                |                   |                             |                         |
+                |                   |                             | ``-1`` -- Do not change |
+                |                   |                             |                         |
+                |                   |                             | ``10`` -- Needs editing |
+                |                   |                             |                         |
+                |                   |                             | ``20`` -- Translated    |
+                |                   |                             |                         |
+                |                   |                             | ``30`` -- Approved      |
+                +-------------------+-----------------------------+-------------------------+
+                | ``add_flags``     | Translation flags to add    |                         |
+                +-------------------+-----------------------------+-------------------------+
+                | ``remove_flags``  | Translation flags to remove |                         |
+                +-------------------+-----------------------------+-------------------------+
+                | ``add_labels``    | Labels to add               |                         |
+                +-------------------+-----------------------------+-------------------------+
+                | ``remove_labels`` | Labels to remove            |                         |
+                +-------------------+-----------------------------+-------------------------+
+:Triggers: component update
 
 Bulk edit flags, labels, or states of strings.
 
@@ -186,6 +297,10 @@ Flag unchanged translations as "Needs editing"
 
 .. versionadded:: 3.1
 
+:Add-on ID: ``weblate.flags.same_edit``
+:Configuration: `This add-on has no configuration.`
+:Triggers: unit post-create
+
 Whenever a new translatable string is imported from the VCS and it matches a
 source string, it is flagged as needing editing in Weblate. Especially useful
 for file formats that include source strings for untranslated strings.
@@ -204,6 +319,10 @@ for file formats that include source strings for untranslated strings.
 Flag new source strings as "Needs editing"
 ------------------------------------------
 
+:Add-on ID: ``weblate.flags.source_edit``
+:Configuration: `This add-on has no configuration.`
+:Triggers: unit post-create
+
 Whenever a new source string is imported from the VCS, it is flagged as needing
 editing in Weblate. This way you can easily filter and edit source strings
 written by the developers.
@@ -217,6 +336,10 @@ written by the developers.
 Flag new translations as "Needs editing"
 ----------------------------------------
 
+:Add-on ID: ``weblate.flags.target_edit``
+:Configuration: `This add-on has no configuration.`
+:Triggers: unit post-create
+
 Whenever a new translatable string is imported from the VCS, it is flagged as
 needing editing in Weblate. This way you can easily filter and edit
 translations created by the developers.
@@ -229,6 +352,14 @@ translations created by the developers.
 
 Statistics generator
 --------------------
+
+:Add-on ID: ``weblate.generate.generate``
+:Configuration: +--------------+---------------------------+--+
+                | ``filename`` | Name of generated file    |  |
+                +--------------+---------------------------+--+
+                | ``template`` | Content of generated file |  |
+                +--------------+---------------------------+--+
+:Triggers: repository pre-commit
 
 Generates a file containing detailed info about the translation status.
 
@@ -260,6 +391,18 @@ Content
 Pseudolocale generation
 -----------------------
 
+:Add-on ID: ``weblate.generate.pseudolocale``
+:Configuration: +------------+--------------------+--+
+                | ``source`` | Source strings     |  |
+                +------------+--------------------+--+
+                | ``target`` | Target translation |  |
+                +------------+--------------------+--+
+                | ``prefix`` | String prefix      |  |
+                +------------+--------------------+--+
+                | ``suffix`` | String suffix      |  |
+                +------------+--------------------+--+
+:Triggers: component update, daily
+
 Generates a translation by adding prefix and suffix to source strings
 automatically.
 
@@ -276,13 +419,29 @@ is also possible.
    You can use real languages for testing, but there are dedicated
    pseudolocales available in Weblate - `en_XA` and `ar_XB`.
 
+.. hint::
+
+   You can use this add-on to start translation to a new locale of an
+   existing language or similar language.
+   Once you add the translation to the component, follow to the add-on.
+   *Example:* If you have `fr` and want to start `fr_CA` translation, simply set
+   `fr` as the source, `fr_CA` as the target, and leave the prefix and suffix blank.
+
+   Uninstall the add-on once you have the new translation filled to prevent Weblate
+   from changing the translations made after the copying.
+
+
 .. _addon-weblate.gettext.authors:
 
 Contributors in comment
 -----------------------
 
-Updates the comment part of the PO file header to include contributor names
-and years of contributions.
+:Add-on ID: ``weblate.gettext.authors``
+:Configuration: `This add-on has no configuration.`
+:Triggers: repository pre-commit
+
+Updates the comment part of the PO file header to include contributor names and
+years of contributions.
 
 The PO file header will look like this:
 
@@ -298,6 +457,10 @@ The PO file header will look like this:
 Update ALL_LINGUAS variable in the "configure" file
 ---------------------------------------------------
 
+:Add-on ID: ``weblate.gettext.configure``
+:Configuration: `This add-on has no configuration.`
+:Triggers: repository post-add, daily
+
 Updates the ALL_LINGUAS variable in :file:`configure`, :file:`configure.in` or any
 :file:`configure.ac` files, when a new translation is added.
 
@@ -305,6 +468,20 @@ Updates the ALL_LINGUAS variable in :file:`configure`, :file:`configure.in` or a
 
 Customize gettext output
 ------------------------
+
+:Add-on ID: ``weblate.gettext.customize``
+:Configuration: +-----------+---------------------+-----------------------------------------------------------------------------------------------------------------------------------+
+                | ``width`` | Long lines wrapping | By default gettext wraps lines at 77 characters and at newlines. With the --no-wrap parameter, wrapping is only done at newlines. |
+                |           |                     |                                                                                                                                   |
+                |           |                     | Available choices:                                                                                                                |
+                |           |                     |                                                                                                                                   |
+                |           |                     | ``77`` -- Wrap lines at 77 characters and at newlines                                                                             |
+                |           |                     |                                                                                                                                   |
+                |           |                     | ``65535`` -- Only wrap lines at newlines                                                                                          |
+                |           |                     |                                                                                                                                   |
+                |           |                     | ``-1`` -- No line wrapping                                                                                                        |
+                +-----------+---------------------+-----------------------------------------------------------------------------------------------------------------------------------+
+:Triggers: storage post-load
 
 Allows customization of gettext output behavior, for example line wrapping.
 
@@ -325,12 +502,22 @@ It offers the following options:
 Update LINGUAS file
 -------------------
 
+:Add-on ID: ``weblate.gettext.linguas``
+:Configuration: `This add-on has no configuration.`
+:Triggers: repository post-add, daily
+
 Updates the LINGUAS file when a new translation is added.
 
 .. _addon-weblate.gettext.mo:
 
 Generate MO files
 -----------------
+
+:Add-on ID: ``weblate.gettext.mo``
+:Configuration: +----------+---------------------------+-------------------------------------------------------------+
+                | ``path`` | Path of generated MO file | If not specified, the location of the PO file will be used. |
+                +----------+---------------------------+-------------------------------------------------------------+
+:Triggers: repository pre-commit
 
 Automatically generates a MO file for every changed PO file.
 
@@ -341,11 +528,21 @@ The location of the generated MO file can be customized and the field for it use
 Update PO files to match POT (msgmerge)
 ---------------------------------------
 
+:Add-on ID: ``weblate.gettext.msgmerge``
+:Configuration: +-----------------+--------------------------------------------+--+
+                | ``previous``    | Keep previous msgids of translated strings |  |
+                +-----------------+--------------------------------------------+--+
+                | ``no_location`` | Remove locations of translated strings     |  |
+                +-----------------+--------------------------------------------+--+
+                | ``fuzzy``       | Use fuzzy matching                         |  |
+                +-----------------+--------------------------------------------+--+
+:Triggers: repository post-update
+
 Updates all PO files (as configured by :ref:`component-filemask`) to match the
 POT file (as configured by :ref:`component-new_base`) using :program:`msgmerge`.
 
 Triggered whenever new changes are pulled from the upstream repository.
-Most msgmerge command-line options can be set up through the addon
+Most msgmerge command-line options can be set up through the add-on
 configuration.
 
 .. seealso::
@@ -356,6 +553,24 @@ configuration.
 
 Squash Git commits
 ------------------
+
+:Add-on ID: ``weblate.git.squash``
+:Configuration: +---------------------+--------------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+                | ``squash``          | Commit squashing                           | Available choices:                                                                                                                                                |
+                |                     |                                            |                                                                                                                                                                   |
+                |                     |                                            | ``all`` -- All commits into one                                                                                                                                   |
+                |                     |                                            |                                                                                                                                                                   |
+                |                     |                                            | ``language`` -- Per language                                                                                                                                      |
+                |                     |                                            |                                                                                                                                                                   |
+                |                     |                                            | ``file`` -- Per file                                                                                                                                              |
+                |                     |                                            |                                                                                                                                                                   |
+                |                     |                                            | ``author`` -- Per author                                                                                                                                          |
+                +---------------------+--------------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+                | ``append_trailers`` | Append trailers to squashed commit message | Trailer lines are lines that look similar to RFC 822 e-mail headers, at the end of the otherwise free-form part of a commit message, such as 'Co-authored-by: …'. |
+                +---------------------+--------------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+                | ``commit_message``  | Commit message                             | This commit message will be used instead of the combined commit messages from the squashed commits.                                                               |
+                +---------------------+--------------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+:Triggers: repository post-commit
 
 Squash Git commits prior to pushing changes.
 
@@ -389,12 +604,30 @@ translator.
 Customize JSON output
 ---------------------
 
+:Add-on ID: ``weblate.json.customize``
+:Configuration: +---------------+------------------------+----------------------+
+                | ``sort_keys`` | Sort JSON keys         |                      |
+                +---------------+------------------------+----------------------+
+                | ``indent``    | JSON indentation       |                      |
+                +---------------+------------------------+----------------------+
+                | ``style``     | JSON indentation style | Available choices:   |
+                |               |                        |                      |
+                |               |                        | ``spaces`` -- Spaces |
+                |               |                        |                      |
+                |               |                        | ``tabs`` -- Tabs     |
+                +---------------+------------------------+----------------------+
+:Triggers: storage post-load
+
 Allows adjusting JSON output behavior, for example indentation or sorting.
 
 .. _addon-weblate.properties.sort:
 
 Formats the Java properties file
 --------------------------------
+
+:Add-on ID: ``weblate.properties.sort``
+:Configuration: `This add-on has no configuration.`
+:Triggers: repository pre-commit
 
 Sorts the Java properties file.
 
@@ -404,6 +637,12 @@ Stale comment removal
 ---------------------
 
 .. versionadded:: 3.7
+
+:Add-on ID: ``weblate.removal.comments``
+:Configuration: +---------+--------------+--+
+                | ``age`` | Days to keep |  |
+                +---------+--------------+--+
+:Triggers: daily
 
 Set a timeframe for removal of comments.
 
@@ -418,6 +657,14 @@ Stale suggestion removal
 
 .. versionadded:: 3.7
 
+:Add-on ID: ``weblate.removal.suggestions``
+:Configuration: +-----------+------------------+-------------------------------------------------------------------------+
+                | ``age``   | Days to keep     |                                                                         |
+                +-----------+------------------+-------------------------------------------------------------------------+
+                | ``votes`` | Voting threshold | Threshold for removal. This field has no effect with voting turned off. |
+                +-----------+------------------+-------------------------------------------------------------------------+
+:Triggers: daily
+
 Set a timeframe for removal of suggestions.
 
 Can be very useful in connection with suggestion voting
@@ -430,6 +677,10 @@ Update RESX files
 -----------------
 
 .. versionadded:: 3.9
+
+:Add-on ID: ``weblate.resx.update``
+:Configuration: `This add-on has no configuration.`
+:Triggers: repository post-update
 
 Update all translation files to match the monolingual upstream base file.
 Unused strings are removed, and new ones added as copies of the source string.
@@ -450,22 +701,48 @@ Customize YAML output
 
 .. versionadded:: 3.10.2
 
+:Add-on ID: ``weblate.yaml.customize``
+:Configuration: +----------------+---------------------+------------------------------------+
+                | ``indent``     | YAML indentation    |                                    |
+                +----------------+---------------------+------------------------------------+
+                | ``width``      | Long lines wrapping | Available choices:                 |
+                |                |                     |                                    |
+                |                |                     | ``80`` -- Wrap lines at 80 chars   |
+                |                |                     |                                    |
+                |                |                     | ``100`` -- Wrap lines at 100 chars |
+                |                |                     |                                    |
+                |                |                     | ``120`` -- Wrap lines at 120 chars |
+                |                |                     |                                    |
+                |                |                     | ``180`` -- Wrap lines at 180 chars |
+                |                |                     |                                    |
+                |                |                     | ``65535`` -- No line wrapping      |
+                +----------------+---------------------+------------------------------------+
+                | ``line_break`` | Line breaks         | Available choices:                 |
+                |                |                     |                                    |
+                |                |                     | ``dos`` -- DOS (\\r\\n)            |
+                |                |                     |                                    |
+                |                |                     | ``unix`` -- UNIX (\\n)             |
+                |                |                     |                                    |
+                |                |                     | ``mac`` -- MAC (\\r)               |
+                +----------------+---------------------+------------------------------------+
+:Triggers: storage post-load
+
 Allows adjusting YAML output behavior, for example line-length or newlines.
 
 
-Customizing list of addons
-++++++++++++++++++++++++++
+Customizing list of add-ons
++++++++++++++++++++++++++++
 
-The list of addons is configured by :setting:`WEBLATE_ADDONS`.
-To add another addon, simply include the absolute class name in this setting.
+The list of add-ons is configured by :setting:`WEBLATE_ADDONS`.
+To add another add-on, simply include the absolute class name in this setting.
 
 
 .. _own-addon:
 
-Writing addon
-+++++++++++++
+Writing add-on
+++++++++++++++
 
-You can write your own addons too, create a subclass of
+You can write your own add-ons too, create a subclass of
 :class:`weblate.addons.base.BaseAddon` to define the addon metadata, and
 then implement a callback to do the processing.
 
@@ -475,12 +752,12 @@ then implement a callback to do the processing.
 
 .. _addon-script:
 
-Executing scripts from addon
-++++++++++++++++++++++++++++
+Executing scripts from add-on
++++++++++++++++++++++++++++++
 
-Addons can also be used to execute external scripts. This used to be
+Add-ons can also be used to execute external scripts. This used to be
 integrated in Weblate, but now you have to write some code to wrap your
-script with an addon.
+script with an add-on.
 
 .. literalinclude:: ../../weblate/addons/example_pre.py
     :language: python

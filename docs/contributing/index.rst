@@ -55,6 +55,17 @@ Please respect these guidelines while writing:
     You can `translate the docs <https://hosted.weblate.org/projects/weblate/documentation/>`_.
 
 
+.. _extending-lanugages:
+
+Extending built-in language definitions
+---------------------------------------
+
+The language definitions are in the `weblate-language-data repository
+<https://github.com/WeblateOrg/language-data/>`_.
+
+You are welcome to add missing language definitions to :file:`languages.csv`,
+other files are generated from that file.
+
 .. _discussions:
 
 Weblate discussions

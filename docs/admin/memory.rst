@@ -88,7 +88,7 @@ memories. It can be used to download, wipe or import translation memory.
 
     :ref:`schema-memory`
 
-.. image:: /images/memory.png
+.. image:: /screenshots/memory.png
 
 Management interface
 ++++++++++++++++++++

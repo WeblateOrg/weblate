@@ -69,7 +69,6 @@ FONTCONFIG_CONFIG = """<?xml version="1.0"?>
             <const>bold</const>
         </edit>
     </match>
-
 </fontconfig>
 """
 
@@ -126,16 +125,14 @@ def render_size(font, weight, size, spacing, text, width=1000, lines=1, cache_ke
 
     # Load and configure font
     fontdesc = Pango.FontDescription.from_string(font)
-    fontdesc.set_size(size * Pango.SCALE)
+    fontdesc.set_absolute_size(size * Pango.SCALE)
     if weight:
         fontdesc.set_weight(weight)
     layout.set_font_description(fontdesc)
 
     # This seems to be only way to set letter spacing
     # See https://stackoverflow.com/q/55533312/225718
-    layout.set_markup(
-        '<span letter_spacing="{}">{}</span>'.format(spacing, escape(text))
-    )
+    layout.set_markup(f'<span letter_spacing="{spacing}">{escape(text)}</span>')
 
     # Set width and line wrapping
     layout.set_width(width * Pango.SCALE)

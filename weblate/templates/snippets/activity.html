@@ -1,0 +1,43 @@
+{% load i18n %}
+{% load humanize %}
+
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <span class="pull-right flip">
+          <svg height="8" width="8">
+            <rect x="0" y="0" width="8" height="8" fill="#2ECCAA"></rect>
+          </svg>
+          {% trans "Last year" %}
+          <svg height="8" width="8">
+            <rect x="0" y="0" width="8" height="8" fill="#BFC3C7"></rect>
+          </svg>
+          {% blocktrans context "Previous year" %}Previous{% endblocktrans %}
+        </span>
+        <h4 class="panel-title">{% trans "Activity in last 12 months" %}</h4>
+      </div>
+      <table class="table table-activity">
+        <tr>
+          {% for activity in metrics.monthly_activity %}
+            <td>
+              <a href="{% url 'changes' %}?{{ last_changes_url }}&amp;start_date={{activity.previous_start_date.isoformat}}&amp;end_date={{activity.previous_end_date.isoformat}}"><svg height="140" width="8">
+                <rect x="0" y="{{ activity.previous_offset }}" width="8" height="{{ activity.previous_height }}" fill="#E9EAEC">
+                  <title>{% blocktrans count _count=activity.previous with count=activity.previous|intcomma %}{{ count }} change{% plural %}{{ count }} changes{% endblocktrans %}</title>
+                </rect>
+              </svg></a>
+              <a href="{% url 'changes' %}?{{ last_changes_url }}&amp;start_date={{activity.start_date.isoformat}}&amp;end_date={{activity.end_date.isoformat }}"><svg height="140" width="8">
+                <rect x="0" y="{{ activity.current_offset }}" width="8" height="{{ activity.current_height }}" fill="#2ECCAA">
+                  <title>{% blocktrans count _count=activity.current with count=activity.current|intcomma %}{{ count }} change{% plural %}{{ count }} changes{% endblocktrans %}</title>
+                </rect>
+              </svg></a>
+            </td>
+          {% endfor %}
+        </tr>
+        <tr class="activity-names">
+          {% for activity in metrics.monthly_activity %}
+            <td>
+              {{ activity.month_name }}
+            </td>
+          {% endfor %}
+        </tr>
+      </table>
+    </div>

@@ -68,6 +68,10 @@ class Screenshot(models.Model, UserDisplayMixin):
 
     objects = ScreenshotQuerySet.as_manager()
 
+    class Meta:
+        verbose_name = "Screenshot"
+        verbose_name_plural = "Screenshots"
+
     def __str__(self):
         return self.name
 

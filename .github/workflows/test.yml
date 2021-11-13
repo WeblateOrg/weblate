@@ -11,8 +11,14 @@ jobs:
   test:
     runs-on: ubuntu-20.04
     strategy:
+      fail-fast: false
       matrix:
-        python-version: [3.6, 3.7, 3.8, 3.9]
+        python-version:
+          - "3.6"
+          - "3.7"
+          - "3.8"
+          - "3.9"
+          - "3.10"
         requirements: [latest]
         database: [postgresql]
         include:
@@ -58,14 +64,14 @@ jobs:
       - name: Start services
         run: ./ci/services-up ${{ matrix.database }}
       - name: Cache pip
-        uses: actions/cache@v2.1.4
+        uses: actions/cache@v2.1.6
         with:
           path: ~/.cache/pip
           key: ${{ runner.os }}-pip-${{ matrix.python-version }}-${{ hashFiles('**/requirements*.txt') }}
       - name: Install apt dependencies
         run: sudo ./ci/apt-install $CI_DATABASE
       - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v2.2.1
+        uses: actions/setup-python@v2.2.2
         with:
           python-version: ${{ matrix.python-version }}
       - name: Used versions
@@ -92,7 +98,7 @@ jobs:
         run: |
           coverage combine
           coverage xml
-      - uses: codecov/codecov-action@v1
+      - uses: codecov/codecov-action@v2.1.0
         with:
           token: ${{secrets.CODECOV_TOKEN}}
           flags: unittests
@@ -104,7 +110,7 @@ jobs:
         run: |
           curl https://deepsource.io/cli | sh
           ./bin/deepsource report --analyzer test-coverage --key python --value-file ./coverage.xml
-      - uses: actions/upload-artifact@v2.2.2
+      - uses: actions/upload-artifact@v2.2.4
         if: always()
         with:
           name: Screenshots

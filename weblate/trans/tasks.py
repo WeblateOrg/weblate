@@ -30,7 +30,6 @@ from django.db.models import Count, F
 from django.utils import timezone
 from django.utils.translation import gettext as _
 from django.utils.translation import ngettext, override
-from filelock import Timeout
 
 from weblate.addons.models import Addon
 from weblate.auth.models import User, get_anonymous
@@ -49,12 +48,16 @@ from weblate.utils.celery import app
 from weblate.utils.data import data_dir
 from weblate.utils.errors import report_error
 from weblate.utils.files import remove_tree
+from weblate.utils.lock import WeblateLockTimeout
 from weblate.utils.stats import prefetch_stats
 from weblate.vcs.base import RepositoryException
 
 
 @app.task(
-    trail=False, autoretry_for=(Timeout,), retry_backoff=600, retry_backoff_max=3600
+    trail=False,
+    autoretry_for=(WeblateLockTimeout,),
+    retry_backoff=600,
+    retry_backoff_max=3600,
 )
 def perform_update(cls, pk, auto=False, obj=None):
     try:
@@ -73,7 +76,10 @@ def perform_update(cls, pk, auto=False, obj=None):
 
 
 @app.task(
-    trail=False, autoretry_for=(Timeout,), retry_backoff=600, retry_backoff_max=3600
+    trail=False,
+    autoretry_for=(WeblateLockTimeout,),
+    retry_backoff=600,
+    retry_backoff_max=3600,
 )
 def perform_load(
     pk: int,
@@ -89,7 +95,10 @@ def perform_load(
 
 
 @app.task(
-    trail=False, autoretry_for=(Timeout,), retry_backoff=600, retry_backoff_max=3600
+    trail=False,
+    autoretry_for=(WeblateLockTimeout,),
+    retry_backoff=600,
+    retry_backoff_max=3600,
 )
 def perform_commit(pk, *args):
     component = Component.objects.get(pk=pk)
@@ -97,7 +106,10 @@ def perform_commit(pk, *args):
 
 
 @app.task(
-    trail=False, autoretry_for=(Timeout,), retry_backoff=600, retry_backoff_max=3600
+    trail=False,
+    autoretry_for=(WeblateLockTimeout,),
+    retry_backoff=600,
+    retry_backoff_max=3600,
 )
 def perform_push(pk, *args, **kwargs):
     component = Component.objects.get(pk=pk)
@@ -108,10 +120,20 @@ def perform_push(pk, *args, **kwargs):
 def update_component_stats(pk):
     component = Component.objects.get(pk=pk)
     component.stats.ensure_basic()
+    project_stats = component.project.stats
+    # Update language stats
+    for language in Language.objects.filter(
+        translation__component=component
+    ).iterator():
+        stats = project_stats.get_single_language_stats(language, prefetch=True)
+        stats.ensure_basic()
 
 
 @app.task(
-    trail=False, autoretry_for=(Timeout,), retry_backoff=600, retry_backoff_max=3600
+    trail=False,
+    autoretry_for=(WeblateLockTimeout,),
+    retry_backoff=600,
+    retry_backoff_max=3600,
 )
 def commit_pending(hours=None, pks=None, logger=None):
     if pks is None:
@@ -279,11 +301,22 @@ def component_alerts(component_ids=None):
 
 @app.task(trail=False, autoretry_for=(Component.DoesNotExist,), retry_backoff=60)
 def component_after_save(
-    pk, changed_git, changed_setup, changed_template, changed_variant, skip_push, create
+    pk: int,
+    changed_git: bool,
+    changed_setup: bool,
+    changed_template: bool,
+    changed_variant: bool,
+    skip_push: bool,
+    create: bool,
 ):
     component = Component.objects.get(pk=pk)
     component.after_save(
-        changed_git, changed_setup, changed_template, changed_variant, skip_push, create
+        changed_git=changed_git,
+        changed_setup=changed_setup,
+        changed_template=changed_template,
+        changed_variant=changed_variant,
+        skip_push=skip_push,
+        create=create,
     )
     return {"component": pk}
 
@@ -325,30 +358,40 @@ def project_removal(pk, uid):
         return
 
 
-@app.task(trail=False)
+@app.task(
+    trail=False,
+    autoretry_for=(WeblateLockTimeout,),
+    retry_backoff=600,
+    retry_backoff_max=3600,
+)
 def auto_translate(
-    user_id,
-    translation_id,
-    mode,
-    filter_type,
-    auto_source,
-    component,
-    engines,
-    threshold,
+    user_id: int,
+    translation_id: int,
+    mode: str,
+    filter_type: str,
+    auto_source: str,
+    component: Optional[int],
+    engines: List[str],
+    threshold: int,
+    translation: Optional[Translation] = None,
+    component_wide: bool = False,
 ):
+    if translation is None:
+        translation = Translation.objects.get(pk=translation_id)
     if user_id:
         user = User.objects.get(pk=user_id)
     else:
         user = None
-    with override(user.profile.language if user else "en"):
-        translation = Translation.objects.get(pk=translation_id)
-        translation.log_info(
-            "starting automatic translation %s: %s: %s",
-            current_task.request.id,
-            auto_source,
-            ", ".join(engines) if engines else component,
+    translation.log_info(
+        "starting automatic translation %s: %s: %s",
+        current_task.request.id,
+        auto_source,
+        ", ".join(engines) if engines else component,
+    )
+    with translation.component.lock, override(user.profile.language if user else "en"):
+        auto = AutoTranslate(
+            user, translation, filter_type, mode, component_wide=component_wide
         )
-        auto = AutoTranslate(user, translation, filter_type, mode)
         if auto_source == "mt":
             auto.process_mt(engines, threshold)
         else:
@@ -367,6 +410,44 @@ def auto_translate(
                 % auto.updated
             )
         return {"translation": translation_id, "message": message}
+
+
+@app.task(
+    trail=False,
+    autoretry_for=(WeblateLockTimeout,),
+    retry_backoff=600,
+    retry_backoff_max=3600,
+)
+def auto_translate_component(
+    component_id: int,
+    mode: str,
+    filter_type: str,
+    auto_source: str,
+    engines: List[str],
+    threshold: int,
+    component: Optional[int],
+):
+    component_obj = Component.objects.get(pk=component_id)
+
+    for translation in component_obj.translation_set.iterator():
+        if translation.is_source:
+            continue
+
+        auto_translate(
+            None,
+            translation.pk,
+            mode,
+            filter_type,
+            auto_source,
+            component,
+            engines,
+            threshold,
+            translation=translation,
+            component_wide=True,
+        )
+    component_obj.update_source_checks()
+    component_obj.run_batched_checks()
+    return {"component": component_obj.id}
 
 
 @app.task(trail=False)
@@ -392,18 +473,22 @@ def create_component(addons_from=None, in_task=False, **kwargs):
 
 
 @app.task(trail=False)
-def update_checks(pk):
+def update_checks(pk: int, update_state: bool = False):
     component = Component.objects.get(pk=pk)
     component.batch_checks = True
     for translation in component.translation_set.exclude(
         pk=component.source_translation.pk
     ).prefetch():
         for unit in translation.unit_set.prefetch():
+            if update_state:
+                unit.update_state()
             unit.run_checks()
     for unit in component.source_translation.unit_set.prefetch():
+        if update_state:
+            unit.update_state()
         unit.run_checks()
-    component.invalidate_cache()
     component.run_batched_checks()
+    component.invalidate_cache()
 
 
 @app.task(trail=False)

@@ -21,8 +21,15 @@ from django.conf import settings
 from django.db import models, transaction
 from django.db.models import Count, Q
 from django.utils import timezone
+from django.utils.html import escape
+from django.utils.safestring import mark_safe
 from django.utils.translation import gettext as _
-from django.utils.translation import gettext_lazy, ngettext_lazy, pgettext
+from django.utils.translation import (
+    gettext_lazy,
+    ngettext_lazy,
+    pgettext,
+    pgettext_lazy,
+)
 from jellyfish import damerau_levenshtein_distance
 
 from weblate.lang.models import Language
@@ -100,7 +107,11 @@ class ChangeQuerySet(models.QuerySet):
         return self.count_stats(days, step, dtstart, base)
 
     def prefetch(self):
-        """Fetch related fields in a big chungs to avoid loading them individually."""
+        """
+        Fetch related fields in a big chungs to avoid loading them individually.
+
+        Call prefetch or prefetch_list later on paginated results to complete.
+        """
         return self.prefetch_related(
             "user",
             "translation",
@@ -108,15 +119,24 @@ class ChangeQuerySet(models.QuerySet):
             "project",
             "unit",
             "translation__language",
-            "translation__component",
-            "translation__component__project",
-            "unit__translation",
-            "unit__translation__language",
-            "unit__translation__plural",
-            "unit__translation__component",
-            "unit__translation__component__project",
-            "component__project",
+            "translation__plural",
         )
+
+    @staticmethod
+    def preload_list(results, *args):
+        """Companion for prefetch to fill in nested references."""
+        for item in results:
+            if item.component and "component" not in args:
+                item.component.project = item.project
+            if item.translation and "translation" not in args:
+                item.translation.component = item.component
+            if item.unit and "unit" not in args:
+                item.unit.translation = item.translation
+        return results
+
+    def preload(self, *args):
+        """Companion for prefetch to fill in nested references."""
+        return self.preload_list(self, *args)
 
     def last_changes(self, user):
         """Return last changes for an user.
@@ -304,8 +324,12 @@ class Change(models.Model, UserDisplayMixin):
         (ACTION_RENAME_COMPONENT, gettext_lazy("Renamed component")),
         # Translators: Name of event in the history
         (ACTION_MOVE_COMPONENT, gettext_lazy("Moved component")),
-        # Not translated, used plural instead
-        (ACTION_NEW_STRING, "New string to translate"),
+        # Using pgettext to differentiate from the plural
+        # Translators: Name of event in the history
+        (
+            ACTION_NEW_STRING,
+            pgettext_lazy("Name of event in the history", "New string to translate"),
+        ),
         # Translators: Name of event in the history
         (ACTION_NEW_CONTRIBUTOR, gettext_lazy("New contributor")),
         # Translators: Name of event in the history
@@ -406,9 +430,13 @@ class Change(models.Model, UserDisplayMixin):
     }
     AUTO_ACTIONS = {
         # Translators: Name of event in the history
-        ACTION_LOCK: gettext_lazy("Component automatically locked"),
+        ACTION_LOCK: gettext_lazy(
+            "The component was automatically locked because of an alert."
+        ),
         # Translators: Name of event in the history
-        ACTION_UNLOCK: gettext_lazy("Component automatically unlocked"),
+        ACTION_UNLOCK: gettext_lazy(
+            "Component was automatically unlocked as alert was fixed."
+        ),
     }
 
     unit = models.ForeignKey("Unit", null=True, on_delete=models.deletion.CASCADE)
@@ -516,8 +544,6 @@ class Change(models.Model, UserDisplayMixin):
     def get_action_display(self):
         if self.action in self.PLURAL_ACTIONS:
             return self.PLURAL_ACTIONS[self.action] % self.plural_count
-        if self.action in self.AUTO_ACTIONS and self.auto_status:
-            return str(self.AUTO_ACTIONS[self.action])
         return str(self.ACTIONS_DICT.get(self.action, self.action))
 
     def is_merge_failure(self):
@@ -544,8 +570,31 @@ class Change(models.Model, UserDisplayMixin):
     def get_details_display(self):  # noqa: C901
         from weblate.utils.markdown import render_markdown
 
+        details = self.details
+
         if self.action in (self.ACTION_ANNOUNCEMENT, self.ACTION_AGREEMENT_CHANGE):
             return render_markdown(self.target)
+
+        if self.action in self.AUTO_ACTIONS and self.auto_status:
+            return str(self.AUTO_ACTIONS[self.action])
+
+        if self.action == self.ACTION_UPDATE:
+            reason = details.get("reason", "content changed")
+            filename = "<code>{}</code>".format(
+                escape(
+                    details.get(
+                        "filename",
+                        self.translation.filename if self.translation else "",
+                    )
+                )
+            )
+            if reason == "content changed":
+                return mark_safe(_("File %s was changed.") % filename)
+            if reason == "check forced":
+                return mark_safe(_("Parsing of file %s was enforced") % filename)
+            if reason == "new file":
+                return mark_safe(_("File %s was added.") % filename)
+            raise ValueError(f"Unknown reason: {reason}")
 
         if self.action == self.ACTION_LICENSE_CHANGE:
             not_available = pgettext("License information not available", "N/A")
@@ -559,7 +608,7 @@ class Change(models.Model, UserDisplayMixin):
             }
 
         # Following rendering relies on details present
-        if not self.details:
+        if not details:
             return ""
         user_actions = {
             self.ACTION_ADD_USER,
@@ -568,32 +617,32 @@ class Change(models.Model, UserDisplayMixin):
         }
         if self.action == self.ACTION_ACCESS_EDIT:
             for number, name in Project.ACCESS_CHOICES:
-                if number == self.details["access_control"]:
+                if number == details["access_control"]:
                     return name
-            return "Unknonwn {}".format(self.details["access_control"])
+            return "Unknonwn {}".format(details["access_control"])
         if self.action in user_actions:
-            if "group" in self.details:
-                return "{username} ({group})".format(**self.details)
-            return self.details["username"]
+            if "group" in details:
+                return "{username} ({group})".format(**details)
+            return details["username"]
         if self.action in (
             self.ACTION_ADDED_LANGUAGE,
             self.ACTION_REQUESTED_LANGUAGE,
         ):  # noqa: E501
             try:
-                return Language.objects.get(code=self.details["language"])
+                return Language.objects.get(code=details["language"])
             except Language.DoesNotExist:
-                return self.details["language"]
+                return details["language"]
         if self.action == self.ACTION_ALERT:
             try:
-                return ALERTS[self.details["alert"]].verbose
+                return ALERTS[details["alert"]].verbose
             except KeyError:
-                return self.details["alert"]
+                return details["alert"]
         if self.action == self.ACTION_PARSE_ERROR:
-            return "{filename}: {error_message}".format(**self.details)
+            return "{filename}: {error_message}".format(**details)
         if self.action == self.ACTION_HOOK:
-            return "{service_long_name}: {repo_url}, {branch}".format(**self.details)
-        if self.action == self.ACTION_COMMENT and "comment" in self.details:
-            return render_markdown(self.details["comment"])
+            return "{service_long_name}: {repo_url}, {branch}".format(**details)
+        if self.action == self.ACTION_COMMENT and "comment" in details:
+            return render_markdown(details["comment"])
 
         return ""
 

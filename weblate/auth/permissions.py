@@ -22,6 +22,7 @@ from django.conf import settings
 from weblate.machinery import MACHINE_TRANSLATION_SERVICES
 from weblate.trans.models import (
     Component,
+    ComponentList,
     ContributorAgreement,
     Project,
     Translation,
@@ -58,6 +59,11 @@ def check_permission(user, permission, obj):
         return any(
             permission in permissions
             for permissions, _langs in user.project_permissions[obj.pk]
+        )
+    if isinstance(obj, ComponentList):
+        return all(
+            check_permission(user, permission, component)
+            for component in obj.components.iterator()
         )
     if isinstance(obj, Component):
         return (
@@ -371,9 +377,10 @@ def check_billing_view(user, permission, obj):
 
 @register_perm("billing:project.permissions")
 def check_billing(user, permission, obj):
-    if "weblate.billing" in settings.INSTALLED_APPS:
-        if not any(billing.plan.change_access_control for billing in obj.billings):
-            return False
+    if "weblate.billing" in settings.INSTALLED_APPS and not any(
+        billing.plan.change_access_control for billing in obj.billings
+    ):
+        return False
 
     return check_permission(user, "project.permissions", obj)
 
@@ -390,7 +397,9 @@ def check_announcement_delete(user, permission, obj):
 
 # This does not exist for real
 @register_perm("unit.flag")
-def check_unit_flag(user, permission, obj: Translation):
+def check_unit_flag(user, permission, obj):
+    if isinstance(obj, Unit):
+        obj = obj.translation
     if not obj.component.is_glossary or obj.is_source:
         return user.has_perm("source.edit", obj)
 

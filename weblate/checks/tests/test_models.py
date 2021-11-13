@@ -30,7 +30,7 @@ from weblate.trans.tests.test_views import FixtureTestCase, ViewTestCase
 
 class CheckModelTestCase(FixtureTestCase):
     def create_check(self, name):
-        return Check.objects.create(unit=self.get_unit(), check=name)
+        return Check.objects.create(unit=self.get_unit(), name=name)
 
     def test_check(self):
         check = self.create_check("same")
@@ -51,7 +51,7 @@ class CheckModelTestCase(FixtureTestCase):
         unit.source_unit.save()
         check = self.create_check("max-size")
         url = reverse(
-            "render-check", kwargs={"check_id": check.check, "unit_id": unit.id}
+            "render-check", kwargs={"check_id": check.name, "unit_id": unit.id}
         )
         self.assertEqual(
             str(check.get_description()),
@@ -84,15 +84,17 @@ class BatchUpdateTest(ViewTestCase):
 
     def test_autotranslate(self):
         other = self.do_base()
+        translation = other.translation_set.get(language_code="cs")
         auto_translate(
             None,
-            other.translation_set.get(language_code="cs").pk,
+            translation.pk,
             "translate",
             "todo",
             "others",
             self.component.pk,
             [],
             99,
+            translation=translation,
         )
         unit = self.get_unit()
         self.assertEqual(unit.all_checks_names, set())

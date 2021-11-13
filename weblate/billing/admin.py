@@ -72,12 +72,12 @@ class BillingAdmin(WeblateModelAdmin):
     def list_projects(self, obj):
         if not obj.all_projects:
             return "none projects associated"
-        return ",".join([project.name for project in obj.all_projects])
+        return ",".join(project.name for project in obj.all_projects)
 
     list_projects.short_description = _("Projects")
 
     def list_owners(self, obj):
-        return ",".join([owner.full_name for owner in obj.owners.all()])
+        return ",".join(owner.full_name for owner in obj.owners.all())
 
     list_owners.short_description = _("Owners")
 

@@ -14,8 +14,12 @@ on:
 jobs:
   stale-issues:
     runs-on: ubuntu-20.04
+    permissions:
+      issues: write
+      pull-requests: write
+
     steps:
-      - uses: actions/stale@v3.0.18
+      - uses: actions/stale@v4
         with:
           days-before-pr-stale: 30
           days-before-pr-close: 14

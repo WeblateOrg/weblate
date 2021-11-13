@@ -87,7 +87,10 @@
 <form action="{% url 'create-component-zip' %}" method="post" enctype="multipart/form-data">
 {% csrf_token %}
 <input type="hidden" name="project" value="{{ selected_project }}" />
-<p>{% trans "Create a new translation component from an uploaded ZIP file containing strings for translation." %}</p>
+<p>
+  {% trans "Create a new translation component from an uploaded ZIP file containing strings for translation." %}
+  {% trans "The filenames within the archive need to have locale codes in them." %}
+</p>
 {% crispy zip_form %}
 <input type="submit" value="{% trans "Continue" %}" class="btn btn-primary" id="create-vcs">
 </form>

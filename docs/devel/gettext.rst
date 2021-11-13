@@ -1,7 +1,7 @@
-Translating software using GNU Gettext
+Translating software using GNU gettext
 --------------------------------------
 
-`GNU Gettext`_ is one of the most widely used tool for internationalization of
+`GNU gettext`_ is one of the most widely used tool for internationalization of
 free software. It provides a simple yet flexible way to localize the software.
 It has great support for plurals, it can add further context to the translated
 string and there are quite a lot of tools built around it. Of course it has
@@ -12,7 +12,7 @@ great support in Weblate (see :ref:`gettext` file format description).
     If you are about to use it in proprietary software, please consult
     licensing first, it might not be suitable for you.
 
-GNU Gettext can be used from a variety of languages (C, Python, PHP, Ruby,
+GNU gettext can be used from a variety of languages (C, Python, PHP, Ruby,
 JavaScript and many more) and usually the UI frameworks already come with some
 support for it. The standard usage is through the `gettext()` function call,
 which is often aliased to `_()` to make the code simpler and easier to read.
@@ -22,19 +22,19 @@ translators and `ngettext()` which can handle plural types as defined for
 target language.
 
 As a widely spread tool, it has many wrappers which make its usage really
-simple, instead of manual invoking of Gettext described below, you might want
+simple, instead of manual invoking of gettext described below, you might want
 to try one of them, for example `intltool`_.
 
 Workflow overview
 +++++++++++++++++
 
-The GNU Gettext uses several files to manage the localization:
+The GNU gettext uses several files to manage the localization:
 
 * :file:`PACKAGE.pot` contains strings extracted from your source code, typically using `xgettext`_ or some high level wrappers such as `intltool`_.
 * :file:`LANGUAGE.po` contains strings with a translation to single language. It has to be updated by `msgmerge`_ once the :file:`PACKAGE.pot` is updated. You can create new language files using `msginit`_ or within Weblate.
 * :file:`LANGUAGE.mo` contains binary representation of :file:`LANGUAGE.po` and is used at application runtime. Typically it is not kept under version control, but generated at compilation time using `msgfmt`_. In case you want to have it in the version control, you can generate it in Weblate using :ref:`addon-weblate.gettext.mo` addon.
 
-Overall the GNU Gettext workflow looks like this:
+Overall the GNU gettext workflow looks like this:
 
 .. graphviz::
 
@@ -53,12 +53,12 @@ Overall the GNU Gettext workflow looks like this:
 
 .. seealso::
 
-   `Overview of GNU Gettext <https://www.gnu.org/software/gettext/manual/html_node/Overview.html>`_
+   `Overview of GNU gettext <https://www.gnu.org/software/gettext/manual/html_node/Overview.html>`_
 
 Sample program
 ++++++++++++++
 
-The simple program in C using Gettext might look like following:
+The simple program in C using gettext might look like following:
 
 .. code-block:: c
 
@@ -192,7 +192,7 @@ can see number of plurals have changed according to that:
 
 This file is compiled into an optimized binary form, the `.mo
 <https://www.gnu.org/software/gettext/manual/gettext.html#MO-Files>`_
-file used by the `GNU Gettext`_ functions at runtime.
+file used by the `GNU gettext`_ functions at runtime.
 
 Updating strings
 ++++++++++++++++
@@ -227,7 +227,7 @@ File mask                       ``po/*.po``
 
 Template for new translations   ``po/hello.pot``
 
-File format                     Choose :guilabel:`Gettext PO file`
+File format                     Choose :guilabel:`gettext PO file`
 
 New language                    Choose :guilabel:`Create new language file`
 =============================== ==================================================
@@ -236,10 +236,10 @@ And that's it, you're now ready to start translating your software!
 
 .. seealso::
 
-    You can find a Gettext example with many languages in the Weblate Hello project on
+    You can find a gettext example with many languages in the Weblate Hello project on
     GitHub: <https://github.com/WeblateOrg/hello>.
 
-.. _GNU Gettext: https://www.gnu.org/software/gettext/
+.. _GNU gettext: https://www.gnu.org/software/gettext/
 .. _xgettext: https://www.gnu.org/software/gettext/manual/html_node/xgettext-Invocation.html
 .. _msgmerge: https://www.gnu.org/software/gettext/manual/html_node/msgmerge-Invocation.html
 .. _msgfmt: https://www.gnu.org/software/gettext/manual/html_node/msgfmt-Invocation.html

@@ -27,7 +27,8 @@ from weblate.utils.markdown import get_mention_users, render_markdown
 class MarkdownTestCase(TestCase):
     def test_link(self):
         self.assertEqual(
-            '<p><a rel="ugc" href="https://weblate.org/">link</a></p>\n',
+            '<p><a rel="ugc" target="_blank" '
+            'href="https://weblate.org/">link</a></p>\n',
             render_markdown("[link](https://weblate.org/)"),
         )
 
@@ -46,7 +47,7 @@ class MarkdownMentionTestCase(TestCase):
     def test_mention(self):
         User.objects.create(username="testuser", full_name="Full Name")
         self.assertEqual(
-            '<p><strong><a rel="ugc" href="/user/testuser/" '
+            '<p><strong><a rel="ugc" target="_blank" href="/user/testuser/" '
             'title="Full Name">@testuser</a></strong> really?</p>\n',
             render_markdown("@testuser really?"),
         )

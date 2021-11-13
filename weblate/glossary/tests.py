@@ -315,6 +315,15 @@ class GlossaryTest(ViewTestCase):
             {"Nordrhein-Westfalen"},
         )
 
+    def test_get_single(self):
+        unit = self.get_unit("Thank you for using Weblate.")
+        unit.source = "thank"
+        self.add_term("thank", "díky")
+        self.assertEqual(
+            set(get_glossary_terms(unit).values_list("source", flat=True)),
+            {"thank"},
+        )
+
     def test_add(self):
         """Test for adding term from translate page."""
         unit = self.get_unit("Thank you for using Weblate.")

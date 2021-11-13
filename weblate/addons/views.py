@@ -81,7 +81,7 @@ class AddonList(AddonViewMixin, ListView):
             or not addon.can_install(component, request.user)
             or (name in installed and not addon.multiple)
         ):
-            return self.redirect_list(_("Invalid addon name specified!"))
+            return self.redirect_list(_("Invalid add-on name specified!"))
 
         form = None
         if addon.settings_form is None:
@@ -94,7 +94,7 @@ class AddonList(AddonViewMixin, ListView):
                 if addon.stay_on_create:
                     messages.info(
                         self.request,
-                        _("Addon installed, please review integration instructions."),
+                        _("Add-on installed, please review integration instructions."),
                     )
                     return redirect(instance)
                 return self.redirect_list()

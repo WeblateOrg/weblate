@@ -40,7 +40,7 @@ def check_git_backend(app_configs, **kwargs):
         return [
             weblate_check(
                 "weblate.E022",
-                "Failed to find git-http-backend, " "the git exporter will not work.",
+                "Failed to find git-http-backend, the git exporter will not work.",
             )
         ]
     return []

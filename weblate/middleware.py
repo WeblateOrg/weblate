@@ -86,18 +86,24 @@ class RedirectMiddleware:
     def __call__(self, request):
         response = self.get_response(request)
         # This is based on APPEND_SLASH handling in Django
-        if response.status_code == 404:
-            if self.should_redirect_with_slash(request):
-                new_path = request.get_full_path(force_append_slash=True)
-                # Prevent construction of scheme relative urls.
-                new_path = escape_leading_slashes(new_path)
-                return HttpResponsePermanentRedirect(new_path)
+        if response.status_code == 404 and self.should_redirect_with_slash(request):
+            new_path = request.get_full_path(force_append_slash=True)
+            # Prevent construction of scheme relative urls.
+            new_path = escape_leading_slashes(new_path)
+            return HttpResponsePermanentRedirect(new_path)
         return response
 
     def should_redirect_with_slash(self, request):
         path = request.path_info
-        # Avoid redirecting non GET requests, these would fail anyway
-        if path.endswith("/") or request.method != "GET":
+        # Avoid redirecting non GET requests, these would fail anyway due to
+        # missing parameters.
+        # Redirecting on API removes authentication headers in many cases,
+        # so avoid that as well.
+        if (
+            path.endswith("/")
+            or request.method != "GET"
+            or path.startswith(f"{settings.URL_PREFIX}/api")
+        ):
             return False
         urlconf = getattr(request, "urlconf", None)
         slash_path = f"{path}/"
@@ -109,6 +115,8 @@ class RedirectMiddleware:
     def fixup_project(self, slug, request):
         try:
             project = Project.objects.get(slug__iexact=slug)
+        except Project.MultipleObjectsReturned:
+            return None
         except Project.DoesNotExist:
             try:
                 project = (
@@ -151,8 +159,6 @@ class RedirectMiddleware:
             resolver_match = request.resolver_match
         except AttributeError:
             return None
-
-        resolver_match = request.resolver_match
 
         kwargs = dict(resolver_match.kwargs)
 
@@ -208,7 +214,9 @@ class SecurityMiddleware:
 
         # Support form
         if request.resolver_match and request.resolver_match.view_name == "manage":
-            script.add("'care.weblate.org'")
+            script.add("care.weblate.org")
+            connect.add("care.weblate.org")
+            style.add("care.weblate.org")
 
         # Rollbar client errors reporting
         if (
@@ -282,5 +290,8 @@ class SecurityMiddleware:
             response["Expect-CT"] = 'max-age=86400, enforce, report-uri="{}"'.format(
                 settings.SENTRY_SECURITY
             )
+
+        # Opt-out from Google FLoC
+        response["Permissions-Policy"] = "interest-cohort=()"
 
         return response

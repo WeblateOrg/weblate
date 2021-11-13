@@ -2,6 +2,7 @@
 {% load i18n %}
 {% load translations %}
 {% load crispy_forms_tags %}
+{% load metrics %}
 
 {% block breadcrumbs %}
 <li><a href="{{ project.get_absolute_url }}">{{ project }}</a></li>
@@ -22,7 +23,6 @@
     </a>
     <ul class="dropdown-menu">
     <li><a href="#history" data-toggle="tab">{% trans "History" %}</a></li>
-    <li><a href="#activity" data-toggle="tab">{% trans "Activity" %}</a></li>
     </ul>
   </li>
   <li class="dropdown">
@@ -55,23 +55,13 @@
 </div>
 
 <div class="tab-pane" id="information">
-{% with object=project %}
-<table class="table table-striped table-autowidth">
-{% include "project_info.html" %}
-{% include "snippets/license_info.html" %}
-{% include "snippets/stats.html" with stats=language_stats %}
-</table>
-{% endwith %}
+  {% include "snippets/info.html" with language=None project=project stats=language_stats metrics=object|metrics %}
 </div>
 
 <div class="tab-pane" id="history">
 {% include "last-changes-content.html" %}
 <a class="btn btn-primary" href="{% url 'changes' %}?{{ last_changes_url }}">{% trans "Browse all language changes" %}</a>
 </div>
-
-{% url 'yearly_activity' lang=language.code project=project.slug as yearly_activity %}
-{% url 'monthly_activity' lang=language.code project=project.slug as monthly_activity %}
-{% include "activity-tab.html" %}
 
 <div class="tab-pane" id="search">
 

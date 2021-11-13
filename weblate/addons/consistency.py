@@ -29,11 +29,10 @@ from weblate.lang.models import Language
 class LangaugeConsistencyAddon(BaseAddon):
     events = (EVENT_DAILY, EVENT_POST_ADD)
     name = "weblate.consistency.languages"
-    verbose = _("Language consistency")
+    verbose = _("Add missing languages")
     description = _(
-        "Ensures all components within a project have translations for every added "
-        "translated language by creating empty translations in languages that "
-        "have unadded components."
+        "Ensures a consistent set of languages is used for all components "
+        "within a project."
     )
     icon = "language.svg"
     project_scope = True

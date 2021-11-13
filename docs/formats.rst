@@ -66,6 +66,8 @@ Capabilities of all supported formats:
 +---------------------+------------------+---------------+----------------+---------------+----------------+----------------+-------------------------+
 | :ref:`javaprop`     | both             | no            | yes            | no            | no             | no             |                         |
 +---------------------+------------------+---------------+----------------+---------------+----------------+----------------+-------------------------+
+| :ref:`mi18n-lang`   | mono             | no            | yes            | no            | no             | no             |                         |
++---------------------+------------------+---------------+----------------+---------------+----------------+----------------+-------------------------+
 | :ref:`gwt`          | mono             | yes           | yes            | no            | no             | no             |                         |
 +---------------------+------------------+---------------+----------------+---------------+----------------+----------------+-------------------------+
 | :ref:`joomla`       | mono             | no            | yes            | no            | yes            | no             |                         |
@@ -122,6 +124,10 @@ Capabilities of all supported formats:
 +---------------------+------------------+---------------+----------------+---------------+----------------+----------------+-------------------------+
 | :ref:`txt`          | mono             | no            | no             | no            | no             | no             |                         |
 +---------------------+------------------+---------------+----------------+---------------+----------------+----------------+-------------------------+
+| :ref:`stringsdict`  | mono             | yes           | yes            | no            | no             | no             |                         |
++---------------------+------------------+---------------+----------------+---------------+----------------+----------------+-------------------------+
+| :ref:`fluent`       | mono             | no [#fp]_     | yes            | no            | no             | no             |                         |
++---------------------+------------------+---------------+----------------+---------------+----------------+----------------+-------------------------+
 
 .. [#m] See :ref:`bimono`
 .. [#p] Plurals are necessary to properly localize strings with variable count.
@@ -134,6 +140,19 @@ Capabilities of all supported formats:
 .. [#po] The gettext type comments are used as flags.
 .. [#xl] The flags are extracted from the non-standard attribute ``weblate-flags`` for all XML based formats. Additionally ``max-length:N`` is supported through the ``maxwidth`` `attribute <http://docs.oasis-open.org/xliff/v1.2/os/xliff-core.html#maxwidth>`_ as defined in the XLIFF standard, see :ref:`xliff-flags`.
 .. [#lp] The plurals are supported only for Laravel which uses in string syntax to define them, see `Localization in Laravel`_.
+.. [#fp] Plurals are handled in the syntax of the strings and not exposed as plurals in Weblate.
+
+.. _read-only-strings:
+
+Read-only strings
++++++++++++++++++
+
+.. versionadded:: 3.10
+
+Read-only strings from translation files will be included, but
+can not be edited in Weblate. This feature is natively supported by few formats
+(:ref:`xliff` and :ref:`aresource`), but can be emulated in others by adding a
+``read-only`` flag, see :ref:`custom-checks`.
 
 .. _gettext:
 
@@ -422,8 +441,47 @@ all others encode characters directly either in UTF-8 or UTF-16.
 
     `Java properties on Wikipedia <https://en.wikipedia.org/wiki/.properties>`_,
     :doc:`tt:formats/properties`,
+    :ref:`mi18n-lang`,
+    :ref:`gwt`,
+    :ref:`updating-target-files`,
     :ref:`addon-weblate.properties.sort`,
     :ref:`addon-weblate.cleanup.generic`
+
+
+.. _mi18n-lang:
+
+mi18n lang files
+----------------
+
+.. index::
+    pair: mi18n lang; file format
+
+.. versionadded:: 4.7
+
+File format used for JavaScript localization by `mi18n`_. Syntactically it matches :ref:`javaprop`.
+
++-------------------------------------------------------------------+
+| Typical Weblate :ref:`component`                                  |
++================================+==================================+
+| Filemask                       | ``*.lang``                       |
++--------------------------------+----------------------------------+
+| Monolingual base language file | ``en-US.lang``                   |
++--------------------------------+----------------------------------+
+| Template for new translations  | `Empty`                          |
++--------------------------------+----------------------------------+
+| File format                    | `mi18n lang file`                |
++--------------------------------+----------------------------------+
+
+.. seealso::
+
+    `mi18n`_
+    :doc:`tt:formats/properties`,
+    :ref:`javaprop`,
+    :ref:`updating-target-files`,
+    :ref:`addon-weblate.properties.sort`,
+    :ref:`addon-weblate.cleanup.generic`
+
+.. _mi18n: https://github.com/Draggable/mi18n
 
 .. _gwt:
 
@@ -454,6 +512,7 @@ GWT properties are usually used as monolingual translations.
     `GWT localization guide <http://www.gwtproject.org/doc/latest/DevGuideI18n.html>`_,
     `GWT Internationalization Tutorial <http://www.gwtproject.org/doc/latest/tutorial/i18n.html>`_,
     :doc:`tt:formats/properties`,
+    :ref:`updating-target-files`,
     :ref:`addon-weblate.properties.sort`,
     :ref:`addon-weblate.cleanup.generic`
 
@@ -566,7 +625,6 @@ Joomla translations are usually used as monolingual translations.
 
 .. seealso::
 
-    `Specification of Joomla language files <https://docs.joomla.org/Specification_of_language_files>`_,
     :doc:`tt:formats/properties`,
     :ref:`ini`,
     :ref:`islu`
@@ -701,6 +759,7 @@ Apple iOS strings are usually used as bilingual translations.
 
 .. seealso::
 
+    :ref:`stringsdict`,
     `Apple "strings files" documentation <https://developer.apple.com/library/archive/documentation/MacOSX/Conceptual/BPInternational/MaintaingYourOwnStringsFiles/MaintaingYourOwnStringsFiles.html>`_,
     :doc:`tt:formats/strings`
 
@@ -830,6 +889,7 @@ Nested files are supported as well (see above for requirements), such a file can
 .. seealso::
 
     :doc:`tt:formats/json`,
+    :ref:`updating-target-files`,
     :ref:`addon-weblate.json.customize`,
     :ref:`addon-weblate.cleanup.generic`,
 
@@ -879,6 +939,7 @@ Example file:
 
     :doc:`tt:formats/json`,
     `i18next JSON Format <https://www.i18next.com/misc/json-format>`_,
+    :ref:`updating-target-files`,
     :ref:`addon-weblate.json.customize`,
     :ref:`addon-weblate.cleanup.generic`
 
@@ -916,6 +977,7 @@ with (what is most often the) English strings.
 
     :doc:`tt:formats/json`,
     `go-i18n <https://github.com/nicksnyder/go-i18n>`_,
+    :ref:`updating-target-files`,
     :ref:`addon-weblate.json.customize`,
     :ref:`addon-weblate.cleanup.generic`,
 
@@ -949,6 +1011,7 @@ with (what is most often the) English strings.
     :doc:`tt:formats/json`,
     `Application Resource Bundle Specification <https://github.com/google/app-resource-bundle/wiki/ApplicationResourceBundleSpecification>`_,
     `Internationalizing Flutter apps <https://flutter.dev/docs/development/accessibility-and-localization/internationalization>`_,
+    :ref:`updating-target-files`,
     :ref:`addon-weblate.json.customize`,
     :ref:`addon-weblate.cleanup.generic`
 
@@ -1022,6 +1085,7 @@ syntax to .resx <https://lingohub.com/developers/resource-files/resw-resx-locali
 .. seealso::
 
     :doc:`tt:formats/resx`,
+    :ref:`updating-target-files`,
     :ref:`addon-weblate.cleanup.generic`
 
 .. _csv:
@@ -1426,29 +1490,86 @@ TBX is an XML format for the exchange of terminology data.
     :doc:`tt:formats/tbx`,
     :ref:`glossary`
 
+.. _stringsdict:
 
-Others
-------
+Stringsdict format
+------------------
+
+.. versionadded:: 4.8
+
+.. note::
+
+   Support for this format is currently in beta, feedback from testing is welcome.
+
+XML based format used by Apple which is able to store plural forms of a string.
+
++-----------------------------------------------------------------------------------+
+| Typical Weblate :ref:`component`                                                  |
++================================+==================================================+
+| Filemask                       |``Resources/*.lproj/Localizable.stringsdict``     |
++--------------------------------+--------------------------------------------------+
+| Monolingual base language file |``Resources/en.lproj/Localizable.stringsdict`` or |
+|                                |``Resources/Base.lproj/Localizable.stringsdict``  |
++--------------------------------+--------------------------------------------------+
+| Template for new translations  | `Empty`                                          |
++--------------------------------+--------------------------------------------------+
+| File format                    | `Stringsdict file`                               |
++--------------------------------+--------------------------------------------------+
+
+
+.. seealso::
+
+   :ref:`apple`,
+   `Stringsdict File Format <https://developer.apple.com/library/archive/documentation/MacOSX/Conceptual/BPInternational/StringsdictFileFormat/StringsdictFileFormat.html>`_
+
+
+.. _fluent:
+
+Fluent format
+-------------
+
+.. versionadded:: 4.8
+
+.. note::
+
+   Support for this format is currently in beta, feedback from testing is welcome.
+
+Fluent is a monolingual text format that focuses on asymmetric localization: a
+simple string in one language can map to a complex multi-variant translation in
+another language.
+
++-----------------------------------------------------------------------------------+
+| Typical Weblate :ref:`component`                                                  |
++================================+==================================================+
+| Filemask                       |``locales/*/messages.ftl``                        |
++--------------------------------+--------------------------------------------------+
+| Monolingual base language file |``locales/en/messages.ftl``                       |
++--------------------------------+--------------------------------------------------+
+| Template for new translations  | `Empty`                                          |
++--------------------------------+--------------------------------------------------+
+| File format                    | `Fluent file`                                    |
++--------------------------------+--------------------------------------------------+
+
+
+.. seealso::
+
+
+   `Project Fluent website <https://projectfluent.org/>`_
+
+
+Supporting other formats
+------------------------
 
 Most formats supported by `translate-toolkit`_ which support serializing can be
 easily supported, but they did not (yet) receive any testing. In most cases
 some thin layer is needed in Weblate to hide differences in behavior of
 different `translate-toolkit`_ storages.
 
+To add support for a new format, the preferred approach is to first implement
+support for it in the `translate-toolkit`_.
+
 .. seealso::
 
     :doc:`tt:formats/index`
-
-.. _read-only-strings:
-
-Read only strings
------------------
-
-.. versionadded:: 3.10
-
-Read-only strings from translation files will be included, but
-can not be edited in Weblate. This feature is natively supported by few formats
-(:ref:`xliff` and :ref:`aresource`), but can be emulated in others by adding a
-``read-only`` flag, see :ref:`custom-checks`.
 
 .. _translate-toolkit: https://toolkit.translatehouse.org/

@@ -35,7 +35,7 @@ Weblate consists of several Django applications (some optional, see
 
 ``addons``
 
-    Addons to tweak Weblate behavior, see :ref:`addons`.
+    Add-ons to tweak Weblate behavior, see :ref:`addons`.
 
 ``api``
 
@@ -79,7 +79,7 @@ Weblate consists of several Django applications (some optional, see
 
 ``memory``
 
-    Built in translation memory, see :ref:`translation-memory`.
+    Built-in translation memory, see :ref:`translation-memory`.
 
 ``screenshots``
 

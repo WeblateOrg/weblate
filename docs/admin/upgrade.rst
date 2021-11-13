@@ -37,6 +37,12 @@ work, but is not as well tested as single version upgrades.
 
    .. code-block:: sh
 
+      pip install -U "Weblate[all]"
+
+   If you don't want to install all of the optional dependencies do:
+
+   .. code-block:: sh
+
       pip install -U Weblate
 
    With Git checkout you need to fetch new source code and update your installation:
@@ -49,6 +55,11 @@ work, but is not as well tested as single version upgrades.
         . ~/weblate-env/bin/pip install -e .
         # Install dependencies directly when not using virtualenv
         pip install --upgrade -r requirements.txt
+        # Install optional dependencies directly when not using virtualenv
+        pip install --upgrade -r requirements-optional.txt
+
+#. New Weblate release might have new :ref:`optional-deps`, please check if they cover
+   features you want.
 
 #. Upgrade configuration file, refer to :file:`settings_example.py` or
    :ref:`version-specific-instructions` for needed steps.
@@ -84,7 +95,7 @@ work, but is not as well tested as single version upgrades.
 
         weblate check --deploy
 
-#. Restart celery worker (see :ref:`celery`).
+#. Restart Celery worker (see :ref:`celery`).
 
 
 .. _version-specific-instructions:
@@ -127,7 +138,7 @@ Notable configuration or dependencies changes:
 * There is change in ``DEFAULT_THROTTLE_CLASSES`` setting to allow reporting of rate limiting in the API.
 * There are some new and updated requirements.
 * There is a change in :setting:`django:INSTALLED_APPS`.
-* The :ref:`deepl` machine translation now defaults to v2 API, you might need to adjust :setting:`MT_DEEPL_API_VERSION` in case your current DeepL subscription does not support that.
+* The ``MT_DEEPL_API_VERSION`` setting has been removed in Version 4.7. The :ref:`deepl` machine translation now uses the new :setting:`MT_DEEPL_API_URL` instead. You might need to adjust :setting:`MT_DEEPL_API_URL` to match your subscription.
 
 .. seealso:: :ref:`generic-upgrade-instructions`
 
@@ -216,6 +227,40 @@ Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 Notable configuration or dependencies changes:
 
 * There are new file formats, you might want to include them in case you modified the :setting:`WEBLATE_FORMATS`.
+* API for creating components now automatically uses :ref:`internal-urls`, see :http:post:`/api/projects/(string:project)/components/`.
+* There is a change in dependencies and :setting:`django:PASSWORD_HASHERS` to prefer Argon2 for passwords hashing.
+
+.. seealso:: :ref:`generic-upgrade-instructions`
+
+Upgrade from 4.6 to 4.7
+~~~~~~~~~~~~~~~~~~~~~~~
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+Notable configuration or dependencies changes:
+
+* There are several changes in :file:`settings_example.py`, most notable middleware changes (:setting:`django:MIDDLEWARE`), please adjust your settings accordingly.
+* The :ref:`deepl` machine translation now has a generic :setting:`MT_DEEPL_API_URL` setting to adapt to different subscription models more flexibly.
+  The ``MT_DEEPL_API_VERSION`` setting is no longer used.
+* Django 3.2 is now required.
+
+.. seealso:: :ref:`generic-upgrade-instructions`
+
+Upgrade from 4.7 to 4.8
+~~~~~~~~~~~~~~~~~~~~~~~
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+There are no additional upgrade steps needed in this release.
+
+.. seealso:: :ref:`generic-upgrade-instructions`
+
+Upgrade from 4.8 to 4.9
+~~~~~~~~~~~~~~~~~~~~~~~
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+* There is a change in storing metrics, the upgrade can take long time on larger sites.
 
 .. seealso:: :ref:`generic-upgrade-instructions`
 
@@ -236,10 +281,10 @@ Migrating from other databases to PostgreSQL
 --------------------------------------------
 
 If you are running Weblate on other dabatase than PostgreSQL, you should
-migrate to PostgreSQL as that will be the only supported database backend in
-the 4.0 release. The following steps will guide you in migrating your data
-between the databases. Please remember to stop both web and Celery servers
-prior to the migration, otherwise you might end up with inconsistent data.
+consider migrating to PostgreSQL as Weblate performs best with it. The following
+steps will guide you in migrating your data between the databases. Please
+remember to stop both web and Celery servers prior to the migration, otherwise
+you might end up with inconsistent data.
 
 Creating a database in PostgreSQL
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -255,7 +300,7 @@ It is usually a good idea to run Weblate in a separate database, and separate us
     sudo -u postgres createuser -D -P weblate
 
     # Create the database "weblate" owned by "weblate"
-    sudo -u postgres createdb -O weblate weblate
+    sudo -u postgres createdb -E UTF8 -O weblate weblate
 
 Migrating using Django JSON dumps
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

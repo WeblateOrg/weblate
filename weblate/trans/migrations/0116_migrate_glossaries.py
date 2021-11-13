@@ -61,7 +61,7 @@ def migrate_glossaries(apps, schema_editor):  # noqa: C901
                 slug = "glossary"
             else:
                 name = f"Glossary: {glossary.name}"
-                slug = "glossary-{}".format(slugify(glossary.name))
+                slug = f"glossary-{slugify(glossary.name)}"
 
             base_name = name
             base_slug = slug
@@ -160,7 +160,8 @@ def migrate_glossaries(apps, schema_editor):  # noqa: C901
                         id_hash=id_hash,
                         source_unit=source_units[id_hash],
                     )
-                    # Adjust history entries (langauge and project should be already set)
+                    # Adjust history entries to include unit details,
+                    # language and project should be already set
                     term.change_set.update(
                         unit=unit,
                         translation=translation,

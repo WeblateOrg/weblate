@@ -25,7 +25,6 @@ from contextlib import contextmanager
 from datetime import timedelta
 from unittest import SkipTest
 
-import social_django.utils
 from django.conf import settings
 from django.core import mail
 from django.test.utils import modify_settings, override_settings
@@ -75,7 +74,7 @@ SOURCE_FONT = os.path.join(
     "vendor",
     "font-source",
     "TTF",
-    "SourceSansPro-Bold.ttf",
+    "SourceSans3-Bold.ttf",
 )
 
 
@@ -180,7 +179,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         scroll_width = self.driver.execute_script("return document.body.scrollWidth")
         # Resize the window
         self.driver.set_window_size(scroll_width, scroll_height + 20)
-        time.sleep(1)
+        time.sleep(0.2)
         # Get screenshot
         with open(os.path.join(self.image_path, name), "wb") as handle:
             handle.write(self.driver.get_screenshot_as_png())
@@ -306,7 +305,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         # Wait for registration email
         loops = 0
         while not mail.outbox:
-            time.sleep(1)
+            time.sleep(0.2)
             loops += 1
             if loops > 20:
                 break
@@ -357,7 +356,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         """Test SSH admin interface."""
         self.open_admin()
 
-        time.sleep(0.5)
+        time.sleep(0.2)
         self.screenshot("admin.png")
 
         # Open SSH page
@@ -432,33 +431,27 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
                 change.timestamp -= timedelta(days=day)
                 change.save()
 
-        # Render activity
-        self.click("Insights")
-        self.click("Activity")
-        time.sleep(0.5)
-        self.screenshot("activity.png")
-
         # Screenshot search
         self.click("Search")
         self.screenshot("search.png")
 
+        # Render activity
+        self.click("Insights")
+        with self.wait_for_page_load():
+            self.click("Statistics")
+        self.screenshot("activity.png")
+
     @override_settings(AUTHENTICATION_BACKENDS=TEST_BACKENDS)
     def test_auth_backends(self):
-        try:
-            # psa creates copy of settings...
-            orig_backends = social_django.utils.BACKENDS
-            social_django.utils.BACKENDS = TEST_BACKENDS
-            user = self.do_login()
-            user.social_auth.create(provider="google-oauth2", uid=user.email)
-            user.social_auth.create(provider="github", uid="123456")
-            user.social_auth.create(provider="bitbucket", uid="weblate")
-            self.click(htmlid="user-dropdown")
-            with self.wait_for_page_load():
-                self.click(htmlid="settings-button")
-            self.click("Account")
-            self.screenshot("authentication.png")
-        finally:
-            social_django.utils.BACKENDS = orig_backends
+        user = self.do_login()
+        user.social_auth.create(provider="google-oauth2", uid=user.email)
+        user.social_auth.create(provider="github", uid="123456")
+        user.social_auth.create(provider="bitbucket", uid="weblate")
+        self.click(htmlid="user-dropdown")
+        with self.wait_for_page_load():
+            self.click(htmlid="settings-button")
+        self.click("Account")
+        self.screenshot("authentication.png")
 
     def test_screenshots(self):
         """Screenshot tests."""
@@ -488,9 +481,14 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
                 self.click("Dashboard")
 
         def wait_search():
-            WebDriverWait(self.driver, 30).until(
+            time.sleep(0.1)
+            WebDriverWait(self.driver, 15).until(
                 presence_of_element_located(
-                    (By.XPATH, '//tbody[@id="search-results"]/tr')
+                    (
+                        By.XPATH,
+                        '//div[@id="search-results"]'
+                        '//tbody[@class="unit-listing-body"]//tr',
+                    )
                 )
             )
 
@@ -747,13 +745,20 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         with self.wait_for_page_load():
             self.click(htmlid="engage-project")
 
-        # Addons
         self.click("Components")
         with self.wait_for_page_load():
             self.click("Language names")
+
+        # Repository
         self.click("Manage")
+        self.click("Repository maintenance")
+        time.sleep(0.2)
+        self.click("Manage")
+        self.screenshot("component-repository.png")
+
+        # Add-ons
         with self.wait_for_page_load():
-            self.click("Addons")
+            self.click("Add-ons")
         self.screenshot("addons.png")
         with self.wait_for_page_load():
             self.click(
@@ -826,7 +831,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         self.screenshot("file-download.png")
         self.click("Tools")
         self.click("Automatic translation")
-        self.click(htmlid="id_select_auto_source_2")
+        self.click(htmlid="id_auto_source_1")
         self.click("Tools")
         self.screenshot("automatic-translation.png")
         self.click("Search")
@@ -842,7 +847,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         # Test search dropdown
         dropdown = self.driver.find_element(By.ID, "query-dropdown")
         dropdown.click()
-        time.sleep(0.5)
+        time.sleep(0.2)
         self.screenshot("query-dropdown.png")
         with self.wait_for_page_load():
             self.click(
@@ -853,7 +858,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         # Test sort dropdown
         sort = self.driver.find_element(By.ID, "query-sort-dropdown")
         sort.click()
-        time.sleep(0.5)
+        time.sleep(0.2)
         self.screenshot("query-sort.png")
         with self.wait_for_page_load():
             self.click("Position")
@@ -906,7 +911,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
         # Dashboard
         with self.wait_for_page_load():
             self.click("Dashboard")
-        time.sleep(0.5)
+        time.sleep(0.2)
         self.screenshot("your-translations.png")
 
     @modify_settings(INSTALLED_APPS={"append": "weblate.billing"})
@@ -950,7 +955,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             self.driver.find_element(By.ID, "id_name").submit()
 
         self.screenshot("user-add-component-discovery.png")
-        self.driver.find_element(By.ID, "id_id_discovery_0_1").click()
+        self.driver.find_element(By.ID, "id_discovery_1").click()
         with self.wait_for_page_load(timeout=1200):
             self.driver.find_element(By.ID, "id_name").submit()
 
@@ -1040,7 +1045,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
 
         # Create group
         Select(self.driver.find_element(By.ID, "id_group_font")).select_by_visible_text(
-            "Source Sans Pro Bold"
+            "Source Sans 3 Bold"
         )
         element = self.driver.find_element(By.ID, "id_group_name")
         element.send_keys("default-font")
@@ -1083,7 +1088,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             with self.wait_for_page_load():
                 self.click(self.driver.find_element(By.CLASS_NAME, "runbackup"))
             self.click(self.driver.find_element(By.CLASS_NAME, "createdbackup"))
-            time.sleep(0.5)
+            time.sleep(0.2)
             self.screenshot("backups.png")
             SupportStatus.objects.create(secret="123", name="community")
             with self.wait_for_page_load():
@@ -1163,12 +1168,12 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
 
         # Edit context
         self.click(htmlid="edit-context")
-        time.sleep(0.5)
+        time.sleep(0.2)
         self.screenshot("source-review-edit.png")
 
         # Close modal dialog
         self.driver.find_element(By.ID, "id_extra_flags").send_keys(Keys.ESCAPE)
-        time.sleep(0.5)
+        time.sleep(0.2)
 
     def test_glossary(self):
         self.do_login()

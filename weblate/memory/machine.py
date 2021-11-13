@@ -29,6 +29,7 @@ class WeblateMemory(MachineTranslation):
     cache_translations = False
     same_languages = True
     accounting_key = "internal"
+    do_cleanup = False
 
     def convert_language(self, language):
         """No conversion of language object."""

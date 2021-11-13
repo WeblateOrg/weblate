@@ -93,23 +93,77 @@
   {% show_message "success" msg %}
   {% endif %}
 
-<div class="panel panel-default">
-<div class="panel-heading">
-  <h4 class="panel-title">
-    {% documentation_icon 'admin/install' 'celery' right=True %}
-    {% trans "Celery queues" %}
-  </h4>
-</div>
-  <table class="table table-striped">
-  <tbody>
-  {% for name, length in queues %}
-  <tr class="row{% cycle '1' '2' %}">
-      <td>{{ name }}</td>
-      <td class="number">{{ length|intcomma }}</td>
-  </tr>
-  {% endfor %}
-  </tbody>
-  </table>
+<div class="row">
+  <div class="col-md-6">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h4 class="panel-title">
+          {% documentation_icon 'admin/install' 'celery' right=True %}
+          {% trans "Celery queues" %}
+        </h4>
+      </div>
+      <table class="table table-striped">
+        <tbody>
+          {% for name, length in queues %}
+            <tr>
+              <td>{{ name }}</td>
+              <td class="number">{{ length|intcomma }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="col-md-6">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h4 class="panel-title">
+          {% documentation_icon 'admin/install' 'production-encoding' right=True %}
+          {% trans "System encoding" %}
+        </h4>
+      </div>
+      <table class="table table-striped">
+        <thead>
+          <tr><th></th><th>{% trans "Web server" %}</th><th>{% trans "Celery worker" %}</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>{% trans "Filenames encoding" %}</td>
+            <td>{{ web_encoding.0 }}</td>
+            <td>{% if celery_encoding %}{{ celery_encoding.0 }}{% else %}{% trans "Unknown encoding" %}{% endif %}</td>
+          </tr>
+          <tr>
+            <td>{% trans "Content encoding" %}</td>
+            <td>{{ web_encoding.1 }}</td>
+            <td>{% if celery_encoding %}{{ celery_encoding.1 }}{% else %}{% trans "Unknown encoding" %}{% endif %}</td>
+          </tr>
+        </tbody>
+      </table>
+
+    </div>
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h4 class="panel-title">
+          {% documentation_icon 'admin/install' 'production-database' right=True %}
+          {% trans "Connectivity" %}
+        </h4>
+      </div>
+      <table class="table table-striped">
+        <tbody>
+          <tr>
+            <td>{% trans "Database latency" %}</td>
+            <td class="number">{{ database_latency }} ms</td>
+          </tr>
+          <tr>
+            <td>{% trans "Cache latency" %}</td>
+            <td class="number">{{ cache_latency }} ms</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
 </div>
 
 </div>

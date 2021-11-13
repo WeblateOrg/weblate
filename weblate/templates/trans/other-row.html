@@ -14,7 +14,7 @@
   {% if item.is_propagated %}
     <span class="badge pull-right flip">{% trans "Propagated" %}</span>
   {% endif %}
-  {% get_state_badge item %}
+  <span class="badge pull-right flip">{{ item.get_state_display }}</span>
   <a href="{{ item.get_absolute_url }}">{{ item.translation.component }}</a>
 </td>
 <td>

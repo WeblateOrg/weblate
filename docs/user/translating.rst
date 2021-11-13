@@ -27,7 +27,7 @@ Translation projects
 
 Translation projects hold related components; resources for the same software, book, or project.
 
-.. image:: /images/project-overview.png
+.. image:: /screenshots/project-overview.png
 
 .. _strings-to-check:
 
@@ -40,7 +40,7 @@ The translation is further divided into individual checks, like
 is translated, without error, :guilabel:`All strings` is still available.
 Alternatively you can use the search field to find a specific string or term.
 
-.. image:: /images/strings-to-check.png
+.. image:: /screenshots/strings-to-check.png
 
 Suggestions
 -----------
@@ -116,7 +116,7 @@ languages translators select in the preferences will be shown
 (see :ref:`secondary-languages`) above the source string.
 
 Below the translation, translators will find suggestion made by others, to be
-accepted (✓), accepted with changes (🖉), or deleted (🗑).
+accepted (✓), accepted with changes (✏️), or deleted (🗑).
 
 .. _plurals:
 
@@ -143,7 +143,7 @@ by the Unicode Consortium is a more detailed description.
 
    :ref:`plural-formula`
 
-.. image:: /images/plurals.png
+.. image:: /screenshots/plurals.png
 
 Keyboard shortcuts
 ++++++++++++++++++
@@ -244,7 +244,7 @@ The shown symbols factor into three categories:
 * Per-language characters provided by Weblate (e.g. quotes or RTL specific characters)
 * Characters configured using :setting:`SPECIAL_CHARS`
 
-.. image:: /images/visual-keyboard.png
+.. image:: /screenshots/visual-keyboard.png
 
 .. _source-context:
 
@@ -322,7 +322,7 @@ You can use automatic translation to bootstrap translation based on external
 sources. This tool is called :guilabel:`Automatic translation` accessible in
 the :guilabel:`Tools` menu, once you have selected a component and a language:
 
-.. image:: /images/automatic-translation.png
+.. image:: /screenshots/automatic-translation.png
 
 Two modes of operation are possible:
 
@@ -393,3 +393,20 @@ The following operations are supported:
 .. seealso::
 
    :ref:`Bulk edit addon <addon-weblate.flags.bulk>`
+
+Matrix View
+-----------
+
+To compare different languages efficiently you can use the matrix view. It is available on every component page under the :guilabel:`Tools` menu.
+First select all languages you want to compare and confirm your selection, after that you can click on any translation to open and edit it quickly.
+
+The matrix view is also a very good starting point to find missing translations in different languages and quickly add them from one view.
+
+Zen Mode
+--------
+
+The Zen editor can be enabled by clicking the :guilabel:`Zen` button on the top right while translating a component.
+It simplifies the layout and removes additional UI elements such as :guilabel:`Nearby strings` or the :guilabel:`Glossary`.
+
+You can select the Zen editor as your default editor using the :ref:`profile-preferences` tab on your :ref:`user-profile`.
+Here you can also choose between having translations listed :guilabel:`Top to bottom` or :guilabel:`Side by side` depending on your personal preference.

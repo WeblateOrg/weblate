@@ -34,9 +34,11 @@ token, which you can get in your profile. Use it in the ``Authorization`` header
                    Possible values depends on REST framework setup,
                    by default ``json`` and ``api`` are supported. The
                    latter provides web browser interface for API.
+    :query page: Returns given page of paginated results (use `next` and `previous` fields in response to automate the navigation).
     :reqheader Accept: the response content type depends on
                        :http:header:`Accept` header
-    :reqheader Authorization: optional token to authenticate
+    :reqheader Authorization: optional token to authenticate as
+                              ``Authorization: Token YOUR-TOKEN``
     :resheader Content-Type: this depends on :http:header:`Accept`
                              header of request
     :resheader Allow: list of allowed HTTP methods on object
@@ -49,7 +51,7 @@ token, which you can get in your profile. Use it in the ``Authorization`` header
     :>json string web_url: URL to access this resource using web browser
     :status 200: when request was correctly handled
     :status 201: when a new object was created successfully
-    :status 204: when an object was created successfully
+    :status 204: when an object was deleted successfully
     :status 400: when form parameters are missing
     :status 403: when access is denied
     :status 429: when throttling is in place
@@ -921,6 +923,10 @@ Projects
 
        The ``zipfile`` and ``docfile`` parameters are now accepted for VCS-less components, see :ref:`vcs-local`.
 
+    .. versionchanged:: 4.6
+
+       The cloned repositories are now automatically shared within a project using :ref:`internal-urls`. Use ``disable_autoshare`` to turn off this.
+
     Creates translation components in the given project.
 
     .. hint::
@@ -937,6 +943,7 @@ Projects
     :type project: string
     :form file zipfile: ZIP file to upload into Weblate for translations initialization
     :form file docfile: Document to translate
+    :form boolean disable_autoshare: Disables automatic repository sharing via :ref:`internal-urls`.
     :>json object result: Created component object; see :http:get:`/api/components/(string:project)/(string:component)/`
 
     JSON can not be used when uploading the files using the ``zipfile`` and
@@ -1312,6 +1319,20 @@ Components
     :param component: Component URL slug
     :type component: string
     :>json array results: array of component objects; see :http:get:`/api/changes/(int:id)/`
+
+.. http:get:: /api/components/(string:project)/(string:component)/file/
+
+
+    .. versionadded:: 4.9
+
+    Downloads all available translations associated with the component as an archive file using the requested format.
+
+    :param project: Project URL slug
+    :type project: string
+    :param component: Component URL slug
+    :type component: string
+
+    :query string format: The archive format to use; If not specified, defaults to ``zip``; Supported formats: ``zip``
 
 .. http:get::  /api/components/(string:project)/(string:component)/screenshots/
 
@@ -1786,7 +1807,7 @@ Translations
     :param language: Translation language code
     :type language: string
     :<json string key: Name of translation unit
-    :<json string value: The translation unit value
+    :<json array value: The translation unit value
 
     .. seealso::
 
@@ -1805,9 +1826,9 @@ Translations
     :type language: string
     :<json string mode: Automatic translation mode
     :<json string filter_type: Automatic translation filter type
-    :<json string auto_source: Automatic translation source
+    :<json string auto_source: Automatic translation source - ``mt`` or ``others``
     :<json string component: Turn on contribution to shared translation memory for the project to get access to additional components.
-    :<json string engines: Machine translation engines
+    :<json array engines: Machine translation engines
     :<json string threshold: Score threshold
 
 .. http:get:: /api/translations/(string:project)/(string:component)/(string:language)/file/
@@ -1841,7 +1862,7 @@ Translations
     :type component: string
     :param language: Translation language code
     :type language: string
-    :form string conflicts: How to deal with conflicts (``ignore``, ``replace-translated`` or ``replace-approved``)
+    :form string conflict: How to deal with conflicts (``ignore``, ``replace-translated`` or ``replace-approved``)
     :form file file: Uploaded file
     :form string email: Author e-mail
     :form string author: Author name
@@ -2155,8 +2176,10 @@ Screenshots
     :param id: Screenshot ID
     :type id: int
 
-Addons
-++++++
+.. _addons-api:
+
+Add-ons
++++++++
 
 .. versionadded:: 4.4.1
 
@@ -2166,17 +2189,21 @@ Addons
 
     .. seealso::
 
-        Addon object attributes are documented at :http:get:`/api/addons/(int:id)/`.
+        Add-on object attributes are documented at :http:get:`/api/addons/(int:id)/`.
 
 .. http:get:: /api/addons/(int:id)/
 
     Returns information about addon information.
 
-    :param id: Addon ID
+    :param id: Add-on ID
     :type id: int
     :>json string name: name of an addon
     :>json string component: URL of a related component object
     :>json object configuration: Optional addon configuration
+
+    .. seealso::
+
+       :doc:`/admin/addons`
 
 .. http:post:: /api/components/(string:project)/(string:component)/addons/
 
@@ -2191,7 +2218,7 @@ Addons
 
     Edit partial information about addon.
 
-    :param id: Addon ID
+    :param id: Add-on ID
     :type id: int
     :>json object configuration: Optional addon configuration
 
@@ -2199,7 +2226,7 @@ Addons
 
     Edit full information about addon.
 
-    :param id: Addon ID
+    :param id: Add-on ID
     :type id: int
     :>json object configuration: Optional addon configuration
 
@@ -2207,7 +2234,7 @@ Addons
 
     Delete addon.
 
-    :param id: Addon ID
+    :param id: Add-on ID
     :type id: int
 
 
@@ -2310,6 +2337,27 @@ Tasks
     :>json object result: Task result or progress details
     :>json string log: Task log
 
+Metrics
++++++++
+
+.. http:get:: /api/metrics/
+
+    Returns server metrics.
+
+    :>json int units: Number of units
+    :>json int units_translated: Number of translated units
+    :>json int users: Number of users
+    :>json int changes: Number of changes
+    :>json int projects: Number of projects
+    :>json int components":  Number of components
+    :>json int translations":  Number of translations
+    :>json int languages":  Number of used languages
+    :>json int checks":  Number of triggered quality checks
+    :>json int configuration_errors":  Number of configuration errors
+    :>json int suggestions":  Number of pending suggestions
+    :>json object celery_queues: Lengths of Celery queues, see :ref:`celery`
+    :>json string name: Configured server name
+
 .. _hooks:
 
 Notification hooks
@@ -2371,7 +2419,7 @@ update individual repositories; see
 
         :ref:`gitlab-setup`
             For instruction on setting up GitLab integration
-        https://docs.gitlab.com/ce/user/project/integrations/webhooks.html
+        https://docs.gitlab.com/ee/user/project/integrations/webhooks.html
             Generic information about GitLab Webhooks
         :setting:`ENABLE_HOOKS`
             For enabling hooks for whole Weblate

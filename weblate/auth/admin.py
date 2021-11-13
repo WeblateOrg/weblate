@@ -17,9 +17,11 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
+from django import forms
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.forms import UserChangeForm, UserCreationForm
+from django.core.exceptions import ValidationError
 from django.utils.safestring import mark_safe
 from django.utils.translation import gettext_lazy as _
 
@@ -110,18 +112,22 @@ class WeblateAuthAdmin(WeblateModelAdmin):
             protected,
         ) = super().get_deleted_objects(objs, request)
         # Discard permission check for objects where deletion in admin is disabled
+        # This behaves differently depending on Django version
         perms_needed.discard("profile")
+        perms_needed.discard("User profile")
         perms_needed.discard("audit_log")
         perms_needed.discard("audit log")
+        perms_needed.discard("Audit log entry")
         perms_needed.discard("verified_email")
         perms_needed.discard("verified email")
+        perms_needed.discard("Verified email")
         return deleted_objects, model_count, perms_needed, protected
 
 
 class WeblateUserAdmin(WeblateAuthAdmin, UserAdmin):
     """Custom UserAdmin class.
 
-    Used to add listing of group membership and whether user is active.
+    Used to add listing of group membership and whether a user is active.
     """
 
     list_display = (
@@ -151,7 +157,7 @@ class WeblateUserAdmin(WeblateAuthAdmin, UserAdmin):
 
     def user_groups(self, obj):
         """Display comma separated list of user groups."""
-        return ",".join(g.name for g in obj.groups.iterator())
+        return ",".join(obj.groups.values_list("name", flat=True))
 
     def action_checkbox(self, obj):
         if obj.is_anonymous:
@@ -177,14 +183,50 @@ class WeblateUserAdmin(WeblateAuthAdmin, UserAdmin):
             self.delete_model(request, obj)
 
 
+class GroupChangeForm(forms.ModelForm):
+    class Meta:
+        model = Group
+        fields = "__all__"
+
+    def clean(self):
+        super().clean()
+        has_componentlist = bool(self.cleaned_data["componentlists"])
+        has_project = bool(self.cleaned_data["projects"])
+        has_component = bool(self.cleaned_data["components"])
+        if has_componentlist:
+            fields = []
+            if has_project:
+                fields.append("projects")
+            if has_component:
+                fields.append("components")
+            if fields:
+                raise ValidationError(
+                    {
+                        field: _("This is not used when a component list is selected.")
+                        for field in fields
+                    }
+                )
+        elif has_component and has_project:
+            raise ValidationError(
+                {"project": _("This is not used when a component is selected.")}
+            )
+
+
 class WeblateGroupAdmin(WeblateAuthAdmin):
     save_as = True
     model = Group
+    form = GroupChangeForm
     inlines = [InlineAutoGroupAdmin]
     search_fields = ("name",)
     ordering = ("name",)
     list_filter = ("internal", "project_selection", "language_selection")
-    filter_horizontal = ("roles", "projects", "languages")
+    filter_horizontal = (
+        "roles",
+        "projects",
+        "languages",
+        "components",
+        "componentlists",
+    )
 
     new_obj = None
 

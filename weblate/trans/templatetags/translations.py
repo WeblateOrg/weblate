@@ -28,7 +28,8 @@ from django.contrib.humanize.templatetags.humanize import intcomma
 from django.template.loader import render_to_string
 from django.urls import reverse
 from django.utils import timezone
-from django.utils.html import escape
+from django.utils.formats import number_format as django_number_format
+from django.utils.html import escape, urlize
 from django.utils.safestring import mark_safe
 from django.utils.translation import gettext, gettext_lazy, ngettext, pgettext
 from siphashc import siphash
@@ -47,7 +48,8 @@ from weblate.trans.models import (
     Translation,
 )
 from weblate.trans.models.translation import GhostTranslation
-from weblate.trans.util import get_state_css, split_plural
+from weblate.trans.specialchars import get_display_char
+from weblate.trans.util import split_plural, translation_percent
 from weblate.utils.docs import get_doc_url
 from weblate.utils.hash import hash_to_checksum
 from weblate.utils.markdown import render_markdown
@@ -64,7 +66,14 @@ SPACE_NL = HIGHLIGTH_SPACE.format(SPACE_TEMPLATE.format("space-nl", ""), "<br />
 
 GLOSSARY_TEMPLATE = """<span class="glossary-term" title="{}">"""
 
-WHITESPACE_RE = re.compile(r"(  +| $|^ )")
+# This should match whitespace_regex in weblate/static/loader-bootstrap.js
+WHITESPACE_REGEX = (
+    r"(\t|\u00A0|\u1680|\u2000|\u2001|\u2002|\u2003|"
+    + r"\u2004|\u2005|\u2006|\u2007|\u2008|\u2009|\u200A|"
+    + r"\u202F|\u205F|\u3000)"
+)
+WHITESPACE_RE = re.compile(WHITESPACE_REGEX, re.MULTILINE)
+MULTISPACE_RE = re.compile(r"(  +| $|^ )", re.MULTILINE)
 TYPE_MAPPING = {True: "yes", False: "no", None: "unknown"}
 # Mapping of status report flags to names
 NAME_MAPPING = {
@@ -74,7 +83,6 @@ NAME_MAPPING = {
 }
 
 FLAG_TEMPLATE = '<span title="{0}" class="{1}">{2}</span>'
-BADGE_TEMPLATE = '<span class="badge pull-right flip">{0}</span>'
 
 PERM_TEMPLATE = """
 <td>
@@ -98,7 +106,7 @@ class Formatter:
     def __init__(self, idx, value, unit, terms, diff, search_match, match):
         # Inputs
         self.idx = idx
-        self.value = value
+        self.cleaned_value = self.value = value
         self.unit = unit
         self.terms = terms
         self.diff = diff
@@ -147,11 +155,17 @@ class Formatter:
     def parse_highlight(self):
         """Highlights unit placeables."""
         highlights = highlight_string(self.value, self.unit)
+        cleaned_value = list(self.value)
         for start, end, _content in highlights:
             self.tags[start].append(
                 '<span class="hlcheck"><span class="highlight-number"></span>'
             )
             self.tags[end].insert(0, "</span>")
+            cleaned_value[start:end] = [" "] * (end - start)
+
+        # Prepare cleaned up value for glossary terms (we do not want to extract those
+        # from format strings)
+        self.cleaned_value = "".join(cleaned_value)
 
     @staticmethod
     def format_terms(terms):
@@ -181,12 +195,12 @@ class Formatter:
         """Highlights glossary entries."""
         for htext, entries in self.terms.items():
             for match in re.finditer(
-                r"\b{}\b".format(re.escape(htext)), self.value, re.IGNORECASE
+                fr"(\W|^)({re.escape(htext)})(\W|$)", self.cleaned_value, re.IGNORECASE
             ):
-                self.tags[match.start()].append(
+                self.tags[match.start(2)].append(
                     GLOSSARY_TEMPLATE.format(self.format_terms(entries))
                 )
-                self.tags[match.end()].insert(0, "</span>")
+                self.tags[match.end(2)].insert(0, "</span>")
 
     def parse_search(self):
         """Highlights search matches."""
@@ -205,15 +219,27 @@ class Formatter:
 
     def parse_whitespace(self):
         """Highlight whitespaces."""
-        for match in WHITESPACE_RE.finditer(self.value):
+        for match in MULTISPACE_RE.finditer(self.value):
             self.tags[match.start()].append(
                 '<span class="hlspace"><span class="space-space"><span class="sr-only">'
             )
+            for i in range(match.start() + 1, match.end()):
+                self.tags[i].insert(
+                    0, '</span></span><span class="space-space"><span class="sr-only">'
+                )
             self.tags[match.end()].insert(0, "</span></span></span>")
 
-        for match in re.finditer("\t", self.value):
+        for match in WHITESPACE_RE.finditer(self.value):
+            whitespace = match.group(0)
+            if whitespace == "\t":
+                cls = "space-tab"
+            else:
+                cls = "space-space"
+            title = get_display_char(whitespace)[0]
             self.tags[match.start()].append(
-                '<span class="hlspace"><span class="space-tab"><span class="sr-only">'
+                '<span class="hlspace">'
+                f'<span class="{cls}" title="{title}">'
+                '<span class="sr-only">'
             )
             self.tags[match.end()].insert(0, "</span></span></span>")
 
@@ -247,8 +273,9 @@ def format_translation(
     plural=None,
     diff=None,
     search_match=None,
-    simple=False,
-    wrap=False,
+    simple: bool = False,
+    wrap: bool = False,
+    noformat: bool = False,
     num_plurals=2,
     unit=None,
     match="search",
@@ -280,8 +307,8 @@ def format_translation(
     parts = []
     has_content = False
 
-    for idx, value in enumerate(plurals):
-        formatter = Formatter(idx, value, unit, terms, diff, search_match, match)
+    for idx, text in enumerate(plurals):
+        formatter = Formatter(idx, text, unit, terms, diff, search_match, match)
         formatter.parse()
 
         # Show label for plural (if there are any)
@@ -292,11 +319,12 @@ def format_translation(
         # Join paragraphs
         content = formatter.format()
 
-        parts.append({"title": title, "content": content, "copy": escape(value)})
+        parts.append({"title": title, "content": content, "copy": escape(text)})
         has_content |= bool(content)
 
     return {
         "simple": simple,
+        "noformat": noformat,
         "wrap": wrap,
         "items": parts,
         "language": language,
@@ -482,7 +510,7 @@ def naturaltime_future(value, now):
     }
 
 
-@register.filter
+@register.filter(is_safe=True)
 def naturaltime(value, now=None):
     """Heavily based on Django's django.contrib.humanize implementation of naturaltime.
 
@@ -512,66 +540,79 @@ def get_stats(obj):
     return obj.stats
 
 
-def translation_progress_data(readonly, approved, translated, fuzzy, checks):
+def translation_progress_data(
+    total: int, readonly: int, approved: int, translated: int
+):
+    translated -= approved
+    if approved:
+        approved += readonly
+        translated -= readonly
+    bad = total - approved - translated
     return {
-        "readonly": f"{readonly:.1f}",
-        "approved": f"{approved:.1f}",
-        "good": "{:.1f}".format(max(translated - checks - approved - readonly, 0)),
-        "checks": f"{checks:.1f}",
-        "fuzzy": f"{fuzzy:.1f}",
-        "percent": f"{translated:.1f}",
+        "approved": f"{translation_percent(approved, total, False):.1f}",
+        "good": f"{translation_percent(translated, total):.1f}",
+        "bad": f"{translation_percent(bad, total, False):.1f}",
     }
 
 
-@register.inclusion_tag("progress.html")
+@register.inclusion_tag("snippets/progress.html")
 def translation_progress(obj):
     stats = get_stats(obj)
     return translation_progress_data(
-        stats.readonly_percent,
-        stats.approved_percent,
-        stats.translated_percent,
-        stats.fuzzy_percent,
-        stats.translated_checks_percent,
+        stats.all,
+        stats.readonly,
+        stats.approved,
+        stats.translated - stats.translated_checks,
     )
 
 
-@register.inclusion_tag("progress.html")
+@register.inclusion_tag("snippets/progress.html")
 def words_progress(obj):
     stats = get_stats(obj)
     return translation_progress_data(
-        stats.readonly_words_percent,
-        stats.approved_words_percent,
-        stats.translated_words_percent,
-        stats.fuzzy_words_percent,
-        stats.translated_checks_words_percent,
+        stats.all_words,
+        stats.readonly_words,
+        stats.approved_words,
+        stats.translated_words - stats.translated_checks_words,
     )
 
 
 @register.simple_tag
-def get_state_badge(unit):
-    """Return state badge."""
-    if unit.fuzzy:
-        flag = pgettext("String state", "Needs editing")
-    elif not unit.translated:
-        flag = pgettext("String state", "Not translated")
-    elif unit.approved:
-        flag = pgettext("String state", "Approved")
-    elif unit.translated:
-        flag = pgettext("String state", "Translated")
-    else:
-        return ""
-
-    return mark_safe(BADGE_TEMPLATE.format(flag))
-
-
-@register.inclusion_tag("snippets/unit-state.html")
-def get_state_flags(unit, detail=False):
+def unit_state_class(unit) -> str:
     """Return state flags."""
-    return {
-        "state": " ".join(get_state_css(unit)),
-        "unit": unit,
-        "detail": detail,
-    }
+    if unit.has_failing_check or not unit.translated:
+        return "unit-state-todo"
+    if unit.approved or (unit.readonly and unit.translation.enable_review):
+        return "unit-state-approved"
+    return "unit-state-translated"
+
+
+@register.simple_tag
+def unit_state_title(unit) -> str:
+    state = [unit.get_state_display()]
+    checks = unit.active_checks
+    if checks:
+        state.append(
+            "{} {}".format(
+                pgettext("String state", "Failed checks:"),
+                ", ".join(str(check) for check in checks),
+            )
+        )
+    checks = unit.dismissed_checks
+    if checks:
+        state.append(
+            "{} {}".format(
+                pgettext("String state", "Dismissed checks:"),
+                ", ".join(str(check) for check in checks),
+            )
+        )
+    if unit.has_comment:
+        state.append(pgettext("String state", "Commented"))
+    if unit.has_suggestion:
+        state.append(pgettext("String state", "Suggested"))
+    if "forbidden" in unit.all_flags:
+        state.append(gettext("This translation is forbidden."))
+    return "; ".join(state)
 
 
 @register.simple_tag
@@ -593,14 +634,16 @@ def get_location_links(profile, unit):
 
     # Go through all locations separated by comma
     for location, filename, line in unit.get_locations():
-        link = unit.translation.component.get_repoweb_link(
-            filename, line, profile.editor_link
-        )
+        link = None
+        if profile:
+            link = unit.translation.component.get_repoweb_link(
+                filename, line, profile.editor_link
+            )
         if link is None:
             ret.append(escape(location))
         else:
             ret.append(SOURCE_LINK.format(escape(link), escape(location)))
-    return mark_safe("\n".join(ret))
+    return mark_safe('\n<span class="divisor">•</span>\n'.join(ret))
 
 
 @register.simple_tag(takes_context=True)
@@ -666,7 +709,11 @@ def show_contributor_agreement(context, component):
 
     return render_to_string(
         "snippets/component/contributor-agreement.html",
-        {"object": component, "next": context["request"].get_full_path()},
+        {
+            "object": component,
+            "next": context["request"].get_full_path(),
+            "user": context["user"],
+        },
     )
 
 
@@ -840,9 +887,9 @@ def indicate_alerts(context, obj):
     return {"icons": result, "component": component, "project": project}
 
 
-@register.filter
+@register.filter(is_safe=True)
 def markdown(text):
-    return mark_safe('<div class="markdown">{}</div>'.format(render_markdown(text)))
+    return mark_safe(f'<div class="markdown">{render_markdown(text)}</div>')
 
 
 @register.filter
@@ -876,9 +923,49 @@ def format_commit_author(commit):
 
 @register.filter
 def percent_format(number):
+    if number < 0.1:
+        percent = 0
+    elif number < 1:
+        percent = 1
+    elif number >= 99.999999:
+        percent = 100
+    elif number > 99:
+        percent = 99
+    else:
+        percent = int(number)
     return pgettext("Translated percents", "%(percent)s%%") % {
-        "percent": intcomma(int(number))
+        "percent": intcomma(percent)
     }
+
+
+@register.filter
+def number_format(number):
+    format_string = "%s"
+    if number > 99999999:
+        number = number // 1000000
+        format_string = "%s M"
+    elif number > 99999:
+        number = number // 1000
+        format_string = "%s k"
+    return format_string % django_number_format(number, force_grouping=True)
+
+
+@register.filter
+def trend_format(number):
+    if number < 0:
+        prefix = "-"
+        trend = "trend-down"
+    else:
+        prefix = "+"
+        trend = "trend-up"
+    number = abs(number)
+    if number < 0.1:
+        return "—"
+    return mark_safe(
+        '{}{} <span class="{}"></span>'.format(
+            prefix, escape(percent_format(number)), trend
+        )
+    )
 
 
 @register.filter
@@ -900,3 +987,15 @@ def render_alert(context, alert):
 @register.simple_tag
 def get_message_kind(tags):
     return get_message_kind_impl(tags)
+
+
+@register.simple_tag
+def any_unit_has_context(units):
+    return any(unit.context for unit in units)
+
+
+@register.filter(is_safe=True, needs_autoescape=True)
+def urlize_ugc(value, autoescape=True):
+    """Convert URLs in plain text into clickable links."""
+    html = urlize(value, nofollow=True, autoescape=autoescape)
+    return mark_safe(html.replace('rel="nofollow"', 'rel="ugc" target="_blank"'))

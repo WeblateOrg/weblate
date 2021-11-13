@@ -56,7 +56,7 @@
       return false;
     });
     Mousetrap.bindGlobal("mod+o", function (e) {
-      $(".translation-item .copy-text").click();
+      $(".source-language-group [data-clone-text]").click();
       return false;
     });
     Mousetrap.bindGlobal("mod+y", function (e) {
@@ -148,6 +148,7 @@
       Cookies.set("translate-tab", $(this).attr("href"), {
         path: "/",
         expires: 365,
+        sameSite: "Lax",
       });
     });
 
@@ -302,9 +303,16 @@
     /* Check ignoring */
     this.$editor.on("click", ".check-dismiss", (e) => {
       var $el = $(e.currentTarget);
+      var url = $el.attr("href");
+      var $check = $el.closest(".check");
+      var dismiss_all = $check.find("input").prop("checked");
+      if (dismiss_all) {
+        url = $el.data("dismiss-all");
+      }
+
       $.ajax({
         type: "POST",
-        url: $el.attr("href"),
+        url: url,
         data: {
           csrfmiddlewaretoken: this.csrfToken,
         },
@@ -312,10 +320,10 @@
           addAlert(errorThrown);
         },
       });
-      if ($el.hasClass("check-dismiss-all")) {
-        $el.closest(".check").remove();
+      if (dismiss_all) {
+        $check.remove();
       } else {
-        $el.closest(".check").toggleClass("check-dismissed");
+        $check.toggleClass("check-dismissed");
       }
       return false;
     });
@@ -387,9 +395,13 @@
       if ($(e.target).parents("a").length > 0) {
         return;
       }
-      console.log(e.target);
-      console.log(e.currentTarget);
-      var text = $(e.currentTarget).find(".target").text();
+
+      var target = $(e.currentTarget);
+      var text = target.find(".target").text();
+      console.log(target);
+      if (target.hasClass("warning")) {
+        text = target.find(".source").text();
+      }
 
       this.insertIntoTranslation(text);
       e.preventDefault();
@@ -399,6 +411,25 @@
     var $glossaryDialog = null;
     this.$editor.on("show.bs.modal", "#add-glossary-form", (e) => {
       $glossaryDialog = $(e.currentTarget);
+
+      /* Prefill adding to glossary with current string */
+      if (e.target.hasAttribute("data-shown")) {
+        return;
+      }
+      /* Relies on clone source implementation */
+      let cloneElement = document.querySelector(
+        ".source-language-group [data-clone-text]"
+      );
+      if (cloneElement !== null) {
+        let source = cloneElement.getAttribute("data-clone-text");
+        if (source.length < 200) {
+          document.getElementById("id_source").value = source;
+          document.getElementById("id_target").value = document.querySelector(
+            ".translation-editor"
+          ).value;
+        }
+      }
+      e.target.setAttribute("data-shown", true);
     });
     this.$editor.on("hidden.bs.modal", "#add-glossary-form", () => {
       this.$translationArea.first().focus();
@@ -465,27 +496,7 @@
 
       /* Quality score as bar with the text */
       row.append(
-        $(
-          "<td>" +
-            '<div class="progress" title="' +
-            el.quality +
-            ' / 100">' +
-            '<div class="progress-bar ' +
-            (el.quality >= 70
-              ? "progress-bar-success"
-              : el.quality >= 50
-              ? "progress-bar-warning"
-              : "progress-bar-danger") +
-            '"' +
-            ' role="progressbar" aria-valuenow="' +
-            el.quality +
-            '"' +
-            ' aria-valuemin="0" aria-valuemax="100" style="width: ' +
-            el.quality +
-            '%;"></div>' +
-            "</div>" +
-            "</td>"
-        )
+        $("<td class='number'><strong>" + el.quality + "</strong> %</td>")
       );
       /* Translators: Verb for copy operation */
       row.append(
@@ -542,6 +553,12 @@
           ) {
             // Add origin to current ones
             var current = $this.children("td:nth-child(3)");
+            if (base.quality < translation.quality) {
+              service.append("<br/>");
+              service.append(current.html());
+              $this.remove();
+              return false;
+            }
             current.append($("<br/>"));
             current.append(service.html());
             done = true;

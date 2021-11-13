@@ -18,12 +18,11 @@
 #
 
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import HTML, Div, Field, Fieldset, Layout
+from crispy_forms.layout import HTML, Div, Field, Fieldset, Layout, Submit
 from django import forms
 from django.contrib.auth import authenticate, password_validation
 from django.contrib.auth.forms import SetPasswordForm as DjangoSetPasswordForm
 from django.db.models import Q
-from django.forms.widgets import EmailInput
 from django.middleware.csrf import rotate_token
 from django.utils.functional import cached_property
 from django.utils.html import escape
@@ -48,15 +47,20 @@ from weblate.accounts.utils import (
     get_all_user_mails,
     invalidate_reset_codes,
 )
-from weblate.auth.models import User
+from weblate.auth.models import Group, User
 from weblate.lang.models import Language
 from weblate.logger import LOGGER
-from weblate.trans.defines import EMAIL_LENGTH, FULLNAME_LENGTH
+from weblate.trans.defines import FULLNAME_LENGTH
 from weblate.trans.models import Component, Project
 from weblate.utils import messages
-from weblate.utils.forms import SortedSelect, SortedSelectMultiple, UsernameField
+from weblate.utils.forms import (
+    EmailField,
+    SortedSelect,
+    SortedSelectMultiple,
+    UsernameField,
+)
 from weblate.utils.ratelimit import check_rate_limit, reset_rate_limit
-from weblate.utils.validators import validate_email, validate_fullname
+from weblate.utils.validators import validate_fullname
 
 
 class UniqueEmailMixin:
@@ -89,20 +93,6 @@ class PasswordField(forms.CharField):
         kwargs["widget"] = forms.PasswordInput(render_value=False)
         kwargs["max_length"] = 256
         kwargs["strip"] = False
-        super().__init__(*args, **kwargs)
-
-
-class EmailField(forms.CharField):
-    """Slightly restricted EmailField.
-
-    We blacklist some additional local parts.
-    """
-
-    widget = EmailInput
-    default_validators = [validate_email]
-
-    def __init__(self, *args, **kwargs):
-        kwargs["max_length"] = EMAIL_LENGTH
         super().__init__(*args, **kwargs)
 
 
@@ -368,13 +358,6 @@ class ContactForm(forms.Form):
         max_length=2000,
         widget=forms.Textarea,
     )
-    content = forms.CharField(required=False)
-
-    def clean_content(self):
-        """Check if content is empty."""
-        if self.cleaned_data["content"] != "":
-            raise forms.ValidationError("Invalid value")
-        return ""
 
 
 class EmailForm(forms.Form, UniqueEmailMixin):
@@ -384,17 +367,9 @@ class EmailForm(forms.Form, UniqueEmailMixin):
     error_css_class = "error"
 
     email = EmailField(
-        strip=False,
         label=_("E-mail"),
         help_text=_("Activation e-mail will be sent here."),
     )
-    content = forms.CharField(required=False)
-
-    def clean_content(self):
-        """Check if content is empty."""
-        if self.cleaned_data["content"] != "":
-            raise forms.ValidationError("Invalid value")
-        return ""
 
 
 class RegistrationForm(EmailForm):
@@ -406,19 +381,12 @@ class RegistrationForm(EmailForm):
     username = UniqueUsernameField()
     # This has to be without underscore for social-auth
     fullname = FullNameField()
-    content = forms.CharField(required=False)
 
     def __init__(self, request=None, *args, **kwargs):
         # The 'request' parameter is set for custom auth use by subclasses.
         # The form data comes in via the standard 'data' kwarg.
         self.request = request
         super().__init__(*args, **kwargs)
-
-    def clean_content(self):
-        """Check if content is empty."""
-        if self.cleaned_data["content"] != "":
-            raise forms.ValidationError("Invalid value")
-        return ""
 
     def clean(self):
         if not check_rate_limit("registration", self.request):
@@ -829,3 +797,23 @@ class UserSearchForm(forms.Form):
                 raise forms.ValidationError(_("Chosen sorting is not supported."))
             return sort_by
         return None
+
+
+class GroupAddForm(forms.Form):
+    add_group = forms.ModelChoiceField(
+        label=_("Add user to a group"), queryset=Group.objects.all(), required=True
+    )
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper(self)
+        self.helper.form_class = "form-inline"
+        self.helper.field_template = "bootstrap3/layout/inline_field.html"
+        self.helper.layout = Layout(
+            "add_group",
+            Submit("add_group_button", _("Add group")),
+        )
+
+
+class GroupRemoveForm(forms.Form):
+    remove_group = forms.ModelChoiceField(queryset=Group.objects.all(), required=True)

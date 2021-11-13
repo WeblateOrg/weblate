@@ -59,7 +59,7 @@ class Command(BaseCommand):
         )
         while component.in_progress():
             self.stdout.write(
-                "Importing base component: {}%".format(component.get_progress()[0])
+                f"Importing base component: {component.get_progress()[0]}%"
             )
             sleep(1)
         component.clean()

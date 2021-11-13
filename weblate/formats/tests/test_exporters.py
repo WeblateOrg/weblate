@@ -206,6 +206,13 @@ class PoXliffExporterTest(PoExporterTest):
         result = self.check_unit(source="x " + xml, target="y " + xml).decode()
         self.assertIn("<g", result)
 
+    def test_html(self):
+        result = self.check_unit(
+            source="x <b>test</b>", target="y <b>test</b>"
+        ).decode()
+        self.assertIn("<source>x <b>test</b></source>", result)
+        self.assertIn('<target state="translated">y <b>test</b></target>', result)
+
     def test_php_code(self):
         text = """<?php
 if (!defined("FILENAME")){

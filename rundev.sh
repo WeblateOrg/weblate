@@ -27,7 +27,7 @@ case $1 in
         ;;
     test)
         shift
-        docker-compose exec -e WEBLATE_DATA_DIR=/tmp/test-data -e WEBLATE_CELERY_EAGER=1 weblate weblate test --noinput "$@"
+        docker-compose exec -e WEBLATE_DATA_DIR=/tmp/test-data -e WEBLATE_CELERY_EAGER=1 -e WEBLATE_SITE_TITLE=Weblate -e WEBLATE_ADD_APPS=weblate.billing,weblate.legal weblate weblate test --noinput "$@"
         ;;
     start|restart|"")
         # Build single requirements file

@@ -75,7 +75,7 @@ PERMISSIONS = (
     # Translators: Permission name
     ("unit.delete", _("Remove a string")),
     # Translators: Permission name
-    ("unit.check", _("Ignore failing check")),
+    ("unit.check", _("Dismiss failing check")),
     # Translators: Permission name
     ("unit.edit", _("Edit strings")),
     # Translators: Permission name
@@ -98,6 +98,8 @@ PERMISSIONS = (
     ("translation.auto", _("Perform automatic translation")),
     # Translators: Permission name
     ("translation.delete", _("Delete existing translation")),
+    # Translators: Permission name
+    ("translation.download", _("Download translation file")),
     # Translators: Permission name
     ("translation.add_more", _("Add several languages for translation")),
     # Translators: Permission name
@@ -162,6 +164,7 @@ TRANSLATE_PERMS = {
     "suggestion.vote",
     "unit.check",
     "unit.edit",
+    "translation.download",
     "upload.overwrite",
     "upload.perform",
     "machinery.view",
@@ -175,7 +178,10 @@ ROLES = (
         TRANSLATE_PERMS | {"unit.template", "source.edit"},
     ),
     (pgettext("Access-control role", "Add suggestion"), {"suggestion.add"}),
-    (pgettext("Access-control role", "Access repository"), {"vcs.access", "vcs.view"}),
+    (
+        pgettext("Access-control role", "Access repository"),
+        {"translation.download", "vcs.access", "vcs.view"},
+    ),
     (pgettext("Access-control role", "Manage glossary"), filter_perms("glossary.")),
     (
         pgettext("Access-control role", "Power user"),

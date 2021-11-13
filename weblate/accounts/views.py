@@ -29,7 +29,7 @@ from django.conf import settings
 from django.contrib.auth import REDIRECT_FIELD_NAME, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import LoginView, LogoutView
-from django.core.exceptions import ObjectDoesNotExist, ValidationError
+from django.core.exceptions import ObjectDoesNotExist, PermissionDenied, ValidationError
 from django.core.mail.message import EmailMultiAlternatives
 from django.core.signing import (
     BadSignature,
@@ -56,7 +56,7 @@ from django.utils.translation import gettext as _
 from django.views.decorators.cache import never_cache
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
-from django.views.generic import ListView, TemplateView
+from django.views.generic import ListView, TemplateView, UpdateView
 from rest_framework.authtoken.models import Token
 from social_core.actions import do_auth
 from social_core.backends.open_id import OpenIdAuth
@@ -82,6 +82,8 @@ from weblate.accounts.forms import (
     DashboardSettingsForm,
     EmailForm,
     EmptyConfirmForm,
+    GroupAddForm,
+    GroupRemoveForm,
     LanguagesForm,
     LoginForm,
     NotificationForm,
@@ -105,12 +107,14 @@ from weblate.accounts.notifications import (
     SCOPE_COMPONENT,
     SCOPE_PROJECT,
     SCOPE_WATCHED,
+    send_notification_email,
 )
 from weblate.accounts.pipeline import EmailAlreadyAssociated, UsernameAlreadyAssociated
 from weblate.accounts.utils import remove_user
+from weblate.auth.forms import UserEditForm
 from weblate.auth.models import User
 from weblate.logger import LOGGER
-from weblate.trans.models import Change, Component, Project, Suggestion
+from weblate.trans.models import Change, Component, Suggestion, Translation
 from weblate.trans.models.project import prefetch_project_flags
 from weblate.utils import messages
 from weblate.utils.errors import report_error
@@ -120,7 +124,6 @@ from weblate.utils.ratelimit import (
     session_ratelimit_post,
 )
 from weblate.utils.request import get_ip_address, get_user_agent
-from weblate.utils.site import get_site_url
 from weblate.utils.stats import prefetch_stats
 from weblate.utils.views import get_component, get_project
 
@@ -152,7 +155,7 @@ NOTIFICATION_PREFIX_TEMPLATE = "notifications__{}"
 
 
 def get_auth_keys():
-    return set(load_backends(social_django.utils.BACKENDS).keys())
+    return set(load_backends(settings.AUTHENTICATION_BACKENDS).keys())
 
 
 class EmailSentView(TemplateView):
@@ -209,8 +212,13 @@ def mail_admins_contact(request, subject, message, context, sender, to):
         LOGGER.error("ADMINS not configured, cannot send message")
         return
 
+    if settings.CONTACT_FORM == "reply-to":
+        kwargs = {"headers": {"Reply-To": sender}}
+    else:
+        kwargs = {"from_email": sender}
+
     mail = EmailMultiAlternatives(
-        subject="{}{}".format(settings.EMAIL_SUBJECT_PREFIX, subject % context),
+        subject=f"{settings.EMAIL_SUBJECT_PREFIX}{subject % context}",
         body="{}\n{}".format(
             message % context,
             TEMPLATE_FOOTER.format(
@@ -220,7 +228,7 @@ def mail_admins_contact(request, subject, message, context, sender, to):
             ),
         ),
         to=to,
-        from_email=sender,
+        **kwargs,
     )
 
     mail.send(fail_silently=False)
@@ -275,7 +283,7 @@ def get_notification_forms(request):
                 component = Component.objects.filter_access(user).get(
                     pk=request.GET["notify_component"],
                 )
-                active = key = (SCOPE_COMPONENT, component.project_id, component.pk)
+                active = key = (SCOPE_COMPONENT, -1, component.pk)
                 subscriptions[key] = {}
                 initials[key] = {
                     "scope": SCOPE_COMPONENT,
@@ -595,47 +603,83 @@ def trial(request):
     return render(request, "accounts/trial.html", {"title": _("Gratis trial")})
 
 
-def user_page(request, user):
-    """User details page."""
-    user = get_object_or_404(User, username=user)
-    allowed_project_ids = request.user.allowed_project_ids
+class UserPage(UpdateView):
+    model = User
+    template_name = "accounts/user.html"
+    slug_field = "username"
+    slug_url_kwarg = "user"
+    context_object_name = "page_user"
+    form_class = UserEditForm
 
-    # Filter all user activity
-    all_changes = Change.objects.last_changes(request.user).filter(user=user)
+    group_form = None
 
-    # Last user activity
-    last_changes = all_changes[:10]
+    def post(self, request, **kwargs):
+        if not request.user.has_perm("user.edit"):
+            raise PermissionDenied()
+        user = self.object = self.get_object()
+        if "add_group" in request.POST:
+            self.group_form = GroupAddForm(request.POST)
+            if self.group_form.is_valid():
+                user.groups.add(self.group_form.cleaned_data["add_group"])
+                return HttpResponseRedirect(self.get_success_url() + "#groups")
+        if "remove_group" in request.POST:
+            form = GroupRemoveForm(request.POST)
+            if form.is_valid():
+                user.groups.remove(form.cleaned_data["remove_group"])
+                return HttpResponseRedirect(self.get_success_url() + "#groups")
+        if "remove_user" in request.POST:
+            remove_user(user, request)
+            return HttpResponseRedirect(self.get_success_url() + "#groups")
 
-    # Filter where project is active
-    user_projects_ids = set(
-        all_changes.values_list("translation__component__project", flat=True)
-    )
-    user_projects = Project.objects.filter(
-        id__in=user_projects_ids & allowed_project_ids
-    ).order()
+        return super().post(request, **kwargs)
 
-    return render(
-        request,
-        "accounts/user.html",
-        {
-            "page_profile": user.profile,
-            "page_user": user,
-            "last_changes": last_changes,
-            "last_changes_url": urlencode({"user": user.username}),
-            "user_projects": prefetch_project_flags(prefetch_stats(user_projects)),
-            "owned_projects": prefetch_project_flags(
-                prefetch_stats(
-                    user.owned_projects.filter(id__in=allowed_project_ids).order()
-                )
-            ),
-            "watched_projects": prefetch_project_flags(
-                prefetch_stats(
-                    user.watched_projects.filter(id__in=allowed_project_ids).order()
-                )
-            ),
-            "user_languages": user.profile.languages.all()[:7],
-        },
-    )
+    def form_valid(self, form):
+        """If the form is valid, save the associated model."""
+        self.object = form.save(self.request)
+        return HttpResponseRedirect(self.get_success_url())
+
+    def get_context_data(self, **kwargs):
+        """Create context for rendering page."""
+        context = super().get_context_data(**kwargs)
+        user = self.object
+        request = self.request
+
+        allowed_project_ids = request.user.allowed_project_ids
+
+        # Filter all user activity
+        all_changes = Change.objects.last_changes(request.user).filter(user=user)
+
+        # Last user activity
+        last_changes = all_changes[:10]
+
+        # Filter where project is active
+        user_translation_ids = set(all_changes.values_list("translation", flat=True))
+        user_translations = (
+            Translation.objects.prefetch()
+            .filter(
+                id__in=user_translation_ids,
+                component__project_id__in=allowed_project_ids,
+            )
+            .order()
+        )
+
+        context["page_profile"] = user.profile
+        context["last_changes"] = last_changes.preload()
+        context["last_changes_url"] = urlencode({"user": user.username})
+        context["user_translations"] = prefetch_stats(user_translations)
+        context["owned_projects"] = prefetch_project_flags(
+            prefetch_stats(
+                user.owned_projects.filter(id__in=allowed_project_ids).order()
+            )
+        )
+        context["watched_projects"] = prefetch_project_flags(
+            prefetch_stats(
+                user.watched_projects.filter(id__in=allowed_project_ids).order()
+            )
+        )
+        context["user_languages"] = user.profile.languages.all()[:7]
+        context["group_form"] = self.group_form or GroupAddForm()
+        return context
 
 
 def user_avatar(request, user: str, size: int):
@@ -908,6 +952,16 @@ def reset_password(request):
                 if not audit.check_rate_limit(request):
                     store_userid(request, True)
                     return social_complete(request, "email")
+            else:
+                send_notification_email(
+                    None,
+                    [form.cleaned_data["email"]],
+                    "reset-nonexisting",
+                    context={
+                        "address": get_ip_address(request),
+                        "user_agent:": get_user_agent(request),
+                    },
+                )
             return fake_email_sent(request, True)
     else:
         form = ResetForm()
@@ -1294,24 +1348,6 @@ def saml_metadata(request):
     if "social_core.backends.saml.SAMLAuth" not in settings.AUTHENTICATION_BACKENDS:
         raise Http404
 
-    # Generate configuration
-    settings.SOCIAL_AUTH_SAML_SP_ENTITY_ID = get_site_url(
-        reverse("social:saml-metadata")
-    )
-    settings.SOCIAL_AUTH_SAML_ORG_INFO = {
-        "en-US": {
-            "name": "weblate",
-            "displayname": settings.SITE_TITLE,
-            "url": get_site_url("/"),
-        }
-    }
-    admin_contact = {
-        "givenName": settings.ADMINS[0][0],
-        "emailAddress": settings.ADMINS[0][1],
-    }
-    settings.SOCIAL_AUTH_SAML_TECHNICAL_CONTACT = admin_contact
-    settings.SOCIAL_AUTH_SAML_SUPPORT_CONTACT = admin_contact
-
     # Generate metadata
     complete_url = reverse("social:complete", args=("saml",))
     saml_backend = social_django.utils.load_backend(
@@ -1332,6 +1368,10 @@ def saml_metadata(request):
 class UserList(ListView):
     paginate_by = 50
     model = User
+
+    @method_decorator(login_required)
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
 
     def get_queryset(self):
         users = User.objects.filter(is_active=True)

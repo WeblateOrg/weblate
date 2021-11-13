@@ -111,7 +111,8 @@ def get_unit_translations(request, unit_id):
                     user.profile.get_translation_order(unit.translation),
                     unit.translation.language,
                 ),
-            )
+            ),
+            "component": unit.translation.component,
         },
     )
 

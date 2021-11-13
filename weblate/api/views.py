@@ -33,7 +33,7 @@ from django.utils.safestring import mark_safe
 from django_filters import rest_framework as filters
 from rest_framework import parsers, viewsets
 from rest_framework.decorators import action
-from rest_framework.exceptions import ParseError
+from rest_framework.exceptions import ParseError, ValidationError
 from rest_framework.mixins import CreateModelMixin, DestroyModelMixin, UpdateModelMixin
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
@@ -91,9 +91,11 @@ from weblate.trans.models import (
 )
 from weblate.trans.stats import get_project_stats
 from weblate.trans.tasks import auto_translate, component_removal, project_removal
+from weblate.trans.views.files import download_multi
 from weblate.utils.celery import get_queue_stats, get_task_progress, is_task_ready
 from weblate.utils.docs import get_doc_url
 from weblate.utils.errors import report_error
+from weblate.utils.search import parse_query
 from weblate.utils.state import (
     STATE_APPROVED,
     STATE_EMPTY,
@@ -272,6 +274,7 @@ class WeblateViewSet(DownloadViewSet):
                 )
 
             data["remote_commit"] = component.get_last_remote_commit()
+            data["weblate_commit"] = component.get_last_commit()
             data["status"] = component.repository.status()
             changes = component.change_set.filter(
                 action__in=Change.ACTIONS_REPOSITORY
@@ -611,7 +614,7 @@ class RoleViewSet(viewsets.ModelViewSet):
         return (
             Role.objects.filter(group__in=self.request.user.groups.all())
             .order_by("id")
-            .all()
+            .distinct()
         )
 
     def perm_check(self, request):
@@ -949,6 +952,24 @@ class ComponentViewSet(
         instance.links.remove(project)
         return Response(status=HTTP_204_NO_CONTENT)
 
+    @action(detail=True, methods=["get"], url_path="file")
+    def download_archive(self, request, **kwargs):
+        # Implementation is analogous to files#download_component, but we can't reuse
+        #  that here because the lookup for the component is different
+        instance = self.get_object()
+        if not request.user.has_perm("translation.download", instance):
+            self.permission_denied(
+                request, "Can not download all translations for the component"
+            )
+
+        requested_format = request.query_params.get("format", "zip")
+        return download_multi(
+            instance.translation_set.all(),
+            [instance],
+            requested_format,
+            name=instance.full_slug.replace("/", "-"),
+        )
+
 
 class TranslationViewSet(MultipleFieldMixin, WeblateViewSet, DestroyModelMixin):
     """Translation components API."""
@@ -980,6 +1001,8 @@ class TranslationViewSet(MultipleFieldMixin, WeblateViewSet, DestroyModelMixin):
         obj = self.get_object()
         user = request.user
         if request.method == "GET":
+            if not user.has_perm("translation.download", obj):
+                raise PermissionDenied()
             fmt = self.format_kwarg or request.query_params.get("format")
             return download_translation_file(request, obj, fmt)
 
@@ -1065,9 +1088,14 @@ class TranslationViewSet(MultipleFieldMixin, WeblateViewSet, DestroyModelMixin):
             serializer = self.serializer_class(obj, context={"request": request})
             return Response(serializer.data, status=HTTP_200_OK)
 
-        queryset = (
-            obj.unit_set.search(request.GET.get("q", "")).order_by("id").prefetch()
-        )
+        query_string = request.GET.get("q", "")
+        try:
+            parse_query(query_string)
+        except Exception as error:
+            report_error()
+            raise ValidationError(f"Failed to parse query string: {error}")
+
+        queryset = obj.unit_set.search(query_string).order_by("id").prefetch()
         page = self.paginate_queryset(queryset)
 
         serializer = UnitSerializer(page, many=True, context={"request": request})
@@ -1079,21 +1107,33 @@ class TranslationViewSet(MultipleFieldMixin, WeblateViewSet, DestroyModelMixin):
         translation = self.get_object()
         if not request.user.has_perm("translation.auto", translation):
             self.permission_denied(request, "Can not auto translate")
+        if translation.component.locked:
+            self.permission_denied(request, "Component is locked")
+
         autoform = AutoForm(translation.component, request.data)
-        if translation.component.locked or not autoform.is_valid():
-            raise ParseError("Failed to process autotranslation data!", "invalid")
-        args = (
-            request.user.id,
-            translation.id,
-            autoform.cleaned_data["mode"],
-            autoform.cleaned_data["filter_type"],
-            autoform.cleaned_data["auto_source"],
-            autoform.cleaned_data["component"],
-            autoform.cleaned_data["engines"],
-            autoform.cleaned_data["threshold"],
-        )
+        if not autoform.is_valid():
+            errors = {}
+            for field in autoform:
+                for error in field.errors:
+                    if field.name in errors:
+                        errors[field.name] += f", {error}"
+                    else:
+                        errors[field.name] = error
+            raise ValidationError(errors)
+
         return Response(
-            data={"details": auto_translate(*args)},
+            data={
+                "details": auto_translate(
+                    request.user.id,
+                    translation.id,
+                    autoform.cleaned_data["mode"],
+                    autoform.cleaned_data["filter_type"],
+                    autoform.cleaned_data["auto_source"],
+                    autoform.cleaned_data["component"],
+                    autoform.cleaned_data["engines"],
+                    autoform.cleaned_data["threshold"],
+                )
+            },
             status=HTTP_200_OK,
         )
 
@@ -1366,6 +1406,10 @@ class ChangeViewSet(viewsets.ReadOnlyModelViewSet):
 
     def get_queryset(self):
         return Change.objects.last_changes(self.request.user).order_by("id")
+
+    def paginate_queryset(self, queryset):
+        result = super().paginate_queryset(queryset)
+        return Change.objects.preload_list(result)
 
 
 class ComponentListViewSet(viewsets.ModelViewSet):

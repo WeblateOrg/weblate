@@ -235,7 +235,7 @@ BASIC_LANGUAGES
 .. versionadded:: 4.4
 
 List of languages to offer users for starting new translation. When not
-specified built in list is used which includes all commonly used languages, but
+specified built-in list is used which includes all commonly used languages, but
 without country specific variants.
 
 This only limits non privileged users to add unwanted languages. The project
@@ -255,6 +255,26 @@ admins are still presented with full selection of languages defined in Weblate.
 .. seealso::
 
     :ref:`languages`
+
+.. setting:: BORG_EXTRA_ARGS
+
+BORG_EXTRA_ARGS
+---------------
+
+.. versionadded:: 4.9
+
+You can pass additional arguments to :command:`borg create` when built-in backups are triggered.
+
+**Example:**
+
+.. code-block:: python
+
+   BORG_EXTRA_ARGS = ["--exclude", "vcs/"]
+
+.. seealso::
+
+   :ref:`backup`,
+   :doc:`borg:usage/create`
 
 .. setting:: CSP_SCRIPT_SRC
 .. setting:: CSP_IMG_SRC
@@ -353,6 +373,23 @@ Number of hours between committing pending changes by way of the background task
    :ref:`production-cron`,
    :djadmin:`commit_pending`
 
+
+.. setting:: CONTACT_FORM
+
+CONTACT_FORM
+------------
+
+.. versionadded:: 4.6
+
+Configures how e-mail from the contact form is being sent. Choose a
+configuration that matches your mail server configuration.
+
+``"reply-to"``
+   The sender is used in as :mailheader:`Reply-To`, this is the default behaviour.
+``"from"``
+   The sender is used in as :mailheader:`From`. Your mail server needs to allow
+   sending such e-mails.
+
 .. setting:: DATA_DIR
 
 DATA_DIR
@@ -369,8 +406,10 @@ The following subdirectories usually exist:
     SSH keys and configuration.
 :file:`static`
     Default location for static Django files, specified by :setting:`django:STATIC_ROOT`. See :ref:`static-files`.
+
+    The Docker container uses a separate volume for this, see :ref:`docker-volume`.
 :file:`media`
-    Default location for Django media files, specified by :setting:`django:MEDIA_ROOT`. Contains uploaded screenshots.
+    Default location for Django media files, specified by :setting:`django:MEDIA_ROOT`. Contains uploaded screenshots, see :ref:`screenshots`.
 :file:`vcs`
     Version control repositories for translations.
 :file:`backups`
@@ -506,9 +545,9 @@ Example:
 .. code-block:: python
 
    DEFAULT_ADDONS = {
-       # Addon with no parameters
+       # Add-on with no parameters
        "weblate.flags.target_edit": {},
-       # Addon with parameters
+       # Add-on with parameters
        "weblate.autotranslate.autotranslate": {
            "mode": "suggest",
            "filter_type": "todo",
@@ -522,6 +561,7 @@ Example:
 .. seealso::
 
    :djadmin:`install_addon`,
+   :doc:`addons`,
    :setting:`WEBLATE_ADDONS`
 
 .. setting:: DEFAULT_COMMITER_EMAIL
@@ -792,7 +832,9 @@ translation updates.
 
    :setting:`GITHUB_CREDENTIALS`,
    :ref:`vcs-github`,
-   `Creating a personal access token <https://docs.github.com/en/github/authenticating-to-github/creating-a-personal-access-token>`_
+   `Creating a GitHub personal access token`_
+
+.. _Creating a GitHub personal access token: https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token
 
 .. setting:: GOOGLE_ANALYTICS_ID
 
@@ -932,6 +974,10 @@ Example:
 .. code-block:: python
 
     LEGAL_URL = "https://weblate.org/terms/"
+
+.. seealso::
+
+   :setting:`PRIVACY_URL`
 
 .. setting:: LICENSE_EXTRA
 
@@ -1141,6 +1187,11 @@ List of enabled machine translation services to use.
     Many of the services need additional configuration like API keys, please check
     their documentation :ref:`machine-translation-setup` for more details.
 
+.. hint::
+
+    When using Docker container, this configuration is automatically generated
+    based on provided API keys, see :ref:`docker-machine`.
+
 .. code-block:: python
 
     MT_SERVICES = (
@@ -1148,6 +1199,7 @@ List of enabled machine translation services to use.
         "weblate.machinery.deepl.DeepLTranslation",
         "weblate.machinery.glosbe.GlosbeTranslation",
         "weblate.machinery.google.GoogleTranslation",
+        "weblate.machinery.libretranslate.LibreTranslateTranslation",
         "weblate.machinery.microsoft.MicrosoftCognitiveTranslation",
         "weblate.machinery.microsoftterminology.MicrosoftTerminologyService",
         "weblate.machinery.mymemory.MyMemoryTranslation",
@@ -1230,24 +1282,38 @@ Client secret for the Baidu Zhiyun API, you can register at https://api.fanyi.ba
 
    :ref:`baidu-translate`, :ref:`machine-translation-setup`, :ref:`machine-translation`
 
-.. setting:: MT_DEEPL_API_VERSION
+.. setting:: MT_DEEPL_API_URL
 
-MT_DEEPL_API_VERSION
---------------------
+MT_DEEPL_API_URL
+----------------
 
-.. versionadded:: 4.1.1
+.. versionchanged:: 4.7
 
-API version to use with DeepL service. The version limits scope of usage:
+   The full API URL is now configured to allow using the free plan. Before, it was only possible to
+   configure the API version using ``MT_DEEPL_API_VERSION``.
 
-v1
-    Is meant for CAT tools and is usable with user-based subscription.
-v2
-    Is meant for API usage and the subscription is usage based.
+API URL to use with the DeepL service. At the time of writing, there is the v1 API
+as well as a free and a paid version of the v2 API.
+
+``https://api.deepl.com/v2/`` (default in Weblate)
+    Is meant for API usage on the paid plan, and the subscription is usage-based.
+``https://api-free.deepl.com/v2/``
+    Is meant for API usage on the free plan, and the subscription is usage-based.
+``https://api.deepl.com/v1/``
+    Is meant for CAT tools and is usable with a per-user subscription.
 
 Previously Weblate was classified as a CAT tool by DeepL, so it was supposed to
 use the v1 API, but now is supposed to use the v2 API.
 Therefore it defaults to v2, and you can change it to v1 in case you have
 an existing CAT subscription and want Weblate to use that.
+
+The easiest way to find out which one to use is to open an URL like the
+following in your browser:
+
+https://api.deepl.com/v2/translate?text=Hello&target_lang=FR&auth_key=XXX
+
+Replace the XXX with your auth_key. If you receive a JSON object which contains
+"Bonjour", you have the correct URL; if not, try the other three.
 
 .. seealso::
 
@@ -1263,6 +1329,40 @@ API key for the DeepL API, you can register at https://www.deepl.com/pro.html
 .. seealso::
 
    :ref:`deepl`, :ref:`machine-translation-setup`, :ref:`machine-translation`
+
+.. setting:: MT_LIBRETRANSLATE_API_URL
+
+MT_LIBRETRANSLATE_API_URL
+-------------------------
+
+.. versionadded:: 4.7.1
+
+API URL for the LibreTranslate instance to use.
+
+``https://libretranslate.com/`` (official public instance)
+    Requires an API key to use outside of the website.
+
+Mirrors are documented on the LibreTranslate GitHub repository, some of which
+can be used without authentication:
+
+https://github.com/LibreTranslate/LibreTranslate#user-content-mirrors
+
+.. seealso::
+
+   :ref:`libretranslate`, :ref:`machine-translation-setup`, :ref:`machine-translation`
+
+.. setting:: MT_LIBRETRANSLATE_KEY
+
+MT_LIBRETRANSLATE_KEY
+---------------------
+
+.. versionadded:: 4.7.1
+
+API key for the LibreTranslate instance specified in `MT_LIBRETRANSLATE_API_URL`.
+
+.. seealso::
+
+   :ref:`libretranslate`, :ref:`machine-translation-setup`, :ref:`machine-translation`
 
 .. setting:: MT_GOOGLE_KEY
 
@@ -1537,6 +1637,15 @@ NEARBY_MESSAGES
 
 How many strings to show around the currently translated string. This is just a default value, users can adjust this in :ref:`user-profile`.
 
+.. setting:: DEFAULT_PAGE_LIMIT
+
+DEFAULT_PAGE_LIMIT
+------------------
+
+.. versionadded:: 4.7
+
+Default number of elements to display when pagination is active.
+
 .. setting:: PAGURE_CREDENTIALS
 
 PAGURE_CREDENTIALS
@@ -1593,6 +1702,30 @@ Pagure personal access token used to make API calls for translation updates.
    :ref:`vcs-pagure`,
    `Pagure API <https://pagure.io/api/0/>`_
 
+
+.. setting:: PRIVACY_URL
+
+PRIVACY_URL
+-----------
+
+.. versionadded:: 4.8.1
+
+URL where your Weblate instance shows its privacy policy.
+
+.. hint::
+
+    Useful if you host your legal documents outside Weblate for embedding them inside Weblate,
+    please check :ref:`legal` for details.
+
+Example:
+
+.. code-block:: python
+
+    PRIVACY_URL = "https://weblate.org/terms/"
+
+.. seealso::
+
+   :setting:`LEGAL_URL`
 
 .. setting:: RATELIMIT_ATTEMPTS
 
@@ -1857,7 +1990,7 @@ The default value is:
 
 .. code-block:: python
 
-    SPECIAL_CHARS = ("\t", "\n", "…")
+    SPECIAL_CHARS = ("\t", "\n", "\u00a0", "…")
 
 .. setting:: SINGLE_PROJECT
 
@@ -1881,6 +2014,32 @@ Example:
 .. code-block:: python
 
     SINGLE_PROJECT = "test"
+
+.. setting:: SSH_EXTRA_ARGS
+
+SSH_EXTRA_ARGS
+--------------
+
+.. versionadded:: 4.9
+
+Allows to add custom parameters when Weblate is invoking SSH. This is useful
+when connecting to servers using legacy encryption or other non-standard features.
+
+For example when SSH connection in Weblate fails with `Unable to negotiate with legacyhost: no matching key exchange method found.
+Their offer: diffie-hellman-group1-sha1`, you can enable that using:
+
+.. code-block:: python
+
+   SSH_EXTRA_ARGS = "-oKexAlgorithms=+diffie-hellman-group1-sha1"
+
+.. hint::
+
+   The string is evaluated by shell, so make sure to quote any whitespace and
+   special characters.
+
+.. seealso::
+
+   `OpenSSH Legacy Options <https://www.openssh.com/legacy.html>`_
 
 .. setting:: STATUS_URL
 
@@ -2028,7 +2187,7 @@ example:
         "weblate.addons.autotranslate.AutoTranslateAddon",
         "weblate.addons.yaml.YAMLCustomizeAddon",
         "weblate.addons.cdn.CDNJSAddon",
-        # Addon you want to include
+        # Add-on you want to include
         "weblate.addons.example.ExampleAddon",
     )
 

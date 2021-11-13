@@ -22,6 +22,7 @@ import shutil
 
 from django.conf import settings
 from django.test import TestCase
+from django.test.utils import override_settings
 
 from weblate.trans.tests.utils import get_test_file
 from weblate.utils.checks import check_data_writable
@@ -49,9 +50,24 @@ class SSHTest(TestCase):
         wrapper.create()
         with open(filename) as handle:
             data = handle.read()
-            self.assertTrue(ssh_file("known_hosts") in data)
-            self.assertTrue(ssh_file("id_rsa") in data)
-            self.assertTrue(settings.DATA_DIR in data)
+            self.assertIn(ssh_file("known_hosts"), data)
+            self.assertIn(ssh_file("id_rsa"), data)
+            self.assertIn(settings.DATA_DIR, data)
+        self.assertTrue(os.access(filename, os.X_OK))
+        # Second run should not touch the file
+        timestamp = os.stat(filename).st_mtime
+        wrapper.create()
+        self.assertEqual(timestamp, os.stat(filename).st_mtime)
+
+    @tempdir_setting("DATA_DIR")
+    @override_settings(SSH_EXTRA_ARGS="-oKexAlgorithms=+diffie-hellman-group1-sha1")
+    def test_ssh_args(self):
+        wrapper = SSHWrapper()
+        filename = wrapper.filename
+        wrapper.create()
+        with open(filename) as handle:
+            data = handle.read()
+            self.assertIn(settings.SSH_EXTRA_ARGS, data)
         self.assertTrue(os.access(filename, os.X_OK))
         # Second run should not touch the file
         timestamp = os.stat(filename).st_mtime

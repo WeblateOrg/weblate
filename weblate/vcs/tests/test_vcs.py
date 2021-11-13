@@ -87,10 +87,10 @@ class GitNoVersionRepository(GitRepository):
 class RepositoryTest(TestCase):
     def test_not_supported(self):
         self.assertFalse(NonExistingRepository.is_supported())
-        with self.assertRaises(Exception):
+        with self.assertRaises(FileNotFoundError):
             NonExistingRepository.get_version()
         # Test exception caching
-        with self.assertRaises(Exception):
+        with self.assertRaises(FileNotFoundError):
             NonExistingRepository.get_version()
 
     def test_not_supported_version(self):
@@ -302,19 +302,19 @@ class VCSGitTest(TestCase, RepoTestMixin, TempDirMixin):
         self.assertFalse(self.repo.needs_commit(["dummy"]))
 
     def check_valid_info(self, info):
-        self.assertTrue("summary" in info)
+        self.assertIn("summary", info)
         self.assertNotEqual(info["summary"], "")
-        self.assertTrue("author" in info)
+        self.assertIn("author", info)
         self.assertNotEqual(info["author"], "")
-        self.assertTrue("authordate" in info)
+        self.assertIn("authordate", info)
         self.assertNotEqual(info["authordate"], "")
-        self.assertTrue("commit" in info)
+        self.assertIn("commit", info)
         self.assertNotEqual(info["commit"], "")
-        self.assertTrue("commitdate" in info)
+        self.assertIn("commitdate", info)
         self.assertNotEqual(info["commitdate"], "")
-        self.assertTrue("revision" in info)
+        self.assertIn("revision", info)
         self.assertNotEqual(info["revision"], "")
-        self.assertTrue("shortrevision" in info)
+        self.assertIn("shortrevision", info)
         self.assertNotEqual(info["shortrevision"], "")
 
     def test_revision_info(self):
@@ -541,6 +541,11 @@ class VCSGitHubTest(VCSGitUpstreamTest):
         self.assertEqual(
             self.repo.get_api_url()[0], "https://api.github.com/repos/WeblateOrg/test"
         )
+        self.repo.component.repo = "github.com:WeblateOrg/test.github.io"
+        self.assertEqual(
+            self.repo.get_api_url()[0],
+            "https://api.github.com/repos/WeblateOrg/test.github.io",
+        )
 
     @responses.activate
     def test_push(self, branch=""):
@@ -732,13 +737,21 @@ class VCSGitLabTest(VCSGitUpstreamTest):
         )
         self.repo.component.repo = "git@gitlab.example.com:WeblateOrg/test.git"
         self.assertEqual(
-            self.repo.get_api_url()[0],
-            "https://gitlab.example.com/api/v4/projects/WeblateOrg%2Ftest",
+            self.repo.get_api_url(),
+            (
+                "https://gitlab.example.com/api/v4/projects/WeblateOrg%2Ftest",
+                "WeblateOrg",
+                "test",
+            ),
         )
         self.repo.component.repo = "git@gitlab.example.com:foo/bar/test.git"
         self.assertEqual(
-            self.repo.get_api_url()[0],
-            "https://gitlab.example.com/api/v4/projects/foo%2Fbar%2Ftest",
+            self.repo.get_api_url(),
+            (
+                "https://gitlab.example.com/api/v4/projects/foo%2Fbar%2Ftest",
+                "foo",
+                "bar/test",
+            ),
         )
 
     @responses.activate
@@ -916,7 +929,7 @@ class VCSPagureTest(VCSGitUpstreamTest):
         )
         responses.add(
             responses.GET,
-            "https://pagure.io/api/0/testrepo/pull-request",
+            "https://pagure.io/api/0/testrepo/pull-requests",
             json=existing_response,
             status=200,
         )

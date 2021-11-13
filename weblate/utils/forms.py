@@ -23,10 +23,10 @@ from django import forms
 from django.template.loader import render_to_string
 from django.utils.translation import gettext_lazy as _
 
-from weblate.trans.defines import USERNAME_LENGTH
+from weblate.trans.defines import EMAIL_LENGTH, USERNAME_LENGTH
 from weblate.trans.filter import FILTERS
 from weblate.trans.util import sort_unicode
-from weblate.utils.validators import validate_username
+from weblate.utils.validators import validate_email, validate_username
 
 
 class UsernameField(forms.CharField):
@@ -46,6 +46,19 @@ class UsernameField(forms.CharField):
         self.valid = None
 
         super().__init__(*args, **params)
+
+
+class EmailField(forms.EmailField):
+    """Slightly restricted EmailField.
+
+    We blacklist some additional local parts and customize error messages.
+    """
+
+    default_validators = [validate_email]
+
+    def __init__(self, *args, **kwargs):
+        kwargs.setdefault("max_length", EMAIL_LENGTH)
+        super().__init__(*args, **kwargs)
 
 
 class SortedSelectMixin:

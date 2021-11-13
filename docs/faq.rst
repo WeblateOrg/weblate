@@ -43,8 +43,8 @@ translations (you can do it in :guilabel:`Repository maintenance` in the
 :guilabel:`Manage` menu) and merge the repository (if automatic push is not
 on).
 
-If you've already ran into a merge conflict, the easiest way is to solve all
-conflicts locally at your workstation - is to simply add Weblate as a remote
+If you've already encountered a merge conflict, the easiest way to solve all
+conflicts locally on your machine, is to add Weblate as a remote
 repository, merge it into upstream and fix any conflicts. Once you push changes
 back, Weblate will be able to use the merged version without any other special
 actions.
@@ -52,7 +52,7 @@ actions.
 .. note::
 
    Depending on your setup, access to the Weblate repository might require
-   authentication. When using the built in :ref:`git-exporter` in Weblate, you
+   authentication. When using the built-in :ref:`git-exporter` in Weblate, you
    authenticate with your username and the API key.
 
 .. code-block:: sh
@@ -504,7 +504,7 @@ actually translating.
 Why does Weblate use language codes such sr_Latn or zh_Hant?
 ------------------------------------------------------------
 
-These are language codes defined by :rfc:`4646` to better indicate that they
+These are language codes defined by :rfc:`5646` to better indicate that they
 are really different languages instead previously wrongly used modifiers (for
 ``@latin`` variants) or country codes (for Chinese).
 
@@ -512,6 +512,13 @@ Weblate still understands legacy language codes and will map them to
 current one - for example ``sr@latin`` will be handled as ``sr_Latn`` or
 ``zh@CN`` as ``zh_Hans``.
 
+.. note::
+
+   Weblate defaults to POSIX style language codes with underscore, see
+   :ref:`languages` for more details.
+
 .. seealso::
 
-   :ref:`languages`
+   :ref:`languages`,
+   :ref:`component-language_code_style`,
+   :ref:`new-translations`

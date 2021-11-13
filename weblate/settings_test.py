@@ -143,6 +143,9 @@ AUTHENTICATION_BACKENDS = (
     "weblate.accounts.auth.WeblateUserBackend",
 )
 
+# Disable random admin checks trigger
+BACKGROUND_ADMIN_CHECKS = False
+
 warnings.filterwarnings(
     "error",
     r"DateTimeField .* received a naive datetime",

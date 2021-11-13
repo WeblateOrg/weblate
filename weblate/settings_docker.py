@@ -26,11 +26,23 @@ from django.http import Http404
 
 from weblate.utils.environment import (
     get_env_bool,
+    get_env_float,
     get_env_int,
     get_env_list,
     get_env_map,
     modify_env_list,
 )
+
+# Title of site to use
+SITE_TITLE = os.environ.get("WEBLATE_SITE_TITLE", "Weblate")
+
+# Site domain
+SITE_DOMAIN = os.environ["WEBLATE_SITE_DOMAIN"]
+
+# Whether site uses https
+ENABLE_HTTPS = get_env_bool("WEBLATE_ENABLE_HTTPS", False)
+
+SITE_URL = "{}://{}".format("https" if ENABLE_HTTPS else "http", SITE_DOMAIN)
 
 #
 # Django settings for Weblate project.
@@ -38,7 +50,12 @@ from weblate.utils.environment import (
 
 DEBUG = get_env_bool("WEBLATE_DEBUG", True)
 
-ADMINS = ((os.environ["WEBLATE_ADMIN_NAME"], os.environ["WEBLATE_ADMIN_EMAIL"]),)
+ADMINS = (
+    (
+        os.environ.get("WEBLATE_ADMIN_NAME", "Weblate Admin"),
+        os.environ.get("WEBLATE_ADMIN_EMAIL", "weblate@example.com"),
+    ),
+)
 
 MANAGERS = ADMINS
 
@@ -63,6 +80,12 @@ DATABASES = {
         "PORT": os.environ["POSTGRES_PORT"],
         # Customizations for databases.
         "OPTIONS": {"sslmode": os.environ.get("POSTGRES_SSL_MODE", "prefer")},
+        # Persistent connections
+        "CONN_MAX_AGE": get_env_int("POSTGRES_CONN_MAX_AGE", 0),
+        # Disable server-side cursors, might be needed with pgbouncer
+        "DISABLE_SERVER_SIDE_CURSORS": get_env_bool(
+            "POSTGRES_DISABLE_SERVER_SIDE_CURSORS", False
+        ),
     }
 }
 
@@ -70,6 +93,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # Data directory
 DATA_DIR = os.environ.get("WEBLATE_DATA_DIR", "/app/data")
+CACHE_DIR = os.environ.get("WEBLATE_CACHE_DIR", "/app/cache")
 
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
@@ -114,12 +138,15 @@ LANGUAGES = (
     ("pl", "Polski"),
     ("pt", "Português"),
     ("pt-br", "Português brasileiro"),
+    ("ro", "Română"),
     ("ru", "Русский"),
     ("sk", "Slovenčina"),
     ("sl", "Slovenščina"),
     ("sq", "Shqip"),
     ("sr", "Српски"),
+    ("sr-latn", "Srpski"),
     ("sv", "Svenska"),
+    ("th", "ไทย"),
     ("tr", "Türkçe"),
     ("uk", "Українська"),
     ("zh-hans", "简体字"),
@@ -139,6 +166,9 @@ USE_L10N = True
 # If you set this to False, Django will not use timezone-aware datetimes.
 USE_TZ = True
 
+# Type of automatic primary key, introduced in Django 3.2
+DEFAULT_AUTO_FIELD = "django.db.models.AutoField"
+
 # URL prefix to use, please see documentation for more details
 URL_PREFIX = os.environ.get("WEBLATE_URL_PREFIX", "")
 
@@ -152,7 +182,7 @@ MEDIA_URL = f"{URL_PREFIX}/media/"
 # Absolute path to the directory static files should be collected to.
 # Don't put anything in this directory yourself; store your static files
 # in apps' "static/" subdirectories and in STATICFILES_DIRS.
-STATIC_ROOT = os.path.join(DATA_DIR, "static")
+STATIC_ROOT = os.path.join(CACHE_DIR, "static")
 
 # URL prefix for static files.
 STATIC_URL = f"{URL_PREFIX}/static/"
@@ -299,6 +329,7 @@ if "WEBLATE_SAML_IDP_URL" in os.environ:
         SOCIAL_AUTH_SAML_SP_PUBLIC_CERT = handle.read()
     with open("/app/data/ssl/saml.key") as handle:
         SOCIAL_AUTH_SAML_SP_PRIVATE_KEY = handle.read()
+    SOCIAL_AUTH_SAML_SP_ENTITY_ID = f"{SITE_URL}/accounts/metadata/saml/"
     # Identity Provider
     SOCIAL_AUTH_SAML_ENABLED_IDPS = {
         "weblate": {
@@ -308,6 +339,17 @@ if "WEBLATE_SAML_IDP_URL" in os.environ:
             "attr_name": "full_name",
             "attr_username": "username",
             "attr_email": "email",
+        }
+    }
+    SOCIAL_AUTH_SAML_SUPPORT_CONTACT = SOCIAL_AUTH_SAML_TECHNICAL_CONTACT = {
+        "givenName": ADMINS[0][0],
+        "emailAddress": ADMINS[0][1],
+    }
+    SOCIAL_AUTH_SAML_ORG_INFO = {
+        "en-US": {
+            "name": "weblate",
+            "displayname": SITE_TITLE,
+            "url": SITE_URL,
         }
     }
 
@@ -361,12 +403,12 @@ if "WEBLATE_SOCIAL_AUTH_KEYCLOAK_KEY" in os.environ:
 
 # Linux distros
 if "WEBLATE_SOCIAL_AUTH_FEDORA" in os.environ:
-    AUTHENTICATION_BACKENDS += "social_core.backends.fedora.FedoraOpenId"
+    AUTHENTICATION_BACKENDS += ("social_core.backends.fedora.FedoraOpenId",)
 if "WEBLATE_SOCIAL_AUTH_OPENSUSE" in os.environ:
-    AUTHENTICATION_BACKENDS += "social_core.backends.suse.OpenSUSEOpenId"
+    AUTHENTICATION_BACKENDS += ("social_core.backends.suse.OpenSUSEOpenId",)
     SOCIAL_AUTH_OPENSUSE_FORCE_EMAIL_VALIDATION = True
 if "WEBLATE_SOCIAL_AUTH_UBUNTU" in os.environ:
-    AUTHENTICATION_BACKENDS += "social_core.backends.ubuntu.UbuntuOpenId"
+    AUTHENTICATION_BACKENDS += ("social_core.backends.ubuntu.UbuntuOpenId",)
 
 # Slack
 if "WEBLATE_SOCIAL_AUTH_SLACK_KEY" in os.environ:
@@ -494,6 +536,14 @@ AUTH_PASSWORD_VALIDATORS = [
     # },
 ]
 
+# Password hashing (prefer Argon)
+PASSWORD_HASHERS = [
+    "django.contrib.auth.hashers.Argon2PasswordHasher",
+    "django.contrib.auth.hashers.PBKDF2PasswordHasher",
+    "django.contrib.auth.hashers.PBKDF2SHA1PasswordHasher",
+    "django.contrib.auth.hashers.BCryptSHA256PasswordHasher",
+]
+
 # Content-Security-Policy
 CSP_SCRIPT_SRC = get_env_list("WEBLATE_CSP_SCRIPT_SRC")
 CSP_IMG_SRC = get_env_list("WEBLATE_CSP_IMG_SRC")
@@ -535,7 +585,7 @@ if "ROLLBAR_KEY" in os.environ:
         "access_token": os.environ["ROLLBAR_KEY"],
         "environment": os.environ.get("ROLLBAR_ENVIRONMENT", "production"),
         "branch": "main",
-        "root": "/usr/local/lib/python3.7/dist-packages/weblate/",
+        "root": "/usr/local/lib/python3.9/dist-packages/weblate/",
         "exception_level_filters": [
             (PermissionDenied, "ignored"),
             (Http404, "ignored"),
@@ -684,6 +734,8 @@ LOGGING = {
         "social": {"handlers": [DEFAULT_LOG], "level": DEFAULT_LOGLEVEL},
         # Django Authentication Using LDAP
         "django_auth_ldap": {"handlers": [DEFAULT_LOG], "level": DEFAULT_LOGLEVEL},
+        # SAML IdP
+        "djangosaml2idp": {"handlers": [DEFAULT_LOG], "level": DEFAULT_LOGLEVEL},
     },
 }
 
@@ -713,9 +765,17 @@ if MT_AWS_ACCESS_KEY_ID:
 
 # DeepL API key
 MT_DEEPL_KEY = os.environ.get("WEBLATE_MT_DEEPL_KEY", None)
-MT_DEEPL_API_VERSION = os.environ.get("WEBLATE_MT_DEEPL_API_VERSION", "v2")
+MT_DEEPL_API_URL = os.environ.get(
+    "WEBLATE_MT_DEEPL_API_URL", "https://api.deepl.com/v2/"
+)
 if MT_DEEPL_KEY:
     MT_SERVICES += ("weblate.machinery.deepl.DeepLTranslation",)
+
+# LibreTranslate
+MT_LIBRETRANSLATE_KEY = os.environ.get("WEBLATE_MT_LIBRETRANSLATE_KEY", None)
+MT_LIBRETRANSLATE_API_URL = os.environ.get("WEBLATE_MT_LIBRETRANSLATE_API_URL", None)
+if MT_LIBRETRANSLATE_API_URL:
+    MT_SERVICES += ("weblate.machinery.libretranslate.LibreTranslateTranslation",)
 
 # Microsoft Cognitive Services Translator API, register at
 # https://portal.azure.com/
@@ -738,7 +798,7 @@ if MT_MODERNMT_KEY:
 
 # MyMemory identification email, see
 # http://mymemory.translated.net/doc/spec.php
-MT_MYMEMORY_EMAIL = os.environ["WEBLATE_ADMIN_EMAIL"]
+MT_MYMEMORY_EMAIL = ADMINS[0][1]
 
 # Optional MyMemory credentials to access private translation memory
 MT_MYMEMORY_USER = None
@@ -760,6 +820,14 @@ MT_GOOGLE_KEY = os.environ.get("WEBLATE_MT_GOOGLE_KEY", None)
 
 if MT_GOOGLE_KEY:
     MT_SERVICES += ("weblate.machinery.google.GoogleTranslation",)
+
+# Google Translate API V3 (Advanced)
+MT_GOOGLE_CREDENTIALS = os.environ.get("WEBLATE_MT_GOOGLE_CREDENTIALS", None)
+MT_GOOGLE_PROJECT = os.environ.get("WEBLATE_MT_GOOGLE_PROJECT", None)
+MT_GOOGLE_LOCATION = os.environ.get("WEBLATE_MT_GOOGLE_LOCATION", None)
+
+if MT_GOOGLE_CREDENTIALS and MT_GOOGLE_PROJECT:
+    MT_SERVICES += ("weblate.machinery.googlev3.GoogleV3Translation",)
 
 # Baidu app key and secret
 MT_BAIDU_ID = None
@@ -788,15 +856,6 @@ MT_SAP_USE_MT = get_env_bool("WEBLATE_MT_SAP_USE_MT", True)
 if MT_SAP_BASE_URL:
     MT_SERVICES += ("weblate.machinery.saptranslationhub.SAPTranslationHub",)
 
-# Title of site to use
-SITE_TITLE = os.environ.get("WEBLATE_SITE_TITLE", "Weblate")
-
-# Site domain
-SITE_DOMAIN = os.environ["WEBLATE_SITE_DOMAIN"]
-
-# Whether site uses https
-ENABLE_HTTPS = get_env_bool("WEBLATE_ENABLE_HTTPS", False)
-
 # Use HTTPS when creating redirect URLs for social authentication, see
 # documentation for more details:
 # https://python-social-auth-docs.readthedocs.io/en/latest/configuration/settings.html#processing-redirects-and-urlopen
@@ -821,6 +880,7 @@ SECURE_REDIRECT_EXEMPT = (r"healthz/$",)  # Allowing HTTP access to health check
 # Session cookie age (in seconds)
 SESSION_COOKIE_AGE = 1000
 SESSION_COOKIE_AGE_AUTHENTICATED = 1209600
+SESSION_COOKIE_SAMESITE = "Lax"
 # Increase allowed upload size
 DATA_UPLOAD_MAX_MEMORY_SIZE = 50000000
 
@@ -828,6 +888,7 @@ DATA_UPLOAD_MAX_MEMORY_SIZE = 50000000
 LANGUAGE_COOKIE_SECURE = SESSION_COOKIE_SECURE
 LANGUAGE_COOKIE_HTTPONLY = SESSION_COOKIE_HTTPONLY
 LANGUAGE_COOKIE_AGE = SESSION_COOKIE_AGE_AUTHENTICATED * 10
+LANGUAGE_COOKIE_SAMESITE = SESSION_COOKIE_SAMESITE
 
 # Some security headers
 SECURE_BROWSER_XSS_FILTER = True
@@ -888,10 +949,15 @@ if "WEBLATE_BASIC_LANGUAGES" in os.environ:
 # By default the length of a given translation is limited to the length of
 # the source string * 10 characters. Set this option to False to allow longer
 # translations (up to 10.000 characters)
-LIMIT_TRANSLATION_LENGTH_BY_SOURCE_LENGTH = True
+LIMIT_TRANSLATION_LENGTH_BY_SOURCE_LENGTH = get_env_bool(
+    "WEBLATE_LIMIT_TRANSLATION_LENGTH_BY_SOURCE_LENGTH", True
+)
 
 # Use simple language codes for default language/country combinations
 SIMPLIFY_LANGUAGES = get_env_bool("WEBLATE_SIMPLIFY_LANGUAGES", True)
+
+# Default number of elements to display when pagination is active
+DEFAULT_PAGE_LIMIT = get_env_int("WEBLATE_DEFAULT_PAGE_LIMIT", 100)
 
 # Render forms using bootstrap
 CRISPY_TEMPLATE_PACK = "bootstrap3"
@@ -920,6 +986,7 @@ CHECK_LIST = [
     "weblate.checks.format.PerlFormatCheck",
     "weblate.checks.format.JavaScriptFormatCheck",
     "weblate.checks.format.LuaFormatCheck",
+    "weblate.checks.format.ObjectPascalFormatCheck",
     "weblate.checks.format.SchemeFormatCheck",
     "weblate.checks.format.CSharpFormatCheck",
     "weblate.checks.format.JavaFormatCheck",
@@ -929,6 +996,8 @@ CHECK_LIST = [
     "weblate.checks.format.I18NextInterpolationCheck",
     "weblate.checks.format.ESTemplateLiteralsCheck",
     "weblate.checks.angularjs.AngularJSInterpolationCheck",
+    "weblate.checks.icu.ICUMessageFormatCheck",
+    "weblate.checks.icu.ICUSourceCheck",
     "weblate.checks.qt.QtFormatCheck",
     "weblate.checks.qt.QtPluralCheck",
     "weblate.checks.ruby.RubyFormatCheck",
@@ -1000,11 +1069,11 @@ WEBLATE_ADDONS = [
 modify_env_list(WEBLATE_ADDONS, "ADDONS")
 
 # E-mail address that error messages come from.
-SERVER_EMAIL = os.environ["WEBLATE_SERVER_EMAIL"]
+SERVER_EMAIL = os.environ.get("WEBLATE_SERVER_EMAIL", "weblate@example.com")
 
 # Default email address to use for various automated correspondence from
 # the site managers. Used for registration emails.
-DEFAULT_FROM_EMAIL = os.environ["WEBLATE_DEFAULT_FROM_EMAIL"]
+DEFAULT_FROM_EMAIL = os.environ.get("WEBLATE_DEFAULT_FROM_EMAIL", SERVER_EMAIL)
 
 # List of URLs your site is supposed to serve
 ALLOWED_HOSTS = get_env_list("WEBLATE_ALLOWED_HOSTS", ["*"])
@@ -1029,6 +1098,7 @@ CACHES = {
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
             "PARSER_CLASS": "redis.connection.HiredisParser",
+            # If you set password here, adjust CELERY_BROKER_URL as well
             "PASSWORD": REDIS_PASSWORD if REDIS_PASSWORD else None,
             "CONNECTION_POOL_KWARGS": {},
         },
@@ -1132,6 +1202,10 @@ SILENCED_SYSTEM_CHECKS = [
 ]
 SILENCED_SYSTEM_CHECKS.extend(get_env_list("WEBLATE_SILENCED_SYSTEM_CHECKS"))
 
+# Celery worker configuration for testing
+# CELERY_TASK_ALWAYS_EAGER = True
+# CELERY_BROKER_URL = "memory://"
+# CELERY_TASK_EAGER_PROPAGATES = True
 # Celery worker configuration for production
 CELERY_TASK_ALWAYS_EAGER = get_env_bool("WEBLATE_CELERY_EAGER", False)
 CELERY_BROKER_URL = "{}://{}{}:{}/{}".format(
@@ -1152,7 +1226,7 @@ CELERY_RESULT_BACKEND = CELERY_BROKER_URL
 CELERY_WORKER_MAX_MEMORY_PER_CHILD = 200000
 CELERY_BEAT_SCHEDULE_FILENAME = os.path.join(DATA_DIR, "celery", "beat-schedule")
 CELERY_TASK_ROUTES = {
-    "weblate.trans.tasks.auto_translate": {"queue": "translate"},
+    "weblate.trans.tasks.auto_translate*": {"queue": "translate"},
     "weblate.accounts.tasks.notify_*": {"queue": "notify"},
     "weblate.accounts.tasks.send_mails": {"queue": "notify"},
     "weblate.utils.tasks.settings_backup": {"queue": "backup"},
@@ -1170,6 +1244,9 @@ AUTO_UPDATE = get_env_bool("WEBLATE_AUTO_UPDATE", False)
 
 # Update languages on migration
 UPDATE_LANGUAGES = get_env_bool("WEBLATE_UPDATE_LANGUAGES", True)
+
+# Avatars
+ENABLE_AVATARS = get_env_bool("WEBLATE_ENABLE_AVATARS", True)
 
 # Default access control
 DEFAULT_ACCESS_CONTROL = get_env_int("WEBLATE_DEFAULT_ACCESS_CONTROL", 0)
@@ -1193,6 +1270,19 @@ DEFAULT_AUTO_WATCH = get_env_bool("WEBLATE_DEFAULT_AUTO_WATCH", True)
 
 DEFAULT_SHARED_TM = get_env_bool("WEBLATE_DEFAULT_SHARED_TM", True)
 
+CONTACT_FORM = os.environ.get("WEBLATE_CONTACT_FORM", "reply-to")
+
+SSH_EXTRA_ARGS = os.environ.get("WEBLATE_SSH_EXTRA_ARGS", "")
+
+BORG_EXTRA_ARGS = get_env_list("WEBLATE_BORG_EXTRA_ARGS")
+
+# Wildcard loading
+for name in os.environ:
+    if name.startswith("WEBLATE_RATELIMIT_") and name.endswith(
+        ("_ATTEMPTS", "_WINDOW", "_LOCKOUT")
+    ):
+        locals()[name[8:]] = get_env_int(name)
+
 # PGP commits signing
 WEBLATE_GPG_IDENTITY = os.environ.get("WEBLATE_GPG_IDENTITY", None)
 
@@ -1204,6 +1294,7 @@ LOCALIZE_CDN_PATH = os.environ.get("WEBLATE_LOCALIZE_CDN_PATH", None)
 GET_HELP_URL = os.environ.get("WEBLATE_GET_HELP_URL", None)
 STATUS_URL = os.environ.get("WEBLATE_STATUS_URL", None)
 LEGAL_URL = os.environ.get("WEBLATE_LEGAL_URL", None)
+PRIVACY_URL = os.environ.get("WEBLATE_PRIVACY_URL", None)
 
 # Third party services integration
 MATOMO_SITE_ID = os.environ.get("WEBLATE_MATOMO_SITE_ID", None)
@@ -1211,6 +1302,7 @@ MATOMO_URL = os.environ.get("WEBLATE_MATOMO_URL", None)
 GOOGLE_ANALYTICS_ID = os.environ.get("WEBLATE_GOOGLE_ANALYTICS_ID", None)
 SENTRY_DSN = os.environ.get("SENTRY_DSN", None)
 SENTRY_ENVIRONMENT = os.environ.get("SENTRY_ENVIRONMENT", None)
+SENTRY_TRACES_SAMPLE_RATE = get_env_float("SENTRY_TRACES_SAMPLE_RATE", 0.0)
 AKISMET_API_KEY = os.environ.get("WEBLATE_AKISMET_API_KEY", None)
 
 ADDITIONAL_CONFIG = "/app/data/settings-override.py"

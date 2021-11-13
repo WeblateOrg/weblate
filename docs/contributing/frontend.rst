@@ -23,7 +23,9 @@ The yarn package manager is used to update third party libraries. The
 configuration lives in :file:`scripts/yarn` and there is a wrapper script
 :file:`scripts/yarn-update` to upgrade the libraries, build them and copy to
 correct locations in :file:`weblate/static/vendor`, where all third partly
-frontend code is located.
+frontend code is located. The Weblate specific code should be placed directly
+in :file:`weblate/static` or feature specific subdirectories (for example
+:file:`weblate/static/editor`).
 
 Adding new third-party library typically consists of:
 
@@ -84,4 +86,4 @@ as most of the icons are embedded inside the HTML to allow styling of the
 paths.
 
 .. _Material Design Icons: https://materialdesignicons.com/
-.. _Material Design Resources: https://material.io/resources/icons/
+.. _Material Design Resources: https://fonts.google.com/icons?selected=Material+Icons

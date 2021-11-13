@@ -22,8 +22,9 @@ import os
 import stat
 import subprocess
 from base64 import b64decode, b64encode
-from distutils.spawn import find_executable
 
+from django.conf import settings
+from django.core.management.utils import find_command
 from django.utils.functional import cached_property
 from django.utils.translation import gettext as _
 
@@ -189,7 +190,20 @@ def add_host_key(request, host, port=""):
 
 def can_generate_key():
     """Check whether we can generate key."""
-    return find_executable("ssh-keygen") is not None
+    return find_command("ssh-keygen") is not None
+
+
+SSH_WRAPPER_TEMPLATE = r"""#!/bin/sh
+exec {command} \
+    -o "UserKnownHostsFile={known_hosts}" \
+    -o "IdentityFile={identity}" \
+    -o StrictHostKeyChecking=yes \
+    -o HashKnownHosts=no \
+    -o UpdateHostKeys=yes \
+    -F /dev/null \
+    {extra_args} \
+    "$@"
+"""
 
 
 class SSHWrapper:
@@ -198,38 +212,47 @@ class SSHWrapper:
     # - do not hash it
     # - strict hosk key checking
     # - force not using system configuration (to avoid evil things as SendEnv)
-    SSH_WRAPPER_TEMPLATE = r"""#!/bin/sh
-    exec ssh \
-        -o "UserKnownHostsFile={known_hosts}" \
-        -o "IdentityFile={identity}" \
-        -o StrictHostKeyChecking=yes \
-        -o HashKnownHosts=no \
-        -F /dev/null \
-        "$@"
-    """
 
     @cached_property
-    def filename(self):
-        """Calculates unique wrapper filename.
+    def digest(self):
+        return calculate_checksum(self.get_content())
+
+    @property
+    def path(self):
+        """Calculates unique wrapper path.
 
         It is based on template and DATA_DIR settings.
         """
-        digest = calculate_checksum(self.SSH_WRAPPER_TEMPLATE, data_dir("ssh"))
-        return ssh_file(f"ssh-weblate-wrapper-{digest}")
+        return ssh_file(f"bin-{self.digest}")
+
+    def get_content(self, command="ssh"):
+        return SSH_WRAPPER_TEMPLATE.format(
+            command=command,
+            known_hosts=ssh_file(KNOWN_HOSTS),
+            identity=ssh_file(RSA_KEY),
+            extra_args=settings.SSH_EXTRA_ARGS,
+        )
+
+    @property
+    def filename(self):
+        """Calculates unique wrapper filename."""
+        return os.path.join(self.path, "ssh")
 
     def create(self):
         """Create wrapper for SSH to pass custom known hosts and key."""
-        if os.path.exists(self.filename):
-            return
+        if not os.path.exists(self.path):
+            os.makedirs(self.path)
 
-        with open(self.filename, "w") as handle:
-            handle.write(
-                self.SSH_WRAPPER_TEMPLATE.format(
-                    known_hosts=ssh_file(KNOWN_HOSTS), identity=ssh_file(RSA_KEY)
-                )
-            )
+        for command in ("ssh", "scp"):
+            filename = os.path.join(self.path, command)
 
-        os.chmod(self.filename, 0o755)  # nosec
+            if os.path.exists(filename):
+                continue
+
+            with open(filename, "w") as handle:
+                handle.write(self.get_content(find_command(command)))
+
+            os.chmod(filename, 0o755)  # nosec
 
 
 SSH_WRAPPER = SSHWrapper()

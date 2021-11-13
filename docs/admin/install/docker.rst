@@ -71,6 +71,29 @@ Enjoy your Weblate deployment, it's accessible on port 80 of the ``weblate`` con
 
 .. seealso:: :ref:`invoke-manage`
 
+Choosing Docker hub tag
+-----------------------
+
+You can use following tags on Docker hub, see https://hub.docker.com/r/weblate/weblate/tags/ for full list of available ones.
+
++-------------------------+------------------------------------------------------------------------------------------------------------+------------------------------------------------------+
+| Tag name                | Description                                                                                                | Use case                                             |
++=========================+============================================================================================================+======================================================+
+|``latest``               | Weblate stable release, matches latest tagged release                                                      | Rolling updates in a production environment          |
++-------------------------+------------------------------------------------------------------------------------------------------------+------------------------------------------------------+
+|``<VERSION>-<PATCH>``    | Weblate stable release                                                                                     | Well defined deploy in a production environment      |
++-------------------------+------------------------------------------------------------------------------------------------------------+------------------------------------------------------+
+|``edge``                 | Weblate stable release with development changes in the Docker container (for example updated dependencies) | Rolling updates in a staging environment             |
++-------------------------+------------------------------------------------------------------------------------------------------------+------------------------------------------------------+
+|``edge-<DATE>-<SHA>``    | Weblate stable release with development changes in the Docker container (for example updated dependencies) | Well defined deploy in a staging environment         |
++-------------------------+------------------------------------------------------------------------------------------------------------+------------------------------------------------------+
+|``bleeding``             | Development version Weblate from Git                                                                       | Rollling updates to test upcoming Weblate features   |
++-------------------------+------------------------------------------------------------------------------------------------------------+------------------------------------------------------+
+|``bleeding-<DATE>-<SHA>``| Development version Weblate from Git                                                                       | Well defined deploy to test upcoming Weblate features|
++-------------------------+------------------------------------------------------------------------------------------------------------+------------------------------------------------------+
+
+Every image is tested by our CI before it gets published, so even the `bleeding` version should be quite safe to use.
+
 .. _docker-ssl:
 
 Docker container with HTTPS support
@@ -173,9 +196,14 @@ the latest images and then restart:
 
 .. code-block:: sh
 
-    docker-compose stop
-    docker-compose pull
-    docker-compose up
+   # Fetch latest versions of the images
+   docker-compose pull
+   # Stop and destroy the containers
+   docker-compose down
+   # Spawn new containers in the background
+   docker-compose up -d
+   # Follow the logs during upgrade
+   docker-compose logs -f
 
 The Weblate database should be automatically migrated on first startup, and there
 should be no need for additional manual actions.
@@ -208,6 +236,67 @@ To reset `admin` password, restart the container with
         :envvar:`WEBLATE_ADMIN_PASSWORD`,
         :envvar:`WEBLATE_ADMIN_NAME`,
         :envvar:`WEBLATE_ADMIN_EMAIL`
+
+Number of processes and memory consumption
+------------------------------------------
+
+The number of worker processes for both uWSGI and Celery is determined
+automatically based on number of CPUs. This works well for most cloud virtual
+machines as these typically have few CPUs and good amount of memory.
+
+In case you have a lot of CPU cores and hit out of memory issues, try reducing
+number of workers:
+
+.. code-block:: yaml
+
+    environment:
+      WEBLATE_WORKERS: 2
+
+You can also fine-tune individual worker categories:
+
+.. code-block:: yaml
+
+    environment:
+      UWSGI_WORKERS: 4
+      CELERY_MAIN_OPTIONS: --concurrency 2
+      CELERY_NOTIFY_OPTIONS: --concurrency 1
+      CELERY_TRANSLATE_OPTIONS: --concurrency 1
+
+.. seealso::
+
+   :envvar:`WEBLATE_WORKERS`
+   :envvar:`CELERY_MAIN_OPTIONS`,
+   :envvar:`CELERY_NOTIFY_OPTIONS`,
+   :envvar:`CELERY_MEMORY_OPTIONS`,
+   :envvar:`CELERY_TRANSLATE_OPTIONS`,
+   :envvar:`CELERY_BACKUP_OPTIONS`,
+   :envvar:`CELERY_BEAT_OPTIONS`,
+   :envvar:`UWSGI_WORKERS`
+
+.. _docker-scaling:
+
+Scaling horizontally
+--------------------
+
+.. versionadded:: 4.6
+
+.. warning::
+
+   This feature is a technology preview.
+
+You can run multiple Weblate containers to scale the service horizontally. The
+:file:`/app/data` volume has to be shared by all containers, it is recommended
+to use cluster filesystem such as GlusterFS for this. The :file:`/app/cache`
+volume should be separate for each container.
+
+Each Weblate container has defined role using :envvar:`WEBLATE_SERVICE`
+environment variable. Please follow carefully the documentation as some of the
+services should be running just once in the cluster and the ordering of the
+services matters as well.
+
+You can find example setup in the ``docker-compose`` repo as
+`docker-compose-split.yml
+<https://github.com/WeblateOrg/docker-compose/blob/main/docker-compose-split.yml>`__.
 
 .. _docker-environment:
 
@@ -295,8 +384,17 @@ Generic settings
 
             :ref:`docker-admin-login`,
             :envvar:`WEBLATE_ADMIN_PASSWORD`,
+            :envvar:`WEBLATE_ADMIN_PASSWORD_FILE`,
             :envvar:`WEBLATE_ADMIN_NAME`,
             :envvar:`WEBLATE_ADMIN_EMAIL`
+
+.. envvar:: WEBLATE_ADMIN_PASSWORD_FILE
+
+    Sets the path to a file containing the password for the `admin` user.
+
+    .. seealso::
+
+            :envvar:`WEBLATE_ADMIN_PASSWORD`
 
 .. envvar:: WEBLATE_SERVER_EMAIL
 .. envvar:: WEBLATE_DEFAULT_FROM_EMAIL
@@ -306,6 +404,10 @@ Generic settings
     .. seealso::
 
         :ref:`production-email`
+
+.. envvar:: WEBLATE_CONTACT_FORM
+
+     Configures contact form behavior, see :setting:`CONTACT_FORM`.
 
 .. envvar:: WEBLATE_ALLOWED_HOSTS
 
@@ -607,8 +709,59 @@ Generic settings
 
    Configures :setting:`DEFAULT_AUTO_WATCH`.
 
+.. envvar:: WEBLATE_RATELIMIT_ATTEMPTS
+.. envvar:: WEBLATE_RATELIMIT_LOCKOUT
+.. envvar:: WEBLATE_RATELIMIT_WINDOW
+
+   .. versionadded:: 4.6
+
+   Configures rate limiter.
+
+   .. hint::
+
+      You can set configuration for any rate limiter scopes. To do that add ``WEBLATE_`` prefix to
+      any of setting described in :ref:`rate-limit`.
+
+   .. seealso::
+
+      :ref:`rate-limit`,
+      :setting:`RATELIMIT_ATTEMPTS`,
+      :setting:`RATELIMIT_WINDOW`,
+      :setting:`RATELIMIT_LOCKOUT`
+
+.. envvar:: WEBLATE_ENABLE_AVATARS
+
+   .. versionadded:: 4.6.1
+
+   Configures :setting:`ENABLE_AVATARS`.
+
+.. envvar:: WEBLATE_LIMIT_TRANSLATION_LENGTH_BY_SOURCE_LENGTH
+
+   .. versionadded:: 4.9
+
+   Configures :setting:`LIMIT_TRANSLATION_LENGTH_BY_SOURCE_LENGTH`.
+
+.. envvar:: WEBLATE_SSH_EXTRA_ARGS
+
+   .. versionadded:: 4.9
+
+   Configures :setting:`SSH_EXTRA_ARGS`.
+
+.. envvar:: WEBLATE_BORG_EXTRA_ARGS
+
+   .. versionadded:: 4.9
+
+   Configures :setting:`BORG_EXTRA_ARGS`.
+
+
+.. _docker-machine:
+
 Machine translation settings
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. hint::
+
+   Configuring API key for a service automatically configures it in :setting:`MT_SERVICES`.
 
 .. envvar:: WEBLATE_MT_APERTIUM_APY
 
@@ -631,13 +784,33 @@ Machine translation settings
 
     Enables :ref:`deepl` machine translation and sets :setting:`MT_DEEPL_KEY`
 
-.. envvar:: WEBLATE_MT_DEEPL_API_VERSION
+.. envvar:: WEBLATE_MT_DEEPL_API_URL
 
-   Configures :ref:`deepl` API version to use, see :setting:`MT_DEEPL_API_VERSION`.
+   Configures :ref:`deepl` API version to use, see :setting:`MT_DEEPL_API_URL`.
+
+.. envvar:: WEBLATE_MT_LIBRETRANSLATE_KEY
+
+    Enables :ref:`libretranslate` machine translation and sets :setting:`MT_LIBRETRANSLATE_KEY`
+
+.. envvar:: WEBLATE_MT_LIBRETRANSLATE_API_URL
+
+   Configures :ref:`libretranslate` API instance to use, see :setting:`MT_LIBRETRANSLATE_API_URL`.
 
 .. envvar:: WEBLATE_MT_GOOGLE_KEY
 
     Enables :ref:`google-translate` and sets :setting:`MT_GOOGLE_KEY`
+
+.. envvar:: WEBLATE_MT_GOOGLE_CREDENTIALS
+
+    Enables :ref:`google-translate-api3` and sets :setting:`MT_GOOGLE_CREDENTIALS`
+
+.. envvar:: WEBLATE_MT_GOOGLE_PROJECT
+
+    Enables :ref:`google-translate-api3` and sets :setting:`MT_GOOGLE_PROJECT`
+
+.. envvar:: WEBLATE_MT_GOOGLE_LOCATION
+
+    Enables :ref:`google-translate-api3` and sets :setting:`MT_GOOGLE_LOCATION`
 
 .. envvar:: WEBLATE_MT_MICROSOFT_COGNITIVE_KEY
 
@@ -907,6 +1080,10 @@ both Weblate and PostgreSQL containers.
 
     PostgreSQL password.
 
+.. envvar:: POSTGRES_PASSWORD_FILE
+
+    Path to the file containing the PostgreSQL password. Use as an alternative to POSTGRES_PASSWORD.
+
 .. envvar:: POSTGRES_USER
 
     PostgreSQL username.
@@ -931,6 +1108,47 @@ both Weblate and PostgreSQL containers.
 .. envvar:: POSTGRES_ALTER_ROLE
 
     Configures name of role to alter during migrations, see :ref:`config-postgresql`.
+
+.. envvar:: POSTGRES_CONN_MAX_AGE
+
+   .. versionadded:: 4.8.1
+
+   The lifetime of a database connection, as an integer of seconds. Use 0 to
+   close database connections at the end of each request (this is the default
+   behavior).
+
+   Enabling connection persistence will typically, cause more open connection
+   to the database. Please adjust your database configuration prior enabling.
+
+   Example configuration:
+
+   .. code-block:: yaml
+
+       environment:
+           POSTGRES_CONN_MAX_AGE: 3600
+
+   .. seealso::
+
+      :setting:`django:CONN_MAX_AGE`, :ref:`django:persistent-database-connections`
+
+.. envvar:: POSTGRES_DISABLE_SERVER_SIDE_CURSORS
+
+   .. versionadded:: 4.9.1
+
+   Disable server side cursors in the database. This is necessary in some
+   :command:`pgbouncer` setups.
+
+   Example configuration:
+
+   .. code-block:: yaml
+
+       environment:
+           POSTGRES_DISABLE_SERVER_SIDE_CURSORS: 1
+
+   .. seealso::
+
+      :setting:`DISABLE_SERVER_SIDE_CURSORS <django:DATABASE-DISABLE_SERVER_SIDE_CURSORS>`,
+      :ref:`django:transaction-pooling-server-side-cursors`
 
 
 Database backup settings
@@ -1036,6 +1254,12 @@ Example SSL configuration:
 
     .. seealso:: :setting:`django:EMAIL_HOST_PASSWORD`
 
+.. envvar:: WEBLATE_EMAIL_HOST_PASSWORD_FILE
+
+    Path to the file containing the e-mail authentication password.
+
+    .. seealso:: :envvar:`WEBLATE_EMAIL_HOST_PASSWORD`
+
 .. envvar:: WEBLATE_EMAIL_USE_SSL
 
     Whether to use an implicit TLS (secure) connection when talking to the SMTP
@@ -1072,6 +1296,16 @@ Example SSL configuration:
         :ref:`production-email`,
         :setting:`django:EMAIL_BACKEND`
 
+.. envvar:: WEBLATE_AUTO_UPDATE
+
+    Configures if and how Weblate should update repositories.
+
+    .. seealso::
+
+        :setting:`AUTO_UPDATE`
+
+    .. note:: This is a Boolean setting (use ``"true"`` or ``"false"``).
+
 Site integration
 ~~~~~~~~~~~~~~~~
 
@@ -1086,6 +1320,10 @@ Site integration
 .. envvar:: WEBLATE_LEGAL_URL
 
    Configures :setting:`LEGAL_URL`.
+
+.. envvar:: WEBLATE_PRIVACY_URL
+
+   Configures :setting:`PRIVACY_URL`.
 
 Error reporting
 ~~~~~~~~~~~~~~~
@@ -1181,6 +1419,20 @@ adjusted by the following variables:
 Container settings
 ~~~~~~~~~~~~~~~~~~
 
+.. envvar:: WEBLATE_WORKERS
+
+   .. versionadded:: 4.6.1
+
+   Base number of worker processes running in the container. When not set it is
+   determined automatically on container startup based on number of CPU cores
+   available.
+
+   It is used to determine :envvar:`CELERY_MAIN_OPTIONS`,
+   :envvar:`CELERY_NOTIFY_OPTIONS`, :envvar:`CELERY_MEMORY_OPTIONS`,
+   :envvar:`CELERY_TRANSLATE_OPTIONS`, :envvar:`CELERY_BACKUP_OPTIONS`,
+   :envvar:`CELERY_BEAT_OPTIONS`, and :envvar:`UWSGI_WORKERS`. You can use
+   these settings to fine-tune.
+
 .. envvar:: CELERY_MAIN_OPTIONS
 .. envvar:: CELERY_NOTIFY_OPTIONS
 .. envvar:: CELERY_MEMORY_OPTIONS
@@ -1192,8 +1444,7 @@ Container settings
     to adjust concurrency (``--concurrency 16``) or use different pool
     implementation (``--pool=gevent``).
 
-    By default, the number of concurrent workers matches the number of processors
-    (except the backup worker, which is supposed to run only once).
+    By default, the number of concurrent workers is based on :envvar:`WEBLATE_WORKERS`.
 
     **Example:**
 
@@ -1211,7 +1462,7 @@ Container settings
 
     Configure how many uWSGI workers should be executed.
 
-    It defaults to number of processors + 1.
+    It defaults to :envvar:`WEBLATE_WORKERS`.
 
     **Example:**
 
@@ -1220,16 +1471,28 @@ Container settings
         environment:
           UWSGI_WORKERS: 32
 
-In case you have a lot of CPU cores and hit out of memory issues, try reducing
-number of workers:
+.. envvar:: WEBLATE_SERVICE
 
-.. code-block:: yaml
+   Defines which services should be executed inside the container. Use this for :ref:`docker-scaling`.
 
-    environment:
-      UWSGI_WORKERS: 4
-      CELERY_MAIN_OPTIONS: --concurrency 2
-      CELERY_NOTIFY_OPTIONS: --concurrency 1
-      CELERY_TRANSLATE_OPTIONS: --concurrency 1
+   Following services are defined:
+
+   ``celery-beat``
+      Celery task scheduler, only one instance should be running.
+      This container is also responsible for the database structure migrations
+      and it should be started prior others.
+   ``celery-backup``
+      Celery worker for backups, only one instance should be running.
+   ``celery-celery``
+      Generic Celery worker.
+   ``celery-memory``
+      Translation memory Celery worker.
+   ``celery-notify``
+      Notifications Celery worker.
+   ``celery-translate``
+      Automatic translation Celery worker.
+   ``web``
+      Web server.
 
 
 .. _docker-volume:
@@ -1237,17 +1500,25 @@ number of workers:
 Docker container volumes
 ------------------------
 
-There is single data volume exported by the Weblate container. The other
-service containers (PostgreSQL or Redis) have their data volumes as well, but
-those are not covered by this document.
+There are two volumes (data and cache) exported by the Weblate container. The
+other service containers (PostgreSQL or Redis) have their data volumes as well,
+but those are not covered by this document.
 
 The data volume is used to store Weblate persistent data such as cloned
 repositories or to customize Weblate installation.
 
 The placement of the Docker volume on host system depends on your Docker
 configuration, but usually it is stored in
-:file:`/var/lib/docker/volumes/weblate-docker_weblate-data/_data/`. In the
-container it is mounted as :file:`/app/data`.
+:file:`/var/lib/docker/volumes/weblate-docker_weblate-data/_data/` (the path
+consist of name of your docker-compose directory, container, and volume names).
+In the container it is mounted as :file:`/app/data`.
+
+The cache volume is mounted as :file:`/app/cache` and is used to store static
+files. Its content is recreated on container startup and the volume can be
+mounted using ephemeral filesystem such as `tmpfs`.
+
+When creating the volumes manually, the directories should be owned by UID 1000
+as that is user used inside the container.
 
 .. seealso::
 
@@ -1308,11 +1579,3 @@ using :ref:`docker-custom-config`.
 .. seealso::
 
    :doc:`../customize`
-
-
-Select your machine - local or cloud providers
-----------------------------------------------
-
-With Docker Machine you can create your Weblate deployment either on your local
-machine, or on any large number of cloud-based deployments on e.g. Amazon AWS,
-Greenhost, and many other providers.

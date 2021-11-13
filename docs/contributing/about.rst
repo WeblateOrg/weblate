@@ -15,23 +15,23 @@ Project name
 Project website
 ---------------
 
-The landing page is https://weblate.org and a cloud hosted service at
-https://hosted.weblate.org. This documentation can be found on
-https://docs.weblate.org.
+The landing page is https://weblate.org and there is a
+cloud-hosted service at https://hosted.weblate.org.
+The documentation can be read at https://docs.weblate.org.
 
 Project logos
 -------------
 
-The project logos and other graphics is available in
-<https://github.com/WeblateOrg/graphics/> repository.
+The project logos and other graphics are available in
+https://github.com/WeblateOrg/graphics.
 
 Leadership
 ----------
 
-This project is maintained by Michal Čihař <michal@cihar.com>.
+This project is maintained by Michal Čihař, who can be reached at michal@cihar.com.
 
 Authors
 -------
 
-Weblate was started by Michal Čihař <michal@cihar.com>. Since its inception in
+Weblate was started by Michal Čihař. Since its inception in
 2012, thousands of people have contributed.

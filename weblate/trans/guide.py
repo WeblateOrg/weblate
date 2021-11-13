@@ -17,6 +17,10 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
+import os
+
+from django.conf import settings
+from django.core.cache import cache
 from django.template.loader import render_to_string
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
@@ -145,6 +149,9 @@ class LicenseGuideline(Guideline):
     url = "settings"
     anchor = "basic"
 
+    def is_relevant(self):
+        return settings.LICENSE_REQUIRED
+
     def is_passing(self):
         return self.component.libre_license
 
@@ -212,9 +219,15 @@ class SafeHTMLGuideline(Guideline):
     anchor = "translation"
 
     def is_relevant(self):
-        return self.component.source_translation.unit_set.filter(
+        cache_key = f"guide:safe-html:{self.component.id}"
+        result = cache.get(cache_key)
+        if result is not None:
+            return result
+        result = self.component.source_translation.unit_set.filter(
             source__contains="<a "
         ).exists()
+        cache.set(cache_key, result, 86400)
+        return result
 
     def is_passing(self):
         return (
@@ -287,3 +300,29 @@ class LinguasGuideline(AddonGuideline):
 @register
 class ConfigureGuideline(AddonGuideline):
     addon = "weblate.gettext.configure"
+
+
+@register
+class CleanupGuideline(AddonGuideline):
+    addon = "weblate.cleanup.generic"
+
+
+@register
+class GenerateMoGuideline(AddonGuideline):
+    addon = "weblate.gettext.mo"
+
+    def is_relevant(self):
+        if not super().is_relevant():
+            return False
+        component = self.component
+        translations = component.translation_set.exclude(
+            pk=component.source_translation.id
+        )
+        try:
+            translation = translations[0]
+        except IndexError:
+            return False
+        if not translation.filename.endswith(".po"):
+            return False
+        mofilename = translation.get_filename()[:-3] + ".mo"
+        return os.path.exists(mofilename)

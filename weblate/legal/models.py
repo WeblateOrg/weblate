@@ -39,6 +39,10 @@ class Agreement(models.Model):
     user_agent = models.CharField(max_length=200, default="")
     timestamp = models.DateTimeField(auto_now=True)
 
+    class Meta:
+        verbose_name = "TOS agreement"
+        verbose_name_plural = "TOS agreements"
+
     def __str__(self):
         return f"{self.user.username}:{self.tos}"
 

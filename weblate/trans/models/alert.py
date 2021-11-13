@@ -180,7 +180,7 @@ class DuplicateLanguage(MultiAlert):
         result = {"monolingual": bool(component.template)}
         source = component.source_language
         for occurrence in self.occurrences:
-            if occurrence["language"] == source:
+            if occurrence["language_code"] == source:
                 result["source_language"] = True
             codes = {
                 code.strip().replace("-", "_").lower()
@@ -360,3 +360,8 @@ class NoMaskMatches(BaseAlert):
     verbose = _("No mask matches.")
     doc_page = "admin/projects"
     doc_anchor = "component-filemask"
+
+    def get_analysis(self):
+        return {
+            "can_add": self.instance.component.can_add_new_language(None, fast=True),
+        }

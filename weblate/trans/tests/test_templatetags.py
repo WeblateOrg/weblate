@@ -117,7 +117,8 @@ class LocationLinksTest(TestCase):
     def test_filenames(self):
         self.unit.location = "foo.bar:123,bar.foo:321"
         self.assertEqual(
-            get_location_links(self.profile, self.unit), "foo.bar:123\nbar.foo:321"
+            get_location_links(self.profile, self.unit),
+            'foo.bar:123\n<span class="divisor">•</span>\nbar.foo:321',
         )
 
     def test_repowebs(self):
@@ -133,6 +134,7 @@ class LocationLinksTest(TestCase):
                 dir="ltr" rel="noopener noreferrer">
             foo.bar:123
             </a>
+            <span class="divisor">•</span>
             <a class="wrap-text"
                 href="http://example.net/bar.foo#L321" target="_blank"
                 dir="ltr" rel="noopener noreferrer">
@@ -170,6 +172,22 @@ class LocationLinksTest(TestCase):
                 href="editor://open/?file=foo.bar&amp;line=123" target="_blank"
                 dir="ltr" rel="noopener noreferrer">
             foo.bar:123
+            </a>
+            """,
+        )
+
+    def test_filename_quote(self):
+        self.unit.translation.component.repoweb = (
+            "http://example.net/{{filename}}#L{{line}}"
+        )
+        self.unit.location = "foo+bar:321"
+        self.assertHTMLEqual(
+            get_location_links(self.profile, self.unit),
+            """
+            <a class="wrap-text"
+                href="http://example.net/foo%2Bbar#L321" target="_blank"
+                dir="ltr" rel="noopener noreferrer">
+            foo+bar:321
             </a>
             """,
         )
@@ -228,6 +246,22 @@ class TranslationFormatTestCase(FixtureTestCase):
             """,
         )
 
+    def test_glossary_brackets(self):
+        self.assertHTMLEqual(
+            format_translation(
+                "[Hello] world",
+                self.component.source_language,
+                glossary=[
+                    Unit(source="[hello]", target="ahoj", translation=self.translation)
+                ],
+            )["items"][0]["content"],
+            """
+            <span class="glossary-term"
+                title="Glossary translation: ahoj">[Hello]</span>
+            world
+            """,
+        )
+
     def test_glossary_space(self):
         self.assertHTMLEqual(
             format_translation(
@@ -239,8 +273,14 @@ class TranslationFormatTestCase(FixtureTestCase):
             )["items"][0]["content"],
             """
             text
-            <span class="hlspace"><span class="space-space"><span class="sr-only">
-            </span></span></span>
+            <span class="hlspace">
+                <span class="space-space">
+                    <span class="sr-only"> </span>
+                </span>
+                <span class="space-space">
+                    <span class="sr-only"> </span>
+                </span>
+            </span>
             <span class="glossary-term"
                 title="Glossary translation: ahoj">Hello</span>
             world
@@ -285,6 +325,29 @@ class TranslationFormatTestCase(FixtureTestCase):
             """,
         )
 
+    def test_glossary_format(self):
+        unit = Unit()
+        unit.all_flags = {"php-format"}
+        self.assertHTMLEqual(
+            format_translation(
+                "%3$sHow",
+                self.component.source_language,
+                glossary=[
+                    Unit(
+                        source="show", target="zobrazit", translation=self.translation
+                    ),
+                ],
+                unit=unit,
+            )["items"][0]["content"],
+            """
+            <span class="hlcheck">
+            <span class="highlight-number"></span>
+            %3$s
+            </span>
+            How
+            """,
+        )
+
     def test_highlight(self):
         unit = self.translation.unit_set.get(id_hash=2097404709965985808)
         self.assertHTMLEqual(
@@ -318,9 +381,27 @@ class TranslationFormatTestCase(FixtureTestCase):
                 "items"
             ][0]["content"],
             """
-            <span class="hlspace"><span class="space-space"><span class="sr-only">
+            <span class="hlspace">
+                <span class="space-space">
+                    <span class="sr-only"> </span>
+                </span>
             </span>
-            </span>
+            Hello
+            world
+            """,
+        )
+        self.assertHTMLEqual(
+            format_translation("  Hello world", self.component.source_language,)[
+                "items"
+            ][0]["content"],
+            """
+            <span class="hlspace">
+                <span class="space-space">
+                    <span class="sr-only"> </span>
+                </span>
+                <span class="space-space">
+                    <span class="sr-only"> </span>
+                </span>
             </span>
             Hello
             world
@@ -332,9 +413,16 @@ class TranslationFormatTestCase(FixtureTestCase):
             ][0]["content"],
             """
             Hello
-            <span class="hlspace"><span class="space-space"><span class="sr-only">
-            </span>
-            </span>
+            <span class="hlspace">
+                <span class="space-space">
+                    <span class="sr-only"> </span>
+                </span>
+                <span class="space-space">
+                    <span class="sr-only"> </span>
+                </span>
+                <span class="space-space">
+                    <span class="sr-only"> </span>
+                </span>
             </span>
             world
             """,
@@ -350,6 +438,43 @@ class TranslationFormatTestCase(FixtureTestCase):
             </span>
             </span>
             </span>
+            """,
+        )
+
+    def test_whitespace_special(self):
+        self.assertHTMLEqual(
+            format_translation("Hello\u00A0world", self.component.source_language,)[
+                "items"
+            ][0]["content"],
+            """
+            Hello
+            <span class="hlspace">
+                <span class="space-space" title="NO-BREAK SPACE">
+                    <span class="sr-only">\u00A0</span>
+                </span>
+            </span>
+            world
+            """,
+        )
+
+    def test_whitespace_newline(self):
+        self.assertHTMLEqual(
+            format_translation("Hello\n world", self.component.source_language,)[
+                "items"
+            ][0]["content"],
+            """
+            Hello
+            <span class="hlspace">
+                <span class="space-nl">
+                    <span class="sr-only"> </span>
+                </span>
+            </span><br>
+            <span class="hlspace">
+                <span class="space-space">
+                    <span class="sr-only"> </span>
+                </span>
+            </span>
+            world
             """,
         )
 

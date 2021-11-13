@@ -79,7 +79,7 @@ with open("weblate/utils/licensedata.py", "w") as output:
         if license["isDeprecatedLicenseId"]:
             continue
         with open(
-            f"scripts/spdx-license-list/json/details/{license['reference']}"
+            f"scripts/spdx-license-list/json/details/{license['licenseId']}.json"
         ) as handle:
             details = json.load(handle)
         libre = (

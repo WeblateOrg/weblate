@@ -23,7 +23,7 @@ import os.path
 import re
 from configparser import RawConfigParser
 from datetime import datetime
-from typing import List, Optional
+from typing import Iterator, List, Optional
 
 from weblate.vcs.base import Repository, RepositoryException
 from weblate.vcs.ssh import SSH_WRAPPER
@@ -119,6 +119,10 @@ class HgRepository(Repository):
             self.set_config(
                 "merge-tools.weblate-merge-gettext-po.executable", merge_driver
             )
+            self.set_config(
+                "merge-tools.weblate-merge-gettext-po.args",
+                "$base $local $other $output",
+            )
             self.set_config("merge-patterns.**.po", "weblate-merge-gettext-po")
 
     def rebase(self, abort=False):
@@ -140,8 +144,10 @@ class HgRepository(Repository):
                         and "nothing to rebase" in error.args[0]
                     ):
                         self.execute(["update", "--clean", "remote(.)"])
+                        self.clean_revision_cache()
                         return
                     raise
+        self.clean_revision_cache()
 
     def merge(self, abort=False, message=None):
         """Merge remote branch or reverts the merge."""
@@ -158,9 +164,11 @@ class HgRepository(Repository):
                 except RepositoryException as error:
                     if error.retcode == 255:
                         # Nothing to merge
+                        self.clean_revision_cache()
                         return
                     raise
                 self.execute(["commit", "--message", "Merge"])
+        self.clean_revision_cache()
 
     def needs_commit(self, filenames: Optional[List[str]] = None):
         """Check whether repository needs commit."""
@@ -246,7 +254,7 @@ class HgRepository(Repository):
         author: Optional[str] = None,
         timestamp: Optional[datetime] = None,
         files: Optional[List[str]] = None,
-    ):
+    ) -> bool:
         """Create new revision."""
         # Build the commit command
         cmd = ["commit", "--message", message]
@@ -271,12 +279,14 @@ class HgRepository(Repository):
         # Bail out if there is nothing to commit.
         # This can easily happen with squashing and reverting changes.
         if not self.needs_commit(files):
-            return
+            return False
 
         # Execute it
         self.execute(cmd)
         # Clean cache
         self.clean_revision_cache()
+
+        return True
 
     def remove(self, files: List[str], message: str, author: Optional[str] = None):
         """Remove files and creates new revision."""
@@ -354,12 +364,12 @@ class HgRepository(Repository):
         self.execute(["pull", "--branch", self.branch])
         self.clean_revision_cache()
 
-    def parse_changed_files(self, lines):
+    def parse_changed_files(self, lines: List[str]) -> Iterator[str]:
         """Parses output with chanaged files."""
         # Strip action prefix we do not use
         yield from (line[2:] for line in lines)
 
-    def list_changed_files(self, refspec):
+    def list_changed_files(self, refspec: str) -> List:
         try:
             return super().list_changed_files(refspec)
         except RepositoryException as error:

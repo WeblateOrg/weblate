@@ -67,7 +67,7 @@ class WeblateComponentCommand(BaseCommand):
 
         # Iterate over chunks
         while current < last:
-            self.stdout.write("Processing {:.1f}%".format(done * 100.0 / count))
+            self.stdout.write(f"Processing {done * 100.0 / count:.1f}%")
             with transaction.atomic():
                 step_units = units.filter(pk__gt=current)[:step].prefetch()
                 for unit in step_units:
@@ -93,7 +93,7 @@ class WeblateComponentCommand(BaseCommand):
         elif not options["component"]:
             # no argumets to filter projects
             self.stderr.write(
-                "Please specify either --all " "or at least one <project/component>"
+                "Please specify either --all or at least one <project/component>"
             )
             raise CommandError("Nothing to process!")
         else:

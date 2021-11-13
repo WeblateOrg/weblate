@@ -13,7 +13,7 @@ def migrate_glossaries(apps, schema_editor):
     """
     Removes automatically created glossaries for source language.
 
-    These were wrongly crated by 0116_migrate_glossaries and it was fixed in
+    These were wrongly created by 0116_migrate_glossaries and it was fixed in
     0d8b564903518a313d4116ffe82d9c7bc31f7908.
     """
     Component = apps.get_model("trans", "Component")
@@ -36,7 +36,7 @@ def migrate_glossaries(apps, schema_editor):
 
         print(f"Removing stale {file_path}")
 
-        repo = LocalRepository.from_files(repo_path, {})
+        repo = LocalRepository(repo_path)
         with repo.lock:
             try:
                 repo.remove([file_path], "Removing stale glossary file")

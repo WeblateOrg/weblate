@@ -40,6 +40,8 @@ class Setting(models.Model):
 
     class Meta:
         unique_together = ("category", "name")
+        verbose_name = "Setting"
+        verbose_name_plural = "Settings"
 
     def __str__(self):
         return f"{self.name}:{self.value}"

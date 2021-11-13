@@ -21,7 +21,7 @@ to best fit it into an existing language. Following steps are tried:
 
 * Case insensitive lookups.
 * Normalizing underscores and dashes.
-* Looking up built in language aliases.
+* Looking up built-in language aliases.
 * Looking up by language name.
 * Ignoring the default country code for a given language—choosing ``cs`` instead of ``cs_CZ``.
 
@@ -74,8 +74,7 @@ enforce updating the database to match Weblate built-in data using
 
 .. seealso::
 
-   The language definitions are in the `weblate-language-data repository
-   <https://github.com/WeblateOrg/language-data/>`_.
+   :ref:`extending-lanugages`
 
 .. _ambiguous-languages:
 
@@ -107,8 +106,9 @@ Code identifying the language. Weblate prefers two letter codes as defined by
 `ISO 639-1 <https://en.wikipedia.org/wiki/ISO_639-1>`_, but uses `ISO 639-2
 <https://en.wikipedia.org/wiki/ISO_639-2>`_ or `ISO 639-3
 <https://en.wikipedia.org/wiki/ISO_639-3>`_ codes for languages that do not
-have two letter code. It can also support extended codes as defined by `BCP 47
-<https://tools.ietf.org/html/bcp47>`_.
+have two letter code. It can also support extended codes as defined by `BCP 47`_.
+
+.. _BCP 47: https://www.rfc-editor.org/info/bcp47
 
 .. seealso::
 

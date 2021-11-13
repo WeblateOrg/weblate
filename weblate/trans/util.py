@@ -20,6 +20,7 @@
 import locale
 import os
 import sys
+from typing import Dict
 from urllib.parse import urlparse
 
 from django.core.cache import cache
@@ -126,7 +127,7 @@ def translation_percent(translated, total, zero_complete=True):
     return perc
 
 
-def get_clean_env(extra=None):
+def get_clean_env(extra: Dict = None, extra_path: str = None):
     """Return cleaned up environment for subprocess execution."""
     environ = {
         "LANG": "C.UTF-8",
@@ -144,6 +145,8 @@ def get_clean_env(extra=None):
         # Keep linker configuration
         "LD_LIBRARY_PATH",
         "LD_PRELOAD",
+        # Fontconfig configuration by weblate.fonts
+        "FONTCONFIG_FILE",
         # Needed by Git on Windows
         "SystemRoot",
         # Pass proxy configuration
@@ -166,6 +169,8 @@ def get_clean_env(extra=None):
     venv_path = os.path.join(sys.exec_prefix, "bin")
     if venv_path not in environ["PATH"]:
         environ["PATH"] = "{}:{}".format(venv_path, environ["PATH"])
+    if extra_path and extra_path not in environ["PATH"]:
+        environ["PATH"] = "{}:{}".format(extra_path, environ["PATH"])
     return environ
 
 
@@ -297,36 +302,6 @@ def rich_to_xliff_string(string_elements):
 
     # Strip dummy root element
     return get_string(string_xml[3:][:-4])
-
-
-def get_state_css(unit):
-    """Return state flags."""
-    flags = []
-
-    if unit.fuzzy:
-        flags.append("state-need-edit")
-    elif not unit.translated:
-        flags.append("state-empty")
-    elif unit.readonly:
-        flags.append("state-readonly")
-    elif unit.approved:
-        flags.append("state-approved")
-    elif unit.translated:
-        flags.append("state-translated")
-
-    if unit.has_failing_check:
-        flags.append("state-check")
-    if unit.dismissed_checks:
-        flags.append("state-dismissed-check")
-    if unit.has_comment:
-        flags.append("state-comment")
-    if unit.has_suggestion:
-        flags.append("state-suggest")
-
-    if "forbidden" in unit.all_flags:
-        flags.append("state-forbidden")
-
-    return flags
 
 
 def check_upload_method_permissions(user, translation, method: str):

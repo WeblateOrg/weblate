@@ -196,7 +196,7 @@ class LanguageQuerySet(models.QuerySet):
 
         # Country codes used without underscore (ptbr insteat of pt_BR)
         if len(code) == 4:
-            expanded_code = "{}_{}".format(code[:2], code[2:]).lower()
+            expanded_code = f"{code[:2]}_{code[2:]}".lower()
             lookups.append(Q(code__iexact=expanded_code))
 
         for lookup in lookups:
@@ -325,7 +325,7 @@ class LanguageQuerySet(models.QuerySet):
             item[:2]
             for item in sort_unicode(
                 (
-                    (code, "{} ({})".format(_(name), code), name)
+                    (code, f"{_(name)} ({code})", name)
                     for name, code in self.values_list("name", "code")
                 ),
                 lambda tup: tup[2],
@@ -471,14 +471,14 @@ class Language(models.Model, CacheKeyMixin):
     objects = LanguageManager()
 
     class Meta:
-        verbose_name = gettext_lazy("Language")
-        verbose_name_plural = gettext_lazy("Languages")
+        verbose_name = "Language"
+        verbose_name_plural = "Languages"
         # Use own manager to utilize caching of English
         base_manager_name = "objects"
 
     def __str__(self):
         if self.show_language_code:
-            return "{} ({})".format(_(self.name), self.code)
+            return f"{_(self.name)} ({self.code})"
         return _(self.name)
 
     def save(self, *args, **kwargs):
@@ -542,7 +542,10 @@ class PluralQuerySet(models.QuerySet):
 
 class Plural(models.Model):
     PLURAL_CHOICES = (
-        (data.PLURAL_NONE, pgettext_lazy("Plural type", "None")),
+        (
+            data.PLURAL_NONE,
+            pgettext_lazy("Plural type", "None"),
+        ),
         (
             data.PLURAL_ONE_OTHER,
             pgettext_lazy("Plural type", "One/other (classic plural)"),
@@ -551,10 +554,22 @@ class Plural(models.Model):
             data.PLURAL_ONE_FEW_OTHER,
             pgettext_lazy("Plural type", "One/few/other (Slavic languages)"),
         ),
-        (data.PLURAL_ARABIC, pgettext_lazy("Plural type", "Arabic languages")),
-        (data.PLURAL_ZERO_ONE_OTHER, pgettext_lazy("Plural type", "Zero/one/other")),
-        (data.PLURAL_ONE_TWO_OTHER, pgettext_lazy("Plural type", "One/two/other")),
-        (data.PLURAL_ONE_OTHER_TWO, pgettext_lazy("Plural type", "One/other/two")),
+        (
+            data.PLURAL_ARABIC,
+            pgettext_lazy("Plural type", "Arabic languages"),
+        ),
+        (
+            data.PLURAL_ZERO_ONE_OTHER,
+            pgettext_lazy("Plural type", "Zero/one/other"),
+        ),
+        (
+            data.PLURAL_ONE_TWO_OTHER,
+            pgettext_lazy("Plural type", "One/two/other"),
+        ),
+        (
+            data.PLURAL_ONE_OTHER_TWO,
+            pgettext_lazy("Plural type", "One/other/two"),
+        ),
         (
             data.PLURAL_ONE_TWO_FEW_OTHER,
             pgettext_lazy("Plural type", "One/two/few/other"),
@@ -567,12 +582,18 @@ class Plural(models.Model):
             data.PLURAL_ONE_TWO_THREE_OTHER,
             pgettext_lazy("Plural type", "One/two/three/other"),
         ),
-        (data.PLURAL_ONE_OTHER_ZERO, pgettext_lazy("Plural type", "One/other/zero")),
+        (
+            data.PLURAL_ONE_OTHER_ZERO,
+            pgettext_lazy("Plural type", "One/other/zero"),
+        ),
         (
             data.PLURAL_ONE_FEW_MANY_OTHER,
             pgettext_lazy("Plural type", "One/few/many/other"),
         ),
-        (data.PLURAL_TWO_OTHER, pgettext_lazy("Plural type", "Two/other")),
+        (
+            data.PLURAL_TWO_OTHER,
+            pgettext_lazy("Plural type", "Two/other"),
+        ),
         (
             data.PLURAL_ONE_TWO_FEW_MANY_OTHER,
             pgettext_lazy("Plural type", "One/two/few/many/other"),
@@ -581,17 +602,42 @@ class Plural(models.Model):
             data.PLURAL_ZERO_ONE_TWO_FEW_MANY_OTHER,
             pgettext_lazy("Plural type", "Zero/one/two/few/many/other"),
         ),
-        (data.PLURAL_UNKNOWN, pgettext_lazy("Plural type", "Unknown")),
+        (
+            data.PLURAL_ZERO_OTHER,
+            pgettext_lazy("Plural type", "Zero/other"),
+        ),
+        (
+            data.PLURAL_ZERO_ONE_FEW_OTHER,
+            pgettext_lazy("Plural type", "Zero/one/few/other"),
+        ),
+        (
+            data.PLURAL_ZERO_ONE_TWO_FEW_OTHER,
+            pgettext_lazy("Plural type", "Zero/one/two/few/other"),
+        ),
+        (
+            data.PLURAL_ZERO_ONE_TWO_OTHER,
+            pgettext_lazy("Plural type", "Zero/one/two/other"),
+        ),
+        (
+            data.PLURAL_ZERO_ONE_FEW_MANY_OTHER,
+            pgettext_lazy("Plural type", "Zero/one/few/many/other"),
+        ),
+        (
+            data.PLURAL_UNKNOWN,
+            pgettext_lazy("Plural type", "Unknown"),
+        ),
     )
     SOURCE_DEFAULT = 0
     SOURCE_GETTEXT = 1
     SOURCE_MANUAL = 2
+    SOURCE_STRINGSDICT = 3
     source = models.SmallIntegerField(
         default=SOURCE_DEFAULT,
         verbose_name=gettext_lazy("Plural definition source"),
         choices=(
             (SOURCE_DEFAULT, gettext_lazy("Default plural")),
-            (SOURCE_GETTEXT, gettext_lazy("Plural gettext formula")),
+            (SOURCE_GETTEXT, gettext_lazy("gettext plural formula")),
+            (SOURCE_STRINGSDICT, gettext_lazy("stringsdict plural")),
             (SOURCE_MANUAL, gettext_lazy("Manually entered formula")),
         ),
     )
@@ -616,8 +662,8 @@ class Plural(models.Model):
     objects = PluralQuerySet.as_manager()
 
     class Meta:
-        verbose_name = gettext_lazy("Plural form")
-        verbose_name_plural = gettext_lazy("Plural forms")
+        verbose_name = "Plural form"
+        verbose_name_plural = "Plural forms"
 
     def __str__(self):
         return self.get_type_display()

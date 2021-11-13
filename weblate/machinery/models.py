@@ -68,7 +68,11 @@ class WeblateConf(AppConf):
 
     # API key for DeepL API
     DEEPL_KEY = None
-    DEEPL_API_VERSION = "v2"
+    DEEPL_API_URL = "https://api.deepl.com/v2/"
+
+    # API key for LibreTranslate
+    LIBRETRANSLATE_KEY = None
+    LIBRETRANSLATE_API_URL = None
 
     # SAP Translation Hub
     SAP_BASE_URL = None

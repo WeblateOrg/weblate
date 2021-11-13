@@ -21,11 +21,11 @@ import os
 
 from django.apps import AppConfig
 from django.core.checks import Warning, register
-from filelock import FileLock
 
 import weblate.vcs.gpg
 from weblate.utils.checks import weblate_check
 from weblate.utils.data import data_dir
+from weblate.utils.lock import WeblateLock
 from weblate.vcs.base import RepositoryException
 from weblate.vcs.git import GitRepository
 
@@ -80,7 +80,9 @@ class VCSConfig(AppConfig):
         # Configure merge driver for Gettext PO
         # We need to do this behind lock to avoid errors when servers
         # start in parallel
-        lockfile = FileLock(os.path.join(home, "gitlock"))
+        lockfile = WeblateLock(
+            home, "gitlock", 0, "", "lock:{scope}", "{scope}", timeout=120
+        )
         with lockfile:
             try:
                 GitRepository.global_setup()

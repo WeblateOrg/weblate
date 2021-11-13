@@ -25,6 +25,18 @@
 </div>
   <table class="table table-condensed table-striped">
   <tr>
+  <th>{% trans "Weblate version" %}</th>
+  <td>
+    {% if git_revision %}
+      {{ version }} — <a href="{{ git_revision_link }}">{{ git_revision }}</a>
+    {% elif git_revision_link %}
+      <a href="{{ git_revision_link }}">{{ version }}</a>
+    {% else %}
+      {{ version }}
+    {% endif %}
+  </td>
+  </tr>
+  <tr>
   <th>{% trans "Support status" %}</th>
   <td>
     {{ support.get_verbose }}

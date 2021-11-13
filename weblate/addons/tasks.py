@@ -31,6 +31,8 @@ from weblate.utils.celery import app
 from weblate.utils.hash import calculate_checksum
 from weblate.utils.requests import request
 
+IGNORED_TAGS = {"script", "style"}
+
 
 @app.task(trail=False)
 def cdn_parse_html(files: str, selector: str, component_id: int):
@@ -59,7 +61,9 @@ def cdn_parse_html(files: str, selector: str, component_id: int):
             text = element.text
             if (
                 element.getchildren()
+                or element.tag in IGNORED_TAGS
                 or not text
+                or not text.strip()
                 or text in source_units
                 or text in units
             ):
@@ -83,8 +87,16 @@ def language_consistency(project_id: int, language_ids: List[int]):
 
     for component in project.component_set.iterator():
         missing = languages.exclude(translation__component=component)
+        if not missing:
+            continue
         for language in missing:
-            component.add_new_language(language, None, send_signal=False)
+            component.add_new_language(
+                language,
+                None,
+                send_signal=False,
+                create_translations=False,
+            )
+        component.create_translations()
 
 
 @app.task(trail=False)
@@ -93,6 +105,7 @@ def daily_addons():
         "component"
     ):
         with transaction.atomic():
+            addon.component.log_debug("running daily add-on: %s", addon.name)
             addon.addon.daily(addon.component)
 
 

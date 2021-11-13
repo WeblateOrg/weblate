@@ -24,7 +24,10 @@ from django.test import TestCase
 from django.test.utils import modify_settings, override_settings
 from django.urls import reverse
 
-from weblate.accounts.tests.test_registration import REGISTRATION_DATA
+from weblate.accounts.tests.test_registration import (
+    REGISTRATION_DATA,
+    REGISTRATION_SUCCESS,
+)
 from weblate.trans.tests.test_views import RegistrationTestMixin
 from weblate.trans.tests.utils import create_test_user
 
@@ -42,10 +45,6 @@ class LegalTest(TestCase, RegistrationTestMixin):
         response = self.client.get(reverse("legal:cookies"))
         self.assertContains(response, "Cookies Policy")
 
-    def test_security(self):
-        response = self.client.get(reverse("legal:security"))
-        self.assertContains(response, "Security Policy")
-
     def test_contracts(self):
         response = self.client.get(reverse("legal:contracts"))
         self.assertContains(response, "Subcontractors")
@@ -58,7 +57,7 @@ class LegalTest(TestCase, RegistrationTestMixin):
         """TOS confirmation on social auth."""
         response = self.client.post(reverse("register"), REGISTRATION_DATA, follow=True)
         # Check we did succeed
-        self.assertContains(response, "Thank you for registering.")
+        self.assertContains(response, REGISTRATION_SUCCESS)
 
         # Follow link
         url = self.assert_registration_mailbox()
@@ -97,7 +96,7 @@ class LegalTest(TestCase, RegistrationTestMixin):
         )
         # Check that contact works even without TOS
         response = self.client.get(reverse("contact"), follow=True)
-        self.assertContains(response, "You can only contact maintainers")
+        self.assertContains(response, "You can only contact administrators")
         # Confirm current TOS
         request = HttpRequest()
         request.META["REMOTE_ADDR"] = "127.0.0.1"

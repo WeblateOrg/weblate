@@ -35,8 +35,10 @@ from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.tests.utils import get_test_file
 from weblate.utils.checks import check_data_writable
 from weblate.utils.unittest import tempdir_setting
+from weblate.wladmin.middleware import ManageMiddleware
 from weblate.wladmin.models import BackupService, ConfigurationError, SupportStatus
-from weblate.wladmin.tasks import configuration_health_check
+
+TEST_BACKENDS = ("weblate.accounts.auth.WeblateUserBackend",)
 
 
 class AdminTest(ViewTestCase):
@@ -152,9 +154,9 @@ class AdminTest(ViewTestCase):
 
     def test_configuration_health_check(self):
         # Run checks internally
-        configuration_health_check()
+        ManageMiddleware.configuration_health_check()
         # List of triggered checks remotely
-        configuration_health_check(
+        ManageMiddleware.configuration_health_check(
             [
                 Critical(msg="Error", id="weblate.E001"),
                 Critical(msg="Test Error", id="weblate.E002"),
@@ -165,7 +167,7 @@ class AdminTest(ViewTestCase):
         self.assertEqual(all_errors[0].name, "weblate.E002")
         self.assertEqual(all_errors[0].message, "Test Error")
         # No triggered checks
-        configuration_health_check([])
+        ManageMiddleware.configuration_health_check([])
         self.assertEqual(ConfigurationError.objects.count(), 0)
 
     def test_post_announcenement(self):
@@ -198,17 +200,55 @@ class AdminTest(ViewTestCase):
                 "email": "noreply@example.com",
                 "username": "username",
                 "full_name": "name",
+                "send_email": 1,
             },
             follow=True,
         )
-        self.assertContains(response, "User has been invited")
+        self.assertContains(response, "Created user account")
+        self.assertEqual(len(mail.outbox), 1)
+
+    def test_invite_user_nosend(self):
+        response = self.client.get(reverse("manage-users"))
+        self.assertContains(response, "E-mail")
+        response = self.client.post(
+            reverse("manage-users"),
+            {
+                "email": "noreply@example.com",
+                "username": "username",
+                "full_name": "name",
+            },
+            follow=True,
+        )
+        self.assertContains(response, "Created user account")
+        self.assertEqual(len(mail.outbox), 0)
+
+    @override_settings(AUTHENTICATION_BACKENDS=TEST_BACKENDS)
+    def test_invite_user_nomail(self):
+        response = self.client.get(reverse("manage-users"))
+        self.assertContains(response, "E-mail")
+        response = self.client.post(
+            reverse("manage-users"),
+            {
+                "email": "noreply@example.com",
+                "username": "username",
+                "full_name": "name",
+                "send_email": 1,
+            },
+            follow=True,
+        )
+        self.assertContains(response, "Created user account")
         self.assertEqual(len(mail.outbox), 1)
 
     def test_check_user(self):
         response = self.client.get(
-            reverse("manage-users-check"), {"email": self.user.email}
+            reverse("manage-users-check"), {"email": self.user.email}, follow=True
         )
-        self.assertContains(response, "Last login")
+        self.assertRedirects(response, self.user.get_absolute_url())
+        self.assertContains(response, "Never signed-in")
+        response = self.client.get(
+            reverse("manage-users-check"), {"email": "nonexisting"}, follow=True
+        )
+        self.assertRedirects(response, reverse("manage-users") + "?q=nonexisting")
 
     @override_settings(
         EMAIL_HOST="nonexisting.weblate.org",

@@ -25,17 +25,17 @@ import os.path
 import subprocess
 from datetime import datetime
 from distutils.version import LooseVersion
-from typing import List, Optional
+from typing import Iterator, List, Optional
 
 from dateutil import parser
 from django.conf import settings
 from django.core.cache import cache
 from django.utils.functional import cached_property
-from filelock import FileLock
 from pkg_resources import Requirement, resource_filename
 from sentry_sdk import add_breadcrumb
 
 from weblate.trans.util import get_clean_env, path_separator
+from weblate.utils.lock import WeblateLock
 from weblate.vcs.ssh import SSH_WRAPPER
 
 LOGGER = logging.getLogger("weblate.vcs")
@@ -50,7 +50,7 @@ class RepositoryException(Exception):
 
     def get_message(self):
         if self.retcode != 0:
-            return "{} ({})".format(self.args[0], self.retcode)
+            return f"{self.args[0]} ({self.retcode})"
         return self.args[0]
 
     def __str__(self):
@@ -78,7 +78,14 @@ class Repository:
     def get_identifier(cls):
         return cls.identifier or cls.name.lower()
 
-    def __init__(self, path, branch=None, component=None, local=False):
+    def __init__(
+        self,
+        path: str,
+        branch: Optional[str] = None,
+        component=None,
+        local: bool = False,
+        skip_init: bool = False,
+    ):
         self.path = path
         if branch is None:
             self.branch = self.default_branch
@@ -86,12 +93,20 @@ class Repository:
             self.branch = branch
         self.component = component
         self.last_output = ""
-        self.lock = FileLock(self.path.rstrip("/").rstrip("\\") + ".lock", timeout=120)
+        base_path = self.path.rstrip("/").rstrip("\\")
+        self.lock = WeblateLock(
+            lock_path=os.path.dirname(base_path),
+            scope="repo",
+            key=component.pk if component else os.path.basename(base_path),
+            slug=os.path.basename(base_path),
+            file_template="{slug}.lock",
+            timeout=120,
+        )
         self.local = local
         if not local:
             # Create ssh wrapper for possible use
             SSH_WRAPPER.create()
-            if not self.is_valid():
+            if not skip_init and not self.is_valid():
                 self.init()
 
     @classmethod
@@ -147,7 +162,8 @@ class Repository:
                 "GIT_SSH": SSH_WRAPPER.filename,
                 "GIT_TERMINAL_PROMPT": "0",
                 "SVN_SSH": SSH_WRAPPER.filename,
-            }
+            },
+            extra_path=SSH_WRAPPER.path,
         )
 
     @classmethod
@@ -263,9 +279,10 @@ class Repository:
     @classmethod
     def clone(cls, source: str, target: str, branch: str, component=None):
         """Clone repository and return object for cloned repository."""
-        SSH_WRAPPER.create()
-        cls._clone(source, target, branch)
-        return cls(target, branch, component)
+        repo = cls(target, branch, component, skip_init=True)
+        with repo.lock:
+            cls._clone(source, target, branch)
+        return repo
 
     def update_remote(self):
         """Update remote repository."""
@@ -273,8 +290,7 @@ class Repository:
 
     def status(self):
         """Return status of the repository."""
-        with self.lock:
-            return self.execute(self._cmd_status)
+        return self.execute(self._cmd_status, needs_lock=False)
 
     def push(self, branch):
         """Push given branch to remote repository."""
@@ -391,7 +407,7 @@ class Repository:
         author: Optional[str] = None,
         timestamp: Optional[datetime] = None,
         files: Optional[List[str]] = None,
-    ):
+    ) -> bool:
         """Create new revision."""
         raise NotImplementedError()
 
@@ -401,11 +417,16 @@ class Repository:
 
     @staticmethod
     def update_hash(objhash, filename, extra=None):
-        with open(filename, "rb") as handle:
-            data = handle.read()
+        if os.path.islink(filename):
+            objtype = "symlink"
+            data = os.readlink(filename).encode()
+        else:
+            objtype = "blob"
+            with open(filename, "rb") as handle:
+                data = handle.read()
         if extra:
             objhash.update(extra.encode())
-        objhash.update("blob {}\0".format(len(data)).encode("ascii"))
+        objhash.update(f"{objtype} {len(data)}\0".encode("ascii"))
         objhash.update(data)
 
     def get_object_hash(self, path):
@@ -483,7 +504,7 @@ class Repository:
         """
         raise NotImplementedError()
 
-    def list_changed_files(self, refspec):
+    def list_changed_files(self, refspec: str) -> List:
         """List changed files for given refspec.
 
         This is not universal as refspec is different per vcs.
@@ -491,18 +512,16 @@ class Repository:
         lines = self.execute(
             self._cmd_list_changed_files + [refspec], needs_lock=False, merge_err=False
         ).splitlines()
-        return self.parse_changed_files(lines)
+        return list(self.parse_changed_files(lines))
 
-    def parse_changed_files(self, lines):
+    def parse_changed_files(self, lines: List[str]) -> Iterator[str]:
         """Parses output with chanaged files."""
         raise NotImplementedError()
 
     def list_upstream_changed_files(self):
         """List files missing upstream."""
-        return list(
-            self.list_changed_files(
-                self.ref_to_remote.format(self.get_remote_branch_name())
-            )
+        return self.list_changed_files(
+            self.ref_to_remote.format(self.get_remote_branch_name())
         )
 
     def get_remote_branch_name(self):

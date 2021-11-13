@@ -40,5 +40,5 @@ Add components to the list automatically based on their slug by creating
 1. Define :guilabel:`Automatic component list assignment` with ``^.*$`` as regular expression
 in both the project and the component fields, as shown on this image:
 
-.. image:: /images/componentlist-add.png
+.. image:: /screenshots/componentlist-add.png
    :alt: Image showing the Weblate administration panel with the above configuration filled in.

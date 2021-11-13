@@ -31,7 +31,7 @@ class FilterRegistry:
     def full_list(self):
         result = [
             ("all", _("All strings"), ""),
-            ("readonly", _("Read only strings"), "state:read-only"),
+            ("readonly", _("Read-only strings"), "state:read-only"),
             ("nottranslated", _("Not translated strings"), "state:empty"),
             ("todo", _("Strings needing action"), "state:<translated"),
             ("translated", _("Translated strings"), "state:>=translated"),
@@ -108,7 +108,7 @@ class FilterRegistry:
             return self.id_query[name]
         except KeyError:
             if name.startswith("label:"):
-                return 'label:"{}"'.format(name[6:])
+                return f'label:"{name[6:]}"'
             raise
 
 

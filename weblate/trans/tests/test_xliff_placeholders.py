@@ -57,7 +57,7 @@ class XliffPlaceholdersTest(TestCase):
             'T: <x id="INTERPOLATION" equiv-text="{{ angular }}"/>', string
         )
         store.units[0].rich_source = xliff_string_to_rich(string)
-        self.assertEqual(source, bytes(store))
+        self.assertXMLEqual(source.decode(), bytes(store).decode())
 
     def test_xliff_roundtrip_unknown(self):
         with open(TEST_MRK, "rb") as handle:
@@ -67,4 +67,4 @@ class XliffPlaceholdersTest(TestCase):
         string = rich_to_xliff_string(store.units[0].rich_source)
         self.assertEqual('T: <mrk mtype="protected">%s</mrk>', string)
         store.units[0].rich_source = xliff_string_to_rich(string)
-        self.assertEqual(source, bytes(store))
+        self.assertXMLEqual(source.decode(), bytes(store).decode())

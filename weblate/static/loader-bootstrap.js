@@ -111,7 +111,7 @@ function submitForm(evt) {
 Mousetrap.bindGlobal(["alt+enter", "mod+enter"], submitForm);
 
 function screenshotStart() {
-  $("#search-results").empty();
+  $("#search-results tbody.unit-listing-body").empty();
   increaseLoading("screenshots");
 }
 
@@ -131,9 +131,8 @@ function screenshotAddString() {
     dataType: "json",
     success: function () {
       var list = $("#sources-listing");
-
       $.get(list.data("href"), function (data) {
-        list.html(data);
+        list.find("table").replaceWith(data);
       });
     },
     error: function (jqXHR, textStatus, errorThrown) {
@@ -143,32 +142,9 @@ function screenshotAddString() {
 }
 
 function screnshotResultError(severity, message) {
-  $("#search-results").html(
+  $("#search-results tbody.unit-listing-body").html(
     '<tr class="' + severity + '"><td colspan="4">' + message + "</td></tr>"
   );
-}
-
-function screenshotResultSet(results) {
-  $("#search-results").empty();
-  $.each(results, function (idx, value) {
-    var row = $(
-      '<tr><td class="text"></td>' +
-        '<td class="context"></td>' +
-        '<td class="location"></td>' +
-        '<td class="assigned"></td>' +
-        '<td><a class="add-string btn btn-primary"> ' +
-        gettext("Add to screenshot") +
-        "</tr>"
-    );
-
-    row.find(".text").text(value.text);
-    row.find(".context").text(value.context);
-    row.find(".location").text(value.location);
-    row.find(".assigned").text(value.assigned);
-    row.find(".add-string").data("pk", value.pk);
-    $("#search-results").append(row);
-  });
-  $("#search-results").find(".add-string").click(screenshotAddString);
 }
 
 function screenshotLoaded(data) {
@@ -181,7 +157,8 @@ function screenshotLoaded(data) {
       gettext("No new matching source strings found.")
     );
   } else {
-    screenshotResultSet(data.results);
+    $("#search-results table").replaceWith(data.results);
+    $("#search-results").find(".add-string").click(screenshotAddString);
   }
 }
 
@@ -247,7 +224,7 @@ function loadTableSorting() {
           th.addClass("sort-init");
           if (!th.hasClass("sort-cell")) {
             // Skip statically initialized parts (when server side ordering is supported)
-            attr("title", gettext("Sort this column"))
+            th.attr("title", gettext("Sort this column"))
               .addClass("sort-cell")
               .append('<span class="sort-icon" />');
           }
@@ -336,6 +313,9 @@ function adjustColspan() {
   $("table.autocolspan").each(function () {
     var $this = $(this);
     var numOfVisibleCols = $this.find("thead th:visible").length;
+    if (numOfVisibleCols === 0) {
+      numOfVisibleCols = 3;
+    }
     $this.find("td.autocolspan").attr("colspan", numOfVisibleCols - 1);
   });
 }
@@ -400,9 +380,19 @@ function initHighlight(root) {
     var languageMode = Prism.languages[mode];
     if (editor.classList.contains("translation-editor")) {
       let placeables = editor.getAttribute("data-placeables");
+      /* This should match WHITESPACE_REGEX in weblate/trans/templatetags/translations.py */
+      let whitespace_regex = new RegExp(
+        [
+          "  +|(^) +| +(?=$)| +\n|\n +|\t|",
+          "\u00A0|\u1680|\u2000|\u2001|",
+          "\u2002|\u2003|\u2004|\u2005|",
+          "\u2006|\u2007|\u2008|\u2009|",
+          "\u200A|\u202F|\u205F|\u3000",
+        ].join("")
+      );
       let extension = {
         hlspace: {
-          pattern: /  +|(^) +| +(?=$)| +\n|\n +/,
+          pattern: whitespace_regex,
           lookbehind: true,
         },
       };
@@ -497,11 +487,6 @@ $(function () {
     });
   }
 
-  /* Hiding spam protection field */
-  $("#s_content").hide();
-  $("#id_content").parent("div").hide();
-  $("#div_id_content").hide();
-
   /* Form automatic submission */
   $("form.autosubmit select").change(function () {
     $("form.autosubmit").submit();
@@ -527,6 +512,8 @@ $(function () {
     if (activeTab.length) {
       activeTab.tab("show");
       window.scrollTo(0, 0);
+    } else {
+      document.getElementById(location.hash.substr(1)).scrollIntoView();
     }
   } else if (
     $(".translation-tabs").length > 0 &&
@@ -852,7 +839,10 @@ $(function () {
   /* Copy to clipboard */
   var clipboard = new ClipboardJS("[data-clipboard-text]");
   clipboard.on("success", function (e) {
-    addAlert(gettext("Text copied to clipboard."), (kind = "info"));
+    var text =
+      e.trigger.getAttribute("data-clipboard-message") ||
+      gettext("Text copied to clipboard.");
+    addAlert(text, (kind = "info"));
   });
   clipboard.on("error", function (e) {
     addAlert(gettext("Please press Ctrl+C to copy."), (kind = "danger"));
@@ -1146,24 +1136,6 @@ $(function () {
       );
     }
   );
-
-  /* Prefill adding to glossary with current string */
-  $("#add-glossary-form").on("shown.bs.modal", (e) => {
-    if (e.target.hasAttribute("data-shown")) {
-      return;
-    }
-    /* Relies on clone source implementation */
-    let source = JSON.parse(
-      document.querySelector("[data-content]").getAttribute("data-content")
-    );
-    if (source.length < 200) {
-      document.getElementById("id_source").value = source;
-      document.getElementById("id_target").value = document.querySelector(
-        ".translation-editor"
-      ).value;
-    }
-    e.target.setAttribute("data-shown", true);
-  });
 
   /* Username autocompletion */
   var tribute = new Tribute({

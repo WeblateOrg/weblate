@@ -1,0 +1,13 @@
+{% load i18n %}
+
+<div class="progress">
+  {% if approved %}
+  <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="{{ approved }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ approved }}%;" title="{% trans "Approved" %}"></div>
+  {% endif %}
+  {% if good %}
+  <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="{{ good }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ good }}%;" title="{% trans "Translated without any problems" %}"></div>
+  {% endif %}
+  {% if bad %}
+  <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="{{ bad }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ bad }}%;" title="{% trans "Needs attention" %}"></div>
+  {% endif %}
+</div>

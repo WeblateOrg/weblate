@@ -66,3 +66,9 @@ class ClassLoaderTestCase(TestCase):
             ImproperlyConfigured, "Setting TEST_SERVICES must be list or tuple!"
         ):
             loader.load_data()
+
+    @override_settings(TEST_SERVICES=None)
+    def test_none(self):
+        loader = ClassLoader("TEST_SERVICES", construct=False)
+        loader.load_data()
+        self.assertEqual(len(list(loader.keys())), 0)

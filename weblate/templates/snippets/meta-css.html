@@ -8,14 +8,14 @@
 {% endif %}
   <link rel="stylesheet" type="text/css" href="{% static 'vendor/bootstrap/css/bootstrap-datepicker3.css' %}{{ cache_param }}" />
   {% if not fonts_cdn_url %}
-  <link rel="stylesheet" type="text/css" href="{% static 'vendor/font-source/source-sans-pro.css' %}{{ cache_param }}" />
+  <link rel="stylesheet" type="text/css" href="{% static 'vendor/font-source/source-sans-3.css' %}{{ cache_param }}" />
   <link rel="stylesheet" type="text/css" href="{% static 'vendor/font-source/source-code-pro.css' %}{{ cache_param }}" />
   {% endif %}
   <link rel="stylesheet" type="text/css" href="{% static 'vendor/multi.css' %}{{ cache_param }}" />
   <link rel="stylesheet" type="text/css" href="{% static 'style-bootstrap.css' %}{{ cache_param }}" />
 {% endcompress %}
 {% if fonts_cdn_url %}
-  <link rel="stylesheet" type="text/css" href="{{ fonts_cdn_url }}font-source/source-sans-pro.css" />
+  <link rel="stylesheet" type="text/css" href="{{ fonts_cdn_url }}font-source/source-sans-3.css" />
   <link rel="stylesheet" type="text/css" href="{{ fonts_cdn_url }}font-source/source-code-pro.css" />
 {% endif %}
 {% if custom_css_hash %}

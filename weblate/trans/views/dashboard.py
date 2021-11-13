@@ -125,11 +125,7 @@ def get_user_translations(request, user, user_has_languages):
 
     Works also for anonymous users based on current UI language.
     """
-    result = (
-        Translation.objects.prefetch()
-        .filter_access(user)
-        .order_by("component__priority", "component__project__name", "component__name")
-    )
+    result = Translation.objects.prefetch().filter_access(user).order()
 
     if user_has_languages:
         result = result.filter(language__in=user.profile.languages.all())
@@ -275,7 +271,6 @@ def dashboard_user(request):
                 component__project__in=user.watched_projects
             )
         )
-        usersubscriptions = get_paginator(request, usersubscriptions)
 
         if user.profile.hide_completed:
             usersubscriptions = get_untranslated(usersubscriptions)
@@ -283,6 +278,8 @@ def dashboard_user(request):
                 componentlist.translations = get_untranslated(
                     prefetch_stats(componentlist.translations)
                 )
+
+        usersubscriptions = get_paginator(request, usersubscriptions)
         usersubscriptions = translation_prefetch_tasks(usersubscriptions)
 
     return render(
@@ -323,9 +320,9 @@ def dashboard_anonymous(request):
         request,
         "dashboard/anonymous.html",
         {
-            "top_projects": prefetch_project_flags(top_projects),
+            "top_projects": prefetch_stats(prefetch_project_flags(top_projects)),
             "all_projects": Metric.objects.get_current(
-                Metric.SCOPE_GLOBAL, 0, name="projects"
+                None, Metric.SCOPE_GLOBAL, 0, name="projects"
             )["projects"],
         },
     )

@@ -18,12 +18,12 @@ specifying targets for translations.
 The announcements can posted on each level in the :guilabel:`Manage` menu, using
 :guilabel:`Post announcement`:
 
-.. image:: /images/announcement-project.png
+.. image:: /screenshots/announcement-project.png
     :alt: Image showing a message that reads: "Translations will be used only if they reach 60%" atop the dashboard view.
 
 It can be also added using the admin interface:
 
-.. image:: /images/announcement.png
+.. image:: /screenshots/announcement.png
 
 The announcements are then shown based on their specified context:
 
@@ -46,5 +46,5 @@ Language specified
 
 This is how it looks on the language overview page:
 
-.. image:: /images/announcement-language.png
+.. image:: /screenshots/announcement-language.png
    :alt: Image showing a message that reads: "Czech translators rock!" atop the Czech language overview.

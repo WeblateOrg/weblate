@@ -30,12 +30,12 @@ from django.utils.translation import gettext as _
 from jellyfish import damerau_levenshtein_distance
 from pyparsing import (
     CaselessKeyword,
+    OpAssoc,
     Optional,
     Regex,
     Word,
-    infixNotation,
-    oneOf,
-    opAssoc,
+    infix_notation,
+    one_of,
 )
 
 from weblate.checks.parser import RawQuotedString
@@ -86,8 +86,8 @@ STRING_FIELD_MAP = {
     "explanation": "source_unit__explanation",
 }
 EXACT_FIELD_MAP = {
-    "check": "check__check",
-    "dismissed_check": "check__check",
+    "check": "check__name",
+    "dismissed_check": "check__name",
     "language": "translation__language__code",
     "component": "translation__component__slug",
     "project": "translation__component__project__slug",
@@ -98,7 +98,7 @@ EXACT_FIELD_MAP = {
 }
 OPERATOR_MAP = {
     ":": "substring",
-    ":=": "iexact",
+    ":=": "exact",
     ":<": "lt",
     ":<=": "lte",
     ":>": "gt",
@@ -112,7 +112,7 @@ OR = Optional(CaselessKeyword("OR"))
 NOT = CaselessKeyword("NOT")
 
 # Search operator
-OPERATOR = oneOf(OPERATOR_MAP.keys())
+OPERATOR = one_of(OPERATOR_MAP.keys())
 
 # Field name, explicitely exlude URL like patters
 FIELD = Regex(r"""(?!http|ftp|https|mailto)[a-zA-Z_]+""")
@@ -133,23 +133,23 @@ TERM = (FIELD + OPERATOR + (RANGE | STRING)) | STRING
 
 # Multi term with or without operator
 QUERY = Optional(
-    infixNotation(
+    infix_notation(
         TERM,
         [
             (
                 NOT,
                 1,
-                opAssoc.RIGHT,
+                OpAssoc.RIGHT,
             ),
             (
                 AND,
                 2,
-                opAssoc.LEFT,
+                OpAssoc.LEFT,
             ),
             (
                 OR,
                 2,
-                opAssoc.LEFT,
+                OpAssoc.LEFT,
             ),
         ],
     )
@@ -163,7 +163,7 @@ class RegexExpr:
         self.expr = tokens[1]
 
 
-REGEX_STRING.addParseAction(RegexExpr)
+REGEX_STRING.add_parse_action(RegexExpr)
 
 
 class RangeExpr:
@@ -172,7 +172,7 @@ class RangeExpr:
         self.end = tokens[3]
 
 
-RANGE.addParseAction(RangeExpr)
+RANGE.add_parse_action(RangeExpr)
 
 
 class TermExpr:
@@ -217,6 +217,8 @@ class TermExpr:
             return Q(suggestion__isnull=False)
         if text == "explanation":
             return ~Q(source_unit__explanation="")
+        if text == "note":
+            return ~Q(note="")
         if text == "comment":
             return Q(comment__resolved=False)
         if text in ("resolved-comment", "resolved_comment"):
@@ -276,6 +278,8 @@ class TermExpr:
             return query & Q(check__dismissed=False)
         if field == "dismissed_check":
             return query & Q(check__dismissed=True)
+        if field == "component":
+            return query | Q(translation__component__name__icontains=match)
 
         return query
 
@@ -384,15 +388,15 @@ class TermExpr:
         if field in PLAIN_FIELDS:
             return f"{field}__{suffix}"
         if field in STRING_FIELD_MAP:
-            return "{}__{}".format(STRING_FIELD_MAP[field], suffix)
+            return f"{STRING_FIELD_MAP[field]}__{suffix}"
         if field in EXACT_FIELD_MAP:
             # Change contains to exact, do not change other (for example regex)
             if suffix == "substring":
                 suffix = "iexact"
-            return "{}__{}".format(EXACT_FIELD_MAP[field], suffix)
+            return f"{EXACT_FIELD_MAP[field]}__{suffix}"
         if field in NONTEXT_FIELDS:
             if suffix not in ("substring", "iexact"):
-                return "{}__{}".format(NONTEXT_FIELDS[field], suffix)
+                return f"{NONTEXT_FIELDS[field]}__{suffix}"
             return NONTEXT_FIELDS[field]
         raise ValueError(f"Unsupported field: {field}")
 
@@ -447,7 +451,7 @@ class TermExpr:
         return self.field_extra(field, query, match)
 
 
-TERM.addParseAction(TermExpr)
+TERM.add_parse_action(TermExpr)
 
 
 def parser_to_query(obj, context: Dict):
@@ -478,7 +482,7 @@ def parser_to_query(obj, context: Dict):
 def parse_string(text):
     if "\x00" in text:
         raise ValueError("Invalid query string.")
-    return QUERY.parseString(text, parseAll=True)
+    return QUERY.parse_string(text, parse_all=True)
 
 
 def parse_query(text, **context):

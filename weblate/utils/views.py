@@ -36,6 +36,8 @@ from django.views.generic.edit import FormView
 from weblate.formats.models import EXPORTERS
 from weblate.trans.models import Component, Project, Translation
 from weblate.utils import messages
+from weblate.utils.errors import report_error
+from weblate.utils.lock import WeblateLockTimeout
 from weblate.vcs.git import LocalRepository
 
 SORT_KEYS = {
@@ -43,6 +45,7 @@ SORT_KEYS = {
     "translated": lambda x: x.stats.translated_percent,
     "untranslated": lambda x: x.stats.todo,
     "untranslated_words": lambda x: x.stats.todo_words,
+    "untranslated_chars": lambda x: x.stats.todo_chars,
     "checks": lambda x: x.stats.allchecks,
     "suggestions": lambda x: x.stats.suggestions,
     "comments": lambda x: x.stats.comments,
@@ -93,9 +96,9 @@ def sort_objects(object_list, sort_by: str):
     return sorted(object_list, key=key, reverse=reverse), sort_by
 
 
-def get_paginator(request, object_list, default_page_limit=100):
+def get_paginator(request, object_list, page_limit=None):
     """Return paginator and current page."""
-    page, limit = get_page_limit(request, default_page_limit)
+    page, limit = get_page_limit(request, page_limit or settings.DEFAULT_PAGE_LIMIT)
     sort_by = request.GET.get("sort_by")
     if sort_by:
         object_list, sort_by = sort_objects(object_list, sort_by)
@@ -282,8 +285,11 @@ def zip_download(root, filenames, name="translations"):
     response = HttpResponse(content_type="application/zip")
     with ZipFile(response, "w") as zipfile:
         for filename in iter_files(filenames):
-            with open(filename, "rb") as handle:
-                zipfile.writestr(os.path.relpath(filename, root), handle.read())
+            try:
+                with open(filename, "rb") as handle:
+                    zipfile.writestr(os.path.relpath(filename, root), handle.read())
+            except FileNotFoundError:
+                continue
     response["Content-Disposition"] = f'attachment; filename="{name}.zip"'
     return response
 
@@ -308,19 +314,27 @@ def download_translation_file(request, translation, fmt=None, units=None):
         )
     else:
         # Force flushing pending units
-        translation.commit_pending("download", None)
+        try:
+            translation.commit_pending("download", None)
+        except WeblateLockTimeout:
+            report_error(cause="Download commit")
 
         filenames = translation.filenames
 
         if len(filenames) == 1:
-            extension = translation.component.file_format_cls.extension()
+            extension = (
+                os.path.splitext(translation.filename)[1]
+                or f".{translation.component.file_format_cls.extension()}"
+            )
+            if not os.path.exists(filenames[0]):
+                raise Http404("File not found")
             # Create response
             response = FileResponse(
                 open(filenames[0], "rb"),
                 content_type=translation.component.file_format_cls.mimetype(),
             )
         else:
-            extension = "zip"
+            extension = ".zip"
             response = zip_download(
                 translation.get_filename(),
                 filenames,
@@ -329,12 +343,10 @@ def download_translation_file(request, translation, fmt=None, units=None):
 
         # Construct filename (do not use real filename as it is usually not
         # that useful)
-        filename = "{}-{}-{}.{}".format(
-            translation.component.project.slug,
-            translation.component.slug,
-            translation.language.code,
-            extension,
-        )
+        project_slug = translation.component.project.slug
+        component_slug = translation.component.slug
+        language_code = translation.language.code
+        filename = f"{project_slug}-{component_slug}-{language_code}{extension}"
 
         # Fill in response headers
         response["Content-Disposition"] = f"attachment; filename={filename}"

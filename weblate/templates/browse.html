@@ -48,7 +48,7 @@
 {% if not units %}
   <em>{% trans "No strings found!" %}</em>
 {% else %}
-  {% include "snippets/embed-units.html" with translation=object include_search=True %}
+  {% include "snippets/embed-units.html" with translation=object include_search=True component=object.component %}
 {% endif %}
 
 {% endblock %}

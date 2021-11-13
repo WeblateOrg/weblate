@@ -57,6 +57,12 @@ authentication method. Please note that some backends do not provide user e-mail
 default, you have to request it explicitly, otherwise Weblate will not be able
 to properly credit contributions users make.
 
+.. hint::
+
+   Most of the authentication backends require HTTPS. Once HTTPS is enabled in your web server
+   please configure Weblate to report it properly using :setting:`ENABLE_HTTPS`, or by
+   :envvar:`WEBLATE_ENABLE_HTTPS` in the Docker container.
+
 .. seealso::
 
     :doc:`Python Social Auth backend <psa:backends/index>`
@@ -311,6 +317,19 @@ The redirect URL is ``https://WEBLATE SERVER/accounts/complete/slack/``.
 
    :doc:`psa:backends/slack`
 
+
+Overriding authentication method names and icons
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can override the authentication method display name and icon using using settings as
+``SOCIAL_AUTH_<NAME>_IMAGE`` and ``SOCIAL_AUTH_<NAME>_TITLE``. For example
+overriding naming for Auth0 would look like:
+
+.. code-block:: python
+
+   SOCIAL_AUTH_AUTH0_IMAGE = "custom.svg"
+   SOCIAL_AUTH_AUTH0_TITLE = "Custom auth"
+
 Turning off password authentication
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -384,6 +403,7 @@ Example configuration:
     )
 
     # Social auth backends setup
+    SOCIAL_AUTH_SAML_SP_ENTITY_ID = f"https://{SITE_DOMAIN}/accounts/metadata/saml/"
     SOCIAL_AUTH_SAML_SP_PUBLIC_CERT = "-----BEGIN CERTIFICATE-----"
     SOCIAL_AUTH_SAML_SP_PRIVATE_KEY = "-----BEGIN PRIVATE KEY-----"
     SOCIAL_AUTH_SAML_ENABLED_IDPS = {
@@ -396,6 +416,43 @@ Example configuration:
             "attr_email": "email",
         }
     }
+    SOCIAL_AUTH_SAML_ORG_INFO = {
+        "en-US": {
+            "name": "example",
+            "displayname": "Example Inc.",
+            "url": "http://example.com"
+        }
+    }
+    SOCIAL_AUTH_SAML_TECHNICAL_CONTACT = {
+        "givenName": "Tech Gal",
+        "emailAddress": "technical@example.com"
+    }
+    SOCIAL_AUTH_SAML_SUPPORT_CONTACT = {
+        "givenName": "Support Guy",
+        "emailAddress": "support@example.com"
+    }
+
+The default configuration extracts user details from following attributes,
+configure your IDP to provide them:
+
++--------------+-----------------------------------------+
+| Attribute    | SAML URI reference                      |
++==============+=========================================+
+| Full name    | ``urn:oid:2.5.4.3``                     |
++--------------+-----------------------------------------+
+| First name   | ``urn:oid:2.5.4.42``                    |
++--------------+-----------------------------------------+
+| Last name    | ``urn:oid:2.5.4.4``                     |
++--------------+-----------------------------------------+
+| E-mail       | ``urn:oid:0.9.2342.19200300.100.1.3``   |
++--------------+-----------------------------------------+
+| Username     | ``urn:oid:0.9.2342.19200300.100.1.1``   |
++--------------+-----------------------------------------+
+
+.. hint::
+
+   The example above and the Docker image define an IDP labelled ``weblate``.
+   You might need to configure this string as :guilabel:`Relay` in your IDP.
 
 .. seealso::
 
@@ -418,10 +475,9 @@ can install it via usual means:
     # Using apt-get
     apt-get install python-django-auth-ldap
 
-.. warning::
+.. hint::
 
-    With django-auth-ldap older than 1.3.0 the :ref:`autogroup` will not work
-    properly for newly created users.
+   This package is included in the Docker container, see :doc:`/admin/install/docker`.
 
 .. note::
 

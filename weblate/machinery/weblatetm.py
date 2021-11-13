@@ -20,21 +20,23 @@
 from functools import reduce
 from typing import Set
 
+from django.conf import settings
 from django.db.models import Q
 
-from weblate.machinery.base import BatchStringMachineTranslation, get_machinery_language
+from weblate.machinery.base import MachineTranslation, get_machinery_language
 from weblate.trans.models import Unit
 from weblate.utils.db import adjust_similarity_threshold
 from weblate.utils.state import STATE_TRANSLATED
 
 
-class WeblateTranslation(BatchStringMachineTranslation):
+class WeblateTranslation(MachineTranslation):
     """Translation service using strings already translated in Weblate."""
 
     name = "Weblate"
     rank_boost = 1
     cache_translations = False
     accounting_key = "internal"
+    do_cleanup = False
 
     def convert_language(self, language):
         """No conversion of language object."""
@@ -59,10 +61,18 @@ class WeblateTranslation(BatchStringMachineTranslation):
         threshold: int = 75,
     ):
         """Download list of possible translations from a service."""
+        # Filter based on user access
         if user:
             base = Unit.objects.filter_access(user)
         else:
             base = Unit.objects.all()
+
+        # Use memory_db for the query in case it exists. This is supposed
+        # to be a read-only replica for offloading expensive translation
+        # queries.
+        if "memory_db" in settings.DATABASES:
+            base = base.using("memory_db")
+
         matching_units = base.filter(
             source__search=text,
             translation__component__source_language=source,
