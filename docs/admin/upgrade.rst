@@ -4,16 +4,16 @@ Upgrading Weblate
 Docker-image upgrades
 ---------------------
 
-The official Docker image (see :doc:`install/docker`) has all required upgrade
-steps integrated. No manual interaction is needed beyond pulling the latest version.
+The official Docker image (see :doc:`install/docker`) integrates all steps.
+No manual interaction is needed beyond pulling the latest version.
 
 .. _generic-upgrade-instructions:
 
 Generic upgrade instructions
 ----------------------------
 
-Always look for changes to :ref:`requirements` before upgrading, as they might
-have changed. Once all requirements are installed or upgraded, ensure your
+Always look for new changes to :ref:`requirements` before upgrading.
+Once all requirements are installed or upgraded, ensure your
 :file:`settings.py` matches :file:`settings_example.py`.
 
 Always check :ref:`version-specific-instructions` before upgrading.
@@ -24,10 +24,10 @@ instructions for them at once.
 .. note::
 
     Always back up the full database before upgrading so that you
-    can revert your changes in case the upgrade fails, see :doc:`backup`.
+    can revert your changes if the upgrade fails, see :doc:`backup`.
 
-#. Stop the WSGI and Celery processes. The upgrade can make incompatible changes
-   in the database, so it is safer to avoid old processes running while upgrading.
+#. Stop the WSGI and Celery processes to avoid old processes running while upgrading.
+   Otherwise incompatible changes in the database might occur.
 
 #. Upgrade the Weblate source code.
 
@@ -43,7 +43,7 @@ instructions for them at once.
 
       pip install -U Weblate
 
-   Git checkout to fetch the new source code and upgrade your installation:
+   Git checkout can also fetch the new source code and upgrades your installation:
 
    .. code-block:: sh
 
@@ -56,8 +56,8 @@ instructions for them at once.
         # Install optional dependencies directly when not using virtualenv
         pip install --upgrade -r requirements-optional.txt
 
-#. New Weblate release might have new :ref:`optional-deps`, please check if they cover
-   features you want.
+#. New Weblate releases might have new :ref:`optional-deps`, please check if they cover
+   the features you want.
 
 #. Upgrade the configuration file by following :file:`settings_example.py` or
    :ref:`version-specific-instructions`.
@@ -127,15 +127,17 @@ Upgrading from 4.0 to 4.1
 
 Please follow :ref:`generic-upgrade-instructions` to upgrade.
 
-Notable configuration- or dependency changes:
+Notable configuration- and dependency changes:
 
-* There are several changes in :file:`settings_example.py`, most notable middleware changes, please adjust your settings accordingly.
-* There are new file formats, you might want to include them in case you modified the :setting:`WEBLATE_FORMATS`.
-* There are new quality checks, you might want to include them in case you modified the :setting:`CHECK_LIST`.
-* There is a change in the ``DEFAULT_THROTTLE_CLASSES`` setting allowing reporting rate limiting in the API.
-* There are some new and updated requirements.
-* There is a change in :setting:`django:INSTALLED_APPS`.
-* The ``MT_DEEPL_API_VERSION`` setting has been removed in Version 4.7. The :ref:`deepl` machine translation now uses the new :setting:`MT_DEEPL_API_URL` instead. You might need to adjust :setting:`MT_DEEPL_API_URL` to match your subscription.
+* Several changes in :file:`settings_example.py`, most notable middleware changes, please adjust your settings accordingly.
+* New file formats, you might want to include them in case you modified the :setting:`WEBLATE_FORMATS`.
+* New quality checks, you might want to include them in case you modified the :setting:`CHECK_LIST`.
+* A change in the ``DEFAULT_THROTTLE_CLASSES`` setting allowing reporting rate limiting in the API.
+* Some new and updated requirements.
+* A change in :setting:`django:INSTALLED_APPS`.
+* The ``MT_DEEPL_API_VERSION`` setting has been removed in Version 4.7.
+The :ref:`deepl` machine translation now uses the new :setting:`MT_DEEPL_API_URL` instead.
+You might need to adjust :setting:`MT_DEEPL_API_URL` to match your subscription.
 
 .. seealso:: :ref:`generic-upgrade-instructions`
 
@@ -144,14 +146,14 @@ Upgrade from 4.1 to 4.2
 
 Please follow :ref:`generic-upgrade-instructions` to upgrade.
 
-Notable configuration or dependencies changes:
+Notable configuration- and dependencies changes:
 
 * Upgrading from 3.x releases is not longer supported, please upgrade to 4.0 or 4.1 first.
 * Some new and updated requirements.
 * Several changes in :file:`settings_example.py`, most notable new middleware and changed application ordering.
 * The keys for JSON-based formats no longer include a leading dot.
 Strings are adjusted during the database migration, but external components may need adjusting if you rely on keys in exports or API.
-* The Celery configuration no longer use a ``memory`` queue.
+* The Celery configuration no longer uses a ``memory`` queue.
 Please adjust your startup scripts and ``CELERY_TASK_ROUTES`` setting to reflect this.
 * The Weblate domain is now configured in the settings, see :setting:`SITE_DOMAIN` (or :envvar:`WEBLATE_SITE_DOMAIN`).
 You will have to configure it before running Weblate.
@@ -165,14 +167,16 @@ Upgrade from 4.2 to 4.3
 
 Please follow :ref:`generic-upgrade-instructions` to upgrade.
 
-Notable configuration or dependency changes:
+Notable configuration- and dependency changes:
 
 * Some changes in quality checks, you might want to include them in case you modified the :setting:`CHECK_LIST`.
 * The source language attribute was moved from project to a component exposed in the API. Upgrade :ref:`wlc` if you are using it.
-* The database migration to 4.3 might take a long time depending on the number of strings you are translating. (Expect around one hour of migration time per 100,000 source strings.)
-* There is a change in :setting:`django:INSTALLED_APPS`.
-* There is a new setting :setting:`SESSION_COOKIE_AGE_AUTHENTICATED` which complements :setting:`django:SESSION_COOKIE_AGE`.
-* If you were using :command:`hub` or :command:`lab` to integrate with GitHub or GitLab, you will need to reconfigure this using :setting:`GITHUB_CREDENTIALS` and :setting:`GITLAB_CREDENTIALS`.
+* The database migration to 4.3 might take a long time depending on the number of strings you are translating.
+(Expect around one hour of migration time per 100,000 source strings.)
+* One change in :setting:`django:INSTALLED_APPS`.
+* A new setting :setting:`SESSION_COOKIE_AGE_AUTHENTICATED` complements :setting:`django:SESSION_COOKIE_AGE`.
+* If you were using :command:`hub` or :command:`lab` to integrate with GitLab or GitHub,
+you must reconfigure this using :setting:`GITHUB_CREDENTIALS` and :setting:`GITLAB_CREDENTIALS`.
 
 .. versionchanged:: 4.3.1
 
@@ -189,7 +193,7 @@ Upgrade from 4.3 to 4.4
 
 Please follow :ref:`generic-upgrade-instructions` to upgrade.
 
-Notable configuration or dependencies changes:
+Notable configuration- and dependencies changes:
 
 * A change in :setting:`django:INSTALLED_APPS`, requires ``weblate.configuration`` to be added there.
 * Django 3.1 is now required.
@@ -200,7 +204,7 @@ Notable configuration or dependencies changes:
    * :ref:`mono_gettext` now uses both ``msgid`` and ``msgctxt`` when present.
    This changes identification of translation strings in such files, breaking links to Weblate extended data such as screenshots or review states.
    Please ensure you commit pending changes in such files before upgrading.
-   It is recommeded to force load affected components using :djadmin:`loadpo`.
+   It is recommeded to force-load affected components using :djadmin:`loadpo`.
    * Increasing the required version of translate-toolkit addresses several file-format issues.
 
 .. seealso:: :ref:`generic-upgrade-instructions`
@@ -210,16 +214,16 @@ Upgrade from 4.4 to 4.5
 
 Please follow :ref:`generic-upgrade-instructions` to upgrade.
 
-Notable configuration or dependencies changes:
+Notable configuration- and dependencies changes:
 
 * The migration might take considerable time to process big glossaries.
 * Glossaries are now stored as regular components.
 * The glossary API is removed, use the regular translation API to access glossaries.
-* There is a change in :setting:`django:INSTALLED_APPS` - ``weblate.metrics`` should be added.
+* A change in :setting:`django:INSTALLED_APPS` - ``weblate.metrics`` should be added.
 
 .. versionchanged:: 4.5.1
 
-   * There is a new dependency on the `pyahocorasick` module.
+   * The `pyahocorasick` module is a new dependency.
 
 .. seealso:: :ref:`generic-upgrade-instructions`
 
@@ -228,11 +232,11 @@ Upgrade from 4.5 to 4.6
 
 Please follow :ref:`generic-upgrade-instructions` to upgrade.
 
-Notable configuration or dependencies changes:
+Notable configuration- and dependencies changes:
 
-* There are new file formats, you might want to include them in case you modified the :setting:`WEBLATE_FORMATS`.
+* New file formats, you might want to include them in case you modified the :setting:`WEBLATE_FORMATS`.
 * The API for creating components now automatically uses :ref:`internal-urls`, see :http:post:`/api/projects/(string:project)/components/`.
-* There is a change in dependencies and :setting:`django:PASSWORD_HASHERS` to prefer Argon2 for password hashing.
+* A change in dependencies and :setting:`django:PASSWORD_HASHERS` to prefer Argon2 for password hashing.
 
 .. seealso:: :ref:`generic-upgrade-instructions`
 
@@ -241,9 +245,9 @@ Upgrade from 4.6 to 4.7
 
 Please follow :ref:`generic-upgrade-instructions` to upgrade.
 
-Notable configuration or dependency changes:
+Notable configuration- and dependency changes:
 
-* There are several changes in :file:`settings_example.py`, most notably middleware changes (:setting:`django:MIDDLEWARE`).
+* Several changes in :file:`settings_example.py`, most notably middleware changes (:setting:`django:MIDDLEWARE`).
 Please adjust your settings accordingly.
 * The :ref:`deepl` machine translation now has a generic :setting:`MT_DEEPL_API_URL` setting to adapt to different subscription models more flexibly.
   The ``MT_DEEPL_API_VERSION`` setting is no longer used.
@@ -265,7 +269,7 @@ Upgrade from 4.8 to 4.9
 
 Please follow :ref:`generic-upgrade-instructions` to upgrade.
 
-* There is a change in storing metrics, the upgrade can take a while on larger sites.
+* There is a change in storing metrics. The upgrade can take a while on larger sites.
 
 .. seealso:: :ref:`generic-upgrade-instructions`
 
@@ -274,8 +278,9 @@ Please follow :ref:`generic-upgrade-instructions` to upgrade.
 Upgrading from Python 2 to Python 3
 -----------------------------------
 
-Weblate no longer supports Python older than 3.5. If you are still running an older version,
-please migrate to Python 3 first on the existing version and upgrade it later.
+Weblate no longer supports Python older than 3.5.
+If you are still running an older version, please migrate to Python 3 first
+on the existing version and upgrade it later.
 See `Upgrading from Python 2 to Python 3 in the Weblate 3.11.1 documentation
 <https://docs.weblate.org/en/weblate-3.11.1/admin/upgrade.html#upgrading-from-python-2-to-python-3>`_.
 
@@ -291,7 +296,7 @@ Stop both the web- and Celery servers beforehand, otherwise you might end up wit
 Creating a database in PostgreSQL
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-It is usually a good idea to run Weblate in a separate database, and separate user account:
+It is usually a good idea to run Weblate in a separate database and -user account:
 
 .. code-block:: sh
 
@@ -304,12 +309,12 @@ It is usually a good idea to run Weblate in a separate database, and separate us
     # Create the database "weblate" owned by "weblate"
     sudo -u postgres createdb -E UTF8 -O weblate weblate
 
-Migrating using Django JSON dumps
+Migrating using Django JSON-dumps
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The simplest migration approach is to utilize Django JSON dumps.
-This works well for smaller installations. On bigger sites you might want to use pgloader instead,
-see :ref:`pgloader-migration`.
+The simplest migration approach is to utilize Django JSON-dumps.
+This works well for smaller installations.
+On bigger sites you might want to use pgloader instead, see :ref:`pgloader-migration`.
 
 1. Add PostgreSQL as additional database connection to the :file:`settings.py`:
 
@@ -337,7 +342,7 @@ see :ref:`pgloader-migration`.
                 # 'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
                 # If your server supports it, see the Unicode issues above
                 "charset": "utf8mb4",
-                # Change connection timeout in case you get MySQL gone away error:
+                # Change connection timeout in case you get an "MySQL gone away" error:
                 "connect_timeout": 28800,
             },
         },
@@ -371,7 +376,7 @@ see :ref:`pgloader-migration`.
    weblate dumpdata --all --output weblate.json
    weblate loaddata weblate.json --database=postgresql
 
-4. Adjust :setting:`django:DATABASES` to only use a PostgreSQL database by default,
+4. Adjust :setting:`django:DATABASES` to only use a PostgreSQL database by default
    and remove legacy connections.
 
 Weblate should now be ready to run from the PostgreSQL database.
@@ -382,7 +387,7 @@ Migrating to PostgreSQL using pgloader
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The `pgloader`_ is a generic migration tool to migrate data to PostgreSQL.
-You can use it to migrate Weblate database.
+You can use it to migrate your Weblate database.
 
 1. Adjust your :file:`settings.py` to use PostgreSQL as your database.
 
@@ -416,5 +421,4 @@ so you can tweak it to match your setup:
 Migrating from Pootle
 ---------------------
 
-Migrate user accounts by dumping the list of users from Pootle and
-import them using :djadmin:`importusers`.
+Migrate user accounts by dumping the list of users from Pootle and import them using :djadmin:`importusers`.
