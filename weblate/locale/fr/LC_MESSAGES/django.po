@@ -31,7 +31,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.9.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-11-11 07:47+0000\n"
-"PO-Revision-Date: 2021-11-10 23:18+0000\n"
+"PO-Revision-Date: 2021-11-13 07:56+0000\n"
 "Last-Translator: J. Lavoie <j.lavoie@net-c.ca>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/weblate/"
 "application/fr/>\n"
@@ -1706,10 +1706,11 @@ msgstr "Dates importantes"
 #: weblate/auth/admin.py:205
 msgid "This is not used when component list is selected."
 msgstr ""
+"Ceci n’est pas utilisée lorsque la liste des composants est sélectionnée."
 
 #: weblate/auth/admin.py:211
 msgid "This is not used when component is selected."
-msgstr ""
+msgstr "Ceci n’est pas utilisée lorsque le composant est sélectionné."
 
 #. Translators: Permission name
 #: weblate/auth/data.py:34
@@ -2959,19 +2960,17 @@ msgstr ""
 #: weblate/checks/icu.py:460
 #, python-format
 msgid "Syntax error: %s"
-msgstr ""
+msgstr "Erreur de syntaxe : %s"
 
 #: weblate/checks/icu.py:463
-#, fuzzy, python-format
-#| msgid "Forbidden translation: %s"
+#, python-format
 msgid "Unknown placeholder in translation: %s"
-msgstr "Traduction déconseillée : %s"
+msgstr "Caractère générique inconnu dans la traduction : %s"
 
 #: weblate/checks/icu.py:468
-#, fuzzy, python-format
-#| msgid "Please sign in to save translations."
+#, python-format
 msgid "Placeholder missing in translation: %s"
-msgstr "Veuillez vous connecter pour enregistrer vos traductions."
+msgstr "Caractère générique manquant dans la traduction : %s"
 
 #: weblate/checks/icu.py:473
 #, python-format
@@ -2997,6 +2996,7 @@ msgstr ""
 #, python-format
 msgid "Placeholder should be XML tag in translation: %s"
 msgstr ""
+"Le caractère générique devrait être une balise XML dans la traduction : %s"
 
 #: weblate/checks/icu.py:494
 #, python-format
@@ -9569,7 +9569,7 @@ msgstr "Droits insuffisants pour enregistrer les traductions."
 
 #: weblate/templates/translate.html:220
 msgid "Save and stay"
-msgstr ""
+msgstr "Enregistrer et rester"
 
 #: weblate/templates/translate.html:227
 msgid "Insufficient privileges for adding suggestions."
@@ -10344,10 +10344,8 @@ msgstr "Tous les composants du projet courant"
 
 #: weblate/trans/forms.py:922 weblate/trans/forms.py:929
 #: weblate/trans/forms.py:937
-#, fuzzy
-#| msgid "Component Information"
 msgid "Component not found!"
-msgstr "Informations sur le composant"
+msgstr "Composant introuvable !"
 
 #: weblate/trans/forms.py:939
 #, fuzzy
@@ -11190,17 +11188,14 @@ msgstr[0] "Nouvelle chaîne à traduire"
 msgstr[1] "Nouvelles chaînes à traduire"
 
 #: weblate/trans/models/change.py:434
-#, fuzzy
-#| msgid "The translation was automatically locked due to following alerts:"
 msgid "The component was automatically locked because of an alert."
-msgstr ""
-"La traduction a été verrouillée automatiquement pour les raisons suivantes :"
+msgstr "Le composant a été automatiquement verrouillé en raison d’une alerte."
 
 #: weblate/trans/models/change.py:438
-#, fuzzy
-#| msgid "Component automatically unlocked"
 msgid "Component was automatically unlocked as alert was fixed."
-msgstr "Le composant a été déverrouillé automatiquement"
+msgstr ""
+"Le composant a été automatiquement déverrouillé puisque l’alerte a été "
+"corrigée."
 
 #: weblate/trans/models/change.py:494
 #, python-format
@@ -11208,10 +11203,9 @@ msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
 msgstr "%(action)s a été effectué le %(time)s sur %(translation)s par %(user)s"
 
 #: weblate/trans/models/change.py:592
-#, fuzzy, python-format
-#| msgid "Bulk status change"
+#, python-format
 msgid "File %s was changed."
-msgstr "Modification en masse d’états"
+msgstr "Le fichier %s a été modifié."
 
 #: weblate/trans/models/change.py:594
 #, python-format
