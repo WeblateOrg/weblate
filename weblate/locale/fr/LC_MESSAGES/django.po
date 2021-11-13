@@ -31,8 +31,8 @@ msgstr ""
 "Project-Id-Version: Weblate 4.9.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-11-11 07:47+0000\n"
-"PO-Revision-Date: 2021-11-13 07:56+0000\n"
-"Last-Translator: J. Lavoie <j.lavoie@net-c.ca>\n"
+"PO-Revision-Date: 2021-11-14 00:02+0000\n"
+"Last-Translator: Ldm Public <ldmpub@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/weblate/"
 "application/fr/>\n"
 "Language: fr\n"
@@ -1705,17 +1705,16 @@ msgstr "Dates importantes"
 
 #: weblate/auth/admin.py:205
 msgid "This is not used when component list is selected."
-msgstr ""
-"Ceci n’est pas utilisée lorsque la liste des composants est sélectionnée."
+msgstr "Non utilisé lorsque la liste des composants est sélectionnée."
 
 #: weblate/auth/admin.py:211
 msgid "This is not used when component is selected."
-msgstr "Ceci n’est pas utilisée lorsque le composant est sélectionné."
+msgstr "Non utilisé lorsque le composant est sélectionné."
 
 #. Translators: Permission name
 #: weblate/auth/data.py:34
 msgid "View billing info"
-msgstr "Voir la facturation"
+msgstr "Consulter la facturation"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:36
@@ -1886,10 +1885,8 @@ msgstr "Supprimer une traduction existante"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:102
-#, fuzzy
-#| msgid "Download translation"
 msgid "Download translation file"
-msgstr "Télécharger la traduction"
+msgstr "Télécharger le fichier de traduction"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:104
@@ -2132,20 +2129,16 @@ msgid "Billing"
 msgstr "Facturation"
 
 #: weblate/auth/forms.py:103 weblate/trans/views/acl.py:211
-#, fuzzy
-#| msgid "Activation e-mail will be sent here."
 msgid "User invitation e-mail was sent."
-msgstr "Le courriel de confirmation vous y sera envoyé."
+msgstr "Le courriel d’invitation a été envoyé."
 
 #: weblate/auth/forms.py:112
 msgid "Send e-mail invitation to the user"
 msgstr "Envoyer une invitation par courriel à l’utilisateur"
 
 #: weblate/auth/forms.py:126
-#, fuzzy
-#| msgid "Send e-mail invitation to the user"
 msgid "Resend e-mail invitation to the user"
-msgstr "Envoyer une invitation par courriel à l’utilisateur"
+msgstr "Renvoyer le courriel d'invitation"
 
 #: weblate/auth/models.py:77
 #, python-format
@@ -2715,16 +2708,12 @@ msgid "Font spacing"
 msgstr "Espacement de police"
 
 #: weblate/checks/flags.py:68
-#, fuzzy
-#| msgid "Java MessageFormat"
 msgid "ICU MessageFormat Flags"
-msgstr "MessageFormat Java"
+msgstr "Drapeaux ICU MessageFormat"
 
 #: weblate/checks/flags.py:70
-#, fuzzy
-#| msgid "Java MessageFormat"
 msgid "ICU MessageFormat Tag Prefix"
-msgstr "MessageFormat Java"
+msgstr "Préfixe de drapeau ICU MessageFormat"
 
 #: weblate/checks/flags.py:72 weblate/trans/models/component.py:598
 #: weblate/utils/views.py:134
@@ -2935,27 +2924,23 @@ msgstr ""
 "Les termes suivants ne sont pas traduits conformément au glossaire : %s"
 
 #: weblate/checks/icu.py:269
-#, fuzzy
-#| msgid "Java MessageFormat"
 msgid "ICU MessageFormat syntax"
-msgstr "MessageFormat Java"
+msgstr "Syntaxe ICU MessageFormat"
 
 #: weblate/checks/icu.py:270
-#, fuzzy
-#| msgid "Syntax error in language aliases."
 msgid "Syntax errors in ICU MessageFormat strings."
-msgstr "Erreur de syntaxe dans les alias de langue."
+msgstr "Erreurs de syntaxe dans les chaines ICU MessageFormat."
 
 #: weblate/checks/icu.py:292
-#, fuzzy
-#| msgid "Java MessageFormat"
 msgid "ICU MessageFormat"
-msgstr "MessageFormat Java"
+msgstr "ICU MessageFormat"
 
 #: weblate/checks/icu.py:294
 msgid ""
 "Syntax errors and/or placeholder mismatches in ICU MessageFormat strings."
 msgstr ""
+"Erreurs de syntaxe et/ou incohérence de caractère de remplacement dans les "
+"chaînes ICU MessageFormat."
 
 #: weblate/checks/icu.py:460
 #, python-format
@@ -2965,17 +2950,17 @@ msgstr "Erreur de syntaxe : %s"
 #: weblate/checks/icu.py:463
 #, python-format
 msgid "Unknown placeholder in translation: %s"
-msgstr "Caractère générique inconnu dans la traduction : %s"
+msgstr "Caractère de remplacement inconnu dans la traduction : %s"
 
 #: weblate/checks/icu.py:468
 #, python-format
 msgid "Placeholder missing in translation: %s"
-msgstr "Caractère générique manquant dans la traduction : %s"
+msgstr "Caractère de remplacement manquant dans la traduction : %s"
 
 #: weblate/checks/icu.py:473
 #, python-format
 msgid "Placeholder has wrong type: %s"
-msgstr ""
+msgstr "Le caractère de remplacement est de type incorrect : %s"
 
 #: weblate/checks/icu.py:476
 #, python-format
@@ -2996,23 +2981,25 @@ msgstr ""
 #, python-format
 msgid "Placeholder should be XML tag in translation: %s"
 msgstr ""
-"Le caractère générique devrait être une balise XML dans la traduction : %s"
+"Le caractère de remplacement devrait être une balise XML dans la traduction :"
+" %s"
 
 #: weblate/checks/icu.py:494
 #, python-format
 msgid "Placeholder should not be XML tag in translation: %s"
 msgstr ""
+"Le caractère de remplacement ne devrait pas être une balise XML dans la "
+"traduction : %s"
 
 #: weblate/checks/icu.py:499
 #, python-format
 msgid "XML Tag has unexpected contents in translation: %s"
-msgstr ""
+msgstr "Le contenu de la balise XML est incorrect dans la traduction : %s"
 
 #: weblate/checks/icu.py:504
-#, fuzzy, python-format
-#| msgid "Missing parameters for translation flag: \"%s\""
+#, python-format
 msgid "XML Tag missing contents in translation: %s"
-msgstr "Paramètres manquants pour le drapeau de traduction : « %s »"
+msgstr "Du contenu est absent de la balise XML : %s"
 
 #: weblate/checks/markup.py:94
 msgid "BBcode markup"
@@ -4336,7 +4323,7 @@ msgstr "S’inscrire"
 
 #: weblate/templates/accounts/email-sent.html:12
 msgid "You will find the confirmation link in your e-mail inbox."
-msgstr ""
+msgstr "Vous trouverez le lien de confirmation dans votre boîte de réception."
 
 #: weblate/templates/accounts/email-sent.html:19
 msgid "Password reset almost complete"
@@ -4353,44 +4340,43 @@ msgstr "Inscription presque terminée"
 #: weblate/templates/accounts/email-sent.html:30
 msgid "Follow the password recovery instructions sent to your e-mail inbox."
 msgstr ""
+"Suivez les instructions de récupération du mot de passe envoyées par "
+"courriel."
 
 #: weblate/templates/accounts/email-sent.html:31
 #: weblate/templates/accounts/email-sent.html:34
 msgid "Request a new confirmation link if it expires."
-msgstr ""
+msgstr "Demandez un nouveau lien de confirmation s'il a expiré."
 
 #: weblate/templates/accounts/email-sent.html:33
 msgid ""
 "Remove your account by clicking the confirmation link in the e-mail sent to "
 "you."
 msgstr ""
+"Supprimez votre compte en cliquant sur le lien de confirmation présent dans "
+"le courriel reçu."
 
 #: weblate/templates/accounts/email-sent.html:36
 msgid ""
 "Click the confirmation link sent to your e-mail inbox and start using your "
 "account."
 msgstr ""
+"Cliquez sur le lien de confirmation reçu par courriel pour commencer à "
+"utiliser votre compte."
 
 #: weblate/templates/accounts/email-sent.html:37
-#, fuzzy
-#| msgid "Please check your mailbox for the confirmation link."
 msgid "Register again if the confirmation link expires."
-msgstr ""
-"Veuillez vérifier votre messagerie puis cliquez sur le lien de confirmation."
+msgstr "Inscrivez-vous de nouveau si le lien a expiré."
 
 #: weblate/templates/accounts/email-sent.html:42
-#, fuzzy, python-format
-#| msgid ""
-#| "If you don't receive it shortly, please check your spam folder or retry "
-#| "the registration. If the problem persist, please <a href=\"%(contact_url)s"
-#| "\">contact us</a>."
+#, python-format
 msgid ""
 "If it isn't in the spam folder either, you might have to register again. "
 "Please <a href=\"%(contact_url)s\">contact us</a> if you have problems."
 msgstr ""
-"Si vous ne le recevez pas rapidement, veuillez vérifier vos pourriels ou "
-"réinscrivez-vous. Si le problème persiste, veuillez <a href=\"%(contact_url)s"
-"\">nous contacter</a>."
+"Si vous ne le trouvez pas non plus dans votre dossier pourriel, vous devriez "
+"peut-être vous inscrire à nouveau. Veuillez <a href=\"%(contact_url)s\">nous "
+"contacter</a> si vous rencontrez des problèmes."
 
 #: weblate/templates/accounts/email.html:10
 #: weblate/templates/accounts/register.html:19
@@ -6816,12 +6802,9 @@ msgid "Mark as spam"
 msgstr "Signaler comme indésirable"
 
 #: weblate/templates/mail/account_activity.html:7
-#, fuzzy, python-format
-#| msgid "There has been a following change in your account at %(site_title)s:"
+#, python-format
 msgid "The following activity has occured on your account at %(site_title)s:"
-msgstr ""
-"Votre compte a été modifié sur le site %(site_title)s comme indiqué ci-"
-"dessous :"
+msgstr "L’activité suivante a eu lieu sur votre compte %(site_title)s :"
 
 #: weblate/templates/mail/account_activity_subject.txt:4
 #, python-format
@@ -7201,12 +7184,17 @@ msgid ""
 "The password can not be reset because there is no account registered for "
 "this e-mail at %(site_title)s."
 msgstr ""
+"Le mot de passe ne peut pas être réinitialisé car aucun compte n'existe pour "
+"ce courriel sur %(site_title)s."
 
 #: weblate/templates/mail/reset-nonexisting.html:8
 msgid ""
 "Please check whether this Weblate instance is the one you have used and what "
 "e-mail address you did use when registering."
 msgstr ""
+"Veuillez vous assurer que cette instance Weblate est bien celle que vous "
+"avez utilisée et vérifiez l'adresse courriel fournie lors de votre "
+"inscription."
 
 #: weblate/templates/mail/reset.html:7
 #, python-format
@@ -7221,18 +7209,14 @@ msgid "Password reset on %(site_title)s"
 msgstr "Le mot de passe a été réinitialisé pour %(site_title)s"
 
 #: weblate/templates/mail/shared-activity.html:14
-#, fuzzy
-#| msgid ""
-#| "If you don’t recognize this change, you can report it by clicking the "
-#| "button below."
 msgid "If this was not done by you, report it by clicking the button below."
 msgstr ""
-"Si vous n’êtes pas à l’origine de cette modification, vous pouvez le "
-"signaler grâce au bouton ci-dessous."
+"Si vous n’êtes pas à l’origine de cette opération, signalez-le grâce au "
+"bouton ci-dessous."
 
 #: weblate/templates/mail/shared-activity.html:15
 msgid "Please request support through other means."
-msgstr ""
+msgstr "Veuillez demander de l’aide par d’autres moyens."
 
 #: weblate/templates/mail/shared-activity.html:16
 #, python-format
@@ -7240,6 +7224,8 @@ msgid ""
 "Ideas and questions can be sent to the %(link_start)sWeblate issue tracker"
 "%(link_end)s."
 msgstr ""
+"Vos suggestions et questions peuvent être envoyées via %(link_start)sWeblate "
+"issue tracker%(link_end)s."
 
 #: weblate/templates/mail/shared-activity.html:20
 msgid "Report"
@@ -8888,24 +8874,16 @@ msgid "Error"
 msgstr "Erreur"
 
 #: weblate/templates/trans/alert/ambiguouslanguage.html:5
-#, fuzzy
-#| msgid "The component translation files are using ambiguous language code."
 msgid "Files for translated languages are using ambiguous language codes."
-msgstr ""
-"Les fichiers de traduction du composant utilisent des codes de langue "
-"ambiguës."
+msgstr "Les fichiers de traduction utilisent des codes de langue ambiguës."
 
 #: weblate/templates/trans/alert/ambiguouslanguage.html:6
-#, fuzzy
-#| msgid ""
-#| "These language codes indicate a macrolanguage and it is usually better to "
-#| "use code of individual language instead."
 msgid ""
 "These language codes indicate a macrolanguage, and it is usually better to "
 "use the code of the individual language instead."
 msgstr ""
-"Ces codes de langue indiquent une macrolangue et il est généralement "
-"préférable d’utiliser le code de la langue individuel à la place."
+"Ces codes de langue indiquent une macrolangue mais il est conseillé d’"
+"utiliser le code individuel de la langue."
 
 #: weblate/templates/trans/alert/ambiguouslanguage.html:13
 msgid "Suggested individual language codes"
@@ -8916,9 +8894,8 @@ msgid ""
 "Your billing plan has exceeded its limits. You can still use the service, "
 "but are recommended to upgrade the billing plan."
 msgstr ""
-"Votre plan de facturation a dépassé ses limites. Vous pouvez continuer à "
-"utiliser le service mais il est recommandé de mettre à jour votre plan de "
-"facturation."
+"Vous avez dépassé les limites de votre offre. Vous pouvez continuer à "
+"utiliser le service mais il est recommandé de mettre à jour votre abonnement."
 
 #: weblate/templates/trans/alert/brokenbrowserurl.html:2
 #: weblate/templates/trans/alert/unsupportedconfiguration.html:2
@@ -10070,8 +10047,6 @@ msgid "All recent changes made using Weblate in %s."
 msgstr "Toutes les modifications récentes faites via Weblate dans %s."
 
 #: weblate/trans/filter.py:34
-#, fuzzy
-#| msgid "Read only strings"
 msgid "Read-only strings"
 msgstr "Chaînes en lecture seule"
 
@@ -10327,16 +10302,12 @@ msgid "Score threshold"
 msgstr "Seuil de score"
 
 #: weblate/trans/forms.py:879
-#, fuzzy
-#| msgid ""
-#| "Ensures a consistent set of languages is used for all components within a "
-#| "project."
 msgid ""
 "Enter component to use as source, keep blank to use all components in "
 "current project."
 msgstr ""
-"S’assure qu’un ensemble cohérent de langues est utilisé pour tous les "
-"composants d’un projet."
+"Précisez le composant à utiliser comme source, laissez vide pour utiliser "
+"tous les composants du projet actuel."
 
 #: weblate/trans/forms.py:890
 msgid "All components in current project"
@@ -10345,13 +10316,11 @@ msgstr "Tous les composants du projet courant"
 #: weblate/trans/forms.py:922 weblate/trans/forms.py:929
 #: weblate/trans/forms.py:937
 msgid "Component not found!"
-msgstr "Composant introuvable !"
+msgstr "Composant introuvable !"
 
 #: weblate/trans/forms.py:939
-#, fuzzy
-#| msgid "Parse error in %(component)s"
 msgid "Please provide valid component slug!"
-msgstr "Erreur d’analyse syntaxique dans %(component)s"
+msgstr "Veuillez fournir un jeton de composant valide !"
 
 #: weblate/trans/forms.py:947
 msgid "Scope"
@@ -11189,13 +11158,12 @@ msgstr[1] "Nouvelles chaînes à traduire"
 
 #: weblate/trans/models/change.py:434
 msgid "The component was automatically locked because of an alert."
-msgstr "Le composant a été automatiquement verrouillé en raison d’une alerte."
+msgstr "Le composant a été verrouillé automatiquement à cause d’une alerte."
 
 #: weblate/trans/models/change.py:438
 msgid "Component was automatically unlocked as alert was fixed."
 msgstr ""
-"Le composant a été automatiquement déverrouillé puisque l’alerte a été "
-"corrigée."
+"Le composant a été déverrouillé automatiquement car l’alerte a été traitée."
 
 #: weblate/trans/models/change.py:494
 #, python-format
@@ -11210,12 +11178,12 @@ msgstr "Le fichier %s a été modifié."
 #: weblate/trans/models/change.py:594
 #, python-format
 msgid "Parsing of file %s was enforced"
-msgstr ""
+msgstr "L'analyse du fichier %s a été réalisée"
 
 #: weblate/trans/models/change.py:596
 #, python-format
 msgid "File %s was added."
-msgstr ""
+msgstr "Le fichier %s a été ajouté."
 
 #: weblate/trans/models/change.py:600
 msgctxt "License information not available"
@@ -13244,16 +13212,13 @@ msgid "Backup repository URL"
 msgstr "URL du dépôt de sauvegarde"
 
 #: weblate/wladmin/models.py:163
-#, fuzzy
-#| msgid ""
-#| "Use /path/to/repo for local backups or user@host:/path/to/repo for remote "
-#| "SSH backups."
 msgid ""
 "Use /path/to/repo for local backups or user@host:/path/to/repo or ssh://"
 "user@host:port/path/to/backups for remote SSH backups."
 msgstr ""
 "Utilisez /chemin/vers/depot pour les sauvegardes locales ou "
-"utilisateur@hôte:/chemin/vers/depot pour les sauvegardes SSH à distance."
+"utilisateur@serveur:/chemin/vers/depot ou ssh://utilisateur@serveur:port/"
+"chemin/vers/sauvegardes pour les sauvegardes SSH à distance."
 
 #: weblate/wladmin/models.py:214
 msgid "Backup performed"
