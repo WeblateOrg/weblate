@@ -27,7 +27,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.9.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-11-11 07:47+0000\n"
-"PO-Revision-Date: 2021-11-14 00:02+0000\n"
+"PO-Revision-Date: 2021-11-14 09:32+0000\n"
 "Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "application/ja/>\n"
@@ -2844,7 +2844,7 @@ msgstr "構文エラー: %s"
 #: weblate/checks/icu.py:463
 #, python-format
 msgid "Unknown placeholder in translation: %s"
-msgstr "翻訳中の不明なプレースホルダー: %s"
+msgstr "翻訳に含まれる不明なプレースホルダー: %s"
 
 #: weblate/checks/icu.py:468
 #, python-format
@@ -2854,42 +2854,42 @@ msgstr "翻訳にプレースホルダーがありません: %s"
 #: weblate/checks/icu.py:473
 #, python-format
 msgid "Placeholder has wrong type: %s"
-msgstr "プレースホルダーのタイプが間違っています: %s"
+msgstr "間違ったプレースホルダーの形式: %s"
 
 #: weblate/checks/icu.py:476
 #, python-format
 msgid "Missing other sub-message for: %s"
-msgstr "他のサブメッセージがありません: %s"
+msgstr "他のサブメッセージがない: %s"
 
 #: weblate/checks/icu.py:479
 #, python-format
 msgid "Bad plural selectors for: %s"
-msgstr "正しくない複数形セレクター: %s"
+msgstr "間違った複数形の形式: %s"
 
 #: weblate/checks/icu.py:484
 #, python-format
 msgid "Bad sub-message selectors for: %s"
-msgstr "次のサブメッセージセレクターが正しくありません: %s"
+msgstr "間違ったサブ メッセージ形式: %s"
 
 #: weblate/checks/icu.py:489
 #, python-format
 msgid "Placeholder should be XML tag in translation: %s"
-msgstr "プレースホルダーは翻訳ではXMLタグになるはずです: %s"
+msgstr "翻訳では XML タグとなるプレースホルダー: %s"
 
 #: weblate/checks/icu.py:494
 #, python-format
 msgid "Placeholder should not be XML tag in translation: %s"
-msgstr "プレースホルダーは、翻訳ではXMLタグではありません: %s"
+msgstr "翻訳では XML タグではないプレースホルダー: %s"
 
 #: weblate/checks/icu.py:499
 #, python-format
 msgid "XML Tag has unexpected contents in translation: %s"
-msgstr "XMLタグの翻訳に予期しない内容が含まれています: %s"
+msgstr "翻訳の内容に含まれる予期しない XML タグ: %s"
 
 #: weblate/checks/icu.py:504
 #, python-format
 msgid "XML Tag missing contents in translation: %s"
-msgstr "翻訳にXMLタグのコンテンツがありません: %s"
+msgstr "XML タグのコンテンツが欠損している翻訳: %s"
 
 #: weblate/checks/markup.py:94
 msgid "BBcode markup"
@@ -4194,7 +4194,7 @@ msgstr "登録"
 
 #: weblate/templates/accounts/email-sent.html:12
 msgid "You will find the confirmation link in your e-mail inbox."
-msgstr "確認リンクは、電子メールの受信ボックスを探してください。"
+msgstr "確認用のリンクは、あなたの受信メールトレイにあるはずです。"
 
 #: weblate/templates/accounts/email-sent.html:19
 msgid "Password reset almost complete"
@@ -4215,23 +4215,23 @@ msgstr "メールで送られてきたパスワード復旧の手順に従って
 #: weblate/templates/accounts/email-sent.html:31
 #: weblate/templates/accounts/email-sent.html:34
 msgid "Request a new confirmation link if it expires."
-msgstr "有効期限が切れた場合は、新しい確認リンクをリクエストしてください。"
+msgstr "有効期限が切れた場合は、新しい確認用のリンクをリクエストしてください。"
 
 #: weblate/templates/accounts/email-sent.html:33
 msgid ""
 "Remove your account by clicking the confirmation link in the e-mail sent to "
 "you."
-msgstr "送信された電子メールの確認リンクをクリックして、アカウントを削除します。"
+msgstr "送られてきたメールに記載の確認用のリンクをクリックして、アカウントを削除します。"
 
 #: weblate/templates/accounts/email-sent.html:36
 msgid ""
 "Click the confirmation link sent to your e-mail inbox and start using your "
 "account."
-msgstr "Eメールで送られてきた確認リンクをクリックして、アカウントの使用を開始してください。"
+msgstr "メールで送られてきた確認用のリンクをクリックして、アカウントを開始してください。"
 
 #: weblate/templates/accounts/email-sent.html:37
 msgid "Register again if the confirmation link expires."
-msgstr "確認リンクの有効期限が切れた場合は、再度登録してください。"
+msgstr "確認用のリンクの有効期限が切れた場合は、再度登録してください。"
 
 #: weblate/templates/accounts/email-sent.html:42
 #, python-format
@@ -4239,7 +4239,7 @@ msgid ""
 "If it isn't in the spam folder either, you might have to register again. "
 "Please <a href=\"%(contact_url)s\">contact us</a> if you have problems."
 msgstr ""
-"迷惑メールフォルダにも入っていない場合は、再度登録が必要になるかもしれません。問題がある場合は、<a href=\"%(contact_url)s\""
+"迷惑メールフォルダにも入っていない場合は、再度登録が必要です。問題がある場合は、<a href=\"%(contact_url)s\""
 ">お問い合わせ</a>をご利用ください。"
 
 #: weblate/templates/accounts/email.html:10
@@ -6609,7 +6609,7 @@ msgstr "迷惑と見なす"
 #: weblate/templates/mail/account_activity.html:7
 #, python-format
 msgid "The following activity has occured on your account at %(site_title)s:"
-msgstr "ご使用の %(site_title)s のアカウントで以下のアクティビティが発生しました。"
+msgstr "ご使用の %(site_title)s のアカウントで発生した作業履歴:"
 
 #: weblate/templates/mail/account_activity_subject.txt:4
 #, python-format
@@ -6986,13 +6986,13 @@ msgstr "%(component)s のリポジトリ操作"
 msgid ""
 "The password can not be reset because there is no account registered for "
 "this e-mail at %(site_title)s."
-msgstr "%(site_title)s にこのメールが登録されているアカウントがないため、パスワードをリセットできません。"
+msgstr "%(site_title)s には、このメールが登録されたアカウントがないので、パスワードをリセットできません。"
 
 #: weblate/templates/mail/reset-nonexisting.html:8
 msgid ""
 "Please check whether this Weblate instance is the one you have used and what "
 "e-mail address you did use when registering."
-msgstr "このWeblateインスタンスが使用したものであるかどうか、および登録時に使用した電子メールアドレスを確認してください。"
+msgstr "この Weblate が登録に使用したもので、メールアドレスに間違いがないかどうか確認してください。"
 
 #: weblate/templates/mail/reset.html:7
 #, python-format
@@ -7008,7 +7008,7 @@ msgstr "%(site_title)s でパスワードをリセット"
 
 #: weblate/templates/mail/shared-activity.html:14
 msgid "If this was not done by you, report it by clicking the button below."
-msgstr "これがあなたによって行われなかった場合は、以下のボタンをクリックして報告してください。"
+msgstr "作業に覚えがない場合は、以下のボタンをクリックして報告してください。"
 
 #: weblate/templates/mail/shared-activity.html:15
 msgid "Please request support through other means."
@@ -10826,7 +10826,7 @@ msgstr "警告が発生したため、コンポーネントが自動的にロッ
 
 #: weblate/trans/models/change.py:438
 msgid "Component was automatically unlocked as alert was fixed."
-msgstr "アラートが修正されたため、コンポーネントは自動的にロック解除されました。"
+msgstr "警告は修正され、コンポーネントは自動的にロック解除されました。"
 
 #: weblate/trans/models/change.py:494
 #, python-format
