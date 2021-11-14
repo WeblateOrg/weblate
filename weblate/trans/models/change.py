@@ -591,7 +591,7 @@ class Change(models.Model, UserDisplayMixin):
             if reason == "content changed":
                 return mark_safe(_("File %s was changed.") % filename)
             if reason == "check forced":
-                return mark_safe(_("Parsing of file %s was enforced") % filename)
+                return mark_safe(_("Parsing of file %s was enforced.") % filename)
             if reason == "new file":
                 return mark_safe(_("File %s was added.") % filename)
             raise ValueError(f"Unknown reason: {reason}")
