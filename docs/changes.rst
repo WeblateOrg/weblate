@@ -7,6 +7,8 @@ Not yet released.
 * Improved handling of whitespace in flags.
 * Add support for filtering in download API.
 
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/73?closed=1>`__.
+
 Weblate 4.9
 -------------
 
