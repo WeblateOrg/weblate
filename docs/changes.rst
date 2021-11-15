@@ -31,6 +31,8 @@ Released on November 10th 2021.
 * Added support for Python 3.10.
 * Added support for resending e-mail invitation from the management interface.
 
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/71?closed=1>`__.
+
 Weblate 4.8.1
 -------------
 
