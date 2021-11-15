@@ -2652,13 +2652,22 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
                 context__regex=self.variant_regex,
                 variant=None,
             )
+            variant_updates = {}
             for unit in units.iterator():
                 if variant_re.findall(unit.context):
                     key = variant_re.sub("", unit.context)
-                    variant = Variant.objects.get_or_create(
-                        key=key, component=self, variant_regex=self.variant_regex
-                    )[0]
-                    Unit.objects.filter(pk=unit.pk).update(variant=variant)
+                    if key in variant_updates:
+                        variant = variant_updates[key][0]
+                    else:
+                        variant = Variant.objects.get_or_create(
+                            key=key, component=self, variant_regex=self.variant_regex
+                        )[0]
+                        variant_updates[key] = (variant, [])
+                    variant_updates[key][1].append(unit.pk)
+
+            if variant_updates:
+                for variant, unit_ids in variant_updates.values():
+                    Unit.objects.filter(pk__in=unit_ids).update(variant=variant)
 
         # Update variant links
         for variant in self.variant_set.iterator():
