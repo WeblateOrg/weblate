@@ -203,9 +203,9 @@ Notable configuration- and dependencies changes:
 .. versionchanged:: 4.4.1
 
    * :ref:`mono_gettext` now uses both ``msgid`` and ``msgctxt`` when present.
-   This changes identification of translation strings in such files, breaking links to Weblate extended data such as screenshots or review states.
-   Please ensure you commit pending changes in such files before upgrading.
-   It is recommeded to force-load affected components using :djadmin:`loadpo`.
+     This changes identification of translation strings in such files, breaking links to Weblate extended data such as screenshots or review states.
+     Please ensure you commit pending changes in such files before upgrading.
+     It is recommeded to force-load affected components using :djadmin:`loadpo`.
    * Increasing the required version of translate-toolkit addresses several file-format issues.
 
 .. seealso:: :ref:`generic-upgrade-instructions`
