@@ -1298,6 +1298,7 @@ class Translation(
                 suffix += 1
                 context = f"{base}{suffix}"
 
+        unit_ids = []
         for translation in translations:
             is_source = translation.is_source
             kwargs = {}
@@ -1372,10 +1373,13 @@ class Translation(
                 component._sources[id_hash] = unit
             if translation == self:
                 result = unit
+            unit_ids.append(unit.pk)
 
         if not is_batch_update:
             if self.component.needs_variants_update:
-                component.update_variants()
+                component.update_variants(
+                    updated_units=Unit.objects.filter(pk__in=unit_ids)
+                )
             component.schedule_sync_terminology()
             component.invalidate_cache()
         return result
