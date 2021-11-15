@@ -61,7 +61,7 @@ class RawQuotedString(QuotedString):
 
 SYNTAXCHARS = {",", ":", '"', "'", "\\"}
 
-FlagName = Regex(r"""[^,:"'\\ ]([^,:"'\\]*[^,:"'\\ ])?""")
+FlagName = Regex(r"""[^,:"'\\ \r\n\t]([^,:"'\\]*[^,:"'\\ \r\n\t])?""")
 
 RegexString = "r" + RawQuotedString('"')
 
