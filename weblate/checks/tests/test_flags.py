@@ -62,6 +62,10 @@ class FlagTest(SimpleTestCase):
         flags = Flags(r'regex:"((?:@:\(|\{)[^\)\}]+(?:\)|\}))"')
         self.assertEqual(flags.format(), r'regex:"((?:@:\(|\{)[^\)\}]+(?:\)|\}))"')
 
+    def test_newline(self):
+        flags = Flags(r"""placeholders:"\n" """)
+        self.assertEqual(flags.get_value("placeholders"), ["\n"])
+
     def test_validate_value(self):
         with self.assertRaises(ValidationError):
             Flags("max-length:x").validate()

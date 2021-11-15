@@ -4,6 +4,7 @@ Weblate 4.9.1
 Not yet released.
 
 * Fixed upload of monolingual files after changing template.
+* Improved handling of whitespace in flags.
 
 Weblate 4.9
 -------------

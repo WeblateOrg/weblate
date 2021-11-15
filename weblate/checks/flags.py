@@ -90,7 +90,6 @@ def _parse_flags_text(flags: str):
     value = []
     tokens = list(FlagsParser.parseString(flags, parseAll=True))
     for pos, token in enumerate(tokens):
-        token = token.strip()
         if state == 0 and token == ",":
             pass
         elif state == 0:
@@ -238,7 +237,7 @@ class Flags:
         if hasattr(value, "pattern"):
             value = value.pattern
         if " " in value or any(c in value for c in SYNTAXCHARS):
-            return '"{}"'.format(value.replace('"', r"\""))
+            return '"{}"'.format(value.replace('"', r"\"").replace("\n", "\\n"))
         return value
 
     @classmethod
