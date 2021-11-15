@@ -20,6 +20,7 @@
 
 import os
 from time import mktime
+from typing import Optional
 from zipfile import ZipFile
 
 from django.conf import settings
@@ -295,7 +296,12 @@ def zip_download(root, filenames, name="translations"):
 
 
 @gzip_page
-def download_translation_file(request, translation, fmt=None, units=None):
+def download_translation_file(
+    request,
+    translation: Translation,
+    fmt: Optional[str] = None,
+    query_string: Optional[str] = None,
+):
     if fmt is not None:
         try:
             exporter_cls = EXPORTERS[fmt]
@@ -304,8 +310,9 @@ def download_translation_file(request, translation, fmt=None, units=None):
         if not exporter_cls.supports(translation):
             raise Http404("File format not supported")
         exporter = exporter_cls(translation=translation)
-        if units is None:
-            units = translation.unit_set.prefetch_full().order_by("position")
+        units = translation.unit_set.prefetch_full().order_by("position")
+        if query_string:
+            units = units.search(query_string).distinct()
         exporter.add_units(units)
         response = exporter.get_response(
             "{{project}}-{0}-{{language}}.{{extension}}".format(
