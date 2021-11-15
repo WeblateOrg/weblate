@@ -2031,7 +2031,7 @@ class MatrixLanguageForm(forms.Form):
 
 
 class NewUnitBaseForm(forms.Form):
-    variant = forms.CharField(required=False, widget=forms.HiddenInput)
+    variant = forms.CharField(required=False, widget=forms.HiddenInput, strip=False)
 
     def __init__(self, translation, user, *args, **kwargs):
         super().__init__(*args, **kwargs)
