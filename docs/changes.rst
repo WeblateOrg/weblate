@@ -5,6 +5,7 @@ Not yet released.
 
 * Fixed upload of monolingual files after changing template.
 * Improved handling of whitespace in flags.
+* Add support for filtering in download API.
 
 Weblate 4.9
 -------------

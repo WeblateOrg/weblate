@@ -1004,7 +1004,13 @@ class TranslationViewSet(MultipleFieldMixin, WeblateViewSet, DestroyModelMixin):
             if not user.has_perm("translation.download", obj):
                 raise PermissionDenied()
             fmt = self.format_kwarg or request.query_params.get("format")
-            return download_translation_file(request, obj, fmt)
+            query_string = request.GET.get("q", "")
+            try:
+                parse_query(query_string)
+            except Exception as error:
+                report_error()
+                raise ValidationError(f"Failed to parse query string: {error}")
+            return download_translation_file(request, obj, fmt, query_string)
 
         if not user.has_perm("upload.perform", obj):
             raise PermissionDenied()

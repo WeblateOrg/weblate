@@ -1333,6 +1333,7 @@ Components
     :type component: string
 
     :query string format: The archive format to use; If not specified, defaults to ``zip``; Supported formats: ``zip``
+    :query string q: Filter downloaded strings, see :ref:`search`.
 
 .. http:get::  /api/components/(string:project)/(string:component)/screenshots/
 
