@@ -16,7 +16,7 @@
 # Valentina Grassi <vale.grassi11@gmail.com>, 2020.
 # Sylke Vicious <silkevicious@gmail.com>, 2020.
 # Mayeul Kauffmann <mayeul.kauffmann@free.fr>, 2020.
-# Corona Bond <coronabond@airmail.cc>, 2020.
+# Corona Bond <coronabond@airmail.cc>, 2020, 2021.
 # Lele Gaifax <lele@metapensiero.it>, 2020.
 # Michal Čihař <michal@cihar.com>, 2020.
 # Jeannette L <j.lavoie@net-c.ca>, 2020.
@@ -33,8 +33,8 @@ msgstr ""
 "Project-Id-Version: Weblate 4.9.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-11-11 07:47+0000\n"
-"PO-Revision-Date: 2021-11-14 00:02+0000\n"
-"Last-Translator: bovirus <roberto.boriotti@canon.it>\n"
+"PO-Revision-Date: 2021-11-15 11:44+0000\n"
+"Last-Translator: coronabond <coronabond@airmail.cc>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/weblate/"
 "application/it/>\n"
 "Language: it\n"
@@ -206,7 +206,7 @@ msgstr "Progetti monitorati"
 
 #: weblate/accounts/forms.py:675 weblate/templates/accounts/user.html:142
 msgid "Managed projects"
-msgstr "Gestione progetti"
+msgstr "Progetti gestiti"
 
 #: weblate/accounts/forms.py:677
 msgid "Project: {}"
@@ -254,15 +254,15 @@ msgid ""
 "You will only receive these notifications for your translated languages in "
 "non-watched projects."
 msgstr ""
-"Riceverai queste notifiche solo per i linguaggi tradotti nei progetti non "
-"monitori."
+"Riceverai queste notifiche solo per le tue lingue tradotte nei progetti che "
+"non monitori."
 
 #: weblate/accounts/forms.py:714
 msgid ""
 "You will only receive these notifications for your translated languages in "
 "your watched projects."
 msgstr ""
-"Riceverai queste notifiche solo per i linguaggi tradotti nei progetti che "
+"Riceverai queste notifiche solo per le tue lingue tradotte nei progetti che "
 "monitori."
 
 #: weblate/accounts/forms.py:719
@@ -279,7 +279,7 @@ msgid ""
 "You will only receive these notifications for your translated languages in "
 "%(project)s."
 msgstr ""
-"Riceverai solo queste notifiche per le tue lingue tradotte in %(project)s."
+"Riceverai queste notifiche solo per le tue lingue tradotte in %(project)s."
 
 #: weblate/accounts/forms.py:728
 #, python-format
@@ -287,7 +287,7 @@ msgid ""
 "You will only receive these notifications for your translated languages in "
 "%(component)s."
 msgstr ""
-"Riceverai solo queste notifiche per le tue lingue tradotte in %(component)s."
+"Riceverai queste notifiche solo per le tue lingue tradotte in %(component)s."
 
 #: weblate/accounts/forms.py:768 weblate/auth/models.py:310
 #: weblate/templates/manage-access.html:35 weblate/utils/forms.py:42
@@ -420,7 +420,7 @@ msgid ""
 "The system created a user to track authorship of translations uploaded by "
 "other user."
 msgstr ""
-"Il sistema creato dall'utente per monitorare la paternità delle traduzioni "
+"Il sistema ha creato un utente per monitorare la paternità delle traduzioni "
 "caricate da un altro utente."
 
 #: weblate/accounts/models.py:169
@@ -510,8 +510,8 @@ msgid ""
 "placeholders."
 msgstr ""
 "Inserisci l'URL personalizzato da usare come collegamento al codice "
-"sorgente. È possibile utilizzare {{branch}} per il ramo, {{filename}} e "
-"{{line}} come nome file e segnaposto della riga."
+"sorgente. È possibile utilizzare {{branch}} come segnaposto per il ramo, "
+"{{filename}} per il nome del file e {{line}} per la riga."
 
 #: weblate/accounts/models.py:419
 msgid "Translation editor mode"
@@ -553,17 +553,17 @@ msgstr ""
 
 #: weblate/accounts/models.py:445
 msgid "Number of nearby strings"
-msgstr "Numero stringhe simili"
+msgstr "Numero stringhe vicine"
 
 #: weblate/accounts/models.py:449
 msgid "Number of nearby strings to show in each direction in the full editor."
 msgstr ""
-"Numero di stringhe simili da visualizzare in ciascuna direzione nell'editor "
-"completo."
+"Numero di stringhe adiacenti da visualizzare in ciascuna direzione "
+"nell'editor completo."
 
 #: weblate/accounts/models.py:453
 msgid "Automatically watch projects on contribution"
-msgstr "Monitora automaticamente progetti sul contributo"
+msgstr "Monitora automaticamente i progetti al momento del contributo"
 
 #: weblate/accounts/models.py:456
 msgid ""
@@ -624,13 +624,13 @@ msgstr ""
 
 #: weblate/accounts/models.py:518
 msgid "Fediverse URL"
-msgstr "URL Fediverse"
+msgstr "URL Fediverso"
 
 #: weblate/accounts/models.py:521
 msgid ""
 "Link to your Fediverse profile for federated services like Mastodon or "
 "diaspora*."
-msgstr "Collegamento al Fediverse per servizi come Mastodon o diaspora *."
+msgstr "Collegamento al Fediverso per servizi come Mastodon o diaspora*."
 
 #: weblate/accounts/models.py:526
 msgid "Code site URL"
@@ -1030,7 +1030,7 @@ msgstr "Il nome utente fornito è già associato ad un altro account."
 
 #: weblate/accounts/views.py:1295
 msgid "The supplied user identity is already in use for another account."
-msgstr "L'identità fornita è già associato ad un altro account."
+msgstr "L'identità fornita è già associata ad un altro account."
 
 #: weblate/accounts/views.py:1319 weblate/accounts/views.py:1332
 msgid "Notification settings adjusted."
@@ -1069,7 +1069,7 @@ msgstr ""
 
 #: weblate/addons/cdn.py:38
 msgid "JavaScript localization CDN"
-msgstr "CDN Localizzazione Java"
+msgstr "CDN localizzazione JavaScript"
 
 #: weblate/addons/cdn.py:40
 msgid ""
@@ -1281,8 +1281,8 @@ msgid ""
 "authored-by: …'."
 msgstr ""
 "Le linee trailer sono linee simili alle intestazioni email di RFC 822, alla "
-"fine della parte altrimenti libera di un messaggio di commit, ad esempio "
-"'Autore congiunto: …'."
+"fine della parte altrimenti libera di un messaggio di commit, ad esempio 'Co-"
+"authored-by: …'."
 
 #: weblate/addons/forms.py:167
 msgid "Commit message"
@@ -2765,19 +2765,19 @@ msgstr "La stringa Lua non corrisponde al sorgente"
 
 #: weblate/checks/format.py:499
 msgid "Object Pascal format"
-msgstr "Formato oggetto Pascal"
+msgstr "Formato Object Pascal"
 
 #: weblate/checks/format.py:500
 msgid "Object Pascal format string does not match source"
-msgstr "La stringa in formato oggetto Pascal non corrisponde al sorgente"
+msgstr "La stringa in formato Object Pascal non corrisponde al sorgente"
 
 #: weblate/checks/format.py:508
 msgid "Scheme format"
-msgstr "Formato schema"
+msgstr "Formato Scheme"
 
 #: weblate/checks/format.py:509
 msgid "Scheme format string does not match source"
-msgstr "La stringa in formato schema non corrisponde al sorgente"
+msgstr "La stringa in formato Scheme non corrisponde al sorgente"
 
 #: weblate/checks/format.py:522
 msgid "Python brace format"
@@ -2930,22 +2930,22 @@ msgstr "Selettori di sottomessaggio errati per: %s"
 #: weblate/checks/icu.py:489
 #, python-format
 msgid "Placeholder should be XML tag in translation: %s"
-msgstr "Il segnaposto dovrebbe essere una etichetta XML nella traduzione: %s"
+msgstr "Il segnaposto dovrebbe essere un tag XML nella traduzione: %s"
 
 #: weblate/checks/icu.py:494
 #, python-format
 msgid "Placeholder should not be XML tag in translation: %s"
-msgstr "Il segnaposto non deve essere una etichetta XML nella traduzione: %s"
+msgstr "Il segnaposto non deve essere un tag XML nella traduzione: %s"
 
 #: weblate/checks/icu.py:499
 #, python-format
 msgid "XML Tag has unexpected contents in translation: %s"
-msgstr "L'etichetta XML ha contenuti non previsti nella traduzione: %s"
+msgstr "Il tag XML ha contenuti non previsti nella traduzione: %s"
 
 #: weblate/checks/icu.py:504
 #, python-format
 msgid "XML Tag missing contents in translation: %s"
-msgstr "Contenuto mancante dell'etichetta XML nella traduzione: %s"
+msgstr "Contenuto mancante del tag XML nella traduzione: %s"
 
 #: weblate/checks/markup.py:94
 msgid "BBcode markup"
@@ -4221,7 +4221,7 @@ msgstr ""
 #: weblate/templates/accounts/contact.html:18
 #, python-format
 msgid "You can only contact administrators of %(site_title)s here."
-msgstr "Qui puoi contattare solo i manutentori di %(site_title)s ."
+msgstr "Qui puoi contattare solo i manutentori di %(site_title)s."
 
 #: weblate/templates/accounts/contact.html:20
 msgid "You can only contact administrators of the whole server here."
@@ -4233,8 +4233,8 @@ msgid ""
 "If you seek support for another Weblate deployment or want to file a bug "
 "report, check its website at %(weblate_link)s."
 msgstr ""
-"Se cerchi assistenza su altro sviluppo Weblate o vuoi segnalare errori "
-"visita il sito %(weblate_link)s."
+"Se cerchi assistenza per un'altra installazione di Weblate o vuoi segnalare "
+"errori visita il sito %(weblate_link)s."
 
 #: weblate/templates/accounts/contact.html:28
 msgid "Contact server administrators"
@@ -6648,7 +6648,7 @@ msgstr "Aggiungi lingua"
 #: weblate/templates/language-project.html:63
 #: weblate/templates/language.html:54
 msgid "Browse all language changes"
-msgstr "Sfoglia tutte le modifiche delle lingue"
+msgstr "Sfoglia tutte le modifiche della lingua"
 
 #: weblate/templates/last-changes-content.html:27
 #: weblate/templates/snippets/suggestions.html:23
@@ -8224,11 +8224,11 @@ msgstr "Sfoglia tutti gli utenti"
 
 #: weblate/templates/snippets/info.html:270
 msgid "String statistics"
-msgstr "Statistiche stringa"
+msgstr "Statistiche stringhe"
 
 #: weblate/templates/snippets/info.html:275
 msgid "Strings percent"
-msgstr "Percentuale stringa"
+msgstr "Percentuale stringhe"
 
 #: weblate/templates/snippets/info.html:276
 #: weblate/templates/snippets/info.html:451
@@ -8732,7 +8732,7 @@ msgstr "Non monitorare il progetto %(project)s"
 #: weblate/templates/snippets/watch-dropdown.html:18
 #, python-format
 msgid "Customize notifications for %(object)s"
-msgstr "Personalizzare le notifiche per %(object)s"
+msgstr "Personalizza le notifiche per %(object)s"
 
 #: weblate/templates/snippets/watch-dropdown.html:16
 #: weblate/templates/snippets/watch-dropdown.html:19
@@ -11174,9 +11174,9 @@ msgid ""
 "{{line}} as filename and line placeholders. You might want to strip leading "
 "directory by using {{filename|parentdir}}."
 msgstr ""
-"Collegamento navigazione repository. Usa {{branch}} per il ramo, "
-"{{filename}} e {{line}} per nome file e segnaposto riga. È possibile "
-"rimuovere la cartella principale usando {{filename/parentdir}}."
+"Collegamento navigazione repository. Come segnaposti usa {{branch}} per il "
+"ramo, {{filename}} e {{line}} rispettivamente per nome file e riga. È "
+"possibile rimuovere la cartella principale usando {{filename|parentdir}}."
 
 #: weblate/trans/models/component.py:300
 msgid "Exported repository URL"
@@ -12442,7 +12442,7 @@ msgid ""
 "Added %(project)s to your watched projects. You can adjust them and this "
 "behavior in the settings."
 msgstr ""
-"Aggiunti %(project)s ai progetti che tu monitori. Puoi impostarli e "
+"Aggiunto %(project)s ai progetti che tu monitori. Puoi impostarli e "
 "modificare questo comportamento nelle impostazioni."
 
 #: weblate/trans/views/edit.py:373
