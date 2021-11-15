@@ -129,15 +129,16 @@ Please follow :ref:`generic-upgrade-instructions` to upgrade.
 
 Notable configuration- and dependency changes:
 
-* Several changes in :file:`settings_example.py`, most notable middleware changes, please adjust your settings accordingly.
+* Several changes in :file:`settings_example.py`, most notable middleware changes.
+  Please adjust your settings accordingly.
 * New file formats, you might want to include them in case you modified the :setting:`WEBLATE_FORMATS`.
 * New quality checks, you might want to include them in case you modified the :setting:`CHECK_LIST`.
 * A change in the ``DEFAULT_THROTTLE_CLASSES`` setting allowing reporting rate limiting in the API.
 * Some new and updated requirements.
 * A change in :setting:`django:INSTALLED_APPS`.
 * The ``MT_DEEPL_API_VERSION`` setting has been removed in Version 4.7.
-The :ref:`deepl` machine translation now uses the new :setting:`MT_DEEPL_API_URL` instead.
-You might need to adjust :setting:`MT_DEEPL_API_URL` to match your subscription.
+  The :ref:`deepl` machine translation now uses the new :setting:`MT_DEEPL_API_URL` instead.
+  You might need to adjust :setting:`MT_DEEPL_API_URL` to match your subscription.
 
 .. seealso:: :ref:`generic-upgrade-instructions`
 
@@ -152,13 +153,13 @@ Notable configuration- and dependencies changes:
 * Some new and updated requirements.
 * Several changes in :file:`settings_example.py`, most notable new middleware and changed application ordering.
 * The keys for JSON-based formats no longer include a leading dot.
-Strings are adjusted during the database migration, but external components may need adjusting if you rely on keys in exports or API.
+  Strings are adjusted during the database migration, but external components may need adjusting if you rely on keys in exports or API.
 * The Celery configuration no longer uses a ``memory`` queue.
-Please adjust your startup scripts and ``CELERY_TASK_ROUTES`` setting to reflect this.
+  Please adjust your startup scripts and ``CELERY_TASK_ROUTES`` setting to reflect this.
 * The Weblate domain is now configured in the settings, see :setting:`SITE_DOMAIN` (or :envvar:`WEBLATE_SITE_DOMAIN`).
-You will have to configure it before running Weblate.
+  You will have to configure it before running Weblate.
 * The username and e-mail fields in the user database should now be unique regardless of case.
-It was mistakenly not enforced with PostgreSQL.
+  It was mistakenly not enforced with PostgreSQL.
 
 .. seealso:: :ref:`generic-upgrade-instructions`
 
@@ -172,11 +173,11 @@ Notable configuration- and dependency changes:
 * Some changes in quality checks, you might want to include them in case you modified the :setting:`CHECK_LIST`.
 * The source language attribute was moved from project to a component exposed in the API. Upgrade :ref:`wlc` if you are using it.
 * The database migration to 4.3 might take a long time depending on the number of strings you are translating.
-(Expect around one hour of migration time per 100,000 source strings.)
+  (Expect around one hour of migration time per 100,000 source strings.)
 * One change in :setting:`django:INSTALLED_APPS`.
 * A new setting :setting:`SESSION_COOKIE_AGE_AUTHENTICATED` complements :setting:`django:SESSION_COOKIE_AGE`.
 * If you were using :command:`hub` or :command:`lab` to integrate with GitLab or GitHub,
-you must reconfigure this using :setting:`GITHUB_CREDENTIALS` and :setting:`GITLAB_CREDENTIALS`.
+  you must reconfigure this using :setting:`GITHUB_CREDENTIALS` and :setting:`GITLAB_CREDENTIALS`.
 
 .. versionchanged:: 4.3.1
 
@@ -248,7 +249,7 @@ Please follow :ref:`generic-upgrade-instructions` to upgrade.
 Notable configuration- and dependency changes:
 
 * Several changes in :file:`settings_example.py`, most notably middleware changes (:setting:`django:MIDDLEWARE`).
-Please adjust your settings accordingly.
+  Please adjust your settings accordingly.
 * The :ref:`deepl` machine translation now has a generic :setting:`MT_DEEPL_API_URL` setting to adapt to different subscription models more flexibly.
   The ``MT_DEEPL_API_VERSION`` setting is no longer used.
 * Django 3.2 is now required.
