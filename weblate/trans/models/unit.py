@@ -110,7 +110,6 @@ class UnitQuerySet(FastDeleteQuerySetMixin, models.QuerySet):
 
     def prefetch_full(self):
         return self.prefetch_related(
-            "labels",
             "source_unit",
             "source_unit__translation",
             "source_unit__translation__component",
