@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-11-11 08:48+0100\n"
-"PO-Revision-Date: 2021-11-14 23:34+0000\n"
-"Last-Translator: Eric <spice2wolf@gmail.com>\n"
+"PO-Revision-Date: 2021-11-15 11:20+0000\n"
+"Last-Translator: JY3 <GeeyunJY3@gmail.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "weblate/documentation/zh_Hans/>\n"
 "Language: zh_Hans\n"
@@ -1003,8 +1003,8 @@ msgid ""
 "Dismiss failing check [`Administration`, `Edit source`, `Power user`, "
 "`Review strings`, `Translate`]"
 msgstr ""
-"忽略失败的检查 [`Administration`, `Edit source`, `Power user`, `Review "
-"strings`, `Translate`]"
+"忽略未通过的检查 [`Administration`, `Edit source`, `Power user`, `Review strings`, "
+"`Translate`]"
 
 #: ../../admin/access.rst:515
 msgid ""
@@ -2550,9 +2550,8 @@ msgid ""
 "commit message. This also generates proper ``Co-authored-by:`` credit for "
 "every translator."
 msgstr ""
-"预告（提交行像 ``Co-authored-by: …`` ）可选地从原始提交信息中去掉，并且添加在"
-"去掉的提交信息后面。这还可以为每一位翻译者产生适当的 ``Co-authored-by:`` 信"
-"誉。"
+"额外信息（提交行像 ``Co-authored-by: …`` ）可选地从原始提交信息中去掉，并且添加在去掉的提交信息后面。"
+"这还可以为每一位翻译者产生适当的 ``Co-authored-by:`` 信誉。"
 
 #: ../../admin/addons.rst:605
 msgid "Customize JSON output"
@@ -4735,7 +4734,7 @@ msgstr "``ignore-javascript-format``"
 
 #: ../../admin/checks.rst:103
 msgid "Enable the :ref:`check-javascript-format` quality check."
-msgstr "启用 :ref:`check-javascript-format`质量检查。"
+msgstr "启用 :ref:`check-javascript-format` 质量检查。"
 
 #: ../../admin/checks.rst:104 ../../user/checks.rst:374
 #, fuzzy
@@ -5420,9 +5419,9 @@ msgid ""
 "be ignored in the user interface and any string failing this check is marked "
 "as :guilabel:`Needs editing` (see :ref:`states`)."
 msgstr ""
-"你可以通过设置 :ref:`component` 中的:ref:`component-enforced_checks` ，来配置"
-"不能省略的检查列表。列出的每个检查在用户界面中都不能省略，并且检查失败的任何"
-"字符串都被标记为 :guilabel:`Needs editing` （请参见 :ref:`states`）。"
+"你可以通过在 :ref:`component` 中设置 :ref:`component-"
+"enforced_checks`，来配置一个不能忽略的检查列表。列出的每个检查在用户界面中都不能忽略，并且任何未通过检查的字符串都会被标记为 "
+":guilabel:`Needs editing` （请参见 :ref:`states`）。"
 
 #: ../../admin/checks.rst:284
 msgid "Managing fonts"
@@ -5440,8 +5439,8 @@ msgid ""
 "text needs font to be loaded into Weblate and selected using a translation "
 "flag (see :ref:`custom-checks`)."
 msgstr ""
-"用于计算呈现文本需要的尺寸的 :ref: ' check-max-size '检查需要字体被加载进 "
-"Weblate 并被一个翻译标识选中 (见 :ref:`custom-checks`)。"
+"用于计算呈现文本需要的尺寸的 :ref:`check-max-size` 检查需要字体被加载进 Weblate 并被一个翻译标识选中（请参见 :ref"
+":`custom-checks`）。"
 
 #: ../../admin/checks.rst:298
 msgid ""
@@ -17970,7 +17969,7 @@ msgstr "``{{ stats.allchecks }}``"
 
 #: ../../admin/projects.rst:881
 msgid "Number of strings with failing checks"
-msgstr "检查失败的字符串数量"
+msgstr "未通过检查的字符串数量"
 
 #: ../../admin/projects.rst:882
 msgid "``{{ stats.allchecks_percent }}``"
@@ -17978,7 +17977,7 @@ msgstr "``{{ stats.allchecks_percent }}``"
 
 #: ../../admin/projects.rst:883
 msgid "Percent of strings with failing checks"
-msgstr "检查失败的字符串百分比"
+msgstr "未通过检查的字符串百分比"
 
 #: ../../admin/projects.rst:884
 msgid "``{{ author }}``"
@@ -20785,11 +20784,11 @@ msgstr "返回具体的翻译统计数据。"
 
 #: ../../api.rst:1922
 msgid "number of failing checks"
-msgstr "检查失败的数量"
+msgstr "未通过检查的数量"
 
 #: ../../api.rst:1923
 msgid "percentage of failing checks"
-msgstr "检查失败的百分比"
+msgstr "未通过检查的百分比"
 
 #: ../../api.rst:1929
 msgid "date of last change"
@@ -21644,7 +21643,7 @@ msgstr ""
 #: ../../changes.rst:21
 msgid ""
 "Added support for customizing ssh invocation via :setting:`SSH_EXTRA_ARGS`."
-msgstr "新增支持通过 :setting:`SSH_EXTRA_ARGS`自定义 ssh 调用。"
+msgstr "新增支持通过 :setting:`SSH_EXTRA_ARGS` 自定义 ssh 调用。"
 
 #: ../../changes.rst:22
 msgid "Added checks for ICU MessageFormat."
@@ -21665,7 +21664,7 @@ msgstr "新增编辑时停留在已翻译字符串的选项。"
 #: ../../changes.rst:26
 msgid ""
 "Added support for customizing borg invocation via :setting:`BORG_EXTRA_ARGS`."
-msgstr "新增支持通过 :setting:`BORG_EXTRA_ARGS`定制 borg 调用。"
+msgstr "新增支持通过 :setting:`BORG_EXTRA_ARGS` 定制 borg 调用。"
 
 #: ../../changes.rst:27
 msgid "Fixed generating of MO files for monolingual translations."
@@ -21791,7 +21790,7 @@ msgstr "修正了向单语术语表组件添加字符串的问题。"
 
 #: ../../changes.rst:64
 msgid "Improved performance in handling variants."
-msgstr "改进了处理变量的性能。"
+msgstr "改进了处理变体的性能。"
 
 #: ../../changes.rst:65
 msgid "Fixed squash add-on sometimes skipping parsing upstream changes."
@@ -21913,7 +21912,7 @@ msgstr ""
 
 #: ../../changes.rst:105
 msgid "Added support for :ref:`mi18n-lang`."
-msgstr "添加了对 :ref:`mi18n-lang`的支持。"
+msgstr "添加了对 :ref:`mi18n-lang` 的支持。"
 
 #: ../../changes.rst:106
 msgid "Improved SAML authentication integration."
@@ -22080,7 +22079,7 @@ msgstr ""
 
 #: ../../changes.rst:158
 msgid "Added support for :ref:`txt`."
-msgstr "添加了对 :ref:`txt`` 的支持。"
+msgstr "添加了对 :ref:`txt` 的支持。"
 
 #: ../../changes.rst:159
 msgid "Added trends and metrics for all objects."
@@ -22129,7 +22128,7 @@ msgstr "密码散列现在默认使用Argon2。"
 
 #: ../../changes.rst:171
 msgid "Simplified progress bars indicating translation status."
-msgstr "简化了提示翻译状态的进度条。"
+msgstr "简化了显示翻译状态的进度条。"
 
 #: ../../changes.rst:172
 msgid ""
@@ -22226,7 +22225,7 @@ msgstr "几处性能改进。"
 
 #: ../../changes.rst:203
 msgid "Added integration with :ref:`discover-weblate`."
-msgstr "添加了与 :ref:`discover-weblate`的集成。"
+msgstr "添加了与 :ref:`discover-weblate` 的集成。"
 
 #: ../../changes.rst:204
 msgid "Fixed checks behavior with read-only strings."
@@ -22882,7 +22881,7 @@ msgstr "修复了与报告自动翻译进度相关的崩溃。"
 
 #: ../../changes.rst:400
 msgid "Fixed Git commit squashing with trailers enabled."
-msgstr "修复了启动预告时的 Git 提交变形。"
+msgstr "修复了启用额外信息时的 Git 压缩提交问题。"
 
 #: ../../changes.rst:401
 msgid "Fixed creating local VCS components using API."
@@ -22947,7 +22946,7 @@ msgstr "改进了 Google Translate 集成中的语言代码处理。"
 
 #: ../../changes.rst:425
 msgid "The Git squash add-on can generate ``Co-authored-by:`` trailers."
-msgstr "Git 变形附加组件可以生成 ``Co-authored-by:``预告。"
+msgstr "Git 变形附加组件可以生成 ``Co-authored-by:`` 额外信息。"
 
 #: ../../changes.rst:426
 msgid "Improved query search parser."
@@ -23161,9 +23160,9 @@ msgid ""
 "`odf`, :ref:`idml`, :ref:`winrc`, :ref:`ini`, :ref:`islu`, :ref:`gwt`, :ref:"
 "`go-i18n-json`, :ref:`arb`."
 msgstr ""
-"为新的文件格式： :ref:`laravel-php`, :ref:`html`, :ref:`odf`, :ref:`idml`, :"
-"ref:`winrc`, :ref:`ini`, :ref:`islu`, :ref:`gwt`, :ref:`go-i18n-json`, :ref:"
-"`arb`添加了支持。"
+"增加了对以下文件格式的支持：:ref:`laravel-php`, :ref:`html`, :ref:`odf`, :ref:`idml`, "
+":ref:`winrc`, :ref:`ini`, :ref:`islu`, :ref:`gwt`, :ref:`go-i18n-json`, "
+":ref:`arb`。"
 
 #: ../../changes.rst:484
 msgid "Consistently use dismissed as state of dismissed checks."
@@ -23195,7 +23194,7 @@ msgstr "显示了列表中的第一个用户语言的翻译。"
 
 #: ../../changes.rst:491
 msgid "Renamed shapings to more generic name variants."
-msgstr "重命名来塑造为更一般的名称变量。"
+msgstr "重命名来塑造为更一般的名称变体。"
 
 #: ../../changes.rst:492
 msgid ""
@@ -23388,7 +23387,7 @@ msgstr "为 DeepL 机器翻译自动检测支持的语言。"
 
 #: ../../changes.rst:550
 msgid "Fixed progress bar display in some corner cases."
-msgstr "修复了一些极端情况下的进度条显示。"
+msgstr "修复了一些极端情况下的进度条显示问题。"
 
 #: ../../changes.rst:551
 msgid "Fixed some checks triggering on non translated strings."
@@ -23442,7 +23441,7 @@ msgstr "为百分号占位符添加检查和高亮标记。"
 
 #: ../../changes.rst:572
 msgid "Display suggestions failing checks."
-msgstr "显示的建议未能通过检查。"
+msgstr "显示未通过检查的建议。"
 
 #: ../../changes.rst:573
 msgid "Record source string changes in history."
@@ -24021,7 +24020,7 @@ msgstr "在下载的文件中包括了 Weblate 元数据。"
 
 #: ../../changes.rst:759
 msgid "Improved UI for failing checks."
-msgstr "改进了失败检查的 UI。"
+msgstr "改进了未通过检查的 UI。"
 
 #: ../../changes.rst:760
 msgid "Indicate missing strings in format checks."
@@ -26148,7 +26147,7 @@ msgstr "质量检查的性能提高。"
 
 #: ../../changes.rst:1443
 msgid "Fixed site wide search for failing checks."
-msgstr "修正了全站检查失败的问题。"
+msgstr "修复了全站搜索未通过的检查的问题。"
 
 #: ../../changes.rst:1444
 msgid "Added option to specify source language."
@@ -26897,7 +26896,7 @@ msgstr "为 pretty print JSON 导出添加了可能性。"
 msgid ""
 "Indicate failing checks or fuzzy strings in progress bars for projects or "
 "languages as well."
-msgstr "对项目或同样对语言，在进度条中指示失败的检查或模糊字符串。"
+msgstr "在项目或语言的进度条中也会显示未通过的检查或模糊字符串了。"
 
 #: ../../changes.rst:1680
 msgid ""
@@ -26978,7 +26977,7 @@ msgstr "显示小挂件更多款式对应的代码片段。"
 
 #: ../../changes.rst:1703
 msgid "Indicate failing checks or fuzzy strings in progress bars."
-msgstr "在进度挑中指示失败的检测或模糊字符串。"
+msgstr "在进度条中显示未通过的检查或模糊字符串。"
 
 #: ../../changes.rst:1704
 msgid "More options for formatting commit message."
@@ -27178,7 +27177,7 @@ msgstr "支持（并且需要）django-registration 0.8。"
 
 #: ../../changes.rst:1761
 msgid "Caching counts of strings with failing checks."
-msgstr "缓存检查失败的字符串的计数。"
+msgstr "缓存未通过检查的字符串的计数。"
 
 #: ../../changes.rst:1762
 msgid "Checking of requirements during setup."
@@ -27351,7 +27350,7 @@ msgstr "推至提交给 Git 的能力，来产生来自单一用户的更少的�
 
 #: ../../changes.rst:1826
 msgid "Possibility to browse failing checks."
-msgstr "浏览失败检查的可能性。"
+msgstr "可以浏览未通过的检查。"
 
 #: ../../changes.rst:1827
 msgid "Automatic translation using already translated strings."
@@ -30688,7 +30687,7 @@ msgstr ""
 
 #: ../../devel/reporting.rst:54
 msgid "All stats are available in three variants:"
-msgstr "所有统计数据可以在三个变量中得到："
+msgstr "所有统计数据都提供三种变体："
 
 #: ../../devel/reporting.rst:56
 msgid "`Total`"
@@ -30822,9 +30821,8 @@ msgid ""
 "easier to translate. All types of failing source checks are displayed on "
 "the :guilabel:`Source` tab of every component."
 msgstr ""
-"有很多 :ref:`checks`，一些聚焦在提高源字符串的质量。很多失败的检查都建议了提"
-"示，使源字符串更容易翻译。所有类型的失败的源字符串检查都显示在每个组件的 :"
-"guilabel:`Source` 选项卡上。"
+"有很多 :ref:`checks`，其中一些专注于提高源字符串的质量。很多未通过的检查都给出了建议提示，使源字符串更容易翻译。"
+"所有类型的未通过的源字符串检查都显示在每个组件的 :guilabel:`Source` 选项卡上。"
 
 #: ../../devel/review.rst:33
 msgid "Translation string checks"
@@ -31319,7 +31317,7 @@ msgstr ""
 
 #: ../../devel/translations.rst:64
 msgid "String variants"
-msgstr "字符串变量"
+msgstr "字符串变体"
 
 #: ../../devel/translations.rst:66
 msgid ""
@@ -37743,7 +37741,7 @@ msgstr ""
 
 #: ../../user/translating.rst:211
 msgid "Ignore one item in the list of failing checks."
-msgstr "忽略失败检查列表中的一个项目。"
+msgstr "忽略未通过的检查列表中的一个项目。"
 
 #: ../../user/translating.rst:215
 msgid ":kbd:`Ctrl+J` or"
