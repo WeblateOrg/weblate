@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-11-11 08:48+0100\n"
-"PO-Revision-Date: 2021-11-16 18:10+0000\n"
+"PO-Revision-Date: 2021-11-16 19:52+0000\n"
 "Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "documentation/ja/>\n"
@@ -122,14 +122,13 @@ msgstr ""
 "ます。"
 
 #: ../../admin/access.rst:46
-#, fuzzy
 msgid ""
 ":guilabel:`Access control` can be changed in the :guilabel:`Access` tab of "
 "the configuration (:guilabel:`Manage` ↓ :guilabel:`Settings`) of each "
 "respective project."
 msgstr ""
-":guilabel:`アクセス制御` は、各プロジェクトの設定（:guilabel:`Manage` ↓ :"
-"guilabel:`Settings`）の :guilabel:`Access` タブで変更できます。"
+":guilabel:`アクセス制御` は、各プロジェクトの設定（:guilabel:`管理` ↓ :guilabel:`設定`）の "
+":guilabel:`アクセス` タブで変更できます。"
 
 #: ../../admin/access.rst:52
 msgid "The default value can be changed by :setting:`DEFAULT_ACCESS_CONTROL`."
@@ -11833,16 +11832,12 @@ msgid ""
 msgstr ""
 
 #: ../../admin/install.rst:1440
-#, fuzzy
-#| msgid ":doc:`integration`, :ref:`continuous-translation`"
 msgid "Running :ref:`auto-translation`."
-msgstr ":doc:`integration`、:ref:`continuous-translation`"
+msgstr "実行 :ref:`auto-translation`."
 
 #: ../../admin/install.rst:1441
-#, fuzzy
-#| msgid "Component wide notifications"
 msgid "Sending digest notifications."
-msgstr "コンポーネント全体の通知"
+msgstr "ダイジェスト通知の送信。"
 
 #: ../../admin/install.rst:1442
 msgid "Offloading expensive operations from the wsgi process."
@@ -13000,10 +12995,8 @@ msgid "Configures :setting:`ENABLE_AVATARS`."
 msgstr ":setting:`ENABLE_AVATARS` の設定。"
 
 #: ../../admin/install/docker.rst:742
-#, fuzzy
-#| msgid "LIMIT_TRANSLATION_LENGTH_BY_SOURCE_LENGTH"
 msgid "Configures :setting:`LIMIT_TRANSLATION_LENGTH_BY_SOURCE_LENGTH`."
-msgstr "LIMIT_TRANSLATION_LENGTH_BY_SOURCE_LENGTH"
+msgstr "設定 :setting:`LIMIT_TRANSLATION_LENGTH_BY_SOURCE_LENGTH`。"
 
 #: ../../admin/install/docker.rst:748
 #, fuzzy
@@ -13497,10 +13490,8 @@ msgid ":ref:`production-email`, :setting:`django:EMAIL_BACKEND`"
 msgstr ":ref:`production-email`、:setting:`django:EMAIL_BACKEND`"
 
 #: ../../admin/install/docker.rst:1282
-#, fuzzy
-#| msgid "Configuring Weblate to use PostgreSQL"
 msgid "Configures if and how Weblate should update repositories."
-msgstr "PostgreSQL を使用するための Webrate の設定"
+msgstr "Weblate がリポジトリを更新するかどうか、どのように更新するかを設定します。"
 
 #: ../../admin/install/docker.rst:1286
 #, fuzzy
@@ -15338,7 +15329,7 @@ msgstr ""
 
 #: ../../admin/machine.rst:383 ../../../README.rst:None
 msgid "Weblate"
-msgstr ""
+msgstr "Weblate"
 
 #: ../../admin/machine.rst:385
 msgid ""
@@ -19124,10 +19115,8 @@ msgid "Upgrade from 4.7 to 4.8"
 msgstr ""
 
 #: ../../admin/upgrade.rst:254
-#, fuzzy
-#| msgid "There are also additional filter to manipulate with filenames:"
 msgid "There are no additional upgrade steps needed in this release."
-msgstr "追加された、ファイル名を操作するためのフィルター:"
+msgstr "このリリースでは、追加のアップグレード手順は必要ありません。"
 
 #: ../../admin/upgrade.rst:259
 msgid "Upgrade from 4.8 to 4.9"
@@ -21851,10 +21840,8 @@ msgid ""
 msgstr "説明文の色の変更に対応。"
 
 #: ../../changes.rst:22
-#, fuzzy
-#| msgid "Java MessageFormat"
 msgid "Added checks for ICU MessageFormat."
-msgstr "Java MessageFormat"
+msgstr "ICU MessageFormat 検査の追加。"
 
 #: ../../changes.rst:23
 #, fuzzy
@@ -21969,10 +21956,8 @@ msgid "Improved ``safe-html`` flag behavior with XML checks."
 msgstr ""
 
 #: ../../changes.rst:48
-#, fuzzy
-#| msgid "Commit message formatting, see :ref:`component`"
 msgid "Fixed commit messages for linked components."
-msgstr "コミット メッセージの書式設定。参照: :ref:`component`"
+msgstr "リンクされたコンポーネントのコミット メッセージの修正。"
 
 #: ../../changes.rst:50
 #, fuzzy
@@ -28225,10 +28210,8 @@ msgid "Things to check in that case:"
 msgstr "その場合の確認事項:"
 
 #: ../../contributing/debugging.rst:55
-#, fuzzy
-#| msgid "Restart Celery worker (see :ref:`celery`)."
 msgid "Check that the Celery process is running, see :ref:`celery`"
-msgstr "Celery ワーカーの再起動 (参照 :ref:`celery`)。"
+msgstr "Celery プロセス実行中の確認、参照 :ref:`celery`"
 
 #: ../../contributing/debugging.rst:56
 msgid ""
@@ -35159,12 +35142,17 @@ msgid ""
 "start with a specific string. For example, the following flag will only "
 "allow XML tags to be matched if they start with ``<x:``:"
 msgstr ""
+"また、 ``strict-xml`` が無効で ``xml`` が有効な場合は、``icu-tag-prefix:PREFIX`` フラグを使用して、"
+"すべての XML タグが特定の文字列で始まることを必須にできます。次のようにフラグを設定して、XML タグが ``<x:`` "
+"で始まる場合にのみ一致することを許可する例:"
 
 #: ../../user/checks.rst:302
 msgid ""
 "This would match ``<x:link>click here</x:link>`` but not ``<strong>this</"
 "strong>``."
 msgstr ""
+"これは ``<x:link>click here</x:link>`` と一致しますが、``<strong>this</strong>`` "
+"とは一致しません。"
 
 #: ../../user/checks.rst:306
 msgid ""
@@ -35173,6 +35161,10 @@ msgid ""
 "format_parse/messages/>`_, `Format.JS: Message Syntax <https://formatjs.io/"
 "docs/core-concepts/icu-syntax/>`_"
 msgstr ""
+":ref:`check-icu-message-format-syntax`、:ref:`check-formats`、`ICU: Formatting "
+"Messages <https://unicode-org.github.io/icu/userguide/format_parse/messages/"
+">`_、`Format.JS: Message Syntax <https://formatjs.io/docs/core-concepts/"
+"icu-syntax/>`_"
 
 #: ../../user/checks.rst:315
 msgid "Java format"
@@ -35257,10 +35249,8 @@ msgid "Lua format string does not match source"
 msgstr "Lua 形式の文字列が原文と不一致"
 
 #: ../../user/checks.rst:373
-#, fuzzy
-#| msgid "``weblate.generate.generate``"
 msgid "``weblate.checks.format.LuaFormatCheck``"
-msgstr "``weblate.generate.generate``"
+msgstr "``weblate.checks.format.LuaFormatCheck``"
 
 #: ../../user/checks.rst:380
 msgid ""
@@ -35280,7 +35270,7 @@ msgstr "Object Pascal 形式の文字列が原文と不一致"
 
 #: ../../user/checks.rst:390
 msgid "``weblate.checks.format.ObjectPascalFormatCheck``"
-msgstr ""
+msgstr "``weblate.checks.format.ObjectPascalFormatCheck``"
 
 #: ../../user/checks.rst:397
 msgid ""
@@ -35291,6 +35281,12 @@ msgid ""
 "formatting strings <http://docwiki.embarcadero.com/Libraries/Sydney/en/"
 "System.SysUtils.Format>`_"
 msgstr ""
+":ref:`check-formats`、`Object Pascal formatting strings <https://www.gnu.org/"
+"software/gettext/manual/html_node/object_002dpascal_002dformat."
+"html#object_002dpascal_002dformat>`_ `Free Pascal formatting strings "
+"<https://www.freepascal.org/docs-html/rtl/sysutils/format.html>`_ `Delphi "
+"formatting strings <http://docwiki.embarcadero.com/Libraries/Sydney/en/System"
+".SysUtils.Format>`_"
 
 #: ../../user/checks.rst:405
 msgid "Percent placeholders"
@@ -35302,11 +35298,11 @@ msgstr "% プレースホルダーが原文と不一致"
 
 #: ../../user/checks.rst:411
 msgid "``weblate.checks.format.PercentPlaceholdersCheck``"
-msgstr ""
+msgstr "``weblate.checks.format.PercentPlaceholdersCheck``"
 
 #: ../../user/checks.rst:414
 msgid "``There are %number% apples``"
-msgstr "``There are %number% apples``"
+msgstr "``リンゴが %number% 個あります``"
 
 #: ../../user/checks.rst:423
 msgid "Perl format"
@@ -35317,10 +35313,8 @@ msgid "Perl format string does not match source"
 msgstr "Perl 形式の文字列が原文と不一致"
 
 #: ../../user/checks.rst:427
-#, fuzzy
-#| msgid "``weblate.generate.generate``"
 msgid "``weblate.checks.format.PerlFormatCheck``"
-msgstr "``weblate.generate.generate``"
+msgstr "``weblate.checks.format.PerlFormatCheck``"
 
 #: ../../user/checks.rst:435
 msgid ""
@@ -35341,10 +35335,8 @@ msgid "PHP format string does not match source"
 msgstr "PHP 形式の文字列が原文と不一致"
 
 #: ../../user/checks.rst:446
-#, fuzzy
-#| msgid "``weblate.generate.generate``"
 msgid "``weblate.checks.format.PHPFormatCheck``"
-msgstr "``weblate.generate.generate``"
+msgstr "``weblate.checks.format.PHPFormatCheck``"
 
 #: ../../user/checks.rst:454
 msgid ""
@@ -35366,7 +35358,7 @@ msgstr "Python ブレース形式の文字列が原文と不一致"
 
 #: ../../user/checks.rst:465
 msgid "``weblate.checks.format.PythonBraceFormatCheck``"
-msgstr ""
+msgstr "``weblate.checks.format.PythonBraceFormatCheck``"
 
 #: ../../user/checks.rst:0
 msgid "Simple format string"
@@ -35374,11 +35366,11 @@ msgstr "単純な書式指定文字列"
 
 #: ../../user/checks.rst:468
 msgid "``There are {} apples``"
-msgstr "``There are {} apples``"
+msgstr "``リンゴが {} 個あります``"
 
 #: ../../user/checks.rst:469
 msgid "``Your balance is {amount} {currency}``"
-msgstr "``Your balance is {amount} {currency}``"
+msgstr "``あなたの残高は {amount} {currency} です``"
 
 #: ../../user/checks.rst:473
 msgid ""
@@ -35399,16 +35391,12 @@ msgid "Python format string does not match source"
 msgstr "Python 形式の文字列が原文と不一致"
 
 #: ../../user/checks.rst:484
-#, fuzzy
-#| msgid "``weblate.generate.generate``"
 msgid "``weblate.checks.format.PythonFormatCheck``"
-msgstr "``weblate.generate.generate``"
+msgstr "``weblate.checks.format.PythonFormatCheck``"
 
 #: ../../user/checks.rst:488
-#, fuzzy
-#| msgid "``Your balance is %(amount) %(currency)``"
 msgid "``Your balance is %(amount)d %(currency)s``"
-msgstr "``Your balance is %(amount) %(currency)``"
+msgstr "``あなたの残高は %(amount)d %(currency)s です``"
 
 #: ../../user/checks.rst:492
 msgid ""
@@ -35429,14 +35417,12 @@ msgid "Qt format string does not match source"
 msgstr "Qt 書式文字列が原文と不一致"
 
 #: ../../user/checks.rst:503
-#, fuzzy
-#| msgid "Subclass the `weblate.checks.Check`"
 msgid "``weblate.checks.qt.QtFormatCheck``"
-msgstr "`weblate.checks.Check` をサブクラス化する"
+msgstr "``weblate.checks.qt.QtFormatCheck``"
 
 #: ../../user/checks.rst:506
 msgid "``There are %1 apples``"
-msgstr "``There are %1 apples``"
+msgstr "``リンゴが %1 個あります``"
 
 #: ../../user/checks.rst:510
 msgid ""
@@ -35455,16 +35441,12 @@ msgid "Qt plural format string does not match source"
 msgstr "Qt 複数形式の文字列が原文と不一致"
 
 #: ../../user/checks.rst:520
-#, fuzzy
-#| msgid "Subclass the `weblate.checks.Check`"
 msgid "``weblate.checks.qt.QtPluralCheck``"
-msgstr "`weblate.checks.Check` をサブクラス化する"
+msgstr "``weblate.checks.qt.QtPluralCheck``"
 
 #: ../../user/checks.rst:0
-#, fuzzy
-#| msgid "Plural format string"
 msgid "Plural format string example"
-msgstr "複数形の書式指定文字列"
+msgstr "複数形の書式指定文字列の例"
 
 #: ../../user/checks.rst:523
 msgid "``There are %Ln apple(s)``"
@@ -35487,14 +35469,12 @@ msgid "Ruby format string does not match source"
 msgstr "Ruby 書式文字列が原文と不一致"
 
 #: ../../user/checks.rst:537
-#, fuzzy
-#| msgid "``weblate.resx.update``"
 msgid "``weblate.checks.ruby.RubyFormatCheck``"
-msgstr "``weblate.resx.update``"
+msgstr "``weblate.checks.ruby.RubyFormatCheck``"
 
 #: ../../user/checks.rst:541
 msgid "``Your balance is %1$f %2$s``"
-msgstr "``Your balance is %1$f %2$s``"
+msgstr "``あなたの残高は %1$f %2$s です``"
 
 #: ../../user/checks.rst:542
 msgid "``Your balance is %+.2<amount>f %<currency>s``"
@@ -35525,14 +35505,12 @@ msgid "Scheme format string does not match source"
 msgstr "Scheme 形式の文字列が原文と不一致"
 
 #: ../../user/checks.rst:557
-#, fuzzy
-#| msgid "``weblate.generate.generate``"
 msgid "``weblate.checks.format.SchemeFormatCheck``"
-msgstr "``weblate.generate.generate``"
+msgstr "``weblate.checks.format.SchemeFormatCheck``"
 
 #: ../../user/checks.rst:560
 msgid "``There are ~d apples``"
-msgstr "``There are ~d apples``"
+msgstr "``リンゴが ~d 個あります``"
 
 #: ../../user/checks.rst:564
 msgid ""
@@ -35541,6 +35519,10 @@ msgid ""
 "format>`_, `Guile Scheme formatted output <https://www.gnu.org/software/"
 "guile/manual/html_node/Formatted-Output.html>`_"
 msgstr ""
+":ref:`check-formats`、`Srfi 28 <https://srfi.schemers.org/srfi-28/srfi-28."
+"html>`_、`Chicken Scheme format <https://wiki.call-cc.org/eggref/5/format>`_、`"
+"Guile Scheme formatted output <https://www.gnu.org/software/guile/manual/"
+"html_node/Formatted-Output.html>`_"
 
 #: ../../user/checks.rst:572
 msgid "Vue I18n formatting"
@@ -35551,10 +35533,8 @@ msgid "The Vue I18n formatting does not match source"
 msgstr "Vue I18n 書式が原文と不一致"
 
 #: ../../user/checks.rst:576
-#, fuzzy
-#| msgid "``weblate.generate.generate``"
 msgid "``weblate.checks.format.VueFormattingCheck``"
-msgstr "``weblate.generate.generate``"
+msgstr "``weblate.checks.format.VueFormattingCheck``"
 
 #: ../../user/checks.rst:0
 msgid "Named formatting"
@@ -35562,7 +35542,7 @@ msgstr "名前付きフォーマット"
 
 #: ../../user/checks.rst:579
 msgid "``There are {count} apples``"
-msgstr "``There are {count} apples``"
+msgstr "``リンゴが {count} 個あります``"
 
 #: ../../user/checks.rst:0
 msgid "Rails i18n formatting"
@@ -35570,7 +35550,7 @@ msgstr "Rails i18n 書式"
 
 #: ../../user/checks.rst:580
 msgid "``There are %{count} apples``"
-msgstr "``There are %{count} apples``"
+msgstr "``リンゴが %{count} 個あります``"
 
 #: ../../user/checks.rst:0
 msgid "Linked locale messages"
@@ -35599,16 +35579,12 @@ msgid "This string has been translated in the past"
 msgstr "過去に翻訳済みのもの"
 
 #: ../../user/checks.rst:595 ../../user/checks.rst:608
-#, fuzzy
-#| msgid "All strings"
 msgid "all strings"
 msgstr "すべての文字列"
 
 #: ../../user/checks.rst:596
-#, fuzzy
-#| msgid "``weblate.consistency.languages``"
 msgid "``weblate.checks.consistency.TranslatedCheck``"
-msgstr "``weblate.consistency.languages``"
+msgstr "``weblate.checks.consistency.TranslatedCheck``"
 
 #: ../../user/checks.rst:599
 msgid ""
@@ -35631,10 +35607,8 @@ msgstr ""
 "翻訳されていないものもあります。"
 
 #: ../../user/checks.rst:609
-#, fuzzy
-#| msgid "``weblate.consistency.languages``"
 msgid "``weblate.checks.consistency.ConsistencyCheck``"
-msgstr "``weblate.consistency.languages``"
+msgstr "``weblate.checks.consistency.ConsistencyCheck``"
 
 #: ../../user/checks.rst:612
 msgid ""
@@ -35658,7 +35632,7 @@ msgstr ""
 msgid ""
 "For performance reasons, the check might not find all inconsistencies, it "
 "limits number of matches."
-msgstr ""
+msgstr "パフォーマンス上の理由から、検査ですべての不整合が検出されずに一致する数が制限されます。"
 
 #: ../../user/checks.rst:626
 msgid ""
@@ -35693,10 +35667,8 @@ msgid "The decorative kashida letters should not be used"
 msgstr "装飾的なカシーダが使用されている翻訳文"
 
 #: ../../user/checks.rst:650
-#, fuzzy
-#| msgid "Subclass the `weblate.checks.Check`"
 msgid "``weblate.checks.chars.KashidaCheck``"
-msgstr "`weblate.checks.Check` をサブクラス化する"
+msgstr "``weblate.checks.chars.KashidaCheck``"
 
 #: ../../user/checks.rst:654
 msgid ""
@@ -35721,10 +35693,8 @@ msgid "Markdown links do not match source"
 msgstr "Markdown のリンクが原文と不一致"
 
 #: ../../user/checks.rst:670
-#, fuzzy
-#| msgid "``weblate.cleanup.blank``"
 msgid "``weblate.checks.markup.MarkdownLinkCheck``"
-msgstr "``weblate.cleanup.blank``"
+msgstr "``weblate.checks.markup.MarkdownLinkCheck``"
 
 #: ../../user/checks.rst:674
 msgid "Markdown links do not match source."
@@ -35743,10 +35713,8 @@ msgid "Markdown link references do not match source"
 msgstr "Markdown の参照リンクが原文と不一致"
 
 #: ../../user/checks.rst:690
-#, fuzzy
-#| msgid "``weblate.cleanup.generic``"
 msgid "``weblate.checks.markup.MarkdownRefLinkCheck``"
-msgstr "``weblate.cleanup.generic``"
+msgstr "``weblate.checks.markup.MarkdownRefLinkCheck``"
 
 #: ../../user/checks.rst:694
 msgid "Markdown link references do not match source."
@@ -35756,6 +35724,7 @@ msgstr "Markdown リンクの参照が原文と一致しません。"
 msgid ""
 "`Markdown links <https://daringfireball.net/projects/markdown/syntax#link>`_"
 msgstr ""
+"`Markdown リンク <https://daringfireball.net/projects/markdown/syntax#link>`_"
 
 #: ../../user/checks.rst:703
 msgid "Markdown syntax"
@@ -35766,16 +35735,16 @@ msgid "Markdown syntax does not match source"
 msgstr "Markdown 構文が原文と一致しません"
 
 #: ../../user/checks.rst:709
-#, fuzzy
-#| msgid "``weblate.cleanup.blank``"
 msgid "``weblate.checks.markup.MarkdownSyntaxCheck``"
-msgstr "``weblate.cleanup.blank``"
+msgstr "``weblate.checks.markup.MarkdownSyntaxCheck``"
 
 #: ../../user/checks.rst:717
 msgid ""
 "`Markdown span elements <https://daringfireball.net/projects/markdown/"
 "syntax#span>`_"
 msgstr ""
+"`Markdown span エレメント <https://daringfireball.net/projects/markdown/"
+"syntax#span>`_"
 
 #: ../../user/checks.rst:722
 msgid "Maximum length of translation"
@@ -35786,10 +35755,8 @@ msgid "Translation should not exceed given length"
 msgstr "翻訳文は、設定した文字数を超えてはいけない"
 
 #: ../../user/checks.rst:726
-#, fuzzy
-#| msgid "``weblate.cleanup.generic``"
 msgid "``weblate.checks.chars.MaxLengthCheck``"
-msgstr "``weblate.cleanup.generic``"
+msgstr "``weblate.checks.chars.MaxLengthCheck``"
 
 #: ../../user/checks.rst:727
 #, fuzzy
@@ -35834,7 +35801,7 @@ msgstr ""
 #: ../../user/checks.rst:745 ../../user/checks.rst:785
 msgid ""
 "When ``xml-text`` flag is also used, the length calculation ignores XML tags."
-msgstr ""
+msgstr "``xml-text`` フラグも使用している場合、長さの計算では XML タグが無視されます。"
 
 #: ../../user/checks.rst:750
 msgid "Maximum size of translation"
@@ -35845,10 +35812,8 @@ msgid "Translation rendered text should not exceed given size"
 msgstr "表示した翻訳のテキストは、設定した文字サイズを超えてはいけない"
 
 #: ../../user/checks.rst:754
-#, fuzzy
-#| msgid "``weblate.cleanup.generic``"
 msgid "``weblate.checks.render.MaxSizeCheck``"
-msgstr "``weblate.cleanup.generic``"
+msgstr "``weblate.checks.render.MaxSizeCheck``"
 
 #: ../../user/checks.rst:755
 #, fuzzy
@@ -35902,14 +35867,14 @@ msgid "Mismatched \\\\n"
 msgstr "\\\\n の不一致"
 
 #: ../../user/checks.rst:796
-#, fuzzy
-#| msgid "Number of \\n in translation does not match source"
 msgid "Number of \\\\n in translation does not match source"
-msgstr "改行 (\\n) の数が原文と一致しないもの"
+msgstr ""
+"改行 \\\\n"
+" の数が原文と一致しないもの"
 
 #: ../../user/checks.rst:798
 msgid "``weblate.checks.chars.EscapedNewlineCountingCheck``"
-msgstr ""
+msgstr "``weblate.checks.chars.EscapedNewlineCountingCheck``"
 
 #: ../../user/checks.rst:801
 msgid ""
@@ -35929,10 +35894,8 @@ msgid "Source and translation do not both end with a colon"
 msgstr "原文と翻訳文で一致しない文末のコロン"
 
 #: ../../user/checks.rst:811
-#, fuzzy
-#| msgid "``weblate.cleanup.blank``"
 msgid "``weblate.checks.chars.EndColonCheck``"
-msgstr "``weblate.cleanup.blank``"
+msgstr "``weblate.checks.chars.EndColonCheck``"
 
 #: ../../user/checks.rst:814
 msgid ""
@@ -35960,7 +35923,7 @@ msgstr "原文と翻訳文で一致しない文末の省略記号"
 
 #: ../../user/checks.rst:829
 msgid "``weblate.checks.chars.EndEllipsisCheck``"
-msgstr ""
+msgstr "``weblate.checks.chars.EndEllipsisCheck``"
 
 #: ../../user/checks.rst:832
 msgid ""
@@ -35993,7 +35956,7 @@ msgstr "原文と翻訳文で一致しない文末の感嘆符"
 
 #: ../../user/checks.rst:849
 msgid "``weblate.checks.chars.EndExclamationCheck``"
-msgstr ""
+msgstr "``weblate.checks.chars.EndExclamationCheck``"
 
 #: ../../user/checks.rst:852
 msgid ""
@@ -36023,10 +35986,8 @@ msgid "Source and translation do not both end with a full stop"
 msgstr "原文と翻訳文で一致しない文末の終止符"
 
 #: ../../user/checks.rst:868
-#, fuzzy
-#| msgid "Subclass the `weblate.checks.Check`"
 msgid "``weblate.checks.chars.EndStopCheck``"
-msgstr "`weblate.checks.Check` をサブクラス化する"
+msgstr "``weblate.checks.chars.EndStopCheck``"
 
 #: ../../user/checks.rst:871
 msgid ""
@@ -36053,10 +36014,8 @@ msgid "Source and translation do not both end with a question mark"
 msgstr "原文と翻訳文で一致しない文末の疑問符"
 
 #: ../../user/checks.rst:886
-#, fuzzy
-#| msgid "``weblate.cleanup.generic``"
 msgid "``weblate.checks.chars.EndQuestionCheck``"
-msgstr "``weblate.cleanup.generic``"
+msgstr "``weblate.checks.chars.EndQuestionCheck``"
 
 #: ../../user/checks.rst:889
 msgid ""
@@ -36086,7 +36045,7 @@ msgstr "原文と翻訳文で一致しない文末のセミコロン"
 
 #: ../../user/checks.rst:905
 msgid "``weblate.checks.chars.EndSemicolonCheck``"
-msgstr ""
+msgstr "``weblate.checks.chars.EndSemicolonCheck``"
 
 #: ../../user/checks.rst:908
 msgid ""
@@ -36112,10 +36071,8 @@ msgid "Number of new lines in translation does not match source"
 msgstr "改行の数が原文と一致しないもの"
 
 #: ../../user/checks.rst:922
-#, fuzzy
-#| msgid "``weblate.trans.autofixes.chars.RemoveControlChars``"
 msgid "``weblate.checks.chars.NewLineCountCheck``"
-msgstr "``weblate.trans.autofixes.chars.RemoveControlChars``"
+msgstr "``weblate.checks.chars.NewLineCountCheck``"
 
 #: ../../user/checks.rst:925
 msgid ""
@@ -36134,10 +36091,8 @@ msgid "Some plural forms are not translated"
 msgstr "翻訳されていない複数形が存在するもの"
 
 #: ../../user/checks.rst:936
-#, fuzzy
-#| msgid "``weblate.consistency.languages``"
 msgid "``weblate.checks.consistency.PluralsCheck``"
-msgstr "``weblate.consistency.languages``"
+msgstr "``weblate.checks.consistency.PluralsCheck``"
 
 #: ../../user/checks.rst:939
 msgid ""
@@ -36166,7 +36121,7 @@ msgstr "翻訳文にプレースホルダーが不足している"
 
 #: ../../user/checks.rst:954
 msgid "``weblate.checks.placeholders.PlaceholderCheck``"
-msgstr ""
+msgstr "``weblate.checks.placeholders.PlaceholderCheck``"
 
 #: ../../user/checks.rst:955
 #, fuzzy
@@ -36209,7 +36164,7 @@ msgstr "二重句読点の前に、改行できないスペースがありませ
 
 #: ../../user/checks.rst:989
 msgid "``weblate.checks.chars.PunctuationSpacingCheck``"
-msgstr ""
+msgstr "``weblate.checks.chars.PunctuationSpacingCheck``"
 
 #: ../../user/checks.rst:992
 msgid ""
@@ -36236,7 +36191,7 @@ msgstr "正規表現が不一致の翻訳文:"
 
 #: ../../user/checks.rst:1011
 msgid "``weblate.checks.placeholders.RegexCheck``"
-msgstr ""
+msgstr "``weblate.checks.placeholders.RegexCheck``"
 
 #: ../../user/checks.rst:1012
 #, fuzzy
@@ -36261,10 +36216,8 @@ msgid "Some plural forms are translated in the same way"
 msgstr "同じように翻訳されている複数形のもの"
 
 #: ../../user/checks.rst:1031
-#, fuzzy
-#| msgid "``weblate.consistency.languages``"
 msgid "``weblate.checks.consistency.SamePluralsCheck``"
-msgstr "``weblate.consistency.languages``"
+msgstr "``weblate.checks.consistency.SamePluralsCheck``"
 
 #: ../../user/checks.rst:1034
 msgid ""
@@ -36283,10 +36236,8 @@ msgid "Source and translation do not both start with a newline"
 msgstr "原文と翻訳文で一致しない文頭の改行"
 
 #: ../../user/checks.rst:1044
-#, fuzzy
-#| msgid "``weblate.cleanup.generic``"
 msgid "``weblate.checks.chars.BeginNewlineCheck``"
-msgstr "``weblate.cleanup.generic``"
+msgstr "``weblate.checks.chars.BeginNewlineCheck``"
 
 #: ../../user/checks.rst:1047 ../../user/checks.rst:1077
 msgid ""
@@ -36310,10 +36261,8 @@ msgid "Source and translation do not both start with same number of spaces"
 msgstr "原文と翻訳文で一致しない文頭のスペース数"
 
 #: ../../user/checks.rst:1061
-#, fuzzy
-#| msgid "``weblate.trans.autofixes.chars.RemoveZeroSpace``"
 msgid "``weblate.checks.chars.BeginSpaceCheck``"
-msgstr "``weblate.trans.autofixes.chars.RemoveZeroSpace``"
+msgstr "``weblate.checks.chars.BeginSpaceCheck``"
 
 #: ../../user/checks.rst:1064
 msgid ""
@@ -36333,7 +36282,7 @@ msgstr "原文と翻訳文で一致しない末尾の改行"
 
 #: ../../user/checks.rst:1074
 msgid "``weblate.checks.chars.EndNewlineCheck``"
-msgstr ""
+msgstr "``weblate.checks.chars.EndNewlineCheck``"
 
 #: ../../user/checks.rst:1082
 msgid ":ref:`check-begin-newline`"
@@ -36348,10 +36297,8 @@ msgid "Source and translation do not both end with a space"
 msgstr "原文と翻訳文で一致しない末尾のスペース"
 
 #: ../../user/checks.rst:1091
-#, fuzzy
-#| msgid "``weblate.cleanup.generic``"
 msgid "``weblate.checks.chars.EndSpaceCheck``"
-msgstr "``weblate.cleanup.generic``"
+msgstr "``weblate.checks.chars.EndSpaceCheck``"
 
 #: ../../user/checks.rst:1094
 msgid ""
@@ -36376,10 +36323,8 @@ msgid "Source and translation are identical"
 msgstr "原文と翻訳文が同一"
 
 #: ../../user/checks.rst:1106
-#, fuzzy
-#| msgid "Subclass the `weblate.checks.Check`"
 msgid "``weblate.checks.same.SameCheck``"
-msgstr "`weblate.checks.Check` をサブクラス化する"
+msgstr "``weblate.checks.same.SameCheck``"
 
 #: ../../user/checks.rst:1109
 msgid ""
@@ -36424,10 +36369,8 @@ msgid "The translation uses unsafe HTML markup"
 msgstr "翻訳文には、安全でない HTML マークアップが使用されている"
 
 #: ../../user/checks.rst:1136
-#, fuzzy
-#| msgid "``weblate.cleanup.generic``"
 msgid "``weblate.checks.markup.SafeHTMLCheck``"
-msgstr "``weblate.cleanup.generic``"
+msgstr "``weblate.checks.markup.SafeHTMLCheck``"
 
 #: ../../user/checks.rst:1140
 msgid ""
@@ -36443,7 +36386,7 @@ msgstr ""
 msgid ""
 "When ``md-text`` flag is also used, the Markdown style links are also "
 "allowed."
-msgstr ""
+msgstr "また、``md-text`` フラグを使用している場合には、Markdown 形式のリンクも許可されます。"
 
 #: ../../user/checks.rst:1150
 msgid ""
@@ -36462,10 +36405,8 @@ msgid "The translation does not contain an URL"
 msgstr "翻訳文に URL が含まれていない"
 
 #: ../../user/checks.rst:1164
-#, fuzzy
-#| msgid "``weblate.cleanup.generic``"
 msgid "``weblate.checks.markup.URLCheck``"
-msgstr "``weblate.cleanup.generic``"
+msgstr "``weblate.checks.markup.URLCheck``"
 
 #: ../../user/checks.rst:1168
 msgid ""
@@ -36485,10 +36426,8 @@ msgid "XML tags in translation do not match source"
 msgstr "翻訳文の XML タグが原文と不一致"
 
 #: ../../user/checks.rst:1179
-#, fuzzy
-#| msgid "``weblate.cleanup.generic``"
 msgid "``weblate.checks.markup.XMLTagsCheck``"
-msgstr "``weblate.cleanup.generic``"
+msgstr "``weblate.checks.markup.XMLTagsCheck``"
 
 #: ../../user/checks.rst:1182
 msgid ""
@@ -36510,6 +36449,8 @@ msgid ""
 "This check is disabled by the ``safe-html`` flag as the HTML cleanup done by "
 "it can produce HTML markup which is not valid XML."
 msgstr ""
+"この検査は ``safe-html`` フラグにより無効にされています。このフラグによって行われる HTML のクリーンアップにより、無効な XML の "
+"HTMLマークアップを生成する可能性があるためです。"
 
 #: ../../user/checks.rst:1195
 msgid "XML syntax"
@@ -36520,10 +36461,8 @@ msgid "The translation is not valid XML"
 msgstr "翻訳文が XML として正しくない"
 
 #: ../../user/checks.rst:1201
-#, fuzzy
-#| msgid "``weblate.resx.update``"
 msgid "``weblate.checks.markup.XMLValidityCheck``"
-msgstr "``weblate.resx.update``"
+msgstr "``weblate.checks.markup.XMLValidityCheck``"
 
 #: ../../user/checks.rst:1204
 msgid "The XML markup is not valid."
@@ -36538,10 +36477,8 @@ msgid "Translation contains extra zero-width space character"
 msgstr "ゼロ幅のスペース文字が含まれている翻訳"
 
 #: ../../user/checks.rst:1218
-#, fuzzy
-#| msgid "``weblate.trans.autofixes.chars.RemoveZeroSpace``"
 msgid "``weblate.checks.chars.ZeroWidthSpaceCheck``"
-msgstr "``weblate.trans.autofixes.chars.RemoveZeroSpace``"
+msgstr "``weblate.checks.chars.ZeroWidthSpaceCheck``"
 
 #: ../../user/checks.rst:1221
 msgid ""
@@ -36592,10 +36529,8 @@ msgid "source strings"
 msgstr "原文"
 
 #: ../../user/checks.rst:1244
-#, fuzzy
-#| msgid "``weblate.flags.source_edit``"
 msgid "``weblate.checks.source.EllipsisCheck``"
-msgstr "``weblate.flags.source_edit``"
+msgstr "``weblate.checks.source.EllipsisCheck``"
 
 #: ../../user/checks.rst:1247
 msgid ""
@@ -36622,10 +36557,8 @@ msgid "Syntax errors in ICU MessageFormat strings."
 msgstr "ICU MessageFormat 文字列に構文エラーがあります。"
 
 #: ../../user/checks.rst:1265
-#, fuzzy
-#| msgid "``weblate.cleanup.generic``"
 msgid "``weblate.checks.icu.ICUSourceCheck``"
-msgstr "``weblate.cleanup.generic``"
+msgstr "``weblate.checks.icu.ICUSourceCheck``"
 
 #: ../../user/checks.rst:1268
 #, fuzzy
@@ -36642,10 +36575,8 @@ msgid "The string has not been translated for a long time"
 msgstr "長い間翻訳されていない文字列"
 
 #: ../../user/checks.rst:1279
-#, fuzzy
-#| msgid "``weblate.autotranslate.autotranslate``"
 msgid "``weblate.checks.source.LongUntranslatedCheck``"
-msgstr "``weblate.autotranslate.autotranslate``"
+msgstr "``weblate.checks.source.LongUntranslatedCheck``"
 
 #: ../../user/checks.rst:1282
 msgid ""
@@ -36665,7 +36596,7 @@ msgstr "複数の言語の翻訳文には、不合格となった検査項目が
 
 #: ../../user/checks.rst:1293
 msgid "``weblate.checks.source.MultipleFailingCheck``"
-msgstr ""
+msgstr "``weblate.checks.source.MultipleFailingCheck``"
 
 #: ../../user/checks.rst:1296
 msgid ""
@@ -36698,7 +36629,7 @@ msgstr "文字列内に複数の名前のない変数があるため、翻訳者
 
 #: ../../user/checks.rst:1313
 msgid "``weblate.checks.format.MultipleUnnamedFormatsCheck``"
-msgstr ""
+msgstr "``weblate.checks.format.MultipleUnnamedFormatsCheck``"
 
 #: ../../user/checks.rst:1316
 msgid ""
@@ -36725,7 +36656,7 @@ msgstr "文字列は複数形だが、複数形として区別されていない
 
 #: ../../user/checks.rst:1328
 msgid "``weblate.checks.source.OptionalPluralCheck``"
-msgstr ""
+msgstr "``weblate.checks.source.OptionalPluralCheck``"
 
 #: ../../user/checks.rst:1331
 #, fuzzy
