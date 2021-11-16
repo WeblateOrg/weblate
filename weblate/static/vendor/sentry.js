@@ -1,4 +1,4 @@
-/*! @sentry/browser 6.14.3 (3807d99) | https://github.com/getsentry/sentry-javascript */
+/*! @sentry/browser 6.15.0 (aa30ab6) | https://github.com/getsentry/sentry-javascript */
 var Sentry = (function (exports) {
     /*! *****************************************************************************
     Copyright (c) Microsoft Corporation. All rights reserved.
@@ -4558,7 +4558,7 @@ var Sentry = (function (exports) {
         hub.bindClient(client);
     }
 
-    var SDK_VERSION = '6.14.3';
+    var SDK_VERSION = '6.15.0';
 
     var originalFunctionToString;
     /** Patch toString calls to return proper name for wrapped functions */
@@ -5159,16 +5159,24 @@ var Sentry = (function (exports) {
             event = eventFromStacktrace(computeStackTrace(exception));
             return event;
         }
+        // If it is a `DOMError` (which is a legacy API, but still supported in some browsers) then we just extract the name
+        // and message, as it doesn't provide anything else. According to the spec, all `DOMExceptions` should also be
+        // `Error`s, but that's not the case in IE11, so in that case we treat it the same as we do a `DOMError`.
+        //
+        // https://developer.mozilla.org/en-US/docs/Web/API/DOMError
+        // https://developer.mozilla.org/en-US/docs/Web/API/DOMException
+        // https://webidl.spec.whatwg.org/#es-DOMException-specialness
         if (isDOMError(exception) || isDOMException(exception)) {
-            // If it is a DOMError or DOMException (which are legacy APIs, but still supported in some browsers)
-            // then we just extract the name, code, and message, as they don't provide anything else
-            // https://developer.mozilla.org/en-US/docs/Web/API/DOMError
-            // https://developer.mozilla.org/en-US/docs/Web/API/DOMException
             var domException = exception;
-            var name_1 = domException.name || (isDOMError(domException) ? 'DOMError' : 'DOMException');
-            var message = domException.message ? name_1 + ": " + domException.message : name_1;
-            event = eventFromString(message, syntheticException, options);
-            addExceptionTypeValue(event, message);
+            if ('stack' in exception) {
+                event = eventFromStacktrace(computeStackTrace(exception));
+            }
+            else {
+                var name_1 = domException.name || (isDOMError(domException) ? 'DOMError' : 'DOMException');
+                var message = domException.message ? name_1 + ": " + domException.message : name_1;
+                event = eventFromString(message, syntheticException, options);
+                addExceptionTypeValue(event, message);
+            }
             if ('code' in domException) {
                 event.tags = __assign(__assign({}, event.tags), { 'DOMException.code': "" + domException.code });
             }
