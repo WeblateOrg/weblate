@@ -2874,6 +2874,10 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
         return self.file_format_cls.name
 
     @property
+    def file_format_create_style(self):
+        return self.file_format_cls.create_style
+
+    @property
     def file_format_cls(self):
         """Return file format object."""
         if self._file_format is None or self._file_format.name != self.file_format:

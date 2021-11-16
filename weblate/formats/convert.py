@@ -111,6 +111,7 @@ class ConvertFormat(TranslationFormat):
     can_add_unit = False
     unit_class = ConvertUnit
     autoaddon = {"weblate.flags.same_edit": {}}
+    create_style = "copy"
 
     def save_content(self, handle):
         """Store content to file."""
