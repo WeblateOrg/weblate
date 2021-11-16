@@ -6,6 +6,7 @@ Not yet released.
 * Fixed upload of monolingual files after changing template.
 * Improved handling of whitespace in flags.
 * Add support for filtering in download API.
+* Fixed statistics display when adding new translations.
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/73?closed=1>`__.
 

@@ -18,6 +18,7 @@
 #
 
 from django.contrib.auth.decorators import login_required
+from django.db import transaction
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect
 from django.utils.html import escape
@@ -382,6 +383,7 @@ def data_project(request, project):
 @never_cache
 @login_required
 @session_ratelimit_post("language")
+@transaction.atomic
 def new_language(request, project, component):
     obj = get_component(request, project, component)
     user = request.user
