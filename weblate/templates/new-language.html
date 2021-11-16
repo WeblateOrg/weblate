@@ -25,7 +25,32 @@
 {% if object.new_lang == 'url' and not can_add %}
 <p><a href="{% url 'project' project=object.project.slug %}#information">{% trans "Information on how to start translating into another language is to be found in the translator instructions." %}</a></p>
 {% else %}
-<p>{% trans "Please choose the language you want to translate to." %}</p>
+<p>
+  {% trans "Please choose the language you want to translate to." %}
+  {% if object.file_format_create_style == "create" %}
+    {% if object.new_base %}
+      {# Bilingual formats #}
+      {% blocktrans with new_base=object.new_base %}Translation file will be created based on <code>{{ new_base }}</code> with all strings being untranslated.{% endblocktrans %}
+    {% else %}
+      {# Monolingual formats, for example JSON or Android #}
+      {% trans "Translation file will be created blank and new strings will be added as they are translated." %}
+    {% endif %}
+  {% elif object.file_format_create_style == "copy" %}
+    {# Documents, for example ODT, HTML, IDML #}
+    {% if object.new_base %}
+      {% blocktrans with new_base=object.new_base %}Translation file will be created as a copy of <code>{{ new_base }}</code> with all strings marked as needing editing and strings will be replaced as they are translated.{% endblocktrans %}
+    {% else %}
+      {# Should not happen #}
+      Create style: {{ object.file_format_create_style }}
+    {% endif %}
+  {% elif object.file_format_create_style == "directory" %}
+    {# App store metadata #}
+    {% trans "Empty directory will be created for translations and individual files will be created as the strings are translated." %}
+  {% else %}
+    {# Should not happen #}
+    Create style: {{ object.file_format_create_style }}
+  {% endif %}
+</p>
 {% if object.new_lang == 'contact' and not can_add %}
 <p>{% trans "Project maintainers are notified of this request, which prompts them to add the language manually." %}</p>
 {% endif %}

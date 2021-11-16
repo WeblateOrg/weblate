@@ -193,6 +193,7 @@ class AppStoreFormat(TranslationFormat):
     unit_class = TextUnit
     simple_filename = False
     language_format = "java"
+    create_style = "directory"
 
     def load(self, storefile, template_store):
         return AppStoreParser(storefile)

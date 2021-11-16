@@ -172,6 +172,7 @@ class TranslationFormat:
     autoaddon: Dict[str, Dict[str, str]] = {}
     create_empty_bilingual: bool = False
     bilingual_class = None
+    create_style = "create"
 
     @classmethod
     def get_identifier(cls):
