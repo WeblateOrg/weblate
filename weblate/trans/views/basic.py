@@ -395,6 +395,7 @@ def new_language(request, project, component):
         form = form_class(obj, request.POST)
 
         if form.is_valid():
+            result = obj
             langs = form.cleaned_data["lang"]
             kwargs = {
                 "user": user,
@@ -411,7 +412,7 @@ def new_language(request, project, component):
                     if translation:
                         kwargs["translation"] = translation
                         if len(langs) == 1:
-                            obj = translation
+                            result = translation
                         Change.objects.create(
                             action=Change.ACTION_ADDED_LANGUAGE, **kwargs
                         )
@@ -432,7 +433,7 @@ def new_language(request, project, component):
                 )
             if user.has_perm("component.edit", obj):
                 reset_rate_limit("language", request)
-            return redirect(obj)
+            return redirect(result)
         messages.error(request, _("Please fix errors in the form."))
     else:
         form = form_class(obj)
