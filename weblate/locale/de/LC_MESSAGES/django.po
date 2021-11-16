@@ -39,7 +39,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.9.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-11-11 07:47+0000\n"
-"PO-Revision-Date: 2021-11-16 18:10+0000\n"
+"PO-Revision-Date: 2021-11-16 19:52+0000\n"
 "Last-Translator: nautilusx <translate@disroot.org>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "application/de/>\n"
@@ -2976,17 +2976,17 @@ msgstr "Platzhalter hat falschen Typ: %s"
 #: weblate/checks/icu.py:476
 #, python-format
 msgid "Missing other sub-message for: %s"
-msgstr ""
+msgstr "Fehlende andere Teilmeldung für: %s"
 
 #: weblate/checks/icu.py:479
 #, python-format
 msgid "Bad plural selectors for: %s"
-msgstr ""
+msgstr "Fehlerhafte Pluralselektoren für: %s"
 
 #: weblate/checks/icu.py:484
 #, python-format
 msgid "Bad sub-message selectors for: %s"
-msgstr ""
+msgstr "Fehlerhafte Teilmeldung-Selektoren für: %s"
 
 #: weblate/checks/icu.py:489
 #, python-format
@@ -7265,7 +7265,7 @@ msgstr ""
 
 #: weblate/templates/mail/shared-activity.html:15
 msgid "Please request support through other means."
-msgstr ""
+msgstr "Bitte wählen Sie einen anderen Weg, um Unterstützung zu erhalten."
 
 #: weblate/templates/mail/shared-activity.html:16
 #, python-format
@@ -7273,6 +7273,8 @@ msgid ""
 "Ideas and questions can be sent to the %(link_start)sWeblate issue tracker"
 "%(link_end)s."
 msgstr ""
+"Ideen und Fragen können an das %(link_start)sWeblate-"
+"Fehlerverwaltungssystem%(link_end)s geschickt werden."
 
 #: weblate/templates/mail/shared-activity.html:20
 msgid "Report"
@@ -8923,23 +8925,16 @@ msgid "Error"
 msgstr "Fehler"
 
 #: weblate/templates/trans/alert/ambiguouslanguage.html:5
-#, fuzzy
-#| msgid "The component translation files are using ambiguous language code."
 msgid "Files for translated languages are using ambiguous language codes."
-msgstr ""
-"Die Übersetzungsdateien der Komponente verwenden mehrdeutigen Sprachcode."
+msgstr "Dateien für übersetzte Sprachen verwenden mehrdeutige Sprachcodes."
 
 #: weblate/templates/trans/alert/ambiguouslanguage.html:6
-#, fuzzy
-#| msgid ""
-#| "These language codes indicate a macrolanguage and it is usually better to "
-#| "use code of individual language instead."
 msgid ""
 "These language codes indicate a macrolanguage, and it is usually better to "
 "use the code of the individual language instead."
 msgstr ""
-"Diese Sprachcodes geben eine Makrosprache an und es ist normalerweise "
-"besser, stattdessen den Code einer einzelnen Sprache zu verwenden."
+"Diese Sprachcodes geben eine Makrosprache an, und es ist normalerweise "
+"besser, stattdessen den Code der einzelnen Sprache zu verwenden."
 
 #: weblate/templates/trans/alert/ambiguouslanguage.html:13
 msgid "Suggested individual language codes"
@@ -10122,8 +10117,6 @@ msgid "All recent changes made using Weblate in %s."
 msgstr "Liste der letzten mit Weblate gemachten Änderungen in %s."
 
 #: weblate/trans/filter.py:34
-#, fuzzy
-#| msgid "Read only strings"
 msgid "Read-only strings"
 msgstr "Schreibgeschützte Zeichenketten"
 
@@ -10382,16 +10375,12 @@ msgid "Score threshold"
 msgstr "Scoreschwellwert"
 
 #: weblate/trans/forms.py:879
-#, fuzzy
-#| msgid ""
-#| "Ensures a consistent set of languages is used for all components within a "
-#| "project."
 msgid ""
 "Enter component to use as source, keep blank to use all components in "
 "current project."
 msgstr ""
-"Stellt sicher, dass ein konsistenter Satz von Sprachen für alle Komponenten "
-"innerhalb eines Projekts verwendet wird."
+"Geben Sie die Komponente ein, die als Quelle verwendet werden soll, lassen "
+"Sie das Feld leer, um alle Komponenten im aktuellen Projekt zu verwenden."
 
 #: weblate/trans/forms.py:890
 msgid "All components in current project"
@@ -10399,16 +10388,12 @@ msgstr "Alle Komponenten im aktuellen Projekt"
 
 #: weblate/trans/forms.py:922 weblate/trans/forms.py:929
 #: weblate/trans/forms.py:937
-#, fuzzy
-#| msgid "Component Information"
 msgid "Component not found!"
-msgstr "Komponenteninformation"
+msgstr "Komponente nicht gefunden!"
 
 #: weblate/trans/forms.py:939
-#, fuzzy
-#| msgid "Parse error in %(component)s"
 msgid "Please provide valid component slug!"
-msgstr "Parse-Fehler in %(component)s"
+msgstr "Bitte geben Sie eine gültige Komponente an!"
 
 #: weblate/trans/forms.py:947
 msgid "Scope"
@@ -11257,17 +11242,13 @@ msgstr[0] "Neue zu übersetzende Zeichenkette"
 msgstr[1] "Neue zu übersetzende Zeichenketten"
 
 #: weblate/trans/models/change.py:434
-#, fuzzy
-#| msgid "The translation was automatically locked due to following alerts:"
 msgid "The component was automatically locked because of an alert."
-msgstr ""
-"Die Übersetzung wurde automatisch gesperrt, aufgrund folgender Hinweise:"
+msgstr "Die Komponente wurde aufgrund einer Warnung automatisch gesperrt."
 
 #: weblate/trans/models/change.py:438
-#, fuzzy
-#| msgid "Component automatically unlocked"
 msgid "Component was automatically unlocked as alert was fixed."
-msgstr "Komponente automatisch entsperrt"
+msgstr ""
+"Die Komponente wurde automatisch entsperrt, als die Warnung behoben wurde."
 
 #: weblate/trans/models/change.py:494
 #, python-format
@@ -11275,20 +11256,19 @@ msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
 msgstr "%(action)s am %(time)s in %(translation)s von %(user)s"
 
 #: weblate/trans/models/change.py:592
-#, fuzzy, python-format
-#| msgid "Bulk status change"
+#, python-format
 msgid "File %s was changed."
-msgstr "Große Statusänderung"
+msgstr "Datei %s wurde geändert."
 
 #: weblate/trans/models/change.py:594
 #, python-format
 msgid "Parsing of file %s was enforced"
-msgstr ""
+msgstr "Analyse der Datei %s wurde erzwungen"
 
 #: weblate/trans/models/change.py:596
 #, python-format
 msgid "File %s was added."
-msgstr ""
+msgstr "Datei %s wurde hinzugefügt."
 
 #: weblate/trans/models/change.py:600
 msgctxt "License information not available"
@@ -13323,16 +13303,12 @@ msgid "Backup repository URL"
 msgstr "URL des Backup-Repository"
 
 #: weblate/wladmin/models.py:163
-#, fuzzy
-#| msgid ""
-#| "Use /path/to/repo for local backups or user@host:/path/to/repo for remote "
-#| "SSH backups."
 msgid ""
 "Use /path/to/repo for local backups or user@host:/path/to/repo or ssh://"
 "user@host:port/path/to/backups for remote SSH backups."
 msgstr ""
 "Verwenden Sie /path/to/repo für lokale Sicherungen oder user@host:/path/to/"
-"repo für Remote-SSH-Backups."
+"repo oder ssh://user@host:port/path/to/backups für Remote-SSH-Backups."
 
 #: weblate/wladmin/models.py:214
 msgid "Backup performed"
