@@ -403,7 +403,9 @@ def new_language(request, project, component):
             for language in Language.objects.filter(code__in=langs):
                 kwargs["details"]["language"] = language.code
                 if can_add:
-                    translation = obj.add_new_language(language, request)
+                    translation = obj.add_new_language(
+                        language, request, create_translations=False
+                    )
                     if translation:
                         kwargs["translation"] = translation
                         if len(langs) == 1:
@@ -422,6 +424,10 @@ def new_language(request, project, component):
                             "sent to the project's maintainers."
                         ),
                     )
+            if not obj.create_translations(request=request):
+                messages.warning(
+                    request, _("The translation will be updated in the background.")
+                )
             if user.has_perm("component.edit", obj):
                 reset_rate_limit("language", request)
             return redirect(obj)
