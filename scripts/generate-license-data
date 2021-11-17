@@ -93,7 +93,7 @@ with open("weblate/utils/licensedata.py", "w") as output:
             TEMPLATE.format(
                 license["licenseId"],
                 license["name"].replace('"', '\\"'),
-                license["seeAlso"][0],
+                license["reference"],
                 "True" if libre else "False",
             )
         )
