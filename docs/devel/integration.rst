@@ -25,7 +25,7 @@ To fetch updated strings from Weblate, you can simply fetch the underlying Git
 repository (either from filesystem, or it can be made available through
 :ref:`git-exporter`). Prior to this, you might want to commit any pending
 changes (see :ref:`lazy-commit`). You can do so in the user interface
-(in the :guilabel:`Repository maintenance`) or from the command line using :ref:`wlc`.
+(in the :guilabel:`Repository maintenance`) or from the command-line using :ref:`wlc`.
 
 This can be automated if you grant Weblate push access to your repository and
 configure :ref:`component-push` in the :ref:`component`, see :ref:`push-changes`.
@@ -44,7 +44,7 @@ Fetching remote changes into Weblate
 
 To fetch the strings newly updated in your repository into Weblate, just let it pull from the upstream
 repository. This can be achieved in the user interface (in the :guilabel:`Repository
-maintenance`), or from the command line using :ref:`wlc`.
+maintenance`), or from the command-line using :ref:`wlc`.
 
 This can be automated by setting a webhook in your repository to trigger
 Weblate whenever there is a new commit, see :ref:`update-vcs` for more details.

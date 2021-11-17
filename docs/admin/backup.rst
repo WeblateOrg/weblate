@@ -315,7 +315,7 @@ restoration anyhow, so there is no problem in losing these.
 
    :ref:`celery`
 
-Command line for manual backup
+Command-line for manual backup
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Using a cron job, you can set up a Bash command to be executed on a daily basis, for example:

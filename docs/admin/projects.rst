@@ -975,7 +975,7 @@ Automatic creation of components
 
 In case your project has dozen of translation files (e.g. for different
 gettext domains, or parts of Android apps), you might want to import them
-automatically. This can either be achieved from the command line by using
+automatically. This can either be achieved from the command-line by using
 :djadmin:`import_project` or :djadmin:`import_json`, or by installing the
 :ref:`addon-weblate.discovery.discovery` addon.
 

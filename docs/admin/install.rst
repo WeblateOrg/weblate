@@ -1455,7 +1455,7 @@ A typical setup using Redis as a backend looks like this:
    :ref:`Redis broker configuration in Celery <celery:broker-redis-configuration>`
 
 You should also start the Celery worker to process the tasks and start
-scheduled tasks, this can be done directly on the command line (which is mostly
+scheduled tasks, this can be done directly on the command-line (which is mostly
 useful when debugging or developing):
 
 .. code-block:: sh
@@ -1528,7 +1528,7 @@ Monitoring Celery status
 
 You can find current length of the Celery task queues in the
 :ref:`management-interface` or you can use :djadmin:`celery_queues` on the
-command line. In case the queue will get too long, you will also get
+command-line. In case the queue will get too long, you will also get
 configuration error in the admin interface.
 
 .. warning::
