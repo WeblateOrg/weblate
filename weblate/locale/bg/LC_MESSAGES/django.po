@@ -16,8 +16,8 @@ msgstr ""
 "Project-Id-Version: Weblate 4.9.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-11-11 07:47+0000\n"
-"PO-Revision-Date: 2021-10-19 22:25+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2021-11-19 11:40+0000\n"
+"Last-Translator: Любомир Василев <lyubomirv@gmx.com>\n"
 "Language-Team: Bulgarian <https://hosted.weblate.org/projects/weblate/"
 "application/bg/>\n"
 "Language: bg\n"
@@ -25,7 +25,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.9-dev\n"
+"X-Generator: Weblate 4.9.1-dev\n"
 
 #: weblate/accounts/avatar.py:103
 msgctxt "No known user"
@@ -384,10 +384,9 @@ msgid "Agreement with Terms of Service {date}."
 msgstr "Съгласие с документа за „Условията на услугата“ — {date}."
 
 #: weblate/accounts/models.py:162
-#, fuzzy, python-brace-format
-#| msgid "Invited to Weblate by {username}."
+#, python-brace-format
 msgid "Invited to {site_title} by {username}."
-msgstr "Поканен в Weblate от {username}."
+msgstr "Поканен в {site_title} от {username}."
 
 #: weblate/accounts/models.py:163
 msgid "Started trial period."
@@ -2970,21 +2969,19 @@ msgid "Syntax error: %s"
 msgstr ""
 
 #: weblate/checks/icu.py:463
-#, fuzzy, python-format
-#| msgid "Forbidden translation: %s"
+#, python-format
 msgid "Unknown placeholder in translation: %s"
-msgstr "Забранен превод: %s"
+msgstr "Неизвестен заместител в превода: %s"
 
 #: weblate/checks/icu.py:468
-#, fuzzy, python-format
-#| msgid "Please log in to save translations."
+#, python-format
 msgid "Placeholder missing in translation: %s"
-msgstr "Моля, впишете се, за да можете да запазвате преводите си."
+msgstr "В превода липсва заместител: %s"
 
 #: weblate/checks/icu.py:473
 #, python-format
 msgid "Placeholder has wrong type: %s"
-msgstr ""
+msgstr "Заместителят има грешен тип: %s"
 
 #: weblate/checks/icu.py:476
 #, python-format
@@ -3004,12 +3001,12 @@ msgstr ""
 #: weblate/checks/icu.py:489
 #, python-format
 msgid "Placeholder should be XML tag in translation: %s"
-msgstr ""
+msgstr "В превода заместителят трябва да бъде XML-елемент: %s"
 
 #: weblate/checks/icu.py:494
 #, python-format
 msgid "Placeholder should not be XML tag in translation: %s"
-msgstr ""
+msgstr "В превода заместителят не трябва да бъде XML-елемент: %s"
 
 #: weblate/checks/icu.py:499
 #, python-format
@@ -3088,11 +3085,11 @@ msgstr "Преводът използва опасен код HTML"
 
 #: weblate/checks/placeholders.py:41
 msgid "Placeholders"
-msgstr ""
+msgstr "Заместители"
 
 #: weblate/checks/placeholders.py:42
 msgid "Translation is missing some placeholders"
-msgstr "В превода липсват някои заместващи елементи"
+msgstr "В превода липсват някои заместители"
 
 #: weblate/checks/placeholders.py:113
 #: weblate/templates/addons/discovery_help.html:8
@@ -10828,16 +10825,12 @@ msgstr "Всички компоненти в текущия проект"
 
 #: weblate/trans/forms.py:922 weblate/trans/forms.py:929
 #: weblate/trans/forms.py:937
-#, fuzzy
-#| msgid "Project Information"
 msgid "Component not found!"
-msgstr "Информация за проекта"
+msgstr "Компонентът не е намерен!"
 
 #: weblate/trans/forms.py:939
-#, fuzzy
-#| msgid "Parse error in %(component)s"
 msgid "Please provide valid component slug!"
-msgstr "Грешка при анализа в %(component)s"
+msgstr "Моля, посочете правилно кратко име за адреса на компонента!"
 
 #: weblate/trans/forms.py:947
 msgid "Scope"
@@ -11770,17 +11763,13 @@ msgstr[0] "Нов текст за превод"
 msgstr[1] "Нови текстове за превод"
 
 #: weblate/trans/models/change.py:434
-#, fuzzy
-#| msgid "The translation was automatically locked due to following alerts:"
 msgid "The component was automatically locked because of an alert."
-msgstr ""
-"Преводът в момента е заключен автоматично, поради следните предупреждения:"
+msgstr "Компонентът в момента е заключен автоматично, поради предупреждение."
 
 #: weblate/trans/models/change.py:438
-#, fuzzy
-#| msgid "Component unlocked"
 msgid "Component was automatically unlocked as alert was fixed."
-msgstr "Отключване на компонент"
+msgstr ""
+"Компонентът беше отключен автоматично, тъй като предупреждението е оправено."
 
 #: weblate/trans/models/change.py:494
 #, python-format
@@ -11788,10 +11777,9 @@ msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
 msgstr "%(action)s в %(time)s в %(translation)s, от %(user)s"
 
 #: weblate/trans/models/change.py:592
-#, fuzzy, python-format
-#| msgid "Mass state change"
+#, python-format
 msgid "File %s was changed."
-msgstr "Групова промяна на състоянието"
+msgstr "Файлът %s е променен."
 
 #: weblate/trans/models/change.py:594
 #, python-format
@@ -11913,10 +11901,6 @@ msgid "Repository browser"
 msgstr "Адрес за разглеждане на хранилището"
 
 #: weblate/trans/models/component.py:292
-#, fuzzy
-#| msgid ""
-#| "Link to repository browser, use {{branch}} for branch, {{filename}} and "
-#| "{{line}} as filename and line placeholders."
 msgid ""
 "Link to repository browser, use {{branch}} for branch, {{filename}} and "
 "{{line}} as filename and line placeholders. You might want to strip leading "
@@ -11924,7 +11908,8 @@ msgid ""
 msgstr ""
 "Връзка към уеб сайт за разглеждане на хранилището. Можете да използвате "
 "стойностите {{branch}} (клон), {{filename}} (файл) и {{line}} (ред) като "
-"променливи, които да бъдат заместени."
+"променливи, които да бъдат заместени. Може да трябва да премахнете "
+"предхождащата папка като използвате {{filename|parentdir}}."
 
 #: weblate/trans/models/component.py:300
 msgid "Exported repository URL"
@@ -13123,8 +13108,6 @@ msgstr ""
 "пък започнете превод на свой собствен проект."
 
 #: weblate/trans/validators.py:32
-#, fuzzy
-#| msgid "File mask does not contain * as a language placeholder!"
 msgid "Filemask does not contain * as a language placeholder!"
 msgstr ""
 "Файловата маска не съдържа знака * като показател на мястото за заместване "
