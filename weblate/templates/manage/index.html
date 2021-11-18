@@ -61,12 +61,12 @@
     {% if support.discoverable %}
       {% trans "Your Weblate is listed on weblate.org" %}
       <br />
-      <a href="{% url 'manage-discovery' %}" class="btn btn-primary link-post">{% trans "Disable discovery" %}</a>
+      <a class="btn btn-primary link-post" href="{% url 'manage-discovery' %}">{% trans "Disable discovery" %}</a>
       <a href="https://weblate.org/user/" class="btn btn-primary">{% trans "Manage your listing" %}</a>
     {% else %}
       {% trans "Your Weblate is not listed on weblate.org" %}
       <br />
-      <a href="{% url 'manage-discovery' %}" class="btn btn-primary link-post">{% trans "Enable discovery" %}</a>
+      <a class="btn btn-primary link-post" href="{% url 'manage-discovery' %}">{% trans "Enable discovery" %}</a>
     {% endif %}
   </td>
   </tr>

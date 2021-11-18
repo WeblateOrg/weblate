@@ -29,7 +29,7 @@
       {% if user_can_edit_language %}
       <li role="separator" class="divider"></li>
       {% if not object.translation_set.exists %}
-      <li><a href="{% url 'show_language' lang=object.code %}" class="link-post">{% trans "Delete" %}</a></li>
+      <li><a class="link-post" href="{% url 'show_language' lang=object.code %}">{% trans "Delete" %}</a></li>
       {% endif %}
       <li><a href="{% url 'edit-language' pk=object.pk %}">{% trans "Edit" %}</a></li>
       {% endif %}
