@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-11-11 08:48+0100\n"
-"PO-Revision-Date: 2021-11-17 07:12+0000\n"
+"PO-Revision-Date: 2021-11-19 11:41+0000\n"
 "Last-Translator: JY3 <GeeyunJY3@gmail.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "weblate/documentation/zh_Hans/>\n"
@@ -208,7 +208,7 @@ msgstr "可以翻译项目，并将离线的翻译上传。"
 
 #: ../../admin/access.rst:102
 msgid "Sources"
-msgstr "源"
+msgstr "原文"
 
 #: ../../admin/access.rst:101
 msgid ""
@@ -706,6 +706,8 @@ msgid ""
 "permissions is granted for all the projects these components are in. :"
 "guilabel:`Components` and :guilabel:`Projects` are ignored."
 msgstr ""
+"如果群组指定了任何 :guilabel:`组件列表`，则授予该组成员的所有权限都适用于附加到该组的组件列表中的所有组件，并为这些组件所在的所有项目授予没有"
+"额外权限的访问权。:guilabel:`组件` 和 :guilabel:`项目` 被忽略。"
 
 #: ../../admin/access.rst:364
 msgid ""
@@ -1443,7 +1445,7 @@ msgstr "``auth``"
 
 #: ../../admin/addons.rst:52
 msgid "Automatic translation source"
-msgstr "自动翻译原文"
+msgstr "自动翻译来源"
 
 #: ../../admin/addons.rst:54
 msgid "``others`` -- Other translation components"
@@ -1463,7 +1465,7 @@ msgstr "``组件:TEXT``"
 msgid ""
 "Enter component to use as source, keep blank to use all components in "
 "current project."
-msgstr "输入要用作源的组件，留空以使用当前项目中的所有组件。"
+msgstr "输入要用作来源的组件，留空以使用当前项目中的所有组件。"
 
 #: ../../admin/addons.rst:60
 #, fuzzy
@@ -2803,9 +2805,7 @@ msgid ""
 "Add-ons can also be used to execute external scripts. This used to be "
 "integrated in Weblate, but now you have to write some code to wrap your "
 "script with an add-on."
-msgstr ""
-"附加逐渐还可以用于执行外部脚本。这曾经集成在 Weblate 中，但现在必须写一些代"
-"码，将脚本包裹在附加组件中。"
+msgstr "附加组件还可以用于执行外部脚本。这曾经集成在 Weblate 中，但现在必须写一些代码，将脚本包裹在附加组件中。"
 
 #: ../../admin/addons.rst:765
 msgid "For installation instructions see :ref:`custom-addon-modules`."
@@ -3032,7 +3032,7 @@ msgstr ":ref:`project`"
 
 #: ../../admin/admin.rst:62
 msgid "Bilingual components"
-msgstr "双语言组件"
+msgstr "双语组件"
 
 #: ../../admin/admin.rst:64
 msgid ""
@@ -4596,9 +4596,8 @@ msgid ""
 "for this is to expand placeables to ensure that the text fits even with long "
 "values, for example: ``replacements:%s:\"John Doe\"``."
 msgstr ""
-"当检查结果文本参数时执行替换（例如在 :ref:`check-max-size` 或 :ref:`check-"
-"max-length` 中）。这一典型应用的情况拓展了非译元素，确保匹配那些即使使用了长"
-"值的文本，例如 placements:%s:\"John Doe\"`` 。"
+"当检查结果文本参数时执行替换（例如在 :ref:`check-max-size` 或 :ref:`check-max-length` "
+"中）。这一典型应用的情况拓展了非译元素，确保匹配那些即使使用了长值的文本，例如 ``replacements:%s:\"John Doe\"``。"
 
 #: ../../admin/checks.rst:76
 msgid "``variants:SOURCE``"
@@ -5579,15 +5578,13 @@ msgid ""
 "Specify multiple lists of components to appear as options on the user "
 "dashboard, from which users can pick one as their default view. See :ref:"
 "`dashboard` to learn more."
-msgstr ""
-"指定多个列表的组件，出现在用户控制面板上作为选项，从用用户可以选择一个作为默"
-"认视图。请参见 :ref:`dashboard` 来了解更多信息。"
+msgstr "指定多个组件列表，作为显示在用户控制面板上的选项，用户可以从中挑选一个作为默认视图。请参阅 :ref:`dashboard` 了解更多信息。"
 
 #: ../../admin/componentlists.rst:12
 msgid ""
 "A status will be presented for each component list presented on the "
 "dashboard."
-msgstr "控制面板上出现的每个组件列表都会显示状态。"
+msgstr "控制面板上出现的每个组件列表都会显示一个状态。"
 
 #: ../../admin/componentlists.rst:14
 msgid ""
@@ -5596,15 +5593,14 @@ msgid ""
 "have a name that is displayed to the user, and a slug representing it in the "
 "URL."
 msgstr ""
-"可以在管理界面的 :guilabel:`Component lists` 部分指定组件列表的名称和内容。每"
-"种组件列表必须名称来显示给用户，并具有标识串将其显示在 URL 中。"
+"可以在管理界面的 :guilabel:`组件列表` 部分指定组件列表的名称和内容。每种组件列表必须有一个显示给用户的名称，和一个在 URL "
+"中代表它的标识串。"
 
 #: ../../admin/componentlists.rst:22
 msgid ""
 "Change dashboard settings for anonymous users from the admin interface, "
 "altering what dashboard is presented to unauthenticated users."
-msgstr ""
-"从管理界面检查匿名用户的控制面板设置，修改掉控制面本显示给未授权用户的内容。"
+msgstr "从管理界面更改匿名用户的控制面板设置，修改控制面板向未经身份验证用户展示的内容。"
 
 #: ../../admin/componentlists.rst:26
 msgid "Automatic component lists"
@@ -5623,15 +5619,13 @@ msgid ""
 "Useful for maintaining component lists for large installations, or in case "
 "you want to have one component list with all components on your Weblate "
 "installation."
-msgstr ""
-"对于维护大型安装的逐渐列表有用，或者如果你希望在 Weblate 安装中有一个包含所有"
-"组件的组件列表。"
+msgstr "这对于维护大型安装的组件列表很有用，或者你想在 Weblate 安装中拥有一个包含所有组件的组件列表。"
 
 #: ../../admin/componentlists.rst:38
 msgid ""
 "Make a component list containing all the components of your Weblate "
 "installation."
-msgstr "制作组件列表，包含自己的 Weblate 安装时的所有组件。"
+msgstr "制作一个包含你的 Weblate 安装时的所有组件的组件列表。"
 
 #: ../../admin/componentlists.rst:40
 msgid ""
@@ -5897,7 +5891,7 @@ msgstr "``weblate.trans.autofixes.whitespace.SameBookendingWhitespace``"
 
 #: ../../admin/config.rst:168
 msgid "Matches whitespace at the start and end of the string to the source."
-msgstr "将字符串开始与结尾的空白字符与元字符串匹配。"
+msgstr "将字符串开头和结尾处的空白字符与原文匹配。"
 
 #: ../../admin/config.rst:169
 msgid "``weblate.trans.autofixes.chars.ReplaceTrailingDotsWithEllipsis``"
@@ -5915,7 +5909,7 @@ msgstr "``weblate.trans.autofixes.chars.RemoveZeroSpace``"
 
 #: ../../admin/config.rst:172
 msgid "Removes zero-width space characters if the source does not contain any."
-msgstr "去掉零宽度字符，如果源字符串不包含的话。"
+msgstr "如果原文不包含任何零宽空格字符，则删除零宽空格字符。"
 
 #: ../../admin/config.rst:173
 msgid "``weblate.trans.autofixes.chars.RemoveControlChars``"
@@ -5923,7 +5917,7 @@ msgstr "``weblate.trans.autofixes.chars.RemoveControlChars``"
 
 #: ../../admin/config.rst:174
 msgid "Removes control characters if the source does not contain any."
-msgstr "去掉控制字符，如果源字符串不包含的话。"
+msgstr "如果原文不包含任何控制字符，则删除控制字符。"
 
 #: ../../admin/config.rst:176
 msgid "``weblate.trans.autofixes.html.BleachHTML``"
@@ -6784,9 +6778,7 @@ msgid ""
 "Hides version information from unauthenticated users. This also makes all "
 "documentation links point to latest version instead of the documentation "
 "matching currently installed version."
-msgstr ""
-"从未进行身份验证的用户那里的隐藏版本信息。这样将所有文档的连接点连接到最新的"
-"版本，而不是与当前安装的版本匹配文档的版本。"
+msgstr "对未经身份验证用户隐藏版本信息。这也会使所有文档链接都指向最新的版本，而不是与当前安装版本相匹配的文档。"
 
 #: ../../admin/config.rst:874
 msgid ""
@@ -8024,8 +8016,7 @@ msgid ""
 "Set session expiry for authenticated users. This complements :setting:"
 "`django:SESSION_COOKIE_AGE` which is used for unauthenticated users."
 msgstr ""
-"对身份验证的用户设置会话过期。这补充了用于没有身份验证用户的 :setting:"
-"`django:SESSION_COOKIE_AGE` 。"
+"对身份已验证用户设置会话过期时间。这是对用于未经身份验证用户的 :setting:`django:SESSION_COOKIE_AGE` 的补充。"
 
 #: ../../admin/config.rst:1922
 msgid ":setting:`django:SESSION_COOKIE_AGE`"
@@ -8433,7 +8424,7 @@ msgstr "更新仓库"
 msgid ""
 "You should set up some way of updating backend repositories from their "
 "source."
-msgstr "应该新建一些从他们的源来更新后端仓库的方式。"
+msgstr "你应该设置某种方式，从后端仓库的源头更新它们。"
 
 #: ../../admin/continuous.rst:55
 msgid ""
@@ -8512,12 +8503,10 @@ msgid ""
 "program:`msgmerge`). You can perform the second step within Weblate and it "
 "will make sure that all pending changes are included prior to this operation."
 msgstr ""
-"第一种方法容易用于单语言文件——可以添加 Weblate 之内的新字符串，并将文件的整个"
-"编辑留在那里。对于双语言文件，通常存在某种消息提取过程而从源代码产生翻译文"
-"件。在一些情况下，这可以分成两部分——一部分用于提取过程产生模板（例如使用 :"
-"program:`xgettext` 产生 gettex POT ），然后下一步过程将它合并到真正的翻译中"
-"（例如使用 :program:`msgmerge` 更新 gettext PO 文件）。可以在 Weblate 中执行"
-"第二步，它将确认在这个操作前所有待定的更改都包括进去了。"
+"第一种方法容易用于单语言文件——可以添加 Weblate 之内的新字符串，并将文件的整个编辑留在那里。对于双语文件，通常存在某种消息提取过程而从源代码产生"
+"翻译文件。在一些情况下，这可以分成两部分——一部分用于提取过程产生模板（例如使用 :program:`xgettext` 产生 gettex POT "
+"），然后下一步过程将它合并到真正的翻译中（例如使用 :program:`msgmerge` 更新 gettext PO 文件）。可以在 Weblate "
+"中执行第二步，它将确认在这个操作前所有待定的更改都包括进去了。"
 
 #: ../../admin/continuous.rst:92
 msgid ""
@@ -9220,7 +9209,7 @@ msgstr ":file:`logo-*.png`"
 
 #: ../../admin/customize.rst:86
 msgid "Web icons depending on screen resolution and web-browser."
-msgstr "根据屏幕分辨率和 web 浏览器的 Web 图标。"
+msgstr "网页图标取决于屏幕分辨率和浏览器。"
 
 #: ../../admin/customize.rst:87
 msgid ":file:`favicon.ico`"
@@ -9228,7 +9217,7 @@ msgstr ":file:`favicon.ico`"
 
 #: ../../admin/customize.rst:88
 msgid "Web icon used by legacy browsers."
-msgstr "传统浏览器使用的 Web 图标。"
+msgstr "传统浏览器使用的网页图标。"
 
 #: ../../admin/customize.rst:89
 msgid ":file:`weblate-*.png`"
@@ -9238,7 +9227,7 @@ msgstr ":file:`weblate-*.png`"
 msgid ""
 "Avatars for bots or anonymous users. Some web-browsers use these as shortcut "
 "icons."
-msgstr "机器人或匿名用户使用的头像。一些 Web 浏览器 使用这些作为快捷图标。"
+msgstr "机器人或匿名用户使用的头像。一些浏览器将这些图标用作快捷方式图标。"
 
 #: ../../admin/customize.rst:92
 msgid ":file:`email-logo.png`"
@@ -13553,7 +13542,7 @@ msgstr ""
 
 #: ../../admin/install/source.rst:2
 msgid "Installing from sources"
-msgstr "从源文件安装"
+msgstr "从源码安装"
 
 #: ../../admin/install/source.rst:4
 msgid "Please follow the installation instructions for your system first:"
@@ -13575,7 +13564,7 @@ msgstr ":doc:`venv-redhat`"
 msgid ""
 "Grab the latest Weblate sources using Git (or download a tarball and unpack "
 "that):"
-msgstr "使用 Git 来抓取最新的 Weblate 资源 （或下载 tarball 包并将其解压）："
+msgstr "使用 Git 获取最新的 Weblate 源码 （或下载 tarball 包并将其解压）："
 
 #: ../../admin/install/source.rst:17
 msgid ""
@@ -14294,7 +14283,7 @@ msgstr ""
 msgid ""
 "The entered text is formatted into paragraphs and external links can be "
 "included. HTML markup can not be used."
-msgstr "输入的文本被格式化为段落，并非且可以包括外部连接。不能使用 HTML 标记。"
+msgstr "输入的文本被格式化为段落，并且可以包括外部链接。不能使用 HTML 标记。"
 
 #: ../../admin/licensing.rst:31
 msgid "User licenses"
@@ -14323,7 +14312,7 @@ msgstr ""
 
 #: ../../admin/machine.rst:10
 msgid "The source language can be configured at :ref:`project`."
-msgstr "源语言可以在 :ref:`project` 配置。"
+msgstr "源语言可以在 :ref:`project` 中进行配置。"
 
 #: ../../admin/machine.rst:13
 msgid "amaGama"
@@ -14918,9 +14907,7 @@ msgstr "Weblate"
 msgid ""
 "Weblate can be the source of machine translations as well. It is based on "
 "the Woosh fulltext engine, and provides both exact and inexact matches."
-msgstr ""
-"Weblate 也可以作为机器翻译的来源。它基于 Woosh 全文引擎，并提供精确和和不精确"
-"的匹配。"
+msgstr "Weblate 也可以作为机器翻译的来源。它基于 Woosh 全文引擎，并提供精确和不精确的匹配。"
 
 #: ../../admin/machine.rst:388
 msgid ""
@@ -15170,7 +15157,7 @@ msgstr "实用机器翻译而不是其他组件作为机器翻译。"
 
 #: ../../admin/management.rst:143
 msgid "Similarity threshold for machine translation, defaults to 80."
-msgstr "用于机器翻译的相似性阈值，默认为 80 。"
+msgstr "机器翻译的相似度阈值，默认为 80 。"
 
 #: ../../admin/management.rst:147
 msgid ""
@@ -15414,7 +15401,7 @@ msgstr ""
 msgid ""
 "This can be useful in case your TMX file locales happen not to match what "
 "you use in Weblate."
-msgstr "在您的 TMX 文件地区恰好与您在Weblate使用地区不同的情况下，这会有用。"
+msgstr "如果您的 TMX 文件的地区恰好与您在 Weblate 中使用的地区不匹配，这会很有用。"
 
 #: ../../admin/management.rst:368
 msgid "import_project"
@@ -16317,7 +16304,7 @@ msgstr ""
 
 #: ../../admin/optionals.rst:200
 msgid "Suggestions from unauthenticated users"
-msgstr "来自未认证用户的建议"
+msgstr "来自未经身份验证用户的建议"
 
 #: ../../admin/optionals.rst:201
 msgid "Project and component descriptions and links"
@@ -17103,17 +17090,15 @@ msgid ""
 "URL of repository browser used to display source files (location of used "
 "messages). When empty, no such links will be generated. You can use :ref:"
 "`markup`."
-msgstr ""
-"用于显示源文件（已使用消息的位置）仓库浏览器的的 URL。当空白时将不生成这样的"
-"连接。您可以使用 :ref:`markup`。"
+msgstr "用于显示源文件（所用消息的位置）的存储库浏览器的 URL。此处为空时，将不生成这样的链接。你可以使用 :ref:`markup`。"
 
 #: ../../admin/projects.rst:349
 msgid ""
 "For example on GitHub, use something like: ``https://github.com/WeblateOrg/"
 "hello/blob/{{branch}}/{{filename}}#L{{line}}``"
 msgstr ""
-"例如在 GitHub 上，使用像：``https://github.com/WeblateOrg/hello/blob/"
-"{{branch}}/{{filename}}#L{{line}}``那样的一些东西"
+"例如在 GitHub 上，使用类似：``https://github.com/WeblateOrg/hello/blob/"
+"{{branch}}/{{filename}}#L{{line}}``"
 
 #: ../../admin/projects.rst:352
 msgid ""
@@ -17122,9 +17107,9 @@ msgid ""
 "`markup`): ``https://github.com/WeblateOrg/hello/blob/{{branch}}/{{filename|"
 "parentdir}}#L{{line}}``"
 msgstr ""
-"假如你的路径路径相对于不同文件夹 (路径包含 ``..``)，您会想使用 ``parentdir`` "
-"filter (see :ref:`markup`): ``https://github.com/WeblateOrg/hello/blob/"
-"{{branch}}/{{filename|parentdir}}#L{{line}}``，来剥除前导文件夹"
+"如果你的路径是相对于不同文件夹的（路径包含 ``..``），您可能想使用 ``parentdir`` 过滤器（见 "
+":ref:`markup`）来剥除前导文件夹：``https://github.com/WeblateOrg/hello/blob/"
+"{{branch}}/{{filename|parentdir}}#L{{line}}``"
 
 #: ../../admin/projects.rst:360
 msgid "Exported repository URL"
@@ -17397,7 +17382,7 @@ msgstr "翻译许可证"
 msgid ""
 "License of the translation (does not need to be the same as the source code "
 "license)."
-msgstr "翻译的许可（不需要与源代码的许可相同）。"
+msgstr "翻译的许可（不需要与源代码的许可证相同）。"
 
 #: ../../admin/projects.rst:557
 msgid ""
@@ -18414,9 +18399,7 @@ msgstr ""
 msgid ""
 "Access this directly from the translation interface by clicking the \"Edit\" "
 "icon next to :guilabel:`Screenshot context` or :guilabel:`Flags`."
-msgstr ""
-"通过点击 :guilabel:`截图上下文` 或 :guilabel:`标记` 旁边的 \"编辑\" 图标，直"
-"接从翻译界面进入。"
+msgstr "通过点击 :guilabel:`截图上下文` 或 :guilabel:`标记` 旁边的\"编辑\"图标，直接从翻译界面进入。"
 
 #: ../../admin/translating.rst:57
 msgid "Strings prioritization"
@@ -18492,15 +18475,14 @@ msgid ""
 "interface under the :guilabel:`Tools` menu. Upload screenshots, assign them "
 "to source strings manually, or use optical character recognition to do so."
 msgstr ""
-"additional除了 :ref:`additional`，截屏在 :guilabel:`Tools` 菜单下有个单独的管"
-"理界面。上传截屏，将它们手动分配给源字符串，或者使用光学字符识别（OCR）来进"
-"行。"
+"除了 :ref:`additional`，截图在 :guilabel:`Tools` "
+"菜单下有个单独的管理界面。上传截图，将它们手动分配给源字符串，或者使用光学字符识别（OCR）来进行。"
 
 #: ../../admin/translating.rst:123
 msgid ""
 "Once a screenshot is uploaded, this interface handles management and source "
 "string association:"
-msgstr "一旦上传了截屏，那么这个界面处理管理以及源字符串的联系："
+msgstr "上传截图后，就可以在这个界面进行管理以及和源字符串的关联："
 
 #: ../../admin/upgrade.rst:2
 msgid "Upgrading Weblate"
@@ -19129,9 +19111,8 @@ msgid ""
 "uses a token, which you can get in your profile. Use it in the "
 "``Authorization`` header:"
 msgstr ""
-"公共项目 API 不需要身份验证就可用，尽管没有身份验证的请求导致严重的瓶颈（默认"
-"每天 100 个请求），所以推荐使用身份验证。身份验证使用令牌，这可以在你的简介中"
-"得到。在 ``Authorization`` 标头中使用它："
+"公共项目的 API 无需身份验证即可使用，但未经身份验证的请求会受到严格的限制（默认为每天 100 "
+"个请求），所以建议使用身份验证。身份验证使用令牌，你可以在你的个人资料中获取该令牌。在 ``Authorization`` 标头中使用它："
 
 #: ../../api.rst:30
 msgid ""
@@ -19500,11 +19481,11 @@ msgstr "注册通知的名称"
 
 #: ../../api.rst:349 ../../api.rst:370 ../../api.rst:382
 msgid "Scope of notification from the available choices"
-msgstr "来自可用选择的通知范围"
+msgstr "可用选项的通知范围"
 
 #: ../../api.rst:350 ../../api.rst:371 ../../api.rst:383
 msgid "Frequency choices for notifications"
-msgstr "通知的频率选择"
+msgstr "通知的频率选项"
 
 #: ../../api.rst:354
 msgid "Get a subscription associated with a user."
@@ -20690,7 +20671,7 @@ msgstr "自动翻译筛选类型"
 
 #: ../../api.rst:1829
 msgid "Automatic translation source - ``mt`` or ``others``"
-msgstr "自动翻译原文 - ``mt`` 或 ``others``"
+msgstr "自动翻译来源 - ``mt`` 或 ``others``"
 
 #: ../../api.rst:1830
 msgid ""
@@ -20910,7 +20891,7 @@ msgstr "单元是否有未通过检查的翻译"
 
 #: ../../api.rst:1985
 msgid "number of source words"
-msgstr "源词汇的数量"
+msgstr "原文单词数"
 
 #: ../../api.rst:1986
 msgid "translation priority; 100 is default"
@@ -21049,7 +21030,7 @@ msgstr "返回与屏幕截图信息有关的信息。"
 #: ../../api.rst:2084 ../../api.rst:2095 ../../api.rst:2102 ../../api.rst:2119
 #: ../../api.rst:2131 ../../api.rst:2154 ../../api.rst:2165 ../../api.rst:2176
 msgid "Screenshot ID"
-msgstr "屏幕截图的 ID"
+msgstr "截图 ID"
 
 #: ../../api.rst:2086 ../../api.rst:2122 ../../api.rst:2145 ../../api.rst:2156
 #: ../../api.rst:2167
@@ -21155,7 +21136,7 @@ msgstr "组件列表"
 
 #: ../../api.rst:2250
 msgid "Returns a list of component lists."
-msgstr "返回组件列表的列表。"
+msgstr "返回一个组件列表的列表。"
 
 #: ../../api.rst:2254
 msgid ""
@@ -21907,7 +21888,7 @@ msgstr ""
 
 #: ../../changes.rst:105
 msgid "Added support for :ref:`mi18n-lang`."
-msgstr "添加了对 :ref:`mi18n-lang` 的支持。"
+msgstr "新增了对 :ref:`mi18n-lang` 的支持。"
 
 #: ../../changes.rst:106
 msgid "Improved SAML authentication integration."
@@ -22024,7 +22005,7 @@ msgstr "删除了过时的垃圾邮件防护代码。"
 
 #: ../../changes.rst:142
 msgid "Improve source plural check accuracy."
-msgstr "改进了源文复数检查的精度。"
+msgstr "提高了原文复数检查的准确性。"
 
 #: ../../changes.rst:143
 msgid "Update list of user interface languages in Docker."
@@ -22074,7 +22055,7 @@ msgstr ""
 
 #: ../../changes.rst:158
 msgid "Added support for :ref:`txt`."
-msgstr "添加了对 :ref:`txt` 的支持。"
+msgstr "新增了对 :ref:`txt` 的支持。"
 
 #: ../../changes.rst:159
 msgid "Added trends and metrics for all objects."
@@ -22622,11 +22603,11 @@ msgstr "修复了某个组件文件掩码的崩溃。"
 
 #: ../../changes.rst:326
 msgid "Improved accuracy of the consecutive duplicated words check."
-msgstr "改善了对连续重复的单词进行准确性检查的精度。"
+msgstr "提高了连续重复的单词检查的准确性。"
 
 #: ../../changes.rst:327
 msgid "Added support for Pagure pull requests."
-msgstr "增加了对 Pagure 拉取请求的支持。"
+msgstr "新增了对 Pagure 拉取请求的支持。"
 
 #: ../../changes.rst:328
 msgid "Improved error messages for failed registrations."
@@ -22686,7 +22667,7 @@ msgstr "改进了自动翻译性能。"
 
 #: ../../changes.rst:345
 msgid "Fixed session expiry for authenticated users."
-msgstr "修复了授权用户会话到期问题。"
+msgstr "修复了身份已验证用户的会话过期问题。"
 
 #: ../../changes.rst:346
 msgid "Add support for hiding version information."
@@ -22738,7 +22719,7 @@ msgstr "修复了分页的页面上订购的组件。"
 
 #: ../../changes.rst:362
 msgid "Define source language for a glossary."
-msgstr "为术语表确定了语言。"
+msgstr "定义了术语表的源语言。"
 
 #: ../../changes.rst:363
 msgid "Rewritten support for GitHub and GitLab pull requests."
@@ -22766,7 +22747,7 @@ msgstr "将源语言属性从项目移动到组件。"
 
 #: ../../changes.rst:369
 msgid "Add Vue I18n formatting check."
-msgstr "添加了 Vue I18n 格式检查。"
+msgstr "添加了 Vue I18n 格式化检查。"
 
 #: ../../changes.rst:370
 msgid "Generic placeholders check now supports regular expressions."
@@ -22836,7 +22817,7 @@ msgstr "增加了对本地化截图的支持。"
 
 #: ../../changes.rst:386
 msgid "Added support for Python 3.9."
-msgstr "增加了对 Python 3.9 的支持。"
+msgstr "新增了对 Python 3.9 的支持。"
 
 #: ../../changes.rst:387
 msgid "Fixed translating HTML files under certain conditions."
@@ -23205,7 +23186,7 @@ msgstr "为擦除翻译记忆库重新引入了支持。"
 
 #: ../../changes.rst:494
 msgid "Fixed option to ignore source checks."
-msgstr "修复了忽略检查源的选项。"
+msgstr "修复了忽略原文检查的选项。"
 
 #: ../../changes.rst:495
 msgid "Added support for configuring different branch for pushing changes."
@@ -23374,7 +23355,7 @@ msgstr "改进了配置错误的报告。"
 
 #: ../../changes.rst:548
 msgid "Fixed bilingual source upload."
-msgstr "改进了双语言源上传。"
+msgstr "修复了双语原文上传的问题。"
 
 #: ../../changes.rst:549
 msgid "Automatically detect supported languages for DeepL machine translation."
@@ -23490,7 +23471,7 @@ msgstr "扩展了 API 覆盖屏幕截图、用户、用户组、组件列表，�
 
 #: ../../changes.rst:585
 msgid "Add support for source upload on bilingual translations."
-msgstr "为双语言翻译上传的源添加支持。"
+msgstr "新增了对双语翻译原文上传的支持。"
 
 #: ../../changes.rst:586
 msgid "Added support for intermediate language from developers."
@@ -23767,7 +23748,7 @@ msgstr "为项目添加了锁定指示。"
 
 #: ../../changes.rst:681
 msgid "Fixed CSS bug causing flickering in some web browsers."
-msgstr "修复了在一些 web 浏览器中促使闪退的 CSS 缺陷。"
+msgstr "修复了导致某些浏览器闪烁的 CSS 错误。"
 
 #: ../../changes.rst:682
 msgid "Fixed searching on systems with non-English locales."
@@ -23791,7 +23772,7 @@ msgstr "改进了后台通知处理。"
 
 #: ../../changes.rst:687
 msgid "Fixed broken form submission when navigating back in web browser."
-msgstr "修复了在 web 浏览器导航回去时表格提交中断。"
+msgstr "修复了在浏览器中导航返回时中断的表单提交。"
 
 #: ../../changes.rst:688
 msgid "New add-on to configure YAML formatting."
@@ -24491,7 +24472,7 @@ msgstr "为视觉键盘从源字符串中提取特定字符。"
 
 #: ../../changes.rst:898
 msgid "Extended contributor stats to reflect both source and target counts."
-msgstr "扩展了贡献者统计数据，来反映源计数和目标计数。"
+msgstr "扩展了贡献者统计数据，来反映原文和目标相关计数。"
 
 #: ../../changes.rst:899
 msgid ""
@@ -24998,7 +24979,7 @@ msgstr "现在可以定制下载翻译。"
 #: ../../changes.rst:1062
 msgid ""
 "Improved calculation of string similarity in translation memory matches."
-msgstr "改进了翻译记忆库匹配中的字符串相似性的计算。"
+msgstr "改进了翻译记忆库中匹配字符串相似度的计算。"
 
 #: ../../changes.rst:1063
 msgid "Added support by signing Git commits by GnuPG."
@@ -25116,7 +25097,7 @@ msgstr "为下载只需要动作的字符串添加了支持。"
 
 #: ../../changes.rst:1106
 msgid "Added support for searching in several languages at once."
-msgstr "新增了对同时搜索多种语言的支持。"
+msgstr "支持了同时搜索多种语言。"
 
 #: ../../changes.rst:1107
 msgid "New add-on to configure gettext output wrapping."
@@ -25124,7 +25105,7 @@ msgstr "新附加组件来配置 gettext 输出换行。"
 
 #: ../../changes.rst:1108
 msgid "New add-on to configure JSON formatting."
-msgstr "新附加组件来配置 JSON 格式。"
+msgstr "新附加组件来配置 JSON 格式化。"
 
 #: ../../changes.rst:1109
 msgid ""
@@ -25642,7 +25623,7 @@ msgstr "添加选项来自动建立组件列表。"
 
 #: ../../changes.rst:1281
 msgid "Default dashboard for unauthenticated users can be configured."
-msgstr "未认证用户可以配置的默认面板。"
+msgstr "未经身份验证用户可以配置默认控制面板。"
 
 #: ../../changes.rst:1282
 msgid "Add option to browse 25 random strings for review."
@@ -25710,7 +25691,7 @@ msgstr "改进了不一致翻译的渲染。"
 
 #: ../../changes.rst:1302
 msgid "Added support for opening source files in local editor."
-msgstr "在本地编辑器中添加了开源文件的支持。"
+msgstr "支持了在本地编辑器中打开源文件。"
 
 #: ../../changes.rst:1303
 msgid "Added support for configuring visual keyboard with special characters."
@@ -25786,7 +25767,7 @@ msgstr "将全文清理移动为后台工作，使去除翻译更快速。"
 #: ../../changes.rst:1324
 msgid ""
 "Fixed displaying of plural source for languages with single plural form."
-msgstr "修复了具有单个复数形式的语言的复数源显示。"
+msgstr "修复了具有单复数形式的语言的复数原文显示。"
 
 #: ../../changes.rst:1325
 msgid "Improved error handling in import_project."
@@ -25835,7 +25816,7 @@ msgstr "简化了项目和组件用户界面。"
 
 #: ../../changes.rst:1345
 msgid "Added automatic fix to remove control characters."
-msgstr "添加了自动修复来去除控制字符。"
+msgstr "添加了自动修复来删除控制字符。"
 
 #: ../../changes.rst:1346
 msgid "Added per language overview to project."
@@ -25879,7 +25860,7 @@ msgstr "扩展了 import_json，而能够处理现有组件。"
 
 #: ../../changes.rst:1360
 msgid "Added support for YAML files."
-msgstr "增加了对 YAML 文件的支持。"
+msgstr "新增了对 YAML 文件的支持。"
 
 #: ../../changes.rst:1361
 msgid ""
@@ -25900,7 +25881,7 @@ msgstr "添加多语言状态小挂件。"
 
 #: ../../changes.rst:1365
 msgid "Highlight secondary language if not showing source."
-msgstr "如果没有显示源的话，将第二语言高亮。"
+msgstr "如果不显示原文，则将第二语言高亮。"
 
 #: ../../changes.rst:1366
 msgid "Record suggestion deletion in history."
@@ -25977,7 +25958,7 @@ msgstr "修复了 API 来接受 HIDE_REPO_CREDENTIALS 设置。"
 
 #: ../../changes.rst:1389
 msgid "Show source change in Zen mode."
-msgstr "在禅模式中显示源更改。"
+msgstr "在禅模式中显示原文变更。"
 
 #: ../../changes.rst:1390
 msgid "Alt+PageUp/PageDown/Home/End now works in Zen mode as well."
@@ -26065,7 +26046,7 @@ msgstr "改进了对 XLIFF 文件的支持。"
 
 #: ../../changes.rst:1419
 msgid "Fixed machine translation for non English sources."
-msgstr "修复了非英语源的机器翻译。"
+msgstr "修复了非英语原文的机器翻译。"
 
 #: ../../changes.rst:1420
 msgid "Added REST API."
@@ -26146,7 +26127,7 @@ msgstr "修复了全站搜索未通过的检查的问题。"
 
 #: ../../changes.rst:1444
 msgid "Added option to specify source language."
-msgstr "添加选型来指定源语言。"
+msgstr "新增了指定源语言的选项。"
 
 #: ../../changes.rst:1446
 msgid "Extended list of options for import_project."
@@ -26465,7 +26446,7 @@ msgstr "添加自己的 SVG 徽章。"
 
 #: ../../changes.rst:1538
 msgid "Added support for Google Analytics."
-msgstr "添加了对 Google Analytics（分析）的支持。"
+msgstr "新增了对 Google Analytics（分析）的支持。"
 
 #: ../../changes.rst:1539
 msgid "Improved handling of translation filenames."
@@ -26610,7 +26591,7 @@ msgstr "改进了 ACL 支持。"
 
 #: ../../changes.rst:1584
 msgid "Added buttons for per language quotes and other special characters."
-msgstr "为每种语言引用和其它特殊字符添加了按钮。"
+msgstr "新增了每种语言的引号和其他特殊字符按钮。"
 
 #: ../../changes.rst:1585
 msgid "Support for exporting stats as JSONP."
@@ -26682,7 +26663,7 @@ msgstr "更好地列出了项目概况。"
 
 #: ../../changes.rst:1612
 msgid "Better visible options for sharing."
-msgstr "用于分享的更好的可视化选型。"
+msgstr "优化了分享选项的外观。"
 
 #: ../../changes.rst:1613
 msgid "More control over anonymous users privileges."
@@ -27041,7 +27022,7 @@ msgstr "支持在自动检测失败的情况下手动选择文件类型。"
 
 #: ../../changes.rst:1725
 msgid "Better support for Android resources."
-msgstr "更好地支持 Android 源。"
+msgstr "更好地支持 Android 资源。"
 
 #: ../../changes.rst:1726
 msgid "Support for generating SSH key from web interface."
@@ -27485,7 +27466,7 @@ msgstr "Weblate 0.3"
 
 #: ../../changes.rst:1884
 msgid "Better display of source for plural translations."
-msgstr "对于复数翻译更海底显示源。"
+msgstr "优化复数翻译原文的显示。"
 
 #: ../../changes.rst:1885
 msgid "New documentation in Sphinx format."
@@ -28030,7 +28011,7 @@ msgstr "编码风格"
 msgid ""
 "Weblate relies on `Prettier`_ for the code formatting for both JavaScript "
 "and CSS files."
-msgstr "Weblate 依赖于 `Prettier`_ 来进行JavaScript 和 CSS 文件的代码格式化。"
+msgstr "Weblate 依赖于 `Prettier`_ 来进行 JavaScript 和 CSS 文件的代码格式化。"
 
 #: ../../contributing/frontend.rst:48
 msgid "We also use `ESLint`_ to check the JavaScript code."
@@ -28066,8 +28047,8 @@ msgid ""
 "Weblate currently uses material design icons. In case you are looking for "
 "new symbol, check `Material Design Icons`_ or `Material Design Resources`_."
 msgstr ""
-"Weblate 目前使用 material design 图标。如果你想找新的符号，检查 `Material "
-"Design Icons`_ 或 `Material Design Resources`_。"
+"Weblate 目前使用 material design 图标。如果你正在找新符号，请查看 `Material Design Icons`_ 或 `"
+"Material Design Resources`_。"
 
 #: ../../contributing/frontend.rst:84
 msgid ""
@@ -29124,7 +29105,7 @@ msgstr "**secondary\\_in\\_zen**"
 
 #: ../../contributing/schemas.rst:19
 msgid "*Show secondary translations in the Zen mode*"
-msgstr "*在禅模式下显示第二翻译*"
+msgstr "*在禅模式下显示第二语音翻译*"
 
 #: ../../contributing/schemas.rst:19
 msgid "**hide\\_source\\_secondary**"
@@ -29140,7 +29121,7 @@ msgstr "**editor\\_link**"
 
 #: ../../contributing/schemas.rst:19
 msgid "*Editor link*"
-msgstr "*编辑者链接*"
+msgstr "*编辑器链接*"
 
 #: ../../contributing/schemas.rst:19
 msgid "**translate\\_mode**"
@@ -29407,7 +29388,7 @@ msgstr ""
 
 #: ../../contributing/start.rst:20
 msgid "Clone the Weblate source code:"
-msgstr "复制 Weblate 源码："
+msgstr "克隆 Weblate 源码："
 
 #: ../../contributing/start.rst:27
 msgid "Create a virtualenv:"
@@ -30335,7 +30316,7 @@ msgstr ""
 
 #: ../../devel/integration.rst:7
 msgid "Importing localization project into Weblate"
-msgstr "正在将本地化项目导入 Weblate"
+msgstr "将本地化项目导入 Weblate"
 
 #: ../../devel/integration.rst:9
 msgid ""
@@ -30432,7 +30413,7 @@ msgstr ":ref:`continuous-translation`, :ref:`vcs-repos`"
 
 #: ../../devel/integration.rst:63
 msgid "Adding new strings"
-msgstr "正在添加新字符串"
+msgstr "添加新字符串"
 
 #: ../../devel/integration.rst:65
 msgid ""
@@ -30456,16 +30437,15 @@ msgid ""
 "Manually, using :guilabel:`Add new translation string` from :guilabel:"
 "`Tools` menu in the language used as the source for translations."
 msgstr ""
-"手动操作，使用被用作翻译源的语言的 :guilabel:`Tools` 菜单中的 :guilabel:`Add "
-"new translation string`。"
+"手动操作，使用被用作翻译源语言的 :guilabel:`工具` 菜单中的 :guilabel:`Add new translation string`。"
 
 #: ../../devel/integration.rst:75
 msgid ""
 "Programatically, using API :http:post:`/api/translations/(string:project)/"
 "(string:component)/(string:language)/units/`."
 msgstr ""
-"程序化地使用 API :http:post:`/api/translations/(string:project)/(string:"
-"component)/(string:language)/units/`."
+"通过编程，使用 API :http:post:`/api/translations/"
+"(string:project)/(string:component)/(string:language)/units/`."
 
 #: ../../devel/integration.rst:76
 msgid ""
@@ -30474,9 +30454,8 @@ msgid ""
 "both old and new strings) or :guilabel:`Add new strings`, see :ref:`upload-"
 "method`."
 msgstr ""
-"通过上传源文件为 :guilabel:`Replace existing translation file` "
-"（这覆盖了现有的字符串，因此请确定文件包括旧的和新的字符串）或 :guilabel:`Add new strings`，请参见 :ref:`upload-"
-"method`。"
+"通过上传源文件 :guilabel:`替换现有翻译文件` （这将覆盖现有的字符串，所以请确保文件包括新旧字符串）或 :guilabel:`Add new "
+"strings`，请参见 :ref:`upload-method`。"
 
 #: ../../devel/integration.rst:82
 msgid ""
@@ -30486,7 +30465,7 @@ msgstr ""
 
 #: ../../devel/integration.rst:87
 msgid "Updating target language files"
-msgstr "正在更新目标语言文件"
+msgstr "更新目标语言文件"
 
 #: ../../devel/integration.rst:89
 msgid ""
@@ -30509,7 +30488,7 @@ msgid ""
 "yourself using :guilabel:`Update source strings` :ref:`upload-method` or "
 "using :ref:`addon-weblate.gettext.msgmerge` addon."
 msgstr ""
-"Weblate 也不会尝试以任何方式更新双语言文件，所以如果需要 :file:`po` 文件从 :file:`pot` 更新的话，需要您自己通过使用 "
+"Weblate 也不会尝试以任何方式更新双语文件，所以如果需要 :file:`po` 文件从 :file:`pot` 更新的话，需要您自己通过使用 "
 ":guilabel:`Update source strings` :ref:`upload-method` 或 :ref:`addon-weblate."
 "gettext.msgmerge` 附加组件来实现。"
 
@@ -30631,8 +30610,8 @@ msgid ""
 "provided. The reporting tool is found in the :guilabel:`Insights` menu of "
 "any translation component, project or on the dashboard:"
 msgstr ""
-"报告特性给出了给定时间内的翻译进程。提供了任何给定组件相对于时间的贡献总结。"
-"汇报工具可以在任何翻译组件、项目或面板上的 :guilabel:`洞察` 中找到："
+"报告特性给出了给定时间内的翻译进程。提供了任何给定组件相对于时间的贡献总结。汇报工具可以在任何翻译组件、项目或面板上的 :guilabel:`洞察` "
+"菜单中找到："
 
 #: ../../devel/reporting.rst:11
 msgid ""
@@ -30812,7 +30791,7 @@ msgid ""
 "the :guilabel:`Source` tab of every component."
 msgstr ""
 "有很多 :ref:`checks`，其中一些专注于提高源字符串的质量。很多未通过的检查都给出了建议提示，使源字符串更容易翻译。"
-"所有类型的未通过的源字符串检查都显示在每个组件的 :guilabel:`Source` 选项卡上。"
+"所有类型的未通过的原文检查都显示在每个组件的 :guilabel:`Source` 选项卡上。"
 
 #: ../../devel/review.rst:33
 msgid "Translation string checks"
@@ -31385,8 +31364,8 @@ msgid ""
 "strings automatically, or to group strings which keys are not matching, but "
 "should be considered together when translating."
 msgstr ""
-"可以使用 ``variant:SOURCE`` 标记手动连接特定字符串。对于没有键将字符串自动分"
-"组，或将键不匹配的字符串分组的双语言翻译，这是有用的，但应在翻译时一起考虑。"
+"可以使用 ``variant:SOURCE`` "
+"标记手动连接特定字符串。这对没有键将字符串自动分组，或者需要将键不匹配但在翻译时应一起考虑的字符串进行分组的双语翻译很有用。"
 
 #: ../../devel/translations.rst:108
 msgid ""
@@ -31428,8 +31407,8 @@ msgid ""
 "Labels can be assigned to units in :ref:`additional` by bulk editing, or "
 "using the :ref:`addon-weblate.flags.bulk` addon."
 msgstr ""
-"可以通过批量编辑或使用 :ref:`addon-weblate.flags.bulk` 将标签指定给 :ref:"
-"`additional` 中的单元。"
+"可以通过批量编辑或使用 :ref:`addon-weblate.flags.bulk` 附加组件将标签分配给 :ref:`additional` "
+"中的单元。"
 
 #: ../../faq.rst:2
 msgid "Frequently Asked Questions"
@@ -31672,7 +31651,7 @@ msgstr "当然您可以按您的意愿自由混用所有这些方法。"
 msgid ""
 "How can I limit Weblate access to only translations, without exposing source "
 "code to it?"
-msgstr "如何限制 Weblate 只访问翻译，而不向它暴露源代码？"
+msgstr "如何限制 Weblate 仅访问翻译，而不向其暴露源代码？"
 
 #: ../../faq.rst:219
 msgid ""
@@ -32183,12 +32162,10 @@ msgid ""
 "`aresource`). Some file formats are used in both variants, see the detailed "
 "description below."
 msgstr ""
-"支持 :index:`monolingual <pair: translation; monolingual>` 和 :index:"
-"`bilingual <pair: translation; bilingual>` 格式。双语格式在单个文件中存储两种"
-"语言——源和翻译（典型示例是 :ref:`gettext`、:ref:`xliff` 或 :ref:`apple` 字符"
-"串）。另一方面，单语格式通过 ID 识别字符串，每个语言文件仅包含那些语言到任何"
-"给定语言（典型为 :ref:`aresource`）的映射。两种变体都使用某些文件格式，请参见"
-"下面的详细说明。"
+"支持 :index:`monolingual <pair: translation; monolingual>` 和 :index:`bilingual "
+"<pair: translation; bilingual>` 格式。双语格式在单个文件中存储两种语言——原文和翻译（典型示例是 "
+":ref:`gettext`、:ref:`xliff` 或 :ref:`apple` 字符串）。另一方面，单语格式通过 ID "
+"识别字符串，每个语言文件仅包含那些语言到任何给定语言（典型为 :ref:`aresource`）的映射。两种变体都使用某些文件格式，请参见下面的详细说明。"
 
 #: ../../formats.rst:35
 msgid ""
@@ -32197,9 +32174,8 @@ msgid ""
 "is called :ref:`component-template` within Weblate, though the naming might "
 "vary in your paradigm."
 msgstr ""
-"为了正确使用单语文件，Weblate 要求访问一个包含完整字符串列表的文件，以与其源"
-"一起翻译 —— 该文件在 Weblate 中称为 :ref:`component-template`，尽管命名方式可"
-"能会有所不同。"
+"为了正确使用单语文件，Weblate 需要访问一个包含要翻译的字符串及其原文的完整列表的文件——该文件在 Weblate 中被称为 :ref"
+":`component-template`，尽管命名上和你的叫法可能会有所不同。"
 
 #: ../../formats.rst:40
 msgid ""
@@ -33087,7 +33063,7 @@ msgstr "Qt Linguist .ts"
 
 #: ../../formats.rst:641
 msgid "Translation format used in Qt based applications."
-msgstr "基于 Qt  的应用中使用的翻译格式。"
+msgstr "基于 Qt 的应用中使用的翻译格式。"
 
 #: ../../formats.rst:643
 msgid ""
@@ -33167,9 +33143,7 @@ msgstr ""
 msgid ""
 "Android `string-array` structures are not currently supported. To work "
 "around this, you can break your string arrays apart:"
-msgstr ""
-"当前不支持 Android 的 `string-array` 架构。为了解决这个问题，可以将字符串数组"
-"分开："
+msgstr "当前不支持 Android 的 `string-array` 架构。为了解决这个问题，可以将字符串数组分开："
 
 #: ../../formats.rst:718
 msgid "become:"
@@ -33179,16 +33153,13 @@ msgstr "变为："
 msgid ""
 "The `string-array` that points to the `string` elements should be stored in "
 "a different file, and not be made available for translation."
-msgstr ""
-"指向 `string` 元素的 `string-array` 应存储在不同文件中，并且不为翻译所用。"
+msgstr "指向 `string` 元素的 `string-array` 应存储在不同文件中，并且不为翻译所用。"
 
 #: ../../formats.rst:732
 msgid ""
 "This script may help pre-process your existing strings.xml files and "
 "translations: https://gist.github.com/paour/11291062"
-msgstr ""
-"这个脚本可以帮助预处理现有的 strings.xml 文件和翻译：https://gist.github.com/"
-"paour/11291062"
+msgstr "这个脚本可以帮助预处理现有的 strings.xml 文件和翻译：https://gist.github.com/paour/11291062"
 
 #: ../../formats.rst:737
 msgid "Apple iOS strings"
@@ -33205,7 +33176,7 @@ msgstr ""
 
 #: ../../formats.rst:745
 msgid "Apple iOS strings are usually used as bilingual translations."
-msgstr "苹果 iOS 字符串通常用作双语言翻译。"
+msgstr "苹果 iOS 字符串通常用作双语翻译。"
 
 #: ../../formats.rst:750
 msgid "``Resources/*.lproj/Localizable.strings``"
@@ -33555,7 +33526,7 @@ msgstr "CSV 文件"
 msgid ""
 "CSV files can contain a simple list of source and translation. Weblate "
 "supports the following files:"
-msgstr "CSV 文件可以包含源和翻译的简单列表。Weblate 支持以下文件："
+msgstr "CSV 文件可以包含一个原文和译文的简单列表。Weblate 支持以下文件："
 
 #: ../../formats.rst:1105
 msgid ""
@@ -33572,9 +33543,7 @@ msgstr ""
 msgid ""
 "Files with two fields—source and translation (in this order). Choose :"
 "guilabel:`Simple CSV file` as a file format."
-msgstr ""
-"具有两个字段的文件 —— 源和翻译（按此顺序），选择 :guilabel:`Simple CSV file` "
-"作为文件格式。"
+msgstr "具有两个字段的文件——原文和翻译（按此顺序），选择 :guilabel:`简单 CSV 文件` 作为文件格式。"
 
 #: ../../formats.rst:1111
 msgid ""
@@ -33600,9 +33569,8 @@ msgid ""
 "results. This is especially true for CSV files with newlines in the values. "
 "As a workaround it is recommended to omit quoting characters."
 msgstr ""
-"CSV 格式当前会自动检测 CSV 文件的方言。在某些情况下，自动检测可能会失败，并且"
-"您会得到不同的结果。对于值中包含换行符的 CSV 文件尤其如此。作为一种解决方法，"
-"推荐省略引用的字符。"
+"CSV 格式当前会自动检测 CSV 文件的方言。在某些情况下，自动检测可能会失败，您会得到不同的结果。对于值中包含换行符的 CSV "
+"文件尤其如此。解决方法是建议省略引号字符。"
 
 #: ../../formats.rst:1130
 msgid "Typical Weblate :ref:`component` for bilingual CSV"
@@ -34562,7 +34530,7 @@ msgstr "此检查确保在翻译中也找到它们。"
 msgid ""
 "The method for detecting BBcode is currently quite simple so this check "
 "might produce false positives."
-msgstr "当前检测 BBcode 的方法非常简单，因此此检查可能会产生误报。"
+msgstr "目前检测 BBcode 的方法非常简单，所以此检查可能会产生误报。"
 
 #: ../../user/checks.rst:68
 msgid "Consecutive duplicated words"
@@ -34580,15 +34548,13 @@ msgstr "``weblate.checks.duplicate.DuplicateCheck``"
 msgid ""
 "Checks that no consecutive duplicate words occur in a translation. This "
 "usually indicates a mistake in the translation."
-msgstr "检查翻译中是否没有连续重复的单词。这通常表示翻译错误。"
+msgstr "检查翻译中是否有连续重复的单词出现。这通常表示翻译中存在错误。"
 
 #: ../../user/checks.rst:82
 msgid ""
 "This check includes language specific rules to avoid false positives. In "
 "case it triggers falsely in your case, let us know. See :ref:`report-issue`."
-msgstr ""
-"此检查包括特定于语言的规则，以避免误报。如果在您的情况下错误触发，请告诉我"
-"们。请参阅 :ref:`report-issue`。"
+msgstr "此检查包括特定语言的规则，以避免误报。如果在您的情况下错误触发，请告诉我们。请参阅 :ref:`report-issue`。"
 
 #: ../../user/checks.rst:88
 msgid "Does not follow glossary"
@@ -34651,7 +34617,7 @@ msgstr "检查翻译中是否存在双空格，以避免其他与空格相关的
 msgid ""
 "Check is false when double space is found in source meaning double space is "
 "intentional."
-msgstr "当在源中找到双空格时，检查为假，这意味着故意使用双空格。"
+msgstr "当在原文中找到双空格时，检查为假，这意味着双空格是故意的。"
 
 #: ../../user/checks.rst:128
 msgid "Formatted strings"
@@ -34662,9 +34628,7 @@ msgid ""
 "Checks that formatting in strings are replicated between both source and "
 "translation. Omitting format strings in translation usually causes severe "
 "problems, so the formatting in strings should usually match the source."
-msgstr ""
-"检查字符串格式是否在源和翻译之间复制。在翻译中省略格式字符串通常会导致严重的"
-"问题，因此字符串中的格式通常应与源匹配。"
+msgstr "检查字符串中的格式化是否在原文和译文中都得到了复制。在译文中省略格式字符串通常会导致严重的问题，所以字符串中的格式化通常应与原文匹配。"
 
 #: ../../user/checks.rst:134
 msgid ""
@@ -34708,7 +34672,7 @@ msgstr "AngularJS 插值字符串"
 
 #: ../../user/checks.rst:160
 msgid "AngularJS interpolation strings do not match source"
-msgstr "AngularJS 插值字符串与源文不匹配"
+msgstr "AngularJS 插值字符串与原文不匹配"
 
 #: ../../user/checks.rst:162
 msgid "``weblate.checks.angularjs.AngularJSInterpolationCheck``"
@@ -34734,7 +34698,7 @@ msgstr "C 格式"
 
 #: ../../user/checks.rst:177
 msgid "C format string does not match source"
-msgstr "C 格式的字符串与源文不匹配"
+msgstr "C 格式的字符串与原文不匹配"
 
 #: ../../user/checks.rst:179
 msgid "``weblate.checks.format.CFormatCheck``"
@@ -34778,7 +34742,7 @@ msgstr "C# 格式"
 
 #: ../../user/checks.rst:196
 msgid "C# format string does not match source"
-msgstr "C# 格式的字符串与源文不匹配"
+msgstr "C# 格式的字符串与原文不匹配"
 
 #: ../../user/checks.rst:198
 msgid "``weblate.checks.format.CSharpFormatCheck``"
@@ -34800,7 +34764,7 @@ msgstr "ECMAScript 模板文字"
 
 #: ../../user/checks.rst:213
 msgid "ECMAScript template literals do not match source"
-msgstr "ECMAScript模板文字和源文件不匹配"
+msgstr "ECMAScript 模板文字和原文不匹配"
 
 #: ../../user/checks.rst:215
 msgid "``weblate.checks.format.ESTemplateLiteralsCheck``"
@@ -34824,11 +34788,11 @@ msgstr ""
 
 #: ../../user/checks.rst:228
 msgid "i18next interpolation"
-msgstr "i18next 插补"
+msgstr "i18next 插值"
 
 #: ../../user/checks.rst:232
 msgid "The i18next interpolation does not match source"
-msgstr "提供的 i18next 插补和原文不一致"
+msgstr "i18next 插值和原文不一致"
 
 #: ../../user/checks.rst:234
 msgid "``weblate.checks.format.I18NextInterpolationCheck``"
@@ -34924,7 +34888,7 @@ msgstr ""
 
 #: ../../user/checks.rst:282
 msgid "Skip checking that sub-message selectors match the source."
-msgstr ""
+msgstr "跳过检查子消息选择器是否与原文匹配。"
 
 #: ../../user/checks.rst:284
 #, fuzzy
@@ -34934,7 +34898,7 @@ msgstr "``{{filename}}``"
 
 #: ../../user/checks.rst:284
 msgid "Skip checking that placeholder types match the source."
-msgstr "跳过检查占位符类型是否与源匹配。"
+msgstr "跳过检查占位符类型是否与原文匹配。"
 
 #: ../../user/checks.rst:286
 msgid "``-extra``"
@@ -34986,7 +34950,7 @@ msgstr "Java 格式"
 
 #: ../../user/checks.rst:317
 msgid "Java format string does not match source"
-msgstr "Java 格式的字符串与源文不匹配"
+msgstr "Java 格式的字符串与原文不匹配"
 
 #: ../../user/checks.rst:319
 msgid "``weblate.checks.format.JavaFormatCheck``"
@@ -35004,7 +34968,7 @@ msgstr "Java MessageFormat"
 
 #: ../../user/checks.rst:336
 msgid "Java MessageFormat string does not match source"
-msgstr "Java MessageFormat 格式的字符串与源文不匹配"
+msgstr "Java MessageFormat 格式的字符串与原文不匹配"
 
 #: ../../user/checks.rst:338
 msgid "``weblate.checks.format.JavaMessageFormatCheck``"
@@ -35036,7 +35000,7 @@ msgstr "JavaScript 格式"
 
 #: ../../user/checks.rst:354
 msgid "JavaScript format string does not match source"
-msgstr "JavaScript 格式的字符串与源文不匹配"
+msgstr "JavaScript 格式的字符串与原文不匹配"
 
 #: ../../user/checks.rst:356
 msgid "``weblate.checks.format.JavaScriptFormatCheck``"
@@ -35056,7 +35020,7 @@ msgstr "Lua 格式"
 
 #: ../../user/checks.rst:371
 msgid "Lua format string does not match source"
-msgstr "Lua 格式的字符串与源文不匹配"
+msgstr "Lua 格式的字符串与原文不匹配"
 
 #: ../../user/checks.rst:373
 msgid "``weblate.checks.format.LuaFormatCheck``"
@@ -35072,15 +35036,15 @@ msgstr ""
 
 #: ../../user/checks.rst:386
 msgid "Object Pascal format"
-msgstr "对象 Pascal 格式"
+msgstr "Object Pascal 格式"
 
 #: ../../user/checks.rst:388
 msgid "Object Pascal format string does not match source"
-msgstr "对象 Pascal 格式字符串与源不匹配"
+msgstr "Object Pascal 格式字符串与原文不匹配"
 
 #: ../../user/checks.rst:390
 msgid "``weblate.checks.format.ObjectPascalFormatCheck``"
-msgstr ""
+msgstr "``weblate.checks.format.ObjectPascalFormatCheck``"
 
 #: ../../user/checks.rst:397
 msgid ""
@@ -35114,7 +35078,7 @@ msgstr "Perl 格式"
 
 #: ../../user/checks.rst:425
 msgid "Perl format string does not match source"
-msgstr "Perl 格式的字符串与源文不匹配"
+msgstr "Perl 格式的字符串与原文不匹配"
 
 #: ../../user/checks.rst:427
 msgid "``weblate.checks.format.PerlFormatCheck``"
@@ -35136,7 +35100,7 @@ msgstr "PHP 格式"
 
 #: ../../user/checks.rst:444
 msgid "PHP format string does not match source"
-msgstr "PHP 格式的字符串与源文不匹配"
+msgstr "PHP 格式的字符串与原文不匹配"
 
 #: ../../user/checks.rst:446
 msgid "``weblate.checks.format.PHPFormatCheck``"
@@ -35155,7 +35119,7 @@ msgstr "Python brace 格式"
 
 #: ../../user/checks.rst:463
 msgid "Python brace format string does not match source"
-msgstr "Python 大括号格式的字符串与源文不匹配"
+msgstr "Python 大括号格式的字符串与原文不匹配"
 
 #: ../../user/checks.rst:465
 msgid "``weblate.checks.format.PythonBraceFormatCheck``"
@@ -35189,7 +35153,7 @@ msgstr "Python 格式"
 
 #: ../../user/checks.rst:482
 msgid "Python format string does not match source"
-msgstr "Python 格式的字符串与源文不匹配"
+msgstr "Python 格式的字符串与原文不匹配"
 
 #: ../../user/checks.rst:484
 msgid "``weblate.checks.format.PythonFormatCheck``"
@@ -35215,7 +35179,7 @@ msgstr "Qt 格式"
 
 #: ../../user/checks.rst:501
 msgid "Qt format string does not match source"
-msgstr "Qt 格式字符串与源不匹配"
+msgstr "Qt 格式字符串与原文不匹配"
 
 #: ../../user/checks.rst:503
 msgid "``weblate.checks.qt.QtFormatCheck``"
@@ -35263,7 +35227,7 @@ msgstr "Ruby 格式"
 
 #: ../../user/checks.rst:535
 msgid "Ruby format string does not match source"
-msgstr "Ruby 格式的字符串与源文不匹配"
+msgstr "Ruby 格式的字符串与原文不匹配"
 
 #: ../../user/checks.rst:537
 msgid "``weblate.checks.ruby.RubyFormatCheck``"
@@ -35299,7 +35263,7 @@ msgstr "方案格式"
 
 #: ../../user/checks.rst:555
 msgid "Scheme format string does not match source"
-msgstr "方案格式字符串与源文不匹配"
+msgstr "方案格式字符串与原文不匹配"
 
 #: ../../user/checks.rst:557
 msgid "``weblate.checks.format.SchemeFormatCheck``"
@@ -35319,11 +35283,11 @@ msgstr ""
 
 #: ../../user/checks.rst:572
 msgid "Vue I18n formatting"
-msgstr "Vue I18n 格式"
+msgstr "Vue I18n 格式化"
 
 #: ../../user/checks.rst:574
 msgid "The Vue I18n formatting does not match source"
-msgstr "Vue I18n 格式和源不匹配"
+msgstr "Vue I18n 格式化和原文不匹配"
 
 #: ../../user/checks.rst:576
 msgid "``weblate.checks.format.VueFormattingCheck``"
@@ -35339,7 +35303,7 @@ msgstr ""
 
 #: ../../user/checks.rst:0
 msgid "Rails i18n formatting"
-msgstr "Rails i18n 格式"
+msgstr "Rails i18n 格式化"
 
 #: ../../user/checks.rst:580
 msgid "``There are %{count} apples``"
@@ -35467,7 +35431,7 @@ msgstr "``weblate.checks.markup.MarkdownLinkCheck``"
 
 #: ../../user/checks.rst:674
 msgid "Markdown links do not match source."
-msgstr ""
+msgstr "Markdown 链接和原文不一致。"
 
 #: ../../user/checks.rst:678
 msgid "`Markdown links`_"
@@ -35487,7 +35451,7 @@ msgstr "``weblate.checks.markup.MarkdownRefLinkCheck``"
 
 #: ../../user/checks.rst:694
 msgid "Markdown link references do not match source."
-msgstr ""
+msgstr "Markdown 链接引用和原文不一致。"
 
 #: ../../user/checks.rst:698
 msgid ""
@@ -35611,7 +35575,7 @@ msgstr ""
 
 #: ../../user/checks.rst:794
 msgid "Mismatched \\\\n"
-msgstr "不匹配 \\\\n"
+msgstr "不匹配的 \\\\n"
 
 #: ../../user/checks.rst:796
 msgid "Number of \\\\n in translation does not match source"
@@ -35634,7 +35598,7 @@ msgstr "不匹配的冒号"
 
 #: ../../user/checks.rst:809
 msgid "Source and translation do not both end with a colon"
-msgstr "源字符串与已翻译字符串没有都以分号结尾"
+msgstr "原文与译文没有都以分号结尾"
 
 #: ../../user/checks.rst:811
 msgid "``weblate.checks.chars.EndColonCheck``"
@@ -35658,7 +35622,7 @@ msgstr "不匹配的省略号"
 
 #: ../../user/checks.rst:827
 msgid "Source and translation do not both end with an ellipsis"
-msgstr "源字符串与已翻译字符串没有都以省略号结尾"
+msgstr "原文与译文没有都以省略号结尾"
 
 #: ../../user/checks.rst:829
 msgid "``weblate.checks.chars.EndEllipsisCheck``"
@@ -35687,7 +35651,7 @@ msgstr "不匹配的感叹号"
 
 #: ../../user/checks.rst:847
 msgid "Source and translation do not both end with an exclamation mark"
-msgstr "源条目和已经翻译的条目不全都以感叹号结束"
+msgstr "原文与译文没有都以感叹号结尾"
 
 #: ../../user/checks.rst:849
 msgid "``weblate.checks.chars.EndExclamationCheck``"
@@ -35713,7 +35677,7 @@ msgstr "不匹配的句号"
 
 #: ../../user/checks.rst:866
 msgid "Source and translation do not both end with a full stop"
-msgstr "源字符串与已翻译字符串没有都以句号结尾"
+msgstr "原文与译文没有都以句号结尾"
 
 #: ../../user/checks.rst:868
 msgid "``weblate.checks.chars.EndStopCheck``"
@@ -35736,7 +35700,7 @@ msgstr "不匹配的问号"
 
 #: ../../user/checks.rst:884
 msgid "Source and translation do not both end with a question mark"
-msgstr "源条目和已经翻译的条目不全都以问号结束"
+msgstr "原文与译文没有都以问号结尾"
 
 #: ../../user/checks.rst:886
 msgid "``weblate.checks.chars.EndQuestionCheck``"
@@ -35761,7 +35725,7 @@ msgstr "不匹配的分号"
 
 #: ../../user/checks.rst:903
 msgid "Source and translation do not both end with a semicolon"
-msgstr "源字符串与已翻译字符串没有都以分号结尾"
+msgstr "原文与译文没有都以分号结尾"
 
 #: ../../user/checks.rst:905
 msgid "``weblate.checks.chars.EndSemicolonCheck``"
@@ -35927,11 +35891,11 @@ msgstr ""
 
 #: ../../user/checks.rst:1040
 msgid "Starting newline"
-msgstr "换行开头"
+msgstr "换行符开头"
 
 #: ../../user/checks.rst:1042
 msgid "Source and translation do not both start with a newline"
-msgstr "源字符串与已翻译字符串没有都以换行开头"
+msgstr "原文与译文没有都以换行符开头"
 
 #: ../../user/checks.rst:1044
 msgid "``weblate.checks.chars.BeginNewlineCheck``"
@@ -35954,7 +35918,7 @@ msgstr "空格开头"
 
 #: ../../user/checks.rst:1059
 msgid "Source and translation do not both start with same number of spaces"
-msgstr "源字符串与已翻译字符串开头空格数量不同"
+msgstr "原文与译文的开头空格数量不一致"
 
 #: ../../user/checks.rst:1061
 msgid "``weblate.checks.chars.BeginSpaceCheck``"
@@ -35968,11 +35932,11 @@ msgstr ""
 
 #: ../../user/checks.rst:1070
 msgid "Trailing newline"
-msgstr "换行结尾"
+msgstr "换行符结尾"
 
 #: ../../user/checks.rst:1072
 msgid "Source and translation do not both end with a newline"
-msgstr "源字符串与已翻译字符串没有都以换行结尾"
+msgstr "原文与译文没有都以换行结符尾"
 
 #: ../../user/checks.rst:1074
 msgid "``weblate.checks.chars.EndNewlineCheck``"
@@ -35988,7 +35952,7 @@ msgstr "空格结尾"
 
 #: ../../user/checks.rst:1089
 msgid "Source and translation do not both end with a space"
-msgstr "源字符串与已翻译字符串没有都以空格结尾"
+msgstr "原文与译文没有都以空格结尾"
 
 #: ../../user/checks.rst:1091
 msgid "``weblate.checks.chars.EndSpaceCheck``"
@@ -36012,7 +35976,7 @@ msgstr "未更改的翻译"
 
 #: ../../user/checks.rst:1104
 msgid "Source and translation are identical"
-msgstr "源字符串与翻译字符串完全相同"
+msgstr "原文与译文完全相同"
 
 #: ../../user/checks.rst:1106
 msgid "``weblate.checks.same.SameCheck``"
@@ -36173,12 +36137,12 @@ msgstr ""
 
 #: ../../user/checks.rst:1233
 msgid "Source checks"
-msgstr ""
+msgstr "原文检查"
 
 #: ../../user/checks.rst:1235
 msgid ""
 "Source checks can help developers improve the quality of source strings."
-msgstr ""
+msgstr "原文检查可以帮助开发者提高源字符串的质量。"
 
 #: ../../user/checks.rst:1240
 msgid "Ellipsis"
@@ -36256,7 +36220,7 @@ msgstr "多个语言的翻译都有未通过的检查"
 
 #: ../../user/checks.rst:1293
 msgid "``weblate.checks.source.MultipleFailingCheck``"
-msgstr ""
+msgstr "``weblate.checks.source.MultipleFailingCheck``"
 
 #: ../../user/checks.rst:1296
 msgid ""
@@ -36307,7 +36271,7 @@ msgstr "字符串应该作为复数使用，但未使用其复数形式"
 
 #: ../../user/checks.rst:1328
 msgid "``weblate.checks.source.OptionalPluralCheck``"
-msgstr ""
+msgstr "``weblate.checks.source.OptionalPluralCheck``"
 
 #: ../../user/checks.rst:1331
 msgid ""
@@ -36531,7 +36495,7 @@ msgstr ""
 #: ../../user/files.rst:117
 msgid ""
 "Only source, translation and key (context) are used from the uploaded file."
-msgstr "仅使用已上传文件的源、翻译和键（上下文）。"
+msgstr "仅使用上传文件中的原文、译文和键（上下文）。"
 
 #: ../../user/files.rst:121
 msgid ""
@@ -36779,7 +36743,7 @@ msgstr ""
 msgid ""
 "You can configure your personal default dashboard view in the :guilabel:"
 "`Preferences` section of your user profile settings."
-msgstr ""
+msgstr "你可以在你的用户个人资料的 :guilabel:`首选项` 部分配置你的个人控制面板默认视图。"
 
 #: ../../user/profile.rst:54
 msgid ""
@@ -36851,7 +36815,7 @@ msgstr "首选项"
 
 #: ../../user/profile.rst:111
 msgid "Default dashboard view"
-msgstr "控制面板默认界面"
+msgstr "控制面板默认视图"
 
 #: ../../user/profile.rst:113
 msgid ""
@@ -36860,6 +36824,8 @@ msgid ""
 "list`, you have to select which component list will be displayed from the :"
 "guilabel:`Default component list` drop-down."
 msgstr ""
+"在 :guilabel:`首选项` 选项卡，你可以选择默认显示的控制面板视图。如果你选择 :guilabel:`组件列表`，你必须从 "
+":guilabel:`默认组件列表` 下拉菜单中选择要显示哪个组件列表。"
 
 #: ../../user/profile.rst:120
 msgid ":ref:`componentlists`"
@@ -36867,7 +36833,7 @@ msgstr ""
 
 #: ../../user/profile.rst:123
 msgid "Editor link"
-msgstr "编辑者链接"
+msgstr "编辑器链接"
 
 #: ../../user/profile.rst:125
 msgid ""
@@ -39363,9 +39329,8 @@ msgid ""
 "translators. You should review such strings and either edit them in the "
 "source or remove the label."
 msgstr ""
-"双语言格式不允许直接编辑源字符串（他们典型地是从源代码种直接提取的）。在这种"
-"情况下， :guilabel:`Source needs review` 标签会贴到翻译者回到的字符串上。可以"
-"复查这样的字符串，并在源中编辑或删除标签。"
+"双语格式不允许直接编辑源字符串（通常都是直接从源代码中提取源字符串）。在这种情况下， :guilabel:`Source needs review` "
+"标签会被附加到翻译者报告的字符串上。您应该复查此类字符串，并编辑原文或删除标签。"
 
 #: ../../workflows.rst:259
 msgid ":ref:`bimono`, :ref:`reviews`, :ref:`labels`, :ref:`user-comments`"
