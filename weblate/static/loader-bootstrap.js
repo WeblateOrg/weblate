@@ -694,7 +694,7 @@ $(function () {
     var $form = $("#link-post");
     var $this = $(this);
 
-    $form.attr("action", $this.attr("href"));
+    $form.attr("action", $this.attr("data-href"));
     $.each($this.data("params"), function (name, value) {
       var elm = $("<input>")
         .attr("type", "hidden")

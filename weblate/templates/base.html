@@ -251,7 +251,7 @@ var _rollbarConfig = {
             <li><a id="memory-button" href="{% url 'memory' %}">{% trans "Translation memory" %}</a></li>
             <li><a class="button" id="settings-button" href="{% url 'profile' %}">{% trans "Settings" %}</a></li>
             <li role="separator" class="divider"></li>
-            <li><a id="logout-button" class="button link-post" href="{% url 'logout' %}">{% trans "Sign out" %}</a></li>
+            <li><a id="logout-button" href="" class="button link-post" data-href="{% url 'logout' %}">{% trans "Sign out" %}</a></li>
           </ul>
         </li>
         {% endif %}

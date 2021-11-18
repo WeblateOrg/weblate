@@ -253,7 +253,7 @@
             <th>{{ group.name }}</th>
             <td class="number">{{ group.user_set.count }}</td>
             <td>
-              <a class="btn btn-link btn-xs red link-post" href="{{ page_user.get_absolute_url }}" data-params='{"remove_group": {{ group.pk }}}' title="{% trans "Remove user from this group" %}">
+              <a href="" class="btn btn-link btn-xs red link-post" data-href="{{ page_user.get_absolute_url }}" data-params='{"remove_group": {{ group.pk }}}' title="{% trans "Remove user from this group" %}">
                 {% icon 'delete.svg' %}
               </a>
             </td>
@@ -270,7 +270,7 @@
               {% endif %}
             </td>
             <td>
-              <a class="btn btn-link btn-xs link-post" href="{% url 'unblock-user' project=userblock.project.slug %}" data-params='{"user": "{{ userblock.user.username|escapejs }}"}' title="{% trans "Unblock user" %}">
+              <a href="" class="btn btn-link btn-xs link-post" data-href="{% url 'unblock-user' project=userblock.project.slug %}" data-params='{"user": "{{ userblock.user.username|escapejs }}"}' title="{% trans "Unblock user" %}">
                 {% icon 'close.svg' %}
               </a>
             </td>
