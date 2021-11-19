@@ -31,8 +31,8 @@ msgstr ""
 "Project-Id-Version: Weblate 4.9.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-11-19 14:52+0000\n"
-"PO-Revision-Date: 2021-11-17 07:12+0000\n"
-"Last-Translator: Julien Humbert <julroy67@gmail.com>\n"
+"PO-Revision-Date: 2021-11-20 21:49+0000\n"
+"Last-Translator: Ldm Public <ldmpub@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/weblate/"
 "application/fr/>\n"
 "Language: fr\n"
@@ -40,7 +40,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 4.9.1-dev\n"
+"X-Generator: Weblate 4.9.1\n"
 
 #: weblate/accounts/avatar.py:103
 msgctxt "No known user"
@@ -1308,7 +1308,7 @@ msgid ""
 msgstr ""
 "Les lignes de fin sont des lignes comparables aux lignes d’en-tête RFC 822 "
 "pour les courriels. Ces lignes sont ajoutées en fin de la partie libre du "
-"message d’archivage. Exemple : « Co-authored-by: … »."
+"message d’archivage. Exemple : « Co-authored-by : … »."
 
 #: weblate/addons/forms.py:167
 msgid "Commit message"
@@ -1704,16 +1704,12 @@ msgid "Important dates"
 msgstr "Dates importantes"
 
 #: weblate/auth/admin.py:205
-#, fuzzy
-#| msgid "This is not used when component list is selected."
 msgid "This is not used when a component list is selected."
-msgstr "Non utilisé lorsque la liste des composants est sélectionnée."
+msgstr "Non utilisé lorsqu'une liste de composants est sélectionnée."
 
 #: weblate/auth/admin.py:211
-#, fuzzy
-#| msgid "This is not used when component is selected."
 msgid "This is not used when a component is selected."
-msgstr "Non utilisé lorsque le composant est sélectionné."
+msgstr "Non utilisé lorsqu'un composant est sélectionné."
 
 #. Translators: Permission name
 #: weblate/auth/data.py:34
@@ -2952,21 +2948,22 @@ msgid "Syntax error: %s"
 msgstr "Erreur de syntaxe : %s"
 
 #: weblate/checks/icu.py:464
-#, fuzzy, python-format
-#| msgid "Unknown placeholder in translation: %s"
+#, python-format
 msgid "One or more unknown placeholders in the translation: %s"
-msgstr "Caractère de remplacement inconnu dans la traduction : %s"
+msgstr ""
+"Un ou plusieurs caractères de remplacement inconnus dans la traduction : %s"
 
 #: weblate/checks/icu.py:469
-#, fuzzy, python-format
-#| msgid "Placeholder missing in translation: %s"
+#, python-format
 msgid "One or more placeholders missing in the translation: %s"
-msgstr "Caractère de remplacement manquant dans la traduction : %s"
+msgstr ""
+"Un ou plusieurs caractères de remplacement manquants dans la traduction : %s"
 
 #: weblate/checks/icu.py:473
 #, python-format
 msgid "One or more placeholder types are incorrect: %s"
 msgstr ""
+"Un ou plusieurs types de caractères de remplacement sont incorrects : %s"
 
 #: weblate/checks/icu.py:478
 #, python-format
@@ -2974,47 +2971,42 @@ msgid "Missing other sub-message for: %s"
 msgstr "Autre sous-message manquant pour : %s"
 
 #: weblate/checks/icu.py:481
-#, fuzzy, python-format
-#| msgid "Bad plural selectors for: %s"
+#, python-format
 msgid "Incorrect plural selectors for: %s"
 msgstr "Mauvais sélecteurs de pluriel pour : %s"
 
 #: weblate/checks/icu.py:486
-#, fuzzy, python-format
-#| msgid "Bad sub-message selectors for: %s"
+#, python-format
 msgid "Incorrect sub-message selectors for: %s"
 msgstr "Mauvais sélecteurs de sous-messages pour : %s"
 
 #: weblate/checks/icu.py:492
-#, fuzzy, python-format
-#| msgid "Placeholder should be XML tag in translation: %s"
+#, python-format
 msgid ""
 "One or more placeholders should have a corresponding XML tag in the "
 "translation: %s"
 msgstr ""
-"Le caractère de remplacement devrait être une balise XML dans la "
-"traduction : %s"
+"Un ou plusieurs caractères de remplacement devraient avoir une balise XML "
+"associée dans la traduction : %s"
 
 #: weblate/checks/icu.py:498
-#, fuzzy, python-format
-#| msgid "Placeholder should not be XML tag in translation: %s"
+#, python-format
 msgid ""
 "One or more placeholders should not be an XML tag in the translation: %s"
 msgstr ""
-"Le caractère de remplacement ne devrait pas être une balise XML dans la "
-"traduction : %s"
+"Un ou plusieurs caractères de remplacement ne devraient pas être une balise "
+"XML dans la traduction : %s"
 
 #: weblate/checks/icu.py:504
-#, fuzzy, python-format
-#| msgid "XML Tag has unexpected contents in translation: %s"
+#, python-format
 msgid "One or more XML tags has unexpected content in the translation: %s"
-msgstr "Le contenu de la balise XML est incorrect dans la traduction : %s"
+msgstr ""
+"Une ou plusieurs balises XML a un contenu incorrect dans la traduction : %s"
 
 #: weblate/checks/icu.py:509
-#, fuzzy, python-format
-#| msgid "XML Tag missing contents in translation: %s"
+#, python-format
 msgid "One or more XML tags missing content in the translation: %s"
-msgstr "Du contenu est absent de la balise XML : %s"
+msgstr "Une ou plusieurs balises XML sont sans contenu dans la traduction : %s"
 
 #: weblate/checks/markup.py:94
 msgid "BBcode markup"
@@ -7814,12 +7806,12 @@ msgid "Import translation memory"
 msgstr "Importer un mémoire de traduction"
 
 #: weblate/templates/new-language.html:26
-#, fuzzy
-#| msgid "Translations of this string in the other languages"
 msgid ""
 "The translator instructions has info on how to start translating into other "
 "languages."
-msgstr "Traductions de cette chaîne dans d’autres langues"
+msgstr ""
+"Les instructions pour traducteurs contiennent des indications pour commencer "
+"à traduire dans d'autres langues."
 
 #: weblate/templates/new-language.html:29
 msgid "Please choose the language you want to translate to."
@@ -7831,12 +7823,16 @@ msgid ""
 "A translation file will be created based on <code>%(new_base)s</code> with "
 "all strings untranslated."
 msgstr ""
+"Un fichier de traduction sera créé sur la base de <code>%(new_base)s</code> "
+"avec toutes les chaînes non traduites."
 
 #: weblate/templates/new-language.html:36
 msgid ""
 "An empty translation file will be created and new strings added as they are "
 "translated."
 msgstr ""
+"Un fichier de traduction vide sera créé et de nouvelles chaînes seront "
+"ajoutées au fur et à mesure qu'elles seront traduites."
 
 #: weblate/templates/new-language.html:41
 #, python-format
@@ -7845,40 +7841,37 @@ msgid ""
 "with all strings marked as \"Needs editing\" and replaced as they are "
 "translated."
 msgstr ""
+"Un fichier de traduction sera créé par copie de <code>%(new_base)s</code> "
+"avec toutes les chaînes marquées comme \"À vérifier\" et remplacées au fur "
+"et à mesure de leur traduction."
 
 #: weblate/templates/new-language.html:48
 msgid ""
 "An empty directory will be created for translations, with individual files "
 "created as strings are translated."
 msgstr ""
+"Un dossier vide sera créé pour les traductions, il contiendra des fichiers "
+"individuels créés au fur et à mesure que les chaînes seront traduites."
 
 #: weblate/templates/new-language.html:55
-#, fuzzy
-#| msgid ""
-#| "Project maintainers are notified of this request, which prompts them to "
-#| "add the language manually."
 msgid ""
 "Project maintainers are notified of this request, prompting them to add the "
 "language manually."
 msgstr ""
-"Cette demande est signalée aux mainteneurs du projet, ce qui les invite à "
-"ajouter la langue manuellement."
+"Cette demande a été transmise aux mainteneurs du projet afin qu'ils ajoutent "
+"la langue manuellement."
 
 #: weblate/templates/new-language.html:59
 msgid "Can't find your language in the list above?"
 msgstr "Vous ne trouvez pas votre langue dans la liste ci-dessus ?"
 
 #: weblate/templates/new-language.html:61
-#, fuzzy
-#| msgid ""
-#| "This list includes only basic languages. Please contact project "
-#| "maintainers for adding another one."
 msgid ""
 "This list includes only basic languages. Please contact project maintainers "
 "to add others."
 msgstr ""
 "Cette liste ne comprend que les langues de base. Veuillez contacter les "
-"mainteneurs du projet pour en ajouter une autre."
+"mainteneurs du projet pour en ajouter d'autres."
 
 #: weblate/templates/new-language.html:66
 msgid "Request new translation"
@@ -9135,7 +9128,7 @@ msgstr ""
 #, python-format
 msgid "Only some of the %(count)s occurrence is shown."
 msgid_plural "Only some of the %(count)s occurrences are shown."
-msgstr[0] "Seules certaines des %(count)s occurrences sont affichées."
+msgstr[0] "Seules certaines des %(count)s occurrence sont affichées."
 msgstr[1] "Seules certaines des %(count)s occurrences sont affichées."
 
 #: weblate/templates/trans/alert/parseerror.html:4
@@ -9671,15 +9664,15 @@ msgstr "Différence avec la chaîne actuelle"
 #: weblate/templates/translate.html:317
 msgid "The following string has the same context and source."
 msgid_plural "The following strings have the same context and source."
-msgstr[0] "La chaîne suivante a le même contexte et la même source :"
-msgstr[1] "Les chaînes suivantes ont le même contexte et la même source :"
+msgstr[0] "La chaîne suivante a le même contexte et la même source."
+msgstr[1] "Les chaînes suivantes ont le même contexte et la même source."
 
 #: weblate/templates/translate.html:325
 msgid "The following string has different context, but the same source."
 msgid_plural ""
 "The following strings have different contexts, but the same source."
-msgstr[0] "La chaîne suivante a plusieurs contextes mais la même source :"
-msgstr[1] "Les chaînes suivantes ont plusieurs contextes mais la même source :"
+msgstr[0] "La chaîne suivante a plusieurs contextes mais la même source."
+msgstr[1] "Les chaînes suivantes ont plusieurs contextes mais la même source."
 
 #: weblate/templates/translate.html:333
 msgid "The following string has a different source, but the same context."
@@ -11226,10 +11219,9 @@ msgid "File %s was changed."
 msgstr "Le fichier %s a été modifié."
 
 #: weblate/trans/models/change.py:594
-#, fuzzy, python-format
-#| msgid "Parsing of file %s was enforced"
+#, python-format
 msgid "Parsing of file %s was enforced."
-msgstr "L’analyse du fichier %s a été réalisée"
+msgstr "L’analyse du fichier %s a été réalisée."
 
 #: weblate/trans/models/change.py:596
 #, python-format
@@ -12827,7 +12819,7 @@ msgstr "Les paramètres ont été enregistrés"
 
 #: weblate/trans/views/settings.py:70 weblate/trans/views/settings.py:98
 msgid "Invalid settings, please check the form for errors!"
-msgstr "Les paramètres ne sont pas valides, veuillez vérifier le formulaire."
+msgstr "Les paramètres sont non valides, veuillez vérifier le formulaire."
 
 #: weblate/trans/views/settings.py:153
 msgid "Translation has been removed."
