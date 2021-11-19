@@ -38,7 +38,7 @@
   {% elif object.file_format_create_style == "copy" %}
     {# Documents, for example ODT, HTML, IDML #}
     {% if object.new_base %}
-      {% blocktrans with new_base=object.new_base %}A translation file will be created as a copy of <code>{{ new_base }}</code> with all strings marked as \"Needs editing\" and replaced as they are translated.{% endblocktrans %}
+      {% blocktrans with new_base=object.new_base %}A translation file will be created as a copy of <code>{{ new_base }}</code> with all strings marked as "Needs editing" and replaced as they are translated.{% endblocktrans %}
     {% else %}
       {# Should not happen #}
       Create style: {{ object.file_format_create_style }}
