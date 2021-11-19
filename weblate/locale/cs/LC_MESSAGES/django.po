@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.9.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-11-19 14:52+0000\n"
-"PO-Revision-Date: 2021-11-10 10:20+0000\n"
+"PO-Revision-Date: 2021-11-19 20:32+0000\n"
 "Last-Translator: Michal Čihař <michal@weblate.org>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/weblate/"
 "application/cs/>\n"
@@ -22,7 +22,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-"X-Generator: Weblate 4.9-dev\n"
+"X-Generator: Weblate 4.9.1\n"
 
 #: weblate/accounts/avatar.py:103
 msgctxt "No known user"
@@ -1631,14 +1631,10 @@ msgid "Important dates"
 msgstr "Důležitá data"
 
 #: weblate/auth/admin.py:205
-#, fuzzy
-#| msgid "This is not used when component list is selected."
 msgid "This is not used when a component list is selected."
 msgstr "Toto se nepoužije pokud je zvolen seznam součástí."
 
 #: weblate/auth/admin.py:211
-#, fuzzy
-#| msgid "This is not used when component is selected."
 msgid "This is not used when a component is selected."
 msgstr "Toto se nepoužije pokud je zvolena součást."
 
@@ -2852,21 +2848,19 @@ msgid "Syntax error: %s"
 msgstr "Syntaktická chyba: %s"
 
 #: weblate/checks/icu.py:464
-#, fuzzy, python-format
-#| msgid "Unknown placeholder in translation: %s"
+#, python-format
 msgid "One or more unknown placeholders in the translation: %s"
-msgstr "Neznámý zástupný symbol v překladu: %s"
+msgstr "Jeden nebo více neznámých zástupných symbolů v překladu: %s"
 
 #: weblate/checks/icu.py:469
-#, fuzzy, python-format
-#| msgid "Placeholder missing in translation: %s"
+#, python-format
 msgid "One or more placeholders missing in the translation: %s"
-msgstr "V překladu chybí zástupný symbol: %s"
+msgstr "V překladu chybí jeden nebo více zástupných symbolů: %s"
 
 #: weblate/checks/icu.py:473
 #, python-format
 msgid "One or more placeholder types are incorrect: %s"
-msgstr ""
+msgstr "Jeden nebo více zástupných symbolů je chybných: %s"
 
 #: weblate/checks/icu.py:478
 #, python-format
@@ -2874,43 +2868,40 @@ msgid "Missing other sub-message for: %s"
 msgstr "Chybí další dílčí zpráva pro: %s"
 
 #: weblate/checks/icu.py:481
-#, fuzzy, python-format
-#| msgid "Bad plural selectors for: %s"
+#, python-format
 msgid "Incorrect plural selectors for: %s"
-msgstr "Špatné selektory množného čísla pro: %s"
+msgstr "Chybné selektory množného čísla pro: %s"
 
 #: weblate/checks/icu.py:486
-#, fuzzy, python-format
-#| msgid "Bad sub-message selectors for: %s"
+#, python-format
 msgid "Incorrect sub-message selectors for: %s"
-msgstr "Špatné selektory dílčích zpráv pro: %s"
+msgstr "Chybné selektory dílčích zpráv pro: %s"
 
 #: weblate/checks/icu.py:492
-#, fuzzy, python-format
-#| msgid "Placeholder should be XML tag in translation: %s"
+#, python-format
 msgid ""
 "One or more placeholders should have a corresponding XML tag in the "
 "translation: %s"
-msgstr "Zástupný symbol by měl být v překladu značkou XML: %s"
+msgstr ""
+"Jeden nebo více zástupných symbolů by mělo mít v překladu odpovídající XML "
+"značku: %s"
 
 #: weblate/checks/icu.py:498
-#, fuzzy, python-format
-#| msgid "Placeholder should not be XML tag in translation: %s"
+#, python-format
 msgid ""
 "One or more placeholders should not be an XML tag in the translation: %s"
-msgstr "Zástupný symbol by neměl být značkou XML v překladu: %s"
+msgstr ""
+"Jeden nebo více zástupných symbolů by nemělo mít v překladu XML značku: %s"
 
 #: weblate/checks/icu.py:504
-#, fuzzy, python-format
-#| msgid "XML Tag has unexpected contents in translation: %s"
+#, python-format
 msgid "One or more XML tags has unexpected content in the translation: %s"
-msgstr "Značka XML má při překladu neočekávaný obsah: %s"
+msgstr "Jedna nebo více XML značek má při překladu neočekávaný obsah: %s"
 
 #: weblate/checks/icu.py:509
-#, fuzzy, python-format
-#| msgid "XML Tag missing contents in translation: %s"
+#, python-format
 msgid "One or more XML tags missing content in the translation: %s"
-msgstr "Chybějící obsah značky XML v překladu: %s"
+msgstr "Chybějící obsah jedené nebo více XML značek v překladu: %s"
 
 #: weblate/checks/markup.py:94
 msgid "BBcode markup"
@@ -7641,12 +7632,12 @@ msgid "Import translation memory"
 msgstr "Importovat překladovou paměť"
 
 #: weblate/templates/new-language.html:26
-#, fuzzy
-#| msgid "Translations of this string in the other languages"
 msgid ""
 "The translator instructions has info on how to start translating into other "
 "languages."
-msgstr "Překlady tohoto řetězce v ostatních jazycích"
+msgstr ""
+"Návod pro překladatele obsahuje informace jak začít překládat do dalších "
+"jazyků."
 
 #: weblate/templates/new-language.html:29
 msgid "Please choose the language you want to translate to."
@@ -7658,12 +7649,16 @@ msgid ""
 "A translation file will be created based on <code>%(new_base)s</code> with "
 "all strings untranslated."
 msgstr ""
+"Na základě <code>%(new_base)s</code> bude vytvořen překladový soubor se "
+"všemi nepřeloženými řetězci."
 
 #: weblate/templates/new-language.html:36
 msgid ""
 "An empty translation file will be created and new strings added as they are "
 "translated."
 msgstr ""
+"Vytvoří se prázdný překladový soubor a nové řetězce se do něj přidávají "
+"podle toho, jak jsou překládány."
 
 #: weblate/templates/new-language.html:41
 #, python-format
@@ -7672,34 +7667,31 @@ msgid ""
 "with all strings marked as \"Needs editing\" and replaced as they are "
 "translated."
 msgstr ""
+"Překladový soubor bude vytvořen jako kopie <code>%(new_base)s</code> se "
+"všemi řetězci označenými jako \"Potřebuje upravit\" a ty budou nahrazeny při "
+"překladu."
 
 #: weblate/templates/new-language.html:48
 msgid ""
 "An empty directory will be created for translations, with individual files "
 "created as strings are translated."
 msgstr ""
+"Pro překlady se vytvoří prázdný adresář, ve kterém se budou vytvářet "
+"jednotlivé soubory podle toho, jak budou překládány řetězce."
 
 #: weblate/templates/new-language.html:55
-#, fuzzy
-#| msgid ""
-#| "Project maintainers are notified of this request, which prompts them to "
-#| "add the language manually."
 msgid ""
 "Project maintainers are notified of this request, prompting them to add the "
 "language manually."
 msgstr ""
 "Správce projektu bude informován o tomto požadavku a bude požádán o přidání "
-"překlad ručně."
+"překladu ručně."
 
 #: weblate/templates/new-language.html:59
 msgid "Can't find your language in the list above?"
 msgstr "Nemůžete najít svůj jazyk v seznamu?"
 
 #: weblate/templates/new-language.html:61
-#, fuzzy
-#| msgid ""
-#| "This list includes only basic languages. Please contact project "
-#| "maintainers for adding another one."
 msgid ""
 "This list includes only basic languages. Please contact project maintainers "
 "to add others."
@@ -10978,10 +10970,9 @@ msgid "File %s was changed."
 msgstr "Soubor %s byl změněn."
 
 #: weblate/trans/models/change.py:594
-#, fuzzy, python-format
-#| msgid "Parsing of file %s was enforced"
+#, python-format
 msgid "Parsing of file %s was enforced."
-msgstr "Zpracování souboru %s bylo vynuceno"
+msgstr "Zpracování souboru %s bylo vynuceno."
 
 #: weblate/trans/models/change.py:596
 #, python-format
