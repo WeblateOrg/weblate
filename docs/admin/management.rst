@@ -231,7 +231,7 @@ cleanup_ssh_keys
 
 .. versionadded:: 4.9.1
 
-Removes duplicate and obsolete SSH host keys.
+Performs cleanup of stored SSH host keys:
 
 * Removes deprecated RSA keys for GitHub which might cause issues connecting to GitHub.
 * Removes duplicate entries in host keys.
