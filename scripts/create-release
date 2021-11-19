@@ -69,6 +69,11 @@ if [ "$DO_TAG" -eq 1 ] ; then
     git push --tags
     cd ~/weblate/weblate
 
+    # Update stable branch
+    git checkout stable
+    git merge $namever
+    git push origin stable
+
     # Upload to GitHub
     ./scripts/extract-release-notes $version > dist/Weblate-$version.md
     hub release create --file=dist/Weblate-$version.md $namever
