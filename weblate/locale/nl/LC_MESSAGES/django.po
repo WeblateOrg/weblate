@@ -19,7 +19,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.9.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-11-19 11:41+0000\n"
-"PO-Revision-Date: 2021-11-14 00:02+0000\n"
+"PO-Revision-Date: 2021-11-19 14:50+0000\n"
 "Last-Translator: Heimen Stoffels <vistausss@fastmail.com>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/weblate/"
 "application/nl/>\n"
@@ -28,7 +28,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.9.1-dev\n"
+"X-Generator: Weblate 4.9.1\n"
 
 #: weblate/accounts/avatar.py:103
 msgctxt "No known user"
@@ -1657,14 +1657,10 @@ msgid "Important dates"
 msgstr "Belangrijke datums"
 
 #: weblate/auth/admin.py:205
-#, fuzzy
-#| msgid "This is not used when component list is selected."
 msgid "This is not used when a component list is selected."
-msgstr "Dit wordt niet gebruikt als de onderdeellijst is geselecteerd."
+msgstr "Dit wordt niet gebruikt als een onderdeellijst is geselecteerd."
 
 #: weblate/auth/admin.py:211
-#, fuzzy
-#| msgid "This is not used when component is selected."
 msgid "This is not used when a component is selected."
 msgstr "Dit wordt niet gebruikt als er een onderdeel is geselecteerd."
 
@@ -2883,21 +2879,19 @@ msgid "Syntax error: %s"
 msgstr "Syntaxisfout: %s"
 
 #: weblate/checks/icu.py:464
-#, fuzzy, python-format
-#| msgid "Unknown placeholder in translation: %s"
+#, python-format
 msgid "One or more unknown placeholders in the translation: %s"
-msgstr "Onbekende plaatshouder in vertaling: %s"
+msgstr "Eén of meer onbekende plaatshouder(s) in vertaling: %s"
 
 #: weblate/checks/icu.py:469
-#, fuzzy, python-format
-#| msgid "Placeholder missing in translation: %s"
+#, python-format
 msgid "One or more placeholders missing in the translation: %s"
-msgstr "Ontbrekende plaatshouder is vertaling: %s"
+msgstr "Eén of meer ontbrekende plaatshouder(s) in vertaling: %s"
 
 #: weblate/checks/icu.py:473
 #, python-format
 msgid "One or more placeholder types are incorrect: %s"
-msgstr ""
+msgstr "Eén of meer plaatshouders zijn onjuist: %s"
 
 #: weblate/checks/icu.py:478
 #, python-format
@@ -2905,41 +2899,35 @@ msgid "Missing other sub-message for: %s"
 msgstr "Ontbrekend aanvullend bericht bij %s"
 
 #: weblate/checks/icu.py:481
-#, fuzzy, python-format
-#| msgid "Bad plural selectors for: %s"
+#, python-format
 msgid "Incorrect plural selectors for: %s"
 msgstr "Onjuiste meervoudkeuzes bij %s"
 
 #: weblate/checks/icu.py:486
-#, fuzzy, python-format
-#| msgid "Bad sub-message selectors for: %s"
+#, python-format
 msgid "Incorrect sub-message selectors for: %s"
 msgstr "Onjuiste aanvullende berichtkeuzes bij %s"
 
 #: weblate/checks/icu.py:492
-#, fuzzy, python-format
-#| msgid "Placeholder should be XML tag in translation: %s"
+#, python-format
 msgid ""
 "One or more placeholders should have a corresponding XML tag in the "
 "translation: %s"
-msgstr "De plaatshouder dient een xml-tag te zijn in %s"
+msgstr "Eén of meer plaatshouders dienen voorzien te zijn van een xml-tag in %s"
 
 #: weblate/checks/icu.py:498
-#, fuzzy, python-format
-#| msgid "Placeholder should not be XML tag in translation: %s"
+#, python-format
 msgid ""
 "One or more placeholders should not be an XML tag in the translation: %s"
-msgstr "De plaatshouder dient geen xml-tag te zijn in %s"
+msgstr "Eén of meer plaatshouders dienen geen xml-tag te zijn in %s"
 
 #: weblate/checks/icu.py:504
-#, fuzzy, python-format
-#| msgid "XML Tag has unexpected contents in translation: %s"
+#, python-format
 msgid "One or more XML tags has unexpected content in the translation: %s"
-msgstr "De xml-tag bevat onverwachte inhoud in %s"
+msgstr "Eén of meer xml-tags bevatten onverwachte inhoud in %s"
 
 #: weblate/checks/icu.py:509
-#, fuzzy, python-format
-#| msgid "XML Tag missing contents in translation: %s"
+#, python-format
 msgid "One or more XML tags missing content in the translation: %s"
 msgstr "Ontbrekende xml-taginhoud in vertaling: %s"
 
@@ -7724,12 +7712,16 @@ msgid ""
 "Translation file will be created based on <code>%(new_base)s</code> with all "
 "strings being untranslated."
 msgstr ""
+"Het vertaalbestand wordt aangemaakt op basis van <code>%(new_base)s</code> "
+"met onvertaalde tekenreeksen."
 
 #: weblate/templates/new-language.html:36
 msgid ""
 "Translation file will be created blank and new strings will be added as they "
 "are translated."
 msgstr ""
+"Het vertaalbestand wordt blanco aangemaakt en alle tekenreeksen worden "
+"aangemerkt als vertaald."
 
 #: weblate/templates/new-language.html:41
 #, python-format
@@ -7738,12 +7730,17 @@ msgid ""
 "all strings marked as needing editing and strings will be replaced as they "
 "are translated."
 msgstr ""
+"Het vertaalbestand wordt aangemaakt op basis van <code>%(new_base)s</code>. "
+"Alle tekenreeksen worden aangemerkt als ‘Aanpassing nodig’ en worden na het "
+"vertalen ervan vervangen."
 
 #: weblate/templates/new-language.html:48
 msgid ""
 "Empty directory will be created for translations and individual files will "
 "be created as the strings are translated."
 msgstr ""
+"Er wordt een lege map aangemaakt voor de vertalingen. Individuele bestanden "
+"worden aangemaakt na het vertalen van de tekenreeksen."
 
 #: weblate/templates/new-language.html:55
 msgid ""
@@ -11082,10 +11079,9 @@ msgid "File %s was changed."
 msgstr "‘%s’ is gewijzigd."
 
 #: weblate/trans/models/change.py:594
-#, fuzzy, python-format
-#| msgid "Parsing of file %s was enforced"
+#, python-format
 msgid "Parsing of file %s was enforced."
-msgstr "‘%s’ is geforceerd verwerkt"
+msgstr "‘%s’ is geforceerd verwerkt."
 
 #: weblate/trans/models/change.py:596
 #, python-format
