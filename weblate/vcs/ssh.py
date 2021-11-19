@@ -159,12 +159,12 @@ def add_host_key(request, host, port=""):
                 stdout=subprocess.PIPE,
                 stderr=subprocess.PIPE,
             )
-            keys = []
+            keys = set()
             for key in result.stdout.splitlines():
                 key = key.strip()
                 if not is_key_line(key):
                     continue
-                keys.append(key)
+                keys.add(key)
                 host, keytype, fingerprint = parse_hosts_line(key)
                 messages.warning(
                     request,
@@ -175,11 +175,20 @@ def add_host_key(request, host, port=""):
                     )
                     % {"host": host, "fingerprint": fingerprint, "keytype": keytype},
                 )
-            if not keys:
+            if keys:
+                known_hosts_file = ssh_file(KNOWN_HOSTS)
+                # Remove existing key entries
+                with open(known_hosts_file) as handle:
+                    for line in handle.readline():
+                        keys.discard(line.strip())
+                # Write any new keys
+                if keys:
+                    with open(known_hosts_file, "a") as handle:
+                        for key in keys:
+                            handle.write(key)
+                            handle.write("\n")
+            else:
                 messages.error(request, _("Failed to fetch public key for a host!"))
-            with open(ssh_file(KNOWN_HOSTS), "a") as handle:
-                for key in keys:
-                    handle.write(f"{key}\n")
         except subprocess.CalledProcessError as exc:
             messages.error(
                 request, _("Failed to get host key: %s") % exc.stderr or exc.stdout
