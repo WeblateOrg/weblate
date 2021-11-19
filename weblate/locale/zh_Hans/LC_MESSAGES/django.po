@@ -35,8 +35,8 @@ msgstr ""
 "Project-Id-Version: Weblate 4.9.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-11-19 11:41+0000\n"
-"PO-Revision-Date: 2021-11-19 11:40+0000\n"
-"Last-Translator: JY3 <GeeyunJY3@gmail.com>\n"
+"PO-Revision-Date: 2021-11-19 14:00+0000\n"
+"Last-Translator: Eric <spice2wolf@gmail.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "weblate/application/zh_Hans/>\n"
 "Language: zh_Hans\n"
@@ -44,7 +44,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 4.9.1-dev\n"
+"X-Generator: Weblate 4.9.1\n"
 
 #: weblate/accounts/avatar.py:103
 msgctxt "No known user"
@@ -1577,16 +1577,12 @@ msgid "Important dates"
 msgstr "重要日期"
 
 #: weblate/auth/admin.py:205
-#, fuzzy
-#| msgid "This is not used when component list is selected."
 msgid "This is not used when a component list is selected."
-msgstr "选择组件列表时，不使用此选项。"
+msgstr "选中一个组件列表时，不使用此选项。"
 
 #: weblate/auth/admin.py:211
-#, fuzzy
-#| msgid "This is not used when component is selected."
 msgid "This is not used when a component is selected."
-msgstr "选择组件时，不使用此选项。"
+msgstr "选中一个组件时，不使用此选项。"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:34
@@ -2784,21 +2780,19 @@ msgid "Syntax error: %s"
 msgstr "语法错误：%s"
 
 #: weblate/checks/icu.py:464
-#, fuzzy, python-format
-#| msgid "Unknown placeholder in translation: %s"
+#, python-format
 msgid "One or more unknown placeholders in the translation: %s"
-msgstr "翻译中的未知占位符：%s"
+msgstr "翻译中有一个或多个未知占位符：%s"
 
 #: weblate/checks/icu.py:469
-#, fuzzy, python-format
-#| msgid "Placeholder missing in translation: %s"
+#, python-format
 msgid "One or more placeholders missing in the translation: %s"
-msgstr "翻译中缺少占位符：%s"
+msgstr "翻译中缺少一个或多个占位符：%s"
 
 #: weblate/checks/icu.py:473
 #, python-format
 msgid "One or more placeholder types are incorrect: %s"
-msgstr ""
+msgstr "一个或多个占位符类型不正确：%s"
 
 #: weblate/checks/icu.py:478
 #, python-format
@@ -2806,43 +2800,37 @@ msgid "Missing other sub-message for: %s"
 msgstr "缺少下列项的其他子消息：%s"
 
 #: weblate/checks/icu.py:481
-#, fuzzy, python-format
-#| msgid "Bad plural selectors for: %s"
+#, python-format
 msgid "Incorrect plural selectors for: %s"
 msgstr "下列项的复数选择器不正确：%s"
 
 #: weblate/checks/icu.py:486
-#, fuzzy, python-format
-#| msgid "Bad sub-message selectors for: %s"
+#, python-format
 msgid "Incorrect sub-message selectors for: %s"
 msgstr "下列项的子消息选择器不正确：%s"
 
 #: weblate/checks/icu.py:492
-#, fuzzy, python-format
-#| msgid "Placeholder should be XML tag in translation: %s"
+#, python-format
 msgid ""
 "One or more placeholders should have a corresponding XML tag in the "
 "translation: %s"
-msgstr "占位符在翻译中应为 XML 标签：%s"
+msgstr "一个或多个占位符应该在翻译中具有相应的 XML 标签：%s"
 
 #: weblate/checks/icu.py:498
-#, fuzzy, python-format
-#| msgid "Placeholder should not be XML tag in translation: %s"
+#, python-format
 msgid ""
 "One or more placeholders should not be an XML tag in the translation: %s"
-msgstr "下列翻译中的占位符不应为 XML 标签：%s"
+msgstr "一个或多个占位符不应该是翻译中的 XML 标签：%s"
 
 #: weblate/checks/icu.py:504
-#, fuzzy, python-format
-#| msgid "XML Tag has unexpected contents in translation: %s"
+#, python-format
 msgid "One or more XML tags has unexpected content in the translation: %s"
-msgstr "下列翻译中的 XML 标签有意想不到的内容：%s"
+msgstr "下列翻译中的 一个或多个 XML 标签有意想不到的内容：%s"
 
 #: weblate/checks/icu.py:509
-#, fuzzy, python-format
-#| msgid "XML Tag missing contents in translation: %s"
+#, python-format
 msgid "One or more XML tags missing content in the translation: %s"
-msgstr "翻译中缺少内容的 XML 标签：%s"
+msgstr "翻译中存在一个或多个缺少内容的 XML 标签：%s"
 
 #: weblate/checks/markup.py:94
 msgid "BBcode markup"
@@ -7392,13 +7380,13 @@ msgstr "请选择您想要翻译的语言。"
 msgid ""
 "Translation file will be created based on <code>%(new_base)s</code> with all "
 "strings being untranslated."
-msgstr ""
+msgstr "翻译文件将基于<code>%(new_base)s</code>创建，其中所有字符串都未被翻译。"
 
 #: weblate/templates/new-language.html:36
 msgid ""
 "Translation file will be created blank and new strings will be added as they "
 "are translated."
-msgstr ""
+msgstr "将创建空白的翻译文件，并在翻译时添加新的字符串。"
 
 #: weblate/templates/new-language.html:41
 #, python-format
@@ -7407,12 +7395,13 @@ msgid ""
 "all strings marked as needing editing and strings will be replaced as they "
 "are translated."
 msgstr ""
+"将基于 <code>%(new_base)s</code> 的副本创建翻译文件，其中所有的字符串将被标记为“需要编辑”，字符串将在翻译时被替换。"
 
 #: weblate/templates/new-language.html:48
 msgid ""
 "Empty directory will be created for translations and individual files will "
 "be created as the strings are translated."
-msgstr ""
+msgstr "将为翻译创建空目录，并在字符串被翻译时创建单独的文件。"
 
 #: weblate/templates/new-language.html:55
 msgid ""
@@ -10554,10 +10543,9 @@ msgid "File %s was changed."
 msgstr "文件 %s 已更改。"
 
 #: weblate/trans/models/change.py:594
-#, fuzzy, python-format
-#| msgid "Parsing of file %s was enforced"
+#, python-format
 msgid "Parsing of file %s was enforced."
-msgstr "强制解析文件 %s"
+msgstr "强制解析了文件 %s。"
 
 #: weblate/trans/models/change.py:596
 #, python-format
