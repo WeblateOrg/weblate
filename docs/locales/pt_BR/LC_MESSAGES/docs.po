@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-11-19 12:41+0100\n"
-"PO-Revision-Date: 2021-11-13 07:56+0000\n"
+"PO-Revision-Date: 2021-11-19 20:33+0000\n"
 "Last-Translator: Rafael Fontenelle <rafaelff@gnome.org>\n"
 "Language-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/"
 "weblate/documentation/pt_BR/>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 4.9.1-dev\n"
+"X-Generator: Weblate 4.9.1\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:181
@@ -67,15 +67,12 @@ msgid "Project access control"
 msgstr "Controle de acesso do projeto"
 
 #: ../../snippets/not-hosted-libre.rst:3
-#, fuzzy
-#| msgid ""
-#| "This feature is not available for projects running the Hosted Libre plan."
 msgid ""
 "This feature is unavailable for projects running the Libre plan on Hosted "
 "Weblate."
 msgstr ""
-"Este recurso não está disponível para projetos que executam o plano Hosted "
-"Libre."
+"Este recurso está indisponível para projetos que executam o plan Libre no "
+"Hosted Weblate."
 
 #: ../../admin/access.rst:32
 msgid ""
@@ -14052,6 +14049,8 @@ msgid ""
 "Disable server side cursors in the database. This is necessary in some :"
 "command:`pgbouncer` setups."
 msgstr ""
+"Desabilita os cursores do lado do servidor no banco de dados. Isso é "
+"necessário em algumas configurações do :command:`pgbouncer`."
 
 #: ../../admin/install/docker.rst:1150
 msgid ""
@@ -14059,6 +14058,9 @@ msgid ""
 "DISABLE_SERVER_SIDE_CURSORS>`, :ref:`django:transaction-pooling-server-side-"
 "cursors`"
 msgstr ""
+":setting:`DISABLE_SERVER_SIDE_CURSORS <django:DATABASE-"
+"DISABLE_SERVER_SIDE_CURSORS>`, :ref:`django:transaction-pooling-server-side-"
+"cursors`"
 
 #: ../../admin/install/docker.rst:1155
 msgid "Database backup settings"
@@ -15459,14 +15461,6 @@ msgstr ""
 "formatos de arquivo."
 
 #: ../../admin/languages.rst:168
-#, fuzzy
-#| msgid ""
-#| "Some formats expect to start with an empty file and only translated "
-#| "strings to be included (for example :ref:`aresource`), while others "
-#| "expect to have all keys present (for example :ref:`gettext`). In some "
-#| "situations this really doesn't depend on the format, but rather on the "
-#| "framework you use to handle the translation (for example with :ref:"
-#| "`json`)."
 msgid ""
 "Some formats expect to start with an empty file and only translated strings "
 "to be included (for example :ref:`aresource`), while others expect to have "
@@ -15479,9 +15473,11 @@ msgstr ""
 "Alguns formatos esperam começar com um arquivo vazio e apenas textos "
 "traduzidos para serem incluídas (por exemplo, :ref:`aresource`), enquanto "
 "outros esperam ter todas as chaves presentes (por exemplo, :ref:`gettext`). "
-"Em algumas situações, isso realmente não depende do formato, mas sim do "
-"framework que você usa para lidar com a tradução (por exemplo, com :ref:"
-"`json`)."
+"Os formatos baseado em documentos (por exemplo, :ref:`odf`) começam com um "
+"cópia vazia do documento fonte e todos textos marcados como necessitando "
+"edição. Em algumas situações, isso realmente não depende do formato, mas sim "
+"do framework que você usa para lidar com a tradução (por exemplo, com "
+":ref:`json`)."
 
 #: ../../admin/languages.rst:176
 msgid ""
@@ -16723,27 +16719,27 @@ msgstr ""
 
 #: ../../admin/management.rst:228
 msgid "cleanup_ssh_keys"
-msgstr ""
+msgstr "cleanup_ssh_keys"
 
 #: ../../admin/management.rst:234
 msgid "Performs cleanup of stored SSH host keys:"
-msgstr ""
+msgstr "Executa a remoção das chaves de host SSH armazenadas:"
 
 #: ../../admin/management.rst:236
 msgid ""
 "Removes deprecated RSA keys for GitHub which might cause issues connecting "
 "to GitHub."
 msgstr ""
+"Remove as chaves RSA descontinuadas do GitHub que podem causar problemas de "
+"conexão com o GitHub."
 
 #: ../../admin/management.rst:237
 msgid "Removes duplicate entries in host keys."
-msgstr ""
+msgstr "Remove entradas duplicadas nas chaves do host."
 
 #: ../../admin/management.rst:241
-#, fuzzy
-#| msgid ":ref:`vcs-repos`"
 msgid ":ref`ssh-repos`"
-msgstr ":ref:`vcs-repos`"
+msgstr ":ref`ssh-repos`"
 
 #: ../../admin/management.rst:244
 msgid "createadmin"
@@ -22341,10 +22337,8 @@ msgstr ""
 "``zip``; Formatos suportados: ``zip``"
 
 #: ../../api.rst:1336
-#, fuzzy
-#| msgid "Fixed download of strings needing action."
 msgid "Filter downloaded strings, see :ref:`search`."
-msgstr "Consertado o download de textos precisando de ação."
+msgstr "Filtra os textos baixados, veja :ref:`search`."
 
 #: ../../api.rst:1340
 msgid "Returns a list of component screenshots."
@@ -23621,48 +23615,36 @@ msgid "Weblate 4.9.1"
 msgstr "Weblate 4.9.1"
 
 #: ../../changes.rst:4
-#, fuzzy
-#| msgid "Released on November 10th 2021."
 msgid "Released on November 19th 2021."
-msgstr "Lançado em 10 de novembro de 2021."
+msgstr "Lançado em 19 de novembro de 2021."
 
 #: ../../changes.rst:6
 msgid "Fixed upload of monolingual files after changing template."
 msgstr "Corrigido o envio de arquivos monolíngues após a mudança do modelo."
 
 #: ../../changes.rst:7
-#, fuzzy
-#| msgid "Improved handling of translation filenames."
 msgid "Improved handling of whitespace in flags."
-msgstr "Melhorado o tratamento de nomes de arquivos de tradução."
+msgstr "Melhorado o tratamento de espaços em branco nos marcadores."
 
 #: ../../changes.rst:8
-#, fuzzy
-#| msgid "Add support for filtering changes."
 msgid "Add support for filtering in download API."
-msgstr "Adicionado suporte para filtrar alterações."
+msgstr "Adicionado suporte para filtrar na API de download."
 
 #: ../../changes.rst:9
-#, fuzzy
-#| msgid "Disable adding new translations"
 msgid "Fixed statistics display when adding new translations."
-msgstr "Desabilitar adição de novas traduções"
+msgstr "Corrigida a exibição de estatísticas ao adicionar novas traduções."
 
 #: ../../changes.rst:10
 msgid "Mitigate issues with GitHub SSH key change."
-msgstr ""
+msgstr "Mitiga os problemas com a alteração da chave SSH do GitHub."
 
 #: ../../changes.rst:12
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
-#| "milestone/70?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/73?"
 "closed=1>`__."
 msgstr ""
 "`Todas as alterações em detalhes <https://github.com/WeblateOrg/weblate/"
-"milestone/70?closed=1>`__."
+"milestone/73?closed=1>`__."
 
 #: ../../changes.rst:15
 msgid "Weblate 4.9"
@@ -23673,10 +23655,8 @@ msgid "Released on November 10th 2021."
 msgstr "Lançado em 10 de novembro de 2021."
 
 #: ../../changes.rst:19
-#, fuzzy
-#| msgid "Provide more details for history events."
 msgid "Provide more details for events in history."
-msgstr "Fornece mais detalhes para eventos do histórico."
+msgstr "Fornece mais detalhes para eventos no histórico."
 
 #: ../../changes.rst:20
 msgid "Improved rendering of history."
@@ -23687,10 +23667,8 @@ msgid "Improved performance of the translation pages."
 msgstr "Melhorado o desempenho das páginas de tradução."
 
 #: ../../changes.rst:22
-#, fuzzy
-#| msgid "Added support for restricting translation file download."
 msgid "Added support for restricting translation file downloads."
-msgstr "Adicionado suporte para restringir o download do arquivo de tradução."
+msgstr "Adicionado suporte para restringir o downloads de arquivo de tradução."
 
 #: ../../changes.rst:23
 msgid ""
@@ -23719,15 +23697,11 @@ msgstr ""
 "auxiliar nas próximas alterações da política do Google."
 
 #: ../../changes.rst:27
-#, fuzzy
-#| msgid ""
-#| "Added support for customizing ssh invocation via :setting:"
-#| "`SSH_EXTRA_ARGS`."
 msgid ""
 "Added support for customizing SSH invocation via :setting:`SSH_EXTRA_ARGS`."
 msgstr ""
-"Adicionado suporte para personalizar a invocação de ssh via :setting:"
-"`SSH_EXTRA_ARGS`."
+"Adicionado suporte para personalizar a invocação de SSH via "
+":setting:`SSH_EXTRA_ARGS`."
 
 #: ../../changes.rst:28
 msgid "Added checks for ICU MessageFormat."
@@ -23748,29 +23722,22 @@ msgid "Added option to stay on translated string while editing."
 msgstr "Adicionada opção para permanecer no texto traduzido durante a edição."
 
 #: ../../changes.rst:32
-#, fuzzy
-#| msgid ""
-#| "Added support for customizing borg invocation via :setting:"
-#| "`BORG_EXTRA_ARGS`."
 msgid ""
 "Added support for customizing Borg invocation via :setting:`BORG_EXTRA_ARGS`."
 msgstr ""
-"Adicionado suporte para personalizar a invocação de borg via :setting:"
-"`BORG_EXTRA_ARGS`."
+"Adicionado suporte para personalizar a invocação de Borg via "
+":setting:`BORG_EXTRA_ARGS`."
 
 #: ../../changes.rst:33
 msgid "Fixed generating of MO files for monolingual translations."
 msgstr "Corrigida a geração de arquivos MO para traduções monolíngues."
 
 #: ../../changes.rst:34
-#, fuzzy
-#| msgid ""
-#| "Added API endpoint to download all component translations in a ZIP file."
 msgid ""
 "Added API endpoint to download all component translations as a ZIP file."
 msgstr ""
-"Adicionado endpoint de API para baixar todas as traduções de componentes em "
-"um arquivo ZIP."
+"Adicionado endpoint de API para baixar todas as traduções de componentes "
+"como um arquivo ZIP."
 
 #: ../../changes.rst:35
 msgid "Added support for Python 3.10."
@@ -23784,16 +23751,12 @@ msgstr ""
 "gerenciamento."
 
 #: ../../changes.rst:38
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/"
-#| "milestone/70?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/71?"
 "closed=1>`__."
 msgstr ""
 "`Todas as alterações em detalhes <https://github.com/WeblateOrg/weblate/"
-"milestone/70?closed=1>`__."
+"milestone/71?closed=1>`__."
 
 #: ../../changes.rst:41
 msgid "Weblate 4.8.1"
@@ -33234,12 +33197,6 @@ msgid "Fetching remote changes into Weblate"
 msgstr "Buscando alterações remotas para o Weblate"
 
 #: ../../devel/integration.rst:45
-#, fuzzy
-#| msgid ""
-#| "To fetch the strings newly updated in your repository into Weblate, just "
-#| "let it pull from the upstream repository. This can be achieved in the "
-#| "user interface (in the :guilabel:`Repository maintenance`), or from the "
-#| "command line using :ref:`wlc`."
 msgid ""
 "To fetch the strings newly updated in your repository into Weblate, just let "
 "it pull from the upstream repository. This can be achieved in the user "
