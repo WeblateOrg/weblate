@@ -179,7 +179,7 @@ def add_host_key(request, host, port=""):
                 known_hosts_file = ssh_file(KNOWN_HOSTS)
                 # Remove existing key entries
                 with open(known_hosts_file) as handle:
-                    for line in handle.readline():
+                    for line in handle:
                         keys.discard(line.strip())
                 # Write any new keys
                 if keys:
@@ -195,6 +195,40 @@ def add_host_key(request, host, port=""):
             )
         except OSError as exc:
             messages.error(request, _("Failed to get host key: %s") % str(exc))
+
+
+GITHUB_RSA_KEY = (
+    "AAAAB3NzaC1yc2EAAAABIwAAAQEAq2A7hRGmdnm9tUDbO9IDSwBK6TbQa+PXYPCPy6rbTrTtw7"
+    "PHkccKrpp0yVhp5HdEIcKr6pLlVDBfOLX9QUsyCOV0wzfjIJNlGEYsdlLJizHhbn2mUjvSAHQq"
+    "ZETYP81eFzLQNnPHt4EVVUh7VfDESU84KezmD5QlWpXLmvU31/yMf+Se8xhHTvKSCZIFImWwoG"
+    "6mbUoWf9nzpIoaSjB+weqqUUmpaaasXVal72J+UX2B+2RPW3RcT0eOzQgqlJL3RKrTJvdsjE3J"
+    "EAvGq3lGHSZXy28G3skua2SmVi/w4yCE6gbODqnTWlg7+wC604ydGXA8VJiS5ap43JXiUFFAaQ=="
+)
+
+
+def cleanup_host_keys(*args, **kwargs):
+    known_hosts_file = ssh_file(KNOWN_HOSTS)
+    logger = kwargs.get("logger", print)  # noqa: T002
+    keys = []
+    with open(known_hosts_file) as handle:
+        for line in handle:
+            # Ignore IP address based RSA keys for GitHub, these
+            # are duplicate to hostname based and cause problems on
+            # migration to ECDSA.
+            # See https://github.com/WeblateOrg/weblate/issues/6830
+            if line[0].isdigit() and GITHUB_RSA_KEY in line:
+                logger(f"Removing deprecated RSA key for GitHub: {line.strip()}")
+                continue
+
+            # Avoid duplicates
+            if line in keys:
+                logger(f"Skipping duplicate key: {line.strip()}")
+                continue
+
+            keys.append(line)
+
+    with open(known_hosts_file, "w") as handle:
+        handle.writelines(keys)
 
 
 def can_generate_key():

@@ -224,6 +224,22 @@ manually, as the cleanups happen automatically in the background.
 
    :ref:`production-cron`
 
+cleanup_ssh_keys
+----------------
+
+.. django-admin:: cleanup_ssh_keys
+
+.. versionadded:: 4.9.1
+
+Removes duplicate and obsolete SSH host keys.
+
+* Removes deprecated RSA keys for GitHub which might cause issues connecting to GitHub.
+* Removes duplicate entries in host keys.
+
+.. seealso::
+
+   :ref`ssh-repos`
+
 createadmin
 -----------
 

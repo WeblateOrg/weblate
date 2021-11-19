@@ -7,6 +7,7 @@ Not yet released.
 * Improved handling of whitespace in flags.
 * Add support for filtering in download API.
 * Fixed statistics display when adding new translations.
+* Mitigate issues with GitHub SSH key change.
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/73?closed=1>`__.
 
