@@ -30,7 +30,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.9.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-11-19 11:41+0000\n"
-"PO-Revision-Date: 2021-11-15 11:44+0000\n"
+"PO-Revision-Date: 2021-11-19 14:50+0000\n"
 "Last-Translator: Agnieszka C <aga_04@o2.pl>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/weblate/"
 "application/pl/>\n"
@@ -40,7 +40,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 4.9.1-dev\n"
+"X-Generator: Weblate 4.9.1\n"
 
 #: weblate/accounts/avatar.py:103
 msgctxt "No known user"
@@ -1670,14 +1670,10 @@ msgid "Important dates"
 msgstr "Ważne daty"
 
 #: weblate/auth/admin.py:205
-#, fuzzy
-#| msgid "This is not used when component list is selected."
 msgid "This is not used when a component list is selected."
 msgstr "Nie jest używane, gdy wybrana jest lista komponentów."
 
 #: weblate/auth/admin.py:211
-#, fuzzy
-#| msgid "This is not used when component is selected."
 msgid "This is not used when a component is selected."
 msgstr "Nie jest używane, gdy komponent jest wybrany."
 
@@ -2896,21 +2892,19 @@ msgid "Syntax error: %s"
 msgstr "Błąd składniowy: %s"
 
 #: weblate/checks/icu.py:464
-#, fuzzy, python-format
-#| msgid "Unknown placeholder in translation: %s"
+#, python-format
 msgid "One or more unknown placeholders in the translation: %s"
-msgstr "Nieznany symbol zastępczy w tłumaczeniu: %s"
+msgstr "Jeden lub więcej nieznanych symboli zastępczych w tłumaczeniu: %s"
 
 #: weblate/checks/icu.py:469
-#, fuzzy, python-format
-#| msgid "Placeholder missing in translation: %s"
+#, python-format
 msgid "One or more placeholders missing in the translation: %s"
-msgstr "Brak symbolu zastępczego w tłumaczeniu: %s"
+msgstr "Brak jednego lub wielu symboli zastępczych w tłumaczeniu: %s"
 
 #: weblate/checks/icu.py:473
 #, python-format
 msgid "One or more placeholder types are incorrect: %s"
-msgstr ""
+msgstr "Jeden lub więcej typów symboli zastępczych jest nieprawidłowych: %s"
 
 #: weblate/checks/icu.py:478
 #, python-format
@@ -2918,43 +2912,41 @@ msgid "Missing other sub-message for: %s"
 msgstr "Brak innej wiadomości podrzędnej dla: %s"
 
 #: weblate/checks/icu.py:481
-#, fuzzy, python-format
-#| msgid "Bad plural selectors for: %s"
+#, python-format
 msgid "Incorrect plural selectors for: %s"
-msgstr "Złe selektory liczby mnogiej dla: %s"
+msgstr "Nieprawidłowe selektory liczby mnogiej dla: %s"
 
 #: weblate/checks/icu.py:486
-#, fuzzy, python-format
-#| msgid "Bad sub-message selectors for: %s"
+#, python-format
 msgid "Incorrect sub-message selectors for: %s"
-msgstr "Złe selektory wiadomości podrzędnych dla: %s"
+msgstr "Nieprawidłowe selektory wiadomości podrzędnych dla: %s"
 
 #: weblate/checks/icu.py:492
-#, fuzzy, python-format
-#| msgid "Placeholder should be XML tag in translation: %s"
+#, python-format
 msgid ""
 "One or more placeholders should have a corresponding XML tag in the "
 "translation: %s"
-msgstr "Symbol zastępczy powinien być tagiem XML w tłumaczeniu: %s"
+msgstr ""
+"Jeden lub więcej symboli zastępczych powinno mieć odpowiedni tag XML w "
+"tłumaczeniu: %s"
 
 #: weblate/checks/icu.py:498
-#, fuzzy, python-format
-#| msgid "Placeholder should not be XML tag in translation: %s"
+#, python-format
 msgid ""
 "One or more placeholders should not be an XML tag in the translation: %s"
-msgstr "Symbol zastępczy nie powinien być tagiem XML w tłumaczeniu: %s"
+msgstr ""
+"Jeden lub więcej symboli zastępczych nie powinno być tagiem XML w "
+"tłumaczeniu: %s"
 
 #: weblate/checks/icu.py:504
-#, fuzzy, python-format
-#| msgid "XML Tag has unexpected contents in translation: %s"
+#, python-format
 msgid "One or more XML tags has unexpected content in the translation: %s"
-msgstr "Tag XML ma nieoczekiwaną zawartość w tłumaczeniu: %s"
+msgstr "Jeden lub więcej tagów XML ma nieoczekiwaną zawartość w tłumaczeniu: %s"
 
 #: weblate/checks/icu.py:509
-#, fuzzy, python-format
-#| msgid "XML Tag missing contents in translation: %s"
+#, python-format
 msgid "One or more XML tags missing content in the translation: %s"
-msgstr "Brak zawartości tagu XML w tłumaczeniu: %s"
+msgstr "Jeden lub więcej tagów XML nie zawiera treści tłumaczenia: %s"
 
 #: weblate/checks/markup.py:94
 msgid "BBcode markup"
@@ -7746,12 +7738,16 @@ msgid ""
 "Translation file will be created based on <code>%(new_base)s</code> with all "
 "strings being untranslated."
 msgstr ""
+"Plik tłumaczenia zostanie utworzony na podstawie <code>%(new_base)s</code> "
+"ze wszystkimi ciągami nieprzetłumaczonymi."
 
 #: weblate/templates/new-language.html:36
 msgid ""
 "Translation file will be created blank and new strings will be added as they "
 "are translated."
 msgstr ""
+"Plik tłumaczenia zostanie utworzony jako pusty, a nowe ciągi będą dodawane w "
+"miarę ich tłumaczenia."
 
 #: weblate/templates/new-language.html:41
 #, python-format
@@ -7760,12 +7756,17 @@ msgid ""
 "all strings marked as needing editing and strings will be replaced as they "
 "are translated."
 msgstr ""
+"Plik tłumaczenia zostanie utworzony jako kopia <code>%(new_base)s</code> ze "
+"wszystkimi ciągami oznaczonymi jako wymagające edycji, a ciągi zostaną "
+"zastąpione podczas tłumaczenia."
 
 #: weblate/templates/new-language.html:48
 msgid ""
 "Empty directory will be created for translations and individual files will "
 "be created as the strings are translated."
 msgstr ""
+"Pusty katalog zostanie utworzony dla tłumaczeń, a poszczególne pliki będą "
+"tworzone w miarę tłumaczenia ciągów."
 
 #: weblate/templates/new-language.html:55
 msgid ""
@@ -11104,10 +11105,9 @@ msgid "File %s was changed."
 msgstr "Plik %s został zmieniony."
 
 #: weblate/trans/models/change.py:594
-#, fuzzy, python-format
-#| msgid "Parsing of file %s was enforced"
+#, python-format
 msgid "Parsing of file %s was enforced."
-msgstr "Parsowanie pliku %s zostało wymuszone"
+msgstr "Parsowanie pliku %s zostało wymuszone."
 
 #: weblate/trans/models/change.py:596
 #, python-format
