@@ -1,7 +1,7 @@
 Weblate 4.9.1
 -------------
 
-Not yet released.
+Released on November 19th 2021.
 
 * Fixed upload of monolingual files after changing template.
 * Improved handling of whitespace in flags.
