@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.9.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-11-19 14:52+0000\n"
-"PO-Revision-Date: 2021-11-15 11:44+0000\n"
+"PO-Revision-Date: 2021-11-20 21:49+0000\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: Hebrew <https://hosted.weblate.org/projects/weblate/"
 "application/he/>\n"
@@ -23,7 +23,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n == 1) ? 0 : ((n == 2) ? 1 : ((n > 10 && "
 "n % 10 == 0) ? 2 : 3));\n"
-"X-Generator: Weblate 4.9.1-dev\n"
+"X-Generator: Weblate 4.9.1\n"
 
 #: weblate/accounts/avatar.py:103
 msgctxt "No known user"
@@ -371,10 +371,9 @@ msgid "Agreement with Terms of Service {date}."
 msgstr "הסכמה לתנאי השירות {date}."
 
 #: weblate/accounts/models.py:162
-#, fuzzy, python-brace-format
-#| msgid "Invited to Weblate by {username}."
+#, python-brace-format
 msgid "Invited to {site_title} by {username}."
-msgstr "התקבלה הזמנה ל־Weblate ע״י {username}."
+msgstr "התקבלה הזמנה אל {site_title} מאת {username}."
 
 #: weblate/accounts/models.py:163
 msgid "Started trial period."
@@ -1583,14 +1582,12 @@ msgid "Important dates"
 msgstr "תאריכים חשובים"
 
 #: weblate/auth/admin.py:205
-#, fuzzy
-#| msgid "This addon is used for all components sharing this repository."
 msgid "This is not used when a component list is selected."
-msgstr "תוסף זה משמש את כל הרכיבים שחולקים את המאגר הזה."
+msgstr "לא נעשה בזה שימוש כאשר נבחרת רשימת רכיבים."
 
 #: weblate/auth/admin.py:211
 msgid "This is not used when a component is selected."
-msgstr ""
+msgstr "אין בזה שימוש כשלא נבחר רכיב."
 
 #. Translators: Permission name
 #: weblate/auth/data.py:34
@@ -1766,10 +1763,8 @@ msgstr "מחיקת תרגום קיים"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:102
-#, fuzzy
-#| msgid "Download translation"
 msgid "Download translation file"
-msgstr "הורדת תרגום"
+msgstr "הורדת קובץ תרגום"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:104
@@ -2012,20 +2007,16 @@ msgid "Billing"
 msgstr "חיוב"
 
 #: weblate/auth/forms.py:103 weblate/trans/views/acl.py:211
-#, fuzzy
-#| msgid "Activation e-mail will be sent here."
 msgid "User invitation e-mail was sent."
-msgstr "לכתובת הזאת נשלחת הודעת ההפעלה."
+msgstr "נשלחה הזמנה למשתמש דרך דוא״ל."
 
 #: weblate/auth/forms.py:112
 msgid "Send e-mail invitation to the user"
 msgstr "שליחת הזמנה למשתמש בדוא״ל"
 
 #: weblate/auth/forms.py:126
-#, fuzzy
-#| msgid "Send e-mail invitation to the user"
 msgid "Resend e-mail invitation to the user"
-msgstr "שליחת הזמנה למשתמש בדוא״ל"
+msgstr "שליחת הזמנה למשתמש בדוא״ל שוב"
 
 #: weblate/auth/models.py:77
 #, python-format
@@ -2568,16 +2559,12 @@ msgid "Font spacing"
 msgstr "ריווח גופן"
 
 #: weblate/checks/flags.py:68
-#, fuzzy
-#| msgid "Java MessageFormat"
 msgid "ICU MessageFormat Flags"
-msgstr "תבנית Java MessageFormat"
+msgstr "דגלוני ICU MessageFormat"
 
 #: weblate/checks/flags.py:70
-#, fuzzy
-#| msgid "Java MessageFormat"
 msgid "ICU MessageFormat Tag Prefix"
-msgstr "תבנית Java MessageFormat"
+msgstr "קידומת תגית ICU MessageFormat"
 
 #: weblate/checks/flags.py:72 weblate/trans/models/component.py:598
 #: weblate/utils/views.py:135
@@ -2783,90 +2770,79 @@ msgid "Following terms are not translated according to glossary: %s"
 msgstr "המונחים הבאים לא תורגמו לפי המונחון: %s"
 
 #: weblate/checks/icu.py:269
-#, fuzzy
-#| msgid "Java MessageFormat"
 msgid "ICU MessageFormat syntax"
-msgstr "תבנית Java MessageFormat"
+msgstr "תחביר ICU MessageFormat"
 
 #: weblate/checks/icu.py:270
-#, fuzzy
-#| msgid "Syntax error in language aliases."
 msgid "Syntax errors in ICU MessageFormat strings."
-msgstr "שגיאת תחביר בכינויי השפות."
+msgstr "שגיאות תחביר במחרוזות ICU MessageFormat."
 
 #: weblate/checks/icu.py:292
-#, fuzzy
-#| msgid "Java MessageFormat"
 msgid "ICU MessageFormat"
-msgstr "תבנית Java MessageFormat"
+msgstr "ICU MessageFormat"
 
 #: weblate/checks/icu.py:294
 msgid ""
 "Syntax errors and/or placeholder mismatches in ICU MessageFormat strings."
-msgstr ""
+msgstr "שגיאות תחביא ו/או חוסר התאמה בממלאי מקום במחרוזות ICU MessageFormat."
 
 #: weblate/checks/icu.py:460
 #, python-format
 msgid "Syntax error: %s"
-msgstr ""
+msgstr "שגיאת תחביר: %s"
 
 #: weblate/checks/icu.py:464
-#, fuzzy, python-format
-#| msgid "Forbidden translation: %s"
+#, python-format
 msgid "One or more unknown placeholders in the translation: %s"
-msgstr "תרגום אסור: %s"
+msgstr "ממלא מקום לא ידוע אחד או יותר בתרגום: %s"
 
 #: weblate/checks/icu.py:469
-#, fuzzy, python-format
-#| msgid "Please sign in to save translations."
+#, python-format
 msgid "One or more placeholders missing in the translation: %s"
-msgstr "נא להיכנס כדי לשמור תרגומים."
+msgstr "ממלא מקום אחד או יותר חסרים בתרגום: %s"
 
 #: weblate/checks/icu.py:473
 #, python-format
 msgid "One or more placeholder types are incorrect: %s"
-msgstr ""
+msgstr "אחד או יותר מסוגי ממלאי המקום שגויים: %s"
 
 #: weblate/checks/icu.py:478
 #, python-format
 msgid "Missing other sub-message for: %s"
-msgstr ""
+msgstr "חסרה תת־הודעה אחרת עבור: %s"
 
 #: weblate/checks/icu.py:481
 #, python-format
 msgid "Incorrect plural selectors for: %s"
-msgstr ""
+msgstr "בוחרי רבים שגויים עבור: %s"
 
 #: weblate/checks/icu.py:486
 #, python-format
 msgid "Incorrect sub-message selectors for: %s"
-msgstr ""
+msgstr "בוחרי תת־הודעות שגויים עבור: %s"
 
 #: weblate/checks/icu.py:492
 #, python-format
 msgid ""
 "One or more placeholders should have a corresponding XML tag in the "
 "translation: %s"
-msgstr ""
+msgstr "לממלא מקום אחד או יותר אמורה להיות תגית XML תואמות בתרגום: %s"
 
 #: weblate/checks/icu.py:498
-#, fuzzy, python-format
-#| msgid "Forbidden translation: %s"
+#, python-format
 msgid ""
 "One or more placeholders should not be an XML tag in the translation: %s"
-msgstr "תרגום אסור: %s"
+msgstr "ממלא מקום אחד או יותר לא אמור להיות תגית XML בתרגום: %s"
 
 #: weblate/checks/icu.py:504
-#, fuzzy, python-format
-#| msgid "Missing parameters for translation flag: \"%s\""
+#, python-format
 msgid "One or more XML tags has unexpected content in the translation: %s"
-msgstr "חסרים משתנים לדגלון תרגום: „%s”"
+msgstr "לתגית XML אחת או יותר יש תוכן מפתיע בתרגום: %s"
 
 #: weblate/checks/icu.py:509
-#, fuzzy, python-format
-#| msgid "Missing parameters for translation flag: \"%s\""
+#, python-format
 msgid "One or more XML tags missing content in the translation: %s"
-msgstr "חסרים משתנים לדגלון תרגום: „%s”"
+msgstr "לאחת או יותר מתגיות ה־XML חסר תוכן בתרגום: %s"
 
 #: weblate/checks/markup.py:94
 msgid "BBcode markup"
@@ -4155,7 +4131,7 @@ msgstr "הרשמה"
 
 #: weblate/templates/accounts/email-sent.html:12
 msgid "You will find the confirmation link in your e-mail inbox."
-msgstr ""
+msgstr "קישור האימות יופיע בתיבת הדוא״ל הנכנס שלך."
 
 #: weblate/templates/accounts/email-sent.html:19
 msgid "Password reset almost complete"
@@ -4171,43 +4147,41 @@ msgstr "ההרשמה כמעט הושלמה"
 
 #: weblate/templates/accounts/email-sent.html:30
 msgid "Follow the password recovery instructions sent to your e-mail inbox."
-msgstr ""
+msgstr "יש למלא אחר הנחיות איפוס הססמה שנשלחו לתיבת הדוא״ל הנכנס שלך."
 
 #: weblate/templates/accounts/email-sent.html:31
 #: weblate/templates/accounts/email-sent.html:34
 msgid "Request a new confirmation link if it expires."
-msgstr ""
+msgstr "ניתן לבקש קישור אישור חדש אם הוא פג."
 
 #: weblate/templates/accounts/email-sent.html:33
 msgid ""
 "Remove your account by clicking the confirmation link in the e-mail sent to "
 "you."
 msgstr ""
+"ניתן להסיר את החשבון שלך בלחיצה על אישור האימות בהודעה שנשלחה לתיבת הדוא״ל "
+"שלך."
 
 #: weblate/templates/accounts/email-sent.html:36
 msgid ""
 "Click the confirmation link sent to your e-mail inbox and start using your "
 "account."
 msgstr ""
+"יש ללחוץ על קישור האימות שנשלח לתיבת הדוא״ל הנכנס שלך ולהתחיל להשתמש בחשבון "
+"שלך."
 
 #: weblate/templates/accounts/email-sent.html:37
-#, fuzzy
-#| msgid "Please check your mailbox for the confirmation link."
 msgid "Register again if the confirmation link expires."
-msgstr "נא לבדוק אם הקישור לאישור הגיע לתיבת הדוא״ל שלך."
+msgstr "יש להירשם שוב אם קישור האימות פג."
 
 #: weblate/templates/accounts/email-sent.html:42
-#, fuzzy, python-format
-#| msgid ""
-#| "If you don't receive it shortly, please check your spam folder or retry "
-#| "the registration. If the problem persist, please <a href=\"%(contact_url)s"
-#| "\">contact us</a>."
+#, python-format
 msgid ""
 "If it isn't in the spam folder either, you might have to register again. "
 "Please <a href=\"%(contact_url)s\">contact us</a> if you have problems."
 msgstr ""
-"אם ההודעה לא מגיעה אליך בקרוב, נא לבדוק בתיקיית הספאם או לנסות להירשם מחדש. "
-"אם הבעיה נמשכת, אנא <a href=\"%(contact_url)s\">ליצור אתנו קשר</a>."
+"אם ההודעה לא הגיעה גם לתיקיית הספאם, אולי מוטב לנסות להירשם מחדש. נא <a href="
+"\"%(contact_url)s\">ליצור אתנו קשר</a> אם מתעוררות בעיות."
 
 #: weblate/templates/accounts/email.html:10
 #: weblate/templates/accounts/register.html:19
@@ -6566,10 +6540,9 @@ msgid "Mark as spam"
 msgstr "סימון כזבל"
 
 #: weblate/templates/mail/account_activity.html:7
-#, fuzzy, python-format
-#| msgid "There has been a following change in your account at %(site_title)s:"
+#, python-format
 msgid "The following activity has occured on your account at %(site_title)s:"
-msgstr "השינוי הבא נערך בחשבון שלך באתר %(site_title)s:"
+msgstr "הפעילות הבאה התרחשה בחשבון שלך באתר %(site_title)s:"
 
 #: weblate/templates/mail/account_activity_subject.txt:4
 #, python-format
@@ -6944,12 +6917,16 @@ msgid ""
 "The password can not be reset because there is no account registered for "
 "this e-mail at %(site_title)s."
 msgstr ""
+"אי אפשר לאפס את הססמה כיוון שאין חשבון רשום עם כתובת הדוא״ל הזאת תחת "
+"%(site_title)s."
 
 #: weblate/templates/mail/reset-nonexisting.html:8
 msgid ""
 "Please check whether this Weblate instance is the one you have used and what "
 "e-mail address you did use when registering."
 msgstr ""
+"נא לבדוק האם עותק זה של Weblate הוא זה שבו השתמשת ובאיזו כתובת דוא״ל השתמשת "
+"להרשמה."
 
 #: weblate/templates/mail/reset.html:7
 #, python-format
@@ -6962,16 +6939,12 @@ msgid "Password reset on %(site_title)s"
 msgstr "איפוס הססמה באתר %(site_title)s"
 
 #: weblate/templates/mail/shared-activity.html:18
-#, fuzzy
-#| msgid ""
-#| "If you don’t recognize this change, you can report it by clicking the "
-#| "button below."
 msgid "If this was not done by you, report it by clicking the button below."
-msgstr "אם השינוי הזה לא מוכר לך, ניתן לדווח עליו בלחיצה על הכפתור שלהלן."
+msgstr "אם לא ביצעת אף שינוי שכזה, ניתן לדווח עליו בלחיצה על הכפתור שלהלן."
 
 #: weblate/templates/mail/shared-activity.html:19
 msgid "Please request support through other means."
-msgstr ""
+msgstr "נא לבקש תמיכה בדרכים אחרות."
 
 #: weblate/templates/mail/shared-activity.html:20
 #, python-format
@@ -6979,6 +6952,8 @@ msgid ""
 "Ideas and questions can be sent to the %(link_start)sWeblate issue tracker"
 "%(link_end)s."
 msgstr ""
+"ניתן לשלוח רעיונות ושאלות אל %(link_start)sמערכת דיווח התקלות של "
+"Weblate%(link_end)s."
 
 #: weblate/templates/mail/shared-activity.html:24
 msgid "Report"
@@ -7543,12 +7518,10 @@ msgid "Import translation memory"
 msgstr "ייבוא זיכרון תרגום"
 
 #: weblate/templates/new-language.html:26
-#, fuzzy
-#| msgid "Translations of this string in the other languages"
 msgid ""
 "The translator instructions has info on how to start translating into other "
 "languages."
-msgstr "תרגום המחרוזת הזאת בשפות האחרות"
+msgstr "בהנחיות התרגום יש מידע כיצד לתרגם לשפות השונות."
 
 #: weblate/templates/new-language.html:29
 msgid "Please choose the language you want to translate to."
@@ -7560,12 +7533,13 @@ msgid ""
 "A translation file will be created based on <code>%(new_base)s</code> with "
 "all strings untranslated."
 msgstr ""
+"קובץ תרגום יווצר בהתבסס על <code>%(new_base)s</code> עם כל המחרוזות מתורגמות."
 
 #: weblate/templates/new-language.html:36
 msgid ""
 "An empty translation file will be created and new strings added as they are "
 "translated."
-msgstr ""
+msgstr "קובץ תרגום ריק יווצר ומחרוזות חדשות תתווספנה עם תרגומן."
 
 #: weblate/templates/new-language.html:41
 #, python-format
@@ -7574,38 +7548,32 @@ msgid ""
 "with all strings marked as \"Needs editing\" and replaced as they are "
 "translated."
 msgstr ""
+"קובץ תרגום יווצר כעותק של <code>%(new_base)s</code> כשכל המחרוזות תסומנה כ„"
+"טעונות שיפור” ויוחלפו בעת תרגומן."
 
 #: weblate/templates/new-language.html:48
 msgid ""
 "An empty directory will be created for translations, with individual files "
 "created as strings are translated."
-msgstr ""
+msgstr "תיווצר תיקייה ריקה לתרגומים, בה יווצרו קבצים בודדים כשמחרוזות מתורגמות."
 
 #: weblate/templates/new-language.html:55
-#, fuzzy
-#| msgid ""
-#| "Project maintainers are notified of this request, which prompts them to "
-#| "add the language manually."
 msgid ""
 "Project maintainers are notified of this request, prompting them to add the "
 "language manually."
-msgstr "מתחזקי מיזמים יקבלו הודעה על הבקשה שתנחה אותם להוסיף את השפה ידנית."
+msgstr "מתחזקי מיזמים יקבלו הודעה על הבקשה, עם הנחיה להוספת השפה ידנית."
 
 #: weblate/templates/new-language.html:59
 msgid "Can't find your language in the list above?"
 msgstr "לא מצאת את השפה שלך ברשימה לעיל?"
 
 #: weblate/templates/new-language.html:61
-#, fuzzy
-#| msgid ""
-#| "This list includes only basic languages. Please contact project "
-#| "maintainers for adding another one."
 msgid ""
 "This list includes only basic languages. Please contact project maintainers "
 "to add others."
 msgstr ""
 "רשימה זו כוללת שפות בסיסיות בלבד. נא ליצור קשר עם מתחזקי המיזם כדי להוסיף "
-"אחת נוספת."
+"עוד."
 
 #: weblate/templates/new-language.html:66
 msgid "Request new translation"
@@ -8615,21 +8583,15 @@ msgid "Error"
 msgstr "שגיאה"
 
 #: weblate/templates/trans/alert/ambiguouslanguage.html:5
-#, fuzzy
-#| msgid "The component translation files are using ambiguous language code."
 msgid "Files for translated languages are using ambiguous language codes."
-msgstr "קובצי התרגום של הרכיב משתמשים בקוד שפה דו־משמעי."
+msgstr "קובצי השפות המתורגמות משתמשים בקודים דו־משמעיים של שפות."
 
 #: weblate/templates/trans/alert/ambiguouslanguage.html:6
-#, fuzzy
-#| msgid ""
-#| "These language codes indicate a macrolanguage and it is usually better to "
-#| "use code of individual language instead."
 msgid ""
 "These language codes indicate a macrolanguage, and it is usually better to "
 "use the code of the individual language instead."
 msgstr ""
-"קודים אלו של שפות מציינים מאקרו שפות ובדרך כלל מוטב להשתמש בקוד לשפה נפרדת "
+"קודים אלו של שפות מציינים מאקרו שפות ובדרך כלל מוטב להשתמש בקוד לשפה הנפרדת "
 "במקום."
 
 #: weblate/templates/trans/alert/ambiguouslanguage.html:13
@@ -9232,7 +9194,7 @@ msgstr "אין מספיק הרשאות לשמירת תרגומים."
 
 #: weblate/templates/translate.html:220
 msgid "Save and stay"
-msgstr ""
+msgstr "לשמור ולהישאר"
 
 #: weblate/templates/translate.html:227
 msgid "Insufficient privileges for adding suggestions."
@@ -9729,8 +9691,6 @@ msgid "All recent changes made using Weblate in %s."
 msgstr "כל השינויים האחרונים שבוצעו באמצעות Weblate ב%s."
 
 #: weblate/trans/filter.py:34
-#, fuzzy
-#| msgid "Read only strings"
 msgid "Read-only strings"
 msgstr "מחרוזות לקריאה בלבד"
 
@@ -9976,14 +9936,10 @@ msgid "Score threshold"
 msgstr "סף ניקוד"
 
 #: weblate/trans/forms.py:880
-#, fuzzy
-#| msgid ""
-#| "Ensures a consistent set of languages is used for all components within a "
-#| "project."
 msgid ""
 "Enter component to use as source, keep blank to use all components in "
 "current project."
-msgstr "מוודא שנעשה שימוש בסדרה אחידה של שפות בתוך מיזם."
+msgstr "נא לבחור ברכיב שישמש כמקור, כשריק יעשה שימוש בכל הרכיבים במיזם הנוכחי."
 
 #: weblate/trans/forms.py:891
 msgid "All components in current project"
@@ -9991,16 +9947,12 @@ msgstr "כל הרכיבים במיזם הנוכחי"
 
 #: weblate/trans/forms.py:923 weblate/trans/forms.py:932
 #: weblate/trans/forms.py:940
-#, fuzzy
-#| msgid "Component Information"
 msgid "Component not found!"
-msgstr "מידע על רכיב"
+msgstr "הרכיב לא נמצא!"
 
 #: weblate/trans/forms.py:942
-#, fuzzy
-#| msgid "Parse error in %(component)s"
 msgid "Please provide valid component slug!"
-msgstr "שגיאת פענוח ב־%(component)s"
+msgstr "נא לספק שם מופשט תקני לרכיב!"
 
 #: weblate/trans/forms.py:950
 msgid "Scope"
@@ -10808,16 +10760,12 @@ msgstr[2] "מחרוזות חדשות לתרגום"
 msgstr[3] "מחרוזות חדשות לתרגום"
 
 #: weblate/trans/models/change.py:434
-#, fuzzy
-#| msgid "The translation was automatically locked due to following alerts:"
 msgid "The component was automatically locked because of an alert."
-msgstr "התרגום ננעל אוטומטית עקב ההתראות הבאות:"
+msgstr "הרכיב ננעל אוטומטית עקב התראה."
 
 #: weblate/trans/models/change.py:438
-#, fuzzy
-#| msgid "Component automatically unlocked"
 msgid "Component was automatically unlocked as alert was fixed."
-msgstr "הרכיב שוחרר אוטומטית"
+msgstr "הרכיב שוחרר אוטומטית כיוון שהתראה תוקנה."
 
 #: weblate/trans/models/change.py:494
 #, python-format
@@ -10825,21 +10773,19 @@ msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
 msgstr "%(action)s ב־%(time)s בתרגום %(translation)s ע״י %(user)s"
 
 #: weblate/trans/models/change.py:592
-#, fuzzy, python-format
-#| msgid "Bulk status change"
+#, python-format
 msgid "File %s was changed."
-msgstr "שינוי מצב כמותי"
+msgstr "הקובץ %s השתנה."
 
 #: weblate/trans/models/change.py:594
-#, fuzzy, python-format
-#| msgid "Using a .pot file as base file is unsupported."
+#, python-format
 msgid "Parsing of file %s was enforced."
-msgstr "אין תמיכה בשימוש בקובץ ‎.pot כבסיס."
+msgstr "פענוח הקובץ %s נכפה."
 
 #: weblate/trans/models/change.py:596
 #, python-format
 msgid "File %s was added."
-msgstr ""
+msgstr "הקובץ %s נוסף."
 
 #: weblate/trans/models/change.py:600
 msgctxt "License information not available"
@@ -12799,16 +12745,12 @@ msgid "Backup repository URL"
 msgstr "כתובת מאגר הגיבוי"
 
 #: weblate/wladmin/models.py:163
-#, fuzzy
-#| msgid ""
-#| "Use /path/to/repo for local backups or user@host:/path/to/repo for remote "
-#| "SSH backups."
 msgid ""
 "Use /path/to/repo for local backups or user@host:/path/to/repo or ssh://"
 "user@host:port/path/to/backups for remote SSH backups."
 msgstr ""
-"ב־‎/path/to/repo יש להשתמש לגיבויים מקומיים וב־user@host:/path/to/repo "
-"לגיבויים מרוחקים ב־SSH."
+"ב־‎/path/to/repo יש להשתמש לגיבויים מקומיים וב־user@host:/path/to/repo או "
+"ב־ssh://user@host:port/path/to/backups לגיבויים מרוחקים ב־SSH."
 
 #: weblate/wladmin/models.py:214
 msgid "Backup performed"
