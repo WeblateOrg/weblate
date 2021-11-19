@@ -208,6 +208,8 @@ GITHUB_RSA_KEY = (
 
 def cleanup_host_keys(*args, **kwargs):
     known_hosts_file = ssh_file(KNOWN_HOSTS)
+    if not os.path.exists(known_hosts_file):
+        return
     logger = kwargs.get("logger", print)  # noqa: T002
     keys = []
     with open(known_hosts_file) as handle:
