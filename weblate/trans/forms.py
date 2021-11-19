@@ -859,6 +859,7 @@ class AutoForm(forms.Form):
     def __init__(self, obj, *args, **kwargs):
         """Generate choices for other component in same project."""
         super().__init__(*args, **kwargs)
+        self.obj = obj
 
         # Add components from other projects with enabled shared TM
         self.components = (
@@ -924,7 +925,9 @@ class AutoForm(forms.Form):
             slashes = component.count("/")
             if slashes == 0:
                 try:
-                    result = self.components.get(slug=component)
+                    result = self.components.get(
+                        slug=component, project=self.obj.project
+                    )
                 except Component.DoesNotExist:
                     raise ValidationError(_("Component not found!"))
             elif slashes == 1:
