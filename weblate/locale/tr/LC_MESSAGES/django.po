@@ -21,7 +21,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.9.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-11-19 11:41+0000\n"
-"PO-Revision-Date: 2021-11-10 17:16+0000\n"
+"PO-Revision-Date: 2021-11-19 14:50+0000\n"
 "Last-Translator: Burak Yavuz <hitowerdigit@hotmail.com>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/weblate/"
 "application/tr/>\n"
@@ -30,7 +30,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.9.1-dev\n"
+"X-Generator: Weblate 4.9.1\n"
 
 #: weblate/accounts/avatar.py:103
 msgctxt "No known user"
@@ -1646,16 +1646,12 @@ msgid "Important dates"
 msgstr "Önemli tarihler"
 
 #: weblate/auth/admin.py:205
-#, fuzzy
-#| msgid "This is not used when component list is selected."
 msgid "This is not used when a component list is selected."
-msgstr "Bileşen listesi seçildiğinde bu kullanılmaz."
+msgstr "Bir bileşen listesi seçildiğinde bu kullanılmaz."
 
 #: weblate/auth/admin.py:211
-#, fuzzy
-#| msgid "This is not used when component is selected."
 msgid "This is not used when a component is selected."
-msgstr "Bileşen seçildiğinde bu kullanılmaz."
+msgstr "Bir bileşen seçildiğinde bu kullanılmaz."
 
 #. Translators: Permission name
 #: weblate/auth/data.py:34
@@ -2869,21 +2865,19 @@ msgid "Syntax error: %s"
 msgstr "Sözdizimi hatası: %s"
 
 #: weblate/checks/icu.py:464
-#, fuzzy, python-format
-#| msgid "Unknown placeholder in translation: %s"
+#, python-format
 msgid "One or more unknown placeholders in the translation: %s"
-msgstr "Çeviride bilinmeyen yer tutucu: %s"
+msgstr "Çeviride bir veya daha fazla bilinmeyen yer tutucu: %s"
 
 #: weblate/checks/icu.py:469
-#, fuzzy, python-format
-#| msgid "Placeholder missing in translation: %s"
+#, python-format
 msgid "One or more placeholders missing in the translation: %s"
-msgstr "Çeviride yer tutucu eksik: %s"
+msgstr "Çeviride bir veya daha fazla eksik yer tutucu: %s"
 
 #: weblate/checks/icu.py:473
 #, python-format
 msgid "One or more placeholder types are incorrect: %s"
-msgstr ""
+msgstr "Bir veya daha fazla yanlış yer tutucu türü: %s"
 
 #: weblate/checks/icu.py:478
 #, python-format
@@ -2891,43 +2885,40 @@ msgid "Missing other sub-message for: %s"
 msgstr "Diğer alt iletinin eksik olduğu: %s"
 
 #: weblate/checks/icu.py:481
-#, fuzzy, python-format
-#| msgid "Bad plural selectors for: %s"
+#, python-format
 msgid "Incorrect plural selectors for: %s"
-msgstr "Hatalı çoğul seçicilerin olduğu: %s"
+msgstr "Yanlış çoğul seçicilerin olduğu: %s"
 
 #: weblate/checks/icu.py:486
-#, fuzzy, python-format
-#| msgid "Bad sub-message selectors for: %s"
+#, python-format
 msgid "Incorrect sub-message selectors for: %s"
-msgstr "Hatalı alt ileti seçicilerinin olduğu: %s"
+msgstr "Yanlış alt ileti seçicilerinin olduğu: %s"
 
 #: weblate/checks/icu.py:492
-#, fuzzy, python-format
-#| msgid "Placeholder should be XML tag in translation: %s"
+#, python-format
 msgid ""
 "One or more placeholders should have a corresponding XML tag in the "
 "translation: %s"
-msgstr "Yer tutucu, çeviride XML etiketi olmalıdır: %s"
+msgstr ""
+"Bir veya daha fazla yer tutucu, çeviride karşılık gelen bir XML etiketine "
+"sahip olmalıdır: %s"
 
 #: weblate/checks/icu.py:498
-#, fuzzy, python-format
-#| msgid "Placeholder should not be XML tag in translation: %s"
+#, python-format
 msgid ""
 "One or more placeholders should not be an XML tag in the translation: %s"
-msgstr "Yer tutucu, çeviride XML etiketi olmamalıdır: %s"
+msgstr ""
+"Bir veya daha fazla yer tutucu, çeviride bir XML etiketi olmamalıdır: %s"
 
 #: weblate/checks/icu.py:504
-#, fuzzy, python-format
-#| msgid "XML Tag has unexpected contents in translation: %s"
+#, python-format
 msgid "One or more XML tags has unexpected content in the translation: %s"
-msgstr "XML Etiketi çeviride beklenmeyen içeriklere sahip: %s"
+msgstr "Bir veya daha fazla XML etiketi çeviride beklenmeyen içeriğe sahip: %s"
 
 #: weblate/checks/icu.py:509
-#, fuzzy, python-format
-#| msgid "XML Tag missing contents in translation: %s"
+#, python-format
 msgid "One or more XML tags missing content in the translation: %s"
-msgstr "Çeviride XML Etiketi eksik içerik: %s"
+msgstr "Bir veya daha fazla XML etiketi çeviride eksik içeriğe sahip: %s"
 
 #: weblate/checks/markup.py:94
 msgid "BBcode markup"
@@ -7683,6 +7674,7 @@ msgid ""
 "Translation file will be created blank and new strings will be added as they "
 "are translated."
 msgstr ""
+"Çeviri dosyası boş oluşturulacak ve çevrildikçe yeni dizgiler eklenecektir."
 
 #: weblate/templates/new-language.html:41
 #, python-format
@@ -7697,6 +7689,8 @@ msgid ""
 "Empty directory will be created for translations and individual files will "
 "be created as the strings are translated."
 msgstr ""
+"Çeviriler için boş dizin oluşturulacak ve dizgiler çevrildikçe ayrı dosyalar "
+"oluşturulacaktır."
 
 #: weblate/templates/new-language.html:55
 msgid ""
@@ -11008,10 +11002,9 @@ msgid "File %s was changed."
 msgstr "%s dosyası değiştirildi."
 
 #: weblate/trans/models/change.py:594
-#, fuzzy, python-format
-#| msgid "Parsing of file %s was enforced"
+#, python-format
 msgid "Parsing of file %s was enforced."
-msgstr "%s dosyasının ayrıştırılması zorunlu kılındı"
+msgstr "%s dosyasının ayrıştırılması zorunlu kılındı."
 
 #: weblate/trans/models/change.py:596
 #, python-format
