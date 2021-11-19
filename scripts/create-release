@@ -73,6 +73,7 @@ if [ "$DO_TAG" -eq 1 ] ; then
     git checkout stable
     git merge $namever
     git push origin stable
+    git checkout main
 
     # Upload to GitHub
     ./scripts/extract-release-notes $version > dist/Weblate-$version.md
