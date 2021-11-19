@@ -178,9 +178,10 @@ def add_host_key(request, host, port=""):
             if keys:
                 known_hosts_file = ssh_file(KNOWN_HOSTS)
                 # Remove existing key entries
-                with open(known_hosts_file) as handle:
-                    for line in handle:
-                        keys.discard(line.strip())
+                if os.path.exists(known_hosts_file):
+                    with open(known_hosts_file) as handle:
+                        for line in handle:
+                            keys.discard(line.strip())
                 # Write any new keys
                 if keys:
                     with open(known_hosts_file, "a") as handle:
