@@ -898,17 +898,32 @@ $(function () {
 
     $pre.animate({ scrollTop: $pre.get(0).scrollHeight });
 
+    var progress_completed = function () {
+      $bar.width("100%");
+      if ($("#progress-redirect").prop("checked")) {
+        window.location = $("#progress-return").attr("href");
+      }
+    };
+
     var progress_interval = setInterval(function () {
-      $.get(url, function (data) {
-        $bar.width(data.progress + "%");
-        $pre.text(data.log);
-        $pre.animate({ scrollTop: $pre.get(0).scrollHeight });
-        if (data.completed) {
-          clearInterval(progress_interval);
-          if ($("#progress-redirect").prop("checked")) {
-            window.location = $("#progress-return").attr("href");
+      $.ajax({
+        url: url,
+        type: "get",
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+          if (XMLHttpRequest.status == 404) {
+            clearInterval(progress_interval);
+            progress_completed();
           }
-        }
+        },
+        success: function (data) {
+          $bar.width(data.progress + "%");
+          $pre.text(data.log);
+          $pre.animate({ scrollTop: $pre.get(0).scrollHeight });
+          if (data.completed) {
+            clearInterval(progress_interval);
+            progress_completed();
+          }
+        },
       });
     }, 1000);
 
