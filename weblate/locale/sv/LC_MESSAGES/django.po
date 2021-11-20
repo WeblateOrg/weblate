@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.9.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-11-19 14:52+0000\n"
-"PO-Revision-Date: 2021-11-14 00:02+0000\n"
+"PO-Revision-Date: 2021-11-20 21:49+0000\n"
 "Last-Translator: Johan Jacobsson <johan.jacobsson@telia.com>\n"
 "Language-Team: Swedish <https://hosted.weblate.org/projects/weblate/"
 "application/sv/>\n"
@@ -22,7 +22,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.9.1-dev\n"
+"X-Generator: Weblate 4.9.1\n"
 
 #: weblate/accounts/avatar.py:103
 msgctxt "No known user"
@@ -1638,16 +1638,12 @@ msgid "Important dates"
 msgstr "Viktiga datum"
 
 #: weblate/auth/admin.py:205
-#, fuzzy
-#| msgid "This is not used when component list is selected."
 msgid "This is not used when a component list is selected."
-msgstr "Detta används inte när komponentlistan är vald."
+msgstr "Detta används inte när en komponentlista är vald."
 
 #: weblate/auth/admin.py:211
-#, fuzzy
-#| msgid "This is not used when component is selected."
 msgid "This is not used when a component is selected."
-msgstr "Detta används inte när komponenten är vald."
+msgstr "Detta används inte när en komponent är vald."
 
 #. Translators: Permission name
 #: weblate/auth/data.py:34
@@ -2858,21 +2854,19 @@ msgid "Syntax error: %s"
 msgstr "Syntaxfel: %s"
 
 #: weblate/checks/icu.py:464
-#, fuzzy, python-format
-#| msgid "Unknown placeholder in translation: %s"
+#, python-format
 msgid "One or more unknown placeholders in the translation: %s"
-msgstr "Okänd platshållare i översättningen: %s"
+msgstr "En eller flera okända platshållare i översättningen: %s"
 
 #: weblate/checks/icu.py:469
-#, fuzzy, python-format
-#| msgid "Placeholder missing in translation: %s"
+#, python-format
 msgid "One or more placeholders missing in the translation: %s"
-msgstr "Platshållare saknas i översättningen: %s"
+msgstr "En eller flera platshållare saknas i översättningen: %s"
 
 #: weblate/checks/icu.py:473
 #, python-format
 msgid "One or more placeholder types are incorrect: %s"
-msgstr ""
+msgstr "En eller flera platshållartyper är felaktiga: %s"
 
 #: weblate/checks/icu.py:478
 #, python-format
@@ -2880,43 +2874,40 @@ msgid "Missing other sub-message for: %s"
 msgstr "Saknar annat undermeddelande för: %s"
 
 #: weblate/checks/icu.py:481
-#, fuzzy, python-format
-#| msgid "Bad plural selectors for: %s"
+#, python-format
 msgid "Incorrect plural selectors for: %s"
-msgstr "Dåliga pluralväljare för: %s"
+msgstr "Felaktiga pluralväljare för: %s"
 
 #: weblate/checks/icu.py:486
-#, fuzzy, python-format
-#| msgid "Bad sub-message selectors for: %s"
+#, python-format
 msgid "Incorrect sub-message selectors for: %s"
-msgstr "Dåliga undermeddelandeväljare för: %s"
+msgstr "Felaktiga undermeddelandeväljare för: %s"
 
 #: weblate/checks/icu.py:492
-#, fuzzy, python-format
-#| msgid "Placeholder should be XML tag in translation: %s"
+#, python-format
 msgid ""
 "One or more placeholders should have a corresponding XML tag in the "
 "translation: %s"
-msgstr "Platshållaren ska vara en XML-tagg i översättningen: %s"
+msgstr ""
+"En eller flera platshållare ska ha en motsvarande XML-tagg i översättningen: "
+"%s"
 
 #: weblate/checks/icu.py:498
-#, fuzzy, python-format
-#| msgid "Placeholder should not be XML tag in translation: %s"
+#, python-format
 msgid ""
 "One or more placeholders should not be an XML tag in the translation: %s"
-msgstr "Platshållaren ska inte vara en XML-tagg i översättningen: %s"
+msgstr ""
+"En eller flera platshållare ska inte vara en XML-tagg i översättningen: %s"
 
 #: weblate/checks/icu.py:504
-#, fuzzy, python-format
-#| msgid "XML Tag has unexpected contents in translation: %s"
+#, python-format
 msgid "One or more XML tags has unexpected content in the translation: %s"
-msgstr "XML-taggen har oväntat innehåll i översättningen: %s"
+msgstr "En eller flera XML-taggar har oväntat innehåll i översättningen: %s"
 
 #: weblate/checks/icu.py:509
-#, fuzzy, python-format
-#| msgid "XML Tag missing contents in translation: %s"
+#, python-format
 msgid "One or more XML tags missing content in the translation: %s"
-msgstr "XML-taggen saknar innehåll i översättningen: %s"
+msgstr "En eller flera XML-taggar saknar innehåll i översättningen: %s"
 
 #: weblate/checks/markup.py:94
 msgid "BBcode markup"
@@ -7648,12 +7639,12 @@ msgid "Import translation memory"
 msgstr "Importera översättningsminne"
 
 #: weblate/templates/new-language.html:26
-#, fuzzy
-#| msgid "Translations of this string in the other languages"
 msgid ""
 "The translator instructions has info on how to start translating into other "
 "languages."
-msgstr "Översättningar av denna sträng till andra språk"
+msgstr ""
+"I översättarinstruktionerna finns information om hur du börjar översätta "
+"till andra språk."
 
 #: weblate/templates/new-language.html:29
 msgid "Please choose the language you want to translate to."
@@ -7665,12 +7656,16 @@ msgid ""
 "A translation file will be created based on <code>%(new_base)s</code> with "
 "all strings untranslated."
 msgstr ""
+"En översättningsfil kommer att skapas baserad på <code>%(new_base)s</code> "
+"med alla strängar oöversatta."
 
 #: weblate/templates/new-language.html:36
 msgid ""
 "An empty translation file will be created and new strings added as they are "
 "translated."
 msgstr ""
+"En tom översättningsfil kommer att skapas och nya strängar läggs till när de "
+"översätts."
 
 #: weblate/templates/new-language.html:41
 #, python-format
@@ -7679,40 +7674,37 @@ msgid ""
 "with all strings marked as \"Needs editing\" and replaced as they are "
 "translated."
 msgstr ""
+"En översättningsfil kommer att skapas som en kopia av <code>%(new_base)s</"
+"code> med alla strängar markerade som \"Behöver åtgärdas\" och ersätts när "
+"de översätts."
 
 #: weblate/templates/new-language.html:48
 msgid ""
 "An empty directory will be created for translations, with individual files "
 "created as strings are translated."
 msgstr ""
+"En tom katalog kommer att skapas för översättningar, och enskilda filer "
+"kommer att skapas när strängar översätts."
 
 #: weblate/templates/new-language.html:55
-#, fuzzy
-#| msgid ""
-#| "Project maintainers are notified of this request, which prompts them to "
-#| "add the language manually."
 msgid ""
 "Project maintainers are notified of this request, prompting them to add the "
 "language manually."
 msgstr ""
 "Projektadministratörerna är notifierade om denna begäran. Dom kommer att "
-"lägga språket manuellt."
+"lägga till språket manuellt."
 
 #: weblate/templates/new-language.html:59
 msgid "Can't find your language in the list above?"
 msgstr "Kan du inte hitta ditt språk i listan ovanför?"
 
 #: weblate/templates/new-language.html:61
-#, fuzzy
-#| msgid ""
-#| "This list includes only basic languages. Please contact project "
-#| "maintainers for adding another one."
 msgid ""
 "This list includes only basic languages. Please contact project maintainers "
 "to add others."
 msgstr ""
 "Denna lista innehåller endast grundläggande språk. Kontakta projektansvariga "
-"för att lägga till ytterligare en."
+"för att lägga till andra språk."
 
 #: weblate/templates/new-language.html:66
 msgid "Request new translation"
@@ -10998,10 +10990,9 @@ msgid "File %s was changed."
 msgstr "Filen %s har ändrats."
 
 #: weblate/trans/models/change.py:594
-#, fuzzy, python-format
-#| msgid "Parsing of file %s was enforced"
+#, python-format
 msgid "Parsing of file %s was enforced."
-msgstr "Parsning av fil %s genomfördes"
+msgstr "Parsning av filen %s har genomförts."
 
 #: weblate/trans/models/change.py:596
 #, python-format
