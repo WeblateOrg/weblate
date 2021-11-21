@@ -178,7 +178,7 @@ class DuplicateLanguage(MultiAlert):
     def get_analysis(self):
         component = self.instance.component
         result = {"monolingual": bool(component.template)}
-        source = component.source_language
+        source = component.source_language.code
         for occurrence in self.occurrences:
             if occurrence["language_code"] == source:
                 result["source_language"] = True
