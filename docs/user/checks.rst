@@ -1279,7 +1279,7 @@ Long untranslated
 :Check class: ``weblate.checks.source.LongUntranslatedCheck``
 :Flag to ignore: ``ignore-long-untranslated``
 
-When the string has not been translated for a long time, it is can indicate problem in a
+When the string has not been translated for a long time, it can indicate a problem in a
 source string making it hard to translate.
 
 
