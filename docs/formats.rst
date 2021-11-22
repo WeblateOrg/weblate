@@ -1010,7 +1010,7 @@ with (what is most often the) English strings.
 
     :doc:`tt:formats/json`,
     `Application Resource Bundle Specification <https://github.com/google/app-resource-bundle/wiki/ApplicationResourceBundleSpecification>`_,
-    `Internationalizing Flutter apps <https://flutter.dev/docs/development/accessibility-and-localization/internationalization>`_,
+    `Internationalizing Flutter apps <https://docs.flutter.dev/development/accessibility-and-localization/internationalization>`_,
     :ref:`updating-target-files`,
     :ref:`addon-weblate.json.customize`,
     :ref:`addon-weblate.cleanup.generic`
