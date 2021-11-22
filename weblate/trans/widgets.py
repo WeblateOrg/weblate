@@ -386,7 +386,7 @@ class SVGBadgeWidget(SVGWidget):
             render_size("DejaVu Sans", Pango.Weight.NORMAL, 11, 0, translated_text)[
                 0
             ].width
-            + 5
+            + 10
         )
 
         percent_text = self.get_percent_text()
@@ -394,7 +394,7 @@ class SVGBadgeWidget(SVGWidget):
             render_size("DejaVu Sans", Pango.Weight.NORMAL, 11, 0, percent_text)[
                 0
             ].width
-            + 5
+            + 10
         )
 
         if self.percent >= 90:
@@ -455,7 +455,7 @@ class MultiLanguageWidget(SVGWidget):
                     render_size(
                         "DejaVu Sans", Pango.Weight.NORMAL, 11, 0, language_name
                     )[0].width
-                    + 5
+                    + 10
                 ),
             )
             translations.append(
