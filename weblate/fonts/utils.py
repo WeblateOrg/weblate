@@ -46,6 +46,7 @@ FONTCONFIG_CONFIG = """<?xml version="1.0"?>
     <dir>{}</dir>
     <dir>{}</dir>
     <dir>{}</dir>
+    <dir>{}</dir>
     <config>
         <rescan>
             <int>30</int>
@@ -57,6 +58,7 @@ FONTCONFIG_CONFIG = """<?xml version="1.0"?>
         <prefer>
             <family>Source Sans 3</family>
             <family>DejaVu Sans</family>
+            <family>Noto Sans</family>
             <family>Droid Sans Fallback</family>
         </prefer>
     </alias>
@@ -118,6 +120,7 @@ def configure_fontconfig():
                 fonts_dir,
                 os.path.join(settings.STATIC_ROOT, "vendor", "font-source", "TTF"),
                 os.path.join(settings.STATIC_ROOT, "vendor", "font-dejavu"),
+                os.path.join(settings.STATIC_ROOT, "font-noto"),
                 os.path.join(settings.STATIC_ROOT, "font-droid"),
             )
         )
