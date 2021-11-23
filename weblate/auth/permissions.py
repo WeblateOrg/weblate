@@ -90,9 +90,7 @@ def check_permission(user, permission, obj):
             permission in permissions and lang in langs
             for permissions, langs in user.component_permissions[obj.component_id]
         )
-    raise ValueError(
-        f"Permission {permission} does not support: {obj.__class__.__name__}"
-    )
+    raise ValueError(f"Permission {permission} does not support: {obj.__class__}")
 
 
 @register_perm("comment.delete", "suggestion.delete")
@@ -121,8 +119,10 @@ def check_can_edit(user, permission, obj, is_vote=False):
         project = component.project
     elif isinstance(obj, Project):
         project = obj
+    elif isinstance(obj, ProjectLanguage):
+        project = obj.project
     else:
-        raise ValueError("Uknown object for permission check!")
+        raise ValueError(f"Uknown object for permission check: {obj.__class__}")
 
     # Email is needed for user to be able to edit
     if user.is_authenticated and not user.email:
@@ -178,6 +178,8 @@ def check_unit_review(user, permission, obj, skip_enabled=False):
                 return False
         else:
             if isinstance(obj, Component):
+                project = obj.project
+            elif isinstance(obj, ProjectLanguage):
                 project = obj.project
             else:
                 project = obj
