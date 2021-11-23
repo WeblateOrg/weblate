@@ -2220,6 +2220,7 @@ class BulkEditForm(forms.Form):
 
     def __init__(self, user, obj, *args, **kwargs):
         project = kwargs.pop("project")
+        kwargs["auto_id"] = "id_bulk_%s"
         super().__init__(*args, **kwargs)
         labels = project.label_set.all()
         if labels:

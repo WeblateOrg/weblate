@@ -172,7 +172,6 @@ def show_project(request, lang, project):
                 user=user,
                 obj=obj,
                 project=obj.project,
-                auto_id="id_bulk_%s",
             ),
         },
     )
