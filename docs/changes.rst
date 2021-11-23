@@ -3,6 +3,8 @@ Weblate 4.10
 
 Not yet released.
 
+* Added support for formality with DeepL.
+
 Weblate 4.9.1
 -------------
 

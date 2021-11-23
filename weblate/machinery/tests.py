@@ -17,6 +17,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
+import json
 from copy import copy
 from typing import Type
 from unittest import SkipTest
@@ -1014,16 +1015,43 @@ class DeepLTranslationTest(BaseMachineTranslationTest):
             status=500,
         )
 
-    def mock_response(self):
+    def mock_languages(self):
         responses.add(
             responses.POST,
             "https://api.deepl.com/v2/languages",
             json=DEEPL_LANG_RESPONSE,
         )
+
+    def mock_response(self):
+        self.mock_languages()
         responses.add(
             responses.POST,
             "https://api.deepl.com/v2/translate",
             json=DEEPL_RESPONSE,
+        )
+
+    @responses.activate
+    def test_formality(self):
+        def request_callback(request):
+            headers = {}
+            if "formality" not in request.body:
+                return (500, headers, "")
+            return (200, headers, json.dumps(DEEPL_RESPONSE))
+
+        machine = self.MACHINE_CLS()
+        machine.delete_cache()
+        self.mock_languages()
+        responses.add_callback(
+            responses.POST,
+            "https://api.deepl.com/v2/translate",
+            callback=request_callback,
+        )
+        # Fetch from service
+        self.assert_translate(
+            "DE@FORMAL", self.SOURCE_TRANSLATED, self.EXPECTED_LEN, machine=machine
+        )
+        self.assert_translate(
+            "DE@INFORMAL", self.SOURCE_TRANSLATED, self.EXPECTED_LEN, machine=machine
         )
 
     @responses.activate
