@@ -944,6 +944,7 @@ Projects
     :form file zipfile: ZIP file to upload into Weblate for translations initialization
     :form file docfile: Document to translate
     :form boolean disable_autoshare: Disables automatic repository sharing via :ref:`internal-urls`.
+    :<json object: Component parameters, see :http:get:`/api/components/(string:project)/(string:component)/`
     :>json object result: Created component object; see :http:get:`/api/components/(string:project)/(string:component)/`
 
     JSON can not be used when uploading the files using the ``zipfile`` and
@@ -1091,6 +1092,10 @@ Projects
 
 Components
 ++++++++++
+
+.. hint::
+
+   Use :http:post:`/api/projects/(string:project)/components/` to create new components.
 
 .. http:get:: /api/components/
 
