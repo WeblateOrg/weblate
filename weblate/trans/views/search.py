@@ -101,8 +101,11 @@ def search_replace(request, project, component=None, lang=None):
 
     search_text = form.cleaned_data["search"]
     replacement = form.cleaned_data["replacement"]
+    query = form.cleaned_data.get("q")
 
     matching = unit_set.filter(target__contains=search_text)
+    if query:
+        matching = matching.search(query)
 
     updated = 0
     if matching.exists():

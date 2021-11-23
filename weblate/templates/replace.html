@@ -31,6 +31,7 @@
 
 <form method="POST">
 {% csrf_token %}
+{{ form.q.as_hidden }}
 {{ form.search.as_hidden }}
 {{ form.replacement.as_hidden }}
 {{ confirm.confirm }}

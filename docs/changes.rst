@@ -5,6 +5,7 @@ Not yet released.
 
 * Added support for formality with DeepL.
 * Bulk edit and search and replace are now available on project and language level.
+* Added filtering to search and replace.
 
 Weblate 4.9.1
 -------------

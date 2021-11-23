@@ -190,9 +190,7 @@
   {% trans "Search and replace" %}
 </h4></div>
 <div class="panel-body">
-<p>{% trans "You can substitute all instances of a string. The search is a simple substring case sensitive search." %}</p>
-{% csrf_token %}
-{{ replace_form|crispy }}
+{% crispy replace_form %}
 </div>
 <div class="panel-footer">
 <input type="submit" value="{% trans "Replace" %}" class="btn btn-primary" />
@@ -211,7 +209,6 @@
   {% trans "Bulk edit" %}
 </h4></div>
 <div class="panel-body">
-<p>{% trans "You can change the state of all strings matching a given type at once." %}</p>
 {% crispy bulk_state_form %}
 </div>
 <div class="panel-footer">
