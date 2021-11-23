@@ -10,6 +10,11 @@
 {% if translation %}
 {% include "snippets/translation-breadcrumb.html" with object=translation %}
 {% endif %}
+{% elif language %}
+<li>
+  <a href="{{ language.get_absolute_url }}">{{ language }}</a>
+</li>
+
 {% endif %}
 <li>{% trans "Search and replace" %}</li>
 {% endblock %}

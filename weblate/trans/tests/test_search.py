@@ -244,6 +244,17 @@ class ReplaceTest(ViewTestCase):
     def test_replace_component(self):
         self.do_replace_test(reverse("replace", kwargs=self.kw_component))
 
+    def test_replace_project_language(self):
+        self.do_replace_test(
+            reverse(
+                "replace",
+                kwargs={
+                    "project": self.kw_translation["project"],
+                    "lang": self.kw_translation["lang"],
+                },
+            )
+        )
+
 
 class BulkEditTest(ViewTestCase):
     """Test for buld edit functionality."""
@@ -279,6 +290,17 @@ class BulkEditTest(ViewTestCase):
 
     def test_bulk_edit_component(self):
         self.do_bulk_edit_test(reverse("bulk-edit", kwargs=self.kw_component))
+
+    def test_bulk_edit_project_language(self):
+        self.do_bulk_edit_test(
+            reverse(
+                "bulk-edit",
+                kwargs={
+                    "project": self.kw_translation["project"],
+                    "lang": self.kw_translation["lang"],
+                },
+            )
+        )
 
     def test_bulk_flags(self):
         response = self.client.post(

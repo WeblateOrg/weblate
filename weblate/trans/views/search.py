@@ -39,6 +39,7 @@ from weblate.trans.models import Change, Unit
 from weblate.trans.util import render
 from weblate.utils import messages
 from weblate.utils.ratelimit import check_rate_limit
+from weblate.utils.stats import ProjectLanguage
 from weblate.utils.views import (
     get_component,
     get_paginator,
@@ -53,9 +54,19 @@ from weblate.utils.views import (
 def parse_url(request, project, component=None, lang=None):
     context = {"components": None}
     if component is None:
-        obj = get_project(request, project)
-        unit_set = Unit.objects.filter(translation__component__project=obj)
-        context["project"] = obj
+        if lang is None:
+            obj = get_project(request, project)
+            unit_set = Unit.objects.filter(translation__component__project=obj)
+            context["project"] = obj
+        else:
+            project = get_project(request, project)
+            language = get_object_or_404(Language, code=lang)
+            obj = ProjectLanguage(project, language)
+            unit_set = Unit.objects.filter(
+                translation__component__project=project, translation__language=language
+            )
+            context["project"] = project
+            context["language"] = language
     elif lang is None:
         obj = get_component(request, project, component)
         unit_set = Unit.objects.filter(translation__component=obj)
