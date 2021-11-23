@@ -1,5 +1,5 @@
 Weblate 4.10
--------------
+------------
 
 Not yet released.
 
