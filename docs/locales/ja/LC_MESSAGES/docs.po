@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-11-23 17:19+0100\n"
-"PO-Revision-Date: 2021-11-16 19:52+0000\n"
+"PO-Revision-Date: 2021-11-23 21:44+0000\n"
 "Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "documentation/ja/>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 4.9.1-dev\n"
+"X-Generator: Weblate 4.10-dev\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:181
@@ -6713,9 +6713,7 @@ msgstr "DATABASE_BACKUP"
 msgid ""
 "Whether the database backups should be stored as plain text, compressed or "
 "skipped. The authorized values are:"
-msgstr ""
-"データベース バックアップをプレーン テキストとして保存するか、圧縮するか、ス"
-"キップするかを指定します。許可される値："
+msgstr "データベースのバックアップをプレーン テキストとして保存するか、圧縮するか、スキップするかを指定します。許可する値:"
 
 #: ../../admin/config.rst:451
 msgid "``\"plain\"``"
@@ -19360,7 +19358,7 @@ msgstr ""
 msgid ""
 "Returns given page of paginated results (use `next` and `previous` fields in "
 "response to automate the navigation)."
-msgstr ""
+msgstr "ページ分割された結果のページを返す（自動ナビゲーションの実現に `next` フィールドと `previous` フィールドを使用する)。"
 
 #: ../../api.rst:0
 msgid "Request Headers"
@@ -19371,10 +19369,8 @@ msgid "the response content type depends on :http:header:`Accept` header"
 msgstr "レスポンスの内容の型は :http:header:`Accept` ヘッダーに依存する"
 
 #: ../../api.rst:40
-#, fuzzy
-#| msgid "optional token to authenticate"
 msgid "optional token to authenticate as ``Authorization: Token YOUR-TOKEN``"
-msgstr "認証用のオプションのトークン"
+msgstr "``Authorization: Token YOUR-TOKEN`` として認証するためのオプションのトークン"
 
 #: ../../api.rst:0
 msgid "Response Headers"
@@ -20256,6 +20252,8 @@ msgid ""
 "The cloned repositories are now automatically shared within a project using :"
 "ref:`internal-urls`. Use ``disable_autoshare`` to turn off this."
 msgstr ""
+"複製されたリポジトリは、:ref:`internal-urls` "
+"を使用してプロジェクト内で自動的に共有されるようになりました。``disable_autoshare`` を使用すると無効にできます。"
 
 #: ../../api.rst:930
 msgid "Creates translation components in the given project."
@@ -20287,19 +20285,15 @@ msgstr "翻訳するドキュメント"
 
 #: ../../api.rst:946
 msgid "Disables automatic repository sharing via :ref:`internal-urls`."
-msgstr ""
+msgstr ":ref:`internal-urls` による自動リポジトリ共有を無効にする。"
 
 #: ../../api.rst:947
-#, fuzzy
-#| msgid ""
-#| "component object; see :http:get:`/api/components/(string:project)/(string:"
-#| "component)/`"
 msgid ""
 "Component parameters, see :http:get:`/api/components/(string:project)/"
 "(string:component)/`"
 msgstr ""
-"コンポーネント オブジェクト。参照: :http:get:`/api/components/(string:"
-"project)/(string:component)/`"
+"コンポーネント パラメータ。参照: :http:get:`/api/components/"
+"(string:project)/(string:component)/`"
 
 #: ../../api.rst:948
 msgid ""
@@ -20315,6 +20309,8 @@ msgid ""
 "``docfile`` parameters. The data has to be uploaded as :mimetype:`multipart/"
 "form-data`."
 msgstr ""
+"``zipfile`` および ``docfile`` パラメーターを使用してファイルをアップロードする場合は JSON を使用できません。データは "
+":mimetype:`multipart/form-data` としてアップロードすることが必要です。"
 
 #: ../../api.rst:954
 msgid "**CURL form request example:**"
@@ -20345,16 +20341,12 @@ msgid "Returns statistics for a project."
 msgstr "返り値は、プロジェクトの統計情報です。"
 
 #: ../../api.rst:1098
-#, fuzzy
-#| msgid ""
-#| "See :http:post:`/api/projects/(string:project)/repository/` for "
-#| "documentation."
 msgid ""
 "Use :http:post:`/api/projects/(string:project)/components/` to create new "
 "components."
 msgstr ""
-"ドキュメントは、:http:post:`/api/projects/(string:project)/repository/` を確"
-"認してください。"
+":http:post:`/api/projects/(string:project)/components/` "
+"を使用して、新しいコンポーネントを作成します。"
 
 #: ../../api.rst:1102
 msgid "Returns a list of translation components."
@@ -20630,17 +20622,17 @@ msgstr ""
 msgid ""
 "Downloads all available translations associated with the component as an "
 "archive file using the requested format."
-msgstr ""
+msgstr "指定した形式を使用して、コンポーネントに関連付けられている使用可能なすべての翻訳を圧縮ファイルとしてダウンロードします。"
 
 #: ../../api.rst:1340
 msgid ""
 "The archive format to use; If not specified, defaults to ``zip``; Supported "
 "formats: ``zip``"
-msgstr ""
+msgstr "使用する圧縮形式; 指定しない場合は、デフォルトで ``zip``; 対応している形式: ``zip``"
 
 #: ../../api.rst:1341
 msgid "Filter downloaded strings, see :ref:`search`."
-msgstr ""
+msgstr "ダウンロード時にフィルタをかける文字列。参照: :ref:`search`。"
 
 #: ../../api.rst:1345
 msgid "Returns a list of component screenshots."
@@ -20976,6 +20968,8 @@ msgid ""
 "Download current translation file as it is stored in the VCS (without the "
 "``format`` parameter) or converted to another format (see :ref:`download`)."
 msgstr ""
+"VCS に保存している翻訳ファイル（``format`` "
+"パラメータなし）、または他のフ形式に変換した翻訳ファイル（:ref:`download`参照）をダウンロードします。"
 
 #: ../../api.rst:1847
 msgid ""
@@ -20991,6 +20985,8 @@ msgid ""
 "file formats: ``po``, ``mo``, ``xliff``, ``xliff11``, ``tbx``, ``csv``, "
 "``xlsx``, ``json``, ``aresource``, ``strings``"
 msgstr ""
+"使用するファイル形式; 指定しない場合、フォーマット変換は行われません。対応するファイル形式: ``po``, ``mo``, ``xliff``, "
+"``xliff11``, ``tbx``, ``csv``, ``xlsx``, ``json``, ``aresource``, ``strings``"
 
 #: ../../api.rst:1863
 msgid "Upload new file with translations."
@@ -21534,11 +21530,11 @@ msgstr "タスクの履歴"
 
 #: ../../api.rst:2347
 msgid "Metrics"
-msgstr ""
+msgstr "メトリック"
 
 #: ../../api.rst:2351
 msgid "Returns server metrics."
-msgstr ""
+msgstr "サーバー メトリックを返します。"
 
 #: ../../api.rst:2353
 msgid "Number of units"
@@ -21600,7 +21596,7 @@ msgstr "通知フック"
 msgid ""
 "Notification hooks allow external applications to notify Weblate that the "
 "VCS repository has been updated."
-msgstr ""
+msgstr "通知フックを使用すると、外部アプリケーションは、VCS リポジトリが更新されたことを Weblate に通知できます。"
 
 #: ../../api.rst:2375
 msgid ""
@@ -21608,6 +21604,8 @@ msgid ""
 "to update individual repositories; see :http:post:`/api/projects/(string:"
 "project)/repository/` for documentation."
 msgstr ""
+"プロジェクト、コンポーネントおよび翻訳のリポジトリ エンドポイントを使用して、各リポジトリを更新できます。ドキュメントは、:http:post:`/"
+"api/projects/(string:project)/repository/` を確認してください。"
 
 #: ../../api.rst:2383
 msgid ""
@@ -21615,6 +21613,8 @@ msgid ""
 "repository/` instead which works properly with authentication for ACL "
 "limited projects."
 msgstr ""
+":http:post:`/api/components/(string:project)/(string:component)/repository/` "
+"を代わりに使用してください。これは、ACL で制限されたプロジェクトの認証で正しく動作します。"
 
 #: ../../api.rst:2386
 msgid ""
@@ -21629,6 +21629,8 @@ msgid ""
 "Please use :http:post:`/api/projects/(string:project)/repository/` instead "
 "which works properly with authentication for ACL limited projects."
 msgstr ""
+":http:post:`/api/projects/(string:project)/repository/` を代わりに使用してください。これは、"
+"ACL で制限されたプロジェクトの認証で正しく動作します。"
 
 #: ../../api.rst:2396
 msgid ""
@@ -21642,7 +21644,7 @@ msgstr ""
 msgid ""
 "Special hook for handling GitHub notifications and automatically updating "
 "matching components."
-msgstr ""
+msgstr "GitHub 通知を処理し、一致するコンポーネントを自動的に更新するための特別なフック。"
 
 #: ../../api.rst:2406
 msgid ""
@@ -21650,10 +21652,12 @@ msgid ""
 "hook in repository settings and set the URL to the URL of your Weblate "
 "installation."
 msgstr ""
+"GitHub で直接対応している、Weblate 通知の設定方法: リポジトリ設定で Weblate サービスフックを有効にし、URL を "
+"Weblate インストールの URL に設定します。"
 
 #: ../../api.rst:2413
 msgid "For instruction on setting up GitHub integration"
-msgstr ""
+msgstr "GitHub 連携の設定方法"
 
 #: ../../api.rst:2414
 msgid "https://docs.github.com/en/github/extending-github/about-webhooks"
@@ -21661,7 +21665,7 @@ msgstr "https://docs.github.com/en/github/extending-github/about-webhooks"
 
 #: ../../api.rst:2415
 msgid "Generic information about GitHub Webhooks"
-msgstr ""
+msgstr "GitHub Webhooks についての一般的な情報"
 
 #: ../../api.rst:2416 ../../api.rst:2430 ../../api.rst:2444 ../../api.rst:2460
 #: ../../api.rst:2476 ../../api.rst:2492 ../../api.rst:2508
@@ -21671,37 +21675,35 @@ msgstr ":setting:`ENABLE_HOOKS`"
 #: ../../api.rst:2417 ../../api.rst:2431 ../../api.rst:2445 ../../api.rst:2461
 #: ../../api.rst:2477 ../../api.rst:2493 ../../api.rst:2509
 msgid "For enabling hooks for whole Weblate"
-msgstr ""
+msgstr "Weblate 全体のフックを有効にする場合"
 
 #: ../../api.rst:2421
 msgid ""
 "Special hook for handling GitLab notifications and automatically updating "
 "matching components."
-msgstr ""
+msgstr "GitLab 通知を処理し、一致するコンポーネントを自動的に更新するための特別なフック。"
 
 #: ../../api.rst:2427
 msgid "For instruction on setting up GitLab integration"
-msgstr ""
+msgstr "GitLab 連携の設定方法"
 
 #: ../../api.rst:2428
-#, fuzzy
-#| msgid "https://docs.gitlab.com/ce/user/project/integrations/webhooks.html"
 msgid "https://docs.gitlab.com/ee/user/project/integrations/webhooks.html"
-msgstr "https://docs.gitlab.com/ce/user/project/integrations/webhooks.html"
+msgstr "https://docs.gitlab.com/ee/user/project/integrations/webhooks.html"
 
 #: ../../api.rst:2429
 msgid "Generic information about GitLab Webhooks"
-msgstr ""
+msgstr "GitHub Webhooks についての一般的な情報"
 
 #: ../../api.rst:2435
 msgid ""
 "Special hook for handling Bitbucket notifications and automatically updating "
 "matching components."
-msgstr ""
+msgstr "Bitbucket 通知を処理し、一致するコンポーネントを自動的に更新するための特別なフック。"
 
 #: ../../api.rst:2441
 msgid "For instruction on setting up Bitbucket integration"
-msgstr ""
+msgstr "Bitbucket 連携の設定方法"
 
 #: ../../api.rst:2442
 msgid "https://support.atlassian.com/bitbucket-cloud/docs/manage-webhooks/"
@@ -21709,7 +21711,7 @@ msgstr "https://support.atlassian.com/bitbucket-cloud/docs/manage-webhooks/"
 
 #: ../../api.rst:2443
 msgid "Generic information about Bitbucket Webhooks"
-msgstr ""
+msgstr "Bitbucket についての一般的な情報"
 
 #: ../../api.rst:2451
 msgid ""
@@ -21735,11 +21737,11 @@ msgstr "Pagure WEB フックに関する一般的な情報"
 msgid ""
 "Special hook for handling Azure Repos notifications and automatically "
 "updating matching components."
-msgstr ""
+msgstr "Azure Repos 通知を処理し、一致するコンポーネントを自動的に更新するための特別なフック。"
 
 #: ../../api.rst:2473
 msgid "For instruction on setting up Azure integration"
-msgstr ""
+msgstr "Azure Repos についての一般的な情報"
 
 #: ../../api.rst:2474
 msgid ""
@@ -21751,13 +21753,13 @@ msgstr ""
 
 #: ../../api.rst:2475
 msgid "Generic information about Azure Repos Web Hooks"
-msgstr ""
+msgstr "Azure Repos Web Hooks についての一般的な情報"
 
 #: ../../api.rst:2483
 msgid ""
 "Special hook for handling Gitea Webhook notifications and automatically "
 "updating matching components."
-msgstr ""
+msgstr "Gitea Webhook 通知を処理し、一致するコンポーネントを自動的に更新するための特別なフック。"
 
 #: ../../api.rst:2488
 msgid ":ref:`gitea-setup`"
@@ -21765,7 +21767,7 @@ msgstr ""
 
 #: ../../api.rst:2489
 msgid "For instruction on setting up Gitea integration"
-msgstr ""
+msgstr "Gitea 連携の設定方法"
 
 #: ../../api.rst:2490
 msgid "https://docs.gitea.io/en-us/webhooks/"
@@ -21779,7 +21781,7 @@ msgstr ""
 msgid ""
 "Special hook for handling Gitee Webhook notifications and automatically "
 "updating matching components."
-msgstr ""
+msgstr "Gitee Webhook 通知を処理し、一致するコンポーネントを自動的に更新するための特別なフック。"
 
 #: ../../api.rst:2504
 msgid ":ref:`gitee-setup`"
@@ -21787,7 +21789,7 @@ msgstr ""
 
 #: ../../api.rst:2505
 msgid "For instruction on setting up Gitee integration"
-msgstr ""
+msgstr "Gitee 連携の設定方法"
 
 #: ../../api.rst:2506
 msgid "https://gitee.com/help/categories/40"
@@ -21795,20 +21797,20 @@ msgstr "https://gitee.com/help/categories/40"
 
 #: ../../api.rst:2507
 msgid "Generic information about Gitee Webhooks"
-msgstr ""
+msgstr "Gitee についての一般的な情報"
 
 #: ../../api.rst:2514
 msgid "Exports"
-msgstr ""
+msgstr "エクスポート"
 
 #: ../../api.rst:2516
 msgid ""
 "Weblate provides various exports to allow you to further process the data."
-msgstr ""
+msgstr "Weblate には、データをさらに処理するためのさまざまなエクスポート機能があります。"
 
 #: ../../api.rst:2520
 msgid "Output format: either ``json`` or ``csv``"
-msgstr ""
+msgstr "出力形式: ``json`` または ``csv``"
 
 #: ../../api.rst:2524
 msgid ""
@@ -21817,18 +21819,22 @@ msgid ""
 "component)/(string:language)/statistics/` instead; it allows access to ACL "
 "controlled projects as well."
 msgstr ""
+":http:get:`/api/components/(string:project)/(string:component)/statistics/` "
+"および :http:get:`/api/translations/"
+"(string:project)/(string:component)/(string:language)/statistics/` "
+"を代わりに使用してください。ACL で制御するプロジェクトへのアクセスも許可します。"
 
 #: ../../api.rst:2528
 msgid "Retrieves statistics for given component in given format."
-msgstr ""
+msgstr "指定したコンポーネントの統計情報を、指定した形式で取得します"
 
 #: ../../api.rst:2530
 msgid "**Example request**:"
-msgstr ""
+msgstr "**リクエストの例**:"
 
 #: ../../api.rst:2538
 msgid "**Example response**:"
-msgstr ""
+msgstr "**レスポンスの例**:"
 
 #: ../../api.rst:2603
 msgid "RSS feeds"
@@ -21836,37 +21842,35 @@ msgstr "RSS フィード"
 
 #: ../../api.rst:2605
 msgid "Changes in translations are exported in RSS feeds."
-msgstr ""
+msgstr "翻訳の変更は RSS フィードにエクスポートされます。"
 
 #: ../../api.rst:2609
 msgid "Retrieves RSS feed with recent changes for a translation."
-msgstr ""
+msgstr "翻訳の最新の変更を含む RSS フィードを取得します。"
 
 #: ../../api.rst:2613
 msgid "Retrieves RSS feed with recent changes for a component."
-msgstr ""
+msgstr "コンポーネントの最近の変更を含む RSS フィードを取得します。"
 
 #: ../../api.rst:2617
 msgid "Retrieves RSS feed with recent changes for a project."
-msgstr ""
+msgstr "プロジェクトの最近の変更を含む RSS フィードを取得します。"
 
 #: ../../api.rst:2621
 msgid "Retrieves RSS feed with recent changes for a language."
-msgstr ""
+msgstr "言語の最近の変更を含む RSS フィードを取得します。"
 
 #: ../../api.rst:2625
 msgid "Retrieves RSS feed with recent changes for Weblate instance."
-msgstr ""
+msgstr "Weblate インスタンスの最近の変更を含む RSS フィードを取得します。"
 
 #: ../../api.rst:2629
 msgid "`RSS on wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 msgstr "`RSS Wikipedia 参照: <https://ja.wikipedia.org/wiki/RSS>`_"
 
 #: ../../changes.rst:2
-#, fuzzy
-#| msgid "Weblate 4.1"
 msgid "Weblate 4.10"
-msgstr "Weblate 4.1"
+msgstr "Weblate 4.10"
 
 #: ../../changes.rst:4
 msgid "Not yet released."
