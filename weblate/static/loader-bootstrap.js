@@ -1195,6 +1195,10 @@ $(function () {
   Prism.languages.none = {};
   initHighlight(document);
 
+  $(".replace-preview input[type='checkbox']").on("change", function () {
+    $(this).closest("tr").toggleClass("warning", this.checked);
+  });
+
   /* Warn users that they do not want to use developer console in most cases */
   console.log("%cStop!", "color: red; font-weight: bold; font-size: 50px;");
   console.log(
