@@ -520,7 +520,7 @@ class VCSGitHubTest(VCSGitUpstreamTest):
             status=pr_status,
         )
 
-    def test_api_url(self):
+    def test_api_url_github_com(self):
         self.repo.component.repo = "https://github.com/WeblateOrg/test.git"
         self.assertEqual(
             self.repo.get_api_url()[0], "https://api.github.com/repos/WeblateOrg/test"
@@ -545,6 +545,38 @@ class VCSGitHubTest(VCSGitUpstreamTest):
         self.assertEqual(
             self.repo.get_api_url()[0],
             "https://api.github.com/repos/WeblateOrg/test.github.io",
+        )
+
+    def test_api_url_ghes(self):
+        self.repo.component.repo = "https://self-hosted-ghes.com/WeblateOrg/test.git"
+        self.assertEqual(
+            self.repo.get_api_url()[0],
+            "https://self-hosted-ghes.com/api/v3/repos/WeblateOrg/test"
+        )
+        self.repo.component.repo = "https://self-hosted-ghes.com/WeblateOrg/test"
+        self.assertEqual(
+            self.repo.get_api_url()[0],
+            "https://self-hosted-ghes.com/api/v3/repos/WeblateOrg/test"
+        )
+        self.repo.component.repo = "https://self-hosted-ghes.com/WeblateOrg/test/"
+        self.assertEqual(
+            self.repo.get_api_url()[0],
+            "https://self-hosted-ghes.com/api/v3/repos/WeblateOrg/test"
+        )
+        self.repo.component.repo = "git@self-hosted-ghes.com:WeblateOrg/test.git"
+        self.assertEqual(
+            self.repo.get_api_url()[0],
+            "https://self-hosted-ghes.com/api/v3/repos/WeblateOrg/test"
+        )
+        self.repo.component.repo = "self-hosted-ghes.com:WeblateOrg/test.git"
+        self.assertEqual(
+            self.repo.get_api_url()[0],
+            "https://self-hosted-ghes.com/api/v3/repos/WeblateOrg/test"
+        )
+        self.repo.component.repo = "self-hosted-ghes.com:WeblateOrg/test.github.io"
+        self.assertEqual(
+            self.repo.get_api_url()[0],
+            "https://self-hosted-ghes.com/api/v3/repos/WeblateOrg/test.github.io",
         )
 
     @responses.activate

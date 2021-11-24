@@ -819,9 +819,13 @@ class GithubRepository(GitMergeRequestBase):
     API_TEMPLATE = "https://{host}/repos/{owner}/{slug}"
 
     def format_api_host(self, host):
-        if host == "github.com":
-            return "api.github.com"
-        return host
+
+        # In case the hostname of the repository does not point to "github.com" assume
+        # that it is on a GitHub Enterprise server, which has uses a different base URL
+        # for the API:
+        if host != "github.com":
+            return "{}/api/v3".format(host)
+        return "api.github.com"
 
     def request(self, method: str, credentials: Dict, url: str, json: Dict):
         response = requests.request(
