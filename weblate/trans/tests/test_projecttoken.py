@@ -37,16 +37,14 @@ class ProjectTokenTest(ViewTestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_create_token(self):
-        """Managers should be able to create new tokens"""
-
+        """Managers should be able to create new tokens."""
         token = self.create_token()
 
         self.assertTrue(token is not None)
         self.assertGreaterEqual(len(token), 10)
 
     def test_use_token(self):
-        """Create a new token, logout and use the token for API access"""
-
+        """Create a new token, logout and use the token for API access."""
         token = self.create_token()
         self.client.logout()
 
@@ -58,8 +56,7 @@ class ProjectTokenTest(ViewTestCase):
         self.assertEqual(response.data["slug"], self.project.slug)
 
     def test_revoke_token(self):
-        """Create a token revoke it, check that usage is not allowed"""
-
+        """Create a token revoke it, check that usage is not allowed."""
         token = self.create_token()
         self.delete_token()
         self.client.logout()
