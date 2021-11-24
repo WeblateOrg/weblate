@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.10\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-11-23 16:18+0000\n"
-"PO-Revision-Date: 2021-11-19 20:33+0000\n"
+"PO-Revision-Date: 2021-11-24 12:08+0000\n"
 "Last-Translator: Любомир Василев <lyubomirv@gmx.com>\n"
 "Language-Team: Bulgarian <https://hosted.weblate.org/projects/weblate/"
 "application/bg/>\n"
@@ -25,7 +25,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.9.1\n"
+"X-Generator: Weblate 4.10-dev\n"
 
 #: weblate/accounts/avatar.py:103
 msgctxt "No known user"
@@ -1263,7 +1263,7 @@ msgstr "По автор"
 
 #: weblate/addons/forms.py:157
 msgid "Append trailers to squashed commit message"
-msgstr ""
+msgstr "Добавяне на завършващ текстов към съобщението на смачкано подаване"
 
 #: weblate/addons/forms.py:161
 msgid ""
@@ -1271,6 +1271,9 @@ msgid ""
 "end of the otherwise free-form part of a commit message, such as 'Co-"
 "authored-by: …'."
 msgstr ""
+"Завършващите редове са редове, които приличат на заглавките за е-поща от RFC "
+"822, които се поставят в края на съобщението за подаване, след свободния "
+"текст в него, като например: „Co-authored-by: …“."
 
 #: weblate/addons/forms.py:167
 msgid "Commit message"
@@ -1342,7 +1345,7 @@ msgstr "MAC (\\r)"
 
 #: weblate/addons/forms.py:233
 msgid "Days to keep"
-msgstr ""
+msgstr "Дни за съхранение"
 
 #: weblate/addons/forms.py:239
 msgid "Voting threshold"
@@ -1351,6 +1354,7 @@ msgstr "Граница за гласуване"
 #: weblate/addons/forms.py:243
 msgid "Threshold for removal. This field has no effect with voting turned off."
 msgstr ""
+"Граница за премахване. Това поле няма значение, ако гласуването е изключено."
 
 #: weblate/addons/forms.py:250
 msgid "Regular expression to match translation files against"
@@ -1401,7 +1405,7 @@ msgstr ""
 
 #: weblate/addons/forms.py:289
 msgid "Clone addons from the main component to the newly created ones"
-msgstr ""
+msgstr "Клониране на добавките от основния компонент в новосъздадените"
 
 #: weblate/addons/forms.py:294
 msgid "Remove components for inexistant files"
@@ -1417,7 +1421,7 @@ msgstr "Моля, прегледайте и потвърдете съвпада�
 
 #: weblate/addons/forms.py:386
 msgid "Please include component markup in the template."
-msgstr ""
+msgstr "Добавете и синтаксиса на компонента в шаблона."
 
 #: weblate/addons/forms.py:428
 msgid "Translation threshold"
@@ -1441,17 +1445,19 @@ msgstr "Име на бисквитката за езика"
 
 #: weblate/addons/forms.py:445
 msgid "Name of cookie which stores language preference."
-msgstr ""
+msgstr "Име на бисквитката, която съхранява предпочитания език."
 
 #: weblate/addons/forms.py:449
 msgid "Extract strings from HTML files"
-msgstr ""
+msgstr "Извличане на текстове от файлове HTML"
 
 #: weblate/addons/forms.py:452
 msgid ""
 "List of filenames in current repository or remote URLs to parse for "
 "translatable strings."
 msgstr ""
+"Списък от имена на файлове в текущото хранилище или адреси, които да бъдат "
+"анализирани за извличане на текстове за превод."
 
 #: weblate/addons/forms.py:477 weblate/billing/models.py:299
 #: weblate/templates/snippets/query-builder.html:13
@@ -1465,20 +1471,16 @@ msgid "Target translation"
 msgstr "Целеви превод"
 
 #: weblate/addons/forms.py:480
-#, fuzzy
-#| msgid "Service status"
 msgid "String prefix"
-msgstr "Състояние на услугата"
+msgstr "Представка за текстовете"
 
 #: weblate/addons/forms.py:485
-#, fuzzy
-#| msgid "Strings"
 msgid "String suffix"
-msgstr "Текстове"
+msgstr "Наставка за текстовете"
 
 #: weblate/addons/forms.py:502
 msgid "The source and target have to be different languages."
-msgstr "Изходният и целевият език трябва дабъдат различни езици."
+msgstr "Изходният и целевият език трябва да бъдат различни езици."
 
 #: weblate/addons/generate.py:34
 msgid "Statistics generator"
@@ -1491,13 +1493,15 @@ msgstr ""
 
 #: weblate/addons/generate.py:65
 msgid "Pseudolocale generation"
-msgstr ""
+msgstr "Създаване на псевдо-език"
 
 #: weblate/addons/generate.py:67
 msgid ""
 "Generates a translation by adding prefix and suffix to source strings "
 "automatically."
 msgstr ""
+"Създава нов превод, като автоматично добавя представка и наставка към всеки "
+"оригинален текст."
 
 #: weblate/addons/gettext.py:41
 msgid "Generate MO files"
@@ -1516,16 +1520,10 @@ msgid "Updates the LINGUAS file when a new translation is added."
 msgstr "Обновява файла LINGUAS при добавяне на нов превод."
 
 #: weblate/addons/gettext.py:157
-#, fuzzy
-#| msgid "Update ALL_LINGUAS variable in the configure file"
 msgid "Update ALL_LINGUAS variable in the \"configure\" file"
-msgstr "Обновяване на променливата ALL_LINGUAS в конфигурационния файл"
+msgstr "Обновяване на променливата ALL_LINGUAS във файла „configure“"
 
 #: weblate/addons/gettext.py:159
-#, fuzzy
-#| msgid ""
-#| "Updates the ALL_LINGUAS variable in configure, configure.in or configure."
-#| "ac files, when a new translation is added."
 msgid ""
 "Updates the ALL_LINGUAS variable in \"configure\", \"configure.in\" or "
 "\"configure.ac\" files, when a new translation is added."
@@ -1543,6 +1541,9 @@ msgid ""
 "Updates all PO files (as configured by \"Filemask\") to match the POT file "
 "(as configured by \"Template for new translations\") using msgmerge."
 msgstr ""
+"Обновява всички файлове PO (според зададената „Файлова маска“), така че да "
+"съответстват на файла POT (според настройката „Шаблон за новите преводи“), "
+"използвайки msgmerge."
 
 #: weblate/addons/gettext.py:313
 msgid "Customize gettext output"
@@ -1656,7 +1657,7 @@ msgstr "Посочено е неправилно име на добавка!"
 
 #: weblate/addons/views.py:97
 msgid "Add-on installed, please review integration instructions."
-msgstr ""
+msgstr "Добавката е инсталирана. Моля, прегледайте инструкциите за интегриране."
 
 #: weblate/addons/yaml.py:31
 msgid "Customize YAML output"
@@ -1691,11 +1692,11 @@ msgstr "Важни дати"
 
 #: weblate/auth/admin.py:205
 msgid "This is not used when a component list is selected."
-msgstr ""
+msgstr "Това не се ползва, когато е избран списък от компоненти."
 
 #: weblate/auth/admin.py:211
 msgid "This is not used when a component is selected."
-msgstr ""
+msgstr "Това не се ползва, когато е избран компонент."
 
 #. Translators: Permission name
 #: weblate/auth/data.py:35
@@ -1993,7 +1994,7 @@ msgstr "Обновяване на хранилището"
 #. Translators: Permission name
 #: weblate/auth/data.py:131
 msgid "Use management interface"
-msgstr ""
+msgstr "Използване на интерфейса за управление"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:133
@@ -2108,7 +2109,7 @@ msgstr "Таксуване"
 #: weblate/auth/data.py:226
 msgctxt "Access-control group"
 msgid "Guests"
-msgstr ""
+msgstr "Гости"
 
 #: weblate/auth/data.py:230
 msgctxt "Access-control group"
@@ -2153,7 +2154,7 @@ msgstr "Речник"
 #: weblate/auth/data.py:242
 msgctxt "Per-project access-control group"
 msgid "Memory"
-msgstr ""
+msgstr "Памет"
 
 #: weblate/auth/data.py:243
 msgctxt "Per-project access-control group"
@@ -2188,13 +2189,11 @@ msgstr "Тук ще бъде изпратено е-писмото за акти�
 
 #: weblate/auth/forms.py:112
 msgid "Send e-mail invitation to the user"
-msgstr ""
+msgstr "Изпращане на е-писмо с покана към потребителя"
 
 #: weblate/auth/forms.py:126
-#, fuzzy
-#| msgid "Administration"
 msgid "Resend e-mail invitation to the user"
-msgstr "Администриране"
+msgstr "Повторно изпращане на е-писмото с поканата към потребителя"
 
 #: weblate/auth/models.py:77
 #, python-format
@@ -2210,11 +2209,11 @@ msgstr "Име"
 
 #: weblate/auth/models.py:87
 msgid "Choose permissions granted to this role."
-msgstr ""
+msgstr "Изберете правомощията, които да има тази роля."
 
 #: weblate/auth/models.py:114
 msgid "Roles"
-msgstr ""
+msgstr "Роли"
 
 #: weblate/auth/models.py:116
 msgid "Choose roles granted to this group."
@@ -2318,7 +2317,7 @@ msgstr "Активно"
 
 #: weblate/auth/models.py:340
 msgid "Mark user as inactive instead of removing."
-msgstr ""
+msgstr "Отбелязване на потребителя като неактивен, вместо премахване."
 
 #: weblate/auth/models.py:345 weblate/templates/accounts/user.html:152
 msgid "Groups"
@@ -2328,6 +2327,7 @@ msgstr "Групи"
 msgid ""
 "The user is granted all permissions included in membership of these groups."
 msgstr ""
+"Потребителят получава всички правомощия, които са включени в тези групи."
 
 #: weblate/auth/models.py:646
 msgid "Regular expression for e-mail address"
@@ -2335,7 +2335,7 @@ msgstr "Регулярен израз за проверка на е-пощата
 
 #: weblate/auth/models.py:650
 msgid "Users with e-mail addresses found to match will be added to this group."
-msgstr ""
+msgstr "Потребителите, чиито е-пощи съвпадат, ще бъдат добавени в тази група."
 
 #: weblate/auth/models.py:654
 msgid "Group to assign"
@@ -2373,6 +2373,7 @@ msgstr "Допълнително съобщение"
 msgid ""
 "Please describe the project and your relation to it, preferably in English."
 msgstr ""
+"Моля, опишете проекта и Вашата връзка с него, за предпочитане на английски."
 
 #: weblate/billing/models.py:160 weblate/templates/billing/detail.html:21
 msgid "Billing plan"
@@ -2403,7 +2404,7 @@ msgstr "Състояние на тарифния план"
 #: weblate/billing/models.py:179 weblate/templates/billing/list.html:13
 #: weblate/templates/billing/status.html:24
 msgid "Trial expiry date"
-msgstr ""
+msgstr "Крайна дата на пробния период"
 
 #: weblate/billing/models.py:186 weblate/templates/billing/list.html:16
 #: weblate/templates/billing/state-snippet.html:13
@@ -2414,7 +2415,7 @@ msgstr "Насрочено премахване"
 
 #: weblate/billing/models.py:189
 msgid "Paid"
-msgstr ""
+msgstr "Платено"
 
 #: weblate/billing/models.py:192
 msgid "In limits"
@@ -2582,7 +2583,7 @@ msgstr ""
 
 #: weblate/checks/chars.py:326
 msgid "Mismatching line breaks"
-msgstr ""
+msgstr "Несъответстващи нови редове"
 
 #: weblate/checks/chars.py:327
 msgid "Number of new lines in translation does not match source"
@@ -2616,11 +2617,11 @@ msgstr "Изходният низ и преводът не завършват с
 
 #: weblate/checks/chars.py:383
 msgid "Kashida letter used"
-msgstr ""
+msgstr "Използва се кашида"
 
 #: weblate/checks/chars.py:384
 msgid "The decorative kashida letters should not be used"
-msgstr ""
+msgstr "Декоративните букви кашида не трябва да се използват"
 
 #: weblate/checks/chars.py:395
 msgid "Punctuation spacing"
@@ -2628,7 +2629,7 @@ msgstr "Интервали и пунктуация"
 
 #: weblate/checks/chars.py:396
 msgid "Missing non breakable space before double punctuation sign"
-msgstr ""
+msgstr "Липсва знак за непрекъсваем интервал преди двоен пунктуационен знак"
 
 #: weblate/checks/consistency.py:33
 msgid "Missing plurals"
@@ -12049,10 +12050,8 @@ msgid ""
 msgstr ""
 
 #: weblate/trans/models/component.py:373
-#, fuzzy
-#| msgid "Base file for new translations"
 msgid "Template for new translations"
-msgstr "Базов файл за новите преводи"
+msgstr "Шаблон за новите преводи"
 
 #: weblate/trans/models/component.py:390
 msgid "Locked"
