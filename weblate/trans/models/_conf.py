@@ -142,7 +142,7 @@ Translations update from [{{ site_title }}]({{ site_url }}) for [{{ project_name
 
 {% if component_linked_childs %}
 It also includes following components:
-{% for linked in component_linked_child %}
+{% for linked in component_linked_childs %}
 * [{{ linked.project_name }}/{{ linked.name }}]({{ linked.url }})
 {% endfor %}
 {% endif %}
