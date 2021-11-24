@@ -149,6 +149,7 @@
         path: "/",
         expires: 365,
         sameSite: "Lax",
+        secure: window.location.protocol === "https:",
       });
     });
 
