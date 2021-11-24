@@ -323,7 +323,7 @@ Released on December 15th 2020.
 * Added alert when using ambiguous language codes.
 * The user is now presented with a filtered list of languages when adding a new translation.
 * Extended search capabilities for changes in history.
-* Improved billing detail pages and libre hosting workflow.
+* Improved billing detail pages and Libre hosting workflow.
 * Extended translation statistics API.
 * Improved "other translations" tab while translating.
 * Added tasks API.

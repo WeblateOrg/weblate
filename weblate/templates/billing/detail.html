@@ -107,7 +107,7 @@
     <div class="panel-body">
       {% if billing.is_libre_trial and billing.valid_libre and not billing.payment.libre_request %}
         {# Second button for bigger visibility #}
-        <input type="submit" class="btn btn-primary pull-right flip" name="request" value="{% trans "Request approval for libre hosting" %}" />
+        <input type="submit" class="btn btn-primary pull-right flip" name="request" value="{% trans "Request approval for Libre hosting" %}" />
       {% endif %}
       {% include "snippets/libre-checklist.html" %}
     </div>
@@ -124,7 +124,7 @@
                 <input type="submit" class="btn btn-primary" name="approve" value="{% trans "Approve as libre" %}" />
               {% else %}
                 {{ hosting_form|crispy }}
-                <input type="submit" class="btn btn-primary" name="request" value="{% trans "Request approval for libre hosting" %}" />
+                <input type="submit" class="btn btn-primary" name="request" value="{% trans "Request approval for Libre hosting" %}" />
               {% endif %}
             {% endif %}
           {% else %}

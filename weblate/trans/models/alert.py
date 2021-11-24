@@ -345,7 +345,7 @@ class AmbiguousLanguage(BaseAlert):
 @register
 class NoLibreConditions(BaseAlert):
     # Translators: Name of an alert
-    verbose = _("Does not meet libre hosting conditions.")
+    verbose = _("Does not meet Libre hosting conditions.")
 
 
 @register
