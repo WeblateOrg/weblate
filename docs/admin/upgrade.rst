@@ -74,7 +74,7 @@ work, but is not as well tested as single version upgrades.
 
    .. code-block:: sh
 
-        weblate collectstatic --noinput
+        weblate collectstatic --noinput --clear
 
 #. Compress JavaScript and CSS files (optional, see :ref:`production-compress`):
 
