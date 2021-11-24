@@ -824,7 +824,7 @@ class GithubRepository(GitMergeRequestBase):
         # that it is on a GitHub Enterprise server, which has uses a different base URL
         # for the API:
         if host != "github.com":
-            return "{}/api/v3".format(host)
+            return f"{host}/api/v3"
         return "api.github.com"
 
     def request(self, method: str, credentials: Dict, url: str, json: Dict):
