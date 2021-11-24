@@ -9,7 +9,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-11-23 17:19+0100\n"
 "PO-Revision-Date: 2021-11-24 04:01+0000\n"
-"Last-Translator: JY3 <GeeyunJY3@gmail.com>\n"
+"Last-Translator: Eric <spice2wolf@gmail.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "weblate/documentation/zh_Hans/>\n"
 "Language: zh_Hans\n"
@@ -1076,10 +1076,8 @@ msgid ""
 msgstr "添加翻译语言 [`Administration`, `Power user`, `Manage languages`]"
 
 #: ../../admin/access.rst:535
-#, fuzzy
-#| msgid "Perform automatic translation [`Administration`, `Manage languages`]"
 msgid "Perform automatic translation [`Administration`]"
-msgstr "执行自动翻译[`Administration`, `Manage languages`]"
+msgstr "执行自动翻译 [`Administration`]"
 
 #: ../../admin/access.rst:537
 msgid "Delete existing translation [`Administration`, `Manage languages`]"
@@ -14152,14 +14150,6 @@ msgid ""
 msgstr "Weblate 可以为所有文件格式自动开始新的翻译。"
 
 #: ../../admin/languages.rst:168
-#, fuzzy
-#| msgid ""
-#| "Some formats expect to start with an empty file and only translated "
-#| "strings to be included (for example :ref:`aresource`), while others "
-#| "expect to have all keys present (for example :ref:`gettext`). In some "
-#| "situations this really doesn't depend on the format, but rather on the "
-#| "framework you use to handle the translation (for example with :ref:"
-#| "`json`)."
 msgid ""
 "Some formats expect to start with an empty file and only translated strings "
 "to be included (for example :ref:`aresource`), while others expect to have "
@@ -14169,9 +14159,10 @@ msgid ""
 "depend on the format, but rather on the framework you use to handle the "
 "translation (for example with :ref:`json`)."
 msgstr ""
-"一些格式希望以空文件开始，并只包含已翻译的字符串（ :ref:`aresource`），而其它"
-"希望使所有的 key 出现（例如 :ref:`gettext`）。在一些情形下，这真正比依赖于格"
-"式，而更依赖于用来处理翻译的框架（例如通过 :ref:`json`）。"
+"一些格式希望以空文件开始，并只包含已翻译的字符串（如 :ref:`aresource`），而其它希望使所有的 key 出现（如 "
+":ref:`gettext`）。基于文档的格式 (如 "
+":ref:`odf`)从源文档的副本开始，所有字符串均被标记为需要编辑。在一些情形下，这真正比依赖于格式，而更依赖于用来处理翻译的框架（如通过 "
+":ref:`json`）。"
 
 #: ../../admin/languages.rst:176
 msgid ""
@@ -20131,16 +20122,11 @@ msgid "Disables automatic repository sharing via :ref:`internal-urls`."
 msgstr ""
 
 #: ../../api.rst:947
-#, fuzzy
-#| msgid ""
-#| "component object; see :http:get:`/api/components/(string:project)/(string:"
-#| "component)/`"
 msgid ""
 "Component parameters, see :http:get:`/api/components/(string:project)/"
 "(string:component)/`"
 msgstr ""
-"组件对象；请参见 :http:get:`/api/components/(string:project)/(string:"
-"component)/`"
+"组件参数，参见 :http:get:`/api/components/(string:project)/(string:component)/`"
 
 #: ../../api.rst:948
 msgid ""
@@ -20186,14 +20172,10 @@ msgid "Returns statistics for a project."
 msgstr "返回项目的统计数据。"
 
 #: ../../api.rst:1098
-#, fuzzy
-#| msgid ""
-#| "See :http:post:`/api/projects/(string:project)/repository/` for "
-#| "documentation."
 msgid ""
 "Use :http:post:`/api/projects/(string:project)/components/` to create new "
 "components."
-msgstr "文档请参见 :http:post:`/api/projects/(string:project)/repository/`。"
+msgstr "使用:http:post:`/api/projects/(string:project)/components/` 创建新组件。"
 
 #: ../../api.rst:1102
 msgid "Returns a list of translation components."
@@ -20475,10 +20457,8 @@ msgid ""
 msgstr ""
 
 #: ../../api.rst:1341
-#, fuzzy
-#| msgid "Fixed download of strings needing action."
 msgid "Filter downloaded strings, see :ref:`search`."
-msgstr "修复了需要动作的字符串下载。"
+msgstr "筛选已下载的字符串，见 :ref:`search`。"
 
 #: ../../api.rst:1345
 msgid "Returns a list of component screenshots."
@@ -21685,10 +21665,8 @@ msgid "Not yet released."
 msgstr "尚未发布。"
 
 #: ../../changes.rst:6
-#, fuzzy
-#| msgid "Added support for free DeepL API."
 msgid "Added support for formality with DeepL."
-msgstr "增加了对免费 DeepL API 的支持。"
+msgstr "新增对 DeepL Formality 参数的支持。"
 
 #: ../../changes.rst:7
 msgid ""
@@ -21697,10 +21675,8 @@ msgid ""
 msgstr ""
 
 #: ../../changes.rst:8
-#, fuzzy
-#| msgid "Added preview step to search and replace feature."
 msgid "Added filtering to search and replace."
-msgstr "为搜索和替换特性添加了预览步骤。"
+msgstr "为搜索和替换特性添加了筛选。"
 
 #: ../../changes.rst:10
 msgid ""
@@ -21722,16 +21698,12 @@ msgid "Fixed upload of monolingual files after changing template."
 msgstr "修复了更改模板后单语言文件的上传问题。"
 
 #: ../../changes.rst:18
-#, fuzzy
-#| msgid "Improved handling of translation filenames."
 msgid "Improved handling of whitespace in flags."
-msgstr "改进了翻译文件名的处理。"
+msgstr "改进了对标记中空白字符的处理。"
 
 #: ../../changes.rst:19
-#, fuzzy
-#| msgid "Add support for filtering changes."
 msgid "Add support for filtering in download API."
-msgstr "为筛选更改添加了支持。"
+msgstr "下载 API 新增对过滤的支持。"
 
 #: ../../changes.rst:20
 msgid "Fixed statistics display when adding new translations."
@@ -21758,10 +21730,8 @@ msgid "Released on November 10th 2021."
 msgstr "发布于 2021 年 11 月 10 日。"
 
 #: ../../changes.rst:30
-#, fuzzy
-#| msgid "Provide more details for history events."
 msgid "Provide more details for events in history."
-msgstr "提供历史事件的更多详情。"
+msgstr "提供历史记录中事件的更多详情。"
 
 #: ../../changes.rst:31
 msgid "Improved rendering of history."
