@@ -23,7 +23,7 @@ from secrets import token_hex
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 from django.http import JsonResponse
-from django.shortcuts import redirect
+from django.shortcuts import get_object_or_404, redirect
 from django.utils import timezone
 from django.utils.translation import gettext as _
 from django.views.decorators.http import require_POST
@@ -286,11 +286,13 @@ def delete_token(request, project):
     form = ProjectTokenDeleteForm(request.POST)
 
     if form.is_valid():
-        project_token = ProjectToken.objects.get(pk=form.cleaned_data["token"])
+        project_token = get_object_or_404(ProjectToken, pk=form.cleaned_data["token"])
         if project_token.project.id == obj.id:
             project_token.delete()
         else:
             raise PermissionDenied()
+    else:
+        show_form_errors(request, form)
 
     return redirect_param("manage-access", "#api", project=obj.slug)
 

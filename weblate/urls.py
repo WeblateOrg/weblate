@@ -396,7 +396,7 @@ real_patterns = [
     path(
         "token/<name:project>/delete/",
         weblate.trans.views.acl.delete_token,
-        name="delete-token",
+        name="delete-project-token",
     ),
     # Used by weblate.org to reder own activity chart on homepage
     path(

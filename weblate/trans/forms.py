@@ -2391,9 +2391,7 @@ class LabelForm(forms.ModelForm):
 
 
 class ProjectTokenDeleteForm(forms.Form):
-    project = forms.ModelChoiceField(
-        queryset=ProjectToken.objects.none(), label=_("Token")
-    )
+    token = forms.CharField(required=True, widget=forms.HiddenInput)
 
 
 class ProjectTokenCreateForm(forms.ModelForm):
