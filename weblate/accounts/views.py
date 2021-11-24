@@ -666,13 +666,13 @@ class UserPage(UpdateView):
         context["page_profile"] = user.profile
         context["last_changes"] = last_changes.preload()
         context["last_changes_url"] = urlencode({"user": user.username})
-        context["user_translations"] = prefetch_stats(user_translations)
-        context["owned_projects"] = prefetch_project_flags(
+        context["page_user_translations"] = prefetch_stats(user_translations)
+        context["page_owned_projects"] = prefetch_project_flags(
             prefetch_stats(
                 user.owned_projects.filter(id__in=allowed_project_ids).order()
             )
         )
-        context["watched_projects"] = prefetch_project_flags(
+        context["page_watched_projects"] = prefetch_project_flags(
             prefetch_stats(
                 user.watched_projects.filter(id__in=allowed_project_ids).order()
             )

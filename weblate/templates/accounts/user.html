@@ -158,19 +158,19 @@
 
 <div class="tab-pane active" id="contributed">
 <div class="list-group">
-{% include "list-projects.html" with projects=user_translations name_source="translation" %}
+{% include "list-projects.html" with projects=page_user_translations name_source="translation" %}
 </div>
 </div>
 
 <div class="tab-pane" id="managed">
 <div class="list-group">
-{% include "list-projects.html" with projects=owned_projects %}
+{% include "list-projects.html" with projects=page_owned_projects %}
 </div>
 </div>
 
 <div class="tab-pane" id="watched">
 <div class="list-group">
-{% include "list-projects.html" with projects=watched_projects %}
+{% include "list-projects.html" with projects=page_watched_projects %}
 </div>
 </div>
 
