@@ -18,6 +18,7 @@
 #
 """Definition of permissions and default roles and groups."""
 
+from typing import Optional
 
 from django.utils.translation import gettext_noop as _
 
@@ -151,9 +152,12 @@ GLOBAL_PERMISSIONS = (
 GLOBAL_PERM_NAMES = {perm[0] for perm in GLOBAL_PERMISSIONS}
 
 
-def filter_perms(prefix):
+def filter_perms(prefix: str, exclude: Optional[set] = None):
     """Filter permission based on prefix."""
-    return {perm[0] for perm in PERMISSIONS if perm[0].startswith(prefix)}
+    result = {perm[0] for perm in PERMISSIONS if perm[0].startswith(prefix)}
+    if exclude:
+        result = result.difference(exclude)
+    return result
 
 
 # Translator permissions
@@ -200,7 +204,10 @@ ROLES = (
         TRANSLATE_PERMS | {"unit.review", "unit.override"},
     ),
     (pgettext("Access-control role", "Translate"), TRANSLATE_PERMS),
-    (pgettext("Access-control role", "Manage languages"), filter_perms("translation.")),
+    (
+        pgettext("Access-control role", "Manage languages"),
+        filter_perms("translation.", {"translation.auto"}),
+    ),
     (
         pgettext("Access-control role", "Manage translation memory"),
         filter_perms("memory."),

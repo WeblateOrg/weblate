@@ -207,6 +207,11 @@ real_patterns = [
         name="replace",
     ),
     path(
+        "replace/<name:project>/-/<name:lang>/",
+        weblate.trans.views.search.search_replace,
+        name="replace",
+    ),
+    path(
         "replace/<name:project>/<name:component>/<name:lang>/",
         weblate.trans.views.search.search_replace,
         name="replace",
@@ -218,6 +223,11 @@ real_patterns = [
     ),
     path(
         "bulk-edit/<name:project>/<name:component>/",
+        weblate.trans.views.search.bulk_edit,
+        name="bulk-edit",
+    ),
+    path(
+        "bulk-edit/<name:project>/-/<name:lang>/",
         weblate.trans.views.search.bulk_edit,
         name="bulk-edit",
     ),

@@ -24,12 +24,12 @@ repos:
     hooks:
       - id: isort
   - repo: https://github.com/asottile/pyupgrade
-    rev: v2.29.0
+    rev: v2.29.1
     hooks:
       - id: pyupgrade
         args: [--py36-plus]
   - repo: https://github.com/psf/black
-    rev: 21.10b0
+    rev: 21.11b1
     hooks:
       - id: black
   - repo: https://github.com/PyCQA/flake8
@@ -52,7 +52,7 @@ repos:
           - flake8-self
           - pep8-naming
   - repo: https://github.com/asottile/blacken-docs
-    rev: v1.11.0
+    rev: v1.12.0
     hooks:
       - id: blacken-docs
   - repo: meta
@@ -74,7 +74,7 @@ repos:
           |yaml|yml\
           )$"
   - repo: https://github.com/pre-commit/mirrors-eslint
-    rev: v8.2.0
+    rev: v8.3.0
     hooks:
       - id: eslint
         args: ["--format=compact"]

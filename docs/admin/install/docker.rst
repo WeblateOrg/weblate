@@ -257,7 +257,7 @@ You can also fine-tune individual worker categories:
 .. code-block:: yaml
 
     environment:
-      UWSGI_WORKERS: 4
+      WEB_WORKERS: 4
       CELERY_MAIN_OPTIONS: --concurrency 2
       CELERY_NOTIFY_OPTIONS: --concurrency 1
       CELERY_TRANSLATE_OPTIONS: --concurrency 1
@@ -271,7 +271,7 @@ You can also fine-tune individual worker categories:
    :envvar:`CELERY_TRANSLATE_OPTIONS`,
    :envvar:`CELERY_BACKUP_OPTIONS`,
    :envvar:`CELERY_BEAT_OPTIONS`,
-   :envvar:`UWSGI_WORKERS`
+   :envvar:`WEB_WORKERS`
 
 .. _docker-scaling:
 
@@ -1430,7 +1430,7 @@ Container settings
    It is used to determine :envvar:`CELERY_MAIN_OPTIONS`,
    :envvar:`CELERY_NOTIFY_OPTIONS`, :envvar:`CELERY_MEMORY_OPTIONS`,
    :envvar:`CELERY_TRANSLATE_OPTIONS`, :envvar:`CELERY_BACKUP_OPTIONS`,
-   :envvar:`CELERY_BEAT_OPTIONS`, and :envvar:`UWSGI_WORKERS`. You can use
+   :envvar:`CELERY_BEAT_OPTIONS`, and :envvar:`WEB_WORKERS`. You can use
    these settings to fine-tune.
 
 .. envvar:: CELERY_MAIN_OPTIONS
@@ -1458,7 +1458,7 @@ Container settings
         :doc:`Celery worker options <celery:reference/celery.bin.worker>`,
         :ref:`celery`
 
-.. envvar:: UWSGI_WORKERS
+.. envvar:: WEB_WORKERS
 
     Configure how many uWSGI workers should be executed.
 
@@ -1469,7 +1469,7 @@ Container settings
     .. code-block:: yaml
 
         environment:
-          UWSGI_WORKERS: 32
+          WEB_WORKERS: 32
 
 .. envvar:: WEBLATE_SERVICE
 

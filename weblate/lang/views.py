@@ -28,7 +28,12 @@ from django.views.generic import CreateView, UpdateView
 
 from weblate.lang.forms import LanguageForm, PluralForm
 from weblate.lang.models import Language, Plural
-from weblate.trans.forms import ProjectLanguageDeleteForm, SearchForm
+from weblate.trans.forms import (
+    BulkEditForm,
+    ProjectLanguageDeleteForm,
+    ReplaceForm,
+    SearchForm,
+)
 from weblate.trans.models import Change
 from weblate.trans.models.project import prefetch_project_flags
 from weblate.trans.models.translation import GhostTranslation
@@ -157,6 +162,16 @@ def show_project(request, lang, project):
             ),
             "delete_form": optional_form(
                 ProjectLanguageDeleteForm, user, "translation.delete", obj, obj=obj
+            ),
+            "replace_form": optional_form(ReplaceForm, user, "unit.edit", obj),
+            "bulk_state_form": optional_form(
+                BulkEditForm,
+                user,
+                "translation.auto",
+                obj,
+                user=user,
+                obj=obj,
+                project=obj.project,
             ),
         },
     )

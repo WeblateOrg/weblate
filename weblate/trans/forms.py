@@ -1997,8 +1997,15 @@ class ProjectCreateForm(SettingsBaseForm, ProjectDocsMixin, ProjectAntispamMixin
 
 
 class ReplaceForm(forms.Form):
+    q = QueryField(
+        required=False, help_text=_("Optional additional filter on the strings")
+    )
     search = forms.CharField(
-        label=_("Search string"), min_length=1, required=True, strip=False
+        label=_("Search string"),
+        min_length=1,
+        required=True,
+        strip=False,
+        help_text=_("Case sensitive string to replace and search."),
     )
     replacement = forms.CharField(
         label=_("Replacement string"), min_length=1, required=True, strip=False
@@ -2007,6 +2014,14 @@ class ReplaceForm(forms.Form):
     def __init__(self, *args, **kwargs):
         kwargs["auto_id"] = "id_replace_%s"
         super().__init__(*args, **kwargs)
+        self.helper = FormHelper(self)
+        self.helper.form_tag = False
+        self.helper.layout = Layout(
+            SearchField("q"),
+            Field("search"),
+            Field("replacement"),
+            Div(template="snippets/replace-help.html"),
+        )
 
 
 class ReplaceConfirmForm(forms.Form):
@@ -2220,6 +2235,7 @@ class BulkEditForm(forms.Form):
 
     def __init__(self, user, obj, *args, **kwargs):
         project = kwargs.pop("project")
+        kwargs["auto_id"] = "id_bulk_%s"
         super().__init__(*args, **kwargs)
         labels = project.label_set.all()
         if labels:
@@ -2238,7 +2254,11 @@ class BulkEditForm(forms.Form):
         self.helper = FormHelper(self)
         self.helper.form_tag = False
         self.helper.layout = Layout(
-            SearchField("q"), Field("state"), Field("add_flags"), Field("remove_flags")
+            Div(template="snippets/bulk-help.html"),
+            SearchField("q"),
+            Field("state"),
+            Field("add_flags"),
+            Field("remove_flags"),
         )
         if labels:
             self.helper.layout.append(InlineCheckboxes("add_labels"))

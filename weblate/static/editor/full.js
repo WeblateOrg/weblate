@@ -144,12 +144,17 @@
   FullEditor.prototype.initTabs = function () {
     /* Store active tab in a cookie */
     $('.translation-tabs a[data-toggle="tab"]').on("shown.bs.tab", function () {
-      Cookies.remove("translate-tab", { path: "" });
-      Cookies.set("translate-tab", $(this).attr("href"), {
-        path: "/",
-        expires: 365,
-        sameSite: "Lax",
-      });
+      let current = Cookies.get("translate-tab");
+      let desired = $(this).attr("href");
+
+      if (current !== desired) {
+        Cookies.set("translate-tab", desired, {
+          path: "/",
+          expires: 365,
+          sameSite: "Lax",
+          secure: window.location.protocol === "https:",
+        });
+      }
     });
 
     /* Machinery */

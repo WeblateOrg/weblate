@@ -532,7 +532,7 @@ Suggestions
 Translations
     Add language for translation [`Administration`, `Power user`, `Manage languages`]
 
-    Perform automatic translation [`Administration`, `Manage languages`]
+    Perform automatic translation [`Administration`]
 
     Delete existing translation [`Administration`, `Manage languages`]
 

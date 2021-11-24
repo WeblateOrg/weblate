@@ -1,7 +1,13 @@
 Weblate 4.10
--------------
+------------
 
 Not yet released.
+
+* Added support for formality with DeepL.
+* Bulk edit and search and replace are now available on project and language level.
+* Added filtering to search and replace.
+
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/74?closed=1>`__.
 
 Weblate 4.9.1
 -------------
@@ -317,7 +323,7 @@ Released on December 15th 2020.
 * Added alert when using ambiguous language codes.
 * The user is now presented with a filtered list of languages when adding a new translation.
 * Extended search capabilities for changes in history.
-* Improved billing detail pages and libre hosting workflow.
+* Improved billing detail pages and Libre hosting workflow.
 * Extended translation statistics API.
 * Improved "other translations" tab while translating.
 * Added tasks API.

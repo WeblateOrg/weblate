@@ -208,7 +208,6 @@ def show_project(request, project):
                 user=user,
                 obj=obj,
                 project=obj,
-                auto_id="id_bulk_%s",
             ),
             "components": components,
             "licenses": sorted(
@@ -259,7 +258,6 @@ def show_component(request, project, component):
                 user=user,
                 obj=obj,
                 project=obj.project,
-                auto_id="id_bulk_%s",
             ),
             "announcement_form": optional_form(
                 AnnouncementForm, user, "component.edit", obj
@@ -349,7 +347,6 @@ def show_translation(request, project, component, lang):
                 user=user,
                 obj=obj,
                 project=project,
-                auto_id="id_bulk_%s",
             ),
             "new_unit_form": get_new_unit_form(obj, user),
             "announcement_form": optional_form(

@@ -200,14 +200,20 @@ class ReplaceTest(ViewTestCase):
         self.edit_unit("Hello, world!\n", "Nazdar svete!\n")
         self.unit = self.get_unit()
 
-    def do_replace_test(self, url, confirm=True):
+    def do_replace_test(self, url, confirm=True, query=None):
+        query = query or ""
         response = self.client.post(
-            url, {"search": "Nazdar", "replacement": "Ahoj"}, follow=True
+            url, {"q": query, "search": "Nazdar", "replacement": "Ahoj"}, follow=True
         )
         self.assertContains(
             response, "Please review and confirm the search and replace results."
         )
-        payload = {"search": "Nazdar", "replacement": "Ahoj", "confirm": "1"}
+        payload = {
+            "q": query,
+            "search": "Nazdar",
+            "replacement": "Ahoj",
+            "confirm": "1",
+        }
         if confirm:
             payload["units"] = self.unit.pk
         response = self.client.post(url, payload, follow=True)
@@ -235,6 +241,21 @@ class ReplaceTest(ViewTestCase):
         unit = self.get_unit()
         self.assertEqual(unit.target, "Nazdar svete!\n")
 
+    def test_replace_translated(self):
+        self.do_replace_test(
+            reverse("replace", kwargs=self.kw_translation), "is:translated"
+        )
+
+    def test_replace_nontranslated(self):
+        response = self.client.post(
+            reverse("replace", kwargs=self.kw_translation),
+            {"q": "NOT is:translated", "search": "Nazdar", "replacement": "Ahoj"},
+            follow=True,
+        )
+        self.assertNotContains(
+            response, "Please review and confirm the search and replace results."
+        )
+
     def test_replace(self):
         self.do_replace_test(reverse("replace", kwargs=self.kw_translation))
 
@@ -243,6 +264,17 @@ class ReplaceTest(ViewTestCase):
 
     def test_replace_component(self):
         self.do_replace_test(reverse("replace", kwargs=self.kw_component))
+
+    def test_replace_project_language(self):
+        self.do_replace_test(
+            reverse(
+                "replace",
+                kwargs={
+                    "project": self.kw_translation["project"],
+                    "lang": self.kw_translation["lang"],
+                },
+            )
+        )
 
 
 class BulkEditTest(ViewTestCase):
@@ -279,6 +311,17 @@ class BulkEditTest(ViewTestCase):
 
     def test_bulk_edit_component(self):
         self.do_bulk_edit_test(reverse("bulk-edit", kwargs=self.kw_component))
+
+    def test_bulk_edit_project_language(self):
+        self.do_bulk_edit_test(
+            reverse(
+                "bulk-edit",
+                kwargs={
+                    "project": self.kw_translation["project"],
+                    "lang": self.kw_translation["lang"],
+                },
+            )
+        )
 
     def test_bulk_flags(self):
         response = self.client.post(

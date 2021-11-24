@@ -40,20 +40,27 @@ def get_akismet():
 
 def is_spam(text, request):
     """Generic spam checker interface."""
+    if not text:
+        return False
     akismet = get_akismet()
     if akismet is not None:
         from akismet import AkismetServerError, SpamStatus
 
+        user_ip = get_ip_address(request)
+        user_agent = get_user_agent_raw(request)
+
         try:
             result = akismet.check(
-                user_ip=get_ip_address(request),
-                user_agent=get_user_agent_raw(request),
+                user_ip=user_ip,
+                user_agent=user_agent,
                 comment_content=text,
                 comment_type="comment",
             )
             if result:
                 try:
-                    raise Exception("Akismet reported spam")
+                    raise Exception(
+                        f"Akismet reported spam: {user_ip} / {user_agent} / {text!r}"
+                    )
                 except Exception:
                     report_error(cause="Akismet reported spam")
             return result == SpamStatus.DefiniteSpam

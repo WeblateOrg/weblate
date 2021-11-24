@@ -359,6 +359,8 @@ operation again.
 Default limits and fine-tuning is described in the administrative manual, see
 :ref:`rate-limit`.
 
+.. _search-replace:
+
 Search and replace
 ------------------
 

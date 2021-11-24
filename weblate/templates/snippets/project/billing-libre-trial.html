@@ -4,12 +4,16 @@
 {% block tags %}warning{% endblock %}
 
 {% block message %}
-  {% comment %}user_can_view_billing is defined in snippets/project/state.html{% endcomment %}
+  {# user_can_view_billing is defined in snippets/project/state.html #}
   {% if user_can_view_billing %}
+    {# project admin can request approval #}
     <a href="{{ object.billing.get_absolute_url }}" class="btn btn-primary pull-right flip">{% trans "Request approval for Libre hosting" %}</a>
+    {% trans "This project is in the trial period, and is publicly accessible. You can lock it and post an announcement in case you want to avoid contributions until you finish the setup." %}
+  {% else %}
+    {# users are warned that the setup is not yet completed #}
+    {% trans "Hey translator! This project is in a trial period, and its setup might not be complete yet!" %}
+    <br/>
+    {% trans "Consider asking its maintainers before you contribute to avoid the chance of losing your work. Remember that before approval as a libre project, essential things like a license can change." %}
   {% endif %}
-  {% trans "Hey translator! This project is in a trial period, and its setup might not be complete yet!" %}
-  <br/>
-  {% trans "Consider asking its maintainers before you contribute to avoid the chance of losing your work. Remember that before approval as a libre project, essential things like a license can change." %}
   <div class="clearfix"></div>
 {% endblock %}

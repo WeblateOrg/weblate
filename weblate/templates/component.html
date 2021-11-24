@@ -185,11 +185,12 @@
 <div class="tab-pane" id="replace">
 <form action="{% url 'replace' project=object.project.slug component=object.slug %}" method="post" enctype="multipart/form-data">
 <div class="panel panel-default">
-<div class="panel-heading"><h4 class="panel-title">{% trans "Search and replace" %}</h4></div>
+<div class="panel-heading"><h4 class="panel-title">
+  {% documentation_icon 'user/translating' 'search-replace' right=True %}
+  {% trans "Search and replace" %}
+</h4></div>
 <div class="panel-body">
-<p>{% trans "You can substitute all instances of a string. The search is a simple substring case sensitive search." %}</p>
-{% csrf_token %}
-{{ replace_form|crispy }}
+{% crispy replace_form %}
 </div>
 <div class="panel-footer">
 <input type="submit" value="{% trans "Replace" %}" class="btn btn-primary" />
@@ -203,9 +204,11 @@
 <div class="tab-pane" id="bulk-edit">
 <form action="{% url 'bulk-edit' project=object.project.slug component=object.slug %}" method="post" enctype="multipart/form-data">
 <div class="panel panel-default">
-<div class="panel-heading"><h4 class="panel-title">{% trans "Bulk edit" %}</h4></div>
+<div class="panel-heading"><h4 class="panel-title">
+  {% documentation_icon 'user/translating' 'bulk-edit' right=True %}
+  {% trans "Bulk edit" %}
+</h4></div>
 <div class="panel-body">
-<p>{% trans "You can change the state of all strings matching a given type at once." %}</p>
 {% crispy bulk_state_form %}
 </div>
 <div class="panel-footer">
