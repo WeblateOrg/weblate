@@ -1179,7 +1179,7 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
         # This is always preset as it is used in top of this method
         self.clear_checks_cache()
 
-        if not self.is_batch_update:
+        if not self.is_batch_update and (create or old_checks):
             self.translation.invalidate_cache()
 
     def nearby(self, count):
