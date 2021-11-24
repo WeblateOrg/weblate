@@ -1,4 +1,4 @@
-var loading = 0;
+var loading = [];
 
 // Remove some weird things from location hash
 if (
@@ -11,15 +11,18 @@ if (
 
 // Loading indicator handler
 function increaseLoading(sel) {
-  if (loading === 0) {
+  if (!(sel in loading)) {
+    loading[sel] = 0;
+  }
+  if (loading[sel] === 0) {
     $("#loading-" + sel).show();
   }
-  loading += 1;
+  loading[sel] += 1;
 }
 
 function decreaseLoading(sel) {
-  loading -= 1;
-  if (loading === 0) {
+  loading[sel] -= 1;
+  if (loading[sel] === 0) {
     $("#loading-" + sel).hide();
   }
 }
