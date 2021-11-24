@@ -973,21 +973,18 @@ Projects
                 "branch": "main",
                 "file_format": "po",
                 "filemask": "po/*.po",
-                "git_export": "",
-                "license": "",
-                "license_url": "",
                 "name": "Weblate",
                 "slug": "weblate",
-                "repo": "file:///home/nijel/work/weblate-hello",
+                "repo": "https://github.com/WeblateOrg/hello.git",
                 "template": "",
-                "new_base": "",
+                "new_base": "po/hello.pot",
                 "vcs": "git"
             }' \
             -H "Content-Type: application/json" \
             -H "Authorization: Token TOKEN" \
             http://example.com/api/projects/hello/components/
 
-    **JSON request example:**
+    **JSON request to create a new component from Git:**
 
     .. sourcecode:: http
 
@@ -1002,14 +999,33 @@ Projects
             "branch": "main",
             "file_format": "po",
             "filemask": "po/*.po",
-            "git_export": "",
-            "license": "",
-            "license_url": "",
             "name": "Weblate",
             "slug": "weblate",
-            "repo": "file:///home/nijel/work/weblate-hello",
+            "repo": "https://github.com/WeblateOrg/hello.git",
             "template": "",
-            "new_base": "",
+            "new_base": "po/hello.pot",
+            "vcs": "git"
+        }
+
+    **JSON request to create a new component from another one:**
+
+    .. sourcecode:: http
+
+        POST /api/projects/hello/components/ HTTP/1.1
+        Host: example.com
+        Accept: application/json
+        Content-Type: application/json
+        Authorization: Token TOKEN
+        Content-Length: 20
+
+        {
+            "file_format": "po",
+            "filemask": "po/*.po",
+            "name": "Weblate",
+            "slug": "weblate",
+            "repo": "weblate://weblate/hello",
+            "template": "",
+            "new_base": "po/hello.pot",
             "vcs": "git"
         }
 
