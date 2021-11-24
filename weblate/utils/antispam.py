@@ -40,6 +40,8 @@ def get_akismet():
 
 def is_spam(text, request):
     """Generic spam checker interface."""
+    if not text:
+        return False
     akismet = get_akismet()
     if akismet is not None:
         from akismet import AkismetServerError, SpamStatus
