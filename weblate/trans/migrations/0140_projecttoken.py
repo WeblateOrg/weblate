@@ -14,7 +14,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name="ProjectToken",
             options={
-                "verbose_name": "Project Token", 
+                "verbose_name": "Project Token",
                 "verbose_name_plural": "Project Tokens",
                 "unique_together": {("project", "token")},
             },

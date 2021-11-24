@@ -1,11 +1,12 @@
 import re
+
 from django.urls import reverse
 
-from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.models import Project
+from weblate.trans.tests.test_views import ViewTestCase
+
 
 class ProjectTokenTest(ViewTestCase):
-
     def setUp(self):
         super().setUp()
         self.project.access_control = Project.ACCESS_PRIVATE
@@ -17,7 +18,7 @@ class ProjectTokenTest(ViewTestCase):
         response = self.client.post(
             reverse("create-project-token", kwargs=self.kw_project),
             {"name": "Test Token", "expires": "2999-12-31"},
-            follow=True
+            follow=True,
         )
         html = response.content.decode("utf-8")
         result = re.search(r"Token has been created: (\w+)", html)
@@ -30,7 +31,7 @@ class ProjectTokenTest(ViewTestCase):
         response = self.client.post(
             reverse("delete-project-token", kwargs=self.kw_project),
             {"token": token_id},
-            follow=True
+            follow=True,
         )
 
         self.assertEqual(response.status_code, 200)
@@ -50,7 +51,7 @@ class ProjectTokenTest(ViewTestCase):
         self.client.logout()
 
         response = self.client.get(
-            reverse("api:project-detail", kwargs={'slug': self.project.slug}),
+            reverse("api:project-detail", kwargs={"slug": self.project.slug}),
             **{"HTTP_AUTHORIZATION": f"Token {token}"},
         )
 
@@ -64,7 +65,7 @@ class ProjectTokenTest(ViewTestCase):
         self.client.logout()
 
         response = self.client.get(
-            reverse("api:project-detail", kwargs={'slug': self.project.slug}),
+            reverse("api:project-detail", kwargs={"slug": self.project.slug}),
             **{"HTTP_AUTHORIZATION": f"Token {token}"},
         )
 
