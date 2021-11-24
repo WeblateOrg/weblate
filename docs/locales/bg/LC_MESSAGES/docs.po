@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-11-23 17:19+0100\n"
-"PO-Revision-Date: 2021-11-19 14:50+0000\n"
+"PO-Revision-Date: 2021-11-24 12:08+0000\n"
 "Last-Translator: Любомир Василев <lyubomirv@gmx.com>\n"
 "Language-Team: Bulgarian <https://hosted.weblate.org/projects/weblate/"
 "documentation/bg/>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.9.1\n"
+"X-Generator: Weblate 4.10-dev\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:181
@@ -532,7 +532,7 @@ msgstr "Най-дейни преводачи"
 
 #: ../../admin/access.rst:280 ../../admin/access.rst:393 ../../api.rst:566
 msgid "Roles"
-msgstr ""
+msgstr "Роли"
 
 #: ../../admin/access.rst:281
 msgid "`Power users`"
@@ -1148,7 +1148,7 @@ msgstr ""
 
 #: ../../admin/access.rst:564
 msgid "Use management interface"
-msgstr ""
+msgstr "Използване на интерфейса за управление"
 
 #: ../../admin/access.rst:566
 msgid "Add new projects"
@@ -1564,7 +1564,7 @@ msgstr "Име на бисквитката за езика"
 
 #: ../../admin/addons.rst:91
 msgid "Name of cookie which stores language preference."
-msgstr ""
+msgstr "Име на бисквитката, която съхранява предпочитания език."
 
 #: ../../admin/addons.rst:93
 msgid "``files``"
@@ -1572,13 +1572,15 @@ msgstr ""
 
 #: ../../admin/addons.rst:93 ../../devel/html.rst:60
 msgid "Extract strings from HTML files"
-msgstr ""
+msgstr "Извличане на текстове от файлове HTML"
 
 #: ../../admin/addons.rst:93
 msgid ""
 "List of filenames in current repository or remote URLs to parse for "
 "translatable strings."
 msgstr ""
+"Списък от имена на файлове в текущото хранилище или адреси, които да бъдат "
+"анализирани за извличане на текстове за превод."
 
 #: ../../admin/addons.rst:95
 msgid "daily, repository post-commit, repository post-update"
@@ -1812,7 +1814,7 @@ msgstr ""
 
 #: ../../admin/addons.rst:192
 msgid "Clone addons from the main component to the newly created ones"
-msgstr ""
+msgstr "Клониране на добавките от основния компонент в новосъздадените"
 
 #: ../../admin/addons.rst:194
 #, fuzzy
@@ -2184,7 +2186,7 @@ msgstr ""
 
 #: ../../admin/addons.rst:392
 msgid "Pseudolocale generation"
-msgstr ""
+msgstr "Създаване на псевдо-език"
 
 #: ../../admin/addons.rst:394
 msgid "``weblate.generate.pseudolocale``"
@@ -2207,26 +2209,24 @@ msgid "``prefix``"
 msgstr ""
 
 #: ../../admin/addons.rst:400
-#, fuzzy
-#| msgid "Service status"
 msgid "String prefix"
-msgstr "Състояние на услугата"
+msgstr "Представка за текстовете"
 
 #: ../../admin/addons.rst:402
 msgid "``suffix``"
 msgstr ""
 
 #: ../../admin/addons.rst:402
-#, fuzzy
-#| msgid "Strings"
 msgid "String suffix"
-msgstr "Текстове"
+msgstr "Наставка за текстовете"
 
 #: ../../admin/addons.rst:406
 msgid ""
 "Generates a translation by adding prefix and suffix to source strings "
 "automatically."
 msgstr ""
+"Създава нов превод, като автоматично добавя представка и наставка към всеки "
+"оригинален текст."
 
 #: ../../admin/addons.rst:409
 msgid ""
@@ -2288,10 +2288,8 @@ msgid "The PO file header will look like this:"
 msgstr ""
 
 #: ../../admin/addons.rst:458
-#, fuzzy
-#| msgid "Update ALL_LINGUAS variable in the configure file"
 msgid "Update ALL_LINGUAS variable in the \"configure\" file"
-msgstr "Обновяване на променливата ALL_LINGUAS в конфигурационния файл"
+msgstr "Обновяване на променливата ALL_LINGUAS във файла „configure“"
 
 #: ../../admin/addons.rst:460
 msgid "``weblate.gettext.configure``"
@@ -2531,7 +2529,7 @@ msgstr ""
 
 #: ../../admin/addons.rst:569
 msgid "Append trailers to squashed commit message"
-msgstr ""
+msgstr "Добавяне на завършващ текстов към съобщението на смачкано подаване"
 
 #: ../../admin/addons.rst:569
 msgid ""
@@ -2539,6 +2537,9 @@ msgid ""
 "end of the otherwise free-form part of a commit message, such as 'Co-"
 "authored-by: …'."
 msgstr ""
+"Завършващите редове са редове, които приличат на заглавките за е-поща от RFC "
+"822, които се поставят в края на съобщението за подаване, след свободния "
+"текст в него, като например: „Co-authored-by: …“."
 
 #: ../../admin/addons.rst:571
 #, fuzzy
@@ -2693,7 +2694,7 @@ msgstr ""
 
 #: ../../admin/addons.rst:643 ../../admin/addons.rst:662
 msgid "Days to keep"
-msgstr ""
+msgstr "Дни за съхранение"
 
 #: ../../admin/addons.rst:645 ../../admin/addons.rst:666
 msgid "daily"
@@ -2735,6 +2736,7 @@ msgstr "Граница за гласуване"
 #: ../../admin/addons.rst:664
 msgid "Threshold for removal. This field has no effect with voting turned off."
 msgstr ""
+"Граница за премахване. Това поле няма значение, ако гласуването е изключено."
 
 #: ../../admin/addons.rst:668
 #, fuzzy
@@ -16174,10 +16176,8 @@ msgstr ""
 #: ../../formats.rst:1213 ../../formats.rst:1242 ../../formats.rst:1271
 #: ../../formats.rst:1306 ../../formats.rst:1337 ../../formats.rst:1369
 #: ../../formats.rst:1482 ../../formats.rst:1514 ../../formats.rst:1548
-#, fuzzy
-#| msgid "Base file for new translations"
 msgid "Template for new translations"
-msgstr "Базов файл за новите преводи"
+msgstr "Шаблон за новите преводи"
 
 #: ../../admin/projects.rst:455
 msgid ""
@@ -34409,11 +34409,11 @@ msgstr ""
 
 #: ../../user/checks.rst:644
 msgid "Kashida letter used"
-msgstr ""
+msgstr "Използва се кашида"
 
 #: ../../user/checks.rst:648
 msgid "The decorative kashida letters should not be used"
-msgstr ""
+msgstr "Декоративните букви кашида не трябва да се използват"
 
 #: ../../user/checks.rst:650
 msgid "``weblate.checks.chars.KashidaCheck``"
@@ -34763,7 +34763,7 @@ msgstr ""
 
 #: ../../user/checks.rst:918
 msgid "Mismatching line breaks"
-msgstr ""
+msgstr "Несъответстващи нови редове"
 
 #: ../../user/checks.rst:920
 msgid "Number of new lines in translation does not match source"
@@ -34856,7 +34856,7 @@ msgstr "Интервали и пунктуация"
 
 #: ../../user/checks.rst:987
 msgid "Missing non breakable space before double punctuation sign"
-msgstr ""
+msgstr "Липсва знак за непрекъсваем интервал преди двоен пунктуационен знак"
 
 #: ../../user/checks.rst:989
 msgid "``weblate.checks.chars.PunctuationSpacingCheck``"
