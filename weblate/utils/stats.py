@@ -232,7 +232,8 @@ class BaseStats:
     def invalidate(self, language: Optional[Language] = None, childs: bool = False):
         """Invalidate local and cache data."""
         self.clear()
-        cache.delete_many(self.get_invalidate_keys(language, childs))
+        keys = self.get_invalidate_keys(language, childs)
+        cache.delete_many(keys)
 
     def clear(self):
         """Clear local cache."""
@@ -616,6 +617,12 @@ class LanguageStats(BaseStats):
 
 
 class ComponentStats(LanguageStats):
+    @cached_property
+    def translation_set(self):
+        return prefetch_stats(
+            self._object.translation_set.select_related("language").iterator()
+        )
+
     @cached_property
     def has_review(self):
         return (
