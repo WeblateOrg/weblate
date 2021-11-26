@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-11-23 17:19+0100\n"
-"PO-Revision-Date: 2021-11-24 12:08+0000\n"
+"PO-Revision-Date: 2021-11-27 06:54+0000\n"
 "Last-Translator: JY3 <GeeyunJY3@gmail.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "weblate/documentation/zh_Hans/>\n"
@@ -2315,7 +2315,7 @@ msgstr "允许自定义 gettext 的输出行为，例如是否启用自动换行
 
 #: ../../admin/addons.rst:488
 msgid "It offers the following options:"
-msgstr "提供了后面的选项："
+msgstr "它提供以下选项："
 
 #: ../../admin/addons.rst:490
 msgid "Wrap lines at 77 characters and at newlines"
@@ -2792,8 +2792,8 @@ msgid ""
 "addons.base.BaseAddon` to define the addon metadata, and then implement a "
 "callback to do the processing."
 msgstr ""
-"你也可以编写自己的附加组件，创建子类 :class:`weblate.addons.base.BaseAddon`来"
-"定义附加组件元数据，接着实施回调来进行处理。"
+"你也可以编写自己的附加组件，创建一个 :class:`weblate.addons.base."
+"BaseAddon`的子类来定义附加组件元数据，然后实现一个回调来执行处理。"
 
 #: ../../admin/addons.rst:751
 msgid ":doc:`../contributing/addons`"
@@ -2826,7 +2826,7 @@ msgstr ""
 
 #: ../../admin/addons.rst:770
 msgid "Additionally, the following environment variables are available:"
-msgstr "此外，可以访问后面的环境参数："
+msgstr "此外，以下环境变量是可用的："
 
 #: ../../admin/addons.rst:774
 msgid "Version control system used."
@@ -2910,13 +2910,12 @@ msgid ""
 "changes. To achieve this, please remember Weblate only sees files committed "
 "to the VCS, so you need to commit changes as a part of the script."
 msgstr ""
-"当 VCS 的上游源发生变化时，可用于更新翻译文件。为了实现这个功能，请记住 "
-"Weblate 只看到提交给版本控制系统（VCS）的文件，所以需要同意更改作为脚本的一部"
-"分。"
+"可用于在 VCS 上游源更改时更新翻译文件。为了实现这个功能，请记住 Weblate "
+"只能看到提交给版本控制系统（VCS）的文件，所以您需要将更改作为脚本的一部分提交。"
 
 #: ../../admin/addons.rst:865
 msgid "For example with Gulp you can do it using following code:"
-msgstr "例如 Gulp ，可以使用后面的代码来执行："
+msgstr "例如，使用 Gulp，您可以使用以下代码来实现："
 
 #: ../../admin/addons.rst:875
 msgid "Pre-commit processing of translations"
@@ -3255,10 +3254,8 @@ msgid ""
 "explicitly, otherwise Weblate will not be able to properly credit "
 "contributions users make."
 msgstr ""
-"启用单独的后端非常简单，只需添加一个条目至设置 :setting:`django:"
-"AUTHENTICATION_BACKENDS`即可 (可能还需为一个给定的验证方式添加密钥) 请注意，"
-"一些后端默认不提供用户电子邮件，你必须明确地请求，否则 Weblate 将无法正确记入"
-"用户所做的贡献。"
+"启用单独的后端非常简单，只需添加一个条目至设置 :setting:`django:AUTHENTICATION_BACKENDS` "
+"即可（可能还需为一个给定的验证方式添加密钥）请注意，一些后端默认不提供用户电子邮件，你必须明确地请求，否则 Weblate 将无法正确记入用户所做的贡献。"
 
 #: ../../admin/auth.rst:62
 msgid ""
@@ -3826,7 +3823,7 @@ msgstr "PostgreSQL 和 MySQL/MariaDB 数据库都包括在自动备份中。"
 msgid ""
 "The backups using Borg are incremental and Weblate is configured to keep "
 "following backups:"
-msgstr "使用 Borg 的备份是递增的， Weblate 配置为保留后面的备份："
+msgstr "使用 Borg 的备份是增量的，Weblate 被配置为保留以下备份："
 
 #: ../../admin/backup.rst:22
 msgid "Daily backups for 14 days back"
@@ -3834,11 +3831,11 @@ msgstr "每天备份之前 14 天的内容"
 
 #: ../../admin/backup.rst:23
 msgid "Weekly backups for 8 weeks back"
-msgstr "8周前每周备份"
+msgstr "前 8 周的每周备份"
 
 #: ../../admin/backup.rst:24
 msgid "Monthly backups for 6 months back"
-msgstr "6个月前的每月备份"
+msgstr "前 6 个月的每月备份"
 
 #: ../../admin/backup.rst:31
 msgid "Borg encryption key"
@@ -4453,7 +4450,7 @@ msgid ""
 "specify flags directly in the format (see :ref:`formats`)."
 msgstr ""
 "您可以为每个源字符串（在源字符串复查中，请参见 :ref:`additional`）或在 :ref:`component`（:ref"
-":`component-check_flags`）中微调 Weblate 的行为（主要是检查）。某些文件格式还允许直接在格式中指定标志（请参见 "
+":`component-check_flags`）中微调 Weblate 的行为（主要是检查）。某些文件格式还允许直接在格式中指定标记（请参见 "
 ":ref:`formats`）。"
 
 #: ../../admin/checks.rst:34
@@ -4467,7 +4464,7 @@ msgstr ""
 
 #: ../../admin/checks.rst:41
 msgid "Here is a list of flags currently accepted:"
-msgstr "这里是现在能接受的标记的列表："
+msgstr "以下是目前接受的标记列表："
 
 #: ../../admin/checks.rst:43 ../../devel/sphinx.rst:41
 msgid "``rst-text``"
@@ -4487,7 +4484,9 @@ msgid ""
 "Uses DOS end-of-line markers instead of Unix ones (``\\r\\n`` instead of ``"
 "\\n``)."
 msgstr ""
-"使用 DOS 的行末标记，而不是 Unix的（ ``\\r\\n`` instead of ``\\n`` ）。"
+"使用 DOS 的行尾标记，而不使用 Unix 的（使用 ``\\r\\n"
+"`` 而不使用 ``\\n"
+"``）。"
 
 #: ../../admin/checks.rst:48
 msgid ""
@@ -5446,8 +5445,8 @@ msgid ""
 "text needs font to be loaded into Weblate and selected using a translation "
 "flag (see :ref:`custom-checks`)."
 msgstr ""
-"用于计算呈现文本需要的尺寸的 :ref:`check-max-size` 检查需要字体被加载进 "
-"Weblate 并被一个翻译标识选中（请参见 :ref:`custom-checks`）。"
+"用于计算所呈现文本尺寸的 :ref:`check-max-size` 检查需要将字体加载到 Weblate 中，并使用翻译标记选中（请参见 :ref"
+":`custom-checks`）。"
 
 #: ../../admin/checks.rst:298
 msgid ""
@@ -5524,9 +5523,8 @@ msgid ""
 "checks can be adjusted using :setting:`CHECK_LIST`, and you can also add "
 "custom checks."
 msgstr ""
-"Weblate 内建了很大范围的质量检查，（请参见 :ref:`checks` ），尽管可能没有覆盖"
-"想要检查的所有内容。可以使用 :setting:`CHECK_LIST` 来调整执行检查的列表，也可"
-"以添加定制的检查。"
+"Weblate 内置了多种多样的质量检查，（请参阅 :ref:`checks`），尽管它们可能没有涵盖您想要检查的所有东西。可以使用 "
+":setting:`CHECK_LIST` 来调整执行的检查列表，也可以添加自定义检查。"
 
 #: ../../admin/checks.rst:341
 msgid "Subclass the `weblate.checks.Check`"
@@ -5602,8 +5600,8 @@ msgid ""
 "have a name that is displayed to the user, and a slug representing it in the "
 "URL."
 msgstr ""
-"可以在管理界面的 :guilabel:`组件列表` 部分指定组件列表的名称和内容。每种组件"
-"列表必须有一个显示给用户的名称，和一个在 URL 中代表它的标识串。"
+"可以在管理界面的 :guilabel:`组件列表` 部分指定组件列表的名称和内容。每个组件列表必须有一个显示给用户的名称，和一个在 URL "
+"中代表它的标识串。"
 
 #: ../../admin/componentlists.rst:22
 msgid ""
@@ -5658,15 +5656,13 @@ msgstr ""
 #: ../../admin/config.rst:6
 msgid ""
 "All settings are stored in :file:`settings.py` (as is usual for Django)."
-msgstr "所有的设置存储在 :file:`settings.py` 中，（如 Django 通常那样）。"
+msgstr "所有的设置都存储在 :file:`settings.py` 中（就像 Django 通常那样）。"
 
 #: ../../admin/config.rst:10
 msgid ""
 "After changing any of these settings, you need to restart Weblate - both "
 "WSGI and Celery processes."
-msgstr ""
-"在更改这些设置的任何一部分后，需要重新启动 Weblate —— WSGI 和 Celery 两个过"
-"程。"
+msgstr "更改这些设置中的任意一项后，您需要重新启动 Weblate——包括 WSGI 和 Celery 进程。"
 
 #: ../../admin/config.rst:13
 msgid ""
@@ -6103,7 +6099,7 @@ msgstr "翻译时执行的质量检查列表。"
 msgid ""
 "Provide a fully-qualified path to the Python class implementing the check "
 "interface."
-msgstr "为实施检查界面的 Python 类提供完全合规的路径。"
+msgstr "提供一个实现了检查接口的 Python 类的完全合规路径。"
 
 #: ../../admin/config.rst:318
 msgid "Adjust the list of checks to include ones relevant to you."
@@ -8504,9 +8500,8 @@ msgid ""
 "edits outside Weblate or integrate Weblate into your updating process, so "
 "that it flushes changes prior to updating the files outside Weblate."
 msgstr ""
-"当相同的文件在 Weblate 之内与之外都更改时导致 Weblate 的合并冲突。有两种方法"
-"来处理——避免在 Weblate 之外编辑，或者将 Weblate 集成到你的更新过程中，从而在"
-"更新 weblate 之外的文件之前刷新更改。"
+"当同一文件在 Weblate 内外都被更改时，就会出现来自 Weblate 的合并冲突。有两种方法可以解决这个问题——避免在 Weblate "
+"之外进行编辑，或者将 Weblate 整合到您的更新过程中，这样就可以在更新 Weblate 外部的文件之前刷新更改。"
 
 #: ../../admin/continuous.rst:82
 msgid ""
@@ -8942,9 +8937,8 @@ msgid ""
 "In case you don't need this, you can enable rebasing of changes on upstream, "
 "which will produce a history with fewer merge commits."
 msgstr ""
-"Weblate 默认将 上游仓库结合到自身。在你还通过其他方式访问下层仓库的情况下，这"
-"是最安全的方式。在不需要这个的情况下，可以允许上游更改的变基，这会产生较少的"
-"融合提交的历史。"
+"默认情况下，Weblate 会将上游存储库合并到自己的存储库中。如果您还通过其他方式访问底层存储库，这是最安全的方式。如果你不需要这样做，则可以启用对上游"
+"更改的变基，这将生成具有更少合并提交的历史。"
 
 #: ../../admin/continuous.rst:352
 msgid ""
@@ -9419,15 +9413,17 @@ msgstr "安装 Weblate"
 msgid ""
 "Depending on your setup and experience, choose an appropriate installation "
 "method for you:"
-msgstr "根据你的设置和经验，为你选择适当的安装方法："
+msgstr "根据你的设置和经验，选择一个适合你的安装方法："
 
 #: ../../admin/install.rst:25
+#, fuzzy
 msgid ":doc:`install/docker`, recommended for production setups."
-msgstr ":doc:`install/docker`, 推荐用于生产安装。"
+msgstr ":doc:`install/docker`，推荐用于生产设置。"
 
 #: ../../admin/install.rst:27
+#, fuzzy
 msgid "Virtualenv installation, recommended for production setups:"
-msgstr "Virtualenv 安装，推荐用于产品设置："
+msgstr "Virtualenv 安装，推荐用于生产设置："
 
 #: ../../admin/install.rst:29
 msgid ":doc:`install/venv-debian`"
@@ -9447,7 +9443,7 @@ msgstr ":doc:`install/venv-macos`"
 
 #: ../../admin/install.rst:34
 msgid ":doc:`install/source`, recommended for development."
-msgstr ":doc:`install/source`, 推荐用于开发。"
+msgstr ":doc:`install/source`，推荐用于开发。"
 
 #: ../../admin/install.rst:42
 msgid "Software requirements"
@@ -9461,15 +9457,13 @@ msgstr "操作系统"
 msgid ""
 "Weblate is known to work on Linux, FreeBSD and macOS. Other Unix like "
 "systems will most likely work too."
-msgstr ""
-"目前已知 Weblate 可运行在 Linux 、 FreeBSD 和 macOS 上。其他类 Unix 的系统也"
-"很可能支持运行。"
+msgstr "目前已知 Weblate 可运行在 Linux、FreeBSD 和 macOS 上。其他类 Unix 的系统也很可能支持运行。"
 
 #: ../../admin/install.rst:50
 msgid ""
 "Weblate is not supported on Windows. But it may still work and patches are "
 "happily accepted."
-msgstr "Windows 不支持 Weblate 。但仍然可能工作，并愿意接受补丁。"
+msgstr "Windows 不支持 Weblate 。但 Weblate 可能仍然可以工作，并且很乐意接受补丁。"
 
 #: ../../admin/install.rst:54
 msgid "Other services"
@@ -9495,7 +9489,7 @@ msgstr "SMTP 服务器，用于发送电子邮件，请参见 :ref:`out-mail` �
 
 #: ../../admin/install.rst:66
 msgid "Python dependencies"
-msgstr "Python 依赖性"
+msgstr "Python 依赖项"
 
 #: ../../admin/install.rst:68
 msgid ""
@@ -9503,13 +9497,12 @@ msgid ""
 "Python 3.6 or newer. You can install dependencies using pip or from your "
 "distribution packages, full list is available in :file:`requirements.txt`."
 msgstr ""
-"Weblate 用 `Python <https://www.python.org/>`_ 编写，并且支持 Python 3.6 或更"
-"新版本。可以使用 pip 或你的发布包来安装依赖性，完全列表可在 :file:"
-"`requirements.txt` 中找到。"
+"Weblate 是用 `Python <https://www.python.org/>`_ 编写的，并且支持 Python 3.6 或更新版本。"
+"可以使用 pip 或你的分发包来安装依赖项，完整列表可在 :file:`requirements.txt` 中找到。"
 
 #: ../../admin/install.rst:72
 msgid "Most notable dependencies:"
-msgstr "最重要的依赖性："
+msgstr "最重要的依赖项："
 
 #: ../../admin/install.rst:74
 msgid "Django"
@@ -9561,19 +9554,18 @@ msgstr "https://www.django-rest-framework.org/"
 
 #: ../../admin/install.rst:90
 msgid "Optional dependencies"
-msgstr "可选依赖性"
+msgstr "可选依赖项"
 
 #: ../../admin/install.rst:92
 msgid ""
 "Following modules are necessary for some Weblate features. You can find all "
 "of them in :file:`requirements-optional.txt`."
 msgstr ""
-"后面的模块对 Weblate的一些特性是必须的。可以在 :file:`requirements-optional."
-"txt` 中找到。"
+"以下模块是某些 Weblate 功能所必需的。你可以在 :file:`requirements-optional.txt` 中找到所有这些模块。"
 
 #: ../../admin/install.rst:95
 msgid "``Mercurial`` (optional for :ref:`vcs-mercurial` repositories support)"
-msgstr "``Mercurial`` （对 :ref:`vcs-mercurial` 代码库支持是可选的)"
+msgstr "``Mercurial`` （可选的 :ref:`vcs-mercurial` 代码库支持)"
 
 #: ../../admin/install.rst:96
 msgid "https://www.mercurial-scm.org/"
@@ -9581,7 +9573,7 @@ msgstr "https://www.mercurial-scm.org/"
 
 #: ../../admin/install.rst:97
 msgid "``phply`` (optional for :ref:`php`)"
-msgstr "``phply`` （对 :ref:`php` 是可选的）"
+msgstr "``phply`` （可选的 :ref:`php`）"
 
 #: ../../admin/install.rst:98
 msgid "https://github.com/viraptor/phply"
@@ -9597,7 +9589,7 @@ msgstr "https://github.com/sirfz/tesserocr"
 
 #: ../../admin/install.rst:101
 msgid "``python-akismet`` (optional for :ref:`spam-protection`)"
-msgstr "``python-akismet`` （对 :ref:`spam-protection` 是可选的）"
+msgstr "``python-akismet`` （可选的 :ref:`spam-protection`）"
 
 #: ../../admin/install.rst:102
 msgid "https://github.com/Nekmo/python-akismet"
@@ -9605,7 +9597,7 @@ msgstr "https://github.com/Nekmo/python-akismet"
 
 #: ../../admin/install.rst:103
 msgid "``ruamel.yaml`` (optional for :ref:`yaml`)"
-msgstr "``ruamel.yaml`` （对 :ref:`yaml` 是可选的）"
+msgstr "``ruamel.yaml`` （可选的 :ref:`yaml`）"
 
 #: ../../admin/install.rst:104
 msgid "https://pypi.org/project/ruamel.yaml/"
@@ -9613,7 +9605,7 @@ msgstr "https://pypi.org/project/ruamel.yaml/"
 
 #: ../../admin/install.rst:105
 msgid "``Zeep`` (optional for :ref:`ms-terminology`)"
-msgstr "``Zeep`` （对 :ref:`ms-terminology` 是可选的）"
+msgstr "``Zeep`` （可选的 :ref:`ms-terminology`）"
 
 #: ../../admin/install.rst:106
 msgid "https://docs.python-zeep.org/"
@@ -9621,7 +9613,7 @@ msgstr "https://docs.python-zeep.org/"
 
 #: ../../admin/install.rst:107
 msgid "``aeidon`` (optional for :ref:`subtitles`)"
-msgstr "``aeidon`` （对 :ref:`subtitles` 是可选的）"
+msgstr "``aeidon`` （可选的 :ref:`subtitles`）"
 
 #: ../../admin/install.rst:108
 msgid "https://pypi.org/project/aeidon/"
@@ -9629,7 +9621,7 @@ msgstr "https://pypi.org/project/aeidon/"
 
 #: ../../admin/install.rst:110
 msgid "``fluent.syntax`` (optional for :ref:`fluent`)"
-msgstr "``fluent.syntax`` （对 :ref:`fluent` 是可选的）"
+msgstr "``fluent.syntax`` （可选的 :ref:`fluent`）"
 
 #: ../../admin/install.rst:110
 msgid "https://projectfluent.org/"
@@ -9639,7 +9631,7 @@ msgstr "https://projectfluent.org/"
 msgid ""
 "When installing using pip, you can directly specify desired features when "
 "installing:"
-msgstr ""
+msgstr "使用 pip 进行安装时，您可以在安装时直接指定所需的功能："
 
 #: ../../admin/install.rst:120
 msgid "Or you can install Weblate with all optional features:"
@@ -9647,19 +9639,18 @@ msgstr "或者你可以安装具有所有可选功能的 Weblate："
 
 #: ../../admin/install.rst:126
 msgid "Or you can install Weblate without any optional features:"
-msgstr ""
+msgstr "或者你可以安装没有任何可选功能的 Weblate："
 
 #: ../../admin/install.rst:133
 msgid "Database backend dependencies"
-msgstr "数据库后端依赖性"
+msgstr "数据库后端依赖项"
 
 #: ../../admin/install.rst:135
 msgid ""
 "Weblate supports PostgreSQL, MySQL and MariaDB, see :ref:`database-setup` "
 "and backends documentation for more details."
 msgstr ""
-"Weblate 支持 PostgreSQL 、 MySQL 和 MariaDB 数据库，更多细节请参见 :ref:"
-"`database-setup` 和后端文件。"
+"Weblate 支持 PostgreSQL、MySQL 和 MariaDB，更多细节请参见 :ref:`database-setup` 和后端文档。"
 
 #: ../../admin/install.rst:139
 msgid "Other system requirements"
@@ -9667,7 +9658,7 @@ msgstr "其他系统要求"
 
 #: ../../admin/install.rst:141
 msgid "The following dependencies have to be installed on the system:"
-msgstr "后面的依赖性必须安装在系统上："
+msgstr "必须在系统上安装以下依赖项："
 
 #: ../../admin/install.rst:143
 msgid "``Git``"
@@ -9690,7 +9681,7 @@ msgstr ""
 
 #: ../../admin/install.rst:147
 msgid "``git-review`` (optional for Gerrit support)"
-msgstr "``git-review`` （对 Gerrit 支持是可选的）"
+msgstr "``git-review`` （可选的 Gerrit 支持）"
 
 #: ../../admin/install.rst:148
 msgid "https://pypi.org/project/git-review/"
@@ -9698,7 +9689,7 @@ msgstr "https://pypi.org/project/git-review/"
 
 #: ../../admin/install.rst:149
 msgid "``git-svn`` (optional for Subversion support)"
-msgstr "``git-svn`` （对 Subversion的支持是可选的）"
+msgstr "``git-svn`` （可选的 Subversion 支持）"
 
 #: ../../admin/install.rst:150
 msgid "https://git-scm.com/docs/git-svn"
@@ -9706,7 +9697,7 @@ msgstr "https://git-scm.com/docs/git-svn"
 
 #: ../../admin/install.rst:151
 msgid "``tesseract`` and its data (optional for screenshots OCR)"
-msgstr "``tesseract`` 及其数据（对截屏 OCR 是可选的）"
+msgstr "``tesseract`` 及其数据（可选的截屏 OCR）"
 
 #: ../../admin/install.rst:152
 msgid "https://github.com/tesseract-ocr/tesseract"
@@ -9714,7 +9705,7 @@ msgstr "https://github.com/tesseract-ocr/tesseract"
 
 #: ../../admin/install.rst:154
 msgid "``licensee`` (optional for detecting license when creating component)"
-msgstr "``licensee`` （当新建组件时可选用与删除许可）"
+msgstr "``licensee`` （创建组件时检测许可证的可选选项）"
 
 #: ../../admin/install.rst:154
 msgid "https://github.com/licensee/licensee"
@@ -9722,7 +9713,7 @@ msgstr "https://github.com/licensee/licensee"
 
 #: ../../admin/install.rst:157
 msgid "Build-time dependencies"
-msgstr "构建时的依赖"
+msgstr "构建时的依赖项"
 
 #: ../../admin/install.rst:159
 msgid ""
@@ -9732,9 +9723,8 @@ msgid ""
 "prebuilt ``Wheels`` while installing using ``pip`` or when you use "
 "distribution packages."
 msgstr ""
-"为了构建一些 :ref:`python-deps` ，你可能需要安装其依赖库。这取决于你如何安装"
-"它们，因此请参考单独包的文档。如果你使用预编译 ``Wheels`` 并使用 ``pip`` 安装"
-"或使用分发包时，你不会需要那些。"
+"为了构建一些 :ref:`python-deps`，你可能需要安装其依赖项。这取决于你如何安装它们，因此请查阅各个包的文档。如果你使用预编译 "
+"``Wheels`` 并使用 ``pip`` 安装或使用分发包时，则不需要那些依赖项。"
 
 #: ../../admin/install.rst:167
 msgid "Pango and Cairo"
@@ -9769,7 +9759,7 @@ msgstr ""
 msgid ""
 "and you can get more identification information from <https://keybase.io/"
 "nijel>."
-msgstr "并且可以从 <https://keybase.io/nijel> 得到更多识别信息。"
+msgstr "还可以从 <https://keybase.io/nijel> 获取更多身份信息。"
 
 #: ../../admin/install.rst:191
 msgid ""
@@ -9859,9 +9849,8 @@ msgid ""
 "should be owned and writable by the user running all Weblate processes "
 "(typically WSGI and Celery, see :ref:`server` and :ref:`celery`)."
 msgstr ""
-"Weblate 进程需要能够读写它保存数据的目录 - setting:`DATA_DIR`。该目录下的所有"
-"文件都应该由运行所有 Weblate 进程的用户拥有和可写入（通常是 WSGI 和 Celery，"
-"见 :ref:`server` and :ref:`celery`）。"
+"Weblate 进程需要能够读写它保存数据的目录 — :setting:`DATA_DIR`。该目录下的所有文件都应该由运行所有 Weblate "
+"进程的用户拥有和可写入（通常是 WSGI 和 Celery，请参见 :ref:`server` and :ref:`celery`）。"
 
 #: ../../admin/install.rst:302
 msgid ""
@@ -9941,7 +9930,7 @@ msgstr ":ref:`django:postgresql-notes`"
 
 #: ../../admin/install.rst:353 ../../admin/upgrade.rst:290
 msgid "Creating a database in PostgreSQL"
-msgstr "建立 PostgreSQL数据库"
+msgstr "创建 PostgreSQL 数据库"
 
 #: ../../admin/install.rst:355 ../../admin/upgrade.rst:292
 msgid ""
@@ -9996,8 +9985,8 @@ msgid ""
 "includes searching and translation memory, which both utilize full-text "
 "features in the database and PostgreSQL implementation is superior."
 msgstr ""
-"一些 Weblate 特性使用 :ref:`postgresql` 会执行得更好。这包括搜索与翻译记忆"
-"库，它们都使用了数据库中的全文本特性，而 PostgreSQL 的实施更胜一筹。"
+"一些 Weblate 功能使用 :ref:`postgresql` 会表现得更好。这包括搜索与翻译记忆库，它们都利用了数据库中的全文特性，而且 "
+"PostgreSQL 的实现更胜一筹。"
 
 #: ../../admin/install.rst:428
 msgid ""
@@ -10057,10 +10046,8 @@ msgid ""
 "of concurrent users accessing the system. See the various vendors "
 "documentation on those details."
 msgstr ""
-"下面是用于 8GB 内存服务器的 /:file:`etc/my.cnf.d/server.cnf 的例子。这些设置"
-"应该足以用于多数安装。MySQL 和 MariaDB 具有来提高服务器性能的可调整部分，除非"
-"计划有大量并发用户访问系统，否则这些可调整部分被认为是不必要的。这些细节请查"
-"看各厂商的文档。"
+"下面是用于 8GB 内存服务器的 :file:`/etc/my.cnf.d/server.cnf` 的例子。这些设置应该足以用于多数安装。MySQL 和 "
+"MariaDB 具有来提高服务器性能的可调整部分，除非计划有大量并发用户访问系统，否则这些可调整部分被认为是不必要的。这些细节请查看各厂商的文档。"
 
 #: ../../admin/install.rst:453
 msgid ""
@@ -10778,9 +10765,8 @@ msgid ""
 "data`` or ``wwwrun``), so you either have to run Weblate under a different "
 "user, or change this setting."
 msgstr ""
-"在 Linux 和其他类似 UNIX 系统上，到用户主目录的路径在 :file:`/etc/passwd` 中"
-"确定。很多发布默认用户使用不可写入目录来提供 Web 内容服务（如 ``apache`` 、 "
-"``www-data`` 或 ``wwwrun`` ）。"
+"在 Linux 和其他类似 UNIX 系统上，到用户主目录的路径在 :file:`/etc/passwd` 中确定。"
+"很多发行版默认用户使用不可写入目录来提供 Web 内容服务（如 ``apache`` 、 ``www-data`` 或 ``wwwrun`` ）。"
 
 #: ../../admin/install.rst:1065
 msgid ":ref:`vcs-repos`"
@@ -10867,8 +10853,7 @@ msgid ""
 "distributions this is the default setting. In case it is not the case on "
 "your system, please change locales to UTF-8 variant."
 msgstr ""
-"系统的地区应该设置为兼容 UTF-8 的。在多数 Linux 发布中这是默认的设置。在你的"
-"系统不能兼容的情况下，请将地区更改为 UTF-8 变体。"
+"系统的地区应该设置为兼容 UTF-8 的。在多数 Linux 发行版中这是默认设置。在你的系统不能兼容的情况下，请将地区更改为 UTF-8 变体。"
 
 #: ../../admin/install.rst:1140
 msgid ""
@@ -11020,9 +11005,7 @@ msgstr "用于执行后台任务的 Celery （请参见 :ref:`celery` ）"
 msgid ""
 "There are some dependencies between the services, for example cache and "
 "database should be running when starting up Celery or uwsgi processes."
-msgstr ""
-"这些服务之间由一些依赖性，例如当启动 Celery 或 uwsgi 进程时，缓存和数据库应该"
-"运行。"
+msgstr "这些服务之间由一些依赖项，例如当启动 Celery 或 uwsgi 进程时，缓存和数据库应该运行。"
 
 #: ../../admin/install.rst:1247
 msgid ""
@@ -13660,14 +13643,13 @@ msgstr "系统要求"
 msgid ""
 "Install the dependencies needed to build the Python modules (see :ref:"
 "`requirements`):"
-msgstr "安装所需的依赖包，来建立 Python 模块（参见 :ref:`requirements`）："
+msgstr "安装构建 Python 模块所需的依赖项（请参见 :ref:`requirements`）："
 
 #: ../../admin/install/steps/install-system-optional.rst:1
 msgid ""
 "Install wanted optional dependencies depending on features you intend to use "
 "(see :ref:`optional-deps`):"
-msgstr ""
-"根据您想要使用的特性来安装想要的可选依赖包（参见 :ref:`optional-deps` ）："
+msgstr "根据您打算使用的功能来安装所需的可选依赖项（参见 :ref:`optional-deps`）："
 
 #: ../../admin/install/steps/install-system-server.rst:1
 msgid ""
@@ -13706,7 +13688,7 @@ msgstr "为 Weblate 激活 virtualevn ："
 
 #: ../../admin/install/steps/install-python.rst:22
 msgid "Install Weblate including all optional dependencies:"
-msgstr "安装 Weblate ，包括所有可选依赖包："
+msgstr "安装包含所有可选依赖项的 Weblate："
 
 #: ../../admin/install/steps/install-python.rst:28
 msgid ""
@@ -13882,7 +13864,7 @@ msgstr ""
 
 #: ../../admin/install/venv-redhat.rst:2
 msgid "Installing on RedHat, Fedora and CentOS"
-msgstr "在 Redhat 、 Fedora 和 CentOS 上安装"
+msgstr "在 Redhat、Fedora 和 CentOS 上安装"
 
 #: ../../admin/install/venv-suse.rst:2
 msgid "Installing on SUSE and openSUSE"
@@ -15044,8 +15026,7 @@ msgid ""
 "lines of Python code. This example implements machine translation in a fixed "
 "list of languages using ``dictionary`` Python module:"
 msgstr ""
-"您还可以通过使用一些 Python 代码来实施您自己的机器翻译服务。这个例子使用 "
-"``dictionary`` Python 模块来实施一组固定语言的机器翻译："
+"您还可以用几行 Python 代码来实现自己的机器翻译服务。此示例使用 ``dictionary`` Python 模块实现了一组确定的语言的机器翻译："
 
 #: ../../admin/machine.rst:446
 msgid ""
@@ -15761,7 +15742,7 @@ msgstr "list_versions"
 
 #: ../../admin/management.rst:632
 msgid "Lists all Weblate dependencies and their versions."
-msgstr "列出所有 Weblate 依赖及其版本。"
+msgstr "列出所有 Weblate 依赖项及其版本。"
 
 #: ../../admin/management.rst:635
 msgid "loadpo"
@@ -18482,13 +18463,11 @@ msgstr "字符串优先级"
 msgid ""
 "String priority can be changed to offer higher priority strings for "
 "translation earlier by using the ``priority`` flag."
-msgstr ""
-"使用 ``priority`` 标识可以更改字符串优先级来为字符串提供更高优先级，以便更早"
-"地进行翻译。"
+msgstr "使用 ``priority`` 标记可以更改字符串优先级，更高优先级的字符串会更早地被提供以进行翻译。"
 
 #: ../../admin/translating.rst:66
 msgid "This can be used to order the flow of translation in a logical manner."
-msgstr "这可以用于以逻辑的方式将翻译流程排序。"
+msgstr "这可以用于以合乎逻辑的方式编排翻译流程。"
 
 #: ../../admin/translating.rst:68
 msgid ":ref:`checks`"
@@ -18738,7 +18717,7 @@ msgstr "请按照 :ref:`generic-upgrade-instructions` 来执行升级。"
 #: ../../admin/upgrade.rst:209 ../../admin/upgrade.rst:227
 #: ../../admin/upgrade.rst:240
 msgid "Notable configuration or dependencies changes:"
-msgstr "显著的配置与依赖性更改："
+msgstr "显著的配置与依赖项更改："
 
 #: ../../admin/upgrade.rst:135
 msgid ""
@@ -21090,7 +21069,7 @@ msgstr "事件时间戳"
 
 #: ../../api.rst:2068
 msgid "numeric identification of action"
-msgstr "动作的几种识别"
+msgstr "动作的几种标识"
 
 #: ../../api.rst:2069
 msgid "text description of action"
@@ -23699,7 +23678,7 @@ msgstr "降低了为更改翻译检查的误报。"
 
 #: ../../changes.rst:629
 msgid "Raised bleach dependency to address CVE-2020-6802."
-msgstr "提高了处理 CVE-2020-6802 的 bleach 依赖性。"
+msgstr "提升了 bleach 依赖项以解决 CVE-2020-6802。"
 
 #: ../../changes.rst:630
 msgid "Fixed listing project level changes in history."
@@ -23755,7 +23734,7 @@ msgstr "改进了新建组件时文件名的验证。"
 
 #: ../../changes.rst:651
 msgid "Fixed minimal versions of some dependencies."
-msgstr "修复了一些依赖性的最低版本。"
+msgstr "修复了一些依赖项的最低版本。"
 
 #: ../../changes.rst:652
 msgid "Fixed adding groups with certain Django versions."
@@ -24643,7 +24622,7 @@ msgstr "通知注释中提及的用户。"
 
 #: ../../changes.rst:921
 msgid "Removed file format autodetection from component setup."
-msgstr "从组件设置中删除了文件格式自动检查。"
+msgstr "从组件设置中删除了文件格式自动检测。"
 
 #: ../../changes.rst:923
 msgid "Added digest notifications."
@@ -24835,7 +24814,7 @@ msgstr "改进了翻译更改的显示。"
 
 #: ../../changes.rst:982
 msgid "Changed default merge style to rebase and made that configurable."
-msgstr "更改了默认合并风格来 rebase 并且使之可配置。"
+msgstr "将默认的合并方式改为变基，并使其可配置。"
 
 #: ../../changes.rst:983
 msgid "Better handle private use subtags in language code."
@@ -24896,7 +24875,7 @@ msgstr "发布于 2018 年 10 月 20 日。"
 
 #: ../../changes.rst:1005
 msgid "Remove no longer needed Babel dependency."
-msgstr "删除了不再需要的 Babel 依赖性。"
+msgstr "删除了不再需要的 Babel 依赖项。"
 
 #: ../../changes.rst:1006
 msgid "Updated language definitions."
@@ -24936,7 +24915,7 @@ msgstr "发布于 2018 年 10 月 18 日。"
 
 #: ../../changes.rst:1019
 msgid "Document dependency on backports.csv on Python 2.7."
-msgstr "Python 2.7 的 backports.csv 的文档依赖性。"
+msgstr "Python 2.7 的 backports.csv 的文档依赖项。"
 
 #: ../../changes.rst:1020
 msgid "Fix running tests under root."
@@ -26341,7 +26320,7 @@ msgstr "去掉了对 Django 1.7 的支持。"
 
 #: ../../changes.rst:1479
 msgid "Dropped dependency on msginit for creating new gettext PO files."
-msgstr "去掉了用于新建新的 gettext PO 文件的 msginit 依赖性。"
+msgstr "去掉了用于新建 gettext PO 文件的 msginit 依赖项。"
 
 #: ../../changes.rst:1480
 msgid "Added configurable dashboard views."
@@ -26767,7 +26746,7 @@ msgstr "Django 1.6 兼容性。"
 
 #: ../../changes.rst:1615
 msgid "No longer maintained compatibility with Django 1.4."
-msgstr "不在维护与 Django 1.4 的兼容性。"
+msgstr "不再维护与 Django 1.4 的兼容性。"
 
 #: ../../changes.rst:1616
 msgid "Management commands for locking/unlocking translations."
@@ -26787,7 +26766,7 @@ msgstr "头像可以被禁止。"
 
 #: ../../changes.rst:1620
 msgid "Merged first and last name attributes."
-msgstr "合并第一个和最后一个名称属性。"
+msgstr "合并了名字和姓氏属性。"
 
 #: ../../changes.rst:1621
 msgid "Avatars are now fetched and cached server side."
@@ -27161,7 +27140,7 @@ msgstr "添加了新的检查（BB 代码、XML 标记和新的行）。"
 
 #: ../../changes.rst:1741
 msgid "Support for optional rebasing instead of merge."
-msgstr "支持可选地 rebasing 而不是合并。"
+msgstr "支持可选的变基而不是合并。"
 
 #: ../../changes.rst:1742
 msgid ""
@@ -27461,7 +27440,7 @@ msgstr "为仓库状态的概况添加了 /admin/report/。"
 
 #: ../../changes.rst:1841
 msgid "Machine translation services no longer block page loading."
-msgstr "机器翻译页面不再阻碍装入页面。"
+msgstr "机器翻译服务不会再阻碍页面加载了。"
 
 #: ../../changes.rst:1842
 msgid "Management interface now contains also useful actions to update data."
@@ -28145,7 +28124,7 @@ msgstr "其它浏览器也能工作，但一些特性会受到限制。"
 
 #: ../../contributing/frontend.rst:20
 msgid "Dependency management"
-msgstr "依赖性管理"
+msgstr "依赖项管理"
 
 #: ../../contributing/frontend.rst:22
 msgid ""
@@ -29537,8 +29516,8 @@ msgid ""
 "labelled `good first issue <https://github.com/WeblateOrg/weblate/labels/good"
 "%20first%20issue>`_."
 msgstr ""
-"要让你自己熟悉 Weblate 代码库，那么请查看标记为 `good first issue <https://"
-"github.com/WeblateOrg/weblate/labels/good%20first%20issue>`_ 的那些 bug。"
+"想熟悉 Weblate 代码库，不如先试试带有 `good first issue <https://github.com/WeblateOrg/"
+"weblate/labels/good%20first%20issue>`_ 标签的那些 bug。"
 
 #: ../../contributing/start.rst:14
 msgid "Running Weblate locally"
@@ -29565,12 +29544,11 @@ msgstr "创建一个虚拟环境："
 msgid ""
 "Install Weblate (for this you need some system dependencies, see :doc:`../"
 "admin/install/source`):"
-msgstr ""
-"安装 Weblate（这需要一些系统依赖，见 :doc:`../admin/install/source`）："
+msgstr "安装 Weblate（这需要一些系统依赖项，请参见 :doc:`../admin/install/source`）："
 
 #: ../../contributing/start.rst:40
 msgid "Install all dependencies useful for development:"
-msgstr "安装用于开发的所有依赖性："
+msgstr "安装用于开发的所有依赖项："
 
 #: ../../contributing/start.rst:46
 msgid "Start a development server:"
@@ -29997,10 +29975,8 @@ msgid ""
 "course it has great support in Weblate (see :ref:`gettext` file format "
 "description)."
 msgstr ""
-"`GNU gettext`_ 是自由软件国际化最广泛使用的工具之一。它提供了简单但灵活的方式"
-"将软件本地化。它对复数具有巨大的支持，他剋有将进一步的文本添加到翻译的字符串"
-"中，并且由非常多的工具围绕它构建。当然，它在 Weblate 中具有巨大的支持（文件格"
-"式描述请参见 :ref:`get。"
+"`GNU gettext`_ 是最广泛使用的自由软件国际化工具之一。它为软件的本地化提供了一种简单而灵活的方法。它对复数有很好的支持，可以为已翻译字符串添"
+"加更多的上下文，并且有很多围绕它构建的工具。当然，它在 Weblate 中有很好的支持（请参见 :ref:`gettext` 文件格式说明）。"
 
 #: ../../devel/gettext.rst:12
 msgid ""
@@ -30016,9 +29992,8 @@ msgid ""
 "call, which is often aliased to `_()` to make the code simpler and easier to "
 "read."
 msgstr ""
-"GNU gettext 可以在大量语言中使用（C、Python、PHP、Ruby、JavaScript 以及更"
-"多），并且一些 UI 框架通常已经为它带有一些支持。标准使用是通过 `gettext()` 函"
-"数调用，这通常具有 `_()` 别名，使代码更简单且更容易阅读。"
+"GNU gettext 可以用于多种语言（C、Python、PHP、Ruby、JavaScript 等等），通常 UI 框架已经对其提供了一些支持。"
+"标准用法是通过 `gettext()` 函数调用，该函数通常具有 `_()` 别名，以使代码更简单易读。"
 
 #: ../../devel/gettext.rst:20
 msgid ""
@@ -30124,8 +30099,8 @@ msgid ""
 "(you would use `msgmerge`_ for that). The resulting file is simply a "
 "structured text file:"
 msgstr ""
-"这新建了模板文件，您可以用它来开始新的翻译（使用`msginit`_），或在代码更改后"
-"更新现有的翻译（为此您将使用 `msgmerge`_）。结果文件是简单的结构化文本文件："
+"这新建了模板文件，您可以用它来开始新的翻译（使用 `msginit`_），或在代码更改后更新现有的翻译（为此您将使用 "
+"`msgmerge`_）。结果文件是简单的结构化文本文件："
 
 #: ../../devel/gettext.rst:142
 msgid ""
@@ -31508,7 +31483,7 @@ msgstr "匹配的翻译键"
 
 #: ../../devel/translations.rst:93
 msgid "Suffix identification"
-msgstr "后缀标识"
+msgstr "后缀识别"
 
 #: ../../devel/translations.rst:93
 msgid "``(Short|Min)$``"
@@ -31520,7 +31495,7 @@ msgstr "``monthShort``、``monthMin``、``month``"
 
 #: ../../devel/translations.rst:95
 msgid "Inline identification"
-msgstr "单行标识"
+msgstr "内联识别"
 
 #: ../../devel/translations.rst:95
 msgid "``#[SML]``"
@@ -32339,12 +32314,10 @@ msgid ""
 "`aresource`). Some file formats are used in both variants, see the detailed "
 "description below."
 msgstr ""
-"支持 :index:`monolingual <pair: translation; monolingual>` 和 :index:"
-"`bilingual <pair: translation; bilingual>` 格式。双语格式在单个文件中存储两种"
-"语言——原文和翻译（典型示例是 :ref:`gettext`、:ref:`xliff` 或 :ref:`apple` 字"
-"符串）。另一方面，单语格式通过 ID 识别字符串，每个语言文件仅包含那些语言到任"
-"何给定语言（典型为 :ref:`aresource`）的映射。两种变体都使用某些文件格式，请参"
-"见下面的详细说明。"
+"支持 :index:`monolingual <pair: translation; monolingual>` 和 :index:`bilingual "
+"<pair: translation; bilingual>` 格式。双语格式在单个文件中存储两种语言文字——原文和译文（典型示例是 "
+":ref:`gettext`、:ref:`xliff` 或 :ref:`apple` 字符串）。另一方面，单语格式通过 ID "
+"识别字符串，每个语言文件仅包含那些语言到任何给定语言（典型为 :ref:`aresource`）的映射。两种变体都使用某些文件格式，请参见下面的详细说明。"
 
 #: ../../formats.rst:35
 msgid ""
@@ -32643,7 +32616,7 @@ msgstr ""
 msgid ""
 "Location of a string in source code might help proficient translators figure "
 "out how the string is used."
-msgstr "源代码中字符串的位置会帮助熟练的译者识别出字符串如何使用。"
+msgstr "字符串在源代码中的位置可能有助于熟练的译者弄清楚字符串是如何使用的。"
 
 #: ../../formats.rst:137
 msgid ""
@@ -32684,9 +32657,7 @@ msgstr ""
 msgid ""
 "The plurals are supported only for Laravel which uses in string syntax to "
 "define them, see `Localization in Laravel`_."
-msgstr ""
-"只对于 Laravel 来支持复数，在字符串语法中使用来定义它们，请参见 "
-"`Localization in Laravel`_。"
+msgstr "只有 Laravel 支持复数，它使用字符串语法来定义它们，请参见 `Localization in Laravel`_。"
 
 #: ../../formats.rst:143
 msgid ""
@@ -33449,7 +33420,7 @@ msgstr "即使对于在之前发布版本中中断的复杂情况，JSON 文件�
 msgid ""
 "JSON format is used mostly for translating applications implemented in "
 "JavaScript."
-msgstr "JSON 格式主要用于翻译 Javascript 中实施的应用。"
+msgstr "JSON 格式主要用于翻译用 JavaScript 实现的应用程序。"
 
 #: ../../formats.rst:837
 msgid "Weblate currently supports several variants of JSON translations:"
@@ -33728,9 +33699,7 @@ msgstr ""
 msgid ""
 "Files with two fields—source and translation (in this order). Choose :"
 "guilabel:`Simple CSV file` as a file format."
-msgstr ""
-"具有两个字段的文件——原文和翻译（按此顺序），选择 :guilabel:`简单 CSV 文件` 作"
-"为文件格式。"
+msgstr "具有两个字段的文件——原文和译文（按此顺序），选择 :guilabel:`简单 CSV 文件` 作为文件格式。"
 
 #: ../../formats.rst:1111
 msgid ""
@@ -34702,7 +34671,7 @@ msgstr "``weblate.checks.markup.BBCodeCheck``"
 
 #: ../../user/checks.rst:0
 msgid "Flag to ignore"
-msgstr ""
+msgstr "忽略的标记"
 
 #: ../../user/checks.rst:55
 msgid ""
@@ -34756,11 +34725,11 @@ msgstr "翻译未遵循术语表中定义的术语。"
 
 #: ../../user/checks.rst:94
 msgid "``weblate.checks.glossary.GlossaryCheck``"
-msgstr ""
+msgstr "``weblate.checks.glossary.GlossaryCheck``"
 
 #: ../../user/checks.rst:0
 msgid "Flag to enable"
-msgstr ""
+msgstr "启用的标记"
 
 #: ../../user/checks.rst:98
 msgid ""
@@ -35166,7 +35135,7 @@ msgstr "Java MessageFormat 格式的字符串与原文不匹配"
 
 #: ../../user/checks.rst:338
 msgid "``weblate.checks.format.JavaMessageFormatCheck``"
-msgstr ""
+msgstr "``weblate.checks.format.JavaMessageFormatCheck``"
 
 #: ../../user/checks.rst:0
 msgid "Flag to enable uncodintionally"
@@ -35174,7 +35143,7 @@ msgstr ""
 
 #: ../../user/checks.rst:0
 msgid "Flag to enable autodetection"
-msgstr ""
+msgstr "启用自动检测的标记"
 
 #: ../../user/checks.rst:340
 msgid ""
@@ -38182,11 +38151,11 @@ msgstr ""
 
 #: ../../user/translating.rst:385
 msgid "Adjust translation flags (see :ref:`custom-checks`)"
-msgstr ""
+msgstr "调整翻译标记（请参见 :ref:`custom-checks`）"
 
 #: ../../user/translating.rst:386
 msgid "Adjust string labels (see :ref:`labels`)"
-msgstr ""
+msgstr "调整字符串标签（请参见 :ref:`labels`）"
 
 #: ../../user/translating.rst:390
 msgid ""
@@ -38871,8 +38840,7 @@ msgid ""
 "The wlc configuration is stored in ``~/.config/weblate`` (see :ref:`wlc-"
 "config` for other locations), please create it to match your environment:"
 msgstr ""
-"wlc 配置存储在 ``~/.config/weblate`` 中（其他位置参见 ref:`wlc-config`）,请创"
-"建它以匹配您的环境："
+"wlc 配置存储在 ``~/.config/weblate`` 中（其他位置请参见 :ref:`wlc-config`），请根据你的环境创建它："
 
 #: ../../wlc.rst:82
 msgid "You can then invoke commands on the default server:"
