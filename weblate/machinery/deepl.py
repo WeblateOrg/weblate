@@ -17,6 +17,8 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
+from html import escape, unescape
+
 from django.conf import settings
 
 from weblate.machinery.base import MachineTranslation, MissingConfiguration
@@ -99,4 +101,18 @@ class DeepLTranslation(MachineTranslation):
                 "quality": self.max_score,
                 "service": self.name,
                 "source": text,
+                "tag_handling": "xml",
+                "ignore_tags": "x",
             }
+
+    def unescape_text(self, text: str):
+        """Unescaping of the text with replacements."""
+        return unescape(text)
+
+    def escape_text(self, text: str):
+        """Escaping of the text with replacements."""
+        return escape(text)
+
+    def format_replacement(self, h_start: int, h_end: int, h_text: str):
+        """Generates a single replacement."""
+        return f'<x id="{h_start}"></x>'
