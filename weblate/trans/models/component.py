@@ -34,6 +34,7 @@ from celery.result import AsyncResult
 from django.conf import settings
 from django.core.cache import cache
 from django.core.exceptions import ObjectDoesNotExist, ValidationError
+from django.core.validators import MaxValueValidator
 from django.db import models, transaction
 from django.db.models import Count, Q
 from django.urls import reverse
@@ -549,9 +550,10 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
             "Whether the repository should be pushed upstream on every commit."
         ),
     )
-    commit_pending_age = models.IntegerField(
+    commit_pending_age = models.SmallIntegerField(
         verbose_name=gettext_lazy("Age of changes to commit"),
         default=settings.COMMIT_PENDING_HOURS,
+        validators=[MaxValueValidator(2160)],
         help_text=gettext_lazy(
             "Time in hours after which any pending changes will be "
             "committed to the VCS."
