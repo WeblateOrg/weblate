@@ -16,6 +16,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
+from secrets import token_hex
 
 from django.db import models
 from django.utils.translation import gettext_lazy
@@ -30,11 +31,12 @@ class ProjectToken(models.Model):
         verbose_name=gettext_lazy("Token value"),
         max_length=100,
         help_text=gettext_lazy("Token value to use in API"),
+        default=token_hex,
     )
     expires = models.DateTimeField(verbose_name=gettext_lazy("Expires"))
 
     class Meta:
-        unique_together = [("project", "token")]
+        unique_together = [("project", "token"), ("project", "name")]
         app_label = "trans"
         verbose_name = "Project Token"
         verbose_name_plural = "Project Tokens"

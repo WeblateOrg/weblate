@@ -7,7 +7,7 @@ class Migration(migrations.Migration):
     """Project token for API access."""
 
     dependencies = [
-        ("trans", "0139_alter_component_repoweb"),
+        ("trans", "0141_alter_component_commit_pending_age"),
     ]
 
     operations = [

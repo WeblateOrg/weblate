@@ -18,7 +18,6 @@
 #
 
 from datetime import timedelta
-from secrets import token_hex
 
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
@@ -309,9 +308,8 @@ def create_token(request, project):
     form = ProjectTokenCreateForm(request.POST)
 
     if form.is_valid():
-        token_value = token_hex()
-        ProjectToken.objects.create(project=obj, token=token_value, **form.cleaned_data)
-        messages.info(request, _("Token has been created: %s") % token_value)
+        token = obj.projecttoken_set.create(**form.cleaned_data)
+        messages.info(request, _("Token has been created: %s") % token.token)
     else:
         show_form_errors(request, form)
 

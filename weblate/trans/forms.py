@@ -2391,7 +2391,7 @@ class LabelForm(forms.ModelForm):
 
 
 class ProjectTokenDeleteForm(forms.Form):
-    token = forms.CharField(required=True, widget=forms.HiddenInput)
+    token = forms.IntegerField(required=True, widget=forms.HiddenInput)
 
 
 class ProjectTokenCreateForm(forms.ModelForm):
