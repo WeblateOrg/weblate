@@ -589,9 +589,9 @@ class Change(models.Model, UserDisplayMixin):
                 )
             )
             if reason == "content changed":
-                return mark_safe(_("The \"%s\" file was changed.") % filename)
+                return mark_safe(_('The "%s" file was changed.') % filename)
             if reason == "check forced":
-                return mark_safe(_("Parsing of the \"%s\" file was enforced.") % filename)
+                return mark_safe(_('Parsing of the "%s" file was enforced.') % filename)
             if reason == "new file":
                 return mark_safe(_("File %s was added.") % filename)
             raise ValueError(f"Unknown reason: {reason}")
@@ -599,7 +599,7 @@ class Change(models.Model, UserDisplayMixin):
         if self.action == self.ACTION_LICENSE_CHANGE:
             not_available = pgettext("License information not available", "N/A")
             return _(
-                "The license of the \"%(component)s\" component was changed "
+                'The license of the "%(component)s" component was changed '
                 "from %(old)s to %(target)s."
             ) % {
                 "component": self.component,
