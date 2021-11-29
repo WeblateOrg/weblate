@@ -45,6 +45,8 @@ from weblate.utils.validators import validate_filename
 
 
 class BaseAddon:
+    """Base class for Weblate add-ons."""
+
     events: Tuple[int, ...] = ()
     settings_form = None
     name = ""
@@ -59,8 +61,6 @@ class BaseAddon:
     alert: Optional[str] = None
     trigger_update = False
     stay_on_create = False
-
-    """Base class for Weblate add-ons."""
 
     def __init__(self, storage=None):
         self.instance = storage
