@@ -51,7 +51,9 @@ class ChangeQuerySet(models.QuerySet):
 
     @staticmethod
     def count_stats(days, step, dtstart, base):
-        """Count number of changes in given dataset and period grouped by step days."""
+        """
+        Count the number of changes in a given dataset and period grouped by step days.
+        """
         # Count number of changes
         result = []
         for _unused in range(0, days, step):
@@ -108,7 +110,7 @@ class ChangeQuerySet(models.QuerySet):
 
     def prefetch(self):
         """
-        Fetch related fields in a big chungs to avoid loading them individually.
+        Fetch related fields at once to avoid loading them individually.
 
         Call prefetch or prefetch_list later on paginated results to complete.
         """
@@ -139,7 +141,7 @@ class ChangeQuerySet(models.QuerySet):
         return self.preload_list(self, *args)
 
     def last_changes(self, user):
-        """Return last changes for an user.
+        """Return the most recent changes for an user.
 
         Filters Change objects by user permissions and fetches related fields for
         last changes display.
@@ -435,7 +437,7 @@ class Change(models.Model, UserDisplayMixin):
         ),
         # Translators: Name of event in the history
         ACTION_UNLOCK: gettext_lazy(
-            "Component was automatically unlocked as alert was fixed."
+            "The component was automatically unlocked by fixing an alert."
         ),
     }
 
@@ -589,9 +591,9 @@ class Change(models.Model, UserDisplayMixin):
                 )
             )
             if reason == "content changed":
-                return mark_safe(_("File %s was changed.") % filename)
+                return mark_safe(_('The "%s" file was changed.') % filename)
             if reason == "check forced":
-                return mark_safe(_("Parsing of file %s was enforced.") % filename)
+                return mark_safe(_('Parsing of the "%s" file was enforced.') % filename)
             if reason == "new file":
                 return mark_safe(_("File %s was added.") % filename)
             raise ValueError(f"Unknown reason: {reason}")
@@ -599,7 +601,7 @@ class Change(models.Model, UserDisplayMixin):
         if self.action == self.ACTION_LICENSE_CHANGE:
             not_available = pgettext("License information not available", "N/A")
             return _(
-                "License for component %(component)s was changed "
+                'The license of the "%(component)s" component was changed '
                 "from %(old)s to %(target)s."
             ) % {
                 "component": self.component,
