@@ -141,7 +141,7 @@ class ChangeQuerySet(models.QuerySet):
         return self.preload_list(self, *args)
 
     def last_changes(self, user):
-        """Return most recent changes for an user.
+        """Return the most recent changes for an user.
 
         Prefilter Changes by ACL for users and fetches related fields for last changes
         display.
