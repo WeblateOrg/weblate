@@ -616,6 +616,9 @@ The check fails on differing translations of one string within a project. This
 can also lead to inconsistencies in displayed checks. You can find other
 translations of this string on the :guilabel:`Other occurrences` tab.
 
+This check applies to all components in a project that have
+:ref:`component-allow_translation_propagation` turned on.
+
 .. hint::
 
    For performance reasons, the check might not find all inconsistencies, it
