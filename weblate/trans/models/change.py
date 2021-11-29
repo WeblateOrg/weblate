@@ -110,7 +110,7 @@ class ChangeQuerySet(models.QuerySet):
 
     def prefetch(self):
         """
-        Fetch related fields in a big chunk to avoid loading them individually.
+        Fetch related fields at once to avoid loading them individually.
 
         Call prefetch or prefetch_list later on paginated results to complete.
         """
