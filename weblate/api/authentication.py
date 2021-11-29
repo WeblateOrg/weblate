@@ -53,6 +53,10 @@ class ProjectUser(AbstractBaseUser):
             obj = obj.project
         if isinstance(obj, Component):
             obj = obj.project
+        if isinstance(obj, Translation):
+            obj = obj.component.project
+        if isinstance(obj, Unit):
+            obj = obj.translation.component.project
         if isinstance(obj, Project):
             return obj.pk == self.project.pk
         return False
