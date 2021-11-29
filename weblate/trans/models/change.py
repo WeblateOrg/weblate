@@ -51,7 +51,9 @@ class ChangeQuerySet(models.QuerySet):
 
     @staticmethod
     def count_stats(days, step, dtstart, base):
-        """Count the number of changes in a given dataset and period grouped by step days."""
+        """
+        Count the number of changes in a given dataset and period grouped by step days.
+        """
         # Count number of changes
         result = []
         for _unused in range(0, days, step):
