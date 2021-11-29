@@ -141,8 +141,8 @@ class ChangeQuerySet(models.QuerySet):
     def last_changes(self, user):
         """Return last changes for an user.
 
-        Prefilter Changes by ACL for users and fetches related fields for last changes
-        display.
+        Filters Change objects by user permissions and fetches related fields for
+        last changes display.
         """
         if user.is_superuser:
             return self.prefetch().order()
