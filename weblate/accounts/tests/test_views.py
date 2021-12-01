@@ -18,6 +18,7 @@
 #
 
 """Test for user handling."""
+from unittest import mock
 
 from django.conf import settings
 from django.core import mail
@@ -550,6 +551,25 @@ class ProfileTest(FixtureTestCase):
         self.assertContains(response, "Notification settings adjusted")
         subscription.refresh_from_db()
         self.assertEqual(subscription.frequency, FREQ_NONE)
+
+    def test_profile_password_warning(self):
+        with mock.patch.object(User, "has_usable_password", return_value=False):
+            response = self.client.get(reverse("profile"))
+            self.assertContains(response, "Please enable the password authentication")
+            with modify_settings(
+                AUTHENTICATION_BACKENDS={
+                    "remove": "social_core.backends.email.EmailAuth"
+                }
+            ):
+                load_backends(settings.AUTHENTICATION_BACKENDS, force_load=True)
+                response = self.client.get(reverse("profile"))
+                self.assertNotContains(
+                    response, "Please enable the password authentication"
+                )
+        self.assertEqual(self.user.has_usable_password(), True)
+        response = self.client.get(reverse("profile"))
+        self.assertNotContains(response, "Please enable the password authentication")
+        load_backends(settings.AUTHENTICATION_BACKENDS, force_load=True)
 
 
 class EditUserTest(FixtureTestCase):
