@@ -22,8 +22,9 @@ from django.contrib.auth.base_user import AbstractBaseUser
 from django.utils import timezone
 from rest_framework.authentication import TokenAuthentication
 
-from weblate.trans.models import Project, ProjectToken
+from weblate.trans.models import Project, ProjectToken, Unit
 from weblate.trans.models.component import Component
+from weblate.trans.models.translation import Translation
 from weblate.utils.stats import ProjectLanguage
 
 
