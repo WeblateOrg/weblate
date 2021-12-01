@@ -43,5 +43,8 @@ class WeblateExceptionReporterFilter(SafeExceptionReporterFilter):
                 # Can happen during upgrade - the module is installed
                 # in newer version and different path
                 pass
+            except OSError:
+                # Out of memory or too many open files
+                pass
 
         return super().get_post_parameters(request)
