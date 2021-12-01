@@ -17,6 +17,8 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
+from datetime import datetime
+
 from django.conf import settings
 from django.db import models, transaction
 from django.db.models import Count, Q
@@ -49,11 +51,8 @@ class ChangeQuerySet(models.QuerySet):
             base = base.prefetch()
         return base.filter(action__in=Change.ACTIONS_CONTENT)
 
-    @staticmethod
-    def count_stats(days, step, dtstart, base):
-        """
-        Count the number of changes in a given dataset and period grouped by step days.
-        """
+    def count_stats(self, days: int, step: int, dtstart: datetime):
+        """Count the number of changes in a given period grouped by step days."""
         # Count number of changes
         result = []
         for _unused in range(0, days, step):
@@ -62,7 +61,7 @@ class ChangeQuerySet(models.QuerySet):
             int_end = int_start + timezone.timedelta(days=step)
 
             # Count changes
-            int_base = base.filter(timestamp__range=(int_start, int_end))
+            int_base = self.filter(timestamp__range=(int_start, int_end))
             count = int_base.aggregate(Count("id"))
 
             # Append to result
@@ -75,8 +74,8 @@ class ChangeQuerySet(models.QuerySet):
 
     def base_stats(
         self,
-        days,
-        step,
+        days: int,
+        step: int,
         project=None,
         component=None,
         translation=None,
@@ -106,7 +105,7 @@ class ChangeQuerySet(models.QuerySet):
         if user is not None:
             base = base.filter(user=user)
 
-        return self.count_stats(days, step, dtstart, base)
+        return base.count_stats(days, step, dtstart)
 
     def prefetch(self):
         """
