@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-11-23 17:19+0100\n"
-"PO-Revision-Date: 2021-11-29 21:16+0000\n"
-"Last-Translator: Tetsuro Shimazaki <shimazaki@shima-office.com>\n"
+"PO-Revision-Date: 2021-12-04 10:41+0000\n"
+"Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "documentation/ja/>\n"
 "Language: ja\n"
@@ -1927,11 +1927,11 @@ msgstr "``state:TEXT``"
 
 #: ../../admin/addons.rst:241
 msgid "State to set"
-msgstr "設定する状態"
+msgstr "翻訳状態の設定"
 
 #: ../../admin/addons.rst:243
 msgid "``-1`` -- Do not change"
-msgstr "``-1`` -- 変更するな"
+msgstr "``-1`` -- 翻訳禁止"
 
 #: ../../admin/addons.rst:245
 msgid "``10`` -- Needs editing"
@@ -2021,11 +2021,11 @@ msgstr "``NOT has:label``"
 
 #: ../../admin/addons.rst:275
 msgid "*recent*"
-msgstr "*最近の*"
+msgstr "*recent*"
 
 #: ../../admin/addons.rst:277
 msgid "Marking all :ref:`appstore` changelog entries read-only"
-msgstr "すべての :ref:`appstore` 変更ログ エントリを読み取り専用にマークする"
+msgstr "すべての :ref:`appstore` 変更履歴 エントリに翻訳禁止フラグを立てる"
 
 #: ../../admin/addons.rst:281
 msgid "``language:en AND key:changelogs/``"
@@ -2487,28 +2487,23 @@ msgstr "``weblate.git.squash``"
 
 #: ../../admin/addons.rst:559
 msgid "Commit squashing"
-msgstr "スカッシュ コミット"
+msgstr "コミットの圧縮"
 
 #: ../../admin/addons.rst:561
-#, fuzzy
-#| msgid "All commits into one"
 msgid "``all`` -- All commits into one"
-msgstr "すべてのコミットを 1 つにまとめる"
+msgstr "``all`` -- すべてのコミットを 1 つにまとめる"
 
 #: ../../admin/addons.rst:563
-#, fuzzy
-#| msgctxt "Access-control role"
-#| msgid "Manage languages"
 msgid "``language`` -- Per language"
-msgstr "言語の管理"
+msgstr "``language`` -- 言語別"
 
 #: ../../admin/addons.rst:565
 msgid "``file`` -- Per file"
-msgstr ""
+msgstr "``file`` -- ファイル別"
 
 #: ../../admin/addons.rst:567
 msgid "``author`` -- Per author"
-msgstr ""
+msgstr "``author`` -- 著者別"
 
 #: ../../admin/addons.rst:569
 msgid "``append_trailers``"
@@ -2546,10 +2541,8 @@ msgstr ""
 "る代わりに使用されます。"
 
 #: ../../admin/addons.rst:573
-#, fuzzy
-#| msgid "repository wide"
 msgid "repository post-commit"
-msgstr "リポジトリ全体"
+msgstr "リポジトリのコミット後"
 
 #: ../../admin/addons.rst:575
 msgid "Squash Git commits prior to pushing changes."
@@ -4633,8 +4626,7 @@ msgstr ""
 msgid ""
 "The string is read-only and should not be edited in Weblate, see :ref:`read-"
 "only-strings`."
-msgstr ""
-"文字列は翻訳不可なので Weblate で編集しない。参照: :ref:`read-only-strings`。"
+msgstr "文字列は翻訳禁止であり Weblate で編集させない。参照: :ref:`read-only-strings`。"
 
 #: ../../admin/checks.rst:51
 msgid "``priority:N``"
@@ -16444,7 +16436,7 @@ msgstr ""
 #: ../../admin/optionals.rst:13
 msgid ""
 "Provides you read-only access to the underlying Git repository using HTTP(S)."
-msgstr ""
+msgstr "HTTP(S) を使用して、基になる Git リポジトリへの読み取り専用アクセスを提供します。"
 
 #: ../../admin/optionals.rst:18
 msgid "Add ``weblate.gitexport`` to installed apps in :file:`settings.py`:"
@@ -22704,7 +22696,7 @@ msgstr ":ref:`discover-weblate` との統合の追加。"
 
 #: ../../changes.rst:223
 msgid "Fixed checks behavior with read-only strings."
-msgstr "翻訳不可の文字列の検査機能の修正。"
+msgstr "翻訳禁止の文字列の検査機能の修正。"
 
 #: ../../changes.rst:225
 msgid ""
@@ -22863,7 +22855,7 @@ msgstr ""
 
 #: ../../changes.rst:270
 msgid "Added support for non-translatable or forbidden terms in the glossary."
-msgstr "用語集に翻訳不可、または禁止する用語の機能の追加。"
+msgstr "用語集に翻訳禁止、または使用禁止の訳語の機能の追加。"
 
 #: ../../changes.rst:271
 msgid "Added support for defining terminology in a glossary."
@@ -23001,7 +22993,7 @@ msgstr "管理画面で外観の変更の対応を追加。"
 
 #: ../../changes.rst:316
 msgid "Fixed read-only state handling in bulk edit."
-msgstr ""
+msgstr "一括編集時の翻訳禁止扱いの修正。"
 
 #: ../../changes.rst:317
 msgid "Improved CodeMirror integration."
@@ -24359,7 +24351,7 @@ msgstr ""
 
 #: ../../changes.rst:735
 msgid "Added support for read-only strings."
-msgstr "翻訳不可の文字列の機能追加。"
+msgstr "翻訳禁止の文字列の機能追加。"
 
 #: ../../changes.rst:736
 msgid "Added support for Markdown in comments."
@@ -32485,9 +32477,8 @@ msgid ""
 "however each format being slightly different, some issues with formats that "
 "are not well tested can arise."
 msgstr ""
-"Weblate は `translate-toolkit`_ で扱えるほとんどの翻訳フォーマットをサポート"
-"していますが、それぞれのフォーマットはわずかに異なるため、十分にテストされて"
-"いないフォーマットではいくつかの問題が発生する可能性があります。"
+"Weblate は `translate-toolkit`_ "
+"で扱えるほとんどの翻訳フォーマットに対応していますが、フォーマットごとに小さな差異があり、テストが不十分なフォーマットでは問題が発生することがあります。"
 
 #: ../../formats.rst:12 ../../formats.rst:1573
 msgid ":doc:`tt:formats/index`"
@@ -32500,6 +32491,8 @@ msgid ""
 "translators can additionally use whatever tools they are used to, and will "
 "more likely contribute to your project."
 msgstr ""
+"アプリケーションのファイル形式を選択するときは、使用するツールキット/プラットフォームで実績のある形式を使用することをお勧めします。そうすれば、翻訳者は慣"
+"れ親しんだツールを追加で使用でき、プロジェクトに貢献する可能性が高まります。"
 
 #: ../../formats.rst:25
 msgid "Bilingual and monolingual formats"
@@ -32862,7 +32855,7 @@ msgstr ""
 
 #: ../../formats.rst:148
 msgid "Read-only strings"
-msgstr "翻訳不可の文字列"
+msgstr "翻訳禁止の文字列"
 
 #: ../../formats.rst:152
 msgid ""
@@ -32871,6 +32864,9 @@ msgid ""
 "`xliff` and :ref:`aresource`), but can be emulated in others by adding a "
 "``read-only`` flag, see :ref:`custom-checks`."
 msgstr ""
+"翻訳ファイルからの翻訳禁止の文字列を含みますが、Weblate で編集できません。この機能は複数のフォーマット（:ref:`xliff` および "
+":ref:`aresource`）には公式に対応していますが、その他のフォーマットでは ``read-only`` "
+"フラグを追加するとエミュレートできます。"
 
 #: ../../formats.rst:160
 msgid "GNU gettext"
@@ -34106,6 +34102,8 @@ msgid ""
 "changelogs), mark them read-only (see :ref:`custom-checks`). This can be "
 "automated by the :ref:`addon-weblate.flags.bulk`."
 msgstr ""
+"特定の文字列（例: changelogs）を翻訳させない場合は、翻訳禁止に設定します（参照: :ref:'custom-checks'）。これは、 "
+":ref:`addon-weblate.flags.bulk` を使用して自動化できます。"
 
 #: ../../formats.rst:1351
 msgid "Subtitle files"
@@ -37277,10 +37275,9 @@ msgid ""
 "terms that should not be changed in other languages. Such terms are visually "
 "highlighted in the glossary sidebar."
 msgstr ""
-"一括編集、フラグの入力、または :guilabel:`ツール` ↓ :guilabel:`翻訳不可に設定"
-"` を使用して、特定の用語の翻訳に ``read-only`` というフラグを立てると、翻訳で"
-"きません。他の言語に翻訳してはならないブランド名やその他の用語に使用します。"
-"このような用語は、用語集のサイドバーで視覚的に強調表示されます。"
+"一括編集、フラグの入力、または :guilabel:`ツール` ↓ :guilabel:`翻訳禁止に設定` を使用して、特定の用語の翻訳に ``read-"
+"only`` というフラグを立てると、翻訳できません。他の言語に翻訳してはならないブランド名やその他の用語に使用します。このような用語は、用語集のサイドバ"
+"ーで視覚的に強調表示されます。"
 
 #: ../../user/glossary.rst:68
 msgid "Forbidden translations"
