@@ -397,6 +397,9 @@ Generic settings
             :envvar:`WEBLATE_ADMIN_PASSWORD`
 
 .. envvar:: WEBLATE_SERVER_EMAIL
+
+    The email address that error messages are sent from.
+
 .. envvar:: WEBLATE_DEFAULT_FROM_EMAIL
 
     Configures the address for outgoing e-mails.
