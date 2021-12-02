@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-11-23 17:19+0100\n"
-"PO-Revision-Date: 2021-12-01 11:37+0000\n"
+"PO-Revision-Date: 2021-12-04 17:52+0000\n"
 "Last-Translator: JY3 <GeeyunJY3@gmail.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "weblate/documentation/zh_Hans/>\n"
@@ -835,9 +835,7 @@ msgid ""
 "As for now, there is no way to bulk-add already existing users to some group "
 "via the user interface. For that, you may resort to using the :ref:`REST API "
 "<api>`."
-msgstr ""
-"就目前而言，还没有办法通过用户界面将现有用户大量添加到某个组中。 但是，您可以"
-"通过 :ref:`REST API <api>` 来实现。"
+msgstr "就目前而言，还没有办法通过用户界面将现有用户批量添加到某个组。 为此，您可以通过 :ref:`REST API <api>` 来实现。"
 
 #: ../../admin/access.rst:440
 msgid "Default groups and roles"
@@ -1977,8 +1975,8 @@ msgid ""
 "and add labels till all strings have all required labels. Other automated "
 "operations for Weblate metadata can also be done."
 msgstr ""
-"要自动化标签操作，从搜索字符串 ``NOT has:label``入手，并添加标签直到所有字符"
-"串都有所需的标签为止。也可以完成 Weblate 元数据的其他自动化操作。"
+"自动化添加标签，从搜索查询 ``NOT has:label`` 开始，然后给搜索查询所得字符串添加标签，直到所有字符串都有所需的标签。还可以对 "
+"Weblate 元数据进行其他自动化操作。"
 
 #: ../../admin/addons.rst:267 ../../admin/config.rst:1946
 msgid "**Examples:**"
@@ -1986,11 +1984,11 @@ msgstr "**例子：**"
 
 #: ../../admin/addons.rst:269
 msgid "Label new strings automatically"
-msgstr "自动标记新字符串"
+msgstr "自动给新字符串添加标签"
 
 #: ../../admin/addons.rst:272 ../../admin/addons.rst:280
 msgid "Search query"
-msgstr "搜索条目"
+msgstr "搜索查询"
 
 #: ../../admin/addons.rst:273
 msgid "``NOT has:label``"
@@ -4162,9 +4160,8 @@ msgid ""
 "performs better than Django backup, and it restores complete tables with all "
 "their data."
 msgstr ""
-"推荐的方式是使用数据库的本地工具如 :program:`pg_dump` 或 :program:"
-"`mysqldump` 来保存数据库的转储。这通常比 Django 备份表现得好，并且可以连同数"
-"据一道，恢复完整表格。"
+"推荐的方式是使用数据库自带工具如 :program:`pg_dump` 或 :program:`mysqldump` 来保存数据库的转储。这通常比 "
+"Django 备份表现得好，并且可以连同数据一道，恢复完整表格。"
 
 #: ../../admin/backup.rst:215
 msgid ""
@@ -4492,8 +4489,7 @@ msgstr ""
 msgid ""
 "The string is read-only and should not be edited in Weblate, see :ref:`read-"
 "only-strings`."
-msgstr ""
-"字符串应该只读，并且不能在 Weblate 中编辑。请参见 :ref:`read-only-strings` 。"
+msgstr "这个字符串是只读的，且不应该在 Weblate 中进行编辑。请参见 :ref:`read-only-strings`。"
 
 #: ../../admin/checks.rst:51
 msgid "``priority:N``"
@@ -17997,7 +17993,7 @@ msgstr "``{{ stats.allchecks }}``"
 
 #: ../../admin/projects.rst:881
 msgid "Number of strings with failing checks"
-msgstr "未通过检查的字符串数量"
+msgstr "带有未通过检查的字符串数量"
 
 #: ../../admin/projects.rst:882
 msgid "``{{ stats.allchecks_percent }}``"
@@ -18005,7 +18001,7 @@ msgstr "``{{ stats.allchecks_percent }}``"
 
 #: ../../admin/projects.rst:883
 msgid "Percent of strings with failing checks"
-msgstr "未通过检查的字符串百分比"
+msgstr "带有未通过检查的字符串百分比"
 
 #: ../../admin/projects.rst:884
 msgid "``{{ author }}``"
@@ -20607,7 +20603,7 @@ msgstr "未通过检查的字符串比重"
 
 #: ../../api.rst:1671
 msgid "number of words with failing checks"
-msgstr "未通过检查的单词数目"
+msgstr "带有未通过检查的单词数目"
 
 #: ../../api.rst:1672
 msgid "translation filename"
@@ -20705,7 +20701,7 @@ msgstr "返回翻译单元的列表。"
 
 #: ../../api.rst:1801
 msgid "Search query string :ref:`Searching` (optional)"
-msgstr "搜索查询字符串 :ref:`Searching`（可选）"
+msgstr "搜索查询字符串 :ref:`Searching` （可选）"
 
 #: ../../api.rst:1803
 msgid "array of component objects; see :http:get:`/api/units/(int:id)/`"
@@ -20929,7 +20925,7 @@ msgstr "单元状态，0——未翻译，10——需要编辑，20——已翻�
 
 #: ../../api.rst:1984
 msgid "whether the unit is fuzzy or marked for review"
-msgstr "是否该单元是模糊的或标记为需要检查"
+msgstr "该单元是模糊的还是标记为需要复查"
 
 #: ../../api.rst:1985
 msgid "whether the unit is translated"
@@ -22388,7 +22384,7 @@ msgstr "改进翻译、部件或项目移除的性能。"
 
 #: ../../changes.rst:241 ../../changes.rst:555
 msgid "Improved bulk edit performance."
-msgstr "改进了大量编辑的性能。"
+msgstr "改进了批量编辑的性能。"
 
 #: ../../changes.rst:242
 msgid ""
@@ -23061,7 +23057,7 @@ msgstr "改进了格式字符串检查的用户反馈。"
 
 #: ../../changes.rst:447
 msgid "Improved performance of bulk state changes."
-msgstr "改进了大量的状态更改的性能。"
+msgstr "改进了批量更改状态的性能。"
 
 #: ../../changes.rst:448
 msgid "Added compatibility redirects after project or component renaming."
@@ -23269,7 +23265,7 @@ msgstr ""
 
 #: ../../changes.rst:503
 msgid "Consistently use dismissed as state of dismissed checks."
-msgstr "一致地使用了放弃作为放弃检查的状态。"
+msgstr "统一使用已忽略作为已忽略检查的状态。"
 
 #: ../../changes.rst:504
 msgid "Add support for configuring default add-ons to enable."
@@ -23277,7 +23273,7 @@ msgstr "添加了对配置要启用的默认附加组件的支持。"
 
 #: ../../changes.rst:505
 msgid "Fixed editor keyboard shortcut to dismiss checks."
-msgstr "修复了编辑器对放弃检查的键盘快捷键。"
+msgstr "修复了编辑器忽略检查的键盘快捷键。"
 
 #: ../../changes.rst:506
 msgid "Improved machine translation of strings with placeholders."
@@ -23630,7 +23626,7 @@ msgstr "修复了以某种优先性来搜索字段。"
 
 #: ../../changes.rst:618
 msgid "Fixed predefined query for recently added strings."
-msgstr "修复了近期添加的字符串的预定义队列。"
+msgstr "修复了最近添加的字符串的预设查询。"
 
 #: ../../changes.rst:619
 msgid "Fixed searching returning duplicate matches."
@@ -24847,7 +24843,7 @@ msgstr "添加了翻译组件警报，以突出显示翻译中的问题。"
 
 #: ../../changes.rst:995
 msgid "Expose XLIFF string resname as context when available."
-msgstr "当可用时暴露 XLIFF 字符串 resname 作为上下文。"
+msgstr "XLIFF 字符串 resname 可用时将其暴露为上下文。"
 
 #: ../../changes.rst:996
 msgid "Added support for XLIFF states."
@@ -27280,7 +27276,7 @@ msgstr "支持（并且需要）django-registration 0.8。"
 
 #: ../../changes.rst:1780
 msgid "Caching counts of strings with failing checks."
-msgstr "缓存未通过检查的字符串的计数。"
+msgstr "缓存带有未通过检查的字符串的计数。"
 
 #: ../../changes.rst:1781
 msgid "Checking of requirements during setup."
@@ -28110,9 +28106,8 @@ msgid ""
 "explicitly supported. However, Weblate should (in most cases) display and "
 "function correctly in these browsers as well."
 msgstr ""
-"不明确支持使用最新版的 WebKit、Blink 或 Gecko的替换浏览器，无论是否直接还是通"
-"过平台的 web 视图 API。然而，Weblate应该（在多数情况下）页在这些浏览器中正常"
-"显示并工作。"
+"不明确支持使用最新版 WebKit、Blink 或 Gecko 内核的替代浏览器，无论是直接使用还是通过平台的 web view API。但是，"
+"Weblate 应该（在大多数情况下）能在这些浏览器中正常显示和运行。"
 
 #: ../../contributing/frontend.rst:17
 msgid "Older browsers might work, but some features might be limited."
@@ -29510,8 +29505,8 @@ msgid ""
 "labelled `good first issue <https://github.com/WeblateOrg/weblate/labels/good"
 "%20first%20issue>`_."
 msgstr ""
-"想熟悉 Weblate 代码库，不如先试试带有 `good first issue <https://github.com/WeblateOrg/"
-"weblate/labels/good%20first%20issue>`_ 标签的那些 bug。"
+"想熟悉 Weblate 代码库，不如先试试对带有 `good first issue <https://github.com/WeblateOrg/"
+"weblate/labels/good%20first%20issue>`_ 标签的那些 bug 下手。"
 
 #: ../../contributing/start.rst:14
 msgid "Running Weblate locally"
@@ -29953,8 +29948,8 @@ msgid ""
 "menu of each component can give you guidance to make your localization "
 "process easy for community translators."
 msgstr ""
-"可以在每个组件的菜单中找到的 :guilabel:`Community localization checklist`（社"
-"区本地化清单）可以给予指示，使您的本地化过程对于社区翻译者更容易。"
+"可以在每个组件的菜单中找到 :guilabel:`Community localization "
+"checklist`，它可以为您提供指导，使社区翻译者可以轻松地进行本地化流程。"
 
 #: ../../devel/gettext.rst:2
 msgid "Translating software using GNU gettext"
@@ -30571,9 +30566,7 @@ msgstr "当翻译文件与代码分离时，可以通过以下方法将新字符
 msgid ""
 "Manually, using :guilabel:`Add new translation string` from :guilabel:"
 "`Tools` menu in the language used as the source for translations."
-msgstr ""
-"手动操作，使用被用作翻译源语言的 :guilabel:`工具` 菜单中的 :guilabel:`Add "
-"new translation string`。"
+msgstr "手动，在翻译源语言的 :guilabel:`工具` 菜单中使用 :guilabel:`添加新翻译字符串`。"
 
 #: ../../devel/integration.rst:75
 msgid ""
@@ -30942,9 +30935,7 @@ msgid ""
 "source string. Translators sometimes fix mistakes in the translation instead "
 "of reporting it - a typical example is a missing full stop at the end of a "
 "sentence."
-msgstr ""
-"错误的未通过的翻译字符串检查标示问题出在源字符串上。译者有时会更正翻译中的错"
-"误，而不是将其报告——一个典型的例子是在句子的结尾缺少一个句号。"
+msgstr "错误的未通过的翻译字符串检查表明问题出在源字符串上。译者有时会更正翻译中的错误，而不是将其报告——一个典型的例子是在句子的结尾缺少一个句号。"
 
 #: ../../devel/review.rst:40
 msgid ""
@@ -31552,8 +31543,7 @@ msgid ""
 "Labels can be assigned to units in :ref:`additional` by bulk editing, or "
 "using the :ref:`addon-weblate.flags.bulk` addon."
 msgstr ""
-"可以通过批量编辑或使用 :ref:`addon-weblate.flags.bulk` 附加组件将标签分配给 :"
-"ref:`additional` 中的单元。"
+"标签可以通过批量编辑或使用 :ref:`addon-weblate.flags.bulk` 附加组件分配给 :ref:`additional` 中的单元。"
 
 #: ../../faq.rst:2
 msgid "Frequently Asked Questions"
@@ -31712,9 +31702,7 @@ msgstr "如何翻译多平台项目？"
 msgid ""
 "Weblate supports a wide range of file formats (see :doc:`formats`) and the "
 "easiest approach is to use the native format for each platform."
-msgstr ""
-"Weblate 支持大范围的文件格式（请参见 :doc:`formats`），而最容易的方式时对每个"
-"平台使用本地格式。"
+msgstr "Weblate 支持多种文件格式（请参见 :doc:`formats`），最简单的方法就是使用每个平台的原生格式。"
 
 #: ../../faq.rst:175
 msgid ""
@@ -32922,8 +32910,8 @@ msgid ""
 "case it is present and falls back to ``id`` (together with ``file`` tag if "
 "present)."
 msgstr ""
-"Weblate 通过 ``resname`` 属性在它出线的情况下识别 XLIFF 文件中的单元，并退回"
-"到 ``id`` （如果出现的话与 ``file`` 标签一起）。"
+"Weblate 通过 ``resname`` 属性（如果有的话）识别 XLIFF 文件中的单元，并会回退到 ``id`` （如果有的话，则与 "
+"``file`` 标签一起）。"
 
 #: ../../formats.rst:368
 msgid ""
@@ -32933,9 +32921,8 @@ msgid ""
 "Weblate and is not covered by the XLIFF standard - it does not put any "
 "uniqueness restrictions on this attribute."
 msgstr ""
-"``resname`` 属性被认为是人类友好的单元识别符，对 Weblate 比 ``id`` 更适于显"
-"示。在整个 XLIFF 文件中 ``resname`` 具有一致性。这是 Weblate 需要的，并且不"
-"被 XLIFF 标准覆盖——它不在这个属性上放入任何独特性限制。"
+"``resname`` 属性被认为是人类友好的单元识别符，这也使其比 ``id`` 更适合 Weblate 显示。在整个 XLIFF 文件中 "
+"``resname`` 必须是唯一的。这是 Weblate 的要求，XLIFF 标准不包括这一点——它没有对此属性施加任何唯一性限制。"
 
 #: ../../formats.rst:376
 msgid "Typical Weblate :ref:`component` for bilingual XLIFF"
@@ -34560,7 +34547,7 @@ msgstr ""
 msgid ""
 "Once submitting a translation with a failing check, this is immediately "
 "shown to the user:"
-msgstr "提交未通过检查的翻译后，将立即向用户显示："
+msgstr "一旦提交了未通过检查的翻译，会立即向用户显示："
 
 #: ../../user/checks.rst:16
 msgid "Automatic fixups"
@@ -36300,7 +36287,7 @@ msgstr "省略号"
 
 #: ../../user/checks.rst:1242
 msgid "The string uses three dots (...) instead of an ellipsis character (…)"
-msgstr "内容中使用三个句点 (...) 代替了省略号 (…)"
+msgstr "这个字符串使用三个句点 (...) 代替了省略号 (…)"
 
 #: ../../user/checks.rst:1243 ../../user/checks.rst:1264
 #: ../../user/checks.rst:1278 ../../user/checks.rst:1292
@@ -36417,7 +36404,7 @@ msgstr "未复数化"
 
 #: ../../user/checks.rst:1326
 msgid "The string is used as plural, but not using plural forms"
-msgstr "字符串应该作为复数使用，但未使用其复数形式"
+msgstr "这个字符串应该用作复数，但未使用其复数形式"
 
 #: ../../user/checks.rst:1328
 msgid "``weblate.checks.source.OptionalPluralCheck``"
@@ -36733,7 +36720,7 @@ msgstr ""
 msgid ""
 "The glossary component looks like any other component in Weblate with added "
 "colored label:"
-msgstr ""
+msgstr "术语表组件看起来与 Weblate 中的其他组件一样，只是多了个彩色标签："
 
 #: ../../user/glossary.rst:37
 msgid "You can browse all glossary terms:"
@@ -37320,7 +37307,7 @@ msgstr ""
 
 #: ../../user/search.rst:71
 msgid "String has failing check."
-msgstr "未通过检查的字符串。"
+msgstr "带有某未通过检查的字符串。"
 
 #: ../../user/search.rst:72
 msgid "``dismissed_check:TEXT``"
@@ -37328,7 +37315,7 @@ msgstr ""
 
 #: ../../user/search.rst:73
 msgid "String has dismissed check."
-msgstr ""
+msgstr "带有已忽略检查的字符串。"
 
 #: ../../user/search.rst:74
 msgid "``comment:TEXT``"
@@ -38152,7 +38139,7 @@ msgstr ""
 
 #: ../../user/translating.rst:397
 msgid ":ref:`Bulk edit addon <addon-weblate.flags.bulk>`"
-msgstr ""
+msgstr ":ref:`批量编辑附加组件 <addon-weblate.flags.bulk>`"
 
 #: ../../user/translating.rst:400
 msgid "Matrix View"
@@ -39483,9 +39470,8 @@ msgid ""
 "translators. You should review such strings and either edit them in the "
 "source or remove the label."
 msgstr ""
-"双语格式不允许直接编辑源字符串（通常都是直接从源代码中提取源字符串）。在这种"
-"情况下， :guilabel:`Source needs review` 标签会被附加到翻译者报告的字符串上。"
-"您应该复查此类字符串，并编辑原文或删除标签。"
+"双语格式不允许直接编辑源字符串（通常都是直接从源代码中提取源字符串）。在这种情况下， :guilabel:`Source needs review` "
+"标签会被附加到翻译者报告的字符串上。您应该复查此类字符串，然后编辑原文或删除标签。"
 
 #: ../../workflows.rst:259
 msgid ":ref:`bimono`, :ref:`reviews`, :ref:`labels`, :ref:`user-comments`"
