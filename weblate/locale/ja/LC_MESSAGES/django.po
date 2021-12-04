@@ -27,8 +27,8 @@ msgstr ""
 "Project-Id-Version: Weblate 4.10\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-11-23 16:18+0000\n"
-"PO-Revision-Date: 2021-12-04 17:52+0000\n"
-"Last-Translator: amano <amano.hajime@gmail.com>\n"
+"PO-Revision-Date: 2021-12-05 19:36+0000\n"
+"Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "application/ja/>\n"
 "Language: ja\n"
@@ -2871,7 +2871,7 @@ msgstr "間違った複数形の形式: %s"
 #: weblate/checks/icu.py:486
 #, python-format
 msgid "Incorrect sub-message selectors for: %s"
-msgstr "間違ったサブ メッセージ形式: %s"
+msgstr "間違ったサブ メッセージのセレクター: %s"
 
 #: weblate/checks/icu.py:492
 #, python-format
@@ -7601,7 +7601,7 @@ msgstr "翻訳したい言語を選択してください。"
 msgid ""
 "A translation file will be created based on <code>%(new_base)s</code> with "
 "all strings untranslated."
-msgstr "翻訳ファイルは、すべての文字列が未翻訳の <code>%(new_base)s</code> を基に作成されます。"
+msgstr "翻訳ファイルは、<code>%(new_base)s</code> を基に、文字列はすべて未翻訳として作成されます。"
 
 #: weblate/templates/new-language.html:36
 msgid ""
@@ -7616,8 +7616,8 @@ msgid ""
 "with all strings marked as \"Needs editing\" and replaced as they are "
 "translated."
 msgstr ""
-"翻訳ファイルは、すべての文字列に「要編集」のマークが付いた <code>%(new_base)s</code> "
-"のコピーとして作成され、翻訳時に置き換えられます。"
+"翻訳ファイルは、<code>%(new_base)s</code> "
+"をコピーして文字列にすべて「要編集」のマークが付けて作成され、翻訳時に置き換えられます。"
 
 #: weblate/templates/new-language.html:48
 msgid ""
@@ -9783,7 +9783,7 @@ msgstr "%s で Weblate を利用して最近行われたすべての変更。"
 
 #: weblate/trans/filter.py:34
 msgid "Read-only strings"
-msgstr "編集不可の文字列"
+msgstr "翻訳禁止の文字列"
 
 #: weblate/trans/filter.py:38 weblate/trans/filter.py:125
 msgid "Strings marked for edit"
@@ -11675,7 +11675,7 @@ msgstr "翻訳が見つかりません。"
 
 #: weblate/trans/models/unit.py:1455
 msgid "Unmark as read-only"
-msgstr "編集不可の解除"
+msgstr "翻訳禁止の解除"
 
 #: weblate/trans/models/unit.py:1458
 msgid "Mark as read-only"
