@@ -400,12 +400,18 @@ Generic settings
 
     The email address that error messages are sent from.
 
+    .. seealso::
+
+        :std:setting:`django:SERVER_EMAIL`,
+        :ref:`production-email`
+
 .. envvar:: WEBLATE_DEFAULT_FROM_EMAIL
 
     Configures the address for outgoing e-mails.
 
     .. seealso::
 
+        :std:setting:`django:DEFAULT_FROM_EMAIL`,
         :ref:`production-email`
 
 .. envvar:: WEBLATE_CONTACT_FORM
