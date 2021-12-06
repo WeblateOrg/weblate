@@ -231,9 +231,9 @@ class Billing(models.Model):
 
             component_alerts.delay(
                 list(
-                    Component.objects.filter(project__in=self.projects).values_list(
-                        "id", flat=True
-                    )
+                    Component.objects.filter(
+                        project__in=self.projects.all()
+                    ).values_list("id", flat=True)
                 )
             )
 
