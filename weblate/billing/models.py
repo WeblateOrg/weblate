@@ -37,6 +37,7 @@ from django.utils.translation import ngettext
 
 from weblate.auth.models import User
 from weblate.trans.models import Component, Project
+from weblate.trans.tasks import component_alerts
 from weblate.utils.decorators import disable_for_loaddata
 from weblate.utils.fields import JSONField
 from weblate.utils.stats import prefetch_stats
@@ -227,6 +228,14 @@ class Billing(models.Model):
                 update_fields.update(
                     ("state", "expiry", "removal", "paid", "in_limits")
                 )
+
+            component_alerts.delay(
+                list(
+                    Component.objects.filter(project__in=self.projects).values_list(
+                        "id", flat=True
+                    )
+                )
+            )
 
         super().save(
             force_insert=force_insert,
