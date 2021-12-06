@@ -37,7 +37,9 @@ def billing_check():
 
 @app.task(trail=False)
 def billing_alert():
-    for bill in Billing.objects.filter(state=Billing.STATE_ACTIVE):
+    for bill in Billing.objects.filter(
+        state__in=(Billing.STATE_ACTIVE, Billing.STATE_TRIAL)
+    ):
         in_limit = bill.in_display_limits()
         for project in bill.projects.iterator():
             for component in project.component_set.iterator():
