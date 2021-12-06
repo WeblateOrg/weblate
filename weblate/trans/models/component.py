@@ -2822,6 +2822,16 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
         else:
             self.delete_alert("NoMaskMatches")
 
+        missing_files = [
+            name
+            for name in (self.template, self.intermediate, self.new_base)
+            if name and not os.path.exists(os.path.join(self.full_path, name))
+        ]
+        if missing_files:
+            self.add_alert("InexistantFiles", files=missing_files)
+        else:
+            self.delete_alert("InexistantFiles")
+
         self.update_link_alerts()
 
     def get_ambiguous_translations(self):

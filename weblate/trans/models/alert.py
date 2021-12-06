@@ -365,3 +365,14 @@ class NoMaskMatches(BaseAlert):
         return {
             "can_add": self.instance.component.can_add_new_language(None, fast=True),
         }
+
+
+@register
+class InexistantFiles(BaseAlert):
+    verbose = _("Inexistant files.")
+    doc_page = "admin/projects"
+    doc_anchor = "component-template"
+
+    def __init__(self, instance, files):
+        super().__init__(instance)
+        self.files = files
