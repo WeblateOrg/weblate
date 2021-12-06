@@ -841,7 +841,7 @@ class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin)
             element.submit()
         self.click("History")
         self.screenshot("format-highlight.png")
-        self.click("Comments")
+        self.click("Discussion")
         self.screenshot("plurals.png")
 
         # Test search dropdown

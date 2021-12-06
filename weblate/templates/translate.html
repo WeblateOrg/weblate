@@ -252,7 +252,7 @@
 <li><a href="#others" data-toggle="tab" id="toggle-others">{% trans "Other occurrences" %} <span class="badge">{{ others.total }}</span></a></li>
 {% endif %}
 {% if unit.all_comments or user_can_add_comment %}
-<li><a href="#comments" data-toggle="tab" id="toggle-comments">{% trans "Comments" %}{% if unit.all_comments %} <span class="badge">{{ unit.all_comments|length }}</span>{% endif %}</a></li>
+<li><a href="#comments" data-toggle="tab" id="toggle-comments">{% trans "Discussion" %}{% if unit.all_comments %} <span class="badge">{{ unit.all_comments|length }}</span>{% endif %}</a></li>
 {% endif %}
 {% if user_can_use_machinery %}
 <li><a href="#machinery" data-toggle="tab" id="toggle-machinery" data-load="machinery" title="{% trans "Computer-aided translation suggestions" %}">{% trans "Automatic suggestions" %}</a></li>
@@ -398,9 +398,9 @@
 {% csrf_token %}
 <input type="hidden" name="next" value="{{ this_unit_url }}#comments" />
 <div class="panel panel-default">
-<div class="panel-heading"><h4 class="panel-title">{% trans "New comment" %}</h4></div>
+<div class="panel-heading"><h4 class="panel-title">{% trans "New discussion post" %}</h4></div>
   <div class="panel-body">
-  <p class="help-block">{% trans "Comment on this string for fellow translators and developers to read." %}</p>
+  <p class="help-block">{% trans "Discuss on this string for fellow translators and developers to read." %}</p>
 {{ comment_form|crispy }}
 </div>
 <div class="panel-footer">
@@ -495,9 +495,9 @@
         <h5 class="list-group-item-heading">
             {% documentation_icon 'user/translating' 'comments' right=True %}
             {% icon "comment.svg" %}
-            {% trans "Comments" %}
+            {% trans "Discussion" %}
         </h5>
-        <p class="list-group-item-text">{% blocktrans count count=unit.all_comments|length %}There is {{ count }} comment for this string.{% plural %}There are {{ count }} comments for this string.{% endblocktrans %}</p>
+        <p class="list-group-item-text">{% blocktrans count count=unit.all_comments|length %}There is {{ count }} discussion post for this string.{% plural %}There are {{ count }} discussion posts for this string.{% endblocktrans %}</p>
         <p class="list-group-item-text list-buttons">
             <a href="#comments" data-toggle="tab" class="btn btn-warning">{% trans "View" %}</a>
         </p>

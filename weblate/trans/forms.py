@@ -944,13 +944,12 @@ class AutoForm(forms.Form):
 
 
 class CommentForm(forms.Form):
-    """Simple commenting form."""
+    """Simple discussion form."""
 
     scope = forms.ChoiceField(
         label=_("Scope"),
         help_text=_(
-            "Is your comment specific to this "
-            "translation or generic for all of them?"
+            "Is your post specific to this " "translation or generic for all of them?"
         ),
         choices=(
             (
@@ -959,17 +958,17 @@ class CommentForm(forms.Form):
             ),
             (
                 "global",
-                _("Source string comment, suggestions for changes to this string"),
+                _("Source string discussion, suggestions for changes to this string"),
             ),
             (
                 "translation",
-                _("Translation comment, discussions with other translators"),
+                _("Translation discussion with other translators"),
             ),
         ),
     )
     comment = forms.CharField(
         widget=MarkdownTextarea,
-        label=_("New comment"),
+        label=_("Post content"),
         help_text=_("You can use Markdown and mention users by @username."),
         max_length=1000,
     )
