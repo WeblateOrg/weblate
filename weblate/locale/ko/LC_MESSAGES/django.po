@@ -19,13 +19,14 @@
 # simmon <simmon@nplob.com>, 2021.
 # Jiwoon Kim <budaestew@gmail.com>, 2021.
 # 이피시소리 <pcsori@gmail.com>, 2021.
+# OctopusET <sumoon@seoulsaram.org>, 2021.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.10\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-11-23 16:18+0000\n"
-"PO-Revision-Date: 2021-11-01 11:20+0000\n"
-"Last-Translator: 이피시소리 <pcsori@gmail.com>\n"
+"PO-Revision-Date: 2021-12-06 21:44+0000\n"
+"Last-Translator: OctopusET <sumoon@seoulsaram.org>\n"
 "Language-Team: Korean <https://hosted.weblate.org/projects/weblate/"
 "application/ko/>\n"
 "Language: ko\n"
@@ -33,7 +34,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 4.9-dev\n"
+"X-Generator: Weblate 4.10-dev\n"
 
 #: weblate/accounts/avatar.py:103
 msgctxt "No known user"
@@ -380,10 +381,9 @@ msgid "Agreement with Terms of Service {date}."
 msgstr "{date} 에 서비스 이용 약관의 내용에 합의했습니다."
 
 #: weblate/accounts/models.py:162
-#, fuzzy, python-brace-format
-#| msgid "Invited to Weblate by {username}."
+#, python-brace-format
 msgid "Invited to {site_title} by {username}."
-msgstr "{username} 사용자가 Weblate에 초대했습니다."
+msgstr "{username} 사용자가 {site_title}에 초대했습니다."
 
 #: weblate/accounts/models.py:163
 msgid "Started trial period."
@@ -1507,16 +1507,10 @@ msgid "Contributors in comment"
 msgstr "의견에 기여한 사람들"
 
 #: weblate/addons/gettext.py:328
-#, fuzzy
-#| msgid ""
-#| "Update the comment in the PO file header to include contributor names and "
-#| "years of contributions."
 msgid ""
 "Updates the comment part of the PO file header to include contributor names "
 "and years of contributions."
-msgstr ""
-"PO 파일 헤더에서 기여한 사람들의 이름과 기여한 기간이 포함되도록 의견을 업데"
-"이트 합니다."
+msgstr "기여자의 이름과 기여 연도를 포함하도록 PO 파일 헤더의 주석 부분을 수정합니다."
 
 #: weblate/addons/git.py:34
 msgid "Squash Git commits"
@@ -1611,14 +1605,12 @@ msgid "Important dates"
 msgstr "중요 날짜"
 
 #: weblate/auth/admin.py:205
-#, fuzzy
-#| msgid "This addon is used for all components sharing this repository."
 msgid "This is not used when a component list is selected."
-msgstr "이 애드온은 이 저장소를 공유하는 모든 구성 요소에서 사용됩니다."
+msgstr "구성요소 목록을 선택한 경우에는 사용되지 않습니다."
 
 #: weblate/auth/admin.py:211
 msgid "This is not used when a component is selected."
-msgstr ""
+msgstr "구성 요소를 선택했을 때는 사용하지 않습니다."
 
 #. Translators: Permission name
 #: weblate/auth/data.py:35
@@ -1794,10 +1786,8 @@ msgstr "기존 번역 삭제하기"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:103
-#, fuzzy
-#| msgid "Download translation"
 msgid "Download translation file"
-msgstr "번역 다운로드"
+msgstr "번역 파일 다운로드"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:105
@@ -2040,20 +2030,16 @@ msgid "Billing"
 msgstr "결제"
 
 #: weblate/auth/forms.py:103 weblate/trans/views/acl.py:211
-#, fuzzy
-#| msgid "Activation e-mail will be sent here."
 msgid "User invitation e-mail was sent."
-msgstr "본인 확인용 전자우편이 이 주소로 전송됩니다."
+msgstr "사용자 초대 이메일이 전송되었습니다."
 
 #: weblate/auth/forms.py:112
 msgid "Send e-mail invitation to the user"
 msgstr "사용자에게 전자우편 초대장을 보내기"
 
 #: weblate/auth/forms.py:126
-#, fuzzy
-#| msgid "Send e-mail invitation to the user"
 msgid "Resend e-mail invitation to the user"
-msgstr "사용자에게 전자우편 초대장을 보내기"
+msgstr "사용자에게 이메일 초대장을 다시 보내기"
 
 #: weblate/auth/models.py:77
 #, python-format
@@ -2593,16 +2579,14 @@ msgid "Font spacing"
 msgstr "글꼴 간격"
 
 #: weblate/checks/flags.py:68
-#, fuzzy
-#| msgid "Java MessageFormat"
 msgid "ICU MessageFormat Flags"
-msgstr "자바 메시지형식"
+msgstr "ICU MessageFormat 플래그"
 
 #: weblate/checks/flags.py:70
 #, fuzzy
 #| msgid "Java MessageFormat"
 msgid "ICU MessageFormat Tag Prefix"
-msgstr "자바 메시지형식"
+msgstr "ICU MessageFormat 태그 접두사"
 
 #: weblate/checks/flags.py:72 weblate/trans/models/component.py:598
 #: weblate/utils/views.py:135
@@ -2641,7 +2625,7 @@ msgstr "번역 플래그, 필요한 파라미터 없음: \"%s\""
 #, fuzzy, python-format
 #| msgid "Following format strings are extra: %s"
 msgid "Following format strings are wrongly ordered: %s"
-msgstr "다음의 형식 문자열을 추가: %s"
+msgstr "다음 형식 문자열의 순서가 잘못되었습니다. %s"
 
 #: weblate/checks/format.py:396 weblate/checks/placeholders.py:98
 #, python-format
@@ -2694,40 +2678,30 @@ msgid "JavaScript format string does not match source"
 msgstr "자바스크립트 형식 문자열이 원본과 일치하지 않습니다"
 
 #: weblate/checks/format.py:491
-#, fuzzy
-#| msgid "C format"
 msgid "Lua format"
-msgstr "C 형식"
+msgstr "Lua 형식"
 
 #: weblate/checks/format.py:492
-#, fuzzy
-#| msgid "C format string does not match source"
 msgid "Lua format string does not match source"
-msgstr "C 형식 문자열이 원본과 일치하지 않습니다"
+msgstr "Lua 형식 문자열이 원본과 일치하지 않습니다"
 
 #: weblate/checks/format.py:499
-#, fuzzy
-#| msgid "Qt plural format"
 msgid "Object Pascal format"
-msgstr "큐트(Qt) 복수형"
+msgstr "Object Pascal 형식"
 
 #: weblate/checks/format.py:500
-#, fuzzy
-#| msgid "Perl format string does not match source"
 msgid "Object Pascal format string does not match source"
-msgstr "Perl 형식 문자열이 원본과 일치하지 않습니다"
+msgstr "Object Pascal 형식 문자열이 원본과 일치하지 않습니다"
 
 #: weblate/checks/format.py:508
 #, fuzzy
 #| msgid "File format"
 msgid "Scheme format"
-msgstr "파일 유형"
+msgstr "Scheme 형식"
 
 #: weblate/checks/format.py:509
-#, fuzzy
-#| msgid "C format string does not match source"
 msgid "Scheme format string does not match source"
-msgstr "C 형식 문자열이 원본과 일치하지 않습니다"
+msgstr "Scheme 형식 문자열이 원본과 일치하지 않습니다"
 
 #: weblate/checks/format.py:522
 msgid "Python brace format"
@@ -2825,19 +2799,17 @@ msgstr "용어집을 따르지 않고 번역된 용어: %s"
 #, fuzzy
 #| msgid "Java MessageFormat"
 msgid "ICU MessageFormat syntax"
-msgstr "자바 메시지형식"
+msgstr "ICU MessageFormat 구문"
 
 #: weblate/checks/icu.py:270
 #, fuzzy
 #| msgid "Syntax error in language aliases."
 msgid "Syntax errors in ICU MessageFormat strings."
-msgstr "언어 별칭에 구문 오류가 있습니다."
+msgstr "ICU MessageFormat 문자열의 구문 오류."
 
 #: weblate/checks/icu.py:292
-#, fuzzy
-#| msgid "Java MessageFormat"
 msgid "ICU MessageFormat"
-msgstr "자바 메시지형식"
+msgstr "ICU 메시지형식"
 
 #: weblate/checks/icu.py:294
 msgid ""
@@ -9494,7 +9466,7 @@ msgstr "번역을 저장할 권한이 부족합니다."
 
 #: weblate/templates/translate.html:220
 msgid "Save and stay"
-msgstr ""
+msgstr "저장하고 남아있기"
 
 #: weblate/templates/translate.html:227
 msgid "Insufficient privileges for adding suggestions."
