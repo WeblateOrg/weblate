@@ -462,7 +462,7 @@ class TTKitFormat(TranslationFormat):
         try:
             if not fast:
                 cls(base)
-            return True
+            return os.path.exists(base)
         except Exception as exception:
             if errors is not None:
                 errors.append(exception)
