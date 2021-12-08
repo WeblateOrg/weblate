@@ -19,13 +19,13 @@
 
 """Test for import and export."""
 
-
 from copy import copy
 
 from django.contrib.messages import ERROR
 from django.test import SimpleTestCase
 from django.urls import reverse
 
+from weblate.formats.helpers import BytesIOMode
 from weblate.trans.forms import SimpleUploadForm
 from weblate.trans.models import ComponentList
 from weblate.trans.tests.test_views import ViewTestCase
@@ -637,3 +637,73 @@ class DownloadMultiTest(ViewTestCase):
             reverse("download_component_list", kwargs={"name": "testcl"})
         )
         self.assert_zip(response)
+
+
+EXPECTED_CSV = """"location","source","target","id","fuzzy","context","translator_comments","developer_comments"\r
+"","Hello, world!
+","","","False","hello","",""\r
+"","Orangutan has %d banana.
+","","","False","orangutan","",""\r
+"","Try Weblate at https://demo.weblate.org/!
+","","","False","try","",""\r
+"","Thank you for using Weblate.","","","False","thanks","",""\r
+"""
+
+UPLOAD_CSV = """
+"location","source","target","id","fuzzy","context","translator_comments","developer_comments"
+"","Hello, world!
+","Nazdar, světe!
+","","False","hello","",""
+"""
+
+
+class ImportExportAddTest(ViewTestCase):
+    def create_component(self):
+        return self.create_json_mono()
+
+    def test_notchanged(self):
+        response = self.client.get(
+            reverse("download_translation", kwargs=self.kw_translation),
+            {"format": "csv"},
+        )
+        self.assertEqual(response.content.decode(), EXPECTED_CSV)
+
+        handle = BytesIOMode("test.csv", UPLOAD_CSV.encode())
+        params = {
+            "file": handle,
+            "method": "translate",
+            "author_name": self.user.full_name,
+            "author_email": self.user.email,
+        }
+        response = self.client.post(
+            reverse("upload_translation", kwargs=self.kw_translation),
+            params,
+            follow=True,
+        )
+        self.assertContains(response, "(skipped: 0, not found: 0, updated: 1)")
+
+    def test_changed(self):
+        self.edit_unit("Hello, world!\n", "Hi, World!\n", "en")
+        response = self.client.get(
+            reverse("download_translation", kwargs=self.kw_translation),
+            {"format": "csv"},
+        )
+        self.assertEqual(
+            response.content.decode(), EXPECTED_CSV.replace("Hello, world", "Hi, World")
+        )
+
+        handle = BytesIOMode(
+            "test.csv", UPLOAD_CSV.replace("Hello, world", "Hi, World").encode()
+        )
+        params = {
+            "file": handle,
+            "method": "translate",
+            "author_name": self.user.full_name,
+            "author_email": self.user.email,
+        }
+        response = self.client.post(
+            reverse("upload_translation", kwargs=self.kw_translation),
+            params,
+            follow=True,
+        )
+        self.assertContains(response, "(skipped: 0, not found: 0, updated: 1)")
