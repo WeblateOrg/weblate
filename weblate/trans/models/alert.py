@@ -222,10 +222,10 @@ class PushFailure(ErrorAlert):
     verbose = _("Could not push the repository.")
     link_wide = True
 
-    def get_context(self, user):
-        result = super().get_context(user)
-        result["terminal"] = "terminal prompts disabled" in result["error"]
-        return result
+    def get_analysis(self):
+        return {
+            "terminal": "terminal prompts disabled" in self.error,
+        }
 
 
 @register
