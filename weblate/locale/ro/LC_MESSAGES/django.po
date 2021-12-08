@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.10\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-11-23 16:18+0000\n"
-"PO-Revision-Date: 2021-11-30 20:34+0000\n"
+"PO-Revision-Date: 2021-12-10 03:23+0000\n"
 "Last-Translator: CRISTIAN ANDREI <cristianvdr@gmail.com>\n"
 "Language-Team: Romanian <https://hosted.weblate.org/projects/weblate/"
 "application/ro/>\n"
@@ -2669,10 +2669,8 @@ msgid "Font spacing"
 msgstr "Spațierea caracterelor"
 
 #: weblate/checks/flags.py:68
-#, fuzzy
-#| msgid "Java MessageFormat"
 msgid "ICU MessageFormat Flags"
-msgstr "Mesaj în format Java"
+msgstr "Semnalizatori de formatare a mesajelor UTI"
 
 #: weblate/checks/flags.py:70
 #, fuzzy
@@ -2898,10 +2896,8 @@ msgid "Syntax errors in ICU MessageFormat strings."
 msgstr "Eroare de sintaxă în aliasurile de limbă."
 
 #: weblate/checks/icu.py:292
-#, fuzzy
-#| msgid "Java MessageFormat"
 msgid "ICU MessageFormat"
-msgstr "Mesaj în format Java"
+msgstr "Format mesaj ICU"
 
 #: weblate/checks/icu.py:294
 msgid ""
@@ -2911,13 +2907,12 @@ msgstr ""
 #: weblate/checks/icu.py:460
 #, python-format
 msgid "Syntax error: %s"
-msgstr ""
+msgstr "Eroare de sintaxă: %s"
 
 #: weblate/checks/icu.py:464
-#, fuzzy, python-format
-#| msgid "Forbidden translation: %s"
+#, python-format
 msgid "One or more unknown placeholders in the translation: %s"
-msgstr "Traducere interzisă: %s"
+msgstr "Unul sau mai multe spații necunoscute în traducere: %s"
 
 #: weblate/checks/icu.py:469
 #, python-format
@@ -2927,22 +2922,22 @@ msgstr "Unul sau mai mulți substituenți lipsesc din traducere: %s"
 #: weblate/checks/icu.py:473
 #, python-format
 msgid "One or more placeholder types are incorrect: %s"
-msgstr ""
+msgstr "Unul sau mai multe tipuri de caractere de subsol sunt incorecte: %s"
 
 #: weblate/checks/icu.py:478
 #, python-format
 msgid "Missing other sub-message for: %s"
-msgstr ""
+msgstr "Lipsește alt sub-mesaj pentru: %s"
 
 #: weblate/checks/icu.py:481
 #, python-format
 msgid "Incorrect plural selectors for: %s"
-msgstr ""
+msgstr "Selectori de plural incorecți pentru: %s"
 
 #: weblate/checks/icu.py:486
 #, python-format
 msgid "Incorrect sub-message selectors for: %s"
-msgstr ""
+msgstr "Selectori de sub-mesaje incorecți pentru: %s"
 
 #: weblate/checks/icu.py:492
 #, python-format
@@ -2950,25 +2945,27 @@ msgid ""
 "One or more placeholders should have a corresponding XML tag in the "
 "translation: %s"
 msgstr ""
+"Unul sau mai mulți substituenți ar trebui să aibă o etichetă XML "
+"corespunzătoare în traducere: %s"
 
 #: weblate/checks/icu.py:498
-#, fuzzy, python-format
-#| msgid "Forbidden translation: %s"
+#, python-format
 msgid ""
 "One or more placeholders should not be an XML tag in the translation: %s"
-msgstr "Traducere interzisă: %s"
+msgstr ""
+"Unul sau mai multe spații libere nu ar trebui să fie o etichetă XML în "
+"traducere: %s"
 
 #: weblate/checks/icu.py:504
-#, fuzzy, python-format
-#| msgid "Missing parameters for translation flag: \"%s\""
+#, python-format
 msgid "One or more XML tags has unexpected content in the translation: %s"
-msgstr "Parametrii lipsă pentru indicatorul de traducere: \"%s\""
+msgstr ""
+"Una sau mai multe etichete XML au un conținut neașteptat în traducere: %s"
 
 #: weblate/checks/icu.py:509
-#, fuzzy, python-format
-#| msgid "Missing parameters for translation flag: \"%s\""
+#, python-format
 msgid "One or more XML tags missing content in the translation: %s"
-msgstr "Parametrii lipsă pentru indicatorul de traducere: \"%s\""
+msgstr "Una sau mai multe etichete XML fără conținut în traducere: %s"
 
 #: weblate/checks/markup.py:94
 msgid "BBcode markup"
@@ -4333,18 +4330,14 @@ msgid "Register again if the confirmation link expires."
 msgstr "Înregistrați-vă din nou dacă linkul de confirmare expiră."
 
 #: weblate/templates/accounts/email-sent.html:42
-#, fuzzy, python-format
-#| msgid ""
-#| "If you don't receive it shortly, please check your spam folder or retry "
-#| "the registration. If the problem persist, please <a href=\"%(contact_url)s"
-#| "\">contact us</a>."
+#, python-format
 msgid ""
 "If it isn't in the spam folder either, you might have to register again. "
 "Please <a href=\"%(contact_url)s\">contact us</a> if you have problems."
 msgstr ""
-"Dacă nu îl primiți în scurt timp, vă rugăm să verificați dosarul de spam sau "
-"să încercați din nou înregistrarea. Dacă problema persistă, vă rugăm să <a "
-"href=\"%(contact_url)s\">contactați-ne</a>."
+"Dacă nu se află nici în dosarul de spam, este posibil să trebuiască să vă "
+"înregistrați din nou. Vă rugăm să <a href=\"%(contact_url)s\">ne contactați</"
+"a> dacă aveți probleme."
 
 #: weblate/templates/accounts/email.html:10
 #: weblate/templates/accounts/register.html:19
@@ -7165,6 +7158,8 @@ msgid ""
 "Please check whether this Weblate instance is the one you have used and what "
 "e-mail address you did use when registering."
 msgstr ""
+"Vă rugăm să verificați dacă această instanță Weblate este cea pe care ați "
+"utilizat-o și ce adresă de e-mail ați utilizat la înregistrare."
 
 #: weblate/templates/mail/reset.html:7
 #, python-format
@@ -7192,6 +7187,8 @@ msgid ""
 "Ideas and questions can be sent to the %(link_start)sWeblate issue tracker"
 "%(link_end)s."
 msgstr ""
+"Ideile și întrebările pot fi trimise la %(link_start)sWeblate tracker-ul de "
+"probleme%(link_end)s."
 
 #: weblate/templates/mail/shared-activity.html:24
 msgid "Report"
@@ -7794,6 +7791,8 @@ msgid ""
 "An empty translation file will be created and new strings added as they are "
 "translated."
 msgstr ""
+"Se va crea un fișier de traducere gol și se vor adăuga noi șiruri de "
+"caractere pe măsură ce acestea sunt traduse."
 
 #: weblate/templates/new-language.html:41
 #, python-format
@@ -7802,12 +7801,17 @@ msgid ""
 "with all strings marked as \"Needs editing\" and replaced as they are "
 "translated."
 msgstr ""
+"Un fișier de traducere va fi creat ca o copie a <code>%(new_base)s</code> cu "
+"toate șirurile de caractere marcate ca \"Necesită editare\" și înlocuite pe "
+"măsură ce sunt traduse."
 
 #: weblate/templates/new-language.html:48
 msgid ""
 "An empty directory will be created for translations, with individual files "
 "created as strings are translated."
 msgstr ""
+"Un director gol va fi creat pentru traduceri, cu fișiere individuale create "
+"pe măsură ce șirurile sunt traduse."
 
 #: weblate/templates/new-language.html:55
 msgid ""
@@ -7822,16 +7826,12 @@ msgid "Can't find your language in the list above?"
 msgstr "Nu vă găsiți limba în lista de mai sus?"
 
 #: weblate/templates/new-language.html:61
-#, fuzzy
-#| msgid ""
-#| "This list includes only basic languages. Please contact project "
-#| "maintainers for adding another one."
 msgid ""
 "This list includes only basic languages. Please contact project maintainers "
 "to add others."
 msgstr ""
 "Această listă include doar limbile de bază. Vă rugăm să contactați "
-"administratorii proiectului pentru a adăuga o altă limbă."
+"întreținătorii proiectului pentru a adăuga altele."
 
 #: weblate/templates/new-language.html:66
 msgid "Request new translation"
@@ -8733,6 +8733,9 @@ msgid ""
 "Don’t worry about messing up the strings. This is a two-step process showing "
 "a preview of edited strings before the actual change is confirmed."
 msgstr ""
+"Nu vă faceți griji că veți încurca șirurile de caratere. Acesta este un "
+"proces în doi pași care arată o previzualizare a șirurilor editate înainte "
+"ca modificarea reală să fie confirmată."
 
 #: weblate/templates/snippets/sort-field.html:10
 #: weblate/templates/snippets/sort-field.html:14
@@ -8878,23 +8881,16 @@ msgid "Error"
 msgstr "Eroare"
 
 #: weblate/templates/trans/alert/ambiguouslanguage.html:5
-#, fuzzy
-#| msgid "The component translation files are using ambiguous language code."
 msgid "Files for translated languages are using ambiguous language codes."
-msgstr ""
-"Fișierele de traducere a componentelor utilizează un cod lingvistic ambiguu."
+msgstr "Fișierele pentru limbile traduse utilizează coduri lingvistice ambigue."
 
 #: weblate/templates/trans/alert/ambiguouslanguage.html:6
-#, fuzzy
-#| msgid ""
-#| "These language codes indicate a macrolanguage and it is usually better to "
-#| "use code of individual language instead."
 msgid ""
 "These language codes indicate a macrolanguage, and it is usually better to "
 "use the code of the individual language instead."
 msgstr ""
-"Aceste coduri de limbă indică o macrolimbaj și, de obicei, este mai bine să "
-"se utilizeze codul unei limbi individuale."
+"Aceste coduri de limbă indică o macro limbă și, de obicei, este mai bine să "
+"se utilizeze codul limbii individuale."
 
 #: weblate/templates/trans/alert/ambiguouslanguage.html:13
 msgid "Suggested individual language codes"
@@ -9565,7 +9561,7 @@ msgstr "Sugerați"
 
 #: weblate/templates/translate.html:235
 msgid "Skip"
-msgstr "Sari"
+msgstr "Omiteți"
 
 #: weblate/templates/translate.html:241
 msgid "Messages placed around this one"
@@ -10318,16 +10314,12 @@ msgid "Score threshold"
 msgstr "Prag de punctaj"
 
 #: weblate/trans/forms.py:880
-#, fuzzy
-#| msgid ""
-#| "Ensures a consistent set of languages is used for all components within a "
-#| "project."
 msgid ""
 "Enter component to use as source, keep blank to use all components in "
 "current project."
 msgstr ""
-"Asigură utilizarea unui set coerent de limbaje pentru toate componentele "
-"unui proiect."
+"Introduceți componenta care urmează să fie utilizată ca sursă, păstrați "
+"spațiul gol pentru a utiliza toate componentele în proiectul curent."
 
 #: weblate/trans/forms.py:891
 msgid "All components in current project"
@@ -10620,7 +10612,7 @@ msgstr "Șir de căutare"
 
 #: weblate/trans/forms.py:2008
 msgid "Case sensitive string to replace and search."
-msgstr ""
+msgstr "Șir sensibil la majuscule și minuscule pentru înlocuire și căutare."
 
 #: weblate/trans/forms.py:2011
 msgid "Replacement string"
@@ -13269,16 +13261,13 @@ msgid "Backup repository URL"
 msgstr "URL-ul depozitului de backup"
 
 #: weblate/wladmin/models.py:163
-#, fuzzy
-#| msgid ""
-#| "Use /path/to/repo for local backups or user@host:/path/to/repo for remote "
-#| "SSH backups."
 msgid ""
 "Use /path/to/repo for local backups or user@host:/path/to/repo or ssh://"
 "user@host:port/path/to/backups for remote SSH backups."
 msgstr ""
-"Utilizați /path/to/repo pentru copiile de rezervă locale sau user@host:/path/"
-"to/repo pentru copiile de rezervă SSH la distanță."
+"Utilizați /path/to/repo pentru copii de rezervă locale sau user@host:/path/"
+"to/repo sau ssh://user@host:port/path/to/backups pentru copii de rezervă SSH "
+"la distanță."
 
 #: weblate/wladmin/models.py:214
 msgid "Backup performed"
