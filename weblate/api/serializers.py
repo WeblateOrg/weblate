@@ -20,7 +20,6 @@ from copy import copy
 from zipfile import BadZipfile
 
 from django.conf import settings
-from django.core.exceptions import PermissionDenied
 from rest_framework import serializers
 
 from weblate.accounts.models import Subscription
@@ -789,11 +788,15 @@ class UploadRequestSerializer(ReadOnlySerializer):
     def check_perms(self, user, obj):
         data = self.validated_data
         if data["conflicts"] and not user.has_perm("upload.overwrite", obj):
-            raise PermissionDenied()
+            raise serializers.ValidationError(
+                {"conflicts": "You can not overwrite existing translations."}
+            )
         if data["conflicts"] == "replace-approved" and not user.has_perm(
             "unit.review", obj
         ):
-            raise PermissionDenied()
+            raise serializers.ValidationError(
+                {"conflicts": "You can not overwrite existing approved translations."}
+            )
 
         if data["method"] == "source" and not obj.is_source:
             raise serializers.ValidationError(
@@ -801,7 +804,9 @@ class UploadRequestSerializer(ReadOnlySerializer):
             )
 
         if not check_upload_method_permissions(user, obj, data["method"]):
-            raise PermissionDenied()
+            raise serializers.ValidationError(
+                {"method": "This method is not available here."}
+            )
 
 
 class RepoRequestSerializer(ReadOnlySerializer):
