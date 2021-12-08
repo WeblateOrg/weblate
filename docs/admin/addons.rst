@@ -572,7 +572,7 @@ Squash Git commits
                 +---------------------+--------------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 :Triggers: repository post-commit
 
-Squash Git commits prior to pushing changes.
+Squash Git commits prior to pushing changes. See :ref:`markup` for for the message options.
 
 Git commits can be squashed prior to pushing changes
 in one of the following modes:
