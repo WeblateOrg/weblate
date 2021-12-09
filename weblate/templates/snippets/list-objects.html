@@ -13,7 +13,7 @@
     <table class="sort table progress-table autocolspan table-listing">
   {% endif %}
   {% if not hide_details %}
-    <thead>
+    <thead id="fixed">
       <tr>
         <th class="sort-skip"></th>
         <th title="{% trans "Sort this column" %}" class="sort-cell">
@@ -189,3 +189,19 @@
 {% else %}
 <p><em>{% trans "Nothing to list here." %}</em></p>
 {% endif %}
+  
+ <!--function for keeping header view in place-->
+<script>
+  window.onscroll = function() {myFunction()};
+  
+  var fixed = document.getElementById("fixed");
+  var sticky = fixed.offsetTop;
+  
+  function myFunction() {
+    if (window.pageYOffset >= sticky) {
+      fixed.classList.add("sticky")
+    } else {
+      fixed.classList.remove("sticky");
+    }
+  }
+</script>
