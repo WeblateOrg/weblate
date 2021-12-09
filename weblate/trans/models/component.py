@@ -2977,11 +2977,15 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
             return False
 
         # Check if template can be parsed
-        if not fast and self.has_template():
-            try:
-                self.template_store.check_valid()
-            except (FileParseError, ValueError):
-                return False
+        if self.has_template():
+            if fast:
+                if not os.path.exists(self.get_template_filename()):
+                    return False
+            else:
+                try:
+                    self.template_store.check_valid()
+                except (FileParseError, ValueError):
+                    return False
 
         return self.is_valid_base_for_new(fast=fast)
 
