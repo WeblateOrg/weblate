@@ -1,4 +1,4 @@
-/*! @sentry/browser 6.15.0 (aa30ab6) | https://github.com/getsentry/sentry-javascript */
+/*! @sentry/browser 6.16.0 (cec8970) | https://github.com/getsentry/sentry-javascript */
 var Sentry = (function (exports) {
     /*! *****************************************************************************
     Copyright (c) Microsoft Corporation. All rights reserved.
@@ -2031,16 +2031,6 @@ var Sentry = (function (exports) {
     }
 
     /* eslint-disable @typescript-eslint/explicit-function-return-type */
-    /** SyncPromise internal states */
-    var States;
-    (function (States) {
-        /** Pending */
-        States["PENDING"] = "PENDING";
-        /** Resolved / OK */
-        States["RESOLVED"] = "RESOLVED";
-        /** Rejected / Error */
-        States["REJECTED"] = "REJECTED";
-    })(States || (States = {}));
     /**
      * Thenable class that behaves like a Promise and follows it's interface
      * but is not async internally
@@ -2048,19 +2038,19 @@ var Sentry = (function (exports) {
     var SyncPromise = /** @class */ (function () {
         function SyncPromise(executor) {
             var _this = this;
-            this._state = States.PENDING;
+            this._state = "PENDING" /* PENDING */;
             this._handlers = [];
             /** JSDoc */
             this._resolve = function (value) {
-                _this._setResult(States.RESOLVED, value);
+                _this._setResult("RESOLVED" /* RESOLVED */, value);
             };
             /** JSDoc */
             this._reject = function (reason) {
-                _this._setResult(States.REJECTED, reason);
+                _this._setResult("REJECTED" /* REJECTED */, reason);
             };
             /** JSDoc */
             this._setResult = function (state, value) {
-                if (_this._state !== States.PENDING) {
+                if (_this._state !== "PENDING" /* PENDING */) {
                     return;
                 }
                 if (isThenable(value)) {
@@ -2079,7 +2069,7 @@ var Sentry = (function (exports) {
             };
             /** JSDoc */
             this._executeHandlers = function () {
-                if (_this._state === States.PENDING) {
+                if (_this._state === "PENDING" /* PENDING */) {
                     return;
                 }
                 var cachedHandlers = _this._handlers.slice();
@@ -2088,13 +2078,13 @@ var Sentry = (function (exports) {
                     if (handler.done) {
                         return;
                     }
-                    if (_this._state === States.RESOLVED) {
+                    if (_this._state === "RESOLVED" /* RESOLVED */) {
                         if (handler.onfulfilled) {
                             // eslint-disable-next-line @typescript-eslint/no-floating-promises
                             handler.onfulfilled(_this._value);
                         }
                     }
-                    if (_this._state === States.REJECTED) {
+                    if (_this._state === "REJECTED" /* REJECTED */) {
                         if (handler.onrejected) {
                             handler.onrejected(_this._value);
                         }
@@ -4558,7 +4548,7 @@ var Sentry = (function (exports) {
         hub.bindClient(client);
     }
 
-    var SDK_VERSION = '6.15.0';
+    var SDK_VERSION = '6.16.0';
 
     var originalFunctionToString;
     /** Patch toString calls to return proper name for wrapped functions */
