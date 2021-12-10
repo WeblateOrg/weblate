@@ -19,28 +19,30 @@
 """External file format specific behavior."""
 
 import os
-import re
 from io import BytesIO, StringIO
 from typing import Callable, Optional
 from zipfile import BadZipFile
 
 from django.utils.translation import gettext_lazy as _
 from openpyxl import Workbook, load_workbook
-from openpyxl.cell.cell import TYPE_STRING
+from openpyxl.cell.cell import ILLEGAL_CHARACTERS_RE, TYPE_STRING
 from translate.storage.csvl10n import csv
 
 from weblate.formats.helpers import BytesIOMode
 from weblate.formats.ttkit import CSVFormat
-
-# use the same relugar expression as in openpyxl.cell
-# to remove illegal characters
-ILLEGAL_CHARACTERS_RE = re.compile(r"[\000-\010]|[\013-\014]|[\016-\037]")
 
 
 class XlsxFormat(CSVFormat):
     name = _("Excel Open XML")
     format_id = "xlsx"
     autoload = ("*.xlsx",)
+
+    def write_cell(self, worksheet, column: int, row: int, value: str):
+        cell = worksheet.cell(column=column, row=row)
+        cell.value = value
+        # Set the data_type after value to override function auto-detection
+        cell.data_type = TYPE_STRING
+        return cell
 
     def save_content(self, handle):
         workbook = Workbook()
@@ -50,15 +52,19 @@ class XlsxFormat(CSVFormat):
 
         # write headers
         for column, field in enumerate(self.store.fieldnames):
-            worksheet.cell(column=1 + column, row=1, value=field)
+            self.write_cell(worksheet, column + 1, 1, field)
 
         for row, unit in enumerate(self.store.units):
             data = unit.todict()
 
             for column, field in enumerate(self.store.fieldnames):
-                cell = worksheet.cell(column=1 + column, row=2 + row)
-                cell.data_type = TYPE_STRING
-                cell.value = ILLEGAL_CHARACTERS_RE.sub("", data[field])
+                self.write_cell(
+                    worksheet,
+                    column + 1,
+                    row + 2,
+                    ILLEGAL_CHARACTERS_RE.sub("", data[field]),
+                )
+
         workbook.save(handle)
 
     @staticmethod
