@@ -24,8 +24,8 @@ msgstr ""
 "Project-Id-Version: Weblate 4.10\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-11-23 16:18+0000\n"
-"PO-Revision-Date: 2021-11-22 08:50+0000\n"
-"Last-Translator: Javier Llorente <javier@opensuse.org>\n"
+"PO-Revision-Date: 2021-12-11 07:48+0000\n"
+"Last-Translator: Adolfo Jayme Barrientos <fitojb@ubuntu.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/weblate/"
 "application/es/>\n"
 "Language: es\n"
@@ -1679,26 +1679,22 @@ msgid "Important dates"
 msgstr "Fechas importantes"
 
 #: weblate/auth/admin.py:205
-#, fuzzy
-#| msgid "This addon is used for all components sharing this repository."
 msgid "This is not used when a component list is selected."
-msgstr ""
-"Este complemento funciona en todos los componentes que comparten este "
-"repositorio."
+msgstr "Esto no se utiliza cuando se selecciona una lista de componentes."
 
 #: weblate/auth/admin.py:211
 msgid "This is not used when a component is selected."
-msgstr ""
+msgstr "Esto no se utiliza cuando se selecciona un componente."
 
 #. Translators: Permission name
 #: weblate/auth/data.py:35
 msgid "View billing info"
-msgstr "Ver información de facturación"
+msgstr "Ver datos de facturación"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:37
 msgid "Download changes"
-msgstr "Descargar los cambios"
+msgstr "Descargar cambios"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:39
@@ -2923,7 +2919,7 @@ msgstr ""
 #: weblate/checks/icu.py:460
 #, python-format
 msgid "Syntax error: %s"
-msgstr ""
+msgstr "Error sintáctico: %s"
 
 #: weblate/checks/icu.py:464
 #, fuzzy, python-format
@@ -7169,7 +7165,7 @@ msgstr ""
 
 #: weblate/templates/mail/shared-activity.html:19
 msgid "Please request support through other means."
-msgstr ""
+msgstr "Solicite asistencia a través de otros canales."
 
 #: weblate/templates/mail/shared-activity.html:20
 #, python-format
@@ -7750,12 +7746,12 @@ msgid "Import translation memory"
 msgstr "Importar memoria de traducción"
 
 #: weblate/templates/new-language.html:26
-#, fuzzy
-#| msgid "Translations of this string in the other languages"
 msgid ""
 "The translator instructions has info on how to start translating into other "
 "languages."
-msgstr "Traducciones de esta cadena en otros idiomas"
+msgstr ""
+"Las instrucciones para traductores incluyen información sobre cómo comenzar "
+"a traducir a otras lenguas."
 
 #: weblate/templates/new-language.html:29
 msgid "Please choose the language you want to translate to."
@@ -7767,12 +7763,16 @@ msgid ""
 "A translation file will be created based on <code>%(new_base)s</code> with "
 "all strings untranslated."
 msgstr ""
+"Se creará un archivo de traducción basado en <code>%(new_base)s</code>, con "
+"todas las cadenas sin traducir."
 
 #: weblate/templates/new-language.html:36
 msgid ""
 "An empty translation file will be created and new strings added as they are "
 "translated."
 msgstr ""
+"Se creará un archivo de traducción vacío y las cadenas nuevas se añadirán a "
+"medida que se traducen."
 
 #: weblate/templates/new-language.html:41
 #, python-format
@@ -7787,6 +7787,8 @@ msgid ""
 "An empty directory will be created for translations, with individual files "
 "created as strings are translated."
 msgstr ""
+"Se creará un directorio vacío para las traducciones, y los archivos "
+"individuales se crearán a medida que se traduzcan las cadenas."
 
 #: weblate/templates/new-language.html:55
 #, fuzzy
@@ -9536,7 +9538,7 @@ msgstr "No tiene suficientes permisos para guardar traducciones."
 
 #: weblate/templates/translate.html:220
 msgid "Save and stay"
-msgstr ""
+msgstr "Guardar y permanecer"
 
 #: weblate/templates/translate.html:227
 msgid "Insufficient privileges for adding suggestions."
@@ -10030,8 +10032,6 @@ msgid "All recent changes made using Weblate in %s."
 msgstr "Todos los cambios recientes hechos utilizando Weblate en %s."
 
 #: weblate/trans/filter.py:34
-#, fuzzy
-#| msgid "Read only strings"
 msgid "Read-only strings"
 msgstr "Cadenas de solo lectura"
 
@@ -10301,10 +10301,8 @@ msgstr "Todos los componentes en el proyecto actual"
 
 #: weblate/trans/forms.py:923 weblate/trans/forms.py:932
 #: weblate/trans/forms.py:940
-#, fuzzy
-#| msgid "Component Information"
 msgid "Component not found!"
-msgstr "Información de componente"
+msgstr "No se encontró el componente."
 
 #: weblate/trans/forms.py:942
 #, fuzzy
@@ -10576,10 +10574,8 @@ msgstr ""
 "proyectos."
 
 #: weblate/trans/forms.py:2001
-#, fuzzy
-#| msgid "Optional context to clarify the source strings."
 msgid "Optional additional filter on the strings"
-msgstr "Contexto opcional para aclarar el sentido de las cadenas de origen."
+msgstr "Filtro adicional opcional sobre las cadenas"
 
 #: weblate/trans/forms.py:2004
 msgid "Search string"
@@ -11149,17 +11145,13 @@ msgstr[0] "Cadena nueva por traducir"
 msgstr[1] "Cadenas nuevas por traducir"
 
 #: weblate/trans/models/change.py:434
-#, fuzzy
-#| msgid "The translation was automatically locked due to following alerts:"
 msgid "The component was automatically locked because of an alert."
-msgstr ""
-"Esta traducción se bloqueó automáticamente a causa de las alertas siguientes:"
+msgstr "El componente se bloqueó automáticamente a causa de una alerta."
 
 #: weblate/trans/models/change.py:438
-#, fuzzy
-#| msgid "Component automatically unlocked"
 msgid "Component was automatically unlocked as alert was fixed."
-msgstr "Componente desbloqueado automáticamente"
+msgstr ""
+"El componente se desbloqueó automáticamente porque se arregló la alerta."
 
 #: weblate/trans/models/change.py:494
 #, python-format
@@ -11181,7 +11173,7 @@ msgstr "No se admite utilizar un archivo .pot como base."
 #: weblate/trans/models/change.py:596
 #, python-format
 msgid "File %s was added."
-msgstr ""
+msgstr "Se añadió el archivo %s."
 
 #: weblate/trans/models/change.py:600
 msgctxt "License information not available"
