@@ -577,22 +577,16 @@ Squash Git commits prior to pushing changes.
 Git commits can be squashed prior to pushing changes
 in one of the following modes:
 
-.. versionadded:: 3.4
-
 * All commits into one
 * Per language
 * Per file
-
-.. versionadded:: 3.5
-
 * Per author
 
 Original commit messages are kept, but authorship is lost unless :guilabel:`Per author` is selected, or
 the commit message is customized to include it.
 
-.. versionadded:: 4.1
-
 The original commit messages can optionally be overridden with a custom commit message.
+See :ref:`markup` for for the message options.
 
 Trailers (commit lines like ``Co-authored-by: …``) can optionally be removed
 from the original commit messages and appended to the end of the squashed
