@@ -223,8 +223,18 @@ class PushFailure(ErrorAlert):
     link_wide = True
 
     def get_analysis(self):
+        terminal_disabled = "terminal prompts disabled" in self.error
+        suggestion = None
+        component = self.component
+        if terminal_disabled:
+            if component.push:
+                if component.push.startswith("https://github.com/"):
+                    suggestion = f"git@github.com:{component.push[19:]}"
+            elif component.repo.startswith("https://github.com/"):
+                suggestion = f"git@github.com:{component.repo[19:]}"
         return {
-            "terminal": "terminal prompts disabled" in self.error,
+            "terminal": terminal_disabled,
+            "repo_suggestion": suggestion,
         }
 
 

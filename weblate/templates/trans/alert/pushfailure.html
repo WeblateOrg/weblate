@@ -8,3 +8,7 @@
 {% if analysis.terminal %}
   <p>{% trans "Your push URL seems to miss credentials. Either provide them in the URL or use SSH with key based authentication." %}</p>
 {% endif %}
+
+{% if analysis.repo_suggestion %}
+  <p>{% trans "You might want to use following URL instead:" %} <code>{{ analysis.repo_suggestion }}</code></p>
+{% endif %}
