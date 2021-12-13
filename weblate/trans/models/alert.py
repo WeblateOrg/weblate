@@ -225,7 +225,7 @@ class PushFailure(ErrorAlert):
     def get_analysis(self):
         terminal_disabled = "terminal prompts disabled" in self.error
         suggestion = None
-        component = self.component
+        component = self.instance.component
         if terminal_disabled:
             if component.push:
                 if component.push.startswith("https://github.com/"):
