@@ -101,21 +101,28 @@ class EditTest(ViewTestCase):
         """Test for fuzzy flag handling."""
         unit = self.get_unit(source=self.source)
         self.assertNotEqual(unit.state, STATE_FUZZY)
+
         self.edit_unit(self.source, self.target, fuzzy="yes", review="10")
         unit = self.get_unit(source=self.source)
         self.assertEqual(unit.state, STATE_FUZZY)
         self.assertEqual(unit.target, self.target)
         self.assertFalse(unit.has_failing_check)
+
         self.edit_unit(self.source, self.target)
         unit = self.get_unit(source=self.source)
         self.assertEqual(unit.state, STATE_TRANSLATED)
         self.assertEqual(unit.target, self.target)
         self.assertFalse(unit.has_failing_check)
+
         self.edit_unit(self.source, self.target, fuzzy="yes")
         unit = self.get_unit(source=self.source)
         self.assertEqual(unit.state, STATE_FUZZY)
         self.assertEqual(unit.target, self.target)
+        self.assertFalse(unit.has_failing_check)
+
         # Should have was translated check
+        self.edit_unit(self.source, "")
+        unit = self.get_unit(source=self.source)
         self.assertTrue(unit.has_failing_check)
 
     def add_unit(self, key, force_source: bool = False):
