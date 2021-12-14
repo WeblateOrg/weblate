@@ -400,6 +400,17 @@ class TTKitFormat(TranslationFormat):
 
         return unit
 
+    def untranslate_unit(self, unit, plural, fuzzy: bool):
+        if hasattr(unit, "markapproved"):
+            # Xliff only
+            unit.markapproved(False)
+        else:
+            unit.markfuzzy(fuzzy)
+        if unit.hasplural():
+            unit.target = [""] * plural.number
+        else:
+            unit.target = ""
+
     def untranslate_store(self, language, fuzzy: bool = False):
         """Remove translations from Translate Toolkit store."""
         self.store.settargetlanguage(self.get_language_code(language.code))
@@ -407,15 +418,7 @@ class TTKitFormat(TranslationFormat):
 
         for unit in self.store.units:
             if unit.istranslatable():
-                if hasattr(unit, "markapproved"):
-                    # Xliff only
-                    unit.markapproved(False)
-                else:
-                    unit.markfuzzy(fuzzy)
-                if unit.hasplural():
-                    unit.target = [""] * plural.number
-                else:
-                    unit.target = ""
+                self.untranslate_unit(unit, plural, fuzzy)
 
     @classmethod
     def get_new_file_content(cls):
@@ -1110,6 +1113,16 @@ class XliffFormat(TTKitFormat):
     unit_class = XliffUnit
     language_format = "bcp"
     use_settarget = True
+
+    def untranslate_unit(self, unit, plural, fuzzy: bool):
+        super().untranslate_unit(unit, plural, fuzzy)
+        # Delete empty <target/> tag
+        try:
+            xmlnode = self.unit.getlanguageNode(lang=None, index=1)
+            if xmlnode is not None:
+                xmlnode.getparent().remove(xmlnode)
+        except AttributeError:
+            pass
 
     def construct_unit(self, source: str):
         unit = super().construct_unit(source)
