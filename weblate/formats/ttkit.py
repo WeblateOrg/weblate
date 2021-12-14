@@ -1321,7 +1321,7 @@ class WebExtensionJSONFormat(JSONFormat):
 
 
 class I18NextFormat(JSONFormat):
-    name = _("i18next JSON file")
+    name = _("i18next JSON file v3")
     format_id = "i18next"
     loader = ("jsonl10n", "I18NextFile")
     autoload = ()

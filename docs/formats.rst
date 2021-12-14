@@ -918,6 +918,8 @@ with (what is most often the) English strings.
    Weblate supports the i18next JSON v3 format. The v2 and v1 variants are mostly
    compatible, with exception of how plurals are handled.
 
+   The v4 variant uses different approach for storing plurals and is currently not supported.
+
 Example file:
 
 .. literalinclude:: ../weblate/trans/tests/data/en.i18next.json
