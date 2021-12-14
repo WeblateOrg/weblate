@@ -33,7 +33,7 @@ from django.utils.safestring import mark_safe
 from django_filters import rest_framework as filters
 from rest_framework import parsers, viewsets
 from rest_framework.decorators import action
-from rest_framework.exceptions import ParseError, ValidationError
+from rest_framework.exceptions import ValidationError
 from rest_framework.mixins import CreateModelMixin, DestroyModelMixin, UpdateModelMixin
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
@@ -336,12 +336,12 @@ class UserViewSet(viewsets.ModelViewSet):
         self.perm_check(request)
 
         if "group_id" not in request.data:
-            raise ParseError("Missing group_id parameter")
+            raise ValidationError("Missing group_id parameter")
 
         try:
             group = Group.objects.get(pk=int(request.data["group_id"]))
         except (Group.DoesNotExist, ValueError) as error:
-            raise ParseError(str(error), "invalid")
+            raise ValidationError(str(error))
 
         obj.groups.add(group)
         serializer = self.get_serializer_class()(obj, context={"request": request})
@@ -450,12 +450,12 @@ class GroupViewSet(viewsets.ModelViewSet):
         self.perm_check(request)
 
         if "role_id" not in request.data:
-            raise ParseError("Missing role_id parameter")
+            raise ValidationError("Missing role_id parameter")
 
         try:
             role = Role.objects.get(pk=int(request.data["role_id"]))
         except (Role.DoesNotExist, ValueError) as error:
-            raise ParseError(str(error), "invalid")
+            raise ValidationError(str(error))
 
         obj.roles.add(role)
         serializer = self.serializer_class(obj, context={"request": request})
@@ -471,12 +471,12 @@ class GroupViewSet(viewsets.ModelViewSet):
         self.perm_check(request)
 
         if "language_code" not in request.data:
-            raise ParseError("Missing language_code parameter")
+            raise ValidationError("Missing language_code parameter")
 
         try:
             language = Language.objects.get(code=request.data["language_code"])
         except (Language.DoesNotExist, ValueError) as error:
-            raise ParseError(str(error), "invalid")
+            raise ValidationError(str(error))
 
         obj.languages.add(language)
         serializer = self.serializer_class(obj, context={"request": request})
@@ -506,14 +506,14 @@ class GroupViewSet(viewsets.ModelViewSet):
         self.perm_check(request)
 
         if "project_id" not in request.data:
-            raise ParseError("Missing project_id parameter")
+            raise ValidationError("Missing project_id parameter")
 
         try:
             project = Project.objects.get(
                 pk=int(request.data["project_id"]),
             )
         except (Project.DoesNotExist, ValueError) as error:
-            raise ParseError(str(error), "invalid")
+            raise ValidationError(str(error))
         obj.projects.add(project)
         serializer = self.serializer_class(obj, context={"request": request})
 
@@ -537,14 +537,14 @@ class GroupViewSet(viewsets.ModelViewSet):
         self.perm_check(request)
 
         if "component_list_id" not in request.data:
-            raise ParseError("Missing component_list_id parameter")
+            raise ValidationError("Missing component_list_id parameter")
 
         try:
             component_list = ComponentList.objects.get(
                 pk=int(request.data["component_list_id"]),
             )
         except (ComponentList.DoesNotExist, ValueError) as error:
-            raise ParseError(str(error), "invalid")
+            raise ValidationError(str(error))
         obj.componentlists.add(component_list)
         serializer = self.serializer_class(obj, context={"request": request})
 
@@ -573,14 +573,14 @@ class GroupViewSet(viewsets.ModelViewSet):
         obj = self.get_object()
         self.perm_check(request)
         if "component_id" not in request.data:
-            raise ParseError("Missing component_id parameter")
+            raise ValidationError("Missing component_id parameter")
 
         try:
             component = Component.objects.filter_access(request.user).get(
                 pk=int(request.data["component_id"])
             )
         except (Component.DoesNotExist, ValueError) as error:
-            raise ParseError(str(error), "invalid")
+            raise ValidationError(str(error))
         obj.components.add(component)
         serializer = self.serializer_class(obj, context={"request": request})
 
@@ -814,14 +814,14 @@ class ComponentViewSet(
                 self.permission_denied(request, "Can not create translation")
 
             if "language_code" not in request.data:
-                raise ParseError("Missing 'language_code' parameter")
+                raise ValidationError("Missing 'language_code' parameter")
 
             language_code = request.data["language_code"]
 
             try:
                 language = Language.objects.get(code=language_code)
             except Language.DoesNotExist:
-                raise ParseError(
+                raise ValidationError(
                     f"No language code '{language_code}' found!", "invalid"
                 )
 
@@ -916,7 +916,7 @@ class ComponentViewSet(
             if not request.user.has_perm("component.edit", instance):
                 self.permission_denied(request, "Can not edit component")
             if "project_slug" not in request.data:
-                raise ParseError("Missing 'project_slug' parameter")
+                raise ValidationError("Missing 'project_slug' parameter")
 
             project_slug = request.data["project_slug"]
 
@@ -925,7 +925,7 @@ class ComponentViewSet(
                     pk=instance.project_id
                 ).get(slug=project_slug)
             except Project.DoesNotExist:
-                raise ParseError(f"No project slug '{project_slug}' found!")
+                raise ValidationError(f"No project slug '{project_slug}' found!")
 
             instance.links.add(project)
             serializer = self.serializer_class(instance, context={"request": request})
@@ -1051,7 +1051,7 @@ class TranslationViewSet(MultipleFieldMixin, WeblateViewSet, DestroyModelMixin):
             )
         except Exception as error:
             report_error(cause="Upload error", print_tb=True)
-            raise ParseError(str(error), "invalid")
+            raise ValidationError(str(error))
 
     @action(detail=True, methods=["get"])
     def statistics(self, request, **kwargs):
@@ -1226,7 +1226,7 @@ class UnitViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModelM
             if unit.readonly:
                 raise PermissionDenied()
             if not new_target or new_state is None:
-                raise ParseError(
+                raise ValidationError(
                     "Please provide both state and target for a partial update"
                 )
 
@@ -1236,13 +1236,13 @@ class UnitViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModelM
                 STATE_FUZZY,
                 STATE_EMPTY,
             ):
-                raise ParseError("Invalid state")
+                raise ValidationError("Invalid state")
 
             if new_state == STATE_EMPTY and any(new_target):
-                raise ParseError("Can not use empty state with non empty target")
+                raise ValidationError("Can not use empty state with non empty target")
 
             if new_state != STATE_EMPTY and not any(new_target):
-                raise ParseError("Can not use non empty state with empty target")
+                raise ValidationError("Can not use non empty state with empty target")
 
             if not user.has_perm("unit.edit", unit):
                 raise PermissionDenied()
@@ -1319,12 +1319,12 @@ class ScreenshotViewSet(DownloadViewSet, viewsets.ModelViewSet):
             raise PermissionDenied()
 
         if "unit_id" not in request.data:
-            raise ParseError("Missing unit_id parameter")
+            raise ValidationError("Missing unit_id parameter")
 
         try:
             unit = obj.translation.unit_set.get(pk=int(request.data["unit_id"]))
         except (Unit.DoesNotExist, ValueError) as error:
-            raise ParseError(str(error), "invalid")
+            raise ValidationError(str(error))
 
         obj.units.add(unit)
         serializer = ScreenshotSerializer(obj, context={"request": request})
@@ -1348,7 +1348,7 @@ class ScreenshotViewSet(DownloadViewSet, viewsets.ModelViewSet):
         required_params = ["project_slug", "component_slug", "language_code"]
         for param in required_params:
             if param not in request.data:
-                raise ParseError(f"Missing {param} parameter")
+                raise ValidationError(f"Missing {param} parameter")
 
         try:
             translation = Translation.objects.get(
@@ -1357,7 +1357,7 @@ class ScreenshotViewSet(DownloadViewSet, viewsets.ModelViewSet):
                 language__code=request.data["language_code"],
             )
         except Translation.DoesNotExist as error:
-            raise ParseError(str(error), "invalid")
+            raise ValidationError(str(error))
 
         if not request.user.has_perm("screenshot.add", translation):
             self.permission_denied(request, "Can not add screenshot.")
@@ -1457,14 +1457,14 @@ class ComponentListViewSet(viewsets.ModelViewSet):
         self.perm_check(request)
 
         if "component_id" not in request.data:
-            raise ParseError("Missing component_id parameter")
+            raise ValidationError("Missing component_id parameter")
 
         try:
             component = Component.objects.filter_access(self.request.user).get(
                 pk=int(request.data["component_id"]),
             )
         except (Component.DoesNotExist, ValueError) as error:
-            raise ParseError(str(error), "invalid")
+            raise ValidationError(str(error))
 
         obj.components.add(component)
         serializer = self.serializer_class(obj, context={"request": request})
