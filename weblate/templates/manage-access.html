@@ -202,15 +202,83 @@
     </div>
     <table class="table table-striped">
       <tr>
-        <th>{% trans "Your personal API key:" %}</th>
+        <th>{% trans "Name" %}</th>
+        <th>{% trans "Expires" %}</th>
+        <th></th>
+      </tr>
+      {% for token in project_tokens %}
+      <tr>
+        <td>{{ token.name }}</td>
+        <td>{{ token.expires }}</td>
         <td>
-            {{ user.auth_token.key }}
-            <button type="button" class="btn btn-link btn-xs" data-clipboard-text="{{ user.auth_token.key }}" data-clipboard-message="{% trans "API key copied to clipboard." %}" title="{% trans "Copy to clipboard" %}">{% icon "copy.svg" %}</button>
+          <a href="#" data-toggle="modal" data-target="#delete_token_{{ token.id }}" class="btn btn-link btn-xs red" title="{% trans "Delete" %}">
+            {% icon 'delete.svg' %}
+          </a>
+          <form action="{% url "delete-project-token" project=object.slug %}" method="post" class="inlineform">
+            {% csrf_token %}
+            <input type="hidden" name="token" value="{{ token.id }}" />
+            <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="delete_token_title_{{ token.id }}" aria-describedby="delete_token_body_{{ token.id }}" id="delete_token_{{ token.id }}">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="{% trans "Close" %}"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="delete_token_title_{{ token.id }}">{% trans "Are you absolutely sure?" %}</h4>
+                  </div>
+                  <div class="modal-body" id="delete_token_body_{{ token.id }}">
+                    {% blocktrans with token=token.name %}This will delete the project token <b>{{ token }}</b> from this project.{% endblocktrans %}
+                  </div>
+                  <div class="modal-footer">
+                    <input type="submit" class="btn btn-danger" value="{% trans "Delete" %}" />
+                  </div>
+                </div><!-- /.modal-content -->
+              </div><!-- /.modal-dialog -->
+            </div><!-- /.modal -->
+          </form>
         </td>
       </tr>
+      {% endfor %}
     </table>
-    <div class="panel-footer">
-      <p class="help-block">{% trans "This is your personal API key, do not share it with anybody else." %}</p>
+  </div>
+
+  <div class="row">
+    <div class="col-sm-6">
+      <form action="{% url "create-project-token" project=object.slug %}" method="post">
+        {% csrf_token %}
+        <div class="panel panel-default">
+          <div class="panel-heading"><h4 class="panel-title">
+            {% documentation_icon 'api' right=True %}
+            {% trans "Create a project token" %}
+          </h4></div>
+          <div class="panel-body">
+            {{ create_project_token_form|crispy }}
+          </div>
+          <div class="panel-footer">
+          <input type="submit" class="btn btn-primary" value="{% trans "Create" %}" />
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="col-sm-6">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h4 class="panel-title">
+            {% documentation_icon 'api' right=True %}
+            {% trans "Personal API key" %}
+          </h4>
+        </div>
+        <table class="table table-striped">
+          <tr>
+            <th>{% trans "Your personal API key:" %}</th>
+            <td>
+                {{ user.auth_token.key }}
+                <button type="button" class="btn btn-link btn-xs" data-clipboard-text="{{ user.auth_token.key }}" data-clipboard-message="{% trans "API key copied to clipboard." %}" title="{% trans "Copy to clipboard" %}">{% icon "copy.svg" %}</button>
+            </td>
+          </tr>
+        </table>
+        <div class="panel-footer">
+          <p class="help-block">{% trans "This is your personal API key, do not share it with anybody else." %}</p>
+        </div>
+      </div>
     </div>
   </div>
   {% if ssh_key %}
