@@ -56,13 +56,15 @@ class Command(BaseCommand):
             base = key.split(".")[0]
             if base != last:
                 self.stdout.write(PERM_NAMES[base])
+                self.stdout.write("~" * len(PERM_NAMES[base]))
                 last = base
             roles = "`, `".join(
                 name for name, permissions in ROLES if key in permissions
             )
-            self.stdout.write(f"    {name} [`{roles}`]")
+            self.stdout.write(f"{name} [`{roles}`]")
             self.stdout.write("\n")
 
         self.stdout.write("Site wide privileges")
+        self.stdout.write("~~~~~~~~~~~~~~~~~~~~")
         for _key, name in GLOBAL_PERMISSIONS:
-            self.stdout.write(f"    {name}\n\n")
+            self.stdout.write(f"{name}\n\n")
