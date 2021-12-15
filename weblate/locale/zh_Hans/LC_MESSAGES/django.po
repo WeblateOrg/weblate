@@ -35,7 +35,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.10\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-12-15 13:53+0000\n"
-"PO-Revision-Date: 2021-12-15 14:51+0000\n"
+"PO-Revision-Date: 2021-12-15 19:10+0000\n"
 "Last-Translator: JY3 <GeeyunJY3@gmail.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "weblate/application/zh_Hans/>\n"
@@ -718,13 +718,13 @@ msgstr "对自己翻译的评论"
 #. Translators: Notification name
 #: weblate/accounts/notifications.py:537
 msgid "Mentioned in comment"
-msgstr "在注释中被提及"
+msgstr "在评论中被提及"
 
 #. Translators: Notification name
 #: weblate/accounts/notifications.py:580 weblate/templates/translate.html:401
 #: weblate/trans/forms.py:980
 msgid "New comment"
-msgstr "新注释"
+msgstr "新评论"
 
 #. Translators: Notification name
 #: weblate/accounts/notifications.py:601
@@ -1518,11 +1518,11 @@ msgstr "排序 Java 属性文件。"
 
 #: weblate/addons/removal.py:51
 msgid "Stale comment removal"
-msgstr "陈旧注释删除"
+msgstr "陈旧评论删除"
 
 #: weblate/addons/removal.py:52
 msgid "Set a timeframe for removal of comments."
-msgstr "设置删除注释的时间。"
+msgstr "设置删除评论的时间。"
 
 #: weblate/addons/removal.py:65
 msgid "Stale suggestion removal"
@@ -1599,12 +1599,12 @@ msgstr "下载改动"
 #. Translators: Permission name
 #: weblate/auth/data.py:39
 msgid "Post comment"
-msgstr "发送注释"
+msgstr "发表评论"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:41
 msgid "Delete comment"
-msgstr "删除注释"
+msgstr "删除评论"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:43
@@ -2372,7 +2372,7 @@ msgstr "不匹配的冒号"
 
 #: weblate/checks/chars.py:211
 msgid "Source and translation do not both end with a colon"
-msgstr "原文与译文没有都以分号结尾"
+msgstr "原文与译文没有都以冒号结尾"
 
 #: weblate/checks/chars.py:241
 msgid "Mismatched question mark"
@@ -3242,10 +3242,8 @@ msgid "WebExtension JSON file"
 msgstr "WebExtension JSON 文件"
 
 #: weblate/formats/ttkit.py:1337
-#, fuzzy
-#| msgid "i18next JSON file"
 msgid "i18next JSON file v3"
-msgstr "i18next JSON 文件"
+msgstr "i18next JSON 文件 v3"
 
 #: weblate/formats/ttkit.py:1345
 msgid "go-i18n JSON file"
@@ -4713,7 +4711,7 @@ msgstr[0] "%(count)s 个屏幕截图"
 #, python-format
 msgid "%(count)s comment"
 msgid_plural "%(count)s comments"
-msgstr[0] "%(count)s 条注释"
+msgstr[0] "%(count)s 条评论"
 
 #: weblate/templates/accounts/user.html:141
 msgid "Translations with contribution"
@@ -5218,10 +5216,8 @@ msgstr "待批准"
 #: weblate/templates/mail/billing_expired.html:49
 #: weblate/templates/project.html:145
 #: weblate/templates/snippets/project/billing-libre-trial.html:10
-#, fuzzy
-#| msgid "Request approval for libre hosting"
 msgid "Request approval for Libre hosting"
-msgstr "请求允许自由托管"
+msgstr "请求批准自由托管"
 
 #: weblate/templates/billing/detail.html:119
 msgid "Please check that following conditions are met:"
@@ -6432,11 +6428,11 @@ msgstr "已解决的评论"
 
 #: weblate/templates/list-comments.html:15
 msgid "Source string comment"
-msgstr "源字符串注释"
+msgstr "源字符串评论"
 
 #: weblate/templates/list-comments.html:17
 msgid "Translation comment"
-msgstr "翻译注释"
+msgstr "翻译评论"
 
 #: weblate/templates/list-comments.html:29
 msgid "Resolve"
@@ -6674,12 +6670,12 @@ msgstr "%(site_title)s 上有新公告"
 
 #: weblate/templates/mail/new_comment.html:9
 msgid "Comment"
-msgstr "注释"
+msgstr "评论"
 
 #: weblate/templates/mail/new_comment_subject.txt:3
 #, python-format
 msgid "New comment in %(component)s"
-msgstr "%(component)s 中有新注释"
+msgstr "%(component)s 中有新评论"
 
 #: weblate/templates/mail/new_component_subject.txt:3
 #, python-format
@@ -6895,10 +6891,8 @@ msgstr "源字符串"
 #: weblate/templates/mail/snippets/source-string.html:14
 #: weblate/templates/snippets/note-badge.html:5
 #: weblate/templates/translate.html:625
-#, fuzzy
-#| msgid "Source string location"
 msgid "Source string description"
-msgstr "源字符串位置"
+msgstr "源字符串描述"
 
 #: weblate/templates/mail/snippets/unit-screenshots.html:5
 #: weblate/templates/translate.html:659
@@ -7001,16 +6995,12 @@ msgid "Create a project token"
 msgstr "创建项目"
 
 #: weblate/templates/manage-access.html:256
-#, fuzzy
-#| msgid "Created"
 msgid "Create"
-msgstr "创建时间"
+msgstr "创建"
 
 #: weblate/templates/manage-access.html:266
-#, fuzzy
-#| msgid "Your personal API key:"
 msgid "Personal API key"
-msgstr "您的个人 API 密钥："
+msgstr "个人 API 密钥："
 
 #: weblate/templates/manage-access.html:279
 msgid "This is your personal API key, do not share it with anybody else."
@@ -8104,7 +8094,7 @@ msgstr "建议"
 #: weblate/templates/snippets/list-objects.html:93
 #: weblate/templates/translate.html:255 weblate/templates/translate.html:499
 msgid "Comments"
-msgstr "注释"
+msgstr "评论"
 
 #: weblate/templates/snippets/list-objects.html:115
 msgid "Create translation"
@@ -8229,7 +8219,7 @@ msgstr "键/上下文字符串"
 
 #: weblate/templates/snippets/query-builder.html:18
 msgid "Comment strings"
-msgstr "注释格式串"
+msgstr "评论字符串"
 
 #: weblate/templates/snippets/query-builder.html:19
 msgid "Location strings"
@@ -8293,7 +8283,7 @@ msgstr "已翻译字符串"
 #: weblate/templates/snippets/query-builder.html:80 weblate/trans/filter.py:48
 #: weblate/trans/filter.py:128
 msgid "Strings with comments"
-msgstr "带有注释的字符串"
+msgstr "带有评论的字符串"
 
 #: weblate/templates/snippets/query-builder.html:85 weblate/trans/filter.py:49
 #: weblate/trans/filter.py:129
@@ -9106,10 +9096,8 @@ msgid "Insufficient privileges for saving translations."
 msgstr "保存翻译的权限不足。"
 
 #: weblate/templates/translate.html:217
-#, fuzzy
-#| msgid "Save and stay"
 msgid "Save and continue"
-msgstr "保存并停留"
+msgstr "保存并继续"
 
 #: weblate/templates/translate.html:220
 msgid "Save and stay"
@@ -9218,7 +9206,7 @@ msgstr "相似度"
 
 #: weblate/templates/translate.html:403
 msgid "Comment on this string for fellow translators and developers to read."
-msgstr "您可以针对该字符串做出注释以供其他翻译者和开发者阅读。"
+msgstr "对此字符串发表评论，供其他翻译者和开发人员阅读。"
 
 #: weblate/templates/translate.html:425
 msgid "Things to check"
@@ -9246,7 +9234,7 @@ msgstr "所有语言"
 #, python-format
 msgid "There is %(count)s comment for this string."
 msgid_plural "There are %(count)s comments for this string."
-msgstr[0] "此字符串有 %(count)s 条注释。"
+msgstr[0] "此字符串有 %(count)s 条评论。"
 
 #: weblate/templates/translate.html:515
 #, python-format
@@ -9846,15 +9834,15 @@ msgstr "范围"
 #: weblate/trans/forms.py:960
 msgid ""
 "Is your comment specific to this translation or generic for all of them?"
-msgstr "这是只针对当前语言译文的注释，还是针对所有语言译文的通用注释？"
+msgstr "这是只针对当前语言译文的评论，还是针对所有语言译文的通用评论？"
 
 #: weblate/trans/forms.py:970
 msgid "Source string comment, suggestions for changes to this string"
-msgstr "源字符串的注释，更改此字符串的建议"
+msgstr "源字符串评论，更改此字符串的建议"
 
 #: weblate/trans/forms.py:974
 msgid "Translation comment, discussions with other translators"
-msgstr "翻译注释，与其他翻译者交流"
+msgstr "翻译评论，与其他翻译者交流"
 
 #: weblate/trans/forms.py:981 weblate/trans/models/announcement.py:86
 #: weblate/trans/models/project.py:105
@@ -10431,7 +10419,7 @@ msgstr "新翻译"
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:255
 msgid "Comment added"
-msgstr "已添加注释"
+msgstr "添加了评论"
 
 #. Translators: Name of event in the history
 #: weblate/trans/models/change.py:261
@@ -10674,8 +10662,7 @@ msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
 msgstr "%(user)s 于 %(time)s 对 %(translation)s %(action)s"
 
 #: weblate/trans/models/change.py:593
-#, fuzzy, python-format
-#| msgid "File %s was changed."
+#, python-format
 msgid "The \"%s\" file was changed."
 msgstr "文件 %s 已更改。"
 
@@ -10963,7 +10950,7 @@ msgstr "指定 Weblate 是否应该合并上游代码库或变基更改。"
 
 #: weblate/trans/models/component.py:502
 msgid "Commit message when translating"
-msgstr "翻译时的注释消息"
+msgstr "翻译时提交信息"
 
 #: weblate/trans/models/component.py:504 weblate/trans/models/component.py:513
 #: weblate/trans/models/component.py:522 weblate/trans/models/component.py:531
@@ -10975,11 +10962,11 @@ msgstr "您可以使用模板语言获取各种信息，更多细节请查阅文
 
 #: weblate/trans/models/component.py:511
 msgid "Commit message when adding translation"
-msgstr "添加翻译时的注释消息"
+msgstr "添加翻译时提交信息"
 
 #: weblate/trans/models/component.py:520
 msgid "Commit message when removing translation"
-msgstr "移除翻译时的注释消息"
+msgstr "移除翻译时提交信息"
 
 #: weblate/trans/models/component.py:529
 msgid "Commit message when merging translation"
@@ -12010,23 +11997,23 @@ msgstr "原文需要复查"
 
 #: weblate/trans/views/edit.py:742
 msgid "Posted new comment"
-msgstr "新注释已发表"
+msgstr "新评论已发表"
 
 #: weblate/trans/views/edit.py:744
 msgid "Failed to add comment!"
-msgstr "添加注释失败！"
+msgstr "添加评论失败!"
 
 #: weblate/trans/views/edit.py:763
 msgid "Translation comment has been deleted."
-msgstr "翻译注释已删除。"
+msgstr "翻译评论已删除。"
 
 #: weblate/trans/views/edit.py:781
 msgid "Translation comment has been resolved."
-msgstr "翻译注释已解决。"
+msgstr "翻译评论已解决。"
 
 #: weblate/trans/views/edit.py:945
 msgid "New string has been added."
-msgstr "新翻译字符串已添加。"
+msgstr "已添加新字符串。"
 
 #: weblate/trans/views/error.py:38
 msgid "Bad Request"
@@ -12441,7 +12428,7 @@ msgstr "字词数量"
 
 #: weblate/utils/views.py:141
 msgid "Number of comments"
-msgstr "注释数量"
+msgstr "评论数量"
 
 #: weblate/utils/views.py:142
 msgid "Number of failing checks"
