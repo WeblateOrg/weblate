@@ -333,6 +333,8 @@ Repository URL used for pushing. This setting is used only for :ref:`vcs-git`
 and :ref:`vcs-mercurial` and push support is turned off for these when this is
 empty.
 
+For linked repositories, this is not used and setting from linked component applies.
+
 .. seealso::
 
    See :ref:`vcs-repos` for more details on how to specify a repository URL and
@@ -371,12 +373,16 @@ Repository branch
 
 Which branch to checkout from the VCS, and where to look for translations.
 
+For linked repositories, this is not used and setting from linked component applies.
+
 .. _component-push_branch:
 
 Push branch
 +++++++++++
 
 Branch for pushing changes, leave empty to use :ref:`component-branch`.
+
+For linked repositories, this is not used and setting from linked component applies.
 
 .. note::
 
