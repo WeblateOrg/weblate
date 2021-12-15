@@ -3071,6 +3071,9 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
                 request, _("The translation will be updated in the background.")
             )
 
+        # Delete no matches alert as we have just added the file
+        self.delete_alert("NoMaskMatches")
+
         return translation
 
     def do_lock(self, user, lock: bool = True, auto: bool = False):
