@@ -2211,7 +2211,7 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
                     }
                 )
             # Push repo is not used with link
-            for setting in ("push", "branch"):
+            for setting in ("push", "branch", "push_branch"):
                 if getattr(self, setting):
                     raise ValidationError(
                         {setting: _("Option is not available for linked repositories.")}
