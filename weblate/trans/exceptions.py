@@ -28,5 +28,5 @@ class FileParseError(Exception):
 class PluralFormsMismatch(Exception):
     """Plural forms do not match the language."""
 
-    def __init__(self):
-        super().__init__(self.__doc__)
+    def __init__(self, message=None):
+        super().__init__(message or self.__doc__)
