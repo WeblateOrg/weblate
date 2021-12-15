@@ -6,7 +6,8 @@ Not yet released.
 * Added support for formality and placeholders with DeepL.
 * Bulk edit and search and replace are now available on project and language level.
 * Added filtering to search and replace.
-* Fixed: "Perform automatic translation" privilege is no longer part of the *Manage languages* role. It’s only in the *Administration* role.
+* Fixed: "Perform automatic translation" privilege is no longer part of the *Languages* group. 
+* "Perform automatic translation" is in the *Administration* and the new *Automatic translation* group.
 * Fixed generating XLSX files with special chars.
 * Added ability to the GitHub authentication backend to check if the user belongs to a specific GitHub organization or team.
 * Improved feedback on invalid parameters passed to API.
