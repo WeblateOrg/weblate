@@ -23,6 +23,7 @@ from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, redirect
+from django.template.loader import render_to_string
 from django.utils import timezone
 from django.utils.translation import gettext as _
 from django.views.decorators.http import require_POST
@@ -309,7 +310,10 @@ def create_token(request, project):
 
     if form.is_valid():
         token = form.save()
-        messages.info(request, _("Token has been created: %s") % token.token)
+        messages.info(
+            request,
+            render_to_string("trans/projecttoken-created.html", {"token": token}),
+        )
     else:
         show_form_errors(request, form)
 
