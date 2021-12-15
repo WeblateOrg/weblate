@@ -56,6 +56,18 @@ token, which you can get in your profile. Use it in the ``Authorization`` header
     :status 403: when access is denied
     :status 429: when throttling is in place
 
+Authentication tokens
+~~~~~~~~~~~~~~~~~~~~~
+
+.. versionchanged:: 4.10
+
+   Project scoped tokens were introduced in the 4.10 release.
+
+Each user has his personal access token which can be obtained in the user profile.
+
+It is possible to create project scoped tokens for API access to given project
+only. These tokens can be identified by the ``wlp_`` prefix.
+
 Authentication examples
 ~~~~~~~~~~~~~~~~~~~~~~~
 
