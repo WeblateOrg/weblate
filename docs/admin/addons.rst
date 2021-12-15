@@ -586,7 +586,7 @@ Original commit messages are kept, but authorship is lost unless :guilabel:`Per 
 the commit message is customized to include it.
 
 The original commit messages can optionally be overridden with a custom commit message.
-See :ref:`markup` for for the message options.
+See :ref:`markup` for the message options.
 
 Trailers (commit lines like ``Co-authored-by: …``) can optionally be removed
 from the original commit messages and appended to the end of the squashed
