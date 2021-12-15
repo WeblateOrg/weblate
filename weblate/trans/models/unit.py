@@ -27,7 +27,7 @@ from django.db import models, transaction
 from django.db.models import Count, Max, Q
 from django.utils import timezone
 from django.utils.functional import cached_property
-from django.utils.translation import gettext, gettext_lazy
+from django.utils.translation import gettext, gettext_lazy, gettext_noop
 from pyparsing import ParseException
 
 from weblate.checks.flags import Flags
@@ -1238,6 +1238,8 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
 
         Propagation is currently disabled on import.
         """
+        component = self.translation.component
+
         # Fetch current copy from database and lock it for update
         old_unit = Unit.objects.select_for_update().get(pk=self.pk)
         self.store_old_unit(old_unit)
@@ -1270,8 +1272,8 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
         # Enforced checks can revert the state to needs editing (fuzzy)
         if (
             self.state >= STATE_TRANSLATED
-            and self.translation.component.enforced_checks
-            and self.all_checks_names & set(self.translation.component.enforced_checks)
+            and component.enforced_checks
+            and self.all_checks_names & set(component.enforced_checks)
         ):
             self.state = self.original_state = STATE_FUZZY
             self.save(run_checks=False, same_content=True, update_fields=["state"])
@@ -1280,11 +1282,22 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
             user
             and self.target != self.old_unit["target"]
             and self.state >= STATE_TRANSLATED
-            and not self.translation.component.is_glossary
+            and not component.is_glossary
         ):
             transaction.on_commit(
                 lambda: handle_unit_translation_change.delay(self.id, user.id)
             )
+
+        if change_action == Change.ACTION_AUTO:
+            label = component.project.label_set.get_or_create(
+                name=gettext_noop("Automatically translated"),
+                defaults={"color": "yellow"},
+            )[0]
+            self.labels.add(label)
+        else:
+            self.labels.through.objects.filter(
+                label__name="Automatically translated"
+            ).delete()
 
         return saved
 

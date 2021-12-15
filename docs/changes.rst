@@ -14,6 +14,7 @@ Released on December 16th 2021.
 * Added support for project scoped access tokens for API.
 * Fixed string removal in some cases.
 * Fixed translating newly added strings.
+* Label automatically translated strings to ease their filtering.
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/74?closed=1>`__.
 

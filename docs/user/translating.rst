@@ -95,6 +95,13 @@ Labels
 Labels are used to categorize strings within a project to further customize the
 localization workflow (for example to define categories of strings).
 
+Following labels are used by Weblate:
+
+Automatically translated
+   Strings was translated using :ref:`auto-translation`.
+Source needs review
+   String marked for review using :ref:`source-reviews`.
+
 .. seealso::
 
     :ref:`labels`
@@ -341,6 +348,9 @@ Useful in several situations like consolidating translation between different
 components (for example the application and its website) or when bootstrapping
 a translation for a new component using existing translations
 (translation memory).
+
+The automatically translated strings are labelled by :guilabel:`Automatically
+translated`.
 
 .. seealso::
 
