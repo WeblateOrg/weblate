@@ -260,7 +260,7 @@ ensure that the key is actually owned by the mentioned person.  The GNU Privacy
 Handbook covers this topic in the chapter `Validating other keys on your public
 keyring`_. The most reliable method is to meet the developer in person and
 exchange key fingerprints, however you can also rely on the web of trust. This way
-you can trust the key transitively though signatures of others, who have met
+you can trust the key transitively through signatures of others, who have met
 the developer in person.
 
 Once the key is trusted, the warning will not occur:
