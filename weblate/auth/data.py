@@ -209,6 +209,10 @@ ROLES = (
         filter_perms("translation.", {"translation.auto"}),
     ),
     (
+        pgettext("Access-control role", "Automatic translation"),
+        {"translation.auto"},
+    ),
+    (
         pgettext("Access-control role", "Manage translation memory"),
         filter_perms("memory."),
     ),
@@ -241,6 +245,9 @@ ACL_GROUPS = {
     pgettext("Per-project access-control group", "Glossary"): "Manage glossary",
     pgettext("Per-project access-control group", "Memory"): "Manage translation memory",
     pgettext("Per-project access-control group", "Screenshots"): "Manage screenshots",
+    pgettext(
+        "Per-project access-control group", "Automatic translation"
+    ): "Automatic translation",
     pgettext("Per-project access-control group", "Review"): "Review strings",
     pgettext("Per-project access-control group", "VCS"): "Manage repository",
     pgettext("Per-project access-control group", "Administration"): "Administration",
