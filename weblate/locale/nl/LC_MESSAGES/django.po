@@ -19,7 +19,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.10\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-12-15 13:53+0000\n"
-"PO-Revision-Date: 2021-12-15 19:10+0000\n"
+"PO-Revision-Date: 2021-12-15 19:50+0000\n"
 "Last-Translator: Heimen Stoffels <vistausss@fastmail.com>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/weblate/"
 "application/nl/>\n"
@@ -7288,28 +7288,21 @@ msgid "Expires"
 msgstr "Verloopt op"
 
 #: weblate/templates/manage-access.html:228
-#, fuzzy, python-format
-#| msgid "This will remove <b>%(user)s</b> access to this project."
+#, python-format
 msgid "This will delete the project token <b>%(token)s</b> from this project."
-msgstr "Hiermee verwijdert u <b>%(user)s</b> uit het project."
+msgstr "Hiermee verwijdert u de projectsleutel <b>%(token)s</b>."
 
 #: weblate/templates/manage-access.html:250
-#, fuzzy
-#| msgid "Create project"
 msgid "Create a project token"
-msgstr "Project aamaken"
+msgstr "Projectsleutel aanmaken"
 
 #: weblate/templates/manage-access.html:256
-#, fuzzy
-#| msgid "Created"
 msgid "Create"
-msgstr "Aangemaakt"
+msgstr "Aanmaken"
 
 #: weblate/templates/manage-access.html:266
-#, fuzzy
-#| msgid "Your personal API key:"
 msgid "Personal API key"
-msgstr "Uw persoonlijke api-sleutel:"
+msgstr "Persoonlijke api-sleutel"
 
 #: weblate/templates/manage-access.html:279
 msgid "This is your personal API key, do not share it with anybody else."
@@ -8560,6 +8553,9 @@ msgid ""
 "lock it and post an announcement in case you want to avoid contributions "
 "until you finish the setup."
 msgstr ""
+"Dit project geniet een proefperiode en is publiekelijk toegankelijk. Als u "
+"niet direct bijdragen wenst te ontvangen, dan kunt u het project "
+"vergrendelen en een aankondiging plaatsen."
 
 #: weblate/templates/snippets/project/billing-libre-trial.html:14
 msgid ""
@@ -9002,7 +8998,7 @@ msgstr ""
 
 #: weblate/templates/trans/alert/inexistantfiles.html:4
 msgid "Following files are no longer present in the repository:"
-msgstr ""
+msgstr "De volgende bestanden ontbreken in de opslagruimte:"
 
 #: weblate/templates/trans/alert/inexistantfiles.html:13
 #: weblate/trans/models/component.py:362
@@ -9039,8 +9035,6 @@ msgid "Please add a monolingual base language file in the component settings."
 msgstr "Voeg een enkeltalig basistaalbestand toe in de onderdeelinstellingen."
 
 #: weblate/templates/trans/alert/nolibreconditions.html:3
-#, fuzzy
-#| msgid "This project does no longer fit into libre hosting conditions."
 msgid "This project does no longer fit into Libre hosting conditions."
 msgstr ""
 "Dit project voldoet niet meer aan de voorwaarden van vrijesoftwarehosting."
@@ -9099,7 +9093,7 @@ msgstr ""
 
 #: weblate/templates/trans/alert/pushfailure.html:13
 msgid "You might want to use following URL instead:"
-msgstr ""
+msgstr "Wellicht bedoelt u de volgende url:"
 
 #: weblate/templates/trans/alert/repositorychanges.html:4
 msgid ""
@@ -9414,23 +9408,19 @@ msgstr "Voortgezet"
 
 #: weblate/templates/trans/project_form.html:7
 msgid "Create project"
-msgstr "Project aamaken"
+msgstr "Project aanmaken"
 
 #: weblate/templates/trans/project_form.html:12
 msgid "You currently do not have permission to create projects."
 msgstr "U bent op dit moment niet bevoegd om projecten aan te maken."
 
 #: weblate/templates/trans/projecttoken-created.html:4
-#, fuzzy
-#| msgid "API key copied to clipboard."
 msgid "Token copied to clipboard."
-msgstr "De api-sleutel is gekopieerd naar het klembord."
+msgstr "De sleutel is gekopieerd naar het klembord."
 
 #: weblate/templates/trans/projecttoken-created.html:4
-#, fuzzy
-#| msgid "Copy to clipboard"
 msgid "Copy token to clipboard"
-msgstr "Kopiëren naar klembord"
+msgstr "Sleutel kopiëren naar klembord"
 
 #: weblate/templates/trans/projecttoken-created.html:6
 #, python-format
@@ -9438,6 +9428,8 @@ msgid ""
 "Token was created, please save it now as it won't be displayed again: "
 "%(token)s"
 msgstr ""
+"De sleutel is aangemaakt. Deze wordt slechts eenmaal getoond, dus bewaar hem "
+"goed: %(token)s"
 
 #: weblate/templates/trans/repo_help.html:2
 msgid ""
@@ -9549,10 +9541,8 @@ msgid "Insufficient privileges for saving translations."
 msgstr "U bent niet bevoegd om vertalingen op te slaan."
 
 #: weblate/templates/translate.html:217
-#, fuzzy
-#| msgid "Save and stay"
 msgid "Save and continue"
-msgstr "Opslaan en blijven"
+msgstr "Opslaan en doorgaan"
 
 #: weblate/templates/translate.html:220
 msgid "Save and stay"
@@ -10708,7 +10698,7 @@ msgstr "Gebruikersnaam van auteur"
 
 #: weblate/trans/forms.py:2429
 msgid "Expires cannot be in the past!"
-msgstr ""
+msgstr "Iets kan niet in het verleden verlopen!"
 
 #: weblate/trans/guide.py:80
 msgid "Version control integration"
@@ -10858,8 +10848,6 @@ msgstr "Dubbelzinnige taalcode."
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:358
-#, fuzzy
-#| msgid "Does not meet libre hosting conditions."
 msgid "Does not meet Libre hosting conditions."
 msgstr "Voldoet niet aan de voorwaarden van vrijesoftwarehosting."
 
@@ -10872,10 +10860,8 @@ msgid "No mask matches."
 msgstr "Geen maskerovereenkomsten."
 
 #: weblate/trans/models/alert.py:382
-#, fuzzy
-#| msgid "Admin static files"
 msgid "Inexistant files."
-msgstr "Statische adminbestanden"
+msgstr "Niet-bestaande bestanden."
 
 #: weblate/trans/models/announcement.py:111
 msgid "Category"
@@ -11178,10 +11164,10 @@ msgid "The component was automatically locked because of an alert."
 msgstr "Dit onderdeel is automatisch vergrendeld vanwege een waarschuwing."
 
 #: weblate/trans/models/change.py:439
-#, fuzzy
-#| msgid "The component was automatically locked because of an alert."
 msgid "The component was automatically unlocked by fixing an alert."
-msgstr "Dit onderdeel is automatisch vergrendeld vanwege een waarschuwing."
+msgstr ""
+"Dit onderdeel is automatisch ontgrendeld vanwege het oplossen van een "
+"waarschuwing."
 
 #: weblate/trans/models/change.py:495
 #, python-format
@@ -11189,14 +11175,12 @@ msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
 msgstr "%(action)s gedaan om %(time)s op %(translation)s door %(user)s"
 
 #: weblate/trans/models/change.py:593
-#, fuzzy, python-format
-#| msgid "File %s was changed."
+#, python-format
 msgid "The \"%s\" file was changed."
 msgstr "‘%s’ is gewijzigd."
 
 #: weblate/trans/models/change.py:595
-#, fuzzy, python-format
-#| msgid "Parsing of file %s was enforced."
+#, python-format
 msgid "Parsing of the \"%s\" file was enforced."
 msgstr "‘%s’ is geforceerd verwerkt."
 
@@ -11211,10 +11195,7 @@ msgid "N/A"
 msgstr "N.v.t."
 
 #: weblate/trans/models/change.py:603
-#, fuzzy, python-format
-#| msgid ""
-#| "License for component %(component)s was changed from %(old)s to "
-#| "%(target)s."
+#, python-format
 msgid ""
 "The license of the \"%(component)s\" component was changed from %(old)s to "
 "%(target)s."
@@ -11974,11 +11955,11 @@ msgstr "Een kommagescheiden lijst met taalcodes, zoals en_GB:en,en_US:en"
 
 #: weblate/trans/models/projecttoken.py:36
 msgid "Token value"
-msgstr ""
+msgstr "Sleutelwaarde"
 
 #: weblate/trans/models/projecttoken.py:38
 msgid "Token value to use in API"
-msgstr ""
+msgstr "De in de api te verwerken sleutelwaarde"
 
 #: weblate/trans/models/suggestion.py:138
 msgid "Failed to accept suggestion!"
