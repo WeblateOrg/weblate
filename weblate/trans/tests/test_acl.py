@@ -285,13 +285,13 @@ class ACLTest(FixtureTestCase):
         self.project.translation_review = True
         self.project.save()
         self.assertEqual(
-            9 + billing_group, Group.objects.filter(name__startswith=match).count()
+            10 + billing_group, Group.objects.filter(name__startswith=match).count()
         )
         self.project.access_control = Project.ACCESS_PRIVATE
         self.project.translation_review = True
         self.project.save()
         self.assertEqual(
-            9 + billing_group, Group.objects.filter(name__startswith=match).count()
+            10 + billing_group, Group.objects.filter(name__startswith=match).count()
         )
         self.project.access_control = Project.ACCESS_CUSTOM
         self.project.save()
@@ -302,7 +302,7 @@ class ACLTest(FixtureTestCase):
         self.project.access_control = Project.ACCESS_PRIVATE
         self.project.save()
         self.assertEqual(
-            9 + billing_group, Group.objects.filter(name__startswith=match).count()
+            10 + billing_group, Group.objects.filter(name__startswith=match).count()
         )
         self.project.delete()
         self.assertEqual(0, Group.objects.filter(name__startswith=match).count())

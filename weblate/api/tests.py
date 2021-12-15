@@ -736,7 +736,7 @@ class RoleAPITest(APIBaseTest):
         self.assertEqual(response.data["count"], 2)
         self.authenticate(True)
         response = self.client.get(reverse("api:role-list"))
-        self.assertEqual(response.data["count"], 13)
+        self.assertEqual(response.data["count"], 14)
 
     def test_get_role(self):
         role = Role.objects.get(name="Access repository")
@@ -761,7 +761,7 @@ class RoleAPITest(APIBaseTest):
             format="json",
             request={"name": "Role", "permissions": ["suggestion.add", "comment.add"]},
         )
-        self.assertEqual(Role.objects.count(), 14)
+        self.assertEqual(Role.objects.count(), 15)
         self.assertEqual(Role.objects.get(name="Role").permissions.count(), 2)
 
     def test_delete(self):
@@ -772,7 +772,7 @@ class RoleAPITest(APIBaseTest):
             superuser=True,
             code=204,
         )
-        self.assertEqual(Role.objects.count(), 12)
+        self.assertEqual(Role.objects.count(), 13)
 
     def test_put(self):
         self.do_request(
