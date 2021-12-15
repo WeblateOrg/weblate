@@ -2279,7 +2279,14 @@ class TranslationAPITest(APIBaseTest):
                 {"file": handle},
             )
         self.assertEqual(response.status_code, 400)
-        self.assertIn("detail", response.data)
+        self.assertEqual(
+            response.data,
+            {
+                "file": ErrorDetail(
+                    string="Plural forms do not match the language.", code="invalid"
+                )
+            },
+        )
 
     def test_repo_status_denied(self):
         self.do_request("api:translation-repository", self.translation_kwargs, code=403)
@@ -2853,8 +2860,8 @@ class ScreenshotAPITest(APIBaseTest):
                 code=400,
                 superuser=True,
                 data={
-                    "detail": ErrorDetail(
-                        string="Missing language_code parameter", code="parse_error"
+                    "language_code": ErrorDetail(
+                        string="This field is required.", code="invalid"
                     )
                 },
                 request={
@@ -2870,10 +2877,18 @@ class ScreenshotAPITest(APIBaseTest):
                 code=400,
                 superuser=True,
                 data={
-                    "detail": ErrorDetail(
+                    "project_slug": ErrorDetail(
                         string="Translation matching query does not exist.",
                         code="invalid",
-                    )
+                    ),
+                    "component_slug": ErrorDetail(
+                        string="Translation matching query does not exist.",
+                        code="invalid",
+                    ),
+                    "language_code": ErrorDetail(
+                        string="Translation matching query does not exist.",
+                        code="invalid",
+                    ),
                 },
                 request={
                     "name": "Test create screenshot",

@@ -1009,7 +1009,7 @@ class TranslationViewSet(MultipleFieldMixin, WeblateViewSet, DestroyModelMixin):
                 parse_query(query_string)
             except Exception as error:
                 report_error()
-                raise ValidationError(f"Failed to parse query string: {error}")
+                raise ValidationError({"q": f"Failed to parse query string: {error}"})
             return download_translation_file(request, obj, fmt, query_string)
 
         if not user.has_perm("upload.perform", obj):
@@ -1051,7 +1051,7 @@ class TranslationViewSet(MultipleFieldMixin, WeblateViewSet, DestroyModelMixin):
             )
         except Exception as error:
             report_error(cause="Upload error", print_tb=True)
-            raise ValidationError(str(error))
+            raise ValidationError({"file": str(error)})
 
     @action(detail=True, methods=["get"])
     def statistics(self, request, **kwargs):
@@ -1236,13 +1236,17 @@ class UnitViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModelM
                 STATE_FUZZY,
                 STATE_EMPTY,
             ):
-                raise ValidationError("Invalid state")
+                raise ValidationError({"state": "Invalid state"})
 
             if new_state == STATE_EMPTY and any(new_target):
-                raise ValidationError("Can not use empty state with non empty target")
+                raise ValidationError(
+                    {"state": "Can not use empty state with non empty target"}
+                )
 
             if new_state != STATE_EMPTY and not any(new_target):
-                raise ValidationError("Can not use non empty state with empty target")
+                raise ValidationError(
+                    {"state": "Can not use non empty state with empty target"}
+                )
 
             if not user.has_perm("unit.edit", unit):
                 raise PermissionDenied()
@@ -1319,12 +1323,12 @@ class ScreenshotViewSet(DownloadViewSet, viewsets.ModelViewSet):
             raise PermissionDenied()
 
         if "unit_id" not in request.data:
-            raise ValidationError("Missing unit_id parameter")
+            raise ValidationError({"unit_id": "This field is required."})
 
         try:
             unit = obj.translation.unit_set.get(pk=int(request.data["unit_id"]))
         except (Unit.DoesNotExist, ValueError) as error:
-            raise ValidationError(str(error))
+            raise ValidationError({"unit_id": str(error)})
 
         obj.units.add(unit)
         serializer = ScreenshotSerializer(obj, context={"request": request})
@@ -1348,7 +1352,7 @@ class ScreenshotViewSet(DownloadViewSet, viewsets.ModelViewSet):
         required_params = ["project_slug", "component_slug", "language_code"]
         for param in required_params:
             if param not in request.data:
-                raise ValidationError(f"Missing {param} parameter")
+                raise ValidationError({param: "This field is required."})
 
         try:
             translation = Translation.objects.get(
@@ -1357,7 +1361,7 @@ class ScreenshotViewSet(DownloadViewSet, viewsets.ModelViewSet):
                 language__code=request.data["language_code"],
             )
         except Translation.DoesNotExist as error:
-            raise ValidationError(str(error))
+            raise ValidationError({key: str(error) for key in required_params})
 
         if not request.user.has_perm("screenshot.add", translation):
             self.permission_denied(request, "Can not add screenshot.")
@@ -1457,14 +1461,14 @@ class ComponentListViewSet(viewsets.ModelViewSet):
         self.perm_check(request)
 
         if "component_id" not in request.data:
-            raise ValidationError("Missing component_id parameter")
+            raise ValidationError({"component_id": "This field is required."})
 
         try:
             component = Component.objects.filter_access(self.request.user).get(
                 pk=int(request.data["component_id"]),
             )
         except (Component.DoesNotExist, ValueError) as error:
-            raise ValidationError(str(error))
+            raise ValidationError({"component_id": str(error)})
 
         obj.components.add(component)
         serializer = self.serializer_class(obj, context={"request": request})

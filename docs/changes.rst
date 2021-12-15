@@ -9,6 +9,7 @@ Not yet released.
 * Fixed: "Perform automatic translation" privilege is no longer part of the *Manage languages* role. It’s only in the *Administration* role.
 * Fixed generating XLSX files with special chars.
 * Added ability to the GitHub authentication backend to check if the user belongs to a specific GitHub organization or team.
+* Improved feedback on invalid parameters passed to API.
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/74?closed=1>`__.
 

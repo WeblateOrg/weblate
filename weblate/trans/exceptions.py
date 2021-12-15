@@ -19,8 +19,14 @@
 
 
 class FileParseError(Exception):
-    """Generic error for parsing."""
+    """File parse error."""
+
+    def __init__(self):
+        super().__init__(self.__doc__)
 
 
 class PluralFormsMismatch(Exception):
     """Plural forms do not match the language."""
+
+    def __init__(self):
+        super().__init__(self.__doc__)
