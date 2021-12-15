@@ -34,7 +34,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-12-15 13:53+0000\n"
 "PO-Revision-Date: 2021-12-15 19:10+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"Last-Translator: bovirus <roberto.boriotti@canon.it>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/weblate/"
 "application/it/>\n"
 "Language: it\n"
@@ -3366,10 +3366,8 @@ msgid "WebExtension JSON file"
 msgstr "File JSON WebExtension"
 
 #: weblate/formats/ttkit.py:1337
-#, fuzzy
-#| msgid "i18next JSON file"
 msgid "i18next JSON file v3"
-msgstr "File JSON i18next"
+msgstr "File JSON i18next v3"
 
 #: weblate/formats/ttkit.py:1345
 msgid "go-i18n JSON file"
@@ -5437,8 +5435,6 @@ msgstr "In attesa di approvazione"
 #: weblate/templates/mail/billing_expired.html:49
 #: weblate/templates/project.html:145
 #: weblate/templates/snippets/project/billing-libre-trial.html:10
-#, fuzzy
-#| msgid "Request approval for libre hosting"
 msgid "Request approval for Libre hosting"
 msgstr "Richiedi approvazione per l'hosting libero"
 
@@ -7215,10 +7211,8 @@ msgstr "Stringa sorgente"
 #: weblate/templates/mail/snippets/source-string.html:14
 #: weblate/templates/snippets/note-badge.html:5
 #: weblate/templates/translate.html:625
-#, fuzzy
-#| msgid "Source string location"
 msgid "Source string description"
-msgstr "Posizione stringa sorgente"
+msgstr "Descrizione stringa sorgente"
 
 #: weblate/templates/mail/snippets/unit-screenshots.html:5
 #: weblate/templates/translate.html:659
@@ -7309,34 +7303,25 @@ msgstr ""
 
 #: weblate/templates/manage-access.html:206
 #: weblate/trans/models/projecttoken.py:41
-#, fuzzy
-#| msgid "Expired"
 msgid "Expires"
-msgstr "Scaduto"
+msgstr "Scade"
 
 #: weblate/templates/manage-access.html:228
-#, fuzzy, python-format
-#| msgid "This will remove <b>%(user)s</b> access to this project."
+#, python-format
 msgid "This will delete the project token <b>%(token)s</b> from this project."
-msgstr "Questo eliminerà definitivamente <b>%(user)s</b> da questo progetto."
+msgstr "Questo eliminerà il token progetto <b>%(token)s</b> da questo progetto."
 
 #: weblate/templates/manage-access.html:250
-#, fuzzy
-#| msgid "Create project"
 msgid "Create a project token"
-msgstr "Crea progetto"
+msgstr "Crea token progetto"
 
 #: weblate/templates/manage-access.html:256
-#, fuzzy
-#| msgid "Created"
 msgid "Create"
-msgstr "Creato"
+msgstr "Crea"
 
 #: weblate/templates/manage-access.html:266
-#, fuzzy
-#| msgid "Your personal API key:"
 msgid "Personal API key"
-msgstr "La tua chiave personale API:"
+msgstr "Chiave API personale"
 
 #: weblate/templates/manage-access.html:279
 msgid "This is your personal API key, do not share it with anybody else."
@@ -8599,6 +8584,9 @@ msgid ""
 "lock it and post an announcement in case you want to avoid contributions "
 "until you finish the setup."
 msgstr ""
+"Questo progetto è in fase di prova ed è accessibile pubblicamente. Nel caso "
+"in cui desideri evitare contributi fino al termine della configurazione puoi "
+"bloccarlo e pubblicare un annuncio."
 
 #: weblate/templates/snippets/project/billing-libre-trial.html:14
 msgid ""
@@ -9041,7 +9029,7 @@ msgstr ""
 
 #: weblate/templates/trans/alert/inexistantfiles.html:4
 msgid "Following files are no longer present in the repository:"
-msgstr ""
+msgstr "I seguenti file non sono più presenti nel repository:"
 
 #: weblate/templates/trans/alert/inexistantfiles.html:13
 #: weblate/trans/models/component.py:362
@@ -9078,8 +9066,6 @@ msgid "Please add a monolingual base language file in the component settings."
 msgstr "Aggiungi file base monolingue nelle impostazioni del componente."
 
 #: weblate/templates/trans/alert/nolibreconditions.html:3
-#, fuzzy
-#| msgid "This project does no longer fit into libre hosting conditions."
 msgid "This project does no longer fit into Libre hosting conditions."
 msgstr "Questo progetto non si adatta più alle condizioni di hosting libero."
 
@@ -9137,7 +9123,7 @@ msgstr ""
 
 #: weblate/templates/trans/alert/pushfailure.html:13
 msgid "You might want to use following URL instead:"
-msgstr ""
+msgstr "Potresti voler invece usare la seguente URL:"
 
 #: weblate/templates/trans/alert/repositorychanges.html:4
 msgid ""
@@ -9462,16 +9448,12 @@ msgid "You currently do not have permission to create projects."
 msgstr "Al momento non disponi dell'autorizzazione per creare progetti."
 
 #: weblate/templates/trans/projecttoken-created.html:4
-#, fuzzy
-#| msgid "API key copied to clipboard."
 msgid "Token copied to clipboard."
-msgstr "Chiave API copiata negli Appunti."
+msgstr "Token copiato negli Appunti."
 
 #: weblate/templates/trans/projecttoken-created.html:4
-#, fuzzy
-#| msgid "Copy to clipboard"
 msgid "Copy token to clipboard"
-msgstr "Copia negli Appunti"
+msgstr "Copia token negli Appunti"
 
 #: weblate/templates/trans/projecttoken-created.html:6
 #, python-format
@@ -9479,6 +9461,8 @@ msgid ""
 "Token was created, please save it now as it won't be displayed again: "
 "%(token)s"
 msgstr ""
+"Il token è stato creato, salvalo ora poiché non verrà più visualizzato: "
+"%(token)s"
 
 #: weblate/templates/trans/repo_help.html:2
 msgid ""
@@ -9589,10 +9573,8 @@ msgid "Insufficient privileges for saving translations."
 msgstr "Privilegi insufficienti per salvare le traduzioni."
 
 #: weblate/templates/translate.html:217
-#, fuzzy
-#| msgid "Save and stay"
 msgid "Save and continue"
-msgstr "Salva e resta"
+msgstr "Salva e continua"
 
 #: weblate/templates/translate.html:220
 msgid "Save and stay"
@@ -10749,7 +10731,7 @@ msgstr "Nome utente autore"
 
 #: weblate/trans/forms.py:2429
 msgid "Expires cannot be in the past!"
-msgstr ""
+msgstr "La scadenza non può essere nel passato!"
 
 #: weblate/trans/guide.py:80
 msgid "Version control integration"
@@ -10898,8 +10880,6 @@ msgstr "Codice lingua ambiguo."
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:358
-#, fuzzy
-#| msgid "Does not meet libre hosting conditions."
 msgid "Does not meet Libre hosting conditions."
 msgstr "Non soddisfa le condizioni di hosting libero."
 
@@ -10912,10 +10892,8 @@ msgid "No mask matches."
 msgstr "Nessuna corrispondenza con la maschera."
 
 #: weblate/trans/models/alert.py:382
-#, fuzzy
-#| msgid "Admin static files"
 msgid "Inexistant files."
-msgstr "File statici amministratore"
+msgstr "File inesistenti."
 
 #: weblate/trans/models/announcement.py:111
 msgid "Category"
@@ -11217,10 +11195,8 @@ msgid "The component was automatically locked because of an alert."
 msgstr "Il componente è stato bloccato automaticamente a causa di un avviso."
 
 #: weblate/trans/models/change.py:439
-#, fuzzy
-#| msgid "The component was automatically locked because of an alert."
 msgid "The component was automatically unlocked by fixing an alert."
-msgstr "Il componente è stato bloccato automaticamente a causa di un avviso."
+msgstr "Il componente è stato sbloccato automaticamente correggendo un avviso."
 
 #: weblate/trans/models/change.py:495
 #, python-format
@@ -11228,14 +11204,12 @@ msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
 msgstr "%(action)s in %(time)s per %(translation)s di %(user)s"
 
 #: weblate/trans/models/change.py:593
-#, fuzzy, python-format
-#| msgid "File %s was changed."
+#, python-format
 msgid "The \"%s\" file was changed."
 msgstr "Il file %s è stato modificato."
 
 #: weblate/trans/models/change.py:595
-#, fuzzy, python-format
-#| msgid "Parsing of file %s was enforced."
+#, python-format
 msgid "Parsing of the \"%s\" file was enforced."
 msgstr "È stata forzata l'analisi del file %s."
 
@@ -11250,15 +11224,12 @@ msgid "N/A"
 msgstr "N/D"
 
 #: weblate/trans/models/change.py:603
-#, fuzzy, python-format
-#| msgid ""
-#| "License for component %(component)s was changed from %(old)s to "
-#| "%(target)s."
+#, python-format
 msgid ""
 "The license of the \"%(component)s\" component was changed from %(old)s to "
 "%(target)s."
 msgstr ""
-"Licenza per componente %(component)s modificata da %(old)s a %(target)s."
+"Licenza del componente %(component)s modificata da %(old)s a %(target)s."
 
 #. Translators: Action when adding new translation
 #: weblate/trans/models/component.py:118
@@ -12021,11 +11992,11 @@ msgstr ""
 
 #: weblate/trans/models/projecttoken.py:36
 msgid "Token value"
-msgstr ""
+msgstr "Valore token"
 
 #: weblate/trans/models/projecttoken.py:38
 msgid "Token value to use in API"
-msgstr ""
+msgstr "Valore token da usare nell'API"
 
 #: weblate/trans/models/suggestion.py:138
 msgid "Failed to accept suggestion!"
