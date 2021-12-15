@@ -263,7 +263,7 @@ def manage_access(request, project):
             "all_users": User.objects.for_project(obj),
             "blocked_users": obj.userblock_set.select_related("user"),
             "add_user_form": UserManageForm(),
-            "create_project_token_form": ProjectTokenCreateForm(),
+            "create_project_token_form": ProjectTokenCreateForm(obj),
             "block_user_form": UserBlockForm(
                 initial={"user": request.GET.get("block_user")}
             ),
@@ -305,10 +305,10 @@ def create_token(request, project):
     if not request.user.has_perm("project.edit", obj):
         raise PermissionDenied()
 
-    form = ProjectTokenCreateForm(request.POST)
+    form = ProjectTokenCreateForm(obj, request.POST)
 
     if form.is_valid():
-        token = obj.projecttoken_set.create(**form.cleaned_data)
+        token = form.save()
         messages.info(request, _("Token has been created: %s") % token.token)
     else:
         show_form_errors(request, form)

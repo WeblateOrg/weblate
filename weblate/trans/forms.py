@@ -2397,10 +2397,21 @@ class ProjectTokenDeleteForm(forms.Form):
 class ProjectTokenCreateForm(forms.ModelForm):
     class Meta:
         model = ProjectToken
-        fields = ["name", "expires"]
+        fields = ["name", "expires", "project"]
         widgets = {
             "expires": WeblateDateInput(),
+            "project": forms.HiddenInput,
         }
+
+    def __init__(self, project, *args, **kwargs):
+        self.project = project
+        kwargs["initial"] = {"project": project}
+        super().__init__(*args, **kwargs)
+
+    def clean_project(self):
+        if self.project != self.cleaned_data["project"]:
+            raise ValidationError("Invalid project!")
+        return self.cleaned_data["project"]
 
     def clean_expires(self):
         expires = self.cleaned_data["expires"]
