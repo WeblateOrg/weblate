@@ -701,7 +701,7 @@ def create_groups(update):
     # Create new per project groups
     if new_roles:
         for project in Project.objects.iterator():
-            project.save()
+            setup_project_groups(Project, project)
 
 
 def sync_create_groups(sender, **kwargs):
