@@ -17,11 +17,15 @@ class ProjectTokenTest(ViewTestCase):
         self.make_manager()
         response = self.client.post(
             reverse("create-project-token", kwargs=self.kw_project),
-            {"name": "Test Token", "expires": "2999-12-31"},
+            {"name": "Test Token", "expires": "2999-12-31", "project": self.project.id},
             follow=True,
         )
         html = response.content.decode("utf-8")
-        result = re.search(r"Token has been created: (\w+)", html)
+        result = re.search(
+            r'data-clipboard-text="(\w+)" data-clipboard-message="Token copied',
+            html,
+        )
+        self.assertIsNotNone(result)
         return result.group(1)
 
     def delete_token(self):
