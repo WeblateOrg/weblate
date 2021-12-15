@@ -22,7 +22,7 @@ from datetime import timedelta
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 from django.http import JsonResponse
-from django.shortcuts import get_object_or_404, redirect
+from django.shortcuts import redirect
 from django.template.loader import render_to_string
 from django.utils import timezone
 from django.utils.translation import gettext as _
@@ -38,7 +38,6 @@ from weblate.trans.forms import (
     UserManageForm,
 )
 from weblate.trans.models import Change
-from weblate.trans.models.projecttoken import ProjectToken
 from weblate.trans.util import redirect_param, render
 from weblate.utils import messages
 from weblate.utils.views import get_project, show_form_errors
@@ -283,14 +282,10 @@ def delete_token(request, project):
     if not request.user.has_perm("project.edit", obj):
         raise PermissionDenied()
 
-    form = ProjectTokenDeleteForm(request.POST)
+    form = ProjectTokenDeleteForm(obj, request.POST)
 
     if form.is_valid():
-        project_token = get_object_or_404(ProjectToken, pk=form.cleaned_data["token"])
-        if project_token.project.id == obj.id:
-            project_token.delete()
-        else:
-            raise PermissionDenied()
+        form.cleaned_data["token"].delete()
     else:
         show_form_errors(request, form)
 
