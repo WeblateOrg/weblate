@@ -26,7 +26,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-12-15 13:53+0000\n"
 "PO-Revision-Date: 2021-12-15 16:35+0000\n"
-"Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
+"Last-Translator: Tymofii Lytvynenko <till.svit@gmail.com>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/"
 "application/uk/>\n"
 "Language: uk\n"
@@ -9467,10 +9467,8 @@ msgid "Token copied to clipboard."
 msgstr "Жетон скопійовано до буфера обміну даними."
 
 #: weblate/templates/trans/projecttoken-created.html:4
-#, fuzzy
-#| msgid "Copy to clipboard"
 msgid "Copy token to clipboard"
-msgstr "Скопіювати в буфер обміну"
+msgstr "Скопіювати токен до буфера обміну"
 
 #: weblate/templates/trans/projecttoken-created.html:6
 #, python-format
@@ -9478,6 +9476,8 @@ msgid ""
 "Token was created, please save it now as it won't be displayed again: "
 "%(token)s"
 msgstr ""
+"Токен був створено. Збережіть його зараз, оскільки він не буде відображатися "
+"знову: %(token)s"
 
 #: weblate/templates/trans/repo_help.html:2
 msgid ""
@@ -9585,10 +9585,8 @@ msgid "Insufficient privileges for saving translations."
 msgstr "Недостатньо прав для збереження перекладів."
 
 #: weblate/templates/translate.html:217
-#, fuzzy
-#| msgid "Save and stay"
 msgid "Save and continue"
-msgstr "Зберегти та лишитися тут"
+msgstr "Зберегти та продовжити"
 
 #: weblate/templates/translate.html:220
 msgid "Save and stay"
@@ -10743,7 +10741,7 @@ msgstr "Ім’я користувача автора"
 
 #: weblate/trans/forms.py:2429
 msgid "Expires cannot be in the past!"
-msgstr ""
+msgstr "Строк дії не може бути в минулому!"
 
 #: weblate/trans/guide.py:80
 msgid "Version control integration"
@@ -10890,10 +10888,8 @@ msgstr "Неоднозначний код мови."
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:358
-#, fuzzy
-#| msgid "Does not meet libre hosting conditions."
 msgid "Does not meet Libre hosting conditions."
-msgstr "Не відповідає умовам вільного розміщення."
+msgstr "Не відповідає умовам Вільного розміщення."
 
 #: weblate/trans/models/alert.py:363
 msgid "Unused enforced checks."
@@ -10905,7 +10901,7 @@ msgstr "Немає відповідників масці."
 
 #: weblate/trans/models/alert.py:382
 msgid "Inexistant files."
-msgstr ""
+msgstr "Ненаявні файли."
 
 #: weblate/trans/models/announcement.py:111
 msgid "Category"
@@ -11209,10 +11205,8 @@ msgid "The component was automatically locked because of an alert."
 msgstr "Переклад було автоматично заблоковано через таке попередження."
 
 #: weblate/trans/models/change.py:439
-#, fuzzy
-#| msgid "The component was automatically locked because of an alert."
 msgid "The component was automatically unlocked by fixing an alert."
-msgstr "Переклад було автоматично заблоковано через таке попередження."
+msgstr "Складник було автоматично розблоковано шляхом розв'язання проблем."
 
 #: weblate/trans/models/change.py:495
 #, python-format
@@ -11220,16 +11214,14 @@ msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
 msgstr "%(action)s о %(time)s над %(translation)s %(user)s"
 
 #: weblate/trans/models/change.py:593
-#, fuzzy, python-format
-#| msgid "File %s was changed."
+#, python-format
 msgid "The \"%s\" file was changed."
-msgstr "Файл %s було зміненио."
+msgstr "Файл \"%s\" було змінено."
 
 #: weblate/trans/models/change.py:595
-#, fuzzy, python-format
-#| msgid "Parsing of file %s was enforced."
+#, python-format
 msgid "Parsing of the \"%s\" file was enforced."
-msgstr "Синтаксичний розбір файлу %s був застосований."
+msgstr "Синтаксичний розбір файлу \"%s\" виконано."
 
 #: weblate/trans/models/change.py:597
 #, python-format
@@ -11242,16 +11234,13 @@ msgid "N/A"
 msgstr "Н/Д"
 
 #: weblate/trans/models/change.py:603
-#, fuzzy, python-format
-#| msgid ""
-#| "License for component %(component)s was changed from %(old)s to "
-#| "%(target)s."
+#, python-format
 msgid ""
 "The license of the \"%(component)s\" component was changed from %(old)s to "
 "%(target)s."
 msgstr ""
-"Умови ліцензування для складника %(component)s було змінено з %(old)s на "
-"%(target)s."
+"Ліцензію складника \"%(component)s\" було змінено з \"%(old)s\" на \""
+"%(target)s\"."
 
 #. Translators: Action when adding new translation
 #: weblate/trans/models/component.py:118
@@ -12000,11 +11989,11 @@ msgstr ""
 
 #: weblate/trans/models/projecttoken.py:36
 msgid "Token value"
-msgstr ""
+msgstr "Значення токена"
 
 #: weblate/trans/models/projecttoken.py:38
 msgid "Token value to use in API"
-msgstr ""
+msgstr "Значення токена для використання в API"
 
 #: weblate/trans/models/suggestion.py:138
 msgid "Failed to accept suggestion!"
