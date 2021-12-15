@@ -16,14 +16,15 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
-from secrets import token_urlsafe
 
 from django.db import models
 from django.utils.translation import gettext_lazy
 
+from weblate.utils.token import get_token
+
 
 def generate_token():
-    return f"wlp_{token_urlsafe()}"
+    return get_token("wlp")
 
 
 class ProjectToken(models.Model):

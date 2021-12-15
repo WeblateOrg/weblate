@@ -31,7 +31,6 @@ from django.db.models import F, Q
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.utils import timezone
-from django.utils.crypto import get_random_string
 from django.utils.functional import cached_property
 from django.utils.translation import gettext
 from django.utils.translation import gettext_lazy as _
@@ -51,6 +50,7 @@ from weblate.utils.decorators import disable_for_loaddata
 from weblate.utils.fields import EmailField, JSONField
 from weblate.utils.render import validate_editor
 from weblate.utils.request import get_ip_address, get_user_agent
+from weblate.utils.token import get_token
 
 
 class WeblateAccountsConf(AppConf):
@@ -761,7 +761,7 @@ def create_profile_callback(sender, instance, created=False, **kwargs):
     """Automatically create token and profile for user."""
     if created:
         # Create API token
-        Token.objects.create(user=instance, key=get_random_string(40))
+        Token.objects.create(user=instance, key=get_token("wlu"))
         # Create profile
         Profile.objects.create(user=instance)
         # Create subscriptions

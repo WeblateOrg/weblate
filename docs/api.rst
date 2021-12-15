@@ -63,7 +63,8 @@ Authentication tokens
 
    Project scoped tokens were introduced in the 4.10 release.
 
-Each user has his personal access token which can be obtained in the user profile.
+Each user has his personal access token which can be obtained in the user
+profile. Newly generated user tokens have the ``wlu_`` prefix.
 
 It is possible to create project scoped tokens for API access to given project
 only. These tokens can be identified by the ``wlp_`` prefix.
