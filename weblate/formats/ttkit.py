@@ -1354,6 +1354,7 @@ class ARBFormat(JSONFormat):
     loader = ("jsonl10n", "ARBJsonFile")
     autoload = ("*.arb",)
     unit_class = ARBJSONUnit
+    check_flags = ("icu-message-format",)
 
 
 class CSVFormat(TTKitFormat):
