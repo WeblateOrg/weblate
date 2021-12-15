@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-12-15 14:53+0100\n"
-"PO-Revision-Date: 2021-11-24 12:08+0000\n"
+"PO-Revision-Date: 2021-12-16 07:11+0000\n"
 "Last-Translator: Rafael Fontenelle <rafaelff@gnome.org>\n"
 "Language-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/"
 "weblate/documentation/pt_BR/>\n"
@@ -1215,11 +1215,9 @@ msgstr ""
 "`Gerenciar idiomas`]"
 
 #: ../../admin/access.rst:549
-#, fuzzy
-#| msgid "Perform automatic translation [`Administration`]"
 msgid ""
 "Perform automatic translation [`Administration`, `Automatic translation`]"
-msgstr "Efetuar tradução automática [`Administração`]"
+msgstr "Efetuar tradução automática [`Administração`, `Tradução automática`]"
 
 #: ../../admin/access.rst:551
 msgid "Delete existing translation [`Administration`, `Manage languages`]"
@@ -2786,16 +2784,13 @@ msgstr ""
 "compromisso seja personalizada para incluí-la."
 
 #: ../../admin/addons.rst:588
-#, fuzzy
-#| msgid ""
-#| "The original commit messages can optionally be overridden with a custom "
-#| "commit message."
 msgid ""
 "The original commit messages can optionally be overridden with a custom "
 "commit message. See :ref:`markup` for for the message options."
 msgstr ""
 "As mensagens de commit originais podem opcionalmente ser substituídas por "
-"uma mensagem de commit personalizada."
+"uma mensagem de commit personalizada. Veja :ref:`markup` para as opções de "
+"mensagens."
 
 #: ../../admin/addons.rst:591
 msgid ""
@@ -10710,16 +10705,6 @@ msgstr ""
 "no nome usado na chave:"
 
 #: ../../admin/install.rst:258
-#, fuzzy
-#| msgid ""
-#| "The problem here is that anybody could issue the key with this name.  You "
-#| "need to ensure that the key is actually owned by the mentioned person.  "
-#| "The GNU Privacy Handbook covers this topic in the chapter `Validating "
-#| "other keys on your public keyring`_. The most reliable method is to meet "
-#| "the developer in person and exchange key fingerprints, however you can "
-#| "also rely on the web of trust. This way you can trust the key "
-#| "transitively though signatures of others, who have met the developer in "
-#| "person."
 msgid ""
 "The problem here is that anybody could issue the key with this name.  You "
 "need to ensure that the key is actually owned by the mentioned person.  The "
@@ -11150,16 +11135,12 @@ msgstr ""
 "`settings.py`:"
 
 #: ../../admin/install.rst:596
-#, fuzzy
-#| msgid ""
-#| "`Proxy Environment Variables <https://everything.curl.dev/usingcurl/"
-#| "proxies#proxy-environment-variables>`_"
 msgid ""
 "`Proxy Environment Variables <https://everything.curl.dev/usingcurl/proxies/"
 "env>`_"
 msgstr ""
 "`Variáveis de ambiente de proxy <https://everything.curl.dev/usingcurl/"
-"proxies#proxy-environment-variables>`_"
+"proxies/env>`_"
 
 #: ../../admin/install.rst:601
 msgid "Adjusting configuration"
@@ -13332,23 +13313,19 @@ msgstr ":envvar:`WEBLATE_ADMIN_PASSWORD`"
 
 #: ../../admin/install/docker.rst:401
 msgid "The email address that error messages are sent from."
-msgstr ""
+msgstr "O endereço de e-mail a partir do qual mensagens de erro são enviadas."
 
 #: ../../admin/install/docker.rst:405
-#, fuzzy
-#| msgid ":setting:`django:ADMINS`, :ref:`production-admins`"
 msgid ":std:setting:`django:SERVER_EMAIL`, :ref:`production-email`"
-msgstr ":setting:`django:ADMINS`, :ref:`production-admins`"
+msgstr ":std:setting:`django:SERVER_EMAIL`, :ref:`production-email`"
 
 #: ../../admin/install/docker.rst:410
 msgid "Configures the address for outgoing e-mails."
 msgstr "Configura o endereço para e-mails de saída."
 
 #: ../../admin/install/docker.rst:414
-#, fuzzy
-#| msgid ":setting:`django:ADMINS`, :ref:`production-admins`"
 msgid ":std:setting:`django:DEFAULT_FROM_EMAIL`, :ref:`production-email`"
-msgstr ":setting:`django:ADMINS`, :ref:`production-admins`"
+msgstr ":std:setting:`django:DEFAULT_FROM_EMAIL`, :ref:`production-email`"
 
 #: ../../admin/install/docker.rst:419
 msgid "Configures contact form behavior, see :setting:`CONTACT_FORM`."
@@ -18790,6 +18767,8 @@ msgid ""
 "For linked repositories, this is not used and setting from linked component "
 "applies."
 msgstr ""
+"Para repositórios vinculados, isso não é usado e se aplica a definição do "
+"componente vinculado."
 
 #: ../../admin/projects.rst:340
 msgid ""
@@ -21186,28 +21165,29 @@ msgid "when throttling is in place"
 msgstr "quando a limitação está em vigor"
 
 #: ../../api.rst:60
-#, fuzzy
-#| msgid "Authentication backends"
 msgid "Authentication tokens"
-msgstr "Backends de autenticação"
+msgstr "Tokens de autenticação"
 
 #: ../../api.rst:64
-#, fuzzy
-#| msgid "Filtering of changes was introduced in the 4.1 release."
 msgid "Project scoped tokens were introduced in the 4.10 release."
-msgstr "A filtragem de alterações foi introduzida na versão 4.1."
+msgstr "Tokens com escopo de projeto foram introduzidos na versão 4.10."
 
 #: ../../api.rst:66
 msgid ""
 "Each user has his personal access token which can be obtained in the user "
 "profile. Newly generated user tokens have the ``wlu_`` prefix."
 msgstr ""
+"Cada usuário possui seu token de acesso pessoal, que pode ser obtido no "
+"perfil do usuário. Os tokens de usuário recém-gerados têm o prefixo ``wlu_``."
 
 #: ../../api.rst:69
 msgid ""
 "It is possible to create project scoped tokens for API access to given "
 "project only. These tokens can be identified by the ``wlp_`` prefix."
 msgstr ""
+"É possível criar tokens com escopo de projeto para acesso à API apenas para "
+"determinado projeto. Esses tokens podem ser identificados pelo prefixo "
+"``wlp_``."
 
 #: ../../api.rst:73
 msgid "Authentication examples"
@@ -22102,11 +22082,11 @@ msgstr "**Exemplo de solicitação JSON com CURL:**"
 
 #: ../../api.rst:1000
 msgid "**JSON request to create a new component from Git:**"
-msgstr ""
+msgstr "**Solicitação JSON para criar um novo componente a partir do Git:**"
 
 #: ../../api.rst:1023
 msgid "**JSON request to create a new component from another one:**"
-msgstr ""
+msgstr "**Solicitação JSON para criar um novo componente a partir de outro:**"
 
 #: ../../api.rst:1091
 msgid "Returns paginated statistics for all languages within a project."
@@ -23707,10 +23687,8 @@ msgid "Not yet released."
 msgstr "Não lançado ainda."
 
 #: ../../changes.rst:6
-#, fuzzy
-#| msgid "Added support for formality with DeepL."
 msgid "Added support for formality and placeholders with DeepL."
-msgstr "Adicionado suporte para formality com DeepL."
+msgstr "Adicionado suporte para formality e espaços reservados com DeepL."
 
 #: ../../changes.rst:7
 msgid ""
@@ -23729,38 +23707,37 @@ msgid ""
 "Fixed: \"Perform automatic translation\" privilege is no longer part of the "
 "*Languages* group."
 msgstr ""
+"Corrigido: o privilégio \"Efetuar tradução automática\" não é mais parte do "
+"grupo *Idiomas*."
 
 #: ../../changes.rst:10
-#, fuzzy
-#| msgid ""
-#| "Performs automatic translation based on other component translations."
 msgid ""
 "\"Perform automatic translation\" is in the *Administration* and the new "
 "*Automatic translation* group."
 msgstr ""
-"Executa tradução automática com base em outras traduções de componentes."
+"\"Efetuar tradução automática\" está em *Administração* e no novo grupo "
+"\"Tradução automática\"."
 
 #: ../../changes.rst:11
-#, fuzzy
-#| msgid "Fixed generating mo files in certain cases."
 msgid "Fixed generating XLSX files with special chars."
-msgstr "Corrigida a geração de arquivos mo em certos casos."
+msgstr "Corrigida a geração de arquivos XLSX em caracteres especiais."
 
 #: ../../changes.rst:12
 msgid ""
 "Added ability to the GitHub authentication backend to check if the user "
 "belongs to a specific GitHub organization or team."
 msgstr ""
+"Adicionada capacidade ao backend de autenticação do GitHub para verificar se "
+"o usuário pertence a uma organização ou equipe específica do GitHub."
 
 #: ../../changes.rst:13
 msgid "Improved feedback on invalid parameters passed to API."
-msgstr ""
+msgstr "Melhorado o feedback ao serem passados parâmetros inválidos para a API."
 
 #: ../../changes.rst:14
-#, fuzzy
-#| msgid "Added support for rejecting reused passwords."
 msgid "Added support for project scoped access tokens for API."
-msgstr "Adicionado suporte para rejeitar senhas reutilizadas."
+msgstr ""
+"Adicionado suporte para tokens de acesso com escopo de projeto para a API."
 
 #: ../../changes.rst:16
 msgid ""
@@ -24873,12 +24850,10 @@ msgid "Extended search capabilities for changes in history."
 msgstr "Estendidos os recursos de pesquisa para mudanças no histórico."
 
 #: ../../changes.rst:332
-#, fuzzy
-#| msgid "Improved billing detail pages and libre hosting workflow."
 msgid "Improved billing detail pages and Libre hosting workflow."
 msgstr ""
 "Melhoradas as páginas de detalhes de cobrança e fluxo de trabalho de "
-"hospedagem livre."
+"hospedagem Livre."
 
 #: ../../changes.rst:333
 msgid "Extended translation statistics API."
@@ -36686,6 +36661,8 @@ msgid ""
 "The v4 variant uses different approach for storing plurals and is currently "
 "not supported."
 msgstr ""
+"A variante v4 usa uma abordagem diferente para armazenar plurais e "
+"atualmente não é compatível."
 
 #: ../../formats.rst:931 ../../formats.rst:969
 msgid "``langs/*.json``"
@@ -38952,12 +38929,12 @@ msgstr ""
 "ocorrências`."
 
 #: ../../user/checks.rst:619
-#, fuzzy
-#| msgid ":ref:`component`, :ref:`component-allow_translation_propagation`"
 msgid ""
 "This check applies to all components in a project that have :ref:`component-"
 "allow_translation_propagation` turned on."
-msgstr ":ref:`component`, :ref:`component-allow_translation_propagation`"
+msgstr ""
+"Esta verificação se aplica a todos os componentes em um projeto que têm :ref"
+":`component-allow_translation_propagation` ativada."
 
 #: ../../user/checks.rst:624
 msgid ""
