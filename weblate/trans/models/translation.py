@@ -1256,9 +1256,12 @@ class Translation(
 
     def get_store_change_translations(self):
         component = self.component
-        if not self.is_source or component.has_template():
-            return [self]
-        return component.translation_set.exclude(id=self.id)
+        result = []
+        if self.is_source:
+            result.extend(component.translation_set.exclude(id=self.id))
+        # Source is always at the end
+        result.append(self)
+        return result
 
     @transaction.atomic
     def add_unit(  # noqa: C901
@@ -1401,6 +1404,9 @@ class Translation(
                     continue
                 # Delete the removed unit from the database
                 translation_unit.delete()
+                # Skip file processing on source language without a storage
+                if not self.filename:
+                    continue
                 # Does unit exist in the file?
                 try:
                     pounit, add = translation.store.find_unit(unit.context, unit.source)
