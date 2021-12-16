@@ -18,15 +18,16 @@
 #
 
 
-class FileParseError(Exception):
-    """File parse error."""
-
-    def __init__(self):
-        super().__init__(self.__doc__)
-
-
-class PluralFormsMismatch(Exception):
-    """Plural forms do not match the language."""
+class WeblateError(Exception):
+    """Base class for Weblate errors."""
 
     def __init__(self, message=None):
         super().__init__(message or self.__doc__)
+
+
+class FileParseError(WeblateError):
+    """File parse error."""
+
+
+class PluralFormsMismatch(WeblateError):
+    """Plural forms do not match the language."""
