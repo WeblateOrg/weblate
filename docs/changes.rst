@@ -1,7 +1,7 @@
 Weblate 4.10
 ------------
 
-Not yet released.
+Released on December 16th 2021.
 
 * Added support for formality and placeholders with DeepL.
 * Bulk edit and search and replace are now available on project and language level.
