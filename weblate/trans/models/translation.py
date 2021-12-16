@@ -1148,6 +1148,7 @@ class Translation(
                     filecopy,
                     component.file_format_cls,
                     None,
+                    as_template=True,
                 )
             else:
                 template_store = component.template_store

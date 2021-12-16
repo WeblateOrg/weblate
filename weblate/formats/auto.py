@@ -38,7 +38,9 @@ def detect_filename(filename):
     return None
 
 
-def try_load(filename, content, original_format, template_store):
+def try_load(
+    filename, content, original_format, template_store, as_template: bool = False
+):
     """Try to load file by guessing type."""
     # Start with original format and translate-toolkit based autodetection
     formats = [original_format, AutodetectFormat]
@@ -60,7 +62,7 @@ def try_load(filename, content, original_format, template_store):
         formats.insert(1, original_format.bilingual_class)
     failure = Exception("Bug!")
     for file_format in formats:
-        if file_format.monolingual in (True, None) and template_store:
+        if file_format.monolingual in (True, None) and (template_store or as_template):
             try:
                 result = file_format.parse(
                     BytesIOMode(filename, content), template_store
