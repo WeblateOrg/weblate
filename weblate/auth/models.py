@@ -793,31 +793,30 @@ def setup_project_groups(sender, instance, **kwargs):
 
     # Create role specific groups
     handled = set()
+    groups = {
+        group.name.rsplit("@", 1)[-1]: group
+        for group in instance.group_set.filter(internal=True, name__contains="@")
+    }
     for group_name in groups:
         name = f"{instance.name}@{group_name}"
-        try:
-            group = instance.group_set.get(
-                internal=True, name__endswith=f"@{group_name}"
-            )
+        if group_name in groups:
+            group = groups[group_name]
             # Update exiting group (to handle rename)
             if group.name != name:
                 group.name = name
                 group.save()
-        except Group.DoesNotExist:
+        else:
             # Create new group
-            group, created = Group.objects.get_or_create(
+            group = Group.objects.create(
                 internal=True,
                 name=name,
-                defaults={
-                    "project_selection": SELECTION_MANUAL,
-                    "language_selection": SELECTION_ALL,
-                },
+                project_selection=SELECTION_MANUAL,
+                language_selection=SELECTION_ALL,
             )
-            if created:
-                group.projects.add(instance)
-                group.roles.set(
-                    Role.objects.filter(name=ACL_GROUPS[group_name]), clear=True
-                )
+            group.projects.add(instance)
+            group.roles.set(
+                Role.objects.filter(name=ACL_GROUPS[group_name]), clear=True
+            )
         handled.add(group.pk)
 
     # Remove stale groups
