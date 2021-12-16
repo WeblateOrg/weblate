@@ -40,6 +40,7 @@ class DeepLTranslation(MachineTranslation):
     language_map = {
         "zh_hans": "zh",
     }
+    force_uncleanup = True
 
     def __init__(self):
         """Check configuration."""

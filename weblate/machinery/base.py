@@ -71,6 +71,7 @@ class MachineTranslation:
     do_cleanup = True
     batch_size = 20
     accounting_key = "external"
+    force_uncleanup = False
 
     @classmethod
     def get_rank(cls):
@@ -310,7 +311,7 @@ class MachineTranslation:
         cache_key = self.translate_cache_key(source, language, text, threshold)
         if cache_key:
             result = cache.get(cache_key)
-            if result and replacements:
+            if result and (replacements or self.force_uncleanup):
                 self.uncleanup_results(replacements, result)
             return cache_key, result
         return cache_key, None
@@ -363,7 +364,7 @@ class MachineTranslation:
                     threshold=threshold,
                 )
             )
-            if replacements:
+            if replacements or self.force_uncleanup:
                 self.uncleanup_results(replacements, result)
             if cache_key:
                 cache.set(cache_key, result, 30 * 86400)
