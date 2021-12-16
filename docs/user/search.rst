@@ -33,7 +33,7 @@ Fields
 ``key:TEXT``
    Key string case-insensitive search.
 ``note:TEXT``
-   Comment string case-insensitive search.
+   Source string description case-insensitive search.
 ``location:TEXT``
    Location string case-insensitive search.
 ``priority:NUMBER``
