@@ -12,7 +12,8 @@ Released on December 16th 2021.
 * Added ability to the GitHub authentication backend to check if the user belongs to a specific GitHub organization or team.
 * Improved feedback on invalid parameters passed to API.
 * Added support for project scoped access tokens for API.
-* Fixed unit removal in some cases.
+* Fixed string removal in some cases.
+* Fixed translating newly added strings.
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/74?closed=1>`__.
 
