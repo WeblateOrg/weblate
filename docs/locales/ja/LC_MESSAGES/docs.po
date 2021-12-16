@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-12-16 11:55+0100\n"
-"PO-Revision-Date: 2021-12-11 07:48+0000\n"
-"Last-Translator: amano <amano.hajime@gmail.com>\n"
+"PO-Revision-Date: 2021-12-16 19:44+0000\n"
+"Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "documentation/ja/>\n"
 "Language: ja\n"
@@ -2581,16 +2581,12 @@ msgstr ""
 "ます。"
 
 #: ../../admin/addons.rst:588
-#, fuzzy
-#| msgid ""
-#| "The original commit messages can optionally be overridden with a custom "
-#| "commit message."
 msgid ""
 "The original commit messages can optionally be overridden with a custom "
 "commit message. See :ref:`markup` for the message options."
 msgstr ""
-"元々のコミット メッセージは、オプションで独自のコミット メッセージに上書きで"
-"きます。"
+"元々のコミット メッセージは、オプションで独自のコミット メッセージに上書きできます。メッセージ オプションについては、:ref:`markup` "
+"を確認してください。"
 
 #: ../../admin/addons.rst:591
 msgid ""
@@ -10694,16 +10690,10 @@ msgstr ""
 "次の場所でプロキシ設定の設定を推奨します :file:`settings.py`:"
 
 #: ../../admin/install.rst:596
-#, fuzzy
-#| msgid ""
-#| "`Proxy Environment Variables <https://ec.haxx.se/usingcurl/usingcurl-"
-#| "proxies#proxy-environment-variables>`_"
 msgid ""
 "`Proxy Environment Variables <https://everything.curl.dev/usingcurl/proxies/"
 "env>`_"
-msgstr ""
-"`Proxy Environment Variables <https://ec.haxx.se/usingcurl/usingcurl-"
-"proxies#proxy-environment-variables>`_"
+msgstr "`プロキシ環境変数 <https://everything.curl.dev/usingcurl/proxies/env>`_"
 
 #: ../../admin/install.rst:601
 msgid "Adjusting configuration"
@@ -12726,32 +12716,28 @@ msgid "The email address that error messages are sent from."
 msgstr ""
 
 #: ../../admin/install/docker.rst:405
-#, fuzzy
-#| msgid ":setting:`django:ADMINS`"
 msgid ":std:setting:`django:SERVER_EMAIL`, :ref:`production-email`"
-msgstr ":setting:`django:ADMINS`"
+msgstr ":std:setting:`django:SERVER_EMAIL`、:ref:`production-email`"
 
 #: ../../admin/install/docker.rst:410
 msgid "Configures the address for outgoing e-mails."
-msgstr ""
+msgstr "送信用のメールアドレスを設定します。"
 
 #: ../../admin/install/docker.rst:414
-#, fuzzy
-#| msgid ":setting:`django:ADMINS`"
 msgid ":std:setting:`django:DEFAULT_FROM_EMAIL`, :ref:`production-email`"
-msgstr ":setting:`django:ADMINS`"
+msgstr ":std:setting:`django:DEFAULT_FROM_EMAIL`、:ref:`production-email`"
 
 #: ../../admin/install/docker.rst:419
 msgid "Configures contact form behavior, see :setting:`CONTACT_FORM`."
-msgstr ""
+msgstr "連絡先フォームの動作を設定します。参照: :setting:`CONTACT_FORM`。"
 
 #: ../../admin/install/docker.rst:423
 msgid "Configures allowed HTTP hostnames using :setting:`ALLOWED_HOSTS`."
-msgstr ""
+msgstr ":setting:`ALLOWED_HOSTS` を使用して、許可する HTTP ホスト名を設定します。"
 
 #: ../../admin/install/docker.rst:425
 msgid "Defaults to ``*`` which allows all hostnames."
-msgstr ""
+msgstr "デフォルトは ``*`` で、すべてのホスト名を許可します。"
 
 #: ../../admin/install/docker.rst:436
 msgid ""
@@ -19483,22 +19469,24 @@ msgid "Authentication tokens"
 msgstr "認証バックエンド"
 
 #: ../../api.rst:64
-#, fuzzy
-#| msgid "Filtering of changes was introduced in the 4.1 release."
 msgid "Project scoped tokens were introduced in the 4.10 release."
-msgstr "変更のフィルター処理は 4.1 リリースで導入しました。"
+msgstr "プロジェクト スコープ トークンは、4.10 リリースから導入。"
 
 #: ../../api.rst:66
 msgid ""
 "Each user has his personal access token which can be obtained in the user "
 "profile. Newly generated user tokens have the ``wlu_`` prefix."
 msgstr ""
+"各ユーザーは、ユーザー プロファイルから取得できる個人用アクセス トークンを持っています。新しく生成された ユーザー トークンには、``wlu_`` "
+"という接頭辞が付きます。"
 
 #: ../../api.rst:69
 msgid ""
 "It is possible to create project scoped tokens for API access to given "
 "project only. These tokens can be identified by the ``wlp_`` prefix."
 msgstr ""
+"指定したプロジェクトのみへの API アクセス用に、プロジェクト スコープのトークンを作成できます。これらのトークンは、``wlp_`` "
+"接頭辞で識別できます。"
 
 #: ../../api.rst:73
 msgid "Authentication examples"
@@ -21962,56 +21950,48 @@ msgid "Released on December 16th 2021."
 msgstr ""
 
 #: ../../changes.rst:6
-#, fuzzy
-#| msgid "Added support for :ref:`txt`."
 msgid "Added support for formality and placeholders with DeepL."
-msgstr ":ref:`txt` に対応しました。"
+msgstr "DeepL の形式とプレースホルダーに対応。"
 
 #: ../../changes.rst:7
 msgid ""
 "Bulk edit and search and replace are now available on project and language "
 "level."
-msgstr ""
+msgstr "一括編集および検索と置換が、プロジェクトおよび言語レベルで使用できるようになった。"
 
 #: ../../changes.rst:8
-#, fuzzy
-#| msgid "Added option to watch a component."
 msgid "Added filtering to search and replace."
-msgstr "コンポーネントを監視するオプションを追加しました。"
+msgstr "検索と置換にフィルターの追加。"
 
 #: ../../changes.rst:9
 msgid ""
 "Fixed: \"Perform automatic translation\" privilege is no longer part of the "
 "*Languages* group."
-msgstr ""
+msgstr "修正:「自動翻訳を実行する」権限が *Languages* グループには含まれなくなる。"
 
 #: ../../changes.rst:10
 msgid ""
 "\"Perform automatic translation\" is in the *Administration* and the new "
 "*Automatic translation* group."
-msgstr ""
+msgstr "「自動翻訳を実行する」は *管理* および新しい *自動翻訳* グループにある。"
 
 #: ../../changes.rst:11
-#, fuzzy
-#| msgid "base file for monolingual translations"
 msgid "Fixed generating XLSX files with special chars."
-msgstr "単一言語翻訳用の基本ファイル"
+msgstr "特殊文字を含む XLSX ファイルの生成を修正。"
 
 #: ../../changes.rst:12
 msgid ""
 "Added ability to the GitHub authentication backend to check if the user "
 "belongs to a specific GitHub organization or team."
-msgstr ""
+msgstr "GitHub 認証バックエンドに、ユーザーが特定の GitHub 組織またはチームに属しているかどうかを検査する機能の追加。"
 
 #: ../../changes.rst:13
 msgid "Improved feedback on invalid parameters passed to API."
-msgstr ""
+msgstr "API に無効なパラメータを渡した場合のフィードバックの改善。"
 
 #: ../../changes.rst:14
-#, fuzzy
-#| msgid "Added support for :ref:`txt`."
 msgid "Added support for project scoped access tokens for API."
-msgstr ":ref:`txt` に対応しました。"
+msgstr "API 用のプロジェクト スコープ付きアクセス トークンに対応。"
 
 #: ../../changes.rst:15
 #, fuzzy
@@ -35978,12 +35958,12 @@ msgstr ""
 "訳は :guilabel:`その他の出現箇所` タブで確認できます。"
 
 #: ../../user/checks.rst:619
-#, fuzzy
-#| msgid ":ref:`component`, :ref:`component-allow_translation_propagation`"
 msgid ""
 "This check applies to all components in a project that have :ref:`component-"
 "allow_translation_propagation` turned on."
-msgstr ":ref:`component`、:ref:`component-allow_translation_propagation`"
+msgstr ""
+"この検査は、:ref:`component-allow_translation_propagation` "
+"が有効化されているプロジェクト内のすべてのコンポーネントに適用されます。"
 
 #: ../../user/checks.rst:624
 msgid ""
@@ -37945,10 +37925,8 @@ msgid "``note:TEXT``"
 msgstr "``note:TEXT``"
 
 #: ../../user/search.rst:36
-#, fuzzy
-#| msgid "Source string case insensitive search."
 msgid "Source string description case-insensitive search."
-msgstr "原文の大文字と小文字を区別しない検索。"
+msgstr "原文の説明を大文字と小文字を区別しないで検索。"
 
 #: ../../user/search.rst:37
 msgid "``location:TEXT``"
