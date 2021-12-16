@@ -23,7 +23,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.10\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
-"POT-Creation-Date: 2021-12-15 13:53+0000\n"
+"POT-Creation-Date: 2021-12-16 10:54+0000\n"
 "PO-Revision-Date: 2021-12-15 19:10+0000\n"
 "Last-Translator: Anonymous <noreply@weblate.org>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/weblate/"
@@ -7247,6 +7247,7 @@ msgstr "Cadena de origen"
 
 #: weblate/templates/mail/snippets/source-string.html:14
 #: weblate/templates/snippets/note-badge.html:5
+#: weblate/templates/snippets/query-builder.html:18
 #: weblate/templates/translate.html:625
 #, fuzzy
 #| msgid "Source string location"
@@ -8671,10 +8672,6 @@ msgstr "Cadenas de destino"
 #: weblate/templates/snippets/query-builder.html:17
 msgid "Key/Context strings"
 msgstr "Cadenas de clave/contexto"
-
-#: weblate/templates/snippets/query-builder.html:18
-msgid "Comment strings"
-msgstr "Cadenas de comentarios"
 
 #: weblate/templates/snippets/query-builder.html:19
 msgid "Location strings"
@@ -11270,10 +11267,8 @@ msgid "The component was automatically locked because of an alert."
 msgstr "El componente se bloqueó automáticamente a causa de una alerta."
 
 #: weblate/trans/models/change.py:439
-#, fuzzy
-#| msgid "The component was automatically locked because of an alert."
-msgid "The component was automatically unlocked by fixing an alert."
-msgstr "El componente se bloqueó automáticamente a causa de una alerta."
+msgid "Fixing an alert automatically unlocked the component."
+msgstr ""
 
 #: weblate/trans/models/change.py:495
 #, python-format
@@ -12111,16 +12106,16 @@ msgstr ""
 msgid "Failed to parse file %(file)s: %(error)s"
 msgstr "No se pudo procesar el archivo %(file)s: %(error)s"
 
-#: weblate/trans/models/translation.py:1462
+#: weblate/trans/models/translation.py:1468
 msgid "This string seems to already exist."
 msgstr "Parece que ya existe esta cadena."
 
-#: weblate/trans/models/translation.py:1469
+#: weblate/trans/models/translation.py:1475
 #, python-format
 msgid "Failed adding string: %s"
 msgstr "No se pudo añadir la cadena: %s"
 
-#: weblate/trans/models/translation.py:1469
+#: weblate/trans/models/translation.py:1475
 msgid "No translation found."
 msgstr "No se encontró ninguna traducción."
 
@@ -13420,6 +13415,14 @@ msgstr "No se pudo descartar el error de configuración."
 #, python-format
 msgid "Created user account %s."
 msgstr "Se creó la cuenta de usuario %s."
+
+#~ msgid "Comment strings"
+#~ msgstr "Cadenas de comentarios"
+
+#, fuzzy
+#~| msgid "The component was automatically locked because of an alert."
+#~ msgid "The component was automatically unlocked by fixing an alert."
+#~ msgstr "El componente se bloqueó automáticamente a causa de una alerta."
 
 #~ msgid "Component was automatically unlocked as alert was fixed."
 #~ msgstr ""

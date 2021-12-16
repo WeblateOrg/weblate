@@ -18,7 +18,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.10\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
-"POT-Creation-Date: 2021-12-15 13:53+0000\n"
+"POT-Creation-Date: 2021-12-16 10:54+0000\n"
 "PO-Revision-Date: 2021-12-15 19:50+0000\n"
 "Last-Translator: Heimen Stoffels <vistausss@fastmail.com>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/weblate/"
@@ -7191,6 +7191,7 @@ msgstr "Brontekenreeks"
 
 #: weblate/templates/mail/snippets/source-string.html:14
 #: weblate/templates/snippets/note-badge.html:5
+#: weblate/templates/snippets/query-builder.html:18
 #: weblate/templates/translate.html:625
 msgid "Source string description"
 msgstr "Locatie van bronomschrijving"
@@ -8589,10 +8590,6 @@ msgstr "Doeltekenreeksen"
 #: weblate/templates/snippets/query-builder.html:17
 msgid "Key/Context strings"
 msgstr "Sleutel-/Contexttekenreeksen"
-
-#: weblate/templates/snippets/query-builder.html:18
-msgid "Comment strings"
-msgstr "Opmerking-tekenreeksen"
 
 #: weblate/templates/snippets/query-builder.html:19
 msgid "Location strings"
@@ -11164,10 +11161,8 @@ msgid "The component was automatically locked because of an alert."
 msgstr "Dit onderdeel is automatisch vergrendeld vanwege een waarschuwing."
 
 #: weblate/trans/models/change.py:439
-msgid "The component was automatically unlocked by fixing an alert."
+msgid "Fixing an alert automatically unlocked the component."
 msgstr ""
-"Dit onderdeel is automatisch ontgrendeld vanwege het oplossen van een "
-"waarschuwing."
 
 #: weblate/trans/models/change.py:495
 #, python-format
@@ -11988,16 +11983,16 @@ msgstr ""
 msgid "Failed to parse file %(file)s: %(error)s"
 msgstr "Verwerken van bestand %(file)s is mislukt: %(error)s"
 
-#: weblate/trans/models/translation.py:1462
+#: weblate/trans/models/translation.py:1468
 msgid "This string seems to already exist."
 msgstr "Deze tekenreeks lijkt reeds te bestaan."
 
-#: weblate/trans/models/translation.py:1469
+#: weblate/trans/models/translation.py:1475
 #, python-format
 msgid "Failed adding string: %s"
 msgstr "De tekenreeks kan niet worden toegevoegd: %s"
 
-#: weblate/trans/models/translation.py:1469
+#: weblate/trans/models/translation.py:1475
 msgid "No translation found."
 msgstr "Geen vertaling gevonden."
 
@@ -13295,6 +13290,14 @@ msgstr "De configuratiefout kan niet worden verworpen!"
 #, python-format
 msgid "Created user account %s."
 msgstr "‘%s’ is aangemaakt."
+
+#~ msgid "Comment strings"
+#~ msgstr "Opmerking-tekenreeksen"
+
+#~ msgid "The component was automatically unlocked by fixing an alert."
+#~ msgstr ""
+#~ "Dit onderdeel is automatisch ontgrendeld vanwege het oplossen van een "
+#~ "waarschuwing."
 
 #~ msgid "Component was automatically unlocked as alert was fixed."
 #~ msgstr ""

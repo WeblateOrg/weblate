@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.10\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
-"POT-Creation-Date: 2021-12-15 13:53+0000\n"
+"POT-Creation-Date: 2021-12-16 10:54+0000\n"
 "PO-Revision-Date: 2021-12-15 19:10+0000\n"
 "Last-Translator: Anonymous <noreply@weblate.org>\n"
 "Language-Team: Kabyle <https://hosted.weblate.org/projects/weblate/"
@@ -7460,6 +7460,7 @@ msgstr "Azrir aɣbalu"
 
 #: weblate/templates/mail/snippets/source-string.html:14
 #: weblate/templates/snippets/note-badge.html:5
+#: weblate/templates/snippets/query-builder.html:18
 #: weblate/templates/translate.html:625
 #, fuzzy
 #| msgid "Source string location"
@@ -8971,10 +8972,6 @@ msgstr "Izriren isuḍas"
 #| msgid "Context strings"
 msgid "Key/Context strings"
 msgstr "Izriren n usatal"
-
-#: weblate/templates/snippets/query-builder.html:18
-msgid "Comment strings"
-msgstr "Izriren n uwennit"
 
 #: weblate/templates/snippets/query-builder.html:19
 msgid "Location strings"
@@ -11656,10 +11653,8 @@ msgid "The component was automatically locked because of an alert."
 msgstr "Tasuqilt temdel s wudem awurman ɣef sebba n yilɣa-a:"
 
 #: weblate/trans/models/change.py:439
-#, fuzzy
-#| msgid "The translation was automatically locked due to following alerts:"
-msgid "The component was automatically unlocked by fixing an alert."
-msgstr "Tasuqilt temdel s wudem awurman ɣef sebba n yilɣa-a:"
+msgid "Fixing an alert automatically unlocked the component."
+msgstr ""
 
 #: weblate/trans/models/change.py:495
 #, python-format
@@ -12458,19 +12453,19 @@ msgstr ""
 msgid "Failed to parse file %(file)s: %(error)s"
 msgstr ""
 
-#: weblate/trans/models/translation.py:1462
+#: weblate/trans/models/translation.py:1468
 #, fuzzy
 #| msgid "This translation is locked."
 msgid "This string seems to already exist."
 msgstr "Tasuqilt-a temdel."
 
-#: weblate/trans/models/translation.py:1469
+#: weblate/trans/models/translation.py:1475
 #, fuzzy, python-format
 #| msgid "Pending string"
 msgid "Failed adding string: %s"
 msgstr "Azrir yettraǧun"
 
-#: weblate/trans/models/translation.py:1469
+#: weblate/trans/models/translation.py:1475
 #, fuzzy
 #| msgid "New translation"
 msgid "No translation found."
@@ -13791,6 +13786,14 @@ msgstr "Ur izmir ara ad yanef i tuccḍa n twila!"
 #| msgid "Create an account using:"
 msgid "Created user account %s."
 msgstr "Rnu amiḍan amaynut s useqdec n:"
+
+#~ msgid "Comment strings"
+#~ msgstr "Izriren n uwennit"
+
+#, fuzzy
+#~| msgid "The translation was automatically locked due to following alerts:"
+#~ msgid "The component was automatically unlocked by fixing an alert."
+#~ msgstr "Tasuqilt temdel s wudem awurman ɣef sebba n yilɣa-a:"
 
 #, fuzzy
 #~| msgid "Component automatically unlocked"

@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.10\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
-"POT-Creation-Date: 2021-12-15 13:53+0000\n"
+"POT-Creation-Date: 2021-12-16 10:54+0000\n"
 "PO-Revision-Date: 2021-12-15 19:10+0000\n"
 "Last-Translator: Anonymous <noreply@weblate.org>\n"
 "Language-Team: Slovenian <https://hosted.weblate.org/projects/weblate/"
@@ -7958,6 +7958,7 @@ msgstr "Izvirni niz"
 
 #: weblate/templates/mail/snippets/source-string.html:14
 #: weblate/templates/snippets/note-badge.html:5
+#: weblate/templates/snippets/query-builder.html:18
 #: weblate/templates/translate.html:625
 #, fuzzy
 #| msgid "Source string location"
@@ -9566,12 +9567,6 @@ msgstr "Izvirni nizi"
 #| msgid "Search in context strings"
 msgid "Key/Context strings"
 msgstr "Išči v sobesedilnih nizih"
-
-#: weblate/templates/snippets/query-builder.html:18
-#, fuzzy
-#| msgid "C format string"
-msgid "Comment strings"
-msgstr "Oblika niza C"
 
 #: weblate/templates/snippets/query-builder.html:19
 #, fuzzy
@@ -12506,10 +12501,8 @@ msgid "The component was automatically locked because of an alert."
 msgstr "Prevod je bil samodejno zaklenjen zaradi naslednjih opozoril:"
 
 #: weblate/trans/models/change.py:439
-#, fuzzy
-#| msgid "The translation was automatically locked due to following alerts:"
-msgid "The component was automatically unlocked by fixing an alert."
-msgstr "Prevod je bil samodejno zaklenjen zaradi naslednjih opozoril:"
+msgid "Fixing an alert automatically unlocked the component."
+msgstr ""
 
 #: weblate/trans/models/change.py:495
 #, python-format
@@ -13491,19 +13484,19 @@ msgstr ""
 msgid "Failed to parse file %(file)s: %(error)s"
 msgstr "Nismo uspeli razčleniti datoteke %(file)s: %(error)s"
 
-#: weblate/trans/models/translation.py:1462
+#: weblate/trans/models/translation.py:1468
 #, fuzzy
 #| msgid "Translation file already exists!"
 msgid "This string seems to already exist."
 msgstr "Datoteka s prevodom že obstaja!"
 
-#: weblate/trans/models/translation.py:1469
+#: weblate/trans/models/translation.py:1475
 #, fuzzy, python-format
 #| msgid "Pending suggestions"
 msgid "Failed adding string: %s"
 msgstr "Predlogi na čakanju"
 
-#: weblate/trans/models/translation.py:1469
+#: weblate/trans/models/translation.py:1475
 #, fuzzy
 #| msgid "No matching translations found!"
 msgid "No translation found."
@@ -14980,6 +14973,16 @@ msgstr "Napake prilagoditve ni mogoče prezreti!"
 #| msgid "Delete this account"
 msgid "Created user account %s."
 msgstr "Izbriši račun"
+
+#, fuzzy
+#~| msgid "C format string"
+#~ msgid "Comment strings"
+#~ msgstr "Oblika niza C"
+
+#, fuzzy
+#~| msgid "The translation was automatically locked due to following alerts:"
+#~ msgid "The component was automatically unlocked by fixing an alert."
+#~ msgstr "Prevod je bil samodejno zaklenjen zaradi naslednjih opozoril:"
 
 #, fuzzy
 #~| msgid "Component unlocked"

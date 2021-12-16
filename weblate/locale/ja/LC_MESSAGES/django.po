@@ -26,7 +26,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.10\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
-"POT-Creation-Date: 2021-12-15 13:53+0000\n"
+"POT-Creation-Date: 2021-12-16 10:54+0000\n"
 "PO-Revision-Date: 2021-12-15 19:10+0000\n"
 "Last-Translator: Anonymous <noreply@weblate.org>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
@@ -7101,6 +7101,7 @@ msgstr "原文"
 
 #: weblate/templates/mail/snippets/source-string.html:14
 #: weblate/templates/snippets/note-badge.html:5
+#: weblate/templates/snippets/query-builder.html:18
 #: weblate/templates/translate.html:625
 #, fuzzy
 #| msgid "Source string location"
@@ -8482,10 +8483,6 @@ msgstr "翻訳文"
 #: weblate/templates/snippets/query-builder.html:17
 msgid "Key/Context strings"
 msgstr "キー / コンテキスト文字列"
-
-#: weblate/templates/snippets/query-builder.html:18
-msgid "Comment strings"
-msgstr "コメント文字列"
 
 #: weblate/templates/snippets/query-builder.html:19
 msgid "Location strings"
@@ -11003,10 +11000,8 @@ msgid "The component was automatically locked because of an alert."
 msgstr "警告が発生したため、コンポーネントが自動的にロックされました。"
 
 #: weblate/trans/models/change.py:439
-#, fuzzy
-#| msgid "The component was automatically locked because of an alert."
-msgid "The component was automatically unlocked by fixing an alert."
-msgstr "警告が発生したため、コンポーネントが自動的にロックされました。"
+msgid "Fixing an alert automatically unlocked the component."
+msgstr ""
 
 #: weblate/trans/models/change.py:495
 #, python-format
@@ -11804,16 +11799,16 @@ msgstr ""
 msgid "Failed to parse file %(file)s: %(error)s"
 msgstr "ファイル %(file)s の解析に失敗しました: %(error)s"
 
-#: weblate/trans/models/translation.py:1462
+#: weblate/trans/models/translation.py:1468
 msgid "This string seems to already exist."
 msgstr "この文字列はすでに存在しています。"
 
-#: weblate/trans/models/translation.py:1469
+#: weblate/trans/models/translation.py:1475
 #, python-format
 msgid "Failed adding string: %s"
 msgstr "追加に失敗した文字列: %s"
 
-#: weblate/trans/models/translation.py:1469
+#: weblate/trans/models/translation.py:1475
 msgid "No translation found."
 msgstr "翻訳が見つかりません。"
 
@@ -13076,6 +13071,14 @@ msgstr "設定エラーは無視できません！"
 #, python-format
 msgid "Created user account %s."
 msgstr "ユーザーアカウント %s を作成しました。"
+
+#~ msgid "Comment strings"
+#~ msgstr "コメント文字列"
+
+#, fuzzy
+#~| msgid "The component was automatically locked because of an alert."
+#~ msgid "The component was automatically unlocked by fixing an alert."
+#~ msgstr "警告が発生したため、コンポーネントが自動的にロックされました。"
 
 #~ msgid "Component was automatically unlocked as alert was fixed."
 #~ msgstr "警告は修正され、コンポーネントは自動的にロック解除されました。"

@@ -41,7 +41,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.10\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
-"POT-Creation-Date: 2021-12-15 13:53+0000\n"
+"POT-Creation-Date: 2021-12-16 10:54+0000\n"
 "PO-Revision-Date: 2021-12-15 19:10+0000\n"
 "Last-Translator: Anonymous <noreply@weblate.org>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/"
@@ -7232,6 +7232,7 @@ msgstr "Исходная строка"
 
 #: weblate/templates/mail/snippets/source-string.html:14
 #: weblate/templates/snippets/note-badge.html:5
+#: weblate/templates/snippets/query-builder.html:18
 #: weblate/templates/translate.html:625
 #, fuzzy
 #| msgid "Source string location"
@@ -8655,10 +8656,6 @@ msgstr "Целевые строки"
 #: weblate/templates/snippets/query-builder.html:17
 msgid "Key/Context strings"
 msgstr "Ключи/контекст строк"
-
-#: weblate/templates/snippets/query-builder.html:18
-msgid "Comment strings"
-msgstr "Строки комментариев"
 
 #: weblate/templates/snippets/query-builder.html:19
 msgid "Location strings"
@@ -11232,10 +11229,8 @@ msgid "The component was automatically locked because of an alert."
 msgstr "Компонент был автоматически заблокирован из-за предупреждения."
 
 #: weblate/trans/models/change.py:439
-#, fuzzy
-#| msgid "The component was automatically locked because of an alert."
-msgid "The component was automatically unlocked by fixing an alert."
-msgstr "Компонент был автоматически заблокирован из-за предупреждения."
+msgid "Fixing an alert automatically unlocked the component."
+msgstr ""
 
 #: weblate/trans/models/change.py:495
 #, python-format
@@ -12066,16 +12061,16 @@ msgstr ""
 msgid "Failed to parse file %(file)s: %(error)s"
 msgstr "Ошибка разбора файла %(file)s: %(error)s"
 
-#: weblate/trans/models/translation.py:1462
+#: weblate/trans/models/translation.py:1468
 msgid "This string seems to already exist."
 msgstr "Кажется, такая строка уже существует."
 
-#: weblate/trans/models/translation.py:1469
+#: weblate/trans/models/translation.py:1475
 #, python-format
 msgid "Failed adding string: %s"
 msgstr "Не удалось добавить строку: %s"
 
-#: weblate/trans/models/translation.py:1469
+#: weblate/trans/models/translation.py:1475
 msgid "No translation found."
 msgstr "Соответствующих переводов не найдено."
 
@@ -13389,6 +13384,14 @@ msgstr "Не удалось обработать ошибку конфигура
 #, python-format
 msgid "Created user account %s."
 msgstr "Создана учётная запись %s."
+
+#~ msgid "Comment strings"
+#~ msgstr "Строки комментариев"
+
+#, fuzzy
+#~| msgid "The component was automatically locked because of an alert."
+#~ msgid "The component was automatically unlocked by fixing an alert."
+#~ msgstr "Компонент был автоматически заблокирован из-за предупреждения."
 
 #~ msgid "Component was automatically unlocked as alert was fixed."
 #~ msgstr ""

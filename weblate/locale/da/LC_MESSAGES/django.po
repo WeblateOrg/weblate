@@ -17,7 +17,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.10\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
-"POT-Creation-Date: 2021-12-15 13:53+0000\n"
+"POT-Creation-Date: 2021-12-16 10:54+0000\n"
 "PO-Revision-Date: 2021-12-15 19:10+0000\n"
 "Last-Translator: Anonymous <noreply@weblate.org>\n"
 "Language-Team: Danish <https://hosted.weblate.org/projects/weblate/"
@@ -7551,6 +7551,7 @@ msgstr "Kildestreng"
 
 #: weblate/templates/mail/snippets/source-string.html:14
 #: weblate/templates/snippets/note-badge.html:5
+#: weblate/templates/snippets/query-builder.html:18
 #: weblate/templates/translate.html:625
 #, fuzzy
 #| msgid "Source string location"
@@ -9138,10 +9139,6 @@ msgstr "Målstrenge"
 #| msgid "Context strings"
 msgid "Key/Context strings"
 msgstr "Kontekststrenge"
-
-#: weblate/templates/snippets/query-builder.html:18
-msgid "Comment strings"
-msgstr "Kommentarstrenge"
 
 #: weblate/templates/snippets/query-builder.html:19
 msgid "Location strings"
@@ -12000,10 +11997,8 @@ msgid "The component was automatically locked because of an alert."
 msgstr "Oversættelsen er i øjeblikket låst for opdateringer."
 
 #: weblate/trans/models/change.py:439
-#, fuzzy
-#| msgid "This translation is currently locked for updates."
-msgid "The component was automatically unlocked by fixing an alert."
-msgstr "Oversættelsen er i øjeblikket låst for opdateringer."
+msgid "Fixing an alert automatically unlocked the component."
+msgstr ""
 
 #: weblate/trans/models/change.py:495
 #, python-format
@@ -12967,19 +12962,19 @@ msgstr ""
 msgid "Failed to parse file %(file)s: %(error)s"
 msgstr "Kunne ikke fortolke filen %(file)s: %(error)s"
 
-#: weblate/trans/models/translation.py:1462
+#: weblate/trans/models/translation.py:1468
 #, fuzzy
 #| msgid "Translation with this key seem to already exist!"
 msgid "This string seems to already exist."
 msgstr "Oversættelse med denne nøgle ser allerede ud til at findes!"
 
-#: weblate/trans/models/translation.py:1469
+#: weblate/trans/models/translation.py:1475
 #, fuzzy, python-format
 #| msgid "Pending suggestions"
 msgid "Failed adding string: %s"
 msgstr "Afventende forslag"
 
-#: weblate/trans/models/translation.py:1469
+#: weblate/trans/models/translation.py:1475
 #, fuzzy
 #| msgid "No matching translations found!"
 msgid "No translation found."
@@ -14408,6 +14403,14 @@ msgstr "Kunne ikke afvise konfigurationsfejl!"
 #| msgid "Create an account using:"
 msgid "Created user account %s."
 msgstr "Opret en konto med:"
+
+#~ msgid "Comment strings"
+#~ msgstr "Kommentarstrenge"
+
+#, fuzzy
+#~| msgid "This translation is currently locked for updates."
+#~ msgid "The component was automatically unlocked by fixing an alert."
+#~ msgstr "Oversættelsen er i øjeblikket låst for opdateringer."
 
 #, fuzzy
 #~| msgid "Component unlocked"

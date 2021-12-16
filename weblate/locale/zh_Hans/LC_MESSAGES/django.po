@@ -34,7 +34,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.10\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
-"POT-Creation-Date: 2021-12-15 13:53+0000\n"
+"POT-Creation-Date: 2021-12-16 10:54+0000\n"
 "PO-Revision-Date: 2021-12-16 04:19+0000\n"
 "Last-Translator: Eric <spice2wolf@gmail.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
@@ -6886,6 +6886,7 @@ msgstr "源字符串"
 
 #: weblate/templates/mail/snippets/source-string.html:14
 #: weblate/templates/snippets/note-badge.html:5
+#: weblate/templates/snippets/query-builder.html:18
 #: weblate/templates/translate.html:625
 msgid "Source string description"
 msgstr "源字符串描述"
@@ -8172,7 +8173,9 @@ msgid ""
 "This project is in the trial period, and is publicly accessible. You can "
 "lock it and post an announcement in case you want to avoid contributions "
 "until you finish the setup."
-msgstr "本项目处于试用期，可公开访问。 如果你想在完成设置之前避免别人进行翻译，可以锁定它并发布公告。"
+msgstr ""
+"本项目处于试用期，可公开访问。 如果你想在完成设置之前避免别人进行翻译，可以锁"
+"定它并发布公告。"
 
 #: weblate/templates/snippets/project/billing-libre-trial.html:14
 msgid ""
@@ -8206,10 +8209,6 @@ msgstr "目标字符串"
 #: weblate/templates/snippets/query-builder.html:17
 msgid "Key/Context strings"
 msgstr "键/上下文字符串"
-
-#: weblate/templates/snippets/query-builder.html:18
-msgid "Comment strings"
-msgstr "评论字符串"
 
 #: weblate/templates/snippets/query-builder.html:19
 msgid "Location strings"
@@ -10631,8 +10630,8 @@ msgid "The component was automatically locked because of an alert."
 msgstr "该组件因为一个警报而被自动锁定。"
 
 #: weblate/trans/models/change.py:439
-msgid "The component was automatically unlocked by fixing an alert."
-msgstr "通过修复警报已自动解锁该组件。"
+msgid "Fixing an alert automatically unlocked the component."
+msgstr ""
 
 #: weblate/trans/models/change.py:495
 #, python-format
@@ -11379,16 +11378,16 @@ msgstr "代码库中找不到 %s 文件！要添加新翻译，请在代码库�
 msgid "Failed to parse file %(file)s: %(error)s"
 msgstr "解析文件 %(file)s 失败: %(error)s"
 
-#: weblate/trans/models/translation.py:1462
+#: weblate/trans/models/translation.py:1468
 msgid "This string seems to already exist."
 msgstr "此字符串似乎已存在。"
 
-#: weblate/trans/models/translation.py:1469
+#: weblate/trans/models/translation.py:1475
 #, python-format
 msgid "Failed adding string: %s"
 msgstr "添加字符串失败：%s"
 
-#: weblate/trans/models/translation.py:1469
+#: weblate/trans/models/translation.py:1475
 msgid "No translation found."
 msgstr "未找到翻译。"
 
@@ -12631,6 +12630,12 @@ msgstr "无法排除配置错误！"
 #, python-format
 msgid "Created user account %s."
 msgstr "创建用户帐户 %s。"
+
+#~ msgid "Comment strings"
+#~ msgstr "评论字符串"
+
+#~ msgid "The component was automatically unlocked by fixing an alert."
+#~ msgstr "通过修复警报已自动解锁该组件。"
 
 #~ msgid "Component was automatically unlocked as alert was fixed."
 #~ msgstr "由于警报已修复，组件已自动解锁。"

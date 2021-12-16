@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.10\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
-"POT-Creation-Date: 2021-12-15 13:53+0000\n"
+"POT-Creation-Date: 2021-12-16 10:54+0000\n"
 "PO-Revision-Date: 2021-12-15 19:10+0000\n"
 "Last-Translator: Anonymous <noreply@weblate.org>\n"
 "Language-Team: Welsh <https://hosted.weblate.org/projects/weblate/"
@@ -7512,6 +7512,7 @@ msgstr ""
 
 #: weblate/templates/mail/snippets/source-string.html:14
 #: weblate/templates/snippets/note-badge.html:5
+#: weblate/templates/snippets/query-builder.html:18
 #: weblate/templates/translate.html:625
 #, fuzzy
 #| msgid "Source strings"
@@ -8961,10 +8962,6 @@ msgstr ""
 #| msgid "Review strings"
 msgid "Key/Context strings"
 msgstr "Adolygu llinynnau"
-
-#: weblate/templates/snippets/query-builder.html:18
-msgid "Comment strings"
-msgstr ""
 
 #: weblate/templates/snippets/query-builder.html:19
 msgid "Location strings"
@@ -11580,10 +11577,8 @@ msgid "The component was automatically locked because of an alert."
 msgstr "Darganfod cydrannau"
 
 #: weblate/trans/models/change.py:439
-#, fuzzy
-#| msgid "Component discovery"
-msgid "The component was automatically unlocked by fixing an alert."
-msgstr "Darganfod cydrannau"
+msgid "Fixing an alert automatically unlocked the component."
+msgstr ""
 
 #: weblate/trans/models/change.py:495
 #, python-format
@@ -12360,19 +12355,19 @@ msgstr ""
 msgid "Failed to parse file %(file)s: %(error)s"
 msgstr ""
 
-#: weblate/trans/models/translation.py:1462
+#: weblate/trans/models/translation.py:1468
 #, fuzzy
 #| msgid "The translation does not contain an URL"
 msgid "This string seems to already exist."
 msgstr "Nid yw'r cyfieithiad yn cynnwys URL"
 
-#: weblate/trans/models/translation.py:1469
+#: weblate/trans/models/translation.py:1475
 #, fuzzy, python-format
 #| msgid "Pending suggestions"
 msgid "Failed adding string: %s"
 msgstr "Awgrymiadau'n disgwyl sylw"
 
-#: weblate/trans/models/translation.py:1469
+#: weblate/trans/models/translation.py:1475
 #, fuzzy
 #| msgid "Translation notifications"
 msgid "No translation found."
@@ -13765,6 +13760,11 @@ msgstr ""
 #, python-format
 msgid "Created user account %s."
 msgstr ""
+
+#, fuzzy
+#~| msgid "Component discovery"
+#~ msgid "The component was automatically unlocked by fixing an alert."
+#~ msgstr "Darganfod cydrannau"
 
 #, fuzzy
 #~| msgid "Component discovery"

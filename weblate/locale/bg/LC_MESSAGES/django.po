@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.10\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
-"POT-Creation-Date: 2021-12-15 13:53+0000\n"
+"POT-Creation-Date: 2021-12-16 10:54+0000\n"
 "PO-Revision-Date: 2021-12-15 19:10+0000\n"
 "Last-Translator: Anonymous <noreply@weblate.org>\n"
 "Language-Team: Bulgarian <https://hosted.weblate.org/projects/weblate/"
@@ -7585,6 +7585,7 @@ msgstr "Изходен низ"
 
 #: weblate/templates/mail/snippets/source-string.html:14
 #: weblate/templates/snippets/note-badge.html:5
+#: weblate/templates/snippets/query-builder.html:18
 #: weblate/templates/translate.html:625
 #, fuzzy
 #| msgid "Source string location"
@@ -9144,12 +9145,6 @@ msgstr "Целеви низове"
 #| msgid "Search in context strings"
 msgid "Key/Context strings"
 msgstr "Търсене в контекстната информация"
-
-#: weblate/templates/snippets/query-builder.html:18
-#, fuzzy
-#| msgid "Search in comment strings"
-msgid "Comment strings"
-msgstr "Търсене в коментарите"
 
 #: weblate/templates/snippets/query-builder.html:19
 #, fuzzy
@@ -11929,10 +11924,8 @@ msgid "The component was automatically locked because of an alert."
 msgstr "Компонентът в момента е заключен автоматично, поради предупреждение."
 
 #: weblate/trans/models/change.py:439
-#, fuzzy
-#| msgid "The component was automatically locked because of an alert."
-msgid "The component was automatically unlocked by fixing an alert."
-msgstr "Компонентът в момента е заключен автоматично, поради предупреждение."
+msgid "Fixing an alert automatically unlocked the component."
+msgstr ""
 
 #: weblate/trans/models/change.py:495
 #, python-format
@@ -12882,16 +12875,16 @@ msgstr ""
 msgid "Failed to parse file %(file)s: %(error)s"
 msgstr "Неуспешен анализа на файла „%(file)s“: %(error)s"
 
-#: weblate/trans/models/translation.py:1462
+#: weblate/trans/models/translation.py:1468
 msgid "This string seems to already exist."
 msgstr "Изглежда този текст вече съществува."
 
-#: weblate/trans/models/translation.py:1469
+#: weblate/trans/models/translation.py:1475
 #, python-format
 msgid "Failed adding string: %s"
 msgstr "Текстът не може да бъде добавен: %s"
 
-#: weblate/trans/models/translation.py:1469
+#: weblate/trans/models/translation.py:1475
 msgid "No translation found."
 msgstr "Няма намерен превод."
 
@@ -14288,6 +14281,17 @@ msgstr "Грешката в конфигурацията не може да бъ
 #, python-format
 msgid "Created user account %s."
 msgstr "Създаден е потребителски акаунт %s."
+
+#, fuzzy
+#~| msgid "Search in comment strings"
+#~ msgid "Comment strings"
+#~ msgstr "Търсене в коментарите"
+
+#, fuzzy
+#~| msgid "The component was automatically locked because of an alert."
+#~ msgid "The component was automatically unlocked by fixing an alert."
+#~ msgstr ""
+#~ "Компонентът в момента е заключен автоматично, поради предупреждение."
 
 #~ msgid "Component was automatically unlocked as alert was fixed."
 #~ msgstr ""

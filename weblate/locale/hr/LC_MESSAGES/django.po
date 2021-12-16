@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.10\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
-"POT-Creation-Date: 2021-12-15 13:53+0000\n"
+"POT-Creation-Date: 2021-12-16 10:54+0000\n"
 "PO-Revision-Date: 2021-12-15 19:10+0000\n"
 "Last-Translator: Anonymous <noreply@weblate.org>\n"
 "Language-Team: Croatian <https://hosted.weblate.org/projects/weblate/"
@@ -7125,6 +7125,7 @@ msgstr "Izvorni izraz"
 
 #: weblate/templates/mail/snippets/source-string.html:14
 #: weblate/templates/snippets/note-badge.html:5
+#: weblate/templates/snippets/query-builder.html:18
 #: weblate/templates/translate.html:625
 #, fuzzy
 #| msgid "Source string location"
@@ -8539,10 +8540,6 @@ msgstr "Izrazi ciljnog jezika"
 #: weblate/templates/snippets/query-builder.html:17
 msgid "Key/Context strings"
 msgstr "Ključne riječi/kontekstualni izrazi"
-
-#: weblate/templates/snippets/query-builder.html:18
-msgid "Comment strings"
-msgstr "Izrazi komentara"
 
 #: weblate/templates/snippets/query-builder.html:19
 msgid "Location strings"
@@ -11098,10 +11095,8 @@ msgid "The component was automatically locked because of an alert."
 msgstr "Prijevod je automatski zaključan zbog upozorenja."
 
 #: weblate/trans/models/change.py:439
-#, fuzzy
-#| msgid "The component was automatically locked because of an alert."
-msgid "The component was automatically unlocked by fixing an alert."
-msgstr "Prijevod je automatski zaključan zbog upozorenja."
+msgid "Fixing an alert automatically unlocked the component."
+msgstr ""
 
 #: weblate/trans/models/change.py:495
 #, python-format
@@ -11917,16 +11912,16 @@ msgstr ""
 msgid "Failed to parse file %(file)s: %(error)s"
 msgstr "Neuspjela obrada datoteke %(file)s: %(error)s"
 
-#: weblate/trans/models/translation.py:1462
+#: weblate/trans/models/translation.py:1468
 msgid "This string seems to already exist."
 msgstr "Čini se da ovaj izraz već postoji."
 
-#: weblate/trans/models/translation.py:1469
+#: weblate/trans/models/translation.py:1475
 #, python-format
 msgid "Failed adding string: %s"
 msgstr "Neuspjelo dodavanje izraza: %s"
 
-#: weblate/trans/models/translation.py:1469
+#: weblate/trans/models/translation.py:1475
 msgid "No translation found."
 msgstr "Nema prijevoda."
 
@@ -13234,6 +13229,14 @@ msgstr "Nije moguće zanemariti grešku konfiguracije!"
 #, python-format
 msgid "Created user account %s."
 msgstr "Stvoren je korisnički račun %s."
+
+#~ msgid "Comment strings"
+#~ msgstr "Izrazi komentara"
+
+#, fuzzy
+#~| msgid "The component was automatically locked because of an alert."
+#~ msgid "The component was automatically unlocked by fixing an alert."
+#~ msgstr "Prijevod je automatski zaključan zbog upozorenja."
 
 #~ msgid "Component was automatically unlocked as alert was fixed."
 #~ msgstr "Komponenta je automatski otključana jer je upozorenje ispravljeno."

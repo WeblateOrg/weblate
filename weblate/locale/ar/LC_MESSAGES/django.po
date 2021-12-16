@@ -18,7 +18,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.10\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
-"POT-Creation-Date: 2021-12-15 13:53+0000\n"
+"POT-Creation-Date: 2021-12-16 10:54+0000\n"
 "PO-Revision-Date: 2021-12-15 19:10+0000\n"
 "Last-Translator: Anonymous <noreply@weblate.org>\n"
 "Language-Team: Arabic <https://hosted.weblate.org/projects/weblate/"
@@ -7721,6 +7721,7 @@ msgstr "السلسلة المصدرية"
 
 #: weblate/templates/mail/snippets/source-string.html:14
 #: weblate/templates/snippets/note-badge.html:5
+#: weblate/templates/snippets/query-builder.html:18
 #: weblate/templates/translate.html:625
 #, fuzzy
 #| msgid "Source string location"
@@ -9222,10 +9223,6 @@ msgstr "السلاسل الهدف"
 #: weblate/templates/snippets/query-builder.html:17
 msgid "Key/Context strings"
 msgstr "المفتاح/سياق السلاسل"
-
-#: weblate/templates/snippets/query-builder.html:18
-msgid "Comment strings"
-msgstr "سلاسل التعليقات"
 
 #: weblate/templates/snippets/query-builder.html:19
 msgid "Location strings"
@@ -12044,10 +12041,8 @@ msgid "The component was automatically locked because of an alert."
 msgstr "الترجمة حالياً مغلقة من أجل التحديثات."
 
 #: weblate/trans/models/change.py:439
-#, fuzzy
-#| msgid "This translation is currently locked for updates."
-msgid "The component was automatically unlocked by fixing an alert."
-msgstr "الترجمة حالياً مغلقة من أجل التحديثات."
+msgid "Fixing an alert automatically unlocked the component."
+msgstr ""
 
 #: weblate/trans/models/change.py:495
 #, python-format
@@ -12902,19 +12897,19 @@ msgstr ""
 msgid "Failed to parse file %(file)s: %(error)s"
 msgstr "فشل تحليل الملف %(file)s: %(error)s"
 
-#: weblate/trans/models/translation.py:1462
+#: weblate/trans/models/translation.py:1468
 #, fuzzy
 #| msgid "Translation with this key seem to already exist!"
 msgid "This string seems to already exist."
 msgstr "ملف الترجمة مع هذا الفتاح تبدو موجودة بالفعل!"
 
-#: weblate/trans/models/translation.py:1469
+#: weblate/trans/models/translation.py:1475
 #, fuzzy, python-format
 #| msgid "Pending string"
 msgid "Failed adding string: %s"
 msgstr "سلسلة معلقة"
 
-#: weblate/trans/models/translation.py:1469
+#: weblate/trans/models/translation.py:1475
 #, fuzzy
 #| msgid "No matching translations found!"
 msgid "No translation found."
@@ -14291,6 +14286,14 @@ msgstr "لا يمكن استبعاد خطأ التكوين!"
 #| msgid "Delete this account"
 msgid "Created user account %s."
 msgstr "حذف هذا الحساب"
+
+#~ msgid "Comment strings"
+#~ msgstr "سلاسل التعليقات"
+
+#, fuzzy
+#~| msgid "This translation is currently locked for updates."
+#~ msgid "The component was automatically unlocked by fixing an alert."
+#~ msgstr "الترجمة حالياً مغلقة من أجل التحديثات."
 
 #, fuzzy
 #~| msgid "Component %(component)s was unlocked"

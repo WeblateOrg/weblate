@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.10\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
-"POT-Creation-Date: 2021-12-15 13:53+0000\n"
+"POT-Creation-Date: 2021-12-16 10:54+0000\n"
 "PO-Revision-Date: 2021-12-15 19:10+0000\n"
 "Last-Translator: Anonymous <noreply@weblate.org>\n"
 "Language-Team: Albanian <https://hosted.weblate.org/projects/weblate/"
@@ -7212,6 +7212,7 @@ msgstr "Varg burim"
 
 #: weblate/templates/mail/snippets/source-string.html:14
 #: weblate/templates/snippets/note-badge.html:5
+#: weblate/templates/snippets/query-builder.html:18
 #: weblate/templates/translate.html:625
 #, fuzzy
 #| msgid "Source string location"
@@ -8625,10 +8626,6 @@ msgstr "Vargje objektiv"
 #: weblate/templates/snippets/query-builder.html:17
 msgid "Key/Context strings"
 msgstr "Vargje Zë/Kontekst"
-
-#: weblate/templates/snippets/query-builder.html:18
-msgid "Comment strings"
-msgstr "Vargje komentesh"
 
 #: weblate/templates/snippets/query-builder.html:19
 msgid "Location strings"
@@ -11191,10 +11188,8 @@ msgid "The component was automatically locked because of an alert."
 msgstr "Përbërësi u kyç automatikisht, për shkak të një sinjalizimi."
 
 #: weblate/trans/models/change.py:439
-#, fuzzy
-#| msgid "The component was automatically locked because of an alert."
-msgid "The component was automatically unlocked by fixing an alert."
-msgstr "Përbërësi u kyç automatikisht, për shkak të një sinjalizimi."
+msgid "Fixing an alert automatically unlocked the component."
+msgstr ""
 
 #: weblate/trans/models/change.py:495
 #, python-format
@@ -12014,16 +12009,16 @@ msgstr ""
 msgid "Failed to parse file %(file)s: %(error)s"
 msgstr "S’u arrit të përtypej kartela %(file)s: %(error)s"
 
-#: weblate/trans/models/translation.py:1462
+#: weblate/trans/models/translation.py:1468
 msgid "This string seems to already exist."
 msgstr "Duket se ekziston tashmë ky varg."
 
-#: weblate/trans/models/translation.py:1469
+#: weblate/trans/models/translation.py:1475
 #, python-format
 msgid "Failed adding string: %s"
 msgstr "S’u arrit të shtohej varg: %s"
 
-#: weblate/trans/models/translation.py:1469
+#: weblate/trans/models/translation.py:1475
 msgid "No translation found."
 msgstr "S’u gjet përkthim."
 
@@ -13317,6 +13312,14 @@ msgstr "S’u hodh dot tej gabimi i formësimit!"
 #, python-format
 msgid "Created user account %s."
 msgstr "U krijua llogaria e përdoruesit %s."
+
+#~ msgid "Comment strings"
+#~ msgstr "Vargje komentesh"
+
+#, fuzzy
+#~| msgid "The component was automatically locked because of an alert."
+#~ msgid "The component was automatically unlocked by fixing an alert."
+#~ msgstr "Përbërësi u kyç automatikisht, për shkak të një sinjalizimi."
 
 #~ msgid "Component was automatically unlocked as alert was fixed."
 #~ msgstr "Përbërësi u shkyç automatikisht, ngaqë sinjalizimi u zgjidh."

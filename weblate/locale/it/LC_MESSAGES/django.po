@@ -32,7 +32,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.10\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
-"POT-Creation-Date: 2021-12-15 13:53+0000\n"
+"POT-Creation-Date: 2021-12-16 10:54+0000\n"
 "PO-Revision-Date: 2021-12-15 19:10+0000\n"
 "Last-Translator: bovirus <roberto.boriotti@canon.it>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/weblate/"
@@ -7210,6 +7210,7 @@ msgstr "Stringa sorgente"
 
 #: weblate/templates/mail/snippets/source-string.html:14
 #: weblate/templates/snippets/note-badge.html:5
+#: weblate/templates/snippets/query-builder.html:18
 #: weblate/templates/translate.html:625
 msgid "Source string description"
 msgstr "Descrizione stringa sorgente"
@@ -7309,7 +7310,8 @@ msgstr "Scade"
 #: weblate/templates/manage-access.html:228
 #, python-format
 msgid "This will delete the project token <b>%(token)s</b> from this project."
-msgstr "Questo eliminerà il token progetto <b>%(token)s</b> da questo progetto."
+msgstr ""
+"Questo eliminerà il token progetto <b>%(token)s</b> da questo progetto."
 
 #: weblate/templates/manage-access.html:250
 msgid "Create a project token"
@@ -8621,10 +8623,6 @@ msgstr "Stringhe destinazione"
 #: weblate/templates/snippets/query-builder.html:17
 msgid "Key/Context strings"
 msgstr "Chiave/Contesto stringhe"
-
-#: weblate/templates/snippets/query-builder.html:18
-msgid "Comment strings"
-msgstr "Stringhe commento"
 
 #: weblate/templates/snippets/query-builder.html:19
 msgid "Location strings"
@@ -11195,8 +11193,8 @@ msgid "The component was automatically locked because of an alert."
 msgstr "Il componente è stato bloccato automaticamente a causa di un avviso."
 
 #: weblate/trans/models/change.py:439
-msgid "The component was automatically unlocked by fixing an alert."
-msgstr "Il componente è stato sbloccato automaticamente correggendo un avviso."
+msgid "Fixing an alert automatically unlocked the component."
+msgstr ""
 
 #: weblate/trans/models/change.py:495
 #, python-format
@@ -12025,16 +12023,16 @@ msgstr ""
 msgid "Failed to parse file %(file)s: %(error)s"
 msgstr "Impossibile analizzare il file %(file)s: %(error)s"
 
-#: weblate/trans/models/translation.py:1462
+#: weblate/trans/models/translation.py:1468
 msgid "This string seems to already exist."
 msgstr "Questa stringa sembra esista già."
 
-#: weblate/trans/models/translation.py:1469
+#: weblate/trans/models/translation.py:1475
 #, python-format
 msgid "Failed adding string: %s"
 msgstr "Aggiunta stringa fallita: %s"
 
-#: weblate/trans/models/translation.py:1469
+#: weblate/trans/models/translation.py:1475
 msgid "No translation found."
 msgstr "Nessuna traduzione trovata."
 
@@ -13323,6 +13321,13 @@ msgstr "Impossibile eliminare l'errore di configurazione!"
 #, python-format
 msgid "Created user account %s."
 msgstr "Account utente %s creato."
+
+#~ msgid "Comment strings"
+#~ msgstr "Stringhe commento"
+
+#~ msgid "The component was automatically unlocked by fixing an alert."
+#~ msgstr ""
+#~ "Il componente è stato sbloccato automaticamente correggendo un avviso."
 
 #~ msgid "Component was automatically unlocked as alert was fixed."
 #~ msgstr ""

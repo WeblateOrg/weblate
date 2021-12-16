@@ -18,7 +18,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.10\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
-"POT-Creation-Date: 2021-12-15 13:53+0000\n"
+"POT-Creation-Date: 2021-12-16 10:54+0000\n"
 "PO-Revision-Date: 2021-12-15 19:10+0000\n"
 "Last-Translator: Anonymous <noreply@weblate.org>\n"
 "Language-Team: Slovak <https://hosted.weblate.org/projects/weblate/"
@@ -8201,6 +8201,7 @@ msgstr "Zdrojové reťazce"
 
 #: weblate/templates/mail/snippets/source-string.html:14
 #: weblate/templates/snippets/note-badge.html:5
+#: weblate/templates/snippets/query-builder.html:18
 #: weblate/templates/translate.html:625
 #, fuzzy
 #| msgid "Source string location"
@@ -9835,12 +9836,6 @@ msgstr "Zdrojové reťazce"
 #| msgid "Search in context strings"
 msgid "Key/Context strings"
 msgstr "Vyhľadávať v reťazcoch kontextu"
-
-#: weblate/templates/snippets/query-builder.html:18
-#, fuzzy
-#| msgid "C format string"
-msgid "Comment strings"
-msgstr "Formátovací reťazec C"
 
 #: weblate/templates/snippets/query-builder.html:19
 #, fuzzy
@@ -12838,10 +12833,8 @@ msgid "The component was automatically locked because of an alert."
 msgstr "Tento preklad je pre aktualizácie momentálne uzamknutý!"
 
 #: weblate/trans/models/change.py:439
-#, fuzzy
-#| msgid "This translation is currently locked for updates!"
-msgid "The component was automatically unlocked by fixing an alert."
-msgstr "Tento preklad je pre aktualizácie momentálne uzamknutý!"
+msgid "Fixing an alert automatically unlocked the component."
+msgstr ""
 
 #: weblate/trans/models/change.py:495
 #, python-format
@@ -13817,19 +13810,19 @@ msgstr ""
 msgid "Failed to parse file %(file)s: %(error)s"
 msgstr "Nepodarilo sa spracovať súbor %(file)s: %(error)s"
 
-#: weblate/trans/models/translation.py:1462
+#: weblate/trans/models/translation.py:1468
 #, fuzzy
 #| msgid "Translation file already exists!"
 msgid "This string seems to already exist."
 msgstr "Súbor s prekladom už existuje!"
 
-#: weblate/trans/models/translation.py:1469
+#: weblate/trans/models/translation.py:1475
 #, fuzzy, python-format
 #| msgid "Enable suggestions"
 msgid "Failed adding string: %s"
 msgstr "Povoliť návrhy"
 
-#: weblate/trans/models/translation.py:1469
+#: weblate/trans/models/translation.py:1475
 #, fuzzy
 #| msgid "No matching strings found!"
 msgid "No translation found."
@@ -15301,6 +15294,16 @@ msgstr "Chyby v nastavení"
 #| msgid "Create an account using:"
 msgid "Created user account %s."
 msgstr "Vytvoriť účet pomocou:"
+
+#, fuzzy
+#~| msgid "C format string"
+#~ msgid "Comment strings"
+#~ msgstr "Formátovací reťazec C"
+
+#, fuzzy
+#~| msgid "This translation is currently locked for updates!"
+#~ msgid "The component was automatically unlocked by fixing an alert."
+#~ msgstr "Tento preklad je pre aktualizácie momentálne uzamknutý!"
 
 #, fuzzy
 #~| msgid "Component unlocked"

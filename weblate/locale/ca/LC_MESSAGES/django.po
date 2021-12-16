@@ -18,7 +18,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 4.10\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
-"POT-Creation-Date: 2021-12-15 13:53+0000\n"
+"POT-Creation-Date: 2021-12-16 10:54+0000\n"
 "PO-Revision-Date: 2021-12-15 19:10+0000\n"
 "Last-Translator: Anonymous <noreply@weblate.org>\n"
 "Language-Team: Catalan <https://hosted.weblate.org/projects/weblate/"
@@ -7375,6 +7375,7 @@ msgstr "Cadena d'origen"
 
 #: weblate/templates/mail/snippets/source-string.html:14
 #: weblate/templates/snippets/note-badge.html:5
+#: weblate/templates/snippets/query-builder.html:18
 #: weblate/templates/translate.html:625
 #, fuzzy
 #| msgid "Source string location"
@@ -8853,10 +8854,6 @@ msgstr "Cadenes traduïdes"
 #: weblate/templates/snippets/query-builder.html:17
 msgid "Key/Context strings"
 msgstr "Cadenes de clau/context"
-
-#: weblate/templates/snippets/query-builder.html:18
-msgid "Comment strings"
-msgstr "Cadenes de comentaris"
 
 #: weblate/templates/snippets/query-builder.html:19
 msgid "Location strings"
@@ -11475,11 +11472,8 @@ msgstr ""
 "Aquesta traducció s'ha blocat automàticament a causa de les següents alertes:"
 
 #: weblate/trans/models/change.py:439
-#, fuzzy
-#| msgid "The translation was automatically locked due to following alerts:"
-msgid "The component was automatically unlocked by fixing an alert."
+msgid "Fixing an alert automatically unlocked the component."
 msgstr ""
-"Aquesta traducció s'ha blocat automàticament a causa de les següents alertes:"
 
 #: weblate/trans/models/change.py:495
 #, python-format
@@ -12321,16 +12315,16 @@ msgstr ""
 msgid "Failed to parse file %(file)s: %(error)s"
 msgstr "No s'ha pogut analitzar el fitxer %(file)s: %(error)s"
 
-#: weblate/trans/models/translation.py:1462
+#: weblate/trans/models/translation.py:1468
 msgid "This string seems to already exist."
 msgstr "Sembla que aquesta cadena ja existeix."
 
-#: weblate/trans/models/translation.py:1469
+#: weblate/trans/models/translation.py:1475
 #, python-format
 msgid "Failed adding string: %s"
 msgstr "No s'ha pogut afegir la cadena: %s"
 
-#: weblate/trans/models/translation.py:1469
+#: weblate/trans/models/translation.py:1475
 msgid "No translation found."
 msgstr "No s'ha trobat cap traducció."
 
@@ -13637,6 +13631,16 @@ msgstr "No s'ha pogut descartar l'error de configuració!"
 #, python-format
 msgid "Created user account %s."
 msgstr "S'ha creat el compte d'usuari %s."
+
+#~ msgid "Comment strings"
+#~ msgstr "Cadenes de comentaris"
+
+#, fuzzy
+#~| msgid "The translation was automatically locked due to following alerts:"
+#~ msgid "The component was automatically unlocked by fixing an alert."
+#~ msgstr ""
+#~ "Aquesta traducció s'ha blocat automàticament a causa de les següents "
+#~ "alertes:"
 
 #, fuzzy
 #~| msgid "Component automatically unlocked"
