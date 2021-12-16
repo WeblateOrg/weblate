@@ -36,7 +36,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-12-15 13:53+0000\n"
 "PO-Revision-Date: 2021-12-16 04:19+0000\n"
-"Last-Translator: JY3 <GeeyunJY3@gmail.com>\n"
+"Last-Translator: Eric <spice2wolf@gmail.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "weblate/application/zh_Hans/>\n"
 "Language: zh_Hans\n"
@@ -6973,22 +6973,17 @@ msgstr "Weblate 中的用户管理已关闭，您可以在 Django 管理界面�
 
 #: weblate/templates/manage-access.html:206
 #: weblate/trans/models/projecttoken.py:41
-#, fuzzy
-#| msgid "Expired"
 msgid "Expires"
-msgstr "已过期"
+msgstr "过期"
 
 #: weblate/templates/manage-access.html:228
-#, fuzzy, python-format
-#| msgid "This will remove <b>%(user)s</b> access to this project."
+#, python-format
 msgid "This will delete the project token <b>%(token)s</b> from this project."
-msgstr "这会使<b>%(user)s</b>无法访问这个项目。"
+msgstr "这会从这个项目删除项目令牌 <b>%(token)s</b>。"
 
 #: weblate/templates/manage-access.html:250
-#, fuzzy
-#| msgid "Create project"
 msgid "Create a project token"
-msgstr "创建项目"
+msgstr "创建项目令牌"
 
 #: weblate/templates/manage-access.html:256
 msgid "Create"
@@ -6996,7 +6991,7 @@ msgstr "创建"
 
 #: weblate/templates/manage-access.html:266
 msgid "Personal API key"
-msgstr "个人 API 密钥："
+msgstr "个人 API 密钥"
 
 #: weblate/templates/manage-access.html:279
 msgid "This is your personal API key, do not share it with anybody else."
@@ -8177,7 +8172,7 @@ msgid ""
 "This project is in the trial period, and is publicly accessible. You can "
 "lock it and post an announcement in case you want to avoid contributions "
 "until you finish the setup."
-msgstr ""
+msgstr "本项目处于试用期，可公开访问。 如果你想在完成设置之前避免别人进行翻译，可以锁定它并发布公告。"
 
 #: weblate/templates/snippets/project/billing-libre-trial.html:14
 msgid ""
@@ -8600,7 +8595,7 @@ msgstr "请通过从翻译文件中删除具有相同标识符的重复字符串
 
 #: weblate/templates/trans/alert/inexistantfiles.html:4
 msgid "Following files are no longer present in the repository:"
-msgstr ""
+msgstr "以下文件不再存在于代码库中："
 
 #: weblate/templates/trans/alert/inexistantfiles.html:13
 #: weblate/trans/models/component.py:362
@@ -8681,7 +8676,7 @@ msgstr ""
 
 #: weblate/templates/trans/alert/pushfailure.html:13
 msgid "You might want to use following URL instead:"
-msgstr ""
+msgstr "你可能想改用以下 URL："
 
 #: weblate/templates/trans/alert/repositorychanges.html:4
 msgid ""
@@ -8969,23 +8964,19 @@ msgid "You currently do not have permission to create projects."
 msgstr "您目前没有创建项目的权限。"
 
 #: weblate/templates/trans/projecttoken-created.html:4
-#, fuzzy
-#| msgid "API key copied to clipboard."
 msgid "Token copied to clipboard."
-msgstr "API 密钥已复制到剪贴板。"
+msgstr "令牌已复制到剪贴板。"
 
 #: weblate/templates/trans/projecttoken-created.html:4
-#, fuzzy
-#| msgid "Copy to clipboard"
 msgid "Copy token to clipboard"
-msgstr "复制到剪贴板"
+msgstr "复制令牌到剪贴板"
 
 #: weblate/templates/trans/projecttoken-created.html:6
 #, python-format
 msgid ""
 "Token was created, please save it now as it won't be displayed again: "
 "%(token)s"
-msgstr ""
+msgstr "令牌已创建，请立即保存，因为不会再次显示：%(token)s"
 
 #: weblate/templates/trans/repo_help.html:2
 msgid ""
@@ -10183,7 +10174,7 @@ msgstr "作者用户名"
 
 #: weblate/trans/forms.py:2429
 msgid "Expires cannot be in the past!"
-msgstr ""
+msgstr "到期日不能在过去！"
 
 #: weblate/trans/guide.py:80
 msgid "Version control integration"
@@ -10338,10 +10329,8 @@ msgid "No mask matches."
 msgstr "无掩码匹配。"
 
 #: weblate/trans/models/alert.py:382
-#, fuzzy
-#| msgid "Admin static files"
 msgid "Inexistant files."
-msgstr "Admin静态文件"
+msgstr "不存在的文件。"
 
 #: weblate/trans/models/announcement.py:111
 msgid "Category"
@@ -10642,10 +10631,8 @@ msgid "The component was automatically locked because of an alert."
 msgstr "该组件因为一个警报而被自动锁定。"
 
 #: weblate/trans/models/change.py:439
-#, fuzzy
-#| msgid "The component was automatically locked because of an alert."
 msgid "The component was automatically unlocked by fixing an alert."
-msgstr "该组件因为一个警报而被自动锁定。"
+msgstr "通过修复警报已自动解锁该组件。"
 
 #: weblate/trans/models/change.py:495
 #, python-format
@@ -10658,10 +10645,9 @@ msgid "The \"%s\" file was changed."
 msgstr "文件 %s 已更改。"
 
 #: weblate/trans/models/change.py:595
-#, fuzzy, python-format
-#| msgid "Parsing of file %s was enforced."
+#, python-format
 msgid "Parsing of the \"%s\" file was enforced."
-msgstr "强制解析了文件 %s。"
+msgstr "已强制解析“%s”文件。"
 
 #: weblate/trans/models/change.py:597
 #, python-format
@@ -10674,14 +10660,11 @@ msgid "N/A"
 msgstr "不可用"
 
 #: weblate/trans/models/change.py:603
-#, fuzzy, python-format
-#| msgid ""
-#| "License for component %(component)s was changed from %(old)s to "
-#| "%(target)s."
+#, python-format
 msgid ""
 "The license of the \"%(component)s\" component was changed from %(old)s to "
 "%(target)s."
-msgstr "%(component)s 组件的许可证从 %(old)s 变为 %(target)s."
+msgstr "“%(component)s” 组件的许可证从 %(old)s 变为 %(target)s."
 
 #. Translators: Action when adding new translation
 #: weblate/trans/models/component.py:118
@@ -11365,11 +11348,11 @@ msgstr "逗号隔开的语言码映射的列表，例如：en_GB:en,en_US:en"
 
 #: weblate/trans/models/projecttoken.py:36
 msgid "Token value"
-msgstr ""
+msgstr "令牌值"
 
 #: weblate/trans/models/projecttoken.py:38
 msgid "Token value to use in API"
-msgstr ""
+msgstr "在 API 中使用的令牌值"
 
 #: weblate/trans/models/suggestion.py:138
 msgid "Failed to accept suggestion!"
