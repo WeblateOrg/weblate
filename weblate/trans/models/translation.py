@@ -595,6 +595,10 @@ class Translation(
         # Update stats (the translated flag might have changed)
         self.invalidate_cache()
 
+        # Make sure template cache is purged upon commit
+        if self.is_template:
+            self.component.drop_template_store_cache()
+
         return True
 
     def get_commit_message(self, author: str, template: str, **kwargs):
