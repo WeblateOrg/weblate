@@ -839,7 +839,14 @@ class AutoForm(forms.Form):
         ],
         initial="suggest",
     )
-    filter_type = FilterField(required=True, initial="todo")
+    filter_type = FilterField(
+        required=True,
+        initial="todo",
+        help_text=_(
+            "Please note that translating all strings will "
+            "discard all existing translations."
+        ),
+    )
     auto_source = forms.ChoiceField(
         label=_("Automatic translation source"),
         choices=[
