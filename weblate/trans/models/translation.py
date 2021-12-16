@@ -1075,7 +1075,7 @@ class Translation(
                 request,
                 unit.context,
                 split_plural(unit.source),
-                split_plural(unit.target),
+                split_plural(unit.target) if not self.is_source else [],
                 is_batch_update=True,
             )
             accepted += 1
