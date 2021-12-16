@@ -53,3 +53,13 @@ class HightlightTestCase(SimpleTestCase):
             highlight_string(unit.source, unit),
             [(7, 26, '<a href="{format}">'), (32, 36, "</a>")],
         )
+
+    def test_syntax(self):
+        unit = MockUnit(
+            source="Text with a `link <https://www.sphinx-doc.org>`_.",
+            flags="rst-text",
+        )
+        self.assertEqual(
+            highlight_string(unit.source, unit, hightlight_syntax=True),
+            [(12, 13, "`"), (18, 46, "<https://www.sphinx-doc.org>"), (46, 48, "`_")],
+        )

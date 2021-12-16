@@ -72,6 +72,7 @@ class MachineTranslation:
     batch_size = 20
     accounting_key = "external"
     force_uncleanup = False
+    hightlight_syntax = False
 
     @classmethod
     def get_rank(cls):
@@ -258,7 +259,9 @@ class MachineTranslation:
         if not self.do_cleanup:
             return text, replacements
 
-        highlights = highlight_string(text, unit)
+        highlights = highlight_string(
+            text, unit, hightlight_syntax=self.hightlight_syntax
+        )
         parts = []
         start = 0
         for h_start, h_end, h_text in highlights:

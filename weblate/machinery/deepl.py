@@ -41,6 +41,7 @@ class DeepLTranslation(MachineTranslation):
         "zh_hans": "zh",
     }
     force_uncleanup = True
+    hightlight_syntax = True
 
     def __init__(self):
         """Check configuration."""
