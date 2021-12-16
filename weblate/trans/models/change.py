@@ -436,7 +436,7 @@ class Change(models.Model, UserDisplayMixin):
         ),
         # Translators: Name of event in the history
         ACTION_UNLOCK: gettext_lazy(
-            "The component was automatically unlocked by fixing an alert."
+            "Fixing an alert automatically unlocked the component."
         ),
     }
 
