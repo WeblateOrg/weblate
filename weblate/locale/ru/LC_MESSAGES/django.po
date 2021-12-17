@@ -42,8 +42,8 @@ msgstr ""
 "Project-Id-Version: Weblate 4.10\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-12-16 10:54+0000\n"
-"PO-Revision-Date: 2021-12-16 19:44+0000\n"
-"Last-Translator: Nikita Epifanov <nikgreens@protonmail.com>\n"
+"PO-Revision-Date: 2021-12-19 23:53+0000\n"
+"Last-Translator: S3aBreeze <paperwork@evilcorp.ltd>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/"
 "application/ru/>\n"
 "Language: ru\n"
@@ -52,7 +52,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 4.10-dev\n"
+"X-Generator: Weblate 4.10\n"
 
 #: weblate/accounts/avatar.py:103
 msgctxt "No known user"
@@ -3375,10 +3375,8 @@ msgid "WebExtension JSON file"
 msgstr "JSON-файл WebExtension"
 
 #: weblate/formats/ttkit.py:1337
-#, fuzzy
-#| msgid "i18next JSON file"
 msgid "i18next JSON file v3"
-msgstr "JSON-файл i18next"
+msgstr "i18next JSON-файл v3"
 
 #: weblate/formats/ttkit.py:1345
 msgid "go-i18n JSON file"
@@ -5452,8 +5450,6 @@ msgstr "Ожидающие одобрения"
 #: weblate/templates/mail/billing_expired.html:49
 #: weblate/templates/project.html:145
 #: weblate/templates/snippets/project/billing-libre-trial.html:10
-#, fuzzy
-#| msgid "Request approval for libre hosting"
 msgid "Request approval for Libre hosting"
 msgstr "Запр. одобр. на размещ. свободного проекта"
 
@@ -7234,10 +7230,8 @@ msgstr "Исходная строка"
 #: weblate/templates/snippets/note-badge.html:5
 #: weblate/templates/snippets/query-builder.html:18
 #: weblate/templates/translate.html:625
-#, fuzzy
-#| msgid "Source string location"
 msgid "Source string description"
-msgstr "Расположение исходной строки"
+msgstr "Описание исходной строки"
 
 #: weblate/templates/mail/snippets/unit-screenshots.html:5
 #: weblate/templates/translate.html:659
@@ -7332,36 +7326,25 @@ msgstr ""
 
 #: weblate/templates/manage-access.html:206
 #: weblate/trans/models/projecttoken.py:41
-#, fuzzy
-#| msgid "Expired"
 msgid "Expires"
-msgstr "Истёкший"
+msgstr "Истекает"
 
 #: weblate/templates/manage-access.html:228
-#, fuzzy, python-format
-#| msgid "This will remove <b>%(user)s</b> access to this project."
+#, python-format
 msgid "This will delete the project token <b>%(token)s</b> from this project."
-msgstr ""
-"Это действие отнимет у пользователя <b>%(user)s</b> право доступа к данному "
-"проекту."
+msgstr "Это действие удалит токен <b>%(token)s</b> из этого проекта."
 
 #: weblate/templates/manage-access.html:250
-#, fuzzy
-#| msgid "Create project"
 msgid "Create a project token"
-msgstr "Создать проект"
+msgstr "Создать токен проекта"
 
 #: weblate/templates/manage-access.html:256
-#, fuzzy
-#| msgid "Created"
 msgid "Create"
-msgstr "Создано"
+msgstr "Создать"
 
 #: weblate/templates/manage-access.html:266
-#, fuzzy
-#| msgid "Your personal API key:"
 msgid "Personal API key"
-msgstr "Ваш персональный API-ключ:"
+msgstr "Персональный API-ключ"
 
 #: weblate/templates/manage-access.html:279
 msgid "This is your personal API key, do not share it with anybody else."
@@ -8621,6 +8604,9 @@ msgid ""
 "lock it and post an announcement in case you want to avoid contributions "
 "until you finish the setup."
 msgstr ""
+"Этот проект находится на испытательном периоде и публично доступен. Вы "
+"можете заблокировать его и разместить объявление в случае, если вы хотите "
+"избежать изменений до того, как вы закончите настройку."
 
 #: weblate/templates/snippets/project/billing-libre-trial.html:14
 msgid ""
@@ -9099,12 +9085,9 @@ msgid "Please add a monolingual base language file in the component settings."
 msgstr "Добавьте одноязычный базовый файл в параметрах компонента."
 
 #: weblate/templates/trans/alert/nolibreconditions.html:3
-#, fuzzy
-#| msgid "This project does no longer fit into libre hosting conditions."
 msgid "This project does no longer fit into Libre hosting conditions."
 msgstr ""
-"Этот проект более не укладывается в ограничения, наложенные на хостинг для "
-"свободного ПО."
+"Этот проект больше не соответствует критериям для хостинга свободного ПО."
 
 #: weblate/templates/trans/alert/nomaskmatches.html:2
 msgid "This component set up is incomplete, as it lacks any translations."
@@ -9484,16 +9467,12 @@ msgid "You currently do not have permission to create projects."
 msgstr "У вас нет прав для создания проектов."
 
 #: weblate/templates/trans/projecttoken-created.html:4
-#, fuzzy
-#| msgid "API key copied to clipboard."
 msgid "Token copied to clipboard."
-msgstr "API ключ скопирован в буфер обмена."
+msgstr "Токен скопирован в буфер обмена."
 
 #: weblate/templates/trans/projecttoken-created.html:4
-#, fuzzy
-#| msgid "Copy to clipboard"
 msgid "Copy token to clipboard"
-msgstr "Скопировать в буфер обмена"
+msgstr "Скопировать токен в буфер обмена"
 
 #: weblate/templates/trans/projecttoken-created.html:6
 #, python-format
@@ -9612,10 +9591,8 @@ msgid "Insufficient privileges for saving translations."
 msgstr "Недостаточно привилегий для сохранения переводов."
 
 #: weblate/templates/translate.html:217
-#, fuzzy
-#| msgid "Save and stay"
 msgid "Save and continue"
-msgstr "Сохранить и остаться на странице"
+msgstr "Сохранить и продолжить"
 
 #: weblate/templates/translate.html:220
 msgid "Save and stay"
@@ -10911,8 +10888,6 @@ msgstr "Неоднозначный код языка."
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:358
-#, fuzzy
-#| msgid "Does not meet libre hosting conditions."
 msgid "Does not meet Libre hosting conditions."
 msgstr "Не соответствует условиям хостинга для свободного ПО."
 
@@ -10925,10 +10900,8 @@ msgid "No mask matches."
 msgstr "Нет соответствий маске."
 
 #: weblate/trans/models/alert.py:382
-#, fuzzy
-#| msgid "Admin static files"
 msgid "Inexistant files."
-msgstr "Администрирование статических файлов"
+msgstr "Несуществующие файлы."
 
 #: weblate/trans/models/announcement.py:111
 msgid "Category"
@@ -11240,10 +11213,9 @@ msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
 msgstr "В %(time)s %(user)s сделал %(action)s на %(translation)s"
 
 #: weblate/trans/models/change.py:593
-#, fuzzy, python-format
-#| msgid "File %s was changed."
+#, python-format
 msgid "The \"%s\" file was changed."
-msgstr "Файл %s был изменён."
+msgstr "Файл \"%s\" был изменён."
 
 #: weblate/trans/models/change.py:595
 #, fuzzy, python-format
@@ -11262,15 +11234,12 @@ msgid "N/A"
 msgstr "Н/Д"
 
 #: weblate/trans/models/change.py:603
-#, fuzzy, python-format
-#| msgid ""
-#| "License for component %(component)s was changed from %(old)s to "
-#| "%(target)s."
+#, python-format
 msgid ""
 "The license of the \"%(component)s\" component was changed from %(old)s to "
 "%(target)s."
 msgstr ""
-"Лицензия компонента %(component)s была изменена с %(old)s на %(target)s."
+"Лицензия компонента \"%(component)s\" была изменена с %(old)s на %(target)s."
 
 #. Translators: Action when adding new translation
 #: weblate/trans/models/component.py:118
