@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-12-16 11:55+0100\n"
-"PO-Revision-Date: 2021-12-18 08:01+0000\n"
-"Last-Translator: Wie Paw <pawlow@nobilla.net.pl>\n"
+"PO-Revision-Date: 2021-12-19 23:53+0000\n"
+"Last-Translator: Agnieszka C <aga_04@o2.pl>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/weblate/"
 "documentation/pl/>\n"
 "Language: pl\n"
@@ -86,7 +86,7 @@ msgstr ""
 
 #: ../../admin/access.rst:35
 msgid "Public"
-msgstr "Publiczne"
+msgstr "Publiczny"
 
 #: ../../admin/access.rst:36
 msgid "Publicly visible, translatable for all logged-in users."
@@ -96,7 +96,7 @@ msgstr ""
 
 #: ../../admin/access.rst:37
 msgid "Protected"
-msgstr "Chronione"
+msgstr "Chroniony"
 
 #: ../../admin/access.rst:38
 msgid "Publicly visible, but translatable only for selected users."
@@ -106,7 +106,7 @@ msgstr ""
 
 #: ../../admin/access.rst:39
 msgid "Private"
-msgstr "Prywatne"
+msgstr "Prywatny"
 
 #: ../../admin/access.rst:40
 msgid "Visible and translatable only for selected users."
@@ -115,7 +115,7 @@ msgstr ""
 
 #: ../../admin/access.rst:44
 msgid "Custom"
-msgstr "Dostosowane"
+msgstr "Niestandardowy"
 
 #: ../../admin/access.rst:42
 msgid ""
@@ -214,15 +214,15 @@ msgstr "Zawiera wszystkie uprawnienia dostępne dla danego projektu."
 
 #: ../../admin/access.rst:93
 msgid "Review (only if :ref:`review workflow <reviews>` is turned on)"
-msgstr "Recenzja (tylko jeśli :ref:`przegląd pracy <recenzje>` jest włączony)"
+msgstr "Przegląd (tylko jeśli :ref:`review workflow <reviews>` jest włączone)"
 
 #: ../../admin/access.rst:93
 msgid "Can approve translations during review."
-msgstr "Może zatwierdzać tłumaczenia podczas recenzji."
+msgstr "Może zatwierdzać tłumaczenia podczas przeglądu."
 
 #: ../../admin/access.rst:95
 msgid "For `Protected` and `Private` projects only:"
-msgstr "Tylko dla projektów „chronionych” i „prywatnych”:"
+msgstr "Tylko dla projektów `Chroniony` i `Prywatny`:"
 
 #: ../../admin/access.rst:98
 msgid "Translate"
@@ -242,8 +242,8 @@ msgid ""
 "Can edit source strings (if allowed in the :ref:`project settings <component-"
 "manage_units>`) and source string info."
 msgstr ""
-"Może edytować ciągi źródłowe (jeśli jest to dozwolone w :ref:`ustawieniach "
-"projektu <component-manage_units>`) i informacje o ciągach źródłowych."
+"Może edytować ciągi źródłowe (jeśli jest to dozwolone w :ref:`project "
+"settings <component-manage_units>`) i informacje o ciągach źródłowych."
 
 #: ../../admin/access.rst:105 ../../admin/access.rst:270
 #: ../../admin/access.rst:286 ../../admin/access.rst:397 ../../api.rst:648
@@ -334,13 +334,9 @@ msgid ""
 "can be accessed from the project’s menu :guilabel:`Manage` ↓ :guilabel:"
 "`Users`."
 msgstr ""
-"Ponadto, oprócz dodania do projektu istniejącego użytkownika, możliwe jest "
-"zapraszanie nowych. Każdy nowy użytkownik zostanie utworzony natychmiast, "
-"ale konto pozostanie nieaktywne do czasu zalogowania się za pomocą linku w "
-"zaproszeniu wysłanym na e-mail. W tym celu nie jest wymagane posiadanie "
-"żadnych uprawnień w całej witrynie, wystarczające byłyby uprawnienia do "
-"zarządzania dostępem w zakresie projektu (np. członkostwo w grupie "
-"„Administracja”)."
+"Funkcje te są dostępne na stronie :guilabel:`Kontrola dostępu`, do której "
+"można uzyskać dostęp z menu projektu :guilabel:`Zarządzaj` ↓ "
+":guilabel:`Użytkownicy`."
 
 #: ../../admin/access.rst:142
 msgid "New user invitation"
@@ -386,8 +382,8 @@ msgid ""
 "The same kind of invitations are available site-wide from the :ref:"
 "`management interface <management-interface>` on the :guilabel:`Users` tab."
 msgstr ""
-"Ten sam rodzaj zaproszeń jest dostępny w całej witrynie z :ref:`interfejsu "
-"zarządzania <interfejs-zarządzania>` na karcie :guilabel:`Użytkownicy`."
+"Ten sam rodzaj zaproszeń jest dostępny na całej stronie z :ref:`management "
+"interface <management-interface>` na karcie :guilabel:`Użytkownicy`."
 
 #: ../../admin/access.rst:168
 msgid "Blocking users"
@@ -468,11 +464,11 @@ msgid ""
 "utilize it. However you must have superuser privileges in order to use it."
 msgstr ""
 "Najpotężniejsze funkcje systemu kontroli dostępu Weblate są na razie "
-"dostępne tylko przez :ref:`interfejs administratora <admin-interface>` "
-"Django. Możesz go używać do zarządzania uprawnieniami dowolnego projektu. "
-"Nie musisz koniecznie przełączać go na `Niestandardowy` :ref:`kontrola "
-"dostępu <acl>`, aby go wykorzystać. Jednak aby z niego korzystać, musisz "
-"mieć uprawnienia superużytkownika."
+"dostępne tylko przez :ref:`Django admin interface <admin-interface>`. Możesz "
+"go używać do zarządzania uprawnieniami dowolnego projektu. Nie musisz "
+"koniecznie przełączać go na `Niestandardowy` :ref:`access control <acl>`, "
+"aby go wykorzystać. Jednak aby z niego korzystać, musisz mieć uprawnienia "
+"superużytkownika."
 
 #: ../../admin/access.rst:210
 msgid ""
@@ -509,24 +505,24 @@ msgid ""
 "To manage permissions for a whole instance at once, add users to "
 "appropriate :ref:`default groups <default-groups>`:"
 msgstr ""
-"Aby zarządzać uprawnieniami dla całej instancji na raz, dodaj użytkowników "
-"do odpowiednich :ref:`grupy domyślne <default-groups>`:"
+"Aby zarządzać uprawnieniami dla całej instancji naraz, dodaj użytkowników do "
+"odpowiednich :ref:`default groups <default-groups>`:"
 
 #: ../../admin/access.rst:227
 msgid ""
 "`Users` (this is done by default by the :ref:`automatic group assignment "
 "<autogroup>`)."
 msgstr ""
-"`Użytkownicy` (domyślnie robi to :ref:`automatyczne przypisywanie grup "
-"<autogrupa>`)."
+"`Użytkownicy` (domyślnie robi to :ref:`automatic group assignment "
+"<autogroup>`)."
 
 #: ../../admin/access.rst:229
 msgid ""
 "`Reviewers` (if you are using :ref:`review workflow <reviews>` with "
 "dedicated reviewers)."
 msgstr ""
-"`Recenzenci` (jeśli używasz :ref:`przepływu pracy recenzji <recenzje>` z "
-"dedykowanymi recenzentami)."
+"`Recenzenci` (jeśli używasz :ref:`review workflow <reviews>` z dedykowanymi "
+"recenzentami)."
 
 #: ../../admin/access.rst:231
 msgid ""
@@ -542,8 +538,8 @@ msgid ""
 "otherwise the site-wide permissions provided by membership in the `Users` "
 "and `Reviewers` groups won’t have any effect."
 msgstr ""
-"Wszystkie projekty powinny być skonfigurowane jako `Publiczne` (patrz "
-":ref:`acl`), w przeciwnym razie uprawnienia dla całej witryny zapewnione "
+"Wszystkie projekty powinny być skonfigurowane jako `Publiczny` (patrz "
+":ref:`acl`), w przeciwnym razie uprawnienia dla całej strony zapewnione "
 "przez członkostwo w grupach `Użytkownicy` i `Recenzenci` nie przyniosą "
 "żadnego efektu."
 
@@ -6191,7 +6187,7 @@ msgstr "``0``"
 
 #: ../../admin/config.rst:469
 msgid ":guilabel:`Public`"
-msgstr ":guilabel:`Public`"
+msgstr ":guilabel:`Publiczny`"
 
 #: ../../admin/config.rst:470
 msgid "``1``"
@@ -6199,7 +6195,7 @@ msgstr "``1``"
 
 #: ../../admin/config.rst:471
 msgid ":guilabel:`Protected`"
-msgstr ":guilabel:`Protected`"
+msgstr ":guilabel:`Chroniony`"
 
 #: ../../admin/config.rst:472
 msgid "``100``"
@@ -6207,7 +6203,7 @@ msgstr "``100``"
 
 #: ../../admin/config.rst:473
 msgid ":guilabel:`Private`"
-msgstr ":guilabel:`Private`"
+msgstr ":guilabel:`Prywatny`"
 
 #: ../../admin/config.rst:475
 msgid "``200``"
@@ -6215,7 +6211,7 @@ msgstr "``200``"
 
 #: ../../admin/config.rst:475
 msgid ":guilabel:`Custom`"
-msgstr ":guilabel:`Custom`"
+msgstr ":guilabel:`Niestandardowy`"
 
 #: ../../admin/config.rst:477
 msgid ""
@@ -15722,7 +15718,7 @@ msgstr ""
 #: ../../admin/projects.rst:190 ../../workflows.rst:75 ../../workflows.rst:107
 #: ../../workflows.rst:144
 msgid "Enable reviews"
-msgstr "Włącz recenzje"
+msgstr "Włącz przeglądy"
 
 #: ../../admin/projects.rst:192
 msgid "Enable review workflow for translations, see :ref:`reviews`."
@@ -15730,7 +15726,7 @@ msgstr ""
 
 #: ../../admin/projects.rst:197
 msgid "Enable source reviews"
-msgstr "Włącz recenzje źródła"
+msgstr "Włącz przeglądy źródeł"
 
 #: ../../admin/projects.rst:199
 msgid "Enable review workflow for source strings, see :ref:`source-reviews`."
@@ -16712,7 +16708,7 @@ msgstr "``{{ stats.fuzzy }}``"
 
 #: ../../admin/projects.rst:879
 msgid "Count of strings needing review"
-msgstr "Liczba ciągów wymagających kontroli"
+msgstr "Liczba ciągów wymagających przeglądu"
 
 #: ../../admin/projects.rst:880
 msgid "``{{ stats.fuzzy_percent }}``"
@@ -16720,7 +16716,7 @@ msgstr "``{{ stats.fuzzy_percent }}``"
 
 #: ../../admin/projects.rst:881
 msgid "Percent of strings needing review"
-msgstr "Procentciągów wymagających kontroli"
+msgstr "Procent ciągów wymagających przeglądu"
 
 #: ../../admin/projects.rst:882
 msgid "``{{ stats.translated }}``"
@@ -19499,7 +19495,7 @@ msgstr ""
 
 #: ../../api.rst:2013
 msgid "whether the unit is fuzzy or marked for review"
-msgstr "czy jednostka jest rozmyta lub oznaczona do recenzji"
+msgstr "czy jednostka jest rozmyta lub oznaczona do przeglądu"
 
 #: ../../api.rst:2014
 msgid "whether the unit is translated"
@@ -25425,7 +25421,7 @@ msgstr ""
 
 #: ../../changes.rst:1643
 msgid "Improved source strings review."
-msgstr "Ulepszono kontrolę ciągów źródłowych."
+msgstr "Ulepszony przegląd ciągów źródłowych."
 
 #: ../../changes.rst:1644
 msgid "Searching across all strings."
@@ -29245,7 +29241,7 @@ msgstr ""
 
 #: ../../devel/review.rst:4
 msgid "Reviewing strings"
-msgstr "Recenzja ciągów"
+msgstr "Przeglądanie ciągów"
 
 #: ../../devel/review.rst:9
 msgid "Activity reports"
@@ -37289,7 +37285,7 @@ msgstr ""
 
 #: ../../workflows.rst:40
 msgid "Waiting for review"
-msgstr "Oczekujące na recenzję"
+msgstr "Oczekujące na przegląd"
 
 #: ../../workflows.rst:40
 msgid ""
@@ -37460,7 +37456,7 @@ msgstr ""
 
 #: ../../workflows.rst:163
 msgid "Turning on reviews"
-msgstr "Włączanie kontroli"
+msgstr "Włączanie przeglądów"
 
 #: ../../workflows.rst:165
 msgid ""
@@ -37505,7 +37501,7 @@ msgstr ""
 
 #: ../../workflows.rst:240
 msgid "Source strings reviews"
-msgstr "Recenzje ciągów źródłowych"
+msgstr "Przeglądy ciągów źródłowych"
 
 #: ../../workflows.rst:242
 msgid ""
