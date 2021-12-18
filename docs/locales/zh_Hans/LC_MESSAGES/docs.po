@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-12-16 11:55+0100\n"
-"PO-Revision-Date: 2021-12-16 19:44+0000\n"
+"PO-Revision-Date: 2021-12-19 23:54+0000\n"
 "Last-Translator: JY3 <GeeyunJY3@gmail.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "weblate/documentation/zh_Hans/>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 4.10-dev\n"
+"X-Generator: Weblate 4.10\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:181
@@ -2440,7 +2440,7 @@ msgstr ""
 
 #: ../../admin/addons.rst:555
 msgid "Squash Git commits"
-msgstr "压缩(Squash) Git 提交"
+msgstr "挤压 Git 提交"
 
 #: ../../admin/addons.rst:557
 msgid "``weblate.git.squash``"
@@ -2454,7 +2454,7 @@ msgstr "``weblate.git.squash``"
 
 #: ../../admin/addons.rst:559
 msgid "Commit squashing"
-msgstr "提交汇并"
+msgstr "挤压提交"
 
 #: ../../admin/addons.rst:561
 msgid "``all`` -- All commits into one"
@@ -2478,16 +2478,14 @@ msgstr ""
 
 #: ../../admin/addons.rst:569
 msgid "Append trailers to squashed commit message"
-msgstr "为压缩提交增加额外信息"
+msgstr "在挤压的提交说明附上尾注"
 
 #: ../../admin/addons.rst:569
 msgid ""
 "Trailer lines are lines that look similar to RFC 822 e-mail headers, at the "
 "end of the otherwise free-form part of a commit message, such as 'Co-"
 "authored-by: …'."
-msgstr ""
-"额外信息是看起来类似于 RFC 822 电子邮件标头，位于提交消息的其他自由格式部分的"
-"末尾，例如 “Co-authored-by…'.。"
+msgstr "尾注行是类似于 RFC 822 电子邮件标头的行，位于提交说明的其他自由格式部分的末尾，例如 “Co-authored-by…”。"
 
 #: ../../admin/addons.rst:571
 #, fuzzy
@@ -2497,13 +2495,13 @@ msgstr "提交信息"
 
 #: ../../admin/addons.rst:571
 msgid "Commit message"
-msgstr "提交信息"
+msgstr "提交说明"
 
 #: ../../admin/addons.rst:571
 msgid ""
 "This commit message will be used instead of the combined commit messages "
 "from the squashed commits."
-msgstr "将使用此提交消息代替来自压缩提交的组合提交消息。"
+msgstr "将使用此提交说明来代替挤压提交的组合提交说明。"
 
 #: ../../admin/addons.rst:573
 msgid "repository post-commit"
@@ -2511,13 +2509,13 @@ msgstr "代码库提交后"
 
 #: ../../admin/addons.rst:575
 msgid "Squash Git commits prior to pushing changes."
-msgstr "推送变更之前压缩(Squash) Git 提交。"
+msgstr "在推送变更之前挤压 Git 提交。"
 
 #: ../../admin/addons.rst:577
 msgid ""
 "Git commits can be squashed prior to pushing changes in one of the following "
 "modes:"
-msgstr "以下模式之一中，Git提交可以在推送更改之前被压缩："
+msgstr "在推送变更之前，可以通过以下任一模式挤压 Git 提交："
 
 #: ../../admin/addons.rst:580
 msgid "All commits into one"
@@ -2539,15 +2537,13 @@ msgstr "每位作者"
 msgid ""
 "Original commit messages are kept, but authorship is lost unless :guilabel:"
 "`Per author` is selected, or the commit message is customized to include it."
-msgstr ""
-"原始提交信息保留，但其作者信息丢失，除非选择 :guilabel:`Per author` ，或者定"
-"制提交信息来包括它。"
+msgstr "原始提交说明保留，但其作者信息丢失，除非选择 :guilabel:`Per author` ，或者定制提交说明来包括它。"
 
 #: ../../admin/addons.rst:588
 msgid ""
 "The original commit messages can optionally be overridden with a custom "
 "commit message. See :ref:`markup` for the message options."
-msgstr "可以选择使用自定义提交消息覆盖原始提交消息。消息选项见 :ref:`markup`。"
+msgstr "可以选择使用自定义提交说明覆盖原始提交说明。说明选项请参见 :ref:`markup`。"
 
 #: ../../admin/addons.rst:591
 msgid ""
@@ -2556,9 +2552,8 @@ msgid ""
 "commit message. This also generates proper ``Co-authored-by:`` credit for "
 "every translator."
 msgstr ""
-"额外信息（提交行像 ``Co-authored-by: …`` ）可选地从原始提交信息中去掉，并且添"
-"加在去掉的提交信息后面。这还可以为每一位翻译者产生适当的 ``Co-authored-by:`` "
-"信誉。"
+"可以选择从原始提交说明中删除尾注（像 ``Co-authored-by: …`` 这样的提交行），并附在挤压的提交说明的末尾。这也会为每位译者产生合适的 "
+"``Co-authored-by:`` 记录。"
 
 #: ../../admin/addons.rst:599
 msgid "Customize JSON output"
@@ -2950,7 +2945,7 @@ msgstr ""
 
 #: ../../admin/admin.rst:12
 msgid "It includes basic overview of your Weblate:"
-msgstr "它包括您 Weblate 的基本视图："
+msgstr "它包括您的 Weblate 的基本概况："
 
 #: ../../admin/admin.rst:14
 msgid "Support status, see :doc:`support`"
@@ -6432,7 +6427,7 @@ msgstr ""
 msgid ""
 "Default commit messages for different operations, please check :ref:"
 "`component` for details."
-msgstr "不同操作的默认提交信息，请查阅 :ref:`component` 了解详情。"
+msgstr "不同操作的默认提交说明，请查阅 :ref:`component` 了解详情。"
 
 #: ../../admin/config.rst:527
 msgid ":ref:`markup`, :ref:`component`, :ref:`component-commit_message`"
@@ -17619,7 +17614,7 @@ msgstr "提交、添加、删除、合并以及插件信息"
 
 #: ../../admin/projects.rst:659
 msgid "Message used when committing a translation, see :ref:`markup`."
-msgstr "当提交翻译时使用的消息，请参见 :ref:`markup`。"
+msgstr "在提交翻译时使用的说明，请参见 :ref:`markup`。"
 
 #: ../../admin/projects.rst:661
 msgid ""
@@ -17919,7 +17914,7 @@ msgstr "当前它用在："
 
 #: ../../admin/projects.rst:850
 msgid "Commit message formatting, see :ref:`component`"
-msgstr "提交消息格式，请参见 :ref:`component`"
+msgstr "提交说明格式，请参见 :ref:`component`"
 
 #: ../../admin/projects.rst:854
 msgid "Several addons"
@@ -18065,7 +18060,7 @@ msgstr "``{{ addon_name }}``"
 #: ../../admin/projects.rst:893
 msgid ""
 "Name of currently executed addon, available only in the addon commit message."
-msgstr "当前执行的插件名称，旨在插件提交信息中可用。"
+msgstr "当前执行的插件名称，旨在插件提交说明中可用。"
 
 #: ../../admin/projects.rst:895
 msgid ""
@@ -18928,7 +18923,7 @@ msgstr ""
 #: ../../admin/upgrade.rst:182
 msgid ""
 "The ``post_update`` method of addons now takes extra ``skip_push`` parameter."
-msgstr "附加组件的 ``post_update`` 方法现在加入额外 的 ``skip_push`` 参数。"
+msgstr "附加组件的 ``post_update`` 方法现在需要额外的 ``skip_push`` 参数。"
 
 #: ../../admin/upgrade.rst:187
 msgid "Upgrade from 4.3 to 4.4"
@@ -20552,7 +20547,7 @@ msgstr "响应与 :http:get:`/api/projects/(string:project)/repository/` 的相�
 
 #: ../../api.rst:1464
 msgid "Remote commit information"
-msgstr "远程提交信息"
+msgstr "远程提交说明"
 
 #: ../../api.rst:1465
 msgid "VCS repository status as reported by VCS"
@@ -21955,7 +21950,7 @@ msgstr ""
 
 #: ../../changes.rst:74
 msgid "Fixed commit messages for linked components."
-msgstr "修复了链接组件的提交消息。"
+msgstr "修复了链接组件的提交说明。"
 
 #: ../../changes.rst:76
 msgid ""
@@ -21997,7 +21992,7 @@ msgstr "性能改进。"
 
 #: ../../changes.rst:88
 msgid "Improved squash add-on compatibility with Gerrit."
-msgstr "改进了 squash 附加组件与 Gerrit 的兼容性。"
+msgstr "改进了挤压附加组件与 Gerrit 的兼容性。"
 
 #: ../../changes.rst:89
 msgid "Fixed adding strings to monolingual glossary components."
@@ -23096,7 +23091,7 @@ msgstr "修复了与报告自动翻译进度相关的崩溃。"
 
 #: ../../changes.rst:426
 msgid "Fixed Git commit squashing with trailers enabled."
-msgstr "修复了启用额外信息时的 Git 压缩提交问题。"
+msgstr "修复了启用尾注时的 Git 挤压提交问题。"
 
 #: ../../changes.rst:427
 msgid "Fixed creating local VCS components using API."
@@ -23161,7 +23156,7 @@ msgstr "改进了 Google Translate 集成中的语言代码处理。"
 
 #: ../../changes.rst:451
 msgid "The Git squash add-on can generate ``Co-authored-by:`` trailers."
-msgstr "Git 变形附加组件可以生成 ``Co-authored-by:`` 额外信息。"
+msgstr "Git 挤压附加组件可以生成 ``Co-authored-by:`` 尾注。"
 
 #: ../../changes.rst:452
 msgid "Improved query search parser."
@@ -23638,7 +23633,7 @@ msgstr "添加了仓库浏览器链接失效的组件警报。"
 
 #: ../../changes.rst:594
 msgid "Improved sign in and registration pages."
-msgstr "改进了登陆和注册页面。"
+msgstr "改进了登录和注册页面。"
 
 #: ../../changes.rst:595
 msgid ""
@@ -24824,7 +24819,7 @@ msgstr "添加了管理白板消息的用户界面。"
 
 #: ../../changes.rst:961
 msgid "Add-on commit message now can be configured."
-msgstr "现在可以配置附加组件提交消息。"
+msgstr "现在可以配置附加组件提交说明。"
 
 #: ../../changes.rst:962
 msgid "Reduce number of commits when updating upstream repository."
@@ -24856,7 +24851,7 @@ msgstr "为卡什达字母添加了检查。"
 
 #: ../../changes.rst:969
 msgid "Added option to squash commits based on authors."
-msgstr "添加选项来根据作者压缩提交。"
+msgstr "添加了根据作者挤压提交的选项。"
 
 #: ../../changes.rst:970
 msgid "Improved support for XLSX file format."
@@ -24902,7 +24897,7 @@ msgstr "添加了带有翻译文件自动检测的翻译组件添加向导。"
 
 #: ../../changes.rst:984
 msgid "Customizable merge commit messages for Git."
-msgstr "可定制的 Git 合并提交消息。"
+msgstr "可定制的 Git 合并提交说明。"
 
 #: ../../changes.rst:985
 msgid "Added visual indication of component alerts in navigation."
@@ -24914,7 +24909,7 @@ msgstr "改进了装入翻译文件的性能。"
 
 #: ../../changes.rst:987
 msgid "New add-on to squash commits prior to push."
-msgstr "在推送前压缩提交的新附加组件。"
+msgstr "在推送前挤压提交的新附加组件。"
 
 #: ../../changes.rst:988
 msgid "Improved displaying of translation changes."
@@ -25116,7 +25111,7 @@ msgstr "删除了对上传时合并标头的支持。"
 
 #: ../../changes.rst:1053
 msgid "Removed support for custom commit messages."
-msgstr "删除了对客户提交消息的支持。"
+msgstr "删除了对客户提交说明的支持。"
 
 #: ../../changes.rst:1054
 msgid "Configurable editing mode (zen/full)."
@@ -25180,7 +25175,7 @@ msgstr "不再支持从早于 3.0.1 的更旧版本的升级。"
 
 #: ../../changes.rst:1079
 msgid "Allow to override default commit messages from settings."
-msgstr "允许覆盖从设置中默认提交的消息。"
+msgstr "允许覆盖设置中的默认提交说明。"
 
 #: ../../changes.rst:1080
 msgid "Improve webhooks compatibility with self hosted environments."
@@ -25304,7 +25299,7 @@ msgstr "新附加组件，以确保项目中的所有组件都有相同的翻译
 
 #: ../../changes.rst:1118
 msgid "Support for more variables in commit message templates."
-msgstr "在提交消息模板中支持更多变量。"
+msgstr "在提交说明模板中支持更多变量。"
 
 #: ../../changes.rst:1119
 msgid "Add support for providing additional textual context."
@@ -25943,7 +25938,7 @@ msgstr "改进了带有 OCR 支持的屏幕截图管理来匹配源字符串。"
 
 #: ../../changes.rst:1331
 msgid "Default commit message now includes translation information and URL."
-msgstr "默认提交消息现在包括翻译信息和 URL。"
+msgstr "默认提交说明现在包括翻译信息和 URL。"
 
 #: ../../changes.rst:1332
 msgid "Added support for Joomla translation format."
@@ -26071,7 +26066,7 @@ msgstr "为统计数据添加了 CSV 下载。"
 
 #: ../../changes.rst:1375
 msgid "Added matrix view for quick overview of all translations."
-msgstr "增加了矩阵视图，以快速概述所有翻译。"
+msgstr "增加了矩阵视图，可用于快速概览所有翻译。"
 
 #: ../../changes.rst:1376
 msgid "Added basic API for changes and strings."
@@ -26237,7 +26232,7 @@ msgstr "去除了 Google web translation 机器翻译。"
 
 #: ../../changes.rst:1429
 msgid "Improved commit message when adding translation."
-msgstr "改进了 添加翻译时的提交消息。"
+msgstr "改进了 添加翻译时的提交说明。"
 
 #: ../../changes.rst:1430
 msgid "Fixed Google Translate API for Hebrew language."
@@ -26959,7 +26954,7 @@ msgstr "更改了将建议、检查与注释连接到字符串的方式。"
 
 #: ../../changes.rst:1658
 msgid "Users can now add text to commit message."
-msgstr "用户现在可以添加文本来提交消息。"
+msgstr "用户现在可以添加文本来提交说明。"
 
 #: ../../changes.rst:1659
 msgid "Support for subscribing on new language requests."
@@ -27196,7 +27191,7 @@ msgstr "在进度条中显示未通过的检查或模糊字符串。"
 
 #: ../../changes.rst:1730
 msgid "More options for formatting commit message."
-msgstr "用于将提交信息格式化的更多选项。"
+msgstr "用于将提交说明格式化的更多选项。"
 
 #: ../../changes.rst:1731
 msgid "Fixed error handling with machine translation services."
@@ -31304,9 +31299,8 @@ msgid ""
 "supports most of the widely used frameworks, see :ref:`formats` for more "
 "information (especially :ref:`fmt_capabs`)."
 msgstr ""
-"选择你平台上的标准格式，尽量避免重复发明轮子，避免通过创建你自己的框架来处理"
-"本地化问题。Weblate 支持大多数广泛使用的框架，更多信息请参见 :ref:`formats` "
-"（特别是 :ref:`fmt_capabs` ）。"
+"选择你平台上的标准格式，尽量避免重复发明轮子，避免通过创建你自己的框架来处理本地化问题。Weblate 支持大多数广泛使用的框架，更多信息请参见 "
+":ref:`formats` （特别是 :ref:`fmt_capabs`）。"
 
 #: ../../devel/starting.rst:31
 msgid ""
@@ -32549,7 +32543,7 @@ msgstr ":ref:`mono_gettext`"
 #: ../../formats.rst:121 ../../formats.rst:125 ../../formats.rst:127
 #: ../../formats.rst:129
 msgid "mono"
-msgstr "单一"
+msgstr "单语"
 
 #: ../../formats.rst:65
 msgid ":ref:`xliff`"
@@ -32611,7 +32605,7 @@ msgstr ":ref:`php`"
 
 #: ../../formats.rst:81
 msgid "no [#lp]_"
-msgstr "否 [#lp]_"
+msgstr "不支持 [#lp]_"
 
 #: ../../formats.rst:83
 msgid ":ref:`json`"
@@ -32705,7 +32699,7 @@ msgstr ":ref:`alerts`"
 
 #: ../../formats.rst:129
 msgid "no [#fp]_"
-msgstr "no [#fp]_"
+msgstr "不支持 [#fp]_"
 
 #: ../../formats.rst:132
 msgid "See :ref:`bimono`"
@@ -32739,9 +32733,7 @@ msgstr "字符串在源代码中的位置可能有助于熟练的译者弄清楚
 msgid ""
 "Additional states supported by the file format in addition to \"Not "
 "translated\" and \"Translated\"."
-msgstr ""
-"除\"Not translated\"（未翻译）和\"Translated\"（已翻译）之外，文件格式支持的"
-"更多状态。"
+msgstr "除“Not translated”（未翻译）和“Translated”（已翻译）之外，文件格式支持的更多状态。"
 
 #: ../../formats.rst:138
 msgid ""
