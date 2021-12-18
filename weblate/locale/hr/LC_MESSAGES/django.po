@@ -11,8 +11,8 @@ msgstr ""
 "Project-Id-Version: Weblate 4.10\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-12-16 10:54+0000\n"
-"PO-Revision-Date: 2021-12-15 19:10+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2021-12-19 23:53+0000\n"
+"Last-Translator: Milo Ivir <mail@milotype.de>\n"
 "Language-Team: Croatian <https://hosted.weblate.org/projects/weblate/"
 "application/hr/>\n"
 "Language: hr\n"
@@ -21,7 +21,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 4.10-dev\n"
+"X-Generator: Weblate 4.10\n"
 
 #: weblate/accounts/avatar.py:103
 msgctxt "No known user"
@@ -3309,10 +3309,8 @@ msgid "WebExtension JSON file"
 msgstr "WebExtension JSON datoteka"
 
 #: weblate/formats/ttkit.py:1337
-#, fuzzy
-#| msgid "i18next JSON file"
 msgid "i18next JSON file v3"
-msgstr "i18next JSON datoteka"
+msgstr "i18next JSON datoteka v3"
 
 #: weblate/formats/ttkit.py:1345
 msgid "go-i18n JSON file"
@@ -5359,8 +5357,6 @@ msgstr "Čeka se na odobrenje"
 #: weblate/templates/mail/billing_expired.html:49
 #: weblate/templates/project.html:145
 #: weblate/templates/snippets/project/billing-libre-trial.html:10
-#, fuzzy
-#| msgid "Request approval for libre hosting"
 msgid "Request approval for Libre hosting"
 msgstr "Zatraži odobrenje za slobodni hosting"
 
@@ -7127,10 +7123,8 @@ msgstr "Izvorni izraz"
 #: weblate/templates/snippets/note-badge.html:5
 #: weblate/templates/snippets/query-builder.html:18
 #: weblate/templates/translate.html:625
-#, fuzzy
-#| msgid "Source string location"
 msgid "Source string description"
-msgstr "Mjesto izvornog izraza"
+msgstr "Opis izvornog izraza"
 
 #: weblate/templates/mail/snippets/unit-screenshots.html:5
 #: weblate/templates/translate.html:659
@@ -7223,34 +7217,25 @@ msgstr ""
 
 #: weblate/templates/manage-access.html:206
 #: weblate/trans/models/projecttoken.py:41
-#, fuzzy
-#| msgid "Expired"
 msgid "Expires"
-msgstr "Isteklo"
+msgstr "Isteče"
 
 #: weblate/templates/manage-access.html:228
-#, fuzzy, python-format
-#| msgid "This will remove <b>%(user)s</b> access to this project."
+#, python-format
 msgid "This will delete the project token <b>%(token)s</b> from this project."
-msgstr "Ovo će ukloniti <b>%(user)s</b> pristup ovom projektu."
+msgstr "Ovo će izbrisati token <b>%(token)s</b> projekta iz ovog projekta."
 
 #: weblate/templates/manage-access.html:250
-#, fuzzy
-#| msgid "Create project"
 msgid "Create a project token"
-msgstr "Stvori projekt"
+msgstr "Stvori token projekta"
 
 #: weblate/templates/manage-access.html:256
-#, fuzzy
-#| msgid "Created"
 msgid "Create"
-msgstr "Stvoreno"
+msgstr "Stvori"
 
 #: weblate/templates/manage-access.html:266
-#, fuzzy
-#| msgid "Your personal API key:"
 msgid "Personal API key"
-msgstr "Tvoj osobni API ključ:"
+msgstr "Osobni API ključ"
 
 #: weblate/templates/manage-access.html:279
 msgid "This is your personal API key, do not share it with anybody else."
@@ -8506,6 +8491,9 @@ msgid ""
 "lock it and post an announcement in case you want to avoid contributions "
 "until you finish the setup."
 msgstr ""
+"Ovaj se projekt nalazi u probnom razdoblju i javno je dostupan. Možeš ga "
+"zaključati i objaviti poruku u slučaju da želiš onemogućiti doprinošenje "
+"projektu, sve dok ne završiš s postavljanjem projekta."
 
 #: weblate/templates/snippets/project/billing-libre-trial.html:14
 msgid ""
@@ -8647,6 +8635,8 @@ msgid ""
 "Don’t worry about messing up the strings. This is a two-step process showing "
 "a preview of edited strings before the actual change is confirmed."
 msgstr ""
+"Ne brini o tome da ćeš zabrljati izraze. Ovo je postupak u dva koraka koji "
+"prikazuje pregled uređenih izraza prije potvrđivanja stvarne promjene."
 
 #: weblate/templates/snippets/sort-field.html:10
 #: weblate/templates/snippets/sort-field.html:14
@@ -8939,7 +8929,7 @@ msgstr ""
 
 #: weblate/templates/trans/alert/inexistantfiles.html:4
 msgid "Following files are no longer present in the repository:"
-msgstr ""
+msgstr "Sljedeće datoteke više nisu prisutne u repozitoriju:"
 
 #: weblate/templates/trans/alert/inexistantfiles.html:13
 #: weblate/trans/models/component.py:362
@@ -8977,8 +8967,6 @@ msgstr ""
 "Dodaj jednojezičnu osnovnu prevodilačku datoteku u postavkama komponente."
 
 #: weblate/templates/trans/alert/nolibreconditions.html:3
-#, fuzzy
-#| msgid "This project does no longer fit into libre hosting conditions."
 msgid "This project does no longer fit into Libre hosting conditions."
 msgstr "Ovaj projekt više ne ispunjava uvjete za hosting slobodnih projekata."
 
@@ -9035,7 +9023,7 @@ msgstr ""
 
 #: weblate/templates/trans/alert/pushfailure.html:13
 msgid "You might want to use following URL instead:"
-msgstr ""
+msgstr "Umjesto toga možeš koristiti sljedeći URL:"
 
 #: weblate/templates/trans/alert/repositorychanges.html:4
 msgid ""
@@ -9360,16 +9348,12 @@ msgid "You currently do not have permission to create projects."
 msgstr "Trenutačno nemaš dozvolu za stvaranje projekata."
 
 #: weblate/templates/trans/projecttoken-created.html:4
-#, fuzzy
-#| msgid "API key copied to clipboard."
 msgid "Token copied to clipboard."
-msgstr "API ključ je kopiran u međuspremnik."
+msgstr "Token je kopiran u međuspremnik."
 
 #: weblate/templates/trans/projecttoken-created.html:4
-#, fuzzy
-#| msgid "Copy to clipboard"
 msgid "Copy token to clipboard"
-msgstr "Kopiraj u međuspremnik"
+msgstr "Kopiraj token u međuspremnik"
 
 #: weblate/templates/trans/projecttoken-created.html:6
 #, python-format
@@ -9377,6 +9361,7 @@ msgid ""
 "Token was created, please save it now as it won't be displayed again: "
 "%(token)s"
 msgstr ""
+"Token je stvoren. Spremi ga sada, jer se neće ponovo prikazivati: %(token)s"
 
 #: weblate/templates/trans/repo_help.html:2
 msgid ""
@@ -9484,10 +9469,8 @@ msgid "Insufficient privileges for saving translations."
 msgstr "Nedovoljna prava za spremanje prijevoda."
 
 #: weblate/templates/translate.html:217
-#, fuzzy
-#| msgid "Save and stay"
 msgid "Save and continue"
-msgstr "Spremi i ostani"
+msgstr "Spremi i nastavi"
 
 #: weblate/templates/translate.html:220
 msgid "Save and stay"
@@ -10516,10 +10499,8 @@ msgid ""
 msgstr "Koristi i doprinosi skupu zajedničkih prijevoda između projekata."
 
 #: weblate/trans/forms.py:2009
-#, fuzzy
-#| msgid "Optional context to clarify the source strings."
 msgid "Optional additional filter on the strings"
-msgstr "Opcionalni kontekst za objašnjavanje izvornih izraza."
+msgstr "Opcionalan dodatni filtar primijenjen za izraze"
 
 #: weblate/trans/forms.py:2012
 msgid "Search string"
@@ -10527,7 +10508,7 @@ msgstr "Traženi izraz"
 
 #: weblate/trans/forms.py:2016
 msgid "Case sensitive string to replace and search."
-msgstr ""
+msgstr "Izraz koji razlikuje velika i mala slova za zamjenu i pretragu."
 
 #: weblate/trans/forms.py:2019
 msgid "Replacement string"
@@ -10632,7 +10613,7 @@ msgstr "Korisničko ime autora"
 
 #: weblate/trans/forms.py:2429
 msgid "Expires cannot be in the past!"
-msgstr ""
+msgstr "Istek ne može biti u prošlosti!"
 
 #: weblate/trans/guide.py:80
 msgid "Version control integration"
@@ -10777,8 +10758,6 @@ msgstr "Nejedinstven jezični kod."
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:358
-#, fuzzy
-#| msgid "Does not meet libre hosting conditions."
 msgid "Does not meet Libre hosting conditions."
 msgstr "Ne ispunjava uvjete za hosting slobodnih projekata."
 
@@ -10792,7 +10771,7 @@ msgstr "Nijedna maska se ne poklapa."
 
 #: weblate/trans/models/alert.py:382
 msgid "Inexistant files."
-msgstr ""
+msgstr "Nepostojeće datoteke."
 
 #: weblate/trans/models/announcement.py:111
 msgid "Category"
@@ -11096,7 +11075,7 @@ msgstr "Prijevod je automatski zaključan zbog upozorenja."
 
 #: weblate/trans/models/change.py:439
 msgid "Fixing an alert automatically unlocked the component."
-msgstr ""
+msgstr "Popravljanje upozorenja automatski je otključalo komponentu."
 
 #: weblate/trans/models/change.py:495
 #, python-format
@@ -11104,16 +11083,14 @@ msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
 msgstr "%(action)s u %(time)s za %(translation)s od %(user)s"
 
 #: weblate/trans/models/change.py:593
-#, fuzzy, python-format
-#| msgid "File %s was changed."
+#, python-format
 msgid "The \"%s\" file was changed."
-msgstr "Datoteka %s je promijenjena."
+msgstr "Datoteka „%s” je promijenjena."
 
 #: weblate/trans/models/change.py:595
-#, fuzzy, python-format
-#| msgid "Parsing of file %s was enforced."
+#, python-format
 msgid "Parsing of the \"%s\" file was enforced."
-msgstr "Obrada datoteke %s je izvršena."
+msgstr "Obrada datoteke „%s” je izvršena."
 
 #: weblate/trans/models/change.py:597
 #, python-format
@@ -11126,15 +11103,13 @@ msgid "N/A"
 msgstr "--"
 
 #: weblate/trans/models/change.py:603
-#, fuzzy, python-format
-#| msgid ""
-#| "License for component %(component)s was changed from %(old)s to "
-#| "%(target)s."
+#, python-format
 msgid ""
 "The license of the \"%(component)s\" component was changed from %(old)s to "
 "%(target)s."
 msgstr ""
-"Licenca za komponentu %(component)s promijenjena je iz %(old)s u %(target)s."
+"Licenca za komponentu „%(component)s” promijenjena je iz %(old)s u "
+"%(target)s."
 
 #. Translators: Action when adding new translation
 #: weblate/trans/models/component.py:118
@@ -11879,11 +11854,11 @@ msgstr ""
 
 #: weblate/trans/models/projecttoken.py:36
 msgid "Token value"
-msgstr ""
+msgstr "Vrijednost tokena"
 
 #: weblate/trans/models/projecttoken.py:38
 msgid "Token value to use in API"
-msgstr ""
+msgstr "Vrijednost tokena za korištenje u API-ju"
 
 #: weblate/trans/models/suggestion.py:138
 msgid "Failed to accept suggestion!"
