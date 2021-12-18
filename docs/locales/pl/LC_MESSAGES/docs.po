@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-12-16 11:55+0100\n"
-"PO-Revision-Date: 2021-12-16 11:36+0000\n"
-"Last-Translator: Agnieszka C <aga_04@o2.pl>\n"
+"PO-Revision-Date: 2021-12-18 08:01+0000\n"
+"Last-Translator: Wie Paw <pawlow@nobilla.net.pl>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/weblate/"
 "documentation/pl/>\n"
 "Language: pl\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 4.10-dev\n"
+"X-Generator: Weblate 4.10\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:181
@@ -195,6 +195,10 @@ msgid ""
 "`privileges`) can manage users in projects with non-`Custom` access control. "
 "They can assign users to one of the following groups."
 msgstr ""
+"Użytkownicy z uprawnieniem :guilabel:`Zarządzaj dostępem do projektu` (patrz "
+":ref:`privileges`) mogą zarządzać użytkownikami w projektach z "
+"niestandardową kontrolą dostępu. Mogą przypisywać użytkowników do jednej z "
+"następujących grup."
 
 #: ../../admin/access.rst:87
 msgid "For `Public`, `Protected` and `Private` projects:"
@@ -210,7 +214,7 @@ msgstr "Zawiera wszystkie uprawnienia dostępne dla danego projektu."
 
 #: ../../admin/access.rst:93
 msgid "Review (only if :ref:`review workflow <reviews>` is turned on)"
-msgstr ""
+msgstr "Recenzja (tylko jeśli :ref:`przegląd pracy <recenzje>` jest włączony)"
 
 #: ../../admin/access.rst:93
 msgid "Can approve translations during review."
@@ -218,7 +222,7 @@ msgstr "Może zatwierdzać tłumaczenia podczas recenzji."
 
 #: ../../admin/access.rst:95
 msgid "For `Protected` and `Private` projects only:"
-msgstr ""
+msgstr "Tylko dla projektów „chronionych” i „prywatnych”:"
 
 #: ../../admin/access.rst:98
 msgid "Translate"
@@ -238,6 +242,8 @@ msgid ""
 "Can edit source strings (if allowed in the :ref:`project settings <component-"
 "manage_units>`) and source string info."
 msgstr ""
+"Może edytować ciągi źródłowe (jeśli jest to dozwolone w :ref:`ustawieniach "
+"projektu <component-manage_units>`) i informacje o ciągach źródłowych."
 
 #: ../../admin/access.rst:105 ../../admin/access.rst:270
 #: ../../admin/access.rst:286 ../../admin/access.rst:397 ../../api.rst:648
@@ -305,6 +311,9 @@ msgid ""
 "now. Also this way it’s not possible to give just some additional "
 "permissions to all users."
 msgstr ""
+"Niestety na razie nie można zmienić tego wstępnie zdefiniowanego zestawu "
+"grup. Również w ten sposób nie jest możliwe nadanie tylko kilku dodatkowych "
+"uprawnień wszystkim użytkownikom."
 
 #: ../../admin/access.rst:129
 msgid ""
@@ -313,6 +322,11 @@ msgid ""
 "``Project@Group``, also displayed in the Django admin interface this way. "
 "Although they can’t be edited from Weblate user-interface."
 msgstr ""
+"W przypadku kontroli dostępu innej niż „Niestandardowa” instancja każdej "
+"grupy opisanej powyżej jest faktycznie zdefiniowana dla każdego projektu. "
+"Rzeczywista nazwa tych grup to ``Projekt@Grupa``, również wyświetlana w ten "
+"sposób w interfejsie administratora Django. Chociaż nie można ich edytować z "
+"interfejsu użytkownika Weblate."
 
 #: ../../admin/access.rst:136
 msgid ""
@@ -320,6 +334,13 @@ msgid ""
 "can be accessed from the project’s menu :guilabel:`Manage` ↓ :guilabel:"
 "`Users`."
 msgstr ""
+"Ponadto, oprócz dodania do projektu istniejącego użytkownika, możliwe jest "
+"zapraszanie nowych. Każdy nowy użytkownik zostanie utworzony natychmiast, "
+"ale konto pozostanie nieaktywne do czasu zalogowania się za pomocą linku w "
+"zaproszeniu wysłanym na e-mail. W tym celu nie jest wymagane posiadanie "
+"żadnych uprawnień w całej witrynie, wystarczające byłyby uprawnienia do "
+"zarządzania dostępem w zakresie projektu (np. członkostwo w grupie "
+"„Administracja”)."
 
 #: ../../admin/access.rst:142
 msgid "New user invitation"
@@ -334,6 +355,13 @@ msgid ""
 "do so, access management permission on the project’s scope (e.g. a "
 "membership in the `Administration` group) would be sufficient."
 msgstr ""
+"Ponadto, oprócz dodania do projektu istniejącego użytkownika, możliwe jest "
+"zapraszanie nowych. Każdy nowy użytkownik zostanie utworzony natychmiast, "
+"ale konto pozostanie nieaktywne do czasu zalogowania się za pomocą linku w "
+"zaproszeniu wysłanym na e-mail. W tym celu nie jest wymagane posiadanie "
+"żadnych uprawnień w całej witrynie, wystarczające byłyby uprawnienia do "
+"zarządzania dostępem w zakresie projektu (np. członkostwo w grupie "
+"„Administracja”)."
 
 #: ../../admin/access.rst:153
 msgid ""
@@ -358,6 +386,8 @@ msgid ""
 "The same kind of invitations are available site-wide from the :ref:"
 "`management interface <management-interface>` on the :guilabel:`Users` tab."
 msgstr ""
+"Ten sam rodzaj zaproszeń jest dostępny w całej witrynie z :ref:`interfejsu "
+"zarządzania <interfejs-zarządzania>` na karcie :guilabel:`Użytkownicy`."
 
 #: ../../admin/access.rst:168
 msgid "Blocking users"
@@ -369,6 +399,10 @@ msgid ""
 "them from contributing. The blocked user still will be able to see the "
 "project if he has permissions for that, but he won't be able to contribute."
 msgstr ""
+"W przypadku, gdy niektórzy użytkownicy zachowują się źle w Twoim projekcie, "
+"masz możliwość zablokowania im udziału. Zablokowany użytkownik nadal będzie "
+"mógł zobaczyć projekt, jeśli ma do tego uprawnienia, ale nie będzie mógł "
+"wnosić wkładu."
 
 #: ../../admin/access.rst:177
 msgid "Per-project permission management"
@@ -392,6 +426,12 @@ msgid ""
 "creating additional custom settings for individual component as described "
 "in :ref:`custom-acl` below."
 msgstr ""
+"Domyślnie uniemożliwia to Weblate przyznanie dostępu zapewnianego przez "
+"`Users` i `Viewers` :ref:`default groups <default-groups>` ze względu na "
+"własną konfigurację tych grup. Nie przeszkadza to w przyznawaniu uprawnień "
+"do tych projektów w całej witrynie poprzez zmianę domyślnych grup, tworzenie "
+"nowej lub tworzenie dodatkowych niestandardowych ustawień dla poszczególnych "
+"komponentów, jak opisano w :ref:`custom-acl` poniżej."
 
 #: ../../admin/access.rst:188
 msgid ""
@@ -400,6 +440,10 @@ msgid ""
 "superuser privilege. In order to do so, add them to the `Administration` "
 "group of the project."
 msgstr ""
+"Jedną z głównych korzyści zarządzania uprawnieniami przez interfejs "
+"użytkownika Weblate jest to, że możesz delegować je innym użytkownikom bez "
+"nadawania im uprawnień superużytkownika. W tym celu dodaj je do grupy "
+"`Administracja` projektu."
 
 #: ../../admin/access.rst:196
 msgid "Custom access control"
@@ -423,6 +467,12 @@ msgid ""
 "necessarily have to switch it to `Custom` :ref:`access control <acl>` to "
 "utilize it. However you must have superuser privileges in order to use it."
 msgstr ""
+"Najpotężniejsze funkcje systemu kontroli dostępu Weblate są na razie "
+"dostępne tylko przez :ref:`interfejs administratora <admin-interface>` "
+"Django. Możesz go używać do zarządzania uprawnieniami dowolnego projektu. "
+"Nie musisz koniecznie przełączać go na `Niestandardowy` :ref:`kontrola "
+"dostępu <acl>`, aby go wykorzystać. Jednak aby z niego korzystać, musisz "
+"mieć uprawnienia superużytkownika."
 
 #: ../../admin/access.rst:210
 msgid ""
@@ -432,6 +482,11 @@ msgid ""
 "<https://hosted.weblate.org/>`_), please refer to the :ref:`access-simple` "
 "section."
 msgstr ""
+"Jeśli nie interesują Cię szczegóły implementacji, a po prostu chcesz "
+"stworzyć wystarczająco prostą konfigurację opartą na ustawieniach "
+"domyślnych, lub nie masz dostępu do całej instalacji Weblate (jak na `Hosted "
+"Weblate <https:/ /hosted.weblate.org/>`_), zapoznaj się z sekcją :ref"
+":`access-simple`."
 
 #: ../../admin/access.rst:216
 msgid "Common setups"
@@ -442,6 +497,8 @@ msgid ""
 "This section contains an overview of some common configurations you may be "
 "interested in."
 msgstr ""
+"Ta sekcja zawiera przegląd niektórych typowych konfiguracji, które mogą Cię "
+"zainteresować."
 
 #: ../../admin/access.rst:222
 msgid "Site-wide permission management"
@@ -452,24 +509,32 @@ msgid ""
 "To manage permissions for a whole instance at once, add users to "
 "appropriate :ref:`default groups <default-groups>`:"
 msgstr ""
+"Aby zarządzać uprawnieniami dla całej instancji na raz, dodaj użytkowników "
+"do odpowiednich :ref:`grupy domyślne <default-groups>`:"
 
 #: ../../admin/access.rst:227
 msgid ""
 "`Users` (this is done by default by the :ref:`automatic group assignment "
 "<autogroup>`)."
 msgstr ""
+"`Użytkownicy` (domyślnie robi to :ref:`automatyczne przypisywanie grup "
+"<autogrupa>`)."
 
 #: ../../admin/access.rst:229
 msgid ""
 "`Reviewers` (if you are using :ref:`review workflow <reviews>` with "
 "dedicated reviewers)."
 msgstr ""
+"`Recenzenci` (jeśli używasz :ref:`przepływu pracy recenzji <recenzje>` z "
+"dedykowanymi recenzentami)."
 
 #: ../../admin/access.rst:231
 msgid ""
 "`Managers` (if you want to delegate most of the management operations to "
 "somebody else)."
 msgstr ""
+"`Menedżerowie` (jeśli chcesz delegować większość operacji zarządzania komuś "
+"innemu)."
 
 #: ../../admin/access.rst:234
 msgid ""
@@ -477,6 +542,10 @@ msgid ""
 "otherwise the site-wide permissions provided by membership in the `Users` "
 "and `Reviewers` groups won’t have any effect."
 msgstr ""
+"Wszystkie projekty powinny być skonfigurowane jako `Publiczne` (patrz "
+":ref:`acl`), w przeciwnym razie uprawnienia dla całej witryny zapewnione "
+"przez członkostwo w grupach `Użytkownicy` i `Recenzenci` nie przyniosą "
+"żadnego efektu."
 
 #: ../../admin/access.rst:238
 msgid ""
@@ -484,6 +553,9 @@ msgid ""
 "groups. For example, you may want to give a permission to manage screenshots "
 "to all the `Users`."
 msgstr ""
+"Możesz również przyznać dodatkowe, wybrane przez siebie uprawnienia, grupom "
+"domyślnym. Na przykład możesz chcieć nadać uprawnienia do zarządzania "
+"zrzutami ekranu wszystkim „Użytkownikom”."
 
 #: ../../admin/access.rst:242
 msgid ""
@@ -492,6 +564,10 @@ msgid ""
 "the :guilabel:`Project selection` (e.g. :guilabel:`All projects` or :"
 "guilabel:`All public projects`)."
 msgstr ""
+"Możesz również zdefiniować kilka nowych grup niestandardowych. Jeśli chcesz "
+"nadal zarządzać swoimi uprawnieniami w całej witrynie dla tych grup, wybierz "
+"odpowiednią wartość dla :guilabel:`Wybór projektu` (np. :guilabel:`Wszystkie "
+"projekty` lub :guilabel:`Wszystkie projekty publiczne`)."
 
 #: ../../admin/access.rst:248
 msgid "Custom permissions for languages, components or projects"
@@ -504,6 +580,11 @@ msgid ""
 "can only grant additional privileges, you can’t revoke any permission "
 "granted by site-wide or per-project groups by adding another custom group."
 msgstr ""
+"Możesz tworzyć własne grupy dedykowane do zarządzania uprawnieniami do "
+"różnych obiektów, takich jak języki, komponenty i projekty. Chociaż te grupy "
+"mogą przyznawać tylko dodatkowe uprawnienia, nie można cofnąć żadnego "
+"uprawnienia przyznanego przez grupy obejmujące całą witrynę lub poszczególne "
+"projekty, dodając kolejną grupę niestandardową."
 
 #: ../../admin/access.rst:255 ../../admin/access.rst:385
 #: ../../admin/config.rst:249 ../../admin/config.rst:268
@@ -524,6 +605,10 @@ msgid ""
 "language (lets say `Czech`) only to a closed set of reliable translators "
 "while keeping translations to other languages public, you will have to:"
 msgstr ""
+"Jeśli chcesz (z jakiegokolwiek powodu) zezwolić na tłumaczenie na określony "
+"język (powiedzmy „czeski”) tylko zamkniętemu zestawowi wiarygodnych "
+"tłumaczy, jednocześnie pozostawiając tłumaczenia na inne języki publicznie, "
+"będziesz musiał:"
 
 #: ../../admin/access.rst:261
 msgid ""
