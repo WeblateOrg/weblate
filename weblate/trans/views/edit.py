@@ -778,7 +778,7 @@ def resolve_comment(request, pk):
 
     comment_obj.resolved = True
     comment_obj.save(update_fields=["resolved"])
-    messages.info(request, _("Translation comment has been resolved."))
+    messages.info(request, _("Comment has been resolved."))
 
     return redirect_next(request.POST.get("next"), fallback_url)
 
