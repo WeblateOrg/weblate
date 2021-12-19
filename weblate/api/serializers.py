@@ -369,11 +369,16 @@ class ProjectSerializer(serializers.ModelSerializer):
         }
 
 
-class RepoField(serializers.CharField):
+class LinkedField(serializers.CharField):
     def get_attribute(self, instance):
         if instance.linked_component:
             instance = instance.linked_component
-        url = getattr(instance, self.source)
+        return getattr(instance, self.source)
+
+
+class RepoField(LinkedField):
+    def get_attribute(self, instance):
+        url = super().get_attribute(instance)
         if not settings.HIDE_REPO_CREDENTIALS:
             return url
         return cleanup_repo_url(url)
@@ -425,6 +430,8 @@ class ComponentSerializer(RemovableSerializer):
     repo = RepoField(max_length=REPO_LENGTH)
 
     push = RepoField(required=False, allow_blank=True, max_length=REPO_LENGTH)
+    branch = LinkedField(required=False, allow_blank=True, max_length=REPO_LENGTH)
+    push_branch = LinkedField(required=False, allow_blank=True, max_length=REPO_LENGTH)
 
     serializer_url_field = MultiFieldHyperlinkedIdentityField
 

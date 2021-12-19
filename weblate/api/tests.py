@@ -1162,6 +1162,7 @@ class ProjectAPITest(APIBaseTest):
             },
         )
         self.assertEqual(response.data["repo"], repo)
+        self.assertEqual(response.data["branch"], branch)
         component = Component.objects.get(slug="c-1")
         self.assertEqual(component.repo, link_repo)
         response = self.do_request(
@@ -1181,6 +1182,7 @@ class ProjectAPITest(APIBaseTest):
             },
         )
         self.assertEqual(response.data["repo"], repo)
+        self.assertEqual(response.data["branch"], "translations")
         component = Component.objects.get(slug="c-2")
         self.assertEqual(component.repo, repo)
         response = self.do_request(
@@ -1201,6 +1203,7 @@ class ProjectAPITest(APIBaseTest):
             },
         )
         self.assertEqual(response.data["repo"], repo)
+        self.assertEqual(response.data["branch"], branch)
         component = Component.objects.get(slug="c-3")
         self.assertEqual(component.repo, repo)
 
