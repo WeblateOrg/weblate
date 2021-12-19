@@ -35,8 +35,8 @@ msgstr ""
 "Project-Id-Version: Weblate 4.10\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-12-16 10:54+0000\n"
-"PO-Revision-Date: 2021-12-16 11:50+0000\n"
-"Last-Translator: Eric <spice2wolf@gmail.com>\n"
+"PO-Revision-Date: 2021-12-19 23:53+0000\n"
+"Last-Translator: JY3 <GeeyunJY3@gmail.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "weblate/application/zh_Hans/>\n"
 "Language: zh_Hans\n"
@@ -44,7 +44,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 4.10-dev\n"
+"X-Generator: Weblate 4.10\n"
 
 #: weblate/accounts/avatar.py:103
 msgctxt "No known user"
@@ -811,7 +811,7 @@ msgstr "已登录时无法完成注册."
 
 #: weblate/accounts/pipeline.py:337
 msgid "You can confirm your registration only while signed in."
-msgstr "只有在登陆状态方可确定您的注册."
+msgstr "您只能在登录时确认注册。"
 
 #: weblate/accounts/pipeline.py:482
 #, python-brace-format
@@ -1185,7 +1185,7 @@ msgstr "使用模糊匹配"
 
 #: weblate/addons/forms.py:145
 msgid "Commit squashing"
-msgstr "提交汇并"
+msgstr "挤压提交"
 
 #: weblate/addons/forms.py:148
 msgid "All commits into one"
@@ -1205,26 +1205,24 @@ msgstr "每位作者"
 
 #: weblate/addons/forms.py:157
 msgid "Append trailers to squashed commit message"
-msgstr "为压缩提交增加额外信息"
+msgstr "在挤压的提交说明附上尾注"
 
 #: weblate/addons/forms.py:161
 msgid ""
 "Trailer lines are lines that look similar to RFC 822 e-mail headers, at the "
 "end of the otherwise free-form part of a commit message, such as 'Co-"
 "authored-by: …'."
-msgstr ""
-"额外信息是看起来类似于 RFC 822 电子邮件标头，位于提交消息的其他自由格式部分的"
-"末尾，例如 “Co-authored-by…'.。"
+msgstr "尾注行是类似于 RFC 822 电子邮件标头的行，位于提交说明的其他自由格式部分的末尾，例如 “Co-authored-by…”。"
 
 #: weblate/addons/forms.py:167
 msgid "Commit message"
-msgstr "提交信息"
+msgstr "提交说明"
 
 #: weblate/addons/forms.py:171
 msgid ""
 "This commit message will be used instead of the combined commit messages "
 "from the squashed commits."
-msgstr "将使用此提交消息代替来自压缩提交的组合提交消息。"
+msgstr "将使用此提交说明来代替挤压提交的组合提交说明。"
 
 #: weblate/addons/forms.py:188
 msgid "Sort JSON keys"
@@ -1493,11 +1491,11 @@ msgstr "更新 PO 文件头的注释部分，以包含贡献者姓名和贡献�
 
 #: weblate/addons/git.py:34
 msgid "Squash Git commits"
-msgstr "压缩(Squash) Git 提交"
+msgstr "挤压 Git 提交"
 
 #: weblate/addons/git.py:35
 msgid "Squash Git commits prior to pushing changes."
-msgstr "推送变更之前压缩(Squash) Git 提交。"
+msgstr "在推送变更之前挤压 Git 提交。"
 
 #: weblate/addons/json.py:29
 msgid "Customize JSON output"
@@ -1686,7 +1684,7 @@ msgstr "删除截图"
 #. Translators: Permission name
 #: weblate/auth/data.py:73 weblate/templates/translate.html:710
 msgid "Edit additional string info"
-msgstr "编辑串额外信息"
+msgstr "编辑字符串额外信息"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:75
@@ -4701,7 +4699,7 @@ msgstr[0] "%(count)s 个待处理的建议"
 #, python-format
 msgid "%(count)s screenshot"
 msgid_plural "%(count)s screenshots"
-msgstr[0] "%(count)s 个屏幕截图"
+msgstr[0] "%(count)s 张屏幕截图"
 
 #: weblate/templates/accounts/user.html:75
 #, python-format
@@ -4993,15 +4991,13 @@ msgstr "项目 URL 标识串"
 #: weblate/templates/addons/squash_help.html:4
 msgid ""
 "Weblate commits from components within this repository will be squashed."
-msgstr "来自该仓库中组件的 Weblate 提交将被压缩成一次提交。"
+msgstr "来自该仓库中组件的 Weblate 提交将被挤压成一次提交。"
 
 #: weblate/templates/addons/squash_help.html:7
 msgid ""
 "Original commit messages are kept, but authorship is lost unless \"Per author"
 "\" is selected or the commit message is customized to include it."
-msgstr ""
-"原始提交消息会保留，但是除非选择“每位作者”或自定义提交消息以包括它，否则作者"
-"身份将丢失。"
+msgstr "原始提交说明会保留，但是除非选择“每位作者”或自定义提交说明以包括它，否则作者身份将丢失。"
 
 #: weblate/templates/base.html:112
 msgid "Toggle navigation"
@@ -7419,8 +7415,7 @@ msgstr "请选择您想要翻译的语言。"
 msgid ""
 "A translation file will be created based on <code>%(new_base)s</code> with "
 "all strings untranslated."
-msgstr ""
-"将基于<code>%(new_base)s</code>创建翻译文件，其中所有字符串都未被翻译。"
+msgstr "将基于 <code>%(new_base)s</code> 创建一个翻译文件，其中所有字符串都未翻译。"
 
 #: weblate/templates/new-language.html:36
 msgid ""
@@ -8944,7 +8939,7 @@ msgstr "查阅我们的 FAQ 以了解如何解决该问题。"
 
 #: weblate/templates/trans/messages_help.html:4
 msgid "You can use Django templates markup in the commit messages."
-msgstr "您可以在提交消息中使用 Django 模板标记。"
+msgstr "您可以在提交说明中使用 Django 模板标记。"
 
 #: weblate/templates/trans/other-row.html:12
 msgid "This translation"
@@ -9966,7 +9961,7 @@ msgstr "版本控制设置"
 
 #: weblate/trans/forms.py:1439 weblate/trans/forms.py:1441
 msgid "Commit messages"
-msgstr "提交信息"
+msgstr "提交说明"
 
 #: weblate/trans/forms.py:1457
 msgid "Translation files"
@@ -10923,7 +10918,7 @@ msgstr "指定 Weblate 是否应该合并上游代码库或变基更改。"
 
 #: weblate/trans/models/component.py:502
 msgid "Commit message when translating"
-msgstr "翻译时提交的信息"
+msgstr "翻译时提交说明"
 
 #: weblate/trans/models/component.py:504 weblate/trans/models/component.py:513
 #: weblate/trans/models/component.py:522 weblate/trans/models/component.py:531
@@ -10935,19 +10930,19 @@ msgstr "您可以使用模板语言获取各种信息，更多细节请查阅文
 
 #: weblate/trans/models/component.py:511
 msgid "Commit message when adding translation"
-msgstr "添加翻译时提交的信息"
+msgstr "添加翻译时提交说明"
 
 #: weblate/trans/models/component.py:520
 msgid "Commit message when removing translation"
-msgstr "移除翻译时提交的信息"
+msgstr "移除翻译时提交说明"
 
 #: weblate/trans/models/component.py:529
 msgid "Commit message when merging translation"
-msgstr "合并翻译时提交的消息"
+msgstr "合并翻译时提交说明"
 
 #: weblate/trans/models/component.py:538
 msgid "Commit message when addon makes a change"
-msgstr "附加组件进行更改时提交的消息"
+msgstr "附加组件进行更改时提交说明"
 
 #: weblate/trans/models/component.py:547
 msgid "Push on commit"
@@ -11974,7 +11969,7 @@ msgstr "新评论已发表"
 
 #: weblate/trans/views/edit.py:744
 msgid "Failed to add comment!"
-msgstr "添加评论失败!"
+msgstr "添加评论失败！"
 
 #: weblate/trans/views/edit.py:763
 msgid "Translation comment has been deleted."
