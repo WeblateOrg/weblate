@@ -279,6 +279,20 @@ class UnitQuerySet(FastDeleteQuerySetMixin, models.QuerySet):
         return super().select_for_update(no_key=using_postgresql())
 
 
+class LabelsField(models.ManyToManyField):
+    def save_form_data(self, instance, data):
+        from weblate.trans.models.label import TRANSLATION_LABELS
+
+        super().save_form_data(instance, data)
+
+        # Delete translation labels when not checked
+        new_labels = {label.name for label in data}
+        through = getattr(instance, self.attname).through.objects
+        for label in TRANSLATION_LABELS:
+            if label not in new_labels:
+                through.filter(unit__source_unit=instance).delete()
+
+
 class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
 
     translation = models.ForeignKey("Translation", on_delete=models.deletion.CASCADE)
@@ -327,9 +341,7 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
         null=True,
         default=None,
     )
-    labels = models.ManyToManyField(
-        "Label", verbose_name=gettext_lazy("Labels"), blank=True
-    )
+    labels = LabelsField("Label", verbose_name=gettext_lazy("Labels"), blank=True)
 
     source_unit = models.ForeignKey(
         "Unit", on_delete=models.deletion.CASCADE, blank=True, null=True

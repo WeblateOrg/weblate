@@ -1083,6 +1083,11 @@ class ContextForm(forms.ModelForm):
         return self.doc_links[field.name]
 
     def __init__(self, data=None, instance=None, user=None, **kwargs):
+        kwargs["initial"] = {
+            "labels": Label.objects.filter(
+                Q(unit=instance) | Q(unit__source_unit=instance)
+            )
+        }
         super().__init__(data=data, instance=instance, **kwargs)
         project = instance.translation.component.project
         self.fields["labels"].queryset = project.label_set.all()
