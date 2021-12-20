@@ -48,6 +48,7 @@ from weblate.trans.util import (
     split_plural,
 )
 from weblate.trans.validators import validate_check_flags
+from weblate.utils import messages
 from weblate.utils.db import (
     FastDeleteModelMixin,
     FastDeleteQuerySetMixin,
@@ -854,13 +855,29 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
 
         return ret
 
-    def propagate(self, user, change_action=None, author=None):
+    def propagate(self, user, change_action=None, author=None, request=None):
         """Propagate current translation to all others."""
+        from weblate.trans.models import ContributorAgreement
+
         result = False
         for unit in self.same_source_units:
-            if user is not None and not user.has_perm("unit.edit", unit):
-                continue
             if unit.target == self.target and unit.state == self.state:
+                continue
+            if user is not None and not user.has_perm("unit.edit", unit):
+                component = unit.translation.component
+                if (
+                    request
+                    and component.agreement
+                    and not ContributorAgreement.objects.has_agreed(user, component)
+                ):
+                    messages.warning(
+                        request,
+                        gettext(
+                            "String could not be propagated to %(component)s because "
+                            "you have not agreed with a contributor agreement."
+                        )
+                        % {"component": component},
+                    )
                 continue
             unit.target = self.target
             unit.state = self.state
@@ -881,6 +898,7 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
         change_action=None,
         author=None,
         run_checks: bool = True,
+        request=None,
     ):
         """Stores unit to backend.
 
@@ -905,7 +923,9 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
         # This has to be done before changing source for template
         was_propagated = False
         if propagate:
-            was_propagated = self.propagate(user, change_action, author=author)
+            was_propagated = self.propagate(
+                user, change_action, author=author, request=request
+            )
 
         changed = (
             self.old_unit["state"] == self.state
@@ -1232,6 +1252,7 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
         change_action=None,
         propagate: bool = True,
         author=None,
+        request=None,
     ):
         """
         Store new translation of a unit.
@@ -1266,7 +1287,11 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
             self.state = STATE_EMPTY
         self.original_state = self.state
         saved = self.save_backend(
-            user, change_action=change_action, propagate=propagate, author=author
+            user,
+            change_action=change_action,
+            propagate=propagate,
+            author=author,
+            request=request,
         )
 
         # Enforced checks can revert the state to needs editing (fuzzy)

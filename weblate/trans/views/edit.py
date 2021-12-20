@@ -315,7 +315,7 @@ def perform_translation(unit, form, request):
         unit.explanation = form.cleaned_data["explanation"]
     # Save
     saved = unit.translate(
-        user, form.cleaned_data["target"], form.cleaned_data["state"]
+        user, form.cleaned_data["target"], form.cleaned_data["state"], request=request
     )
     # Make sure explanation is saved
     if not saved and change_explanation:
