@@ -696,7 +696,9 @@ def auto_translation(request, project, component, lang):
     )
 
     if settings.CELERY_TASK_ALWAYS_EAGER:
-        messages.success(request, auto_translate(*args, translation=translation))
+        messages.success(
+            request, auto_translate(*args, translation=translation)["message"]
+        )
     else:
         task = auto_translate.delay(*args)
         messages.success(
