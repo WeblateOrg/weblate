@@ -268,14 +268,24 @@ Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 
 .. seealso:: :ref:`generic-upgrade-instructions`
 
+.. _upgrade-4.10:
+
 Upgrade from 4.9 to 4.10
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
 Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 
 * There is a change in per-project groups, the upgrade can take long time on sites with thousands of projects.
-* Beware that Django 4.0 has dropped support for PostgreSQL 9.6. You can stick with Django 3.2 for now, but it is recommended to upgrade PostgreSQL.
-* The Docker container now requires PostgreSQL 10.
+
+* Django 4.0 has made some incompatible changes, see
+  :ref:`django:backwards-incompatible-4.0`. Weblate still supports Django 3.2
+  for now, in case any of these are problematic. Most notable changes which
+  might affect Weblate:
+
+  * Dropped support for PostgreSQL 9.6, Django 4.0 supports PostgreSQL 10 and higher.
+  * Format of :setting:`django:CSRF_TRUSTED_ORIGINS` was changed.
+
+* The Docker container now uses Django 4.0, see above for changes.
 
 .. seealso:: :ref:`generic-upgrade-instructions`
 
@@ -284,7 +294,7 @@ Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 Upgrading from Python 2 to Python 3
 -----------------------------------
 
-Weblate no longer supports Python older than 3.5. In case you are still running
+Weblate no longer supports Python older than 3.6. In case you are still running
 on older version, please perform migration to Python 3 first on existing
 version and upgrade later. See `Upgrading from Python 2 to Python 3 in the Weblate
 3.11.1 documentation

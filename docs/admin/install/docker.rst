@@ -193,10 +193,12 @@ Usually it is good idea to only update the Weblate container and keep the Postgr
 container at the version you have, as upgrading PostgreSQL is quite painful and in most
 cases does not bring many benefits.
 
-.. note::
+.. versionchanged:: 4.10-1
 
-   Since Weblate 4.10, the Docker container requires PostgreSQL 10 or newer,
-   please upgrade it prior to upgrading Weblate.
+   Since Weblate 4.10-1, the Docker container uses Django 4.0 what requires
+   PostgreSQL 10 or newer, please upgrade it prior to upgrading Weblate.
+
+   See :ref:`upgrade-4.10` for more details.
 
 You can do this by sticking with the existing docker-compose and just pull
 the latest images and then restart:

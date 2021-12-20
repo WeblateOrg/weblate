@@ -3,6 +3,8 @@ Weblate 4.10.1
 
 Not yet released.
 
+* Documented changes introduced by upgrading to Django 4.0.
+
 Weblate 4.10
 ------------
 
