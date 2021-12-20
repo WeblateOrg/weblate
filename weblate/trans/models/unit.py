@@ -1476,7 +1476,7 @@ class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
     def all_labels(self):
         if self.is_source:
             return self.labels.all()
-        return self.source_unit.all_labels
+        return self.source_unit.all_labels | self.labels.all()
 
     def get_flag_actions(self):
         flags = self.all_flags

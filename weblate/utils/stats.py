@@ -19,6 +19,7 @@
 
 from copy import copy
 from datetime import timedelta
+from itertools import chain
 from types import GeneratorType
 from typing import Optional
 from uuid import uuid4
@@ -543,14 +544,26 @@ class TranslationStats(BaseStats):
 
     def prefetch_labels(self):
         """Prefetch check stats."""
+        from weblate.trans.models.label import TRANSLATION_LABELS
+
         alllabels = set(
             self._object.component.project.label_set.values_list("name", flat=True)
         )
         stats = self._object.unit_set.values("source_unit__labels__name").annotate(
             strings=Count("pk"), words=Sum("num_words"), chars=Sum(Length("source"))
         )
-        for stat in stats:
-            label_name = stat["source_unit__labels__name"]
+        translation_stats = (
+            self._object.unit_set.filter(
+                labels__name__in=TRANSLATION_LABELS,
+            )
+            .values("labels__name")
+            .annotate(
+                strings=Count("pk"), words=Sum("num_words"), chars=Sum(Length("source"))
+            )
+        )
+
+        for stat in chain(stats, translation_stats):
+            label_name = stat.get("source_unit__labels__name", stat.get("labels__name"))
             # Filtering here is way more effective than in SQL
             if label_name is None:
                 continue

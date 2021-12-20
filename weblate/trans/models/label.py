@@ -25,6 +25,8 @@ from django.utils.translation import gettext_lazy
 
 from weblate.utils.colors import COLOR_CHOICES
 
+TRANSLATION_LABELS = {"Automatically translated"}
+
 
 class Label(models.Model):
     project = models.ForeignKey("Project", on_delete=models.deletion.CASCADE)

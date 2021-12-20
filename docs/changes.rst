@@ -4,6 +4,7 @@ Weblate 4.10.1
 Not yet released.
 
 * Documented changes introduced by upgrading to Django 4.0.
+* Fixed displaying of :guilabel:`Automatically translated` label.
 
 Weblate 4.10
 ------------

@@ -237,7 +237,7 @@ class TermExpr:
         if text in ("variant", "shaping"):
             return Q(variant__isnull=False)
         if text == "label":
-            return Q(source_unit__labels__isnull=False)
+            return Q(source_unit__labels__isnull=False) | Q(labels__isnull=False)
         if text == "context":
             return ~Q(context="")
         if text == "screenshot":
@@ -280,6 +280,8 @@ class TermExpr:
             return query & Q(check__dismissed=True)
         if field == "component":
             return query | Q(translation__component__name__icontains=match)
+        if field == "label":
+            return query | Q(labels__name__iexact=match)
 
         return query
 
