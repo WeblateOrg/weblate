@@ -290,7 +290,7 @@ class LabelsField(models.ManyToManyField):
         through = getattr(instance, self.attname).through.objects
         for label in TRANSLATION_LABELS:
             if label not in new_labels:
-                through.filter(unit__source_unit=instance).delete()
+                through.filter(unit__source_unit=instance, label__name=label).delete()
 
 
 class Unit(FastDeleteModelMixin, models.Model, LoggerMixin):
