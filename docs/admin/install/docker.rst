@@ -197,7 +197,6 @@ cases does not bring many benefits.
 
    Since Weblate 4.10-1, the Docker container uses Django 4.0 what requires
    PostgreSQL 10 or newer, please upgrade it prior to upgrading Weblate.
-
    See :ref:`upgrade-4.10` for more details.
 
 You can do this by sticking with the existing docker-compose and just pull
