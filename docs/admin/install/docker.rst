@@ -184,12 +184,19 @@ and then do:
     docker-compose -f docker-compose-https.yml -f docker-compose-https.override.yml build
     docker-compose -f docker-compose-https.yml -f docker-compose-https.override.yml up
 
+.. _upgrading-docker:
+
 Upgrading the Docker container
 ------------------------------
 
 Usually it is good idea to only update the Weblate container and keep the PostgreSQL
 container at the version you have, as upgrading PostgreSQL is quite painful and in most
 cases does not bring many benefits.
+
+.. note::
+
+   Since Weblate 4.10, the Docker container requires PostgreSQL 10 or newer,
+   please upgrade it prior to upgrading Weblate.
 
 You can do this by sticking with the existing docker-compose and just pull
 the latest images and then restart:

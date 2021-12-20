@@ -4,8 +4,12 @@ Upgrading Weblate
 Docker image upgrades
 ---------------------
 
-The official Docker image (see :doc:`install/docker`) has all upgrade steps
-integrated. There are no manual step besides pulling latest version.
+The official Docker image (see :doc:`install/docker`) has all Weblate upgrade steps
+integrated. There are typically no manual steps needed besides pulling latest version.
+
+.. seealso::
+
+   :ref:`upgrading-docker`
 
 .. _generic-upgrade-instructions:
 
@@ -270,6 +274,8 @@ Upgrade from 4.9 to 4.10
 Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 
 * There is a change in per-project groups, the upgrade can take long time on sites with thousands of projects.
+* Beware that Django 4.0 has dropped support for PostgreSQL 9.6. You can stick with Django 3.2 for now, but it is recommended to upgrade PostgreSQL.
+* The Docker container now requires PostgreSQL 10.
 
 .. seealso:: :ref:`generic-upgrade-instructions`
 
