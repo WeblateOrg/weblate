@@ -25,8 +25,8 @@ msgstr ""
 "Project-Id-Version: Weblate 4.10\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-12-16 10:54+0000\n"
-"PO-Revision-Date: 2021-12-15 19:10+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2021-12-21 09:35+0000\n"
+"Last-Translator: Ricky Tigg <ricky.tigg@gmail.com>\n"
 "Language-Team: Finnish <https://hosted.weblate.org/projects/weblate/"
 "application/fi/>\n"
 "Language: fi\n"
@@ -34,7 +34,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.10-dev\n"
+"X-Generator: Weblate 4.10\n"
 
 #: weblate/accounts/avatar.py:103
 msgctxt "No known user"
@@ -399,10 +399,9 @@ msgid "Agreement with Terms of Service {date}."
 msgstr "Sopimus palvelun käyttöehdoista (Terms of Service) {date}."
 
 #: weblate/accounts/models.py:162
-#, fuzzy, python-brace-format
-#| msgid "Invited to Weblate by {username}."
+#, python-brace-format
 msgid "Invited to {site_title} by {username}."
-msgstr "Weblateen kutsunut {username}."
+msgstr "{site_title}:een kutsunut {username}."
 
 #: weblate/accounts/models.py:163
 msgid "Started trial period."
@@ -557,10 +556,8 @@ msgstr ""
 "jälkeen."
 
 #: weblate/accounts/models.py:453
-#, fuzzy
-#| msgid "Projects contributions"
 msgid "Automatically watch projects on contribution"
-msgstr "Osallistuminen projekteihin"
+msgstr "Tarkastele projekteja automaattisesti panoksella"
 
 #: weblate/accounts/models.py:456
 msgid ""
@@ -1189,10 +1186,8 @@ msgid "Bulk edit"
 msgstr "Massamuokkaus"
 
 #: weblate/addons/flags.py:106
-#, fuzzy
-#| msgid "Bulk edit flags, labels or state for strings."
 msgid "Bulk edit flags, labels, or states of strings."
-msgstr "Muokkaa useita lippuja, tunnisteita tai tekstien tilaa."
+msgstr "Joukoittain muokkaa lippuja, tunnisteita tai merkkijonojen tiloja."
 
 #: weblate/addons/forms.py:55
 msgid "Path of generated MO file"
@@ -1279,10 +1274,8 @@ msgid ""
 msgstr ""
 
 #: weblate/addons/forms.py:167
-#, fuzzy
-#| msgid "Commit messages"
 msgid "Commit message"
-msgstr "Commit-viestit"
+msgstr "Commit-viesti"
 
 #: weblate/addons/forms.py:171
 msgid ""
@@ -1400,16 +1393,12 @@ msgid "Language filter"
 msgstr "Kielisuodatin"
 
 #: weblate/addons/forms.py:284
-#, fuzzy
-#| msgid ""
-#| "Regular expression to filter translation against when scanning for "
-#| "filemask."
 msgid ""
 "Regular expression to filter translation files against when scanning for "
 "filemask."
 msgstr ""
-"Säännöllinen lauseke jota käytetään käännöstiedostojen löytämiseksi "
-"projektin tiedostoista."
+"Säännöllinen lauseke käännöstiedostojen suodattamiseen, kun etsitään "
+"tiedostopeitettä."
 
 #: weblate/addons/forms.py:289
 msgid "Clone addons from the main component to the newly created ones"
@@ -1664,12 +1653,8 @@ msgid "Important dates"
 msgstr "Tärkeitä päivämääriä"
 
 #: weblate/auth/admin.py:205
-#, fuzzy
-#| msgid "This addon is used for all components sharing this repository."
 msgid "This is not used when a component list is selected."
-msgstr ""
-"Tämä lisäosa on käytössä kaikissa komponenteissa jotka käyttävät tätä "
-"etäarkistoa."
+msgstr "Tätä ei käytetä, kun komponenttiluettelo on valittuna."
 
 #: weblate/auth/admin.py:211
 msgid "This is not used when a component is selected."
@@ -1789,9 +1774,8 @@ msgstr "Poista teksti"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:79
-#, fuzzy
 msgid "Dismiss failing check"
-msgstr "Viestillä on epäonnistuvia tarkistuksia"
+msgstr "Hylkää epäonnistunut tarkistus"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:81
@@ -1850,10 +1834,8 @@ msgstr "Poista aiempi käännös"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:103
-#, fuzzy
-#| msgid "Download translation"
 msgid "Download translation file"
-msgstr "Lataa käännös"
+msgstr "Lataa käännöstiedosto"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:105
@@ -2929,10 +2911,9 @@ msgid "One or more unknown placeholders in the translation: %s"
 msgstr "Kielletty käännös: %s"
 
 #: weblate/checks/icu.py:469
-#, fuzzy, python-format
-#| msgid "Please sign in to save translations."
+#, python-format
 msgid "One or more placeholders missing in the translation: %s"
-msgstr "Kirjaudu sisään tallentaaksesi käännöksiä."
+msgstr "Käännöksestä puuttuu yksi tai useampi paikkamerkki: %s"
 
 #: weblate/checks/icu.py:473
 #, python-format
@@ -4061,19 +4042,14 @@ msgid "CSRF verification failed. Request aborted."
 msgstr "CSRF-vahvistus epäonnistui. Pyyntö hylätty."
 
 #: weblate/templates/403_csrf.html:12
-#, fuzzy
-#| msgid ""
-#| "This HTTPS site requires a 'Referer header' to be sent by your web "
-#| "browser, but none was sent. This header is required for security reasons, "
-#| "to ensure that your browser is not being hijacked by third-parties."
 msgid ""
 "This HTTPS site requires a 'Referer' header to be sent by your web browser, "
 "but none was sent. This header is required for security reasons, to ensure "
 "your browser is not hijacked by third-parties."
 msgstr ""
-"Tämä HTTPS-sivusto vaatii selaintasi lähettämään Referer-otsakkeen, mutta "
-"sitä ei vastaanotettu. Otsake vaaditaan turvallisuussyistä varmistamaan "
-"etteivät kolmannet osapuolet ole ottaneet selaintasi haltuun."
+"Tämä HTTPS-sivusto edellyttää, että selaimesi lähettää Viittaus-otsikon, "
+"mutta mitään ei lähetetty. Tämä otsikko tarvitaan turvallisuussyistä, jotta "
+"kolmannet osapuolet eivät kaappaa selaintasi."
 
 #: weblate/templates/403_csrf.html:13
 msgid ""
@@ -7370,10 +7346,9 @@ msgid "Expires"
 msgstr "Rauennut"
 
 #: weblate/templates/manage-access.html:228
-#, fuzzy, python-format
-#| msgid "This will remove <b>%(user)s</b> access to this project."
+#, python-format
 msgid "This will delete the project token <b>%(token)s</b> from this project."
-msgstr "Tämä poistaa käyttäjän <b>%(user)s</b> pääsyn projektiin."
+msgstr "Tämä poistaa projektin tunnuksen <b>%(token)s</b> tästä projektista."
 
 #: weblate/templates/manage-access.html:250
 #, fuzzy
@@ -7388,10 +7363,8 @@ msgid "Create"
 msgstr "Luotu"
 
 #: weblate/templates/manage-access.html:266
-#, fuzzy
-#| msgid "Your personal API key:"
 msgid "Personal API key"
-msgstr "Henkilökohtainen rajapinta-avaimesi:"
+msgstr "Henkilökohtainen API-avain"
 
 #: weblate/templates/manage-access.html:279
 msgid "This is your personal API key, do not share it with anybody else."
@@ -7834,12 +7807,11 @@ msgid "Import translation memory"
 msgstr "Tuo käännösmuisti"
 
 #: weblate/templates/new-language.html:26
-#, fuzzy
-#| msgid "Translations of this string in the other languages"
 msgid ""
 "The translator instructions has info on how to start translating into other "
 "languages."
-msgstr "Tämän tekstin käännökset muille kielille"
+msgstr ""
+"Kääntäjän ohjeissa on tietoa kuinka aloittaa kääntäminen muiksi kieliksi."
 
 #: weblate/templates/new-language.html:29
 msgid "Please choose the language you want to translate to."
@@ -9642,10 +9614,8 @@ msgid "Insufficient privileges for saving translations."
 msgstr "Käyttöoikeutesi eivät riitä käännösten tallentamiseen."
 
 #: weblate/templates/translate.html:217
-#, fuzzy
-#| msgid "Save and stay"
 msgid "Save and continue"
-msgstr "Tallenna ja pysy"
+msgstr "Tallenna ja jatka"
 
 #: weblate/templates/translate.html:220
 msgid "Save and stay"
@@ -10144,8 +10114,6 @@ msgid "All recent changes made using Weblate in %s."
 msgstr "Kaikki Weblatella tehdyt tuoreet muutokset sivustolla %s."
 
 #: weblate/trans/filter.py:34
-#, fuzzy
-#| msgid "Read only strings"
 msgid "Read-only strings"
 msgstr "Vain-luku-tekstit"
 
@@ -10407,16 +10375,12 @@ msgstr "Kaikki komponentit nykyisessä projektissa"
 
 #: weblate/trans/forms.py:931 weblate/trans/forms.py:940
 #: weblate/trans/forms.py:948
-#, fuzzy
-#| msgid "Component Information"
 msgid "Component not found!"
-msgstr "Tietoja komponentista"
+msgstr "Komponenttia ei löydy!"
 
 #: weblate/trans/forms.py:950
-#, fuzzy
-#| msgid "Parse error in %(component)s"
 msgid "Please provide valid component slug!"
-msgstr "Jäsennysvirhe komponentissa %(component)s"
+msgstr "Ole hyvä ja toimita kelvollinen komponentti!"
 
 #: weblate/trans/forms.py:958
 msgid "Scope"
@@ -10678,10 +10642,8 @@ msgid ""
 msgstr "Käyttää ja osallistuu projektien välisiin jaettuihin käännöksiin."
 
 #: weblate/trans/forms.py:2009
-#, fuzzy
-#| msgid "Optional context to clarify the source strings."
 msgid "Optional additional filter on the strings"
-msgstr "Valinnainen lähdetekstin asiayhteyden selvennys."
+msgstr "Valinnainen lisäsuodatin lausekkeissa"
 
 #: weblate/trans/forms.py:2012
 msgid "Search string"
@@ -10964,10 +10926,8 @@ msgid "No mask matches."
 msgstr "Monta käyttäjää täsmäsi."
 
 #: weblate/trans/models/alert.py:382
-#, fuzzy
-#| msgid "Admin static files"
 msgid "Inexistant files."
-msgstr "Ylläpitäjän staattiset tiedostot"
+msgstr "Olemattomat tiedostot."
 
 #: weblate/trans/models/announcement.py:111
 msgid "Category"
@@ -11270,10 +11230,8 @@ msgstr[0] "Uusi teksti käännettäväksi"
 msgstr[1] "Uusia tekstejä käännettäviksi"
 
 #: weblate/trans/models/change.py:435
-#, fuzzy
-#| msgid "The translation was automatically locked due to following alerts:"
 msgid "The component was automatically locked because of an alert."
-msgstr "Käännös lukittiin automaattisesti seuraavien varoitusten takia:"
+msgstr "Komponentti lukittiin automaattisesti hälytyksen vuoksi."
 
 #: weblate/trans/models/change.py:439
 msgid "Fixing an alert automatically unlocked the component."
@@ -11285,16 +11243,14 @@ msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
 msgstr "%(action)s, tehnyt %(user)s %(time)s käännökselle %(translation)s"
 
 #: weblate/trans/models/change.py:593
-#, fuzzy, python-format
-#| msgid "Bulk status change"
+#, python-format
 msgid "The \"%s\" file was changed."
-msgstr "Tilan massamuutos"
+msgstr "Tiedostoa \"%s\" muutettiin."
 
 #: weblate/trans/models/change.py:595
-#, fuzzy, python-format
-#| msgid "Using a .pot file as base file is unsupported."
+#, python-format
 msgid "Parsing of the \"%s\" file was enforced."
-msgstr ".pot-tiedoston käyttämistä kantatiedostona ei tueta."
+msgstr "Tiedoston \"%s\" jäsentäminen pakotettiin."
 
 #: weblate/trans/models/change.py:597
 #, python-format
