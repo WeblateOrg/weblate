@@ -27,7 +27,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.10.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-12-21 13:11+0000\n"
-"PO-Revision-Date: 2021-12-19 23:53+0000\n"
+"PO-Revision-Date: 2021-12-22 10:41+0000\n"
 "Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "application/ja/>\n"
@@ -10104,14 +10104,10 @@ msgid "Add as needing edit"
 msgstr "要編集として追加"
 
 #: weblate/trans/forms.py:846
-#, fuzzy
-#| msgid ""
-#| "Weblate could not parse the translation files while updating the "
-#| "translations."
 msgid ""
 "Please note that translating all strings will discard all existing "
 "translations."
-msgstr "Weblate は翻訳の更新中に翻訳ファイルを解析できませんでした。"
+msgstr "すべての文字列を翻訳すると、既存の翻訳はすべて破棄されますのでご注意ください。"
 
 #: weblate/trans/forms.py:851
 msgid "Automatic translation source"
@@ -11795,20 +11791,15 @@ msgid "No translation found."
 msgstr "翻訳が見つかりません。"
 
 #: weblate/trans/models/unit.py:888
-#, fuzzy, python-format
-#| msgid ""
-#| "Contribution to this translation requires you to agree with a contributor "
-#| "agreement."
+#, python-format
 msgid ""
 "String could not be propagated to %(component)s because you have not agreed "
 "with a contributor agreement."
-msgstr "この翻訳に貢献するにあたっては、貢献者同意条項への合意が必要です。"
+msgstr "貢献者同意条項への合意がないため、文字列を %(component)s へ受け渡しできませんでした。"
 
 #: weblate/trans/models/unit.py:1330
-#, fuzzy
-#| msgid "Automatic translation"
 msgid "Automatically translated"
-msgstr "自動翻訳"
+msgstr "自動翻訳された文字列"
 
 #: weblate/trans/models/unit.py:1505
 msgid "Unmark as read-only"
@@ -12407,10 +12398,8 @@ msgid "Translation comment has been deleted."
 msgstr "翻訳文へのコメントを削除しました。"
 
 #: weblate/trans/views/edit.py:783
-#, fuzzy
-#| msgid "Translation comment has been resolved."
 msgid "Comment has been resolved."
-msgstr "翻訳文へのコメントを解決しました。"
+msgstr "コメントは解決されました。"
 
 #: weblate/trans/views/edit.py:947
 msgid "New string has been added."
