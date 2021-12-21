@@ -593,6 +593,7 @@ class ZenTranslationForm(TranslationForm):
             component=self,
         )
 
+
 class DownloadForm(forms.Form):
     q = QueryField()
     format = forms.ChoiceField(
