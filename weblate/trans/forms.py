@@ -568,7 +568,7 @@ class ZenTranslationForm(TranslationForm):
         self.helper.form_tag = True
         self.helper.disable_csrf = False
         self.helper.layout.append(Field("checksum"))
-        
+
     def get_repoweb_link(
         self, filename: str, line: str, template: Optional[str] = None
     ):
