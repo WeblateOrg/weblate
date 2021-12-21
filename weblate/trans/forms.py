@@ -568,7 +568,30 @@ class ZenTranslationForm(TranslationForm):
         self.helper.form_tag = True
         self.helper.disable_csrf = False
         self.helper.layout.append(Field("checksum"))
+        
+    def get_repoweb_link(
+        self, filename: str, line: str, template: Optional[str] = None
+    ):
+        """Generate link to source code browser for given file and line.
+        For linked repositories, it is possible to override the linked repository path
+        here.
+        """
+        if not template:
+            template = self.repoweb
+        if self.is_repo_link:
+            return self.linked_component.get_repoweb_link(filename, line, template)
+        if not template:
+            if filename.startswith("https://"):
+                return filename
+            return None
 
+        return render_template(
+            template,
+            filename=urlquote(filename),
+            line=urlquote(line),
+            branch=urlquote(self.branch),
+            component=self,
+        )
 
 class DownloadForm(forms.Form):
     q = QueryField()
