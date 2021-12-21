@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-12-21 14:12+0100\n"
-"PO-Revision-Date: 2021-12-16 11:50+0000\n"
+"PO-Revision-Date: 2021-12-22 10:42+0000\n"
 "Last-Translator: Rafael Fontenelle <rafaelff@gnome.org>\n"
 "Language-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/"
 "weblate/documentation/pt_BR/>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 4.10-dev\n"
+"X-Generator: Weblate 4.10\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:181
@@ -13052,6 +13052,9 @@ msgid ""
 "PostgreSQL 10 or newer, please upgrade it prior to upgrading Weblate. See :"
 "ref:`upgrade-4.10` for more details."
 msgstr ""
+"Desde o Weblate 4.10-1, o contêiner Docker usa Django 4.0, o que requer "
+"PostgreSQL 10 ou mais recente, atualize-o antes de atualizar o Weblate. Veja "
+":ref:`upgrade-4.10` para mais detalhes."
 
 #: ../../admin/install/docker.rst:202
 msgid ""
@@ -20364,18 +20367,14 @@ msgid "Docker image upgrades"
 msgstr "Atualizações de imagem Docker"
 
 #: ../../admin/upgrade.rst:7
-#, fuzzy
-#| msgid ""
-#| "The official Docker image (see :doc:`install/docker`) has all upgrade "
-#| "steps integrated. There are no manual step besides pulling latest version."
 msgid ""
 "The official Docker image (see :doc:`install/docker`) has all Weblate "
 "upgrade steps integrated. There are typically no manual steps needed besides "
 "pulling latest version."
 msgstr ""
 "A imagem Docker oficial (veja :doc:`install/docker`) possui todas as etapas "
-"de atualização integradas. Não há nenhuma etapa manual além de baixar a "
-"versão mais recente."
+"de atualização integradas do Weblate. Normalmente não há nenhuma etapa "
+"manual necessáeia além de baixar a versão mais recente."
 
 #: ../../admin/upgrade.rst:12
 #, fuzzy
@@ -20901,22 +20900,16 @@ msgstr ""
 "tempo em sites maiores."
 
 #: ../../admin/upgrade.rst:274
-#, fuzzy
-#| msgid "Upgrade from 4.0 to 4.1"
 msgid "Upgrade from 4.9 to 4.10"
-msgstr "Atualizar da 4.0 para 4.1"
+msgstr "Atualizar da 4.9 para 4.10"
 
 #: ../../admin/upgrade.rst:278
-#, fuzzy
-#| msgid ""
-#| "There is a change in storing metrics, the upgrade can take long time on "
-#| "larger sites."
 msgid ""
 "There is a change in per-project groups, the upgrade can take long time on "
 "sites with thousands of projects."
 msgstr ""
-"Há uma mudança no armazenamento de métricas, a atualização pode levar muito "
-"tempo em sites maiores."
+"Há uma mudança nos grupos por projeto, a atualização pode demorar muito em "
+"sites com milhares de projetos."
 
 #: ../../admin/upgrade.rst:280
 msgid ""
@@ -20924,35 +20917,32 @@ msgid ""
 "incompatible-4.0`. Weblate still supports Django 3.2 for now, in case any of "
 "these are problematic. Most notable changes which might affect Weblate:"
 msgstr ""
+"Django 4.0 fez algumas mudanças incompatíveis, veja :ref:`django:backwards-"
+"incompatible-4.0`. Weblate ainda oferece suporte ao Django 3.2 por enquanto, "
+"no caso de alguma dessas ser problemática. Mudanças mais notáveis que podem "
+"afetar o Weblate:"
 
 #: ../../admin/upgrade.rst:285
-#, fuzzy
-#| msgid "Dropped support for Django 1.10 and added support for Django 2.0."
 msgid ""
 "Dropped support for PostgreSQL 9.6, Django 4.0 supports PostgreSQL 10 and "
 "higher."
-msgstr "Removido o suporte ao Django 1.10 e adicionado suporte ao Django 2.0."
+msgstr ""
+"Removido o suporte a PostgreSQL 9.6, o Django 4.0 oferece suporte para "
+"PostgreSQL 10 e superior."
 
 #: ../../admin/upgrade.rst:286
 msgid "Format of :setting:`django:CSRF_TRUSTED_ORIGINS` was changed."
-msgstr ""
+msgstr "O formato de :setting:`django:CSRF_TRUSTED_ORIGINS` foi alterado."
 
 #: ../../admin/upgrade.rst:288
 msgid "The Docker container now uses Django 4.0, see above for changes."
-msgstr ""
+msgstr "O contêiner Docker agora usa Django 4.0, consulte as alterações acima."
 
 #: ../../admin/upgrade.rst:295
 msgid "Upgrading from Python 2 to Python 3"
 msgstr "Atualização de Python 2 para Python 3"
 
 #: ../../admin/upgrade.rst:297
-#, fuzzy
-#| msgid ""
-#| "Weblate no longer supports Python older than 3.5. In case you are still "
-#| "running on older version, please perform migration to Python 3 first on "
-#| "existing version and upgrade later. See `Upgrading from Python 2 to "
-#| "Python 3 in the Weblate 3.11.1 documentation <https://docs.weblate.org/en/"
-#| "weblate-3.11.1/admin/upgrade.html#upgrading-from-python-2-to-python-3>`_."
 msgid ""
 "Weblate no longer supports Python older than 3.6. In case you are still "
 "running on older version, please perform migration to Python 3 first on "
@@ -20960,11 +20950,12 @@ msgid ""
 "in the Weblate 3.11.1 documentation <https://docs.weblate.org/en/"
 "weblate-3.11.1/admin/upgrade.html#upgrading-from-python-2-to-python-3>`_."
 msgstr ""
-"O Weblate não oferece mais suporte a Python anterior a 3.5. Caso você ainda "
+"O Weblate não oferece mais suporte a Python anterior a 3.6. Caso você ainda "
 "esteja executando uma versão mais antiga, migre para o Python 3 primeiro na "
 "versão existente e atualize mais tarde. Consulte `Atualizando do Python 2 "
 "para o Python 3 na documentação do Weblate 3.11.1 <https://docs.weblate.org/"
-"en/weblate-3.11.1/admin/upgrade.html#upgrading-from-python-2-to-python-3>`_."
+"pt_BR/weblate-3.11.1/admin/upgrade.html#upgrading-from-python-2-to-"
+"python-3>`_."
 
 #: ../../admin/upgrade.rst:306
 msgid "Migrating from other databases to PostgreSQL"
@@ -23745,10 +23736,8 @@ msgid "`RSS on wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 msgstr "`RSS na Wikipédia <https://pt.wikipedia.org/wiki/RSS>`_"
 
 #: ../../changes.rst:2
-#, fuzzy
-#| msgid "Weblate 4.1.1"
 msgid "Weblate 4.10.1"
-msgstr "Weblate 4.1.1"
+msgstr "Weblate 4.10.1"
 
 #: ../../changes.rst:4
 msgid "Not yet released."
@@ -23757,17 +23746,17 @@ msgstr "Não lançado ainda."
 #: ../../changes.rst:6
 msgid "Documented changes introduced by upgrading to Django 4.0."
 msgstr ""
+"Documentadas as alterações introduzidas pela atualização para Django 4.0."
 
 #: ../../changes.rst:7
 msgid "Fixed displaying of :guilabel:`Automatically translated` label."
-msgstr ""
+msgstr "Corrigida a exibição do rótulo :guilabel:`Traduzido automaticamente`."
 
 #: ../../changes.rst:8
-#, fuzzy
-#| msgid "Fixed deadlock when changing linked component repository."
 msgid "Fixed API display of branch in components with a shared repository."
 msgstr ""
-"Corrigido um impasse ao alterar o repositório de componentes vinculados."
+"Corrigida a exibição de API de ramo em componentes com um repositório "
+"compartilhado."
 
 #: ../../changes.rst:11
 msgid "Weblate 4.10"
@@ -23832,26 +23821,17 @@ msgstr ""
 "Adicionado suporte para tokens de acesso com escopo de projeto para a API."
 
 #: ../../changes.rst:24
-#, fuzzy
-#| msgid "Fixed unit removal in some cases."
 msgid "Fixed string removal in some cases."
-msgstr "Corrigida a remoção de unidade em alguns casos."
+msgstr "Corrigida a remoção de texto em alguns casos."
 
 #: ../../changes.rst:25
-#, fuzzy
-#| msgid "Fixed creating new languages."
 msgid "Fixed translating newly added strings."
-msgstr "Consertada criação de novos idiomas."
+msgstr "Corrigida a tradução de textos recém-adicionados."
 
 #: ../../changes.rst:26
-#, fuzzy
-#| msgid ""
-#| "Automatically translates strings using machine translation or other "
-#| "components."
 msgid "Label automatically translated strings to ease their filtering."
 msgstr ""
-"Traduz automaticamente textos usando tradução de máquina ou outros "
-"componentes."
+"Etiqueta os textos traduzidos automaticamente para facilitar sua filtragem."
 
 #: ../../changes.rst:28
 msgid ""
@@ -33508,16 +33488,12 @@ msgstr ""
 "maneiras de introduzir novos textos no Weblate."
 
 #: ../../devel/integration.rst:73
-#, fuzzy
-#| msgid ""
-#| "Manually, using :guilabel:`Add new translation string` from :guilabel:"
-#| "`Tools` menu in the language used as the source for translations."
 msgid ""
 "Manually, using :guilabel:`Add new translation string` from :guilabel:"
 "`Tools` menu in the source language."
 msgstr ""
-"Manualmente, usando :guilabel:`Adicionar novo texto de tradução` do menu :"
-"guilabel:`Ferramentas` no idioma usado como fonte para as traduções."
+"Manualmente, usando :guilabel:`Adicionar novo texto de tradução` do menu "
+":guilabel:`Ferramentas` no idioma fonte."
 
 #: ../../devel/integration.rst:75
 msgid ""
@@ -35545,10 +35521,8 @@ msgid "Plurals [#p]_"
 msgstr "Plurais [#p]_"
 
 #: ../../formats.rst:59
-#, fuzzy
-#| msgid "Description"
 msgid "Descriptions [#n]_"
-msgstr "Descrição"
+msgstr "Descrição [#n]_"
 
 #: ../../formats.rst:59
 msgid "Context [#c]_"
@@ -35777,16 +35751,12 @@ msgstr ""
 "contagem variável."
 
 #: ../../formats.rst:134
-#, fuzzy
-#| msgid ""
-#| "Comments can be used to pass additional info about the string to "
-#| "translate."
 msgid ""
 "Source string descriptions can be used to pass additional info about the "
 "string to translate."
 msgstr ""
-"Os comentários podem ser usados para passar informações adicionais sobre o "
-"texto para traduzir."
+"As descrições de textos fonte podem ser usadas para passar informações "
+"adicionais sobre o texto para traduzir."
 
 #: ../../formats.rst:135
 msgid ""
@@ -35815,16 +35785,12 @@ msgstr ""
 "traduzido\" e \"Traduzido\"."
 
 #: ../../formats.rst:138
-#, fuzzy
-#| msgid ""
-#| "XML comment placed before the ``<string>`` element, parsed as a developer "
-#| "comment."
 msgid ""
 "XML comment placed before the ``<string>`` element, parsed as a source "
 "string description."
 msgstr ""
-"Comentário XML colocado antes do elemento ``<string>``, analisado como um "
-"comentário do desenvolvedor."
+"Comentário XML colocado antes do elemento ``<string>``, analisado como uma "
+"descrição do texto fonte."
 
 #: ../../formats.rst:139
 msgid "See :ref:`custom-checks`"
@@ -41576,35 +41542,24 @@ msgstr ""
 "para definir categorias de textos)."
 
 #: ../../user/translating.rst:98
-#, fuzzy
-#| msgid "Optionally used by Weblate"
 msgid "Following labels are used by Weblate:"
-msgstr "Opcionalmente usado pelo Weblate"
+msgstr "As etiquetas são usadas pelo Weblate:"
 
 #: ../../user/translating.rst:100
-#, fuzzy
-#| msgid "Automatic translation"
 msgid "Automatically translated"
-msgstr "Tradução automática"
+msgstr "Traduzido automaticamente"
 
 #: ../../user/translating.rst:101
-#, fuzzy
-#| msgid "Running :ref:`auto-translation`."
 msgid "Strings was translated using :ref:`auto-translation`."
-msgstr "Executar :ref:`auto-translation`."
+msgstr "O texto foi traduzido usando :ref:`auto-translation`."
 
 #: ../../user/translating.rst:103
 msgid "Source needs review"
 msgstr "Fonte precisa de revisão"
 
 #: ../../user/translating.rst:103
-#, fuzzy
-#| msgid ""
-#| "Enable review workflow for source strings, see :ref:`source-reviews`."
 msgid "String marked for review using :ref:`source-reviews`."
-msgstr ""
-"Habilita o fluxo de trabalho de revisão para textos fonte, veja :ref:`source-"
-"reviews`."
+msgstr "Texto marcado para revisão usando :ref:`source-reviews`."
 
 #: ../../user/translating.rst:107
 msgid ":ref:`labels`"
@@ -42190,6 +42145,8 @@ msgid ""
 "The automatically translated strings are labelled by :guilabel:"
 "`Automatically translated`."
 msgstr ""
+"Os textos traduzidos automaticamente são etiquetados como :guilabel:`"
+"Traduzido automaticamente`."
 
 #: ../../user/translating.rst:364
 msgid ""
