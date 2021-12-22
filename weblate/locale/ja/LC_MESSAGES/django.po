@@ -27,7 +27,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.10.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-12-22 12:58+0000\n"
-"PO-Revision-Date: 2021-12-22 10:41+0000\n"
+"PO-Revision-Date: 2021-12-22 19:40+0000\n"
 "Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "application/ja/>\n"
@@ -36,7 +36,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 4.10\n"
+"X-Generator: Weblate 4.10.1\n"
 
 #: weblate/accounts/avatar.py:103
 msgctxt "No known user"
@@ -7900,17 +7900,13 @@ msgstr ""
 "しています。"
 
 #: weblate/templates/snippets/activity.html:10
-#, fuzzy
-#| msgid "Last month"
 msgid "Last 12 months"
-msgstr "先月"
+msgstr "過去 12 か月"
 
 #: weblate/templates/snippets/activity.html:14
-#, fuzzy
-#| msgid "Previous"
 msgctxt "Previous 12 months"
 msgid "Previous"
-msgstr "前へ"
+msgstr "前年"
 
 #: weblate/templates/snippets/activity.html:16
 msgid "Activity in last 12 months"
@@ -8972,12 +8968,14 @@ msgid ""
 "the component configuration to overwrite the remote repository after "
 "rebasing commits in Weblate."
 msgstr ""
+"コンポーネントの設定でバージョン管理システムとして Git に強制プッシュを選択すると、Weblate "
+"でコミットをリベースした後にリモートリポジトリを上書きできます。"
 
 #: weblate/templates/trans/alert/pushfailure.html:22
 msgid ""
 "Weblate repository is missing some commits from upstream, perhaps it is not "
 "receiving notifications on repository updates."
-msgstr ""
+msgstr "Weblate リポジトリには、上流からのコミットが欠落しています。おそらく、リポジトリの更新の通知を受信していません。"
 
 #: weblate/templates/trans/alert/repositorychanges.html:4
 msgid ""
@@ -12420,10 +12418,8 @@ msgid "Failed to add comment!"
 msgstr "コメントの追加に失敗しました！"
 
 #: weblate/trans/views/edit.py:765
-#, fuzzy
-#| msgid "Comment has been resolved."
 msgid "Comment has been deleted."
-msgstr "コメントは解決されました。"
+msgstr "コメントは削除されました。"
 
 #: weblate/trans/views/edit.py:783
 msgid "Comment has been resolved."
