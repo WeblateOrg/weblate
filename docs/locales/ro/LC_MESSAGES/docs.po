@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-12-22 13:59+0100\n"
-"PO-Revision-Date: 2021-12-22 12:58+0000\n"
+"PO-Revision-Date: 2021-12-22 19:40+0000\n"
 "Last-Translator: Simona Iacob <s@zp1.net>\n"
 "Language-Team: Romanian <https://hosted.weblate.org/projects/weblate/"
 "documentation/ro/>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < "
 "20)) ? 1 : 2;\n"
-"X-Generator: Weblate 4.10\n"
+"X-Generator: Weblate 4.10.1\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:181
@@ -11231,10 +11231,8 @@ msgstr ""
 "erorile Django."
 
 #: ../../admin/install.rst:620
-#, fuzzy
-#| msgid ":setting:`django:ADMINS`"
 msgid ":setting:`django:ADMINS`, :ref:`production-admins`"
-msgstr ":setting:`django:ADMINS`"
+msgstr ":setting:`django:ADMINS`, :ref:`production-admins`"
 
 #: ../../admin/install.rst:625
 msgid "``ALLOWED_HOSTS``"
@@ -11331,10 +11329,8 @@ msgstr ""
 "stochează mult mai multe informații pe plan intern în acest caz."
 
 #: ../../admin/install.rst:693
-#, fuzzy
-#| msgid ":setting:`django:DEBUG`"
 msgid ":setting:`django:DEBUG`, :ref:`production-debug`"
-msgstr ":setting:`django:DEBUG`"
+msgstr ":setting:`django:DEBUG`, :ref:`production-debug`"
 
 #: ../../admin/install.rst:698
 msgid "``DEFAULT_FROM_EMAIL``"
@@ -12386,52 +12382,43 @@ msgid ""
 "supposed to run a Celery service that will execute these. For example, it is "
 "responsible for handling following operations (this list is not complete):"
 msgstr ""
+"Weblate utilizează Celery pentru a executa sarcini regulate și de fundal. Se "
+"presupune că trebuie să rulați un serviciu Celery care să le execute. De "
+"exemplu, acesta este responsabil pentru gestionarea următoarelor operațiuni ("
+"această listă nu este completă):"
 
 #: ../../admin/install.rst:1437
 msgid "Receiving webhooks from external services (see :ref:`hooks`)."
-msgstr ""
+msgstr "Primirea de webhooks de la servicii externe (a se vedea :ref:`hooks`)."
 
 #: ../../admin/install.rst:1438
 msgid ""
 "Running regular maintenance tasks such as backups, cleanups, daily add-ons, "
 "or updates (see :ref:`backup`, :setting:`BACKGROUND_TASKS`, :ref:`addons`)."
 msgstr ""
+"Executarea sarcinilor de întreținere regulate, cum ar fi copii de rezervă, "
+"curățări, adăugări zilnice sau actualizări (a se vedea :ref:`backup`, "
+":setting:`BACKGROUND_TASKS`, :ref:`addons`)."
 
 #: ../../admin/install.rst:1440
-#, fuzzy
-#| msgid "Configures :ref:`aws` machine translation."
 msgid "Running :ref:`auto-translation`."
-msgstr "Configurează traducerea automată :ref:`aws`."
+msgstr "Rulează :ref:`auto-translation`."
 
 #: ../../admin/install.rst:1441
-#, fuzzy
-#| msgid "Added digest notifications."
 msgid "Sending digest notifications."
-msgstr "Au fost adăugate notificări de sinteză."
+msgstr "Trimiterea de notificări de sinteză."
 
 #: ../../admin/install.rst:1442
 msgid "Offloading expensive operations from the wsgi process."
-msgstr ""
+msgstr "Descărcarea operațiunilor costisitoare din procesul wsgi."
 
 #: ../../admin/install.rst:1443
-#, fuzzy
-#| msgid ""
-#| "Committing pending changes (hourly), see :ref:`lazy-commit` and :djadmin:"
-#| "`commit_pending`."
 msgid "Committing pending changes (see :ref:`lazy-commit`)."
-msgstr ""
-"Angajarea modificărilor în așteptare (din oră în oră), a se vedea :ref:`lazy-"
-"commit` și :djadmin:`commit_pending`."
+msgstr "Angajarea modificărilor în așteptare (a se vedea :ref:`lazy-commit`)."
 
 #: ../../admin/install.rst:1445
-#, fuzzy
-#| msgid ""
-#| "Weblate uses Celery to process background tasks. A typical setup using "
-#| "Redis as a backend looks like this:"
 msgid "A typical setup using Redis as a backend looks like this:"
-msgstr ""
-"Weblate utilizează Celery pentru a procesa sarcinile de fundal. O "
-"configurație tipică care utilizează Redis ca backend arată astfel:"
+msgstr "O configurație tipică care utilizează Redis ca backend arată astfel:"
 
 #: ../../admin/install.rst:1455
 msgid ""
@@ -12468,7 +12455,7 @@ msgstr "A se vedea :ref:`file-permissions` și :ref:`server`."
 
 #: ../../admin/install.rst:1475
 msgid "Executing Celery tasks in the wsgi using eager mode"
-msgstr ""
+msgstr "Executarea sarcinilor Celery în wsgi folosind modul eager"
 
 #: ../../admin/install.rst:1479
 msgid ""
@@ -12476,20 +12463,18 @@ msgid ""
 "break features depending on regular trigger (for example committing pending "
 "changes, digest notifications, or backups)."
 msgstr ""
+"Acest lucru va avea un impact sever asupra performanțelor interfeței web și "
+"va întrerupe caracteristicile care depind de declanșarea regulată (de "
+"exemplu, comiterea modificărilor în așteptare, notificările Digest sau "
+"copiile de rezervă)."
 
 #: ../../admin/install.rst:1483
-#, fuzzy
-#| msgid ""
-#| "For development, you might want to use eager configuration, which does "
-#| "process all tasks in place, but this will have performance impact on "
-#| "Weblate:"
 msgid ""
 "For development, you might want to use eager configuration, which does "
 "process all tasks in place:"
 msgstr ""
-"Pentru dezvoltare, este posibil să doriți să utilizați o configurație "
-"nerăbdătoare, care procesează toate sarcinile pe loc, dar acest lucru va "
-"avea un impact asupra performanței Weblate:"
+"Pentru dezvoltare, este posibil să doriți să utilizați configurația eager, "
+"care procesează toate sarcinile pe loc:"
 
 #: ../../admin/install.rst:1493
 msgid "Running Celery as system service"
@@ -12561,21 +12546,16 @@ msgid "Monitoring Celery status"
 msgstr "Monitorizarea stării Celery"
 
 #: ../../admin/install.rst:1529
-#, fuzzy
-#| msgid ""
-#| "You can use :djadmin:`celery_queues` to see current length of Celery task "
-#| "queues. In case the queue will get too long, you will also get "
-#| "configuration error in the admin interface."
 msgid ""
 "You can find current length of the Celery task queues in the :ref:"
 "`management-interface` or you can use :djadmin:`celery_queues` on the "
 "command-line. In case the queue will get too long, you will also get "
 "configuration error in the admin interface."
 msgstr ""
-"Puteți utiliza :djadmin:`celery_queues` pentru a vedea lungimea curentă a "
-"cozilor de sarcini Celery. În cazul în care coada de așteptare va deveni "
-"prea lungă, veți primi și o eroare de configurare în interfața de "
-"administrare."
+"Puteți afla lungimea actuală a cozilor de sarcini Celery în :ref:`management-"
+"interface` sau puteți utiliza :djadmin:`celery_queues` în linia de comandă. "
+"În cazul în care coada de așteptare va deveni prea lungă, veți obține, de "
+"asemenea, o eroare de configurare în interfața de administrare."
 
 #: ../../admin/install.rst:1536
 msgid ""
@@ -13142,6 +13122,9 @@ msgid ""
 "PostgreSQL 10 or newer, please upgrade it prior to upgrading Weblate. See :"
 "ref:`upgrade-4.10` for more details."
 msgstr ""
+"De la Weblate 4.10-1, containerul Docker utilizează Django 4.0, ceea ce "
+"necesită PostgreSQL 10 sau mai nou, vă rugăm să îl actualizați înainte de a "
+"actualiza Weblate. Pentru mai multe detalii, consultați :ref:`upgrade-4.10`."
 
 #: ../../admin/install/docker.rst:202
 msgid ""
@@ -13245,22 +13228,16 @@ msgstr ""
 "De asemenea, puteți ajusta cu precizie categoriile individuale de lucrători:"
 
 #: ../../admin/install/docker.rst:275
-#, fuzzy
-#| msgid ""
-#| ":envvar:`WEBLATE_WORKERS` :envvar:`CELERY_MAIN_OPTIONS`, :envvar:"
-#| "`CELERY_NOTIFY_OPTIONS`, :envvar:`CELERY_MEMORY_OPTIONS`, :envvar:"
-#| "`CELERY_TRANSLATE_OPTIONS`, :envvar:`CELERY_BACKUP_OPTIONS`, :envvar:"
-#| "`CELERY_BEAT_OPTIONS`, :envvar:`UWSGI_WORKERS`"
 msgid ""
 ":envvar:`WEBLATE_WORKERS` :envvar:`CELERY_MAIN_OPTIONS`, :envvar:"
 "`CELERY_NOTIFY_OPTIONS`, :envvar:`CELERY_MEMORY_OPTIONS`, :envvar:"
 "`CELERY_TRANSLATE_OPTIONS`, :envvar:`CELERY_BACKUP_OPTIONS`, :envvar:"
 "`CELERY_BEAT_OPTIONS`, :envvar:`WEB_WORKERS`"
 msgstr ""
-":envvar:`WEBLATE_WORKERS` :envvar:`CELERY_MAIN_OPTIONS`, :envvar:"
-"`CELERY_NOTIFY_OPTIONS`, :envvar:`CELERY_MEMORY_OPTIONS`, :envvar:"
-"`CELERY_TRANSLATE_OPTIONS`, :envvar:`CELERY_BACKUP_OPTIONS`, :envvar:"
-"`CELERY_BEAT_OPTIONS`, :envvar:`UWSGI_WORKERS`"
+":envvar:`WEBLATE_WORKERS` :envvar:`CELERY_MAIN_OPTIONS`, "
+":envvar:`CELERY_NOTIFY_OPTIONS`, :envvar:`CELERY_MEMORY_OPTIONS`, "
+":envvar:`CELERY_TRANSLATE_OPTIONS`, :envvar:`CELERY_BACKUP_OPTIONS`, "
+":envvar:`CELERY_BEAT_OPTIONS`, :envvar:`WEB_WORKERS`"
 
 #: ../../admin/install/docker.rst:287
 msgid "Scaling horizontally"
@@ -13421,23 +13398,19 @@ msgstr ":envvar:`WEBLATE_ADMIN_PASSWORD`"
 
 #: ../../admin/install/docker.rst:409
 msgid "The email address that error messages are sent from."
-msgstr ""
+msgstr "Adresa de e-mail de la care sunt trimise mesajele de eroare."
 
 #: ../../admin/install/docker.rst:413
-#, fuzzy
-#| msgid ":setting:`django:ADMINS`"
 msgid ":std:setting:`django:SERVER_EMAIL`, :ref:`production-email`"
-msgstr ":setting:`django:ADMINS`"
+msgstr ":std:setting:`django:SERVER_EMAIL`, :ref:`production-email`"
 
 #: ../../admin/install/docker.rst:418
 msgid "Configures the address for outgoing e-mails."
 msgstr "Configurează adresa pentru e-mailurile de ieșire."
 
 #: ../../admin/install/docker.rst:422
-#, fuzzy
-#| msgid ":setting:`django:ADMINS`"
 msgid ":std:setting:`django:DEFAULT_FROM_EMAIL`, :ref:`production-email`"
-msgstr ":setting:`django:ADMINS`"
+msgstr ":std:setting:`django:DEFAULT_FROM_EMAIL`, :ref:`production-email`"
 
 #: ../../admin/install/docker.rst:427
 msgid "Configures contact form behavior, see :setting:`CONTACT_FORM`."
