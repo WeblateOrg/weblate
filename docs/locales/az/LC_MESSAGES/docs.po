@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-12-22 11:47+0100\n"
+"POT-Creation-Date: 2021-12-22 13:59+0100\n"
 "PO-Revision-Date: 2021-05-23 17:57+0000\n"
 "Last-Translator: Jacque Fresco <aidter@use.startmail.com>\n"
 "Language-Team: Azerbaijani <https://hosted.weblate.org/projects/weblate/"
@@ -6078,7 +6078,7 @@ msgid ""
 "other paths by default:"
 msgstr ""
 
-#: ../../admin/config.rst:226 ../../faq.rst:409 ../../vcs.rst:455
+#: ../../admin/config.rst:226 ../../faq.rst:427 ../../vcs.rst:455
 msgid ":setting:`DATA_DIR`"
 msgstr ""
 
@@ -6110,7 +6110,7 @@ msgid ""
 "ones in the database."
 msgstr ""
 
-#: ../../admin/config.rst:257 ../../faq.rst:336
+#: ../../admin/config.rst:257 ../../faq.rst:354
 #, fuzzy
 #| msgid "Comment added"
 msgid ":ref:`languages`"
@@ -8134,7 +8134,7 @@ msgstr ""
 msgid "You can limit choices or add custom VCS back-ends by using this."
 msgstr ""
 
-#: ../../admin/config.rst:2125 ../../faq.rst:473
+#: ../../admin/config.rst:2125 ../../faq.rst:491
 msgid ":ref:`vcs`"
 msgstr ""
 
@@ -15093,7 +15093,7 @@ msgid ""
 msgstr ""
 
 #: ../../admin/optionals.rst:31 ../../admin/optionals.rst:87
-#: ../../admin/optionals.rst:162 ../../faq.rst:263
+#: ../../admin/optionals.rst:162 ../../faq.rst:281
 msgid "Usage"
 msgstr ""
 
@@ -15864,7 +15864,7 @@ msgstr "Yanlış(invalid) təklif!"
 msgid "Enable review workflow for source strings, see :ref:`source-reviews`."
 msgstr ""
 
-#: ../../admin/projects.rst:203 ../../faq.rst:286
+#: ../../admin/projects.rst:203 ../../faq.rst:304
 msgid ":ref:`report-source`, :ref:`user-comments`"
 msgstr ""
 
@@ -20639,7 +20639,7 @@ msgstr ""
 #: ../../changes.rst:11
 #, fuzzy
 #| msgid "Markdown code"
-msgid "Improved accuracy of Kashida check."
+msgid "Improved accuracy of :ref:`check-kashida`."
 msgstr "Markdown kodu"
 
 #: ../../changes.rst:14
@@ -31062,48 +31062,102 @@ msgid ""
 "recorded correctly as the user that made the translation."
 msgstr ""
 
-#: ../../faq.rst:266
+#: ../../faq.rst:263
+msgid "How to move files in the repository without losing history in Weblate?"
+msgstr ""
+
+#: ../../faq.rst:265
+msgid ""
+"To keep the history, comments, or screenshots linked to strings after "
+"changing the files location you need to ensure that these strings are never "
+"deleted in Weblate. These removals can happen in case the Weblate repository "
+"is updated, but the component configuration still points to the old files. "
+"This makes Weblate assume that it should delete all the translations."
+msgstr ""
+
+#: ../../faq.rst:271
+msgid "The solution to this is to perform the operation in sync with Weblate:"
+msgstr ""
+
+#: ../../faq.rst:273
+#, fuzzy
+#| msgid "Thanks for using Weblate!"
+msgid "Lock the affected component in Weblate."
+msgstr "Weblate istifadə etdiyinizə görə təşəkkürlər!"
+
+#: ../../faq.rst:274
+#, fuzzy
+#| msgid "Commit pending changes"
+msgid "Commit any pending changes and merge them into the upstream repository."
+msgstr "Gözləyən dəyişiklikləri işlə"
+
+#: ../../faq.rst:275
+msgid ""
+"Disable receiving webhooks the :ref:`project`; this prevents Weblate from "
+"immediately seeing changes in the repository."
+msgstr ""
+
+#: ../../faq.rst:276
+msgid ""
+"Do any needed changes in the repo (for example using :command:`git mv`), "
+"push them to the upstream repository."
+msgstr ""
+
+#: ../../faq.rst:277
+msgid ""
+"Change the :ref:`component` to match the new setup; upon changing "
+"configuration, Weblate will fetch the updated repository and notice the "
+"changed locations while keeping existing strings."
+msgstr ""
+
+#: ../../faq.rst:278
+#, fuzzy
+#| msgid "Whether subproject is locked for translation updates."
+msgid "Unlock the component and re-enable hooks in the project configuration."
+msgstr "Tərcümə yenilənmələri üçün alt layihənin kilidlənib kilidlənməməsi."
+
+#: ../../faq.rst:284
 msgid "How do I review the translations of others?"
 msgstr ""
 
-#: ../../faq.rst:268
+#: ../../faq.rst:286
 msgid ""
 "There are several review based workflows available in Weblate, see :ref:"
 "`workflows`."
 msgstr ""
 
-#: ../../faq.rst:269
+#: ../../faq.rst:287
 msgid ""
 "You can subscribe to any changes made in :ref:`subscriptions` and then check "
 "others contributions as they come in by e-mail."
 msgstr ""
 
-#: ../../faq.rst:271
+#: ../../faq.rst:289
 msgid ""
 "There is a review tool available at the bottom of the translation view, "
 "where you can choose to browse translations made by others since a given "
 "date."
 msgstr ""
 
-#: ../../faq.rst:276
+#: ../../faq.rst:294
 msgid ":ref:`workflows`"
 msgstr ""
 
-#: ../../faq.rst:279
+#: ../../faq.rst:297
 msgid "How do I provide feedback on a source string?"
 msgstr ""
 
-#: ../../faq.rst:281
+#: ../../faq.rst:299
 msgid ""
 "On context tabs below translation, you can use the :guilabel:`Comments` tab "
 "to provide feedback on a source string, or discuss it with other translators."
 msgstr ""
 
-#: ../../faq.rst:290
+#: ../../faq.rst:308
 msgid "How can I use existing translations while translating?"
 msgstr ""
 
-#: ../../faq.rst:292
+#: ../../faq.rst:310
 #, fuzzy
 #| msgid "Use this translation"
 msgid ""
@@ -31111,43 +31165,43 @@ msgid ""
 "memory."
 msgstr "Bu tərcüməni istifadə et"
 
-#: ../../faq.rst:293
+#: ../../faq.rst:311
 #, fuzzy
 #| msgid "Your translations"
 msgid "You can import existing translation memory files into Weblate."
 msgstr "Tərcümələriniz"
 
-#: ../../faq.rst:294
+#: ../../faq.rst:312
 msgid ""
 "Use the import functionality to load compendium as translations, suggestions "
 "or translations needing review. This is the best approach for a one-time "
 "translation using a compendium or a similar translation database."
 msgstr ""
 
-#: ../../faq.rst:297
+#: ../../faq.rst:315
 msgid ""
 "You can set up :ref:`tmserver` with all databases you have and let Weblate "
 "use it. This is good when you want to use it several times during "
 "translation."
 msgstr ""
 
-#: ../../faq.rst:300
+#: ../../faq.rst:318
 msgid ""
 "Another option is to translate all related projects in a single Weblate "
 "instance, which will make it automatically pick up translations from other "
 "projects as well."
 msgstr ""
 
-#: ../../faq.rst:306
+#: ../../faq.rst:324
 msgid ""
 ":ref:`machine-translation-setup`, :ref:`machine-translation`, :ref:`memory`"
 msgstr ""
 
-#: ../../faq.rst:313
+#: ../../faq.rst:331
 msgid "Does Weblate update translation files besides translations?"
 msgstr ""
 
-#: ../../faq.rst:315
+#: ../../faq.rst:333
 msgid ""
 "Weblate tries to limit changes in translation files to a minimum. For some "
 "file formats it might unfortunately lead to reformatting the file. If you "
@@ -31155,57 +31209,57 @@ msgid ""
 "that."
 msgstr ""
 
-#: ../../faq.rst:321 ../../faq.rst:382
+#: ../../faq.rst:339 ../../faq.rst:400
 #, fuzzy
 #| msgid "Comment added"
 msgid ":ref:`updating-target-files`"
 msgstr "Şərh əlavə olundu"
 
-#: ../../faq.rst:325
+#: ../../faq.rst:343
 msgid "Where do language definitions come from and how can I add my own?"
 msgstr ""
 
-#: ../../faq.rst:327
+#: ../../faq.rst:345
 msgid ""
 "The basic set of language definitions is included within Weblate and "
 "Translate-toolkit. This covers more than 150 languages and includes info "
 "about plural forms or text direction."
 msgstr ""
 
-#: ../../faq.rst:331
+#: ../../faq.rst:349
 msgid ""
 "You are free to define your own languages in the administrative interface, "
 "you just need to provide info about it."
 msgstr ""
 
-#: ../../faq.rst:339
+#: ../../faq.rst:357
 msgid "Can Weblate highlight changes in a fuzzy string?"
 msgstr ""
 
-#: ../../faq.rst:341
+#: ../../faq.rst:359
 msgid ""
 "Weblate supports this, however it needs the data to show the difference."
 msgstr ""
 
-#: ../../faq.rst:343
+#: ../../faq.rst:361
 msgid ""
 "For Gettext PO files, you have to pass the parameter ``--previous`` to :"
 "command:`msgmerge` when updating PO files, for example:"
 msgstr ""
 
-#: ../../faq.rst:350
+#: ../../faq.rst:368
 msgid ""
 "For monolingual translations, Weblate can find the previous string by ID, so "
 "it shows the differences automatically."
 msgstr ""
 
-#: ../../faq.rst:356
+#: ../../faq.rst:374
 msgid ""
 "Why does Weblate still show old translation strings when I've updated the "
 "template?"
 msgstr ""
 
-#: ../../faq.rst:358
+#: ../../faq.rst:376
 msgid ""
 "Weblate does not try to manipulate the translation files in any way other "
 "than allowing translators to translate. So it also does not update the "
@@ -31214,96 +31268,96 @@ msgid ""
 "will then pick up the changes automatically."
 msgstr ""
 
-#: ../../faq.rst:366
+#: ../../faq.rst:384
 msgid ""
 "It is usually a good idea to merge changes done in Weblate before updating "
 "translation files, as otherwise you will usually end up with some conflicts "
 "to merge."
 msgstr ""
 
-#: ../../faq.rst:370
+#: ../../faq.rst:388
 msgid ""
 "For example with gettext PO files, you can update the translation files "
 "using the :command:`msgmerge` tool:"
 msgstr ""
 
-#: ../../faq.rst:377
+#: ../../faq.rst:395
 msgid ""
 "In case you want to do the update automatically, you can install addon :ref:"
 "`addon-weblate.gettext.msgmerge`."
 msgstr ""
 
-#: ../../faq.rst:386
+#: ../../faq.rst:404
 msgid "Troubleshooting"
 msgstr ""
 
-#: ../../faq.rst:389
+#: ../../faq.rst:407
 msgid "Requests sometimes fail with \"too many open files\" error"
 msgstr ""
 
-#: ../../faq.rst:391
+#: ../../faq.rst:409
 msgid ""
 "This happens sometimes when your Git repository grows too much and you have "
 "many of them. Compressing the Git repositories will improve this situation."
 msgstr ""
 
-#: ../../faq.rst:394
+#: ../../faq.rst:412
 msgid "The easiest way to do this is to run:"
 msgstr ""
 
-#: ../../faq.rst:413
+#: ../../faq.rst:431
 msgid "When accessing the site I get a \"Bad Request (400)\" error"
 msgstr ""
 
-#: ../../faq.rst:415
+#: ../../faq.rst:433
 msgid ""
 "This is most likely caused by an improperly configured :setting:"
 "`ALLOWED_HOSTS`. It needs to contain all hostnames you want to access on "
 "your Weblate. For example:"
 msgstr ""
 
-#: ../../faq.rst:424
+#: ../../faq.rst:442
 msgid ":ref:`production-hosts`"
 msgstr ""
 
-#: ../../faq.rst:429
+#: ../../faq.rst:447
 msgid "What does mean \"There are more files for the single language (en)\"?"
 msgstr ""
 
-#: ../../faq.rst:431
+#: ../../faq.rst:449
 msgid ""
 "This typically happens when you have translation file for source language. "
 "Weblate keeps track of source strings and reserves source language for this. "
 "The additional file for same language is not processed."
 msgstr ""
 
-#: ../../faq.rst:435
+#: ../../faq.rst:453
 msgid ""
 "In case the translation to the source language is desired, please change "
 "the :ref:`component-source_language` in the component settings."
 msgstr ""
 
-#: ../../faq.rst:436
+#: ../../faq.rst:454
 msgid ""
 "In case the translation file for the source language is not needed, please "
 "remove it from the repository."
 msgstr ""
 
-#: ../../faq.rst:437
+#: ../../faq.rst:455
 msgid ""
 "In case the translation file for the source language is needed, but should "
 "be ignored by Weblate, please adjust the :ref:`component-language_regex` to "
 "exclude it."
 msgstr ""
 
-#: ../../faq.rst:441
+#: ../../faq.rst:459
 msgid ""
 "You might get similar error message for other languages as well. In that "
 "case the most likely reason is that several files map to single language in "
 "Weblate."
 msgstr ""
 
-#: ../../faq.rst:445
+#: ../../faq.rst:463
 msgid ""
 "This can be caused by using obsolete language codes together with new one "
 "(``ja`` and ``jp`` for Japanese) or including both country specific and "
@@ -31311,15 +31365,15 @@ msgid ""
 "more details."
 msgstr ""
 
-#: ../../faq.rst:451
+#: ../../faq.rst:469
 msgid "Features"
 msgstr "Özəlliklər"
 
-#: ../../faq.rst:456
+#: ../../faq.rst:474
 msgid "Does Weblate support other VCSes than Git and Mercurial?"
 msgstr ""
 
-#: ../../faq.rst:458
+#: ../../faq.rst:476
 msgid ""
 "Weblate currently does not have native support for anything other than :ref:"
 "`vcs-git` (with extended support for :ref:`vcs-github`, :ref:`vcs-gerrit` "
@@ -31327,54 +31381,54 @@ msgid ""
 "write backends for other VCSes."
 msgstr ""
 
-#: ../../faq.rst:463
+#: ../../faq.rst:481
 msgid "You can also use :ref:`vcs-git-helpers` in Git to access other VCSes."
 msgstr ""
 
-#: ../../faq.rst:465
+#: ../../faq.rst:483
 msgid "Weblate also supports VCS-less operation, see :ref:`vcs-local`."
 msgstr ""
 
-#: ../../faq.rst:469
+#: ../../faq.rst:487
 msgid ""
 "For native support of other VCSes, Weblate requires using distributed VCS, "
 "and could probably be adjusted to work with anything other than Git and "
 "Mercurial, but somebody has to implement this support."
 msgstr ""
 
-#: ../../faq.rst:476
+#: ../../faq.rst:494
 msgid "How does Weblate credit translators?"
 msgstr ""
 
-#: ../../faq.rst:478
+#: ../../faq.rst:496
 msgid ""
 "Every change made in Weblate is committed into VCS under the translators "
 "name. This way every single change has proper authorship, and you can track "
 "it down using the standard VCS tools you use for code."
 msgstr ""
 
-#: ../../faq.rst:482
+#: ../../faq.rst:500
 msgid ""
 "Additionally, when the translation file format supports it, the file headers "
 "are updated to include the translator's name."
 msgstr ""
 
-#: ../../faq.rst:487
+#: ../../faq.rst:505
 msgid ":djadmin:`list_translators`, :doc:`../devel/reporting`"
 msgstr ""
 
-#: ../../faq.rst:491
+#: ../../faq.rst:509
 msgid "Why does Weblate force showing all PO files in a single tree?"
 msgstr ""
 
-#: ../../faq.rst:493
+#: ../../faq.rst:511
 msgid ""
 "Weblate was designed in a way that every PO file is represented as a single "
 "component. This is beneficial for translators, so they know what they are "
 "actually translating."
 msgstr ""
 
-#: ../../faq.rst:499
+#: ../../faq.rst:517
 #, fuzzy
 #| msgid "Allow translation propagation"
 msgid ""
@@ -31382,31 +31436,31 @@ msgid ""
 "language as a whole."
 msgstr "Tərcümə etməyə icazə ver"
 
-#: ../../faq.rst:505
+#: ../../faq.rst:523
 msgid "Why does Weblate use language codes such sr_Latn or zh_Hant?"
 msgstr ""
 
-#: ../../faq.rst:507
+#: ../../faq.rst:525
 msgid ""
 "These are language codes defined by :rfc:`5646` to better indicate that they "
 "are really different languages instead previously wrongly used modifiers "
 "(for ``@latin`` variants) or country codes (for Chinese)."
 msgstr ""
 
-#: ../../faq.rst:511
+#: ../../faq.rst:529
 msgid ""
 "Weblate still understands legacy language codes and will map them to current "
 "one - for example ``sr@latin`` will be handled as ``sr_Latn`` or ``zh@CN`` "
 "as ``zh_Hans``."
 msgstr ""
 
-#: ../../faq.rst:517
+#: ../../faq.rst:535
 msgid ""
 "Weblate defaults to POSIX style language codes with underscore, see :ref:"
 "`languages` for more details."
 msgstr ""
 
-#: ../../faq.rst:522
+#: ../../faq.rst:540
 #, fuzzy
 #| msgid "Comment added"
 msgid ""
