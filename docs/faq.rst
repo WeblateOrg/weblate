@@ -259,6 +259,24 @@ correctly as the user that made the translation.
 
    :ref:`component`
 
+How to move the files in the repository without loosing the history in Weblate?
+-------------------------------------------------------------------------------
+
+To keep the history, comments, or screenshots linked to strings after changing
+the files location you need to ensure that these strings are never deleted in
+Weblate. There removal can happen in case the Weblate repository is updated,
+but the component configuration still points to the old files. This makes
+Weblate think that it shoud delete all the translations.
+
+The solution to this is to perform the operation in sync with Weblate:
+
+1. Lock the affected component in Weblate.
+2. Commit any pending changes and merge them into the upstream repository.
+3. Disable receiving webhooks the :ref:`project`; this avoids Weblate immediatelly seeing changes in the repository.
+4. Do any needed changes in the repo (for example using :command:`git mv`), push them to the upstrea repository.
+5. Change :ref:`component` to match new setup; upon changing configuration, Weblate will fetch the updated repository and notice the changed locations while keeping existing strings.
+6. Unlock the component and re-enable hooks in the project configuration.
+
 Usage
 +++++
 
