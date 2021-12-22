@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.10.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-12-22 12:58+0000\n"
-"PO-Revision-Date: 2021-12-22 12:58+0000\n"
+"PO-Revision-Date: 2021-12-22 19:40+0000\n"
 "Last-Translator: Simona Iacob <s@zp1.net>\n"
 "Language-Team: Romanian <https://hosted.weblate.org/projects/weblate/"
 "application/ro/>\n"
@@ -28,7 +28,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < "
 "20)) ? 1 : 2;\n"
-"X-Generator: Weblate 4.10\n"
+"X-Generator: Weblate 4.10.1\n"
 
 #: weblate/accounts/avatar.py:103
 msgctxt "No known user"
@@ -10392,16 +10392,12 @@ msgid "Add as needing edit"
 msgstr "Adăugați ca necesitând editare"
 
 #: weblate/trans/forms.py:846
-#, fuzzy
-#| msgid ""
-#| "Weblate could not parse the translation files while updating the "
-#| "translations."
 msgid ""
 "Please note that translating all strings will discard all existing "
 "translations."
 msgstr ""
-"Weblate nu a putut analiza fișierele de traducere în timpul actualizării "
-"traducerilor."
+"Vă rugăm să rețineți că traducerea tuturor șirurilor de caractere va elimina "
+"toate traducerile existente."
 
 #: weblate/trans/forms.py:851
 msgid "Automatic translation source"
@@ -10449,10 +10445,8 @@ msgid "Component not found!"
 msgstr "Componenta nu a fost găsită!"
 
 #: weblate/trans/forms.py:957
-#, fuzzy
-#| msgid "Parse error in %(component)s"
 msgid "Please provide valid component slug!"
-msgstr "Eroare de parsare în %(component)s"
+msgstr "Vă rugăm să furnizați un slug valid al componentei!"
 
 #: weblate/trans/forms.py:965
 msgid "Scope"
@@ -10846,7 +10840,7 @@ msgstr "Nume autor"
 
 #: weblate/trans/forms.py:2441
 msgid "Expires cannot be in the past!"
-msgstr ""
+msgstr "Expirațiile nu pot fi în trecut!"
 
 #: weblate/trans/guide.py:80
 msgid "Version control integration"
@@ -11000,10 +10994,8 @@ msgstr "Cod lingvistic ambiguu."
 
 #. Translators: Name of an alert
 #: weblate/trans/models/alert.py:375
-#, fuzzy
-#| msgid "Does not meet libre hosting conditions."
 msgid "Does not meet Libre hosting conditions."
-msgstr "Nu îndeplinește condițiile de găzduire liberă."
+msgstr "Nu îndeplinește condițiile de găzduire Libre."
 
 #: weblate/trans/models/alert.py:380
 msgid "Unused enforced checks."
@@ -11015,7 +11007,7 @@ msgstr "Nici o mască nu se potrivește."
 
 #: weblate/trans/models/alert.py:399
 msgid "Inexistant files."
-msgstr ""
+msgstr "Fișiere inexistente."
 
 #: weblate/trans/models/announcement.py:111
 msgid "Category"
@@ -11320,7 +11312,7 @@ msgstr "Componenta a fost blocată automat din cauza unei alerte."
 
 #: weblate/trans/models/change.py:439
 msgid "Fixing an alert automatically unlocked the component."
-msgstr ""
+msgstr "Remedierea unei alerte a deblocat automat componenta."
 
 #: weblate/trans/models/change.py:495
 #, python-format
@@ -11328,16 +11320,14 @@ msgid "%(action)s at %(time)s on %(translation)s by %(user)s"
 msgstr "%(action)s la %(time)s pe %(translation)s de %(user)s"
 
 #: weblate/trans/models/change.py:593
-#, fuzzy, python-format
-#| msgid "File %s was changed."
+#, python-format
 msgid "The \"%s\" file was changed."
-msgstr "Fișierul %s a fost modificat."
+msgstr "Fișierul \"%s\" a fost modificat."
 
 #: weblate/trans/models/change.py:595
-#, fuzzy, python-format
-#| msgid "Parsing of file %s was enforced."
+#, python-format
 msgid "Parsing of the \"%s\" file was enforced."
-msgstr "Analizarea fișierului %s a fost impusă."
+msgstr "Parsarea fișierului \"%s\" a fost pusă în aplicare."
 
 #: weblate/trans/models/change.py:597
 #, python-format
@@ -11350,15 +11340,12 @@ msgid "N/A"
 msgstr "N/A"
 
 #: weblate/trans/models/change.py:603
-#, fuzzy, python-format
-#| msgid ""
-#| "License for component %(component)s was changed from %(old)s to "
-#| "%(target)s."
+#, python-format
 msgid ""
 "The license of the \"%(component)s\" component was changed from %(old)s to "
 "%(target)s."
 msgstr ""
-"Licența pentru componenta %(component)s a fost schimbată din %(old)s în "
+"Licența componentei \"%(component)s\" a fost schimbată din %(old)s în "
 "%(target)s."
 
 #. Translators: Action when adding new translation
