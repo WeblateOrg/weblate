@@ -8,7 +8,7 @@ Released on December 22nd 2021.
 * Fixed API display of branch in components with a shared repository.
 * Improved analysis on the failed push alert.
 * Fixed manually editing page when browsing changes.
-* Improved accuracy of Kashida check.
+* Improved accuracy of :ref:`check-kashida`.
 
 Weblate 4.10
 ------------
