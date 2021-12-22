@@ -221,20 +221,37 @@ class PushFailure(ErrorAlert):
     # Translators: Name of an alert
     verbose = _("Could not push the repository.")
     link_wide = True
+    behind_message = "The tip of your current branch is behind its remote counterpart"
+    terminal_message = "terminal prompts disabled"
 
     def get_analysis(self):
-        terminal_disabled = "terminal prompts disabled" in self.error
-        suggestion = None
+        terminal_disabled = self.terminal_message in self.error
+        repo_suggestion = None
+        force_push_suggestion = False
         component = self.instance.component
+
+        # Missing credentials
         if terminal_disabled:
             if component.push:
                 if component.push.startswith("https://github.com/"):
-                    suggestion = f"git@github.com:{component.push[19:]}"
+                    repo_suggestion = f"git@github.com:{component.push[19:]}"
             elif component.repo.startswith("https://github.com/"):
-                suggestion = f"git@github.com:{component.repo[19:]}"
+                repo_suggestion = f"git@github.com:{component.repo[19:]}"
+
+        # Missing commits
+        behind = self.behind_message in self.error
+        if behind:
+            force_push_suggestion = (
+                component.vcs == "git"
+                and component.merge_style == "rebase"
+                and component.bool(component.push_branch)
+            )
+
         return {
             "terminal": terminal_disabled,
-            "repo_suggestion": suggestion,
+            "behind": behind,
+            "repo_suggestion": repo_suggestion,
+            "force_push_suggestion": force_push_suggestion,
         }
 
 
