@@ -98,9 +98,9 @@ localization workflow (for example to define categories of strings).
 Following labels are used by Weblate:
 
 Automatically translated
-   Strings was translated using :ref:`auto-translation`.
+   String was translated using :ref:`auto-translation`.
 Source needs review
-   String marked for review using :ref:`source-reviews`.
+   String was marked for review using :ref:`source-reviews`.
 
 .. seealso::
 
