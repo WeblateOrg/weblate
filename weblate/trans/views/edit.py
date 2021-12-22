@@ -762,7 +762,7 @@ def delete_comment(request, pk):
     if "spam" in request.POST:
         comment_obj.report_spam()
     comment_obj.delete()
-    messages.info(request, _("Translation comment has been deleted."))
+    messages.info(request, _("Comment has been deleted."))
 
     return redirect_next(request.POST.get("next"), fallback_url)
 
