@@ -6,6 +6,7 @@ Not yet released.
 * Documented changes introduced by upgrading to Django 4.0.
 * Fixed displaying of :guilabel:`Automatically translated` label.
 * Fixed API display of branch in components with a shared repository.
+* Improved analysis on the failed push alert.
 
 Weblate 4.10
 ------------
