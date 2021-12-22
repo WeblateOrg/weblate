@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-12-22 11:47+0100\n"
-"PO-Revision-Date: 2021-12-22 10:43+0000\n"
+"PO-Revision-Date: 2021-12-22 12:58+0000\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/"
 "documentation/uk/>\n"
@@ -19417,18 +19417,13 @@ msgid "Merge style"
 msgstr "Стиль злиття"
 
 #: ../../admin/projects.rst:644
-#, fuzzy
-#| msgid ""
-#| "You can configure how updates from the upstream repository are handled. "
-#| "This might not be supported for some VCSs. See :ref:`merge-rebase` for "
-#| "more details."
 msgid ""
 "You can configure how updates from the upstream repository are handled. The "
 "actual implementation depends on VCS, see :doc:`/vcs`."
 msgstr ""
 "Ви можете налаштувати, як будуть оброблятися оновлення з репозиторію "
-"основного коду. Підтримка варіантів оновлення залежить від системи керування "
-"версіями. Див. :ref:`merge-rebase`, щоб дізнатися більше."
+"основного коду. Реалізація залежить від системи керування версіями, див. "
+":doc:`/vcs`."
 
 #: ../../admin/projects.rst:655
 msgid "Rebase"
@@ -19439,6 +19434,9 @@ msgid ""
 "Rebases Weblate commits on top of upstream repository on update. This "
 "provides clean history without extra merge commits."
 msgstr ""
+"Переносить внески Weblate, накладаючи їх на основне сховище, при оновленні. "
+"Так забезпечується якісніший журнал змін без додаткових внесків з об'єднання "
+"гілок."
 
 #: ../../admin/projects.rst:651
 msgid ""
@@ -19453,6 +19451,9 @@ msgid ""
 "You might need to enable force pushing by choosing :ref:`vcs-git-force-push` "
 "as :ref:`component-vcs`, especially when pushing to a different branch."
 msgstr ""
+"Можливо, вам доведеться увімкнути примусовий запис за допомогою режиму :ref"
+":`vcs-git-force-push` для :ref:`component-vcs`, особливо якщо запис "
+"відбувається до іншої гілки."
 
 #: ../../admin/projects.rst:660
 msgid "Merge"
@@ -19463,6 +19464,8 @@ msgid ""
 "Upstream repository changed are merged into Weblate one. This is the safest "
 "way, but might produce a lot of merge commits."
 msgstr ""
+"Зміни у основному сховищі записуються до сховища Weblate. Це найбезпечніший "
+"спосіб, але він може призвести до багатьох внесків об'єднання гілок."
 
 #: ../../admin/projects.rst:662
 msgid "Default value can be changed by :setting:`DEFAULT_MERGE_STYLE`."
@@ -23937,10 +23940,8 @@ msgid "Weblate 4.10.1"
 msgstr "Weblate 4.10.1"
 
 #: ../../changes.rst:4
-#, fuzzy
-#| msgid "Released on December 16th 2021."
 msgid "Released on December 22nd 2021."
-msgstr "Випущено 16 грудня 2021 року."
+msgstr "Випущено 22 грудня 2021 року."
 
 #: ../../changes.rst:6
 msgid "Documented changes introduced by upgrading to Django 4.0."
@@ -23957,22 +23958,16 @@ msgstr ""
 "сховищем коду."
 
 #: ../../changes.rst:9
-#, fuzzy
-#| msgid "Improved administration of users."
 msgid "Improved analysis on the failed push alert."
-msgstr "Удосконалено керування користувачами."
+msgstr "Удосконалено аналіз при попередженні про невдалий запис до сховища."
 
 #: ../../changes.rst:10
-#, fuzzy
-#| msgid "Added date filtering when browsing changes."
 msgid "Fixed manually editing page when browsing changes."
-msgstr "Додано фільтрування за датою при навігації списком змін."
+msgstr "Виправлено редагування сторінки вручну при зміні навігації."
 
 #: ../../changes.rst:11
-#, fuzzy
-#| msgid "Improved configuration health check."
 msgid "Improved accuracy of Kashida check."
-msgstr "Удосконалено перевірку коректності налаштувань."
+msgstr "Удосконалено точність перевірки кашиди."
 
 #: ../../changes.rst:14
 msgid "Weblate 4.10"
@@ -41950,19 +41945,14 @@ msgid "Automatically translated"
 msgstr "Перекладено автоматично"
 
 #: ../../user/translating.rst:101
-#, fuzzy
-#| msgid "Strings was translated using :ref:`auto-translation`."
 msgid "String was translated using :ref:`auto-translation`."
-msgstr ""
-"Рядки було перекладено за допомогою можливості :ref:`auto-translation`."
+msgstr "Рядок було перекладено за допомогою можливості :ref:`auto-translation`."
 
 #: ../../user/translating.rst:103
 msgid "Source needs review"
 msgstr "Початкові рядки потребують рецензування"
 
 #: ../../user/translating.rst:103
-#, fuzzy
-#| msgid "String marked for review using :ref:`source-reviews`."
 msgid "String was marked for review using :ref:`source-reviews`."
 msgstr ""
 "Рядок позначено для рецензування за допомогою можливості :ref:`source-"
