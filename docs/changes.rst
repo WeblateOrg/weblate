@@ -1,7 +1,7 @@
 Weblate 4.10.1
 --------------
 
-Not yet released.
+Released on December 22nd 2021.
 
 * Documented changes introduced by upgrading to Django 4.0.
 * Fixed displaying of :guilabel:`Automatically translated` label.
