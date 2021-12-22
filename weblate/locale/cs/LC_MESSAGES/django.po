@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.10.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-12-22 10:46+0000\n"
-"PO-Revision-Date: 2021-12-16 11:50+0000\n"
+"PO-Revision-Date: 2021-12-22 12:58+0000\n"
 "Last-Translator: Michal Čihař <michal@weblate.org>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/weblate/"
 "application/cs/>\n"
@@ -22,7 +22,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-"X-Generator: Weblate 4.10-dev\n"
+"X-Generator: Weblate 4.10\n"
 
 #: weblate/accounts/avatar.py:103
 msgctxt "No known user"
@@ -7942,17 +7942,13 @@ msgstr ""
 "finančně."
 
 #: weblate/templates/snippets/activity.html:10
-#, fuzzy
-#| msgid "Last month"
 msgid "Last 12 months"
-msgstr "Minulý měsíc"
+msgstr "Posledních 12 měsíců"
 
 #: weblate/templates/snippets/activity.html:14
-#, fuzzy
-#| msgid "Previous"
 msgctxt "Previous 12 months"
 msgid "Previous"
-msgstr "Předchozí"
+msgstr "Předchozích"
 
 #: weblate/templates/snippets/activity.html:16
 msgid "Activity in last 12 months"
@@ -9033,12 +9029,17 @@ msgid ""
 "the component configuration to overwrite the remote repository after "
 "rebasing commits in Weblate."
 msgstr ""
+"Možná budete chtít v nastavení součásti zvolit jako systém správy verzí Git "
+"s vynuceným odesláním, abyste po přeskládání revizí ve Weblate přepsali "
+"vzdálený repozitář."
 
 #: weblate/templates/trans/alert/pushfailure.html:22
 msgid ""
 "Weblate repository is missing some commits from upstream, perhaps it is not "
 "receiving notifications on repository updates."
 msgstr ""
+"V repozitáři Weblate chybí některé revize z upstreamu, možná nedostává "
+"oznámení o aktualizacích repozitáře."
 
 #: weblate/templates/trans/alert/repositorychanges.html:4
 msgid ""
@@ -10194,14 +10195,12 @@ msgid "Add as needing edit"
 msgstr "Přidat jako vyžadující úpravu"
 
 #: weblate/trans/forms.py:846
-#, fuzzy
-#| msgid ""
-#| "Weblate could not parse the translation files while updating the "
-#| "translations."
 msgid ""
 "Please note that translating all strings will discard all existing "
 "translations."
-msgstr "Weblate se při aktualizaci repozitáře nepodařilo načíst soubory."
+msgstr ""
+"Vezměte prosím na vědomí, že překladem všech řetězců se zahodí všechny "
+"stávající překlady."
 
 #: weblate/trans/forms.py:851
 msgid "Automatic translation source"
@@ -10340,7 +10339,7 @@ msgstr "Tento měsíc"
 
 #: weblate/trans/forms.py:1158
 msgid "Last month"
-msgstr "Minulý měsíc"
+msgstr "Poslední měsíc"
 
 #: weblate/trans/forms.py:1159
 msgid "This year"
@@ -11902,21 +11901,17 @@ msgid "No translation found."
 msgstr "Nebyl nalezen žádný překlad."
 
 #: weblate/trans/models/unit.py:888
-#, fuzzy, python-format
-#| msgid ""
-#| "Contribution to this translation requires you to agree with a contributor "
-#| "agreement."
+#, python-format
 msgid ""
 "String could not be propagated to %(component)s because you have not agreed "
 "with a contributor agreement."
 msgstr ""
-"Podílení se na tomto překladu vyžaduje souhlas s dohododou s přispěvatelem."
+"Řetězec nemohl být rozšířen do %(component)s, protože to vyžaduje souhlas s "
+"dohododou s přispěvatelem."
 
 #: weblate/trans/models/unit.py:1330
-#, fuzzy
-#| msgid "Automatic translation"
 msgid "Automatically translated"
-msgstr "Automatický překlad"
+msgstr "Automaticky přeloženo"
 
 #: weblate/trans/models/unit.py:1505
 msgid "Unmark as read-only"
@@ -12546,14 +12541,10 @@ msgid "Failed to add comment!"
 msgstr "Nepodařilo se vytvořit komentář!"
 
 #: weblate/trans/views/edit.py:765
-#, fuzzy
-#| msgid "Translation comment has been resolved."
 msgid "Comment has been deleted."
-msgstr "Komentář byl označen jako vyřešený."
+msgstr "Komentář byl odstraněn."
 
 #: weblate/trans/views/edit.py:783
-#, fuzzy
-#| msgid "Translation comment has been resolved."
 msgid "Comment has been resolved."
 msgstr "Komentář byl označen jako vyřešený."
 
@@ -13001,7 +12992,7 @@ msgstr "Počet selhavších kontrol"
 
 #: weblate/vcs/git.py:655
 msgid "Git with force push"
-msgstr "Git s force odesláním"
+msgstr "Git s vynuceným odesláním"
 
 #: weblate/vcs/git.py:926
 msgid "No remote repository"
