@@ -7,6 +7,7 @@ Not yet released.
 * Fixed displaying of :guilabel:`Automatically translated` label.
 * Fixed API display of branch in components with a shared repository.
 * Improved analysis on the failed push alert.
+* Fixed manually editing page when browsing changes.
 
 Weblate 4.10
 ------------
