@@ -633,7 +633,7 @@
     {% trans "Labels" %}
     </h5>
     {% for label in unit.all_labels %}
-      <a href="?q=label:{{ label.name|urlencode }}"><span class="label label-{{ label.color }}">{{ label.name }}</span></a>
+      <a href="?q={{ label.filter_name|urlencode }}"><span class="label label-{{ label.color }}">{{ label.name }}</span></a>
     {% empty %}
     <em>{% trans "No labels currently set." %}</em>
     {% endfor %}
