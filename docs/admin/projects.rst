@@ -642,8 +642,22 @@ Merge style
 +++++++++++
 
 You can configure how updates from the upstream repository are handled.
-This might not be supported for some VCSs. See :ref:`merge-rebase` for
-more details.
+The actual implementation depends on VCS, see :doc:`/vcs`.
+
+Rebase
+   Rebases Weblate commits on top of upstream repository on update. This
+   provides clean history without extra merge commits.
+
+   Rebasing can cause you trouble in case of complicated merges, so carefully
+   consider whether or not you want to enable them.
+
+   You might need to enable force pushing by choosing :ref:`vcs-git-force-push`
+   as :ref:`component-vcs`, especially when pushing to a different branch.
+
+Merge
+   Upstream repository changed are merged into Weblate one. This is the safest
+   way, but might produce a lot of merge commits.
+
 
 Default value can be changed by :setting:`DEFAULT_MERGE_STYLE`.
 

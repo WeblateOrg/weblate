@@ -205,6 +205,8 @@ Git
 
     See :ref:`vcs-repos` for info on how to access different kinds of repositories.
 
+.. _vcs-git-force-push:
+
 Git with force push
 +++++++++++++++++++
 

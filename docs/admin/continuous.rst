@@ -337,21 +337,6 @@ For example on GitHub this can be done in the repository configuration:
 
 .. image:: /images/github-protected.png
 
-.. _merge-rebase:
-
-Merge or rebase
----------------
-
-By default, Weblate merges the upstream repository into its own. This is the safest way
-in case you also access the underlying repository by other means. In case you don't
-need this, you can enable rebasing of changes on upstream, which will produce
-a history with fewer merge commits.
-
-.. note::
-
-    Rebasing can cause you trouble in case of complicated merges, so carefully
-    consider whether or not you want to enable them.
-
 Interacting with others
 -----------------------
 
