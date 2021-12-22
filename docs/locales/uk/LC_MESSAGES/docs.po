@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-12-22 13:59+0100\n"
-"PO-Revision-Date: 2021-12-22 12:58+0000\n"
+"PO-Revision-Date: 2021-12-22 18:18+0000\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/"
 "documentation/uk/>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=n==1 ? 3 : n%10==1 && n%100!=11 ? 0 : n"
 "%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 4.10\n"
+"X-Generator: Weblate 4.10.1\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:181
@@ -23966,10 +23966,8 @@ msgid "Fixed manually editing page when browsing changes."
 msgstr "Виправлено редагування сторінки вручну при зміні навігації."
 
 #: ../../changes.rst:11
-#, fuzzy
-#| msgid "Improved accuracy of Kashida check."
 msgid "Improved accuracy of :ref:`check-kashida`."
-msgstr "Удосконалено точність перевірки кашиди."
+msgstr "Удосконалено точність засобу :ref:`check-kashida`."
 
 #: ../../changes.rst:14
 msgid "Weblate 4.10"
@@ -35335,10 +35333,8 @@ msgstr ""
 "буде користувач, яким виконано переклад."
 
 #: ../../faq.rst:263
-#, fuzzy
-#| msgid "How to export the Git repository that Weblate uses?"
 msgid "How to move files in the repository without losing history in Weblate?"
-msgstr "Як експортувати репозиторій Git, який використовує Weblate?"
+msgstr "Як пересунути файли у сховищі без втрати журналу у Weblate?"
 
 #: ../../faq.rst:265
 msgid ""
@@ -35348,34 +35344,40 @@ msgid ""
 "is updated, but the component configuration still points to the old files. "
 "This makes Weblate assume that it should delete all the translations."
 msgstr ""
+"Щоб зберегти журнал, коментарі або знімки вікон, які пов'язано із рядками, "
+"після зміни розташування файлів, вам слід забезпечити неможливість вилучення "
+"рядків на Weblate. ТАкі вилучення можуть статися, якщо сховище Weblate "
+"оновлено, але налаштування складника все ще вказує на старі файли. У таких "
+"ситуаціях Weblate припускає, що слід вилучити усі переклади."
 
 #: ../../faq.rst:271
 msgid "The solution to this is to perform the operation in sync with Weblate:"
-msgstr ""
+msgstr "Рішення полягає у виконанні синхронної дії у Weblate:"
 
 #: ../../faq.rst:273
-#, fuzzy
-#| msgid "Lists components in Weblate."
 msgid "Lock the affected component in Weblate."
-msgstr "Виводить список складників у Weblate."
+msgstr "Заблокуйте відповідний складник у Weblate."
 
 #: ../../faq.rst:274
-#, fuzzy
-#| msgid "Commit pending changes to the Weblate repository"
 msgid "Commit any pending changes and merge them into the upstream repository."
-msgstr "Надіслати заплановані зміни до репозиторію Weblate"
+msgstr ""
+"Внесіть усі зміни з черги і об'єднайте їх зі змінами в основному сховищі."
 
 #: ../../faq.rst:275
 msgid ""
 "Disable receiving webhooks the :ref:`project`; this prevents Weblate from "
 "immediately seeing changes in the repository."
 msgstr ""
+"Вимкніть скрипти отримання :ref:`проєкту <project>`; це запобігатиме "
+"негайному виявленню змін у сховищі з боку Weblate."
 
 #: ../../faq.rst:276
 msgid ""
 "Do any needed changes in the repo (for example using :command:`git mv`), "
 "push them to the upstream repository."
 msgstr ""
+"Внесіть усі потрібні вам зміни до сховища (наприклад, за допомогою :command:`"
+"git mv`), запишіть їх до основного сховища."
 
 #: ../../faq.rst:277
 msgid ""
@@ -35383,16 +35385,14 @@ msgid ""
 "configuration, Weblate will fetch the updated repository and notice the "
 "changed locations while keeping existing strings."
 msgstr ""
+"Внесіть зміни до :ref:`складника <component>` так, щоб все збігалося із "
+"новою конфігурацією. Після зміни налаштувань Weblate отримає оновлене "
+"сховище і зареєструє змінені місця, зберігши наявні рядки."
 
 #: ../../faq.rst:278
-#, fuzzy
-#| msgid ""
-#| "Split component translation strings into categories by text and colour in "
-#| "the project configuration."
 msgid "Unlock the component and re-enable hooks in the project configuration."
 msgstr ""
-"Поділіть рядки перекладу складників на категорії за текстом і кольором у "
-"налаштуваннях проєкту."
+"Розблокуйте складник і повторно увімкніть скрипти у налаштуваннях проєкту."
 
 #: ../../faq.rst:284
 msgid "How do I review the translations of others?"
