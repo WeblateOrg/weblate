@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-12-22 13:59+0100\n"
-"PO-Revision-Date: 2021-12-22 12:58+0000\n"
+"PO-Revision-Date: 2021-12-22 19:40+0000\n"
 "Last-Translator: Rafael Fontenelle <rafaelff@gnome.org>\n"
 "Language-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/"
 "weblate/documentation/pt_BR/>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 4.10\n"
+"X-Generator: Weblate 4.10.1\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:181
@@ -23782,10 +23782,8 @@ msgid "Fixed manually editing page when browsing changes."
 msgstr "Corrigida a edição manual da página ao navegar pelas alterações."
 
 #: ../../changes.rst:11
-#, fuzzy
-#| msgid "Improved accuracy of Kashida check."
 msgid "Improved accuracy of :ref:`check-kashida`."
-msgstr "Merolhada a precisão da verificação Kashida."
+msgstr "Merolhada a precisão da :ref:`check-kashida`."
 
 #: ../../changes.rst:14
 msgid "Weblate 4.10"
@@ -34983,10 +34981,8 @@ msgstr ""
 "corretamente como o usuário que fez a tradução."
 
 #: ../../faq.rst:263
-#, fuzzy
-#| msgid "How to export the Git repository that Weblate uses?"
 msgid "How to move files in the repository without losing history in Weblate?"
-msgstr "Como exportar o repositório Git que o Weblate usa?"
+msgstr "Como mover arquivos no repositório sem perder histórico no Weblate?"
 
 #: ../../faq.rst:265
 msgid ""
@@ -34996,34 +34992,42 @@ msgid ""
 "is updated, but the component configuration still points to the old files. "
 "This makes Weblate assume that it should delete all the translations."
 msgstr ""
+"Para manter o histórico, comentários ou capturas de tela vinculados aos "
+"textos após alterar a localização dos arquivos, você precisa garantir que "
+"esses textos nunca sejam excluídos do Weblate. Essas remoções podem "
+"acontecer caso o repositório Weblate seja atualizado, mas a configuração do "
+"componente ainda aponta para os arquivos antigos. Isso faz com que o Weblate "
+"presuma que deveria excluir todas as traduções."
 
 #: ../../faq.rst:271
 msgid "The solution to this is to perform the operation in sync with Weblate:"
-msgstr ""
+msgstr "A solução para isso é realizar a operação em sincronia com o Weblate:"
 
 #: ../../faq.rst:273
-#, fuzzy
-#| msgid "Lists components in Weblate."
 msgid "Lock the affected component in Weblate."
-msgstr "Lista os componentes no Weblate."
+msgstr "Bloqueie o componente afetado no Weblate."
 
 #: ../../faq.rst:274
-#, fuzzy
-#| msgid "Commit pending changes to the Weblate repository"
 msgid "Commit any pending changes and merge them into the upstream repository."
-msgstr "Confirme as alterações pendentes no repositório Weblate"
+msgstr ""
+"Faça commit de todas as alterações pendentes e mescle-as no repositório "
+"upstream."
 
 #: ../../faq.rst:275
 msgid ""
 "Disable receiving webhooks the :ref:`project`; this prevents Weblate from "
 "immediately seeing changes in the repository."
 msgstr ""
+"Desabilite o recebimento de webhooks :ref:`project`; isso evita que o "
+"Weblate veja imediatamente as mudanças no repositório."
 
 #: ../../faq.rst:276
 msgid ""
 "Do any needed changes in the repo (for example using :command:`git mv`), "
 "push them to the upstream repository."
 msgstr ""
+"Faça todas as alterações necessárias no repositório (por exemplo, usando "
+":command:`git mv`), faça o push delas para o repositório upstream."
 
 #: ../../faq.rst:277
 msgid ""
@@ -35031,16 +35035,14 @@ msgid ""
 "configuration, Weblate will fetch the updated repository and notice the "
 "changed locations while keeping existing strings."
 msgstr ""
+"Altere o :ref:`component` para corresponder à nova configuração; ao alterar "
+"a configuração, o Weblate buscará o repositório atualizado e observará os "
+"locais alterados, mantendo os textos existentes."
 
 #: ../../faq.rst:278
-#, fuzzy
-#| msgid ""
-#| "Split component translation strings into categories by text and colour in "
-#| "the project configuration."
 msgid "Unlock the component and re-enable hooks in the project configuration."
 msgstr ""
-"Divide os textos de tradução do componente em categorias por texto e cor na "
-"configuração do projeto."
+"Desbloqueie o componente e reabilite os ganchos na configuração do projeto."
 
 #: ../../faq.rst:284
 msgid "How do I review the translations of others?"
