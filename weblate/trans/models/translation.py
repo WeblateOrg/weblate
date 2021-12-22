@@ -375,7 +375,9 @@ class Translation(
                 filenames = self.get_hash_filenames()
                 for i, old_part in enumerate(old_parts):
                     if old_part != new_parts[i]:
-                        details["filename"] = filenames[i]
+                        details["filename"] = filenames[i][
+                            len(self.component.full_path) :
+                        ].lstrip("/")
                         break
 
         elif force:
