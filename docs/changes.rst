@@ -363,7 +363,7 @@ Weblate 4.3.2
 
 Released on November 4th 2020.
 
-* Fixed crash on certain component filemasks.
+* Fixed crash on certain component file masks.
 * Improved accuracy of the consecutive duplicated words check.
 * Added support for Pagure pull requests.
 * Improved error messages for failed registrations.
@@ -692,7 +692,7 @@ Released on February 17th 2020.
 * Include more detailed license info on the project pages.
 * Automatically unshallow local copies if needed.
 * Fixed download of strings needing action.
-* New alert to warn about using the same filemask twice.
+* New alert to warn about using the same file mask twice.
 * Improve XML placeables extraction.
 * The :setting:`SINGLE_PROJECT` can now enforce redirection to chosen project.
 * Added option to resolve comments.

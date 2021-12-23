@@ -282,7 +282,7 @@ class DiscoveryForm(BaseAddonForm):
         validators=[validate_re],
         help_text=_(
             "Regular expression to filter "
-            "translation files against when scanning for filemask."
+            "translation files against when scanning for file mask."
         ),
     )
     copy_addons = forms.BooleanField(

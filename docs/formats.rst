@@ -188,7 +188,7 @@ The bilingual gettext PO file typically looks like this:
 +-------------------------------------------------------------------+
 | Typical Weblate :ref:`component`                                  |
 +================================+==================================+
-| Filemask                       | ``po/*.po``                      |
+| File mask                      | ``po/*.po``                      |
 +--------------------------------+----------------------------------+
 | Monolingual base language file | `Empty`                          |
 +--------------------------------+----------------------------------+
@@ -254,7 +254,7 @@ While the base language file will be:
 +-------------------------------------------------------------------+
 | Typical Weblate :ref:`component`                                  |
 +================================+==================================+
-| Filemask                       | ``po/*.po``                      |
+| File mask                      | ``po/*.po``                      |
 +--------------------------------+----------------------------------+
 | Monolingual base language file | ``po/en.po``                     |
 +--------------------------------+----------------------------------+
@@ -375,7 +375,7 @@ uniqueness restrictions on this attribute.
 +-------------------------------------------------------------------+
 | Typical Weblate :ref:`component` for bilingual XLIFF              |
 +================================+==================================+
-| Filemask                       | ``localizations/*.xliff``        |
+| File mask                      | ``localizations/*.xliff``        |
 +--------------------------------+----------------------------------+
 | Monolingual base language file | `Empty`                          |
 +--------------------------------+----------------------------------+
@@ -428,7 +428,7 @@ all others encode characters directly either in UTF-8 or UTF-16.
 +-------------------------------------------------------------------+
 | Typical Weblate :ref:`component`                                  |
 +================================+==================================+
-| Filemask                       | ``src/app/Bundle_*.properties``  |
+| File mask                      | ``src/app/Bundle_*.properties``  |
 +--------------------------------+----------------------------------+
 | Monolingual base language file | ``src/app/Bundle.properties``    |
 +--------------------------------+----------------------------------+
@@ -463,7 +463,7 @@ File format used for JavaScript localization by `mi18n`_. Syntactically it match
 +-------------------------------------------------------------------+
 | Typical Weblate :ref:`component`                                  |
 +================================+==================================+
-| Filemask                       | ``*.lang``                       |
+| File mask                      | ``*.lang``                       |
 +--------------------------------+----------------------------------+
 | Monolingual base language file | ``en-US.lang``                   |
 +--------------------------------+----------------------------------+
@@ -498,7 +498,7 @@ GWT properties are usually used as monolingual translations.
 +-------------------------------------------------------------------+
 | Typical Weblate :ref:`component`                                  |
 +================================+==================================+
-| Filemask                       | ``src/app/Bundle_*.properties``  |
+| File mask                      | ``src/app/Bundle_*.properties``  |
 +--------------------------------+----------------------------------+
 | Monolingual base language file | ``src/app/Bundle.properties``    |
 +--------------------------------+----------------------------------+
@@ -533,7 +533,7 @@ INI translations are usually used as monolingual translations.
 +-------------------------------------------------------------------+
 | Typical Weblate :ref:`component`                                  |
 +================================+==================================+
-| Filemask                       | ``language/*.ini``               |
+| File mask                      | ``language/*.ini``               |
 +--------------------------------+----------------------------------+
 | Monolingual base language file | ``language/en.ini``              |
 +--------------------------------+----------------------------------+
@@ -577,7 +577,7 @@ Inno Setup INI translations are usually used as monolingual translations.
 +-------------------------------------------------------------------+
 | Typical Weblate :ref:`component`                                  |
 +================================+==================================+
-| Filemask                       | ``language/*.islu``              |
+| File mask                      | ``language/*.islu``              |
 +--------------------------------+----------------------------------+
 | Monolingual base language file | ``language/en.islu``             |
 +--------------------------------+----------------------------------+
@@ -614,7 +614,7 @@ Joomla translations are usually used as monolingual translations.
 +-------------------------------------------------------------------+
 | Typical Weblate :ref:`component`                                  |
 +================================+==================================+
-| Filemask                       | ``language/*/com_foobar.ini``    |
+| File mask                      | ``language/*/com_foobar.ini``    |
 +--------------------------------+----------------------------------+
 | Monolingual base language file | ``language/en-GB/com_foobar.ini``|
 +--------------------------------+----------------------------------+
@@ -645,7 +645,7 @@ Qt Linguist files are used as both bilingual and monolingual translations.
 +-------------------------------------------------------------------+
 | Typical Weblate :ref:`component` when using as bilingual          |
 +================================+==================================+
-| Filemask                       | ``i18n/app.*.ts``                |
+| File mask                      | ``i18n/app.*.ts``                |
 +--------------------------------+----------------------------------+
 | Monolingual base language file | `Empty`                          |
 +--------------------------------+----------------------------------+
@@ -657,7 +657,7 @@ Qt Linguist files are used as both bilingual and monolingual translations.
 +-------------------------------------------------------------------+
 | Typical Weblate :ref:`component` when using as monolingual        |
 +================================+==================================+
-| Filemask                       | ``i18n/app.*.ts``                |
+| File mask                      | ``i18n/app.*.ts``                |
 +--------------------------------+----------------------------------+
 | Monolingual base language file | ``i18n/app.en.ts``               |
 +--------------------------------+----------------------------------+
@@ -689,7 +689,7 @@ stored in a different location from the others :file:`res/values/strings.xml`.
 +-------------------------------------------------------------------+
 | Typical Weblate :ref:`component`                                  |
 +================================+==================================+
-| Filemask                       | ``res/values-*/strings.xml``     |
+| File mask                      | ``res/values-*/strings.xml``     |
 +--------------------------------+----------------------------------+
 | Monolingual base language file | ``res/values/strings.xml``       |
 +--------------------------------+----------------------------------+
@@ -747,7 +747,7 @@ Apple iOS strings are usually used as bilingual translations.
 +-------------------------------------------------------------------------------+
 | Typical Weblate :ref:`component`                                              |
 +================================+==============================================+
-| Filemask                       |``Resources/*.lproj/Localizable.strings``     |
+| File mask                      |``Resources/*.lproj/Localizable.strings``     |
 +--------------------------------+----------------------------------------------+
 | Monolingual base language file |``Resources/en.lproj/Localizable.strings`` or |
 |                                |``Resources/Base.lproj/Localizable.strings``  |
@@ -783,7 +783,7 @@ Example file:
 +-------------------------------------------------------------------+
 | Typical Weblate :ref:`component`                                  |
 +================================+==================================+
-| Filemask                       | ``lang/*/texts.php``             |
+| File mask                      | ``lang/*/texts.php``             |
 +--------------------------------+----------------------------------+
 | Monolingual base language file | ``lang/en/texts.php``            |
 +--------------------------------+----------------------------------+
@@ -877,7 +877,7 @@ Nested files are supported as well (see above for requirements), such a file can
 +-------------------------------------------------------------------+
 | Typical Weblate :ref:`component`                                  |
 +================================+==================================+
-| Filemask                       | ``langs/translation-*.json``     |
+| File mask                      | ``langs/translation-*.json``     |
 +--------------------------------+----------------------------------+
 | Monolingual base language file | ``langs/translation-en.json``    |
 +--------------------------------+----------------------------------+
@@ -928,7 +928,7 @@ Example file:
 +-------------------------------------------------------------------+
 | Typical Weblate :ref:`component`                                  |
 +================================+==================================+
-| Filemask                       | ``langs/*.json``                 |
+| File mask                      | ``langs/*.json``                 |
 +--------------------------------+----------------------------------+
 | Monolingual base language file | ``langs/en.json``                |
 +--------------------------------+----------------------------------+
@@ -966,7 +966,7 @@ with (what is most often the) English strings.
 +-------------------------------------------------------------------+
 | Typical Weblate :ref:`component`                                  |
 +================================+==================================+
-| Filemask                       | ``langs/*.json``                 |
+| File mask                      | ``langs/*.json``                 |
 +--------------------------------+----------------------------------+
 | Monolingual base language file | ``langs/en.json``                |
 +--------------------------------+----------------------------------+
@@ -999,7 +999,7 @@ with (what is most often the) English strings.
 +-------------------------------------------------------------------+
 | Typical Weblate :ref:`component`                                  |
 +================================+==================================+
-| Filemask                       | ``lib/l10n/intl_*.arb``          |
+| File mask                      | ``lib/l10n/intl_*.arb``          |
 +--------------------------------+----------------------------------+
 | Monolingual base language file | ``lib/l10n/intl_en.arb``         |
 +--------------------------------+----------------------------------+
@@ -1042,7 +1042,7 @@ Example file:
 +-------------------------------------------------------------------+
 | Typical Weblate :ref:`component`                                  |
 +================================+==================================+
-| Filemask                       | ``_locales/*/messages.json``     |
+| File mask                      | ``_locales/*/messages.json``     |
 +--------------------------------+----------------------------------+
 | Monolingual base language file | ``_locales/en/messages.json``    |
 +--------------------------------+----------------------------------+
@@ -1075,7 +1075,7 @@ syntax to .resx <https://lingohub.com/developers/resource-files/resw-resx-locali
 +-------------------------------------------------------------------+
 | Typical Weblate :ref:`component`                                  |
 +================================+==================================+
-| Filemask                       | ``Resources/Language.*.resx``    |
+| File mask                      | ``Resources/Language.*.resx``    |
 +--------------------------------+----------------------------------+
 | Monolingual base language file | ``Resources/Language.resx``      |
 +--------------------------------+----------------------------------+
@@ -1131,7 +1131,7 @@ Example file:
 +-------------------------------------------------------------------+
 | Typical Weblate :ref:`component` for bilingual CSV                |
 +================================+==================================+
-| Filemask                       | ``locale/*.csv``                 |
+| File mask                      | ``locale/*.csv``                 |
 +--------------------------------+----------------------------------+
 | Monolingual base language file | `Empty`                          |
 +--------------------------------+----------------------------------+
@@ -1143,7 +1143,7 @@ Example file:
 +-------------------------------------------------------------------+
 | Typical Weblate :ref:`component` for monolingual CSV              |
 +================================+==================================+
-| Filemask                       | ``locale/*.csv``                 |
+| File mask                      | ``locale/*.csv``                 |
 +--------------------------------+----------------------------------+
 | Monolingual base language file | ``locale/en.csv``                |
 +--------------------------------+----------------------------------+
@@ -1175,7 +1175,7 @@ Example of a YAML file:
 +-------------------------------------------------------------------+
 | Typical Weblate :ref:`component`                                  |
 +================================+==================================+
-| Filemask                       | ``translations/messages.*.yml``  |
+| File mask                      | ``translations/messages.*.yml``  |
 +--------------------------------+----------------------------------+
 | Monolingual base language file | ``translations/messages.en.yml`` |
 +--------------------------------+----------------------------------+
@@ -1208,7 +1208,7 @@ Example Ruby i18n YAML file:
 +-------------------------------------------------------------------+
 | Typical Weblate :ref:`component`                                  |
 +================================+==================================+
-| Filemask                       | ``translations/messages.*.yml``  |
+| File mask                      | ``translations/messages.*.yml``  |
 +--------------------------------+----------------------------------+
 | Monolingual base language file | ``translations/messages.en.yml`` |
 +--------------------------------+----------------------------------+
@@ -1237,7 +1237,7 @@ Example DTD file:
 +-------------------------------------------------------------------+
 | Typical Weblate :ref:`component`                                  |
 +================================+==================================+
-| Filemask                       | ``locale/*.dtd``                 |
+| File mask                      | ``locale/*.dtd``                 |
 +--------------------------------+----------------------------------+
 | Monolingual base language file | ``locale/en.dtd``                |
 +--------------------------------+----------------------------------+
@@ -1266,7 +1266,7 @@ Example of a flat XML file:
 +-------------------------------------------------------------------+
 | Typical Weblate :ref:`component`                                  |
 +================================+==================================+
-| Filemask                       | ``locale/*.xml``                 |
+| File mask                      | ``locale/*.xml``                 |
 +--------------------------------+----------------------------------+
 | Monolingual base language file | ``locale/en.xml``                |
 +--------------------------------+----------------------------------+
@@ -1301,7 +1301,7 @@ Example Windows RC file:
 +-------------------------------------------------------------------+
 | Typical Weblate :ref:`component`                                  |
 +================================+==================================+
-| Filemask                       | ``lang/*.rc``                    |
+| File mask                      | ``lang/*.rc``                    |
 +--------------------------------+----------------------------------+
 | Monolingual base language file | ``lang/en-US.rc``                |
 +--------------------------------+----------------------------------+
@@ -1332,7 +1332,7 @@ separate strings to translate.
 +--------------------------------+-------------------------------------+
 | Typical Weblate :ref:`component`                                     |
 +================================+=====================================+
-| Filemask                       | ``fastlane/android/metadata/*``     |
+| File mask                      | ``fastlane/android/metadata/*``     |
 +--------------------------------+-------------------------------------+
 | Monolingual base language file | ``fastlane/android/metadata/en-US`` |
 +--------------------------------+-------------------------------------+
@@ -1364,7 +1364,7 @@ Weblate can translate various subtitle files:
 +--------------------------------+-------------------------------------+
 | Typical Weblate :ref:`component`                                     |
 +================================+=====================================+
-| Filemask                       | ``path/*.srt``                      |
+| File mask                      | ``path/*.srt``                      |
 +--------------------------------+-------------------------------------+
 | Monolingual base language file | ``path/en.srt``                     |
 +--------------------------------+-------------------------------------+
@@ -1477,7 +1477,7 @@ TBX is an XML format for the exchange of terminology data.
 +-------------------------------------------------------------------+
 | Typical Weblate :ref:`component`                                  |
 +================================+==================================+
-| Filemask                       | ``tbx/*.tbx``                    |
+| File mask                      | ``tbx/*.tbx``                    |
 +--------------------------------+----------------------------------+
 | Monolingual base language file | `Empty`                          |
 +--------------------------------+----------------------------------+
@@ -1508,7 +1508,7 @@ XML based format used by Apple which is able to store plural forms of a string.
 +-----------------------------------------------------------------------------------+
 | Typical Weblate :ref:`component`                                                  |
 +================================+==================================================+
-| Filemask                       |``Resources/*.lproj/Localizable.stringsdict``     |
+| File mask                      |``Resources/*.lproj/Localizable.stringsdict``     |
 +--------------------------------+--------------------------------------------------+
 | Monolingual base language file |``Resources/en.lproj/Localizable.stringsdict`` or |
 |                                |``Resources/Base.lproj/Localizable.stringsdict``  |
@@ -1543,7 +1543,7 @@ another language.
 +-----------------------------------------------------------------------------------+
 | Typical Weblate :ref:`component`                                                  |
 +================================+==================================================+
-| Filemask                       |``locales/*/messages.ftl``                        |
+| File mask                      |``locales/*/messages.ftl``                        |
 +--------------------------------+--------------------------------------------------+
 | Monolingual base language file |``locales/en/messages.ftl``                       |
 +--------------------------------+--------------------------------------------------+

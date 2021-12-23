@@ -187,7 +187,7 @@ Component discovery
                 +------------------------+----------------------------------------------------------------+------------------------------------------------------------------------------------+
                 | ``new_base_template``  | Define the base file for new translations                      | Filename of file used for creating new translations. For gettext choose .pot file. |
                 +------------------------+----------------------------------------------------------------+------------------------------------------------------------------------------------+
-                | ``language_regex``     | Language filter                                                | Regular expression to filter translation files against when scanning for filemask. |
+                | ``language_regex``     | Language filter                                                | Regular expression to filter translation files against when scanning for file mask.|
                 +------------------------+----------------------------------------------------------------+------------------------------------------------------------------------------------+
                 | ``copy_addons``        | Clone addons from the main component to the newly created ones |                                                                                    |
                 +------------------------+----------------------------------------------------------------+------------------------------------------------------------------------------------+

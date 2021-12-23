@@ -391,7 +391,7 @@ import_project
     :ref:`addon-weblate.discovery.discovery` add-on, leading to some
     changes in behavior and what parameters are accepted.
 
-Batch imports components into project based on filemask.
+Batch imports components into project based on the file mask.
 
 `<project>` names an existing project, into which the components are to
 be imported.

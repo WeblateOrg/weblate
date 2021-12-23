@@ -740,7 +740,7 @@ something else than English.
 Language filter
 +++++++++++++++
 
-Regular expression used to filter the translation when scanning for filemask.
+Regular expression used to filter the translation when scanning for file mask.
 It can be used to limit the list of languages managed by Weblate.
 
 .. note::

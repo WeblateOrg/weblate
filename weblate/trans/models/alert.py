@@ -194,7 +194,7 @@ class DuplicateLanguage(MultiAlert):
 @register
 class DuplicateFilemask(BaseAlert):
     # Translators: Name of an alert
-    verbose = _("Duplicated filemask.")
+    verbose = _("Duplicated file mask.")
     link_wide = True
 
     def __init__(self, instance, duplicates):
@@ -384,7 +384,7 @@ class UnusedEnforcedCheck(BaseAlert):
 
 @register
 class NoMaskMatches(BaseAlert):
-    verbose = _("No mask matches.")
+    verbose = _("No file mask matches.")
     doc_page = "admin/projects"
     doc_anchor = "component-filemask"
 

@@ -580,7 +580,7 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
         default="^[^.]+$",
         help_text=gettext_lazy(
             "Regular expression used to filter "
-            "translation files when scanning for filemask."
+            "translation files when scanning for file mask."
         ),
     )
     variant_regex = RegexField(
@@ -2223,7 +2223,7 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
         """Validate that there are no double language codes."""
         if not matches and not self.is_valid_base_for_new():
             raise ValidationError(
-                {"filemask": _("The filemask did not match any files.")}
+                {"filemask": _("The file mask did not match any files.")}
             )
         langs = set()
         existing_langs = set()
@@ -2232,7 +2232,7 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
             code = self.get_lang_code(match)
             if not code:
                 message = (
-                    _("The language code for %s was empty, please check the filemask.")
+                    _("The language code for %s was empty, please check the file mask.")
                     % match
                 )
                 raise ValidationError({"filemask": message})
@@ -2241,7 +2241,7 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
             )
             if len(code) > LANGUAGE_CODE_LENGTH:
                 message = (
-                    _('The language code "%s" is too long, please check the filemask.')
+                    _('The language code "%s" is too long, please check the file mask.')
                     % code
                 )
                 raise ValidationError({"filemask": message})
@@ -2249,7 +2249,7 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
                 message = (
                     _(
                         "There is more than one file for %s language, "
-                        "please adjust the filemask and use components "
+                        "please adjust the file mask and use components "
                         "for translating different resources."
                     )
                     % lang
@@ -2262,7 +2262,7 @@ class Component(FastDeleteModelMixin, models.Model, URLMixin, PathMixin, CacheKe
         # No languages matched our definition
         if not existing_langs and langs:
             message = _(
-                "Could not find any matching language, please check the filemask."
+                "Could not find any matching language, please check the file mask."
             )
             raise ValidationError({"filemask": message})
 
