@@ -168,7 +168,7 @@ ACCOUNT_ACTIVITY = {
     ),
     "blocked": _("Access to project {project} was blocked"),
 }
-# Override activty messages based on method
+# Override activity messages based on method
 ACCOUNT_ACTIVITY_METHOD = {
     "password": {
         "auth-connect": _("Configured password to sign in."),
