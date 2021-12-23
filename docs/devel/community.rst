@@ -34,12 +34,12 @@ There are many `quality checks <https://docs.weblate.org/en/latest/user/checks.h
 Translation definition
 ----------------------
 In addition to the mentalistic and impact-based definitions which make a strong reduction, the text-based linguistic approach fits best with the implemented translation methods. A well-formulated theory for translation evaluation is House's systemic-functional model, which focuses on the relation between original and translation. The model assumes that translation is an attempt to keep the semantic, pragmatic, and textual meaning of a text equivalent when crossing from one linguistic code to another.
-The degree of quality of a translation is based on the degree of equivalence, the correspondence between the text profile and the text function. Because it cannot be calculated automatically, sufficient information should be collected to enable a uniform human evaluation. The two main parameters of agreement in a corresponding model are the macro-context - i.e. embedding in a larger social and literary context - and the micro-context consisting of field, tenor and mode. 
+The degree of quality of a translation is based on the degree of equivalence, the correspondence between the text profile and the text function. Because it cannot be calculated automatically, sufficient information should be collected to enable a uniform human evaluation. The two main parameters of agreement in a corresponding model are the macro-context - i.e. embedding in a larger social and literary context - and the micro-context consisting of field, tenor and mode.
 
 Sources
 -------
-1. Marina Sanchez-Torron and Philipp Koehn in Machine Translation Quality and Post-Editor Productivity, Figure 1: https://www.cs.jhu.edu/~phi/publications/machine-translation-quality.pdf 
+1. Marina Sanchez-Torron and Philipp Koehn in Machine Translation Quality and Post-Editor Productivity, Figure 1: https://www.cs.jhu.edu/~phi/publications/machine-translation-quality.pdf
 2. Joanna Best und Sylvia Kalina.Übersetzen und Dolmetschen: eine Orientierungs-hilfe. A. Francke Verlag Tübingen und Base, 2002. Möglichkeiten der Übersetzungskritik S.101 und Folgende
-3. Translation definition, Kalle Hilsenbek, Gruppenbasierte Umgebung für mehrsprachige Übersetzungsquellen, 7.7 Übersetzungskritik, 2017: http://multitranslation.space/thesis 
+3. Translation definition, Kalle Hilsenbek, Gruppenbasierte Umgebung für mehrsprachige Übersetzungsquellen, 7.7 Übersetzungskritik, 2017: http://multitranslation.space/thesis
 4. post-editing guide, Sharon O'Brien and Fred Hollowood in MT Post-editing Guidelines, 2010 https://www.taus.net/academy/best-practices/postedit-best-practices/machine-translation-post-editing-guidelines
 5. neural fuzzy repair, Bram Bulté and Arda Tezcan in Neural Fuzzy Repair: Integrating Fuzzy Matches into Neural MachineTranslation, 2019 https://www.aclweb.org/anthology/P19-1175.pdf
