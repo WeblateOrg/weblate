@@ -679,7 +679,7 @@ class ComponentValidationTest(RepoTestCase):
         self.component.filemask = "foo/*.po"
         self.assertRaisesMessage(
             ValidationError,
-            "The filemask did not match any files.",
+            "The file mask did not match any files.",
             self.component.full_clean,
         )
 
@@ -786,7 +786,7 @@ class ComponentValidationTest(RepoTestCase):
             ValidationError,
             "The language code for "
             "Solution/Project/Resources.resx"
-            " was empty, please check the filemask.",
+            " was empty, please check the file mask.",
             component.clean_lang_codes,
             [
                 "Solution/Project/Resources.resx",

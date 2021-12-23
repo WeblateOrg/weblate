@@ -225,7 +225,7 @@ class CreateTest(ViewTestCase):
             },
             follow=True,
         )
-        self.assertContains(response, "The filemask did not match any files")
+        self.assertContains(response, "The file mask did not match any files")
 
     @modify_settings(INSTALLED_APPS={"remove": "weblate.billing"})
     def test_create_component_branch(self):
