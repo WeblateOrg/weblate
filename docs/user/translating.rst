@@ -1,21 +1,14 @@
 Translating using Weblate
 =========================
 
-Thank you for interest in translating using Weblate.
-Projects can either be set up for direct translation,
-or by way of accepting suggestions made by users without accounts.
+Projects either accept translations directly,
+or when a number of votes is reached.
+There are more translation workflows detailed in :ref:`workflows`.
 
-Overall, there are two modes of translation:
+Sometimes suggestions are accepted by users without accounts.
 
-* The project accepts direct translations
-* The project only accepts suggestions, which are automatically validated once a defined number of votes is reached
-
-Please see :ref:`workflows` for more info on translation workflow.
-
-Options for translation project visibility:
-
-* Publicly visible and anybody can contribute
-* Visible only to a certain group of translators
+Projects or the components in them are either visible to everyone,
+or only a certain group of translators.
 
 .. seealso::
 
@@ -37,7 +30,7 @@ Translation links
 Having navigated to a component, a set of links lead to its actual translation.
 The translation is further divided into individual checks, like
 :guilabel:`Not translated strings` or :guilabel:`Strings needing action`.
-If the whole project is translated, without error, :guilabel:`All strings` is still available.
+If the whole project is translated without any errors, :guilabel:`All strings` is still available.
 Alternatively you can use the search field to find a specific string or term.
 
 .. image:: /screenshots/strings-to-check.png
@@ -47,30 +40,27 @@ Suggestions
 
 .. note::
 
-    Actual permissions might vary depending on your Weblate configuration.
+    Actual permissions might vary depending on the Weblate configuration.
 
-Anonymous users can only (by default) forward suggestions.
-Doing so is still available to signed-in users, in cases where uncertainty
-about the translation arises, prompting other translators to review it.
+This is useful when uncertainty about a translation arises, to the point
+where it can not even be included as :guilabel:`Strings needing action`.
+Anonymous users can (by default) only forward suggestions, prompting review
+by other translators.
 
-The suggestions are scanned on a daily basis to remove duplicates and
-suggestions matching the current translation.
+All suggestions are scanned on a daily basis to remove duplicates and
+those matching current translations.
 
 .. _user-comments:
 
 Comments
 --------
 
-Three types of comments can be posted: for translations, source strings,
-or to report source string bugs when this functionality is turned on using
-:ref:`project-source_review`.
-Choose the one suitable to topic you want to discuss.
-Source string comments are in any event good for providing feedback on
-the original string, for example that it should be rephrased or to ask
-questions about it.
+Comments can either be made about translations, feedback on source strings,
+or to report source string bugs (if turned on using :ref:`project-source_review`).
+Use source string comments to ask for clarifications or context.
 
-You can use Markdown syntax in all comments and mention other users using
-``@mention``.
+Markdown syntax can be used for all comments.
+Mention other users by using``@mention``.
 
 .. seealso::
 
@@ -82,8 +72,7 @@ Variants
 --------
 
 Variants are used to group different length variants of the string.
-The frontend of your project can then use different strings to match
-screen or window size.
+The end user can then have strings that fit their screen or window size.
 
 .. seealso::
 
@@ -140,7 +129,7 @@ rules for plurals are different.
 
 Weblate has full support for each of these forms, in each respective language.
 Each gramattical number is translated separately for a pre-defined set of
-cardinal numbers specific to the language.
+cardinal numbers specific to the translation language.
 The number of fields and how it is in turn used in the translated application or
 project depends on the configured plural formula.
 Weblate shows the basic info, and the `Language Plural Rules`_
@@ -268,7 +257,7 @@ Screenshots
     Screenshots can be uploaded to Weblate to better inform translators
     of where and how the string is used, see :ref:`screenshots`.
 Nearby strings
-    Displays neighbouring messages from the translation file.
+    Displays neighbouring entries from the translation file.
     These are usually also used in a similar context and prove
     useful in keeping the translation consistent.
 Other occurrences
@@ -290,10 +279,10 @@ If you want direct links, the translation format has to support it.
 Translation history
 +++++++++++++++++++
 
-By default, every change is revertable, and is saved in the database
+Every change is revertable, and saved in the database
 (unless turned off in component settings).
-Optionally one can still also revert anything in the underlying
-version control system.
+Optionally, translations can also be reverted
+in the underlying version control system.
 
 Translated string length
 ++++++++++++++++++++++++
@@ -412,23 +401,22 @@ Supported operations:
 Matrix View
 -----------
 
-To compare different languages efficiently with this view.
-It is available on every component page under the :guilabel:`Tools` menu.
+Compare different languages efficiently with this view.
+It is available on every component page, from the :guilabel:`Tools` menu.
 First select all languages you want to compare, confirm your selection,
-then click on any translation to open and edit it quickly.
+then click on any translation to open and edit it.
 
-The matrix view is also a very good starting point to find missing
-translations in different languages and quickly add them from one view.
+The matrix view is also a very good starting point to find and add missing
+translations in different languages to one view.
 
 Zen Mode
 --------
 
-The Zen editor can be enabled by clicking the :guilabel:`Zen` button
-on the top right while translating a component.
+Open the Zen editor by clicking the :guilabel:`Zen` button
+on the top-right of the regular translation view.
 It simplifies the layout and removes additional UI elements such as
 :guilabel:`Nearby strings` or the :guilabel:`Glossary`.
 
-You can select the Zen editor as your default editor
-using the :ref:`profile-preferences` tab in your :ref:`user-profile`.
-Here you can also choose between having translations listed
-:guilabel:`Top to bottom` or :guilabel:`Side by side` depending on your personal preference.
+Pick whether to use the Zen editor as your default editor,
+and whether to list translations in it :guilabel:`Top to bottom` or :guilabel:`Side by side`
+in :ref:`profile-preferences` tab in your :ref:`user-profile`.
