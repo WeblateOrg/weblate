@@ -35,7 +35,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.10.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-12-22 12:58+0000\n"
-"PO-Revision-Date: 2021-12-23 14:33+0000\n"
+"PO-Revision-Date: 2021-12-27 15:09+0000\n"
 "Last-Translator: JY3 <GeeyunJY3@gmail.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "weblate/application/zh_Hans/>\n"
@@ -2540,7 +2540,7 @@ msgstr "禁止的翻译"
 
 #: weblate/checks/flags.py:58 weblate/glossary/forms.py:46
 msgid "Terminology"
-msgstr "专有名词"
+msgstr "专业术语"
 
 #: weblate/checks/flags.py:60 weblate/fonts/models.py:39
 #: weblate/templates/fonts/font_detail.html:18
@@ -2726,11 +2726,11 @@ msgstr "i18next 插值和原文不一致"
 
 #: weblate/checks/format.py:610
 msgid "ECMAScript template literals"
-msgstr "ECMAScript 模板文字"
+msgstr "ECMAScript 模板字面量"
 
 #: weblate/checks/format.py:611
 msgid "ECMAScript template literals do not match source"
-msgstr "ECMAScript 模板文字和原文不匹配"
+msgstr "ECMAScript 模板字面量和原文不匹配"
 
 #: weblate/checks/format.py:623
 msgid "Percent placeholders"
@@ -2900,7 +2900,7 @@ msgstr "翻译未包含 URL"
 
 #: weblate/checks/markup.py:352 weblate/trans/autofixes/html.py:32
 msgid "Unsafe HTML"
-msgstr "不安全的 HTML 网站"
+msgstr "不安全的 HTML"
 
 #: weblate/checks/markup.py:353
 msgid "The translation uses unsafe HTML markup"
@@ -3005,7 +3005,7 @@ msgstr "这个字符串已经很长时间未被翻译了"
 #: weblate/templates/snippets/info.html:334
 #: weblate/templates/translation.html:77
 msgid "Failing checks"
-msgstr "未通过检查"
+msgstr "未通过的检查"
 
 #: weblate/configuration/apps.py:26
 msgid "Weblate configuration"
@@ -3553,7 +3553,7 @@ msgstr "默认复数"
 
 #: weblate/lang/models.py:639
 msgid "gettext plural formula"
-msgstr "gettext 复数形式"
+msgstr "gettext 复数公式"
 
 #: weblate/lang/models.py:640
 msgid "stringsdict plural"
@@ -3570,7 +3570,7 @@ msgstr "复数数量"
 #: weblate/lang/models.py:652 weblate/templates/snippets/info.html:72
 #: weblate/templates/snippets/plural-formula.html:4
 msgid "Plural formula"
-msgstr "复数式"
+msgstr "复数公式"
 
 #: weblate/lang/models.py:657 weblate/templates/snippets/info.html:53
 msgid "Plural type"
@@ -4561,7 +4561,7 @@ msgstr "您作为贡献者必须同意下列内容："
 
 #: weblate/templates/accounts/profile.html:338
 msgid "Licenses for individual translations"
-msgstr "个别翻译许可"
+msgstr "每个翻译的许可证"
 
 #: weblate/templates/accounts/redirect.html:14
 #: weblate/templates/accounts/token.html:12
@@ -6767,7 +6767,7 @@ msgstr "%(component)s 发生解析错误"
 #: weblate/templates/snippets/info.html:343 weblate/trans/filter.py:39
 #: weblate/trans/filter.py:126
 msgid "Strings with suggestions"
-msgstr "有建议的字符串"
+msgstr "带有建议的字符串"
 
 #: weblate/templates/mail/pending_suggestions_subject.txt:4
 #, python-format
@@ -7758,7 +7758,7 @@ msgstr "仓库分支"
 
 #: weblate/templates/snippets/git-info.html:36
 msgid "Last remote commit"
-msgstr "上次远程提交"
+msgstr "上一次远程提交"
 
 #. Translators: For example: "nijel authored five days ago"
 #: weblate/templates/snippets/git-info.html:43
@@ -8242,16 +8242,16 @@ msgstr "精确"
 
 #: weblate/templates/snippets/query-builder.html:36
 msgid "String has suggestion"
-msgstr "有建议的字符串"
+msgstr "带有建议的字符串"
 
 #: weblate/templates/snippets/query-builder.html:51
 #: weblate/templates/snippets/query-builder.html:53
 msgid "String changed after"
-msgstr "时间点之后的字符串更改"
+msgstr "时间点之后更改过的字符串"
 
 #: weblate/templates/snippets/query-builder.html:54
 msgid "String changed before"
-msgstr "时间点之前的字符串更改"
+msgstr "时间点之前更改过的字符串"
 
 #: weblate/templates/snippets/query-builder.html:57
 msgid "Date"
@@ -8282,12 +8282,12 @@ msgstr "带有任何未通过检查的字符串"
 
 #: weblate/templates/snippets/query-builder.html:90
 msgid "Strings with suggestions from others"
-msgstr "有来自他人的建议的字符串"
+msgstr "带有他人的建议的字符串"
 
 #: weblate/templates/snippets/query-builder.html:95 weblate/trans/filter.py:63
 #: weblate/trans/filter.py:131
 msgid "Approved strings with suggestions"
-msgstr "带建议，已复核批准的字符串"
+msgstr "带有建议的已复核批准字符串"
 
 #: weblate/templates/snippets/query-builder.html:100
 msgid "All untranslated strings added the past month"
@@ -8591,7 +8591,7 @@ msgstr "该组件包含多个重复的译文字符串。"
 msgid ""
 "Please fix this by removing duplicated strings with same identifier from the "
 "translation files."
-msgstr "请通过从翻译文件中删除具有相同标识符的重复字符串来修复此问题。"
+msgstr "请通过从翻译文件中删除具有相同标识符的重复字符串来解决此问题。"
 
 #: weblate/templates/trans/alert/inexistantfiles.html:4
 msgid "Following files are no longer present in the repository:"
@@ -9245,11 +9245,11 @@ msgstr[0] "此字串符有 %(count)s 个变体。"
 #: weblate/templates/translate.html:532
 #, python-format
 msgid "Browse glossary %(name)s"
-msgstr "浏览术语表%(name)s"
+msgstr "浏览 %(name)s 术语表"
 
 #: weblate/templates/translate.html:554 weblate/templates/translate.html:564
 msgid "Add term to glossary"
-msgstr "将术语添加到术语表"
+msgstr "向术语表添加术语"
 
 #: weblate/templates/translate.html:583
 msgid "String information"
@@ -10024,7 +10024,7 @@ msgstr "用在网址和文件名中的名字。"
 
 #: weblate/trans/forms.py:1568 weblate/trans/models/component.py:627
 msgid "Use as a glossary"
-msgstr "用作一个术语"
+msgstr "用作术语表"
 
 #: weblate/trans/forms.py:1583
 msgid "Select existing component to copy configuration from."
@@ -11036,7 +11036,7 @@ msgstr "选择将列出此组件的其他项目。"
 
 #: weblate/trans/models/component.py:632
 msgid "Glossary color"
-msgstr "术语颜色"
+msgstr "术语表颜色"
 
 #: weblate/trans/models/component.py:1187
 msgid ""
@@ -11445,11 +11445,11 @@ msgstr "标记为禁止的翻译"
 
 #: weblate/trans/models/unit.py:1531
 msgid "Unmark as terminology"
-msgstr "取消标记为专有名词"
+msgstr "取消标记为专业术语"
 
 #: weblate/trans/models/unit.py:1539
 msgid "Mark as terminology"
-msgstr "标记为专有名词"
+msgstr "标记为专业术语"
 
 #: weblate/trans/specialchars.py:30
 msgid "Insert tab character"
@@ -11535,7 +11535,7 @@ msgstr "不可翻译的：%s"
 #: weblate/trans/templatetags/translations.py:191
 #, python-format
 msgid "Glossary translation: %s"
-msgstr "词汇翻译：%s"
+msgstr "术语表里的翻译：%s"
 
 #: weblate/trans/templatetags/translations.py:249
 msgid "New line"
@@ -11699,12 +11699,12 @@ msgstr "忽略的检查："
 #: weblate/trans/templatetags/translations.py:610
 msgctxt "String state"
 msgid "Commented"
-msgstr "已评论"
+msgstr "有评论"
 
 #: weblate/trans/templatetags/translations.py:612
 msgctxt "String state"
 msgid "Suggested"
-msgstr "已建议"
+msgstr "有建议"
 
 #: weblate/trans/templatetags/translations.py:633
 #, python-format
@@ -12182,7 +12182,7 @@ msgstr "仪表盘"
 #: weblate/trans/widgets.py:320
 #, python-format
 msgid "Project %s"
-msgstr "%s项目"
+msgstr "%s 项目"
 
 #: weblate/trans/widgets.py:382
 msgid "Status badge"
