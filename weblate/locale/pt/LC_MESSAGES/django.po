@@ -21,7 +21,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.10.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-12-22 12:58+0000\n"
-"PO-Revision-Date: 2021-12-19 23:53+0000\n"
+"PO-Revision-Date: 2021-12-27 15:09+0000\n"
 "Last-Translator: ssantos <ssantos@web.de>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/weblate/"
 "application/pt/>\n"
@@ -30,7 +30,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.10\n"
+"X-Generator: Weblate 4.10.1\n"
 
 #: weblate/accounts/avatar.py:103
 msgctxt "No known user"
@@ -7998,14 +7998,10 @@ msgstr ""
 "Weblate é um ''software'' livre, criado por voluntários, e aceita donativos."
 
 #: weblate/templates/snippets/activity.html:10
-#, fuzzy
-#| msgid "Last month"
 msgid "Last 12 months"
-msgstr "Último mês"
+msgstr "Últimos 12 meses"
 
 #: weblate/templates/snippets/activity.html:14
-#, fuzzy
-#| msgid "Previous"
 msgctxt "Previous 12 months"
 msgid "Previous"
 msgstr "Anterior"
@@ -9104,12 +9100,18 @@ msgid ""
 "the component configuration to overwrite the remote repository after "
 "rebasing commits in Weblate."
 msgstr ""
+"Pode escolher Git com force push como sistema de controle de versão na "
+"configuração de componentes para sobrescrever o repositório remoto após "
+"rebasear commits em Weblate."
 
 #: weblate/templates/trans/alert/pushfailure.html:22
+#, fuzzy
 msgid ""
 "Weblate repository is missing some commits from upstream, perhaps it is not "
 "receiving notifications on repository updates."
 msgstr ""
+"Ao repositório Weblate faltam alguns commits do upstream, talvez não esteja "
+"a receber notificações sobre atualizações de repositório."
 
 #: weblate/templates/trans/alert/repositorychanges.html:4
 msgid ""
@@ -10278,15 +10280,12 @@ msgid "Add as needing edit"
 msgstr "Adicionar como que necessita de edição"
 
 #: weblate/trans/forms.py:846
-#, fuzzy
-#| msgid ""
-#| "Weblate could not parse the translation files while updating the "
-#| "translations."
 msgid ""
 "Please note that translating all strings will discard all existing "
 "translations."
 msgstr ""
-"Weblate não pode analisar os ficheiros de tradução ao atualizar as traduções."
+"Por favor, note que a tradução de todas as cadeias irá descartar todas as "
+"traduções existentes."
 
 #: weblate/trans/forms.py:851
 msgid "Automatic translation source"
@@ -12023,22 +12022,17 @@ msgid "No translation found."
 msgstr "Nenhuma tradução encontrada."
 
 #: weblate/trans/models/unit.py:888
-#, fuzzy, python-format
-#| msgid ""
-#| "Contribution to this translation requires you to agree with a contributor "
-#| "agreement."
+#, python-format
 msgid ""
 "String could not be propagated to %(component)s because you have not agreed "
 "with a contributor agreement."
 msgstr ""
-"A contribuição para esta tradução requer que concorde com um acordo de "
-"contribuidor."
+"A cadeia não pôde ser propagada para %(component)s porque não concordou com "
+"um acordo do contribuinte."
 
 #: weblate/trans/models/unit.py:1330
-#, fuzzy
-#| msgid "Automatic translation"
 msgid "Automatically translated"
-msgstr "Tradução automática"
+msgstr "Traduzido automaticamente"
 
 #: weblate/trans/models/unit.py:1505
 msgid "Unmark as read-only"
@@ -12654,16 +12648,12 @@ msgid "Failed to add comment!"
 msgstr "Falha ao adicionar comentário!"
 
 #: weblate/trans/views/edit.py:765
-#, fuzzy
-#| msgid "Translation comment has been resolved."
 msgid "Comment has been deleted."
-msgstr "O comentário da tradução foi resolvido."
+msgstr "O comentário foi apagado."
 
 #: weblate/trans/views/edit.py:783
-#, fuzzy
-#| msgid "Translation comment has been resolved."
 msgid "Comment has been resolved."
-msgstr "O comentário da tradução foi resolvido."
+msgstr "O comentário foi resolvido."
 
 #: weblate/trans/views/edit.py:947
 msgid "New string has been added."
