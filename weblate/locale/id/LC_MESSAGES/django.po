@@ -27,7 +27,7 @@ msgstr ""
 "Project-Id-Version: Weblate 4.10.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2021-12-22 12:58+0000\n"
-"PO-Revision-Date: 2021-12-16 19:44+0000\n"
+"PO-Revision-Date: 2021-12-28 23:52+0000\n"
 "Last-Translator: Linerly <linerly@protonmail.com>\n"
 "Language-Team: Indonesian <https://hosted.weblate.org/projects/weblate/"
 "application/id/>\n"
@@ -36,7 +36,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 4.10-dev\n"
+"X-Generator: Weblate 4.10.1\n"
 
 #: weblate/accounts/avatar.py:103
 msgctxt "No known user"
@@ -403,10 +403,9 @@ msgid "Agreement with Terms of Service {date}."
 msgstr "Perjanjian dengan Persyaratan Layanan {date}."
 
 #: weblate/accounts/models.py:162
-#, fuzzy, python-brace-format
-#| msgid "Invited to Weblate by {username}."
+#, python-brace-format
 msgid "Invited to {site_title} by {username}."
-msgstr "Diundang ke Weblate oleh {username}."
+msgstr "Diundang ke {site_title} oleh {username}."
 
 #: weblate/accounts/models.py:163
 msgid "Started trial period."
@@ -1675,14 +1674,12 @@ msgid "Important dates"
 msgstr "Tanggal penting"
 
 #: weblate/auth/admin.py:205
-#, fuzzy
-#| msgid "This addon is used for all components sharing this repository."
 msgid "This is not used when a component list is selected."
-msgstr "Addon ini digunakan untuk semua komponen yang berbagi repositori ini."
+msgstr "Ini tidak digunakan ketika sebuah daftar komponen dipilih."
 
 #: weblate/auth/admin.py:211
 msgid "This is not used when a component is selected."
-msgstr ""
+msgstr "Ini tidak digunakan ketika sebuah komponen dipilih."
 
 #. Translators: Permission name
 #: weblate/auth/data.py:35
@@ -1798,10 +1795,8 @@ msgstr "Hapus string"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:79
-#, fuzzy
-#| msgid "Message has failing checks"
 msgid "Dismiss failing check"
-msgstr "Pesan telah gagal diperiksa"
+msgstr "Abaikan pemeriksaan gagal"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:81
@@ -1815,10 +1810,8 @@ msgstr "Tinjau string"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:85
-#, fuzzy
-#| msgid "Strings with suggestions (%d)"
 msgid "Edit string when suggestions are enforced"
-msgstr "String dengan saran (%d)"
+msgstr "Sunting string ketika saran dipaksakan"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:87
@@ -1862,17 +1855,13 @@ msgstr "Hapus terjemahan yang ada"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:103
-#, fuzzy
-#| msgid "Download translation as CSV"
 msgid "Download translation file"
-msgstr "Unduh penerjemahan sebagai CSV"
+msgstr "Unduh file terjemahan"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:105
-#, fuzzy
-#| msgid "Add as other translation"
 msgid "Add several languages for translation"
-msgstr "Tambahkan sebagai penerjemahan lainnya"
+msgstr "Tambahkan beberapa bahasa untuk terjemahan"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:107
@@ -2120,20 +2109,16 @@ msgid "Billing"
 msgstr "Penagihan"
 
 #: weblate/auth/forms.py:103 weblate/trans/views/acl.py:217
-#, fuzzy
-#| msgid "Activation e-mail will be sent here."
 msgid "User invitation e-mail was sent."
-msgstr "Surel aktivasi akan dikirim ke sini."
+msgstr "Surel undangan pengguna telah dikirim."
 
 #: weblate/auth/forms.py:112
 msgid "Send e-mail invitation to the user"
 msgstr "Kirim surel undangan ke pengguna"
 
 #: weblate/auth/forms.py:126
-#, fuzzy
-#| msgid "Send e-mail invitation to the user"
 msgid "Resend e-mail invitation to the user"
-msgstr "Kirim surel undangan ke pengguna"
+msgstr "Kirim ulang surel undangan ke pengguna"
 
 #: weblate/auth/models.py:77
 #, python-format
@@ -2284,10 +2269,8 @@ msgid "Group to assign"
 msgstr "Menetapkan grup"
 
 #: weblate/auth/models.py:667 weblate/trans/forms.py:1126
-#, fuzzy
-#| msgid "User to add"
 msgid "User to block"
-msgstr "Tambah pengguna"
+msgstr "Pengguna untuk diblokir"
 
 #: weblate/auth/models.py:670 weblate/templates/check.html:19
 #: weblate/templates/data.html:28 weblate/templates/data.html:62
@@ -2412,28 +2395,20 @@ msgid "Missing license"
 msgstr "Lisensi hilang"
 
 #: weblate/billing/tasks.py:97
-#, fuzzy
-#| msgid ""
-#| "You will only receive these notifications for your translated languages "
-#| "in your watched projects."
 msgid ""
 "You will stop receiving this notification once you pay the bills or the "
 "project is removed."
 msgstr ""
-"Anda hanya akan menerima pemberitahuan berikut untuk bahasa yang Anda "
-"terjemahkan pada proyek yang Anda pantau."
+"Anda akan berhenti menerima notifikasi ini ketika Anda membayar tagihannya "
+"atau menghapus projek."
 
 #: weblate/billing/tasks.py:102
-#, fuzzy
-#| msgid ""
-#| "You will only receive these notifications for your translated languages "
-#| "in your watched projects."
 msgid ""
 "You will stop receiving this notification once you change to regular "
 "subscription or the project is removed."
 msgstr ""
-"Anda hanya akan menerima pemberitahuan berikut untuk bahasa yang Anda "
-"terjemahkan pada proyek yang Anda pantau."
+"Anda akan berhenti menerima notifikasi ini ketika Anda mengubah ke langganan "
+"reguler atau menghapus projek."
 
 #: weblate/checks/angularjs.py:45
 msgid "AngularJS interpolation string"
@@ -2564,10 +2539,8 @@ msgid "Source and translation do not both end with a semicolon"
 msgstr "Sumber dan terjemahan tidak diakhiri dengan titik koma"
 
 #: weblate/checks/chars.py:373
-#, fuzzy
-#| msgid "Kashida used"
 msgid "Kashida letter used"
-msgstr "Kashida digunakan"
+msgstr "Huruf tatwil digunakan"
 
 #: weblate/checks/chars.py:374
 msgid "The decorative kashida letters should not be used"
@@ -2579,7 +2552,7 @@ msgstr "Spasi tanda baca"
 
 #: weblate/checks/chars.py:394
 msgid "Missing non breakable space before double punctuation sign"
-msgstr ""
+msgstr "Tidak ada spasi yang tidak dapat dipecahkan sebelum tanda baca ganda"
 
 #: weblate/checks/consistency.py:33
 msgid "Missing plurals"
@@ -2694,16 +2667,12 @@ msgid "Font spacing"
 msgstr "Spasi fonta"
 
 #: weblate/checks/flags.py:68
-#, fuzzy
-#| msgid "Java MessageFormat"
 msgid "ICU MessageFormat Flags"
-msgstr "MessageFormat Java"
+msgstr "Bendera ICU MessageFormat"
 
 #: weblate/checks/flags.py:70
-#, fuzzy
-#| msgid "Java MessageFormat"
 msgid "ICU MessageFormat Tag Prefix"
-msgstr "MessageFormat Java"
+msgstr "Awalan Tag ICU MessageFormat"
 
 #: weblate/checks/flags.py:72 weblate/trans/models/component.py:600
 #: weblate/utils/views.py:135
@@ -2854,40 +2823,28 @@ msgid "You need to pair up an apostrophe with another one."
 msgstr "Anda perlu memasangkan apostrof dengan yang lain."
 
 #: weblate/checks/format.py:598
-#, fuzzy
-#| msgid "Machine translation"
 msgid "i18next interpolation"
-msgstr "Mesin penerjemah"
+msgstr "Interpolasi i18next"
 
 #: weblate/checks/format.py:599
-#, fuzzy
-#| msgid "BBcode in translation does not match source"
 msgid "The i18next interpolation does not match source"
-msgstr "BBcode didalam terjemahan tidak cocok dengan sumber"
+msgstr "Interpolasi i18next tidak cocok dengan sumber"
 
 #: weblate/checks/format.py:610
-#, fuzzy
-#| msgid "Cached template loader"
 msgid "ECMAScript template literals"
-msgstr "Pemuat templat singgahan"
+msgstr "Literal templat ECMAScript"
 
 #: weblate/checks/format.py:611
-#, fuzzy
-#| msgid "JavaScript format string does not match source"
 msgid "ECMAScript template literals do not match source"
-msgstr "String format JavaScript tidak cocok dengan sumber"
+msgstr "Literal templat ECMAScript tidak cocok dengan sumber"
 
 #: weblate/checks/format.py:623
-#, fuzzy
-#| msgid "Percents translated"
 msgid "Percent placeholders"
-msgstr "Persen diterjemahkan"
+msgstr "Tempat penampung persen"
 
 #: weblate/checks/format.py:624
-#, fuzzy
-#| msgid "BBcode in translation does not match source"
 msgid "The percent placeholders do not match source"
-msgstr "BBcode didalam terjemahan tidak cocok dengan sumber"
+msgstr "Tempat penampung persen tidak cocok dengan sumber"
 
 #: weblate/checks/format.py:630
 msgid "Vue I18n formatting"
@@ -2906,12 +2863,12 @@ msgid ""
 "There are multiple unnamed variables in the string, making it impossible for "
 "translators to reorder them"
 msgstr ""
+"Ada beberapa variabel yang tidak dinamai dalam string, sehingga tidak "
+"mungkin bagi penerjemah untuk mengurutkannya kembali"
 
 #: weblate/checks/glossary.py:33
-#, fuzzy
-#| msgid "Add word to glossary"
 msgid "Does not follow glossary"
-msgstr "Tambah kata ke glosarium"
+msgstr "Tidak mengikuti glosarium"
 
 #: weblate/checks/glossary.py:34
 msgid "The translation does not follow terms defined in a glossary."
@@ -2920,67 +2877,62 @@ msgstr "Terjemahan tidak mengikuti istilah yang didefinisikan dalam glosarium."
 #: weblate/checks/glossary.py:83
 #, python-format
 msgid "Following terms are not translated according to glossary: %s"
-msgstr ""
+msgstr "Istilah berikut tidak diterjemahkan menurut glosarium: %s"
 
 #: weblate/checks/icu.py:269
-#, fuzzy
-#| msgid "Java MessageFormat"
 msgid "ICU MessageFormat syntax"
-msgstr "MessageFormat Java"
+msgstr "Sintaks ICU MessageFormat"
 
 #: weblate/checks/icu.py:270
-#, fuzzy
-#| msgid "Syntax error in language aliases."
 msgid "Syntax errors in ICU MessageFormat strings."
-msgstr "Kesalahan sintaks dalam alias bahasa."
+msgstr "Kesalahan sintaks dalam string ICU MessageFormat."
 
 #: weblate/checks/icu.py:292
-#, fuzzy
-#| msgid "Java MessageFormat"
 msgid "ICU MessageFormat"
-msgstr "MessageFormat Java"
+msgstr "ICU MessageFormat"
 
 #: weblate/checks/icu.py:294
 msgid ""
 "Syntax errors and/or placeholder mismatches in ICU MessageFormat strings."
 msgstr ""
+"Kesalahan sintaks dan/atau kesalahan pencocokan tempat penampung di string "
+"ICU MessageFormat."
 
 #: weblate/checks/icu.py:460
 #, python-format
 msgid "Syntax error: %s"
-msgstr ""
+msgstr "Kesalahan sintaks: %s"
 
 #: weblate/checks/icu.py:464
-#, fuzzy, python-format
-#| msgid "Forbidden translation: %s"
+#, python-format
 msgid "One or more unknown placeholders in the translation: %s"
-msgstr "Terjemahan terlarang: %s"
+msgstr ""
+"Satu atau lebih tempat penampung yang tidak diketahui dalam terjemahan: %s"
 
 #: weblate/checks/icu.py:469
-#, fuzzy, python-format
-#| msgid "Please log in to save translations."
+#, python-format
 msgid "One or more placeholders missing in the translation: %s"
-msgstr "Silakan login untuk menyimpan terjemahan."
+msgstr "Tidak ada satu atau lebih tempat penampung di terjemahan: %s"
 
 #: weblate/checks/icu.py:473
 #, python-format
 msgid "One or more placeholder types are incorrect: %s"
-msgstr ""
+msgstr "Satu atau lebih tipe tempat penampung tidak benar: %s"
 
 #: weblate/checks/icu.py:478
 #, python-format
 msgid "Missing other sub-message for: %s"
-msgstr ""
+msgstr "Tidak ada sub-pesan yang lain untuk: %s"
 
 #: weblate/checks/icu.py:481
 #, python-format
 msgid "Incorrect plural selectors for: %s"
-msgstr ""
+msgstr "Pemilih jamak salah untuk: %s"
 
 #: weblate/checks/icu.py:486
 #, python-format
 msgid "Incorrect sub-message selectors for: %s"
-msgstr ""
+msgstr "Pemilih sub-pesan tidak benar untuk: %s"
 
 #: weblate/checks/icu.py:492
 #, python-format
@@ -2988,19 +2940,22 @@ msgid ""
 "One or more placeholders should have a corresponding XML tag in the "
 "translation: %s"
 msgstr ""
+"Satu atau lebih tempat penampung seharusnya mempunyai tag XML yang sama di "
+"terjemahan: %s"
 
 #: weblate/checks/icu.py:498
-#, fuzzy, python-format
-#| msgid "Forbidden translation: %s"
+#, python-format
 msgid ""
 "One or more placeholders should not be an XML tag in the translation: %s"
-msgstr "Terjemahan terlarang: %s"
+msgstr ""
+"Satu atau lebih tempat penampung seharusnya bukan sebuah tag XML di "
+"terjemahan: %s"
 
 #: weblate/checks/icu.py:504
-#, fuzzy, python-format
-#| msgid "Missing parameters for translation flag: \"%s\""
+#, python-format
 msgid "One or more XML tags has unexpected content in the translation: %s"
-msgstr "Parameter yang hilang pada terjemahan: \"%s\""
+msgstr ""
+"Satu atau lebih tag XML mempunyai konten yang tidak terduga di terjemahan: %s"
 
 #: weblate/checks/icu.py:509
 #, fuzzy, python-format
