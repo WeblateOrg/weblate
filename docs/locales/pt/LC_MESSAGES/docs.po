@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-12-22 13:59+0100\n"
-"PO-Revision-Date: 2021-11-27 22:13+0000\n"
+"PO-Revision-Date: 2021-12-27 15:09+0000\n"
 "Last-Translator: ssantos <ssantos@web.de>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/weblate/"
 "documentation/pt/>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 4.10-dev\n"
+"X-Generator: Weblate 4.10.1\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:181
@@ -1209,11 +1209,9 @@ msgstr ""
 "`Gerir idiomas`]"
 
 #: ../../admin/access.rst:549
-#, fuzzy
-#| msgid "Perform automatic translation [`Administration`]"
 msgid ""
 "Perform automatic translation [`Administration`, `Automatic translation`]"
-msgstr "Efetuar tradução automática [`Administração`]"
+msgstr "Efetuar tradução automática [`Administração', ` Tradução automática']"
 
 #: ../../admin/access.rst:551
 msgid "Delete existing translation [`Administration`, `Manage languages`]"
@@ -2779,16 +2777,13 @@ msgstr ""
 "seja personalizada para incluí-la."
 
 #: ../../admin/addons.rst:588
-#, fuzzy
-#| msgid ""
-#| "The original commit messages can optionally be overridden with a custom "
-#| "commit message."
 msgid ""
 "The original commit messages can optionally be overridden with a custom "
 "commit message. See :ref:`markup` for the message options."
 msgstr ""
-"As mensagens de commit originais podem opcionalmente ser substituídas por "
-"uma mensagem de commit personalizada."
+"As mensagens de commit originais podem ser opcionalmente substituídas por "
+"uma mensagem de commit personalizada. Veja :ref:`markup` para as opções de "
+"mensagens."
 
 #: ../../admin/addons.rst:591
 msgid ""
@@ -10673,16 +10668,6 @@ msgstr ""
 "usado na chave:"
 
 #: ../../admin/install.rst:258
-#, fuzzy
-#| msgid ""
-#| "The problem here is that anybody could issue the key with this name.  You "
-#| "need to ensure that the key is actually owned by the mentioned person.  "
-#| "The GNU Privacy Handbook covers this topic in the chapter `Validating "
-#| "other keys on your public keyring`_. The most reliable method is to meet "
-#| "the developer in person and exchange key fingerprints, however you can "
-#| "also rely on the web of trust. This way you can trust the key "
-#| "transitively though signatures of others, who have met the developer in "
-#| "person."
 msgid ""
 "The problem here is that anybody could issue the key with this name.  You "
 "need to ensure that the key is actually owned by the mentioned person.  The "
@@ -10694,12 +10679,12 @@ msgid ""
 msgstr ""
 "O problema aqui é que qualquer um poderia emitir a chave com este nome.  "
 "Precisa garantir que a chave é realmente a propriedade da pessoa "
-"mencionada.  O Manual de Privacidade do GNU aborda este tópico no capítulo "
-"`Validating other keys on your public keyring`_. O método mais confiável é "
-"de conhecer o programador pessoalmente e trocar impressões digitais "
-"importantes, no entanto também pode confiar na rede de confiança. Dessa "
-"forma, pode confiar na chave transitivamente através de assinaturas de "
-"outros, que conheceram o programador pessoalmente."
+"mencionada.  O Manual de Privacidade do GNU aborda este tópico no capítulo `"
+"Validating other keys on your public keyring`_. O método mais confiável é de "
+"conhecer o programador pessoalmente e trocar impressões digitais "
+"importantes, no entanto, também pode confiar na rede de confiança. Dessa "
+"forma, pode confiar na chave transitivamente por assinaturas de outros, que "
+"conheceram o programador pessoalmente."
 
 #: ../../admin/install.rst:266
 msgid "Once the key is trusted, the warning will not occur:"
@@ -11114,16 +11099,12 @@ msgstr ""
 "`settings.py`:"
 
 #: ../../admin/install.rst:596
-#, fuzzy
-#| msgid ""
-#| "`Proxy Environment Variables <https://everything.curl.dev/usingcurl/"
-#| "proxies#proxy-environment-variables>`_"
 msgid ""
 "`Proxy Environment Variables <https://everything.curl.dev/usingcurl/proxies/"
 "env>`_"
 msgstr ""
 "`Variáveis de ambiente de proxy <https://everything.curl.dev/usingcurl/"
-"proxies#proxy-environment-variables>`_"
+"proxies/env>`_"
 
 #: ../../admin/install.rst:601
 msgid "Adjusting configuration"
@@ -13029,6 +13010,9 @@ msgid ""
 "PostgreSQL 10 or newer, please upgrade it prior to upgrading Weblate. See :"
 "ref:`upgrade-4.10` for more details."
 msgstr ""
+"Desde o Weblate 4.10-1, o contentor Docker usa Django 4.0, o que requer "
+"PostgreSQL 10 ou mais recente, atualize-o antes de atualizar o Weblate. Veja "
+":ref:`upgrade-4.10` para mais detalhes."
 
 #: ../../admin/install/docker.rst:202
 msgid ""
@@ -13299,12 +13283,13 @@ msgstr ":envvar:`WEBLATE_ADMIN_PASSWORD`"
 #: ../../admin/install/docker.rst:409
 msgid "The email address that error messages are sent from."
 msgstr ""
+"O endereço de e-mail a partir do qual as mensagens de erro são enviadas."
 
 #: ../../admin/install/docker.rst:413
 #, fuzzy
 #| msgid ":setting:`django:ADMINS`, :ref:`production-admins`"
 msgid ":std:setting:`django:SERVER_EMAIL`, :ref:`production-email`"
-msgstr ":setting:`django:ADMINS`, :ref:`production-admins`"
+msgstr ":std:setting:`django:SERVER_EMAIL`, :ref:`production-email`"
 
 #: ../../admin/install/docker.rst:418
 msgid "Configures the address for outgoing e-mails."
@@ -13314,7 +13299,7 @@ msgstr "Configura o endereço para e-mails de saída."
 #, fuzzy
 #| msgid ":setting:`django:ADMINS`, :ref:`production-admins`"
 msgid ":std:setting:`django:DEFAULT_FROM_EMAIL`, :ref:`production-email`"
-msgstr ":setting:`django:ADMINS`, :ref:`production-admins`"
+msgstr ":std:setting:`django:DEFAULT_FROM_EMAIL`, :ref:`production-email`"
 
 #: ../../admin/install/docker.rst:427
 msgid "Configures contact form behavior, see :setting:`CONTACT_FORM`."
@@ -18745,6 +18730,8 @@ msgid ""
 "For linked repositories, this is not used and setting from linked component "
 "applies."
 msgstr ""
+"Para repositórios vinculados, isto não é usado e a definição do componente "
+"vinculado é aplicada."
 
 #: ../../admin/projects.rst:340
 msgid ""
@@ -19235,18 +19222,12 @@ msgid "Merge style"
 msgstr "Estilo de união"
 
 #: ../../admin/projects.rst:644
-#, fuzzy
-#| msgid ""
-#| "You can configure how updates from the upstream repository are handled. "
-#| "This might not be supported for some VCSs. See :ref:`merge-rebase` for "
-#| "more details."
 msgid ""
 "You can configure how updates from the upstream repository are handled. The "
 "actual implementation depends on VCS, see :doc:`/vcs`."
 msgstr ""
-"Pode configurar como as atualizações do repositório upstream são tratadas. "
-"Isso pode não ser compatível com alguns VCSs. Veja :ref:`merge-rebase` para "
-"mais detalhes."
+"Pode configurar como as atualizações a partir do repositório upstream são "
+"tratadas. A implementação real depende do VCS, veja :doc:`/vcs'."
 
 #: ../../admin/projects.rst:655
 msgid "Rebase"
@@ -19257,6 +19238,9 @@ msgid ""
 "Rebases Weblate commits on top of upstream repository on update. This "
 "provides clean history without extra merge commits."
 msgstr ""
+"Faz um rebase dos commits do Weblate no topo do repositório upstream ao "
+"atualizar. Isso fornece um histórico limpo sem commits de mesclagem "
+"adicionais."
 
 #: ../../admin/projects.rst:651
 msgid ""
@@ -19271,6 +19255,9 @@ msgid ""
 "You might need to enable force pushing by choosing :ref:`vcs-git-force-push` "
 "as :ref:`component-vcs`, especially when pushing to a different branch."
 msgstr ""
+"Pode precisar ativar o push forçado a escolher :ref:`vcs-git-force-push` "
+"como :ref:`component-vcs`, especialmente ao fazer push para um branch "
+"diferente."
 
 #: ../../admin/projects.rst:660
 msgid "Merge"
@@ -19281,6 +19268,8 @@ msgid ""
 "Upstream repository changed are merged into Weblate one. This is the safest "
 "way, but might produce a lot of merge commits."
 msgstr ""
+"O repositório upstream alterado é mesclado com o do Weblate. É a maneira "
+"mais segura, mas pode produzir muitos commits de mesclagem."
 
 #: ../../admin/projects.rst:662
 msgid "Default value can be changed by :setting:`DEFAULT_MERGE_STYLE`."
@@ -20368,18 +20357,14 @@ msgid "Docker image upgrades"
 msgstr "Atualizações de imagem Docker"
 
 #: ../../admin/upgrade.rst:7
-#, fuzzy
-#| msgid ""
-#| "The official Docker image (see :doc:`install/docker`) has all upgrade "
-#| "steps integrated. There are no manual step besides pulling latest version."
 msgid ""
 "The official Docker image (see :doc:`install/docker`) has all Weblate "
 "upgrade steps integrated. There are typically no manual steps needed besides "
 "pulling latest version."
 msgstr ""
-"A imagem Docker oficial (veja :doc:`install/docker`) possui todas as etapas "
-"de atualização integradas. Não há nenhuma etapa manual além de buscar a "
-"versão mais recente."
+"A imagem Docker oficial (veja :doc:`install/docker`) contém todas as etapas "
+"de atualização integradas do Weblate. Normalmente não há nenhuma etapa "
+"manual necessária além de puxar a versão mais recente."
 
 #: ../../admin/upgrade.rst:12
 #, fuzzy
@@ -20906,22 +20891,16 @@ msgstr ""
 "tempo em sites maiores."
 
 #: ../../admin/upgrade.rst:274
-#, fuzzy
-#| msgid "Upgrade from 4.0 to 4.1"
 msgid "Upgrade from 4.9 to 4.10"
-msgstr "Atualizar da 4.0 para 4.1"
+msgstr "Atualizar da 4.9 para 4.10"
 
 #: ../../admin/upgrade.rst:278
-#, fuzzy
-#| msgid ""
-#| "There is a change in storing metrics, the upgrade can take long time on "
-#| "larger sites."
 msgid ""
 "There is a change in per-project groups, the upgrade can take long time on "
 "sites with thousands of projects."
 msgstr ""
-"Há uma mudança no armazenamento de métricas, a atualização pode levar muito "
-"tempo em sites maiores."
+"Há uma mudança nos grupos por projeto, a atualização pode levar muito tempo "
+"em sites com milhares de projetos."
 
 #: ../../admin/upgrade.rst:280
 msgid ""
@@ -20929,35 +20908,33 @@ msgid ""
 "incompatible-4.0`. Weblate still supports Django 3.2 for now, in case any of "
 "these are problematic. Most notable changes which might affect Weblate:"
 msgstr ""
+"Django 4.0 fez algumas mudanças incompatíveis, veja :ref:`django:backwards-"
+"incompatible-4.0`. Weblate ainda oferece suporte ao Django 3.2 por enquanto, "
+"no caso de alguma dessas ser problemática. Mudanças mais notáveis que podem "
+"afetar o Weblate:"
 
 #: ../../admin/upgrade.rst:285
-#, fuzzy
-#| msgid "Dropped support for Django 1.10 and added support for Django 2.0."
 msgid ""
 "Dropped support for PostgreSQL 9.6, Django 4.0 supports PostgreSQL 10 and "
 "higher."
-msgstr "Removido o suporte ao Django 1.10 e adicionado suporte ao Django 2.0."
+msgstr ""
+"Removido o suporte a PostgreSQL 9.6, o Django 4.0 oferece suporte para "
+"PostgreSQL 10 e superior."
 
 #: ../../admin/upgrade.rst:286
 msgid "Format of :setting:`django:CSRF_TRUSTED_ORIGINS` was changed."
-msgstr ""
+msgstr "O formato de :setting:`django:CSRF_TRUSTED_ORIGINS` foi alterado."
 
 #: ../../admin/upgrade.rst:288
 msgid "The Docker container now uses Django 4.0, see above for changes."
 msgstr ""
+"O contentor do Docker agora usa Django 4.0, consulte as alterações acima."
 
 #: ../../admin/upgrade.rst:295
 msgid "Upgrading from Python 2 to Python 3"
 msgstr "Atualização de Python 2 para Python 3"
 
 #: ../../admin/upgrade.rst:297
-#, fuzzy
-#| msgid ""
-#| "Weblate no longer supports Python older than 3.5. In case you are still "
-#| "running on older version, please perform migration to Python 3 first on "
-#| "existing version and upgrade later. See `Upgrading from Python 2 to "
-#| "Python 3 in the Weblate 3.11.1 documentation <https://docs.weblate.org/en/"
-#| "weblate-3.11.1/admin/upgrade.html#upgrading-from-python-2-to-python-3>`_."
 msgid ""
 "Weblate no longer supports Python older than 3.6. In case you are still "
 "running on older version, please perform migration to Python 3 first on "
@@ -20965,8 +20942,8 @@ msgid ""
 "in the Weblate 3.11.1 documentation <https://docs.weblate.org/en/"
 "weblate-3.11.1/admin/upgrade.html#upgrading-from-python-2-to-python-3>`_."
 msgstr ""
-"O Weblate não oferece mais suporte a Python anterior a 3.5. Caso ainda "
-"esteja a executar uma versão mais antiga, migre à Python 3 primeiro na "
+"O Weblate não oferece mais suporte a Python anterior a 3.6. Caso ainda "
+"esteja a executar uma versão mais antiga, primeiro migre ao Python 3 na "
 "versão existente e atualize mais tarde. Consulte `Atualizar do Python 2 ao "
 "Python 3 na documentação do Weblate 3.11.1 <https://docs.weblate.org/en/"
 "weblate-3.11.1/admin/upgrade.html#upgrading-from-python-2-to-python-3>`_."
@@ -21235,28 +21212,30 @@ msgid "when throttling is in place"
 msgstr "quando a limitação está em vigor"
 
 #: ../../api.rst:60
-#, fuzzy
-#| msgid "Authentication backends"
 msgid "Authentication tokens"
-msgstr "Backends de autenticação"
+msgstr "Tokens de autenticação"
 
 #: ../../api.rst:64
-#, fuzzy
-#| msgid "Filtering of changes was introduced in the 4.1 release."
 msgid "Project scoped tokens were introduced in the 4.10 release."
-msgstr "A filtragem de alterações foi introduzida na versão 4.1."
+msgstr "Tokens com escopo de projeto foram introduzidos na versão 4.10."
 
 #: ../../api.rst:66
 msgid ""
 "Each user has his personal access token which can be obtained in the user "
 "profile. Newly generated user tokens have the ``wlu_`` prefix."
 msgstr ""
+"Cada utilizador tem o seu próprio código de acesso que pode ser obtido no "
+"perfil de utilizador. Os tokens de utilizadores recém-gerados têm o prefixo "
+"``wlu_```."
 
 #: ../../api.rst:69
 msgid ""
 "It is possible to create project scoped tokens for API access to given "
 "project only. These tokens can be identified by the ``wlp_`` prefix."
 msgstr ""
+"É possível criar tokens com escopo de projeto para acesso API apenas a um "
+"determinado projeto. Estes tokens podem ser identificados pelo prefixo "
+"``wlp_``."
 
 #: ../../api.rst:73
 msgid "Authentication examples"
@@ -22153,11 +22132,11 @@ msgstr "**Exemplo de solicitação JSON com CURL:**"
 
 #: ../../api.rst:1000
 msgid "**JSON request to create a new component from Git:**"
-msgstr ""
+msgstr "**Solicitação JSON para criar um componente a partir do Git:**"
 
 #: ../../api.rst:1023
 msgid "**JSON request to create a new component from another one:**"
-msgstr ""
+msgstr "**Solicitação JSON para criar um componente a partir de outro:**"
 
 #: ../../api.rst:1091
 msgid "Returns paginated statistics for all languages within a project."
@@ -23752,65 +23731,51 @@ msgid "`RSS on wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 msgstr "`RSS na Wikipédia <https://pt.wikipedia.org/wiki/RSS>`_"
 
 #: ../../changes.rst:2
-#, fuzzy
-#| msgid "Weblate 4.1.1"
 msgid "Weblate 4.10.1"
-msgstr "Weblate 4.1.1"
+msgstr "Weblate 4.10.1"
 
 #: ../../changes.rst:4
-#, fuzzy
-#| msgid "Released on December 15th 2020."
 msgid "Released on December 22nd 2021."
-msgstr "Lançado em 15 de dezembro de 2020."
+msgstr "Lançado a 22 de dezembro de 2021."
 
 #: ../../changes.rst:6
 msgid "Documented changes introduced by upgrading to Django 4.0."
-msgstr ""
+msgstr "Alterações documentadas introduzidas pela atualização ao Django 4.0."
 
 #: ../../changes.rst:7
+#, fuzzy
 msgid "Fixed displaying of :guilabel:`Automatically translated` label."
-msgstr ""
+msgstr "Corrigida a exibição do rótulo :guilabel:`Traduzido automaticamente`."
 
 #: ../../changes.rst:8
-#, fuzzy
-#| msgid "Fixed deadlock when changing linked component repository."
 msgid "Fixed API display of branch in components with a shared repository."
 msgstr ""
-"Corrigido um impasse ao alterar o repositório de componentes vinculados."
+"Corrigida a exibição de API do ramo em componentes com um repositório "
+"compartilhado."
 
 #: ../../changes.rst:9
-#, fuzzy
-#| msgid "Improved administration of users."
 msgid "Improved analysis on the failed push alert."
-msgstr "Administração aprimorada de utilizadores."
+msgstr "Melhorada a análise no alerta de push com falha."
 
 #: ../../changes.rst:10
-#, fuzzy
-#| msgid "Added date filtering when browsing changes."
 msgid "Fixed manually editing page when browsing changes."
-msgstr "Adicionada filtragem de datas ao navegar pelas alterações."
+msgstr "Corrigida a edição manual da página ao navegar pelas alterações."
 
 #: ../../changes.rst:11
-#, fuzzy
-#| msgid "Improved configuration health check."
 msgid "Improved accuracy of :ref:`check-kashida`."
-msgstr "Melhorada a verificação de saúde da configuração."
+msgstr "Merolhada a precisão da :ref:`check-kashida`."
 
 #: ../../changes.rst:14
 msgid "Weblate 4.10"
 msgstr "Weblate 4.10"
 
 #: ../../changes.rst:16
-#, fuzzy
-#| msgid "Released on December 15th 2020."
 msgid "Released on December 16th 2021."
-msgstr "Lançado em 15 de dezembro de 2020."
+msgstr "Lançado a 16 de dezembro de 2021."
 
 #: ../../changes.rst:18
-#, fuzzy
-#| msgid "Added support for formality with DeepL."
 msgid "Added support for formality and placeholders with DeepL."
-msgstr "Adicionado suporte para formality com DeepL."
+msgstr "Adicionado suporte para formalidade e espaços reservados com DeepL."
 
 #: ../../changes.rst:19
 msgid ""
@@ -23829,61 +23794,50 @@ msgid ""
 "Fixed: \"Perform automatic translation\" privilege is no longer part of the "
 "*Languages* group."
 msgstr ""
+"Corrigido: o privilégio \"Efetuar tradução automática\" já não é parte do "
+"grupo *Idiomas*."
 
 #: ../../changes.rst:22
-#, fuzzy
-#| msgid ""
-#| "Performs automatic translation based on other component translations."
 msgid ""
 "\"Perform automatic translation\" is in the *Administration* and the new "
 "*Automatic translation* group."
 msgstr ""
-"Executa tradução automática com base em outras traduções de componentes."
+"\"Efetuar tradução automática\" está em *Administração* e no novo grupo "
+"\"Tradução automática\"."
 
 #: ../../changes.rst:23
-#, fuzzy
-#| msgid "Fixed generating mo files in certain cases."
 msgid "Fixed generating XLSX files with special chars."
-msgstr "Corrigida a geração de ficheiros mo em certos casos."
+msgstr "Corrigida a geração de ficheiros XLSX com caracteres especiais."
 
 #: ../../changes.rst:24
 msgid ""
 "Added ability to the GitHub authentication backend to check if the user "
 "belongs to a specific GitHub organization or team."
 msgstr ""
+"Adicionada capacidade ao backend de autenticação do GitHub para verificar se "
+"o utilizador pertence a uma organização ou equipa específica do GitHub."
 
 #: ../../changes.rst:25
 msgid "Improved feedback on invalid parameters passed to API."
-msgstr ""
+msgstr "Melhorado o feedback sobre parâmetros inválidos passados ao API."
 
 #: ../../changes.rst:26
-#, fuzzy
-#| msgid "Added support for rejecting reused passwords."
 msgid "Added support for project scoped access tokens for API."
-msgstr "Adicionado suporte para rejeitar palavras-passe reutilizadas."
+msgstr ""
+"Adicionado suporte para tokens de acesso com escopo de projeto para a API."
 
 #: ../../changes.rst:27
-#, fuzzy
-#| msgid "Fixed UI language selection in some cases."
 msgid "Fixed string removal in some cases."
-msgstr ""
-"Corrigida a seleção de idioma da interface de utilizador em alguns casos."
+msgstr "Corrigida a remoção de cadeias em alguns casos."
 
 #: ../../changes.rst:28
-#, fuzzy
-#| msgid "Fixed creating new languages."
 msgid "Fixed translating newly added strings."
-msgstr "Consertada criação de novos idiomas."
+msgstr "Corrigida a tradução de cadeias recém-adicionadas."
 
 #: ../../changes.rst:29
-#, fuzzy
-#| msgid ""
-#| "Automatically translates strings using machine translation or other "
-#| "components."
 msgid "Label automatically translated strings to ease their filtering."
 msgstr ""
-"Traduz automaticamente as cadeias utilizando a tradução automática ou outros "
-"componentes."
+"Automaticamente etiqueta cadeias traduzidas para facilitar a filtragem delas."
 
 #: ../../changes.rst:31
 msgid ""
