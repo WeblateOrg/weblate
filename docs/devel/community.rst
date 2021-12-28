@@ -1,7 +1,7 @@
 Building translators community
 ==============================
 
-Following these recommendations support the creation of a full, multilingual post-editing tool. Good translations are defined through the systemic-functional model of House which aims at a contextual correct translation. Write your own `post-editing guide <https://www.taus.net/academy/best-practices/postedit-best-practices/machine-translation-post-editing-guidelines>`_ and alter these recommendations to fit your own definitions. In most cases the `browser-plugin of languageTool <https://www.languagetool.org/#firefox_chrome>`_  is useful as the proof-reading tool.
+Following these recommendations support the creation of a full, multilingual post-editing tool. Good translations are defined through the systemic-functional model of House which aims at a contextual correct translation. Write your own `post-editing guide <https://www.taus.net/academy/best-practices/postedit-best-practices/machine-translation-post-editing-guidelines>`_ and alter these recommendations to fit your own definitions. In most cases the `browser-plugin of languageTool <https://languagetool.org/#firefox_chrome>`_  is useful as the proof-reading tool.
 
 Community localization checklist
 --------------------------------
