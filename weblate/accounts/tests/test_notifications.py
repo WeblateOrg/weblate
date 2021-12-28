@@ -454,7 +454,7 @@ class NotificationTest(ViewTestCase, RegistrationTestMixin):
         frequency=FREQ_DAILY,
         notify=notify_daily,
         notification="ToDoStringsNotification",
-        subj="4 strings needing action in Test/Test",
+        subj="4 unfinished strings in Test/Test",
     ):
         self.user.subscription_set.create(
             scope=SCOPE_WATCHED, notification=notification, frequency=frequency

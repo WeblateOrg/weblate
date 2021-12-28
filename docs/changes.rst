@@ -11,6 +11,7 @@ Released on December 22nd 2021.
 * Improved accuracy of :ref:`check-kashida`.
 * The Weblate Docker container now uses Python 3.10.
 * Fixed add-on installation using API.
+* Renamed :guilabel:`Strings needing action` to :guilabel:`Unfinished strings`.
 
 Weblate 4.10
 ------------
