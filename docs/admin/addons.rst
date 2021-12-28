@@ -43,7 +43,7 @@ Automatic translation
                 |                 |                              |                                                                                        |
                 |                 |                              | ``nottranslated`` -- Not translated strings                                            |
                 |                 |                              |                                                                                        |
-                |                 |                              | ``todo`` -- Strings needing action                                                     |
+                |                 |                              | ``todo`` -- Unfinished strings                                                         |
                 |                 |                              |                                                                                        |
                 |                 |                              | ``fuzzy`` -- Strings marked for edit                                                   |
                 |                 |                              |                                                                                        |

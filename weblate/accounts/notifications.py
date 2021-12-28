@@ -752,7 +752,7 @@ class PendingSuggestionsNotification(SummaryNotification):
 @register_notification
 class ToDoStringsNotification(SummaryNotification):
     # Translators: Notification name
-    verbose = _("Strings needing action")
+    verbose = _("Unfinished strings")
     digest_template = "todo_strings"
 
     @staticmethod

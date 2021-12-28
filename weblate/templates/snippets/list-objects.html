@@ -40,7 +40,7 @@
           {% if objects.paginator.num_pages > 1 %}
             <a href="?page={{ objects.number }}&amp;sort_by={% if objects.paginator.sort_by == "untranslated" %}-{% endif %}untranslated">
           {% endif %}
-          {% trans "Untranslated" %}
+          {% trans "Unfinished" %}
           <span class="sort-icon {% if objects.paginator.sort_by == "untranslated" %}sort-down{% elif objects.paginator.sort_by == "-untranslated" %}sort-up{% endif %}" />
           {% if objects.paginator.num_pages > 1 %}
             </a>
@@ -50,7 +50,7 @@
           {% if objects.paginator.num_pages > 1 %}
             <a href="?page={{ objects.number }}&amp;sort_by={% if objects.paginator.sort_by == "untranslated_words" %}-{% endif %}untranslated_words">
           {% endif %}
-          {% trans "Untranslated words" %}
+          {% trans "Unfinished words" %}
           <span class="sort-icon {% if objects.paginator.sort_by == "untranslated_words" %}sort-down{% elif objects.paginator.sort_by == "-untranslated_words" %}sort-up{% endif %}" />
           {% if objects.paginator.num_pages > 1 %}
             </a>
@@ -60,7 +60,7 @@
           {% if objects.paginator.num_pages > 1 %}
             <a href="?page={{ objects.number }}&amp;sort_by={% if objects.paginator.sort_by == "untranslated_chars" %}-{% endif %}untranslated_chars">
           {% endif %}
-          {% trans "Untranslated characters" %}
+          {% trans "Unfinished characters" %}
           <span class="sort-icon {% if objects.paginator.sort_by == "untranslated_chars" %}sort-down{% elif objects.paginator.sort_by == "-untranslated_chars" %}sort-up{% endif %}" />
           {% if objects.paginator.num_pages > 1 %}
             </a>

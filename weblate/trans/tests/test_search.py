@@ -174,7 +174,7 @@ class SearchViewTest(ViewTestCase):
         self.do_search({"offset": 5}, None)
 
     def test_search_type(self):
-        self.do_search({"q": "state:<translated"}, "Strings needing action")
+        self.do_search({"q": "state:<translated"}, "Unfinished strings")
         self.do_search({"q": "state:needs-editing"}, None)
         self.do_search({"q": "has:suggestion"}, None)
         self.do_search({"q": "has:check"}, None)
