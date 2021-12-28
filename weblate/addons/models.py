@@ -75,6 +75,24 @@ class AddonQuerySet(models.QuerySet):
         return component.addons_cache[event]
 
 
+class AddonManager(models.Manager):
+    def create(self, name: str, component, **kwargs):
+        cls = ADDONS[name]
+        if component:
+            # Reallocate to repository
+            if cls.repo_scope and component.linked_component:
+                component = component.linked_component
+            # Clear add-on cache
+            component.drop_addons_cache()
+        return super().create(
+            name=name,
+            component=component,
+            project_scope=cls.project_scope,
+            repo_scope=cls.repo_scope,
+            **kwargs,
+        )
+
+
 class Addon(models.Model):
     component = models.ForeignKey(Component, on_delete=models.deletion.CASCADE)
     name = models.CharField(max_length=100)
@@ -83,7 +101,7 @@ class Addon(models.Model):
     project_scope = models.BooleanField(default=False, db_index=True)
     repo_scope = models.BooleanField(default=False, db_index=True)
 
-    objects = AddonQuerySet.as_manager()
+    objects = AddonManager.from_queryset(AddonQuerySet)()
 
     class Meta:
         verbose_name = "add-on"

@@ -10,6 +10,7 @@ Released on December 22nd 2021.
 * Fixed manually editing page when browsing changes.
 * Improved accuracy of :ref:`check-kashida`.
 * The Weblate Docker container now uses Python 3.10.
+* Fixed add-on installation using API.
 
 Weblate 4.10
 ------------
