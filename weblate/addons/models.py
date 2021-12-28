@@ -75,24 +75,6 @@ class AddonQuerySet(models.QuerySet):
         return component.addons_cache[event]
 
 
-class AddonManager(models.Manager):
-    def create(self, name: str, component, **kwargs):
-        cls = ADDONS[name]
-        if component:
-            # Reallocate to repository
-            if cls.repo_scope and component.linked_component:
-                component = component.linked_component
-            # Clear add-on cache
-            component.drop_addons_cache()
-        return super().create(
-            name=name,
-            component=component,
-            project_scope=cls.project_scope,
-            repo_scope=cls.repo_scope,
-            **kwargs,
-        )
-
-
 class Addon(models.Model):
     component = models.ForeignKey(Component, on_delete=models.deletion.CASCADE)
     name = models.CharField(max_length=100)
@@ -101,7 +83,7 @@ class Addon(models.Model):
     project_scope = models.BooleanField(default=False, db_index=True)
     repo_scope = models.BooleanField(default=False, db_index=True)
 
-    objects = AddonManager.from_queryset(AddonQuerySet)()
+    objects = AddonQuerySet.as_manager()
 
     class Meta:
         verbose_name = "add-on"
@@ -109,6 +91,25 @@ class Addon(models.Model):
 
     def __str__(self):
         return f"{self.addon.verbose}: {self.component}"
+
+    def save(
+        self, force_insert=False, force_update=False, using=None, update_fields=None
+    ):
+        cls = self.addon_class
+        self.project_scope = cls.project_scope
+        self.repo_scope = cls.repo_scope
+        if self.component:
+            # Reallocate to repository
+            if self.repo_scope and self.component.linked_component:
+                self.component = self.component.linked_component
+            # Clear add-on cache
+            self.component.drop_addons_cache()
+        return super().save(
+            force_insert=force_insert,
+            force_update=force_update,
+            using=using,
+            update_fields=update_fields,
+        )
 
     def get_absolute_url(self):
         return reverse(
@@ -126,8 +127,12 @@ class Addon(models.Model):
         self.event_set.exclude(event__in=events).delete()
 
     @cached_property
+    def addon_class(self):
+        return ADDONS[self.name]
+
+    @cached_property
     def addon(self):
-        return ADDONS[self.name](self)
+        return self.addon_class(self)
 
     def delete(self, *args, **kwargs):
         # Delete any addon alerts
