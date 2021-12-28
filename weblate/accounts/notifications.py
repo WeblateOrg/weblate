@@ -373,12 +373,21 @@ class Notification:
                     notifications[user.pk].append(change)
                     users[user.pk] = user
         for user in users.values():
-            self.send_digest(
-                user.profile.language,
-                user.email,
-                notifications[user.pk],
-                subscription=user.current_subscription,
-            )
+            changes = notifications[user.pk]
+            parts = []
+            while len(changes) > 120:
+                parts.append(changes[:100])
+                changes = changes[100:]
+            if changes:
+                parts.append(changes)
+
+            for part in parts:
+                self.send_digest(
+                    user.profile.language,
+                    user.email,
+                    part,
+                    subscription=user.current_subscription,
+                )
 
     def filter_changes(self, **kwargs):
         return Change.objects.filter(
