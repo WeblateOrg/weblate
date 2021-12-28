@@ -3283,6 +3283,17 @@ class AddonAPITest(APIBaseTest):
             name="weblate.gettext.mo", configuration={"path": "{{var}}"}, code=400
         )
 
+    def test_discover(self):
+        initial = {
+            "file_format": "po",
+            "match": r"(?P<component>[^/]*)/(?P<language>[^/]*)\.po",
+            "name_template": "{{ component|title }}",
+            "language_regex": "^(?!xx).*$",
+        }
+        self.create_addon(name="weblate.discovery.discovery", configuration=initial)
+
+        self.assertEqual(self.component.addon_set.get().configuration, initial)
+
     def test_edit(self):
         initial = {"path": "{{ filename|stripext }}.mo"}
         expected = {"path": "{{ language_code }}.mo"}

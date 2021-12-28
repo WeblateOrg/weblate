@@ -43,7 +43,7 @@ class DiscoveryAddon(BaseAddon):
 
     def post_update(self, component, previous_head: str, skip_push: bool):
         self.discovery.perform(
-            remove=self.instance.configuration["remove"], background=True
+            remove=self.instance.configuration.get("remove"), background=True
         )
 
     def get_settings_form(self, user, **kwargs):
