@@ -15,7 +15,7 @@ localization process easy for community translators.
 .. image:: /screenshots/guide.png
 
 Terminology management
----------------------
+----------------------
 Post-editing of MT with terminology assignment influences each level of the translation process.
 The machine translation system can be adapted to the specific vocabulary and style with a continued training or `neural fuzzy repair <https://www.aclweb.org/anthology/P19-1175.pdf>`_. `Import <https://docs.weblate.org/en/latest/admin/memory.html#imported-translation-memory>`_ your existing translation memory into weblate or create an initial scope with your basic terminology. In the end the lector should be instructed with additional terminology documents to guarantee a good knowledge and output in the field.
 
