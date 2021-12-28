@@ -847,7 +847,7 @@ if MT_GOOGLE_KEY:
 # Google Translate API V3 (Advanced)
 MT_GOOGLE_CREDENTIALS = os.environ.get("WEBLATE_MT_GOOGLE_CREDENTIALS", None)
 MT_GOOGLE_PROJECT = os.environ.get("WEBLATE_MT_GOOGLE_PROJECT", None)
-MT_GOOGLE_LOCATION = os.environ.get("WEBLATE_MT_GOOGLE_LOCATION", None)
+MT_GOOGLE_LOCATION = os.environ.get("WEBLATE_MT_GOOGLE_LOCATION", "global")
 
 if MT_GOOGLE_CREDENTIALS and MT_GOOGLE_PROJECT:
     MT_SERVICES += ("weblate.machinery.googlev3.GoogleV3Translation",)
