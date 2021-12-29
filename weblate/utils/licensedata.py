@@ -871,6 +871,12 @@ LICENSES = (
     ("Cube", "Cube License", "https://spdx.org/licenses/Cube.html", False),
     ("curl", "curl License", "https://spdx.org/licenses/curl.html", False),
     (
+        "DL-DE-BY-2.0",
+        "Data licence Germany – attribution – version 2.0",
+        "https://spdx.org/licenses/DL-DE-BY-2.0.html",
+        False,
+    ),
+    (
         "DRL-1.0",
         "Detection Rule License 1.0",
         "https://spdx.org/licenses/DRL-1.0.html",
