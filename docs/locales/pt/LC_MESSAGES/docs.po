@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-12-22 13:59+0100\n"
-"PO-Revision-Date: 2021-12-27 15:09+0000\n"
+"PO-Revision-Date: 2021-12-30 05:52+0000\n"
 "Last-Translator: ssantos <ssantos@web.de>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/weblate/"
 "documentation/pt/>\n"
@@ -34977,10 +34977,8 @@ msgstr ""
 "corretamente como o utilizador que fez a tradução."
 
 #: ../../faq.rst:263
-#, fuzzy
-#| msgid "How to export the Git repository that Weblate uses?"
 msgid "How to move files in the repository without losing history in Weblate?"
-msgstr "Como exportar o repositório Git que a Weblate usa?"
+msgstr "Como mover ficheiros no repositório sem perder o histórico no Weblate?"
 
 #: ../../faq.rst:265
 msgid ""
@@ -34990,34 +34988,42 @@ msgid ""
 "is updated, but the component configuration still points to the old files. "
 "This makes Weblate assume that it should delete all the translations."
 msgstr ""
+"Para manter o histórico, comentários ou capturas de ecrã vinculados às "
+"cadeias após alterar a localização dos ficheiros, precisa garantir que essas "
+"cadeias nunca sejam apagadas do Weblate. Essas remoções podem acontecer caso "
+"o repositório Weblate seja atualizado, mas a configuração dos componentes "
+"ainda aponta aos ficheiros antigos. Isso faz o Weblate assumir que ele deve "
+"apagar todas as traduções."
 
 #: ../../faq.rst:271
 msgid "The solution to this is to perform the operation in sync with Weblate:"
-msgstr ""
+msgstr "A solução para isso é realizar a operação em sincronia com Weblate:"
 
 #: ../../faq.rst:273
-#, fuzzy
-#| msgid "Lists components in Weblate."
 msgid "Lock the affected component in Weblate."
-msgstr "Lista os componentes no Weblate."
+msgstr "Bloquear o componente afetado na Weblate."
 
 #: ../../faq.rst:274
-#, fuzzy
-#| msgid "Commit pending changes to the Weblate repository"
 msgid "Commit any pending changes and merge them into the upstream repository."
-msgstr "Submeter alterações pendentes no repositório Weblate"
+msgstr ""
+"Fazer commit de todas as alterações pendentes e mesclá-las no repositório "
+"upstream."
 
 #: ../../faq.rst:275
 msgid ""
 "Disable receiving webhooks the :ref:`project`; this prevents Weblate from "
 "immediately seeing changes in the repository."
 msgstr ""
+"Desativar o recebimento de webhooks o :ref:'project'; isto impede que o "
+"Weblate veja imediatamente alterações no repositório."
 
 #: ../../faq.rst:276
 msgid ""
 "Do any needed changes in the repo (for example using :command:`git mv`), "
 "push them to the upstream repository."
 msgstr ""
+"Faça todas as alterações necessárias no repositório (por exemplo, a usar "
+":command:`git mv`), faça o push delas para o repositório upstream."
 
 #: ../../faq.rst:277
 msgid ""
@@ -35025,16 +35031,14 @@ msgid ""
 "configuration, Weblate will fetch the updated repository and notice the "
 "changed locations while keeping existing strings."
 msgstr ""
+"Altere o :ref:`component' para corresponder à nova configuração; ao alterar "
+"a configuração, Weblate irá buscar o repositório atualizado e notará as "
+"localizações alteradas enquanto mantém as cadeias existentes."
 
 #: ../../faq.rst:278
-#, fuzzy
-#| msgid ""
-#| "Split component translation strings into categories by text and colour in "
-#| "the project configuration."
 msgid "Unlock the component and re-enable hooks in the project configuration."
 msgstr ""
-"Divide as cadeias de tradução do componente em categorias por texto e cor na "
-"configuração do projeto."
+"Desbloqueie o componente e reative os ganchos na configuração do projeto."
 
 #: ../../faq.rst:284
 msgid "How do I review the translations of others?"
@@ -35601,10 +35605,8 @@ msgid "Plurals [#p]_"
 msgstr "Plurais [#p]_"
 
 #: ../../formats.rst:59
-#, fuzzy
-#| msgid "Description"
 msgid "Descriptions [#n]_"
-msgstr "Descrição"
+msgstr "Descrição [#n]_"
 
 #: ../../formats.rst:59
 msgid "Context [#c]_"
@@ -35833,16 +35835,12 @@ msgstr ""
 "contagem variável."
 
 #: ../../formats.rst:134
-#, fuzzy
-#| msgid ""
-#| "Comments can be used to pass additional info about the string to "
-#| "translate."
 msgid ""
 "Source string descriptions can be used to pass additional info about the "
 "string to translate."
 msgstr ""
-"Os comentários podem ser usados para passar informações adicionais sobre a "
-"cadeia a traduzir."
+"As descrições da cadeia fonte podem ser usadas para passar informações "
+"adicionais sobre a cadeia a traduzir."
 
 #: ../../formats.rst:135
 msgid ""
@@ -35871,16 +35869,12 @@ msgstr ""
 "traduzido\" e \"Traduzido\"."
 
 #: ../../formats.rst:138
-#, fuzzy
-#| msgid ""
-#| "XML comment placed before the ``<string>`` element, parsed as a developer "
-#| "comment."
 msgid ""
 "XML comment placed before the ``<string>`` element, parsed as a source "
 "string description."
 msgstr ""
-"Comentário XML posto antes do elemento ``<string>``, analisado como um "
-"comentário do programador."
+"Comentário XML posto antes do elemento ``<string>``, analisado como uma "
+"descrição da cadeia fonte."
 
 #: ../../formats.rst:139
 msgid "See :ref:`custom-checks`"
@@ -36849,6 +36843,8 @@ msgid ""
 "The v4 variant uses different approach for storing plurals and is currently "
 "not supported."
 msgstr ""
+"A variante v4 usa uma abordagem diferente para armazenar plurais e "
+"atualmente não é compatível."
 
 #: ../../formats.rst:931 ../../formats.rst:969
 msgid "``langs/*.json``"
@@ -39115,12 +39111,12 @@ msgstr ""
 "ocorrências`."
 
 #: ../../user/checks.rst:619
-#, fuzzy
-#| msgid ":ref:`component`, :ref:`component-allow_translation_propagation`"
 msgid ""
 "This check applies to all components in a project that have :ref:`component-"
 "allow_translation_propagation` turned on."
-msgstr ":ref:`component`, :ref:`component-allow_translation_propagation`"
+msgstr ""
+"Esta verificação aplica-se a todos os componentes de um projeto que tenham "
+":ref:`component-allow_translation_propagation` ativados."
 
 #: ../../user/checks.rst:624
 msgid ""
@@ -41131,10 +41127,9 @@ msgid "``note:TEXT``"
 msgstr "``note:TEXTO``"
 
 #: ../../user/search.rst:36
-#, fuzzy
-#| msgid "Source string case-insensitive search."
 msgid "Source string description case-insensitive search."
-msgstr "Pesquisa em texto fonte sem diferenciar maiúscula de minúscula."
+msgstr ""
+"Pesquisa na descrição da cadeia fonte sem diferenciar maiúscula de minúscula."
 
 #: ../../user/search.rst:37
 msgid "``location:TEXT``"
@@ -41632,10 +41627,8 @@ msgstr ""
 "para definir categorias de cadeias)."
 
 #: ../../user/translating.rst:98
-#, fuzzy
-#| msgid "Optionally used by Weblate"
 msgid "Following labels are used by Weblate:"
-msgstr "Opcionalmente usado pelo Weblate"
+msgstr "As seguintes etiquetas são usadas pelo Weblate:"
 
 #: ../../user/translating.rst:100
 #, fuzzy
@@ -41654,13 +41647,8 @@ msgid "Source needs review"
 msgstr "Fonte precisa de revisão"
 
 #: ../../user/translating.rst:103
-#, fuzzy
-#| msgid ""
-#| "Enable review workflow for source strings, see :ref:`source-reviews`."
 msgid "String was marked for review using :ref:`source-reviews`."
-msgstr ""
-"Ativa o fluxo de trabalho de revisão para cadeia fonte, veja :ref:`source-"
-"reviews`."
+msgstr "A cadeia foi marcada para revisão utilizando :ref:`source-reviews'."
 
 #: ../../user/translating.rst:107
 msgid ":ref:`labels`"
@@ -42245,6 +42233,8 @@ msgid ""
 "The automatically translated strings are labelled by :guilabel:"
 "`Automatically translated`."
 msgstr ""
+"As cadeias traduzidas automaticamente são etiquetadas por :guilabel:`"
+"Automaticamente traduzido`."
 
 #: ../../user/translating.rst:364
 msgid ""
