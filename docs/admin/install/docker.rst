@@ -1578,6 +1578,10 @@ replace the favicon.
    The files are copied to the corresponding location upon container startup, so
    a restart of Weblate is needed after changing the content of the volume.
 
+This approach can be also used to override Weblate templates. For example
+:ref:`legal` documents can be placed into
+:file:`/app/data/python/customize/templates/legal/documents`.
+
 Alternatively you can also include own module (see :doc:`../customize`) and add
 it as separate volume to the Docker container, for example:
 
