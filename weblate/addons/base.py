@@ -86,7 +86,9 @@ class BaseAddon:
     def create_object(cls, component, **kwargs):
         from weblate.addons.models import Addon
 
-        return Addon(component=component, name=cls.name, **kwargs)
+        result = Addon(component=component, name=cls.name, **kwargs)
+        result.addon_class = cls
+        return result
 
     @classmethod
     def create(cls, component, **kwargs):
