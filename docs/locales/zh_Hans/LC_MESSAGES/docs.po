@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-12-22 13:59+0100\n"
-"PO-Revision-Date: 2021-12-30 05:52+0000\n"
+"PO-Revision-Date: 2021-12-30 16:22+0000\n"
 "Last-Translator: JY3 <GeeyunJY3@gmail.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "weblate/documentation/zh_Hans/>\n"
@@ -1353,16 +1353,16 @@ msgid ""
 "Admins can add and manage add-ons from the :guilabel:`Manage` ↓ :guilabel:"
 "`Add-ons` menu of each respective translation component."
 msgstr ""
-"附加组件提供了自定义和自动化翻译工作流程的方法。管理员可以从每个相应翻译组件"
-"的 :guilabel:`Manage` ↓ :guilabel:`Addons` 菜单添加和管理附加组件。"
+"附加组件提供了自定义和自动化翻译工作流程的方法。管理员可以从每个相应翻译部件的 :guilabel:`Manage` ↓ "
+":guilabel:`Addons` 菜单添加和管理附加组件。"
 
 #: ../../admin/addons.rst:14
 msgid ""
 "You can also configure add-ons using :ref:`API <addons-api>`, :setting:"
 "`DEFAULT_ADDONS`, or :djadmin:`install_addon`."
 msgstr ""
-"您也可以使用 :ref:`API <addons-api>`、 :setting:`DEFAULT_ADDONS` 或 :djadmin:"
-"`install_addon` 来配置插件。"
+"您也可以使用 :ref:`API <addons-api>`、 :setting:`DEFAULT_ADDONS` 或 "
+":djadmin:`install_addon` 来配置附加组件。"
 
 #: ../../admin/addons.rst:20
 msgid "Built-in add-ons"
@@ -1815,7 +1815,7 @@ msgstr "``addons``"
 
 #: ../../admin/addons.rst:192
 msgid "Clone addons from the main component to the newly created ones"
-msgstr "把来自主组件的附加组件克隆到新创建的组件"
+msgstr "把来自主组件的附加组件克隆到新创建的部件"
 
 #: ../../admin/addons.rst:194
 #, fuzzy
@@ -1860,9 +1860,7 @@ msgid ""
 "The matching is done using regular expressions enabling complex "
 "configuration, but some knowledge is required to do so. Some examples for "
 "common use cases can be found in the add-on help section."
-msgstr ""
-"该匹配是使用允许复杂配置的正则表达式完成的，但这样做需要一些知识。一些常见用"
-"例的例子可以在附加组件帮助部分找到。"
+msgstr "该匹配是使用允许复杂配置的正则表达式完成的，但这样做需要一些知识。一些常见用例的例子可以在附加组件帮助部分找到。"
 
 #: ../../admin/addons.rst:212
 msgid ""
@@ -2233,7 +2231,7 @@ msgstr ""
 msgid ""
 "Uninstall the add-on once you have the new translation filled to prevent "
 "Weblate from changing the translations made after the copying."
-msgstr "一旦您有新的翻译填重，请卸载插件，以防止 Weblate 更改复制后的翻译。"
+msgstr "一旦您有新的翻译填重，请卸载附加组件，以防止 Weblate 更改复制后的翻译。"
 
 #: ../../admin/addons.rst:437
 msgid "Contributors in comment"
@@ -2440,9 +2438,7 @@ msgstr ""
 msgid ""
 "Triggered whenever new changes are pulled from the upstream repository. Most "
 "msgmerge command-line options can be set up through the add-on configuration."
-msgstr ""
-"每当从上游存储库中提取新的更改时都会被触发。多数 msgmerge 命令行选项可通过附"
-"加组件配置进行设置。"
+msgstr "每当从上游存储库中提取新的更改时都会被触发。多数 msgmerge 命令行选项可通过附加组件配置进行设置。"
 
 #: ../../admin/addons.rst:555
 msgid "Squash Git commits"
@@ -2692,9 +2688,7 @@ msgid ""
 "Can be very useful in connection with suggestion voting (see :ref:`peer-"
 "review`) to remove suggestions which don't receive enough positive votes in "
 "a given timeframe."
-msgstr ""
-"此附加组件在与建议投票一道用来删除在给定的时间内没有得到足够的正面投票的建议"
-"方面非常有用。"
+msgstr "此附加组件在与建议投票一道用来删除在给定的时间内没有得到足够的正面投票的建议方面非常有用。"
 
 #: ../../admin/addons.rst:671
 msgid "Update RESX files"
@@ -2787,9 +2781,7 @@ msgstr "定制附加组件列表"
 msgid ""
 "The list of add-ons is configured by :setting:`WEBLATE_ADDONS`. To add "
 "another add-on, simply include the absolute class name in this setting."
-msgstr ""
-"附加组件列表由 :setting:`WEBLATE_ADDONS` 配置。要添加其他附加组件，只需在这个"
-"设置中包含绝对类名称即可。"
+msgstr "附加组件列表由 :setting:`WEBLATE_ADDONS` 配置。要添加其他附加组件，只需在这个设置中包含绝对类名称即可。"
 
 #: ../../admin/addons.rst:737
 msgid "Writing add-on"
@@ -2801,8 +2793,8 @@ msgid ""
 "addons.base.BaseAddon` to define the addon metadata, and then implement a "
 "callback to do the processing."
 msgstr ""
-"你也可以编写自己的附加组件，创建一个 :class:`weblate.addons.base.BaseAddon`的"
-"子类来定义附加组件元数据，然后实现一个回调来执行处理。"
+"你也可以编写自己的附加组件，创建一个 :class:`weblate.addons.base."
+"BaseAddon`的子类来定义附加组件元数据，然后实现一个回调来执行处理。"
 
 #: ../../admin/addons.rst:745
 msgid ":doc:`../contributing/addons`"
@@ -2817,9 +2809,7 @@ msgid ""
 "Add-ons can also be used to execute external scripts. This used to be "
 "integrated in Weblate, but now you have to write some code to wrap your "
 "script with an add-on."
-msgstr ""
-"附加组件还可以用于执行外部脚本。这曾经集成在 Weblate 中，但现在必须写一些代"
-"码，将脚本包裹在附加组件中。"
+msgstr "附加组件还可以用于执行外部脚本。这曾经集成在 Weblate 中，但现在必须写一些代码，将脚本包裹在附加组件中。"
 
 #: ../../admin/addons.rst:759
 msgid "For installation instructions see :ref:`custom-addon-modules`."
@@ -6450,7 +6440,7 @@ msgstr "DEFAULT_ADDONS"
 
 #: ../../admin/config.rst:537
 msgid "Default addons to install on every created component."
-msgstr "安装在每个创建的组件上的默认附加组件。"
+msgstr "安装在每个创建的部件上的默认附加组件。"
 
 #: ../../admin/config.rst:541
 msgid "This setting affects only newly created components."
@@ -7023,10 +7013,9 @@ msgid ""
 "and :setting:`LOCALIZE_CDN_PATH` defines path where Weblate should store "
 "generated files which will be served at the :setting:`LOCALIZE_CDN_URL`."
 msgstr ""
-"这些设置配置了 :ref:`addon-weblate.cdn.cdnjs` 插件。 :setting:"
-"`LOCALIZE_CDN_URL` 定义了可获得本地化 CDN 的根 URL ，而 :setting:"
-"`LOCALIZE_CDN_PATH` 定义了 Weblate 应该存储生成文件的路径，生成的文件在 :"
-"setting:`LOCALIZE_CDN_URL` 使用。"
+"这些设置配置了 :ref:`addon-weblate.cdn.cdnjs` 附加组件。 :setting:`LOCALIZE_CDN_URL` "
+"定义了可获得本地化 CDN 的根 URL ，而 :setting:`LOCALIZE_CDN_PATH` 定义了 Weblate 应该存储生成文件的路径，"
+"生成的文件在 :setting:`LOCALIZE_CDN_URL` 使用。"
 
 #: ../../admin/config.rst:1077
 msgid "On Hosted Weblate, this uses ``https://weblate-cdn.com/``."
@@ -8303,18 +8292,14 @@ msgid ""
 "when extending the list you will probably want to keep existing ones "
 "enabled, for example:"
 msgstr ""
-"附加组件可供使用的附加组件列表。为了使用，必须对给定的翻译组件允许它们。默认"
-"包括了所有内建附加组件，当扩展列表时您可能希望保持现有的附加组件处于启用状"
-"态，例如："
+"可供使用的附加组件列表。为了使用，必须为给定的翻译部件启用它们。默认包括了所有内建附加组件，当扩展列表时您可能希望保持现有的附加组件处于启用状态，例如："
 
 #: ../../admin/config.rst:2196
 msgid ""
 "Removing the addon from the list does not uninstall it from the components. "
 "Weblate will crash in that case. Please uninstall addon from all components "
 "prior to removing it from this list."
-msgstr ""
-"从列表中删除插件并不将它从组件中卸载。Weblate 在这种情况下会崩溃。请在从这个"
-"列表中删除前从所有组件中卸载插件。"
+msgstr "从列表中删除附加组件并不会将它从部件中卸载。Weblate 在这种情况下会崩溃。请在从这个列表中删除前从所有部件中卸载附加组件。"
 
 #: ../../admin/config.rst:2202
 msgid ":ref:`addons`, :setting:`DEFAULT_ADDONS`"
@@ -8496,8 +8481,7 @@ msgstr "执行 :djadmin:`updategit` （选择项目，或 ``--all`` 来更新全
 msgid ""
 "Whenever Weblate updates the repository, the post-update addons will be "
 "triggered, see :ref:`addons`."
-msgstr ""
-"每当Weblate更新存储库时，更新后插件都将被触发，请参见： :ref:`addons` 。"
+msgstr "每当Weblate更新存储库时，更新后附加组件都将被触发，请参见： :ref:`addons` 。"
 
 #: ../../admin/continuous.rst:75
 msgid "Avoiding merge conflicts"
@@ -8997,8 +8981,8 @@ msgid ""
 "you will still see lot of commits. You might utilize :ref:`addon-weblate.git."
 "squash` addon in that case."
 msgstr ""
-"每个组件都建立提交。所以在具有很多组件的情况下，仍然会看到很多提交。在这种情"
-"况下你会使用 :ref:`addon-weblate.git.squash` 插件。"
+"每个部件都会创建提交。所以，如果你有很多部件，仍然会看到很多提交。在这种情况下，你可以使用 :ref:`addon-weblate.git.squash`"
+" 附加组件。"
 
 #: ../../admin/continuous.rst:374
 msgid ""
@@ -9017,8 +9001,8 @@ msgid ""
 "`addons`. Consult :ref:`addon-script` for info on how to execute external "
 "scripts through addons."
 msgstr ""
-"定制 Weblate 与仓库交互的方式是 :ref:`addons` 。关于如何通过插件执行外部脚本"
-"的信息，请咨询 :ref:`addon-script` 。"
+"定制 Weblate 与仓库交互的方式是 :ref:`addons` 。关于如何通过附加组件执行外部脚本的信息，请咨询 :ref:`addon-"
+"script` 。"
 
 #: ../../admin/continuous.rst:392
 msgid "Keeping translations same across components"
@@ -9075,9 +9059,8 @@ msgid ""
 "repository update using addon (see :ref:`addon-weblate.autotranslate."
 "autotranslate`)."
 msgstr ""
-"基于不同组件的自动翻译，可以是跨组件同步翻译的方式。可以或者手动触发（请参"
-"见 :ref:`auto-translation` ），或者使用插件（ :ref:`addon-weblate."
-"autotranslate.autotranslate` ）在仓库更新时自动运行。"
+"基于不同部件的自动翻译，可以是跨部件同步翻译的方式。可以或者手动触发（请参见 :ref:`auto-translation` ），或者使用附加组件（ "
+":ref:`addon-weblate.autotranslate.autotranslate` ）在仓库更新时自动运行。"
 
 #: ../../admin/customize.rst:2
 msgid "Customizing Weblate"
@@ -9259,7 +9242,7 @@ msgstr ":doc:`django:howto/static-files/index`, :ref:`static-files`"
 
 #: ../../admin/customize.rst:116
 msgid "Custom quality checks, addons and auto-fixes"
-msgstr "定制的质量检查、插件和自动修复"
+msgstr "定制的质量检查、附加组件和自动修复"
 
 #: ../../admin/customize.rst:118
 msgid ""
@@ -13138,13 +13121,13 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:1411
 msgid "Changing enabled apps, checks, addons or autofixes"
-msgstr "更改启用的 app、检查、插件或自动修复"
+msgstr "更改启用的 app、检查、附加组件或自动修复"
 
 #: ../../admin/install/docker.rst:1415
 msgid ""
 "The built-in configuration of enabled checks, addons or autofixes can be "
 "adjusted by the following variables:"
-msgstr "可以通过后面的变量来调整允许的检查、插件或自动修复的内建配置："
+msgstr "可以通过后面的变量来调整允许的检查、附加组件或自动修复的内建配置："
 
 #: ../../admin/install/docker.rst:1437
 msgid ""
@@ -15482,8 +15465,8 @@ msgid ""
 "discovery` add-on, leading to some changes in behavior and what parameters "
 "are accepted."
 msgstr ""
-"import_project 命令现在基于 :ref:`addon-weblate.discovery.discovery` 插件，导"
-"致一些行为的更改，并接受一些参数。"
+"import_project 命令现在基于 :ref:`addon-weblate.discovery.discovery` "
+"附加组件，导致一些行为的更改，并接受一些参数。"
 
 #: ../../admin/management.rst:394
 msgid "Batch imports components into project based on filemask."
@@ -15704,12 +15687,11 @@ msgid ""
 "(for example ``weblate/application``), or use ``--all`` to include all "
 "existing components."
 msgstr ""
-"可以或者定义将附加组件安装到哪个项目或组件中（例如 ``weblate/"
-"application``），或者使用 ``--all`` 来包括所有现有的组件。"
+"可以或者定义将附加组件安装到哪个项目或组件中（例如 ``weblate/application``），或者使用 ``--all`` 来包括所有现有的组件。"
 
 #: ../../admin/management.rst:587
 msgid "To install :ref:`addon-weblate.gettext.customize` for all components:"
-msgstr "为所有的组件安装 :ref:`addon-weblate.gettext.customize` ："
+msgstr "为所有部件安装 :ref:`addon-weblate.gettext.customize` ："
 
 #: ../../admin/management.rst:595
 #, fuzzy
@@ -15969,7 +15951,7 @@ msgid ""
 "`addon-weblate.autotranslate.autotranslate` addon."
 msgstr ""
 "自动，通过使用 :ref:`auto-translation` 或 :ref:`addon-weblate.autotranslate."
-"autotranslate` 插件来翻译字符串。"
+"autotranslate` 附加组件来翻译字符串。"
 
 #: ../../admin/memory.rst:21
 msgid ""
@@ -17038,9 +17020,7 @@ msgid ""
 "It is recommended to keep translation components to a reasonable size - "
 "split the translation by anything that makes sense in your case (individual "
 "apps or addons, book chapters or websites)."
-msgstr ""
-"推荐将翻译文件保持在合理的大小——在您的案例中使用任何合理的工具（独立的 app 或"
-"插件、书籍的章节或网站）来分割翻译文件。"
+msgstr "建议将翻译部件保持在合理的大小——把翻译拆分成对你有意义的部分（单个应用程序或附加组件、书籍章节或网站）。"
 
 #: ../../admin/projects.rst:267
 msgid ""
@@ -17631,7 +17611,7 @@ msgstr "默认值可以由 :setting:`DEFAULT_MERGE_STYLE` 更改。"
 
 #: ../../admin/projects.rst:671
 msgid "Commit, add, delete, merge and addon messages"
-msgstr "提交、添加、删除、合并以及插件信息"
+msgstr "提交、添加、删除、合并以及附加组件信息"
 
 #: ../../admin/projects.rst:673
 msgid "Message used when committing a translation, see :ref:`markup`."
@@ -17939,7 +17919,7 @@ msgstr "提交说明格式，请参见 :ref:`component`"
 
 #: ../../admin/projects.rst:868
 msgid "Several addons"
-msgstr "几个插件"
+msgstr "几个附加组件"
 
 #: ../../admin/projects.rst:866
 msgid ":ref:`addon-weblate.discovery.discovery`"
@@ -18081,7 +18061,7 @@ msgstr "``{{ addon_name }}``"
 #: ../../admin/projects.rst:907
 msgid ""
 "Name of currently executed addon, available only in the addon commit message."
-msgstr "当前执行的插件名称，旨在插件提交说明中可用。"
+msgstr "当前执行的附加组件名称，旨在附加组件提交说明中可用。"
 
 #: ../../admin/projects.rst:909
 msgid ""
@@ -18230,19 +18210,16 @@ msgid ""
 "djadmin:`import_project` or :djadmin:`import_json`, or by installing the :"
 "ref:`addon-weblate.discovery.discovery` addon."
 msgstr ""
-"在您的项目有十多个翻译文件的情况下（例如不同的 gettext 域，或 Android 应用的"
-"一部分），您会想要将它们自动导入。可以通过使用 :djadmin:`import_project` 或 :"
-"djadmin:`import_json`，或者通过安装 :ref:`addon-weblate.discovery.discovery` "
-"插件，通过命令行来实现。"
+"在您的项目有十多个翻译文件的情况下（例如不同的 gettext 域，或 Android 应用的一部分），您会想要将它们自动导入。可以通过使用 "
+":djadmin:`import_project` 或 :djadmin:`import_json`，或者通过安装 :ref:`addon-weblate"
+".discovery.discovery` 附加组件，通过命令行来实现。"
 
 #: ../../admin/projects.rst:1002
 msgid ""
 "To use the addon, you first need to create a component for one translation "
 "file (choose the one that is the least likely to be renamed or removed in "
 "future), and install the addon on this component."
-msgstr ""
-"为了使用插件，首先您需要为一个翻译文件（选择未来最不可能改名或删除的那个）新"
-"建组件，并且在这个组件上安装插件。"
+msgstr "要使用附加组件，首先您需要为一个翻译文件（选择未来最不可能改名或删除的那个）创建一个部件，然后在该部件上安装附加组件。"
 
 #: ../../admin/projects.rst:1006
 msgid ""
@@ -21302,7 +21279,7 @@ msgstr "返回有关附加组件的信息。"
 
 #: ../../api.rst:2235 ../../api.rst:2249
 msgid "name of an addon"
-msgstr "组件名称"
+msgstr "附加组件名称"
 
 #: ../../api.rst:2237 ../../api.rst:2250 ../../api.rst:2258 ../../api.rst:2266
 msgid "Optional addon configuration"
@@ -23324,9 +23301,7 @@ msgstr "在项目层为语言别名添加支持。"
 msgid ""
 "New add-on to help with HTML or JavaScript localization, see :ref:`addon-"
 "weblate.cdn.cdnjs`."
-msgstr ""
-"帮助 HTML 或 JavaScript 本地化的新附加组件，请参见 :ref:`addon-weblate.cdn."
-"cdnjs`。"
+msgstr "帮助 HTML 或 JavaScript 本地化的新附加组件，请参见 :ref:`addon-weblate.cdn.cdnjs`。"
 
 #: ../../changes.rst:482
 msgid ""
@@ -27989,8 +27964,8 @@ msgid ""
 "you can pass this to underlying methods as ``commit_and_push`` or "
 "``commit_pending``."
 msgstr ""
-"附加组件操作是否应该跳过将更改推送到上游。通常可以将这个作为"
-"``commit_and_push``或 ``commit_pending`` 传递到底层方法。"
+"附加组件操作是否应该跳过将更改推送到上游。通常可以将这个作为``commit_and_push``或 ``commit_pending`` "
+"传递到底层方法。"
 
 #: ../../../.venv/lib/python3.9/site-packages/weblate/addons/base.py:docstring
 #: of weblate.addons.base.BaseAddon.pre_commit:1
@@ -28036,7 +28011,7 @@ msgstr "创建新的单元前触发的钩子。"
 
 #: ../../contributing/addons.rst:11
 msgid "Here is an example addon:"
-msgstr "这里是一个插件的例子："
+msgstr "这里是一个附加组件的例子："
 
 #: ../../contributing/code.rst:2
 msgid "Weblate source code"
@@ -30253,10 +30228,9 @@ msgid ""
 "to have it in the version control, you can generate it in Weblate using :ref:"
 "`addon-weblate.gettext.mo` addon."
 msgstr ""
-":file:`LANGUAGE.mo` 包含 :file:`LANGUAGE.po` 的二进制表达，并且应用运行时使"
-"用。它典型地并不保持在版本控制之下，但在编译时使用 `msgfmt`_ 生成。在您想要使"
-"它处于版本控制中时，可以使用 :ref:`addon-weblate.gettext.mo` 插件在 Weblate "
-"中生成它。"
+":file:`LANGUAGE.mo` 包含 :file:`LANGUAGE.po` 的二进制表达，并且应用运行时使用。它典型地并不保持在版本控制之下，"
+"但在编译时使用 `msgfmt`_ 生成。在您想要使它处于版本控制中时，可以使用 :ref:`addon-weblate.gettext.mo` "
+"附加组件在 Weblate 中生成它。"
 
 #: ../../devel/gettext.rst:37
 msgid "Overall the GNU gettext workflow looks like this:"
@@ -30430,9 +30404,7 @@ msgstr "使用 Weblate CDN 翻译 HTML 和 JavaScript"
 msgid ""
 "Starting with Weblate 4.2 it is possible to export localization to a CDN "
 "using :ref:`addon-weblate.cdn.cdnjs` addon."
-msgstr ""
-"从 Weblate 4.2 开始能够使用 :ref:`addon-weblate.cdn.cdnjs` 插件将本地化导出"
-"到 CDN。"
+msgstr "从 Weblate 4.2 开始能够使用 :ref:`addon-weblate.cdn.cdnjs` 附加组件将本地化导出到 CDN。"
 
 #: ../../devel/html.rst:11
 msgid ""
@@ -30473,10 +30445,9 @@ msgid ""
 "Once you have that, the repository can be imported into Weblate and you can "
 "start with an addon configuration."
 msgstr ""
-"在您已有仓库来开始的情况下（例如一个包含 HTML 文件的仓库），在仓库中为源语言"
-"新建空的 JSON 文件（请参见 :ref:`component-source_language`），例如 :file:"
-"`locales/en.json`。内容应该是``{}`` ，来指示空的对象。一旦具有了它，仓库就可"
-"以导入到 Weblate 中，而您可以通过配置插件来开始。"
+"在您已有仓库来开始的情况下（例如一个包含 HTML 文件的仓库），在仓库中为源语言新建空的 JSON 文件（请参见 :ref:`component-"
+"source_language`），例如 :file:`locales/en.json`。内容应该是``{}`` ，来指示空的对象。一旦具有了它，"
+"仓库就可以导入到 Weblate 中，而您可以通过配置附加组件来开始。"
 
 #: ../../devel/html.rst:34
 msgid ""
@@ -30504,7 +30475,7 @@ msgstr "正在配置 Weblate 内容分发网络附加组件"
 #: ../../devel/html.rst:47
 msgid ""
 "The :ref:`addon-weblate.cdn.cdnjs` addon provides few configuration options."
-msgstr ":ref:`addon-weblate.cdn.cdnjs` 插件提供了一些配置选项。"
+msgstr ":ref:`addon-weblate.cdn.cdnjs` 附加组件提供了一些配置选项。"
 
 #: ../../devel/html.rst:50
 msgid ""
@@ -30571,9 +30542,7 @@ msgstr "在不想修改现有代码的情况下，还可以使用 ``*`` 作为�
 msgid ""
 "Right now, only text of the elements is extracted. This addon doesn't "
 "support localization of element attributes or elements with childs."
-msgstr ""
-"目前只有元素的文本被提取。这个附加组件不支持元素属性或具有子类的元素的本地"
-"化。"
+msgstr "目前只有元素的文本被提取。这个附加组件不支持元素属性或具有子类的元素的本地化。"
 
 #: ../../devel/html.rst:101
 msgid "HTML localization using Weblate CDN"
@@ -30825,10 +30794,9 @@ msgid ""
 "please install :ref:`addon-weblate.cleanup.generic` addon which will handle "
 "the cleanup according to your requirements."
 msgstr ""
-"对于单语言文件（请参见 :ref:`formats`），Weblate 也许会添加不在 :ref:"
-"`component-template` 和实际翻译中的新翻译字符串。然而它不会对任何旧的字符串执"
-"行自动清理，因为那会具有难以预料的结果。如果想做的话，请安装附加组件 :ref:"
-"`addon-weblate.cleanup.generic` 根据您的要求处理清理工作。"
+"对于单语言文件（请参见 :ref:`formats`），Weblate 也许会添加不在 :ref:`component-template` "
+"和实际翻译中的新翻译字符串。然而它不会对任何旧的字符串执行自动清理，因为那会具有难以预料的结果。如果想做的话，请安装附加组件 :ref:`addon-"
+"weblate.cleanup.generic` 根据您的要求处理清理工作。"
 
 #: ../../devel/integration.rst:96
 msgid ""
@@ -30837,9 +30805,9 @@ msgid ""
 "yourself using :guilabel:`Update source strings` :ref:`upload-method` or "
 "using :ref:`addon-weblate.gettext.msgmerge` addon."
 msgstr ""
-"Weblate 也不会尝试以任何方式更新双语文件，所以如果需要 :file:`po` 文件从 :"
-"file:`pot` 更新的话，需要您自己通过使用 :guilabel:`Update source strings` :"
-"ref:`upload-method` 或 :ref:`addon-weblate.gettext.msgmerge` 附加组件来实现。"
+"Weblate 也不会尝试以任何方式更新双语文件，所以如果需要 :file:`po` 文件从 :file:`pot` 更新的话，需要您自己通过使用 "
+":guilabel:`Update source strings` :ref:`upload-method` 或 :ref:`addon-weblate."
+"gettext.msgmerge` 附加组件来实现。"
 
 #: ../../devel/integration.rst:103
 msgid ""
@@ -31278,10 +31246,9 @@ msgid ""
 "component and then configure :ref:`addon-weblate.discovery.discovery` addon "
 "to automatically discover all others."
 msgstr ""
-"现在您只需要翻译文档内容。Sphinx 会为每个目录或顶层文件生成 PO 文件，这导致需"
-"要翻译非常多的文件（取决于 :confval:`sphinx:gettext_compact` 设置）。您可以"
-"将 :file:`index.po` 导入 Weblate 作为初始组件，然后配置 :ref:`addon-weblate."
-"discovery.discovery` 插件，来自动发现所有其它组件。"
+"现在您只需要翻译文档内容。Sphinx 会为每个目录或顶层文件生成 PO 文件，这导致需要翻译非常多的文件（取决于 "
+":confval:`sphinx:gettext_compact` 设置）。您可以将 :file:`index.po` 导入 Weblate "
+"作为初始部件，然后配置 :ref:`addon-weblate.discovery.discovery` 附加组件，来自动发现所有其它部件。"
 
 #: ../../devel/sphinx.rst:33
 msgid "``Documentation``"
@@ -31764,8 +31731,7 @@ msgid ""
 "Labels can be assigned to units in :ref:`additional` by bulk editing, or "
 "using the :ref:`addon-weblate.flags.bulk` addon."
 msgstr ""
-"标签可以通过批量编辑或使用 :ref:`addon-weblate.flags.bulk` 附加组件分配给 :"
-"ref:`additional` 中的单元。"
+"标签可以通过批量编辑或使用 :ref:`addon-weblate.flags.bulk` 附加组件分配给 :ref:`additional` 中的单元。"
 
 #: ../../faq.rst:2
 msgid "Frequently Asked Questions"
@@ -32312,9 +32278,7 @@ msgstr ""
 msgid ""
 "In case you want to do the update automatically, you can install addon :ref:"
 "`addon-weblate.gettext.msgmerge`."
-msgstr ""
-"在想要进行自动更新的情况下，可以安装插件 :ref:`addon-weblate.gettext."
-"msgmerge`。"
+msgstr "在想要进行自动更新的情况下，可以安装附加组件 :ref:`addon-weblate.gettext.msgmerge`。"
 
 #: ../../faq.rst:404
 msgid "Troubleshooting"
