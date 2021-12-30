@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-12-22 13:59+0100\n"
-"PO-Revision-Date: 2021-12-30 05:52+0000\n"
+"PO-Revision-Date: 2021-12-31 06:28+0000\n"
 "Last-Translator: ssantos <ssantos@web.de>\n"
 "Language-Team: Portuguese (Portugal) <https://hosted.weblate.org/projects/"
 "weblate/documentation/pt_PT/>\n"
@@ -13007,6 +13007,9 @@ msgid ""
 "PostgreSQL 10 or newer, please upgrade it prior to upgrading Weblate. See :"
 "ref:`upgrade-4.10` for more details."
 msgstr ""
+"Desde o Weblate 4.10-1, o contentor Docker usa Django 4.0, o que requer "
+"PostgreSQL 10 ou mais recente, atualize-o antes de atualizar o Weblate. Veja "
+":ref:`upgrade-4.10` para mais detalhes."
 
 #: ../../admin/install/docker.rst:202
 msgid ""
@@ -13277,6 +13280,7 @@ msgstr ":envvar:`WEBLATE_ADMIN_PASSWORD`"
 #: ../../admin/install/docker.rst:409
 msgid "The email address that error messages are sent from."
 msgstr ""
+"O endereço de e-mail a partir do qual as mensagens de erro são enviadas."
 
 #: ../../admin/install/docker.rst:413
 #, fuzzy
@@ -18723,6 +18727,8 @@ msgid ""
 "For linked repositories, this is not used and setting from linked component "
 "applies."
 msgstr ""
+"Para repositórios vinculados, isto não é usado e a definição do componente "
+"vinculado é aplicada."
 
 #: ../../admin/projects.rst:340
 msgid ""
@@ -19229,6 +19235,9 @@ msgid ""
 "Rebases Weblate commits on top of upstream repository on update. This "
 "provides clean history without extra merge commits."
 msgstr ""
+"Faz um rebase dos commits do Weblate no topo do repositório upstream ao "
+"atualizar. Isso fornece um histórico limpo sem commits de mesclagem "
+"adicionais."
 
 #: ../../admin/projects.rst:651
 msgid ""
@@ -19243,6 +19252,9 @@ msgid ""
 "You might need to enable force pushing by choosing :ref:`vcs-git-force-push` "
 "as :ref:`component-vcs`, especially when pushing to a different branch."
 msgstr ""
+"Pode precisar ativar o push forçado a escolher :ref:`vcs-git-force-push` "
+"como :ref:`component-vcs`, especialmente ao fazer push para um branch "
+"diferente."
 
 #: ../../admin/projects.rst:660
 msgid "Merge"
@@ -19253,6 +19265,8 @@ msgid ""
 "Upstream repository changed are merged into Weblate one. This is the safest "
 "way, but might produce a lot of merge commits."
 msgstr ""
+"O repositório upstream alterado é mesclado com o do Weblate. É a maneira "
+"mais segura, mas pode produzir muitos commits de mesclagem."
 
 #: ../../admin/projects.rst:662
 msgid "Default value can be changed by :setting:`DEFAULT_MERGE_STYLE`."
@@ -20891,6 +20905,10 @@ msgid ""
 "incompatible-4.0`. Weblate still supports Django 3.2 for now, in case any of "
 "these are problematic. Most notable changes which might affect Weblate:"
 msgstr ""
+"Django 4.0 fez algumas mudanças incompatíveis, veja :ref:`django:backwards-"
+"incompatible-4.0`. Weblate ainda oferece suporte ao Django 3.2 por enquanto, "
+"no caso de alguma dessas ser problemática. Mudanças mais notáveis que podem "
+"afetar o Weblate:"
 
 #: ../../admin/upgrade.rst:285
 msgid ""
@@ -20902,11 +20920,12 @@ msgstr ""
 
 #: ../../admin/upgrade.rst:286
 msgid "Format of :setting:`django:CSRF_TRUSTED_ORIGINS` was changed."
-msgstr ""
+msgstr "O formato de :setting:`django:CSRF_TRUSTED_ORIGINS` foi alterado."
 
 #: ../../admin/upgrade.rst:288
 msgid "The Docker container now uses Django 4.0, see above for changes."
 msgstr ""
+"O contentor do Docker agora usa Django 4.0, consulte as alterações acima."
 
 #: ../../admin/upgrade.rst:295
 msgid "Upgrading from Python 2 to Python 3"
@@ -21202,12 +21221,18 @@ msgid ""
 "Each user has his personal access token which can be obtained in the user "
 "profile. Newly generated user tokens have the ``wlu_`` prefix."
 msgstr ""
+"Cada utilizador tem o seu próprio código de acesso que pode ser obtido no "
+"perfil de utilizador. Os tokens de utilizadores recém-gerados têm o prefixo "
+"``wlu_```."
 
 #: ../../api.rst:69
 msgid ""
 "It is possible to create project scoped tokens for API access to given "
 "project only. These tokens can be identified by the ``wlp_`` prefix."
 msgstr ""
+"É possível criar tokens com escopo de projeto para acesso API apenas a um "
+"determinado projeto. Estes tokens podem ser identificados pelo prefixo "
+"``wlp_``."
 
 #: ../../api.rst:73
 msgid "Authentication examples"
@@ -22104,11 +22129,11 @@ msgstr "**Exemplo de solicitação JSON com CURL:**"
 
 #: ../../api.rst:1000
 msgid "**JSON request to create a new component from Git:**"
-msgstr ""
+msgstr "**Solicitação JSON para criar um componente a partir do Git:**"
 
 #: ../../api.rst:1023
 msgid "**JSON request to create a new component from another one:**"
-msgstr ""
+msgstr "**Solicitação JSON para criar um componente a partir de outro:**"
 
 #: ../../api.rst:1091
 msgid "Returns paginated statistics for all languages within a project."
@@ -23712,11 +23737,12 @@ msgstr "Lançado a 22 de dezembro de 2021."
 
 #: ../../changes.rst:6
 msgid "Documented changes introduced by upgrading to Django 4.0."
-msgstr ""
+msgstr "Alterações documentadas introduzidas pela atualização ao Django 4.0."
 
 #: ../../changes.rst:7
+#, fuzzy
 msgid "Fixed displaying of :guilabel:`Automatically translated` label."
-msgstr ""
+msgstr "Corrigida a exibição do rótulo :guilabel:`Traduzido automaticamente`."
 
 #: ../../changes.rst:8
 msgid "Fixed API display of branch in components with a shared repository."
@@ -23765,6 +23791,8 @@ msgid ""
 "Fixed: \"Perform automatic translation\" privilege is no longer part of the "
 "*Languages* group."
 msgstr ""
+"Corrigido: o privilégio \"Efetuar tradução automática\" já não é parte do "
+"grupo *Idiomas*."
 
 #: ../../changes.rst:22
 msgid ""
@@ -23783,10 +23811,12 @@ msgid ""
 "Added ability to the GitHub authentication backend to check if the user "
 "belongs to a specific GitHub organization or team."
 msgstr ""
+"Adicionada capacidade ao backend de autenticação do GitHub para verificar se "
+"o utilizador pertence a uma organização ou equipa específica do GitHub."
 
 #: ../../changes.rst:25
 msgid "Improved feedback on invalid parameters passed to API."
-msgstr ""
+msgstr "Melhorado o feedback sobre parâmetros inválidos passados ao API."
 
 #: ../../changes.rst:26
 msgid "Added support for project scoped access tokens for API."
@@ -34955,10 +34985,16 @@ msgid ""
 "is updated, but the component configuration still points to the old files. "
 "This makes Weblate assume that it should delete all the translations."
 msgstr ""
+"Para manter o histórico, comentários ou capturas de ecrã vinculados às "
+"cadeias após alterar a localização dos ficheiros, precisa garantir que essas "
+"cadeias nunca sejam apagadas do Weblate. Essas remoções podem acontecer caso "
+"o repositório Weblate seja atualizado, mas a configuração dos componentes "
+"ainda aponta aos ficheiros antigos. Isso faz o Weblate assumir que ele deve "
+"apagar todas as traduções."
 
 #: ../../faq.rst:271
 msgid "The solution to this is to perform the operation in sync with Weblate:"
-msgstr ""
+msgstr "A solução para isso é realizar a operação em sincronia com Weblate:"
 
 #: ../../faq.rst:273
 msgid "Lock the affected component in Weblate."
@@ -34975,12 +35011,16 @@ msgid ""
 "Disable receiving webhooks the :ref:`project`; this prevents Weblate from "
 "immediately seeing changes in the repository."
 msgstr ""
+"Desativar o recebimento de webhooks o :ref:'project'; isto impede que o "
+"Weblate veja imediatamente alterações no repositório."
 
 #: ../../faq.rst:276
 msgid ""
 "Do any needed changes in the repo (for example using :command:`git mv`), "
 "push them to the upstream repository."
 msgstr ""
+"Faça todas as alterações necessárias no repositório (por exemplo, a usar "
+":command:`git mv`), faça o push delas para o repositório upstream."
 
 #: ../../faq.rst:277
 msgid ""
@@ -34988,6 +35028,9 @@ msgid ""
 "configuration, Weblate will fetch the updated repository and notice the "
 "changed locations while keeping existing strings."
 msgstr ""
+"Altere o :ref:`component' para corresponder à nova configuração; ao alterar "
+"a configuração, Weblate irá buscar o repositório atualizado e notará as "
+"localizações alteradas enquanto mantém as cadeias existentes."
 
 #: ../../faq.rst:278
 msgid "Unlock the component and re-enable hooks in the project configuration."
@@ -36797,6 +36840,8 @@ msgid ""
 "The v4 variant uses different approach for storing plurals and is currently "
 "not supported."
 msgstr ""
+"A variante v4 usa uma abordagem diferente para armazenar plurais e "
+"atualmente não é compatível."
 
 #: ../../formats.rst:931 ../../formats.rst:969
 msgid "``langs/*.json``"
@@ -42183,6 +42228,8 @@ msgid ""
 "The automatically translated strings are labelled by :guilabel:"
 "`Automatically translated`."
 msgstr ""
+"As cadeias traduzidas automaticamente são etiquetadas por :guilabel:`"
+"Automaticamente traduzido`."
 
 #: ../../user/translating.rst:364
 msgid ""
